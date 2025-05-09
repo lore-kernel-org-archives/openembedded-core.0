@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7DE4C3ABCD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6C15C3ABBC
 	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 15:46:23 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.1935.1746805569290872635
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.1937.1746805572130949362
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 08:46:09 -0700
+ Fri, 09 May 2025 08:46:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=p/SELnX/;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-30a8cbddca4so2619982a91.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:46:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=L1IRsgcs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-306b6ae4fb3so2815264a91.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:46:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746805568; x=1747410368; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746805571; x=1747410371; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=s7T/tfk3eCCZzWhgOQtzYcBfZlvF+YkvVNSTJEztcqc=;
-        b=p/SELnX/D0xKiETgw4jVMxr30tSAc9D/n5qBYJ9b/MwrS+RRsGtVvrwC7fNAYgk7Ik
-         SVnZ+x4u10Q+Mz/E+3C/iBNwvUtyZhbGP/MXs3HoXxLt+UlBFv6BKBJnnUmeq6+4J2ja
-         nCnzvS0IP+RjeqhpQgDsjJF7zVCYfEsW5gY3+OAchQw5vfl6c6QDOIj5A6tHF+1C69Ne
-         MQ4sKV3KKTq1Io0YD5tpspNyi0/r6V8kvB5RpiaU5sLPqeuKhC9ncq0JZ34HrKEPtL2B
-         ne9S+YtHCFaULiiwBZsyTfYA94CSZwsggU40yTQ4gHgAkc38BuQfzA3NY6COWEn5bd7S
-         f8Lg==
+        bh=m1U2TU/KAyzsWJZKXVUvneimww6AxMU95NwEPmrj1wU=;
+        b=L1IRsgcs/diBOJ6xGjxRXTFPCG2XYmZ8NdOUbyNVuvwQg/WvqFqUga539EK81QZOWo
+         vqYxptYdaM9MZsHHqHm3gxaO1/lgvp0jql5EYidnoGi/3xOhHcqPHHZA7TZDgEyES6iQ
+         XsyeN9ZnWmO/TK6tliH7Q2riI5k/9SWp7IaVaA/9U5C/9qB9f+dcV2OjDGAGSFKGCSsq
+         L6b9z9KGSfg09831jpUaD55NkYdLelNET6+e+J00fI8rAivIFeQG9sQZz7fC6aDTdbzX
+         WYYC3KV2SAZ4nwkqJfIeWv1jTzOJ0Um4JkdBldfH/sdL1mGFa1JgtjakNNLSTWHzKxeN
+         PjGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746805568; x=1747410368;
+        d=1e100.net; s=20230601; t=1746805571; x=1747410371;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s7T/tfk3eCCZzWhgOQtzYcBfZlvF+YkvVNSTJEztcqc=;
-        b=fOl7bS6WXzFEK1eMlOKOjUe8QLt2MkHFUU0fTBfb74fXxT91NNRRdXr1Cxhbs3i9mN
-         WNEXrnaIeoJt2jOl8qnqkdb4BB7L4WL+0bzx9FNrep4WR+im19JsnrxKjo9xB23Sc77K
-         WtMxZjcC5wrAVjhjjvAQ8QAs0pKaum01UngvXWq6STBewY68vdtaYnoEg+gBNgJJs2yP
-         l4YFAQHWXlIHTrBcPjMyHjMN+LKfQXLRLbExApIUy+9nYgVSqn+qhZbGO7267xpmhxbW
-         zfKTAE4B5yeaMALkVB2n9tG4vRFIaxdyS1njdvA/63df/84FR5RMv7EBTIHjIb3zdfV0
-         iLjQ==
-X-Gm-Message-State: AOJu0Yx1T2GEQqAOuDtlDM7vlaj+LssuCdgm6JCvpTL2KPN2oNp8hXx+
-	meWF3GbxtuCFVcllwNvXeM+BBYdzQLVNHrcblLbmwyyboYstDhwyeRbECAiHBlFoe88NEgR65Ar
-	e
-X-Gm-Gg: ASbGnctrhUkSA0lZ7XijuVI4M+mYZ0JEAKxCOlVNX2MHqB3PbVo3KXDv6O/nWvaODAp
-	gjIIp4i5wgx1IRzy0UX7gmcarbKyaOxwDDHPmjIRFGxgrP1PNWs6BwoDvMYnXyh3y95g4834/Vc
-	4/80l0kz8G2Yqnwbx8XxvWmdp79pnoFDsJmkcNh5hwU6ZSIpchFa1m68CdO79EtPuM5d+6nSzC9
-	pRubfL+7NrCLDyr8WV2evEYAtraYkuJvafHj2gnJdDNq2iZzmmG+AV7IRkKY7w0rW2QDQCBLkQF
-	9h4tdsHUBwO+6Qiu/hsIFj7pc8Ajnbak
-X-Google-Smtp-Source: AGHT+IFruvY88piBAmfuZBCi/38LBnqKgAiaX4+p3cs1+GBd6X1QsggKx2j7BHXqSgtf4MYXXLwk9Q==
-X-Received: by 2002:a17:90a:da8b:b0:30c:52c5:3dc4 with SMTP id 98e67ed59e1d1-30c52c540e9mr2561945a91.24.1746805568312;
-        Fri, 09 May 2025 08:46:08 -0700 (PDT)
+        bh=m1U2TU/KAyzsWJZKXVUvneimww6AxMU95NwEPmrj1wU=;
+        b=brx7n5D74KcwcnvScj2MRFyBPKweeppQyPXMzVEWnllXcxR4lEyMvqztoFzcLrtYlp
+         zOYP8XiCai+WJWnGaCW7kshqt6KfrgFplZ15aWlhTk0sBdU/P6MRJMviWpgCLJ4wa+fq
+         zRtKA0Tjj3FK2JsQR8B3F+QZPu13zGabZ911TOH2TFxc95gatIGgmdzxMO5zs3kEHCZj
+         E6UppQgiGQqwZBs4z1/FYtZu5Zh+dzTcM/pDnkjWFqnkRE7b8WPq9xCqYlhR7uNfvOsy
+         37lgz1YVLLU24I/hSkG74Ymo7rNzr+3gTOu7WLcDBuRL39YT3pWaFjYx7+Puwj9DqEkh
+         LHDg==
+X-Gm-Message-State: AOJu0YxwbXWCPme4WICGaMdDS37pqguXmFl+WAcQ/xpJ3YtulPVGta6F
+	H+t7Yld0/oq8BU5uXRcFnnbVHAG+F9PSy2cSAFy3EwzkS6vQsEfa9ICS69WvzI+HuCy1BtbsA1h
+	j
+X-Gm-Gg: ASbGnct4jZH7llK17Jvw5zRyqAiTYhYWhw6KzEzJLsEvzDwQ2DP9QBCJqCz4ay3ma4e
+	A6zNJS8KeCEz5kieiYeIMA1ncA92vj2Xu3KmAf9f2/cdO5MK6Ks6Tu6cAKErf3x55LbKhtqbakl
+	/RJb6RGTb69XeGoN/94OQCA+WkC5dSfAiBpXUrdNYyFgSGVe0iPaYLKEOxVAR3P+Blc5xahphZ4
+	KcLG96ZytzYb7K6UQ6qXQHDRPX7DsFLj7YcnASeHcTpYQUkc1hSnJQW2TFMzVJCYCPhxCg0t2uh
+	CNwzs3fCv0zGh0Wm3Iiy8cMl04zhe/8i
+X-Google-Smtp-Source: AGHT+IEFza9xba9T4hTHf9cNa4pwtZwuOgxDWaFyP/YYUoVyp9DgLhmcPSOSTd22dIodqB05BtY2nA==
+X-Received: by 2002:a17:90b:394a:b0:2ee:ad18:b309 with SMTP id 98e67ed59e1d1-30c3cc109a9mr5990556a91.3.1746805571347;
+        Fri, 09 May 2025 08:46:11 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:1912:b658:11a7:402c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30c39dee9aasm1983093a91.25.2025.05.09.08.46.07
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30c39dee9aasm1983093a91.25.2025.05.09.08.46.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 May 2025 08:46:08 -0700 (PDT)
+        Fri, 09 May 2025 08:46:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 4/8] libsoup-2.4: Fix CVE-2025-32906
-Date: Fri,  9 May 2025 08:45:51 -0700
-Message-ID: <6e373ec360151b212ae6eedc4c663fb9e760ae75.1746805404.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 6/8] connman :fix CVE-2025-32743
+Date: Fri,  9 May 2025 08:45:53 -0700
+Message-ID: <9558ec2091964556b47b0909c5d243aee5bafb6f.1746805404.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746805404.git.steve@sakoman.com>
 References: <cover.1746805404.git.steve@sakoman.com>
@@ -67,193 +67,97 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 15:46:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216230
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216232
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Praveen Kumar <praveen.kumar@windriver.com>
 
-Upstream-Status: Backport from
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931
-& https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f
+In ConnMan through 1.44, the lookup string in ns_resolv in dnsproxy.c
+can be NULL or an empty string when the TC (Truncated) bit is set in
+a DNS response. This allows attackers to cause a denial of service
+(application crash) or possibly execute arbitrary code, because those
+lookup values lead to incorrect length calculations and incorrect
+memcpy operations.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-32743
+
+Upstream-patch:
+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d90b911f6760959bdf1393c39fe8d1118315490f
+
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup-2.4/CVE-2025-32906-1.patch        | 61 ++++++++++++++
- .../libsoup-2.4/CVE-2025-32906-2.patch        | 83 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |  2 +
- 3 files changed, 146 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch
+ .../connman/connman/CVE-2025-32743.patch      | 48 +++++++++++++++++++
+ .../connman/connman_1.42.bb                   |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch
+diff --git a/meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch b/meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch
 new file mode 100644
-index 0000000000..916a41a71f
+index 0000000000..b31c59aa70
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch
-@@ -0,0 +1,61 @@
-+From 1f509f31b6f8420a3661c3f990424ab7b9164931 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Tue, 11 Feb 2025 14:36:26 -0600
-+Subject: [PATCH] headers: Handle parsing edge case
++++ b/meta/recipes-connectivity/connman/connman/CVE-2025-32743.patch
+@@ -0,0 +1,48 @@
++From d90b911f6760959bdf1393c39fe8d1118315490f Mon Sep 17 00:00:00 2001
++From: Praveen Kumar <praveen.kumar@windriver.com>
++Date: Thu, 24 Apr 2025 11:39:29 +0000
++Subject: [PATCH] dnsproxy: Fix NULL/empty lookup causing potential crash
 +
-+This version number is specifically crafted to pass sanity checks allowing it to go one byte out of bounds.
++In ConnMan through 1.44, the lookup string in ns_resolv in dnsproxy.c
++can be NULL or an empty string when the TC (Truncated) bit is set in
++a DNS response. This allows attackers to cause a denial of service
++(application crash) or possibly execute arbitrary code, because those
++lookup values lead to incorrect length calculations and incorrect
++memcpy operations.
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931]
-+CVE: CVE-2025-32906 #Dependency Patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++This patch includes a check to make sure loookup value is valid before
++using it. This helps avoid unexpected value when the input is empty or
++incorrect.
++
++Fixes: CVE-2025-32743
++
++CVE: CVE-2025-32743
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=d90b911f6760959bdf1393c39fe8d1118315490f]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 +---
-+ libsoup/soup-headers.c      |  2 +-
-+ tests/header-parsing-test.c | 12 ++++++++++++
-+ 2 files changed, 13 insertions(+), 1 deletion(-)
++ src/dnsproxy.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
 +
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index 85385cea..9d6d00a3 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -225,7 +225,7 @@ soup_headers_parse_request (const char          *str,
-+ 	    !g_ascii_isdigit (version[5]))
-+ 		return SOUP_STATUS_BAD_REQUEST;
-+ 	major_version = strtoul (version + 5, &p, 10);
-+-	if (*p != '.' || !g_ascii_isdigit (p[1]))
-++	if (p + 1 >= str + len || *p != '.' || !g_ascii_isdigit (p[1]))
-+ 		return SOUP_STATUS_BAD_REQUEST;
-+ 	minor_version = strtoul (p + 1, &p, 10);
-+ 	version_end = p;
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 07ea2866..10ddb684 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -6,6 +6,10 @@ typedef struct {
-+ 	const char *name, *value;
-+ } Header;
-+ 
-++static char unterminated_http_version[] = {
-++        'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
-++};
++diff --git a/src/dnsproxy.c b/src/dnsproxy.c
++index 7ebffbc..1a5a4f3 100644
++--- a/src/dnsproxy.c
+++++ b/src/dnsproxy.c
++@@ -1669,8 +1669,13 @@ static int ns_resolv(struct server_data *server, struct request_data *req,
++				gpointer request, gpointer name)
++ {
++	int sk = -1;
+++	int err;
++	const char *lookup = (const char *)name;
++-	int err = ns_try_resolv_from_cache(req, request, lookup);
 ++
-+ static struct RequestTest {
-+ 	const char *description;
-+ 	const char *bugref;
-+@@ -383,6 +387,14 @@ static struct RequestTest {
-+ 	  { { NULL } }
-+ 	},
-+ 
-++        /* This couldn't be a C string as going one byte over would have been safe. */
-++	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
-++	  unterminated_http_version, sizeof (unterminated_http_version),
-++	  SOUP_STATUS_BAD_REQUEST,
-++           NULL, NULL, -1,
-++	  { { NULL } }
-++	},
+++	if (!lookup || strlen(lookup) == 0)
+++		return -EINVAL;
 ++
-+ 	{ "Non-HTTP request", NULL,
-+ 	  "GET / SOUP/1.1\r\nHost: example.com\r\n", -1,
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+-- 
-+GitLab
+++	err = ns_try_resolv_from_cache(req, request, lookup);
 +
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch
-new file mode 100644
-index 0000000000..5baad15648
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch
-@@ -0,0 +1,83 @@
-+From af5b9a4a3945c52b940d5ac181ef51bb12011f1f Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 12 Feb 2025 11:30:02 -0600
-+Subject: [PATCH] headers: Handle parsing only newlines
-+
-+Closes #404
-+Closes #407
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f]
-+CVE: CVE-2025-32906
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-headers.c      |  4 ++--
-+ tests/header-parsing-test.c | 13 ++++++++++++-
-+ 2 files changed, 14 insertions(+), 3 deletions(-)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index 9d6d00a3..52ef2ece 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -186,7 +186,7 @@ soup_headers_parse_request (const char          *str,
-+ 	/* RFC 2616 4.1 "servers SHOULD ignore any empty line(s)
-+ 	 * received where a Request-Line is expected."
-+ 	 */
-+-	while ((*str == '\r' || *str == '\n') && len > 0) {
-++	while (len > 0 && (*str == '\r' || *str == '\n')) {
-+ 		str++;
-+ 		len--;
-+ 	}
-+@@ -371,7 +371,7 @@ soup_headers_parse_response (const char          *str,
-+ 	 * after a response, which we then see prepended to the next
-+ 	 * response on that connection.
-+ 	 */
-+-	while ((*str == '\r' || *str == '\n') && len > 0) {
-++	while (len > 0 && (*str == '\r' || *str == '\n')) {
-+ 		str++;
-+ 		len--;
-+ 	}
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 10ddb684..4faafbd6 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -6,10 +6,15 @@ typedef struct {
-+ 	const char *name, *value;
-+ } Header;
-+ 
-++/* These are not C strings to ensure going one byte over is not safe. */
-+ static char unterminated_http_version[] = {
-+         'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
-+ };
-+ 
-++static char only_newlines[] = {
-++        '\n', '\n', '\n', '\n'
-++};
-++
-+ static struct RequestTest {
-+ 	const char *description;
-+ 	const char *bugref;
-+@@ -387,7 +392,6 @@ static struct RequestTest {
-+ 	  { { NULL } }
-+ 	},
-+ 
-+-        /* This couldn't be a C string as going one byte over would have been safe. */
-+ 	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
-+ 	  unterminated_http_version, sizeof (unterminated_http_version),
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+@@ -457,6 +461,13 @@ static struct RequestTest {
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+            NULL, NULL, -1,
-+ 	  { { NULL } }
-++	},
-++
-++	{ "Only newlines", NULL,
-++	  only_newlines, sizeof (only_newlines),
-++	  SOUP_STATUS_BAD_REQUEST,
-++           NULL, NULL, -1,
-++	  { { NULL } }
-+ 	}
-+ };
-+ static const int num_reqtests = G_N_ELEMENTS (reqtests);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 6125c0624a..c0c2209501 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -19,6 +19,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2024-52532-1.patch \
-            file://CVE-2024-52532-2.patch \
-            file://CVE-2024-52532-3.patch \
-+           file://CVE-2025-32906-1.patch \
-+           file://CVE-2025-32906-2.patch \
-           "
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
++	if (err > 0)
++		/* cache hit */
++--
++2.40.0
+diff --git a/meta/recipes-connectivity/connman/connman_1.42.bb b/meta/recipes-connectivity/connman/connman_1.42.bb
+index 91ab9895ac..3a1c9802bd 100644
+--- a/meta/recipes-connectivity/connman/connman_1.42.bb
++++ b/meta/recipes-connectivity/connman/connman_1.42.bb
+@@ -7,6 +7,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            file://no-version-scripts.patch \
+            file://0001-vpn-Adding-support-for-latest-pppd-2.5.0-release.patch \
+            file://0001-src-log.c-Include-libgen.h-for-basename-API.patch \
++           file://CVE-2025-32743.patch \
+            "
  
+ SRC_URI:append:libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
 -- 
 2.43.0
 
