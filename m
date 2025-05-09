@@ -2,240 +2,256 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B39C3ABCC
-	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 15:24:23 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.1430.1746804256938693439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E94A7C3ABBC
+	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 15:46:13 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web11.1978.1746805564799933483
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 08:24:17 -0700
+ Fri, 09 May 2025 08:46:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JdlpC+ym;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7399838db7fso2310108b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:24:16 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=t3pPkSXC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b12b984e791so1811596a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746804256; x=1747409056; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746805564; x=1747410364; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xltvyLvydcxqAjkT+dXW7hCNbpMkwauXAl2FL/2lg34=;
-        b=JdlpC+ymrrrWTr1Tt4jwsHPz6HrpwoJXCG57U1T+edS8W61sSklP2ELNEpxBj4BCNa
-         zvTEdGyZduptXwlpKFNPPkoQhoKYX2qHKyawx2kXBSi649FbNDEk1Ipj9AXYM6bL2XlG
-         8ExLPKuKOMHlByjvy3HeOU2hjanaA7hGAlO3RYTJRXB4NYSdSS8QLp/reHyGgr7kZbkX
-         +a6lkBH+chEZL43C2iRxGbFUYNmltrDo8XwQl0XBLPfyFwLiOFRt+ZdEMj5J1SjizJbA
-         DNcB7gZlgVPTMrP/f28edlzRolcR7dcKPthCHJs2/DymL4d5pysJkHkls22yOGPhY29H
-         kQMw==
+        bh=NKHa1Tin6Ao0OHFFPEW/BssJ318magWLBA3viX34GXw=;
+        b=t3pPkSXCjE47PKH84/OE6g9ygDi5Dm8BR5tMG3A9zNENKHlWIpl6Qb17f6zzWE8U8J
+         1zSzVAXrcfQhDEwOKD6uKeZI0DRPJUxwf0u3Ek9b0Gt16LGVXykcuKZp6cqsmOtvrNOQ
+         8HDacAzC5mbekHWz6DOz1fASmXkk8DoMimAiF5LwCxc4akfZm+IAp0Q6VNNEjFddLl+G
+         9hciC0AuX8wujQGe3ffeQH8gsm2YHngmKt1Q+1kYNoQCqOvx83rJiDUsxdigIoe9R5Wx
+         t6v/GMw0aBUs73sn1vGEI5/5Olhgcn8Kgd7vpCR9fbStQlnlObBYxopRIzTO98UM32Tx
+         kjXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746804256; x=1747409056;
+        d=1e100.net; s=20230601; t=1746805564; x=1747410364;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xltvyLvydcxqAjkT+dXW7hCNbpMkwauXAl2FL/2lg34=;
-        b=UKaY4QjD2M7ZkE3MeyJH3FDEhqduGPLcGEKQU6bqTf1MPh7ecOCUE/JTRRZlmWxpzN
-         No0G1APmdly12GeCNS4JzcdN4UXmpy1BOruyW4oq8zvsB8IqJIkaM31caUZSgX1kA26F
-         pILVkP8fqBCfa1W391I/TR5Te15RWP0OcImaqknv/CubBUbbNlly++Tol3pYe7RHbCih
-         jeCuFajM52rodcI9d8s2GqrBiGZFdaCDaf73706JI29gfjjBp7b1x05qlOi0laHL9Syy
-         F2hwaeupOMgP20pbw9ykWjx5vWnGcr0oZT7FFmc8owzdRcqEN+oiUA1prUGUgq8EYe9y
-         DHOg==
-X-Gm-Message-State: AOJu0Ywpzh+GQZMT4VEA5Nv6a3EKUmfNsC5wxht5CfrPdXOazRpcNtA6
-	ULKodX3Px4Brs1fqCtwJDusUtJXCSEjoiVibcOIlmQlL4oIymq2U4ExOi1Hs6KCYQ9MwC+D2v8J
-	Y
-X-Gm-Gg: ASbGncuwZ1Yy7ykHhPs30JPzboFGeoptEDnmY5RLYszskK83AQwtjixrXp7yXw4k/RO
-	ltkY0RXu3xAMlYmyybD7LfljcTg6tcRm7HQe+Z3Rx0E/NLYmvfpHK4rax2gWYHEjRUxzMHwzml7
-	vU4VoLs8UrMqAt/UH/qORb5nizEGldXM3FktA5MBc1JBeUK53bJXrWrICLte6+KlYHU+G5wPFyz
-	M8uY2rkX4Wt/HIqKAzcWjNnQgYEmwH+mh6ZW/yMxIm4SUG27KdkVDc+jOgSQh799ALMQFuK+Lp4
-	MY0BErK+lKPmRma0T5CYrUFOBGkqy9vU
-X-Google-Smtp-Source: AGHT+IGPAXvO/7KJp36mLi9LgH3sxIGQgYHuvCZ59602OQgVqliUyvHQG+IXX5gxkiAcsRn2eIZq+g==
-X-Received: by 2002:a05:6a00:3e20:b0:732:5875:eb95 with SMTP id d2e1a72fcca58-740a9316019mr14015100b3a.4.1746804256079;
-        Fri, 09 May 2025 08:24:16 -0700 (PDT)
+        bh=NKHa1Tin6Ao0OHFFPEW/BssJ318magWLBA3viX34GXw=;
+        b=fbUUykql+qV60HKlS/JtMafeJZI/yff16g/jZVeOJD2v4QshgfnJcMCr0QnB++JAIQ
+         xWFud/8Bkx5A6GnEPtT05Hx5+TnFSrANKUMzNXNtd6h+VsRRDhOoe7X9mJiGT3GVxBHC
+         +a7es+KyIlPed82qcbyJhBkSgaMJh5sq+w0m9CTCX8OL2H9m4TmWFmeHs/3lVPAgeabV
+         vywHko6IScYv/AwfZ81vG2/Eki2YJ92Kw/oEBKD3YwiLEb7NskN5I+mCbY5beZ3HXMjs
+         bz7tGAE92DRFYnPqAsLqL6oIxyYCOxuI0X8f9PZ0R3ZVHXmAwHMocmb8u4qpg9qxU6lF
+         BnCg==
+X-Gm-Message-State: AOJu0Yxvtq4PHH0Ggz+2M8jwc4mlScUEHhiDrfxEc+rtU0VHmNPBDxlZ
+	RbJ9ZKucG+5MdBwwPvIvChu0REYlotRaeyRRV0dMUVk0ao09+6xzJIMe6fJ2uLx7I8QN4Eq/CC8
+	7
+X-Gm-Gg: ASbGncsgOcNSLGs5t2fatkRep2CKXgO1RvJfmjHcSCijLjT+kM9MrhDWnK1kWOlCUQ3
+	tXhdt6dny+Aw1AUKxmaB3qJrD2fiJaPj4W+wbqGC88fElrmhRszWTD4+dSQwxoNB948/aNoXNct
+	mbnQXE3JPn1fkeCsmClLJOC1S7Vzebfk+lDW4kfG6t/zLhDXvJGHPOlJOk+hhuky6ZffKMPm9li
+	Sqdu3jc1AYlmAjD0CCBh4BB1oPuVVaB2ZjlUof/JZdibHJL1Mih2OGveEqlSJZTxZbYCNfxcS6p
+	zIpc+R1C8DkKXHEaqsfvppHl3tTQ7tSO
+X-Google-Smtp-Source: AGHT+IFyKBPIrqkkfTFAohKLkX9hGRsqydDTXzT/TARxf26w7fdcDZPzxfEJ+tpJ6mgO91ff/Dfl8g==
+X-Received: by 2002:a17:90b:3907:b0:2fc:3264:3657 with SMTP id 98e67ed59e1d1-30c3b90e372mr7713863a91.0.1746805563920;
+        Fri, 09 May 2025 08:46:03 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:1912:b658:11a7:402c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a108fbsm1848319b3a.115.2025.05.09.08.24.15
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30c39dee9aasm1983093a91.25.2025.05.09.08.46.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 May 2025 08:24:15 -0700 (PDT)
+        Fri, 09 May 2025 08:46:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 15/17] syslinux: improve isohybrid to process extra sector count for ISO 9660 image
-Date: Fri,  9 May 2025 08:23:31 -0700
-Message-ID: <741d5ed1b906b8763d9f346481e980e2041c9c2a.1746804035.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 1/8] libsoup-2.4: Fix CVE-2024-52530
+Date: Fri,  9 May 2025 08:45:48 -0700
+Message-ID: <ef1bff79d6b84eacccff2a3f8a5c3b8ed92fe0c4.1746805404.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1746804035.git.steve@sakoman.com>
-References: <cover.1746804035.git.steve@sakoman.com>
+In-Reply-To: <cover.1746805404.git.steve@sakoman.com>
+References: <cover.1746805404.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 15:24:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216223
+ <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 15:46:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216227
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Due to commit [cdrtools-native: fix booting EFI ISO live failed]
-applied to improve mkisofs to fix nsectors exceeds 0xffff situation
-which set selection criteria type = 2 and save extra nsectors to
-vendor unique selection criteria
+Upstream-Status: Backport from
+https://gitlab.gnome.org/GNOME/libsoup/-/commit/04df03bc092ac20607f3e150936624d4f536e68b
 
-In following case, add 64MB extra space to bootable image efi.img,
-and the partition table of EFI is truncated to 32M
-
-$ echo 'IMAGE_FSTYPES:pn-core-image-minimal = " live"' >> conf/local.conf
-$ echo 'MACHINE_FEATURES:append = " efi pcbios"' >> conf/local.conf
-$ echo '# 64MB extra space to bootable image efi.img' >> conf/local.conf
-$ echo 'BOOTIMG_EXTRA_SPACE = "65535"' >> conf/local.conf
-$ bitbake core-image-minimal
-$ fdisk -l tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso
-...
-Device                                                                 Boot Start    End Sectors  Size Id Type
-tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso1 *        0 376831  376832  184M  0 Empty
-tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso2        120  65654   65535   32M ef EFI (FAT-12/16/32)
-
-After applying this patch to process extra sector count, the partition
-table of EFI is 90.3M
-
-$ fdisk -l tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso
-...
-Device                                                                 Boot Start    End Sectors  Size Id Type
-tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso1 *        0 376831  376832  184M  0 Empty
-tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso2        120 185151  185032 90.3M ef EFI (FAT-12/16/32)
-
-[1]https://pdos.csail.mit.edu/6.828/2017/readings/boot-cdrom.pdf
-
-(From OE-Core rev: b4e112ed7e6ba5a6c6df530d696485a588831851)
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...-count-from-section-entry-for-EFI-ca.patch | 104 ++++++++++++++++++
- .../syslinux/syslinux_6.04-pre2.bb            |   1 +
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-devtools/syslinux/syslinux/0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch
+ .../libsoup/libsoup-2.4/CVE-2024-52530.patch  | 149 ++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |   4 +-
+ 2 files changed, 152 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux/0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch b/meta/recipes-devtools/syslinux/syslinux/0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
 new file mode 100644
-index 0000000000..5422d9b2de
+index 0000000000..bd62a748eb
 --- /dev/null
-+++ b/meta/recipes-devtools/syslinux/syslinux/0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch
-@@ -0,0 +1,104 @@
-+From 79a26046d178ae132cb88ba75de7141bd169ff16 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Sat, 26 Apr 2025 10:45:08 +0800
-+Subject: [PATCH] Add extra sector count from section entry for EFI catalogue
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
+@@ -0,0 +1,149 @@
++From 04df03bc092ac20607f3e150936624d4f536e68b Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Mon, 8 Jul 2024 12:33:15 -0500
++Subject: [PATCH] headers: Strictly don't allow NUL bytes
 +
-+According to page 11: `Figure 5 - Section Entry' in El Torito Bootable
-+CD-ROM Format Specification [1]. The sector count tooks 2 byte which
-+means max sector count is 0xffff (65535), for 512-byte sector, the
-+size of bootable image is no more than 32MB (65536 * 512 / 1024 / 1024)
++In the past (2015) this was allowed for some problematic sites. However Chromium also does not allow NUL bytes in either header names or values these days. So this should no longer be a problem.
 +
-+If the size of efi.img > 32MB, the partition table will be truncated
-+in ISO, which caused UEFI system or grub-efi read efi.img broken
-+occasionally.
-+
-+This patch extend efi_count, mac_count and count to 4 byte int, if
-+Yocto defines `Selection criteria type = 2', add extra sector count
-+to original sector count as total count; for other situation, still use
-+original sector count as usual
-+
-+[1]https://pdos.csail.mit.edu/6.828/2017/readings/boot-cdrom.pdf
-+
-+Upstream-Status: Inappropriate [Yocto specific]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/04df03bc092ac20607f3e150936624d4f536e68b]
++CVE: CVE-2024-52530
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ utils/isohybrid.c | 48 ++++++++++++++++++++++++++++++++++++++++++-----
-+ 1 file changed, 43 insertions(+), 5 deletions(-)
++ libsoup/soup-headers.c      | 15 +++------
++ tests/header-parsing-test.c | 62 +++++++++++++++++--------------------
++ 2 files changed, 32 insertions(+), 45 deletions(-)
 +
-+diff --git a/utils/isohybrid.c b/utils/isohybrid.c
-+index a9e38d4..1bbfd45 100644
-+--- a/utils/isohybrid.c
-++++ b/utils/isohybrid.c
-+@@ -76,7 +76,7 @@ uint32_t de_lba = 0;
-+ uint16_t de_seg = 0, de_count = 0, de_mbz2 = 0;
-+ uint8_t de_boot = 0, de_media = 0, de_sys = 0, de_mbz1 = 0;
-+ uint32_t efi_lba = 0, mac_lba = 0;
-+-uint16_t efi_count = 0, mac_count = 0;
-++uint32_t efi_count = 0, mac_count = 0;
-+ uint8_t efi_boot = 0, efi_media = 0, efi_sys = 0;
++diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
++index a0cf351ac..f30ee467a 100644
++--- a/libsoup/soup-headers.c
+++++ b/libsoup/soup-headers.c
++@@ -51,13 +51,14 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
++ 	 * ignorable trailing whitespace.
++ 	 */
 + 
-+ int apm_parts = 3;
-+@@ -552,17 +552,55 @@ read_efi_section(const uint8_t *buf)
-+ }
+++	/* No '\0's are allowed */
+++	if (memchr (str, '\0', len))
+++		return FALSE;
+++
++ 	/* Skip over the Request-Line / Status-Line */
++ 	headers_start = memchr (str, '\n', len);
++ 	if (!headers_start)
++ 		return FALSE;
++-	/* No '\0's in the Request-Line / Status-Line */
++-	if (memchr (str, '\0', headers_start - str))
++-		return FALSE;
 + 
-+ int
-+-read_efi_catalogue(const uint8_t *buf, uint16_t *count, uint32_t *lba)
-++read_efi_catalogue(const uint8_t *buf, uint32_t *count, uint32_t *lba)
-+ {
-++    uint16_t _count = 0;
-++
-++    // Jump to offset 6 byte
-+     buf += 6;
++ 	/* We work on a copy of the headers, which we can write '\0's
++ 	 * into, so that we don't have to individually g_strndup and
++@@ -69,14 +70,6 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
++ 	headers_copy[copy_len] = '\0';
++ 	value_end = headers_copy;
 + 
-+-    memcpy(count, buf, 2);
-+-    *count = lendian_short(*count);
-++    *count = 0;
-++
-++    // Offset     : 6-7 byte
-++    // Type       : Word
-++    // Description: Sector Count, the number of virtual/emulated sectors
-++    // the system will store at Load Segment during the initial boot procedure
-++    memcpy(&_count, buf, 2);
-++    _count = lendian_short(_count);
-+     buf += 2;
++-	/* There shouldn't be any '\0's in the headers already, but
++-	 * this is the web we're talking about.
++-	 */
++-	while ((p = memchr (headers_copy, '\0', copy_len))) {
++-		memmove (p, p + 1, copy_len - (p - headers_copy));
++-		copy_len--;
++-	}
++-
++ 	while (*(value_end + 1)) {
++ 		name = value_end + 1;
++ 		name_end = strchr (name, ':');
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index edf8eebb3..715c2c6f2 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -358,24 +358,6 @@ static struct RequestTest {
++ 	  }
++ 	},
 + 
-++    // Offset     : 8-0B byte
-++    // Type       : D Word
-++    // Description: Load RBA. This is the start address of the virtual disk. CD’s use
-++    // Relative/Logical block addressing.
-+     memcpy(lba, buf, 4);
-+     *lba = lendian_int(*lba);
-+-    buf += 6;
-++    buf += 4;
++-	{ "NUL in header name", "760832",
++-	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
++-	  SOUP_STATUS_OK,
++-	  "GET", "/", SOUP_HTTP_1_1,
++-	  { { "Host", "example.com" },
++-	    { NULL }
++-	  }
++-	},
++-
++-	{ "NUL in header value", "760832",
++-	  "GET / HTTP/1.1\r\nHost: example\x00" "com\r\n", 35,
++-	  SOUP_STATUS_OK,
++-	  "GET", "/", SOUP_HTTP_1_1,
++-	  { { "Host", "examplecom" },
++-	    { NULL }
++-	  }
++-	},
++-
++ 	/************************/
++ 	/*** INVALID REQUESTS ***/
++ 	/************************/
++@@ -448,6 +430,21 @@ static struct RequestTest {
++ 	  SOUP_STATUS_EXPECTATION_FAILED,
++ 	  NULL, NULL, -1,
++ 	  { { NULL } }
+++	},
 ++
-++    // Offset     : 0C byte
-++    // Type       : Byte
-++    // Description: Selection criteria type. This defines a vendor unique format
-++    // for bytes 0D-1F.
-++    // The following formats have currently been assigned:
-++    // 0 - No selection criteria
-++    // 1 - Language and Version Information (IBM)
-++    // 2 - Save extra sector count to vendor unique selection criteria (Yocto)
-++    // 3-FF - Reserved
-++    unsigned char slection_criteria_type = *buf;
-++    buf += 1;
+++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
+++	{ "NUL in header name", NULL,
+++	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
+++	  SOUP_STATUS_BAD_REQUEST,
+++	  NULL, NULL, -1,
+++	  { { NULL } }
+++	},
 ++
-++    // Offset     : 0D-0E-0F-10 byte
-++    // Type       : D Word
-++    // Description: Selection criteria type = 2, reserved by Yocto,
-++    // save extra sector count to vendor unique selection criteria
-++    if (slection_criteria_type == 2) {
-++        memcpy(count, buf, 4);
-++        *count = lendian_int(*count);
-++        buf += 4;
-++    }
-++
-++    // total count = sector count + extra sector count
-++    *count += _count;
+++	{ "NUL in header value", NULL,
+++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
+++	  SOUP_STATUS_BAD_REQUEST,
+++           NULL, NULL, -1,
+++	  { { NULL } }
++ 	}
++ };
++ static const int num_reqtests = G_N_ELEMENTS (reqtests);
++@@ -620,22 +617,6 @@ static struct ResponseTest {
++ 	    { NULL } }
++ 	},
 + 
-+     return 0;
-+ }
++-	{ "NUL in header name", "760832",
++-	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
++-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
++-	  { { "Foo", "bar" },
++-	    { NULL }
++-	  }
++-	},
++-
++-	{ "NUL in header value", "760832",
++-	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
++-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
++-	  { { "Foo", "bar" },
++-	    { NULL }
++-	  }
++-	},
++-
++ 	/********************************/
++ 	/*** VALID CONTINUE RESPONSES ***/
++ 	/********************************/
++@@ -768,6 +749,19 @@ static struct ResponseTest {
++ 	  { { NULL }
++ 	  }
++ 	},
+++
+++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
+++	{ "NUL in header name", NULL,
+++	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
+++	  -1, 0, NULL,
+++	  { { NULL } }
+++	},
+++
+++	{ "NUL in header value", "760832",
+++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
+++	  -1, 0, NULL,
+++	  { { NULL } }
+++	},
++ };
++ static const int num_resptests = G_N_ELEMENTS (resptests);
++ 
 +-- 
-+2.34.1
++GitLab
 +
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-index 7cf737170c..2522205fa1 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-@@ -23,6 +23,7 @@ SRC_URI = "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${PV}.tar.xz
-            file://0013-remove-clean-script.patch \
-            file://0014-Fix-reproducibility-issues.patch \
-            file://0001-ext2_fs.h-do-not-carry-an-outdated-copy.patch \
-+           file://0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch \
-            "
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+index ee20530b64..b833d2cfa9 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+@@ -12,7 +12,9 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl"
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
- SRC_URI[md5sum] = "2b31c78f087f99179feb357da312d7ec"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+-           file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch"
++           file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch \
++           file://CVE-2024-52530.patch \
++          "
+ SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
+ 
+ CVE_PRODUCT = "libsoup"
 -- 
 2.43.0
 
