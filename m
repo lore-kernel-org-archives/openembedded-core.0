@@ -1,226 +1,103 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <ohnatiuk@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8703CC3ABBC
-	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 19:45:15 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.7241.1746819905698394402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01FE7C3ABBC
+	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 21:19:16 +0000 (UTC)
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.web10.9080.1746825555076337667
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 12:45:05 -0700
+ Fri, 09 May 2025 14:19:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DIPrCmVa;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-30a9cd61159so2509781a91.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 12:45:05 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=QAEXp/+y;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: ohnatiuk@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746819905; x=1747424705; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rvKGu6+BJbC5VaZ91QPMJxkrd+kmvfJj0pHi9IgJMrw=;
-        b=DIPrCmVawNIQ78E73dZNiYEwScpTkl4zDaJ+mkKBZkiH6sKbIdZWWP1aqlMI+rXeE0
-         CdW8YTuk2pF2y+2bCyU0u+Cw+pfafejfIvQiJCvEvMeY1w9qs46r8s0mgEwhEbl0dsGv
-         mqJtmVZ7CJTXerG6XolaIDqza/SABj5u3XVOfHkNwS7FdeoM4G+mm0pIRHIYdAD1xM22
-         vQGlwSEBBMhzxDL2qe6LHEn098q7AQxL2lxBuzU17IMuvFhyQnilh7s2i1dV14GHxDeb
-         V3TUSfYYe83Wm1bHiU8ZsA98nzRsiosCjXXOnshcqMDTKI/JKQzMmCc0H2C9gei0mqXf
-         /AfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746819905; x=1747424705;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rvKGu6+BJbC5VaZ91QPMJxkrd+kmvfJj0pHi9IgJMrw=;
-        b=iZAlttE684TLJuX6ndeh8vC06VcfVN1bx9rE2BVezmEu+ZBKPYzEdmQXh+Pe2evFKG
-         zdhrUZs4hNah53K2dhG95PP9oDY47nsw0y31A0fYJTitocZ7GiC85gddYBT0Sb8iZIDI
-         U0LwP9TpScNw6RTbXke+j0UmJ6fF0IlnHmjQQG6wyDJd1ML0fRTCQ8RnQh/DGHPacp7y
-         B67l07G4WzlyeOElw7/qI7WNieGfwnSvNC2cAtph59HhQWXl7WkE2r48Fuxxr0MBhn1w
-         n8WxACdHwcxQvw1D+YRTzpfwbq4CnDZsCssRClq0xCnhTnARK36fOe4AfT/pgKv8j31e
-         9zJA==
-X-Gm-Message-State: AOJu0Yw3XjVP9VUYpJHSulgJhWGFQrGYc65ZUKzVhnY2Qrc1A0CqKnyW
-	2o0bfdSXOM7rdFZaWk8qy8krLgIAnpb1Fd1uudAYEnemI6upmDUercsDpkL1aA/p5/sfTiYl/2K
-	3c7hl1ury3xLNoGgEDT8y0PlEOow=
-X-Gm-Gg: ASbGncux8uL2vjuf34PzCTKzPvawR4dm/w848ZX2OyEUiOcBLu593gi+8wKgsSdhuPG
-	WeOwS+iII98bP+MM4ZmMZhgg2nBA6QwllEqnPZhsJGUVcFoBtcsMFJ56XFGvvdaNie5AoIbxjxb
-	0v7jtMEI/1nNc0FdpuGy6pvtOT0CqKEhMJyw==
-X-Google-Smtp-Source: AGHT+IE5XpXVhZfJhlTr0M4Uzm+v5ut0qTk7++Zs2+iKx8CNfQAfatzNSX4u2C+19iW1Rh5TobPoJWSlL913pEUap3M=
-X-Received: by 2002:a17:90b:3508:b0:30a:204e:fe47 with SMTP id
- 98e67ed59e1d1-30c4011f790mr6732757a91.16.1746819904846; Fri, 09 May 2025
- 12:45:04 -0700 (PDT)
+  d=cisco.com; i=@cisco.com; l=1259; q=dns/txt;
+  s=iport01; t=1746825555; x=1748035155;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=VVGRbxy1Aiy071YoAwbVLVNEDAuXgT7mDWYeOFICPFg=;
+  b=QAEXp/+yv6VSrlmldXuLxBxt6LC2d/1Y4CrexrhfK0TZhAY9aphEvzO+
+   oHCMZptmd8hn8rP4ey9qo0ZdPs09M4ShB1WoVkQ89vl7vZNC6iyY4txwV
+   aG7dxIRVKH7noMFt6bLCGUAvUKtHgRdkQMNs35Fmz8i/3jtwu24u/s1qC
+   LO7BQocc52H1hWDh+EE3SNP+E69I5FGvd3X7sK0Pff6ahzmKIrUP3PQlp
+   iyQvSo1ThvvBZCCiGBQvZXsSEp9vilIz/0SbTowHgJD6i6x2yNnn8ZHyk
+   R/ZYYiTdcNuxd7z2WOSJPAtRnru4cgoRzbpuHhmagnHHpps5ul5C7MxDX
+   A==;
+X-CSE-ConnectionGUID: FoDn8sPIQdy+rSP+5VHtOg==
+X-CSE-MsgGUID: iZozvv+gRPuiHiZwKEoZrw==
+X-IPAS-Result: =?us-ascii?q?A0CSAwBRcB5o/5UQJK1aHgEBCxIMgggLgks4P1pCSZQkg?=
+ =?us-ascii?q?iGeGYElA1YPAQEBDzEgBAEBkFICJjQJDgECBAEBAQEDAgMBAQEBAQEBAQEBA?=
+ =?us-ascii?q?QsBAQUBAQECAQcFgQ4ThXsNhxMBghaDAgGCIgEBAQFFAgGzMoIsgQGEfNk6g?=
+ =?us-ascii?q?W6BSY1NhWcnG4FJRIJQgi2ECoEGhXcEg0OeWEiBIQNZLAFVEw0KCwcFgWkDN?=
+ =?us-ascii?q?QwLLhUyPDMdgg2FGYIPggSJBoRHK0+FIoMqQAMLGA1IESw3FBsGPm4HlguDZ?=
+ =?us-ascii?q?QdZIhOBR5QfklahCYQljBqIAgeNKhozhVqkfwGZAKRMhGmBZzyBWTMaCBsVg?=
+ =?us-ascii?q?yIJSRkPmAW9ZCM1PAIHCwEBAwmQDIF9AQE?=
+IronPort-Data: A9a23:ru57yK37cggJhDfwXvbD5YVwkn2cJEfYwER7XKvMYLTBsI5bp2cAy
+ WROUW+ObvaDYWTwfo1/Od/l8R9S78TdmNZiSwRo3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yFjmE4E/watANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU5
+ Lsen+WFYAX4g2MsYzpPg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGIkYaO90DwsdODXAN7
+ 8cga20zTgykiLfjqF67YrEEasULJc3vOsYb/3pn1zycVKxgSpHYSKKM7thdtNsyrpkRRrCFO
+ YxAN3w2MEWojx5nYj/7DLo5nOGhmnjicBVTqUmeouw85G27IAlZjOa9aouFIoHULSlTtkeqo
+ XDY4Sf2OCkHNfye+yWm33WenPCayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0Ut5UFag+rQqK0KeRulzfDWkfRTkHY9sj3CMreQEXO
+ payt4uBLVRSXHe9ExpxKp/8QeuOBBUo
+IronPort-HdrOrdr: A9a23:x6JLfa3fBDQEsiWtrEOJjAqjBKEkLtp133Aq2lEZdPUzSL36qy
+ nAppsmPHPP4gr5O0tBpTn/Ase9qBrnnPYf3WB7B9uftWfd1VdAVLsC0WMnqAeQfhEXMYVmpM
+ VdT5Q=
+X-Talos-CUID: 9a23:32poXW390hJaxDGoz2FynLxfNMcJdC3G9FbpL177E11RC+CraUO39/Yx
+X-Talos-MUID: 9a23:Qu3vUgTVMVc4cygzRXTttjZwKtkr7J6WFUEtkKcZmOSDBzZvbmI=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.15,276,1739836800"; 
+   d="scan'208";a="468298056"
+Received: from alln-l-core-12.cisco.com ([173.36.16.149])
+  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 May 2025 21:19:14 +0000
+Received: from sjc-ads-3960.cisco.com (sjc-ads-3960.cisco.com [171.68.251.157])
+	by alln-l-core-12.cisco.com (Postfix) with ESMTP id C664F1800015F
+	for <openembedded-core@lists.openembedded.org>; Fri,  9 May 2025 21:19:13 +0000 (GMT)
+From: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] package: disable renamed dependency error if allarch is overridden
+Date: Fri,  9 May 2025 14:19:12 -0700
+Message-Id: <20250509211912.3286338-1-ohnatiuk@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-References: <20250509173816.1250479-1-erick.shepherd@ni.com>
-In-Reply-To: <20250509173816.1250479-1-erick.shepherd@ni.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 9 May 2025 15:44:53 -0400
-X-Gm-Features: ATxdqUF-_G9SIWkyvEgVCFDWt9kMLCTkEGAqNOOwVVVEbBjWrup67lN-fNac-SI
-Message-ID: <CADkTA4PmKz80MhEjPQTyCa1a+tL6-QejxsMmUNU8sN39h+3xcw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH RFC] kernel-devsrc.bb: Stop copying the
- System.map files
-To: erick.shepherd@ni.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000ea3f2c0634b93386"
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.251.157, sjc-ads-3960.cisco.com
+X-Outbound-Node: alln-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 19:45:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216245
+ <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 21:19:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216246
 
---000000000000ea3f2c0634b93386
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+allarch code is only triggered if PACKAGE_ARCH remains set to "all".
+This is not the case under some circumstances, like in the case of
+nativesdk class which overrides this variable. This error then breaks
+nativesdk package groups which depend on renamed packages yet aren't
+affected by allarch.
 
-On Fri, May 9, 2025 at 1:38=E2=80=AFPM Erick Shepherd via lists.openembedde=
-d.org
-<erick.shepherd=3Dni.com@lists.openembedded.org> wrote:
+Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
+---
+ meta/lib/oe/packagedata.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Currently there are two .map files being copied to $kerneldir/build.
-> One file is System.map and the other is System.map-<kernel-version>.
-> Each .map file takes up about 5MB and does not seem to be required for
-> the compilation of driver software via dkms. This change stops copying
-> both .map files to save disk space.
->
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index 2d1d6ddeb75e..2bc57b8c343c 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -138,7 +138,7 @@ def get_package_mapping(pkg, basepkg, d, depversions=None):
+     key = "PKG:%s" % pkg
+ 
+     if key in data:
+-        if bb.data.inherits_class('allarch', d) and bb.data.inherits_class('packagegroup', d) and pkg != data[key]:
++        if d.getVar("PACKAGE_ARCH") == "all" and bb.data.inherits_class('packagegroup', d) and pkg != data[key]:
+             bb.error("An allarch packagegroup shouldn't depend on packages which are dynamically renamed (%s to %s)" % (pkg, data[key]))
+         # Have to avoid undoing the write_extra_pkgs(global_variants...)
+         if bb.data.inherits_class('allarch', d) and not d.getVar('MULTILIB_VARIANTS') \
+-- 
+2.35.6
 
-dkms isn't something that is relevant for why we copy the .map file
-
-It is used for debug and in some scenarios linking.
-
-kernel devsrc by definition is not trying to be small, but if the two .map
-files are exactly the same then a symlink should suffice, or just a
-single copy.
-
-
-
->
-> Another solution could also be to only copy one .map file to
-> $kerneldir/build or have one of the .map files by a symlink. If both
-> .map files are required then this patch can be abandoned.
->
-> Signed-off-by: Erick Shepherd <erick.shepherd@ni.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index 1500aff2e2..298be27ac7 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -75,7 +75,7 @@ do_install() {
->          if [ -s Module.symvers ]; then
->              cp Module.symvers $kerneldir/build
->          fi
-> -        cp System.map* $kerneldir/build
-> +
->          if [ -s Module.markers ]; then
->              cp Module.markers $kerneldir/build
->          fi
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216244):
-> https://lists.openembedded.org/g/openembedded-core/message/216244
-> Mute This Topic: https://lists.openembedded.org/mt/112903585/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000ea3f2c0634b93386
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 9, 2025 at 1:38=
-=E2=80=AFPM Erick Shepherd via <a href=3D"http://lists.openembedded.org">li=
-sts.openembedded.org</a> &lt;erick.shepherd=3D<a href=3D"mailto:ni.com@list=
-s.openembedded.org">ni.com@lists.openembedded.org</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">Currently there are two .m=
-ap files being copied to $kerneldir/build.<br>
-One file is System.map and the other is System.map-&lt;kernel-version&gt;.<=
-br>
-Each .map file takes up about 5MB and does not seem to be required for<br>
-the compilation of driver software via dkms. This change stops copying<br>
-both .map files to save disk space.<br></blockquote><div><br></div><div><di=
-v class=3D"gmail_default" style=3D"font-size:small">dkms isn&#39;t somethin=
-g that is relevant for why we copy the .map file</div><div class=3D"gmail_d=
-efault" style=3D"font-size:small"><br></div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">It is used for debug and in some scenarios linking.=
-<br><br></div><div class=3D"gmail_default" style=3D"font-size:small">kernel=
- devsrc by definition is not trying to be small, but if the two .map</div><=
-div class=3D"gmail_default" style=3D"font-size:small">files are exactly the=
- same then a symlink should suffice, or just a=C2=A0</div><div class=3D"gma=
-il_default" style=3D"font-size:small">single copy.</div><br></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Another solution could also be to only copy one .map file to<br>
-$kerneldir/build or have one of the .map files by a symlink. If both<br>
-.map files are required then this patch can be abandoned.<br>
-<br>
-Signed-off-by: Erick Shepherd &lt;<a href=3D"mailto:erick.shepherd@ni.com" =
-target=3D"_blank">erick.shepherd@ni.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" =
-rel=3D"noreferrer" target=3D"_blank">kernel-devsrc.bb</a> b/meta/recipes-ke=
-rnel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"noreferrer" target=3D=
-"_blank">kernel-devsrc.bb</a><br>
-index 1500aff2e2..298be27ac7 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
-@@ -75,7 +75,7 @@ do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -s Module.symvers ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp Module.symvers $kerneldi=
-r/build<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp System.map* $kerneldir/build<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -s Module.markers ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp Module.markers $kerneldi=
-r/build<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#216244): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/216244" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/216244</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/112903585/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/112903585/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---000000000000ea3f2c0634b93386--
 
