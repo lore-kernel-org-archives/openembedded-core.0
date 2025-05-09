@@ -2,98 +2,83 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4CC1C3ABC3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B39C3ABCC
 	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 15:24:23 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.1411.1746804254998874402
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.1430.1746804256938693439
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 08:24:15 -0700
+ Fri, 09 May 2025 08:24:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jWciZXIt;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-736c3e7b390so2369200b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:24:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JdlpC+ym;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7399838db7fso2310108b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:24:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746804254; x=1747409054; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1746804256; x=1747409056; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=x+ia9cClTpLhWnZONjq1YMKZx0rNCjtwEDAzCIBHD0g=;
-        b=jWciZXItU90qLh6q8J7bksiPEXdn4FMb7TkbAUTLT0PX79ICVVKrddJkBqWKcy5C7Y
-         xv1hQzSSAIRkq0TNBNMycT5f8JvosVBLP8hlmEkSN5Dzn0IBq23UbvOJ883LjbBomZyZ
-         ERVLC6YHLKpBy1IN0anzHgQEKfR6VFcytJSCtdexeBVL1xDsmvgRK5Y6vwwPw/9hbGyE
-         lQRZVzyf2tvtWer1q2vK++b1PXqZTI+1mf65xR3m1BtY5a6yuLA1sFjSm7x6Yemi4buu
-         4ppp6vPyPYX7Hq927Z1bpAuTIBQFkNRH/BVAy7v1h7URp45FLcay4ikReU9eUq/uWt8F
-         ORqA==
+        bh=xltvyLvydcxqAjkT+dXW7hCNbpMkwauXAl2FL/2lg34=;
+        b=JdlpC+ymrrrWTr1Tt4jwsHPz6HrpwoJXCG57U1T+edS8W61sSklP2ELNEpxBj4BCNa
+         zvTEdGyZduptXwlpKFNPPkoQhoKYX2qHKyawx2kXBSi649FbNDEk1Ipj9AXYM6bL2XlG
+         8ExLPKuKOMHlByjvy3HeOU2hjanaA7hGAlO3RYTJRXB4NYSdSS8QLp/reHyGgr7kZbkX
+         +a6lkBH+chEZL43C2iRxGbFUYNmltrDo8XwQl0XBLPfyFwLiOFRt+ZdEMj5J1SjizJbA
+         DNcB7gZlgVPTMrP/f28edlzRolcR7dcKPthCHJs2/DymL4d5pysJkHkls22yOGPhY29H
+         kQMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746804254; x=1747409054;
+        d=1e100.net; s=20230601; t=1746804256; x=1747409056;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x+ia9cClTpLhWnZONjq1YMKZx0rNCjtwEDAzCIBHD0g=;
-        b=R92T1OveNSibfw1XvecU/Fsf3JMllKpQ3nDIFCFbkpEAw4BsF5AamgYcBVLGPXLz68
-         c9yuunAoXyATNF0LtwWcQlzOY1WgkAgGc8jGqHY5WApyiiDiEDGPbtW+vAsRXQLtN2i6
-         SNSqxv/+Iy4JWnWRq4tPwLWQLOC+ZKhUaFVxGv0lbiyqDH1pMoQpb4b+abjO9LFQNx8+
-         T2VxBt1nu1Hw66cG8s68m9gnqTdaVT0z8zW/nw6eItajlp2HRcQlcwaca8W48hnel3d3
-         oHz0q0/kHSjNpY8r2PueVPDrHV+rEzCF3vArxIPsH7KcE1ybVRNLN3VYNTdoly9+fRsL
-         pKwg==
-X-Gm-Message-State: AOJu0Yw3rOudIpBqpsWvuMK6vJx13Irf+MmSYFbjVq/z3kCOQ9X+H/Nq
-	gCx6r44+4Azlo/wVfrjyqcWeV7pmf1npNzGeqkhZlxQtQqVUiMMpjQtII3MFhtqZwXR8e8tu943
-	r
-X-Gm-Gg: ASbGncu75wNkSvzXUoLzVQN+ZstMghABNAvx/T5rBhnWigCsEc+nD/nD5iMbp7WRAd6
-	nDNupvfAdhJoMFWxlDgJGDyTFmda+NSCBsyzc13xTphGgePduiPnmCF/ra6jZhjFdtKOtP8LxSh
-	akwm5Syxg4bUE2hjydW9WQV0LYB5UDoRtJVtgscEKtGEaeyR8iWeDlZnve3dyg2Usu+X294+dim
-	E1dxngR+YTUWbtBydhDeGOmDcThmVzYrTfBK2Y70eiGMy/N3FbQV2BtdH3+FTj7BWItroPGEs78
-	sC1yNzYIzth8PGlXfQ42kVq1Ylf4ZTRgX98D0Xi8H3U=
-X-Google-Smtp-Source: AGHT+IFPmRZwAFSaI783knDJBDpnGPuA0Nha3DYxpHA0hIdldc5Y7ObcQZ21aP5+lRfg2awegrTjBA==
-X-Received: by 2002:a05:6a21:110:b0:1f5:8eec:e521 with SMTP id adf61e73a8af0-215abb03ea5mr5521824637.15.1746804254140;
-        Fri, 09 May 2025 08:24:14 -0700 (PDT)
+        bh=xltvyLvydcxqAjkT+dXW7hCNbpMkwauXAl2FL/2lg34=;
+        b=UKaY4QjD2M7ZkE3MeyJH3FDEhqduGPLcGEKQU6bqTf1MPh7ecOCUE/JTRRZlmWxpzN
+         No0G1APmdly12GeCNS4JzcdN4UXmpy1BOruyW4oq8zvsB8IqJIkaM31caUZSgX1kA26F
+         pILVkP8fqBCfa1W391I/TR5Te15RWP0OcImaqknv/CubBUbbNlly++Tol3pYe7RHbCih
+         jeCuFajM52rodcI9d8s2GqrBiGZFdaCDaf73706JI29gfjjBp7b1x05qlOi0laHL9Syy
+         F2hwaeupOMgP20pbw9ykWjx5vWnGcr0oZT7FFmc8owzdRcqEN+oiUA1prUGUgq8EYe9y
+         DHOg==
+X-Gm-Message-State: AOJu0Ywpzh+GQZMT4VEA5Nv6a3EKUmfNsC5wxht5CfrPdXOazRpcNtA6
+	ULKodX3Px4Brs1fqCtwJDusUtJXCSEjoiVibcOIlmQlL4oIymq2U4ExOi1Hs6KCYQ9MwC+D2v8J
+	Y
+X-Gm-Gg: ASbGncuwZ1Yy7ykHhPs30JPzboFGeoptEDnmY5RLYszskK83AQwtjixrXp7yXw4k/RO
+	ltkY0RXu3xAMlYmyybD7LfljcTg6tcRm7HQe+Z3Rx0E/NLYmvfpHK4rax2gWYHEjRUxzMHwzml7
+	vU4VoLs8UrMqAt/UH/qORb5nizEGldXM3FktA5MBc1JBeUK53bJXrWrICLte6+KlYHU+G5wPFyz
+	M8uY2rkX4Wt/HIqKAzcWjNnQgYEmwH+mh6ZW/yMxIm4SUG27KdkVDc+jOgSQh799ALMQFuK+Lp4
+	MY0BErK+lKPmRma0T5CYrUFOBGkqy9vU
+X-Google-Smtp-Source: AGHT+IGPAXvO/7KJp36mLi9LgH3sxIGQgYHuvCZ59602OQgVqliUyvHQG+IXX5gxkiAcsRn2eIZq+g==
+X-Received: by 2002:a05:6a00:3e20:b0:732:5875:eb95 with SMTP id d2e1a72fcca58-740a9316019mr14015100b3a.4.1746804256079;
+        Fri, 09 May 2025 08:24:16 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:1912:b658:11a7:402c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a108fbsm1848319b3a.115.2025.05.09.08.24.13
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a108fbsm1848319b3a.115.2025.05.09.08.24.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 May 2025 08:24:13 -0700 (PDT)
+        Fri, 09 May 2025 08:24:15 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 14/17] cdrtools-native: fix booting EFI ISO live failed
-Date: Fri,  9 May 2025 08:23:30 -0700
-Message-ID: <d184f119c26983c2f15b47a25204049d0525c871.1746804035.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 15/17] syslinux: improve isohybrid to process extra sector count for ISO 9660 image
+Date: Fri,  9 May 2025 08:23:31 -0700
+Message-ID: <741d5ed1b906b8763d9f346481e980e2041c9c2a.1746804035.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746804035.git.steve@sakoman.com>
 References: <cover.1746804035.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 15:24:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216222
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216223
 
 From: Hongxu Jia <hongxu.jia@windriver.com>
 
-In ISO live, if the size of efi.img > 32MB, and copy EFI application
-(bootx64.efi) to efi.img behind of kernel and initrd, UEFI system
-could not find EFI application bootx64.efi
-
-Using QEMU+OVMF to boot ISO live image, press ESC to enter UEFI shell:
-...
-Shell> ls FS0:\
-Directory of: FS0:\
-04/05/2011  23:00          12,985,344  bzImage
-04/05/2011  23:00 <DIR>         2,048  EFI
-04/05/2011  23:00          20,494,696  initrd
-04/05/2011  23:00                  26  startup.nsh
-          3 File(s)  33,480,066 bytes
-          1 Dir(s)
-
-Shell> ls FS0:\EFI
-Directory of: FS0:\EFI
-          0 File(s)           0 bytes
-          0 Dir(s)
-...
+Due to commit [cdrtools-native: fix booting EFI ISO live failed]
+applied to improve mkisofs to fix nsectors exceeds 0xffff situation
+which set selection criteria type = 2 and save extra nsectors to
+vendor unique selection criteria
 
 In following case, add 64MB extra space to bootable image efi.img,
-and the partition table of EFI is truncated to 26.3M
+and the partition table of EFI is truncated to 32M
 
 $ echo 'IMAGE_FSTYPES:pn-core-image-minimal = " live"' >> conf/local.conf
 $ echo 'MACHINE_FEATURES:append = " efi pcbios"' >> conf/local.conf
@@ -104,63 +89,44 @@ $ fdisk -l tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso
 ...
 Device                                                                 Boot Start    End Sectors  Size Id Type
 tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso1 *        0 376831  376832  184M  0 Empty
-tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso2        120  54079   53960 26.3M ef EFI (FAT-12/16/32)
+tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso2        120  65654   65535   32M ef EFI (FAT-12/16/32)
 
-According to page 11: `Figure 5 - Section Entry' in El Torito Bootable
-CD-ROM Format Specification [1]. The sector count takes 2 byte which
-means max sector count is 0xffff (65535), for 512-byte sector, the
-size of bootable image is no more than 32MB (65536 * 512 / 1024 / 1024)
+After applying this patch to process extra sector count, the partition
+table of EFI is 90.3M
 
-This commit truncate to 32MB if image size larger than 32MB, and
-report a warning, then save the extra image sector count to
-vendor unique selection criteria
-
-After apply this commit, the partition table of EFI is truncated to 32M
 $ fdisk -l tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso
 ...
 Device                                                                 Boot Start    End Sectors  Size Id Type
 tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso1 *        0 376831  376832  184M  0 Empty
-tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso2        120  65654   65535   32M ef EFI (FAT-12/16/32)
+tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.iso2        120 185151  185032 90.3M ef EFI (FAT-12/16/32)
 
 [1]https://pdos.csail.mit.edu/6.828/2017/readings/boot-cdrom.pdf
 
-(From OE-Core rev: 259bb8907d8bfe1217e88a3b6935c160e5a92f8d)
+(From OE-Core rev: b4e112ed7e6ba5a6c6df530d696485a588831851)
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../cdrtools/cdrtools-native_3.01.bb          |  1 +
- ...ix-nsectors-exceeds-0xffff-situation.patch | 69 +++++++++++++++++++
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-devtools/cdrtools/cdrtools/0001-fix-nsectors-exceeds-0xffff-situation.patch
+ ...-count-from-section-entry-for-EFI-ca.patch | 104 ++++++++++++++++++
+ .../syslinux/syslinux_6.04-pre2.bb            |   1 +
+ 2 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-devtools/syslinux/syslinux/0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch
 
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-index 085384064d..428202c258 100644
---- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-+++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-@@ -15,6 +15,7 @@ SRC_URI = " \
- 	file://0001-Don-t-set-uid-gid-during-install.patch \
- 	file://riscv64-linux-gcc.rul \
- 	file://gcc14-fix.patch \
-+	file://0001-fix-nsectors-exceeds-0xffff-situation.patch \
- 	"
- 
- SRC_URI[md5sum] = "7d45c5b7e1f78d85d1583b361aee6e8b"
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools/0001-fix-nsectors-exceeds-0xffff-situation.patch b/meta/recipes-devtools/cdrtools/cdrtools/0001-fix-nsectors-exceeds-0xffff-situation.patch
+diff --git a/meta/recipes-devtools/syslinux/syslinux/0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch b/meta/recipes-devtools/syslinux/syslinux/0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch
 new file mode 100644
-index 0000000000..8b0fbb3fe6
+index 0000000000..5422d9b2de
 --- /dev/null
-+++ b/meta/recipes-devtools/cdrtools/cdrtools/0001-fix-nsectors-exceeds-0xffff-situation.patch
-@@ -0,0 +1,69 @@
-+From ab6b5ee4c23099bf15ddd145fdf1ff4f5e34e802 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/syslinux/syslinux/0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch
+@@ -0,0 +1,104 @@
++From 79a26046d178ae132cb88ba75de7141bd169ff16 Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Sat, 26 Apr 2025 03:38:32 +0000
-+Subject: [PATCH] fix nsectors exceeds 0xffff situation
++Date: Sat, 26 Apr 2025 10:45:08 +0800
++Subject: [PATCH] Add extra sector count from section entry for EFI catalogue
 +
 +According to page 11: `Figure 5 - Section Entry' in El Torito Bootable
-+CD-ROM Format Specification [1]. The sector count takes 2 byte which
++CD-ROM Format Specification [1]. The sector count tooks 2 byte which
 +means max sector count is 0xffff (65535), for 512-byte sector, the
 +size of bootable image is no more than 32MB (65536 * 512 / 1024 / 1024)
 +
@@ -168,61 +134,108 @@ index 0000000000..8b0fbb3fe6
 +in ISO, which caused UEFI system or grub-efi read efi.img broken
 +occasionally.
 +
-+In this patch, nsectors means sector count, if it exceeds 0xffff,
-+truncate to 0xffff and set selection criteria type = 2, then save
-+extra nsectors to vendor unique selection criteria
++This patch extend efi_count, mac_count and count to 4 byte int, if
++Yocto defines `Selection criteria type = 2', add extra sector count
++to original sector count as total count; for other situation, still use
++original sector count as usual
 +
 +[1]https://pdos.csail.mit.edu/6.828/2017/readings/boot-cdrom.pdf
 +
-+Upstream-Status: Inappropriate [upstream https://sourceforge.net/projects/cdrtools/ is not alive since 2019]
++Upstream-Status: Inappropriate [Yocto specific]
 +
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ mkisofs/eltorito.c | 28 ++++++++++++++++++++++++++++
-+ 1 file changed, 28 insertions(+)
++ utils/isohybrid.c | 48 ++++++++++++++++++++++++++++++++++++++++++-----
++ 1 file changed, 43 insertions(+), 5 deletions(-)
 +
-+diff --git a/mkisofs/eltorito.c b/mkisofs/eltorito.c
-+index 5dd04bc..a391003 100644
-+--- a/mkisofs/eltorito.c
-++++ b/mkisofs/eltorito.c
-+@@ -568,6 +568,34 @@ fill_boot_desc(boot_desc_entry, boot_entry)
-+ 	fprintf(stderr, "Extent of boot images is %d\n",
-+ 				get_733(de->isorec.extent));
-+ #endif
++diff --git a/utils/isohybrid.c b/utils/isohybrid.c
++index a9e38d4..1bbfd45 100644
++--- a/utils/isohybrid.c
+++++ b/utils/isohybrid.c
++@@ -76,7 +76,7 @@ uint32_t de_lba = 0;
++ uint16_t de_seg = 0, de_count = 0, de_mbz2 = 0;
++ uint8_t de_boot = 0, de_media = 0, de_sys = 0, de_mbz1 = 0;
++ uint32_t efi_lba = 0, mac_lba = 0;
++-uint16_t efi_count = 0, mac_count = 0;
+++uint32_t efi_count = 0, mac_count = 0;
++ uint8_t efi_boot = 0, efi_media = 0, efi_sys = 0;
++ 
++ int apm_parts = 3;
++@@ -552,17 +552,55 @@ read_efi_section(const uint8_t *buf)
++ }
++ 
++ int
++-read_efi_catalogue(const uint8_t *buf, uint16_t *count, uint32_t *lba)
+++read_efi_catalogue(const uint8_t *buf, uint32_t *count, uint32_t *lba)
++ {
+++    uint16_t _count = 0;
 ++
-++	// Boot sectors exceeds 0xffff
-++	if (nsectors > 0xffff) {
-++		unsigned int extra_nsectors = nsectors - 0xffff;
+++    // Jump to offset 6 byte
++     buf += 6;
++ 
++-    memcpy(count, buf, 2);
++-    *count = lendian_short(*count);
+++    *count = 0;
 ++
-++		fprintf(stderr, "Warning: Boot sectors 0x%x(%u) exceeds 0xffff(65535), save extra %u to pad2\n",
-++		    nsectors, nsectors, extra_nsectors);
+++    // Offset     : 6-7 byte
+++    // Type       : Word
+++    // Description: Sector Count, the number of virtual/emulated sectors
+++    // the system will store at Load Segment during the initial boot procedure
+++    memcpy(&_count, buf, 2);
+++    _count = lendian_short(_count);
++     buf += 2;
++ 
+++    // Offset     : 8-0B byte
+++    // Type       : D Word
+++    // Description: Load RBA. This is the start address of the virtual disk. CD’s use
+++    // Relative/Logical block addressing.
++     memcpy(lba, buf, 4);
++     *lba = lendian_int(*lba);
++-    buf += 6;
+++    buf += 4;
 ++
-++		// Set nsectors to maximum 0xffff(65535)
-++		nsectors = 0xffff;
+++    // Offset     : 0C byte
+++    // Type       : Byte
+++    // Description: Selection criteria type. This defines a vendor unique format
+++    // for bytes 0D-1F.
+++    // The following formats have currently been assigned:
+++    // 0 - No selection criteria
+++    // 1 - Language and Version Information (IBM)
+++    // 2 - Save extra sector count to vendor unique selection criteria (Yocto)
+++    // 3-FF - Reserved
+++    unsigned char slection_criteria_type = *buf;
+++    buf += 1;
 ++
-++		// Offset     : 0C byte
-++		// Type       : Byte
-++		// Description: Selection criteria type. This defines a vendor unique format
-++		// for bytes 0D-1F.
-++		// The following formats is reserved by Yocto:
-++		// 2 - Save extra sector count to vendor unique selection criteria
-++		boot_desc_entry->pad2[0] = 2;
+++    // Offset     : 0D-0E-0F-10 byte
+++    // Type       : D Word
+++    // Description: Selection criteria type = 2, reserved by Yocto,
+++    // save extra sector count to vendor unique selection criteria
+++    if (slection_criteria_type == 2) {
+++        memcpy(count, buf, 4);
+++        *count = lendian_int(*count);
+++        buf += 4;
+++    }
 ++
-++
-++		// Offset     : 0D-0E-0F-10 byte
-++		// Type       : D Word
-++		// Description: Save extra sector count to vendor unique selection criteria.
-++		// It takes 4 bytes in pad2, starting at pad2[1]
-++		set_731(&boot_desc_entry->pad2[1], extra_nsectors);
-++
-++	}
-++
-+ 	set_721(boot_desc_entry->nsect, (unsigned int) nsectors);
-+ 	set_731(boot_desc_entry->bootoff,
-+ 		(unsigned int) get_733(de->isorec.extent));
+++    // total count = sector count + extra sector count
+++    *count += _count;
++ 
++     return 0;
++ }
 +-- 
-+2.44.1
++2.34.1
 +
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+index 7cf737170c..2522205fa1 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+@@ -23,6 +23,7 @@ SRC_URI = "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${PV}.tar.xz
+            file://0013-remove-clean-script.patch \
+            file://0014-Fix-reproducibility-issues.patch \
+            file://0001-ext2_fs.h-do-not-carry-an-outdated-copy.patch \
++           file://0001-Add-extra-sector-count-from-section-entry-for-EFI-ca.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2b31c78f087f99179feb357da312d7ec"
 -- 
 2.43.0
 
