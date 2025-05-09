@@ -1,336 +1,150 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37CE6C3ABC3
-	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 07:13:42 +0000 (UTC)
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
- by mx.groups.io with SMTP id smtpd.web10.8776.1746774819698024582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE91C3ABC3
+	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 08:28:02 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.9577.1746779280725907201
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 00:13:39 -0700
+ Fri, 09 May 2025 01:28:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eH/z5aeW;
- spf=pass (domain: gmail.com, ip: 209.85.161.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-6062e41916dso910127eaf.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 00:13:39 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PGVRwxzm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a1d8c09674so568030f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 01:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746774819; x=1747379619; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b802u6uzZXyYNF34lrX32svE1EXcsxBYWqw5QmpiyDQ=;
-        b=eH/z5aeWaSTyHTtrj7TWFRFF86W7Qv4LwUh9RP5ynnm/uPSn7vOvByT0fqPwpddLiD
-         F+1iQefqJa2xW10ZKTH9pcEZX3RptfAoLOypAOQiXaNW6IPzJTQWbJ4vb8WZxAGd97IV
-         RnXUmz2BseEqvWKCV1LNhs8KHcSNaMMfefjdwxtBkrxJEVrJ/9taqV0GyeinNIVYLQ+e
-         8A0LNlTme3cPZ2H3eOxr3WeaMGLV9UfefEEfoFSzytDAiGqRdPzUwCnK0hoxbx8qG2LX
-         YDCYoOkM0555CDN4AUOqD3AvfFyZKFfYiwtgPdE0BlFrTh08viLvQdBawWXnx2bubb6W
-         RVow==
+        d=linuxfoundation.org; s=google; t=1746779279; x=1747384079; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nsuOh9K9AYlPWZRHctSOrKC84SfJCeFULrWYxr9Y0U4=;
+        b=PGVRwxzmbGiozxHU7TX6ReoBGelxeLMihJCmpy0e+hc5Ac/Iyj5cLyMpd8LnzkaM/W
+         B0RL1fFQJpmKFJq7Oq4jTm8xD2NliSB1TviTno72W048XfeVFsAwMAkBIYqcO7z3YixR
+         ffXHz7ztd99cWv8yanxdbo3GzBolxWzq+aFxI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746774819; x=1747379619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b802u6uzZXyYNF34lrX32svE1EXcsxBYWqw5QmpiyDQ=;
-        b=EObOCJ41DnbP0c0iCSnQWvo8p9rEfXCOsCW9jVDR96GwGXoGQskixsQ37qz82EoGRF
-         OJe+i5tOoCqFP/xynm5EQXRkVUpwTbd2C1bRv6BnqIG78D5jK7uWTGnXeSozybkUBhul
-         abUaIfnwgj+u0YMVQZxVPnzuexl4+Mf4CLi4z3Znej3bEUHqsqmiTkVEp8+sMTiWdTXC
-         H7/sxo0EaXpyniGfiBaxnm4NPfq2U2/zdV9bs8Zv4SBQn8e7lUQpJD2nG8rGahqRMD5N
-         CbzI6qT1HWxab4Jn2lws/hAZw+zTEt4UNMWU6lXENBDb8wiZd3VZWcE+j/6YYBnw34La
-         Wqtg==
-X-Gm-Message-State: AOJu0YwuHlxDsw8+LouJdZVKd6DCzpZlAMX/wu3UE1vNEEClUACoFcqt
-	iMXL7jp29tbpCXhP6nFG0aP6+fUSUeKmj4ZOFAJmhSPnqfWGPKd4IRIICIK4teRmJrNSWG8zlah
-	5mCdHSJUgoru84+o9akNk2vrxAQVkm+T1
-X-Gm-Gg: ASbGncuxiU/6E0Mh0HOZsUNOh3tz5ZlpPpexEGZ81VCwCJ7qsWPyLqee9+/sw8ptD7u
-	blEzisKVh6uC4PdzBzWGIdkj+Lto/ypok7ICLf6IhcGV67J33InZmvthlLAw9yTMQCYm70t7Plq
-	gVZFelMGB4Pdj36l7gNKLpfCia9xXT4Jd3A7nK
-X-Google-Smtp-Source: AGHT+IHIXiI92jDfFKYQ1JhzN0VdujnUvfAYIiNvaMotsfuW46ZF7ADcWRY59EwGjx7UGHfMAkhTgXeJpRGcRUOV+ig=
-X-Received: by 2002:a05:6820:4b0d:b0:608:271a:8d7a with SMTP id
- 006d021491bc7-6084c0de928mr1351223eaf.7.1746774818852; Fri, 09 May 2025
- 00:13:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250509052739.3638179-1-yogita.urade@windriver.com>
-In-Reply-To: <20250509052739.3638179-1-yogita.urade@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 9 May 2025 00:13:11 -0700
-X-Gm-Features: ATxdqUEAk_VD1ZR1lLpmAVn_D94vFbnPphi_mm86UHQDk8Wu6EErUp3APMKfoLo
-Message-ID: <CAMKF1sqMaiOGn+cQ1p8_XMCo+iGdso+kq+1wia8OTywmcJk5sw@mail.gmail.com>
-Subject: Re: [OE-core][walnascar][PATCH 1/1] webkitgtk: upgrade 2.48.0 -> 2.48.1
-To: Yogita.Urade@windriver.com
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1746779279; x=1747384079;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nsuOh9K9AYlPWZRHctSOrKC84SfJCeFULrWYxr9Y0U4=;
+        b=EQSfiUpRL2z4JVcR5igC19ehIvLwSKtBHfJhYm1aZMqOaFQOhfXX2KMBIaIpGD5qan
+         WjoNZN1crNkShZptQ5VB1QAwc0RwozPKK1yfDUjQV+PaDCSNPBrXuFr0jyMQdPJOGpDV
+         jV7epYCLIDQksC3FoOUpHKz8ejjsIdbiuDlFBF60bGZ8LP008HiyjmvOgCf3jLCjPfL/
+         FbK63PAPPMjANLCRHLMeZsoNwKWWa1vOq/StjMeS0lgXZDON2Oty6pnyE8F+VLevYOhN
+         bZcgplqFOp5OuX9iiskSwfRh8jeI4cIFy5Oa6EYFaFulWgek4OSZwTwfaSgQDHeNSuCm
+         AHvw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNzAyF7O81JlFYIvuDKXrWDQDN/s47XiHivThgt92Wa8lm/aKeiZZk6Q7yrr7kkhSpQSGBDPJUayoEb8JzEREOSQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwqRLIPDVh9dx9Bfr7IQQGt8rowSgiyyRJLgwtQsSIoClenQdpi
+	n/CtD2nIQ3xmHuOtbT47JnEMGA0Jg1bruMgJrPp3LtJJIpJTa0GAXoPbvPCKTPI=
+X-Gm-Gg: ASbGncuP+lMQRwSLn76aRIQVPmbKK8ag2p68iB48tgeKlTZQnCP9PBc+vph+4x0ikAj
+	aDtye2Lz7hNFrMjqSO2lYmnjS4v3uYaNbLVucdbLIt7HPF8lazVxl+4L5NzqWEeK2+FbyY6faHQ
+	1m6H5jYe0Sd1+X0OEMZlOS2XNJau8cb5kEIda11qarro7WTKe8FTOKdti97zboEye6sIwCfEfXu
+	JycsnTXFQjMUgvZOLu4BqgNPnU5ViGV6KoTONQ2FC0DUS4+vwx8sC/Itkjrj80m3Nl8iBgmdXCW
+	Rnwp8GpoJw/AZKyUJdS2m597rouPAlH8mUAqS37BsZw2nDD3H1j/HDLLI2+js2V/QXTLfWc70yO
+	RUWl4ygxtRu9jp0pn/5TRzqqP04GlYg==
+X-Google-Smtp-Source: AGHT+IG5j9mrXisKKKF5ogZmMWyE4EVZeVK2VFPvlhfPCuLog6ShoywP2Pz4Wth/wHYgSX9EmbEpxQ==
+X-Received: by 2002:a05:6000:2284:b0:3a1:f537:9064 with SMTP id ffacd0b85a97d-3a1f6443c25mr2099792f8f.25.1746779278750;
+        Fri, 09 May 2025 01:27:58 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b9fd:97ba:4403:f351? ([2001:8b0:aba:5f3c:b9fd:97ba:4403:f351])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4c5e1sm2454595f8f.89.2025.05.09.01.27.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 May 2025 01:27:57 -0700 (PDT)
+Message-ID: <c03db64ceaff78ae2c7fdcf31144ae4d22501395.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCHv2 0/3] Display manager proposal for x11 and
+ wayland
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randolph Sapp <rs@ti.com>, Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	ross.burton@arm.com, alex@linutronix.de, otavio@ossystems.com.br, 
+	kexin.hao@windriver.com, afd@ti.com, detheridge@ti.com, denis@denix.org, 
+	reatmon@ti.com, openembedded-core@lists.openembedded.org, vijayp@ti.com
+Date: Fri, 09 May 2025 09:27:56 +0100
+In-Reply-To: <D9R2IAEKL6IZ.37PWD38041XCA@ti.com>
+References: <20250505224801.3181046-1-rs@ti.com>
+	 <D9OWUBHID8JT.3FJEJAXYPMT2W@bootlin.com>
+	 <D9PGBHDAZ7RF.16SWU58NCK9NV@ti.com>
+	 <CANNYZj8xD66nTL7=oJr8fqknYyDjU+kjkY8i8Kok7xVH6tciTw@mail.gmail.com>
+	 <183D59758C0F13FA.9842@lists.openembedded.org>
+	 <D9R2IAEKL6IZ.37PWD38041XCA@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 07:13:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216186
+ <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 08:28:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216187
 
-Have you built it for qemuriscv64 ?
+On Thu, 2025-05-08 at 15:39 -0500, Randolph Sapp wrote:
+> On Wed May 7, 2025 at 3:42 PM CDT, Randolph Sapp via lists.openembedded.o=
+rg wrote:
+> > On Wed May 7, 2025 at 8:37 AM CDT, Alexander Kanavin wrote:
+> > > On Wed, 7 May 2025 at 01:03, Randolph Sapp via lists.openembedded.org
+> > > <rs=3Dti.com@lists.openembedded.org> wrote:
+> > >=20
+> > > > Ah, this is the first I hearing about the gnux32 triplet. Well, tha=
+t is being
+> > > > filtered out by COMPATIBLE_HOST in the goarch bbclass. Some of thos=
+e values seem
+> > > > to be invalid now (powerpc64 is supported upstream). That being sai=
+d, I don't
+> > > > see any mention of the new x32 ABI upstream. Not entirely sure how =
+to address
+> > > > that at the moment.
+> > >=20
+> > > There are two options:
+> > >=20
+> > > - set up the x32 build as specified in [1], replicate the fail, tweak
+> > > COMPATIBLE_HOST as needed (in a separate commit) and see if any
+> > > further issues come up.
+> > >=20
+> > > - correct [1] to no longer build core-image-sato for x32, and replace
+> > > it with core-image-full-cmdline, reducing x32 to non-graphical
+> > > targets. It's been a controversial target for a long time, as no one
+> > > has ever seen actual usage of it, and there's been a stream of
+> > > graphical related crashes and build failures. We keep it around for
+> > > now, but I'd fully support dropping the graphics and leaving only the
+> > > console images.
+> > >=20
+> > > [1] https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config=
+.json#n867
+> > >=20
+> > > Alex
+> >=20
+> > Alright, well I did a little work poking around go. It has no understan=
+ding of
+> > the x32 ABI currently. Dropping the x32 tests from core-image-sato to
+> > core-image-full-cmdline can work, but that does mask a bit of a regress=
+ion.
+> >=20
+> > As useful as a display manager will be, I'm not sure I can justify that=
+ much of
+> > a regression for an entire ABI. I know the linux kernel has debated abo=
+ut
+> > dropping x32 support a number of times, GCC seems to be the only compil=
+er that
+> > has fully implemented it, and Yocto is one of 3 listed distro solutions=
+ that
+> > currently support it. Still feels a little rough. I don't know.
+> >=20
+> > Anyone got any strong opinions here?
+>=20
+> Well, I guess we'll go with a old fashioned scream test. Let me know if t=
+here
+> are any other issues that need to be addressed or if I need to resubmit t=
+his
+> series if the following is accepted.
+>=20
+> https://lists.yoctoproject.org/g/yocto-patches/message/1539
 
-On Thu, May 8, 2025 at 10:28=E2=80=AFPM Urade, Yogita via
-lists.openembedded.org
-<Yogita.Urade=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Yogita Urade <yogita.urade@windriver.com>
->
-> Includes fix for CVE-2024-54551, CVE-2025-24208, CVE-2025-24209,
-> CVE-2025-24213, CVE-2025-24216, CVE-2025-24264 and CVE-2025-30427
->
-> Changelog:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> - Limit the data stored in session state.
-> - Remove the empty area below the title bar in Web Inspector when not doc=
-ked.
-> - Fix the build with GST_DISABLE_GST_DEBUG.
-> - Fix the build with GStreamer < 1.20.
-> - Fix the build with video disabled.
-> - Fix the build with clang 20.
->
-> Drop 0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
-> and 0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
-> which are part of upgrade.
->
-> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> ---
->  ...04-main-7ffc29624258-.-https-bugs.we.patch | 75 ------------------
->  ...or-no-matching-function-for-call-to-.patch | 77 -------------------
->  ...ebkitgtk_2.48.0.bb =3D> webkitgtk_2.48.1.bb} |  4 +-
->  3 files changed, 1 insertion(+), 155 deletions(-)
->  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-2=
-92304-main-7ffc29624258-.-https-bugs.we.patch
->  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-=
-error-no-matching-function-for-call-to-.patch
->  rename meta/recipes-sato/webkit/{webkitgtk_2.48.0.bb =3D> webkitgtk_2.48=
-.1.bb} (96%)
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-m=
-ain-7ffc29624258-.-https-bugs.we.patch b/meta/recipes-sato/webkit/webkitgtk=
-/0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs.we.patch
-> deleted file mode 100644
-> index 5cbb1035b2..0000000000
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-Cherry-pick-292304-main-7ff=
-c29624258-.-https-bugs.we.patch
-> +++ /dev/null
-> @@ -1,75 +0,0 @@
-> -From 83093455d02d73a327cea502d974aac82b59ad17 Mon Sep 17 00:00:00 2001
-> -From: Adrian Perez de Castro <aperez@igalia.com>
-> -Date: Tue, 18 Mar 2025 07:39:01 -0700
-> -Subject: [PATCH] Cherry-pick 292304@main (7ffc29624258).
-> - https://bugs.webkit.org/show_bug.cgi?id=3D289953
-> -
-> -    [GTK][WPE] Use _LIBCPP_HARDENING_MODE with newer libc++ versions
-> -    https://bugs.webkit.org/show_bug.cgi?id=3D289953
-> -
-> -    Reviewed by Alicia Boya Garcia.
-> -
-> -    * Source/cmake/OptionsCommon.cmake: Add a new check for the libc++
-> -      version, if it is 19 or newer, use the new _LIBCPP_HARDENING_MODE
-> -      macro, otherwise for older versions keep _LIBCPP_ENABLE_ASSERTIONS=
-.
-> -
-> -    Canonical link: https://commits.webkit.org/292304@main
-> -
-> -Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/2c105=
-443d41e5ce3de3a4cac2ed8a07ebd134459]
-> -
-> -Canonical link: https://commits.webkit.org/290945.71@webkitglib/2.48
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - Source/cmake/OptionsCommon.cmake | 24 +++++++++++++++++++-----
-> - 1 file changed, 19 insertions(+), 5 deletions(-)
-> -
-> -diff --git a/Source/cmake/OptionsCommon.cmake b/Source/cmake/OptionsComm=
-on.cmake
-> -index f6cf5ee..3178674 100644
-> ---- a/Source/cmake/OptionsCommon.cmake
-> -+++ b/Source/cmake/OptionsCommon.cmake
-> -@@ -229,8 +229,22 @@ set(CXX_STDLIB_TEST_SOURCE "
-> - ")
-> - check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS_LIB=
-CPP)
-> - if (CXX_STDLIB_IS_LIBCPP)
-> --    set(CXX_STDLIB_VARIANT "LIBCPP")
-> --    set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_ENABLE_ASSERTIONS)
-> -+    set(CXX_STDLIB_TEST_SOURCE "
-> -+        #include <utility>
-> -+        #if _LIBCPP_VERSION >=3D 190000
-> -+        int main() { }
-> -+        #else
-> -+        #error libc++ is older than 19.x
-> -+        #endif
-> -+    ")
-> -+    check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS=
-_LIBCPP_19_OR_NEWER)
-> -+    if (CXX_STDLIB_IS_LIBCPP_19_OR_NEWER)
-> -+        set(CXX_STDLIB_VARIANT "LIBCPP 19+")
-> -+        set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_HARDENING_MODE=3D_LIBCP=
-P_HARDENING_MODE_EXTENSIVE)
-> -+    else ()
-> -+        set(CXX_STDLIB_VARIANT "LIBCPP <19")
-> -+        set(CXX_STDLIB_ASSERTIONS_MACRO _LIBCPP_ENABLE_ASSERTIONS=3D1)
-> -+    endif ()
-> - else ()
-> -     set(CXX_STDLIB_TEST_SOURCE "
-> -     #include <utility>
-> -@@ -239,7 +253,7 @@ else ()
-> -     check_cxx_source_compiles("${CXX_STDLIB_TEST_SOURCE}" CXX_STDLIB_IS=
-_GLIBCXX)
-> -     if (CXX_STDLIB_IS_GLIBCXX)
-> -         set(CXX_STDLIB_VARIANT "GLIBCXX")
-> --        set(CXX_STDLIB_ASSERTIONS_MACRO _GLIBCXX_ASSERTIONS)
-> -+        set(CXX_STDLIB_ASSERTIONS_MACRO _GLIBCXX_ASSERTIONS=3D1)
-> -     endif ()
-> - endif ()
-> - message(STATUS "C++ standard library in use: ${CXX_STDLIB_VARIANT}")
-> -@@ -255,8 +269,8 @@ option(USE_CXX_STDLIB_ASSERTIONS
-> -
-> - if (USE_CXX_STDLIB_ASSERTIONS)
-> -     if (CXX_STDLIB_ASSERTIONS_MACRO)
-> --        message(STATUS "  Assertions enabled, ${CXX_STDLIB_ASSERTIONS_M=
-ACRO}=3D1")
-> --        add_compile_definitions("${CXX_STDLIB_ASSERTIONS_MACRO}=3D1")
-> -+        message(STATUS "  Assertions enabled, ${CXX_STDLIB_ASSERTIONS_M=
-ACRO}")
-> -+        add_compile_definitions("${CXX_STDLIB_ASSERTIONS_MACRO}")
-> -     else ()
-> -         message(STATUS "  Assertions disabled, CXX_STDLIB_ASSERTIONS_MA=
-CRO undefined")
-> -     endif ()
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-n=
-o-matching-function-for-call-to-.patch b/meta/recipes-sato/webkit/webkitgtk=
-/0001-EnumTraits.h-error-no-matching-function-for-call-to-.patch
-> deleted file mode 100644
-> index 5b83d9e7eb..0000000000
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-EnumTraits.h-error-no-match=
-ing-function-for-call-to-.patch
-> +++ /dev/null
-> @@ -1,77 +0,0 @@
-> -From 7d159a631ae55c10a0b7a92cf031200a11629736 Mon Sep 17 00:00:00 2001
-> -From: Fujii Hironori <Hironori.Fujii@sony.com>
-> -Date: Tue, 18 Mar 2025 10:25:47 +0900
-> -Subject: [PATCH] EnumTraits.h: error: no matching function for call to
-> - 'enumName' with Clang 20 https://bugs.webkit.org/show_bug.cgi?id=3D2896=
-69
-> -
-> -Reviewed by NOBODY (OOPS!).
-> -
-> -Clang 20 couldn't compile EnumTraits.h.
-> -
-> -> wtf/EnumTraits.h:212:33: note: candidate template ignored: invalid exp=
-licitly-specified argument for template parameter 'V'
-> -
-> -An invalid enum value can't be specifed to the template parameter `V`.
-> -
-> -> template<auto V> constexpr std::span<const char> enumName()
-> -
-> -The upstream Magic Enum C++ has a template variable `is_enum_constexpr_s=
-tatic_cast_valid<E, V>` to check a enum value is valid.
-> -<https://github.com/Neargye/magic_enum/blob/a413fcc9c46a020a746907136a38=
-4c227f3cd095/include/magic_enum/magic_enum.hpp#L624-L634>
-> -
-> -Imported the template variable.
-> -
-> -* Source/WTF/wtf/EnumTraits.h:
-> -(WTF::enumName):
-> -(WTF::makeEnumNames):
-> -
-> -Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/42597]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - Source/WTF/wtf/EnumTraits.h | 21 ++++++++++++++++++++-
-> - 1 file changed, 20 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/Source/WTF/wtf/EnumTraits.h b/Source/WTF/wtf/EnumTraits.h
-> -index 0d33e39a..95e6318b 100644
-> ---- a/Source/WTF/wtf/EnumTraits.h
-> -+++ b/Source/WTF/wtf/EnumTraits.h
-> -@@ -152,6 +152,16 @@ constexpr bool isZeroBasedContiguousEnum()
-> - #pragma clang diagnostic ignored "-Wenum-constexpr-conversion"
-> - #endif
-> -
-> -+#if COMPILER(CLANG) && __clang_major__ >=3D 16
-> -+template <typename E, auto V, typename =3D void>
-> -+inline constexpr bool isEnumConstexprStaticCastValid =3D false;
-> -+template <typename E, auto V>
-> -+inline constexpr bool isEnumConstexprStaticCastValid<E, V, std::void_t<=
-std::integral_constant<E, static_cast<E>(V)>>> =3D true;
-> -+#else
-> -+template <typename, auto>
-> -+inline constexpr bool isEnumConstexprStaticCastValid =3D true;
-> -+#endif
-> -+
-> - template<typename E>
-> - constexpr std::span<const char> enumTypeNameImpl()
-> - {
-> -@@ -215,6 +225,15 @@ constexpr std::span<const char> enumName()
-> -     return result;
-> - }
-> -
-> -+template<typename E, auto V>
-> -+constexpr std::span<const char> enumName()
-> -+{
-> -+    if constexpr (isEnumConstexprStaticCastValid<E, V>)
-> -+        return enumName<static_cast<E>(V)>();
-> -+    else
-> -+        return { };
-> -+}
-> -+
-> - template<typename E>
-> - constexpr std::underlying_type_t<E> enumNamesMin()
-> - {
-> -@@ -264,7 +283,7 @@ constexpr auto makeEnumNames(std::index_sequence<Is.=
-..>)
-> - {
-> -     constexpr auto min =3D enumNamesMin<E>();
-> -     return std::array<std::span<const char>, sizeof...(Is)> {
-> --        enumName<static_cast<E>(static_cast<std::underlying_type_t<E>>(=
-Is) + min)>()...
-> -+        enumName<E, static_cast<std::underlying_type_t<E>>(Is) + min>()=
-...
-> -     };
-> - }
-> -
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb b/meta/recipes-=
-sato/webkit/webkitgtk_2.48.1.bb
-> similarity index 96%
-> rename from meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
-> rename to meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
-> index 6eb80da1de..41fe8209ce 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.48.0.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
-> @@ -16,11 +16,9 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}=
--${PV}.tar.xz \
->             file://no-musttail-arm.patch \
->             file://t6-not-declared.patch \
->             file://sys_futex.patch \
-> -           file://0001-EnumTraits.h-error-no-matching-function-for-call-=
-to-.patch \
-> -           file://0001-Cherry-pick-292304-main-7ffc29624258-.-https-bugs=
-.we.patch \
->             file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-s=
-how.patch \
->             "
-> -SRC_URI[sha256sum] =3D "94904a55cf12d44a4e36ceadafff02d46da73d76be9b4769=
-f34cbfdf0eebf88e"
-> +SRC_URI[sha256sum] =3D "98efdf21c4cdca0fe0b73ab5a8cb52093b5aa52d9b1b016a=
-93f71dbfa1eb258f"
->
->  inherit cmake pkgconfig gobject-introspection perlnative features_check =
-upstream-version-is-even gi-docgen
->
-> --
-> 2.40.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216185): https://lists.openembedded.org/g/openembedde=
-d-core/message/216185
-> Mute This Topic: https://lists.openembedded.org/mt/112893933/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Sadly, people don't pay attention and simply won't see this to know
+they need to scream. I've just gone ahead and merged it. We're not
+seeing much use of x32 as far as I can tell.
+
+Cheers,
+
+Richard
+
 
