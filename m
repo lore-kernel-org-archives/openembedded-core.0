@@ -1,90 +1,92 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC352C3ABBC
-	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 09:56:55 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web11.10695.1746784610344028239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4358C3ABC3
+	for <webhook@archiver.kernel.org>; Fri,  9 May 2025 10:22:35 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.11050.1746786154628187512
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 May 2025 02:56:50 -0700
+ Fri, 09 May 2025 03:22:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z1SNNRVC;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6f549550d96so25467696d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 02:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746784609; x=1747389409; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cAkYDparSg4N8xGcPsxACavrR0nnN4vu1xLNI1ET5sM=;
-        b=Z1SNNRVC2XfK36tX6y/wPP9YGjQGapN720ZA0k0l0pQjg7mJ+Ku7fCVElXItUzWZHv
-         /WymiImv8XWh1jEJOIoIkkeaFNDOM0+9oCFRvLWA9r+yLS5YOMN/R34Gq3xI2JIIMeFl
-         reDbVn9DQVRe5GWiu9EmS2PW/qzYHWe8ZIddNWBINaGpoh1wfokzIlr4aUD4qb/Nv3Pj
-         mhYiVmZ93wMqLh2wkSCcdc7PGLSRMxdgNwmZCxRucMQQB4vbxK79DRrYHxR5cqyJbPCJ
-         Nq/v4ZYz+vamj0bH/61ndtmMkKN4MvIvPnfApgDq7QwdTDSPO7ey+2s7mLm5mngWMc6R
-         1LHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746784609; x=1747389409;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cAkYDparSg4N8xGcPsxACavrR0nnN4vu1xLNI1ET5sM=;
-        b=BH8Y7PA6Xo6rrVAkbMJslmwhUCSuDowicREbwz7gll/Mmg6NS4gZP9Ua3uZ0C8htNo
-         wb/L8OVTtJr4ELTI0jnuKUiTVpKM3zxOKOdNoDsCR6AtNLRCjDQujONBE176UvjdASuL
-         cYT9hmUYoXhc1GcTeRjGdJAx0DncplOaeyVIlqfpCkuRh258lTO801mCvKQW8Pc+X8WL
-         jqhn/Vcwi9h0hYEBI0pWZLQKcHhG4iqPpGNE12mH1Kc6J8aS3wZEKvkRidLfQHNRCBqW
-         4bJN3393d64j+lUqKIumenMP/12YpAbz9+q93BfcpGQtHiTKmGbDQOJAXI+7UIxrtW/6
-         6OVQ==
-X-Gm-Message-State: AOJu0YziybtVYkAskrYr+ZneI/tXWYaUSZp3UgV2cKFfbgOVfctJthae
-	t0NzCc7twxTOeSsXQkMluJzvhdf4RDr4/TV3CbEK2BK7tnwgHvBnEl5p6BKP0HAWbemuCSDnzI5
-	PpH1JZrzZ4JpG+KDTsQ/yQFL2a3Q=
-X-Gm-Gg: ASbGncsgbMJz550OgE3u8IQXPTokHC7r/OOuegEWSC0JnlBl8DNH2spbuqzqNenlO+F
-	LCI7WLvYQQ0DVZvjLnDMpwm/uw0tNTKDyrsnzCwHbfWfacuUBIX4s4iezJPRi9ifpUCu8GSo332
-	F/oGHi/R7i+ex8D896dh6CGr4=
-X-Google-Smtp-Source: AGHT+IGc3ISwYBc+9TCu0OmtKhiX0AywgVJbhjU5VvO2FMlso9c2gSBKasSJfTPpLWj7JqcdYPX+H2dFzxp1yvGjlzw=
-X-Received: by 2002:a05:6214:240b:b0:6e8:96aa:6034 with SMTP id
- 6a1803df08f44-6f6e47979efmr41413076d6.3.1746784609285; Fri, 09 May 2025
- 02:56:49 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7224ebccee=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5497XIOF024027
+	for <openembedded-core@lists.openembedded.org>; Fri, 9 May 2025 03:22:34 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46dee3f1hu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 03:22:34 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Fri, 9 May 2025 03:22:33 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Fri, 9 May 2025 03:22:32 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][Walnascar][PATCH  2/5] perl: upgrade 5.40.0 -> 5.40.2
+Date: Fri, 9 May 2025 10:22:25 +0000
+Message-ID: <20250509102228.3422688-2-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20250509102228.3422688-1-archana.polampalli@windriver.com>
+References: <20250509102228.3422688-1-archana.polampalli@windriver.com>
 MIME-Version: 1.0
-References: <20250509093740.1367372-1-yi.zhao@windriver.com>
-In-Reply-To: <20250509093740.1367372-1-yi.zhao@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 9 May 2025 11:56:37 +0200
-X-Gm-Features: AX0GCFvP-nCuDYWxOxOj7mjHl947hn34ynX-T3NlH3ayvGo4fEn7T7JBiC3MQI0
-Message-ID: <CANNYZj8+SvOzz7D0a_sEi81vhi3up699eYoJ1pgBsW0xMHuhog@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssl: add fips support
-To: yi.zhao@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: -Oo12H4bf0_wlzBxXU5mdICmlnamcin-
+X-Authority-Analysis: v=2.4 cv=Pd3/hjhd c=1 sm=1 tr=0 ts=681dd76a cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=wyjpycHzAAAA:8 a=t7CeM3EgAAAA:8 a=qcqivgu2rmkcyegf-EoA:9 a=ROKTiUA5NBresHysc1Cf:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: -Oo12H4bf0_wlzBxXU5mdICmlnamcin-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDEwMCBTYWx0ZWRfX67cKd24yk+VI Ft+kYP/WuPR4mWTZn6Z0lowlKBYLB1xKyZfSgdIJjX1o2kAGB8cSbjEr+uI2+Tmx+g4OBcgAub+ APnojfdbtXFx9bSR+6T5qwPIgja0QgfDALWxl9Ic/E8lNlv0sz4zycC8NUm2sulE8Rqwa0wq70+
+ hs76ELI1HBturKP++6E0ccPZ+LIgXdLlqjCgzaam1NdAMqzdRyUpgQrrPvBNfxNtSQIyPtfAKfT 2SYIjJLqv/HjlLHoZI7pk+LFEg0TbFKI4haB+QLjpQrJyOe87uhi60K78n/CZ9gS0cmz2eom9xn k5H9FN+26BhD5gUvZRhFl1/5nBItQTU+VCnmE+wKculAXGWqO6rSvbvzdvnB3DyGLA1Dds0ZaoD
+ hY1kyEkApStWj+WJ8TFjgw9qEf7FJgKdVZIdgFetBdJhBFD/sIzBzsP4b1guMPVZG9q3lBsC
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-09_04,2025-05-08_04,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 mlxscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ impostorscore=0 clxscore=1015 mlxlogscore=843 phishscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
+ definitions=main-2505090100
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 09:56:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216191
+ <openembedded-core@lists.openembedded.org>; Fri, 09 May 2025 10:22:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216193
 
-On Fri, 9 May 2025 at 11:38, Yi Zhao via lists.openembedded.org
-<yi.zhao=eng.windriver.com@lists.openembedded.org> wrote:
-> * Add pkg_postinst_ontarget for openssl-ossl-module-fips to ensure the
->   config file fipsmodule.cnf is created on target.
-> +       # Generate fipsmodule.cnf on first boot
-> +       if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)}; then
-> +               rm -f ${D}${libdir}/ssl-3/fipsmodule.cnf
-> +       fi
-> +pkg_postinst_ontarget:${PN}-ossl-module-fips () {
-> +       if test -f ${libdir}/ossl-modules/fips.so; then
-> +               ${bindir}/openssl fipsinstall -out ${libdir}/ssl-3/fipsmodule.cnf -module ${libdir}/ossl-modules/fips.so
-> +       fi
-> +}
-> +
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-This needs to be better explained:
+https://metacpan.org/pod/perldelta
 
-- why is the standard fipsmodule.cnf deleted in do_install? If
-upstream installs it, then why can't we simply use it?
+This provides a fix for CVE-2024-56406
 
-- why re-generation of that file has to happen on target? Can we use
-native openssl instead? Or run target openssl with qemu usermode?
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ meta/recipes-devtools/perl/{perl_5.40.0.bb => perl_5.40.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/perl/{perl_5.40.0.bb => perl_5.40.2.bb} (99%)
 
-Alex
+diff --git a/meta/recipes-devtools/perl/perl_5.40.0.bb b/meta/recipes-devtools/perl/perl_5.40.2.bb
+similarity index 99%
+rename from meta/recipes-devtools/perl/perl_5.40.0.bb
+rename to meta/recipes-devtools/perl/perl_5.40.2.bb
+index 0d4338f29f..95c230060d 100644
+--- a/meta/recipes-devtools/perl/perl_5.40.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.40.2.bb
+@@ -25,7 +25,7 @@ SRC_URI:append:class-target = " \
+            file://encodefix.patch \
+ "
+ 
+-SRC_URI[perl.sha256sum] = "c740348f357396327a9795d3e8323bafd0fe8a5c7835fc1cbaba0cc8dfe7161f"
++SRC_URI[perl.sha256sum] = "10d4647cfbb543a7f9ae3e5f6851ec49305232ea7621aed24c7cfbb0bef4b70d"
+ 
+ B = "${WORKDIR}/perl-${PV}-build"
+ 
+-- 
+2.40.0
+
 
