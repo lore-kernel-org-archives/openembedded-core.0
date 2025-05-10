@@ -2,104 +2,153 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47660C3ABC3
-	for <webhook@archiver.kernel.org>; Sat, 10 May 2025 22:06:01 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web10.19579.1746914746960902077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5BAC3ABC9
+	for <webhook@archiver.kernel.org>; Sat, 10 May 2025 22:13:21 +0000 (UTC)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+ by mx.groups.io with SMTP id smtpd.web11.19693.1746915195710248779
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 May 2025 15:05:47 -0700
+ Sat, 10 May 2025 15:13:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nNVkgZcL;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-af91fc1fa90so2695345a12.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 15:05:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iz2yrVBB;
+ spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-401c43671ecso1868575b6e.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 15:13:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746914746; x=1747519546; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4SEPNOJFxuxFSr3APBaJJuUYafWPlHvbvujMRedCUhs=;
-        b=nNVkgZcLhz3Lo/IZm8MkBYyJelOYzxeDZVt9URQnWf7HNHa7ROPzMqW7gmk+hcFjM4
-         sZqdsqjKI7daVBW39WWZXRrsqSXKNlBeaBi4/H2jYMFEzxPJmy7VJ5Vx0bs7uIfnF+PE
-         cP1+AYVNvYDxNyvvRhY3mEjP/B5rN9YVj7vVOLe6ZOwtjR4/ZXUZZqMzq+yN0IYdifq4
-         gnX1Uc9OWu8EJ2EgAkg4cWeO5I0T+pK52NzXO/OtbfAidZesxpgw/BnEFzMPDGBIrbrM
-         HCJjAThp08eZBsbncMyCQCBtPorQ3pevfq6DtAgDnnV9nUgok9+Zf7eAwWVAxA9z3RFD
-         JdLA==
+        d=gmail.com; s=20230601; t=1746915195; x=1747519995; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q/yeBT0z0epi7aqJizTEQ77GpuCDmTHGqYRBn27rmfo=;
+        b=iz2yrVBBMPTIRVbPCPryG6p4R7BEsVWyBtpWA+0mo4cvek0K4oOCa2acW+9Sb3fmmw
+         fjM5GxyQjEcLsmxHWTQh1VlQMeDGte5vJdY8ti67z9I+KGiZ/fAY46J4aHrqA817K1Tb
+         2C6iNIJi9NoE7vcfe7Daayb+wTwZ+70Cf+fw5jukgLvX5Qs04OsEF8iTRemuPo+Sh8Pm
+         kUbn+4koHTV0hikBXcT+sOOD8kOKEPWbsJqPHfVxUgW13G/EixwohH8shB9ojmk2Myfl
+         giA55XNLs3XbSFmH9ne5YWeSKhBBFq9hU2+5Z+HxjsnoY/BDuiWtU38d87kDt6njL9T9
+         oBiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746914746; x=1747519546;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4SEPNOJFxuxFSr3APBaJJuUYafWPlHvbvujMRedCUhs=;
-        b=oM4VC3D/sP+ITuL/lZlc0WyjrxX54R4RgwbxgA7s0i5fenoMlzqea5YuPxEmbKbMfW
-         uqRyClFLB5Q6usXB3CizbV5jB5fYfOGZZ/mnEQeeRkDjm6Lv6mvjt7j9hBAmugs7Kl+Y
-         +zeheyXKtRYEjwc2fhfNolOSVheITi6tpCHz5wuurDwhtZ4bHBeC1lWIo9NF2mXA4E8U
-         6jh/6u6rdjAF1Ifd/dio2ZawYkxnrxJktY8qcX7bS6JPlFa0NhVITqf9uEJaukv2dad5
-         AAGJMUuV5MEc0XoPIovEPKgkLHG/VbnpA1bt6gTZhLQMvhgo6PMgSJ6Zou0tbWSTk65h
-         td4Q==
-X-Gm-Message-State: AOJu0YzXrZ7vtQ+pmoLD4t0rPsJF74rAsLN1d3edm4Wc4dfNjCGepJSz
-	LztynwekyunT1go/2gn7rJj8pdtrTWCqMX7euve66l5kOA44udgQfqYPVEQA
-X-Gm-Gg: ASbGnctFm4qSBdQJbMSSwchxx1kX3QvoRGB/W9qdMqaOxYNx9Mkzzli+rsEFW4gn+UA
-	WM12FdSllfjdUe11l5mLczR0X2Sl/XzUWBEoPuF8nzGOSrYghT1kKhdl8nWRg259Gy6Bw1I+/Ra
-	6KHLJepbVH3UrL5rIiJwJN7U9FeHGrPDv42KkVKFfBAvM8Ud7IYpnLEi30oKYMV6lJbz6y1iOT3
-	8ocblszNLN0v3vE0aYx2tjPvKa09e4JDX8lvk5F9gwFUZK/0jiOCuEC7oqAx5fuBEj4RtXdIVfW
-	AiACxBzrwkT7WK6zNRjErmbz6BOgMc0URzsOBvIW9Y4+lzlvI+4Tlg==
-X-Google-Smtp-Source: AGHT+IE5qwkjscViTl1RfMn+d4Cq/rlby7p3vweGa3hwp2ADTTcnQI9OSSRHntwY9nKDCVIO4TU4+Q==
-X-Received: by 2002:a17:902:e810:b0:220:cd9a:a167 with SMTP id d9443c01a7336-22fc8affe60mr117073695ad.4.1746914745972;
-        Sat, 10 May 2025 15:05:45 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::efc5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc82a0e52sm37515965ad.216.2025.05.10.15.05.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 May 2025 15:05:45 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] compiler-rt: Map the COMPILER_RT_DEFAULT_TARGET_ARCH
-Date: Sat, 10 May 2025 15:05:42 -0700
-Message-ID: <20250510220543.884520-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1746915195; x=1747519995;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q/yeBT0z0epi7aqJizTEQ77GpuCDmTHGqYRBn27rmfo=;
+        b=m6YhduRAEyBh8delLnrsxGjPR2DZe2T+YM23s6dgEjCchRVcZX44DjhW9P7xdUgqQI
+         OOud7UL1tKc9CjM+wH5GDmqlU5htNScn3UPDKPcwylJK8vv8M+BgHLmBa9qmJ31WA7H5
+         4SAQgl94GkRh+7iweogsNwoKyDmUEtqhGuVka2aBS/yPYQJtpAU3qnV27ikfMp79naGx
+         1OkhblyHziwATJmGLBFOl/P8ntX36vgszjfmhaAdFduo6zLQ5qHDaCnNcqgZr1vgkkzf
+         fLRrVLMP9BpoXpcXEtmH+/BEoShn4RCtW543RE/T9XKvhNSYrSoHMJ8I8MprHrENjNTL
+         9L4Q==
+X-Gm-Message-State: AOJu0YwjkZ3aJA9rYzGEmqXs6Boft/OYekZfpA7+/oNH9sDgJLGxqvNd
+	zLfZ5icTKw4iSziDGkux1263KN+k/5rY5T03FI4jtHklsHVoqQPtuvd8Szn9Pr4ahx7h9/7/NuQ
+	5iSm93ZZFX5zRxlnmrVz52QS3f5g=
+X-Gm-Gg: ASbGncusNH1OfCGSHDTJmoUH1rdCNdMPdZisVC05GtR3eh85pBvvCWIfqbV98UDYfRu
+	r40j4CwPl+WuiZBQQCqH/PjkYV7vjrNA3idx7d7/0MrydyEgHWwG3l1gX7cVSM0sCkgyBiL1OgP
+	iGbNUOCco2V22K2BGLHTrerTz7U2/ketVmWnnJvKpnkA==
+X-Google-Smtp-Source: AGHT+IFvkd4MAKGvNZoo8tCpYiOnySDeLYAiJ4SN7oOc7QxUWHg1bxpGITwBjf1wA7dYubKSMXMEBmKPS2lBveyolRo=
+X-Received: by 2002:a05:6808:3988:b0:400:7dd3:2dbe with SMTP id
+ 5614622812f47-403779e8bdfmr7247185b6e.14.1746915194811; Sat, 10 May 2025
+ 15:13:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAMKF1spkq=LkQf7qHmBB_DPD+4s73iXiCe54-kA+qfdnwFiT0A@mail.gmail.com>
+ <29977.1746888734129629150@lists.openembedded.org> <CAMKF1sqHqP9O5po2Z7Egr18rjuksWJ3dv0oQgkDYN9w9VLCvbg@mail.gmail.com>
+ <CAMKF1spoD=skyc4MG5XAMVBub9ZMQiMVLL61=hCvsSMsNOWcEQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spoD=skyc4MG5XAMVBub9ZMQiMVLL61=hCvsSMsNOWcEQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 10 May 2025 15:12:48 -0700
+X-Gm-Features: AX0GCFuCYzQNBTxu2VKa_GXlVqmz8b-CwLbdN5B_ZxqLoT-RYk7ULzwCYwuQjjo
+Message-ID: <CAMKF1sr4_8V+tKwtaAst9TsQkhoyVUHChJm3Hx5bY0_pFuvOWA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] compiler-rt-sanitizers, compiler-rt: skip for armv5
+To: hongxu.jia@eng.windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 22:06:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216278
+ <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 22:13:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216280
 
-COMPILER_RT_DEFAULT_TARGET_ARCH is not 1 to 1 match with HOST_ARCH
-especially for armv5/arm4
+Please see
+https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D34391
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/clang/compiler-rt_git.bb | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+Will be good if you can test it in your env.
 
-diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
-index 0a0ef6be807..5044db6249d 100644
---- a/meta/recipes-devtools/clang/compiler-rt_git.bb
-+++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
-@@ -58,6 +58,15 @@ BUILD_CXX = "${CCACHE}clang++ ${BUILD_CC_ARCH}"
- LDFLAGS += "${COMPILER_RT} ${UNWINDLIB}"
- CXXFLAGS += "${LIBCPLUSPLUS}"
- 
-+def get_compiler_rt_arch(bb, d):
-+    if bb.utils.contains('TUNE_FEATURES', 'armv5 thumb dsp', True, False, d):
-+        return 'armv5te'
-+    elif bb.utils.contains('TUNE_FEATURES', 'armv4 thumb', True, False, d):
-+        return 'armv4t'
-+    elif bb.utils.contains('TUNE_FEATURES', 'arm vfp callconvention-hard', True, False, d):
-+        return 'armhf'
-+    return d.getVar('HOST_ARCH')
-+
- OECMAKE_TARGET_COMPILE = "compiler-rt"
- OECMAKE_TARGET_INSTALL = "install-compiler-rt install-compiler-rt-headers"
- OECMAKE_SOURCEPATH = "${S}/llvm"
-@@ -70,7 +79,7 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-                   -DCOMPILER_RT_BUILD_SANITIZERS=OFF \
-                   -DCOMPILER_RT_BUILD_MEMPROF=OFF \
-                   -DCOMPILER_RT_BUILD_LIBFUZZER=OFF \
--                  -DCOMPILER_RT_DEFAULT_TARGET_ARCH=${HOST_ARCH} \
-+                  -DCOMPILER_RT_DEFAULT_TARGET_ARCH=${@get_compiler_rt_arch(bb, d)} \
-                   -DLLVM_ENABLE_RUNTIMES='compiler-rt' \
-                   -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
-                   -DLLVM_APPEND_VC_REV=OFF \
+On Sat, May 10, 2025 at 2:29=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
+:
+>
+> I have a couple of patches to fix the compiler-rt builds for < armv6
+> which are under test, I will send that later today.
+>
+> On Sat, May 10, 2025 at 7:59=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wro=
+te:
+> >
+> >
+> >
+> > On Sat, May 10, 2025 at 7:52=E2=80=AFAM hongxu via lists.openembedded.o=
+rg <hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
+> >>
+> >> Hi Khem,
+> >>
+> >> I followed your suggestions to apply the following change on compiler-=
+rt recipe and build it for qemuarmv5, the failure remains
+> >
+> >
+> > Right I think the issue is that it also needs arch value set to armv5te=
+ from toolchain triple and we use arm-poky-Linux-gnueabi and that confuses =
+compiler-rt cmake as well I think it needs to be fixed as well along with h=
+ost arch
+> >
+> >>
+> >> --- a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+> >> +++ b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+> >> @@ -74,6 +74,7 @@ EXTRA_OECMAKE:append:class-target =3D "\
+> >>                 -DCMAKE_AR=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
+IX}llvm-ar \
+> >>                 -DCMAKE_NM=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
+IX}llvm-nm \
+> >>                 -DCMAKE_C_COMPILER_TARGET=3D${HOST_ARCH}${HOST_VENDOR}=
+-${HOST_OS} \
+> >> +               -DCOMPILER_RT_DEFAULT_TARGET_ARCH=3D${@bb.utils.contai=
+ns('TUNE_FEATURES', 'armv5 thumb dsp', 'armv5te', '${HOST_ARCH}', d)} \
+> >>                 -DCOMPILER_RT_DEFAULT_TARGET_ONLY=3DON \
+> >>                 -DCMAKE_POSITION_INDEPENDENT_CODE=3DON \
+> >>  "
+> >> diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/rec=
+ipes-devtools/clang/compiler-rt_git.bb
+> >> index 93928541273..8073bc139eb 100644
+> >> --- a/meta/recipes-devtools/clang/compiler-rt_git.bb
+> >> +++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
+> >> @@ -80,6 +80,7 @@ EXTRA_OECMAKE:append:class-target =3D "\
+> >>                 -DCMAKE_AR=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
+IX}llvm-ar \
+> >>                 -DCMAKE_NM=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
+IX}llvm-nm \
+> >>                 -DCMAKE_C_COMPILER_TARGET=3D${HOST_ARCH}${HOST_VENDOR}=
+-${HOST_OS}${HF} \
+> >> +               -DCOMPILER_RT_DEFAULT_TARGET_ARCH=3D${@bb.utils.contai=
+ns('TUNE_FEATURES', 'armv5 thumb dsp', 'armv5te', '${HOST_ARCH}', d)} \
+> >>                 -DCMAKE_POSITION_INDEPENDENT_CODE=3DON \
+> >>  "
+> >>
+> >> $ echo 'MACHINE =3D "qemuarmv5"' >> conf/local.conf
+> >> $ bitbake compiler-rt
+> >> ...
+> >> /buildarea5/hjia/poky/build/tmp/work-shared/llvm-project-source-20.1.3=
+-r0/llvm-project-20.1.3.src/compiler-rt/lib/builtins/arm/sync-ops.h:22:2: e=
+rror: #error DMB is only supported on ARMv6+
+> >>    22 | #error DMB is only supported on ARMv6+
+> >>       |  ^~~~~
+> >> ...
+> >>
+> >> //Hongxu
+> >>
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#216273): https://lists.openembedded.org/g/openembe=
+dded-core/message/216273
+> >> Mute This Topic: https://lists.openembedded.org/mt/112897300/1997914
+> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[raj.khem@gmail.com]
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >>
 
