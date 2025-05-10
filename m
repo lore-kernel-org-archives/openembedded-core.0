@@ -1,340 +1,266 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFF1C3ABC9
-	for <webhook@archiver.kernel.org>; Sat, 10 May 2025 15:54:29 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.13312.1746892466582260674
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3F8C3ABC9
+	for <webhook@archiver.kernel.org>; Sat, 10 May 2025 16:59:29 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.65])
+ by mx.groups.io with SMTP id smtpd.web10.14513.1746896365116006663
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 May 2025 08:54:26 -0700
+ Sat, 10 May 2025 09:59:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BM+jdmBG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-440685d6afcso33534475e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 08:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1746892464; x=1747497264; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pVYcWVPSkWUL/+Zg3EPnPBbZV6tOpofk+rj4+VSdR6w=;
-        b=BM+jdmBGVS+wlClvSbWHRGZOnMdOTCyVtTajZkbfEqUANTqJXGcF9Wy2N9sRfQ/aGL
-         pS0vjPjyNepUXh2ado2Jqp4H4RkHlXG8Q0tshAE/LSQC9jhoNBxp9a9fhRK8AKrWe5uF
-         rcZH+um7lZmaUwRtmDCiIwGswWrYMAOx102+A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746892464; x=1747497264;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pVYcWVPSkWUL/+Zg3EPnPBbZV6tOpofk+rj4+VSdR6w=;
-        b=Ev8uWFB/gKF/Er0DqgpGw6nCU2yy0kTgDJ/Y5AaIqdBSEYr4rbiVTGWrANcDEIc2nU
-         Wa5EDDDUoaKv1ujMcShSWmLd3u/xft+DesV6BMdNOBI7nahBkSTx88XUn1CJPnXT73QZ
-         W6+jdIW3n89TKeqop7xKpGQr+tRJb9sJwvqQSmWXArAGP/60XxQmAhiQjZnl15i1yGfb
-         c7lzmo2bLPtBC+IWm4mChYq/kKW0h5k4p+3TxmMScGhWDEpXix2naxQ0onyLPPpZLqLe
-         I3YdccrUmAzi13RIezYCeYGp2ngTQWDGVRSEM1iMJ5sXxPqo7zF+J/R3zb9za3Wiyh/A
-         /oUg==
-X-Gm-Message-State: AOJu0Ywk6WERWvyXBcC4fDwILWYJ+8Vj+9DT+y6EioxTDkZONxbmKXkA
-	5Z2NLsuiU42RPANrCvWBi1X6xE5aH7Gz9OS8aVVzYwQJvAc76omA9i81mGBHt3I25mM+VG3s93L
-	+
-X-Gm-Gg: ASbGnctcQpW2yGsU9w34n9bi08h5s7WLXpeua2HK2tG62nYnrxtAHm8OznItHE+nQSd
-	Abqzg/9m0vm1qFc0S2iTpolVTEktGv/kmHJBvGv/PVLJWezOBVtyNk/OiKFb63+PnvW5KHSjqqa
-	5kv/YuYDgpwNqA3yJBajZKQ71FbyfA20tKIWZYo4OXnjVm+Brdq0+78zNxTYNcjr2mIDyl6f1Qi
-	onFLNkcYJwZ3cE8j1m8Sq8zgzAMMMLODtk0XEouWU+UZWLYRxgsfzRsmIZ6e2elG7SO4Q6IYfL8
-	sQxZLdHIWsvk7LvJElj8zIJw2EN8wRkLi5jcrzQ1b6YkmT+RULY/TdpiLlJWdB1Dz7JN2Kiwsfw
-	Tv6E=
-X-Google-Smtp-Source: AGHT+IHO3hm08xqik9YVkU9mYcs66CeG7bSMzbPy2E+KK0oIHF9W4Ptjbg/RDbDuTd5xLGAG+EFe4Q==
-X-Received: by 2002:a05:6000:186f:b0:399:6dd9:9f40 with SMTP id ffacd0b85a97d-3a1f643acbemr5897189f8f.9.1746892462738;
-        Sat, 10 May 2025 08:54:22 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a9b:4e3e:ebc0:91d3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f57dde0esm6858694f8f.18.2025.05.10.08.54.21
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 May 2025 08:54:21 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf/pseudo: Switch from exclusion list to inclusion list
-Date: Sat, 10 May 2025 16:54:21 +0100
-Message-ID: <20250510155421.872076-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=TV9xVYyT;
+ spf=pass (domain: siemens.com, ip: 40.107.105.65, mailfrom: adrian.freihofer@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WIu8eHEBxUhNLSDYRgnEL0DC5ibOkkDPA/lyP2GI2WrmuUklmDTfSEcfhrqR8awdjHqh2DHQV3hV0MQakYnmbQJCG/T5lreRbYr2XGNlyCUp9+ySe/oXmA3j2fV6IgwWZXe5ih8FojL3LGuAYxCO1ZJ0o55LZVgyLacDT21HptpxmOSmwY6bvtp9BHxIejBVchOy/PDIhg0PnwrDgnVpb3WUODQoqkYVhozRCjiWaexLws7brIzHHTDwyURxmLVJqJIOGtmliuB+tWl+hFQhGmQ90bIkaHEDYikNrYGDXqsDqPpXfVjXJxlWlkE9iV5897nQtUm0XioSK8YOuhTk1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YufT96vQ8nOCv32/M02n+fqjJqouwZxVQI0p3pwKwlE=;
+ b=i7R9mlb4QLXKLEUGruuF8uqmYo/tfIjp5tIf6scsHhbupFUXYFja+2K+3Xdqg1EiT772CWIGU1RX2rRvUEOVqq1vyF6AzVr7WtWvKfe2PJdhO8kjAUvyT5mvtLK6u1aO1+IVBweswQxHJbwAYA80SUt7nZOeDaVtjgRlXMTDQRhi0pY4k9+Bb5lCNWXi1hfFKJ31ZuUimhTd64cSomr28ORerneaNxskuM4gAQ28wD7zFRcjNbSwQl3rKNQ0QtoC/JtSzOTnuG9RHQ7qOPc2U7G/dTJcfq5lELmarkr7gOjlQrRLjMEe4tlT20l8ucwo6D27gDuZ/15X+Q+bp9xAow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YufT96vQ8nOCv32/M02n+fqjJqouwZxVQI0p3pwKwlE=;
+ b=TV9xVYyT2p09VZi0eB1EUfgg+1lV2yHqdHZP4Nzg2Kv+0xalxjIxuxxVy+GU5Y3wGP1/KNpxU+FgGYZM7VxzCXheNvwo8sdDcWjleuOLXropCpoiuRt+SXjlzzG4Uvw1VDwwEPzp83QF0sMmnr+oofUlXOVE1FMkPXa29PgMm9zJj28l0q+2b56UxRgVhYSByQJBEculjuf6RCfllRgs63+yCE00scbxF5locEkPVdu4NgRaFQtsFp3EnqBN3oJZzB+HotPQJIokjJcGAOUeGYV2X2sAlFDOTkySZz9UGInK0ukcjo3Q7OaStw/y5yVP2Chfx/CdqGGp7PIGz7iwAQ==
+Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:13e::17)
+ by DB9PR10MB5809.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:390::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.24; Sat, 10 May
+ 2025 16:59:20 +0000
+Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e586:9cf8:7696:cbda]) by DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e586:9cf8:7696:cbda%5]) with mapi id 15.20.8722.024; Sat, 10 May 2025
+ 16:59:20 +0000
+From: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
+To: Rogerio Guerra Borin <rogerio.borin@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Rogerio Guerra Borin <rogerio.borin@toradex.com>, Marek Vasut
+	<marex@denx.de>, Sean Anderson <sean.anderson@seco.com>
+Subject: Re: [PATCH] u-boot: ensure keys are generated before assembling
+ U-Boot FIT image
+Thread-Topic: [PATCH] u-boot: ensure keys are generated before assembling
+ U-Boot FIT image
+Thread-Index: AQHbwSrfsUxq/q2r7U6zn3f8kJvKxrPMF2eA
+Date: Sat, 10 May 2025 16:59:20 +0000
+Message-ID: <c8555801fc5b5778d99be7f6527c319a40aa4f8c.camel@siemens.com>
+References: <20250509213736.3950997-1-rogerio.borin@gmail.com>
+In-Reply-To: <20250509213736.3950997-1-rogerio.borin@gmail.com>
+Accept-Language: en-US, de-CH
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB8PR10MB3529:EE_|DB9PR10MB5809:EE_
+x-ms-office365-filtering-correlation-id: 8c3eebcd-ff51-4586-4a6e-08dd8fe401fe
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?MDJwc2lraURweTBWbG1xeG5MN3lUWG1CRHZLZ3VieGF0cWlvSmoyZml4amxG?=
+ =?utf-8?B?N21GVlBnZ3lkYnR1bHQ0Qmt3ZjZGQ2hUVzU1enB2WThYbHFweE9JU0hadTFm?=
+ =?utf-8?B?bmlPemJhZ1NRUFdFbXJ2aVNveXpmVUpiY2F1eGRCUXBtR0FKaU10SUVpZVgw?=
+ =?utf-8?B?V0JCQmVFblhPc1E2WVBoMSs3QVNqNERyWGV6UVlld2FKS2pPSlJON1NlWFdm?=
+ =?utf-8?B?NDJKQjF2ejVlRHFSRjA2NFpiNDFtR2szMUZZcnJvSlkwNW9yNXJJYXVkbXk5?=
+ =?utf-8?B?VlVySnlKK3lyd0JFLzkyRFVmY3hkYWk4ZmNOYSt2VFpwalVyeEM1OUg3UWNW?=
+ =?utf-8?B?VGk3bWxCT3BWRnBkV3NManRyMi8wR0c1RW9zc3lMV3ZFclZQQ0xGMWtuMCtG?=
+ =?utf-8?B?V25PczMvK1NTbTRVSDlYZ1ExaW9ScEdVcTFwZWszL3pnN0xuWGp3REFkTkRn?=
+ =?utf-8?B?aUhubDM4d1gyVi9XMzZzQlRzZXJ1cGw1U3k5cGVwQnRqU1IwRWZZVVFxSEkv?=
+ =?utf-8?B?UTY1WXVIVnovT1FydGwzdElXd2hRRFhJMmhKVUQrQ0pnUnBtclE4dmluQTln?=
+ =?utf-8?B?MWZjcXM1ZFNWYnhEUUlEdXo0cW5uNkRBOUFGbGtLWjBSVFFDemg2ZldkZzIw?=
+ =?utf-8?B?TFZnMmlVRmYzK0U4WlhIeDdZNUloaE5JMzVqTUg3aldGWjYwSVQzQUhBQUtL?=
+ =?utf-8?B?QmlScDNlR25yWUJvb25QeHArVkpOZEdqK3ZmaFhadUhNUFdUaWRncDk0anVl?=
+ =?utf-8?B?V3JZN2c5bUJqa1d1eGhFK0l6ZVRXWUxxbHdmdWdLc0xIbTllTDhmejF1TFBP?=
+ =?utf-8?B?UzYwZ2dUWnhjNmw4ZzYvcHdSd2kvYVdXL2VzQkMvMFNyMzZzT0VCOW5kZnVP?=
+ =?utf-8?B?eHBkcjBsRUZWQlRybTNvVkxGeENQMGtrSEs3ck1TNytOZDRJUzFtbnlQSjNL?=
+ =?utf-8?B?eFlEazRJKzUrTFUvZTNvWXlHVzlwMGg3eU5sNWduRy8rTVh2M0N3aUZsMlZm?=
+ =?utf-8?B?RE5jZzViT3lFVWVOSkNBemNQYzhQdDVGamFmV3htQzYzeTE4cnJjNGkxMjRV?=
+ =?utf-8?B?SHo1OFhIOGdVSVA1UlNWRExuUHhrWGhwRDVBWnh5Njh3ZWlOb0VNRGxBenp0?=
+ =?utf-8?B?YndXY3o3RUxseFQxbFg5MmcyT0p6ZzBDa3BMVWR4MUxjVVpqcVdaUjk1WkJS?=
+ =?utf-8?B?ZGZzN0tySUZ6TkVqanNNdVBuSHZRNjU0STJJQWwxcTBvbWpvRnQ0eWFYakJZ?=
+ =?utf-8?B?WEVJRDJRaURvZUxWZDJTcWYxallqNDV1MUtjam9oZWZTbUhGU0dFcmRFa0hC?=
+ =?utf-8?B?VzBtVUlWMW96cGxubU9hVTlHWklzdlprM0RDYjhUajNHU1hiV24yUXBLQkdP?=
+ =?utf-8?B?bExYTTc4MUlUYm9SUE5RNTduaWRiQzhIU3hLTVBLblpVQyt2eFlxNjBvZXBu?=
+ =?utf-8?B?WHNqMSs2R3RhK1ZaUUhuaGgzdE5idmJTcG9rOE0rK3NWU1NuWXhmKzZSaUNa?=
+ =?utf-8?B?WFJQN1JoLytLWVNvMnpKTm5oRzhWZkhXc0p3Nnc4cExwNlk3dHIzeCtGSzMz?=
+ =?utf-8?B?U01ZUEtkSy9FZjdrSGpiTlhsZTUxOFY0VnEvVzF2bEZFcCtHMkk1a1dmK1Iv?=
+ =?utf-8?B?REROK0xscnZFd2IrVVZoY0t2aGpoUXM2cDVQNWJZZVhhdjhIaDh1emkrdXV0?=
+ =?utf-8?B?VmYvMVZENTJST1grRkFCQ21mWEpXOUVuMXc3WFlsNGYrWGtJUnNoOFliell6?=
+ =?utf-8?B?VU1QMnV4cmVVSWhnNHFCYXZrNndNQmNRaUFWZEtsVCsxcFY3K1pCQ2VyZkQ1?=
+ =?utf-8?B?VFR3RFg3RE5xQ0RrVjNTSFp3d0JBNnByWEc2ZnZ6UWdTaGhOY0krVFdlcWo1?=
+ =?utf-8?B?TUk4eWs3MUdUMHkxa0ZJSW9jUTZKbE5xS015MzdyeXdjTmpxMGYrcDRkeHJm?=
+ =?utf-8?B?RTQwUmR4MklCd0R0SHpjTmtWd1F2NlU0ZVVwYklYeHM0K3hlK21aekc3VjRO?=
+ =?utf-8?B?VkdiUXl2alVnPT0=?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?eEluT1A2OXdIUG8rZk5DUWxVS1ZDeU11MVFvVUQzaDBManN1VFdnS3RtTk5s?=
+ =?utf-8?B?RkNKb21uTE1aVTdkL3dyc0d4ZVV0S1JHS1V5OTltQTNoMy8zM0liVUsvdWRV?=
+ =?utf-8?B?Q2V3M2EzQXo1TFNmWDV4QkVuMmlxL2Q0TzNsakpONDc1Q0dhQTdtTTZTWFNZ?=
+ =?utf-8?B?bE1IaGEwNVE1emI3UWlwbnpKRTZwUmo1d2EyaGdMTC9mRHMwb1ZWSy9HOUMv?=
+ =?utf-8?B?NzFEZW9YV0tOMXZzNjVpT3hZeXVqTmRyaWI3c2RpRC9pZjZqZHdaMldzM3pN?=
+ =?utf-8?B?c3VHcGNpL0VJRXlUY0M1U2ZZL1hnSXJPYjgyMkZFdVNKVGV5WGNtVzJyUlhG?=
+ =?utf-8?B?MnVTWDJ4UExuZ0I5SU9TSFhKbmZtd0Z2WVZYUDdmZWJWSFdwUWFkL2VERXJy?=
+ =?utf-8?B?VXhvWGd4dDhDNm9LTFhJWDhzNSt1MkU0NXREcjhTUFBZcXBRaWhkaFk5MlVH?=
+ =?utf-8?B?cDRSd3duZHQyU0RPVld1MnNNUW5xQkE5WUI5dEFobnYySFF1RU93OHhOS3ZF?=
+ =?utf-8?B?NzFrZWVEaXAwZnhEaFJPbmQwRjFUQjlON0VTdXNXWHJONXFpaUNiREp2L1FN?=
+ =?utf-8?B?am5tVWcrWXN0b0l6a1JWbzZkb3BidFpCTUZVVlZqMGZVY2JXOUtnU0YwTTQw?=
+ =?utf-8?B?T2RYWDZKdmFrMTRnK3A0enZkVURsUkZCM3FKSHh5WU4xQWhZaFhOQmxid0ND?=
+ =?utf-8?B?eWJtUDBPbjljMmlRZlBUWnJJNUZEaTVuc0RTelJiSGxTNXZHSzh0NktGYkgw?=
+ =?utf-8?B?cXhqVlkxdWRzQU4xN2tXYkVpeDQ1WHk2ZGhBZ2Y3ME5IWHdBQnJnR2hHRkVZ?=
+ =?utf-8?B?amVtanovWW5PekNKcVdJSk1FdjIxTkZpbDJyU2lJQmpsSzNDRXI2ZGQ5MElm?=
+ =?utf-8?B?UG5mYk1YZWR2bTVSVWxxaytaREJaemlQenBFTjZnVUhYV2taUU14V1VmcmVp?=
+ =?utf-8?B?WGNQK2k1cDYzOHh1djExZ3FBb0xvMEV4dTBFVTdlZ243dkpwUGdEeUd0VUZJ?=
+ =?utf-8?B?S2pwV1hock9hOW1MdUhXWC9yV2V4aXc2SnZjSVUrbXluUldTYmxPaHI4Z0dk?=
+ =?utf-8?B?WTEwaDhUb29FYURMY1RZY2JXYXlTZFVMdWNXMHJidVRRbGFwbDNDd1g2d1Q5?=
+ =?utf-8?B?MVJ4VHc0ZmFMcXFmQkZYZFBFZzBObjFTZkhHR3NLcDR4aEl6ZlMzNGZOSW5O?=
+ =?utf-8?B?eEhNaFgyUmYvVUsyQ05kZ0RxYSswNllvemdTdDZiei9HRXNhU29QVFVoQkd0?=
+ =?utf-8?B?M1dJdWgrcGd5dnNBMkNSVFdIVk9uOHJWVHY5OEl0ekNCZDFRb1E2OTBCNHA3?=
+ =?utf-8?B?S0pTdHpwVmFUVlNNYjZnLzZJUmlyOXZOMGV4OXF0NmFITm5FMHl5K1BnYW1y?=
+ =?utf-8?B?OTFZaEhteWtBczFReVFJQ2hsWlJlT2lIVkdWaFdKa0p1ZnRER3VIelkzVnVZ?=
+ =?utf-8?B?ZU0wL20rR2lERVJIenBoNHVQWVYxdmJnMnRmNVAwcUhWN3UzVDNMZ0E4ZWJk?=
+ =?utf-8?B?dEJZK1ludmNOL1d1WTNISWZ1bnMycHd6ZDc3MDlrSzgvcGRROWNWYkJoOTBU?=
+ =?utf-8?B?MmQvQU43dzZoMlB0NnZmWUNDL3Rhc1JqcjZDYnFXZE4wazVMbWZ5VGxGK0Jw?=
+ =?utf-8?B?SVVtMUhxamZ1bDlhQ05nWVRWTVRma2dqZGY3TW9GcEoxaEVtUUlwSGFocDdW?=
+ =?utf-8?B?bHpubkR1eVQxbXFBRnJLSXBLK2o5R09WSjl5dnQ0NkVjejhwdVh0Y3NJeGgz?=
+ =?utf-8?B?VFkzQzZra0U3VnQ3ckkzZWRSQjJrVVNUUW1NcG5IbmR1cDY1aGljVSt0UzNL?=
+ =?utf-8?B?akcvcHhwYUliZVllN29XNjZoNWx3WTNGNjhSOFlOcGhuQUxUMkRCSzAydDRQ?=
+ =?utf-8?B?MnF1WjhBb0lkS2xQSmNiZXNhZ2xOaFYwc1dYcFk1UWttS2RBZ0xKKzFkcG5P?=
+ =?utf-8?B?U0J2SWVvSlJybmUxYm56cUpSaTMvc3NNK3VrWkdwTm5ZN0p0QUtCMXlrYzh3?=
+ =?utf-8?B?K3R4MzJVWHVoellraWdJclFnWTRua3EvT2tTTzJqbUw4T09KZzNCOHRKb2cr?=
+ =?utf-8?B?bWFnem83V1d6ZEhvUFh4bkxpKzRSSE5NQzAwQmU0QXJjR1EzeTBsWm8vZ3dJ?=
+ =?utf-8?B?NXorSi9odlF1S09sT281KzhsZ1pKckMvUDVJaWJoMVp1OW9jRVVtOER3em40?=
+ =?utf-8?B?WVE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F0D6B923000918459BA7E41A38451D2E@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c3eebcd-ff51-4586-4a6e-08dd8fe401fe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2025 16:59:20.4886
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vF239ZDb41DKcwjXxWltP2NmWw/PbqALp3i/oSm7CR8fdpoccbeRrb+QMe7mWp0+aOajY8h0j9Wkhi4a+518kskNVUlNOqCMBwgjV7+K19s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5809
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 15:54:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216275
+ <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 16:59:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216276
 
-Currently, pseudo tracks all files referenced within it's presence unless
-they're listed in an exclusion list. The exclusion list has grown to be
-fairly unwieldy.
-
-This patch swaps PSEUDO_IGNORE_PATHS for PSEUDO_INCLUDE_PATHS which in
-theory should be easier and more explicit to maintain.
-
-This change does drop many directories from pseudo coverage including
-/home and /tmp. There may be adapatations needed for recipes/classes
-using pseudo in specific ways.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-global/license.bbclass           |  1 -
- meta/classes-global/sanity.bbclass            |  4 ++--
- meta/classes-global/sstate.bbclass            |  2 +-
- meta/classes-recipe/image.bbclass             |  4 ++--
- meta/classes-recipe/image_types_wic.bbclass   |  4 +---
- meta/classes-recipe/populate_sdk_base.bbclass |  4 ++--
- meta/classes/archiver.bbclass                 |  1 +
- meta/conf/bitbake.conf                        | 11 ++++-------
- meta/conf/multilib.conf                       |  2 --
- meta/lib/oeqa/selftest/cases/runtime_test.py  |  2 --
- meta/recipes-core/glibc/glibc-locale.inc      |  2 ++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +-
- scripts/lib/wic/partition.py                  |  8 ++++----
- 13 files changed, 20 insertions(+), 27 deletions(-)
-
-diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/license.bbclass
-index 94dcc7f331c..af5f1ed41df 100644
---- a/meta/classes-global/license.bbclass
-+++ b/meta/classes-global/license.bbclass
-@@ -44,7 +44,6 @@ python do_populate_lic() {
-     oe.qa.exit_if_errors(d)
- }
- 
--PSEUDO_IGNORE_PATHS .= ",${@','.join(((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' + (d.getVar('LICENSE_PATH') or '') + ' ' + d.getVar('COREBASE') + '/meta/COPYING').split())}"
- # it would be better to copy them in do_install:append, but find_license_files is python
- python perform_packagecopy:prepend () {
-     enabled = oe.data.typed_value('LICENSE_CREATE_PACKAGE', d)
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index 192582b82ec..d1452967fc1 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -733,14 +733,14 @@ def check_sanity_version_change(status, d):
-         status.addresult("TMPDIR is setuid, please don't build in a setuid directory")
- 
-     # Check that a user isn't building in a path in PSEUDO_IGNORE_PATHS
--    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
-+    pseudoignorepaths = (d.getVar('PSEUDO_IGNORE_PATHS', expand=True) or "").split(",")
-     workdir = d.getVar('WORKDIR', expand=True)
-     for i in pseudoignorepaths:
-         if i and workdir.startswith(i):
-             status.addresult("You are building in a path included in PSEUDO_IGNORE_PATHS " + str(i) + " please locate the build outside this path.\n")
- 
-     # Check if PSEUDO_IGNORE_PATHS and paths under pseudo control overlap
--    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
-+    pseudoignorepaths = (d.getVar('PSEUDO_IGNORE_PATHS', expand=True) or "").split(",")
-     pseudo_control_dir = "${D},${PKGD},${PKGDEST},${IMAGEROOTFS},${SDK_OUTPUT}"
-     pseudocontroldir = d.expand(pseudo_control_dir).split(",")
-     for i in pseudoignorepaths:
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 2c259a66579..1d7b033b80a 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -76,7 +76,7 @@ SSTATE_SCAN_CMD_NATIVE ??= 'grep -Irl -e ${RECIPE_SYSROOT} -e ${RECIPE_SYSROOT_N
- SSTATE_HASHEQUIV_FILEMAP ?= " \
-     populate_sysroot:*/postinst-useradd-*:${TMPDIR} \
-     populate_sysroot:*/postinst-useradd-*:${COREBASE} \
--    populate_sysroot:*/postinst-useradd-*:regex-\s(PATH|PSEUDO_IGNORE_PATHS|HOME|LOGNAME|OMP_NUM_THREADS|USER)=.*\s \
-+    populate_sysroot:*/postinst-useradd-*:regex-\s(PATH|PSEUDO_INCLUDE_PATHS|HOME|LOGNAME|OMP_NUM_THREADS|USER)=.*\s \
-     populate_sysroot:*/crossscripts/*:${TMPDIR} \
-     populate_sysroot:*/crossscripts/*:${COREBASE} \
-     "
-diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
-index dc4ce5c0a93..24a19fce1ad 100644
---- a/meta/classes-recipe/image.bbclass
-+++ b/meta/classes-recipe/image.bbclass
-@@ -199,8 +199,6 @@ IMAGE_LOCALES_ARCHIVE ?= '1'
- # aren't yet available.
- PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
- 
--PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/intercept_scripts,${WORKDIR}/oe-rootfs-repo,${WORKDIR}/sstate-build-image_complete"
--
- PACKAGE_EXCLUDE ??= ""
- PACKAGE_EXCLUDE[type] = "list"
- 
-@@ -666,6 +664,8 @@ MULTILIBRE_ALLOW_REP += "${base_bindir} ${base_sbindir} ${bindir} ${sbindir} ${l
- MULTILIB_CHECK_FILE = "${WORKDIR}/multilib_check.py"
- MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
- 
-+PSEUDO_INCLUDE_PATHS .= ",${MULTILIB_TEMP_ROOTFS}"
-+
- do_fetch[noexec] = "1"
- do_unpack[noexec] = "1"
- do_patch[noexec] = "1"
-diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
-index 1b422b62802..61f028bd7bd 100644
---- a/meta/classes-recipe/image_types_wic.bbclass
-+++ b/meta/classes-recipe/image_types_wic.bbclass
-@@ -30,7 +30,7 @@ WICVARS ?= "\
- 	KERNEL_CONSOLE \
- 	KERNEL_IMAGETYPE \
- 	MACHINE \
--	PSEUDO_IGNORE_PATHS \
-+	PSEUDO_INCLUDE_PATHS \
- 	RECIPE_SYSROOT_NATIVE \
- 	ROOTFS_SIZE \
- 	STAGING_DATADIR \
-@@ -96,8 +96,6 @@ IMAGE_CMD:wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES TOPDIR"
- SPDX_IMAGE_PURPOSE:wic = "diskImage"
- do_image_wic[cleandirs] = "${WORKDIR}/build-wic"
- 
--PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/build-wic"
--
- # Rebuild when the wks file or vars in WICVARS change
- USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
- WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index 238cb1ee6e9..8ef4b2be777 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -52,6 +52,8 @@ SDK_DEPLOY = "${DEPLOY_DIR}/sdk"
- 
- SDKDEPLOYDIR = "${WORKDIR}/${SDKMACHINE}-deploy-${PN}-populate-sdk"
- 
-+PSEUDO_INCLUDE_PATHS .= ",${SDK_DIR}"
-+
- B:task-populate-sdk = "${SDK_DIR}"
- 
- SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
-@@ -263,8 +265,6 @@ python do_populate_sdk_setscene () {
- }
- addtask do_populate_sdk_setscene
- 
--PSEUDO_IGNORE_PATHS .= ",${SDKDEPLOYDIR},${WORKDIR}/oe-sdk-repo,${WORKDIR}/sstate-build-populate_sdk"
--
- fakeroot create_sdk_files() {
- 	cp ${COREBASE}/scripts/relocate_sdk.py ${SDK_OUTPUT}/${SDKPATH}/
- 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index df271feddd0..a95c899a0f8 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -166,6 +166,7 @@ python () {
-             d.appendVarFlag('do_package_write_rpm', 'dirs', ' ${ARCHIVER_RPMTOPDIR}')
-             d.appendVarFlag('do_package_write_rpm', 'sstate-inputdirs', ' ${ARCHIVER_RPMTOPDIR}')
-             d.appendVarFlag('do_package_write_rpm', 'sstate-outputdirs', ' ${DEPLOY_DIR_SRC}')
-+            d.appendVar('PSEUDO_INCLUDE_PATHS', ',${ARCHIVER_TOPDIR}')
-             if ar_dumpdata == "1":
-                 d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:do_dumpdata' % pn)
-             if ar_recipe == "1":
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index b1dae172678..e5037c62778 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -744,18 +744,15 @@ SRC_URI = ""
- PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
- PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
- PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
--PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR}"
--PSEUDO_IGNORE_PATHS .= ",${TMPDIR}/sstate-control,${TMPDIR}/buildstats,${TMPDIR}/sysroots-components,${TMPDIR}/pkgdata"
--PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/deploy-,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/pkgdata-sysroot"
--PSEUDO_IGNORE_PATHS .= ",${DEPLOY_DIR},${BUILDHISTORY_DIR},${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR},${S},${B}"
-+PSEUDO_INCLUDE_PATHS = "/proc,${WORKDIR}/image,${WORKDIR}/package,${WORKDIR}/rootfs,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-package/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo"
- 
- export PSEUDO_DISABLED = "1"
- #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
- #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
- #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
--FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=1 PYTHONDONTWRITEBYTECODE=1"
-+FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_INCLUDE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_INCLUDE_PATHS'))} PSEUDO_DISABLED=1 PYTHONDONTWRITEBYTECODE=1"
- FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
--FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0"
-+FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_INCLUDE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_INCLUDE_PATHS'))} PSEUDO_DISABLED=0"
- FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
- FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
- FAKEROOTLOGS = "${WORKDIR}/pseudo/pseudo.log"
-@@ -965,7 +962,7 @@ BB_HASHEXCLUDE_COMMON ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
-     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_REPORT_TASKDATA \
-     SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE GIT_CEILING_DIRECTORIES \
-     OMP_NUM_THREADS BB_CURRENTTASK"
--BB_BASEHASH_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_IGNORE_PATHS BUILDHISTORY_DIR \
-+BB_BASEHASH_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_INCLUDE_PATHS BUILDHISTORY_DIR \
-     SSTATE_DIR SOURCE_DATE_EPOCH RUST_BUILD_SYS RUST_HOST_SYS RUST_TARGET_SYS"
- BB_HASHCONFIG_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_PASSTHROUGH_ADDITIONS DISABLE_SANITY_CHECKS \
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index 86d1f8c1447..6163405be4f 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -12,8 +12,6 @@ STAGING_DIR_TARGET = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
- RECIPE_SYSROOT = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
- RECIPE_SYSROOT:class-native = "${WORKDIR}/recipe-sysroot"
- 
--PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/${MLPREFIX}recipe-sysroot"
--
- INHERIT += "multilib_global"
- 
- BBCLASSEXTEND:append = " ${MULTILIBS}"
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 8c9cfa0c542..04af74bbb1a 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -175,7 +175,6 @@ TEST_RUNQEMUPARAMS += " slirp"
-         features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
-         features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
-         features += 'GPG_PATH = "%s"\n' % self.gpg_home
--        features += 'PSEUDO_IGNORE_PATHS .= ",%s"\n' % self.gpg_home
-         self.write_config(features)
- 
-         bitbake('core-image-full-cmdline socat')
-@@ -212,7 +211,6 @@ TEST_RUNQEMUPARAMS += " slirp"
-         features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
-         features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
-         features += 'GPG_PATH = "%s"\n' % self.gpg_home
--        features += 'PSEUDO_IGNORE_PATHS .= ",%s"\n' % self.gpg_home
-         self.write_config(features)
- 
-         # Build core-image-sato and testimage
-diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-index c63c9edd769..90248bbc0f1 100644
---- a/meta/recipes-core/glibc/glibc-locale.inc
-+++ b/meta/recipes-core/glibc/glibc-locale.inc
-@@ -65,6 +65,8 @@ FILES:${LOCALEBASEPN}-locale-alias = "${datadir}/locale/locale.alias"
- 
- LOCALETREESRC = "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
- 
-+PSEUDO_INCLUDE_PATHS .= ",${WORKDIR}/locale-tree"
-+
- copy_locale_files() {
- 	local dir=$1 mode=$2
- 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 5e2a8bf3281..d7528d336b1 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -12,7 +12,7 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
- 
--SRCREV = "3fac97341f0f8270ca28a91098d0a58ca306a6bd"
-+SRCREV = "2c43381180f9cfef4c0a8bb0c1658a86c3fcc876"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git"
- 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index b18431d8fb8..5b51ab214fe 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -222,19 +222,19 @@ class Partition():
-         if (pseudo_dir):
-             # Canonicalize the ignore paths. This corresponds to
-             # calling oe.path.canonicalize(), which is used in bitbake.conf.
--            ignore_paths = [rootfs] + (get_bitbake_var("PSEUDO_IGNORE_PATHS") or "").split(",")
-+            include_paths = [rootfs_dir] + (get_bitbake_var("PSEUDO_INCLUDE_PATHS") or "").split(",")
-             canonical_paths = []
--            for path in ignore_paths:
-+            for path in include_paths:
-                 if "$" not in path:
-                     trailing_slash = path.endswith("/") and "/" or ""
-                     canonical_paths.append(os.path.realpath(path) + trailing_slash)
--            ignore_paths = ",".join(canonical_paths)
-+            include_paths = ",".join(canonical_paths)
- 
-             pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
-             pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-             pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
-             pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
--            pseudo += "export PSEUDO_IGNORE_PATHS=%s;" % ignore_paths
-+            pseudo += "export PSEUDO_INCLUDE_PATHS=%s;" % include_paths
-             pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-         else:
-             pseudo = None
+T24gRnJpLCAyMDI1LTA1LTA5IGF0IDE4OjM3IC0wMzAwLCBSb2dlcmlvIEd1ZXJyYSBCb3JpbiB3
+cm90ZToKPiBGcm9tOiBSb2dlcmlvIEd1ZXJyYSBCb3JpbiA8cm9nZXJpby5ib3JpbkB0b3JhZGV4
+LmNvbT4KPiAKPiBBZGQgdGhlIHRhc2sgZGVwZW5kZW5jeToKPiAKPiBkb191Ym9vdF9hc3NlbWJs
+ZV9maXRpbWFnZSAtPgo+IHZpcnR1YWwva2VybmVsOmRvX2tlcm5lbF9nZW5lcmF0ZV9yc2Ffa2V5
+cwo+IAo+IHRvIGVuc3VyZSB0aGUga2VybmVsIEZJVCBpbWFnZSBzaWduaW5nIGtleXMgYXJlIGF2
+YWlsYWJsZSB3aGVuCj4gY3JlYXRpbmcKPiB0aGUgVS1Cb290IERUQi4gVGhpcyBpcyBkb25lIG9u
+bHkgaWYgdGhlIHNpZ25pbmcgb2YgdGhlIGtlcm5lbCBGSVQKPiBpbWFnZQo+IGlzIGVuYWJsZWQg
+KFVCT09UX1NJR05fRU5BQkxFPSIxIikuCj4gCj4gVGhlIGxhY2sgb2YgdGhlIGRlcGVuZGVuY3kg
+Y2F1c2VzIGJ1aWxkIGVycm9ycyB3aGVuIGV4ZWN1dGluZyBhIGJ1aWxkCj4gd2l0aCBubyBrZXJu
+ZWwgRklUIGtleXMgaW5pdGlhbGx5IHByZXNlbnQgaW4gdGhlIGtleXMgZGlyZWN0b3J5LiBJbgo+
+IHN1Y2gKPiBjYXNlcyBvbmUgd291bGQgc2VlIGFuIG91dHB1dCBsaWtlIHRoaXMgaW4gdGhlIEJp
+dGJha2UgbG9nczoKPiAKPiBMb2cgZGF0YSBmb2xsb3dzOgo+ID4gREVCVUc6IEV4ZWN1dGluZyBz
+aGVsbCBmdW5jdGlvbiBkb191Ym9vdF9hc3NlbWJsZV9maXRpbWFnZQo+ID4gQ291bGRuJ3Qgb3Bl
+biBSU0EgcHJpdmF0ZSBrZXk6ICcvd29ya2Rpci9idWlsZC9rZXlzL2ZpdC9kZXYua2V5JzoKPiA+
+IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkKPiA+IEZhaWxlZCB0byBzaWduICdzaWduYXR1cmUn
+IHNpZ25hdHVyZSBub2RlIGluICdjb25mLTEnIGNvbmYgbm9kZQo+ID4gRklUIGRlc2NyaXB0aW9u
+OiBLZXJuZWwgSW1hZ2UgaW1hZ2Ugd2l0aCBvbmUgb3IgbW9yZSBGRFQgYmxvYnMKPiA+IC4uLgo+
+IAo+IFRoaXMgaXNzdWUgd2FzIGludHJvZHVjZWQgYnkgY29tbWl0IDI1OWJmYTg2ZjM4NCB3aGVy
+ZSB0aGUgZGVwZW5kZW5jeQo+IGJldHdlZW4gVS1Cb290IGFuZCB0aGUga2VybmVsIHdhcyByZW1v
+dmVkIChmb3IgZ29vZCByZWFzb25zKS4gQmVmb3JlCj4gdGhhdCBjb21taXQgdGhlIGRlcGVuZGVu
+Y3kgd2FzIHNldCB2aWEgREVQRU5EUyBzbyB0aGF0LCBpbiB0ZXJtcyBvZgo+IHRhc2tzLCBvbmUg
+aGFkOgo+IAo+IHUtYm9vdDpkb19jb25maWd1cmUgLT4gdmlydHVhbC9rZXJuZWw6ZG9fcG9wdWxh
+dGVfc3lzcm9vdAo+IAo+IGFuZCB0aGUgY2hhaW4gbGVhZGluZyB0byB0aGUga2V5IGdlbmVyYXRp
+b24gd2FzOgo+IAo+IHZpcnR1YWwva2VybmVsOmRvX3BvcHVsYXRlX3N5c3Jvb3QgLT4gdmlydHVh
+bC9rZXJuZWw6ZG9faW5zdGFsbAo+IHZpcnR1YWwva2VybmVsOmRvX2luc3RhbGwgLT4gdmlydHVh
+bC9rZXJuZWw6ZG9fYXNzZW1ibGVfZml0aW1hZ2UKPiB2aXJ0dWFsL2tlcm5lbDpkb19hc3NlbWJs
+ZV9maXRpbWFnZSAtPgo+IHZpcnR1YWwva2VybmVsOmRvX2tlcm5lbF9nZW5lcmF0ZV9yc2Ffa2V5
+cwo+IAo+IFdpdGggdGhlIHJlbW92YWwgb2YgdGhlIGZpcnN0IGRlcGVuZGVuY3ksIG5vIG1vcmUg
+Z3VhcmFudGVlcyBleGlzdAo+IHRoYXQKPiB0aGUga2V5cyB3b3VsZCBiZSBwcmVzZW50IHdoZW4g
+YXNzZW1ibGluZyB0aGUgVS1Cb290IEZJVCBpbWFnZS4KPiBUaGF0J3MKPiB0aGUgc2l0dWF0aW9u
+IHdlIGFyZSBzb2x2aW5nIHdpdGggdGhlIHByZXNlbnQgY29tbWl0Lgo+IAo+IEZpeGVzOiAyNTli
+ZmE4NmYzODQgKCJ1LWJvb3Q6IGtlcm5lbC1maXRpbWFnZTogRml4IGRlcGVuZGVuY3kgbG9vcCBp
+Zgo+IFVCT09UX1NJR05fRU5BQkxFIGFuZCBVQk9PVF9FTlYgZW5hYmxlZCIpCj4gU2lnbmVkLW9m
+Zi1ieTogUm9nZXJpbyBHdWVycmEgQm9yaW4gPHJvZ2VyaW8uYm9yaW5AdG9yYWRleC5jb20+Cj4g
+Q2M6IE1hcmVrIFZhc3V0IDxtYXJleEBkZW54LmRlPgo+IENjOiBTZWFuIEFuZGVyc29uIDxzZWFu
+LmFuZGVyc29uQHNlY28uY29tPgo+IENjOiBBZHJpYW4gRnJlaWhvZmVyIDxhZHJpYW4uZnJlaWhv
+ZmVyQHNpZW1lbnMuY29tPgo+IC0tLQo+IMKgbWV0YS9jbGFzc2VzLXJlY2lwZS91Ym9vdC1zaWdu
+LmJiY2xhc3MgfCAyICsrCj4gwqAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCj4gCj4g
+ZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy1yZWNpcGUvdWJvb3Qtc2lnbi5iYmNsYXNzIGIvbWV0
+YS9jbGFzc2VzLQo+IHJlY2lwZS91Ym9vdC1zaWduLmJiY2xhc3MKPiBpbmRleCA3NmE4MTU0NmUz
+NC4uNzc0NGUwYzVhYjUgMTAwNjQ0Cj4gLS0tIGEvbWV0YS9jbGFzc2VzLXJlY2lwZS91Ym9vdC1z
+aWduLmJiY2xhc3MKPiArKysgYi9tZXRhL2NsYXNzZXMtcmVjaXBlL3Vib290LXNpZ24uYmJjbGFz
+cwo+IEBAIC0xMTMsNiArMTEzLDggQEAgcHl0aG9uKCkgewo+IMKgwqDCoMKgIHNpZ24gPSBkLmdl
+dFZhcignVUJPT1RfU0lHTl9FTkFCTEUnKSA9PSAnMScKPiDCoMKgwqDCoCBpZiBkLmdldFZhcign
+VUJPT1RfRklUSU1BR0VfRU5BQkxFJykgPT0gJzEnIG9yIHNpZ246Cj4gwqDCoMKgwqDCoMKgwqDC
+oCBkLmFwcGVuZFZhcignREVQRU5EUycsICIgdS1ib290LXRvb2xzLW5hdGl2ZSBkdGMtbmF0aXZl
+IikKPiArwqDCoMKgIGlmIHNpZ246Cj4gK8KgwqDCoMKgwqDCoMKgIGQuYXBwZW5kVmFyRmxhZygn
+ZG9fdWJvb3RfYXNzZW1ibGVfZml0aW1hZ2UnLCAnZGVwZW5kcycsICcKPiB2aXJ0dWFsL2tlcm5l
+bDpkb19rZXJuZWxfZ2VuZXJhdGVfcnNhX2tleXMnKQoKU2hvcnQgYW5zd2VyOiBUaGFuayB5b3Ug
+Zm9yIGZpeGluZyB0aGlzIHJlZ3Jlc3Npb24uIEkgYmFzaWNhbGx5IGFncmVlCndpdGggdGhlIGZp
+eC4KSG93ZXZlciwgY291bGQgeW91IHBsZWFzZSBhbHNvIGNoZWNrIGlmIEZJVF9HRU5FUkFURV9L
+RVlTIGlzIGVuYWJsZWQ/CldvdWxkIGEgdjIgbGlrZSB0aGlzIGJlIGZpbmU/CgorIGlmIHNpZ24g
+YW5kIGQuZ2V0VmFyKCdGSVRfR0VORVJBVEVfS0VZUycpID09ICcxJzoKKyBkLmFwcGVuZFZhckZs
+YWcoJ2RvX3Vib290X2Fzc2VtYmxlX2ZpdGltYWdlJywgJ2RlcGVuZHMnLCAnCgoKCkxvbmdlciBh
+bnN3ZXI6IFRoZSB3YXkgdGhlIGtleXMgYXJlIChhbmQgYWx3YXlzIGhhdmUgYmVlbikgZ2VuZXJh
+dGVkCnByZXNlbnRzIHR3byBtYWpvciBpc3N1ZXMgZnJvbSBteSBwb2ludCBvZiB2aWV3OgogICAx
+LiBJdCBjcmVhdGVzIGEgZGVwZW5kZW5jeSBmcm9tIFUtQm9vdCBvbiB0aGUga2VybmVsLCB3aGlj
+aCBzaG91bGQKICAgICAgZ2VuZXJhbGx5IGJlIGF2b2lkZWQuCiAgIDIuIE1vcmUgcHJvYmxlbWF0
+aWNhbGx5LCB0aGUgY3VycmVudCBpbXBsZW1lbnRhdGlvbiBsZWFkcyB0byByYW5kb20KICAgICAg
+a2V5IGdlbmVyYXRpb24gaW4gbWFueSB1c2UgY2FzZXM6CiAgICAgICAtIFdoZW4gYnVpbGRpbmcg
+ZnJvbSBhbiBleGlzdGluZyBUTVBESVIsIHRoZSBleGlzdGluZyBrZXkgaXMgcmV1c2VkCiAgICAg
+ICAtIFdoZW4gYnVpbGRpbmcgZnJvbSBhbiBlbXB0eSBUTVBESVIsIGEgbmV3IGtleSBpcyBnZW5l
+cmF0ZWQsIGFuZAogICAgICAgICBzaWduaW5nIHdvcmtzIGF1dG9tYXRpY2FsbHkgd2l0aCB0aGlz
+IGZyZXNoIGtleQogICAgICAgLSBUaGlzIGFsc28gb2NjdXJzIHdoZW4gYnVpbGRpbmcgd2l0aCBh
+biBTREsgdGhhdCB1c2VzIHRoZSBzc3RhdGUtCiAgICAgICAgIGNhY2hlIHRvIGNyZWF0ZSB0aGUg
+VE1QRElSLiBTaW5jZSB0aGUga2V5IGlzIG5vdCBzc3RhdGUtY2FjaGVkLCBlYWNoCiAgICAgICAg
+IFNESyB3aWxsIGxpa2VseSBjcmVhdGUgaXRzIG93biBrZXkKCldoaWxlIEZJVF9HRU5FUkFURV9L
+RVlTIG1pZ2h0IGJlIGEgY29udmVuaWVudCBmZWF0dXJlIGZvciBxdWljawpleHBlcmltZW50cywg
+aXQgYmVjb21lcyBwcm9ibGVtYXRpYyB3aGVuIG1haW50YWluaW5nIHJlYWwgcHJvZHVjdHMKd2hl
+cmUgdXNpbmcgcmFuZG9tIGtleXMgaXMgdHlwaWNhbGx5IG5vdCBhY2NlcHRhYmxlLiBVbnRpbCBu
+b3csIG15CmFzc3VtcHRpb24gaGFzIGJlZW4gdGhhdCBGSVRfR0VORVJBVEVfS0VZUyBpcyBwcmlt
+YXJpbHkgdXNlZCBmb3IKdGVzdGluZyBwdXJwb3NlcyByYXRoZXIgdGhhbiBpbiBhY3R1YWwgcHJv
+ZHVjdCBkZXBsb3ltZW50cy4gU28gb2ZmZXJpbmcKdGhlIHBvc3NpYmlsaXR5IHRvIHN3aXRjaCBp
+dCBwcm9wZXJseSBvZmYgd2l0aG91dCBwdWxsaW5nIGluIHNvbWUKcG90ZW50aWFsbHkgcHJvYmxl
+bWF0aWMgdGFzayBkZXBlbmRlbmNpZXMgaXMgaW1wb3J0YW50LgoKV2UgbGlrZWx5IG5lZWQgYSBt
+b3JlIHNvcGhpc3RpY2F0ZWQgaW1wbGVtZW50YXRpb24gZm9yIHRoZSBmdXR1cmUgLSBvbmUKdGhh
+dCBpcyByZXByb2R1Y2libGUsIHNlY3VyZSwgYW5kIGRvZXNuJ3QgY3JlYXRlIGEgdGFzayBkZXBl
+bmRlbmN5IGZyb20KVS1Cb290IHRvIHRoZSBrZXJuZWwuClRoZSBrZXkgbWFuYWdlbWVudCBzaG91
+bGQgcHJvYmFibHkgYmUgbW92ZWQgdG8gYSBzZXBhcmF0ZSAobmF0aXZlPykKcmVjaXBlIHRoYXQg
+cHJvdmlkZXMgdGhlIGtleSB2aWEgKG5hdGl2ZS0pc3lzcm9vdHMgdG8gb3RoZXIgcmVjaXBlcy4K
+WW9jdG8gY291bGQgcHJvdmlkZSBhIHJlYXNvbmFibHkgc2VjdXJlIGRlZmF1bHQgaW1wbGVtZW50
+YXRpb24gZm9yIHN1Y2gKYSBrZXkgcHJvdmlkZXIgcmVjaXBlLCB3aGljaCBjb3VsZCBiZSBlYXNp
+bHkgb3ZlcnJpZGRlbiBpbiBhIGRvd25zdHJlYW0KbGF5ZXIuCgpJIHdpbGwgY29uc2lkZXIgdGhp
+cyBhZnRlciB0aGUgbWFqb3IgcmVmYWN0b3Jpbmcgb2YgdGhlIEZJVCBpbWFnZSBpcwptZXJnZWQu
+IEJhc2ljYWxseSwgSSdtIHRoaW5raW5nIGFib3V0IGEgcmVjaXBlIHRoYXQ6CiAqIFRha2VzIGFu
+IG9wdGlvbmFsbHkgZW5jcnlwdGVkIGtleSB2aWEgU1JDX1VSSSAobm90ZSB0aGF0IHVzaW5nIHRo
+ZQogICBmZXRjaGVyIGlzIGltcG9ydGFudCBmb3IgaGFuZGxpbmcga2V5IGNoYW5nZXMgcmVsaWFi
+bHkpCiAqIFByb3ZpZGVzIHRoZSBkZWNyeXB0ZWQga2V5IHRvIG90aGVyIHJlY2lwZXMgdmlhIHN5
+c3Jvb3RzCiAqIFN0b3JlcyB0aGUgZW5jcnlwdGVkIGtleSBpbiBzc3RhdGUtY2FjaGUKICogVXNl
+cyBhIHBhc3N3b3JkIHByb3ZpZGVkIGJ5IGEgbm9uIHNzdGF0ZS1jYWNoZWQgZmlsZSBmb3IgZGVj
+cnlwdGluZwogICB0aGUgc3ltbWV0cmljYWxseSBlbmNyeXB0ZWQga2V5ClRoaXMgd291bGQgcHJv
+dmlkZSBhIHNlbWktc2VjdXJlLCByZXByb2R1Y2libGUgaW1wbGVtZW50YXRpb24uCgpGb3IgZW5o
+YW5jZWQgc2VjdXJpdHksIEkgc2VlIHR3byBwb3NzaWJsZSBpbXBsZW1lbnRhdGlvbnM6CiAqIFJl
+cGxhY2luZyB0aGUgc2VtaS1zZWN1cmUgc2lnbmF0dXJlIGNyZWF0ZWQgYnkgdGhlIGRlZmF1bHQK
+ICAgaW1wbGVtZW50YXRpb24gbGF0ZXIgb24sIGluZGVwZW5kZW50bHkgZnJvbSB0aGUgYnVpbGQg
+cHJvY2VzcyAoZS5nLgogICB3aXRoIGEgaGFyZHdhcmUgdG9rZW4gb2ZmZXJpbmcgYSBQS0NTIzEx
+IGludGVyZmFjZS4KICogUGFzc2luZyBhIFBLQ1MjMTEgaW50ZXJmYWNlIHRvIEJpdGJha2UuIEhv
+d2V2ZXIsIHRoaXMgYXBwZWFycwogICBleHRyZW1lbHkgY29tcGxpY2F0ZWQgYW5kIHJhaXNlcyB0
+aGUgcXVlc3Rpb24gb2YgaG93IHRvIHBhc3MgdGhlCiAgIFBLQ1MjMTEgc2VjcmV0IHRvIEJpdEJh
+a2UuIEl0IGFsc28gcmFpc2VzIHRoZSBxdWVzdGlvbiBpZiBhIFBLQ1MjMTEKICAgaW50ZXJmYWNl
+IGlzIGF2YWlsYWJsZSBvbiBhIGJ1aWxkIG1hY2hpbmUuCgpSZWdhcmRzLApBZHJpYW4KCgo+IMKg
+fQo+IMKgCj4gwqBjb25jYXRfZHRiKCkgewoK
 
