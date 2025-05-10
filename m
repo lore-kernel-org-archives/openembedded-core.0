@@ -2,159 +2,104 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 673E2C3ABC9
-	for <webhook@archiver.kernel.org>; Sat, 10 May 2025 22:05:51 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.19599.1746914747855525982
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47660C3ABC3
+	for <webhook@archiver.kernel.org>; Sat, 10 May 2025 22:06:01 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.19579.1746914746960902077
  for <openembedded-core@lists.openembedded.org>;
  Sat, 10 May 2025 15:05:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=R/enXVKl;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22e76850b80so23718625ad.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 15:05:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nNVkgZcL;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-af91fc1fa90so2695345a12.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 15:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746914747; x=1747519547; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ygkwyQ8SgGkBE7HOnSw99PvbmIfs+iLfFGu4QwtExSU=;
-        b=R/enXVKlkHQPuC8f921Ewfi345vA3tpkfkSMIUwrvQ6p3t0Zg8rQxCjiRAC87THrEf
-         THND1vnYuCenU61SMhOTw26oe3Y3LKw0aaYYrtEB5jdtG/I1Uv6Imgy1jXSjFJWXFdr1
-         o+6rYMzKL/kHJ88xxbD2bMsJgC+XQ7sBHNZ5/ifBl8ouyKPflv1rPLz6ZGTv+0Hdoswk
-         y3gCJ965LGCOtqJORvvfPv8siluj7kI47EWMsxZ5aNby5JftN/Zcli8yYhEC3fJ2OQkE
-         9UJjxSp11loi1+1lDFkKaRIkZbHUxhEazptq7KGH/OPhDtU+ljXVZUmMT+NdD1+SnQdx
-         g72g==
+        d=gmail.com; s=20230601; t=1746914746; x=1747519546; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4SEPNOJFxuxFSr3APBaJJuUYafWPlHvbvujMRedCUhs=;
+        b=nNVkgZcLhz3Lo/IZm8MkBYyJelOYzxeDZVt9URQnWf7HNHa7ROPzMqW7gmk+hcFjM4
+         sZqdsqjKI7daVBW39WWZXRrsqSXKNlBeaBi4/H2jYMFEzxPJmy7VJ5Vx0bs7uIfnF+PE
+         cP1+AYVNvYDxNyvvRhY3mEjP/B5rN9YVj7vVOLe6ZOwtjR4/ZXUZZqMzq+yN0IYdifq4
+         gnX1Uc9OWu8EJ2EgAkg4cWeO5I0T+pK52NzXO/OtbfAidZesxpgw/BnEFzMPDGBIrbrM
+         HCJjAThp08eZBsbncMyCQCBtPorQ3pevfq6DtAgDnnV9nUgok9+Zf7eAwWVAxA9z3RFD
+         JdLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746914747; x=1747519547;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ygkwyQ8SgGkBE7HOnSw99PvbmIfs+iLfFGu4QwtExSU=;
-        b=XfHHa47Bsj+QxC/pK+m60NrVQGM/dsENIDJsiS0hf0N3+zS7xmfR/5OWg9xsZRikSU
-         CKgtd/Hqw/do/2p4Df7+j8w3VRBHI4KNX43Br47KvkRU2bnwHilBJKRFlSyHy6lp1MCl
-         lgwJHPf+J9ZdtzA05QY1TKgQIPUZ1pua2LpYjcBYHZ3+yp6FgcxovlVHvtTmnQQ103mL
-         BCmI/36w+ca/Bd/0bQyKrHFEIM8h0Iw8993OHrgU2USRK4avwlFmO+ixI/bsfPA8937E
-         1JWpKP+Cn4cWO5TDu2g1GMtg6snJ329SyWFhAiBgErG1hIy8VCvOlBozdekJf2Yc+4Te
-         +ytg==
-X-Gm-Message-State: AOJu0YzXWxK5rLOwiFjAjR0u98ujaeGqcLAsYpBYzpgBncYFWd7+uk2F
-	EsnIj+vc/rl6jh2zXwqFX+rns+5qutKWNCpB0NsDr4TkM4eiwhSxzzrfBf7u
-X-Gm-Gg: ASbGncsNMj3eu47Bqw1rSsNLK8tGfBLy8N3UbO2y7OaDaQ1fLNlt+u4lTR28VAMc8SQ
-	ESXyAmoDOWld/eCIbeepDAfN2DGOR8B5CICZc1SXV92R34nhmwdnlZc2oQeDGmpdh/GpboIy2dW
-	CPkgTYjEaFP4tTnH45MZxArmZs2oDP5a2jRijy7E+fW9Qc1cAcqhcK38CXd7PTHAL1/ydloOI5E
-	42/q8daugR6PsazFCPI52tMurF5c2NQjBQUcaz5359dr2fvPoirdNbl3txn+yJmeRYjnSb2cdLL
-	eD5VcFGQ4dQxRyN/09rcG/khEZ65oz/tBuGb7ef4/3Q=
-X-Google-Smtp-Source: AGHT+IF9Ie1tIzXsQorIeqrlFkzn1y/mmoBcK/uVjYkh2uukR/1skWffnvZn+CjcxY23HcUPLjAwKg==
-X-Received: by 2002:a17:902:e751:b0:22e:4a2e:8ae7 with SMTP id d9443c01a7336-22fc8b60280mr128406685ad.22.1746914746943;
-        Sat, 10 May 2025 15:05:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746914746; x=1747519546;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4SEPNOJFxuxFSr3APBaJJuUYafWPlHvbvujMRedCUhs=;
+        b=oM4VC3D/sP+ITuL/lZlc0WyjrxX54R4RgwbxgA7s0i5fenoMlzqea5YuPxEmbKbMfW
+         uqRyClFLB5Q6usXB3CizbV5jB5fYfOGZZ/mnEQeeRkDjm6Lv6mvjt7j9hBAmugs7Kl+Y
+         +zeheyXKtRYEjwc2fhfNolOSVheITi6tpCHz5wuurDwhtZ4bHBeC1lWIo9NF2mXA4E8U
+         6jh/6u6rdjAF1Ifd/dio2ZawYkxnrxJktY8qcX7bS6JPlFa0NhVITqf9uEJaukv2dad5
+         AAGJMUuV5MEc0XoPIovEPKgkLHG/VbnpA1bt6gTZhLQMvhgo6PMgSJ6Zou0tbWSTk65h
+         td4Q==
+X-Gm-Message-State: AOJu0YzXrZ7vtQ+pmoLD4t0rPsJF74rAsLN1d3edm4Wc4dfNjCGepJSz
+	LztynwekyunT1go/2gn7rJj8pdtrTWCqMX7euve66l5kOA44udgQfqYPVEQA
+X-Gm-Gg: ASbGnctFm4qSBdQJbMSSwchxx1kX3QvoRGB/W9qdMqaOxYNx9Mkzzli+rsEFW4gn+UA
+	WM12FdSllfjdUe11l5mLczR0X2Sl/XzUWBEoPuF8nzGOSrYghT1kKhdl8nWRg259Gy6Bw1I+/Ra
+	6KHLJepbVH3UrL5rIiJwJN7U9FeHGrPDv42KkVKFfBAvM8Ud7IYpnLEi30oKYMV6lJbz6y1iOT3
+	8ocblszNLN0v3vE0aYx2tjPvKa09e4JDX8lvk5F9gwFUZK/0jiOCuEC7oqAx5fuBEj4RtXdIVfW
+	AiACxBzrwkT7WK6zNRjErmbz6BOgMc0URzsOBvIW9Y4+lzlvI+4Tlg==
+X-Google-Smtp-Source: AGHT+IE5qwkjscViTl1RfMn+d4Cq/rlby7p3vweGa3hwp2ADTTcnQI9OSSRHntwY9nKDCVIO4TU4+Q==
+X-Received: by 2002:a17:902:e810:b0:220:cd9a:a167 with SMTP id d9443c01a7336-22fc8affe60mr117073695ad.4.1746914745972;
+        Sat, 10 May 2025 15:05:45 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::efc5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc82a0e52sm37515965ad.216.2025.05.10.15.05.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc82a0e52sm37515965ad.216.2025.05.10.15.05.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 May 2025 15:05:46 -0700 (PDT)
+        Sat, 10 May 2025 15:05:45 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] compiler-rt: Exclude sync builtins from build when arm < v6
-Date: Sat, 10 May 2025 15:05:43 -0700
-Message-ID: <20250510220543.884520-2-raj.khem@gmail.com>
+Subject: [PATCH 1/2] compiler-rt: Map the COMPILER_RT_DEFAULT_TARGET_ARCH
+Date: Sat, 10 May 2025 15:05:42 -0700
+Message-ID: <20250510220543.884520-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250510220543.884520-1-raj.khem@gmail.com>
-References: <20250510220543.884520-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 22:05:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216279
+ <openembedded-core@lists.openembedded.org>; Sat, 10 May 2025 22:06:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216278
 
-arm architecture < v6 does not have the dmb support, therefore do
-not add the sync primitives to compiler-rt builtins build
+COMPILER_RT_DEFAULT_TARGET_ARCH is not 1 to 1 match with HOST_ARCH
+especially for armv5/arm4
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ude-sync_fetch_and_-for-any-pre-ARMv.patch | 61 +++++++++++++++++++
- meta/recipes-devtools/clang/common.inc        |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-devtools/clang/clang/0038-compiler-rt-Exclude-sync_fetch_and_-for-any-pre-ARMv.patch
+ meta/recipes-devtools/clang/compiler-rt_git.bb | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/clang/clang/0038-compiler-rt-Exclude-sync_fetch_and_-for-any-pre-ARMv.patch b/meta/recipes-devtools/clang/clang/0038-compiler-rt-Exclude-sync_fetch_and_-for-any-pre-ARMv.patch
-new file mode 100644
-index 00000000000..4639a73fe6b
---- /dev/null
-+++ b/meta/recipes-devtools/clang/clang/0038-compiler-rt-Exclude-sync_fetch_and_-for-any-pre-ARMv.patch
-@@ -0,0 +1,61 @@
-+From 5a0daa2dcc2bb39d87c4fcae7036cd8ab7ee6f6d Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 10 May 2025 14:03:12 -0700
-+Subject: [PATCH] compiler-rt: Exclude sync_fetch_and_* for any pre-ARMv6 targets
+diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
+index 0a0ef6be807..5044db6249d 100644
+--- a/meta/recipes-devtools/clang/compiler-rt_git.bb
++++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
+@@ -58,6 +58,15 @@ BUILD_CXX = "${CCACHE}clang++ ${BUILD_CC_ARCH}"
+ LDFLAGS += "${COMPILER_RT} ${UNWINDLIB}"
+ CXXFLAGS += "${LIBCPLUSPLUS}"
+ 
++def get_compiler_rt_arch(bb, d):
++    if bb.utils.contains('TUNE_FEATURES', 'armv5 thumb dsp', True, False, d):
++        return 'armv5te'
++    elif bb.utils.contains('TUNE_FEATURES', 'armv4 thumb', True, False, d):
++        return 'armv4t'
++    elif bb.utils.contains('TUNE_FEATURES', 'arm vfp callconvention-hard', True, False, d):
++        return 'armhf'
++    return d.getVar('HOST_ARCH')
 +
-+Sometimes builds may happen where ABI is not indidated by host_triple
-+e.g. on Yocto the compiler used is called arm-poky-linux-gnueabi-clang
-+for all arm32 cross compilers, it passed the ABI flags on cmdline in
-+addition. e.g.
-+
-+-march=armv5te -mfloat-abi=soft
-+or
-+-march=armv7-a -mfloat-abi=hard
-+
-+compiler-rt's makery tries to add arm to COMPILER_RT_SUPPORTED_ARCH
-+deducing it from triple name.
-+
-+which ends up choosing `arm` as one of compiler-rt arch to build for.
-+This arch is however using armv7+ defaults and then tried to build sync
-+builtins using
-+
-+arm-poky-linux-gnueabi-clang -march=armv5te -mfloat-abi=soft ...
-+
-+Which does not compile correctly, in such cases it should simply
-+remove the sync builtins from list of things to build similar to what
-+is done when we use armv4t or armv5t
-+
-+set(armv4t_SOURCES ${arm_min_SOURCES})
-+set(armv5te_SOURCES ${arm_min_SOURCES})
-+
-+This lets compiler-rt build for arm architectures without depending
-+upong compiler triple, but instead of poking the compiler for what
-+it is building for
-+
-+Upstream-Status: Submitted [https://github.com/llvm/llvm-project/pull/139411]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ compiler-rt/lib/builtins/CMakeLists.txt | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+--- a/compiler-rt/lib/builtins/CMakeLists.txt
-++++ b/compiler-rt/lib/builtins/CMakeLists.txt
-+@@ -864,6 +864,18 @@ else ()
-+       list(JOIN BUILTIN_CFLAGS " " CMAKE_REQUIRED_FLAGS)
-+       set(CMAKE_REQUIRED_FLAGS "${TARGET_${arch}_CFLAGS} ${BUILTIN_CFLAGS_${arch}}")
-+       message(STATUS "Performing additional configure checks with target flags: ${CMAKE_REQUIRED_FLAGS}")
-++      # For ARM archs, exclude any sync builtins if dmb or mcr p15, #0, r0, c7, c10, #5
-++      # is not supported
-++      if (${arch} MATCHES "^(arm|armhf)$")
-++        try_compile_only(COMPILER_RT_HAS_${arch}_SYNC
-++                         SOURCE  "#if __ARM_ARCH < 6
-++                                  #error DMB is only supported on ARMv6+ !
-++                                  #endif
-++                                  int main(void) { return 0; }")
-++        if(NOT COMPILER_RT_HAS_${arch}_SYNC)
-++          list(REMOVE_ITEM ${arch}_SOURCES ${arm_sync_SOURCES})
-++        endif()
-++      endif()
-+       # For ARM archs, exclude any VFP builtins if VFP is not supported
-+       if (${arch} MATCHES "^(arm|armhf|armv7|armv7s|armv7k|armv7m|armv7em|armv8m.main|armv8.1m.main)$")
-+         string(REPLACE ";" " " _TARGET_${arch}_CFLAGS "${TARGET_${arch}_CFLAGS}")
-diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-index 07315f17e46..f661a6283e5 100644
---- a/meta/recipes-devtools/clang/common.inc
-+++ b/meta/recipes-devtools/clang/common.inc
-@@ -57,6 +57,7 @@ SRC_URI = "\
-     file://0034-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch \
-     file://0035-llvm-config-remove-LLVM_LDFLAGS-from-ldflags-output.patch \
-     file://0036-openmp-Do-not-emit-date-and-time-into-generate-files.patch \
-+    file://0038-compiler-rt-Exclude-sync_fetch_and_-for-any-pre-ARMv.patch \
- "
- # Fallback to no-PIE if not set
- GCCPIE ??= ""
+ OECMAKE_TARGET_COMPILE = "compiler-rt"
+ OECMAKE_TARGET_INSTALL = "install-compiler-rt install-compiler-rt-headers"
+ OECMAKE_SOURCEPATH = "${S}/llvm"
+@@ -70,7 +79,7 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+                   -DCOMPILER_RT_BUILD_SANITIZERS=OFF \
+                   -DCOMPILER_RT_BUILD_MEMPROF=OFF \
+                   -DCOMPILER_RT_BUILD_LIBFUZZER=OFF \
+-                  -DCOMPILER_RT_DEFAULT_TARGET_ARCH=${HOST_ARCH} \
++                  -DCOMPILER_RT_DEFAULT_TARGET_ARCH=${@get_compiler_rt_arch(bb, d)} \
+                   -DLLVM_ENABLE_RUNTIMES='compiler-rt' \
+                   -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
+                   -DLLVM_APPEND_VC_REV=OFF \
 
