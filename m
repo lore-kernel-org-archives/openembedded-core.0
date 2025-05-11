@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 744C8C3ABCB
-	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 15:06:26 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web11.30663.1746975977239556694
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D187C3ABC3
+	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 17:41:37 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.33161.1746985287609708159
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 May 2025 08:06:18 -0700
+ Sun, 11 May 2025 10:41:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=aF9VhNMl;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20250511150613136aa3817e8767b804-guwiji@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250511150613136aa3817e8767b804
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Y0WkM0T1;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20250511174123d58dad9f0756b525c7-qh93sq@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250511174123d58dad9f0756b525c7
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 11 May 2025 17:06:13 +0200
+        Sun, 11 May 2025 19:41:24 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=nAW0YDQ7582a5nGrmCHHZC7rwIjf/UgUoDOQi6yWiIk=;
- b=aF9VhNMlI+QGiAfS+MSTE5ECPiXvIeSkTf+Bg3JSPnu5LHUjnZCU90qDP9BR2qZVOog5sh
- v5IRDEeH9JVdSrMh0fzC4w26zf9jsV/3c85aeIpd2hSuMzll6zFoYV+FZ40dU6TTIxjUCA25
- rApqX9yAKlx1kp1bjUYm3Ug+Ad3GnHHr72rLhQDcadDmyfxo0mAsoar/rzUt+7bTvjhSSfaC
- mUOQPDKDQGAtuD/VbPoHUkoBGZW+qGMkuGCm4wLQoBc0V7gMTQjPCEoUr+OjWjG1YiD/TOdE
- xm8YrfZJeZKnQYYHcE1jA/l8w/tc1nnAJeHPf6zhz4Mu8gLWtUkZeOMA==;
+ bh=xa/7wdMdXxhFXJwB1nld0uQJUbvJ9TQnwwy3g1BMWmM=;
+ b=Y0WkM0T1vDsLoL9EJGhDXcGsHZWCfqUZn+KVDpO5C8YhnnxF5g+BbtUED23xLeJnG/vEgG
+ 1qB6wuqEv3MCcGdBmas8xmvF0VBSOHVUWKdjSKuhf++fuSQZRbZRrB6aVYa5oY4RSK1KmiLV
+ fPfjSeRvqvAKMjXIB3gWGoXnbrbsAdQ/VH5h6znjI5A1+DIZAQXkX4vFTHKKhA0yEWjBLnyr
+ Nbvnb9fBBPk+c8segQI4OhaPupoKZ9W9cgF97gboSa2u8NWF8CCs3S1WN2IAWvBEFxuYPMVe
+ vclGbscQBeNO7fNsm7rQM2qz6fM+h6E+iWo+dAoW++KYvDv7rLT7QqWA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH v4] sqlite3: upgrade 3.48.0 -> 3.49.1
-Date: Sun, 11 May 2025 17:05:26 +0200
-Message-Id: <20250511150526.2787050-1-peter.marko@siemens.com>
+Subject: [PATCH] go: upgrade 1.24.2 -> 1.24.3
+Date: Sun, 11 May 2025 19:40:37 +0200
+Message-Id: <20250511174037.259654-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,252 +36,99 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 15:06:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216287
+ <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 17:41:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216288
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Handle CVE-2025-3277, CVE-2025-29087 and CVE-2025-29088.
+Upgrade to latest 1.24.x release [1]:
 
-This update includes major change in how it is built.
-Instead of autotools, autosetup is used.
+$ git --no-pager log --oneline go1.24.2..go1.24.3
+34c8b14ca9 (release-branch.go1.24) [release-branch.go1.24] go1.24.3
+8947f3395e [release-branch.go1.24] os: avoid escape from Root via paths ending in ../
+06fd2f115b [release-branch.go1.24] cmd/compile: remove no-longer-necessary recursive inlining checks
+f66ab6521c [release-branch.go1.24] cmd/internal/obj/wasm: use i64 for large return addr
+c1f9c2c7b0 [release-branch.go1.24] cmd/go/internal/load: join incompatible and dirty build specifiers with .
+0ab64e2caa [release-branch.go1.24] runtime: cleanup M vgetrandom state before dropping P
+56eb99859d [release-branch.go1.24] internal/runtime/maps: pass proper func PC to race.WritePC/race.ReadPC
+43130aff52 [release-branch.go1.24] runtime: fix 9-arg syscall on darwin/amd64
+b2c005e7b2 [release-branch.go1.24] crypto/tls: fix ECH compatibility
+a9d9b55709 [release-branch.go1.24] cmd/link: choose one with larger size for duplicated BSS symbols
+fa7217f74d [release-branch.go1.24] os: avoid panic in Root when symlink references the root
 
-Autosetup (https://msteveb.github.io/autosetup/) claims to be
-* Replacement for autoconf in many situations
-However it also claims NOT to
-* Intended to replace all possible uses of autoconf
-This means that some autoconf features are not available.
+Fixes CVE-2025-22873
 
-Recipe changes:
-* stop inheriting autotools and define B, do_configure and do_install
-* depend on zlib unconditionally, autoconf cannot be preconfigured in
-  similar way as autotools
-* update packageconfig options to match new syntax
-* libedit is detected with ncurses linking options (as seen in
-  do_configure log)
-* backport rpaths fix
-* define soname to avoid file-rdeps QA error due to wrong library name
-* add hack to force cross-compilation in native case to link against
-  zlib in sysroot and thus avoid crashes when sstate-cache from different
-  distro is used
-* clean B for do_configure as the new Makefiles do not seem to properly
-  retrigger build if configuration changes
+[1] https://github.com/golang/go/compare/go1.24.2...go1.24.3
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-v2: use --build=${BUILD_SYS} as an attemt to fix package installation
-v3: force cross-compilation in native case by manipulating BUILD_SYS
-v4: improve description of BUILD_SYS hack
+ meta/recipes-devtools/go/{go-1.24.2.inc => go-1.24.3.inc}   | 2 +-
+ ...o-binary-native_1.24.2.bb => go-binary-native_1.24.3.bb} | 6 +++---
+ ...cross-canadian_1.24.2.bb => go-cross-canadian_1.24.3.bb} | 0
+ .../go/{go-cross_1.24.2.bb => go-cross_1.24.3.bb}           | 0
+ .../go/{go-crosssdk_1.24.2.bb => go-crosssdk_1.24.3.bb}     | 0
+ .../go/{go-runtime_1.24.2.bb => go-runtime_1.24.3.bb}       | 0
+ meta/recipes-devtools/go/{go_1.24.2.bb => go_1.24.3.bb}     | 0
+ 7 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.24.2.inc => go-1.24.3.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.24.2.bb => go-binary-native_1.24.3.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.24.2.bb => go-cross-canadian_1.24.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.24.2.bb => go-cross_1.24.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.24.2.bb => go-crosssdk_1.24.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.24.2.bb => go-runtime_1.24.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.24.2.bb => go_1.24.3.bb} (100%)
 
- meta/recipes-support/sqlite/sqlite3.inc       |  44 ++++++--
- ...tically-fail-the-check-for-rpath-on-.patch | 102 ++++++++++++++++++
- .../{sqlite3_3.48.0.bb => sqlite3_3.49.1.bb}  |   3 +-
- 3 files changed, 141 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/0001-configure-automatically-fail-the-check-for-rpath-on-.patch
- rename meta/recipes-support/sqlite/{sqlite3_3.48.0.bb => sqlite3_3.49.1.bb} (53%)
-
-diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index d093ec5859..9e4c2713b7 100644
---- a/meta/recipes-support/sqlite/sqlite3.inc
-+++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -14,34 +14,37 @@ def sqlite_download_version(d):
- SQLITE_PV = "${@sqlite_download_version(d)}"
- 
- S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
-+B = "${WORKDIR}/build"
- 
- UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
- UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
- 
- CVE_PRODUCT = "sqlite"
- 
--inherit autotools pkgconfig siteinfo
-+inherit pkgconfig siteinfo
-+
-+# zlib is autodetected and gets to sysroots as transitive dependency, make this deterministic
-+DEPENDS = "zlib"
- 
- # enable those which are enabled by default in configure
- PACKAGECONFIG ?= "fts4 fts5 rtree dyn_ext"
- PACKAGECONFIG:class-native ?= "fts4 fts5 rtree dyn_ext"
- 
--PACKAGECONFIG[editline] = "--enable-editline,--disable-editline,libedit"
--PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline ncurses"
-+PACKAGECONFIG[editline] = "--enable-editline --with-readline-header=${includedir}/editline/readline.h,--disable-editline,libedit ncurses"
-+PACKAGECONFIG[readline] = "--enable-readline --with-readline-header=${includedir}/readline/readline.h,--disable-readline,readline ncurses"
- PACKAGECONFIG[fts3] = "--enable-fts3,--disable-fts3"
- PACKAGECONFIG[fts4] = "--enable-fts4,--disable-fts4"
- PACKAGECONFIG[fts5] = "--enable-fts5,--disable-fts5"
- PACKAGECONFIG[rtree] = "--enable-rtree,--disable-rtree"
- PACKAGECONFIG[session] = "--enable-session,--disable-session"
--PACKAGECONFIG[dyn_ext] = "--enable-dynamic-extensions,--disable-dynamic-extensions"
--PACKAGECONFIG[zlib] = ",,zlib"
--
--CACHED_CONFIGUREVARS += "${@bb.utils.contains('PACKAGECONFIG', 'zlib', '', 'ac_cv_search_deflate=no',d)}"
-+PACKAGECONFIG[dyn_ext] = "--enable-load-extension,--disable-load-extension"
- 
- EXTRA_OECONF = " \
-     --enable-shared \
-     --enable-threadsafe \
-     --disable-static-shell \
-+    --disable-rpath \
-+    --soname=${PV} \
+diff --git a/meta/recipes-devtools/go/go-1.24.2.inc b/meta/recipes-devtools/go/go-1.24.3.inc
+similarity index 91%
+rename from meta/recipes-devtools/go/go-1.24.2.inc
+rename to meta/recipes-devtools/go/go-1.24.3.inc
+index cb4ae9ef80..78e26146b5 100644
+--- a/meta/recipes-devtools/go/go-1.24.2.inc
++++ b/meta/recipes-devtools/go/go-1.24.3.inc
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
+     file://6d265b008e3d106b2706645e5a88cd8e2fb98953.patch \
  "
+-SRC_URI[main.sha256sum] = "9dc77ffadc16d837a1bf32d99c624cb4df0647cee7b119edd9e7b1bcc05f2e00"
++SRC_URI[main.sha256sum] = "229c08b600b1446798109fae1f569228102c8473caba8104b6418cb5bc032878"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.24.2.bb b/meta/recipes-devtools/go/go-binary-native_1.24.3.bb
+similarity index 78%
+rename from meta/recipes-devtools/go/go-binary-native_1.24.2.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.24.3.bb
+index 690b8546cb..af56dc9111 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.24.2.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.24.3.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
- # pread() is in POSIX.1-2001 so any reasonable system must surely support it
-@@ -65,4 +68,31 @@ FILES:lib${BPN}-staticdev = "${libdir}/lib*.a"
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "68097bd680839cbc9d464a0edce4f7c333975e27a90246890e9f1078c7e702ad"
+-SRC_URI[go_linux_arm64.sha256sum] = "756274ea4b68fa5535eb9fe2559889287d725a8da63c6aae4d5f23778c229f4b"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "5fff857791d541c71d8ea0171c73f6f99770d15ff7e2ad979104856d01f36563"
++SRC_URI[go_linux_amd64.sha256sum] = "3333f6ea53afa971e9078895eaa4ac7204a8c6b5c68c10e6bc9a33e8e391bdd8"
++SRC_URI[go_linux_arm64.sha256sum] = "a463cb59382bd7ae7d8f4c68846e73c4d589f223c589ac76871b66811ded7836"
++SRC_URI[go_linux_ppc64le.sha256sum] = "341a749d168f47b1d4dad25e32cae70849b7ceed7c290823b853c9e6b0df0856"
  
- AUTO_LIBNAME_PKGS = "${MLPREFIX}lib${BPN}"
- 
-+do_configure() {
-+    # native build links against host zlib which is problem when reusing sstate-cache from different host distro
-+    # so "destroy" BUILD_SYS to force cross-compilation and thus honor flags/paths provided by the recipe
-+    # as cross-compilation is detecded by comparing build and host defines
-+    if [ "${BUILD_SYS}" = "${TARGET_SYS}" ]; then
-+        BUILD_SYS=${BUILD_ARCH}-native-${BUILD_OS}
-+    else
-+        BUILD_SYS=${BUILD_SYS}
-+    fi
-+
-+    ${S}/configure \
-+        --build=$BUILD_SYS \
-+        --host=${TARGET_SYS} \
-+        --prefix=${prefix} \
-+        --bindir=${bindir} \
-+        --libdir=${libdir} \
-+        --includedir=${includedir} \
-+        --mandir=${mandir} \
-+        ${EXTRA_OECONF} \
-+        ${PACKAGECONFIG_CONFARGS}
-+}
-+do_configure[cleandirs] = "${B}"
-+
-+do_install() {
-+    oe_runmake DESTDIR=${D} install
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/sqlite/sqlite3/0001-configure-automatically-fail-the-check-for-rpath-on-.patch b/meta/recipes-support/sqlite/sqlite3/0001-configure-automatically-fail-the-check-for-rpath-on-.patch
-new file mode 100644
-index 0000000000..0eaa06d908
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/0001-configure-automatically-fail-the-check-for-rpath-on-.patch
-@@ -0,0 +1,102 @@
-+From f9f6410c31de9f6b377c7d8cd6d56548d3f20551 Mon Sep 17 00:00:00 2001
-+From: stephan <stephan@noemail.net>
-+Date: Thu, 20 Feb 2025 17:15:37 +0000
-+Subject: [PATCH] configure: automatically fail the check for rpath on AIX
-+ systems and provide a --disable-rpath flag as a fallback for use on platforms
-+ which pass the configure-time rpath check but then fail at link-time. Based
-+ on discussion in [forum:ae5bd8a84b|forum thread ae5bd8a84b].
-+
-+FossilOrigin-Name: b6603986e621918525312130996c298135ad27af293df9bb9f99e1fc87844379
-+
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/f9f6410c31de9f6b377c7d8cd6d56548d3f20551]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ auto.def                    |  2 +-
-+ autosetup/proj.tcl          | 18 ++++++++++++++----
-+ autosetup/sqlite-config.tcl | 14 ++++++++++++++
-+ 3 files changed, 29 insertions(+), 5 deletions(-)
-+
-+diff --git a/auto.def b/auto.def
-+index 9df87f579a..84dfa824c2 100644
-+--- a/auto.def
-++++ b/auto.def
-+@@ -11,7 +11,7 @@ use sqlite-config
-+ sqlite-config-bootstrap autoconf
-+ sqlite-check-common-bins
-+ sqlite-check-common-system-deps
-+-proj-check-rpath
-++sqlite-handle-rpath
-+ sqlite-handle-soname
-+ sqlite-setup-default-cflags
-+ sqlite-handle-debug
-+diff --git a/autosetup/proj.tcl b/autosetup/proj.tcl
-+index 6a1960f603..6b49dcdae0 100644
-+--- a/autosetup/proj.tcl
-++++ b/autosetup/proj.tcl
-+@@ -921,9 +921,20 @@ proc proj-check-emsdk {} {
-+ #
-+ # Achtung: we have seen platforms which report that a given option
-+ # checked here will work but then fails at build-time, and the current
-+-# order of checks reflects that.
-++# order of checks reflects that. Similarly, platforms which are known
-++# to report success here but fail to handle this flag at link-time are
-++# special-cased here to behave as if the check failed.
-+ proc proj-check-rpath {} {
-+-  set rc 1
-++  switch -glob -- [get-define host] {
-++    *-*-aix* {
-++      # Skip this check on platform(s) where we know it to pass at
-++      # this step but fail at build-time, as a workaround for
-++      # https://sqlite.org/forum/forumpost/ae5bd8a84b until we can
-++      # find a more reliable approach.
-++      define LDFLAGS_RPATH ""
-++      return 0
-++    }
-++  }
-+   if {[proj-opt-was-provided libdir]
-+       || [proj-opt-was-provided exec-prefix]} {
-+     set lp "[get-define libdir]"
-+@@ -945,10 +956,9 @@ proc proj-check-rpath {} {
-+       define LDFLAGS_RPATH "-Wl,-R$lp"
-+     } else {
-+       define LDFLAGS_RPATH ""
-+-      set rc 0
-+     }
-+   }
-+-  return $rc
-++  expr {"" ne [get-define LDFLAGS_RPATH]}
-+ }
-+ 
-+ ########################################################################
-+diff --git a/autosetup/sqlite-config.tcl b/autosetup/sqlite-config.tcl
-+index 7d9a9ea84b..be2522fb12 100644
-+--- a/autosetup/sqlite-config.tcl
-++++ b/autosetup/sqlite-config.tcl
-+@@ -244,6 +244,9 @@ proc sqlite-config-bootstrap {buildMode} {
-+         static-shell=1       => {Link the sqlite3 shell app against the DLL instead of embedding sqlite3.c}
-+       }
-+       {*} {
-++        # rpath: https://sqlite.org/forum/forumpost/fa3a6ed858
-++        rpath=1
-++          => {Disable checking for rpath support}
-+         # soname: https://sqlite.org/src/forumpost/5a3b44f510df8ded
-+         soname:=legacy
-+           => {SONAME for libsqlite3.so. "none", or not using this flag, sets no
-+@@ -644,6 +647,17 @@ proc sqlite-handle-debug {} {
-+   }
-+ }
-+ 
-++########################################################################
-++# If the --disable-rpath flag is used, this [define]s LDFLAGS_RPATH to
-++# an empty string, else it invokes [proj-check-rpath].
-++proc sqlite-handle-rpath {} {
-++  proj-if-opt-truthy rpath {
-++    proj-check-rpath
-++  } {
-++    define LDFLAGS_RPATH ""
-++  }
-++}
-++
-+ ########################################################################
-+ # "soname" for libsqlite3.so. See discussion at:
-+ # https://sqlite.org/src/forumpost/5a3b44f510df8ded
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb b/meta/recipes-support/sqlite/sqlite3_3.49.1.bb
-similarity index 53%
-rename from meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.49.1.bb
-index bd2ac6614d..c3c0670884 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.49.1.bb
-@@ -4,5 +4,6 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
- 
- SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
-+SRC_URI[sha256sum] = "106642d8ccb36c5f7323b64e4152e9b719f7c0215acf5bfeac3d5e7f97b59254"
- 
-+SRC_URI += "file://0001-configure-automatically-fail-the-check-for-rpath-on-.patch"
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.24.2.bb b/meta/recipes-devtools/go/go-cross-canadian_1.24.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.24.2.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.24.3.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.24.2.bb b/meta/recipes-devtools/go/go-cross_1.24.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.24.2.bb
+rename to meta/recipes-devtools/go/go-cross_1.24.3.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.24.2.bb b/meta/recipes-devtools/go/go-crosssdk_1.24.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.24.2.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.24.3.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.24.2.bb b/meta/recipes-devtools/go/go-runtime_1.24.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.24.2.bb
+rename to meta/recipes-devtools/go/go-runtime_1.24.3.bb
+diff --git a/meta/recipes-devtools/go/go_1.24.2.bb b/meta/recipes-devtools/go/go_1.24.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.24.2.bb
+rename to meta/recipes-devtools/go/go_1.24.3.bb
 
