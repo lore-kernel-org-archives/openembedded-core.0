@@ -1,109 +1,129 @@
-Return-Path: <marex@denx.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C1EBC3ABCB
-	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 21:00:48 +0000 (UTC)
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by mx.groups.io with SMTP id smtpd.web10.36324.1746997245909726781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54D73C3ABCB
+	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 21:14:18 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.36479.1746998054406585828
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 May 2025 14:00:46 -0700
+ Sun, 11 May 2025 14:14:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=mx-20241105 header.b=ICh+FFJn;
- spf=pass (domain: denx.de, ip: 89.58.32.78, mailfrom: marex@denx.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1ABC91048C2EC;
-	Sun, 11 May 2025 23:00:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
-	t=1746997243; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=5lT691Fl89Jrg6F13FBara21nysB7jGQoDyWq0yllfk=;
-	b=ICh+FFJnDN4ZwsnkX1Zzy6mbnQadDB7HnsooksEA+g0Kg4OUGlG8cpZBrpNxsAGXTiqW5T
-	g9fKzKSp4Qjb/zs/7fiJqUz278JOB3EJkyzH9IAmkIWAST6xbMl7PiibXBZn8ZnCDfM/nE
-	XzW9utpcfOb8kKS35fLBlYTbk5tSJLePB5jJ07JIqhcDwk8rItN2ITukND+bgiOTZsnP2q
-	0lpdC0AnVOs9BbQgGr0Xq91ROOb9p6Uk4Q0GKl0Zn2i0OVmEiQ85/BSXw43zQQm2KI9Bg5
-	SqDqYTUE4QUY9Is2fXCW0vahJhsvKZPSN5Vhnlsg14GLFrrEZ4M2hqqxHqrqHg==
-Message-ID: <5758b342-8f91-4b36-b2e8-2d06d5964c04@denx.de>
-Date: Sun, 11 May 2025 23:00:41 +0200
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=L0slF27f;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-740b3a18e26so2936586b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 14:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746998053; x=1747602853; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iceIfFvsOtqMwrrEAvLo6ToXiTZ1eKmRrzbAkK85+Wc=;
+        b=L0slF27fTkzblCSXwKsahuSkf5v27zTgKs4BeXYaGLwC5bNxvNy+DsRsqYX+429ywY
+         5ce36/7LXr4E2uSiVtfi0gY4fTjkAs+W0ESBTmAwilnhX/g+vBDkhSWzrw6M0xF0STkM
+         chjaHGpPc5Ug9ATnUXZJ26oxPLv69WkW8IB7R7a7O0w7qR7V6w717S5GL4v3zNu99F2f
+         t9n7AqQ3KrAYDjkER6iho9aZQAToJKBCKfQd6O9kkduRQ2EM2yePvq1o5Ypu+t/K5vWU
+         OAwaXUaqc+Wcqu7Ib3JirMn4/CYWPX5Urg8Bw57ZW8H82eyUHIHsZzP7vYIcuKBhvwTg
+         GIRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746998053; x=1747602853;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iceIfFvsOtqMwrrEAvLo6ToXiTZ1eKmRrzbAkK85+Wc=;
+        b=fzUdV3/BAaG6PgXowUhCbeyYm6VjTe75QRYqixc8buRkZzxPzNH3Jl2Uxuv5B5ngjz
+         Hdbk9Tq/TBVXS/0bohtsU/7L7TxBAFDZK3xGFnVWmNht43ta3KFndK3l+6e27HDEANmJ
+         piExPBVeqWghZR9eNSj2FYWFc18UiXNNXapYN2nyH/CWhC+QroDgKDBV9onOmMWqSIoW
+         lTlpUG/Zvrhs6xXLLumzpXmvJhq+Yj9zb4rm+GOShouXfQZPM402sy3Bd00qVXkuRQsR
+         XBMRlmKFS51zPuauixBQ6ToSb12HeohZGZk0Icev5ocvn9k0vOfeX3MgdZjOfK0NdJDc
+         lm9g==
+X-Gm-Message-State: AOJu0YyNJ5HvUjKx7IAYCkCmWFYiUpY8hOsOcGi55lnxO0eCAGiVTNlS
+	y91rOl92vM9vArBBO6kOzVEdCogK/YmRryU1EjboTVCwkcZEGGMc/ehWc3t9
+X-Gm-Gg: ASbGncvjA7GNFj3UpY7oNKiSKLwUScBz8+70tdWmcmAdioNuZdIXzUcnRCg+fs4Ypwb
+	BELBH7tcD7/EZ/iazH1u1naLkz+vRmZeIe42pihdQH0S9yzQc78gNOpWTgaSIGwdXRUT/PSPY2M
+	s2X8sm0gtAuEr407GLA0SsZrbuM2YUKgICTz2uTJvn6Zk2c0Mwp5xZ/HxOY139F9zEJTXg9U/Kq
+	C2oJMgLCDQoIteoOfhEGqwp/dokDzoaEQTJAdBtov5lvRdGgi2NJgMnnTun3TR9ZbOvPj2LpFkl
+	3q7Mo54qv8PFFi8v8mtj5g27IFtc/W75YzLzqhgnj4oDww+0gbzNVA==
+X-Google-Smtp-Source: AGHT+IFvd5ZR3D7+350bKZSi7mRUS0K68lN67MyBuHAlNjtfq5esxzleQXEID024m8rnAya5B7TmVw==
+X-Received: by 2002:a05:6a00:9286:b0:740:a023:5d60 with SMTP id d2e1a72fcca58-7423c032792mr16363235b3a.19.1746998053366;
+        Sun, 11 May 2025 14:14:13 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::efc5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237736e4esm5017004b3a.67.2025.05.11.14.14.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 May 2025 14:14:12 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] busybox: Skip a non-posix awk ptest on musl systems
+Date: Sun, 11 May 2025 14:14:11 -0700
+Message-ID: <20250511211411.1720365-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] u-boot: ensure keys are generated before assembling
- U-Boot FIT image
-To: Rogerio Guerra Borin <rogerio.borin@gmail.com>,
- openembedded-core@lists.openembedded.org
-Cc: Rogerio Guerra Borin <rogerio.borin@toradex.com>,
- Sean Anderson <sean.anderson@seco.com>,
- Adrian Freihofer <adrian.freihofer@siemens.com>
-References: <20250509213736.3950997-1-rogerio.borin@gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20250509213736.3950997-1-rogerio.borin@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 21:00:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216293
+ <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 21:14:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216294
 
-On 5/9/25 11:37 PM, Rogerio Guerra Borin wrote:
-> From: Rogerio Guerra Borin <rogerio.borin@toradex.com>
-> 
-> Add the task dependency:
-> 
-> do_uboot_assemble_fitimage -> virtual/kernel:do_kernel_generate_rsa_keys
-> 
-> to ensure the kernel FIT image signing keys are available when creating
-> the U-Boot DTB. This is done only if the signing of the kernel FIT image
-> is enabled (UBOOT_SIGN_ENABLE="1").
-> 
-> The lack of the dependency causes build errors when executing a build
-> with no kernel FIT keys initially present in the keys directory. In such
-> cases one would see an output like this in the Bitbake logs:
-> 
-> Log data follows:
-> | DEBUG: Executing shell function do_uboot_assemble_fitimage
-> | Couldn't open RSA private key: '/workdir/build/keys/fit/dev.key': No such file or directory
-> | Failed to sign 'signature' signature node in 'conf-1' conf node
-> | FIT description: Kernel Image image with one or more FDT blobs
-> | ...
-> 
-> This issue was introduced by commit 259bfa86f384 where the dependency
-> between U-Boot and the kernel was removed (for good reasons). Before
-> that commit the dependency was set via DEPENDS so that, in terms of
-> tasks, one had:
-> 
-> u-boot:do_configure -> virtual/kernel:do_populate_sysroot
-> 
-> and the chain leading to the key generation was:
-> 
-> virtual/kernel:do_populate_sysroot -> virtual/kernel:do_install
-> virtual/kernel:do_install -> virtual/kernel:do_assemble_fitimage
-> virtual/kernel:do_assemble_fitimage -> virtual/kernel:do_kernel_generate_rsa_keys
-> 
-> With the removal of the first dependency, no more guarantees exist that
-> the keys would be present when assembling the U-Boot FIT image. That's
-> the situation we are solving with the present commit.
-> 
-> Fixes: 259bfa86f384 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled")
-> Signed-off-by: Rogerio Guerra Borin <rogerio.borin@toradex.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Sean Anderson <sean.anderson@seco.com>
-> Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->   meta/classes-recipe/uboot-sign.bbclass | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-> index 76a81546e34..7744e0c5ab5 100644
-> --- a/meta/classes-recipe/uboot-sign.bbclass
-> +++ b/meta/classes-recipe/uboot-sign.bbclass
-> @@ -113,6 +113,8 @@ python() {
->       sign = d.getVar('UBOOT_SIGN_ENABLE') == '1'
->       if d.getVar('UBOOT_FITIMAGE_ENABLE') == '1' or sign:
->           d.appendVar('DEPENDS', " u-boot-tools-native dtc-native")
-> +    if sign:
-> +        d.appendVarFlag('do_uboot_assemble_fitimage', 'depends', ' virtual/kernel:do_kernel_generate_rsa_keys')
-This should also check for FIT_GENERATE_KEYS=1 before adding the 
-dependency, right ?
+The test depends on BSD extension REG_STARTEND which
+is not in POSIX, glibc does implement this extention so it
+works on glibc systems. Therefore the patch to disable this test
+is made musl specific
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...gsub-erroneous-word-start-match-test.patch | 29 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.37.0.bb   |  4 ++-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch
+
+diff --git a/meta/recipes-core/busybox/busybox/0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch b/meta/recipes-core/busybox/busybox/0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch
+new file mode 100644
+index 00000000000..37af192fb08
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch
+@@ -0,0 +1,29 @@
++From d820b91e4bd8fde08b19a6e9aabf9624ab28b4d0 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 11 May 2025 08:36:54 -0700
++Subject: [PATCH] busybox: Add awk gsub erroneous word start match test to know
++ fails on musl
++
++Musl does not implement this BSD extension REG_STARTEND and the test states
++that it will fail without this extention, therefore guard it with SKIP_KNOWN_BUGS
++so it can be ignored.
++
++Upstream-Status: Inappropriate [ Musl-specific ]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ testsuite/awk.tests | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/testsuite/awk.tests b/testsuite/awk.tests
++index be25f6696..a2deadccd 100755
++--- a/testsuite/awk.tests
+++++ b/testsuite/awk.tests
++@@ -612,7 +612,7 @@ b
++ # Currently we use REG_STARTEND ("This flag is a BSD extension, not present in POSIX")
++ # to implement the code to handle this correctly, but if your libc has no REG_STARTEND,
++ # the alternative code mishandles this case.
++-testing 'awk gsub erroneous word start match' \
+++test x"$SKIP_KNOWN_BUGS" = x"" && testing 'awk gsub erroneous word start match' \
++ 	"awk 'BEGIN { a=\"abc\"; gsub(/\<b*/,\"\",a); print a }'" \
++ 	'abc\n' \
++ 	'' ''
+diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
+index c3131eb4531..5e1362f4b7c 100644
+--- a/meta/recipes-core/busybox/busybox_1.37.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -54,6 +54,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0002-start-stop-daemon-fix-tests.patch \
+            file://0003-start-stop-false.patch \
+            "
+-SRC_URI:append:libc-musl = " file://musl.cfg"
++SRC_URI:append:libc-musl = "\
++                            file://musl.cfg \
++                            file://0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch"
+ SRC_URI:append:x86-64 = " file://sha_accel.cfg"
+ SRC_URI[tarball.sha256sum] = "3311dff32e746499f4df0d5df04d7eb396382d7e108bb9250e7b519b837043a4"
 
