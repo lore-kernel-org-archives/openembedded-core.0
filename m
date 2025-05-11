@@ -1,104 +1,109 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36BF8C3ABCB
-	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 20:51:48 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.36162.1746996702183790534
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C1EBC3ABCB
+	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 21:00:48 +0000 (UTC)
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by mx.groups.io with SMTP id smtpd.web10.36324.1746997245909726781
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 May 2025 13:51:43 -0700
+ Sun, 11 May 2025 14:00:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=M/9IbOOD;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250511205138ff58ccabedb474dba8-ne4zfy@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250511205138ff58ccabedb474dba8
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 11 May 2025 22:51:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=ClFf8hnsH2EiQBYbsMy6EHABtTuzAQnoqifewrIs0Qw=;
- b=M/9IbOODckWlKkB1HbSvsNN7FMcgzDHXAOOjyMq1AwB0+1wCNrhDNzyi6cnNL2U/MF0ob9
- zQu4XCL/HSAcndKJrUgsBfKi2OW2cmLLknpFR6flXKcJJMsHKgp0IvZsaa+BN8ldYqU+qcPg
- ql96Lh9Zvbpm+sMw5rF/vyDBHCDRADs+Egkre7+6gT4gWpyLR/uzm1C6xHap8M8hA2E/T3Mf
- 5qW1lXxV1qcO22YdzN+nlZ4EALrGY1Twlt1f1IRTs2x0DLr6MP6uzwhltenlFSZOM96VxcTu
- iobcP7IbsaghloLLs0DVmV8kZHt0wus9WosqlarflbvPcj2iafOFbqng==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] perl: patch CVE-2024-56406
-Date: Sun, 11 May 2025 22:50:51 +0200
-Message-Id: <20250511205051.3731874-1-peter.marko@siemens.com>
+ dkim=pass header.i=@denx.de header.s=mx-20241105 header.b=ICh+FFJn;
+ spf=pass (domain: denx.de, ip: 89.58.32.78, mailfrom: marex@denx.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1ABC91048C2EC;
+	Sun, 11 May 2025 23:00:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+	t=1746997243; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=5lT691Fl89Jrg6F13FBara21nysB7jGQoDyWq0yllfk=;
+	b=ICh+FFJnDN4ZwsnkX1Zzy6mbnQadDB7HnsooksEA+g0Kg4OUGlG8cpZBrpNxsAGXTiqW5T
+	g9fKzKSp4Qjb/zs/7fiJqUz278JOB3EJkyzH9IAmkIWAST6xbMl7PiibXBZn8ZnCDfM/nE
+	XzW9utpcfOb8kKS35fLBlYTbk5tSJLePB5jJ07JIqhcDwk8rItN2ITukND+bgiOTZsnP2q
+	0lpdC0AnVOs9BbQgGr0Xq91ROOb9p6Uk4Q0GKl0Zn2i0OVmEiQ85/BSXw43zQQm2KI9Bg5
+	SqDqYTUE4QUY9Is2fXCW0vahJhsvKZPSN5Vhnlsg14GLFrrEZ4M2hqqxHqrqHg==
+Message-ID: <5758b342-8f91-4b36-b2e8-2d06d5964c04@denx.de>
+Date: Sun, 11 May 2025 23:00:41 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] u-boot: ensure keys are generated before assembling
+ U-Boot FIT image
+To: Rogerio Guerra Borin <rogerio.borin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Rogerio Guerra Borin <rogerio.borin@toradex.com>,
+ Sean Anderson <sean.anderson@seco.com>,
+ Adrian Freihofer <adrian.freihofer@siemens.com>
+References: <20250509213736.3950997-1-rogerio.borin@gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20250509213736.3950997-1-rogerio.borin@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 20:51:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216292
+ <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 21:00:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216293
 
-From: Peter Marko <peter.marko@siemens.com>
-
-Pick patch mentioned in NVD links for this CVE.
-Tested by runniing ptest and CVE reproducer (before&after).
-Ptest fails on test dist/threads/t/join, however the same test also
-fails without this patch.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- ...4-56406-Heap-buffer-overflow-with-tr.patch | 30 +++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.34.3.bb     |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch
-
-diff --git a/meta/recipes-devtools/perl/files/0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch b/meta/recipes-devtools/perl/files/0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch
-new file mode 100644
-index 0000000000..377ef95f12
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch
-@@ -0,0 +1,30 @@
-+From 87f42aa0e0096e9a346c9672aa3a0bd3bef8c1dd Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Wed, 18 Dec 2024 18:25:29 -0700
-+Subject: [PATCH] CVE-2024-56406: Heap-buffer-overflow with tr//
-+
-+This was due to underallocating needed space.  If the translation forces
-+something to become UTF-8 that is initially bytes, that UTF-8 could
-+now require two bytes where previously a single one would do.
-+
-+(cherry picked from commit f93109c8a6950aafbd7488d98e112552033a3686)
-+
-+CVE: CVE-2024-56406
-+Upstream-Status: Backport [https://github.com/Perl/perl5/commit/87f42aa0e0096e9a346c9672aa3a0bd3bef8c1dd]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ op.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/op.c b/op.c
-+index 69ff030e88..298b292633 100644
-+--- a/op.c
-++++ b/op.c
-+@@ -7515,6 +7515,7 @@ S_pmtrans(pTHX_ OP *o, OP *expr, OP *repl)
-+                  * same time.  But otherwise one crosses before the other */
-+                 if (t_cp < 256 && r_cp_end > 255 && r_cp != t_cp) {
-+                     can_force_utf8 = TRUE;
-++                    max_expansion = MAX(2, max_expansion);
-+                 }
-+             }
-+ 
-diff --git a/meta/recipes-devtools/perl/perl_5.34.3.bb b/meta/recipes-devtools/perl/perl_5.34.3.bb
-index ed3518b62d..f6ebbf2d16 100644
---- a/meta/recipes-devtools/perl/perl_5.34.3.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.3.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://CVE-2023-31484.patch \
-            file://CVE-2023-31486-0001.patch \
-            file://CVE-2023-31486-0002.patch \
-+           file://0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://perl-configpm-switch.patch \
+On 5/9/25 11:37 PM, Rogerio Guerra Borin wrote:
+> From: Rogerio Guerra Borin <rogerio.borin@toradex.com>
+> 
+> Add the task dependency:
+> 
+> do_uboot_assemble_fitimage -> virtual/kernel:do_kernel_generate_rsa_keys
+> 
+> to ensure the kernel FIT image signing keys are available when creating
+> the U-Boot DTB. This is done only if the signing of the kernel FIT image
+> is enabled (UBOOT_SIGN_ENABLE="1").
+> 
+> The lack of the dependency causes build errors when executing a build
+> with no kernel FIT keys initially present in the keys directory. In such
+> cases one would see an output like this in the Bitbake logs:
+> 
+> Log data follows:
+> | DEBUG: Executing shell function do_uboot_assemble_fitimage
+> | Couldn't open RSA private key: '/workdir/build/keys/fit/dev.key': No such file or directory
+> | Failed to sign 'signature' signature node in 'conf-1' conf node
+> | FIT description: Kernel Image image with one or more FDT blobs
+> | ...
+> 
+> This issue was introduced by commit 259bfa86f384 where the dependency
+> between U-Boot and the kernel was removed (for good reasons). Before
+> that commit the dependency was set via DEPENDS so that, in terms of
+> tasks, one had:
+> 
+> u-boot:do_configure -> virtual/kernel:do_populate_sysroot
+> 
+> and the chain leading to the key generation was:
+> 
+> virtual/kernel:do_populate_sysroot -> virtual/kernel:do_install
+> virtual/kernel:do_install -> virtual/kernel:do_assemble_fitimage
+> virtual/kernel:do_assemble_fitimage -> virtual/kernel:do_kernel_generate_rsa_keys
+> 
+> With the removal of the first dependency, no more guarantees exist that
+> the keys would be present when assembling the U-Boot FIT image. That's
+> the situation we are solving with the present commit.
+> 
+> Fixes: 259bfa86f384 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled")
+> Signed-off-by: Rogerio Guerra Borin <rogerio.borin@toradex.com>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Sean Anderson <sean.anderson@seco.com>
+> Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+>   meta/classes-recipe/uboot-sign.bbclass | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+> index 76a81546e34..7744e0c5ab5 100644
+> --- a/meta/classes-recipe/uboot-sign.bbclass
+> +++ b/meta/classes-recipe/uboot-sign.bbclass
+> @@ -113,6 +113,8 @@ python() {
+>       sign = d.getVar('UBOOT_SIGN_ENABLE') == '1'
+>       if d.getVar('UBOOT_FITIMAGE_ENABLE') == '1' or sign:
+>           d.appendVar('DEPENDS', " u-boot-tools-native dtc-native")
+> +    if sign:
+> +        d.appendVarFlag('do_uboot_assemble_fitimage', 'depends', ' virtual/kernel:do_kernel_generate_rsa_keys')
+This should also check for FIT_GENERATE_KEYS=1 before adding the 
+dependency, right ?
 
