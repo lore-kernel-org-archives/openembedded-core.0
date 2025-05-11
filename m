@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55620C3ABC3
-	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 14:58:16 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.30411.1746975494095287311
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 744C8C3ABCB
+	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 15:06:26 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web11.30663.1746975977239556694
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 May 2025 07:58:15 -0700
+ Sun, 11 May 2025 08:06:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=a3TclyL7;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202505111458106ea0b872a53f9b37b2-ww4hq_@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202505111458106ea0b872a53f9b37b2
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=aF9VhNMl;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20250511150613136aa3817e8767b804-guwiji@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250511150613136aa3817e8767b804
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 11 May 2025 16:58:11 +0200
+        Sun, 11 May 2025 17:06:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=IL36zLUyGQ7RRp+CjMBWk3ek2MDcwucrNiMJqjWs3+U=;
- b=a3TclyL72icGr9wS52Sd9FECgViZ1IkUrKAdHO8pvuIVVIlfM4cpe0yoYHFn6t0ptQkA1v
- Rz/e0LAMsbiWzrXQmBXF5/6C14vv9GZdnEmYEj4KqErUYJv9jgBnmeNsNlW/f9Oc/DCHQ9Ah
- EWsOzs6gRBqviViu1c0u8etpxdaLZGh05uk5FdBPVicwJ6oF9tx+2a4F9WvRfAqXskvWI14S
- bceMLa8Ayzrm9AHAXZZYiybW9/oLXspG0KeaY2Fhlltito1cVjsS6NYjGy19Y5iF2BQ5w7EN
- Pw+NmqvWRewDKVKQnFoiO9GEYv1nUsnxd974JBulY6qt6uUqanxcUfEA==;
+ bh=nAW0YDQ7582a5nGrmCHHZC7rwIjf/UgUoDOQi6yWiIk=;
+ b=aF9VhNMlI+QGiAfS+MSTE5ECPiXvIeSkTf+Bg3JSPnu5LHUjnZCU90qDP9BR2qZVOog5sh
+ v5IRDEeH9JVdSrMh0fzC4w26zf9jsV/3c85aeIpd2hSuMzll6zFoYV+FZ40dU6TTIxjUCA25
+ rApqX9yAKlx1kp1bjUYm3Ug+Ad3GnHHr72rLhQDcadDmyfxo0mAsoar/rzUt+7bTvjhSSfaC
+ mUOQPDKDQGAtuD/VbPoHUkoBGZW+qGMkuGCm4wLQoBc0V7gMTQjPCEoUr+OjWjG1YiD/TOdE
+ xm8YrfZJeZKnQYYHcE1jA/l8w/tc1nnAJeHPf6zhz4Mu8gLWtUkZeOMA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH v3] sqlite3: upgrade 3.48.0 -> 3.49.1
-Date: Sun, 11 May 2025 16:57:23 +0200
-Message-Id: <20250511145723.2786669-1-peter.marko@siemens.com>
+Subject: [OE-core][PATCH v4] sqlite3: upgrade 3.48.0 -> 3.49.1
+Date: Sun, 11 May 2025 17:05:26 +0200
+Message-Id: <20250511150526.2787050-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 14:58:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216286
+ <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 15:06:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216287
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -71,16 +71,17 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
 v2: use --build=${BUILD_SYS} as an attemt to fix package installation
 v3: force cross-compilation in native case by manipulating BUILD_SYS
+v4: improve description of BUILD_SYS hack
 
- meta/recipes-support/sqlite/sqlite3.inc       |  42 ++++++--
+ meta/recipes-support/sqlite/sqlite3.inc       |  44 ++++++--
  ...tically-fail-the-check-for-rpath-on-.patch | 102 ++++++++++++++++++
  .../{sqlite3_3.48.0.bb => sqlite3_3.49.1.bb}  |   3 +-
- 3 files changed, 139 insertions(+), 8 deletions(-)
+ 3 files changed, 141 insertions(+), 8 deletions(-)
  create mode 100644 meta/recipes-support/sqlite/sqlite3/0001-configure-automatically-fail-the-check-for-rpath-on-.patch
  rename meta/recipes-support/sqlite/{sqlite3_3.48.0.bb => sqlite3_3.49.1.bb} (53%)
 
 diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index d093ec5859..06c494cb5f 100644
+index d093ec5859..9e4c2713b7 100644
 --- a/meta/recipes-support/sqlite/sqlite3.inc
 +++ b/meta/recipes-support/sqlite/sqlite3.inc
 @@ -14,34 +14,37 @@ def sqlite_download_version(d):
@@ -128,18 +129,20 @@ index d093ec5859..06c494cb5f 100644
  "
  
  # pread() is in POSIX.1-2001 so any reasonable system must surely support it
-@@ -65,4 +68,29 @@ FILES:lib${BPN}-staticdev = "${libdir}/lib*.a"
+@@ -65,4 +68,31 @@ FILES:lib${BPN}-staticdev = "${libdir}/lib*.a"
  
  AUTO_LIBNAME_PKGS = "${MLPREFIX}lib${BPN}"
  
 +do_configure() {
-+    # native build links against host zlib which is problem when reusing sstate-cache from different distro
-+    # so "destroy" BUILD_SYS to force cross-compilation and thus honor paths provided by flags/paths set by the recipe
++    # native build links against host zlib which is problem when reusing sstate-cache from different host distro
++    # so "destroy" BUILD_SYS to force cross-compilation and thus honor flags/paths provided by the recipe
++    # as cross-compilation is detecded by comparing build and host defines
 +    if [ "${BUILD_SYS}" = "${TARGET_SYS}" ]; then
 +        BUILD_SYS=${BUILD_ARCH}-native-${BUILD_OS}
 +    else
 +        BUILD_SYS=${BUILD_SYS}
 +    fi
++
 +    ${S}/configure \
 +        --build=$BUILD_SYS \
 +        --host=${TARGET_SYS} \
