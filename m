@@ -1,86 +1,104 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CE4C3ABCB
-	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 18:44:07 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.34183.1746989039854070497
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36BF8C3ABCB
+	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 20:51:48 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.36162.1746996702183790534
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 May 2025 11:44:00 -0700
+ Sun, 11 May 2025 13:51:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AwcW7Sxv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-441d1ed82dbso39946165e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 11:43:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1746989038; x=1747593838; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dgrO4ZV7Rev4YLdsW9+4JIVM43Bp/vl6pRCoxLHkhWE=;
-        b=AwcW7SxvLIH1V7Vs+TbPW66NRcp6OD5cu2KvU9IWMCXNuNIyeFeuhpVwJUZXvcbBKw
-         xVPo0G1A5uATBp8FNIa/mPpn75B4x2fmzXvCmm4iItdMaX6ovI4pxM9MuRr/PKR8lAt6
-         Ok8nf24LyX8LfdxyDs+ZRbcwgIUlJX4MFkYjM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746989038; x=1747593838;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dgrO4ZV7Rev4YLdsW9+4JIVM43Bp/vl6pRCoxLHkhWE=;
-        b=q9C9Mdy7HkSPwyG5WtVOU90tSGIBiBMOXDt+1M3nYzNgafsvy6xLZ3ykxjrvcKG2lY
-         l0q+v7uDjRSL+UHZyb2f+rPGrwRMqxrYW7J26UWZ2M6wHUBNdDEK7QLBoQ7rK4u9whvQ
-         ltxNDX1oDrPuiF3qpNjb46A57TMvHA4r8bzw+BKxZ2nxFvoCWQ3JBOqgU4FP+uveix7K
-         KTH0U+qAuw5Ie2a7wRfBXoQuotBLRm8j5RrWQnrTFbnJCEKhzkZzFV9KfUhb9kJsu7Vh
-         JTgr0HZLVXiaBwOu+hfapZZV6T3FeV/pwFH5SiR04A5z1yJp4ZzMHDZkV/6DSFLloOe/
-         gXlA==
-X-Forwarded-Encrypted: i=1; AJvYcCUjyL8P9ffKYCHVH0lc4CcIcZZjhlk+SnBNIsNNHI9wBOi4OFLyXJuKSSb5ld9WmcAtZLdKexUhcxM97ib064PH3Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxrN8BQgZzOijon+1MWcNRwZOF3TKR2VZHZvU4lDlPirgY9XDJ+
-	579evubHE7Uqyc+bD5G7cAi9Ev176QrFchCiWcvBgwYQmiMfbqvbYtQtnTTmDkY=
-X-Gm-Gg: ASbGncudgEB7ET5SBI3yMQ3L6df+hkmGYFInkoED77/QJrEMQpGewkk2FRW8f5CEHnu
-	KpAdAOR1r1BcR7mQnw6MSkHkvGsZTBa8P2Sc1vUcJHKTF/xDFy7xyKHE25yOO69Y0VApzKJvPg9
-	4rLJhdkVMrNB4Fmd3F4OkXaTVJspQKBrswaqYFqM+aOrWuSCAIBFokKHwjlANUYqlFWKKsq+Qu8
-	sPctouolc7wX018WGwZjDiSQ+WhCgyp5DIWGkmZSh4NbXxAJAGMj8p8Hb++Cs8DprYlsLIsx+tU
-	SRHSBtnPV7/s9rJsrDeeL76qxh5/3a47ZbQnOqQ5BonaJ7A8H7iUr+sVAjj5uHdYjSY6Nw6Jeqh
-	ivfjDZuIUU9KFw8gOo199+VjBHWY41vExkyekEw==
-X-Google-Smtp-Source: AGHT+IHIAzMHuGr7opve0aQyNQm6JimD2m1Z2ovTZjdwri1MuQhassXKUp4J/EsmCzseP7tudnhcAw==
-X-Received: by 2002:a05:6000:1ac6:b0:39e:dbee:f644 with SMTP id ffacd0b85a97d-3a1f64b5a71mr8074316f8f.46.1746989037984;
-        Sun, 11 May 2025 11:43:57 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3d5d:7258:394:7374? ([2001:8b0:aba:5f3c:3d5d:7258:394:7374])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f57dde01sm10187303f8f.15.2025.05.11.11.43.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 May 2025 11:43:57 -0700 (PDT)
-Message-ID: <3a5a047bd48aae6576a4422f421616211b1a262d.camel@linuxfoundation.org>
-Subject: Re: [yocto-security] OE-core CVE metrics for walnascar on Sun 11
- May 2025 01:49:49 AM HST
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Marko, Peter" <Peter.Marko@siemens.com>, "steve@sakoman.com"
-	 <steve@sakoman.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, 
- "yocto-security@lists.yoctoproject.org"
-	 <yocto-security@lists.yoctoproject.org>
-Date: Sun, 11 May 2025 19:43:56 +0100
-In-Reply-To: <AS1PR10MB5697B496C5947EC961F51DBFFD94A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250511115243.D83E9100407@builder.sakoman.com>
-	 <AS1PR10MB5697B496C5947EC961F51DBFFD94A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=M/9IbOOD;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250511205138ff58ccabedb474dba8-ne4zfy@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250511205138ff58ccabedb474dba8
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 11 May 2025 22:51:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=ClFf8hnsH2EiQBYbsMy6EHABtTuzAQnoqifewrIs0Qw=;
+ b=M/9IbOODckWlKkB1HbSvsNN7FMcgzDHXAOOjyMq1AwB0+1wCNrhDNzyi6cnNL2U/MF0ob9
+ zQu4XCL/HSAcndKJrUgsBfKi2OW2cmLLknpFR6flXKcJJMsHKgp0IvZsaa+BN8ldYqU+qcPg
+ ql96Lh9Zvbpm+sMw5rF/vyDBHCDRADs+Egkre7+6gT4gWpyLR/uzm1C6xHap8M8hA2E/T3Mf
+ 5qW1lXxV1qcO22YdzN+nlZ4EALrGY1Twlt1f1IRTs2x0DLr6MP6uzwhltenlFSZOM96VxcTu
+ iobcP7IbsaghloLLs0DVmV8kZHt0wus9WosqlarflbvPcj2iafOFbqng==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] perl: patch CVE-2024-56406
+Date: Sun, 11 May 2025 22:50:51 +0200
+Message-Id: <20250511205051.3731874-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 18:44:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216291
+ <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 20:51:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216292
 
-On Sun, 2025-05-11 at 18:39 +0000, Marko, Peter wrote:
-> Would be cool if also autobuilder/valkyrie metrics would include
-> walnascar by now.
+From: Peter Marko <peter.marko@siemens.com>
 
-All the repos are public so anyone could send the appropriate
-patches...
+Pick patch mentioned in NVD links for this CVE.
+Tested by runniing ptest and CVE reproducer (before&after).
+Ptest fails on test dist/threads/t/join, however the same test also
+fails without this patch.
 
-Cheers,
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ ...4-56406-Heap-buffer-overflow-with-tr.patch | 30 +++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.34.3.bb     |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch
 
-Richard
+diff --git a/meta/recipes-devtools/perl/files/0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch b/meta/recipes-devtools/perl/files/0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch
+new file mode 100644
+index 0000000000..377ef95f12
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch
+@@ -0,0 +1,30 @@
++From 87f42aa0e0096e9a346c9672aa3a0bd3bef8c1dd Mon Sep 17 00:00:00 2001
++From: Karl Williamson <khw@cpan.org>
++Date: Wed, 18 Dec 2024 18:25:29 -0700
++Subject: [PATCH] CVE-2024-56406: Heap-buffer-overflow with tr//
++
++This was due to underallocating needed space.  If the translation forces
++something to become UTF-8 that is initially bytes, that UTF-8 could
++now require two bytes where previously a single one would do.
++
++(cherry picked from commit f93109c8a6950aafbd7488d98e112552033a3686)
++
++CVE: CVE-2024-56406
++Upstream-Status: Backport [https://github.com/Perl/perl5/commit/87f42aa0e0096e9a346c9672aa3a0bd3bef8c1dd]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ op.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/op.c b/op.c
++index 69ff030e88..298b292633 100644
++--- a/op.c
+++++ b/op.c
++@@ -7515,6 +7515,7 @@ S_pmtrans(pTHX_ OP *o, OP *expr, OP *repl)
++                  * same time.  But otherwise one crosses before the other */
++                 if (t_cp < 256 && r_cp_end > 255 && r_cp != t_cp) {
++                     can_force_utf8 = TRUE;
+++                    max_expansion = MAX(2, max_expansion);
++                 }
++             }
++ 
+diff --git a/meta/recipes-devtools/perl/perl_5.34.3.bb b/meta/recipes-devtools/perl/perl_5.34.3.bb
+index ed3518b62d..f6ebbf2d16 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.3.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.3.bb
+@@ -21,6 +21,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://CVE-2023-31484.patch \
+            file://CVE-2023-31486-0001.patch \
+            file://CVE-2023-31486-0002.patch \
++           file://0001-CVE-2024-56406-Heap-buffer-overflow-with-tr.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://perl-configpm-switch.patch \
 
