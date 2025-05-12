@@ -2,96 +2,135 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 138F3C3ABBC
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:12:04 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web10.46055.1747041122443722384
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F71C3ABBC
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:25:54 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web11.46231.1747041951367476648
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 02:12:02 -0700
+ Mon, 12 May 2025 02:25:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BTZdN2dH;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6f0c30a1ca3so55408666d6.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 02:12:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iOKyAv/O;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6f545ae3c59so46127296d6.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 02:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747041121; x=1747645921; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747041950; x=1747646750; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=t+RaiAmPC1nxGM5UaowAJtth7M/7eny0/GuIePd2Hb8=;
-        b=BTZdN2dH+5UbhinaA8DzmhzNVRSUCmMUPscBVhsenrXL9IKuFKSc1tFavEs4alfj9h
-         d4zLEArz+rF5faejazQNI0dAEcnIFLGu8nY7mgypBl5sYrElwlsXzibQ6eVEyQqXag+U
-         5PFaCPs0aI2MvyGWeDYihPOovNhOflnT1PIALeXXxA6jTgGmjbuuh5aidYqOwXGoH7wu
-         D5tr2uFuz+pU+iuyw+TEkfPhQtB4z2XUu3I0ZBVuaN+fQZ2Nm3eSG2Xoivzgf0D8Ad7s
-         GlXFnYlUjbMKLgTmlOw9v0GzD3h9acV4xDwf7txx5BkjFa7QcfwUQKbHi73kAobgmZOe
-         WmeQ==
+        bh=6DlTzDdkZPujRdYaupkUmgWV8tWPQzSw4559EQLhe7s=;
+        b=iOKyAv/OUyACaj6rcCmKoxeDFnClwdJBYrvv5RqaLxJJsuZz4+adYPfKMupxcVO98+
+         8rMvyOisEytRM3Ml8eRKXBRsVRkOhWZdgJWnxfD1/T567CAiE0Lgjl9PfFFFshfB9tb/
+         1effOMTDZYwJC6iOGy45VtDJXjEnnhnuNWRCnIU0vrA6qbZiM75ej/uo75nt4ZyiX8H6
+         K/nRH29nrFJ8DFj03Mj8JKcQaorq9rh9lJFHEPUxoMWDRK9sqMKl5We9BdGCPz2lcLmc
+         341XmESxx5tSHIamQ9WbxQbmcR9ty3lIQXnymwS11fVQmBZK2Vc492FXVoQsd2Q9WMV8
+         LDEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747041121; x=1747645921;
+        d=1e100.net; s=20230601; t=1747041950; x=1747646750;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=t+RaiAmPC1nxGM5UaowAJtth7M/7eny0/GuIePd2Hb8=;
-        b=VR/3iPKl0zSR/6+bpT5mVXTxlIroTuH6IqY+hfg5DNksLgOVB5L2642p0kDKiCn0PH
-         M14VdayCGngh707pYNw3HE8lQy07tr9NR52RpfxTQ6oEZQutOqNoqHE07szdFj6skI0X
-         d4ThZmsGgHbutgeV/hk6aaCIZx1lDta9yN8Fecw/k/8TFQ3D2qa2f5mySo0PLSH4m+Nb
-         5tfRto9jBXHXf64Hq2pU7KJ+F3cA5Eml9hNrZzCFsJxNBWlV1Y6nem8HJyYZwSPLfKVV
-         ZNjeFQsZHk+lOhrIXrPlsQng7BNpwrprgFw4Q6KiKw5Vdwk40GSWkwVzJneb87e7ofEx
-         +Wqw==
-X-Gm-Message-State: AOJu0Yz2EAGCoAfQL/EMVmiHYj82wKHPr94NH30y6k8lVY2Qk76TXPSm
-	vbfyxcWHvtTle2RDzHhldyJhsfIswloTxedIg9Qt1EhNdTEUNrOLQdmrQraZmQhJ1KumWudVIhw
-	MfW3+p1QYUy2/VWyRANZq3FZmtTw=
-X-Gm-Gg: ASbGncvCuWgda2DM3SC3f+kgpv6JHbFyeiLGiuDPOnSAtS4bbigj+pL5Mj8tPCkKPEz
-	awPXb8yN3wrikOUsYudYOCDWLKK4OxtSXcIHUUvglRfnV3ZgIglCZZS5icxGwX7n3dhSOd8/um8
-	OsiqaFtSVdTXB0li4DOJd4AMawRE3b7qZCew==
-X-Google-Smtp-Source: AGHT+IEiSGRSZWDA5cugzdyXZCkyLlFPQN6BJQwJdvYl2v255MR+smopjklnJ1qGRTmk/yru7GPf6riyzEhHrDLlpqU=
-X-Received: by 2002:ad4:5768:0:b0:6d4:1425:6d2d with SMTP id
- 6a1803df08f44-6f6e4840d0bmr175023076d6.43.1747041121524; Mon, 12 May 2025
- 02:12:01 -0700 (PDT)
+        bh=6DlTzDdkZPujRdYaupkUmgWV8tWPQzSw4559EQLhe7s=;
+        b=ZebPn++MEV/JEOUKwptFT7Zg8kCdBJx+7xWPBxuNrrObvSv1t7PfNHvcCLxHBp5C4C
+         eyXbOQtsf2Y3vkgZuxWv9PChVd3R4ShJFUg9Gee3n0wXXDsVtgVwsXp7x+l2JbfW/l3z
+         jGsZnt+WuYZZzbHoVxqC9gaFxjnvfDkLihF/UZG4vSUPrVEcERB/gan+9k2MZiRNO1t5
+         v2343cy3VrIYzaAvZwHjdvtV7F81cilTVKHIp24uCCktdqI2Rj6ye0mkkkFLCqH2hV+9
+         WRPwKXldTiIBbRmy/7ZTY9hl2B4oaWWQznf8XUymN4mxC3OKZ3rEPGo5CcY2tMA+c6xy
+         m/uw==
+X-Gm-Message-State: AOJu0YzbZX+IIGfX0awfWzzLyGxnCRoDov5WeNbGng4Rsozufmo1Dcdb
+	FpDsuEeYdkcmvwBx3/budDk0arjSQtpVY0OXJu3e/f4hnK5F2SyjpMEpRDrxEJikjldlKoGW6+7
+	kcWnuDEVHnmmHok8LkFnrgKjMR2w=
+X-Gm-Gg: ASbGncsmqOjNZNIpJrPRf8MQzeFlwCY0y9jdG5WUUghun7IJ/o9AjKqD9JvxKTwQdsu
+	Uu4oqDqf4zg76+aJxBM+B2+yP/1PxxC8cIfftL2PIpWlcfrlAccVY3F3JbkXdNMTm/CS6imQurw
+	aITikyO/POCsIw6F5uzXg4cQ/gXvNQpdJ4Ig==
+X-Google-Smtp-Source: AGHT+IFiGAjyzrhn7Tv1pdStE68VBFOaRvXUrSWTdHwG3u0VG7p+zD5NIpfqa2tZaSXvcfMAC6LxczVsm/qkZdYpmZQ=
+X-Received: by 2002:a05:6214:3004:b0:6f4:ffc4:e219 with SMTP id
+ 6a1803df08f44-6f6e482f159mr191036436d6.35.1747041950350; Mon, 12 May 2025
+ 02:25:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <PJWL.1746887210684093988.qpOD@lists.openembedded.org>
-In-Reply-To: <PJWL.1746887210684093988.qpOD@lists.openembedded.org>
+References: <20250510084400.269726-1-ross.burton@arm.com> <20250510084400.269726-3-ross.burton@arm.com>
+In-Reply-To: <20250510084400.269726-3-ross.burton@arm.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 12 May 2025 11:11:51 +0200
-X-Gm-Features: AX0GCFuOcAH652Toj3El5U-3IfjUMws3HKmdDy9YkYlmNn4oYkZipsfcheoglpw
-Message-ID: <CANNYZj-uD+Qvs10W7VsRGMtxHP6kZ6W-jFsXSDTxu6Ptt3NOFQ@mail.gmail.com>
-Subject: Re: [OE-core] IMAGE_FEATURES VS PACKAGEGROUP
-To: emailaddress.ashish@gmail.com
+Date: Mon, 12 May 2025 11:25:38 +0200
+X-Gm-Features: AX0GCFtwInPVr-I5TgmN4pIFzuxVNoJdXNg8pBCwMguiZK3dGorv-CBcWOR4NlE
+Message-ID: <CANNYZj9mF8ZHeayOCm5UqTG8Q8daGSABr5mvGc0ZkPAM4x_A6g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 03/23] oe/sdk: fix empty SDK manifests
+To: ross.burton@arm.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:12:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216355
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:25:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216356
 
-On Sat, 10 May 2025 at 16:26, Ashish Mishra via lists.openembedded.org
-<emailaddress.ashish=gmail.com@lists.openembedded.org> wrote:
-> I was unable to appreciate the exact difference and role to have these two entity separately.
-> Below is my understanding, hence though to check with members to get the clearer picture
->
-> IMAGE_FEATURES  : Acts like top level wrapper to have set of packages added in image implicitly
->                                        - By implicitly i mean which packages will be added is controlled by Yocto layer rather than user
->
-> PACKAGEGROUP    : Acts like top level wrapper to have set of packages added in image explicitly
->                                        - By explicitly i mean which packages will be added is controlled by user
->
-> So in my understanding i have mapped IMAGE_FEATURES as "predefined yocto PACKAGEGROUP"
->
-> Can members please help to get the exact usage here
+Mercy me. How do we still have sort-of-functional SDKs in Yocto?
 
-packagegroups are empty packages that only contain dependencies on
-other packages. They're defined with recipes, and otherwise behave
-like any other recipe, and packages produced by them can be added to
-the image in the same way as packages from regular recipes. They're
-beneficial when you want to group packages and install them as a set,
-without modifying image recipes directly. This scales better in
-maintenance of the product.
+There's one more place where SDK tests are run:
+test_meta_ide_can_run_sdk_tests() selftest
+(in meta/lib/oeqa/selftest/cases/meta_ide.py)
 
-IMAGE_FEATURES are loosely defined as properties of the image. Some of
-those features indeed are about what gets installed (e.g. dev-pkgs),
-but others (e.g. read-only-rootfs) are about how the image as a whole
-is configured. You basically tell yocto: I want this feature in my
-image, please figure it out by installing what is needed and doing
-other tweaks.
+Can you confirm that it still passes and runs a reasonable set of SDK
+tests with your patchset?
 
 Alex
+
+On Sat, 10 May 2025 at 10:44, Ross Burton via lists.openembedded.org
+<ross.burton=arm.com@lists.openembedded.org> wrote:
+>
+> The SDK manifests are generated by listing the sstate was that used, but
+> it hardcodes that the sstate data filenames end in .tgz.
+>
+> This has not been the case since sstate switched to Zstd[1] in 2021,
+> which meant that all of the tests which checked for packages existing
+> were being skipped as the manifests were empty.  For example, see a
+> representative core-image-sato eSDK test run[2]:
+>
+> RESULTS - cmake.CMakeTest.test_assimp: SKIPPED (0.00s)
+> RESULTS - gtk3.GTK3Test.test_galculator: SKIPPED (0.00s)
+> RESULTS - kmod.KernelModuleTest.test_cryptodev: SKIPPED (0.00s)
+> RESULTS - maturin.MaturinDevelopTest.test_maturin_develop: SKIPPED (0.00s)
+> RESULTS - maturin.MaturinTest.test_maturin_list_python: SKIPPED (0.00s)
+> RESULTS - meson.MesonTest.test_epoxy: SKIPPED (0.00s)
+> RESULTS - perl.PerlTest.test_perl: SKIPPED (0.00s)
+> RESULTS - python.Python3Test.test_python3: SKIPPED (0.00s)
+>
+> All of those tests should have been ran.
+>
+> Solve this by generalising the filename check so that it doesn't care
+> what specfic compression algorithm is used.
+>
+> [1] oe-core 0710e98f40e ("sstate: Switch to ZStandard compressor support")
+> [2] https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/1517/steps/15/logs/stdio
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/lib/oe/sdk.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+> index 11759aba489..9fe0fbb752d 100644
+> --- a/meta/lib/oe/sdk.py
+> +++ b/meta/lib/oe/sdk.py
+> @@ -148,7 +148,8 @@ def get_extra_sdkinfo(sstate_dir):
+>      extra_info['filesizes'] = {}
+>      for root, _, files in os.walk(sstate_dir):
+>          for fn in files:
+> -            if fn.endswith('.tgz'):
+> +            # Note that this makes an assumption about the sstate filenames
+> +            if '.tar.' in fn and not fn.endswith('.siginfo'):
+>                  fsize = int(math.ceil(float(os.path.getsize(os.path.join(root, fn))) / 1024))
+>                  task = fn.rsplit(':',1)[1].split('_',1)[1].split(',')[0]
+>                  origtotal = extra_info['tasksizes'].get(task, 0)
+> --
+> 2.43.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#216251): https://lists.openembedded.org/g/openembedded-core/message/216251
+> Mute This Topic: https://lists.openembedded.org/mt/113037458/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
