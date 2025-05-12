@@ -1,155 +1,115 @@
-Return-Path: <philip@balister.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E45A4C3ABC3
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 11:46:44 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.48034.1747049794382143567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F05EBC3ABC3
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 12:05:34 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web11.48796.1747051525349541947
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 04:36:34 -0700
+ Mon, 12 May 2025 05:05:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=QcRDarhY;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: vpuar@qti.qualcomm.com)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54CA81LR011401
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 11:36:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=uSc0V6qr3YnrHRQ4SYEwqS
-	jeV9TGGK+MQcHcvgrjug8=; b=QcRDarhYE8tGC+zDkLXBFs4KjsZ/PZQvrGgAB4
-	le6bHQ+0g7MevDDbt03BL/3NZ6o+Aj4cJQdJYGeSVo2zZVmuGidGZGkWuNcxwWDX
-	4pm/NVWq2Zs2wjDOA0Z01qO2VDAaMguEYkv49LFwAokSSpIh2q1ENmmc3S14XZt5
-	kUqQxX2UIB1hYDdI/2FE3ZkervFjgs+7vSAtnKNIRNvFDo2EyQLpr9iW9YEy/d+r
-	m859tf9mg3+sxgCXRDYet0VcGDA1ICkJxwelhCJXXTHDTo5Qa2HrEY84VJ/U4Zuz
-	dxjMzGWIETB1U2osZl2Y6jaIUF3CJrkhaZIEGhTcC1xUa47w==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46hx4k47e1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 11:36:33 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54CBaWtm028271
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 11:36:32 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 12 May 2025 04:36:30 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH] linux-firmware: upgrade 20250410 -> 20250509
-Date: Mon, 12 May 2025 17:06:15 +0530
-Message-ID: <20250512113615.2112807-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=ReqQC0tv c=1 sm=1 tr=0 ts=6821dd41 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
- a=riQnz7vAzH-qgrFcKFgA:9
-X-Proofpoint-GUID: TRsV4-Zete4KdYAZuiANQsQWAMAlyESY
-X-Proofpoint-ORIG-GUID: TRsV4-Zete4KdYAZuiANQsQWAMAlyESY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEyMDEyMSBTYWx0ZWRfX3SBpef2KGeoE
- Tpp6L2Dqavt/DlybGlT96jTTZkSr7EzYjMAq5E33P8V0iRUOTydzs/TaieszmQKYHVdHbbmVZ1g
- hbaazpLUgrlKJMM+4s7Zx39Sn6I0pnG79FzalByaYgLFheOTFRihtOI8k4+CROKdiCQTVMXaKgY
- 8OjKxu7z+tYC6nc0p5/Y7K/XG2Zr6soxWu+khvnaggNarxdAlcyj7S6tU3b8OXG3+oC8VCLCyBO
- 13S9c8eGTKtMNcoSb+FFvAkpWnoN6VpG+YL0TBHbtQvy2PMgxTQVTSyz4LC+dwxvQds5LWpbU1M
- Z8FBlAhAK3K/ThauGk5Q6iL2cFxUZzccr2KZQVgsQjHwxSB5G3LdYDFo8iYSWohQOhFP/1fShMb
- CIIz2pKFpD81bBckzUpaJOvmgZyshZW+gkHAtrbDCgmFvNl+BL2smnHSAXQ9D+vLvKxH8QE7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-12_04,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1011
- adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505120121
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MbtjYfL/;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5FA6A438FD;
+	Mon, 12 May 2025 12:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747051523;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+qMEtNtUTZg/blLBXRUv1ivRx4k7TWfnDpt4JnK1TT4=;
+	b=MbtjYfL/fJFJTc+5PuMtLUH7RPDE/9YiMdzSGtLc8HlavuR0AZiw8mC9Ezk8kISmpQxkbx
+	ebUrL2r5GpcSfpQkHzgoNqWs3oC4655TMC/sCv4QRxknGmXpvStfCC+jzd6DRco2014oH7
+	txqhCbjVs2qu/M5aewOt+XZtV3CRjfH+/YCVl4L1Rjwqm4CVG8SiwXYtmdgCGAKBcxAgVz
+	WRRlack8K0+eGY9Fi40xmeuc3CqVre9RzZ6dXv0XGpMwCfmGgfATnYwz3v1d6O7dEy16Fg
+	SiSXrT4O9v3GHOIOolv6TubORTecmmjZChflFEp29nZJtm9lpfobAsMMUgT0eA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 12 May 2025 14:05:22 +0200
+Message-Id: <D9U62TMBWDLE.19I9VEKRPRRC1@bootlin.com>
+Subject: Re: [OE-core][PATCH v4] sqlite3: upgrade 3.48.0 -> 3.49.1
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250511150526.2787050-1-peter.marko@siemens.com>
+In-Reply-To: <20250511150526.2787050-1-peter.marko@siemens.com>
+X-GND-State: clean
+X-GND-Score: 49
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftdduvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecuogfuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpegggfgtfffkuffhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepveduudefgfeigfduheffffelfedthefhvefhheefiedvteegvdduhfevjedufeefnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdpghhithhhuhgsrdhiohdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehpvghtv
+ ghrrdhmrghrkhhosehsihgvmhgvnhhsrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 11:46:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216362
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 12:05:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216363
 
-Adding QUPv3 firmware for QCS9100 platform
+On Sun May 11, 2025 at 5:05 PM CEST, Peter Marko via lists.openembedded.org=
+ wrote:
+> From: Peter Marko <peter.marko@siemens.com>
+>
+> Handle CVE-2025-3277, CVE-2025-29087 and CVE-2025-29088.
+>
+> This update includes major change in how it is built.
+> Instead of autotools, autosetup is used.
+>
+> Autosetup (https://msteveb.github.io/autosetup/) claims to be
+> * Replacement for autoconf in many situations
+> However it also claims NOT to
+> * Intended to replace all possible uses of autoconf
+> This means that some autoconf features are not available.
+>
+> Recipe changes:
+> * stop inheriting autotools and define B, do_configure and do_install
+> * depend on zlib unconditionally, autoconf cannot be preconfigured in
+>   similar way as autotools
+> * update packageconfig options to match new syntax
+> * libedit is detected with ncurses linking options (as seen in
+>   do_configure log)
+> * backport rpaths fix
+> * define soname to avoid file-rdeps QA error due to wrong library name
+> * add hack to force cross-compilation in native case to link against
+>   zlib in sysroot and thus avoid crashes when sstate-cache from different
+>   distro is used
+> * clean B for do_configure as the new Makefiles do not seem to properly
+>   retrigger build if configuration changes
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
 
-License-Update: additional files
+Hi Peter,
 
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- ...x-firmware_20250410.bb => linux-firmware_20250509.bb} | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250410.bb => linux-firmware_20250509.bb} (99%)
+Thanks for the new version. However I believe we still have an error, in
+oe-selftest and build on ARM hosts:
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250509.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250509.bb
-index e9491a74bd..a461956a89 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250410.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250509.bb
-@@ -160,7 +160,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "7ddfb44c16e34dcd8bbacc4839ab78dc"
-+WHENCE_CHKSUM  = "d85e2f182f489a235400712cbfdb017a"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -250,7 +250,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "2ae6aab2d8930fd54bf30ae15498f1625721bc3630b894644db5d21fad5a20f9"
-+SRC_URI[sha256sum] = "f2c60d66f226a28130cb5643e6e544d3229673460e127c91ba03f1080cbd703e"
- 
- inherit allarch
- 
-@@ -487,7 +487,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-qrb4210-adreno \
-              ${PN}-qcom-qrb4210-audio ${PN}-qcom-qrb4210-compute ${PN}-qcom-qrb4210-modem \
-              ${PN}-qcom-sa8775p-adreno ${PN}-qcom-sa8775p-audio ${PN}-qcom-sa8775p-compute \
--             ${PN}-qcom-sa8775p-generalpurpose \
-+             ${PN}-qcom-sa8775p-generalpurpose ${PN}-qcom-sa8775p-qupv3fw \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-compat \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-audio \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-adreno \
-@@ -1833,6 +1833,7 @@ LICENSE:${PN}-qcom-sa8775p-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sa8775p-audio = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-sa8775p-compute = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-sa8775p-generalpurpose = "Firmware-qcom-2"
-+LICENSE:${PN}-qcom-sa8775p-qupv3fw = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "Firmware-qcom & Firmware-linaro"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "Firmware-qcom"
-@@ -1915,6 +1916,7 @@ FILES:${PN}-qcom-sa8775p-adreno = "${nonarch_base_libdir}/firmware/qcom/sa8775p/
- FILES:${PN}-qcom-sa8775p-audio = "${nonarch_base_libdir}/firmware/qcom/sa8775p/adsp*.*"
- FILES:${PN}-qcom-sa8775p-compute = "${nonarch_base_libdir}/firmware/qcom/sa8775p/cdsp*.*"
- FILES:${PN}-qcom-sa8775p-generalpurpose = "${nonarch_base_libdir}/firmware/qcom/sa8775p/gpdsp*.*"
-+FILES:${PN}-qcom-sa8775p-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/sa8775p/qupv3fw.elf*"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compat = "${nonarch_base_libdir}/firmware/qcom/LENOVO/21BX"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/battmgr.jsn* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/audioreach-tplg.bin* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/SC8280XP-LENOVO-X13S-tplg.bin*"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn*"
-@@ -1997,6 +1999,7 @@ RDEPENDS:${PN}-qcom-sa8775p-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sa8775p-audio = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-sa8775p-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-sa8775p-generalpurpose = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-sa8775p-qupv3fw = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-license ${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-license"
--- 
-2.34.1
+2025-05-12 08:01:13,149 - oe-selftest - INFO - buildoptions.ArchiverTest.te=
+st_arch_work_dir_and_export_source (subunit.RemotedTestCase)
+2025-05-12 08:01:13,150 - oe-selftest - INFO -  ... FAIL
+...
+2025-05-12 08:01:13,150 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/=
+selftest/cases/buildoptions.py", line 191, in test_arch_work_dir_and_export=
+_source
+    self.assertEqual(res.status, 0, "\nCouldn't build xcursortransparentthe=
+me.\nbitbake output %s" % res.output)
+  File "/usr/lib/python3.9/unittest/case.py", line 831, in assertEqual
+    assertion_func(first, second, msg=3Dmsg)
+  File "/usr/lib/python3.9/unittest/case.py", line 824, in _baseAssertEqual
+    raise self.failureException(msg)
+AssertionError: 1 !=3D 0 :
+Couldn't build xcursortransparenttheme.
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1541
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1482
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1482
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
