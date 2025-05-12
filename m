@@ -2,109 +2,94 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F6E7C54752
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:04:02 +0000 (UTC)
-Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
- by mx.groups.io with SMTP id smtpd.web11.45971.1747040639732804618
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D937C3ABD4
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:04:12 +0000 (UTC)
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.web10.45924.1747040648907028522
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 02:04:01 -0700
+ Mon, 12 May 2025 02:04:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=K5P2doij;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=dwiR577Y;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1747040641; x=1778576641;
+  t=1747040649; x=1778576649;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=hIJRxG3QOizb73z1g+gkDjor6POKiMEeIlAF2b6Kj28=;
-  b=K5P2doij8vcORSAcs0jCr+kMJkyy50jAs5aIM5molLBG6EX7Lqet1ZbR
-   KSBxp2Bgy+RjrwRenPD7IICkRjuWYHJywKhMXiwPtdQuLSNckYKKdJiQi
-   Wyaa0EGtpOvfyGciZgi/+EZ8tDBwKIfBPT6g6PVT6/XWcaH7I8Qj4p6PY
-   onJbaIhTDx/ox3yneC313C6OXer0+LoDgU2MVz5AF3JJ27HY7JT7Q1Xp6
-   7gejQlN+wHANoOHMtnsZv1BXAqRpgjUxVAH5b56IJBXIyQUJBoWxC7AhZ
-   w3BbfJSrPUe+8ybnE9XZzLU/SZrXtJgpuCV28uZa3Il/UyRtJ8qsBUGgC
-   g==;
-X-CSE-ConnectionGUID: HXAOAMLmQ46q7eXyOCfb8w==
-X-CSE-MsgGUID: QVbAh7i1SXaSIOMyL+trvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="178629711"
+  bh=EFTC4KNbIGRZVKKHCtpLnYT9qPqdQzNXpvsVfhOgj7s=;
+  b=dwiR577YVAkQTpS9yxlweExOYUer7JyJKEbJ+fwJlN8gDV7CHOrWfdMs
+   GVM/dvm2Jz2DaYNfTTRxuN99iAvJjokooes/XUaH3aJ1Fol5fvSxnGT3e
+   YwdELKTnNk41rU74oM3Lti0WWnIe6RUYgVrKCWYMchv8jq37Oofe+LzvC
+   QwqL9Jtu4GIgcjuYHd2+86/0JzEruAP9ifCl/P5gZzKRYnpN22BHtC2CE
+   yTAAnCxndoKR/0Y4vKtphu6IAc8R3PIOZojd+FbjeZx1KMO9bR/aus4ko
+   gIuZf0HAP94Aw74lh/fbYzcVeWrJmL2lFsA2spXhZuzqq0yT7Z948KeLu
+   Q==;
+X-CSE-ConnectionGUID: Gcdgo7suRqiTEObjOxGAew==
+X-CSE-MsgGUID: U5viUJfiRBqKdycB2X0mxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="187549324"
 X-IronPort-AV: E=Sophos;i="6.15,281,1739804400"; 
-   d="scan'208";a="178629711"
-Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
-  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:04:00 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 0C69CC2260
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:03:58 +0900 (JST)
+   d="scan'208";a="187549324"
+Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:04:06 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id AFF22C68AC
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:04 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id C2026BF3D3
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:03:57 +0900 (JST)
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 72771F1B9
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:04 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5A86E1A009B;
-	Mon, 12 May 2025 17:03:57 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 09DFA1A00A0;
+	Mon, 12 May 2025 17:04:03 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 23/56] libgpg-error: upgrade 1.51 -> 1.55
-Date: Mon, 12 May 2025 17:03:06 +0800
-Message-Id: <1747040619-7566-23-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 51/56] python3-yamllint: upgrade 1.37.0 -> 1.37.1
+Date: Mon, 12 May 2025 17:03:34 +0800
+Message-Id: <1747040619-7566-51-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
 References: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:04:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216317
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:04:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216346
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-0001-Do-not-fail-when-testing-config-scripts.patch
-refreshed for 1.55
+Changelog:
+=============
+- Rule comments: tell how many spaces are expected
+- Rule quoted-strings: Fix only-when-needed on multiline with backslash
+- Config: Report if rules is not a dict
+- Fix test_codec_built_in_equivalent() test when run with pytest
+- CI: Fix TestPyPI "dev0" versions for master commits on tags
+- Docs: Add links to GitHub repository and releases
+- Docs: Fix GitLab integration example
+- Docs: Fix GitLab integration link
+- Fix the tests badge link on the README
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../0001-Do-not-fail-when-testing-config-scripts.patch      | 6 +++---
- .../{libgpg-error_1.51.bb => libgpg-error_1.55.bb}          | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.51.bb => libgpg-error_1.55.bb} (95%)
+ .../{python3-yamllint_1.37.0.bb => python3-yamllint_1.37.1.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-yamllint_1.37.0.bb => python3-yamllint_1.37.1.bb} (79%)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch b/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
-index 0910d6cc63..39798c009f 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
-@@ -1,4 +1,4 @@
--From 581919f3af914c6b62e51b345d5d15e709f20e77 Mon Sep 17 00:00:00 2001
-+From b1b6c28b4753c027052aeb6275a73eed06f0bf49 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 28 Feb 2020 09:19:56 +0000
- Subject: [PATCH] Do not fail when testing config scripts
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 deletion(-)
+diff --git a/meta/recipes-devtools/python/python3-yamllint_1.37.0.bb b/meta/recipes-devtools/python/python3-yamllint_1.37.1.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-yamllint_1.37.0.bb
+rename to meta/recipes-devtools/python/python3-yamllint_1.37.1.bb
+index 9ba0e8bc6e..1b0ddde873 100644
+--- a/meta/recipes-devtools/python/python3-yamllint_1.37.0.bb
++++ b/meta/recipes-devtools/python/python3-yamllint_1.37.1.bb
+@@ -7,7 +7,7 @@ inherit pypi python_setuptools_build_meta
  
- diff --git a/src/Makefile.am b/src/Makefile.am
--index 9389e99..6ded263 100644
-+index e56bb23..8c3ba7b 100644
- --- a/src/Makefile.am
- +++ b/src/Makefile.am
--@@ -324,6 +324,5 @@ gpg-error-config: gpgrt-config gpg-error-config-old gpg-error-config-test.sh
-+@@ -326,6 +326,5 @@ gpg-error-config: gpgrt-config gpg-error-config-old gpg-error-config-test.sh
-  	else                                                   \
-  	  echo "no";                                           \
-  	  echo "***  Please report to <https://bugs.gnupg.org> with gpg-error-config-test.log"; \
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.55.bb
-similarity index 95%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.55.bb
-index 741969beb0..96dac49aae 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.51.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.55.bb
-@@ -20,7 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://run-ptest \
-            "
+ PYPI_PACKAGE = "yamllint"
  
--SRC_URI[sha256sum] = "be0f1b2db6b93eed55369cdf79f19f72750c8c7c39fc20b577e724545427e6b2"
-+SRC_URI[sha256sum] = "95b178148863f07d45df0cea67e880a79b9ef71f5d230baddc0071128516ef78"
+-SRC_URI[sha256sum] = "ead81921d4d87216b2528b7a055664708f9fb8267beb0c427cb706ac6ab93580"
++SRC_URI[sha256sum] = "81f7c0c5559becc8049470d86046b36e96113637bcbe4753ecef06977c00245d"
  
- BINCONFIG = "${bindir}/gpg-error-config"
+ RDEPENDS:${PN} += "python3-pathspec python3-pyyaml"
  
 -- 
 2.43.0
