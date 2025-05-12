@@ -2,112 +2,102 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 625E1C3ABCB
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 19:42:47 +0000 (UTC)
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
- by mx.groups.io with SMTP id smtpd.web10.59352.1747078953297584025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D56C3ABCC
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 20:13:57 +0000 (UTC)
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+ by mx.groups.io with SMTP id smtpd.web11.60372.1747080835644864949
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 12:42:33 -0700
+ Mon, 12 May 2025 13:13:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IzDkiE+K;
- spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-400fa6b3012so3902870b6e.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 12:42:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lyOi179+;
+ spf=pass (domain: gmail.com, ip: 209.85.161.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-604f0d27c24so2520147eaf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 13:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747078952; x=1747683752; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747080835; x=1747685635; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KqXQn3u8QQatuqud17TU+9K7JVeGX6QambOeRKuvJCg=;
-        b=IzDkiE+KmwZXR0vdPo8QWWqJzRHtoPLCltm25DY7kmKBvj/cSuqRKVGn8tdkV6p7rQ
-         VoNiqiZ7P6tdxFLpOwQJMTew3PLsaVil5lpdd+t8CXf90dKamde/vOR8ySd+sGZrrG//
-         PzoOYqD/KeB3V4LQdl6/fEBhN7aBvb0nLhKVSJOXVhX2Z+lcvEOrFh94ln945o5zizYO
-         OcawV7xWj4Sk6DMReL0mnukt6V6DF1VajhNWwzx5kuJKr3Wv7TdFo6pHZLUWaszFJLgn
-         yTMCdbsK/Sz2tBS8WXzLgoSviO3CzcJFOQ1rmv4hfatzxWvDWTApG0gcA+vfWRVjfDXI
-         /1cw==
+        bh=R//i2r8tscIHw6/J7U2JCCSKnPGbAXvSX39E9GHau3o=;
+        b=lyOi179+J8vFO6qQIhxJ5KwC6sP7c5tZUGJarwjSOQ10Cxy+OmScX6acjaUdAfEx6v
+         jo0gWg591lrazYWotf1Xvvz6FvEXW2jzPdOPsKtyTkIC+EN++ODaoh+TIOOwrDrOIDh5
+         19+l3mVGBf+l6a2+KZDKXkqvruvHGcCvhkk+C+bn2GGLcypYNSiWUrqLDteh4EQvxPw1
+         yhyJ+uo+MvndtSTSa3uYOXhNTsZSNWUaySHAhMvG2uhc5sHs9ab+o9KYpkLgshEiPCPo
+         VnwJNYLG6gYAweS2HEl8SmbOYayMD15/JvcIj2s0wBIkTCTNaP97i861xcKhW2hBsEhF
+         8/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747078952; x=1747683752;
+        d=1e100.net; s=20230601; t=1747080835; x=1747685635;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KqXQn3u8QQatuqud17TU+9K7JVeGX6QambOeRKuvJCg=;
-        b=kS9bwhaXigvX6bCbulxGE9L+vdwsw4iawiUq7RTb0nn0A6t5yXa5Wf5ZJfFuk0y5+A
-         S7v18u8FCxzOFh2HDuhsq+ZCLQ98sCeQ0hLLAlPbkd83mqtj5j64X+EMpNinj1e33syH
-         HUK9sBwcg6i49/87jVDiknxbcxbxZMYJgSfgYOQnmVYKJ/4RzFBGPYOQK2y3kqznLf06
-         WPHd5wbe0vocgvtIdezGyqJ4Q5i4FimDy4gN+wwQC6bzY8Y54FfZ8/39K1nwhsBXnud7
-         jcjdoiE/SSAQVUZ6t8wCYuwAsrV6s3EbYBLRjWr2jdi2bWl8zdLFxec0PVJCllyowkCX
-         43kQ==
-X-Gm-Message-State: AOJu0YzmmU6dU9M39aOcVrocq74gZh+W7gDFXbJr0Kk1zf8R5aSc0uSc
-	LBVH6Emj4mDa5vru7+/48mfZWEk0J2MrejXAePTnriPESbrWYGqawhsFRsMz25mLDow2xPlKZTO
-	sD0DoE/PdR3TtJ0Avm885RfEWPXc=
-X-Gm-Gg: ASbGncuHV0wwK0D65WnRdYr5/knWdY2uCfsDXlrfgjVRu0x/5qFBEKPngGl/NuINI2U
-	YnmjzgmOSmhsUfzfzr8CvV4/GXMX8aBLFpxR2EbWA1GBePOJy4twNENCugZSBPO5mMUKX1B4F9B
-	OR7LPDzvxLHgCxhp8RUhaS0Ui/uF4gzp1nwSYuS5mELhUFegwzZBc48WLaheL0
-X-Google-Smtp-Source: AGHT+IG55z5gU6sYOLNyv2N38/2YhoVT+jX539npqMSkS2+M1Z7jQSQFvRyBN71Atg647t5GbfCd2nQhm0VLHjcpzQU=
-X-Received: by 2002:a05:6808:2448:b0:3f9:6df8:1d37 with SMTP id
- 5614622812f47-404bad92791mr532419b6e.10.1747078952438; Mon, 12 May 2025
- 12:42:32 -0700 (PDT)
+        bh=R//i2r8tscIHw6/J7U2JCCSKnPGbAXvSX39E9GHau3o=;
+        b=VpQwmmuVDT4blP6nk5ia3/OBQCwWTFv+5jdBUdu1jwOBIQiybUXQzeZep4EMEi3ZJD
+         /yoCOaDFB6WExJBBBbSJE13a4Kjp1430DnzminhIRRGt4fxkqrq7GXU/MbhLgPaAXn1Y
+         fdRtr6/EuzBLKixHNmOonHQusTBIaSGExT9MWJXOWWUHKKBfArpSmJsrxuBOF+Cf7Mzu
+         m/4MqNcd4KKaOncfl1VEh4MXaHKo9vuPsuxkIG8+n5Qw7DamxKLwV+VW/DijunMBQQTJ
+         odIQsVHOlwGy4XeBmIGsnP4K95/fGtVav80yZ8rNvhcdWzFWnUalswDZjosbP69xef3u
+         ljmA==
+X-Gm-Message-State: AOJu0Yxx8spAXFE6Zyj2+o9RDmbzp0IAbakyjb33chL9w2sHwEpm3ZZd
+	je96/gc4Ry6tV4U71bJrjD1Afir5+S3jYusK1k51PoRDuy02jpix6ceSimDyF0lNlbbe11WPAlw
+	4/dlCaJxu8sGxYifzgRbQW69JV34=
+X-Gm-Gg: ASbGncvWYXDCMQtjWzVrfbHaP/0RH607S652ivw0Rb+D1PSRFJJwdKFHJekK7w6duQ0
+	zn4jE4EPQfuF5OOcgFYGxiVZA+XW1QIjl9IpmHEfN0nQfDkat81sa1M2qtmlodvHyz+D2U5k4Lh
+	jov/hmnsFo5PsPNU2exHespzPYX79jSE+Jx2BlfcWSWHC35x6BHlHhQbUQA+61X5QfKW4vRx0=
+X-Google-Smtp-Source: AGHT+IGRRtGzqsdfcU8+1xp1QwgYiNuvTEAQlJ6VCcbF/2bYY6WO/he31wQ+C22mZexNb9DCqgZX99PEyqhhhYyRBCo=
+X-Received: by 2002:a05:6820:138c:b0:601:af96:36eb with SMTP id
+ 006d021491bc7-6084b630096mr8424965eaf.4.1747080834769; Mon, 12 May 2025
+ 13:13:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250512190451.1363972-1-erick.shepherd@ni.com>
-In-Reply-To: <20250512190451.1363972-1-erick.shepherd@ni.com>
+References: <CAOazyz0qBLixP2bfONcMs=HfSf6G_rxfz5AHoV+EZ+q8J7Q+8A@mail.gmail.com>
+In-Reply-To: <CAOazyz0qBLixP2bfONcMs=HfSf6G_rxfz5AHoV+EZ+q8J7Q+8A@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 12 May 2025 12:42:06 -0700
-X-Gm-Features: AX0GCFufCaeutKMnVIsVXuQtlM9HYlb4vhi_Ow4owe4cxkEhK3-htyqfbiLEOp4
-Message-ID: <CAMKF1sqdmeJE1tHDBXra=j8vcEVcJHONkJKm+rvp8H+a6HuYMg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel-devsrc.bb: Remove extra System.map file
-To: erick.shepherd@ni.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 12 May 2025 13:13:28 -0700
+X-Gm-Features: AX0GCFtP4Q_9FLZDM21wzV5PZ9oA6CBtjr61nC5brL6s9T-HI-wtAGtgUuyIgZA
+Message-ID: <CAMKF1sogaVV_UjftSwAadqT0jgcK1ctTeXBrA6YBo-SDM+S3pA@mail.gmail.com>
+Subject: Re: [OE-core] [backport] [PATCH] module.bbclass: add
+ KBUILD_EXTRA_SYMBOLS to install
+To: alon.barlev@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 19:42:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216386
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 20:13:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216387
 
-On Mon, May 12, 2025 at 12:04=E2=80=AFPM Erick Shepherd via
-lists.openembedded.org <erick.shepherd=3Dni.com@lists.openembedded.org>
+On Mon, May 12, 2025 at 6:49=E2=80=AFAM Alon Bar-Lev via
+lists.openembedded.org <alon.barlev=3Dgmail.com@lists.openembedded.org>
 wrote:
 >
-> Currently there are two .map files being copied to $kerneldir/build.
-> One of the files is System.map and the other is
-> System.map-<kernel version>. Each .map file takes up about 5MB and
-> have identical sha256sum hashes. This change will make it so only
-> System.map is copied in order to save disk space.
+> Hello,
 >
-> Signed-off-by: Erick Shepherd <erick.shepherd@ni.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Please consider backporting "module.bbclass: add KBUILD_EXTRA_SYMBOLS to =
+install"[1] trivial patch to Scarthgap and Walnascar, it will allow buildin=
+g kernel modules with dependencies without linkage breakage also in stable =
+branches.
 >
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-ke=
-rnel/linux/kernel-devsrc.bb
-> index 1500aff2e2..9729a25440 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -75,7 +75,7 @@ do_install() {
->          if [ -s Module.symvers ]; then
->              cp Module.symvers $kerneldir/build
->          fi
-> -        cp System.map* $kerneldir/build
-> +        cp System.map $kerneldir/build
+> Master commit hash: 483c6067eb1ee9562c0b21cea0d375c7f521bede
+> Into [at least]: scarthgap, walnascar
 
-I wonder if copying the versioned file and creating symlink System.map
-pointing to it might
-provide both the files and yet reduce the size duplication
+It will be faster if you can send the backported patches to the
+mailing list after testing them out on the releases you propose them
+for prefixed in the subject line
 
->          if [ -s Module.markers ]; then
->              cp Module.markers $kerneldir/build
->          fi
-> --
-> 2.43.0
+>
+> Regards,
+> Alon Bar-Lev
+>
+> [1] https://git.yoctoproject.org/poky/commit/?id=3D483c6067eb1ee9562c0b21=
+cea0d375c7f521bede
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#216385): https://lists.openembedded.org/g/openembedde=
-d-core/message/216385
-> Mute This Topic: https://lists.openembedded.org/mt/113076831/1997914
+> View/Reply Online (#216370): https://lists.openembedded.org/g/openembedde=
+d-core/message/216370
+> Mute This Topic: https://lists.openembedded.org/mt/113070483/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
 j.khem@gmail.com]
