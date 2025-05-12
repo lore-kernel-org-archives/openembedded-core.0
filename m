@@ -2,50 +2,50 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44AF8C54751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77AAAC54799
 	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:04:13 +0000 (UTC)
-Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
- by mx.groups.io with SMTP id smtpd.web10.45917.1747040640301092208
+Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
+ by mx.groups.io with SMTP id smtpd.web11.45975.1747040642648610192
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 02:04:04 -0700
+ Mon, 12 May 2025 02:04:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=CegVWynF;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=TqBI7CTH;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
   t=1747040644; x=1778576644;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=W5sSLEmFl/VeDBH/qwgvkSJkuSnh5CR8n+FJ5qxe7PU=;
-  b=CegVWynFjgJkYo41H/kU9crTFHiz3AZABbY4xQOa3/mlq+BCoRuBb1MI
-   eXLp/cB9HyJr08rVx1uB0vMJY5rx+kxTWJc7WW10l3C9kTeOGmjXBeOj8
-   mJsSL0bb8aVblDbhnkp8i72xPYXC2JDIdG/ij/ecZWQMw8c/2FUlct2Ow
-   lgApTshCYaS7eO2uVWTsY4DZngmAb/C1bA9+BWDYsGkOqY27VaZFa3pir
-   zd9CgX4kwOvgOfTWOOTAiIMKBaHV4LD84ev8JZ/pSeGoIB++RMRVhwAc+
-   XPbir3W7ctjQgcMvBB4TS+6k2AlgAB57GQNezvpRX5pJOfnn0bERnZPBt
-   g==;
-X-CSE-ConnectionGUID: pT216ePQSvu2lcIrN0vfRA==
-X-CSE-MsgGUID: 6jIHlGmpT1qmQ71njigAiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="178046172"
+  bh=u5BZ50X6d8rkSj5iX6N8VSlv7zLz6W4MivqhCsbsiMA=;
+  b=TqBI7CTHxroY+OXABRt4p+v7NrBzbLSUqiLLSKv1j+yliQWXpdon4Cll
+   LttDO9NlZLiJtlKJwD+tSXLcC2BUopZhKbRorwflIMbj5Fh3nzNKSHPnS
+   fG/F36QyGdE4K0hu2nxUxbsq25qzmpFeQoOACW7voeJWwUzDNjml7+bkk
+   EiFZTyI3sGCp+fXQobmaytn2UdUbIIC8Tm1rcwvWq904q/9JSRQpPuXw0
+   VMGEsHW0+5c4vw/oAtM0NjQTzysE6KsGD/1LQ9Qszu//ZEFUACdnnOJuT
+   xGEo4vFSju9GqEALhTor0EyMRM2f+LPGgjZkKHmhQ9xdNbswD1b9QrG7v
+   w==;
+X-CSE-ConnectionGUID: eCDE5i+XSpuws5dkcQUx/g==
+X-CSE-MsgGUID: s12h4xNRTnaiUv6jFgA5Zw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="199125951"
 X-IronPort-AV: E=Sophos;i="6.15,281,1739804400"; 
-   d="scan'208";a="178046172"
+   d="scan'208";a="199125951"
 Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
-  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:04:02 +0900
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:04:01 +0900
 Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
-	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 8A581D5004
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:00 +0900 (JST)
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 98285D5016
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:03:58 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 498D2D5045
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:00 +0900 (JST)
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 59885D5045
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:03:58 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 07B7C1A00A0;
-	Mon, 12 May 2025 17:03:59 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 197B61A009A;
+	Mon, 12 May 2025 17:03:58 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 34/56] pixman: upgrade 0.44.2 -> 0.46.0
-Date: Mon, 12 May 2025 17:03:17 +0800
-Message-Id: <1747040619-7566-34-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 26/56] libpng: upgrade 1.6.47 -> 1.6.48
+Date: Mon, 12 May 2025 17:03:09 +0800
+Message-Id: <1747040619-7566-26-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
 References: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
@@ -53,32 +53,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:04:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216333
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216328
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+Changelog:
+============
+-  Fixed the floating-point version of the mDCv setter 'png_set_mDCv'.
+-  Added #error directives to discourage the inclusion of private
+   libpng implementation header files in PNG-supporting applications.
+-  Added the CMake build option 'PNG_LIBCONF_HEADER', to be used as an
+   alternative to 'DFA_XTRA'.
+-  Removed the Travis CI configuration files
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../xorg-lib/{pixman_0.44.2.bb => pixman_0.46.0.bb}             | 2 +-
+ .../libpng/{libpng_1.6.47.bb => libpng_1.6.48.bb}               | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{pixman_0.44.2.bb => pixman_0.46.0.bb} (95%)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.47.bb => libpng_1.6.48.bb} (92%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb
-rename to meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-index 2e5bb172f5..c1c71fd420 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.44.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-@@ -8,7 +8,7 @@ SECTION = "x11/libs"
- DEPENDS = "zlib"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.47.bb b/meta/recipes-multimedia/libpng/libpng_1.6.48.bb
+similarity index 92%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.47.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.48.bb
+index 371ff1436f..338891c683 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.47.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.48.bb
+@@ -11,7 +11,7 @@ DEPENDS = "zlib"
+ LIBV = "16"
  
- SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz"
--SRC_URI[sha256sum] = "6349061ce1a338ab6952b92194d1b0377472244208d47ff25bef86fc71973466"
-+SRC_URI[sha256sum] = "02d9ff7b8458ef61731c3d355f854bbf461fd0a4d3563c51f1c1c7b00638050d"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "b213cb381fbb1175327bd708a77aab708a05adde7b471bc267bd15ac99893631"
++SRC_URI[sha256sum] = "46fd06ff37db1db64c0dc288d78a3f5efd23ad9ac41561193f983e20937ece03"
  
- # see http://cairographics.org/releases/ - only even minor versions are stable
- UPSTREAM_CHECK_REGEX = "pixman-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
+ MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
+ 
 -- 
 2.43.0
 
