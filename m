@@ -2,219 +2,120 @@ Return-Path: <ines.kchelfi@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA77BC3ABCB
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 14:46:05 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.52289.1747061160368562209
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E8CC3ABCB
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 14:46:45 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.52309.1747061198421908597
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 07:46:00 -0700
+ Mon, 12 May 2025 07:46:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fFs6klqY;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: ines.kchelfi@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf680d351so32684775e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 07:46:00 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=KK6mx6zk;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: ines.kchelfi@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-441ab63a415so46032425e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 07:46:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1747061159; x=1747665959; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9q4U6bQ28XIbvf/Jk7rUFUdwNPqm6Dk0HeflKgkKjAg=;
-        b=fFs6klqYRJpORMMkYsIwAFxCpBguaZvZtp6Is3liV6+mCX8j9b7KM7oF1WjZ2YrsA8
-         VHzXhGMsC+BF39CsyNWwKzQVdpcyrF7W112/JMIXUKVcvk0kj1hocFY73vwYJfJ/Ulm3
-         Bn3LX4kQousEbyZoOiMiKfapZes2Qt5p0cmeY=
+        d=smile.fr; s=google; t=1747061197; x=1747665997; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5TvvsZqoSj8bJYYMb0l6QmVZQqnAKMCeX5jIFh8I5Fc=;
+        b=KK6mx6zk/AwCjyJ1M6TnfXp0CMpSeXtApsWJh+/CJGtuYM6tSs50NgDmSPhxBLjt5H
+         vXOnFPVPelry+JHhk6IjAwhnpyrTiOwoBFuexpHO3J8VEGAmwN3r2gRUt1e4CEqKaCRT
+         M9PafjUfEifdMF1uGVj8wukjLoYBVyhOpgDVw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747061159; x=1747665959;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9q4U6bQ28XIbvf/Jk7rUFUdwNPqm6Dk0HeflKgkKjAg=;
-        b=t+fId7Kb13n+1ERuvRY8tNUIYJgVdQG1iWDM4NPT6lvQGE0uKpo5ujluSJLXInaMuN
-         aU8yUivqt3F+s+pQWTZP7yPPbaUNeQatDf5tnyg7hhqb8y2YwOSc+eeU2x/yHv0UokQh
-         +ClbskDi7fAjjZqGR8NlQNvmeCKNRK9wIAZJ8CLwl8QGjNaYs/7SO1vKxVPsyHW5rlHZ
-         kEbSx2dvFrebiyCzUk/eOsVsKN+Ow99EMMQfaA3hZr3kL+xr4apF4USp3ubTyZFypWDN
-         y/Myw2sux07GtCLV33Wlf0pjWXl/O0F8u+P1GbZjs7v6nkjrHraFQR/nR+pM35i5Ybmj
-         WTnA==
-X-Gm-Message-State: AOJu0YxwELghoqrcqq743nZWuoBAcP1x+zbBC7ppwZYtSZxktPHSvLnH
-	+eFaCDtdO0FypHRDJMZZ4+wpw/pXPOhbIdEjvXSIZ1KOKtdj6xqZgODwc5CjPM40nFryI5fc8XP
-	9
-X-Gm-Gg: ASbGnctK/clJ3ukpUaeIm3iqkC5RJd1OfMGfPJaB0by9kJjzrKH2PidyFTn6nXNvsS4
-	y0qshf+ko1Dsh2OE2f993DT7xIuGdnAXG4eNettuyBeSLu63b68HHlwxiKWYqQrhdeM+4UcoIT+
-	rtvVEK7dSzzcDOBjgz1cJTnLqRX3suJUAUnmu5TKZeYfC86UlTwezaS4YXDjDrhht/NFucMt9bI
-	vMLYkVCiBgG2/mOUUrEWE4NYz0bZm7bAgrPvGrHi2H5rXOR6g+b25Ws3tK7hSuFRH4CxgP4gxJ+
-	K07jPwKne19buByFW7/gRx5JYljQdp6NQjUuFHc8vn36iluvZX/lxTJGUIXGYH3W5576Crj/SKG
-	a6QnqGVeZO+L7O3kBNOJJZWXpJhg/I1OpoypBEu4hfnmLaGnpzJJo/tW4uQ==
-X-Google-Smtp-Source: AGHT+IHR8F9ZIusTVEfQCXrxBdcHBzuHRiVrsD3Xzfbjc7oacXTOHmpqJ/Ji32FZirwjoDFDGs7q2Q==
-X-Received: by 2002:a05:6000:4205:b0:3a0:b735:2ee6 with SMTP id ffacd0b85a97d-3a1f6c9c3a9mr11101143f8f.20.1747061158547;
-        Mon, 12 May 2025 07:45:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747061197; x=1747665997;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5TvvsZqoSj8bJYYMb0l6QmVZQqnAKMCeX5jIFh8I5Fc=;
+        b=gaS4BS+y86fgxCEpb3DbbYqzS9MSdKjNLDGGQarsesdzW6Akz+74AiOx0kmyyMBSIE
+         werRcIl86E7CmuXwA/IKuDEyvSAMxNhEX4EFtXU42pdPcIBv43v5o94cPtz9Yf+QBneT
+         6NzISMhpGJPeUYY5Yi0vfm8cMRq/hjYyBIGypPdGxILEhYyJSOjZEXQiyKXXKtw0lhLf
+         jNABvyIUKth8B9XwDOh65eG5JiuJ+8rAKZx3+OsfVtRYBKIH84SgXPmsBtjyu6QcOGTL
+         UOFh8cLr6DHkFK2Ihe8He5e9frBj6udErXhWoJ9yTdSQsFgZ8OIrgXDHBLVesUcWt6EQ
+         JqyA==
+X-Gm-Message-State: AOJu0YzPXQVjI/XgPNeITA/SJW8exXUYL5kkBh1EK6/jAQxr3fNA5BEI
+	lbksRr/Oay97tchwh04SJNPo9+BhgZAorw9NfUBD02RdZU+Io4pEwfGsBlaHrN6Y3YvDMZRIdhp
+	p
+X-Gm-Gg: ASbGncsWHri5DxbDhHN2yKKG7IqkWgf2pHZwPDoAKCGp2NacaKNTzl4XYElM9uEh1S0
+	sxHSRSnKHe6YYwrgpmkeWe7oJ7mvZbgX70OWLnkBlrmMJNAe77s9QUrJITPAonD3VDw5fCRpUEs
+	OFJxqE339hCvQTdoxev6PtcCbgCrq/bHwS4ZNNVZ6GHArrHmgAKsHmSPjr0SPQTasVowW2jSPLB
+	GufOesMH3ueLSH4uYHP2QO20ZX1QN5yDaB7QJvz+gUkNPEdQlL50fS58jhhULZeeftLUP3Ue12b
+	Igyeq9MnTqEL+Tom3zV0o1yPl/DWatR2QRfVc5cEueFDeUf2qbi8/C7hxhutTJXrkYw4icyuwit
+	OJTHXipia03q+wJnc1u8FwSxZDSR9lVvAl7AZjBe/ydIUa0WsZ7kKB5xMKjzuMOHW34NJ
+X-Google-Smtp-Source: AGHT+IFX1xLvFGNOiac9xx624j0Vo/3NoIKB2T/ZzNnYXk+NfkjUDmW9oZYVZBGYqG+aNMKfo1KRuw==
+X-Received: by 2002:a5d:4e87:0:b0:3a1:f6fd:63fc with SMTP id ffacd0b85a97d-3a1f6fd6430mr8780021f8f.47.1747061196834;
+        Mon, 12 May 2025 07:46:36 -0700 (PDT)
 Received: from FRSMI24-WIZAR.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a2d30asm12615170f8f.76.2025.05.12.07.45.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a2d30asm12615170f8f.76.2025.05.12.07.46.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 07:45:58 -0700 (PDT)
+        Mon, 12 May 2025 07:46:36 -0700 (PDT)
 From: ines.kchelfi@smile.fr
 To: openembedded-core@lists.openembedded.org
 Cc: Ines KCHELFI <ines.kchelfi@smile.fr>
-Subject: [PATCH v2 1/2] rpm-sequoia: add ptest
-Date: Mon, 12 May 2025 16:44:09 +0200
-Message-ID: <20250512144409.244102-2-ines.kchelfi@smile.fr>
+Subject: [PATCH v2 2/2] ptest-cargo: fix tests output format for testimage
+Date: Mon, 12 May 2025 16:44:11 +0200
+Message-ID: <20250512144409.244102-4-ines.kchelfi@smile.fr>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250512144409.244102-2-ines.kchelfi@smile.fr>
+References: <20250512144409.244102-2-ines.kchelfi@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 14:46:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216372
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 14:46:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216373
 
 From: Ines KCHELFI <ines.kchelfi@smile.fr>
 
-In rpm-sequoia, some default paths in test code (OUT_DIR,
-CARGO_MANIFEST_DIR) are invalid at runtime and cause test failures.
+In testimage, the ptest-runner output parser expects test results to follow
+a specific format,with lines beginning with PASS:, FAIL:, or SKIP:. ptest-cargo,
+currently, does not emit any of those lines and the parser treats the test
+section as having no results, causing a test failure with :
 
-To fix this, patch the test code (symbols.rs) to support overriding these
-paths via optional environment variables: FORCE_RUNTIME_PATH_LIB and
-FORCE_RUNTIME_PATH_SRC.
+AssertionError:
+ptests which had no test results:
+['<package>']
 
-Also make -ptest package RDEPEND on -dev package.
-
-Tests take less than a second so this is added to PTEST_FAST.
-
-ptest result:
-|root@qemux86-64:~# ptest-runner rpm-sequoia
-|START: ptest-runner
-|2025-05-02T15:57
-|BEGIN: /usr/lib/rpm-sequoia/ptest
-|
-|running 1 test
-|test symbols ... ok
-|
-|test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-|
-|
-|running 2 tests
-|test tests::merge_certs_mismatch ... ok
-|test tests::merge_certs ... ok
-|
-|test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
-|
-|DURATION: 0
-|END: /usr/lib/rpm-sequoia/ptest
-|2025-05-02T15:57
-|STOP: ptest-runner
-|TOTAL: 1 FAIL: 0
+This patch ensures that the recipes using ptest-cargo class explicitly emits
+PASS: or FAIL: lines, making the results compatible with the test parser and
+preventing test failures.
 
 Signed-off-by: Ines KCHELFI <ines.kchelfi@smile.fr>
 ---
-v1 -> v2 : Depends on -dev package instead of custom patch
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- ...-vars-to-force-runtime-paths-in-test.patch | 35 +++++++++++++++++++
- .../rpm-sequoia/rpm-sequoia_1.7.0.bb          | 26 ++++++++++++--
- 3 files changed, 60 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm-sequoia/files/0001-Use-optional-env-vars-to-force-runtime-paths-in-test.patch
+ meta/classes-recipe/ptest-cargo.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index f3fdededf6..7ae882400d 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -80,6 +80,7 @@ PTESTS_FAST = "\
-     python3-webcolors \
-     qemu \
-     quilt \
-+    rpm-sequoia \
-     sed \
-     slang \
-     wayland \
-diff --git a/meta/recipes-devtools/rpm-sequoia/files/0001-Use-optional-env-vars-to-force-runtime-paths-in-test.patch b/meta/recipes-devtools/rpm-sequoia/files/0001-Use-optional-env-vars-to-force-runtime-paths-in-test.patch
-new file mode 100644
-index 0000000000..d0179fc53c
---- /dev/null
-+++ b/meta/recipes-devtools/rpm-sequoia/files/0001-Use-optional-env-vars-to-force-runtime-paths-in-test.patch
-@@ -0,0 +1,35 @@
-+From 590937523deea4ad2a2ee0e1ae4412a8f59e0170 Mon Sep 17 00:00:00 2001
-+From: Ines KCHELFI <ines.kchelfi@smile.fr>
-+Date: Thu, 10 Apr 2025 15:14:11 +0200
-+Subject: [PATCH] Use optional env vars to force runtime paths in tests
-+
-+Signed-off-by: Ines KCHELFI <ines.kchelfi@smile.fr>
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm-sequoia/pull/86]
-+---
-+ tests/symbols.rs | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/tests/symbols.rs b/tests/symbols.rs
-+index c16dd9b..dc4a42c 100644
-+--- a/tests/symbols.rs
-++++ b/tests/symbols.rs
-+@@ -14,7 +14,8 @@ fn symbols() -> anyhow::Result<()> {
-+     // OUT_DIR gives us
-+     // `/tmp/rpm-sequoia/debug/build/rpm-sequoia-HASH/out`.
-+ 
-+-    let out_dir = PathBuf::from(env!("OUT_DIR"));
-++    let out_dir = PathBuf::from(option_env!("FORCE_RUNTIME_PATH_LIB")
-++        .unwrap_or(env!("OUT_DIR")));
-+     let mut build_dir = out_dir;
-+     let lib = loop {
-+         let mut lib = build_dir.clone();
-+@@ -53,7 +54,8 @@ fn symbols() -> anyhow::Result<()> {
-+     }
-+ 
-+     let mut expected_symbols_txt_fn
-+-        = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-++    = PathBuf::from(option_env!("FORCE_RUNTIME_PATH_SRC")
-++        .unwrap_or(env!("CARGO_MANIFEST_DIR")));
-+     expected_symbols_txt_fn.push("src/symbols.txt");
-+ 
-+     let mut expected_symbols_txt = Vec::new();
-diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb
-index 57062b100a..6ef626e466 100644
---- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb
-+++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb
-@@ -10,9 +10,12 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f0ff5ff7747cf7d394079c6ae87f5f0c"
+diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
+index 7b18d43c38..ece25ff1eb 100644
+--- a/meta/classes-recipe/ptest-cargo.bbclass
++++ b/meta/classes-recipe/ptest-cargo.bbclass
+@@ -77,6 +77,7 @@ python do_compile_ptest_cargo() {
  
- DEPENDS = "openssl"
+ python do_install_ptest_cargo() {
+     import shutil
++    import textwrap
  
--inherit pkgconfig rust cargo cargo-update-recipe-crates
-+inherit pkgconfig rust cargo cargo-update-recipe-crates ptest-cargo
-+
-+SRC_URI = "git://github.com/rpm-software-management/rpm-sequoia.git;protocol=https;branch=main \
-+	file://0001-Use-optional-env-vars-to-force-runtime-paths-in-test.patch \
-+"
- 
--SRC_URI = "git://github.com/rpm-software-management/rpm-sequoia.git;protocol=https;branch=main"
- 
- SRCREV = "0667e04ae7fb8cf0490919978d69883d16400e41"
- 
-@@ -41,6 +44,13 @@ do_compile:prepend () {
- 	export LIBDIR="${libdir}"
- }
- 
-+# By default, ptest binaries contain host build dir paths.
-+# Use custom environment variables to force these paths to match the target instead.
-+do_compile_ptest_cargo:prepend() {
-+    os.environ["FORCE_RUNTIME_PATH_LIB"] = d.getVar("libdir")
-+    os.environ["FORCE_RUNTIME_PATH_SRC"] = d.getVar("PTEST_PATH")
-+}
-+
- do_install:append () {
- 	# Move the library to the correct location expected by rpm-sequoia.pc
- 	mkdir -p ${D}${libdir}
-@@ -54,6 +64,18 @@ do_install:append () {
- 	install -m644 ${S}/target/release/rpm-sequoia.pc ${D}${libdir}/pkgconfig
- }
- 
-+do_install_ptest:append () {
-+	install -d ${D}${PTEST_PATH}/src
-+	install -m 644 ${S}/src/symbols.txt ${D}${PTEST_PATH}/src/symbols.txt
-+}
-+
-+# Tests need objdump
-+# ptest requires a symlinked library that is only present in the -dev package,
-+# so we add the -dev to runtime dependencies.
-+# The "dev-deps" QA check is skipped to avoid warnings about this dev package dependency.
-+RDEPENDS:${PN}-ptest += "binutils ${PN}-dev"
-+INSANE_SKIP:${PN}-ptest += "dev-deps"
-+
- RDEPENDS:${PN} = "rpm-sequoia-crypto-policy"
- PACKAGE_WRITE_DEPS += "rpm-sequoia-crypto-policy-native"
+     dest_dir = d.getVar("D")
+     pn = d.getVar("PN")
+@@ -107,7 +108,16 @@ python do_install_ptest_cargo() {
+             f.write(f"\necho \"\"\n")
+             f.write(f"echo \"## starting to run rust tests ##\"\n")               
+         for test_path in test_paths:
+-            f.write(f"if ! {test_path} {rust_test_args}; then rc=1; fi\n")
++            script = textwrap.dedent(f"""\
++                if ! {test_path} {rust_test_args}
++                then
++                    rc=1
++                    echo "FAIL: {test_path}"
++                else
++                    echo "PASS: {test_path}"
++                fi
++            """)
++            f.write(script)
+         
+         f.write("exit $rc\n")
  
 -- 
 2.43.0
