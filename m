@@ -1,323 +1,394 @@
-Return-Path: <semc.2042@gmail.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 907BBC3ABCB
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 17:07:56 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.55659.1747069669226840745
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D371FC3ABC3
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 18:00:26 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.57157.1747072818469711975
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 10:07:49 -0700
+ Mon, 12 May 2025 11:00:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EuKNA/CR;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: semc.2042@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22d95f0dda4so55106495ad.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 10:07:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747069668; x=1747674468; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dnl8rSw7RuvyuW6Rigk1SfQJMJq/KTegqVQ0B2EC9yc=;
-        b=EuKNA/CR9aZ0wQFSfAbxadosYGU5lHbJiGuUHpQhRBI3eBrWKhkhjdQh3noB5447N0
-         VC9l4nWd0E8BXzymF+D0Kwgbt02KVXKouNcHPN+LMlsfbP8mKE4ifm7ZkEhOIBTfi+n1
-         xBK4hFOqIR8JX4mb7v/jo343UG4UgLqdTIeTshOAwsd5p7buVkXIwvTGoZiNCyyPjqGd
-         7zH/87RBaOYiDoite+55RSet6dmzn41RRakOOKRIT6Ur/c9RMzQbCRpn7cMDejfvmxpL
-         AM1GEOd/8YvuRZ0iCD/PmEngEnMfQkB/kjCtfgrvqefMAU1Nng51nontdZfpVn1JG/Ar
-         fm9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747069668; x=1747674468;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dnl8rSw7RuvyuW6Rigk1SfQJMJq/KTegqVQ0B2EC9yc=;
-        b=qgHNBf1oOKEGELoEOSMgKALFV29HKJhATBU6JpFd0zYGEzTZe87f36wwsEB1uPmazv
-         INR8D9u/qlMPSA4NcyVI/79K5UD3at0BDxfVBhBNutxSJJwLZPDnxp7Vr8cBydcWFLR7
-         SKM882KQb0gEocEsF2Sny9z+ExTlf3xYav2GdnYWFnwnx1e722jtatsMn73ImH+rTYoG
-         Q4fAp3itVhOJXkV5+WT2yt1Z98L7TcUwsc5WUoBWK5hNCR1LkiRIFl0QOTdSrWJIpfiA
-         7dEV8q7OqUa3P71lMFbrBC+K8azsQdXEQnaAlp+3y84Bnd0Coxi6nLashG17KidmP1ke
-         2Dww==
-X-Gm-Message-State: AOJu0YwI33kZKtx4ou9uVaOlXqgBKP2DjYZ07V818MiHFequy7QWQwPS
-	7wWcyfkdKOr2a7YMKJugKfM6xwj4lpOIrkxBVT9r6MO9KgqNlAzNwwFq4w==
-X-Gm-Gg: ASbGncs6c4LDatjfb6qtoOCesnH3/wnCCByNEQdAbC8VeTY+8m2wH96zeND5ENl8YSb
-	inEVzbcqz+QgkurJD+u5spl6QyrNbRZvRtv5080rYvXRqWIcy5x5HXMXhTU84I9TXoydoomHKgx
-	Po2o5uRthujSpT3FNcaspinw768nUWlONXdWgSU0wB5kndxlGuvVX3sSfzznMSAkSupq86NWpEg
-	zCCx7Amnul+RSmvkcWjfiONGK6nRxjlJ5LhaqhTwBruATysk7h5liZ3MasCGHFI4tsIAQZEnTOe
-	TjOPl+x24eymYdz1LmX9Yzh4IIZ7yoBy5WPRQVAgfJCUIZaxiGueHYDxfUCPKGOTN2s=
-X-Google-Smtp-Source: AGHT+IG7Odr0NGO+A/JQJ23bSx16TTdbNXkHzuxxmJTcuub3IRyIA4n8L27gcyTzryPRuiHa9Gfy7A==
-X-Received: by 2002:a17:902:e94d:b0:224:8bf:6d81 with SMTP id d9443c01a7336-22fc918c322mr211138595ad.46.1747069668059;
-        Mon, 12 May 2025 10:07:48 -0700 (PDT)
-Received: from L-16522.kpit.com ([49.207.205.81])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc82bd34bsm65700635ad.243.2025.05.12.10.07.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 10:07:47 -0700 (PDT)
-From: rajmohan r <semc.2042@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [scarthgap][PATCH] glibc-y2038-tests: remove glibc-y2038-tests_2.39.bb recipe
-Date: Mon, 12 May 2025 22:37:43 +0530
-Message-Id: <20250512170743.108621-1-semc.2042@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=722724617f=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54CBeY8o019156
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 11:00:16 -0700
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46j6ajssun-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 11:00:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ve5fsc67PB0KSurcVlnNl4oWE1y65PBd4feWRcxGhLtQlQJDZKSGR8ZcrMke6oZ9YD1Wam6RGhN+bMP/vXCuUxCxHEqWVxskGpO0+M4IwzvGcIWXM5tMnGxXVgLjjWb2xeUWHBg2kyMnzER+i4rEChelAy9H39GWg+bPSXg7sIU0lwp23UwOaK6c3I44sTIha0vynUPizM41qqOUIb/6lQDHEqLage+SVbsr50xyIFfwAMZhbueKovxWNsJn91EARJbTeIK8p7G8twbjnScr0tFFdjRon5FZQr2CZ1yW+8RpC5WfYgIYCy0OpFXkE80mt5VtmoURlPHykURwo5nD7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vK4v8KnneG3+aIh2t9Pk/EI1rq1xX4eJXENfVV6hNYU=;
+ b=lhHBkFCZVw5qbX7ReOQPlBvFPOvhFQ6Zfa9MkZklG0V4UZMu1TCOeMOGIotsXz9+inlTAYKgLzzie+6IM4hpP8Pt7O7KW9uWIx8TvHqjiNldNOuUj9Sz9/GneSoB1uJ8j91eTI1jmgTQprETc55mkp6Zkxn+ouwS4PaXWe/xGAxbvU5Uid1F5YFp7rgMmWP5Y5hAYLU0wrqR20rZ2mDTZxEHLPL+rRNJbgQftlgbjepst/wzof03hDCwiQJulPJi2MkxFnkSb4IM3rqUvKdmoacZovlaZURMGKiWFBEPTvtc/0S0+mAR1BGlv2SO8LeHUvVvqEoRnCg856jf77mK6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by SJ0PR11MB6719.namprd11.prod.outlook.com (2603:10b6:a03:478::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.28; Mon, 12 May
+ 2025 18:00:11 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552%5]) with mapi id 15.20.8722.027; Mon, 12 May 2025
+ 18:00:10 +0000
+Content-Type: multipart/alternative;
+ boundary="------------oNLmHN0qdOXVkNGOJde1orWR"
+Message-ID: <545a1627-78e4-4e86-a584-11d5880611f2@windriver.com>
+Date: Mon, 12 May 2025 14:00:07 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/2] coreutils: fix ptest build error with
+ single-binary
+To: ovidiu.panait@windriver.com, openembedded-core@lists.openembedded.org
+References: <20250508072814.106107-1-ovidiu.panait@windriver.com>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <20250508072814.106107-1-ovidiu.panait@windriver.com>
+X-ClientProxiedBy: BYAPR05CA0051.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::28) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|SJ0PR11MB6719:EE_
+X-MS-Office365-Filtering-Correlation-Id: 34c44832-08d4-4e11-0234-08dd917ed61e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|366016|1800799024|4022899009|8096899003|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?N1h2NmNrb2k4VE1sc0VVK1ZxT3poNWZwbHh3MkM2UUZrSEwzaWhoQWpPYW5i?=
+ =?utf-8?B?OXVQYzBRNkNhTGZxejk2QzJTcHNjNDJPbTgwTFkzQXU1VW9CbWI1OXg5QldQ?=
+ =?utf-8?B?ZFJ5OXVQdGRFeG1pVFVQWW82TTRtSmJHdmZnd3VoMktZQ2djcjZTdGdKOFph?=
+ =?utf-8?B?d2h4TE1DVUhmbXovVEYvSklWVUdadGxKM3lUN1B1SDN5UjZZL3gxaEtlNHJk?=
+ =?utf-8?B?ZHFjQ2tVakRLZ3NCTm1Bb1BnRXdGdURNTFpxdmNHZjdNN0t6eWFHWXcwU2Fy?=
+ =?utf-8?B?RkJzV1RyNFl1VUN1YUZ3OTZteFQ5eGhWeVM5eTdBaS9oQU92bCtQNjlrVXla?=
+ =?utf-8?B?eGNjb3pxMDIrKzFHU1lOazkzN0Q0ZzRYY2QyWi94RGtLUFp0cXVNN3NwVng2?=
+ =?utf-8?B?TC9sazk2amI2SVk4NUxQYzdnNFh5V0FlU29tZW16eHNIdXlxNmcwNkIvRUtI?=
+ =?utf-8?B?ZnFrVkMyNnBCV0N5UnFiYXhFYUVxMHpYalREcEJBSm0yTXgyTnZodHB1b1RR?=
+ =?utf-8?B?OHpzRHVtQzRwdWdyQVdBN3FPR2xsSWpma3NoOUZhVUtpeFRMN3lxNCtLYlB5?=
+ =?utf-8?B?WksvSnRhZEkyb2lSNjVvS3JJd0tuS2NHaTE3T01BN2UzQVdWanNaYTd2YVFY?=
+ =?utf-8?B?c3lKVnNrTmdaYXdoL2UwTFB4VmNBWnZ1a0lZdkVKZFNsNFJ6aUdEZVhoNlB2?=
+ =?utf-8?B?eTRhOGZIN0VlNCs4Q01QUzJXWUlhY01FL0lOaDROQjhLc3FXOC9BTFlyY1Mv?=
+ =?utf-8?B?UXBVYXdIeTlWemdOaUJGczNjcTVTUGlZZUlYRTVTNmJsT2oxNzM4bXNwM0tR?=
+ =?utf-8?B?K1VxNU1oUUJsNjRKazJhd2pYQUF5dUhmY3pxS3ZnSit5cGhMZzVjN29oQnZX?=
+ =?utf-8?B?ZVdrMmtoalZXaGFlOUFXS3E5aE45cmFoMDRMVUtibTZZbXBUb0pSVFg1a3Fl?=
+ =?utf-8?B?UFlkdWx6WGlXWE4yZTZCb2RKcGtweDlkVGdpZ2Nkc3AvQlN1VWM2N3lqbXBu?=
+ =?utf-8?B?WWkzMkJOdlJzUkwydU4ySGw3NlRhSkRFbGVFL29iTTBlNWVRNkpnM1RrUkJD?=
+ =?utf-8?B?ZUU1cGhGc3NmeUlmbDZCNmQ2aUE4cXZPeGdoMjBQd3kwbWlGRjNEYTVGVHFW?=
+ =?utf-8?B?Rzk5MGJLTHBzbVZJdkhLcGhhS3lpcFJ1eEI1bXNGYVk2Q3d0NjFKWHlpKzBn?=
+ =?utf-8?B?ajhjVW15NGpiaHFEQWdabUR0UzZzSUJUakZpK0xaUVRUazRlY09JbW5HKzdr?=
+ =?utf-8?B?THFpOWZqSW5KYlJ4MXMyMXR4RG5ZZk5FRkNQWWJzQk13Rm9ZeHVCZERmbzVO?=
+ =?utf-8?B?TFI4STJ4aUtzYW1COWNGTVlOUm1jMlhXR0pDQkozRjZmdC9DK3FwNmdjUWcr?=
+ =?utf-8?B?ZDFwZ2pMNXZIdDYrRTUxSE5vbXB1QXNUV2FyZGIxQ2U5YXpyeU9QTW9EYUo5?=
+ =?utf-8?B?SC9RRytPcGpJblNXMGs5N0JXTFRQQWpuL0dBRmt1Ym9EamU2MzFQSDlETml4?=
+ =?utf-8?B?ZnFzWDgydmw4c0JhL1VEZHk1U2ZUL2JDMng0eEYwdkhhVGFLekhDamptNFY4?=
+ =?utf-8?B?T0tESWMzaCtUQ0NYSGF0azNUbWNSMTc3dS8wM3FvZ1Y2aVRzeTdyNlFyakhR?=
+ =?utf-8?B?dDlRTWNHU0I1UEFtcmtKaVgyKzJLYzJvWS9MNG4wZ3JmMlhnT2tFMndMS1BQ?=
+ =?utf-8?B?VXBzOEYrMDNWM1ZHK3lHc09uRXQ4R0tqbG5CU2YyZlU2UHlOMkdNRElRa0to?=
+ =?utf-8?B?ZGhOQXNHWkhBTG5UZnBoMEVya0pFN2gxVlE2cjZzcVVITWJiM0xmeEhjdS82?=
+ =?utf-8?B?Ukk3a1Qwd1JvWlFmSXJPK2krZmJmRkdFVEMwcm1TV1FhMWVPZ1MxTEVaMms0?=
+ =?utf-8?Q?w/vbBMMChDClC?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(4022899009)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?cFgwdnU3cERGQlFqdE93dGEzOW9XTTJJekcrUlNPaXBKZnk4eDhwK1gwaHND?=
+ =?utf-8?B?Umh4SXBjNk8velR0a1NkNkFOM1RWbXRlK2tLeW5iRVhaSXE5dHIxbm5yVW91?=
+ =?utf-8?B?bmJSL3dBQ2xlMlZXVGcxMWR5RnlxTGhvTGRyaHBxVUZuTDYrbi9FZGg2THRD?=
+ =?utf-8?B?QU93VDdDL2k5NTk5ZU1PUHNKL2xJUEtLamNPdWhIa0JFVWlCNFN2YzQ1YWdR?=
+ =?utf-8?B?YVRmYU9CdzgxV1ROTmpTL0VsN1F6U2VRZENZdFNScVZLUFdiK1I3Q3J5VHVR?=
+ =?utf-8?B?cHR6clBSYlBra09SaHpFRFNwYStPQVNhRDFmY1dHT05yblFaZ0JJMGZhUHlX?=
+ =?utf-8?B?aFpMODR6Nlh6cjFCRkNmU0RGVW84MUF4cXBPRjdxMTZUUWNNWVJHckpSdmNp?=
+ =?utf-8?B?OTZHaVhTTnFJekZzZUNEU2JCTzlYcSt2ZFZIRElSdEdqNjVlZGR4ckZqQmNI?=
+ =?utf-8?B?YmtZVU03dmd1a2FHSjJRNHMvR3FMZWoraUFUZ2twaGJXYkJJR216OUd3Ykt5?=
+ =?utf-8?B?RXAvSUdIQi9qYmhqZE5kUGFrMW5teUR0RWp2NzVZTXovcUkzNzgzQi9Rc2Rn?=
+ =?utf-8?B?NGhTeGQ3ZDg1TU9icSt4RUhoUlljWGR0ZmtvRHgrZUdyNG1ubDRMb0VuNy9z?=
+ =?utf-8?B?eGVsS2R1M1N0V3I5eUprY0lCVXYvakRHMzFwWGtpSXJNVS96czJKRlNNNEpI?=
+ =?utf-8?B?SDJzVGZySmpjYmMzZkdNTkw4UzYvY1pGY0FFMGRLbTRCMUZOYUorN292YVJz?=
+ =?utf-8?B?aGNnaXZQTFJCTGNaZ2tQWktFQ2JHR3pzU2J5MUEvT3F5d2dLT2NSSGZkMFVW?=
+ =?utf-8?B?VTdHRkMxQkN5ZW9PTjlRUVBqdU44MTBkSEo5djNCblpybHZsZVkwSEhjd3ky?=
+ =?utf-8?B?UnhjcVFNdHhRZG9VVjR6V3RoUmFPaFlOUTNlOExsblI0SXlIazhBbWZ3bGRU?=
+ =?utf-8?B?NlNmdHhNN2g0bldFT0N0bEUvUGFYNzI2Rm90SlB5Q3M3S25XaTRjL01MVEJE?=
+ =?utf-8?B?eFd1czYrL0c2cW5FVkdWUXJVWk83V1B4ZmtsRVF0V05wdEFYcWVkaG80SUtl?=
+ =?utf-8?B?ZzU4VEIxeGwxeVdFTWdkM0doaUhkeERzb1NVK0pTVEhsUHFDMmI3RDk4WDY2?=
+ =?utf-8?B?aXk3cndMRUNYa3k0L1JQTDhHL05JWEE0dEdQVlArZmFWRzZ1MnZuT3IzYnVC?=
+ =?utf-8?B?Qzk2Q1hUMXhXWi9ZR1FralEwVm91b2hFc1EwbzRvSC80Z0tzL1EzTy9vV3ZL?=
+ =?utf-8?B?Z1BMMER6UWRVUHpJamRiWXYxczRKa3dUTjB2dHJiMmhkL3NJR1V0cDFPRzcx?=
+ =?utf-8?B?MEZzNFRnK002cGdNZmVqTHRhaXJodDRSZC9WZW5DeDZDN1hNOHV6U0dQNkcy?=
+ =?utf-8?B?MjBwdEJzdDFabTJPbG1IZUtrME01blZNSmpBQi9xNFFxZmdsRlZweFRneUEy?=
+ =?utf-8?B?bzkzaDNoM3BteEdjWVVDLzd2VmIwYmRwSHA0YnRFdmphWlFNdWVsL1lSdm9B?=
+ =?utf-8?B?RFRWc0ZGTE5ZTWFuL2ZBS0s1bXhMRFQ1NSt5WlBtSGdESktvek04dVhzOGVp?=
+ =?utf-8?B?dFFoWWliWW9RQmR5dk5EeTF5ejFEWmMvMXdwZHF3UjBtN1owdEpOc2swZ0NR?=
+ =?utf-8?B?T0pXdFk2Uy83a1JxbXBUdGovOS9JUnVYTlpKKzRGNXkzZHEyZXo3UzcwQmw1?=
+ =?utf-8?B?TS9tUDRtRmlRaTNZbmFYNHI2TVpjZFZQTjBqN25lc1NYRktIbXVNUkwyQUp2?=
+ =?utf-8?B?d1hSR2RuOHdMcVNBd0ozRHh5WXpyaEFJb3pzSnFOVTVzcHB3YmxaeEl6QVRq?=
+ =?utf-8?B?Nkh2TFBnN0JFbVRQU1VVYlFKNTJtUVhscldLWWNaZWY1RzhHSlFDd3J2V3l2?=
+ =?utf-8?B?aEFnMmJyM1VrTXZybnhwNHpRTTl2K2Y0dmxvY1dwZ1NIK2tsZGZNQXhMZHll?=
+ =?utf-8?B?bEFWUmpBSTc3Y1MzT0Q2SXJLcWlZVXZCZEFONDkxam5xTG9qMnkxMWZjZGNw?=
+ =?utf-8?B?aVVsU1hSaVFKZ0xTNVpsaWpXNVBJMUxBU0FqbzBkQXV4V3lKZElOc3A2S3Vk?=
+ =?utf-8?B?M1FPMnc3WjJPdHJOdUVFdzBTTkpXRlBGUzVzL1UrYXJkQlBsSzJUcktWTkx3?=
+ =?utf-8?B?QzBXdXFLM2liS1VqeVg2MTdjbGNTL25EL09aRkY1SzRXS2dsSXJGb3QrOGdw?=
+ =?utf-8?B?TFE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34c44832-08d4-4e11-0234-08dd917ed61e
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2025 18:00:10.2792
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UOI5MmgwA+30i2xCa4T4ekwIDtLxGXEXH8Y65nGfU2cNcfgEMQOKA0uu7zdo+XDZc7lWDiT9MLIgMkqUyjo2UHXxUkdibX8V9Cphahi5G7o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6719
+X-Proofpoint-ORIG-GUID: zRWxT2ncBhRJcphK347Gdw26zQrPfhm3
+X-Authority-Analysis: v=2.4 cv=c8irQQ9l c=1 sm=1 tr=0 ts=68223730 cx=c_pps a=ZuQraZtzrhlqXEa35WAx3g==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
+ a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=_Qzbin9yEip8Y1rlDxQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=qAxYNdvDvy1bax9X53gA:9 a=od4ZCldnx1Jm1D82:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEyMDE4NSBTYWx0ZWRfX/0kAmmyumX5+ KECNFe6yqFJO/bDCsOfDB+qhU8atbuRoGZTlxlIqrBIpbmo9JkOhYUX0hfmL0gchvcG3zCKR1+6 //9iNPrHD9tZ/FDTONQl6OCuFlRqhyOsOX1JmnCwKlYGDs2qTP4Hpqi/+wHSJUzrtvx4uTWlXvO
+ fKkz86Sv64+sNdf9rTfpjfQD1/9DaK+3QaozuMBxXTQku5uKHp5LErNDEQANAkWQoOID88Lxk1R O4Hw+oC8iF15GJ1iIWEBC1y7jbqEkFVciRkSDl6B8MKVob6MkPsnH1XvgOqTYyYNm+UIkDZf8xk qfi+l6YI4t1mHfkfdZnSt2frvtMYSTOB50lhr5Lu7OKRJK/Y+nBmcJLDmbMakL47c7U8O6jF+r4
+ QaNedsjS30yzgx6c1ZB3Vy/8l3UJ6belM58deWaTvJEryCuUnWkj4WpZGazCXa3NayINe/ze
+X-Proofpoint-GUID: zRWxT2ncBhRJcphK347Gdw26zQrPfhm3
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-12_06,2025-05-09_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 mlxscore=0 clxscore=1015 bulkscore=0 adultscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 priorityscore=1501
+ suspectscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
+ definitions=main-2505120185
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 17:07:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216381
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:00:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216382
 
-This recipe takes longer time >20min when bitbake for package
-write stage. When cross-verified for longer time duration, found
-that do_check() stage taking 20min while other stages completes
-before 6min.
+--------------oNLmHN0qdOXVkNGOJde1orWR
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 54CBeY8o019156
 
-This recipe gives only below two test binaries in the packages to
-test (ptest: glibc-y2038-tests):
-     io/ftwtest
-     io/ftwtest-time64
+On 2025-05-08 3:28 a.m., Ovidiu Panait via lists.openembedded.org wrote:
+> From: Ovidiu Panait<ovidiu.panait@windriver.com>
+>
+> When coreutils has 'single-binary' PACKAGECONFIG enabled, coreutils-pte=
+st
+> build fails with the following errors:
+> DISTRO_FEATURES:append =3D " ptest"
+> EXTRA_IMAGE_FEATURES +=3D " ptest-pkgs"
+> PACKAGECONFIG:append:pn-coreutils =3D " single-binary"
 
-The above test binaries are already included for testing in recipe
-glibc-testsuite_2.39.bb.
+Hi Ovidiu,
 
-It is by now well established that glibc itself works as it should,
-that all affected 32 bit targets are configured to use 64 bit time_t,
-and that any lingering y2038 issues are in components other than the c
-library, and usually come from C programming mistakes (e.g. storing
-timestamps in long). So this recipe seems to be redundant and
-can be removed.
+Fixing this issue a a good idea since the single-binary can save space:
+ =C2=A0=C2=A0 "rpm package reduces from 849K to 519K."
+https://git.openembedded.org/openembedded-core/commit/?id=3D94ce5d25cad7d=
+81b979218a40cdf15be26a7aae5
 
-Review comments for fixing above longer time duration ended up in
-removing this recipe as a proposal is below
-https://lists.openembedded.org/g/openembedded-core/topic/112188476#msg214636
+Can we fix this by adjusting the build-aux/gen-single-binary.sh script,=20
+ideally upstream?
 
-Removed lines having reference to glibc-y2038-tests in the files.
+Also, coreutils can generate symlinks:
 
-For master branch requested for integration and below is the link
-https://lists.openembedded.org/g/openembedded-core/message/215655
+ =C2=A0--enable-single-binary=3Dshebangs|symlinks
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 Compile all the tools in a single binary,=20
+reducing
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 the overall size. When compiled this way,=20
+shebangs
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 (default when enabled) or symlinks are=20
+installed for
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 each tool that points to the single binary.
 
-Signed-off-by: rajmohan r <semc.2042@gmail.com>
+have you looked into doing that to avoid the script problem?
+
+If you mention that in the commit log, that will help people who may have
+these questions later.
+
+Thanks,
+
+../Randy
+
+
+>
+> bitbake coreutils
+> ....
+> ERROR: coreutils-9.6-r0 do_package_qa: QA Issue: File /usr/lib/coreutil=
+s/ptest/src/pwd in package coreutils-ptest contains reference to TMPDIR [=
+buildpaths]
+> ERROR: coreutils-9.6-r0 do_package_qa: QA Issue: coreutils-ptest: /usr/=
+lib/coreutils/ptest/src/pwd maximum shebang size exceeded, the maximum si=
+ze is 128. [shebang-size]
+>
+> To fix this, use /usr/bin/env shebangs in ptest files and get rid of bu=
+ild
+> host paths.
+>
+> Signed-off-by: Ovidiu Panait<ovidiu.panait@windriver.com>
+> ---
+>   meta/recipes-core/coreutils/coreutils_9.6.bb | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/meta/recipes-core/coreutils/coreutils_9.6.bb b/meta/recipe=
+s-core/coreutils/coreutils_9.6.bb
+> index b876a8fdd0..fe2cf73d40 100644
+> --- a/meta/recipes-core/coreutils/coreutils_9.6.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_9.6.bb
+> @@ -215,6 +215,12 @@ do_install_ptest () {
+>
+>       # handle multilib
+>       sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
+> +
+> +    if ${@bb.utils.contains('PACKAGECONFIG', 'single-binary', 'true', =
+'false', d)}; then
+> +        find "${D}${PTEST_PATH}/src" -type f -exec \
+> +            sed -i -e 's:${B}/src/coreutils:/usr/bin/env -S coreutils:=
+g' \
+> +            {} +
+> +    fi
+>   }
+>
+>   do_install_ptest:append:libc-musl () {
+> --
+> 2.34.1
+>
+> pLK@tY:ATbOf1"dW
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#216144):https://lists.openembedded.org/g/openembedd=
+ed-core/message/216144
+> Mute This Topic:https://lists.openembedded.org/mt/112783421/3616765
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [r=
+andy.macleod@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+--=20
+# Randy MacLeod
+# Wind River Linux
+
+--------------oNLmHN0qdOXVkNGOJde1orWR
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 2025-05-08 3:28 a.m., Ovidiu Panait
+      via lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20250508072814.106107-1-ovidiu.panait@windriver.com">
+      <pre wrap="" class="moz-quote-pre">From: Ovidiu Panait <a class="moz-txt-link-rfc2396E" href="mailto:ovidiu.panait@windriver.com">&lt;ovidiu.panait@windriver.com&gt;</a>
+
+When coreutils has 'single-binary' PACKAGECONFIG enabled, coreutils-ptest
+build fails with the following errors:
+DISTRO_FEATURES:append = &quot; ptest&quot;
+EXTRA_IMAGE_FEATURES += &quot; ptest-pkgs&quot;
+PACKAGECONFIG:append:pn-coreutils = &quot; single-binary&quot;</pre>
+    </blockquote>
+    <p>Hi Ovidiu,</p>
+    <p>Fixing this issue a a good idea since the single-binary can save
+      space:<br>
+      &nbsp;&nbsp; &quot;rpm package reduces from 849K to 519K.&quot;<br>
+      &nbsp;&nbsp;
+<a class="moz-txt-link-freetext" href="https://git.openembedded.org/openembedded-core/commit/?id=94ce5d25cad7d81b979218a40cdf15be26a7aae5">https://git.openembedded.org/openembedded-core/commit/?id=94ce5d25cad7d81b979218a40cdf15be26a7aae5</a><br>
+    </p>
+    <p>Can we fix this by adjusting the build-aux/gen-single-binary.sh
+      script, ideally upstream?<br>
+    </p>
+    <p>Also, coreutils can generate symlinks:</p>
+    <p>&nbsp;--enable-single-binary=shebangs|symlinks<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Compile all the tools in a single
+      binary, reducing<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the overall size. When compiled this
+      way, shebangs<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (default when enabled) or symlinks are
+      installed for<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; each tool that points to the single
+      binary.<br>
+      <br>
+    </p>
+    <p>have you looked into doing that to avoid the script problem?</p>
+    <p>If you mention that in the commit log, that will help people who
+      may have<br>
+      these questions later.</p>
+    <p>Thanks,<br>
+    </p>
+    <p>../Randy<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite" cite="mid:20250508072814.106107-1-ovidiu.panait@windriver.com">
+      <pre wrap="" class="moz-quote-pre">
+
+bitbake coreutils
+....
+ERROR: coreutils-9.6-r0 do_package_qa: QA Issue: File /usr/lib/coreutils/ptest/src/pwd in package coreutils-ptest contains reference to TMPDIR [buildpaths]
+ERROR: coreutils-9.6-r0 do_package_qa: QA Issue: coreutils-ptest: /usr/lib/coreutils/ptest/src/pwd maximum shebang size exceeded, the maximum size is 128. [shebang-size]
+
+To fix this, use /usr/bin/env shebangs in ptest files and get rid of build
+host paths.
+
+Signed-off-by: Ovidiu Panait <a class="moz-txt-link-rfc2396E" href="mailto:ovidiu.panait@windriver.com">&lt;ovidiu.panait@windriver.com&gt;</a>
 ---
- meta/conf/distro/include/maintainers.inc      |   1 -
- .../distro/include/ptest-packagelists.inc     |   2 -
- meta/conf/distro/include/time64.inc           |   2 -
- .../glibc/glibc-y2038-tests_2.39.bb           | 119 ------------------
- meta/recipes-core/glibc/glibc/run-ptest       |  37 ------
- 5 files changed, 161 deletions(-)
- delete mode 100644 meta/recipes-core/glibc/glibc-y2038-tests_2.39.bb
- delete mode 100755 meta/recipes-core/glibc/glibc/run-ptest
+ meta/recipes-core/coreutils/coreutils_9.6.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index baaf971a9a..9548fcd258 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -210,7 +210,6 @@ RECIPE_MAINTAINER:pn-glibc = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glibc-locale = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glibc-mtrace = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-glibc-y2038-tests = "Lukasz Majewski <lukma@denx.de>"
- RECIPE_MAINTAINER:pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gmp = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glslang = "Jose Quaresma <quaresma.jose@gmail.com>"
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 5975db25cc..3387e19191 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -81,8 +81,6 @@ PTESTS_FAST = "\
-     zlib \
-     libexif \
- "
--PTESTS_FAST:append:libc-glibc = " glibc-y2038-tests"
--PTESTS_PROBLEMS:remove:libc-glibc = "glibc-y2038-tests"
- PTESTS_FAST:remove:mips64 = "qemu"
- PTESTS_PROBLEMS:append:mips64 = " qemu"
- PTESTS_FAST:remove:riscv32 = "qemu"
-diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/include/time64.inc
-index 2e85753e55..dd29105db4 100644
---- a/meta/conf/distro/include/time64.inc
-+++ b/meta/conf/distro/include/time64.inc
-@@ -19,7 +19,6 @@ TARGET_CC_ARCH:append:powerpc = "${@bb.utils.contains('TUNE_FEATURES', 'm32', '$
- TARGET_CC_ARCH:append:x86 = "${@bb.utils.contains('TUNE_FEATURES', 'm32', '${GLIBC_64BIT_TIME_FLAGS}', '', d)}"
- 
- GLIBC_64BIT_TIME_FLAGS:pn-glibc = ""
--GLIBC_64BIT_TIME_FLAGS:pn-glibc-y2038-tests = ""
- GLIBC_64BIT_TIME_FLAGS:pn-glibc-testsuite = ""
- # pipewire-v4l2 explicitly sets _FILE_OFFSET_BITS=32 to get access to
- # both 32 and 64 bit file APIs.  But it does not handle the time side?
-@@ -36,7 +35,6 @@ GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers = ""
- # Caused by the flags exceptions above
- INSANE_SKIP:append:pn-gcc-sanitizers = " 32bit-time"
- INSANE_SKIP:append:pn-glibc = " 32bit-time"
--INSANE_SKIP:append:pn-glibc-y2038-tests = " 32bit-time"
- INSANE_SKIP:append:pn-pulseaudio = " 32bit-time"
- 
- # Strace has tests that call 32 bit API directly, which is fair enough, e.g.
-diff --git a/meta/recipes-core/glibc/glibc-y2038-tests_2.39.bb b/meta/recipes-core/glibc/glibc-y2038-tests_2.39.bb
-deleted file mode 100644
-index be49ca4cb7..0000000000
---- a/meta/recipes-core/glibc/glibc-y2038-tests_2.39.bb
-+++ /dev/null
-@@ -1,119 +0,0 @@
--require glibc_${PV}.bb
--require glibc-tests.inc
--
--inherit ptest features_check
--REQUIRED_DISTRO_FEATURES = "ptest"
--
--SRC_URI += "\
--	file://run-ptest \
--"
--
--SUMMARY = "glibc tests using time32/time64 interfaces to be run with ptest for the purpose of checking y2038 compatiblity"
--
--# Erase some variables already set by glibc_${PV}
--python __anonymous() {
--       # Remove packages provided by glibc build, we only need a subset of them
--       d.setVar("PACKAGES", "${PN} ${PN}-ptest")
--
--       d.setVar("PROVIDES", "${PN} ${PN}-ptest")
--
--       bbclassextend = d.getVar("BBCLASSEXTEND").replace("nativesdk", "").strip()
--       d.setVar("BBCLASSEXTEND", bbclassextend)
--       d.setVar("RRECOMMENDS", "")
--       d.setVar("SYSTEMD_SERVICE:nscd", "")
--       d.setVar("SYSTEMD_PACKAGES", "")
--}
--
--# Remove any leftovers from original glibc recipe
--RPROVIDES:${PN} = "${PN}"
--RRECOMMENDS:${PN} = ""
--RDEPENDS:${PN} = "glibc libgcc sed bash"
--RDEPENDS:${PN}-ptest = "${PN}"
--DEPENDS += "sed"
--
--export oe_srcdir="${exec_prefix}/src/debug/glibc/${PV}/"
--
--# Just build tests for target - do not run them
--do_check:append () {
--	oe_runmake -i check run-built-tests=no
--}
--addtask do_check after do_compile before do_install_ptest_base
--
--glibc_strip_build_directory () {
--	# Delete all non executable files from build directory
--	find ${B} ! -executable -type f -delete
--
--	# Remove build dynamic libraries and links to them as
--	# those are already installed in the target device
--	find ${B} -type f -name "*.so" -delete
--	find ${B} -type l -name "*.so*" -delete
--
--	# Remove headers (installed with glibc)
--	find ${B} -type f -name "*.h" -delete
--
--	find ${B} -type f -name "isomac" -delete
--	find ${B} -type f -name "annexc" -delete
--}
--
--do_install_ptest_base () {
--	glibc_strip_build_directory
--
--	ls -r ${B}/*/*-time64 > ${B}/tst_time64
--
--	# Remove '-time64' suffix - those tests are also time related
--	sed -e "s/-time64$//" ${B}/tst_time64 > ${B}/tst_time_tmp
--	tst_time=$(cat ${B}/tst_time_tmp ${B}/tst_time64)
--
--	rm ${B}/tst_time_tmp ${B}/tst_time64
--	echo "${tst_time}"
--
--	# Install build test programs to the image
--	install -d ${D}${PTEST_PATH}/tests/glibc-ptest/
--
--	for f in "${tst_time}"
--	do
--	    cp -r ${f} ${D}${PTEST_PATH}/tests/glibc-ptest/
--	done
--
--	install -d ${D}${PTEST_PATH}
--	cp ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/
--
--}
--
--# The datadir directory is required to allow core (and reused)
--# glibc cleanup function to finish correctly, as this directory
--# is not created for ptests
--stash_locale_package_cleanup:prepend () {
--	mkdir -p ${PKGD}${datadir}
--}
--
--stash_locale_sysroot_cleanup:prepend () {
--	mkdir -p ${SYSROOT_DESTDIR}${datadir}
--}
--
--# Prevent the do_package() task to set 'libc6' prefix
--# for glibc tests related packages
--python populate_packages:prepend () {
--    if d.getVar('DEBIAN_NAMES'):
--        d.setVar('DEBIAN_NAMES', '')
--}
--
--FILES:${PN} = "${PTEST_PATH}/* /usr/src/debug/${PN}/*"
--
--EXCLUDE_FROM_SHLIBS = "1"
--
--# Install debug data in .debug and sources in /usr/src/debug
--# It is more handy to have _all_ the sources and symbols in one
--# place (package) as this recipe will be used for validation and
--# debugging.
--PACKAGE_DEBUG_SPLIT_STYLE = ".debug"
--
--# glibc test cases violate by default some Yocto/OE checks (staticdev,
--# textrel)
--# 'debug-files' - add everything (including debug) into one package
--#                 (no need to install/build *-src package)
--INSANE_SKIP:${PN} += "staticdev textrel debug-files rpaths"
--
--deltask do_stash_locale
--do_install[noexec] = "1"
--do_populate_sysroot[noexec] = "1"
-diff --git a/meta/recipes-core/glibc/glibc/run-ptest b/meta/recipes-core/glibc/glibc/run-ptest
-deleted file mode 100755
-index cb71c75682..0000000000
---- a/meta/recipes-core/glibc/glibc/run-ptest
-+++ /dev/null
-@@ -1,37 +0,0 @@
--#!/bin/bash
--# ptest script for glibc - to run time related tests to
--# facilitate Y2038 validation
--# Run with 'ptest-runner glibc-tests'
--
--output() {
--  retcode=$?
--  if [ $retcode -eq 0 ]
--    then echo "PASS: $i"
--  elif [ $retcode -eq 77 ]
--    then echo "SKIP: $i"
--  else echo "FAIL: $i"
--  fi
--}
--
--# Allow altering time on the target
--export GLIBC_TEST_ALLOW_TIME_SETTING="1"
--
--tst_time64=$(ls -r ${PWD}/tests/glibc-ptest/*-time64)
--
--# Remove '-time64' suffix - those tests are also time
--# related
--tst_time_tmp=$(sed -e "s/-time64$//" <<< ${tst_time64})
--
--# Do not run tests supporting only 32 bit time
--#for i in ${tst_time_tmp}
--#do
--#	$i >/dev/null 2>&1
--#	output
--#done
--
--# Run tests supporting only 64 bit time
--for i in ${tst_time64}
--do
--	$i >/dev/null 2>&1
--	output
--done
--- 
+diff --git a/meta/recipes-core/coreutils/coreutils_9.6.bb b/meta/recipes-core/coreutils/coreutils_9.6.bb
+index b876a8fdd0..fe2cf73d40 100644
+--- a/meta/recipes-core/coreutils/coreutils_9.6.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.6.bb
+@@ -215,6 +215,12 @@ do_install_ptest () {
+
+     # handle multilib
+     sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
++
++    if ${@bb.utils.contains('PACKAGECONFIG', 'single-binary', 'true', 'false', d)}; then
++        find &quot;${D}${PTEST_PATH}/src&quot; -type f -exec \
++            sed -i -e 's:${B}/src/coreutils:/usr/bin/env -S coreutils:g' \
++            {} +
++    fi
+ }
+
+ do_install_ptest:append:libc-musl () {
+--
 2.34.1
 
+pLK@tY:ATbOf1&quot;dW
+</pre>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre wrap="" class="moz-quote-pre">-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#216144): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/216144">https://lists.openembedded.org/g/openembedded-core/message/216144</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/112783421/3616765">https://lists.openembedded.org/mt/112783421/3616765</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------oNLmHN0qdOXVkNGOJde1orWR--
 
