@@ -2,128 +2,120 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54D73C3ABCB
-	for <webhook@archiver.kernel.org>; Sun, 11 May 2025 21:14:18 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.36479.1746998054406585828
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DD02C3ABC3
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 04:11:00 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.42590.1747023051081905132
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 May 2025 14:14:14 -0700
+ Sun, 11 May 2025 21:10:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L0slF27f;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-740b3a18e26so2936586b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 14:14:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=I6Ijsu6o;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-30ac268a8e0so3747006a91.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 21:10:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746998053; x=1747602853; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747023050; x=1747627850; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iceIfFvsOtqMwrrEAvLo6ToXiTZ1eKmRrzbAkK85+Wc=;
-        b=L0slF27fTkzblCSXwKsahuSkf5v27zTgKs4BeXYaGLwC5bNxvNy+DsRsqYX+429ywY
-         5ce36/7LXr4E2uSiVtfi0gY4fTjkAs+W0ESBTmAwilnhX/g+vBDkhSWzrw6M0xF0STkM
-         chjaHGpPc5Ug9ATnUXZJ26oxPLv69WkW8IB7R7a7O0w7qR7V6w717S5GL4v3zNu99F2f
-         t9n7AqQ3KrAYDjkER6iho9aZQAToJKBCKfQd6O9kkduRQ2EM2yePvq1o5Ypu+t/K5vWU
-         OAwaXUaqc+Wcqu7Ib3JirMn4/CYWPX5Urg8Bw57ZW8H82eyUHIHsZzP7vYIcuKBhvwTg
-         GIRw==
+        bh=c6BdTLtptNrPoHYjW92hC8O6F3RRBxo6XrWXYdCBp0I=;
+        b=I6Ijsu6oP9cNjaFnPeLN2p+7Mr5yTgk8tSrS6O5iDf8lLwU99/aVhI/bgOQ4o78WzZ
+         WXPt82H7pBZHrAfn4+BE8gPCuyiHgKzox/6NzwtTyEY69i0IC572VbuLxP2Psry3DkPy
+         9f0tU8YQ+NPr1Nsg5tkTi9XGMc3FWEoCMoWUdpw0LSf5684Iyb2+7tOk154vbKZkeu4/
+         ZXFrWKpCMUmESU4yZ4BMnSdhlueQ2f6hkHto5DpNZEOaH1j/uTvVfdViZUhWnvyp+bHh
+         9SD8bKkRGbEZSdwJt5nHMY69UdfP1VhTBuNI7UqC2mIFI9NeslBPwga4NKrdzYvr51BN
+         fy/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746998053; x=1747602853;
+        d=1e100.net; s=20230601; t=1747023050; x=1747627850;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iceIfFvsOtqMwrrEAvLo6ToXiTZ1eKmRrzbAkK85+Wc=;
-        b=fzUdV3/BAaG6PgXowUhCbeyYm6VjTe75QRYqixc8buRkZzxPzNH3Jl2Uxuv5B5ngjz
-         Hdbk9Tq/TBVXS/0bohtsU/7L7TxBAFDZK3xGFnVWmNht43ta3KFndK3l+6e27HDEANmJ
-         piExPBVeqWghZR9eNSj2FYWFc18UiXNNXapYN2nyH/CWhC+QroDgKDBV9onOmMWqSIoW
-         lTlpUG/Zvrhs6xXLLumzpXmvJhq+Yj9zb4rm+GOShouXfQZPM402sy3Bd00qVXkuRQsR
-         XBMRlmKFS51zPuauixBQ6ToSb12HeohZGZk0Icev5ocvn9k0vOfeX3MgdZjOfK0NdJDc
-         lm9g==
-X-Gm-Message-State: AOJu0YyNJ5HvUjKx7IAYCkCmWFYiUpY8hOsOcGi55lnxO0eCAGiVTNlS
-	y91rOl92vM9vArBBO6kOzVEdCogK/YmRryU1EjboTVCwkcZEGGMc/ehWc3t9
-X-Gm-Gg: ASbGncvjA7GNFj3UpY7oNKiSKLwUScBz8+70tdWmcmAdioNuZdIXzUcnRCg+fs4Ypwb
-	BELBH7tcD7/EZ/iazH1u1naLkz+vRmZeIe42pihdQH0S9yzQc78gNOpWTgaSIGwdXRUT/PSPY2M
-	s2X8sm0gtAuEr407GLA0SsZrbuM2YUKgICTz2uTJvn6Zk2c0Mwp5xZ/HxOY139F9zEJTXg9U/Kq
-	C2oJMgLCDQoIteoOfhEGqwp/dokDzoaEQTJAdBtov5lvRdGgi2NJgMnnTun3TR9ZbOvPj2LpFkl
-	3q7Mo54qv8PFFi8v8mtj5g27IFtc/W75YzLzqhgnj4oDww+0gbzNVA==
-X-Google-Smtp-Source: AGHT+IFvd5ZR3D7+350bKZSi7mRUS0K68lN67MyBuHAlNjtfq5esxzleQXEID024m8rnAya5B7TmVw==
-X-Received: by 2002:a05:6a00:9286:b0:740:a023:5d60 with SMTP id d2e1a72fcca58-7423c032792mr16363235b3a.19.1746998053366;
-        Sun, 11 May 2025 14:14:13 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::efc5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237736e4esm5017004b3a.67.2025.05.11.14.14.12
+        bh=c6BdTLtptNrPoHYjW92hC8O6F3RRBxo6XrWXYdCBp0I=;
+        b=CQo9jbYqQ1+eq2QSZ84XOfAqBB96vZFP5fQNwr4HCnaSO8jOKltAl007RojsyK3+nL
+         AwdaLXkWo+fKszLcr3/WupcLwex8sEy6Z5svEOnq09hJTUkpFf1KprjURDGVg+EHLRIb
+         cnwZfQtdili7WP9uK7WvRFbDuS7sH6ISr3f+Efyu9Rjmdmnim3ANojgZBslTGzYgKf93
+         Q5pcwpJkegzXiyF3QrZjuuRlIB4r4TmiyySjkRt3GcaIox5V2Eew99c2LsKLTzRiNwLb
+         HHa5CLttqwCgcEGngjEQpSHgyyeDMDx1F+RHqXxSIcGjlBldWBkEL1pnDVD9daqHhEq1
+         mPfA==
+X-Gm-Message-State: AOJu0YzeE/bSxze7Y+ZcV2mvKtcqXEEjsiOlRG79zS+xzOsXWQzNzl8G
+	Rn6QtGI+1/Xjo4aFzfuYau7Xd4R1kjZsLwmHgMojEOy969vWP5B8B+9BsvmY
+X-Gm-Gg: ASbGncsTEm78p7tb/PXEjVSuoMg/BBU6+Y+YRILVAHrkGQzRIQ0yTHcxHEplso0oKdd
+	5Xx5s4H5pFYDwrHVnsigIP2M7pJea81e7US+fWn3EpocUy448TtPtO+l5/0cy7EkYECUV9TcR0l
+	wFoC+66RUB7kPKMZ0eSZfL4C+0wOqUITtaQ4pgVC1TggzDmkvXDGORxhxNV+1D/2uaTcFbYE+H1
+	5fTWDDTs+/csGi3D0WpW85pc9z1QM1sKrP9So5kU+c01NEb0+sWgIA58ZUJuHlw0Hyb45QFWliR
+	zDH4ETuRnrBMixTDQZA+WmE3UODdFz3KWSu/bXrYkGk=
+X-Google-Smtp-Source: AGHT+IF6UUwx9Y0DNMi8VFTXAHNTR83Sz/dwKN+CzDr1xgGdpAqcdgnUJR1obdygbwuWBeQGCTA0uw==
+X-Received: by 2002:a17:90b:520d:b0:30a:9cd5:5932 with SMTP id 98e67ed59e1d1-30c4000fa4emr18742884a91.13.1747023050015;
+        Sun, 11 May 2025 21:10:50 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30c39e76039sm5686372a91.43.2025.05.11.21.10.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 May 2025 14:14:12 -0700 (PDT)
+        Sun, 11 May 2025 21:10:49 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] busybox: Skip a non-posix awk ptest on musl systems
-Date: Sun, 11 May 2025 14:14:11 -0700
-Message-ID: <20250511211411.1720365-1-raj.khem@gmail.com>
+Subject: [PATCH] compile-rt: Fix building compiler-native on aarch64 build hosts.
+Date: Sun, 11 May 2025 21:10:47 -0700
+Message-ID: <20250512041047.991955-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 21:14:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216294
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 04:11:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216295
 
-The test depends on BSD extension REG_STARTEND which
-is not in POSIX, glibc does implement this extention so it
-works on glibc systems. Therefore the patch to disable this test
-is made musl specific
+Using target triple confuses the native system compiler to find
+libgcc and C runtime during compiler-rt-native build
+
+Fixes
+|     /home/khem/yoe/build/tmp/hosttools/ld: cannot find crtbeginS.o: No such file or directory
+|     /home/khem/yoe/build/tmp/hosttools/ld: cannot find -lgcc: No such file or directory
+|     /home/khem/yoe/build/tmp/hosttools/ld: cannot find -lgcc_s: No such file or directory
+|     clang: error: linker command failed with exit code 1 (use -v to see invocation)
+|     ninja: build stopped: subcommand failed.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...gsub-erroneous-word-start-match-test.patch | 29 +++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.37.0.bb   |  4 ++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch
+ meta/recipes-devtools/clang/compiler-rt_git.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch b/meta/recipes-core/busybox/busybox/0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch
-new file mode 100644
-index 00000000000..37af192fb08
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch
-@@ -0,0 +1,29 @@
-+From d820b91e4bd8fde08b19a6e9aabf9624ab28b4d0 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 11 May 2025 08:36:54 -0700
-+Subject: [PATCH] busybox: Add awk gsub erroneous word start match test to know
-+ fails on musl
-+
-+Musl does not implement this BSD extension REG_STARTEND and the test states
-+that it will fail without this extention, therefore guard it with SKIP_KNOWN_BUGS
-+so it can be ignored.
-+
-+Upstream-Status: Inappropriate [ Musl-specific ]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ testsuite/awk.tests | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/testsuite/awk.tests b/testsuite/awk.tests
-+index be25f6696..a2deadccd 100755
-+--- a/testsuite/awk.tests
-++++ b/testsuite/awk.tests
-+@@ -612,7 +612,7 @@ b
-+ # Currently we use REG_STARTEND ("This flag is a BSD extension, not present in POSIX")
-+ # to implement the code to handle this correctly, but if your libc has no REG_STARTEND,
-+ # the alternative code mishandles this case.
-+-testing 'awk gsub erroneous word start match' \
-++test x"$SKIP_KNOWN_BUGS" = x"" && testing 'awk gsub erroneous word start match' \
-+ 	"awk 'BEGIN { a=\"abc\"; gsub(/\<b*/,\"\",a); print a }'" \
-+ 	'abc\n' \
-+ 	'' ''
-diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
-index c3131eb4531..5e1362f4b7c 100644
---- a/meta/recipes-core/busybox/busybox_1.37.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
-@@ -54,6 +54,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0002-start-stop-daemon-fix-tests.patch \
-            file://0003-start-stop-false.patch \
-            "
--SRC_URI:append:libc-musl = " file://musl.cfg"
-+SRC_URI:append:libc-musl = "\
-+                            file://musl.cfg \
-+                            file://0001-busybox-Add-awk-gsub-erroneous-word-start-match-test.patch"
- SRC_URI:append:x86-64 = " file://sha_accel.cfg"
- SRC_URI[tarball.sha256sum] = "3311dff32e746499f4df0d5df04d7eb396382d7e108bb9250e7b519b837043a4"
+diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
+index 5044db6249d..ad145f86446 100644
+--- a/meta/recipes-devtools/clang/compiler-rt_git.bb
++++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
+@@ -71,7 +71,6 @@ OECMAKE_TARGET_COMPILE = "compiler-rt"
+ OECMAKE_TARGET_INSTALL = "install-compiler-rt install-compiler-rt-headers"
+ OECMAKE_SOURCEPATH = "${S}/llvm"
+ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+-                  -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
+                   -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
+                   -DCOMPILER_RT_STANDALONE_BUILD=ON \
+                   -DCOMPILER_RT_INCLUDE_TESTS=OFF \
+@@ -83,7 +82,6 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+                   -DLLVM_ENABLE_RUNTIMES='compiler-rt' \
+                   -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
+                   -DLLVM_APPEND_VC_REV=OFF \
+-                  -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
+                   -S ${S}/runtimes \
+ "
+ 
+@@ -91,6 +89,8 @@ EXTRA_OECMAKE:append:class-target = "\
+                -DCMAKE_RANLIB=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ranlib \
+                -DCMAKE_AR=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ar \
+                -DCMAKE_NM=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
++               -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
++               -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
+                -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+ "
+ 
+@@ -100,6 +100,8 @@ EXTRA_OECMAKE:append:class-nativesdk = "\
+                -DCMAKE_NM=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
+                -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
+                -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
++               -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
++               -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
+ "
+ 
+ do_install:append () {
 
