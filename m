@@ -1,136 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ohnatiuk@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F71C3ABBC
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:25:54 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web11.46231.1747041951367476648
- for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 02:25:51 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iOKyAv/O;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6f545ae3c59so46127296d6.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 02:25:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747041950; x=1747646750; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6DlTzDdkZPujRdYaupkUmgWV8tWPQzSw4559EQLhe7s=;
-        b=iOKyAv/OUyACaj6rcCmKoxeDFnClwdJBYrvv5RqaLxJJsuZz4+adYPfKMupxcVO98+
-         8rMvyOisEytRM3Ml8eRKXBRsVRkOhWZdgJWnxfD1/T567CAiE0Lgjl9PfFFFshfB9tb/
-         1effOMTDZYwJC6iOGy45VtDJXjEnnhnuNWRCnIU0vrA6qbZiM75ej/uo75nt4ZyiX8H6
-         K/nRH29nrFJ8DFj03Mj8JKcQaorq9rh9lJFHEPUxoMWDRK9sqMKl5We9BdGCPz2lcLmc
-         341XmESxx5tSHIamQ9WbxQbmcR9ty3lIQXnymwS11fVQmBZK2Vc492FXVoQsd2Q9WMV8
-         LDEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747041950; x=1747646750;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6DlTzDdkZPujRdYaupkUmgWV8tWPQzSw4559EQLhe7s=;
-        b=ZebPn++MEV/JEOUKwptFT7Zg8kCdBJx+7xWPBxuNrrObvSv1t7PfNHvcCLxHBp5C4C
-         eyXbOQtsf2Y3vkgZuxWv9PChVd3R4ShJFUg9Gee3n0wXXDsVtgVwsXp7x+l2JbfW/l3z
-         jGsZnt+WuYZZzbHoVxqC9gaFxjnvfDkLihF/UZG4vSUPrVEcERB/gan+9k2MZiRNO1t5
-         v2343cy3VrIYzaAvZwHjdvtV7F81cilTVKHIp24uCCktdqI2Rj6ye0mkkkFLCqH2hV+9
-         WRPwKXldTiIBbRmy/7ZTY9hl2B4oaWWQznf8XUymN4mxC3OKZ3rEPGo5CcY2tMA+c6xy
-         m/uw==
-X-Gm-Message-State: AOJu0YzbZX+IIGfX0awfWzzLyGxnCRoDov5WeNbGng4Rsozufmo1Dcdb
-	FpDsuEeYdkcmvwBx3/budDk0arjSQtpVY0OXJu3e/f4hnK5F2SyjpMEpRDrxEJikjldlKoGW6+7
-	kcWnuDEVHnmmHok8LkFnrgKjMR2w=
-X-Gm-Gg: ASbGncsmqOjNZNIpJrPRf8MQzeFlwCY0y9jdG5WUUghun7IJ/o9AjKqD9JvxKTwQdsu
-	Uu4oqDqf4zg76+aJxBM+B2+yP/1PxxC8cIfftL2PIpWlcfrlAccVY3F3JbkXdNMTm/CS6imQurw
-	aITikyO/POCsIw6F5uzXg4cQ/gXvNQpdJ4Ig==
-X-Google-Smtp-Source: AGHT+IFiGAjyzrhn7Tv1pdStE68VBFOaRvXUrSWTdHwG3u0VG7p+zD5NIpfqa2tZaSXvcfMAC6LxczVsm/qkZdYpmZQ=
-X-Received: by 2002:a05:6214:3004:b0:6f4:ffc4:e219 with SMTP id
- 6a1803df08f44-6f6e482f159mr191036436d6.35.1747041950350; Mon, 12 May 2025
- 02:25:50 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C86C3ABC3
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:31:54 +0000 (UTC)
+Subject: Re: [PATCH] package: disable renamed dependency error if allarch is overridden
+To: openembedded-core@lists.openembedded.org
+From: "Oleksandr Hnatiuk" <ohnatiuk@cisco.com>
+X-Originating-Location: London, England, GB (64.103.40.18)
+X-Originating-Platform: Linux Firefox 137
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <20250510084400.269726-1-ross.burton@arm.com> <20250510084400.269726-3-ross.burton@arm.com>
-In-Reply-To: <20250510084400.269726-3-ross.burton@arm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 12 May 2025 11:25:38 +0200
-X-Gm-Features: AX0GCFtwInPVr-I5TgmN4pIFzuxVNoJdXNg8pBCwMguiZK3dGorv-CBcWOR4NlE
-Message-ID: <CANNYZj9mF8ZHeayOCm5UqTG8Q8daGSABr5mvGc0ZkPAM4x_A6g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 03/23] oe/sdk: fix empty SDK manifests
-To: ross.burton@arm.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 12 May 2025 02:31:48 -0700
+References: <CANNYZj_qhgsSZ540jiih6LoaSaJ7c+xmmk0ccA9sGJauBBUjQA@mail.gmail.com>
+In-Reply-To: <CANNYZj_qhgsSZ540jiih6LoaSaJ7c+xmmk0ccA9sGJauBBUjQA@mail.gmail.com>
+Message-ID: <13242.1747042308632801416@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="1lwUBaAKVxHDh56icmv1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:25:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216356
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:31:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216357
 
-Mercy me. How do we still have sort-of-functional SDKs in Yocto?
+--1lwUBaAKVxHDh56icmv1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-There's one more place where SDK tests are run:
-test_meta_ide_can_run_sdk_tests() selftest
-(in meta/lib/oeqa/selftest/cases/meta_ide.py)
+There was a report of this on yocto mailing list with detailed info 2 years=
+ ago, but nobody responded to it.
+See: https://lists.yoctoproject.org/g/yocto/topic/nativesdk_packagegroup_sd=
+k_host/98365178
 
-Can you confirm that it still passes and runs a reasonable set of SDK
-tests with your patchset?
+--1lwUBaAKVxHDh56icmv1
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+<div>There was a report of this on yocto mailing list with detailed info 2 =
+years ago, but nobody responded to it.</div>
+<div>See: <a href=3D"https://lists.yoctoproject.org/g/yocto/topic/nativesdk=
+_packagegroup_sdk_host/98365178" target=3D"_blank" rel=3D"noopener">https:/=
+/lists.yoctoproject.org/g/yocto/topic/nativesdk_packagegroup_sdk_host/98365=
+178</a></div>
+<div>&nbsp;</div>
 
-On Sat, 10 May 2025 at 10:44, Ross Burton via lists.openembedded.org
-<ross.burton=arm.com@lists.openembedded.org> wrote:
->
-> The SDK manifests are generated by listing the sstate was that used, but
-> it hardcodes that the sstate data filenames end in .tgz.
->
-> This has not been the case since sstate switched to Zstd[1] in 2021,
-> which meant that all of the tests which checked for packages existing
-> were being skipped as the manifests were empty.  For example, see a
-> representative core-image-sato eSDK test run[2]:
->
-> RESULTS - cmake.CMakeTest.test_assimp: SKIPPED (0.00s)
-> RESULTS - gtk3.GTK3Test.test_galculator: SKIPPED (0.00s)
-> RESULTS - kmod.KernelModuleTest.test_cryptodev: SKIPPED (0.00s)
-> RESULTS - maturin.MaturinDevelopTest.test_maturin_develop: SKIPPED (0.00s)
-> RESULTS - maturin.MaturinTest.test_maturin_list_python: SKIPPED (0.00s)
-> RESULTS - meson.MesonTest.test_epoxy: SKIPPED (0.00s)
-> RESULTS - perl.PerlTest.test_perl: SKIPPED (0.00s)
-> RESULTS - python.Python3Test.test_python3: SKIPPED (0.00s)
->
-> All of those tests should have been ran.
->
-> Solve this by generalising the filename check so that it doesn't care
-> what specfic compression algorithm is used.
->
-> [1] oe-core 0710e98f40e ("sstate: Switch to ZStandard compressor support")
-> [2] https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/1517/steps/15/logs/stdio
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/lib/oe/sdk.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-> index 11759aba489..9fe0fbb752d 100644
-> --- a/meta/lib/oe/sdk.py
-> +++ b/meta/lib/oe/sdk.py
-> @@ -148,7 +148,8 @@ def get_extra_sdkinfo(sstate_dir):
->      extra_info['filesizes'] = {}
->      for root, _, files in os.walk(sstate_dir):
->          for fn in files:
-> -            if fn.endswith('.tgz'):
-> +            # Note that this makes an assumption about the sstate filenames
-> +            if '.tar.' in fn and not fn.endswith('.siginfo'):
->                  fsize = int(math.ceil(float(os.path.getsize(os.path.join(root, fn))) / 1024))
->                  task = fn.rsplit(':',1)[1].split('_',1)[1].split(',')[0]
->                  origtotal = extra_info['tasksizes'].get(task, 0)
-> --
-> 2.43.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216251): https://lists.openembedded.org/g/openembedded-core/message/216251
-> Mute This Topic: https://lists.openembedded.org/mt/113037458/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+--1lwUBaAKVxHDh56icmv1--
 
