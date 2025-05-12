@@ -1,96 +1,116 @@
-Return-Path: <erick.shepherd@ni.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30BF0C3ABCB
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 19:05:07 +0000 (UTC)
-Received: from mx0b-00300601.pphosted.com (mx0b-00300601.pphosted.com [148.163.142.35])
- by mx.groups.io with SMTP id smtpd.web10.58479.1747076697681834213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 625E1C3ABCB
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 19:42:47 +0000 (UTC)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+ by mx.groups.io with SMTP id smtpd.web10.59352.1747078953297584025
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 12:04:57 -0700
+ Mon, 12 May 2025 12:42:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=PPS11142024 header.b=nua4ZeGp;
- spf=pass (domain: ni.com, ip: 148.163.142.35, mailfrom: prvs=422722877e=erick.shepherd@ni.com)
-Received: from pps.filterd (m0144091.ppops.net [127.0.0.1])
-	by mx0b-00300601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54CIDx7p004080
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 19:04:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS11142024; bh=6Fob+hSyXngQu/1Cryoi
-	Fe+ob3loN8YeVyK0DJbnkGU=; b=nua4ZeGp98x1whoNqvILu2VF5zou15RfvdhK
-	kcU3iEMMUlTZKUcHLR3aWhG6N3PancMx4kWcZyOY5NkJfFCEiEIkS4qPO2ybEMwf
-	5lz2dADMmxAMg490HO6gHmpd6JQytKoArL2yOBilBWwNdJiv0NPBPtiVKx1h0Wyw
-	EsYOJUxxweWlyxWSuGwqOOrbCRuza2PlWGIsoRAL1mFD8PU7BuJOrim6kKewU86a
-	+iaw2lmVPXBnpbLLdrX1UI/5kX/P1J9KykqdnpWZn6xZm8CWQUCQNBEbq1qBcHif
-	tBooZ8svnIt5UpmgwZEFIsCBWxqbj6jcOVI7qNLa9bZx0Gw6qw==
-Received: from us-aus-excas-p2.ni.corp.natinst.com ([130.164.94.74])
-	by mx0b-00300601.pphosted.com (PPS) with ESMTPS id 46kmq61nn9-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 19:04:56 +0000 (GMT)
-Received: from us-aus-excas-p1.ni.corp.natinst.com (130.164.68.17) by
- us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Mon, 12 May 2025 14:04:54 -0500
-Received: from ershephe-ubuntu.ni.corp.natinst.com (172.18.68.32) by
- us-aus-excas-p1.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
- Server id 15.2.1258.28 via Frontend Transport; Mon, 12 May 2025 14:04:54
- -0500
-From: Erick Shepherd <erick.shepherd@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Erick Shepherd <erick.shepherd@ni.com>
-Subject: [PATCH] kernel-devsrc.bb: Remove extra System.map file
-Date: Mon, 12 May 2025 14:04:51 -0500
-Message-ID: <20250512190451.1363972-1-erick.shepherd@ni.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IzDkiE+K;
+ spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-400fa6b3012so3902870b6e.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 12:42:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747078952; x=1747683752; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KqXQn3u8QQatuqud17TU+9K7JVeGX6QambOeRKuvJCg=;
+        b=IzDkiE+KmwZXR0vdPo8QWWqJzRHtoPLCltm25DY7kmKBvj/cSuqRKVGn8tdkV6p7rQ
+         VoNiqiZ7P6tdxFLpOwQJMTew3PLsaVil5lpdd+t8CXf90dKamde/vOR8ySd+sGZrrG//
+         PzoOYqD/KeB3V4LQdl6/fEBhN7aBvb0nLhKVSJOXVhX2Z+lcvEOrFh94ln945o5zizYO
+         OcawV7xWj4Sk6DMReL0mnukt6V6DF1VajhNWwzx5kuJKr3Wv7TdFo6pHZLUWaszFJLgn
+         yTMCdbsK/Sz2tBS8WXzLgoSviO3CzcJFOQ1rmv4hfatzxWvDWTApG0gcA+vfWRVjfDXI
+         /1cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747078952; x=1747683752;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KqXQn3u8QQatuqud17TU+9K7JVeGX6QambOeRKuvJCg=;
+        b=kS9bwhaXigvX6bCbulxGE9L+vdwsw4iawiUq7RTb0nn0A6t5yXa5Wf5ZJfFuk0y5+A
+         S7v18u8FCxzOFh2HDuhsq+ZCLQ98sCeQ0hLLAlPbkd83mqtj5j64X+EMpNinj1e33syH
+         HUK9sBwcg6i49/87jVDiknxbcxbxZMYJgSfgYOQnmVYKJ/4RzFBGPYOQK2y3kqznLf06
+         WPHd5wbe0vocgvtIdezGyqJ4Q5i4FimDy4gN+wwQC6bzY8Y54FfZ8/39K1nwhsBXnud7
+         jcjdoiE/SSAQVUZ6t8wCYuwAsrV6s3EbYBLRjWr2jdi2bWl8zdLFxec0PVJCllyowkCX
+         43kQ==
+X-Gm-Message-State: AOJu0YzmmU6dU9M39aOcVrocq74gZh+W7gDFXbJr0Kk1zf8R5aSc0uSc
+	LBVH6Emj4mDa5vru7+/48mfZWEk0J2MrejXAePTnriPESbrWYGqawhsFRsMz25mLDow2xPlKZTO
+	sD0DoE/PdR3TtJ0Avm885RfEWPXc=
+X-Gm-Gg: ASbGncuHV0wwK0D65WnRdYr5/knWdY2uCfsDXlrfgjVRu0x/5qFBEKPngGl/NuINI2U
+	YnmjzgmOSmhsUfzfzr8CvV4/GXMX8aBLFpxR2EbWA1GBePOJy4twNENCugZSBPO5mMUKX1B4F9B
+	OR7LPDzvxLHgCxhp8RUhaS0Ui/uF4gzp1nwSYuS5mELhUFegwzZBc48WLaheL0
+X-Google-Smtp-Source: AGHT+IG55z5gU6sYOLNyv2N38/2YhoVT+jX539npqMSkS2+M1Z7jQSQFvRyBN71Atg647t5GbfCd2nQhm0VLHjcpzQU=
+X-Received: by 2002:a05:6808:2448:b0:3f9:6df8:1d37 with SMTP id
+ 5614622812f47-404bad92791mr532419b6e.10.1747078952438; Mon, 12 May 2025
+ 12:42:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=SfX3duRu c=1 sm=1 tr=0 ts=68224658 cx=c_pps a=VUOoxcgKHUMpfFMIT0tLvw==:117 a=VUOoxcgKHUMpfFMIT0tLvw==:17 a=dt9VzEwgFbYA:10 a=gVGD3344AAAA:8 a=697aNiapx2Y-GGsev04A:9 a=xQEvYfgLW3QvObN0DhJi:22
-X-Proofpoint-ORIG-GUID: zEzPdiA50lyhC0FvcLfs1mAoGWIA4IxH
-X-Proofpoint-GUID: zEzPdiA50lyhC0FvcLfs1mAoGWIA4IxH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEyMDE5NiBTYWx0ZWRfX050+ThpqeRxp lZ2zSxIeYJ7VwnO6TosgHnAUfvyX6WuDZkGtWLeIzdJarRqJopDr3HvMx7qmyzuYPyETwHnyHKN KmjAqHPWp1t3lIR69mqDgKEsR+MJ9KHyZtVFcNKxnqvAUKZcYri0Eda2wAlub8/DDR8BE0K0WFg
- xeDrv1tVGfAPJSH+j7X2VE9X+7Ck/3PCIpJZ3+Yn1yhtarxCYnhPt4sNZJWaANTmpra1+IsO/vY 6YH6hmR1aBl+Yh1I4MEAXxGg0jaHtZz2b/JUDWIVsDCO/pubnhxDQp9LtYy6+PDC2Kl/0UsVdnj doAqDiQh+pOt/lW9jq5BVmgtX64t3Tv8vOIaHM9G6tnIIGTCtcbablcfHBe9NMf0SpyVSdxmZSB
- Av+H43wpVQ2SO5ywi2M2u4KA3xPiJjaIs4Q1L13z8wuSxnMjukZ6Os2xPfYDvzpIcUnbb39O
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-12_06,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- impostorscore=0 phishscore=0 adultscore=0 mlxscore=0 priorityscore=1501
- suspectscore=0 mlxlogscore=763 malwarescore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505120196
+References: <20250512190451.1363972-1-erick.shepherd@ni.com>
+In-Reply-To: <20250512190451.1363972-1-erick.shepherd@ni.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 12 May 2025 12:42:06 -0700
+X-Gm-Features: AX0GCFufCaeutKMnVIsVXuQtlM9HYlb4vhi_Ow4owe4cxkEhK3-htyqfbiLEOp4
+Message-ID: <CAMKF1sqdmeJE1tHDBXra=j8vcEVcJHONkJKm+rvp8H+a6HuYMg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel-devsrc.bb: Remove extra System.map file
+To: erick.shepherd@ni.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 19:05:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216385
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 19:42:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216386
 
-Currently there are two .map files being copied to $kerneldir/build.
-One of the files is System.map and the other is
-System.map-<kernel version>. Each .map file takes up about 5MB and
-have identical sha256sum hashes. This change will make it so only
-System.map is copied in order to save disk space.
+On Mon, May 12, 2025 at 12:04=E2=80=AFPM Erick Shepherd via
+lists.openembedded.org <erick.shepherd=3Dni.com@lists.openembedded.org>
+wrote:
+>
+> Currently there are two .map files being copied to $kerneldir/build.
+> One of the files is System.map and the other is
+> System.map-<kernel version>. Each .map file takes up about 5MB and
+> have identical sha256sum hashes. This change will make it so only
+> System.map is copied in order to save disk space.
+>
+> Signed-off-by: Erick Shepherd <erick.shepherd@ni.com>
+> ---
+>  meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-ke=
+rnel/linux/kernel-devsrc.bb
+> index 1500aff2e2..9729a25440 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -75,7 +75,7 @@ do_install() {
+>          if [ -s Module.symvers ]; then
+>              cp Module.symvers $kerneldir/build
+>          fi
+> -        cp System.map* $kerneldir/build
+> +        cp System.map $kerneldir/build
 
-Signed-off-by: Erick Shepherd <erick.shepherd@ni.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I wonder if copying the versioned file and creating symlink System.map
+pointing to it might
+provide both the files and yet reduce the size duplication
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 1500aff2e2..9729a25440 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -75,7 +75,7 @@ do_install() {
-         if [ -s Module.symvers ]; then
-             cp Module.symvers $kerneldir/build
-         fi
--        cp System.map* $kerneldir/build
-+        cp System.map $kerneldir/build
-         if [ -s Module.markers ]; then
-             cp Module.markers $kerneldir/build
-         fi
--- 
-2.43.0
-
+>          if [ -s Module.markers ]; then
+>              cp Module.markers $kerneldir/build
+>          fi
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#216385): https://lists.openembedded.org/g/openembedde=
+d-core/message/216385
+> Mute This Topic: https://lists.openembedded.org/mt/113076831/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
