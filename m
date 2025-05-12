@@ -2,50 +2,50 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 570CCC5475C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD8AC3ABDD
 	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:04:13 +0000 (UTC)
-Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
- by mx.groups.io with SMTP id smtpd.web10.45918.1747040642037410105
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web11.45973.1747040641170452848
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 02:04:04 -0700
+ Mon, 12 May 2025 02:04:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=qn0iQkpZ;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=LD+P6X7I;
+ spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1747040644; x=1778576644;
+  t=1747040646; x=1778576646;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=UR2dY+ie+WpAt/KnRDOSFEEK2GkTk96YAwxrS2fC6jg=;
-  b=qn0iQkpZf4gZ7SiZPWO6GjwAlS9oY55yKXm3znf8/gfZj8PDfZCP6TRv
-   eUoaN8y7oDGuVsHJfiYmwWBpbim05zZuqwHrmXO/PGK0WLBF2nLLa568x
-   OBo73HmpBWCaMTiURM0nbFK62YmKevMWqjW/K3f7fPoary43vx/Ot1pLC
-   R6zUABlp2A+J+Wdq3SVJFRe0B81Uabqad78APEBY3Qwlvct3Om8Kxz/Ib
-   vdjCCYs5maaolZA5upiOB+puwou/oL0huJDkesQXpScPt4mhI1zfbvq5H
-   cf0ZtMAiODH2rxG2IljC4zOCTD+uSW7qkpz18WekewkQDNZJPKXOFRmyv
-   Q==;
-X-CSE-ConnectionGUID: HemQJKV0QNCR8gAKEt3hUA==
-X-CSE-MsgGUID: CY0uFTi4SnWHsbGCfsy3nQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="198343076"
+  bh=xaPIYqT1s2oDjLUEQ7doEmtOvwn/czc6U/h2Tc9AcbU=;
+  b=LD+P6X7Ifr2qPfUirsTWUldwOF7zmuPeCJ7PtNpJXy++VS2ziqGFVvlW
+   hF6l1dvXmnPcRO5nqE/Ga3u6OH2ERliXeI80SFNAC+0ZrBgfSIfUp7xSD
+   Y10A+vfNIrzGxAtLjJg+Tcs4Y9Gkc2pn7s6aGFRRuiCu8gq+I9K2jnrNu
+   sp98JrpSkB6tZNPbQgHqmUc+e19c8mIv3RezpEFFnV2kzshkcipnCWumS
+   BGgh7XVW3B/nnT+u7tZ84TeC4riLFa3hNV7TYOFf9VqrN7kxw1jDjUZoB
+   UbtXbd7yCKh/Z819pyO9t+YpyVXU5QZWs9zRnW3Nx3toOq59+6m/sb3Mu
+   g==;
+X-CSE-ConnectionGUID: m72XllqQRSu55DAEcunv+A==
+X-CSE-MsgGUID: OREuUHdCQBesK7g/sMAjMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="178035540"
 X-IronPort-AV: E=Sophos;i="6.15,281,1739804400"; 
-   d="scan'208";a="198343076"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:04:03 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id B35E1D5051
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:00 +0900 (JST)
+   d="scan'208";a="178035540"
+Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:04:05 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 06020C68A4
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:03 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 7F63BCFBA2
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:00 +0900 (JST)
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id BAD61D5060
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:02 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 3FAB61A009A;
-	Mon, 12 May 2025 17:04:00 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 4E59F1A009B;
+	Mon, 12 May 2025 17:04:02 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 35/56] python3-calver: upgrade 2025.04.02 -> 2025.04.17
-Date: Mon, 12 May 2025 17:03:18 +0800
-Message-Id: <1747040619-7566-35-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 44/56] python3-packaging: upgrade 24.2 -> 25.0
+Date: Mon, 12 May 2025 17:03:27 +0800
+Message-Id: <1747040619-7566-44-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
 References: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
@@ -53,34 +53,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:04:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216331
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216339
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-- test: Delete SOURCE_DATE_EPOCH envvar if already present for robustness
+============
+- Re-add a test for Unicode file name parsing
+- Upgrade to ruff 0.9.1
+- Add support for PEP 738 Android tags
+- feat(markers): support 'extras' and 'dependency_groups' markers
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...ython3-calver_2025.04.02.bb => python3-calver_2025.04.17.bb} | 2 +-
+ .../{python3-packaging_24.2.bb => python3-packaging_25.0.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-calver_2025.04.02.bb => python3-calver_2025.04.17.bb} (89%)
+ rename meta/recipes-devtools/python/{python3-packaging_24.2.bb => python3-packaging_25.0.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-calver_2025.04.02.bb b/meta/recipes-devtools/python/python3-calver_2025.04.17.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-calver_2025.04.02.bb
-rename to meta/recipes-devtools/python/python3-calver_2025.04.17.bb
-index 3f169e1f7c..290be21ce2 100644
---- a/meta/recipes-devtools/python/python3-calver_2025.04.02.bb
-+++ b/meta/recipes-devtools/python/python3-calver_2025.04.17.bb
-@@ -4,7 +4,7 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-devtools/python/python3-packaging_24.2.bb b/meta/recipes-devtools/python/python3-packaging_25.0.bb
+similarity index 93%
+rename from meta/recipes-devtools/python/python3-packaging_24.2.bb
+rename to meta/recipes-devtools/python/python3-packaging_25.0.bb
+index 3526cd5b39..9cb5c68f58 100644
+--- a/meta/recipes-devtools/python/python3-packaging_24.2.bb
++++ b/meta/recipes-devtools/python/python3-packaging_25.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/packaging"
+ LICENSE = "Apache-2.0 | BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=faadaedca9251a90b205c9167578ce91"
  
- SRC_URI = "git://github.com/di/calver;branch=master;protocol=https;tag=${PV}"
--SRCREV = "e9c8017caf3e3aff214fbb581ee7f366de55f629"
-+SRCREV = "3b74bdce35f2814eb2b65db39a133d5c849ddea7"
+-SRC_URI[sha256sum] = "c228a6dc5e932d346bc5739379109d49e8853dd8223571c7c5b55260edc0b97f"
++SRC_URI[sha256sum] = "d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f"
  
- inherit python_setuptools_build_meta ptest-python-pytest
+ SRC_URI += "file://run-ptest.in"
  
 -- 
 2.43.0
