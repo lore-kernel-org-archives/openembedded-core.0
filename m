@@ -1,80 +1,85 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC859C3ABC3
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:02:31 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web10.45875.1747040550806247031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB6A1C3ABBC
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:04:01 +0000 (UTC)
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.web10.45917.1747040640301092208
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 02:02:30 -0700
+ Mon, 12 May 2025 02:04:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DUl4uGas;
- spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c5b8d13f73so545876985a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 02:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747040550; x=1747645350; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Akk5bhOPKW19u1k7L1xi5wpxIMJ94yi5Y4Bo5ex1HAw=;
-        b=DUl4uGaskuehvmRA/IAcKyGca0oH+yxl+3SjiFmX75SkMKk5mfEyjWy8nRgT4DZBXk
-         exlCsW5Hdmd3+oe9IlYXyP74l0Lt3Vt7mfvhWu6RCaPuVjGD3BOy847sjkNeYa7X/4Bt
-         AZriVNWcouTuCm5uSWVZYffziFoBiOTUES8YXZmqj3HBfqNXmezW7bLjH6uWHwVo8I90
-         ZPwd0GHxrzSjH2mxEKTDpKg0K1Yf8i/4tiMv0HABBqt+LbdBN1Kx0wONmqh9cW9vdWP4
-         pP/R7EYFx0Fjop1csUcryhIekWeArtrYUcSgqZV8hchtrw6ondbSHLpucCbZ/W0hbKZx
-         2Ihw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747040550; x=1747645350;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Akk5bhOPKW19u1k7L1xi5wpxIMJ94yi5Y4Bo5ex1HAw=;
-        b=i5Z5yjAWvszINDj8jPxS3e624j/tf9BLGSNmsTA8eQp45RV8fNTCAWHv8/FhYFIIXJ
-         YnH5icLfo1AmEMrTQdrRDcKkSS7RwzPJvSsVpvwhbi5QkSXe1P/YHTtao2c6LUiU9cLZ
-         4VN5eowNYhpqbQX5sDXG81aqXtgfdUJGzTO1n8wXknzbqv6bWR7/d8PNLyon8n5S++o1
-         MnF0DkWLCsE1WUNHh6tIDmbdxxip0816htehzBBz4ub1N/5YD2Dw/FWIQjYRVqLDDRKq
-         UgJ11s4OT3PBflX5qtISmLWidpVX+9BUrXU3VBDOGWoKvqV+xlC4FMGit+pVsxjDmkpH
-         2X5w==
-X-Gm-Message-State: AOJu0YygYz6mjwJPZLYVNl2sxbSIhaB6HP6zz7WKK8uGMPcqddjev9bR
-	vjlFJNPvTBA+rx1IPIjAQM+UhlLD+Icy3MbfCxIQV4tNdYElkK200wwOceYTSxzDNdR67vqkDHH
-	CfJyE2JXiwwDFxllbmZLXWjYNpA4=
-X-Gm-Gg: ASbGncvt7gAGFec/VbEr4hpJQ2JkTHpWVwgl/KmZqLdG6+KtBOio84MBSf0yymnpf14
-	azlVeU3xDCD9sJHLxEfvOFCuDNPh81RE6oD9rc9lhcb6estg76R4uq5ia6LmXlbSKkbcoMwJRAm
-	XNBnV17h1OkEnN1NRCIJ/SJGbiuIyr/Qff6w==
-X-Google-Smtp-Source: AGHT+IGHXY+9X+4bVaYqC3CGSQeHkIDFxojDKZPzWk39qe9Mb6ex+ZJLUY6JoeZwfNGCxnuSuGYJPEy22cbHsQiYw4A=
-X-Received: by 2002:a05:6214:20e3:b0:6f6:e400:45d5 with SMTP id
- 6a1803df08f44-6f6e47bdab1mr187793306d6.17.1747040549728; Mon, 12 May 2025
- 02:02:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250509211912.3286338-1-ohnatiuk@cisco.com>
-In-Reply-To: <20250509211912.3286338-1-ohnatiuk@cisco.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 12 May 2025 11:02:19 +0200
-X-Gm-Features: AX0GCFtiRONMWowb9lQKQOfpbYX50jRx0_BT_fSbPO56Y9EX0KzYqsuq48cTvnk
-Message-ID: <CANNYZj_qhgsSZ540jiih6LoaSaJ7c+xmmk0ccA9sGJauBBUjQA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] package: disable renamed dependency error if
- allarch is overridden
-To: ohnatiuk@cisco.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=JwEK6NCY;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1747040640; x=1778576640;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=ocOsWRaT2Gph9ndKkXgNeIvRVp5PN2ALLg8DCWgpO6c=;
+  b=JwEK6NCY8uqPholEJs9lsHskJlE2taivay4V6ew4CGTv+xjs2571e4V9
+   5jbXlj1e5g6Jd3Eoikt31M/sa4Sd4s8gLsopoQtSiq8PWImv70C1T1KBR
+   xSXJuFgsMwp/qaXZFp8N3UskfwdbTFJ5pW28TpzKTcM/i9b2XKi/xvMGH
+   /lDIbdC0JgtaKuDbUAcRwOoRcC8xj3joaafl6KXBXz2rG4md3XTuQl92K
+   SVtHffkoFX+29zfJKaTK/8x7qtgDD62HupZ6X07pXr+KE97nfEDYDw30p
+   pW32Th12boF5Yexf4JakLcmCtUnhz3+Hauwl/DLy1UaciAPOKdmMReX5T
+   w==;
+X-CSE-ConnectionGUID: x/xv0HcDQ1i04WGdPEM4Ew==
+X-CSE-MsgGUID: 3Ho8szogSW2CcayiWHufEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="178046166"
+X-IronPort-AV: E=Sophos;i="6.15,281,1739804400"; 
+   d="scan'208";a="178046166"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:03:58 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 0C6CFD5004
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:03:56 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id C2203CFBA4
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:03:55 +0900 (JST)
+Received: from localhost.localdomain (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 7FA091A00A0;
+	Mon, 12 May 2025 17:03:55 +0800 (CST)
+From: wangmy@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 15/56] ghostscript: upgrade 10.05.0 -> 10.05.1
+Date: Mon, 12 May 2025 17:02:58 +0800
+Message-Id: <1747040619-7566-15-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
+References: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:02:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216298
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:04:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216315
 
-On Fri, 9 May 2025 at 23:19, Oleksandr Hnatiuk via
-lists.openembedded.org <ohnatiuk=cisco.com@lists.openembedded.org>
-wrote:
-> allarch code is only triggered if PACKAGE_ARCH remains set to "all".
-> This is not the case under some circumstances, like in the case of
-> nativesdk class which overrides this variable. This error then breaks
-> nativesdk package groups which depend on renamed packages yet aren't
-> affected by allarch.
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Can you show steps to observe the issue please? Why isn't it seen in
-the test matrix?
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../{ghostscript_10.05.0.bb => ghostscript_10.05.1.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/ghostscript/{ghostscript_10.05.0.bb => ghostscript_10.05.1.bb} (97%)
 
-Alex
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.05.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
+similarity index 97%
+rename from meta/recipes-extended/ghostscript/ghostscript_10.05.0.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
+index c0e2654701..8f132d55c6 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.05.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
+@@ -28,7 +28,7 @@ SRC_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/downlo
+            file://0001-Bug-708160-Fix-compatibility-with-C23-compilers.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "56e77833de683825c420d0af8cb90aa8ba7da71ea6fb5624290cbc1b53fe7942"
++SRC_URI[sha256sum] = "121861b6d29b2461dec6575c9f3cab665b810bd408d4ec02c86719fa708b0a49"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+3"
+-- 
+2.43.0
+
 
