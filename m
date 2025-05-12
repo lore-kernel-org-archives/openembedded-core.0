@@ -1,104 +1,114 @@
-Return-Path: <peter@meraki.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E54DFC3ABC3
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 21:38:07 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web11.62172.1747085885871005666
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A88C3ABC3
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 22:21:38 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.62674.1747088492120994840
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 14:38:06 -0700
+ Mon, 12 May 2025 15:21:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@meraki.com header.s=google header.b=o/EKdQsH;
- spf=pass (domain: meraki.net, ip: 209.85.219.53, mailfrom: peter.hurley@meraki.net)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6f535b11824so48942026d6.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 14:38:05 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HCkArv0D;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso33558575e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 15:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=meraki.com; s=google; t=1747085885; x=1747690685; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ohFa160knlo+XOR6zsNqHCJCB2bh38bHBlviH7ad0Q=;
-        b=o/EKdQsHiue1UXK5zlM1AqBouGc1pkD8uBJ8fCib7lilmhdBPzZvahlWDDdvla/ZGb
-         /QNRoHv/PBIJG4XXg8cyO6BnQ/Kslk9+sBG2tt0yYeKb2NKu5MYXO+wH51UgR+Cu6Kki
-         uzfs5ka+55u53QxANe9cOfDubaWhK0HWuPOYI=
+        d=linuxfoundation.org; s=google; t=1747088490; x=1747693290; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=du5V2WHe0EeJCqEc8e8ArTLMTnxJoFm0GVNJj2YvvtA=;
+        b=HCkArv0D6+hhAjbPpyhe+irFbrw2Ws9vBh/q+2Nyqps61AKJVOIyIvyNw/US3uORZd
+         onWUgfnUelSJRYtEvr+wyb0N/NvnvNuPdb+LGr3hKxU5jr3eSTtmJ0xizEKK6n7LP78+
+         gQqTM0qiA9fs5nwmmzMQv5ACDv5WjrMDvjBG4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747085885; x=1747690685;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9ohFa160knlo+XOR6zsNqHCJCB2bh38bHBlviH7ad0Q=;
-        b=Q9Fr1gz5vOZTftfQ2DsjtG6Z8DofJ/PwAtQcOxVw/BSCYUWVDQU1AI0WmFjE/LBf1O
-         p69sIIyKPdNlpRKxRe7ZYZS3MdMe6lto2tKEX4lqMer5bBEmxYVacHp1p+E0FdmMFpXj
-         +aANWTUyWBq+fDay1mY9UHtj+jRQ7qmfPMw+CwEsHpy8NR1MqV1jnQErY+9s3HK1Kk0W
-         1p8wsFRDJwx4Mg8HLSRHWY/XIcsOSFXSbRiy1Gkqa+jCCnq6jWrsBZ96g/yDgCcziJxJ
-         pIzAnR9BIvlKSOqqieoxeTEoMpRxsZMS/Ob7JQNBYdwVkC5dcTLTPyzAAm84duDrh5Au
-         mc/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVcy8ykFiIKCMBM/hDiaY6RHx2ROhkUP//6kZjWSdJJ93vOdn7R5PPgTItNejkICDuQXgxjjaXESq/05jxO8FsPJg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxhg/N910YRwjSAonCMkls2oi+mdAe8B2sZ7ZFjSUf4GSc0SqUh
-	3JI4I1ua3jkBehnWkNHZDhu+VG6g2CE424O9YvJBYPAGpDV+5/SB/o7to47NRQ==
-X-Gm-Gg: ASbGncuRmJqt2VFU7GlJuuXkLtnEUO1oOG+chSSVXAKLixlOELc6oG9nW+BgCDezz7Q
-	4H1ibHfrebYJ44tVS5NjPTaKDftURqCXpfsqfmxwgd7JmkMmS6UGWzAr6Loh5jp6fvV4W0Hyu0n
-	Yn++xeeB/XTSO84vuKIlCbW4UHi0F7esvH7CEs5h6M2hidZ8YXEMnr/QHaBHdP9hD6F7xQ6iJ6/
-	M5eI9MWZO7l/2ODI3l1L/b8a58M46Sv2vZzALZB8FVR9KbZiSY5RdMgjD3z2xRKTZDDmhLwZQUD
-	FazVX1yNrFOO6gccoaDDqJjVjEI01jegeJqLTYwUXg5u1Epo93AXL5xKktvMffnBraWBz7AMgaD
-	Ze2CtxSj0U5eVWwRFDfZGWA==
-X-Google-Smtp-Source: AGHT+IEupBxvr6xFNScl+rQK22aY0GqaKgum7TiJXQMDCYThu+w2jG4N5jKr3oDwGfg98yqFT+uOFQ==
-X-Received: by 2002:ad4:5fca:0:b0:6d8:a8e1:b57b with SMTP id 6a1803df08f44-6f6e4814d2dmr262102756d6.36.1747085884798;
-        Mon, 12 May 2025 14:38:04 -0700 (PDT)
-Received: from sf117.meraki.com (199-116-75-201.public.monkeybrains.net. [199.116.75.201])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f6e39e0716sm58194896d6.23.2025.05.12.14.38.03
+        d=1e100.net; s=20230601; t=1747088490; x=1747693290;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=du5V2WHe0EeJCqEc8e8ArTLMTnxJoFm0GVNJj2YvvtA=;
+        b=G2QFURI3Ty8JvLqfbR5gEVBIfdzE1nUja8M8zjC41cjh3uP74KcZ8B5bfvKlT4tIFC
+         izZGfG2vOQWJ/BjO2wV024SSSdS1eKtZgyDoDdHE18bNNtcnaB7fXupO1TByU0HLiBey
+         cSaZrgQXcnRCfnAthNfyAgRNelDwkdHJ+vfLlUBI162TUj9Itxq3EINa2ED2+RKxeF1h
+         VTMc5mDvEPhtOn3ybFAEbfRfsph9IKuF2QRV/8nYwuMZao6gB0hNyMJqYTh8LoVIaucx
+         6PpG0oSISomHJ5aosZ9RkEihr1UtR4/NehknsOek0O++sHNxlBDq7TS8lHOlkBShsths
+         N1+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWzDcjVNp/QKTy/Uux84L555ekHzJXtXIM9MMsKqU0qXhZ9a/wrIxHAURXJsCMBlV1dmE9ecSkD5vlwEJV/QSDVeA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxYU/pU2KVoZySKHRycQGya0Aml+WML+j+cBuqwh6o5QhlytH5q
+	ucgbgwrpGbq6pSDdvspYWqOFXbR1xTXgmJDPgpnvKOE653j7qSgnyYxyRBCXeP4=
+X-Gm-Gg: ASbGnct3U1szxHoFdoOxlfl8kt38MwS4xwzpDN/C7/1cFDWmArsRvG7ymcmDhigPkR6
+	m6HaBF5g/cq3j6GITBP40QCuEDnb5pCxhwohTy8yvq2NYCVHk/ZNh9wyX3lBRrJpxfsYSf3L9z+
+	1OBO+SxgOgoW2YLA0+S5zUMTpNE9jNbER9pZaoDlCpwMe6eg+oa/7GB0pb8EjbbzLmxWytp3oJy
+	1I5LmKDy/OhtbXZGxwoXIF9zFkksY90LGpKFDNGV4w8j7aQAh+bpJIEfV5oyQ6odrymfCm2GdbV
+	OPvOgQt2EwMoMryCPqVKlRbIo5SW8TTkKylgLjAkwN6pAJ+4dMcXccQQRlf5CS2PFRxVSwukmjF
+	2Q9Ewfy+fxHs1VltGD7xavFapoCtB5p3c4DG4sEY0
+X-Google-Smtp-Source: AGHT+IGAfsATwKaFFGcLUiIcVa8t/DvQBKSBnf55T253goxsfKRjHDF5JJnMPrUibufEWo2195ok2w==
+X-Received: by 2002:a05:600c:1ca0:b0:43d:5264:3cf0 with SMTP id 5b1f17b1804b1-442eb8855bcmr3112825e9.11.1747088490312;
+        Mon, 12 May 2025 15:21:30 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:83f1:c407:5c8d:78ee? ([2001:8b0:aba:5f3c:83f1:c407:5c8d:78ee])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442cd328f0fsm190750545e9.7.2025.05.12.15.21.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 14:38:03 -0700 (PDT)
-From: peter@meraki.com
-To: Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Alexander Kanavin <alex@linutronix.de>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Peter Hurley <peter@meraki.com>
-Subject: [kirkstone][PATCH] perl: enable _GNU_SOURCE define via d_gnulibc
-Date: Mon, 12 May 2025 14:37:54 -0700
-Message-ID: <20250512213754.14087-1-peter@meraki.com>
-X-Mailer: git-send-email 2.49.0
+        Mon, 12 May 2025 15:21:29 -0700 (PDT)
+Message-ID: <18b89e1c8bbd57336060148b6d96ce809295c98b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] testimage: get real os-release file
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
+Date: Mon, 12 May 2025 23:21:28 +0100
+In-Reply-To: <20250512155835.9159-1-peter.marko@siemens.com>
+References: <20250512155835.9159-1-peter.marko@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 21:38:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216388
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 22:21:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216389
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+On Mon, 2025-05-12 at 17:58 +0200, Peter Marko via lists.openembedded.org w=
+rote:
+> From: Peter Marko <peter.marko@siemens.com>
+>=20
+> /etc/os-release is a symlink to /usr/lib.
+> Symlink is retrieved as a dead link which points to nowhere if also the
+> original file is not accompanying it.
+> Fetch the real file instead of this link.
+>=20
+> Alternative could be to use "tar -h" (supported also by busybox tar),
+> however that could lose some important information if links are relevant
+> for failure analysis.
+>=20
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+> =C2=A0meta/classes-recipe/testimage.bbclass | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/=
+testimage.bbclass
+> index e090b1ef4b..862f3e53a3 100644
+> --- a/meta/classes-recipe/testimage.bbclass
+> +++ b/meta/classes-recipe/testimage.bbclass
+> @@ -26,7 +26,7 @@ TESTIMAGE_FAILED_QA_ARTIFACTS =3D "\
+> =C2=A0=C2=A0=C2=A0=C2=A0 ${localstatedir}/log \
+> =C2=A0=C2=A0=C2=A0=C2=A0 ${localstatedir}/volatile/log \
+> =C2=A0=C2=A0=C2=A0=C2=A0 ${sysconfdir}/version \
+> -=C2=A0=C2=A0=C2=A0 ${sysconfdir}/os-release"
+> +=C2=A0=C2=A0=C2=A0 ${nonarch_libdir}/os-release"
+> =C2=A0
+> =C2=A0# If some ptests are run and fail, retrieve corresponding directori=
+es
+> =C2=A0TESTIMAGE_FAILED_QA_ARTIFACTS +=3D "${@bb.utils.contains('DISTRO_FE=
+ATURES', 'ptest', '${libdir}/*/ptest', '', d)}"
 
-This is needed to properly support memmem() and friends under musl
-as musl guards the declarations with _GNU_SOURCE define, and if the
-declarations are not present, gcc will issue warnings and generate
-assembly that assumes the functions return int (instead of e.g.
-void*), with catastrophic consequences at runtime.
+The definitive location for this is ${sysconfdir} as far as I know and
+I'm nervous about replacing that. We could list both? For this file,
+resolving the symlink is the right thing to do but that might not be
+the case for all files listed in the variable which does make this
+trickier to solve...
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6422e62fbc5c65a2165a72c97c880cfa9a80e957)
-Signed-off-by: Peter Hurley <peter@meraki.com>
----
- meta/recipes-devtools/perl/perl_5.34.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+Cheers,
 
-diff --git a/meta/recipes-devtools/perl/perl_5.34.1.bb b/meta/recipes-devtools/perl/perl_5.34.1.bb
-index 42bcb8b1bc68..619152256110 100644
---- a/meta/recipes-devtools/perl/perl_5.34.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.1.bb
-@@ -61,6 +61,7 @@ do_configure:class-target() {
-     -Dlibpth='${libdir} ${base_libdir}' \
-     -Dglibpth='${libdir} ${base_libdir}' \
-     -Alddlflags=' ${LDFLAGS}' \
-+    -Dd_gnulibc=define \
-     ${PACKAGECONFIG_CONFARGS}
- 
-     #perl.c uses an ARCHLIB_EXP define to generate compile-time code that
--- 
-2.49.0
-
+RIchard
 
