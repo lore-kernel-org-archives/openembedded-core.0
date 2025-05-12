@@ -1,121 +1,107 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DD02C3ABC3
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 04:11:00 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.42590.1747023051081905132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4EE1C3ABBC
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 05:09:30 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.43178.1747026567909820637
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 May 2025 21:10:51 -0700
+ Sun, 11 May 2025 22:09:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I6Ijsu6o;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-30ac268a8e0so3747006a91.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 May 2025 21:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747023050; x=1747627850; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c6BdTLtptNrPoHYjW92hC8O6F3RRBxo6XrWXYdCBp0I=;
-        b=I6Ijsu6oP9cNjaFnPeLN2p+7Mr5yTgk8tSrS6O5iDf8lLwU99/aVhI/bgOQ4o78WzZ
-         WXPt82H7pBZHrAfn4+BE8gPCuyiHgKzox/6NzwtTyEY69i0IC572VbuLxP2Psry3DkPy
-         9f0tU8YQ+NPr1Nsg5tkTi9XGMc3FWEoCMoWUdpw0LSf5684Iyb2+7tOk154vbKZkeu4/
-         ZXFrWKpCMUmESU4yZ4BMnSdhlueQ2f6hkHto5DpNZEOaH1j/uTvVfdViZUhWnvyp+bHh
-         9SD8bKkRGbEZSdwJt5nHMY69UdfP1VhTBuNI7UqC2mIFI9NeslBPwga4NKrdzYvr51BN
-         fy/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747023050; x=1747627850;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c6BdTLtptNrPoHYjW92hC8O6F3RRBxo6XrWXYdCBp0I=;
-        b=CQo9jbYqQ1+eq2QSZ84XOfAqBB96vZFP5fQNwr4HCnaSO8jOKltAl007RojsyK3+nL
-         AwdaLXkWo+fKszLcr3/WupcLwex8sEy6Z5svEOnq09hJTUkpFf1KprjURDGVg+EHLRIb
-         cnwZfQtdili7WP9uK7WvRFbDuS7sH6ISr3f+Efyu9Rjmdmnim3ANojgZBslTGzYgKf93
-         Q5pcwpJkegzXiyF3QrZjuuRlIB4r4TmiyySjkRt3GcaIox5V2Eew99c2LsKLTzRiNwLb
-         HHa5CLttqwCgcEGngjEQpSHgyyeDMDx1F+RHqXxSIcGjlBldWBkEL1pnDVD9daqHhEq1
-         mPfA==
-X-Gm-Message-State: AOJu0YzeE/bSxze7Y+ZcV2mvKtcqXEEjsiOlRG79zS+xzOsXWQzNzl8G
-	Rn6QtGI+1/Xjo4aFzfuYau7Xd4R1kjZsLwmHgMojEOy969vWP5B8B+9BsvmY
-X-Gm-Gg: ASbGncsTEm78p7tb/PXEjVSuoMg/BBU6+Y+YRILVAHrkGQzRIQ0yTHcxHEplso0oKdd
-	5Xx5s4H5pFYDwrHVnsigIP2M7pJea81e7US+fWn3EpocUy448TtPtO+l5/0cy7EkYECUV9TcR0l
-	wFoC+66RUB7kPKMZ0eSZfL4C+0wOqUITtaQ4pgVC1TggzDmkvXDGORxhxNV+1D/2uaTcFbYE+H1
-	5fTWDDTs+/csGi3D0WpW85pc9z1QM1sKrP9So5kU+c01NEb0+sWgIA58ZUJuHlw0Hyb45QFWliR
-	zDH4ETuRnrBMixTDQZA+WmE3UODdFz3KWSu/bXrYkGk=
-X-Google-Smtp-Source: AGHT+IF6UUwx9Y0DNMi8VFTXAHNTR83Sz/dwKN+CzDr1xgGdpAqcdgnUJR1obdygbwuWBeQGCTA0uw==
-X-Received: by 2002:a17:90b:520d:b0:30a:9cd5:5932 with SMTP id 98e67ed59e1d1-30c4000fa4emr18742884a91.13.1747023050015;
-        Sun, 11 May 2025 21:10:50 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30c39e76039sm5686372a91.43.2025.05.11.21.10.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 May 2025 21:10:49 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] compile-rt: Fix building compiler-native on aarch64 build hosts.
-Date: Sun, 11 May 2025 21:10:47 -0700
-Message-ID: <20250512041047.991955-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=72272af644=changqing.li@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54C4IQr5002512
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 05:09:27 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46hws89b11-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 05:09:26 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Sun, 11 May 2025 22:09:25 -0700
+Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 11 May 2025 22:09:24 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [walnascar][PATCH] icu: set ac_cv_path_install to ensure install tool reproducibility
+Date: Mon, 12 May 2025 13:09:23 +0800
+Message-ID: <20250512050923.2781932-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: FQnzEPc6MU2WsFCRbedx7f7E9vZBGMTb
+X-Proofpoint-GUID: FQnzEPc6MU2WsFCRbedx7f7E9vZBGMTb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEyMDA1MiBTYWx0ZWRfX4cRqN5wqFDys IVtXAvw7zj5ZFZc7CS+IDnzpJluM/iwuDhFzqjtvViP4AbowgeYmHjZIx4t+vLf+Shy06cGTBQA oAckgUnAWz5oAEUNFlhqL3INkj6UcvNlQSTFzKanB71+aaMq1Ia6KM9bAO4poftTzji4d4hoUq+
+ iJk4rmndanw30YbSF/Zz4O7+SO2UoUsQEIdy/Cu+juMxpjXVjmBZwiNYagrJ1NyUvpl7MI8D4/n OBhDfUatZG3Ol44ajinqG5OIyjWG89LT+AIBPWiUrM3yILwONdL73C6+Zm8mJeuo9aOx4hbay1Q 2NhKnVDfgFEna+2VcuMX/3XNqBG0M5Kp66J664jc7V3xLTufbh5QlHowXIb35DXapjNshump84g
+ QI1U2vuzdkCAAhQDlVoWv33zaqbh0JdEz83M/pdC7BZlQSZgRUcG4Y6mT08AUh4uC1Lw5BNA
+X-Authority-Analysis: v=2.4 cv=Q+HS452a c=1 sm=1 tr=0 ts=68218286 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=t7CeM3EgAAAA:8 a=ag1SF4gXAAAA:8 a=RcX5SHWiSEb9dfOIiUkA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-12_01,2025-05-09_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 mlxlogscore=845 bulkscore=0 lowpriorityscore=0 spamscore=0
+ clxscore=1015 suspectscore=0 adultscore=0 malwarescore=0 impostorscore=0
+ mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2504070000
+ definitions=main-2505120052
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 04:11:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216295
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 05:09:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216296
 
-Using target triple confuses the native system compiler to find
-libgcc and C runtime during compiler-rt-native build
+From: Changqing Li <changqing.li@windriver.com>
 
-Fixes
-|     /home/khem/yoe/build/tmp/hosttools/ld: cannot find crtbeginS.o: No such file or directory
-|     /home/khem/yoe/build/tmp/hosttools/ld: cannot find -lgcc: No such file or directory
-|     /home/khem/yoe/build/tmp/hosttools/ld: cannot find -lgcc_s: No such file or directory
-|     clang: error: linker command failed with exit code 1 (use -v to see invocation)
-|     ninja: build stopped: subcommand failed.
+icu will check program install path during do_configure, eg:
+checking for a BSD-compatible install... /path/to/install -c
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+And this path will be writen into pkgdata.inc:
+INSTALL_CMD=$(INSTALL-L)
+
+Decided by if install is installed into recipe-sysroot-native during
+do_configure stage, the INSTALL_CMD could be
+/build/tmp/work/corei7-64-wrs-linux/icu/76-1/recipe-sysroot-native/usr/bin/install
+or /build/tmp/hosttools/install if the build is rerun after the sysroot was
+extended.
+
+set ac_cv_path_install to install under hosttools to make a deterministic
+result of INSTALL_CMD, avoid vary caused by the execute sequence of
+another task which DEPENDS on coreutils-native and independent with
+do_configure
+
+[RP: Removed paths from ac_cv_path_install to simplify and avoid QA error too]
+(From OE-Core rev: 208143e060cda6e22ae1e8c618e033fa9144b323)
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/clang/compiler-rt_git.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-support/icu/icu_76-1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
-index 5044db6249d..ad145f86446 100644
---- a/meta/recipes-devtools/clang/compiler-rt_git.bb
-+++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
-@@ -71,7 +71,6 @@ OECMAKE_TARGET_COMPILE = "compiler-rt"
- OECMAKE_TARGET_INSTALL = "install-compiler-rt install-compiler-rt-headers"
- OECMAKE_SOURCEPATH = "${S}/llvm"
- EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
--                  -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
-                   -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
-                   -DCOMPILER_RT_STANDALONE_BUILD=ON \
-                   -DCOMPILER_RT_INCLUDE_TESTS=OFF \
-@@ -83,7 +82,6 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-                   -DLLVM_ENABLE_RUNTIMES='compiler-rt' \
-                   -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
-                   -DLLVM_APPEND_VC_REV=OFF \
--                  -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
-                   -S ${S}/runtimes \
- "
+diff --git a/meta/recipes-support/icu/icu_76-1.bb b/meta/recipes-support/icu/icu_76-1.bb
+index f0890fc890..f11e72d356 100644
+--- a/meta/recipes-support/icu/icu_76-1.bb
++++ b/meta/recipes-support/icu/icu_76-1.bb
+@@ -20,9 +20,9 @@ inherit autotools pkgconfig github-releases
+ # ICU needs the native build directory as an argument to its --with-cross-build option when
+ # cross-compiling. Taken the situation that different builds may share a common sstate-cache
+ # into consideration, the native build directory needs to be staged.
+-EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config"
+-EXTRA_OECONF:class-native = "--disable-icu-config"
+-EXTRA_OECONF:class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config"
++EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config ac_cv_path_install='install -c'"
++EXTRA_OECONF:class-native = "--disable-icu-config ac_cv_path_install='install -c'"
++EXTRA_OECONF:class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config ac_cv_path_install='install -c'"
  
-@@ -91,6 +89,8 @@ EXTRA_OECMAKE:append:class-target = "\
-                -DCMAKE_RANLIB=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ranlib \
-                -DCMAKE_AR=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ar \
-                -DCMAKE_NM=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
-+               -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
-+               -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
-                -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
- "
- 
-@@ -100,6 +100,8 @@ EXTRA_OECMAKE:append:class-nativesdk = "\
-                -DCMAKE_NM=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
-                -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
-                -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
-+               -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
-+               -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
- "
- 
- do_install:append () {
+ EXTRA_OECONF:append:class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
+ TARGET_CXXFLAGS:append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${@icu_install_folder(d)}\\""', '', d)}"
+-- 
+2.34.1
+
 
