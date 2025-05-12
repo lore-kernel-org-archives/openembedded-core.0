@@ -1,71 +1,134 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB424C3ABC3
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 15:59:25 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.54169.1747065556016357101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74037C3ABC3
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 16:44:06 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web11.55343.1747068236570904266
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 08:59:16 -0700
+ Mon, 12 May 2025 09:43:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=e4Hp6f6g;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202505121559111961acc4ae8d28b6bc-orwtcw@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202505121559111961acc4ae8d28b6bc
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 12 May 2025 17:59:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=QKd0JcsJE3dDK5ow6d19Ie+NrPYy3PFVZH4lVTEDBIM=;
- b=e4Hp6f6gOgpqC3TWj0AvleJ+0F9xFa7No9MiXKYko3dACszoyJ5rUm/A6lcGPdJ9NfwiOc
- 4TZQyRXeO023Meys21POMKG/PkiUGl0dVj/kurdPsBpoiH0zrBPdEXrxTgMWU8UZYdo2dimB
- wRlGHjZJzwwCNjVGFxB1SJ4fqqK5LDjELjTlQbPp+G8DhPdtzCWycOe0hNtSV0GtXFn/1Mhk
- zHCAr4siFhZvmOmYGtJB0jMk9cCZZ8gWoLVrW1UwYiPpmn2fXm0daglyOersPXJgqhpp70nn
- 8nQWEAbZWBPPaAJMVSE4y+hDR+1KHwIhhVuuMGelb7VTcMqKrACLftGQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] testimage: get real os-release file
-Date: Mon, 12 May 2025 17:58:35 +0200
-Message-Id: <20250512155835.9159-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BquqAl+R;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-326ced52aa9so25173851fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747068235; x=1747673035; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ONA996nrPYwHs5Wsaa2pBAVrftZ9R6GHkOE8Aht8FCE=;
+        b=BquqAl+ReyjecOgSHBtNtr8mafLvP1oOJFpwNrMHWLkQl+cg5hXFcxZfCtz0AbA3GZ
+         D6cLTWASkjkOMQiCCvALhtaLqsGgaVS3S9sa/2vxbWJjYfFnKfTv6MQfXqr8B5Ihs9GJ
+         NLAxxYylVM3vvrqXwOsqYT2jGa692/eFIE9kkK83TSiRf7fXHfa+SBr9z0EWS3e6IVzS
+         Xc4BBCxJHaYAKrsON4A5gDFcit0KIe/AnrL0hRytwk6flLw4Hv/CwUQCgCZ5mzgb7zgd
+         6ArJaaqcfv/wfz/o0ecMEpRfQunHP5nsPg/nC4rODuOF+B2zo5DBthYP0Ci11RfNwKSM
+         Bc9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747068235; x=1747673035;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ONA996nrPYwHs5Wsaa2pBAVrftZ9R6GHkOE8Aht8FCE=;
+        b=BWxoWdQMsyBhHTejZLtgm19CcfLkdabhv0Q5hmJq9nR5gKzzCItSceKHhFjeFXYoim
+         jSbJNQeOzVLsH9OBolcGyIlJIR0jw/QE83iXQ7afhuiTHuhVTAetOXyka1Ep+zkDKSZ+
+         gfmFi3NNMD4SRcUWj9rWPnQCoMO/jV0YeDDKtuvtRsAnuqahjRemiuFLb2oA4nZVbKP+
+         pv7E07QrJygaQJgI2c+7vm8fYUj1rqgPnJ3sbD57oNwj51p/Uh33VZgUY92Ce/qVvcAX
+         +RRkXno3IpXBoHYAdescwfmXzwNK8s86cnhxfy/TNxJz2Y6B7xIxVijvO3jr9neWzwJR
+         zOCw==
+X-Gm-Message-State: AOJu0YxUuwvM/iYpmrcXo/Yf80LzGUzQeJmyVrEiJFZnLTysBMEYfxGq
+	+4fpxTvVPnHowR2UJEWOWvDeJ1otj70z+VQe42tDILPEMnn1uAI5KD/DdAcCIvxI5CYya6zHFIR
+	i5vairxcyJ4a7S0BXQOYORiDPfNY=
+X-Gm-Gg: ASbGncsHodIHEKOXslJ/gPK/F/JMBR4CI/W/IUWACtRbGSZi7xbZL0v879NSsxi0ZFA
+	aNRzBanUmjsayxtp3fbpWJ8OqDiqpMUKVJA4TSGulIedRgyO37QfTWiz93wWYngJicViSRkHK/t
+	vUkbxuCqmwZpYapC/1TSPD2s/HxFvKy4fq/o4vi5UDA6o8/DNzzn6P+rOJAg==
+X-Google-Smtp-Source: AGHT+IERL5t6mesBQDXDUaKPJerFo3wGp8OI5nRRSY7zunL0ORm7N38SIVdCASQGY9kxAMwUO5CvGjDyOQR2zUQYyfk=
+X-Received: by 2002:a05:651c:221b:b0:30b:f006:3f5 with SMTP id
+ 38308e7fff4ca-326c457bd62mr48588361fa.15.1747068234399; Mon, 12 May 2025
+ 09:43:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20250509094421.20786-1-mark.jonas@de.bosch.com>
+In-Reply-To: <20250509094421.20786-1-mark.jonas@de.bosch.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 12 May 2025 10:43:41 -0600
+X-Gm-Features: AX0GCFtrQyD_wYagowrtapJDMVzOwIHlLMSAi0aKtorSLUl_VHa2i1Hfo_gQooE
+Message-ID: <CAJdd5GZ-LkBC-8iZXhAYvKsOhxCm2hYL5tCkTS9SOud-d5+ifg@mail.gmail.com>
+Subject: Re: [PATCH] udev-extraconf: Allow optionally skipping systemd-fsck
+To: mark.jonas@de.bosch.com
+Cc: openembedded-core@lists.openembedded.org, raj.khem@gmail.com, 
+	Ricardo Simoes <ricardo.simoes@pt.bosch.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 15:59:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216379
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 16:44:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216380
 
-From: Peter Marko <peter.marko@siemens.com>
+On Fri, May 9, 2025 at 3:44=E2=80=AFAM <mark.jonas@de.bosch.com> wrote:
+>
+> From: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
+>
+> When the fsck backend does not respect the exit codes predefined by
+> fsck, systemd-fsck might not work as expected.
+>
+> This is the case for fsck.fat from dosfstools [1]. When a FAT formatted
+> and write protected partition is checked with fsck.fat it will terminate
+> with exit code '6' [2]. What fsck.fat wants to signal is that a write
+> protected device cannot be checked. However, that code is interpreted by
+> systemd-fsck as a bit mask:
+>
+> - 2: System should be rebooted
+> - 4: Filesystem errors left uncorrected
+>
+> As a practical example, a write-protected, FAT formatted SD-card will
+> not be mounted in this case.
+>
+> This patch introduces the environment variable SKIP_SYSTEMD_MOUNT_FSCK.
+> When SKIP_SYSTEMD_MOUNT_FSCK exists systemd-mount will be called with
+> the --fsck=3Dno option. Thus, the partition will be mounted without
+> running systemd-fsck.
+>
+> In general, this new feature is useful when the filesystem is known to
+> be clean and the fsck backend does not respect the exit codes.
+>
+> Finally, one way to use this new feature would be to add
+> ENV{SKIP_SYSTEMD_MOUNT_FSCK}=3D"1" to the udev rule calling the mount
+> script.
+>
+> [1] https://github.com/dosfstools/dosfstools/issues/89
+> [2] https://github.com/dosfstools/dosfstools/blob/v4.2/src/io.c#L63
 
-/etc/os-release is a symlink to /usr/lib.
-Symlink is retrieved as a dead link which points to nowhere if also the
-original file is not accompanying it.
-Fetch the real file instead of this link.
+This is a pretty generic work around for a very specific problem in
+dosfstools. It would probably be better to patch dosfstools to have
+the expected error codes instead.
 
-Alternative could be to use "tar -h" (supported also by busybox tar),
-however that could lose some important information if links are relevant
-for failure analysis.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/classes-recipe/testimage.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index e090b1ef4b..862f3e53a3 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -26,7 +26,7 @@ TESTIMAGE_FAILED_QA_ARTIFACTS = "\
-     ${localstatedir}/log \
-     ${localstatedir}/volatile/log \
-     ${sysconfdir}/version \
--    ${sysconfdir}/os-release"
-+    ${nonarch_libdir}/os-release"
- 
- # If some ptests are run and fail, retrieve corresponding directories
- TESTIMAGE_FAILED_QA_ARTIFACTS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${libdir}/*/ptest', '', d)}"
+>
+> Signed-off-by: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
+> Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
+> ---
+>  meta/recipes-core/udev/udev-extraconf/mount.sh | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipe=
+s-core/udev/udev-extraconf/mount.sh
+> index 0cbae48729..d6de05f0b6 100644
+> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
+> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> @@ -83,6 +83,10 @@ automount_systemd() {
+>
+>      MOUNT=3D"$MOUNT -o silent"
+>
+> +    if [ -n "${SKIP_SYSTEMD_MOUNT_FSCK+isset}" ]; then
+> +        MOUNT=3D"$MOUNT --fsck=3Dno"
+> +    fi
+> +
+>      # If filesystemtype is vfat, change the ownership group to mount gro=
+up, and
+>      # grant it with  w/r/x permissions.
+>      case $ID_FS_TYPE in
+> --
+> 2.34.1
+>
 
