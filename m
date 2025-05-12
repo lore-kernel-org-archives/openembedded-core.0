@@ -2,118 +2,103 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F86FC3DA4A
-	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:04:13 +0000 (UTC)
-Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
- by mx.groups.io with SMTP id smtpd.web10.45914.1747040638623560703
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B6BC3ABD7
+	for <webhook@archiver.kernel.org>; Mon, 12 May 2025 09:04:12 +0000 (UTC)
+Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
+ by mx.groups.io with SMTP id smtpd.web10.45916.1747040638854317555
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 May 2025 02:04:05 -0700
+ Mon, 12 May 2025 02:04:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=hKY6mLCb;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=FGf9Xt3l;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1747040645; x=1778576645;
+  t=1747040647; x=1778576647;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=FbQyWpl3JmXN3sqqbPAgeCr/l4LQqgGSqnZQoj5Ne08=;
-  b=hKY6mLCbzJv8LMZ1X8sjot3kGgoY3VDeH7vJfsTIQ82Yf3VYzXwXD+Sr
-   t44q4LQkofcfpCTH3KK4KqhQxMJ7zPDGnA/PLLmUq3zzfT6ESWhme8wGQ
-   UXLvsHwpcB9gfVcSLup/wDUr9QYCZLBMeZWka/SrfMs+/pNnptZhwpT1d
-   Gru+dH+i5EVw4CMXlYAV4uCm24v/FdFTWlkAUAtEJc6fKQp/ZXAv08wF/
-   xg3rC8N4u2iZdFyGMzx2eHbgsQ4XDzFL9ZGoNWEzTT5ywXBe78FDQIrzm
-   8rp78hRX/90akHeTt3lEMISAZbvy+nYmepCY7dehXyOFA3LHE3xLcocXT
+  bh=rljk2YyHES0duHwlhic/mc4W6L47sy128ZkgYjQEBQs=;
+  b=FGf9Xt3loSTM5YUz3jZA8qENRyYWodcZCrJvzAwUsymK2XgkpPbmuGqf
+   l60Prs2ki7QOvmuWFpuf3VsBKgHwZiAV8Hj2j0+6rdIKamYtIukZKiZoT
+   aL9r0oQVoTEx3rXgx8Ggh+YD6CbHjrsENIV4uy8Zx2C9vd+fcbx3ZdQxK
+   DJToi58pUlzhDl8chGM+EJbkcBo4OILQXtT6TKPdnQJvYHFZpVhSjhmau
+   KwJ3DaOoclGt+U3Ua+Ttykb4kv+p45QwzaYGkVRbaBEZOZqmTeb2oq4Uz
+   VTEVFIijBUWJlzDwXsFoVrNZtRJRvHzfAncC6hR+qz6K19UBza1nENeEC
    w==;
-X-CSE-ConnectionGUID: ekLrGt11R5ec5z0VyDJGuw==
-X-CSE-MsgGUID: H48zFAdeTWelX3VZNraP6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="199533796"
+X-CSE-ConnectionGUID: tk5Jq6VMTUis01xZk8FHBg==
+X-CSE-MsgGUID: T25wvhahTYq5YaubHiKYZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="202056489"
 X-IronPort-AV: E=Sophos;i="6.15,281,1739804400"; 
-   d="scan'208";a="199533796"
+   d="scan'208";a="202056489"
 Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:04:04 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id E4877D5051
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:01 +0900 (JST)
+  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 18:04:06 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 41155D5051
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:03 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id A83A7CFB76
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:03:56 +0900 (JST)
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 03210D20AF
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 18:04:03 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 67FF71A009B;
-	Mon, 12 May 2025 17:03:56 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 8CF691A009A;
+	Mon, 12 May 2025 17:04:02 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 19/56] kexec-tools: upgrade 2.0.30 -> 2.0.31
-Date: Mon, 12 May 2025 17:03:02 +0800
-Message-Id: <1747040619-7566-19-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 45/56] python3-pdm: upgrade 2.23.1 -> 2.24.1
+Date: Mon, 12 May 2025 17:03:28 +0800
+Message-Id: <1747040619-7566-45-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
 References: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:04:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216336
+ <openembedded-core@lists.openembedded.org>; Mon, 12 May 2025 09:04:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216342
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
-refreshed for 2.0.31
+Features & Improvements
+------------------------
+- New command pdm new that behaves like pdm init but creates a new project.
+- Support use --name as project name for command pdm new e.g. pdm new hello --name world
+- Support exporting to pylock.toml format as described by PEP 751.
+
+Bug Fixes
+---------
+- Pass the --quiet option to pdm sync command.
+- If a .python-version file is found and it contains multiple lines, the file
+  will be ignored. The usage of the .python-version file can be disabled, if
+  configuration value python.use_python_version (or environment variable PDM_USE_PYTHON_VERSION) is False.
+- fix pdm config -e command to open read-only file under linux
+- Replace project names and import names in both README.md and pyproject.toml when running pdm init <template>.
+- Fix a bug that URL dependency hashes are not updated if running pdm lock --update-reuse. 
+- Install the project when using the BaseSynchronizer with install_self set
+  to True. This fixes the bug that when calling pdm sync --quiet, it skips
+  installing the project itself.
+- Mark one additional test as requiring network, and fix another one
+  not to require it anymore. 
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch | 8 ++++----
- .../{kexec-tools_2.0.30.bb => kexec-tools_2.0.31.bb}      | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-kernel/kexec/{kexec-tools_2.0.30.bb => kexec-tools_2.0.31.bb} (97%)
+ .../python/{python3-pdm_2.23.1.bb => python3-pdm_2.24.1.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pdm_2.23.1.bb => python3-pdm_2.24.1.bb} (82%)
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
-index 8dc5fed765..5d994d9ffb 100644
---- a/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch
-@@ -1,4 +1,4 @@
--From 1a09bf71c2f541c2cfb44a00661051597bbd0b76 Mon Sep 17 00:00:00 2001
-+From 0b176595ca1610037d1175e1786d1a8aff1fb43f Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Tue, 6 Aug 2024 21:42:43 -0700
- Subject: [PATCH] kexec.c: add MFD_NOEXEC_SEAL flag explicitly
-@@ -18,10 +18,10 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  1 file changed, 5 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/python/python3-pdm_2.23.1.bb b/meta/recipes-devtools/python/python3-pdm_2.24.1.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-pdm_2.23.1.bb
+rename to meta/recipes-devtools/python/python3-pdm_2.24.1.bb
+index acab401392..3f251c7f0f 100644
+--- a/meta/recipes-devtools/python/python3-pdm_2.23.1.bb
++++ b/meta/recipes-devtools/python/python3-pdm_2.24.1.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ SECTION = "devel/python"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
  
- diff --git a/kexec/kexec.c b/kexec/kexec.c
--index 4f51987..8f02595 100644
-+index 6bf12d7..2f8e7cc 100644
- --- a/kexec/kexec.c
- +++ b/kexec/kexec.c
--@@ -60,6 +60,10 @@
-+@@ -61,6 +61,10 @@
-  #define KEXEC_LOADED_PATH "/sys/kernel/kexec_loaded"
-  #define KEXEC_CRASH_LOADED_PATH "/sys/kernel/kexec_crash_loaded"
-  
-@@ -32,7 +32,7 @@ index 4f51987..8f02595 100644
-  unsigned long long mem_min = 0;
-  unsigned long long mem_max = ULONG_MAX;
-  unsigned long elfcorehdrsz = 0;
--@@ -657,7 +661,7 @@ static int copybuf_memfd(const char *kernel_buf, size_t size)
-+@@ -661,7 +665,7 @@ static int copybuf_memfd(const char *kernel_buf, size_t size)
-  {
-  	int fd, count;
-  
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.30.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.31.bb
-similarity index 97%
-rename from meta/recipes-kernel/kexec/kexec-tools_2.0.30.bb
-rename to meta/recipes-kernel/kexec/kexec-tools_2.0.31.bb
-index 6a67427888..d824859686 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.30.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.31.bb
-@@ -20,7 +20,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
-            file://0001-kexec.c-add-MFD_NOEXEC_SEAL-flag-explicitly.patch \
-            "
+-SRC_URI[sha256sum] = "cf12cd2201df78a6543a5485ac1d7015a73b3a6b10c98b66dfae6ebd481386fe"
++SRC_URI[sha256sum] = "fc8adf011caa4ee2b0f25dabf890152aa4153cc21599ea67fe0c14e533dcd6d9"
  
--SRC_URI[sha256sum] = "bb6b39bbe00099219e95ab34b25ea4348e1a95964eefc45c1e6fe32362ac9021"
-+SRC_URI[sha256sum] = "ddaaa65b02b4f8aa9222586b1f26565b93a4baeffd35bcbd523f15fae7aa4897"
- 
- inherit autotools update-rc.d systemd
+ inherit pypi python_setuptools_build_meta
  
 -- 
 2.43.0
