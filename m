@@ -2,34 +2,34 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A172BC54756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3B38C54757
 	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 21:40:45 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web10.87967.1747172436578916844
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web11.88512.1747172435452327468
  for <openembedded-core@lists.openembedded.org>;
  Tue, 13 May 2025 14:40:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=FINIhOV0;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-202505132140349bac239acc40eaf9b7-yapl_g@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202505132140349bac239acc40eaf9b7
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=d9Bsf1nz;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-2025051321403583efb4665a9434f39d-gue6tm@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2025051321403583efb4665a9434f39d
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 13 May 2025 23:40:34 +0200
+        Tue, 13 May 2025 23:40:35 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=PhjmjClip/o9NSERA8G8Yw12V2dNnYUM3Z5JT3Tffhc=;
- b=FINIhOV0vthYaqpKPRzPW2WoSPeZnTQNHIsbQdy/vr5bscQwD76fTCpFV+w7nBgJ6ggM8h
- Y/lJsE7nWCxUNCFdTEtgiHOstrZjiKBa/7qnjiz3WXTngaoqLRt2JvJ5mNEUMvk7H8bEOG8p
- 5t+Ls5OJd5wtfRk9L3g7GelnXE+iN6iJWbmlBYgMfrZbffK3FZnGSPshTCwezQdyfP9cXYhD
- +kuuGlNqBvVnz9I9TwM7c7ycKp3kOD9FuGVmUi0aUdnupzC5oO9Hrcbsfbcza4WUGVb5k3v1
- yEj4m5wW6Erdg0hP5RHMBTNMxii1gMhACtsgSJNEYm2FeX0EIleXLczw==;
+ bh=oi3gKULn648VuJYxsJVgNq8G4VXFHDsDERnj+6GEBis=;
+ b=d9Bsf1nzq44lpXbgb+wEp3zMl+nVwmZLlzw8IUgkTeFoYOa+EA4eoxAubnwsQD7ZrD/8/A
+ vOnWt8/9mrzf0ybEXE5aRLDh6mMYto+ulxKRUSi4gtxYGxL44yihMhzlAcAt/z0fWWyAOrn7
+ 1T/6crniWRSGMfWJf5g5aA1PI/cXihE8tpmegwohHQMtFNVny1pH04CxLKUzbUjB90Yo2YdM
+ hoj87TLTkm/MKHUsgEyuJ+3VJTf1n/8G+1mTENPld0DYJj7+s6EhqtZZTEHXt2ZxR9XqkvTN
+ aZSf5hiad07SWEbsTCZ0AENO5ejTqvLTmHnz28/OH8NHVWa8lbgUFk8A==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 12/22] oe-selftest: fitimage add tests for fitimage.py
-Date: Tue, 13 May 2025 23:36:54 +0200
-Message-ID: <20250513213834.87830-13-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 19/22] kernel-fitimage.bbclass: remove it
+Date: Tue, 13 May 2025 23:37:01 +0200
+Message-ID: <20250513213834.87830-20-adrian.freihofer@siemens.com>
 In-Reply-To: <20250513213834.87830-1-adrian.freihofer@siemens.com>
 References: <20250513213834.87830-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -40,209 +40,375 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 21:40:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216466
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216465
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Having the FIT image generator code as a separate class, which is
-essentially independent of BitBake, also allows testing the code
-separately from BitBake. Take advantage of this enables testing more
-use cases with significantly faster tests.
+The integration of the FIT image-related build steps into the kernel
+recipe has proven to be not very good. The new implementation with
+kernel-fit-image.bbclass fixes some design issues:
+
+* sstate does not work well when a fitImage contains an initramfs. The
+  kernel is rebuilt from scratch if the build runs from an empty TMPDIR.
+* A fitImage kernel is not available as a package, but all other kernel
+  image types are.
+* The task dependencies in the kernel are very complex and difficult to
+  debug if something goes wrong. As a separate, downstream recipe, this
+  is now much easier.
+
+The long storry about this issue is here:
+[YOCTO #12912]
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/fitimage.py | 145 ++++++++++++++++++++++-
- 1 file changed, 141 insertions(+), 4 deletions(-)
+ meta/classes-recipe/kernel-fitimage.bbclass | 284 --------------------
+ meta/classes-recipe/kernel-uboot.bbclass    |  45 ----
+ 2 files changed, 329 deletions(-)
+ delete mode 100644 meta/classes-recipe/kernel-fitimage.bbclass
 
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 47fb8534b37..d9d1211b074 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -4,13 +4,36 @@
- # SPDX-License-Identifier: MIT
- #
- 
--from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import runCmd, bitbake, get_bb_vars
- import os
- import re
- import shlex
- import logging
- import pprint
-+import tempfile
-+
-+import oe.fitimage
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_vars
-+
-+
-+class BbVarsMockGenKeys:
-+    def __init__(self, keydir, gen_keys="0", sign_enabled="0", keyname="", sign_ind="0", img_keyname=""):
-+        self.bb_vars = {
-+            'FIT_GENERATE_KEYS': gen_keys,
-+            'FIT_KEY_GENRSA_ARGS': "-F4",
-+            'FIT_KEY_REQ_ARGS': "-batch -new",
-+            'FIT_KEY_SIGN_PKCS': "-x509",
-+            'FIT_SIGN_INDIVIDUAL': sign_ind,
-+            'FIT_SIGN_NUMBITS': "2048",
-+            'UBOOT_SIGN_ENABLE': sign_enabled,
-+            'UBOOT_SIGN_IMG_KEYNAME': img_keyname,
-+            'UBOOT_SIGN_KEYDIR': keydir,
-+            'UBOOT_SIGN_KEYNAME': keyname,
-+        }
-+
-+    def getVar(self, var):
-+        return self.bb_vars[var]
- 
- class FitImageTestCase(OESelftestTestCase):
-     """Test functions usable for testing kernel-fitimage.bbclass and uboot-sign.bbclass
-@@ -85,6 +108,25 @@ class FitImageTestCase(OESelftestTestCase):
-                 sing_key_path
-             ))
- 
-+    @staticmethod
-+    def generate_rsa_key(keydir, keyname, numbits, genrsa_args, req_args, sign_pkcs, openssl_path="openssl"):
-+        sing_key_path = os.path.join(keydir, keyname)
-+        if not os.path.isdir(keydir):
-+            os.makedirs(keydir)
-+        runCmd("%s genrsa %s -out %s.key %s" % (
-+            openssl_path,
-+            genrsa_args,
-+            sing_key_path,
-+            numbits
-+        ))
-+        runCmd("%s req %s %s -key %s.key -out %s.crt" % (
-+            openssl_path,
-+            req_args,
-+            sign_pkcs,
-+            sing_key_path,
-+            sing_key_path
-+        ))
-+
-     @staticmethod
-     def _gen_random_file(file_path, num_bytes=65536):
-         with open(file_path, 'wb') as file_out:
-@@ -367,8 +409,7 @@ class FitImageTestCase(OESelftestTestCase):
-         # Verify the FIT image
-         self._check_fitimage(bb_vars, fitimage_path, uboot_tools_bindir)
- 
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
+deleted file mode 100644
+index 58d1cc458b4..00000000000
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ /dev/null
+@@ -1,284 +0,0 @@
+-#
+-# Copyright OpenEmbedded Contributors
+-#
+-# SPDX-License-Identifier: MIT
+-#
 -
--class KernelFitImageTests(FitImageTestCase):
-+class KernelFitImageBase(FitImageTestCase):
-     """Test cases for the kernel-fitimage bbclass"""
- 
-     def _fit_get_bb_vars(self, additional_vars=[]):
-@@ -683,6 +724,8 @@ class KernelFitImageTests(FitImageTestCase):
-             self.assertEqual(found_comments, num_signatures, "Expected %d signed and commented (%s) sections in the fitImage." %
-                              (num_signatures, a_comment))
- 
-+class KernelFitImageTests(KernelFitImageBase):
-+    """Test cases for the kernel-fitimage bbclass"""
- 
-     def test_fit_image(self):
-         """
-@@ -928,6 +971,100 @@ FIT_HASH_ALG = "sha256"
-         bb_vars = self._fit_get_bb_vars()
-         self._test_fitimage(bb_vars)
- 
-+class FitImagePyTests(KernelFitImageBase):
-+    """Test cases for the fitimage.py module without calling bitbake"""
-+
-+    def _test_fitimage_py(self, bb_vars_overrides=None):
-+        topdir = os.path.join(os.environ['BUILDDIR'])
-+        fitimage_its_path = os.path.join(topdir, self._testMethodName + '.its')
-+
-+        # Provide variables without calling bitbake
-+        bb_vars = {
-+            # image-fitimage.conf
-+            'FIT_DESC': "Kernel fitImage for a dummy distro",
-+            'FIT_HASH_ALG': "sha256",
-+            'FIT_SIGN_ALG': "rsa2048",
-+            'FIT_PAD_ALG': "pkcs-1.5",
-+            'FIT_GENERATE_KEYS': "0",
-+            'FIT_SIGN_NUMBITS': "2048",
-+            'FIT_KEY_GENRSA_ARGS': "-F4",
-+            'FIT_KEY_REQ_ARGS': "-batch -new",
-+            'FIT_KEY_SIGN_PKCS': "-x509",
-+            'FIT_SIGN_INDIVIDUAL': "0",
-+            'FIT_CONF_PREFIX': "conf-",
-+            'FIT_SUPPORTED_INITRAMFS_FSTYPES': "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio",
-+            'FIT_CONF_DEFAULT_DTB': "",
-+            'FIT_ADDRESS_CELLS': "1",
-+            'FIT_UBOOT_ENV': "",
-+            # kernel.bbclass
-+            'UBOOT_ENTRYPOINT': "0x20008000",
-+            'UBOOT_LOADADDRESS': "0x20008000",
-+            'INITRAMFS_IMAGE': "",
-+            'INITRAMFS_IMAGE_BUNDLE': "",
-+            # kernel-uboot.bbclass
-+            'FIT_KERNEL_COMP_ALG': "gzip",
-+            'FIT_KERNEL_COMP_ALG_EXTENSION': ".gz",
-+            'UBOOT_MKIMAGE_KERNEL_TYPE': "kernel",
-+            # uboot-config.bbclass
-+            'UBOOT_MKIMAGE_DTCOPTS': "",
-+            'UBOOT_MKIMAGE': "uboot-mkimage",
-+            'UBOOT_MKIMAGE_SIGN': "uboot-mkimage",
-+            'UBOOT_MKIMAGE_SIGN_ARGS': "",
-+            'UBOOT_SIGN_ENABLE': "0",
-+            'UBOOT_SIGN_KEYDIR': None,
-+            'UBOOT_SIGN_KEYNAME': None,
-+            'UBOOT_SIGN_IMG_KEYNAME': None,
-+            # others
-+            'MACHINE': "qemux86-64",
-+            'UBOOT_ARCH': "x86",
-+            'HOST_PREFIX': "x86_64-poky-linux-"
-+        }
-+        if bb_vars_overrides:
-+            bb_vars.update(bb_vars_overrides)
-+
-+        root_node = oe.fitimage.ItsNodeRootKernel(
-+            bb_vars["FIT_DESC"], bb_vars["FIT_ADDRESS_CELLS"],
-+            bb_vars['HOST_PREFIX'], bb_vars['UBOOT_ARCH'],  bb_vars["FIT_CONF_PREFIX"],
-+            oe.types.boolean(bb_vars['UBOOT_SIGN_ENABLE']), bb_vars["UBOOT_SIGN_KEYDIR"],
-+            bb_vars["UBOOT_MKIMAGE"], bb_vars["UBOOT_MKIMAGE_DTCOPTS"],
-+            bb_vars["UBOOT_MKIMAGE_SIGN"], bb_vars["UBOOT_MKIMAGE_SIGN_ARGS"],
-+            bb_vars['FIT_HASH_ALG'], bb_vars['FIT_SIGN_ALG'], bb_vars['FIT_PAD_ALG'],
-+            bb_vars['UBOOT_SIGN_KEYNAME'],
-+            oe.types.boolean(bb_vars['FIT_SIGN_INDIVIDUAL']), bb_vars['UBOOT_SIGN_IMG_KEYNAME']
-+        )
-+
-+        root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", "none",
-+            bb_vars.get('UBOOT_LOADADDRESS'), bb_vars.get('UBOOT_ENTRYPOINT'),
-+            bb_vars.get('UBOOT_MKIMAGE_KERNEL_TYPE'), bb_vars.get("UBOOT_ENTRYSYMBOL")
-+        )
-+
-+        dtb_files = FitImageTestCase._get_dtb_files(bb_vars)
-+        for dtb in dtb_files:
-+            root_node.fitimage_emit_section_dtb("fdt-" + dtb, os.path.join("a-dir", dtb),
-+                bb_vars.get("UBOOT_DTB_LOADADDRESS"), bb_vars.get("UBOOT_DTBO_LOADADDRESS"))
-+
-+        if bb_vars.get('FIT_UBOOT_ENV'):
-+            root_node.fitimage_emit_section_boot_script(
-+                "bootscr-" + bb_vars['FIT_UBOOT_ENV'], bb_vars['FIT_UBOOT_ENV'])
-+
-+        if bb_vars['MACHINE'] == "qemux86-64": # Not really the right if
-+            root_node.fitimage_emit_section_setup("setup-1", "setup1.bin")
-+
-+        if bb_vars.get('INITRAMFS_IMAGE') and bb_vars.get("INITRAMFS_IMAGE_BUNDLE") != "1":
-+            root_node.fitimage_emit_section_ramdisk("ramdisk-1", "a-dir/a-initramfs-1",
-+                "core-image-minimal-initramfs",
-+                bb_vars.get("UBOOT_RD_LOADADDRESS"), bb_vars.get("UBOOT_RD_ENTRYPOINT"))
-+
-+        root_node.fitimage_emit_section_config()
-+        root_node.write_its_file(fitimage_its_path)
-+
-+        self.assertExists(fitimage_its_path, "%s image tree source doesn't exist" % (fitimage_its_path))
-+        self.logger.debug("Checking its: %s" % fitimage_its_path)
-+        self._check_its_file(bb_vars, fitimage_its_path)
-+
-+    def test_fitimage_py_default(self):
-+        self._test_fitimage_py()
-+
- 
- class UBootFitImageTests(FitImageTestCase):
-     """Test cases for the uboot-sign bbclass"""
+-inherit kernel-uboot kernel-artifact-names uboot-config
+-require conf/image-fitimage.conf
+-
+-def get_fit_replacement_type(d):
+-    kerneltypes = d.getVar('KERNEL_IMAGETYPES') or ""
+-    replacementtype = ""
+-    if 'fitImage' in kerneltypes.split():
+-        uarch = d.getVar("UBOOT_ARCH")
+-        if uarch == "arm64":
+-            replacementtype = "Image"
+-        elif uarch == "riscv":
+-            replacementtype = "Image"
+-        elif uarch == "mips":
+-            replacementtype = "vmlinuz.bin"
+-        elif uarch == "x86":
+-            replacementtype = "bzImage"
+-        elif uarch == "microblaze":
+-            replacementtype = "linux.bin"
+-        else:
+-            replacementtype = "zImage"
+-    return replacementtype
+-
+-KERNEL_IMAGETYPE_REPLACEMENT ?= "${@get_fit_replacement_type(d)}"
+-DEPENDS:append = " \
+-    ${@'u-boot-tools-native dtc-native' if 'fitImage' in (d.getVar('KERNEL_IMAGETYPES') or '').split() else ''} \
+-    ${@'kernel-signing-keys-native' if d.getVar('FIT_GENERATE_KEYS') == '1' else ''} \
+-"
+-
+-python __anonymous () {
+-    # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+-    # to kernel.bbclass . We have to override it, since we pack zImage
+-    # (at least for now) into the fitImage .
+-    typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
+-    if 'fitImage' in typeformake.split():
+-        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', d.getVar('KERNEL_IMAGETYPE_REPLACEMENT')))
+-
+-    image = d.getVar('INITRAMFS_IMAGE')
+-    if image and not bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')):
+-        if d.getVar('INITRAMFS_MULTICONFIG'):
+-            mc = d.getVar('BB_CURRENT_MC')
+-            d.appendVarFlag('do_assemble_fitimage_initramfs', 'mcdepends', ' mc:' + mc + ':${INITRAMFS_MULTICONFIG}:${INITRAMFS_IMAGE}:do_image_complete')
+-        else:
+-            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+-
+-    #check if there are any dtb providers
+-    providerdtb = d.getVar("PREFERRED_PROVIDER_virtual/dtb")
+-    if providerdtb:
+-        d.appendVarFlag('do_assemble_fitimage', 'depends', ' virtual/dtb:do_populate_sysroot')
+-        d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' virtual/dtb:do_populate_sysroot')
+-        d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
+-}
+-
+-def fitimage_assemble(d, itsfile, fitname, ramdiskcount):
+-    import shutil
+-    import glob
+-    import oe.fitimage
+-
+-    DTBS=""
+-    default_dtb_image=""
+-
+-    for f in [itsfile, os.path.join("arch", d.getVar("ARCH"), "boot", fitname)]:
+-        if os.path.exists(f):
+-            os.remove(f)
+-
+-    root_node = oe.fitimage.ItsNodeRootKernel(
+-        d.getVar("FIT_DESC"), d.getVar("FIT_ADDRESS_CELLS"),
+-        d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),  d.getVar("FIT_CONF_PREFIX"),
+-        d.getVar('UBOOT_SIGN_ENABLE') == "1", d.getVar("UBOOT_SIGN_KEYDIR"),
+-        d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
+-        d.getVar("UBOOT_MKIMAGE_SIGN"), d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
+-        d.getVar('FIT_HASH_ALG'), d.getVar('FIT_SIGN_ALG'), d.getVar('FIT_PAD_ALG'),
+-        d.getVar('UBOOT_SIGN_KEYNAME'),
+-        d.getVar('FIT_SIGN_INDIVIDUAL') == "1", d.getVar('UBOOT_SIGN_IMG_KEYNAME')
+-    )
+-
+-    #
+-    # Step 1: Prepare a kernel image section.
+-    #
+-    linux_comp = uboot_prep_kimage_py(d)
+-    root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
+-        d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
+-        d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
+-
+-    #
+-    # Step 2: Prepare a DTB image section
+-    #
+-    if d.getVar("KERNEL_DEVICETREE"):
+-        for DTB in d.getVar("KERNEL_DEVICETREE").split():
+-            if "/dts/" in DTB:
+-                bb.warn(f"{DTB} contains the full path to the dts file, but only the dtb name should be used.")
+-                DTB = os.path.basename(DTB).replace(".dts", ".dtb")
+-
+-            # Skip DTB if it's also provided in EXTERNAL_KERNEL_DEVICETREE
+-            if d.getVar("EXTERNAL_KERNEL_DEVICETREE"):
+-                ext_dtb_path = os.path.join(d.getVar("EXTERNAL_KERNEL_DEVICETREE"), DTB)
+-                if os.path.exists(ext_dtb_path) and os.path.getsize(ext_dtb_path) > 0:
+-                    continue
+-
+-            DTB_PATH = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), "dts", DTB)
+-            if not os.path.exists(DTB_PATH):
+-                DTB_PATH = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), DTB)
+-
+-            # Strip off the path component from the filename
+-            if not oe.types.boolean(d.getVar("KERNEL_DTBVENDORED")):
+-                DTB = os.path.basename(DTB)
+-
+-            # Set the default dtb image if it exists in the devicetree.
+-            if d.getVar("FIT_CONF_DEFAULT_DTB") == DTB:
+-                default_dtb_image = DTB.replace("/", "_")
+-
+-            DTB = DTB.replace("/", "_")
+-
+-            # Skip DTB if we've picked it up previously
+-            if DTB in DTBS.split():
+-                continue
+-
+-            DTBS += " " + DTB
+-
+-            root_node.fitimage_emit_section_dtb(DTB, DTB_PATH,
+-                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
+-
+-    if d.getVar("EXTERNAL_KERNEL_DEVICETREE"):
+-        dtb_files = []
+-        for ext in ['*.dtb', '*.dtbo']:
+-            dtb_files.extend(sorted(glob.glob(os.path.join(d.getVar("EXTERNAL_KERNEL_DEVICETREE"), ext))))
+-
+-        for dtb_path in dtb_files:
+-            dtb_name = os.path.relpath(dtb_path, d.getVar("EXTERNAL_KERNEL_DEVICETREE"))
+-            dtb_name_underscore = dtb_name.replace('/', '_')
+-
+-            # Set the default dtb image if it exists in the devicetree.
+-            if d.getVar("FIT_CONF_DEFAULT_DTB") == dtb_name:
+-                default_dtb_image = dtb_name_underscore
+-
+-            # Skip DTB/DTBO if we've picked it up previously
+-            if dtb_name_underscore in DTBS.split():
+-                continue
+-
+-            DTBS += " " + dtb_name_underscore
+-
+-            # Also skip if a symlink. We'll later have each config section point at it
+-            if oe.fitimage.symlink_points_below(dtb_name, d.getVar("EXTERNAL_KERNEL_DEVICETREE")):
+-                continue
+-
+-            root_node.fitimage_emit_section_dtb(dtb_name_underscore, dtb_path,
+-                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
+-
+-    if d.getVar("FIT_CONF_DEFAULT_DTB") and not default_dtb_image:
+-        bb.warn("%s is not available in the list of device trees." % d.getVar('FIT_CONF_DEFAULT_DTB'))
+-
+-    #
+-    # Step 3: Prepare a u-boot script section
+-    #
+-    fit_uboot_env = d.getVar("FIT_UBOOT_ENV")
+-    if fit_uboot_env:
+-        unpack_dir = d.getVar("UNPACKDIR")
+-        shutil.copy(os.path.join(unpack_dir, fit_uboot_env), fit_uboot_env)
+-        root_node.fitimage_emit_section_boot_script("bootscr-"+fit_uboot_env , fit_uboot_env)
+-
+-    #
+-    # Step 4: Prepare a setup section. (For x86)
+-    #
+-    setup_bin_path = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), "setup.bin")
+-    if os.path.exists(setup_bin_path):
+-        root_node.fitimage_emit_section_setup("setup-1", setup_bin_path)
+-
+-    #
+-    # Step 5: Prepare a ramdisk section.
+-    #
+-    if ramdiskcount == 1 and d.getVar("INITRAMFS_IMAGE_BUNDLE") != "1":
+-        # Find and use the first initramfs image archive type we find
+-        found = False
+-        for img in d.getVar("FIT_SUPPORTED_INITRAMFS_FSTYPES").split():
+-            initramfs_path = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), "%s.%s" % (d.getVar('INITRAMFS_IMAGE_NAME'), img))
+-            if os.path.exists(initramfs_path):
+-                bb.note("Found initramfs image: " + initramfs_path)
+-                found = True
+-                root_node.fitimage_emit_section_ramdisk("ramdisk-%d" % ramdiskcount, initramfs_path,
+-                    d.getVar('INITRAMFS_IMAGE'),
+-                    d.getVar("UBOOT_RD_LOADADDRESS"),
+-                    d.getVar("UBOOT_RD_ENTRYPOINT"))
+-                break
+-            else:
+-                bb.note("Did not find initramfs image: " + initramfs_path)
+-
+-        if not found:
+-            bb.fatal("Could not find a valid initramfs type for %s, the supported types are: %s" % (d.getVar('INITRAMFS_IMAGE_NAME'), d.getVar('FIT_SUPPORTED_INITRAMFS_FSTYPES')))
+-
+-    # Generate the configuration section
+-    root_node.fitimage_emit_section_config()
+-
+-    #
+-    # Write the ITS file
+-    root_node.write_its_file(itsfile)
+-
+-    #
+-    # Step 7: Assemble the image
+-    #
+-    fitfile = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), fitname)
+-    root_node.run_mkimage_assemble(itsfile, fitfile)
+-
+-    #
+-    # Step 8: Sign the image if required
+-    #
+-    root_node.run_mkimage_sign(fitfile)
+-
+-
+-python do_assemble_fitimage() {
+-    if "fitImage" in d.getVar("KERNEL_IMAGETYPES").split():
+-        os.chdir(d.getVar("B"))
+-        fitimage_assemble(d, "fit-image.its", "fitImage-none", "")
+-        if d.getVar("INITRAMFS_IMAGE_BUNDLE") != "1":
+-            link_name = os.path.join(d.getVar("B"), d.getVar("KERNEL_OUTPUT_DIR"), "fitImage")
+-            if os.path.islink(link_name):
+-                os.unlink(link_name)
+-            os.symlink("fitImage-none", link_name)
+-}
+-
+-addtask assemble_fitimage before do_install after do_compile
+-
+-do_install:append() {
+-	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
+-		[ "${UBOOT_SIGN_ENABLE}" = "1" ]; then
+-		install -D ${B}/${KERNEL_OUTPUT_DIR}/fitImage-none ${D}/sysroot-only/fitImage
+-	fi
+-}
+-
+-python do_assemble_fitimage_initramfs() {
+-    if "fitImage" in d.getVar("KERNEL_IMAGETYPES").split() and d.getVar("INITRAMFS_IMAGE"):
+-        os.chdir(d.getVar("B"))
+-        if d.getVar("INITRAMFS_IMAGE_BUNDLE") == "1":
+-            fitimage_assemble(d, "fit-image-%s.its" % d.getVar("INITRAMFS_IMAGE"), "fitImage-bundle", "")
+-            link_name =  os.path.join(d.getVar("B"), d.getVar("KERNEL_OUTPUT_DIR"), "fitImage")
+-            if os.path.islink(link_name):
+-                os.unlink(link_name)
+-            os.symlink("fitImage-bundle", link_name)
+-        else:
+-            fitimage_assemble(d, "fit-image-%s.its" % d.getVar("INITRAMFS_IMAGE"), "fitImage-%s" % d.getVar("INITRAMFS_IMAGE"), 1)
+-}
+-
+-addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
+-
+-kernel_do_deploy[vardepsexclude] = "DATETIME"
+-kernel_do_deploy:append() {
+-	# Update deploy directory
+-	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
+-
+-		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+-			bbnote "Copying fit-image.its source file..."
+-			install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its-${KERNEL_FIT_NAME}.its"
+-			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+-				ln -snf fitImage-its-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
+-			fi
+-
+-			bbnote "Copying linux.bin file..."
+-			install -m 0644 ${B}/linux.bin $deployDir/fitImage-linux.bin-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}
+-			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+-				ln -snf fitImage-linux.bin-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT} "$deployDir/fitImage-linux.bin-${KERNEL_FIT_LINK_NAME}"
+-			fi
+-		fi
+-
+-		if [ -n "${INITRAMFS_IMAGE}" ]; then
+-			bbnote "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
+-			install -m 0644 ${B}/fit-image-${INITRAMFS_IMAGE}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
+-			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+-				ln -snf fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+-			fi
+-
+-			if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+-				bbnote "Copying fitImage-${INITRAMFS_IMAGE} file..."
+-				install -m 0644 ${B}/${KERNEL_OUTPUT_DIR}/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}"
+-				if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+-					ln -snf fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+-				fi
+-			fi
+-		fi
+-	fi
+-}
+diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-recipe/kernel-uboot.bbclass
+index 888664678d1..7aafd4757c2 100644
+--- a/meta/classes-recipe/kernel-uboot.bbclass
++++ b/meta/classes-recipe/kernel-uboot.bbclass
+@@ -67,48 +67,3 @@ do_install:append() {
+ 		install -D ${B}/${KERNEL_OUTPUT_DIR}/setup.bin ${D}/sysroot-only/setup.bin
+ 	fi
+ }
+-
+-def uboot_prep_kimage_py(d):
+-    import subprocess
+-
+-    arch = d.getVar('ARCH')
+-    initramfs_image_bundle = d.getVar('INITRAMFS_IMAGE_BUNDLE')
+-    fit_kernel_comp_alg = d.getVar('FIT_KERNEL_COMP_ALG') or 'gzip'
+-    fit_kernel_comp_alg_extension = d.getVar('FIT_KERNEL_COMP_ALG_EXTENSION') or '.gz'
+-    kernel_objcopy = d.getVar('KERNEL_OBJCOPY')
+-
+-    vmlinux_path = ""
+-    linux_suffix = ""
+-    linux_comp = "none"
+-
+-    if os.path.exists(f'arch/{arch}/boot/compressed/vmlinux'):
+-        vmlinux_path = f'arch/{arch}/boot/compressed/vmlinux'
+-    elif os.path.exists(f'arch/{arch}/boot/vmlinuz.bin'):
+-        if os.path.exists('linux.bin'):
+-            os.remove('linux.bin')
+-        os.link(f'arch/{arch}/boot/vmlinuz.bin', 'linux.bin')
+-    else:
+-        vmlinux_path = 'vmlinux'
+-        # Use vmlinux.initramfs for linux.bin when INITRAMFS_IMAGE_BUNDLE set
+-        # As per the implementation in kernel.bbclass.
+-        # See do_bundle_initramfs function
+-        if initramfs_image_bundle == '1' and os.path.exists('vmlinux.initramfs'):
+-            vmlinux_path = 'vmlinux.initramfs'
+-        linux_suffix = fit_kernel_comp_alg_extension
+-        linux_comp = fit_kernel_comp_alg
+-
+-    if vmlinux_path:
+-        subprocess.run([kernel_objcopy.strip(), '-O', 'binary', '-R', '.note', '-R', '.comment', '-S', os.path.abspath(vmlinux_path), 'linux.bin'], check=True)
+-        # if ret.returncode != 0:
+-        # bb.fatal(f"Error: stderr: {ret.stderr.decode('utf-8')}   stdout: {ret.stdout.decode('utf-8')}, vmlinux_path: {os.path.abspath(vmlinux_path)}, pwd: {os.getcwd()}, args: {ret.args}")
+-
+-    if linux_comp != "none":
+-        if linux_comp == "gzip":
+-            subprocess.run(['gzip', '-9', 'linux.bin'], check=True)
+-        elif linux_comp == "lzo":
+-            subprocess.run(['lzop', '-9', 'linux.bin'], check=True)
+-        elif linux_comp == "lzma":
+-            subprocess.run(['xz', '--format=lzma', '-f', '-6', 'linux.bin'], check=True)
+-        os.rename(f'linux.bin{linux_suffix}', 'linux.bin')
+-
+-    return linux_comp
 -- 
 2.49.0
 
