@@ -2,34 +2,34 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C86C5475C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A172BC54756
 	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 21:40:45 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.88515.1747172436304604777
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web10.87967.1747172436578916844
  for <openembedded-core@lists.openembedded.org>;
  Tue, 13 May 2025 14:40:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Y+QQVMLB;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-20250513214034a5f859154fa1beed2c-cffvil@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250513214034a5f859154fa1beed2c
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=FINIhOV0;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-202505132140349bac239acc40eaf9b7-yapl_g@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202505132140349bac239acc40eaf9b7
         for <openembedded-core@lists.openembedded.org>;
         Tue, 13 May 2025 23:40:34 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=nhMgxIzZ3iXlaOg+kmuGvadbhHiHFjNEdNIsjBj7FIc=;
- b=Y+QQVMLB9TDe1sQ3GSIORllTMHAVzsXGPT90tfy7c09TlROfTjOD/MWtaHbaAzy4oOvSOU
- HEGq30gxgfYxSpG0WfAljDh6keQUL+6vn1Swp7vG/Iz9YRZ3ahRoGgJKanHHbCO03IwgK8dS
- +CplC/Qi+AgQolDsYI2gxkfTLdvWf3m8Jxblur7iOTjYs/A5sIZI9ql1dtCamdBVoQ9OIzdY
- A9U44Jmzazr6D7qH3gciL6ySsGTtbdUpXv8jmPznzVuFuAw1HEJgOmEQ6AV3aHIt+aWtyA+O
- jxZq2LLAEz9Ay0nqToG+n5xib4uq7D+yDdTAsxwMUIe0lpf29jYSIJpg==;
+ bh=PhjmjClip/o9NSERA8G8Yw12V2dNnYUM3Z5JT3Tffhc=;
+ b=FINIhOV0vthYaqpKPRzPW2WoSPeZnTQNHIsbQdy/vr5bscQwD76fTCpFV+w7nBgJ6ggM8h
+ Y/lJsE7nWCxUNCFdTEtgiHOstrZjiKBa/7qnjiz3WXTngaoqLRt2JvJ5mNEUMvk7H8bEOG8p
+ 5t+Ls5OJd5wtfRk9L3g7GelnXE+iN6iJWbmlBYgMfrZbffK3FZnGSPshTCwezQdyfP9cXYhD
+ +kuuGlNqBvVnz9I9TwM7c7ycKp3kOD9FuGVmUi0aUdnupzC5oO9Hrcbsfbcza4WUGVb5k3v1
+ yEj4m5wW6Erdg0hP5RHMBTNMxii1gMhACtsgSJNEYm2FeX0EIleXLczw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 08/22] kernel-uboot.bbclass: stage the kernel binary
-Date: Tue, 13 May 2025 23:36:50 +0200
-Message-ID: <20250513213834.87830-9-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 12/22] oe-selftest: fitimage add tests for fitimage.py
+Date: Tue, 13 May 2025 23:36:54 +0200
+Message-ID: <20250513213834.87830-13-adrian.freihofer@siemens.com>
 In-Reply-To: <20250513213834.87830-1-adrian.freihofer@siemens.com>
 References: <20250513213834.87830-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -40,45 +40,209 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 21:40:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216464
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216466
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Extend the kernel-uboot.bbclass to expport the kernel binary which is
-needed for creating a FIT image to the sysroot-only directory.
-This will allow to use
-  KERNEL_CLASSES += "kernel-uboot"
-and a recipe which creates the FIT image using artifacts from
-sysroot-only instead of the kernel-fitimage.bbclass
-  KERNEL_CLASSES = " kernel-fitimage "
-which does not work with sstate-cache.
+Having the FIT image generator code as a separate class, which is
+essentially independent of BitBake, also allows testing the code
+separately from BitBake. Take advantage of this enables testing more
+use cases with significantly faster tests.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/kernel-uboot.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/fitimage.py | 145 ++++++++++++++++++++++-
+ 1 file changed, 141 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-recipe/kernel-uboot.bbclass
-index d2a63524ece..7aafd4757c2 100644
---- a/meta/classes-recipe/kernel-uboot.bbclass
-+++ b/meta/classes-recipe/kernel-uboot.bbclass
-@@ -56,4 +56,14 @@ uboot_prep_kimage() {
- 	fi
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index 47fb8534b37..d9d1211b074 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -4,13 +4,36 @@
+ # SPDX-License-Identifier: MIT
+ #
  
- 	printf "$linux_comp" > "$output_dir/linux_comp"
--}
-\ No newline at end of file
-+}
+-from oeqa.selftest.case import OESelftestTestCase
+-from oeqa.utils.commands import runCmd, bitbake, get_bb_vars
+ import os
+ import re
+ import shlex
+ import logging
+ import pprint
++import tempfile
 +
-+do_install:append() {
-+	# Provide the kernel artifacts to post processing recipes e.g. for creating a FIT image
-+	install -d ${D}/sysroot-only
-+	uboot_prep_kimage ${D}/sysroot-only
-+	# For x86 a setup.bin needs to be included in a fitImage as well
-+	if [ -e ${KERNEL_OUTPUT_DIR}/setup.bin ]; then
-+		install -D ${B}/${KERNEL_OUTPUT_DIR}/setup.bin ${D}/sysroot-only/setup.bin
-+	fi
-+}
++import oe.fitimage
++
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import runCmd, bitbake, get_bb_vars
++
++
++class BbVarsMockGenKeys:
++    def __init__(self, keydir, gen_keys="0", sign_enabled="0", keyname="", sign_ind="0", img_keyname=""):
++        self.bb_vars = {
++            'FIT_GENERATE_KEYS': gen_keys,
++            'FIT_KEY_GENRSA_ARGS': "-F4",
++            'FIT_KEY_REQ_ARGS': "-batch -new",
++            'FIT_KEY_SIGN_PKCS': "-x509",
++            'FIT_SIGN_INDIVIDUAL': sign_ind,
++            'FIT_SIGN_NUMBITS': "2048",
++            'UBOOT_SIGN_ENABLE': sign_enabled,
++            'UBOOT_SIGN_IMG_KEYNAME': img_keyname,
++            'UBOOT_SIGN_KEYDIR': keydir,
++            'UBOOT_SIGN_KEYNAME': keyname,
++        }
++
++    def getVar(self, var):
++        return self.bb_vars[var]
+ 
+ class FitImageTestCase(OESelftestTestCase):
+     """Test functions usable for testing kernel-fitimage.bbclass and uboot-sign.bbclass
+@@ -85,6 +108,25 @@ class FitImageTestCase(OESelftestTestCase):
+                 sing_key_path
+             ))
+ 
++    @staticmethod
++    def generate_rsa_key(keydir, keyname, numbits, genrsa_args, req_args, sign_pkcs, openssl_path="openssl"):
++        sing_key_path = os.path.join(keydir, keyname)
++        if not os.path.isdir(keydir):
++            os.makedirs(keydir)
++        runCmd("%s genrsa %s -out %s.key %s" % (
++            openssl_path,
++            genrsa_args,
++            sing_key_path,
++            numbits
++        ))
++        runCmd("%s req %s %s -key %s.key -out %s.crt" % (
++            openssl_path,
++            req_args,
++            sign_pkcs,
++            sing_key_path,
++            sing_key_path
++        ))
++
+     @staticmethod
+     def _gen_random_file(file_path, num_bytes=65536):
+         with open(file_path, 'wb') as file_out:
+@@ -367,8 +409,7 @@ class FitImageTestCase(OESelftestTestCase):
+         # Verify the FIT image
+         self._check_fitimage(bb_vars, fitimage_path, uboot_tools_bindir)
+ 
+-
+-class KernelFitImageTests(FitImageTestCase):
++class KernelFitImageBase(FitImageTestCase):
+     """Test cases for the kernel-fitimage bbclass"""
+ 
+     def _fit_get_bb_vars(self, additional_vars=[]):
+@@ -683,6 +724,8 @@ class KernelFitImageTests(FitImageTestCase):
+             self.assertEqual(found_comments, num_signatures, "Expected %d signed and commented (%s) sections in the fitImage." %
+                              (num_signatures, a_comment))
+ 
++class KernelFitImageTests(KernelFitImageBase):
++    """Test cases for the kernel-fitimage bbclass"""
+ 
+     def test_fit_image(self):
+         """
+@@ -928,6 +971,100 @@ FIT_HASH_ALG = "sha256"
+         bb_vars = self._fit_get_bb_vars()
+         self._test_fitimage(bb_vars)
+ 
++class FitImagePyTests(KernelFitImageBase):
++    """Test cases for the fitimage.py module without calling bitbake"""
++
++    def _test_fitimage_py(self, bb_vars_overrides=None):
++        topdir = os.path.join(os.environ['BUILDDIR'])
++        fitimage_its_path = os.path.join(topdir, self._testMethodName + '.its')
++
++        # Provide variables without calling bitbake
++        bb_vars = {
++            # image-fitimage.conf
++            'FIT_DESC': "Kernel fitImage for a dummy distro",
++            'FIT_HASH_ALG': "sha256",
++            'FIT_SIGN_ALG': "rsa2048",
++            'FIT_PAD_ALG': "pkcs-1.5",
++            'FIT_GENERATE_KEYS': "0",
++            'FIT_SIGN_NUMBITS': "2048",
++            'FIT_KEY_GENRSA_ARGS': "-F4",
++            'FIT_KEY_REQ_ARGS': "-batch -new",
++            'FIT_KEY_SIGN_PKCS': "-x509",
++            'FIT_SIGN_INDIVIDUAL': "0",
++            'FIT_CONF_PREFIX': "conf-",
++            'FIT_SUPPORTED_INITRAMFS_FSTYPES': "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio",
++            'FIT_CONF_DEFAULT_DTB': "",
++            'FIT_ADDRESS_CELLS': "1",
++            'FIT_UBOOT_ENV': "",
++            # kernel.bbclass
++            'UBOOT_ENTRYPOINT': "0x20008000",
++            'UBOOT_LOADADDRESS': "0x20008000",
++            'INITRAMFS_IMAGE': "",
++            'INITRAMFS_IMAGE_BUNDLE': "",
++            # kernel-uboot.bbclass
++            'FIT_KERNEL_COMP_ALG': "gzip",
++            'FIT_KERNEL_COMP_ALG_EXTENSION': ".gz",
++            'UBOOT_MKIMAGE_KERNEL_TYPE': "kernel",
++            # uboot-config.bbclass
++            'UBOOT_MKIMAGE_DTCOPTS': "",
++            'UBOOT_MKIMAGE': "uboot-mkimage",
++            'UBOOT_MKIMAGE_SIGN': "uboot-mkimage",
++            'UBOOT_MKIMAGE_SIGN_ARGS': "",
++            'UBOOT_SIGN_ENABLE': "0",
++            'UBOOT_SIGN_KEYDIR': None,
++            'UBOOT_SIGN_KEYNAME': None,
++            'UBOOT_SIGN_IMG_KEYNAME': None,
++            # others
++            'MACHINE': "qemux86-64",
++            'UBOOT_ARCH': "x86",
++            'HOST_PREFIX': "x86_64-poky-linux-"
++        }
++        if bb_vars_overrides:
++            bb_vars.update(bb_vars_overrides)
++
++        root_node = oe.fitimage.ItsNodeRootKernel(
++            bb_vars["FIT_DESC"], bb_vars["FIT_ADDRESS_CELLS"],
++            bb_vars['HOST_PREFIX'], bb_vars['UBOOT_ARCH'],  bb_vars["FIT_CONF_PREFIX"],
++            oe.types.boolean(bb_vars['UBOOT_SIGN_ENABLE']), bb_vars["UBOOT_SIGN_KEYDIR"],
++            bb_vars["UBOOT_MKIMAGE"], bb_vars["UBOOT_MKIMAGE_DTCOPTS"],
++            bb_vars["UBOOT_MKIMAGE_SIGN"], bb_vars["UBOOT_MKIMAGE_SIGN_ARGS"],
++            bb_vars['FIT_HASH_ALG'], bb_vars['FIT_SIGN_ALG'], bb_vars['FIT_PAD_ALG'],
++            bb_vars['UBOOT_SIGN_KEYNAME'],
++            oe.types.boolean(bb_vars['FIT_SIGN_INDIVIDUAL']), bb_vars['UBOOT_SIGN_IMG_KEYNAME']
++        )
++
++        root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", "none",
++            bb_vars.get('UBOOT_LOADADDRESS'), bb_vars.get('UBOOT_ENTRYPOINT'),
++            bb_vars.get('UBOOT_MKIMAGE_KERNEL_TYPE'), bb_vars.get("UBOOT_ENTRYSYMBOL")
++        )
++
++        dtb_files = FitImageTestCase._get_dtb_files(bb_vars)
++        for dtb in dtb_files:
++            root_node.fitimage_emit_section_dtb("fdt-" + dtb, os.path.join("a-dir", dtb),
++                bb_vars.get("UBOOT_DTB_LOADADDRESS"), bb_vars.get("UBOOT_DTBO_LOADADDRESS"))
++
++        if bb_vars.get('FIT_UBOOT_ENV'):
++            root_node.fitimage_emit_section_boot_script(
++                "bootscr-" + bb_vars['FIT_UBOOT_ENV'], bb_vars['FIT_UBOOT_ENV'])
++
++        if bb_vars['MACHINE'] == "qemux86-64": # Not really the right if
++            root_node.fitimage_emit_section_setup("setup-1", "setup1.bin")
++
++        if bb_vars.get('INITRAMFS_IMAGE') and bb_vars.get("INITRAMFS_IMAGE_BUNDLE") != "1":
++            root_node.fitimage_emit_section_ramdisk("ramdisk-1", "a-dir/a-initramfs-1",
++                "core-image-minimal-initramfs",
++                bb_vars.get("UBOOT_RD_LOADADDRESS"), bb_vars.get("UBOOT_RD_ENTRYPOINT"))
++
++        root_node.fitimage_emit_section_config()
++        root_node.write_its_file(fitimage_its_path)
++
++        self.assertExists(fitimage_its_path, "%s image tree source doesn't exist" % (fitimage_its_path))
++        self.logger.debug("Checking its: %s" % fitimage_its_path)
++        self._check_its_file(bb_vars, fitimage_its_path)
++
++    def test_fitimage_py_default(self):
++        self._test_fitimage_py()
++
+ 
+ class UBootFitImageTests(FitImageTestCase):
+     """Test cases for the uboot-sign bbclass"""
 -- 
 2.49.0
 
