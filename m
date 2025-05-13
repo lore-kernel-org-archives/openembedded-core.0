@@ -2,34 +2,38 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70906C3ABD7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F15DC3ABC9
 	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 21:40:25 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.87959.1747172424015537169
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.web11.88506.1747172416895474853
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 May 2025 14:40:24 -0700
+ Tue, 13 May 2025 14:40:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=SPrI1G+W;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-202505132140225f66e108896fea34cf-huwx6e@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202505132140225f66e108896fea34cf
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Rqp9XBpM;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-202505132140149ffeadb64473c22ceb-26b552@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202505132140149ffeadb64473c22ceb
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 13 May 2025 23:40:22 +0200
+        Tue, 13 May 2025 23:40:14 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=+V7L7UrkDSHNHV44YNopac1bfO1tz0SGJAn7/SYOXXg=;
- b=SPrI1G+WdYRENtNTtBpLNQn35yxEeyfLlLztVYoWn8LE68MllnFwoszTv1eEuAUBaueBua
- aNi3+iq3Un6F3+myxG/X1/yELPeAsTNozCAYLClxpZ1vfPHj+LSOCld0hpMyHsuCB67oyvWV
- zxN7hvvP0eTF7Hj2DEeKAH+lMGEBEgqjqugFvEnmNhozSltUgYAjiB5vII289tkkmhN7rqRL
- JjhhbH6moKc1ZJODTMulGdGiHgK9wuwC5/T8aae+sui35TAxwH4UoX5WwSl0rt7S6jBhp0lU
- PODSVEAyGfufYmn7LTw/vcWh/w6sJ62m/GyDgVKEXkM/6LOD9sIvd1aQ==;
+ bh=N+vG3xhR4jdrzLBC1S477Rr4wvWwUN2i2j1MLzY2dpA=;
+ b=Rqp9XBpM7lCJca1aSXVfzewMRwgsjjwr7/zo288WqfRhh0HXkOLZfnt25dDPM3/C3ZXQuP
+ XH92zObQU2BQbodX353dd41qi4t4xxPEgI49CyzyjDsri7kBUdOKvdjsGgbyjnSfHQ4bQeKh
+ 8Rm/aYTGguzKy/EwWcPaejt/jj19sFPocDQ447emDss/n74ts/2P27kk7YNCsphvWT156XaT
+ 5yguZekWSZ58oJqesPvIbYB9V0W4ydWtARHVLy3awsxiTrAYcKxcFL6ohaQPFP66BG7dtVVf
+ juRzVD7mJxfq/gBhSfuxhPSp360yb03wwJ1KeH2IFvhghpR9WeHxAyKA==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 02/22] oe-selftest: add new ext dtb recipe
-Date: Tue, 13 May 2025 23:36:44 +0200
-Message-ID: <20250513213834.87830-3-adrian.freihofer@siemens.com>
+	Rogerio Guerra Borin <rogerio.borin@toradex.com>,
+	Sean Anderson <sean.anderson@seco.com>,
+	Adrian Freihofer <adrian.freihofer@siemens.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH v2 01/22] u-boot: ensure keys are generated before assembling U-Boot FIT image
+Date: Tue, 13 May 2025 23:36:43 +0200
+Message-ID: <20250513213834.87830-2-adrian.freihofer@siemens.com>
 In-Reply-To: <20250513213834.87830-1-adrian.freihofer@siemens.com>
 References: <20250513213834.87830-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -40,99 +44,72 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 21:40:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216452
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216451
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+From: Rogerio Guerra Borin <rogerio.borin@toradex.com>
 
-There is no test coverage for the devicetree.bbclass class. Add a
-minimalist recipe that uses this class.
-This recipe compiles a devicetree overlay that does not include any
-sources from the kernel build folder to keep it simple and also usable
-for testing a kernel from the sstate-cache.
+Add the task dependency:
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+do_uboot_assemble_fitimage -> virtual/kernel:do_kernel_generate_rsa_keys
+
+to ensure the kernel FIT image signing keys are available when creating
+the U-Boot DTB. This is done only if the signing of the kernel FIT image
+is enabled (UBOOT_SIGN_ENABLE="1").
+
+The lack of the dependency causes build errors when executing a build
+with no kernel FIT keys initially present in the keys directory. In such
+cases one would see an output like this in the Bitbake logs:
+
+Log data follows:
+| DEBUG: Executing shell function do_uboot_assemble_fitimage
+| Couldn't open RSA private key: '/workdir/build/keys/fit/dev.key': No such file or directory
+| Failed to sign 'signature' signature node in 'conf-1' conf node
+| FIT description: Kernel Image image with one or more FDT blobs
+| ...
+
+This issue was introduced by commit 259bfa86f384 where the dependency
+between U-Boot and the kernel was removed (for good reasons). Before
+that commit the dependency was set via DEPENDS so that, in terms of
+tasks, one had:
+
+u-boot:do_configure -> virtual/kernel:do_populate_sysroot
+
+and the chain leading to the key generation was:
+
+virtual/kernel:do_populate_sysroot -> virtual/kernel:do_install
+virtual/kernel:do_install -> virtual/kernel:do_assemble_fitimage
+virtual/kernel:do_assemble_fitimage -> virtual/kernel:do_kernel_generate_rsa_keys
+
+With the removal of the first dependency, no more guarantees exist that
+the keys would be present when assembling the U-Boot FIT image. That's
+the situation we are solving with the present commit.
+
+Fixes: 259bfa86f384 ("u-boot: kernel-fitimage: Fix dependency loop if UBOOT_SIGN_ENABLE and UBOOT_ENV enabled")
+(From OE-Core rev: 270f240a9f618c2ccfbf7107960b8226d1137cda)
+
+Signed-off-by: Rogerio Guerra Borin <rogerio.borin@toradex.com>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Sean Anderson <sean.anderson@seco.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../recipes-test/ext-dtb/bborg-relay-00a2.bb  | 14 ++++++
- .../ext-dtb/files/BBORG_RELAY-00A2.dts        | 49 +++++++++++++++++++
- 2 files changed, 63 insertions(+)
- create mode 100644 meta-selftest/recipes-test/ext-dtb/bborg-relay-00a2.bb
- create mode 100644 meta-selftest/recipes-test/ext-dtb/files/BBORG_RELAY-00A2.dts
+ meta/classes-recipe/uboot-sign.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta-selftest/recipes-test/ext-dtb/bborg-relay-00a2.bb b/meta-selftest/recipes-test/ext-dtb/bborg-relay-00a2.bb
-new file mode 100644
-index 00000000000..dcd32320ada
---- /dev/null
-+++ b/meta-selftest/recipes-test/ext-dtb/bborg-relay-00a2.bb
-@@ -0,0 +1,14 @@
-+
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6 "
-+
-+# Borrowed an example dts file from
-+# https://raw.githubusercontent.com/beagleboard/linux/refs/heads/5.10/arch/arm/boot/dts/overlays/BBORG_RELAY-00A2.dts
-+SRC_URI = "file://BBORG_RELAY-00A2.dts"
-+
-+# No need for compiling the kernel. The trivial dts file does not include something.
-+KERNEL_INCLUDE = ""
-+
-+COMPATIBLE_MACHINE = "^beaglebone-yocto$"
-+
-+inherit devicetree
-diff --git a/meta-selftest/recipes-test/ext-dtb/files/BBORG_RELAY-00A2.dts b/meta-selftest/recipes-test/ext-dtb/files/BBORG_RELAY-00A2.dts
-new file mode 100644
-index 00000000000..9530fa50fe5
---- /dev/null
-+++ b/meta-selftest/recipes-test/ext-dtb/files/BBORG_RELAY-00A2.dts
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2015 Robert Nelson <robertcnelson@gmail.com>
-+ * Copyright (C) 2019 Amilcar Lucas <amilcar.lucas@iav.de>
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+&{/chosen} {
-+	overlays {
-+		BBORG_RELAY-00A2.kernel = __TIMESTAMP__;
-+	};
-+};
-+
-+&ocp {
-+	P9_41_pinmux { pinctrl-0 = <&P9_41_gpio_pin>;};
-+	P9_42_pinmux { pinctrl-0 = <&P9_42_gpio_pin>;};
-+	P9_30_pinmux { pinctrl-0 = <&P9_30_gpio_pin>;};
-+	P9_27_pinmux { pinctrl-0 = <&P9_27_gpio_pin>;};
-+};
-+
-+// relay1
-+&bone_led_P9_41 {
-+	status = "okay";
-+	label = "relay1";
-+	default-state = "keep";
-+};
-+
-+// relay2
-+&bone_led_P9_42 {
-+	status = "okay";
-+	label = "relay2";
-+	default-state = "keep";
-+};
-+
-+// realy3
-+&bone_led_P9_30 {
-+	status = "okay";
-+	label = "relay3";
-+	default-state = "keep";
-+};
-+
-+// realy4
-+&bone_led_P9_27 {
-+	status = "okay";
-+	label = "relay4";
-+	default-state = "keep";
-+};
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+index 76a81546e34..e0771b54291 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -113,6 +113,8 @@ python() {
+     sign = d.getVar('UBOOT_SIGN_ENABLE') == '1'
+     if d.getVar('UBOOT_FITIMAGE_ENABLE') == '1' or sign:
+         d.appendVar('DEPENDS', " u-boot-tools-native dtc-native")
++    if d.getVar('FIT_GENERATE_KEYS') == '1' and sign:
++        d.appendVarFlag('do_uboot_assemble_fitimage', 'depends', ' virtual/kernel:do_kernel_generate_rsa_keys')
+ }
+ 
+ concat_dtb() {
 -- 
 2.49.0
 
