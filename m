@@ -1,137 +1,144 @@
-Return-Path: <mail2szahir@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A092FC3ABC3
-	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 10:32:01 +0000 (UTC)
-Subject: Re: [kirkstone][PATCH] ffmpeg: Add "libswresample libavcodec" to CVE_PRODUCT
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7FC6C3ABC9
+	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 10:51:41 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.72958.1747133498319430912
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 13 May 2025 03:51:38 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@mvista.com header.s=google header.b=SWZ9UJjc;
+ spf=pass (domain: mvista.com, ip: 209.85.210.169, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-73bf5aa95e7so5423117b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 03:51:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1747133497; x=1747738297; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OnJNAMvByIXJIdPrX8aERCQD7n34IJG0ubAmNJng8iM=;
+        b=SWZ9UJjcR7ATnCMvYA3j6zAbtOO5Rsc2FbSf7QxXVxfmiTFqGcSLbAh+A8L2KjdOvE
+         K7pTgMOiZ2cGTvOJQr48ESD+iJlAq9ctWoXggzusZDyWj5dM93y7oUZ/nzNxPiZ+odut
+         gp/Od43thxmYEjrVCn/8/aQ+0n/27TkIy5CW8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747133497; x=1747738297;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OnJNAMvByIXJIdPrX8aERCQD7n34IJG0ubAmNJng8iM=;
+        b=LlDm3BIds2ucmQ9DzklO6PqZvNrmhM7EUddygzi06eRcbXgs3XcDmKATJL3IX9Vl5E
+         zBJENf+R8hstpOL9f9W9hAL47GqxPkDGRluqhaH7tvqdugtU+VlkRgjuC8Ct7tGnyUUe
+         n7DCOf1mU4NV4IU2dsyb8ixgskKgIIcB6VNDjon04OmyQa7EfkVgj9C0B/RkEP+r/CdW
+         5YBK2MI/2DfZtlVFDutbj8uwHXTt5YdsVyQIP3FAbVcu2YxmU8GTwYtVPHapk5fWOI5K
+         +ir3LtvbX/HNFjcEo3Pac9HHFljQMzpDiUHD8/qSqCuTh2FugvEu0Q7oqkMGauhW85rn
+         z0iQ==
+X-Gm-Message-State: AOJu0YykN86Tm/NLracP/XpbQZ6PB8pg9n2oNRjH4tu20jSkXwUqWhw+
+	6LHrOxNOWCbkTt35hlh8x8wVNLKFlkDMc6Pa5qItZuu3YKzOuzDd/+Ly1Q3jrYyoPV1BRHr7OK3
+	NDns=
+X-Gm-Gg: ASbGncsaM8sx50fBotT9TFBtCXa86MsXcIYJogS/wXLPqiWPiiV+XauPGWFL53HSoKm
+	Sbb4r5x0xPSiojjgOZSNzuM5XJFvKsnQ0yV1lGT/ngn5hzUfZRzvaXfwVh+Y1cGlE8sUcprVvdW
+	Zxc+L8z4I9LZ79BSpsTO9Ht52ulm1IkWYr0iZHN9ijCbmxIpI4M52tPthlPngO0mUEMB/G1VpsZ
+	viFFC06myc0Lu173WEt7Dq1rEVEpVtZfz1UevYasC7JF9FWdDf07vKVIBLPI+rBZwUfAgkmzQFh
+	ise+KcVyRox1rL9Jr+r2QqsF+BPkgXz7M77js88SkDekmw5ZBqGpCRiWUuBDia0=
+X-Google-Smtp-Source: AGHT+IFvzYyhoJxzdx88nFW3340Zk0Zkvc0A9GbiVKfieZrHktsY0fxjz7wJ+yBInfhKMznBq5tWgQ==
+X-Received: by 2002:a05:6a20:7fa4:b0:210:1c3a:6804 with SMTP id adf61e73a8af0-215abc17ac7mr26153605637.31.1747133497296;
+        Tue, 13 May 2025 03:51:37 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.220.49])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a3d861sm7796759b3a.147.2025.05.13.03.51.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 03:51:36 -0700 (PDT)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-From: "aszh07" <mail2szahir@gmail.com>
-X-Originating-Location: Chennai, Tamil Nadu, IN (167.103.54.84)
-X-Originating-Platform: Windows Chrome 135
-User-Agent: GROUPS.IO Web Poster
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH 1/7] libsoup: update fix CVE-2024-52532
+Date: Tue, 13 May 2025 16:21:23 +0530
+Message-Id: <20250513105129.2284690-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Tue, 13 May 2025 03:32:00 -0700
-References: <CAOSpxdaDk4kp_jwX40qmSDkSxmdaScwbwNNEBweAmXZAQG_nAQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdaDk4kp_jwX40qmSDkSxmdaScwbwNNEBweAmXZAQG_nAQ@mail.gmail.com>
-Message-ID: <1013.1747132320039657265@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="Hik6IWbZ1JcZuudnNxu1"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 10:32:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216410
+ <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 10:51:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216411
 
---Hik6IWbZ1JcZuudnNxu1
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Hi Steve,
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/commit/4c9e75c6676a37b6485620c332e568e1a3f530ff
 
-Could you please check why still these changes are not integrated in kirkst=
-one branch?
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../libsoup/libsoup/CVE-2024-52532-3.patch    | 46 +++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.0.7.bb |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52532-3.patch
 
-These changes are already upstreamed to master. It also got integrated to m=
-aster.
-https://git.yoctoproject.org/poky/commit/?id=3D22c08cab4db89dc3d41ab22cfe04=
-82c1483391dd
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-3.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-3.patch
+new file mode 100644
+index 0000000000..edcca86e8c
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-3.patch
+@@ -0,0 +1,46 @@
++From 4c9e75c6676a37b6485620c332e568e1a3f530ff Mon Sep 17 00:00:00 2001
++From: Simon McVittie <smcv@debian.org>
++Date: Wed, 13 Nov 2024 14:14:23 +0000
++Subject: [PATCH] websocket-test: Disconnect error signal in another place
++
++This is the same change as commit 29b96fab "websocket-test: disconnect
++error copy after the test ends", and is done for the same reason, but
++replicating it into a different function.
++
++Fixes: 6adc0e3e "websocket: process the frame as soon as we read data"
++Resolves: https://gitlab.gnome.org/GNOME/libsoup/-/issues/399
++Signed-off-by: Simon McVittie <smcv@debian.org>
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/4c9e75c6676a37b6485620c332e568e1a3f530ff]
++CVE: CVE-2024-52532
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ tests/websocket-test.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/tests/websocket-test.c b/tests/websocket-test.c
++index 6a48c1f9..723f2857 100644
++--- a/tests/websocket-test.c
+++++ b/tests/websocket-test.c
++@@ -1508,8 +1508,9 @@ test_receive_invalid_encode_length_16 (Test *test,
++ 	GError *error = NULL;
++ 	InvalidEncodeLengthTest context = { test, NULL };
++ 	guint i;
+++	guint error_id;
++ 
++-	g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
+++	error_id = g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
++ 	g_signal_connect (test->client, "message", G_CALLBACK (on_binary_message), &received);
++ 
++ 	/* We use 126(~) as payload length with 125 extended length */
++@@ -1522,6 +1523,7 @@ test_receive_invalid_encode_length_16 (Test *test,
++ 	WAIT_UNTIL (error != NULL || received != NULL);
++ 	g_assert_error (error, SOUP_WEBSOCKET_ERROR, SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR);
++ 	g_clear_error (&error);
+++        g_signal_handler_disconnect (test->client, error_id);
++ 	g_assert_null (received);
++ 
++ 	g_thread_join (thread);
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/libsoup/libsoup_3.0.7.bb b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
+index 869f0f1696..4b723d3150 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.0.7.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2024-52530.patch \
+            file://CVE-2024-52532-1.patch \
+            file://CVE-2024-52532-2.patch \
++           file://CVE-2024-52532-3.patch \
+            file://CVE-2024-52531-1.patch \
+            file://CVE-2024-52531-2.patch \
+            file://CVE-2024-52531-3.patch \
+-- 
+2.25.1
 
-Thanks!
-Zahir
-
---Hik6IWbZ1JcZuudnNxu1
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><span style=3D"color: #333333; font-family: system-ui, 'Segoe UI', Rob=
-oto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, '=
-Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'=
-; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font=
--variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2=
-; text-align: start; text-indent: 0px; text-transform: none; widows: 2; wor=
-d-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; backgr=
-ound-color: #ffffff; text-decoration-thickness: initial; text-decoration-st=
-yle: initial; text-decoration-color: initial; display: inline !important; f=
-loat: none;">Hi Steve,</span><br style=3D"box-sizing: border-box; overflow-=
-wrap: break-word !important; color: #333333; font-family: system-ui, 'Segoe=
- UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans=
--serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Col=
-or Emoji'; font-size: 16px; font-style: normal; font-variant-ligatures: nor=
-mal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; o=
-rphans: 2; text-align: start; text-indent: 0px; text-transform: none; widow=
-s: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: norma=
-l; background-color: #ffffff; text-decoration-thickness: initial; text-deco=
-ration-style: initial; text-decoration-color: initial;" /><br style=3D"box-=
-sizing: border-box; overflow-wrap: break-word !important; color: #333333; f=
-ont-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', '=
-Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',=
- 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-style: normal=
-; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 4=
-00; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px=
-; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-w=
-idth: 0px; white-space: normal; background-color: #ffffff; text-decoration-=
-thickness: initial; text-decoration-style: initial; text-decoration-color: =
-initial;" /><span style=3D"color: #333333; font-family: system-ui, 'Segoe U=
-I', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-s=
-erif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color=
- Emoji'; font-size: 16px; font-style: normal; font-variant-ligatures: norma=
-l; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orp=
-hans: 2; text-align: start; text-indent: 0px; text-transform: none; widows:=
- 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal;=
- background-color: #ffffff; text-decoration-thickness: initial; text-decora=
-tion-style: initial; text-decoration-color: initial; display: inline !impor=
-tant; float: none;">Could you please check why still these changes are not =
-integrated in kirkstone branch?</span><br style=3D"box-sizing: border-box; =
-overflow-wrap: break-word !important; color: #333333; font-family: system-u=
-i, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Ar=
-ial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', =
-'Noto Color Emoji'; font-size: 16px; font-style: normal; font-variant-ligat=
-ures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
-normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: no=
-ne; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-spa=
-ce: normal; background-color: #ffffff; text-decoration-thickness: initial; =
-text-decoration-style: initial; text-decoration-color: initial;" /><br styl=
-e=3D"box-sizing: border-box; overflow-wrap: break-word !important; color: #=
-333333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto=
- Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe U=
-I Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; font-styl=
-e: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-=
-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-in=
-dent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text=
--stroke-width: 0px; white-space: normal; background-color: #ffffff; text-de=
-coration-thickness: initial; text-decoration-style: initial; text-decoratio=
-n-color: initial;" />
-<div style=3D"box-sizing: border-box; overflow-wrap: break-word !important;=
- color: #333333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neu=
-e', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',=
- 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; =
-font-style: normal; font-variant-ligatures: normal; font-variant-caps: norm=
-al; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start=
-; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -we=
-bkit-text-stroke-width: 0px; white-space: normal; background-color: #ffffff=
-; text-decoration-thickness: initial; text-decoration-style: initial; text-=
-decoration-color: initial;">These changes are already upstreamed to master.=
- It also got integrated to master.<br style=3D"box-sizing: border-box; over=
-flow-wrap: break-word !important;" /><a style=3D"box-sizing: border-box; ba=
-ckground-color: transparent; color: #2f6fa7; text-decoration: none; overflo=
-w-wrap: break-word !important;" href=3D"https://git.yoctoproject.org/poky/c=
-ommit/?id=3D22c08cab4db89dc3d41ab22cfe0482c1483391dd" target=3D"_blank" rel=
-=3D"nofollow noopener">https://git.yoctoproject.org/poky/commit/?id=3D22c08=
-cab4db89dc3d41ab22cfe0482c1483391dd</a><br style=3D"box-sizing: border-box;=
- overflow-wrap: break-word !important;" /><br style=3D"box-sizing: border-b=
-ox; overflow-wrap: break-word !important;" /></div>
-<div style=3D"box-sizing: border-box; overflow-wrap: break-word !important;=
- color: #333333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neu=
-e', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',=
- 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 16px; =
-font-style: normal; font-variant-ligatures: normal; font-variant-caps: norm=
-al; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start=
-; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -we=
-bkit-text-stroke-width: 0px; white-space: normal; background-color: #ffffff=
-; text-decoration-thickness: initial; text-decoration-style: initial; text-=
-decoration-color: initial;">Thanks!<br style=3D"box-sizing: border-box; ove=
-rflow-wrap: break-word !important;" />Zahir</div>
-</div>
-
---Hik6IWbZ1JcZuudnNxu1--
 
