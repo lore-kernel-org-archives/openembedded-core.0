@@ -2,60 +2,60 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 253CFC3ABC9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A43C3ABC3
 	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 09:04:01 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.71672.1747127039784535432
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.72063.1747127033922202535
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 May 2025 02:03:59 -0700
+ Tue, 13 May 2025 02:03:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=QHBq/vf8;
- spf=pass (domain: mvista.com, ip: 209.85.215.182, mailfrom: vanusuri@mvista.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b1396171fb1so3566199a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 02:03:59 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=GB4Y7AlS;
+ spf=pass (domain: mvista.com, ip: 209.85.215.174, mailfrom: vanusuri@mvista.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-ae727e87c26so3669106a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 02:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1747127038; x=1747731838; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1747127033; x=1747731833; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QRetbm5um+AXKYFHSA10Fqy/el5klRJT8IwRKaYvTqs=;
-        b=QHBq/vf8ev0qotKAqcM6JD2ydcNTfcoM2N2ZSltenf+SVTJYM/YMVBmFSeIwDXR107
-         dacOAyHKcMtuIsEtI01KZYqh/c0+/mfkIBZA+RopBYvh8yHfdjYvG0w5kn/Vg26ATXpM
-         HbfP/7JjgtIkRS39IHyui8etdOzzoxJldP2DA=
+        bh=rHapH8kc42fzlTniiO/LbURp0yAPINOy9rcFEj7w8TI=;
+        b=GB4Y7AlSvjCI2PZonyUwdB24+R23W/i9s9mNLAZUF0tL8A28O+z8WDsx6NUo0uRtgj
+         zKtTALChO4fb9JD0u0p2cCPYKNgAx/aT0GvElkZW77v1lr+YDAOtgmd2iOxutBjDP/Mn
+         y+jR7TtsPT0coN6Eh9fSLMeyXXPK+cZVyxG98=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747127038; x=1747731838;
+        d=1e100.net; s=20230601; t=1747127033; x=1747731833;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QRetbm5um+AXKYFHSA10Fqy/el5klRJT8IwRKaYvTqs=;
-        b=A6LkAm7OEGaaQMBeVnE0vooARDRxEP+QeNRjhc87cNxXNKQHTOJ7oBeIORH4qMqLfx
-         u+iOBRFvzt3Z7fV8OdnizKfunJEy6BWNwldG+7sQEAmIn6bpTytjjmZQOOW22QsZM46N
-         IRINksvi5itc0mp+ReIDc5ykfOEHEG4o6WGOORq9DMPV3HXeh9lgefZsTfRQklqd5P3s
-         svcftGbRvj/e9Q0+U9UTAkEX9n5zj2ta/QT93YkbUc3Vm6YGuXWSjUgXXdPfjiXT7CjU
-         0IPTSelPxojfqKqB1ueb4NYlGRjtLjPLWY67cnVe9d+scynoCMg2js0NDszfhSx7Duvq
-         tLNw==
-X-Gm-Message-State: AOJu0YwBdaud5152GIGETbaNykd9eu34beLnUKyqykdLSTk3uSQW/s7T
-	gStXGwvcPFhgr+tnr5YQQWYaGunJQlHhRrJ/6TbIkM0PhKc9iONYJ3lYhfW98SIinjXe4S6gcfh
-	5wpw=
-X-Gm-Gg: ASbGncsbQ/iuW8gnFn04YfStH09Is329gGRW8gv9bSjHK+Fr6r5ktNox6JqR9/DhZHV
-	ASjTt0FZ2fAHl1CYg0KfU2VIqJgasXqP1K2Nwq2ZTrpB7wcfsBFUCP9VS23wGwLRmH174rCcbmz
-	5ls+MTAEMorGs+PjDcw6lbVilCSK502ThACyCnCrRqobaZ+B/QpwPYh+th5VSX5sehCqNz86Tov
-	TVhxhW7lw45THtzKN9qvaRf+pXEMrOmu47jg5rI4MFIk2e9E99V2V3FsDdrditKfACMLQ9/WMAx
-	swpCK7fSC0vL3xooQMT7jMz7nCdHa9HiBC5gtdLBiTQwqk8Jdt+BQ2G1urUNUPoCo7yGLf84AA=
+        bh=rHapH8kc42fzlTniiO/LbURp0yAPINOy9rcFEj7w8TI=;
+        b=p4xUFRhMUk3EiNjX1TlfZ4Mq0xqIUS7gi+sUTg9yRK7oVGtJcZsmwPHlaLWcaSA2+M
+         RqpGEGSx+qhPrzTbCaikZTCfFoVL/Sq5P3snq1Y78CO0gkx9TDtchD4v+vWE+Y8TmWeM
+         rn/UKKAej1I0QZIXed8Yc5NK0LGJyRccm+MuxbVjKhxGal41J/ZEFV5XnvdkAlnPFNuA
+         XwswDNNEHilrixjdLSlBQN8WYKmWzuoAJK+kdNzFaTN0GBLgcLorjvaCShX1ZchrOvyq
+         WSIew6XLzEcc82iDiULIKrKfXynzEoC5/pKO9McWSlilTuXJwZlDDLidzYgpq+WO7wm6
+         t37g==
+X-Gm-Message-State: AOJu0YyhC6kaVopp9s+sV9xzpnx5cxzuwjgoX6P6NpEf50Z9ARPFbTOU
+	t8ve3t7fpV73LpbJ4vRvvb6zFWzj920YVnAeXCkIKXkqa6VOy90hJPSQe2He2u1kGbUPz7C6oqD
+	D9L4=
+X-Gm-Gg: ASbGncuK9BCI78QjuSeEd6LJTZ4wx6rz9esCN7+cJf+sgEZPWhTUSwvY9wY+Ctt61sr
+	o/88kG0uL1H+pPGNLSXM8Ud5UTC/ZYKSY91i7rf73MhkHnjvwKB0jiQRvaFJaR7x5Lt/nQMbsOI
+	KoXf+brsWVj14cXuq08Kmp00UZQ0eTc6FxwWKkOJDGTEsD43Gaf562eWU9TwS5zly++wfKvuKv0
+	i49rfZdmpeHf2SLFWCnSOlyz0BFheJInov8FGEHw7dQOx7Ye1IOtP6OOAo1vwAcwom0sFE05mHb
+	49t/ypEHvmOCMBreB8kbSP2tfiwbL0d5Bs4jdY2Qaii2zyXPSTnuf/T7bZLWb5Uaj8FF//OmZA=
 	=
-X-Google-Smtp-Source: AGHT+IEOOQub5e2calpwSOK0dEOHOBHBGq+IFIZW7eS2qAtBNucH9rG6JBif8HeE7r0FIrdVDOS5nA==
-X-Received: by 2002:a17:902:c94b:b0:224:216e:3342 with SMTP id d9443c01a7336-22fc917e22emr258451045ad.43.1747127038237;
-        Tue, 13 May 2025 02:03:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE6oMmb+hmpt6UBeuR9QoG6pzaucnMbjxzXA+TsKuW8KL1UmQylm5aqzdjOeiYU6eaU0D8mVw==
+X-Received: by 2002:a17:902:cf06:b0:223:517c:bfa1 with SMTP id d9443c01a7336-22fc9185e59mr270652305ad.38.1747127032813;
+        Tue, 13 May 2025 02:03:52 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.220.49])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc829f388sm76574885ad.214.2025.05.13.02.03.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc829f388sm76574885ad.214.2025.05.13.02.03.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 02:03:57 -0700 (PDT)
+        Tue, 13 May 2025 02:03:52 -0700 (PDT)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH 3/3] libsoup-2.4: Fix CVE-2025-32909
-Date: Tue, 13 May 2025 14:33:40 +0530
-Message-Id: <20250513090340.2209255-3-vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH 2/3] libsoup-2.4: Fix CVE-2025-32906
+Date: Tue, 13 May 2025 14:33:39 +0530
+Message-Id: <20250513090340.2209255-2-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250513090340.2209255-1-vanusuri@mvista.com>
 References: <20250513090340.2209255-1-vanusuri@mvista.com>
@@ -65,71 +65,189 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 09:04:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216405
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216404
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/comm
-it/ba4c3a6f988beff59e45801ab36067293d24ce92
+Upstream-Status: Backport from
+https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931
+& https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../libsoup/libsoup-2.4/CVE-2025-32909.patch  | 36 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.2.bb             |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32909.patch
+ .../libsoup-2.4/CVE-2025-32906-1.patch        | 61 ++++++++++++++
+ .../libsoup-2.4/CVE-2025-32906-2.patch        | 83 +++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.2.bb             |  2 +
+ 3 files changed, 146 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32909.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32909.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch
 new file mode 100644
-index 0000000000..046f20203f
+index 0000000000..916a41a71f
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32909.patch
-@@ -0,0 +1,36 @@
-+From ba4c3a6f988beff59e45801ab36067293d24ce92 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch
+@@ -0,0 +1,61 @@
++From 1f509f31b6f8420a3661c3f990424ab7b9164931 Mon Sep 17 00:00:00 2001
 +From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 8 Jan 2025 16:30:17 -0600
-+Subject: [PATCH] content-sniffer: Handle sniffing resource shorter than 4
-+ bytes
++Date: Tue, 11 Feb 2025 14:36:26 -0600
++Subject: [PATCH] headers: Handle parsing edge case
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/ba4c3a6f988beff59e45801ab36067293d24ce92]
-+CVE: CVE-2025-32909
++This version number is specifically crafted to pass sanity checks allowing it to go one byte out of bounds.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931]
++CVE: CVE-2025-32906 #Dependency Patch
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libsoup/soup-content-sniffer.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
++ libsoup/soup-headers.c      |  2 +-
++ tests/header-parsing-test.c | 12 ++++++++++++
++ 2 files changed, 13 insertions(+), 1 deletion(-)
 +
-+diff --git a/libsoup/soup-content-sniffer.c b/libsoup/soup-content-sniffer.c
-+index 967ec61..a1f23c2 100644
-+--- a/libsoup/soup-content-sniffer.c
-++++ b/libsoup/soup-content-sniffer.c
-+@@ -227,9 +227,14 @@ sniff_mp4 (SoupContentSniffer *sniffer, SoupBuffer *buffer)
-+ {
-+ 	const char *resource = (const char *)buffer->data;
-+ 	guint resource_length = MIN (512, buffer->length);
-+-	guint32 box_size = *((guint32*)resource);
-++	guint32 box_size;
-+ 	guint i;
++diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
++index 85385cea..9d6d00a3 100644
++--- a/libsoup/soup-headers.c
+++++ b/libsoup/soup-headers.c
++@@ -225,7 +225,7 @@ soup_headers_parse_request (const char          *str,
++ 	    !g_ascii_isdigit (version[5]))
++ 		return SOUP_STATUS_BAD_REQUEST;
++ 	major_version = strtoul (version + 5, &p, 10);
++-	if (*p != '.' || !g_ascii_isdigit (p[1]))
+++	if (p + 1 >= str + len || *p != '.' || !g_ascii_isdigit (p[1]))
++ 		return SOUP_STATUS_BAD_REQUEST;
++ 	minor_version = strtoul (p + 1, &p, 10);
++ 	version_end = p;
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index 07ea2866..10ddb684 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -6,6 +6,10 @@ typedef struct {
++ 	const char *name, *value;
++ } Header;
 + 
-++	  if (resource_length < sizeof (guint32))
-++		  return FALSE;
+++static char unterminated_http_version[] = {
+++        'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
+++};
 ++
-++	  box_size = *((guint32*)resource);
++ static struct RequestTest {
++ 	const char *description;
++ 	const char *bugref;
++@@ -383,6 +387,14 @@ static struct RequestTest {
++ 	  { { NULL } }
++ 	},
++ 
+++        /* This couldn't be a C string as going one byte over would have been safe. */
+++	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
+++	  unterminated_http_version, sizeof (unterminated_http_version),
+++	  SOUP_STATUS_BAD_REQUEST,
+++           NULL, NULL, -1,
+++	  { { NULL } }
+++	},
 ++
-+ #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-+ 	box_size = ((box_size >> 24) |
-+ 		    ((box_size << 8) & 0x00FF0000) |
++ 	{ "Non-HTTP request", NULL,
++ 	  "GET / SOUP/1.1\r\nHost: example.com\r\n", -1,
++ 	  SOUP_STATUS_BAD_REQUEST,
 +-- 
-+2.25.1
++GitLab
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch
+new file mode 100644
+index 0000000000..5baad15648
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch
+@@ -0,0 +1,83 @@
++From af5b9a4a3945c52b940d5ac181ef51bb12011f1f Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Wed, 12 Feb 2025 11:30:02 -0600
++Subject: [PATCH] headers: Handle parsing only newlines
++
++Closes #404
++Closes #407
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f]
++CVE: CVE-2025-32906
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libsoup/soup-headers.c      |  4 ++--
++ tests/header-parsing-test.c | 13 ++++++++++++-
++ 2 files changed, 14 insertions(+), 3 deletions(-)
++
++diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
++index 9d6d00a3..52ef2ece 100644
++--- a/libsoup/soup-headers.c
+++++ b/libsoup/soup-headers.c
++@@ -186,7 +186,7 @@ soup_headers_parse_request (const char          *str,
++ 	/* RFC 2616 4.1 "servers SHOULD ignore any empty line(s)
++ 	 * received where a Request-Line is expected."
++ 	 */
++-	while ((*str == '\r' || *str == '\n') && len > 0) {
+++	while (len > 0 && (*str == '\r' || *str == '\n')) {
++ 		str++;
++ 		len--;
++ 	}
++@@ -371,7 +371,7 @@ soup_headers_parse_response (const char          *str,
++ 	 * after a response, which we then see prepended to the next
++ 	 * response on that connection.
++ 	 */
++-	while ((*str == '\r' || *str == '\n') && len > 0) {
+++	while (len > 0 && (*str == '\r' || *str == '\n')) {
++ 		str++;
++ 		len--;
++ 	}
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index 10ddb684..4faafbd6 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -6,10 +6,15 @@ typedef struct {
++ 	const char *name, *value;
++ } Header;
++ 
+++/* These are not C strings to ensure going one byte over is not safe. */
++ static char unterminated_http_version[] = {
++         'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
++ };
++ 
+++static char only_newlines[] = {
+++        '\n', '\n', '\n', '\n'
+++};
+++
++ static struct RequestTest {
++ 	const char *description;
++ 	const char *bugref;
++@@ -387,7 +392,6 @@ static struct RequestTest {
++ 	  { { NULL } }
++ 	},
++ 
++-        /* This couldn't be a C string as going one byte over would have been safe. */
++ 	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
++ 	  unterminated_http_version, sizeof (unterminated_http_version),
++ 	  SOUP_STATUS_BAD_REQUEST,
++@@ -457,6 +461,13 @@ static struct RequestTest {
++ 	  SOUP_STATUS_BAD_REQUEST,
++            NULL, NULL, -1,
++ 	  { { NULL } }
+++	},
+++
+++	{ "Only newlines", NULL,
+++	  only_newlines, sizeof (only_newlines),
+++	  SOUP_STATUS_BAD_REQUEST,
+++           NULL, NULL, -1,
+++	  { { NULL } }
++ 	}
++ };
++ static const int num_reqtests = G_N_ELEMENTS (reqtests);
++-- 
++GitLab
 +
 diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-index f409816fc2..00f7fea41a 100644
+index b299fcf6de..f409816fc2 100644
 --- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
 +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+@@ -19,6 +19,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2024-52532-3.patch \
+            file://CVE-2024-52531-1.patch \
             file://CVE-2024-52531-2.patch \
-            file://CVE-2025-32906-1.patch \
-            file://CVE-2025-32906-2.patch \
-+           file://CVE-2025-32909.patch \
++           file://CVE-2025-32906-1.patch \
++           file://CVE-2025-32906-2.patch \
            "
  SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
  
