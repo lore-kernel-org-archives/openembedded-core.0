@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29F02C3ABD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 417FAC3ABDC
 	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 19:08:34 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.84426.1747163305585022731
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.84428.1747163308145817011
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 May 2025 12:08:25 -0700
+ Tue, 13 May 2025 12:08:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LRKBcwg4;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22e45088d6eso76377085ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 12:08:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ogxhSG3W;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-ae727e87c26so4154519a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 12:08:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1747163305; x=1747768105; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1747163307; x=1747768107; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oZo8fTPtqK6BvRVzAMME5LGVgdRv3TtfPIyv9iAEMaE=;
-        b=LRKBcwg4hc1ZXsCCoXgLaY50pluokvgBWDSYvx+NNeM6yh4vlZcTsL6qgkLj+QtLGd
-         s6mZ/eTz+fOvkH4HlNZw5UfOwBM6iXhg6AlNi3zFJvcWRfpQp8xxUl3uO84Lw0qjbFuf
-         k/xUBCRF26LTUJ7M3vHudN0gspF5lDPcGw9lntQtHzOpTz89kHahZTBSqp3Xjj8ywPFf
-         AwWBwuOBAH1GABIBT2Et14IfNJRqKjZjtp37vf+IQCeGxGptg8Xj6gxfqmYtplIjZDfV
-         QcXtAtYqqB9rkCXJlBoiCPYK/zGIWC2scz1Wubj4z2N87xzjyHUl0IZ3CSTE1p9tJPPO
-         qw2w==
+        bh=a1692rcHiepkJ4rqtA9kz8K3huzxoUoBmGAtj0Hpu+Y=;
+        b=ogxhSG3WYPbuvD5YRV1oX9omrfo0GR78TyE+8Kx0AqQsoVxiotI/0DE8FLddtGXIpD
+         LSXZAhleunL0/O3+sSQWjrEvdrNcjZW+Q6MnsTfc6433r7zQK4CR2aMmG/mIEAn7HPTO
+         uUm1z1Yxpzh34gZtZXGLSav1uRNWx37bUATV06uEnSs7sCy7DujkyIeJ+9DJYu65zMDq
+         u8z4cKP3aoIqWiB5jpNTQxu5TMz4s+d2C6jMkzKUAs0WjRquKyxqgjg9UhcAay8UhBxv
+         DDFaw7K5MCMJeMyQtMASKHtKeD5YGf59aIVjsHBAUMbqbvd1vdW54RIz3sJlhSk7xD9e
+         Dh6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747163305; x=1747768105;
+        d=1e100.net; s=20230601; t=1747163307; x=1747768107;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oZo8fTPtqK6BvRVzAMME5LGVgdRv3TtfPIyv9iAEMaE=;
-        b=QE0OTS01nXoXgLW62zfHf9eca169yJ95N2+XjFZYW5kANDDlEkudoiuMLxgnlGPiiV
-         OemYJlDznEdSN9x3M3JEu5HvbaTo1IyGHtjZxc13T5aotQLt1VlYK5+vTWkur27mMEw5
-         r1pbUXjOnjv3btN+ruyR8zZqwGrRY015j+jrANU0XGATWa76auE5QFSY4eJiiZzZDCDN
-         CQjNlq0SYMtbS6KbEcnZaWQwk9Lox2HzIH2GMkU+8T50SpoPNO5Pc3u04r5HmPpf6hV7
-         rk5JtaJo4KFRp3yBUHM9orDc8NbfGjNs1z0g8I//9iX+WBAR9q8tDpjoOKBHDnDadYVC
-         JJTA==
-X-Gm-Message-State: AOJu0YxWGKBBCEM4AaQMDaDkL3PLafmbjckLV8wSC7amD1E1DHhagc9k
-	jHv5pHu3j90i3HDedhoo2kv8dl0rfV2vIo7TwV0gyCfQFw3H064ods9PPBjeEXGSDJ9e9hnyPFD
-	N
-X-Gm-Gg: ASbGnctHcHBubgMsUv0hGx2cCPAWBFRyBOx99jAqAY9K4ty0F5b6rkijNbpDa29fdE/
-	KXD4bp6a7h0GNVZ0Cfxwp9mVPsLDGtfbgXPg+R8XJoVaPKSOCQcJxccM8cxpkSrZBxrve8lIfoP
-	Zq/8fO+HbHl6TevasSRivUMU+Z5yENY9zI3dHcn/H97EEMxPUwRLuf876CMjq2Vgm+kY8j+BWpm
-	/I3RDTzuCU6aMqJg1xnhcH1VCl91vwLPilipT94aQmHQpvA9xlrC67YJUE5QNLol+m4vkGjdHic
-	acU//X8dh21JNUsrbO9EPf9nY4mz7RCLcEV14mVr/8o=
-X-Google-Smtp-Source: AGHT+IHAfYUJ28aEudHzz05o4c1HPwXS1vKjMviXSiq2/BFU7V0bopAuXQ/S9qbGoU8oPUAfL3A7Sg==
-X-Received: by 2002:a17:903:1109:b0:223:635d:3e38 with SMTP id d9443c01a7336-231980cf7c1mr9367735ad.15.1747163304721;
-        Tue, 13 May 2025 12:08:24 -0700 (PDT)
+        bh=a1692rcHiepkJ4rqtA9kz8K3huzxoUoBmGAtj0Hpu+Y=;
+        b=PSfLo0QTvYKqUT1I1P3cbd85nqRpyzqrzFrWTkpFbkj4jYbVwEJnVdNBfbnh/7OBAg
+         j8t+fn6ClbzBgIk5/ZKMDR6ytFxSThiC1p13G/r1ff28kkJDN8JS+xEX/ah03IvrAO8q
+         r1+8yKYyvewYj9tY9Fba5RIs1qnHzntmw1LdzIrzKWsAtdX6KuA6O3I59iERE/AylgbC
+         NDjlMEq6NPJU3va266yTK59ud54WVvbAsjPsNrO9spGdYsruR4ctDOjAlLHSCdBykR4P
+         a+Y8eCNqy7PpMxlKrnrfxWg2bIz5wal50ZS0sx6ygZ6dtnAez/S4B5JmpUDSb9zq3e6I
+         QyPg==
+X-Gm-Message-State: AOJu0Yw55JClg42k3/7oPuZ95OkT4IvVAoi36YxvppM6juovzVwes32k
+	/8xKPebwEVn91EA5bosrjE26Y6KJJkrBM/g/ZYCw4ilYmKaQfbuhDALj3HX3b1Rb8kkMVkwzV/N
+	Q
+X-Gm-Gg: ASbGnctgqH2lwILXK4IhDwSXR4C+GwLL4TemvBFrj99EUkEjWpB/VXI3wLC2y0Qrk1D
+	1vfMX2zXQpKVWijAfvqpFDkBskX7HY6vjowG1lDlU3g4i8EfxUN/sq+FGf27rY17/Q6uP6sKpQ1
+	mwUxGiP2AE0Ip/t8C74g6G/gS+xeovi6U6ZxVX9OHhrd/jS6U1kwBlqfW+dZhGsmL2mNOxq20XC
+	5XxMC2aa9Q6NEEkBzDEqP9qHlK7u9+IUaC/x7BBuVGhG6jcMZPmBJM1qnEXiELUJWtxIXLfxH/Z
+	ATQH0vnUJ8oh0ixlOb2wTzlo4sQ//1SBsSuyYkHBnno=
+X-Google-Smtp-Source: AGHT+IF/yJ89UntIwQlJzH0ZcIQrsam1mtm4QAooXlwisbUv+5p6wpZXCYY+39qkO04PodfBUoX9hA==
+X-Received: by 2002:a17:902:d550:b0:22e:6bb1:f717 with SMTP id d9443c01a7336-231981c05d0mr7830845ad.41.1747163307382;
+        Tue, 13 May 2025 12:08:27 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:37ec:faaf:5b57:6b2e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc829d425sm84851005ad.202.2025.05.13.12.08.24
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc829d425sm84851005ad.202.2025.05.13.12.08.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 12:08:24 -0700 (PDT)
+        Tue, 13 May 2025 12:08:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/15] libsoup-2.4: Fix CVE-2025-32906
-Date: Tue, 13 May 2025 12:08:00 -0700
-Message-ID: <2b938dd6beb1badca59804ffbe395deb679bc1b1.1747163155.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/15] libsoup: update fix CVE-2024-52532
+Date: Tue, 13 May 2025 12:08:02 -0700
+Message-ID: <caf0ac894d029aaac7d746fe87db1aa0e8c3c93f.1747163155.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747163155.git.steve@sakoman.com>
 References: <cover.1747163155.git.steve@sakoman.com>
@@ -67,193 +67,84 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 19:08:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216436
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216438
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream-Status: Backport from
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931
-& https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/commit/4c9e75c6676a37b6485620c332e568e1a3f530ff
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup-2.4/CVE-2025-32906-1.patch        | 61 ++++++++++++++
- .../libsoup-2.4/CVE-2025-32906-2.patch        | 83 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.2.bb             |  2 +
- 3 files changed, 146 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch
+ .../libsoup/libsoup/CVE-2024-52532-3.patch    | 46 +++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.0.7.bb |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52532-3.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-3.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-3.patch
 new file mode 100644
-index 0000000000..916a41a71f
+index 0000000000..edcca86e8c
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-1.patch
-@@ -0,0 +1,61 @@
-+From 1f509f31b6f8420a3661c3f990424ab7b9164931 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Tue, 11 Feb 2025 14:36:26 -0600
-+Subject: [PATCH] headers: Handle parsing edge case
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-3.patch
+@@ -0,0 +1,46 @@
++From 4c9e75c6676a37b6485620c332e568e1a3f530ff Mon Sep 17 00:00:00 2001
++From: Simon McVittie <smcv@debian.org>
++Date: Wed, 13 Nov 2024 14:14:23 +0000
++Subject: [PATCH] websocket-test: Disconnect error signal in another place
 +
-+This version number is specifically crafted to pass sanity checks allowing it to go one byte out of bounds.
++This is the same change as commit 29b96fab "websocket-test: disconnect
++error copy after the test ends", and is done for the same reason, but
++replicating it into a different function.
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/1f509f31b6f8420a3661c3f990424ab7b9164931]
-+CVE: CVE-2025-32906 #Dependency Patch
++Fixes: 6adc0e3e "websocket: process the frame as soon as we read data"
++Resolves: https://gitlab.gnome.org/GNOME/libsoup/-/issues/399
++Signed-off-by: Simon McVittie <smcv@debian.org>
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/4c9e75c6676a37b6485620c332e568e1a3f530ff]
++CVE: CVE-2024-52532
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libsoup/soup-headers.c      |  2 +-
-+ tests/header-parsing-test.c | 12 ++++++++++++
-+ 2 files changed, 13 insertions(+), 1 deletion(-)
++ tests/websocket-test.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index 85385cea..9d6d00a3 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -225,7 +225,7 @@ soup_headers_parse_request (const char          *str,
-+ 	    !g_ascii_isdigit (version[5]))
-+ 		return SOUP_STATUS_BAD_REQUEST;
-+ 	major_version = strtoul (version + 5, &p, 10);
-+-	if (*p != '.' || !g_ascii_isdigit (p[1]))
-++	if (p + 1 >= str + len || *p != '.' || !g_ascii_isdigit (p[1]))
-+ 		return SOUP_STATUS_BAD_REQUEST;
-+ 	minor_version = strtoul (p + 1, &p, 10);
-+ 	version_end = p;
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 07ea2866..10ddb684 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -6,6 +6,10 @@ typedef struct {
-+ 	const char *name, *value;
-+ } Header;
++diff --git a/tests/websocket-test.c b/tests/websocket-test.c
++index 6a48c1f9..723f2857 100644
++--- a/tests/websocket-test.c
+++++ b/tests/websocket-test.c
++@@ -1508,8 +1508,9 @@ test_receive_invalid_encode_length_16 (Test *test,
++ 	GError *error = NULL;
++ 	InvalidEncodeLengthTest context = { test, NULL };
++ 	guint i;
+++	guint error_id;
 + 
-++static char unterminated_http_version[] = {
-++        'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
-++};
-++
-+ static struct RequestTest {
-+ 	const char *description;
-+ 	const char *bugref;
-+@@ -383,6 +387,14 @@ static struct RequestTest {
-+ 	  { { NULL } }
-+ 	},
++-	g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
+++	error_id = g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
++ 	g_signal_connect (test->client, "message", G_CALLBACK (on_binary_message), &received);
 + 
-++        /* This couldn't be a C string as going one byte over would have been safe. */
-++	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
-++	  unterminated_http_version, sizeof (unterminated_http_version),
-++	  SOUP_STATUS_BAD_REQUEST,
-++           NULL, NULL, -1,
-++	  { { NULL } }
-++	},
-++
-+ 	{ "Non-HTTP request", NULL,
-+ 	  "GET / SOUP/1.1\r\nHost: example.com\r\n", -1,
-+ 	  SOUP_STATUS_BAD_REQUEST,
++ 	/* We use 126(~) as payload length with 125 extended length */
++@@ -1522,6 +1523,7 @@ test_receive_invalid_encode_length_16 (Test *test,
++ 	WAIT_UNTIL (error != NULL || received != NULL);
++ 	g_assert_error (error, SOUP_WEBSOCKET_ERROR, SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR);
++ 	g_clear_error (&error);
+++        g_signal_handler_disconnect (test->client, error_id);
++ 	g_assert_null (received);
++ 
++ 	g_thread_join (thread);
 +-- 
 +GitLab
 +
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch
-new file mode 100644
-index 0000000000..5baad15648
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906-2.patch
-@@ -0,0 +1,83 @@
-+From af5b9a4a3945c52b940d5ac181ef51bb12011f1f Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 12 Feb 2025 11:30:02 -0600
-+Subject: [PATCH] headers: Handle parsing only newlines
-+
-+Closes #404
-+Closes #407
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/af5b9a4a3945c52b940d5ac181ef51bb12011f1f]
-+CVE: CVE-2025-32906
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-headers.c      |  4 ++--
-+ tests/header-parsing-test.c | 13 ++++++++++++-
-+ 2 files changed, 14 insertions(+), 3 deletions(-)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index 9d6d00a3..52ef2ece 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -186,7 +186,7 @@ soup_headers_parse_request (const char          *str,
-+ 	/* RFC 2616 4.1 "servers SHOULD ignore any empty line(s)
-+ 	 * received where a Request-Line is expected."
-+ 	 */
-+-	while ((*str == '\r' || *str == '\n') && len > 0) {
-++	while (len > 0 && (*str == '\r' || *str == '\n')) {
-+ 		str++;
-+ 		len--;
-+ 	}
-+@@ -371,7 +371,7 @@ soup_headers_parse_response (const char          *str,
-+ 	 * after a response, which we then see prepended to the next
-+ 	 * response on that connection.
-+ 	 */
-+-	while ((*str == '\r' || *str == '\n') && len > 0) {
-++	while (len > 0 && (*str == '\r' || *str == '\n')) {
-+ 		str++;
-+ 		len--;
-+ 	}
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 10ddb684..4faafbd6 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -6,10 +6,15 @@ typedef struct {
-+ 	const char *name, *value;
-+ } Header;
-+ 
-++/* These are not C strings to ensure going one byte over is not safe. */
-+ static char unterminated_http_version[] = {
-+         'G','E','T',' ','/',' ','H','T','T','P','/','1', '0', '0', '.'
-+ };
-+ 
-++static char only_newlines[] = {
-++        '\n', '\n', '\n', '\n'
-++};
-++
-+ static struct RequestTest {
-+ 	const char *description;
-+ 	const char *bugref;
-+@@ -387,7 +392,6 @@ static struct RequestTest {
-+ 	  { { NULL } }
-+ 	},
-+ 
-+-        /* This couldn't be a C string as going one byte over would have been safe. */
-+ 	{ "Long HTTP version terminating at missing minor version", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/404",
-+ 	  unterminated_http_version, sizeof (unterminated_http_version),
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+@@ -457,6 +461,13 @@ static struct RequestTest {
-+ 	  SOUP_STATUS_BAD_REQUEST,
-+            NULL, NULL, -1,
-+ 	  { { NULL } }
-++	},
-++
-++	{ "Only newlines", NULL,
-++	  only_newlines, sizeof (only_newlines),
-++	  SOUP_STATUS_BAD_REQUEST,
-++           NULL, NULL, -1,
-++	  { { NULL } }
-+ 	}
-+ };
-+ static const int num_reqtests = G_N_ELEMENTS (reqtests);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-index b299fcf6de..f409816fc2 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-@@ -19,6 +19,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2024-52532-3.patch \
+diff --git a/meta/recipes-support/libsoup/libsoup_3.0.7.bb b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
+index 869f0f1696..4b723d3150 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.0.7.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2024-52530.patch \
+            file://CVE-2024-52532-1.patch \
+            file://CVE-2024-52532-2.patch \
++           file://CVE-2024-52532-3.patch \
             file://CVE-2024-52531-1.patch \
             file://CVE-2024-52531-2.patch \
-+           file://CVE-2025-32906-1.patch \
-+           file://CVE-2025-32906-2.patch \
-           "
- SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
- 
+            file://CVE-2024-52531-3.patch \
 -- 
 2.43.0
 
