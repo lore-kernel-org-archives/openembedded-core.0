@@ -1,98 +1,288 @@
-Return-Path: <erick.shepherd@ni.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E4EC3ABC3
-	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 19:47:54 +0000 (UTC)
-Received: from mx0a-00300601.pphosted.com (mx0a-00300601.pphosted.com [148.163.146.64])
- by mx.groups.io with SMTP id smtpd.web11.85811.1747165670336102540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64DA9C3ABC3
+	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 21:39:05 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.87935.1747172338222322700
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 May 2025 12:47:50 -0700
+ Tue, 13 May 2025 14:38:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=PPS11142024 header.b=EJJ0/O+t;
- spf=pass (domain: ni.com, ip: 148.163.146.64, mailfrom: prvs=422828d1af=erick.shepherd@ni.com)
-Received: from pps.filterd (m0359308.ppops.net [127.0.0.1])
-	by mx0b-00300601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54DITFcY015448
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 19:47:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS11142024; bh=7rhC2Tt8c/FL0UODo/B7
-	njUMS6R/CLfwJN2yhU/cr0Y=; b=EJJ0/O+tqk9hhZNUSFVku/tS8vawXX7oMJli
-	QnUDqS10IgT3NXdto4fCaG5vCKb24baZKlItN7swM8xv2IjoBnMMvvrIjLOX+Peu
-	Ma83op7FRb2T1q2N8aLFd6GfMsLNqVgAATlasPTtbcqMGIQKpj8i6Y8/pThHnAKz
-	hPSbfYo/aiSBXy/V2zLpgcAgn0i7F1eNvwQdrf0KpLAxO2AiD7x7VWtGYQN1CQTy
-	cSCRS5L/sJjeq3PUZ/WSJOm6/tZO6QM5dNjRbyzdt4ME+Uq+7oyfUHTL4PcNnPDp
-	HxwgPZYcb8/K6P+o2OLq53LEz3WqORSdPNqvhPIaBMYEiWQGZQ==
-Received: from us-aus-excas-p2.ni.corp.natinst.com ([130.164.94.74])
-	by mx0b-00300601.pphosted.com (PPS) with ESMTPS id 46mbd7hbq7-6
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 19:47:49 +0000 (GMT)
-Received: from us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) by
- us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Tue, 13 May 2025 14:47:45 -0500
-Received: from ershephe-ubuntu.ni.corp.natinst.com (172.18.68.32) by
- us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) with Microsoft SMTP
- Server id 15.2.1258.28 via Frontend Transport; Tue, 13 May 2025 14:47:45
- -0500
-From: Erick Shepherd <erick.shepherd@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Erick Shepherd <erick.shepherd@ni.com>
-Subject: [PATCH] kernel-devsrc.bb: Replace extra System.map file with symlink
-Date: Tue, 13 May 2025 14:47:42 -0500
-Message-ID: <20250513194742.1441418-1-erick.shepherd@ni.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=hYFTjriM;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-20250513213854e1907523529ca1971a-zpcypg@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250513213854e1907523529ca1971a
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 13 May 2025 23:38:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=2s1V3+DLe4hqXXXqsMpQU8EMoBjilGvNA46c7iYs7gk=;
+ b=hYFTjriMPAPRanvqcL+dFkhIEPgq8rXD91VG4wwJV6d+hKxuBCoCStx9d/gXyYSiT5lr1q
+ 9AAy6xJfV0dKa302Q4pDFMcgrz8lKzyZLNmuWpjr+EQO+cauXmptx+dUGLxzyWnIgAoiMuzg
+ wo6Yb1RjqzzxKFxvnd0melkrlYsH5Yo9+3H891Sw+4xKZCjQhrKvjr93mb/kCQ1OvHcAp1G3
+ HC2wwuxeP9DI5nbqhdEAs0oZ71CxXsIWYZ42/oLZgy4aO+cVZO1/PilLMPM6ayPxXlZGqOXh
+ WBQwzPY3QGUDmaCgEtObIwoW1BFimTCYTfC4auFy72m6lHgUv/ZLeBuQ==;
+From: AdrianF <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: marex@denx.de,
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v2 00/22] FIT image improvements
+Date: Tue, 13 May 2025 23:36:42 +0200
+Message-ID: <20250513213834.87830-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEzMDE4OSBTYWx0ZWRfX2Z+QabznQ8Hi 92Kx8UZO1y28Yr5GXWWAJ3cm93k8iijzCHw5cfmlIod/tGBihGsEcnTmMCQQhbvc4vt5NmG3ped Gf96b9tiFzBlpzNB+zeLwI4IttbHvIKvReoRDPzZbl3Kxt2metkKS93z57G4CoTXmalkQ5v/CHl
- WvjWTe4tbuAqEKdR1t1jkDcgpbkw6ZO761NKNsQKmsDD0aiBP1ceIjfRFhzbzlRRWZYLfw8uKKw tdQI2MGuNVSLsiaIrdCExpthVUVEDXxBnL5NpO4mOaYRFMjrNdoNJoaLxB5Umoqs3Qo9njEBNOm CaJniKy04xy2ollnBYOKxLOcet3W+zhHljiT0taZLwlgE6djXPaOpS5A7zJM3UbbdcaRUb4i8vX
- bnhkf3HU8oGqAPxp0q0W2TD8m3gWFarnT2JB9iBVv2Ly2D9TuHsgw3jsrfbRelUi4q5otyJh
-X-Authority-Analysis: v=2.4 cv=GPIIEvNK c=1 sm=1 tr=0 ts=6823a1e5 cx=c_pps a=VUOoxcgKHUMpfFMIT0tLvw==:117 a=VUOoxcgKHUMpfFMIT0tLvw==:17 a=dt9VzEwgFbYA:10 a=gVGD3344AAAA:8 a=X-T7wuUG41dRaClQT0cA:9 a=xQEvYfgLW3QvObN0DhJi:22
-X-Proofpoint-GUID: TDecgqyr8iV7VjQ2HjU3fsZCvMvo0EzE
-X-Proofpoint-ORIG-GUID: TDecgqyr8iV7VjQ2HjU3fsZCvMvo0EzE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-13_03,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=567
- lowpriorityscore=0 bulkscore=0 mlxscore=0 clxscore=1015 phishscore=0
- suspectscore=0 priorityscore=1501 spamscore=0 malwarescore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
- definitions=main-2505130189
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 19:47:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216449
+ <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 21:39:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216450
 
-Currently there are two .map files being copied to $kerneldir/build.
-One of the files is System.map and the other is
-System.map-<kernel version>. Each .map file takes up about 5MB and
-have identical sha256sum hashes. This change will make it so only
-System.map-<kernel version> is copied in order to save disk space.
-It also recreates System.map as a symlink to that .map file.
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Signed-off-by: Erick Shepherd <erick.shepherd@ni.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+This patch series re-writes the FIT image related code. The goal is to
+fix [YOCTO #12912] which is a long standing issue.
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 1500aff2e2..84a1c19fa9 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -75,7 +75,8 @@ do_install() {
-         if [ -s Module.symvers ]; then
-             cp Module.symvers $kerneldir/build
-         fi
--        cp System.map* $kerneldir/build
-+        cp System.map-* $kerneldir/build
-+        ln -s System.map-* $kerneldir/build/System.map
-         if [ -s Module.markers ]; then
-             cp Module.markers $kerneldir/build
-         fi
+Changes in comparison to v1
+---------------------------
+
+* Exclude recipes which inherit the kernel-fit-image.bbclass from
+  multilib builds. This fixes an issue discovered by the AB when
+  running bitbake world with a multilib configuraton enabled.
+* Remove some new tests which expected openssl from the host.
+* Rebase the patches on the new bug-fix commit
+  "u-boot: ensure keys are generated before assembling U-Boot FIT image"
+  from Rogerio Guerra Borin <rogerio.borin@toradex.com>
+  This fix required splitting the key generation into a separate recipe.
+  Note: These patches depend on this commit, which is included in this
+  series. As of today, the patch is already present on master-next.
+* Add a cover letter with correct subject for the patch series
+
+What gets fixed
+---------------
+
+* sstate does not work well if a FIT image contains an initramfs.
+  The kernel gets re-built from scratch if the build runs from an
+  empty TMPDIR:
+  https://lists.openembedded.org/g/openembedded-core/message/203510.
+  This is also problematic for SDK use cases since working with the
+  SDK is annoying if the kernel gets re-built from scratch for no
+  good reason.
+* A FIT image kernel is not available as a package, but all other
+  kernel image types are.
+* The its-file is generated by complicated shell code with lots of
+  code duplications. Switching to Python simplifies the maintenance
+  (also because of the indentation with spaces and tabs in the shell
+  code).
+* Separating the FIT image related complexity from the kernel build
+  complexity simplifies the maintenance of the kernel but also of
+  the FIT image related code.
+* There is already a new (but unfortunately completely unaligned)
+  implementation for creating FIT images in meta-openembedded:
+  https://github.com/openembedded/meta-openembedded/blob/master/meta-oe/
+  classes/fitimage.bbclass. Let's hope this patch series will lay a
+  solid foundation for a future merge of the two implementations.
+* The new implementation in Python is also a preparation for additional
+  features, such as adding different types of artifacts or generating
+  the configuration nodes with greater flexibility. Currently, exactly
+  one configuration per device node is supported.
+
+Architectural change
+--------------------
+
+The existing kernel-fitimage.bbclass is designed to be added to
+KERNEL_CLASSES. It appends code to the kernel's tasks and injects
+additional tasks between the existing ones. Some functions rely on
+running within the kernel's build folder structure.
+
+The new implementation introduces the kernel-fit-image.bbclass,
+which is intended to be inherited by an independent recipe. This
+recipe takes the kernel artifacts from the sstate-cache and assembles
+the FIT image entirely independently of the kernel's build tasks and
+directory structure.
+
+An example of using the new kernel-fit-image.bbclass is the
+linux-yocto-fitimage.bb recipe, which builds the FIT image for the
+linux-yocto kernel. The recipe looks like this:
+
+  SUMMARY = "The Linux kernel as a FIT image (optionally with initramfs)"
+  SECTION = "kernel"
+  LICENSE = "GPL-2.0-with-Linux-syscall-note"
+  LIC_FILES_CHKSUM = "\
+    file://${COREBASE}/meta/files/common-licenses/GPL-2.0-with-Linux-syscall-note;
+    md5=0bad96c422c41c3a94009dcfe1bff992"
+
+  inherit kernel-fit-image
+
+The configuration variables defined in the conf/image-fitimage.conf
+file are handled by the kernel-fit-image.bbclass in the same way as
+they are by the kernel-fitimage.bbclass. The new implementation is
+98% backward compatible with the existing kernel-fitimage.bbclass.
+The existing test-suite runs with minimal chagnes.
+
+With the kernel-fitimage.bbclass, the FIT image was built as part of
+the kernel itself. To ensure the new recipe is built automatically,
+the following variables can be set, for example, in the machine
+configuration file:
+
+  # Do not install the kernel image package
+  RRECOMMENDS:${KERNEL_PACKAGE_NAME}-base = ""
+
+  # Install the FIT image package into the rootfs (there is now a package :-)
+  MACHINE_EXTRA_RDEPENDS += "${PREFERRED_PROVIDER_virtual/kernel}-fitimage"
+
+  # Configure the image.bbclass to depend on the fitImage instead of only
+  # the kernel to ensure the FIT image is built with the image
+  KERNEL_DEPLOY_DEPEND = "${PREFERRED_PROVIDER_virtual/kernel}-fitimage:do_deploy"
+
+Breaking changes
+----------------
+
+* Currently it is possible to bundle an initramfs into the kernel and
+  finally add this bundle to a FIT image. With this patch series
+  completely merged, the INITRAMFS_IMAGE_BUNDLE variable will not have
+  an impact on the FIT image build process. Of course, nothing changes
+  on the kernel build code. It is still possible to bundle an initramfs
+  into the kernel. Just adding this bundle also to the FIT image is not
+  possible anymore. It would be possible to bring this feature back by
+  slightly modifying the new implementation. But it would make the
+  implementation more complex and I don't see a real use case for this
+  feature. Bundling an initramfs and a kernel is basically what the FIT
+  image is supposed to do natively, without the help of the kernel build
+  code. As long as the kernel build code deals with the initramfs, using
+  a kernel from the sstate-cache is not possible without re-building the
+  kernel. That's why this patch series removes the support for this
+  feature.
+* Building a kernel FIT image changes.
+  Before this patch series:
+
+    A configuration like:
+      KERNEL_IMAGETYPE = "fitImage"
+      KERNEL_CLASSES = "kernel-fitimage"
+    and building a kernel like:
+      bitbake linux-yocto
+    generated a FIT image including the kernel and maybe additional
+    artifacts.
+
+  With this patch series merged, the same can be achieved like this:
+    bitbake linux-yocto-fitimage
+
+  While this simple example is even simpler than before, there are
+  also other examples which might look more complicated with the
+  new implementation than with the old implementation.
+
+Proposal for merging these patch series
+---------------------------------------
+
+The patches are split into small steps which allow a step-by-step
+merging:
+
+1. Already on master-next:
+   * u-boot: ensure keys are generated before assembling U-Boot FIT image
+
+2. Add the new implementation without touching the old implementation
+
+   * oe-selftest: add new ext dtb recipe
+   * oe-selftest: fitimage: test coverage for ext dtb
+   * kernel-signing-keys-native: refactor key generation into a new recipe
+   * kernel-uboot: do not require the kernel build folder
+   * kernel-devicetree: export dtbs to sysroot
+   * kernel.bbclass: stage the sysroot-only folder
+   * kernel-uboot.bbclass: stage the kernel binary
+   * kernel-fitimage: refactor order in its
+   * kernel-fit-image.bbclass: add a new FIT image implementation
+   * maintainers: add myself for linux-yocto-fitimage
+   * oe-selftest: fitimage add tests for fitimage.py
+   * oe-selftest: fitimage refactor kernel-fitimage.bbclass
+   * oe-selftest: fitimage: run all tests for the FIT image recipe
+   * oe-selftest: fitimage refactor classes
+
+3. Refactor the old kernel-fitimage.bbclass to Python to share code
+   with the new implementation. While not strictly required, this
+   allows users to migrate to the new Python code with 100% backward
+   compatibility.
+   Both implementations could be maintained until the new one is widely
+   accepted and tested.
+   Note: This change does obviousely not resolve any issues as the
+   architecture remains the same. We can also simply drop this patch.
+
+   * kernel-fitimage: re-write its code in Python
+
+4. Remove the old kernel-fitimage.bbclass and clean up the code from
+   the initramfs bundle in the FIT image left overs.
+
+   * kernel.bbclass: remove support for type fitImage
+   * oe-selftest: fitimage: remove kernel-fitimage tests
+   * kernel.bbclass: remove support for type fitImage
+   * oe-selftest: fitimage: remove kernel-fitimage tests
+   * kernel-fitimage.bbclass: remove it
+   * kernel-uboot.bbclass: merge it into kernel-uimage.bbclass
+   * oe-selftest: fitimage: drop initramfs bundle test
+   * kernel-fit-image.bbclass: ignore INITRAMFS_IMAGE_BUNDLE
+
+Side note: The development of the commits took place the other way round:
+First the existing implementation was re-written in Python. Then the new
+implementation was split out and finally the independent recipe could be
+added to use the new kernel-fit-image.bbclass as well.
+
+Some documentation patches are under development on a branch:
+https://git.yoctoproject.org/poky-contrib/log/?h=adrianf/fitimage-improvements
+
+Adrian Freihofer (21):
+  oe-selftest: add new ext dtb recipe
+  oe-selftest: fitimage: test coverage for ext dtb
+  kernel-signing-keys-native: refactor key generation into a new recipe
+  kernel-uboot: do not require the kernel build folder
+  kernel-devicetree: export dtbs to sysroot
+  kernel.bbclass: stage the sysroot-only folder
+  kernel-uboot.bbclass: stage the kernel binary
+  kernel-fitimage: refactor order in its
+  kernel-fit-image.bbclass: add a new FIT image implementation
+  maintainers: add myself for linux-yocto-fitimage
+  oe-selftest: fitimage add tests for fitimage.py
+  oe-selftest: fitimage refactor kernel-fitimage.bbclass
+  oe-selftest: fitimage: run all tests for the FIT image recipe
+  oe-selftest: fitimage refactor classes
+  kernel-fitimage: re-write its code in Python
+  kernel.bbclass: remove support for type fitImage
+  oe-selftest: fitimage: remove kernel-fitimage tests
+  kernel-fitimage.bbclass: remove it
+  kernel-uboot.bbclass: merge it into kernel-uimage.bbclass
+  oe-selftest: fitimage: drop initramfs bundle test
+  kernel-fit-image.bbclass: ignore INITRAMFS_IMAGE_BUNDLE
+
+Rogerio Guerra Borin (1):
+  u-boot: ensure keys are generated before assembling U-Boot FIT image
+
+ .../recipes-test/ext-dtb/bborg-relay-00a2.bb  |  14 +
+ .../ext-dtb/files/BBORG_RELAY-00A2.dts        |  49 +
+ meta/classes-recipe/kernel-devicetree.bbclass |   4 +
+ meta/classes-recipe/kernel-fit-image.bbclass  | 176 ++++
+ meta/classes-recipe/kernel-fitimage.bbclass   | 839 ------------------
+ meta/classes-recipe/kernel-uboot.bbclass      |  51 --
+ meta/classes-recipe/kernel-uimage.bbclass     |  70 +-
+ meta/classes-recipe/kernel.bbclass            |  24 +-
+ meta/classes-recipe/uboot-sign.bbclass        |   3 +
+ meta/classes/multilib.bbclass                 |   1 +
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ meta/lib/oe/fitimage.py                       | 463 ++++++++++
+ meta/lib/oeqa/selftest/cases/fitimage.py      | 284 ++++--
+ .../kernel-signing-keys-native.bb             |  61 ++
+ .../linux/linux-yocto-fitimage_6.12.bb        |  13 +
+ 15 files changed, 1072 insertions(+), 981 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/ext-dtb/bborg-relay-00a2.bb
+ create mode 100644 meta-selftest/recipes-test/ext-dtb/files/BBORG_RELAY-00A2.dts
+ create mode 100644 meta/classes-recipe/kernel-fit-image.bbclass
+ delete mode 100644 meta/classes-recipe/kernel-fitimage.bbclass
+ delete mode 100644 meta/classes-recipe/kernel-uboot.bbclass
+ create mode 100644 meta/lib/oe/fitimage.py
+ create mode 100644 meta/recipes-kernel/kernel-signing-keys/kernel-signing-keys-native.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-fitimage_6.12.bb
+
 -- 
-2.43.0
+2.49.0
 
 
