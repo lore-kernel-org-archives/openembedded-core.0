@@ -2,34 +2,34 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A16AC3ABDE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8990EC54755
 	for <webhook@archiver.kernel.org>; Tue, 13 May 2025 21:40:45 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.88517.1747172437896992900
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web10.87971.1747172438059540467
  for <openembedded-core@lists.openembedded.org>;
  Tue, 13 May 2025 14:40:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=PC+wV5Cl;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-20250513214036d8700968b9147c4947-_bagfx@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250513214036d8700968b9147c4947
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Zl7G5M3j;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202505132140362af28c8f9347e1d648-ngfwe9@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202505132140362af28c8f9347e1d648
         for <openembedded-core@lists.openembedded.org>;
         Tue, 13 May 2025 23:40:36 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=cv2MAUXgEgD5BRr9mmy5xkazaT7T3x/5mXdYNfTknjs=;
- b=PC+wV5ClABUr/yy7YV/reJlUf5mJ644iDwFrG3KNdaOxR9abrmsJCqnugVwInd4w2Ze8FJ
- IZrwNMSexEJuV6+kz+qSf7VTI4qHYi0lcqti4mykq5hEaoKcMHq4QRl7FptYDC7Zh9fY/zU4
- h/8bXdVadiLExrz4uJa8wFqWKC6S28rYJbbl/tDAWSa6Z6p/qbWR/b0neaqlCq60CLJ0OEDm
- L9nmU/RmTQ3dYJb1Vip2+kfCreia43cOoQpbZr/8+BDBb7cNSAq+gABlWSbUuIMSXIECx9Wa
- HteMb2yLSCXzrwOyzLm7g5wEPVg1FQtflPtNs4hm4jPb9ZrSkFZwG2FA==;
+ bh=r25NZ1wmwEV4MECCuZ1IG9qbnAu0UYr3sVTwHUutj+0=;
+ b=Zl7G5M3jyhK8Hg4LUjVMQpKLWvATlCsjuP1XfslA5zPJvg2QDdilBCi1WsFrlm520iMs8V
+ rll2AUgSHGNRw9eDQNz6EFDw8H/C5HQgyaUiFltowMwRV1d5XTyLVEZCn7o54b/U7n2HbdwG
+ z12fvVf27AU66E9sk7ETwxZ5WPWl4n8DvOoNe1V48ZKypP4IuWXLp5L9pOB88GMpBqVeahfh
+ QloR5b3cEORUXRiXHpvQDEXOfkzZLhqzeRgs6UrKgdw9Wv+a9QF+uLF3UvKKM/QNxF3rW4pt
+ GDIiJlod4X26mw99UgCrabgZoWsyNhhq4z9nMjeAOEaLlF9vD2DTaliA==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 21/22] oe-selftest: fitimage: drop initramfs bundle test
-Date: Tue, 13 May 2025 23:37:03 +0200
-Message-ID: <20250513213834.87830-22-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 22/22] kernel-fit-image.bbclass: ignore INITRAMFS_IMAGE_BUNDLE
+Date: Tue, 13 May 2025 23:37:04 +0200
+Message-ID: <20250513213834.87830-23-adrian.freihofer@siemens.com>
 In-Reply-To: <20250513213834.87830-1-adrian.freihofer@siemens.com>
 References: <20250513213834.87830-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -40,73 +40,80 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 21:40:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216470
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216472
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-This test case is no longer useful. Sure, it is possible to build a
-kernel with an initramfs bundled. But since this is not the kernel
-which gets included into the FIT image, there is no need for testing
-this as part of the FIT image test suite.
+The new recipe includes the initramfs unbundled anyway. Remove the code
+which does not work in the context of a recipe which takes the kernel
+artifacts from recipe-sysroot. The kernel in the recipe-sysroot is
+exported by the do_install function of the kernel which runs before
+do_bundle_initramfs.
+
+It would be possible to support the bundled in FIT image use case if the
+recipe would take the kernel artifacts from the deploy folder where also
+the bundled kernel artifact could be found. But what's the use case of a
+bundled artifact included in a FIT image? Rather than supporting
+something which does not work well with the sstate-cache lets guide the
+users to a better implementation and simplify the code where possible.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/fitimage.py | 42 ------------------------
- 1 file changed, 42 deletions(-)
+ meta/classes-recipe/kernel-fit-image.bbclass | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index d204a07bf0c..80aa63bb91a 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -925,48 +925,6 @@ FIT_HASH_ALG = "sha256"
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index f4620aa0f86..dd8a6200328 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -14,7 +14,7 @@ DEPENDS += "\
  
-         self._test_fitimage(bb_vars)
+ python () {
+     image = d.getVar('INITRAMFS_IMAGE')
+-    if image and not bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')):
++    if image:
+         if d.getVar('INITRAMFS_MULTICONFIG'):
+             mc = d.getVar('BB_CURRENT_MC')
+             d.appendVarFlag('do_compile', 'mcdepends', ' mc:' + mc + ':${INITRAMFS_MULTICONFIG}:${INITRAMFS_IMAGE}:do_image_complete')
+@@ -107,7 +107,7 @@ python do_compile() {
  
--    def test_fit_image_sign_initramfs_bundle(self):
--        """
--        Summary:     Verifies the content of the initramfs bundle node in the FIT Image Tree Source (its)
--                     The FIT settings are set by the test case.
--                     The machine used is beaglebone-yocto.
--        Expected:    1. The ITS is generated with initramfs bundle support
--                     2. All the fields in the kernel node are as expected (matching the
--                        conf settings)
--                     3. The kernel is included in all the available configurations and
--                        its hash is included in the configuration signature
--
--        Product:     oe-core
--        Author:      Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
--        """
--
--        config = """
--DISTRO="poky"
--MACHINE = "beaglebone-yocto"
--INITRAMFS_IMAGE_BUNDLE = "1"
--INITRAMFS_IMAGE = "core-image-minimal-initramfs"
--INITRAMFS_SCRIPTS = ""
--UBOOT_MACHINE = "am335x_evm_defconfig"
--UBOOT_SIGN_ENABLE = "1"
--UBOOT_SIGN_KEYNAME = "beaglebonekey"
--UBOOT_SIGN_KEYDIR ?= "${DEPLOY_DIR_IMAGE}"
--UBOOT_DTB_BINARY = "u-boot.dtb"
--UBOOT_ENTRYPOINT  = "0x80000000"
--UBOOT_LOADADDRESS = "0x80000000"
--UBOOT_DTB_LOADADDRESS = "0x82000000"
--UBOOT_ARCH = "arm"
--UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
--UBOOT_MKIMAGE_KERNEL_TYPE = "kernel"
--UBOOT_EXTLINUX = "0"
--FIT_GENERATE_KEYS = "1"
--KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
--FIT_KERNEL_COMP_ALG = "none"
--FIT_HASH_ALG = "sha256"
--"""
--        config = self._config_add_uboot_env(config)
--        self.write_config(config)
--        bb_vars = self._fit_get_bb_vars()
--        self._test_fitimage(bb_vars)
+     # Prepare a ramdisk section.
+     initramfs_image = d.getVar('INITRAMFS_IMAGE')
+-    if initramfs_image and not oe.types.boolean(d.getVar("INITRAMFS_IMAGE_BUNDLE")):
++    if initramfs_image:
+         # Find and use the first initramfs image archive type we find
+         found = False
+         for img in d.getVar("FIT_SUPPORTED_INITRAMFS_FSTYPES").split():
+@@ -156,11 +156,9 @@ do_deploy() {
+     install -m 0644 "${B}/fitImage" "$deploy_dir/fitImage"
+     install -m 0644 "${B}/fit-image.its" "$deploy_dir/fit-image.its"
  
- class FitImagePyTests(KernelFitImageBase):
-     """Test cases for the fitimage.py module without calling bitbake"""
+-    if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+-        ln -snf fit-image.its "$deploy_dir/fitImage-its-${KERNEL_FIT_NAME}.its"
+-        if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+-            ln -snf fit-image.its "$deploy_dir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
+-        fi
++    ln -snf fit-image.its "$deploy_dir/fitImage-its-${KERNEL_FIT_NAME}.its"
++    if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
++        ln -snf fit-image.its "$deploy_dir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
+     fi
+ 
+     if [ -n "${INITRAMFS_IMAGE}" ]; then
+@@ -169,11 +167,9 @@ do_deploy() {
+             ln -snf fit-image.its "$deploy_dir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+         fi
+ 
+-        if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+-            ln -snf fitImage "$deploy_dir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}"
+-            if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+-                ln -snf fitImage "$deploy_dir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+-            fi
++        ln -snf fitImage "$deploy_dir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}"
++        if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
++            ln -snf fitImage "$deploy_dir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+         fi
+     fi
+ }
 -- 
 2.49.0
 
