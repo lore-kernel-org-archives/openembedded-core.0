@@ -1,128 +1,82 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91121C3ABC5
-	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 06:58:38 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.96516.1747205916414336677
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7386C3ABDD
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 07:17:08 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.96724.1747207027398658189
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 May 2025 23:58:36 -0700
+ Wed, 14 May 2025 00:17:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WnN3kD6O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-442ccf0e1b3so74088955e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 May 2025 23:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1747205914; x=1747810714; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z3SXv0jkB7tMNOSx0WGvyckqDfi1wNHDklZTnLbRRGo=;
-        b=WnN3kD6OxHwdVonb3KJa4q2jbTAwDQ2GGxgFiEfyukxwaS5gaZwE+kkTbiO57VDFBe
-         3oVB76A07ATVsSHVZngSdoW3oBGXVn4GnfDWQtze48Se4DtGP+HaznaiEs+aNY/RHToj
-         unuz3tU0asaggDIgfN/2EeQYYumqQMDJmL9ro=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747205914; x=1747810714;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=z3SXv0jkB7tMNOSx0WGvyckqDfi1wNHDklZTnLbRRGo=;
-        b=T1d+x42fHE90UhHz56QijbSnmtGtqIZbFjvNrfc0+8QdvTaeeQ2THpXL4NOOKMEOQF
-         zpLZelXBruXGCRuZrbTp290vIRERuvuOR6gdwxLyunZ/pytCZKfheAk/HBqHw+pdoA/c
-         v6zj/VueQyomGFM3F+QZb5qb2ANKSmIm9xsuUXOavDfVEeKEViYzlpbInsEqWQ8KdL7I
-         Qq2vIEPydD2of0I1KcO6WlJZkt5GzepQAnQh+JD94f+t8JmtQCgZ5L8WjuSNXxJqZndl
-         R1QzLi5wmCP1Q2vzHb7kxivNI0pk45VTBmpEdL7xvXs8WoLcUwizStFgwBSwGnr5epbB
-         yCew==
-X-Forwarded-Encrypted: i=1; AJvYcCXIqHyntGMu+D+8haCV9AsOTOQJJQDzHgsiySkhH/vMHQN+i3kHLjofuY5Hd81V0i3HNcooZi35HRTtzaACnBGZ0Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxaYZvpfr9CzK6gDOZ+0iM8BwVzzshrdRPARouVF1n6AR8m5o5u
-	q4v45DF24/fpevCnlinWm8pCcQL/jcZo2hYRyUbZu0tpLkirrkbabZs/IuwFAWs=
-X-Gm-Gg: ASbGnctontwgGqMtuhvwpw1mE1X2QGBt0dX1cmr/M2fS2tPE+BwRDh5gQvYCsIo4IIK
-	I4yv6dY1lCXx0XLjObdj/upNy/r8MOMEx1W1KKFQbnoAwsbGboMb676e6BWzcVw6mH0FOyk+TAu
-	2BFOx4MXmQpsvwtN8Ngms+T2DCYY8Bxe7sywaKMml95p3xBoywMkMa5M8UHK7ALc0MlAL2MeF2v
-	E+i+7+pw0utFHlHyFvs3ydUF/+iF7lasqCnkNg5NiAeFYhAqswOKCcgi12WgkqFVqfyPXutEYW2
-	ic+hUJ4qneh5qiAfxthuu9Iksd7JmsXpwrU8CGk3L+8lz/MGAAv6FElH5ZT8d6TfddpeMWldiFc
-	/Q9ERGR54O5LsDANOeqQNTB5NgyGp8C6jTxSqbIiL
-X-Google-Smtp-Source: AGHT+IFK+YJHg7f4I8nJ/xrCfv+/uxnJigrtcxdxRdYsqhtH6J0XNqG8guqTz/9v+4gDMEipBROw6w==
-X-Received: by 2002:a05:600c:4e0e:b0:43c:fdbe:4398 with SMTP id 5b1f17b1804b1-442f20bae9amr17659335e9.6.1747205914413;
-        Tue, 13 May 2025 23:58:34 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ac80:8bbf:3444:fa34? ([2001:8b0:aba:5f3c:ac80:8bbf:3444:fa34])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f32b46casm17196435e9.0.2025.05.13.23.58.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 23:58:33 -0700 (PDT)
-Message-ID: <7e12b3a35312989460afc1d9df55013ce2f22f9f.camel@linuxfoundation.org>
-Subject: Re: [yocto-security] OE-core CVE metrics for walnascar on Sun 11
- May 2025 01:49:49 AM HST
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Marko, Peter" <Peter.Marko@siemens.com>, "steve@sakoman.com"
-	 <steve@sakoman.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, 
- "yocto-security@lists.yoctoproject.org"
-	 <yocto-security@lists.yoctoproject.org>
-Date: Wed, 14 May 2025 07:58:32 +0100
-In-Reply-To: <AS1PR10MB5697AF8F027BA971886C12DDFD91A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250511115243.D83E9100407@builder.sakoman.com>
-			 <AS1PR10MB5697B496C5947EC961F51DBFFD94A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-		 <3a5a047bd48aae6576a4422f421616211b1a262d.camel@linuxfoundation.org>
-		 <AS1PR10MB569724059D582CAF8A6A2A8CFD91A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-	 <08371b2e9910aae9eef58828773ed8c196ea3c0f.camel@linuxfoundation.org>
-	 <AS1PR10MB5697AF8F027BA971886C12DDFD91A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=72290b1e6d=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54E4oG1c014178
+	for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:17:06 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46mbc8rpgp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:17:06 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 14 May 2025 00:17:03 -0700
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 14 May 2025 00:17:03 -0700
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <liezhi.yang@windriver.com>
+Subject: [PATCH 0/2] coreutils: Fix issues for ptest + single-binary
+Date: Wed, 14 May 2025 00:17:02 -0700
+Message-ID: <cover.1747206852.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: aYR10hNwa3M_b_sa_jzgUuV-IVR-aToF
+X-Proofpoint-ORIG-GUID: aYR10hNwa3M_b_sa_jzgUuV-IVR-aToF
+X-Authority-Analysis: v=2.4 cv=IIACChvG c=1 sm=1 tr=0 ts=68244372 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=r_3n9pMatl4q4EzWrvIA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDA2MiBTYWx0ZWRfX52R93GPKBieO OGNnBF1DgLaYu6dmdeaP/ikq+XF4vuYkg6d25GOteVYpxLVie9rlqF4AlSLmPDKSjN6p4vwHCZO oTpzZ6LCfMgKBN0d7RSd03Ig+i4xPorZyFZ2Pq8EDvtmfbN3K4ymUha6XTa/9s6BUBwwqFlWSR1
+ UsCjqm+vReiM7rtofyfJOWUmR6nEThSoMUqEreh8NAzz0VYG/M9oyUlo+KYjm73zuwqClVxHz62 HQeMxyPlKGsh0nXmWIqgTicSkkcm/VkDSdiFKdD2sLry6saTFdDAP/jcIQenb7pMF2wKlqWi6I4 db/fsUHEhquhhQzs36HAp4PfMbWDUA2AxWqRXJQ44PhaAc+M4GhsyYEtuwLS7yunPh9YpRo+fjj
+ ZZitBxHR/u3Iq68JY0onM10BZQIWrXvXGcGV7oScHf4DnQMX+1NoThIR7CsxJ/HW9xgwNilI
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-14_02,2025-05-14_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 impostorscore=0 mlxlogscore=602 priorityscore=1501
+ clxscore=1011 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
+ definitions=main-2505140062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 06:58:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216478
+ <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:17:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216479
 
-On Wed, 2025-05-14 at 06:51 +0000, Marko, Peter wrote:
->=20
->=20
-> > -----Original Message-----
-> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Sent: Wednesday, May 14, 2025 8:46
-> > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
-> > steve@sakoman.com; openembedded-core@lists.openembedded.org; yocto-
-> > security@lists.yoctoproject.org
-> > Subject: Re: [yocto-security] OE-core CVE metrics for walnascar on
-> > Sun 11 May
-> > 2025 01:49:49 AM HST
-> >=20
-> > On Wed, 2025-05-14 at 06:43 +0000, Marko, Peter wrote:
-> > > Sure thing, I have sent 3 patches to yocto-patches on Sunday.
-> > > So far they're not merged...
-> >=20
-> > Sorry, I've been meaning to but there is a lot going on. I'm not
-> > sure
-> > we want to stop styhead metrics quite yet so that means one of them
-> > needs tweaking and I didn't want to push back and as for a new
-> > version.
->=20
-> I don't think that I have removed styhead metrics in my patches.
-> I have removed only check-layer-nightly and meta-oe-mirror jobs which
-> are I think useless now as there are no new patches accepted.
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Which is the thing I'd like to see left so that we gather data about
-how these figures change after we stop accepting patches. That is
-useful information to encourage people to update for example.
+The following changes since commit c695edcc33ecd5bc01b5fc91ce08a87475a9ace9:
 
-> If those are to be kept, I need a guidance e.g. on when these jobs
-> are to be run for walnascar as I am now reusing "newly free" time
-> slots.
-> If you have a suggestion, please comment on the patches so I know
-> what to change.
+  linux/cve-exclusion: Update exclusions after kernel update (2025-05-13 10:32:39 +0100)
 
-In order to make those suggestions, I need to go and look at the
-timeslots and work this out, which is the thing I've been struggling to
-find the time to do. I didn't reply as I had a feeling this would be
-the push back so either I replied comprehensively, or I just tweaked
-the patch but a half reply doesn't help other that to show I'm
-overloaded. I will try and get to that this morning. Yes, I feel bad I
-don't get patches handled quickly enough.
+are available in the Git repository at:
 
-Cheers,
+  https://github.com/robertlinux/yocto rbt/cu
+  https://github.com/robertlinux/yocto/tree/rbt/cu
 
-Richard
+Robert Yang (2):
+  coreutils: Fix file-rdeps for single-binary
+  coreutils: Drop 0001-local.mk-fix-cross-compiling-problem.patch
+
+ ...local.mk-fix-cross-compiling-problem.patch | 26 -------------------
+ meta/recipes-core/coreutils/coreutils_9.6.bb  | 12 ++++++---
+ 2 files changed, 8 insertions(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/0001-local.mk-fix-cross-compiling-problem.patch
+
+-- 
+2.49.0
+
 
