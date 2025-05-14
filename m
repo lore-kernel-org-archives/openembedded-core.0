@@ -1,185 +1,143 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B852C3ABD8
-	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 15:41:01 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.62])
- by mx.groups.io with SMTP id smtpd.web11.105817.1747237257611271886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E781C54754
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 15:58:11 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.106292.1747238289159160040
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 08:40:57 -0700
+ Wed, 14 May 2025 08:58:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=h49qQ5Lv;
- spf=pass (domain: ericsson.com, ip: 40.107.22.62, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BszWeeW92pLkmrfXkHK9qi2yr1E4jyQXGAHaeOLqrmH9fkfsDxk8uabcKC2L3GvaUY/yEjpMTBvXRf+ZDUODnH5jfJPBGEg6KoEWV0cwVEFmppa5eUp/LCr49DAxY8LcElWgvnZDqAtG96ISlRLqWhmyqbaMvBZEO6ywq8zaVxhvpSUltV5ZWSLWXvIhRiiyKsx/WT7lfbRC9HMVBpC8CfFW/g4hte42b2+KT35y8cqBbpEBNiqo4VTpyrDTnowci7YCESCjTPnaohrTYerIkyvN0tO2O39U6lW1o9Suuv8zzxy+noE4Rs5pusXHIHVp6srLHbF0raqheqOEuLxB+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r0XZBT+CcBsku8vVTZ1kS3EbkLEq6kMOnnbdoJkkKcc=;
- b=lj6qRHBdzxgI6OUwoyjqFv91lxg3AgtYvhmTDwXd5C1VIUEzb3g8HbU82Fkp8nLJnaP8bqa3Qty2ULJZdR4COxYw0BhMSEoSof8+ftPYcHQLJL0w9JiRmf/Okf/gfm6KPUatog0XsoKGpoTt4fJ8YlkYmwS15Go09oviAx+erEYtff8GKbZQzD9B0Nm4gKmGyWJyFVyHcHJbZUZzmNac3kKrwv/jaD8Sx2WBwuWe+JF5eeDIFr0hxtFMrhHEou/RQzTw0J34F0ip9gVQplCQ2IqbGUvQ7CI8mJYv6sL+0QvYDNzOKBJlZQXxedWJ2WFIrPtUVMo+WBiiEIiZ/lyTAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r0XZBT+CcBsku8vVTZ1kS3EbkLEq6kMOnnbdoJkkKcc=;
- b=h49qQ5Lv2jIFXrs09S85f7nng2yXZoyCqLxEzXnRsfLxTfj4jeDlxlZaCoXm5sb2edoXiOhDYEGabNnZLBieqUuWEqTT+xU0mi6F0AxSIkQKDc22eDh8AvsQdmBslvt36HejZBt+ZmKtbQfxVBJyzUjxmwLCNd4qTfSdj0h16ixjmrT819U/MsrHUKNX4Xuln/11jlEYCPUY5/1TME9KD2j7nNm7TX3lwxZ+X6ytuTZOEaZ7fIKR1qpVWSJUsObknlR4+f84N8LqMWgbFaBfUqN+kQD2r9b4d84J7mt8g4Sk8K5X/G1lQ8LdnY+/ZKxCwmCzIMTGk7ZT4KhTAJf+kw==
-Received: from AM9P193CA0025.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::30)
- by AS8PR07MB9464.eurprd07.prod.outlook.com (2603:10a6:20b:63d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Wed, 14 May
- 2025 15:40:51 +0000
-Received: from AMS0EPF000001A6.eurprd05.prod.outlook.com
- (2603:10a6:20b:21e:cafe::e) by AM9P193CA0025.outlook.office365.com
- (2603:10a6:20b:21e::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.30 via Frontend Transport; Wed,
- 14 May 2025 15:40:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AMS0EPF000001A6.mail.protection.outlook.com (10.167.16.233) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8722.18 via Frontend Transport; Wed, 14 May 2025 15:40:51 +0000
-Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 14 May 2025 17:40:51 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 4C27941CB796;
-	Wed, 14 May 2025 15:11:54 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 34C9170E61C0; Wed, 14 May 2025 15:11:54 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>, Marta Rybczynska
-	<rybczynska@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>, "Peter
- Marko" <peter.marko@siemens.com>
-Subject: [PATCH v4 2/3] kernel: add support to extract compiled files
-Date: Wed, 14 May 2025 15:11:45 +0200
-Message-ID: <20250514131146.501451-3-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250514131146.501451-1-daniel.turull@ericsson.com>
-References: <20250514131146.501451-1-daniel.turull@ericsson.com>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=J01r1G1c;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7423df563d6so43119b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 08:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1747238288; x=1747843088; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=k1yiL/wtQOcIYJbOu7ePJK6JnDXMfmt4WGNFIJANGgs=;
+        b=J01r1G1cOcCPjgXL72Fr+dPCg/dAaOsbxJ6nl7GX0BZAiBct0iyPz9gv2lg5U+orMc
+         W3t+PLpWbzKB0N99ZAQTlVmkdUZQUy0lIEq8RIx4U2dvPF6fZENTWq6Zs09DmMSK0MGg
+         e87lAhBvRwgbluA5DA+1AOdrLy6GWtcUWuf8MdDxLwXco7AtMqj0tXNMsPdccySGsqFd
+         9tGDquzCZ+DV0sq9vXAtDKsYeaz5byM0lqtQraoYwhLnxddlF5ofN5JulN69yjPEcYZl
+         Uptz2LGWR0RgATNbgLuGijwWikCRlS4AxDPQbCXeNSYDfsCcgeebysZWNaSQJ7qQ6fv+
+         DLLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747238288; x=1747843088;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k1yiL/wtQOcIYJbOu7ePJK6JnDXMfmt4WGNFIJANGgs=;
+        b=CXYWDsI9hQSA2OVyHNgQuE60x8URSYxcL/3B8c3iXfLmPEB7Bvlgk2G/REj2y8m1fQ
+         FgeFHrKSLokYjnchkftjnJ21Q7hBB73CjVYjwnRszNFioHoO2StZoLz2OMi7kZlAmGiH
+         FRxLy6vqDxXSCUsJa6nD3yztawicxQB8TofGkboM9M1vaD4x3f7FwAer6IKdPct2hpUx
+         2+S3lavDIlyy8sIc7fo15O3ox1FxyfBASIKhygAtfoWvJJk7EftTxPjixO/JGyXDIaZG
+         KZorbZrvtJUe0cFP3ko5wUG+nWMBZX/83qKMk/NMjwznkEZ6Tp6vOAmtqtjl7Y8txyBs
+         Meiw==
+X-Gm-Message-State: AOJu0Yxf/oZHHoWmoJhLt7s1mEwXmJKfQDF9c3NM8xCxrojcVCz8TyJP
+	ViDHe+vD00+uNm2+/AZtmGOBrwELZpePFG6ID0KbUgacoPG/uUPUZRQ3eQMZQsLRqft6V4pniqr
+	S
+X-Gm-Gg: ASbGncsz8M1S/OghsZuO3IXI9uhOdoXwyTiSShJyQE1c2e2E/4d0u4F05UZtmoKwBm6
+	c3xgqDEjggaST30f8ukkpGteLNAKPHBspYxOo/upE309KNNU8pztilnWbmiQpgKndqO8H2i2z0H
+	dKQ1jDMsTF6ZvX+zu8nSx/l0dhBu4m3Si7aad/z/5xFVlYU9VvXBGbR23yb2IIR3UxoA/BmMN5i
+	1ZXQ7VY8WFvszVyd1lnzi1BQjafHYzeK2AKKT2gJNdxy9QtSKr2Fq56FQveWYnWDc3W7NchSH7I
+	Xz2i4Pm9iRPVRfefJ7deE0CXn2GIFfPcZQPDNuMc
+X-Google-Smtp-Source: AGHT+IFFPjeem8y84budWEESeoF7mHNik2R2pk019IJA0/nZ0SCcuXXw6pZLw6CtWCxp7ntBCcJgHQ==
+X-Received: by 2002:a17:902:e552:b0:224:78e:4eb4 with SMTP id d9443c01a7336-231981453c7mr48457405ad.39.1747238288134;
+        Wed, 14 May 2025 08:58:08 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:671:bf16:d45b:ad8])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc8271bcfsm101347385ad.125.2025.05.14.08.58.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 May 2025 08:58:07 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][walnascar 01/12] ffmpeg: fix CVE-2025-22921
+Date: Wed, 14 May 2025 08:57:49 -0700
+Message-ID: <0c6561cc7a5ca9e82ce3f17a9d0e68a7c1c88c84.1747238138.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1747238138.git.steve@sakoman.com>
+References: <cover.1747238138.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001A6:EE_|AS8PR07MB9464:EE_
-X-MS-Office365-Filtering-Correlation-Id: 291480b9-f939-4eb3-0257-08dd92fdb50a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?/+5izu9RD9skKbzQDmC1qJHVSh4H8Qm9+rhsE2M9ku2gML4k8/lPKVfQ9WFN?=
- =?us-ascii?Q?Q8LlPfc1Hy15lnp00rc5PunHKu67c9X3fz9uKxjPr3SNhSC7IfgueL2GsWZp?=
- =?us-ascii?Q?wVTG3woD/pZpiZcvFvK64xUWCj153eE2kNoiC/I8vHoAP14+xR6c77/qrokA?=
- =?us-ascii?Q?3QZopa1Ebmo/Hm1Mv3yMX4xvqgKLTHANIZGoTlLrTneyoiVerxMks79LPsWx?=
- =?us-ascii?Q?USZBhB0bJtbEIoEHeSrAZd5l+u1gn9xN5rSCxr4o7kJJEqex9DWVhAV+MynW?=
- =?us-ascii?Q?pcJUHldQv34bg86JraKcMmmlQv8oxBaQy5aW0+/QxqiKlXDLjyRK0kkWS5lW?=
- =?us-ascii?Q?E1VaVo/Ba0LtZBzVBlZormrR2Ei6T5XboYqmoc80hgonepfLej8deAN6rmBg?=
- =?us-ascii?Q?jBxFc/ze8TxGeS10z+kZRQCYnBfsgxiA+LFk18CL1ekOdZrJ9rnrhV3iHn1X?=
- =?us-ascii?Q?n+E5po3LtV6Aa/KyM7ZK09ZeGnYaLOU4L8WOChZu8BVSBrJj1NBK8MfWyoZj?=
- =?us-ascii?Q?OtFKAjJwYm81xAZ+aG3gTNVgM/9dHpKxVfVOuuqj1aZkfEfVsQVxvh+nvmk6?=
- =?us-ascii?Q?DMMPr26+9a+0bgAW6w8KPMvoOGLEZLaCJwFE9YKHigLiBA/0Ovi4JGaUdayu?=
- =?us-ascii?Q?54mmoD0NxHKckNQk3fuHd/uSJNPA61M4YzHHbbbumE/Yh1kX+llIjYbLJExL?=
- =?us-ascii?Q?keLo5BLDGER50gZb5q8HuFFGhIMfD+4v7891CjAzp2WMWcIf7gVmecvBnTXN?=
- =?us-ascii?Q?PKEWv8UQ65LSaQEFmRWoz85lvK/7oMhERf1ZQpR4/PbRiMlQSkQUKo7w9PAE?=
- =?us-ascii?Q?nw8yaK17zxONHLTviKz9s1rldQsoapzbAr/ghxQR/TcLQaqu2rlgFwns94Pe?=
- =?us-ascii?Q?THQMB18yQf3tAdB8q/ArhEsFjmL9VJ+bC14sn7cRHfBPKTmoavXaJLyuY2n/?=
- =?us-ascii?Q?ggwTxq5oL7/4qp4Q3efuqvS04vOa/anyUXH3y+IbL8n+tiBk9vSzFgLRf48S?=
- =?us-ascii?Q?ytT5Yd70llGofzhpnByOV/ZAOzigJe5Ac5NccB3KyaZRjAv0T8aYL9HK1OZi?=
- =?us-ascii?Q?XvtuYeyZ9o03MCXjAgVorqJcM0+r1i9ddVw1lDI6XrKea4qj6Og3lfiTZhq3?=
- =?us-ascii?Q?wtLmYRSXHzfGP4kMznBG5OMxqxJxwqpIXvgQLGMFKOktiTquQiUx7OsfgSZu?=
- =?us-ascii?Q?mHA3C4ONhFvRPiwnEPlvxRSR3SbJV13RvhkYl+gh1ba/u7c1L14AQOogtm8Q?=
- =?us-ascii?Q?Kztf+Fn3URvrfVxDx/e6KCnCGqQd9GLzzrQjgfH0nKdvzn8PlSMnsb1t7V0L?=
- =?us-ascii?Q?pYhX4KVtF9FjnRDTlZ8gFyAOp+QkDQeUCUtZcuxxfA/I6ZInVVCLCFuf4k6t?=
- =?us-ascii?Q?KrD0qVEy+jrbP4PgpGi4u6q4TrGWAiCHkg3sEycB4lPdPWoR4UzU6z5yTDcM?=
- =?us-ascii?Q?MzqrlO3YtS+1BShU5mardwmTLFiVcIzsjtY21RN7NS43jEWxfKovdSK7VzgM?=
- =?us-ascii?Q?7Czi/4ssTRzWV/OWUOhLI4i4YcqCM7Tg9hJy?=
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2025 15:40:51.6768
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 291480b9-f939-4eb3-0257-08dd92fdb50a
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001A6.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR07MB9464
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 15:41:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216503
+ <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 15:58:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216505
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Use gen_compile_commands.py to extract files used during compilation
-for the used kernel configuration.
+FFmpeg git-master,N-113007-g8d24a28d06 was discovered to contain a segmentation
+violation via the component /libavcodec/jpeg2000dec.c.
 
-To enable set SPDX_INCLUDED_COMPILED_SOURCES=3D"1"
-
-The location can be controlled with KERNEL_FILES_DIR
-
-CC: Marta Rybczynska <rybczynska@gmail.com>
-CC: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/kernel.bbclass | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ .../ffmpeg/ffmpeg/CVE-2025-22921.patch        | 34 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_7.1.1.bb |  4 ++-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-22921.patch
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kerne=
-l.bbclass
-index 36ce659762..acef8b86ce 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -159,6 +159,9 @@ set -e
-     image_task =3D d.getVar('INITRAMFS_TASK')
-     if image_task:
-         d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
-+    if d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") =3D=3D "1":
-+        bb.build.addtask('do_save_compiled_files', 'do_build', 'do_compile=
- do_compile_kernelmodules', d)
-+        d.appendVarFlag('do_create_spdx', 'depends', f'{pn}:do_save_compil=
-ed_files')
- }
-=20
- # Here we pull in all various kernel image types which we support.
-@@ -867,3 +870,19 @@ EXPORT_FUNCTIONS do_deploy
-=20
- # Add using Device Tree support
- inherit kernel-devicetree
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-22921.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-22921.patch
+new file mode 100644
+index 0000000000..20fac68d01
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-22921.patch
+@@ -0,0 +1,34 @@
++From 7f9c7f9849a2155224711f0ff57ecdac6e4bfb57 Mon Sep 17 00:00:00 2001
++From: James Almer <jamrial@gmail.com>
++Date: Wed, 1 Jan 2025 23:58:39 -0300
++Subject: [PATCH] avcodec/jpeg2000dec: clear array length when freeing it
 +
-+# in case we don't use spdx bbclass
-+SPDX_COMPILED_SOURCES_DIR ?=3D "${LOG_DIR}/spdx-compiled/${PN}"
-+SPDX_COMPILED_SOURCES ?=3D "${SPDX_COMPILED_SOURCES_DIR}/compiled_src-${MA=
-CHINE}-${BP}.txt"
++Fixes NULL pointer dereferences.
++Fixes ticket #11393.
 +
-+KERNEL_COMPILED_FILES ?=3D "${SPDX_COMPILED_SOURCES_DIR}/compiled_commands=
--${MACHINE}-${BP}.json"
++Reviewed-by: Michael Niedermayer <michael@niedermayer.cc>
++Signed-off-by: James Almer <jamrial@gmail.com>
 +
-+do_save_compiled_files() {
-+    bbdebug 1 "Saving compiled files in ${SPDX_COMPILED_SOURCES}"
-+    mkdir -p ${SPDX_COMPILED_SOURCES_DIR}
-+    ${S}/scripts/clang-tools/gen_compile_commands.py -o ${KERNEL_COMPILED_=
-FILES} -d ${B}
-+    # Make paths releative to the kernel source
-+    sed -i 's|${B}/||g' ${KERNEL_COMPILED_FILES}
-+    sed -i 's|${S}/||g' ${KERNEL_COMPILED_FILES}
-+    grep '"file": ' ${KERNEL_COMPILED_FILES} | awk '{print $2}' | tr -d '"=
-' > ${SPDX_COMPILED_SOURCES}
-+}
++CVE: CVE-2025-22921
++
++Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/7f9c7f9849a2155224711f0ff57ecdac6e4bfb57]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ libavcodec/jpeg2000dec.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/libavcodec/jpeg2000dec.c b/libavcodec/jpeg2000dec.c
++index 691cfbd..b56902c 100644
++--- a/libavcodec/jpeg2000dec.c
+++++ b/libavcodec/jpeg2000dec.c
++@@ -1223,6 +1223,7 @@ static int jpeg2000_decode_packet(Jpeg2000DecoderContext *s, Jpeg2000Tile *tile,
++                 }
++             }
++             av_freep(&cblk->lengthinc);
+++            cblk->nb_lengthinc = 0;
++         }
++     }
++     // Save state of stream
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.1.bb
+index 4314ab9f31..d5252bfbdd 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.1.bb
+@@ -22,7 +22,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+-SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz"
++SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
++           file://CVE-2025-22921.patch \
++          "
+ 
+ SRC_URI[sha256sum] = "733984395e0dbbe5c046abda2dc49a5544e7e0e1e2366bba849222ae9e3a03b1"
+ 
+-- 
+2.43.0
+
 
