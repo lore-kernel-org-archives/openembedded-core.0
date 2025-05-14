@@ -1,231 +1,293 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0DF7C3ABD8
-	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 18:47:22 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web11.110451.1747248432946538048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A551C54755
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 18:52:53 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.110564.1747248766203838514
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 11:47:13 -0700
+ Wed, 14 May 2025 11:52:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=US2/DapW;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-2025051418471032cc0c8c923fb68a19-ugojno@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2025051418471032cc0c8c923fb68a19
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Z5rnXuSf;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202505141852431495bebfb11db89857-ualwjw@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202505141852431495bebfb11db89857
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 14 May 2025 20:47:11 +0200
+        Wed, 14 May 2025 20:52:43 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=0ssd625LMpWthu8XNGjzPKdsoR5mUXfjkIt2EVCTzH0=;
- b=US2/DapW59NGlcWRo/NyAHS6Uc/LSke3brPjxtStn7SXUjfrnns5Irl6WvaFhzYL0i1BvV
- ejCtj/V4qXYDOpdxe3wOCV+95og7yRVjR4yKucDWLQ1hPUVjj8bKO/uEML1H0ltve3LMibXY
- sCehGSGUPx1gnUiBhuC82XZV4xN2wUo3td/beF6LFwLQ6+YTZ21/AtyCewDhJgs4HoNk/YWb
- jtHNl6XUEFdgVhstTlxhTOkEWJXt7UNmUa86F4jyqCUlwmi7pwM4/RhHzR0n5vQ1EEZ8glCU
- eWbsWWBiRzt5vfuL7lkDOoyG6sHOXL2j7MOfFBBkfqrziNnQkuP2+jnQ==;
-From: Peter Marko <peter.marko@siemens.com>
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=7ns1dYFZpRK7772B5rLa/sJKI15nxBX4aIyN3BbYx0g=;
+ b=Z5rnXuSf2LJQfjqfEEauH6ZpoC0r+8zaLxvNKla+FmLuIgd4UMR8yWzszmVgRM/O0Pirbc
+ EMDwTsVE6PByxXn3hYYPzt9tEThesucuZdidZloG9gg1+e6HBK+I+bEFA3CE06NCPgBTOPoH
+ nf45oUtx2Nc+uChdYVTUKfsRiz49IcC0I43pPD/3knGUUWG5D9NMqkhqhygI2Ls6EsGzdreD
+ aBvLtqe8bztF6Iu0U9Y4tVFYtU/WGu2adEe0rI96eP3x8Ma0osX2+DIY1UavYW26cTn2Ctf+
+ aLgx2sow3rO9S0MPDW3hY0PGuuEG6P6BKuYfu3JVYL8KNevjZq7URMkQ==;
+From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH v2 2/2] dropbear: upgrade 2024.86 -> dropbear_2025.88
-Date: Wed, 14 May 2025 20:46:10 +0200
-Message-Id: <20250514184610.97465-2-peter.marko@siemens.com>
-In-Reply-To: <20250514184610.97465-1-peter.marko@siemens.com>
-References: <20250514183336.84167-1-peter.marko@siemens.com>
- <20250514184610.97465-1-peter.marko@siemens.com>
+Cc: marex@denx.de,
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v3 00/22] FIT image improvements
+Date: Wed, 14 May 2025 20:50:44 +0200
+Message-ID: <20250514185225.162998-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 18:47:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216523
+ <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 18:52:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216524
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Handles CVE-2025-47203
+This patch series re-writes the FIT image related code. The goal is to
+fix [YOCTO #12912] which is a long standing issue.
 
-SHA1 algorithms were removed by default, so patch for disabling it was
-removed together with its package option. Doing it with conditional
-patch was anyway a bad design. If someone still needs it, it should be
-done via sed command on the config file.
+Changes in comparison to v2
+---------------------------
 
-Refreshed remaining patches.
+* Fix the multilib exclusion check linux-fit-image -> kernel-fit-image
+  This should solve the issue with bitbake world and multilib builds
 
-Added patch to fix regression of the CVE fix.
+Changes in comparison to v1
+---------------------------
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
-v2: Added patch to fix regression of the CVE fix.
+* Exclude recipes which inherit the kernel-fit-image.bbclass from
+  multilib builds. This fixes an issue discovered by the AB when
+  running bitbake world with a multilib configuraton enabled.
+* Remove some new tests which expected openssl from the host.
+* Rebase the patches on the new bug-fix commit
+  "u-boot: ensure keys are generated before assembling U-Boot FIT image"
+  from Rogerio Guerra Borin <rogerio.borin@toradex.com>
+  This fix required splitting the key generation into a separate recipe.
+  Note: These patches depend on this commit, which is included in this
+  series. As of today, the patch is already present on master-next.
+* Add a cover letter with correct subject for the patch series
 
- .../0001-Fix-proxycmd-without-netcat.patch    | 74 +++++++++++++++++++
- ...1-urandom-xauth-changes-to-options.h.patch |  2 +-
- .../dropbear-disable-weak-ciphers.patch       | 28 -------
- ...ropbear_2024.86.bb => dropbear_2025.88.bb} |  7 +-
- 4 files changed, 78 insertions(+), 33 deletions(-)
- create mode 100644 meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch
- delete mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch
- rename meta/recipes-core/dropbear/{dropbear_2024.86.bb => dropbear_2025.88.bb} (93%)
+What gets fixed
+---------------
 
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch b/meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch
-new file mode 100644
-index 0000000000..967b66322f
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch
-@@ -0,0 +1,74 @@
-+From 5cc0127000db5f7567b54d0495fb91a8e452fe09 Mon Sep 17 00:00:00 2001
-+From: Konstantin Demin <rockdrilla@gmail.com>
-+Date: Fri, 9 May 2025 22:39:35 +0300
-+Subject: [PATCH] Fix proxycmd without netcat
-+
-+fixes e5a0ef27c2 "Execute multihop commands directly, no shell"
-+
-+Signed-off-by: Konstantin Demin <rockdrilla@gmail.com>
-+
-+Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/5cc0127000db5f7567b54d0495fb91a8e452fe09]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/cli-main.c | 12 +++++++++++-
-+ 1 file changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/cli-main.c b/src/cli-main.c
-+index 2fafa88..0a052a3 100644
-+--- a/src/cli-main.c
-++++ b/src/cli-main.c
-+@@ -77,7 +77,11 @@ int main(int argc, char ** argv) {
-+ 	}
-+ 
-+ #if DROPBEAR_CLI_PROXYCMD
-+-	if (cli_opts.proxycmd || cli_opts.proxyexec) {
-++	if (cli_opts.proxycmd
-++#if DROPBEAR_CLI_MULTIHOP
-++		|| cli_opts.proxyexec
-++#endif
-++	) {
-+ 		cli_proxy_cmd(&sock_in, &sock_out, &proxy_cmd_pid);
-+ 		if (signal(SIGINT, kill_proxy_sighandler) == SIG_ERR ||
-+ 			signal(SIGTERM, kill_proxy_sighandler) == SIG_ERR ||
-+@@ -110,11 +114,13 @@ static void shell_proxy_cmd(const void *user_data_cmd) {
-+ 	dropbear_exit("Failed to run '%s'\n", cmd);
-+ }
-+ 
-++#if DROPBEAR_CLI_MULTIHOP
-+ static void exec_proxy_cmd(const void *unused) {
-+ 	(void)unused;
-+ 	run_command(cli_opts.proxyexec[0], cli_opts.proxyexec, ses.maxfd);
-+ 	dropbear_exit("Failed to run '%s'\n", cli_opts.proxyexec[0]);
-+ }
-++#endif
-+ 
-+ static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
-+ 	char * cmd_arg = NULL;
-+@@ -145,9 +151,11 @@ static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
-+ 		cmd_arg = m_malloc(shell_cmdlen);
-+ 		snprintf(cmd_arg, shell_cmdlen, "exec %s", cli_opts.proxycmd);
-+ 		exec_fn = shell_proxy_cmd;
-++#if DROPBEAR_CLI_MULTIHOP
-+ 	} else {
-+ 		/* No shell */
-+ 		exec_fn = exec_proxy_cmd;
-++#endif
-+ 	}
-+ 
-+ 	ret = spawn_command(exec_fn, cmd_arg, sock_out, sock_in, NULL, pid_out);
-+@@ -159,6 +167,7 @@ static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
-+ cleanup:
-+ 	m_free(cli_opts.proxycmd);
-+ 	m_free(cmd_arg);
-++#if DROPBEAR_CLI_MULTIHOP
-+ 	if (cli_opts.proxyexec) {
-+ 		char **a = NULL;
-+ 		for (a = cli_opts.proxyexec; *a; a++) {
-+@@ -166,6 +175,7 @@ cleanup:
-+ 		}
-+ 		m_free(cli_opts.proxyexec);
-+ 	}
-++#endif
-+ }
-+ 
-+ static void kill_proxy_sighandler(int UNUSED(signo)) {
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-index 9c1dd3f606..0687e5dab1 100644
---- a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-+++ b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-@@ -12,7 +12,7 @@ diff --git a/src/default_options.h b/src/default_options.h
- index 6e970bb..ccc8b47 100644
- --- a/src/default_options.h
- +++ b/src/default_options.h
--@@ -311,7 +311,7 @@ group1 in Dropbear server too */
-+@@ -317,7 +317,7 @@ group1 in Dropbear server too */
-  
-  /* The command to invoke for xauth when using X11 forwarding.
-   * "-q" for quiet */
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch b/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch
-deleted file mode 100644
-index a20781d31d..0000000000
---- a/meta/recipes-core/dropbear/dropbear/dropbear-disable-weak-ciphers.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From c8a0c8e87b772576f3a431c3b4cacaf5aa001dcc Mon Sep 17 00:00:00 2001
--From: Joseph Reynolds <joseph.reynolds1@ibm.com>
--Date: Thu, 20 Jun 2019 16:29:15 -0500
--Subject: [PATCH] dropbear: new feature: disable-weak-ciphers
--
--This feature disables all CBC, SHA1, and diffie-hellman group1 ciphers
--in the dropbear ssh server and client since they're considered weak ciphers
--and we want to support the stong algorithms.
--
--Upstream-Status: Inappropriate [configuration]
--Signed-off-by: Joseph Reynolds <joseph.reynolds1@ibm.com>
-----
-- src/default_options.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/default_options.h b/src/default_options.h
--index 12768d1..2b07497 100644
----- a/src/default_options.h
--+++ b/src/default_options.h
--@@ -197,7 +197,7 @@ IMPORTANT: Some options will require "make clean" after changes */
--  * Small systems should generally include either curve25519 or ecdh for performance.
--  * curve25519 is less widely supported but is faster
--  */
---#define DROPBEAR_DH_GROUP14_SHA1 1
--+#define DROPBEAR_DH_GROUP14_SHA1 0
-- #define DROPBEAR_DH_GROUP14_SHA256 1
-- #define DROPBEAR_DH_GROUP16 0
-- #define DROPBEAR_CURVE25519 1
-diff --git a/meta/recipes-core/dropbear/dropbear_2024.86.bb b/meta/recipes-core/dropbear/dropbear_2025.88.bb
-similarity index 93%
-rename from meta/recipes-core/dropbear/dropbear_2024.86.bb
-rename to meta/recipes-core/dropbear/dropbear_2025.88.bb
-index 3b54542490..dd51ed8a26 100644
---- a/meta/recipes-core/dropbear/dropbear_2024.86.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2025.88.bb
-@@ -19,11 +19,11 @@ SRC_URI = "https://dropbear.nl/mirror/releases/dropbear-${PV}.tar.bz2 \
-            file://dropbear@.service \
-            file://dropbear.socket \
-            file://dropbear.default \
-+           file://0001-Fix-proxycmd-without-netcat.patch \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
--           ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
-            "
- 
--SRC_URI[sha256sum] = "e78936dffc395f2e0db099321d6be659190966b99712b55c530dd0a1822e0a5e"
-+SRC_URI[sha256sum] = "783f50ea27b17c16da89578fafdb6decfa44bb8f6590e5698a4e4d3672dc53d4"
- 
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
-                file://0006-dropbear-configuration-file.patch \
-@@ -47,10 +47,9 @@ SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
- BINCOMMANDS = "dbclient ssh scp"
- EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
- 
--PACKAGECONFIG ?= "disable-weak-ciphers ${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
-+PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
- PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam,${PAM_PLUGINS}"
- PACKAGECONFIG[system-libtom] = "--disable-bundled-libtom,--enable-bundled-libtom,libtommath libtomcrypt"
--PACKAGECONFIG[disable-weak-ciphers] = ""
- PACKAGECONFIG[enable-x11-forwarding] = ""
- 
- # This option appends to CFLAGS and LDFLAGS from OE
+* sstate does not work well if a FIT image contains an initramfs.
+  The kernel gets re-built from scratch if the build runs from an
+  empty TMPDIR:
+  https://lists.openembedded.org/g/openembedded-core/message/203510.
+  This is also problematic for SDK use cases since working with the
+  SDK is annoying if the kernel gets re-built from scratch for no
+  good reason.
+* A FIT image kernel is not available as a package, but all other
+  kernel image types are.
+* The its-file is generated by complicated shell code with lots of
+  code duplications. Switching to Python simplifies the maintenance
+  (also because of the indentation with spaces and tabs in the shell
+  code).
+* Separating the FIT image related complexity from the kernel build
+  complexity simplifies the maintenance of the kernel but also of
+  the FIT image related code.
+* There is already a new (but unfortunately completely unaligned)
+  implementation for creating FIT images in meta-openembedded:
+  https://github.com/openembedded/meta-openembedded/blob/master/meta-oe/
+  classes/fitimage.bbclass. Let's hope this patch series will lay a
+  solid foundation for a future merge of the two implementations.
+* The new implementation in Python is also a preparation for additional
+  features, such as adding different types of artifacts or generating
+  the configuration nodes with greater flexibility. Currently, exactly
+  one configuration per device node is supported.
+
+Architectural change
+--------------------
+
+The existing kernel-fitimage.bbclass is designed to be added to
+KERNEL_CLASSES. It appends code to the kernel's tasks and injects
+additional tasks between the existing ones. Some functions rely on
+running within the kernel's build folder structure.
+
+The new implementation introduces the kernel-fit-image.bbclass,
+which is intended to be inherited by an independent recipe. This
+recipe takes the kernel artifacts from the sstate-cache and assembles
+the FIT image entirely independently of the kernel's build tasks and
+directory structure.
+
+An example of using the new kernel-fit-image.bbclass is the
+linux-yocto-fitimage.bb recipe, which builds the FIT image for the
+linux-yocto kernel. The recipe looks like this:
+
+  SUMMARY = "The Linux kernel as a FIT image (optionally with initramfs)"
+  SECTION = "kernel"
+  LICENSE = "GPL-2.0-with-Linux-syscall-note"
+  LIC_FILES_CHKSUM = "\
+    file://${COREBASE}/meta/files/common-licenses/GPL-2.0-with-Linux-syscall-note;
+    md5=0bad96c422c41c3a94009dcfe1bff992"
+
+  inherit kernel-fit-image
+
+The configuration variables defined in the conf/image-fitimage.conf
+file are handled by the kernel-fit-image.bbclass in the same way as
+they are by the kernel-fitimage.bbclass. The new implementation is
+98% backward compatible with the existing kernel-fitimage.bbclass.
+The existing test-suite runs with minimal chagnes.
+
+With the kernel-fitimage.bbclass, the FIT image was built as part of
+the kernel itself. To ensure the new recipe is built automatically,
+the following variables can be set, for example, in the machine
+configuration file:
+
+  # Do not install the kernel image package
+  RRECOMMENDS:${KERNEL_PACKAGE_NAME}-base = ""
+
+  # Install the FIT image package into the rootfs (there is now a package :-)
+  MACHINE_EXTRA_RDEPENDS += "${PREFERRED_PROVIDER_virtual/kernel}-fitimage"
+
+  # Configure the image.bbclass to depend on the fitImage instead of only
+  # the kernel to ensure the FIT image is built with the image
+  KERNEL_DEPLOY_DEPEND = "${PREFERRED_PROVIDER_virtual/kernel}-fitimage:do_deploy"
+
+Breaking changes
+----------------
+
+* Currently it is possible to bundle an initramfs into the kernel and
+  finally add this bundle to a FIT image. With this patch series
+  completely merged, the INITRAMFS_IMAGE_BUNDLE variable will not have
+  an impact on the FIT image build process. Of course, nothing changes
+  on the kernel build code. It is still possible to bundle an initramfs
+  into the kernel. Just adding this bundle also to the FIT image is not
+  possible anymore. It would be possible to bring this feature back by
+  slightly modifying the new implementation. But it would make the
+  implementation more complex and I don't see a real use case for this
+  feature. Bundling an initramfs and a kernel is basically what the FIT
+  image is supposed to do natively, without the help of the kernel build
+  code. As long as the kernel build code deals with the initramfs, using
+  a kernel from the sstate-cache is not possible without re-building the
+  kernel. That's why this patch series removes the support for this
+  feature.
+* Building a kernel FIT image changes.
+  Before this patch series:
+
+    A configuration like:
+      KERNEL_IMAGETYPE = "fitImage"
+      KERNEL_CLASSES = "kernel-fitimage"
+    and building a kernel like:
+      bitbake linux-yocto
+    generated a FIT image including the kernel and maybe additional
+    artifacts.
+
+  With this patch series merged, the same can be achieved like this:
+    bitbake linux-yocto-fitimage
+
+  While this simple example is even simpler than before, there are
+  also other examples which might look more complicated with the
+  new implementation than with the old implementation.
+
+Proposal for merging these patch series
+---------------------------------------
+
+The patches are split into small steps which allow a step-by-step
+merging:
+
+1. Already on master-next:
+   * u-boot: ensure keys are generated before assembling U-Boot FIT image
+
+2. Add the new implementation without touching the old implementation
+
+   * oe-selftest: add new ext dtb recipe
+   * oe-selftest: fitimage: test coverage for ext dtb
+   * kernel-signing-keys-native: refactor key generation into a new recipe
+   * kernel-uboot: do not require the kernel build folder
+   * kernel-devicetree: export dtbs to sysroot
+   * kernel.bbclass: stage the sysroot-only folder
+   * kernel-uboot.bbclass: stage the kernel binary
+   * kernel-fitimage: refactor order in its
+   * kernel-fit-image.bbclass: add a new FIT image implementation
+   * maintainers: add myself for linux-yocto-fitimage
+   * oe-selftest: fitimage add tests for fitimage.py
+   * oe-selftest: fitimage refactor kernel-fitimage.bbclass
+   * oe-selftest: fitimage: run all tests for the FIT image recipe
+   * oe-selftest: fitimage refactor classes
+
+3. Refactor the old kernel-fitimage.bbclass to Python to share code
+   with the new implementation. While not strictly required, this
+   allows users to migrate to the new Python code with 100% backward
+   compatibility.
+   Both implementations could be maintained until the new one is widely
+   accepted and tested.
+   Note: This change does obviousely not resolve any issues as the
+   architecture remains the same. We can also simply drop this patch.
+
+   * kernel-fitimage: re-write its code in Python
+
+4. Remove the old kernel-fitimage.bbclass and clean up the code from
+   the initramfs bundle in the FIT image left overs.
+
+   * kernel.bbclass: remove support for type fitImage
+   * oe-selftest: fitimage: remove kernel-fitimage tests
+   * kernel.bbclass: remove support for type fitImage
+   * oe-selftest: fitimage: remove kernel-fitimage tests
+   * kernel-fitimage.bbclass: remove it
+   * kernel-uboot.bbclass: merge it into kernel-uimage.bbclass
+   * oe-selftest: fitimage: drop initramfs bundle test
+   * kernel-fit-image.bbclass: ignore INITRAMFS_IMAGE_BUNDLE
+
+Side note: The development of the commits took place the other way round:
+First the existing implementation was re-written in Python. Then the new
+implementation was split out and finally the independent recipe could be
+added to use the new kernel-fit-image.bbclass as well.
+
+Some documentation patches are under development on a branch:
+https://git.yoctoproject.org/poky-contrib/log/?h=adrianf/fitimage-improvements
+
+Adrian Freihofer (22):
+  oe-selftest: fitimage: test coverage for ext dtb
+  kernel-signing-keys-native: refactor key generation into a new recipe
+  kernel-uboot: do not require the kernel build folder
+  kernel-devicetree: export dtbs to sysroot
+  kernel.bbclass: stage the sysroot-only folder
+  kernel-uboot.bbclass: stage the kernel binary
+  kernel-fitimage: refactor order in its
+  kernel-fit-image.bbclass: add a new FIT image implementation
+  maintainers: add myself for linux-yocto-fitimage
+  oe-selftest: fitimage add tests for fitimage.py
+  oe-selftest: fitimage refactor kernel-fitimage.bbclass
+  oe-selftest: fitimage: run all tests for the FIT image recipe
+  oe-selftest: fitimage refactor classes
+  kernel-fitimage: re-write its code in Python
+  kernel.bbclass: remove support for type fitImage
+  oe-selftest: fitimage: remove kernel-fitimage tests
+  kernel-fitimage.bbclass: remove it
+  kernel-uboot.bbclass: merge it into kernel-uimage.bbclass
+  oe-selftest: fitimage: drop initramfs bundle test
+  kernel-fit-image.bbclass: ignore INITRAMFS_IMAGE_BUNDLE
+  ref-manual: replace kernel-fitimage.bbclass by
+    kernel-fit-image.bbclass
+  release-notes: drop references to kernel-fitimage.bbclass
+
+ .../migration-guides/release-notes-5.1.rst    |   2 +-
+ .../migration-guides/release-notes-5.2.rst    |   4 +-
+ documentation/ref-manual/classes.rst          | 103 ++-
+ documentation/ref-manual/variables.rst        |  60 +-
+ meta/classes-recipe/kernel-devicetree.bbclass |   4 +
+ meta/classes-recipe/kernel-fit-image.bbclass  | 176 ++++
+ meta/classes-recipe/kernel-fitimage.bbclass   | 839 ------------------
+ meta/classes-recipe/kernel-uboot.bbclass      |  51 --
+ meta/classes-recipe/kernel-uimage.bbclass     |  70 +-
+ meta/classes-recipe/kernel.bbclass            |  24 +-
+ meta/classes-recipe/uboot-sign.bbclass        |   5 +-
+ meta/classes/multilib.bbclass                 |   1 +
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ meta/lib/oe/fitimage.py                       | 463 ++++++++++
+ meta/lib/oeqa/selftest/cases/fitimage.py      | 284 ++++--
+ .../kernel-signing-keys-native.bb             |  61 ++
+ .../linux/linux-yocto-fitimage_6.12.bb        |  13 +
+ 17 files changed, 1104 insertions(+), 1057 deletions(-)
+ create mode 100644 meta/classes-recipe/kernel-fit-image.bbclass
+ delete mode 100644 meta/classes-recipe/kernel-fitimage.bbclass
+ delete mode 100644 meta/classes-recipe/kernel-uboot.bbclass
+ create mode 100644 meta/lib/oe/fitimage.py
+ create mode 100644 meta/recipes-kernel/kernel-signing-keys/kernel-signing-keys-native.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-fitimage_6.12.bb
+
+-- 
+2.49.0
+
 
