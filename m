@@ -2,128 +2,134 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA4F9C3ABCC
-	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 14:08:10 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.102873.1747231683975858925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D516C3ABD8
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 15:17:31 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.105222.1747235842103304433
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 07:08:04 -0700
+ Wed, 14 May 2025 08:17:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JB1JTsBi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso68427985e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:08:03 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aG6J8/L1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43d0618746bso54188245e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 08:17:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1747231682; x=1747836482; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OcafiKmaBNpTRYJi8jHNn9lBhosFKtxtw5uGkpUl6o4=;
-        b=JB1JTsBisVR3GDHGJkU9XvjLnls/GTHvu6Uy8MC7xv1iaLGW3FXOOoCZ8w2xLXUwAT
-         jPRx8csP+oZfjNf67zVCQDtJmrqjp1ema9Vcaq+0hi3B30e5OoieA40Z5VJ/JkATf0dx
-         RqJjIy03sC0VE7HcWMeOcQlG4kf5e9vIe/3hY=
+        d=linuxfoundation.org; s=google; t=1747235840; x=1747840640; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EspbGCVzWMtSONNUTO5wWwvW9N4lip3NVLkILO65mGQ=;
+        b=aG6J8/L1KeLPqKTBAgeamzpDqOwY4A+33i6CaKE6TBvVO4ANUUeZsjf9ht7qXf/AUW
+         r0gu2SDdgspbwR8zKijL6JbFMEEaKs93EN3rlLEdMqhujP04e9COzr48ZQAQBxv3YohI
+         9jMFvyvaFg68TpEX7Fg6rxNs4QRLcEbQtd4K4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747231682; x=1747836482;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OcafiKmaBNpTRYJi8jHNn9lBhosFKtxtw5uGkpUl6o4=;
-        b=IK5OZHTxtRnerU1uQXSAu45WuGxCS0WYEA6cUpl/25I6t/GvLUqp/wwnLo2Ftffe2A
-         708iOhuIltjBbsHiBTfwB8wzG72/OV08mETIA3AWerUhSNw3syQqaQzkyzlt5m1fpwur
-         uWs1WXqkSny3O+kMEJvb1RXsz0sEsOh5iunvv93LYEdc0u/9sCeBhUIRZW+JORaS+fBm
-         lrn8ZGXr3pZvzBzjO/TV8pFV0vp9psGtEGU0bmbqb3Nu/AT+S7HLRkP+vUMi4m0T3/By
-         dKFAd1nSjCH/PzPQld4SQCwTSd0r1DwP3zKkqZ+NZ50viDg99RzulLZ3MwjK5Utn3ENF
-         Xs7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUc0+s9YE1RdP+dZfxLnSNjsr129jqNwuXGVVxJHcO5QHyHVFxlbusEi0rSUL/ePot81+oGCEqMc8DYAS7yc8xOag==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywm4SupFyfsE7vs122WxCH++b02qF9XSnSZF/0rKMHqLPBdbZNJ
-	M3GKvIFdn8lxrK/VK0leQjhKZv4RvfdpnVXS4bgbE5rxKjtnuFppceCOk4Asdr62U0QO4Bg/Jwu
-	6
-X-Gm-Gg: ASbGncsDzadLHEcgORPa56l+z2CuO1TayCRZQnyJzApJNCJbiQcF/kSvZeGs0s8WjvC
-	CR3XhQ9Jbp/OfqT+meerwnWMzaWYw0XmHGZPtqKAUi4JvtlC/dAmL6wivmWgb3DRGLLP4gyDr4b
-	YwNZB83SNcHDQVbcHucbtkdMjYmmjLnMg0d+cHxJ4WSOhLc0f05YOOIiPuy9TEA1/ibJKR17H2t
-	tbzIZnOHOqnarnT0nzXtv1DFzStYFBQznerzRXiC0UmMWxlMbh1l40nfaxtzI+3QkKqUHXSsmMG
-	VQmT++DDVUVCE2f5l8zKIPWR8SIM29efKwM6eZVUt+GbC22JXaq9m1aTMi1iW93D89EwUR0u6X4
-	6hzMAvluK1IwLrsoHalHAwdLGt2mKunOjDjTZoj//
-X-Google-Smtp-Source: AGHT+IEwzXzZeN2grUbe5l8fvkVRfnbx9TsT2RXzwsmqSsxI/v9RVr8ZP9qO1isfCssza5u676Js0g==
-X-Received: by 2002:a05:600c:b8c:b0:43c:efed:732d with SMTP id 5b1f17b1804b1-442f4c8fe7cmr24330635e9.16.1747231682254;
-        Wed, 14 May 2025 07:08:02 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ac80:8bbf:3444:fa34? ([2001:8b0:aba:5f3c:ac80:8bbf:3444:fa34])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a2cee4sm20024168f8f.67.2025.05.14.07.08.00
+        d=1e100.net; s=20230601; t=1747235840; x=1747840640;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EspbGCVzWMtSONNUTO5wWwvW9N4lip3NVLkILO65mGQ=;
+        b=SKDq97uRh5nEytSI5PSCwy+DCyqn1EvtOZoN04ME1kcHJ8yWjhYyKxDoHK7pThK3Ah
+         igYsKiKZKkn/NXeGvLVv1kwuyFO7DgTa3W31NZBf7MhstHU8fySz8tIpgfOhIHa7Z9rB
+         qzMf85HrkXx4nWdP5j43yhBKzNdNmQgrCcyqPpe1ISRVJYEK3u+e1zhtHSR7JlWTfugz
+         8fxLgyERWVzaMUcR1fScRxP8BJW84dCoAqCbYvzv6hqaEmIAIj/VNC256lnCTBExYvJb
+         JFXFcg94/vFI+A6W2vqrv7qpyLp0+0Vpew1rz3sdT0nla3vjM7XOxxaDXRknZJ99LKvy
+         AorA==
+X-Gm-Message-State: AOJu0YxLbCCMMWc9AtzkrpDm/81Q08aMiXMM7oyTK6IljOyyQAAbLhyw
+	6XDfqNjE+QzIlUnXkPVedAm0Q6SkQW5AceyzrB3dHjbKkQhGbtwVy1DOnzLsp2iZO7oprs1Pe7i
+	B
+X-Gm-Gg: ASbGnctJ0D8KMol0fjBQYKKiV/bjz/xz2yVQvUunP6HBtdafbN8Ul7azzJbrLbkM472
+	L6q3P4DBOwIoBjX/GXJn1o6QKdzI3ICPpIWPzNban/ppfnCcwOD0G8mAyKl/DOhapHDIOO+Vs6d
+	Z7bQ3Evj+Se8csl1E85P3CcasgwlpIZINA4J2sdhz0ow8XbOOyMO8DHL0mcYIf3d4+7L/N25iCg
+	2mdRi0L4DoPxoK8//Gu/wfLuCXIBT8ouHoO2c3tkQp0B3tV3L6J9uZny+ALi84uopF5toPmCBWb
+	CI5FrETqsoAnyGZE0CmgJP3w1Rbv2WD5uDZ61i2HfUAYh3t2u75v32aTzvoEjN8ykeRDiM8Xg9l
+	QvMlz
+X-Google-Smtp-Source: AGHT+IFCXCZGTGBLFLZ5+W9JswKDcfJUCqrlrM4LTdlKHJn3tWH2LiAJFjRQrekRvlNbtdVMr72Mbw==
+X-Received: by 2002:a05:600c:1e84:b0:43c:e7a7:1e76 with SMTP id 5b1f17b1804b1-442f20b8554mr28142215e9.1.1747235839637;
+        Wed, 14 May 2025 08:17:19 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ac80:8bbf:3444:fa34])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f39e853asm34899995e9.26.2025.05.14.08.17.18
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 07:08:00 -0700 (PDT)
-Message-ID: <8cc3ce571584b8d1cc2eb3bf0245ee619b6b8d79.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 33/56] openssh: upgrade 9.9p2 -> 10.0p1
+        Wed, 14 May 2025 08:17:19 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "wangmy@fujitsu.com"
-	 <wangmy@fujitsu.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 May 2025 15:07:59 +0100
-In-Reply-To: <DB5PR02MB10213D3636FDB5A5DACC9B42AEF96A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
-		 <1747040619-7566-33-git-send-email-wangmy@fujitsu.com>
-	 <185f54b0fe32289f81b23cc978da6dcd04ba7666.camel@linuxfoundation.org>
-	 <DB5PR02MB10213D3636FDB5A5DACC9B42AEF96A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gcc: Fix riscv multilib issues in plain toolchains
+Date: Wed, 14 May 2025 16:17:18 +0100
+Message-ID: <20250514151718.1495233-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 14:08:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216496
+ <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 15:17:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216497
 
-On Tue, 2025-05-13 at 14:29 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From:
-> > openembedded-core@lists.openembedded.org=C2=A0<openembedded-core@lists.=
-openembedded.org
-> > > On Behalf Of Richard Purdie via lists.openembedded.org
-> > Sent: den 12 maj 2025 15:23
-> > To: wangmy@fujitsu.com; openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH 33/56] openssh: upgrade 9.9p2 ->
-> > 10.0p1
-> >=20
-> > On Mon, 2025-05-12 at 17:03 +0800, wangmy via
-> > lists.openembedded.org wrote:
-> > > From: Wang Mingyu <wangmy@fujitsu.com>
-> > >=20
-> > > 0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
-> > > refreshed for 10.0p1
-> > >=20
-> > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > > ---
-> > > =C2=A0...gress-test-exec-use-the-absolute-path-in-the-SSH-e.patch | 6
-> > > +++---
-> > > =C2=A0.../openssh/{openssh_9.9p2.bb =3D> openssh_10.0p1.bb}=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2
-> > > +-
-> > > =C2=A02 files changed, 4 insertions(+), 4 deletions(-)
-> > > =C2=A0rename meta/recipes-connectivity/openssh/{openssh_9.9p2.bb =3D>
-> > > openssh_10.0p1.bb} (99%)
-> >=20
-> >=20
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/74/builds/1579
-> >=20
-> > (and many more)
-> >=20
-> > The ssh server doesn't work after this change as per the other
-> > similar
-> > patches sent.
-> >=20
-> > Cheers,
-> >=20
-> > Richard
->=20
-> Not sure if it is related, but we have this in our bbappend that
-> lifts the version of openssh from 9.9p2 to 10.0p1:
->=20
-> FILES:${PN}-sshd +=3D "${libexecdir}/sshd-auth"
+RISC-V multilib currently doesn't work at all. We could disable multilib for
+the riscv platform but that would then behave differently to all our others.
+Instead, copy the non-multilib config over the multilib config for now for
+riscv, meaning we can keep the platforms similar.
 
-Thanks, that does indeed fix it. I wish you'd sent the upgrade if you
-had it working!
+This isn't quite enough as the triplet specific c++ headers are in the wrong
+place leading to compiler issues and testimage failures. Work around that too
+until someone adds full multilib support for the platform (if desired).
 
-Cheers,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc | 6 ++++++
+ meta/recipes-devtools/gcc/gcc-runtime.inc         | 5 +++++
+ 2 files changed, 11 insertions(+)
 
-Richard
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index 2dbbc23c940..d9959364c3a 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -34,6 +34,7 @@ python gcc_multilib_setup() {
+                 '%s/aarch64/aarch64-linux.h' % src_conf_dir,
+                 '%s/aarch64/aarch64-cores.def' % src_conf_dir,
+                 '%s/arm/linux-eabi.h' % src_conf_dir,
++                '%s/riscv/t-linux*' % src_conf_dir,
+                 '%s/*/linux.h' % src_conf_dir,
+                 '%s/linux.h' % src_conf_dir)
+ 
+@@ -45,6 +46,9 @@ python gcc_multilib_setup() {
+             bb.utils.mkdirhier('%s/%s' % (build_conf_dir, parent_dir))
+             bb.utils.copyfile(fn, '%s/%s' % (build_conf_dir, rel_path))
+ 
++    # For now, force the riscv multilib view to our own meaning we can always enable multilib
++    bb.utils.copyfile('%s/riscv/t-linux' % src_conf_dir, '%s/riscv/t-linux-multilib' % build_conf_dir)
++
+     pn = d.getVar('PN')
+     multilibs = (d.getVar('MULTILIB_VARIANTS') or '').split()
+     if not multilibs and pn != "nativesdk-gcc":
+@@ -145,6 +149,7 @@ python gcc_multilib_setup() {
+         'i686'      : ['gcc/config/i386/t-linux64'],
+         'mips'      : ['gcc/config/mips/t-linux64'],
+         'mips64'    : ['gcc/config/mips/t-linux64'],
++        'riscv64'     : ['gcc/config/riscv/t-linux-multilib'],
+         'powerpc'   : ['gcc/config/rs6000/t-linux64'],
+         'powerpc64' : ['gcc/config/rs6000/t-linux64'],
+         'aarch64'   : ['gcc/config/aarch64/t-aarch64'],
+@@ -161,6 +166,7 @@ python gcc_multilib_setup() {
+         'powerpc64' : ['gcc/config/linux.h', 'gcc/config/rs6000/linux64.h'],
+         'aarch64'   : ['gcc/config/linux.h', 'gcc/config/aarch64/aarch64-linux.h', 'gcc/config/arm/linux-eabi.h'],
+         'arm'       : ['gcc/config/linux.h', 'gcc/config/aarch64/aarch64-linux.h', 'gcc/config/arm/linux-eabi.h'],
++        'riscv64'     : ['gcc/config/linux.h'],
+     }
+ 
+     libdir32 = 'SYSTEMLIBS_DIR'
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index afcc13a310c..fe1f43b2fd7 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -144,6 +144,11 @@ do_install:append:class-target () {
+ 		ln -sf ../${X86ARCH32}${TARGET_VENDOR}-${TARGET_OS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}/32
+ 	fi
+ 
++	if [ "${TARGET_ARCH}" = "riscv64" -a "${MULTILIB_VARIANTS}" = "" ]; then
++		mv ${D}${includedir}/c++/${BINV}/${TARGET_SYS}/bits/* ${D}${includedir}/c++/${BINV}/bits
++		mv ${D}${includedir}/c++/${BINV}/${TARGET_SYS}/ext/* ${D}${includedir}/c++/${BINV}/ext
++	fi
++
+ 	if [ "${TCLIBC}" != "glibc" ]; then
+ 		case "${TARGET_OS}" in
+ 			"linux-musl" | "linux-*spe") extra_target_os="linux";;
 
