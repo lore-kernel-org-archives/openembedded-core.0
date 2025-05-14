@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AE13C3ABDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A86C3DA4A
 	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 01:25:55 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.43])
- by mx.groups.io with SMTP id smtpd.web11.3461.1747272351110839759
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.84])
+ by mx.groups.io with SMTP id smtpd.web10.3349.1747272347376449653
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 18:25:51 -0700
+ Wed, 14 May 2025 18:25:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=ZbXK5xIi;
- spf=pass (domain: ericsson.com, ip: 40.107.22.43, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=IvVOeemJ;
+ spf=pass (domain: ericsson.com, ip: 40.107.21.84, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U97p5OfAYJQyrxBqjtNfOKG+txmFNUGDMboJz6PtUYja/24gGOhKi88GFgF7xdjw+uFoPLbc+OMXhUpVqW49VwakZIDO5bHufaCMPGQvgd5m42dcIO/waV0VI9FqvCgHkqMdoTFEpoiHJkBuCCm3H3gWC8CF4MzzVTc2JpqlFQnx9mJUIwNnztobUOR2GJvQu0HZXqNuUTG+bo+yzCmJywdo7Ey/Qqi+0TEulOIbarnHh3joseNPLoAiIMVF43bHSytN+7hjaWwlufF9wmDdWBPqWfL08J1DtnoK4RI4EJ1F5ZJG3Pq+5FIbARlh4mLgRL3ke3SI+lITHaTwwjRyIg==
+ b=IoNxqgs4kD4+UGHjM4LmfhfFPui7Fn4eve2tO/jtRjaMy8VH3XmbB9w7KKYQ1JcbndWo2iJnLqMisHR+/ZCconlxtSECmbqATD4s95wJ0sbjAWSg31GGwJNl9gjE8+0FB/9nKhIgcWvhg4QkPbdWaG4P7f6hcGuSyyQzM1Rmdg+bJUKVK/5bq3R6D0hHOjrxFrIGOKvFxkGpng1yeEwauEultBYgmXmTHRKJyZf5Q37U1mxH4XZdn/gFiP2Uqr9PSt33LANGDxGkFAyKX9tmJPs8ePdKVvlHeHsBkoikOxMoMqz+ggs0kHdntaJDgp6FdwWA1+5KBcvxdyaSwL7/hQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r0XZBT+CcBsku8vVTZ1kS3EbkLEq6kMOnnbdoJkkKcc=;
- b=mHnapQGFKXr2/pH/BdvwokmgGnmttfdoal+k6HO1rhI9jUydTwDH2gVL+wv4vX/CraZM2uhHUOhlezYLsUqz/Bp0YxbCoWrqW35InUU/ba1V7BSloJDRlDzYhhyph/F5sFeRuAO/YEeRWym57SmfHlTSZarbos6tGkvH7ONPMu0eGQzL5j30VtBVAiS/cmG4f/YooYcAWvkliafV+GJ/tecw+3pFy0qxqyq28s/n0ua7FSrxYIQrMf8hzeAtCZ89YF7kt+0Wqi4mgB5iJl2ihHnjWfMJ1rEStDBOMVsqk7MQUvEbLAc57olv6GsH7E5Zj9YMqOABGFz6qXXYU8Sxvw==
+ bh=mMLSocud3nI99yvMXu0+wnUlGgHdU+8ZKeDB7bV/SVI=;
+ b=Wbxd/yXWtYtEFe7y/JTFcKUmZ+6UOdXWWimYpcOQAvi7Zsnephnw+78Lm4uQeLukKuGiCMx4rBFitivV4QwMGuCXVoeeBptI8uW5xlbqW2Li3LKdCCA5lwtB3eUrcVbFxQUKSlxpRjhbCO7avZmoAYUK0wgYKP7stL5xwB0+RILpi1ryjGJGut/ct8NSEARy4VMm+YfwTOYSZjeLdGO/qOmgLq5lfikrO8wWuwDzpBnkj7iKzLA7XB/dB5jVtHbO859SRbwxUUsoXlvInVQwQlEnG+hKepfnQomRs/yZ6ku4ZCQBXXuQMQniwLOfaMEsdjwzuIrlLl2EjQJerqAkOg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
@@ -25,18 +25,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r0XZBT+CcBsku8vVTZ1kS3EbkLEq6kMOnnbdoJkkKcc=;
- b=ZbXK5xIif1AI2LAe78Yj+uPCBfBpk0H2RbLKphwUVjQsYYajWs6t63W+xvqPecjJPLSNj6fiN7pxmwEkFB8+31FEmYRmGKjt6U2Hut4U7AucDR/G88QyAL9MTpgCQtihfzrGHzxyj3GW1BK9IFclfKk5uf38huOC1yRegvVfbLOJ1GZ6JQs+PS0eKIRoG723ck1Q1xH3+2LVbfOoQOMRuoj/wphfjJQ4vOYv4iF6VL1ZEAkWTphY6RKH8wA/4LwIpJLRISltFmR5IW9DPd06VAkhpnjz2TAcy3MIr2Er7VH15w59DmVWJLH4TF4xANNfPTr4OF9bJ057fjTLe/B3nw==
-Received: from DB8PR06CA0024.eurprd06.prod.outlook.com (2603:10a6:10:100::37)
- by DB9PR07MB7098.eurprd07.prod.outlook.com (2603:10a6:10:1fa::7) with
+ bh=mMLSocud3nI99yvMXu0+wnUlGgHdU+8ZKeDB7bV/SVI=;
+ b=IvVOeemJXzZ5PeoyYlsJ5ZnS9/yg2qRbrQSRUb8HttAJfaaFnMo6bbajn3ydoTvH8ocZILDfNZlqKYxF1cbYv7FRxop5OUQ/1e6I/qQ9oj1WLP7C5yPpDtRrcR//qYRK6bP98RdQGZJc5HWo4pi0xWAlsTQFOcl6XHuKuui2K3A/B74LSXM2bHdvYZwrNY1E9SmhCT/q8LeHqfedoRudei9sJBm2yCZPI45WmRhBDaypsW1fOp3A/Crb/t9+SIzVnWJ7/PAgV7n+Bt0FerCKuplrvJIhctRhBGe/t2kDWLtjhXgKmglZc4ZuxbBlB8qvrfzWRUD9WAEL4keb5GiTEg==
+Received: from PR3P193CA0053.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:51::28)
+ by DU2PR07MB8127.eurprd07.prod.outlook.com (2603:10a6:10:270::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Thu, 15 May
- 2025 01:25:43 +0000
-Received: from DU2PEPF00028D03.eurprd03.prod.outlook.com
- (2603:10a6:10:100:cafe::94) by DB8PR06CA0024.outlook.office365.com
- (2603:10a6:10:100::37) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.20 via Frontend Transport; Thu,
- 15 May 2025 01:25:43 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.31; Thu, 15 May
+ 2025 01:25:39 +0000
+Received: from AMS0EPF000001A7.eurprd05.prod.outlook.com
+ (2603:10a6:102:51:cafe::f) by PR3P193CA0053.outlook.office365.com
+ (2603:10a6:102:51::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.18 via Frontend Transport; Thu,
+ 15 May 2025 01:25:39 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -44,142 +44,163 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- DU2PEPF00028D03.mail.protection.outlook.com (10.167.242.187) with Microsoft
+ AMS0EPF000001A7.mail.protection.outlook.com (10.167.16.234) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8722.18 via Frontend Transport; Thu, 15 May 2025 01:25:43 +0000
+ 15.20.8722.18 via Frontend Transport; Thu, 15 May 2025 01:25:39 +0000
 Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.62) with Microsoft SMTP Server
+ smtp-central.internal.ericsson.com (100.87.178.60) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 15 May 2025 03:25:35 +0200
+ 15.2.1544.14; Thu, 15 May 2025 03:25:38 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 82B8B410FCB1;
-	Wed, 14 May 2025 14:57:28 +0200 (CEST)
+	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 8861E410F4F9;
+	Wed, 14 May 2025 14:57:20 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 6AB6F70E61C0; Wed, 14 May 2025 14:57:28 +0200 (CEST)
+	id 674A070E61C0; Wed, 14 May 2025 14:57:20 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>, Marta Rybczynska
-	<rybczynska@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>, "Peter
- Marko" <peter.marko@siemens.com>
-Subject: [PATCH v4 2/3] kernel: add support to extract compiled files
-Date: Wed, 14 May 2025 14:57:05 +0200
-Message-ID: <20250514125706.495571-3-daniel.turull@ericsson.com>
+CC: Daniel Turull <daniel.turull@ericsson.com>, Peter Marko
+	<peter.marko@siemens.com>, Marta Rybczynska <rybczynska@gmail.com>, "Joshua
+ Watt" <JPEWhacker@gmail.com>
+Subject: [PATCH v4 0/3] Check compiled files to filter kernel CVEs
+Date: Wed, 14 May 2025 14:57:03 +0200
+Message-ID: <20250514125706.495571-1-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250514125706.495571-1-daniel.turull@ericsson.com>
-References: <20250514125706.495571-1-daniel.turull@ericsson.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D03:EE_|DB9PR07MB7098:EE_
-X-MS-Office365-Filtering-Correlation-Id: b1aae62b-09d2-4f55-9a75-08dd934f693b
+X-MS-TrafficTypeDiagnostic: AMS0EPF000001A7:EE_|DU2PR07MB8127:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c6e639b-2a23-41be-a18e-08dd934f6705
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700013;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?0WaPxyk6VmYRwfckc6nEJKFtgUY+QWHfLxsUROIKQDqT8fQio/AQKecfsRjO?=
- =?us-ascii?Q?/tABDiN+CHx8rahcX1MmCUO4uQ++sYDeYLVaggGHnq0FQgNjdeKl33XJlrdc?=
- =?us-ascii?Q?JuLjgvh837ua1eFQbKOrqPe9ktz1zQmkTr0/5vjeUDEgN1cOReikZmb8Jg7e?=
- =?us-ascii?Q?Bf0jyvoP6QPQOlPH4Iaq6j0AB2Dh6GVCdnpIeVUClEChE2GWpiPO3dXUg4wu?=
- =?us-ascii?Q?f+EQblNIXM7wbbMiRk46nMJ/e06vInh5DLw9UgRwuFc2ZpdMFVOLqzLnhIsg?=
- =?us-ascii?Q?pAsSt7MNWYEvIkUKjopQx2tmB0mxqJUdUKYeZTjYQ7pEC8olsTFLq4X5kPMf?=
- =?us-ascii?Q?gQobcKsS72Y8tdSJRQOqLuLq668d8q/x8ASWKj3LVmIz9JHUcEcc84FH7X2A?=
- =?us-ascii?Q?g+ABMsitq8VHCpw6FhR/KdI9PRg7DrY117x3aTsTMIgPMAIqW6p/M0KgasFO?=
- =?us-ascii?Q?WrY80NcEh10R1QVG4Rwa79RUfk+846NdjFsOkW2GsnQUc5yl1Eiino63VOL4?=
- =?us-ascii?Q?KxeIR8JcPzy+M+TH2xTGdaViUD2QENTTGqbqGJFj/iYiTcFvToTzKHpyGm/f?=
- =?us-ascii?Q?VmB2yJjNdNKTBFNYd/cEbGe+iBVBkUZZ6Xx0/IQS/3Z9uIw6NkVANXk3S/lu?=
- =?us-ascii?Q?J7otAYKLaaorD5OdZO58Ug/8Ur89Q8FtbjBZeeDMf4FgU/ZS5j6AHJ/kEP5b?=
- =?us-ascii?Q?YwH4/Himaqjc74tqsJ3Y+YJbK/xGsnC8gTHyUCAO6WcC+IAFxv4B2iVIJXVM?=
- =?us-ascii?Q?Jcn3LhyqNDyHhrGC/CoBgOT0OxnSKdPoKGDt70SWNEHd0CLIqsbTULzmnfFq?=
- =?us-ascii?Q?D3UIlm1aGf3QWZzccUat3E5rnbkutPSx9g97RdJuLxIlv2eyxHbEq2Of8Xvt?=
- =?us-ascii?Q?js4Lx5brsHMby4EapNt0LvJXRrqAr6K75773QH5NjhPei1oJU7aMW5yLwaPd?=
- =?us-ascii?Q?bpaCfFloBzqCB/+tQq34Pf0e1Hm5YjWyZxevBlTwrG3UTHazLDCSEvVDH3Cj?=
- =?us-ascii?Q?x2nqmTkYN1LcIDYiJ9XY5BOrcp2Ic2EvUclkfyp2oV/u9FsStaW0SSEb5Yan?=
- =?us-ascii?Q?ng/+m4VCdcNGsF/7nSvsx5woVokAPqHSjtnvLzCVCB6Q02OVA7lFelpE0jU5?=
- =?us-ascii?Q?eVQvaEHk6N4cI99ptiKYyjKzyqhZ9XzKtwQfgDvCKzjr2JI8BVgoyy9DZUHD?=
- =?us-ascii?Q?7FDwoSu03/kE6uR/wCpdXj2aGvfL9u9F5jJEC4Eg5Ek74DtD9MnQJoOLX5uh?=
- =?us-ascii?Q?Oru2nm7nkG07ssxz5QE9FhbgZMHvQXxmaYaNbuTG72pkz6nJkQSCu1SOyVAN?=
- =?us-ascii?Q?EF3NZHOS9Spb7GzHHN05GZZQSnc8Pkb6F0lkzox8qRrUGcwPSybOIGixIbZ+?=
- =?us-ascii?Q?E3mbcE3LwmR+T92InilEn/UeUPtD0x946h0p2BRc17YSKwVHgECmC7Ei/bKX?=
- =?us-ascii?Q?W10uTxqrJV3SLDkQXcFCIyhxi9iW+eb6F/u/any4xUu48oJyJ1jEfoDPmo7h?=
- =?us-ascii?Q?DOkJZ82wfNXyVJ2AN1/ZUldS/P/XjgweCnHk?=
+	=?us-ascii?Q?lgn7AyYA+cln6ABUV2xMje2qt+oCpWnjTvVp/XmcOGKUBelYALgnYSt0+789?=
+ =?us-ascii?Q?oZO3Pc28xtg2xxSbtq0Gd0UGUVj2mGl2mg+tT2sOnQ7xZW4WGXw1sgUqTBvJ?=
+ =?us-ascii?Q?VnP0sOyKkqLBtNiyhmV+8bnOsgxkC/QfaeTCEMN3sz8ghlPrDwH4rriwGY1+?=
+ =?us-ascii?Q?kMQoR2Pfnr834k7UPKE5Vfnu0eRHQlBuMM3y7O1rPW43RXE4ASnMVlfdhC1t?=
+ =?us-ascii?Q?WZqw3zRkQn+Bf2IQc7g1BH4Q671u5c1qedriKkvR2IARoKi4Ux0nPyBn0Ozs?=
+ =?us-ascii?Q?WRMaz0IiwJW/D4ju6Ih6PbhxzBRp69PCXKEEfEIMvKqoJdwL4NbFU+MEe88W?=
+ =?us-ascii?Q?Lb2AzeCfmIMUIQkFU3rlU8Eh6Y0K6gIScWVUcQiDLSOLLiswCBM5WI/3EpXm?=
+ =?us-ascii?Q?46y7FzdPn+x/5IS9Y6sb1AZJo8WuJHP5I9dHa7xcvHaKoBDax1IkPmDTVtIC?=
+ =?us-ascii?Q?1Na/NpZnS5aOq0maPUIkU9fywOcwewCyMLNpDAO+6MEIBgY59uxJbYx9b2Dr?=
+ =?us-ascii?Q?Y6SXPQGVcK00H5GKpNs0OfHjxFJ/8gRMvcrLC413sc4Ae+5dQINI5eDwPC24?=
+ =?us-ascii?Q?ToYOgVydF/72sN7zVoF6rQRoqrMuawmiSeeo+G8MHzVBivqgFLFQO0X/Nct0?=
+ =?us-ascii?Q?KnGbGUMo+45qOApM+ZdLDRn+H79Mn+l5YQfkmyCsozPESHy11FtF6xgRtvz8?=
+ =?us-ascii?Q?sASUkCyD/Ci/rXWtnab97x+YlfuOkrcn+JMpDv5apJP5xk16Rm58IAlDbnKi?=
+ =?us-ascii?Q?gEfWNjBaueRzJiA6O8J7iy2gwCrTZB0TPIi9w+awbdnghaXeD+x3FKu3+jrj?=
+ =?us-ascii?Q?AzJJ4VIXXQsvIfYM7+aVHllPEYn2oHhrEpE+GayVZ0r8IfClJ2Dbxvhg3JR0?=
+ =?us-ascii?Q?lUyKDHhYnZxxaGyrG1KEp42oJSxA5U2Jp9bJBcjXI+NQaUtNUmKpe3sg9PQn?=
+ =?us-ascii?Q?orW2HKLmUblPrnqfg6yZXOJskHeLGYCpZUvw/mUyU+mkRbCt5KyWrRRbz86X?=
+ =?us-ascii?Q?NQnZnLMQDCM5JV3dBXx9HLf3J+/qL4i7eP4VnG5zlOkwOXfxoHfF23R84Ta+?=
+ =?us-ascii?Q?KRs9460zp/ZiP28oK5ufBFpYN+LWjEJ9qyNUzGleosg/1phqRK+56w0xB1ce?=
+ =?us-ascii?Q?H29HjxRsnCkQjoV16A/E7ECUFPR34cyPAuE0Gs00VYUCdWxRjYuL3I3f2nut?=
+ =?us-ascii?Q?Y8J2zrEXBS62asxdX8nEe6LkaxBtOFRX7AbN9YGcSIfr5cns+l2+W6ixZoma?=
+ =?us-ascii?Q?p2k3HmgnrblttHaqhuGsbRhboYl5vGX4UChHjQNbkdYznMgWoYgGth/8eg2y?=
+ =?us-ascii?Q?u5JrBgeyjjtLAHmFv7d4TlT+1QWwW4fM6vR1Wm4uk1OlBWlrh9CXnPz+/XRZ?=
+ =?us-ascii?Q?oMEnUIlWknQiIzs8dQ0ge/X+Nx087sGp7hnwrP9OauCascyUbNjMBK3SMOSg?=
+ =?us-ascii?Q?TAQTIOpxd9U1Hwt6J9QmHmf3M30XTLitMBlaVqYEK+kb5IkQmgjw3c7eAnR/?=
+ =?us-ascii?Q?tCtRml1PFhV758oAMU3q641G0RKnXS+tR3Zu?=
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 01:25:43.2825
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 01:25:39.6030
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1aae62b-09d2-4f55-9a75-08dd934f693b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c6e639b-2a23-41be-a18e-08dd934f6705
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D03.eurprd03.prod.outlook.com
+	AMS0EPF000001A7.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB7098
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR07MB8127
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 01:25:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216564
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216563
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-Use gen_compile_commands.py to extract files used during compilation
-for the used kernel configuration.
+Since kernel.org became a CNA, more information is available in the publish=
+ed CVEs, including details about which files are affected by a given CVE.
 
-To enable set SPDX_INCLUDED_COMPILED_SOURCES=3D"1"
+I have rewritten the original patch after the feedback received, including =
+only the basic functionality in the build (extracting the sources as a text=
+ file and inside spdx)
+and created a postprocessing script that enrich the cve-summary.
 
-The location can be controlled with KERNEL_FILES_DIR
+To filter out CVEs that are not applicable, we extract the files used durin=
+g the kernel compilation and
+compare it with the metadata in the CVE.
 
-CC: Marta Rybczynska <rybczynska@gmail.com>
-CC: Bruce Ashfield <bruce.ashfield@gmail.com>
+To enabled, add in your local.conf SPDX_INCLUDE_COMPILED_SOURCES.
+
+This could use as a base to run the vulnerability check independently and r=
+un an external tool to filter the CVEs.
+
+This patch can reduce the noise of kernel CVEs by around 70% with the defau=
+lt qemu kernel config and even more with smaller kernels.
+
+Kernel     | Total CVEs | Fix backported | Vulnerable | Filter with x86-64 =
+qemu yocto compiled files
+6.12.28    |   1201     |  1138          | 63         |  25
+6.6.90     |   3121     |  2877          | 244        |  80
+6.1.138    |   2979     |  2522          | 457        |  142
+5.15.182   |   3767     |  3005          | 762        |  230
+5.10.237   |   3586     |  2622          | 964        |  288
+5.4.293    |   3030     |  1806          | 1224       |  394
+
+When looking at the spdx source files included in the linux-yocto with a qe=
+mu-x86-64 build, it goes from 86989 to 38312 files included, since only c f=
+iles are removed.
+
+v1: initial proposal
+v2:
+  - rewrite kernel_vulns to fetch similarly as cve-update-db-native
+  - add functionality into cve_check.py, for the classes that uses oe.get_p=
+atched_cves function
+  - add linux-vulns into the cve-check results
+  - add only compiled files in the spdx, so the check can be done outside t=
+he build
+  - include compiled files into spdx when CVE_CHECK_KERNEL_CONFIG and SPDX_=
+INCLUDE_SOURCES is enabled
+v3:
+  - make inclusion of compiled files generic for SPDX, so other systems tha=
+t has knowledge of used files can also make more accurate sboms
+  - have the functions to extract files in kernel.bbclass. For other recipe=
+s that in the future want to use this feature can add the function in their=
+ recipe or in a build bbclass.
+  - move order of patches
+  - explicitly have the save_compiled_files added only when having the CVE_=
+CHECK_KERNEL_CONFIG
+  - add first kernel cves in cve_check, so manual CVE_STATUS is preserved
+  - add CVE_STATUS for false positives
+v4:
+ - Refactor and reduce series to 3 patches, one for spdx, one for the kerne=
+l, and one standalone script
+
 CC: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- meta/classes-recipe/kernel.bbclass | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+CC: Marta Rybczynska <rybczynska@gmail.com>
+CC: Joshua Watt <JPEWhacker@gmail.com>
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kerne=
-l.bbclass
-index 36ce659762..acef8b86ce 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -159,6 +159,9 @@ set -e
-     image_task =3D d.getVar('INITRAMFS_TASK')
-     if image_task:
-         d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
-+    if d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") =3D=3D "1":
-+        bb.build.addtask('do_save_compiled_files', 'do_build', 'do_compile=
- do_compile_kernelmodules', d)
-+        d.appendVarFlag('do_create_spdx', 'depends', f'{pn}:do_save_compil=
-ed_files')
- }
-=20
- # Here we pull in all various kernel image types which we support.
-@@ -867,3 +870,19 @@ EXPORT_FUNCTIONS do_deploy
-=20
- # Add using Device Tree support
- inherit kernel-devicetree
-+
-+# in case we don't use spdx bbclass
-+SPDX_COMPILED_SOURCES_DIR ?=3D "${LOG_DIR}/spdx-compiled/${PN}"
-+SPDX_COMPILED_SOURCES ?=3D "${SPDX_COMPILED_SOURCES_DIR}/compiled_src-${MA=
-CHINE}-${BP}.txt"
-+
-+KERNEL_COMPILED_FILES ?=3D "${SPDX_COMPILED_SOURCES_DIR}/compiled_commands=
--${MACHINE}-${BP}.json"
-+
-+do_save_compiled_files() {
-+    bbdebug 1 "Saving compiled files in ${SPDX_COMPILED_SOURCES}"
-+    mkdir -p ${SPDX_COMPILED_SOURCES_DIR}
-+    ${S}/scripts/clang-tools/gen_compile_commands.py -o ${KERNEL_COMPILED_=
-FILES} -d ${B}
-+    # Make paths releative to the kernel source
-+    sed -i 's|${B}/||g' ${KERNEL_COMPILED_FILES}
-+    sed -i 's|${S}/||g' ${KERNEL_COMPILED_FILES}
-+    grep '"file": ' ${KERNEL_COMPILED_FILES} | awk '{print $2}' | tr -d '"=
-' > ${SPDX_COMPILED_SOURCES}
-+}
+Daniel Turull
+
+Daniel Turull (3):
+  spdx: add option to include only compiled sources
+  kernel: add support to extract compiled files
+  improve_kernel_cve_report: add script for postprocesing of kernel CVE
+    data
+
+ meta/classes-recipe/kernel.bbclass           |  19 +
+ meta/classes/create-spdx-2.2.bbclass         |   9 +
+ meta/classes/spdx-common.bbclass             |   3 +
+ meta/lib/oe/spdx30_tasks.py                  |   9 +
+ meta/lib/oe/spdx_common.py                   |  33 ++
+ scripts/contrib/improve_kernel_cve_report.py | 437 +++++++++++++++++++
+ 6 files changed, 510 insertions(+)
+ create mode 100755 scripts/contrib/improve_kernel_cve_report.py
+
 
