@@ -1,86 +1,253 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD42C3ABDA
-	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 22:39:24 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.568.1747262356384689406
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12D8FC3ABD8
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 23:16:15 +0000 (UTC)
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by mx.groups.io with SMTP id smtpd.web10.1292.1747264573977390784
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 15:39:16 -0700
+ Wed, 14 May 2025 16:16:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XglXr9Ef;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac2bb7ca40bso48461966b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 15:39:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1747262354; x=1747867154; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5hXCn8vvlBq0KvuLDE40/jhJd5+wZ9oiE6hdoKMp+bM=;
-        b=XglXr9EfPgDaeiFbHR04KrmWKncKRdLsaPjJRT3S4W4LyOq/CwQQ6vjC73zSAmo3JE
-         7h5EZ5oMeBdbfWRevBbXgtwFVpQaDNh6EGxvwiheWPWqhO1C+VuXusgHaVryuxmUDGZg
-         I8CdYPhP7oBr9qSWSnjJAnb4kTckng6w8XGQk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747262354; x=1747867154;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5hXCn8vvlBq0KvuLDE40/jhJd5+wZ9oiE6hdoKMp+bM=;
-        b=SwaUdCANWRxwTEcajhXgTnfAKQnlqsx/0HNadewkLmTWg31EbX+/SsjyR8/bBhNd0W
-         16YL6IimHMQ+QCNzgof6aearQwoge7fFq1RBs0piAnlPTFJ3n8G44J630812HxrGBVbH
-         PFevaax91BqdLmisw8Cw0wSKI87Uflrh1oTK8jYz3eX7Kv2Ct3V5lumZX/8k0dG4dTbO
-         0gKXxG+0O0cPvmLF/N7VMPIzQ6K+jwi48yBqbSTsSzg1yeNoJ+fkjaXSV0u0El2qWbqp
-         55m1qZQQ2bEHTGMj9eOoJvBD69AWA27VDrvsV4wb4QLAb2/5okj5kksDmxq3C4y/trOc
-         TSZg==
-X-Gm-Message-State: AOJu0YxOTVNIE+Nc0bYfNWKxsSUIheeO9pDuyeRrhZB8m/YNximZa1/c
-	3dAfEroVokc/yhaZEx8tNszKcEsLw2uHaJIsjg9eR8GiqSxxa/LP3IWegnMeTO0EcjOzknkwUMf
-	u
-X-Gm-Gg: ASbGncsj7Uqip7Q4tdim/3AjBR1TWoE8b3EEfV5hGxA+pgWL3/9xQQ+A62jsf6JWZSm
-	gUA7VY19ydVpg0xUl7Ubq7ICBUkQ1zeYqr3p5DlIW+1FTqBw2vEIy2vWGtAnykfGtb5vx5tOu68
-	ohtAvSrE2FE0UeEdwkuKi3F77ZZXSB9yKutq3JMPrkkF/rR9PUMj8Lo9TRN+/HWzw0Nf85KFHRy
-	u4IUZl7jGfFkJCZoC1++/HQRvxkK3Rx1+atmY1x2ZT3GauuRXOsjAdPR39lXqWNfZwLtR8s+eNC
-	uRYt7H66+uriMmbk0EAtinxLcJ9tOTyy0L6cXpoD2TjX1YKjIvW9iDPdfTnKlThXMq0YHEW/wZu
-	IsdWm
-X-Google-Smtp-Source: AGHT+IHvF2vUXBWaP5B57XvdbCt3/qcTuF9W2iH3hUjEMGy4lGORsBnjYFG0d5B1ZXwyF30s0SGbsg==
-X-Received: by 2002:a05:600c:1913:b0:43b:ca39:6c75 with SMTP id 5b1f17b1804b1-442f210f654mr54430995e9.16.1747260474569;
-        Wed, 14 May 2025 15:07:54 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ac80:8bbf:3444:fa34])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f39ef87asm43815885e9.36.2025.05.14.15.07.53
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 15:07:53 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] oeqa/selftest/rust: Add exclusion to fix riscv64 builds
-Date: Wed, 14 May 2025 23:07:51 +0100
-Message-ID: <20250514220752.1571017-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=hOIk3cSr;
+ spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 54EMADje2735498
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 May 2025 17:10:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1747260613;
+	bh=XywzuoeyiqoOINKncZdmOjtf6oufV/1rS5QADpvKw6w=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=hOIk3cSram7tH1f/gko+qCrXtFkemEP/7HkOX5S3fhM9kwMXEY2e6TuCbp8ExdGLC
+	 ieG8fK9+s4F/HlhIY4gp/JaJyFqrVIHim7iDfulDdj8yIzRYRBYEF3+mpuRYPoPDvq
+	 bfH6TBxMeYedp+l5pxWaXnwES+ziF0jHeKNvbZ0g=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 54EMADlQ013274
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 14 May 2025 17:10:13 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 14
+ May 2025 17:10:13 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 14 May 2025 17:10:13 -0500
+Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54EMAB8w037558;
+	Wed, 14 May 2025 17:10:13 -0500
+From: <rs@ti.com>
+To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
+        <ross.burton@arm.com>, <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>
+CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: [oe-core][PATCHv3 1/3] emptty: add version 0.14.0
+Date: Wed, 14 May 2025 17:09:22 -0500
+Message-ID: <20250514220924.2644712-2-rs@ti.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250514220924.2644712-1-rs@ti.com>
+References: <20250514220924.2644712-1-rs@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 22:39:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216556
+ <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 23:16:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216557
 
-There was one failure occurring in rust testing for qemuriscv64. Exclude
-that test so we can enable in automated testing.
+From: Randolph Sapp <rs@ti.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
+relatively lightweight display manager that supports x11 as well as
+wayland through both a CLI and an automatic login mechanism.
+
+This can effectively replace the custom init scripts for both x11
+(xserver-nodm-init) and wayland (weston-init) with a single tool with
+more verbose logging capabilities.
+
+This is split into two recipes. The emptty package provides the binary
+and various agnostic configs while the emptty-conf package provides the
+default configuration for the application itself. This RPROVIDES
+virtual-emptty-conf, allowing other recipes to provide their own
+configurations to override the default behavior.
+
+Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- meta/lib/oeqa/selftest/cases/rust.py | 1 +
- 1 file changed, 1 insertion(+)
+ .../conf/distro/include/default-providers.inc |  1 +
+ meta/conf/distro/include/maintainers.inc      |  2 +
+ meta/recipes-graphics/emptty/emptty-conf.bb   | 14 +++++
+ meta/recipes-graphics/emptty/emptty.inc       | 26 +++++++++
+ .../recipes-graphics/emptty/emptty/emptty.tab |  1 +
+ meta/recipes-graphics/emptty/emptty/pamconf   | 10 ++++
+ meta/recipes-graphics/emptty/emptty_0.14.0.bb | 53 +++++++++++++++++++
+ 7 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
+ create mode 100644 meta/recipes-graphics/emptty/emptty.inc
+ create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.tab
+ create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
+ create mode 100644 meta/recipes-graphics/emptty/emptty_0.14.0.bb
 
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-index f84b87d0f58..484fe2416e3 100644
---- a/meta/lib/oeqa/selftest/cases/rust.py
-+++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -86,6 +86,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-                             'tests/ui/abi/stack-probes-lto.rs',
-                             'tests/ui/abi/stack-probes.rs',
-                             'tests/ui/codegen/mismatched-data-layouts.rs',
-+                            'tests/codegen/rust-abi-arch-specific-adjustment.rs',
-                             'tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs',
-                             'tests/ui/feature-gates/version_check.rs',
-                             'tests/ui-fulldeps/',
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index ee91af8796..b5446c0f92 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -68,3 +68,4 @@ PREFERRED_PROVIDER_nativesdk-mesa ?= "nativesdk-mesa"
+ PREFERRED_PROVIDER_virtual/nativesdk-libsdl2 ?= "nativesdk-libsdl2"
+ 
+ PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?= "rxvt-unicode"
++PREFERRED_RPROVIDER_virtual-emptty-conf ?= "emptty-conf"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 69f6a2d284..63158ecce0 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -172,6 +172,8 @@ RECIPE_MAINTAINER:pn-efivar = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-elfutils = "Zang Ruochen <zangruochen@loongson.cn>"
+ RECIPE_MAINTAINER:pn-ell = "Zang Ruochen <zangruochen@loongson.cn>"
++RECIPE_MAINTAINER:pn-emptty = "Randolph Sapp <rs@ti.com>"
++RECIPE_MAINTAINER:pn-emptty-conf = "Randolph Sapp <rs@ti.com>"
+ RECIPE_MAINTAINER:pn-enchant2 = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-epiphany = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-graphics/emptty/emptty-conf.bb b/meta/recipes-graphics/emptty/emptty-conf.bb
+new file mode 100644
+index 0000000000..0aacb086cd
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty-conf.bb
+@@ -0,0 +1,14 @@
++require emptty.inc
++
++SUMMARY += " (Default config)"
++
++do_configure[noexec] = "1"
++do_compile[noexec] = "1"
++
++do_install () {
++    oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-config
++}
++
++FILES:${PN}-conf = "${sysconfdir}/emptty/conf"
++CONFFILES:${PN}-conf = "${sysconfdir}/emptty/conf"
++RPROVIDES:${PN}-conf += "virtual-emptty-conf"
+diff --git a/meta/recipes-graphics/emptty/emptty.inc b/meta/recipes-graphics/emptty/emptty.inc
+new file mode 100644
+index 0000000000..11d5770f3a
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty.inc
+@@ -0,0 +1,26 @@
++SUMMARY = "Dead simple CLI Display Manager on TTY"
++DESCRIPTION = "Emptty is a simple display manager with a command line greeter \
++It supports both X11 and Wayland sessions, exporting required variables and \
++creating user paths as necessary."
++
++HOMEPAGE = "https://github.com/tvrzna/emptty"
++BUGTRACKER = "https://github.com/tvrzna/emptty/issues"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=d1e4d12c7d1d17367ba5668706a405ba"
++
++S = "${UNPACKDIR}"
++
++FILESEXTRAPATHS:append = ":${THISDIR}/emptty"
++
++GO_IMPORT = "github.com/tvrzna/emptty"
++GO_IMPORT_pam = "github.com/msteinert/pam"
++SRC_URI = "\
++    git://${GO_IMPORT}.git;protocol=https;branch=master;destsuffix=src/${GO_IMPORT} \
++    git://${GO_IMPORT_pam}.git;protocol=https;branch=master;name=pam;destsuffix=src/${GO_IMPORT_pam} \
++    file://pamconf \
++    file://emptty.tab \
++    "
++SRCREV = "d162bef75fadc8ae1d8e33dbb3de5e2795a196e0"
++SRCREV_pam = "50ded1b0e7864b9bf75005eb945a8ec826bcf69d"
++
++SRCREV_FORMAT .= "_pam"
+diff --git a/meta/recipes-graphics/emptty/emptty/emptty.tab b/meta/recipes-graphics/emptty/emptty/emptty.tab
+new file mode 100644
+index 0000000000..6359c7224d
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty/emptty.tab
+@@ -0,0 +1 @@
++7:5:respawn:/usr/bin/emptty -t 7 -d
+diff --git a/meta/recipes-graphics/emptty/emptty/pamconf b/meta/recipes-graphics/emptty/emptty/pamconf
+new file mode 100644
+index 0000000000..9cbfd6c4a5
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty/pamconf
+@@ -0,0 +1,10 @@
++#%PAM-1.0
++auth            sufficient      pam_succeed_if.so user ingroup nopasswdlogin
++auth            include         common-auth
++-auth           optional        pam_gnome_keyring.so
++-auth           optional        pam_kwallet5.so
++account         include         common-account
++session         include         common-session
++-session        optional        pam_gnome_keyring.so auto_start
++-session        optional        pam_kwallet5.so auto_start force_run
++password        include         common-password
+diff --git a/meta/recipes-graphics/emptty/emptty_0.14.0.bb b/meta/recipes-graphics/emptty/emptty_0.14.0.bb
+new file mode 100644
+index 0000000000..11d306a56d
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty_0.14.0.bb
+@@ -0,0 +1,53 @@
++require emptty.inc
++
++PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
++PACKAGECONFIG[pam] = ",,libpam,pam-plugin-succeed-if"
++PACKAGECONFIG[x11] = ",,virtual/libx11"
++
++DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', 'virtual/crypt', d)}"
++
++GO_TAGS = ""
++GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', ',nopam', d)}"
++GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', '', ',noxlib', d)}"
++
++GOBUILDFLAGS:append = " -tags=${GO_TAGS}"
++
++export GO111MODULE = "off"
++
++inherit go
++
++DEPENDS += "gzip"
++
++do_install () {
++    # general collateral
++    install -Dm755 ${B}/${GO_BUILD_BINDIR}/emptty ${D}${bindir}/emptty
++    install -d ${D}${mandir}/man1
++    gzip -cn ${S}/src/${GO_IMPORT}/res/emptty.1 > ${D}${mandir}/man1/emptty.1.gz
++
++    # pam config
++    if "${@bb.utils.contains('PACKAGECONFIG','pam','true','false',d)}"
++    then
++        install -Dm644 ${S}/pamconf ${D}${sysconfdir}/pam.d/emptty
++    fi
++
++    # init services
++    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}
++    then
++        oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-systemd
++    else
++        install -Dm644 ${S}/emptty.tab ${D}${sysconfdir}/inittab.d/emptty.tab
++    fi
++}
++
++FILES:${PN} = "\
++    ${systemd_system_unitdir}/emptty.service \
++    ${sysconfdir}/inittab.d/emptty.tab \
++    ${bindir}/emptty \
++    ${mandir}/man1/emptty.1.gz \
++    ${sysconfdir}/pam.d/emptty \
++"
++
++RDEPENDS:${PN} += "virtual-emptty-conf"
++SYSTEMD_SERVICE:${PN} = "emptty.service"
++
++inherit systemd
+-- 
+2.49.0
+
 
