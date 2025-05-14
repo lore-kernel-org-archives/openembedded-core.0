@@ -1,206 +1,334 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0092C3ABDA
-	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 07:25:58 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.67.37])
- by mx.groups.io with SMTP id smtpd.web10.96247.1747207550304061365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB463C3ABD9
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 07:35:58 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.96330.1747208153684282732
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 00:25:50 -0700
+ Wed, 14 May 2025 00:35:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=I4CEQQGv;
- spf=pass (domain: siemens.com, ip: 52.101.67.37, mailfrom: peter.marko@siemens.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7229598d4b=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54E6vD42009311
+	for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:35:51 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2172.outbound.protection.outlook.com [104.47.73.172])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46mbc8rq7g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:35:50 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cIW4s3raLHUtEYgk7KzFVj69yCi62wDU4l54FpYLVGgIkqIEphwHCNbYXFM/QriO2E9zrUtgcSMO5UBDZww2DwGVZ+W/2b56LREg4FtmblnqzbeWAMe1cmd78FBhW/hk2FW42nv2mm/Nv7SqL4NKALbHFvXViNXQiwgQ27Awmems0UPn9J4ZkJOBuDOmRlZucZICFeBf+u+Bal58Pw8aHddzUBZs7E0rs7uDQMtGEsWGNZj7p1fYoyTn65aoEv7y9Y1M/yzpTIH4P2EnNlkGUTHMs6mzyj+1OsXKyBfM1BBgSM9ue7ORiMphxitAX7qID6sgYW8dvnHB5tGaosOtpA==
+ b=IUqIE8Hn6fqZkE062QLm1tRSA26l/p/GJDK96nvAmw/12QS13iPNrS3cStrshoCPRn2k1S0xxAVg3oRoxfc43b4kj9bLcz3jR53x5JySn+vVtiXU4I+ZDD+H9j5gGYnUX/Q/9Gh3d7Gru5oS/7Yy+jKR4GREdi7xD0jQYp5/k2rKUVuKyBYZyvBW6bRKL1oYib7wdBNidmlN7WtL5eNaSRPUxOZEF/n4MZkZ7u+rJWO/ZpVDQANmJnUh/JECYpFY+fZcXco//7nqlm3k2pdYbtWdO2oMXKfwpPoYmpsFj6bCkFBhQwCdU6Nz1OXzRPrqeVpLylsStKNlfqIF2dnC7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=okxcU/5vPl9p1715y7PHqaOpV6wvlD5Mc35c5nVE4Pw=;
- b=rEP0Eh3oymYlccphzrtmVoUDDf9iPKyKwU22ij1LAas3PfoBlo+BgT2ka4LioT1uQfwchvDnZDlPasvjeeSRPyOZx1eNx/NVIpuNf2HTyMj6VF9MHtyWiE9s84EAZ298qyoAuffbHeGhNjyTNwHByb7UZYFAkrzNiDL6PAkMtcB+LT+tL6UzbD1UdpEWKRQ22YNrEKjjmstTsSBttcKzbKInyNWSE0Zmmz762phhU75h7oTQX7PmrdG5lre9YZm+nYUimUZYhadr1si0Sxm+LIf873vBo03rdY+8iCR/Oz3tPA82nrtZo4gtz69ELVvBzLXe79sqf2YjuhaveVQN/w==
+ bh=b3J9mN7IdBxMuGr6IMhXZPBrThvw33rdXm1cM+f/lfI=;
+ b=CQieEKKVTMO+ldnw00njDIFP+Jg+IPEK1a5zoGJ4dXFK2QggMlzzPHIkYy9Zi1lyNK9/dm2PKCjg4Jf4FUZeK4PgWpnc8ZAwx4wQxRg/rsxIoUeS4ukSIt4cDqGG3kOFn6v0H23WOmt1VP2/b422XZsW/lmf8DX3NG0lYNbJ7pTMRP5rGuVC9Ng0cPQXqmTkw9Yt064iPUlSfvuPw60Fm1jfAaJn1XfTZuo022Tbv+wQ9aW4wtDe8j5Caedne21BJGObLFmmH57XGMK35GR3eM/JW/jbqT317Athc/dPS8fxWXKWLWuDGGCZm+bOmK8qKt9FOI1Br0e/WRHPqseNrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=okxcU/5vPl9p1715y7PHqaOpV6wvlD5Mc35c5nVE4Pw=;
- b=I4CEQQGv3N7diRG5ED+Wml6hoPQkNJNojXwKXcFIyNanssU+7ZFYayg9tz6toKTBXN971pdOkA9LKWh2B2h/LOozj2yoOm+eSn/MEymspAI/m1xz0DCbcGF0TBaRwOn/uxdR2Op1GykvLJlwlw9hpTz6qnZvltx/JhvTv7BJBT2olI9OahqvZOla6SWubdPMHFJ7bOvvIsJ0VkmP9LXNtyoyLyUEngvWP2q5mnA/zGXVsgFTeeLRx/4EkbCXcDRZepMbqfo8A4qmNOjAztLlQRAvu7ZPsFIFl4TdYVSmAYIrbssUhFg2MRK7E30qQtUtzi/gOgCgQumpGQTdsBxHmA==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by GV1PR10MB6290.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:92::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Wed, 14 May
- 2025 07:25:46 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%4]) with mapi id 15.20.8722.027; Wed, 14 May 2025
- 07:25:40 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "liezhi.yang@windriver.com" <liezhi.yang@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 1/2] coreutils: Fix file-rdeps for single-binary
-Thread-Topic: [OE-core] [PATCH 1/2] coreutils: Fix file-rdeps for
- single-binary
-Thread-Index: AQHbxKA/noCoQ8sPNkaeuP2kvlKnX7PRuP6A
-Date: Wed, 14 May 2025 07:25:39 +0000
-Message-ID: 
- <AS1PR10MB5697052E3C295B1843480375FD91A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <cover.1747206852.git.liezhi.yang@windriver.com>
- <7d13d6ecafaaf0f06955156bcd9e19b61a92ea80.1747206852.git.liezhi.yang@windriver.com>
-In-Reply-To: 
- <7d13d6ecafaaf0f06955156bcd9e19b61a92ea80.1747206852.git.liezhi.yang@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=73200168-6eb2-4b6a-bb41-47d238b2241c;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-05-14T07:23:43Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB6290:EE_
-x-ms-office365-filtering-correlation-id: 9ae0989b-112c-4761-0ec7-08dd92b8876d
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|7053199007|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?Qdmsy9PV03f/C4p70H/4+s+ZhQJyii+STYMt+EzL4Lxm2gNleMvNNV9qOgBc?=
- =?us-ascii?Q?55H4suasvEDQjPc8mXPUsdkkN/oE/X2dJRE0P7T+mg00t4rJXe5OCyjiw4pd?=
- =?us-ascii?Q?PvaHzXzOX1q6IPXLqZ7KB+5FhRQxBCzpoqy+oOpw9OrRIzLfeLTxs7XsGh2w?=
- =?us-ascii?Q?A9YBiqG8D6WJSCxD1Rhu+rihL/NwynPNkn7cmqbpi7GZ+BjsWqxGkb7lhT4c?=
- =?us-ascii?Q?VEYA572f10qeu71p7tknVHg8nv2aSzARnZBHkCp1cyAnqBtnpIFVmURZgnIR?=
- =?us-ascii?Q?0goSlVH6DX0POqMm6eRfxOkYDrjiLJylBQjN7vFwrcnBMm+agnOYODU8iMk2?=
- =?us-ascii?Q?CI+zfxJlXy0LPOxgQDcNjO1yvR0qjNzTWdnU2aGB3vmQl3u1fjnzIkuIa9RB?=
- =?us-ascii?Q?+Rx+1VyosZkn/NY8Mvx/zDQn8iRtllUWyt/ggzOQKN4NJPsuxlL4LyVHfXm5?=
- =?us-ascii?Q?E5TocJonM7+bjmfX44L9T4EqcpwVyB/AMQefZiAiAxgEbmoX00fo7/Jh5uAM?=
- =?us-ascii?Q?NcIceuGfnuiPgfB42A29FaUEndZP8AMa2n5qUH6J7/9b+17WBjQtllxbVLih?=
- =?us-ascii?Q?icvj/rFZMSf7lv6MNzs+BIsrPyvWdkkFmmRYdXSFvpT0rpvt/OlmbUKa9cnt?=
- =?us-ascii?Q?R2t65qXrGEoj5dPIIduXFvq4Q2vhrGvqrCVyJqhxkLKWsHdTc5ez8Br64XsD?=
- =?us-ascii?Q?YsHwdDBrptV0QKie1vGzMbmt2PC+POCBeibyLvY8neiau+l2OAj1aOlu/dGU?=
- =?us-ascii?Q?dksobLqEPy9cevHvMy0KZ7U6J0SwQA+rUyRpkWSpJ3rR3Vx5/ywI2VDSx7Ph?=
- =?us-ascii?Q?7yMa41fbXNtKf6pHjZHVHQzSN40xDznUTHyufvNCEGeQ71bd/ZiVWkET/LJa?=
- =?us-ascii?Q?yGm2CjDd0XQ6RUF6q6b9sPx39AkoSi0FixZr3NvVCx7ZP//dRMTRLQ9NKRm0?=
- =?us-ascii?Q?Vg4hCqSg7a6PLAauqQyu2gQDR4bmDq/9aVF3V5hvrjCFk3Tw6K4XBxXET3I+?=
- =?us-ascii?Q?ATzWuovlS6au/ughqMSvz5pWpt3AK1N6byiIuFynzzZlSOWy9FWSXJd5LPkD?=
- =?us-ascii?Q?Iunqqfz58ffJqJSWZbw8sgvedl+kxR1UeBux4Cw9+A2UEGwwcCjrXhsnyVhJ?=
- =?us-ascii?Q?kRLte3u+LwZCcOgz2gYkXU3UiAZeUhMCGRunluFjbEFnAE+WVz07FXyvlFfa?=
- =?us-ascii?Q?ESVdLqP3DxWMKIV2fqtdI+Romp/KZReiGOZ4mgduYkHbXfET7yNQ9kVqpAqP?=
- =?us-ascii?Q?jFZ2KACjzb/OgRRu2PbMPLxqD0D4Yp56Kt2dyKxrUpN8RGb7cE0oxd0n7vWj?=
- =?us-ascii?Q?XahVSv1xS46lGKzI9ldLlPM6/4fxWCa3L1W3DE9HRtx7QNqj76atXv2X+itx?=
- =?us-ascii?Q?GDRahl4abg8jrU3sv5BaVrNC+wN2qH6hJS1emhICrZTfOrUNOfYSXZrPCkPe?=
- =?us-ascii?Q?nVnZoeqOuIgIraTVVcMW0PW5J5ZvxbSiqc3CLj7fZdweSGoZ+czTJw=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7053199007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?2wbSdoEj4fsDI3XjdiRImzfed9zQ02aaDG9z2IU6jzOl6J8Fhm0OTc5ayNZK?=
- =?us-ascii?Q?77EBLXU/mqZ8PJ7VakaStY0oRMdkCs+jI9cag05qAnJo3v044KMZFIRNqJo/?=
- =?us-ascii?Q?va2LFw+E9+yLQzlJp5/OfN4bdC+qt4WCAtSkDDHChodv6djGQgi8vU1RHRjs?=
- =?us-ascii?Q?6UFK/bNGZ9y+F4tKYuNb6R/UPi1kUYmcCWaoXSydoZstPIhYJF1sIn906dPA?=
- =?us-ascii?Q?mmXvsQok4wp8mDIawGRUderP+DYXKd0b4metm6PmP7fRI8MlVn11i7hm3Ldh?=
- =?us-ascii?Q?+VbaCLij6+pXWAVZJBR8vVXln6WUoFr3bD4o/IkJtEnvEy1jLBSHGRKQ5KqD?=
- =?us-ascii?Q?yQL24rvjF5o4IMjwHAwzEzn1ITBaMMjrGNGBIpV3JDUoktc5yr5UcFhbcqUb?=
- =?us-ascii?Q?9TTMEcXOWlyCgeCIhdYb6dMUg3FvP77LoHvxqfFm2kPzciAgbi0YTUsbIKMC?=
- =?us-ascii?Q?TestlqzPvv2cLpmCEE8AUrtSsJererdvSB5UAmgMdUKTddy8r5qAlgwU/V5+?=
- =?us-ascii?Q?VHJsdYJQUXx/4JJ+tX1i2flzCTZKadAPf82MaUKIApv09j1AP5EBemQT74sI?=
- =?us-ascii?Q?mMRdX5ZmZSe3xbzsfLsUZ4Brbvavj6S8v9/ynA3l6qEqxcxk63O5WHVwCn5C?=
- =?us-ascii?Q?OSO/98Qhh27HVcGnJ/WqgYtSMF7axbpx+AjX86Z+H5AqgPQLDj7+BrXPr9Le?=
- =?us-ascii?Q?TC433QB4p9xFy26VOtNs9l8QTtXktLDTUQa54FWNWX63fMwclPmnCmZ2CJtz?=
- =?us-ascii?Q?kMwFoI3DtVG2IArg4eq3hB8MfsooNT84fknTyXNKvDrczLZgD8ZP/rvT677q?=
- =?us-ascii?Q?OlwDEs5RyzBBBRCM4kqIKjq7kYXWPMaTBud0oUEk04lzdZB/Ab46p8tqnnD9?=
- =?us-ascii?Q?ATpd1GNqydJhXSolMF7FZYZ2lqDqyhoQHAzUM0Yej+GE8QQ9TE9m1Bgy1rzI?=
- =?us-ascii?Q?gyckP7ZdwuE3g1v9H4jRC978eecTS74aVvJrtag1JFgeFCAZncUuWuJOxQoZ?=
- =?us-ascii?Q?WxaVlE10Ul3RFwV9dq3K8LvKi5eZUC3BVDdvfOt3IQsMp33H+lDsre29BTip?=
- =?us-ascii?Q?dv4adgNDEfAl6UV6qlnUV0BoSP9rVGTgstQ9x08kBvF1uvapFaRBX0sU+65T?=
- =?us-ascii?Q?t7ivNaN4BVa3RhhZdfnpuWT7jdI3MeowJl7kzLBeuB/RddL5JOqpN2m1Wwxz?=
- =?us-ascii?Q?JDbw2YbBNgpPgu38vdBr65eaI8TdZ3hTEalsgTk0L6dA9XZWcWSHLdHERHid?=
- =?us-ascii?Q?rv2bubK0nEWSRTxoWeMt5lnttY5C5tSGj7Wme7mtfrRovRgpV+yKMwKgsakK?=
- =?us-ascii?Q?VjL3hH2UeucmTRrivS1mFkOkRANDaL9RR2Y3TXKSFRzPSzInFWTEG8XhjWhG?=
- =?us-ascii?Q?tTuujsDFU3N37pIHGuBTDrlXR4NrD/jadRjyptUN1OPHgJbowYX32oO+ccnJ?=
- =?us-ascii?Q?rCXwtwDEiiFdeAJ0fUXPHXw0qSpaJOCutQfMlHudO4tusPWPjZBdZ/uTZmRt?=
- =?us-ascii?Q?FHzJufN+e9xKLXap5x9y+6q2bfxJ+vVBSy4c9XjNgRCW4A/gEHTYvslClW+w?=
- =?us-ascii?Q?bABVmQMV2wanPBuL/cjMQs3UVCvBe6cT2Z+m5Kkv?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
+ CH3PR11MB8775.namprd11.prod.outlook.com (2603:10b6:610:1c7::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.30; Wed, 14 May 2025 07:35:47 +0000
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad%4]) with mapi id 15.20.8722.027; Wed, 14 May 2025
+ 07:35:47 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [scarthgap][PATCH] iputils: Security fix for CVE-2025-47268
+Date: Wed, 14 May 2025 15:35:30 +0800
+Message-Id: <20250514073530.918697-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR06CA0241.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::25) To DS0PR11MB6399.namprd11.prod.outlook.com
+ (2603:10b6:8:c8::5)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|CH3PR11MB8775:EE_
+X-MS-Office365-Filtering-Correlation-Id: c27f6ca8-4672-421b-b582-08dd92b9f165
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?Ik8idypoLw+chWun1yxQp1lG5D1v6hPMj87bJ/2fvDRbUc9vb7gHlT2+PTVg?=
+ =?us-ascii?Q?m14jcFyIXCYzW2wPdyz76bbLQDR5IM5OECEVJEFzeSPF8Ybgn9YMeQZz8Y4L?=
+ =?us-ascii?Q?STgKjzd+pC4dfNqJnLZyJalXjI4L5r2QN4FqIcvNcfIG3t8HtbdHp2YzQqZC?=
+ =?us-ascii?Q?oghX2CKRceBL3PnTZg9RsH8St3MtHjlKt2z4jXRlziao97XdKolxFtLedebY?=
+ =?us-ascii?Q?MahHzrrDfit6VSuwjlDw2t8098MTZBeE7UfjC5PI1ilhyY+YyTwj3Qyhq/R4?=
+ =?us-ascii?Q?bADccnOK7fzgyRZTdbKgNKykT0gfu4q5uGwj0SsbcSA4eS9lW/Z/riVwf3vl?=
+ =?us-ascii?Q?8WEEAHHxbVRSnN3YUd7izjU8IUjF/YhSt9NfNz9FkIJZhv2e9xSft/TUHVqe?=
+ =?us-ascii?Q?caCbhNrY1UgwjkCexkLpZ6hFxX9Mzm35vXaRwu/x/9ksKTU/3j87HpQxpghU?=
+ =?us-ascii?Q?p9IJro64QF1C7qG1aLRyF3FxamK2TqXY1fZHgJ2LdbfhdPgN6tYlvM08laSA?=
+ =?us-ascii?Q?Hk4N+0mRa7j37bwmoJuMxTCvP/McxP4FRfbn51PfKeIa60usRnIDK5WAakzA?=
+ =?us-ascii?Q?BOcVufnPlE3DFVtAiE1tLSpwqKwtZACHON6Bgf2Vx3sMcTXsmRfpG4P5KvQo?=
+ =?us-ascii?Q?lJbMJG101lmTLfR5kDE8c4i9I2J/4+M1OIQl2HveG5pyBlWPHBvGdVbzTP6b?=
+ =?us-ascii?Q?qQLVebxjtaGhb4p/hy76JFwLSCpYg5dTBcBN/oMbMxnRlhjWlPNkNlThy22p?=
+ =?us-ascii?Q?oV5DqoZP80Pm8yHI2Z+khstgoiTHmJkmiAPUI1/SdCJFFwX0/g7DQ1IUr+4M?=
+ =?us-ascii?Q?pEeYua2ZHrwQpMQVpWgCMnkCe489M5yTVFaskI6UmgZI0FWw5mchDMHsdbV6?=
+ =?us-ascii?Q?SAfulj7ekL8EGWF/zr13hM8C9JEtHqFYFglV1QKShpRWATOxQcaaloKSoL6T?=
+ =?us-ascii?Q?at8Af++d90vsl1edxQ7WUAbYBLhprWPhbeCqhZflhuy/C6pfycwXooU2KrSW?=
+ =?us-ascii?Q?CoT1Wu9VWNjM6sWO04QpeNVdrxYMgNmAAxsKkY9o3nwULSzCfHCEIB1OeSUu?=
+ =?us-ascii?Q?EtOXX8YJs0Ni8kjGnekudQn1Jg+/Xlsdarwu854q+Kkhcby9dAzulTwXdWq6?=
+ =?us-ascii?Q?W2vDvdhI3iadm7+2ykywU58kq0t/TMchF/7NMJYeUantksfgMtwCx7P1j/Lc?=
+ =?us-ascii?Q?QCLPxSmMEz9zCpeZJpxvZ4jnUEsIxKIqIPxYFMRVT9oV5GK5HCeXhKOknDT7?=
+ =?us-ascii?Q?JdlI3Yfvhl7wq/URXgoiJhEllw0qFCgZ+HCJ0wI7WFMzN3/MjAedxyyRKGAa?=
+ =?us-ascii?Q?ftmQ/30kTfSKmTxiIb3lAf3z4nehA/SyV72RmYq3i4MAOkUwbDaRuaHJPZJt?=
+ =?us-ascii?Q?opRyrel7yu/SFgYmpw/gBV78B5cdAnYVOI3V0/wWk3SyVmnxh3qMHwl18moc?=
+ =?us-ascii?Q?mdP5E1csbMY=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?sDtlk2HdECw8LZqr10EeDHoO8/FCE3L/NfUKgaA8F7jb+RabN0szVVdbBqZD?=
+ =?us-ascii?Q?A9p63Sf8c3YvlHdugDCNwIUHpqT8CPia0bcO1FzHLQr80aNFbNgL+Qzt0ata?=
+ =?us-ascii?Q?DX3KmmuE7ZLTAwa9ICLTormN/hJE/lVqYKfkXrmOmZTagmpBu+dFKUWTdAfR?=
+ =?us-ascii?Q?2+4M5kQpvkGzH1Roxq2NnTmfW/EGnwazev/FlpAiyICBhX6gsRDlQ4mInfiv?=
+ =?us-ascii?Q?5kE8QzfsNCD/SELgxfrB2kykGpGyN8Q/wwxJ6HMABOgDGlQuesV6kqrdj8Q8?=
+ =?us-ascii?Q?KmKGgGOR1b15u24QU7Ec1hyUoDeg6fhZd4uYmz+hAaraMO3PlQ26QsUemeiy?=
+ =?us-ascii?Q?oHJtE6rtQAPg/4MjNRcUvj0pRaH+rPzdDXMMyVjmptEnnnA5V+uSYk4KO1Ar?=
+ =?us-ascii?Q?G3BpONL6IzCHDnBBpSSBQLGpn3TASoBTyTEtmArBdm1ko+zV6Fzu1ee2uro4?=
+ =?us-ascii?Q?kwFrz+b8T4iz6rkiWZYBduWmihtlgVqaB3DfH95IGoiSF3v10q+UJ9uT1ILa?=
+ =?us-ascii?Q?gQ19pOYvr387sv2aujED5qjW//LNXXbFAlPNwEem1qfDTZfqoaRuSbdWRpeH?=
+ =?us-ascii?Q?TM+AlY9qKBL/aAuAMKqxhxF2LVgK+lSPZp64YXsLh71htJVmAm9UVhL4D0Pe?=
+ =?us-ascii?Q?atWA1s+YlmOUIFZDur3KpMBpOBvMmLun/vl8nTJkqBobv1lwpswbGhOGuqOE?=
+ =?us-ascii?Q?kiezPcBvTtC+4/fKo38jCwTFLpV78uzNAFxSjZegj8aA3+XbMYexeMkE5atX?=
+ =?us-ascii?Q?FNLSwDhN8grgc+fIyPr7Tb6vJd+O80xeVQ+j+ygDO4XRTM47QQNd0QaxAq2m?=
+ =?us-ascii?Q?SIs+I00T2/wClg525bc6b0geCAMT34FyINDB/U1KDWvhEbk1D/w2vwcPsU4I?=
+ =?us-ascii?Q?DfiCIASDXkoTazmViyXhrxBWB0gnWrh4W/oj1WebH6RktcaoZjZ4UgyCoHLR?=
+ =?us-ascii?Q?2Gcuwj1WCKxe1ajpp9AQRsHIhHNwDhU5J7qaYoYzZYANPl+XB721ra/D1dNu?=
+ =?us-ascii?Q?BSYvDHBJXc5HEUUjr6M+RMYV0JWMw5Y1VMeHR/XiS0XTTq0T+JoyZL6J7OUJ?=
+ =?us-ascii?Q?7Am1g4lyWbAszlDRKyYIB3yBhUAxQKN30iKiAd7GEPXDAGlZ5eOUxmZXpMip?=
+ =?us-ascii?Q?sxv0OwYR5Wn/biu60xRt8Mge/rXqArLZb1+2iht2UzkoT/yJ+nLdayeebZFB?=
+ =?us-ascii?Q?9pTVAO7V9vzYpr7mNEUU3PGp4eS0J8k953ahTcA1NXFwn0Fi+CUTbRPqgaUm?=
+ =?us-ascii?Q?6pBgWSiq8Dg5dTtiNFw6MzgZPsbIUkUOLYe/CPb6C7oY/ssUu5TkfyNuV7ul?=
+ =?us-ascii?Q?Dkvgpsuvkj/oo8iztTZxnIbOWNe+sgjlNQ09lHYMWkHCpGkyY8RRHUXnjw1y?=
+ =?us-ascii?Q?UkcpH/ol6lIRF2yKqd1tvl64WqwNqLsPneuNwDNAKB55iRM5wuwArOXnDMF0?=
+ =?us-ascii?Q?cvHmw6fXXPKAWy065OK5GL1m4nYrkpyMGJMu2r9S+owhRNVIBOUi37CIOGDH?=
+ =?us-ascii?Q?x+rNVI1BBiGG6LDtVzWDYl9taU9MgQgGp+wP/LgKPy4uMsFCpA+ehZQvEECF?=
+ =?us-ascii?Q?Koc+qICR8qY+3EPKowNrFHxzxDqiVEUxmu8YSfPp?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c27f6ca8-4672-421b-b582-08dd92b9f165
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ae0989b-112c-4761-0ec7-08dd92b8876d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 May 2025 07:25:39.9715
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2025 07:35:47.4761
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Mfg8ijwkJe2QcCew+F7Luc6WryGdFYpZyn/g3zXIsYC6kgAp+2Pit0J/E8tXGD9zyvUDf1IfIWefgNyI+WA+AA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6290
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z2IifYq7gSYVLGGTJ+J0Rm5HkFxNjJyHjEeBklkfO8FAl1fHxbHnMDHJzFtPcu2fyE0Y1klDf/15hx7nJHXaPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8775
+X-Proofpoint-GUID: ZCFY4WAZltqWltFUWPDK6E6i8iwil_yB
+X-Proofpoint-ORIG-GUID: ZCFY4WAZltqWltFUWPDK6E6i8iwil_yB
+X-Authority-Analysis: v=2.4 cv=IIACChvG c=1 sm=1 tr=0 ts=682447d6 cx=c_pps a=LJpgAVzrtcldLI4wrjuEkA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
+ a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=xNf9USuDAAAA:8 a=5PjkQvkCQFl6gfXuX20A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDA2NSBTYWx0ZWRfX/Si/XKF1drhs QtjKxLmwmBcQaLXz7FON7o6UTxRwSmmV55P6J6AJrTLTBCgzl2fFx7emAS46myctAr6YnD7H+yL rzafoU4B2/0/19QvrtsK/Fdn8uPPL41wVfqI5F08mYoZwABNuuMWUUcdhODdIexjYn0WA6eoUnw
+ PbsyiUoAS8UyUkuyirKuu+Rqf3DbpqlSg7bruAINCMl4s0rY+TTDNwsvJ6D9TMveS46NrtCZetD 1fs0VDapuwq8LeWJ/79BF2D3MrUGvJpeq9lMjPmAFQlu7sRy3o6lZVFg0hkBrN0MT8/857KG+6I z9vy3ZHSgmsKFkRex50Z2i8EHCSamFz0DEOz/ziIMqXWdNwBf/IP9uGm2h8vD9OkHI9IV5r9YNi
+ MFGYM91rZ29RsWbh/ynFTbKW+DRN9yuqnBgQGWnOoGyjIDmkhW6kWlvQds57jUoOeZyUKv4h
+X-Sensitive_Customer_Information: Yes
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-14_02,2025-05-14_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 impostorscore=0 mlxlogscore=804 priorityscore=1501
+ clxscore=1015 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
+ definitions=main-2505140065
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:25:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216482
+ <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:35:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216483
 
+CVE-2025-47268
+ping in iputils through 20240905 allows a denial of service (application
+error or incorrect data collection) via a crafted ICMP Echo Reply
+packet, because of a signed 64-bit integer overflow in timestamp
+multiplication.
 
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-47268
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Robert Yang via
-> lists.openembedded.org
-> Sent: Wednesday, May 14, 2025 9:17
-> To: openembedded-core@lists.openembedded.org
-> Cc: liezhi.yang@windriver.com
-> Subject: [OE-core] [PATCH 1/2] coreutils: Fix file-rdeps for single-binar=
-y
->=20
-> From: Robert Yang <liezhi.yang@windriver.com>
->=20
-> Fixed:
-> DISTRO_FEATURES:append =3D " ptest"
-> PACKAGECONFIG:append:pn-coreutils =3D " single-binary"
->=20
-> $ bitbake coreutils
-> ERROR: coreutils-9.6-r0 do_package_qa: QA Issue: /usr/lib/coreutils/ptest=
-/src/yes
-> contained in package coreutils-ptest requires /path/to//tmp/work/core2-64=
--poky-
-> linux/coreutils/9.6/build/src/coreutils, but no providers found in
-> RDEPENDS:coreutils-ptest? [file-rdeps]
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-core/coreutils/coreutils_9.6.bb | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/coreutils/coreutils_9.6.bb b/meta/recipes-
-> core/coreutils/coreutils_9.6.bb
-> index 6e1867f3e4..c9fd3719d5 100644
-> --- a/meta/recipes-core/coreutils/coreutils_9.6.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_9.6.bb
-> @@ -211,7 +211,14 @@ do_install_ptest () {
->=20
->      # Tweak test d_type-check to use python3 instead of python
->      sed -i "1s@.*@#!/usr/bin/python3@" ${D}${PTEST_PATH}/tests/d_type-ch=
-eck
-> -
-> +
-> +    # Fix for single-binary
-> +    for prog in ${D}${PTEST_PATH}/src/*; do
-> +        if [ -f $prog ]; then
-> +            sed -i "1s@#!.*/src/coreutils @#!/usr/bin/coreutils @" $prog
+Patch from:
+https://github.com/iputils/iputils/commit/070cfacd7348386173231fb16fad4983d4e6ae40
 
-This should have ${bindir} instead of hardcoded /usr/bin
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../iputils/iputils/CVE-2025-47268.patch      | 143 ++++++++++++++++++
+ .../iputils/iputils_20240117.bb               |   4 +-
+ 2 files changed, 146 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/iputils/iputils/CVE-2025-47268.patch
 
-> +        fi
-> +    done
-> +
->      # handle multilib
->      sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
->  }
-> --
-> 2.49.0
+diff --git a/meta/recipes-extended/iputils/iputils/CVE-2025-47268.patch b/meta/recipes-extended/iputils/iputils/CVE-2025-47268.patch
+new file mode 100644
+index 0000000000..dd31b79031
+--- /dev/null
++++ b/meta/recipes-extended/iputils/iputils/CVE-2025-47268.patch
+@@ -0,0 +1,143 @@
++From 070cfacd7348386173231fb16fad4983d4e6ae40 Mon Sep 17 00:00:00 2001
++From: Petr Vorel <pvorel@suse.cz>
++Date: Mon, 5 May 2025 23:55:57 +0200
++Subject: [PATCH] ping: Fix signed 64-bit integer overflow in RTT calculation
++
++Crafted ICMP Echo Reply packet can cause signed integer overflow in
++
++1) triptime calculation:
++triptime = tv->tv_sec * 1000000 + tv->tv_usec;
++
++2) tsum2 increment which uses triptime
++rts->tsum2 += (double)((long long)triptime * (long long)triptime);
++
++3) final tmvar:
++tmvar = (rts->tsum2 / total) - (tmavg * tmavg)
++
++    $ export CFLAGS="-O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer"
++    $ export LDFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
++    $ meson setup .. -Db_sanitize=address,undefined
++    $ ninja
++    $ ./ping/ping -c2 127.0.0.1
++
++    PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
++    64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.061 ms
++    ../ping/ping_common.c:757:25: runtime error: signed integer overflow: -2513732689199106 * 1000000 cannot be represented in type 'long int'
++    ../ping/ping_common.c:757:12: runtime error: signed integer overflow: -4975495174606980224 + -6510615555425289427 cannot be represented in type 'long int'
++    ../ping/ping_common.c:769:47: runtime error: signed integer overflow: 6960633343677281965 * 6960633343677281965 cannot be represented in type 'long int'
++    24 bytes from 127.0.0.1: icmp_seq=1 ttl=64 (truncated)
++    ./ping/ping: Warning: time of day goes back (-7256972569576721377us), taking countermeasures
++    ./ping/ping: Warning: time of day goes back (-7256972569576721232us), taking countermeasures
++    24 bytes from 127.0.0.1: icmp_seq=1 ttl=64 (truncated)
++    ../ping/ping_common.c:265:16: runtime error: signed integer overflow: 6960633343677281965 * 2 cannot be represented in type 'long int'
++    64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.565 ms
++
++    --- 127.0.0.1 ping statistics ---
++    2 packets transmitted, 2 received, +2 duplicates, 0% packet loss, time 1002ms
++    ../ping/ping_common.c:940:42: runtime error: signed integer overflow: 1740158335919320832 * 1740158335919320832 cannot be represented in type 'long int'
++    rtt min/avg/max/mdev = 0.000/1740158335919320.832/6960633343677281.965/-1623514645242292.-224 ms
++
++To fix the overflow check allowed ranges of struct timeval members:
++* tv_sec <0, LONG_MAX/1000000>
++* tv_usec <0, 999999>
++
++Fix includes 2 new error messages (needs translation).
++Also existing message "time of day goes back ..." needed to be modified
++as it now prints tv->tv_sec which is a second (needs translation update).
++
++After fix:
++
++    $ ./ping/ping -c2 127.0.0.1
++    64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.057 ms
++    ./ping/ping: Warning: invalid tv_usec -6510615555424928611 us
++    ./ping/ping: Warning: time of day goes back (-3985394643238914 s), taking countermeasures
++    ./ping/ping: Warning: invalid tv_usec -6510615555424928461 us
++    ./ping/ping: Warning: time of day goes back (-3985394643238914 s), taking countermeasures
++    24 bytes from 127.0.0.1: icmp_seq=1 ttl=64 (truncated)
++    ./ping/ping: Warning: invalid tv_usec -6510615555425884541 us
++    ./ping/ping: Warning: time of day goes back (-4243165695442945 s), taking countermeasures
++    24 bytes from 127.0.0.1: icmp_seq=1 ttl=64 (truncated)
++    64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.111 ms
++
++    --- 127.0.0.1 ping statistics ---
++    2 packets transmitted, 2 received, +2 duplicates, 0% packet loss, time 101ms
++    rtt min/avg/max/mdev = 0.000/0.042/0.111/0.046 ms
++
++Fixes: https://github.com/iputils/iputils/issues/584
++Fixes: CVE-2025-472
++Link: https://github.com/Zephkek/ping-rtt-overflow/
++Co-developed-by: Cyril Hrubis <chrubis@suse.cz>
++Reported-by: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
++Reviewed-by: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
++Reviewed-by: Cyril Hrubis <chrubis@suse.cz>
++Reviewed-by: Noah Meyerhans <noahm@debian.org>
++Signed-off-by: Petr Vorel <pvorel@suse.cz>
++
++CVE: CVE-2025-47268
++
++Upstream-Status: Backport
++[https://github.com/iputils/iputils/commit/070cfacd7348386173231fb16fad4983d4e6ae40]
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ iputils_common.h   |  3 +++
++ ping/ping_common.c | 22 +++++++++++++++++++---
++ 2 files changed, 22 insertions(+), 3 deletions(-)
++
++diff --git a/iputils_common.h b/iputils_common.h
++index 49e790d..829a749 100644
++--- a/iputils_common.h
+++++ b/iputils_common.h
++@@ -10,6 +10,9 @@
++ 	  !!__builtin_types_compatible_p(__typeof__(arr), \
++ 					 __typeof__(&arr[0]))])) * 0)
++ 
+++/* 1000001 = 1000000 tv_sec + 1 tv_usec */
+++#define TV_SEC_MAX_VAL (LONG_MAX/1000001)
+++
++ #ifdef __GNUC__
++ # define iputils_attribute_format(t, n, m) __attribute__((__format__ (t, n, m)))
++ #else
++diff --git a/ping/ping_common.c b/ping/ping_common.c
++index dadd2a4..4e99d89 100644
++--- a/ping/ping_common.c
+++++ b/ping/ping_common.c
++@@ -754,16 +754,32 @@ int gather_statistics(struct ping_rts *rts, uint8_t *icmph, int icmplen,
++ 
++ restamp:
++ 		tvsub(tv, &tmp_tv);
++-		triptime = tv->tv_sec * 1000000 + tv->tv_usec;
++-		if (triptime < 0) {
++-			error(0, 0, _("Warning: time of day goes back (%ldus), taking countermeasures"), triptime);
+++
+++		if (tv->tv_usec >= 1000000) {
+++			error(0, 0, _("Warning: invalid tv_usec %ld us"), tv->tv_usec);
+++			tv->tv_usec = 999999;
+++		}
+++
+++		if (tv->tv_usec < 0) {
+++			error(0, 0, _("Warning: invalid tv_usec %ld us"), tv->tv_usec);
+++			tv->tv_usec = 0;
+++		}
+++
+++		if (tv->tv_sec > TV_SEC_MAX_VAL) {
+++			error(0, 0, _("Warning: invalid tv_sec %ld s"), tv->tv_sec);
+++			triptime = 0;
+++		} else if (tv->tv_sec < 0) {
+++			error(0, 0, _("Warning: time of day goes back (%ld s), taking countermeasures"), tv->tv_sec);
++ 			triptime = 0;
++ 			if (!rts->opt_latency) {
++ 				gettimeofday(tv, NULL);
++ 				rts->opt_latency = 1;
++ 				goto restamp;
++ 			}
+++		} else {
+++			triptime = tv->tv_sec * 1000000 + tv->tv_usec;
++ 		}
+++
++ 		if (!csfailed) {
++ 			rts->tsum += triptime;
++ 			rts->tsum2 += (double)((long long)triptime * (long long)triptime);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-extended/iputils/iputils_20240117.bb b/meta/recipes-extended/iputils/iputils_20240117.bb
+index 3880689742..5ff5af8847 100644
+--- a/meta/recipes-extended/iputils/iputils_20240117.bb
++++ b/meta/recipes-extended/iputils/iputils_20240117.bb
+@@ -10,7 +10,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=627cc07ec86a45951d43e30658bbd819"
+ 
+ DEPENDS = "gnutls"
+ 
+-SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https"
++SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https \
++           file://CVE-2025-47268.patch \
++          "
+ SRCREV = "8372f355bdf7a9b0c79338dd8ef8464c00a5c4e2"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.34.1
 
 
