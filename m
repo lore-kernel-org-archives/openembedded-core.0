@@ -1,113 +1,69 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A617C3ABDD
-	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 17:52:52 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.109139.1747245167058637413
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 10:52:47 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BB2C3ABD8
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 18:34:33 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.web10.109452.1747247666645110101
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 14 May 2025 11:34:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=g8NCl2Yi;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso684675e9.3
-        for <Openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 10:52:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747245165; x=1747849965; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CbfkMpJOC67h2Bb/15uQtMhn6lrnZshAnzLyX/g0xOk=;
-        b=g8NCl2Yi5v4lsrf3ZcDf/QxnIglvLYqS8FjSYqWhR46fWn4FesHkB+yHFBi+ev3SCZ
-         Cdru7c3iZiSSoko+OzzGEOfVwRdRsvhPHR1znsC6aC7zGBl4E8ak+qofOi7jFzOtFpwy
-         j1XbqkDKA7t3worw3wTy3Idr+L3RxrPtSgw60p6ChcnDpSOnkDoZQ0VeeIc1jHukf/qp
-         nMXBDin5wCmhWBYfdJlQRB5bE6IfeexK0fY0D6FwUVV9EYfFDZKM0cIcCUeoPCQSHZIC
-         jpmrRqWYAbYlKjZGP5KzWzoCld/bPERQat8EZ/1SA/tyl+SH5X3KBi4maPKyi7TDsclR
-         1krA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747245165; x=1747849965;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CbfkMpJOC67h2Bb/15uQtMhn6lrnZshAnzLyX/g0xOk=;
-        b=wFS1W7/qNR+peYg9CPCjUT7RVnSq+Whn9kF0pnb4NjLDWG4KLhVuD4jVd1a+qg18UV
-         HleOU0maH5R/uJFd1kavWMRqa9i7aTc1v/4ds41Pa2YKdmS6b1SzTd+4Cuy+3pumJ4Ld
-         tGchrsNSSucYEA1zfVi1Yer2Q93sItUuikXb5/zYofOmEG1DKIMPZ1tBwqZG3ORiG6uA
-         4YMw85/ro8IPDTPw+vb7WBLsJ8uYinjtJeNYRb5S80l1A1Azxqm55l8j7uSYXwJTfY7u
-         wG/IHqG9XyZgeAkP0N6lfG9XiDLLtGKwlC2LuA2mynmRrWcHMRP66mZvRtC7QELqe1un
-         76rA==
-X-Gm-Message-State: AOJu0YzFe6TiBhV5dp87hVT8KefP1xW7iXXlxVfv8pGrcK8Uq8yfV02k
-	wgOK9ZintfC10KgKIoJ2763oUaNGsfTIIGEq2yoeunSmUCCGne/33mzaLTju
-X-Gm-Gg: ASbGncvul76C0biPMeaiBvpUUCWXJP+XXAb2OKIBp2v1enBOgftURncYuESGPtDPq/K
-	tMcuCmieb+AEcS7VK3LOzbAadNuccTGoe/n5VfA4A2cvMKI8bZCz1EtZhd6ROxxXwm/Xy9nEuBR
-	GEh1zbGUvOoz3epi0g6ocMkcruSJ2aOlASZUTk0sgOn0MJCwtA/6PWF+tMnJsiUxp0co1GEVpX2
-	dPcFKeSluYkYfwhJfeHj4dKsb5lek7S3QzD7pMNw/B+tgEl0gSvivQ923WkkSg7WkBpX8NozkyF
-	IIZ5R4zXl08i51lf7TmcuCJO2pRdBLQ7idmFrfQEuuvnUvqvFobj/NMILvGX1xGABp8XRclPgAo
-	O5GKCW4gHU4w4KeY=
-X-Google-Smtp-Source: AGHT+IFX6wojcuN0AnVFm/APA/aSLF57Tb2iPvYFPCmKP/5QAXE0NG8C7dBfMX1x0QEJEpNmZcFSKw==
-X-Received: by 2002:a05:600c:1e84:b0:442:d9fb:d9f1 with SMTP id 5b1f17b1804b1-442f20bb18bmr41678305e9.4.1747245164692;
-        Wed, 14 May 2025 10:52:44 -0700 (PDT)
-Received: from slackware.local.localdomain ([154.47.27.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f8b1abb5sm631495e9.28.2025.05.14.10.52.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 10:52:44 -0700 (PDT)
-From: uvv.mail@gmail.com
-To: Openembedded-core@lists.openembedded.org
-Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [scarthgap][PATCH] systemd: Password agents shouldn't be optional
-Date: Wed, 14 May 2025 19:52:10 +0200
-Message-ID: <20250514175210.129210-1-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.44.0
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=UXdIt5tW;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202505141834237593ac73abb18cb820-8oqfev@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202505141834237593ac73abb18cb820
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 14 May 2025 20:34:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=H4wf2sMsp6amx6gzS2JXrcuno55a3uCLLkOQ11Q4BT4=;
+ b=UXdIt5tW5Tnqnj4s5HHngySUS7h1OVJNXWnT9efBXOAph1Xv4u7APiE0UXSDovGofTCsI5
+ obPVr1N722fKmjJ2qxiewMnI0y1xatcSqMCzIyKaFE0Q2TetSrEH/GewgvT5xfeMYr1kHfoV
+ hyYD6v0kg3da2QCnkk/DCvsNM8hoMWTpJ6yghSWbwaxm+FWdjvQ7hlqwpt5Bywq/qlSxEAvM
+ ao2TtJ8spiB6waJMJhNV4qLtXRESvokqeArlpm8Rf38++AaoJ8/CUFprESzSLhxB9PWTOZfZ
+ CQMCVk2d6BNzDw7pgnas7cjh5JCCh7sKBsvihlRQIIHITSRSapqqndog==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH 1/2] dropbear: switch url to mirror
+Date: Wed, 14 May 2025 20:33:35 +0200
+Message-Id: <20250514183336.84167-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 17:52:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216519
+ <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 18:34:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216520
 
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-If extra-utils package is not included in the image, you'll always
-see a warning that password agent is missing whenever you start/stop a
-service:
+Main download page is currently unavailable, switch to mirror listed in
+README file of the dropbear repository and release tarballs.
 
-Failed to execute /usr/bin/systemd-tty-ask-password-agent: No such file or directory
+This is to allow upgrade due to CVE, it should be reverted later or
+maybe even not merged and feed the tarball only from Yocto mirror until
+the main page is up again.
 
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-core/systemd/systemd_255.18.bb | 10 ----------
- 1 file changed, 10 deletions(-)
+ meta/recipes-core/dropbear/dropbear_2024.86.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_255.18.bb b/meta/recipes-core/systemd/systemd_255.18.bb
-index f85ad61080..bb9dc3da33 100644
---- a/meta/recipes-core/systemd/systemd_255.18.bb
-+++ b/meta/recipes-core/systemd/systemd_255.18.bb
-@@ -592,26 +592,16 @@ FILES:${PN}-extra-utils = "\
-                         ${bindir}/systemd-cgls \
-                         ${bindir}/systemd-cgtop \
-                         ${bindir}/systemd-stdio-bridge \
--                        ${base_bindir}/systemd-ask-password \
--                        ${base_bindir}/systemd-tty-ask-password-agent \
-                         ${base_sbindir}/mount.ddi \
-                         ${systemd_system_unitdir}/initrd.target.wants/systemd-pcrphase-initrd.path \
--                        ${systemd_system_unitdir}/systemd-ask-password-console.path \
--                        ${systemd_system_unitdir}/systemd-ask-password-console.service \
--                        ${systemd_system_unitdir}/systemd-ask-password-wall.path \
--                        ${systemd_system_unitdir}/systemd-ask-password-wall.service \
--                        ${systemd_system_unitdir}/sysinit.target.wants/systemd-ask-password-console.path \
--                        ${systemd_system_unitdir}/sysinit.target.wants/systemd-ask-password-wall.path \
-                         ${systemd_system_unitdir}/sysinit.target.wants/systemd-pcrphase.path \
-                         ${systemd_system_unitdir}/sysinit.target.wants/systemd-pcrphase-sysinit.path \
--                        ${systemd_system_unitdir}/multi-user.target.wants/systemd-ask-password-wall.path \
-                         ${rootlibexecdir}/systemd/systemd-resolve-host \
-                         ${rootlibexecdir}/systemd/systemd-ac-power \
-                         ${rootlibexecdir}/systemd/systemd-activate \
-                         ${rootlibexecdir}/systemd/systemd-measure \
-                         ${rootlibexecdir}/systemd/systemd-pcrphase \
-                         ${rootlibexecdir}/systemd/systemd-socket-proxyd \
--                        ${rootlibexecdir}/systemd/systemd-reply-password \
-                         ${rootlibexecdir}/systemd/systemd-sleep \
-                         ${rootlibexecdir}/systemd/system-sleep \
-                         ${systemd_system_unitdir}/systemd-hibernate.service \
+diff --git a/meta/recipes-core/dropbear/dropbear_2024.86.bb b/meta/recipes-core/dropbear/dropbear_2024.86.bb
+index be246a0ccd..3b54542490 100644
+--- a/meta/recipes-core/dropbear/dropbear_2024.86.bb
++++ b/meta/recipes-core/dropbear/dropbear_2024.86.bb
+@@ -12,7 +12,7 @@ DEPENDS = "zlib virtual/crypt"
+ RPROVIDES:${PN} = "ssh sshd"
+ RCONFLICTS:${PN} = "openssh-sshd openssh"
+ 
+-SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
++SRC_URI = "https://dropbear.nl/mirror/releases/dropbear-${PV}.tar.bz2 \
+            file://0001-urandom-xauth-changes-to-options.h.patch \
+            file://init \
+            file://dropbearkey.service \
 
