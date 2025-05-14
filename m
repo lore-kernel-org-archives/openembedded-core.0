@@ -2,123 +2,128 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F9BC3ABCC
-	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 14:06:00 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.103383.1747231553119368152
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA4F9C3ABCC
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 14:08:10 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.102873.1747231683975858925
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 07:05:53 -0700
+ Wed, 14 May 2025 07:08:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IQJXki9d;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so77472325e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:05:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JB1JTsBi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso68427985e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 07:08:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1747231551; x=1747836351; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=N59KJ5z6dc1dUKszAicgWuBKY0kuDKR7B9Si2FY6PQM=;
-        b=IQJXki9dndjJC0u3m0fW+IJFSd3T0583Ucq4LAj0PnmG12FHVyJqEOs9EerUrvsX6x
-         Ye1Rb5IuvXAgOodvoUKKd1OiTRKdojoH82mSxO2GumH6E67Ackh9ldasbqmE/VewqWwY
-         jhKqWYnCrVbXU8TsRAIlfPUZ7SOpvrUORfRq0=
+        d=linuxfoundation.org; s=google; t=1747231682; x=1747836482; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OcafiKmaBNpTRYJi8jHNn9lBhosFKtxtw5uGkpUl6o4=;
+        b=JB1JTsBisVR3GDHGJkU9XvjLnls/GTHvu6Uy8MC7xv1iaLGW3FXOOoCZ8w2xLXUwAT
+         jPRx8csP+oZfjNf67zVCQDtJmrqjp1ema9Vcaq+0hi3B30e5OoieA40Z5VJ/JkATf0dx
+         RqJjIy03sC0VE7HcWMeOcQlG4kf5e9vIe/3hY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747231551; x=1747836351;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N59KJ5z6dc1dUKszAicgWuBKY0kuDKR7B9Si2FY6PQM=;
-        b=cM2OvExQycsBxQ+BJl1XbrxodSSqSKOceG8iURlIfxvFusaDI2P/BfaXBUw8W3Nyza
-         crTca/vUSbrvlfBivVa3H5QEEV1MbWPRZnomd1TuPd/obNaHgREVvX6M93EnFvIpsxfh
-         1VvZOf8x4blayxo8gpjw9Bo6SYeYXzGA5cwxEwEOswo04yKc27U4gNCKKyZZboBMpXSj
-         2OlS5AlcMjVZ9VSzekXuLznB2mbGyd8rTtC+UkGr2V35+G6tfCyZRZLxVmbe+u+Yc0U9
-         aPei5aEWNLAZHaB4oLkZ/8KZWirTwolIsJJdiNZ/dbtSbY4djy+9IN+tGr4WGxTCIZIT
-         jHcw==
-X-Gm-Message-State: AOJu0YwWUsP14iLz03S59l5mkOkpL3ZK0+JTE3wStZ3CT96tzMeiYNKe
-	ezd2XSuc0Arl0VDO7rCrJqw5qf/0ujIknL+jeQPqE6n46SA27lSfSRhZtS7Jv1njivc5zQ+c/As
-	3
-X-Gm-Gg: ASbGncsg/4UqsGFXzt1j2uId/AMYtDLaUYmuMHaz0K/F5ubqNAAtFr4ydq3Ov69UeqU
-	a7vHhse2TFFmNq6tyIrAJhEe6+Kc+wqJNgGyI0GkOIibZrEJgki2lqNf3JRfPhC8lb9x8QsQgZP
-	Ld0jQEQ0+EXuoH0kAtdkazacQlWP/niTs4we+94EV85q7qgbcZw438cbUKiv4uQLMOMqsovem1B
-	rOHy2ExVu9HSivHHMrBndml4S3PDyqbwPPElpF5WPR6jvL026wiTTgxnf7S14bZOmwgU+TdZGCc
-	/gLeO0IUOyPw+YJXdmmFLYK27k5hkxbIOQgKwargYd8hJ5ZPVCUrxMLSdwDjV51kwQyROBiOawT
-	e+qG42P8a6Q5kcgE=
-X-Google-Smtp-Source: AGHT+IF5V6zhElYohOoXq4MGZlRgKw3DUT0pYTswR6+HasUsE0IryHpTNo5vxYCqrAauRKtL/t1YPA==
-X-Received: by 2002:a05:600c:64c8:b0:43d:1b74:e89a with SMTP id 5b1f17b1804b1-442f20db129mr34490565e9.9.1747231550063;
-        Wed, 14 May 2025 07:05:50 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ac80:8bbf:3444:fa34])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f3368fc5sm33824635e9.5.2025.05.14.07.05.49
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1747231682; x=1747836482;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OcafiKmaBNpTRYJi8jHNn9lBhosFKtxtw5uGkpUl6o4=;
+        b=IK5OZHTxtRnerU1uQXSAu45WuGxCS0WYEA6cUpl/25I6t/GvLUqp/wwnLo2Ftffe2A
+         708iOhuIltjBbsHiBTfwB8wzG72/OV08mETIA3AWerUhSNw3syQqaQzkyzlt5m1fpwur
+         uWs1WXqkSny3O+kMEJvb1RXsz0sEsOh5iunvv93LYEdc0u/9sCeBhUIRZW+JORaS+fBm
+         lrn8ZGXr3pZvzBzjO/TV8pFV0vp9psGtEGU0bmbqb3Nu/AT+S7HLRkP+vUMi4m0T3/By
+         dKFAd1nSjCH/PzPQld4SQCwTSd0r1DwP3zKkqZ+NZ50viDg99RzulLZ3MwjK5Utn3ENF
+         Xs7A==
+X-Forwarded-Encrypted: i=1; AJvYcCUc0+s9YE1RdP+dZfxLnSNjsr129jqNwuXGVVxJHcO5QHyHVFxlbusEi0rSUL/ePot81+oGCEqMc8DYAS7yc8xOag==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywm4SupFyfsE7vs122WxCH++b02qF9XSnSZF/0rKMHqLPBdbZNJ
+	M3GKvIFdn8lxrK/VK0leQjhKZv4RvfdpnVXS4bgbE5rxKjtnuFppceCOk4Asdr62U0QO4Bg/Jwu
+	6
+X-Gm-Gg: ASbGncsDzadLHEcgORPa56l+z2CuO1TayCRZQnyJzApJNCJbiQcF/kSvZeGs0s8WjvC
+	CR3XhQ9Jbp/OfqT+meerwnWMzaWYw0XmHGZPtqKAUi4JvtlC/dAmL6wivmWgb3DRGLLP4gyDr4b
+	YwNZB83SNcHDQVbcHucbtkdMjYmmjLnMg0d+cHxJ4WSOhLc0f05YOOIiPuy9TEA1/ibJKR17H2t
+	tbzIZnOHOqnarnT0nzXtv1DFzStYFBQznerzRXiC0UmMWxlMbh1l40nfaxtzI+3QkKqUHXSsmMG
+	VQmT++DDVUVCE2f5l8zKIPWR8SIM29efKwM6eZVUt+GbC22JXaq9m1aTMi1iW93D89EwUR0u6X4
+	6hzMAvluK1IwLrsoHalHAwdLGt2mKunOjDjTZoj//
+X-Google-Smtp-Source: AGHT+IEwzXzZeN2grUbe5l8fvkVRfnbx9TsT2RXzwsmqSsxI/v9RVr8ZP9qO1isfCssza5u676Js0g==
+X-Received: by 2002:a05:600c:b8c:b0:43c:efed:732d with SMTP id 5b1f17b1804b1-442f4c8fe7cmr24330635e9.16.1747231682254;
+        Wed, 14 May 2025 07:08:02 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ac80:8bbf:3444:fa34? ([2001:8b0:aba:5f3c:ac80:8bbf:3444:fa34])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a2cee4sm20024168f8f.67.2025.05.14.07.08.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 07:05:49 -0700 (PDT)
+        Wed, 14 May 2025 07:08:00 -0700 (PDT)
+Message-ID: <8cc3ce571584b8d1cc2eb3bf0245ee619b6b8d79.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 33/56] openssh: upgrade 9.9p2 -> 10.0p1
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] openssh: Upgrade 9.9p2 -> 10.0p1
-Date: Wed, 14 May 2025 15:05:47 +0100
-Message-ID: <20250514140547.1482134-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "wangmy@fujitsu.com"
+	 <wangmy@fujitsu.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 May 2025 15:07:59 +0100
+In-Reply-To: <DB5PR02MB10213D3636FDB5A5DACC9B42AEF96A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <1747040619-7566-1-git-send-email-wangmy@fujitsu.com>
+		 <1747040619-7566-33-git-send-email-wangmy@fujitsu.com>
+	 <185f54b0fe32289f81b23cc978da6dcd04ba7666.camel@linuxfoundation.org>
+	 <DB5PR02MB10213D3636FDB5A5DACC9B42AEF96A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 14:06:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216495
+ <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 14:08:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216496
 
-Fix sshd by ensuring the agent daemon is included. The server doesn't function
-without this.
+On Tue, 2025-05-13 at 14:29 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From:
+> > openembedded-core@lists.openembedded.org=C2=A0<openembedded-core@lists.=
+openembedded.org
+> > > On Behalf Of Richard Purdie via lists.openembedded.org
+> > Sent: den 12 maj 2025 15:23
+> > To: wangmy@fujitsu.com; openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 33/56] openssh: upgrade 9.9p2 ->
+> > 10.0p1
+> >=20
+> > On Mon, 2025-05-12 at 17:03 +0800, wangmy via
+> > lists.openembedded.org wrote:
+> > > From: Wang Mingyu <wangmy@fujitsu.com>
+> > >=20
+> > > 0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
+> > > refreshed for 10.0p1
+> > >=20
+> > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> > > ---
+> > > =C2=A0...gress-test-exec-use-the-absolute-path-in-the-SSH-e.patch | 6
+> > > +++---
+> > > =C2=A0.../openssh/{openssh_9.9p2.bb =3D> openssh_10.0p1.bb}=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2
+> > > +-
+> > > =C2=A02 files changed, 4 insertions(+), 4 deletions(-)
+> > > =C2=A0rename meta/recipes-connectivity/openssh/{openssh_9.9p2.bb =3D>
+> > > openssh_10.0p1.bb} (99%)
+> >=20
+> >=20
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/74/builds/1579
+> >=20
+> > (and many more)
+> >=20
+> > The ssh server doesn't work after this change as per the other
+> > similar
+> > patches sent.
+> >=20
+> > Cheers,
+> >=20
+> > Richard
+>=20
+> Not sure if it is related, but we have this in our bbappend that
+> lifts the version of openssh from 9.9p2 to 10.0p1:
+>=20
+> FILES:${PN}-sshd +=3D "${libexecdir}/sshd-auth"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...gress-test-exec-use-the-absolute-path-in-the-SSH-e.patch | 6 +++---
- .../openssh/{openssh_9.9p2.bb => openssh_10.0p1.bb}         | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh_9.9p2.bb => openssh_10.0p1.bb} (98%)
+Thanks, that does indeed fix it. I wish you'd sent the upgrade if you
+had it working!
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
-index b90cd2e69d9..360b62af345 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
-@@ -1,4 +1,4 @@
--From fb762172fb678fe29327b667f8fe7380962a4540 Mon Sep 17 00:00:00 2001
-+From 9dcccafe44ea17e972e7cddea205bbe9fe71d8d6 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <jose.quaresma@foundries.io>
- Date: Mon, 15 Jul 2024 18:43:08 +0100
- Subject: [PATCH] regress/test-exec: use the absolute path in the SSH env
-@@ -18,10 +18,10 @@ Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-  1 file changed, 5 insertions(+)
- 
- diff --git a/regress/test-exec.sh b/regress/test-exec.sh
--index 7afc2807..175f554b 100644
-+index 8a00c72..2891f27 100644
- --- a/regress/test-exec.sh
- +++ b/regress/test-exec.sh
--@@ -175,6 +175,11 @@ if [ "x$TEST_SSH_OPENSSL" != "x" ]; then
-+@@ -179,6 +179,11 @@ if [ "x$TEST_SSH_OPENSSL" != "x" ]; then
-  fi
-  
-  # Path to sshd must be absolute for rexec
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.9p2.bb b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssh/openssh_9.9p2.bb
-rename to meta/recipes-connectivity/openssh/openssh_10.0p1.bb
-index 51917257968..a044aec063e 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.9p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
-@@ -26,7 +26,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-            file://0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch \
-            "
--SRC_URI[sha256sum] = "91aadb603e08cc285eddf965e1199d02585fa94d994d6cae5b41e1721e215673"
-+SRC_URI[sha256sum] = "021a2e709a0edf4250b1256bd5a9e500411a90dddabea830ed59cef90eb9d85c"
- 
- CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
- 
-@@ -197,7 +197,7 @@ FILES:${PN}-scp = "${bindir}/scp.${BPN}"
- FILES:${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
- FILES:${PN}-sshd = "${sbindir}/sshd ${libexecdir}/sshd-session ${sysconfdir}/init.d/sshd ${systemd_system_unitdir}"
- FILES:${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
--FILES:${PN}-sshd += "${libexecdir}/${BPN}/sshd_check_keys"
-+FILES:${PN}-sshd += "${libexecdir}/${BPN}/sshd_check_keys ${libexecdir}/sshd-auth"
- FILES:${PN}-sftp = "${bindir}/sftp"
- FILES:${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES:${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+Cheers,
+
+Richard
 
