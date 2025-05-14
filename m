@@ -2,34 +2,34 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D26C54E71
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 628CDC54ED0
 	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 18:53:43 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web10.109901.1747248814197199931
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web11.110589.1747248811553974163
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 11:53:34 -0700
+ Wed, 14 May 2025 11:53:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=KjlyYxkY;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2025051418533236fd5f11a6ed395b1c-wq0ip1@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2025051418533236fd5f11a6ed395b1c
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=dyX+Ak/S;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-20250514185332cd640b7e58f6b2c9b0-7u93ha@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250514185332cd640b7e58f6b2c9b0
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 14 May 2025 20:53:32 +0200
+        Wed, 14 May 2025 20:53:33 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=NTyd9QST9L+3g97EmLgFlxmACFJ9472SX2fG64s29qE=;
- b=KjlyYxkYf7eew5it4MqGZrKNSTancGl6ClaAETge7O16JzlGwyzo0qI4kyqVK5dkuMyR/O
- Is/uO7bG0389JwqA2YudnSwCeulks6NszuD7w1TGKl/ZDTkvC3sE7dIqjAtYoKcTDfvq7Kjg
- 1VMbU20CE44QAWyWPaMmIOMuJx0oJKF9NAKJau9x96oT8s2t36SD7dLc/JP6hiMUx0V44PsB
- O34qMB/ZVEix5JAck/y/evD3Yso5OeQyR4F5BCLQArMkIuy7pSf16JdxsayzneND8JIC3dg7
- ocDH9nFn4yCGiFXrO00aWwE2pgiRG1bnj/wsXqt5w50GKXUt/zA/ynig==;
+ bh=dzshWsMc+mdnlUa6NWp7EK8QUVyToUKOudo26ZgSiwM=;
+ b=dyX+Ak/Sh7OrLVKZ9T4EzNYq9fo7jr50/rKwYdI9WY4riRk8+rG14AOw693SnPR04QIpPp
+ nZpBrF9aDP46RMlLvrrQIk5d4yGRfRSDl1gmQczCZ+FzsRhSXAXVQ7IqBaPF52CGTpebh1MV
+ kQphGAGNfN0KSr15nx7fO0vesQTsdjSDTvaauf8FL/Q4URxGpaTos+oUa/w7/cf0OCq3ai2l
+ 4i8lU3t+DOMN3UtURq9wCY50RL6QTXE2kjRoSmmH4M1wZUzDCbBo/C8HTZPzB7vvqSzOoYlt
+ LzDVH6ES2PINZX0bJp6bZhAEVXc4ZlxkTuuP28y+NTzwZMMv1i+u6bvQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v3 07/22] kernel-fitimage: refactor order in its
-Date: Wed, 14 May 2025 20:50:51 +0200
-Message-ID: <20250514185225.162998-8-adrian.freihofer@siemens.com>
+Subject: [PATCH v3 11/22] oe-selftest: fitimage refactor kernel-fitimage.bbclass
+Date: Wed, 14 May 2025 20:50:55 +0200
+Message-ID: <20250514185225.162998-12-adrian.freihofer@siemens.com>
 In-Reply-To: <20250514185225.162998-1-adrian.freihofer@siemens.com>
 References: <20250514185225.162998-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -40,113 +40,229 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 18:53:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216532
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216530
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-When the ITS file is created, the mandatory properties are written first
-before the optional properties are written.
-This is not really useful for the current implementation. But it is a
-preparation for a new Python-based implementation that will expect
-mandatory properties first. This change makes it possible to run the
-tests with both the old and the new implementation.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Support that a recipe other than virtual/kernel provides the kernel FIT
+image. Therefore
+* Support building with either:
+  - KERNEL_IMAGETYPES += " fitImage "
+  - KERNEL_CLASSES = " kernel-fitimage "
+  or
+  - KERNEL_CLASSES = " kernel-uboot "
+* allow to specify which recipe gets bitbaked.
 ---
- meta/classes-recipe/kernel-fitimage.bbclass | 20 ++++++++++----------
- meta/lib/oeqa/selftest/cases/fitimage.py    |  4 ++--
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ meta/lib/oeqa/selftest/cases/fitimage.py | 55 +++++++++++++++---------
+ 1 file changed, 34 insertions(+), 21 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-index 3975e657003..18c7c9bf872 100644
---- a/meta/classes-recipe/kernel-fitimage.bbclass
-+++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -128,11 +128,11 @@ fitimage_emit_section_kernel() {
- 	cat << EOF >> $1
-                 kernel-$2 {
-                         description = "Linux kernel";
--                        data = /incbin/("$3");
-                         type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
-+                        compression = "$4";
-+                        data = /incbin/("$3");
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
--                        compression = "$4";
-                         load = <${UBOOT_LOADADDRESS}>;
-                         entry = <$ENTRYPOINT>;
-                         hash-1 {
-@@ -177,10 +177,10 @@ fitimage_emit_section_dtb() {
- 	cat << EOF >> $1
-                 fdt-$2 {
-                         description = "Flattened Device Tree blob";
--                        data = /incbin/("$3");
-                         type = "flat_dt";
--                        arch = "${UBOOT_ARCH}";
-                         compression = "none";
-+                        data = /incbin/("$3");
-+                        arch = "${UBOOT_ARCH}";
-                         $dtb_loadline
-                         hash-1 {
-                                 algo = "$dtb_csum";
-@@ -215,10 +215,10 @@ fitimage_emit_section_boot_script() {
-         cat << EOF >> $1
-                 bootscr-$2 {
-                         description = "U-boot script";
--                        data = /incbin/("$3");
-                         type = "script";
--                        arch = "${UBOOT_ARCH}";
-                         compression = "none";
-+                        data = /incbin/("$3");
-+                        arch = "${UBOOT_ARCH}";
-                         hash-1 {
-                                 algo = "$bootscr_csum";
-                         };
-@@ -252,11 +252,11 @@ fitimage_emit_section_setup() {
- 	cat << EOF >> $1
-                 setup-$2 {
-                         description = "Linux setup.bin";
--                        data = /incbin/("$3");
-                         type = "x86_setup";
-+                        compression = "none";
-+                        data = /incbin/("$3");
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
--                        compression = "none";
-                         load = <0x00090000>;
-                         entry = <0x00090000>;
-                         hash-1 {
-@@ -301,11 +301,11 @@ fitimage_emit_section_ramdisk() {
- 	cat << EOF >> $1
-                 ramdisk-$2 {
-                         description = "${INITRAMFS_IMAGE}";
--                        data = /incbin/("$3");
-                         type = "ramdisk";
-+                        compression = "none";
-+                        data = /incbin/("$3");
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
--                        compression = "none";
-                         $ramdisk_loadline
-                         $ramdisk_entryline
-                         hash-1 {
 diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index c3554d4499a..47fb8534b37 100644
+index d9d1211b074..b001339b73b 100644
 --- a/meta/lib/oeqa/selftest/cases/fitimage.py
 +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -509,11 +509,11 @@ class KernelFitImageTests(FitImageTestCase):
-         its_field_check = [
-             'description = "%s";' % bb_vars['FIT_DESC'],
-             'description = "Linux kernel";',
--            'data = /incbin/("linux.bin");',
-             'type = "' + str(bb_vars['UBOOT_MKIMAGE_KERNEL_TYPE']) + '";',
-+            # 'compression = "' + str(bb_vars['FIT_KERNEL_COMP_ALG']) + '";', defined based on files in TMPDIR, not ideal...
-+            'data = /incbin/("linux.bin");',
-             'arch = "' + str(bb_vars['UBOOT_ARCH']) + '";',
-             'os = "linux";',
--            # 'compression = "' + str(bb_vars['FIT_KERNEL_COMP_ALG']) + '";', defined based on files in TMPDIR, not ideal...
-             'load = <' + str(bb_vars['UBOOT_LOADADDRESS']) + '>;',
-             'entry = <' + str(bb_vars['UBOOT_ENTRYPOINT']) + '>;',
-         ]
+@@ -428,6 +428,7 @@ class KernelFitImageBase(FitImageTestCase):
+             'INITRAMFS_IMAGE_BUNDLE',
+             'INITRAMFS_IMAGE_NAME',
+             'INITRAMFS_IMAGE',
++            'KERNEL_DEPLOYSUBDIR',
+             'KERNEL_DEVICETREE',
+             'KERNEL_FIT_LINK_NAME',
+             'MACHINE',
+@@ -444,10 +445,21 @@ class KernelFitImageBase(FitImageTestCase):
+             'UBOOT_SIGN_KEYDIR',
+             'UBOOT_SIGN_KEYNAME',
+         }
+-        bb_vars = get_bb_vars(list(internal_used | set(additional_vars)), "virtual/kernel")
++        bb_vars = get_bb_vars(list(internal_used | set(additional_vars)), self.kernel_recipe)
+         self.logger.debug("bb_vars: %s" % pprint.pformat(bb_vars, indent=4))
+         return bb_vars
+ 
++    def _config_add_kernel_classes(self, config):
++        config += '# Use kernel-fitimage.bbclass for the creation of the fitImage' + os.linesep
++        config += 'KERNEL_IMAGETYPES += " fitImage "' + os.linesep
++        config += 'KERNEL_CLASSES = " kernel-fitimage "' + os.linesep
++        return config
++
++    @property
++    def kernel_recipe(self):
++        # virtual/kernel does not work with SRC_URI:append:pn-%s
++        return "linux-yocto"
++
+     def _config_add_uboot_env(self, config):
+         """Generate an u-boot environment
+ 
+@@ -461,7 +473,7 @@ class KernelFitImageBase(FitImageTestCase):
+         config += '# Add an u-boot script to the fitImage' + os.linesep
+         config += 'FIT_UBOOT_ENV = "%s"' % fit_uenv_file + os.linesep
+         config += 'FILESEXTRAPATHS:prepend := "${TOPDIR}/%s:"' % test_files_dir + os.linesep
+-        config += 'SRC_URI:append:pn-linux-yocto = " file://${FIT_UBOOT_ENV}"' + os.linesep
++        config += 'SRC_URI:append:pn-%s = " file://${FIT_UBOOT_ENV}"' % self.kernel_recipe + os.linesep
+ 
+         if not os.path.isdir(test_files_dir):
+             os.makedirs(test_files_dir)
+@@ -473,7 +485,7 @@ class KernelFitImageBase(FitImageTestCase):
+ 
+     def _bitbake_fit_image(self, bb_vars):
+         """Bitbake the kernel and return the paths to the its file and the FIT image"""
+-        bitbake("virtual/kernel")
++        bitbake(self.kernel_recipe)
+ 
+         # Find the right its file and the final fitImage and check if both files are available
+         deploy_dir_image = bb_vars['DEPLOY_DIR_IMAGE']
+@@ -492,8 +504,13 @@ class KernelFitImageBase(FitImageTestCase):
+             fitimage_name = "fitImage"  # or fitImage-${KERNEL_IMAGE_LINK_NAME}${KERNEL_IMAGE_BIN_EXT}
+         else:
+             self.fail('Invalid configuration: INITRAMFS_IMAGE_BUNDLE = "1" and not INITRAMFS_IMAGE')
+-        fitimage_its_path = os.path.realpath(os.path.join(deploy_dir_image, fitimage_its_name))
+-        fitimage_path = os.path.realpath(os.path.join(deploy_dir_image, fitimage_name))
++        kernel_deploysubdir = bb_vars['KERNEL_DEPLOYSUBDIR']
++        if kernel_deploysubdir:
++            fitimage_its_path = os.path.realpath(os.path.join(deploy_dir_image, kernel_deploysubdir, fitimage_its_name))
++            fitimage_path = os.path.realpath(os.path.join(deploy_dir_image, kernel_deploysubdir, fitimage_name))
++        else:
++            fitimage_its_path = os.path.realpath(os.path.join(deploy_dir_image, fitimage_its_name))
++            fitimage_path = os.path.realpath(os.path.join(deploy_dir_image, fitimage_name))
+         return (fitimage_its_path, fitimage_path)
+ 
+     def _get_req_its_paths(self, bb_vars):
+@@ -741,10 +758,7 @@ class KernelFitImageTests(KernelFitImageBase):
+         Author:      Usama Arif <usama.arif@arm.com>
+         """
+         config = """
+-# Enable creation of fitImage
+ KERNEL_IMAGETYPE = "Image"
+-KERNEL_IMAGETYPES += " fitImage "
+-KERNEL_CLASSES = " kernel-fitimage "
+ 
+ # RAM disk variables including load address and entrypoint for kernel and RAM disk
+ IMAGE_FSTYPES += "cpio.gz"
+@@ -757,6 +771,7 @@ UBOOT_LOADADDRESS = "0x80080000"
+ UBOOT_ENTRYPOINT = "0x80080000"
+ FIT_DESC = "A model description"
+ """
++        config = self._config_add_kernel_classes(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+         self._test_fitimage(bb_vars)
+@@ -772,11 +787,10 @@ FIT_DESC = "A model description"
+         config = """
+ # Enable creation of fitImage
+ MACHINE = "beaglebone-yocto"
+-KERNEL_IMAGETYPES += " fitImage "
+-KERNEL_CLASSES = " kernel-fitimage "
+ # Add a devicetree overlay which does not need kernel sources
+ PREFERRED_PROVIDER_virtual/dtb = "bborg-relay-00a2"
+ """
++        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+@@ -801,13 +815,12 @@ PREFERRED_PROVIDER_virtual/dtb = "bborg-relay-00a2"
+         config = """
+ # Enable creation of fitImage
+ MACHINE = "beaglebone-yocto"
+-KERNEL_IMAGETYPES += " fitImage "
+-KERNEL_CLASSES = " kernel-fitimage "
+ UBOOT_SIGN_ENABLE = "1"
+ UBOOT_SIGN_KEYDIR = "${TOPDIR}/signing-keys"
+ UBOOT_SIGN_KEYNAME = "dev"
+ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+ """
++        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+ 
+@@ -852,8 +865,6 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+         config = """
+ # Enable creation of fitImage
+ MACHINE = "beaglebone-yocto"
+-KERNEL_IMAGETYPES += " fitImage "
+-KERNEL_CLASSES = " kernel-fitimage "
+ UBOOT_SIGN_ENABLE = "1"
+ FIT_GENERATE_KEYS = "1"
+ UBOOT_SIGN_KEYDIR = "${TOPDIR}/signing-keys"
+@@ -862,6 +873,7 @@ UBOOT_SIGN_KEYNAME = "cfg-oe-selftest"
+ FIT_SIGN_INDIVIDUAL = "1"
+ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+ """
++        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+@@ -888,8 +900,6 @@ MACHINE = "beaglebone-yocto"
+ INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+ INITRAMFS_SCRIPTS = ""
+ UBOOT_MACHINE = "am335x_evm_defconfig"
+-KERNEL_CLASSES = " kernel-fitimage "
+-KERNEL_IMAGETYPES = "fitImage"
+ UBOOT_SIGN_ENABLE = "1"
+ UBOOT_SIGN_KEYNAME = "beaglebonekey"
+ UBOOT_SIGN_KEYDIR ?= "${DEPLOY_DIR_IMAGE}"
+@@ -908,6 +918,7 @@ KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
+ FIT_KERNEL_COMP_ALG = "none"
+ FIT_HASH_ALG = "sha256"
+ """
++        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+ 
+@@ -948,8 +959,6 @@ INITRAMFS_IMAGE_BUNDLE = "1"
+ INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+ INITRAMFS_SCRIPTS = ""
+ UBOOT_MACHINE = "am335x_evm_defconfig"
+-KERNEL_CLASSES = " kernel-fitimage "
+-KERNEL_IMAGETYPES = "fitImage"
+ UBOOT_SIGN_ENABLE = "1"
+ UBOOT_SIGN_KEYNAME = "beaglebonekey"
+ UBOOT_SIGN_KEYDIR ?= "${DEPLOY_DIR_IMAGE}"
+@@ -966,11 +975,13 @@ KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
+ FIT_KERNEL_COMP_ALG = "none"
+ FIT_HASH_ALG = "sha256"
+ """
++        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+         self._test_fitimage(bb_vars)
+ 
++
+ class FitImagePyTests(KernelFitImageBase):
+     """Test cases for the fitimage.py module without calling bitbake"""
+ 
+@@ -1069,6 +1080,8 @@ class FitImagePyTests(KernelFitImageBase):
+ class UBootFitImageTests(FitImageTestCase):
+     """Test cases for the uboot-sign bbclass"""
+ 
++    BOOTLOADER_RECIPE = "virtual/bootloader"
++
+     def _fit_get_bb_vars(self, additional_vars=[]):
+         """Get bb_vars as needed by _test_sign_fit_image
+ 
+@@ -1110,13 +1123,13 @@ class UBootFitImageTests(FitImageTestCase):
+             'UBOOT_SIGN_KEYDIR',
+             'UBOOT_SIGN_KEYNAME',
+         }
+-        bb_vars = get_bb_vars(list(internal_used | set(additional_vars)), "virtual/bootloader")
++        bb_vars = get_bb_vars(list(internal_used | set(additional_vars)), UBootFitImageTests.BOOTLOADER_RECIPE)
+         self.logger.debug("bb_vars: %s" % pprint.pformat(bb_vars, indent=4))
+         return bb_vars
+ 
+     def _bitbake_fit_image(self, bb_vars):
+         """Bitbake the bootloader and return the paths to the its file and the FIT image"""
+-        bitbake("virtual/bootloader")
++        bitbake(UBootFitImageTests.BOOTLOADER_RECIPE)
+ 
+         deploy_dir_image = bb_vars['DEPLOY_DIR_IMAGE']
+         machine = bb_vars['MACHINE']
+@@ -1634,7 +1647,7 @@ FIT_SIGN_INDIVIDUAL = "1"
+         # Using a static key. FIT_GENERATE_KEYS = "1" does not work without kernel-fitimage.bbclass
+         self._gen_signing_key(bb_vars)
+ 
+-        bitbake("virtual/bootloader")
++        bitbake(UBootFitImageTests.BOOTLOADER_RECIPE)
+ 
+         # Just check the DTB of u-boot since there is no u-boot FIT image
+         self._check_kernel_dtb(bb_vars)
 -- 
 2.49.0
 
