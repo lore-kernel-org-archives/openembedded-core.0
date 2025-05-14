@@ -2,246 +2,122 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63074C3ABDA
-	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 21:36:44 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.113589.1747258596820610180
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C090C3ABDA
+	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 21:42:34 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.113701.1747258951162533457
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 14:36:36 -0700
+ Wed, 14 May 2025 14:42:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=k/DRowBe;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7423fb98c5aso382244b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 14:36:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iyLdVwSP;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-30a8cbddce3so329734a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 14:42:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747258596; x=1747863396; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747258950; x=1747863750; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IXH0t1qioQpj59ZnpQifIiY8WzQImjCY3C/JmhGjYzg=;
-        b=k/DRowBe3ysWU55Do1Xli4Gu5iBbHBDGEaf99jXyDR3VHPZhfXl/ULkKpLFoFobJvm
-         9zSn5tISU4exQ0KJhoQH2zliYJT7c1PqJbd2coODAlHLB7VlNytgZP6Mm2Q+jsNVeVTI
-         BddwktnWJrsmh4SdJ13gAjUNjJSMWWarhUhcTCCO7qcHkqFb1kZyHq87TSTzjGmkH3j9
-         RHG23oAvg8ixJ8mIaXQSXOAiZh1Mlje49lsKPwXRrbA67V1srwhmHe26hT8LVz1DbN3z
-         Kz5sMuQZEMzObUScdH2Z4iq48UBgatMVSbvwekTP886XCXugRCSFF71MVecf7fu/w2OU
-         Yr7Q==
+        bh=hKba0unlqJx4OiXQSDHvlikFWgwl0Flmooovqyfr3rw=;
+        b=iyLdVwSPGyIGvCbAGnAJv2tdmtIispFxdwsoThNCupHBcV91DH98lKuNHcASD/3oTY
+         3KJ6iV1URsH6YTCZ7V4HUROcrXDzkOgXjC9a28PFxf5CnW1TV6cK3TLT5ENjAkB2jAM0
+         GdUatw0ovjjviBq42rM6FDZBD+OjJk6w2zHCSuQxbjjLzNazxASzt3o2ONh4oCqfm0CD
+         rIx7WBValaN1h0wXx0Znfem1bSr0BshUVvrAEvpDZj+6XvOr6yLU96ovoqQQf/QvmTZr
+         bjU9A7tBAPMgLu/ZcDrxqM8crkBLyNH9CimAHitg9RTG/TKbh0bNcwLHKUPGx8EaaqPN
+         F46g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747258596; x=1747863396;
+        d=1e100.net; s=20230601; t=1747258950; x=1747863750;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IXH0t1qioQpj59ZnpQifIiY8WzQImjCY3C/JmhGjYzg=;
-        b=pVNxM14xJIjvlOlI4M1RmHijkjztqqi1cJmd6ySJUsw3CZe+86fLknwaVPwJKloRPr
-         FXerYUb77W/xq7GHYpn14TTiZ3uhqgoNShAkXzemyZ8GSDQsaS6SINdwtme5D8FbW+B0
-         3ZE5+OR9SzIyJyrwjVFd+zdnezx0lGk4JoKaz4ZLW4zbIlByF9hRSmAiVCtpmiKnuQe9
-         cj15BwSysX/snzr6G5K0wdOKBLpRU3FFZ6IbEHywx/XMrnevpy6BA8WaXaW9W9w4UCe3
-         RVDcsJoUhV9bmMCyrEp5Wei4Jz2P1P5k464sGKy8C22165GbAUlPRxs9lyH49FXwOnJt
-         XcqA==
-X-Gm-Message-State: AOJu0YwpCa4dV+yBnO1yFn72rl7zxz0nZ4npQIk32gQi9qWT6kACDl8L
-	ttuFssH1om26IVYvATmvLmVCODNMWkvuTqRbQYZBajyqHfqKnujMJ9ycTQrh
-X-Gm-Gg: ASbGnculQiNIxVgKdcM8l0AW5vLS8dp7Gay4hl+oNGhAXXZEBicPomXDz3D8DTolncV
-	H31OPcW5+wg+6YpO9gCCJkdMtHHUaw4HrT9PlTgLr6b29Mk+4Gvg4s8EfUiPUgSr2whQh7cjsD+
-	ksVpL3wua+0WFyWuTxzAYagSlBWs9h4X12vtOe+tuShpKL9V9C7AOA+kI1B47XGz+K4wUOVekDL
-	gIV6XA1xGDmfWkePBydzCW6W11x5lcaB9lz0AwloHyp3Z2/SRnsC0eWAiBbKuoBFyaukLZvRqg6
-	maP1s3kpsujkEVnx3s1DuCXypX/Rz9LXc6H4agQrs4M=
-X-Google-Smtp-Source: AGHT+IEtnEqfqKoRLga/jNCcfJNH2UcGSH7Ym45vn4nvPEM7MbIxgvnJLxfSd390iGD9EygI9Y1aJA==
-X-Received: by 2002:a05:6a00:1254:b0:736:33fd:f57d with SMTP id d2e1a72fcca58-74289349c72mr6442468b3a.17.1747258595769;
-        Wed, 14 May 2025 14:36:35 -0700 (PDT)
+        bh=hKba0unlqJx4OiXQSDHvlikFWgwl0Flmooovqyfr3rw=;
+        b=F6adU1wzpSs8XgFO9ouQq5Ht4ROKoaXHaFSzhaOEwYdiT+NiqQF7YbajorNDFJCMQm
+         3DkgA3jHeG90cWOGqNDtAcGCcQCPVwn1uakOJxP5XadrmmpnYnwIVgv8v1mcYbcdYIQU
+         vJzv65cMt6ZuVZSX0m8M3h5CTXP0K5Gpllq2FIvLnRkLJ7DQCkZbzZuMf1BPubyOPexi
+         hq2hzG2jIa3VFq44rE55J5TNsvjV+a+HSHNru1u5FJPkeWh8oc8e/X9XU8rl6fZwwZTw
+         YjvALQQaT+5ga8dCLvUR2rQ1wYw0SYwPdJKKhypcQwsRmmPmR/KV3l3A1pT4To1J+Jr+
+         6CLQ==
+X-Gm-Message-State: AOJu0Yyxvr3xnTMSCwvPFwMQRZisbZh7XPL5JYefD1Z8Wx9SzosaXw4W
+	yZmNahJZiimsiYlxgdA0lQomjN3O4nu2yL4+b7ozHhZKztht3SOgDGimFYjb
+X-Gm-Gg: ASbGncsfxSJoMQw0lJjz5XFRQjf6U3UFvcOUj+XXUOG69Bh8dggHhheQLLcw1SbE4R2
+	gJXPRI9gEM/UZmkP131LxhMDyDG3hzrPwYyX8khSgJEMJx26Sm5fA1zpQ0PuMPcNJMG7T4T1Uvf
+	DMKAYqBGTvZXlcJlWzcZGSVqGPtzJ/rrIFmjWaRZhdS+x3rzflJIirxuR0vZs1cUqxCP12nUb4k
+	QWD73pJ/OSuFVUuTiGz/PYCeXVLRsR6pQjhk/5vuALGettIEx+i154V0mf261cQE3kJs/E0d42A
+	mIIfpJx07v9mPw7naUT0kNkEe+WDSVfAVZdw6VI6I8U=
+X-Google-Smtp-Source: AGHT+IGiASOtcnPqKJECAclD9VXHNAMIS3+9mjriKbwI7xiAtTb6iYH0n+5YoQqAaAOayFuQ+1Zbgw==
+X-Received: by 2002:a17:90a:d650:b0:2ee:cded:9ac7 with SMTP id 98e67ed59e1d1-30e2e5cc03emr7483551a91.20.1747258950187;
+        Wed, 14 May 2025 14:42:30 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7423773c796sm10210646b3a.69.2025.05.14.14.36.35
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30e33482654sm2222970a91.36.2025.05.14.14.42.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 14:36:35 -0700 (PDT)
+        Wed, 14 May 2025 14:42:29 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [walnascar][PATCH] gcc: Fix LDRD register overlap in register-indexed mode
-Date: Wed, 14 May 2025 14:36:33 -0700
-Message-ID: <20250514213633.644985-1-raj.khem@gmail.com>
+Subject: [PATCH] babeltrace2: Update patch to upstreamed version of patch
+Date: Wed, 14 May 2025 14:42:27 -0700
+Message-ID: <20250514214227.647247-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 21:36:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216551
+ <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 21:42:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216552
 
-Issue is seen with nodejs ending with Illegal instruction on OE
-Its also in QT5base and perhaps many other packages using 64bit
-atomics.
-
-Thanks to jeroen (oe IRC) to report and help reduce the problem.
+Update to the version of patch that landed upstream
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-14.2.inc        |   1 +
- ...m-Fix-LDRD-register-overlap-PR117675.patch | 148 ++++++++++++++++++
- 2 files changed, 149 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0001-arm-Fix-LDRD-register-overlap-PR117675.patch
+ ...ob_get_length-return-size_t-instead-.patch | 23 ++++++++++---------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-14.2.inc b/meta/recipes-devtools/gcc/gcc-14.2.inc
-index 3d65bed92a0..f4e364f692b 100644
---- a/meta/recipes-devtools/gcc/gcc-14.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-14.2.inc
-@@ -71,6 +71,7 @@ SRC_URI = "${BASEURI} \
- 	   file://0026-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch \
-            file://0027-gcc-backport-patch-to-fix-data-relocation-to-ENDBR-s.patch \
-            file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch \
-+           file://0001-arm-Fix-LDRD-register-overlap-PR117675.patch \
- "
+diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
+index d923437a2ab..4dffa7bfa5b 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
++++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
+@@ -1,8 +1,8 @@
+-From 1b514ab2e878216426acc493eeab96088576faf9 Mon Sep 17 00:00:00 2001
++From a73cef80a0d4129f74ab2e160a15693235aad4d1 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 20 Mar 2025 18:10:08 -0700
+-Subject: [PATCH] Make bt_field_blob_get_length return size_t instead of
+- uint64_t
++Subject: [PATCH] Cast result of bt_field_blob_get_length to size_t in
++ constructor of bt2s::span
  
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
-diff --git a/meta/recipes-devtools/gcc/gcc/0001-arm-Fix-LDRD-register-overlap-PR117675.patch b/meta/recipes-devtools/gcc/gcc/0001-arm-Fix-LDRD-register-overlap-PR117675.patch
-new file mode 100644
-index 00000000000..e3d887a1359
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0001-arm-Fix-LDRD-register-overlap-PR117675.patch
-@@ -0,0 +1,148 @@
-+From 9366c328518766d896155388726055624716c0af Mon Sep 17 00:00:00 2001
-+From: Wilco Dijkstra <wilco.dijkstra@arm.com>
-+Date: Tue, 10 Dec 2024 14:22:48 +0000
-+Subject: [PATCH] arm: Fix LDRD register overlap [PR117675]
+ Fixes errors e.g.
+ | ../../git/src/cpp-common/bt2/field.hpp:1139:82: error: non-constant-expression cannot be narrowed from type 'std::uint64_t' (aka 'unsigned long long') to 'size_type' (aka 'unsigned int') in initializer list [-Wc++11-narrowing]
+@@ -16,22 +16,23 @@ Fixes errors e.g.
+ |       |                                                                                  ^~~~~~~~~~~~~~
+ |       |                                                                                  static_cast<size_type>( )
+ 
+-Upstream-Status: Submitted [https://github.com/efficios/babeltrace/pull/120]
++Upstream-Status: Backport [https://github.com/efficios/babeltrace/commit/1e6b34e411c61135ad256047a985a9bad927eae0]
 +
-+The register indexed variants of LDRD have complex register overlap constraints
-+which makes them hard to use without using output_move_double (which can't be
-+used for atomics as it doesn't guarantee to emit atomic LDRD/STRD when required).
-+Add a new predicate and constraint for plain LDRD/STRD with base or base+imm.
-+This blocks register indexing and fixes PR117675.
-+
-+gcc:
-+	PR target/117675
-+	* config/arm/arm.cc (arm_ldrd_legitimate_address): New function.
-+	* config/arm/arm-protos.h (arm_ldrd_legitimate_address): New prototype.
-+	* config/arm/constraints.md: Add new Uo constraint.
-+	* config/arm/predicates.md (arm_ldrd_memory_operand): Add new predicate.
-+	* config/arm/sync.md (arm_atomic_loaddi2_ldrd): Use
-+	arm_ldrd_memory_operand and Uo.
-+
-+gcc/testsuite:
-+	PR target/117675
-+	* gcc.target/arm/pr117675.c: Add new test.
-+
-+(cherry picked from commit 21fbfae2e55e1a153820acc6fbd922e66f67e65b)
-+
-+Upstream-Status: Backport [https://gcc.gnu.org/bugzilla/show_bug.cgi?id=117675]
-+---
-+ gcc/config/arm/arm-protos.h             |  1 +
-+ gcc/config/arm/arm.cc                   | 24 ++++++++++++++++++++++++
-+ gcc/config/arm/constraints.md           |  8 +++++++-
-+ gcc/config/arm/predicates.md            |  4 ++++
-+ gcc/config/arm/sync.md                  |  2 +-
-+ gcc/testsuite/gcc.target/arm/pr117675.c | 17 +++++++++++++++++
-+ 6 files changed, 54 insertions(+), 2 deletions(-)
-+ create mode 100644 gcc/testsuite/gcc.target/arm/pr117675.c
-+
-+--- a/gcc/config/arm/arm-protos.h
-++++ b/gcc/config/arm/arm-protos.h
-+@@ -202,6 +202,7 @@ extern rtx arm_load_tp (rtx);
-+ extern bool arm_coproc_builtin_available (enum unspecv);
-+ extern bool arm_coproc_ldc_stc_legitimate_address (rtx);
-+ extern rtx arm_stack_protect_tls_canary_mem (bool);
-++extern bool arm_ldrd_legitimate_address (rtx);
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+  src/cpp-common/bt2/field.hpp | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/src/cpp-common/bt2/field.hpp b/src/cpp-common/bt2/field.hpp
+-index 8b291f7a1..cbfff84f0 100644
++index 8b291f7a..3a7d30a4 100644
+ --- a/src/cpp-common/bt2/field.hpp
+ +++ b/src/cpp-common/bt2/field.hpp
+-@@ -1139,7 +1139,7 @@ public:
+-         return {internal::CommonBlobFieldSpec<LibObjT>::data(this->libObjPtr()), this->length()};
+-     }
++@@ -1136,7 +1136,7 @@ public:
+  
+--    std::uint64_t length() const noexcept
+-+    std::size_t length() const noexcept
++     bt2s::span<typename internal::CommonBlobFieldSpec<LibObjT>::Data> data() const noexcept
+      {
+-         return bt_field_blob_get_length(this->libObjPtr());
++-        return {internal::CommonBlobFieldSpec<LibObjT>::data(this->libObjPtr()), this->length()};
+++        return {internal::CommonBlobFieldSpec<LibObjT>::data(this->libObjPtr()), static_cast<std::size_t>(this->length())};
+      }
 + 
-+ 
-+ #if defined TREE_CODE
-+--- a/gcc/config/arm/arm.cc
-++++ b/gcc/config/arm/arm.cc
-+@@ -34523,6 +34523,30 @@ arm_coproc_ldc_stc_legitimate_address (r
-+   return false;
-+ }
-+ 
-++/* Return true if OP is a valid memory operand for LDRD/STRD without any
-++   register overlap restrictions.  Allow [base] and [base, imm] for now.  */
-++bool
-++arm_ldrd_legitimate_address (rtx op)
-++{
-++  if (!MEM_P (op))
-++    return false;
-++
-++  op = XEXP (op, 0);
-++  if (REG_P (op))
-++    return true;
-++
-++  if (GET_CODE (op) != PLUS)
-++    return false;
-++  if (!REG_P (XEXP (op, 0)) || !CONST_INT_P (XEXP (op, 1)))
-++    return false;
-++
-++  HOST_WIDE_INT val = INTVAL (XEXP (op, 1));
-++
-++  if (TARGET_ARM)
-++    return IN_RANGE (val, -255, 255);
-++  return IN_RANGE (val, -1020, 1020) && (val & 3) == 0;
-++}
-++
-+ /* Return the diagnostic message string if conversion from FROMTYPE to
-+    TOTYPE is not allowed, NULL otherwise.  */
-+ 
-+--- a/gcc/config/arm/constraints.md
-++++ b/gcc/config/arm/constraints.md
-+@@ -39,7 +39,7 @@
-+ ;; in all states: Pg
-+ 
-+ ;; The following memory constraints have been used:
-+-;; in ARM/Thumb-2 state: Uh, Ut, Uv, Uy, Un, Um, Us, Up, Uf, Ux, Ul
-++;; in ARM/Thumb-2 state: Uh, Ut, Uv, Uy, Un, Um, Us, Uo, Up, Uf, Ux, Ul, Uz
-+ ;; in ARM state: Uq
-+ ;; in Thumb state: Uu, Uw
-+ ;; in all states: Q
-+@@ -585,6 +585,12 @@
-+  (and (match_code "mem")
-+       (match_test "arm_coproc_ldc_stc_legitimate_address (op)")))
-+ 
-++(define_memory_constraint "Uo"
-++ "@internal
-++  A memory operand for Arm/Thumb-2 LDRD/STRD"
-++ (and (match_code "mem")
-++      (match_test "arm_ldrd_legitimate_address (op)")))
-++
-+ ;; We used to have constraint letters for S and R in ARM state, but
-+ ;; all uses of these now appear to have been removed.
-+ 
-+--- a/gcc/config/arm/predicates.md
-++++ b/gcc/config/arm/predicates.md
-+@@ -849,6 +849,10 @@
-+   (and (match_operand 0 "memory_operand")
-+        (match_code "reg" "0")))
-+ 
-++;; True if the operand is memory reference suitable for a ldrd/strd.
-++(define_predicate "arm_ldrd_memory_operand"
-++  (match_test "arm_ldrd_legitimate_address (op)"))
-++
-+ ;; Predicates for parallel expanders based on mode.
-+ (define_special_predicate "vect_par_constant_high" 
-+   (match_code "parallel")
-+--- a/gcc/config/arm/sync.md
-++++ b/gcc/config/arm/sync.md
-+@@ -161,7 +161,7 @@
-+ (define_insn "arm_atomic_loaddi2_ldrd"
-+   [(set (match_operand:DI 0 "register_operand" "=r")
-+ 	(unspec_volatile:DI
-+-	  [(match_operand:DI 1 "memory_operand" "m")]
-++	  [(match_operand:DI 1 "arm_ldrd_memory_operand" "Uo")]
-+ 	    VUNSPEC_LDRD_ATOMIC))]
-+   "ARM_DOUBLEWORD_ALIGN && TARGET_HAVE_LPAE"
-+   "ldrd\t%0, %H0, %1"
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.target/arm/pr117675.c
-+@@ -0,0 +1,17 @@
-++/* { dg-do compile } */
-++/* { dg-options "-O2 -marm" } */
-++/* { dg-require-effective-target arm_arch_v7ve_neon_ok } */
-++/* { dg-add-options arm_arch_v7ve_neon } */
-++/* { dg-final { check-function-bodies "**" "" "" } } */
-++
-++/*
-++** f1:
-++**	add	r0, r0, r1
-++**	ldrd	r0, r1, \[r0\]
-++**	bx	lr
-++*/
-++long long f1 (char *p, int i)
-++{
-++  return __atomic_load_n ((long long *)(p + i), __ATOMIC_RELAXED);
-++}
-++
++     std::uint64_t length() const noexcept
 
