@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CDBC3DA4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC4EC54755
 	for <webhook@archiver.kernel.org>; Wed, 14 May 2025 15:58:21 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.105644.1747238297696270446
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.105643.1747238295578087650
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 May 2025 08:58:17 -0700
+ Wed, 14 May 2025 08:58:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MJRQDfYy;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22e331215dbso7998255ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 08:58:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=l3oLJHuJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22e4d235811so99708665ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 08:58:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1747238297; x=1747843097; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1747238295; x=1747843095; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4zJBICUPcbEDUD/BjdmjR4GUV62950taMoWRwyqZb5U=;
-        b=MJRQDfYyLL5AGaZq14RdWvr8Vw36UCmooSndR15k/CzGOWEHlLWcS83meJKOy/Ei9T
-         JXWMZurNBR8jgSr4y8AZ6JX6sxZ0JmvSxAaOw/3NpMFU3xkCL6Baojhn2HlvuKl7SdWJ
-         WA8tkIEssm208bTXDRDEPm2kYKcfYXQv3B22Pex3+flF6bctX0XWHKLA8tRWPH+Njpkp
-         dJfapc3qNw0glkTfa3SCATizCmoNrhJ5Jo3Pu+LXT3LKsasF9dppvFNUOzbDq/ZdgWxI
-         9ua2b1056JepNnBPo3yKZK0QnrQaSxSslhXFVmwgkgMjlIFy37f1Y9Z3KoFeJCM936qy
-         d/IA==
+        bh=mRCBM/yj8GS4J4YGIt3cHcpvYQUzOSCRhP8h6A076EQ=;
+        b=l3oLJHuJldYvkyfANWteRQcu7flpeiVq9fxMD/F1NKnBO0M+gEVZ7QEdpO0F3N5a+X
+         yQFd9UpGGKhGI7np3Tvl6JIvIH8zrAwQs375NZl1uJxxZsxbd3F73tYBTKhEjMhHjmg6
+         4iXlvSCJVpY8xhrwsYCAbX5PP66ASpA10Ed7NXoOHg3R9u+iMgMd5GXOSp9a85D+KqML
+         F1DWvLt/T3d1KJGGesky9VYjSmzzPE7HxU/j/KbJJ015SfiptRb1AO7KSe1CzCnmu+ie
+         fpQ0Xs8R1t+BWdLzBCPsWPlF0Rp7D+RpA634Nmiomnp9syhv157GHJx3jBI2q8gOgq+3
+         1Jqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747238297; x=1747843097;
+        d=1e100.net; s=20230601; t=1747238295; x=1747843095;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4zJBICUPcbEDUD/BjdmjR4GUV62950taMoWRwyqZb5U=;
-        b=D5M1A3Swjg1XwF0RFKwzToNYOgr9OXXqlUqEGaKCjEKuuUNEmMszpG+r4P/aLj3t8m
-         KTzukf3eXbonDwgBwhMGL4fbNFJHTBt6j89SGF9/8SwdhSfVCOnsJhw1bRku8G3EuIIf
-         RMX+Rj1+3aTIOk8SqrsxzEM2B1F1CU56dIYF2K1dqs3o68b7AwGdcmNBpW/qr9L/X4e0
-         14mgNMztGEzeVrWb5JzTxiYdGL+gXgljzhWqANIwb2tpk7cX3GKDrdA05m+KSgcoSX/l
-         dXGBp9ZuUdECBNyToxJbowgb4U3JIYli3Z2Sert9bFn8Ni1vTiLfwEgei/sUwdjacErr
-         FzWA==
-X-Gm-Message-State: AOJu0YycOhXLX/nnK+ZmgEEMyyWyWV5+Mr9eDxSRXFvmP7+1yaBq90WU
-	pS6wlziNcOrhxFMbkmHPYMtglPGaD7ARfwdHV3jPyib53MsrAw9TCu/aAValn6Xcf5uoyyBDH86
-	JkA1x
-X-Gm-Gg: ASbGnctwjNWJrpxlUpPG1DTNioqhmc5tTLLCiGcgFDUEDFonEruqYrceWH0KViQSsqW
-	+dvT3guaq3G5D9V9X01l5/KXxX1TpIYbPNrQubLio99luh5HqUW8kI9qkqgqofKKk4L/DlfvCD5
-	0Fh/C7dyx8tlj8DHe5bCSfarakPTCneOC0T9gvDm4LAda5HiqambS7fxmbrHyYQyEaR6E/gsZ4h
-	KX2ahrW0GD9pugJqMx8jwwI2DQkFBZPNKCssprhA39Et/QoPI7M8CF88Q81UXoGmgW5g5sJHCVr
-	8A3ltsg7fSEqb2iuPA/sJ2doMUQ04D9hp9FCLciT
-X-Google-Smtp-Source: AGHT+IH3r41qca/b07U6iFFTtbMcCSM+4BRDGJYU+UQ8CoXuwsMWko356YbDPRwaPxOvfxqHZSrhwA==
-X-Received: by 2002:a17:902:d2c1:b0:21f:6f33:f96 with SMTP id d9443c01a7336-231b3959f60mr1109685ad.6.1747238296932;
-        Wed, 14 May 2025 08:58:16 -0700 (PDT)
+        bh=mRCBM/yj8GS4J4YGIt3cHcpvYQUzOSCRhP8h6A076EQ=;
+        b=FXoeq/Qg0IIgjvRnXznNmpExv98MozUTTtmVO3jZOiw2FOLwsGgUDO6u72FTHJAU3O
+         DZa9nUo1ONf+h9iUQfF+KQlZJMUfZ87MKnqMnx+hosWF90wYBgcyXwhFzYhLAxfn9bgb
+         ydEnehVfBCZmp1+mS/1ZZmXUTvZprZX9vxmaY8BhcmXDi+bM4misVNpG1SQKA0BEcWLC
+         6jxW62abl+9uQ7enMa1OGvcOOEi/f4j4xMkPXVfyVj9UQO+e+ekgR9JtN5AkhSsM99r5
+         Gg9xfZj8cnb2/MMPXnNPEloUPx/MxOoikRcSzKpk4aU5TEaD3GsBghHg7sbuxkv2B8MK
+         XGyg==
+X-Gm-Message-State: AOJu0YyFB4Vy97xF8AO7opwSXOQNY0amflAIFi6MFtA8hBTKvZDJVIX7
+	LB+QGWZEqUsPc2mixEAcJYYHXFYO+/LZJi1423dbDeAy6A7xyFCKE6hjrY9kb4relkRnluenz7l
+	K
+X-Gm-Gg: ASbGnctO0NBF8nm6XHSRUNFbzVXJxifJyVAetiNXyqqf73X4Kwz3vguKXFZrP53DaYB
+	3l+NLxe1W8MiXERnZ2jYNbePFsh3zfSsKD4m90JfLxEBUR/bP8K28weGksd70PTVzp9S4LUY0ip
+	TLylb3k2JthAHGf7Y6IOwmhwYonIL/SptiQkkcdE+AwQHOp18Hl1j9cPUrVOppL5pP5GAM9yZA3
+	+RTJtTpMW5Tsmyx3CaycWdBYXbiVlOsarSZ0jzRDooPUMjex3FdReKSzGb7Th1ASeh+ZtaKRmle
+	Ka3Ud35axaw46pYpTzCXbn1dltCviZEP0VZNK0tq/iv+ZIg9wGI=
+X-Google-Smtp-Source: AGHT+IGOFgKeQpOa+BImC8k5F5vJ502hrVQYC3R3HiX6bd36i74WteiBvmyEvy0km6N7nuKdlgEfgA==
+X-Received: by 2002:a17:902:ef45:b0:22f:f747:8fbe with SMTP id d9443c01a7336-231983de15bmr67654295ad.53.1747238294855;
+        Wed, 14 May 2025 08:58:14 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:671:bf16:d45b:ad8])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc8271bcfsm101347385ad.125.2025.05.14.08.58.16
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc8271bcfsm101347385ad.125.2025.05.14.08.58.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 08:58:16 -0700 (PDT)
+        Wed, 14 May 2025 08:58:14 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 06/12] perl: upgrade 5.40.0 -> 5.40.2
-Date: Wed, 14 May 2025 08:57:54 -0700
-Message-ID: <8e91cd8293a13d21eb1df5b9b750d9b498bb3530.1747238138.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 05/12] perlcross: 1.6 -> 1.6.2
+Date: Wed, 14 May 2025 08:57:53 -0700
+Message-ID: <9fde5d3657a5842dcdac20eea140077b1e8ae06b.1747238138.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747238138.git.steve@sakoman.com>
 References: <cover.1747238138.git.steve@sakoman.com>
@@ -67,36 +67,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 May 2025 15:58:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216510
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216509
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-https://metacpan.org/pod/perldelta
+Provide support for Perl 5.40.2
 
-This provides a fix for CVE-2024-56406
+https://github.com/arsv/perl-cross/releases/tag/1.6.2
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/perl/{perl_5.40.0.bb => perl_5.40.2.bb} | 2 +-
+ .../perl-cross/{perlcross_1.6.bb => perlcross_1.6.2.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/perl/{perl_5.40.0.bb => perl_5.40.2.bb} (99%)
+ rename meta/recipes-devtools/perl-cross/{perlcross_1.6.bb => perlcross_1.6.2.bb} (92%)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.40.0.bb b/meta/recipes-devtools/perl/perl_5.40.2.bb
-similarity index 99%
-rename from meta/recipes-devtools/perl/perl_5.40.0.bb
-rename to meta/recipes-devtools/perl/perl_5.40.2.bb
-index 0d4338f29f..95c230060d 100644
---- a/meta/recipes-devtools/perl/perl_5.40.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.40.2.bb
-@@ -25,7 +25,7 @@ SRC_URI:append:class-target = " \
-            file://encodefix.patch \
- "
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.6.bb b/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
+similarity index 92%
+rename from meta/recipes-devtools/perl-cross/perlcross_1.6.bb
+rename to meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
+index 34d9236cab..42ba15a572 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.6.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
+@@ -18,7 +18,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/perl-cross-${PV}.tar.gz;name=perl-c
+            "
+ GITHUB_BASE_URI = "https://github.com/arsv/perl-cross/releases/"
  
--SRC_URI[perl.sha256sum] = "c740348f357396327a9795d3e8323bafd0fe8a5c7835fc1cbaba0cc8dfe7161f"
-+SRC_URI[perl.sha256sum] = "10d4647cfbb543a7f9ae3e5f6851ec49305232ea7621aed24c7cfbb0bef4b70d"
+-SRC_URI[perl-cross.sha256sum] = "5abf198ee50ce9e69eb68fede68c87f65241caa744e4203e97490fa59b45ed69"
++SRC_URI[perl-cross.sha256sum] = "131f7496152ee32067dbac2bc9b44b2f582fc778140e545701b3b2faee782f1d"
  
- B = "${WORKDIR}/perl-${PV}-build"
+ S = "${WORKDIR}/perl-cross-${PV}"
  
 -- 
 2.43.0
