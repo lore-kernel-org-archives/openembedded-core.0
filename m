@@ -2,40 +2,39 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC0FC3ABDD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51028C3DA6D
 	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 21:49:39 +0000 (UTC)
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web11.40.1747345778443193488
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by mx.groups.io with SMTP id smtpd.web10.44.1747345778323836339
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 May 2025 14:49:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=wbFvqP4U;
- spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 54FLnRJE112139
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=eaCjBsxZ;
+ spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: rs@ti.com)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54FLnRsi3814622;
 	Thu, 15 May 2025 16:49:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
 	s=ti-com-17Q1; t=1747345767;
-	bh=XywzuoeyiqoOINKncZdmOjtf6oufV/1rS5QADpvKw6w=;
+	bh=TqxMIKdi/YIPQxQ3+0gTIiKey+P8eUMUrI8+Oi0CXX0=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=wbFvqP4UqwcLyqf2KNC/2K+seFg1V3fwo5VJHzP58DH+Uk1UE7dXWCr8ln0V19Vfe
-	 26hU5ZsOG1IuCbRbwQsOQZLUf9h+iLgZ4PoVACzYcKpzE1iWkvkdgdbRN/1VsbOpzB
-	 uVMQVyIhfBMr6QlLXtQy2CmHakc6smfzx29bbtSs=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 54FLnRnR076538
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	b=eaCjBsxZGaNnCt1NZfK53pDoqQjEwn6tc5RuiTw0AXN4NoBXnRIuAQgm1/6ANL0ds
+	 ZSumkUJmsw56DmbNdQsZQiQytVEaeQWIKi2Q+3NORo7yc6sdj5CFf9+wHAYL/U2yeY
+	 Ob/XRX7jxZhUPWD3TAKAa07q3CC21fa5sXEKldtM=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54FLnRna2899363
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
 	Thu, 15 May 2025 16:49:27 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 15
- May 2025 16:49:26 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ May 2025 16:49:27 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
  Frontend Transport; Thu, 15 May 2025 16:49:27 -0500
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54FLnRi3051200;
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54FLnRi5051200;
 	Thu, 15 May 2025 16:49:27 -0500
 From: <rs@ti.com>
 To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
@@ -43,9 +42,9 @@ To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
         <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
         <denis@denix.org>, <reatmon@ti.com>
 CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv4 2/5] emptty: add version 0.14.0
-Date: Thu, 15 May 2025 16:49:16 -0500
-Message-ID: <20250515214919.1404453-3-rs@ti.com>
+Subject: [oe-core][PATCHv4 4/5] weston: remove deprecated weston-start scripts
+Date: Thu, 15 May 2025 16:49:18 -0500
+Message-ID: <20250515214919.1404453-5-rs@ti.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250515214919.1404453-1-rs@ti.com>
 References: <20250515214919.1404453-1-rs@ti.com>
@@ -57,196 +56,78 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 21:49:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216713
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216712
 
 From: Randolph Sapp <rs@ti.com>
 
-Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
-relatively lightweight display manager that supports x11 as well as
-wayland through both a CLI and an automatic login mechanism.
-
-This can effectively replace the custom init scripts for both x11
-(xserver-nodm-init) and wayland (weston-init) with a single tool with
-more verbose logging capabilities.
-
-This is split into two recipes. The emptty package provides the binary
-and various agnostic configs while the emptty-conf package provides the
-default configuration for the application itself. This RPROVIDES
-virtual-emptty-conf, allowing other recipes to provide their own
-configurations to override the default behavior.
+The weston-start scripts are not parsed unless using the old version of
+weston-init. These files are no longer required since weston-init moved
+to a virtual-emptty-conf.
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- .../conf/distro/include/default-providers.inc |  1 +
- meta/conf/distro/include/maintainers.inc      |  2 +
- meta/recipes-graphics/emptty/emptty-conf.bb   | 14 +++++
- meta/recipes-graphics/emptty/emptty.inc       | 26 +++++++++
- .../recipes-graphics/emptty/emptty/emptty.tab |  1 +
- meta/recipes-graphics/emptty/emptty/pamconf   | 10 ++++
- meta/recipes-graphics/emptty/emptty_0.14.0.bb | 53 +++++++++++++++++++
- 7 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
- create mode 100644 meta/recipes-graphics/emptty/emptty.inc
- create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.tab
- create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
- create mode 100644 meta/recipes-graphics/emptty/emptty_0.14.0.bb
+ .../wayland/weston/systemd-notify.weston-start         |  9 ---------
+ .../wayland/weston/xwayland.weston-start               |  6 ------
+ meta/recipes-graphics/wayland/weston_14.0.1.bb         | 10 ----------
+ 3 files changed, 25 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+ delete mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index ee91af8796..b5446c0f92 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -68,3 +68,4 @@ PREFERRED_PROVIDER_nativesdk-mesa ?= "nativesdk-mesa"
- PREFERRED_PROVIDER_virtual/nativesdk-libsdl2 ?= "nativesdk-libsdl2"
+diff --git a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+deleted file mode 100644
+index a97e7b38d9..0000000000
+--- a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#!/bin/sh
+-  
+-# SPDX-FileCopyrightText: Huawei Inc.
+-# SPDX-License-Identifier: Apache-2.0
+-
+-
+-if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
+-        add_weston_module "systemd-notify.so"
+-fi
+diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
+deleted file mode 100644
+index 342ac8d129..0000000000
+--- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#!/bin/sh
+-
+-if type Xwayland  >/dev/null 2>/dev/null; then
+-	mkdir -m 775 -p /tmp/.X11-unix
+-	chown root:video /tmp/.X11-unix
+-fi
+diff --git a/meta/recipes-graphics/wayland/weston_14.0.1.bb b/meta/recipes-graphics/wayland/weston_14.0.1.bb
+index 2a0a403d99..e9a4c68ff0 100644
+--- a/meta/recipes-graphics/wayland/weston_14.0.1.bb
++++ b/meta/recipes-graphics/wayland/weston_14.0.1.bb
+@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
+ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+            file://weston.desktop \
+-           file://xwayland.weston-start \
+-           file://systemd-notify.weston-start \
+            "
  
- PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?= "rxvt-unicode"
-+PREFERRED_RPROVIDER_virtual-emptty-conf ?= "emptty-conf"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 69f6a2d284..63158ecce0 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -172,6 +172,8 @@ RECIPE_MAINTAINER:pn-efivar = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-elfutils = "Zang Ruochen <zangruochen@loongson.cn>"
- RECIPE_MAINTAINER:pn-ell = "Zang Ruochen <zangruochen@loongson.cn>"
-+RECIPE_MAINTAINER:pn-emptty = "Randolph Sapp <rs@ti.com>"
-+RECIPE_MAINTAINER:pn-emptty-conf = "Randolph Sapp <rs@ti.com>"
- RECIPE_MAINTAINER:pn-enchant2 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-epiphany = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-graphics/emptty/emptty-conf.bb b/meta/recipes-graphics/emptty/emptty-conf.bb
-new file mode 100644
-index 0000000000..0aacb086cd
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty-conf.bb
-@@ -0,0 +1,14 @@
-+require emptty.inc
-+
-+SUMMARY += " (Default config)"
-+
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+
-+do_install () {
-+    oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-config
-+}
-+
-+FILES:${PN}-conf = "${sysconfdir}/emptty/conf"
-+CONFFILES:${PN}-conf = "${sysconfdir}/emptty/conf"
-+RPROVIDES:${PN}-conf += "virtual-emptty-conf"
-diff --git a/meta/recipes-graphics/emptty/emptty.inc b/meta/recipes-graphics/emptty/emptty.inc
-new file mode 100644
-index 0000000000..11d5770f3a
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty.inc
-@@ -0,0 +1,26 @@
-+SUMMARY = "Dead simple CLI Display Manager on TTY"
-+DESCRIPTION = "Emptty is a simple display manager with a command line greeter \
-+It supports both X11 and Wayland sessions, exporting required variables and \
-+creating user paths as necessary."
-+
-+HOMEPAGE = "https://github.com/tvrzna/emptty"
-+BUGTRACKER = "https://github.com/tvrzna/emptty/issues"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=d1e4d12c7d1d17367ba5668706a405ba"
-+
-+S = "${UNPACKDIR}"
-+
-+FILESEXTRAPATHS:append = ":${THISDIR}/emptty"
-+
-+GO_IMPORT = "github.com/tvrzna/emptty"
-+GO_IMPORT_pam = "github.com/msteinert/pam"
-+SRC_URI = "\
-+    git://${GO_IMPORT}.git;protocol=https;branch=master;destsuffix=src/${GO_IMPORT} \
-+    git://${GO_IMPORT_pam}.git;protocol=https;branch=master;name=pam;destsuffix=src/${GO_IMPORT_pam} \
-+    file://pamconf \
-+    file://emptty.tab \
-+    "
-+SRCREV = "d162bef75fadc8ae1d8e33dbb3de5e2795a196e0"
-+SRCREV_pam = "50ded1b0e7864b9bf75005eb945a8ec826bcf69d"
-+
-+SRCREV_FORMAT .= "_pam"
-diff --git a/meta/recipes-graphics/emptty/emptty/emptty.tab b/meta/recipes-graphics/emptty/emptty/emptty.tab
-new file mode 100644
-index 0000000000..6359c7224d
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/emptty.tab
-@@ -0,0 +1 @@
-+7:5:respawn:/usr/bin/emptty -t 7 -d
-diff --git a/meta/recipes-graphics/emptty/emptty/pamconf b/meta/recipes-graphics/emptty/emptty/pamconf
-new file mode 100644
-index 0000000000..9cbfd6c4a5
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/pamconf
-@@ -0,0 +1,10 @@
-+#%PAM-1.0
-+auth            sufficient      pam_succeed_if.so user ingroup nopasswdlogin
-+auth            include         common-auth
-+-auth           optional        pam_gnome_keyring.so
-+-auth           optional        pam_kwallet5.so
-+account         include         common-account
-+session         include         common-session
-+-session        optional        pam_gnome_keyring.so auto_start
-+-session        optional        pam_kwallet5.so auto_start force_run
-+password        include         common-password
-diff --git a/meta/recipes-graphics/emptty/emptty_0.14.0.bb b/meta/recipes-graphics/emptty/emptty_0.14.0.bb
-new file mode 100644
-index 0000000000..11d306a56d
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty_0.14.0.bb
-@@ -0,0 +1,53 @@
-+require emptty.inc
-+
-+PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
-+PACKAGECONFIG[pam] = ",,libpam,pam-plugin-succeed-if"
-+PACKAGECONFIG[x11] = ",,virtual/libx11"
-+
-+DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', 'virtual/crypt', d)}"
-+
-+GO_TAGS = ""
-+GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', ',nopam', d)}"
-+GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', '', ',noxlib', d)}"
-+
-+GOBUILDFLAGS:append = " -tags=${GO_TAGS}"
-+
-+export GO111MODULE = "off"
-+
-+inherit go
-+
-+DEPENDS += "gzip"
-+
-+do_install () {
-+    # general collateral
-+    install -Dm755 ${B}/${GO_BUILD_BINDIR}/emptty ${D}${bindir}/emptty
-+    install -d ${D}${mandir}/man1
-+    gzip -cn ${S}/src/${GO_IMPORT}/res/emptty.1 > ${D}${mandir}/man1/emptty.1.gz
-+
-+    # pam config
-+    if "${@bb.utils.contains('PACKAGECONFIG','pam','true','false',d)}"
-+    then
-+        install -Dm644 ${S}/pamconf ${D}${sysconfdir}/pam.d/emptty
-+    fi
-+
-+    # init services
-+    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}
-+    then
-+        oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-systemd
-+    else
-+        install -Dm644 ${S}/emptty.tab ${D}${sysconfdir}/inittab.d/emptty.tab
-+    fi
-+}
-+
-+FILES:${PN} = "\
-+    ${systemd_system_unitdir}/emptty.service \
-+    ${sysconfdir}/inittab.d/emptty.tab \
-+    ${bindir}/emptty \
-+    ${mandir}/man1/emptty.1.gz \
-+    ${sysconfdir}/pam.d/emptty \
-+"
-+
-+RDEPENDS:${PN} += "virtual-emptty-conf"
-+SYSTEMD_SERVICE:${PN} = "emptty.service"
-+
-+inherit systemd
+ SRC_URI[sha256sum] = "a8150505b126a59df781fe8c30c8e6f87da7013e179039eb844a5bbbcc7c79b3"
+@@ -108,14 +106,6 @@ do_install:append() {
+ 		install ${UNPACKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
+ 	fi
+ 
+-	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no', d)}" = "yes" ]; then
+-		install -Dm 644 ${UNPACKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
+-	fi
+-
+-	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'yes', 'no', d)}" = "yes" ]; then
+-		install -Dm 644 ${UNPACKDIR}/systemd-notify.weston-start ${D}${datadir}/weston-start/systemd-notify
+-	fi
+-
+ 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}" = "yes" ]; then
+ 		chmod u+s ${D}${bindir}/weston-launch
+ 	fi
 -- 
 2.49.0
 
