@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2747C5479B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF1EC5475C
 	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 12:31:59 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.11037.1747312311729584053
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.11038.1747312312590940612
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 05:31:56 -0700
+ Thu, 15 May 2025 05:31:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WfK2RRpo;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=V9MZAMK/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010196d3ee0f5f-c017dd88-5dec-4555-b337-87f4a3cb833d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=O3rDhNDl;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Hb6yfJuT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010196d3ee10ee-5f8ec3ec-26d4-4a2d-a162-036c03392a75-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1747312316;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=SItTNKXc3aZ45SbKBeJyhh+q/uT63i6IaXKZ6i6KOLs=;
-	b=WfK2RRpoggld8BHnvLtFZG8eM1Q8mbmH7izt3wBirHiV3BzUX2XgNwIdWE6vxtoU
-	r5lFFuv1/WeWuIXf93d2ANSJQ1l7iBb9HLe/luWvO6P0mgZ7e+Ou9jQqhEg4h97Uj41
-	1StCeEr6lcHziBJSGAwU4vElDVpxpUdF/Qw2ca7w=
+	bh=OJ2/AMeFT0Yn1dTClnVS2unqXkzHT6ymAisa6QvIUwk=;
+	b=O3rDhNDloZ/z/0SkXfIogXbzTZsooXdOOD/zp4Cpk+bauKDpeSjSETCcNFko8exF
+	pjRhDDX+0VeOK33Twgfegv34+tg9UZZYz4zZPIyBaLZDp+yUVpbQ822eFXwvMZa5A3E
+	OMabxDqNiGLtwaYUtdfdErzNV15uH9I9ivg0liUo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312316;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=SItTNKXc3aZ45SbKBeJyhh+q/uT63i6IaXKZ6i6KOLs=;
-	b=V9MZAMK/8BZ6OeKDA3XSvXioOZzEUoTkBcva6oM7KgcQ6n9AixFeTWRbYWRXob5T
-	UilFFZV7f+UuWUygYe1Ey4RB1mWGHUwI5ZwTQBC1OSB53A9Ch2Dgg02alxgVBkxWQ4x
-	s/KYRhWnJMDP4jY+zXptIPJG6PJZWGCa6suf0Cm4=
-Content-Type: multipart/mixed; boundary="===============8982761193129750113=="
+	bh=OJ2/AMeFT0Yn1dTClnVS2unqXkzHT6ymAisa6QvIUwk=;
+	b=Hb6yfJuTZgK2kawG+IujwRYaKidJ9zg9GxHQqwjOtgh7a7qitwiTxgC67jeRwytX
+	Uw5pYzk6/Z21cMfCHFrXS5WNTmsOTmo77Gqpl8+IkQpGaNEkwOA13Kiz6HwYaPIseLc
+	Hf1MNIk3BQqssEAc92bpLbAwA8QAJOsJZjQMvcjU=
+Content-Type: multipart/mixed; boundary="===============5871025985172673021=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-snowballstemmer: upgrading to 3.0.1 SUCCEEDED
-Message-ID: <01010196d3ee0f5f-c017dd88-5dec-4555-b337-87f4a3cb833d-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-unittest-automake-output: upgrading to 0.3 FAILED
+Message-ID: <01010196d3ee10ee-5f8ec3ec-26d4-4a2d-a162-036c03392a75-000000@us-west-2.amazonses.com>
 Date: Thu, 15 May 2025 12:31:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.15-54.240.27.191
+X-SES-Outgoing: 2025.05.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 12:31:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216617
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216618
 
---===============8982761193129750113==
+--===============5871025985172673021==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-snowballstemmer* to *3.0.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-unittest-automake-output* to *0.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-snowballstemmer-upgrade-2.2.0-3.0.1.patch
+    - apply the patch: git am 0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,117 +78,163 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 198aa23d17ec54fddd01a3684224e9f06740bfd1 Mon Sep 17 00:00:00 2001
+From 11a62eaf63236b19a1a526e537745b0ff6e9b08c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 May 2025 08:16:41 +0000
-Subject: [PATCH] python3-snowballstemmer: upgrade 2.2.0 -> 3.0.1
+Date: Thu, 15 May 2025 08:23:32 +0000
+Subject: [PATCH] python3-unittest-automake-output: upgrade 0.2 -> 0.3
 
 ---
- ...nowballstemmer_2.2.0.bb => python3-snowballstemmer_3.0.1.bb} | 2 +-
+ ...ke-output_0.2.bb => python3-unittest-automake-output_0.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-snowballstemmer_2.2.0.bb => python3-snowballstemmer_3.0.1.bb} (77%)
+ rename meta/recipes-devtools/python/{python3-unittest-automake-output_0.2.bb => python3-unittest-automake-output_0.3.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-snowballstemmer_2.2.0.bb b/meta/recipes-devtools/python/python3-snowballstemmer_3.0.1.bb
-similarity index 77%
-rename from meta/recipes-devtools/python/python3-snowballstemmer_2.2.0.bb
-rename to meta/recipes-devtools/python/python3-snowballstemmer_3.0.1.bb
-index ff120a3fc4..846ab2b9aa 100644
---- a/meta/recipes-devtools/python/python3-snowballstemmer_2.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-snowballstemmer_3.0.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/snowballstem/snowball"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=19139aaf3c8c8fa1ca6edd59c072fb9f"
+diff --git a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
+rename to meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
+index a8b834a126..3c8fe320d0 100644
+--- a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
++++ b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f6f16008d9fb7349f06609329f1ab93b"
+ SRC_URI = "git://gitlab.com/rossburton/python-unittest-automake-output;protocol=https;branch=main \
+            file://0001-Update-__version__-to-match-the-tag-version.patch"
  
--SRC_URI[sha256sum] = "09b16deb8547d3412ad7b590689584cd0fe25ec8db3be37788be3810cbf19cb1"
-+SRC_URI[sha256sum] = "6d5eeeec8e9f84d4d56b847692bacf79bc2c8e90c7f80ca4444ff8b6f2e52895"
+-SRCREV = "aebdfb188e368c690ea55cf6c9c9ffa1a52def65"
++SRCREV = "3376ff9bc319f8338849b7b9f63b9325d7b7663a"
  
- PYPI_PACKAGE = "snowballstemmer"
+ S = "${WORKDIR}/git"
  
 -- 
 2.47.1
 
 
---===============8982761193129750113==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-snowballstemmer: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/snowballstemmer/snowballstemmer-2.2.0.tar.gz;downloadfilename=snowballstemmer-2.2.0.tar.gz" to "https://files.pythonhosted.org/packages/source/s/snowballstemmer/snowballstemmer-3.0.1.tar.gz;downloadfilename=snowballstemmer-3.0.1.tar.gz"
-packages/core2-64-poky-linux/python3-snowballstemmer: PKGV changed from 2.2.0 [default] to 3.0.1 [default]
-packages/core2-64-poky-linux/python3-snowballstemmer: PV changed from "2.2.0" to "3.0.1"
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-dbg: PKGV changed from 2.2.0 [default] to 3.0.1 [default]
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-dbg: PV changed from "2.2.0" to "3.0.1"
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-dev: PKGV changed from 2.2.0 [default] to 3.0.1 [default]
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-dev: PV changed from "2.2.0" to "3.0.1"
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-doc: PKGV changed from 2.2.0 [default] to 3.0.1 [default]
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-doc: PV changed from "2.2.0" to "3.0.1"
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-locale: PKGV changed from 2.2.0 [default] to 3.0.1 [default]
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-locale: PV changed from "2.2.0" to "3.0.1"
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-src: PKGV changed from 2.2.0 [default] to 3.0.1 [default]
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-src: PV changed from "2.2.0" to "3.0.1"
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-staticdev: PKGV changed from 2.2.0 [default] to 3.0.1 [default]
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer-staticdev: PV changed from "2.2.0" to "3.0.1"
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer: PKGSIZE changed from 1792437 to 1910895 (+7%)
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer: FILELIST: directory renamed /usr/lib/python3.13/site-packages/snowballstemmer-2.2.0.dist-info -> /usr/lib/python3.13/site-packages/snowballstemmer-3.0.1.dist-info, directory renamed /usr/lib/python3.13/site-packages/snowballstemmer-2.2.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/snowballstemmer-3.0.1.dist-info/licenses, added "/usr/lib/python3.13/site-packages/snowballstemmer/estonian_stemmer.py /usr/lib/python3.13/site-packages/snowballstemmer/esperanto_stemmer.py /usr/lib/python3.13/site-packages/snowballstemmer/dutch_porter_stemmer.py /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/esperanto_stemmer.cpython-313.pyc /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/dutch_porter_stemmer.cpython-313.pyc /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/estonian_stemmer.cpython-313.pyc"
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer: PKGV changed from 2.2.0 [default] to 3.0.1 [default]
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer: PV changed from "2.2.0" to "3.0.1"
-Changes to packages/core2-64-poky-linux/python3-snowballstemmer (sysroot):
-  /usr/lib/python3.13/site-packages/snowballstemmer-2.2.0.dist-info moved to /usr/lib/python3.13/site-packages/snowballstemmer-3.0.1.dist-info
-  /usr/lib/python3.13/site-packages/snowballstemmer/dutch_porter_stemmer.py was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/esperanto_stemmer.py was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/estonian_stemmer.py was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/dutch_porter_stemmer.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/esperanto_stemmer.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/estonian_stemmer.cpython-313.pyc was added
-
---===============8982761193129750113==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/python3-snowballstemmer/python3-snowballstemmer: FILELIST: directory renamed /usr/lib/python3.13/site-packages/snowballstemmer-2.2.0.dist-info -> /usr/lib/python3.13/site-packages/snowballstemmer-3.0.1.dist-info, directory renamed /usr/lib/python3.13/site-packages/snowballstemmer-2.2.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/snowballstemmer-3.0.1.dist-info/licenses, added "/usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/dutch_porter_stemmer.cpython-313.pyc /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/esperanto_stemmer.cpython-313.pyc /usr/lib/python3.13/site-packages/snowballstemmer/estonian_stemmer.py /usr/lib/python3.13/site-packages/snowballstemmer/esperanto_stemmer.py /usr/lib/python3.13/site-packages/snowballstemmer/dutch_porter_stemmer.py /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/estonian_stemmer.cpython-313.pyc"
-Changes to packages/core2-64-poky-linux/python3-snowballstemmer (sysroot):
-  /usr/lib/python3.13/site-packages/snowballstemmer-2.2.0.dist-info moved to /usr/lib/python3.13/site-packages/snowballstemmer-3.0.1.dist-info
-  /usr/lib/python3.13/site-packages/snowballstemmer/dutch_porter_stemmer.py was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/esperanto_stemmer.py was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/estonian_stemmer.py was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/dutch_porter_stemmer.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/esperanto_stemmer.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/snowballstemmer/__pycache__/estonian_stemmer.cpython-313.pyc was added
-
---===============8982761193129750113==
+--===============5871025985172673021==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-snowballstemmer-upgrade-2.2.0-3.0.1.patch"
+ filename="0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch"
 
-RnJvbSAxOThhYTIzZDE3ZWM1NGZkZGQwMWEzNjg0MjI0ZTlmMDY3NDBiZmQxIE1vbiBTZXAgMTcg
+RnJvbSAxMWE2MmVhZjYzMjM2YjE5YTFhNTI2ZTUzNzc0NWIwZmY2ZTliMDhjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgTWF5IDIwMjUgMDg6MTY6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXNub3diYWxsc3RlbW1lcjogdXBncmFkZSAyLjIuMCAtPiAzLjAuMQoKLS0tCiAuLi5u
-b3diYWxsc3RlbW1lcl8yLjIuMC5iYiA9PiBweXRob24zLXNub3diYWxsc3RlbW1lcl8zLjAuMS5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXNub3diYWxsc3Rl
-bW1lcl8yLjIuMC5iYiA9PiBweXRob24zLXNub3diYWxsc3RlbW1lcl8zLjAuMS5iYn0gKDc3JSkK
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc25vd2Jh
-bGxzdGVtbWVyXzIuMi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXNub3diYWxsc3RlbW1lcl8zLjAuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDc3JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc25vd2JhbGxzdGVtbWVyXzIu
-Mi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc25v
-d2JhbGxzdGVtbWVyXzMuMC4xLmJiCmluZGV4IGZmMTIwYTNmYzQuLjg0NmFiMmI5YWEgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zbm93YmFsbHN0ZW1t
-ZXJfMi4yLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNu
-b3diYWxsc3RlbW1lcl8zLjAuMS5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6
-Ly9naXRodWIuY29tL3Nub3diYWxsc3RlbS9zbm93YmFsbCIKIExJQ0VOU0UgPSAiQlNELTMtQ2xh
-dXNlIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MTkxMzlhYWYzYzhj
-OGZhMWNhNmVkZDU5YzA3MmZiOWYiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwOWIxNmRlYjg1
-NDdkMzQxMmFkN2I1OTA2ODk1ODRjZDBmZTI1ZWM4ZGIzYmUzNzc4OGJlMzgxMGNiZjE5Y2IxIgor
-U1JDX1VSSVtzaGEyNTZzdW1dID0gIjZkNWVlZWVjOGU5Zjg0ZDRkNTZiODQ3NjkyYmFjZjc5YmMy
-YzhlOTBjN2Y4MGNhNDQ0NGZmOGI2ZjJlNTI4OTUiCiAKIFBZUElfUEFDS0FHRSA9ICJzbm93YmFs
-bHN0ZW1tZXIiCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFRodSwgMTUgTWF5IDIwMjUgMDg6MjM6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dDogdXBncmFkZSAwLjIgLT4gMC4zCgotLS0K
+IC4uLmtlLW91dHB1dF8wLjIuYmIgPT4gcHl0aG9uMy11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXRf
+MC4zLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdW5pdHRl
+c3QtYXV0b21ha2Utb3V0cHV0XzAuMi5iYiA9PiBweXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
+dHB1dF8wLjMuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjIuYmIgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMy5i
+YgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMi5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
+dHB1dF8wLjMuYmIKaW5kZXggYThiODM0YTEyNi4uM2M4ZmUzMjBkMCAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1
+dF8wLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0
+ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjMuYmIKQEAgLTYsNyArNiw3IEBAIExJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWY2ZjE2MDA4ZDlmYjczNDlmMDY2MDkzMjlmMWFiOTNi
+IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuY29tL3Jvc3NidXJ0b24vcHl0aG9uLXVuaXR0ZXN0
+LWF1dG9tYWtlLW91dHB1dDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiBcCiAgICAgICAgICAg
+IGZpbGU6Ly8wMDAxLVVwZGF0ZS1fX3ZlcnNpb25fXy10by1tYXRjaC10aGUtdGFnLXZlcnNpb24u
+cGF0Y2giCiAKLVNSQ1JFViA9ICJhZWJkZmIxODhlMzY4YzY5MGVhNTVjZjZjOWM5ZmZhMWE1MmRl
+ZjY1IgorU1JDUkVWID0gIjMzNzZmZjliYzMxOWY4MzM4ODQ5YjdiOWY2M2I5MzI1ZDdiNzY2M2Ei
+CiAKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKLS0gCjIuNDcuMQoK
 
---===============8982761193129750113==--
+--===============5871025985172673021==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1918 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 937 .bb files complete (936 cached, 1 parsed). 1916 targets, 39 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:1c5b4fe2dc108e956497592daf4b3f35fd53cad7"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 311 Local 299 Mirrors 0 Missed 12 Current 347 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 470 of 658 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.2.bb:do_create_spdx_setscene)
+NOTE: recipe python3-3.13.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.13.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 622 of 658 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 627 of 658 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
+NOTE: Running task 1103 of 1878 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_recipe_qa)
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa: Started
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 640 of 658 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_create_spdx_setscene)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_recipe_qa unihash changed to 573a6c127ee07a7bebbb024c4092fa9abb0087cc1eb8ac4575ecba853349bfe7
+NOTE: Running task 1312 of 1878 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_fetch)
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 649 of 658 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Started
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1342 of 1878 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_unpack)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Started
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1343 of 1878 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Started
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 656 of 658 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1719 of 1878 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1859 of 1878 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1863 tasks of which 1857 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250515082319.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250515082319.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.588289
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-unittest-automake-output-0.3-r0 do_patch: Applying patch '0001-Update-__version__-to-match-the-tag-version.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/git'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-Update-__version__-to-match-the-tag-version.patch
+patching file src/putao/__init__.py
+Hunk #1 FAILED at 5.
+1 out of 1 hunk FAILED -- rejects in file src/putao/__init__.py
+Patch 0001-Update-__version__-to-match-the-tag-version.patch does not apply (enforce with -f)
+
+stderr: ')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.588289
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch) failed with exit code '1'
+
+--===============5871025985172673021==--
 
