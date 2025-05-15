@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C478C3ABC9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8556C54795
 	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 12:31:59 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.11254.1747312304903867747
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.11023.1747312302710782673
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 05:31:51 -0700
+ Thu, 15 May 2025 05:31:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=M7Ck6Pnr;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WB8RrPjh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010196d3edf91b-d08b04f2-6f40-47fb-9ef9-b3216090400f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=duT5/Zfh;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Xfj/sCnw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010196d3ee1165-684ea1fd-544e-46a8-95f1-333d92a9f875-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1747312310;
+	t=1747312316;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=XeBvQKQKBSL87oExVL5uqDbxYQ6amlmKcqo2Z0b6EnQ=;
-	b=M7Ck6Pnr+xpwWHv6xHrUu/u8az6vw23UdimNUqQP0cSaNT+uyhwAmaxvzCj2UDJT
-	q03niqTehuzTDO0gbPNqMBk3KtXEvV787k32m4bbCTn+1Bl5RgqdQ0KUExzhsKcBADY
-	ZpBsabDVbTAHWOjS13QnRXJ/66k7jPTwd4Uj0ic0=
+	bh=s0DNm6PBZ1Z53bt1J2EuYWpI3yAFPYxizB8oxSKL2h0=;
+	b=duT5/ZfhjN6ropfBK1dzWLp8zMd4an6b6t1BWPpiOMg7xENzzT/dg54cJYos+Upz
+	YNRCi+CrfGBqBmKJ5S1vWqPiSAi4MsU1/1H/k7n4hLhLQC4xSaieowgPsdxNC3p9O1w
+	Va5uojXVMIZLR1J+jW0PRzoQ2kZCiCLc3vRU5hZc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312310;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312316;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=XeBvQKQKBSL87oExVL5uqDbxYQ6amlmKcqo2Z0b6EnQ=;
-	b=WB8RrPjh0OmPiX01bQOlXLi7tL4pxk7gdQroDdbfG6VcCMHuOUaBUFApCmljNaIR
-	kpku2kGkQPdsRIqsCgyI04D/n/YwAiS8TBmTtbhZUnXcpFdidVemmvzdDwU4UiDIQbZ
-	Cux4IPrurjDTq/+CsR6XKFLE3mDVflKYSTt+5FBo=
-Content-Type: multipart/mixed; boundary="===============2119054281069877207=="
+	bh=s0DNm6PBZ1Z53bt1J2EuYWpI3yAFPYxizB8oxSKL2h0=;
+	b=Xfj/sCnwYIkv9AhjytqEhedUsUaefZGcGCd6/S0oOGIzAw0ZXfj/+HKPTR0SLNaD
+	Lv4YaI/LCO8C8nkt6Ynm4NZAaQhRwqo3qjirD1NgXm+Af/6CjB33RWi7yHzvm2b9lB+
+	4MfwyZ/+I1Xt8kQaoJ3qIuIRb+H5798sPqlABjHw=
+Content-Type: multipart/mixed; boundary="===============8636968900736660384=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Marta Rybczynska <marta.rybczynska@ygreky.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] psplash: upgrading to 53ae74a36bf17675228552abb927d2f981940a6a
- SUCCEEDED
-Message-ID: <01010196d3edf91b-d08b04f2-6f40-47fb-9ef9-b3216090400f-000000@us-west-2.amazonses.com>
-Date: Thu, 15 May 2025 12:31:50 +0000
+Subject: [AUH] python3-uritools: upgrading to 5.0.0 SUCCEEDED
+Message-ID: <01010196d3ee1165-684ea1fd-544e-46a8-95f1-333d92a9f875-000000@us-west-2.amazonses.com>
+Date: Thu, 15 May 2025 12:31:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.15-54.240.27.29
+X-SES-Outgoing: 2025.05.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 12:31:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216595
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216619
 
---===============2119054281069877207==
+--===============8636968900736660384==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *psplash* to *53ae74a36bf17675228552abb927d2f981940a6a* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-uritools* to *5.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-psplash-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-python3-uritools-upgrade-4.0.3-5.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,86 +72,144 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8edf8221c2bc0780fa7c092c4ed9a17b8dcc1a2c Mon Sep 17 00:00:00 2001
+From ff81d9c5cfcafdde0d7c3baa69a1ec3285962642 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 May 2025 07:17:46 +0000
-Subject: [PATCH] psplash: upgrade to latest revision
+Date: Thu, 15 May 2025 08:25:49 +0000
+Subject: [PATCH] python3-uritools: upgrade 4.0.3 -> 5.0.0
 
 ---
- meta/recipes-core/psplash/psplash_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...ols_4.0.3.bb => python3-uritools_5.0.0.bb} | 25 +++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-uritools_4.0.3.bb => python3-uritools_5.0.0.bb} (20%)
 
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 712fff7bd0..f3647d389d 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=8;md5=8f232c1e95929eacab37f00900580224"
- DEPENDS = "gdk-pixbuf-native"
+diff --git a/meta/recipes-devtools/python/python3-uritools_4.0.3.bb b/meta/recipes-devtools/python/python3-uritools_5.0.0.bb
+similarity index 20%
+rename from meta/recipes-devtools/python/python3-uritools_4.0.3.bb
+rename to meta/recipes-devtools/python/python3-uritools_5.0.0.bb
+index 4210407e00..6417886cd1 100644
+--- a/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
++++ b/meta/recipes-devtools/python/python3-uritools_5.0.0.bb
+@@ -1,10 +1,31 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,6 +1,6 @@
++#  The MIT License (MIT)
++#  
++# -Copyright (c) 2014-2024 Thomas Kemmer
++# +Copyright (c) 2014-2025 Thomas Kemmer
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a copy of
++#  this software and associated documentation files (the "Software"), to deal in
++# 
++#
++
+ SUMMARY = "URI parsing, classification and composition"
+ HOMEPAGE = "https://github.com/tkem/uritools/"
  
--SRCREV = "1f64c654129fdb6a1b75d8c16e3bcdd986468083"
-+SRCREV = "53ae74a36bf17675228552abb927d2f981940a6a"
- PV = "0.1+git"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=539275e657c6b7af026bb908356f7541"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e21bbe53b2730bfe1911cf381b81821e"
  
- SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master;protocol=https \
+-SRC_URI[sha256sum] = "ee06a182a9c849464ce9d5fa917539aacc8edd2a4924d1b7aabeeecabcae3bc2"
++SRC_URI[sha256sum] = "68180cad154062bd5b5d9ffcdd464f8de6934414b25462ae807b00b8df9345de"
+ 
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ 
 -- 
 2.47.1
 
 
---===============2119054281069877207==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-psplash-upgrade-to-latest-revision.patch"
-
-RnJvbSA4ZWRmODIyMWMyYmMwNzgwZmE3YzA5MmM0ZWQ5YTE3YjhkY2MxYTJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgTWF5IDIwMjUgMDc6MTc6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-c3BsYXNoOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtY29y
-ZS9wc3BsYXNoL3BzcGxhc2hfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvcHNw
-bGFzaC9wc3BsYXNoX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3BzcGxhc2gvcHNwbGFzaF9n
-aXQuYmIKaW5kZXggNzEyZmZmN2JkMC4uZjM2NDdkMzg5ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWNvcmUvcHNwbGFzaC9wc3BsYXNoX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9w
-c3BsYXNoL3BzcGxhc2hfZ2l0LmJiCkBAIC02LDcgKzYsNyBAQCBMSUNFTlNFID0gIkdQTC0yLjAt
-b3ItbGF0ZXIiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9wc3BsYXNoLmg7YmVnaW5saW5l
-PTE7ZW5kbGluZT04O21kNT04ZjIzMmMxZTk1OTI5ZWFjYWIzN2YwMDkwMDU4MDIyNCIKIERFUEVO
-RFMgPSAiZ2RrLXBpeGJ1Zi1uYXRpdmUiCiAKLVNSQ1JFViA9ICIxZjY0YzY1NDEyOWZkYjZhMWI3
-NWQ4YzE2ZTNiY2RkOTg2NDY4MDgzIgorU1JDUkVWID0gIjUzYWU3NGEzNmJmMTc2NzUyMjg1NTJh
-YmI5MjdkMmY5ODE5NDBhNmEiCiBQViA9ICIwLjErZ2l0IgogCiBTUkNfVVJJID0gImdpdDovL2dp
-dC55b2N0b3Byb2plY3Qub3JnLyR7QlBOfTticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzIFwK
-LS0gCjIuNDcuMQoK
-
---===============2119054281069877207==
+--===============8636968900736660384==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/psplash/psplash-dbg: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-default: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-dev: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-doc: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-locale: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-src: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-staticdev: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
+packages/core2-64-poky-linux/python3-uritools: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uritools/uritools-4.0.3.tar.gz;downloadfilename=uritools-4.0.3.tar.gz" to "https://files.pythonhosted.org/packages/source/u/uritools/uritools-5.0.0.tar.gz;downloadfilename=uritools-5.0.0.tar.gz"
+packages/core2-64-poky-linux/python3-uritools: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-ptest: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-ptest: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools: PKGSIZE changed from 64483 to 64794 (+0%)
+packages/core2-64-poky-linux/python3-uritools/python3-uritools: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.13/site-packages/uritools-4.0.3.dist-info moved to /usr/lib/python3.13/site-packages/uritools-5.0.0.dist-info
 
---===============2119054281069877207==
+--===============8636968900736660384==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/psplash/psplash-dbg: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-default: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-dev: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-doc: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-locale: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-src: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash-staticdev: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
-packages/core2-64-poky-linux/psplash/psplash: PKGV changed from 0.1+git0+1f64c65412 to 0.1+git0+53ae74a36b
+Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.13/site-packages/uritools-4.0.3.dist-info moved to /usr/lib/python3.13/site-packages/uritools-5.0.0.dist-info
 
---===============2119054281069877207==--
+--===============8636968900736660384==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-uritools-upgrade-4.0.3-5.0.0.patch"
+
+RnJvbSBmZjgxZDljNWNmY2FmZGRlMGQ3YzNiYWE2OWExZWMzMjg1OTYyNjQyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgTWF5IDIwMjUgMDg6MjU6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXVyaXRvb2xzOiB1cGdyYWRlIDQuMC4zIC0+IDUuMC4wCgotLS0KIC4uLm9sc180LjAu
+My5iYiA9PiBweXRob24zLXVyaXRvb2xzXzUuMC4wLmJifSB8IDI1ICsrKysrKysrKysrKysrKysr
+LS0KIDEgZmlsZSBjaGFuZ2VkLCAyMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdXJpdG9vbHNfNC4wLjMu
+YmIgPT4gcHl0aG9uMy11cml0b29sc181LjAuMC5iYn0gKDIwJSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNC4wLjMuYmIgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNS4wLjAuYmIKc2ltaWxh
+cml0eSBpbmRleCAyMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXVyaXRvb2xzXzQuMC4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNS4wLjAuYmIKaW5kZXggNDIxMDQwN2UwMC4uNjQxNzg4
+NmNkMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVy
+aXRvb2xzXzQuMC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My11cml0b29sc181LjAuMC5iYgpAQCAtMSwxMCArMSwzMSBAQAorIyBGSVhNRTogdGhlIExJQ19G
+SUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUn
+LgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQg
+dGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUg
+aWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVz
+c2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBk
+YXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMg
+LS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UKKyMgQEAgLTEsNiArMSw2IEBACisjICBUaGUgTUlU
+IExpY2Vuc2UgKE1JVCkKKyMgIAorIyAtQ29weXJpZ2h0IChjKSAyMDE0LTIwMjQgVGhvbWFzIEtl
+bW1lcgorIyArQ29weXJpZ2h0IChjKSAyMDE0LTIwMjUgVGhvbWFzIEtlbW1lcgorIyAgCisjICBQ
+ZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNv
+biBvYnRhaW5pbmcgYSBjb3B5IG9mCisjICB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRv
+Y3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdhcmUiKSwgdG8gZGVhbCBpbgorIyAKKyMKKwog
+U1VNTUFSWSA9ICJVUkkgcGFyc2luZywgY2xhc3NpZmljYXRpb24gYW5kIGNvbXBvc2l0aW9uIgog
+SE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL3RrZW0vdXJpdG9vbHMvIgogCiBMSUNFTlNF
+ID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTUzOTI3NWU2
+NTdjNmI3YWYwMjZiYjkwODM1NmY3NTQxIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElD
+RU5TRTttZDU9ZTIxYmJlNTNiMjczMGJmZTE5MTFjZjM4MWI4MTgyMWUiCiAKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICJlZTA2YTE4MmE5Yzg0OTQ2NGNlOWQ1ZmE5MTc1MzlhYWNjOGVkZDJhNDkyNGQx
+YjdhYWJlZWVjYWJjYWUzYmMyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY4MTgwY2FkMTU0MDYy
+YmQ1YjVkOWZmY2RkNDY0ZjhkZTY5MzQ0MTRiMjU0NjJhZTgwN2IwMGI4ZGY5MzQ1ZGUiCiAKIGlu
+aGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIHB0ZXN0LXB5dGhvbi1weXRl
+c3QKIAotLSAKMi40Ny4xCgo=
+
+--===============8636968900736660384==--
 
