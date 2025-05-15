@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 640A0C54E93
-	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 12:32:01 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.11262.1747312313830576133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB27DC3DA4A
+	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 12:32:11 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.11047.1747312318831833662
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 05:32:00 -0700
+ Thu, 15 May 2025 05:32:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=zE9ZZ9Iw;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BXBXwDFZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010196d3ee1d61-99587567-bc9c-4e98-99bc-43ffcf88422c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dpORDdFu;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=UZIGGSoF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010196d3ee2818-e3cc0ba1-6ae5-4cec-834c-c7029dbb9f89-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1747312319;
+	t=1747312322;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FTZkbVQC1vAjdh6mQ0byV1QiJnBLJtb+uzQduqOFNlQ=;
-	b=zE9ZZ9IwT8CIFz+rop0Dw2G9bFMDXPNpBHlpHgpFU/XbujHCTk1ekjDQEarmRqPT
-	v/BvYoLYJQvNh6ajZhMB21/QSJNC/BC6w4d8fc27HI4ZR9WNw1wc3OuG6DqsSaKf0al
-	YAQItxuB24PGym7plZgCnAlWtsTszS53iq4x3+po=
+	bh=6u0xb15R/ZtIwgOKL8ZVkyHhM9Y+kY7hHt9zGFQlXkw=;
+	b=dpORDdFuze1ycAuZHY4TFQhWD7Z7Usx7pHa63ujoySwzpdhu9jE9HRik8b632CMg
+	jhDEvBd/z+libHBHxID5yvBhaViJFuzDtM1OtcdwiVuOcUTAIcCf/MDbvLtNR0hOvFg
+	3hUKuQe8OOKYccRkL/xpg3BqWK0KBYKdpdIApnq0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312319;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312322;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FTZkbVQC1vAjdh6mQ0byV1QiJnBLJtb+uzQduqOFNlQ=;
-	b=BXBXwDFZDAe6rktPnB9AAUa4qW6RWeoZL/9dCcE1z6taoc1ykukWIs3pAy6noypc
-	XvK+5Wxu3QAfrmQ7+qIVEaWaQeGLtNsja9HRTJvE6JEfCvCJvoMAYn98p96XQGtG7no
-	JJqAuTBhEPau06TkFRKFRKCqOAjSytuj47F4gzlk=
-Content-Type: multipart/mixed; boundary="===============8443464323069518819=="
+	bh=6u0xb15R/ZtIwgOKL8ZVkyHhM9Y+kY7hHt9zGFQlXkw=;
+	b=UZIGGSoFXMOJ/yCeRwxOa4mKDL8WBKSXKDgEr7S4aYI4iJVHefnMpJVCqcqaWMfy
+	JEBShHns5JfaPP/gm8JyZ83wwpgyS4R1Vy4cJ7lgExkr53ngNZJIIOthb9gVGPZ2amK
+	Lxpq3MwYDNGFQeXBrSXttjyyqyV3XT0UTOEFib9U=
+Content-Type: multipart/mixed; boundary="===============8308784065027888495=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Frederic Martinsons <frederic.martinsons@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo-c: upgrading to 0.10.12+cargo-0.87.0 FAILED
-Message-ID: <01010196d3ee1d61-99587567-bc9c-4e98-99bc-43ffcf88422c-000000@us-west-2.amazonses.com>
-Date: Thu, 15 May 2025 12:31:59 +0000
+Subject: [AUH] stress-ng: upgrading to 0.19.00 FAILED
+Message-ID: <01010196d3ee2818-e3cc0ba1-6ae5-4cec-834c-c7029dbb9f89-000000@us-west-2.amazonses.com>
+Date: Thu, 15 May 2025 12:32:02 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.15-54.240.27.193
+X-SES-Outgoing: 2025.05.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 12:32:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216629
+ <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 12:32:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216637
 
---===============8443464323069518819==
+--===============8308784065027888495==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,338 +51,204 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cargo-c* to *0.10.12+cargo-0.87.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *stress-ng* to *0.19.00* has Failed(do_compile).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade cargo-c -V 0.10.12+cargo-0.87.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1916 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:3eefa8cd883755e93b489bd65b93afddbf605603"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 938 .bb files complete (0 cached, 938 parsed). 1917 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:3eefa8cd883755e93b489bd65b93afddbf605603"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-l9gofd0l: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-aga8ep3j/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-aga8ep3j/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:00:32
-Adding changed files:   0% |                                    | ETA:  0:00:23
-Adding changed files:   1% |                                    | ETA:  0:00:20
-Adding changed files:   1% |                                    | ETA:  0:00:18
-Adding changed files:   2% |                                    | ETA:  0:00:17
-Adding changed files:   2% |                                    | ETA:  0:00:17
-Adding changed files:   2% |#                                   | ETA:  0:00:16
-Adding changed files:   3% |#                                   | ETA:  0:00:16
-Adding changed files:   3% |#                                   | ETA:  0:00:15
-Adding changed files:   4% |#                                   | ETA:  0:00:15
-Adding changed files:   4% |#                                   | ETA:  0:00:15
-Adding changed files:   4% |#                                   | ETA:  0:00:15
-Adding changed files:   5% |#                                   | ETA:  0:00:15
-Adding changed files:   5% |##                                  | ETA:  0:00:14
-Adding changed files:   6% |##                                  | ETA:  0:00:14
-Adding changed files:   6% |##                                  | ETA:  0:00:14
-Adding changed files:   6% |##                                  | ETA:  0:00:14
-Adding changed files:   7% |##                                  | ETA:  0:00:14
-Adding changed files:   7% |##                                  | ETA:  0:00:14
-Adding changed files:   8% |##                                  | ETA:  0:00:14
-Adding changed files:   8% |###                                 | ETA:  0:00:14
-Adding changed files:   8% |###                                 | ETA:  0:00:14
-Adding changed files:   9% |###                                 | ETA:  0:00:13
-Adding changed files:   9% |###                                 | ETA:  0:00:13
-Adding changed files:  10% |###                                 | ETA:  0:00:13
-Adding changed files:  10% |###                                 | ETA:  0:00:13
-Adding changed files:  10% |###                                 | ETA:  0:00:13
-Adding changed files:  11% |####                                | ETA:  0:00:13
-Adding changed files:  11% |####                                | ETA:  0:00:13
-Adding changed files:  12% |####                                | ETA:  0:00:13
-Adding changed files:  12% |####                                | ETA:  0:00:13
-Adding changed files:  12% |####                                | ETA:  0:00:13
-Adding changed files:  13% |####                                | ETA:  0:00:13
-Adding changed files:  13% |####                                | ETA:  0:00:12
-Adding changed files:  14% |#####                               | ETA:  0:00:12
-Adding changed files:  14% |#####                               | ETA:  0:00:12
-Adding changed files:  14% |#####                               | ETA:  0:00:12
-Adding changed files:  15% |#####                               | ETA:  0:00:12
-Adding changed files:  15% |#####                               | ETA:  0:00:12
-Adding changed files:  16% |#####                               | ETA:  0:00:12
-Adding changed files:  16% |#####                               | ETA:  0:00:12
-Adding changed files:  16% |######                              | ETA:  0:00:12
-Adding changed files:  17% |######                              | ETA:  0:00:12
-Adding changed files:  17% |######                              | ETA:  0:00:12
-Adding changed files:  18% |######                              | ETA:  0:00:12
-Adding changed files:  18% |######                              | ETA:  0:00:12
-Adding changed files:  18% |######                              | ETA:  0:00:11
-Adding changed files:  19% |######                              | ETA:  0:00:11
-Adding changed files:  19% |#######                             | ETA:  0:00:11
-Adding changed files:  20% |#######                             | ETA:  0:00:11
-Adding changed files:  20% |#######                             | ETA:  0:00:11
-Adding changed files:  20% |#######                             | ETA:  0:00:11
-Adding changed files:  21% |#######                             | ETA:  0:00:11
-Adding changed files:  21% |#######                             | ETA:  0:00:11
-Adding changed files:  22% |#######                             | ETA:  0:00:11
-Adding changed files:  22% |########                            | ETA:  0:00:11
-Adding changed files:  22% |########                            | ETA:  0:00:11
-Adding changed files:  23% |########                            | ETA:  0:00:11
-Adding changed files:  23% |########                            | ETA:  0:00:11
-Adding changed files:  24% |########                            | ETA:  0:00:11
-Adding changed files:  24% |########                            | ETA:  0:00:10
-Adding changed files:  24% |########                            | ETA:  0:00:10
-Adding changed files:  25% |#########                           | ETA:  0:00:10
-Adding changed files:  25% |#########                           | ETA:  0:00:10
-Adding changed files:  26% |#########                           | ETA:  0:00:10
-Adding changed files:  26% |#########                           | ETA:  0:00:10
-Adding changed files:  26% |#########                           | ETA:  0:00:10
-Adding changed files:  27% |#########                           | ETA:  0:00:10
-Adding changed files:  27% |#########                           | ETA:  0:00:10
-Adding changed files:  28% |##########                          | ETA:  0:00:10
-Adding changed files:  28% |##########                          | ETA:  0:00:10
-Adding changed files:  28% |##########                          | ETA:  0:00:10
-Adding changed files:  29% |##########                          | ETA:  0:00:10
-Adding changed files:  29% |##########                          | ETA:  0:00:10
-Adding changed files:  30% |##########                          | ETA:  0:00:10
-Adding changed files:  30% |##########                          | ETA:  0:00:09
-Adding changed files:  30% |###########                         | ETA:  0:00:09
-Adding changed files:  31% |###########                         | ETA:  0:00:09
-Adding changed files:  31% |###########                         | ETA:  0:00:09
-Adding changed files:  32% |###########                         | ETA:  0:00:09
-Adding changed files:  32% |###########                         | ETA:  0:00:09
-Adding changed files:  32% |###########                         | ETA:  0:00:09
-Adding changed files:  33% |###########                         | ETA:  0:00:09
-Adding changed files:  33% |############                        | ETA:  0:00:09
-Adding changed files:  34% |############                        | ETA:  0:00:09
-Adding changed files:  34% |############                        | ETA:  0:00:09
-Adding changed files:  34% |############                        | ETA:  0:00:09
-Adding changed files:  35% |############                        | ETA:  0:00:09
-Adding changed files:  35% |############                        | ETA:  0:00:09
-Adding changed files:  36% |#############                       | ETA:  0:00:09
-Adding changed files:  36% |#############                       | ETA:  0:00:08
-Adding changed files:  36% |#############                       | ETA:  0:00:08
-Adding changed files:  37% |#############                       | ETA:  0:00:08
-Adding changed files:  37% |#############                       | ETA:  0:00:08
-Adding changed files:  38% |#############                       | ETA:  0:00:08
-Adding changed files:  38% |#############                       | ETA:  0:00:08
-Adding changed files:  38% |##############                      | ETA:  0:00:08
-Adding changed files:  39% |##############                      | ETA:  0:00:08
-Adding changed files:  39% |##############                      | ETA:  0:00:08
-Adding changed files:  40% |##############                      | ETA:  0:00:08
-Adding changed files:  40% |##############                      | ETA:  0:00:08
-Adding changed files:  40% |##############                      | ETA:  0:00:08
-Adding changed files:  41% |##############                      | ETA:  0:00:08
-Adding changed files:  41% |###############                     | ETA:  0:00:08
-Adding changed files:  42% |###############                     | ETA:  0:00:08
-Adding changed files:  42% |###############                     | ETA:  0:00:08
-Adding changed files:  42% |###############                     | ETA:  0:00:07
-Adding changed files:  43% |###############                     | ETA:  0:00:07
-Adding changed files:  43% |###############                     | ETA:  0:00:07
-Adding changed files:  44% |###############                     | ETA:  0:00:07
-Adding changed files:  44% |################                    | ETA:  0:00:07
-Adding changed files:  44% |################                    | ETA:  0:00:07
-Adding changed files:  45% |################                    | ETA:  0:00:07
-Adding changed files:  45% |################                    | ETA:  0:00:07
-Adding changed files:  46% |################                    | ETA:  0:00:07
-Adding changed files:  46% |################                    | ETA:  0:00:07
-Adding changed files:  46% |################                    | ETA:  0:00:07
-Adding changed files:  47% |#################                   | ETA:  0:00:07
-Adding changed files:  47% |#################                   | ETA:  0:00:07
-Adding changed files:  48% |#################                   | ETA:  0:00:07
-Adding changed files:  48% |#################                   | ETA:  0:00:07
-Adding changed files:  48% |#################                   | ETA:  0:00:07
-Adding changed files:  49% |#################                   | ETA:  0:00:06
-Adding changed files:  49% |#################                   | ETA:  0:00:06
-Adding changed files:  50% |##################                  | ETA:  0:00:06
-Adding changed files:  50% |##################                  | ETA:  0:00:06
-Adding changed files:  50% |##################                  | ETA:  0:00:06
-Adding changed files:  51% |##################                  | ETA:  0:00:06
-Adding changed files:  51% |##################                  | ETA:  0:00:06
-Adding changed files:  52% |##################                  | ETA:  0:00:06
-Adding changed files:  52% |##################                  | ETA:  0:00:06
-Adding changed files:  52% |###################                 | ETA:  0:00:06
-Adding changed files:  53% |###################                 | ETA:  0:00:06
-Adding changed files:  53% |###################                 | ETA:  0:00:06
-Adding changed files:  54% |###################                 | ETA:  0:00:06
-Adding changed files:  54% |###################                 | ETA:  0:00:06
-Adding changed files:  55% |###################                 | ETA:  0:00:06
-Adding changed files:  55% |###################                 | ETA:  0:00:06
-Adding changed files:  55% |####################                | ETA:  0:00:06
-Adding changed files:  56% |####################                | ETA:  0:00:05
-Adding changed files:  56% |####################                | ETA:  0:00:05
-Adding changed files:  57% |####################                | ETA:  0:00:05
-Adding changed files:  57% |####################                | ETA:  0:00:05
-Adding changed files:  57% |####################                | ETA:  0:00:05
-Adding changed files:  58% |####################                | ETA:  0:00:05
-Adding changed files:  58% |#####################               | ETA:  0:00:05
-Adding changed files:  59% |#####################               | ETA:  0:00:05
-Adding changed files:  59% |#####################               | ETA:  0:00:05
-Adding changed files:  59% |#####################               | ETA:  0:00:05
-Adding changed files:  60% |#####################               | ETA:  0:00:05
-Adding changed files:  60% |#####################               | ETA:  0:00:05
-Adding changed files:  61% |#####################               | ETA:  0:00:05
-Adding changed files:  61% |######################              | ETA:  0:00:05
-Adding changed files:  61% |######################              | ETA:  0:00:05
-Adding changed files:  62% |######################              | ETA:  0:00:05
-Adding changed files:  62% |######################              | ETA:  0:00:05
-Adding changed files:  63% |######################              | ETA:  0:00:04
-Adding changed files:  63% |######################              | ETA:  0:00:04
-Adding changed files:  63% |######################              | ETA:  0:00:04
-Adding changed files:  64% |#######################             | ETA:  0:00:04
-Adding changed files:  64% |#######################             | ETA:  0:00:04
-Adding changed files:  65% |#######################             | ETA:  0:00:04
-Adding changed files:  65% |#######################             | ETA:  0:00:04
-Adding changed files:  65% |#######################             | ETA:  0:00:04
-Adding changed files:  66% |#######################             | ETA:  0:00:04
-Adding changed files:  66% |#######################             | ETA:  0:00:04
-Adding changed files:  67% |########################            | ETA:  0:00:04
-Adding changed files:  67% |########################            | ETA:  0:00:04
-Adding changed files:  67% |########################            | ETA:  0:00:04
-Adding changed files:  68% |########################            | ETA:  0:00:04
-Adding changed files:  68% |########################            | ETA:  0:00:04
-Adding changed files:  69% |########################            | ETA:  0:00:04
-Adding changed files:  69% |#########################           | ETA:  0:00:04
-Adding changed files:  69% |#########################           | ETA:  0:00:03
-Adding changed files:  70% |#########################           | ETA:  0:00:03
-Adding changed files:  70% |#########################           | ETA:  0:00:03
-Adding changed files:  71% |#########################           | ETA:  0:00:03
-Adding changed files:  71% |#########################           | ETA:  0:00:03
-Adding changed files:  71% |#########################           | ETA:  0:00:03
-Adding changed files:  72% |##########################          | ETA:  0:00:03
-Adding changed files:  72% |##########################          | ETA:  0:00:03
-Adding changed files:  73% |##########################          | ETA:  0:00:03
-Adding changed files:  73% |##########################          | ETA:  0:00:03
-Adding changed files:  73% |##########################          | ETA:  0:00:03
-Adding changed files:  74% |##########################          | ETA:  0:00:03
-Adding changed files:  74% |##########################          | ETA:  0:00:03
-Adding changed files:  75% |###########################         | ETA:  0:00:03
-Adding changed files:  75% |###########################         | ETA:  0:00:03
-Adding changed files:  75% |###########################         | ETA:  0:00:03
-Adding changed files:  76% |###########################         | ETA:  0:00:03
-Adding changed files:  76% |###########################         | ETA:  0:00:03
-Adding changed files:  77% |###########################         | ETA:  0:00:02
-Adding changed files:  77% |###########################         | ETA:  0:00:02
-Adding changed files:  77% |############################        | ETA:  0:00:02
-Adding changed files:  78% |############################        | ETA:  0:00:02
-Adding changed files:  78% |############################        | ETA:  0:00:02
-Adding changed files:  79% |############################        | ETA:  0:00:02
-Adding changed files:  79% |############################        | ETA:  0:00:02
-Adding changed files:  79% |############################        | ETA:  0:00:02
-Adding changed files:  80% |############################        | ETA:  0:00:02
-Adding changed files:  80% |#############################       | ETA:  0:00:02
-Adding changed files:  81% |#############################       | ETA:  0:00:02
-Adding changed files:  81% |#############################       | ETA:  0:00:02
-Adding changed files:  81% |#############################       | ETA:  0:00:02
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  83% |#############################       | ETA:  0:00:02
-Adding changed files:  83% |##############################      | ETA:  0:00:02
-Adding changed files:  83% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:01
-Adding changed files:  85% |##############################      | ETA:  0:00:01
-Adding changed files:  85% |##############################      | ETA:  0:00:01
-Adding changed files:  85% |##############################      | ETA:  0:00:01
-Adding changed files:  86% |###############################     | ETA:  0:00:01
-Adding changed files:  86% |###############################     | ETA:  0:00:01
-Adding changed files:  87% |###############################     | ETA:  0:00:01
-Adding changed files:  87% |###############################     | ETA:  0:00:01
-Adding changed files:  87% |###############################     | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  90% |################################    | ETA:  0:00:01
-Adding changed files:  90% |################################    | ETA:  0:00:01
-Adding changed files:  91% |################################    | ETA:  0:00:01
-Adding changed files:  91% |################################    | ETA:  0:00:01
-Adding changed files:  91% |#################################   | ETA:  0:00:01
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:12
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching crate://crates.io/cargo-c/0.10.12+cargo-0.87.0;name=cargo-c...
-INFO: Rebasing devtool onto a906f1d4535648d7eace3bb0cc20e90bba388918
-WARNING: Command 'git rebase a906f1d4535648d7eace3bb0cc20e90bba388918' failed:
-CONFLICT (modify/delete): cargo_home/bitbake/libc-0.2.161/src/unix/linux_like/linux/arch/generic/mod.rs deleted in HEAD and modified in f8518972 (Define more ioctl codes on riscv32gc-unknown-linux-gnu).  Version f8518972 (Define more ioctl codes on riscv32gc-unknown-linux-gnu) of cargo_home/bitbake/libc-0.2.161/src/unix/linux_like/linux/arch/generic/mod.rs left in tree.
-
-ERROR: Execution of 'git checkout devtool' failed with exit code 1:
-error: you need to resolve your current index first
-cargo_home/bitbake/libc-0.2.161/src/unix/linux_like/linux/arch/generic/mod.rs: needs merge
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-stress-ng-upgrade-0.18.12-0.19.00.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8443464323069518819==--
+
+-- >8 --
+From 60052e1ae024c577e6b4125378b8aa8454f696c2 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 15 May 2025 09:30:41 +0000
+Subject: [PATCH] stress-ng: upgrade 0.18.12 -> 0.19.00
+
+---
+ .../stress-ng/{stress-ng_0.18.12.bb => stress-ng_0.19.00.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.18.12.bb => stress-ng_0.19.00.bb} (94%)
+
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb b/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb
+similarity index 94%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb
+index b1cfdc371f..ca470e5862 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V${PV} \
+            "
+-SRCREV = "d4eef982dc98fe915aa82303c0a24070d0a51b00"
++SRCREV = "2f84dac62da8050901529c4c5c00f99e7a7bbad4"
+ S = "${WORKDIR}/git"
+ 
+ DEPENDS = "coreutils-native libbsd"
+-- 
+2.47.1
+
+
+--===============8308784065027888495==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-stress-ng-upgrade-0.18.12-0.19.00.patch"
+
+RnJvbSA2MDA1MmUxYWUwMjRjNTc3ZTZiNDEyNTM3OGI4YWE4NDU0ZjY5NmMyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgTWF5IDIwMjUgMDk6MzA6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+dHJlc3Mtbmc6IHVwZ3JhZGUgMC4xOC4xMiAtPiAwLjE5LjAwCgotLS0KIC4uLi9zdHJlc3Mtbmcv
+e3N0cmVzcy1uZ18wLjE4LjEyLmJiID0+IHN0cmVzcy1uZ18wLjE5LjAwLmJifSAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcve3N0cmVzcy1uZ18wLjE4LjEyLmJiID0+IHN0
+cmVzcy1uZ18wLjE5LjAwLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRl
+bmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTguMTIuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE5LjAwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTgu
+MTIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5n
+XzAuMTkuMDAuYmIKaW5kZXggYjFjZmRjMzcxZi4uY2E0NzBlNTg2MiAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xOC4xMi5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE5LjAwLmJiCkBAIC03
+LDcgKzcsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1iMjM0ZWU0
+ZDY5ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29t
+L0NvbGluSWFuS2luZy9zdHJlc3MtbmcuZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXI7
+dGFnPVYke1BWfSBcCiAgICAgICAgICAgICIKLVNSQ1JFViA9ICJkNGVlZjk4MmRjOThmZTkxNWFh
+ODIzMDNjMGEyNDA3MGQwYTUxYjAwIgorU1JDUkVWID0gIjJmODRkYWM2MmRhODA1MDkwMTUyOWM0
+YzVjMDBmOTllN2E3YmJhZDQiCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCiBERVBFTkRTID0gImNv
+cmV1dGlscy1uYXRpdmUgbGliYnNkIgotLSAKMi40Ny4xCgo=
+
+--===============8308784065027888495==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1916 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 937 .bb files complete (936 cached, 1 parsed). 1916 targets, 39 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:3d8777f066a8a8a66389fbd6e993f1ab9a38ccbf"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 123 Local 111 Mirrors 0 Missed 12 Current 281 (90% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1038 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_recipe_qa)
+NOTE: recipe stress-ng-0.19.00-r0: task do_recipe_qa: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1162 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_fetch)
+NOTE: recipe stress-ng-0.19.00-r0: task do_fetch: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_fetch: Succeeded
+NOTE: Running task 1163 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_unpack)
+NOTE: Running task 1164 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_prepare_recipe_sysroot)
+NOTE: recipe stress-ng-0.19.00-r0: task do_unpack: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe stress-ng-0.19.00-r0: task do_unpack: Succeeded
+NOTE: Running task 1165 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_patch)
+NOTE: Running task 1166 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_collect_spdx_deps)
+NOTE: recipe stress-ng-0.19.00-r0: task do_patch: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_collect_spdx_deps: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_patch: Succeeded
+NOTE: Running task 1167 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1168 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_populate_lic)
+NOTE: recipe stress-ng-0.19.00-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe stress-ng-0.19.00-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_populate_lic: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_populate_lic: Succeeded
+NOTE: recipe stress-ng-0.19.00-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1169 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_configure)
+NOTE: recipe stress-ng-0.19.00-r0: task do_configure: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_configure: Succeeded
+NOTE: Running task 1170 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_compile)
+NOTE: recipe stress-ng-0.19.00-r0: task do_compile: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_compile: Succeeded
+NOTE: Running task 1171 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_install)
+NOTE: recipe stress-ng-0.19.00-r0: task do_install: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_install: Succeeded
+NOTE: Running task 1172 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_package)
+NOTE: Running task 1173 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_populate_sysroot)
+NOTE: recipe stress-ng-0.19.00-r0: task do_populate_sysroot: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_package: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe stress-ng-0.19.00-r0: task do_package: Succeeded
+NOTE: Running task 1174 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_packagedata)
+NOTE: recipe stress-ng-0.19.00-r0: task do_packagedata: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_packagedata: Succeeded
+NOTE: Running task 1175 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_create_spdx)
+NOTE: Running task 1176 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_package_write_ipk)
+NOTE: Running task 1177 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_package_write_deb)
+NOTE: Running task 1178 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_package_write_rpm)
+NOTE: Running task 1179 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_package_qa)
+NOTE: recipe stress-ng-0.19.00-r0: task do_create_spdx: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_package_write_ipk: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_package_write_deb: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_package_write_rpm: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_package_qa: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1180 of 1181 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_create_package_spdx)
+NOTE: recipe stress-ng-0.19.00-r0: task do_create_package_spdx: Started
+NOTE: recipe stress-ng-0.19.00-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe stress-ng-0.19.00-r0: task do_create_package_spdx: Succeeded
+NOTE: recipe stress-ng-0.19.00-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe stress-ng-0.19.00-r0: task do_package_write_deb: Succeeded
+NOTE: recipe stress-ng-0.19.00-r0: task do_package_qa: Failed
+NOTE: Tasks Summary: Attempted 1180 tasks of which 1160 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250515092842.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250515092842.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_package_qa
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/stress-ng/0.19.00/temp/log.do_package_qa.3243378
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: stress-ng-0.19.00-r0 do_package_qa: QA Issue: File /usr/bin/stress-ng in package stress-ng contains reference to TMPDIR [buildpaths]
+ERROR: stress-ng-0.19.00-r0 do_package_qa: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/stress-ng/0.19.00/temp/log.do_package_qa.3243378
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/stress-ng/stress-ng_0.19.00.bb:do_package_qa) failed with exit code '1'
+
+--===============8308784065027888495==--
 
