@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22460C5479B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 486DEC54EE3
 	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 12:32:12 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.11031.1747312308582241436
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.11025.1747312305912840272
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 05:32:07 -0700
+ Thu, 15 May 2025 05:32:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=t5afmzGU;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RLVRWPk0;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010196d3ee3984-696d3f51-3780-42de-b188-59d7871f261a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VMipXqjU;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dgXzsf+e;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010196d3ee2da6-37fbf13c-aa0d-40f7-a0ce-8ce92bb60511-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1747312327;
+	t=1747312324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=QjA4YBYYmlbuzdDJ8cwrshjGZ5gBGp1moFSBSaL85Ws=;
-	b=t5afmzGU6q0n4U4Z42MSSwHWNO6UnahAxPKtTS8v7wP9DCYxyCJ4+jn9sXklJuu/
-	LOqK5Zo1sKoLNPce2evSgJaVRxf286hvCxtRE3kunKLEV64VVQzCyWnWKqR5NrUoBXZ
-	J7iqxZInlh0mfWv06mn4Vf/KqWn88Xpwic2NRTAg=
+	bh=cxrfDlDArVbzs0k/BtDHuT/013ErzntvgSeoZ3UhqXc=;
+	b=VMipXqjUi79ZBjYdU7F92LWZ3cxPXLqmJxkOtElFHfs4z0bSueyEqC0IhwhLRu0R
+	vsC36WllktW1T8ENMMp28N0cXF3SOC3L4qmNZOjpOuANstQ5493ckBgokRX8E+58onh
+	HzgfgW81yKKqKTnES0n8FG3mKhT6PBqL0ganmxs8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312327;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=QjA4YBYYmlbuzdDJ8cwrshjGZ5gBGp1moFSBSaL85Ws=;
-	b=RLVRWPk0zqpBJvPH7HYl0AKMV4xz7VAI4XznGBEBBBjKGbFpl+IIlhreV91lJ84C
-	lft4K8rTCw8EIjMcf8UlmqJ8P1OJ/R7oVFBldlQP+0QyQmlZbmgrfiZJ6b1Xpou0rUY
-	XEfVFLPgIS3Nfuv/YsqvSqBejq0S+DkWTADAxn3M=
-Content-Type: multipart/mixed; boundary="===============1106039019170674938=="
+	bh=cxrfDlDArVbzs0k/BtDHuT/013ErzntvgSeoZ3UhqXc=;
+	b=dgXzsf+ezc95kO+8nuxTiERjdtKmOq7eFl34x2kwPrLm0YwWfpHTUtGRCy+mzgHY
+	jV3nyu230998pQCaAIVRBv/FQRs4vU2lfhGmkZKLqupae/yIswF4v34daRcSAvBZfKD
+	txPGDFB7wM/RQtlwGlxqXwuIrLCgX3h+vf0exlbo=
+Content-Type: multipart/mixed; boundary="===============8009712160406845567=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hiago De Franco <hiago.franco@toradex.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] hwdata: upgrading to 0.395 SUCCEEDED
-Message-ID: <01010196d3ee3984-696d3f51-3780-42de-b188-59d7871f261a-000000@us-west-2.amazonses.com>
-Date: Thu, 15 May 2025 12:32:07 +0000
+Subject: [AUH] igt-gpu-tools: upgrading to 2.0 FAILED
+Message-ID: <01010196d3ee2da6-37fbf13c-aa0d-40f7-a0ce-8ce92bb60511-000000@us-west-2.amazonses.com>
+Date: Thu, 15 May 2025 12:32:04 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.15-54.240.27.29
+X-SES-Outgoing: 2025.05.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 12:32:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216659
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216646
 
---===============1106039019170674938==
+--===============8009712160406845567==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,109 +51,55 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *hwdata* to *0.395* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *igt-gpu-tools* to *2.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-hwdata-upgrade-0.394-0.395.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe igt-gpu-tools failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1916 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:d884b6ba101847be793feda19636ad10a7cef8a3"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto e582faa38f9466303b4634a60053c3201dae9539
+WARNING: Command 'git rebase e582faa38f9466303b4634a60053c3201dae9539' failed:
+Auto-merging lib/igt_aux.c
+CONFLICT (content): Merge conflict in lib/igt_aux.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/igt-gpu-tools
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/igt-gpu-tools/igt-gpu-tools_2.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 530f5fb702ec3e934a162ee64724d36a91387391 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 May 2025 12:11:58 +0000
-Subject: [PATCH] hwdata: upgrade 0.394 -> 0.395
-
----
- .../recipes-support/hwdata/{hwdata_0.394.bb => hwdata_0.395.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/hwdata/{hwdata_0.394.bb => hwdata_0.395.bb} (93%)
-
-diff --git a/meta/recipes-support/hwdata/hwdata_0.394.bb b/meta/recipes-support/hwdata/hwdata_0.395.bb
-similarity index 93%
-rename from meta/recipes-support/hwdata/hwdata_0.394.bb
-rename to meta/recipes-support/hwdata/hwdata_0.395.bb
-index 54edcecc2c..73b846b181 100644
---- a/meta/recipes-support/hwdata/hwdata_0.394.bb
-+++ b/meta/recipes-support/hwdata/hwdata_0.395.bb
-@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0-or-later | X11"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1556547711e8246992b999edd9445a57"
- 
- SRC_URI = "git://github.com/vcrhonek/${BPN}.git;branch=master;protocol=https;tag=v${PV}"
--SRCREV = "fa1ccf4e4944bdb4110025c5c40e4fee8c8de29b"
-+SRCREV = "95c1de6c4a0d40415867b29c0791480fb8ad3cdb"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.47.1
-
-
---===============1106039019170674938==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-hwdata-upgrade-0.394-0.395.patch"
-
-RnJvbSA1MzBmNWZiNzAyZWMzZTkzNGExNjJlZTY0NzI0ZDM2YTkxMzg3MzkxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgTWF5IDIwMjUgMTI6MTE6NTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
-d2RhdGE6IHVwZ3JhZGUgMC4zOTQgLT4gMC4zOTUKCi0tLQogLi4uL3JlY2lwZXMtc3VwcG9ydC9o
-d2RhdGEve2h3ZGF0YV8wLjM5NC5iYiA9PiBod2RhdGFfMC4zOTUuYmJ9IHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaHdkYXRhL3tod2RhdGFfMC4zOTQuYmIgPT4gaHdkYXRhXzAuMzk1LmJifSAo
-OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2RhdGFfMC4z
-OTQuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuMzk1LmJiCnNpbWls
-YXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9o
-d2RhdGFfMC4zOTQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2Rh
-dGFfMC4zOTUuYmIKaW5kZXggNTRlZGNlY2MyYy4uNzNiODQ2YjE4MSAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvaHdkYXRhL2h3ZGF0YV8wLjM5NC5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuMzk1LmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNF
-ID0gIkdQTC0yLjAtb3ItbGF0ZXIgfCBYMTEiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
-SUNFTlNFO21kNT0xNTU2NTQ3NzExZTgyNDY5OTJiOTk5ZWRkOTQ0NWE1NyIKIAogU1JDX1VSSSA9
-ICJnaXQ6Ly9naXRodWIuY29tL3ZjcmhvbmVrLyR7QlBOfS5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90
-b2NvbD1odHRwczt0YWc9diR7UFZ9IgotU1JDUkVWID0gImZhMWNjZjRlNDk0NGJkYjQxMTAwMjVj
-NWM0MGU0ZmVlOGM4ZGUyOWIiCitTUkNSRVYgPSAiOTVjMWRlNmM0YTBkNDA0MTU4NjdiMjljMDc5
-MTQ4MGZiOGFkM2NkYiIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi40Ny4xCgo=
-
---===============1106039019170674938==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/all-poky-linux/hwdata/hwdata-dbg: PV changed from "0.394" to "0.395"
-packages/all-poky-linux/hwdata/hwdata-dbg: PKGV changed from 0.394 [default] to 0.395 [default]
-packages/all-poky-linux/hwdata/hwdata-dev: PV changed from "0.394" to "0.395"
-packages/all-poky-linux/hwdata/hwdata-dev: PKGV changed from 0.394 [default] to 0.395 [default]
-packages/all-poky-linux/hwdata/hwdata-doc: PV changed from "0.394" to "0.395"
-packages/all-poky-linux/hwdata/hwdata-doc: PKGV changed from 0.394 [default] to 0.395 [default]
-packages/all-poky-linux/hwdata/hwdata-locale: PV changed from "0.394" to "0.395"
-packages/all-poky-linux/hwdata/hwdata-locale: PKGV changed from 0.394 [default] to 0.395 [default]
-packages/all-poky-linux/hwdata/hwdata-src: PV changed from "0.394" to "0.395"
-packages/all-poky-linux/hwdata/hwdata-src: PKGV changed from 0.394 [default] to 0.395 [default]
-packages/all-poky-linux/hwdata/hwdata-staticdev: PV changed from "0.394" to "0.395"
-packages/all-poky-linux/hwdata/hwdata-staticdev: PKGV changed from 0.394 [default] to 0.395 [default]
-packages/all-poky-linux/hwdata/hwdata: PV changed from "0.394" to "0.395"
-packages/all-poky-linux/hwdata/hwdata: PKGSIZE changed from 9895745 to 9924813 (+0%)
-packages/all-poky-linux/hwdata/hwdata: PKGV changed from 0.394 [default] to 0.395 [default]
-packages/all-poky-linux/hwdata: PV changed from "0.394" to "0.395"
-packages/all-poky-linux/hwdata: SRC_URI changed from "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.394" to "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.395"
-packages/all-poky-linux/hwdata: PKGV changed from 0.394 [default] to 0.395 [default]
-
---===============1106039019170674938==--
+--===============8009712160406845567==--
 
