@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1FDCC5B547
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2781C5B545
 	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 12:32:00 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.11041.1747312314434957606
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.11252.1747312304866832164
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 May 2025 05:31:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AIcyARDf;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bmClR62q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010196d3ee05f2-9967a9cb-835d-4f9a-888a-e4cfa57d8ca5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fCYcib8U;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Pr7vJSDS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010196d3ee0526-1af38b2a-5377-4591-b489-e500771db049-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1747312313;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xjTIakY6/ZmQyX1wLWTcjcqxxHTn+gg+nvk2tTb45d4=;
-	b=AIcyARDfBdovEpRC2tzvSdGX7jpy09csBqSLz4FWfVcS43dmw4ptaJET+hcPG9G9
-	/7UoPkollSohmPTEO8i4Yog86oV+KjZ5ATxegRRizHMih0hR+Mm2Ws8Hjhr78vCwc0v
-	2aR+ipb9f11ElbBOp6Vs7qIfL7oHW5SB+GYjn07Q=
+	bh=XXUCImp5q6/EMjV24O77AZgjnb+Cde7lOLdT3fZfI3c=;
+	b=fCYcib8UWwvhBrarWBNFB0uGc4QnbpJVTTJMYQvLXONUOBOFyQ2eyPUbSrEYGko9
+	V7ZlQFzO0ZHi5/qYcwdMyB1Vm8oYhr8LfdlbBfH15XEESTCyIEsZ4IIDJ/4N74QkBL3
+	Di39+8PY9E/jKZy/nu2O8ym4loMaJbfCONYyOZGY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312313;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xjTIakY6/ZmQyX1wLWTcjcqxxHTn+gg+nvk2tTb45d4=;
-	b=bmClR62qpQGeAV262BW7P9vxfwDTqJrckcw66e8+BsRhd5DBox5MdIWdfb3ULcKY
-	b4yMaoVilNHuEyZPRkYkUcLmu72zPH4sAAK24uM2Zzz6MABag1bxeOzYvUrx4wWhdYN
-	ke1F7Q+/TCDyrFbf5lKU2DD7vTDq6U28CLRP9I4s=
-Content-Type: multipart/mixed; boundary="===============4429436993757750199=="
+	bh=XXUCImp5q6/EMjV24O77AZgjnb+Cde7lOLdT3fZfI3c=;
+	b=Pr7vJSDS3C2/RHL7uwVHdgSfa58i393y14C/ZwakmpAT2oexkCKCTHRhVtX4r4Yf
+	6NRznAiu68VTPVefgzBOA/pW6G0qi8mtW/klWjaBA046reywyrRwHftcxwF1rxSEPFT
+	ycpeVNO3Tk2nJ7r9QGxrZ2dZuLEt5SB4MPvEe4ZA=
+Content-Type: multipart/mixed; boundary="===============4863434191239313136=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.131.17 SUCCEEDED
-Message-ID: <01010196d3ee05f2-9967a9cb-835d-4f9a-888a-e4cfa57d8ca5-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-click: upgrading to 8.2.0 SUCCEEDED
+Message-ID: <01010196d3ee0526-1af38b2a-5377-4591-b489-e500771db049-000000@us-west-2.amazonses.com>
 Date: Thu, 15 May 2025 12:31:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.15-54.240.27.45
+X-SES-Outgoing: 2025.05.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 12:32:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216611
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216608
 
---===============4429436993757750199==
+--===============4863434191239313136==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.131.17* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-click* to *8.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.131.14-6.131.17.patch
+    - apply the patch: git am 0001-python3-click-upgrade-8.1.8-8.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,103 +72,106 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 08cc1a34e8d3bd764a23be5e321a8881567b4abe Mon Sep 17 00:00:00 2001
+From 259d8ddcb4e3c993e47d17e967edf129398aa78b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 May 2025 07:58:02 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.131.14 -> 6.131.17
+Date: Thu, 15 May 2025 07:51:50 +0000
+Subject: [PATCH] python3-click: upgrade 8.1.8 -> 8.2.0
 
 ---
- ...n3-hypothesis_6.131.14.bb => python3-hypothesis_6.131.17.bb} | 2 +-
+ .../python/{python3-click_8.1.8.bb => python3-click_8.2.0.bb}   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.131.14.bb => python3-hypothesis_6.131.17.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-click_8.1.8.bb => python3-click_8.2.0.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.131.14.bb b/meta/recipes-devtools/python/python3-hypothesis_6.131.17.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.131.14.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.131.17.bb
-index 269ed936b6..d720d0c5c3 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.131.14.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.131.17.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/python/python3-click_8.1.8.bb b/meta/recipes-devtools/python/python3-click_8.2.0.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-click_8.1.8.bb
+rename to meta/recipes-devtools/python/python3-click_8.2.0.bb
+index 7be3d73546..d066f2b7b9 100644
+--- a/meta/recipes-devtools/python/python3-click_8.1.8.bb
++++ b/meta/recipes-devtools/python/python3-click_8.2.0.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "http://click.pocoo.org/"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1fa98232fd645608937a0fdc82e999b8"
  
--SRC_URI[sha256sum] = "347edc46cfe9bfcfb0598c4c927ed8fd573edfc8bacd2162023c4cf16accb702"
-+SRC_URI[sha256sum] = "8901926baf6915494ba84353a4cbeaa845c6076d4a159c1d782e6969d4176829"
+-SRC_URI[sha256sum] = "ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a"
++SRC_URI[sha256sum] = "f5452aeddd9988eefa20f90f05ab66f17fce1ee2a36907fd30b05bbb5953814d"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ inherit pypi python_flit_core ptest-python-pytest
+ 
 -- 
 2.47.1
 
 
---===============4429436993757750199==
+--===============4863434191239313136==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.131.14-6.131.17.patch"
+ filename="0001-python3-click-upgrade-8.1.8-8.2.0.patch"
 
-RnJvbSAwOGNjMWEzNGU4ZDNiZDc2NGEyM2JlNWUzMjFhODg4MTU2N2I0YWJlIE1vbiBTZXAgMTcg
+RnJvbSAyNTlkOGRkY2I0ZTNjOTkzZTQ3ZDE3ZTk2N2VkZjEyOTM5OGFhNzhiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgTWF5IDIwMjUgMDc6NTg6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xMzEuMTQgLT4gNi4xMzEuMTcKCi0tLQogLi4u
-bjMtaHlwb3RoZXNpc182LjEzMS4xNC5iYiA9PiBweXRob24zLWh5cG90aGVzaXNfNi4xMzEuMTcu
-YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1oeXBvdGhlc2lz
-XzYuMTMxLjE0LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjEzMS4xNy5iYn0gKDkxJSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjEzMS4xNC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBv
-dGhlc2lzXzYuMTMxLjE3LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTMxLjE0LmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182
-LjEzMS4xNy5iYgppbmRleCAyNjllZDkzNmI2Li5kNzIwZDBjNWMzIDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjEzMS4xNC5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjEz
-MS4xNy5iYgpAQCAtMTMsNyArMTMsNyBAQCBTUkNfVVJJICs9ICIgXAogICAgIGZpbGU6Ly90ZXN0
-X3JsZS5weSBcCiAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzQ3ZWRjNDZjZmU5YmZj
-ZmIwNTk4YzRjOTI3ZWQ4ZmQ1NzNlZGZjOGJhY2QyMTYyMDIzYzRjZjE2YWNjYjcwMiIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICI4OTAxOTI2YmFmNjkxNTQ5NGJhODQzNTNhNGNiZWFhODQ1YzYwNzZk
-NGExNTljMWQ3ODJlNjk2OWQ0MTc2ODI5IgogCiBSREVQRU5EUzoke1BOfSArPSAiIFwKICAgICBw
-eXRob24zLWF0dHJzIFwKLS0gCjIuNDcuMQoK
+CkRhdGU6IFRodSwgMTUgTWF5IDIwMjUgMDc6NTE6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNsaWNrOiB1cGdyYWRlIDguMS44IC0+IDguMi4wCgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtY2xpY2tfOC4xLjguYmIgPT4gcHl0aG9uMy1jbGlja184LjIuMC5iYn0gICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY2xpY2tfOC4xLjguYmIgPT4gcHl0
+aG9uMy1jbGlja184LjIuMC5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tfOC4xLjguYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tfOC4yLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MCUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNsaWNrXzguMS44
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tf
+OC4yLjAuYmIKaW5kZXggN2JlM2Q3MzU0Ni4uZDA2NmYyYjdiOSAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNsaWNrXzguMS44LmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jbGlja184LjIuMC5iYgpAQCAtOCw3ICs4
+LDcgQEAgSE9NRVBBR0UgPSAiaHR0cDovL2NsaWNrLnBvY29vLm9yZy8iCiBMSUNFTlNFID0gIkJT
+RC0zLUNsYXVzZSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT0x
+ZmE5ODIzMmZkNjQ1NjA4OTM3YTBmZGM4MmU5OTliOCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0g
+ImVkNTNjOWQ4OTkwZDgzYzJhMjdkZWFlNjhlNGVlMzM3NDczZjYzMzBjMDQwYTMxZDQyMjVjOTU3
+NGQxNjA5NmEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjU0NTJhZWRkZDk5ODhlZWZhMjBmOTBm
+MDVhYjY2ZjE3ZmNlMWVlMmEzNjkwN2ZkMzBiMDViYmI1OTUzODE0ZCIKIAogaW5oZXJpdCBweXBp
+IHB5dGhvbl9mbGl0X2NvcmUgcHRlc3QtcHl0aG9uLXB5dGVzdAogCi0tIAoyLjQ3LjEKCg==
 
---===============4429436993757750199==
+--===============4863434191239313136==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.131.14.tar.gz;downloadfilename=hypothesis-6.131.14.tar.gz file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.131.17.tar.gz;downloadfilename=hypothesis-6.131.17.tar.gz file://test_binary_search.py file://test_rle.py"
-packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.131.14 [default] to 6.131.17 [default]
-packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.131.14" to "6.131.17"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.131.14 [default] to 6.131.17 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.131.14" to "6.131.17"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.131.14 [default] to 6.131.17 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.131.14" to "6.131.17"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.131.14 [default] to 6.131.17 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.131.14" to "6.131.17"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.131.14 [default] to 6.131.17 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.131.14" to "6.131.17"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.131.14 [default] to 6.131.17 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.131.14" to "6.131.17"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.131.14 [default] to 6.131.17 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.131.14" to "6.131.17"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.131.14 [default] to 6.131.17 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.131.14" to "6.131.17"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3335714 to 3344204 (+0%)
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.131.14 [default] to 6.131.17 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.131.14" to "6.131.17"
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info moved to /usr/lib/python3.13/site-packages/hypothesis-6.131.17.dist-info
+packages/core2-64-poky-linux/python3-click: PV changed from "8.1.8" to "8.2.0"
+packages/core2-64-poky-linux/python3-click: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/click/click-8.1.8.tar.gz;downloadfilename=click-8.1.8.tar.gz" to "https://files.pythonhosted.org/packages/source/c/click/click-8.2.0.tar.gz;downloadfilename=click-8.2.0.tar.gz"
+packages/core2-64-poky-linux/python3-click: PKGV changed from 8.1.8 [default] to 8.2.0 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-dbg: PV changed from "8.1.8" to "8.2.0"
+packages/core2-64-poky-linux/python3-click/python3-click-dbg: PKGV changed from 8.1.8 [default] to 8.2.0 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-dev: PV changed from "8.1.8" to "8.2.0"
+packages/core2-64-poky-linux/python3-click/python3-click-dev: PKGV changed from 8.1.8 [default] to 8.2.0 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-doc: PV changed from "8.1.8" to "8.2.0"
+packages/core2-64-poky-linux/python3-click/python3-click-doc: PKGV changed from 8.1.8 [default] to 8.2.0 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-locale: PV changed from "8.1.8" to "8.2.0"
+packages/core2-64-poky-linux/python3-click/python3-click-locale: PKGV changed from 8.1.8 [default] to 8.2.0 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: PV changed from "8.1.8" to "8.2.0"
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: PKGV changed from 8.1.8 [default] to 8.2.0 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: FILELIST: removed "/usr/lib/python3-click/ptest/docs/upgrading.rst /usr/lib/python3-click/ptest/docs/testing.rst", added "/usr/lib/python3-click/ptest/docs/option-decorators.rst /usr/lib/python3-click/ptest/docs/testing.md /usr/lib/python3-click/ptest/docs/commands-and-groups.rst /usr/lib/python3-click/ptest/docs/entry-points.rst /usr/lib/python3-click/ptest/tests/typing/typing_progressbar.py /usr/lib/python3-click/ptest/docs/parameter-types.rst"
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: PKGSIZE changed from 389066 to 410818 (+6%)
+packages/core2-64-poky-linux/python3-click/python3-click-src: PV changed from "8.1.8" to "8.2.0"
+packages/core2-64-poky-linux/python3-click/python3-click-src: PKGV changed from 8.1.8 [default] to 8.2.0 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-staticdev: PV changed from "8.1.8" to "8.2.0"
+packages/core2-64-poky-linux/python3-click/python3-click-staticdev: PKGV changed from 8.1.8 [default] to 8.2.0 [default]
+packages/core2-64-poky-linux/python3-click/python3-click: PV changed from "8.1.8" to "8.2.0"
+packages/core2-64-poky-linux/python3-click/python3-click: PKGV changed from 8.1.8 [default] to 8.2.0 [default]
+packages/core2-64-poky-linux/python3-click/python3-click: PKGSIZE changed from 799194 to 800571 (+0%)
+Changes to packages/core2-64-poky-linux/python3-click (sysroot):
+  /usr/lib/python3.13/site-packages/click-8.1.8.dist-info moved to /usr/lib/python3.13/site-packages/click-8.2.0.dist-info
 
---===============4429436993757750199==
+--===============4863434191239313136==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info moved to /usr/lib/python3.13/site-packages/hypothesis-6.131.17.dist-info
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: FILELIST: removed "/usr/lib/python3-click/ptest/docs/upgrading.rst /usr/lib/python3-click/ptest/docs/testing.rst", added "/usr/lib/python3-click/ptest/docs/entry-points.rst /usr/lib/python3-click/ptest/docs/commands-and-groups.rst /usr/lib/python3-click/ptest/docs/parameter-types.rst /usr/lib/python3-click/ptest/docs/option-decorators.rst /usr/lib/python3-click/ptest/docs/testing.md /usr/lib/python3-click/ptest/tests/typing/typing_progressbar.py"
+Changes to packages/core2-64-poky-linux/python3-click (sysroot):
+  /usr/lib/python3.13/site-packages/click-8.1.8.dist-info moved to /usr/lib/python3.13/site-packages/click-8.2.0.dist-info
 
---===============4429436993757750199==--
+--===============4863434191239313136==--
 
