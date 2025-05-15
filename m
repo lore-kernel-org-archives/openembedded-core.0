@@ -2,34 +2,34 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF22C3ABD8
-	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 04:32:42 +0000 (UTC)
-Received: from forward103a.mail.yandex.net (forward103a.mail.yandex.net [178.154.239.86])
- by mx.groups.io with SMTP id smtpd.web11.2550.1747344209769044250
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A78C3ABD8
+	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 04:32:52 +0000 (UTC)
+Received: from forward101b.mail.yandex.net (forward101b.mail.yandex.net [178.154.239.148])
+ by mx.groups.io with SMTP id smtpd.web10.2042.1747342691761785516
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 14:23:30 -0700
+ Thu, 15 May 2025 13:58:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@yandex.ru header.s=mail header.b=bdf0moM7;
- spf=pass (domain: yandex.ru, ip: 178.154.239.86, mailfrom: denisova.olga.k@yandex.ru)
-Received: from mail-nwsmtp-smtp-production-main-81.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-81.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1d:4795:0:640:c576:0])
-	by forward103a.mail.yandex.net (Yandex) with ESMTPS id 8E6AF60916
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 00:23:26 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-81.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id PNQdiu2Ln8c0-ZcIfJ9Uu;
-	Fri, 16 May 2025 00:23:26 +0300
+ dkim=fail reason="dkim: body hash did not verify" header.i=@yandex.ru header.s=mail header.b=LzSxGn3d;
+ spf=pass (domain: yandex.ru, ip: 178.154.239.148, mailfrom: denisova.olga.k@yandex.ru)
+Received: from mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:109b:0:640:c015:0])
+	by forward101b.mail.yandex.net (Yandex) with ESMTPS id B6EE260B66
+	for <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 23:58:07 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 6wPJF53Lc8c0-BNykDa51;
+	Thu, 15 May 2025 23:58:07 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1747344206; bh=J+L7NXqFSaSrrUYUH1oqz8jT31EMQ6rZqF3cWvslRfI=;
+	t=1747342687; bh=Pb0XOK1dBz+pw02tX/mQaffQGSia21oYmJQGwTN5j7Y=;
 	h=Message-Id:Date:Cc:Subject:To:From;
-	b=bdf0moM7K/62wCpYKcr42aW0Cqn2+Z35bwoQ4vG1ru9e+RgPiIVQoOGbQv2heoxSH
-	 qp//fxcm/1/g9FEdri4pYeU4XEE7UuvlK5YMhp02zbAumutVT+flQp925IzzNzX8pI
-	 zYv3EnI6VkWr5Eq8aeRoSALs4xu5q9GHzv4bDsDQ=
-Authentication-Results: mail-nwsmtp-smtp-production-main-81.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+	b=LzSxGn3diak/1f5rid/uRRtLUz8GDyqcW0o1WHwp5UGW3XGirfHiOBuGrBYkpShfn
+	 DKi6Xj3Jev2jxEJLPa7c1s7Z0blERDICsF/bXvL15Zy1vH9rGtqQ3zd6P/QSzlKB4t
+	 1usejgjLW477b5DD4stPQLDfJtrL5s2Znmf08gqs=
+Authentication-Results: mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
 From: denisova-ok <denisova.olga.k@yandex.ru>
 To: openembedded-core@lists.openembedded.org
 Cc: Olga Denisova <denisova.olga.k@yandex.ru>
-Subject: [OE-core][PATCH v2] pybootchartgui: visualize /proc/net/dev network stats in graphs
-Date: Fri, 16 May 2025 00:23:15 +0300
-Message-Id: <20250515212315.6139-1-denisova.olga.k@yandex.ru>
+Subject: [OE-core][PATCH v2] buildstats.py: Add tracking of network I/O per interface
+Date: Thu, 15 May 2025 23:57:52 +0300
+Message-Id: <20250515205752.6127-1-denisova.olga.k@yandex.ru>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -37,205 +37,149 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 04:32:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216720
+ <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 04:32:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216719
 
 From: Olga Denisova <denisova.olga.k@yandex.ru>
 
-This patch adds support for parsing and visualizing network interface sta=
-tistics from /proc/net/dev in pybootchartgui. It introduces a new NetSamp=
-le class to hold per-interface metrics, including received/transmitted by=
-tes and their deltas over time.
+This patch extends SystemStats to collect and store data from /proc/net/d=
+ev. It extracts per-interface received and transmitted bytes, calculates =
+deltas between samples, and stores them for further analysis.
 
-The data is drawn using line and box charts in draw.py and helps to monit=
-or network usage during the build process for each interface individually=
+Useful for identifying network bottlenecks during long-running builds.
+
+Sample output: https://drive.google.com/file/d/1PwC65VAQswPaJC95g08EOIEEF=
+bIqkyhC/view?usp=3Dsharing
+
+The file presents a sample log file generated as a result of applying the=
+ patch. The entries in the log file follow the format:
+<timestamp>
+<interface0>: <received_bytes>, <transmitted_bytes>, <receive_delta>, <tr=
+ansmit_delta>
+<interface1>: <received_bytes>, <transmitted_bytes>, <receive_delta>, <tr=
+ansmit_delta>
+...
+
+Each entry reflects the state of network interfaces at a fixed point in t=
+ime, including the cumulative number of bytes received and transmitted, a=
+s well as their deltas (differences) compared to the previous measurement=
 .
 
-Sample output: https://drive.google.com/file/d/1fX-OO6PSw6iFY5dlCttITKNpu=
-R5p1nyd/view?usp=3Dsharing
+The collected data can be useful for network analysis in a number of scen=
+arios:
 
-The link provided contains an example image of bootchart.png, generated u=
-sing the script `/scripts/pybootchartgui/pybootchartgui.py`. Additional g=
-raphs showing the usage statistics of each network interface are added to=
- the image. These graphs are placed at the top of the image =E2=80=94 dir=
-ectly below the CPU load and disk throughput graphs.
-
-The source data for the graphs is read from the file `reduced_proc_net.lo=
-g`, which is generated by a separate patch. The graphs display lines show=
-ing the total number of bytes transmitted and received by each network in=
-terface, as well as the deltas between the current and previous measureme=
-nts of these metrics.
+- The maintenance or convergence of the receive_delta or transmit_delta v=
+alues of an interface towards a constant may indicate the achievement of =
+the network interface's maximum load or a server's upload speed limit, wh=
+ich could potentially point to a network bottleneck.
+- Network load indicators may suggest congestion in the data transmission=
+ channel, and this information could potentially be used for adaptive man=
+agement of the do_fetch task execution.
+- The receive_delta and transmit_delta values can be useful in analyzing =
+overall I/O load, as they help clarify the nature of the load =E2=80=94 w=
+hether it's network-related or disk-related.
 
 v2:
-- Added sample output into the commit message=20
+- Added sample output into the commit message
 ---
- pybootchartgui/pybootchartgui/draw.py    | 48 ++++++++++++++++++++++++
- pybootchartgui/pybootchartgui/parsing.py | 18 +++++++++
- pybootchartgui/pybootchartgui/samples.py | 10 +++++
- 3 files changed, 76 insertions(+)
+ lib/oe/buildstats.py | 43 +++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 41 insertions(+), 2 deletions(-)
 
-diff --git a/pybootchartgui/pybootchartgui/draw.py b/pybootchartgui/pyboo=
-tchartgui/draw.py
-index c6e67833ab..16739a0fa1 100644
---- a/pybootchartgui/pybootchartgui/draw.py
-+++ b/pybootchartgui/pybootchartgui/draw.py
-@@ -69,6 +69,11 @@ CPU_COLOR =3D (0.40, 0.55, 0.70, 1.0)
- IO_COLOR =3D (0.76, 0.48, 0.48, 0.5)
- # Disk throughput color.
- DISK_TPUT_COLOR =3D (0.20, 0.71, 0.20, 1.0)
-+
-+BYTES_RECEIVED_COLOR =3D (0.0, 0.0, 1.0, 1.0)
-+BYTES_TRANSMITTED_COLOR =3D (1.0, 0.0, 0.0, 1.0)
-+BYTES_RECEIVE_DIFF_COLOR =3D (0.0, 0.0, 1.0, 0.3)
-+BYTES_TRANSMIT_DIFF_COLOR =3D (1.0, 0.0, 0.0, 0.3)
- # CPU load chart color.
- FILE_OPEN_COLOR =3D (0.20, 0.71, 0.71, 1.0)
- # Mem cached color
-@@ -437,6 +442,49 @@ def render_charts(ctx, options, clip, trace, curr_y,=
- w, h, sec_w):
+diff --git a/lib/oe/buildstats.py b/lib/oe/buildstats.py
+index 1ffe679801..6f5dad953c 100644
+--- a/lib/oe/buildstats.py
++++ b/lib/oe/buildstats.py
+@@ -10,6 +10,7 @@
+ import time
+ import re
+ import bb.event
++from collections import deque
 =20
-         curr_y =3D curr_y + 30 + bar_h
+ class SystemStats:
+     def __init__(self, d):
+@@ -18,7 +19,8 @@ class SystemStats:
+         bb.utils.mkdirhier(bsdir)
+         file_handlers =3D  [('diskstats', self._reduce_diskstats),
+                             ('meminfo', self._reduce_meminfo),
+-                            ('stat', self._reduce_stat)]
++                            ('stat', self._reduce_stat),
++                            ('net/dev', self._reduce_net)]
 =20
-+    if trace.net_stats:
-+        for iface, samples in trace.net_stats.items():
-+            max_received_sample =3D max(samples, key=3Dlambda s: s.recei=
-ved_bytes)
-+            max_transmitted_sample =3D max(samples, key=3Dlambda s: s.tr=
-ansmitted_bytes)
-+            max_receive_diff_sample =3D max(samples, key=3Dlambda s: s.r=
-eceive_diff)
-+            max_transmit_diff_sample =3D max(samples, key=3Dlambda s: s.=
-transmit_diff)
-+
-+            draw_text(ctx, "Iface: %s" % (iface), TEXT_COLOR, off_x, cur=
-r_y+20)
-+            draw_legend_line(ctx, "Bytes received (max %d)" % (max_recei=
-ved_sample.received_bytes),
-+                             BYTES_RECEIVED_COLOR, off_x+150, curr_y+20,=
- leg_s)
-+            draw_legend_line(ctx, "Bytes transmitted (max %d)" % (max_tr=
-ansmitted_sample.transmitted_bytes),
-+                             BYTES_TRANSMITTED_COLOR, off_x+400, curr_y+=
-20, leg_s)
-+            draw_legend_box(ctx, "Bytes receive diff (max %d)" % (max_re=
-ceive_diff_sample.receive_diff),
-+                             BYTES_RECEIVE_DIFF_COLOR, off_x+650, curr_y=
-+20, leg_s)
-+            draw_legend_box(ctx, "Bytes transmit diff (max %d)" % (max_t=
-ransmit_diff_sample.transmit_diff),
-+                             BYTES_TRANSMIT_DIFF_COLOR, off_x+900, curr_=
-y+20, leg_s)
-+
-+
-+            chart_rect =3D (off_x, curr_y + 30, w, bar_h)
-+            if clip_visible(clip, chart_rect):
-+                draw_box_ticks(ctx, chart_rect, sec_w)
-+                draw_annotations(ctx, proc_tree, trace.times, chart_rect=
-)
-+
-+            if clip_visible (clip, chart_rect):
-+                draw_chart (ctx, BYTES_RECEIVED_COLOR, False, chart_rect=
-, \
-+                        [(sample.time, sample.received_bytes) for sample=
- in samples], \
-+                        proc_tree, None)
-+
-+                draw_chart (ctx, BYTES_TRANSMITTED_COLOR, False, chart_r=
-ect, \
-+                        [(sample.time, sample.transmitted_bytes) for sam=
-ple in samples], \
-+                        proc_tree, None)
-+
-+            if clip_visible (clip, chart_rect):
-+                draw_chart (ctx, BYTES_RECEIVE_DIFF_COLOR, True, chart_r=
-ect, \
-+                        [(sample.time, sample.receive_diff) for sample i=
-n samples], \
-+                        proc_tree, None)
-+
-+                draw_chart (ctx, BYTES_TRANSMIT_DIFF_COLOR, True, chart_=
-rect, \
-+                        [(sample.time, sample.transmit_diff) for sample =
-in samples], \
-+                        proc_tree, None)
-+
-+            curr_y =3D curr_y + 30 + bar_h
-+
-     # render CPU pressure chart
-     if trace.cpu_pressure:
-         max_sample_avg =3D max (trace.cpu_pressure, key =3D lambda s: s.=
-avg10)
-diff --git a/pybootchartgui/pybootchartgui/parsing.py b/pybootchartgui/py=
-bootchartgui/parsing.py
-index 144a16c723..72a54c6ba5 100644
---- a/pybootchartgui/pybootchartgui/parsing.py
-+++ b/pybootchartgui/pybootchartgui/parsing.py
-@@ -48,6 +48,7 @@ class Trace:
-         self.filename =3D None
-         self.parent_map =3D None
-         self.mem_stats =3D []
-+        self.net_stats =3D []
-         self.monitor_disk =3D None
-         self.cpu_pressure =3D []
-         self.io_pressure =3D []
-@@ -557,6 +558,21 @@ def _parse_monitor_disk_log(file):
+         # Some hosts like openSUSE have readable /proc/pressure files
+         # but throw errors when these files are opened. Catch these erro=
+r
+@@ -47,7 +49,10 @@ class SystemStats:
+                 # not strictly necessary, but using it makes the class
+                 # more robust should two processes ever write
+                 # concurrently.
+-                destfile =3D os.path.join(bsdir, '%sproc_%s.log' % ('red=
+uced_' if handler else '', filename))
++                if filename =3D=3D 'net/dev':
++                    destfile =3D os.path.join(bsdir, 'reduced_proc_net.l=
+og')
++                else:
++                    destfile =3D os.path.join(bsdir, '%sproc_%s.log' % (=
+'reduced_' if handler else '', filename))
+                 self.proc_files.append((filename, open(destfile, 'ab'), =
+handler))
+         self.monitor_disk =3D open(os.path.join(bsdir, 'monitor_disk.log=
+'), 'ab')
+         # Last time that we sampled /proc data resp. recorded disk monit=
+oring data.
+@@ -72,6 +77,7 @@ class SystemStats:
+         self.stat_ltimes =3D None
+         # Last time we sampled /proc/pressure. All resources stored in a=
+ single dict with the key as filename
+         self.last_pressure =3D {"pressure/cpu": None, "pressure/io": Non=
+e, "pressure/memory": None}
++        self.net_stats =3D {}
 =20
-     return disk_stats
+     def close(self):
+         self.monitor_disk.close()
+@@ -93,6 +99,39 @@ class SystemStats:
+                     b' '.join([values[x] for x in
+                                (b'MemTotal', b'MemFree', b'Buffers', b'C=
+ached', b'SwapTotal', b'SwapFree')]) + b'\n')
 =20
++    def _reduce_net(self, time, data, filename):
++        data =3D data.split(b'\n')
++        for line in data[2:]:
++            if b":" not in line:
++                continue
++            try:
++                parts =3D line.split()
++                iface =3D (parts[0].strip(b':')).decode('ascii')
++                receive_bytes =3D int(parts[1])
++                transmit_bytes =3D int(parts[9])
++            except Exception:
++                continue
 +
-+def _parse_reduced_net_log(file):
-+    net_stats =3D {}
-+    for time, lines in _parse_timed_blocks(file):
++            if iface not in self.net_stats:
++                self.net_stats[iface] =3D deque(maxlen=3D2)
++                self.net_stats[iface].append((receive_bytes, transmit_by=
+tes, 0, 0))
++            prev =3D self.net_stats[iface][-1] if self.net_stats[iface] =
+else (0, 0, 0, 0)           =20
++            receive_diff =3D receive_bytes - prev[0]
++            transmit_diff =3D transmit_bytes - prev[1]
++            self.net_stats[iface].append((
++                receive_bytes,
++                transmit_bytes,
++                receive_diff,
++                transmit_diff
++            ))
 +
-+        for line in lines:
-+            parts =3D line.split()
-+            iface =3D parts[0][:-1]
-+            if iface not in net_stats:
-+                net_stats[iface] =3D [NetSample(time, iface, int(parts[1=
-]), int(parts[2]), int(parts[3]), int(parts[4]))]
-+            else:
-+                net_stats[iface].append(NetSample(time, iface, int(parts=
-[1]), int(parts[2]), int(parts[3]), int(parts[4])))
-+    return net_stats
++        result_str =3D "\n".join(
++            f"{iface}: {net_data[-1][0]} {net_data[-1][1]} {net_data[-1]=
+[2]} {net_data[-1][3]}"
++            for iface, net_data in self.net_stats.items()
++        ) + "\n"
 +
++        return time, result_str.encode('ascii')
 +
- def _parse_pressure_logs(file, filename):
-     """
-     Parse file for "some" pressure with 'avg10', 'avg60' 'avg300' and de=
-lta total values
-@@ -767,6 +783,8 @@ def _do_parse(writer, state, filename, file):
-         state.cmdline =3D _parse_cmdline_log(writer, file)
-     elif name =3D=3D "monitor_disk.log":
-         state.monitor_disk =3D _parse_monitor_disk_log(file)
-+    elif name =3D=3D "reduced_proc_net.log":
-+        state.net_stats =3D _parse_reduced_net_log(file)
-     #pressure logs are in a subdirectory
-     elif name =3D=3D "cpu.log":
-         state.cpu_pressure =3D _parse_pressure_logs(file, name)
-diff --git a/pybootchartgui/pybootchartgui/samples.py b/pybootchartgui/py=
-bootchartgui/samples.py
-index a70d8a5a28..7c92d2ce6a 100644
---- a/pybootchartgui/pybootchartgui/samples.py
-+++ b/pybootchartgui/pybootchartgui/samples.py
-@@ -37,6 +37,16 @@ class CPUSample:
-         return str(self.time) + "\t" + str(self.user) + "\t" + \
-                str(self.sys) + "\t" + str(self.io) + "\t" + str (self.sw=
-ap)
-=20
-+
-+class NetSample:
-+    def __init__(self, time, iface, received_bytes, transmitted_bytes, r=
-eceive_diff, transmit_diff):
-+        self.time =3D time
-+        self.iface =3D iface
-+        self.received_bytes =3D received_bytes
-+        self.transmitted_bytes =3D transmitted_bytes
-+        self.receive_diff =3D receive_diff
-+        self.transmit_diff =3D transmit_diff
-+
- class CPUPressureSample:
-     def __init__(self, time, avg10, avg60, avg300, deltaTotal):
-         self.time =3D time
+     def _diskstats_is_relevant_line(self, linetokens):
+         if len(linetokens) !=3D 14:
+             return False
 --=20
 2.34.1
 
