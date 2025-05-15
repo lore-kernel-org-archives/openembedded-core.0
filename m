@@ -2,302 +2,161 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDFC7C2D0CD
-	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 21:13:56 +0000 (UTC)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web11.2399.1747343633986176633
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 277BDC2D0CD
+	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 21:28:17 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.1.1747344494290701418
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 14:13:54 -0700
+ Thu, 15 May 2025 14:28:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LGxOU4Uu;
- spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-4034118aeb7so650261b6e.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 14:13:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FO+Z8D9v;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22e4d235811so18497545ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 14:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747343633; x=1747948433; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=h8Y8udbtAino0fBPFAcRoETtEW86fRTVk5EJI2GZ6XY=;
-        b=LGxOU4Uuw67nA7bQTCF0R+mmjBmTTMKtfvhrjXT6kXj/UHl/Y7YvFK9B9pw9TcZ/8W
-         3sS2G1KktX7uSQoGxa1s6Vb/k9nIcSgvMYR/XpKxZ7TES1v5n3YpjUmQYGEITQJJNVIu
-         ujm+jWtwNfnc4RUG9NS8leh8stxeqqRhSpwyRrsOTfxJw+Qzq3Tu7Vm6sPmLmDMhmhGj
-         a1Fs4dMhp3CrnrnTGJUq6+NtAWkv2Wxr5t4QOf+tBh3ovoJfDnshcisGqj/RV58QW4E7
-         5WHm2QZSllsfXYax/C5MujEWeuLuJBuWmPvSWfKfxU5GiJaAE/OYudbN7eEe20RpCpok
-         g4bw==
+        d=gmail.com; s=20230601; t=1747344493; x=1747949293; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GQVAtP/1YLd89DJr/ee03vw+DDFVjDkd+B7XhmIN810=;
+        b=FO+Z8D9vRw0AwqnDOE70nat8secnw+03x6u5aQ/WEjS7l1H/TXuT3h/rGAj94Jn6lM
+         FGrt4ddvy2TEvCYm6LkfguGFlhUOtzmfaiP6j+zhRbAsadIWQN7Mhi92hrdkiYoWzOMs
+         Nm8UIkzzBRFk9v4JxoMhjC1WIV39NPDM/LmGV0tv5iGIrJp9/9e4rj7GZtyhAJFWPzDH
+         Ccj47uJtFEI5iauY1ykbxXfvHc0Kc+BpVNiLMcNMgNIuqhigx5kIoVkyHnzcEmPJ0y2c
+         ykgOz1szYH2llWmMlwpxG4+K7TW4daicwHJGPJOKoa1RP2E1zwbMnVg6jaNdLjvo+hgc
+         tTmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747343633; x=1747948433;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1747344493; x=1747949293;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h8Y8udbtAino0fBPFAcRoETtEW86fRTVk5EJI2GZ6XY=;
-        b=ZMGBohm9Ae3Qj9h0UFguMcLMq4lPG01/7TLMdZHFdCvSGOIIEoVUDtxKcXRp0ahIcW
-         QaSPRhltBM5Qg1XQEpks6TJniRQ+VvC4ETNoGhpZTbjILnNOQtJKl0mL1i1AbvnWo6U6
-         TG29Ph8kGrL5xPsXPzlNdgNe2KgBLcYmpz579PI6ANIdcCBnq6OitdTerQNXZzuudtmi
-         44HfApEKAlhxtc7G4vXzlhAtqCoWWvRM6H3XSd+8VQVpo+km0ObsAF7Pb6PZ5exNn7Gk
-         Gmf3ikLIQRYSfci2JtK8/6C3071d7XkgLHQOpD0hUSH4laaCz5weHypQ8vn0hk69l2w/
-         C5MA==
-X-Forwarded-Encrypted: i=1; AJvYcCXsXg8HE2lR+eaHWHQx5AtDTZ1sAWH2+c7kEmsQUGZIy1CmxPDOdyDLGUY6tRyOhQSiTCWFi1L/bZ8rX/MkfnvRWw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxKXBKJKXz2j0eby+53UltisDw0MdsB1Mq8zOSe4wEy03yksi/j
-	RsFxjJOwfTlc7T19h4PYFSTAP+lQID4OY2iCPp1bIUHfF57LRlyjREHwUu45Z7ou25hzFLvGID8
-	rQTStArEmcTGQQwFX43M/Azi/ljhjNvs=
-X-Gm-Gg: ASbGncsF/bcUhWTHxKWpuk9WgwaHsmgW5Illug5o7bhnXsckqaurFYKiShGkH1hUj2t
-	Cdxz1Lb2WHrvDRaY8u+oL7uH7U6J0plfGMsGIQ/FM5JSJsw9FysnvnzcWM9BSZ31qpD0aKX7eVO
-	vJFcDh0mSLcLK+q92F2Tmlbttt+UFapvs8twoTN0SROC1O4z/pIPv32Q5OB4DEHoMKdnTgnrcn9
-	YwZ
-X-Google-Smtp-Source: AGHT+IEcV24ayXpbwZw2DdUVwaEmslTnT7pb2+b911syBdKQUV5NIfdob+DU7x8eWSWlP9H+WyKXkHROafCBc6k9lBw=
-X-Received: by 2002:a05:6808:1a0f:b0:401:bcae:68 with SMTP id
- 5614622812f47-404da765f99mr98534b6e.19.1747343633070; Thu, 15 May 2025
- 14:13:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250515130753.326236-1-luca.fancellu@arm.com>
- <CANNYZj9qTsHiDK-hHgNUN72+i--RamkCNt760Fa3ZjWkEzqSAA@mail.gmail.com>
- <6C8DA825-0E82-4776-9E56-55B17CF1052A@arm.com> <CANNYZj-71JnUvJb1tAZ34TGQX8RTwGB9ATUVc7-ptf+CemP+XA@mail.gmail.com>
- <1CB83516-B9EF-4381-85DE-59B4C55A031C@arm.com> <CAMKF1sr68GCyfXRMuS4cUBRL4jCEd4RUZ4GZrKN84R01w_gfSg@mail.gmail.com>
- <BEB697EE-4F8F-4832-9C8C-F149BE8E862B@arm.com> <CAMKF1srHjmPo-tcx2u5c15oZCNzFKu=NagkFFHQ1UCYdCWe9bA@mail.gmail.com>
- <5979472F-B748-4ADE-B950-636574096C3B@arm.com>
-In-Reply-To: <5979472F-B748-4ADE-B950-636574096C3B@arm.com>
+        bh=GQVAtP/1YLd89DJr/ee03vw+DDFVjDkd+B7XhmIN810=;
+        b=m6PI2MTNncBS2mh6qVNZJIfqbMlmZxemnJrpOZBmcehkuI307eWNJ121i5VRhJtW8k
+         UVMI6H0krSS9rPW6B0Qon57Jh1FTPmecByVhKpi4A8VhPnqklwxHIgRkG/ZJf5KlZR12
+         USMa4YyiRPAx97nDuNsxYOm1aca+vSp2hkiBY4+Rw56SFGxowpDFDDuYsm1VgERdJLjx
+         doUK5p4ZxrC7QRzweDCkgHxlsH17+WF7oSjBGV5SPRDdleeNG9s/Xtm9iye5ZlRCvlPD
+         3EF8+E5x2VCWvWDRWjnkV13iE1w83Ww3G+0A6Iky3YOu2aV+kmkbnEH96snrDOZkXpyt
+         Dw0A==
+X-Gm-Message-State: AOJu0Ywr1OqR92og9vLQ8AissyUZZW2boIBaBKRT5kVEHF43BRMvXwS0
+	H4KqwUfLmgSCKXGnR7o0WlXD2wPjNxibP4KwMQdL8BHt+hD0nnnbFIimSyQw2vJ/
+X-Gm-Gg: ASbGncvzLYdU3DCknyLLaz4nyxxqxy0u+phXjBUzuh5zSvz2ItX8rDPj0W+lmyG0V05
+	zGOS906+Jetn62j65dymuP7NCye1gyAk/0TyridfeM/4mWxtBA/fYetBxxIW57pBWVuDroVJRl9
+	mEGvS0DQapthxdgY35Ct0IUPt8zU8qMif4hHUHBnWJwdE6vfMKGdbEsPptEh5Agmw2n8NPtww6i
+	f4vEmN6KUA1oWSK86HlwbFO4ZEesm+A29uylLLJQ0WByDpohCNWCeJuJQxRtCf6QHV6JuHGc3J4
+	xdYl6PEfO60BG7JPG1m7gF9pXy4mDeDNC/waIXvgjVE=
+X-Google-Smtp-Source: AGHT+IF1PIWIficMqFi9kXOSwRHE6CfhrqDI5huswsx99Zfd7yLW0b46nvddwH4U3rK7VaZ892ln0g==
+X-Received: by 2002:a17:902:ea0d:b0:231:c9d1:962f with SMTP id d9443c01a7336-231d43c3e8amr13024745ad.29.1747344493310;
+        Thu, 15 May 2025 14:28:13 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4edb079sm2174115ad.253.2025.05.15.14.28.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 14:28:12 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 15 May 2025 14:13:42 -0700
-X-Gm-Features: AX0GCFvkyKib0HxrWaD_IlBdtFCkF0g4Y58U_LUVVJG1juT2CVdfyt2LskgMnJw
-Message-ID: <CAMKF1sqAXCiaau0jfDo3OgoG=LFc96_czB0yC7JDsC4S85jJHA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] clang: Include the libclang python bindings in
- the build
-To: Luca Fancellu <Luca.Fancellu@arm.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000008cc04e0635332484"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v3] opensbi: Pass CROSS_COMPILE and REPRODUCIBLE flags
+Date: Thu, 15 May 2025 14:28:10 -0700
+Message-ID: <20250515212810.3948564-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 21:13:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216707
+ <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 21:28:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216708
 
---0000000000008cc04e0635332484
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+When using clang pass LLVM=y to makefile so it can select needed bits
+using clang
 
-On Thu, May 15, 2025 at 1:57=E2=80=AFPM Luca Fancellu <Luca.Fancellu@arm.co=
-m> wrote:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: HOST_PREFIX instead of HOST_SYS is needed
+v3: Pass ldflags from env via EFLAGS
 
-> Hi Khem,
->
-> > On 15 May 2025, at 20:38, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Thu, May 15, 2025 at 11:48=E2=80=AFAM Luca Fancellu <Luca.Fancellu@a=
-rm.com>
-> wrote:
-> >>
-> >> Hi Khem,
-> >>
-> >>> On 15 May 2025, at 16:47, Khem Raj via lists.openembedded.org
-> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
-> >>>
-> >>> On Thu, May 15, 2025 at 6:52=E2=80=AFAM luca fancellu via
-> >>> lists.openembedded.org <luca.fancellu=3Darm.com@lists.openembedded.or=
-g>
-> >>> wrote:
-> >>>>
-> >>>> Hi Alex
-> >>>>
-> >>>>> On 15 May 2025, at 14:38, Alexander Kanavin <alex.kanavin@gmail.com=
->
-> wrote:
-> >>>>>
-> >>>>> On Thu, 15 May 2025 at 15:36, Luca Fancellu <Luca.Fancellu@arm.com>
-> wrote:
-> >>>>>>> Why? Can that be a PACKAGECONFIG?
-> >>>>>>
-> >>>>>> I used the same approach as lldb, why do you think we should use a
-> different approach?
-> >>>>>
-> >>>>> The request was to explain why this is beneficial, and should be
-> >>>>> always enabled. What is the use case specifically in clang?
-> >>>>
-> >>>> ok I see what you mean, the module will use some python bindings for
-> libclang, so I guess
-> >>>> some recipe could switch the feature on if using the module,
-> otherwise it should stay off
-> >>>> by default.
-> >>>>
-> >>>> Make sense, I=E2=80=99ll try to implement in that way
-> >>>
-> >>> Just measure build times before and after this change, my guess is it
-> >>> is not adding a significant amount, but do measure it.
-> >>
-> >> Is there a standard way to do that?
-> >
-> > enable buildstats and do a build before and after
-> > it should capture task times
->
-> Here a summary, let me know if I should paste a particular task/tasks:
->
-> with:
->
-> NOTE: Build completion summary:
-> NOTE:   do_populate_sysroot: 0.0% sstate reuse(0 setscene, 1 scratch)
-> NOTE:   do_deploy_source_date_epoch: 0.0% sstate reuse(0 setscene, 1
-> scratch)
-> NOTE:   do_create_spdx: 0.0% sstate reuse(0 setscene, 1 scratch)
-> NOTE:   do_create_package_spdx: 0.0% sstate reuse(0 setscene, 1 scratch)
-> NOTE:   do_recipe_qa: 0.0% sstate reuse(0 setscene, 1 scratch)
-> NOTE:   do_populate_lic: 0.0% sstate reuse(0 setscene, 1 scratch)
->
-> Host Info: Linux <hostname> 6.5.0-25-generic #25~22.04.1-Ubuntu SMP
-> PREEMPT_DYNAMIC Tue Feb 20 16:09:15 UTC 2 x86_64 x86_64
-> Build Started: 1747340234.36
-> Elapsed time: 1484.02 seconds
-> CPU usage: 71.1%
->
->
-> without:
->
-> NOTE: Build completion summary:
-> NOTE:   do_populate_sysroot: 0.0% sstate reuse(0 setscene, 1 scratch)
-> NOTE:   do_deploy_source_date_epoch: 0.0% sstate reuse(0 setscene, 1
-> scratch)
-> NOTE:   do_create_spdx: 0.0% sstate reuse(0 setscene, 1 scratch)
-> NOTE:   do_create_package_spdx: 0.0% sstate reuse(0 setscene, 1 scratch)
-> NOTE:   do_recipe_qa: 0.0% sstate reuse(0 setscene, 1 scratch)
-> NOTE:   do_populate_lic: 0.0% sstate reuse(0 setscene, 1 scratch)
->
-> Host Info: Linux <hostname> 6.5.0-25-generic #25~22.04.1-Ubuntu SMP
-> PREEMPT_DYNAMIC Tue Feb 20 16:09:15 UTC 2 x86_64 x86_64
-> Build Started: 1747338659.83
-> Elapsed time: 1294.93 seconds
-> CPU usage: 81.6%
+ ...lag-for-reprodubility-compiler-flags.patch | 49 +++++++++++++++++++
+ meta/recipes-bsp/opensbi/opensbi_1.6.bb       |  8 +--
+ 2 files changed, 54 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-bsp/opensbi/opensbi/0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch
 
-
-So it does seem to add 200s to build time perhaps make it a packageconfig
-
->
->
-> Cheers,
-> Luca
->
->
-
---0000000000008cc04e0635332484
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><br></div><div><br><div class=3D"gmail_quote gmail_quote_=
-container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 15, 2025 at 1:=
-57=E2=80=AFPM Luca Fancellu &lt;<a href=3D"mailto:Luca.Fancellu@arm.com">Lu=
-ca.Fancellu@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-Hi Khem,<br>
-<br>
-&gt; On 15 May 2025, at 20:38, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmai=
-l.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; On Thu, May 15, 2025 at 11:48=E2=80=AFAM Luca Fancellu &lt;<a href=3D"=
-mailto:Luca.Fancellu@arm.com" target=3D"_blank">Luca.Fancellu@arm.com</a>&g=
-t; wrote:<br>
-&gt;&gt; <br>
-&gt;&gt; Hi Khem,<br>
-&gt;&gt; <br>
-&gt;&gt;&gt; On 15 May 2025, at 16:47, Khem Raj via <a href=3D"http://lists=
-.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.=
-org</a> &lt;raj.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" =
-target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;&gt;&gt; <br>
-&gt;&gt;&gt; On Thu, May 15, 2025 at 6:52=E2=80=AFAM luca fancellu via<br>
-&gt;&gt;&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" t=
-arget=3D"_blank">lists.openembedded.org</a> &lt;luca.fancellu=3D<a href=3D"=
-mailto:arm.com@lists.openembedded.org" target=3D"_blank">arm.com@lists.open=
-embedded.org</a>&gt;<br>
-&gt;&gt;&gt; wrote:<br>
-&gt;&gt;&gt;&gt; <br>
-&gt;&gt;&gt;&gt; Hi Alex<br>
-&gt;&gt;&gt;&gt; <br>
-&gt;&gt;&gt;&gt;&gt; On 15 May 2025, at 14:38, Alexander Kanavin &lt;<a hre=
-f=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.co=
-m</a>&gt; wrote:<br>
-&gt;&gt;&gt;&gt;&gt; <br>
-&gt;&gt;&gt;&gt;&gt; On Thu, 15 May 2025 at 15:36, Luca Fancellu &lt;<a hre=
-f=3D"mailto:Luca.Fancellu@arm.com" target=3D"_blank">Luca.Fancellu@arm.com<=
-/a>&gt; wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Why? Can that be a PACKAGECONFIG?<br>
-&gt;&gt;&gt;&gt;&gt;&gt; <br>
-&gt;&gt;&gt;&gt;&gt;&gt; I used the same approach as lldb, why do you think=
- we should use a different approach?<br>
-&gt;&gt;&gt;&gt;&gt; <br>
-&gt;&gt;&gt;&gt;&gt; The request was to explain why this is beneficial, and=
- should be<br>
-&gt;&gt;&gt;&gt;&gt; always enabled. What is the use case specifically in c=
-lang?<br>
-&gt;&gt;&gt;&gt; <br>
-&gt;&gt;&gt;&gt; ok I see what you mean, the module will use some python bi=
-ndings for libclang, so I guess<br>
-&gt;&gt;&gt;&gt; some recipe could switch the feature on if using the modul=
-e, otherwise it should stay off<br>
-&gt;&gt;&gt;&gt; by default.<br>
-&gt;&gt;&gt;&gt; <br>
-&gt;&gt;&gt;&gt; Make sense, I=E2=80=99ll try to implement in that way<br>
-&gt;&gt;&gt; <br>
-&gt;&gt;&gt; Just measure build times before and after this change, my gues=
-s is it<br>
-&gt;&gt;&gt; is not adding a significant amount, but do measure it.<br>
-&gt;&gt; <br>
-&gt;&gt; Is there a standard way to do that?<br>
-&gt; <br>
-&gt; enable buildstats and do a build before and after<br>
-&gt; it should capture task times<br>
-<br>
-Here a summary, let me know if I should paste a particular task/tasks:<br>
-<br>
-with:<br>
-<br>
-NOTE: Build completion summary:<br>
-NOTE:=C2=A0 =C2=A0do_populate_sysroot: 0.0% sstate reuse(0 setscene, 1 scra=
-tch)<br>
-NOTE:=C2=A0 =C2=A0do_deploy_source_date_epoch: 0.0% sstate reuse(0 setscene=
-, 1 scratch)<br>
-NOTE:=C2=A0 =C2=A0do_create_spdx: 0.0% sstate reuse(0 setscene, 1 scratch)<=
-br>
-NOTE:=C2=A0 =C2=A0do_create_package_spdx: 0.0% sstate reuse(0 setscene, 1 s=
-cratch)<br>
-NOTE:=C2=A0 =C2=A0do_recipe_qa: 0.0% sstate reuse(0 setscene, 1 scratch)<br=
->
-NOTE:=C2=A0 =C2=A0do_populate_lic: 0.0% sstate reuse(0 setscene, 1 scratch)=
-<br>
-<br>
-Host Info: Linux &lt;hostname&gt; 6.5.0-25-generic #25~22.04.1-Ubuntu SMP P=
-REEMPT_DYNAMIC Tue Feb 20 16:09:15 UTC 2 x86_64 x86_64 <br>
-Build Started: 1747340234.36 <br>
-Elapsed time: 1484.02 seconds <br>
-CPU usage: 71.1% <br>
-<br>
-<br>
-without:<br>
-<br>
-NOTE: Build completion summary:<br>
-NOTE:=C2=A0 =C2=A0do_populate_sysroot: 0.0% sstate reuse(0 setscene, 1 scra=
-tch)<br>
-NOTE:=C2=A0 =C2=A0do_deploy_source_date_epoch: 0.0% sstate reuse(0 setscene=
-, 1 scratch)<br>
-NOTE:=C2=A0 =C2=A0do_create_spdx: 0.0% sstate reuse(0 setscene, 1 scratch)<=
-br>
-NOTE:=C2=A0 =C2=A0do_create_package_spdx: 0.0% sstate reuse(0 setscene, 1 s=
-cratch)<br>
-NOTE:=C2=A0 =C2=A0do_recipe_qa: 0.0% sstate reuse(0 setscene, 1 scratch)<br=
->
-NOTE:=C2=A0 =C2=A0do_populate_lic: 0.0% sstate reuse(0 setscene, 1 scratch)=
-<br>
-<br>
-Host Info: Linux &lt;hostname&gt; 6.5.0-25-generic #25~22.04.1-Ubuntu SMP P=
-REEMPT_DYNAMIC Tue Feb 20 16:09:15 UTC 2 x86_64 x86_64 <br>
-Build Started: 1747338659.83 <br>
-Elapsed time: 1294.93 seconds <br>
-CPU usage: 81.6% </blockquote><div dir=3D"auto"><br></div><div dir=3D"auto"=
->So it does seem to add 200s to build time perhaps make it a packageconfig=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-Cheers,<br>
-Luca<br>
-<br>
-</blockquote></div></div>
-
---0000000000008cc04e0635332484--
+diff --git a/meta/recipes-bsp/opensbi/opensbi/0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch b/meta/recipes-bsp/opensbi/opensbi/0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch
+new file mode 100644
+index 00000000000..e650476f50f
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/opensbi/0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch
+@@ -0,0 +1,49 @@
++From f4c440219f42d74bd3d6688132ea876f3f51e601 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 14 May 2025 19:50:24 -0700
++Subject: [PATCH] Makefile: Add flag for reprodubility compiler flags
++
++Provides mechanism to remove absolute paths from binaries using
++-ffile-prefix-map
++
++It will help distros (e.g. yocto based ones ) which want to ship
++the .elf files but need to scrub absolute paths in objects
++
++Upstream-Status: Submitted [https://lists.infradead.org/pipermail/opensbi/2025-May/008458.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Makefile | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/Makefile b/Makefile
++index e90836c7..22d4ecff 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -174,6 +174,11 @@ else
++ USE_LD_FLAG	=	-fuse-ld=bfd
++ endif
++ 
+++REPRODUCIBLE ?= n
+++ifeq ($(REPRODUCIBLE),y)
+++REPRODUCIBLE_FLAGS		+=	-ffile-prefix-map=$(src_dir)=
+++endif
+++
++ # Check whether the linker supports creating PIEs
++ OPENSBI_LD_PIE := $(shell $(CC) $(CLANG_TARGET) $(RELAX_FLAG) $(USE_LD_FLAG) -fPIE -nostdlib -Wl,-pie -x c /dev/null -o /dev/null >/dev/null 2>&1 && echo y || echo n)
++ 
++@@ -362,6 +367,7 @@ GENFLAGS	+=	$(firmware-genflags-y)
++ 
++ CFLAGS		=	-g -Wall -Werror -ffreestanding -nostdlib -fno-stack-protector -fno-strict-aliasing -ffunction-sections -fdata-sections
++ CFLAGS		+=	-fno-omit-frame-pointer -fno-optimize-sibling-calls
+++CFLAGS		+=	$(REPRODUCIBLE_FLAGS)
++ # Optionally supported flags
++ ifeq ($(CC_SUPPORT_VECTOR),y)
++ CFLAGS		+=	-DOPENSBI_CC_SUPPORT_VECTOR
++@@ -387,6 +393,7 @@ CPPFLAGS	+=	$(firmware-cppflags-y)
++ ASFLAGS		=	-g -Wall -nostdlib
++ ASFLAGS		+=	-fno-omit-frame-pointer -fno-optimize-sibling-calls
++ ASFLAGS		+=	-fPIE
+++ASFLAGS		+=	$(REPRODUCIBLE_FLAGS)
++ # Optionally supported flags
++ ifeq ($(CC_SUPPORT_SAVE_RESTORE),y)
++ ASFLAGS		+=	-mno-save-restore
+diff --git a/meta/recipes-bsp/opensbi/opensbi_1.6.bb b/meta/recipes-bsp/opensbi/opensbi_1.6.bb
+index ed1a70d01a1..c9dfcfbe4f1 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_1.6.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_1.6.bb
+@@ -9,8 +9,9 @@ require opensbi-payloads.inc
+ inherit deploy
+ 
+ SRCREV = "bd613dd92113f683052acfb23d9dc8ba60029e0a"
+-SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https"
+-
++SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https \
++           file://0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch \
++"
+ S = "${WORKDIR}/git"
+ 
+ TARGET_DBGSRC_DIR = "/share/opensbi/*/generic/firmware/"
+@@ -18,7 +19,8 @@ TARGET_DBGSRC_DIR = "/share/opensbi/*/generic/firmware/"
+ TARGET_CC_ARCH += "${LDFLAGS}"
+ 
+ RISCV_SBI_FW_TEXT_START ??= "0x80000000"
+-EXTRA_OEMAKE += "PLATFORM=${RISCV_SBI_PLAT} I=${D} FW_TEXT_START=${RISCV_SBI_FW_TEXT_START}"
++EXTRA_OEMAKE += "REPRODUCIBLE=y CROSS_COMPILE=${HOST_PREFIX} ELFFLAGS="${LDFLAGS}" PLATFORM=${RISCV_SBI_PLAT} I=${D} FW_TEXT_START=${RISCV_SBI_FW_TEXT_START}"
++EXTRA_OEMAKE:append:toolchain-clang = " LLVM=y"
+ # If RISCV_SBI_PAYLOAD is set then include it as a payload
+ EXTRA_OEMAKE:append = " ${@riscv_get_extra_oemake_image(d)}"
+ EXTRA_OEMAKE:append = " ${@riscv_get_extra_oemake_fdt(d)}"
 
