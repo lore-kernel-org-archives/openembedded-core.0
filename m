@@ -1,627 +1,238 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <luca.fancellu@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39472C2D0CD
-	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 17:58:46 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.web10.19256.1747331924379150918
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCDCC2D0CD
+	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 18:48:26 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.57])
+ by mx.groups.io with SMTP id smtpd.web10.20542.1747334902319241814
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 10:58:44 -0700
+ Thu, 15 May 2025 11:48:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=K05xtZ1b;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7053f85f059so11379187b3.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 10:58:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747331923; x=1747936723; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uHdl2ylfwbaGcUSycqFMAortIF/sJw6WSEnK6SaRjKs=;
-        b=K05xtZ1bx2nH4qtdCQWIbdjvbgwmYATa9vAJazG6q64ZJa/bP3dwvdX3z7V5QCbdZr
-         gXU059xYMuxhhiDuPYx66ko1o5ZyYdk97lWmhn4MP1QxA3eJkQIigJHF19febZMccfC7
-         GPVfxuQ6/kyzEemaij7lqHlrzkn/TbWADIhN+41Aqbgd/7sCoa/o697AKmgRTRGIUtRJ
-         DRcZdA3w5i5WJvSTgaFlFChNN0Qnckv2vL5K6fJ0v9Y4hIOrQF8sKSVbU2dc+Ixkq+dN
-         SoyI8eROdokLFvzNqOdbo9Izn/vZEFSoPhc5IyF7F6NHoM8vaeRYMyZwAbj1zvx7/jZq
-         HhSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747331923; x=1747936723;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uHdl2ylfwbaGcUSycqFMAortIF/sJw6WSEnK6SaRjKs=;
-        b=aK3+4a8TEZlt//e477Th0xGO3kzQ5Xq2jnzyB5eUi17SQynHSa0ZZLFmB9Ge+w6THd
-         l6wOZQ0qy28FUmPCc+1Hp1M9uw4tdSGHr7ephQUbSG3OI5o5fS7qicXliwN7Eysr+9oH
-         ZP4PbyaM1OuaM0rSK7CdYxre+NzWn+ucVR5hie85jee6KXHhKVkk3tDtEeSlZCZ+W7p7
-         fiA5pT48842UfkkQUoEea8CU0pA6KIQjpbVKfH37zdowTz7gijSI3MFavEGZRgYF/bnK
-         dEc0zlMrxYFMLUxWuHr1QMjibKX4QGgHTpy+ZS2CX0f/2VruzFXA/zi+IvnFPpq+lZln
-         vXlA==
-X-Gm-Message-State: AOJu0YxNd0ByNgplrkCAq0Hhp4dUj1KOFqnDyDwA9RVydgujEzBMdtvw
-	3lOfib7hD765WLlG6vcffAvLcc4frf+wLKC4yaipLKUgn+bieLfiqOtwfoU0RMdnqFO1IWBJEiO
-	mGuPLwUpyJOEMEIbxztW2hAopewJWqWe/Ghnjano=
-X-Gm-Gg: ASbGnculDMPE19jFfn63acxGi0wSWSJkZWWu1+KYmMaLJBz42ZlX1ATWPIkkx+3YtRy
-	0alDyowNo+dmQsMxw1LeD1z+0Rc2U+F6wD4Oy6wRublOK1tHsR6VJGiYBG3h4xyn99zcewtpqyr
-	Dy67i58YeHyOIOAgv8s952Cs0c8l4/jQqwqA==
-X-Google-Smtp-Source: AGHT+IFxvDAvT5mRgDhj4Q1Zk0Fwhqgecg2QJ3p9NbqA4dGIowT/5pahBPW0gnXJWHI0z0ygDQflHXnB7pxCATmCX9E=
-X-Received: by 2002:a05:690c:368c:b0:70c:8da5:6622 with SMTP id
- 00721157ae682-70ca79f429fmr9835287b3.18.1747331923237; Thu, 15 May 2025
- 10:58:43 -0700 (PDT)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=Vz2rkTz1;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=Vz2rkTz1;
+ spf=pass (domain: arm.com, ip: 40.107.105.57, mailfrom: luca.fancellu@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=ZtytXGgHisOMOk84lcHJIcYlR/p0LEAkgkfY+VDfU7ILLR8hHIq5VCwXHDeMr9Yf3xumLZCC+X97YYX/oVkfjJiQNJON7ibK5blLBTqmryQo6RSJB6AQGC71D4Ln2kQvphUCenoyS2ageAd+Q8138V3lH21zqahSCw4n2ij8pEjJZSf1EBJCQdNu+njk+MDunrkqX/n1t4kwWdB+LU9c/WjFWRm9RVTmnP/l5PcU3ZhzaQBJuENrDHBLxbWXqfE/gvVtcl/sYO3b8DObW5civDWJlWymufqR1QPrdnEtXnfDH+eR8emGUbbOR9PGvE4wibHkMvHLjWUlkBztr4VOJQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lYVbhttkAR/WpjseiEWqksSL0CdKhT4zIycnvhpJRr4=;
+ b=gAr4ss44C87SYIARDz7bFwqZUArBmVG1NF+u6BvHAmzsfjJQv6AuVHGTeH7AeRe45LwF8lGep0DhYOBeuZTlBN8yPHnZPPWbeAMGyJaSfq8R1gZUVHv3Vbr+ao1mI5qyFX7lNKlDdSz+Go1ia5jHMBWZwwlOPiDFVA9EhTL71A6s9ZFiMF5uVnSj0jAhj3xO8Fw6HQQat3jJ61Dk/dMFDGEt038y0rB+R5LF6hBtmlPnnyU+zKuc8l7uzZSlgHZ50vYmiqE2rsa8/oaJjjS8XXZ00D5WYawMyxFuYe7gPKFbIEPIB1tZApwiVmicj2wfms8K5bUaszkhEfadDghEAQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lYVbhttkAR/WpjseiEWqksSL0CdKhT4zIycnvhpJRr4=;
+ b=Vz2rkTz1h50QtqpKI5iyCKayP4AO9QPRiheTxDP17po1d2U2Z6UVHgegQrDorlJqBQh8LyMosCA9JHNJdM6L7aPN+jFIYgoeDPPVFBwj4aB6kc2aONTqmQMG75vVpsIOwPNXjNjXxHUdBawLm2SIvwm8TqFPIAvtFB75+uSrP3M=
+Received: from DUZPR01CA0137.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bc::10) by VI0PR08MB10458.eurprd08.prod.outlook.com
+ (2603:10a6:800:201::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Thu, 15 May
+ 2025 18:48:17 +0000
+Received: from DU2PEPF00028D11.eurprd03.prod.outlook.com
+ (2603:10a6:10:4bc:cafe::67) by DUZPR01CA0137.outlook.office365.com
+ (2603:10a6:10:4bc::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.19 via Frontend Transport; Thu,
+ 15 May 2025 18:48:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU2PEPF00028D11.mail.protection.outlook.com (10.167.242.25) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.18
+ via Frontend Transport; Thu, 15 May 2025 18:48:15 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y9KxdR2dpCeAywP50Iqds6aiO5oJLEKYe1uNJxsvg7zzU9Ec0kVvZ3g+5p1GsnwSxPl/A904Hb3/DjC2RnVLP9OBpdFRDXAdZ/OCbz1SHnNS6EQdTywKeq3ZSmpTgdztJpTEKDh6npNEN68D5MB5Tf+BLZFcYv66/uJen1KK97C0Wzt+otJIcDGthQUqXJa4W5bKsv7EGTEYyhMg5gqiQyoSSW4OCHEsESune7RvfpMs0fp5T3DmAIPy2KhbtnDeO9FcHcIZVwgOB5KD2JgGIwlBIPkJYFEbsWrPyn/x+1y4KVruxsDgYzFd3aO3AOdt51JHlS63/xWa7jvncv1PkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lYVbhttkAR/WpjseiEWqksSL0CdKhT4zIycnvhpJRr4=;
+ b=vE0Q4riAFY/9TrhE8257E6sCpNawn2PZkpm6bAGG5vEtk0qNyAeWDVglB9MBRXznseQJSwYzM9XQ5P6/Z3JVjysyI1eu8U82V5aU4E5o/7OKrlTk3Oh3JmBJYaVEPaJm/WB7IOMNTc1oO3lJiuc7tTjcR0/R8Pfxt664/UASrSK3L/H+pG77iMJAXV+rVNYIcb/HffYtu6n/r0H8JFb9eMldr0jY3BEwG8ueS7rETblDl4CwNfMYbsywIJM8LMRMMthVReU44LehZLCxWFPB04VXsgifIgCwaCtZqji9gKrsz0IlmMis6jD89boTn2Y6s6apiyA/2WXah2Ygp6Rn/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lYVbhttkAR/WpjseiEWqksSL0CdKhT4zIycnvhpJRr4=;
+ b=Vz2rkTz1h50QtqpKI5iyCKayP4AO9QPRiheTxDP17po1d2U2Z6UVHgegQrDorlJqBQh8LyMosCA9JHNJdM6L7aPN+jFIYgoeDPPVFBwj4aB6kc2aONTqmQMG75vVpsIOwPNXjNjXxHUdBawLm2SIvwm8TqFPIAvtFB75+uSrP3M=
+Received: from DB7PR08MB2987.eurprd08.prod.outlook.com (2603:10a6:5:1c::25) by
+ DB4PR08MB8077.eurprd08.prod.outlook.com (2603:10a6:10:387::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.30; Thu, 15 May 2025 18:47:38 +0000
+Received: from DB7PR08MB2987.eurprd08.prod.outlook.com
+ ([fe80::d53f:b16d:70a5:8668]) by DB7PR08MB2987.eurprd08.prod.outlook.com
+ ([fe80::d53f:b16d:70a5:8668%2]) with mapi id 15.20.8722.027; Thu, 15 May 2025
+ 18:47:38 +0000
+From: Luca Fancellu <Luca.Fancellu@arm.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>
+CC: Alexander Kanavin <alex.kanavin@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] clang: Include the libclang python bindings in
+ the build
+Thread-Topic: [OE-core] [PATCH] clang: Include the libclang python bindings in
+ the build
+Thread-Index: AQHbxZq5ZISzQqXBeki2/byi0MF8RbPTsSuAgAAA5ACAAAObAIAAIHSAgAAyMIA=
+Date: Thu, 15 May 2025 18:47:38 +0000
+Message-ID: <BEB697EE-4F8F-4832-9C8C-F149BE8E862B@arm.com>
+References: <20250515130753.326236-1-luca.fancellu@arm.com>
+ <CANNYZj9qTsHiDK-hHgNUN72+i--RamkCNt760Fa3ZjWkEzqSAA@mail.gmail.com>
+ <6C8DA825-0E82-4776-9E56-55B17CF1052A@arm.com>
+ <CANNYZj-71JnUvJb1tAZ34TGQX8RTwGB9ATUVc7-ptf+CemP+XA@mail.gmail.com>
+ <1CB83516-B9EF-4381-85DE-59B4C55A031C@arm.com>
+ <CAMKF1sr68GCyfXRMuS4cUBRL4jCEd4RUZ4GZrKN84R01w_gfSg@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sr68GCyfXRMuS4cUBRL4jCEd4RUZ4GZrKN84R01w_gfSg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.500.181.1.5)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	DB7PR08MB2987:EE_|DB4PR08MB8077:EE_|DU2PEPF00028D11:EE_|VI0PR08MB10458:EE_
+X-MS-Office365-Filtering-Correlation-Id: eb7e5752-4dbe-4d1b-85de-08dd93e10cff
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?SCtqbmlia2wvMVMxcVU3V04xMGdJSzBEY0hwLzFPUzdISDluTGFSZU02VlMz?=
+ =?utf-8?B?bjk5czFOc094U3lHdG4ybEtYTUg1dnUzYkNRRzNYMjdWWDkwRk1jM2dldU4x?=
+ =?utf-8?B?NVdzTFpjRjdBL0NKOXJMdUtZdWE0endoWWQzN05nVTNJL3JZd2kwVEliMEJj?=
+ =?utf-8?B?VWZFY3VvazdVelBTb1ZCajZhZDREeEVoVUVVdUVPWUJtYXE1ZW9XemUxaUZn?=
+ =?utf-8?B?Vm5JOUdDd1RXM3QxeTNUcWhTYnlSNnFNZlZNTkhxUlZuVnVpcm9QV1RuVWFV?=
+ =?utf-8?B?Vk04ZkdEcmFBdytxWkRjR0hsMUlrd3h3eFJTdklXVTIyeFRUUjZ1aEU1MXVF?=
+ =?utf-8?B?SStxTzZVQjJNei9zdEVDM3dGVkgzdzhRY1lyUENhVjhZa0djRnd0SFVZWGdn?=
+ =?utf-8?B?WklxOU1lVGFmVGZDQ1RndnB6K215bW9lUExFTTVsZkYzTTdYY2ViSEhocFFM?=
+ =?utf-8?B?SzhZMXdTNWhTQjl3WFVGMytVWEFSZkNHV25KV0xGZ01TZ0RjQSs3U29xUldY?=
+ =?utf-8?B?NXo0b0Z0OVo3d0lCQ2dyL1hDc3RPa05hUFBXbUZiQ1Z5U09SeE5WNStIWWp6?=
+ =?utf-8?B?dmpWbzgxQ0E1bm42NFlycDc1Qll2UlBaU0tsb3VVSFFMZFh3SkFxa09rNE9u?=
+ =?utf-8?B?MkhLMjRacXB3K1NabEtlbjYwbmE4dVR6Z0xvcDRPay9PK0czZ1I2U2IwbmFy?=
+ =?utf-8?B?Uyt5SUt3TjZRK1B4T2p1SkV6dllwVmFPb05tdUF3SExYQ0F6SVJXT2IySzNv?=
+ =?utf-8?B?Z1FTSzUrOG9IQWNVNlUwb3l2SVFDVDdWK0JwTWdYc05FVTRZc2tZcUpZMXVu?=
+ =?utf-8?B?eFJ2bGNwNEdjeUkzWnB4cnZ6QXBJVVdCY25TcnI0ejloUzhVVnhydTI3Y0Z5?=
+ =?utf-8?B?YmxMdEtVdGRwWnptRllkcU1SbU9hQW01WXZjMjAxNmxjbFRqOGFHWExSN2sw?=
+ =?utf-8?B?V1lIcHF6WFk2dS80OHVzdkNqcEJlbUE2VU5QSFVyR1Zod1g2Mkl3T3ZJZW00?=
+ =?utf-8?B?Nloxc1NNVFM1dnArRmVLQVg4ekRhaDArd2JPRXdiYlN6Z1R1RjhLUXI2U1Nl?=
+ =?utf-8?B?d2R4UnpONnQwZXlJZXB2K05XSWpteUdPU3lBK3B5WFF0Z2RmUEh0a1ludFRN?=
+ =?utf-8?B?V1BrNjJ3a1VmbTB0VVU4bVhDOU5UZFB6Q0owNzNPdk5ob3FXNGZwMUtZMG01?=
+ =?utf-8?B?NG5PUUNNNW5reFE1aVR6QnhxT0laaUYvQlRFVWFQVGRZRXl0NFJLQ216U3Y5?=
+ =?utf-8?B?VngrRUh2ajFuOXFudjVBNU5qZzMvTzR3MCtPM3QvSWtFWVAvV3l0RHhRR2c2?=
+ =?utf-8?B?UXdpQXE0cXJRbTlJTjZEa0o3aS9jOWJSSzl2S1J6WktUU05KUEtwN2tXZHdM?=
+ =?utf-8?B?aU5pNE52cWtPNk5ka2FINVBYUXNwa2hlWWNqc1Y5Ry9lVkpjNDRQamlCVGRk?=
+ =?utf-8?B?aWpwZE1ydkJMaHdTMWtZTEh0K2hLYjJtdUxTSk9zeXZSeDdoN0dwU0xxUVZM?=
+ =?utf-8?B?bTRYelVoWU11SkZ5SFhCaWpQNDBjKzNqVWFKSWFwQ01XN3B4aEJ5SWI5SFBO?=
+ =?utf-8?B?Wk04Y3BFdkViRnVMK3N3cWFFQlp3LzlXZEtEL2lsb2Y3d1VkU0gwU251V0tB?=
+ =?utf-8?B?NW1tTVJGdjFiRllOblQ0VEh1QXlLc0FieUUvMmVaeHZ0SnN1Y2daNHlnQmZG?=
+ =?utf-8?B?TG94ckpxNzY5RFVpRUh6dlZXZ2s1ZllrdmhsSnhnRW1nMlNmYUJxejgwc1Nw?=
+ =?utf-8?B?UkdxQU02REZLZVMrM0xRUWw3aDJVWk9lSmtRUStpSUxhUVV0U2JGMSt3YmFn?=
+ =?utf-8?B?bFMxUFhVOHBsYmRxdGlIRHVEVUZOeGNEUmRXMGVWaTJKdlcvQ1dySDlvRTQ3?=
+ =?utf-8?B?cVhoelUrWVNWcHFuMy9xNEZYY2ZFYmRxT1hsdFZhUnkxa1FaMFBGRkIvZi9F?=
+ =?utf-8?B?QmRpb1o2N1lkUHNNcUJYbENpQ3JrNFZVemhYNEU5bldjSnVRWkwxRGg0aFVk?=
+ =?utf-8?B?dHN4VGk1dmhnPT0=?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR08MB2987.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <030F5D3AB0BF904F9B07034E8090C130@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20250513035520.147573-2-vince@underview.tech>
-In-Reply-To: <20250513035520.147573-2-vince@underview.tech>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 15 May 2025 13:58:30 -0400
-X-Gm-Features: AX0GCFvr9AdlhBtKKUYHOaK4dn2zHycLpo-UiotMIt3n23KYIaDJGNc-UbFCx_Y
-Message-ID: <CADkTA4O0-G7ZuQj=H4MqO4aYwwZvQzYPa1TPmOR+hvwTJ5SikQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] linux-yocto: build out-of-tree drivers with SDK
-To: vince@underview.tech
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000096e5cf0635306a97"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB8077
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU2PEPF00028D11.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	8a6e76cc-df97-4715-cdae-08dd93e0f6f4
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|35042699022|14060799003|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?eHRMTW1XN2FKdjFSRkRoUy9qdExubW1PakNwQ1lqMGI0MFN0MWEwMzg1dDRM?=
+ =?utf-8?B?YmphMjhBUWtKZEJhM3YwSEdRUEUxdzE1cTdZaHZYazVEczFjUzRsTlBaMEVu?=
+ =?utf-8?B?akN0MXZIK2ZLVkhDVWFFUlNqcGUya21HaU5qaTJaWUJGVDRqZndaWk9lSmJp?=
+ =?utf-8?B?ekFoREE5ellBSUcvY1c1SnpRaTBtOXBOZEJoTlNpdU5VZzh1WWNiZElDb1hh?=
+ =?utf-8?B?WkRqeGJrc3N0V09hbWdFQkF5VE1JU3pWSTZFeUVPeWdzK2sxa21MNjBUYVo3?=
+ =?utf-8?B?WVdjMUtFS05RRDYzYkwwcTNHUldkUEQ0ZVRxdkVSVldSN3N6N1hnMkJxdVFp?=
+ =?utf-8?B?YysybU9uRVZvQSsxTlFFa3ovNDBjQUpjOE1WRzh2QVo4S3BuWUdlRkRhL29x?=
+ =?utf-8?B?UkhCTUgva1JNT3IweWJ5SXErRkxrc2xtcnQ4RW5lVFdDbkQwdS9EdzBMU0hv?=
+ =?utf-8?B?SkxidUx0TmRMZ2Z5YWx5bWlndDl5cFdqSFNZUHh1SC91Zmk5MWhLMmZrRUkz?=
+ =?utf-8?B?L1ZpeGxSZGtoK2JEa2plbUVlUHBqZTRzczYxUDlyMkVnSkR6bzNmSlFKVDRV?=
+ =?utf-8?B?djVrN3RGNkZra3plazA5MlNGZmVrUnBzdUo1RHFvaGRhbnFaL0hDSE9wY2Jh?=
+ =?utf-8?B?d01wUHBjZ0tHb3RwTU1FdVVpMmNxbytLUjZuejdqbTBObUlDQ1Y4SHJsQ1VK?=
+ =?utf-8?B?RThxQmlrSGFlZzJPNXdFK2Evd1ZuSnJXWVJuRnhxWC9YMG5EeHdzS0QrYVc2?=
+ =?utf-8?B?djNNQjBUWEt3Ry9hQmc1US9DVEhTSGRjWTR0RkJCMFVINUs1cXFrbVBjZzh3?=
+ =?utf-8?B?UXF5NkdKWnpDWSt4Y3M2U0lWK1JBSzcrWDl5T1FkOXE4V0haNEpLMWp3YkFK?=
+ =?utf-8?B?dnRYN1M4RVJEdU9xN3pRNTVtcXQ2MG9VV1ZtRHNrYWtKY1VNODAvcUdDeXJF?=
+ =?utf-8?B?TWg0T09HUWV0cjBVcEorR3J1NkJFbFJPL1hWSGlBWW5jSG1yeGRhZGhDZGlo?=
+ =?utf-8?B?L25ERGJPbDRxbEcxY3RpL0NsUzl2QUkycHJGREc2dTI5a01VZlNJOUNBaUtJ?=
+ =?utf-8?B?RDNodVdhSi9IWlZpQjNqV3hRY2lvbXpYejF6ZUp0Ty9BUEJ1V25CWjAxVFVB?=
+ =?utf-8?B?UEhMRlRxbmlpSFNYUllLR1RUcEdROS9YR0YvZXBpM1V0MVczSVVzb084ejh5?=
+ =?utf-8?B?OEFLeXZHb3NNZ3E3ZzVKekZPKzlRdXNLRkljenpsZXRoamRDUUNqTFBqUmF3?=
+ =?utf-8?B?ZWl5Nit5UnowU0hPdE0xbDZ0WThjdnBZVk5OT05DUkdSSzNHYmljaEgxNDhw?=
+ =?utf-8?B?SmVjRjZ1ZkY2MjJPSVlsN3plSHg3djRSZ3pGTzBLaWd5S3ZHKytWOG9nNklT?=
+ =?utf-8?B?QnVFTW1JcWdEN0krYXdLak81QlRkcHIvWWRubytKdm9vdTFOSnB3UlFtV21K?=
+ =?utf-8?B?M1BzTmhHcnJJYnFJWUd5UUJEZnNDcHRtdGwxS1JONWJuZHhRSDFjUUh0V21S?=
+ =?utf-8?B?SDZ5bUZUeDF6eFptZzd3aW9IdS9yK3M3SytQVGhiU1NWbmdLNUtvWEFZZ0Zj?=
+ =?utf-8?B?U2UyQnlXUVVFYnM0QW43YmdMZXdrLzZ6MEhpb3hoR3hKbkVDNm02WnNZYVQz?=
+ =?utf-8?B?MjlrWFdIc1kvV1JOVTNtdWpUNnYrNktjOTZwRHRwNDU2cUY2VkY2UXYzWHRr?=
+ =?utf-8?B?anV4dlUzblluTUUxdDBjVlZJS2dxNFE0clhFWXA0SmdvcjFmWWMyYzFkZWd5?=
+ =?utf-8?B?YmZFbmtXeGwvb1JQWEhkUjhsN0JZbVd1Q0QyOVlaNG1lcmNNakYvRllEeS9x?=
+ =?utf-8?B?eGpDa0lsT1NLSVdrYlFwVDE5Z0FKMThQZnFDZFkxSjhzcVFWdlp4UTY2UFJW?=
+ =?utf-8?B?YnFlelFtc0VrRjgyUWxJVGgzS0NMUFNxWTI3dXpVWDFNVXB5aFJaTUNjY1JS?=
+ =?utf-8?B?cHVKYUQ2eWwrckVCOTZZSE9GYnlMelV2eFB0YlJJOGp2WXE2WkRqWnBhSGtW?=
+ =?utf-8?B?aUdNaG5ac2JESkRCUklWQVRleENGYzRMenZHckFLQWo5UjFOd1dtYzI1OVVF?=
+ =?utf-8?Q?n0UMFN?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(35042699022)(14060799003)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 18:48:15.0483
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb7e5752-4dbe-4d1b-85de-08dd93e10cff
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU2PEPF00028D11.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10458
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 17:58:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216701
+ <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 18:48:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216702
 
---00000000000096e5cf0635306a97
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, May 12, 2025 at 11:55=E2=80=AFPM Vincent Davis Jr via lists.openemb=
-edded.org
-<vince=3Dunderview.tech@lists.openembedded.org> wrote:
-
-> Attached patch enables the compilation
-> of out-of-tree drivers whilst utilizing
-> the Yocto built SDK.
->
-> Signed-off-by: Vincent Davis Jr <vince@underview.tech>
-> ---
->  ...-add-KCFLAGS-to-build-with-Yocto-SDK.patch | 65 +++++++++++++++++++
->  meta/recipes-kernel/linux/linux-yocto-dev.bb  |  4 ++
->  .../linux/linux-yocto-rt_6.12.bb              |  4 ++
->  .../linux/linux-yocto-tiny_6.12.bb            |  4 ++
->  meta/recipes-kernel/linux/linux-yocto_6.12.bb |  4 ++
->  5 files changed, 81 insertions(+)
->  create mode 100644
-> meta/recipes-kernel/linux/files/0001-Makefile-add-KCFLAGS-to-build-with-Y=
-octo-SDK.patch
->
-> diff --git
-> a/meta/recipes-kernel/linux/files/0001-Makefile-add-KCFLAGS-to-build-with=
--Yocto-SDK.patch
-> b/meta/recipes-kernel/linux/files/0001-Makefile-add-KCFLAGS-to-build-with=
--Yocto-SDK.patch
-> new file mode 100644
-> index 0000000000..edf6a8480f
-> --- /dev/null
-> +++
-> b/meta/recipes-kernel/linux/files/0001-Makefile-add-KCFLAGS-to-build-with=
--Yocto-SDK.patch
-> @@ -0,0 +1,65 @@
-> +From e48021f480428b5e34d299261029bfafdf0e3a2f Mon Sep 17 00:00:00 2001
-> +From: Vincent Davis Jr <vince@underview.tech>
-> +Date: Sun, 11 May 2025 19:57:46 -0400
-> +Subject: [PATCH] Makefile: add KCFLAGS to build with Yocto SDK
-> +
-> +Upstream-Status: Pending
-> +
-> +When running
-> +
-> +make -C \
-> +"${SDKTARGETSYSROOT}/lib/modules/<kernel version>/build" \
-> +modules_prepare
-> +
-> +Issues that are encountered include
-> +
-> +make -f ./Makefile syncconfig
-> +make -f ./scripts/Makefile.build obj=3Dscripts/basic
-> +   92 | #include <sys/types.h>
-> +      |          ^~~~~~~~~~~~~
-> +compilation terminated.
-> +
-> +ld: cannot find Scrt1.o: No such file or directory
-> +ld: cannot find crti.o: No such file or directory
-> +ld: cannot find crtbeginS.o: No such file or directory
-> +ld: cannot find -lgcc: No such file or directory
-> +ld: cannot find -lgcc_s: No such file or directory
-> +ld: cannot find -lc: No such file or directory
-> +ld: cannot find -lgcc: No such file or directory
-> +ld: cannot find -lgcc_s: No such file or directory
-> +ld: cannot find crtendS.o: No such file or directory
-> +ld: cannot find crtn.o: No such file or directory
-> +
-> +Solved by setting KCFLAGS as the yocto project SDK
-> +KCFLAGS is set to --sysroot=3D"${SDKTARGETSYSROOT}".
-> +
-> +Signed-off-by: Vincent Davis Jr <vince@underview.tech>
-> +---
-> + Makefile | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index 64c514f4bc19..bbe7b0503841 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -459,7 +459,7 @@ HOSTRUSTC =3D rustc
-> + HOSTPKG_CONFIG        =3D pkg-config
-> +
-> + KBUILD_USERHOSTCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-prototyp=
-es \
-> +-                       -O2 -fomit-frame-pointer -std=3Dgnu11
-> ++                       -O2 -fomit-frame-pointer -std=3Dgnu11 $(KCFLAGS)
-> + KBUILD_USERCFLAGS  :=3D $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
-> + KBUILD_USERLDFLAGS :=3D $(USERLDFLAGS)
-> +
-> +@@ -491,7 +491,7 @@ KBUILD_HOSTCXXFLAGS :=3D -Wall -O2 $(HOST_LFS_CFLAGS=
-)
-> $(HOSTCXXFLAGS) \
-> +                      -I $(srctree)/scripts/include
-> + KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cstrip=3Ddebuginfo \
-> +                       -Zallow-features=3D $(HOSTRUSTFLAGS)
-> +-KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
-> ++KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS) $(KCFLAGS)
->
-
-This needs to be explained more.
-
-our eSDK and ontarget building and testing of out of tree kernel modules
-work fine
-without this.  The eSDK uses the sysroot, and that is done via the
-definition of
-the compiler.
-
-Is there a reason why that won't work here ?
-
-You could also just overload the HOST_* flags variables versus adding
-something
-completely new.
-
-
-
-> + KBUILD_HOSTLDLIBS   :=3D $(HOST_LFS_LIBS) $(HOSTLDLIBS)
-> + KBUILD_PROCMACROLDFLAGS :=3D $(or
-> $(PROCMACROLDFLAGS),$(KBUILD_HOSTLDFLAGS))
-> +
-> +--
-> +2.43.0
-> +
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> index 4b1f93a692..43ad4c4791 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> @@ -20,6 +20,10 @@ KMETA =3D "kernel-meta"
->  SRC_URI =3D "git://
-> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name=3Dmachi=
-ne;protocol=3Dhttps
-> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D;=
-name=3Dmachine;protocol=3Dhttps>
-> \
->             git://
-> git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=
-=3Dmaster;destsuffix=3D${KMETA};protocol=3Dhttps
-> <http://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;=
-branch=3Dmaster;destsuffix=3D$%7BKMETA%7D;protocol=3Dhttps>
-> "
->
-> +# Appears to be the only way to build out-of-tree
-> +# kernel drivers with the yocto project SDK.
-> +SRC_URI +=3D
-> "file://0001-Makefile-add-KCFLAGS-to-build-with-Yocto-SDK.patch"
-> +
->  # Set default SRCREVs. Both the machine and meta SRCREVs are statically
-> set
->  # to the korg v3.7 tag, and hence prevent network access during parsing.
-> If
->  # linux-yocto-dev is the preferred provider, they will be overridden to
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> index 6560175461..3f34dbf87d 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> @@ -20,6 +20,10 @@ SRCREV_meta ?=3D
-> "a50ff542f8d79235030741f9e850d34768907d2d"
->  SRC_URI =3D "git://
-> git.yoctoproject.org/linux-yocto.git;branch=3D${KBRANCH};name=3Dmachine;p=
-rotocol=3Dhttps
-> <http://git.yoctoproject.org/linux-yocto.git;branch=3D$%7BKBRANCH%7D;name=
-=3Dmachine;protocol=3Dhttps>
-> \
->             git://
-> git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=
-=3Dyocto-6.12;destsuffix=3D${KMETA};protocol=3Dhttps
-> <http://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;=
-branch=3Dyocto-6.12;destsuffix=3D$%7BKMETA%7D;protocol=3Dhttps>
-> "
->
-> +# Appears to be the only way to build out-of-tree
-> +# kernel drivers with the yocto project SDK.
-> +SRC_URI +=3D
-> "file://0001-Makefile-add-KCFLAGS-to-build-with-Yocto-SDK.patch"
-> +
->  LINUX_VERSION ?=3D "6.12.27"
->
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7=
-e46"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> index cf6014efad..aab465e9dd 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> @@ -25,6 +25,10 @@ PV =3D "${LINUX_VERSION}+git"
->  SRC_URI =3D "git://
-> git.yoctoproject.org/linux-yocto.git;branch=3D${KBRANCH};name=3Dmachine;p=
-rotocol=3Dhttps
-> <http://git.yoctoproject.org/linux-yocto.git;branch=3D$%7BKBRANCH%7D;name=
-=3Dmachine;protocol=3Dhttps>
-> \
->             git://
-> git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=
-=3Dyocto-6.12;destsuffix=3D${KMETA};protocol=3Dhttps
-> <http://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;=
-branch=3Dyocto-6.12;destsuffix=3D$%7BKMETA%7D;protocol=3Dhttps>
-> "
->
-> +# Appears to be the only way to build out-of-tree
-> +# kernel drivers with the yocto project SDK.
-> +SRC_URI +=3D
-> "file://0001-Makefile-add-KCFLAGS-to-build-with-Yocto-SDK.patch"
-> +
->  COMPATIBLE_MACHINE =3D "^(qemux86|qemux86-64|qemuarm64|qemuarm|qemuarmv5=
-)$"
->
->  # Functionality flags
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> index fefed8c9c5..b5efcc0192 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> @@ -43,6 +43,10 @@ KBRANCH:class-devupstream =3D "v6.12/base"
->  SRC_URI =3D "git://
-> git.yoctoproject.org/linux-yocto.git;name=3Dmachine;branch=3D${KBRANCH};p=
-rotocol=3Dhttps
-> <http://git.yoctoproject.org/linux-yocto.git;name=3Dmachine;branch=3D$%7B=
-KBRANCH%7D;protocol=3Dhttps>
-> \
->             git://
-> git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=
-=3Dyocto-6.12;destsuffix=3D${KMETA};protocol=3Dhttps
-> <http://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;=
-branch=3Dyocto-6.12;destsuffix=3D$%7BKMETA%7D;protocol=3Dhttps>
-> "
->
-> +# Appears to be the only way to build out-of-tree
-> +# kernel drivers with the yocto project SDK.
-> +SRC_URI +=3D
-> "file://0001-Makefile-add-KCFLAGS-to-build-with-Yocto-SDK.patch"
-> +
->
-
-linux-yocto patches go to the linux-yocto mailing list for integration.
-
-But I think there are other ways to solve / work around this, so no need to
-send it there immediately.
-
-Bruce
-
-
-
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7=
-e46"
->  LINUX_VERSION ?=3D "6.12.27"
->
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216393):
-> https://lists.openembedded.org/g/openembedded-core/message/216393
-> Mute This Topic: https://lists.openembedded.org/mt/113084730/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---00000000000096e5cf0635306a97
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 12, 2025 at 11:55=
-=E2=80=AFPM Vincent Davis Jr via <a href=3D"http://lists.openembedded.org">=
-lists.openembedded.org</a> &lt;vince=3D<a href=3D"mailto:underview.tech@lis=
-ts.openembedded.org">underview.tech@lists.openembedded.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">Attached patch en=
-ables the compilation<br>
-of out-of-tree drivers whilst utilizing<br>
-the Yocto built SDK.<br>
-<br>
-Signed-off-by: Vincent Davis Jr &lt;vince@underview.tech&gt;<br>
----<br>
-=C2=A0...-add-KCFLAGS-to-build-with-Yocto-SDK.patch | 65 ++++++++++++++++++=
-+<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a>=C2=A0 |=C2=A0 4 ++=
-<br>
-=C2=A0.../linux/<a href=3D"http://linux-yocto-rt_6.12.bb" rel=3D"noreferrer=
-" target=3D"_blank">linux-yocto-rt_6.12.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++<br>
-=C2=A0.../linux/<a href=3D"http://linux-yocto-tiny_6.12.bb" rel=3D"noreferr=
-er" target=3D"_blank">linux-yocto-tiny_6.12.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a> |=C2=A0 4 ++<br>
-=C2=A05 files changed, 81 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/0001-Makefile-add-=
-KCFLAGS-to-build-with-Yocto-SDK.patch<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/files/0001-Makefile-add-KCFLAGS-to-b=
-uild-with-Yocto-SDK.patch b/meta/recipes-kernel/linux/files/0001-Makefile-a=
-dd-KCFLAGS-to-build-with-Yocto-SDK.patch<br>
-new file mode 100644<br>
-index 0000000000..edf6a8480f<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/0001-Makefile-add-KCFLAGS-to-build-wi=
-th-Yocto-SDK.patch<br>
-@@ -0,0 +1,65 @@<br>
-+From e48021f480428b5e34d299261029bfafdf0e3a2f Mon Sep 17 00:00:00 2001<br>
-+From: Vincent Davis Jr &lt;vince@underview.tech&gt;<br>
-+Date: Sun, 11 May 2025 19:57:46 -0400<br>
-+Subject: [PATCH] Makefile: add KCFLAGS to build with Yocto SDK<br>
-+<br>
-+Upstream-Status: Pending<br>
-+<br>
-+When running<br>
-+<br>
-+make -C \<br>
-+&quot;${SDKTARGETSYSROOT}/lib/modules/&lt;kernel version&gt;/build&quot; \=
-<br>
-+modules_prepare<br>
-+<br>
-+Issues that are encountered include<br>
-+<br>
-+make -f ./Makefile syncconfig<br>
-+make -f ./scripts/Makefile.build obj=3Dscripts/basic<br>
-+=C2=A0 =C2=A092 | #include &lt;sys/types.h&gt;<br>
-+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~~~<br>
-+compilation terminated.<br>
-+<br>
-+ld: cannot find Scrt1.o: No such file or directory<br>
-+ld: cannot find crti.o: No such file or directory<br>
-+ld: cannot find crtbeginS.o: No such file or directory<br>
-+ld: cannot find -lgcc: No such file or directory<br>
-+ld: cannot find -lgcc_s: No such file or directory<br>
-+ld: cannot find -lc: No such file or directory<br>
-+ld: cannot find -lgcc: No such file or directory<br>
-+ld: cannot find -lgcc_s: No such file or directory<br>
-+ld: cannot find crtendS.o: No such file or directory<br>
-+ld: cannot find crtn.o: No such file or directory<br>
-+<br>
-+Solved by setting KCFLAGS as the yocto project SDK<br>
-+KCFLAGS is set to --sysroot=3D&quot;${SDKTARGETSYSROOT}&quot;.<br>
-+<br>
-+Signed-off-by: Vincent Davis Jr &lt;vince@underview.tech&gt;<br>
-+---<br>
-+ Makefile | 4 ++--<br>
-+ 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-+<br>
-+diff --git a/Makefile b/Makefile<br>
-+index 64c514f4bc19..bbe7b0503841 100644<br>
-+--- a/Makefile<br>
-++++ b/Makefile<br>
-+@@ -459,7 +459,7 @@ HOSTRUSTC =3D rustc<br>
-+ HOSTPKG_CONFIG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D pkg-config<br>
-+ <br>
-+ KBUILD_USERHOSTCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-prototypes=
- \<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0-O2 -fomit-frame-pointer -std=3Dgnu11<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0-O2 -fomit-frame-pointer -std=3Dgnu11 $(KCFLAGS)<br>
-+ KBUILD_USERCFLAGS=C2=A0 :=3D $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)<br>
-+ KBUILD_USERLDFLAGS :=3D $(USERLDFLAGS)<br>
-+ <br>
-+@@ -491,7 +491,7 @@ KBUILD_HOSTCXXFLAGS :=3D -Wall -O2 $(HOST_LFS_CFLAGS) =
-$(HOSTCXXFLAGS) \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 -I $(srctree)/scripts/include<br>
-+ KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cstrip=3Ddebuginfo \<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0-Zallow-features=3D $(HOSTRUSTFLAGS)<br>
-+-KBUILD_HOSTLDFLAGS=C2=A0 :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)<br>
-++KBUILD_HOSTLDFLAGS=C2=A0 :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS) $(KCFLAG=
-S)<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=
-=3D"font-size:small">This needs to be explained more.</div><div class=3D"gm=
-ail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_defaul=
-t" style=3D"font-size:small">our eSDK and ontarget building and testing of =
-out of tree kernel modules work fine</div><div class=3D"gmail_default" styl=
-e=3D"font-size:small">without this.=C2=A0 The eSDK uses the sysroot, and th=
-at is done via the definition of</div><div class=3D"gmail_default" style=3D=
-"font-size:small">the compiler.</div><div class=3D"gmail_default" style=3D"=
-font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:=
-small">Is there a reason why that won&#39;t work here ?<br class=3D"gmail-A=
-pple-interchange-newline"></div><div class=3D"gmail_default" style=3D"font-=
-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small=
-">You could also just overload the HOST_* flags variables versus adding som=
-ething</div><div class=3D"gmail_default" style=3D"font-size:small">complete=
-ly new.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
-iv></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-+ KBUILD_HOSTLDLIBS=C2=A0 =C2=A0:=3D $(HOST_LFS_LIBS) $(HOSTLDLIBS)<br>
-+ KBUILD_PROCMACROLDFLAGS :=3D $(or $(PROCMACROLDFLAGS),$(KBUILD_HOSTLDFLAG=
-S))<br>
-+ <br>
-+-- <br>
-+2.43.0<br>
-+<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb=
-" rel=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a> b/meta/recipe=
-s-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">linux-yocto-dev.bb</a><br>
-index 4b1f93a692..43ad4c4791 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a><br>
-@@ -20,6 +20,10 @@ KMETA =3D &quot;kernel-meta&quot;<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/linux-=
-yocto-dev.git;branch=3D$%7BKBRANCH%7D;name=3Dmachine;protocol=3Dhttps" rel=
-=3D"noreferrer" target=3D"_blank">git.yoctoproject.org/linux-yocto-dev.git;=
-branch=3D${KBRANCH};name=3Dmachine;protocol=3Dhttps</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://git.yocto=
-project.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dmaster;des=
-tsuffix=3D$%7BKMETA%7D;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blan=
-k">git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=
-=3Dmaster;destsuffix=3D${KMETA};protocol=3Dhttps</a>&quot;<br>
-<br>
-+# Appears to be the only way to build out-of-tree<br>
-+# kernel drivers with the yocto project SDK.<br>
-+SRC_URI +=3D &quot;file://0001-Makefile-add-KCFLAGS-to-build-with-Yocto-SD=
-K.patch&quot;<br>
-+<br>
-=C2=A0# Set default SRCREVs. Both the machine and meta SRCREVs are statical=
-ly set<br>
-=C2=A0# to the korg v3.7 tag, and hence prevent network access during parsi=
-ng. If<br>
-=C2=A0# linux-yocto-dev is the preferred provider, they will be overridden =
-to<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.1=
-2.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a> b/met=
-a/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" rel=3D"nor=
-eferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a><br>
-index 6560175461..3f34dbf87d 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a><br>
-@@ -20,6 +20,10 @@ SRCREV_meta ?=3D &quot;a50ff542f8d79235030741f9e850d3476=
-8907d2d&quot;<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/linux-=
-yocto.git;branch=3D$%7BKBRANCH%7D;name=3Dmachine;protocol=3Dhttps" rel=3D"n=
-oreferrer" target=3D"_blank">git.yoctoproject.org/linux-yocto.git;branch=3D=
-${KBRANCH};name=3Dmachine;protocol=3Dhttps</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://git.yocto=
-project.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-6.12=
-;destsuffix=3D$%7BKMETA%7D;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_=
-blank">git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;bra=
-nch=3Dyocto-6.12;destsuffix=3D${KMETA};protocol=3Dhttps</a>&quot;<br>
-<br>
-+# Appears to be the only way to build out-of-tree<br>
-+# kernel drivers with the yocto project SDK.<br>
-+SRC_URI +=3D &quot;file://0001-Makefile-add-KCFLAGS-to-build-with-Yocto-SD=
-K.patch&quot;<br>
-+<br>
-=C2=A0LINUX_VERSION ?=3D &quot;6.12.27&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6bc538ed5bd9a7fc93980=
-86aedcd7e46&quot;<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6=
-.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a> b=
-/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a><br>
-index cf6014efad..aab465e9dd 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a><br>
-@@ -25,6 +25,10 @@ PV =3D &quot;${LINUX_VERSION}+git&quot;<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/linux-=
-yocto.git;branch=3D$%7BKBRANCH%7D;name=3Dmachine;protocol=3Dhttps" rel=3D"n=
-oreferrer" target=3D"_blank">git.yoctoproject.org/linux-yocto.git;branch=3D=
-${KBRANCH};name=3Dmachine;protocol=3Dhttps</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://git.yocto=
-project.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-6.12=
-;destsuffix=3D$%7BKMETA%7D;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_=
-blank">git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;bra=
-nch=3Dyocto-6.12;destsuffix=3D${KMETA};protocol=3Dhttps</a>&quot;<br>
-<br>
-+# Appears to be the only way to build out-of-tree<br>
-+# kernel drivers with the yocto project SDK.<br>
-+SRC_URI +=3D &quot;file://0001-Makefile-add-KCFLAGS-to-build-with-Yocto-SD=
-K.patch&quot;<br>
-+<br>
-=C2=A0COMPATIBLE_MACHINE =3D &quot;^(qemux86|qemux86-64|qemuarm64|qemuarm|q=
-emuarmv5)$&quot;<br>
-<br>
-=C2=A0# Functionality flags<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.b=
-b" rel=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a> b/meta/reci=
-pes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=3D"noreferrer" =
-target=3D"_blank">linux-yocto_6.12.bb</a><br>
-index fefed8c9c5..b5efcc0192 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a><br>
-@@ -43,6 +43,10 @@ KBRANCH:class-devupstream =3D &quot;v6.12/base&quot;<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/linux-=
-yocto.git;name=3Dmachine;branch=3D$%7BKBRANCH%7D;protocol=3Dhttps" rel=3D"n=
-oreferrer" target=3D"_blank">git.yoctoproject.org/linux-yocto.git;name=3Dma=
-chine;branch=3D${KBRANCH};protocol=3Dhttps</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://git.yocto=
-project.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-6.12=
-;destsuffix=3D$%7BKMETA%7D;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_=
-blank">git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;bra=
-nch=3Dyocto-6.12;destsuffix=3D${KMETA};protocol=3Dhttps</a>&quot;<br>
-<br>
-+# Appears to be the only way to build out-of-tree<br>
-+# kernel drivers with the yocto project SDK.<br>
-+SRC_URI +=3D &quot;file://0001-Makefile-add-KCFLAGS-to-build-with-Yocto-SD=
-K.patch&quot;<br>
-+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D=
-"font-size:small">linux-yocto patches go to the linux-yocto mailing list fo=
-r integration.</div><div class=3D"gmail_default" style=3D"font-size:small">=
-<br></div><div class=3D"gmail_default" style=3D"font-size:small">But I thin=
-k there are other ways to solve / work around this, so no need to</div><div=
- class=3D"gmail_default" style=3D"font-size:small">send it there immediatel=
-y.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><d=
-iv class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6bc538ed5bd9a7fc93980=
-86aedcd7e46&quot;<br>
-=C2=A0LINUX_VERSION ?=3D &quot;6.12.27&quot;<br>
-<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#216393): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/216393" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/216393</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113084730/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/113084730/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---00000000000096e5cf0635306a97--
+SGkgS2hlbSwNCg0KPiBPbiAxNSBNYXkgMjAyNSwgYXQgMTY6NDcsIEtoZW0gUmFqIHZpYSBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnIDxyYWoua2hlbT1nbWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZz4gd3JvdGU6DQo+IA0KPiBPbiBUaHUsIE1heSAxNSwgMjAyNSBhdCA2OjUy4oCvQU0gbHVj
+YSBmYW5jZWxsdSB2aWENCj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8bHVjYS5mYW5jZWxsdT1h
+cm0uY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IHdyb3RlOg0KPj4gDQo+PiBIaSBBbGV4
+DQo+PiANCj4+PiBPbiAxNSBNYXkgMjAyNSwgYXQgMTQ6MzgsIEFsZXhhbmRlciBLYW5hdmluIDxh
+bGV4LmthbmF2aW5AZ21haWwuY29tPiB3cm90ZToNCj4+PiANCj4+PiBPbiBUaHUsIDE1IE1heSAy
+MDI1IGF0IDE1OjM2LCBMdWNhIEZhbmNlbGx1IDxMdWNhLkZhbmNlbGx1QGFybS5jb20+IHdyb3Rl
+Og0KPj4+Pj4gV2h5PyBDYW4gdGhhdCBiZSBhIFBBQ0tBR0VDT05GSUc/DQo+Pj4+IA0KPj4+PiBJ
+IHVzZWQgdGhlIHNhbWUgYXBwcm9hY2ggYXMgbGxkYiwgd2h5IGRvIHlvdSB0aGluayB3ZSBzaG91
+bGQgdXNlIGEgZGlmZmVyZW50IGFwcHJvYWNoPw0KPj4+IA0KPj4+IFRoZSByZXF1ZXN0IHdhcyB0
+byBleHBsYWluIHdoeSB0aGlzIGlzIGJlbmVmaWNpYWwsIGFuZCBzaG91bGQgYmUNCj4+PiBhbHdh
+eXMgZW5hYmxlZC4gV2hhdCBpcyB0aGUgdXNlIGNhc2Ugc3BlY2lmaWNhbGx5IGluIGNsYW5nPw0K
+Pj4gDQo+PiBvayBJIHNlZSB3aGF0IHlvdSBtZWFuLCB0aGUgbW9kdWxlIHdpbGwgdXNlIHNvbWUg
+cHl0aG9uIGJpbmRpbmdzIGZvciBsaWJjbGFuZywgc28gSSBndWVzcw0KPj4gc29tZSByZWNpcGUg
+Y291bGQgc3dpdGNoIHRoZSBmZWF0dXJlIG9uIGlmIHVzaW5nIHRoZSBtb2R1bGUsIG90aGVyd2lz
+ZSBpdCBzaG91bGQgc3RheSBvZmYNCj4+IGJ5IGRlZmF1bHQuDQo+PiANCj4+IE1ha2Ugc2Vuc2Us
+IEnigJlsbCB0cnkgdG8gaW1wbGVtZW50IGluIHRoYXQgd2F5DQo+IA0KPiBKdXN0IG1lYXN1cmUg
+YnVpbGQgdGltZXMgYmVmb3JlIGFuZCBhZnRlciB0aGlzIGNoYW5nZSwgbXkgZ3Vlc3MgaXMgaXQN
+Cj4gaXMgbm90IGFkZGluZyBhIHNpZ25pZmljYW50IGFtb3VudCwgYnV0IGRvIG1lYXN1cmUgaXQu
+DQoNCklzIHRoZXJlIGEgc3RhbmRhcmQgd2F5IHRvIGRvIHRoYXQ/DQoNCk90aGVyd2lzZSBJ4oCZ
+bGwgZG8ganVzdDogdGltZSBiaXRiYWtlIC1jIGJ1aWxkIDxyZWNpcGU+DQoNCkxldCBtZSBrbm93
+Lg0KDQpDaGVlcnMsDQpMdWNhDQoNCg==
 
