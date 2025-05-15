@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB5CC5AD49
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F1C0C5B542
 	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 12:32:00 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.11262.1747312313830576133
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.11025.1747312305912840272
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 05:31:53 -0700
+ Thu, 15 May 2025 05:31:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Rws80DcN;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ACTxgJMQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010196d3ee03f8-e0d6001d-1acf-475a-bfba-ad4380c874ca-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fzmtlwIg;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=sUEZMAJE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010196d3edfce2-08fa5b0f-784b-49d4-b949-2e8f80596008-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1747312313;
+	t=1747312311;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BIBtkBqSiiPc5SZw9y2X+2fl/8DCTlPruW4Gllq8qCU=;
-	b=Rws80DcNm1ZT7aD6pr2BcTa+5UciWgq8wbx04UtrG8Gmv57SzBN9FCSaGYsSyx4p
-	49tUNd+z4PxaSx1s6AdkL5BJFeYOGowAyr64zcIT7ATbD48Txrx1WSDuiQNBsxCCYju
-	Tv9QHXqrgD2Zv/j79jQbEhSgvT8rcx7JEihf0TU8=
+	bh=y3E7zrOqSmsU090u3Ue+7ftDYp57NyiBpwkXQ/AxTVc=;
+	b=fzmtlwIge6WMUWF87udBn/weiEHsq/rysAde30SgJp8CSzmVSrUm5ozTNbarwOKt
+	78QCOe6Lt+xm7259PjPH1iAOtTJG7MwdyjT9whK4YyZ7DiB1nrx0WsVNTjivX3yzuBU
+	ZqfUdIEcnDzrItm+651eOpOyoeq9Ea9nVydR7uPM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312313;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312311;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BIBtkBqSiiPc5SZw9y2X+2fl/8DCTlPruW4Gllq8qCU=;
-	b=ACTxgJMQS4SD9FYlpSQlxW7TC8TpRVMLAis/0ZVBokXi7+eULSQ4BzWGGuKjd69v
-	ZXczg0wyNzZKHC2K1ikWupeJKj9k7B5LXhr8F3x3f6p1I4wkXYI6Tt4javb1wdJCw3V
-	8uwq2kGiED/ipLwl5m7eoqUZCos9QkRiPyhBwLh0=
-Content-Type: multipart/mixed; boundary="===============4418154725735296384=="
+	bh=y3E7zrOqSmsU090u3Ue+7ftDYp57NyiBpwkXQ/AxTVc=;
+	b=sUEZMAJEb4qCkP6Rw4uAIjKgtOIMAltscepRL1Gi9hYUiOCx/v8L6Q+8MjHqWsD5
+	r6QSn2v4/m9z2uk0upKPCasYlIkodbj6SgCC3FvQ25xmuDKqjFAlk4eLNw3PEWqdiN5
+	Y7VOXnsaTJnbnInGpywqnp4nJZMlznC3X9b9uwB0=
+Content-Type: multipart/mixed; boundary="===============5977914179502915462=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pseudo: upgrading to 1.9.2 FAILED
-Message-ID: <01010196d3ee03f8-e0d6001d-1acf-475a-bfba-ad4380c874ca-000000@us-west-2.amazonses.com>
-Date: Thu, 15 May 2025 12:31:53 +0000
+Subject: [AUH] patch: upgrading to 2.8 FAILED
+Message-ID: <01010196d3edfce2-08fa5b0f-784b-49d4-b949-2e8f80596008-000000@us-west-2.amazonses.com>
+Date: Thu, 15 May 2025 12:31:51 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.15-54.240.27.193
+X-SES-Outgoing: 2025.05.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 12:32:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216607
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216602
 
---===============4418154725735296384==
+--===============5977914179502915462==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *pseudo* to *1.9.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *patch* to *2.8* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade pseudo -V 1.9.2 -S b4645cb30573c5b3d5e94b9d50e1e2f8beefe9be
+The following devtool command failed:  upgrade patch -V 2.8
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1916 entries from dependency cache.
@@ -78,19 +78,23 @@ meta-yocto-bsp
 workspace            = "tmp-auh-upgrades:d6cb5bcffa10e997aa052d01b007c7eafe02bd8f"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+Sstate summary: Wanted 11 Local 9 Mirrors 0 Missed 2 Current 18 (81% match, 93% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+Log data follows:
+| rm: cannot remove '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/patch/2.7.6/devtooltmp-3j3zoko6/workdir/sources-unpack/patch-2.7.6': Directory not empty
+NOTE: Tasks Summary: Attempted 95 tasks of which 90 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250515074718.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250515074718.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Extracting upgraded version source...
-ERROR: Revision b4645cb30573c5b3d5e94b9d50e1e2f8beefe9be was found on multiple branches: 
-  
-Please provide the correct branch in the devtool command with "--srcbranch" or "-B" option.
+ERROR: Command '['rm', '-rf', '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/patch/2.7.6/devtooltmp-3j3zoko6/workdir/sources-unpack']' returned non-zero exit status 1.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/patch/2.7.6/devtooltmp-3j3zoko6/temp/log.do_unpack.374409
+ERROR: Extracting source for patch failed
 
 
 Please review the attached files for further information and build/update failures.
@@ -98,5 +102,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4418154725735296384==--
+--===============5977914179502915462==--
 
