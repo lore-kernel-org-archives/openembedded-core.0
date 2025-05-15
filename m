@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50DB5C54FB3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD04C54F32
 	for <webhook@archiver.kernel.org>; Thu, 15 May 2025 12:32:00 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.11030.1747312308491238990
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.11034.1747312311270508458
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 05:31:58 -0700
+ Thu, 15 May 2025 05:31:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=mwm5m22G;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YzOhdvgT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010196d3ee16fc-1f543d3d-8013-4a2b-83c4-be001dd30950-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=u9D9qXN7;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=SZ3VEWGY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010196d3edf98c-43d83aa2-4a35-46a9-a739-11f9d1bea273-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1747312318;
+	t=1747312310;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FIquVQNE74RQznM6GRAgNMaz7pFrZz/MVmAXN6gIZ1M=;
-	b=mwm5m22Gez3JKo06x1FReHtv1/vPKZ7MeJITEWAMbdZ2WWZu1hRgG/ki+XS4YACb
-	0BSqErqAc07J3QqEYZSPZeoavucqmui2ESyEnmNy9dnBHcqQh2bY8Fd2s+YcivAVKDB
-	pcO9rB/lBSYc2TocG8FU+fLHCnW0OE6y7k0iSn+o=
+	bh=zjdBVi4U5R6PSgcEvGhMb4tCZymA/2vNfufiFUAKJBw=;
+	b=u9D9qXN7FCKvzV/HmDRobWPzGuQDfJFbt9RrY3uiOIKyJvQ1hS6cyX6+jUbHXRBz
+	JHz/rh5MgNAGlmFDX7by55N+Fa8bI+M4WY5KtEyzO5fwm2SfdpIqys/HfqFvOuid+zy
+	Q69lzjFmfKIyhmipClXhXPXEoBycvTAn3HQopL4U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312318;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1747312310;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FIquVQNE74RQznM6GRAgNMaz7pFrZz/MVmAXN6gIZ1M=;
-	b=YzOhdvgT4uuJasSrx1zqhOMRI9Y3PVCeTGWBV6yK9GFKy0ywUiZU0a5beRGNS/wM
-	ZIRGtOiRoX6X0Ed0x9uYUjTREyh+dW/UvnRlcl5RakTeMlYO1KfXp8W9fMltDW838xr
-	aPKwkKr5stz4oS2T1RDnqG5jlMwmIGOyjENy4X3k=
-Content-Type: multipart/mixed; boundary="===============5064079573607088637=="
+	bh=zjdBVi4U5R6PSgcEvGhMb4tCZymA/2vNfufiFUAKJBw=;
+	b=SZ3VEWGYPMczaIY4QYldWlAHLYGqsocwXCxCQSwqGzZkkbxsfNRt2W4yoyE86b+n
+	39xqkKcsBr6zFnoup6Ev/VsTA0zxjF39K70JZtCafA9fNzlU/UCpbVkTeEwhmgpFpsT
+	4jvsJm3mWLqH8iGA/ugRuZiWzey8FqaidLsoE4kE=
+Content-Type: multipart/mixed; boundary="===============0720040523407222858=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: 
-	=?utf-8?b?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aSA8emJvc3pvckBnbWFpbC5jb20+?=@yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rpm-sequoia: upgrading to 1.8.0 FAILED
-Message-ID: <01010196d3ee16fc-1f543d3d-8013-4a2b-83c4-be001dd30950-000000@us-west-2.amazonses.com>
-Date: Thu, 15 May 2025 12:31:58 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] ovmf: upgrading to edk2-stable202502 FAILED
+Message-ID: <01010196d3edf98c-43d83aa2-4a35-46a9-a739-11f9d1bea273-000000@us-west-2.amazonses.com>
+Date: Thu, 15 May 2025 12:31:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.05.15-54.240.27.192
+X-SES-Outgoing: 2025.05.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 12:32:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216623
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216596
 
---===============5064079573607088637==
+--===============0720040523407222858==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,14 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *rpm-sequoia* to *1.8.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *ovmf* to *edk2-stable202502* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade rpm-sequoia -V 1.8.0 -S 29545a41b24cb09e37aa85722a333e0924166d13
+The following devtool command failed:  upgrade ovmf -V edk2-stable202502 -S fbe0805b2091393406952e84724188f8c1941837
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1916 entries from dependency cache.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -75,7 +76,7 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:54f5db8eeb9b13c7b6fb6dee6341e7a1b908f489"
+workspace            = "tmp-auh-upgrades:8a14156b57b9ac2b4fa9a5eb905d108ac96395f5"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
@@ -87,8 +88,9 @@ NOTE: Writing buildhistory took: 1 seconds
 
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-ERROR: Execution of 'git checkout 29545a41b24cb09e37aa85722a333e0924166d13' failed with exit code 128:
-fatal: unable to read tree (29545a41b24cb09e37aa85722a333e0924166d13)
+INFO: Rebasing devtool onto fbe0805b2091393406952e84724188f8c1941837
+ERROR: Execution of 'git rev-list devtool-base..f4153a09f87cbb9c826d8fc12c74642bb2d879ea' failed with exit code 128:
+fatal: Invalid revision range devtool-base..f4153a09f87cbb9c826d8fc12c74642bb2d879ea
 
 
 
@@ -97,5 +99,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5064079573607088637==--
+--===============0720040523407222858==--
 
