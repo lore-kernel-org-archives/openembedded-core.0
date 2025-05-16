@@ -1,252 +1,189 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F4D0C3ABD8
-	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 09:30:54 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.9262.1747387844821103487
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C503C54755
+	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 09:31:54 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.9361.1747387907015127032
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 May 2025 02:30:45 -0700
+ Fri, 16 May 2025 02:31:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ExSBMZ/E;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a1fb17bb8cso1414287f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 02:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1747387843; x=1747992643; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fw4TbKx2smkS2M5r0FdInB3udmn0CkfzD6iyWP8Gxvg=;
-        b=ExSBMZ/Eei/IKEqTOejCF+gtZG9TxRleQPe4XsV+rBt3GJCMoA/HuAb4nbpZ5IFyzN
-         9w9SkaSwi62VT2XB5N+0xPgicKQQGBkMv66/ej4AYyXaenfL4gBcZzWr0W8StoZQuKwC
-         17OPRNt9zdO4uG+ZiQ+VdM5X9bmec2Ofr9vu0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747387843; x=1747992643;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fw4TbKx2smkS2M5r0FdInB3udmn0CkfzD6iyWP8Gxvg=;
-        b=ZOaxNRpzetl0zp3Q6tgUk703kjZeP5KYofj92izQ/6N1sSWT/aqFUOccPzi+B8sZXI
-         kfh7U/PcW5MCj3t0JtO5Me9gK+YBPRFA9VpbR4DOaGx+ovHlRaQbaGjhyhX1HI6ZN5Wu
-         HF+JBBG1hI/MN4xz1vqnodWCBEGiznBp4NQPxHxkRG4E2JSErKD6y+O+eFPAKJ1M4kmq
-         3LyoSjzJd8wu+2YU7ZUevuHTacdS8xUeRebU4v2pNdaH8s75D0fqS29QHhlQ7UXacD0+
-         22qRdFfW9iXTYoguSB1ltan5MSv7Je4Pjz23OBlF9Soq2tFf+97uXFYrxzI8DUsxqFCK
-         Toug==
-X-Gm-Message-State: AOJu0YwVwX+QUmzYmyoFkhyVYlSt2e0SPEegpuCGG4CuitgwfZztMMkt
-	FTz0k7GfFD5XtQE1nVG2U9n/MK5aSZe6ssUaspEg70qZ1u+5/o9GcZ8Q4nwNIgGs2uLMC1Z7u50
-	Iq9Pt+sdp3bUe6WtY34obfoyD6sE+qOzugGyClZRlXQ==
-X-Gm-Gg: ASbGnctHIrNGkvhjfo2/hQBq6LUTsAA0EUMi7iHWDs5iDH3rheWS0q3fTz4Oo+qmwDi
-	vJnq9Llo3gS/LGw5FgbsSAEr0mu/m4Jh39woDHIGt8jTwK1siIAbU3Q+kr1vFH2mmjQxehJ5sSZ
-	C8htwNdS/DemDAUnsILCmCIi3jIOt7FPsF8MCf29d5VnPIP9vdUDLDIneuZL8T/G2xan0=
-X-Google-Smtp-Source: AGHT+IGsi3oO5oV5e4IbUoRnNK29PSYW68FuG0a0bsXflUHSHCxMyYwsBSl34fCPBHEhcnUQ95z1KCfM+OnDgB/yvJE=
-X-Received: by 2002:a05:6000:2012:b0:39c:1f0e:95af with SMTP id
- ffacd0b85a97d-3a35c821c15mr2668806f8f.3.1747387842673; Fri, 16 May 2025
- 02:30:42 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=723171ed67=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54G2GZSR014858
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 02:31:46 -0700
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46netchg16-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 02:31:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tV5M59le5qiBY0yWAGjC+W4spgD8rFGFVw3qWJnREnxMtLd7UCIlNUM4pP/w0e6W12rT5B4n8q/tLoF/i++hekDFCVuRICLyo6Dx5MlvxEV8wiGFKZZnjBxqc2SqwgKmiCAizRN/x0LLlTA3W6nY0wKV90QpeJLquFkMi5v1YeIEA9uWX2FfZLkiV4sZNGZfQhYx2kMy7GbPaFWvNpW27dW+49n9LaEO9wN1eZy/fU1xtndwe9YXEFJJVo8Qf/1LQ8tSP1w2wvJNXM5P/6rBlaWroEtLSGVUpjhHyz3lmM0X/HFquNIUDXioBL9ZIzE6TDx5d5UsN+Q9oaMHijkVLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SOh2EWc+3T/rWvjkbYIopwzdQOlcgq9T7R6NpEUoDDU=;
+ b=Lt+ZSeT4QJbjum3DTVzbswsObYvLhNSJpU7ld/nxW830DdKkzhLEdbzB6arktI+UXvFkpo+7wo3vXvGBHHrPWk95GOkmGvFJ5OrkeYiJ9Zcrd+6v94s0HnwJ7xohZRB3ptb9VtHhmYv5+P1yrPIVJwtrBkpuI/Jfk2OUHCoDzFqOUQATgziWzbXniLCp03YODAONKCk3AUnJheYJADJAJw3fvliApntwBgIzB95+gH6WZ/FDqaaIoPk6zZqlmncfxVgbMU3+jTMH6lyOwtyLjTYu3fymWEPkTs1S/6RP8uDQWxisjapZAk6e1mfzx0sjItSJ2HuoeuMtk1IzODnAHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
+ IA1PR11MB6396.namprd11.prod.outlook.com (2603:10b6:208:3ab::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.32; Fri, 16 May
+ 2025 09:31:44 +0000
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad%4]) with mapi id 15.20.8722.031; Fri, 16 May 2025
+ 09:31:44 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] psmisc: fix runtime version when using git shallow tarball
+Date: Fri, 16 May 2025 17:31:27 +0800
+Message-Id: <20250516093127.506158-2-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250516093127.506158-1-yi.zhao@windriver.com>
+References: <20250516093127.506158-1-yi.zhao@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCPR01CA0137.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b7::13) To DS0PR11MB6399.namprd11.prod.outlook.com
+ (2603:10b6:8:c8::5)
 MIME-Version: 1.0
-References: <20250516090910.972704-2-ines.kchelfi@smile.fr>
-In-Reply-To: <20250516090910.972704-2-ines.kchelfi@smile.fr>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Fri, 16 May 2025 11:30:16 +0200
-X-Gm-Features: AX0GCFsTEVbIkPpTSvsXEEoydQvq9obHb_jrJ7vjq4-HoewQTehbL3Y31dJUdUY
-Message-ID: <CAMSfU+4ijT-ebF-WzTKow58C6_nPabgvk7kJ1mwGfgcsv6AOVQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] insane.bbclass: Add unimplemented-ptest
- detection for cargo-based tests
-To: ines.kchelfi@smile.fr
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000a5de7f06353d6f8c"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|IA1PR11MB6396:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8d8339e-714e-4390-3633-08dd945c78fa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?k2YsC3LtAg6efKeTlptxTUH7pegA9e+kT5ZhTw9f9H2ze9To0Pud9qfMcB3n?=
+ =?us-ascii?Q?xgdoSfIIMENgdnn5jF4Lma951hziYcQi33S4ygORW5zLUUdqtBhppf+Ie25N?=
+ =?us-ascii?Q?bElSRNA8PtcuGTO54MHxYA0pQc2r8kYLAxTBEZv60GaMuwkFl0Vb+32L8sL/?=
+ =?us-ascii?Q?nrqZ+DJdwBqTEXrWwmJmMiMSvgwj2pYJamsl7Lx4TgBO/wRzUx5wvs64xrXr?=
+ =?us-ascii?Q?L2E+CMqkQ7yUSTbnVnh7M+Lrsp6YJR0UswCErWxBA01YBnrCwJI1QVSpXvHJ?=
+ =?us-ascii?Q?MiQcAcAUQCMIhVVUe5E4/2nysyKurbnYmZaPyZKau3LDscK/0/Reo4U9uvYV?=
+ =?us-ascii?Q?zA27nPEggzixcISnR2mecmunDeoVWhAcotI+c+TZmrYBYEQeaSJ/rO9LdG6Q?=
+ =?us-ascii?Q?TQAUVdXM1D0HjILYdvDgn/xISPCQx8Lu/oQyodvS65fAD8fBgG892zazSmub?=
+ =?us-ascii?Q?fCu7+uCy7c29mJw9L6FbI2NOIwjqoi9pRTXHNxCG2dmfSfDKRDDcVSmq0ior?=
+ =?us-ascii?Q?O3P+wEwjs0I7orjOxzCoxa5001hpTnSOdiU0rZdvGXDJLE1yYzoz/pvw1Kc2?=
+ =?us-ascii?Q?r+FB+GA0SOe4IuSGjsXQZDtz2Qn0aP+OavYhI435J29VufNUbwwRCWtkLmV8?=
+ =?us-ascii?Q?yRLNYJtYe80G717beToqrFdKTK3T/0GluFTRgQX7Rv0ig75IuOyvRGPDo0vQ?=
+ =?us-ascii?Q?6XF8ZCNa9DIRMycE9Geo+rWN8sDme9En/SNv7wq5gsNighw7rWx5wCRPZeK0?=
+ =?us-ascii?Q?OgQKGLqklz2h6zbF55jRi3PnxpI0B9V5eVo/8iViaMEdyo4I9wB2HJc01nEo?=
+ =?us-ascii?Q?QfhCPykSEqJ9hM8tuP2/umlo5CE35ofQKnIzu+NCcZFSXXRhXkZW5xBEknYD?=
+ =?us-ascii?Q?ASqpjw/dZk9tyxluj3udNRECIak+s8hygEtBf9yFLoIQGPsVIq42z82zeNCT?=
+ =?us-ascii?Q?CPY7DTZDA2w7ad5/d4wyIJl7HtrVqOZEpCX5aC/j5OCphj1X/SDELdTMe7jH?=
+ =?us-ascii?Q?wH/MGc/fHxjHOe84RyrERlOQu/kgXv4kqPxCRQL+Q2lDKLL1KJBNO0h8+Ggw?=
+ =?us-ascii?Q?Edg3q97N4Mo4XzYJBGmFhxC+7Gg8H0ss1RinSefO/DPikKEeQeUddj0xQmQU?=
+ =?us-ascii?Q?XirV8lWl+0gcOjG1yeacFvlFHbg+I6EXX/llipoRcACNFsyDEIQ1SaOnHt1A?=
+ =?us-ascii?Q?lqC9Xdk1zuo5SK9z791TZDiLxtYEQnqC07BOpuhIC+WoAUCy+Y5NmyuHuimb?=
+ =?us-ascii?Q?KnA0p4+9BGWcDxGwjtYLNTMHLZD8uuy1+mL3AiLKpSAD6r31Ve799D7JxmIX?=
+ =?us-ascii?Q?/WgCpGuotMutgyE+M59yFQ4kYUkcM/2esB+/PaAHZ8Gb/3cfBhEHBRuYzpG7?=
+ =?us-ascii?Q?+8rpGgM85acbVYKtU0hzW8LXtpVIcGJlX/NfMFT5FY3ioTJgGnOmaw9lNipE?=
+ =?us-ascii?Q?sCUyIkncp3o+l0ZngKIOwiFu/x252ACKNapOuRVgnfB+hVTxOP6JXQ=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?LxceWWKyF0Kh0NWvmZOIhYCsnnpF/XpbRzeyqr9QCfXWG9IvTaRttKbObZhk?=
+ =?us-ascii?Q?sxci15uPLwLAlk/m7GKEvWOaRa45I/zWVdsFgoFOXQ3acoBoh3Yvsvc668zZ?=
+ =?us-ascii?Q?Iw2OXentcEtERi7XUr0jO1IYqA1sNHB3bhkEs8BLnyPPqleaCivGeBWeyfUP?=
+ =?us-ascii?Q?3JUXGhc32dhesCfVO0u40JHA+6v1rvIlHUxtt5WEZsnI9G+g9ZiOXsEyI1pR?=
+ =?us-ascii?Q?L9QmC6W3v+wGvhUNhkvzqDo7XsTOaAj325YAYl1djQYh8nROiJtDS/j0Eiqb?=
+ =?us-ascii?Q?Am5BmOYX4gjOmgekeMEKtCwyH2QjewH2wbF51aAdxdjI9LbS7398oh6t1+Lp?=
+ =?us-ascii?Q?axGaQpmb6DI7raDgD147TxPZaxlOS4dXX6L6EcQfpMrGe5wqFGQh4A/kIgub?=
+ =?us-ascii?Q?VAMH8tQREiUir8JalLc3EiQI5MQ1cb0XEmHqcuFCnIh5GO8ZlSyCfax2gKS4?=
+ =?us-ascii?Q?FB6aVXP+Ap3nGvCIFz6Z7X3LqHJh2jkW0i1Yk6GsGlQzQaqX1MOFCJK8jZ90?=
+ =?us-ascii?Q?2LYQxhVRFpnyYqqCeOeEWpxyZ5j7ctNQz2HDBXdAh5tPqMJgy3n87HaZMjBs?=
+ =?us-ascii?Q?ksjGmgZKjyvAz1bnWPALPHn7s8+tCwLoRQ8qErcotsLsTcRoEJ8BS6cjc2Sb?=
+ =?us-ascii?Q?GIKncv5dMbJ0gLfzDUM2VKhDUiTpbPmBW+OIIqp6dX0RlD1yF4ooSRQb71Um?=
+ =?us-ascii?Q?5rdoU8vJKU3I3R15MxfefLcvUMg57B6g7kkAoRPgAEe4H0UmE+X2p8NT900I?=
+ =?us-ascii?Q?2p4YvvXJ0kK9si/tUgVZsbRKiYfppsqMI2QImiohiuEIaX62o5kitLgY4+92?=
+ =?us-ascii?Q?l9uFk3tCsKOE7SAszp9xk/HG40adUMGBamRcuAzPliwWAC7YPm9dXz+0IQvL?=
+ =?us-ascii?Q?Sc24mGnQoJ6XAlfmAmu190z4ZGAY09ye6mtft9NTpuMzA4ugONz68B/Xh5PH?=
+ =?us-ascii?Q?J4jrCmt9ilz4g6aYYDxKlaOBV1aymanS0tHzmW9OinF+3PBr1F3YK6ReDP3P?=
+ =?us-ascii?Q?hzyKJumbv/wr2Py74x5s4yOZ7ZLhUOtivwqj5iy1SCC8XGIz1Ak9pYSTwdxt?=
+ =?us-ascii?Q?2JCqTRAKmIsFwlF2ExvGaHsk6dYn8xroy4auiqHDdjmFRHyYcbVACMZnfwW9?=
+ =?us-ascii?Q?Z7cKluk64I0F07djTvqXgmjvJKERS7mnD/TL2sOGaOvc7KwuejrRJH/U0tJC?=
+ =?us-ascii?Q?TE/fOIR74WbQgji7EuQ8UgKDURJTp0+SgRN/oH5W+kCwh3gJju/FmvB8MVRm?=
+ =?us-ascii?Q?FTC/8O7pk9fpDDobDI8jSWbeB+12/XUQlip3pPfepEZYEJn+Bb4OVdtCA2VN?=
+ =?us-ascii?Q?TGveqIDhSsUzlAgpRwVtyAQmgIOyvDUsCMH7aizDXer9XhcWZxezGGkgV4tr?=
+ =?us-ascii?Q?oo5gq4uRc1lXLpK2B00ZbfG8k3W4eHkiygGuJT90dxdqobxwsyjMVvTXLrd5?=
+ =?us-ascii?Q?ElT2AfeTqC419IOAVZ/wEa4q4K3wezhlXSFFv/Le5wvnv2kQKMhGu0Xl1Qio?=
+ =?us-ascii?Q?iLI0yErSYtN5/QBYTDQNCIxAw5+meAzJdh1Vl3QAldcfk5FYEFB9cfm4ytLt?=
+ =?us-ascii?Q?K/Z7v80gdBiOPKPiFJRjccNcwG2sqjqj4HY4OGoq?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8d8339e-714e-4390-3633-08dd945c78fa
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 09:31:44.6728
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tIFwguplSAq7AqapK8yqoR3Ur2/CAKl8rLARtCnl966D5hz3JYB0oSI46hYjSgXvOXY6m82GeQNnXjXiWQ1rRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6396
+X-Proofpoint-GUID: bapyDUMWB_7UcgRytonskid1Ok-amlQd
+X-Proofpoint-ORIG-GUID: bapyDUMWB_7UcgRytonskid1Ok-amlQd
+X-Authority-Analysis: v=2.4 cv=U7WSDfru c=1 sm=1 tr=0 ts=68270602 cx=c_pps a=AVVanhwSUc+LQPSikfBlbg==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
+ a=t7CeM3EgAAAA:8 a=0gDct7OKsOyg5-76syYA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDA5MCBTYWx0ZWRfXxoUF/wlXPiiB XmsUZIHe7scBlE4EWUtaAAQ6NBtUAY1kqDHy6l5725ukupGe8yMz81PdJ3b7eFh4169nR5goyPF NRyA1Oyf2so6F86+wv+HPZYwUkkeyG6A1O6fLdpYveid1IAhyZZJtOs9GrzMFHYS2gG4O0aF9yv
+ E/UjPSc5aYEABq86XaeofN6ynydpb8xY5JwnLvjYuo/dczpacMMe4P4NwAgNoAc69QpanUrl7Ao bM83r6im2lXBW6olekJFte3QYZ6TTerpgaObj47FheDCMmJ0Db++dajm2A7cHl2+vNC+1ZAtnar teODNoqTogZdZJcc3dybgKpBVHXGmQ1nLc23lZgVDwhtowUOXO7j9MySvI568al9OhFL9gnGpea
+ KaVrqEceqL2/hMuftzdSb+kWXInjpAgB0pCbHklUFWoUmg0DRT6066U28UaNGfx22fNTZpal
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-16_04,2025-05-15_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 adultscore=0 clxscore=1015
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
+ definitions=main-2505160090
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 09:30:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216730
+ <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 09:31:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216732
 
---000000000000a5de7f06353d6f8c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The runtime version of psmisc is generated by 'git describe' command in
+misc/git-version-gen. But when using git shallow tarball,
+git-version-gen can not get the correct version due to missing git
+tag/commit messages. This actually breaks reproducibility, since the
+generated binaries should be consistent regardless of the source code
+packaging format.
 
-Le ven. 16 mai 2025 =C3=A0 11:09, Ines KCHELFI via lists.openembedded.org
-<ines.kchelfi=3Dsmile.fr@lists.openembedded.org> a =C3=A9crit :
+Add a .tarball-version file in source directory. Then get-version-gen
+can determine the version through this file instead of 'git describe'
+command.
 
-> From: Ines KCHELFI <ines.kchelfi@smile.fr>
->
-> Extend unimplemented-ptest QA check to detect Rust tests.
-> Note: To enable this QA check, add the following to your local.conf:
->   WARN_QA +=3D "unimplemented-ptest"
->
-> Examples of Rust-based meta-oe packages triggering unimplemented-ptest:
->
-> WARNING: cbindgen-0.28.0-r0 do_patch: QA Issue: cbindgen: cargo-based
-> tests detected [unimplemented-ptest]
-> WARNING: fdfindd-10.2-r0 do_patch: QA Issue: fdfindd: cargo-based tests
-> detected [unimplemented-ptest]
-> WARNING: deqp-runner-0.20.3-r0 do_patch: QA Issue: deqp-runner:
-> cargo-based tests detected [unimplemented-ptest]
-> WARNING: bindgen-cli-0.71.1-r0 do_patch: QA Issue: bindgen-cli:
-> cargo-based tests detected [unimplemented-ptest]
-> WARNING: python3-maturin-1.8.3-r0 do_patch: QA Issue: python3-maturin:
-> cargo-based tests detected [unimplemented-ptest]
-> WARNING: uutils-coreutils-0.0.30-r0 do_patch: QA Issue: uutils-coreutils:
-> cargo-based tests detected [unimplemented-ptest]
->
-> Signed-off-by: Ines KCHELFI <ines.kchelfi@smile.fr>
->
+Before the fix:
+root@intel-x86-64:~# pslog -V
+pslog (PSmisc) UNKNOWN
 
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
+After the fix:
+root@intel-x86-64:~# pslog  -V
+pslog (PSmisc) 23.7
 
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ meta/recipes-extended/psmisc/psmisc_23.7.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ---
->  meta/classes-global/insane.bbclass | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/meta/classes-global/insane.bbclass
-> b/meta/classes-global/insane.bbclass
-> index cd26bf5eb9..152bef8ad5 100644
-> --- a/meta/classes-global/insane.bbclass
-> +++ b/meta/classes-global/insane.bbclass
-> @@ -1332,6 +1332,13 @@ python do_qa_patch() {
->      elif os.path.exists(os.path.join(srcdir, "Makefile.in")) and
-> (match_line_in_files(srcdir, "**/Makefile.in", r'\s*TESTS\s*\+?=3D') or
-> match_line_in_files(srcdir,"**/*.at",r'.*AT_INIT')):
->          oe.qa.handle_error("unimplemented-ptest", "%s: autotools-based
-> tests detected" % d.getVar('PN'), d)
->
-> +    # Detect cargo-based tests
-> +    elif os.path.exists(os.path.join(srcdir, "Cargo.toml")) and (
-> +        match_line_in_files(srcdir, "**/*.rs", r'\s*#\s*\[\s*test\s*\]')
-> or
-> +        match_line_in_files(srcdir, "**/*.rs",
-> r'\s*#\s*\[\s*cfg\s*\(\s*test\s*\)\s*\]')
-> +    ):
-> +        oe.qa.handle_error("unimplemented-ptest", "%s: cargo-based tests
-> detected" % d.getVar('PN'), d)
-> +
->      # Last resort, detect a test directory in sources
->      elif os.path.exists(srcdir) and any(filename.lower() in ["test",
-> "tests"] for filename in os.listdir(srcdir)):
->          oe.qa.handle_error("unimplemented-ptest", "%s: test subdirectory
-> detected" % d.getVar('PN'), d)
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216726):
-> https://lists.openembedded.org/g/openembedded-core/message/216726
-> Mute This Topic: https://lists.openembedded.org/mt/113142168/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+diff --git a/meta/recipes-extended/psmisc/psmisc_23.7.bb b/meta/recipes-extended/psmisc/psmisc_23.7.bb
+index 4128ca0533..d6bb7ef81b 100644
+--- a/meta/recipes-extended/psmisc/psmisc_23.7.bb
++++ b/meta/recipes-extended/psmisc/psmisc_23.7.bb
+@@ -24,6 +24,7 @@ inherit autotools gettext
+ # doesn't believe po/ is a gettext directory and won't generate po/Makefile.
+ do_configure:prepend() {
+     ( cd ${S} && po/update-potfiles )
++    [ ! -e ${S}/.tarball-version ] && echo ${PV} > ${S}/.tarball-version
+ }
+ 
+ 
+-- 
+2.34.1
 
---=20
-Yoann Congal
-Smile ECS
-
---000000000000a5de7f06353d6f8c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 16=
- mai 2025 =C3=A0=C2=A011:09, Ines KCHELFI via <a href=3D"http://lists.opene=
-mbedded.org">lists.openembedded.org</a> &lt;ines.kchelfi=3D<a href=3D"mailt=
-o:smile.fr@lists.openembedded.org">smile.fr@lists.openembedded.org</a>&gt; =
-a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">From: Ines KCHELFI &lt;<a href=3D"mailto:ines.kchelfi@smile.fr" target=
-=3D"_blank">ines.kchelfi@smile.fr</a>&gt;<br>
-<br>
-Extend unimplemented-ptest QA check to detect Rust tests.<br>
-Note: To enable this QA check, add the following to your local.conf:<br>
-=C2=A0 WARN_QA +=3D &quot;unimplemented-ptest&quot;<br>
-<br>
-Examples of Rust-based meta-oe packages triggering unimplemented-ptest:<br>
-<br>
-WARNING: cbindgen-0.28.0-r0 do_patch: QA Issue: cbindgen: cargo-based tests=
- detected [unimplemented-ptest]<br>
-WARNING: fdfindd-10.2-r0 do_patch: QA Issue: fdfindd: cargo-based tests det=
-ected [unimplemented-ptest]<br>
-WARNING: deqp-runner-0.20.3-r0 do_patch: QA Issue: deqp-runner: cargo-based=
- tests detected [unimplemented-ptest]<br>
-WARNING: bindgen-cli-0.71.1-r0 do_patch: QA Issue: bindgen-cli: cargo-based=
- tests detected [unimplemented-ptest]<br>
-WARNING: python3-maturin-1.8.3-r0 do_patch: QA Issue: python3-maturin: carg=
-o-based tests detected [unimplemented-ptest]<br>
-WARNING: uutils-coreutils-0.0.30-r0 do_patch: QA Issue: uutils-coreutils: c=
-argo-based tests detected [unimplemented-ptest]<br>
-<br>
-Signed-off-by: Ines KCHELFI &lt;<a href=3D"mailto:ines.kchelfi@smile.fr" ta=
-rget=3D"_blank">ines.kchelfi@smile.fr</a>&gt;<br></blockquote><div><br></di=
-v><div>Reviewed-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.f=
-r">yoann.congal@smile.fr</a>&gt;</div><div>=C2=A0</div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
----<br>
-=C2=A0meta/classes-global/insane.bbclass | 7 +++++++<br>
-=C2=A01 file changed, 7 insertions(+)<br>
-<br>
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insan=
-e.bbclass<br>
-index cd26bf5eb9..152bef8ad5 100644<br>
---- a/meta/classes-global/insane.bbclass<br>
-+++ b/meta/classes-global/insane.bbclass<br>
-@@ -1332,6 +1332,13 @@ python do_qa_patch() {<br>
-=C2=A0 =C2=A0 =C2=A0elif os.path.exists(os.path.join(srcdir, &quot;Makefile=
-.in&quot;)) and (match_line_in_files(srcdir, &quot;**/Makefile.in&quot;, r&=
-#39;\s*TESTS\s*\+?=3D&#39;) or match_line_in_files(srcdir,&quot;**/*.at&quo=
-t;,r&#39;.*AT_INIT&#39;)):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe.qa.handle_error(&quot;unimplemented-pt=
-est&quot;, &quot;%s: autotools-based tests detected&quot; % d.getVar(&#39;P=
-N&#39;), d)<br>
-<br>
-+=C2=A0 =C2=A0 # Detect cargo-based tests<br>
-+=C2=A0 =C2=A0 elif os.path.exists(os.path.join(srcdir, &quot;Cargo.toml&qu=
-ot;)) and (<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 match_line_in_files(srcdir, &quot;**/*.rs&quot=
-;, r&#39;\s*#\s*\[\s*test\s*\]&#39;) or <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 match_line_in_files(srcdir, &quot;**/*.rs&quot=
-;, r&#39;\s*#\s*\[\s*cfg\s*\(\s*test\s*\)\s*\]&#39;)<br>
-+=C2=A0 =C2=A0 ):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.qa.handle_error(&quot;unimplemented-ptest&q=
-uot;, &quot;%s: cargo-based tests detected&quot; % d.getVar(&#39;PN&#39;), =
-d)<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0# Last resort, detect a test directory in sources<br>
-=C2=A0 =C2=A0 =C2=A0elif os.path.exists(srcdir) and any(filename.lower() in=
- [&quot;test&quot;, &quot;tests&quot;] for filename in os.listdir(srcdir)):=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe.qa.handle_error(&quot;unimplemented-pt=
-est&quot;, &quot;%s: test subdirectory detected&quot; % d.getVar(&#39;PN&#3=
-9;), d)<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#216726): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/216726" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/216726</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113142168/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/113142168/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---000000000000a5de7f06353d6f8c--
 
