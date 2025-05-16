@@ -1,96 +1,87 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <anton.antonov@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74FA9C3ABC9
-	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 16:18:06 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.17474.1747412284775403812
- for <openembedded-core@lists.openembedded.org>;
- Fri, 16 May 2025 09:18:05 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=n3PGzY/i;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1D8C9439F6;
-	Fri, 16 May 2025 16:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1747412283;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yEf6BDjN0DSOHRrZbbVJlho2RxqgNW6IbkAmKdZAeys=;
-	b=n3PGzY/ixkzkj/jPBG47YM54KXawE+GQRUsr0j5xZ0nYf1ooko6EqLjih+uqB7yq9onz0B
-	dGyOcqzRQ2mv4gmBFhLZjGfoG0Rc2QtD9efJZDET8bNaiPOX6MPUEzWfw9mwduhY/T668P
-	6XUg3ekfCklCHkZaMxzBEQ99+qCvRL99xOdF3yT7iGYOG5nlYSOVARqTYfz5L2NFGtly3r
-	NV1B9ooSMe7LxgfCr1bmjGnO9ntyAGMecmuvh+1zxQ/blSWsUQX7CwkQ+2ogO0BPIid4iT
-	91AryyC5Ncx91tiJZxSmlq36vopS1q8gYKnqvpRlZe8WLGfVKg+U1sacbQU9Vg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 16 May 2025 18:18:01 +0200
-Message-Id: <D9XPYFVP0CD4.358B3UWM5A4PI@bootlin.com>
-Subject: Re: [oe-core][PATCHv4 1/5] libx11: create tmpfile dir for x11
- domain socket
-Cc: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <rs@ti.com>, <richard.purdie@linuxfoundation.org>,
- <ross.burton@arm.com>, <alex@linutronix.de>, <otavio@ossystems.com.br>,
- <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
- <denis@denix.org>, <reatmon@ti.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250515214919.1404453-1-rs@ti.com>
- <20250515214919.1404453-2-rs@ti.com>
-In-Reply-To: <20250515214919.1404453-2-rs@ti.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudefvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeeghfektedtfeegjeffvdfhudetledvfeffhfetkeffleefjefgieffudetjeevnecuffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmegrieeimeefudektdemkedvhegtmegsieekfeemfeegtdhfmeejieegtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemrgeiieemfedukedtmeekvdehtgemsgeikeefmeefgedtfhemjeeigedtpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehrshesthhirdgtohhmpdhrtghpthhtoheprhhitghhrghrugdrphhurhguihgvsehlihhnuhigfhhouhhnuggrthhiohhnrdhor
- hhgpdhrtghpthhtoheprhhoshhsrdgsuhhrthhonhesrghrmhdrtghomhdprhgtphhtthhopegrlhgvgieslhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopehothgrvhhiohesohhsshihshhtvghmshdrtghomhdrsghrpdhrtghpthhtohepkhgvgihinhdrhhgrohesfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhopegrfhgusehtihdrtghomhdprhgtphhtthhopeguvghthhgvrhhiughgvgesthhirdgtohhm
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8099FC3ABD8
+	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 16:39:26 +0000 (UTC)
+Subject: Re: [PATCH 2/2] cargo.bbclass: allow to avoid appending PACKAGECONFIG_CONFARGS
+To: openembedded-core@lists.openembedded.org
+From: "Anton Antonov" <anton.antonov@arm.com>
+X-Originating-Location: Cambridge, England, GB (217.140.106.13)
+X-Originating-Platform: Mac Firefox 138
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Fri, 16 May 2025 09:39:19 -0700
+References: <CANNYZj8WRTH0He_BcxPt4q5VeHHkG8qyTFHfKL-_LGiuYstxVw@mail.gmail.com>
+In-Reply-To: <CANNYZj8WRTH0He_BcxPt4q5VeHHkG8qyTFHfKL-_LGiuYstxVw@mail.gmail.com>
+Message-ID: <13420.1747413559731422430@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="J7WPhQUVcWpBBAp9BbXb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 16:18:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216758
+ <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 16:39:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216759
 
-On Thu May 15, 2025 at 11:49 PM CEST, rs wrote:
-> From: Randolph Sapp <rs@ti.com>
->
-> Register a tmpfile.d or volatile directory entry for the x11 domain
-> socket so this will always be created with the correct permissions.
->
-> Currently some x11 related applications will create this directory if it
-> doesn't already exist, but this is not true for everything. In addition,
-> if the application in question isn't started as root, it's possible this
-> directory can be owned by a non-root user. This isn't an issue by
-> itself, but it can potentially lead to problems in a multi-user
-> environment.
->
-> Signed-off-by: Randolph Sapp <rs@ti.com>
-> ---
+--J7WPhQUVcWpBBAp9BbXb
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Randolph,
+On Fri, May 16, 2025 at 08:55 AM, Alexander Kanavin wrote:
 
-Another build issue on various builders:
+>=20
+> If you need to supply these
+> arguments some other way, then you can follow for example mesa.inc and
+> define empty PACKAGECONFIGS:
+>=20
+> PACKAGECONFIG[amd] =3D ""
+> PACKAGECONFIG[svga] =3D ""
+> PACKAGECONFIG[virgl] =3D ""
+>=20
+> And then use them to form a custom variable, which you can use as you see
+> fit:
+>=20
+> GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG',
+> 'gallium-llvm', '${GALLIUMDRIVERS_LLVM}', '', d)}"
+> GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'amd',
+> ',r600', '', d)}"
 
-ERROR: libx11-1_1.8.12-r0 do_package: QA Issue: libx11: Files/directories w=
-ere installed but not shipped in any package:
-  /usr/lib/tmpfiles.d
-  /usr/lib/tmpfiles.d/x11.conf
-Please set FILES such that these items are packaged. Alternatively if they =
-are unneeded, avoid installing them or delete them within do_install.
-libx11: 2 installed and not shipped files. [installed-vs-shipped]
-ERROR: libx11-1_1.8.12-r0 do_package: Fatal QA errors were found, failing t=
-ask.
+I think using PACKAGECONFIG to define cargo features list is a normal use-c=
+ase in rust based recipes. With this change is not easily achievable becaus=
+e ${PACKAGECONFIG_CONFARGS} is unquoted in cargo.bbclass and we can't use i=
+t with CARGO_BUILD_FLAGS +=3D " --features" if there are more than one feat=
+ure.
+So, if the change is not going to be reverted then we realistically have tw=
+o options - either complicate the recipes with a lot of conditions like you=
+ suggest or just add a comment that oe_cargo_build() is broken in cargo.bbc=
+lass and define our own do_compile()
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/93/builds/1631
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/1638
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/1602
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/1614
+Anton
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--J7WPhQUVcWpBBAp9BbXb
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div>On Fri, May 16, 2025 at 08:55 AM, Alexander Kanavin wrote:</div>
+<div>
+<blockquote>If you need to supply these<br />arguments some other way, then=
+ you can follow for example mesa.inc and<br />define empty PACKAGECONFIGS:<=
+br /><br />PACKAGECONFIG[amd] =3D ""<br />PACKAGECONFIG[svga] =3D ""<br />P=
+ACKAGECONFIG[virgl] =3D ""<br /><br />And then use them to form a custom va=
+riable, which you can use as you see fit:<br /><br />GALLIUMDRIVERS:append =
+=3D "${@bb.utils.contains('PACKAGECONFIG',<br />'gallium-llvm', '${GALLIUMD=
+RIVERS_LLVM}', '', d)}"<br />GALLIUMDRIVERS:append =3D "${@bb.utils.contain=
+s('PACKAGECONFIG', 'amd',<br />',r600', '', d)}"</blockquote>
+</div>
+<div>&nbsp; I think using PACKAGECONFIG to define cargo features list is a =
+normal use-case in rust based recipes. With this change is not easily achie=
+vable because ${PACKAGECONFIG_CONFARGS} is unquoted in cargo.bbclass and we=
+ can't use it with CARGO_BUILD_FLAGS +=3D " --features" if there are more t=
+han one feature.<br />&nbsp; So, if the change is not going to be reverted =
+then we realistically have two options - either complicate the recipes with=
+ a lot of conditions like you suggest or just add a comment that oe_cargo_b=
+uild() is broken in cargo.bbclass and define our own do_compile()<br /><br =
+/></div>
+<div>Anton</div>
+
+--J7WPhQUVcWpBBAp9BbXb--
 
