@@ -1,107 +1,95 @@
-Return-Path: <ines.kchelfi@smile.fr>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26468C3ABC9
-	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 09:09:54 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.9121.1747386584212645867
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3450AC3ABD8
+	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 09:23:14 +0000 (UTC)
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.web10.9262.1747387388280555352
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 May 2025 02:09:44 -0700
+ Fri, 16 May 2025 02:23:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=wKUTtZy6;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: ines.kchelfi@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a35da8bd67so434217f8f.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 02:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1747386582; x=1747991382; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qe8r4L7uvVmk74/psSbJCQ2FZqIVfQgafrv8iOEJtdI=;
-        b=wKUTtZy621S4/M8p40mU9U2wBtBZXXo9ZrHF0TYqaZ349LaCUIWIOAg0EfKS31IJ0E
-         RJ/A6m0kOQuvLf/k2N+uc4Df21qslT48wXb9L7Cq6OSUOXJ9Dpc7MfipoRom6EdZHqFz
-         gBcHtemJWszbISW6BmUEoVXRD+uJ/VU1aH7r4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747386582; x=1747991382;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qe8r4L7uvVmk74/psSbJCQ2FZqIVfQgafrv8iOEJtdI=;
-        b=O8ijrGRDDbSp1PbyZi5/ZTJ/mcJhrIPoMXz9Is8KA3bAH5ojHx4aZpJd6603tl9NKP
-         8+h50mpnWXdsdxqJMADAW9tgELjxjWraYLob9exSJTAMEYirSY/2OHgKibs2iGTKm9yv
-         YOwEHNpcVW0BMkuQ9XOqcfoDYRWvYeQzwaWNcZ8+Ia84q/xS74ajIgNCirkEtra/BUUV
-         rcBYeR/5POeHHBDFH4vcanCWWxrdOJvK7PKbdloFsmqp4sjpweGsu1Hw0uyLIKWd4TUZ
-         eSBreQNfymeSJc7ocZIvCKMGfyY9yiIHxIB8KC8m0wJGam3yxs4aN7uJuk1sNAXbPodr
-         Lwtw==
-X-Gm-Message-State: AOJu0YxxJt5uewUdC4jDZsQ8sKDsKfBT2wMzWdZK8dxVc1Vr6/CI2VDU
-	CTcKWrlD418o7Wp8KNYdBuqGbVa5L7t/ST8OhANM2GiwdK+t10z9Vjpiwhphq8u3SxcsnHQbDW0
-	14nUb
-X-Gm-Gg: ASbGncu9zrdDSVJGHdNCyNtTAR1uUvtppgTCQEz8aYbuxM53CHwsl7SwWktYX+fmtDZ
-	dyUZFfjZPQG/Dp98BJ6Gw9qB0Wu9CgkRV6C2fLZuEPRPSxSoSmz9faVC1srAMvNPGe+ZCdLXsDI
-	2CNPfeVIcFMd3kC5zSunvAIc5ICDYz1F0gxrNpo28nNb9Vm7Ytv7cTXSF+CPoyOVysHBzhRtnGr
-	NnKpxUR+7gVx85WZRBzx+i56LcK6MugASl/VDz/rdG9c1MgTyzuBH7yLEmcnTwkWhicazlB3o7o
-	CoJuwDGCSJNzwDHDun4yd+GIpyOdhnZ3dk35T7+eAvXm8Cfzz1wiKt9cW7SNa9BiZg8FM3meGmT
-	0Rj24mmYwqJt5BGpGFtBGyDmyyZ4QGaeaUQn4AG1RD+oUuT2Suc5U9tP3CA==
-X-Google-Smtp-Source: AGHT+IHi4xCq6h5UhKrI4ypNLY4bBZv+k+ayZfsbdvqpBt/tI35OPZoHK2Iy/brQPyMZhg3LPoTUwg==
-X-Received: by 2002:a5d:64cc:0:b0:38d:de45:bf98 with SMTP id ffacd0b85a97d-3a35fe5bb1bmr1578739f8f.8.1747386582447;
-        Fri, 16 May 2025 02:09:42 -0700 (PDT)
-Received: from FRSMI24-WIZAR.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca6294bsm2229132f8f.51.2025.05.16.02.09.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 May 2025 02:09:42 -0700 (PDT)
-From: ines.kchelfi@smile.fr
-To: openembedded-core@lists.openembedded.org
-Cc: Ines KCHELFI <ines.kchelfi@smile.fr>
-Subject: [PATCH] insane.bbclass: Add unimplemented-ptest detection for cargo-based tests
-Date: Fri, 16 May 2025 11:09:11 +0200
-Message-ID: <20250516090910.972704-2-ines.kchelfi@smile.fr>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=JWcpaJUb;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1747387387; x=1778923387;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NrK4LIExeRl5ivlH1Mwx83NcjyJluq5IRAQVUU0ugYs=;
+  b=JWcpaJUbtmyqT0HbRwsxv477BPsMo8ceOWCuoMo/cXu9wqX92ZHzDf2f
+   A/3FLmgLVRxCtawW/ue+6K2ye1mW1Q+3wXYenhtd8QLqIos4+h7VrjVZH
+   3oSCRSL7Y/SWXhlYrbvHo7AzRruHFhV5uAQDTm+oFOgA/gaAVyUhq4JXZ
+   g+RsmDDgTVjDAdgxc6wKWrS6XbUgB6QhQWE+LGyjQVSOzaPdr1BpCnRCC
+   bNiS9hD2welM8e9kC9xD8roTyiEceEzCuE5A3ip8ifRjxIkjpgXimFj7g
+   r4es+RyafKoNPfHZP2Zqa7tqwzeKCAZoR0DLEkuUwa5QaPonce1OzEWVq
+   g==;
+X-CSE-ConnectionGUID: sm57PdFMTbupMorNIZNtrw==
+X-CSE-MsgGUID: aCqykDAHTTiYnwoiWTVDmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="188078366"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739804400"; 
+   d="scan'208";a="188078366"
+Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 18:23:05 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id DEF89C68A2
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 18:23:02 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 99082D9730
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 18:23:02 +0900 (JST)
+Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.167.135.33])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id C17721A0078;
+	Fri, 16 May 2025 17:23:01 +0800 (CST)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	openembedded-core@lists.openembedded.org,
+	Liu Yiding <liuyd.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH v2] libunwind: fix multilib conflict
+Date: Fri, 16 May 2025 17:22:38 +0800
+Message-ID: <20250516092238.1182-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 09:09:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216726
+ <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 09:23:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216727
 
-From: Ines KCHELFI <ines.kchelfi@smile.fr>
+fix issue that
+| Error: Transaction test error:
+|   file /usr/libexec/libunwind/check-namespace.sh conflicts between attempted installs of libunwind-1.8.1-r0.core2_64 and lib32-libunwind-1.8.1-r0.core2_32
+|   file /usr/libexec/libunwind/test-runner conflicts between attempted installs of libunwind-1.8.1-r0.core2_64 and lib32-libunwind-1.8.1-r0.core2_32
 
-Extend unimplemented-ptest QA check to detect Rust tests.
-Note: To enable this QA check, add the following to your local.conf:
-  WARN_QA += "unimplemented-ptest"
-
-Examples of Rust-based meta-oe packages triggering unimplemented-ptest:
-
-WARNING: cbindgen-0.28.0-r0 do_patch: QA Issue: cbindgen: cargo-based tests detected [unimplemented-ptest]
-WARNING: fdfindd-10.2-r0 do_patch: QA Issue: fdfindd: cargo-based tests detected [unimplemented-ptest]
-WARNING: deqp-runner-0.20.3-r0 do_patch: QA Issue: deqp-runner: cargo-based tests detected [unimplemented-ptest]
-WARNING: bindgen-cli-0.71.1-r0 do_patch: QA Issue: bindgen-cli: cargo-based tests detected [unimplemented-ptest]
-WARNING: python3-maturin-1.8.3-r0 do_patch: QA Issue: python3-maturin: cargo-based tests detected [unimplemented-ptest]
-WARNING: uutils-coreutils-0.0.30-r0 do_patch: QA Issue: uutils-coreutils: cargo-based tests detected [unimplemented-ptest]
-
-Signed-off-by: Ines KCHELFI <ines.kchelfi@smile.fr>
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
- meta/classes-global/insane.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-support/libunwind/libunwind_1.8.1.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index cd26bf5eb9..152bef8ad5 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -1332,6 +1332,13 @@ python do_qa_patch() {
-     elif os.path.exists(os.path.join(srcdir, "Makefile.in")) and (match_line_in_files(srcdir, "**/Makefile.in", r'\s*TESTS\s*\+?=') or match_line_in_files(srcdir,"**/*.at",r'.*AT_INIT')):
-         oe.qa.handle_error("unimplemented-ptest", "%s: autotools-based tests detected" % d.getVar('PN'), d)
+diff --git a/meta/recipes-support/libunwind/libunwind_1.8.1.bb b/meta/recipes-support/libunwind/libunwind_1.8.1.bb
+index 68d7a98ee4..e8c5a3d474 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.8.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.8.1.bb
+@@ -19,7 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
  
-+    # Detect cargo-based tests
-+    elif os.path.exists(os.path.join(srcdir, "Cargo.toml")) and (
-+        match_line_in_files(srcdir, "**/*.rs", r'\s*#\s*\[\s*test\s*\]') or 
-+        match_line_in_files(srcdir, "**/*.rs", r'\s*#\s*\[\s*cfg\s*\(\s*test\s*\)\s*\]')
-+    ):
-+        oe.qa.handle_error("unimplemented-ptest", "%s: cargo-based tests detected" % d.getVar('PN'), d)
+ SRC_URI[sha256sum] = "ddf0e32dd5fafe5283198d37e4bf9decf7ba1770b6e7e006c33e6df79e6a6157"
+ 
+-inherit autotools multilib_header github-releases
++inherit autotools multilib_header github-releases multilib_script
+ 
+ COMPATIBLE_HOST:riscv32 = "null"
+ 
+@@ -30,6 +30,9 @@ PACKAGECONFIG[latexdocs] = "--enable-documentation, --disable-documentation, lat
+ 
+ EXTRA_OECONF = "--enable-static"
+ 
++MULTILIB_SCRIPTS = "${PN}:${libexecdir}/libunwind/check-namespace.sh \
++                    ${PN}:${libexecdir}/libunwind/test-runner"
 +
-     # Last resort, detect a test directory in sources
-     elif os.path.exists(srcdir) and any(filename.lower() in ["test", "tests"] for filename in os.listdir(srcdir)):
-         oe.qa.handle_error("unimplemented-ptest", "%s: test subdirectory detected" % d.getVar('PN'), d)
+ # http://errors.yoctoproject.org/Errors/Details/20487/
+ ARM_INSTRUCTION_SET:armv4 = "arm"
+ ARM_INSTRUCTION_SET:armv5 = "arm"
 -- 
 2.43.0
 
