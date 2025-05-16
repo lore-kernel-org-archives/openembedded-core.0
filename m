@@ -1,186 +1,127 @@
-Return-Path: <philip@balister.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A78C3ABD8
-	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 04:32:52 +0000 (UTC)
-Received: from forward101b.mail.yandex.net (forward101b.mail.yandex.net [178.154.239.148])
- by mx.groups.io with SMTP id smtpd.web10.2042.1747342691761785516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E22DC3ABDD
+	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 06:17:03 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.7173.1747376216976943616
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 May 2025 13:58:12 -0700
+ Thu, 15 May 2025 23:16:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@yandex.ru header.s=mail header.b=LzSxGn3d;
- spf=pass (domain: yandex.ru, ip: 178.154.239.148, mailfrom: denisova.olga.k@yandex.ru)
-Received: from mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:109b:0:640:c015:0])
-	by forward101b.mail.yandex.net (Yandex) with ESMTPS id B6EE260B66
-	for <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 23:58:07 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 6wPJF53Lc8c0-BNykDa51;
-	Thu, 15 May 2025 23:58:07 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1747342687; bh=Pb0XOK1dBz+pw02tX/mQaffQGSia21oYmJQGwTN5j7Y=;
-	h=Message-Id:Date:Cc:Subject:To:From;
-	b=LzSxGn3diak/1f5rid/uRRtLUz8GDyqcW0o1WHwp5UGW3XGirfHiOBuGrBYkpShfn
-	 DKi6Xj3Jev2jxEJLPa7c1s7Z0blERDICsF/bXvL15Zy1vH9rGtqQ3zd6P/QSzlKB4t
-	 1usejgjLW477b5DD4stPQLDfJtrL5s2Znmf08gqs=
-Authentication-Results: mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: denisova-ok <denisova.olga.k@yandex.ru>
-To: openembedded-core@lists.openembedded.org
-Cc: Olga Denisova <denisova.olga.k@yandex.ru>
-Subject: [OE-core][PATCH v2] buildstats.py: Add tracking of network I/O per interface
-Date: Thu, 15 May 2025 23:57:52 +0300
-Message-Id: <20250515205752.6127-1-denisova.olga.k@yandex.ru>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tuv7ljis;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-442ed8a275fso19450675e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 May 2025 23:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1747376215; x=1747981015; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6FADl/SNKUyjamxjMHsU9+XPubphOjN5g4sYGuzbkCo=;
+        b=Tuv7ljisVdc5vXLsmUyqRjFABcdjVYmCFLzRfzYCEv5xAgI9ysHLqyfBNe/GFqROEu
+         ev+qxDmOpkkJ9ZmvwaqQgtQa9DwLEYFSVVXVK6R68NYjlxotzB5GCdpKWK2qAORyTGeG
+         Z7WpMWUsineWXwLkZvpFUfVLyJrD3m8VZy8J8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747376215; x=1747981015;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6FADl/SNKUyjamxjMHsU9+XPubphOjN5g4sYGuzbkCo=;
+        b=WiwI3xfSwWN+JCmdsmIkhB5yXZyzISOwdVY1QZynJ70WILB5m+8uPkcT1BosBslmhJ
+         lbVXiebdiHn4AEACwYxZgdcptphQ7UVkoYZgV64JznmWOev9a+3J2ktTc3bqG5UmkNKA
+         4Y1pX4oEGt1Nd1/Gbe/GyDC/WwhWyGRYDAa27nstvolxHM1Ppv2k1PrdtfEF8BUTphA4
+         s8ECnAUYkndYyKDyBuxmEoU8RnAmipjYnTyASVPAtNEC7wRhUImb42H5a+QG9INnQvCX
+         D+YT+rWxeRkhfs0am4hC5ZcLIYAiyC5jJxSmrKfJQW0ZyG3uu2PrIKUvEKTyrVaQq/pA
+         9ROg==
+X-Forwarded-Encrypted: i=1; AJvYcCWZazFbEdvusaCL5xgIxrvv9L8zE3zUy7Xc8p5o+GlrAXUKDxjzZOXAh1JXxtpvgy86NWnBPHEf1ttqaah6XgeDkQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxdka7g5UHgQSyC3q4iBT2wf5zi+7LmMrG4j+p/ZMuKhoE3Yrc3
+	h4pfrDa5p/IP/O15qZ6v0TNWLXXPWWS2B7LrDtUXwubd7gTNTfX2LrNBkFi5F87Glys=
+X-Gm-Gg: ASbGncsYLnfHNcA94SvSYL5TycZw7wxLNozX2np8NwEbITbKsF1M7VLTij9lhBpzT6y
+	JnnH3fFW06OxBP4KFqjwNtXVftL7MMrWw4bCDqCBs4feu91wgMpuaabJESeyDgxiYnReSyrDafO
+	B9DJroNp+MQGYvUE1gbSkff1zr7k0SLzU56xkdDCP/dlUVUhKp9t6ftZ6UkzShr+TcHpbIw9dBG
+	kZHoB+1hPfj0Zt1+Ya6YvYoLkD1KFybgXQRwu9CzvRJUj75Mst9OxtCUTm6CB42XZTQAMlxzmSF
+	ZvhKedq4lNFQCBmEpYB3OvI9uxr9QssCpUBsSVITv1U+REn8bCrProhHaYWVSjiOvsX0eEbjrRi
+	Xv4afAZb9qOyKBIyccUoQb33kxfY8vTZYpf7IuEOs
+X-Google-Smtp-Source: AGHT+IGOrfGNg+UgBgvnYIKcvIDd/wQgvfOuB1VA+rD1wvlGZx5ODR3psJ0Jz75KV0YJ975hu+S37A==
+X-Received: by 2002:a05:600c:1d07:b0:43c:e70d:450c with SMTP id 5b1f17b1804b1-442fd664797mr14215915e9.22.1747376215105;
+        Thu, 15 May 2025 23:16:55 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fa4b:a3c2:43a9:a562? ([2001:8b0:aba:5f3c:fa4b:a3c2:43a9:a562])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a3622b8a3esm585249f8f.14.2025.05.15.23.16.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 23:16:54 -0700 (PDT)
+Message-ID: <6ef2eeba0eae48ec4c869e4aa22956dbd62888e2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/5] perl-ptest: include gcc as a recommended
+ package
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: rajendra.desai@emerson.com, openembedded-core@lists.openembedded.org
+Date: Fri, 16 May 2025 07:16:52 +0100
+In-Reply-To: <20250515165010.242349-2-rajendra.desai@emerson.com>
+References: <20250515165010.242349-1-rajendra.desai@emerson.com>
+	 <20250515165010.242349-2-rajendra.desai@emerson.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 04:32:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216719
+ <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 06:17:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216721
 
-From: Olga Denisova <denisova.olga.k@yandex.ru>
+On Thu, 2025-05-15 at 22:20 +0530, Rajendra Desai via lists.openembedded.or=
+g wrote:
+> The following perl ptests:
+>=20
+> dist/ExtUtils-ParseXS/t/001-basic
+> dist/ExtUtils-ParseXS/t/002-more
+> dist/ExtUtils-ParseXS/t/003-usage
+>=20
+> are giving out below warning while running on the yocto CI build:
+> Can't exec "x86_64-poky-linux-gcc": No such file or directory at
+> /usr/lib/perl/ptest/dist/ExtUtils-ParseXS/../../lib/ExtUtils/CBuilder/Bas=
+e.pm
+> line 362.
+>=20
+> additionally, 2 of the tests are skipping out:
+> SKIP: cpan/ExtUtils-Constant/t/Constant
+> SKIP: cpan/ExtUtils-MakeMaker/t/02-xsdynamic
+>=20
+> This is mainly due to a missing gcc dependency which is needed by
+> the above tests. Hence, adding the package under RRECOMMENDS to
+> make sure the tests are able to find the compiler and that the
+> tests do not skip or output the missing file or directory warning.
+>=20
+> Signed-off-by: Rajendra Desai <rajendra.desai@emerson.com>
+> ---
+> =C2=A0meta/recipes-devtools/perl/perl-ptest.inc | 1 +
+> =C2=A01 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-dev=
+tools/perl/perl-ptest.inc
+> index 4b4756118c..817ad401f4 100644
+> --- a/meta/recipes-devtools/perl/perl-ptest.inc
+> +++ b/meta/recipes-devtools/perl/perl-ptest.inc
+> @@ -60,6 +60,7 @@ python populate_packages:prepend() {
+> =C2=A0}
+> =C2=A0
+> =C2=A0RDEPENDS:${PN}-ptest +=3D "${PN}-modules ${PN}-doc sed procps-ps"
+> +RRECOMMENDS:${PN}-ptest +=3D "gcc"
+> =C2=A0
+> =C2=A0# The perl-ptest package contains Perl internal modules and generat=
+ing file
+> =C2=A0# dependencies for it causes problems.
 
-This patch extends SystemStats to collect and store data from /proc/net/d=
-ev. It extracts per-interface received and transmitted bytes, calculates =
-deltas between samples, and stores them for further analysis.
+We've avoided doing this as there are key elements of a build that
+require perl and this means those builds will now build gcc. It
+effectively means that even small images will end up building target
+toolchain tools. I'm not sure that is what people want, even if it does
+come at the price of a small number of skipped ptests.
 
-Useful for identifying network bottlenecks during long-running builds.
+We should perhaps comment this in the recipe through so people know
+we've considered it.
 
-Sample output: https://drive.google.com/file/d/1PwC65VAQswPaJC95g08EOIEEF=
-bIqkyhC/view?usp=3Dsharing
+Cheers,
 
-The file presents a sample log file generated as a result of applying the=
- patch. The entries in the log file follow the format:
-<timestamp>
-<interface0>: <received_bytes>, <transmitted_bytes>, <receive_delta>, <tr=
-ansmit_delta>
-<interface1>: <received_bytes>, <transmitted_bytes>, <receive_delta>, <tr=
-ansmit_delta>
-...
-
-Each entry reflects the state of network interfaces at a fixed point in t=
-ime, including the cumulative number of bytes received and transmitted, a=
-s well as their deltas (differences) compared to the previous measurement=
-.
-
-The collected data can be useful for network analysis in a number of scen=
-arios:
-
-- The maintenance or convergence of the receive_delta or transmit_delta v=
-alues of an interface towards a constant may indicate the achievement of =
-the network interface's maximum load or a server's upload speed limit, wh=
-ich could potentially point to a network bottleneck.
-- Network load indicators may suggest congestion in the data transmission=
- channel, and this information could potentially be used for adaptive man=
-agement of the do_fetch task execution.
-- The receive_delta and transmit_delta values can be useful in analyzing =
-overall I/O load, as they help clarify the nature of the load =E2=80=94 w=
-hether it's network-related or disk-related.
-
-v2:
-- Added sample output into the commit message
----
- lib/oe/buildstats.py | 43 +++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 41 insertions(+), 2 deletions(-)
-
-diff --git a/lib/oe/buildstats.py b/lib/oe/buildstats.py
-index 1ffe679801..6f5dad953c 100644
---- a/lib/oe/buildstats.py
-+++ b/lib/oe/buildstats.py
-@@ -10,6 +10,7 @@
- import time
- import re
- import bb.event
-+from collections import deque
-=20
- class SystemStats:
-     def __init__(self, d):
-@@ -18,7 +19,8 @@ class SystemStats:
-         bb.utils.mkdirhier(bsdir)
-         file_handlers =3D  [('diskstats', self._reduce_diskstats),
-                             ('meminfo', self._reduce_meminfo),
--                            ('stat', self._reduce_stat)]
-+                            ('stat', self._reduce_stat),
-+                            ('net/dev', self._reduce_net)]
-=20
-         # Some hosts like openSUSE have readable /proc/pressure files
-         # but throw errors when these files are opened. Catch these erro=
-r
-@@ -47,7 +49,10 @@ class SystemStats:
-                 # not strictly necessary, but using it makes the class
-                 # more robust should two processes ever write
-                 # concurrently.
--                destfile =3D os.path.join(bsdir, '%sproc_%s.log' % ('red=
-uced_' if handler else '', filename))
-+                if filename =3D=3D 'net/dev':
-+                    destfile =3D os.path.join(bsdir, 'reduced_proc_net.l=
-og')
-+                else:
-+                    destfile =3D os.path.join(bsdir, '%sproc_%s.log' % (=
-'reduced_' if handler else '', filename))
-                 self.proc_files.append((filename, open(destfile, 'ab'), =
-handler))
-         self.monitor_disk =3D open(os.path.join(bsdir, 'monitor_disk.log=
-'), 'ab')
-         # Last time that we sampled /proc data resp. recorded disk monit=
-oring data.
-@@ -72,6 +77,7 @@ class SystemStats:
-         self.stat_ltimes =3D None
-         # Last time we sampled /proc/pressure. All resources stored in a=
- single dict with the key as filename
-         self.last_pressure =3D {"pressure/cpu": None, "pressure/io": Non=
-e, "pressure/memory": None}
-+        self.net_stats =3D {}
-=20
-     def close(self):
-         self.monitor_disk.close()
-@@ -93,6 +99,39 @@ class SystemStats:
-                     b' '.join([values[x] for x in
-                                (b'MemTotal', b'MemFree', b'Buffers', b'C=
-ached', b'SwapTotal', b'SwapFree')]) + b'\n')
-=20
-+    def _reduce_net(self, time, data, filename):
-+        data =3D data.split(b'\n')
-+        for line in data[2:]:
-+            if b":" not in line:
-+                continue
-+            try:
-+                parts =3D line.split()
-+                iface =3D (parts[0].strip(b':')).decode('ascii')
-+                receive_bytes =3D int(parts[1])
-+                transmit_bytes =3D int(parts[9])
-+            except Exception:
-+                continue
-+
-+            if iface not in self.net_stats:
-+                self.net_stats[iface] =3D deque(maxlen=3D2)
-+                self.net_stats[iface].append((receive_bytes, transmit_by=
-tes, 0, 0))
-+            prev =3D self.net_stats[iface][-1] if self.net_stats[iface] =
-else (0, 0, 0, 0)           =20
-+            receive_diff =3D receive_bytes - prev[0]
-+            transmit_diff =3D transmit_bytes - prev[1]
-+            self.net_stats[iface].append((
-+                receive_bytes,
-+                transmit_bytes,
-+                receive_diff,
-+                transmit_diff
-+            ))
-+
-+        result_str =3D "\n".join(
-+            f"{iface}: {net_data[-1][0]} {net_data[-1][1]} {net_data[-1]=
-[2]} {net_data[-1][3]}"
-+            for iface, net_data in self.net_stats.items()
-+        ) + "\n"
-+
-+        return time, result_str.encode('ascii')
-+
-     def _diskstats_is_relevant_line(self, linetokens):
-         if len(linetokens) !=3D 14:
-             return False
---=20
-2.34.1
-
+Richard
 
