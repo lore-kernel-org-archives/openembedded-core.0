@@ -1,222 +1,258 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <praveen.kumar@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9CCC3ABD8
-	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 11:18:54 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.80])
- by mx.groups.io with SMTP id smtpd.web10.10651.1747394324191791788
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07863C3ABD8
+	for <webhook@archiver.kernel.org>; Fri, 16 May 2025 11:44:35 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.11008.1747395873439653497
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 May 2025 04:18:44 -0700
+ Fri, 16 May 2025 04:44:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=BIoVEZm9;
- spf=pass (domain: siemens.com, ip: 40.107.104.80, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ACWz1MMo7gO5sxFoJLCeDIY0bsso6L5T2nv9uZBS8dMfFC3N0GGJAm6adisq8Bhn30NMl/TfCUcNYZaMhiVJKcTt4+j87x4P6yVrvjvNqzBXx3XA+Cw6RkDCSXuAp4HQqeCvjaIuOdIWVfyFy3zBa6rsboqnbSD9hjJ6pg2sgF8xQOYF7k1bxVOZ+zs1IpH4P3QvoXB6v+9EQFh5dNXv2RgVDBZEM+A94cW6lCB4b93E1AaxiCyNJepSEDr41nxUG54kokFjYgvkURH8g5oKM+SHKNTzViK3eIouJHc5HrSb9PZYqwbUqQ9TctI6JBCpVmLSV0aHqZFfqPJUTODVXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QVxbTB8Z6L5/wjgQJiAYQxe9CoGKwoHRexLsdWJK2a0=;
- b=cjsE8Hmu8nBcczU/8d3h5kxI8fvicutU7Fg/2E0+Bc/0u+HXg7riCu1wRPo0rlHJydydZavZTAzVXQGo+VC5i2onpJZhX+JyfSV8AYyibJAucDbBB2C/vsr0jBdYkZH5Sohch7DlPSaO/30hcuI61AfPcEn+MmmyCgitiBvvfDAxznj2XOVMr3LBTvWhVKzuSLjPsdwzeqp8Xa93/baRL0cwMxVqT94edmwMBWETRIMFAzkcAv0zEs6uNWC1asJqZJ5ijzI/ase32Ixkz8JFoN8mh/tQIEAzeliupsZ3LMYT92JRSbecF79Hz9GmBps0pSPZqGtR+d0BcZOT5/oiYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QVxbTB8Z6L5/wjgQJiAYQxe9CoGKwoHRexLsdWJK2a0=;
- b=BIoVEZm94uw90jLVcHIrY7dEI/5Hb7BTeMThoYChdV++OGzeNZco0oCxiuO/mFyuncFP9HsX9gXYEeEZO020PKw4aHSpqexozDB8Tc2AjbnWQGP3vRLuSPwwDigWWoFIDHzCzjPC9tFj1mpBYcYg1oe7IFBkHKoslPaEobFJR8Ri7WDCPfwwhuKzjo7cDrsf4MAoxBUU3vjPT1Y4uc17n9T5Ne9F9xONqBNehwXbNahS37r8bLzTE34Yb0Gbd16ue3I/Fy/m4iUl40COx1ZsHxsWaAcsG2db463DHUf6PLLNRlCTqGQX3i3cvCax90Yn8MvAz3lDx72YEh3JTHwQgw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by AS4PR10MB5869.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:514::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Fri, 16 May
- 2025 11:18:41 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%4]) with mapi id 15.20.8722.031; Fri, 16 May 2025
- 11:18:41 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH v4] sqlite3: upgrade 3.48.0 -> 3.49.1
-Thread-Topic: [OE-core][PATCH v4] sqlite3: upgrade 3.48.0 -> 3.49.1
-Thread-Index: AQHbwoY/02FAr8jZ10GCzD8S6SXtCLPO5zkAgAY7mxA=
-Date: Fri, 16 May 2025 11:18:41 +0000
-Message-ID: 
- <AS1PR10MB5697540CDFAE09DCB8F094D0FD93A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250511150526.2787050-1-peter.marko@siemens.com>
- <D9U62TMBWDLE.19I9VEKRPRRC1@bootlin.com>
-In-Reply-To: <D9U62TMBWDLE.19I9VEKRPRRC1@bootlin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=d17e6b1b-2668-470a-be33-5f806dc630ab;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-05-16T11:16:15Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AS4PR10MB5869:EE_
-x-ms-office365-filtering-correlation-id: be52ac8c-8e65-4880-7de1-08dd946b69a9
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|366016|13003099007|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?dnJTSjhKMmhKTW13S093OHJkeUdOYXhYUUhrZ3pWYzlKelBFdnpLNjFFa2RG?=
- =?utf-8?B?NG4vNTN2eDBGbkpSM2tGem9DZzRJSE9JMmFGbTJpdlZaajZ2QnZiWHB5SHk2?=
- =?utf-8?B?ckhnNlFSOHFVYmtia2xMUkNnUkdvQnM1MFJPQng1dzhSRG9IOERHWWVMZnpN?=
- =?utf-8?B?WVdscXpKY2h3MzdQVENSbVZZalZaL09NKytTeGtXY2JvMlJIT0x4MHBYL3Iz?=
- =?utf-8?B?WE1JMzFSU2dJUFpRUHo4YVU4QzIrNDRscWpTdUx4TU1SMlMyYUxTSXQyUVJZ?=
- =?utf-8?B?Umk1eTN3dHl4THBDT29rcm9Mdm1GaUFqbHI1cXdHd0wzSTVkWkt4czNmTnR0?=
- =?utf-8?B?T1lQT2xNWTkxVkNyUm1NTGZZV0JIM2Fmdm1Pc3hITTl5MlBIemE5aGJTQnh5?=
- =?utf-8?B?VHJwVlduQkVxNW4rcXo0VkJtd2JEaS9MTWtIQ2l6UUYzbjNpbGVwSjFMc1d5?=
- =?utf-8?B?VXNGUEd5VWxreHdZemF0T2lEVFVmTVl4ZGN3MW8zMCt5STdXcUIxeDYxbVFu?=
- =?utf-8?B?bUU5amNmK3hQSEFzdDhZUUQzZWNsK1oveVlmSXlsY3pIVktGY1RPN1BlQkxT?=
- =?utf-8?B?RnppMFB5Ulo1Q0NUaUtFMEsxRDRYWm1wV09RQmE5eElVdjJRSTM4a2dEdXBk?=
- =?utf-8?B?OHErRDN1WDJISzl5eFlMQTVoMFVUM0FyMG9FTXU3NFdCU1VoM0ltZkFrUTFV?=
- =?utf-8?B?S3ZlNENoNUQ2bGVWZmlseUlzRk85bUFCeG9HSm5zdXpqbWxiNjVseDNZaE95?=
- =?utf-8?B?K3REVktrTFRIVk9UVXZnalVEUURUU0hQMjBYNHlIL2JrRW83ZEdSNjJJSzYv?=
- =?utf-8?B?dTVObnhZU2IvNE9ySW0xUGdtbTZJUWw3OXhtR2dFMTNySElhUlgxZk82ODg4?=
- =?utf-8?B?WXpBenlkQ1owaHpVR3AzUHE2ZEI0NnBaRlQ3RVJQb3ZnRnNpako3VUNYTnNn?=
- =?utf-8?B?TnVLYVBacU04aGVtdGZJZXd3RC82SDhUdkRhNWRjSVBWSHBzcnEzbjdtS1V6?=
- =?utf-8?B?Sk5hM3VaMEVWV0pDYjNtSW0wZmtOS0tEaTYwaGNwT0dxYVc3dWxleTBwYU53?=
- =?utf-8?B?bTU3U0RIMEpxMnduNlovSE0xUW9GRTN1clFWU09ZWURaeS9VQ0lmMDJoRTRD?=
- =?utf-8?B?dlJPZFUwL1ZiQnp5Zk55UTJrdERsNlQ4cTk0WGlZOUdnTWl5US9xSmpSdmk3?=
- =?utf-8?B?QURjWm9uQUJIOTA0ajVuYzFFZVRSaGpMZHdtN2dqTks2d3Ryb2Rvc1k2S0dO?=
- =?utf-8?B?REJSLzluSGFMQXoyN29QUERjeVI0bFZCRlhDYmVCNm81bHdnU0lGM3kwZldD?=
- =?utf-8?B?L0pwSHYyeUwyTnovNjZmZnh0OXJ5elN2eEwwTjBiZmFQdHh5WEFsc2VwQStB?=
- =?utf-8?B?S0FuZzgvakhETWhhN1g1Slo1V0RQNzh3cUZoU1o1VTMrN0RUWUVOM3d1YW5O?=
- =?utf-8?B?eFA5dnhoY3FweHM5NHJjYWxkWHlDM3g1MEJQNFFIMnhwZWVsQmdSK3FqYVFl?=
- =?utf-8?B?VzdPcjZKbzZSMGZPRnRhYm5neVVncmVycDBZcnpxRWF4Y1U1eVU4dEdGYWlX?=
- =?utf-8?B?ckNrNFpyU1dmcGtRMjZwdGhQQ3hrVW1YQzdKMEJOeFdvUU5FamFOZitzTXYv?=
- =?utf-8?B?dGxJaFJYa3VQc3d1Rm9EZTZOcXdGVDFPQWFKK3dzeUxjVFBydnZUU0s5SkJQ?=
- =?utf-8?B?RjFldVRUeThDdnIrN0JPZk9vaFUvVXBLSVVrL2dGSUVya2I1T3lIZVFJS0JH?=
- =?utf-8?B?a1h6aTBRUEJvcVI2cXlyRTBzaWlTS1UzT3dlV2ZhZm13SlhXd2VNOGd2eXpG?=
- =?utf-8?B?WUNVS3c5YU5Qc09MMHFCeVdoaHBzY05JalF4WTJkeURKRnRncmx0aSs4bFY0?=
- =?utf-8?B?SFllUmV1REZrZURxQ1VPcGsxaWZPNXhxVXJpeFBYRzZXZFNUOXp4eEdSRWl6?=
- =?utf-8?Q?SA7rPb/bTQI=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(13003099007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?NkFzSHM2bFVUWHJuNTBFR0wvWjJNdWVnTXdQZHUzQzc0SUt0WHdmM0l5cDMr?=
- =?utf-8?B?RVR6bU1uaUFsTEgvM0QwSXYzMEhZbElhUGhVVGhtUkRYOUpjK1ZoM01xTFY0?=
- =?utf-8?B?MDdVeGtTcXJOQlUxZjdFRHByaFZnU3FyV0VzMkdnUC9UQ01BWWFtNFIxN1hj?=
- =?utf-8?B?NjluMEYyQk1XUFo0VXovL1pOV2JmcTcySkx0akI5Ly9aOE1DbEN2blJ1OHRU?=
- =?utf-8?B?NTh3ZFo5dmdGSXJXUWZzWkRrU1VPNkwwMDJIVmFYZEJEcjZwTythenlvQVhO?=
- =?utf-8?B?dWNqSVBXVU1JWnBhTzg5YVdIdmVYZ1EzeVVqTmFuS3FsWXFhdHk4emhBOVNN?=
- =?utf-8?B?WkR4bThmTzdjZmNLVHpydktzbXhDdlFpMzhsTmtRTkpEWnJPV3lXUkZtWkxE?=
- =?utf-8?B?Q0ZxalpLVjdrYkVTVGlhWE1IdVdES1A3cFJUNjFYd1laa25ZRnZPZDhhUlJN?=
- =?utf-8?B?eGNtOVlONytkSlh0ZUcxOXp3Mi9FUWRxaDlaQ3g5ZzVHR210Nm9zTFg5MTFI?=
- =?utf-8?B?N0YzeXpJVFhNVnh3d0pvSTRCdk5wNmQrWTZtU1o5L3F6VzE2c3FBNXpIZ2dj?=
- =?utf-8?B?bGlIRXlxRmZNMXFoQ0ptdXJJTUxac0x3TGpXb00welcrQitac3JjYXdPUVNP?=
- =?utf-8?B?NjhUaWNDSDFLV3Q2QmxhSTR5MjBqZHhzQXdmUHpjMlBFQzBvRlRlY2xsbEpQ?=
- =?utf-8?B?S294L2QydUhjQS9HeVhwYjczZ0s1elRWOXBUWDhiV2JxN3FSbmdCYWRZbEtS?=
- =?utf-8?B?WENVNU0zaHVkclpKd0plT01rQkFRTUR5NTh6RGhFNHowRFA5TEQ1Sit4MUx6?=
- =?utf-8?B?Q2JSSUsvekxEc1lpcWFITWlPS0VCbEFBSXdNbHlSWWwzeGo1YjJrY3c0MUkr?=
- =?utf-8?B?Vm9WRmRQZ3RPNkpXSGpEL0czMkhxbmU2YVhqM3BmM0pmRzA5dDJTTkxQYkJm?=
- =?utf-8?B?TDFxM3cwdWZXTHVsaGwvWXRpdUxGVDhLYVNaTEZ4dml3bnZqRjNaREU1TENC?=
- =?utf-8?B?cjBKdVVXd0VTUE5qME5HVElTbVhaS2ZjRFZENkRqWTVBcTRDMmQydHhIcnB6?=
- =?utf-8?B?MDg3Smp1VnlZb3lUUDBWY2xmY2xieHRNYVdGOG9NNXMrN3ZBRlptQTVwNXo4?=
- =?utf-8?B?bi93RWpNOGF6R25ZTWNlcXptc3Fid0RFaUpaM3luaDFTMEl6VzBmWGtpcldX?=
- =?utf-8?B?aVB2YzlXZU9kUzBxUks0djJuWmR6Y0xlUEtSeW4xcWwxYjZNWVRoNHQ5aEM2?=
- =?utf-8?B?amdLSEZlK1N1RGVJUUNnV0JWN3pnZkp3QUZVakpzKzg1VzNWZjVpem5NTEQ1?=
- =?utf-8?B?S0V0U2MvdnFSbEwyN3EyL0lwUU1LZTVwSTQvMUVYVUV0amFkeWxIOUUxVCts?=
- =?utf-8?B?Z2dqYTMzbDlHNjMyMnJGeWNSeGROTVYxZkdGY2xJM0wrYWg3SGxzNHVTY1Jv?=
- =?utf-8?B?Nm1HSVFXM0VlQUZSdnNFYy9XcllqWXZzYnNwdjNqSXlkeFlsa3pRdnFiVmdw?=
- =?utf-8?B?Wm1kS2VUcmxRVEFCaG9FQXVnMFQ4bmZMcE81dGd6TmI3R0xia0tFVERDMXZ6?=
- =?utf-8?B?Q1VQTUZVdUNlQXFqa3Z0UXJhWWVIb3pURm9BaHNLYW1jem1kcDE4N2x6bTZj?=
- =?utf-8?B?cHRMaXdmbnNGYkxjZTQyMTlZdStQWDk0QW5aQjdUTElWV3JUL0Jjdm1kR2RY?=
- =?utf-8?B?eUIrNHVPeTRlaml5NnZyRXZ5NDlEbk9WWCs4SUYvRlZ4eW5EM3JjYzQ4S0Rk?=
- =?utf-8?B?azVjcXFlWXNCcThjb0tBbENwbXVIRkJxK25oaG16Tkk0VGxEUVdtZGpkaGVE?=
- =?utf-8?B?MjRnMXJHSEFZUFNla1lHUHRIS0hQdWh5d2lsd3VrTk1pZGZRQ3ZTZDh4VnZQ?=
- =?utf-8?B?NStNSnB0djBiN0txZnpZUFlmTk9ReEFwc1AyekdpQzdISHU5WTVTRDB1OUZa?=
- =?utf-8?B?TENTRzJNU3RlOGM4Mi9DRmR4YmN4a3UzaTVEREhhZ2NBTDE1VjhoOUhGMmdF?=
- =?utf-8?B?dGYzTlF5enRTSzNEelVuODNVNStKd09iRGhxVUE2aGE2ZDRDeGUwdlplZzZS?=
- =?utf-8?B?ditWVzFMcCtwYzBhdzZmcUlNWlZMQy9iSENOcnZ1c0QyRnhKSkJ0MlBNanpF?=
- =?utf-8?Q?pouajdbmr1SlmZ0XYYBHhFSMa?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7231654f5a=praveen.kumar@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54GB83N2024643
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 11:44:32 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46mbc8v3rp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 11:44:32 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Fri, 16 May 2025 04:44:25 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Fri, 16 May 2025 04:44:23 -0700
+From: Praveen Kumar <praveen.kumar@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Praveen Kumar <praveen.kumar@windriver.com>
+Subject: [oe-core][scarthgap][PATCH 1/1] glib-2.0 : fix CVE-2025-4373
+Date: Fri, 16 May 2025 17:14:21 +0530
+Message-ID: <20250516114421.3941135-1-praveen.kumar@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: be52ac8c-8e65-4880-7de1-08dd946b69a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2025 11:18:41.1446
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ihp/cgMXcIvFd2S3ogz3ULe+OL8viOIDaWQjcouTHy22YN8S8NjXSnGHSqDr5h6VtL2QwLPrcNMDb/wGdA4VHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB5869
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: NmZZalEgt7SgqsKsTVavfcD3HA-86fB7
+X-Proofpoint-ORIG-GUID: NmZZalEgt7SgqsKsTVavfcD3HA-86fB7
+X-Authority-Analysis: v=2.4 cv=IIACChvG c=1 sm=1 tr=0 ts=68272520 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=PYnjg3YJAAAA:8 a=xNf9USuDAAAA:8 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=pedpZTtsAAAA:8
+ a=iP4e_i8taq-sWq2_hYYA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=EA_oED63Isst-uzJqiZM:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDExMSBTYWx0ZWRfXwwpO7GKa+Y2k KwP91nR0yCYLu7U6pT4fU/n4WXfxETWvOa+5StPdKQVsEtQp010euAi3P94EMYypyJBddDEjBBG /WzwEbhOHKm97JEQjjHhqUyrytXdHrq1/MNtWUDBlDY+K6RXGJtFjQ9VlKvuE8xH3dOatDLwuX4
+ 68tl19bOk6iW5YVGo86vqXnyHwheD0k9EEUSUYeQqKld/8igSIjGAabX8a4dfpVM1rH3a8kuSDG W07kjOAnMi2kyK3sS0pktHU2EyI4SDl64ZE78Q87EVHzLXY68GbgyUV06sGbMH0+jhXBHDmklZE K+oD5rA31jO6Mb3KuJuF59ep1jEFbhKT/mcmJyeXcuREhvn0SS8FksnfBIW+LVIxBujtoOvk+zj
+ sUvvFm0MMohh2RBI3hD3vgvOxV1PZoCDvsQwOrV19ZA0W6VrdGZviEZ+w+/08NK+Jn0LhigM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-16_05,2025-05-16_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 impostorscore=0 mlxlogscore=999 priorityscore=1501
+ clxscore=1015 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
+ definitions=main-2505160111
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 11:18:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216747
+ <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 11:44:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216748
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWF0aGlldSBEdWJvaXMt
-QnJpYW5kIDxtYXRoaWV1LmR1Ym9pcy1icmlhbmRAYm9vdGxpbi5jb20+DQo+IFNlbnQ6IE1vbmRh
-eSwgTWF5IDEyLCAyMDI1IDE0OjA1DQo+IFRvOiBNYXJrbywgUGV0ZXIgKEZUIEQgRVUgU0sgQkZT
-MSkgPFBldGVyLk1hcmtvQHNpZW1lbnMuY29tPjsNCj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENIIHY0XSBzcWxp
-dGUzOiB1cGdyYWRlIDMuNDguMCAtPiAzLjQ5LjENCj4gDQo+IE9uIFN1biBNYXkgMTEsIDIwMjUg
-YXQgNTowNSBQTSBDRVNULCBQZXRlciBNYXJrbyB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
-PiB3cm90ZToNCj4gPiBGcm9tOiBQZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5jb20+
-DQo+ID4NCj4gPiBIYW5kbGUgQ1ZFLTIwMjUtMzI3NywgQ1ZFLTIwMjUtMjkwODcgYW5kIENWRS0y
-MDI1LTI5MDg4Lg0KPiA+DQo+ID4gVGhpcyB1cGRhdGUgaW5jbHVkZXMgbWFqb3IgY2hhbmdlIGlu
-IGhvdyBpdCBpcyBidWlsdC4NCj4gPiBJbnN0ZWFkIG9mIGF1dG90b29scywgYXV0b3NldHVwIGlz
-IHVzZWQuDQo+ID4NCj4gPiBBdXRvc2V0dXAgKGh0dHBzOi8vbXN0ZXZlYi5naXRodWIuaW8vYXV0
-b3NldHVwLykgY2xhaW1zIHRvIGJlDQo+ID4gKiBSZXBsYWNlbWVudCBmb3IgYXV0b2NvbmYgaW4g
-bWFueSBzaXR1YXRpb25zDQo+ID4gSG93ZXZlciBpdCBhbHNvIGNsYWltcyBOT1QgdG8NCj4gPiAq
-IEludGVuZGVkIHRvIHJlcGxhY2UgYWxsIHBvc3NpYmxlIHVzZXMgb2YgYXV0b2NvbmYNCj4gPiBU
-aGlzIG1lYW5zIHRoYXQgc29tZSBhdXRvY29uZiBmZWF0dXJlcyBhcmUgbm90IGF2YWlsYWJsZS4N
-Cj4gPg0KPiA+IFJlY2lwZSBjaGFuZ2VzOg0KPiA+ICogc3RvcCBpbmhlcml0aW5nIGF1dG90b29s
-cyBhbmQgZGVmaW5lIEIsIGRvX2NvbmZpZ3VyZSBhbmQgZG9faW5zdGFsbA0KPiA+ICogZGVwZW5k
-IG9uIHpsaWIgdW5jb25kaXRpb25hbGx5LCBhdXRvY29uZiBjYW5ub3QgYmUgcHJlY29uZmlndXJl
-ZCBpbg0KPiA+ICAgc2ltaWxhciB3YXkgYXMgYXV0b3Rvb2xzDQo+ID4gKiB1cGRhdGUgcGFja2Fn
-ZWNvbmZpZyBvcHRpb25zIHRvIG1hdGNoIG5ldyBzeW50YXgNCj4gPiAqIGxpYmVkaXQgaXMgZGV0
-ZWN0ZWQgd2l0aCBuY3Vyc2VzIGxpbmtpbmcgb3B0aW9ucyAoYXMgc2VlbiBpbg0KPiA+ICAgZG9f
-Y29uZmlndXJlIGxvZykNCj4gPiAqIGJhY2twb3J0IHJwYXRocyBmaXgNCj4gPiAqIGRlZmluZSBz
-b25hbWUgdG8gYXZvaWQgZmlsZS1yZGVwcyBRQSBlcnJvciBkdWUgdG8gd3JvbmcgbGlicmFyeSBu
-YW1lDQo+ID4gKiBhZGQgaGFjayB0byBmb3JjZSBjcm9zcy1jb21waWxhdGlvbiBpbiBuYXRpdmUg
-Y2FzZSB0byBsaW5rIGFnYWluc3QNCj4gPiAgIHpsaWIgaW4gc3lzcm9vdCBhbmQgdGh1cyBhdm9p
-ZCBjcmFzaGVzIHdoZW4gc3N0YXRlLWNhY2hlIGZyb20gZGlmZmVyZW50DQo+ID4gICBkaXN0cm8g
-aXMgdXNlZA0KPiA+ICogY2xlYW4gQiBmb3IgZG9fY29uZmlndXJlIGFzIHRoZSBuZXcgTWFrZWZp
-bGVzIGRvIG5vdCBzZWVtIHRvIHByb3Blcmx5DQo+ID4gICByZXRyaWdnZXIgYnVpbGQgaWYgY29u
-ZmlndXJhdGlvbiBjaGFuZ2VzDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBQZXRlciBNYXJrbyA8
-cGV0ZXIubWFya29Ac2llbWVucy5jb20+DQo+ID4gLS0tDQo+IA0KPiBIaSBQZXRlciwNCj4gDQo+
-IFRoYW5rcyBmb3IgdGhlIG5ldyB2ZXJzaW9uLiBIb3dldmVyIEkgYmVsaWV2ZSB3ZSBzdGlsbCBo
-YXZlIGFuIGVycm9yLCBpbg0KPiBvZS1zZWxmdGVzdCBhbmQgYnVpbGQgb24gQVJNIGhvc3RzOg0K
-PiANCj4gMjAyNS0wNS0xMiAwODowMToxMywxNDkgLSBvZS1zZWxmdGVzdCAtIElORk8gLQ0KPiBi
-dWlsZG9wdGlvbnMuQXJjaGl2ZXJUZXN0LnRlc3RfYXJjaF93b3JrX2Rpcl9hbmRfZXhwb3J0X3Nv
-dXJjZQ0KPiAoc3VidW5pdC5SZW1vdGVkVGVzdENhc2UpDQo+IDIwMjUtMDUtMTIgMDg6MDE6MTMs
-MTUwIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gIC4uLiBGQUlMDQo+IC4uLg0KPiAyMDI1LTA1LTEy
-IDA4OjAxOjEzLDE1MCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtDQo+IHRlc3R0b29scy50ZXN0cmVz
-dWx0LnJlYWwuX1N0cmluZ0V4Y2VwdGlvbjogVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxh
-c3QpOg0KPiAgIEZpbGUgIi9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC0N
-Cj4gZGViaWFuL2J1aWxkL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvYnVpbGRvcHRpb25z
-LnB5IiwgbGluZSAxOTEsIGluDQo+IHRlc3RfYXJjaF93b3JrX2Rpcl9hbmRfZXhwb3J0X3NvdXJj
-ZQ0KPiAgICAgc2VsZi5hc3NlcnRFcXVhbChyZXMuc3RhdHVzLCAwLCAiXG5Db3VsZG4ndCBidWls
-ZA0KPiB4Y3Vyc29ydHJhbnNwYXJlbnR0aGVtZS5cbmJpdGJha2Ugb3V0cHV0ICVzIiAlIHJlcy5v
-dXRwdXQpDQo+ICAgRmlsZSAiL3Vzci9saWIvcHl0aG9uMy45L3VuaXR0ZXN0L2Nhc2UucHkiLCBs
-aW5lIDgzMSwgaW4gYXNzZXJ0RXF1YWwNCj4gICAgIGFzc2VydGlvbl9mdW5jKGZpcnN0LCBzZWNv
-bmQsIG1zZz1tc2cpDQo+ICAgRmlsZSAiL3Vzci9saWIvcHl0aG9uMy45L3VuaXR0ZXN0L2Nhc2Uu
-cHkiLCBsaW5lIDgyNCwgaW4gX2Jhc2VBc3NlcnRFcXVhbA0KPiAgICAgcmFpc2Ugc2VsZi5mYWls
-dXJlRXhjZXB0aW9uKG1zZykNCj4gQXNzZXJ0aW9uRXJyb3I6IDEgIT0gMCA6DQo+IENvdWxkbid0
-IGJ1aWxkIHhjdXJzb3J0cmFuc3BhcmVudHRoZW1lLg0KPiANCj4gaHR0cHM6Ly9hdXRvYnVpbGRl
-ci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVpbGRlcnMvMzUvYnVpbGRzLzE1NDENCj4g
-aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVpbGRlcnMv
-NDgvYnVpbGRzLzE0ODINCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3Zh
-bGt5cmllLyMvYnVpbGRlcnMvNDgvYnVpbGRzLzE0ODINCg0KSnVzdCB3YW50ZWQgdG8gc2F5IEkg
-aGF2ZSBub3QgbWlzc2VkIHRoaXMsIGJ1dCBJIGN1cnJlbnRseSBkb24ndCBoYXZlIHRpbWUgdG8g
-d29yayBvbiB0aGlzIHVwZGF0ZS4NCklmIHNvbWVvbmUgZWxzZSB3YW50cyB0byBwaWNrIGl0IHVw
-LCBwbGVhc2UgZ28gYWhlYWQuDQpPdGhlcndpc2UsIEknbGwgdHJ5IHRvIGZpbmQgc29tZSB0aW1l
-IGluIEp1bmUuDQoNClBldGVyDQoNCj4gDQo+IC0tDQo+IE1hdGhpZXUgRHVib2lzLUJyaWFuZCwg
-Qm9vdGxpbg0KPiBFbWJlZGRlZCBMaW51eCBhbmQgS2VybmVsIGVuZ2luZWVyaW5nDQo+IGh0dHBz
-Oi8vYm9vdGxpbi5jb20NCg0K
+A flaw was found in GLib, which is vulnerable to an integer overflow
+in the g_string_insert_unichar() function. When the position at which
+to insert the character is large, the position will overflow, leading
+to a buffer underwrite.
+
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2025-4373
+https://security-tracker.debian.org/tracker/CVE-2025-4373
+
+Upstream-patches:
+https://gitlab.gnome.org/GNOME/glib/-/commit/cc647f9e46d55509a93498af19659baf9c80f2e3
+https://gitlab.gnome.org/GNOME/glib/-/commit/4d435bb4809793c445846db8fb87e3c9184c4703
+
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+---
+ .../glib-2.0/glib-2.0/CVE-2025-4373-01.patch  | 120 ++++++++++++++++++
+ .../glib-2.0/glib-2.0/CVE-2025-4373-02.patch  |  29 +++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   2 +
+ 3 files changed, 151 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
+new file mode 100644
+index 0000000000..f99c4de7e1
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
+@@ -0,0 +1,120 @@
++From cc647f9e46d55509a93498af19659baf9c80f2e3 Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Thu, 10 Apr 2025 10:57:20 -0500
++Subject: [PATCH 1/2] gstring: carefully handle gssize parameters
++
++Wherever we use gssize to allow passing -1, we need to ensure we don't
++overflow the value by assigning a gsize to it without checking if the
++size exceeds the maximum gssize. The safest way to do this is to just
++use normal gsize everywhere instead and use gssize only for the
++parameter.
++
++Our computers don't have enough RAM to write tests for this. I tried
++forcing string->len to high values for test purposes, but this isn't
++valid and will just cause out of bounds reads/writes due to
++string->allocated_len being unexpectedly small, so I don't think we can
++test this easily.
++
++CVE: CVE-2025-4373
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/cc647f9e46d55509a93498af19659baf9c80f2e3]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
++---
++ glib/gstring.c | 36 +++++++++++++++++++++++-------------
++ 1 file changed, 23 insertions(+), 13 deletions(-)
++
++diff --git a/glib/gstring.c b/glib/gstring.c
++index 9f04144..d016b65 100644
++--- a/glib/gstring.c
+++++ b/glib/gstring.c
++@@ -490,8 +490,9 @@ g_string_insert_len (GString     *string,
++     return string;
++
++   if (len < 0)
++-    len = strlen (val);
++-  len_unsigned = len;
+++    len_unsigned = strlen (val);
+++  else
+++    len_unsigned = len;
++
++   if (pos < 0)
++     pos_unsigned = string->len;
++@@ -788,10 +789,12 @@ g_string_insert_c (GString *string,
++   g_string_maybe_expand (string, 1);
++
++   if (pos < 0)
++-    pos = string->len;
+++    pos_unsigned = string->len;
++   else
++-    g_return_val_if_fail ((gsize) pos <= string->len, string);
++-  pos_unsigned = pos;
+++    {
+++      pos_unsigned = pos;
+++      g_return_val_if_fail (pos_unsigned <= string->len, string);
+++    }
++
++   /* If not just an append, move the old stuff */
++   if (pos_unsigned < string->len)
++@@ -824,6 +827,7 @@ g_string_insert_unichar (GString  *string,
++                          gssize    pos,
++                          gunichar  wc)
++ {
+++  gsize pos_unsigned;
++   gint charlen, first, i;
++   gchar *dest;
++
++@@ -865,15 +869,18 @@ g_string_insert_unichar (GString  *string,
++   g_string_maybe_expand (string, charlen);
++
++   if (pos < 0)
++-    pos = string->len;
+++    pos_unsigned = string->len;
++   else
++-    g_return_val_if_fail ((gsize) pos <= string->len, string);
+++    {
+++      pos_unsigned = pos;
+++      g_return_val_if_fail (pos_unsigned <= string->len, string);
+++    }
++
++   /* If not just an append, move the old stuff */
++-  if ((gsize) pos < string->len)
++-    memmove (string->str + pos + charlen, string->str + pos, string->len - pos);
+++  if (pos_unsigned < string->len)
+++    memmove (string->str + pos_unsigned + charlen, string->str + pos_unsigned, string->len - pos_unsigned);
++
++-  dest = string->str + pos;
+++  dest = string->str + pos_unsigned;
++   /* Code copied from g_unichar_to_utf() */
++   for (i = charlen - 1; i > 0; --i)
++     {
++@@ -931,6 +938,7 @@ g_string_overwrite_len (GString     *string,
++                         const gchar *val,
++                         gssize       len)
++ {
+++  gssize len_unsigned;
++   gsize end;
++
++   g_return_val_if_fail (string != NULL, NULL);
++@@ -942,14 +950,16 @@ g_string_overwrite_len (GString     *string,
++   g_return_val_if_fail (pos <= string->len, string);
++
++   if (len < 0)
++-    len = strlen (val);
+++    len_unsigned = strlen (val);
+++  else
+++    len_unsigned = len;
++
++-  end = pos + len;
+++  end = pos + len_unsigned;
++
++   if (end > string->len)
++     g_string_maybe_expand (string, end - string->len);
++
++-  memcpy (string->str + pos, val, len);
+++  memcpy (string->str + pos, val, len_unsigned);
++
++   if (end > string->len)
++     {
++--
++2.40.0
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
+new file mode 100644
+index 0000000000..ea586c90dc
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
+@@ -0,0 +1,29 @@
++From 4d435bb4809793c445846db8fb87e3c9184c4703 Mon Sep 17 00:00:00 2001
++From: Peter Bloomfield <peterbloomfield@bellsouth.net>
++Date: Fri, 11 Apr 2025 05:52:33 +0000
++Subject: [PATCH 2/2] gstring: Make len_unsigned unsigned
++
++CVE: CVE-2025-4373
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/4d435bb4809793c445846db8fb87e3c9184c4703]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
++---
++ glib/gstring.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/glib/gstring.c b/glib/gstring.c
++index d016b65..d9ad0c3 100644
++--- a/glib/gstring.c
+++++ b/glib/gstring.c
++@@ -938,7 +938,7 @@ g_string_overwrite_len (GString     *string,
++                         const gchar *val,
++                         gssize       len)
++ {
++-  gssize len_unsigned;
+++  gsize len_unsigned;
++   gsize end;
++
++   g_return_val_if_fail (string != NULL, NULL);
++--
++2.40.0
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+index 1a65f48399..e1a3b57270 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+@@ -27,6 +27,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2025-3360-04.patch \
+            file://CVE-2025-3360-05.patch \
+            file://CVE-2025-3360-06.patch \
++           file://CVE-2025-4373-01.patch \
++           file://CVE-2025-4373-02.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+-- 
+2.40.0
+
 
