@@ -1,345 +1,175 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F21C2D0CD
-	for <webhook@archiver.kernel.org>; Sat, 17 May 2025 08:17:56 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.8120.1747469873457862273
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 126B5C3ABDA
+	for <webhook@archiver.kernel.org>; Sat, 17 May 2025 12:50:48 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.11080.1747486241976403491
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 May 2025 01:17:53 -0700
+ Sat, 17 May 2025 05:50:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZyLP0fS7;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-30a9cd61159so2791505a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 01:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747469872; x=1748074672; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PV8MqZA90nZpUdDY8RdbxAym6LZ0IQKuLqyt8sOl90w=;
-        b=ZyLP0fS7xnuzMZ2fsjmuXYQzYIqauTAPt6yTl1JrXyC7zwkyHQo+HVmlNXNs63NnCA
-         DBL9h707/R0LRs/9qKcOqv0dXykEuJQfVwZpkDCoLdcTSnW+1D2w94yk4hQ8vCZ6tPcb
-         qA16V9R5+N6mNl3jLXMWDJ1T9QPBwGqh91UivgUS9aio8bnMoVLcrAZPHgbCeUNxbONT
-         QpS1i0TiSCBAD4jW6x2dRv3s5y4F97cO2DTXNYM+oNvTB2X4liaa8AjhlROMpmjrl7tk
-         MS65aLsczevnjbMLyZI3Rnuw4Jak2y8yk7LTUnJrCuNNWF4XxaeP1NgWWzxsavD5PhYF
-         KROA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747469872; x=1748074672;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PV8MqZA90nZpUdDY8RdbxAym6LZ0IQKuLqyt8sOl90w=;
-        b=m2Fst/mO/0v1hNYkpnBcsJxQ0Y9CnFfc9SuZE9T5J2ICWovL2u+NImPwhjsMdjOG+S
-         4K0yI7qAie0CVdQZm8wvxEEM6JwR2sGAyIcaFaUGJWJfG3Qc92XotEPjRzkkq+IJLq+O
-         t573AmcqQV+AfmwVFWTl2VKhy88zfV7MTRl78NGWlKPoODIR6Eq1gnqzc0zTOFzHE78k
-         ltjCvxznu/wg96BeT12hYQs+FhGJrTD4WDHXo/OS3o5PKUxSRa4uSABOKkzXiBeAEykW
-         g3Gz/efGbzbEHpLCw5e92wTauwAtfUkmQdAfqzLFfa4yBIE/A8enXohW2VaUx3S494pu
-         3TyA==
-X-Gm-Message-State: AOJu0YwiXG3KB6ZKbycsvFjZkGMixcBBZaiEJIykMCYLW+n/2cyKvWp4
-	FKwvDTWUqlAGubd6onS59p35EgtdoZpN6ulMIuXRWU5yGqMQyK7ljVoRlDJ/KeSG
-X-Gm-Gg: ASbGncsr6Z2nJPYb4Bxpx0W/B0zGJruTqWD9lQHHDOJ6V58IeMm15elkwwBswqzF9Ic
-	UoNxHiASM76npULVaUB0e/H4s7aFzFK9qQEKi0SXQiR3qD/CFFaaZRPi56Je6F1OcOtRbjagXdX
-	nmgJo2StwsQqIZhWuFgKF7VNorM5K8r8ehS/LQMpPJUZjNky12SXkJiORkF0gxI5Lgjai7abEAt
-	+6XmbLXlcTaMT5bbPiZwBrgTLbKIBwItW9rFUWCgb+iN+1TQBBMBq2iMO1vzenFOg37MgyWOTIi
-	jF1BS2J2P7jY36MFKkh5SZ2/8viNLTCdP/XnDEvADeU8UG/ToBn0tA==
-X-Google-Smtp-Source: AGHT+IGdVkliq7qs7DlaLprSZiub6S3A8Sjq515j1xnlummO9SEr6Uw6ZpACuFZiKZh1BTmi4FflPQ==
-X-Received: by 2002:a17:90b:2e85:b0:2ee:c30f:33c9 with SMTP id 98e67ed59e1d1-30e7e770523mr4923348a91.14.1747469872283;
-        Sat, 17 May 2025 01:17:52 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb081aa2sm2737955a12.48.2025.05.17.01.17.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 May 2025 01:17:51 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=72320f9001=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54HCg3l7021063
+	for <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 12:50:41 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2177.outbound.protection.outlook.com [104.47.58.177])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46phe8rauc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 12:50:40 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Kn1Wt5lkXiY4qgoKrdQMeeSmPDdKzy5Akr6ErjcgAhP10sBYMNxQe7C/ZC4jpPxBjN92NOYlcNmrEtVySOJJQU5WV78topOnfGR3mf3vS2fovfxKagRqeiD3mEFjrko+y2DXFPSlW94jptG+VBnYtepBQ5uU8HSV2Jqz5pnZGdzWRjv0biVk1onXoO9IG4GQvq9uQtdU4gorRzt40SJxi/o3j+ViOTKGuBpOFdaQgIKO1C+sq+MkaqevcNdZ7HkPRYYLbiSPuSHTZug0ZHf8NKqdWrK0vWQByuZtvfgQGuEb5nQzSTgxcQN74x9IU1mWNswuJMkboHj+5/yBT4FKdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PlidnR5r4QOYgAyIizUts1NTnbQRCUN39dJ3YQoGXy8=;
+ b=DtSg3AUz8vd/4CH+TkqdDk3sia+0uSD4xRyqStGRhh0/QhN1RJuzw8mMgQU+I3EQDBsyyT8XsgyS2pej8g+rxk0aAVnPSuuHOIg5YiCNGzStkLUqr1+ccT3CeMCQ5V8N6BWX+GEG2r8yGpS5uoigWhunn/L6DChH1FjsbLI726RC2zSpD0T6zt8fvGjustXr7sHlT2GT5TRn3qfGqQVZ3w7u4j24uh55QX+HeyyFtnrf2rtrhihQyDMdPrnOn5bwUrLskyS0sIvFVGP8HXew/q6dVeRi9CMyrY6rdI00O69bRH7FFZRAnBn3Vaxnbs82DEULMg1XQJEZ+eNCo9cA5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
+ CY5PR11MB6341.namprd11.prod.outlook.com (2603:10b6:930:3e::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.33; Sat, 17 May 2025 12:50:38 +0000
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad%4]) with mapi id 15.20.8722.031; Sat, 17 May 2025
+ 12:50:38 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3] m4: Upgrade to 1.4.20 release
-Date: Sat, 17 May 2025 01:17:47 -0700
-Message-ID: <20250517081747.1089519-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
-MIME-Version: 1.0
+Subject: [PATCH] libcap: upgrade 2.75 -> 2.76
+Date: Sat, 17 May 2025 20:50:24 +0800
+Message-Id: <20250517125024.38239-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0035.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::8) To DS0PR11MB6399.namprd11.prod.outlook.com
+ (2603:10b6:8:c8::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|CY5PR11MB6341:EE_
+X-MS-Office365-Filtering-Correlation-Id: 886dc98b-4e63-4838-96b5-08dd95416c79
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?h8HLq4DpodoO+TFDg+KbZnz7OxImW1kmqnYYzgfr0lVXLoOzZAG4xuQOF0Pe?=
+ =?us-ascii?Q?KTWi7yy0sKs5RNhvmFYno6p/OI7KM2qn33agx8aTLbZzjJQSxiilsh8490my?=
+ =?us-ascii?Q?mg3JZQQRoLtXSM/e33iY7LNQxmcrtIlOrRo0iUJdR/ZpMSCHanKSZRRGFwAB?=
+ =?us-ascii?Q?jHA9trFr05zaMxtYkvmicBIvc8odrPiTtUVqnelR45Nk3/7fy7y+C/qyKQKI?=
+ =?us-ascii?Q?oiWNCi2aEmmTb/jBgPGei1rtv655kc3KG9N+vf2wPyV8HSsNKcIxC7IRjHDt?=
+ =?us-ascii?Q?X1o3kqfMxcUuhKNJFITPam0+yBA1is5GSWSrRJj/mh8fTMLeA74+/eqRF5C/?=
+ =?us-ascii?Q?hEdqajtJo8r2zV8P3CaCQ4YWsiBEYzrmuYEu4KJbpb8eNZssHG898K/7Lt5Z?=
+ =?us-ascii?Q?nXLl8u/0dHPMOeTsZYuafGG3RncSNm5c3qBCFUsWsYh2Gkb93GMA/1pZ99xj?=
+ =?us-ascii?Q?aFBWhL/zGiYuHEfLFrG3Fu4t/3cmt8T+Me2s6dSNnaUr9ajXr+/0UlFFIihW?=
+ =?us-ascii?Q?Cf1k/BXKCFc5R+ep5fomVNNGoOHoUKKV1KR/7ze3bKRulvi8iK8icTE+NcP4?=
+ =?us-ascii?Q?7CJbobl0jhQpsTLMt44zdr21vfXy62eLdkufjowWe7hnwSk8J0qMs/OJ8VdY?=
+ =?us-ascii?Q?aeMjLX3zIOLzS4+zxZjb6KxW/gyWuEH86mvh0GHAAPzxVMlQage8bWv3vyGu?=
+ =?us-ascii?Q?S6wypCCR4TtSbpLQZoTCGy+RcUuW80ExmDePF39hI3uZdSB39I1PxwlWBgDr?=
+ =?us-ascii?Q?Yn0EWQ7vAeWpEFBliPVvdyAIrh11u2cWe3AFgSQI5m+OE8o/lrpKbPmmxQ7H?=
+ =?us-ascii?Q?Kjk0t+k+fNPEV2rbVJ4MyfICLDSfbfUo6UIvxNjM/zauuRSLjGWVMJh/vzNW?=
+ =?us-ascii?Q?QpK9W/7yE8ccAjTfSHWb2Y45tn+O7Y/OLqSl0yjYuzpIIk/B29v3QM+lVZOx?=
+ =?us-ascii?Q?kOBKE9s1SD3StkoFJHflia0WvmTsQk4eNkHlWB25lYGO2JWspVBuL12gG3zv?=
+ =?us-ascii?Q?OcconRyUyXURInWekZ3NS+Hzq5DPTBT/P2s8O8ZiJEpW8YXdTngJkSzkR+N1?=
+ =?us-ascii?Q?QQcl8nixJyf3P+8b9zNxAd9A2f60owGKSe7zdkfUr5CGfaUtLJxCzyImOjNv?=
+ =?us-ascii?Q?E93iHCmn/pdKCk61idGlVgryEktz5UWzeDiYU6sQOjix4Ep5c3DiqLxcLNU2?=
+ =?us-ascii?Q?qBFWSiWMWqzIrgrh7O47R5QyZaC+IBxT3u9QJinvgCaQbdEwuH1IjdB2K60l?=
+ =?us-ascii?Q?4pJhJqT0T825/n6aJbVKrTJ4bPaMp3tqKkFmY3xNQhzSP5TUZjzljD/TG8WW?=
+ =?us-ascii?Q?vjG9wLIJYXQTQc9Mv4LuqKfCiZNiFGu4NLk1/TMWclPYsMTu4psyOAqlvs1Y?=
+ =?us-ascii?Q?V97a0soVdDdu48loOq4imJ2jJG5jLgIOkDvkU/DNwws/MwH37xou7kECElkD?=
+ =?us-ascii?Q?vR9knhSwLfdu20hnVol/ExBDBf2ViLzb?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?NIYcHupUI6Bc9LJAeauyZ7y9zteDPrGgj6zWgb3PQrveHG+JL+g7eCfHiPgn?=
+ =?us-ascii?Q?ZZI/Y4YH6ScLyMN8BU/QyHVaSGXyxy0vJSmyyf8kWHc7RjgPv2F4Dhz8pwMf?=
+ =?us-ascii?Q?46zvkwy8K9YmT8NVSsnRFU9Er5zfkxZ/01cNMCBQv6AuLj5+e+im08xaX4GE?=
+ =?us-ascii?Q?DQjL4T7Rau5R2IkVsmp5K9rHf8FH7JXtzC9FFz+dY7kd72avBQUERl6Mn9Hu?=
+ =?us-ascii?Q?seh/+IBoaNezpB5Odbw3k5CQdR11E1pg5exP71HJqCBewjP6x8u9XOANub1z?=
+ =?us-ascii?Q?RFsoYkVKV+wimthCEl13f8pph5aY6TaHRSfYYr+d/Mzm77iQKs9QXoQ0vQB/?=
+ =?us-ascii?Q?8GkBXGmCpZGj8mOpAiBAHRAEvFVqvunSNoUM+WBEBVTyVT+Z6betT8xcCkl8?=
+ =?us-ascii?Q?+dPQbfiKC3lvVPetTGKf69Cxg1dWQjJifFAAO84nVgwHkqBY+Gubhyn7ORmC?=
+ =?us-ascii?Q?LrzmuJn3HJ7Y3eE9cZRD8usnuMjJGVhdfmOeAc9gcd0D1U6/boC1Gwum1Nu3?=
+ =?us-ascii?Q?VzR6tBbpvONQQgTny2uhgUeuKlLvK8pIcBvrU7za5DG3qqINIgaX584XM1+W?=
+ =?us-ascii?Q?1yLWlVEt+DCroU8GaUJGaqfa/Gh5IeQDpq7Pq6q9nk0MdGqz0+RjNx0GiZXy?=
+ =?us-ascii?Q?/aC3PSKaI9XRMD02WiTNM0mQefgB+9FxaKAjTTqb1Vhfs/RAkKB0leqC/HWG?=
+ =?us-ascii?Q?gv7Wa0M8heXqgBq0K65Rp51JeXKHXA2/m45YpoAGP6yDXOCBNUbxytLbIdon?=
+ =?us-ascii?Q?hwJXW1ZyV0hHfYbs3jS/A7+Bnkc21z0NfUJiyIzmgROf6op76onTvJvZfqJO?=
+ =?us-ascii?Q?ieRBZxhyjYJFWqLrM1SJxFXqL5SodMXAa89gUv+/rxKaocvQQRpZ4bsc/zdl?=
+ =?us-ascii?Q?GrL5RXB3xCBJyjutOEPZq4cHf6sBStE2LkQnyhIGP6Ni8kEM2Fy9mjfVPEMQ?=
+ =?us-ascii?Q?4i1/zAk8nMWFwPKLJpdXGL7HJmO6hhm65UJQUe6zMbw7yTZAa+IZm9h18ooS?=
+ =?us-ascii?Q?MLa1IrjoxqkLPKGL1oD+zPGfjz7FZaLsih6xzMmKgZbJGEgXvLCdu5mTmWRA?=
+ =?us-ascii?Q?qo0J1+Oozd05RLKWrCr4Veg96jrCwjUUI08c60CMWXHdVq7QhowAomDjpwvB?=
+ =?us-ascii?Q?vOlPpdiDBd2XRGHyGZ+MGfNBPeAAvcHO01+xUjswuD8QnCVVJBzJ567i9YKH?=
+ =?us-ascii?Q?IBNE1RRqLD9jqtR2CZYIsXqvXWAKe20sdKeSymMWguulbwG/3yUYApmvzJuF?=
+ =?us-ascii?Q?QDTLSUXZ9NJ16EXtvC3XNRdetp5IMMvK2CivoffaLSNi4QxPHcuWg2QhB/Xb?=
+ =?us-ascii?Q?vD6UV+l/kOLBqL9wIdsyDFr+92/5ONI14+6D4KIJWqmjHbcczTW/Uyy8CQ9I?=
+ =?us-ascii?Q?UhcCSJDMl67cjawVlTzq/9kox7C7KAICwa6TEx9XN7lC875rmqZKLlPwO91D?=
+ =?us-ascii?Q?4SQ0ls4hs71aps6nvYljl52OPyejXnJfi+MGFXi0GExPaiDfy0fJq6aGK+qc?=
+ =?us-ascii?Q?9Q6sOwu2rpCVGZbunxeCAEMVidj187F42agHSr2Dm7Nedhy6L9sI+lb+jmkF?=
+ =?us-ascii?Q?0VuHvIzSvnxbl2BxBse7nDQcv0v/R62gkobQ6Kfj?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 886dc98b-4e63-4838-96b5-08dd95416c79
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2025 12:50:38.5885
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bY8tyOghJnyJNFMcd18Yfne2QhEEVqMEmAUVohQTgOiYwoBS7I5jbFYwISBJwPHb52iiPPVEiA2TTY/UqfWocA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6341
+X-Proofpoint-GUID: aaH8SZwTE42m0p3PvWMZOaIouQqd1FT5
+X-Proofpoint-ORIG-GUID: aaH8SZwTE42m0p3PvWMZOaIouQqd1FT5
+X-Authority-Analysis: v=2.4 cv=arGyCTZV c=1 sm=1 tr=0 ts=68288620 cx=c_pps a=v3ez6FdVe4RSF1xj2bRqRw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
+ a=gFgmyHasAAAA:20 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=N0ukx1Hkg3zIgR4DPLAA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE3MDEyNiBTYWx0ZWRfX4symAwK2kIQM 2P4JZe/eLOanFAGI88acqL3/qvw1pNRUFZMmTinxkiCvco5TyrFGsRyOjP2eRrLZlrMZhLehud/ 1tcH6lF79hpqbQdji7UpfKAlR4ybL6uhuIOlQ5jKsdJjLdb6ws8UvDWHKw4irg3mUK21nO229Zz
+ 2lz5BF5GMFsFZRGrX6gmlJ6x21JjHWQVdZ0ssR5SAlvczVMUiI5JQIBrMhkmjFqv4R8tw6cjzUk h5o0jrNXmN0cly8zW0TDChJ0WSvQwnmm/dfU0DlURrSmj62LOgMKixluznLBqlLCXMhWlHy+jYI HjS/oWKI8M6Hk7AdDIj00P+GOubVdOV5GofUvGez6b9KDWcXI0gIVAHgHsp1vTAu5CgVUudLZ8/
+ 7JSt0wIJUrYR0S0ZGP/0B6uCCyk09lOYP6Ue3mfnMG+rnuH0/6iXZzmKdNAyd1OsylBX7iOe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-17_06,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ spamscore=0 phishscore=0 clxscore=1015 adultscore=0 suspectscore=0
+ mlxlogscore=894 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
+ definitions=main-2505170126
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 08:17:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216767
+ <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 12:50:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216768
 
-This has been 4 years in making, it has fixes to build with gcc-15
-and some patches are upstream [1] [2]
+ChangeLog:
+https://sites.google.com/site/fullycapable/release-notes-for-libcap#h.wqnp1zp1o8bm
 
-This release collects several years of portability improvements, as
-well as a couple of minor optimizations to performance.  Notable
-improvements in this release include faster execution of the 'eval'
-builtin. More details [3]
-
-[1] https://github.com/coreutils/gnulib/commit/2d830e4a792fcd9f614ed08a7f18584b8b21d23b
-[2] https://git.savannah.gnu.org/gitweb/?p=libsigsegv.git;a=commitdiff;h=a6ff69873110c0a8ba6f7fd90532dbc11224828c
-[3] https://lists.gnu.org/archive/html/m4-announce/2025-05/msg00000.html
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
-v2: Fix do_install_ptest builds
-v3: Fix failing ptests
+ meta/recipes-support/libcap/{libcap_2.75.bb => libcap_2.76.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libcap/{libcap_2.75.bb => libcap_2.76.bb} (96%)
 
- .../m4/{m4-1.4.19.inc => m4-1.4.20.inc}       | 16 ++----
- ...4-native_1.4.19.bb => m4-native_1.4.20.bb} |  0
- ...lot-using-_Alignof-when-using-C11-or.patch | 49 -------------------
- .../0001-sigsegv-Fix-build-on-ppc-musl.patch  | 37 --------------
- .../m4/m4/ac_config_links.patch               | 37 --------------
- meta/recipes-devtools/m4/m4/run-ptest         |  2 +-
- .../m4/m4/serial-tests-config.patch           | 11 ++---
- .../m4/{m4_1.4.19.bb => m4_1.4.20.bb}         |  0
- 8 files changed, 9 insertions(+), 143 deletions(-)
- rename meta/recipes-devtools/m4/{m4-1.4.19.inc => m4-1.4.20.inc} (75%)
- rename meta/recipes-devtools/m4/{m4-native_1.4.19.bb => m4-native_1.4.20.bb} (100%)
- delete mode 100644 meta/recipes-devtools/m4/m4/0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch
- delete mode 100644 meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
- delete mode 100644 meta/recipes-devtools/m4/m4/ac_config_links.patch
- rename meta/recipes-devtools/m4/{m4_1.4.19.bb => m4_1.4.20.bb} (100%)
-
-diff --git a/meta/recipes-devtools/m4/m4-1.4.19.inc b/meta/recipes-devtools/m4/m4-1.4.20.inc
-similarity index 75%
-rename from meta/recipes-devtools/m4/m4-1.4.19.inc
-rename to meta/recipes-devtools/m4/m4-1.4.20.inc
-index c73418d8e67..2ea3a9bace2 100644
---- a/meta/recipes-devtools/m4/m4-1.4.19.inc
-+++ b/meta/recipes-devtools/m4/m4-1.4.20.inc
-@@ -7,15 +7,12 @@ GNU M4 also has built-in functions for including files, running shell commands,
- inherit autotools texinfo ptest gettext
- 
- SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
--           file://ac_config_links.patch \
--           file://0001-sigsegv-Fix-build-on-ppc-musl.patch \
--           file://0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch \
+diff --git a/meta/recipes-support/libcap/libcap_2.75.bb b/meta/recipes-support/libcap/libcap_2.76.bb
+similarity index 96%
+rename from meta/recipes-support/libcap/libcap_2.75.bb
+rename to meta/recipes-support/libcap/libcap_2.76.bb
+index 8530f13295..c842246fc0 100644
+--- a/meta/recipes-support/libcap/libcap_2.75.bb
++++ b/meta/recipes-support/libcap/libcap_2.76.bb
+@@ -16,7 +16,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
+ SRC_URI:append:class-nativesdk = " \
+            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
             "
- SRC_URI:append:class-target = " file://run-ptest \
-                                 file://serial-tests-config.patch \
-                               "
+-SRC_URI[sha256sum] = "de4e7e064c9ba451d5234dd46e897d7c71c96a9ebf9a0c445bc04f4742d83632"
++SRC_URI[sha256sum] = "629da4ab29900d0f7fcc36227073743119925fd711c99a1689bbf5c9b40c8e6f"
  
--SRC_URI[sha256sum] = "3be4a26d825ffdfda52a56fc43246456989a3630093cced3fbddf4771ee58a70"
-+SRC_URI[sha256sum] = "6ac4fc31ce440debe63987c2ebbf9d7b6634e67a7c3279257dc7361de8bdb3ef"
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
  
- LICENSE = "GPL-3.0-only"
- 
-@@ -26,8 +23,6 @@ EXTRA_OECONF += "--without-libsigsegv-prefix"
- 
- EXTRA_OEMAKE += "'infodir=${infodir}'"
- 
--CFLAGS += "-std=gnu17"
--
- do_compile_ptest() {
- 	cd ${B}/tests
- 	sed -i '/^buildtest-TESTS: /c buildtest-TESTS: $(TESTS) $(check_LIBRARIES) $(check_PROGRAMS)' Makefile
-@@ -37,15 +32,15 @@ do_compile_ptest() {
- do_install_ptest() {
-                 cp -r ${B}/tests                        ${D}${PTEST_PATH}
-                 cp -r ${S}/tests/*                      ${D}${PTEST_PATH}/tests/
-+                cp -r ${S}/build-aux                    ${D}${PTEST_PATH}/tests/
-                 sed -i '/^Makefile:/c Makefile:'        ${D}${PTEST_PATH}/tests/Makefile
-                 find ${D}${PTEST_PATH} -type f -name *.[hoc] | xargs -i rm {}
--                cp ${S}/build-aux/update-copyright  ${D}${PTEST_PATH}/tests/
--                sed -i 's;update-copyright;./update-copyright;g' ${D}${PTEST_PATH}/tests/test-update-copyright.sh
--                chmod 0755 ${D}${PTEST_PATH}/tests/test-mbrtowc-w32-1.sh  ${D}${PTEST_PATH}/tests/test-spawn-pipe-main \
-+                chmod 0755 ${D}${PTEST_PATH}/tests/test-spawn-pipe-main \
-                      ${D}${PTEST_PATH}/tests/test-spawn-pipe-child ${D}${PTEST_PATH}/tests/test-version-etc \
-                      ${D}${PTEST_PATH}/tests/test-xalloc-die
- 
--                ln -s ptest ${D}${libdir}/${BPN}/${BP} 
-+                ln -sf ptest ${D}${libdir}/${BPN}/${BP}
-+                sed -i -e 's/@BP@/${BP}/g' ${D}${PTEST_PATH}/run-ptest
- }
- 
- do_install_ptest:append:libc-glibc() {
-@@ -59,4 +54,3 @@ RDEPENDS:${PN}-ptest:append:libc-glibc = "\
-      locale-base-fr-fr.iso-8859-1 \
-      glibc-gconv-iso8859-1 \
- "
--
-diff --git a/meta/recipes-devtools/m4/m4-native_1.4.19.bb b/meta/recipes-devtools/m4/m4-native_1.4.20.bb
-similarity index 100%
-rename from meta/recipes-devtools/m4/m4-native_1.4.19.bb
-rename to meta/recipes-devtools/m4/m4-native_1.4.20.bb
-diff --git a/meta/recipes-devtools/m4/m4/0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch b/meta/recipes-devtools/m4/m4/0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch
-deleted file mode 100644
-index 8757abd7a0e..00000000000
---- a/meta/recipes-devtools/m4/m4/0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From b0fd3a58354b1f5ead891907979dfd3dd36840d5 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 14 Jan 2023 14:55:03 -0800
--Subject: [PATCH] Define alignof_slot using _Alignof when using C11 or newer
--
--WG14 N2350 made very clear that it is an UB having type definitions
--within "offsetof" [1]. This patch enhances the implementation of macro
--alignof_slot to use builtin "_Alignof" to avoid undefined behavior on
--when using std=c11 or newer
--
--clang 16+ has started to flag this [2]
--
--Fixes build when using -std >= gnu11 and using clang16+ [3]
--
--[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
--[2] https://reviews.llvm.org/D133574
--[3] https://public-inbox.org/bug-gnulib/20230114232744.215167-1-raj.khem@gmail.com/T/#u
--
--Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=2d404c7dd974cc65f894526f4a1b76bc1dcd8d82]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/alignof.h | 2 ++
-- 1 file changed, 2 insertions(+)
--
----- a/lib/alignof.h
--+++ b/lib/alignof.h
--@@ -18,19 +18,19 @@
-- #define _ALIGNOF_H
-- 
-- #include <stddef.h>
--+#include "stdalign.h"
-- 
-- /* alignof_slot (TYPE)
--    Determine the alignment of a structure slot (field) of a given type,
--    at compile time.  Note that the result depends on the ABI.
---   This is the same as alignof (TYPE) and _Alignof (TYPE), defined in
---   <stdalign.h> if __alignof_is_defined is 1.
--+   This is the same as alignof (TYPE).
--    Note: The result cannot be used as a value for an 'enum' constant,
--    due to bugs in HP-UX 10.20 cc and AIX 3.2.5 xlc.  */
-- #if defined __cplusplus
--   template <class type> struct alignof_helper { char __slot1; type __slot2; };
-- # define alignof_slot(type) offsetof (alignof_helper<type>, __slot2)
-- #else
---# define alignof_slot(type) offsetof (struct { char __slot1; type __slot2; }, __slot2)
--+# define alignof_slot(type) alignof (type)
-- #endif
-- 
-- /* alignof_type (TYPE)
-diff --git a/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch b/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
-deleted file mode 100644
-index 04320de63a2..00000000000
---- a/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 36d5e26f606e070553eb0fff1f738e61970be5d7 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 9 Mar 2022 20:22:20 -0800
--Subject: [PATCH] sigsegv: Fix build on ppc/musl
--
--mcontext is not a standard layout so glibc and musl differ sadly.
--
--Fixes
--../../m4-1.4.19/lib/sigsegv.c: In function 'sigsegv_handler':                                                                                                                               ../../m4-1.4.19/lib/sigsegv.c:223:75: error: 'mcontext_t' has no member named 'uc_regs'; did you mean 'gregs'?                                                                                223 | #    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]                                                                                               |                                                                           ^~~~~~~
--
--Upstream-Status: Submitted [https://lists.gnu.org/archive/html/m4-patches/2022-03/msg00000.html]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/sigsegv.c | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/lib/sigsegv.c b/lib/sigsegv.c
--index 696a152..fa0c465 100644
----- a/lib/sigsegv.c
--+++ b/lib/sigsegv.c
--@@ -217,10 +217,10 @@ int libsigsegv_version = LIBSIGSEGV_VERSION;
-- #   define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.gp_regs[1]
-- #  else /* 32-bit */
-- /* both should be equivalent */
---#   if 0
---#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.regs->gpr[1]
--+#   if ! defined __GLIBC__
--+#      define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_regs->gregs[1]
-- #   else
---#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]
--+#      define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]
-- #   endif
-- #  endif
-- 
---- 
--2.35.1
--
-diff --git a/meta/recipes-devtools/m4/m4/ac_config_links.patch b/meta/recipes-devtools/m4/m4/ac_config_links.patch
-deleted file mode 100644
-index 39fcd918968..00000000000
---- a/meta/recipes-devtools/m4/m4/ac_config_links.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
--This patch fixes a build problem for m4-native experienced on Ubuntu 9.10,
--where autoconf/automake (AC_CONFIG_LINKS) ends up making GNUmakefile a
--symlink to itself.
--
--The patch comments out ac_config_links directly in configure,
--as autoreconf is not actually run for m4-native.
--
--I believe it should be safe, as GNUmakefile is actually unpacked from
--source, and what we want is to is to not touch it.
--
--Tested on x86_64_linux (Ubuntu 8.04 and 9.10).
--
--2009-11-10      Esben Haabendal     <eha@doredevelopment.dk>
-----
-- configure | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/configure b/configure
--index 883336a..6343a34 100755
----- a/configure
--+++ b/configure
--@@ -37061,8 +37061,8 @@ printf "%s\n" "#define GNULIB_TEST_GETRANDOM 1" >>confdefs.h
--   # only, it does not matter if we skip the link with older autoconf.
--   # Automake 1.10.1 and earlier try to remove GNUmakefile in non-VPATH
--   # builds, so use a shell variable to bypass this.
---  GNUmakefile=GNUmakefile
---  ac_config_links="$ac_config_links $GNUmakefile:$GNUmakefile"
--+#  GNUmakefile=GNUmakefile
--+#  ac_config_links="$ac_config_links $GNUmakefile:$GNUmakefile"
-- 
-- 
--   LIB_HARD_LOCALE="$LIB_SETLOCALE_NULL"
---- 
--2.25.1
--
-diff --git a/meta/recipes-devtools/m4/m4/run-ptest b/meta/recipes-devtools/m4/m4/run-ptest
-index 5c0fe933578..a91c372e541 100644
---- a/meta/recipes-devtools/m4/m4/run-ptest
-+++ b/meta/recipes-devtools/m4/m4/run-ptest
-@@ -2,4 +2,4 @@
- #
- #This script is used to run m4 test suites
- cd tests 
--make -k runtest-TESTS top_srcdir=.. srcdir=.
-+make -k runtest-TESTS abs_aux_dir=../../@BP@/tests/build-aux abs_top_srcdir=../../@BP@/tests abs_srcdir=../../@BP@/tests top_srcdir=.. srcdir=.
-diff --git a/meta/recipes-devtools/m4/m4/serial-tests-config.patch b/meta/recipes-devtools/m4/m4/serial-tests-config.patch
-index 34e6ad801e7..c1573b13c0f 100644
---- a/meta/recipes-devtools/m4/m4/serial-tests-config.patch
-+++ b/meta/recipes-devtools/m4/m4/serial-tests-config.patch
-@@ -12,19 +12,14 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/configure.ac b/configure.ac
--index 78b8788..931fa6f 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -22,7 +22,7 @@ AC_INIT([GNU M4], m4_esyscmd([build-aux/git-version-gen .tarball-version]),
-+@@ -22,7 +22,7 @@ AC_INIT([GNU M4], m4_esyscmd([build-aux/
-    [bug-m4@gnu.org])
-  AC_CONFIG_AUX_DIR([build-aux])
-  
---AM_INIT_AUTOMAKE([1.11.6 dist-bzip2 dist-xz color-tests parallel-tests
--+AM_INIT_AUTOMAKE([1.11.6 dist-bzip2 dist-xz color-tests serial-tests
-+-AM_INIT_AUTOMAKE([1.14 dist-bzip2 dist-xz color-tests parallel-tests
-++AM_INIT_AUTOMAKE([1.14 dist-bzip2 dist-xz color-tests serial-tests
-  silent-rules subdir-objects gnu])
-  AM_SILENT_RULES([yes]) # make --enable-silent-rules the default.
-  
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/m4/m4_1.4.19.bb b/meta/recipes-devtools/m4/m4_1.4.20.bb
-similarity index 100%
-rename from meta/recipes-devtools/m4/m4_1.4.19.bb
-rename to meta/recipes-devtools/m4/m4_1.4.20.bb
+-- 
+2.34.1
+
 
