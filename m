@@ -2,313 +2,310 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB473C54754
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA4AFC3ABD8
 	for <webhook@archiver.kernel.org>; Sat, 17 May 2025 01:31:54 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.4689.1747445514364306463
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.4688.1747445513893504909
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 May 2025 18:31:54 -0700
+ Fri, 16 May 2025 18:31:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Scg5/DNf;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2317d94c9cdso25236005ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 18:31:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nW5+WKpF;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-af908bb32fdso2209474a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 18:31:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1747445513; x=1748050313; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZWBOAPNVo35z0mFtdWJeQv0VSZgTBkaZvxRmFGBiwIk=;
-        b=Scg5/DNfg4qXbFPbdXvGS5iupIl21ZUBINeU4RXxUhCjOYm+wEHIher0c9u6AzDz7E
-         qiG6ItDejSbZYYWeTOX5XsXcAeszWqbgzMwqrNbSJ5K5oCzZ9Ut8ygXp2y8yDHzLvHq9
-         LBvs3c4hBzNfsyzNGF/wE5mdTSKNnsLExRF3ESnpCqMvgFVcEs7NBeqoF6SjNIT0mQ9W
-         iKVnofhS6TBiScmIkrmVnJcZQjaDwNW0vMb1/9U+0+gs8/WWzTfghHgtGItdLL7CQTbf
-         Y+TB7YwcXSo7auYshyj7Zm3H0ZdN+2ptWH2zDxiG+RevqfmOtcyIQntoTl3KG+G1bPzq
-         MPew==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XZwb4CVQemPhYM3W4s13LzwSN6Aiby8bzEbjt+Rtw8w=;
+        b=nW5+WKpFbstMisk27CqylDqzMYZVauk1lMvzGb0HQUZNuInwzqVajqAY88hGepfxpx
+         OPxbdpk/ynQl7G60RQ0UXDMt4Lgif36qaTMf9LvmjLxWYrPx0LAqjT7CjGRkNZsiHhVB
+         HdQ82NRNWtjH96SRlP/TnxPDip0OfpQH4RLwO3GBYwhF/YSbLu8jPIcIW/MaoCbpMIIj
+         R6sBDtLjkII/GKOOZ4Zy+ccGmN6JmeBuKVp9juOdqm8tzcm/+jXHi0dxq86s293/lqCO
+         Gjmtu9I7GWISdsgASF2bKyc5nCbyzLZCdXT6CeObnfcVrMEKzvOm9y2dCJAmKYIY2SSl
+         Pvwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1747445513; x=1748050313;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZWBOAPNVo35z0mFtdWJeQv0VSZgTBkaZvxRmFGBiwIk=;
-        b=ZN9nUk3jvqkUgLvFEGOoBZLeKaXCTiuz5Ywm7uIw5U2PNErvLpGmMmIiqIiGpni6bt
-         dg5ZuJyJF5fLQfMlbV/0hjSFseO3ukNXxENSHux3FIO4qHncg9CqKNSSgeSSkRs/zqcS
-         fo8U3xvGEfGWKfgTwXGJRJZJS4qa3hfa8k5jF1h7JdwkXJT8kfbiNPDWm9CYZQtA4LjH
-         sIqoFIYshULvc5+Zg5OuhlZoDVdDUsLJdF7utwJyfUo9APhIDn5NvRWaqXPe+gGyy7WJ
-         4Z4CYm5ClxVPaqMtcb6uQZ6b+ZGc3KTzM8npjA5GWlJpJRSPqAcfoCSn7TmrMtxbVYoI
-         JKNw==
-X-Gm-Message-State: AOJu0YxoEqoBtWslaHZ+Y2OM2DVPlj1mMne1/wkS4KzFbFTeUIb7M81D
-	EtU4GYsD1nZTar8ynwDt2QTJPIaes0krOHEoJV/kuO80Wl8qAb3FO1fSSo0iVOQN
-X-Gm-Gg: ASbGnct336MWQbNehbJH1RuBbv/ugXET79wGjcKJksqsJIQlvDzKffOZBNgCd1wq4h3
-	MjotzsRBW08cnHmMTNCm59xFv4Q/LxmdKd4x1Tzl1LXqRk6/jtsj4oPIlK6OPwRdnEN4m0tdlMQ
-	m4vgLpM/Yxt91xqQDirZxI9n77brHAZSvEP4d9GWvB+8zcP6vpNGFNiSp2BafCPt3sQDdERduB3
-	PaC9SEekThnR54KqfkOPPI00ZN8aI3Lnr8AS4YuQfxr4Sj+3or+ll/wRZggdWIC2YTzfuQC7EQ/
-	lBNwqOWk3tFpyvzWpTnUQpQpSnrJVaDw9JSaUlhgXvg=
-X-Google-Smtp-Source: AGHT+IHNkHN9E2kV8PeWeRG5NRaaoWx5A9I/02oUd9cPXT97OK5XL9Hhwm1/YbcKV3s+VJGmG+BL7A==
-X-Received: by 2002:a17:903:2cc:b0:22c:35c5:e30e with SMTP id d9443c01a7336-231d44e3258mr68431175ad.13.1747445513403;
-        Fri, 16 May 2025 18:31:53 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XZwb4CVQemPhYM3W4s13LzwSN6Aiby8bzEbjt+Rtw8w=;
+        b=MxM5krYXgSR7zKjWcaJY9F3+8C/UbJhTozrmiNWeAnl33UpbCT4C7RjJepITROwHDa
+         4ooRd4evJwrrzkhgbkZyVyasJhSx6EOpB+2+r4MoOyg7AkrL1RIdgDo+xQMQYPgqYmQh
+         lDWYuSAnzEoPwL3KCGah76JoyzJYN83iyqX8S2poqFHlREhiVifHPOleFIoNQkpHaOPE
+         CwE78uGOY+zMVZDDRozhIoqbMXJnh6gshOmhUUOL3QIhK0yE9mMC1OCSy2i1f1ekbfEu
+         BEiSJsSDPtg+rGxEr0Yszar+Gy4WCd7ru8KGSQgFlEjQKcu3RAzCxyEPxLYU2LBLurNw
+         XgNw==
+X-Gm-Message-State: AOJu0YwgBkdWrTHcrOLEpn2l7nrbgBryLEyhXDspinPZXORZ+1vBE8RZ
+	ywJDQtAyDDEMzHrH74Kppsao6xgLHsNUUIW3d672wmQHOuAH4BrRkt1bR66BhMOl
+X-Gm-Gg: ASbGnctDwbEpYVxeWulEcA6qriB4wxM76RMhUvolrsoCYonlejwh0vIypwf5LFz9NCn
+	0XOoTbDA93Hjt4XEw3CRGjTj91tlkz9CdaTIuPMwgi7NR3uCXQtPsP23O+yxhuy2kM62XES7B+w
+	yoV9N6+YXag9HKr7id+bMwpkh3AtKQCi3u436TGTSWLGbiWErrdMyEIzbLBvuNG77XO9DXaAL5l
+	Wm/Uf1olzPB5hVc9VlFDDRA7L/DIY8wtEPRy70iX3iQhvIFXZ465ArPDdoFLU9EMRewjmpkPkeo
+	pZ2aqdy+y/zcGnO7WSYv5tmD5D8ctaFZQ7eC3IIjqJI=
+X-Google-Smtp-Source: AGHT+IEQ4GlrDpDg2yi7fwNbr/+mbLAvtE3tGKnY5gDNPsERwvoLISFZ/fzwfpCKdzZpUKx/mXNU3w==
+X-Received: by 2002:a17:903:22c2:b0:232:59b:5923 with SMTP id d9443c01a7336-232059b5ca8mr5939925ad.23.1747445512554;
+        Fri, 16 May 2025 18:31:52 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4e97497sm20440035ad.128.2025.05.16.18.31.52
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4e97497sm20440035ad.128.2025.05.16.18.31.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 May 2025 18:31:53 -0700 (PDT)
+        Fri, 16 May 2025 18:31:52 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] ovmf: Upgrade to 202502 release
-Date: Fri, 16 May 2025 18:31:48 -0700
-Message-ID: <20250517013148.4043563-2-raj.khem@gmail.com>
+Subject: [PATCH 1/2] m4: Upgrade to 1.4.20 release
+Date: Fri, 16 May 2025 18:31:47 -0700
+Message-ID: <20250517013148.4043563-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250517013148.4043563-1-raj.khem@gmail.com>
-References: <20250517013148.4043563-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 01:31:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216765
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216764
 
-Refresh patches
+This has been 4 years in making, it has fixes to build with gcc-15
+and some patches are upstream [1] [2]
+
+This release collects several years of portability improvements, as
+well as a couple of minor optimizations to performance.  Notable
+improvements in this release include faster execution of the 'eval'
+builtin. More details [3]
+
+[1] https://github.com/coreutils/gnulib/commit/2d830e4a792fcd9f614ed08a7f18584b8b21d23b
+[2] https://git.savannah.gnu.org/gitweb/?p=libsigsegv.git;a=commitdiff;h=a6ff69873110c0a8ba6f7fd90532dbc11224828c
+[3] https://lists.gnu.org/archive/html/m4-announce/2025-05/msg00000.html
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ovmf/ovmf/0003-debug-prefix-map.patch     | 21 +++++++----------
- .../ovmf/ovmf/0004-reproducible.patch         | 23 +++++--------------
- meta/recipes-core/ovmf/ovmf_git.bb            |  4 ++--
- 3 files changed, 16 insertions(+), 32 deletions(-)
+ .../m4/{m4-1.4.19.inc => m4-1.4.20.inc}       |  8 +--
+ ...4-native_1.4.19.bb => m4-native_1.4.20.bb} |  0
+ ...lot-using-_Alignof-when-using-C11-or.patch | 49 -------------------
+ .../0001-sigsegv-Fix-build-on-ppc-musl.patch  | 37 --------------
+ .../m4/m4/ac_config_links.patch               | 37 --------------
+ .../m4/m4/serial-tests-config.patch           | 11 ++---
+ .../m4/{m4_1.4.19.bb => m4_1.4.20.bb}         |  0
+ 7 files changed, 4 insertions(+), 138 deletions(-)
+ rename meta/recipes-devtools/m4/{m4-1.4.19.inc => m4-1.4.20.inc} (88%)
+ rename meta/recipes-devtools/m4/{m4-native_1.4.19.bb => m4-native_1.4.20.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/m4/m4/0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch
+ delete mode 100644 meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
+ delete mode 100644 meta/recipes-devtools/m4/m4/ac_config_links.patch
+ rename meta/recipes-devtools/m4/{m4_1.4.19.bb => m4_1.4.20.bb} (100%)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch b/meta=
-/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
-index 73910535a71..4a20548c61e 100644
---- a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
-@@ -21,11 +21,9 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  BaseTools/Conf/tools_def.template | 18 +++++++++---------
-  1 file changed, 9 insertions(+), 9 deletions(-)
-=20
--diff --git a/BaseTools/Conf/tools_def.template b/BaseTools/Conf/tools_def.=
-template
--index 14f3b643c4..4987488e88 100755
- --- a/BaseTools/Conf/tools_def.template
- +++ b/BaseTools/Conf/tools_def.template
--@@ -896,7 +896,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     =3D --add-gnu-debug=
-link=3D"$(DEBUG_DIR)/$(MODULE_
-+@@ -920,7 +920,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     =3D --a
-  *_*_*_DTC_PATH                     =3D DEF(DTC_BIN)=0D
-  =0D
-  # All supported GCC archs except LOONGARCH64 support -mstack-protector-gu=
-ard=3Dglobal, so set that on everything except LOONGARCH64=0D
-@@ -34,7 +32,7 @@ index 14f3b643c4..4987488e88 100755
-  DEFINE GCC_IA32_X64_CC_FLAGS       =3D -mstack-protector-guard=3Dglobal=0D
-  DEFINE GCC_ARM_CC_FLAGS            =3D DEF(GCC_ALL_CC_FLAGS) -mlittle-end=
-ian -mabi=3Daapcs -fno-short-enums -funsigned-char -ffunction-sections -fda=
-ta-sections -fomit-frame-pointer -Wno-address -mthumb -fno-pic -fno-pie -ms=
-tack-protector-guard=3Dglobal=0D
-  DEFINE GCC_LOONGARCH64_CC_FLAGS    =3D DEF(GCC_ALL_CC_FLAGS) -mabi=3Dlp64=
-d -fno-asynchronous-unwind-tables -Wno-address -fno-short-enums -fsigned-ch=
-ar -ffunction-sections -fdata-sections=0D
--@@ -918,8 +918,8 @@ DEFINE GCC_ARM_ASLDLINK_FLAGS      =3D DEF(GCC_ARM_DLI=
-NK_FLAGS) -Wl,--entry,Refere
-+@@ -941,8 +941,8 @@ DEFINE GCC_ARM_ASLDLINK_FLAGS      =3D DEF
-  DEFINE GCC_AARCH64_ASLDLINK_FLAGS  =3D DEF(GCC_AARCH64_DLINK_FLAGS) -Wl,-=
--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT) DEF(GCC_ARM_AARCH64_ASLDL=
-INK_FLAGS)=0D
-  DEFINE GCC_LOONGARCH64_ASLDLINK_FLAGS =3D DEF(GCC_LOONGARCH64_DLINK_FLAGS=
-) -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)=0D
-  DEFINE GCC_IA32_X64_DLINK_FLAGS    =3D DEF(GCC_IA32_X64_DLINK_COMMON) --e=
-ntry _$(IMAGE_ENTRY_POINT) --file-alignment 0x20 --section-alignment 0x20 -=
-Map $(DEST_DIR_DEBUG)/$(BASE_NAME).map=0D
-@@ -45,7 +43,7 @@ index 14f3b643c4..4987488e88 100755
-  DEFINE GCC_VFRPP_FLAGS             =3D -x c -E -P -DVFRCOMPILE --include =
-$(MODULE_NAME)StrDefs.h=0D
-  DEFINE GCC_ASLPP_FLAGS             =3D -x c -E -include AutoGen.h=0D
-  DEFINE GCC_ASLCC_FLAGS             =3D -x c=0D
--@@ -1072,7 +1072,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS           =3D -mabi=
-=3Dlp64d -march=3Dloongarch64 DEF(
-+@@ -1095,7 +1095,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS
-  *_GCC48_IA32_DLINK2_FLAGS         =3D DEF(GCC48_IA32_DLINK2_FLAGS)=0D
-  *_GCC48_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)=0D
-  *_GCC48_IA32_OBJCOPY_FLAGS        =3D=0D
-@@ -54,7 +52,7 @@ index 14f3b643c4..4987488e88 100755
-  =0D
-    DEBUG_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32_CC_FLAGS)=0D
-  RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32_CC_FLAGS) -Wno-unuse=
-d-but-set-variable=0D
--@@ -1100,7 +1100,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32=
-_CC_FLAGS) -Wno-unused-but-set
-+@@ -1123,7 +1123,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(
-  *_GCC48_X64_DLINK2_FLAGS         =3D DEF(GCC48_X64_DLINK2_FLAGS)=0D
-  *_GCC48_X64_RC_FLAGS             =3D DEF(GCC_X64_RC_FLAGS)=0D
-  *_GCC48_X64_OBJCOPY_FLAGS        =3D=0D
-@@ -63,7 +61,7 @@ index 14f3b643c4..4987488e88 100755
-  =0D
-    DEBUG_GCC48_X64_CC_FLAGS       =3D DEF(GCC48_X64_CC_FLAGS)=0D
-  RELEASE_GCC48_X64_CC_FLAGS       =3D DEF(GCC48_X64_CC_FLAGS) -Wno-unused-=
-but-set-variable=0D
--@@ -1209,7 +1209,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   =3D DEF(GCC48_AARCH=
-64_CC_FLAGS) -Wno-unused-but-s
-+@@ -1232,7 +1232,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   =3D DEF(G
-  *_GCC49_IA32_DLINK2_FLAGS         =3D DEF(GCC49_IA32_DLINK2_FLAGS)=0D
-  *_GCC49_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)=0D
-  *_GCC49_IA32_OBJCOPY_FLAGS        =3D=0D
-@@ -72,7 +70,7 @@ index 14f3b643c4..4987488e88 100755
-  =0D
-    DEBUG_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32_CC_FLAGS)=0D
-  RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32_CC_FLAGS) -Wno-unuse=
-d-but-set-variable -Wno-unused-const-variable=0D
--@@ -1237,7 +1237,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32=
-_CC_FLAGS) -Wno-unused-but-set
-+@@ -1260,7 +1260,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(
-  *_GCC49_X64_DLINK2_FLAGS         =3D DEF(GCC49_X64_DLINK2_FLAGS)=0D
-  *_GCC49_X64_RC_FLAGS             =3D DEF(GCC_X64_RC_FLAGS)=0D
-  *_GCC49_X64_OBJCOPY_FLAGS        =3D=0D
-@@ -81,7 +79,7 @@ index 14f3b643c4..4987488e88 100755
-  =0D
-    DEBUG_GCC49_X64_CC_FLAGS       =3D DEF(GCC49_X64_CC_FLAGS)=0D
-  RELEASE_GCC49_X64_CC_FLAGS       =3D DEF(GCC49_X64_CC_FLAGS) -Wno-unused-=
-but-set-variable -Wno-unused-const-variable=0D
--@@ -1496,7 +1496,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS =3D -z commo=
-n-page-size=3D0x20
-+@@ -1519,7 +1519,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS
-  *_GCC5_IA32_DLINK2_FLAGS         =3D DEF(GCC5_IA32_DLINK2_FLAGS) -no-pie=
-=0D
-  *_GCC5_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)=0D
-  *_GCC5_IA32_OBJCOPY_FLAGS        =3D=0D
-@@ -90,7 +88,7 @@ index 14f3b643c4..4987488e88 100755
-  =0D
-    DEBUG_GCC5_IA32_CC_FLAGS       =3D DEF(GCC5_IA32_CC_FLAGS) -flto=0D
-    DEBUG_GCC5_IA32_DLINK_FLAGS    =3D DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto=
- -Os -Wl,-m,elf_i386,--oformat=3Delf32-i386=0D
--@@ -1528,7 +1528,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    =3D DEF(GCC5_IA32_X=
-64_DLINK_FLAGS) -flto -Os -Wl,
-+@@ -1551,7 +1551,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    =3D DEF(G
-  *_GCC5_X64_DLINK2_FLAGS          =3D DEF(GCC5_X64_DLINK2_FLAGS)=0D
-  *_GCC5_X64_RC_FLAGS              =3D DEF(GCC_X64_RC_FLAGS)=0D
-  *_GCC5_X64_OBJCOPY_FLAGS         =3D=0D
-@@ -99,6 +97,3 @@ index 14f3b643c4..4987488e88 100755
-  =0D
-    DEBUG_GCC5_X64_CC_FLAGS        =3D DEF(GCC5_X64_CC_FLAGS) -flto -DUSING=
-_LTO=0D
-    DEBUG_GCC5_X64_DLINK_FLAGS     =3D DEF(GCC5_X64_DLINK_FLAGS) -flto -Os=
-=0D
----=20
--2.39.5
--
-diff --git a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch b/meta/rec=
-ipes-core/ovmf/ovmf/0004-reproducible.patch
-index ae0ca0c15cf..0ddb86f530d 100644
---- a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
-@@ -34,20 +34,18 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.co=
-m>
-  .../Source/Python/AutoGen/ModuleAutoGen.py    |  5 +++-
-  4 files changed, 24 insertions(+), 16 deletions(-)
-=20
--diff --git a/BaseTools/Source/C/GenFw/Elf64Convert.c b/BaseTools/Source/C/=
-GenFw/Elf64Convert.c
--index 897045b2be..a66003f44a 100644
- --- a/BaseTools/Source/C/GenFw/Elf64Convert.c
- +++ b/BaseTools/Source/C/GenFw/Elf64Convert.c
--@@ -13,6 +13,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
-- #ifndef __GNUC__=0D
-+@@ -15,6 +15,8 @@ SPDX-License-Identifier: BSD-2-Clause-Pa
-  #include <windows.h>=0D
-+ #undef RUNTIME_FUNCTION=0D
-  #include <io.h>=0D
- +#else=0D
- +#define _GNU_SOURCE=0D
-  #endif=0D
-  #include <assert.h>=0D
-  #include <stdio.h>=0D
--@@ -988,7 +990,7 @@ ScanSections64 (
-+@@ -990,7 +992,7 @@ ScanSections64 (
-    }=0D
-    mCoffOffset =3D mDebugOffset + sizeof(EFI_IMAGE_DEBUG_DIRECTORY_ENTRY) =
-+=0D
-                  sizeof(EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY) +=0D
-@@ -56,7 +54,7 @@ index 897045b2be..a66003f44a 100644
-  =0D
-    //=0D
-    // Add more space in the .debug data region for the DllCharacteristicsE=
-x=0D
--@@ -2308,7 +2310,7 @@ WriteDebug64 (
-+@@ -2310,7 +2312,7 @@ WriteDebug64 (
-    EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY         *Nb10;=0D
-    EFI_IMAGE_DEBUG_EX_DLLCHARACTERISTICS_ENTRY *DllEntry;=0D
-  =0D
-@@ -65,7 +63,7 @@ index 897045b2be..a66003f44a 100644
-  =0D
-    NtHdr =3D (EFI_IMAGE_OPTIONAL_HEADER_UNION *)(mCoffFile + mNtHdrOffset)=
-;=0D
-    DataDir =3D &NtHdr->Pe32Plus.OptionalHeader.DataDirectory[EFI_IMAGE_DIR=
-ECTORY_ENTRY_DEBUG];=0D
--@@ -2341,7 +2343,7 @@ WriteDebug64 (
-+@@ -2343,7 +2345,7 @@ WriteDebug64 (
-  =0D
-    Nb10 =3D (EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY*)(Dir + 1);=0D
-    Nb10->Signature =3D CODEVIEW_SIGNATURE_NB10;=0D
-@@ -74,8 +72,6 @@ index 897045b2be..a66003f44a 100644
-  }=0D
-  =0D
-  STATIC=0D
--diff --git a/BaseTools/Source/Python/AutoGen/BuildEngine.py b/BaseTools/So=
-urce/Python/AutoGen/BuildEngine.py
--index 45b39d7878..3fed7d1736 100644
- --- a/BaseTools/Source/Python/AutoGen/BuildEngine.py
- +++ b/BaseTools/Source/Python/AutoGen/BuildEngine.py
- @@ -70,6 +70,9 @@ class TargetDescBlock(object):
-@@ -88,8 +84,6 @@ index 45b39d7878..3fed7d1736 100644
-      def AddInput(self, Input):=0D
-          if Input not in self.Inputs:=0D
-              self.Inputs.append(Input)=0D
--diff --git a/BaseTools/Source/Python/AutoGen/GenMake.py b/BaseTools/Source=
-/Python/AutoGen/GenMake.py
--index 6d9c60b702..83ac267647 100755
- --- a/BaseTools/Source/Python/AutoGen/GenMake.py
- +++ b/BaseTools/Source/Python/AutoGen/GenMake.py
- @@ -576,7 +576,7 @@ cleanlib:
-@@ -140,7 +134,7 @@ index 6d9c60b702..83ac267647 100755
-                     }=0D
-  =0D
-          RespDict =3D {}=0D
--@@ -1008,9 +1008,9 @@ cleanlib:
-+@@ -1019,9 +1019,9 @@ cleanlib:
-                  if not self.ObjTargetDict.get(T.Target.SubDir):=0D
-                      self.ObjTargetDict[T.Target.SubDir] =3D set()=0D
-                  self.ObjTargetDict[T.Target.SubDir].add(NewFile)=0D
-@@ -152,8 +146,6 @@ index 6d9c60b702..83ac267647 100755
-                  # Generate related macros if needed=0D
-                  if T.GenFileListMacro and T.FileListMacro not in self.Fil=
-eListMacros:=0D
-                      self.FileListMacros[T.FileListMacro] =3D []=0D
--diff --git a/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py b/BaseTools/=
-Source/Python/AutoGen/ModuleAutoGen.py
--index 65a2176ca9..318b9611ce 100755
- --- a/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
- +++ b/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
- @@ -1474,6 +1474,9 @@ class ModuleAutoGen(AutoGen):
-@@ -175,6 +167,3 @@ index 65a2176ca9..318b9611ce 100755
-  =0D
-          # Ignore generating makefile when it is a binary module=0D
-          if self.IsBinaryModule:=0D
----=20
--2.39.5
--
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
-mf_git.bb
-index 41ab85b703c..aa7de3af2b0 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -29,8 +29,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://CVE-2025-2295.patch \
+diff --git a/meta/recipes-devtools/m4/m4-1.4.19.inc b/meta/recipes-devtools/m4/m4-1.4.20.inc
+similarity index 88%
+rename from meta/recipes-devtools/m4/m4-1.4.19.inc
+rename to meta/recipes-devtools/m4/m4-1.4.20.inc
+index c73418d8e67..ee6c3f72c76 100644
+--- a/meta/recipes-devtools/m4/m4-1.4.19.inc
++++ b/meta/recipes-devtools/m4/m4-1.4.20.inc
+@@ -7,15 +7,12 @@ GNU M4 also has built-in functions for including files, running shell commands,
+ inherit autotools texinfo ptest gettext
+ 
+ SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
+-           file://ac_config_links.patch \
+-           file://0001-sigsegv-Fix-build-on-ppc-musl.patch \
+-           file://0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch \
             "
-=20
--PV =3D "edk2-stable202411"
--SRCREV =3D "0f3867fa6ef0553e26c42f7d71ff6bdb98429742"
-+PV =3D "edk2-stable202502"
-+SRCREV =3D "fbe0805b2091393406952e84724188f8c1941837"
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>edk2-stable.*)"
-=20
- CVE_PRODUCT =3D "edk2"
+ SRC_URI:append:class-target = " file://run-ptest \
+                                 file://serial-tests-config.patch \
+                               "
+ 
+-SRC_URI[sha256sum] = "3be4a26d825ffdfda52a56fc43246456989a3630093cced3fbddf4771ee58a70"
++SRC_URI[sha256sum] = "6ac4fc31ce440debe63987c2ebbf9d7b6634e67a7c3279257dc7361de8bdb3ef"
+ 
+ LICENSE = "GPL-3.0-only"
+ 
+@@ -26,8 +23,6 @@ EXTRA_OECONF += "--without-libsigsegv-prefix"
+ 
+ EXTRA_OEMAKE += "'infodir=${infodir}'"
+ 
+-CFLAGS += "-std=gnu17"
+-
+ do_compile_ptest() {
+ 	cd ${B}/tests
+ 	sed -i '/^buildtest-TESTS: /c buildtest-TESTS: $(TESTS) $(check_LIBRARIES) $(check_PROGRAMS)' Makefile
+@@ -59,4 +54,3 @@ RDEPENDS:${PN}-ptest:append:libc-glibc = "\
+      locale-base-fr-fr.iso-8859-1 \
+      glibc-gconv-iso8859-1 \
+ "
+-
+diff --git a/meta/recipes-devtools/m4/m4-native_1.4.19.bb b/meta/recipes-devtools/m4/m4-native_1.4.20.bb
+similarity index 100%
+rename from meta/recipes-devtools/m4/m4-native_1.4.19.bb
+rename to meta/recipes-devtools/m4/m4-native_1.4.20.bb
+diff --git a/meta/recipes-devtools/m4/m4/0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch b/meta/recipes-devtools/m4/m4/0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch
+deleted file mode 100644
+index 8757abd7a0e..00000000000
+--- a/meta/recipes-devtools/m4/m4/0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From b0fd3a58354b1f5ead891907979dfd3dd36840d5 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 14 Jan 2023 14:55:03 -0800
+-Subject: [PATCH] Define alignof_slot using _Alignof when using C11 or newer
+-
+-WG14 N2350 made very clear that it is an UB having type definitions
+-within "offsetof" [1]. This patch enhances the implementation of macro
+-alignof_slot to use builtin "_Alignof" to avoid undefined behavior on
+-when using std=c11 or newer
+-
+-clang 16+ has started to flag this [2]
+-
+-Fixes build when using -std >= gnu11 and using clang16+ [3]
+-
+-[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
+-[2] https://reviews.llvm.org/D133574
+-[3] https://public-inbox.org/bug-gnulib/20230114232744.215167-1-raj.khem@gmail.com/T/#u
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=2d404c7dd974cc65f894526f4a1b76bc1dcd8d82]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- lib/alignof.h | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+---- a/lib/alignof.h
+-+++ b/lib/alignof.h
+-@@ -18,19 +18,19 @@
+- #define _ALIGNOF_H
+- 
+- #include <stddef.h>
+-+#include "stdalign.h"
+- 
+- /* alignof_slot (TYPE)
+-    Determine the alignment of a structure slot (field) of a given type,
+-    at compile time.  Note that the result depends on the ABI.
+--   This is the same as alignof (TYPE) and _Alignof (TYPE), defined in
+--   <stdalign.h> if __alignof_is_defined is 1.
+-+   This is the same as alignof (TYPE).
+-    Note: The result cannot be used as a value for an 'enum' constant,
+-    due to bugs in HP-UX 10.20 cc and AIX 3.2.5 xlc.  */
+- #if defined __cplusplus
+-   template <class type> struct alignof_helper { char __slot1; type __slot2; };
+- # define alignof_slot(type) offsetof (alignof_helper<type>, __slot2)
+- #else
+--# define alignof_slot(type) offsetof (struct { char __slot1; type __slot2; }, __slot2)
+-+# define alignof_slot(type) alignof (type)
+- #endif
+- 
+- /* alignof_type (TYPE)
+diff --git a/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch b/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
+deleted file mode 100644
+index 04320de63a2..00000000000
+--- a/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 36d5e26f606e070553eb0fff1f738e61970be5d7 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 9 Mar 2022 20:22:20 -0800
+-Subject: [PATCH] sigsegv: Fix build on ppc/musl
+-
+-mcontext is not a standard layout so glibc and musl differ sadly.
+-
+-Fixes
+-../../m4-1.4.19/lib/sigsegv.c: In function 'sigsegv_handler':                                                                                                                               ../../m4-1.4.19/lib/sigsegv.c:223:75: error: 'mcontext_t' has no member named 'uc_regs'; did you mean 'gregs'?                                                                                223 | #    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]                                                                                               |                                                                           ^~~~~~~
+-
+-Upstream-Status: Submitted [https://lists.gnu.org/archive/html/m4-patches/2022-03/msg00000.html]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- lib/sigsegv.c | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/lib/sigsegv.c b/lib/sigsegv.c
+-index 696a152..fa0c465 100644
+---- a/lib/sigsegv.c
+-+++ b/lib/sigsegv.c
+-@@ -217,10 +217,10 @@ int libsigsegv_version = LIBSIGSEGV_VERSION;
+- #   define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.gp_regs[1]
+- #  else /* 32-bit */
+- /* both should be equivalent */
+--#   if 0
+--#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.regs->gpr[1]
+-+#   if ! defined __GLIBC__
+-+#      define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_regs->gregs[1]
+- #   else
+--#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]
+-+#      define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]
+- #   endif
+- #  endif
+- 
+--- 
+-2.35.1
+-
+diff --git a/meta/recipes-devtools/m4/m4/ac_config_links.patch b/meta/recipes-devtools/m4/m4/ac_config_links.patch
+deleted file mode 100644
+index 39fcd918968..00000000000
+--- a/meta/recipes-devtools/m4/m4/ac_config_links.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-This patch fixes a build problem for m4-native experienced on Ubuntu 9.10,
+-where autoconf/automake (AC_CONFIG_LINKS) ends up making GNUmakefile a
+-symlink to itself.
+-
+-The patch comments out ac_config_links directly in configure,
+-as autoreconf is not actually run for m4-native.
+-
+-I believe it should be safe, as GNUmakefile is actually unpacked from
+-source, and what we want is to is to not touch it.
+-
+-Tested on x86_64_linux (Ubuntu 8.04 and 9.10).
+-
+-2009-11-10      Esben Haabendal     <eha@doredevelopment.dk>
+----
+- configure | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/configure b/configure
+-index 883336a..6343a34 100755
+---- a/configure
+-+++ b/configure
+-@@ -37061,8 +37061,8 @@ printf "%s\n" "#define GNULIB_TEST_GETRANDOM 1" >>confdefs.h
+-   # only, it does not matter if we skip the link with older autoconf.
+-   # Automake 1.10.1 and earlier try to remove GNUmakefile in non-VPATH
+-   # builds, so use a shell variable to bypass this.
+--  GNUmakefile=GNUmakefile
+--  ac_config_links="$ac_config_links $GNUmakefile:$GNUmakefile"
+-+#  GNUmakefile=GNUmakefile
+-+#  ac_config_links="$ac_config_links $GNUmakefile:$GNUmakefile"
+- 
+- 
+-   LIB_HARD_LOCALE="$LIB_SETLOCALE_NULL"
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/m4/m4/serial-tests-config.patch b/meta/recipes-devtools/m4/m4/serial-tests-config.patch
+index 34e6ad801e7..c1573b13c0f 100644
+--- a/meta/recipes-devtools/m4/m4/serial-tests-config.patch
++++ b/meta/recipes-devtools/m4/m4/serial-tests-config.patch
+@@ -12,19 +12,14 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
+  configure.ac | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/configure.ac b/configure.ac
+-index 78b8788..931fa6f 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -22,7 +22,7 @@ AC_INIT([GNU M4], m4_esyscmd([build-aux/git-version-gen .tarball-version]),
++@@ -22,7 +22,7 @@ AC_INIT([GNU M4], m4_esyscmd([build-aux/
+    [bug-m4@gnu.org])
+  AC_CONFIG_AUX_DIR([build-aux])
+  
+--AM_INIT_AUTOMAKE([1.11.6 dist-bzip2 dist-xz color-tests parallel-tests
+-+AM_INIT_AUTOMAKE([1.11.6 dist-bzip2 dist-xz color-tests serial-tests
++-AM_INIT_AUTOMAKE([1.14 dist-bzip2 dist-xz color-tests parallel-tests
+++AM_INIT_AUTOMAKE([1.14 dist-bzip2 dist-xz color-tests serial-tests
+  silent-rules subdir-objects gnu])
+  AM_SILENT_RULES([yes]) # make --enable-silent-rules the default.
+  
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/m4/m4_1.4.19.bb b/meta/recipes-devtools/m4/m4_1.4.20.bb
+similarity index 100%
+rename from meta/recipes-devtools/m4/m4_1.4.19.bb
+rename to meta/recipes-devtools/m4/m4_1.4.20.bb
 
