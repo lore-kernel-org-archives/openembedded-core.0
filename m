@@ -2,68 +2,68 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE83C2D0CD
-	for <webhook@archiver.kernel.org>; Sat, 17 May 2025 06:56:16 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.7652.1747464966648426261
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F21C2D0CD
+	for <webhook@archiver.kernel.org>; Sat, 17 May 2025 08:17:56 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.8120.1747469873457862273
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 May 2025 23:56:06 -0700
+ Sat, 17 May 2025 01:17:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I3z8P3zK;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-73bf5aa95e7so2747282b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 May 2025 23:56:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZyLP0fS7;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-30a9cd61159so2791505a91.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 01:17:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747464966; x=1748069766; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747469872; x=1748074672; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AEzIvP4mQ0XCA/EvKT/EiptUZDAs/BCn+ps6AaI16G4=;
-        b=I3z8P3zKkwHRH5thzbOlqi5H9Kab/izFs6ZTRC+YKm6yvExCF4I+zVlonkMHhbuh7E
-         gOqAmBFCY886b0nLlTcutcu6wyPeDAzkqy5US/GwNLpVDZKY46JY8SK6dOYHQUxxh55q
-         8Qfw8FJSB5+5TiJapKJgOCp/73yRVgKZbr0rzI01Cs5kn+8m5xEtzRSuzSYsm9EIiDiM
-         rK4yV8agvQ0bKT2eB2mOi89PqTDuuXv+/SHqlKVXZP0Kvhp5I0apmFM3BnbK4tVu3/ol
-         1VI+LZ7CZGxQVqwMlGy9OiwS1CiiylVf58QUgFEQeEhG77HvooTkl/2PCbsDjWpfwYBR
-         XKkg==
+        bh=PV8MqZA90nZpUdDY8RdbxAym6LZ0IQKuLqyt8sOl90w=;
+        b=ZyLP0fS7xnuzMZ2fsjmuXYQzYIqauTAPt6yTl1JrXyC7zwkyHQo+HVmlNXNs63NnCA
+         DBL9h707/R0LRs/9qKcOqv0dXykEuJQfVwZpkDCoLdcTSnW+1D2w94yk4hQ8vCZ6tPcb
+         qA16V9R5+N6mNl3jLXMWDJ1T9QPBwGqh91UivgUS9aio8bnMoVLcrAZPHgbCeUNxbONT
+         QpS1i0TiSCBAD4jW6x2dRv3s5y4F97cO2DTXNYM+oNvTB2X4liaa8AjhlROMpmjrl7tk
+         MS65aLsczevnjbMLyZI3Rnuw4Jak2y8yk7LTUnJrCuNNWF4XxaeP1NgWWzxsavD5PhYF
+         KROA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747464966; x=1748069766;
+        d=1e100.net; s=20230601; t=1747469872; x=1748074672;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AEzIvP4mQ0XCA/EvKT/EiptUZDAs/BCn+ps6AaI16G4=;
-        b=T4yQ2o4BW0iJhRaMKFPMsq189nhVSmJurOWi3TCnwAdEu3VIvO0YWsbF8fAhlwaY48
-         hggi6xytEogaYcjI9iITRzvCTmAbn6C625neu/erxcZCLGSTKLa3AEO8axKg22thRkK/
-         QCLPSGyJwWIM4NHUwhqTMiBu6GZQsUrgWPQZ6PNf0X7Nei93M6U9RAqtNkPrvPvksFAu
-         GHnWeFsmfWTiXSVFCebjXmG6dluO/4Qqh5GtBVaO9hWLlWM5lIJB2vCKAPG0odUibB8w
-         XLq/CQtVmQZ805g1fV3f/PEsWKoErmaQ8f7p0T85Ky4/2w4PGzqKyBE2WZxvSQsKI1hQ
-         MZxg==
-X-Gm-Message-State: AOJu0Yw20V2aY33DWObBQ9h0TgXY74M4TDp/66/E0NLUeSo7TIbJ+8b6
-	w8e7d6UeRLXcd0FnVfPDcShSVY8+NroJvLRC+uGi1lWXrUkY8qR2xwsk+zDJA1HG
-X-Gm-Gg: ASbGncvJrjmGKNrjK/yzsMumsoWogIadAnE9PyXE6TKGed3ciyMeKx4FeVx+KAH/lXB
-	h9DouV4CxnuFstEOabfj3XCC4ct4pMvXGEXI8Ufw36i+K0kfuQxgXsoVtMYpL2uDOAtkLGFlKyv
-	TrHPYIftLLt1oCqkdOQ3UPlNOv/uA60fKmi4S3zNvEjQJT21TCu2o2SnLuPd79YjuLPMidXSeHW
-	sUOiBb7c+v/Sqn59//Ryk+oPobPk+TsweulBZ6ZgG3qsPn+81VLWBthDWCE4Kk8hiVhtbcLCGqd
-	u/rWHY5gjrqVhZc+h/7Pq5gLgXwpeSyCMNCjadEKo8A=
-X-Google-Smtp-Source: AGHT+IEqvBYnFye9XhXqHxDndY0BG9NPSPIID2CiFBVld6EARwkq1IEQj6hw56G0m9BOdVAVOukNWg==
-X-Received: by 2002:a17:902:ea0a:b0:22c:35c5:e30a with SMTP id d9443c01a7336-231d44d70a9mr80021895ad.16.1747464965427;
-        Fri, 16 May 2025 23:56:05 -0700 (PDT)
+        bh=PV8MqZA90nZpUdDY8RdbxAym6LZ0IQKuLqyt8sOl90w=;
+        b=m2Fst/mO/0v1hNYkpnBcsJxQ0Y9CnFfc9SuZE9T5J2ICWovL2u+NImPwhjsMdjOG+S
+         4K0yI7qAie0CVdQZm8wvxEEM6JwR2sGAyIcaFaUGJWJfG3Qc92XotEPjRzkkq+IJLq+O
+         t573AmcqQV+AfmwVFWTl2VKhy88zfV7MTRl78NGWlKPoODIR6Eq1gnqzc0zTOFzHE78k
+         ltjCvxznu/wg96BeT12hYQs+FhGJrTD4WDHXo/OS3o5PKUxSRa4uSABOKkzXiBeAEykW
+         g3Gz/efGbzbEHpLCw5e92wTauwAtfUkmQdAfqzLFfa4yBIE/A8enXohW2VaUx3S494pu
+         3TyA==
+X-Gm-Message-State: AOJu0YwiXG3KB6ZKbycsvFjZkGMixcBBZaiEJIykMCYLW+n/2cyKvWp4
+	FKwvDTWUqlAGubd6onS59p35EgtdoZpN6ulMIuXRWU5yGqMQyK7ljVoRlDJ/KeSG
+X-Gm-Gg: ASbGncsr6Z2nJPYb4Bxpx0W/B0zGJruTqWD9lQHHDOJ6V58IeMm15elkwwBswqzF9Ic
+	UoNxHiASM76npULVaUB0e/H4s7aFzFK9qQEKi0SXQiR3qD/CFFaaZRPi56Je6F1OcOtRbjagXdX
+	nmgJo2StwsQqIZhWuFgKF7VNorM5K8r8ehS/LQMpPJUZjNky12SXkJiORkF0gxI5Lgjai7abEAt
+	+6XmbLXlcTaMT5bbPiZwBrgTLbKIBwItW9rFUWCgb+iN+1TQBBMBq2iMO1vzenFOg37MgyWOTIi
+	jF1BS2J2P7jY36MFKkh5SZ2/8viNLTCdP/XnDEvADeU8UG/ToBn0tA==
+X-Google-Smtp-Source: AGHT+IGdVkliq7qs7DlaLprSZiub6S3A8Sjq515j1xnlummO9SEr6Uw6ZpACuFZiKZh1BTmi4FflPQ==
+X-Received: by 2002:a17:90b:2e85:b0:2ee:c30f:33c9 with SMTP id 98e67ed59e1d1-30e7e770523mr4923348a91.14.1747469872283;
+        Sat, 17 May 2025 01:17:52 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4ed23a8sm24749135ad.220.2025.05.16.23.56.04
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb081aa2sm2737955a12.48.2025.05.17.01.17.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 May 2025 23:56:05 -0700 (PDT)
+        Sat, 17 May 2025 01:17:51 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] m4: Upgrade to 1.4.20 release
-Date: Fri, 16 May 2025 23:56:02 -0700
-Message-ID: <20250517065602.3655555-1-raj.khem@gmail.com>
+Subject: [PATCH v3] m4: Upgrade to 1.4.20 release
+Date: Sat, 17 May 2025 01:17:47 -0700
+Message-ID: <20250517081747.1089519-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 06:56:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216766
+ <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 08:17:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216767
 
 This has been 4 years in making, it has fixes to build with gcc-15
 and some patches are upstream [1] [2]
@@ -80,16 +80,18 @@ builtin. More details [3]
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
 v2: Fix do_install_ptest builds
+v3: Fix failing ptests
 
- .../m4/{m4-1.4.19.inc => m4-1.4.20.inc}       | 10 +---
+ .../m4/{m4-1.4.19.inc => m4-1.4.20.inc}       | 16 ++----
  ...4-native_1.4.19.bb => m4-native_1.4.20.bb} |  0
  ...lot-using-_Alignof-when-using-C11-or.patch | 49 -------------------
  .../0001-sigsegv-Fix-build-on-ppc-musl.patch  | 37 --------------
  .../m4/m4/ac_config_links.patch               | 37 --------------
+ meta/recipes-devtools/m4/m4/run-ptest         |  2 +-
  .../m4/m4/serial-tests-config.patch           | 11 ++---
  .../m4/{m4_1.4.19.bb => m4_1.4.20.bb}         |  0
- 7 files changed, 5 insertions(+), 139 deletions(-)
- rename meta/recipes-devtools/m4/{m4-1.4.19.inc => m4-1.4.20.inc} (84%)
+ 8 files changed, 9 insertions(+), 143 deletions(-)
+ rename meta/recipes-devtools/m4/{m4-1.4.19.inc => m4-1.4.20.inc} (75%)
  rename meta/recipes-devtools/m4/{m4-native_1.4.19.bb => m4-native_1.4.20.bb} (100%)
  delete mode 100644 meta/recipes-devtools/m4/m4/0001-Define-alignof_slot-using-_Alignof-when-using-C11-or.patch
  delete mode 100644 meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
@@ -97,10 +99,10 @@ v2: Fix do_install_ptest builds
  rename meta/recipes-devtools/m4/{m4_1.4.19.bb => m4_1.4.20.bb} (100%)
 
 diff --git a/meta/recipes-devtools/m4/m4-1.4.19.inc b/meta/recipes-devtools/m4/m4-1.4.20.inc
-similarity index 84%
+similarity index 75%
 rename from meta/recipes-devtools/m4/m4-1.4.19.inc
 rename to meta/recipes-devtools/m4/m4-1.4.20.inc
-index c73418d8e67..61781dde6d9 100644
+index c73418d8e67..2ea3a9bace2 100644
 --- a/meta/recipes-devtools/m4/m4-1.4.19.inc
 +++ b/meta/recipes-devtools/m4/m4-1.4.20.inc
 @@ -7,15 +7,12 @@ GNU M4 also has built-in functions for including files, running shell commands,
@@ -129,15 +131,26 @@ index c73418d8e67..61781dde6d9 100644
  do_compile_ptest() {
  	cd ${B}/tests
  	sed -i '/^buildtest-TESTS: /c buildtest-TESTS: $(TESTS) $(check_LIBRARIES) $(check_PROGRAMS)' Makefile
-@@ -41,7 +36,7 @@ do_install_ptest() {
+@@ -37,15 +32,15 @@ do_compile_ptest() {
+ do_install_ptest() {
+                 cp -r ${B}/tests                        ${D}${PTEST_PATH}
+                 cp -r ${S}/tests/*                      ${D}${PTEST_PATH}/tests/
++                cp -r ${S}/build-aux                    ${D}${PTEST_PATH}/tests/
+                 sed -i '/^Makefile:/c Makefile:'        ${D}${PTEST_PATH}/tests/Makefile
                  find ${D}${PTEST_PATH} -type f -name *.[hoc] | xargs -i rm {}
-                 cp ${S}/build-aux/update-copyright  ${D}${PTEST_PATH}/tests/
-                 sed -i 's;update-copyright;./update-copyright;g' ${D}${PTEST_PATH}/tests/test-update-copyright.sh
+-                cp ${S}/build-aux/update-copyright  ${D}${PTEST_PATH}/tests/
+-                sed -i 's;update-copyright;./update-copyright;g' ${D}${PTEST_PATH}/tests/test-update-copyright.sh
 -                chmod 0755 ${D}${PTEST_PATH}/tests/test-mbrtowc-w32-1.sh  ${D}${PTEST_PATH}/tests/test-spawn-pipe-main \
 +                chmod 0755 ${D}${PTEST_PATH}/tests/test-spawn-pipe-main \
                       ${D}${PTEST_PATH}/tests/test-spawn-pipe-child ${D}${PTEST_PATH}/tests/test-version-etc \
                       ${D}${PTEST_PATH}/tests/test-xalloc-die
  
+-                ln -s ptest ${D}${libdir}/${BPN}/${BP} 
++                ln -sf ptest ${D}${libdir}/${BPN}/${BP}
++                sed -i -e 's/@BP@/${BP}/g' ${D}${PTEST_PATH}/run-ptest
+ }
+ 
+ do_install_ptest:append:libc-glibc() {
 @@ -59,4 +54,3 @@ RDEPENDS:${PN}-ptest:append:libc-glibc = "\
       locale-base-fr-fr.iso-8859-1 \
       glibc-gconv-iso8859-1 \
@@ -288,6 +301,16 @@ index 39fcd918968..00000000000
 --- 
 -2.25.1
 -
+diff --git a/meta/recipes-devtools/m4/m4/run-ptest b/meta/recipes-devtools/m4/m4/run-ptest
+index 5c0fe933578..a91c372e541 100644
+--- a/meta/recipes-devtools/m4/m4/run-ptest
++++ b/meta/recipes-devtools/m4/m4/run-ptest
+@@ -2,4 +2,4 @@
+ #
+ #This script is used to run m4 test suites
+ cd tests 
+-make -k runtest-TESTS top_srcdir=.. srcdir=.
++make -k runtest-TESTS abs_aux_dir=../../@BP@/tests/build-aux abs_top_srcdir=../../@BP@/tests abs_srcdir=../../@BP@/tests top_srcdir=.. srcdir=.
 diff --git a/meta/recipes-devtools/m4/m4/serial-tests-config.patch b/meta/recipes-devtools/m4/m4/serial-tests-config.patch
 index 34e6ad801e7..c1573b13c0f 100644
 --- a/meta/recipes-devtools/m4/m4/serial-tests-config.patch
