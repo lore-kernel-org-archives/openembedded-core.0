@@ -2,111 +2,119 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B32C8C3DA6D
-	for <webhook@archiver.kernel.org>; Sat, 17 May 2025 15:02:18 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.13302.1747494136453829221
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 910FFC2D0CD
+	for <webhook@archiver.kernel.org>; Sat, 17 May 2025 21:29:10 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web10.19643.1747517339431579505
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 May 2025 08:02:16 -0700
+ Sat, 17 May 2025 14:28:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bTK4EbDc;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso3380252b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 08:02:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=REGzFRYl;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-742b0840d98so1251123b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 14:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747494135; x=1748098935; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747517338; x=1748122138; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kCi+TVnE+Z6oE1YIHNe7uU/m2nZPp7H0Y6vLqTU/kV0=;
-        b=bTK4EbDczBcqrbL4Tn3MP9g4DhJsHvME4nK0qY1BGNWrOtZI7uL2tMt7PSppmiSKkJ
-         ieLDqTmVgQGTIP4RuNgKbFJgyVzQYqux0W7cqrfYrlpe0hN951Qgggr8e/jNQ3sKfH1n
-         G5zPehWEzB08su4cJA6l4y9gvuaylMOeOx/GhlRZLZ4U9NImAZd7HAudhMNwyzU5Od3Y
-         vKRcG1ScM+E+IG8Z0rOyapOPlrkOqmUVTp3BzgM07hZ8+VR/r0NVwiPQyrduobYMcElT
-         hqnoPPt8hTBtltdeyweffBdSz2OCwj45TN1oMRPT+rBx9O9QZpvRBW0qAzm7+z1DEvK0
-         gD6Q==
+        bh=0fBCGirmhFtFVigHx/thpwytAVsHo5xYPAiQwQQXwfs=;
+        b=REGzFRYlux9fENuZiSU1qJKn7hS2AjXIFTR768a4C4fZ/BzlIAAfJ1mEkbavb7ns3I
+         pS2yPUMxdTghTQmYQ0JT8uT+mHRrPUb4boPpq7YTrT6J7+0sOOvJHkTaZk1QHb4L4Dzh
+         5/FY+4ggDllAZrPQGKdKNcuvFHvk9xXc6VQbctIb0LOYcWofWSjRYLMG8H6WwT3zsTNm
+         wKpbmxCZWFsll/TVvQglzgYCox6lWVewPcnY22PCkL0JaO0XlwsC615KhYZ/Q6tusnzW
+         HrqCXuY5rd20Lc+bDq4J3GDVRJ+wOiDY65mHZnqvdcRMYX5mjJl0yzB/d+xU/Edwej19
+         H9Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747494135; x=1748098935;
+        d=1e100.net; s=20230601; t=1747517338; x=1748122138;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kCi+TVnE+Z6oE1YIHNe7uU/m2nZPp7H0Y6vLqTU/kV0=;
-        b=IK++CCeyZ+0pJ+PfecLWW1EtmwX/uOIAdspUDwsDVIPHgCPpvqzjp48FZFdo9rwnnu
-         XA4c9i+38PYgShgU3TR8oJDudDaU5lD9XfSELRVvOcQHt0cTUuGKeiEm7ZphocSG9ACl
-         CvMwdo87u92c/9eWeSm+PqbXT9VpfAWihMG6e+rIllcB18MKUcsYkaIH4OatVoqPPXSk
-         TArzbQ/pFBwUBnTN/DW5HPX+Fff0CXzU4N5J1upzzk77sbxcDNj9DwmNQ52A0vCeplif
-         rW7gCMvJQFefq6Z6C/eJd8v0iTgyoQoie6SrUVyaH2bcjZe/9oPyQMwoW5Kh3BJFVlRj
-         kyIg==
-X-Gm-Message-State: AOJu0YxZ60xlXVQ/ut7fe0rI3pBt5MopRUARE3tAFsM9CWM4//BQW5JW
-	p22B/W3jecp+h0lGIH/IIXUtrIuUrS0b3hct/ZlsZ00Wmzp9wtDyX71vdspvFOsM
-X-Gm-Gg: ASbGncvDOZPJ0BC/98eciR+yFV/MifkvomfYK6Vr9JG2CLyH844jpnRjl7c9ttuU7zC
-	KrCzyJPUF1fS6Sb500a6KeU3hBGvT7sIT5g9tkR0jrPRbTZ0P9BkzQsOsPdeIxb8fyCGIhss+0/
-	LUvPSFne27zO8LRtqHibXfd7tf+FelovjmaCsqhmD+4Amte4opFNo86HDHP5ZjvchF8ewIaVVQe
-	TH5VZsR25nBQa8Nbi2duwqmVbSNPk/B+m3FL3P/w7HVnLAMaeWZ5bLIMIfsAc5XSn4c0rJPOWkj
-	o79BbxSGCzl2dJnZVTZP7BPDmPwALik758zfDL8hcFE=
-X-Google-Smtp-Source: AGHT+IH0hFRFS+39lArbG8wseKezXNvvCoH1d+IlOWW04KKqapzAj00pPK0L0dlED67QM3UcFDx1rw==
-X-Received: by 2002:a05:6a00:b84:b0:73f:f816:dd7f with SMTP id d2e1a72fcca58-742a989a1b2mr8607782b3a.15.1747494135359;
-        Sat, 17 May 2025 08:02:15 -0700 (PDT)
+        bh=0fBCGirmhFtFVigHx/thpwytAVsHo5xYPAiQwQQXwfs=;
+        b=lnAlmPHEGL0SQddaLmjonykxyn04wgBl/fXip0DL2SRfR+6Kvm4K0LzmTZFpTqNet8
+         C/f4d2vK/XfSpDpjca7Y8mSU+6Pc4MwHDNg9KA6035emVWyWJTqhlOqAGYMTcg1trtD5
+         TO7LU6UEkuXg6L1JFetmiqrmdMtO/m2+RT0d7nbz+tnSUM2yKBvP/loCpooD0oTGftJZ
+         wnvu2fJxLN/SRdHk2vTYpxPc/z69gb30Dvj281kWYH0HntC5JMflGTxIwNphuYFFHbEA
+         HUVNPCLg9lrYfn0+BpXkkI2Vx4oBn1wuXEycOPYN+x1pRNJ+WK/FyhVsMzkDoTcE9985
+         iGug==
+X-Gm-Message-State: AOJu0YxMjwglYQ4x1uKxITWZPl6RAc2MsaC8mw89YJIIqxEofT10HVZp
+	KjvZvWqxzuLd4dw3RwPMvggJN2X+ZXfmuflolbyM+nyznRWEZOQtTS4ovvi6HXQf
+X-Gm-Gg: ASbGncsLIAJAmmvwjacHvBU76DMx6pdIfGlM90UIn7S1sIyfLe1oJNqErpgVbNMwaEP
+	zOUzJr+teQETTTyD1+KaXOqTSg9CauJvoRwkpw5ET5/qW7W8/Ko5SDI+gKTksm1YAoX0vspw1ka
+	bo5hJm8G4daw7UchpkjhLzgQqr25sVb3pM7qmHQqTI2Tsq4zrskkQsVNJ2G/EsYqQ/L022kgTY1
+	8KKPeBvjC61BEHJTykh3lcHivn8kQU4tdqOXKK2Iy0jpUVSmvMopOTVD+gxl21rhPB0UyXYoIwb
+	3NlDkFyAPqURbhl3Nw57JSTuERavLsVDPT6zWBzw0yw=
+X-Google-Smtp-Source: AGHT+IGEiKHG2cmNqjOELt+F3iUjKyPGazQIAZJaABMq+TzTu2lsXorMCDFVlaBVQz3WDPW/iuWOBA==
+X-Received: by 2002:a05:6a21:10a:b0:1f5:591b:4f7a with SMTP id adf61e73a8af0-2170ce8ce6dmr11117197637.38.1747517338330;
+        Sat, 17 May 2025 14:28:58 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970bb2fsm3379201b3a.53.2025.05.17.08.02.14
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b270808b57esm295383a12.75.2025.05.17.14.28.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 May 2025 08:02:15 -0700 (PDT)
+        Sat, 17 May 2025 14:28:57 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] libvorbis: Ignore -mfused-madd as well for clang
-Date: Sat, 17 May 2025 08:02:12 -0700
-Message-ID: <20250517150213.2489547-1-raj.khem@gmail.com>
+Subject: [PATCH] rust: Use patchelf in place of chrpath to edit rpaths
+Date: Sat, 17 May 2025 14:28:55 -0700
+Message-ID: <20250517212855.349153-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 15:02:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216770
+ <openembedded-core@lists.openembedded.org>; Sat, 17 May 2025 21:29:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216772
 
-This option is not universal for all compilers
+chrpath has limitations e.g. the original rpath in ELF have to bigger in size
+than the one being edited into it by chrpath, some toolchains do not use RPATH
+but emit the RUNPATHs into ELF files and chrpath is not able to handle the
+runpaths, this is the case with mips and pp32 build of rust, especially
+when using clang compiler to build them.
+
+patchelf can do more:
+
+Modify RUNPATH entries
+Add RPATH/RUNPATH where none existed
+Set longer paths than the original
+Convert between RPATH and RUNPATH
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../0001-configure-Check-for-clang.patch      | 22 ++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/rust/rust_1.85.1.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch b/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
-index d4fac605b66..36f47f91739 100644
---- a/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis/0001-configure-Check-for-clang.patch
-@@ -12,8 +12,6 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  configure.ac | 19 +++++++++++++++++--
-  1 file changed, 17 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-devtools/rust/rust_1.85.1.bb b/meta/recipes-devtools/rust/rust_1.85.1.bb
+index dc4f5648552..3b7226ae408 100644
+--- a/meta/recipes-devtools/rust/rust_1.85.1.bb
++++ b/meta/recipes-devtools/rust/rust_1.85.1.bb
+@@ -207,9 +207,9 @@ rust_runx () {
+         mkdir -p `dirname ${RUST_ALTERNATE_EXE_PATH}`
+         cp ${RUST_ALTERNATE_EXE_PATH_NATIVE} ${RUST_ALTERNATE_EXE_PATH}
+         if [ -e ${STAGING_LIBDIR_NATIVE}/libc++.so.1 ]; then
+-            chrpath -r \$ORIGIN/../../../../../`basename ${STAGING_DIR_NATIVE}`${libdir_native} ${RUST_ALTERNATE_EXE_PATH}
++            patchelf-uninative --set-rpath \$ORIGIN/../../../../../`basename ${STAGING_DIR_NATIVE}`${libdir_native} ${RUST_ALTERNATE_EXE_PATH}
+         else
+-            chrpath -d ${RUST_ALTERNATE_EXE_PATH}
++            patchelf-uninative --remove-rpath ${RUST_ALTERNATE_EXE_PATH}
+         fi
+     fi
  
--diff --git a/configure.ac b/configure.ac
--index 28b0a14..2d4e984 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -98,6 +98,16 @@ AC_ARG_ENABLE(examples,
-@@ -51,6 +49,20 @@ index 28b0a14..2d4e984 100644
-  
-  		# glibc < 2.1.3 has a serious FP bug in the math inline header
-  		# that will cripple Vorbis.  Look to see if the magic FP stack
---- 
--2.17.0
--
-+@@ -178,12 +193,12 @@ else
-+   		fi;;
-+         powerpc-*-linux*spe)
-+  	        DEBUG="-g -Wall -Wextra -D_REENTRANT -D__NO_MATH_INLINES"
-+- 	        CFLAGS="-O3 -Wall -Wextra -ffast-math -mfused-madd -D_REENTRANT"
-+- 	        PROFILE="-pg -g -O3 -ffast-math -mfused-madd -D_REENTRANT";;
-++			CFLAGS="-O3 -Wall -Wextra -ffast-math -D_REENTRANT"
-++			PROFILE="-pg -g -O3 -ffast-math -D_REENTRANT";;
-+ 	powerpc-*-linux*)
-+ 		DEBUG="-g -Wall -Wextra -D_REENTRANT -D__NO_MATH_INLINES"
-+-		CFLAGS="-O3 -Wall -Wextra -ffast-math -mfused-madd -mcpu=750 -D_REENTRANT"
-+-		PROFILE="-pg -g -O3 -ffast-math -mfused-madd -mcpu=750 -D_REENTRANT";;
-++		CFLAGS="-O3 -Wall -Wextra -ffast-math -mcpu=750 -D_REENTRANT"
-++		PROFILE="-pg -g -O3 -ffast-math -mcpu=750 -D_REENTRANT";;
-+ 	*-*-linux*)
-+ 		DEBUG="-g -Wall -Wextra -D_REENTRANT -D__NO_MATH_INLINES -fsigned-char"
-+ 		CFLAGS="-O3 -Wall -Wextra -ffast-math -D_REENTRANT -fsigned-char"
+@@ -266,7 +266,7 @@ rust_do_install:class-nativesdk() {
+     install -d ${D}${bindir}
+     for i in cargo-clippy clippy-driver rustfmt; do
+         cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ${D}${bindir}
+-        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
++        patchelf-uninative --set-rpath "\$ORIGIN/../lib" ${D}${bindir}/$i
+     done
+ 
+     chown root:root ${D}/ -R
+@@ -301,7 +301,7 @@ rust_do_install:class-target() {
+     install -d ${D}${bindir}
+     for i in ${EXTRA_TOOLS}; do
+         cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/$i ${D}${bindir}
+-        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
++        patchelf-uninative --set-rpath "\$ORIGIN/../lib" ${D}${bindir}/$i
+     done
+ 
+     install -d ${D}${libdir}/rustlib/${RUST_HOST_SYS}
 
