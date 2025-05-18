@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 953FAC54E65
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A19CAC54E90
 	for <webhook@archiver.kernel.org>; Sun, 18 May 2025 21:31:08 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.37997.1747603863532611346
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.37994.1747603861914641622
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 May 2025 14:31:03 -0700
+ Sun, 18 May 2025 14:31:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U0FmpEug;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-30e7bfef27dso2110705a91.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 14:31:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cQlMjNvp;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-30dfd9e7fa8so4671064a91.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 14:31:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747603863; x=1748208663; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747603861; x=1748208661; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dpHdjZcibezq+OfWawAWqOdyNMbbwo07a90GHWVeMSA=;
-        b=U0FmpEug9uHcqOyHwFItVpQjG3xIw/0GfYzlTDqiKLDu3UIRzztToUfm5rLUH/N5my
-         xqDg7hJ0pqnLG0wA5TSBDQoeKKAQZBgTKxB4BrJOlNbz/9alPvBTVSg1oQi8wpEDjwEL
-         TTAwJ0I4I4cnEts+oedGhoLvOcFpg+EQHo15P5u1iP3cI9oNR2Ps6HOsxJ7eg2VJvBXe
-         OValdfOhMWPiKwHOi5ztH+q7tea4fXYbNt9WT8zOBgaiwzyM0da82OkJADZ3MeXYPXdY
-         601uvUF/URTNTPX59EPDYnbni1nlL1Gk3fp2aE/1maZAHyTnsVEZaGCKnb6I35NIuWPx
-         yK6Q==
+        bh=6tUw9L9zU1dmfJwUHXah4Y36T40Z/oth/D+/IA69IbI=;
+        b=cQlMjNvpmE1BzdqDNkJfNb3PbrNj5NYvzdOXO6NLGzgDqwXFwKVJWy53WQ9vYIwQal
+         MVU09LDjuhHXbLg40QeYgQeUcm/appQ3+dKX1TOMVUyH3EI193vXnvSu2TIyJqWHv3yD
+         H9gbOTsO53wHJyN8g++GrGT0vZtDdfVTcwMN9CWjzxLQu6GjYTwK+ni7TIHGXdOwPgUF
+         yPwxybSB9gRUhmQUQETchK5TtBdA1uPUFwf7LTJztnPdnSL11JiG225KshjBr1mOXX5w
+         SR3lpKddwWSMMPFV9jja0iN33er+cOqaG925HilHf5hvZfrNx8T7MukwSdHPpkeuM18l
+         MbWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747603863; x=1748208663;
+        d=1e100.net; s=20230601; t=1747603861; x=1748208661;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dpHdjZcibezq+OfWawAWqOdyNMbbwo07a90GHWVeMSA=;
-        b=uoqo2iaRQnOcc/H7LH4EBSaAJiDvQ0eMDss5AOvcIr5AQJfuff/6nJLUtzr7vA/Pr9
-         8k30/uTM7V0F/P1L2/r/p84z/kvIcWhxtyJKNfneEE17PgT/JxXgQO5cGn2nKIs8o2cA
-         wS17uf2STcV2D68TPe2DArcEk4LS1WcXC8Qv+sjKW9nYJ0xyLvmMnzIQrg89hciLaCaC
-         zelkBAcG5Mmf/QGS6NrG9hdr1G+/2jbOPfiSSzq99uIW/nLlh9RPugoJivJQkGlTlv55
-         BaRuzUwTbCEuu2UqinELv7hqaWKnbzN2izJd8aTMVaqmQCDFIXkSJtSTF8BkITkNLkyR
-         i7xQ==
-X-Gm-Message-State: AOJu0YwRXjp82A8u9T9QJP1nCV1KGw/AkBhF02JlNPMMngvvpCKd7A3m
-	k4bwf+OUdAzQDWohmcM7g5OrOEEBw5dpgiypu1X+z+0mu9eMmCcr4xolAcZiRVwt
-X-Gm-Gg: ASbGnctOms068sqD4Tqq9T6g3KMX44Aab0FuVDThGCawzb2AlZxPW+P7/fGJwGyePIi
-	LjMNeIblRksOcJ5+/Uf4CvX56n+Sgh+OX1otpNx04igIBRAyK1qbcy/AnsTlt+U4H9YSbFXG97x
-	izYWlY+ls4MtQPgBilvIlRQXXKOqd1uODrg6FXn1JSqXyDvnBqMSRQgqloJlTwXUDfdlpZ4MT7c
-	STknnswMh2Oqz5m+S6szI7WxwzRFF5aGoaCpNoHbXhKNiNZK1CmYF9Mf5s7olNFaOmVgBy2Nibn
-	gGjI1jKA5C/Kc55Qv51YBnRqfLYVDK0lzFaUxc5TaMA=
-X-Google-Smtp-Source: AGHT+IHY9OTyjEPPzL75mjDODwvDcawKxPRONUQZzr6u0Zo8DNK6CymQk5QIVKHbvc7fytYIPfLJew==
-X-Received: by 2002:a17:90b:264e:b0:305:2d27:7cb0 with SMTP id 98e67ed59e1d1-30e831b842amr14250707a91.21.1747603862715;
-        Sun, 18 May 2025 14:31:02 -0700 (PDT)
+        bh=6tUw9L9zU1dmfJwUHXah4Y36T40Z/oth/D+/IA69IbI=;
+        b=k0JMLFa1tydTsxLFCm+K12kQS1Iy9cVM28AdRENjAXsS/ZmXlEMQAUiasFMQwA3Ief
+         //XkkId+Rl7PSDb/hXovfoW3n3i84LV6qm/BEHWIPvGF3SbSqWWvf87iDHKJ0dgfyVku
+         MFig6EwjXgO5mkItF3HgoGY0kjestpQXuLa73G8FDSVdy/bg0SKepjqdbQ2aaRy+dmI6
+         g46m0ugTGv2rq3ejJ6/nSiiY3MdFtDV4Rlmz7OmMUdaf8ifSw6XN3SJdnOx/I4fUyqMe
+         FtPoNYw3ryDQ85siqBFtaohJ3/5qGJU35FbpHFE9fRVFnJbGaN7JRiCFvBZ7Nq/i3ie6
+         zoHw==
+X-Gm-Message-State: AOJu0YxSYg4StTBAYWNqhqpHirMVkSCzbGTbIbIXrqWE2juaSRGt8OLi
+	FEAhe7BiR64eitHFizwFtKZj5Eqd+hWdfNYYCVPBXJJgtjC8gMbz4xSl+MisPq4N
+X-Gm-Gg: ASbGncvTk58FGgSu/xog5cAyBGgUC8NPaUskYgS+ki6GhymDDKvpO0PMeiE6MRsUDTA
+	HUmOWDZ+wroWTlWypzsQUz1fyb4atkGhvzxDRNViSP6BppEvj25+vXYQJzHazBdlvVqYeYH0XiQ
+	j1Tj/VqKSPIev8WxF0V10SdZFBfzEzXP/fg/8c/ArzG5ALH+rkLqUq3i4krfdSCWjWa924wBXPO
+	8qI2+YeFPbakZUkhHcFFhcOJpNyXCbdt40Y+7/MSFefkzbpMc4n7Dt8YlMFz6BnvRghEksJWP6e
+	9AGrcR2r3+KhKsEROOTE3Tvye5tmQo6ra8PHxFYAb6M=
+X-Google-Smtp-Source: AGHT+IG7FU+YCazIquM6NwJFvKYKajrGcZPW5hl2BOY4soO9iliYZQxaj9BnTRlbRQCClTg9jo/oDA==
+X-Received: by 2002:a17:90b:4acf:b0:2ff:5ed8:83d1 with SMTP id 98e67ed59e1d1-30e8314fe53mr13828516a91.19.1747603861123;
+        Sun, 18 May 2025 14:31:01 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb081aa2sm4976849a12.48.2025.05.18.14.31.02
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb081aa2sm4976849a12.48.2025.05.18.14.31.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 14:31:02 -0700 (PDT)
+        Sun, 18 May 2025 14:31:00 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 18 May 2025 14:30:51 -0700
-Subject: [PATCH 16/21] syslinux: Pin to using GCC toolchain
+Date: Sun, 18 May 2025 14:30:49 -0700
+Subject: [PATCH 14/21] valgrind: Use gcc to compile on riscv64
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250518-clang-toolchain-v1-16-5be46f8c4af5@gmail.com>
+Message-Id: <20250518-clang-toolchain-v1-14-5be46f8c4af5@gmail.com>
 References: <20250518-clang-toolchain-v1-0-5be46f8c4af5@gmail.com>
 In-Reply-To: <20250518-clang-toolchain-v1-0-5be46f8c4af5@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,32 +67,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 21:31:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216800
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216798
 
-It does not compile with clang due to include_next stdarg.h not working
-as the system expects to match gcc behavior
+clang does not yet support __builtin_longjmp on riscv64
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/default-toolchains.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/conf/distro/include/default-toolchains.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/meta/conf/distro/include/default-toolchains.inc b/meta/conf/distro/include/default-toolchains.inc
-index c3b602b8ae8ed7c57cc8c524e3b8398519079b1b..cec47ae860747df807695182878e88e4f798fe24 100644
+index 738a9696342b1d94caeb742b92f74565a5816651..c3b602b8ae8ed7c57cc8c524e3b8398519079b1b 100644
 --- a/meta/conf/distro/include/default-toolchains.inc
 +++ b/meta/conf/distro/include/default-toolchains.inc
-@@ -29,6 +29,11 @@ TOOLCHAIN:pn-pulseaudio:armv7a = "gcc"
- # https://github.com/llvm/llvm-project/issues/82541
- TOOLCHAIN:pn-rpm = "gcc"
- 
-+# com32/lib/../include/stdarg.h:9:15: fatal error: 'stdarg.h' file not found
-+#    9 | #include_next <stdarg.h>
-+#      |               ^~~~~~~~~~
-+TOOLCHAIN:pn-syslinux = "gcc"
-+
- # Emits lot of warning which are treated as errors
+@@ -33,5 +33,13 @@ TOOLCHAIN:pn-rpm = "gcc"
  # They must be looked into before disabling
  TOOLCHAIN:pn-systemtap = "gcc"
+ 
++# Valgrind needs intrinsics which are not provided by clang
++# m_signals.c:2213:7: error: __builtin_longjmp is not supported for the current target
++# 2213 |       VG_MINIMAL_LONGJMP(tst->sched_jmpbuf);
++#      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++#
++# It needs something like - https://bugs.kde.org/show_bug.cgi?id=369723
++TOOLCHAIN:pn-valgrind:riscv64 = "gcc"
++
+ # Clang-20 issue - https://github.com/llvm/llvm-project/issues/132322
+ TOOLCHAIN:pn-webkitgtk:arm = "gcc"
 
 -- 
 2.49.0
