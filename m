@@ -2,62 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFB9BC54E92
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A189AC5479B
 	for <webhook@archiver.kernel.org>; Sun, 18 May 2025 21:31:08 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.37988.1747603861146230084
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.37995.1747603862703165588
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 May 2025 14:31:01 -0700
+ Sun, 18 May 2025 14:31:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=imFvZYHy;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-742c9907967so551325b3a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 14:31:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c81WM8Af;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-73c17c770a7so3961834b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 14:31:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747603860; x=1748208660; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747603862; x=1748208662; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iod3/XjXwsq0nZLTV4juhZKGpLrj30ngYyo7jWX5HW8=;
-        b=imFvZYHy/2nbvWE3+HyVK7vN070GRqIx2uTOfGJiSDQm0MrlSk/pOrEBLVoYbqUC1E
-         3r4lYccSDF4G+2DHyAI7DrsVAtSR4h1yYyhxhnOk3yBIIeutHVgLxc+8Vs520uJtGZY8
-         yJKZoRHSiTt9d6RIxH83YdLSwuL09dnIm6Y6nMU4lA/Fk+f9opokkX5js2PgBd16UQ9G
-         u+F9NsOKmxAeyMmXU8bDY6Wsl1wu8tVfUaE7UbdY9TTadw+CnXxanA3RcEUMKtpSphYK
-         I/Hspn77tLEPrFNx6gVi55X0KDPCSt5K0BxXSaWM4JhmjO+xB7zwTJ6dMNDrKDn8RM2G
-         lqww==
+        bh=p5fY8IJHzXMxLrAcngeOMfmbFGDVEfnjgLOWHaEIfY8=;
+        b=c81WM8AfhVHIihZEMRLSJNE6PuHDuiHIgj5WH05wpevOucDKDhXj6I5HYcmw0u3nXl
+         w2nmj28sPkDYMETyXSgYvmNSVKrnZkgMBngtUPr5T3Pz+6X3ZuJ6k608//MeKUw6urSv
+         V8tt8tkFSe22lAEmHL+POk+UZilDloEX+oXq4n9bj5H6W4qNzYnHugi5dMEpJ/HBRRwH
+         AHNVSEMmZ4lR9ForQ5cPgTWYZROGEaPoMdmdNDSyu0Dj7EIbBTOocg3QxfgSDmIMnEP4
+         6yoFa4IBwrTFunWlNHe/mJFxr28fweGx5HQd36dM1mPAG7y/Vmq48OkrWUix1NrAtbGm
+         +iNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747603860; x=1748208660;
+        d=1e100.net; s=20230601; t=1747603862; x=1748208662;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iod3/XjXwsq0nZLTV4juhZKGpLrj30ngYyo7jWX5HW8=;
-        b=th0eH1GVwtH57kOvtvQCgQsw7U/5wmDE94WxiNPmtw6gxLh7JeqwjrSmi1o7Ljjwdn
-         q4O8hbTXws4X0NJjYULTjNaUbi8JQkOBuZ02vK27KaPsy6Xm0Lzw8kvSQcv63v6KYzOO
-         iqL7oke5CwtA33rFFN2e+m6koV4dcbnLPvoWiT1jGF6qoMkTC0TktlATmvyyvlEPda06
-         0DzyeN3gHgXhKnc/ecyqKtWauxdGqYzn3dVWh9K1sGG+pLJemW9SGdKuL0jL8UbciVwr
-         VyQyU9IhkeIJm50MyWnVdDUndAt5NOyrN9HF3+iUF59gv8CivMjvwl+as8ny6QBV2zP8
-         STWQ==
-X-Gm-Message-State: AOJu0YxGEoeaG1K78ImCHlw8KiaVNqNo/uDlxJSJbLRKZ1K2hS2Z0YdQ
-	vso3H3EW166HeQ0h4Fn8/70LMwG960Pvq/WDtJ3V9EcFVfoF4gDFkx96v+ip5p9c
-X-Gm-Gg: ASbGncvImP1kZYvoJXqvvl1CnHXcOeH283KKaWW5wlfrSw1uhDNKiqUovvNyQL7YExo
-	36aXdob6j2mfH/4PSDPhzJhsaPXfH7BL1aJoKSiyWP9z9R5g3gNzrw7aboCQI9nbHjcBp5Aw1hG
-	rKhaGVINmHPQj+R2YvfQstW8GFh/Nd4bLM2blba8lmQ4ZNCAk6hLHRCmwFthYN9mnZK+Dq6eO7h
-	FiWy69Xvq9rCv/urhP4l2rlpEOF3TENeF/lAzzc/TSzzS/UsSRHUz1rSAwcofRxm5kH7En03MUF
-	kZgKaGXQSe9VTR9b41EzgQubpDh9voOKTlKsNtXlweQ=
-X-Google-Smtp-Source: AGHT+IF4+wl0YDXvuxvxySq5jyaAD5TB1+Xb97U7IifzWhaTIdfv3dzvO7aFpCPZWUOKXRK4OSuHWQ==
-X-Received: by 2002:a05:6a21:100f:b0:215:fac3:2ce2 with SMTP id adf61e73a8af0-2162192a9c8mr15745589637.23.1747603860369;
-        Sun, 18 May 2025 14:31:00 -0700 (PDT)
+        bh=p5fY8IJHzXMxLrAcngeOMfmbFGDVEfnjgLOWHaEIfY8=;
+        b=BsC9tKiDf1+bZW7ZS0LdlD0FNhgBPJiGwoq+B3LxTZahOjEZZZNb1q7GVmkcXnmQrC
+         BJjQ00Vlxb1e//Cpm4H1fwqvJMQhvG4Jt+ftrh9O13487/QS+exWiujMb0iDSu9xd7uc
+         wvMX7+iXjRvAKlcXCrJTYJ3b5A31BXR5oPR6ZgRyV08qVK283SBE5yxvX2bFj0uHTggC
+         3pVOjsDuCkuNss61XRtgh7jT/qPfgu9rxpt4oQ0bXkYfjtkQAuRVL3SVhzsfFRXQHgRE
+         fgcNuTf9UG2T7D3z6sgl4/SsipgjvfoYV7BCcGKTGGFZjTHfV8ZI20si3hLcwaYVChA/
+         OioQ==
+X-Gm-Message-State: AOJu0YzXKV1L4DQnq2UsWGTa7RCQvsFWCuc6Yu0zOhTw1NLLjazzRhAK
+	BxGoY54i3Ax/JhOomyHGkCMrHNEGJfDSEH4qE+Sv/+7FiwrL08c7rkHck2NF3tYQ
+X-Gm-Gg: ASbGncvOum2rtLDQ5KX8nNM8e0tMJMavWM30y5q6BYj3nFjoxgHo0exeJFnu7DMA1hq
+	l05mi9TnJRSbHCeCCRfW8jUDgldgQNjSmSFk9MslVRPVDsk9jZFbfaXAJvCnzDWIIt/lJHfzfqy
+	1EEqsRIcGtfMGSabc3OskzbiyqVRARObKx4Js0zlYuB7ADDBDd82vCaHid5fl4hCcaHibItm2nh
+	AWhAJHybDL584qWKu5FP+yzWzjx15fRspVBeSgniLf2mGCr86tETEbNmybRTqZXyXoumTDgZIKW
+	dn+hcNG29NMdMGwzKRpEBmq9WMovZiEMqwW2I0Z2Ebo=
+X-Google-Smtp-Source: AGHT+IHcRL6i4lkGWkjiY/rMQMIL/qfWcZu5URIQnITPGQoGA4h7yAp09sXH8g4XsdTNrBX+WQTraw==
+X-Received: by 2002:a05:6a21:3392:b0:1fd:f55f:881e with SMTP id adf61e73a8af0-216219f90f5mr18595247637.36.1747603861892;
+        Sun, 18 May 2025 14:31:01 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb081aa2sm4976849a12.48.2025.05.18.14.30.59
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb081aa2sm4976849a12.48.2025.05.18.14.31.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 14:30:59 -0700 (PDT)
+        Sun, 18 May 2025 14:31:01 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 18 May 2025 14:30:48 -0700
-Subject: [PATCH 13/21] systemtap: Pin to build with GCC
+Date: Sun, 18 May 2025 14:30:50 -0700
+Subject: [PATCH 15/21] pulseaudio: Treat -Wunused-command-line-argument as
+ error
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250518-clang-toolchain-v1-13-5be46f8c4af5@gmail.com>
+Message-Id: <20250518-clang-toolchain-v1-15-5be46f8c4af5@gmail.com>
 References: <20250518-clang-toolchain-v1-0-5be46f8c4af5@gmail.com>
 In-Reply-To: <20250518-clang-toolchain-v1-0-5be46f8c4af5@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,33 +68,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 21:31:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216797
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216799
 
-clang find a lot of warning
-| In file included from ../git/tapset-procfs.cxx:11:
-| ../git/session.h:169:47: error: 'used' attribute ignored on a non-definition declaration [-Werror,-Wignored-attributes]
-|   169 |   static const char* morehelp __attribute__ ((used));
-|       |                                               ^
+This ensures that it does not enble SSE when -msse flag is passed, clang
+warns about unused option on non-x86 targets but it must be flagged as
+error for configure to notice and fail the check to enable SSE on non-x86
+machines
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/default-toolchains.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/conf/distro/include/default-toolchains.inc b/meta/conf/distro/include/default-toolchains.inc
-index 4d3cd9eb4fb92fe6d5d12a2f593092d30d196a0b..738a9696342b1d94caeb742b92f74565a5816651 100644
---- a/meta/conf/distro/include/default-toolchains.inc
-+++ b/meta/conf/distro/include/default-toolchains.inc
-@@ -29,5 +29,9 @@ TOOLCHAIN:pn-pulseaudio:armv7a = "gcc"
- # https://github.com/llvm/llvm-project/issues/82541
- TOOLCHAIN:pn-rpm = "gcc"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 18c12ede630766bb9204bb1d5efb7cea8695dd1e..3c65aaee6e02cf417e3165c194353883c453aa00 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -71,6 +71,9 @@ inherit bash-completion meson pkgconfig useradd gettext perlnative systemd manpa
+ # if using --disable-nls
+ USE_NLS = "yes"
  
-+# Emits lot of warning which are treated as errors
-+# They must be looked into before disabling
-+TOOLCHAIN:pn-systemtap = "gcc"
++# Helps tests for -msse fail on non-SSE architectures which is all non-x86
++TUNE_CCARGS:append:toolchain-clang = " -Werror=unused-command-line-argument"
 +
- # Clang-20 issue - https://github.com/llvm/llvm-project/issues/132322
- TOOLCHAIN:pn-webkitgtk:arm = "gcc"
+ EXTRA_OEMESON = "\
+ 		-Dhal-compat=false \
+ 		-Dorc=disabled \
 
 -- 
 2.49.0
