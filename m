@@ -1,106 +1,98 @@
-Return-Path: <schonm@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7477BC3ABC9
-	for <webhook@archiver.kernel.org>; Sun, 18 May 2025 19:52:57 +0000 (UTC)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
- by mx.groups.io with SMTP id smtpd.web10.36480.1747597968881028417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EDE3C3ABD8
+	for <webhook@archiver.kernel.org>; Sun, 18 May 2025 21:30:58 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.37990.1747603856951197962
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 May 2025 12:52:49 -0700
+ Sun, 18 May 2025 14:30:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=g93YVWIS;
- spf=pass (domain: gmail.com, ip: 209.85.219.179, mailfrom: schonm@gmail.com)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e7b943bcf0cso652946276.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 12:52:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=erJ4bVyQ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso3306059b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 14:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747597968; x=1748202768; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j+EGqrQcASY8VPjJS6C9rsj/ti6dO6tgNDb2pPJII/g=;
-        b=g93YVWISfWGQ5GU4GZbs3N95Um9nA4z3cIn2za+WbXd483E9Rzk7LmZgXphgsnZAdr
-         3LU6oTf0mUzZWXDZ3AYqpXlUITgP/EaCFEpe9o/jrvwOSspoklfG7g591xJIdJA6UjCm
-         5RCApoRJGtGj75ifDUNC27jQguioFzFE44IjuC8au8lG7TzL/yKQm5GhzQvhgjz7jgXv
-         DgL7WXHyTaZb2RmkIWfDEAFAru2ZN0IDPMrnfT26w5klqQkUg83qo/oYLAQVuiV+/flE
-         qB0DZ3hbzT4mYBr2xKNOFFSros8hSf5fPl3iKUfwEflZ0fvEhJVqwlK/BdIvCIUBEprk
-         cekw==
+        d=gmail.com; s=20230601; t=1747603856; x=1748208656; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kL7VwSz+WYu5h0HCWTWs5u/A46iTK7Ac+WK3oanjawQ=;
+        b=erJ4bVyQ5VOeezLRF1WOIp0j4H7y2ifknBJZnYb/1YAiS/OMF/RUX65f08jM2sdO1G
+         DHYWr1PaueTmPIq3W9mh+oQBbdK17QeNu1citj8OAXRGWaPweJ3K+h/C4PXNPXq2eg+8
+         jwPw9ZVrOX3GGeAJzX9lMJ1WFVbv8XbNgvW84ffjRgvH/96Vo386yEJGR8mrOsKUpbIZ
+         aUXxYoKC52EvwiRMPNyc3mI4w/q5JiY/Jvu2uDv+K+uk+AV+AmdhHKsuyzBLYH5qq99k
+         WlR7KjsTsV1vY/ls2WL1UVxeRClKQSSX3XG8aHgqNS9OMY7msu0jixqkGUQD6HS7wiJR
+         V/iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747597968; x=1748202768;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1747603856; x=1748208656;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j+EGqrQcASY8VPjJS6C9rsj/ti6dO6tgNDb2pPJII/g=;
-        b=DV2Rk7Lm8bQJp8OnOWU+rP/DLr3vxlkkqejYWlTjdFbchsjUiBpumqn1fnYMBEP/94
-         2KVO+aczursZPu2q2biQA+0eQJN+l1zrleq6L8CEDSUa8Bk+NmewrQjW+3+iq1HYcNBU
-         YDJtUeu3LepiLkIAcJursao1aO9T+g7/WrVfIZKN2G6Rc+C5eGgnnYkjUnfRtyD2XFId
-         UbNcgT/OQ8Q9/6h/7MrB4lxUZNOSol9N2PHYnCJQyI0ej4aK50/AZbRGSJvztowD/EPH
-         VePndrBnKo22TW2mCBtekr8GLvgM+RFf1sOyXoQXw7B77FsMPyzvzGwyt2T9Dtn+TUvC
-         FRmA==
-X-Gm-Message-State: AOJu0Yy6K2hIChZ+/htVF6Es1EtJWIZ48Sn59UymX9JRZ4u8qO45LW+2
-	quZmzv8A9Dz+ob2e6pMD/e/asYdhj//BZJtnQHcZJM7kt7SBaJIi2tFjrgMYRIrJ
-X-Gm-Gg: ASbGncuKkYSNmkZktKs7B3ZoSHl3WAL0+Hv350JXXjTvPZjQyhMuLv0Oyg6b+5epgTy
-	eH3Q7A+Mm649qzZQvFUaIUFn9ciSxrtOFz5TGob186MKH+WJ4LhnIVSdaLcOdyF7+qQ7yy7Vy1U
-	6uDl9cWxqm1k5Txj9rYjUioFh0YybqTudvmvcdnJBmDwdtAsiZ3WBxZIaSEgO2gdCMu+uNFIA4N
-	P2C8gSG/clHP/WVHMtBvdbUzczvfDL2oGjI5KS0YMvmSaulvcbKYUPVTneAvvJzkwdps1L9Htp6
-	+7U2zgqSjzdtyATaAZNVIXdvQ9Adm4MNBimcMZUjg3thYw6eQjaHQPlJWZJq0dYq50k=
-X-Google-Smtp-Source: AGHT+IGWnq8wDPdWTVfvFB6rhytRslLQ3gAxTfI33fu6XzhzHu6vlE06a70W0EZpZyoriOQNSi0okQ==
-X-Received: by 2002:a05:690c:45c9:b0:708:bb0e:5a06 with SMTP id 00721157ae682-70caacd21a1mr142896307b3.0.1747597967483;
-        Sun, 18 May 2025 12:52:47 -0700 (PDT)
-Received: from localhost.localdomain ([71.215.9.36])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-70ca831c44asm14766187b3.35.2025.05.18.12.52.46
+        bh=kL7VwSz+WYu5h0HCWTWs5u/A46iTK7Ac+WK3oanjawQ=;
+        b=GTg0ysQJ8dHBwQ2hDFU5GZFziVrGKMZZ1SVnrBXXI469OWmZVPOuV/kSTGbQeHtEVX
+         DPgBxoIImFnWwsU4n+Q3G8AhhRwysXbW3u2zOOoTB5vn0wYBN2u/cnAaX83MXwqvX0S5
+         MuqtI5KQCxsvKu0p+tgPqpzhj/3fy7XTqIDnmS1hakIhi2S7dOSLViMpGodzX+9EwR/F
+         qFUQXYUXhbr9deBeJCgAHeDdyJ9f0GmeYDaPLlp3P4wZ1kRkZgDAPG1vN6l+b1RrLWNl
+         Zk27AE3KmMgfT0TKeH6pGOHffb8xkng5BPYSfz4yCHuZFkzoHWrCZ74EB9JQYytm7aZL
+         8Ytw==
+X-Gm-Message-State: AOJu0Yw9oeh9p/coCSws+QbQrtUm2AVJknEcBjoNb5y/fSi2drz4I+v5
+	FYUoT70DtpfQZF4FjtK393HjiHrX1cVTmVrvLONaa678mvU6J5Fc5tj6eLO1lLTg
+X-Gm-Gg: ASbGnctH4j1U4/VdBcJqSzC9vgte+IG5Xsl8BcVksEx4hIJeLyJ2s5Oct5WPqWrRVD9
+	P+IdoICQ4yzga2JoXp8bxG+jRIqbhAeGXaMBMCEXqh54+XzCUCs3o8E93FUpZVXV7iXmgF6gn16
+	eXOIyo1GLNrQXcwuTSJAtRzMO61N2rlbQXdkvG+edMIW5xk7Snou9sJOi2tAJKNP06pv9qHLIO7
+	P0g/oPy7S49a9fD2pc74osdZXDdTxErlWtQMR7dtv3bYad1EpdaNjKXX6I+prgqVukWGNJETf+q
+	najwbsxbuqZfu2qPzDBj+roNKLhR31shf9TyQbwKEX737sggOU5MOQ==
+X-Google-Smtp-Source: AGHT+IHI3hiB2DOvvM5X/EqneGG51EjlKFnQiXeNCDLXL87fAj/qG3zdRX67DPaAyI5O3lkbN7cu1Q==
+X-Received: by 2002:a05:6a00:10c6:b0:736:6ecd:8e32 with SMTP id d2e1a72fcca58-742a98b83efmr15509191b3a.21.1747603856153;
+        Sun, 18 May 2025 14:30:56 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b26eb081aa2sm4976849a12.48.2025.05.18.14.30.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 12:52:47 -0700 (PDT)
-From: Jason Schonberg <schonm@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jason Schonberg <schonm@gmail.com>
-Subject: [oe-core][walnascar][PATCH 2/2] perl: update 5.40.0 -> 5.40.2
-Date: Sun, 18 May 2025 15:51:29 -0400
-Message-ID: <20250518195129.448725-2-schonm@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250518195129.448725-1-schonm@gmail.com>
-References: <20250518195129.448725-1-schonm@gmail.com>
+        Sun, 18 May 2025 14:30:55 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 18 May 2025 14:30:43 -0700
+Subject: [PATCH 08/21] rpm: Always use gcc compiler
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250518-clang-toolchain-v1-8-5be46f8c4af5@gmail.com>
+References: <20250518-clang-toolchain-v1-0-5be46f8c4af5@gmail.com>
+In-Reply-To: <20250518-clang-toolchain-v1-0-5be46f8c4af5@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+X-Mailer: b4 0.14.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 19:52:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216783
+ <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 21:30:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216792
 
-This fixes CVE-2024-56406 - Heap buffer overflow vulnerability with tr//
+clang can build it ok but the openmp directives
+get emitted with full paths into binaries [1] until
+thats fixed in clang/openmp stick to gcc
 
-https://nvd.nist.gov/vuln/detail/CVE-2024-56406
-
- From https://metacpan.org/pod/perldelta :
-   "There are no changes intentionally incompatible with 5.40.1.  If any exist, they are bugs, and we request that you submit a report."
-
- From https://metacpan.org/dist/perl/view/pod/perl5401delta.pod :
-   "There are no changes intentionally incompatible with 5.40.0.  If any exist, they are bugs, and we request that you submit a report."
-
-Signed-off-by: Jason Schonberg <schonm@gmail.com>
+[1] https://github.com/llvm/llvm-project/issues/82541
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/perl/{perl_5.40.0.bb => perl_5.40.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/perl/{perl_5.40.0.bb => perl_5.40.2.bb} (99%)
+ meta/conf/distro/include/default-toolchains.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.40.0.bb b/meta/recipes-devtools/perl/perl_5.40.2.bb
-similarity index 99%
-rename from meta/recipes-devtools/perl/perl_5.40.0.bb
-rename to meta/recipes-devtools/perl/perl_5.40.2.bb
-index 0d4338f29f..95c230060d 100644
---- a/meta/recipes-devtools/perl/perl_5.40.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.40.2.bb
-@@ -25,7 +25,7 @@ SRC_URI:append:class-target = " \
-            file://encodefix.patch \
- "
- 
--SRC_URI[perl.sha256sum] = "c740348f357396327a9795d3e8323bafd0fe8a5c7835fc1cbaba0cc8dfe7161f"
-+SRC_URI[perl.sha256sum] = "10d4647cfbb543a7f9ae3e5f6851ec49305232ea7621aed24c7cfbb0bef4b70d"
- 
- B = "${WORKDIR}/perl-${PV}-build"
- 
+diff --git a/meta/conf/distro/include/default-toolchains.inc b/meta/conf/distro/include/default-toolchains.inc
+index 943ecd39ebbd4f2189850393eec2d813aa0f0337..18208125dc2fee8acbde3abbd8faffb479e0a846 100644
+--- a/meta/conf/distro/include/default-toolchains.inc
++++ b/meta/conf/distro/include/default-toolchains.inc
+@@ -17,3 +17,7 @@ TOOLCHAIN:pn-libssp-nonshared = "gcc"
+ #      vld1.s32 ${1:h}, [$3] '
+ TOOLCHAIN:pn-pulseaudio:armv7ve = "gcc"
+ TOOLCHAIN:pn-pulseaudio:armv7a = "gcc"
++
++# Clang results in a reproducibility issue
++# https://github.com/llvm/llvm-project/issues/82541
++TOOLCHAIN:pn-rpm = "gcc"
+
 -- 
-2.43.0
+2.49.0
 
 
