@@ -2,37 +2,38 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40ADFC2D0CD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C59C5479B
 	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 11:09:03 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web10.48705.1747652938056963512
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.web10.48708.1747652938177223902
  for <openembedded-core@lists.openembedded.org>;
  Mon, 19 May 2025 04:08:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=huEaKE4a;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-20250519110857380a7f374766b4b3b7-txa2aa@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250519110857380a7f374766b4b3b7
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=XCTp0rBd;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-202505191108553f598b1d43c84ab1ed-n6_rwv@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202505191108553f598b1d43c84ab1ed
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 19 May 2025 13:08:57 +0200
+        Mon, 19 May 2025 13:08:55 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=lLp+omfSVUXCBXbwnd0R2nKpHRLp1pskN6IOCQeSFT4=;
- b=huEaKE4almu7GAYv9fylD/uQRn3bGWERiHR6AUH/nhx1H0GyFIUQjI7OdidwfQL4jgV6VJ
- fYOvcrQo/+H2ufArCwy4R3xcRCKL+LN71tpZiSqke/0Q3idiQBYvijCGU+/ujS2RoFwvxTSr
- suKsTiX0DkPWnVnSwsRNc4M74ZHGVSQOcHPIX9thduzdZZufDSewCRqkT4t840NGnYfM0qXG
- 1uPyS7kRNnYjEDOmTgr6FTpVasyl/sZ8SYOzcOsG/Hp767icTEfcAv15HODpoAZVwjbOccV+
- wf4nicC3klEVhOzvNQE1sEmFppE5om0apMt22zaVh6vcGZqFqLKyRfuw==;
+ bh=AcvuOY2g3YF2/NGw1sTjLx/jnbsuEvLASeaPQT2Jegc=;
+ b=XCTp0rBdxJLd+GFiYhuYkRSTEaEzP8lqRWNcr5Kb7uipKa5OlEAfwOWNCelhtVPb2JUPmu
+ 6+r8dVp2XFQfQwOsXetfSmyN+aOeFvNnaQjHM10T5vzaOjw0HMEytWMLUvnctY3tb5RDTLsU
+ oktYtqTySZiNb5hVuYZkJKUHCOKGbl6wRS3hQVVeDz9zMZ5oDk8UyLaEZONpjc+MwUNlq+B1
+ GyXlI8QQ9xDaCBPhd8VdHTHR1z7K/ZQxPv//4fqIGiXzMN4qIM4jHAvPAz20SKzmPu7+HUVN
+ bdw4FwzcvQk2kqnFavOfe3sr0/BfTPuO6SN8+0hGLloM8mhcUlqZ7Rpw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 15/16] kernel.bbclass: remove support for type fitImage
-Date: Mon, 19 May 2025 13:07:59 +0200
-Message-ID: <20250519110838.82978-16-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 02/16] oe-selftest: fitimage: test coverage for ext dtb
+Date: Mon, 19 May 2025 13:07:46 +0200
+Message-ID: <20250519110838.82978-3-adrian.freihofer@siemens.com>
 In-Reply-To: <20250519110838.82978-1-adrian.freihofer@siemens.com>
 References: <20250519110838.82978-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-1329275:519-21489:flowmailer
@@ -40,71 +41,131 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 11:09:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216852
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216841
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-kernel.bbclass is no longer involved in FIT image creation. Whether a
-FIT image is built now depends entirely on whether the linux-yocto-fitimage
-recipe (or any other recipe capable of producing a FIT image) is selected
-for the build.
-As a result, specifying the kernel image type "fitImage" in
-KERNEL_IMAGETYPE or KERNEL_IMAGETYPES is no longer necessary and gets
-removed.
+There are several ways to insert external devicetrees and devicetree
+overlays into the kernel and thus at least to some extent into the FIT
+image.
+So far there is no test coverage. Let's improve this as much as possible
+without fully understanding all use cases.
+
+This first test adds a devicetree overlay to a build configuration
+without signing, since signing is apparently not yet meaningful when
+PREFERRED_PROVIDER_virtual/dtb = “bborg-relay-00a2” is used. It is also
+not entirely clear how these external devicetree overlays are used by
+the configuration nodes of the FIT image. Currently, one configuration
+is created per dtb dtbo node, which is not really useful for dtbo nodes.
+Before this test can be extended to test devicetree overlays and
+signing, the code that creates the configuration nodes in its file
+probably needs some improvements in terms of more flexibility in
+defining the references from configuration nodes to image nodes.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/kernel.bbclass | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ meta/lib/oeqa/selftest/cases/fitimage.py | 58 +++++++++++++++++++++---
+ 1 file changed, 51 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 36ce659762e..599996ceb0b 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -84,6 +84,10 @@ python __anonymous () {
-         types = (alttype + ' ' + types).strip()
-     d.setVar('KERNEL_IMAGETYPES', types)
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index b39f2622dff..c3554d4499a 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -161,10 +161,21 @@ class FitImageTestCase(OESelftestTestCase):
  
-+    # Since kernel-fitimage.bbclass got replaced by kernel-fit-image.bbclass
-+    if "fitImage" in types:
-+        bb.error("fitImage is no longer supported as a KERNEL_IMAGETYPE(S)")
+     @staticmethod
+     def _get_dtb_files(bb_vars):
++        """Return a list of devicetree names
 +
-     # KERNEL_IMAGETYPES may contain a mixture of image types supported directly
-     # by the kernel build system and types which are created by post-processing
-     # the output of the kernel build system (e.g. compressing vmlinux ->
-@@ -477,17 +481,10 @@ kernel_do_install() {
- 	install -d ${D}/${KERNEL_IMAGEDEST}
++        The list should be used to check the dtb and conf nodes in the FIT image or its file.
++        In addition to the entries from KERNEL_DEVICETREE, the external devicetree overlay
++        added by the test recipe bborg-relay-00a2.bb is also handled.
++        """
+         kernel_devicetree = bb_vars.get('KERNEL_DEVICETREE')
++        all_dtbs = []
+         if kernel_devicetree:
+-            return [os.path.basename(dtb) for dtb in kernel_devicetree.split()]
+-        return []
++            all_dtbs += [os.path.basename(dtb) for dtb in kernel_devicetree.split()]
++        # Support only the test recipe which provides 1 devicetree overlay
++        pref_prov_dtb = bb_vars.get('PREFERRED_PROVIDER_virtual/dtb')
++        if pref_prov_dtb == "bborg-relay-00a2":
++            all_dtbs.append("BBORG_RELAY-00A2.dtbo")
++        return all_dtbs
  
- 	#
--	# When including an initramfs bundle inside a FIT image, the fitImage is created after the install task
--	# by do_assemble_fitimage_initramfs.
--	# This happens after the generation of the initramfs bundle (done by do_bundle_initramfs).
--	# So, at the level of the install task we should not try to install the fitImage. fitImage is still not
--	# generated yet.
--	# After the generation of the fitImage, the deploy task copies the fitImage from the build directory to
--	# the deploy folder.
-+	# bundle_initramfs runs after do_install before do_deploy. do_deploy does what's needed therefore.
- 	#
--
- 	for imageType in ${KERNEL_IMAGETYPES} ; do
--		if [ $imageType != "fitImage" ] || [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ] ; then
-+		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ] ; then
- 			install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
- 		fi
- 	done
-@@ -843,11 +840,8 @@ kernel_do_deploy() {
- 		fi
- 	fi
+     def _is_req_dict_in_dict(self, found_dict, req_dict):
+         """
+@@ -379,6 +390,7 @@ class KernelFitImageTests(FitImageTestCase):
+             'KERNEL_DEVICETREE',
+             'KERNEL_FIT_LINK_NAME',
+             'MACHINE',
++            'PREFERRED_PROVIDER_virtual/dtb',
+             'UBOOT_ARCH',
+             'UBOOT_ENTRYPOINT',
+             'UBOOT_LOADADDRESS',
+@@ -585,10 +597,16 @@ class KernelFitImageTests(FitImageTestCase):
+         # Create a configuration section for each DTB
+         if dtb_files:
+             for dtb in dtb_files:
+-                req_sections['conf-' + dtb] = {
+-                    "Kernel": "kernel-1",
+-                    "FDT": 'fdt-' + dtb,
+-                }
++                # dtb overlays do not refer to a kernel (yet?)
++                if dtb.endswith('.dtbo'):
++                    req_sections['conf-' + dtb] = {
++                        "FDT": 'fdt-' + dtb,
++                    }
++                else:
++                    req_sections['conf-' + dtb] = {
++                        "Kernel": "kernel-1",
++                        "FDT": 'fdt-' + dtb,
++                    }
+                 if initramfs_image and initramfs_image_bundle != "1":
+                     req_sections['conf-' + dtb]['Init Ramdisk'] = "ramdisk-1"
+         else:
+@@ -635,7 +653,12 @@ class KernelFitImageTests(FitImageTestCase):
+                 self.assertEqual(sign_algo, req_sign_algo, 'Signature algorithm for %s not expected value' % section)
+                 sign_value = values.get('Sign value', None)
+                 self.assertEqual(len(sign_value), fit_sign_alg_len, 'Signature value for section %s not expected length' % section)
+-                dtb_path = os.path.join(deploy_dir_image, section.replace('conf-', ''))
++                dtb_file_name = section.replace('conf-', '')
++                dtb_path = os.path.join(deploy_dir_image, dtb_file_name)
++                # External devicetrees created by devicetree.bbclass are in a subfolder and have priority
++                dtb_path_ext = os.path.join(deploy_dir_image, "devicetree", dtb_file_name)
++                if os.path.exists(dtb_path_ext):
++                    dtb_path = dtb_path_ext
+                 self._verify_fit_image_signature(uboot_tools_bindir, fitimage_path, dtb_path, section)
+             else:
+                 # Image nodes always need a hash which gets indirectly signed by the config signature
+@@ -696,6 +719,27 @@ FIT_DESC = "A model description"
+         self._test_fitimage(bb_vars)
  
--	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-+	if [ -n "${INITRAMFS_IMAGE}" ] && [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
- 		for imageType in ${KERNEL_IMAGETYPES} ; do
--			if [ "$imageType" = "fitImage" ] ; then
--				continue
--			fi
- 			initramfsBaseName=$imageType-${INITRAMFS_NAME}
- 			install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType.initramfs $deployDir/$initramfsBaseName${KERNEL_IMAGE_BIN_EXT}
- 			if [ -n "${INITRAMFS_LINK_NAME}" ] ; then
+ 
++    def test_fit_image_ext_dtbo(self):
++        """
++        Summary:     Check if FIT image and Image Tree Source (its) are created correctly.
++        Expected:    1) its and FIT image are built successfully
++                     2) The its file contains also the external devicetree overlay
++                     3) Dumping the FIT image indicates the devicetree overlay
++        """
++        config = """
++# Enable creation of fitImage
++MACHINE = "beaglebone-yocto"
++KERNEL_IMAGETYPES += " fitImage "
++KERNEL_CLASSES = " kernel-fitimage "
++# Add a devicetree overlay which does not need kernel sources
++PREFERRED_PROVIDER_virtual/dtb = "bborg-relay-00a2"
++"""
++        config = self._config_add_uboot_env(config)
++        self.write_config(config)
++        bb_vars = self._fit_get_bb_vars()
++        self._test_fitimage(bb_vars)
++
++
+     def test_sign_fit_image_configurations(self):
+         """
+         Summary:     Check if FIT image and Image Tree Source (its) are created
 -- 
 2.49.0
 
