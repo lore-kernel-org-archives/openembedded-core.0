@@ -2,34 +2,34 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96940C54EDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E8CDC54ED0
 	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 11:09:03 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.48709.1747652938204543435
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web10.48712.1747652938727827145
  for <openembedded-core@lists.openembedded.org>;
  Mon, 19 May 2025 04:08:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Ld1JJEpV;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-20250519110856ea4ad4b732437143a4-brhflm@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250519110856ea4ad4b732437143a4
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=ECC2tU+6;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2025051911085648cd47898fc1427aae-jhat7i@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2025051911085648cd47898fc1427aae
         for <openembedded-core@lists.openembedded.org>;
         Mon, 19 May 2025 13:08:56 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=PhjmjClip/o9NSERA8G8Yw12V2dNnYUM3Z5JT3Tffhc=;
- b=Ld1JJEpV4v5Nc21aIAHHvifQY0yFSy2F4wCzwduaaMyq0J1ts1SrMHfAGIwvs9fsmRVDLF
- I6XaOipe9cTaeDbLWYlMsZ8F0Ic4SgX5uV+MEBgXHkoVDzEU7mJrN2QJw3q46dJ5KDmwshVt
- UkrMcyP7knPPHZ1Go98n2nm+40SiTIz/QD+H8zcfCeFs/ppdm+LpvDkSL6ow0YVQNN8nJQMy
- /w3+PwEPo0DusF+YnNGadKwycMw+kfGvBH2cBSITg4PyYaDcTMMjZGIB4oeFVIUIvv8K3ChT
- 0IfaJuq5yLR3gyXKu/1ZoXpgqDMjyGTgd6rvLPUqIs6Fb5aM3Xoa8a6g==;
+ bh=8sCabJZYpnEoC+ehTtMjUTDktVL74X27cQ/aNRenU3s=;
+ b=ECC2tU+6nLYGQftGbYlhRPn1Qjw+9URz9KBT+G8/yFMAuncb7wq7evhJbIIgyDsxiUN8lr
+ XwwhO1jhxEV7R0LKvbsAmPT5TtK9OsFDFObbW/cAVqNtmShoqEtOzs+7Es10zivqR9WhBBIh
+ kPkn8rp+SVLnRCo5vak0qLOx8TJGsIWFqDysa/srdTsKX92y2EwCUtoEe2fHVw1W0Pmo+AN8
+ xKeYh+Z5LD391xdDiCIhnAd073eFokaOJBw1FiqYhGPqWsUCUZYMlmMdswSSpY501krvO+Yt
+ LdRwMnX2IbPJosNOKEfgHcJIhCdSypmkgZ6aQJzdd4m33zdybXBJFsFw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 09/16] oe-selftest: fitimage add tests for fitimage.py
-Date: Mon, 19 May 2025 13:07:53 +0200
-Message-ID: <20250519110838.82978-10-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 13/16] kernel-fitimage: re-write its code in Python
+Date: Mon, 19 May 2025 13:07:57 +0200
+Message-ID: <20250519110838.82978-14-adrian.freihofer@siemens.com>
 In-Reply-To: <20250519110838.82978-1-adrian.freihofer@siemens.com>
 References: <20250519110838.82978-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -40,209 +40,978 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 11:09:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216843
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216847
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Having the FIT image generator code as a separate class, which is
-essentially independent of BitBake, also allows testing the code
-separately from BitBake. Take advantage of this enables testing more
-use cases with significantly faster tests.
+Rewrite the kernel-fitimage.bbclass file in Python. This allows the
+reuse of the new fitimage Python library and a clear alignment of the
+two implementations.
+
+Actually, the motivation for an implementation in Python was different.
+During the transition from the kernel-fitimage.bbclass to the new
+linux-yocto-fitimage.bb, the existing shell code was rewritten in Python
+so that the fitimage.py library could be extracted. The new
+kernel-fit-image.bbclass and linux-yocto-fitimage.bb were then developed
+on this basis.
+This approach makes it possible to run the same tests for all different
+implementations:
+- kernel-fitimage.bbclass in Shell
+- kernel-fitimage.bbclass in Python
+- linux-yocto-fitimage.bb
+
+Changing the commit order now enables a smooth transition. The two
+implementations can coexist. Maintenance and testing should be feasible
+for a few months with reasonable effort as they share most of the code.
+But of course, the goal is to remove the kernel-fitimage.bbclass as soon
+as possible.
+
+This commit opens the path for different strategies going forward:
+- Just replace the old implementations with the new one and ignoring
+  this commit.
+- Add the new implementation and keep the old implementation without any
+  change.
+- Add the new implementation and this commit and support the old
+  architecture sharing most of the code with the new architecture and
+  implementatiion.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/fitimage.py | 145 ++++++++++++++++++++++-
- 1 file changed, 141 insertions(+), 4 deletions(-)
+ meta/classes-recipe/kernel-fitimage.bbclass | 860 ++++----------------
+ meta/classes-recipe/kernel-uboot.bbclass    |  45 +
+ 2 files changed, 220 insertions(+), 685 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 47fb8534b37..d9d1211b074 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -4,13 +4,36 @@
- # SPDX-License-Identifier: MIT
- #
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
+index 8e66f326766..08e34a5d5af 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -56,680 +56,170 @@ python __anonymous () {
+         d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
+ }
  
--from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import runCmd, bitbake, get_bb_vars
- import os
- import re
- import shlex
- import logging
- import pprint
-+import tempfile
-+
-+import oe.fitimage
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_vars
-+
-+
-+class BbVarsMockGenKeys:
-+    def __init__(self, keydir, gen_keys="0", sign_enabled="0", keyname="", sign_ind="0", img_keyname=""):
-+        self.bb_vars = {
-+            'FIT_GENERATE_KEYS': gen_keys,
-+            'FIT_KEY_GENRSA_ARGS': "-F4",
-+            'FIT_KEY_REQ_ARGS': "-batch -new",
-+            'FIT_KEY_SIGN_PKCS': "-x509",
-+            'FIT_SIGN_INDIVIDUAL': sign_ind,
-+            'FIT_SIGN_NUMBITS': "2048",
-+            'UBOOT_SIGN_ENABLE': sign_enabled,
-+            'UBOOT_SIGN_IMG_KEYNAME': img_keyname,
-+            'UBOOT_SIGN_KEYDIR': keydir,
-+            'UBOOT_SIGN_KEYNAME': keyname,
-+        }
-+
-+    def getVar(self, var):
-+        return self.bb_vars[var]
- 
- class FitImageTestCase(OESelftestTestCase):
-     """Test functions usable for testing kernel-fitimage.bbclass and uboot-sign.bbclass
-@@ -85,6 +108,25 @@ class FitImageTestCase(OESelftestTestCase):
-                 sing_key_path
-             ))
- 
-+    @staticmethod
-+    def generate_rsa_key(keydir, keyname, numbits, genrsa_args, req_args, sign_pkcs, openssl_path="openssl"):
-+        sing_key_path = os.path.join(keydir, keyname)
-+        if not os.path.isdir(keydir):
-+            os.makedirs(keydir)
-+        runCmd("%s genrsa %s -out %s.key %s" % (
-+            openssl_path,
-+            genrsa_args,
-+            sing_key_path,
-+            numbits
-+        ))
-+        runCmd("%s req %s %s -key %s.key -out %s.crt" % (
-+            openssl_path,
-+            req_args,
-+            sign_pkcs,
-+            sing_key_path,
-+            sing_key_path
-+        ))
-+
-     @staticmethod
-     def _gen_random_file(file_path, num_bytes=65536):
-         with open(file_path, 'wb') as file_out:
-@@ -367,8 +409,7 @@ class FitImageTestCase(OESelftestTestCase):
-         # Verify the FIT image
-         self._check_fitimage(bb_vars, fitimage_path, uboot_tools_bindir)
- 
+-#
+-# Emit the fitImage ITS header
+-#
+-# $1 ... .its filename
+-fitimage_emit_fit_header() {
+-	cat << EOF >> $1
+-/dts-v1/;
 -
--class KernelFitImageTests(FitImageTestCase):
-+class KernelFitImageBase(FitImageTestCase):
-     """Test cases for the kernel-fitimage bbclass"""
+-/ {
+-        description = "${FIT_DESC}";
+-        #address-cells = <${FIT_ADDRESS_CELLS}>;
+-EOF
+-}
+-
+-#
+-# Emit the fitImage section bits
+-#
+-# $1 ... .its filename
+-# $2 ... Section bit type: imagestart - image section start
+-#                          confstart  - configuration section start
+-#                          sectend    - section end
+-#                          fitend     - fitimage end
+-#
+-fitimage_emit_section_maint() {
+-	case $2 in
+-	imagestart)
+-		cat << EOF >> $1
+-
+-        images {
+-EOF
+-	;;
+-	confstart)
+-		cat << EOF >> $1
+-
+-        configurations {
+-EOF
+-	;;
+-	sectend)
+-		cat << EOF >> $1
+-	};
+-EOF
+-	;;
+-	fitend)
+-		cat << EOF >> $1
+-};
+-EOF
+-	;;
+-	esac
+-}
+-
+-#
+-# Emit the fitImage ITS kernel section
+-#
+-# $1 ... .its filename
+-# $2 ... Image counter
+-# $3 ... Path to kernel image
+-# $4 ... Compression type
+-fitimage_emit_section_kernel() {
+-
+-	kernel_csum="${FIT_HASH_ALG}"
+-	kernel_sign_algo="${FIT_SIGN_ALG}"
+-	kernel_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+-
+-	ENTRYPOINT="${UBOOT_ENTRYPOINT}"
+-	if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
+-		ENTRYPOINT=`${HOST_PREFIX}nm vmlinux | \
+-			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print "0x"$1;exit}'`
+-	fi
+-
+-	cat << EOF >> $1
+-                kernel-$2 {
+-                        description = "Linux kernel";
+-                        type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
+-                        compression = "$4";
+-                        data = /incbin/("$3");
+-                        arch = "${UBOOT_ARCH}";
+-                        os = "linux";
+-                        load = <${UBOOT_LOADADDRESS}>;
+-                        entry = <$ENTRYPOINT>;
+-                        hash-1 {
+-                                algo = "$kernel_csum";
+-                        };
+-                };
+-EOF
+-
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$kernel_sign_keyname" ] ; then
+-		sed -i '$ d' $1
+-		cat << EOF >> $1
+-                        signature-1 {
+-                                algo = "$kernel_csum,$kernel_sign_algo";
+-                                key-name-hint = "$kernel_sign_keyname";
+-                        };
+-                };
+-EOF
+-	fi
+-}
+-
+-#
+-# Emit the fitImage ITS DTB section
+-#
+-# $1 ... .its filename
+-# $2 ... Image counter
+-# $3 ... Path to DTB image
+-fitimage_emit_section_dtb() {
+-
+-	dtb_csum="${FIT_HASH_ALG}"
+-	dtb_sign_algo="${FIT_SIGN_ALG}"
+-	dtb_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+-
+-	dtb_loadline=""
+-	dtb_ext=${DTB##*.}
+-	if [ "${dtb_ext}" = "dtbo" ]; then
+-		if [ -n "${UBOOT_DTBO_LOADADDRESS}" ]; then
+-			dtb_loadline="load = <${UBOOT_DTBO_LOADADDRESS}>;"
+-		fi
+-	elif [ -n "${UBOOT_DTB_LOADADDRESS}" ]; then
+-		dtb_loadline="load = <${UBOOT_DTB_LOADADDRESS}>;"
+-	fi
+-	cat << EOF >> $1
+-                fdt-$2 {
+-                        description = "Flattened Device Tree blob";
+-                        type = "flat_dt";
+-                        compression = "none";
+-                        data = /incbin/("$3");
+-                        arch = "${UBOOT_ARCH}";
+-                        $dtb_loadline
+-                        hash-1 {
+-                                algo = "$dtb_csum";
+-                        };
+-                };
+-EOF
+-
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$dtb_sign_keyname" ] ; then
+-		sed -i '$ d' $1
+-		cat << EOF >> $1
+-                        signature-1 {
+-                                algo = "$dtb_csum,$dtb_sign_algo";
+-                                key-name-hint = "$dtb_sign_keyname";
+-                        };
+-                };
+-EOF
+-	fi
+-}
+-
+-#
+-# Emit the fitImage ITS u-boot script section
+-#
+-# $1 ... .its filename
+-# $2 ... Image counter
+-# $3 ... Path to boot script image
+-fitimage_emit_section_boot_script() {
+-
+-	bootscr_csum="${FIT_HASH_ALG}"
+-	bootscr_sign_algo="${FIT_SIGN_ALG}"
+-	bootscr_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+-
+-        cat << EOF >> $1
+-                bootscr-$2 {
+-                        description = "U-boot script";
+-                        type = "script";
+-                        compression = "none";
+-                        data = /incbin/("$3");
+-                        arch = "${UBOOT_ARCH}";
+-                        hash-1 {
+-                                algo = "$bootscr_csum";
+-                        };
+-                };
+-EOF
+-
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$bootscr_sign_keyname" ] ; then
+-		sed -i '$ d' $1
+-		cat << EOF >> $1
+-                        signature-1 {
+-                                algo = "$bootscr_csum,$bootscr_sign_algo";
+-                                key-name-hint = "$bootscr_sign_keyname";
+-                        };
+-                };
+-EOF
+-	fi
+-}
+-
+-#
+-# Emit the fitImage ITS setup section
+-#
+-# $1 ... .its filename
+-# $2 ... Image counter
+-# $3 ... Path to setup image
+-fitimage_emit_section_setup() {
+-
+-	setup_csum="${FIT_HASH_ALG}"
+-	setup_sign_algo="${FIT_SIGN_ALG}"
+-	setup_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+-
+-	cat << EOF >> $1
+-                setup-$2 {
+-                        description = "Linux setup.bin";
+-                        type = "x86_setup";
+-                        compression = "none";
+-                        data = /incbin/("$3");
+-                        arch = "${UBOOT_ARCH}";
+-                        os = "linux";
+-                        load = <0x00090000>;
+-                        entry = <0x00090000>;
+-                        hash-1 {
+-                                algo = "$setup_csum";
+-                        };
+-                };
+-EOF
+-
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$setup_sign_keyname" ] ; then
+-		sed -i '$ d' $1
+-		cat << EOF >> $1
+-                        signature-1 {
+-                                algo = "$setup_csum,$setup_sign_algo";
+-                                key-name-hint = "$setup_sign_keyname";
+-                        };
+-                };
+-EOF
+-	fi
+-}
+-
+-#
+-# Emit the fitImage ITS ramdisk section
+-#
+-# $1 ... .its filename
+-# $2 ... Image counter
+-# $3 ... Path to ramdisk image
+-fitimage_emit_section_ramdisk() {
+-
+-	ramdisk_csum="${FIT_HASH_ALG}"
+-	ramdisk_sign_algo="${FIT_SIGN_ALG}"
+-	ramdisk_sign_keyname="${UBOOT_SIGN_IMG_KEYNAME}"
+-	ramdisk_loadline=""
+-	ramdisk_entryline=""
+-
+-	if [ -n "${UBOOT_RD_LOADADDRESS}" ]; then
+-		ramdisk_loadline="load = <${UBOOT_RD_LOADADDRESS}>;"
+-	fi
+-	if [ -n "${UBOOT_RD_ENTRYPOINT}" ]; then
+-		ramdisk_entryline="entry = <${UBOOT_RD_ENTRYPOINT}>;"
+-	fi
+-
+-	cat << EOF >> $1
+-                ramdisk-$2 {
+-                        description = "${INITRAMFS_IMAGE}";
+-                        type = "ramdisk";
+-                        compression = "none";
+-                        data = /incbin/("$3");
+-                        arch = "${UBOOT_ARCH}";
+-                        os = "linux";
+-                        $ramdisk_loadline
+-                        $ramdisk_entryline
+-                        hash-1 {
+-                                algo = "$ramdisk_csum";
+-                        };
+-                };
+-EOF
+-
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "$ramdisk_sign_keyname" ] ; then
+-		sed -i '$ d' $1
+-		cat << EOF >> $1
+-                        signature-1 {
+-                                algo = "$ramdisk_csum,$ramdisk_sign_algo";
+-                                key-name-hint = "$ramdisk_sign_keyname";
+-                        };
+-                };
+-EOF
+-	fi
+-}
+-
+-#
+-# echoes symlink destination if it points below directory
+-#
+-# $1 ... file that's a potential symlink
+-# $2 ... expected parent directory
+-symlink_points_below() {
+-	file="$2/$1"
+-	dir=$2
+-
+-	if ! [ -L "$file" ]; then
+-		return
+-	fi
+-
+-	realpath="$(realpath --relative-to=$dir $file)"
+-	if [ -z "${realpath%%../*}" ]; then
+-		return
+-	fi
+-
+-	echo "$realpath"
+-}
+-
+-#
+-# Emit the fitImage ITS configuration section
+-#
+-# $1 ... .its filename
+-# $2 ... Linux kernel ID
+-# $3 ... DTB image name
+-# $4 ... ramdisk ID
+-# $5 ... u-boot script ID
+-# $6 ... config ID
+-# $7 ... default flag
+-# $8 ... default DTB image name
+-fitimage_emit_section_config() {
+-
+-	conf_csum="${FIT_HASH_ALG}"
+-	conf_sign_algo="${FIT_SIGN_ALG}"
+-	conf_padding_algo="${FIT_PAD_ALG}"
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] ; then
+-		conf_sign_keyname="${UBOOT_SIGN_KEYNAME}"
+-	fi
+-
+-	its_file="$1"
+-	kernel_id="$2"
+-	dtb_image="$3"
+-	ramdisk_id="$4"
+-	bootscr_id="$5"
+-	config_id="$6"
+-	default_flag="$7"
+-	default_dtb_image="$8"
+-
+-	# Test if we have any DTBs at all
+-	sep=""
+-	conf_desc=""
+-	conf_node="${FIT_CONF_PREFIX}"
+-	kernel_line=""
+-	fdt_line=""
+-	ramdisk_line=""
+-	bootscr_line=""
+-	setup_line=""
+-	default_line=""
+-	compatible_line=""
+-
+-	dtb_image_sect=$(symlink_points_below $dtb_image "${EXTERNAL_KERNEL_DEVICETREE}")
+-	if [ -z "$dtb_image_sect" ]; then
+-		dtb_image_sect=$dtb_image
+-	fi
+-
+-	dtb_path="${EXTERNAL_KERNEL_DEVICETREE}/${dtb_image_sect}"
+-	if [ -f "$dtb_path" ] || [ -L "$dtb_path" ]; then
+-		compat=$(fdtget -t s "$dtb_path" / compatible | sed 's/ /", "/g')
+-		if [ -n "$compat" ]; then
+-			compatible_line="compatible = \"$compat\";"
+-		fi
+-	fi
+-
+-	dtb_image=$(echo $dtb_image | tr '/' '_')
+-	dtb_image_sect=$(echo "${dtb_image_sect}" | tr '/' '_')
+-
+-	# conf node name is selected based on dtb ID if it is present,
+-	# otherwise its selected based on kernel ID
+-	if [ -n "$dtb_image" ]; then
+-		conf_node=$conf_node$dtb_image
+-	else
+-		conf_node=$conf_node$kernel_id
+-	fi
+-
+-	if [ -n "$kernel_id" ]; then
+-		conf_desc="Linux kernel"
+-		sep=", "
+-		kernel_line="kernel = \"kernel-$kernel_id\";"
+-	fi
+-
+-	if [ -n "$dtb_image" ]; then
+-		conf_desc="$conf_desc${sep}FDT blob"
+-		sep=", "
+-		fdt_line="fdt = \"fdt-$dtb_image_sect\";"
+-	fi
+-
+-	if [ -n "$ramdisk_id" ]; then
+-		conf_desc="$conf_desc${sep}ramdisk"
+-		sep=", "
+-		ramdisk_line="ramdisk = \"ramdisk-$ramdisk_id\";"
+-	fi
+-
+-	if [ -n "$bootscr_id" ]; then
+-		conf_desc="$conf_desc${sep}u-boot script"
+-		sep=", "
+-		bootscr_line="bootscr = \"bootscr-$bootscr_id\";"
+-	fi
+-
+-	if [ -n "$config_id" ]; then
+-		conf_desc="$conf_desc${sep}setup"
+-		setup_line="setup = \"setup-$config_id\";"
+-	fi
+-
+-	if [ "$default_flag" = "1" ]; then
+-		# default node is selected based on dtb ID if it is present,
+-		# otherwise its selected based on kernel ID
+-		if [ -n "$dtb_image" ]; then
+-			# Select default node as user specified dtb when
+-			# multiple dtb exists.
+-			if [ -n "$default_dtb_image" ]; then
+-				default_line="default = \"${FIT_CONF_PREFIX}$default_dtb_image\";"
+-			else
+-				default_line="default = \"${FIT_CONF_PREFIX}$dtb_image\";"
+-			fi
+-		else
+-			default_line="default = \"${FIT_CONF_PREFIX}$kernel_id\";"
+-		fi
+-	fi
+-
+-	cat << EOF >> $its_file
+-                $default_line
+-                $conf_node {
+-                        description = "$default_flag $conf_desc";
+-                        $compatible_line
+-                        $kernel_line
+-                        $fdt_line
+-                        $ramdisk_line
+-                        $bootscr_line
+-                        $setup_line
+-                        hash-1 {
+-                                algo = "$conf_csum";
+-                        };
+-EOF
+-
+-	if [ -n "$conf_sign_keyname" ] ; then
+-
+-		sign_line="sign-images = "
+-		sep=""
+-
+-		if [ -n "$kernel_id" ]; then
+-			sign_line="$sign_line${sep}\"kernel\""
+-			sep=", "
+-		fi
+-
+-		if [ -n "$dtb_image" ]; then
+-			sign_line="$sign_line${sep}\"fdt\""
+-			sep=", "
+-		fi
+-
+-		if [ -n "$ramdisk_id" ]; then
+-			sign_line="$sign_line${sep}\"ramdisk\""
+-			sep=", "
+-		fi
+-
+-		if [ -n "$bootscr_id" ]; then
+-			sign_line="$sign_line${sep}\"bootscr\""
+-			sep=", "
+-		fi
+-
+-		if [ -n "$config_id" ]; then
+-			sign_line="$sign_line${sep}\"setup\""
+-		fi
+-
+-		sign_line="$sign_line;"
+-
+-		cat << EOF >> $its_file
+-                        signature-1 {
+-                                algo = "$conf_csum,$conf_sign_algo";
+-                                key-name-hint = "$conf_sign_keyname";
+-                                padding = "$conf_padding_algo";
+-                                $sign_line
+-                        };
+-EOF
+-	fi
+-
+-	cat << EOF >> $its_file
+-                };
+-EOF
+-}
+-
+-#
+-# Assemble fitImage
+-#
+-# $1 ... .its filename
+-# $2 ... fitImage name
+-# $3 ... include ramdisk
+-fitimage_assemble() {
+-	kernelcount=1
+-	dtbcount=""
+-	DTBS=""
+-	ramdiskcount=$3
+-	setupcount=""
+-	bootscr_id=""
+-	default_dtb_image=""
+-	rm -f $1 arch/${ARCH}/boot/$2
+-
+-	if [ -n "${UBOOT_SIGN_IMG_KEYNAME}" -a "${UBOOT_SIGN_KEYNAME}" = "${UBOOT_SIGN_IMG_KEYNAME}" ]; then
+-		bbfatal "Keys used to sign images and configuration nodes must be different."
+-	fi
+-
+-	fitimage_emit_fit_header $1
+-
+-	#
+-	# Step 1: Prepare a kernel image section.
+-	#
+-	fitimage_emit_section_maint $1 imagestart
+-
+-	uboot_prep_kimage
+-	fitimage_emit_section_kernel $1 $kernelcount linux.bin "$linux_comp"
+-
+-	#
+-	# Step 2: Prepare a DTB image section
+-	#
+-
+-	if [ -n "${KERNEL_DEVICETREE}" ]; then
+-		dtbcount=1
+-		for DTB in ${KERNEL_DEVICETREE}; do
+-			if echo $DTB | grep -q '/dts/'; then
+-				bbwarn "$DTB contains the full path to the the dts file, but only the dtb name should be used."
+-				DTB=`basename $DTB | sed 's,\.dts$,.dtb,g'`
+-			fi
+-
+-			# Skip ${DTB} if it's also provided in ${EXTERNAL_KERNEL_DEVICETREE}
+-			if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ] && [ -s ${EXTERNAL_KERNEL_DEVICETREE}/${DTB} ]; then
+-				continue
+-			fi
+-
+-			DTB_PATH="${KERNEL_OUTPUT_DIR}/dts/$DTB"
+-			if [ ! -e "$DTB_PATH" ]; then
+-				DTB_PATH="${KERNEL_OUTPUT_DIR}/$DTB"
+-			fi
+-
+-			# Strip off the path component from the filename
+-			if "${@'false' if oe.types.boolean(d.getVar('KERNEL_DTBVENDORED')) else 'true'}"; then
+-				DTB=`basename $DTB`
+-			fi
+-
+-			# Set the default dtb image if it exists in the devicetree.
+-			if [ "${FIT_CONF_DEFAULT_DTB}" = "$DTB" ];then
+-				default_dtb_image=$(echo "$DTB" | tr '/' '_')
+-			fi
+-
+-			DTB=$(echo "$DTB" | tr '/' '_')
+-
+-			# Skip DTB if we've picked it up previously
+-			echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
+-
+-			DTBS="$DTBS $DTB"
+-			DTB=$(echo $DTB | tr '/' '_')
+-			fitimage_emit_section_dtb $1 $DTB $DTB_PATH
+-		done
+-	fi
+-
+-	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
+-		dtbcount=1
+-		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtb' -printf '%P\n' | sort) \
+-		$(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtbo' -printf '%P\n' | sort); do
+-			# Set the default dtb image if it exists in the devicetree.
+-			if [ ${FIT_CONF_DEFAULT_DTB} = $DTB ];then
+-				default_dtb_image=$(echo "$DTB" | tr '/' '_')
+-			fi
+-
+-			DTB=$(echo "$DTB" | tr '/' '_')
+-
+-			# Skip DTB/DTBO if we've picked it up previously
+-			echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
+-
+-			DTBS="$DTBS $DTB"
+-
+-			# Also skip if a symlink. We'll later have each config section point at it
+-			[ $(symlink_points_below $DTB "${EXTERNAL_KERNEL_DEVICETREE}") ] && continue
+-
+-			DTB=$(echo $DTB | tr '/' '_')
+-			fitimage_emit_section_dtb $1 $DTB "${EXTERNAL_KERNEL_DEVICETREE}/$DTB"
+-		done
+-	fi
+-
+-	if [ -n "${FIT_CONF_DEFAULT_DTB}" ] && [ -z $default_dtb_image ]; then 
+-		bbwarn "${FIT_CONF_DEFAULT_DTB} is not available in the list of device trees."
+-	fi
+-
+-	#
+-	# Step 3: Prepare a u-boot script section
+-	#
+-
+-	if [ -n "${FIT_UBOOT_ENV}" ]; then
+-		cp ${UNPACKDIR}/${FIT_UBOOT_ENV} ${B}
+-		bootscr_id="${FIT_UBOOT_ENV}"
+-		fitimage_emit_section_boot_script $1 "$bootscr_id" ${FIT_UBOOT_ENV}
+-	fi
+-
+-	#
+-	# Step 4: Prepare a setup section. (For x86)
+-	#
+-	if [ -e ${KERNEL_OUTPUT_DIR}/setup.bin ]; then
+-		setupcount=1
+-		fitimage_emit_section_setup $1 $setupcount ${KERNEL_OUTPUT_DIR}/setup.bin
+-	fi
+-
+-	#
+-	# Step 5: Prepare a ramdisk section.
+-	#
+-	if [ "x${ramdiskcount}" = "x1" ] && [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+-		# Find and use the first initramfs image archive type we find
+-		found=
+-		for img in ${FIT_SUPPORTED_INITRAMFS_FSTYPES}; do
+-			initramfs_path="${INITRAMFS_DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img"
+-			if [ -e "$initramfs_path" ]; then
+-				bbnote "Found initramfs image: $initramfs_path"
+-				found=true
+-				fitimage_emit_section_ramdisk $1 "$ramdiskcount" "$initramfs_path"
+-				break
+-			else
+-				bbnote "Did not find initramfs image: $initramfs_path"
+-			fi
+-		done
+-
+-		if [ -z "$found" ]; then
+-			bbfatal "Could not find a valid initramfs type for ${INITRAMFS_IMAGE_NAME}, the supported types are: ${FIT_SUPPORTED_INITRAMFS_FSTYPES}"
+-		fi
+-	fi
+-
+-	fitimage_emit_section_maint $1 sectend
+-
+-	# Force the first Kernel and DTB in the default config
+-	kernelcount=1
+-	if [ -n "$dtbcount" ]; then
+-		dtbcount=1
+-	fi
+-
+-	#
+-	# Step 6: Prepare a configurations section
+-	#
+-	fitimage_emit_section_maint $1 confstart
+-
+-	# kernel-fitimage.bbclass currently only supports a single kernel (no less or
+-	# more) to be added to the FIT image along with 0 or more device trees and
+-	# 0 or 1 ramdisk.
+-	# It is also possible to include an initramfs bundle (kernel and rootfs in one binary)
+-	# When the initramfs bundle is used ramdisk is disabled.
+-	# If a device tree is to be part of the FIT image, then select
+-	# the default configuration to be used is based on the dtbcount. If there is
+-	# no dtb present than select the default configuation to be based on
+-	# the kernelcount.
+-	if [ -n "$DTBS" ]; then
+-		i=1
+-		for DTB in ${DTBS}; do
+-			dtb_ext=${DTB##*.}
+-			if [ "$dtb_ext" = "dtbo" ]; then
+-				fitimage_emit_section_config $1 "" "$DTB" "" "$bootscr_id" "" "`expr $i = $dtbcount`" "$default_dtb_image"
+-			else
+-				fitimage_emit_section_config $1 $kernelcount "$DTB" "$ramdiskcount" "$bootscr_id" "$setupcount" "`expr $i = $dtbcount`" "$default_dtb_image"
+-			fi
+-			i=`expr $i + 1`
+-		done
+-	else
+-		defaultconfigcount=1
+-		fitimage_emit_section_config $1 $kernelcount "" "$ramdiskcount" "$bootscr_id"  "$setupcount" $defaultconfigcount "$default_dtb_image"
+-	fi
+-
+-	fitimage_emit_section_maint $1 sectend
+-
+-	fitimage_emit_section_maint $1 fitend
+-
+-	#
+-	# Step 7: Assemble the image
+-	#
+-	${UBOOT_MKIMAGE} \
+-		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+-		-f $1 \
+-		${KERNEL_OUTPUT_DIR}/$2
+-
+-	#
+-	# Step 8: Sign the image
+-	#
+-	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
+-		${UBOOT_MKIMAGE_SIGN} \
+-			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+-			-F -k "${UBOOT_SIGN_KEYDIR}" \
+-			-r ${KERNEL_OUTPUT_DIR}/$2 \
+-			${UBOOT_MKIMAGE_SIGN_ARGS}
+-	fi
+-}
+-
+-do_assemble_fitimage() {
+-	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
+-		cd ${B}
+-		fitimage_assemble fit-image.its fitImage-none ""
+-		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+-			ln -sf fitImage-none ${B}/${KERNEL_OUTPUT_DIR}/fitImage
+-		fi
+-	fi
++def fitimage_assemble(d, itsfile, fitname, ramdiskcount):
++    import shutil
++    import glob
++    import oe.fitimage
++
++    DTBS=""
++    default_dtb_image=""
++
++    for f in [itsfile, os.path.join("arch", d.getVar("ARCH"), "boot", fitname)]:
++        if os.path.exists(f):
++            os.remove(f)
++
++    root_node = oe.fitimage.ItsNodeRootKernel(
++        d.getVar("FIT_DESC"), d.getVar("FIT_ADDRESS_CELLS"),
++        d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),  d.getVar("FIT_CONF_PREFIX"),
++        d.getVar('UBOOT_SIGN_ENABLE') == "1", d.getVar("UBOOT_SIGN_KEYDIR"),
++        d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
++        d.getVar("UBOOT_MKIMAGE_SIGN"), d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
++        d.getVar('FIT_HASH_ALG'), d.getVar('FIT_SIGN_ALG'), d.getVar('FIT_PAD_ALG'),
++        d.getVar('UBOOT_SIGN_KEYNAME'),
++        d.getVar('FIT_SIGN_INDIVIDUAL') == "1", d.getVar('UBOOT_SIGN_IMG_KEYNAME')
++    )
++
++    #
++    # Step 1: Prepare a kernel image section.
++    #
++    linux_comp = uboot_prep_kimage_py(d)
++    root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
++        d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
++        d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
++
++    #
++    # Step 2: Prepare a DTB image section
++    #
++    if d.getVar("KERNEL_DEVICETREE"):
++        for DTB in d.getVar("KERNEL_DEVICETREE").split():
++            if "/dts/" in DTB:
++                bb.warn(f"{DTB} contains the full path to the dts file, but only the dtb name should be used.")
++                DTB = os.path.basename(DTB).replace(".dts", ".dtb")
++
++            # Skip DTB if it's also provided in EXTERNAL_KERNEL_DEVICETREE
++            if d.getVar("EXTERNAL_KERNEL_DEVICETREE"):
++                ext_dtb_path = os.path.join(d.getVar("EXTERNAL_KERNEL_DEVICETREE"), DTB)
++                if os.path.exists(ext_dtb_path) and os.path.getsize(ext_dtb_path) > 0:
++                    continue
++
++            DTB_PATH = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), "dts", DTB)
++            if not os.path.exists(DTB_PATH):
++                DTB_PATH = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), DTB)
++
++            # Strip off the path component from the filename
++            if not oe.types.boolean(d.getVar("KERNEL_DTBVENDORED")):
++                DTB = os.path.basename(DTB)
++
++            # Set the default dtb image if it exists in the devicetree.
++            if d.getVar("FIT_CONF_DEFAULT_DTB") == DTB:
++                default_dtb_image = DTB.replace("/", "_")
++
++            DTB = DTB.replace("/", "_")
++
++            # Skip DTB if we've picked it up previously
++            if DTB in DTBS.split():
++                continue
++
++            DTBS += " " + DTB
++
++            root_node.fitimage_emit_section_dtb(DTB, DTB_PATH,
++                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
++
++    if d.getVar("EXTERNAL_KERNEL_DEVICETREE"):
++        dtb_files = []
++        for ext in ['*.dtb', '*.dtbo']:
++            dtb_files.extend(sorted(glob.glob(os.path.join(d.getVar("EXTERNAL_KERNEL_DEVICETREE"), ext))))
++
++        for dtb_path in dtb_files:
++            dtb_name = os.path.relpath(dtb_path, d.getVar("EXTERNAL_KERNEL_DEVICETREE"))
++            dtb_name_underscore = dtb_name.replace('/', '_')
++
++            # Set the default dtb image if it exists in the devicetree.
++            if d.getVar("FIT_CONF_DEFAULT_DTB") == dtb_name:
++                default_dtb_image = dtb_name_underscore
++
++            # Skip DTB/DTBO if we've picked it up previously
++            if dtb_name_underscore in DTBS.split():
++                continue
++
++            DTBS += " " + dtb_name_underscore
++
++            # Also skip if a symlink. We'll later have each config section point at it
++            if oe.fitimage.symlink_points_below(dtb_name, d.getVar("EXTERNAL_KERNEL_DEVICETREE")):
++                continue
++
++            root_node.fitimage_emit_section_dtb(dtb_name_underscore, dtb_path,
++                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
++
++    if d.getVar("FIT_CONF_DEFAULT_DTB") and not default_dtb_image:
++        bb.warn("%s is not available in the list of device trees." % d.getVar('FIT_CONF_DEFAULT_DTB'))
++
++    #
++    # Step 3: Prepare a u-boot script section
++    #
++    fit_uboot_env = d.getVar("FIT_UBOOT_ENV")
++    if fit_uboot_env:
++        unpack_dir = d.getVar("UNPACKDIR")
++        shutil.copy(os.path.join(unpack_dir, fit_uboot_env), fit_uboot_env)
++        root_node.fitimage_emit_section_boot_script("bootscr-"+fit_uboot_env , fit_uboot_env)
++
++    #
++    # Step 4: Prepare a setup section. (For x86)
++    #
++    setup_bin_path = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), "setup.bin")
++    if os.path.exists(setup_bin_path):
++        root_node.fitimage_emit_section_setup("setup-1", setup_bin_path)
++
++    #
++    # Step 5: Prepare a ramdisk section.
++    #
++    if ramdiskcount == 1 and d.getVar("INITRAMFS_IMAGE_BUNDLE") != "1":
++        # Find and use the first initramfs image archive type we find
++        found = False
++        for img in d.getVar("FIT_SUPPORTED_INITRAMFS_FSTYPES").split():
++            initramfs_path = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), "%s.%s" % (d.getVar('INITRAMFS_IMAGE_NAME'), img))
++            if os.path.exists(initramfs_path):
++                bb.note("Found initramfs image: " + initramfs_path)
++                found = True
++                root_node.fitimage_emit_section_ramdisk("ramdisk-%d" % ramdiskcount, initramfs_path,
++                    d.getVar('INITRAMFS_IMAGE'),
++                    d.getVar("UBOOT_RD_LOADADDRESS"),
++                    d.getVar("UBOOT_RD_ENTRYPOINT"))
++                break
++            else:
++                bb.note("Did not find initramfs image: " + initramfs_path)
++
++        if not found:
++            bb.fatal("Could not find a valid initramfs type for %s, the supported types are: %s" % (d.getVar('INITRAMFS_IMAGE_NAME'), d.getVar('FIT_SUPPORTED_INITRAMFS_FSTYPES')))
++
++    # Generate the configuration section
++    root_node.fitimage_emit_section_config()
++
++    #
++    # Write the ITS file
++    root_node.write_its_file(itsfile)
++
++    #
++    # Step 7: Assemble the image
++    #
++    fitfile = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), fitname)
++    root_node.run_mkimage_assemble(itsfile, fitfile)
++
++    #
++    # Step 8: Sign the image if required
++    #
++    root_node.run_mkimage_sign(fitfile)
++
++
++python do_assemble_fitimage() {
++    if "fitImage" in d.getVar("KERNEL_IMAGETYPES").split():
++        os.chdir(d.getVar("B"))
++        fitimage_assemble(d, "fit-image.its", "fitImage-none", "")
++        if d.getVar("INITRAMFS_IMAGE_BUNDLE") != "1":
++            link_name = os.path.join(d.getVar("B"), d.getVar("KERNEL_OUTPUT_DIR"), "fitImage")
++            if os.path.islink(link_name):
++                os.unlink(link_name)
++            os.symlink("fitImage-none", link_name)
+ }
  
-     def _fit_get_bb_vars(self, additional_vars=[]):
-@@ -683,6 +724,8 @@ class KernelFitImageTests(FitImageTestCase):
-             self.assertEqual(found_comments, num_signatures, "Expected %d signed and commented (%s) sections in the fitImage." %
-                              (num_signatures, a_comment))
+ addtask assemble_fitimage before do_install after do_compile
+@@ -742,17 +232,17 @@ do_install:append() {
+ 	fi
+ }
  
-+class KernelFitImageTests(KernelFitImageBase):
-+    """Test cases for the kernel-fitimage bbclass"""
+-do_assemble_fitimage_initramfs() {
+-	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
+-		test -n "${INITRAMFS_IMAGE}" ; then
+-		cd ${B}
+-		if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
+-			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-bundle ""
+-			ln -sf fitImage-bundle ${B}/${KERNEL_OUTPUT_DIR}/fitImage
+-		else
+-			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
+-		fi
+-	fi
++python do_assemble_fitimage_initramfs() {
++    if "fitImage" in d.getVar("KERNEL_IMAGETYPES").split() and d.getVar("INITRAMFS_IMAGE"):
++        os.chdir(d.getVar("B"))
++        if d.getVar("INITRAMFS_IMAGE_BUNDLE") == "1":
++            fitimage_assemble(d, "fit-image-%s.its" % d.getVar("INITRAMFS_IMAGE"), "fitImage-bundle", "")
++            link_name =  os.path.join(d.getVar("B"), d.getVar("KERNEL_OUTPUT_DIR"), "fitImage")
++            if os.path.islink(link_name):
++                os.unlink(link_name)
++            os.symlink("fitImage-bundle", link_name)
++        else:
++            fitimage_assemble(d, "fit-image-%s.its" % d.getVar("INITRAMFS_IMAGE"), "fitImage-%s" % d.getVar("INITRAMFS_IMAGE"), 1)
+ }
  
-     def test_fit_image(self):
-         """
-@@ -928,6 +971,100 @@ FIT_HASH_ALG = "sha256"
-         bb_vars = self._fit_get_bb_vars()
-         self._test_fitimage(bb_vars)
- 
-+class FitImagePyTests(KernelFitImageBase):
-+    """Test cases for the fitimage.py module without calling bitbake"""
+ addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
+diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-recipe/kernel-uboot.bbclass
+index e26ba6f0aa9..678d851fd30 100644
+--- a/meta/classes-recipe/kernel-uboot.bbclass
++++ b/meta/classes-recipe/kernel-uboot.bbclass
+@@ -66,3 +66,48 @@ kernel_do_deploy:append() {
+ 		install -D "${B}/${KERNEL_OUTPUT_DIR}/setup.bin" "$deployDir/"
+ 	fi
+ }
 +
-+    def _test_fitimage_py(self, bb_vars_overrides=None):
-+        topdir = os.path.join(os.environ['BUILDDIR'])
-+        fitimage_its_path = os.path.join(topdir, self._testMethodName + '.its')
++def uboot_prep_kimage_py(d):
++    import subprocess
 +
-+        # Provide variables without calling bitbake
-+        bb_vars = {
-+            # image-fitimage.conf
-+            'FIT_DESC': "Kernel fitImage for a dummy distro",
-+            'FIT_HASH_ALG': "sha256",
-+            'FIT_SIGN_ALG': "rsa2048",
-+            'FIT_PAD_ALG': "pkcs-1.5",
-+            'FIT_GENERATE_KEYS': "0",
-+            'FIT_SIGN_NUMBITS': "2048",
-+            'FIT_KEY_GENRSA_ARGS': "-F4",
-+            'FIT_KEY_REQ_ARGS': "-batch -new",
-+            'FIT_KEY_SIGN_PKCS': "-x509",
-+            'FIT_SIGN_INDIVIDUAL': "0",
-+            'FIT_CONF_PREFIX': "conf-",
-+            'FIT_SUPPORTED_INITRAMFS_FSTYPES': "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio",
-+            'FIT_CONF_DEFAULT_DTB': "",
-+            'FIT_ADDRESS_CELLS': "1",
-+            'FIT_UBOOT_ENV': "",
-+            # kernel.bbclass
-+            'UBOOT_ENTRYPOINT': "0x20008000",
-+            'UBOOT_LOADADDRESS': "0x20008000",
-+            'INITRAMFS_IMAGE': "",
-+            'INITRAMFS_IMAGE_BUNDLE': "",
-+            # kernel-uboot.bbclass
-+            'FIT_KERNEL_COMP_ALG': "gzip",
-+            'FIT_KERNEL_COMP_ALG_EXTENSION': ".gz",
-+            'UBOOT_MKIMAGE_KERNEL_TYPE': "kernel",
-+            # uboot-config.bbclass
-+            'UBOOT_MKIMAGE_DTCOPTS': "",
-+            'UBOOT_MKIMAGE': "uboot-mkimage",
-+            'UBOOT_MKIMAGE_SIGN': "uboot-mkimage",
-+            'UBOOT_MKIMAGE_SIGN_ARGS': "",
-+            'UBOOT_SIGN_ENABLE': "0",
-+            'UBOOT_SIGN_KEYDIR': None,
-+            'UBOOT_SIGN_KEYNAME': None,
-+            'UBOOT_SIGN_IMG_KEYNAME': None,
-+            # others
-+            'MACHINE': "qemux86-64",
-+            'UBOOT_ARCH': "x86",
-+            'HOST_PREFIX': "x86_64-poky-linux-"
-+        }
-+        if bb_vars_overrides:
-+            bb_vars.update(bb_vars_overrides)
++    arch = d.getVar('ARCH')
++    initramfs_image_bundle = d.getVar('INITRAMFS_IMAGE_BUNDLE')
++    fit_kernel_comp_alg = d.getVar('FIT_KERNEL_COMP_ALG') or 'gzip'
++    fit_kernel_comp_alg_extension = d.getVar('FIT_KERNEL_COMP_ALG_EXTENSION') or '.gz'
++    kernel_objcopy = d.getVar('KERNEL_OBJCOPY')
 +
-+        root_node = oe.fitimage.ItsNodeRootKernel(
-+            bb_vars["FIT_DESC"], bb_vars["FIT_ADDRESS_CELLS"],
-+            bb_vars['HOST_PREFIX'], bb_vars['UBOOT_ARCH'],  bb_vars["FIT_CONF_PREFIX"],
-+            oe.types.boolean(bb_vars['UBOOT_SIGN_ENABLE']), bb_vars["UBOOT_SIGN_KEYDIR"],
-+            bb_vars["UBOOT_MKIMAGE"], bb_vars["UBOOT_MKIMAGE_DTCOPTS"],
-+            bb_vars["UBOOT_MKIMAGE_SIGN"], bb_vars["UBOOT_MKIMAGE_SIGN_ARGS"],
-+            bb_vars['FIT_HASH_ALG'], bb_vars['FIT_SIGN_ALG'], bb_vars['FIT_PAD_ALG'],
-+            bb_vars['UBOOT_SIGN_KEYNAME'],
-+            oe.types.boolean(bb_vars['FIT_SIGN_INDIVIDUAL']), bb_vars['UBOOT_SIGN_IMG_KEYNAME']
-+        )
++    vmlinux_path = ""
++    linux_suffix = ""
++    linux_comp = "none"
 +
-+        root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", "none",
-+            bb_vars.get('UBOOT_LOADADDRESS'), bb_vars.get('UBOOT_ENTRYPOINT'),
-+            bb_vars.get('UBOOT_MKIMAGE_KERNEL_TYPE'), bb_vars.get("UBOOT_ENTRYSYMBOL")
-+        )
++    if os.path.exists(f'arch/{arch}/boot/compressed/vmlinux'):
++        vmlinux_path = f'arch/{arch}/boot/compressed/vmlinux'
++    elif os.path.exists(f'arch/{arch}/boot/vmlinuz.bin'):
++        if os.path.exists('linux.bin'):
++            os.remove('linux.bin')
++        os.link(f'arch/{arch}/boot/vmlinuz.bin', 'linux.bin')
++    else:
++        vmlinux_path = 'vmlinux'
++        # Use vmlinux.initramfs for linux.bin when INITRAMFS_IMAGE_BUNDLE set
++        # As per the implementation in kernel.bbclass.
++        # See do_bundle_initramfs function
++        if initramfs_image_bundle == '1' and os.path.exists('vmlinux.initramfs'):
++            vmlinux_path = 'vmlinux.initramfs'
++        linux_suffix = fit_kernel_comp_alg_extension
++        linux_comp = fit_kernel_comp_alg
 +
-+        dtb_files = FitImageTestCase._get_dtb_files(bb_vars)
-+        for dtb in dtb_files:
-+            root_node.fitimage_emit_section_dtb("fdt-" + dtb, os.path.join("a-dir", dtb),
-+                bb_vars.get("UBOOT_DTB_LOADADDRESS"), bb_vars.get("UBOOT_DTBO_LOADADDRESS"))
++    if vmlinux_path:
++        subprocess.run([kernel_objcopy.strip(), '-O', 'binary', '-R', '.note', '-R', '.comment', '-S', os.path.abspath(vmlinux_path), 'linux.bin'], check=True)
++        # if ret.returncode != 0:
++        # bb.fatal(f"Error: stderr: {ret.stderr.decode('utf-8')}   stdout: {ret.stdout.decode('utf-8')}, vmlinux_path: {os.path.abspath(vmlinux_path)}, pwd: {os.getcwd()}, args: {ret.args}")
 +
-+        if bb_vars.get('FIT_UBOOT_ENV'):
-+            root_node.fitimage_emit_section_boot_script(
-+                "bootscr-" + bb_vars['FIT_UBOOT_ENV'], bb_vars['FIT_UBOOT_ENV'])
++    if linux_comp != "none":
++        if linux_comp == "gzip":
++            subprocess.run(['gzip', '-9', 'linux.bin'], check=True)
++        elif linux_comp == "lzo":
++            subprocess.run(['lzop', '-9', 'linux.bin'], check=True)
++        elif linux_comp == "lzma":
++            subprocess.run(['xz', '--format=lzma', '-f', '-6', 'linux.bin'], check=True)
++        os.rename(f'linux.bin{linux_suffix}', 'linux.bin')
 +
-+        if bb_vars['MACHINE'] == "qemux86-64": # Not really the right if
-+            root_node.fitimage_emit_section_setup("setup-1", "setup1.bin")
-+
-+        if bb_vars.get('INITRAMFS_IMAGE') and bb_vars.get("INITRAMFS_IMAGE_BUNDLE") != "1":
-+            root_node.fitimage_emit_section_ramdisk("ramdisk-1", "a-dir/a-initramfs-1",
-+                "core-image-minimal-initramfs",
-+                bb_vars.get("UBOOT_RD_LOADADDRESS"), bb_vars.get("UBOOT_RD_ENTRYPOINT"))
-+
-+        root_node.fitimage_emit_section_config()
-+        root_node.write_its_file(fitimage_its_path)
-+
-+        self.assertExists(fitimage_its_path, "%s image tree source doesn't exist" % (fitimage_its_path))
-+        self.logger.debug("Checking its: %s" % fitimage_its_path)
-+        self._check_its_file(bb_vars, fitimage_its_path)
-+
-+    def test_fitimage_py_default(self):
-+        self._test_fitimage_py()
-+
- 
- class UBootFitImageTests(FitImageTestCase):
-     """Test cases for the uboot-sign bbclass"""
++    return linux_comp
 -- 
 2.49.0
 
