@@ -1,157 +1,197 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ABFEC2D0CD
-	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 05:38:21 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.44466.1747633093470068558
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F4AC2D0CD
+	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 05:45:31 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web10.44577.1747633524668564722
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 May 2025 22:38:13 -0700
+ Sun, 18 May 2025 22:45:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=BKatjOFB;
- spf=pass (domain: mvista.com, ip: 209.85.216.41, mailfrom: asharma@mvista.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-30572effb26so3621756a91.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 22:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1747633092; x=1748237892; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KvNDTJxR8MBdHWo00bhNPJnS9ap1BM/y/mXxpMySAwQ=;
-        b=BKatjOFB8+5xsTdnIE66MBY2fRlPbiE1ihmJOlLv7BKmONyWLm/b1xdvVmqJ2wVNfD
-         zm6SH+LpyM75VD1j4OB0PRfxnC8JbIiFFEkONvjz872u66D1LteELrJvc60cXMRZQ14C
-         UtLelTrtd3CazU+U/Z/y9nwDflsj0cdrqZTWA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747633092; x=1748237892;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KvNDTJxR8MBdHWo00bhNPJnS9ap1BM/y/mXxpMySAwQ=;
-        b=Z301pxWEoTOo6RXI/6c2kUDz4NubLVQBPZJRHDNfy0yhgTw1xgJGO10BieDNA9NZgj
-         DuASrZChCNCdB0skwBT9aI/z3+UX8vTujYrsRz/h1zrLpPXmXJWKL3+QkNt5qWtjkCnG
-         jhrHpOpfqGA0zursqKYJXBrK9K5STq1TjzTmXBiNfvIN0Bl3psETMg2XIYtqntlDlbhA
-         5AG4P3DAIG7RXqlpONEm0ttc32jI1Pgdq6zD2CLa4FMZk617cRNZ4oA8N/fG8conxjQ5
-         sd0R5YO2y14fgnnClIBO1jchOedPMxD2yri0Z3XGaNWiIkOU1dLQAgBhbQWKpUE6yOaZ
-         DeEw==
-X-Gm-Message-State: AOJu0YwS4MxQkk2IDmfKhG96hN3W8raG4scQFXPqPedFaYgIfsA7gPc7
-	r2ttrCF1gAqYG7O/yp3dpfXdn2saMdHzMTf5kJcp7WuX3pS96PB3OeQMAojJeIK7WqXd/ZOg/iO
-	jmSDggP4=
-X-Gm-Gg: ASbGncvV3ziC4uZNJlemj4LLLevrMCLztyF5/7yn+8PXj7z4FxFeC2589bCpIbNi7K4
-	f5g3zjsydK7MFrmJZZzJfHPd2jXAAQdx0/idx8JN6hwsy8EHXyEsvbji5RHw5BbhSLTSTJMdMMq
-	m2Gx94reXz2guLhedjEh5nGdIBsNKd7D3x/nBCtwUmQKfKWbNcoIaduriHhZWmf2e7w3DvYe+fV
-	5ZmF8VSZoNChComaFQ4Czi9kIsyPDDYQTbHoAUyH3JWQ2OblHnGZ+WCOCr/WkLdY4k8vRlPIr8m
-	ZcaUfjJElgOi6mi8VNbyxRE4ZG9wi05U7vUiY56OQ1UNoUutKRvW0S28NlWE
-X-Google-Smtp-Source: AGHT+IGbzFe78yQLhLVh3Qf7mXx/7hPMTk8+/dBv9TCi++6U4aMJihEcExnhjxodyRHg49nn3mle5A==
-X-Received: by 2002:a17:90b:5548:b0:2f6:dcc9:38e0 with SMTP id 98e67ed59e1d1-30e7d2bee8amr22235802a91.0.1747633092420;
-        Sun, 18 May 2025 22:38:12 -0700 (PDT)
-Received: from MVIN00043 ([2401:4900:1c31:2b73:37b8:ebca:d2a2:bd97])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30e934930fesm4490757a91.29.2025.05.18.22.38.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 22:38:11 -0700 (PDT)
-Received: by MVIN00043 (sSMTP sendmail emulation); Mon, 19 May 2025 11:08:07 +0530
-From: Ashish Sharma <asharma@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] libsoup-2.4: Fix CVE-2025-46420
-Date: Mon, 19 May 2025 11:08:05 +0530
-Message-Id: <20250519053805.1334042-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd76.aul.t-online.de (fwd76.aul.t-online.de [10.223.144.102])
+	by mailout01.t-online.de (Postfix) with SMTP id 04C021360;
+	Mon, 19 May 2025 07:45:22 +0200 (CEST)
+Received: from [192.168.178.20] ([84.163.37.6]) by fwd76.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1uGtJO-0gcIwy0; Mon, 19 May 2025 07:45:18 +0200
+Date: Mon, 19 May 2025 07:45:13 +0200
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCH 1/2] mesa: update 25.0.5 -> 25.1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <DNUHWS.X4OGET36CNFR2@t-online.de>
+In-Reply-To: <CA+chaQdCGhrx5NJUuo_4PCz6-x9x8-YMnme1SSYnqoOA4i_6gQ@mail.gmail.com>
+References: <20250518161010.1879511-1-f_l_k@t-online.de>
+	<CA+chaQdCGhrx5NJUuo_4PCz6-x9x8-YMnme1SSYnqoOA4i_6gQ@mail.gmail.com>
+X-Mailer: geary/46.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="=-z3jpahED3m+wH3yGUcXl"
+X-TOI-EXPURGATEID: 150726::1747633518-6AFFB5CE-DD0C5B1B/0/0 CLEAN NORMAL
+X-TOI-MSGID: a92cfc41-df13-4062-84df-ada975e03441
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 05:38:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216817
+ <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 05:45:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216818
 
-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/c9083869ec2a3037e6df4bd86b45c419ba295f8e]
+--=-z3jpahED3m+wH3yGUcXl
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
----
- .../libsoup/libsoup-2.4/CVE-2025-46420.patch  | 60 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch
+No, thanks, this was by mistake. I will send a v2
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch
-new file mode 100644
-index 0000000000..37ab16dc05
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch
-@@ -0,0 +1,60 @@
-+From c9083869ec2a3037e6df4bd86b45c419ba295f8e Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Thu, 26 Dec 2024 18:31:42 -0600
-+Subject: [PATCH] soup_header_parse_quality_list: Fix leak
-+
-+When iterating over the parsed list we now steal the allocated strings that we want and then free_full the list which may contain remaining strings.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/c9083869ec2a3037e6df4bd86b45c419ba295f8e]
-+CVE: CVE-2025-46420
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ libsoup/soup-headers.c | 11 +++++------
-+ 1 file changed, 5 insertions(+), 6 deletions(-)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index a5f7a7f6..85385cea 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -530,7 +530,7 @@ soup_header_parse_quality_list (const char *header, GSList **unacceptable)
-+ 	GSList *unsorted;
-+ 	QualityItem *array;
-+ 	GSList *sorted, *iter;
-+-	char *item, *semi;
-++	char *semi;
-+ 	const char *param, *equal, *value;
-+ 	double qval;
-+ 	int n;
-+@@ -543,9 +543,8 @@ soup_header_parse_quality_list (const char *header, GSList **unacceptable)
-+ 	unsorted = soup_header_parse_list (header);
-+ 	array = g_new0 (QualityItem, g_slist_length (unsorted));
-+ 	for (iter = unsorted, n = 0; iter; iter = iter->next) {
-+-		item = iter->data;
-+ 		qval = 1.0;
-+-		for (semi = strchr (item, ';'); semi; semi = strchr (semi + 1, ';')) {
-++		for (semi = strchr (iter->data, ';'); semi; semi = strchr (semi + 1, ';')) {
-+ 			param = skip_lws (semi + 1);
-+ 			if (*param != 'q')
-+ 				continue;
-+@@ -577,15 +576,15 @@ soup_header_parse_quality_list (const char *header, GSList **unacceptable)
-+ 		if (qval == 0.0) {
-+ 			if (unacceptable) {
-+ 				*unacceptable = g_slist_prepend (*unacceptable,
-+-								 item);
-++								 g_steal_pointer (&iter->data));
-+ 			}
-+ 		} else {
-+-			array[n].item = item;
-++			array[n].item = g_steal_pointer (&iter->data);
-+ 			array[n].qval = qval;
-+ 			n++;
-+ 		}
-+ 	}
-+-	g_slist_free (unsorted);
-++	g_slist_free_full (unsorted, g_free);
-+ 
-+ 	qsort (array, n, sizeof (QualityItem), sort_by_qval);
-+ 	sorted = NULL;
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 3aaa06a541..fa4dece0e9 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32906-1.patch \
-            file://CVE-2025-32906-2.patch \
-            file://CVE-2025-32909.patch \
-+           file://CVE-2025-46420.patch \
-           "
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
- 
--- 
-2.34.1
+On Sun, May 18 2025 at 19:41:27 +02:00:00, Martin Jansa=20
+<martin.jansa@gmail.com> wrote:
+> On Sun, May 18, 2025 at 6:10=E2=80=AFPM Markus Volk via=20
+> lists.openembedded.org
+> <f_l_k=3Dt-online.de@lists.openembedded.org=20
+> <mailto:f_l_k=3Dt-online.de@lists.openembedded.org>> wrote:
+>>=20
+>>  - drop two merged patches
+>>  - clover frontend is always compiled, even if not enabled
+>>    clover is deprecated and was removed in master branch
+>>    add a patch to fix that
+>>  - install gbm_backend_abi.h
+>>=20
+>>  Signed-off-by: Markus Volk <f_l_k@t-online.de=20
+>> <mailto:f_l_k@t-online.de>>
+>>  ---
+> ....
+>>  diff --git a/meta/recipes-graphics/mesa/mesa.inc=20
+>> b/meta/recipes-graphics/mesa/mesa.inc
+>>  index 288027bbb9..47edf0d512 100644
+>>  --- a/meta/recipes-graphics/mesa/mesa.inc
+>>  +++ b/meta/recipes-graphics/mesa/mesa.inc
+>>  @@ -17,13 +17,11 @@ PE =3D "2"
+>>   SRC_URI =3D "https://archive.mesa3d.org/mesa-${PV}.tar.xz=20
+>> <https://archive.mesa3d.org/mesa-$%7BPV%7D.tar.xz> \
+>>             =20
+>> file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch=20
+>> <file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch/> \
+>>             =20
+>> file://0001-freedreno-don-t-encode-build-path-into-binaries.patch=20
+>> <file://0001-freedreno-don-t-encode-build-path-into-binaries.patch/>=20
+>> \
+>>  -          =20
+>> file://0001-mesa-clc-add-an-option-to-force-inclusion-of-OpenCL-.patch=20
+>> <file://0001-mesa-clc-add-an-option-to-force-inclusion-of-opencl-.patch/=
+>=20
+>> \
+>>  -           file://0001-clover-Don-t-include-libclc-headers.patch=20
+>> <file://0001-clover-don-t-include-libclc-headers.patch/> \
+>>  -          =20
+>> file://0001-gallium-clover-Do-not-use-LLVM_LIBRARY_DIR-for-FALLB.patch=20
+>> <file://0001-gallium-clover-do-not-use-llvm_library_dir-for-fallb.patch/=
+>=20
+>> \
+>>  +           file://0001-dont-build-clover-frontend.patch=20
+>> <file://0001-dont-build-clover-frontend.patch/> \
+>>   "
+>>=20
+>>  -SRC_URI[sha256sum] =3D=20
+>> "c0d245dea0aa4b49f74b3d474b16542e4a8799791cd33d676c69f650ad4378d0"
+>>  -PV =3D "25.0.5"
+>>  +SRC_URI[sha256sum] =3D=20
+>> "b1c45888969ee5df997e2542654f735ab1b772924b442f3016d2293414c99c14"
+>>  +PV =3D "25.1.0"
+>>=20
+>>   UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
+>>=20
+>>  @@ -343,7 +341,7 @@ FILES:mesa-megadriver =3D "${libdir}/dri/*=20
+>> ${datadir}/drirc.d"
+>>   FILES:mesa-vulkan-drivers =3D "${libdir}/libvulkan_*.so=20
+>> ${libdir}/libpowervr_rogue.so ${datadir}/vulkan"
+>>   FILES:${PN}-vdpau-drivers =3D "${libdir}/vdpau/*.so.*"
+>>   FILES:libegl-mesa =3D "${libdir}/libEGL*.so.*=20
+>> ${datadir}/glvnd/egl_vendor.d"
+>>  -FILES:libgbm =3D "${libdir}/libgbm.so.* ${libdir}/gbm/*_gbm.so"
+>>  +FILES:libgbm =3D "${libdir}/libgbm.so.* ${libdir}/gbm/*_gbm.so=20
+>> ${includedir}/gbm_backend_abi.h"
+>>   FILES:libgallium =3D "${libdir}/libgallium-*.so"
+>>   FILES:libgles1-mesa =3D "${libdir}/libGLESv1*.so.*"
+>>   FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
+>=20
+> Is there a reason for gbm_backend_abi.h to be packaged in libgbm
+> instead of -dev package?
+
+
+--=-z3jpahED3m+wH3yGUcXl
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto"><div>No, thanks, this was by mistake. I=
+ will send a v2</div></div><div id=3D"geary-quote" dir=3D"auto"><br>On Sun,=
+ May 18 2025 at 19:41:27 +02:00:00, Martin Jansa &lt;martin.jansa@gmail.com=
+&gt; wrote:<br><blockquote type=3D"cite"><div class=3D"plaintext" style=3D"=
+white-space: break-spaces;">On Sun, May 18, 2025 at 6:10=E2=80=AFPM Markus =
+Volk via lists.openembedded.org
+&lt;<a href=3D"mailto:f_l_k=3Dt-online.de@lists.openembedded.org">f_l_k=3Dt=
+-online.de@lists.openembedded.org</a>&gt; wrote:
+<blockquote>
+ - drop two merged patches
+ - clover frontend is always compiled, even if not enabled
+   clover is deprecated and was removed in master branch
+   add a patch to fix that
+ - install gbm_backend_abi.h
+
+ Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@=
+t-online.de</a>&gt;
+ ---
+</blockquote>....
+<blockquote> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipe=
+s-graphics/mesa/mesa.inc
+ index 288027bbb9..47edf0d512 100644
+ --- a/meta/recipes-graphics/mesa/mesa.inc
+ +++ b/meta/recipes-graphics/mesa/mesa.inc
+ @@ -17,13 +17,11 @@ PE =3D "2"
+  SRC_URI =3D "<a href=3D"https://archive.mesa3d.org/mesa-${PV}.tar.xz">htt=
+ps://archive.mesa3d.org/mesa-${PV}.tar.xz</a> \
+             <a href=3D"file://0001-meson-misdetects-64bit-atomics-on-mips-=
+clang.patch">file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch=
+</a> \
+             <a href=3D"file://0001-freedreno-don-t-encode-build-path-into-=
+binaries.patch">file://0001-freedreno-don-t-encode-build-path-into-binaries=
+.patch</a> \
+ -           <a href=3D"file://0001-mesa-clc-add-an-option-to-force-inclusi=
+on-of-OpenCL-.patch">file://0001-mesa-clc-add-an-option-to-force-inclusion-=
+of-OpenCL-.patch</a> \
+ -           <a href=3D"file://0001-clover-Don-t-include-libclc-headers.pat=
+ch">file://0001-clover-Don-t-include-libclc-headers.patch</a> \
+ -           <a href=3D"file://0001-gallium-clover-Do-not-use-LLVM_LIBRARY_=
+DIR-for-FALLB.patch">file://0001-gallium-clover-Do-not-use-LLVM_LIBRARY_DIR=
+-for-FALLB.patch</a> \
+ +           <a href=3D"file://0001-dont-build-clover-frontend.patch">file:=
+//0001-dont-build-clover-frontend.patch</a> \
+  "
+
+ -SRC_URI[sha256sum] =3D "c0d245dea0aa4b49f74b3d474b16542e4a8799791cd33d676=
+c69f650ad4378d0"
+ -PV =3D "25.0.5"
+ +SRC_URI[sha256sum] =3D "b1c45888969ee5df997e2542654f735ab1b772924b442f301=
+6d2293414c99c14"
+ +PV =3D "25.1.0"
+
+  UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P&lt;pver&gt;\d+(\.\d+)+)"
+
+ @@ -343,7 +341,7 @@ FILES:mesa-megadriver =3D "${libdir}/dri/* ${datadir}/=
+drirc.d"
+  FILES:mesa-vulkan-drivers =3D "${libdir}/libvulkan_*.so ${libdir}/libpowe=
+rvr_rogue.so ${datadir}/vulkan"
+  FILES:${PN}-vdpau-drivers =3D "${libdir}/vdpau/*.so.*"
+  FILES:libegl-mesa =3D "${libdir}/libEGL*.so.* ${datadir}/glvnd/egl_vendor=
+.d"
+ -FILES:libgbm =3D "${libdir}/libgbm.so.* ${libdir}/gbm/*_gbm.so"
+ +FILES:libgbm =3D "${libdir}/libgbm.so.* ${libdir}/gbm/*_gbm.so ${included=
+ir}/gbm_backend_abi.h"
+  FILES:libgallium =3D "${libdir}/libgallium-*.so"
+  FILES:libgles1-mesa =3D "${libdir}/libGLESv1*.so.*"
+  FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
+</blockquote>
+Is there a reason for gbm_backend_abi.h to be packaged in libgbm
+instead of -dev package?
+</div></blockquote></div>
+--=-z3jpahED3m+wH3yGUcXl--
 
 
