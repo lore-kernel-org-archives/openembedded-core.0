@@ -1,164 +1,147 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25FEEC2D0CD
-	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 15:48:55 +0000 (UTC)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
- by mx.groups.io with SMTP id smtpd.web10.54635.1747669731473459756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DEA9C3ABDD
+	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 16:50:04 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.140.1747673401692631215
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 May 2025 08:48:51 -0700
+ Mon, 19 May 2025 09:50:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1VZvXUtz;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.169, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-70b4e497d96so41209887b3.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 08:48:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UdeVrxWQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3105ef2a06cso44960201fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 09:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1747669730; x=1748274530; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747673400; x=1748278200; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+73/IlZ/bRwpftr+JJ2jCBGcW5DC8H7Q4LsYLQcpyhQ=;
-        b=1VZvXUtz77rwWhjthbDAFbtWdVb0a2Fk/L9115G83yAn6KMn7huVnKMBEWt/BuojyN
-         ol0CV3E/PHKd8Dk0mwB3XV8McaPkEFdbvS8QpVs686UbRyZxz+gKWX52P+odGKqN62iF
-         +rf4WXJtbRoxUGEqFlGLRB6xfndTef9t3ctak9c3JxIYLzXush/AA7B+k7zvoJT1J+vM
-         Z7JcUMJdRmUg3YfJxJqSeOSaPBhAt95bTafMe+m7HsppaG5YD9igRZEQLUimJzJcu91l
-         wanUUMBriLh04Q9RUWv0WON7nGa1TXqs7CDZVLE8QLzKe49xvYeLR6F9p/UgEJCtTWht
-         7bGw==
+        bh=xip2bkkJW0E4+Cjcjs4plbzC8ZpUMnjvJw97vNVDDBY=;
+        b=UdeVrxWQXQoKFf8dm397NBZ1hPzMUZYO0QjVYYcRgVBc9bqNu0uKCxZcKUeCIb3FXH
+         W3j1SkRHEDTG3xqoQVhccZLbbaYmPF9M0qHY+7OjO9r1fTDkh0e86EKTo2FK1ZqyWeZH
+         mtd3MDOMfy889aP8WlJZnv/QWUcSJ3IukQmkqAhgLxqVoTXKa0EVy5SyTPFjZdRHEIOL
+         sQCIpz81X5aMc36b9c1NnZ4TkiaxxtoFOYXIgQ/4Z/AR8ofi84vuV70zdi7myT63sJqo
+         efx2uDyfM+HP7S28C2TP1FNmwNMtkbZmR/KifpknoJBsZ01zFsAP6KvJDrFlRpfN0S1u
+         MDWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747669730; x=1748274530;
+        d=1e100.net; s=20230601; t=1747673400; x=1748278200;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+73/IlZ/bRwpftr+JJ2jCBGcW5DC8H7Q4LsYLQcpyhQ=;
-        b=cRgbmL27W0my55rty2rzuk5YVFjXDCyvgvHfe1KbiMjv6N/QaRfPL5kgREatGNGeOn
-         2UwzOnJyAgLp87b+BskadNBWr/gEqoDqqSwj16BAZRN4oQvR6goAi10OqjdWRdelaxOW
-         1qZ/DSaFHIbjMUX+ONWwzG1c25oHmEngd8vseo91QUlVycOjYcwF1TkYS0W3c5joKBQ3
-         98veDBsa0XU2uA7LzOsrs5ip2w9y0sLtdd8SWUUyGkjXIQ2SfUQElJyUp5TnEG143bOc
-         6mPZ//XAf1rJSeABSI9WBrOS5YrEQRjSpPo2KX8GXxqnGZrOBJcceNV9QrER6nfyjtPb
-         /bsg==
-X-Gm-Message-State: AOJu0Yx7sNxAw+NheAsK4WFlAjHlyrASMdV/K5bIppw4zXnRQk5Ctyek
-	HsCwpDphGhEoi8CTXU170LAXaZu7wsG+DtPnzVqO8E4vs5zTdZUYnlw0TJ096eeamHFa+8tAoth
-	SVFbE92BfFQ5fQk6/d5ZnoHZqZp7nfSWGknsawxbltkdwC3ci2HTw
-X-Gm-Gg: ASbGncv4DyUXQ5ZtcjRHrYjyzCvag5mtc+y4HZvSgVH/sF5Bc79QIi3KRO2MeK8fqvk
-	qUtqmDo60NP5wDAgz5K1E+o+jjGJ1dAi690igJhu7uKBzW50Zgi1I0JJpo9tWBdXxdoM6f+0dx8
-	TsWPpCFt1srkSHPmsx+HeGMyfVo6ITjW+R+u983ZhpF+R23/0GRtb7bQQ5i8n4Sp5m
-X-Google-Smtp-Source: AGHT+IFe0LDicALqm7epuocXnXYJ4IDvamLPxx8VOrHHFaIkYrRQAXIowwEc6j2nwg2Or+3lV3aFIyiXiyVD/JYpnIE=
-X-Received: by 2002:a05:690c:9b12:b0:709:1d50:87d with SMTP id
- 00721157ae682-70ca7bade72mr194367567b3.34.1747669730509; Mon, 19 May 2025
- 08:48:50 -0700 (PDT)
+        bh=xip2bkkJW0E4+Cjcjs4plbzC8ZpUMnjvJw97vNVDDBY=;
+        b=n8hyWrkD6l4Q4aOYEa7wUPM9IhGMY+XMFfArZ2MogSozTWEzgVOZHkXh/MBHjKJ7nC
+         zMfBjuJjoJ8ItdEUZjW8Gfdn75mX2KkpJl3Rld5hCcujQinXolS20kqIShBjvffOhpDh
+         nVA0ts2O5wmPtKPsBeKTHHIJZCasKt4tnn/a+3q+ZzynnVUSd7X7XWk/wftDcr7eivLR
+         GEl42y4KTWaqyLQ3tBPMLugj+E+714Dsj36+GYLvtK+odh61XTXukn4aV5xA5LIQNl9o
+         Q1TDXD1qjo9wPfJ+CCex5sUWeACGuLupMqOoQIKuRt1pr0yj+vCRDTL8kV7qq8ILruJu
+         7rqw==
+X-Gm-Message-State: AOJu0Ywy2Gk5/49Uf6Xfk0BsfXHAFiFD9UVcWPTBdsysqLUt/WSJeYIb
+	KXnWhhJ4vakAh6Nw4RzNwiWHjuvKH5v2gelsqpNnmbTY3rf3/+47FxDGBb48WcibYVQP1pKHmIq
+	t4godO6lApgest9R1DvglPM6+VTc0fvo=
+X-Gm-Gg: ASbGncv0FJnOzGUzWVztt7TZpKxWXfj+umVIV7ei9LmUg2Zai1wOhF286SynQ810Oyc
+	q/nGf7wJm6Vh+a8M6BLYARFaFu1WNoRtKuoZCuspwAgNDd6UEABcBjicSoXnEn/nfvkQ8Of97mk
+	qs8+fO6v0ftlprifbXRbYsDHVMSsWjyrYhBAK32HncbgXlWPI=
+X-Google-Smtp-Source: AGHT+IHlPLenyV7at52jEKjeqJrnajk/HnM+cdeLm6KK0swUKS7IZ76VI3GduAJ7ENRbM0KWnIuH+NlzXzvQVT8lTxY=
+X-Received: by 2002:a2e:bcc8:0:b0:30b:9813:b011 with SMTP id
+ 38308e7fff4ca-328077c90a5mr67956521fa.28.1747673399362; Mon, 19 May 2025
+ 09:49:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250519110649.35526-1-oliver.rohe@wago.com> <DB4PR08MB8102778287B8B1408AF455BB9E9CA@DB4PR08MB8102.eurprd08.prod.outlook.com>
-In-Reply-To: <DB4PR08MB8102778287B8B1408AF455BB9E9CA@DB4PR08MB8102.eurprd08.prod.outlook.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 19 May 2025 08:48:39 -0700
-X-Gm-Features: AX0GCFsk4jJ5uW--vd97KUNt3UqMkvI4-ls3UR-U8SjLrIix3fCBqA1A2643WGU
-Message-ID: <CAOSpxdZAxDj4N+kohxF4Bmg_G_AshEYCzdV+9k_PTEN2wLfYRg@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap] kernel-fitImage: allow overwrite the
- configuration dtb label
-To: Oliver.Rohe@wago.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20250517212855.349153-1-raj.khem@gmail.com>
+In-Reply-To: <20250517212855.349153-1-raj.khem@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 19 May 2025 10:49:47 -0600
+X-Gm-Features: AX0GCFsWlplWxOYdH88Yz4FDqtbpZCSTbtH_NRbJk7MDxBBbpJVFVQE1bBg_qpk
+Message-ID: <CAJdd5GZ4QcX_PgdKCQBPh5--7=4vMjwr4PP2o+X2XzVbyBVntg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rust: Use patchelf in place of chrpath to edit rpaths
+To: raj.khem@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 15:48:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216861
+ <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 16:50:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216862
 
-Does the master branch allow this?  I can't see a similar commit
-there, so it would need to be submitted there first.
+I don't think patchelf-uninative is available if uninative is not in
+use. Probably better to DEPENDS +=3D "patchelf-native" instead
 
-Since this is a new feature, there would need to be some discussion as
-to whether this would be appropriate for stable branches.
-
-Steve
-
-On Mon, May 19, 2025 at 4:14=E2=80=AFAM Oliver ROHE via lists.openembedded.=
-org
-<Oliver.Rohe=3Dwago.com@lists.openembedded.org> wrote:
+On Sat, May 17, 2025 at 3:29=E2=80=AFPM Khem Raj via lists.openembedded.org
+<raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
 >
-> This allows to provide a custom label for each dtb
-> without having to overwrite the whole function.
+> chrpath has limitations e.g. the original rpath in ELF have to bigger in =
+size
+> than the one being edited into it by chrpath, some toolchains do not use =
+RPATH
+> but emit the RUNPATHs into ELF files and chrpath is not able to handle th=
+e
+> runpaths, this is the case with mips and pp32 build of rust, especially
+> when using clang compiler to build them.
 >
-> Signed-off-by: Oliver Rohe <oliver.rohe@wago.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> patchelf can do more:
+>
+> Modify RUNPATH entries
+> Add RPATH/RUNPATH where none existed
+> Set longer paths than the original
+> Convert between RPATH and RUNPATH
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/classes-recipe/kernel-fitimage.bbclass | 25 ++++++++++++++-------
->  1 file changed, 17 insertions(+), 8 deletions(-)
+>  meta/recipes-devtools/rust/rust_1.85.1.bb | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-r=
-ecipe/kernel-fitimage.bbclass
-> index 4b74ddc201..53b5acb0fc 100644
-> --- a/meta/classes-recipe/kernel-fitimage.bbclass
-> +++ b/meta/classes-recipe/kernel-fitimage.bbclass
-> @@ -382,6 +382,15 @@ symlink_points_below() {
->         echo "$realpath"
->  }
+> diff --git a/meta/recipes-devtools/rust/rust_1.85.1.bb b/meta/recipes-dev=
+tools/rust/rust_1.85.1.bb
+> index dc4f5648552..3b7226ae408 100644
+> --- a/meta/recipes-devtools/rust/rust_1.85.1.bb
+> +++ b/meta/recipes-devtools/rust/rust_1.85.1.bb
+> @@ -207,9 +207,9 @@ rust_runx () {
+>          mkdir -p `dirname ${RUST_ALTERNATE_EXE_PATH}`
+>          cp ${RUST_ALTERNATE_EXE_PATH_NATIVE} ${RUST_ALTERNATE_EXE_PATH}
+>          if [ -e ${STAGING_LIBDIR_NATIVE}/libc++.so.1 ]; then
+> -            chrpath -r \$ORIGIN/../../../../../`basename ${STAGING_DIR_N=
+ATIVE}`${libdir_native} ${RUST_ALTERNATE_EXE_PATH}
+> +            patchelf-uninative --set-rpath \$ORIGIN/../../../../../`base=
+name ${STAGING_DIR_NATIVE}`${libdir_native} ${RUST_ALTERNATE_EXE_PATH}
+>          else
+> -            chrpath -d ${RUST_ALTERNATE_EXE_PATH}
+> +            patchelf-uninative --remove-rpath ${RUST_ALTERNATE_EXE_PATH}
+>          fi
+>      fi
 >
-> +#
-> +# Simple function to allow overwriting the configuration node label
-> +#
-> +# $1 ... DTB image name
-> +fitimage_emit_section_config_dtb_label() {
-> +       dtb_img=3D"$1"
-> +       echo "${FIT_CONF_PREFIX}${dtb_img}"
-> +}
-> +
->  #
->  # Emit the fitImage ITS configuration section
->  #
-> @@ -442,7 +451,7 @@ fitimage_emit_section_config() {
->         # conf node name is selected based on dtb ID if it is present,
->         # otherwise its selected based on kernel ID
->         if [ -n "$dtb_image" ]; then
-> -               conf_node=3D$conf_node$dtb_image
-> +               conf_node=3D$(fitimage_emit_section_config_dtb_label $dtb=
-_image)
->         else
->                 conf_node=3D$conf_node$kernel_id
->         fi
-> @@ -480,13 +489,13 @@ fitimage_emit_section_config() {
->                 # default node is selected based on dtb ID if it is prese=
-nt,
->                 # otherwise its selected based on kernel ID
->                 if [ -n "$dtb_image" ]; then
-> -                       # Select default node as user specified dtb when
-> -                       # multiple dtb exists.
-> -                       if [ -n "$default_dtb_image" ]; then
-> -                               default_line=3D"default =3D \"${FIT_CONF_=
-PREFIX}$default_dtb_image\";"
-> -                       else
-> -                               default_line=3D"default =3D \"${FIT_CONF_=
-PREFIX}$dtb_image\";"
-> -                       fi
-> +                       # Select default node as user specified dtb when
-> +                       # multiple dtb exists.
-> +                               img=3D$default_dtb_image
-> +                       else
-> +                               img=3D$dtb_img
-> +                       fi
-> +                       default_line=3D"default =3D \"$(fitimage_emit_sec=
-tion_config_dtb_label $img)\";"
->                 else
->                         default_line=3D"default =3D \"${FIT_CONF_PREFIX}$=
-kernel_id\";"
->                 fi
-> --
-> 2.43.0
+> @@ -266,7 +266,7 @@ rust_do_install:class-nativesdk() {
+>      install -d ${D}${bindir}
+>      for i in cargo-clippy clippy-driver rustfmt; do
+>          cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release=
+/$i ${D}${bindir}
+> -        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+> +        patchelf-uninative --set-rpath "\$ORIGIN/../lib" ${D}${bindir}/$=
+i
+>      done
 >
+>      chown root:root ${D}/ -R
+> @@ -301,7 +301,7 @@ rust_do_install:class-target() {
+>      install -d ${D}${bindir}
+>      for i in ${EXTRA_TOOLS}; do
+>          cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release=
+/$i ${D}${bindir}
+> -        chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+> +        patchelf-uninative --set-rpath "\$ORIGIN/../lib" ${D}${bindir}/$=
+i
+>      done
 >
->
-> Internal
+>      install -d ${D}${libdir}/rustlib/${RUST_HOST_SYS}
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#216854): https://lists.openembedded.org/g/openembedde=
-d-core/message/216854
-> Mute This Topic: https://lists.openembedded.org/mt/113189715/3620601
+> View/Reply Online (#216772): https://lists.openembedded.org/g/openembedde=
+d-core/message/216772
+> Mute This Topic: https://lists.openembedded.org/mt/113168136/3616693
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
