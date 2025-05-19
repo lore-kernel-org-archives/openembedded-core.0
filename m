@@ -1,127 +1,67 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00611C54756
-	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 10:52:43 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.48324.1747651956020894078
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 368DFC3ABD8
+	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 11:09:03 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.web11.48593.1747652938203955123
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 May 2025 03:52:36 -0700
+ Mon, 19 May 2025 04:08:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=cavWuPBc;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D046043A03;
-	Mon, 19 May 2025 10:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1747651954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fQW1whJLVMbFxoSChSrRn6W1NoOYCKUIsMKT+XkMoUs=;
-	b=cavWuPBcMTxePWiKoPTcTFGJtxPXNG66V0YSlH93TF+bHbW7Lik0wtxGzc27H9SDWY9RJq
-	p+X0cZynr4twYU9qBJs8nMvp+8+jayOTBYbUd5oDS/pOTPbBZpEh3cGMSAPl9I5D76lNW0
-	f3kdOkhUkB44jVOXguTTtFKJEpovwxzBEMCwfgKkjM1VhWlXwMGEc9EUdppVHRvogJEuMs
-	Rmlrq3LqFwMi/ozsorHE2EEA8QU+3udufWdRCsZ094VedzuuGq0MDwFjF1CeH3SzVPHa/l
-	35jOgIyGB/HXCe5ydDAbAAhVIYagU2xmWkTI6ffwAl7afBYssr0E3j464aIjUQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 May 2025 12:52:29 +0200
-Message-Id: <DA02WU2YGQPI.3KXN4YKUA7LDR@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <hongxu.jia@eng.windriver.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/4] libxml2: upgrade 2.13.8 -> 2.14.3
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250519081000.2298461-1-hongxu.jia@windriver.com>
-In-Reply-To: <20250519081000.2298461-1-hongxu.jia@windriver.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefvdduudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeugffhgfetteehtdffudfhteelleegvdejvdekudeukeeuvdelffdtuddvieefieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhgnhhomhgvrdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohephhhonhhggihurdhjihgrsegvnhhgrdifihhnughrihhvv
- ghrrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=aZy8CL4I;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20250519110855b464b11f0fe5c04bf4-iyj2qn@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20250519110855b464b11f0fe5c04bf4
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 19 May 2025 13:08:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=QFAc+S7SVjqV2ao2AcN9QUJoObErPlU6v8Mjuz+NHS8=;
+ b=aZy8CL4IeO1GqbK/eaJWCY22AtyZDorT6pGHX37r2ai7qQAJat6LDgTqz2ncjFkkQjIglj
+ QtnQ14AS/j5+qxKzvs5HJDbYkhYR6ApdC7ShnenEFMu+H4byl/ypnseHpNNVsfp2I5b3dh+o
+ qvIcKh0urN/N7KnHaJMa901Sp75glz+A21c3OHZ7n/235HvEYonf7JvucbSuV04LRD3NiFNe
+ RCaJg6KEciailPfDgcVzkE7smvY9sdOj2vLMKNk41TayD2Cegfm8xftsNSX8ryxQw/3Am9c7
+ aor3d2sFa9zeO/xtrpetKvfvfBosmvxvC5XLgBlFuLCv/3S1l1AbzIJA==;
+From: AdrianF <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: marex@denx.de,
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v4 08/16] maintainers: add myself for linux-yocto-fitimage
+Date: Mon, 19 May 2025 13:07:52 +0200
+Message-ID: <20250519110838.82978-9-adrian.freihofer@siemens.com>
+In-Reply-To: <20250519110838.82978-1-adrian.freihofer@siemens.com>
+References: <20250519110838.82978-1-adrian.freihofer@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 10:52:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216835
+ <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 11:09:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216837
 
-On Mon May 19, 2025 at 10:09 AM CEST, hongxu via lists.openembedded.org wro=
-te:
-> - Rebase install-tests.patch
-> - Remove --enable-ipv6, due to upstream [build: Remove check for IPv6 ][2=
-]
->
-> License-Update: Mention contributors in Copyright [1]
->
-> [1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/4bd66d4549b2e8925a752=
-e0daac3a189d2fec8f7
-> [2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/dc6f55cf6e03ae63a40e3=
-af9ad6879821558d6a7
->
-> Release notes: https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.14.3
-> Regressions
->
->     reader: Fix reading compressed data
->     parser: Make undeclared entities in XML content fatal
->     save: Fix XML escape table
->     save: Fix xmlSave with NULL encoding
->     Revert "valid: Remove duplicate error messages when streaming"
->
-> Bug fixes
->
->     save: Fix serialization of attribute defaults containing &lt;
->     io: Fix linkage of __xml*BufferCreateFilename functions
->
-> Build systems
->
->     cmake: Fix installation directories in libxml2-config.cmake
->     meson: Install libxml2.py
->
-> Improvements
->
->     parser: Make xmlCtxtGetValidCtxt depend on VALID_ENABLED
->     html: Avoid HTML_PARSE_HTML5 clashing with XML_PARSE_NOENT
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Hi,
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/conf/distro/include/maintainers.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks for your patches.
-
-It looks like the libxml2 upgrade is breaking the build of lttng-tools:
-
-ERROR: lttng-tools-2.13.15-r0 do_compile: oe_runmake failed
-ERROR: lttng-tools-2.13.15-r0 do_compile: Execution of '/srv/pokybuild/yoct=
-o-worker/qemuarm-alt/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnu=
-eabi/lttng-tools/2.13.15/temp/run.do_compile.60377' failed with exit code 1
-...
-| In file included from /srv/pokybuild/yocto-worker/qemuarm-alt/build/build=
-/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/lttng-tools/2.13.15/recipe-=
-sysroot/usr/include/libxml2/libxml/parser.h:25,
-|                  from ../../../../lttng-tools-2.13.15/src/common/config/s=
-ession-config.c:29:
-| /srv/pokybuild/yocto-worker/qemuarm-alt/build/build/tmp/work/cortexa15t2h=
-f-neon-poky-linux-gnueabi/lttng-tools/2.13.15/recipe-sysroot/usr/include/li=
-bxml2/libxml/encoding.h:173:7: note: declared here
-|   173 |     } input XML_DEPRECATED_MEMBER;
-|       |       ^~~~~
-| ../../../../lttng-tools-2.13.15/src/common/config/session-config.c:432:15=
-: error: called object is not a function or function pointer
-|   432 |         ret =3D handler->input(out_str, &out_len, (const xmlChar =
-*) in_str, &in_len);
-|       |               ^~~~~~~
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/74/builds/1633
-
-Can you look at this failure please?
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 6c19e306cfa..d7d157af4fe 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -471,6 +471,7 @@ RECIPE_MAINTAINER:pn-libxxf86vm = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libyaml = "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER:pn-lighttpd = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-linux-dummy = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-linux-yocto-fitimage = "Adrian Freihofer <adrian.freihofer@siemens.com>"
+ RECIPE_MAINTAINER:pn-linux-firmware = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+ RECIPE_MAINTAINER:pn-linux-libc-headers = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+-- 
+2.49.0
 
 
