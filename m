@@ -1,957 +1,299 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1586FC54754
-	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 08:10:12 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.46126.1747642206570886737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EC0CC3DA6D
+	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 08:20:22 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.59])
+ by mx.groups.io with SMTP id smtpd.web11.46243.1747642817898972324
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 May 2025 01:10:06 -0700
+ Mon, 19 May 2025 01:20:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=723466fbd7=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J5QWkc029366
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 01:10:06 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46pnr3hh68-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 01:10:05 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 19 May 2025 01:09:52 -0700
-Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 19 May 2025 01:09:50 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/4] patch: upgrade 2.7.6 -> 2.8
-Date: Mon, 19 May 2025 16:09:58 +0800
-Message-ID: <20250519081000.2298461-2-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250519081000.2298461-1-hongxu.jia@windriver.com>
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=Es2I6gi1;
+ spf=pass (domain: siemens.com, ip: 40.107.20.59, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T+EyXryKR40Gpr2abPPpAV12MFwbnNA8ZFYDoksmccnYhZXOwF6vJlg2396uGn7IcI3d4VAiL6OkAawkbhhSgD1i/XQ4z3NekHOkdcuI9G8tkuJpz+JHUcjN3iMBbQp7/O9lKsDPK0ojbF35SnV5tY7nkROq1S3kHxm/66jJdqEWPRk7OCcQofJYyw1/UelMAf6P0/WCZDCDs+GX1z6ameECUquMv76bW2yWEZ7+c/TYdJEL5w4yC2VZh6e6bVYhEK19KtTJwZdhQv+PkiBVaVWXIyWBQTT0+pCJ98kOCyFufT9iO5HF2tos5t7ckNmruk+aziQWbBIsvu8JvYFKyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sDe+41nf1q7eVX2jL5GNwSFRS28/78VUKSfzO9RyoTE=;
+ b=YXOApuyYA/iB6ePrgNbARGnaIZfew2VRWEaIGr7t1EZF6yBMp7ma0OShd8RF4snZdugaXgGGHCAwDokw9d2O598Unrn84QLTcmeEYeZtNYTC/03E7iG4yLGLfmUm/Lk7KpRBAVUlCESPqHUFHJjCBZgrCc5eTIx5xzgMEBuIuiopI5TJh3BhMGeGsagX5ofnmXrbZC6iYDdDcrvp65uLhQ3eFoReYe3SP/apw6Vh6lPuvAA42XPNGhzxR1MmlJwgX4veIGFM8p+Na89IcgRaqgf1Gi6GwQ2ibb5O0v8nC+QO5Xj62nOx+sEL+T98zBAnZNz0Q09JdUT/tdDHJtqx9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sDe+41nf1q7eVX2jL5GNwSFRS28/78VUKSfzO9RyoTE=;
+ b=Es2I6gi1cWYfuZpJcNcGitcikCD+vtj1N29hJhs/BD38OZAYv22Ioq08xeypw5/by5vDVGUs7EAJAO9rEcB1kuTp7hubUugyeRrKYHVmXF+EGQZ8opBbhCtFBWcXmMkaHEHv6xIkrfSRr8XpDNMjjT+MPdxc9YYTLVxexl716DE5f3YwqmUCWK4tKTkdQfdR0IYi60S5uoWyZmb3OVdO1zsZEepzZ9kCA0SLYMfdTN8pKhSXo6TSFoGplxPhoOjTnSwWdqWDcBsxF24Lia7EFhYk2tM8yKAoEAuzKIk11fLzJyS9KyxopK+w2ZPVSOgQLHoWGBLY2CcPJQ+TyM+Y+w==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:13e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Mon, 19 May
+ 2025 08:20:15 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%4]) with mapi id 15.20.8722.031; Mon, 19 May 2025
+ 08:20:15 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "hongxu.jia@eng.windriver.com" <hongxu.jia@eng.windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 1/4] libxml2: upgrade 2.13.8 -> 2.14.3
+Thread-Topic: [OE-core] [PATCH 1/4] libxml2: upgrade 2.13.8 -> 2.14.3
+Thread-Index: AQHbyJVxmut270bX+k6HU2msFHH4SLPZnFcg
+Date: Mon, 19 May 2025 08:20:15 +0000
+Message-ID: 
+ <AS1PR10MB5697D29730ABEFDC0F2459E2FD9CA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 References: <20250519081000.2298461-1-hongxu.jia@windriver.com>
+In-Reply-To: <20250519081000.2298461-1-hongxu.jia@windriver.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=20602ab8-7ce5-4314-b20f-d97a8030dca4;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-05-19T08:19:34Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB8PR10MB3529:EE_
+x-ms-office365-filtering-correlation-id: 6333cedc-d650-4e8e-e11f-08dd96adfba3
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700018|13003099007;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?6mJ4EXywQnMPQy0CaKGkykwbzlRH8WVnYTwP5nRokR8ztPYaHrA3t5FwyeqL?=
+ =?us-ascii?Q?Gc0ggAvb/EeiEoI2MstuaUOXySlw7ff+UeQQdOSGuf7Vs0sbn7FyWXaTMnSF?=
+ =?us-ascii?Q?Xf8vyIhoxioplX9Ch4MtrUKssTWHmkvjV9YKlVTUKYic3iZ3s4vdOyVYVMnu?=
+ =?us-ascii?Q?ytazaorVPoFjypVNNJJWlmTuyimkXMWJAzXiRfWzrkTfb4GfDdOnUkdojgbV?=
+ =?us-ascii?Q?lS0Ypn9HUrJqP4vTWfTh5+1GJH/QlRuXnuLw3BRNkwYn79Yul0B2kcQglOnO?=
+ =?us-ascii?Q?dhGLY2252GQfyPJKtsHmcseN8Ou+U+EhaBbSTzZ1azxv83eZisq8oqGk7gUz?=
+ =?us-ascii?Q?BBTPkwU6cNsq9bc3dLsg7opRc6NtQCg9By8DSi3C0V19xN0yUXNfan8azMUE?=
+ =?us-ascii?Q?tAjkbgFt+/8B9cwHC+PQ1H58b2yEH6dy5utBxu1FDFyW5qyAwas2XXFc/oSd?=
+ =?us-ascii?Q?t/Md629Q3baMypDIgAwZLa2xyUKvNaoCBytt2EXidoXUelJGGQGxOdi3Y6rn?=
+ =?us-ascii?Q?wvTr/Q8rtgrjFjYpNAK1CUT+dlR9J1/MVuuMGY/IV6JAfo4IJDjoErgDSqIM?=
+ =?us-ascii?Q?Tnie/MYY/xZZiIK3DTnjf9IQyDv7HMaiYIFQUr5Q/1yo3wG9dKeM22cBaTc5?=
+ =?us-ascii?Q?F6jIGXdkYKBou4S1mY8PrfTZ9tuuUTfoGYTzWzkHCnqYK3+jBn0xGrtT72tk?=
+ =?us-ascii?Q?SYql92F1IhO1vongj+UbpFVFs8nzfRO/N4VkfaPY6MpkDPlyFTq2UxZZ1ZwP?=
+ =?us-ascii?Q?5yFtUM3ddeTnKzydfLVmjXC1fB7Dzn1xTTFQ2qCnhviZ2bEumcSSVlHUcHZo?=
+ =?us-ascii?Q?MpqCOGUB/zLT76EaZCn0JmlVQKmXWgyr9NfIk9qcanFONPVpohrDBEX0m1fI?=
+ =?us-ascii?Q?dfwRbqS3XU7XcQdKzeYaQ3P7tBAzwzj/FwwLkhzape0W27vaYWAVmAtweRRp?=
+ =?us-ascii?Q?OxAycfi1tx35DwkPTirABSSUUhM7G6Je0Ju1jLvY1UYaJtI2JVAZK6tqa0pl?=
+ =?us-ascii?Q?EYHlfAneREajnsQAFYRLs7XTXgaKRYomlDjb5vi2Cdm6wv/80nHmWYKXfQUx?=
+ =?us-ascii?Q?2PfHgt5RnCONJcLrmrHVLXPOkZG9gJamW6UUbu3UIx4esokvu0w+K4ULLwWK?=
+ =?us-ascii?Q?Yry2j5zWYL7P9mGGEpyCnP+o0iljrj9M7dwtsjiFwlhSPQmIHsXeUHaJ9BG7?=
+ =?us-ascii?Q?HWNzIvp7nsLqOm9p8gP58YfHe+GQCR3DoZb/bMJsenQWlOikM7Mo7TdK37wt?=
+ =?us-ascii?Q?M+2LsziLyzJJcY5E8FMY7+gmBrGlJu9T5bies/gSikIKAoAhJI1NXRUTd9bi?=
+ =?us-ascii?Q?gGUKqTKF7p7TE8dPsYgC6vPxbfQgovs3xwkf196+D1azqWpGlI4vXMreKgfz?=
+ =?us-ascii?Q?VTtJMH8AHCdfvrl2/JDil7Ip2LWfmxYyZ0xFx5dSHkdaRBqRmazbIj+qxIno?=
+ =?us-ascii?Q?2xqEfSdp5T4=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?q2PmVMBSzbSBOoNMCJ4GbWqK4PS2TZNXYqRJxhDB5dMvhy5m24s+0iDY73Nk?=
+ =?us-ascii?Q?cZk9xjhhCasQ4Fdc+885wo5aklH2oG7oPF/KO0jgxt+dM+dlTHMejB+zxmux?=
+ =?us-ascii?Q?IcuzWCTrY2HfhWGq3KyUO0v8zJcWVD+hIRKARQshrAiuodvIBzdHKb+BJe72?=
+ =?us-ascii?Q?65tRfW2P0CakLigL/JutvAp4d+n5JtkB3m3N5tZ0Gz1rWq/MTjUjxlaITL+F?=
+ =?us-ascii?Q?CndhrbL6Jor7YlCIjSvz9CObpmmpWDPsJHvO7fuQsHruB+5IlmRurun/QzRX?=
+ =?us-ascii?Q?FPFvSgF39EvfB+cfmQBCSBRwv8AzWPS0inHindOGM/ixAwfwJV7cIBOkSMTD?=
+ =?us-ascii?Q?CDDLII7Q95w4UgiIYECh+x8GKfngQxvI+hAH8aZHtBcYYZ6vVVIJAWCW4brT?=
+ =?us-ascii?Q?kWHRFuGOKNG0seHcS8dAGVjalmSkJcca5m1PXVpgH0kQEoicyjr/SYcxuZGX?=
+ =?us-ascii?Q?Oag5gzgeX3EBMWrZcpglXBkH2Q3mLdGmX5qrtQ5t7pRgTEnrAE3bnAIxY56x?=
+ =?us-ascii?Q?9h2gAtJPqYjBDZAMkl3BtthoMbtdkkNiyQyEg42AELd8sR3ToWZK4l62VfUX?=
+ =?us-ascii?Q?bsSFgU004pN9JmYMKnOSL85/0m4fvhK5/h0LJ+Vubjl3MpJXGdXXsEsMcEQ2?=
+ =?us-ascii?Q?2MBk0N71ZA8ikRL+lu5xLklLlUEtFn5Z5uOBze4b5n6XwW/RbmhxmdlTS1+Q?=
+ =?us-ascii?Q?mOcnIFQSRMtlN42i2TIjLUIpKNea9+cHaieI72m47os1R6RW7/58YpkghXlL?=
+ =?us-ascii?Q?2jI9fPB2MOEThOaVubIUmZqRBX3f10omeXhhlVBcaBlHLJQbHxQJPsx37h8D?=
+ =?us-ascii?Q?ktdOO6Sg6l0gmANDxlf4FhMQXk1Uy/ZjKmrdqNoXlw5LSGga3z17myRn4C00?=
+ =?us-ascii?Q?l050UZN6/tEphqanRCmnLL09aTwr1B7BjyltGhlBVcmcFYRlkOQdfDDHU1Jz?=
+ =?us-ascii?Q?ROBQ41o+VQ8wGIFmoG0pbye+SM79+ztORm6YWbwSyvAPA1rMi/AWDslHMG8V?=
+ =?us-ascii?Q?jGCsDiv9AaXANWVwdm1lPF1EgeQwAu50Er7aKAkhdbcn/K9nEwYvr4yWSLkk?=
+ =?us-ascii?Q?04eFg862bzgtedlQTC0Wic5x0JKzaQQxg3sTbRqmQ8DZboYFfMsQVtGqLIih?=
+ =?us-ascii?Q?w8r+rdw/Q5o/P8uZSUS6nnMwdnfE27M9u8yNZTeWa9BPRWPB0tIh1R6y3EeW?=
+ =?us-ascii?Q?D5iyvmb83nIzpCKBVdSy61lbdfDR/WMlEvBRcXkLA7fmxW/Ff7EhKEL0KyCe?=
+ =?us-ascii?Q?TD/VMEikRbfpw4kZQQ6Hcf39U8n2cSC6pWy4af7iLtIeWH/GjNi+dlRlo956?=
+ =?us-ascii?Q?AD5rQ8DzEk6BEiEqQGq0hY+6SdjWBCkYhzq4Gzp/8ffaO9NtPc6q16QHvMFA?=
+ =?us-ascii?Q?lxq8IHV8Wzm28DBlu2iPu2IaPoSK3/sbO0kmLp/3CSRgug4BRJxYF+Dp4Iq8?=
+ =?us-ascii?Q?4+3tR+BxpOeigIPTTvup0JeNS4uH6JS43W+Ab4YBGuPXDBTz0Itl0iIc3jxm?=
+ =?us-ascii?Q?kPmiBY6ZvBYsbstdnyWjOvPnSu06YnRcxiizEEi07HatAknMxTLg9g2oYRNT?=
+ =?us-ascii?Q?RCOIg+NpVVmW9gXsNs+fQaD31qPu/UbA9foCcZl+?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDA3NiBTYWx0ZWRfX7UsbbwvMb4Ir W/t+/RH8suyT4HN5IY/SVRJMwfE3xhF2YtF0ymq7elQ43fUcLVXyvSnaAlJO3uJlGOYPwcql5lB kopZ0t/sKwQzAhYW3Oy8R7MuHhGOI97Y8Qt32W4u0Dw2mu5fIlm7KN0AhoyuciJwcmLzUOWuwgd
- ZDb4ollxmXjd5JO/Qkx1oIMgrMmeBoNaWNJnrk/2CDozNB5v1JK+FZ3AH5JSUBBTqI1J+voy/O1 uyPustmB3kSFFsepRLdJ8IUj9otGIxjPXex1l7OAvXEHPWmrNKI9uHfft9ey9bOIDniRVFwa0Ah d3KfthBGOAFSR5jftMr2rcqe29ndUS8HZVI5ZI2NSkJcrddsAhjin0utlWMAZRzLCUKb6dOwrN+
- 8x/lNczxCaUqoemqiJCUQAnbJxL2U9Zx1g65sgsBxc6+dY8yQktWSuNqh4WAAnks2JMBSe2u
-X-Authority-Analysis: v=2.4 cv=Z8XsHGRA c=1 sm=1 tr=0 ts=682ae75d cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8 a=QyXUC8HyAAAA:8 a=pGLkceISAAAA:8 a=k-42gJp3AAAA:8
- a=oXwaDGp18IO7fEvvVswA:9 a=PfxFQXKW5NZQLPm0:21 a=xbPn9E6qFyUA:10 a=FdTzh2GWekK77mhwV6Dw:22 a=uCSXFHLys93vLW5PjgO_:22
-X-Proofpoint-ORIG-GUID: P6mX0XGtNhC2E0HIKeqTP5tC4Bah1afH
-X-Proofpoint-GUID: P6mX0XGtNhC2E0HIKeqTP5tC4Bah1afH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-19_03,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- bulkscore=0 spamscore=0 suspectscore=0 phishscore=0 clxscore=1015
- adultscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
- definitions=main-2505190076
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6333cedc-d650-4e8e-e11f-08dd96adfba3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2025 08:20:15.1182
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ejFt6kZwqWWGgRSOAexXdsiks7iTUGAHe8n4NvWnngO57lQdSVIlNF2SBAiGxjalkrRUu/uNf6liGAF9NQH0vQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3529
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 08:10:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216823
+ <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 08:20:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216826
 
-- Drop backport patches
+I already tried this one and it will not work until lttng-tools is patched
+https://bugs.lttng.org/issues/1427
 
-GNU patch 2.8 released: http://savannah.gnu.org/news/?id=10741
+Peter
 
-NEWS since v2.7.6 (2018-02-03):
-
-    The --follow-symlinks option now applies to output files as well as input.
-    'patch' now supports file timestamps after 2038 even on traditional
-
-  GNU/Linux platforms where time_t defaults to 32 bits.
-
-    'patch' no longer creates files with names containing newlines,
-
-  as encouraged by POSIX.1-2024.
-
-    Patches can no longer contain NUL ('\0') bytes in diff directive lines.
-
-  These bytes would otherwise cause unpredictable behavior.
-
-    Patches can now contain sequences of spaces and tabs around line numbers
-
-  and in other places where POSIX requires support for these sequences.
-
-    --enable-gcc-warnings no longer uses expensive static checking.
-
-  Use --enable-gcc-warnings=expensive if you still want it.
-
-    Fix undefined or ill-defined behavior in unusual cases, such as very
-
-  large sizes, possible stack overflow, I/O errors, memory exhaustion,
-  races with other processes, and signals arriving at inopportune moments.
-
-    Remove old "Plan B" code, designed for machines with 16-bit pointers.
-    Assume C99 or later; previously it assumed C89 or later.
-    Port to current GCC, Autoconf, Gnulib, etc.
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...porary-file-on-failed-ed-style-patch.patch |  94 --------
- ...mporary-file-on-failed-multi-file-ed.patch |  81 -------
- ...-Fix-swapping-fake-lines-in-pch_swap.patch |  36 ---
- ...-directly-instead-of-using-the-shell.patch |  44 ----
- ...charset_alias-when-building-for-musl.patch |  33 ---
- ...x-segfault-with-mangled-rename-patch.patch |  35 ---
- ...s-to-be-missing-for-ed-style-patches.patch |  38 ----
- ...mmand-execution-in-ed-style-patches-.patch | 215 ------------------
- .../patch/patch/CVE-2019-13636.patch          | 113 ---------
- .../patch/patch/CVE-2019-20633.patch          |  31 ---
- meta/recipes-devtools/patch/patch_2.7.6.bb    |  25 --
- meta/recipes-devtools/patch/patch_2.8.bb      |  13 ++
- 12 files changed, 13 insertions(+), 745 deletions(-)
- delete mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
- delete mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
- delete mode 100644 meta/recipes-devtools/patch/patch/0001-Fix-swapping-fake-lines-in-pch_swap.patch
- delete mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
- delete mode 100644 meta/recipes-devtools/patch/patch/0001-Unset-need_charset_alias-when-building-for-musl.patch
- delete mode 100644 meta/recipes-devtools/patch/patch/0002-Fix-segfault-with-mangled-rename-patch.patch
- delete mode 100644 meta/recipes-devtools/patch/patch/0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch
- delete mode 100644 meta/recipes-devtools/patch/patch/0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch
- delete mode 100644 meta/recipes-devtools/patch/patch/CVE-2019-13636.patch
- delete mode 100644 meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
- delete mode 100644 meta/recipes-devtools/patch/patch_2.7.6.bb
- create mode 100644 meta/recipes-devtools/patch/patch_2.8.bb
-
-diff --git a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
-deleted file mode 100644
-index 78345e925e4..00000000000
---- a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
-+++ /dev/null
-@@ -1,94 +0,0 @@
--From 7f770b9c20da1a192dad8cb572a6391f2773285a Mon Sep 17 00:00:00 2001
--From: Jean Delvare <jdelvare@suse.de>
--Date: Thu, 3 May 2018 14:31:55 +0200
--Subject: [PATCH 1/2] Don't leak temporary file on failed ed-style patch
--
--Now that we write ed-style patches to a temporary file before we
--apply them, we need to ensure that the temporary file is removed
--before we leave, even on fatal error.
--
--* src/pch.c (do_ed_script): Use global TMPEDNAME instead of local
--  tmpname. Don't unlink the file directly, instead tag it for removal
--  at exit time.
--* src/patch.c (cleanup): Unlink TMPEDNAME at exit.
--
--This closes bug #53820:
--https://savannah.gnu.org/bugs/index.php?53820
--
--Fixes: 123eaff0d5d1 ("Fix arbitrary command execution in ed-style patches (CVE-2018-1000156)")
--
--CVE: CVE-2018-1000156
--Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=19599883ffb6a450d2884f081f8ecf68edbed7ee]
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- src/common.h |  2 ++
-- src/pch.c    | 12 +++++-------
-- 2 files changed, 7 insertions(+), 7 deletions(-)
--
--diff --git a/src/common.h b/src/common.h
--index ec50b40..22238b5 100644
----- a/src/common.h
--+++ b/src/common.h
--@@ -94,10 +94,12 @@ XTERN char const *origsuff;
-- XTERN char const * TMPINNAME;
-- XTERN char const * TMPOUTNAME;
-- XTERN char const * TMPPATNAME;
--+XTERN char const * TMPEDNAME;
-- 
-- XTERN bool TMPINNAME_needs_removal;
-- XTERN bool TMPOUTNAME_needs_removal;
-- XTERN bool TMPPATNAME_needs_removal;
--+XTERN bool TMPEDNAME_needs_removal;
-- 
-- #ifdef DEBUGGING
-- XTERN int debug;
--diff --git a/src/pch.c b/src/pch.c
--index 16e001a..c1a62cf 100644
----- a/src/pch.c
--+++ b/src/pch.c
--@@ -2392,7 +2392,6 @@ do_ed_script (char const *inname, char const *outname,
--     file_offset beginning_of_this_line;
--     size_t chars_read;
--     FILE *tmpfp = 0;
---    char const *tmpname;
--     int tmpfd;
--     pid_t pid;
-- 
--@@ -2404,12 +2403,13 @@ do_ed_script (char const *inname, char const *outname,
-- 	   invalid commands and treats the next line as a new command, which
-- 	   can lead to arbitrary command execution.  */
-- 
---	tmpfd = make_tempfile (&tmpname, 'e', NULL, O_RDWR | O_BINARY, 0);
--+	tmpfd = make_tempfile (&TMPEDNAME, 'e', NULL, O_RDWR | O_BINARY, 0);
-- 	if (tmpfd == -1)
---	  pfatal ("Can't create temporary file %s", quotearg (tmpname));
--+        pfatal ("Can't create temporary file %s", quotearg (TMPEDNAME));
--+        TMPEDNAME_needs_removal = true;
-- 	tmpfp = fdopen (tmpfd, "w+b");
-- 	if (! tmpfp)
---	  pfatal ("Can't open stream for file %s", quotearg (tmpname));
--+        pfatal ("Can't open stream for file %s", quotearg (TMPEDNAME));
--       }
-- 
--     for (;;) {
--@@ -2449,8 +2449,7 @@ do_ed_script (char const *inname, char const *outname,
--       write_fatal ();
-- 
--     if (lseek (tmpfd, 0, SEEK_SET) == -1)
---      pfatal ("Can't rewind to the beginning of file %s", quotearg (tmpname));
---
--+        pfatal ("Can't rewind to the beginning of file %s", quotearg (TMPEDNAME));
--     if (! dry_run && ! skip_rest_of_patch) {
-- 	int exclusive = *outname_needs_removal ? 0 : O_EXCL;
-- 	*outname_needs_removal = true;
--@@ -2482,7 +2481,6 @@ do_ed_script (char const *inname, char const *outname,
--     }
-- 
--     fclose (tmpfp);
---    safe_unlink (tmpname);
-- 
--     if (ofp)
--       {
---- 
--2.17.0
--
-diff --git a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
-deleted file mode 100644
-index 8ffffef47ef..00000000000
---- a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
-+++ /dev/null
-@@ -1,81 +0,0 @@
--From 369dcccdfa6336e5a873d6d63705cfbe04c55727 Mon Sep 17 00:00:00 2001
--From: Jean Delvare <jdelvare@suse.de>
--Date: Mon, 7 May 2018 15:14:45 +0200
--Subject: Don't leak temporary file on failed multi-file ed-style patch
--
--The previous fix worked fine with single-file ed-style patches, but
--would still leak temporary files in the case of multi-file ed-style
--patch. Fix that case as well, and extend the test case to check for
--it.
--
--* src/patch.c (main): Unlink TMPEDNAME if needed before moving to
--  the next file in a patch.
--
--This closes bug #53820:
--https://savannah.gnu.org/bugs/index.php?53820
--
--Fixes: 123eaff0d5d1 ("Fix arbitrary command execution in ed-style patches (CVE-2018-1000156)")
--Fixes: 19599883ffb6 ("Don't leak temporary file on failed ed-style patch")
--
--CVE: CVE-2018-1000156
--Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=369dcccdfa6336e5a873d6d63705cfbe04c55727]
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- src/patch.c    |  1 +
-- tests/ed-style | 31 +++++++++++++++++++++++++++++++
-- 2 files changed, 32 insertions(+)
--
--diff --git a/src/patch.c b/src/patch.c
--index 9146597..81c7a02 100644
----- a/src/patch.c
--+++ b/src/patch.c
--@@ -236,6 +236,7 @@ main (int argc, char **argv)
-- 	    }
-- 	  remove_if_needed (TMPOUTNAME, &TMPOUTNAME_needs_removal);
-- 	}
--+      remove_if_needed (TMPEDNAME, &TMPEDNAME_needs_removal);
-- 
--       if (! skip_rest_of_patch && ! file_type)
-- 	{
--diff --git a/tests/ed-style b/tests/ed-style
--index 6b6ef9d..504e6e5 100644
----- a/tests/ed-style
--+++ b/tests/ed-style
--@@ -38,3 +38,34 @@ EOF
-- check 'cat foo' <<EOF
-- foo
-- EOF
--+
--+# Test the case where one ed-style patch modifies several files
--+
--+cat > ed3.diff <<EOF
--+--- foo
--++++ foo
--+1c
--+bar
--+.
--+--- baz
--++++ baz
--+0a
--+baz
--+.
--+EOF
--+
--+# Apparently we can't create a file with such a patch, while it works fine
--+# when the file name is provided on the command line
--+cat > baz <<EOF
--+EOF
--+
--+check 'patch -e -i ed3.diff' <<EOF
--+EOF
--+
--+check 'cat foo' <<EOF
--+bar
--+EOF
--+
--+check 'cat baz' <<EOF
--+baz
--+EOF
---- 
--cgit v1.0-41-gc330
--
-diff --git a/meta/recipes-devtools/patch/patch/0001-Fix-swapping-fake-lines-in-pch_swap.patch b/meta/recipes-devtools/patch/patch/0001-Fix-swapping-fake-lines-in-pch_swap.patch
-deleted file mode 100644
-index 049149eb9e5..00000000000
---- a/meta/recipes-devtools/patch/patch/0001-Fix-swapping-fake-lines-in-pch_swap.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 9c986353e420ead6e706262bf204d6e03322c300 Mon Sep 17 00:00:00 2001
--From: Andreas Gruenbacher <agruen@gnu.org>
--Date: Fri, 17 Aug 2018 13:35:40 +0200
--Subject: [PATCH] Fix swapping fake lines in pch_swap
--
--* src/pch.c (pch_swap): Fix swapping p_bfake and p_efake when there is a
--blank line in the middle of a context-diff hunk: that empty line stays
--in the middle of the hunk and isn't swapped.
--
--Fixes: https://savannah.gnu.org/bugs/index.php?53133
--Signed-off-by: Andreas Gruenbacher <agruen@gnu.org>
--
--Upstream-Status: Backport [https://git.savannah.gnu.org/git/patch.git]
--CVE: CVE-2018-6952
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
-----
-- src/pch.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/pch.c b/src/pch.c
--index e92bc64..a500ad9 100644
----- a/src/pch.c
--+++ b/src/pch.c
--@@ -2122,7 +2122,7 @@ pch_swap (void)
--     }
--     if (p_efake >= 0) {			/* fix non-freeable ptr range */
-- 	if (p_efake <= i)
---	    n = p_end - i + 1;
--+	    n = p_end - p_ptrn_lines;
-- 	else
-- 	    n = -i;
-- 	p_efake += n;
---- 
--2.10.2
--
-diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
-deleted file mode 100644
-index d13d419f51c..00000000000
---- a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17 00:00:00 2001
--From: Andreas Gruenbacher <agruen@gnu.org>
--Date: Fri, 6 Apr 2018 19:36:15 +0200
--Subject: [PATCH] Invoke ed directly instead of using the shell
--
--* src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
--command to avoid quoting vulnerabilities.
--
--CVE: CVE-2019-13638 CVE-2018-20969
--Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
--Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
--
-----
-- src/pch.c | 6 ++----
-- 1 file changed, 2 insertions(+), 4 deletions(-)
--
--
--diff --git a/src/pch.c b/src/pch.c
--index 4fd5a05..16e001a 100644
----- a/src/pch.c
--+++ b/src/pch.c
--@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char const *outname,
-- 	    *outname_needs_removal = true;
-- 	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
-- 	  }
---	sprintf (buf, "%s %s%s", editor_program,
---		 verbosity == VERBOSE ? "" : "- ",
---		 outname);
-- 	fflush (stdout);
-- 
-- 	pid = fork();
--@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char const *outname,
-- 	else if (pid == 0)
-- 	  {
-- 	    dup2 (tmpfd, 0);
---	    execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
--+	    assert (outname[0] != '!' && outname[0] != '-');
--+	    execlp (editor_program, editor_program, "-", outname, (char  *) NULL);
-- 	    _exit (2);
-- 	  }
-- 	else
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/patch/patch/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-devtools/patch/patch/0001-Unset-need_charset_alias-when-building-for-musl.patch
-deleted file mode 100644
-index ba1a4bab4c1..00000000000
---- a/meta/recipes-devtools/patch/patch/0001-Unset-need_charset_alias-when-building-for-musl.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 13 Apr 2015 17:02:13 -0700
--Subject: [PATCH] Unset need_charset_alias when building for musl
--
--localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
--which actually shoudl be fixed in gnulib and then all downstream
--projects will get it eventually. For now we apply the fix to
--coreutils
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/gnulib.mk | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/gnulib.mk b/lib/gnulib.mk
--index e1d74db..c0e92dd 100644
----- a/lib/gnulib.mk
--+++ b/lib/gnulib.mk
--@@ -1882,7 +1882,7 @@ install-exec-localcharset: all-local
-- 	  case '$(host_os)' in \
-- 	    darwin[56]*) \
-- 	      need_charset_alias=true ;; \
---	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
--+	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
-- 	      need_charset_alias=false ;; \
-- 	    *) \
-- 	      need_charset_alias=true ;; \
---- 
--2.1.4
--
-diff --git a/meta/recipes-devtools/patch/patch/0002-Fix-segfault-with-mangled-rename-patch.patch b/meta/recipes-devtools/patch/patch/0002-Fix-segfault-with-mangled-rename-patch.patch
-deleted file mode 100644
-index b0bd6fa83ad..00000000000
---- a/meta/recipes-devtools/patch/patch/0002-Fix-segfault-with-mangled-rename-patch.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From f290f48a621867084884bfff87f8093c15195e6a Mon Sep 17 00:00:00 2001
--From: Andreas Gruenbacher <agruen@gnu.org>
--Date: Mon, 12 Feb 2018 16:48:24 +0100
--Subject: [PATCH] Fix segfault with mangled rename patch
--
--http://savannah.gnu.org/bugs/?53132
--* src/pch.c (intuit_diff_type): Ensure that two filenames are specified
--for renames and copies (fix the existing check).
--
--Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=f290f48a621867084884bfff87f8093c15195e6a]
--CVE: CVE-2018-6951
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
--
-----
-- src/pch.c | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/src/pch.c b/src/pch.c
--index ff9ed2c..bc6278c 100644
----- a/src/pch.c
--+++ b/src/pch.c
--@@ -974,7 +974,8 @@ intuit_diff_type (bool need_header, mode_t *p_file_type)
--     if ((pch_rename () || pch_copy ())
-- 	&& ! inname
-- 	&& ! ((i == OLD || i == NEW) &&
---	      p_name[! reverse] &&
--+	      p_name[reverse] && p_name[! reverse] &&
--+	      name_is_valid (p_name[reverse]) &&
-- 	      name_is_valid (p_name[! reverse])))
--       {
-- 	say ("Cannot %s file without two valid file names\n", pch_rename () ? "rename" : "copy");
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/patch/patch/0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch b/meta/recipes-devtools/patch/patch/0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch
-deleted file mode 100644
-index 2a09d0c03b5..00000000000
---- a/meta/recipes-devtools/patch/patch/0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--From b5a91a01e5d0897facdd0f49d64b76b0f02b43e1 Mon Sep 17 00:00:00 2001
--From: Andreas Gruenbacher <agruen@gnu.org>
--Date: Fri, 6 Apr 2018 11:34:51 +0200
--Subject: [PATCH] Allow input files to be missing for ed-style patches
--
--* src/pch.c (do_ed_script): Allow input files to be missing so that new
--files will be created as with non-ed-style patches.
--
--Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=b5a91a01e5d0897facdd0f49d64b76b0f02b43e1]
--CVE: CVE-2018-1000156
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-----
-- src/pch.c | 8 +++++---
-- 1 file changed, 5 insertions(+), 3 deletions(-)
--
--diff --git a/src/pch.c b/src/pch.c
--index bc6278c..0c5cc26 100644
----- a/src/pch.c
--+++ b/src/pch.c
--@@ -2394,9 +2394,11 @@ do_ed_script (char const *inname, char const *outname,
-- 
--     if (! dry_run && ! skip_rest_of_patch) {
-- 	int exclusive = *outname_needs_removal ? 0 : O_EXCL;
---	assert (! inerrno);
---	*outname_needs_removal = true;
---	copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
--+	if (inerrno != ENOENT)
--+	  {
--+	    *outname_needs_removal = true;
--+	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
--+	  }
-- 	sprintf (buf, "%s %s%s", editor_program,
-- 		 verbosity == VERBOSE ? "" : "- ",
-- 		 outname);
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/patch/patch/0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch b/meta/recipes-devtools/patch/patch/0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch
-deleted file mode 100644
-index d74c2f182e5..00000000000
---- a/meta/recipes-devtools/patch/patch/0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch
-+++ /dev/null
-@@ -1,215 +0,0 @@
--From 123eaff0d5d1aebe128295959435b9ca5909c26d Mon Sep 17 00:00:00 2001
--From: Andreas Gruenbacher <agruen@gnu.org>
--Date: Fri, 6 Apr 2018 12:14:49 +0200
--Subject: [PATCH] Fix arbitrary command execution in ed-style patches (CVE-2018-1000156)
--
--* src/pch.c (do_ed_script): Write ed script to a temporary file instead
--of piping it to ed: this will cause ed to abort on invalid commands
--instead of rejecting them and carrying on.
--* tests/ed-style: New test case.
--* tests/Makefile.am (TESTS): Add test case.
--
--Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=123eaff0d5d1aebe128295959435b9ca5909c26d]
--CVE: CVE-2018-1000156
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-----
-- src/pch.c         | 91 ++++++++++++++++++++++++++++++++++++++++---------------
-- tests/Makefile.am |  1 +
-- tests/ed-style    | 41 +++++++++++++++++++++++++
-- 3 files changed, 108 insertions(+), 25 deletions(-)
-- create mode 100644 tests/ed-style
--
--diff --git a/src/pch.c b/src/pch.c
--index 0c5cc26..4fd5a05 100644
----- a/src/pch.c
--+++ b/src/pch.c
--@@ -33,6 +33,7 @@
-- # include <io.h>
-- #endif
-- #include <safe.h>
--+#include <sys/wait.h>
-- 
-- #define INITHUNKMAX 125			/* initial dynamic allocation size */
-- 
--@@ -2389,24 +2390,28 @@ do_ed_script (char const *inname, char const *outname,
--     static char const editor_program[] = EDITOR_PROGRAM;
-- 
--     file_offset beginning_of_this_line;
---    FILE *pipefp = 0;
--     size_t chars_read;
--+    FILE *tmpfp = 0;
--+    char const *tmpname;
--+    int tmpfd;
--+    pid_t pid;
--+
--+    if (! dry_run && ! skip_rest_of_patch)
--+      {
--+	/* Write ed script to a temporary file.  This causes ed to abort on
--+	   invalid commands such as when line numbers or ranges exceed the
--+	   number of available lines.  When ed reads from a pipe, it rejects
--+	   invalid commands and treats the next line as a new command, which
--+	   can lead to arbitrary command execution.  */
--+
--+	tmpfd = make_tempfile (&tmpname, 'e', NULL, O_RDWR | O_BINARY, 0);
--+	if (tmpfd == -1)
--+	  pfatal ("Can't create temporary file %s", quotearg (tmpname));
--+	tmpfp = fdopen (tmpfd, "w+b");
--+	if (! tmpfp)
--+	  pfatal ("Can't open stream for file %s", quotearg (tmpname));
--+      }
-- 
---    if (! dry_run && ! skip_rest_of_patch) {
---	int exclusive = *outname_needs_removal ? 0 : O_EXCL;
---	if (inerrno != ENOENT)
---	  {
---	    *outname_needs_removal = true;
---	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
---	  }
---	sprintf (buf, "%s %s%s", editor_program,
---		 verbosity == VERBOSE ? "" : "- ",
---		 outname);
---	fflush (stdout);
---	pipefp = popen(buf, binary_transput ? "wb" : "w");
---	if (!pipefp)
---	  pfatal ("Can't open pipe to %s", quotearg (buf));
---    }
--     for (;;) {
-- 	char ed_command_letter;
-- 	beginning_of_this_line = file_tell (pfp);
--@@ -2417,14 +2422,14 @@ do_ed_script (char const *inname, char const *outname,
-- 	}
-- 	ed_command_letter = get_ed_command_letter (buf);
-- 	if (ed_command_letter) {
---	    if (pipefp)
---		if (! fwrite (buf, sizeof *buf, chars_read, pipefp))
--+	    if (tmpfp)
--+		if (! fwrite (buf, sizeof *buf, chars_read, tmpfp))
-- 		    write_fatal ();
-- 	    if (ed_command_letter != 'd' && ed_command_letter != 's') {
-- 	        p_pass_comments_through = true;
-- 		while ((chars_read = get_line ()) != 0) {
---		    if (pipefp)
---			if (! fwrite (buf, sizeof *buf, chars_read, pipefp))
--+		    if (tmpfp)
--+			if (! fwrite (buf, sizeof *buf, chars_read, tmpfp))
-- 			    write_fatal ();
-- 		    if (chars_read == 2  &&  strEQ (buf, ".\n"))
-- 			break;
--@@ -2437,13 +2442,49 @@ do_ed_script (char const *inname, char const *outname,
-- 	    break;
-- 	}
--     }
---    if (!pipefp)
--+    if (!tmpfp)
--       return;
---    if (fwrite ("w\nq\n", sizeof (char), (size_t) 4, pipefp) == 0
---	|| fflush (pipefp) != 0)
--+    if (fwrite ("w\nq\n", sizeof (char), (size_t) 4, tmpfp) == 0
--+	|| fflush (tmpfp) != 0)
--       write_fatal ();
---    if (pclose (pipefp) != 0)
---      fatal ("%s FAILED", editor_program);
--+
--+    if (lseek (tmpfd, 0, SEEK_SET) == -1)
--+      pfatal ("Can't rewind to the beginning of file %s", quotearg (tmpname));
--+
--+    if (! dry_run && ! skip_rest_of_patch) {
--+	int exclusive = *outname_needs_removal ? 0 : O_EXCL;
--+	*outname_needs_removal = true;
--+	if (inerrno != ENOENT)
--+	  {
--+	    *outname_needs_removal = true;
--+	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
--+	  }
--+	sprintf (buf, "%s %s%s", editor_program,
--+		 verbosity == VERBOSE ? "" : "- ",
--+		 outname);
--+	fflush (stdout);
--+
--+	pid = fork();
--+	if (pid == -1)
--+	  pfatal ("Can't fork");
--+	else if (pid == 0)
--+	  {
--+	    dup2 (tmpfd, 0);
--+	    execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
--+	    _exit (2);
--+	  }
--+	else
--+	  {
--+	    int wstatus;
--+	    if (waitpid (pid, &wstatus, 0) == -1
--+	        || ! WIFEXITED (wstatus)
--+		|| WEXITSTATUS (wstatus) != 0)
--+	      fatal ("%s FAILED", editor_program);
--+	  }
--+    }
--+
--+    fclose (tmpfp);
--+    safe_unlink (tmpname);
-- 
--     if (ofp)
--       {
--diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 6b6df63..16f8693 100644
----- a/tests/Makefile.am
--+++ b/tests/Makefile.am
--@@ -32,6 +32,7 @@ TESTS = \
-- 	crlf-handling \
-- 	dash-o-append \
-- 	deep-directories \
--+	ed-style \
-- 	empty-files \
-- 	false-match \
-- 	fifo \
--diff --git a/tests/ed-style b/tests/ed-style
--new file mode 100644
--index 0000000..d8c0689
----- /dev/null
--+++ b/tests/ed-style
--@@ -0,0 +1,41 @@
--+# Copyright (C) 2018 Free Software Foundation, Inc.
--+#
--+# Copying and distribution of this file, with or without modification,
--+# in any medium, are permitted without royalty provided the copyright
--+# notice and this notice are preserved.
--+
--+. $srcdir/test-lib.sh
--+
--+require cat
--+use_local_patch
--+use_tmpdir
--+
--+# ==============================================================
--+
--+cat > ed1.diff <<EOF
--+0a
--+foo
--+.
--+EOF
--+
--+check 'patch -e foo -i ed1.diff' <<EOF
--+EOF
--+
--+check 'cat foo' <<EOF
--+foo
--+EOF
--+
--+cat > ed2.diff <<EOF
--+1337a
--+r !echo bar
--+,p
--+EOF
--+
--+check 'patch -e foo -i ed2.diff 2> /dev/null || echo "Status: $?"' <<EOF
--+?
--+Status: 2
--+EOF
--+
--+check 'cat foo' <<EOF
--+foo
--+EOF
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/patch/patch/CVE-2019-13636.patch b/meta/recipes-devtools/patch/patch/CVE-2019-13636.patch
-deleted file mode 100644
-index 8059d9fe198..00000000000
---- a/meta/recipes-devtools/patch/patch/CVE-2019-13636.patch
-+++ /dev/null
-@@ -1,113 +0,0 @@
--From dce4683cbbe107a95f1f0d45fabc304acfb5d71a Mon Sep 17 00:00:00 2001
--From: Andreas Gruenbacher <agruen@gnu.org>
--Date: Mon, 15 Jul 2019 16:21:48 +0200
--Subject: Don't follow symlinks unless --follow-symlinks is given
--
--* src/inp.c (plan_a, plan_b), src/util.c (copy_to_fd, copy_file,
--append_to_file): Unless the --follow-symlinks option is given, open files with
--the O_NOFOLLOW flag to avoid following symlinks.  So far, we were only doing
--that consistently for input files.
--* src/util.c (create_backup): When creating empty backup files, (re)create them
--with O_CREAT | O_EXCL to avoid following symlinks in that case as well.
--
--CVE: CVE-2019-13636
--Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/patch.git/patch/?id=dce4683cbbe107a95f1f0d45fabc304acfb5d71a]
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
--
-----
-- src/inp.c  | 12 ++++++++++--
-- src/util.c | 14 +++++++++++---
-- 2 files changed, 21 insertions(+), 5 deletions(-)
--
--diff --git a/src/inp.c b/src/inp.c
--index 32d0919..22d7473 100644
----- a/src/inp.c
--+++ b/src/inp.c
--@@ -238,8 +238,13 @@ plan_a (char const *filename)
--     {
--       if (S_ISREG (instat.st_mode))
--         {
---	  int ifd = safe_open (filename, O_RDONLY|binary_transput, 0);
--+	  int flags = O_RDONLY | binary_transput;
-- 	  size_t buffered = 0, n;
--+	  int ifd;
--+
--+	  if (! follow_symlinks)
--+	    flags |= O_NOFOLLOW;
--+	  ifd = safe_open (filename, flags, 0);
-- 	  if (ifd < 0)
-- 	    pfatal ("can't open file %s", quotearg (filename));
-- 
--@@ -340,6 +345,7 @@ plan_a (char const *filename)
-- static void
-- plan_b (char const *filename)
-- {
--+  int flags = O_RDONLY | binary_transput;
--   int ifd;
--   FILE *ifp;
--   int c;
--@@ -353,7 +359,9 @@ plan_b (char const *filename)
-- 
--   if (instat.st_size == 0)
--     filename = NULL_DEVICE;
---  if ((ifd = safe_open (filename, O_RDONLY | binary_transput, 0)) < 0
--+  if (! follow_symlinks)
--+    flags |= O_NOFOLLOW;
--+  if ((ifd = safe_open (filename, flags, 0)) < 0
--       || ! (ifp = fdopen (ifd, binary_transput ? "rb" : "r")))
--     pfatal ("Can't open file %s", quotearg (filename));
--   if (TMPINNAME_needs_removal)
--diff --git a/src/util.c b/src/util.c
--index 1cc08ba..fb38307 100644
----- a/src/util.c
--+++ b/src/util.c
--@@ -388,7 +388,7 @@ create_backup (char const *to, const struct stat *to_st, bool leave_original)
-- 
-- 	  try_makedirs_errno = ENOENT;
-- 	  safe_unlink (bakname);
---	  while ((fd = safe_open (bakname, O_CREAT | O_WRONLY | O_TRUNC, 0666)) < 0)
--+	  while ((fd = safe_open (bakname, O_CREAT | O_EXCL | O_WRONLY | O_TRUNC, 0666)) < 0)
-- 	    {
-- 	      if (errno != try_makedirs_errno)
-- 		pfatal ("Can't create file %s", quotearg (bakname));
--@@ -579,10 +579,13 @@ create_file (char const *file, int open_flags, mode_t mode,
-- static void
-- copy_to_fd (const char *from, int tofd)
-- {
--+  int from_flags = O_RDONLY | O_BINARY;
--   int fromfd;
--   ssize_t i;
-- 
---  if ((fromfd = safe_open (from, O_RDONLY | O_BINARY, 0)) < 0)
--+  if (! follow_symlinks)
--+    from_flags |= O_NOFOLLOW;
--+  if ((fromfd = safe_open (from, from_flags, 0)) < 0)
--     pfatal ("Can't reopen file %s", quotearg (from));
--   while ((i = read (fromfd, buf, bufsize)) != 0)
--     {
--@@ -625,6 +628,8 @@ copy_file (char const *from, char const *to, struct stat *tost,
--   else
--     {
--       assert (S_ISREG (mode));
--+      if (! follow_symlinks)
--+	to_flags |= O_NOFOLLOW;
--       tofd = create_file (to, O_WRONLY | O_BINARY | to_flags, mode,
-- 			  to_dir_known_to_exist);
--       copy_to_fd (from, tofd);
--@@ -640,9 +645,12 @@ copy_file (char const *from, char const *to, struct stat *tost,
-- void
-- append_to_file (char const *from, char const *to)
-- {
--+  int to_flags = O_WRONLY | O_APPEND | O_BINARY;
--   int tofd;
-- 
---  if ((tofd = safe_open (to, O_WRONLY | O_BINARY | O_APPEND, 0)) < 0)
--+  if (! follow_symlinks)
--+    to_flags |= O_NOFOLLOW;
--+  if ((tofd = safe_open (to, to_flags, 0)) < 0)
--     pfatal ("Can't reopen file %s", quotearg (to));
--   copy_to_fd (from, tofd);
--   if (close (tofd) != 0)
---- 
--cgit v1.0-41-gc330
--
-diff --git a/meta/recipes-devtools/patch/patch/CVE-2019-20633.patch b/meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
-deleted file mode 100644
-index 9b2c07cf1e5..00000000000
---- a/meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 15b158db3ae11cb835f2eb8d2eb48e09d1a4af48 Mon Sep 17 00:00:00 2001
--From: Andreas Gruenbacher <agruen@gnu.org>
--Date: Mon, 15 Jul 2019 19:10:02 +0200
--Subject: Avoid invalid memory access in context format diffs
--
--* src/pch.c (another_hunk): Avoid invalid memory access in context format
--diffs.
--
--CVE: CVE-2019-20633
--Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/patch.git/patch/?id=15b158db3ae11cb835f2eb8d2eb48e09d1a4af48]
--Signed-off-by: Scott Murray <scott.murray@konsulko.com>
--
-----
-- src/pch.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/pch.c b/src/pch.c
--index a500ad9..cb54e03 100644
----- a/src/pch.c
--+++ b/src/pch.c
--@@ -1328,6 +1328,7 @@ another_hunk (enum diff difftype, bool rev)
-- 		  ptrn_prefix_context = context;
-- 		ptrn_suffix_context = context;
-- 		if (repl_beginning
--+		    || p_end <= 0
-- 		    || (p_end
-- 			!= p_ptrn_lines + 1 + (p_Char[p_end - 1] == '\n')))
-- 		  {
---- 
--cgit v1.2.1
--
-diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
-deleted file mode 100644
-index 3dc3b5863c4..00000000000
---- a/meta/recipes-devtools/patch/patch_2.7.6.bb
-+++ /dev/null
-@@ -1,25 +0,0 @@
--require patch.inc
--LICENSE = "GPL-3.0-only"
--
--SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
--            file://0002-Fix-segfault-with-mangled-rename-patch.patch \
--            file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch \
--            file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
--            file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
--            file://CVE-2019-13636.patch \
--            file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
--            file://0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch \
--            file://0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch \
--            file://CVE-2019-20633.patch \
--"
--
--SRC_URI[sha256sum] = "8cf86e00ad3aaa6d26aca30640e86b0e3e1f395ed99f189b06d4c9f74bc58a4e"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
--
--PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'xattr', d)}"
--PACKAGECONFIG[xattr] = "--enable-xattr,--disable-xattr,attr,"
--
--PROVIDES:append:class-native = " patch-replacement-native"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/patch/patch_2.8.bb b/meta/recipes-devtools/patch/patch_2.8.bb
-new file mode 100644
-index 00000000000..6317ac775de
---- /dev/null
-+++ b/meta/recipes-devtools/patch/patch_2.8.bb
-@@ -0,0 +1,13 @@
-+require patch.inc
-+LICENSE = "GPL-3.0-only"
-+
-+SRC_URI[sha256sum] = "308a4983ff324521b9b21310bfc2398ca861798f02307c79eb99bb0e0d2bf980"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+
-+PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'xattr', d)}"
-+PACKAGECONFIG[xattr] = "--enable-xattr,--disable-xattr,attr,"
-+
-+PROVIDES:append:class-native = " patch-replacement-native"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.34.1
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of hongxu via
+> lists.openembedded.org
+> Sent: Monday, May 19, 2025 10:10
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 1/4] libxml2: upgrade 2.13.8 -> 2.14.3
+>=20
+> - Rebase install-tests.patch
+> - Remove --enable-ipv6, due to upstream [build: Remove check for IPv6 ][2=
+]
+>=20
+> License-Update: Mention contributors in Copyright [1]
+>=20
+> [1] https://gitlab.gnome.org/GNOME/libxml2/-
+> /commit/4bd66d4549b2e8925a752e0daac3a189d2fec8f7
+> [2] https://gitlab.gnome.org/GNOME/libxml2/-
+> /commit/dc6f55cf6e03ae63a40e3af9ad6879821558d6a7
+>=20
+> Release notes: https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.14.3
+> Regressions
+>=20
+>     reader: Fix reading compressed data
+>     parser: Make undeclared entities in XML content fatal
+>     save: Fix XML escape table
+>     save: Fix xmlSave with NULL encoding
+>     Revert "valid: Remove duplicate error messages when streaming"
+>=20
+> Bug fixes
+>=20
+>     save: Fix serialization of attribute defaults containing &lt;
+>     io: Fix linkage of __xml*BufferCreateFilename functions
+>=20
+> Build systems
+>=20
+>     cmake: Fix installation directories in libxml2-config.cmake
+>     meson: Install libxml2.py
+>=20
+> Improvements
+>=20
+>     parser: Make xmlCtxtGetValidCtxt depend on VALID_ENABLED
+>     html: Avoid HTML_PARSE_HTML5 clashing with XML_PARSE_NOENT
+>=20
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  .../libxml/libxml2/install-tests.patch           | 16 +++++++++++-----
+>  .../{libxml2_2.13.8.bb =3D> libxml2_2.14.3.bb}     |  6 ++----
+>  2 files changed, 13 insertions(+), 9 deletions(-)
+>  rename meta/recipes-core/libxml/{libxml2_2.13.8.bb =3D> libxml2_2.14.3.b=
+b} (93%)
+>=20
+> diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/=
+recipes-
+> core/libxml/libxml2/install-tests.patch
+> index 1c8c13ab5cc..2570efcdf50 100644
+> --- a/meta/recipes-core/libxml/libxml2/install-tests.patch
+> +++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
+> @@ -1,21 +1,24 @@
+> -From 8c1054eacb430472068f21e4840749c384e8e866 Mon Sep 17 00:00:00 2001
+> +From 5bebe007b3efd1a723bd45bb9b3303f8645e9810 Mon Sep 17 00:00:00 2001
+>  From: Ross Burton <ross.burton@arm.com>
+> -Date: Mon, 5 Dec 2022 17:02:32 +0000
+> +Date: Mon, 19 May 2025 09:45:18 +0800
+>  Subject: [PATCH] add yocto-specific install-ptest target
+>=20
+>  Add a target to install the test suite.
+>=20
+>  Upstream-Status: Inappropriate
+>  Signed-off-by: Ross Burton <ross.burton@arm.com>
+> +
+> +Rebase to v2.14.3
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>  ---
+>   Makefile.am | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+>=20
+>  diff --git a/Makefile.am b/Makefile.am
+> -index 4cb9a5c..8adcd7e 100644
+> +index 6f98144..ecb3b54 100644
+>  --- a/Makefile.am
+>  +++ b/Makefile.am
+> -@@ -27,6 +27,16 @@ check_PROGRAMS =3D \
+> +@@ -26,6 +26,16 @@ check_PROGRAMS =3D \
+>   	testparser \
+>   	testrecurse
+>=20
+> @@ -29,6 +32,9 @@ index 4cb9a5c..8adcd7e 100644
+>  +	cp -r $(srcdir)/result $(DESTDIR)$(ptestdir)
+>  +	cp -r $(srcdir)/python/tests $(DESTDIR)$(ptestdir)/python
+>  +
+> - bin_PROGRAMS =3D xmllint xmlcatalog
+> + bin_PROGRAMS =3D xmllint
+>=20
+>   bin_SCRIPTS =3D xml2-config
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-core/libxml/libxml2_2.13.8.bb b/meta/recipes-
+> core/libxml/libxml2_2.14.3.bb
+> similarity index 93%
+> rename from meta/recipes-core/libxml/libxml2_2.13.8.bb
+> rename to meta/recipes-core/libxml/libxml2_2.14.3.bb
+> index e82e0e8ec36..1cdc80cbb76 100644
+> --- a/meta/recipes-core/libxml/libxml2_2.13.8.bb
+> +++ b/meta/recipes-core/libxml/libxml2_2.14.3.bb
+> @@ -4,7 +4,7 @@ HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/libxml2"
+>  BUGTRACKER =3D "http://bugzilla.gnome.org/buglist.cgi?product=3Dlibxml2"
+>  SECTION =3D "libs"
+>  LICENSE =3D "MIT"
+> -LIC_FILES_CHKSUM =3D
+> "file://Copyright;md5=3Df437ed9058e8e5135e47c01e973376ba \
+> +LIC_FILES_CHKSUM =3D
+> "file://Copyright;md5=3D5873615e8a9ecbf5c8857c4312ee05d6 \
+>=20
+> file://dict.c;beginline=3D6;endline=3D15;md5=3D2b4b7b827d2d8b080372433c4c=
+9c85b6 \
+>=20
+> file://list.c;beginline=3D4;endline=3D13;md5=3Db9c25b021ccaf287e50060602d=
+20f3a7 \
+>                      "
+> @@ -19,7 +19,7 @@ SRC_URI +=3D
+> "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=3D${BP};name=3Dtestt
+>             file://install-tests.patch \
+>             "
+>=20
+> -SRC_URI[archive.sha256sum] =3D
+> "277294cb33119ab71b2bc81f2f445e9bc9435b893ad15bb2cd2b0e859a0ee84a"
+> +SRC_URI[archive.sha256sum] =3D
+> "6de55cacc8c2bc758f2ef6f93c313cb30e4dd5d84ac5d3c7ccbd9344d8cc6833"
+>  SRC_URI[testtar.sha256sum] =3D
+> "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
+>=20
+>  # Disputed as a security issue, but fixed in d39f780
+> @@ -28,10 +28,8 @@ CVE_STATUS[CVE-2023-45322] =3D "disputed: issue requir=
+es
+> memory allocation to fail
+>  BINCONFIG =3D "${bindir}/xml2-config"
+>=20
+>  PACKAGECONFIG ??=3D "python \
+> -    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+>  "
+>  PACKAGECONFIG[python] =3D "--with-python=3D${PYTHON},--without-
+> python,python3"
+> -PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
+>=20
+>  inherit autotools pkgconfig binconfig-disabled ptest
+>=20
+> --
+> 2.34.1
 
 
