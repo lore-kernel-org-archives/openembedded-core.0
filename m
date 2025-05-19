@@ -1,198 +1,189 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E276C2D0CD
-	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 18:30:36 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.2447.1747679433060122084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FF7C2D0CD
+	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 19:11:56 +0000 (UTC)
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by mx.groups.io with SMTP id smtpd.web10.3379.1747681911968473315
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 May 2025 11:30:33 -0700
+ Mon, 19 May 2025 12:11:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZSq4J3oQ;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-23278ce78efso994905ad.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 11:30:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747679432; x=1748284232; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8YUne8yYxffqTUt621Wbp7l8KWWEQQe6C+YNMdJ+Iks=;
-        b=ZSq4J3oQcGTVYXvBtccSTorNEUhQ6Scy4Hw/oWG39XU+HIuoQBkM2yCBKgtFEOb95s
-         0FNfZODNO2V8RL45ivkWlAAUB+O+8ubw46X43lL0DuD+84qynt/TENK51kgMiaMbzo2W
-         7rKxUZEMzqUPp3sSYL0lI+Z1XMrAciq5H8MCrFloAOCCAX5NocMx/FT/SuK3B+TuocUI
-         MPoxi/JLJrzfimJwDhTsp4pmosEOvId9GbXiy1nRULuYrJB5tj1dstCqQKG2drv5PCAl
-         5o43iUHk0Z8JRZy+WpKK7/+MGlSkz5jG463yjJM9c1sHE5w61S9I4RxTVB+GgkF9OBtQ
-         LC5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747679432; x=1748284232;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8YUne8yYxffqTUt621Wbp7l8KWWEQQe6C+YNMdJ+Iks=;
-        b=oIM6AMmagB4L8BgGyJ5hCnp4/32pt/Cp31AvgNpYS5xo2Qt5qslAfcAxv5nhzVVTlv
-         bEmXtYNTPbpiyq80jNSHkqQ4S8Spo4IHbDMobf5PUDTLUoGaCv8SPYlnIMKFjZiaAU6z
-         T8MQijetQ7PGpHAaN29+wQ+8Sst0hFcr6iw8aRCnAGRroTQUP15jB+IeJyQOkiVMIlDb
-         /w5c4Lkfw5kOEFyLkNpSXaT+hfXZ0D2AvxdFegYQHjSQPJ02T4+Od84aG1zgFKPMaG9t
-         qMoXMWtHnZl8tKLpimTFVkCWWWSPfmrSCHckAI/V4foOgGazfkEdxEkMGW3biHJxJnT1
-         RmaA==
-X-Gm-Message-State: AOJu0Ywh9yAsF/8eLXuqKFK82FouMr2JuGbSKxcAZp+wuI9P0YH7fgSU
-	1grnfO4ZawsuIMTSJHcta8vFxiHqcQV/mHzLd/Hlrs7SvW9VszJZYPB3QDSr7voW
-X-Gm-Gg: ASbGncuDrN4/3I3CZhE43Q3dXhjVjMUgA056hbb7XU8FzBLKFwEOJZBJ+kx4+mZymPF
-	h0q2TlurFWUOqBiFCnw6ZzDC8bHSHAIs1qmezv85hY58pTHLPqgQIblkm938ZCBISHki5gMUE+v
-	JNIKydp2QdOV4bTayKwG2WQPg/PIali4mV1Rlm7wcrTY4QwATLZTHnk6fHPUQHexiSl4jtulDtD
-	anrhNz1LqafPLjCidMxx24w/ddqoMQ5Y8I4oq6k0WD4VA0o4Ys5zXF1/sfLOAFc74sP355LGY4m
-	05hSx6cdecUzkoSbN8dsc3CzGptls4h64vBOIbCzU+4=
-X-Google-Smtp-Source: AGHT+IGyRUJDSP7Yvr4tJ6GQUtQndNBXf9lqGVyErZTHQ5mahkpS8aNnJ5NPoEoKkFqqit2+eobZbA==
-X-Received: by 2002:a17:903:f90:b0:22d:b243:2fee with SMTP id d9443c01a7336-231d44e6835mr162668785ad.13.1747679432120;
-        Mon, 19 May 2025 11:30:32 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231e27e62aasm59856265ad.31.2025.05.19.11.30.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 11:30:31 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jeroen Hofstee <jhofstee@victronenergy.com>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] gcc: Fix wrong code generation in atomic intrinsics for arm
-Date: Mon, 19 May 2025 11:30:29 -0700
-Message-ID: <20250519183029.1517865-1-raj.khem@gmail.com>
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=bC52xAac;
+ spf=pass (domain: ti.com, ip: 198.47.19.245, mailfrom: rs@ti.com)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54JJBYlC989354;
+	Mon, 19 May 2025 14:11:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1747681894;
+	bh=5VQ1bDPgkKNHudnQcJHvhn9XYc3s4YFG06GUeS9FnjQ=;
+	h=From:To:CC:Subject:Date;
+	b=bC52xAac78UreqKPpG53ObUmd1sR82Pf6VvsPw78cbwRpDdyMTnO3sIeEIXSLCphY
+	 2Ym9FVT7jPwE3gJNH66mTpJVDcTcNANNoP8VhEBO6Xbh/fFYtrzW/ip6inPsh03WBC
+	 KAkqD6/EmDRaL8Y4mgr7R8qojOeyhB6/aKPdemD8=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54JJBYNX942179
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Mon, 19 May 2025 14:11:34 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 19
+ May 2025 14:11:33 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 19 May 2025 14:11:33 -0500
+Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54JJBXpT070069;
+	Mon, 19 May 2025 14:11:33 -0500
+From: <rs@ti.com>
+To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
+        <ross.burton@arm.com>, <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>
+CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: [oe-core][PATCHv5 0/5] Display manager proposal for x11 and wayland
+Date: Mon, 19 May 2025 14:11:25 -0500
+Message-ID: <20250519191130.3532263-1-rs@ti.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 18:30:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216867
+ <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 19:11:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216872
 
-From: Jeroen Hofstee <jhofstee@victronenergy.com>
+From: Randolph Sapp <rs@ti.com>
 
-This is seen with QT code
+We've recently run into some issues with weston-init attempting to start
+Weston prior to all drm devices being registered. There's not really a
+good, scriptable mechanism to listen in to device registration events
+that works with the existing weston-init package. Well, at least one
+that doesn't involve polling files or introducing more dependency on the
+init system being used.
 
-Error: ARM register expected -- `ldrex r1,[s16]'
+I also see there is also a lot of scripting around starting X11,
+xserver-nodm-init, that (from my limited review) should experience the
+same issue.
 
-Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Combine, sign-offs into single patch and keep patch numbering in order
+I'd like to introduce the following display manager for oe-core, emptty
+[1]. This display manager is, as described upstream, a "Dead simple CLI
+Display Manager on TTY". It supports both x11 and wayland sessions, with
+togglable build parameters to completely remove x11 and pam
+dependencies. It's licensed MIT, which shouldn't be an issue for any
+users. (It is written in Go, if you have opinions about that.)
 
- meta/recipes-devtools/gcc/gcc-15.1.inc        |  1 +
- ...-validate-mem_noofs_operand-PR120351.patch | 95 +++++++++++++++++++
- 2 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0026-arm-fully-validate-mem_noofs_operand-PR120351.patch
+With this, both weston-init and the xserver-nodm-init packages can be
+re-tuned to leverage this display manager and simply add a user and
+emptty config for an autologin session. This can resolve the current
+behavior across init systems without additional scripting, and move some
+development out of this layer.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-15.1.inc b/meta/recipes-devtools/gcc/gcc-15.1.inc
-index 864c6091a6b..8543d9f7d07 100644
---- a/meta/recipes-devtools/gcc/gcc-15.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-15.1.inc
-@@ -69,6 +69,7 @@ SRC_URI = "${BASEURI} \
-            file://0023-Fix-install-path-of-linux64.h.patch \
-            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
-            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-+           file://0026-arm-fully-validate-mem_noofs_operand-PR120351.patch \
- "
- 
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
-diff --git a/meta/recipes-devtools/gcc/gcc/0026-arm-fully-validate-mem_noofs_operand-PR120351.patch b/meta/recipes-devtools/gcc/gcc/0026-arm-fully-validate-mem_noofs_operand-PR120351.patch
-new file mode 100644
-index 00000000000..3f324fdc223
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0026-arm-fully-validate-mem_noofs_operand-PR120351.patch
-@@ -0,0 +1,95 @@
-+From bb7adc5dab8bcee2ef1c0d2af370ea77c49bb5c5 Mon Sep 17 00:00:00 2001
-+From: Richard Earnshaw <rearnsha@arm.com>
-+Date: Mon, 19 May 2025 16:19:39 +0100
-+Subject: [PATCH] arm: fully validate mem_noofs_operand [PR120351]
-+
-+It's not enough to just check that a memory operand is of the form
-+mem(reg); after RA we also need to validate the register being used.
-+The safest way to do this is to call memory_operand.
-+
-+	PR target/120351
-+
-+gcc/ChangeLog:
-+
-+	* config/arm/predicates.md (mem_noofs_operand): Also check the op
-+	is a valid memory_operand.
-+
-+gcc/testsuite/ChangeLog:
-+
-+	* gcc.target/arm/pr120351.c: New test.
-+
-+Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/commit/?id=e5bb7a328eb71daa02d15b48d3a6c6b8cd24abc5]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ gcc/config/arm/predicates.md            |  3 +-
-+ gcc/testsuite/gcc.target/arm/pr120351.c | 47 +++++++++++++++++++++++++
-+ 2 files changed, 49 insertions(+), 1 deletion(-)
-+ create mode 100644 gcc/testsuite/gcc.target/arm/pr120351.c
-+
-+diff --git a/gcc/config/arm/predicates.md b/gcc/config/arm/predicates.md
-+index 75c06d9be25..655f60312de 100644
-+--- a/gcc/config/arm/predicates.md
-++++ b/gcc/config/arm/predicates.md
-+@@ -907,7 +907,8 @@
-+ 
-+ (define_predicate "mem_noofs_operand"
-+   (and (match_code "mem")
-+-       (match_code "reg" "0")))
-++       (match_code "reg" "0")
-++       (match_operand 0 "memory_operand")))
-+ 
-+ (define_predicate "call_insn_operand"
-+   (ior (and (match_code "symbol_ref")
-+diff --git a/gcc/testsuite/gcc.target/arm/pr120351.c b/gcc/testsuite/gcc.target/arm/pr120351.c
-+new file mode 100644
-+index 00000000000..d8e9d73275c
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.target/arm/pr120351.c
-+@@ -0,0 +1,47 @@
-++/* { dg-do assemble } */
-++/* { dg-require-effective-target arm_neon_ok } */
-++/* { dg-add-options arm_neon } */
-++/* { dg-additional-options "-O2" } */
-++
-++
-++typedef struct A
-++{
-++  int f1;
-++} A;
-++
-++__inline void ref (A* x)
-++{
-++  __atomic_fetch_add(&x->f1, 1, 0);
-++}
-++
-++typedef struct B
-++{
-++  A *d;
-++  int *ptr;
-++} B;
-++
-++void insertOne (B*, B*);
-++
-++void init (B *);
-++__inline void copy (B *p, B *q)
-++{
-++  p->d  = q->d;
-++  p->ptr = q->ptr;
-++  ref (p->d);
-++}
-++
-++__inline void emplace(B* x)
-++{
-++  B dummy;
-++  B _tmp;
-++  init (&dummy);
-++  copy (&_tmp, &dummy);
-++  insertOne(x, &_tmp);
-++}
-++
-++void testing ()
-++{
-++  B test;
-++  init (&test);
-++  emplace(&test);
-++}
+This lists myself as a maintainer of emptty as well as xserver-nodm-init and
+xuser-account since these are currently unassigned and I've reworked them
+significantly here.
+
+Sorry for the delay on this series. I found a few bugs in emptty that I wanted
+to address before submitting this officially.
+
+[1] https://github.com/tvrzna/emptty
+
+v2:
+	- Address spelling issues in commit messages
+	- Attempt to resolve some test related issues with weston
+	- Add additional logs to X11 related tests
+v3:
+	- Reset AUTOLOGIN_MAX_RETRY to the default value of 2. When running
+	  under QEMU the first auth attempt almost always fails.
+v4:
+	- Add a tmpfile entry for the x11 domain socket directory.
+	- Remove some scripts associated with weston-init that were being
+	  shipped with weston
+v5:
+	- Move tmpfile data to individual files
+	- Add explicit entries for these in the FILES variable
+
+
+Randolph Sapp (5):
+  libx11: create tmpfile dir for x11 domain socket
+  emptty: add version 0.14.0
+  weston-init: convert to virtual-emptty-conf
+  weston: remove deprecated weston-start scripts
+  xserver-nodm-init: convert to virtual-emptty-conf
+
+ .../conf/distro/include/default-providers.inc |   1 +
+ meta/conf/distro/include/maintainers.inc      |   6 +-
+ meta/lib/oeqa/runtime/cases/weston.py         |  18 +-
+ meta/lib/oeqa/runtime/cases/xorg.py           |   8 +
+ meta/recipes-graphics/emptty/emptty-conf.bb   |  14 +
+ meta/recipes-graphics/emptty/emptty.inc       |  26 ++
+ .../recipes-graphics/emptty/emptty/emptty.tab |   1 +
+ meta/recipes-graphics/emptty/emptty/pamconf   |  10 +
+ meta/recipes-graphics/emptty/emptty_0.14.0.bb |  53 +++
+ meta/recipes-graphics/wayland/weston-init.bb  |  61 +--
+ .../wayland/weston-init/emptty.conf           |  77 ++++
+ .../recipes-graphics/wayland/weston-init/init |  54 ---
+ .../wayland/weston-init/weston-autologin      |  11 -
+ .../wayland/weston-init/weston-socket.sh      |  20 -
+ .../wayland/weston-init/weston-start          |  76 ----
+ .../wayland/weston-init/weston.env            |   0
+ .../wayland/weston-init/weston.service        |  71 ----
+ .../wayland/weston-init/weston.socket         |  14 -
+ .../weston/systemd-notify.weston-start        |   9 -
+ .../wayland/weston/xwayland.weston-start      |   6 -
+ .../recipes-graphics/wayland/weston_14.0.1.bb |  10 -
+ .../x11-common/xserver-nodm-init/X11/Xsession |  38 --
+ .../X11/Xsession.d/13xdgbasedirs.sh           |  19 -
+ .../X11/Xsession.d/89xdgautostart.sh          |   7 -
+ .../X11/Xsession.d/90XWindowManager.sh        |   7 -
+ .../x11-common/xserver-nodm-init/Xserver      |  25 --
+ .../xserver-nodm-init/capability.conf         |   2 -
+ .../xserver-nodm-init/default.desktop         |   5 +
+ .../xserver-nodm-init/emptty.conf.in          |  77 ++++
+ .../xserver-nodm-init/gplv2-license.patch     | 355 ------------------
+ .../x11-common/xserver-nodm-init/xserver-nodm |  75 ----
+ .../xserver-nodm-init/xserver-nodm.conf.in    |   7 -
+ .../xserver-nodm-init/xserver-nodm.service.in |  11 -
+ .../x11-common/xserver-nodm-init_3.0.bb       |  57 +--
+ meta/recipes-graphics/xorg-lib/libx11/99_x11  |   1 +
+ .../recipes-graphics/xorg-lib/libx11/x11.conf |   1 +
+ .../xorg-lib/libx11_1.8.12.bb                 |  18 +-
+ .../user-creation/xuser-account_0.1.bb        |   3 +-
+ 38 files changed, 336 insertions(+), 918 deletions(-)
+ create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
+ create mode 100644 meta/recipes-graphics/emptty/emptty.inc
+ create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.tab
+ create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
+ create mode 100644 meta/recipes-graphics/emptty/emptty_0.14.0.bb
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/emptty.conf
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/init
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston-autologin
+ delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-socket.sh
+ delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.env
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.socket
+ delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+ delete mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession.d/13xdgbasedirs.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession.d/89xdgautostart.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/Xsession.d/90XWindowManager.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/Xserver
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/capability.conf
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/default.desktop
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/gplv2-license.patch
+ delete mode 100755 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf.in
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/99_x11
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/x11.conf
+
+-- 
+2.49.0
+
 
