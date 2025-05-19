@@ -2,39 +2,39 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4842CC5479B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52A76C3ABDD
 	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 19:11:56 +0000 (UTC)
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by mx.groups.io with SMTP id smtpd.web11.3411.1747681911572185032
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by mx.groups.io with SMTP id smtpd.web10.3378.1747681911591982960
  for <openembedded-core@lists.openembedded.org>;
  Mon, 19 May 2025 12:11:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=oTl2wk1G;
- spf=pass (domain: ti.com, ip: 198.47.19.245, mailfrom: rs@ti.com)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54JJBYS4989360;
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=sJsRUFoj;
+ spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: rs@ti.com)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54JJBYKX542495;
 	Mon, 19 May 2025 14:11:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
 	s=ti-com-17Q1; t=1747681894;
-	bh=TqxMIKdi/YIPQxQ3+0gTIiKey+P8eUMUrI8+Oi0CXX0=;
+	bh=OMQiSlmqTdDUrZyNh7CiuqsEh9cSZTduM6nPkTNmFK4=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=oTl2wk1G3JFcyU/j7gGK7JhmcmiJCosT2vfsuWThOcaM06qIOf3ua9mTPOPr4HEYG
-	 O0P9VBxyiLEjmqHqaWZ10SJBCu6qUufgfcG/gMCEWuwnSqjEEqSzVOnXc1q/mDfyXf
-	 SXm4r/vvvrdv3KjquYZjFMaEURw94zj52eTcg25A=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54JJBYoP1641300
+	b=sJsRUFojY84qYrxlfvDBNnkYWLAAcAggAQhbbzjVvi1FaC7+mvYwnatIVJF5uj4oR
+	 EKF5+rvjIu91w2kjv1YAgF5A4v9JvVYEKsvRhjO8gwsBC3cP6Si4LroF6hKyASctVl
+	 xxnKO+/nML02XGXDT9tCRIECdNXHczAzjWH5TnXk=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54JJBY97942178
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
 	Mon, 19 May 2025 14:11:34 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 19
  May 2025 14:11:33 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
  Frontend Transport; Mon, 19 May 2025 14:11:33 -0500
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54JJBXpX070069;
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54JJBXpU070069;
 	Mon, 19 May 2025 14:11:33 -0500
 From: <rs@ti.com>
 To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
@@ -42,9 +42,9 @@ To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
         <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
         <denis@denix.org>, <reatmon@ti.com>
 CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv5 4/5] weston: remove deprecated weston-start scripts
-Date: Mon, 19 May 2025 14:11:29 -0500
-Message-ID: <20250519191130.3532263-5-rs@ti.com>
+Subject: [oe-core][PATCHv5 1/5] libx11: create tmpfile dir for x11 domain socket
+Date: Mon, 19 May 2025 14:11:26 -0500
+Message-ID: <20250519191130.3532263-2-rs@ti.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250519191130.3532263-1-rs@ti.com>
 References: <20250519191130.3532263-1-rs@ti.com>
@@ -56,78 +56,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 19:11:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216870
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216871
 
 From: Randolph Sapp <rs@ti.com>
 
-The weston-start scripts are not parsed unless using the old version of
-weston-init. These files are no longer required since weston-init moved
-to a virtual-emptty-conf.
+Register a tmpfile.d or volatile directory entry for the x11 domain
+socket so this will always be created with the correct permissions.
+
+Currently some x11 related applications will create this directory if it
+doesn't already exist, but this is not true for everything. In addition,
+if the application in question isn't started as root, it's possible this
+directory can be owned by a non-root user. This isn't an issue by
+itself, but it can potentially lead to problems in a multi-user
+environment.
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- .../wayland/weston/systemd-notify.weston-start         |  9 ---------
- .../wayland/weston/xwayland.weston-start               |  6 ------
- meta/recipes-graphics/wayland/weston_14.0.1.bb         | 10 ----------
- 3 files changed, 25 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
- delete mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
+ meta/recipes-graphics/xorg-lib/libx11/99_x11   |  1 +
+ meta/recipes-graphics/xorg-lib/libx11/x11.conf |  1 +
+ .../recipes-graphics/xorg-lib/libx11_1.8.12.bb | 18 ++++++++++++++++--
+ 3 files changed, 18 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/99_x11
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/x11.conf
 
-diff --git a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-deleted file mode 100644
-index a97e7b38d9..0000000000
---- a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
-+++ /dev/null
-@@ -1,9 +0,0 @@
--#!/bin/sh
--  
--# SPDX-FileCopyrightText: Huawei Inc.
--# SPDX-License-Identifier: Apache-2.0
--
--
--if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
--        add_weston_module "systemd-notify.so"
--fi
-diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-deleted file mode 100644
-index 342ac8d129..0000000000
---- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-+++ /dev/null
-@@ -1,6 +0,0 @@
--#!/bin/sh
--
--if type Xwayland  >/dev/null 2>/dev/null; then
--	mkdir -m 775 -p /tmp/.X11-unix
--	chown root:video /tmp/.X11-unix
--fi
-diff --git a/meta/recipes-graphics/wayland/weston_14.0.1.bb b/meta/recipes-graphics/wayland/weston_14.0.1.bb
-index 2a0a403d99..e9a4c68ff0 100644
---- a/meta/recipes-graphics/wayland/weston_14.0.1.bb
-+++ b/meta/recipes-graphics/wayland/weston_14.0.1.bb
-@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
- SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
-            file://weston.png \
-            file://weston.desktop \
--           file://xwayland.weston-start \
--           file://systemd-notify.weston-start \
-            "
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/99_x11 b/meta/recipes-graphics/xorg-lib/libx11/99_x11
+new file mode 100644
+index 0000000000..53c5b49d10
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/99_x11
+@@ -0,0 +1 @@
++d root root 1777 /tmp/.X11-unix none
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/x11.conf b/meta/recipes-graphics/xorg-lib/libx11/x11.conf
+new file mode 100644
+index 0000000000..48e2d56c8b
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/x11.conf
+@@ -0,0 +1 @@
++D! /tmp/.X11-unix 1777 root root 10d
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
+index 5ce5481743..35ac39edfb 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
+@@ -22,7 +22,9 @@ PE = "1"
  
- SRC_URI[sha256sum] = "a8150505b126a59df781fe8c30c8e6f87da7013e179039eb844a5bbbcc7c79b3"
-@@ -108,14 +106,6 @@ do_install:append() {
- 		install ${UNPACKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
- 	fi
+ XORG_PN = "libX11"
  
--	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no', d)}" = "yes" ]; then
--		install -Dm 644 ${UNPACKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
--	fi
--
--	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'yes', 'no', d)}" = "yes" ]; then
--		install -Dm 644 ${UNPACKDIR}/systemd-notify.weston-start ${D}${datadir}/weston-start/systemd-notify
--	fi
--
- 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}" = "yes" ]; then
- 		chmod u+s ${D}${bindir}/weston-launch
- 	fi
+-SRC_URI += "file://disable_tests.patch"
++SRC_URI += "file://disable_tests.patch \
++            file://x11.conf \
++            file://99_x11"
+ 
+ SRC_URI[sha256sum] = "fa026f9bb0124f4d6c808f9aef4057aad65e7b35d8ff43951cef0abe06bb9a9a"
+ 
+@@ -36,7 +38,19 @@ PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
+ 
+ PACKAGES =+ "${PN}-xcb"
+ 
+-FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/Xcms.txt"
++do_install:append() {
++	# temporary directory required for x11 domain sockets
++	if ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'true', 'false', d)}; then
++		install -d ${D}${libdir}/tmpfiles.d
++		install -m 0644 ${UNPACKDIR}/x11.conf ${D}${libdir}/tmpfiles.d/x11.conf
++	else
++		install -d ${D}${sysconfdir}/default/volatiles
++		install -m 0644 ${UNPACKDIR}/99_x11 ${D}${sysconfdir}/default/volatiles/99_x11
++	fi
++}
++
++FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/Xcms.txt \
++                ${libdir}/tmpfiles.d/x11.conf ${sysconfdir}/default/volatiles/99_x11"
+ FILES:${PN}-xcb += "${libdir}/libX11-xcb.so.*"
+ FILES:${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
+ 
 -- 
 2.49.0
 
