@@ -2,38 +2,37 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C59C5479B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5354FC54795
 	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 11:09:03 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.48708.1747652938177223902
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web10.48711.1747652938325096988
  for <openembedded-core@lists.openembedded.org>;
  Mon, 19 May 2025 04:08:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=XCTp0rBd;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-202505191108553f598b1d43c84ab1ed-n6_rwv@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202505191108553f598b1d43c84ab1ed
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=hVk//vpu;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-20250519110855386702eaba32bbde5b-omyudt@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250519110855386702eaba32bbde5b
         for <openembedded-core@lists.openembedded.org>;
         Mon, 19 May 2025 13:08:55 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=AcvuOY2g3YF2/NGw1sTjLx/jnbsuEvLASeaPQT2Jegc=;
- b=XCTp0rBdxJLd+GFiYhuYkRSTEaEzP8lqRWNcr5Kb7uipKa5OlEAfwOWNCelhtVPb2JUPmu
- 6+r8dVp2XFQfQwOsXetfSmyN+aOeFvNnaQjHM10T5vzaOjw0HMEytWMLUvnctY3tb5RDTLsU
- oktYtqTySZiNb5hVuYZkJKUHCOKGbl6wRS3hQVVeDz9zMZ5oDk8UyLaEZONpjc+MwUNlq+B1
- GyXlI8QQ9xDaCBPhd8VdHTHR1z7K/ZQxPv//4fqIGiXzMN4qIM4jHAvPAz20SKzmPu7+HUVN
- bdw4FwzcvQk2kqnFavOfe3sr0/BfTPuO6SN8+0hGLloM8mhcUlqZ7Rpw==;
+ bh=KqmqVZan7/t5N3Q6U09RScxWIkVGDuAdTBjMfpOo3Mw=;
+ b=hVk//vpugseLryZuZA76g49Hi8fswp+RlzzG5KEjexeRKH9k/g/uqI6e3jFvktf3SbLvvd
+ ICebiBqDz7tKTp7GAo33mLE/YOMFrQYMJsasFMeCU+fJML+w+BtoEwTWlZfH46WZzw2sxqxx
+ rVB09tQdkyXPdxeetnvh3kKjuJfms1WjgEbOdqQWGfltb+CNxJb8ygynkQrzarskKErEHxMn
+ PjzR4Var9u9VzCWrH3kre4NFBd+R8AxKhre9yxWvVPiH45juSskokCZNxOYb9qu0xJuHOcv4
+ gj3xEQx4VUyIXvjtmBnMzuIBa2UoAx793Erld7TvIbXHivfx6c4s4Xug==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 02/16] oe-selftest: fitimage: test coverage for ext dtb
-Date: Mon, 19 May 2025 13:07:46 +0200
-Message-ID: <20250519110838.82978-3-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 04/16] kernel-uboot.bbclass: do not require the kernel build folder
+Date: Mon, 19 May 2025 13:07:48 +0200
+Message-ID: <20250519110838.82978-5-adrian.freihofer@siemens.com>
 In-Reply-To: <20250519110838.82978-1-adrian.freihofer@siemens.com>
 References: <20250519110838.82978-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-1329275:519-21489:flowmailer
@@ -41,131 +40,120 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 11:09:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216841
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216848
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-There are several ways to insert external devicetrees and devicetree
-overlays into the kernel and thus at least to some extent into the FIT
-image.
-So far there is no test coverage. Let's improve this as much as possible
-without fully understanding all use cases.
+The function must be executed in CWD. Make it more flexible by
+specifying the kernel build folder as a parameter.
 
-This first test adds a devicetree overlay to a build configuration
-without signing, since signing is apparently not yet meaningful when
-PREFERRED_PROVIDER_virtual/dtb = “bborg-relay-00a2” is used. It is also
-not entirely clear how these external devicetree overlays are used by
-the configuration nodes of the FIT image. Currently, one configuration
-is created per dtb dtbo node, which is not really useful for dtbo nodes.
-Before this test can be extended to test devicetree overlays and
-signing, the code that creates the configuration nodes in its file
-probably needs some improvements in terms of more flexibility in
-defining the references from configuration nodes to image nodes.
+This is a refactoring without functional change. But later this change
+will allow to use this function also with a kernel from the sstate-cache
+instead of requiring the full kernel build folder structure.
+
+Another preparation for using a kernel from sstate-cache is to persist
+the linux_comp variable in a file next to the linux.bin file rather than
+using a global shell variable.
+
+This change also requires to adapt the kernel-uimage.bbclass
+accordingly. This change also fixes a minor detail:
+the kernel-uimage.bbclass used ${ instead of $ for evaluatiing a local
+shell variable.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/fitimage.py | 58 +++++++++++++++++++++---
- 1 file changed, 51 insertions(+), 7 deletions(-)
+ meta/classes-recipe/kernel-uboot.bbclass  | 40 ++++++++++++++---------
+ meta/classes-recipe/kernel-uimage.bbclass |  3 +-
+ 2 files changed, 26 insertions(+), 17 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index b39f2622dff..c3554d4499a 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -161,10 +161,21 @@ class FitImageTestCase(OESelftestTestCase):
+diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-recipe/kernel-uboot.bbclass
+index 6d4aff6b11b..d2a63524ece 100644
+--- a/meta/classes-recipe/kernel-uboot.bbclass
++++ b/meta/classes-recipe/kernel-uboot.bbclass
+@@ -12,19 +12,27 @@ FIT_KERNEL_COMP_ALG_EXTENSION ?= ".gz"
+ UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
  
-     @staticmethod
-     def _get_dtb_files(bb_vars):
-+        """Return a list of devicetree names
+ uboot_prep_kimage() {
+-	if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
++	output_dir=$1
++	# For backward compatibility with kernel-fitimage.bbclass and kernel-uboot.bbclass
++	# support calling without parameter as well
++	if [ -z "$output_dir" ]; then
++		output_dir='.'
++	fi
 +
-+        The list should be used to check the dtb and conf nodes in the FIT image or its file.
-+        In addition to the entries from KERNEL_DEVICETREE, the external devicetree overlay
-+        added by the test recipe bborg-relay-00a2.bb is also handled.
-+        """
-         kernel_devicetree = bb_vars.get('KERNEL_DEVICETREE')
-+        all_dtbs = []
-         if kernel_devicetree:
--            return [os.path.basename(dtb) for dtb in kernel_devicetree.split()]
--        return []
-+            all_dtbs += [os.path.basename(dtb) for dtb in kernel_devicetree.split()]
-+        # Support only the test recipe which provides 1 devicetree overlay
-+        pref_prov_dtb = bb_vars.get('PREFERRED_PROVIDER_virtual/dtb')
-+        if pref_prov_dtb == "bborg-relay-00a2":
-+            all_dtbs.append("BBORG_RELAY-00A2.dtbo")
-+        return all_dtbs
++	linux_bin=$output_dir/linux.bin
++	if [ -e "arch/${ARCH}/boot/compressed/vmlinux" ]; then
+ 		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
+ 		linux_suffix=""
+ 		linux_comp="none"
+-	elif [ -e arch/${ARCH}/boot/vmlinuz.bin ]; then
+-		rm -f linux.bin
+-		cp -l arch/${ARCH}/boot/vmlinuz.bin linux.bin
++	elif [ -e "arch/${ARCH}/boot/vmlinuz.bin" ]; then
++		rm -f "$linux_bin"
++		cp -l "arch/${ARCH}/boot/vmlinuz.bin" "$linux_bin"
+ 		vmlinux_path=""
+ 		linux_suffix=""
+ 		linux_comp="none"
+ 	else
+ 		vmlinux_path="vmlinux"
+-		# Use vmlinux.initramfs for linux.bin when INITRAMFS_IMAGE_BUNDLE set
++		# Use vmlinux.initramfs for $linux_bin when INITRAMFS_IMAGE_BUNDLE set
+ 		# As per the implementation in kernel.bbclass.
+ 		# See do_bundle_initramfs function
+ 		if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ] && [ -e vmlinux.initramfs ]; then
+@@ -34,18 +42,18 @@ uboot_prep_kimage() {
+ 		linux_comp="${FIT_KERNEL_COMP_ALG}"
+ 	fi
  
-     def _is_req_dict_in_dict(self, found_dict, req_dict):
-         """
-@@ -379,6 +390,7 @@ class KernelFitImageTests(FitImageTestCase):
-             'KERNEL_DEVICETREE',
-             'KERNEL_FIT_LINK_NAME',
-             'MACHINE',
-+            'PREFERRED_PROVIDER_virtual/dtb',
-             'UBOOT_ARCH',
-             'UBOOT_ENTRYPOINT',
-             'UBOOT_LOADADDRESS',
-@@ -585,10 +597,16 @@ class KernelFitImageTests(FitImageTestCase):
-         # Create a configuration section for each DTB
-         if dtb_files:
-             for dtb in dtb_files:
--                req_sections['conf-' + dtb] = {
--                    "Kernel": "kernel-1",
--                    "FDT": 'fdt-' + dtb,
--                }
-+                # dtb overlays do not refer to a kernel (yet?)
-+                if dtb.endswith('.dtbo'):
-+                    req_sections['conf-' + dtb] = {
-+                        "FDT": 'fdt-' + dtb,
-+                    }
-+                else:
-+                    req_sections['conf-' + dtb] = {
-+                        "Kernel": "kernel-1",
-+                        "FDT": 'fdt-' + dtb,
-+                    }
-                 if initramfs_image and initramfs_image_bundle != "1":
-                     req_sections['conf-' + dtb]['Init Ramdisk'] = "ramdisk-1"
-         else:
-@@ -635,7 +653,12 @@ class KernelFitImageTests(FitImageTestCase):
-                 self.assertEqual(sign_algo, req_sign_algo, 'Signature algorithm for %s not expected value' % section)
-                 sign_value = values.get('Sign value', None)
-                 self.assertEqual(len(sign_value), fit_sign_alg_len, 'Signature value for section %s not expected length' % section)
--                dtb_path = os.path.join(deploy_dir_image, section.replace('conf-', ''))
-+                dtb_file_name = section.replace('conf-', '')
-+                dtb_path = os.path.join(deploy_dir_image, dtb_file_name)
-+                # External devicetrees created by devicetree.bbclass are in a subfolder and have priority
-+                dtb_path_ext = os.path.join(deploy_dir_image, "devicetree", dtb_file_name)
-+                if os.path.exists(dtb_path_ext):
-+                    dtb_path = dtb_path_ext
-                 self._verify_fit_image_signature(uboot_tools_bindir, fitimage_path, dtb_path, section)
-             else:
-                 # Image nodes always need a hash which gets indirectly signed by the config signature
-@@ -696,6 +719,27 @@ FIT_DESC = "A model description"
-         self._test_fitimage(bb_vars)
+-	[ -n "${vmlinux_path}" ] && ${KERNEL_OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" linux.bin
++	[ -n "$vmlinux_path" ] && ${KERNEL_OBJCOPY} -O binary -R .note -R .comment -S "$vmlinux_path" "$linux_bin"
  
+-	if [ "${linux_comp}" != "none" ] ; then
+-		if [ "${linux_comp}" = "gzip" ] ; then
+-			gzip -9 linux.bin
+-		elif [ "${linux_comp}" = "lzo" ] ; then
+-			lzop -9 linux.bin
+-		elif [ "${linux_comp}" = "lzma" ] ; then
+-			xz --format=lzma -f -6 linux.bin
++	if [ "$linux_comp" != "none" ] ; then
++		if [ "$linux_comp" = "gzip" ] ; then
++			gzip -9 "$linux_bin"
++		elif [ "$linux_comp" = "lzo" ] ; then
++			lzop -9 "$linux_bin"
++		elif [ "$linux_comp" = "lzma" ] ; then
++			xz --format=lzma -f -6 "$linux_bin"
+ 		fi
+-		mv -f "linux.bin${linux_suffix}" linux.bin
++		mv -f "$linux_bin$linux_suffix" "$linux_bin"
+ 	fi
  
-+    def test_fit_image_ext_dtbo(self):
-+        """
-+        Summary:     Check if FIT image and Image Tree Source (its) are created correctly.
-+        Expected:    1) its and FIT image are built successfully
-+                     2) The its file contains also the external devicetree overlay
-+                     3) Dumping the FIT image indicates the devicetree overlay
-+        """
-+        config = """
-+# Enable creation of fitImage
-+MACHINE = "beaglebone-yocto"
-+KERNEL_IMAGETYPES += " fitImage "
-+KERNEL_CLASSES = " kernel-fitimage "
-+# Add a devicetree overlay which does not need kernel sources
-+PREFERRED_PROVIDER_virtual/dtb = "bborg-relay-00a2"
-+"""
-+        config = self._config_add_uboot_env(config)
-+        self.write_config(config)
-+        bb_vars = self._fit_get_bb_vars()
-+        self._test_fitimage(bb_vars)
-+
-+
-     def test_sign_fit_image_configurations(self):
-         """
-         Summary:     Check if FIT image and Image Tree Source (its) are created
+-	echo "${linux_comp}"
+-}
++	printf "$linux_comp" > "$output_dir/linux_comp"
++}
+\ No newline at end of file
+diff --git a/meta/classes-recipe/kernel-uimage.bbclass b/meta/classes-recipe/kernel-uimage.bbclass
+index 1a599e656c8..e353232a0e9 100644
+--- a/meta/classes-recipe/kernel-uimage.bbclass
++++ b/meta/classes-recipe/kernel-uimage.bbclass
+@@ -29,6 +29,7 @@ python __anonymous () {
+ do_uboot_mkimage[dirs] += "${B}"
+ do_uboot_mkimage() {
+ 	uboot_prep_kimage
++	linux_comp="$(cat linux_comp)"
+ 
+ 	ENTRYPOINT=${UBOOT_ENTRYPOINT}
+ 	if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
+@@ -36,6 +37,6 @@ do_uboot_mkimage() {
+ 			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print "0x"$1;exit}'`
+ 	fi
+ 
+-	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T ${UBOOT_MKIMAGE_KERNEL_TYPE} -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
++	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T ${UBOOT_MKIMAGE_KERNEL_TYPE} -C "$linux_comp" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
+ 	rm -f linux.bin
+ }
 -- 
 2.49.0
 
