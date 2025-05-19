@@ -1,100 +1,135 @@
-Return-Path: <luca.fancellu@arm.com>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27357C2D0CD
-	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 08:34:02 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.46499.1747643634774883862
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 643CAC54754
+	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 08:51:22 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.46739.1747644675346838418
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 May 2025 01:33:54 -0700
+ Mon, 19 May 2025 01:51:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: luca.fancellu@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 28E08153B
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 01:33:41 -0700 (PDT)
-Received: from e125770.cambridge.arm.com (e125770.arm.com [10.1.199.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4D383F5A1
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 01:33:53 -0700 (PDT)
-From: Luca Fancellu <luca.fancellu@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] clang: Include the libclang python bindings in the build
-Date: Mon, 19 May 2025 09:33:44 +0100
-Message-Id: <20250519083344.1646432-1-luca.fancellu@arm.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ka7KgI/k;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: antonin.godard@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DE31A43301;
+	Mon, 19 May 2025 08:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747644673;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Gicw+EPdd0yXNCtIp/2k/zljCXYAmgZFQqQAzudaIKw=;
+	b=Ka7KgI/k41DBoqtLRRhgf/TOTHg5bUo11XR3pyyx2gerJlU8b/PFVb4kH2vXCbe4ZNTBy8
+	E0Bzk7xuJcpviyGtb3uLETx8VSUmYjQsvfyhmovp9qkWZBLPsJgff/lubkRMp1Hld+Wsu5
+	vrot7N9bDnOJ1Grj6e964cDinXwbgeUSNjDyCyxpMhUsbry39tqJrWj3NHNWCbRF9lZYkc
+	m0NPURLZ1i5y7BsfLQM/mNYyQSW1zhQWEtTAaz82HCwAnap8ZEm2ec6DvFM6alC+T9vHR2
+	Lnn2whrXIoA7UsNBA0+DDs/OyCr6VEgazD+s1zeE4lxzfWywutwWjnArIptxVw==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 May 2025 10:51:12 +0200
+Message-Id: <DA00BYY3P9AL.3HV8STH1PXTJA@bootlin.com>
+Subject: Re: [OE-core] [PATCH v3 22/22] release-notes: drop references to
+ kernel-fitimage.bbclass
+Cc: <marex@denx.de>, "docs" <docs@lists.yoctoproject.org>
+From: "Antonin Godard" <antonin.godard@bootlin.com>
+To: <quentin.schulz@cherry.de>, <adrian.freihofer@siemens.com>,
+ <openembedded-core@lists.openembedded.org>
+References: <20250514185225.162998-1-adrian.freihofer@siemens.com>
+ <20250514185225.162998-23-adrian.freihofer@siemens.com>
+ <22cdbc6e-7b9f-4f46-b000-39ea4867457b@cherry.de>
+In-Reply-To: <22cdbc6e-7b9f-4f46-b000-39ea4867457b@cherry.de>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefvddtleehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuvefhvfhfjgesthhqredttddtjeenucfhrhhomhepfdetnhhtohhnihhnucfiohgurghrugdfuceorghnthhonhhinhdrghhouggrrhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeffkeehtdefvdeuveegfeffhfdvgeevgeeugfegudfhhfefkedvheekfeeujeevleenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemudejtgdvmeefkeejrgemfheiheemhedvfeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmedujegtvdemfeekjegrmehfieehmeehvdefhedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghnthhonhhinhdrghhouggrrhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepqhhuvghnthhinhdrshgthhhulhiisegthhgvrhhrhidruggvpdhrtghpthhtoheprggurhhirghnrdhfrhgvihhhohhfvghrsehsihgvmhgvnhhsrdgtohhmpdhrtghpthhtohepohhpvghnv
+ ghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepmhgrrhgvgiesuggvnhigrdguvgdprhgtphhtthhopeguohgtsheslhhishhtshdrhihotghtohhprhhojhgvtghtrdhorhhg
+X-GND-Sasl: antonin.godard@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 08:34:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216827
+ <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 08:51:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216828
 
-Modify the clang recipe to provide also the python module
-'clang' when building libclang.
+On Thu May 15, 2025 at 3:06 PM CEST, Quentin Schulz via lists.openembedded.=
+org wrote:
+> This needs to go through yocto-docs ML and git repo.
+>
+> Cc docs
+>
+> On 5/14/25 8:51 PM, Adrian Freihofer via lists.openembedded.org wrote:
+>> From: Adrian Freihofer <adrian.freihofer@siemens.com>
+>>=20
+>> This commit drops references to the kernel-fitimage.bbclass to prevent
+>> from build errors when the label is no longer available.
+>>=20
+>> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+>> ---
+>>   documentation/migration-guides/release-notes-5.1.rst | 2 +-
+>>   documentation/migration-guides/release-notes-5.2.rst | 4 ++--
+>>   2 files changed, 3 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/documentation/migration-guides/release-notes-5.1.rst b/docu=
+mentation/migration-guides/release-notes-5.1.rst
+>> index 267934a71ed..bab0c145814 100644
+>> --- a/documentation/migration-guides/release-notes-5.1.rst
+>> +++ b/documentation/migration-guides/release-notes-5.1.rst
+>> @@ -377,7 +377,7 @@ New Features / Enhancements in 5.1
+>>         :term:`SIGGEN_EXCLUDERECIPES_ABISAFE` and does not trigger a reb=
+uild on a
+>>         change for dependent tasks.
+>>  =20
+>> -   -  In :ref:`ref-classes-kernel-fitimage`, the existence of
+>> +   -  In ``kernel-fitimage``, the existence of
+>>         :term:`EXTERNAL_KERNEL_DEVICETREE` is checked more thoroughly to=
+ avoid
+>>         false positives.
+>>  =20
+>> diff --git a/documentation/migration-guides/release-notes-5.2.rst b/docu=
+mentation/migration-guides/release-notes-5.2.rst
+>> index dd541a7e3a4..42c6d60f9b8 100644
+>> --- a/documentation/migration-guides/release-notes-5.2.rst
+>> +++ b/documentation/migration-guides/release-notes-5.2.rst
+>> @@ -29,7 +29,7 @@ New Features / Enhancements in |yocto-ver|
+>>         ``RuntimeWatchdogSec`` option in ``/etc/systemd/system.conf``.
+>>  =20
+>>      -  :term:`FIT_UBOOT_ENV` to allow including a u-boot script as a te=
+xt in a
+>> -      fit image. See the :ref:`ref-classes-kernel-fitimage` for more in=
+formation.
+>> +      fit image. See the ``kernel-fitimage`` for more information.
+>>  =20
+>>      -  :ref:`ref-classes-meson`: :term:`MESON_INSTALL_TAGS` to allow pa=
+ssing
+>>         install tags (``--tags``) to the ``meson install`` command durin=
+g the
+>> @@ -684,7 +684,7 @@ New Features / Enhancements in |yocto-ver|
+>>         command-line tool was added to the different Yocto Project and O=
+penEmbedded
+>>         repositories.
+>>  =20
+>> -   -  :ref:`ref-classes-kernel-fitimage`: handle :doc:`multiconfig
+>> +   -  ``kernel-fitimage``: handle :doc:`multiconfig
+>>         </dev-manual/multiconfig>` dependency when
+>>         :term:`INITRAMFS_MULTICONFIG` is set.
+>>  =20
+>
+> Please write some word for the migration manual to 5.3 (Antonin, can you=
+=20
+> add some placeholder like we did for 5.2?) so people know how to go from=
+=20
+> 5.2 kernel fitimage creation to 5.3+ kernel fitimage creation.
 
-Signed-off-by: Luca Fancellu <luca.fancellu@arm.com>
----
-v2 changes:
- - used PACKAGECONFIG and default on
----
- meta/recipes-devtools/clang/clang_git.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+These are in master-next on yocto-docs at the moment. They'll be merged soo=
+n
+but in the meantime checkout from the master-next branch.
 
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devt=
-ools/clang/clang_git.bb
-index b41b700292c7..42f52af4056e 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -49,7 +49,7 @@ def get_clang_host_arch(bb, d):
- def get_clang_target_arch(bb, d):
-     return get_clang_arch(bb, d, 'TARGET_ARCH')
-=20
--PACKAGECONFIG_CLANG_COMMON =3D "build-id eh libedit rtti shared-libs \
-+PACKAGECONFIG_CLANG_COMMON =3D "build-id eh libedit rtti shared-libs lib=
-clang-python \
-                               ${@bb.utils.contains('TC_CXX_RUNTIME', 'll=
-vm', 'compiler-rt libcplusplus libomp unwindlib', '', d)} \
-                               "
-=20
-@@ -90,6 +90,7 @@ PACKAGECONFIG[split-dwarf] =3D "-DLLVM_USE_SPLIT_DWARF=3D=
-ON,-DLLVM_USE_SPLIT_DWARF=3DO
- PACKAGECONFIG[terminfo] =3D "-DLLVM_ENABLE_TERMINFO=3DON -DCOMPILER_RT_T=
-ERMINFO_LIB=3DON,-DLLVM_ENABLE_TERMINFO=3DOFF -DCOMPILER_RT_TERMINFO_LIB=3D=
-OFF,ncurses,"
- PACKAGECONFIG[thin-lto] =3D "-DLLVM_ENABLE_LTO=3DThin -DLLVM_BINUTILS_IN=
-CDIR=3D${STAGING_INCDIR},,binutils,"
- PACKAGECONFIG[unwindlib] =3D "-DCLANG_DEFAULT_UNWINDLIB=3Dlibunwind,-DCL=
-ANG_DEFAULT_UNWINDLIB=3Dlibgcc,,"
-+PACKAGECONFIG[libclang-python] =3D "-DCLANG_PYTHON_BINDINGS_VERSIONS=3D$=
-{PYTHON_BASEVERSION},,"
-=20
- OECMAKE_SOURCEPATH =3D "${S}/llvm"
-=20
-@@ -312,7 +313,7 @@ PROVIDES:append:class-native =3D " llvm-native libclc=
--native"
- PROVIDES:append:class-target =3D " llvm libclc"
- PROVIDES:append:class-nativesdk =3D " nativesdk-llvm nativesdk-libclc"
-=20
--PACKAGES =3D+ "${PN}-libllvm ${PN}-lldb-python ${PN}-libclang-cpp ${PN}-=
-tidy ${PN}-format ${PN}-tools ${PN}-clc \
-+PACKAGES =3D+ "${PN}-libllvm ${PN}-lldb-python ${PN}-libclang-python ${P=
-N}-libclang-cpp ${PN}-tidy ${PN}-format ${PN}-tools ${PN}-clc \
-              libclang lldb lldb-server liblldb llvm-linker-tools"
-=20
-=20
-@@ -342,6 +343,8 @@ FILES:${PN}-libclang-cpp =3D "${libdir}/libclang-cpp.=
-so.*"
-=20
- FILES:${PN}-lldb-python =3D "${libdir}/python*/site-packages/lldb/*"
-=20
-+FILES:${PN}-libclang-python =3D "${libdir}/python*/site-packages/clang/*=
-"
-+
- FILES:${PN}-tidy =3D "${bindir}/*clang-tidy*"
- FILES:${PN}-format =3D "${bindir}/*clang-format*"
-=20
+Thanks,
+Antonin
+
 --=20
-2.34.1
+Antonin Godard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
