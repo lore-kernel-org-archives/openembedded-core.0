@@ -2,39 +2,40 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52A76C3ABDD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39969C54756
 	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 19:11:56 +0000 (UTC)
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by mx.groups.io with SMTP id smtpd.web10.3378.1747681911591982960
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by mx.groups.io with SMTP id smtpd.web11.3408.1747681911426786043
  for <openembedded-core@lists.openembedded.org>;
  Mon, 19 May 2025 12:11:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=sJsRUFoj;
- spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: rs@ti.com)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54JJBYKX542495;
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=k4Uqg7Gm;
+ spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 54JJBYuf980170
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
 	Mon, 19 May 2025 14:11:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
 	s=ti-com-17Q1; t=1747681894;
-	bh=OMQiSlmqTdDUrZyNh7CiuqsEh9cSZTduM6nPkTNmFK4=;
+	bh=XywzuoeyiqoOINKncZdmOjtf6oufV/1rS5QADpvKw6w=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=sJsRUFojY84qYrxlfvDBNnkYWLAAcAggAQhbbzjVvi1FaC7+mvYwnatIVJF5uj4oR
-	 EKF5+rvjIu91w2kjv1YAgF5A4v9JvVYEKsvRhjO8gwsBC3cP6Si4LroF6hKyASctVl
-	 xxnKO+/nML02XGXDT9tCRIECdNXHczAzjWH5TnXk=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54JJBY97942178
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	b=k4Uqg7GmtEMCePU3IRIQ5v/pHa/gQwzpejXoEa2OnBsDT0K+X5bmeLSZIOpihoj38
+	 o4fR4POV+AzPmOOUxEVHVFVM/hOPf4LTTp0LsTjl+0aKiJmGpRRqDl5X0ml0y9uqSW
+	 vhWKH7Cc38Ta59nfaROiVEFpl9gP+sCFHbDmLWVQ=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 54JJBY6U008798
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
 	Mon, 19 May 2025 14:11:34 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 19
  May 2025 14:11:33 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
  Frontend Transport; Mon, 19 May 2025 14:11:33 -0500
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54JJBXpU070069;
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54JJBXpV070069;
 	Mon, 19 May 2025 14:11:33 -0500
 From: <rs@ti.com>
 To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
@@ -42,9 +43,9 @@ To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
         <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
         <denis@denix.org>, <reatmon@ti.com>
 CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv5 1/5] libx11: create tmpfile dir for x11 domain socket
-Date: Mon, 19 May 2025 14:11:26 -0500
-Message-ID: <20250519191130.3532263-2-rs@ti.com>
+Subject: [oe-core][PATCHv5 2/5] emptty: add version 0.14.0
+Date: Mon, 19 May 2025 14:11:27 -0500
+Message-ID: <20250519191130.3532263-3-rs@ti.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250519191130.3532263-1-rs@ti.com>
 References: <20250519191130.3532263-1-rs@ti.com>
@@ -56,79 +57,196 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 19:11:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216871
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216868
 
 From: Randolph Sapp <rs@ti.com>
 
-Register a tmpfile.d or volatile directory entry for the x11 domain
-socket so this will always be created with the correct permissions.
+Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
+relatively lightweight display manager that supports x11 as well as
+wayland through both a CLI and an automatic login mechanism.
 
-Currently some x11 related applications will create this directory if it
-doesn't already exist, but this is not true for everything. In addition,
-if the application in question isn't started as root, it's possible this
-directory can be owned by a non-root user. This isn't an issue by
-itself, but it can potentially lead to problems in a multi-user
-environment.
+This can effectively replace the custom init scripts for both x11
+(xserver-nodm-init) and wayland (weston-init) with a single tool with
+more verbose logging capabilities.
+
+This is split into two recipes. The emptty package provides the binary
+and various agnostic configs while the emptty-conf package provides the
+default configuration for the application itself. This RPROVIDES
+virtual-emptty-conf, allowing other recipes to provide their own
+configurations to override the default behavior.
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- meta/recipes-graphics/xorg-lib/libx11/99_x11   |  1 +
- meta/recipes-graphics/xorg-lib/libx11/x11.conf |  1 +
- .../recipes-graphics/xorg-lib/libx11_1.8.12.bb | 18 ++++++++++++++++--
- 3 files changed, 18 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/99_x11
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/x11.conf
+ .../conf/distro/include/default-providers.inc |  1 +
+ meta/conf/distro/include/maintainers.inc      |  2 +
+ meta/recipes-graphics/emptty/emptty-conf.bb   | 14 +++++
+ meta/recipes-graphics/emptty/emptty.inc       | 26 +++++++++
+ .../recipes-graphics/emptty/emptty/emptty.tab |  1 +
+ meta/recipes-graphics/emptty/emptty/pamconf   | 10 ++++
+ meta/recipes-graphics/emptty/emptty_0.14.0.bb | 53 +++++++++++++++++++
+ 7 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
+ create mode 100644 meta/recipes-graphics/emptty/emptty.inc
+ create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.tab
+ create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
+ create mode 100644 meta/recipes-graphics/emptty/emptty_0.14.0.bb
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/99_x11 b/meta/recipes-graphics/xorg-lib/libx11/99_x11
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index ee91af8796..b5446c0f92 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -68,3 +68,4 @@ PREFERRED_PROVIDER_nativesdk-mesa ?= "nativesdk-mesa"
+ PREFERRED_PROVIDER_virtual/nativesdk-libsdl2 ?= "nativesdk-libsdl2"
+ 
+ PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?= "rxvt-unicode"
++PREFERRED_RPROVIDER_virtual-emptty-conf ?= "emptty-conf"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 69f6a2d284..63158ecce0 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -172,6 +172,8 @@ RECIPE_MAINTAINER:pn-efivar = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-elfutils = "Zang Ruochen <zangruochen@loongson.cn>"
+ RECIPE_MAINTAINER:pn-ell = "Zang Ruochen <zangruochen@loongson.cn>"
++RECIPE_MAINTAINER:pn-emptty = "Randolph Sapp <rs@ti.com>"
++RECIPE_MAINTAINER:pn-emptty-conf = "Randolph Sapp <rs@ti.com>"
+ RECIPE_MAINTAINER:pn-enchant2 = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-epiphany = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-graphics/emptty/emptty-conf.bb b/meta/recipes-graphics/emptty/emptty-conf.bb
 new file mode 100644
-index 0000000000..53c5b49d10
+index 0000000000..0aacb086cd
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/99_x11
-@@ -0,0 +1 @@
-+d root root 1777 /tmp/.X11-unix none
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/x11.conf b/meta/recipes-graphics/xorg-lib/libx11/x11.conf
-new file mode 100644
-index 0000000000..48e2d56c8b
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/x11.conf
-@@ -0,0 +1 @@
-+D! /tmp/.X11-unix 1777 root root 10d
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
-index 5ce5481743..35ac39edfb 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
-@@ -22,7 +22,9 @@ PE = "1"
- 
- XORG_PN = "libX11"
- 
--SRC_URI += "file://disable_tests.patch"
-+SRC_URI += "file://disable_tests.patch \
-+            file://x11.conf \
-+            file://99_x11"
- 
- SRC_URI[sha256sum] = "fa026f9bb0124f4d6c808f9aef4057aad65e7b35d8ff43951cef0abe06bb9a9a"
- 
-@@ -36,7 +38,19 @@ PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
- 
- PACKAGES =+ "${PN}-xcb"
- 
--FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/Xcms.txt"
-+do_install:append() {
-+	# temporary directory required for x11 domain sockets
-+	if ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'true', 'false', d)}; then
-+		install -d ${D}${libdir}/tmpfiles.d
-+		install -m 0644 ${UNPACKDIR}/x11.conf ${D}${libdir}/tmpfiles.d/x11.conf
-+	else
-+		install -d ${D}${sysconfdir}/default/volatiles
-+		install -m 0644 ${UNPACKDIR}/99_x11 ${D}${sysconfdir}/default/volatiles/99_x11
-+	fi
++++ b/meta/recipes-graphics/emptty/emptty-conf.bb
+@@ -0,0 +1,14 @@
++require emptty.inc
++
++SUMMARY += " (Default config)"
++
++do_configure[noexec] = "1"
++do_compile[noexec] = "1"
++
++do_install () {
++    oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-config
 +}
 +
-+FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/Xcms.txt \
-+                ${libdir}/tmpfiles.d/x11.conf ${sysconfdir}/default/volatiles/99_x11"
- FILES:${PN}-xcb += "${libdir}/libX11-xcb.so.*"
- FILES:${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
- 
++FILES:${PN}-conf = "${sysconfdir}/emptty/conf"
++CONFFILES:${PN}-conf = "${sysconfdir}/emptty/conf"
++RPROVIDES:${PN}-conf += "virtual-emptty-conf"
+diff --git a/meta/recipes-graphics/emptty/emptty.inc b/meta/recipes-graphics/emptty/emptty.inc
+new file mode 100644
+index 0000000000..11d5770f3a
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty.inc
+@@ -0,0 +1,26 @@
++SUMMARY = "Dead simple CLI Display Manager on TTY"
++DESCRIPTION = "Emptty is a simple display manager with a command line greeter \
++It supports both X11 and Wayland sessions, exporting required variables and \
++creating user paths as necessary."
++
++HOMEPAGE = "https://github.com/tvrzna/emptty"
++BUGTRACKER = "https://github.com/tvrzna/emptty/issues"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=d1e4d12c7d1d17367ba5668706a405ba"
++
++S = "${UNPACKDIR}"
++
++FILESEXTRAPATHS:append = ":${THISDIR}/emptty"
++
++GO_IMPORT = "github.com/tvrzna/emptty"
++GO_IMPORT_pam = "github.com/msteinert/pam"
++SRC_URI = "\
++    git://${GO_IMPORT}.git;protocol=https;branch=master;destsuffix=src/${GO_IMPORT} \
++    git://${GO_IMPORT_pam}.git;protocol=https;branch=master;name=pam;destsuffix=src/${GO_IMPORT_pam} \
++    file://pamconf \
++    file://emptty.tab \
++    "
++SRCREV = "d162bef75fadc8ae1d8e33dbb3de5e2795a196e0"
++SRCREV_pam = "50ded1b0e7864b9bf75005eb945a8ec826bcf69d"
++
++SRCREV_FORMAT .= "_pam"
+diff --git a/meta/recipes-graphics/emptty/emptty/emptty.tab b/meta/recipes-graphics/emptty/emptty/emptty.tab
+new file mode 100644
+index 0000000000..6359c7224d
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty/emptty.tab
+@@ -0,0 +1 @@
++7:5:respawn:/usr/bin/emptty -t 7 -d
+diff --git a/meta/recipes-graphics/emptty/emptty/pamconf b/meta/recipes-graphics/emptty/emptty/pamconf
+new file mode 100644
+index 0000000000..9cbfd6c4a5
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty/pamconf
+@@ -0,0 +1,10 @@
++#%PAM-1.0
++auth            sufficient      pam_succeed_if.so user ingroup nopasswdlogin
++auth            include         common-auth
++-auth           optional        pam_gnome_keyring.so
++-auth           optional        pam_kwallet5.so
++account         include         common-account
++session         include         common-session
++-session        optional        pam_gnome_keyring.so auto_start
++-session        optional        pam_kwallet5.so auto_start force_run
++password        include         common-password
+diff --git a/meta/recipes-graphics/emptty/emptty_0.14.0.bb b/meta/recipes-graphics/emptty/emptty_0.14.0.bb
+new file mode 100644
+index 0000000000..11d306a56d
+--- /dev/null
++++ b/meta/recipes-graphics/emptty/emptty_0.14.0.bb
+@@ -0,0 +1,53 @@
++require emptty.inc
++
++PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
++PACKAGECONFIG[pam] = ",,libpam,pam-plugin-succeed-if"
++PACKAGECONFIG[x11] = ",,virtual/libx11"
++
++DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', 'virtual/crypt', d)}"
++
++GO_TAGS = ""
++GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', ',nopam', d)}"
++GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', '', ',noxlib', d)}"
++
++GOBUILDFLAGS:append = " -tags=${GO_TAGS}"
++
++export GO111MODULE = "off"
++
++inherit go
++
++DEPENDS += "gzip"
++
++do_install () {
++    # general collateral
++    install -Dm755 ${B}/${GO_BUILD_BINDIR}/emptty ${D}${bindir}/emptty
++    install -d ${D}${mandir}/man1
++    gzip -cn ${S}/src/${GO_IMPORT}/res/emptty.1 > ${D}${mandir}/man1/emptty.1.gz
++
++    # pam config
++    if "${@bb.utils.contains('PACKAGECONFIG','pam','true','false',d)}"
++    then
++        install -Dm644 ${S}/pamconf ${D}${sysconfdir}/pam.d/emptty
++    fi
++
++    # init services
++    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}
++    then
++        oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-systemd
++    else
++        install -Dm644 ${S}/emptty.tab ${D}${sysconfdir}/inittab.d/emptty.tab
++    fi
++}
++
++FILES:${PN} = "\
++    ${systemd_system_unitdir}/emptty.service \
++    ${sysconfdir}/inittab.d/emptty.tab \
++    ${bindir}/emptty \
++    ${mandir}/man1/emptty.1.gz \
++    ${sysconfdir}/pam.d/emptty \
++"
++
++RDEPENDS:${PN} += "virtual-emptty-conf"
++SYSTEMD_SERVICE:${PN} = "emptty.service"
++
++inherit systemd
 -- 
 2.49.0
 
