@@ -1,155 +1,82 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 692B2C2D0CD
-	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 06:08:41 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.44762.1747634905376327218
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 008A0C3DA6D
+	for <webhook@archiver.kernel.org>; Mon, 19 May 2025 08:10:11 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.46127.1747642208826040288
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 May 2025 23:08:25 -0700
+ Mon, 19 May 2025 01:10:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=BLV2bU4L;
- spf=pass (domain: mvista.com, ip: 209.85.210.172, mailfrom: asharma@mvista.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-742c9563fd9so602772b3a.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 May 2025 23:08:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1747634904; x=1748239704; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Forjz3j31fA70sHm6dD09RsPByLUdb6eLqpS/KynUdc=;
-        b=BLV2bU4LFlep335wCgmnpnqnlm9AAQSU2nCxEnL8/3kuhf5Q+CHW4IRolx8Nuj/N0f
-         kKnEaZP/I8YcAEVUj65c/kOUP4RIaSXKLWXm8g1boEpzE5SfaV06RR9ZRyyqnhFv2GAS
-         6krTo8XMzW7xHzdXiwXYoWoWILR+P2tryjCWY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747634904; x=1748239704;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Forjz3j31fA70sHm6dD09RsPByLUdb6eLqpS/KynUdc=;
-        b=BmtnhTosuxTLxgyso4FNUEBARNnfuWhMoBkeJHhj7TwSQBCiet327eCK07yljxbCJT
-         RiJKtS+57i/A8rBREcb6K86NDS+fxf2Asbw00IY96CmN9Qr3BmImrVypDLL7759TwaSD
-         Z5jEikvjnuIisKJsyl5wkS8IUlqGnwkrhwojRIDs/0A//y6mdNNM61zQDBfEmgYpTp3Y
-         dDZ35WT4JsNlW8myqiai+ZvQdqAG6QaME7aF27AW7KImq2BFkfkG8FJ4WASHMKzlFR1t
-         tFwY8eP80GJNeDpm7m+XRRyCJIgQ/b9TUVD3tfjlkg8zSyXVDK4ZAuUdi5nIigZuONKf
-         GDuA==
-X-Gm-Message-State: AOJu0Yw7QHPZK1O6WkYNlBs5SUIFUGeofyVnb8qKADKrKBrnGNnj+XBn
-	9EDRwm7caBABjob4nj748kj23dUsIAYvI5Vpv20pqKjfXXkGPWkm1yjrkX/5qE+z+7e8NfX9tzQ
-	wHo8TGmM=
-X-Gm-Gg: ASbGncuDr3sHu4QctBxaNAV3GZ3fRpaw46PTfQ/XUpQFssrNp7u/5xooxhGBrKZY6ae
-	z8+L1awhaHrFvggKlHAMbVeld0PkNAll+mQfl6MWXcz4pD/GUYxkweTzMMRlqqB2ii7LfTC45B3
-	/c/sPwfDGNQz6wdnwNpm0j+TQyZuwZALJTpzsYbwcastQC1gOm+mbkTQJ9qTPU5n6dTD4bhZ8K7
-	5tvdraad4dFQjH4nya7WhDEhfGMN5QArZaaWC3N95nJ1ufLHuXxSnrpssQroIfnbBh41uaLvnQf
-	kH3TrghygQeaWmi0birGJ3z6YjPSyhMRpxyNqXNf6rILPDFHdA==
-X-Google-Smtp-Source: AGHT+IG8EjBrmGS9CHub+Alfex5Q4HZBKQyGZkjm+D1In81zZ3FJA7ad8yvLQJMPIzh43M67b0mCMg==
-X-Received: by 2002:a05:6a00:3c83:b0:72d:3b2e:fef9 with SMTP id d2e1a72fcca58-742acd72449mr15402449b3a.20.1747634904345;
-        Sun, 18 May 2025 23:08:24 -0700 (PDT)
-Received: from MVIN00043 ([2401:4900:1c31:2b73:37b8:ebca:d2a2:bd97])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970c882sm5665480b3a.55.2025.05.18.23.08.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 23:08:23 -0700 (PDT)
-Received: by MVIN00043 (sSMTP sendmail emulation); Mon, 19 May 2025 11:38:18 +0530
-From: Ashish Sharma <asharma@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] libsoup-2.4: Fix CVE-2025-46420
-Date: Mon, 19 May 2025 11:38:16 +0530
-Message-Id: <20250519060816.1379583-1-asharma@mvista.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=723466fbd7=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54J70bMx005894
+	for <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 08:10:08 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46phe8sp1h-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 08:10:07 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Mon, 19 May 2025 01:09:53 -0700
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Mon, 19 May 2025 01:09:52 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 3/4] man-pages: upgrade 6.13 -> 6.14
+Date: Mon, 19 May 2025 16:09:59 +0800
+Message-ID: <20250519081000.2298461-3-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250519081000.2298461-1-hongxu.jia@windriver.com>
+References: <20250519081000.2298461-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 1kiyrF_mjB0P1e3MT_sa3OKeJzEctGZ9
+X-Proofpoint-ORIG-GUID: 1kiyrF_mjB0P1e3MT_sa3OKeJzEctGZ9
+X-Authority-Analysis: v=2.4 cv=arGyCTZV c=1 sm=1 tr=0 ts=682ae75f cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=t7CeM3EgAAAA:8 a=z5HLka9z3RXT6Bu83WIA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE5MDA3NiBTYWx0ZWRfX/Rv1Qk3fsGJk mghsJsHK8ocCvtSB13uiRBcc//I1H1jx550Z3TjoenZTmbjIRgKeMJT8UEClc5VNaHRnhTNGFL/ +5MFDktmQp0darNU5W3AguDaKJfbf2aQKtjJruzhYLTk1ndiN30xES1BH1wovslQ/tbK1tj+cq8
+ /VFst6w/+XIRQlfJPP9uXGlM65vw/Y06JzFIBVq7Umz9RU9WrhRjDjnFz8JXv3as9kATCSDsmwI sCukC4D/4NEtkk0Ka+bwwP158VGfqfoAJSNUqCP4QCookashDrzacZxvEE0IjBYjrokWrQNOSAo 4emc2cfnS783MkWT4kwPvqvVow7ZK9/X97juBtVKQGJNPHUVJjTJVuXKxrQ8TXji3XzlOMPIwgn
+ Fq+IxPg+9+EfdL8c6xV/3Mj/syBviVO4GJY19GYDR2YevyiZFoFsSFenK4fHHtlsJtk11K/u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-19_03,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ spamscore=0 phishscore=0 clxscore=1015 adultscore=0 suspectscore=0
+ mlxlogscore=822 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
+ definitions=main-2505190076
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 06:08:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216821
+ <openembedded-core@lists.openembedded.org>; Mon, 19 May 2025 08:10:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216824
 
-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/c9083869ec2a3037e6df4bd86b45c419ba295f8e]
-
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../libsoup/libsoup-2.4/CVE-2025-46420.patch  | 60 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.2.bb             |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch
+ .../man-pages/{man-pages_6.13.bb => man-pages_6.14.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/man-pages/{man-pages_6.13.bb => man-pages_6.14.bb} (96%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch
-new file mode 100644
-index 0000000000..37ab16dc05
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch
-@@ -0,0 +1,60 @@
-+From c9083869ec2a3037e6df4bd86b45c419ba295f8e Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Thu, 26 Dec 2024 18:31:42 -0600
-+Subject: [PATCH] soup_header_parse_quality_list: Fix leak
-+
-+When iterating over the parsed list we now steal the allocated strings that we want and then free_full the list which may contain remaining strings.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/c9083869ec2a3037e6df4bd86b45c419ba295f8e]
-+CVE: CVE-2025-46420
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ libsoup/soup-headers.c | 11 +++++------
-+ 1 file changed, 5 insertions(+), 6 deletions(-)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index a5f7a7f6..85385cea 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -530,7 +530,7 @@ soup_header_parse_quality_list (const char *header, GSList **unacceptable)
-+ 	GSList *unsorted;
-+ 	QualityItem *array;
-+ 	GSList *sorted, *iter;
-+-	char *item, *semi;
-++	char *semi;
-+ 	const char *param, *equal, *value;
-+ 	double qval;
-+ 	int n;
-+@@ -543,9 +543,8 @@ soup_header_parse_quality_list (const char *header, GSList **unacceptable)
-+ 	unsorted = soup_header_parse_list (header);
-+ 	array = g_new0 (QualityItem, g_slist_length (unsorted));
-+ 	for (iter = unsorted, n = 0; iter; iter = iter->next) {
-+-		item = iter->data;
-+ 		qval = 1.0;
-+-		for (semi = strchr (item, ';'); semi; semi = strchr (semi + 1, ';')) {
-++		for (semi = strchr (iter->data, ';'); semi; semi = strchr (semi + 1, ';')) {
-+ 			param = skip_lws (semi + 1);
-+ 			if (*param != 'q')
-+ 				continue;
-+@@ -577,15 +576,15 @@ soup_header_parse_quality_list (const char *header, GSList **unacceptable)
-+ 		if (qval == 0.0) {
-+ 			if (unacceptable) {
-+ 				*unacceptable = g_slist_prepend (*unacceptable,
-+-								 item);
-++								 g_steal_pointer (&iter->data));
-+ 			}
-+ 		} else {
-+-			array[n].item = item;
-++			array[n].item = g_steal_pointer (&iter->data);
-+ 			array[n].qval = qval;
-+ 			n++;
-+ 		}
-+ 	}
-+-	g_slist_free (unsorted);
-++	g_slist_free_full (unsorted, g_free);
-+ 
-+ 	qsort (array, n, sizeof (QualityItem), sort_by_qval);
-+ 	sorted = NULL;
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-index 00f7fea41a..f04d9b2966 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32906-1.patch \
-            file://CVE-2025-32906-2.patch \
-            file://CVE-2025-32909.patch \
-+           file://CVE-2025-46420.patch \
-           "
- SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
+diff --git a/meta/recipes-extended/man-pages/man-pages_6.13.bb b/meta/recipes-extended/man-pages/man-pages_6.14.bb
+similarity index 96%
+rename from meta/recipes-extended/man-pages/man-pages_6.13.bb
+rename to meta/recipes-extended/man-pages/man-pages_6.14.bb
+index a2e6a898432..92afff640d2 100644
+--- a/meta/recipes-extended/man-pages/man-pages_6.13.bb
++++ b/meta/recipes-extended/man-pages/man-pages_6.14.bb
+@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://README;md5=72cff06b7954222c24d38bc2c41b234e \
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz \
+            "
+ 
+-SRC_URI[sha256sum] = "869a682be64ee634149f62b4bcbd8334fd1e400883181618d7164a43de6a3aa1"
++SRC_URI[sha256sum] = "a298963d8baf37fa5ecd2b07c803e1f29ab0476add405a7e263e5c63baf43588"
+ 
+ inherit manpages lib_package
  
 -- 
 2.34.1
