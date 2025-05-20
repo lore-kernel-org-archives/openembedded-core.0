@@ -1,254 +1,391 @@
-Return-Path: <ovidiu.panait@windriver.com>
+Return-Path: <Oliver.Rohe@wago.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94068C3ABDD
-	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 08:46:10 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.16110.1747730763365250560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69FF3C3ABDD
+	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 08:51:50 +0000 (UTC)
+Received: from mx08-005c9601.pphosted.com (mx08-005c9601.pphosted.com [205.220.185.5])
+ by mx.groups.io with SMTP id smtpd.web10.16179.1747731101072050137
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 01:46:03 -0700
+ Tue, 20 May 2025 01:51:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=72358c3a5e=ovidiu.panait@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K4ITkd004700
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 08:46:02 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46phe8tyjc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 08:46:02 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 54K8k1a4016113;
-	Tue, 20 May 2025 08:46:01 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2041.outbound.protection.outlook.com [104.47.73.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46phe8tyjb-1
+ dkim=pass header.i=@wago.com header.s=p012021 header.b=fxvD/hNt;
+ spf=pass (domain: wago.com, ip: 205.220.185.5, mailfrom: prvs=1235086a97=oliver.rohe@wago.com)
+Received: from pps.filterd (m0237837.ppops.net [127.0.0.1])
+	by mx08-005c9601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54JLcDnj015778;
+	Tue, 20 May 2025 10:51:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wago.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=p012021; bh=uW
+	X7gCp2qXTQGx88/jyYts3Mdbu2EP5SgECYtcigIv0=; b=fxvD/hNtyAIqENVoQK
+	lp+tfMixmF4ApA6uGxep5tjYsNqfW6lHTHVWIBi6gFBzKQul1LEAcH2JKDJD/gda
+	RBTWYDRyuT9hveq7krlcLHAhlozMpBb9hts1BlMhWT2Roo3D+dRSjf7+55o40M/o
+	lx8aDDRqf9WCrpt5UwGK90+mwhPF+PehU/Xs1PiULmvXCDE/aeXIhLK/KmSdJaoM
+	ybexq7Zzu5oum2apxEEJ9mVexDDGXffOQ5k+KMebphRjzhsOVMZNLj3T9xocUZye
+	4sd51omspvDr8a1jRg1kWFpWJcKYuEhWfN5OjPiXalFuUyr5S0gcPGOIZoCsLLzx
+	xu6A==
+Received: from eur05-vi1-obe.outbound.protection.outlook.com (mail-vi1eur05lp2168.outbound.protection.outlook.com [104.47.17.168])
+	by mx08-005c9601.pphosted.com (PPS) with ESMTPS id 46pf37jqug-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 May 2025 08:46:01 +0000 (GMT)
+	Tue, 20 May 2025 10:51:38 +0200 (MEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hXVFfS8d2DwK1Oko5538Xa7/g5upoRseX3SDf/uNr1UBWpY/gLwGsXDw53FfW8uyKXk4ayagybvyq2XwQtP+aCsvZ9KsOICWuNlaVhuyGQoWZ4wU9LT2UnbyJeRm2RdfmO4WA7K9qZgmmkESbAC/l6WIpDd/UOCOFUo140OWWNOifQDW/e3fH9z3k8o7LN7uuC2CdK2f3N+aFuItSFH5LCrHOUG0iWs8FrkeH41LOsZ/fG0kEMOHtfYpR3jV+bsS0Ahk33G8N6LtCzgCV5POcsKhUYjHWU2OuHbrzwiyyjaEsaeIQ3asDksw9NDlL0ZMSTXcXJp3XDh8Q8qQO/ljfQ==
+ b=djEdHiX4iEF2AUNIooItYRAVnLTt5rB/Sj7dMOfHvIhttCfElgpq0b60V92aH4sxPozmMdnx6plkyCWmLTwmwIAhsmcuvUI8y05lnAOEeAe7KZwRmdd1OE3YABKXV3QrFoGfMfbzN6qCriX/Im6sr8uA2yeQGO6ZXQLBIHu+uK96Ui5GsTLvY0yNyEHgMEoS6aR3WILwZyr/LDoxJlVik61pojmtBzwcDvTFOCfbQoCzt8zrIGnPzrGZURSuznLh7e05Rezs/a9VH59xInPsmECsJ4fDBTUD/lgGDtzR8b80hYxJTm6VwHBkdqQKzS3OdbBSqJIFVj8OGG2cbdeS/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Nwwl9iAjPXv4PhCsRYJswg1gSXtOq1p83w1xrP8DmNg=;
- b=l+pXiJCWgVC3eoGXVIEigCMwcua0XCiEGXiETqoDCqe9+U0EtR962Ggpr9hgcghmGEMqGHfdJ762jrFbPeEP8MkJbEZHq37UhE0PEpCL2yjtl9uE0p/lYy4JGvQTIzBtFMO4YilgBQrTM3NsyINihyHNf1AVIF20eYmewDX5fr0H3J/5kr+Pg4Zv3pqi+0+/oaJ+LgjCmDoYadczENj23x862Yw9RYXb9wPlyemu7jAbNwOCYKdGgp0S8COdAiBlVfX/bam2X0r9NVItrArYJqhMk2+7RP4WEDpENDPIcsn0xyIMrFrAkOOjRR1V38eG3TbSc4F008wp8wu0fsHDsw==
+ bh=uWX7gCp2qXTQGx88/jyYts3Mdbu2EP5SgECYtcigIv0=;
+ b=ToEYjCMxiIoPgsdyOmuJg779YSs5HC1cKyXfbd7QDCTuvfzgrtAmyk1fzGDhFVqE4wnc6JhoyWn3PbGv4Yyy9aHTFHq+hpMSXd/+O/X2/pIyvmgcUAATX8ZbP1x1p/atajsM6X7njwSq83Hj4bGpPLQAHtBvDgmYuNEVnY3CyxLb/T68mBpPFwH6Zbf0kJB9DQah0eyZAHHb/DBLdewgXF10eyHJFw433YgN5EMvL3fKmNBUazvjfmOlzCXi1EJdlSBtKZMaXeEjlY7dKHKT91gec8XP7GMmUoQRxhAZsBRU0jVn+c7oEddrww4iGKBlVLhHfWtcKHlRgTx8hbuKzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SN7PR11MB6653.namprd11.prod.outlook.com (2603:10b6:806:26f::11)
- by CH3PR11MB7868.namprd11.prod.outlook.com (2603:10b6:610:12e::5) with
+ smtp.mailfrom=wago.com; dmarc=pass action=none header.from=wago.com;
+ dkim=pass header.d=wago.com; arc=none
+Received: from DB4PR08MB8102.eurprd08.prod.outlook.com (2603:10a6:10:386::8)
+ by PA6PR08MB10624.eurprd08.prod.outlook.com (2603:10a6:102:3d2::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Tue, 20 May
- 2025 08:45:59 +0000
-Received: from SN7PR11MB6653.namprd11.prod.outlook.com
- ([fe80::d322:da3e:6319:55a]) by SN7PR11MB6653.namprd11.prod.outlook.com
- ([fe80::d322:da3e:6319:55a%3]) with mapi id 15.20.8746.030; Tue, 20 May 2025
- 08:45:59 +0000
-Message-ID: <8f6bc919-03b2-4d40-a3a1-0f42f118da66@windriver.com>
-Date: Tue, 20 May 2025 11:45:54 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] coreutils: Fix file-rdeps for single-binary
-To: liezhi.yang@windriver.com, "Marko, Peter" <Peter.Marko@siemens.com>,
+ 2025 08:51:34 +0000
+Received: from DB4PR08MB8102.eurprd08.prod.outlook.com
+ ([fe80::93b6:7bd:c4e5:7e99]) by DB4PR08MB8102.eurprd08.prod.outlook.com
+ ([fe80::93b6:7bd:c4e5:7e99%4]) with mapi id 15.20.8722.027; Tue, 20 May 2025
+ 08:51:34 +0000
+From: Oliver ROHE <Oliver.Rohe@wago.com>
+To: "Freihofer, Adrian" <adrian.freihofer@siemens.com>,
         "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <cover.1747206852.git.liezhi.yang@windriver.com>
- <7d13d6ecafaaf0f06955156bcd9e19b61a92ea80.1747206852.git.liezhi.yang@windriver.com>
- <AS1PR10MB5697052E3C295B1843480375FD91A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <d7df85bb-8092-47d4-9aa3-0e0bf5f09f54@windriver.com>
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] kernel-fitImage: allow overwrite the
+ configuration dtb label
+Thread-Topic: [OE-core] [PATCH] kernel-fitImage: allow overwrite the
+ configuration dtb label
+Thread-Index: AQHbxlwJ3kd3lvqCT0yrzOhlqhd1qrPaM8CAgAEHCDE=
+Date: Tue, 20 May 2025 08:51:34 +0000
+Message-ID: 
+ <DB4PR08MB81021F9904E04AC45A79E58C9E9FA@DB4PR08MB8102.eurprd08.prod.outlook.com>
+References: 
+ <DB4PR08MB8102C882795C5B8725105A0F9E93A@DB4PR08MB8102.eurprd08.prod.outlook.com>
+ <f5080c649ce5d0f214dfdbb69a25449923b2948b.camel@siemens.com>
+In-Reply-To: <f5080c649ce5d0f214dfdbb69a25449923b2948b.camel@siemens.com>
+Accept-Language: en-US, de-DE
 Content-Language: en-US
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-In-Reply-To: <d7df85bb-8092-47d4-9aa3-0e0bf5f09f54@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: AS9PR05CA0098.eurprd05.prod.outlook.com
- (2603:10a6:20b:498::22) To SN7PR11MB6653.namprd11.prod.outlook.com
- (2603:10b6:806:26f::11)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_6b160f33-c33b-4e10-8636-cf83f9ca7d3c_Enabled=True;MSIP_Label_6b160f33-c33b-4e10-8636-cf83f9ca7d3c_SiteId=e211c965-dd84-4c9f-bc3f-4215552a0857;MSIP_Label_6b160f33-c33b-4e10-8636-cf83f9ca7d3c_SetDate=2025-05-20T08:51:33.679Z;MSIP_Label_6b160f33-c33b-4e10-8636-cf83f9ca7d3c_Name=Internal;MSIP_Label_6b160f33-c33b-4e10-8636-cf83f9ca7d3c_ContentBits=0;MSIP_Label_6b160f33-c33b-4e10-8636-cf83f9ca7d3c_Method=Standard;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB4PR08MB8102:EE_|PA6PR08MB10624:EE_
+x-ms-office365-filtering-correlation-id: b8b42ac6-8c1e-4a44-132d-08dd977b860d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|4022899009|366016|1800799024|38070700018|13003099007;
+x-microsoft-antispam-message-info: 
+ =?utf-7?B?dGFmODZzVTdrRTlsb3FMZCstN25wZXJ2U2NDWU5URGJ2UkpITjVlbW9OTVk0?=
+ =?utf-7?B?bmZ3N0VCQ3ZIbjg0L09hZE1tQjIxUHNMSFUycERLQU5GUW5OVzJCWThhOEFB?=
+ =?utf-7?B?dVk1by9iUVVJNlhLRVpOVzVmNzZSMGV6L3NPenl2Mll6djJWb0xmNzFJNjky?=
+ =?utf-7?B?S2c3RURSMm5SUHFmZVh4cTVQQ3VXUXJqaHFzcm1vTHhPRkcvTjF5Z09KS0Zk?=
+ =?utf-7?B?emJwMXdDeG5IbTVzaWU0NVUxRXZmZmQ4ZlhQbkRLYnV4R2FKUHFTN0RsQ2N5?=
+ =?utf-7?B?cGRpTk1HWUJ6bHFZRG1GcGs0Q2F4eEVEWHBWNmRXcUNwVVl1RGhOQmszb3kv?=
+ =?utf-7?B?b3FGaU1oYXc0RURBUTVlemxiRFNNWUNudmE0Q3JpVFZsQUpiVXVGVm1nQTEy?=
+ =?utf-7?B?bDlPUFJCNlNYTlhhaXpJWnVYeVhmKy02T2I4RnhuWlMwM2ZKUTJFYlBkKy1P?=
+ =?utf-7?B?SDIxV2FvNTQ2VzVqa29ST2RDZDQyQXJ5aFJGYkZxTGhKRXY2Z2JEL1JsR0lh?=
+ =?utf-7?B?endIMk9EZnN2Q0pKdklJZ05CcVNuU3pvM3BNaDBuQk93OW1pMDJqRkVDRURj?=
+ =?utf-7?B?emY3TCstcnBRUjFZVlI2alQ0QistY3JiOUhNVnVsMHI2Qm1uWng1Q2QzTU9U?=
+ =?utf-7?B?N00wTW1zZHZXTFFzYUhCdmtWVXhyT252YUxNaWpTcUNTUU8yVmJNSmtueHdp?=
+ =?utf-7?B?REc5U3c2WjErLXVHTUJkYU03SGZYbHJtdEdqdkJnZGt2MjBpL2oza0J5R3Yz?=
+ =?utf-7?B?MmRVTWVPd21YbUJKTGVtYkkxemhSV1NndmF2aFRramVaN21FNmdjZXNVUFV2?=
+ =?utf-7?B?RHphSUh6Ky1NRlAzcDhKdFNlUkR2enlPTEs1Mm1SYVZqQTlGQkxxM2VDcDhV?=
+ =?utf-7?B?UG1tdUhoNWY1bWlJTTBZVzNSbnNBa3ZRd0R1bTlaYUlLTGtnbWh6YlZmck8=?=
+ =?utf-7?B?Ky1ISGVuOFZPZVZwSHkrLWxhaWM3OVFkdUhGQzBtZ0pNOEJiZ2JRQzNZeTJw?=
+ =?utf-7?B?NC9iUWQwcFpSazdpeUZLWlErLXNYYUFGcWZieXBzWmhqS3JPN1A2WkFMZm1I?=
+ =?utf-7?B?ZE04R1V0Ky1wYUpLNXAyN3pabkh0Nk5zREFuZlpVVmVqSlBnbktLWFI0MzNr?=
+ =?utf-7?B?WXhzVGlLVDF1eHhaaGJlc0gwWWh6NUZrNEhnc1E5S2g4UGZ3WnVCbTdVYnNQ?=
+ =?utf-7?B?a0tsczQ3WmNrMmpvVndlYk9NUElsV0VvZystZEg0bTlUUm1Eck1EWHJqUzVK?=
+ =?utf-7?B?OUFsVjJKTHUvMzRpSm0yRistbnBybk54ZS9CaCstZ0gzR2ZDcFRWRzNOaGZR?=
+ =?utf-7?B?MU9TZkluMmUrLWJJYXBRRzVvSTJ5L2Z0UUk3b2g5RUFwQkVuaThsSWFMdlMw?=
+ =?utf-7?B?SDVxc0V5SjgwVWlIbmRFMXgxVXZiTTJwS3IrLVpqa1JVLzFGVndvOGNYSGJM?=
+ =?utf-7?B?a0FzZE1OQWdRRjJXdVFrZGtqQy9sKy1zeU1yc1F0NlBXUWxJNFhObVBPaFM1?=
+ =?utf-7?B?MmY0UG9xd3R0WkQxaGh5MDB1eWdVS2dNblFJdlJVMVFVZ010SVV5a3FaOUFt?=
+ =?utf-7?B?RnkyVXNQTXdjdkQvbFRKUFpYd2ZObXJQcERmWmJGdXdUTkRnV1JPbmsvUXp3?=
+ =?utf-7?B?SWpSZ1VabGYzcEdDYUp5eFY0WUNlM21XWDdwRHAvWjI3Vm53cW0yN2hsUU1T?=
+ =?utf-7?B?TlRxcGlFSjZRZmRjcjZtLystS1BaYUx3NTdzVkZEMlE0TElERkpvd1NPVEFl?=
+ =?utf-7?B?RVNjRVE1R2dtUlFFRVMrLUZYclcxeVR6SUkzSGFUaTArLXljUFd5dlltVnNh?=
+ =?utf-7?B?dVdNT3RrTjIrLWtWYVNYTFkybGFzY0RaQVFab3E1RnQxSjlldWRJTnFRQXI=?=
+ =?utf-7?B?VistNUFRbFlzZkp2OGFOS1hvUWhlaFdBRFVHLystZDh6UCstcnNWQzVzdDhn?=
+ =?utf-7?B?ZDFMKy10aDdUc1ZHSS8yekVrdUtjL3FCZXpNbmR4SGc4cDR6WXcrQUQwLQ==?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB4PR08MB8102.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(4022899009)(366016)(1800799024)(38070700018)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-7?B?bm4zTTVieDRrOHEvbElNempCS0xjL3BlcE1qcE5HL0JYSmZ4TFlaTVdGdjJy?=
+ =?utf-7?B?M3pLY0IrLU01ODkvZHN3UWQycGwxdGZIbDg4TWw3WUZuVFVKWlBVcXhWSkRW?=
+ =?utf-7?B?cGhJWDBERms2Nm1ZQS9WdzdFVE11MFRVbXg1ZFEwY1BwQXdQWDNNelFjT2dL?=
+ =?utf-7?B?NzR3RlkzOXBkRHZCcmEyaTE4TTJUMUV5SjRmMUpvVEpFVUlxVHlYbnhWcWxz?=
+ =?utf-7?B?Z2V1aDNKYnpuaFpaWlRKWk1Rek1PaGdEWWQwMnZlTkh4OUIxOVZHbDlkZE4y?=
+ =?utf-7?B?cXhpWHVpR0VYc0szL1hJRjdxbWkzUUk0WmpiOUF1SzZEajhVSVBVRW1yUmJy?=
+ =?utf-7?B?ekYwTEtSL3I3UzVMOUdTVlZuV3cvM01SRWxvSDJrWWZEVGJadDVnQ0pHVXUw?=
+ =?utf-7?B?SUVjT0RCNGZ0UGFmVTBLcjVzYk0rLWNGbGFUWGhEOHcveHBqbDkwdVh4RVdT?=
+ =?utf-7?B?aW0wMUs2aGpNNlhQRVhsMXBBMklqdVdpL3RYOUgrLWs2cWFDWGJvTWxIUGZm?=
+ =?utf-7?B?SystMS9YOFVzMDBoelVNN0Fpczg3YnZFTFNlUC9CM1FxdG9aUnhkSVRZUWp4?=
+ =?utf-7?B?ZHhjQWdYSnZUL0FubDRlaFEwVXZCOEpiNjNSbllxTUVYUkcvTnpmakhHdEdq?=
+ =?utf-7?B?RUdZbk9ldmd5ODYyVEZGVWJOM1p6bkxkUHBZdEM0eDJxeENDeDAySm9PcUMw?=
+ =?utf-7?B?Ky05MG5pYkNRN014eHNFc1VpQ3RBWSstWVkvQmNUc2JzZWlpU21CcHZvZHJp?=
+ =?utf-7?B?U0NmSnQ5MEVqTlVWM241UXRyUkVDbUE1cU5OVTEvbEVtamtvZ2czRmNYMy9Z?=
+ =?utf-7?B?TGdCdDQ3MkNFUGxtNXl6MFhzZ294dGxHTTd2d2dvNFRLNUFxQ0RGYlByZE85?=
+ =?utf-7?B?NzBIakxSdkZWNzZubnF6SWg0UjNBT2ZFNGJKUGx3UCstQVlCc2psOXB5TXNQ?=
+ =?utf-7?B?YkpnR0tJWHhtbGJTb1pBY0FGcXZYQUczQkhndkJCQ2phNmZuZFA4UG1jTy9j?=
+ =?utf-7?B?bDFneE1MRVFvM3dTbTd4bGdZcDJBVmxLdmdvZDBsWG9veVkvQ2FVZzBtVWJp?=
+ =?utf-7?B?SkRHVTZ5TS9NWG01LzBNS2QvbXNtZlRzTlJ0Z1IyZVcrLU9wZ2tQUkdiSDZn?=
+ =?utf-7?B?VlJIY0dwWGE3cmwxeFBPcjJncmI5enlDZzZZTVc0aVFJNHNpVHNxMUZ2Yjl5?=
+ =?utf-7?B?bFh3cUNZbmY5SVVqY3J4VFBZM3VXNmJXWTAzeVJqdHlBSmtiQmh4Z1Y4NTZU?=
+ =?utf-7?B?YVo4S1hROUJiNVBMcXM1bGhYY2tIWC9mRi9RU0twdzhLbi8rLVJnaTY0Ky1x?=
+ =?utf-7?B?QmNsZmZzU1BHMTJMSHRLb3N1dEFTY0FXTkdXbUkvemI0d0k1Rll4OVZFS3Rr?=
+ =?utf-7?B?UnRKN2dUaWxxcVErLXhkQ2pDS2MrLXl6RU9FQU9FVldheExHOVQ5ZkxMdTdh?=
+ =?utf-7?B?MmlrNHpsRU9KM0RIQjhMZTdHaENVZjVxZUwvdDJ4ZG5iZm0yRWxlMkNDbWVF?=
+ =?utf-7?B?bEZ4RmExQk5LREZhNzAxT3l3Y2hWZDk1UExJUFJQb2w5ZkdFKy1iRGFWMGh0?=
+ =?utf-7?B?c3pucnM3V2U5SmpXKy11dWdldTJ4MVN6VWVGc2tBYlVoYWFBSkkrLXBhZTlC?=
+ =?utf-7?B?ZFU4NHRyRFo5bGhmQmFtN0NBcmV4MW1ueWNUSWZQRDFYM1BhQkQvUHg1VFdT?=
+ =?utf-7?B?enVnbDBVcystZFhQL2gwYTExcm1xd1pNRkNLNEFsVFZzOUpwblh5RFNaM1E0?=
+ =?utf-7?B?ZVlwTVAvNkQxL3ZqeVNRVFlvVzdhbXNwUi92RFl3NHh0NkFZS0FrZ3ZBTklP?=
+ =?utf-7?B?NFhSRlR2MDcvOFlldG9WQmQwcS9Ld0dvVExyUDdWMlNPV0oyTnRHTHBFTVpM?=
+ =?utf-7?B?aEtzVFE0UVpyRi96TDNGSU52NEp3YVowUkNiZzNPckVZUVNOd1BkbjNXMWUy?=
+ =?utf-7?B?TGxjRU5SSGhEUlVSYTFIQUlPNm4xUlE3SWJ0Q2tpTGQ4RWVoM0k1TWdtOXlx?=
+ =?utf-7?B?VHdsY0k3UFBoRVBRRHpCVTByVHlkc0Y4NXdhb1Q3aUxWVEF4QmFKRFNYNUNE?=
+ =?utf-7?B?clRUMHZtSy96RGQ0OFA3NS9aY3R5VlQ1dnRpMjdiZkU2bVpOZ2pPQ1ZGb2cx?=
+ =?utf-7?B?a0lqQmQ4WGduUGdyam5NSSstNUVZK0FEMC0=?=
+Content-Type: text/plain; charset="utf-7"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB6653:EE_|CH3PR11MB7868:EE_
-X-MS-Office365-Filtering-Correlation-Id: c431dad4-360e-4a2e-a76e-08dd977abe74
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|10070799003|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?N1pMT3RnY21uSWJnM2poVTZWd1I2Smt3eUxJbWlaOTN6Z0laRk1EWTI0VEhP?=
- =?utf-8?B?azFTMWZidzZYQWpBSUNITDhDZVprWnVZaktQME1rWFB2a3pNRE5DMFJwdGFN?=
- =?utf-8?B?TmFmVGNpMHBFVXNUaVR6VXJCTXdPZ3JuT1hxUlRyRnBKeWdOaUxIVEpOUUor?=
- =?utf-8?B?b01LMEdNNHJJRXhXbXFScEd3WXRhaVFiTGwrZmZxLzU3VFVwMDk3dkIzSk5G?=
- =?utf-8?B?bG13TkJ4Tm4xNkExVjB2ejNUeFMvTi9vR1IyZXBoYjRNUFdMa1VjTGlBYm5a?=
- =?utf-8?B?ZkhFdUdLSEhMemU2Z0p6M283VXNaRjFSKzJMbDV3RlMvR1JWVHZCUmhNY0tE?=
- =?utf-8?B?a3RhQThNdHNmcFd5dHFuRTNxTlptQnFmOTAyQ1ZzQkUrMWFnbnY3OXQvSFhs?=
- =?utf-8?B?OUdaS25ZdUpmV283THJ0WFFVUkVHd3VEQnFOQ2VmTEQvcGxJTDk1S1JUTVBQ?=
- =?utf-8?B?b2xwZ2ErWGpEcWJIL1JzZVBSMDZhSVNtK3VmUDlzdk56SG9FOHY0alFuS3dN?=
- =?utf-8?B?L0ZpL1hKYkJKYXBrQU02SkhjaDFWeHIvV3FuTXdkV200SnFxOFJ3OExGc1Bi?=
- =?utf-8?B?OElJVnltTzhHWmRwNDdMOTY5Sk1Fby9TZXRaYjY4czFaVlc0SXA5TlY3SEZn?=
- =?utf-8?B?OWRKSDZaaGlZZmJLUmgwRStOK3ZuRGpISnZIU0h5L3FjVVErVDhqa3VXK28z?=
- =?utf-8?B?aFJRSjUzNlFWVjhmeVNhYUJ6SHhTbk5WWGJxWEhmbXdVaEZlTUVFa3ZUQjVm?=
- =?utf-8?B?NGhra0dTUk5BUllNS3NXT0VUa2crRkdkNGFCZUZyWmdGNWRZcHd0dTYxV0c5?=
- =?utf-8?B?U1Nla3RFSGVSOXVORmd0dzJVUkNaejUyeTAyakRLVlBlajQvMENNZkw5dldP?=
- =?utf-8?B?V3UrQjF4U0ZCTG9nSytEbktyRlUvRGtJL1hBa0wxY283T1hLNmhiQ1pFN3J3?=
- =?utf-8?B?Yk81VElJN3EwM2dDTy9OWGxYVGV6TUJYbFNER3pwSzhENkQzYzR6YVNuTnVD?=
- =?utf-8?B?c09BNVMvTGJBaUNCOEg2NUtoejBDb0NDN2NQaFhzSGIyMENCaDRxcW85aElW?=
- =?utf-8?B?QjN6cHg2YmVVbUEyNXA3WEZjd0hsa0cwQi9XMFNTOXcrWEtGLzJIU3V6cmNp?=
- =?utf-8?B?V2lYS2V5VmE5WURrUDY3Um4vRDhhN2RUczZ4K1hNelJWSzlwVjRwZ2tOM0NU?=
- =?utf-8?B?TGM5aXN6VnV6TEZPTTRCUFQvbDlSQm9DV0J5YmtwQkpVaFpkaFR5QnFVVlF6?=
- =?utf-8?B?Y0k4UlpEWktlR2lhNUZ4MlZwU3BJMUZOdEFKbVJURENyZWprTHRGRWM1YlJ2?=
- =?utf-8?B?aHJSeUhROHNvc3BuWVUrN0dTZm1xSzgzczhIbWZtVTVEQTN5M2NzQ1doUWNa?=
- =?utf-8?B?SGpTVmFYK0poLzBCREFPSXg4N1V0RDIyQzd2RWhzZ1NCSCswNEVORDVyb2N5?=
- =?utf-8?B?S1FraVgwdlB0L1M3U0dlS2NXWFFsbmJ5ZE1TTVBRd01mWFVYQ2prZHNVTnI0?=
- =?utf-8?B?aFFUbWJWeWtiRlJ0WnVXSUFFbHpNYVEvN2V2NjNSZ3c5Z1VCeElVN0g2TXEz?=
- =?utf-8?B?N2EvaFRyRWxYb012cTFEbis0UnNMYkg3M3JXWG5icGQ0NXB0VzVIZEMyd1hz?=
- =?utf-8?B?T0VwallKVkE5WTUydStBTTU2RmRvdExreUpqZkFHVzFSc05ZaFpyd3BHb25U?=
- =?utf-8?B?eUZDUFBzL0J5UURXT1lhQVdTVVJlQ1Q4UDU5M1lKWGNRdTRPcXJIMjZyRzJZ?=
- =?utf-8?B?RWw0TEZjZHRXSmZIT0x3Z2pnQXVzM2JQNFUwY3dhUFYxL0dVM3hmOGdQRmk4?=
- =?utf-8?B?WTZEdTZjekp3ZU9pYjdRZVBZT3dwU3Fna2x4MjZ0MlVLSklIY2w5bmJyWnZ4?=
- =?utf-8?B?NnQxNG9qdDRwb0Z2dVFOOGtpZlArRTRVcUtERGtzcVYyRFE9PQ==?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB6653.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SXl6Y0Q4eExaR1IydWd6TXN2NHZxMVRKbWNQblFjZW1MamlHekRuaU50YUpY?=
- =?utf-8?B?OENNd1VPcmJheGh2d0tLTXNwQitWMEtTZklEd2ZhalpvdHgvWVJycjBub0pp?=
- =?utf-8?B?cVo3KzVpdmd4K2ZhU01MQ1VsN3ZuK0RHL2dROVJoeVpId1ZsM2NHcTR2V0tv?=
- =?utf-8?B?TWEvajlWT2l6bGZlRGlDTHpGZ29OY1dNSHArR2N5dVNBWEI3akpnZ2ZyK1Js?=
- =?utf-8?B?RXFoVVR5dXlsNW9QUXB5NXAxQnRNWXZHcVlTTXBzMVpYS2gxZGNoY3Vody9U?=
- =?utf-8?B?REFmUzRNeFBDUzFsbXJCM3FXZmNKbUc5bHN2TWtpdVJ4b3FWU0d1b1hPTm14?=
- =?utf-8?B?b0RWMkY3T1JUNXIrTkZVQjVXR0JxeGdtRTRoTUF2eXdQMXFuc2RxaWQzd2RF?=
- =?utf-8?B?Z29QNjZXb0ZCanFXbnowNlRZek5Ja1ZicHlHTnFYYTIwVkNkU000a3VDeUtC?=
- =?utf-8?B?b1ZEK1JCTDZYOGxWY1k0dUZvQThkVUZTcHlzZ0JDSFRveXlDc3lhMERiQVNh?=
- =?utf-8?B?MVM0akRpMzF5anpaK2FvMkJiYmNwVjdJazlzenBGbnRuY0p4MmpQRmgvMC9J?=
- =?utf-8?B?SHFLNFBkMW5RdGczZ2lkMGloY3NFemFWQVovZ2p3cktFVEVvRDlVdGIyQlJD?=
- =?utf-8?B?ZGlPOTF0M1V4cFNuaVV4cW9lUFlEZVh3NTB2NHNZQzVFL0NQL3JRNTVKSm5Q?=
- =?utf-8?B?emF0K3MxM1lES0ZaRW5VblhIaWVMN25PUXB5RHJmS1RUVk5uemxReTRyQTZs?=
- =?utf-8?B?WWdCMzlEWVFVUHU3OVF3UHVIU3ZLdytCZGlPNmtOSEtydkF0RXlZOHZJNmdH?=
- =?utf-8?B?UmZaaTdtNmdhZmtML2pNdVVic0NwK2NJUXpEa2g4S3RKc3gvL3F0cEl0ajJm?=
- =?utf-8?B?cE55TExCOUMydUFYSFU3WXpML0NLUUJoMzNOWkN0ZjRydUhsVVpubnRLbWJh?=
- =?utf-8?B?VEp2a2FIZmhWS0Y0MVN0WUZSUEtXQmNZTjFVcWxyWmNLMlBFN0Z3Y0JQc2Fr?=
- =?utf-8?B?c21UcVdPU2YycUUrZGhDOXM0T29CNnltZDZrKytxb3Y1NXdYUmZLalBGcUNi?=
- =?utf-8?B?ZEdGNllLQWRkT3dLOWdlbEtzYVUvK0hReTJYOTFaNXZRSEU2MUl6c01BM2ln?=
- =?utf-8?B?aE1oOHlKT3NzNGYzMStEbHR4Z2Ntck9sbjh6dnJ5RS91YnNiTEJEYWZQcUVS?=
- =?utf-8?B?dkNGMFJRMjhTRTgvM3JKa3VxVmFURkhvbWJJWnNJbFhDYS96ek5GK2pGREM0?=
- =?utf-8?B?aTViSE5wKzR6elFURXdtd1dDZkdrM2VLWkJsbzhBUExCQ3QwZDkxQmJlckcz?=
- =?utf-8?B?ME1kSjZEN0VnZzZMK2RBZ2xPUXREYWJYWi9uVVg4aVJTTTRPSDF5cGFlVkd3?=
- =?utf-8?B?cEFlekoyV0lBWkpNcTA4QTVsOXI2R0lvdERRcU9sYWlQRm94WGsyTTA4ck9n?=
- =?utf-8?B?djZTZi9rVlEvanZ6N1VWUnNYRnAyOC9CS0l3cTFib0N1TjFKRm9udDRKU040?=
- =?utf-8?B?aDNWWmNwWjZDSXUvWlZXRmFUbFpDeWhJTlExcTk3SmpibDRCK3ZtVytaaURY?=
- =?utf-8?B?QVpVTDdqUnhYcUlBSnpwVTBHTXFoVC9reHVqa1pLZis2NXJib1puaERWOFFL?=
- =?utf-8?B?dTFzcFl0cGtDaGMrbHdjL3Y2TVZPUndUeVZ3NFZPZzN0Ti9DRmFUdGFFZm9J?=
- =?utf-8?B?TnFsNW41cVQ1OW83T2hzcXpjaXpHU0s5ZWVKeVEydG10ZFFXSVFFcFlUVWV0?=
- =?utf-8?B?YTlZNEZ5bHp4Zm9DOUh0cU9Bb2FvcE1wandkMmdjckM1K0lBbjNlQ0daQk1U?=
- =?utf-8?B?eFNoRlJ3OEk0TVlXUkorTkMwSWNER0F3R3BZT3RlU3N6eUcyM1dFeXhVTGRL?=
- =?utf-8?B?SzVDT0NtSExzM3V6SWRjYjRLeDh3dzJvdWlaTXovOXR2VzhRTHdzbEM1R2dQ?=
- =?utf-8?B?eFFpQk9HUU1BNHhNcWtBRjBsTTVnS1Q2OEZzYnFVQVM0clJoT1ZVWFhTeU9M?=
- =?utf-8?B?YU1BZTJaUEQ1Sm5ROThJb05FUWhReTlTQ0g2VDVrdi9BbUFpZC9EUk82QWd6?=
- =?utf-8?B?UGJRUDI3ZXl2N2VQUWpDUi9BY0pEMTVIK25jZUdFT1p6U0ZLc09HYUpyaVRs?=
- =?utf-8?B?NnFJb09ITG1NdlNVK3M1RElNMFlNbUxPWVYraE5ZSmtFVE40eEw1M1c1ODlR?=
- =?utf-8?B?bzZCT1JweTQ3c2RoN0pSNUwyWS9uRmhKeWtnb05vNGMvYVgrZWJFcm5seS9J?=
- =?utf-8?B?Rk9aTUdmTXlIZUFTc0pIdWhqd0V3PT0=?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c431dad4-360e-4a2e-a76e-08dd977abe74
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB6653.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	za1oTfnFRdKPcqUcIo7wSaXK5esRpAXq4jepvENw4LcXdYfF/++xgSd4wKYPBRUXZwTXpzi09UfqMNLCEaNtYp48S5mfPERIWRRkMlMEpjT2lU2dWxT/rZF4G7gSR19qbFBSChedxAqexCm1Dp8IzCmHjYKLkB60kttbmiQyXern8UavaUvReXo+8NmqaEfmIEvvOhDjZ/xC+mPAxYLj9qYElGCvIUI0QQXkO6J9IuLpTdN07byifjGvuJa/c89M4IyJyKlGH14lIfZOh1e7hGS5F1Ch7c2zgF1TriFUQiLHldzo7DNgG7uLh1UTAEZwtHd7Fm4KA3IEgjYqFYiPpzfX62RBlk+yJkTPHK3zF5PjNM8hX7e72Plrn6GW4a7WgGINNYFM1VTHka1boRYRNwtgnkTRjemoOcTucUM8eW8Q0HgSqDoCIFVzM5Kmk1rQkAmzekIp+VtKpt06Q1tv+BdvhC7gpxehhX8Xks/g/4w4soPoJxNkYoeq5Y46Rgf7thdPZyfVvzYCsFQo07KDROPIhuj9esjRWpFw2Odjzbc8QUPLOAY/xxivLJdNK5BAKZ/bjbZ5MkqeDBOfmdA2r2FlWYA9Zo/cOMJQ9hr1Pl7XD4Jc+sH92FvziFZd8dp0
+X-OriginatorOrg: wago.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 08:45:59.5953
+X-MS-Exchange-CrossTenant-AuthSource: DB4PR08MB8102.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8b42ac6-8c1e-4a44-132d-08dd977b860d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2025 08:51:34.1597
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GAQNkuMV73E3Jw3t8I7gOUD+y0eNajrSNglcpk4bR+JNB4nLM2EGJCvsvzxGQmU7WcHdql59DXC32HdxGGct9WAxVZ3BgY+vS9Kn1W+Nf6M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7868
-X-Proofpoint-GUID: yUYj8VHnjMz25XFifasrSmpUE_AxV96q
-X-Proofpoint-ORIG-GUID: Dx3x_hoBYl9wBswvf0W9BsuVw0AYFZmc
-X-Authority-Analysis: v=2.4 cv=arGyCTZV c=1 sm=1 tr=0 ts=682c414a cx=c_pps a=50c+v8Vu7SRZtPLyLAZfNQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=zD_pd4pwYoAU_ZZq8-EA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDA3MSBTYWx0ZWRfXwDiQmOPJDwP5 pUeR26ulTyvrcSweBtnxvljQ4ecyYgU0OK2XGQhMYUp+gWcw3ja1PdL/k+vikiiJiQ2mHBqN4k7 7/y1dCMxTR1uVbB2jO2kAHMqt9bClIKMOxLJxTw051hiSV9Sra8UdXw0PjAemCUq7jvelSCow18
- x/Qr9560sHxBu+VIO+DOrynF50wS9SKKCIpY7VaJ8r9K0IoseCM0cDjbybEGm7iRoXHJKKtKXgq 3qKULcSMNoXeZdf4OKEsbtmeHQxj733pi1s+uHokZAUbJMOdgesG3q0yvWkM7pPqyhtPlmnNxAG C8NDYxJWzGY5nU5rrfsjmZfM7b4NwI5FrhT8LM+0VSdBtFhFbRLD8Cf81f/QFid9k/AmSfGbigI
- 51JtyA2ML9o9glvzqt6nk4y7wfIaoT8l4+UDJiHUz82+fdys7aQCC0kXB1RNz3AZiDs+BZ23
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e211c965-dd84-4c9f-bc3f-4215552a0857
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nQjUMgQ6IpLDUFAt2HTw1Y4TsFMUM7ywnCstKZgbC5MGPHoEt4kOUC/8Ry1365WG6Zrb4iAoxaAmqmeAigz0Mg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR08MB10624
+X-Proofpoint-GUID: CeFnCIPhNJoSToJ7jwH42z1kt8skE8IE
+X-Authority-Analysis: v=2.4 cv=PM4P+eqC c=1 sm=1 tr=0 ts=682c429a cx=c_pps a=9TK2mEVt+YNFxHG6VsEebQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=wzW8d0FwaosA:10
+ a=TjCsNTqe5bEA:10 a=dt9VzEwgFbYA:10 a=uherdBYGAAAA:8 a=Q4-j1AaZAAAA:8 a=a_U1oVfrAAAA:8 a=ThMX_IV2AAAA:8 a=2nnM2dgGAAAA:8 a=MFFWu9hoAAAA:8 a=F7-tcKQWpIAC6dpmJs8A:9 a=avxi3fN6y70A:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=0jcnvs3wCqEDeep41k2a:22
+ a=i-hxQrRGloBzdKMNCQNT:22 a=SV2Tz2c5VQls2wiQynLY:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDA3MSBTYWx0ZWRfX8DyqW/3rn35J 2brEp3XQqV0Ip4rS+qvB7n2sbs1rtyfOoJm/JIqrSqC4m4ycYOS0N6SFCtBanSiEPOagvSz2EPq 5T6f3m7QUhwn3IHFemXiz7EvGGsr6a7OVl2VeIi04/RNPYhm6/Lo13Kb9E2aHR6qAGHaAZhe4Rm
+ bme/2Ol57vcl0aEkf8M4FPsVhpGvqH4vKSuBDOEMrDSzwqG9yDbQ1U1Tw0+CmHpGNMIyLNcuub7 gfRg58HBfw0/JvRjBlOrZc8W0279rtQekNmgzKyuhaGnYn6qo+ybZ1EFJcfYzUA4yDTzqWIp6va 87822M42Kv6fqJogmRaz1e7bMMzwomun4EjH1CF3WUJuLq37hs2Bgw9O4rWrHI6JWC7+xami4PI
+ WibbxdPJsBzm5iKhcJbippe9HTRQZin4XnZ3aRxmRGjRRQh3/Cyu9iKsoEBB6E4/obQ1IblP
+X-Proofpoint-ORIG-GUID: CeFnCIPhNJoSToJ7jwH42z1kt8skE8IE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-20_04,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
- priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
- spamscore=0 phishscore=0 clxscore=1015 adultscore=0 suspectscore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1011
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 priorityscore=1501
+ mlxscore=0 adultscore=0 spamscore=0 malwarescore=0 bulkscore=0
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
  definitions=main-2505200071
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 54K4ITkd004700
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 08:46:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216891
+ <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 08:51:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216892
 
-Hi Robert,
+Hi Adrian,
 
-On 14.05.2025 11:41, Robert Yang via lists.openembedded.org wrote:
->> -----Original Message-----
->>> From: openembedded-core@lists.openembedded.org <openembedded-
->>> core@lists.openembedded.org> On Behalf Of Robert Yang via
->>> lists.openembedded.org
->>> Sent: Wednesday, May 14, 2025 9:17
->>> To: openembedded-core@lists.openembedded.org
->>> Cc: liezhi.yang@windriver.com
->>> Subject: [OE-core] [PATCH 1/2] coreutils: Fix file-rdeps for=20
->>> single-binary
->>>
->>> From: Robert Yang <liezhi.yang@windriver.com>
->>>
->>> Fixed:
->>> DISTRO_FEATURES:append =3D " ptest"
->>> PACKAGECONFIG:append:pn-coreutils =3D " single-binary"
->>>
->>> $ bitbake coreutils
->>> ERROR: coreutils-9.6-r0 do_package_qa: QA Issue:=20
->>> /usr/lib/coreutils/ptest/src/yes
->>> contained in package coreutils-ptest requires=20
->>> /path/to//tmp/work/core2-64-poky-
->>> linux/coreutils/9.6/build/src/coreutils, but no providers found in
->>> RDEPENDS:coreutils-ptest? [file-rdeps]
->>>
-I noticed that this patch was merged. It fixes the coreutils-ptest build=20
-itself, but the sdk fails to build with this simple setup:
++AD4- There is also a patch-set pending which does a complete rewrite of th=
+is
++AD4- code in Python:
++AD4- https://urldefense.com/v3/+AF8AXw-https://lists.openembedded.org/g/
++AD4- openembedded-core/message/216836+AF8AXwA7ACEAIQ-B6Ltl4Q+ACE-
++AD4- sx1j+AF8-QU1O83+AF8-wMeOlorBivh3C9HD06dwOTkdj+AF8-Mvw5g0JkiLC3BEVzuC8=
+rMFPlyIDdqYv5r1ln2lPqCb7AhxUktc8So-+ACQ- +ADw-https://urldefense.com/v3/+AF=
+8AXw-https://lists.openembedded.org/g/openembedded-core/message/216836+AF8A=
+XwA7ACEAIQ-B6Ltl4Q+ACE-sx1j+AF8-QU1O83+AF8-wMeOlorBivh3C9HD06dwOTkdj+AF8-Mv=
+w5g0JkiLC3BEVzuC8rMFPlyIDdqYv5r1ln2lPqCb7AhxUktc8So-+ACQAPg-. I
++AD4- guess your change will potentially be simpler if it will would done i=
+n
++AD4- Python later on. What do you think?
 
-local.conf:
-DISTRO_FEATURES:append =3D " ptest"
-PACKAGECONFIG:append:pn-coreutils =3D " single-binary"
-IMAGE_INSTALL:append =3D " coreutils coreutils-ptest"
+Cool, looks very promising. Especially that the fitimage now builds from th=
+e image recipe.
+I will check and try it out once I have a spare minute.
 
-bitbake core-image-minimal -c populate_sdk
++AD4- With the current implementation of the kernel-fitimage.bbclass many
++AD4- details are hard-coded to +ACI-one configuration node gets generated =
+per
++AD4- dtb+ACI-. Are you sure that we can change the labels without breaking=
+ other
++AD4- things here? What's your exact use case for this?
 
-...
-
-Added oe-repo repo from=20
-tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/oe-sdk-repo
-User-Agent: falling back to 'libdnf': could not detect OS or basearch
-repo: using cache for: oe-repo
-oe-repo: using metadata from Tue 20 May 2025 07:24:39 AM UTC.
-Last metadata expiration check: 0:00:01 ago on Tue 20 May 2025 08:25:20=20
-AM UTC.
---> Starting dependency resolution
---> Finished dependency resolution
-Error:
- =C2=A0Problem: package=20
-target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target from oe-repo=20
-conflicts with coreutils provided by coreutils-9.6-r0.core2_64 from oe-re=
-po
- =C2=A0 - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_tar=
-get=20
-from oe-repo conflicts with /usr/bin/env provided by=20
-coreutils-9.6-r0.core2_64 from oe-repo
- =C2=A0 - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_tar=
-get=20
-from oe-repo obsoletes coreutils provided by coreutils-9.6-r0.core2_64=20
-from oe-repo
- =C2=A0 - package coreutils-ptest-9.6-r0.core2_64 from oe-repo requires=20
-/usr/bin/coreutils, but none of the providers can be installed
- =C2=A0 - conflicting requests
-(try to add '--allowerasing' to command line to replace conflicting=20
-packages or '--skip-broken' to skip uninstallable packages)
-
-Replacing the hardcoded /usr/bin/coreutils shebangs with "/usr/bin/env=20
-coreutils -S" seems to fix this.
+My patch does not change the default behavior and keeps the dtb name as lab=
+el for each entry.
+It just allows to provide a custom key if you want to. From my understandin=
+g,
+the reason for using formats like fitimage/blspec/extlinux is, so that you =
+don+IBk-t need to know
+what kernel/dtb/initramfs combination you want to load, especially if you s=
+upport multiple variants.
+We are using a unique device id written into rom to know what combination t=
+o boot from the bootloader.
 
 
-Thanks,
-Ovidiu
+Internal
++AF8AXwBfAF8AXwBfAF8AXwBfAF8AXwBfAF8AXwBfAF8AXwBfAF8AXwBfAF8AXwBfAF8AXwBfAF=
+8AXwBfAF8AXwBfAF8AXwBfAF8AXwBfAF8-
+From: Freihofer, Adrian +ADw-adrian.freihofer+AEA-siemens.com+AD4-
+Sent: Monday, May 19, 2025 7:05 PM
+To: Oliver ROHE+ADs- openembedded-core+AEA-lists.openembedded.org
+Subject: Re: +AFs-OE-core+AF0- +AFs-PATCH+AF0- kernel-fitImage: allow overw=
+rite the configuration dtb label
+
+Hi Oliver On Fri, 2025-05-16 at 12:+IAo-32 +-0000, Oliver ROHE via lists.+I=
+Ao-openembedded.+IAo-org wrote: +AD4- This allows to provide a custom label=
+ for each dtb +AD4- without having to overwrite the whole function. There i=
+s also a patch-set pending which does
+ZjQcmQRYFpfptBannerStart
+This Message Is From an External Sender
+Please use caution when clicking on links or opening attachments+ACE-
+
+ZjQcmQRYFpfptBannerEnd
+
+Hi Oliver
+
+On Fri, 2025-05-16 at 12:32 +-0000, Oliver ROHE via
+lists.openembedded.org wrote:
++AD4- This allows to provide a custom label for each dtb
++AD4- without having to overwrite the whole function.
+
+There is also a patch-set pending which does a complete rewrite of this
+code in Python:
+https://urldefense.com/v3/+AF8AXw-https://lists.openembedded.org/g/openembe=
+dded-core/message/216836+AF8AXwA7ACEAIQ-B6Ltl4Q+ACE-sx1j+AF8-QU1O83+AF8-wMe=
+OlorBivh3C9HD06dwOTkdj+AF8-Mvw5g0JkiLC3BEVzuC8rMFPlyIDdqYv5r1ln2lPqCb7AhxUk=
+tc8So-+ACQ-. I
+guess your change will potentially be simpler if it will would done in
+Python later on. What do you think?
+
+With the current implementation of the kernel-fitimage.bbclass many
+details are hard-coded to +ACI-one configuration node gets generated per
+dtb+ACI-. Are you sure that we can change the labels without breaking other
+things here? What's your exact use case for this?
+
++AD4-
++AD4- Signed-off-by: Oliver Rohe +ADw-oliver.rohe+AEA-wago.com+AD4-
++AD4- ---
++AD4-  meta/classes-recipe/kernel-fitimage.bbclass +AHw- 26 +-+-+-+-+-+-+-+=
+-+-+-+-+-+-+------
++AD4- --
++AD4-  1 file changed, 18 insertions(+-), 8 deletions(-)
++AD4-
++AD4- diff --git a/meta/classes-recipe/kernel-fitimage.bbclass
++AD4- b/meta/classes-recipe/kernel-fitimage.bbclass
++AD4- index 07786647e1..f770d65087 100644
++AD4- --- a/meta/classes-recipe/kernel-fitimage.bbclass
++AD4- +-+-+- b/meta/classes-recipe/kernel-fitimage.bbclass
++AD4- +AEAAQA- -344,6 +-344,15 +AEAAQA- symlink+AF8-points+AF8-below() +AHs=
+-
++AD4-         echo +ACIAJA-realpath+ACI-
++AD4-  +AH0-
++AD4-
++AD4- +-+ACM-
++AD4- +-+ACM- Simple function to allow overwriting the configuration node l=
+abel
++AD4- +-+ACM-
++AD4- +-+ACM- +ACQ-1 ... DTB image name
++AD4- +-fitimage+AF8-emit+AF8-section+AF8-config+AF8-dtb+AF8-label() +AHs-
++AD4- +-       dtb+AF8-img+AD0AIgAk-1+ACI-
++AD4- +-       echo +ACIAJAB7-FIT+AF8-CONF+AF8-PREFIX+AH0AJAB7-dtb+AF8-img+=
+AH0AIg-
++AD4- +-+AH0-
+The convention here is that functions starting with
+fitimage+AF8-emit+AF8-section+AF8-... emits a section. However, this functi=
+on is
+just concatenating 2 variables.
+
+Thank you for the patch
+Adrian
+
++AD4- +-
++AD4-  +ACM-
++AD4-  +ACM- Emit the fitImage ITS configuration section
++AD4-  +ACM-
++AD4- +AEAAQA- -404,7 +-413,7 +AEAAQA- fitimage+AF8-emit+AF8-section+AF8-co=
+nfig() +AHs-
++AD4-         +ACM- conf node name is selected based on dtb ID if it is
++AD4- present,
++AD4-         +ACM- otherwise its selected based on kernel ID
++AD4-         if +AFs- -n +ACIAJA-dtb+AF8-image+ACI- +AF0AOw- then
++AD4- -               conf+AF8-node+AD0AJA-conf+AF8-node+ACQ-dtb+AF8-image
++AD4- +-               conf+AF8-node+AD0AJA-(fitimage+AF8-emit+AF8-section+=
+AF8-config+AF8-dtb+AF8-label
++AD4- +ACQ-dtb+AF8-image)
++AD4-         else
++AD4-                 conf+AF8-node+AD0AJA-conf+AF8-node+ACQ-kernel+AF8-id
++AD4-         fi
++AD4- +AEAAQA- -442,13 +-451,14 +AEAAQA- fitimage+AF8-emit+AF8-section+AF8-=
+config() +AHs-
++AD4-                 +ACM- default node is selected based on dtb ID if it =
+is
++AD4- present,
++AD4-                 +ACM- otherwise its selected based on kernel ID
++AD4-                 if +AFs- -n +ACIAJA-dtb+AF8-image+ACI- +AF0AOw- then
++AD4- -                       +ACM- Select default node as user specified d=
+tb
++AD4- when
++AD4- -                       +ACM- multiple dtb exists.
++AD4- -                       if +AFs- -n +ACIAJA-default+AF8-dtb+AF8-image=
++ACI- +AF0AOw- then
++AD4- -                               default+AF8-line+AD0AIg-default +AD0-
++AD4- +AFwAIgAkAHs-FIT+AF8-CONF+AF8-PREFIX+AH0AJA-default+AF8-dtb+AF8-image=
++AFwAIgA7ACI-
++AD4- -                       else
++AD4- -                               default+AF8-line+AD0AIg-default +AD0-
++AD4- +AFwAIgAkAHs-FIT+AF8-CONF+AF8-PREFIX+AH0AJA-dtb+AF8-image+AFwAIgA7ACI=
+-
++AD4- -                       fi
++AD4- +-                       +ACM- Select default node as user specified =
+dtb
++AD4- when
++AD4- +-                       +ACM- multiple dtb exists.
++AD4- +-                       if +AFs- -n +ACIAJA-default+AF8-dtb+AF8-imag=
+e+ACI- +AF0AOw- then
++AD4- +-                               img+AD0AJA-default+AF8-dtb+AF8-image
++AD4- +-                       else
++AD4- +-                               img+AD0AJA-dtb+AF8-img
++AD4- +-                       fi
++AD4- +-                       default+AF8-line+AD0AIg-default +AD0-
++AD4- +AFwAIgAk-(fitimage+AF8-emit+AF8-section+AF8-config+AF8-dtb+AF8-label=
+ +ACQ-img)+AFwAIgA7ACI-
++AD4-                 else
++AD4-                         default+AF8-line+AD0AIg-default +AD0-
++AD4- +AFwAIgAkAHs-FIT+AF8-CONF+AF8-PREFIX+AH0AJA-kernel+AF8-id+AFwAIgA7ACI=
+-
++AD4-                 fi
++AD4- --
++AD4- 2.43.0
++AD4-
++AD4- Internal
++AD4-
++AD4- -+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--
++AD4- Links: You receive all messages sent to this group.
++AD4- View/Reply Online (+ACM-216750):
++AD4- https://urldefense.com/v3/+AF8AXw-https://lists.openembedded.org/g/op=
+enembedded-core/message/216750+AF8AXwA7ACEAIQ-B6Ltl4Q+ACE-sx1j+AF8-QU1O83+A=
+F8-wMeOlorBivh3C9HD06dwOTkdj+AF8-Mvw5g0JkiLC3BEVzuC8rMFPlyIDdqYv5r1ln2lPqCb=
+7AhxUnKem2gk+ACQ-
++AD4- Mute This Topic: https://urldefense.com/v3/+AF8AXw-https://lists.open=
+embedded.org/mt/113144105/3616858+AF8AXwA7ACEAIQ-B6Ltl4Q+ACE-sx1j+AF8-QU1O8=
+3+AF8-wMeOlorBivh3C9HD06dwOTkdj+AF8-Mvw5g0JkiLC3BEVzuC8rMFPlyIDdqYv5r1ln2lP=
+qCb7AhxUiauaTC-+ACQ-
++AD4- Group Owner: openembedded-core+-owner+AEA-lists.openembedded.org
++AD4- Unsubscribe:
++AD4- https://urldefense.com/v3/+AF8AXw-https://lists.openembedded.org/g/op=
+enembedded-core/unsub+AF8AXwA7ACEAIQ-B6Ltl4Q+ACE-sx1j+AF8-QU1O83+AF8-wMeOlo=
+rBivh3C9HD06dwOTkdj+AF8-Mvw5g0JkiLC3BEVzuC8rMFPlyIDdqYv5r1ln2lPqCb7AhxUgWyg=
+Dxq+ACQ- +AFs-
++AD4- adrian.freihofer+AEA-siemens.com+AF0-
++AD4- -+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--+AD0--
++AD4-
+
+
 
