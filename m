@@ -1,258 +1,173 @@
-Return-Path: <praveen.kumar@windriver.com>
+Return-Path: <fhoerni@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B8DC3ABDD
-	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 07:53:20 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.15826.1747727596462881125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E912C3ABDD
+	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 07:54:20 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.117])
+ by mx.groups.io with SMTP id smtpd.web11.15836.1747727650349908187
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 00:53:16 -0700
+ Tue, 20 May 2025 00:54:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=723559529c=praveen.kumar@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K57iMu013187
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 00:53:16 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46psykjktr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 00:53:15 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 20 May 2025 00:52:59 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Tue, 20 May 2025 00:52:56 -0700
-From: Praveen Kumar <praveen.kumar@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Praveen Kumar <praveen.kumar@windriver.com>
-Subject: [oe-core][scarthgap][PATCH 1/1] glib-2.0: fix CVE-2025-4373
-Date: Tue, 20 May 2025 13:23:04 +0530
-Message-ID: <20250520075304.938023-1-praveen.kumar@windriver.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=fail reason="dkim: body hash did not verify" header.i=@witekio.com header.s=selector1 header.b=sVosQMnT;
+ spf=pass (domain: witekio.com, ip: 40.107.21.117, mailfrom: fhoerni@witekio.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fPKtKLa9xu7jceB9tDPOWTFIP8FPORcWbOWrkvqb+islSjk58p0VYpW5PVTxww326MjbUaKPacmO7tPZ6PTZt0X+LBfyN20JEdJFmFqUhrc1eFuDqm90GhJU9DWUYCzrdhxOExWlU1vhe9b4DxOM2lSGolHnR+ERROpLzL6vNQNvhJDsvMbu38jEuUuRb4KiAaQWXF2bZAGR4JNtzVFL42p7n10oj8nMGeDmKn58Phm36ls69VMi5SvGJZ6W/zU20w0FZOmmMX46RYgDNvY5D35VfQ7dudn5D8mYy6pwfcMdVnrSkJ/dCznA0pfEIqsN6JSRZTZAzmfVs3W21qNUtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nl3my/PbJbSD74eAJ47ToGjeSMNyjU2iS6e0j0oWsI0=;
+ b=ii+hO+rEOElHP2bx+N5/I+uqDFLFmiOL13Ty8MhnuRyjKMhTQ5Ohd7FtrvyeIHYvvZaAdPpEFOMUJkPJfkQPepA7nr/UokYimBjx6T60ofo56x+KiiGYnN8TllQ7pr5DVnBJjB/KxaxZScq+EFUGzMSUQGjmpBVGAdrWoUzG8saO0rnT0h6icbDrVr3VB4pZqSWOricfUPBgGpGjTZwCakKaU0LlW6OCDaZINStlXrJXUqMSD3DDZU7BN/EIAaaPh330hlxJb4JQUrMTXbpyq/3YsfRmL5ivhuL6DILrRRvY6go7MZyCqBk2JGyGBPlXWE/R7jcq400Eh59nKLJ4Wg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
+ dkim=pass header.d=witekio.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nl3my/PbJbSD74eAJ47ToGjeSMNyjU2iS6e0j0oWsI0=;
+ b=sVosQMnTVpJXP5FDvzDDbIMOp25QZC+a+E/0IHsw6ivV2TB4Yx1mUq00I8nYMok67XKxId/jjevphT38EQnnc2xLfyiADAtPAY66AxjauE9n9XCYTtNMk+eMBy2slnKcp5ngIciFhfHisnntzUfa2V86BsjC5NPinczFxmbM3ztYommSiVviIwQGOmJAGOJV/Z5AGrBEANU+Xcmj9wxFPQzgBjNhnE4d4bUv3aTlJIDZSKSjcnNgcev5UZ7sMdE+KJmdVwJ5D3d9R6LJjB9XNAFgCwt1Eu7zy082iy/FHPPPlTBW1mJEF7mzWbjr5r9dk2cmTrh0XrUcdj/KRPcTiQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=witekio.com;
+Received: from PAWP192MB2225.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:359::22)
+ by PR3P192MB0863.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:ae::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Tue, 20 May
+ 2025 07:54:06 +0000
+Received: from PAWP192MB2225.EURP192.PROD.OUTLOOK.COM
+ ([fe80::8a5a:c9f5:c976:7b14]) by PAWP192MB2225.EURP192.PROD.OUTLOOK.COM
+ ([fe80::8a5a:c9f5:c976:7b14%4]) with mapi id 15.20.8746.030; Tue, 20 May 2025
+ 07:54:05 +0000
+From: fhoerni.opensource@witekio.com
+To: openembedded-core@lists.openembedded.org
+CC: Frederic Hoerni <fhoerni@witekio.com>
+Subject: [PATCH 0/2] image_types_wic: fix dependencies on wks files
+Date: Tue, 20 May 2025 09:53:23 +0200
+Message-ID: <20250520075325.64756-1-fhoerni.opensource@witekio.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=a8kw9VSF c=1 sm=1 tr=0 ts=682c34eb cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=PYnjg3YJAAAA:8 a=xNf9USuDAAAA:8 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=pedpZTtsAAAA:8
- a=iP4e_i8taq-sWq2_hYYA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=EA_oED63Isst-uzJqiZM:22
-X-Proofpoint-GUID: MSka5aWEzC53FgB88mLFb0baRCZN6r5p
-X-Proofpoint-ORIG-GUID: MSka5aWEzC53FgB88mLFb0baRCZN6r5p
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDA2MyBTYWx0ZWRfXwtBhkNnon7h/ W5E1Tvztw5Gv7PI+UwGMJr3ePTEsFboVaNgIjYQf3JIFNYopc5afwPd+6Wlk0cN4x6RfFcAa5St iB1PN4UNU3CXIk9XX4TmNE8PNnmN19737g/K1unlFiOjNbGRAoyDB4C1JQ9UWwGxqWB/LQek4ny
- 7Sv7HWTAQ6K0H+24SgFIyvvBKuRZXOMrOEB28kBJJihP8R1Y/AJ13vR2C4RqN+Fp9EnYft6LC9V ij1876iSYraxbOzrsdRv14fUZpD08GGey+pNYGd7JLH26QdLTLUqEYboyTlwamN6n++9U0iQXxG TaQkcfbU7gzH5a4KDKjLbqb19qIiGsgO7vvQXkhcQZo8yPSLI3decjYEtZ9lBfO+8K07wVx10Xi
- hirVmH+FUoV3Ovp9Z+P28aVXTf2mwkaiiXciK9z8wY/TJIbAhUfMRRj94SAxHNawk5KbM1NO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-20_03,2025-05-16_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0 phishscore=0
- impostorscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
- definitions=main-2505200063
+X-ClientProxiedBy: PR3P251CA0019.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:102:b5::33) To PAWP192MB2225.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:102:359::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAWP192MB2225:EE_|PR3P192MB0863:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0343e695-c6f6-4a77-9d33-08dd97737df3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|376014|10070799003|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?cyaND6saSjSzrbenfnbfucAFsMzH1KaIRFX9Z+GKDogw6MsB36U5ymjm+Zq/?=
+ =?us-ascii?Q?4p1F6A72yZ9o8ZdwQuW3bWejkTSlfH9vNj765wBXKt2E/hAerkqnq6l4H5/h?=
+ =?us-ascii?Q?5Cdl7jTQ4cTWTgjZVgbGqMOp/YZ7WTxmC6HGzjwi0oHjfUg9ila0Z4Z+I1GG?=
+ =?us-ascii?Q?QJWMiQAM+59d2zxeBu3i89XZB0obf53tZQ5yEMjzOI7EKKSl3ldt2FQSNDBe?=
+ =?us-ascii?Q?h8TBbkP+N/FKwlYyW2g9wyOJ1iJQ0LALH0+wPuCyp3Ck8mRcf43WoZfE5D1i?=
+ =?us-ascii?Q?i6PAsDPWv7zqe8UY1H/HDATW7sbJOfG9Yd6KC4haRwORfcTkQEoO3bwYl4HB?=
+ =?us-ascii?Q?9i46K33Uwd6VDivt2Ie5qRBeEhqcB4oiyZpFtrcZec98iM9muaRD+Gi9Jymk?=
+ =?us-ascii?Q?E8IHxmGj8U6lAnGWhz2ob9sw4nYF9Oy0eOlc6GMzwgxRhLPUnFhUjVyzRdnz?=
+ =?us-ascii?Q?cIW9PxJGHMFI2U1g2VPl/Ycv0oQvhD9jEdymuLIqt0EM11vrj+FTxcQZfmGm?=
+ =?us-ascii?Q?Khqes39fA2iqpNvnhYF5+Quqhs6EkvnYFcZ5XiMW0pJlDkk17BrBV+kkre5j?=
+ =?us-ascii?Q?loclaxwoWwemVvEVvy1jjrDNxjF6vTHv1Mmf88x24i8C3Kb5/TDZhqIO1ezF?=
+ =?us-ascii?Q?yk79LEnCm2S6jhRNuVaI3+2eJiVxhkwgfNinNNHSqR3olMbGnNNCp8D/Ijii?=
+ =?us-ascii?Q?EU3GiRWjM/vFjKj88DIpz+atjKMEvaPNYajPUKvojUO9dEWnn4ysZCB5Y0uj?=
+ =?us-ascii?Q?IWmsdaznU7qj0n5rOHAkkd9V3Y93vAtA24XCaQsde1Nrs2nzMYv3EsI/9RWw?=
+ =?us-ascii?Q?nCaAJp7vLQ1mTv+g6b6DwJIxcyEZW8ceGWGmKMuqOuKKjUFDlOmKM49qEFOz?=
+ =?us-ascii?Q?RzMSCuMRr2pYfc7ztPkDovfPMoEdinF4zWJfJYh+R4lftYTPNJOIU0RZKmdT?=
+ =?us-ascii?Q?yErRPiiIzmuN2Oek1+mekLaHf+QBHzA2LpmyVpeJ5JC6f1E/l5WV+z+VOO/y?=
+ =?us-ascii?Q?W3lkuzxJeLD44I/mX36qEfYdnmGv2iyGREWN1buZ5syVayhOKXsFoU0t1Cez?=
+ =?us-ascii?Q?9Zu/5B7TlzybUtqKFwmD+pA8pk3w5dtdsPI0pRLXhg8MnZrgbIwm+Vc8D1Vp?=
+ =?us-ascii?Q?zDPJ9//G8cWfJp5gfO80dozCsrCSLeMu/NdIPPsH5UmPwDD6Sh6uHcFrjs9I?=
+ =?us-ascii?Q?GvrxA+j+dqsCzOR+mMTk5BH79e0uf7dQejHBbv5k1kgtp2/Ya/OAS7LucjGV?=
+ =?us-ascii?Q?8IKzlIw+lUAbYrLrEnl+ftVGXt8jSj5G7SlUmy96GzLaYH+RrcLDqQl5eE/f?=
+ =?us-ascii?Q?3yBvDf/AEJS932eXWsqI7F0YJS0iBooktJf7BSC118mDtDCZQkOdPOkd3D0W?=
+ =?us-ascii?Q?3H7vPufpIRflqhVul1OiGswuxT4MOcFbkDFRWNyR5slHEpPuGX9mt8aNrLJy?=
+ =?us-ascii?Q?yhIieCcg7TY=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWP192MB2225.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Zbe2x1DR8B6KMywKCyG/BqLG5yhyrPFmgLGaJbTebUPRP7ivZSqzu01fu2yG?=
+ =?us-ascii?Q?qUqW9lBw9TUUwbIxR2T+Tm5FoAeI0Ly+Sm4kpIN4XFZnGMc0oM0XGKv7RBPs?=
+ =?us-ascii?Q?4ZAMYvDmnmBCLcJ0vR3p7EcZaPjMJ3YXCR8Cl7k05duh9m3+d8WXqDUVvB7b?=
+ =?us-ascii?Q?4TOqdf0jGWshp+IIeA7SJCCHNATvnOOT+mxh+KRAph+HDBlhznTmdNm8c0ta?=
+ =?us-ascii?Q?8rkCHEOyrEpoJhClX31wqydyhzhU15Uq6wVk+XvP+JkXE99PJX1M55qfTfEg?=
+ =?us-ascii?Q?iRXbs0aRdIMtGZrYWZQ+lskaebRqfAkhOClbuRaBu20nqcfjyblRjzpGXo+v?=
+ =?us-ascii?Q?r9Q4i3WmhC3S9Ty9E0zZ2EiHs7hjQ9p+486ObMpjKeQP/CBp+K5m6q4bCKtA?=
+ =?us-ascii?Q?lLSz+iMkzS6D2VpAf5Oz50Y1C1IazTqnNor3k70aNc+hXwQSNLiqTDsyJtq7?=
+ =?us-ascii?Q?OAkvStBwRbY0Rl4V4qBiwHOppn8JGy1GxXwDmbBP+7Dx+sd8BYt6D9O07heC?=
+ =?us-ascii?Q?arYtFtuGFx1wjR1lwquALKWN58XKfr/0BkCOOcEVWxIDqye88vy4JvAhq44N?=
+ =?us-ascii?Q?TgE34mnRlEWD+7rUlMM9S0LV6meRG4NJOMiUc96ISQZbJkKDDNVVkoJXd9rv?=
+ =?us-ascii?Q?9dPC2nfKjSJ3ywsznAUfVP23EofinKbhwFEKfm4vIYc4gCbjd8Q4BPoZPuTo?=
+ =?us-ascii?Q?FeMyqrlTH5dJivMgs+ETbIzGPclWhnBh4QmyfM31Alc9v9z1Mjkz9iVxWa7q?=
+ =?us-ascii?Q?xN+jNrA6vmnlw6YtFRuiRwMt00w+sM2JjckqyK+0MsGmHDDuqn/qeSwEjXYL?=
+ =?us-ascii?Q?lww0a9X58oN3SdTO9yUvgU9P+THup4/MVW+/wisAE3vptjrwKsYe8SOc+Vll?=
+ =?us-ascii?Q?8oDn+p1FnLDVQOzoawMHGA9RnNaHI5a14W8DhQOO2BBBJ6/+Q9LLVvDIXwMD?=
+ =?us-ascii?Q?Zo+f1QNoo5v1SxsdJ4rrImjZLBUtcYcdetHPHSw8ESamycigxgkrrkcdgJzj?=
+ =?us-ascii?Q?tH7qIEhbAqKf5ZLIxLqdKK5Qh3BzUP4gAC8/XuFCpbsLKVmP0OyIYzCIKTgY?=
+ =?us-ascii?Q?Wql49CEu0G2StCXy+H9JI4jeO0F2y/P5WFrTQa1lDApzA92zJHXUmr7XptNp?=
+ =?us-ascii?Q?GuVI33roT1+uSLHaCVsmAA+D/1DNsWyayLpHL6zZ3LQBEKW9e0VYbkeQN9Dd?=
+ =?us-ascii?Q?Madawf7YCUA/VdlB+bFON6C/0LU6UVjm8krI+spN76b7FN6+Ti+9vjV/S1BW?=
+ =?us-ascii?Q?BDK+Bo8ClP7i8UWdToRJAp03Som1hKzrJOdg3MIG2iaiktudKttd2zKiJA4m?=
+ =?us-ascii?Q?rdOChh20x3ZOcUGcliCn1UaGbJQ22UKmxT2c/C7wC6FDkRI3BbIsM2LzOZ7v?=
+ =?us-ascii?Q?9uJvpivkUCmx6R9y7snqefQN977avwVBPwhPTtx5UmDMDuCGRxR1dyvNspn4?=
+ =?us-ascii?Q?3ob0s3qIPuax/IFKknedQcfuONB3pUyCRSSY6vMfl0hejMy2Azs1fGcHJW7E?=
+ =?us-ascii?Q?Wtr5xl265lRGH27Xrfrst191unzbOghzlbL+q6HnW3Iptxut2LKxcQhj5VYX?=
+ =?us-ascii?Q?KE5pYcfvumDWYgBlRfnFSlJPX0pZdQ6DaSiUHWLS4NqTopx28Npt79iNt16v?=
+ =?us-ascii?Q?I6/9G0DR0jK6bUB2LmwcCWb87p59/aYmGtsr/Mc5UZIK?=
+X-OriginatorOrg: witekio.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0343e695-c6f6-4a77-9d33-08dd97737df3
+X-MS-Exchange-CrossTenant-AuthSource: PAWP192MB2225.EURP192.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 07:54:04.9708
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sQES3xeY/qmGeeRfvGDTt6fVTY0cyrz8U0ERMb3oq4ToYoAS5BtDDHOFYrV0oJ6CRVKWl+2tOsVVL1nF44jdEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P192MB0863
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 07:53:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216886
+ <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 07:54:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216887
 
-A flaw was found in GLib, which is vulnerable to an integer overflow
-in the g_string_insert_unichar() function. When the position at which
-to insert the character is large, the position will overflow, leading
-to a buffer underwrite.
+From: Frederic Hoerni <fhoerni@witekio.com>
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2025-4373
-https://security-tracker.debian.org/tracker/CVE-2025-4373
+This series of patches is meant to raise an issue about missing dependencie=
+s on
+wks(.in) files in WKS_SEARCH_PATH, and proposes a technical solution.
 
-Upstream-patches:
-https://gitlab.gnome.org/GNOME/glib/-/commit/cc647f9e46d55509a93498af19659baf9c80f2e3
-https://gitlab.gnome.org/GNOME/glib/-/commit/4d435bb4809793c445846db8fb87e3c9184c4703
+The issue is that adding a wks file earlier in the search path is not taken
+into account automatically. See the message of the second patch to get a
+detailed procedure for reproducing the issue.
 
-Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
----
- .../glib-2.0/glib-2.0/CVE-2025-4373-01.patch  | 120 ++++++++++++++++++
- .../glib-2.0/glib-2.0/CVE-2025-4373-02.patch  |  29 +++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   2 +
- 3 files changed, 151 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
+I propose here to define a lib function 'search_file', that is used by
+image_types_wic.bbclass but can also be used by other custom recipes.
+This lib function is in meta/lib/oe/searchfile.py. Please confirm if
+this is a relevant and consistent place, or if it should be grouped with
+some other existing file.
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
-new file mode 100644
-index 0000000000..f99c4de7e1
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
-@@ -0,0 +1,120 @@
-+From cc647f9e46d55509a93498af19659baf9c80f2e3 Mon Sep 17 00:00:00 2001
-+From: Michael Catanzaro <mcatanzaro@redhat.com>
-+Date: Thu, 10 Apr 2025 10:57:20 -0500
-+Subject: [PATCH 1/2] gstring: carefully handle gssize parameters
-+
-+Wherever we use gssize to allow passing -1, we need to ensure we don't
-+overflow the value by assigning a gsize to it without checking if the
-+size exceeds the maximum gssize. The safest way to do this is to just
-+use normal gsize everywhere instead and use gssize only for the
-+parameter.
-+
-+Our computers don't have enough RAM to write tests for this. I tried
-+forcing string->len to high values for test purposes, but this isn't
-+valid and will just cause out of bounds reads/writes due to
-+string->allocated_len being unexpectedly small, so I don't think we can
-+test this easily.
-+
-+CVE: CVE-2025-4373
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/cc647f9e46d55509a93498af19659baf9c80f2e3]
-+
-+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
-+---
-+ glib/gstring.c | 36 +++++++++++++++++++++++-------------
-+ 1 file changed, 23 insertions(+), 13 deletions(-)
-+
-+diff --git a/glib/gstring.c b/glib/gstring.c
-+index 9f04144..d016b65 100644
-+--- a/glib/gstring.c
-++++ b/glib/gstring.c
-+@@ -490,8 +490,9 @@ g_string_insert_len (GString     *string,
-+     return string;
-+
-+   if (len < 0)
-+-    len = strlen (val);
-+-  len_unsigned = len;
-++    len_unsigned = strlen (val);
-++  else
-++    len_unsigned = len;
-+
-+   if (pos < 0)
-+     pos_unsigned = string->len;
-+@@ -788,10 +789,12 @@ g_string_insert_c (GString *string,
-+   g_string_maybe_expand (string, 1);
-+
-+   if (pos < 0)
-+-    pos = string->len;
-++    pos_unsigned = string->len;
-+   else
-+-    g_return_val_if_fail ((gsize) pos <= string->len, string);
-+-  pos_unsigned = pos;
-++    {
-++      pos_unsigned = pos;
-++      g_return_val_if_fail (pos_unsigned <= string->len, string);
-++    }
-+
-+   /* If not just an append, move the old stuff */
-+   if (pos_unsigned < string->len)
-+@@ -824,6 +827,7 @@ g_string_insert_unichar (GString  *string,
-+                          gssize    pos,
-+                          gunichar  wc)
-+ {
-++  gsize pos_unsigned;
-+   gint charlen, first, i;
-+   gchar *dest;
-+
-+@@ -865,15 +869,18 @@ g_string_insert_unichar (GString  *string,
-+   g_string_maybe_expand (string, charlen);
-+
-+   if (pos < 0)
-+-    pos = string->len;
-++    pos_unsigned = string->len;
-+   else
-+-    g_return_val_if_fail ((gsize) pos <= string->len, string);
-++    {
-++      pos_unsigned = pos;
-++      g_return_val_if_fail (pos_unsigned <= string->len, string);
-++    }
-+
-+   /* If not just an append, move the old stuff */
-+-  if ((gsize) pos < string->len)
-+-    memmove (string->str + pos + charlen, string->str + pos, string->len - pos);
-++  if (pos_unsigned < string->len)
-++    memmove (string->str + pos_unsigned + charlen, string->str + pos_unsigned, string->len - pos_unsigned);
-+
-+-  dest = string->str + pos;
-++  dest = string->str + pos_unsigned;
-+   /* Code copied from g_unichar_to_utf() */
-+   for (i = charlen - 1; i > 0; --i)
-+     {
-+@@ -931,6 +938,7 @@ g_string_overwrite_len (GString     *string,
-+                         const gchar *val,
-+                         gssize       len)
-+ {
-++  gssize len_unsigned;
-+   gsize end;
-+
-+   g_return_val_if_fail (string != NULL, NULL);
-+@@ -942,14 +950,16 @@ g_string_overwrite_len (GString     *string,
-+   g_return_val_if_fail (pos <= string->len, string);
-+
-+   if (len < 0)
-+-    len = strlen (val);
-++    len_unsigned = strlen (val);
-++  else
-++    len_unsigned = len;
-+
-+-  end = pos + len;
-++  end = pos + len_unsigned;
-+
-+   if (end > string->len)
-+     g_string_maybe_expand (string, end - string->len);
-+
-+-  memcpy (string->str + pos, val, len);
-++  memcpy (string->str + pos, val, len_unsigned);
-+
-+   if (end > string->len)
-+     {
-+--
-+2.40.0
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
-new file mode 100644
-index 0000000000..ea586c90dc
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
-@@ -0,0 +1,29 @@
-+From 4d435bb4809793c445846db8fb87e3c9184c4703 Mon Sep 17 00:00:00 2001
-+From: Peter Bloomfield <peterbloomfield@bellsouth.net>
-+Date: Fri, 11 Apr 2025 05:52:33 +0000
-+Subject: [PATCH 2/2] gstring: Make len_unsigned unsigned
-+
-+CVE: CVE-2025-4373
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/4d435bb4809793c445846db8fb87e3c9184c4703]
-+
-+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
-+---
-+ glib/gstring.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/glib/gstring.c b/glib/gstring.c
-+index d016b65..d9ad0c3 100644
-+--- a/glib/gstring.c
-++++ b/glib/gstring.c
-+@@ -938,7 +938,7 @@ g_string_overwrite_len (GString     *string,
-+                         const gchar *val,
-+                         gssize       len)
-+ {
-+-  gssize len_unsigned;
-++  gsize len_unsigned;
-+   gsize end;
-+
-+   g_return_val_if_fail (string != NULL, NULL);
-+--
-+2.40.0
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index 1a65f48399..e1a3b57270 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -27,6 +27,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2025-3360-04.patch \
-            file://CVE-2025-3360-05.patch \
-            file://CVE-2025-3360-06.patch \
-+           file://CVE-2025-4373-01.patch \
-+           file://CVE-2025-4373-02.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
--- 
-2.40.0
+In meta/lib/oe/searchfile.py, I wrote the docstring using the same formalis=
+m as
+in bitbake/lib/bb/utils.py (command 'which'), but I am not sure if this is
+relevant and if this formalism is actually used somewhere (especially the
+double-backticks).
+
+That being said, there are still missing dependencies on files included fro=
+m the
+main wks file, not resolved by these patches.
+
+Frederic Hoerni (2):
+  meta/lib/oe: add searchfile.py
+  image_types_wic: fix dependencies on wks files
+
+ meta/classes-recipe/image_types_wic.bbclass | 18 +++-------
+ meta/lib/oe/searchfile.py                   | 37 +++++++++++++++++++++
+ 2 files changed, 41 insertions(+), 14 deletions(-)
+ create mode 100644 meta/lib/oe/searchfile.py
+
+--=20
+2.34.1
 
 
