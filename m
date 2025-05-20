@@ -2,39 +2,39 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A93FCC3DA6D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8640C54E93
 	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 23:40:05 +0000 (UTC)
 Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web10.5089.1747784398472994016
+ by mx.groups.io with SMTP id smtpd.web11.5069.1747784398641734673
  for <openembedded-core@lists.openembedded.org>;
  Tue, 20 May 2025 16:39:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=ZmQ9VOJe;
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=h/OjnSlP;
  spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
 Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54KNddMf1308327;
-	Tue, 20 May 2025 18:39:39 -0500
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54KNdckr1308323;
+	Tue, 20 May 2025 18:39:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
 	s=ti-com-17Q1; t=1747784379;
-	bh=DqJVyCYXR0oGKSChRnkDl6YcNmZKA6OnId3Sx1HfJdw=;
+	bh=HRlrr1dHWb8/N76uFQNtfACsgzI9F8HQFCEAyLyQO8g=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=ZmQ9VOJeIjkQOiW0h2FiK5lgSBN0dlqc5yXQO6TyIRXJS7ojRvHAq4q8V7dRNqa9A
-	 0lOlz8WMWB214+kwucYzVJtTeY9cm73buUlPb77GWncfgk1ud8GrJqjgaY17blsON7
-	 FNLwR8V0qd2tOy76PgKANZRYkcgkYRgeki2HCuvY=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54KNdccX1693407
+	b=h/OjnSlP9yO1Bm5Nx7GeJlUq2HtNOEdX2fVrHjTuziLkzA3aRSIfKoobf00ZzR27R
+	 78RyJeW0Qc4LeuyeNQdWhxbHfvP4ibLZKxyM3K/TQ4gUDT6dbeeYvgF2DJ2NzIV79k
+	 3ehEHhAwQ4clF9a58G6RdqiKA1MAUrryGKy2nWL4=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54KNdcCW1693404
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 20 May 2025 18:39:39 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+	Tue, 20 May 2025 18:39:38 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 20
  May 2025 18:39:38 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
  Frontend Transport; Tue, 20 May 2025 18:39:38 -0500
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54KNdcsc015026;
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54KNdcsa015026;
 	Tue, 20 May 2025 18:39:38 -0500
 From: <rs@ti.com>
 To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
@@ -42,9 +42,9 @@ To: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>,
         <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
         <denis@denix.org>, <reatmon@ti.com>
 CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv6 3/5] weston-init: convert to virtual-emptty-conf
-Date: Tue, 20 May 2025 18:39:32 -0500
-Message-ID: <20250520233935.740242-4-rs@ti.com>
+Subject: [oe-core][PATCHv6 1/5] libx11: create tmpfile dir for x11 domain socket
+Date: Tue, 20 May 2025 18:39:30 -0500
+Message-ID: <20250520233935.740242-2-rs@ti.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250520233935.740242-1-rs@ti.com>
 References: <20250520233935.740242-1-rs@ti.com>
@@ -56,543 +56,69 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:40:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216951
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216953
 
 From: Randolph Sapp <rs@ti.com>
 
-Convert this script package into a simple config for emptty using the
-same weston user but leveraging the nopasswdlogin session provided by
-emptty. Runtime provide virtual-emptty-conf as we need to set parameters
-for the default session.
+Register a volatile directory entry for the x11 domain socket when not
+using systemd. This will make sure the directory is always created with
+the correct permissions. Systemd already provides their own tmpfile.d
+entry for the same behavior.
+
+Currently some x11 related applications will create this directory if it
+doesn't already exist, but this is not true for everything. In addition,
+if the application in question isn't started as root, it's possible this
+directory can be owned by a non-root user. This isn't an issue by
+itself, but it can potentially lead to problems in a multi-user
+environment.
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- meta/lib/oeqa/runtime/cases/weston.py         | 18 +++--
- meta/recipes-graphics/wayland/weston-init.bb  | 61 +++------------
- .../wayland/weston-init/emptty.conf           | 77 +++++++++++++++++++
- .../recipes-graphics/wayland/weston-init/init | 54 -------------
- .../wayland/weston-init/weston-autologin      | 11 ---
- .../wayland/weston-init/weston-socket.sh      | 20 -----
- .../wayland/weston-init/weston-start          | 76 ------------------
- .../wayland/weston-init/weston.env            |  0
- .../wayland/weston-init/weston.service        | 71 -----------------
- .../wayland/weston-init/weston.socket         | 14 ----
- 10 files changed, 101 insertions(+), 301 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston-init/emptty.conf
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/init
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston-autologin
- delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-socket.sh
- delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.env
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.socket
+ meta/recipes-graphics/xorg-lib/libx11/99_x11    |  1 +
+ meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb | 15 +++++++++++++--
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/99_x11
 
-diff --git a/meta/lib/oeqa/runtime/cases/weston.py b/meta/lib/oeqa/runtime/cases/weston.py
-index ee4d336482..69be1f65e3 100644
---- a/meta/lib/oeqa/runtime/cases/weston.py
-+++ b/meta/lib/oeqa/runtime/cases/weston.py
-@@ -37,7 +37,7 @@ class WestonTest(OERuntimeTestCase):
- 
-     def run_weston_init(self):
-         if 'systemd' in self.tc.td['VIRTUAL-RUNTIME_init_manager']:
--            self.target.run('systemd-run --collect --unit=weston-ptest.service --uid=0 -p PAMName=login -p TTYPath=/dev/tty6 -E XDG_RUNTIME_DIR=/tmp -E WAYLAND_DISPLAY=wayland-0 /usr/bin/weston --socket=wayland-1 --log=%s' % self.weston_log_file)
-+            self.target.run(self.get_weston_command('systemd-run --collect --unit=weston-ptest.service --uid=0 -p PAMName=login -p TTYPath=/dev/tty6 -E XDG_RUNTIME_DIR -E WAYLAND_DISPLAY /usr/bin/weston --socket=wayland-2 --log=%s' % self.weston_log_file))
-         else:
-             self.target.run(self.get_weston_command('openvt -- weston --socket=wayland-2 --log=%s' % self.weston_log_file))
- 
-@@ -55,12 +55,18 @@ class WestonTest(OERuntimeTestCase):
- 
-     @OEHasPackage(['wayland-utils'])
-     def test_wayland_info(self):
--        if 'systemd' in self.tc.td['VIRTUAL-RUNTIME_init_manager']:
--            command = 'XDG_RUNTIME_DIR=/run wayland-info'
--        else:
--            command = self.get_weston_command('wayland-info')
-+        command = self.get_weston_command('wayland-info')
-         status, output = self.target.run(command)
--        self.assertEqual(status, 0, msg='wayland-info error: %s' % output)
-+        msg = 'wayland-info error: %s' % output
-+
-+        # dump last 20 lines of emptty log in case of failure
-+        log_cmd = 'tail -n 20 /var/log/emptty/7.log'
-+        msg += '\n\n===== start: snippet =====\n\n'
-+        msg += 'file: /var/log/emptty/7.log\n\n'
-+        msg += '\n\n%s\n\n' % self.target.run(log_cmd)[1]
-+        msg += '\n\n===== end: snippet =====\n\n'
-+
-+        self.assertEqual(status, 0, msg=msg)
- 
-     @OEHasPackage(['weston'])
-     def test_weston_can_initialize_new_wayland_compositor(self):
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index 5723655a9b..d20cdd6803 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -1,17 +1,13 @@
--SUMMARY = "Startup script and systemd unit file for the Weston Wayland compositor"
-+SUMMARY = "Autologin package for the Weston Wayland compositor"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
--SRC_URI = "file://init \
--           file://weston.env \
-+SRC_URI = "\
-            file://weston.ini \
--           file://weston.service \
--           file://weston.socket \
--           file://weston-socket.sh \
--           file://weston-autologin \
--           file://weston-start"
-+           file://emptty.conf \
-+"
- 
- S = "${WORKDIR}/sources"
- UNPACKDIR = "${S}"
-@@ -28,32 +24,8 @@ DEFAULTBACKEND ??= ""
- DEFAULTBACKEND:qemuall ?= "drm"
- 
- do_install() {
--	# Install weston-start script
--	if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
--		install -Dm755 ${S}/weston-start ${D}${bindir}/weston-start
--		sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
--		sed -i 's,@LOCALSTATEDIR@,${localstatedir},g' ${D}${bindir}/weston-start
--		install -Dm755 ${S}/init ${D}/${sysconfdir}/init.d/weston
--		sed -i 's#ROOTHOME#${ROOT_HOME}#' ${D}/${sysconfdir}/init.d/weston
--	fi
--
--	# Install Weston systemd service
--	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
--		install -D -p -m0644 ${S}/weston.service ${D}${systemd_system_unitdir}/weston.service
--		install -D -p -m0644 ${S}/weston.socket ${D}${systemd_system_unitdir}/weston.socket
--		install -D -p -m0644 ${S}/weston-socket.sh ${D}${sysconfdir}/profile.d/weston-socket.sh
--		sed -i -e s:/etc:${sysconfdir}:g \
--			-e s:/usr/bin:${bindir}:g \
--			-e s:/var:${localstatedir}:g \
--			${D}${systemd_system_unitdir}/weston.service
--	fi
--
--	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
--		install -D -p -m0644 ${S}/weston-autologin ${D}${sysconfdir}/pam.d/weston-autologin
--	fi
--
- 	install -D -p -m0644 ${S}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.ini
--	install -Dm644 ${S}/weston.env ${D}${sysconfdir}/default/weston
-+	install -D -p -m0644 ${S}/emptty.conf ${D}${sysconfdir}/emptty/conf
- 
- 	if [ -n "${DEFAULTBACKEND}" ]; then
- 		sed -i -e "/^\[core\]/a backend=${DEFAULTBACKEND}-backend.so" ${D}${sysconfdir}/xdg/weston/weston.ini
-@@ -74,9 +46,7 @@ do_install() {
- 	install -dm 755 -o weston -g weston ${D}/home/weston
- }
- 
--INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
--
--inherit update-rc.d systemd useradd
-+inherit useradd
- 
- USERADD_PACKAGES = "${PN}"
- 
-@@ -84,23 +54,16 @@ USERADD_PACKAGES = "${PN}"
- #
- require ${THISDIR}/required-distro-features.inc
- 
--RDEPENDS:${PN} = "weston kbd ${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'weston-xwayland', '', d)}"
--
--INITSCRIPT_NAME = "weston"
--INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
-+RDEPENDS:${PN} = "emptty weston kbd ${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'weston-xwayland', '', d)}"
- 
- FILES:${PN} += "\
-     ${sysconfdir}/xdg/weston/weston.ini \
--    ${sysconfdir}/profile.d/weston-socket.sh \
--    ${systemd_system_unitdir}/weston.service \
--    ${systemd_system_unitdir}/weston.socket \
--    ${sysconfdir}/default/weston \
--    ${sysconfdir}/pam.d/ \
-+    ${sysconfdir}/emptty/conf \
-     /home/weston \
-     "
- 
--CONFFILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/default/weston"
-+CONFFILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/emptty/conf"
-+RPROVIDES:${PN} += "virtual-emptty-conf"
- 
--SYSTEMD_SERVICE:${PN} = "weston.service weston.socket"
--USERADD_PARAM:${PN} = "--home /home/weston --shell /bin/sh --user-group -G video,input,render,seat,wayland weston"
--GROUPADD_PARAM:${PN} = "-r wayland; -r render; -r seat"
-+USERADD_PARAM:${PN} = "--home /home/weston --shell /bin/sh --user-group -G video,input,render,seat,nopasswdlogin weston"
-+GROUPADD_PARAM:${PN} = "-r nopasswdlogin; -r render; -r seat"
-diff --git a/meta/recipes-graphics/wayland/weston-init/emptty.conf b/meta/recipes-graphics/wayland/weston-init/emptty.conf
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/99_x11 b/meta/recipes-graphics/xorg-lib/libx11/99_x11
 new file mode 100644
-index 0000000000..1918cc02a7
+index 0000000000..53c5b49d10
 --- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init/emptty.conf
-@@ -0,0 +1,77 @@
-+# TTY, where emptty will start.
-+TTY_NUMBER=7
++++ b/meta/recipes-graphics/xorg-lib/libx11/99_x11
+@@ -0,0 +1 @@
++d root root 1777 /tmp/.X11-unix none
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
+index 5ce5481743..46b6992839 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
+@@ -22,7 +22,8 @@ PE = "1"
+ 
+ XORG_PN = "libX11"
+ 
+-SRC_URI += "file://disable_tests.patch"
++SRC_URI += "file://disable_tests.patch \
++            file://99_x11"
+ 
+ SRC_URI[sha256sum] = "fa026f9bb0124f4d6c808f9aef4057aad65e7b35d8ff43951cef0abe06bb9a9a"
+ 
+@@ -36,7 +37,17 @@ PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
+ 
+ PACKAGES =+ "${PN}-xcb"
+ 
+-FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/Xcms.txt"
++do_install:append() {
++	# temporary directory required for x11 domain sockets
++        # systemd provides their own definition using tmpfiles.d
++	if ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'false', 'true', d)}; then
++		install -d ${D}${sysconfdir}/default/volatiles
++		install -m 0644 ${UNPACKDIR}/99_x11 ${D}${sysconfdir}/default/volatiles/99_x11
++	fi
++}
 +
-+# Enables switching to defined TTY number.
-+SWITCH_TTY=true
-+
-+# Enables printing of /etc/issue in daemon mode.
-+PRINT_ISSUE=true
-+
-+# Enables printing of default motd, /etc/emptty/motd or /etc/emptty/motd-gen.sh.
-+PRINT_MOTD=true
-+
-+# Preselected user, if AUTOLOGIN is enabled, this user is logged in.
-+DEFAULT_USER=weston
-+
-+# Enables Autologin, if DEFAULT_USER is defined and part of nopasswdlogin group. Possible values are "true" or "false".
-+AUTOLOGIN=true
-+
-+# The default session used, if Autologin is enabled. If session is not found in list of session, it proceeds to manual selection.
-+AUTOLOGIN_SESSION=Weston
-+
-+# If Autologin is enabled and session does not start correctly, the number of retries in short period is kept to eventually stop the infinite loop of restarts. -1 is for infinite retries, 0 is for no retry.
-+# AUTOLOGIN_MAX_RETRY=2
-+
-+# Default LANG, if user does not have set own in init script.
-+#LANG=en_US.UTF-8
-+
-+# Starts desktop with calling "dbus-launch".
-+DBUS_LAUNCH=true
-+
-+# Starts Xorg desktop with calling "~/.xinitrc" script, if is true, file exists and selected WM/DE is Xorg session, it overrides DBUS_LAUNCH.
-+XINITRC_LAUNCH=false
-+
-+# Prints available WM/DE each on new line instead of printing on single line.
-+VERTICAL_SELECTION=false
-+
-+# Defines the way, how is logging handled. Possible values are "rotate", "appending" or "disabled".
-+#LOGGING=rotate
-+
-+# Overrides path of log file
-+#LOGGING_FILE=/var/log/emptty/[TTY_NUMBER].log
-+
-+# Arguments passed to Xorg server.
-+#XORG_ARGS=
-+
-+# Allows to use dynamic motd script to generate custom MOTD.
-+#DYNAMIC_MOTD=false
-+
-+# Allows to override default path to dynamic motd.
-+#DYNAMIC_MOTD_PATH=/etc/emptty/motd-gen.sh
-+
-+# Allows to override default path to static motd.
-+#MOTD_PATH=/etc/emptty/motd
-+
-+# Foreground color, available only in daemon mode.
-+#FG_COLOR=LIGHT_BLACK
-+
-+# Background color, available only in daemon mode.
-+#BG_COLOR=BLACK
-+
-+# Enables numlock in daemon mode. Possible values are "true" or "false".
-+#ENABLE_NUMLOCK=false
-+
-+# Defines the way, how is logging of session errors handled. Possible values are "rotate", "appending" or "disabled".
-+SESSION_ERROR_LOGGING=rotate
-+
-+# Overrides path of session errors log file
-+#SESSION_ERROR_LOGGING_FILE=/var/log/emptty/session-errors.[TTY_NUMBER].log
-+
-+# If set true, it will not use `.emptty-xauth` file, but the standard `~/.Xauthority` file. This allows to handle xauth issues.
-+#DEFAULT_XAUTHORITY=false
-+
-+#If set true, Xorg will be started as rootless, if system allows and emptty is running in daemon mode.
-+#ROOTLESS_XORG=false
-+
-+#If set true, environmental groups are printed to differ Xorg/Wayland/Custom/UserCustom desktops.
-+IDENTIFY_ENVS=false
-diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-graphics/wayland/weston-init/init
-deleted file mode 100644
-index a5c54e001e..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/init
-+++ /dev/null
-@@ -1,54 +0,0 @@
--#!/bin/sh
--#
--### BEGIN INIT INFO
--# Provides: weston
--# Required-Start: $local_fs $remote_fs
--# Required-Stop: $local_fs $remote_fs
--# Default-Start:     2 3 4 5
--# Default-Stop:      0 1 6
--### END INIT INFO
--
--if test -e /etc/default/weston ; then
--        . /etc/default/weston
--fi
--
--killproc() {
--        pid=`/bin/pidof $1`
--        [ "$pid" != "" ] && kill $pid
--}
--
--read CMDLINE < /proc/cmdline
--for x in $CMDLINE; do
--        case $x in
--        weston=false)
--		echo "Weston disabled"
--		exit 0;
--                ;;
--        esac
--done
--
--case "$1" in
--  start)
--        . /etc/profile
--	      export HOME=ROOTHOME
--
--        WESTON_USER=weston weston-start $OPTARGS &
--  ;;
--
--  stop)
--        echo "Stopping Weston"
--        killproc weston
--  ;;
--
--  restart)
--	$0 stop
--        sleep 1
--        $0 start
--  ;;
--
--  *)
--        echo "usage: $0 { start | stop | restart }"
--  ;;
--esac
--
--exit 0
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-autologin b/meta/recipes-graphics/wayland/weston-init/weston-autologin
-deleted file mode 100644
-index f6e6d106de..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston-autologin
-+++ /dev/null
-@@ -1,11 +0,0 @@
--auth      required  pam_nologin.so
--auth      required  pam_unix.so     try_first_pass nullok
--
--account   required  pam_nologin.so
--account   required  pam_unix.so
--
--session   required  pam_env.so
--session   required  pam_unix.so
---session  optional  pam_systemd.so type=wayland class=user desktop=weston
---session  optional  pam_loginuid.so
--
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-socket.sh b/meta/recipes-graphics/wayland/weston-init/weston-socket.sh
-deleted file mode 100755
-index 86389d63a3..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston-socket.sh
-+++ /dev/null
-@@ -1,20 +0,0 @@
--#!/bin/sh
--
--# set weston variables for use with global weston socket
--global_socket="/run/wayland-0"
--if [ -e "$global_socket" ]; then
--	weston_group=$(stat -c "%G" "$global_socket")
--	if [ "$(id -u)" = "0" ]; then
--		export WAYLAND_DISPLAY="$global_socket"
--	else
--		case "$(groups "$USER")" in
--			*"$weston_group"*)
--				export WAYLAND_DISPLAY="$global_socket"
--				;;
--			*)
--				;;
--		esac
--	fi
--	unset weston_group
--fi
--unset global_socket
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
-deleted file mode 100755
-index 3b13a0047a..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston-start
-+++ /dev/null
-@@ -1,76 +0,0 @@
--#!/bin/sh
--# Copyright (C) 2016 O.S. Systems Software LTDA.
--# Copyright (C) 2016 Freescale Semiconductor
--
--export PATH="/sbin:/usr/sbin:/bin:/usr/bin"
--
--usage() {
--	cat <<EOF
--	$0 [<weston options>]
--EOF
--}
--
--## Module support
--modules_dir=@DATADIR@/weston-start
--
--# Add weston extra argument
--add_weston_argument() {
--	weston_args="$weston_args $1"
--}
--
--## Add module to --modules argument
--add_weston_module() {
--	if [[ "x${weston_modules}" == "x" ]]; then
--		weston_modules="--modules "
--	fi;
--	weston_modules+="${1},"
--}
--
--if [ -n "$WAYLAND_DISPLAY" ]; then
--	echo "ERROR: A Wayland compositor is already running, nested Weston instance is not supported yet."
--	exit 1
--fi
--
--if [ -n "$WESTON_USER" ]; then
--	if [ -z "$WESTON_GROUP" ]; then
--		# no explicit WESTON_GROUP given, therefore use WESTON_USER
--		export WESTON_GROUP="${WESTON_USER}"
--	fi
--fi
--
--weston_args=$*
--
--# Load and run modules
--if [ -d "$modules_dir" ]; then
--	for m in "$modules_dir"/*; do
--		# Skip backup files
--		if [ "`echo $m | sed -e 's/\~$//'`" != "$m" ]; then
--			continue
--		fi
--
--		# process module
--		. $m
--		if [[ x"{$weston_modules}" != "x" ]]; then
--			add_weston_argument "${weston_modules}"
--		fi;
--	done
--fi
--
--if test -z "$XDG_RUNTIME_DIR"; then
--	export XDG_RUNTIME_DIR=/run/user/`id -u ${WESTON_USER}`
--	if test -d "$XDG_RUNTIME_DIR"; then
--	    # Check permissions on existing directory
--	    if [ "$(stat -c %u-%a "$XDG_RUNTIME_DIR")" != "$(id -u ${WESTON_USER})-700" ]; then
--			echo "ERROR: $XDG_RUNTIME_DIR has incorrect permissions"
--			exit 1
--		fi
--	else
--		mkdir --mode 0700 --parents $XDG_RUNTIME_DIR
--		if [ -n "$WESTON_USER" ]
--		then
--			chown $WESTON_USER:$WESTON_GROUP $XDG_RUNTIME_DIR
--		fi
--	fi
--fi
--
--su -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR weston $weston_args --log=/tmp/weston.log" $WESTON_USER
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.env b/meta/recipes-graphics/wayland/weston-init/weston.env
-deleted file mode 100644
-index e69de29bb2..0000000000
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
-deleted file mode 100644
-index 80745998ed..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston.service
-+++ /dev/null
-@@ -1,71 +0,0 @@
--# This is a system unit for launching Weston with auto-login as the
--# user configured here.
--#
--# Weston must be built with systemd support, and your weston.ini must load
--# the plugin systemd-notify.so.
--[Unit]
--Description=Weston, a Wayland compositor, as a system service
--Documentation=man:weston(1) man:weston.ini(5)
--Documentation=http://wayland.freedesktop.org/
--
--# Make sure we are started after logins are permitted.
--Requires=systemd-user-sessions.service
--After=systemd-user-sessions.service
--
--# If Plymouth is used, we want to start when it is on its way out.
--After=plymouth-quit-wait.service
--
--# D-Bus is necessary for contacting logind. Logind is required.
--Wants=dbus.socket
--After=dbus.socket
--
--# Ensure the socket is present
--Requires=weston.socket
--
--# Since we are part of the graphical session, make sure we are started before
--# it is complete.
--Before=graphical.target
--
--# Prevent starting on systems without virtual consoles, Weston requires one
--# for now.
--ConditionPathExists=/dev/tty0
--
--[Service]
--# Requires systemd-notify.so Weston plugin.
--Type=notify
--EnvironmentFile=/etc/default/weston
--ExecStart=/usr/bin/weston --modules=systemd-notify.so
--
--# Optional watchdog setup
--#TimeoutStartSec=60
--#WatchdogSec=20
--
--# The user to run Weston as.
--User=weston
--Group=weston
--
--# Make sure the working directory is the users home directory
--WorkingDirectory=/home/weston
--
--# Set up a full user session for the user, required by Weston.
--PAMName=weston-autologin
--
--# A virtual terminal is needed.
--TTYPath=/dev/tty7
--TTYReset=yes
--TTYVHangup=yes
--TTYVTDisallocate=yes
--
--# Fail to start if not controlling the tty.
--StandardInput=tty-fail
--StandardOutput=journal
--StandardError=journal
--
--# Log this user with utmp, letting it show up with commands 'w' and 'who'.
--UtmpIdentifier=tty7
--UtmpMode=user
--
--[Install]
--# Note: If you only want weston to start on-demand, remove this line with a
--# service drop file
--WantedBy=graphical.target
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.socket b/meta/recipes-graphics/wayland/weston-init/weston.socket
-deleted file mode 100644
-index c1bdc83c05..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston.socket
-+++ /dev/null
-@@ -1,14 +0,0 @@
--[Unit]
--Description=Weston socket
--RequiresMountsFor=/run
--
--[Socket]
--ListenStream=/run/wayland-0
--SocketMode=0775
--SocketUser=weston
--SocketGroup=wayland
--RemoveOnStop=yes
--
--[Install]
--WantedBy=sockets.target
--
++FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/Xcms.txt \
++                ${libdir}/tmpfiles.d/x11.conf ${sysconfdir}/default/volatiles/99_x11"
+ FILES:${PN}-xcb += "${libdir}/libX11-xcb.so.*"
+ FILES:${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
+ 
 -- 
 2.49.0
 
