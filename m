@@ -2,47 +2,47 @@ Return-Path: <fhoerni@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CFF3C3DA6D
-	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 07:54:40 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.122])
- by mx.groups.io with SMTP id smtpd.web11.15837.1747727669701106329
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E769C3ABDD
+	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 07:54:50 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.91])
+ by mx.groups.io with SMTP id smtpd.web11.15839.1747727680100240299
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 00:54:31 -0700
+ Tue, 20 May 2025 00:54:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@witekio.com header.s=selector1 header.b=qy/KChgN;
- spf=pass (domain: witekio.com, ip: 40.107.20.122, mailfrom: fhoerni@witekio.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@witekio.com header.s=selector1 header.b=NnH3I2uk;
+ spf=pass (domain: witekio.com, ip: 40.107.21.91, mailfrom: fhoerni@witekio.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gRGxxSugqsz17YSENjwdOVhD/v865oNsEAipcgVIW8uWiMxtmNS0mrMhU7sL0D0UgcbRP7EuC9UkqhCFUCHKKELeOQWIe96fIUnhcDsaNbv5xlTD5z7vmLbHx0xBtFHCppxkaw4zcmq9zqDrEbboGu2+jZROSXww7MclJIHO/EdSUWtTn8v6pEeBA4conNF+xOEHm03aMy8HZ2WDNgDqsAz+/x8g/hskjGtFC9O/+aMURfK8yq6UHbi72LUvIVZb4HQ2XWp7ZfoEeWruCrXUu3xUjDjHf1rsYyZEGq6DB2hjEfP4xURfcekSDpYQQXThw+/ZA+DOQh3mAg2qJTHGRA==
+ b=UzKE6raRl9IBGXt0sRadUe3w9xW8PzlgXT5P3lhX8O3EzdAPGzLxepQDCRF7yjVrxB8QtscP2azsyazMS5XT7EAtaPwutb5tAna9Y26iFG6Z+LAutt+BYHjSIYUYWuHW2tKlJywnAK9pYtNk9kzhLSzK66yVZqappVZ268tIR0LSGTuM00Vyi4y48Og//FgwY9hXy2eE3LHd1bX9+50sEKeecsja6GESUjOeopK64golH6kxhPmWXZsRrDc+riHkgFimc2MgRyQjQZbvBcxvlu1jKW93NcVQmzfDVLcTDUJJewKUXAejytotoGIOZ09WRjnWgP0zJnd+2GITfY6S4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KGapB7pw7am4GpvSb9f/uM43h346uWoWarpKEEO/25o=;
- b=ApHyzA+EljPKuBwv3d2IPOGQAZx7RbsRuunbrSdZDeCmqWWAcKTvH4sDnbXr/eQKc++Q0EOyXnMzvO/3rH0eC+N6ZrSbg22MkmKRVlHRHaMknRysDoxURpM9fZJtTtj/WxHY7PvT0ZhwzVkNbNUxqRM5RwzcqpQbnYSVXyhF4pfxH1pBYvmatiDqGOZLwx436sgsEv70sFKFn2YtZkBOPB1TFoykfPB+DEnsHM79O0f1JRVgliDD1gNqRSTWMUFaneRUIR+Ub8CZZRvB3SzyPfDJtl/tYtu41IMTHeXZLdeIdvX9OR5t5Om0rLAHvDXjlLqTMYvRZvCj0xFPMg0zlA==
+ bh=cdkJVQY2iBviFkEgI18m+9J9tuvLxEssLOZXSxXAi7s=;
+ b=l+NVQ0jMpB+BIb211i3QLuyXqrqwWsmCuiFLVw3S64sWclyrctO4I0+vLqumx2UffQmidzJ4Es8hcQ1ajf0gDTaKSZ3rde4fLNbhoXLI5EMQp0XBwi5CSf5MXOiKjcsDtW3rReiy/CwsMkciBwUQrLHEXqMbbpPWU8FoKmU1HPZSfGxhDdUDtda1e5QeNaHd8drto1FcycO5WhHnf1XYFcFvXe8/wer6GiTjuP12dQvMi6ctyHasDcb7TpENc3LU0up7xfPmolNOdOv8hlUsahaCi/WcASG3XfG+3ggJSZXxzsOhduu/MbWM5u+dHC379ab7VGpoQdF2Mf6TtKqclg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
  dkim=pass header.d=witekio.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KGapB7pw7am4GpvSb9f/uM43h346uWoWarpKEEO/25o=;
- b=qy/KChgNMxRBvspVf/3edBFSSNCYP6uGeAnWKYz6ggbVScHVcyw659ri9Q0mw8vm2I9WS6vj04kaSuFO041WVlYA08Uz18q0m9BMaUQZe721BWecRvIhXiO8WUb067+WlSdrxngQ4ph+0kgYG5p1pzUhC3/gPUq+bM/DdWdHgDDs9oDVXtWH03M3N3JQRhQ5KFT/Udl8NAoEmSgsQrDw/Qln5m8W2s3YyqxepoXH5dMsVHp/OmCZQBbzh9q6tYKihovowzWqnCwL+J/HmD+hCUZXMbWu92nLsYTv4nUpS5UaqjVI5v6OGj5efxk8gtS8N+oHmr21TpP9yTlFSSKKTw==
+ bh=cdkJVQY2iBviFkEgI18m+9J9tuvLxEssLOZXSxXAi7s=;
+ b=NnH3I2uk3lnnKwzNyh0JE/GH/+X1acB8HInlWIXreaZ1qDqMkvG9KsEPSlhZFZNeq3+Y9M2cP98shi68L+UpQIS+A2dh+DyifHmD/iS39PzVtjI4MLb37xFy0VIN1FDQQenqhV1FnqZ7ru+IYL70JNofl6s+57v3ePW258DfAmgU+/B7tzC14nUpYfx/vnFCliZdkH15oKjO3B4M6KFcaHWZreDEjUxXrB24bbJnubFC5qk64a78Q3O3ZcLjz5MSvJeAUxhIuIbCHN8OV7cSDsRyhsnYzFKbE1I1hr1e4Sqxg4nLS3a7gzhHnhMzZCEkgBwMMKGckcs/iQEnDOQNCA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=witekio.com;
 Received: from PAWP192MB2225.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:359::22)
  by PR3P192MB0863.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:ae::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Tue, 20 May
- 2025 07:54:27 +0000
+ 2025 07:54:35 +0000
 Received: from PAWP192MB2225.EURP192.PROD.OUTLOOK.COM
  ([fe80::8a5a:c9f5:c976:7b14]) by PAWP192MB2225.EURP192.PROD.OUTLOOK.COM
  ([fe80::8a5a:c9f5:c976:7b14%4]) with mapi id 15.20.8746.030; Tue, 20 May 2025
- 07:54:27 +0000
+ 07:54:35 +0000
 From: fhoerni.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
 CC: Frederic Hoerni <fhoerni@witekio.com>
-Subject: [PATCH 1/2] meta/lib/oe: add searchfile.py
-Date: Tue, 20 May 2025 09:53:24 +0200
-Message-ID: <20250520075325.64756-2-fhoerni.opensource@witekio.com>
+Subject: [PATCH 2/2] image_types_wic: fix dependencies on wks files
+Date: Tue, 20 May 2025 09:53:25 +0200
+Message-ID: <20250520075325.64756-3-fhoerni.opensource@witekio.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250520075325.64756-1-fhoerni.opensource@witekio.com>
 References: <20250520075325.64756-1-fhoerni.opensource@witekio.com>
@@ -54,138 +54,171 @@ X-ClientProxiedBy: PR3P251CA0019.EURP251.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAWP192MB2225:EE_|PR3P192MB0863:EE_
-X-MS-Office365-Filtering-Correlation-Id: 424d8fc7-0457-4200-7f4c-08dd97738b3a
+X-MS-Office365-Filtering-Correlation-Id: bc9addd1-0acf-4305-eeb0-08dd97739066
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|52116014|376014|10070799003|1800799024|366016;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?1eC+UO7BbihEyjDA1jVpXMu2HJTkc+Sq8eqygYiLQ2kyvhC/Gq915DQd2qg5?=
- =?us-ascii?Q?2u58ex8gefxubdCU6RNEPI9ResDfC0Wj/1IuMD4SapgLJxRSQ9f75IhFzSFu?=
- =?us-ascii?Q?UpXuGKQIbWn9jrwjrPLKmk40ebuiCGWjOoLlc7iw/UfCWtOwd+afQ1dLHLcd?=
- =?us-ascii?Q?+IXmqfrbZfDUrIm4BrGeuvs6cWpPhCnPTQXtDj5zD1ZYgphKQzmQuoaVIybd?=
- =?us-ascii?Q?IeQgRc34CqwHouZI/egfkKcm+xibGJDNMX5cCy0p9B0vL24YgJztYwLMIm/s?=
- =?us-ascii?Q?9fvSPmMa04lgA4tXfst5vI/BrAD+GozGqw2COYtNVEuydqCz+QXsZeLM9N7v?=
- =?us-ascii?Q?Ig4je8PVA3owLc+fbiNtrp0nPc97HzmF5tGTVlii3KW37IwxxevtQWaur6R5?=
- =?us-ascii?Q?V3q/y3f+of+CU1cY++pUMMgMyPp3O//q65lOpXDz904YmXtPBY4njLMJ8b3g?=
- =?us-ascii?Q?k6VjCQEDkLHOP2soJ6bZfmqTKpoGrKiS9F142VbdFlRjTqnrf9bUKv/mWYu6?=
- =?us-ascii?Q?vSDtxdLV1gFtdgFdD70DGxe9V+Mnmx1Faxa50eHDXnd/cFhiCdk02XpoaTpc?=
- =?us-ascii?Q?1okgMe2iFZw//JnuDu7IDt/L3Avy+cYz2j3lvCs9e7QYL0+qi/oIxozLKJYi?=
- =?us-ascii?Q?XbGIeg5BnPicFZczxnEFSELtiODUWyUc2BEqnsMF2sh1pd9PfHZIg+nJMno5?=
- =?us-ascii?Q?8F+qvbmIDwte/1MQflkSwo+9Q6uB7pD00tTglMwzZ5IrMR1UCWYF6tgV1Jf7?=
- =?us-ascii?Q?SIezalb3Fz4rpdaoB8Jlm3GKSXrmcldwSoRFsZGNzvEPKl7Wp8x/BrllAOUk?=
- =?us-ascii?Q?W/Oyl3nsqmpiq3gMTalpkaYNum7+EHgEBe+srN5wXezoFNuX9rBOpw6Q9Yxh?=
- =?us-ascii?Q?K6G+RqhFTZ8Yg/YU/tfDcnL4ZadN0GYdmnfspIOXBN/Z5Yla26+iWuUvy1DW?=
- =?us-ascii?Q?1NPeDVW3LmOzpQPjz01JJASAeQYs2NbAUyV9e60I9nANEVTVfULD3ry6LBSB?=
- =?us-ascii?Q?V5kE6KyaxTbxUrJR4tTzazuMBkTNl7ZDyYqYYyckp13JjTjzxxPYRgBSFieY?=
- =?us-ascii?Q?AR8fFQhZf0ES4/3hUEWXz/55TtcE0pA3rVD/0aQEGoPFhnmMXbolOICmiIOP?=
- =?us-ascii?Q?gL25KYp4o/7/0M4gMnIglvTAGgaxIcCo1f53HZQr7ZdAPwE/t/wJB2bJTqnO?=
- =?us-ascii?Q?aYNPhSpssHem7hP0Dc8QF+Asv9X94/hs1cn0dVTLqdk7XmcxATqpNQmLZQSE?=
- =?us-ascii?Q?+ZKBs0OsMz3d44ir0PYwzOywDE+X/g7NePO0xqab6oqcmPsliY5i3AftWk0/?=
- =?us-ascii?Q?49g8ZUdCKOubOnAVw6iiRLcPCHLd8vTYjFqINEWRL7ieXy6wdIuxyHeoVY/J?=
- =?us-ascii?Q?lOMRGfAYOl9BX1SrmsiNVP58QolQ5HixdMMiQqGDA6tHgob6Z+LnK/QNJTnU?=
- =?us-ascii?Q?y9GrU9rkNqo=3D?=
+	=?us-ascii?Q?pQKIA+WSxTTlEKkxggxlSvTckNXqBgaMJJUY7UpZelj4IRQsd6cspXzW11R2?=
+ =?us-ascii?Q?Kza2OGR48XJFu/wdOTKsucYTHGwmMeaPqKmYxqH9kjOzeBVvzCbZ40EfkUUA?=
+ =?us-ascii?Q?XUNv9NhBRDYdgOD0WgCtMoCUGkCMz/1uDPOVy+/8m5x77kylECDweZeUIBdk?=
+ =?us-ascii?Q?xqAqMyPeM5UKEeCslUF0b/b9wfW/msw590bieSD3LJwn1JxuqMkY/VG280Xc?=
+ =?us-ascii?Q?Hbqlx1y2wWZkh0GntzthUoKPydGgrelOwyQ+j3UXuLZFwOXULFQxNFP4KVBq?=
+ =?us-ascii?Q?f6IK/J96asFUCRZGJh7R2gohMhaM5ceSuxmMCG8kQtYaE6vkIWSrR51Wf7pC?=
+ =?us-ascii?Q?u+s72ZLhpMZF3cEYZY2DvEM56WyN5MQGZC8GuSwa/vaWCbs/evgq81hgrcf0?=
+ =?us-ascii?Q?UX7asUfLTb2RTqDceWJRcyH5/jyAIUF1H4+QsULST29GStMBwruBQLrdoKho?=
+ =?us-ascii?Q?f61grzvFSNS+RP4U+5F6I1bnlRl0WKChgqT2zy0kU1al9qKjLW4zXh+1kas1?=
+ =?us-ascii?Q?htLlZ7hZPgGd5HfkH68kYOc5UADpVdU9kfs69+CnKiKgWnaKgYOBduhc+v88?=
+ =?us-ascii?Q?81GC+tHf69Nit29Pydu2ZtLUk1YjIUOYTDL9A79wFtnFHK1eZu8nIoVK748O?=
+ =?us-ascii?Q?VbcM4cyPSTYUo/EIg9/XJu5YYM6hONPn7HNkL0K23ju5T7faJmJJbZez0Wxr?=
+ =?us-ascii?Q?cyYdfnpm8wR5mVCU2uafySrQxThrQnr9fQ9F8UFPR1uHmBR5GJwn6WRlZbck?=
+ =?us-ascii?Q?xpSq4NVbF01eF2EWhD1zZ3Kh7Ta/6KxRXooiNfC5f0wU+x305HCcJUd3o/GW?=
+ =?us-ascii?Q?z/lE5YUHQKR9rCYaEaWkdUzo11JeGHM43Svf1VvPwjpjgHYyWva5i9s3gHyC?=
+ =?us-ascii?Q?dxOvXzCCfnZNU5b97oi5ve4N9tQ/Edk1i53nDftbJg0rrqPZXSTT1eNXVUrJ?=
+ =?us-ascii?Q?73u9ehOWaIajsYnmCSe7J9t/gn0R8DeIfw9hGx+DtV5pZgIJtm62sBuu3YzF?=
+ =?us-ascii?Q?9KU+j4PKkCx2XblTmhs3icmHYfBtzkPZgyHzYkVKVZfcdFFvtKNfLjYeBLnH?=
+ =?us-ascii?Q?cCguuF0FRb9Weo0K5H1t+PWfEphcWUe2qeEmVykpK9iTtxs49QqT/vOsY5dT?=
+ =?us-ascii?Q?wu49keDV2n7GXMnMGZ4eu9ERBbCPyOdOqp0f2Z2tV8r1Dxys1Tvw9X0LkNKs?=
+ =?us-ascii?Q?V/9KAQJdbcG2Rp+CwqliAaVWxe+Wd0Y+VKDJQKVNglHcMzJH55kk+mqBpi4M?=
+ =?us-ascii?Q?oL2eGtppMfqOucydFVsaxKQO5Cyvo8gdzW1UlSKwtA2iRSNX2cI4Nmg/Rv2i?=
+ =?us-ascii?Q?S4BygLDLQcqn5bVz5bIs2r23n3xInr0d8LMjyCZCUy0SJe+7XEBEo5bb4rOQ?=
+ =?us-ascii?Q?VVBLO1hJOhHucsOuCOaP5dVu8g3mMW+dAUVCpTQet5Y7N8LSf27VnW3fLIja?=
+ =?us-ascii?Q?w6QmQc/uveM=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWP192MB2225.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?/+vLwuXIDo5Ax4JITxbaaIrpLqFZYo6XrUrSEvMhyh4xMBqHcj6sn2RnRQQw?=
- =?us-ascii?Q?3TG9L+XgjOs51ClWZqlHUVfqYS80FNCVDjB13L21BqkQ13XRLI2Y0InHEbm0?=
- =?us-ascii?Q?J0TAc+6Uz+1mX538WiyKyZzZ4hcIC7eVHMAk0HvWmfY1TUOVMj0l0UTD0KWs?=
- =?us-ascii?Q?+bLJBKPry63Ou0kdCMNsoE4Snx4MmjU7T7kLFyLzyZ4d3aHfvzlB1DZHEcdF?=
- =?us-ascii?Q?rsiovhkQAh76MMkDyMvsDaYpHnnrrJXkgZuIZozzu0SN63cf2Z0A3lcYlKyU?=
- =?us-ascii?Q?zxmZHkXZ1Tw0lkmK1CRNgdwW3NwWSEfz+MAbDkcNJu+erjqmWEOUshwz/4VG?=
- =?us-ascii?Q?iFWkaNtH3/XARPXoQB/r3EL87aX5YKt4GeuUs6/GvSoG+HGqtCMJWaHWWy5O?=
- =?us-ascii?Q?F2CLsCXkM+OTy+7S848+iA+Qj54vcbmHs4tjnvpnJfkoFshqOwURAS24qhwN?=
- =?us-ascii?Q?/sUAM5Rh6dQ9l9EdpMUCcq8kxIUH7+PNiDuZ694Pb1C/cmlcPatxCKy3A51A?=
- =?us-ascii?Q?BejDKELzqJQLMQSQKFou5PeXHEDI4oaeUHc0fj8Pzz8HRrmsZGVV/nazjkMw?=
- =?us-ascii?Q?V9EpJybVr89uXmyJi3yYpIA9s4Q88LrsTp7GYwn9gt3tbLKxvUD+UW5aDzri?=
- =?us-ascii?Q?K/Cj+nIbLOshCT1R32fZQrHVyLRMg33HuOEzOSWwCXa7+AFJATxX8vn1OkAP?=
- =?us-ascii?Q?5zsDn4Dm8rEecb2xkN53jE5flw3tyO+wBJa/4OUmHBoD+Rmonp7K4PdmmtHk?=
- =?us-ascii?Q?JqqVT7U1gR77UjTlV8u8nQDTtVMdKGHizsTwrT673T2/tHV3Oe/FzwQzrTI6?=
- =?us-ascii?Q?NikHSrNeHeoUQdpL7mfzPlE+W5NRWeKMz0ac4OE7mJIMB1hJJ/HsWNeiFH94?=
- =?us-ascii?Q?3dIg7+H2Ch16A1ya+4Uf//yvrFM6f+DIIFv6oYdi82e70YPS6DYX/5aHHWvJ?=
- =?us-ascii?Q?/nFXv7aNIwrVIwA/hoUpwJxQ2FS07qmyWSfmFwvFAEkydaVc/knrIU3uT3Xe?=
- =?us-ascii?Q?ZdHpMBRFVTDLlryXpWVBjj5XiLl15GHHX368v3xyT6Xj7njIu3ftfIoyWgCs?=
- =?us-ascii?Q?3v/F69V1auh/u4LrRkOUqtKBRZqb8JIXHLVSH+PG/LtBjmgAh2qg2CAZ2owY?=
- =?us-ascii?Q?Z3zu40zrykFL5DgOL/j7IFHtJDrJgI1mdpAbAfKcZuTGHgrv66KtYK7WbGHw?=
- =?us-ascii?Q?9nmoYvlno8dfqHqBayZqe77VQO+skguAN5S55qy8V7mFkVt52VvpieNOmvYd?=
- =?us-ascii?Q?99mp9BTW3HqYEKRLYOJ3Ju9HKB8S0NOO711TkM6B/daYmZJj2O/mNNGzywGz?=
- =?us-ascii?Q?Hk1G2VqYYCX7o4XBwnKu3jbVmdYyVSzVjt2GTe70Bkstq6hWD5JWokrzwZAY?=
- =?us-ascii?Q?dOBx7OvAoxqPxEloLsBYgtibW56fyxaxIPkjmYgc32uv3cuixNJZGcxsE0XX?=
- =?us-ascii?Q?dHednUKuBzz8iWjG/fdOk9nPU0+WI2kK0jNT4XQTMCKfEcpAd9Rq9reGVlTG?=
- =?us-ascii?Q?jEMVBaF0d8qi5K5t5gRjmBvkNPpwquNW7K3U8AhaIw5Yd7xTJWxx97k4AkA2?=
- =?us-ascii?Q?aFR7SNLRM3Bnz+tl5/RGOo4OCSvZg16JhRQQzo+SKx6WBbpbQ3+dBxiB5jV0?=
- =?us-ascii?Q?vsNGkgE53BLMzkKyHWkftv+RqD94NStAU//182MEFxkt?=
+	=?us-ascii?Q?AjkuLGMyV8MytdOs2xUXIiWzOIPklcV4IJsMihqYlUF9bnarch87wH/DLo5+?=
+ =?us-ascii?Q?5kha+tuQs2Bh9KhkcD6XXPGrdK++rUMX2aHVURnfCcjGAMl6Kk4GRN4HNzoW?=
+ =?us-ascii?Q?XNWl1axbpmbNwx7kYmlyodPzYMsJlSZORgCmvEzLhbIXMaC43Z1ZKUsdkI3k?=
+ =?us-ascii?Q?4jlUZTTZ8GSu/Gv9lQwlXKNksB/ha3Ig+0A9B2GuNcaNM/6p9yfGU7z4IkeA?=
+ =?us-ascii?Q?IJTljpJai2bIcQ1Bx0Z4dfzIhwVJxRwfiQNV4yfCaRCPKRIS31/XKIo8M0Cf?=
+ =?us-ascii?Q?IvXBEqemKo8lYr2jDt2RVbhsxb4EG8bFX+BgcAedZNbYfMDDibCZATEi8rGn?=
+ =?us-ascii?Q?lwgXZSELk/cuMVI20gnXnlP5leJQuyeUoHLAyCdaBJZAr/vNrQEZVT+IiU2K?=
+ =?us-ascii?Q?9XsnlTGShJ7B1ekAtdBwtDbLwVPdJ6aG6zTBecrP1iZqdrJylmqNCxnyLG4D?=
+ =?us-ascii?Q?X/g3/tBCDNchk1lep31o0KrUFgOLMNaCd5Ldc6Go4nA4XOAhBB0+HW1Roy/9?=
+ =?us-ascii?Q?qtWlrsbWgG4H4UP7KI1oggyLoN47n+znizXzT6Rrnc41oGr+qJmGWdpOEgaK?=
+ =?us-ascii?Q?1fpmgGvITXs8XvX/vtmyb5v0crl4yFurw3uiWj/h8KDTHSnkEmAjHGwiBgZT?=
+ =?us-ascii?Q?BMSU8nnEisqdaGhsRgPjx417WprCgArJsstC0kqFn/g2pXd/LQqntgCtIAXu?=
+ =?us-ascii?Q?vbrwludwNnkZeh05TMayUpF+ToqQae/2cfUWSqk7IQMv+YQhYDXiCGZZLjkY?=
+ =?us-ascii?Q?tjxY2WcvnPz6zQ/eWxlFOSovblumWxZ7Rm0/0g1mCgJVl2QHPXjzP88z/glA?=
+ =?us-ascii?Q?T71677bG9UzuGjCPAOoUTDjD5hg3BICf+vebQmfibI4QVBbe8UZ4LdOf1U15?=
+ =?us-ascii?Q?HLhxauFITnsdYoKLDImOPAuTatOIrhCniYo7mjrpnwfM1JZ88ht+xYhPoisD?=
+ =?us-ascii?Q?c8JWNqItvhxg8NNllt+jdcye/bDhcBsnvZeOhU0GC3olPzXBXqN0zwssqzHj?=
+ =?us-ascii?Q?nn2Rqy2S2GU2BcbPG+Ov7jvTd2mYcEJ4m/XFitqyeWxG9ex4U57c0WBCb40H?=
+ =?us-ascii?Q?4hpPQ65j+TjSmmAgoG+rqP3ZymUfDeMpk2lQHziYWidUeUyIqEqToNs09rPw?=
+ =?us-ascii?Q?6JhTyRyVgeAY2h6J08a2PRpY5jEmBwSFt1Ql+IqkXvoml3tRMIUrQxxkBMpw?=
+ =?us-ascii?Q?i5j7YnIwPPYW4FGbi641SDhM2HqwSykkjY4W+O28GE4qCxiKOFkpsQhlYlJa?=
+ =?us-ascii?Q?xLcKV5Nefr/5r277XbAsBieEeTouT6hFKWyAr0MThzx5z51wZpZQicU7hE+B?=
+ =?us-ascii?Q?ktdta6LvKp63jQuovaiToKWI9+qU8kPlMPGAU5IaCE0ZXOCdMkJNfExKbuw9?=
+ =?us-ascii?Q?24xGi0JrkAZkOQVfbIOkC8dTdTFRMmAd5lu+pLbYNFlCf1O0Dhqw5khIxTj5?=
+ =?us-ascii?Q?VQjMi3IiLppW1icJrl2A3cVzU9Xc0BUF+3/P56QP9gQrkBvZtlYeM+IDIb6u?=
+ =?us-ascii?Q?SuI+xSFr5rtHv8nPeLJ01ZCz1rgo3PfXL1t2sXwRN9OSLPxJ3DULy72s0xgk?=
+ =?us-ascii?Q?Ws8iidYIEpT5MzugB9ddLy3fa/caUgz3TO5QNwAEQBoE2OZOmw/X+jtWettj?=
+ =?us-ascii?Q?YdllQlIE7gu+A4Pe6z5GLO50lrjb04/+21RvABVDLVPC?=
 X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 424d8fc7-0457-4200-7f4c-08dd97738b3a
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc9addd1-0acf-4305-eeb0-08dd97739066
 X-MS-Exchange-CrossTenant-AuthSource: PAWP192MB2225.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 07:54:27.0746
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 07:54:35.7927
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c1+kyAgPMWMgv8ETJypZ5y0Q2CT6ivpVqEbvdKA5kKVm4YK5oaQ1J+vf3WYDsHwF+zNThgeiV8fsUksXY8TQNQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: drPwER1IYqvQDSbDcuVjrre/XBHmIazHhqvztLEL+x4stznKpYUxsUN+Nmulqn7c+PyDE7MwR0s+7TdK93kvug==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P192MB0863
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 07:54:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216888
+ <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 07:54:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216889
 
 From: Frederic Hoerni <fhoerni@witekio.com>
 
+Add dependencies on all eligible files in WKS_SEARCH_PATH.
+
+Before this patch, adding a wks file earlier in the search path
+was not taken into account automatically.
+
+To reproduce the issue:
+
+1. Init (use default WKS_FILE=3D"qemux86-directdisk.wks")
+
+    . oe-init-build-env
+    echo 'IMAGE_FSTYPES +=3D "wic"' >> conf/local.conf
+
+2. First clean build
+
+    rm -f wic/qemux86-directdisk.wks
+    bitbake core-image-minimal -c cleansstate && bitbake core-image-minimal
+
+3. Create an override for WKS_FILE (earlier in WKS_SEARCH_PATH)
+and introduce an error (a very small partition size) so that we can see it =
+happen (or not).
+
+    mkdir -p wic
+    echo "part / --source rootfs --fstype=3Dext4 --fixed-size 1M" > wic/qem=
+ux86-directdisk.wks
+
+4. Build again
+
+    bitbake core-image-minimal
+    ...
+    NOTE: Tasks Summary: Attempted 4670 tasks of which 4670 didn't need to =
+be rerun and all succeeded.
+
+=3D> Nothing gets built, whereas we should see this error:
+| ERROR: Actual rootfs size (28713 kB) is larger than allowed size 1024 kB
+
 Signed-off-by: Frederic Hoerni <fhoerni@witekio.com>
 ---
- meta/lib/oe/searchfile.py | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
- create mode 100644 meta/lib/oe/searchfile.py
+ meta/classes-recipe/image_types_wic.bbclass | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-diff --git a/meta/lib/oe/searchfile.py b/meta/lib/oe/searchfile.py
-new file mode 100644
-index 0000000000..a7a222dedb
---- /dev/null
-+++ b/meta/lib/oe/searchfile.py
-@@ -0,0 +1,37 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+import bb.utils
-+import os
-+
-+
-+def search_file(path, files, d):
-+    """
-+    Locate one of ``files`` in the list of paths ``path``.
-+
-+    Arguments:
-+
-+    -  ``path`` : list of colon-separated paths (like ``$PATH``).
-+    -  ``files``: list of file names to search (may be absolute paths).
-+    - ``d``     : Bitbake's data store.
-+
-+    Returns the first file found, otherwise an empty string.
-+
-+    This function also adds dependencies of the bitbake parse cache on all
-+    eligible paths so that the cache becomes invalid when one of these pat=
-hs
-+    gets created (ie: the user adds a new overriding file).
-+    """
-+    for f in files:
-+        if os.path.isabs(f):
-+            bb.parse.mark_dependency(d, f)
-+            if os.path.exists(f):
-+                return f
-+        else:
-+            searched, attempts =3D bb.utils.which(path, f, history=3DTrue)
-+            for af in attempts:
-+                bb.parse.mark_dependency(d, af)
-+            if searched:
-+                return searched
+diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-rec=
+ipe/image_types_wic.bbclass
+index 61f028bd7b..33773db2e5 100644
+--- a/meta/classes-recipe/image_types_wic.bbclass
++++ b/meta/classes-recipe/image_types_wic.bbclass
+@@ -45,17 +45,11 @@ inherit_defer ${@bb.utils.contains('INITRAMFS_IMAGE_BUN=
+DLE', '1', 'kernel-artifa
+ WKS_FILE ??=3D "${IMAGE_BASENAME}.${MACHINE}.wks"
+ WKS_FILES ?=3D "${WKS_FILE} ${IMAGE_BASENAME}.wks"
+ WKS_SEARCH_PATH ?=3D "${THISDIR}:${@':'.join('%s/wic' % p for p in '${BBPA=
+TH}'.split(':'))}:${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l in =
+'${BBPATH}:${COREBASE}'.split(':'))}"
+-WKS_FULL_PATH =3D "${@wks_search(d.getVar('WKS_FILES').split(), d.getVar('=
+WKS_SEARCH_PATH')) or ''}"
++WKS_FULL_PATH =3D "${@wks_search(d.getVar('WKS_FILES').split(), d.getVar('=
+WKS_SEARCH_PATH'), d) or ''}"
+=20
+-def wks_search(files, search_path):
+-    for f in files:
+-        if os.path.isabs(f):
+-            if os.path.exists(f):
+-                return f
+-        else:
+-            searched =3D bb.utils.which(search_path, f)
+-            if searched:
+-                return searched
++def wks_search(files, search_path, d):
++    from oe.searchfile import search_file
++    return search_file(search_path, files, d)
+=20
+ WIC_CREATE_EXTRA_ARGS ?=3D ""
+=20
+@@ -160,10 +154,6 @@ python () {
+             d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
+             d.setVar('WKS_FILE_CHECKSUM', '${WKS_TEMPLATE_PATH}:True')
+=20
+-            # We need to re-parse each time the file changes, and bitbake
+-            # needs to be told about that explicitly.
+-            bb.parse.mark_dependency(d, wks_file)
+-
+             try:
+                 with open(wks_file, 'r') as f:
+                     body =3D f.read()
 --=20
 2.34.1
 
