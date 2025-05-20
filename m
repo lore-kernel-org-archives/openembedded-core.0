@@ -1,129 +1,119 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27B9FC3ABDD
-	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 13:39:33 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.21196.1747748362328909307
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AD35C3DA6D
+	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 14:04:53 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.21847.1747749887401074575
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 06:39:22 -0700
+ Tue, 20 May 2025 07:04:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GBSNX+7+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a36e0d22c1so1727252f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 06:39:21 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=mE0LwuKc;
+ spf=pass (domain: linaro.org, ip: 209.85.128.45, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-442f9043f56so31199155e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 07:04:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1747748360; x=1748353160; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=r82AgfGqluszY695DFBNr83fzWN6Iov0xWi78zeJY2g=;
-        b=GBSNX+7+dRZNPNFl21F63Jx9QcZNlgTv6bm/97Z6jNxB0f2a5a1pzGA4IEcYztTiC4
-         9Hd9sANy4iUSPodMGuSfyDgeETiOacOAiITRO1+TsFK9CLqvXb6c9lJ+cJcGlnxwZ1Ct
-         KtpvRe+rvRrRYHOaePck3U0/cFstS7eLPmyVY=
+        d=linaro.org; s=google; t=1747749886; x=1748354686; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=k+1MTvOJhzV1vPNIwhwuekxU8lX74SE2GmdVntHs35Q=;
+        b=mE0LwuKckuIKmhXXWfjcePZhTl/t+IKsVIpEp7bNz69IaArCG6EVHNq+N1PlOIS4ET
+         YE2tofskKRGIVkSatknoYlq6JNrv/i2IAmhq62QlNfULjDCtY13rEU5Ceot0pKojueg/
+         iNUvJSvHue9Nm+tiCcnqkRAizz4S/S7BADCzRh5WjYgx62glfCKDdwayCpuhZG2mtgys
+         0npdlu/YSt0XSX48BVe16OEZMB9UviSM12n+TzDrbK5dU8+Kx5sYnMKtpFX5tAG2m31j
+         U5V0bxLkmmzv3QEEmonM5C/nJh59P31u6O4//Bw6WSJ8mzDIuLClf6EeFwi3cuOL+xWW
+         nPLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747748360; x=1748353160;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r82AgfGqluszY695DFBNr83fzWN6Iov0xWi78zeJY2g=;
-        b=kurH1Qb/Cav3R4YzuO3H7zRPR5qxGwx743NZFVvMY8JLI0O8xIbnWw61VMannJ4D58
-         s8qX7HCgXM2s/baMvzj3AWoloo4VnhzvnRhvUG9UB2x3zr6OuUblT9isGC8/VvjrXBve
-         n42t2dgFt3Y/GrdM3O1QGuk7oV+rjVKU4tzTJns9PSmQvD8K/b6/fg6/WuceJZGE4OgR
-         kZeJm5gWq3+5jRU0jKPw/UwZ5EmdmIX2CaM6gDEKXfOsneESdVGWCC8PFqDdPMEU+zJl
-         PlODaqdAzXMzBQi8MQNPReBSCTDWZTkUSdbx3UJtrZEc7qd8jxxR90mKjOP/Lc4NseqZ
-         7PSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfzkzAVAQSzqIdRxk2dAQk4GFf9k7buyHzxSK2dV1oQKAQi9+USwkrjoBaEQbmMYp75hleC/n4UsXXNGUqCJlzcQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwEutw1VoEPRriR4PcZk17kTtloXSwl8gpNfjC8jQO/XxdfQkqq
-	ZjI98o2q5sFXeWn1/RxKeQnIISuv5mG/cXo2ntAvoWNhgIQZ7MNbRp0IPJdjnto4A/8=
-X-Gm-Gg: ASbGncvWIsGNn6sx0imVivkpkBlHasxYqQQ5SUavYT8Xr0AlHETQVkiHoHpQ52wONBZ
-	BprROWSIlDcOhGGv+5Zjvbpgxv9SIt4663ISopD+sXmihodF3c3mre30wl9lFL+NUPgS7sboKpl
-	xSaOG+o+qU2XNL9utkZA+fKE9yNbF01WRMtX7cw4wSKKBI1hRpQIXnImw9qBAjWEvoOHlf/3lQm
-	adLYnLMvXR2jmn+FxA+TMjzvDXilTIggm6R2dGx4tFZbtKPH//UslDjDNvCz6WNorLdP1h9lrDC
-	ed3StF3KAH0r+BpyaWLHxg/L7j1Y0s9YZZVufS3qGKpBV672fYi5HHo8N/2PivB4Fg+NS3wQeGT
-	rEAl0XiquvJKMswELsXCnVCxnQVqbwOxyJRcfPA==
-X-Google-Smtp-Source: AGHT+IG+sXty0aMdb+qs1iC68vy/E/16qo4gFP1sXpZtQoK6FvEQdIprMuw+4KxCv7xm6uczBNv1Tw==
-X-Received: by 2002:a05:6000:2407:b0:3a0:a0e5:d28b with SMTP id ffacd0b85a97d-3a35fe5bb31mr13102667f8f.3.1747748360517;
-        Tue, 20 May 2025 06:39:20 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:685:a6df:9777:90ca? ([2001:8b0:aba:5f3c:685:a6df:9777:90ca])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca5a84csm16507937f8f.31.2025.05.20.06.39.19
+        d=1e100.net; s=20230601; t=1747749886; x=1748354686;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k+1MTvOJhzV1vPNIwhwuekxU8lX74SE2GmdVntHs35Q=;
+        b=MKtOKInvEPkmEDCm/tZciGMMehpW+146ofUM9E/TxBCqzPxyJGvc14nM8g/Y6GecC0
+         B2Jb13i3/D+CdYOsZ5QQimEanfnsHVskr6UMkAWQs2YZwvpYGsZtCd/Iot8MRCj7y6hL
+         QdNOBRrklkYwtjQEWYnU7ZLt6p7y1dCLX/7kiWiOJHgCFS/NHGPSSZxKv54K1VKXP8Hk
+         mVTF3b0v9lP9c3eI/jGJwPiRUf0Y+e0SWzmufEvleoclmDDym8l+JjkU500p7YLX7XhP
+         cB84aHEId3ZJhq9om4D+gnPxFe3mynvvX1T1BsmmIsl8A1ytz8Uwvy1zeLNpZsWtyZA4
+         vefQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8LsxJecM92lNUvYtPHbzTq9FG3fL4kNtDS8eNrym18dP1FnXcNtPlXBYiRLsF3/fwKAUa1Qxb5PcC56t4Q5AIOg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwXhw3UblyXn8cwsTujiblWCRcE5D16ZWGrZCTMzBvjvsQmf5L/
+	wUqX+/lcqRCyyu4nGXji0ydId/4ZKApjOEXU4yvJ/fV8QQn/gzK7vqaAHdidIM4IsGk=
+X-Gm-Gg: ASbGncvxxr838/f8GYACG+9aslCo96zJ1Mgel77JX+uf5fDmUDTn57jeWv+8qjF/oRP
+	fSYY0WJedqI03rncQEoXWlJgaTQZ/f23e3gV5bh92cb2Bx3WA7tBZTnZtuVleZVIuOMrIQPvm0W
+	0/aFKKdTTLiRsM3qfSnH1oqko1h+oG2e8g+4DSQPt9KiR5w2Mn9IdBdcNwe+DJRMkwKJ+iKaHgg
+	y8tyni6qAJgx9pvLPcUq8zGm45TdrvJqKgIjSLrOTLOf+mWAZBRrrUPxmDIW0rm+oGZza/sIpIA
+	G2W4x5jvTVf+Sws9QzJi1jY/gU2Ic3FM9s5PAT/7oSpzI3kX
+X-Google-Smtp-Source: AGHT+IEymIL78gZfKDhvLHIaCwjYySaWtRsUGqFWAJyHighwuw5B6YsicJKPRCBCPYnywfXFWxOm0w==
+X-Received: by 2002:a05:600c:1c0a:b0:442:e03b:589d with SMTP id 5b1f17b1804b1-442fd665745mr136903015e9.24.1747749885606;
+        Tue, 20 May 2025 07:04:45 -0700 (PDT)
+Received: from nuoska ([62.48.241.215])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f6b29633sm34218295e9.8.2025.05.20.07.04.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 06:39:19 -0700 (PDT)
-Message-ID: <54484445b491b8be597cf35b47e7059c97c037d9.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH v2] packagegroup-base: Add option to set
- zeroconf provider
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kiernan@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>, Joshua Watt <JPEWhacker@gmail.com>
-Date: Tue, 20 May 2025 14:39:18 +0100
-In-Reply-To: <20250215165545.1929-1-alex.kiernan@gmail.com>
-References: <20250215165545.1929-1-alex.kiernan@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Tue, 20 May 2025 07:04:45 -0700 (PDT)
+Date: Tue, 20 May 2025 15:04:43 +0100
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: qemuarm64, genericarm64 and selftests (was Re: [OE-core] [PATCH v2]
+ oeqa selftest: read qemu options from TEST_RUNQEMUPARAMS )
+Message-ID: <aCyL-xaFUfoswJjq@nuoska>
+References: <20250423083634.137495-1-mikko.rapeli@linaro.org>
+ <56ae50dcab799e2db27c7e423c5533546fd6ab2b.camel@linuxfoundation.org>
+ <aCxgnSnv92n8b30e@nuoska>
+ <2421d5a01486a5b15d056d480cb12026aa5024ac.camel@linuxfoundation.org>
+ <aCyA6YrqUnlgEgPX@nuoska>
+ <7A241F87-9B71-4207-A97E-3777C67D683C@arm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7A241F87-9B71-4207-A97E-3777C67D683C@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 13:39:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216915
+ <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 14:04:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216916
 
-On Sat, 2025-02-15 at 16:55 +0000, Alex Kiernan via lists.openembedded.org =
-wrote:
-> avahi, systemd-resolved and mDNSResponder (in meta-networking) can all
-> provide Zeroconf services. Add a `ZEROCONF_DAEMON` option to select
-> which of these will provide service via packagegroup-base-zeroconf.
->=20
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
-> =C2=A0meta/recipes-core/packagegroups/packagegroup-base.bb | 7 +++++--
-> =C2=A01 file changed, 5 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/=
-recipes-core/packagegroups/packagegroup-base.bb
-> index cb9d1f07af51..ac450fbdc9a7 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> @@ -312,11 +312,14 @@ RDEPENDS:packagegroup-base-nfs =3D "\
-> =C2=A0RRECOMMENDS:packagegroup-base-nfs =3D "\
-> =C2=A0=C2=A0=C2=A0=C2=A0 kernel-module-nfs "
-> =C2=A0
-> +# Choose 'avahi-daemon', 'mdns' or 'systemd-resolved' as zeroconf-daemon
-> +ZEROCONF_DAEMON ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd-=
-resolved', 'systemd-resolved', 'avahi-daemon', d)}"
-> =C2=A0SUMMARY:packagegroup-base-zeroconf =3D "Zeroconf support"
-> =C2=A0RDEPENDS:packagegroup-base-zeroconf =3D "\
-> -=C2=A0=C2=A0=C2=A0 avahi-daemon"
-> +=C2=A0=C2=A0=C2=A0 ${@ '' if d.getVar('ZEROCONF_DAEMON') =3D=3D 'systemd=
--resolved' else d.getVar('ZEROCONF_DAEMON')} \
-> +=C2=A0=C2=A0=C2=A0 "
-> =C2=A0RDEPENDS:packagegroup-base-zeroconf:append:libc-glibc =3D "\
-> -=C2=A0=C2=A0=C2=A0 libnss-mdns \
-> +=C2=A0=C2=A0=C2=A0 ${@ {'mdns':'mdns-libnss-mdns','avahi-daemon':'avahi-=
-libnss-mdns','systemd-resolved':''}[d.getVar('ZEROCONF_DAEMON')]} \
-> =C2=A0=C2=A0=C2=A0=C2=A0 "
-> =C2=A0
-> =C2=A0SUMMARY:packagegroup-base-ipv6 =3D "IPv6 support"
+Hi,
 
-This has been sitting in master-next for too long. Various people on
-the patch review calls have promised to reply to it but we've all been
-struggling for the right reasoning and time to write that reply.
+On Tue, May 20, 2025 at 01:24:41PM +0000, Ross Burton wrote:
+> On 20 May 2025, at 14:17, Mikko Rapeli via lists.openembedded.org <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+> > 
+> > There are a few more but really, genericarm64 should IMO replace qemuarm64
+> > since both run qemu and former also runs on various other boards and is
+> > a good start for developing products on arm64/aarch64.
+> 
+> There’s quite a large conceptual gap between the two: qemuarm64 is a machine that is explicitly and specifically for booting inside a qemu, ideally with KVM.  genericarm64 has a much wider scope, assumes SystemReady firmware and real hardware.
 
-Basically, several of us are not convinced this is correct. The
-challenge is that "zeroconf" means different things and the things
-being switched between here aren't equivalent. They don't have the same
-APIs and don't function in the same way, the similarities are very
-loose. That contradicts the way we usually make selections like this.
+qemuarm64 does have a bit odd kernel config, IMO, for pure KVM support.
 
-That said, having stared at this just now, I can nearly convince myself
-this is the right thing to do :/.
+And does the qemu-boot-with-KVM support really need a full machine config,
+or could genericarm64 kernel and optimized images be sufficient?
+For example include an initrd with plain KVM and rootfs storage backend
+support, nothing generic.
 
-Can anyone suggest how this should be handled?
+We've used qemuarm64 and meta-arm side qemuarm64-secureboot machines
+for userspace on a number of boards and setups without issues
+but rolled out custom BSP, usually just kernel config and initrd.
+genericarm64 easily replaces these. These then required a separate
+build of the SystemReady firmware or support from board vendors
+which frequently is there already.
+
+> There’s also a case to be made for merging sbsa-ref (from meta-arm) and qemuarm64, but again I’d suggest not: sbsa-ref explicitly can’t do KVM whereas qemuarm64 can.  From a performance-of-testing-userspace perspective, this is an important distinction.
+
+Thanks, I've been wondering what that machine was for.
+
+Now back to the selftests and genericarm64. Does it make sense
+to you to fix oe-core selftests to work on genericarm64?
+
+If yes, how should the qemu firmware dependency to u-boot
+be filled. Manually per build via local.conf or bitbake
+command line to also build u-boot? Or something else?
 
 Cheers,
 
-Richard
-
-
+-Mikko
 
