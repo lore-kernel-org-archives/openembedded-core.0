@@ -1,98 +1,104 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD12C54E71
-	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 20:18:34 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.1070.1747772312172391739
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC128C3DA6D
+	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 20:21:44 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.web10.1095.1747772496169926608
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 13:18:32 -0700
+ Tue, 20 May 2025 13:21:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7235aa3e61=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54KIocgk026873
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 20:18:31 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46rwfx09g3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 20:18:31 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 20 May 2025 13:18:12 -0700
-Received: from pop-os.wrs.com (172.25.44.3) by ala-exchng01.corp.ad.wrs.com
- (147.11.82.252) with Microsoft SMTP Server id 15.1.2507.43 via Frontend
- Transport; Tue, 20 May 2025 13:18:12 -0700
-From: <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] valgrind: Upgrade from 3.25.0 to 3.25.1
-Date: Tue, 20 May 2025 16:18:28 -0400
-Message-ID: <20250520201828.2983705-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Buv+CUtn;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-20250520202132b3e0d6512d52d0c7e8-a4yovt@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20250520202132b3e0d6512d52d0c7e8
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 20 May 2025 22:21:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=7VtKvAbZXZNXHoC9VagnMmbfwwsvVGQDo7AqXnW6SjQ=;
+ b=Buv+CUtnmc+ywKQY98CNVSO/EG3F6IBJ4hlKN8lfU+4mNr36XHDyUG6swMJHr4V3b7vxfT
+ OH8n8T+f4sL3MZnBsFUxkf0rSasu1AU/kshRfAWIG2jcXjtTSnT3CTSyARkpeFvLiVhtQkwf
+ k9rJudli1DL3+psuElZMCjXwdrKgVcd4p4H8wjwGl2dgPNHa4Qn3fetQLdFKkb3T9bqAeavP
+ H1xUrxGWa7I296G0Qc4+4nCiSGd6FQLD6xlVJtdLgiCzreASmHUq+DyLaYD7+MQuJyZ6SNXs
+ QZPaPOFVUCr1NoJDCdvZx0HtNWRod0xVn1C7d6ctjJuZLhasyutsSNwA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][walnascar][PATCH 1/8] sqlite3: patch CVE-2025-3277
+Date: Tue, 20 May 2025 22:20:26 +0200
+Message-Id: <20250520202033.2352749-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=ObSYDgTY c=1 sm=1 tr=0 ts=682ce397 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=dt9VzEwgFbYA:10 a=3fyaaF4VAAAA:8 a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=svb0_1_ECYGRBypINAwA:9 a=ul9cdbp4aOFLsgKbc677:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDE2MyBTYWx0ZWRfX6Fg+NdH1jIbY osT0nevTtatt38j7CpUYU9Z1fcrSOTs6vrkeWpCsrz5Rw5IJk+hj7t2zejn6AYGGyZmQahswjKo 60mxZembdZLSYWNEqmBaoN7wC33R9tS1GfU/tvPGgoTzqjHrgE4aiwxDq3CHUWWreSkcjh7NEyd
- Z+WIuw4dUFk0w4kwAXULVBiJEpiLXauv8MqllJGZOWc2auz7FC8dnNp1q1vn6qNmJOGUmXK/14L BCeP3vZGGPe1PJKY5yUXR2gcICoMHXT53414Iq6Hf2ewuvDA1qrHoWuOb5zj4HNawbjBPmLL2k6 H5WnOdnAguSptdJ0KTD33DDoIMUxdD3BTzpda4y7306GWXimFhoczSjOIk8yHjXHCs8/UrPKv7f
- dWgaGVrkfF0Wh/evUoJ0X88IrS+/tvDz34BNioUCRAVrDMLKHWDzgjlCwtmMZim7NffBhWGI
-X-Proofpoint-GUID: vFd_SRy0bH32aXbbZWaKFnak0lZwragE
-X-Proofpoint-ORIG-GUID: vFd_SRy0bH32aXbbZWaKFnak0lZwragE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-20_09,2025-05-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- bulkscore=0 spamscore=0 mlxlogscore=886 phishscore=0 malwarescore=0
- adultscore=0 priorityscore=1501 suspectscore=0 clxscore=1015
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
- definitions=main-2505200163
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 20:18:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216942
+ <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 20:21:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216943
 
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-The following bugs have been fixed or resolved in this point release:
+Pick commit [1] mentioned in [2].
 
-503098  Incorrect NAN-boxing for float registers in RISC-V
-503641  close_range syscalls started failing with 3.25.0
-503914  mount syscall param filesystemtype may be NULL
-504177  FILE DESCRIPTORS banner shows when closing some inherited fds
-504265  FreeBSD: missing syscall wrappers for fchroot and setcred
-504466  Double close causes SEGV
+[1] https://sqlite.org/src/info/498e3f1cf57f164f
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-3277
 
-To see details of a given bug, visit
-  https://bugs.kde.org/show_bug.cgi?id=XXXXXX
-where XXXXXX is the bug number as listed above.
-
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../valgrind/{valgrind_3.25.0.bb => valgrind_3.25.1.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/valgrind/{valgrind_3.25.0.bb => valgrind_3.25.1.bb} (98%)
+ .../sqlite/sqlite3/CVE-2025-3277.patch        | 28 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.48.0.bb |  4 ++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.25.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.25.1.bb
-similarity index 98%
-rename from meta/recipes-devtools/valgrind/valgrind_3.25.0.bb
-rename to meta/recipes-devtools/valgrind/valgrind_3.25.1.bb
-index 6650dcedbf..8e27212a0f 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.25.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.25.1.bb
-@@ -27,7 +27,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-tests-arm-Use-O-instead-of-O0.patch \
-            file://0001-Use-portable-syntax-for-pushsection-directive-in-inl.patch \
-            "
--SRC_URI[sha256sum] = "295f60291d6b64c0d90c1ce645634bdc5361d39b0c50ecf9de6385ee77586ecc"
-+SRC_URI[sha256sum] = "61deb8d0727b45c268efdc1b3b6c9e679cd97cbf5ee4b28d1dead7c8b7a271af"
- UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
+new file mode 100644
+index 0000000000..8264d4443a
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2025-3277.patch
+@@ -0,0 +1,28 @@
++From d7f45414935e4ef6e3361f02a22876f1ee7a04aa Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Sun, 16 Feb 2025 10:57:25 +0000
++Subject: [PATCH] Add a typecast to avoid 32-bit integer overflow in the
++ concat_ws() function with an enormous separator values and many arguments.
++
++FossilOrigin-Name: 498e3f1cf57f164fbd8380e92bf91b9f26d6aa05d092fcd135d754abf1e5b1b5
++
++CVE: CVE-2025-3277
++Upstream-Status: Backport [https://sqlite.org/src/info/498e3f1cf57f164f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ sqlite3.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 08c593e55c..24d0d954d9 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -130954,7 +130954,7 @@ static void concatFuncCore(
++   for(i=0; i<argc; i++){
++     n += sqlite3_value_bytes(argv[i]);
++   }
++-  n += (argc-1)*nSep;
+++  n += (argc-1)*(i64)nSep;
++   z = sqlite3_malloc64(n+1);
++   if( z==0 ){
++     sqlite3_result_error_nomem(context);
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+index bd2ac6614d..86983f21bd 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+@@ -3,6 +3,8 @@ require sqlite3.inc
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
- COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64|riscv64).*-linux'
--- 
-2.34.1
-
+-SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++    file://CVE-2025-3277.patch \
++"
+ SRC_URI[sha256sum] = "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
+ 
 
