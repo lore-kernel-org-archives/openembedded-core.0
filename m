@@ -2,94 +2,88 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D90D3C3ABDD
-	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 12:54:32 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web10.20041.1747745671655054366
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C59A3C3DA6D
+	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 13:06:22 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web11.20480.1747746379826371848
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 05:54:31 -0700
+ Tue, 20 May 2025 06:06:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TwM3qJM/;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6f2c45ecaffso51434656d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 05:54:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TX2j9usU;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6f8c3db8709so41079186d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 06:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747745671; x=1748350471; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747746379; x=1748351179; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cYyfVfMZLWW43MpybuDwmqgHPe28mIbOFpSSnxe+yeo=;
-        b=TwM3qJM/u1emNKfv1Tn2GH3yWVD4TbbPDjfoAtE4Kif3aG6cIHLxBDtRUxO6iayWbq
-         RHVhTCY4+ZZfnZeapHo3hc9/q2dELu82Y/d9HVR0VZL8jBuVcxzYNCFuxoaokfMBqEld
-         7OolNXNRY1RRyHutyiKw5fZE4XyGIBSXEOTu8duntBsrHw1ikoF1HHZKQzcKnKdkSh+W
-         SbO2VROUf1cdE6wCXrOoEFEQdspW7Bo1SbMjvrCqJl/ZlYa0Pwr206oYbeKNmYJf085Z
-         KOosPjv/Yb7pBv4x4A1GMaxFgxOvKdmcGPmreQkYzCT0+6ZqW+UZFYz5FP/OnsYqymVT
-         lO9Q==
+        bh=7uMhBcZ6zn+ZSaE7EjkYaynsW+hGwo73iSBktBm6L/E=;
+        b=TX2j9usUbcDmq6a7if4cfBtHAfCAJJOOmUQGdpe0waTIVQwRlHl0d0rUQwqBR9+2iZ
+         GRjM5ymNJkTFhpt9CPc0QS414faAYRfI2wkfkxXSBle49yYv+5BSlK8OliIPeiUHaE2k
+         Z22KqEnmZCGyI2jEpxyby9bIId9OfCWo/LxWBdP5mtUo5k4EYumzAQTvJL4Qdu8f9saA
+         +nVvOmrwI7Y9RFr6JUTuUkQ9LzqdrZQY6JijaGPVMMXSY0z85H/nAJbVvSg51R1AkpwK
+         a+Ah1mhfrJsSQPp6DkcqIkbyzNdJxepl2dKc3U/OC/woj1J1W3rexfn+qS8Co+w+6G1N
+         oFlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747745671; x=1748350471;
+        d=1e100.net; s=20230601; t=1747746379; x=1748351179;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cYyfVfMZLWW43MpybuDwmqgHPe28mIbOFpSSnxe+yeo=;
-        b=TUt73OezSocYgHYqCDsqAh/BjfkBUh/mGTy1V5JLYLCYQeqFQJshh8GSMSnzOnnQA8
-         L0IfQkoIGAg3cOFCw+MLTX+/4xfbbI6lTO4jjMzbi4DuOSVLeutzp3KNmldaR64QMbVY
-         oYZY/7fcwh3bnjlpe3vHzUDYOqTP0jEFuGRXmuGrlwVcaS5RD+zatJCUeZVYsk+RWE46
-         8Iu4mbYtTucp8iKVpT+jU+8nXTp0Z/R71d6tvbY0asQgc35JzM7e6DmOM0yGWzvvUFmU
-         JcsDE6BMxaThJ7TXzkVIjazNVkIRc4CNZMhZ2b8PMdavNSWaOjaOia4U1ner2MdqAA2X
-         mlGA==
-X-Gm-Message-State: AOJu0Yx+64DKDsodT8F8d7U/HGJMugbox7MalMBmw+cjDd62SPLnMvdJ
-	LyDpGpO+Ds8Vcqd0vyFaHsXJrAgZ4A689RngqNyZoopsB6wGzk8C/R/GV6gxH4Ni5PAmIpUIVhb
-	+T5dt5d0phOK8mYnAxhxacZ8F9KCHWUcsWg==
-X-Gm-Gg: ASbGnctxCpAipyAPMZvVPDXEY1gKYR4J+YrIB+ATizmMT1NQ1PwJY9oIxWrthY3P2ED
-	x3a6zZpkxyMcC94ls1XaHjcfmn2p7V+3REV2USxdEtSqFAXOSFFUJJ4BTTOq6oNHqxvu6nOnxyD
-	5htPiuwqUOJ7SH184s/uUgNLGRVsireXmbzg==
-X-Google-Smtp-Source: AGHT+IHaFaPnQ4DMD7SIp1KztN9Hoel2GI3HE6EEbsBzMUgB+JE4bmrAWpxNoNSvIqTGhKCzHEO5AjWDm/JAAFLKfJY=
-X-Received: by 2002:a05:6214:21aa:b0:6f8:e66b:5744 with SMTP id
- 6a1803df08f44-6f8e66b57camr34251886d6.18.1747745670588; Tue, 20 May 2025
- 05:54:30 -0700 (PDT)
+        bh=7uMhBcZ6zn+ZSaE7EjkYaynsW+hGwo73iSBktBm6L/E=;
+        b=PhkiUK/uFpYqR11YDhggc2B5gCV6CeCcD359mMBi+gKu/RasCeih5nwdJB38mA/b+9
+         MPKDHIYXIwwJ6u18eMgQ5ufotflZsUMkDjX82bxOR4tkqiYTKFT/IaA5dlH/K8VbcbmE
+         PaemrKhOWXeYRbqg4RgL9pv9mLmJrlF/+FlDiVQT+cWkgE1lX3qWkrN6n+A8RkIlUolm
+         NYjXsiHI92VgF4ZBOMfxC9rc1fdaLJQl3nwcjW6VwEK2E+9w0lsCJ6fnniKlfJ+hfQ9d
+         k7BeACUz4dtOFXbt+u50FoKwtkmtfXUhBZvmUVXk8Z07vh7BrvB5kxoKBB2JS12BeHSY
+         Knfw==
+X-Gm-Message-State: AOJu0YzCEApOOjRexyh/k03RNFFrqYGyPl16iYaf0UJAi/Hhs6abU8zv
+	SH60BA75womIC522L1lIEzxAdXJC+4bnok6YksrzWYwlI5qWwcBBSL6KZRsfoo8vI22AY41flQS
+	MzMMtinRvzkwUY3zWEQMh8aFlYK4da6w=
+X-Gm-Gg: ASbGncv3u+GJslr6nbQAM/oBp5jIRzIfJsDml+zA+sWl6v3tOx8iUEs8eKh92APXjnx
+	gFUftOKaLZYyp0Wtii6d6nqCojPoTQMlxkNy9Bz6TSvwRs182SOto75dfcFLUtSjNpyjcokahT5
+	MhAd9Joi1+FqM4NeU0cw6Bx5gMoBJl82Myuw==
+X-Google-Smtp-Source: AGHT+IFAzArrPKNnWTLQV4YDsv7OCsoDDUrDiuTlXCbWyLjnpaYshPB4MxR/vb0+nPxb4oAh6YDAemA0clz2RBzPvy4=
+X-Received: by 2002:ad4:5bc9:0:b0:6f8:c773:26e with SMTP id
+ 6a1803df08f44-6f8c7730babmr155208496d6.18.1747746378690; Tue, 20 May 2025
+ 06:06:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250519081000.2298461-1-hongxu.jia@windriver.com> <20250519081000.2298461-2-hongxu.jia@windriver.com>
-In-Reply-To: <20250519081000.2298461-2-hongxu.jia@windriver.com>
+References: <23322.1747649580665167105@lists.openembedded.org> <23322.1747650258056298980@lists.openembedded.org>
+In-Reply-To: <23322.1747650258056298980@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 20 May 2025 14:54:19 +0200
-X-Gm-Features: AX0GCFsXAXCvKdOtA5frXIDhY-qoYL_nV3_hCPOnLd7YudA-weK8UNhEuHKQiK4
-Message-ID: <CANNYZj9RPcXfkkD1hhMeZTekOMG4bnwjK3d6CWbJF3KUeV7m6g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/4] patch: upgrade 2.7.6 -> 2.8
-To: hongxu.jia@eng.windriver.com
+Date: Tue, 20 May 2025 15:06:07 +0200
+X-Gm-Features: AX0GCFtIsLampa2ngsuWaBAVCOGfuEjsyvecX46n2X4xCxRFNZ9E7R3vbeh2j98
+Message-ID: <CANNYZj9mqhhwvr145RCzR5NULK48_SmphXyiprLFbK9dOGnyhw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] package: disable renamed dependency error if
+ allarch is overridden
+To: ohnatiuk@cisco.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 12:54:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216907
+ <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 13:06:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216908
 
-On Mon, 19 May 2025 at 10:10, hongxu via lists.openembedded.org
-<hongxu.jia=eng.windriver.com@lists.openembedded.org> wrote:
+On Mon, 19 May 2025 at 12:24, Oleksandr Hnatiuk via
+lists.openembedded.org <ohnatiuk=cisco.com@lists.openembedded.org>
+wrote:
+>
+> Also, consider this
+>
+> packagegroup.bbclass inherits allarch.bbclass - except when PACKAGE_ARCH is set before inheriting packagegroup
+> in order to do so, a nativesdk packagegroup must inherit nativesdk first
+> there is a native-last QA check which strongly suggests inheriting nativesdk last
+> nativesdk is inherited last via inherit_defer in nativesdk-packagegroup-sdk-host
+>
+> I see all of this as either very misleading at best or a mistake at worst.
 
-> - Drop backport patches
+This is probably true. It does look like a pile of ad hoc fixups
+rather than an overall design and structure. Maybe it's possible to
+clean and simplify?
 
-...
-
-> -From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Mon, 13 Apr 2015 17:02:13 -0700
-> -Subject: [PATCH] Unset need_charset_alias when building for musl
-> -
-> -localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
-> -which actually shoudl be fixed in gnulib and then all downstream
-> -projects will get it eventually. For now we apply the fix to
-> -coreutils
-> -
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - lib/gnulib.mk | 2 +-
-
-This patch is not marked as a backport, rather lib/gnulib.mk has been
-removed upstream. This should be mentioned in the commit message, so
-reviewers don't have to go and separately check the tarball, or ask
-questions.
+ I'd say if you resubmit the patch with all the extra research you did
+in the commit message, that would help review. I don't have objections
+anymore.
 
 Alex
 
