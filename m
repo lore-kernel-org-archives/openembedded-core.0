@@ -1,175 +1,258 @@
-Return-Path: <andrej.v@skyrain.eu>
+Return-Path: <praveen.kumar@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09A2AC3ABDD
-	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 06:45:40 +0000 (UTC)
-Received: from h3.cmg1.smtp.forpsi.com (h3.cmg1.smtp.forpsi.com [185.129.138.162])
- by mx.groups.io with SMTP id smtpd.web11.15101.1747723528716820365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B8DC3ABDD
+	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 07:53:20 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.15826.1747727596462881125
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 May 2025 23:45:29 -0700
+ Tue, 20 May 2025 00:53:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=EvM2xwdG;
- spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 185.129.138.162, mailfrom: andrej.v@skyrain.eu)
-Received: from [172.25.231.43] ([85.248.43.180])
-	by cmgsmtp with ESMTPSA
-	id HGj7uPbpKwQNXHGj7u7aGE; Tue, 20 May 2025 08:45:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
-	t=1747723526; bh=iPuGbv7pDSyYZaXiDTEecTN6PaSUBI38+0rK1lHOMKE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	b=EvM2xwdGNAEpbjHHvs5RLeQUY3wfk1t7kVZNHOg7RIYKsLYdhpnDWNTKDC2yLRvdj
-	 1YdEOdIpPqNx/xbg/40pcEnMYaGYO6LDecKdoPfwP29dOIYfoXo+FtiB47Druoda4N
-	 5407lJr+7zkr+opMDIO9/77FJO5BAFQPfKN9yQrKQAcK/EDZUQvrCPFs2ZdLVQS4fO
-	 KOtUsOBsgRbk5ne/Cl9yA0x+NwhHblpJY8PHU1wvmd8qtGEUE5PcK4Ol4IQsAeUY6j
-	 W/2cFroaJzFUt/yeSNkMZn9zI8ByVzgxGEcu4mTI9w0nszJIsjaHRqYuRZikE7NX+h
-	 GGBP3jRtDjL/g==
-Message-ID: <406640d1-2b40-407e-a324-00110bfeec43@skyrain.eu>
-Date: Tue, 20 May 2025 08:45:25 +0200
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=723559529c=praveen.kumar@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K57iMu013187
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 00:53:16 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46psykjktr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 00:53:15 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 20 May 2025 00:52:59 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Tue, 20 May 2025 00:52:56 -0700
+From: Praveen Kumar <praveen.kumar@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Praveen Kumar <praveen.kumar@windriver.com>
+Subject: [oe-core][scarthgap][PATCH 1/1] glib-2.0: fix CVE-2025-4373
+Date: Tue, 20 May 2025 13:23:04 +0530
+Message-ID: <20250520075304.938023-1-praveen.kumar@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] kernel-fitImage: allow overwrite the
- configuration dtb label
-To: adrian.freihofer@siemens.com, "Oliver.Rohe@wago.com"
- <Oliver.Rohe@wago.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <DB4PR08MB8102C882795C5B8725105A0F9E93A@DB4PR08MB8102.eurprd08.prod.outlook.com>
- <f5080c649ce5d0f214dfdbb69a25449923b2948b.camel@siemens.com>
-Content-Language: en-US
-From: Andrej Valek <andrej.v@skyrain.eu>
-In-Reply-To: <f5080c649ce5d0f214dfdbb69a25449923b2948b.camel@siemens.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfLNxxk/eRo1ut3aN01PbiS3OcChB9u33ISli3ud4eqw65JamdG/BN5kllRiaHVycK/nL8gwHpn+0JCt18z2r2gkkm3bh5HLkaOSbVhDpBkdsp3h3eTgz
- a0Mq32yXznL3zgxKNzK4Wz905u7fel09kLxYpCuRhoJJTA1WO0EGqD/J2gum844Bh8s/2QFarvvycLOVMTHPrORbauSUvcUOqUwQcVgME91zmSpufaliD4ca
- Oo7CtQZtmDkgf/+XC4nU5OTHpOZ71+UmRLuIH5ueXZEMqyTGUV6VjPI02y0yA6D7
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=a8kw9VSF c=1 sm=1 tr=0 ts=682c34eb cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=PYnjg3YJAAAA:8 a=xNf9USuDAAAA:8 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=pedpZTtsAAAA:8
+ a=iP4e_i8taq-sWq2_hYYA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=EA_oED63Isst-uzJqiZM:22
+X-Proofpoint-GUID: MSka5aWEzC53FgB88mLFb0baRCZN6r5p
+X-Proofpoint-ORIG-GUID: MSka5aWEzC53FgB88mLFb0baRCZN6r5p
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDA2MyBTYWx0ZWRfXwtBhkNnon7h/ W5E1Tvztw5Gv7PI+UwGMJr3ePTEsFboVaNgIjYQf3JIFNYopc5afwPd+6Wlk0cN4x6RfFcAa5St iB1PN4UNU3CXIk9XX4TmNE8PNnmN19737g/K1unlFiOjNbGRAoyDB4C1JQ9UWwGxqWB/LQek4ny
+ 7Sv7HWTAQ6K0H+24SgFIyvvBKuRZXOMrOEB28kBJJihP8R1Y/AJ13vR2C4RqN+Fp9EnYft6LC9V ij1876iSYraxbOzrsdRv14fUZpD08GGey+pNYGd7JLH26QdLTLUqEYboyTlwamN6n++9U0iQXxG TaQkcfbU7gzH5a4KDKjLbqb19qIiGsgO7vvQXkhcQZo8yPSLI3decjYEtZ9lBfO+8K07wVx10Xi
+ hirVmH+FUoV3Ovp9Z+P28aVXTf2mwkaiiXciK9z8wY/TJIbAhUfMRRj94SAxHNawk5KbM1NO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-20_03,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0 phishscore=0
+ impostorscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505070000
+ definitions=main-2505200063
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 06:45:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216885
+ <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 07:53:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216886
 
-Hi guys,
+A flaw was found in GLib, which is vulnerable to an integer overflow
+in the g_string_insert_unichar() function. When the position at which
+to insert the character is large, the position will overflow, leading
+to a buffer underwrite.
 
-I've just quickly looked at the code and when I see something like 
-${variable} in bitbake, my control LED starts blinking. Please try to 
-avoid using the ${ } for shell variables in bitbake' context.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2025-4373
+https://security-tracker.debian.org/tracker/CVE-2025-4373
 
-Some day some developer creates a bitbake's variable like: dtb_img = 
-"my-machine.dtb" and your function will be in troubles.
+Upstream-patches:
+https://gitlab.gnome.org/GNOME/glib/-/commit/cc647f9e46d55509a93498af19659baf9c80f2e3
+https://gitlab.gnome.org/GNOME/glib/-/commit/4d435bb4809793c445846db8fb87e3c9184c4703
 
-Just my 5cents.
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+---
+ .../glib-2.0/glib-2.0/CVE-2025-4373-01.patch  | 120 ++++++++++++++++++
+ .../glib-2.0/glib-2.0/CVE-2025-4373-02.patch  |  29 +++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   2 +
+ 3 files changed, 151 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
 
-Regards,
-Andy
-
-On 19.05.2025 19:05, Adrian Freihofer via lists.openembedded.org wrote:
-> Hi Oliver
->
-> On Fri, 2025-05-16 at 12:32 +0000, Oliver ROHE via
-> lists.openembedded.org wrote:
->> This allows to provide a custom label for each dtb
->> without having to overwrite the whole function.
-> There is also a patch-set pending which does a complete rewrite of this
-> code in Python:
-> https://lists.openembedded.org/g/openembedded-core/message/216836. I
-> guess your change will potentially be simpler if it will would done in
-> Python later on. What do you think?
->
-> With the current implementation of the kernel-fitimage.bbclass many
-> details are hard-coded to "one configuration node gets generated per
-> dtb". Are you sure that we can change the labels without breaking other
-> things here? What's your exact use case for this?
->
->> Signed-off-by: Oliver Rohe <oliver.rohe@wago.com>
->> ---
->>   meta/classes-recipe/kernel-fitimage.bbclass | 26 ++++++++++++++-----
->> --
->>   1 file changed, 18 insertions(+), 8 deletions(-)
->>
->> diff --git a/meta/classes-recipe/kernel-fitimage.bbclass
->> b/meta/classes-recipe/kernel-fitimage.bbclass
->> index 07786647e1..f770d65087 100644
->> --- a/meta/classes-recipe/kernel-fitimage.bbclass
->> +++ b/meta/classes-recipe/kernel-fitimage.bbclass
->> @@ -344,6 +344,15 @@ symlink_points_below() {
->>          echo "$realpath"
->>   }
->>
->> +#
->> +# Simple function to allow overwriting the configuration node label
->> +#
->> +# $1 ... DTB image name
->> +fitimage_emit_section_config_dtb_label() {
->> +       dtb_img="$1"
->> +       echo "${FIT_CONF_PREFIX}${dtb_img}"
->> +}
-> The convention here is that functions starting with
-> fitimage_emit_section_... emits a section. However, this function is
-> just concatenating 2 variables.
->
-> Thank you for the patch
-> Adrian
->
->> +
->>   #
->>   # Emit the fitImage ITS configuration section
->>   #
->> @@ -404,7 +413,7 @@ fitimage_emit_section_config() {
->>          # conf node name is selected based on dtb ID if it is
->> present,
->>          # otherwise its selected based on kernel ID
->>          if [ -n "$dtb_image" ]; then
->> -               conf_node=$conf_node$dtb_image
->> +               conf_node=$(fitimage_emit_section_config_dtb_label
->> $dtb_image)
->>          else
->>                  conf_node=$conf_node$kernel_id
->>          fi
->> @@ -442,13 +451,14 @@ fitimage_emit_section_config() {
->>                  # default node is selected based on dtb ID if it is
->> present,
->>                  # otherwise its selected based on kernel ID
->>                  if [ -n "$dtb_image" ]; then
->> -                       # Select default node as user specified dtb
->> when
->> -                       # multiple dtb exists.
->> -                       if [ -n "$default_dtb_image" ]; then
->> -                               default_line="default =
->> \"${FIT_CONF_PREFIX}$default_dtb_image\";"
->> -                       else
->> -                               default_line="default =
->> \"${FIT_CONF_PREFIX}$dtb_image\";"
->> -                       fi
->> +                       # Select default node as user specified dtb
->> when
->> +                       # multiple dtb exists.
->> +                       if [ -n "$default_dtb_image" ]; then
->> +                               img=$default_dtb_image
->> +                       else
->> +                               img=$dtb_img
->> +                       fi
->> +                       default_line="default =
->> \"$(fitimage_emit_section_config_dtb_label $img)\";"
->>                  else
->>                          default_line="default =
->> \"${FIT_CONF_PREFIX}$kernel_id\";"
->>                  fi
->> --
->> 2.43.0
->>
->> Internal
->>
->>
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216864): https://lists.openembedded.org/g/openembedded-core/message/216864
-> Mute This Topic: https://lists.openembedded.org/mt/113144105/3619876
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [andrej.v@skyrain.eu]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
+new file mode 100644
+index 0000000000..f99c4de7e1
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
+@@ -0,0 +1,120 @@
++From cc647f9e46d55509a93498af19659baf9c80f2e3 Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Thu, 10 Apr 2025 10:57:20 -0500
++Subject: [PATCH 1/2] gstring: carefully handle gssize parameters
++
++Wherever we use gssize to allow passing -1, we need to ensure we don't
++overflow the value by assigning a gsize to it without checking if the
++size exceeds the maximum gssize. The safest way to do this is to just
++use normal gsize everywhere instead and use gssize only for the
++parameter.
++
++Our computers don't have enough RAM to write tests for this. I tried
++forcing string->len to high values for test purposes, but this isn't
++valid and will just cause out of bounds reads/writes due to
++string->allocated_len being unexpectedly small, so I don't think we can
++test this easily.
++
++CVE: CVE-2025-4373
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/cc647f9e46d55509a93498af19659baf9c80f2e3]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
++---
++ glib/gstring.c | 36 +++++++++++++++++++++++-------------
++ 1 file changed, 23 insertions(+), 13 deletions(-)
++
++diff --git a/glib/gstring.c b/glib/gstring.c
++index 9f04144..d016b65 100644
++--- a/glib/gstring.c
+++++ b/glib/gstring.c
++@@ -490,8 +490,9 @@ g_string_insert_len (GString     *string,
++     return string;
++
++   if (len < 0)
++-    len = strlen (val);
++-  len_unsigned = len;
+++    len_unsigned = strlen (val);
+++  else
+++    len_unsigned = len;
++
++   if (pos < 0)
++     pos_unsigned = string->len;
++@@ -788,10 +789,12 @@ g_string_insert_c (GString *string,
++   g_string_maybe_expand (string, 1);
++
++   if (pos < 0)
++-    pos = string->len;
+++    pos_unsigned = string->len;
++   else
++-    g_return_val_if_fail ((gsize) pos <= string->len, string);
++-  pos_unsigned = pos;
+++    {
+++      pos_unsigned = pos;
+++      g_return_val_if_fail (pos_unsigned <= string->len, string);
+++    }
++
++   /* If not just an append, move the old stuff */
++   if (pos_unsigned < string->len)
++@@ -824,6 +827,7 @@ g_string_insert_unichar (GString  *string,
++                          gssize    pos,
++                          gunichar  wc)
++ {
+++  gsize pos_unsigned;
++   gint charlen, first, i;
++   gchar *dest;
++
++@@ -865,15 +869,18 @@ g_string_insert_unichar (GString  *string,
++   g_string_maybe_expand (string, charlen);
++
++   if (pos < 0)
++-    pos = string->len;
+++    pos_unsigned = string->len;
++   else
++-    g_return_val_if_fail ((gsize) pos <= string->len, string);
+++    {
+++      pos_unsigned = pos;
+++      g_return_val_if_fail (pos_unsigned <= string->len, string);
+++    }
++
++   /* If not just an append, move the old stuff */
++-  if ((gsize) pos < string->len)
++-    memmove (string->str + pos + charlen, string->str + pos, string->len - pos);
+++  if (pos_unsigned < string->len)
+++    memmove (string->str + pos_unsigned + charlen, string->str + pos_unsigned, string->len - pos_unsigned);
++
++-  dest = string->str + pos;
+++  dest = string->str + pos_unsigned;
++   /* Code copied from g_unichar_to_utf() */
++   for (i = charlen - 1; i > 0; --i)
++     {
++@@ -931,6 +938,7 @@ g_string_overwrite_len (GString     *string,
++                         const gchar *val,
++                         gssize       len)
++ {
+++  gssize len_unsigned;
++   gsize end;
++
++   g_return_val_if_fail (string != NULL, NULL);
++@@ -942,14 +950,16 @@ g_string_overwrite_len (GString     *string,
++   g_return_val_if_fail (pos <= string->len, string);
++
++   if (len < 0)
++-    len = strlen (val);
+++    len_unsigned = strlen (val);
+++  else
+++    len_unsigned = len;
++
++-  end = pos + len;
+++  end = pos + len_unsigned;
++
++   if (end > string->len)
++     g_string_maybe_expand (string, end - string->len);
++
++-  memcpy (string->str + pos, val, len);
+++  memcpy (string->str + pos, val, len_unsigned);
++
++   if (end > string->len)
++     {
++--
++2.40.0
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
+new file mode 100644
+index 0000000000..ea586c90dc
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
+@@ -0,0 +1,29 @@
++From 4d435bb4809793c445846db8fb87e3c9184c4703 Mon Sep 17 00:00:00 2001
++From: Peter Bloomfield <peterbloomfield@bellsouth.net>
++Date: Fri, 11 Apr 2025 05:52:33 +0000
++Subject: [PATCH 2/2] gstring: Make len_unsigned unsigned
++
++CVE: CVE-2025-4373
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/4d435bb4809793c445846db8fb87e3c9184c4703]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
++---
++ glib/gstring.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/glib/gstring.c b/glib/gstring.c
++index d016b65..d9ad0c3 100644
++--- a/glib/gstring.c
+++++ b/glib/gstring.c
++@@ -938,7 +938,7 @@ g_string_overwrite_len (GString     *string,
++                         const gchar *val,
++                         gssize       len)
++ {
++-  gssize len_unsigned;
+++  gsize len_unsigned;
++   gsize end;
++
++   g_return_val_if_fail (string != NULL, NULL);
++--
++2.40.0
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+index 1a65f48399..e1a3b57270 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+@@ -27,6 +27,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2025-3360-04.patch \
+            file://CVE-2025-3360-05.patch \
+            file://CVE-2025-3360-06.patch \
++           file://CVE-2025-4373-01.patch \
++           file://CVE-2025-4373-02.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+-- 
+2.40.0
 
 
