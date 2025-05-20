@@ -1,171 +1,136 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60870C3ABDD
-	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 15:12:43 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.23460.1747753953590883808
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96151C3ABDD
+	for <webhook@archiver.kernel.org>; Tue, 20 May 2025 15:54:13 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web10.24477.1747756445970676523
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 08:12:33 -0700
+ Tue, 20 May 2025 08:54:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FGetgy6Z;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-3280ce0795bso40781811fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 08:12:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kyr4ttJW;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2d060c62b61so3424440fac.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 08:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747753952; x=1748358752; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747756445; x=1748361245; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0hVqCzJrpfk62qTr++ZqXwrTh0GaQX41gBoLkOfsXzo=;
-        b=FGetgy6ZE4AXEEv9uaNqS7I5fvK/NP2ViO0hCQkI4+9V9AjeitxeDuMgfpl6Q9PRYL
-         UV9UcUGBDdwmg05TxJzBe6eL6EMqDs5IdAT5D3Ls+ubxSXWNy4MrXu7bW/18wUFg/QSz
-         kkYZwXmfiQApR6sZcgE0sTPEMZdW/7LyI1FB5l6W7L4V9XYoxVfvc7FMojRaT9Q4U7JS
-         ezx121o+JQcJUms3bSwn5FjRJhivDk3NckfZfD/ly6XYEnF97HZtk1yW3IUtZEL9ZLHe
-         jzs/rUAq+bO6JEyVtSk8P2+hUpNHss9oXmy/bCUN+niRNGr/BGAHP+i0RcH+wruf/Xoc
-         UM0g==
+        bh=JW2W2HQq7MttqxIBr2zvbROiUF3n3tmyh7o5Xk4DaTE=;
+        b=Kyr4ttJWWAce3YQpsNM1nDjuYzoWsvKopTjP2clTxmAVhyzu0y/WxRu6LXF3dHMoV5
+         5BVK8D5ccOE26VCD8Kc4qzYj/L4qHu5G3eS/WLBA04aqPlcBiGHyXS44GBfSYy/TzH66
+         EDnZo4CdAdvScavi1/iXF5iS6OTMHiPvKg0cgVzS5BRqJ6Lj8qAf4SLt+Zu8HBpK3quv
+         H0Da+mNb2KF/DKfmIKtkGfKiutMgfZbN9FxG02FEfSYf/kpVr82nlYY9CE+lKTv9d0AK
+         XGDj6LFuvWK9E9ZkiNr7uFaZeAJ1wkq0Y00CzPln/Y5V1rjBPQIeLgkFHyE1vm18LkRG
+         rE2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747753952; x=1748358752;
+        d=1e100.net; s=20230601; t=1747756445; x=1748361245;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0hVqCzJrpfk62qTr++ZqXwrTh0GaQX41gBoLkOfsXzo=;
-        b=lC9AvCoXvm6qVFAuGolrgiKBFE7VO0msK/rT+crehT8b6l+9/tZs8H1eWAwXrakj7Q
-         85uPQFf8igrSO3v/1OHgFlCZaYsPXhgykGtBKP2+70eO0SlGUkNftgY7UAd8mH6d2rcc
-         LCsWVis2ylQcoRt0LBQpzqdekKTTKzelbhhyrHvP1vUEjSzOH5gC2i9gqSE621u+yI7J
-         uFC9AnAjugGzkGGNS2gTYlfDcAn4dEHqWXc2Jfawh02bpxPUuvwWf50JQpKgpYsYB9Bc
-         wOPV0FYFquW5DaNJr9aTtFkFAhWOh5btbcgOImpNFqtte4qNoW2O29hGcUDTds4OwjWX
-         725w==
-X-Forwarded-Encrypted: i=1; AJvYcCV75yNL8RSwJ01tvdwz19c1Uq2iJ3aUpZWFhTTVz+E6T1f8iVdW8jLW+P0DipRb3vpXV0cB4yttveN/6hxlo4xCMQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywd70LZZrwoAnWW8YWJeGWm959DMb17WsqM0IiYj/m4YSJ/kYKW
-	NsunDkcA6rM1L1U/tOxYZlO1PpICJVbeEh7WuNnQCZxdcXJm///ih4UKk3cC+5QFKIL2Kmc1FUS
-	YFR8X9WqeNflYGF1CTnYBn1RD+Z/a2Ds=
-X-Gm-Gg: ASbGnct09v+MrmOx0PKFzf9HAu6N701qazmdzGNKQVZ6MHrRMB5majoyP5c4UKus6eh
-	SMorKi8jxXOPtvQ7ANGIdMJPUUmfKOTbq3WoGXXltsfLNR8Dm3UWzqbCTuwB5qarmq+GrUBMR6P
-	ZwBopK2e1d3Wqkxv8UKZhxZpdIspVe1Hs=
-X-Google-Smtp-Source: AGHT+IEzF6RbZD3mNVtTtLasGONTXngi3qlqvzjWprDVt9HT9OgCH8yI9NWT7bm3wDkZUgt9A+vwiwhFkYeDZq0Ltxs=
-X-Received: by 2002:a05:651c:4183:b0:30b:c6fe:4529 with SMTP id
- 38308e7fff4ca-328076e7056mr47247901fa.8.1747753951402; Tue, 20 May 2025
- 08:12:31 -0700 (PDT)
+        bh=JW2W2HQq7MttqxIBr2zvbROiUF3n3tmyh7o5Xk4DaTE=;
+        b=fxJvB2ON75OVJrY4Femm0umAehwSXYiNZ7JjZKI5ZsT01I2GCMsk1fb4tSv3HfGrqV
+         5TrI745/jBduD+s8RCdyNeQs/jQp2EqPIWzXRAUL/A8kUb/ezIxP3edxGZt7tlZe910O
+         r451PfklgEAy9pYPdWe220zCTbHMPyz10LrIYy9MRVBq+7fxpCCmKHjZsL47B6FiAHjq
+         +dPT9Jj9aQiytycnHWljdwD8ZfCvE9oMtI0W+ZgfwMEw5KzNuXT6ojM6caUZ/hSIbxT0
+         Mt9DgTP1imfu19X7tb4+hQ7jXdNDnSEhhmrWTCye9v7pKAxmFJUpZfIropTBHFGbMQDa
+         2Zqw==
+X-Gm-Message-State: AOJu0YysictJEdmEZsYFDhm+WpXgVDrkviZq/dmgGUd0a37Efgy0NnVr
+	OqUrt9dsQFg4VMpEbLHZo4wO6BgUFsgD1YPi65ym9vayQsW9NB8ny0iFQKwa4EgRMSt0KIsRw1u
+	yomoALDcDmg1GeAioZwLrqQWzZo7WmcZi5txM
+X-Gm-Gg: ASbGncv5wfMFpKh0yG7lptYcrNve+XHQ7f9HEZRzDcddzlG4Pf66esBou5nt0ng5OGx
+	JtEn1tBN7Q62K0F6qM1yftSK2aZdKX+H4e/mVZ5ZF+4NZYZYcjVFmvR1GNPAQHKTsUpp1AfIPhU
+	W/7x1Svbwtt97v+nmIOfoha22488tJYoB5
+X-Google-Smtp-Source: AGHT+IGr+nfefar4+WXZwUjVRSNIagDaYQZqVkWalypA/60p16mCFW/wfInhMK+uhbas7O4EBJgJL/p8ZLqG8bjVaak=
+X-Received: by 2002:a05:6871:a00a:b0:2c8:34df:8c4f with SMTP id
+ 586e51a60fabf-2e3c85e36c1mr9258852fac.37.1747756445072; Tue, 20 May 2025
+ 08:54:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250215165545.1929-1-alex.kiernan@gmail.com> <54484445b491b8be597cf35b47e7059c97c037d9.camel@linuxfoundation.org>
- <CAJdd5Gb3WW0j5d+d29MA8KJGginb0bJdkjwyK6QOB0fFQGfxuw@mail.gmail.com>
-In-Reply-To: <CAJdd5Gb3WW0j5d+d29MA8KJGginb0bJdkjwyK6QOB0fFQGfxuw@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 20 May 2025 16:12:20 +0100
-X-Gm-Features: AX0GCFtCj0h8barbN5ROE2-d_t0LtJzF2ApZxK5RfahRvuNLf9kkqk9ofoQjlco
-Message-ID: <CAO5Uq5REMvpD8Moh3=VUMA3ymK2Smf0_984ALeiWrFzaE7gYYA@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH v2] packagegroup-base: Add option to set zeroconf provider
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, Ross Burton <ross.burton@arm.com>
+References: <20250518-clang-toolchain-v1-0-5be46f8c4af5@gmail.com>
+ <20250518-clang-toolchain-v1-2-5be46f8c4af5@gmail.com> <b141f2387a2a83d27ba1d5872b0a83568f486573.camel@linuxfoundation.org>
+In-Reply-To: <b141f2387a2a83d27ba1d5872b0a83568f486573.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 20 May 2025 08:53:38 -0700
+X-Gm-Features: AX0GCFt6uC3JwITQD9lVVoLnfqtophNfU5eoNYz65Ps8LOBstplkwkcYKjdjSPE
+Message-ID: <CAMKF1sofKn=WJMk4bJUHA75F3bSN64GQnMs_wHQvAUatjq0wew@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 02/21] default-toolchains.inc: Add a global file
+ to pin TOOLCHAIN variable
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 15:12:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216922
+ <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 15:54:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216923
 
-On Tue, May 20, 2025 at 3:16=E2=80=AFPM Joshua Watt <jpewhacker@gmail.com> =
-wrote:
+On Tue, May 20, 2025 at 7:41=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Tue, May 20, 2025 at 7:39=E2=80=AFAM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
+> On Sun, 2025-05-18 at 14:30 -0700, Khem Raj via lists.openembedded.org
+> wrote:
+> > Some recipes demand either gcc or clang, they can not be compiled
+> > with
+> > both compilers e.g. glibc, gcc, libgcc etc all exclusively need gcc
+> > to
+> > build and similarily, libcxx, compiler-rt need clang compiler to
+> > build
 > >
-> > On Sat, 2025-02-15 at 16:55 +0000, Alex Kiernan via lists.openembedded.=
-org wrote:
-> > > avahi, systemd-resolved and mDNSResponder (in meta-networking) can al=
-l
-> > > provide Zeroconf services. Add a `ZEROCONF_DAEMON` option to select
-> > > which of these will provide service via packagegroup-base-zeroconf.
-> > >
-> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > > ---
-> > >  meta/recipes-core/packagegroups/packagegroup-base.bb | 7 +++++--
-> > >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/m=
-eta/recipes-core/packagegroups/packagegroup-base.bb
-> > > index cb9d1f07af51..ac450fbdc9a7 100644
-> > > --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> > > +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> > > @@ -312,11 +312,14 @@ RDEPENDS:packagegroup-base-nfs =3D "\
-> > >  RRECOMMENDS:packagegroup-base-nfs =3D "\
-> > >      kernel-module-nfs "
-> > >
-> > > +# Choose 'avahi-daemon', 'mdns' or 'systemd-resolved' as zeroconf-da=
-emon
-> > > +ZEROCONF_DAEMON ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'syst=
-emd-resolved', 'systemd-resolved', 'avahi-daemon', d)}"
-> > >  SUMMARY:packagegroup-base-zeroconf =3D "Zeroconf support"
-> > >  RDEPENDS:packagegroup-base-zeroconf =3D "\
-> > > -    avahi-daemon"
-> > > +    ${@ '' if d.getVar('ZEROCONF_DAEMON') =3D=3D 'systemd-resolved' =
-else d.getVar('ZEROCONF_DAEMON')} \
-> > > +    "
-> > >  RDEPENDS:packagegroup-base-zeroconf:append:libc-glibc =3D "\
-> > > -    libnss-mdns \
-> > > +    ${@ {'mdns':'mdns-libnss-mdns','avahi-daemon':'avahi-libnss-mdns=
-','systemd-resolved':''}[d.getVar('ZEROCONF_DAEMON')]} \
-> > >      "
-> > >
-> > >  SUMMARY:packagegroup-base-ipv6 =3D "IPv6 support"
+> > This header will contain the pinned TOOLCHAIN variable defintions for
+> > such cases
 > >
-> > This has been sitting in master-next for too long. Various people on
-> > the patch review calls have promised to reply to it but we've all been
-> > struggling for the right reasoning and time to write that reply.
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/conf/distro/include/default-toolchains.inc | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
 > >
-> > Basically, several of us are not convinced this is correct. The
-> > challenge is that "zeroconf" means different things and the things
-> > being switched between here aren't equivalent. They don't have the same
-> > APIs and don't function in the same way, the similarities are very
-> > loose. That contradicts the way we usually make selections like this.
-> >
-> > That said, having stared at this just now, I can nearly convince myself
-> > this is the right thing to do :/.
-> >
-> > Can anyone suggest how this should be handled?
+> > diff --git a/meta/conf/distro/include/default-toolchains.inc
+> > b/meta/conf/distro/include/default-toolchains.inc
+> > new file mode 100644
+> > index
+> > 0000000000000000000000000000000000000000..691570a7a9f28187a5c7f6d0a6a
+> > d80761c777e3d
+> > --- /dev/null
+> > +++ b/meta/conf/distro/include/default-toolchains.inc
+> > @@ -0,0 +1,14 @@
+> > +TOOLCHAIN:pn-gcc =3D "gcc"
+> > +TOOLCHAIN:pn-gcc-runtime =3D "gcc"
+> > +TOOLCHAIN:pn-gcc-sanitizers =3D "gcc"
+> > +TOOLCHAIN:pn-glibc =3D "gcc"
+> > +TOOLCHAIN:pn-glibc-initial =3D "gcc"
+> > +TOOLCHAIN:pn-glibc-locale =3D "gcc"
+> > +TOOLCHAIN:pn-glibc-mtrace =3D "gcc"
+> > +TOOLCHAIN:pn-glibc-scripts =3D "gcc"
+> > +TOOLCHAIN:pn-glibc-testsuite =3D "gcc"
+> > +TOOLCHAIN:pn-glibc-y2038-tests =3D "gcc"
+> > +TOOLCHAIN:pn-libgcc-initial =3D "gcc"
+> > +TOOLCHAIN:pn-libgcc =3D "gcc"
+> > +TOOLCHAIN:pn-libgfortran =3D "gcc"
+> > +TOOLCHAIN:pn-libssp-nonshared =3D "gcc"
 >
-> Ya, I struggled with this one also. In my mind, the problem here is
-> that "zeroconf" is a pretty precise set of functionality that allows
-> you do to automatic network setup. The problem as I see it is that
-> each method of implementing that does so with wildly different and
-> generally incompatible userspace APIs (systemd/avahi/mdns-sd). The
-> problem is thusly that if all you truly cared about was just zeroconf,
-> then it doesn't matter which of these you chose (although, by that
-> token, why do we need a choice at all if they all do the same thing?),
-> but as soon as you want to write applications that use mDNS, it
-> matters greatly which mDNS provider you use.
+> This format made sense when this was in a separate layer but should we
+> be adding this markup directly to the recipes now?
+
+Yes we can, and I would prefer that as well.
+
 >
-> As such, my suggestion is just to leave this as is. If you truly only
-> care about zeroconf, then use the packagegroup and you'll get it. If
-> you care about the mDNS API, *don't* use this to provide it. Packages
-> that need a specific API should pull in the correct one automatically,
-> or you can add it as a distro dependency, etc. It just doesn't quite
-> seem right to me to backdoor it though this packagegroup.
+> Does this markup work in recipes without overrides? I'm a bit worried
+> that our variable syntax doesn't make this work too well at the recipe
+> level.
+
+We would not require pn override if it is in the recipe.
+
 >
+> This approach is much more aligned with the direction I think we need
+> to go, we just need to sort the final details like this...
 
-If I explain how I got here, but then say I don't actually disagree
-with this point of view!
+I will move these changes to respective recipes
 
-I have a platform that needs to use mDNSResponder (i.e. needs to get
-through the horror that is bonjour conformance testing[1]), but we
-have zeroconf in the default list of DISTRO_FEATURES, so
-packagegroup-base gets you packagegroup-base-zeroconf, which gets you
-avahi.
-
-But I guess I've made the assumption that zeroconf is about mdns and
-how that happens, not how IPv4 link local addressing is done, which is
-another of the zeroconf hats.
-
-Maybe this is really a documentation problem and the zeroconf feature
-is just IPv4LL addressing and not the entire networking soup of
-https://en.wikipedia.org/wiki/Zero-configuration_networking?
-
-[1] Yes, I know Avahi can pass, but getting a BCT pass is beyond painful...
-
---=20
-Alex Kiernan
+>
+> Cheers,
+>
+> Richard
 
