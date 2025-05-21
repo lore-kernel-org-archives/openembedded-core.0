@@ -1,118 +1,113 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB8AC3DA6D
-	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 01:33:02 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.1272.1747791172720628947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B44C3ABC9
+	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 03:14:43 +0000 (UTC)
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+ by mx.groups.io with SMTP id smtpd.web10.2730.1747797272352140809
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 18:32:52 -0700
+ Tue, 20 May 2025 20:14:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SqiApsCk;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7399838db7fso5897312b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 18:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747791172; x=1748395972; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9Q9j9/bbNE9/qLt/RYMC36ft6Fxxv+qrGnN5khe09cg=;
-        b=SqiApsCk45IY4AMNh/NvkM1VsILqC/sdrflsrDpI4AaLoc6p6YFeb6tNaUP59gy4GC
-         ZBtKDKLUzYchGpDpsF56UOww3cTDNNLLl6gBS8NOjZ+fKYrd8jGanT2Zo55mWmcGyi+c
-         FauwyfNmYP4Tc5oJMdwZk+Rx9CZcl+n8S4cG7xT1GPm8rslAmOZDBzQzw07/BwLe3q95
-         pxhKOrfTnNKg1CBxj4MxK/TMZkzEj5VYHUrHQnxjGTcAshtay0x9glcvFohSkmjyoUmV
-         d+BXqo5i1keiel+0XMRMrsvzg1QyfZRScY1gVdHGkXj+XHxF6nl+5Hqc8lRNKzxi8IiB
-         kNtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747791172; x=1748395972;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Q9j9/bbNE9/qLt/RYMC36ft6Fxxv+qrGnN5khe09cg=;
-        b=pYDd5SDTuVNNJR6cXpuuo5X4gq3VTMnFB8pKn7bNQ5ptHGSEJ4MqNXNSgp4ji0lgUh
-         cQr4kfVmB1C5opxk197UOEJVi9pZ+GRWKCmcZtcEdg5i1vBoNAEhGS061oIB6TytJ4eF
-         cBZnORAW+bDEgv5TWtlEwNpjb+EmCKznFVTqssvzTjpzI3DG4lHd7jdNt7cu6CAXq71N
-         8oYfb8jal3t0+YmR1RDpBkmb4wlQEY4pcoFlzNLQAT5rScuLco2vpWeXQTCIRvMm3FiI
-         CeFs4CkvDbwN019Tl3lFyVUaMAAjKn1y7CIpi7LgstynGHEsuATBA2JuHeAKjzfjvOJW
-         i2yw==
-X-Forwarded-Encrypted: i=1; AJvYcCUY5UNJVMdWhn9TFcAgzBOOHbeySUuLNhxlNkSzZLfzFv2seEXzIH3RQ+n1BA+U3ZoPPDzRbyClQ3hexMM/y960hg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyjs2UNxUQv9gu3BN3OI4YSukYdHaufRMCYN89zCy55WzVnJr0g
-	bp7XP0Bjrn+ImgAE2RBckocYa4n/Q64+zuTuGaTAs/CCU7BzW8wFSM8K
-X-Gm-Gg: ASbGncvvb7MWMeSzvE25I5JmJhTynOJ/8g87KKaVwxBADt7z+Gp8VQmThwScTXub9MH
-	sXEO8UmK8kVssNx/xpjUQ+tL3TwK9WVyH46Yr7cf7kGlTX6yTcxKUScGpCZStZo1QxyQ29pf5T7
-	PoQFa3qjf3zLQkdBUbW2hzKBiiuEnp19jkn/uWb/iaJzK2ZwG32aHUUXpuKDl65PS+0knSww/zD
-	5Y8EBD/z/+ZmgTFOBv2bMOGG6eBkhBmnSjEZOxIFP/hvv2y0KSrv7QthnALspnS2wQML/q3P7UL
-	2Yz2AeeaimhAL25Ns9y1MA/2gGvI2/zX8YXEr6N3thL8MxkBDk57aKilIYJ6ntjagkrXtOfOeTT
-	vAOQX5eXVc1oVTx0VDGld4J9HDMzjAOjfcYGYAbEOooThNM8=
-X-Google-Smtp-Source: AGHT+IH3wrsDanh1sjSf+U4yStD4SW2Hwo+zW3nSazifh7IRNyn3ZiXH4uEQgL+sxhOZtMBTh60jlw==
-X-Received: by 2002:a05:6a00:e06:b0:742:cdf2:62c7 with SMTP id d2e1a72fcca58-742cdf26398mr15157802b3a.4.1747791171932;
-        Tue, 20 May 2025 18:32:51 -0700 (PDT)
-Received: from ?IPV6:2601:646:8201:fd20:357c:f572:ef47:e08? ([2601:646:8201:fd20:357c:f572:ef47:e08])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a98770eesm8471910b3a.154.2025.05.20.18.32.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 18:32:51 -0700 (PDT)
-Message-ID: <783d3f8e-8513-4951-a0a7-e1ac96f1e4d3@gmail.com>
-Date: Tue, 20 May 2025 18:32:50 -0700
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=SEBIFT4b;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1747797272; x=1779333272;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pRndjI2doUv06fy62zZM0vzP8FE1w+FdZM4uLBfxXaY=;
+  b=SEBIFT4bGMoklw6CX8G0LwvR0iTEoGYBKdWgkA/O1e9gkXYSuwBQF2S+
+   xT23Dwd2C3bMfPdVXIboTAlyfvvYa6h+lUgMvNpJNZP9kvdwppGTvoUlW
+   W6eko+1r1Hd1rrddx8YOOcIBDRjanY0PLZ7F7DkoMCmVs6YtWaYlLaT7b
+   DKG2aRKoUKQf23ITr8HjMcC1a/gyXjcehuRRL4z9ZL/YI4V+z3XMiQ0go
+   X8SDWUTZKU2VBYiUff57WErn8rgcYfbiEQ7p38gNAcs2oeGpaFdG7+D7Z
+   Eiv13yh7fISrnmjy/XQGPOfjawGTweklD+WdxoT5rEoYTGDWjv+cJ5nhZ
+   Q==;
+X-CSE-ConnectionGUID: HTAfyMYQStOC+PYIUR0n1Q==
+X-CSE-MsgGUID: HSPDfULuS3650JhEsJjwLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="200167280"
+X-IronPort-AV: E=Sophos;i="6.15,303,1739804400"; 
+   d="scan'208";a="200167280"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 12:14:30 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 0BDC3D501E
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 12:14:28 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id B3E87CFA38
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 12:14:27 +0900 (JST)
+Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.167.135.33])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id AEDD71A0071;
+	Wed, 21 May 2025 11:14:26 +0800 (CST)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Liu Yiding <liuyd.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] clang: multilib-header fix for llvm/Config/llvm-config.h and clang/Config/config.h
+Date: Wed, 21 May 2025 11:14:12 +0800
+Message-ID: <20250521031413.1566-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] clang: build-depend on
- spirv-llvm-translator-native
-To: dmitry.baryshkov@oss.qualcomm.com,
- openembedded-core@lists.openembedded.org
-References: <20250520110111.3893998-1-dmitry.baryshkov@oss.qualcomm.com>
-Content-Language: en-US
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20250520110111.3893998-1-dmitry.baryshkov@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 01:33:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216961
+ <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 03:14:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216962
 
+Error: Transaction test error:
+  file /usr/include/clang/Config/config.h conflicts between attempted installs of
+lib32-clang-dev-20.1.4-r0.core2_32 and clang-dev-20.1.4-r0.core2_64
+  file /usr/include/llvm/Config/llvm-config.h conflicts between attempted
+installs of lib32-clang-dev-20.1.4-r0.core2_32 and clang-dev-20.1.4-r0.core2_64
 
+reproduce steps:
+1. Add in local.conf the following lines:
 
-On 5/20/25 4:01 AM, Dmitry Baryshkov via lists.openembedded.org wrote:
-> Building of spirv-mesa and spirv64-mesa CLC targets (which are required
-> for Mesa to work) requires a working llvm-spirv tool (provided by the
-> spirv-llvm-translator-native package). Make clang build-depend on the
-> corresponding recipe in order to be able to build requried targets.
-> 
-> Fixes: 4178fe97371b ("clang: split SPIRV-LLVM-Translator to its own recipe")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->   meta/recipes-devtools/clang/clang_git.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
-> index b41b700292c7..bca8c7fa877d 100644
-> --- a/meta/recipes-devtools/clang/clang_git.bb
-> +++ b/meta/recipes-devtools/clang/clang_git.bb
-> @@ -206,7 +206,7 @@ EXTRA_OECMAKE:append:class-target = "\
->   
->   DEPENDS = "binutils zlib zstd libffi libxml2 libxml2-native ninja-native swig-native spirv-tools-native"
->   DEPENDS:append:class-nativesdk = " clang-crosssdk-${SDK_SYS} virtual/nativesdk-cross-binutils nativesdk-python3"
-> -DEPENDS:append:class-target = " clang-cross-${TARGET_ARCH} python3 ${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compiler-rt libcxx', '', d)}"
-> +DEPENDS:append:class-target = " clang-cross-${TARGET_ARCH} python3 ${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compiler-rt libcxx', '', d)} spirv-llvm-translator-native"
+  MACHINE ?= "qemux86-64"
 
-LGTM
+  require conf/multilib.conf
 
->   
->   RRECOMMENDS:${PN} = "binutils"
->   RRECOMMENDS:${PN}:append:class-target = "${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', ' libcxx-dev', '', d)}"
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#216902): https://lists.openembedded.org/g/openembedded-core/message/216902
-> Mute This Topic: https://lists.openembedded.org/mt/113208799/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+  MULTILIBS ?= "multilib:lib32"
+
+  DEFAULTTUNE:virtclass-multilib-lib32 ?= "core2-32"
+
+2. add lib32-llvm-dev llvm-dev to core-image-minimal.bb
+
+  IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL} lib32-clang-dev clang-dev"
+
+3. $ bitbake core-image-minimal
+
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+---
+ meta/recipes-devtools/clang/clang_git.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
+index b41b700292..d083dae28b 100644
+--- a/meta/recipes-devtools/clang/clang_git.bb
++++ b/meta/recipes-devtools/clang/clang_git.bb
+@@ -22,7 +22,7 @@ INHIBIT_DEFAULT_DEPS:class-native = "1"
+ LDFLAGS:append:class-target:riscv32 = " -Wl,--no-as-needed -latomic -Wl,--as-needed"
+ LDFLAGS:append:class-target:mips = " -Wl,--no-as-needed -latomic -Wl,--as-needed"
+ 
+-inherit cmake pkgconfig python3native python3targetconfig
++inherit cmake pkgconfig python3native python3targetconfig multilib_header
+ 
+ OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "BOTH"
+ 
+@@ -236,6 +236,9 @@ do_install:append() {
+             install -Dm 0755 ${B}${BINPATHPREFIX}/bin/$t ${D}${bindir}/$t
+         fi
+     done
++
++    oe_multilib_header llvm/Config/llvm-config.h
++    oe_multilib_header clang/Config/config.h
+ }
+ 
+ do_install:append:class-target () {
+-- 
+2.43.0
 
 
