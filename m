@@ -2,143 +2,92 @@ Return-Path: <reatmon@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58944C54E71
-	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 18:29:44 +0000 (UTC)
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by mx.groups.io with SMTP id smtpd.web11.6228.1747852179096601469
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 302DEC2D0CD
+	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 18:33:04 +0000 (UTC)
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by mx.groups.io with SMTP id smtpd.web10.6380.1747852378759190491
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 May 2025 11:29:39 -0700
+ Wed, 21 May 2025 11:32:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=P7f8rN5H;
- spf=pass (domain: ti.com, ip: 198.47.19.246, mailfrom: reatmon@ti.com)
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=YwVKUfqG;
+ spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: reatmon@ti.com)
 Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54LITaNW416762;
-	Wed, 21 May 2025 13:29:36 -0500
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54LIWw4c369179
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 13:32:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1747852176;
-	bh=SP84e/KuDsOKgvwE8XXdjeLZsZR1qMdF7yiKOwBOGzU=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=P7f8rN5HLpIGLV2emlb0WGXrsRB/GnaJtZhexRlmPKDuUoU6KQAuv0hjmu4Nid0VP
-	 Dv5dwbS887xxBDRpI3dcbwnVD3pf7qa6kbk5+Ve+ebf0qKAN9krvOBgaGCtJxgFMBS
-	 DQ/5zJCw0kL8b0q3KnYlJPpBPVKD9CuNldoqIVJ4=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54LITaN92356807
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 21 May 2025 13:29:36 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+	s=ti-com-17Q1; t=1747852378;
+	bh=WLDwWW44/ZDgIJaiZ2/Xf4GqLq+DUI0NTEbQMgmAzSw=;
+	h=From:To:Subject:Date;
+	b=YwVKUfqGrzHvm/KzYs5fN2jj3r3t6gcr6qTgx8SyGWmsmF89HuQ4tRW7bxR+fLjl9
+	 LhAOHUaNMRtJYpa+TC15dvGZsGmQ7AnD7rq7h43ZbG1PpzAOzRnVT7pPMO4QfzxwAU
+	 G5Fjfj/+K3HfyisZN7tDI/PLIIbSAcP4uJfmfSHU=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54LIWwG32359468
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 13:32:58 -0500
+Received: from flwvowa02.ent.ti.com (10.64.41.53) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 21
- May 2025 13:29:36 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ May 2025 13:32:57 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by flwvowa02.ent.ti.com
+ (10.64.41.53) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2507.34; Wed, 21 May
+ 2025 13:32:57 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 21 May 2025 13:29:35 -0500
-Received: from [10.249.37.202] ([10.249.37.202])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54LITaCA121119;
-	Wed, 21 May 2025 13:29:36 -0500
-Message-ID: <c25c2b19-36f4-4e7f-a196-eb6897d2f47b@ti.com>
-Date: Wed, 21 May 2025 13:29:36 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH] sbc: Fix for gcc 15 compile error
-To: Randy MacLeod <randy.macleod@windriver.com>,
-        <openembedded-core@lists.openembedded.org>
-References: <20250521162632.27169-1-reatmon@ti.com>
- <490b85d7-9c06-4c1d-8ff4-8b04b8bb8b83@windriver.com>
-Content-Language: en-US
+ Frontend Transport; Wed, 21 May 2025 13:32:57 -0500
+Received: from uda0214219 (uda0214219.dhcp.ti.com [128.247.81.222])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 54LIWvXD153983
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 13:32:57 -0500
+Received: from reatmon by uda0214219 with local (Exim 4.90_1)
+	(envelope-from <reatmon@ti.com>)
+	id 1uHoFN-0000E1-Du
+	for openembedded-core@lists.openembedded.org; Wed, 21 May 2025 13:32:57 -0500
 From: Ryan Eatmon <reatmon@ti.com>
-In-Reply-To: <490b85d7-9c06-4c1d-8ff4-8b04b8bb8b83@windriver.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH v2] sbc: Fix for gcc 15 compile error
+Date: Wed, 21 May 2025 13:32:57 -0500
+Message-ID: <20250521183257.823-1-reatmon@ti.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by fllvem-ot04.ext.ti.com id 54LITaNW416762
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 18:29:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217051
+ <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 18:33:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217052
 
+With the move to gcc 15, the code is now generating a compile error.
 
+../sbc-2.1/sbc/sbc_primitives_armv6.c:284:9:
+   error: too many arguments to function 'sbc_analyze_eight_armv6';
+      expected 0, have 3
 
-On 5/21/2025 11:55 AM, Randy MacLeod wrote:
-> Hi Ryan,
->=20
-> On 2025-05-21 12:26 p.m., Ryan Eatmon via lists.openembedded.org wrote:
->> With the move to gcc 15, the code is not generating a compile error.
->=20
-> Do you mean *now*generating a compile error?
+Simple fix is to drop the C standard down to gnu17 to avoid this new
+error.
 
-Sigh... yes.  Me speak/type good. =3DP
+Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+---
+v2: Fix typo in commit message.
 
-I'll send a v2.
+ meta/recipes-multimedia/sbc/sbc_2.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
->=20
-> I guess the YP AB doesn't have a build that catches this target.
->=20
->=20
->> ../sbc-2.1/sbc/sbc_primitives_armv6.c:284:9:
->>     error: too many arguments to function 'sbc_analyze_eight_armv6';
->>        expected 0, have 3
->>
->> Simple fix is to drop the C standard down to gnu17 to avoid this new
->> error.
-> It would be better to file a bug or at least send the
-> maintainer a patch or a bug description. That's:
->=20
->  =C2=A0=C2=A0 Marcel Holtmann <marcel@holtmann.org>
->=20
-> from:
-> https://git.kernel.org/pub/scm/bluetooth/sbc.git/tree/README
->=20
-> Anyway, we do have 17 other such work-arounds:
->=20
-> poky.git
-> =E2=9D=AF rg gnu17 | wc -l
-> 17
->=20
-> so one more won't hurt that much!
->=20
-> ../Randy
->=20
->=20
->> Signed-off-by: Ryan Eatmon<reatmon@ti.com>
->> ---
->>   meta/recipes-multimedia/sbc/sbc_2.1.bb | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-multimedia/sbc/sbc_2.1.bb b/meta/recipes-mul=
-timedia/sbc/sbc_2.1.bb
->> index 5aaa52313f..8b91e7e65b 100644
->> --- a/meta/recipes-multimedia/sbc/sbc_2.1.bb
->> +++ b/meta/recipes-multimedia/sbc/sbc_2.1.bb
->> @@ -19,5 +19,7 @@ SRC_URI[sha256sum] =3D "426633cabd7c798236443516dfa8=
-335b47e004b0ef37ff107e0c7ead32
->>  =20
->>   inherit autotools pkgconfig
->>  =20
->> +CFLAGS +=3D "-std=3Dgnu17"
->> +
->>   PACKAGES =3D+ "${PN}-examples"
->>   FILES:${PN}-examples +=3D "${bindir}/*"
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#217048):https://lists.openembedded.org/g/openembed=
-ded-core/message/217048
->> Mute This Topic:https://lists.openembedded.org/mt/113232263/3616765
->> Group Owner:openembedded-core+owner@lists.openembedded.org
->> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  =
-[randy.macleod@windriver.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->=20
-> --=20
-> # Randy MacLeod
-> # Wind River Linux
->=20
+diff --git a/meta/recipes-multimedia/sbc/sbc_2.1.bb b/meta/recipes-multimedia/sbc/sbc_2.1.bb
+index 5aaa52313f..8b91e7e65b 100644
+--- a/meta/recipes-multimedia/sbc/sbc_2.1.bb
++++ b/meta/recipes-multimedia/sbc/sbc_2.1.bb
+@@ -19,5 +19,7 @@ SRC_URI[sha256sum] = "426633cabd7c798236443516dfa8335b47e004b0ef37ff107e0c7ead32
+ 
+ inherit autotools pkgconfig
+ 
++CFLAGS += "-std=gnu17"
++
+ PACKAGES =+ "${PN}-examples"
+ FILES:${PN}-examples += "${bindir}/*"
+-- 
+2.17.1
 
---=20
-Ryan Eatmon                reatmon@ti.com
------------------------------------------
-Texas Instruments, Inc.  -  LCPD  -  MGTS
 
