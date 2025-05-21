@@ -2,62 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B8DC54E71
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B56C2D0CD
 	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 06:20:14 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.4736.1747808404314526586
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.4715.1747808413124123905
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 23:20:04 -0700
+ Tue, 20 May 2025 23:20:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EfefpGVd;
- spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7426c44e014so6423930b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:20:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AQsf1kbr;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-742caef5896so2991006b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747808403; x=1748413203; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747808412; x=1748413212; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QRFphNC4JnJeMk+++9j1BwqaZsjiHNtrYKlDg4kSkHs=;
-        b=EfefpGVdd/+gJbYcZsEBmBu8yu02JiTOiQ6C7KcaOzwbShCOobqOK4W4f7VJJ67OpO
-         br15w/mmE0sBtxoj8V9omnqUeVNN3B8sYuUBjRESeeN3ychzd5fT7lYrFPWC7zy3SS2m
-         MsG0LUwV4kfrpe3HyAZ/ln+c+1pyEs57KqhABZ5+/v8ckJbyaLCRmdM+vFoPqICkIIDe
-         p4qQRzMHe2k41CB6gpBomhSzUVU0tdK82qzARcVhxwm+EkYX1ih3VcIbfpBHp8azmEVr
-         76OLjECdm64Ipkwf1VqJnjFZsUuweOyLsKQFKA42c2360PT0a/zA8ooSzYodvF5EzVwu
-         CO0A==
+        bh=xra1JA2vLpqyYbfNNBjSebz93oiatkmBwPvx+NKgrqA=;
+        b=AQsf1kbrgwTNjWJaMAyQytU/5gcwrOgAvuZjE7KCu3lYNrF+iq3RKcbaIM3osyjd5j
+         uK6rL/m4drz2L62b0RKGmC390PUcEYblND/3nZ0b6KyVJFPsuCpfxf4osUbhPOy24IZm
+         KjDSW6sbU9oF+GPKz6aQ+8N4hGs1wc1qUnc7UBkBgoni317ch3jcSvN03erfJGs7xb23
+         GMiPIgsd2C6XD49/XnGyZefICicK8GYLfraOAdHosT2g/vG4xjmryVkHZqcfwzRdxu1Q
+         Nf5q30yX7t4ePYVXz93EF6NZuAFKBcE7n3+IicWAHfYfIR89/1XYvhM/sbQULHUJ8iyV
+         MYEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747808403; x=1748413203;
+        d=1e100.net; s=20230601; t=1747808412; x=1748413212;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QRFphNC4JnJeMk+++9j1BwqaZsjiHNtrYKlDg4kSkHs=;
-        b=EmT7KZ7VlrWu/mTtl5T2mgTTs2na2eSwY4uHuJjCc4sUXYH7pyjbAti/OeLohEQS55
-         kdgfeiDlallljMg9gVqUMe5EQsmC6YeY6ZH6HWkKn6+GqCsoV74eFFCtXtZjvEZ3oMnC
-         +WEffKXJdnajabV2rnnDRk9Ty2DACqM6/P0T3A3ygVmCjYDTZm6I2DlZPPKBdqXWeCQF
-         2kOqyYQ0WoVMtp9+tP5blwF2Y5wxWsnIs2FdubtUfvYhJF/JxrdlSClufTGK8jqy67me
-         W6sBQhyrt7A8aKtlHiux879zmJnuXhV/GeVj82xgfv7M+vS4RndNxycWS0kBgkD7ar7O
-         pTHw==
-X-Gm-Message-State: AOJu0YyTcG1H5OI0dbPuKkxOmhuwFkkJNcQixf2q+F1K1z1/iM5qU03G
-	AsNz+EGWEnzHprrQ9IXorRACNM5fw2ZCU0RDKwd5NrHTnRzTsvjvfOHzdeLTeWFJ
-X-Gm-Gg: ASbGncuM9R7FTNQs/9rYalDi0lnI/Fc3znlbvolefMAbZBZmRNzgXnbHDgXLTx4YWA6
-	3pFt53ilzKzeytHPE3LpIOQvoAA4/Wn3LkNCtkaqmJlt244wHLhFgncEmZ5uN3xUvpeknsYwt8v
-	/YaZsBb2J7c7P6dZfhvfX7Ek+mL0X7I8heKJfxajy3G9d3VG8KRlGOMSFeredpLJHZRhDtSEPqy
-	CYT/mxJyG6snlBrj1MhXMZf3iBnFdXavVm41FTOxBbgHYdOzlj06jjLvp+BrdOlJtwIXMA5WZs/
-	yVOP/WdY3/wyW5JYZBlEKSDHBFsfRyTbZ7JhaqNnMSM=
-X-Google-Smtp-Source: AGHT+IG7dScssCKSvC1fzuYBIcefhpSrumc3GPAJ9vPJs8yk08ZYV4YL46DyMvf5gWh5C+8eVzx/yQ==
-X-Received: by 2002:a05:6a00:9455:b0:736:b101:aed3 with SMTP id d2e1a72fcca58-742a978730dmr25679689b3a.1.1747808403519;
-        Tue, 20 May 2025 23:20:03 -0700 (PDT)
+        bh=xra1JA2vLpqyYbfNNBjSebz93oiatkmBwPvx+NKgrqA=;
+        b=B6rNOHxG6Pa5T1ZpYvZfyft+V9Kk2xGnxv4/JwvqUVb2QDizcZSDzUlXtzbM9Ht7ds
+         gnNGnvrt/a+fe43dfkiE7ysbPIkJJwBJlw8qkxhfEG6AGGqA5g0zVI5flz705XwLB/l8
+         MN2HOmT5oEyQ8+jS61JzuB5xcocONA38BBUVbpP0KmfdoQHGv4LkZOcXKcuD4qLPHF6n
+         xGEejZ+JS7ikygkeG0L00hz3HIi0omt8bhBnkCFYl+bTZ2cihBtct5UwlyNZ4yrr2mM/
+         oBo+xcFr0k3MEJXsQW4KSIol6OdRSI1ohL+2uM7tV21cbms3jam/Yig5EYZz6UKyMFza
+         55dg==
+X-Gm-Message-State: AOJu0YxPE9/rt1nG8tj8bK8Vs+2mJXEg1w86xzgKAou6Hy2WRh4MrCn/
+	SVWQsvwuZuPmOe98NrVkjbs2M3d1MYakJeT830GtRsZc+xI6Sgqf10MRm75RR9Wc
+X-Gm-Gg: ASbGncsZDzCV59uI5pwIB7NIK/leftyA5+km9PhB9440YrRMF/+R4AvEVgSynmGNcW3
+	cqZEdQovBwuyC5oz8fyFpC3nMuRC+dxOzIz/xGwDv3tqUMiCnD6yvYyVXFdVmk+wK6t+glbQMXS
+	oxnLvGnkuB2Sc7m91ytGUGMiLoLetYZm8RCLyHKZJyKZhSsjqYmCXFWPkoU6eP938pVZQK2QsQ0
+	hKvzLzhd+XWMjcFbWSa73qvfAjb+C2APq5PmUvR+lK1g2b3JmkMbEBGRvOPvTUXkW727Qg4ohIP
+	7TriUJ4hu3HDvn3GZ9yLqIhBEgK5ghyw3OoMrYxE61WvjQYwDnwShA==
+X-Google-Smtp-Source: AGHT+IGJYtaDy4i5VUwmF8oIGjzzZil84sk+4Tw9N3kZcxdWgBNoPa58O5F0iSbuV16VY55anujxPw==
+X-Received: by 2002:a05:6a00:9455:b0:73d:ff02:8d83 with SMTP id d2e1a72fcca58-742a9786a85mr29437661b3a.3.1747808412208;
+        Tue, 20 May 2025 23:20:12 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.20.02
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.20.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 23:20:03 -0700 (PDT)
+        Tue, 20 May 2025 23:20:11 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 May 2025 23:19:51 -0700
-Subject: [PATCH v2 15/28] gcc: Always use GCC toolchain
+Date: Tue, 20 May 2025 23:20:01 -0700
+Subject: [PATCH v2 25/28] seatd: Disable sign-compare warning as error on
+ clang
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-clang-toolchain-v2-15-db97c2eb3756@gmail.com>
+Message-Id: <20250520-clang-toolchain-v2-25-db97c2eb3756@gmail.com>
 References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 In-Reply-To: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,28 +68,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 06:20:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216983
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216993
 
-GCC is not yet compilable with clang e.g.
+Make it build with clang+musl combo
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-15.1.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/seatd/seatd_0.9.1.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-15.1.inc b/meta/recipes-devtools/gcc/gcc-15.1.inc
-index 864c6091a6be81567bec2aaa9133c3929eaa2286..f3e9204131425b54e862655a52fd60fb4f8c41ca 100644
---- a/meta/recipes-devtools/gcc/gcc-15.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-15.1.inc
-@@ -10,6 +10,8 @@ BINV = "15.1.0"
+diff --git a/meta/recipes-core/seatd/seatd_0.9.1.bb b/meta/recipes-core/seatd/seatd_0.9.1.bb
+index 8ee43a3dc8f61eeb6f1c03dbd5a68585fa471424..87e1c3b67d69ba29cfde14caf17e3a2010046eac 100644
+--- a/meta/recipes-core/seatd/seatd_0.9.1.bb
++++ b/meta/recipes-core/seatd/seatd_0.9.1.bb
+@@ -15,6 +15,14 @@ inherit meson pkgconfig systemd update-rc.d useradd
  
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
+ # https://www.openwall.com/lists/musl/2020/01/20/3
+ CFLAGS:append:libc-musl:powerpc64le = " -Wno-error=overflow"
++#../git/common/connection.c:154:55: error: comparison of integers of different signs: 'unsigned long' and 'long' [-Werror,-Wsign-compare]
++#  154 |         for (cmsg = CMSG_FIRSTHDR(msg); cmsg != NULL; cmsg = CMSG_NXTHDR(msg, cmsg)) {
++#      |                                                              ^~~~~~~~~~~~~~~~~~~~~~
++#/mnt/b/yoe/master/sources/poky/build/tmp/work/riscv64-poky-linux-musl/seatd/0.9.1/recipe-sysroot/usr/include/sys/socket.h:358:44: note: expanded from macro 'CMSG_NXTHDR'
++#  358 |         __CMSG_LEN(cmsg) + sizeof(struct cmsghdr) >= __MHDR_END(mhdr) - (unsigned char *)(cmsg) \
++#      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++#1 error generated.
++CFLAGS:append:libc-musl:toolchain-clang = " -Wno-error=sign-compare"
  
-+TOOLCHAIN = "gcc"
-+
- DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
- NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
- 
+ PACKAGECONFIG ?= " \
+ 	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
 
 -- 
 2.49.0
