@@ -1,143 +1,128 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D63C2D0CD
-	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 18:38:34 +0000 (UTC)
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by mx.groups.io with SMTP id smtpd.web11.6402.1747852710571648970
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70566C54E71
+	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 18:49:34 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web10.6700.1747853367365779672
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 May 2025 11:38:30 -0700
+ Wed, 21 May 2025 11:49:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=nUAwd8Hy;
- spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: reatmon@ti.com)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 54LIcTnf369800;
-	Wed, 21 May 2025 13:38:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1747852709;
-	bh=DD1Dy+3MRNdJoojAr9hkPbCpxFrrNyRz5mpMZuilW/w=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=nUAwd8HyIQz+qoGjc8cLp7ctCJlnvyVMkQt5+oUCPD/BqljoMqVwiNSM6YgZnjQE+
-	 LmK+bERK9EeT4uXIwBPYWwlSRzQ6X68KXOTtB/PbKQGfjxvXVB3x8GQVSM5eXIcCM/
-	 p195XKX7OMxUcyC7KnLaOsSs31i17+DZO1cu679c=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 54LIcT6x908301
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 21 May 2025 13:38:29 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 21
- May 2025 13:38:28 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 21 May 2025 13:38:28 -0500
-Received: from [10.249.37.202] ([10.249.37.202])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 54LIcSR7125690;
-	Wed, 21 May 2025 13:38:28 -0500
-Message-ID: <1be302c7-e3bc-4ff3-a0c0-284f1118be04@ti.com>
-Date: Wed, 21 May 2025 13:38:28 -0500
+ dkim=pass header.i=@linaro.org header.s=google header.b=PaHkcsm6;
+ spf=pass (domain: linaro.org, ip: 209.85.208.41, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5fbfdf7d353so9430110a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 11:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747853366; x=1748458166; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TdNuTOTsKpvkf/xfsZUVGJATMCYddHibkDAc7vlr314=;
+        b=PaHkcsm67+1nh7k+7ywJkPqT9KhIhbmxcilFqCoE7B6TWStOv7k5bsLza6NZaMW3UN
+         qd37ZoGFtXxnHBqIHUaFOAg1pcKfKSvhfWapfVezsdtcqkC482Jq7M3zYaByskdDvzpN
+         W11zH1MzCKEA9AsyKrP+7QPyxtG2EKIQ3qkze9slIPPn/Ttpk0XqH8qjO13LzPb4Pb4b
+         0WOeyW3C5s1uLTYP1dUozikKuUG2exW7dLMN6ExQl55QfdjAsbcy8GrNGbkokEw99pWu
+         cQiwR6Pc7pFxkZH2nIa04+WzIgcbTI9vXBSspbVj3k84hzpMkOB64sYzOh9xIC/rWH8k
+         HBug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747853366; x=1748458166;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TdNuTOTsKpvkf/xfsZUVGJATMCYddHibkDAc7vlr314=;
+        b=KDLBQBdfE+CmIM2bbhVIGbyBLWAk3+BFrZ8zg1oYp1COPg4L9WCKYJV7Tc1K0xwt1R
+         TXBDd8WxkRdFSOuJDcXVBahFvR2NHOEItjwugGoESdUaBgtGUVQc+MwXuMSEf8l5ItrB
+         hbiUmp7mwi31xHoE9HG0deLN8c+atl2rVn1FQ6Xp2WfM4n0W539xXr7lKrSlK1AZY7Lh
+         JJkYThSmePRaZH+BNd53Uw1lh5DW47GbqUIJkZKjfUY7Oe346EhTuj4U4iWscsCCIvwV
+         kqfm3MfU/qySapaJ7H1hKPOgKYII+gXG9SyTSz3FRrZ0bEugLw3BkLYZ4IibFv8lRS6f
+         OAkw==
+X-Gm-Message-State: AOJu0YwGGpDWcPSigw2Mmy1WszxY6eJhrirQ/PZiBvQ9PJwVPqB3Lp/7
+	SWEVh1o0QHLlWGmp/lyxHpkWY4Ehd+0dFWHXW3EdReGAgr4a5wsCQ36c5+1PH6YITEnNgahnrgF
+	r6rgczyWtx9cJ
+X-Gm-Gg: ASbGncskeyVATN+ObjO8Y7Vv36azFfxHoAQH90i61rr/A5qdyGk2qYTw4LDi3UOlLzi
+	2O9bn9f001e+uhL+4p0rJW9F4sAUu+2NJYVq+n5CkZ1qEVyZ90nr22rkZkqy/4nZ70RqLJdNity
+	nKziSzuzMRg0JF/xenqEeTFwJvuGm8yixHYPUTJRzQ0sttmA5kx/szRZi2F7mUgawYkdb3obUFm
+	S27leKnAiF9iceyGTyYO7vwbrqlSlWvNsIy/kvt90vKYapD8cMOP1ladOYhalBD9p/WkDHQEd9h
+	GS9Hgtwatrr1NXe4726Utik9Yx10kq2dyRlv33hyVt7PbdLiUssz3obDdYVxvFwlDQX/2o/S7XH
+	VApJ49I+pkijPCXyx
+X-Google-Smtp-Source: AGHT+IHeKGE61ybx0ZdD0bLYJRpgdrbMwBb3UoLai1Wc5dNdQ2bIJsjEDAf7sR8QxkCmLK3IYSqySQ==
+X-Received: by 2002:a17:906:d542:b0:ad5:6b26:b1e2 with SMTP id a640c23a62f3a-ad56b26b431mr1241805066b.49.1747853365741;
+        Wed, 21 May 2025 11:49:25 -0700 (PDT)
+Received: from nuoska.www.nordic-sky.finnair.com (213-209-177-110.ip.skylogicnet.com. [213.209.177.110])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d06b497sm932590666b.42.2025.05.21.11.49.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 May 2025 11:49:25 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Subject: [PATCH v2] u-boot: disable CONFIG_BLOBLIST on genericarm64 and qemuarm64
+Date: Wed, 21 May 2025 19:49:06 +0100
+Message-ID: <20250521184906.181219-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH] sbc: Fix for gcc 15 compile error
-To: Randy MacLeod <randy.macleod@windriver.com>,
-        <openembedded-core@lists.openembedded.org>
-References: <20250521162632.27169-1-reatmon@ti.com>
- <490b85d7-9c06-4c1d-8ff4-8b04b8bb8b83@windriver.com>
-Content-Language: en-US
-From: Ryan Eatmon <reatmon@ti.com>
-In-Reply-To: <490b85d7-9c06-4c1d-8ff4-8b04b8bb8b83@windriver.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by lelvem-ot02.ext.ti.com id 54LIcTnf369800
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 18:38:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217053
+ <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 18:49:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217054
 
+Booting u-boot on qemu with kvm is currently hanging on aarch64
+build host. Root cause is in u-boot and CONFIG_BLOBLIST can be
+disabled as a workaround.
 
+To reproduce, build on kvm enabled host where "kvm-ok"
+succeeds. For example genericarm64 machine and core-image-base
+should then boot with:
 
-On 5/21/2025 11:55 AM, Randy MacLeod wrote:
-> Hi Ryan,
->=20
-> On 2025-05-21 12:26 p.m., Ryan Eatmon via lists.openembedded.org wrote:
->> With the move to gcc 15, the code is not generating a compile error.
->=20
-> Do you mean *now*generating a compile error?
->=20
->=20
-> I guess the YP AB doesn't have a build that catches this target.
->=20
->=20
->> ../sbc-2.1/sbc/sbc_primitives_armv6.c:284:9:
->>     error: too many arguments to function 'sbc_analyze_eight_armv6';
->>        expected 0, have 3
->>
->> Simple fix is to drop the C standard down to gnu17 to avoid this new
->> error.
-> It would be better to file a bug or at least send the
-> maintainer a patch or a bug description. That's:
->=20
->  =C2=A0=C2=A0 Marcel Holtmann <marcel@holtmann.org>
->=20
-> from:
-> https://git.kernel.org/pub/scm/bluetooth/sbc.git/tree/README
+$ runqemu slirp nographic novga snapshot kvm
 
-Sent bug report.
+On qemuarm64, default kvm setup will boot directly to kernel
+and is not affected by this. If build enables u-boot as bios
+then the same issue happens.
 
+Without this config workaround, the boot hangs without
+any messages in qemu output but ctrl-a-c to qemu console
+can shutdown the emulated machine.
 
-> Anyway, we do have 17 other such work-arounds:
->=20
-> poky.git
-> =E2=9D=AF rg gnu17 | wc -l
-> 17
->=20
-> so one more won't hurt that much!
->=20
-> ../Randy
->=20
->=20
->> Signed-off-by: Ryan Eatmon<reatmon@ti.com>
->> ---
->>   meta/recipes-multimedia/sbc/sbc_2.1.bb | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-multimedia/sbc/sbc_2.1.bb b/meta/recipes-mul=
-timedia/sbc/sbc_2.1.bb
->> index 5aaa52313f..8b91e7e65b 100644
->> --- a/meta/recipes-multimedia/sbc/sbc_2.1.bb
->> +++ b/meta/recipes-multimedia/sbc/sbc_2.1.bb
->> @@ -19,5 +19,7 @@ SRC_URI[sha256sum] =3D "426633cabd7c798236443516dfa8=
-335b47e004b0ef37ff107e0c7ead32
->>  =20
->>   inherit autotools pkgconfig
->>  =20
->> +CFLAGS +=3D "-std=3Dgnu17"
->> +
->>   PACKAGES =3D+ "${PN}-examples"
->>   FILES:${PN}-examples +=3D "${bindir}/*"
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#217048):https://lists.openembedded.org/g/openembed=
-ded-core/message/217048
->> Mute This Topic:https://lists.openembedded.org/mt/113232263/3616765
->> Group Owner:openembedded-core+owner@lists.openembedded.org
->> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  =
-[randy.macleod@windriver.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->=20
-> --=20
-> # Randy MacLeod
-> # Wind River Linux
->=20
+This seems to have regressed after u-boot 2025.04 update.
+KVM boot can be detected from speed, for example genericarm64
+boots in 550 ms with KVM and without in over 5 seconds.
 
---=20
-Ryan Eatmon                reatmon@ti.com
------------------------------------------
-Texas Instruments, Inc.  -  LCPD  -  MGTS
+Fixes: [YOCTO #15872]
+
+Cc: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg | 1 +
+ meta/recipes-bsp/u-boot/u-boot-common.inc                 | 4 ++++
+ 2 files changed, 5 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg
+
+diff --git a/meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg b/meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg
+new file mode 100644
+index 0000000000..d01d3d12d8
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg
+@@ -0,0 +1 @@
++# CONFIG_BLOBLIST is not set
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index fd1eab5cdd..a77c49cb8b 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -16,6 +16,10 @@ SRCREV = "34820924edbc4ec7803eb89d9852f4b870fa760a"
+ 
+ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV}"
+ 
++# workaround for aarch64 kvm qemu boot regression
++SRC_URI:append:qemuarm64 = " file://disable-CONFIG_BLOBLIST.cfg"
++SRC_URI:append:genericarm64 = " file://disable-CONFIG_BLOBLIST.cfg"
++
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build"
+ 
+-- 
+2.43.0
+
 
