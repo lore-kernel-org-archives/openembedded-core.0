@@ -1,184 +1,168 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE1EC54E90
-	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 09:53:57 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.7386.1747821227461331097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C573C54E90
+	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 09:54:07 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.7390.1747821239978544541
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 May 2025 02:53:47 -0700
+ Wed, 21 May 2025 02:54:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=AeMpw39j;
- spf=pass (domain: mvista.com, ip: 209.85.210.172, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-73c17c770a7so7116154b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 02:53:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KNWYQ471;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ad1d1f57a01so1152853866b.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 02:53:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1747821226; x=1748426026; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OsCzspfX8wbHiSSdRhdUui5rYfTlFV6XR2q9/7RCfHg=;
-        b=AeMpw39jO1ImRvW7/taYoaaGqBGEHEn5MNkYZymixW9NawrUeh6BnlxKMQOuoFYhTY
-         vrmP/FgQfVTyIhwCtPbpUAPVYNVPtqygfk81ySqKyUTC6yoY2mCogbio7JlbUTJxa0D9
-         YDc4my58/FiEHOufjfh4nc8W53aXXABizLQNo=
+        d=gmail.com; s=20230601; t=1747821238; x=1748426038; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r96EITmvx7gvHj+pLSXa5D9FSCGYgi/KdvLx99C17b0=;
+        b=KNWYQ471j4wwxzNFEULr2xYMKbc9YdpJXz9gOmtNRl89KyAS9tgpPtjsn9/ZyofPf5
+         Rbt5V3wYqsvkS0JWprVSkDekQJvPMkPyA5RwgZ2l5b4bctZOnfHilk1UqBsPmnRMoBF3
+         iPAJuh+VrbEL70fynt1VAf+h7D6M+pW8lHvxwZNLKhcmoBkdJJnHqnNMseFcAm6yUATc
+         qcn85Ilv6YrQ62mifC98lT615MYUU3se+0jF2oO43yTTAPradFkkqSsyykK0BbH+Agwu
+         EGNhi9pPN2MQKoEBE1NRkyO2nr7samcZaNw0npBcLDk188OJh5HzNxh0hLy+Q1yj6ibU
+         ATAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747821226; x=1748426026;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OsCzspfX8wbHiSSdRhdUui5rYfTlFV6XR2q9/7RCfHg=;
-        b=vqr8uf1b7BG06BUJiCDV0hTPQbmmLmtbegpTufUH66qG1ShlS/C1Z8dcDOTkRAwYOz
-         OFDWsltMlqrYlqpVoawVRH/EDoKAzLm1AlkCaD8JlwvhTEhIMSt4vAaK5/Kno8BHxeZU
-         8nwvxzfRi9njSZPAww10Si9+pjfxaUKM9Srs52c89SE6BQsDok06vtyyo84ip+38z5zR
-         SFu2TSZcizHGq7E+EPxBQaMTcGDW5uHoOvTbTRUED72Ek4o5OqGUDj/yRwT4EIS6diWS
-         zqRhrtPbxv33V955iWrLlqS2qtU23Z4KXmQcCPn/ExmVM3zs2yfnEtxbpIsHUhBv0H7a
-         t7QA==
-X-Gm-Message-State: AOJu0YyEGy9w30+anEG9fpNRcWtMZnvMmMj0R6+Ot6QvOCSux0OJiKTx
-	viStefzMrVTFzoJSb0uxbWMHBr6grZb/0vQFaSA0r9OdwRC6ioGlfgQ152V61GS3KLVRoHSoixK
-	ORonusgI=
-X-Gm-Gg: ASbGncsG3O2nqbrujN9fHHU0FYlvV+tKnHsTfVWlgwlMT83ipBkdzT9mJTb90yJIxIG
-	HzFZr8LsgfYsUkrEFf1JrNiCqHrmS5HMuD3gvyPqQYdJjyRdlMTPCtZOmB29S0FWlxMNInjewzr
-	Notu7kg+Yujgr1Hnhgwrq6ZWy1rLSgoE+zuxKyPDmNZ5mDENYbj48coXVNIs6kBrC37QN9c4X2b
-	v5Fc3jH9Xvw/81HpBjRZ9ExdMguPwljXKQlsAnBxutxLKlOVhlydnnJhXSTsbeb1Bk2ObvQDB0c
-	8CvI+kUx22Nx3crqpyFkpOc6QApZ6clrIzmXNMeKFQy1/Qc0EStotBMYV8jf8Tf5/hRxgFV6G1I
-	DBuoYEwTw
-X-Google-Smtp-Source: AGHT+IFTuPO01fekHuhSbuWboRWdiMM4lQTCMP0qqwAfkCMtFpE24IY1mQuFgCdxZtokDkQc/YQ0PA==
-X-Received: by 2002:a05:6a00:2da5:b0:73f:f816:dd78 with SMTP id d2e1a72fcca58-742a98b2e69mr25533543b3a.15.1747821225883;
-        Wed, 21 May 2025 02:53:45 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([49.207.212.152])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9829cb7sm9241325b3a.111.2025.05.21.02.53.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 May 2025 02:53:45 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][PATCH 3/4] libsoup-2.4: Fix CVE-2025-32912
-Date: Wed, 21 May 2025 15:23:23 +0530
-Message-Id: <20250521095324.92028-3-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250521095324.92028-1-vanusuri@mvista.com>
-References: <20250521095324.92028-1-vanusuri@mvista.com>
+        d=1e100.net; s=20230601; t=1747821238; x=1748426038;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r96EITmvx7gvHj+pLSXa5D9FSCGYgi/KdvLx99C17b0=;
+        b=NzIaQdBI3fhxTnFGQ/vxf0xdoAJdlPn4hN2WQoyu8vkApbl3txmpPMIfzP3BxcSK3x
+         Q+fuz4+qqyD5q20fNEFKOQYtw0OBtNz4zFzSGRPAGAzvKjPUpIaI5lEMLfbkzmkddofW
+         U1cG6Li+9o5OT/nxw/LcwWBL0cyI5Qbfm+8XOnVekPn7W0FsFv3wLU42JwhsLE5sBR6S
+         a7ea7uwqcg9k1RIz3ZTD/hTYpOmOaFOZWOMcoC5cn6u4ELMn15+ALznysCHAxJAJjy0P
+         jAZKSFE0PkW3I0Qi+wyvGTIz9t++AUGLMNMEdy7WXErgG9m/sZk4vgiXotX33HI06MqV
+         V6sw==
+X-Forwarded-Encrypted: i=1; AJvYcCVUQxTCJxP2X07UO936Sa5H4INE1AxoqhoQtzLCZZHuNgP9nMXp+PSgdNO6xpTyIoBtNYO1qFuY+pj6HZGePTu0wA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzWH32fQgc27k3XpeasXd1vGCgc9xakp30n9sxv0HyCfGyMHYTl
+	Wgn61axg+33kC22HT/mv5zrEc2ZhvDrCsgJHcEfvaxsnvsyxP6rndUeivopmccyu
+X-Gm-Gg: ASbGnctOsylsHn5ClNvle0qxRIvssN5xkWuJ69aB31pp1OUZ2xkvR2A6i4m8CDFYS5F
+	9aH4UZ8ndPXl04QCcVMk8twLpWFvZmZo0b8BY0/lui1KfDkbn6dWywT9KRbE4E4g4ER4vp0O6V9
+	awWMwq+KvdI2CVj5aRcz+oEfPIR67++Fx2Me1W5u4iKg6T7idA+KYq7UOcfjFGaqXBRxZHcEJwS
+	Ft5EM1r0+olazK96zuKTlQlVDSlaOkfH4kaHdbhbpC/o35FW/AZFVu4+Gt0x1HSxHg6NjVD3w0I
+	SDLiH+gv9gVhU7gHWw+EepZnr32eD4aH/kbxbgdyT0FtNakBU82tDBEeLwYlGrZX0hRrgA==
+X-Google-Smtp-Source: AGHT+IHHlUbZ7wV07HM5HRsCdZ/VPWdQk/bWeIZNbpCahXgY221UuB2ZF3gD0F0RQyb8wLZXtPGKjA==
+X-Received: by 2002:a17:907:f816:b0:ad2:4fa0:88cb with SMTP id a640c23a62f3a-ad52d45ae5dmr2024507566b.5.1747821237861;
+        Wed, 21 May 2025 02:53:57 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d44205asm881436966b.100.2025.05.21.02.53.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 May 2025 02:53:57 -0700 (PDT)
+Message-ID: <eb760092-3915-4133-8f19-c0b6b7dd6743@gmail.com>
+Date: Wed, 21 May 2025 11:53:56 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [kirkstone][PATCH] gcc: AArch64 - Fix strict-align
+ cpymem/setmem
+To: sundeep.kokkonda@windriver.com, openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com, steve@sakoman.com
+References: <20250521090916.974418-1-sundeep.kokkonda@windriver.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <20250521090916.974418-1-sundeep.kokkonda@windriver.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 09:53:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217014
+ <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 09:54:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217016
 
-From: Vijay Anusuri <vanusuri@mvista.com>
-
-Upstream-Status: Backport from
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/cd077513f267e43ce4b659eb18a1734d8a369992
-& https://gitlab.gnome.org/GNOME/libsoup/-/commit/910ebdcd3dd82386717a201c13c834f3a63eed7f
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../libsoup-2.4/CVE-2025-32912-1.patch        | 41 +++++++++++++++++++
- .../libsoup-2.4/CVE-2025-32912-2.patch        | 30 ++++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |  2 +
- 3 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
-
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
-new file mode 100644
-index 0000000000..2a6f37cb58
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
-@@ -0,0 +1,41 @@
-+From cd077513f267e43ce4b659eb18a1734d8a369992 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 5 Feb 2025 14:03:05 -0600
-+Subject: [PATCH 1/2] auth-digest: Handle missing nonce
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/cd077513f267e43ce4b659eb18a1734d8a369992]
-+CVE: CVE-2025-32912
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-auth-digest.c | 2 +-
-+ tests/auth-test.c          | 1 +
-+ 2 files changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/libsoup/soup-auth-digest.c b/libsoup/soup-auth-digest.c
-+index a1db188..f0edb81 100644
-+--- a/libsoup/soup-auth-digest.c
-++++ b/libsoup/soup-auth-digest.c
-+@@ -156,7 +156,7 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
-+ 	guint qop_options;
-+ 	gboolean ok = TRUE;
-+ 
-+-        if (!soup_auth_get_realm (auth))
-++        if (!soup_auth_get_realm (auth) || !g_hash_table_contains (auth_params, "nonce"))
-+                 return FALSE;
-+ 
-+ 	g_free (priv->domain);
-+diff --git a/tests/auth-test.c b/tests/auth-test.c
-+index 6fb1e4a..343d7a5 100644
-+--- a/tests/auth-test.c
-++++ b/tests/auth-test.c
-+@@ -1629,6 +1629,7 @@ main (int argc, char **argv)
-+         g_test_add_data_func ("/auth/missing-params/realm", "Digest qop=\"auth\"", do_missing_params_test);
-+         g_test_add_data_func ("/auth/missing-params/nonce", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"", do_missing_params_test);
-+         g_test_add_data_func ("/auth/missing-params/nonce-md5-sess", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\" algorithm=\"MD5-sess\"", do_missing_params_test);
-++	g_test_add_data_func ("/auth/missing-params/nonce-and-qop", "Digest realm=\"auth-test\"", do_missing_params_test);
-+ 
-+ 	ret = g_test_run ();
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
-new file mode 100644
-index 0000000000..4898068115
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
-@@ -0,0 +1,30 @@
-+From 910ebdcd3dd82386717a201c13c834f3a63eed7f Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Sat, 8 Feb 2025 12:30:13 -0600
-+Subject: [PATCH 2/2] digest-auth: Handle NULL nonce
-+
-+`contains` only handles a missing nonce, `lookup` handles both missing and empty.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/910ebdcd3dd82386717a201c13c834f3a63eed7f]
-+CVE: CVE-2025-32912
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-auth-digest.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libsoup/soup-auth-digest.c b/libsoup/soup-auth-digest.c
-+index f0edb81..c49ffd9 100644
-+--- a/libsoup/soup-auth-digest.c
-++++ b/libsoup/soup-auth-digest.c
-+@@ -156,7 +156,7 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
-+ 	guint qop_options;
-+ 	gboolean ok = TRUE;
-+ 
-+-        if (!soup_auth_get_realm (auth) || !g_hash_table_contains (auth_params, "nonce"))
-++        if (!soup_auth_get_realm (auth) || !g_hash_table_lookup (auth_params, "nonce"))
-+                 return FALSE;
-+ 
-+ 	g_free (priv->domain);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 8d974c2d59..509026c4ff 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -28,6 +28,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32910-3.patch \
-            file://CVE-2025-32911_CVE-2025-32913-1.patch \
-            file://CVE-2025-32911_CVE-2025-32913-2.patch \
-+           file://CVE-2025-32912-1.patch \
-+           file://CVE-2025-32912-2.patch \
-           "
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
- 
--- 
-2.25.1
+On 5/21/25 11:09, Sundeep KOKKONDA via lists.openembedded.org wrote:
+> From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+>
+> The cpymemdi/setmemdi implementation doesn't fully support strict alignment.
+> Block the expansion if the alignment is less than 16 with STRICT_ALIGNMENT.
+> Clean up the condition when to use MOPS. (PR103100)
+>
+> Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/commit/?id=b9d16d8361a9e3a82a2f21e759e760d235d43322]
+Is this a partial backport of the commit?
+I wouldn't expect the backported patch to match the original 1-to-1, but
+the original commit also contains some changes of the machine
+description, which is missing from this patch. Is that not required?
+>
+> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-11.5.inc        |  1 +
+>  ...rch64-fix-strict-align-cpymem-setmem.patch | 45 +++++++++++++++++++
+>  2 files changed, 46 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0032-gcc-aarch64-fix-strict-align-cpymem-setmem.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-11.5.inc b/meta/recipes-devtools/gcc/gcc-11.5.inc
+> index f17ec9da5c..1e8371b2bd 100644
+> --- a/meta/recipes-devtools/gcc/gcc-11.5.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-11.5.inc
+> @@ -60,6 +60,7 @@ SRC_URI = "\
+>             file://0029-Fix-install-path-of-linux64.h.patch \
+>             file://0030-rust-recursion-limit.patch \
+>             file://0031-gcc-sanitizers-fix.patch \
+> +           file://0032-gcc-aarch64-fix-strict-align-cpymem-setmem.patch \
+>             file://0001-CVE-2021-42574.patch \
+>             file://0002-CVE-2021-42574.patch \
+>             file://0003-CVE-2021-42574.patch \
+> diff --git a/meta/recipes-devtools/gcc/gcc/0032-gcc-aarch64-fix-strict-align-cpymem-setmem.patch b/meta/recipes-devtools/gcc/gcc/0032-gcc-aarch64-fix-strict-align-cpymem-setmem.patch
+> new file mode 100644
+> index 0000000000..4c2d827799
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0032-gcc-aarch64-fix-strict-align-cpymem-setmem.patch
+> @@ -0,0 +1,45 @@
+> +gcc: AArch64 - Fix strict-align cpymem/setmem
+> +
+> +The cpymemdi/setmemdi implementation doesn't fully support strict alignment.
+> +Block the expansion if the alignment is less than 16 with STRICT_ALIGNMENT.
+> +Clean up the condition when to use MOPS.
+> +
+> +Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/commit/?id=b9d16d8361a9e3a82a2f21e759e760d235d43322]
+> +
+> +Signed-off-by: Wilco Dijkstra <wilco.dijkstra@arm.com>
+> +Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+> +---
+> +--- a/gcc/config/aarch64/aarch64.c	2025-05-08 20:40:10.969865898 -0700
+> ++++ b/gcc/config/aarch64/aarch64.c	2025-05-13 23:11:07.006796627 -0700
+> +@@ -23621,14 +23621,15 @@
+> +   int mode_bits;
+> +   rtx dst = operands[0];
+> +   rtx src = operands[1];
+> ++  unsigned align = UINTVAL (operands[3]);
+> +   rtx base;
+> +   machine_mode cur_mode = BLKmode;
+> + 
+> +   /* Only expand fixed-size copies.  */
+> +-  if (!CONST_INT_P (operands[2]))
+> ++  if (!CONST_INT_P (operands[2]) || (STRICT_ALIGNMENT && align < 16))
+> +     return false;
+> + 
+> +-  unsigned HOST_WIDE_INT size = INTVAL (operands[2]);
+> ++  unsigned HOST_WIDE_INT size = UINTVAL (operands[2]);
+> + 
+> +   /* Inline up to 256 bytes when optimizing for speed.  */
+> +   unsigned HOST_WIDE_INT max_copy_size = 256;
+> +@@ -23750,11 +23751,12 @@
+> +   unsigned HOST_WIDE_INT len;
+> +   rtx dst = operands[0];
+> +   rtx val = operands[2], src;
+> ++  unsigned align = UINTVAL (operands[3]);
+> +   rtx base;
+> +   machine_mode cur_mode = BLKmode, next_mode;
+> + 
+> +   /* We can't do anything smart if the amount to copy is not constant.  */
+> +-  if (!CONST_INT_P (operands[1]))
+> ++  if (!CONST_INT_P (operands[1]) || (STRICT_ALIGNMENT && align < 16))
+> +     return false;
+> + 
+> +   bool speed_p = !optimize_function_for_size_p (cfun);
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#217009): https://lists.openembedded.org/g/openembedded-core/message/217009
+> Mute This Topic: https://lists.openembedded.org/mt/113226173/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
