@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CAE0C54ED1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33BE1C54ED0
 	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 06:20:14 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.4710.1747808408715904434
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.4712.1747808409602797300
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 23:20:08 -0700
+ Tue, 20 May 2025 23:20:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HQv09kM5;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-742af84818cso3823950b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:20:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=L7aL/yQm;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-73712952e1cso6043010b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747808408; x=1748413208; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747808409; x=1748413209; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J3zFkidn76fOxIPSMoKzPRVTaJ6fuYzuEkpMoGhomTk=;
-        b=HQv09kM5QPqxQV0X2BstMy/1WimS4fEl+Q0VFbFWjj3VmBD5VyWzP7zKdHHxylbe9K
-         NPb7xtx6K8cS5p8HQuP53DrpFLu4fYa4edrSpQOSguO60j2KwmIy2e3oELFfcVWBA8R9
-         ++hjrzeFHvmm3KhNshNx1TNELgOs3tuFxvKFuCQTM0fRGZd5LXtVaMp/Ajuvqq14QUVl
-         zc1xOc7dKigYCi55aKUFst37Qk6QCDCSJgIb0FBSU2746xS62iub01KyUbaGerqHRSM/
-         4P2ABWaXGDVu9paJ1hhkmPgPt1rtqR4rJczfzjdYtt6viqb6oV8RwcNZEpBqtKz5Fmlq
-         1xug==
+        bh=vbZV2lCDrLb4KxWJun8O2Fn1PusgK4ScvR81eZgLSww=;
+        b=L7aL/yQms7F9LBJx0fA5kXOdO251tSK/M5V89P1p5m4A8CWq+v2ChLeKlBUas+UQ/Y
+         HnWmNIKOVq0V7mwqWTNgx0g1LuBmy+otzQHZtGq0RStPjEdc01Lk0AQgCpvW8LycA0KT
+         nPtC7YZE53BLjL3Po0QyHgV9Iptl8ZpvDRKWkgIHOTZxm7sQl4SMaUYvapMOwwV4WZid
+         kSnr79Q57axovATak01stYn8B47E+o5ybzX1L4iJo4u6ppyHpZgdEVrn7BEBWLxFDE4T
+         muoQJMq0PDGKtOiuwag5Z40S2S7GTYot7tGdDXiCg6/Elqj62fTKcfHrYci5HcZH7jlt
+         Abyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747808408; x=1748413208;
+        d=1e100.net; s=20230601; t=1747808409; x=1748413209;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J3zFkidn76fOxIPSMoKzPRVTaJ6fuYzuEkpMoGhomTk=;
-        b=uRXpvwkd1bU4nuun3cnfsnAZfdbHUfSsCT3oFIzXUkTueYYNK/q4rnOAbw3ZOqEEyT
-         0ynSOdTz1YiG/0I6S5vm8t5Bv/Xzxf35cQSwHfdRzL5DzkYaeawVrW9K6Fc+b1uiCYJW
-         RzjFvBk225/566XLbVCkQpaaDHLVSyUC4Hz2kA/0ZHKDt/hh2IPeR/YcWl4cqvbe7Lta
-         w4K1vymj6FpgTbOgmteZ757slpJORh+7iW5UXQFyFPj09si8u8X2K92rqq52Xr4ITaA5
-         vtJpTyMbwshomR2Gc5MBJeaRiaQwzhzLuiHd5qxc+Z5u8MuiTqPcFbCiJb9uHzbtPT4I
-         lykg==
-X-Gm-Message-State: AOJu0YxmBOylARQk/p1Ul8NsIDlC1pdSUURVsA/w7gxzQ76/r3qIGwgg
-	dxE3IikvniOD3DvDjUIX0V25Gv16E3JXn7RNWg5qKllKxF2GDXdVl5vHRCgGaN2e
-X-Gm-Gg: ASbGnctFuqVTv6MM0knxjucJh2aZF569WtYePhiXVzLZeif8qrKqhOVfNod9+lXZvDJ
-	MnYJVTGer2JjKhb9hkfQBRPsKELYem1te1yCLKuDNr8LbtNwy4PYJ3mxt7iAM8q0aZXUTObjdMN
-	2/CfDESuHA0cnfGNWkx/Kx3QuiYULmo6OEFP2vC5Jrk0kpFbu25SMimP+uOecSfrHmoesTUpSBm
-	KTDemecT6UN8x5Q85GDPG+yRwlTfJoVYiCSBXuVN6Qqz1LH2WNJ1/TobN2mmJMg+5/18XgwMxUi
-	NVwaf71+i7P+NOXqTGYWLSCDUfATlB7UEjfP1Vauwvk=
-X-Google-Smtp-Source: AGHT+IFY5ofRxV3FDreoxspz/ib0PjRl9JC/RcgG5Ez750ePDFRxlcKTksLVK5T5pEviUyICI10/Zg==
-X-Received: by 2002:a05:6a00:4b10:b0:736:3c6a:be02 with SMTP id d2e1a72fcca58-742a97eb61emr25769931b3a.11.1747808407871;
-        Tue, 20 May 2025 23:20:07 -0700 (PDT)
+        bh=vbZV2lCDrLb4KxWJun8O2Fn1PusgK4ScvR81eZgLSww=;
+        b=gE07XsekJLeE0rE3RGRxwoBYbTNwTqkdQWg/HeZMAP624fa4OyjIO/PQ+zq7pU2r/j
+         Rd0fYXNNXX4Apj8YTvjM8vAz94F9Zb8oynImYmrMQCXSs9LY7Efqm98BMlCl7EmLseKn
+         BWcYjonfxy/sf3FWQbo+OoQjk18scpVDN4MIRnKnG0cyvocADBU/SchfTjMwztmmAFgC
+         sjjRz63Ol2TqQuQI7qrHE3xi+thkhCvQLxyISZacDwM4ClcY1E17He/J3VQtus/ao5Pu
+         dFQR2c3HUQiwWQHMA8FJb8Rs9vEY8wXLyA6ArnWMNdc/pF694buQaF0jXGcSs6ip47Gb
+         bk1g==
+X-Gm-Message-State: AOJu0Yy9OYcttQE/kRZBLMLQasa/fEJ4yhKW2Vkhd/BFwNb27B6+cMEQ
+	io3vWCku07cKdqfN/2/N4+Tnesf+sxZDj0GXx1Ee7X8Oh5LIw5gaUDjcUHXwAKNL
+X-Gm-Gg: ASbGnctYneAssWlxtYebDhsRiaiuOdYVy/YeZ+rbWDdh9rAM6Xkm1Fuv698NLC29DDq
+	eN2PG2cqbaVnRHcUiZ+9jLpJRDctsvCzzmpEMnwCZJHzEUMoVQLP5M9YdhCIJ4PHLpHnqhjk0Iv
+	o1O/Cxa5QbJmWZLSI0bA0MUyqIitHztrAv216t4rPFhpOmCG/xC2xhr9QYMYogX2hUhTH7gA/XA
+	BtEPepS9K0j+xjW6Db2HPPNZpGDIPgpkTAPwLq0ZFpNuSoXCRJ4f9+mp+rfQ4gvf5q4CCUYbXI9
+	q6w+obAsJnXc67JDtdn/7bkNwTIV9rFFHWZKG3O6lH4=
+X-Google-Smtp-Source: AGHT+IElrxsDW0Cvf8fbobuRNTiLsBfD5KrwlDC5OAMt6/JUrM2Rq3GXh7ha4v34+LfCYFSXuQ2EeA==
+X-Received: by 2002:a05:6a00:3e0b:b0:740:3830:4119 with SMTP id d2e1a72fcca58-742acd507b5mr25731754b3a.18.1747808408738;
+        Tue, 20 May 2025 23:20:08 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.20.07
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.20.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 23:20:07 -0700 (PDT)
+        Tue, 20 May 2025 23:20:08 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 May 2025 23:19:56 -0700
-Subject: [PATCH v2 20/28] systemtap: Pin to build with GCC
+Date: Tue, 20 May 2025 23:19:57 -0700
+Subject: [PATCH v2 21/28] webkitgtk: Use gcc to compile for arm target
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-clang-toolchain-v2-20-db97c2eb3756@gmail.com>
+Message-Id: <20250520-clang-toolchain-v2-21-db97c2eb3756@gmail.com>
 References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 In-Reply-To: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,32 +67,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 06:20:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216988
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216989
 
-clang find a lot of warning
+Builds with clang run into compiler errors
 
-| In file included from ../git/tapset-procfs.cxx:11:
-| ../git/session.h:169:47: error: 'used' attribute ignored on a non-definition declaration [-Werror,-Wignored-attributes]
-|   169 |   static const char* morehelp __attribute__ ((used));
-|       |                                               ^
+<inline asm>:320:1: error: Relocation Not In Range
+  320 | movw r4, #:lower16:.Lllint_op_tail_call_varargs - .Lllint_relativePCBase
+      | ^
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-sato/webkit/webkitgtk_2.48.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 21d50ffb04977bdd9666fbabb5e27289aff01370..254bac4d6f9c8637c575b4b7896322bd42e96841 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -99,3 +99,7 @@ do_install:append () {
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+index 5b9846a6d631cb85d5dbe103155670dde9e6b777..a58b44440ee15fdbc5e9d6dbb9565fe4dcad4802 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+@@ -176,3 +176,5 @@ src_package_preprocess () {
+             ${B}/WebKitGTK/DerivedSources/webkit/*.cpp
  }
  
- BBCLASSEXTEND = "nativesdk"
-+
-+# Emits lot of warning which are treated as errors
-+# They must be looked into before disabling
-+TOOLCHAIN = "gcc"
++# Clang-20 issue - https://github.com/llvm/llvm-project/issues/132322
++TOOLCHAIN:arm = "gcc"
 
 -- 
 2.49.0
