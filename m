@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 233D9C54E90
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47F98C54EE3
 	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 06:20:14 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.4709.1747808407835857285
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.4714.1747808412186564863
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 23:20:07 -0700
+ Tue, 20 May 2025 23:20:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KUGvebPn;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-74264d1832eso8182481b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:20:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JfwivXTR;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-742c5f3456fso2765263b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:20:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747808407; x=1748413207; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747808411; x=1748413211; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fnJymeO+5C6F0iXhFBkktSLzFCfaoma57gfx4nYpQlo=;
-        b=KUGvebPnDP/WGLZOZElY23FEMFRh5q9XzHj9NM5SWC6+pyP/EmP+iCTfJIWdg/FnJ8
-         QagYF57vJkRfY8rTZHDstlMLWIMTM5j7picnxbU9xH6z4oXscXDlv6WZPMzEAJCSHACA
-         FJ8Ff7fLwV5j6xwqFPDFgappPR60R3nFUqTZrUk1IUNND/sJRPIfZMvlpjhzIJMCILlx
-         Ownh9aZkaryYNJ3z+W0bEyPtgjiWn3IrR/nZRO44qwjMFA0oT9nUggSKrjlN1ts5TC9C
-         qNXTG6LsH/X7zvh2Ch50ZJxdS19Y49J2XeeJo4Gtt1RzkgvZe+2oDt4Ow7gIEB4I5CiJ
-         pwMA==
+        bh=cRqpb5xy/LZvqsXgKJY2IsHcqPYzAN9BvdSvXnuTg6E=;
+        b=JfwivXTRbu+yYcxXycJiomvodspoPCn26gpxqdkW+8sn+m2qGm9MiO4/I4lihS4Oo2
+         G5G1V1oG0qafa6OmLOAN7LDwmbzi/CbAtLmHJ14nI85BxqXQ4vBddc44YvQFcz+9ESTF
+         shL1YMUVlEYQm3ZPRBRlIFwoTQNBw7E3z3eMJ6JIvmlsa2BRDQf6uL99k45RzB0MqyMs
+         RsUukxv9/IpkRLtY3YHKGbzSPyD9uJkwYrQK+IgOsLwOlHHevhnt/DIVJZnRq+MPer6Q
+         aVIgt9vN0FFfjANKxmDK/Rv1Kou7eD4D4ab7FYhA2Ff6XzwzXwQUPoVaO/nDqwMqllZi
+         tocA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747808407; x=1748413207;
+        d=1e100.net; s=20230601; t=1747808411; x=1748413211;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fnJymeO+5C6F0iXhFBkktSLzFCfaoma57gfx4nYpQlo=;
-        b=Y4cz1cPgr5X0hFqqQKpEdC/rsF4pe5Yyn8recDXGafUDMuZso5abQfM5dhxA4mIIB+
-         skMc7ljQWlWsCZW+9oM+iL1uDKGozvuE8TKx8EuU9DCUVYp1imVtH4lLk2hwqwD31cSM
-         relLQ/i7eJpBKJ0+iwsD2aFi/D1cAhHPhMqwjq28PYqwK6Ye0rXLQ2N7D5XNs2Bju/ym
-         /n5T67ni5salptZJasehgmoGfeHSa6EIvn+06GYMJn03hPkZ1w5optJvLjz495li9G//
-         JNR5nl5AK94B2sFt+Q1nNTH4RH8+wc3pPJeuAbrM4+Q7uIXDxNkzY9BD0pkFW6bESeNM
-         2qvQ==
-X-Gm-Message-State: AOJu0YwVhbyhEsqyk1m+QOs5Qqj3l3DfRWOLpYEl4BfOSTiyAbsI0M6s
-	3onMReDCYvuUpUXvMe0LpsTygfnbZ4qvi9ve9uTe6Q5orSJQWbeonk92KggwQCPN
-X-Gm-Gg: ASbGncuUxM3fcDyLw/Iy6OHiYojH7Y3A/Q5VA03oMX0IE0PBI/FOLg0tjcMO9VT2tU7
-	yhhTEVk9KLStjTVfYhZMNTt2atvNWFldghtE/io8gVGmzukO8qvfMZKUKrLCzWcidP4g2CTdb/1
-	M+9kPgHTUa8+Iurgn1Q+XoWFNGh6wF8IldQO9jHp7DwtYLoq9ELFvuUfed9KXudmzgouzBS4LS7
-	SJBOGpeAPJM2IqFJ94hzsKywNJBr1ihvgEEUlmsv2xe+c/y3wwxSmwAxUodPM2QXZH6mSIZEPYS
-	+rbBaL+0usZbR7q/DxXj2Fg6mNAkOvJwa3W6P4rsP5o=
-X-Google-Smtp-Source: AGHT+IHKIeQrxDMAkgPya14o2IpuZRrIVow24H4N5vx+KbGQhIvncZ+aNZwiS9viXm6SE5Mbef9jRw==
-X-Received: by 2002:a05:6a00:2790:b0:740:5927:bb8b with SMTP id d2e1a72fcca58-742a961837amr23312726b3a.0.1747808406999;
-        Tue, 20 May 2025 23:20:06 -0700 (PDT)
+        bh=cRqpb5xy/LZvqsXgKJY2IsHcqPYzAN9BvdSvXnuTg6E=;
+        b=Ya8barqfhGRKb6OZ0xr1/Hm6A5Db8bRY47K9qjc73sczyxH/euC4zK+fcecOdIaeVz
+         0WTIXKn4VE5EXxLvv1Cj/VjS2nbNKJ6uFHZCDCrVgW5ajpWRhj7deoyu/pT/yUk9yFcl
+         +pFoRYPWBSGNnPvy3KKRwvZhyxDhl2VzncguaVT2x680bISpT69GcWxXsYZQIEmPnC7S
+         IdRMoYqnkkQKbG7cUbYzvuLBolbU1GG1ZITKRPpbE5HO6zeBgLhbOjdE2j2W6tpirtdS
+         uRdQFiNYU6UV+Bn7WBhbnOXFxa/TDHDhTaxsksagHI8C1Y9RGqEWRsk7jPjgUTEhbaDi
+         7ZuA==
+X-Gm-Message-State: AOJu0YwM8CPxUt2QdCU5r8hVUOsNF0bfGZkDCKCXUv362/HXT7PUHW81
+	rq+Lr7pGJyyQVIvA61z1tmGQ+LkVU8yiJW/KSgxWY8rSQ2HNnULzkjX/il6MW/0y
+X-Gm-Gg: ASbGncvZcx2qiTN2bY3O39g1kq7a3KDUoqtXG4eaILdbqdEAdCsV46i24qBIS4LFohm
+	+YlGxpjJsIVwaQMYkjbaUNYuuQ8054LtRX2rmLN1zojBriqQ3PYEEPzZ+qbFT+GPSF24U2FrMHw
+	PEfvWMEbGe3ihR+lScb7NvtaeSGsI74jJ2s2KKDxbU334fzSujJEWbD3uMyPMEarEpanz4HI3mm
+	31uBT3KOBH9m7QqWTifYai0OfdEONIeJPddnraQjjlLgBLVx+9qUz6uWvQZ3nbt/i98MRSd2CO/
+	/BYkbzKW0OXoRKFGEgEP0FuXO/sb5wxVPjKoI8dSvBNC3lA6MMeTUA==
+X-Google-Smtp-Source: AGHT+IEHGZUc3CG2gfe/spKibzdkiYEjCqFUeTjIdxapTvX1FQ21NryK7+cgG14mQPGWqHJ3L+NRTw==
+X-Received: by 2002:a05:6a00:856:b0:73f:ff25:90b3 with SMTP id d2e1a72fcca58-742a98b7f48mr31169084b3a.24.1747808411299;
+        Tue, 20 May 2025 23:20:11 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.20.06
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.20.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 23:20:06 -0700 (PDT)
+        Tue, 20 May 2025 23:20:10 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 May 2025 23:19:55 -0700
-Subject: [PATCH v2 19/28] syslinux: Pin to using GCC toolchain
+Date: Tue, 20 May 2025 23:20:00 -0700
+Subject: [PATCH v2 24/28] pulseaudio: Pin to use GCC compiler
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-clang-toolchain-v2-19-db97c2eb3756@gmail.com>
+Message-Id: <20250520-clang-toolchain-v2-24-db97c2eb3756@gmail.com>
 References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 In-Reply-To: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,29 +67,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 06:20:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216987
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216992
 
-It does not compile with clang due to include_next stdarg.h not working
-as the system expects to match gcc behavior
+Inline assembly is not written in portable fashion
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb | 5 +++++
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-index 1e65616081bea95ff28f40eec362195cbaf77390..449a75ebf8abf1dd6865f641f696ac1b67278819 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-@@ -130,3 +130,8 @@ FILES:${PN}-staticdev += "${datadir}/${BPN}/com32/lib*.a ${libdir}/${BPN}/com32/
- FILES:${PN}-misc = "${datadir}/${BPN}/* ${libdir}/${BPN}/* ${bindir}/*"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 3c65aaee6e02cf417e3165c194353883c453aa00..695f4b676de8c7a642efd6b713f9a66d6d658de4 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -74,6 +74,11 @@ USE_NLS = "yes"
+ # Helps tests for -msse fail on non-SSE architectures which is all non-x86
+ TUNE_CCARGS:append:toolchain-clang = " -Werror=unused-command-line-argument"
  
- BBCLASSEXTEND = "native nativesdk"
++# mix_neon.c:179:9: error: invalid operand in inline asm: 'vld1.s32 ${0:h}, [$2]
++#      vld1.s32 ${1:h}, [$3] '
++TOOLCHAIN:armv7ve = "gcc"
++TOOLCHAIN:armv7a = "gcc"
 +
-+# com32/lib/../include/stdarg.h:9:15: fatal error: 'stdarg.h' file not found
-+#    9 | #include_next <stdarg.h>
-+#      |               ^~~~~~~~~~
-+TOOLCHAIN = "gcc"
+ EXTRA_OEMESON = "\
+ 		-Dhal-compat=false \
+ 		-Dorc=disabled \
 
 -- 
 2.49.0
