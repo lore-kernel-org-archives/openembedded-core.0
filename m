@@ -2,45 +2,47 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1203C54E65
-	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 08:09:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 037BAC2D0CD
+	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 08:09:45 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.6053.1747814975285852992
+ by mx.groups.io with SMTP id smtpd.web11.6057.1747814981021549684
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 May 2025 01:09:35 -0700
+ Wed, 21 May 2025 01:09:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7236463a26=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54L5IJRq021592;
-	Wed, 21 May 2025 01:09:29 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54L4oRia013631;
+	Wed, 21 May 2025 01:09:38 -0700
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46rwfs90xf-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46rwfs90xn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 21 May 2025 01:09:29 -0700 (PDT)
+	Wed, 21 May 2025 01:09:37 -0700 (PDT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 21 May 2025 01:09:11 -0700
+ 15.1.2507.43; Wed, 21 May 2025 01:09:19 -0700
 Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 21 May 2025 01:09:09 -0700
+ 15.1.2507.43 via Frontend Transport; Wed, 21 May 2025 01:09:17 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <Peter.Marko@siemens.com>, <mathieu.dubois-briand@bootlin.com>,
         <alex.kanavin@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/5] libxml2: upgrade 2.13.8 -> 2.14.3
-Date: Wed, 21 May 2025 16:09:21 +0800
-Message-ID: <20250521080925.815334-1-hongxu.jia@windriver.com>
+Subject: [PATCH 5/5] lttng-tools: fix compile failed with libxml2 2.14.0+
+Date: Wed, 21 May 2025 16:09:25 +0800
+Message-ID: <20250521080925.815334-5-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250521080925.815334-1-hongxu.jia@windriver.com>
+References: <20250521080925.815334-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: kXzviLf8e2W2WBMxu1Bk6F6wMCybUU_k
-X-Proofpoint-ORIG-GUID: kXzviLf8e2W2WBMxu1Bk6F6wMCybUU_k
-X-Authority-Analysis: v=2.4 cv=KJNaDEFo c=1 sm=1 tr=0 ts=682d8a39 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=GHR8O2WEAAAA:20 a=aiIX5UjjAAAA:8 a=SSmOFEACAAAA:8 a=t7CeM3EgAAAA:8 a=7CQSdrXTAAAA:8
- a=LIGI6Mc-YZhTsUlX958A:9 a=m9p5bXcFLgAA:10 a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDA3OSBTYWx0ZWRfX9WuJc9kpRMpq AT8HGNRHdPhnqB8HnECeZmRuKFusL73n1XqZmB7MifJ3/olMPTo2huz+5ynFERrUwRZ1gjRF9r6 0xP477d3r9SNIvOoxeeSor7EeQt8fNml0XNKiutb047ZrHrYnC4yHQi3ugjsh4o/3BWIMg+Btvp
- 7MhMFyAjR1i3c7jhllWBkCXSaR/M/mMLaQnTE60MQb7LYiG4+0zAT9aP1cbqfq6CFBbPcOVMH9U //ZVgHVQcZMrwJauhaVDuIN+tGDxvEQBgK5+7avPMblbmcmXhWYjYICpXxwLEwdc229jsHMAfDF 7ezg9etegZm215uUccLe0oh7twMMqLTslJ0jlcfwLD7u3wtidhGyBBrooLB3o22jdaDdUxr82iD
- Gx+qX2F0Sr5ZUTRhmTuHPGMhKiOg7miWJETjMIaklASIYYXZeHNOwvBt0PX/wqVYSkNoGHFZ
+X-Proofpoint-GUID: MrFvoY48-vOsjKYdgOb6Zxds8FfY0wN_
+X-Proofpoint-ORIG-GUID: MrFvoY48-vOsjKYdgOb6Zxds8FfY0wN_
+X-Authority-Analysis: v=2.4 cv=KJNaDEFo c=1 sm=1 tr=0 ts=682d8a41 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=GHR8O2WEAAAA:20 a=NEAV23lmAAAA:8 a=a5LkSv8FAAAA:8 a=t7CeM3EgAAAA:8 a=a_U1oVfrAAAA:8
+ a=I7dUZXBNjMwmdyNAN9cA:9 a=m9p5bXcFLgAA:10 a=E2cWBXyb0kjxxB1PlMdk:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDA3OSBTYWx0ZWRfX1nw/cGi1EIUd CGqo5i31SbdaVW8Fc5Ovct516sY9Afd4ClUc6yKdbVTMYC9YVAq5e1KlnAzejJkWJJ5gkDqLMqL 0Lnl2m8ZW79qNg/DOLXPt8N3mHpK/CHy1uuod9aw4daLZI8aG/XVARkHcdo9v0hSBcAGH9NJbRW
+ UqHuitEEjgC/TLMsm6C+kdfmsr0Iis3wTNYLA2dHqEHTap69edrIhHx+Gjga9vnQQe1Ovu5Sdlj IxMqiC4FKPxsGpjNzqzKLDrO5ObDiolEmLc0Ox2RRysoxkM2fiw6hUhBhGo1/f3UibhL0dgtBJU Bt5GU3JlG12fkap/qcfWyNThvhyE+fzIcU54Txm9fAk7s7yCPSI/qQR8inTWSa9a6uK6c7Biisv
+ 433J25LW81pNutBPuvcR1O1GjXS28sklrrnwxQyB0UUH5zuWrnpKt0RmviPQ3m3YMIi1427r
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-21_02,2025-05-20_03,2025-03-28_01
@@ -53,128 +55,115 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogs
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 08:09:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217000
+ <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 08:09:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217004
 
-- Rebase install-tests.patch
-- Remove --enable-ipv6, due to upstream [build: Remove check for IPv6 ][2]
+Description:
+| In file included from /srv/pokybuild/yocto-worker/qemux86-alt/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.13.15/recipe-sysroot/usr/include/libxml2/libxml/parser.h:25,
+|                  from ../../../../lttng-tools-2.13.15/src/common/config/session-config.c:29:
+| /srv/pokybuild/yocto-worker/qemux86-alt/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.13.15/recipe-sysroot/usr/include/libxml2/libxml/encoding.h:173:7: note: declared here
+|   173 |     } input XML_DEPRECATED_MEMBER;
+|       |       ^~~~~
+| ../../../../lttng-tools-2.13.15/src/common/config/session-config.c:432:15: error: called object is not a function or function pointer
+|   432 |         ret = handler->input(out_str, &out_len, (const xmlChar *) in_str, &in_len);
+|       |               ^~~~~~~
+| At top level:
+| cc1: note: unrecognized command-line option '-Wno-incomplete-setjmp-declaration' may have been intended to silence earlier diagnostics
 
-License-Update: Mention contributors in Copyright [1]
+According to [1][2], the UTF-8 handler is
+```
+static xmlCharEncError
+UTF8ToUTF8(void *vctxt ATTRIBUTE_UNUSED,
+           unsigned char* out, int *outlen,
+           const unsigned char* in, int *inlen,
+           int flush ATTRIBUTE_UNUSED)
+```
 
-[1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/4bd66d4549b2e8925a752e0daac3a189d2fec8f7
-[2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/dc6f55cf6e03ae63a40e3af9ad6879821558d6a7
+Update input.func with setting ATTRIBUTE_UNUSED params with NULL and 0
 
-Release notes: https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.14.3
-Regressions
-
-    reader: Fix reading compressed data
-    parser: Make undeclared entities in XML content fatal
-    save: Fix XML escape table
-    save: Fix xmlSave with NULL encoding
-    Revert "valid: Remove duplicate error messages when streaming"
-
-Bug fixes
-
-    save: Fix serialization of attribute defaults containing &lt;
-    io: Fix linkage of __xml*BufferCreateFilename functions
-
-Build systems
-
-    cmake: Fix installation directories in libxml2-config.cmake
-    meson: Install libxml2.py
-
-Improvements
-
-    parser: Make xmlCtxtGetValidCtxt depend on VALID_ENABLED
-    html: Avoid HTML_PARSE_HTML5 clashing with XML_PARSE_NOENT
+[1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/38f475072aefe032fff1dc058df3e56c1e7062fa
+[2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/69b83bb68e2a8ed0013f80c51b9a358714b00c9a#478024cc18a2cc8dbaed34076e9775f6827f413d_2188_2201
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../libxml/libxml2/install-tests.patch           | 16 +++++++++++-----
- .../{libxml2_2.13.8.bb => libxml2_2.14.3.bb}     |  6 ++----
- 2 files changed, 13 insertions(+), 9 deletions(-)
- rename meta/recipes-core/libxml/{libxml2_2.13.8.bb => libxml2_2.14.3.bb} (93%)
+ ...fails-to-compile-with-libxml2-2.14.0.patch | 55 +++++++++++++++++++
+ .../lttng/lttng-tools_2.13.15.bb              |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-fix-lttng-tools-fails-to-compile-with-libxml2-2.14.0.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
-index 1c8c13ab5cc..2570efcdf50 100644
---- a/meta/recipes-core/libxml/libxml2/install-tests.patch
-+++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
-@@ -1,21 +1,24 @@
--From 8c1054eacb430472068f21e4840749c384e8e866 Mon Sep 17 00:00:00 2001
-+From 5bebe007b3efd1a723bd45bb9b3303f8645e9810 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
--Date: Mon, 5 Dec 2022 17:02:32 +0000
-+Date: Mon, 19 May 2025 09:45:18 +0800
- Subject: [PATCH] add yocto-specific install-ptest target
- 
- Add a target to install the test suite.
- 
- Upstream-Status: Inappropriate
- Signed-off-by: Ross Burton <ross.burton@arm.com>
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-fix-lttng-tools-fails-to-compile-with-libxml2-2.14.0.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-fix-lttng-tools-fails-to-compile-with-libxml2-2.14.0.patch
+new file mode 100644
+index 00000000000..7c2b8937313
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-tools/0001-fix-lttng-tools-fails-to-compile-with-libxml2-2.14.0.patch
+@@ -0,0 +1,55 @@
++From 0b19e10a8a52fab0bfadbac5ce70f1b2d185a1d1 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 21 May 2025 13:09:25 +0800
++Subject: [PATCH] fix lttng-tools fails to compile with libxml2 2.14.0+
 +
-+Rebase to v2.14.3
++Description:
++| In file included from /srv/pokybuild/yocto-worker/qemux86-alt/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.13.15/recipe-sysroot/usr/include/libxml2/libxml/parser.h:25,
++|                  from ../../../../lttng-tools-2.13.15/src/common/config/session-config.c:29:
++| /srv/pokybuild/yocto-worker/qemux86-alt/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.13.15/recipe-sysroot/usr/include/libxml2/libxml/encoding.h:173:7: note: declared here
++|   173 |     } input XML_DEPRECATED_MEMBER;
++|       |       ^~~~~
++| ../../../../lttng-tools-2.13.15/src/common/config/session-config.c:432:15: error: called object is not a function or function pointer
++|   432 |         ret = handler->input(out_str, &out_len, (const xmlChar *) in_str, &in_len);
++|       |               ^~~~~~~
++| At top level:
++| cc1: note: unrecognized command-line option '-Wno-incomplete-setjmp-declaration' may have been intended to silence earlier diagnostics
++
++
++According to [1][2], the UTF-8 handler is
++```
++static xmlCharEncError
++UTF8ToUTF8(void *vctxt ATTRIBUTE_UNUSED,
++           unsigned char* out, int *outlen,
++           const unsigned char* in, int *inlen,
++           int flush ATTRIBUTE_UNUSED)
++```
++
++Update input.func with setting ATTRIBUTE_UNUSED params with NULL and 0
++
++[1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/38f475072aefe032fff1dc058df3e56c1e7062fa
++[2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/69b83bb68e2a8ed0013f80c51b9a358714b00c9a#478024cc18a2cc8dbaed34076e9775f6827f413d_2188_2201
++
++Upstream-Status: Submitted [https://github.com/lttng/lttng-tools/pull/170]
++Signed-off-by: Marko, Peter <Peter.Marko@siemens.com>
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-  Makefile.am | 10 ++++++++++
-  1 file changed, 10 insertions(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index 4cb9a5c..8adcd7e 100644
-+index 6f98144..ecb3b54 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -27,6 +27,16 @@ check_PROGRAMS = \
-+@@ -26,6 +26,16 @@ check_PROGRAMS = \
-  	testparser \
-  	testrecurse
-  
-@@ -29,6 +32,9 @@ index 4cb9a5c..8adcd7e 100644
- +	cp -r $(srcdir)/result $(DESTDIR)$(ptestdir)
- +	cp -r $(srcdir)/python/tests $(DESTDIR)$(ptestdir)/python
- +
-- bin_PROGRAMS = xmllint xmlcatalog
-+ bin_PROGRAMS = xmllint
-  
-  bin_SCRIPTS = xml2-config
++---
++ src/common/config/session-config.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/common/config/session-config.c b/src/common/config/session-config.c
++index bb4e9fe..4042d34 100644
++--- a/src/common/config/session-config.c
+++++ b/src/common/config/session-config.c
++@@ -429,7 +429,7 @@ static xmlChar *encode_string(const char *in_str)
++ 		goto end;
++ 	}
++ 
++-	ret = handler->input(out_str, &out_len, (const xmlChar *) in_str, &in_len);
+++	ret = handler->input.func(NULL, out_str, &out_len, (const xmlChar *) in_str, &in_len, 0);
++ 	if (ret < 0) {
++ 		xmlFree(out_str);
++ 		out_str = NULL;
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-core/libxml/libxml2_2.13.8.bb b/meta/recipes-core/libxml/libxml2_2.14.3.bb
-similarity index 93%
-rename from meta/recipes-core/libxml/libxml2_2.13.8.bb
-rename to meta/recipes-core/libxml/libxml2_2.14.3.bb
-index e82e0e8ec36..1cdc80cbb76 100644
---- a/meta/recipes-core/libxml/libxml2_2.13.8.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.14.3.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://gitlab.gnome.org/GNOME/libxml2"
- BUGTRACKER = "http://bugzilla.gnome.org/buglist.cgi?product=libxml2"
- SECTION = "libs"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://Copyright;md5=f437ed9058e8e5135e47c01e973376ba \
-+LIC_FILES_CHKSUM = "file://Copyright;md5=5873615e8a9ecbf5c8857c4312ee05d6 \
-                     file://dict.c;beginline=6;endline=15;md5=2b4b7b827d2d8b080372433c4c9c85b6 \
-                     file://list.c;beginline=4;endline=13;md5=b9c25b021ccaf287e50060602d20f3a7 \
-                     "
-@@ -19,7 +19,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.15.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.15.bb
+index 762d4e5c2fe..f39404afa0f 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.13.15.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.15.bb
+@@ -39,6 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://0001-compat-Define-off64_t-as-off_t-on-linux.patch \
+            file://0001-tests-add-check_skip_kernel_test-to-check-root-user-.patch \
+            file://0001-Fix-rotation-destroy-flush-fix-session-daemon-abort-.patch \
++           file://0001-fix-lttng-tools-fails-to-compile-with-libxml2-2.14.0.patch \
             "
  
--SRC_URI[archive.sha256sum] = "277294cb33119ab71b2bc81f2f445e9bc9435b893ad15bb2cd2b0e859a0ee84a"
-+SRC_URI[archive.sha256sum] = "6de55cacc8c2bc758f2ef6f93c313cb30e4dd5d84ac5d3c7ccbd9344d8cc6833"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
- 
- # Disputed as a security issue, but fixed in d39f780
-@@ -28,10 +28,8 @@ CVE_STATUS[CVE-2023-45322] = "disputed: issue requires memory allocation to fail
- BINCONFIG = "${bindir}/xml2-config"
- 
- PACKAGECONFIG ??= "python \
--    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
- "
- PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python3"
--PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
- 
- inherit autotools pkgconfig binconfig-disabled ptest
- 
+ SRC_URI[sha256sum] = "96ea42351ee112c19dad9fdc7aae93b583d9f1722b2175664a381d2d337703c4"
 -- 
 2.34.1
 
