@@ -2,62 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E81C2D0CD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EB9C54E71
 	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 06:20:24 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.4716.1747808414858667245
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.4717.1747808415671383287
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 23:20:14 -0700
+ Tue, 20 May 2025 23:20:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A5xxsFTF;
- spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-742c5f3456fso2765286b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:20:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UvQwjgdu;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-742c9563fd9so2912762b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747808414; x=1748413214; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747808415; x=1748413215; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=toI2q6CLdyjgjqZj0SmMkLQGvZZEc1t4pVNHiboQ/8g=;
-        b=A5xxsFTF/kAXPkepQWGBmITK0rsksn8AsPFT61MozvS+nuxlbc+hkfCEZ8yFho324R
-         Vlm10CcJ//gboPJQ+/1gTsN+yuptG/LJy1D5+owq/nPHqqECCkqCn4CDjbAmhEiVWiRY
-         bvxddw3APifREoG7Q6W5P0+h0FRzzaETGJ0gXbHqSam3oI46hFxedNqJUEzagwzU47BV
-         pia6sE14w+8N9uFxpWVTwo85RmKvqo7k6lpjIpKB+VX33rJeJ9+v/t2lhlIDpSgY46B5
-         KU3wR5zZudBjY3ttH2noyb4jaM9AD6WaM1rA8T1xv9GbGw/1jetzrZqp5jfG2GomYPkd
-         shhA==
+        bh=hsFvsE9IF/OjIGztiyCkV3vX+BneNOp4QJtQnyyePiU=;
+        b=UvQwjgduVWXcwRoHmHtplMhnCfuaOXmv+6ToiPQdiczhKaWVspfSHjNZmIws2mgPAp
+         ND6eunKW6k+R0otqx799iQgpSLZWSgzilR18Fq9EmrPhz38SPXi82hELy+1lvAEMmeCw
+         px/tY2fIBeptPzXJnFYErPmXmBnSFPK3NkC6ZtACgUD3Qjvi0agvcyUnfVPM+qrDTNyT
+         fKiLIbApvA684WDIxD7HDGbFADCubWBBJVDyFzW/8wPEtJYQZRwjrLhoSV4lw5uWbGGR
+         wMlgpkf4SiTc9ZGCVgWTOVBPCje89UZUjeCxxuMUZteTkadaQTg33QG29HhykMlLjXUQ
+         vpRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747808414; x=1748413214;
+        d=1e100.net; s=20230601; t=1747808415; x=1748413215;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=toI2q6CLdyjgjqZj0SmMkLQGvZZEc1t4pVNHiboQ/8g=;
-        b=iTlcch6lbtLyXdyFTNePSMFa14AN41FRcQ2SD8lCPwa3MtLcEFiACgbHNAHCvRWRek
-         +Q+1jou6os7dQOtR64O/6QDarZgfFDNKqo0Tvwl5aePgk7KbEqSQ/iHCAn1g4j7/YcrC
-         gvcKP/HXR8ZUnqvnf2N47/mzdm+6bkV3VUGYwn6WDgEdfYjqGmN9UhIGyaWDXZ4UaBMt
-         VO+Zf27bM0v0mUY5echZvyb5A4DVaH5CFeZafyhepWziQgap85ZgdU0QsM+te5bdkLHq
-         W65uNtkzePz5Aavpbn239GJMRNk6Czntt+OVViCfPt0HuKam3JLH6kfHi02wLVOW5c5X
-         uRuQ==
-X-Gm-Message-State: AOJu0YzIwreW1EsS8siteJEIMs0e+OW5fw6Gkkp1lAV9HeQvJSl6Fke5
-	CdN68caF9r/0dGoe+QKKuSJxACzD5svLVM5OT8v/+FnVdSDz3gDya6Zpa3UIryRa
-X-Gm-Gg: ASbGncv4/PousgtuVfeaETJqeSc31UBN6jE7e6JxIStZWxksTtzQMoB2lIDf9Hjduyu
-	Fw2Fuz6BDVIoQh6jh+Wfw0oqbII5Q2vX2DGksScD5PyAgd31A9fp+vr7k1DU/GaEFxREFJWQBs2
-	AuXWOBcC661jF2LBKLnKDP7RmwAycw+GYzK6gkkaXLUR+DgBXR0A6c+gZ0gTzWGCy+bAzP/mYxr
-	noMBsZB3R6hGZuK6pXHGjC5/qFCH2pBUpqFRRQuyCc9uoEXd8W1OaCu80LENVW1klYgiWQ2i24K
-	/z1edfeaNFVaIQD7d5SmYSZXKwq5X8vaJCznsC0gXjs=
-X-Google-Smtp-Source: AGHT+IHqoT8lS4Ho3Wyi0na2mmdStgPlxdzWJs0cM8DNPp5PL/F0dGjvbk8eErXLWf2Q9qGfBRffCA==
-X-Received: by 2002:a05:6a20:6f07:b0:1f5:6b36:f57a with SMTP id adf61e73a8af0-21621a03267mr29780409637.39.1747808414039;
+        bh=hsFvsE9IF/OjIGztiyCkV3vX+BneNOp4QJtQnyyePiU=;
+        b=Y7LG1vwm8/17qrWM3qqWxb5mwqA5kJkJ7Hyo/Fh6Fig8V/n6RPXMRxyTUOZPsAWSk5
+         6I5mIZpU6fDKLmf1sMRxjdcdOiMu4dD8sFu/um1K8MQsJNrRea8uifb5M5MirBbIHSf9
+         3ue8jPBA0njgezTcEIabnwd5iPyJdB9k0SX4C0ahfFKbA3vaMEa4FhhqgJc/xarxlKeG
+         vb+/mck4T4b25blEuOA41CH6iwSZUf4u1OdXFNApfamcjYzv+knbA8/as153eOMryu/6
+         pQlIL/MABqqXzST1dxhbKM2+sZFTqbC+iH0Cwh3tIcIYHa9u1H2WMA3p3g23pMTvSRJK
+         Y53A==
+X-Gm-Message-State: AOJu0YwxFZyLtxQFf7UGm/HHnAfZMdDDyo8xKrvMhbI21xYgHVUOMm20
+	uuH9W8PGmvl6AmLsn09hyDEcTE38ExKwVierFM/GCoV6RfJ167rIyYAUjYD07pKO
+X-Gm-Gg: ASbGncsvvJAk93TkHSoZs9uL70e2VGA2InQzBoqu6uTtLVYYdpYDPdOpFP9g+dz0fwr
+	wc1gE6ydqXg5r9vHCLpXtm/E2+OjvEzh8NCHYp4psg/7aYV1jgka0TKk9g3JTCzBoe7vYAq8T/z
+	gQ1d3eealHNzQiLvI4DncHAIhy5z++SJI7fBF7yWS3mierTfW+DIv2Qk8Z0WVGscm63WL8zrSiJ
+	0pKWdIwNzXbE5Ww7U3NUNC80/6mexHU0o1IsL6mV0f0P9L03mMx44qYUq1+zh45+OGyjF2Q1ijH
+	qyvFA8KUAPCeHcvPFo3g59Drm4/tz45gs/EdHtAuJY9CkmMxs/QUnQ==
+X-Google-Smtp-Source: AGHT+IF6AC2YfM33zyVBVcnwIdp1FZhaFtwAOJhDFHOWsfwhT2XefiJaKpWBOzXUjJ1J0c+JolEoKQ==
+X-Received: by 2002:a05:6a00:2d0a:b0:740:6f69:dce9 with SMTP id d2e1a72fcca58-742acba74dbmr24798867b3a.0.1747808414826;
         Tue, 20 May 2025 23:20:14 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.20.13
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.20.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 23:20:13 -0700 (PDT)
+        Tue, 20 May 2025 23:20:14 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 May 2025 23:20:03 -0700
-Subject: [PATCH v2 27/28] systemd-boot: Use gcc on musl/arm
+Date: Tue, 20 May 2025 23:20:04 -0700
+Subject: [PATCH v2 28/28] perf: Do not treat maybe-uninitialized warnings
+ as errors
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-clang-toolchain-v2-27-db97c2eb3756@gmail.com>
+Message-Id: <20250520-clang-toolchain-v2-28-db97c2eb3756@gmail.com>
 References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 In-Reply-To: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,29 +68,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 06:20:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216995
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216996
 
-clang does not support -mgeneral-regs-only option for arm
+Clang finds more warnings in kernel code, make clang happy to not treat
+these extra warnings as errors
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/systemd/systemd-boot_257.5.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-kernel/perf/perf.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_257.5.bb b/meta/recipes-core/systemd/systemd-boot_257.5.bb
-index 151e4a953735b524ed14a5ef5459dd037efdcdaf..f293a2f229374a48e17c574faf23620549ae35ac 100644
---- a/meta/recipes-core/systemd/systemd-boot_257.5.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_257.5.bb
-@@ -54,6 +54,9 @@ TUNE_CCARGS:remove = "-mfpmath=sse"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index d06dd2fa5a2bb9b2982572081ef57e2dbafbd5da..0d19e1bdc222da26a5ad0a1d4964acca437a6692 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -81,6 +81,16 @@ LDFLAGS = "-ldl -lutil"
+ # avoiding the 'buildpaths' QA warning.
+ TARGET_CC_ARCH += "${SELECTED_OPTIMIZATION} ${DEBUG_PREFIX_MAP}"
  
- CFLAGS:append:libc-musl = " -D__DEFINED_wchar_t"
- 
-+# arm-poky-linux-musleabi-clang: error: unsupported option '-mgeneral-regs-only' for target 'arm-poky-linux-musleabi'
-+TOOLCHAIN:libc-musl:arm = "gcc"
++#| libbpf.c: In function 'find_kernel_btf_id.constprop':
++#| libbpf.c:10009:33: error: 'mod_len' may be used uninitialized [-Werror=maybe-uninitialized]
++#| 10009 |                 if (mod_name && strncmp(mod->name, mod_name, mod_len) != 0)
++#|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++#| libbpf.c:9979:21: note: 'mod_len' was declared here
++#|  9979 |         int ret, i, mod_len;
++#|       |                     ^~~~~~~
++#| cc1: all warnings being treated as errors
++TARGET_CC_ARCH:append:toolchain-clang:arm = " -fno-error=maybe-uninitialized"
 +
- COMPATIBLE_HOST = "(aarch64.*|arm.*|x86_64.*|i.86.*|riscv.*)-linux"
- COMPATIBLE_HOST:x86-x32 = "null"
- 
+ EXTRA_OEMAKE = '\
+     V=1 \
+     VF=1 \
 
 -- 
 2.49.0
