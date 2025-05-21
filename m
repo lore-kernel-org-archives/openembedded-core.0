@@ -2,28 +2,35 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D2DC54E71
-	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 14:02:59 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.11776.1747836177218836132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3175EC2D0CD
+	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 14:04:59 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.12023.1747836295121720098
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 May 2025 07:02:57 -0700
+ Wed, 21 May 2025 07:04:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=72362efbbd=yash.shinde@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54LCFYCU001026
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 14:02:56 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2040.outbound.protection.outlook.com [104.47.58.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46rwfwse2t-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=72362efbbd=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54L6vocb008810
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 07:04:54 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46rwfs9fhv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 14:02:55 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 07:04:54 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 54LE36gs032097
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 07:04:53 -0700
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46rwfs9fhs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 May 2025 07:04:53 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uzCl/aOuf65NBXuw9CafI49672eRkVbxbfFabLrkG4FaDCTyChjSKCLS6+1EYju9fC98zjwa5J9mCoObyDS/Te+96y7odAraQKyUeOOQtygzmidtpOxr6Ap7xeGm3mXzfFwTjmXgMSn1vF8GmZDWoZh6RNlZWHMyHtZnk4WoCTuZglI08ebrHJgqTUmLgqCnfjbnxwJ4QHyYhEAzqZYt+iBJP8qDh7KkTGDJCaaIn/MOir3UaZ/qq1vQQsntQYAagadnLyhihCX6pQ8uOkFnkzi+9nGXqVDuufvf4Siyr7hOfX6aoDuvlu2+9DVg3G1UC/DQVU69zQZLLr7oLffZCw==
+ b=B+b4fWRyCJMD2SxDkOm1aVPdMhMv6WOOnaNdiD/OmxK8ozKQXXfkP6x4ruK1r2gI8ZCR3t6Kz0C+c8rnzPfct1iOFYI1ETv4NnBNy4B5TH2cBs1hQCSltpT2m29b/UaXCKSUFzaH+gCv5oM9KuJ2k4Mk/8MOiFKM5NuVEvNn8e9Fk3YXjVm4cGK969nFwpBv8MEci6q+6yVsP7jrFBOjrO2VEoPLGPU2elEiw2kZDgIc6jvHaZlZ+dnpKyHuctbULc7iAwEK7jcDIhs6F6Xpr5gIZsYu1wT6ECs0Fmi0oNh9ugqhxA6zEyARgp7EoM7mk0yqtsE3nXbv+Fky0AHayw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PC3Mg7nbKwF5Bh/J6K30PcQSCVyFxmUI0P3GIC2EXwY=;
- b=eUJfYVMGF6Z9soiayagVrEg4lfHaMaNpaEFzcMV7LOYBvBgr+acccW7E2Pjdt188yn6Wm5WLJ87S333e07TZF5hQC2UgoIXYMLQ2jmDSyfwHlVl7PKI/80tF83AEiCHLKiI8RrFz5Jg3mGOLChpncmHclKJb/9kqP0kjYYzEWx2Gvssk3m5jIek2kJCAAfUc3ObgIzw2v17z50QdUgh5E1BQcDIqPUV2gbP46848CmxQWXfEUd7AdJfjFjRwbbIbQzjzp76pS5OOvPPyIOSCBZp2pKrVeFs/uOr0bFClIkRcJWCiIxcixKBH9M01swjok3vXPH/oaRNN3mRF90hYtw==
+ bh=gE3c3DxoV7xhoymBxBVH1hqkFmubZ/9sItGtNZ2KNhY=;
+ b=OOlnRbA/LwVfLeLZ1oXbx62cEvnxvMxEDPBW+WW48IootRPOp47h88LizR6dxwCPXRhRw72PvmAxL1dtE4rw1LkG5gz8z+gkR82JP8t7/WyWPWx1ViL+NTHslt5Xof/K66/Vj5bhwOYjG6U4N+SyZKjI7b7TP/M1JXhwa3QRJmdFMoY1mvonEC2nHtAF3hFUDUjZ3UsikDj7q3U9pySOboHzmYuFZ7GdHYEaHFFbf8bfivNOag4Bc3dZZHwFPOgbC3/5byf+72U60QRxwno1aycnJwZPPAt6B6l2m0+J/GU1TzOKyghQ8g42sanNxsRjEi/pPYO81wB4Yhe9aQAEzQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,140 +38,140 @@ Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
  by SA2PR11MB4971.namprd11.prod.outlook.com (2603:10b6:806:118::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.19; Wed, 21 May
- 2025 14:02:52 +0000
+ 2025 14:04:50 +0000
 Received: from PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc%3]) with mapi id 15.20.8746.030; Wed, 21 May 2025
- 14:02:52 +0000
+ 14:04:49 +0000
 From: Yash.Shinde@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
-        Yash.Shinde@windriver.com
-Subject: [PATCH] gcc: fix incorrect preprocessor line numbers in large files
-Date: Wed, 21 May 2025 07:02:25 -0700
-Message-ID: <20250521140229.297468-1-Yash.Shinde@windriver.com>
+Cc: steve@sakoman.com, Randy.MacLeod@windriver.com,
+        Sundeep.Kokkonda@windriver.com, Yash.Shinde@windriver.com
+Subject: [walnascar][PATCH] gcc: fix incorrect preprocessor line numbers in large files
+Date: Wed, 21 May 2025 07:04:34 -0700
+Message-ID: <20250521140436.301495-1-Yash.Shinde@windriver.com>
 X-Mailer: git-send-email 2.49.0
 Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: PH5P222CA0005.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:510:34b::16) To PH7PR11MB7593.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR03CA0261.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a0::26) To PH7PR11MB7593.namprd11.prod.outlook.com
  (2603:10b6:510:27f::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|SA2PR11MB4971:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24e3ba78-5d50-474d-fafe-08dd98702d38
+X-MS-Office365-Filtering-Correlation-Id: fafadc65-205a-4943-2002-08dd98707357
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|13003099007|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?dnBCN2RzQ0NvdUNJMGpIdXdWWlhmZFJudllTSlVPNUxOWCtscVlXQmtoeGRT?=
- =?utf-8?B?MHJuQTdkUXVyMFlRWFVBa25vcmJMaG1IZmRra3pnT3pzaW1yUVVtenFhVGNP?=
- =?utf-8?B?cjlNUXA0MmZZM3p5VjIxOGcySW1FeEg2YUlaWTkyZ2VKVjlPdzBmdklsSGFy?=
- =?utf-8?B?NWxKY25rVDliZkhyZUJTV2RiZEk2UC9BOG9NZEs4SDVDcEJOalQ2Y21UY2pG?=
- =?utf-8?B?WGtRUzMralpYaDlrcHdUTkZIZmZ0Vkl3N1VCTUpWc1BYSzFxeG5BU0wwYTUx?=
- =?utf-8?B?QklNRjRNV0RhNmxmUXJZTk51N25NV0tSMzZnR2kwbmw3ZXhQVGVXUDgzODBQ?=
- =?utf-8?B?cnFwa3dxb0VmdkVGbElVN3FyWldPRytYUDBmNTFkb1RnT2dtUTd2ajNwV1d6?=
- =?utf-8?B?V002alpISWUyMEpXY1orZERuTGRVYnk2UDgzQll4Z3FVMXhJbGhNQkJPakp0?=
- =?utf-8?B?Nk1wT2diSmQ5eFkzaTEzOGZDVS9WaVRHR0UyTEdFR2tKSWp0NDZhblVNMWha?=
- =?utf-8?B?bnR4bktXK1h6OTd3T3VibmFOeEprL1FadkNSOFVUeHptV0RiTmw0MUE1T2VU?=
- =?utf-8?B?Wm9OMXBEUHY1ZFAvMXdHQVNCNGtZLzYwR05FdFJSK0UrKzNaMnlSZkNvemVj?=
- =?utf-8?B?Z0hjREVPaXBBSGJsK3Zjc3dvTFJ1ajZyNjJlTmFEUHN0cG1VU2toOWR4aG1v?=
- =?utf-8?B?WGRRNXVqdVAyYUo3RVBuY1RZZXhUQkw5THV5R3BPemxsclZkTXZyQzNkNnVa?=
- =?utf-8?B?dU1rYTVEbnFyV2FYZ1I4UWpYNkxjdEVRTHA3OHRlZXBqcis4eSt4QnlHOGIv?=
- =?utf-8?B?YXpTSTl5S0FOdlVKRDVoWXlrYzl2WVM3aGFLUmQ3K1JuaHFqU0w5YjJNNEE5?=
- =?utf-8?B?VENveHMxWjFIclcyZkFqK3lrY2ZBNElLTmJkR1Z1TzJqSXJzVFNyQ1NFVktk?=
- =?utf-8?B?OXg2YnE3R0RTbWFZYTh3bHg4TEJ5VTRmVHQ5Q1lENmNjRGR6VXRIYlNXNzFx?=
- =?utf-8?B?ZDJ0UHk1dVdLRERUQWRGa3Rpd3ZJK0RqWDlvZ0JFMUhWdWdVL0Zwa3VQNmZQ?=
- =?utf-8?B?U2JNbE5FL09PWm84cUovSzlsL1VJTXBzSzVlS0xCRjBlS0orVWo5L1B0N2hR?=
- =?utf-8?B?dlNrLytmWTdrSlYzTXlZd2p5dDZpL1RJM09WZnRHZ2tpUHVuTmVqc0JhbUJM?=
- =?utf-8?B?U05pSGp2K0g3bWdxdWdYemVvaXcxSlptTHlzaTFyQ256RDJQWDYwV3Azd3dF?=
- =?utf-8?B?bkFVcFFvREFkYThZQThpejhJd0Q2UzlKTVdCaHpuK0EybkdUaDJHL0VYcjdy?=
- =?utf-8?B?a3g1Q3Z2ZXhGU0xrRlIxKzdia3o0M1VxNk9DdWIxWm5CUnplT2NXelI5STAw?=
- =?utf-8?B?TGtUWTJWWFQyMzBWYnhVQ1pPVHBUcWI2K2RUbUdDUk1uT281M0dFNEU3RHdZ?=
- =?utf-8?B?dzFZQ1IxSFVzQUdJRGhpalBmTVlFN2FCd0QwbW9pcnJpTndvQXJRT0FKNkZX?=
- =?utf-8?B?RHFOLzVLc20zNWtHTnRFYXBTZXhBRFFvZXVmbE01SjgyQ3BVN25JS3h6VE1q?=
- =?utf-8?B?cjNOSGF0anZicUFVcFMvd1JGaXh6Y1B6QlNzdWdKUE1IM3FVVTM1aFpvdkJL?=
- =?utf-8?B?blZmUjZOaWtKMDBIR09pRkpjT3pMT1JYMHBlcTNiZzgvR0IwQUgzZUNPc3Jl?=
- =?utf-8?B?aUFocnpZZlUyM21BcEtLekUyOCtMVFNRY3VsVEphc0VvVTNVcStrT3JjMDAv?=
- =?utf-8?B?MnR4YnFpUDlGYitkd3dsUFMycDNuWUVXaGNBOGhWTjVUdUIwN1hMd0V2S01B?=
- =?utf-8?B?NFhDQTJrdDluUG92SGJ3U0pZRTNwdkZoRTFLM1g3dXNSbjI1WUZjVnY5elph?=
- =?utf-8?B?N1AxNVpDY2t2WCtwWFNHSGhXUUE0d1VIU0g4bFZPamRYbXlSTmdwV0tjS2Nt?=
- =?utf-8?Q?eUJjxlJ134s=3D?=
+	=?utf-8?B?QlpIalpVdmovZnRqcm93Qzh3THp5TnQ0UkxiMjF0UEozdWIxcTFIblVnRmlq?=
+ =?utf-8?B?MDQ0cGp5bkdTc2ZaYzZZYkNYSzQxSEVYT0FyYnVXM2FPUXk3aWgvWHp5L1Bz?=
+ =?utf-8?B?VFpaU1RZeGtxdVNMSVB0MHhsTGdzMjVGQ1FBSy9JQ3VCakh4TUI5aUdSbERy?=
+ =?utf-8?B?SnQrNnh5L3lDMVpPTkJsZWJDS0d4RnhiQjJyWWwxYS92TzF0U0pTbjArMnZu?=
+ =?utf-8?B?ZHdPWVNNaFZlNGVZTEl1Q2VJYVVwTWF6TXZlMnJOcWwwUllVT3pBZTZLME1a?=
+ =?utf-8?B?MWpiYzRldWk2cGtQelBqN3pKTU5iVkJlRFpBVnoyWE5BOFFsWnpyODRoTE5I?=
+ =?utf-8?B?YkN2aHFZZ0RiVzZFdGhoRmpGMDgwaTUxdFMyMEE0Q3FHbzBrMHhrK0RqZUFa?=
+ =?utf-8?B?cDAwcWR6VS9kRzRqK2tidko4QWFIMU40YVRZVENFaEdKYUhPZHFXU3ZEMkZ0?=
+ =?utf-8?B?eVJFVWxpUkl5d3BNNjBMb052M1FMQUJZcGlGUkM5STl2cm9XdmJ1OGZoZElU?=
+ =?utf-8?B?NEEzREVJYlFmMUxPa2RjZ0NzckxqaXJIUjMrSGsyWGVtOHNscllqckI4YytY?=
+ =?utf-8?B?YTZNUGNCUWFSSitmU0ZneW01TGl3bWc2MVNycmZIVUNnMndYQnU5R1MrMmJ3?=
+ =?utf-8?B?bVBtcmdnc1RBV1hpSElSa2pvQ1liam1lYUV1bTlnUk00UkRvSG5nSUFBeWtK?=
+ =?utf-8?B?RHRSZXpKT0NYOWo5VVhLdU02MUpLYS9IUld4S1c3SEdNSG5NbHBoUGlZdlVN?=
+ =?utf-8?B?VVNaeFNsN2grN2JReFozYW96TkNLSzRjbjZHYjVUWGcvV0h1azgvQTVUOTl1?=
+ =?utf-8?B?QW5oZVJyc290SFNmSVhBbXVPMlNhOU1uWjdzRFBSRWZzZ2hPZjlsL20wWWxH?=
+ =?utf-8?B?U05ZaHlRTTFpZUVBeG9HZzBLajhKYzR2Qmg3L01xQlArNVJhbTFwSHJwKzRD?=
+ =?utf-8?B?VTcyK2pZK0xsZ1VXS2MwMlJkMGp4Z0xUVjY3WWcyWk51VUJnbmY1QjhaVjdV?=
+ =?utf-8?B?M3NHajJxNSthaDhKT2tTQWdBc0FKSExnZEt6UmdTenVYM2hieTdNSUJxbGdW?=
+ =?utf-8?B?UDlYVCtWbFpFRWttL3ZBcmRyTlpSNkFLTEdlTjFQZnBQWk9lWDdBQmJlK1FS?=
+ =?utf-8?B?MUdLZG9MM2NYWTVXNDhLTmk1enREK1Y2WitCb1dLV25SQUplb09SczNrbS9T?=
+ =?utf-8?B?MFFZRXRTNFBVVzN6VVhVRzk0U1VmQkRtNUdPdWgzNmR4TTEvc0E3WS9qeVpy?=
+ =?utf-8?B?WFhvc0ZxdEh4Qng1RjhEM05OeVBjQjQwS1ZSekFoUlk0RE9mM2lGT3B2Z1JN?=
+ =?utf-8?B?MHVBaFE2S1FsVXpUeHo0dG5FSm9XeHhEUEZ4Q2hNRVFoVFpmSUhHQVJGTldT?=
+ =?utf-8?B?ZWxrYjJFSFdnNURUR0ttMWFYYUtWdFBsaEwySzFESTFTZGJNUm5WdWlOeGJz?=
+ =?utf-8?B?eUtxQTNkS2NlK2tMUW94K1RUd2JWamtBMEdlU1EyU2RJcEJpRUZFZTI4NkJ0?=
+ =?utf-8?B?YnA2UXcxWUR6emFwRFY0RTYvOVZYc2dVdy92S2VwN29EcGV1WC9sWDNuQ0p1?=
+ =?utf-8?B?VTFiYjB1dEtwYnRDVUxYcUNLcCsyZ2dJcTZ2RCtpS09vMzBURnhKMW95NWI2?=
+ =?utf-8?B?eW5JU2hpMEtEYnBIN0RyWFpDMFlOVDBiRWREK0ZUdFE3TVlWVnhJMFJpb1FQ?=
+ =?utf-8?B?WGlaODMyYlZnejRLZk9HS21SMkRWWU5Kdmczd3U0U01jcXNiTE1ob1UvTnlB?=
+ =?utf-8?B?NkhvK2JlYnJ5R3pXOVpaNVVNU0FOTU1KZzM3R2VQeSszZkQybkk3eWdqTDFE?=
+ =?utf-8?B?YWp0cDBrSTF5TlJjaDBkdHdsWmRDcjNkeExjb3kwWjFsc0hJMVZOWklRRHo5?=
+ =?utf-8?B?dDc5SzVpWWpyVWNDR2QwZlg2Skh1MCtpZVhTcU91eGV0ZzdmRm1qSWZvdlJB?=
+ =?utf-8?Q?eAfWuCSyai8=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(13003099007)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NWNCQnk1c2ZZUndDUEhVQzJZdmtNR1Flb2lLN25RcStnTm9tanRPZ05zNEFE?=
- =?utf-8?B?UXJsQ0RWMUU1S20yQ0EwdXh0MEwwMHIzUlEvWlNzNTc2UGlpWTlEeXpiTFFE?=
- =?utf-8?B?VEowdi9vQjNibnl0OXFEd3dFYkJsMlRxZUE1eEwwOFpjZ29EeW0zejJkUGlS?=
- =?utf-8?B?eFdCQm5EbnBWZG9KLzZSbnJrVmtReFFTc003Zk9WaWFtUVhHaG92TU5kemcz?=
- =?utf-8?B?MjFwNzVsOUxNV3hnTVJyTCtRVi9iczZEb09FN3d5Y0U4Q09kcmpyR1NUMkR6?=
- =?utf-8?B?cUtrWndaT3Z0Sm54T0RhQ1dYOG45Yml6RUVjKzY1ZmNOUkhLcFBpY2JIZ2hJ?=
- =?utf-8?B?cjQwaTZ5Y0ZmV1BiZlBkM05iQTQzUlgxZXNCOGpUWHRzWVZOTTRUYmVCb3Vs?=
- =?utf-8?B?RHdweTYxRkc4eFVVMHBuMmViWFNFanRySUx2UGFENE1QWHg5NCt3L2VYcmM3?=
- =?utf-8?B?WFlGZjRxYml1aS82ZU90WGVSKzJxM3lnaU1zT0NKTUtsa3Vjcnc4MzZsSHFr?=
- =?utf-8?B?amk2d3NxWVI2RHpVbXorRFFVT3hKZlpsWTJ5cy9taXl2QlNnazl1N21rc1VY?=
- =?utf-8?B?WUQyd01tK2M1TkhiNHdlcVBRRVVPeXJzdTU4SjJVenU2OVZUN1ZqRU00d2Fa?=
- =?utf-8?B?aU8xa2t0dm03bFk4UjR3VFg4bGthTGtNT0VOV0FmTTkwL3hQamgrWGFwMkta?=
- =?utf-8?B?TDg1bmVoUDNBOUxLd0VmbHZCK214YURqdzJnSC95YWlUM29JNHRoaG9BaHN1?=
- =?utf-8?B?Mll6R2tsc0VmZWcwL253bTlxQXd6bk1pU2E3alhSWXo4RGJ1N1ZTQlVCUlpa?=
- =?utf-8?B?ZW42QWc3YWQrSHd5U0t5dzIrNUR3S0pOVE1jOVd5MFJKVW1MREg4dnBuR3Ra?=
- =?utf-8?B?U0toeTVYVmJzbjJVanlwclh4WUxWSXpuQlB1YzRXekFNK2x2NzgwNlc0ZlI2?=
- =?utf-8?B?RG1MZ0lRcXpxYjROM0Vzc0RxcWVoVEN4MXIwcWFQdStzdmowS2JKSHMyWG1p?=
- =?utf-8?B?UVh4dVlvbHhHM2VGZkllL0dDMk9WTk5YbGZWOTQyWWgzeTlOenRjNUExSXFP?=
- =?utf-8?B?RVZuelQ1ZVcreFBJVTB5OEVkSmdXSGtyUWgzeGJFbkc1WTFSV2NwUFdmMFNy?=
- =?utf-8?B?OGlFdTUxb1ZRTlVIS2ZRMk8yeHpYVUlSOUY2QnBLRnozeWtQN0hRczdiZlc5?=
- =?utf-8?B?a3VIV3hjWmphTGVPNnpHMExmUnVLQXkxTXd4ZmZ1LzIxc0hNUW5oMlZtTTlW?=
- =?utf-8?B?eXhpbzhmVjVBc3A2ZHVYYVZyUmlibUNLRXdpQjZPSm54VlRnR1I1YmRjQUJR?=
- =?utf-8?B?dXYrd2J4aFBScFpTZXl3YTRSTk1pR0t4dkZYY1VhbTdHVE94TTYrK1VwUE5Z?=
- =?utf-8?B?Yis3V0FibEhPQm91UUpTQkdra1grTi9NZ0dHYkR3Y3l1aEpZWXRPM1g4cmcw?=
- =?utf-8?B?MXZva0ltWm1LN1hsb09CZjdZSTJRWXlpK1ViY1dxZjVMaldIU3N5OUZXSEIy?=
- =?utf-8?B?bUFsYmpubk9UY3EvRi9WWHl5dVF1ekVZTC9tQ1ptMlFDY0N5Rzl0UW10ZUdC?=
- =?utf-8?B?OWd2S3R4QTROQy94ZlBQb3lqNG9GaVlqeGk0aDdsODZNSUVSbUxSY1ZlM25E?=
- =?utf-8?B?cStxZEdncExXYVNISHFndG9DZHYrNjN0T0wweHRySEtvaDMyZTZnd0NEekds?=
- =?utf-8?B?ZkFsQTQ3Q29tU2ZsT2M5dHVjZkNzODIxVDhqNDd0TzdoNlBtbmpuOFJZUDJW?=
- =?utf-8?B?U2tsc3IyZFFDc3JPR3l0Q21RUUV4WXZVeWlBdkpoWXVjNm9aTHRBRGRLM1Mv?=
- =?utf-8?B?YzJPWkhMaEdYZTRYK3ZOcm53SDdMaFljbGlzZnRNNW5pR1FCQ0xFbkRvRms2?=
- =?utf-8?B?VzNHQzU5U0NhK0NNYmRJb3NPMmNjQXNRalpXbG1XRWozeWZvY0tGYS8rL3RI?=
- =?utf-8?B?Q1VhK2tHQzd4TGtxWHI2ZlY3ZU9ESWFabi82MmNKbitlK3p0eW8wWU9MMTlz?=
- =?utf-8?B?YlpLNGpXd2ZBL21kQklkMGpveVVOeXFOc3JQeTFBVWhueTAwVVdkNmFmTmtX?=
- =?utf-8?B?MTkxRW1RR2grRWFpZmZWeTFnY3cwSXpPQWFqV1FiejcxWTNjNWphdE1TbXN0?=
- =?utf-8?B?SGY5eEZHNkZXQVI3T3RIalp0T3FNVnpIVFdISUg0Y2xkRldCTm5nVCs5Y01W?=
- =?utf-8?B?MXc9PQ==?=
+	=?utf-8?B?R2ZncDQyQ2RJaytqVkplMU42eWNpWkNad2ErR2dBaXBlbHhQVFNvWUVvc0pk?=
+ =?utf-8?B?N2UyZC9EMXNjNURzalpiSjROR2dLc20rakhqTHZFZUtrZk5xUElzWUZRZ2d5?=
+ =?utf-8?B?V1VnQmhKb0ROU3NDb20rRTd6djNCNXlhL0E4NjNrVUtza2Y2NWtzZzJqN1Ro?=
+ =?utf-8?B?cW9abUNxN3prbUpCN0JNMStqU0tVUld6UkhJcXYwMHZxbS9RT2x5TGhyNFF0?=
+ =?utf-8?B?UG0yWkNnenR6SSthd2t2RENEU0d5ZXNYK2xnZnpQUmlLanRrNExZNk1lWFhm?=
+ =?utf-8?B?U01KZ0toS0dIakdZem9iRUtIbjNZN1hrRnl6b2cwbENkdjc1cFdqSnFxSUtv?=
+ =?utf-8?B?bWNGZ0lHME82TWIrRVYzRUx0SWVGeWwvck1OR1NnT2NNeUJHSDQ1Y21VWGYr?=
+ =?utf-8?B?OHRxWENPdVBrNWtoTmNNSFUzL1VZdjdNbWE4WUVxUmg0Q0lkTkdmMnR6dDU5?=
+ =?utf-8?B?OVJzVnFiVnZ5MFhrN1EwZno4Z1RiUDFieGh5WGxXVkJYUHF4MnRRc1pYTFVq?=
+ =?utf-8?B?NkFFc0EyM3ZRcHBxYVhUbjlSaDkvM29nNHVab052dXFLSEo4NlBFTG9adCtY?=
+ =?utf-8?B?a3BVUHJtMXRPM0Z3Zmc0MzVQOUQvNTROY3N2bnJHSXBqR2RlV1JIOTZSRTJU?=
+ =?utf-8?B?UW5FU0xTUlJKQmdvbURzYTBqNEI4Q0s5bVRvVS9IM0RCZTNzZEdJOWRMaTZU?=
+ =?utf-8?B?S0xnQ0o1bWFLSnJFaW5ybmxkUC8rNk9aaUZUSkhRU1JDR3E2UjAwK1NPQ3Uy?=
+ =?utf-8?B?dFdhUlErZFduWmRnd3NMVTNvVHNuZTBCT21yc2wzS0RKenBSbVhZUTZVU3Bm?=
+ =?utf-8?B?TUxxekVITGpqSmc1Y3RrT1pDQzZTZ0o5TjE3TStvcWs3SUc1WmtyMDJ1WVpM?=
+ =?utf-8?B?UjQyUE9sR0hxK2VTQWhDSWdydUZwTGhlMy9zT1VnZjBlbFVVUUw5RVAwTngr?=
+ =?utf-8?B?UHRVckdNU3BNamt6UUR0Q21tYXNGd09NQnJ2OC9USkJkM09jZ2hKUUlEQloz?=
+ =?utf-8?B?VkNWTkczaTlmQm9uVzBTaWdlMHg2Y3ZvRmpaQzY1Q0RPQjl0aHNHRGtHcHhH?=
+ =?utf-8?B?RElmRnFHQ3BRVVhFUlNPYUVkKzh0bWpqMlRCK0dNdnJCT1JyZFhZUXh1RVBG?=
+ =?utf-8?B?QkE3STVVM2ZtMUZmenJVZStoL1o3d080OEh0SFFrTmNTVHV0ZG9hakFFdVRC?=
+ =?utf-8?B?eVJyV0dTWkZPSitvNEIyVXgzQ0lpQVB5dU9FWTZQRzVUT0gzY2Yva1V4Q2Zh?=
+ =?utf-8?B?NHFuYmU1d25SNktqRVRTcWRGSzhqcHRwdldTTDBwV2FMcStSUUNscEoxOGhT?=
+ =?utf-8?B?OU1VUWwzWmFuZW1KRkJEVUxMdFMzOS9ZRm1yVXZKQStSbjJJRnlBK0dSOVRT?=
+ =?utf-8?B?Sms0dGUyY2RQODhKczVCMWVlVENIUXhrc3ZET0w0Q3puOU9GRzNITHRmQTNu?=
+ =?utf-8?B?NkdleDdCaXBNQVJrd0lVMnRIUXREZXBqZ0VRRzRaQTN0ZkM0bHVVNEF6ZmFW?=
+ =?utf-8?B?MnFDN0pIMnp0Wi9OMnplNlJqdVhFMkZnL0RkVVBMZG1JTEZLdE90THFZTldY?=
+ =?utf-8?B?RTRvY3hKdXFIbG9kQUJaT29wSE1IRU9QUlVTYklMbmlKdmZTV29USGYvWGdu?=
+ =?utf-8?B?VzFMRkFWUFpxTWpndWI5WXZ1ZzhYaFFBNVVlc3BzcUJhMG8remtJc1FxNGlx?=
+ =?utf-8?B?Zjd6MlJOakI1VE0xT2RpWTFOTjE4V0lPMDF1aFZKRWJDczNCUEtaVmx0SGlN?=
+ =?utf-8?B?RDlJOFRDcTFuM3FGNDdLQzR0RWFUbCt2ZEtZeG4zRDAvOXNlZUM2UFV2TGVM?=
+ =?utf-8?B?ZWhIaU1mTFpEcld1NW5GQmRXbXg1WWVhUld4Ukt4T1BHdnpieUtSVVduY1N2?=
+ =?utf-8?B?ZlVab0xqaXNISDMvRjk3REM5L1ZmWFZDMGNjZWpwcGxpMUR0ZU1aWEN6bFhJ?=
+ =?utf-8?B?OFE1VFJPRXJUN09uQTNOSHJFalNXY2g4ZGxja2xsRUJzbldxa2YvOUwwbnFL?=
+ =?utf-8?B?R0V2eEdVU0FCZms0dTYzbnlEc1Y2bTYwT3ovNnZlU0c3QmloOFhRZHJLSkg5?=
+ =?utf-8?B?czlsK1pGMi9Bbk9lUDdNVXhsYXd4aHA1NXZxdkJLZHJsYlV0bU5HaUJSMmZS?=
+ =?utf-8?B?TlJxdTRhVFdYVUpqbkhYV0F1SHNUblp2eUtucjFtZlFQS1hCZFpsWUNNSDQz?=
+ =?utf-8?B?UVE9PQ==?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24e3ba78-5d50-474d-fafe-08dd98702d38
+X-MS-Exchange-CrossTenant-Network-Message-Id: fafadc65-205a-4943-2002-08dd98707357
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 14:02:52.1308
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 14:04:49.8705
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V9if1eMVq2WdNJyM/1h3Ye8HW/6XqaylzF8B0qhS217yzEb6WtsrAnaffeIyzs5CKu869teoard3EYB5lCqUyJiH0h/rmaIZqO3W01umLYs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: jt9O/oOn2V/96GIaAzzspH4qPygzMoaGlCDiGYQcKT9794GOMSOeLBci3PEg+kjMEgUUWObReK0oAeeBTCDnWqB7REVaL/etr4A7hsHxKLA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4971
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDEzNiBTYWx0ZWRfX0RlOXDgoG5Vw cIqdKjaaB4HqE3ViOJ6NdtvQ/73SCIIHms10t7i5gfvZbHs04B8eWru8JUDtKY5WHqM85q+bIEZ sp4KKru5QlWms+qliZzTxFuTUWwJ6eUgSHf/HxQYfWTNuHBTFBx9wAJRmwcq51+WwR17i+f5dy8
- F5MIeAKCYR6T6IGd1nZef1lV10lEAmIkS7nh/lUL3XQMW/txLxH6NX2QNzLjBm05CbMAWXLcKI8 oq4VXh/WUfZpkGuknaevZVVaa84mKB51Zqtnl8RbzEt1rxkOo8gZEu5UgL+wqX26m3Gzec26ve4 CfQHUsW2LGhsnCRiz/jgtoM92zchDUSTluji0Q5IUC/U6XC4XoNOtLqfBJU+NuNLk6CNCSYupdx
- 15rcZFpSx9ecqr3eMpgm7JPuzhCUjiot0Mp+nU9IHV2Z3WlpHUK44jv1TxZ8NMTuzXjcICYO
-X-Proofpoint-ORIG-GUID: yNz9kiwNDywGBD2mHdmRzwQCh0s7vWlP
-X-Proofpoint-GUID: yNz9kiwNDywGBD2mHdmRzwQCh0s7vWlP
-X-Authority-Analysis: v=2.4 cv=b6Cy4sGx c=1 sm=1 tr=0 ts=682ddd10 cx=c_pps a=G+3U1htxrnhIFlrbIuZW0A==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=BueY2pabbCFTndSP3dAA:9 a=Bo_lMn4Vjkd_C1Mw:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=FnvyL7ShRj4A:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: P-Tvvqs8q-YFcwxJFP5FsRj9zKVzVIjr
+X-Proofpoint-ORIG-GUID: lcUS8NkCo_J414EYbKONC07PVBt_mCPN
+X-Authority-Analysis: v=2.4 cv=KJNaDEFo c=1 sm=1 tr=0 ts=682ddd86 cx=c_pps a=NZTPE88KBhpz0z3fOSYQ1w==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=dt9VzEwgFbYA:10 a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=317HPcoRKb9w4eVG2_AA:9 a=N371p7YIYwourpHR:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=FnvyL7ShRj4A:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDEzNiBTYWx0ZWRfX16JxSUe0Zl/c u+fdC12v2776LElpVgR4FZXEsorojlIcODHwskL4Uex3ss3okHB6XZNM7x0TGBm6JXzf23MgSM5 tMab70bdTiJevmk2W0DkCV73OlcpHeDxdy3NxmGE5MRr/cPk/PKKFJbiOo66eRzsfwqjaNntBWp
+ vEgsUdKRJuTRJbadQbme5w3pos2+Aki+7HljX9x6/fTg8benEB36A7wrzt3cKYQHVqLQ9dw7OIP xiqF2FH0AZt7SEkIN50drBxKwZCQAmhnvOLAulkbbDKOSB7NVKfXbzKx547dn+w96/Lf1ap/GM2 Uq0muIg67PliI746/vF7rZitRmJgXyYApZzQIN+Mql1gWclh1YVnRa/gNs/A/4DqXbLENxc1D+J
+ cRaJ3v2w9En1Wyo73BDdztzk8dXX/+zxHwVjQZgy/bHxj8RLhYMO0rU2gHdbysh0kNPZyneK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-21_04,2025-05-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=999 impostorscore=0
- suspectscore=0 malwarescore=0 clxscore=1015 phishscore=0
- priorityscore=1501 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.21.0-2505160000 definitions=main-2505210136
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 bulkscore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ clxscore=1015 mlxscore=0 malwarescore=0 phishscore=0 adultscore=0
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
+ definitions=main-2505210136
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 54LCFYCU001026
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 54L6vocb008810
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 14:02:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217031
+ <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 14:04:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217032
 
 From: Yash Shinde <Yash.Shinde@windriver.com>
 
@@ -179,43 +186,98 @@ bacd300b7
 
 Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-15.1.inc        |   1 +
+ meta/recipes-devtools/gcc/gcc-14.2.inc        |   1 +
  ...-incorrect-preprocessor-line-numbers.patch | 475 ++++++++++++++++++
  2 files changed, 476 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0026-fix-incorrect-prep=
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0028-fix-incorrect-prep=
 rocessor-line-numbers.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-15.1.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-15.1.inc
-index 864c6091a6..a2e3533d9c 100644
---- a/meta/recipes-devtools/gcc/gcc-15.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-15.1.inc
-@@ -69,6 +69,7 @@ SRC_URI =3D "${BASEURI} \
-            file://0023-Fix-install-path-of-linux64.h.patch \
-            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch=
+diff --git a/meta/recipes-devtools/gcc/gcc-14.2.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-14.2.inc
+index 3d65bed92a..17f874f29a 100644
+--- a/meta/recipes-devtools/gcc/gcc-14.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-14.2.inc
+@@ -71,6 +71,7 @@ SRC_URI =3D "${BASEURI} \
+ 	   file://0026-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch \
+            file://0027-gcc-backport-patch-to-fix-data-relocation-to-ENDB=
+R-s.patch \
+            file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch=
  \
-            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-+           file://0026-fix-incorrect-preprocessor-line-numbers.patch \
++           file://0028-fix-incorrect-preprocessor-line-numbers.patch \
  "
 =20
  S =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
-diff --git a/meta/recipes-devtools/gcc/gcc/0026-fix-incorrect-preprocesso=
-r-line-numbers.patch b/meta/recipes-devtools/gcc/gcc/0026-fix-incorrect-p=
+diff --git a/meta/recipes-devtools/gcc/gcc/0028-fix-incorrect-preprocesso=
+r-line-numbers.patch b/meta/recipes-devtools/gcc/gcc/0028-fix-incorrect-p=
 reprocessor-line-numbers.patch
 new file mode 100644
-index 0000000000..f799085662
+index 0000000000..5185236a3d
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0026-fix-incorrect-preprocessor-line-=
++++ b/meta/recipes-devtools/gcc/gcc/0028-fix-incorrect-preprocessor-line-=
 numbers.patch
 @@ -0,0 +1,475 @@
-+From edf745dc519ddbfef127e2789bf11bfbacd300b7 Mon Sep 17 00:00:00 2001
++From 8cbe033a8a88fe6437cc5d343ae0ddf8dd3455c8 Mon Sep 17 00:00:00 2001
 +From: Jakub Jelinek <jakub@redhat.com>
-+Date: Wed, 7 May 2025 17:25:42 +0200
++Date: Thu, 8 May 2025 11:14:24 +0200
 +Subject: libcpp: Further fixes for incorrect line numbers in large files
 + [PR120061]
 +MIME-Version: 1.0
 +Content-Type: text/plain; charset=3DUTF-8
 +Content-Transfer-Encoding: 8bit
++
++The backport of the PR108900 fix to 14 branch broke building chromium
++because static_assert (__LINE__ =3D=3D expected_line_number, ""); now tr=
+iggers
++as the __LINE__ values are off by one.
++This isn't the case on the trunk and 15 branch because we've switched
++to 64-bit location_t and so one actually needs far longer header files
++to trigger it.
++https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D120061#c11
++https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D120061#c12
++contain (large) testcases in patch form which show on the 14 branch
++that the first one used to fail before the PR108900 backport and now
++works correctly, while the second one attempts to match the chromium
++behavior and it used to pass before the PR108900 backport and now it
++FAILs.
++The two testcases show rare problematic cases, because
++do_include_common -> parse_include -> check_eol -> check_eol_1 ->
++cpp_get_token_1 -> _cpp_lex_token -> _cpp_lex_direct -> linemap_line_sta=
+rt
++triggers there
++      /* Allocate the new line_map.  However, if the current map only ha=
+s a
++         single line we can sometimes just increase its column_bits inst=
+ead. */
++      if (line_delta < 0
++          || last_line !=3D ORDINARY_MAP_STARTING_LINE_NUMBER (map)
++          || SOURCE_COLUMN (map, highest) >=3D (1U << (column_bits - ran=
+ge_bits))
++          || ( /* We can't reuse the map if the line offset is sufficien=
+tly
++                  large to cause overflow when computing location_t valu=
+es.  */
++              (to_line - ORDINARY_MAP_STARTING_LINE_NUMBER (map))
++              >=3D (((uint64_t) 1)
++                  << (CHAR_BIT * sizeof (linenum_type) - column_bits)))
++          || range_bits < map->m_range_bits)
++        map =3D linemap_check_ordinary
++                (const_cast <line_map *>
++                  (linemap_add (set, LC_RENAME,
++                                ORDINARY_MAP_IN_SYSTEM_HEADER_P (map),
++                                ORDINARY_MAP_FILE_NAME (map),
++                                to_line)));
++and so creates a new ordinary map on the line right after the
++(problematic) #include line.
++Now, in the spot that r14-11679-g8a884140c2bcb7 patched,
++pfile->line_table->highest_location in all 3 tests (also
++https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D120061#c13
++) is before the decrement the start of the line after the #include line =
+and so
++the decrement is really desirable in that case to put highest_location
++[jakub@tucnak gcc-15]$ git log -1 --format=3D%B r15-9638-gbfcb5da69a41f7=
+a5e41faab39b763d9d7c8bd2ea | cat
++libcpp: Further fixes for incorrect line numbers in large files [PR12006=
+1]
 +
 +The backport of the PR108900 fix to 14 branch broke building chromium
 +because static_assert (__LINE__ =3D=3D expected_line_number, ""); now tr=
@@ -353,9 +415,8 @@ ion_overflow_plugin.so  scan-file static_assert[^\n\r]*6[^\n\r]*=3D=3D 6
 +FAIL: gcc.dg/plugin/location-overflow-test-pr120061.c -fplugin=3D./locat=
 ion_overflow_plugin.so  scan-file static_assert[^\n\r]*5[^\n\r]*=3D=3D 5
 +and with the patch everything PASSes.
-+I'll post afterwards a 14 version of the patch.
 +
-+The patch reverts the r15-9018 change, because it is incorrect,
++The patch reverts the r14-11679 change, because it is incorrect,
 +we really need to decrement it even when crossing ordinary map
 +boundaries, so that the location is not on the line after the #include
 +line but somewhere on the #include line.  It also patches two spots
@@ -462,7 +523,7 @@ dinc
 +And the patched compiler emits the right line with no column, as would
 +be printed if I remove e.g. 300000 newlines from the file.
 +
-+2025-05-07  Jakub Jelinek  <jakub@redhat.com>
++2025-05-08  Jakub Jelinek  <jakub@redhat.com>
 +
 +	PR preprocessor/108900
 +	PR preprocessor/116047
@@ -471,15 +532,14 @@ dinc
 +	* line-map.cc (linemap_add): Use
 +	SOURCE_LINE (from, linemap_included_from (map - 1)) + 1; instead of
 +	SOURCE_LINE (from, from[1].start_location); to compute to_line
-+	for LC_LEAVE.  For LC_ENTER included_from computation, look at
-+	map[-2] or even lower if map[-1] has the same start_location as
-+	map[0].
++	for LC_LEAVE if from[1].reason is LC_RENAME.  For LC_ENTER
++	included_from computation, look at map[-2] or even lower if map[-1]
++	has the same start_location as map[0].
 +
 +	* gcc.dg/plugin/plugin.exp: Add location-overflow-test-pr116047.c
 +	and location-overflow-test-pr120061.c.
-+	* gcc.dg/plugin/location_overflow_plugin.cc (plugin_init): Don't error
-+	on unknown values, instead just break.  Handle 0x4fHHHHHH arguments
-+	differently.
++	* gcc.dg/plugin/location_overflow_plugin.c (plugin_init): Don't error
++	on unknown values, instead just break.
 +	* gcc.dg/plugin/location-overflow-test-pr116047.c: New test.
 +	* gcc.dg/plugin/location-overflow-test-pr116047-1.h: New test.
 +	* gcc.dg/plugin/location-overflow-test-pr116047-2.h: New test.
@@ -497,12 +557,11 @@ dinc
 + .../plugin/location-overflow-test-pr120061-1.h     |  6 +++
 + .../plugin/location-overflow-test-pr120061-2.h     |  1 +
 + .../plugin/location-overflow-test-pr120061.c       |  6 +++
-+ .../gcc.dg/plugin/location_overflow_plugin.cc      | 15 +++++--
++ .../gcc.dg/plugin/location_overflow_plugin.c       |  2 +-
 + gcc/testsuite/gcc.dg/plugin/plugin.exp             |  4 +-
-+ libcpp/files.cc                                    |  8 ----
 + libcpp/line-map.cc                                 | 48 +++++++++++++++=
 +++----
-+ 10 files changed, 80 insertions(+), 20 deletions(-)
++ 10 files changed, 69 insertions(+), 18 deletions(-)
 + create mode 100644 gcc/testsuite/gcc.dg/plugin/location-overflow-test-p=
 r116047-1.h
 + create mode 100644 gcc/testsuite/gcc.dg/plugin/location-overflow-test-p=
@@ -540,14 +599,14 @@ r120061.c
 +diff --git a/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047=
 .c b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047.c
 +new file mode 100644
-+index 000000000000..75161fa5f055
++index 000000000000..33f2c4ce8def
 +--- /dev/null
 ++++ b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047.c
 +@@ -0,0 +1,5 @@
 ++/* PR preprocessor/116047 */
 ++/* { dg-do preprocess } */
 ++/* { dg-options "-nostdinc -std=3Dc23 -fplugin-arg-location_overflow_pl=
-ugin-value=3D0x4ffe0180" } */
+ugin-value=3D0x4fff8080" } */
 ++#include "location-overflow-test-pr116047-1.h"
 ++/* { dg-final { scan-file location-overflow-test-pr116047.i "static_ass=
 ert\[^\n\r]\*6\[^\n\r]\*=3D=3D 6" } } */
@@ -587,36 +646,12 @@ ugin-value=3D0x61000000" } */
 ++static_assert (__LINE__ =3D=3D 5, "");
 ++/* { dg-final { scan-file location-overflow-test-pr120061.i "static_ass=
 ert\[^\n\r]\*5\[^\n\r]\*=3D=3D 5" } } */
-+diff --git a/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.cc b/g=
-cc/testsuite/gcc.dg/plugin/location_overflow_plugin.cc
-+index f731b1421b0f..f770d35ea518 100644
-+--- a/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.cc
-++++ b/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.cc
-+@@ -85,9 +85,18 @@ plugin_init (struct plugin_name_args *plugin_info,
-+     error_at (UNKNOWN_LOCATION, "missing plugin argument");
-+=20
-+   /* With 64-bit locations, the thresholds are larger, so shift the bas=
-e
-+-     location argument accordingly.  */
-++     location argument accordingly, basically remap the GCC 14 32-bit
-++     location_t argument values to 64-bit location_t counterparts.  The=
-re
-++     is one exception for values slightly before the 32-bit location_t
-++     LINE_MAP_MAX_LOCATION_WITH_PACKED_RANGES (0x50000000).  In that ca=
-se
-++     remap them to the same amount before the 64-bit location_t
-++     LINE_MAP_MAX_LOCATION_WITH_PACKED_RANGES -
-++     ((location_t) 0x50000000) << 31.  */
-+   gcc_assert (sizeof (location_t) =3D=3D sizeof (uint64_t));
-+-  base_location =3D 1 + ((base_location - 1) << 31);
-++  if (base_location >=3D 0x4f000000 && base_location <=3D 0x4fffffff)
-++    base_location +=3D (((location_t) 0x50000000) << 31) - 0x50000000;
-++  else
-++    base_location =3D 1 + ((base_location - 1) << 31);
-+=20
-+   register_callback (plugin_info->base_name,
-+ 		     PLUGIN_PRAGMAS,
-+@@ -107,7 +116,7 @@ plugin_init (struct plugin_name_args *plugin_info,
++diff --git a/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.c b/gc=
+c/testsuite/gcc.dg/plugin/location_overflow_plugin.c
++index d0a6b0755648..6f4497a1cb16 100644
++--- a/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.c
+++++ b/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.c
++@@ -101,7 +101,7 @@ plugin_init (struct plugin_name_args *plugin_info,
 +       break;
 +=20
 +     default:
@@ -628,46 +663,25 @@ nt");
 +   return 0;
 +diff --git a/gcc/testsuite/gcc.dg/plugin/plugin.exp b/gcc/testsuite/gcc.=
 dg/plugin/plugin.exp
-+index 90c91621d0aa..96e76d2e0c36 100644
++index 933f9a5850bc..438c6d87aad9 100644
 +--- a/gcc/testsuite/gcc.dg/plugin/plugin.exp
 ++++ b/gcc/testsuite/gcc.dg/plugin/plugin.exp
-+@@ -138,7 +138,9 @@ set plugin_test_list [list \
-+     { location_overflow_plugin.cc \
++@@ -126,7 +126,9 @@ set plugin_test_list [list \
++     { location_overflow_plugin.c \
 + 	  location-overflow-test-1.c \
 + 	  location-overflow-test-2.c \
 +-	  location-overflow-test-pr83173.c } \
 ++	  location-overflow-test-pr83173.c \
 ++	  location-overflow-test-pr116047.c \
 ++	  location-overflow-test-pr120061.c } \
-+     { must_tail_call_plugin.cc \
++     { must_tail_call_plugin.c \
 + 	  must-tail-call-1.c \
 + 	  must-tail-call-2.c } \
-+diff --git a/libcpp/files.cc b/libcpp/files.cc
-+index c1abde6639fe..d80c4bfd9077 100644
-+--- a/libcpp/files.cc
-++++ b/libcpp/files.cc
-+@@ -1047,14 +1047,6 @@ _cpp_stack_file (cpp_reader *pfile, _cpp_file *fi=
-le, include_type type,
-+ 		    && (pfile->line_table->highest_location
-+ 			!=3D LINE_MAP_MAX_LOCATION - 1));
-+=20
-+-  if (decrement && LINEMAPS_ORDINARY_USED (pfile->line_table))
-+-    {
-+-      const line_map_ordinary *map
-+-	=3D LINEMAPS_LAST_ORDINARY_MAP (pfile->line_table);
-+-      if (map && map->start_location =3D=3D pfile->line_table->highest_=
-location)
-+-	decrement =3D false;
-+-    }
-+-
-+   if (decrement)
-+     pfile->line_table->highest_location--;
-+=20
 +diff --git a/libcpp/line-map.cc b/libcpp/line-map.cc
-+index 17e7f12551c0..cf6557117c81 100644
++index d5200b317eee..1e659638d9f7 100644
 +--- a/libcpp/line-map.cc
 ++++ b/libcpp/line-map.cc
-+@@ -621,8 +621,8 @@ linemap_add (line_maps *set, enum lc_reason reason,
++@@ -618,8 +618,8 @@ linemap_add (line_maps *set, enum lc_reason reason,
 + 	 #include "included", inside the same "includer" file.  */
 +=20
 +       linemap_assert (!MAIN_FILE_P (map - 1));
@@ -678,7 +692,7 @@ location)
 + 	 that comes right before MAP in the same file.  */
 +       from =3D linemap_included_from_linemap (set, map - 1);
 +=20
-+@@ -630,7 +630,24 @@ linemap_add (line_maps *set, enum lc_reason reason,
++@@ -627,7 +627,24 @@ linemap_add (line_maps *set, enum lc_reason reason,
 +       if (to_file =3D=3D NULL)
 + 	{
 + 	  to_file =3D ORDINARY_MAP_FILE_NAME (from);
@@ -706,7 +720,7 @@ location)
 + 	  sysp =3D ORDINARY_MAP_IN_SYSTEM_HEADER_P (from);
 + 	}
 +       else
-+@@ -660,11 +677,26 @@ linemap_add (line_maps *set, enum lc_reason reason=
++@@ -657,11 +674,26 @@ linemap_add (line_maps *set, enum lc_reason reason=
 ,
 +       if (set->depth =3D=3D 0)
 + 	map->included_from =3D 0;
@@ -714,7 +728,7 @@ location)
 +-	/* The location of the end of the just-closed map.  */
 +-	map->included_from
 +-	  =3D (((map[0].start_location - 1 - map[-1].start_location)
-+-	      & ~((loc_one << map[-1].m_column_and_range_bits) - 1))
++-	      & ~((1 << map[-1].m_column_and_range_bits) - 1))
 +-	     + map[-1].start_location);
 ++	{
 ++	  /* Compute location from whence this line map was included.
@@ -733,14 +747,13 @@ location)
 ++	    --i;
 ++	  map->included_from
 ++	    =3D (((map[0].start_location - 1 - map[i].start_location)
-++		& ~((loc_one << map[i].m_column_and_range_bits) - 1))
+++		& ~((1 << map[i].m_column_and_range_bits) - 1))
 ++	       + map[i].start_location);
 ++	}
 +       set->depth++;
 +       if (set->trace_includes)
 + 	trace_include (set, map);
 +--=20
-+
 --=20
 2.49.0
 
