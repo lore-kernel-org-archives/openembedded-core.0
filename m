@@ -2,62 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAC86C54EDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E17AEC54ED1
 	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 06:20:03 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.4700.1747808399548261089
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.4696.1747808395367492810
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 23:19:59 -0700
+ Tue, 20 May 2025 23:19:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bFTb2JlD;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-742af84818cso3823884b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:19:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YvEAbty1;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7399838db7fso6045960b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747808399; x=1748413199; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747808394; x=1748413194; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3S0hVcJqgxQcQXH8n05uMBDd8Isak1hFj99Zo5BbXa0=;
-        b=bFTb2JlDtEp/3SM0W2Mzn5tAx/j9HIhIdzB+efXbDgbdfj9Ivz+4e3jB0VuvP1V7vh
-         BPlzu/JkJAWAzujOFnqWlBpBVjCSrcukQUGvQWmJSY5DdIAATnn1TpiD7HYBa4YCs91e
-         PQyms7UQsCELl/Gd3wxrUuHJkp5KD3K6RjopwaT6hN8oaXmCIJunPQNcHibNkvA0HFep
-         FTpzDVsJ5y1u9NyxrpPsjdOJqSoONZS0H8PL/E7pYLx8QD0YBJPjWRGz4oF6wwusfeVu
-         vSHHBjIInY4mGnXZrWPE6pf0LNJvr+zamqYTIX74WbIMssp4U3yIxhIYn7z+AH0C/Bu5
-         J38g==
+        bh=jcAksl6ffK20o79p233aXIhUKpPRCtQA0+GKUJsZeOE=;
+        b=YvEAbty13R9tkDb4tvTfE+p7iqHy6ZCsaS5rDUg+t+AOt9S4cJbgqqD2Rm/9frHiyJ
+         B4WLEKMUl/d1MwhP5ePotUeD/QACXUzrKSDz3+NNE+t6kHhZFtGbayP51WEInAZeas4M
+         3sS49WTjcBZ7Gpvplf67hRDrlOhPYa4T7NA2VpDz/C290ece1Cd/ccN75EljxZKf0eeq
+         658b3LYVnoFvHfYNSQ4WOfGO7r1DEaSzgWD6wP6OmqZiqs4i3aZH8V/YJ667pAFNYp4+
+         PeFNPwYhIYsSIMoM7eaNdpNYkoA9/lz6ZPOtIp+crbcT7wNoGL3qAPzw9I7x6WFOwQo/
+         5KUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747808399; x=1748413199;
+        d=1e100.net; s=20230601; t=1747808394; x=1748413194;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3S0hVcJqgxQcQXH8n05uMBDd8Isak1hFj99Zo5BbXa0=;
-        b=Nu6oMVI1E6efuD7OcWmirqsFDRH8pgJ/Lm3rMwQIU0v7TcQegl3PCYWCbxzCtFj7hE
-         WxVGW0AniTsLWEjKR+eRHgmHDM1Zq5hPDCHkxNDB0626bl78NG6jIVT2JJxJi4T1mmWa
-         42MOEhtkRkZ+na+KPmSHQ1ZN+0ZdPN6DgYMc5hMYwDU9CtlPJSYFtPniHBvFoOwvXxTn
-         9NpHftcvCjZV0hlX8GpfntIDQLZjEOfdSGUiL65m8eoRiG0sdjAietE0/Fi8cwpUN9W3
-         wh6XJWS4yBYM9GC7B3Wbdsky2j62nluVCvH+JwJvOb6xxQPOoHCvz8sA7hwmnpql5/zi
-         in/A==
-X-Gm-Message-State: AOJu0Ywq9uI6wemzN1y+sY14ZiGVMGAAxw4wsz376Qwf+EqzPlkb6q2t
-	uz0fDTuJ+6dgVPorul9ZpoC/7Pgq0YYBpVB6QvRiveGntgRWsithcIwMaPiWpSKF
-X-Gm-Gg: ASbGncv3Yhn/SfsfMnQj0gXDAiMi/GFYr0t0SrtDlGHZk3Ufjla+Ptxr6lZnnoAnUoF
-	2GPDonPwJFTJc2iMdhlkXtXErmNwGnNxMmLsUiJtUX/rmx0gvihKhGbXlkIFOp5PJIZzFVxsFUZ
-	vuq3UjYl1j25xtMNrvPBjoLd+/guRYd2hcM2o1lzNc6QRyZGq2t7NpKJD6KVV06R9b5enbSc2fi
-	D7It/Ilz2l9HO+CYveWRay8UR9Tq3rKd7wLRYd8zcBm6qoYTavb2ART/gQEbWd0m8paZWhThYfT
-	BV1CTL6c8woIjwMs1LS60ZLKVqBSIH403jA80DQ+ptU=
-X-Google-Smtp-Source: AGHT+IExNZav3EWp5o1zRouTmVn1yKeqpfc+HDiARoMKkXHt481VYkCDz1UXx8v02S9jUydN1P+xQw==
-X-Received: by 2002:a05:6a21:3384:b0:203:c461:dd36 with SMTP id adf61e73a8af0-21621882893mr30157167637.6.1747808398721;
-        Tue, 20 May 2025 23:19:58 -0700 (PDT)
+        bh=jcAksl6ffK20o79p233aXIhUKpPRCtQA0+GKUJsZeOE=;
+        b=TnkMdGUQmdsldkFVD69sorwqdXUhwDeYt6O3QI9DB6yVx+Tdpu/TgsTLgAQYUuXLi1
+         QoUdF+KEStG+QO87lpDBZ1imzKT0Gpsv3tmu8Gx8weiE9cwBlz4l9Yoz8s3MTQoLruLj
+         6h516jGInvIy37vBeZm45hxH4+SbL+eQugMq0nt3pswXJNoeMhfaZGjOJ92Bq2iLz7+g
+         FRdxsBrrAM05p5iK8Xj6RbhMONJWL24f3SeCtlf8nf2jQpD1IACe/DK5OFCyhEKiyFqL
+         i6zC1X6fupeLKplFOw/3PW4mRZRJXPLqLgkZ3FREugH8GvV8dWBFGAO+Ex/Nuvf0/u8s
+         A6iQ==
+X-Gm-Message-State: AOJu0Yy01eagSbx/WdqonlDQc7fOichmMXiiRZ3hYVjzzhoj17Zh7ZIR
+	FKr11cu0vOPkJ0crWyDFjaeFV1RTag7+hAOQkHE4qO1TPsSlnAr8d7pFk6kl2aoW
+X-Gm-Gg: ASbGnculj8ED/VUApdZ3a1/sLxk31IiBSCybrRhXYxVpO8M4rCprdHNtu27LV+rzqTh
+	UTECcmr/+aRQPkQJVf6CeBrPDmMkCFKlB8sbj8+j3xXRMFezFNV5V6knzHODxjpM2mpnpeuBqkx
+	OJrHvHqi7/Qv1xvZEjZbv2e2D+vUiFrSv9WR/h1gq6Mumt5x+Bs+Gh6mqfM2cXGUxrdgZtQtLFe
+	bssjXNrlBm3zlVyj9+PzN1pD/P6spimbKR5e9J0ATpXeIKnXu3ML2+vEp4IspfwuuIhnKbqSCzn
+	njIfzN6HWS2gvHmN6kSEkyyKV3tHF5qvqJaojHFKuOE=
+X-Google-Smtp-Source: AGHT+IEZ1Qg0Vwi+GqCeT96glpYeyxipwPByYpwdslFvTe9mJB7jGiM3NOys7KFjTGpf2rWP4bZ2qw==
+X-Received: by 2002:a05:6a00:3c89:b0:736:4e14:8ec5 with SMTP id d2e1a72fcca58-742a9b16af5mr26207590b3a.11.1747808394312;
+        Tue, 20 May 2025 23:19:54 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.19.58
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.19.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 23:19:58 -0700 (PDT)
+        Tue, 20 May 2025 23:19:53 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 May 2025 23:19:45 -0700
-Subject: [PATCH v2 09/28] pixman: Fix build with mips/clang
+Date: Tue, 20 May 2025 23:19:40 -0700
+Subject: [PATCH v2 04/28] clang: Add compiler-rt to default deps when using
+ clang compiler
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-clang-toolchain-v2-9-db97c2eb3756@gmail.com>
+Message-Id: <20250520-clang-toolchain-v2-4-db97c2eb3756@gmail.com>
 References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 In-Reply-To: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,34 +68,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 06:20:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216977
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216972
+
+This provides needed built-ins which clang uses along with libgcc
+its not yet a full replacement for libgcc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/clang.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-index c1c71fd42023fbd8c82d49ff623a981139f5ac7e..0c779ac3b4e6d035d9105c98aea0560a71d57ba3 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-@@ -6,6 +6,7 @@ including trapezoids, triangles, and rectangles."
- HOMEPAGE = "http://www.pixman.org"
- SECTION = "x11/libs"
- DEPENDS = "zlib"
-+DEPENDS:append:toolchain-clang:mipsarch = " openmp"
+diff --git a/meta/classes/clang.bbclass b/meta/classes/clang.bbclass
+index ddf8f350f951744940893698188a1e6056edf7cc..f9cc74142438f1a85a55517c2846f1a72b9af9bf 100644
+--- a/meta/classes/clang.bbclass
++++ b/meta/classes/clang.bbclass
+@@ -24,6 +24,8 @@ PREFERRED_PROVIDER_virtual/nativesdk-cross-cc = "clang-crosssdk-${SDK_SYS}"
+ PREFERRED_PROVIDER_virtual/nativesdk-cross-c++ = "clang-crosssdk-${SDK_SYS}"
+ PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs = "nativesdk-gcc-runtime"
  
- SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz"
- SRC_URI[sha256sum] = "02d9ff7b8458ef61731c3d355f854bbf461fd0a4d3563c51f1c1c7b00638050d"
-@@ -38,6 +39,8 @@ EXTRA_OEMESON:append:armv7ve = "${@bb.utils.contains("TUNE_FEATURES","neon","","
- 
- EXTRA_OEMESON:append:class-native = " -Dopenmp=disabled"
- 
-+CFLAGS:append:toolchain-clang:mipsarch = " -fno-integrated-as"
++BASE_DEFAULT_DEPS:append:class-target = " compiler-rt"
 +
- BBCLASSEXTEND = "native nativesdk"
+ TCOVERRIDE = "toolchain-clang"
  
- CVE_STATUS[CVE-2023-37769] = "not-applicable-config: stress-test is an uninstalled test"
+ TUNE_CCARGS += "${@bb.utils.contains("DISTRO_FEATURES", "usrmerge", " --dyld-prefix=/usr", "", d)}"
 
 -- 
 2.49.0
