@@ -2,63 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7E6C54E90
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D26B2C54ED0
 	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 06:20:03 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.4733.1747808397871663642
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.4699.1747808398712841144
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 May 2025 23:19:57 -0700
+ Tue, 20 May 2025 23:19:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IvwAOePn;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742c73f82dfso2897534b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:19:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Tup7/T7/;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-742c27df0daso3146551b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:19:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747808397; x=1748413197; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747808398; x=1748413198; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=p5fY8IJHzXMxLrAcngeOMfmbFGDVEfnjgLOWHaEIfY8=;
-        b=IvwAOePnW1SZyv1l0kH9VhFaCsFLk6ppVdXwiBMjh6AvmF4Xn2XF5JF9qNAxBs3gIR
-         LPX2Wn5U9FJb7IdB+l28aJFHvDnimmohhXHS3c5bsINlF6WrSFjJ95zkYdFYF7FmwG+f
-         2CkeNmQWM9GzHK8+B4hJdiP/x9yGEvntAijDIqJ0K+aUfYD0V5mIwKD9n18Tl5hwg3sp
-         EqGpu/hiC4/ZPeHKGWpOfbEjuqzMAU2zzhOe+VjFRZ33cF1IXfl5UdjHoW36gqNGKnua
-         PiXFJCSxwpjzw2a0F1two+LVCaTd1dm0F5DZTqZTuiKY6jrAFm7WJ7KlnlzWEGMDpz3T
-         +GcA==
+        bh=ptf9Pd1wAS/Hhn6E/sgUC0L8FIEDsCEt9oko0uNb1Kg=;
+        b=Tup7/T7/8RlHJRwxO6Trh5y4LvOuoA3LOi0fdpB0jpsF0bHogvLDDsGz5WhLCYqYzt
+         a+6Jwb+kO7zzPGzxdl8yAtwBoeFym19TjZ72AHcBZv12kZF/Sj3NCnrduIfNriKpcBvu
+         V1lN0vUMPk0GTVfBMav/QR6KBkWtDZm6To+TJjtJQh5JyeXKfW2CmhkIjPGmyi/hR1v9
+         0n+cCOpOjg9/teI6BMw3KKAGMsiipK9HG2aJmWPkfwVKOlwPdV/rTwz0ueWuJfKe+a9B
+         eFwrqVSqkqgSzxK8uk5ogYguxe6s3ew2uNur0iDy5WizgwY4OOjiv7bNlOMFDeyUchfq
+         K34w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747808397; x=1748413197;
+        d=1e100.net; s=20230601; t=1747808398; x=1748413198;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p5fY8IJHzXMxLrAcngeOMfmbFGDVEfnjgLOWHaEIfY8=;
-        b=l3LRmLD/7cYdlNs8BWiqn4crNp72vh05YTWpkniLrtdYTmHl/qPzp1bIurG4p3z1AT
-         seXNEJ5N0+oUqzEzCVFyg7gsUXePoHnYqlpWmyy6vIg6S/gWs1XRDBpiPoYMiMNea6up
-         0i2rA0Xl6oXndA0PMS7umiw5xtTAAPbhOZQMhcl1rkqJ3zkz3czS+O0QODwtK1UZeCpa
-         fVAcbaVPui1542LN5tG/bB5qSGg0ay1YAvnyGgiCs281LVdrrbslcDRT/iywjY0dG6Bi
-         ngBi7BlMRCT8/Al5YoGnfzACLbsAQjPPQK8BAmyeezT+/50NCfca3H6OUz9SNbHqxmsh
-         PIMQ==
-X-Gm-Message-State: AOJu0YxaMfgiFvoiTNnTuVyLzyv4bgz4MIbGfa9AnzpFY86h2kQ0wAue
-	VXqzutzee5+G2tpPBXC5RNMWEQIfFwyLguS6iLDS+1Cmcn8yhOOM9fLa7PtE947n
-X-Gm-Gg: ASbGncs2f0LCWrLm9mxVOzHfdHmUD2cK+D4WqeAb4ncKH7RRPRoe2myQeu5bcTEiNLu
-	cr/M2TDkOOILtPDG/cLpXV0DVKg3WgIf2bJmKXn+4sVbboohTg/EwWkY+kd5RWoo8sXAKCrEevi
-	FQd61PUyd5srn0k7m095VBzzYjcDnjKIzMSl2QPrPxfF1u6t/mJNWvj8hfPgcrzGInnS3xuMXvb
-	P6UmUp61RvOn7isdnKQGoLfVnW7uKbYLzp3MfjXO5/ZdbCGIJlU3i5+5T4hGTtpFNZbOBlnLWdc
-	iksGVohlzuNaodNZ4qlPYECMk5yOdC6HF3ip+J+/+QY=
-X-Google-Smtp-Source: AGHT+IHjALaGiSMaaaLthR4/UF4vA4mCmX+wzqVJmD45Ud2GQGv4AUa/M05IhWqst/r5HK/zXpCkAQ==
-X-Received: by 2002:a05:6a20:432a:b0:215:eac9:1ab2 with SMTP id adf61e73a8af0-216219f04e0mr31952098637.28.1747808396990;
-        Tue, 20 May 2025 23:19:56 -0700 (PDT)
+        bh=ptf9Pd1wAS/Hhn6E/sgUC0L8FIEDsCEt9oko0uNb1Kg=;
+        b=qeBvgVj5dpAv+/lymA1N66MXh/F8mmNaIQ0kiIuojZUeHAeq+4L8dEJYq2L67lHe0X
+         4h82h9H4ky46l6jwjJHTUCSnowHufISfMFZ4a6/NBdnA2K3LCm8DVzYdY6feE3T2Ivzp
+         4QoHpVG0gpiMWQCptYqwFYN0PxTqpNB1SKcFRGR7AVf7tMHpYx/J+zLbCS2O7k4sqipE
+         iz+u48jDRjCbOeZ9lVmzOXpsRuJsQq+S6WFStQJSBCrclmqIYeilaAlvCl494xBQpOjy
+         zYiSG5jkvirf7hqIhi2Ty6X+a4A7ir7eKfX/t3qLfRNhFVLnMquvkNqzwyd3X0bkAzgu
+         n6CQ==
+X-Gm-Message-State: AOJu0Yyuq9cOD8tEmCyziaVZtH0haHQf8AtSDO9nidYrjaT03YSU9mfW
+	dbByD0qOPQtqY3Ba4Pd3xQFzSgMKcxQZLFVXXaoIgFDeIUvpmm2XZKLGrz0WTn8R
+X-Gm-Gg: ASbGncuh95JxvXE6jlZY9FNTz3YcQpNltcQBv2Ucb9pzMzuR3xCA1cBbZc+sz6oAP1R
+	sAgOAWkdayTrRyEe6n3S1masI4N+mfmkzG4LUqDEF4QnCYmIrfna4o78VeSJwyDesWg1OqGiVWH
+	qmF3PrG3sXB1k5Mpmd49LroghvTDkLylSdpues9WlwR6jOE96nHOHfpf1bSZUSHP5lKHNXX/8kH
+	omB1FGZoyZumf4dREwUJ3JR8LD0g1gTuxxoBHjtUuRVs/+1NNw+aKboZ3WQVF2zK0G738EUyKJw
+	KcdQqJRN36idlUrfnfQRZx2Fkz0zOT/393WudN+OBsk=
+X-Google-Smtp-Source: AGHT+IEANPKQ5PMWDtL6IkpXtmS8Ks3i8f/igQsNP+NG7WSgBKeyKbnk3V4q/Q0ijYagledPfui9Tg==
+X-Received: by 2002:a05:6a21:3289:b0:215:df3d:d56 with SMTP id adf61e73a8af0-21621902575mr29701430637.21.1747808397881;
+        Tue, 20 May 2025 23:19:57 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.19.56
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.19.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 23:19:56 -0700 (PDT)
+        Tue, 20 May 2025 23:19:57 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 May 2025 23:19:43 -0700
-Subject: [PATCH v2 07/28] pulseaudio: Treat -Wunused-command-line-argument
- as error
+Date: Tue, 20 May 2025 23:19:44 -0700
+Subject: [PATCH v2 08/28] libjpeg-turbo: Fix build on mips/clang
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-clang-toolchain-v2-7-db97c2eb3756@gmail.com>
+Message-Id: <20250520-clang-toolchain-v2-8-db97c2eb3756@gmail.com>
 References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 In-Reply-To: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -68,32 +67,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 06:20:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216975
-
-This ensures that it does not enble SSE when -msse flag is passed, clang
-warns about unused option on non-x86 targets but it must be flagged as
-error for configure to notice and fail the check to enable SSE on non-x86
-machines
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216976
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 18c12ede630766bb9204bb1d5efb7cea8695dd1e..3c65aaee6e02cf417e3165c194353883c453aa00 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -71,6 +71,9 @@ inherit bash-completion meson pkgconfig useradd gettext perlnative systemd manpa
- # if using --disable-nls
- USE_NLS = "yes"
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb
+index 8533bd8525311e783572cbafb6fccf240db9e0e8..90aa2ef43956f0a1e64f8e08e47d953bf5773e19 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb
+@@ -47,6 +47,12 @@ EXTRA_OECMAKE:append:class-target:powerpc64le = " ${@bb.utils.contains("TUNE_FEA
+ DEBUG_OPTIMIZATION:append:armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+ DEBUG_OPTIMIZATION:append:armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
  
-+# Helps tests for -msse fail on non-SSE architectures which is all non-x86
-+TUNE_CCARGS:append:toolchain-clang = " -Werror=unused-command-line-argument"
++# libjpeg-turbo-2.0.2/simd/mips/jsimd_dspr2.S
++# <instantiation>:13:5: error: invalid token in expression
++# .if $17 != 0
++# ^
++CFLAGS:append:toolchain-clang:mipsarch = " -no-integrated-as"
 +
- EXTRA_OEMESON = "\
- 		-Dhal-compat=false \
- 		-Dorc=disabled \
+ PACKAGES =+ "jpeg-tools libturbojpeg"
+ 
+ DESCRIPTION:jpeg-tools = "The jpeg-tools package includes client programs to access libjpeg functionality.  These tools allow for the compression, decompression, transformation and display of JPEG files and benchmarking of the libjpeg library."
 
 -- 
 2.49.0
