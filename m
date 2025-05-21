@@ -2,62 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8FDBC54E92
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7E6C54E90
 	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 06:20:03 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.4698.1747808397033650045
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.4733.1747808397871663642
  for <openembedded-core@lists.openembedded.org>;
  Tue, 20 May 2025 23:19:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XrD0RSTU;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-742b614581dso5004189b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:19:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IvwAOePn;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742c73f82dfso2897534b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 May 2025 23:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747808396; x=1748413196; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1747808397; x=1748413197; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=U48re4z2gGwsh7doGBRZzWmpNJmm9WpMzMS4mFuI3dg=;
-        b=XrD0RSTURYcFqFyVH028bpZ4avTKghg3wrI+zyLi6bAxnK1fD/KI9mnMqdzVNEyhcv
-         t5Y5aRErNgcDByf9OR2/qfHMm8znqYUIqwhynwPspTngFjVFlF3n++hGm2BQGYO+Wvih
-         XqRMcLbwzeR7jxKanDL6QoraveddcXuxbwCAEvzStLO5Xtx9CNJIYPY/1U2TNfhkVi/9
-         4T74Osjl7Ys6vBSsEcyp/4M+9S4WffrmqnlLKhamCaYP86avcdnHAEbU7ucgvklY8Ims
-         8ST9L0l7VcFgGSJlvIgDcb7XkRNIEkzsPzjNVswHOsQDDv9XNzDnV0UAA8ozV3Ps12H3
-         BoSg==
+        bh=p5fY8IJHzXMxLrAcngeOMfmbFGDVEfnjgLOWHaEIfY8=;
+        b=IvwAOePnW1SZyv1l0kH9VhFaCsFLk6ppVdXwiBMjh6AvmF4Xn2XF5JF9qNAxBs3gIR
+         LPX2Wn5U9FJb7IdB+l28aJFHvDnimmohhXHS3c5bsINlF6WrSFjJ95zkYdFYF7FmwG+f
+         2CkeNmQWM9GzHK8+B4hJdiP/x9yGEvntAijDIqJ0K+aUfYD0V5mIwKD9n18Tl5hwg3sp
+         EqGpu/hiC4/ZPeHKGWpOfbEjuqzMAU2zzhOe+VjFRZ33cF1IXfl5UdjHoW36gqNGKnua
+         PiXFJCSxwpjzw2a0F1two+LVCaTd1dm0F5DZTqZTuiKY6jrAFm7WJ7KlnlzWEGMDpz3T
+         +GcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747808396; x=1748413196;
+        d=1e100.net; s=20230601; t=1747808397; x=1748413197;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U48re4z2gGwsh7doGBRZzWmpNJmm9WpMzMS4mFuI3dg=;
-        b=T0K9m8KahKtT3AohlbrCGj4kDQVK+x8v+NGMgX6NOG8kw9UW912zsasInIDdJTcdNn
-         OSTJKJw+wwVaB+gx/3CmWax9tFTmcNc56U0kRF9WrpVzToQq0wyzf9tgx7H4icHfxJBY
-         v5tThXxHzLcj+YgPoevdd+ueT0HM6iCWyzWqiZrkqkv8imNj02SbNkAUtmvjtvMWY0pd
-         RhC5dOeBeaJ7VLp/ShgL8Ie6C8KlazhoPr/fSDYbZReTyc2JXaFiYUrqJuGZYVy+kDkw
-         a4nuqrKxqdbd9vroAvEmGE3fmc8qjKUw1qblXOMM3f1rOw6KsvuaYiZc8t3Y8Ya8qAwP
-         PlGA==
-X-Gm-Message-State: AOJu0Yzw9GX2SgCzaQ/PMnierRcHiws0ka+wTFRfHy2Q3xqfH8PZ8bdy
-	7kMxgb0IW9OvtunW3/N9NvozqyvSkTVLqRk1qAMmTJFxS61IxoxP25+PcnMNlTOs
-X-Gm-Gg: ASbGncubQdweE40BeiZYSWp+WihXUP5T8GbGiaEIcRvuRks5NJljtbkoLgwWvnKZ6iG
-	G59QrYPCEALscV1i2KMlWERS4PJY0bMoqSZJThGH4aFXAbGwJ51FqHWi07kvkc8bGmRsZNUmPWU
-	OvZs9mRY0wtulYUs89g7p/g6Dnts2npfBFp7Ivf27ZCkBs6QgF0kFGcTfkBcNBwc9NjJrtu5wi5
-	16yVgyEw4Bpz8RM3C5f60RUQ49qWrK8pw7A/HmEJTSx+8MsZ8eT1O4itHtI6pZ/sQF79NltW5x5
-	J00IOhrxy6QMakB3Mcrci037m6fgUEXdy6huSiqfJ1wxr6EP/aHS1w==
-X-Google-Smtp-Source: AGHT+IHAmijaOnPJ1eZ2oRzbFeX/TEzf4KBNNsP+pzLa3LKI65BKTlDPUTR8kpc06wnmUAbH7PU7jw==
-X-Received: by 2002:a05:6a00:391a:b0:740:a879:4f7b with SMTP id d2e1a72fcca58-742acd5115amr25129463b3a.18.1747808396236;
+        bh=p5fY8IJHzXMxLrAcngeOMfmbFGDVEfnjgLOWHaEIfY8=;
+        b=l3LRmLD/7cYdlNs8BWiqn4crNp72vh05YTWpkniLrtdYTmHl/qPzp1bIurG4p3z1AT
+         seXNEJ5N0+oUqzEzCVFyg7gsUXePoHnYqlpWmyy6vIg6S/gWs1XRDBpiPoYMiMNea6up
+         0i2rA0Xl6oXndA0PMS7umiw5xtTAAPbhOZQMhcl1rkqJ3zkz3czS+O0QODwtK1UZeCpa
+         fVAcbaVPui1542LN5tG/bB5qSGg0ay1YAvnyGgiCs281LVdrrbslcDRT/iywjY0dG6Bi
+         ngBi7BlMRCT8/Al5YoGnfzACLbsAQjPPQK8BAmyeezT+/50NCfca3H6OUz9SNbHqxmsh
+         PIMQ==
+X-Gm-Message-State: AOJu0YxaMfgiFvoiTNnTuVyLzyv4bgz4MIbGfa9AnzpFY86h2kQ0wAue
+	VXqzutzee5+G2tpPBXC5RNMWEQIfFwyLguS6iLDS+1Cmcn8yhOOM9fLa7PtE947n
+X-Gm-Gg: ASbGncs2f0LCWrLm9mxVOzHfdHmUD2cK+D4WqeAb4ncKH7RRPRoe2myQeu5bcTEiNLu
+	cr/M2TDkOOILtPDG/cLpXV0DVKg3WgIf2bJmKXn+4sVbboohTg/EwWkY+kd5RWoo8sXAKCrEevi
+	FQd61PUyd5srn0k7m095VBzzYjcDnjKIzMSl2QPrPxfF1u6t/mJNWvj8hfPgcrzGInnS3xuMXvb
+	P6UmUp61RvOn7isdnKQGoLfVnW7uKbYLzp3MfjXO5/ZdbCGIJlU3i5+5T4hGTtpFNZbOBlnLWdc
+	iksGVohlzuNaodNZ4qlPYECMk5yOdC6HF3ip+J+/+QY=
+X-Google-Smtp-Source: AGHT+IHjALaGiSMaaaLthR4/UF4vA4mCmX+wzqVJmD45Ud2GQGv4AUa/M05IhWqst/r5HK/zXpCkAQ==
+X-Received: by 2002:a05:6a20:432a:b0:215:eac9:1ab2 with SMTP id adf61e73a8af0-216219f04e0mr31952098637.28.1747808396990;
         Tue, 20 May 2025 23:19:56 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::5209])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.19.55
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a970954asm8888812b3a.46.2025.05.20.23.19.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 23:19:55 -0700 (PDT)
+        Tue, 20 May 2025 23:19:56 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 20 May 2025 23:19:42 -0700
-Subject: [PATCH v2 06/28] tcf-agent: Fix ranlib call when using llvm-ranlib
+Date: Tue, 20 May 2025 23:19:43 -0700
+Subject: [PATCH v2 07/28] pulseaudio: Treat -Wunused-command-line-argument
+ as error
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-clang-toolchain-v2-6-db97c2eb3756@gmail.com>
+Message-Id: <20250520-clang-toolchain-v2-7-db97c2eb3756@gmail.com>
 References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 In-Reply-To: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -67,32 +68,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 06:20:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216974
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/216975
 
-This ensures that binutils-ranlib or llvm-ranlib
-behaves same as gcc-ranlib
+This ensures that it does not enble SSE when -msse flag is passed, clang
+warns about unused option on non-x86 targets but it must be flagged as
+error for configure to notice and fail the check to enable SSE on non-x86
+machines
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index 235936288ba792c86af4dd1899b2f6585328141f..41706f4b60f1f25233ff91c8f112b8122a5c6c30 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -51,6 +51,11 @@ CFLAGS:append:riscv64 = " ${LCL_STOP_SERVICES}"
- CFLAGS:append:riscv32 = " ${LCL_STOP_SERVICES}"
- CFLAGS:append:loongarch64 = " ${LCL_STOP_SERVICES}"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 18c12ede630766bb9204bb1d5efb7cea8695dd1e..3c65aaee6e02cf417e3165c194353883c453aa00 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -71,6 +71,9 @@ inherit bash-completion meson pkgconfig useradd gettext perlnative systemd manpa
+ # if using --disable-nls
+ USE_NLS = "yes"
  
-+# This works with gcc-ranlib wrapper only which expands $@ shell array,
-+# but it will fail if RANLIB was set to <cross>-ranlib or
-+# <cross>-llvm-ranlib has same behaviour
-+RANLIB:append:toolchain-clang = " $@"
++# Helps tests for -msse fail on non-SSE architectures which is all non-x86
++TUNE_CCARGS:append:toolchain-clang = " -Werror=unused-command-line-argument"
 +
- do_install() {
- 	oe_runmake install INSTALLROOT=${D}
- 	install -d ${D}${sysconfdir}/init.d/
+ EXTRA_OEMESON = "\
+ 		-Dhal-compat=false \
+ 		-Dorc=disabled \
 
 -- 
 2.49.0
