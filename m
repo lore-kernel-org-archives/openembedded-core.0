@@ -2,129 +2,156 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83666C54ED0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 877F2C54ED1
 	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 14:59:32 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.1097.1747839567229288478
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.1094.1747839570895209233
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 May 2025 07:59:27 -0700
+ Wed, 21 May 2025 07:59:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LDAnr64Q;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-af523f4511fso5322761a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 07:59:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ycng+2EU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-232059c0b50so39678625ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 07:59:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1747839566; x=1748444366; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nP/g801ItYSzwGvFfmamO2zOIVsfCFDawfxV6l7jgE8=;
-        b=LDAnr64QrwRzaIhIFwnTbS+VJ8F2GwuNAPcImsJb7AXPzYILY8v8EUGstncnGmV4m0
-         wL0BT05Vv9HMtbcNKjJe9yL18TKrZtENuJkgsZ4wJ8VbthUSF0u74RvPQDnTy+LTAlsj
-         /AWD9A7n5z8NG5b5Ei+u/CEeWF8VbAHFkaAOwp0TOJJk6X/uMkHIGfvs3uSy4KylNc42
-         7smtB7pgctbV/PwAxEArusx5GfQa9dVe0nompfHanY8gl/pipmWQubJAS/sOfxcMCULC
-         sIzhdwaxB/j9gkJD/9cpn4D5n1rzEHzSDDCZYcOnb/M2YMMVCoI5hhKUeQnCNB7yH0Kb
-         0AlA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1747839570; x=1748444370; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tkLwKTLV3mRN2DXU2rBg/FF7gDwOpFzsQMoVmFwvMmI=;
+        b=Ycng+2EUS8lUWbFaLARcG3OimCABkyLKx6oqwBifoDYMl8PPTVLN6iPdTaPWRQtkG9
+         5mehGIKtBHyhvuqCvC76Rs4fXHqnEpfGLZowivZVUqOTZ4GwnOjsKruIKzCc97++zKdg
+         x/7t8CAv6wg7Xvum4GmGiKaMgIQLX5ciKZRYQZCFAVIQVSlIL0FzvZ+4S9kMIvfmwtKQ
+         OByDS4c4SU8qkj9RdDggcw7JMTVKXiemOlwO//+oMgGCwDLRn0rW8v90TsA5r2O/o39o
+         EXeaJFtNyryCqEfPT5SAdj2ykf9OwKCK5hjVO2JQJrxc+4XY4hpsFNroerl3EazH/bVW
+         zzbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747839566; x=1748444366;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nP/g801ItYSzwGvFfmamO2zOIVsfCFDawfxV6l7jgE8=;
-        b=iirJ4ckNdjvXsuX5tS5CCb7qaRBs9jfIMnwGWYnc60SltWxYVzAWG1xgCr48c1+rld
-         BWbphkzIAWWGYlfzLIWhvmFEUlTTOVrFIT7wSjjZbBjM0XH8JwcO895Rbt/GCGtpaK0y
-         8xz9Ikh+9eKvS/R4aCD13EU1exMk0Q5K+box4EfuWRj5DPUiAO8lMZWN+k6YvlhoHUwb
-         2aLnXNmWpZwXLOt5JBP4+O9soGLYtUP50U+nlIzL4eDKcOzz8oZa37ItfPwr4auD26OF
-         nMgJA+4T1oAFDIbx3N7vphi+pQxXv5j7/GU0/7bysZ1oSQmZ2OyrSBP4F2axmKm8aqbH
-         PUqg==
-X-Gm-Message-State: AOJu0Yxa6L8vrPyskjigwPUDFlOYDz28pNyRhq13jBH8ZjMAul9y43zL
-	mAcVfLfgJ1mADNKyhtSl3KU2z7tXT2Fq4TvuTsGEQcdkyHj/KWByNlqMRqo1jRqGdHpNaguKaX8
-	ETy3r
-X-Gm-Gg: ASbGncsJS3yyclLfJsPJ9do4mthSSGunW7bWNdo0dpcAWp7tWfCbnLT5sQhYQ9/hUQH
-	jwTgDYq+/XX70klnSqDpk/3HU1htekL5qrl5Kwgl/G3B5NKJbMhkVhWnXl8YJCPpS4fQOnVYH+h
-	TBn+C8D2qLXgMz7ZC2WhoZ8rOo1UQIJgipy0ne3aoGMUC6T8+ACGPlZLGA97M3iuWh0j6yyq8Ua
-	6j3lOyKPpWBAsc13uBatVp15O89n+RwwWRx+oXt7pm9HG7HBfr1SEeF2iUF8sVK/0fCVazpiSyB
-	s0YNisXQUevaV53vdF4aRTZTd+FNrJ7cJqm7dNP7x2E=
-X-Google-Smtp-Source: AGHT+IG0J4TF9Q9sS48p2LwiAphddQuTKc+1f9ySH1aNAp8uVdH4zSLDq6jMr92r/Zv2wzkmE2yZDQ==
-X-Received: by 2002:a17:903:acb:b0:21d:dfae:300c with SMTP id d9443c01a7336-231d438b4cfmr257961245ad.3.1747839566323;
-        Wed, 21 May 2025 07:59:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747839570; x=1748444370;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tkLwKTLV3mRN2DXU2rBg/FF7gDwOpFzsQMoVmFwvMmI=;
+        b=Yio/wU7rvKWox2dbvbub+wsDTLq+xBOks92F75hOSncsYbRzUKIjXUEAqcESoXUQYK
+         QRv4cKL8DnkyUSteVR7hCTBZtdQMtPvhZm+w8DGjUkBBUSIFd2fWYmL9h/VHhjGs2ge4
+         +70wjOalJ4t2laGlZWkN/fjEv+n32IMAu7pknKdZFrPRJsmrvN5U1AvDCuRjV5WudTqr
+         2otGhb4G2ws/8CQh8g1REwtfvtQWLg6BENhGFedExwpdv7XWmCyEJidxXiYJiLkNPEHa
+         Hee0cr+/skIAvI+b+LYR3kDFgCTCFX/9zklBaolR3Auu956xX9A6tGeiqfvuu54iyeLN
+         DL5A==
+X-Gm-Message-State: AOJu0YxRbEiFrd3f3N5xsY90u99pLNZ4PHrLnVY7BiQkSF4P/6u1tgFJ
+	iNJ2qdWyENALd0Yqo71qEDBi1suFObtq1ACfdPtCHLd7gpEeFQw6z3NMkJGnjiuCV5HXJJQ/0K1
+	aOhqO
+X-Gm-Gg: ASbGncuEGzGohKNNFPC/JUz1XnSk6y3QPUtkZkiFU9zVUmJm3OUoSCP4LEaIzTHWsp8
+	9ieTT7vmX04duXmM0UF9kFTCnuC2Gi65aW5lP3uXRMs8XKCHhc1/mcXtwgz1fbs5SI3wYwmhRM6
+	LaDG067aweZVgIzSl6q8uTnUbHxArQwlQq8TrWpCFeknWoVqerG2h2ayqJ3wtV+g8LGGCP4LhS0
+	MwKkCUs0wIlj3GbbDXSQEk3WuhMQhZqdpZc982DWsPOLk5ussWxe3BqsCYcszcEDILF3wt7bN+9
+	E8UM4wLhJnGHpdbM27sEQRSU1iDZ8MXIh9ItA4WCAp0=
+X-Google-Smtp-Source: AGHT+IGbDogAjyqt1X0MEGcfX7+YVn3blCJPWDyY3eAsOqXhTH8wqBDGoanfFriRxQFXz9AIQEeahg==
+X-Received: by 2002:a17:902:f610:b0:215:9bc2:42ec with SMTP id d9443c01a7336-231de37f1e3mr249423455ad.47.1747839570148;
+        Wed, 21 May 2025 07:59:30 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:89d4:3586:e576:3ce4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4adb017sm94189645ad.53.2025.05.21.07.59.25
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4adb017sm94189645ad.53.2025.05.21.07.59.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 May 2025 07:59:25 -0700 (PDT)
+        Wed, 21 May 2025 07:59:29 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 0/7] Patch review
-Date: Wed, 21 May 2025 07:59:13 -0700
-Message-ID: <cover.1747839445.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 2/7] connman :fix CVE-2025-32366
+Date: Wed, 21 May 2025 07:59:15 -0700
+Message-ID: <02e046149b1cc5eca5188eec7b4e1a9970b97faf.1747839445.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1747839445.git.steve@sakoman.com>
+References: <cover.1747839445.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 14:59:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217036
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217038
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Friday, May 23
+From: Praveen Kumar <praveen.kumar@windriver.com>
 
-Passed a-full on autobuilder:
+In ConnMan through 1.44, parse_rr in dnsproxy.c has a memcpy length
+that depends on an RR RDLENGTH value, i.e., *rdlen=ntohs(rr->rdlen)
+and memcpy(response+offset,*end,*rdlen) without a check for whether
+the sum of *end and *rdlen exceeds max. Consequently, *rdlen may be
+larger than the amount of remaining packet data in the current state
+of parsing. Values of stack memory locations may be sent over the
+network in a response.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1625
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-32366
 
-The following changes since commit b214cc84a922f7a3fb7ebbc501189ce25e8bd2bd:
+Upstream-patch:
+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=8d3be0285f1d4667bfe85dba555c663eb3d704b4
 
-  glibc-y2038-tests: remove glibc-y2038-tests_2.39.bb recipe (2025-05-15 09:42:55 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Ashish Sharma (1):
-  libsoup-2.4: Fix CVE-2025-46420
-
-Nguyen Dat Tho (1):
-  libatomic-ops: Update GITHUB_BASE_URI
-
-Praveen Kumar (2):
-  connman :fix CVE-2025-32366
-  glib-2.0: fix CVE-2025-4373
-
-Sunil Dora (1):
-  binutils: Fix CVE-2025-1153
-
-Vijay Anusuri (1):
-  openssh: Fix for CVE-2025-32728
-
-Vyacheslav Yurkov (1):
-  systemd: Password agents shouldn't be optional
-
- .../connman/connman/CVE-2025-32366.patch      |   41 +
- .../connman/connman_1.42.bb                   |    1 +
- .../openssh/openssh/CVE-2025-32728.patch      |   44 +
- .../openssh/openssh_9.6p1.bb                  |    1 +
- .../glib-2.0/glib-2.0/CVE-2025-4373-01.patch  |  120 +
- .../glib-2.0/glib-2.0/CVE-2025-4373-02.patch  |   29 +
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |    2 +
- meta/recipes-core/systemd/systemd_255.18.bb   |   10 -
- .../binutils/binutils-2.42.inc                |    3 +
- .../binutils/0019-CVE-2025-1153-1.patch       | 3207 ++++++++++++++
- .../binutils/0020-CVE-2025-1153-2.patch       |  840 ++++
- .../binutils/0021-CVE-2025-1153-3.patch       | 3756 +++++++++++++++++
- .../libatomic-ops/libatomic-ops_7.8.2.bb      |    4 +-
- .../libsoup/libsoup-2.4/CVE-2025-46420.patch  |   60 +
- .../libsoup/libsoup-2.4_2.74.3.bb             |    1 +
- 15 files changed, 8107 insertions(+), 12 deletions(-)
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../connman/connman/CVE-2025-32366.patch      | 41 +++++++++++++++++++
+ .../connman/connman_1.42.bb                   |  1 +
+ 2 files changed, 42 insertions(+)
  create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2025-32366.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-32728.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0019-CVE-2025-1153-1.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2025-1153-2.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0021-CVE-2025-1153-3.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch
 
+diff --git a/meta/recipes-connectivity/connman/connman/CVE-2025-32366.patch b/meta/recipes-connectivity/connman/connman/CVE-2025-32366.patch
+new file mode 100644
+index 0000000000..0eb7360685
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/CVE-2025-32366.patch
+@@ -0,0 +1,41 @@
++From 8d3be0285f1d4667bfe85dba555c663eb3d704b4 Mon Sep 17 00:00:00 2001
++From: Yoonje Shin <ioerts@kookmin.ac.kr>
++Date: Mon, 12 May 2025 10:48:18 +0200
++Subject: [PATCH] dnsproxy: Address CVE-2025-32366 vulnerability
++
++In Connman parse_rr in dnsproxy.c has a memcpy length
++that depends on an RR RDLENGTH value (i.e., *rdlen=ntohs(rr->rdlen)
++and memcpy(response+offset,*end,*rdlen)). Here, rdlen may be larger
++than the amount of remaining packet data in the current state of
++parsing. As a result, values of stack memory locations may be sent
++over the network in a response.
++
++This patch adds a check to ensure that (*end + *rdlen) does not exceed
++the valid range. If the condition is violated, the function returns
++-EINVAL.
++
++CVE: CVE-2025-32366
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=8d3be0285f1d4667bfe85dba555c663eb3d704b4]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
++---
++ src/dnsproxy.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/src/dnsproxy.c b/src/dnsproxy.c
++index 1a5a4f3..50b2d55 100644
++--- a/src/dnsproxy.c
+++++ b/src/dnsproxy.c
++@@ -985,6 +985,9 @@ static int parse_rr(const unsigned char *buf, const unsigned char *start,
++	if ((offset + *rdlen) > *response_size)
++		return -ENOBUFS;
++
+++	if ((*end + *rdlen) > max)
+++		return -EINVAL;
+++
++	memcpy(response + offset, *end, *rdlen);
++
++	*end += *rdlen;
++--
++2.40.0
+diff --git a/meta/recipes-connectivity/connman/connman_1.42.bb b/meta/recipes-connectivity/connman/connman_1.42.bb
+index 3a1c9802bd..9b3abbe258 100644
+--- a/meta/recipes-connectivity/connman/connman_1.42.bb
++++ b/meta/recipes-connectivity/connman/connman_1.42.bb
+@@ -8,6 +8,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            file://0001-vpn-Adding-support-for-latest-pppd-2.5.0-release.patch \
+            file://0001-src-log.c-Include-libgen.h-for-basename-API.patch \
+            file://CVE-2025-32743.patch \
++           file://CVE-2025-32366.patch \
+            "
+ 
+ SRC_URI:append:libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
 -- 
 2.43.0
 
