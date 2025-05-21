@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B291DC2D0CD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEDEFC54E71
 	for <webhook@archiver.kernel.org>; Wed, 21 May 2025 13:44:38 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.87])
- by mx.groups.io with SMTP id smtpd.web10.11342.1747835070477980601
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.64])
+ by mx.groups.io with SMTP id smtpd.web11.11558.1747835070934477864
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 May 2025 06:44:30 -0700
+ Wed, 21 May 2025 06:44:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=NsMrMGBw;
- spf=pass (domain: ericsson.com, ip: 40.107.104.87, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=W7JbrFzo;
+ spf=pass (domain: ericsson.com, ip: 40.107.249.64, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ru35MgQ0qwJzeDV9AyvlnL1TQ6oUciHXpnylSB39KB/Z82fPkn6iDv9PojuSBemicft3jWWghsx2ZcJ/mZCJu/ZP4VvbaPjih/Tti+rQLjVvD5OYF3OqR8+xiAknv8tOYj0fff0lziKamqqh7niW3LM9Jxi6SKrDlrJpRybw2wUZLunj3LBCRAQCYQdQBoX0vvDRDkNsFxIKRA/6YY2vMXpeAHP0KnCOxZRe9y0EA9vhW997s3MySyz9+F/LvrQ2JXc9tFQ2LNOh7CWF31+dqBcZqZ7iYYIWGYVoB2q4aGX4qJAcSVnw5TwnoWQWQBYMjW/fhrvrZIp9imvRnrE2Zg==
+ b=i9v0iz7CdyKWw6NKYR//YgZ2Euk1e3Bj1c9g2KbYmcoxsqH7VHVPFffQTED8N28gV541m/DYAIE09mEAim0zviZDHkzPolLy5yCDkh2xYz9edWkVLJgGgU1P7gG/Sfzi31Fn8bktQefE+i1NjgoQ+AXd5E8zORFPALqvhafzjopDPzWGkOkRIMo8EDS4EJiP+f9fAuyHb6cRGVzciHRPFStlC8mfU6ZTIrdziqCOl4XCqywcgacy387Xxc3kzcXUP808n4VyaAbxvcXeFHkYjhVTOxPq6FvgrK4Q4+XzWdhDplyyXpjX0VfCaYYvRypRi6Rv44OxhB7mQDjmMtTAVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tzD4VNnHbbjS2CfyAwZrTozRSwO+gKvY1kJtj3yvBkM=;
- b=Gq1cz0m+W1SATjBtHbd2xWYPJ6tviNL4LYSj74SHzTSsUXDwViFAhcr4TMvhc6Kg9SQdO59U6MMi7uS+Dx32H7h34Hn0ieOO1mBcFwcpd17FVG8WknBjqGzKR3n7xqR0rye2caMmPofkKa4ew9eBimBpiMqnqqDu4lDXHUzLTxx32+vY0PKSlIdRztKB4gsJT1oGtE8jj5PIg32/dxIsHDUaWivYQPX8g/e/S+z/zti+kpYk155GaH2KwunbV0WnBAI/nJJi73GbOvIVMIcnYcvGVX5alwrsgP3qXC4wjyd2r7e2r6yj8EDdPzE9/Ip0NF7kQ3hF8pTj177WyykJLg==
+ bh=2CRHsESif/f0/kgSztC4khaC5Vizk6B0ZcwVLWkgPDM=;
+ b=IM30UEdf1OSis9mmQ+R35ESTbHKivn9+rqWCj4C3lot00Lk3ZwyZ+c6EQc1T2Fsj7hyuQqSLd4yUpQxTov1O0Qim7TvXzboNKg8XZBFIvnQA0W5MBCQo7ubqut9fnEuboG1Fd/J76jiT1Yzyab0s4oay7jWLw6LwkfgSjcrDG4vrIHOVIkyxNh9wgIzLfISkFTLn2kyKsupyieQfRCDO7TBFwdXS6XREOFCZ4Pi+S/sCDkbeKDTEeRy3EOSknn6zwu4PTp/WZqgZRE7WBtCJ/5DU0uYqmB2+K6xGR5zh+2xKBZrHP8p0lWLX72Oi2rQa5j+mbcVNHpJCNtYbDU8dzQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=cherry.de smtp.mailfrom=ericsson.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
@@ -25,18 +25,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tzD4VNnHbbjS2CfyAwZrTozRSwO+gKvY1kJtj3yvBkM=;
- b=NsMrMGBwiPKCP+IOG63wUjh/AWXBIkad0x/NK1kFQjvnwxBXOCIAzsZly7dTv2Ico01xLgT3W2aBCLIMQ1wwOAw6eJAKk9xdE6MaiSS6ZaaUJvf/muUT/+l1pyhZP5r81c4lzLlDKgInzgZ1ivO4II3eiEG0eDTxDCNTepN9IsjsrykHA3wwEm8tF1uJJKF9gAXa6fEzJc8vd9uWn+WLyt+JfikMH108zmT4+RoauWizHyLdNN3SUU9YQux3YpDTUr/3ZjJ7gc2bHVjW8Mm9ORmeFPPBw2mDpwpiVpy/37FDJuCL4e9ukW8ewn+2QJrqaL4FAU1UNKBzq9mfWLmiBQ==
-Received: from AM0PR06CA0123.eurprd06.prod.outlook.com (2603:10a6:208:ab::28)
- by AS4PR07MB8460.eurprd07.prod.outlook.com (2603:10a6:20b:4e7::8) with
+ bh=2CRHsESif/f0/kgSztC4khaC5Vizk6B0ZcwVLWkgPDM=;
+ b=W7JbrFzoWp47OiZDzpHfog/LWcgnfjXs0BJ4B8gkzbHBiw0vDULGEGoDOcDC3AOy1G/i3WdnXB1xAq8ujCBSf9r0fMAy0E6n3m1azefkE+wTUqUPVLY8bT4WU+pU9mOa3CEpZI8QwULwVYGyMd897kFITN9mpf2M1NEeZoU92I1BpgKOk0e3IPhlkz6Yt/fwjXf+Z9SaMOeo6JMVduTlx0K22bUO3BOdkHHC6thjjfVN12aPE5gUGAe73G/2KWtj/MMxqtSFelLyc30NVxaNfQJlV+xqVLR9ORUpcdwk4LBEHdnDIp4w5tbbDI5prxfJLFkdG2HybtKOqFBCvfEk9w==
+Received: from DU7P194CA0019.EURP194.PROD.OUTLOOK.COM (2603:10a6:10:553::34)
+ by AM7PR07MB6818.eurprd07.prod.outlook.com (2603:10a6:20b:1c1::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Wed, 21 May
- 2025 13:44:25 +0000
-Received: from AM3PEPF0000A797.eurprd04.prod.outlook.com
- (2603:10a6:208:ab:cafe::f) by AM0PR06CA0123.outlook.office365.com
- (2603:10a6:208:ab::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.28 via Frontend Transport; Wed,
- 21 May 2025 13:44:25 +0000
+ 2025 13:44:27 +0000
+Received: from DU2PEPF00028CFF.eurprd03.prod.outlook.com
+ (2603:10a6:10:553:cafe::9e) by DU7P194CA0019.outlook.office365.com
+ (2603:10a6:10:553::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.20 via Frontend Transport; Wed,
+ 21 May 2025 13:44:27 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -44,154 +44,254 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- AM3PEPF0000A797.mail.protection.outlook.com (10.167.16.102) with Microsoft
+ DU2PEPF00028CFF.mail.protection.outlook.com (10.167.242.183) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8769.18 via Frontend Transport; Wed, 21 May 2025 13:44:24 +0000
-Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.69) with Microsoft SMTP Server
+ 15.20.8769.18 via Frontend Transport; Wed, 21 May 2025 13:44:27 +0000
+Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 21 May 2025 15:44:23 +0200
+ 15.2.1544.14; Wed, 21 May 2025 15:44:26 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 56970AAB10;
-	Wed, 21 May 2025 15:44:14 +0200 (CEST)
+	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 84ECC4020B71;
+	Wed, 21 May 2025 15:44:26 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 4261170B5B03; Wed, 21 May 2025 15:44:14 +0200 (CEST)
+	id 72EC470B5B03; Wed, 21 May 2025 15:44:26 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>, Peter Marko
-	<peter.marko@siemens.com>, Marta Rybczynska <rybczynska@gmail.com>, "Joshua
- Watt" <JPEWhacker@gmail.com>, Quentin Schulz <quentin.schulz@cherry.de>
-Subject: [PATCH v5 0/3] Check compiled files to filter kernel CVEs
-Date: Wed, 21 May 2025 15:43:57 +0200
-Message-ID: <20250521134400.1733473-1-daniel.turull@ericsson.com>
+CC: Daniel Turull <daniel.turull@ericsson.com>, Quentin Schulz
+	<quentin.schulz@cherry.de>, Joshua Watt <JPEWhacker@gmail.com>, Peter Marko
+	<peter.marko@siemens.com>
+Subject: [PATCH v5 2/3] spdx: add option to include only compiled sources
+Date: Wed, 21 May 2025 15:43:59 +0200
+Message-ID: <20250521134400.1733473-3-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250521134400.1733473-1-daniel.turull@ericsson.com>
+References: <20250521134400.1733473-1-daniel.turull@ericsson.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF0000A797:EE_|AS4PR07MB8460:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbaad12b-726c-497d-0298-08dd986d996b
+X-MS-TrafficTypeDiagnostic: DU2PEPF00028CFF:EE_|AM7PR07MB6818:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0dab7722-34b8-4d23-5a0d-08dd986d9ae7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
+	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700013|7053199007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?sClYGweeW4QcTX7no/Li6t7pnPLdxY4A/iHT1QAC7FJuxDBuzTi9yy0HbTyW?=
- =?us-ascii?Q?hHhPj0MZmKGgV2xN6LL15IKTgkj+Bty7uxx9DtwIivuow5l/ElXu0O/pLaQi?=
- =?us-ascii?Q?nMSv5W52GPy/auQCP9xz7gDGTKE2ty7/CsflkcTVXWby+mgh5e24FuZS9vtK?=
- =?us-ascii?Q?8p3ttgbQNDdXpidKZmO2+xij/9BcAQm9FFlocRpU/+SXXiO7URfb/w3XqHG8?=
- =?us-ascii?Q?xOCvFwn7Cfv+/YNGz+EEX+W/U1nnQ7lwGU74EwfimW+L330Uh/lODP7vYbOO?=
- =?us-ascii?Q?7zgAShyNzy1j21Yjq44oh8XC2eo70vRFa6sDzyLEQ29calfVlPl5I+KmEQMJ?=
- =?us-ascii?Q?VgZ728zxhzrF1gHP31vOV7fp004J3eKW18swJ7DYaC/tu2RVv79wdBTXZYGb?=
- =?us-ascii?Q?rhMXQwWp+thxXKlvwAvtTk1jFWkSkkX0AejdvcbzAeowvYTv0ANKHrMYoeQt?=
- =?us-ascii?Q?nURDdVRG9W9SdEa4uEWEnNuwdXzJnGCWAVSQs/t0fmd2VUkLxrWdXylQ8PC+?=
- =?us-ascii?Q?LCxpIcUHbkDKddCdwKHxFmtAtSmF5L1Vnj2u0UUjqWGboB0zM3xOsJbyH5w7?=
- =?us-ascii?Q?1c2rYnRHoDEBfZledDe/UF2rpP2h5TCMHhUEMnkwJSXaNVaeAENDMUF4pYTa?=
- =?us-ascii?Q?V1dSzTSvjUKD/0rWoMz3zDeuXHHA9yoJ9WnGhgF3EgKdWCKwO6E6lucOn8MA?=
- =?us-ascii?Q?uwf/EFWuWFipH9EjNyl/R+5+io28p8jqpavTGDYTPjCKMzsnTxfzSvWGtAQT?=
- =?us-ascii?Q?JrTPTXO9KFttc6I1ddJQXE6mS0tb0M48AfLBEHvb2R1oWVsr54pjYQ4HYrCd?=
- =?us-ascii?Q?Dy1cIKrX4Izzo39qgUJr4utmWFSczs03PE+hUcy0euCYM5JnN92HMMOavbvi?=
- =?us-ascii?Q?L90xW5zcf8obM6LqA+UgD1P2Lygz8kQRTEYZ1uZy5GSxARygUedKwamSOQIS?=
- =?us-ascii?Q?91YGCICD51ieoLQk7prpxTs0tROfj9XD6h2d29izWtCy9hb53PIl8JWn9NG1?=
- =?us-ascii?Q?xwpnKnSgKmjcM2NkzJl1/Jkun776exUtpkys2r079bwUq9pEOCf4Z7qrOaU0?=
- =?us-ascii?Q?iLXQFBzHDrrTwA7Yqluapvj5ew7fxu6rgWH400Mg837acsaEEH1vXcMFRF9e?=
- =?us-ascii?Q?zKZuajC4oZ5NyySWl9iG7S4ze2Qt0seHe05lRTCL2TBC6XGGWtWb1zXp8Tgz?=
- =?us-ascii?Q?X91bhh8eTHSp65v6vk9TPpHDU5/Curik2Pa2erlboPicgDO1kNLvTuW9OBWU?=
- =?us-ascii?Q?WVXBYOr8JjClWi542EJrdQ/Fw0WZP4oQtrkH7OZPZoq4QJlva7quOd2HsHlX?=
- =?us-ascii?Q?hlVAwhA/lMUX2tXa7XK1iLMwa1Mu0gWczqMJRDC1y276j4QujEuDNl7eRJmi?=
- =?us-ascii?Q?ZTF6zNUbzzG2hUd3aDjvsNAJ57eMeDiINlSufrdW5qnnxUZiYBDxs43sahS/?=
- =?us-ascii?Q?2Fz+lA1A/4b0wdypMh3v/mTI5g75s3tfvu/F1GcCBMxkaGHm6YNURuIyaxph?=
- =?us-ascii?Q?Ay4ZiUkmzYKsc1ue+z8qWjsxT/Nh5eXRKKlV?=
+	=?us-ascii?Q?VIDDLPp/13j9vSvLXTiIXYECRHE0LB3gHJTpBM+T+ohOBgoOfT9CyU2Vbj93?=
+ =?us-ascii?Q?Q+DwOcUbumVN7z6i91ZJpFI8UL/QnJaikuxHA5E88C18wet2/ao1ieB3c+Up?=
+ =?us-ascii?Q?nzgtfLzOuziHlPwjaBj+s6bSalsVYZhI6L1quq498VTxlmeY7qo46960QpAK?=
+ =?us-ascii?Q?ct6GEobFpDKK/jEUfWhPIw013R+yL0NGJ8jFOJ5siXrxKBWc1AxypGX8pm2U?=
+ =?us-ascii?Q?m1UIO7gUESzM81DIG7CLaNi8Es5YLf/enzmei7icEsGD2m/JAZs+5KIvs2NQ?=
+ =?us-ascii?Q?JbwjcQbyrR8fbI6DREr9skr+XB0zK+wbiYm3wNutOHOh86TLAv7ceeEaJXOc?=
+ =?us-ascii?Q?3ex2R3ftcCPtJgitvWjOhvqhSh+eeEgWQCqlQiZwfIKWbu6rr1zQ5IYn6WuE?=
+ =?us-ascii?Q?Zp3859h7ML0I88Ca9fJtQ+3bVH4Bp8Uj4AGl3EifmVKMjLQP0TgmcbGXRde+?=
+ =?us-ascii?Q?Mkl31RLDtrUA455ui+1iSlGilwHH/uM4QulfNzdao+l4tGtaLgI1aKSCOD1D?=
+ =?us-ascii?Q?FKcgkv4YvrjlZrr5qACfzQ457CHW8c/7Tul++irOabUzsqX9a5vpxFKCbqYk?=
+ =?us-ascii?Q?/cI6DIxtP4q8Zm2H+v86Wb1lj9qTNMe1buAQmrpF5H5aK4hOjYJsqpoVBMLA?=
+ =?us-ascii?Q?sp2Khk9WPExC5/3Cs41zqVsfDGug8jgqqr7sHrQB6lF3IHTDguUAnTZ+hWOi?=
+ =?us-ascii?Q?T3pUrTqh4J0f6f4YlLoJkeKzFZ+xCu+ZHz3zJnm7TNtbjcm65nB3FINR2zhm?=
+ =?us-ascii?Q?VmR1Qw/J+FlZxzEif2L1E2syf7QZmre5AQo0oqpzCBL3nR1ONJjl2ABDZgn1?=
+ =?us-ascii?Q?X9834Q5Al2Vzn7U04LN7NdmSf/jFNxWqgesdrW6Yz+gNIO3oZzsIuv5k2j3k?=
+ =?us-ascii?Q?RnPvKf/7bofEoNzlt99B0rvcLsyIvvM6VIiwGekUHn/3pio4YGEuZhPHztyo?=
+ =?us-ascii?Q?TFa1x9R0/ROxV2sdCaryUVMj9wprMSwEm5Dki2HtewzKU0fDxJeEFh0kdoKm?=
+ =?us-ascii?Q?dqKUSCepF9fkl3o9ghyHdNhjjwpeI6BjpA9ZoR/h64lkp7l14D20WIO+H5uC?=
+ =?us-ascii?Q?EtQH6bmtxM4+MDkeQfJ6Zkv6Us7o+9YzG8cUu7brgpaGMkeB7CgEYkYVkHXT?=
+ =?us-ascii?Q?L3WRVNyfsG09c93qh74UD3ez1Ts2eCMhOM4nQMWnUfDzgTeiZqhdX4YuaFGS?=
+ =?us-ascii?Q?3B7oTi5LzDnj5/z7lFaX1plvSX/Jdj5XwjKfsMlvye9kvfjo5eTWfUv/AI/J?=
+ =?us-ascii?Q?wmoQW/ewe9QBmBofuvq/H+Ppwqmk7bXYwVYGxuJToE9OaF7X8dxrDELdYI9s?=
+ =?us-ascii?Q?3/dTN/ONkhTsy7ogx6xbDYYm/AYtGuA1E6TflWXf5nmcocvitBzx+rKLmIAq?=
+ =?us-ascii?Q?x/K8ik5IhDgnfQEX5+BmHaJ9hiMQZolhE3TjLT+aENLhijSXkko1KU4nbBq3?=
+ =?us-ascii?Q?/V1CBhIMMrIsRtR5XzpDJwXBwpZQAodFzoJqBS9hbUw4YgwOxyYuxA=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013)(7053199007);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 13:44:24.8229
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 13:44:27.3322
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbaad12b-726c-497d-0298-08dd986d996b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0dab7722-34b8-4d23-5a0d-08dd986d9ae7
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AM3PEPF0000A797.eurprd04.prod.outlook.com
+	DU2PEPF00028CFF.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR07MB8460
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6818
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 May 2025 13:44:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217024
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217026
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-Since kernel.org became a CNA, more information is available in the publish=
-ed CVEs, including details about which files are affected by a given CVE.
+When SPDX_INCLUDE_COMPILED_SOURCES is enabled, only include the
+source code files that are used during compilation.
 
-I have rewritten the original patch after the feedback received, including =
-only the basic functionality in the build (extracting the sources as a text=
- file and inside spdx) and created a postprocessing script that enrich the =
-cve-summary.
+It uses debugsource information generated during do_package.
 
-To filter out CVEs that are not applicable, we extract the files used durin=
-g the kernel compilation and
-compare it with the metadata in the CVE.
+This enables an external tool to use the SPDX information to disregard
+vulnerabilities that are not compiled.
 
-To enabled, add in your local.conf SPDX_INCLUDE_COMPILED_SOURCES. It will g=
-enerated spdx files with only the used sources.
-If only the kernel is wanted use in your local.conf: SPDX_INCLUDE_COMPILED_=
-SOURCES:pn-linux-yocto =3D "1".
+As example, when used with the default config with linux-yocto, the spdx si=
+ze is
+reduced from 156MB to 61MB.
 
-This could use as a base to run the vulnerability check independently and r=
-un an external tool to filter the CVEs.
-
-v1: initial proposal
-v2:
-  - rewrite kernel_vulns to fetch similarly as cve-update-db-native
-  - add functionality into cve_check.py, for the classes that uses oe.get_p=
-atched_cves function
-  - add linux-vulns into the cve-check results
-  - add only compiled files in the spdx, so the check can be done outside t=
-he build
-  - include compiled files into spdx when CVE_CHECK_KERNEL_CONFIG and SPDX_=
-INCLUDE_SOURCES is enabled
-v3:
-  - make inclusion of compiled files generic for SPDX, so other systems tha=
-t has knowledge of used files can also make more accurate sboms
-  - have the functions to extract files in kernel.bbclass. For other recipe=
-s that in the future want to use this feature can add the function in their=
- recipe or in a build bbclass.
-  - move order of patches
-  - explicitly have the save_compiled_files added only when having the CVE_=
-CHECK_KERNEL_CONFIG
-  - add first kernel cves in cve_check, so manual CVE_STATUS is preserved
-  - add CVE_STATUS for false positives
-v4:
- - Refactor and reduce series to 3 patches, one for spdx, one for the kerne=
-l, and one standalone script
-v5:
- - Use debug information from do_package to extract compiled files
- - Read spdx file from the kernel in the script to process files
-
-CC: Peter Marko <peter.marko@siemens.com>
-CC: Marta Rybczynska <rybczynska@gmail.com>
-CC: Joshua Watt <JPEWhacker@gmail.com>
 CC: Quentin Schulz <quentin.schulz@cherry.de>
+CC: Joshua Watt <JPEWhacker@gmail.com>
+CC: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+---
+ meta/classes/create-spdx-2.2.bbclass |  9 +++++
+ meta/classes/spdx-common.bbclass     |  3 ++
+ meta/lib/oe/spdx30_tasks.py          | 10 ++++++
+ meta/lib/oe/spdx_common.py           | 49 ++++++++++++++++++++++++++++
+ 4 files changed, 71 insertions(+)
 
-Daniel Turull
-
-Daniel Turull (3):
-  package: change location of debugsources to PKGDESTWORK
-  spdx: add option to include only compiled sources
-  improve_kernel_cve_report: add script for postprocesing of kernel CVE
-    data
-
- meta/classes/create-spdx-2.2.bbclass         |   9 +
- meta/classes/spdx-common.bbclass             |   3 +
- meta/lib/oe/package.py                       |   5 +-
- meta/lib/oe/spdx30_tasks.py                  |  10 +
- meta/lib/oe/spdx_common.py                   |  49 ++
- scripts/contrib/improve_kernel_cve_report.py | 467 +++++++++++++++++++
- 6 files changed, 542 insertions(+), 1 deletion(-)
- create mode 100755 scripts/contrib/improve_kernel_cve_report.py
-
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spd=
+x-2.2.bbclass
+index 7e8f8b9ff5..6fc60a1d97 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -137,6 +137,11 @@ def add_package_files(d, doc, spdx_pkg, topdir, get_sp=
+dxid, get_types, *, archiv
+     spdx_files =3D []
+=20
+     file_counter =3D 1
++
++    check_compiled_sources =3D d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") =
+=3D=3D "1"
++    if check_compiled_sources:
++        compiled_sources, types =3D oe.spdx_common.get_compiled_sources(d)
++        bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
+     for subdir, dirs, files in os.walk(topdir):
+         dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
+         if subdir =3D=3D str(topdir):
+@@ -147,6 +152,10 @@ def add_package_files(d, doc, spdx_pkg, topdir, get_sp=
+dxid, get_types, *, archiv
+             filename =3D str(filepath.relative_to(topdir))
+=20
+             if not filepath.is_symlink() and filepath.is_file():
++                # Check if file is compiled
++                if check_compiled_sources:
++                     if not oe.spdx_common.is_compiled_source(filename, co=
+mpiled_sources, types):
++                          continue
+                 spdx_file =3D oe.spdx.SPDXFile()
+                 spdx_file.SPDXID =3D get_spdxid(file_counter)
+                 for t in get_types(filepath):
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bb=
+class
+index 713a7fc651..ca0416d1c7 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -26,6 +26,7 @@ SPDX_TOOL_VERSION ??=3D "1.0"
+ SPDXRUNTIMEDEPLOY =3D "${SPDXDIR}/runtime-deploy"
+=20
+ SPDX_INCLUDE_SOURCES ??=3D "0"
++SPDX_INCLUDE_COMPILED_SOURCES ??=3D "0"
+=20
+ SPDX_UUID_NAMESPACE ??=3D "sbom.openembedded.org"
+ SPDX_NAMESPACE_PREFIX ??=3D "http://spdx.org/spdxdocs"
+@@ -40,6 +41,8 @@ SPDX_MULTILIB_SSTATE_ARCHS ??=3D "${SSTATE_ARCHS}"
+ python () {
+     from oe.cve_check import extend_cve_status
+     extend_cve_status(d)
++    if d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") =3D=3D "1":
++        d.setVar("SPDX_INCLUDE_SOURCES", "1")
+ }
+=20
+ def create_spdx_source_deps(d):
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 61d7ba45e3..beeafc2bb7 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -156,6 +156,11 @@ def add_package_files(
+         bb.note(f"Skip {topdir}")
+         return spdx_files
+=20
++    check_compiled_sources =3D d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") =
+=3D=3D "1"
++    if check_compiled_sources:
++        compiled_sources, types =3D oe.spdx_common.get_compiled_sources(d)
++        bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
++
+     for subdir, dirs, files in os.walk(topdir, onerror=3Dwalk_error):
+         dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
+         if subdir =3D=3D str(topdir):
+@@ -171,6 +176,11 @@ def add_package_files(
+             filename =3D str(filepath.relative_to(topdir))
+             file_purposes =3D get_purposes(filepath)
+=20
++            # Check if file is compiled
++            if check_compiled_sources:
++                if not oe.spdx_common.is_compiled_source(filename, compile=
+d_sources, types):
++                    continue
++
+             spdx_file =3D objset.new_file(
+                 get_spdxid(file_counter),
+                 filename,
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+index 4caefc7673..e4959fb755 100644
+--- a/meta/lib/oe/spdx_common.py
++++ b/meta/lib/oe/spdx_common.py
+@@ -242,3 +242,52 @@ def fetch_data_to_uri(fd, name):
+         uri =3D uri + "@" + fd.revision
+=20
+     return uri
++
++def is_compiled_source (filename, compiled_sources, types):
++    """
++    Check if the file, is a compiled file
++    """
++    import os
++    # If we don't have compiled source, we assume all are compiled.
++    if len(compiled_sources) =3D=3D 0:
++        return True
++    # We remove the top directory, to match the format in compiled sources
++    relative =3D filename[filename.find("/")+1:]
++    basename =3D os.path.basename(filename)
++    # We return always true if the file type is not in the list of compile=
+d files
++    if basename[basename.find("."):] not in types:
++        return True
++    # Check that the file is in the list
++    return relative in compiled_sources
++
++def get_compiled_sources(d):
++    """
++    Get list of compiled sources from debug information and normalize the =
+paths
++    """
++    sourcefile =3D d.expand("${PKGDESTWORK}/debugsources/${PN}-debugsource=
+s.list")
++    pn =3D d.getVar('PN')
++    pv =3D d.getVar('PV')
++
++    if not os.path.isfile(sourcefile):
++        bb.debug(1, "Do not have debugsources.list. Skipping")
++        return [], []
++    with open(sourcefile, 'r') as sf:
++        # We need to normalize the path to match the one in the package
++        # kernel is special case that doesn't match pn
++        # filenames are null-separated - this is an artefact of the previo=
+us use
++        # of rpm's debugedit
++        sources =3D sf.readline()\
++                    .replace(f"/usr/src/debug/{pn}/","")\
++                    .replace(f"/usr/src/kernel/","")\
++                    .replace(f"/usr/src/{pn}/","")\
++                    .replace(f"{pv}/","")\
++                    .split('\0')
++    # Check extensions of files
++    types =3D []
++    for src in sources:
++        basename =3D os.path.basename(src)
++        ext =3D basename[basename.find("."):]
++        if ext not in types and len(ext)>0:
++            types.append(ext)
++    bb.debug(1, f"Num of sources: {len(sources)} and types: {len(types)} {=
+str(types)}")
++    return sources, types
 
