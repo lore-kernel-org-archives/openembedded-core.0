@@ -1,144 +1,103 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BFDC54E90
-	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 15:01:20 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.26064.1747926072665157855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB8FC54E65
+	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 15:05:30 +0000 (UTC)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web10.26007.1747926321952459707
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 May 2025 08:01:12 -0700
+ Thu, 22 May 2025 08:05:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SqDHQD4r;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-440685d6afcso86417545e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 08:01:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aY08NHqv;
+ spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2d522f699bcso3047966fac.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 08:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747926071; x=1748530871; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LO79SqxbvbO6w/KgZWvyoryl2c+RxUhjXwpwG46yr1M=;
-        b=SqDHQD4rUGa6WLxbn3EiUCidVgTZcnJAN94Aptnwox0UpSASe/mgsJzLmizr4Qz63Z
-         6eiEWH5UaenrwjSVUBeAbWUjXxk2DPIthB3wExDVxd3sRJHzJXOQtBHUfwN6TBqqT/CF
-         mUx4/lhDMJ5FVxNa0PyXdVQ8IQ7RlVlqoVeeFfvliaqMKGFrUfun8rWmey4G8yruXQgz
-         akqn5WN33nwDPoN5loUrd4X2V8Wb9joyPp5OfVmscwZigQIFjQ4HUWAtFCgzQOjxDhGb
-         PyRH0wGPXEvDizXkulmjgaG7HHQLj4DsIP8inr4OnGRk4onu4HpN+djxKI+E1ST2SXfp
-         SEyg==
+        d=gmail.com; s=20230601; t=1747926321; x=1748531121; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zS6fHfLBpMfy2UFvIcagDohtCwz2FNmO8eAQqDHWpCI=;
+        b=aY08NHqveuHiD/h6SAeJKRPzXuqeQkdO/EW9yEF45FP/lX05erwQUx4YeeAqndvd11
+         dvsW4gf7H1c1IXxEMvIh/WDSAOhXGCgwNG5gPGss5yIdRJjjQe9+AlZWBnvsY7BekNSU
+         Fpm67Ckw+jSqBGEd4Mcnhu/f81jeQ89hc1HPxH6f1mYmsKudzoHj9oJq63DLbtxBScqd
+         UKnZ6Im5vnaDG9Ti13ORSw/6e/Z6rCW0l45rGPjeBc7BgBtA8/EPHbJIpxUamJ4TGeKT
+         B5YhKr6eqi5P/ZlOqp96OwuHpnxygC43F92cj5PRQYsAMzio0CimVhDmQK4uq6TA6VHK
+         AuQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747926071; x=1748530871;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LO79SqxbvbO6w/KgZWvyoryl2c+RxUhjXwpwG46yr1M=;
-        b=cqrW9zrjMsaEB9Lq5HrOZQCNTfjlpzRg/wP4nr8GYr9FLZ8jSXN/KSdRuUrs5pEz/v
-         3/3tjpdf0IH1TPtROgOBN+q4SCQbV20ZmrFtM9bJ0rXGCPEOD4bBcLl2WgIqpN1Aksft
-         q4RtQ4fnPkb1QbECiYj76oHNkYdG3uz1ObSDhggP8wGi2GgeoNUJt0nHaQtH0/dE8ev1
-         5aR/9h7NJqd1+KvpuuvygHyGs0izKVYrSyK/Wsc5pcGsjgYeJyLx12ud+LM15xMfqpiq
-         Xm+HSl4Nwns9A68tni5PzEcJj0jXGzf83ZrpXanaA/o5dPtF8VzpaAJG2a6WK0NwltHR
-         j3Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7x60tR6cwKArEC7P0qntWpECXTW/VQ6CO4OvqPpb7l1pt+D2gyotVTwBIZ/dWNkp12VvW4mAPbXaNvGODvJn7/w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxQ3rL9dHqZl+1YyEVD7JOJtmTr4IPbK5/63wWtY62075wPtwvn
-	BfS9uC8l/e2GLdapY3oENB3tgfEtIf6TsbNlUjzW4sUA2zTBC9pR/anS
-X-Gm-Gg: ASbGncsB3FF5RNfhl1tQ+TBNcJ2Ln0V+H+dSl8fDW5pYzqNSJ393Fh0woXw/s08LrNE
-	vIKBKRAG5rssIlCfqqBZkLvoUeZ4mcDg8KNgT8L9dSZl3Znpd79Ypw7jqiOYWDcMtisoM5wtMcb
-	A30znJI8GsRNHmX/oPQ8E+RzOmuZggeO229jtzT9uu7v3odVesjj/88eWOEKw3e+qFmEg+PgPVC
-	kLe3PgZBTWTQgaQj/Q1prUOMwFORC4hVaH0YuZZavPPIK2KJXg2iKmHMGPigTSgB1F2A9hVSnde
-	+bm0PqgxdhDfasKiWXuTD4NcAzJ7hyCyZpjFBtqW+4MK9niVnkk3LcraLgE=
-X-Google-Smtp-Source: AGHT+IGuu9Aol459qZuV9SPRsYdWfyP0djA1586vyHmqiAopHyjNFVUERRbqAu5cL3Hl0m3Bgrg9JQ==
-X-Received: by 2002:a05:6000:1a86:b0:39d:8d54:5eac with SMTP id ffacd0b85a97d-3a35fe5bb4emr22469450f8f.11.1747926070467;
-        Thu, 22 May 2025 08:01:10 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442eb85bb20sm206865045e9.0.2025.05.22.08.01.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 May 2025 08:01:09 -0700 (PDT)
-Message-ID: <566ce066-c7a7-48d6-97e1-592f06a82897@gmail.com>
-Date: Thu, 22 May 2025 17:01:09 +0200
+        d=1e100.net; s=20230601; t=1747926321; x=1748531121;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zS6fHfLBpMfy2UFvIcagDohtCwz2FNmO8eAQqDHWpCI=;
+        b=K6IeSWUR7M70EB4ooTFmCZhkp0KSXgwLQr/qGghR0ONUfWGKAAw2mWZYEPu+6Yll4C
+         nrXv0SfSGyyUGqMdtHr6p4Zp9XmF84sd9l8QYSJbNkhfxOqfyQMH+1mBJLCk/du9PNMN
+         Ih8Qp9OEe1GWEIfxQnk9zyA6J5kg20JYKHXdrJJymLCwWFpvSVIrKYDbLzgkaR7k2Rmi
+         +7hW2VPner+RBwlUTet5lHshuptcLTvGNW0DVwNDH69vLL7xOdf/0NxoFTt5vaT4luq0
+         bwqqU8SFkuzAk5q6dwaSNXP9IdF3tNmLi0HgqCZdPKuUk8ErLlrx8cusppJu4KAulVWL
+         Ou8Q==
+X-Gm-Message-State: AOJu0YxwztPhDD1B/7j/PEuO07U7QMMy0JFb/zORZwKvhDqnhCCct/N3
+	jX6MWyreMdzmRRSbsn52mCpWtFueHVppOraEAS0NoV3/pNI4Lbui0Y7vhnZ+0cyEJd267kOE35F
+	hOnRNtn/rbz9k07Ab04vW+wDNLzA3SUQ=
+X-Gm-Gg: ASbGncvU3JJ88/1Xud7Nhfc16w99PgNpl+IQ7AvsJBfXoumZgZ3VORdjGigGdP0daW4
+	V6Mkdtu+dXK4RvYbrX3lueu2KMGoYLlNYc3bZ7YOsGahLC5H3RmzJw/6uzq9x5QO+UmSRzosLzU
+	SpwznlOWHKl5yJTwaCGOi8OyukNC7D2bKj
+X-Google-Smtp-Source: AGHT+IFdse3SWTBdk5RpnbHt++dlexCiTMv5M5b9u77aSJKOPNXD7yGEZ4VUigXXv859XHAaZZ/7d7jekuUtSv7oq9Q=
+X-Received: by 2002:a05:6870:ff96:b0:2d4:e420:926d with SMTP id
+ 586e51a60fabf-2e3c854fdf8mr16819956fac.29.1747926321093; Thu, 22 May 2025
+ 08:05:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 06/12] mesa: don't add extra tags to the
- libopencl-mesa package
-To: dmitry.baryshkov@oss.qualcomm.com,
- openembedded-core@lists.openembedded.org
-References: <20250522144605.2876771-1-dmitry.baryshkov@oss.qualcomm.com>
- <20250522144605.2876771-6-dmitry.baryshkov@oss.qualcomm.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <20250522144605.2876771-6-dmitry.baryshkov@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
+ <20250520-clang-toolchain-v2-25-db97c2eb3756@gmail.com> <CANNYZj8zmVkDj=2H-iPvGiYUy=RUnafr4HEb0eXRH+NpaM6JRA@mail.gmail.com>
+In-Reply-To: <CANNYZj8zmVkDj=2H-iPvGiYUy=RUnafr4HEb0eXRH+NpaM6JRA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 22 May 2025 08:04:54 -0700
+X-Gm-Features: AX0GCFu2bvBGKrx9DrjNU8g1Q2Fv4gb2EkAKQO3i3m1nFqKFVwDfW7jDha5C4Dc
+Message-ID: <CAMKF1sqDDvG0H+qYrELDDyMc++PjH84jftddUVcuhucYSvqxgg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 25/28] seatd: Disable sign-compare warning as
+ error on clang
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 15:01:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217124
+ <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 15:05:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217125
 
+On Thu, May 22, 2025 at 3:17=E2=80=AFAM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> On Wed, 21 May 2025 at 08:20, Khem Raj via lists.openembedded.org
+> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
+> > +#../git/common/connection.c:154:55: error: comparison of integers of d=
+ifferent signs: 'unsigned long' and 'long' [-Werror,-Wsign-compare]
+> > +#  154 |         for (cmsg =3D CMSG_FIRSTHDR(msg); cmsg !=3D NULL; cms=
+g =3D CMSG_NXTHDR(msg, cmsg)) {
+> > +#      |                                                              =
+^~~~~~~~~~~~~~~~~~~~~~
+> > +#/mnt/b/yoe/master/sources/poky/build/tmp/work/riscv64-poky-linux-musl=
+/seatd/0.9.1/recipe-sysroot/usr/include/sys/socket.h:358:44: note: expanded=
+ from macro 'CMSG_NXTHDR'
+> > +#  358 |         __CMSG_LEN(cmsg) + sizeof(struct cmsghdr) >=3D __MHDR=
+_END(mhdr) - (unsigned char *)(cmsg) \
+> > +#      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +#1 error generated.
+> > +CFLAGS:append:libc-musl:toolchain-clang =3D " -Wno-error=3Dsign-compar=
+e"
+>
+> This is silencing an error, and it would be better to fix the issue
+> instead. Also, why is it musl-specific?
 
+It does not look like a problem in the package but rather something in
+system headers from musl since CMSG_NXTHDR is from sys/socket.h thats
+why its done
+the way it is. I am working with musl to see if this is the right
+behavior for musl
 
-On 5/22/25 16:45, Dmitry Baryshkov via lists.openembedded.org wrote:
-> The libopencl-mesa package provides OpenCL ICDs (Installable Client
-> Drivers). As such, there is no conflict between several packages
-> providing ICDs for different vendors. Split the loop that modifies
-> package metadata and stop adding extra RPROVIDES / RCONFLICTS /
-> RREPLACES tags to the libopencl-mesa package.
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> index a309c8023bd2..98860a0d7d15 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -264,28 +264,31 @@ do_install:append () {
->  # RPROVIDEs/RCONFLICTs on the generic libgl name.
->  python __anonymous() {
->      pkgconfig = (d.getVar('PACKAGECONFIG') or "").split()
-> +    mlprefix = d.getVar("MLPREFIX")
->      suffix = ""
->      if "-native" in d.getVar("PN"):
->          suffix = "-native"
-> +
-> +    for p in ("libegl", "libgl", "libglx", "libgles1", "libgles2", "libgles3", "libopencl"):
-> +        fullp = mlprefix + p[1] + "-mesa" + suffix
-Is it supposed to be  "fullp = mlprefix + p...", instead of p[1]?
-Otherwise it's the same letter "i" over and over again.
-> +        d.appendVar("RRECOMMENDS:" + fullp, " ${MLPREFIX}mesa-megadriver" + suffix)
-> +
-> +    d.setVar("DEBIAN_NOAUTONAME:%slibopencl-mesa%s" % (mlprefix, suffix), "1")
-> +
->      for p in (("egl", "libegl", "libegl1"),
->                ("opengl", "libgl", "libgl1"),
->                ("glvnd", "libglx",),
->                ("gles", "libgles1", "libglesv1-cm1"),
-> -              ("gles", "libgles2", "libglesv2-2", "libgles3"),
-> -              ("opencl", "libopencl",)):
-> +              ("gles", "libgles2", "libglesv2-2", "libgles3")):
->          if not p[0] in pkgconfig:
->              continue
-> -        mlprefix = d.getVar("MLPREFIX")
->          fullp = mlprefix + p[1] + "-mesa" + suffix
-> -        mlprefix = d.getVar("MLPREFIX")
->          pkgs = " " + " ".join(mlprefix + x + suffix for x in p[1:])
->          d.setVar("DEBIAN_NOAUTONAME:" + fullp, "1")
->          d.appendVar("RREPLACES:" + fullp, pkgs)
->          d.appendVar("RPROVIDES:" + fullp, pkgs)
->          d.appendVar("RCONFLICTS:" + fullp, pkgs)
->  
-> -        d.appendVar("RRECOMMENDS:" + fullp, " ${MLPREFIX}mesa-megadriver" + suffix)
-> -
->          # For -dev, the first element is both the Debian and original name
->          fullp = mlprefix + p[1] + "-mesa-dev" + suffix
->          pkgs = " " + mlprefix + p[1] + "-dev" + suffix
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#217117): https://lists.openembedded.org/g/openembedded-core/message/217117
-> Mute This Topic: https://lists.openembedded.org/mt/113248268/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
+> Alex
 
