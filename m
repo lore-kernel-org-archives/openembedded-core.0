@@ -1,162 +1,215 @@
-Return-Path: <a.fatoum@pengutronix.de>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87E15C54E65
-	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 12:38:29 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.22733.1747917500482468476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8637CC54E65
+	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 12:38:59 +0000 (UTC)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.84])
+ by mx.groups.io with SMTP id smtpd.web10.22740.1747917531525808209
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 May 2025 05:38:21 -0700
+ Thu, 22 May 2025 05:38:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: a.fatoum@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1uI5Bh-0004Cu-N3; Thu, 22 May 2025 14:38:17 +0200
-Message-ID: <01e21e2c-3b4a-426d-8dcc-a956e83c4632@pengutronix.de>
-Date: Thu, 22 May 2025 14:38:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: Re: [yocto] [PATCH v4 07/16] kernel-fit-image.bbclass: add a new FIT
- image implementation
-To: "Freihofer, Adrian" <adrian.freihofer@siemens.com>,
- Marco Felsch <m.felsch@pengutronix.de>
-Cc: "marex@denx.de" <marex@denx.de>,
- "yocto@pengutronix.de" <yocto@pengutronix.de>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20250519110838.82978-1-adrian.freihofer@siemens.com>
- <20250519110838.82978-8-adrian.freihofer@siemens.com>
- <20250519201556.m5cve4ufizexazuy@pengutronix.de>
- <90f23d0316b620b0654efb1fb51755d6c8dfc0e4.camel@siemens.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=DGOS6w0b;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=DGOS6w0b;
+ spf=pass (domain: arm.com, ip: 40.107.241.84, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=U4RE/XRASU0U4oVRtTBeU4PCvqPIzMnCt/aicaZcrKp3qnStxcA2AiAUI6kO1VSqKruLo5wHGePQzM4KuUlKiN33VI5S7v0r2tdYOn4e5TD0jaKA4Wct4XGWy1VTiBfYggC9RRl/tF+0y52YDIHud3offpVsfXsqUzJE2U4Q5DCZhrygIRqJkuYQNF7PZspZphuKrlm3wdKnQaPIlWfgHZCJ1m3L1FV9pIhVbFYTPFP7tr9brvmykgr4uJEHdw+ySIoTAfk2mIgEp8NEXhPC0mnivLPGC+8Geeo8HJcBoLSd/g7H293xIOAdhGU2uZysr6zNzxE6tuPd1edrjZCCAA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ekGGODcunodlS/uj28ezXjsA63YLsAlst9BsoJUPD0c=;
+ b=RKgYK9+OLU+/jFx1cRzavq2vTFqZCTmmgAGKvzApb8EsdxJhG3RLKJ6/pEMXNI8UndGvwuS7IqvOYJeFaf/BtWPeDijhCokffI2rSTrFhFu1GdIhPgT+mSnS+UWdeWIttYF+WclG6Yf7R3ZKT9fcJd63JbA/I89qqeqS/lW/PXYkOUzivF6ZBOIcj496rokSKowVkET51nLPz39oLdOAmHtQySXauLkg2WR3o6+jAcH5wlxZkREBwujzMsl3UBOTW2Rixh27iNgsuONRyKC6oJYkpMyLUpmKXgj1oOa2mFE8zgtusWftN7f3jx7Q5JUBbs3hKSj1uFPcJu/makboGQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=cherry.de smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ekGGODcunodlS/uj28ezXjsA63YLsAlst9BsoJUPD0c=;
+ b=DGOS6w0bDqJqczgEAGVHl4xSnpoPSTbKsNYBZr143vfWt3samKfgA4XJTfJEQP0XHEJ2rEneNKgyILbb2K5mv7hfZv8fPD2VKRua7UxQLjcMGnaJjyKXto4cXVvYD19MH6QX+2RwgzTQkC+GtrVtBmsHXDeAcXa8L/m2brKex+c=
+Received: from DB8PR06CA0056.eurprd06.prod.outlook.com (2603:10a6:10:120::30)
+ by DB9PR08MB8628.eurprd08.prod.outlook.com (2603:10a6:10:3d0::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Thu, 22 May
+ 2025 12:38:45 +0000
+Received: from DB1PEPF0003922E.eurprd03.prod.outlook.com
+ (2603:10a6:10:120:cafe::b6) by DB8PR06CA0056.outlook.office365.com
+ (2603:10a6:10:120::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.31 via Frontend Transport; Thu,
+ 22 May 2025 12:38:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB1PEPF0003922E.mail.protection.outlook.com (10.167.8.101) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18
+ via Frontend Transport; Thu, 22 May 2025 12:38:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E4U0+BsFXzvOcKWi/saQsgTqCP8Hpi5k5ifwtFoMD0gJL/A7eEz99RAmrTLkE0CpzqCZ6Rn1g1cDT3xlQK/pjMt9aDosrJesnLReiDmmTCdBvgwMEGnNm/bm6pbtjagl+7uvq/c2rMogJeOICoOPp/h/quACg3Mut6DQpWIR3NjQd4M7yKJjHisqH9UiOW1HUbIp474lWKnUdiAWykscObiWvdRDEIJJdg4abE0XFbLxRLPAul4kK20zW1gpChZPcuxZbPCLVMjK9BCv3C6dYhY7P4VUOKeY3FGj4sGfDnM3dNXAy9jziDJXLwydlGpAKZYKJKRyZIhFLzE5ZeywHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ekGGODcunodlS/uj28ezXjsA63YLsAlst9BsoJUPD0c=;
+ b=dHPEoiHlwWlRjji5eDkLIqWl4tb2X67LsslmU3evGAbLtb1RIz5Tv+6zyxbu6MwnEvxXaE7/JO4HCKORPqsvv7MMxeYV3tjfQv3TQ8Jf0tXYoyYid5tzl0NX+Cqq7jpqrBu9JMHKjMnSBQoq9WW1lUZC/hy61r8xRWkYtjQUsFVDqWLr+pajRh2rnnjT0Df6pdYq0SfDTWbEu8W2Nb4jfAAIEB0NmI+da9d1PPuOsaVDVJMTGspKg6aXrqG55cY0GvrPhbFdmNmTtF+dmjS61C4lD9Ej0/jeYSeZx+VkCtWTiT9OjBg7o2wEDBGlyj2jz4MfAfnIUB/Mr/mw3CAZ0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ekGGODcunodlS/uj28ezXjsA63YLsAlst9BsoJUPD0c=;
+ b=DGOS6w0bDqJqczgEAGVHl4xSnpoPSTbKsNYBZr143vfWt3samKfgA4XJTfJEQP0XHEJ2rEneNKgyILbb2K5mv7hfZv8fPD2VKRua7UxQLjcMGnaJjyKXto4cXVvYD19MH6QX+2RwgzTQkC+GtrVtBmsHXDeAcXa8L/m2brKex+c=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DBAPR08MB5767.eurprd08.prod.outlook.com (2603:10a6:10:1a7::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.21; Thu, 22 May
+ 2025 12:38:11 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8769.019; Thu, 22 May 2025
+ 12:38:11 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Quentin Schulz <quentin.schulz@cherry.de>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/3] rust: consolidate rust-llvm dependencies
+Thread-Topic: [OE-core] [PATCH 2/3] rust: consolidate rust-llvm dependencies
+Thread-Index: AQHbyoS0jDgqXAx2iUKl52xqt02VkLPelT8AgAACbYA=
+Date: Thu, 22 May 2025 12:38:11 +0000
+Message-ID: <883DBDE8-DEA4-4A97-B450-27FF5098ACF9@arm.com>
+References: <20250521191449.1486927-1-ross.burton@arm.com>
+ <20250521191449.1486927-2-ross.burton@arm.com>
+ <001eb60e-fbb0-43ad-92aa-8f47dc32ef32@cherry.de>
+In-Reply-To: <001eb60e-fbb0-43ad-92aa-8f47dc32ef32@cherry.de>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-In-Reply-To: <90f23d0316b620b0654efb1fb51755d6c8dfc0e4.camel@siemens.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.500.181.1.5)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DBAPR08MB5767:EE_|DB1PEPF0003922E:EE_|DB9PR08MB8628:EE_
+X-MS-Office365-Filtering-Correlation-Id: 687ee4f0-e986-4270-ec1d-08dd992d96fb
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?NzlzRnZxUzFzbEVySkN0cE44YzFUajBMQU80ckovYVFxcitQd2VNRytHNmE0?=
+ =?utf-8?B?SEdxYS93R0dWRm80TWlsYk85L2VmZE43VVp2Z0RDRjRSdVhnL2lSMngyb2dH?=
+ =?utf-8?B?S0hTZVJodGVoSjJRMUFRRDE0NkFuVFRmaVFBRzJob0hET2JPUUhyM3hOMGpj?=
+ =?utf-8?B?ZkFhYWQyVG56OUM5ZTdxTTBoanhvU2hxeVE1QWsxaU9PNVpqd3RzQUE3VDhm?=
+ =?utf-8?B?VWdBNzNRQWJ0YlNhNWZUQm5Qb3hIUGJ6RXFFNEhHaFJZOXNMVHFKU1B3d0JB?=
+ =?utf-8?B?RVJWZmtPZXBkWnl0TzVOUWJDZFQ2MjFhUVpyTi81bTlzUi90bWk2c1VCTytw?=
+ =?utf-8?B?d1ZjVGIvU3dpNEdFbDBoRDhzVGhDSGpCelhoTFBQdDMzK0N2T2dVMmtKNkMv?=
+ =?utf-8?B?LytzVXd4T2RWaDUzaTZ5aW1TUmpBbWRHMHllZUhaQXpwNjV5V2NGWmg2amZM?=
+ =?utf-8?B?RkFhL2s0bFNuSXNXQUkrQ0d0WkNQODB1MGJnOVFiYXVxS3pqOVFlSUd6RTBO?=
+ =?utf-8?B?Z25VL3ZkN0liYkVyVE1ZYmM4VjZOK3l0U0srMjdpczQ3a3FWUW9VZlZTb0dP?=
+ =?utf-8?B?czVkanlBVnVIcityckl3VHZqVmwzK1p0Y0hYMThVM2MvZDM0UzZ0NVQxanI2?=
+ =?utf-8?B?WldIdjRsWm9zaUVmbUZvN3VwUENiUWhzeFpDVVpkY2drRVNIWGI2VUFTcWl5?=
+ =?utf-8?B?REVQMktMRUJYMHBTQys4dm91QmMyY2VsdHlVN0NPais3M21ZQlRhazl3a3N4?=
+ =?utf-8?B?UEpqN3c4MC9lKyt0MGM3a3BxM3BFTVB1VnB6aXI0a04zRG9ZU2pmcExTK1dj?=
+ =?utf-8?B?Mkx0VlJSVXdZYzNmT1ZwSzZocmEzVzRqVnhvdk1OVmhtTjlIUkVadmlHT1ZS?=
+ =?utf-8?B?SHVtY3grV3U5Uk4rV1lpa0tPYkk5MENmdVJhN2FQTFZtS01kQlhIV3hUajBo?=
+ =?utf-8?B?cnpXaWkwbSs1QjJVOGh0RERsOGtaK2wvR0dmQ1lTcEFnTW14U0tLSGY1d0VW?=
+ =?utf-8?B?TnN5SnYvZEZoSmFWT1BnWHlra051Y3gwZ1VnUTBvZXIzckk1R0RrNVZtdjc2?=
+ =?utf-8?B?OWNpUWZWWXpCQzJkTzZySDFEeUtVdDVoYjBnSUlKWXcrNVJrREZxelBkV2t3?=
+ =?utf-8?B?ZUhvNGtieUhLendHUlIwUm00akF3ekdkRUpXdm9DQTJjWnljbjB5UEw3VSsz?=
+ =?utf-8?B?dEsrN2FIdFJmZGhtMVBFaGNRdk1MZkJnR05pUUp1T0VrOXBSeFRkeSs2blpq?=
+ =?utf-8?B?clBTcjB0andsUkZoa3ErQUREVWJtZ2VMVEtMbG5aa012NTJITVpKeWNweWh5?=
+ =?utf-8?B?Y2hBUEZyUlBQRTRKRGxvcnZEaEpraFl0ZDhZTHUwUHVERFFhbzZFeTFFaVA5?=
+ =?utf-8?B?OWdNS1dQU2g3QlZXSG9VZ1VYaFJOc1Z0TEtkM3VYcUcrQ2huMDdxVXNVYU9R?=
+ =?utf-8?B?eEg5WjFQM29KL0xYQ1JrUlRUUFJ6dk1Ub0hFRFRIZ3IyWDdXT28xdTh6Zjd4?=
+ =?utf-8?B?L0FqZ3ZaZ29KOHQ3RnhETnB3c3RFUDU3cCtRRzFBUEhQVXlQbzZTN2VmTHZw?=
+ =?utf-8?B?anBKazRrSHR4NVRtdVFFb0dWNmoyVThseFdIWFdIZm9YbkxvZFJ1NW9yaE9K?=
+ =?utf-8?B?eWJkVVdUcm4xM3JhU2M3TVdwNUZObXJkV2ptMlVQZTNldkJWT1oxYjJmbzdk?=
+ =?utf-8?B?MFdUbFpJRWFUUEpkWmR2eEZ6aXM2Vm00QUp5aFhWNjNzN2ZDaCt3K1pTSkEy?=
+ =?utf-8?B?eFZKd2N5RCs1SkpCSys0TEFHMXp2aDQyL0I5MXFwMVpYbVpiZGtmbE93ZW40?=
+ =?utf-8?B?cHpQcGpkTTZvMUtYSWRiZTQ2SEE1WHlzVjdST2owNzFURnhQc29pRWZhMjAw?=
+ =?utf-8?B?eU9oYkZrZFU3SFRkLzFtd2tlemRTOGpiWWJFMW1TakFiV2VRcmYwNDNOajVn?=
+ =?utf-8?B?cElOMnVzbW1ycnVXMXZRd0ZLeUxXK3dqUlJscURRQ2xYRDRBL3lJSnlGYm54?=
+ =?utf-8?Q?f3PmU4m6Zvs1kjtepPeZazVh3NKAq4=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <666752359ED63246BB401D224C7900BF@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5767
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF0003922E.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	632bba9c-607c-4f36-31a6-08dd992d8369
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|35042699022|82310400026|376014|14060799003|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?WHRVUGVjN1VHd202SStnUlhUVklnN3NxbVlhMldKa28weCtHVVpLNnZPVXVN?=
+ =?utf-8?B?WXd5dHZmQzdjS1BUWmhlMWsyOUFzL0xSbUpzamZSNUVaT3dDUml3Rjc0SDFQ?=
+ =?utf-8?B?T3pjTHMzMG83ZDcwOENYd09LcWZxWGZmYXJyT1lHS3RTbFJ4VytLbEpCZUZq?=
+ =?utf-8?B?bjhRdmM1UXRvc2RodWlWWUZKaVJ6T2NqN21kbVIva1ZjTDVES1ZjZStPUWxP?=
+ =?utf-8?B?NHU5RExlR1BkYTc5SENFMFN0c2F1MjVxSzNESmNaTlBRbEk5V2tVRDFHZHZ5?=
+ =?utf-8?B?VGhzMHJRZHFxaUJBc2NnU0M4MDAzb01XRjYxUjBHRTBIWnFIOXFwaXhUbnhX?=
+ =?utf-8?B?QXRTN3o2c0JzVWNKVXFTVW1FNXM4eWprSmtHd0VNdzNqR0wyYXNuRE5KTGQy?=
+ =?utf-8?B?OGZ4ZGd3K20yS0RFYkZXS3NsUklSVnJNTHhrQXVQR1dVcTNoTnB5aXE3VDZP?=
+ =?utf-8?B?ZHZlR0g5R2IxMHZINVp6Zk1SdE02OXZyaGlVN0czVHZkczZyVnpWUTgrc0lZ?=
+ =?utf-8?B?S3ZkZUkvaXlvQndYellEbC9taXJibVYzN3dMdHhLbDlXVVZwcEw4VUxVb3Ev?=
+ =?utf-8?B?MVdDSXNHcDhWYktzUkhjd3BpUHlzbVRCRzJsSXNhV0FWNExTZE5wSXkrM0ZI?=
+ =?utf-8?B?L2F2ZEU0a1pwQ1lDWmdXcm9zWWZjdjNPbnRKcWZBNlY1bDB6aXR2bDd5aUp3?=
+ =?utf-8?B?TUF5UnU3R2pYNlUzS1ZHY0U4ZEN1VzBvYWxIN0c5ZWlBMlhqR1pCVlVjQTNK?=
+ =?utf-8?B?WGl2dE9keFNyY2VQNkdMT0xNNktaekZBeFBqUlZ5a1FrMDdRN3RRSFJNTmpm?=
+ =?utf-8?B?ZzhvRHpoejFNVkc2enZFelpsdDEyZnVLZ1lJeFFLUGNFYUNjeEtMWWxDOU9u?=
+ =?utf-8?B?ODRsS2hicENwT3R0UlJsZ3NTRklaSm5pVkRiRy82dHhVWUJscVFNeFpWaWtw?=
+ =?utf-8?B?aEFtMVdXUEJ2SFNESlAvNXZ3Vkc3UWdhZnpVdGhSYjNINk5KUDNKMjNDVHk5?=
+ =?utf-8?B?OVM2YUNZN09sYS9JcEY3SzE5bVZLRHpzc1UyRDlNcGpRT0JOV3hpZXovTVZ4?=
+ =?utf-8?B?T3FHSFpXNUJ0MW9SQzNJdkxHSk9MSmVxZE5tK3N4RTVvcXFDK3lTU25pclZH?=
+ =?utf-8?B?bVUvVVBsbUY4andNTXhXL0JwNldIeEFxQTV6UzM3S1JTNGdmd2R4Sm8yYzNW?=
+ =?utf-8?B?cVVtaGlQTUZKT0JGZHJ5M3VMRWhnUHlLRjk3VFFyNUVJNWcvV3luRUUyYzlE?=
+ =?utf-8?B?QzdJVWpBYnROci9HZVJzUDBFUnozUW9zKzE5S2oyRnFKZWNQdy9qalJUYUNx?=
+ =?utf-8?B?TVcxVzBuTzQzRnJjSFpFL005NUVYYnZabGs1d0tIVjlpUXhXcUhJZllGVXg5?=
+ =?utf-8?B?V212R2RtM3VoVXhZVm5JcFlvSkdseE1SZnBDbnViVXVFY1NxSUpXUXU0WVV6?=
+ =?utf-8?B?Mjhva21tMHNCa2cwVEEzWUV0U2hZc3ROK0ZkQk1Cakx1bjBvUkV4SEN4ZnZs?=
+ =?utf-8?B?aTRqZnJrdWlHODRkQXlJMEk3ck10OFNGVnFLMXgwbTZaMTFFU1EwdTV6cm9U?=
+ =?utf-8?B?NE9kUWtGU1ViSHptQTZKSVNyTnBKejlSSzlwZ28yZGVpenM2VmJ1VGdvRDJQ?=
+ =?utf-8?B?NWtwRkdIQ2hON0Fjb29oMDZzSjRCbm9rckF6aFEycjd0bXRETjlCUE85NEJu?=
+ =?utf-8?B?NDg3YkEzUWRjcDhhMEM2WXh4RWxUdWd3aDhlYzFkcmZLcWh6aUZObXkzSFdZ?=
+ =?utf-8?B?Nm5oRjlkWHdkNVFtWjhUV2FLZy9UMTR6YVZSaHB6MVFJZVBVQVAvSFRBbURm?=
+ =?utf-8?B?K1VjMnkzSU9CRkVpMGpqUG1ZNjNNRmNjQ0J3WmR0SUVsSC9UcFE3QzNzRGh5?=
+ =?utf-8?B?WXBldVNoQm9RRnNMTFZJcGc2ZVNCT1lHclhXSFZiUERJOHJtd0VKajNQMHNv?=
+ =?utf-8?B?cEV1OWt2VmFrSEpYOHFscFZpMUVIemlxSkh5MlZJd1UybVhnT0owVVVWK0Vo?=
+ =?utf-8?B?dW5sUXJ0Wjl4ZXZhS3RoM3g2UmVkS2s5R3ZsZ2RnR05qNjZFRklISWE2RFNE?=
+ =?utf-8?Q?ANrtxX?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(35042699022)(82310400026)(376014)(14060799003)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 12:38:44.1663
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 687ee4f0-e986-4270-ec1d-08dd992d96fb
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF0003922E.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB8628
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 12:38:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217100
+ <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 12:38:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217101
 
-Hello Adrian,
-
-On 20.05.25 15:27, Freihofer, Adrian wrote:
-> On Mon, 2025-05-19 at 22:15 +0200, Marco Felsch wrote:
->>> From: Adrian Freihofer <adrian.freihofer@siemens.com>
->>> +    # Collect all the its nodes before the its file is generated
->>> and mkimage gets executed
->>> +    root_node = oe.fitimage.ItsNodeRootKernel(
->>> +        d.getVar("FIT_DESC"), d.getVar("FIT_ADDRESS_CELLS"),
->>> +        d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'), 
->>> d.getVar("FIT_CONF_PREFIX"),
->>> +        oe.types.boolean(d.getVar('UBOOT_SIGN_ENABLE')),
->>> d.getVar("UBOOT_SIGN_KEYDIR"),
->>
->> Since FIT is bootloader agnostic I would like to see to rename the
->> UBOOT_* related variables, since there are bootloaders which supports
->> FIT as well e.g. barebox:
->>  -
-> 
-> The new fitimage.py script enables the creation of FIT images without a
-> strict dependency on U-Boot or any specific bootloader. This change is
-> a step toward greater code sharing and compatibility with various
-> bootloaders.
-
-Nice. The existing class has shortcomings and I am happy
-to see decoupling being pursued, whether in meta-oe's fitimage.bbclass
-or here.
-
-> The kernel-fit-image.bbclass integrates FIT image generation into the
-> kernel build process and leverages the existing U-Boot signing
-> infrastructure. This is where the UBOOT_* variables are utilized.
-
-The name was even a misnomer when it was added. It's interfacing with
-mkimage foremost. IIUC, the U-Boot signing shenanigans are isolated
-to a separate uboot-sign.bbclass anyway, so mixing the variable
-namespaces is unfortunately misleading.
-
-> U-Boot has been maintained and integrated with OE/Yocto since many
-> years. FIT image support was added around 8 years ago.
-
-barebox has been able to boot the same signed FIT images that are generated
-by kernel-fitimage.bbclass for quite some time, even if the UBOOT_
-variables looked out of place, fwiw.
-
-> A large
-> community relies on the stable integration between U-Boot and OE/Yocto,
-> with many years of backward compatibility.
-
-Your patch set shows that this is not the ultimate consideration.
-Decoupling will break users and doing cleanup in the same go is arguably
-a good idea.
-
-> Renaming these variables
-> would disrupt a well-established interface.
-
-inherit kernel-fitimage is a well-established interface as well, which
-will start throwing an error as is having the same recipe.
-
-Is that a reason not to change them? No, we are pragmatic, add an error
-message and move on. For the signing variables, one could add a new set
-of variables with better names, which defaults to the value of the old names.
-
-We will surely still use FIT image somewhere 8 years from now and
-the second best time to name things appropriately is now.
-
-> Therefore, this patch set
-> focuses on improving the existing code while maintaining backward
-> compatibility. Introducing support for a fork of u-boot is not on my
-> todo list.
-
-FIT image has a stand-alone specification now and support is available
-also in coreboot, Linuxboot, Tianocore, ...etc., even if they don't
-go as far as U-Boot and barebox in supporting its wide feature set.
-
-A few years ago, the kernel-fitimage.bbclass was extended to add
-a compatible property into the configurations to avoid having to
-look into each individual device tree. This change was motivated
-by supporting older barebox versions that didn't yet bother to
-recursively parse embedded device trees.
-
-Now everyone benefits from this and saves a slight bit of boot time.
-
-> But as mentioned, this patch-set is probably beneficial for that as
-> well.
-
-I have yet to look at the series in detail, but I have been long
-bothered by FIT images being coupled to the kernel when I wanted
-more than one FIT image. Tying to the bootloader was avoidable if one knew
-where to look, but simplification is most welcome.
-
-> But if you decide to fork a bootloader, please do not expect that
-> others who are very well served with the original bootloader will spend
-> effort on integrating or maintaining a second bootloader or even break
-> the long proven implementation.
-
-It's your prerogative as patch author to pick the parts you want to
-break or not and it's normal for people to comment on that.
-
-There is no need to be combative about it. We have all a vested interest
-in making OE-core even better and are engaging in good faith discussion
-to achieve this.
-
-Thanks for putting in the work and I am curious to see where this goes.
-I will make sure to give this a test in the coming weeks to verify
-that no unexpected regressions are introduced for barebox at least.
-
-With best regards,
-Ahmad Fatoum
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+T24gMjIgTWF5IDIwMjUsIGF0IDEzOjI5LCBRdWVudGluIFNjaHVseiA8cXVlbnRpbi5zY2h1bHpA
+Y2hlcnJ5LmRlPiB3cm90ZToNCj4gV2UgZG8gbG9zZSB0aGUgZm9yY2UgdmVyc2lvbiBkZXBlbmRl
+bmN5IGhlcmUsIHdvdWxkIHRoYXQgYmUgYW4gaXNzdWU/DQoNCklmIHlvdSBjYW4gcG9pbnQgbWUg
+YXQgdGhlIGNvZGUgdGhhdCBhY3R1YWxseSBjaGVja3MgdGhlIHZlcnNpb25zIG9mIERFUEVORFMg
+dGhlbiB0aGF0IHdvdWxkIGJlIGdyZWF0Lg0KDQpNeSB1bmRlcnN0YW5kIGlzIHRoYXQgdGhleeKA
+mXJlIHBhcnNlZCwgYnV0IG5ldmVyIGhhbmRsZWQuDQoNClJvc3M=
 
