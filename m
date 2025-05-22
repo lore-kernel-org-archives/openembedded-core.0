@@ -2,134 +2,180 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21BAEC54EDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E84FC54F32
 	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 17:13:51 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.29165.1747934026822783609
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.29164.1747934023098405546
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 May 2025 10:13:46 -0700
+ Thu, 22 May 2025 10:13:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=m4vGH3J2;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54MFTZmx020957
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 17:13:46 GMT
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=bp8DzBrz;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54MFTGjF000720
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 17:13:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=KlW02JWfISQ
-	M4la5wAGqEg92q2mkats/s6js+66vY24=; b=m4vGH3J25AVk7jy3Z24rQdGyirR
-	YYKq06CRoiV/Y6qTwPqcfo6DvRRMsWhTQ6F0AQHp3ChHRcjxeUOmNn49nmFogCI+
-	gLV4bkx7FSRgsDTFKG2narvi8Aj+CQDMl6w7ni3wKbrvdpZrU5MCAPo9A2jDWIbx
-	QZn/RzaTjKoIeXp6CPGyI1XY4m0M9fYqEkIJoszouTDnWXwLbFCvEKeFPAH0h76/
-	W15czA2sB6FWkUWgRLa2ULwOYZcUK+eBbKOsfLz0pkFnzDCA6bKNPXl4+2Ssgg1+
-	3YSpvIamf9FyPOQZ4xTRCqGBcAuMdeQotqeFjCI+9KaYFmZG7egoh8E6AGg==
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	UB2pvuuH/OpgDeOjGaS/PfvbG+PXqbZyKZicP6HY34Y=; b=bp8DzBrzeRlwt5+3
+	O5bsMZhW5gsI7fou9CQvOVftf4paaZ6w5xOLNRWuDhDGcLJbat4yrMe66jxR1cd8
+	HYdDfodHL22KM1eSHfV9BIPpZ2eL1KIZockiTN/nLsIp9Iq3NNC2mSmg4fHZptl3
+	5daxfcDYy3qSr3c9x9BFziebFwaoCbtd4lxPhHgBuXyJykKEimvEoAVIQo98+CzU
+	+Az8DplSv8gtthvGw5ZULq/8VP/NU6iDqX/xq6Mx9nM/LvY7rnUpLdzc1uC0JYnH
+	wHXcgAtbZfBsCzLulSZ5Khm6k1eS++gIBF3cSXORyjrvim6177Fkka4rNsrzjcoK
+	Op7vUg==
 Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf07b0a-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46s95tnfb8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 17:13:46 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c54a6b0c70so740863685a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 10:13:46 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 17:13:42 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7caee990715so2229440485a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 10:13:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747934025; x=1748538825;
+        d=1e100.net; s=20230601; t=1747934021; x=1748538821;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KlW02JWfISQM4la5wAGqEg92q2mkats/s6js+66vY24=;
-        b=xB6cToNIgR2oTbfMxb+cdggTURXwoL5D4NGCfoyuDran/I6y1enL1t5VjgtXKJ6G8t
-         VtosXmOyAWsQPOTF8i2GtmEx6xrFQokbrB+wwrFjrW3uqZKrBZpw4m6+6FucSUhn4uhQ
-         sNSp3h3QSZ5X4F7nqPcqkCAr/ngPxF1wyKgwPXZHfIIYClznNoAErji7ypsY8Cmg8giF
-         trcRx2wpVx6Ie50g5Q+1AWc4uHSn3e1siuRpnUsZ+VIelCMLunDAoNGZUEijpQMVwyjU
-         LJqJjV92nUyo8PwsnGlLTtWDMkhzX9apiNlpn360c95Tu/9i4mA7kQbjwd9wOIq+fMgp
-         LEVQ==
-X-Gm-Message-State: AOJu0YzwVMDXuyZzRuE0TJleivyDJ7IywytghzZBUyaFEgnkRT1vi9/5
-	Mv5RgkLlMbjo/lZLkk6GRV/Rwj6OLis0MUkTP3V5pntsONpo08ISXXqMfxV4elm1fAHIINYlGtd
-	y2trM0ruDi/DuRMeKXcDebtRvSNBnrVpSVDGy7Zed17hWdCqF416reUJpAhepDYKIPA/kW4zta8
-	WQj9iqH6BvxyYpzKk=
-X-Gm-Gg: ASbGncuoq8aC1Wawc1KdGzQ7/hLf1hnPal+kjg8E+RYN+8B2sKKQHaT1sEA7qxbhLuH
-	WZghuw+MeOhrbxCL/cBm1kAHW8hv8pVPXhfEnz2h3bsotf4t9flV0yifiuZGYfbilirX80bKBa3
-	v6Rsf6zGK30mSVaoP6Qas8HAJ+JZEtWqeM1D6XqqgyLz1CKCcYyhnF+eauhPyyQMYV9Rx0Yiv1J
-	9NZAlUVMNlm3FiD53gHnaoh+2SCqDnIwUi5BKLzeN94Ll1VcvfVkko3H71fWyp8mxzMeKUIYBTz
-	KOUuDMqtXLEBxhqskMEDmIRmn+xVN5mZofCDu5D0udDHmZtpzTEyK6sPu0t2NInGYwD1c4inf1Q
-	Hcqh32798SIwiyoeUx/kww0J0
-X-Received: by 2002:a05:620a:394e:b0:7c5:4088:e48c with SMTP id af79cd13be357-7cd46731a86mr3750375385a.29.1747934024865;
-        Thu, 22 May 2025 10:13:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFWX8KT2MTW7NleGSRhvTrHn38ZRmdhPRoIwZrcsOVVG85XmXPTSJ/SZb7GPfP0QyWTpJ1jjQ==
-X-Received: by 2002:a05:620a:394e:b0:7c5:4088:e48c with SMTP id af79cd13be357-7cd46731a86mr3750371985a.29.1747934024485;
-        Thu, 22 May 2025 10:13:44 -0700 (PDT)
+        bh=UB2pvuuH/OpgDeOjGaS/PfvbG+PXqbZyKZicP6HY34Y=;
+        b=icEt202EpxrIso3YoB5qN3h4rMgtSHeKrVEnhe3gRTQdrkHT1ND1t5+7zO8hFIHt5v
+         K4hzNAe//BigOswbV829EcrN6gusor9y8MAY+0b0fdjWRECLcKpAbVHqKgDX/OTglq5C
+         Gm4FHous8g8y7GQpuY9xHtZlBLkoGlKGwNlm9i2f1MFdmpOSziiOlcQ+RvbrlH3SVPgu
+         lGDUAqKTclMDdv6majRCggFA3F9GaU3t33AVUQMxas/kjo7QV/woSus8wdt06MkAdJcS
+         aqDdTP+Jn3HdVW4NA+Z08rcCG7rM0R2czJ2Rs+YMgIPkZypGMnzZ+r+bu59ESO4ewWy1
+         Xi5Q==
+X-Gm-Message-State: AOJu0Yw6PK8zhsac3jDk9Tk0Oe43sx1KjZD34cxcz/VAVIRs3wyZC4Bz
+	3boKndiozBGsmfaLQ+sqfdhTsaAja7/qMgrCrAF/DdXMHUD1Nq4CAswGdxSTiD0suv8IVUNCGXu
+	v8BAarBCdIDmTgBMnFEXHPn63SSaTlsPpxTP6wQmAMxGfG2p0+qGNfziBdNYWa2acysPUtLnPgc
+	hw4ZnEyIQ1MY4+lXE=
+X-Gm-Gg: ASbGnctM4H6DhTeSJlbpkFkw2yLaTccIDBNR4CXs+BhNiZsY7YVnxgXqXVjf3cae6BG
+	+PmiNaLSaOgNgyWWYWjZg28j3uCloa814GhoZAuUl+AbN2ov3tbUYFkVmDxGOcwiHhXHGR1lRke
+	ekAcIvIOG3qTBTHgDdEbMjMGSNNO6CZegPf05Z6By1gJ28x2/rRpuDat9aWRZ2jx+E3eiW9fjeb
+	hSqsByYf8bVbx4kNVO15UQXNNT9MoqJRjQRuVgSTh3czmTTSH8IXr6/7PhjGFa4rsT0WvsUhHa1
+	eAXqAZ5EeMMltUkxPJ60L0c3TflrW+TUfFyIBsJLEpeZqJEun0BFq1QXqBXg+wS/bTPt2tA0TFI
+	V8OwHB76skygqR0JFpXREkoOu
+X-Received: by 2002:a05:620a:2584:b0:7c7:a62f:341b with SMTP id af79cd13be357-7cd46718a72mr4700705785a.8.1747934021047;
+        Thu, 22 May 2025 10:13:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEZv1DF1vcuRXRKljn3DaweWoNxNuGCs93lL6QK3SMNBc+VkrX1vyv9kenclmDbFot2e6fjOQ==
+X-Received: by 2002:a05:620a:2584:b0:7c7:a62f:341b with SMTP id af79cd13be357-7cd46718a72mr4700702985a.8.1747934020710;
+        Thu, 22 May 2025 10:13:40 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e6f165c7sm3501438e87.32.2025.05.22.10.13.43
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e6f165c7sm3501438e87.32.2025.05.22.10.13.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 10:13:43 -0700 (PDT)
+        Thu, 22 May 2025 10:13:39 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 07/11] mesa: drop gallium-pipe support
-Date: Thu, 22 May 2025 20:13:30 +0300
-Message-Id: <20250522171334.3040820-7-dmitry.baryshkov@oss.qualcomm.com>
+Cc: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@gmail.com>
+Subject: [PATCH v3 04/11] mesa: fold GL ES 3 packages into GL ES 2 ones
+Date: Thu, 22 May 2025 20:13:27 +0300
+Message-Id: <20250522171334.3040820-4-dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250522171334.3040820-1-dmitry.baryshkov@oss.qualcomm.com>
 References: <20250522171334.3040820-1-dmitry.baryshkov@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: sxk6TJXa8l_HE-960u7Tp0DVjFWgCjRJ
-X-Proofpoint-ORIG-GUID: sxk6TJXa8l_HE-960u7Tp0DVjFWgCjRJ
-X-Authority-Analysis: v=2.4 cv=ZP3XmW7b c=1 sm=1 tr=0 ts=682f5b4a cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
- a=EUspDBNiAAAA:8 a=UHK4iJJ_pXMy7vzKq9IA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDE3NCBTYWx0ZWRfX83ebF7qBggNo
- 2gC/1NQ989Yj+tPVJ0pFYuHKwcDGHY5KKc2HPP8ZVkgF7flL7P2Yyt2klI5nr3Ikrrtt9LzvhV6
- 3SdacxzhW1XL4+8eP1fCmlbS3mU/pji9GO98Mr/zCyqZBvBifCewK5K98ANxQWiek1cTuJFWTSl
- KkdaHU3TBkeUP/HpT3ZA5+BITW4zAGVSXsofyB1bfjF9NwF6GMPiou9vcueeapro13X3LXhmBSB
- /VDXArD2xocQGDWq2gOUTGwEItnX2CXdyyBV8bFqk1/NfHQ27olwn5pp/xHngAeuIzn5AePMIXn
- tdnpu/jPImCH8J5jGmXB4KN316/KWjNdWJSmXixcoZfJfOWynjjyzEGe+tSxzXh9eJhHtBJNmM7
- sUdK7FnSQ+/Y9X8accqWJAkEjRSpfw2jTEwr7EW0bNh06QS9QP3020Tk6jBtWLnQPr9O2+5K
+Content-Type: text/plain; charset=UTF-8
+X-Authority-Analysis: v=2.4 cv=QKBoRhLL c=1 sm=1 tr=0 ts=682f5b46 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=dt9VzEwgFbYA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=Wm-pHqCzE9DZxLNbtkMA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: m6_KFjg0jMC15GJUmAu8RwJEafU4yOPn
+X-Proofpoint-GUID: m6_KFjg0jMC15GJUmAu8RwJEafU4yOPn
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDE3NCBTYWx0ZWRfX0ALRBVN5p2ck
+ j4M4swrPek2t3IleEvExd4ghcaub6DfiErs+3u6acm5yHhnLIaoIdjpaS2PbpHLyyflw59Y2px5
+ 2x9OTOPbtxeQhzyzEm07WtvEf0/zYFb09WxHNgb1qV0cbIjJR8B9koV7KxFjAB2vM+iI9tC4qkR
+ zds3mRzQ2owHLA0evfV9KkDkws+gYHTY92P37bcaVqP0I5+ITixH2mZGG9Zd80nTV9Wm7plaPbA
+ mJ+Bp/rb2/VXvrqqw9IewjXAr5IbYwn1IEM1U4o03YiyVcXwYM/DAMpUsO0r8AkEkztplYfT0M5
+ gQGzvkRVnJdZ2dQTMx4OQ9cQ10hAa297qaniTy3+treed0IpGyTpqrTmnC4aI05JYw681Jem7Xt
+ ceb+lN17fbr9IzeCSxZ/dRECSNmpeyrMD5Uf3wPkD0bVYBvYdyEThy3yecuSa3lhseDAb5rt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-22_08,2025-05-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- impostorscore=0 phishscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1015 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505220174
+ mlxscore=0 spamscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
+ adultscore=0 mlxlogscore=727 suspectscore=0 bulkscore=0 impostorscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505220174
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 54MFTGjF000720
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 17:13:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217137
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217136
 
-With Clover being gone, there are no more separate gallium-pipe
-libraries. Drop corresponding parts of the recipe.
+OpenGL ES 3 is closely tied to the OpenGL ES 2: there is no separate
+library, one can use GL ES 2 headers for GL ES 3 app, etc. Instead of
+having separate packages, merge GL ES 3 packages into GL ES 2 ones.
 
+Suggested-by: B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zboszor@gmail.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ meta/recipes-graphics/mesa/mesa.inc | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 3d2914a66fbe..78747c8e6cf5 100644
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+index 89fa19a5668f..a856d11e0734 100644
 --- a/meta/recipes-graphics/mesa/mesa.inc
 +++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -317,9 +317,6 @@ python mesa_populate_packages() {
-                 d.appendVar("RPROVIDES:%s" % lib_name, pkg_name)
-                 d.appendVar("RCONFLICTS:%s" % lib_name, pkg_name)
-                 d.appendVar("RREPLACES:%s" % lib_name, pkg_name)
+@@ -232,17 +232,10 @@ CFLAGS:append:armv6 =3D " -DMISSING_64BIT_ATOMICS"
+ # Remove the mesa dependency on mesa-dev, as mesa is empty
+ DEV_PKG_DEPENDENCY =3D ""
+=20
+-# Khronos documentation says that include/GLES2/gl2ext.h can be used for
+-# OpenGL ES 3 specification as well as for OpenGL ES 2.
+-# There can be applications including GLES2/gl2ext.h instead of GLES3/gl=
+3ext.h
+-# meaning we should probably bring in GLES2/gl2ext.h if someone asks for
+-# development package of libgles3.
+-RDEPENDS:libgles3-mesa-dev +=3D "libgles2-mesa-dev"
 -
--    pipe_drivers_root = os.path.join(d.getVar('libdir'), "gallium-pipe")
--    do_split_packages(d, pipe_drivers_root, r'^pipe_(.*)\.so$', 'mesa-driver-pipe-%s', 'Mesa %s pipe driver', extra_depends='')
- }
- 
- PACKAGESPLITFUNCS =+ "mesa_populate_packages"
-@@ -337,7 +334,7 @@ FILES:libgles1-mesa = "${libdir}/libGLESv1*.so.*"
- FILES:libgles2-mesa = "${libdir}/libGLESv2.so.*"
- FILES:libgl-mesa = "${libdir}/libGL.so.*"
- FILES:libglx-mesa = "${libdir}/libGLX*.so.*"
--FILES:libopencl-mesa = "${libdir}/lib*OpenCL.so* ${libdir}/gallium-pipe/*.so ${sysconfdir}/OpenCL/vendors/*.icd"
-+FILES:libopencl-mesa = "${libdir}/lib*OpenCL.so* ${sysconfdir}/OpenCL/vendors/*.icd"
- FILES:libglapi = "${libdir}/libglapi.so.*"
- FILES:libxatracker = "${libdir}/libxatracker.so.*"
- 
--- 
+ # GLES2 and GLES3 implementations are packaged in a single library in li=
+bgles2-mesa.
+ # Add a dependency so the GLES3 dev package is associated with its imple=
+mentation.
+-RDEPENDS:libgles2-mesa +=3D "libgles3-mesa"
+-ALLOW_EMPTY:libgles3-mesa =3D "1"
++RPROVIDES:libgles2-mesa +=3D "libgles3-mesa"
++RPROVIDES:libgles2-mesa-dev +=3D "libgles3-mesa-dev"
+=20
+ RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
+ncl', 'libclc spirv-tools spirv-llvm-translator', '', d)}"
+=20
+@@ -254,7 +247,6 @@ PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
+              libgbm libgbm-dev \
+              libgles1-mesa libgles1-mesa-dev \
+              libgles2-mesa libgles2-mesa-dev \
+-             libgles3-mesa libgles3-mesa-dev \
+              libopencl-mesa libopencl-mesa-dev \
+              libxatracker libxatracker-dev \
+              mesa-megadriver mesa-vulkan-drivers \
+@@ -279,8 +271,7 @@ python __anonymous() {
+               ("opengl", "libgl", "libgl1"),
+               ("glvnd", "libglx",),
+               ("gles", "libgles1", "libglesv1-cm1"),
+-              ("gles", "libgles2", "libglesv2-2"),
+-              ("gles", "libgles3",),
++              ("gles", "libgles2", "libglesv2-2", "libgles3"),
+               ("opencl", "libopencl",)):
+         if not p[0] in pkgconfig:
+             continue
+@@ -354,8 +345,7 @@ FILES:libgl-mesa-dev =3D "${libdir}/libGL.* ${include=
+dir}/GL ${libdir}/pkgconfig/g
+ FILES:libglx-mesa-dev =3D "${libdir}/libGLX*.*"
+ FILES:libglapi-dev =3D "${libdir}/libglapi.*"
+ FILES:libgles1-mesa-dev =3D "${libdir}/libGLESv1*.* ${includedir}/GLES $=
+{libdir}/pkgconfig/glesv1*.pc"
+-FILES:libgles2-mesa-dev =3D "${libdir}/libGLESv2.* ${includedir}/GLES2 $=
+{libdir}/pkgconfig/glesv2.pc"
+-FILES:libgles3-mesa-dev =3D "${includedir}/GLES3"
++FILES:libgles2-mesa-dev =3D "${libdir}/libGLESv2.* ${includedir}/GLES2 $=
+{includedir}/GLES3 ${libdir}/pkgconfig/glesv2.pc"
+ FILES:libopencl-mesa-dev =3D "${libdir}/lib*OpenCL.so"
+ FILES:libxatracker-dev =3D "${libdir}/libxatracker.so ${libdir}/libxatra=
+cker.la \
+                           ${includedir}/xa_tracker.h ${includedir}/xa_co=
+mposite.h ${includedir}/xa_context.h \
+--=20
 2.39.5
 
 
