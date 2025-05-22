@@ -1,91 +1,85 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E05D6C54E90
-	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 15:38:00 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web10.26829.1747928272802615668
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB3C1C54E65
+	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 16:02:30 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web10.27466.1747929746110593947
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 May 2025 08:37:52 -0700
+ Thu, 22 May 2025 09:02:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jD77hyCk;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2dfb991cb45so3208834fac.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 08:37:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mra4pPAb;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6f8aa9e6ffdso85432976d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 09:02:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747928272; x=1748533072; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=32lsP1WZdDkPtYZu4kD0flNvDxDqFGKzB54ElkvDDe0=;
-        b=jD77hyCkzdp0A2m4XGlhnfHOXQfFRSnB78qdoNjKalUAPD4cMe3ksvcgeLoxq7x6Yf
-         JCUaOhUojEyogahyvzZtoPdjlzIWC/LWF7Q2UoTS+tpD7iPqtB6jT405O36At56XY2Pa
-         FPylWZPyuTZzSK9cXYRcyowTnke4pxzRbc80aU7s76POa65MFIvmrmGyCqB64sDYTLQY
-         hg/JoXEKgJGSOq9dv1wfyMR3O+XSKinfpJjqLuLErm2NRPGoB21rDNYU6m5LCyXCp9ZK
-         1HcYHGegZiLrrxqnfme0YkCzljqnkmJBnXJxusUNEjv7srY5hr1tpOrGVQIw1fotHLG9
-         NxZg==
+        d=gmail.com; s=20230601; t=1747929745; x=1748534545; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/O6gMc+u3fqIb85RKfKCUWWDutuVYHVJDFfNdE+np9k=;
+        b=mra4pPAbwNBSmZ9zBehWoXtMKRSUU5Z3ugyGCF9shTxVV3REy59UaMqKqeT/Ruaqeb
+         bgi2QCVOchZO9jxrwz1LOYL8l1Y5pc5EKO3ehwOXLaLnRwH6BAHvYK2mbYZrZiiWfPaC
+         vP38v2Nt5o5xfHoPvbFLQMXdzDEw0aviszJibpON2KxbZEi5dhmyek9ZvyrKTAfpDJHl
+         xAMiRqzl4oxXNrT9nRfL99LT/zz84QGJeeriiRnRjoMcMoJUfaQ8foMKz82hMSNUZdcY
+         vrQmgiZXXdi9yX6wHPVFLIDf9lWZ8xkiHA5thnnfTTb0rQilb++HIS+OymJ2nTrV2J6v
+         yQyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747928272; x=1748533072;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=32lsP1WZdDkPtYZu4kD0flNvDxDqFGKzB54ElkvDDe0=;
-        b=vCBglx9PBdaxhjLm/DOLVzyC7zsSS81q7cush4dtDyNDsQuUheYna37hZZ303QGeDs
-         9OeqLyHtajzG8UCvY04UI+T8swtMH2RR6pH503/DnuEZMEuHKufly9ypag7i+OakdTc8
-         0/YjDOo0Z/5vcp7tSeGOhkISJq9SvayWxX4bpmG0PR0oU2s9ExOnQcigjfGBkjJN1pd1
-         Mqme/mZSFakie7R2TzS5NUUcURkPDxhm+b2RKF7gHaEaaVP/RZpzRlugszJ9INlzvgcJ
-         UUwLj7gKRh+wg4s7ClCLVA2A/DbtadlNpwWozoDCv1RT5gSuI5Fuc47tF2MvXXLff64f
-         uKKw==
-X-Gm-Message-State: AOJu0YwjAlaIE+fGsxKAGkHBZW2WTlRgs42isOqcopJJL3jKLQnGoBkG
-	NhQU8rW8oSYE7c4XcUBAC7klpB8IUd90/bPzKl6FCIJCD6hOVRfPCvWsJpj/x7bM53kjVOh4N5p
-	dVw5njgBbT/eFLHtY6u3i78mpnlvat1FcLnB3
-X-Gm-Gg: ASbGncu2exgdp6dOZAHjh7ITM8mpBv0DWONZIQ3S4e/NH/GzxSYtPZY0EkLoKAQNKy9
-	yKCOLhxpBXWjxaMMy8wVYbCUCCcC3SvXvpG0ORIqUa871/6JiV7WshFhBsLo3Ie8XlucmLv3ZRF
-	wv/9bqj1qvsa8LD9cwkm5x6e5qkdwF+mluGwn3VXb/rfE=
-X-Google-Smtp-Source: AGHT+IG7+yWSjQk2kGyOVCOggLXI926Rwe1X2ihBj21e2QsIDVt7qsndl/GU69vI/qlyRTmmIyoSW2hA7WaKLDA5BT8=
-X-Received: by 2002:a05:6871:33a0:b0:2c2:519e:d9a9 with SMTP id
- 586e51a60fabf-2e3c1ecff1bmr14667823fac.24.1747928271655; Thu, 22 May 2025
- 08:37:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747929745; x=1748534545;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/O6gMc+u3fqIb85RKfKCUWWDutuVYHVJDFfNdE+np9k=;
+        b=XWUQX01ClMfar/btG3cMEr7pEq5SOHNfQ5qlRCrfefB6zOQBCMwMQ6Hb1Mq1hjsj7J
+         wvXIUeFk24RBnpIXvjdX75sPhD2eIJ7hOzaVuMHYn+cXN8rFnCk7J7djw5TcU7xw2JB2
+         vYOcyM0i4AI9JZ7dr6GgQ4Qcga/oyCShlO2Iootvd+qAJtT+YOY2sSIDMnbWxXrS8LxW
+         jOg/0AWX4DUMvg3rB5LYtTBwVPM14lYbsU3XewOmOHIca5nzpcI8q+RK8wlzFNSMh6ym
+         /hqIBGgfjDfr1Ig8qxPXbjheuESFerk8a+rVVAF2ni8tTmjdTds+sOpAJebU0xPl68aD
+         xe4Q==
+X-Gm-Message-State: AOJu0Yxos3qyNKeAMrLoioPYN19XwfkfvjB1YHjnDf4v2QRckiCmwGFF
+	GZmj260fUU7usqd2bpProxU1arHj9OwDniLeBT2shQnO+lufD7SkD3XC0S2jnIcOikrZQuDAKNb
+	/lYQP087/+G0VGdqFXvsn7o/y2sZjhiI=
+X-Gm-Gg: ASbGncsEYaTPBTVBB5ewbkfeOsKsn7PluU3Srr0/uKl2Bwcaa1FGC0nths+6UcB7s/b
+	4LzbLUkRCmMafZw3diUWNFUL5dx3HsZKpzzk/ttvMb1aj5NGpHCqjOqO7AAQEFsB2MhSFx1vihw
+	bmL6I7q0g+0woG9Q/2c4dJtsXPl9ZTo7MCxg==
+X-Google-Smtp-Source: AGHT+IGfmlBTp0FSGQLyOeCuiJzMMNqQ0jyn1SGfgZCPS1jotlerH4xcMcT7OPQXambjoobFpEwgn5qLNLWccH7th0k=
+X-Received: by 2002:a05:6214:212b:b0:6f4:c824:9d4a with SMTP id
+ 6a1803df08f44-6f8b0841f3fmr420648186d6.13.1747929745109; Thu, 22 May 2025
+ 09:02:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
- <20250520-clang-toolchain-v2-11-db97c2eb3756@gmail.com> <BC7C69FC-ABCD-4A5F-9405-BE36F857F193@arm.com>
-In-Reply-To: <BC7C69FC-ABCD-4A5F-9405-BE36F857F193@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 May 2025 08:37:25 -0700
-X-Gm-Features: AX0GCFsIZ5s7sdg6urU-y3Q4-YHDuOeP5-ddUwwyOPxP3Es5Earz3mKmmrRO2vk
-Message-ID: <CAMKF1socSwx205F+As1u2Sf_8M9eitg3uKeOeTQ-qKRapG0A5Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 11/28] vulkan-samples: Disable
- overriding-option as error
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20250522144605.2876771-1-dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250522144605.2876771-1-dmitry.baryshkov@oss.qualcomm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 22 May 2025 18:02:14 +0200
+X-Gm-Features: AX0GCFvv-f58iKm4E9CI1fjzE5_E32UXy3KL-nxMS-oVR6098R2W4801NcyuYdE
+Message-ID: <CANNYZj9q-Gy4pyu6MYm0vsVH2oeZBzzw5uUp=gbdvtpVxfmr3g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 01/12] mesa: remove OSMesa support
+To: dmitry.baryshkov@oss.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 15:38:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217129
+ <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 16:02:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217130
 
-On Thu, May 22, 2025 at 2:55=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
->
->
->
-> > On 21 May 2025, at 07:19, Khem Raj via lists.openembedded.org <raj.khem=
-=3Dgmail.com@lists.openembedded.org> wrote:
-> > +# Clang is fussy about incompatible options on aarch64/x86_64
-> > +# x86_64-poky-linux-clang++: error: overriding '-ffp-model=3Dprecise' =
-option with '-ffp-contract=3Dfast' [-Werror,-Woverriding-option]
-> > +CXXFLAGS:append:toolchain-clang =3D " -Wno-error=3Doverriding-option"
->
-> Where are these conflicting flags coming from? Feels like we should be fi=
-xing the upstream Makefiles instead?
+On Thu, 22 May 2025 at 16:46, Dmitry Baryshkov via
+lists.openembedded.org
+<dmitry.baryshkov=oss.qualcomm.com@lists.openembedded.org> wrote:
+> Mesa 25.1 has dropped OSMesa support. Remove corresponding bits from the
+> recipe.
+> -PACKAGECONFIG[osmesa] = "-Dosmesa=true,-Dosmesa=false"
 
-Maybe, the end effect is that the last option wins and that is correct
-here so I did not see a need to fix it. If someone wants to
-that is appreciated,
+I was going to ask how passing -Dosmesa=false is not causing a meson
+error, but the option is still there:
 
->
-> Ross
+option(
+  'osmesa',
+  type : 'boolean',
+  value : false,
+  deprecated : true,
+  description : 'Does nothing, left here for a while to avoid build breakages.',
+)
+
+Alex
 
