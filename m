@@ -1,205 +1,228 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCD26C54E65
-	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 09:55:48 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.53])
- by mx.groups.io with SMTP id smtpd.web11.20466.1747907742756182241
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF0A9C54E90
+	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 10:00:48 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.20536.1747908045245889607
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 May 2025 02:55:43 -0700
+ Thu, 22 May 2025 03:00:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=hjHb83Ey;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=hjHb83Ey;
- spf=pass (domain: arm.com, ip: 40.107.21.53, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=muY64Raweoyi7POtDvFJXzmpVJNEbnGQ4wyb7m6xnJjqPckmqyc02fdpWNKz76boAx8nC8Q/+DXTPpnEaEkcUXvVHuumjbfNd0PYL2fotM/yte5rNZshJIk7h4/lYwqAwaMSc1j5WL+Oh6tz81aHNnhOwstLZPJSk2EQ4bPTwG6eY5woc1/rVRRAgY65RxvKSpLS426IAiNvR2//oKOK4QcexuWu2FRPKF27T4KEokeYxEb0NhjVc83IGcmiZAI7yaClWK+nZKc+bsYrC4EShY6JL8OFETdnLtDuvcYEWtybydP6pgT5wSd38EtkwzP0Us3FlFICJfiS4budRnZkqw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=onJhxnRuuevbUbHA+PqczWYwFfeCUvTnIgvouFjk2nQ=;
- b=QXsc6rmp6VR1DAyVTZmeayoyuPX93BrVRA6M0fCD4MU5N/fkhVNhKH+WbG5/3du1pXLbc+ZDlRKitl9dq/rIBIiTcbfI74PBXxB20VMgh4DY5HrpR2vJxsHashF/mpVw4XYBvPvsRT0CXl1dU8J3BAoUMq6jEZeSlKKAwVqBSUpjbGDfLu7aA9H8YItXnHWDvjApC7O4wlw15jMQtzicsLTdPSC26UtCH7tmWbaZxEyl/E39HY692N9DrjpNRhWcbNMxc0GqKxP4A6wSYTx3dEa2eVQ/W1FPxTt9T464Xu+kVKoS4+NA1AHNKJE4t7NKlenYajuS5VbDqihHX753GQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=onJhxnRuuevbUbHA+PqczWYwFfeCUvTnIgvouFjk2nQ=;
- b=hjHb83Ey9Te5apyG+7A8MIOpb8sSblBLNQM5QINFAzISJmakACHQtggPupjlWSyJg5R1qZ37g+Par0q1WY7xpNRdkPb6G3HTSKrmZPI72dji9UkWaV3f6IDm1tADIYpy83XRoyl+njkuOUFPdWZ6WfaxsGlLxmkWhWEq0K4qe5I=
-Received: from DU2PR04CA0154.eurprd04.prod.outlook.com (2603:10a6:10:2b0::9)
- by DU5PR08MB10659.eurprd08.prod.outlook.com (2603:10a6:10:51b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Thu, 22 May
- 2025 09:55:39 +0000
-Received: from DB5PEPF00014B97.eurprd02.prod.outlook.com
- (2603:10a6:10:2b0:cafe::b7) by DU2PR04CA0154.outlook.office365.com
- (2603:10a6:10:2b0::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.29 via Frontend Transport; Thu,
- 22 May 2025 09:55:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB5PEPF00014B97.mail.protection.outlook.com (10.167.8.235) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18
- via Frontend Transport; Thu, 22 May 2025 09:55:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LnMCoqizpcvhM7d1GqLD4AT9XYjgm/KSfaz+qpSak6DtsZvxNUqNVxwBPXohIxCDWHD3VAI7hIv3vnCcWNCEUtxkwapZfZnhG8TADiS/rgsj5OHJVwX49R+9m0plsd7cfzxYsfkIk/Z/zK/YYY2Xxq8dvYsJk5zvnCnc4IFEawNDltG5aJ4FbCePZFcGbler8u2q0z1G7CbC5gtFH74BwyHEUWaTVkl7F7Tu78OH3dlsaCuU0THJVffQaqoguiND0irqEHdQUcBU81FaUUKwJooncfwUpu1BfuTqqaRPjx44FgMMf2qgzV4shuNNZ/emBOpqHzXmATEbOnibeOGIXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=onJhxnRuuevbUbHA+PqczWYwFfeCUvTnIgvouFjk2nQ=;
- b=f/cFowLEbJV7ICr7e4eHWw4EXEoTyX3M+dSjfboAuvobkrjpDNRp+NwvDsu9c0edoJOKIXtQ7Vr5YOoARzwH6X2pRNf6mD1FI/aD/lwlO17Yv9ek1re1G/5ZccoaDaOm1NdAJXYW8wXUNMY0fjr9qRhyAJ79Z6KH79IwXBB/ZPjyK3gVo3ZpGcEzLgCVMqX8oVoo1SJC7MjxjB3Zjh7NmYR+rkJI+VTOwiLQyQDg0iHq9TAivECUtXV+nF0uOMdX5GigObuYS9LoqZi1n13buQSsMLAhgxLLjwbApDJ8fOGiy+88ZCO2xpkhYyaJmNLuh6PnQ9oGLyR5A6aZHU6M0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=onJhxnRuuevbUbHA+PqczWYwFfeCUvTnIgvouFjk2nQ=;
- b=hjHb83Ey9Te5apyG+7A8MIOpb8sSblBLNQM5QINFAzISJmakACHQtggPupjlWSyJg5R1qZ37g+Par0q1WY7xpNRdkPb6G3HTSKrmZPI72dji9UkWaV3f6IDm1tADIYpy83XRoyl+njkuOUFPdWZ6WfaxsGlLxmkWhWEq0K4qe5I=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS2PR08MB9836.eurprd08.prod.outlook.com (2603:10a6:20b:603::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.31; Thu, 22 May
- 2025 09:55:07 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8769.019; Thu, 22 May 2025
- 09:55:07 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2 11/28] vulkan-samples: Disable
- overriding-option as error
-Thread-Topic: [OE-core] [PATCH v2 11/28] vulkan-samples: Disable
- overriding-option as error
-Thread-Index: AQHbyhiu0u1myUVoSEahlqTrYmxwpbPeavSA
-Date: Thu, 22 May 2025 09:55:07 +0000
-Message-ID: <BC7C69FC-ABCD-4A5F-9405-BE36F857F193@arm.com>
-References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
- <20250520-clang-toolchain-v2-11-db97c2eb3756@gmail.com>
-In-Reply-To: <20250520-clang-toolchain-v2-11-db97c2eb3756@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.500.181.1.5)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS2PR08MB9836:EE_|DB5PEPF00014B97:EE_|DU5PR08MB10659:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10a99530-5a5e-47a6-439c-08dd9916cedd
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?SYc/NOgU27+Rs4WxM4SOtq1UYtc4KmOnR64G7mZ/DNXf8NK1MAM8pqzn/JAL?=
- =?us-ascii?Q?jPEm8uDT7ct7hHL7ShBH5CIIIsD+EX4Ma/APVSIB6A+TxS5wVqQQtrWYSqHE?=
- =?us-ascii?Q?VHYk22IjroZSKdku0D48JKW4I8nbeXbxYqCjqxQtnx+IL8h+E65uyeLo3fA5?=
- =?us-ascii?Q?+yLStbB6sVmamzZ++UHKFe/+3xFrjKXgBbAfoOmXRdi3Kk9rc31bZA36gU0j?=
- =?us-ascii?Q?0PoyTPoJoKLHVQPpfIEPqxW1u4mTzLnjWe6y+Z5+Kfy8OZuCvCfs3wwH7rl+?=
- =?us-ascii?Q?1wqpbIwnaFX0/D9SUmLRPffNK1Xdct+3R0Szvz8Egbxq31vJc9cODnuG7MUg?=
- =?us-ascii?Q?Olz5Hn46uXmum2PdSy/cHNLWnKwissqK6/PRtAZjYR4YYdOyCmrB9EtEsrJw?=
- =?us-ascii?Q?n/O1ymqdhIoc6j8eXUGqhIsN+UERHOVXJUP+USXs5Wjwq1hp6PLLbamsjFTA?=
- =?us-ascii?Q?eeleO6JT3tLKle5lji2OVcmozHAzg5mLUO7/lRIQ4vBpPkeOvn5hDToPCNDf?=
- =?us-ascii?Q?ro541VP048uZK9FfSu4P5+SuViFJzyvRbmTA+WXpVhA9bFJXsbhD9/FZhHEz?=
- =?us-ascii?Q?QSIxbs2PD5JqySCJjXnv9oQFJ7roVueWiAh2JHoLIqvQfq+PZPIwt5NnMNSa?=
- =?us-ascii?Q?Ay2I1DVNZ8yvQL5wNfqoyLHLCN66IA3bu4rFMbdRdoHo4rhnjtMAFjA0EV+L?=
- =?us-ascii?Q?fdzu+v9EQLbNpX0LcWTh01ovuPQM4pWcqxNCbP/Um176EBkzOfPPnp9N/eUO?=
- =?us-ascii?Q?oAREc3tSnfl/2KreFpC7FYvmGWUYopVxvlKnftaDjWITtJ57W48m1+L8VcRx?=
- =?us-ascii?Q?dXzPPv8QIcG9DHToOUFFkgVPCngrLY/KJITjWNwAGYee+biILvFtUiR1Hmem?=
- =?us-ascii?Q?HcaRGrDRQ+WfU7KKDXgQ/KpM/B3R9b7L85wrEVi+z2N1VDg1IS9kht2tUXbA?=
- =?us-ascii?Q?hKiaANaFOoWvWYxn1ebhaq2CuaUgZ3s6vkAlReM19jY7t5Db+j53jzcYB+Yo?=
- =?us-ascii?Q?P/Syw7SzyROADqHLJZhnJdMjokGi0Jr9cHv4qhEQ9GwwcFWf1uUZEPilg3i6?=
- =?us-ascii?Q?zqh2p8KahSqIGHd2WOVdg9x1f+KhuVTEsPmQ9mvcTxLScR6AaglarcQCqeud?=
- =?us-ascii?Q?Ul6QFk1AYknlMDwxlcagNk5HihYrA5DdeeAoTVFY34ddsMXhnCc2FSGrANin?=
- =?us-ascii?Q?brX30JPRQz1k7NfzrZgel59NnemxZD3zJZo8FN61cijI90pWid/kL6YM8kX3?=
- =?us-ascii?Q?bglNGtbzSTmVWr8Fa0VWisg57Qe9bGtbPpuRLMF7hIJjmoSMVqdtZA76ul19?=
- =?us-ascii?Q?K3c+NQhDV2oesOfmPJt4uLemrzWl586VWG02cEkBDw3eZJsZ1Mm1a1QYCPuD?=
- =?us-ascii?Q?YGBaoE/dTW4m7DBidrN5ltkr+5ld4q3hTT7+NFTx9TThP1ETp8Akp0El7Ex+?=
- =?us-ascii?Q?36NQmbGL+nnJ8uuRT19iGKTlchPtPgRwfR1mnCgx3u2+FDr1Dydl9Q=3D=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <AD004F9B95A0454B86591C3652CDA29D@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@mvista.com header.s=google header.b=KFeZUjOq;
+ spf=pass (domain: mvista.com, ip: 209.85.210.174, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso7650600b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 03:00:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1747908044; x=1748512844; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N0Tw+oQdgH0efRoj75MkbnJ1W6OkRaf5q8u/MX/7150=;
+        b=KFeZUjOq2E0k8zbgCOvzOCgakeZQL1XMEiBFajm3Q0KNr/NGEFVrewTg+m/JGbke3C
+         v99+fZxTSklCtS+RqN2U0DFxUlWhglNswNnXs2j/x2xQAnX5RhMYfJ0gIlvxdiyBr5G9
+         vj5vkPWOA1CJQonXpU13YCMq01N011ZKATp0U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747908044; x=1748512844;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N0Tw+oQdgH0efRoj75MkbnJ1W6OkRaf5q8u/MX/7150=;
+        b=tAxExtlUy35lw1Ry1pjujSNklAlKR2ElOswyMZJ+nb6e1JofQAx3VcW+Etb0mQKN8b
+         hXee4gEhQOjCjmm1xloTh5uLn/XQelGljIadiL3QorJuKrju8rJ5LoVuAGrrrP8jDk3K
+         A47vOUnt38GPBTxZfMsqeIA8A+hIR23+EN30bW7/S+NypETj4UcwqlwBTjo/2cbvY4Zk
+         Or99kM3oEO1KQ6VJHDK1c5WPLvZFEyf3YpCDr2Yv21jUKGcif0l/5rJrXVgDl7bBBn8n
+         o3DOtewc7pLyjLiipDsZrNpV8Zm7AZl3lLt5Lq9Hghg3TCqYk0AOGodLhiNZF9q4sXTl
+         Tn4A==
+X-Gm-Message-State: AOJu0YwhHqVV0K6WXIFVGZSAzJCpwLK4qr5wDNAEIHbm/dd+A2UDTuOg
+	scqeLEPvdCpbWZwIBTLLcpIqqZ9jlWPsC32H8q/3tLWxeyKd707IqumCJLgAILqE8pdDS5aJxzT
+	qjT2D6/o=
+X-Gm-Gg: ASbGncv/wEP0nM9ciiEF/3EL+yDW+d8+dh1woR/ktDfIkBXdmI5mVJebExd6O+zObKa
+	cSi4FGoCJcUw/9GNwoFvisygY5bc5yIoFLVVcVbtNXM2AcReDs1ANKgeWD3z9siemyktnzAYOwq
+	Xj4XQDBYHJwoU2im39E8+j4++9yoZfcI6zJMIJVyeTrOHe1lo/GvkN8PHGzkZpZVqBQY049PSCQ
+	zcLgmjowEr5TFLGNSom0f0/O4ZIZOckLTc9TGr+QlvvSAJe9eRAVcnwOT9KwuAcXqHj/GC16wZl
+	lnUQp3G2xuTGEJpmJcrGkF/ti4QMQkYRdCBeGWMy4b9NfZgxifeDX/Gq5K2LZ3c=
+X-Google-Smtp-Source: AGHT+IHAfwKOWxF2GV2053v/vb65/97W/2KOTYWooqCcs74SYgnPyQgd7gQWEANBWEBlZHLBRfF55g==
+X-Received: by 2002:a05:6a00:801:b0:740:b5f8:ac15 with SMTP id d2e1a72fcca58-742a97c1c77mr29921880b3a.10.1747908044051;
+        Thu, 22 May 2025 03:00:44 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.207.216.248])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a982b80asm11001814b3a.116.2025.05.22.03.00.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 03:00:43 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH 2/4] libsoup-2.4: Fix CVE-2025-32911 & CVE-2025-32913
+Date: Thu, 22 May 2025 15:30:26 +0530
+Message-Id: <20250522100028.76782-2-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250522100028.76782-1-vanusuri@mvista.com>
+References: <20250522100028.76782-1-vanusuri@mvista.com>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9836
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5PEPF00014B97.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	1f7ae905-d9aa-437b-2b8a-08dd9916bbc4
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|14060799003|1800799024|376014|36860700013|82310400026|35042699022;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?sqTh96ttSGRJ9f4I71xBMm41jBwTZInYVXb+i0fq5EhLz+GJuJXEvfxPPTCl?=
- =?us-ascii?Q?HcFEuxwtf4WWn9qlO0g9kjrbLqvcgFk77oN/dVmLRSISmmrntVv6ioHbYQJf?=
- =?us-ascii?Q?JqT9F2hHz1fKaAVn/1VHT94TWUtwKO5Hq5Nf0QJMF1/iEeISI+8/JDrJOOFs?=
- =?us-ascii?Q?m0HmeMw7bYwegXrw1ORrV4EGHbocsjPwcAoqjqI9NPGa59jnYpYCBEQsCmd0?=
- =?us-ascii?Q?0iqXqoujPIkKLPNdqhZATF2na+fvJLyF9phPDYyEj2Ds/RX4EyB7QVjNsnJi?=
- =?us-ascii?Q?LcA/kO50f36sA1Ryam0w4Q+GWh+7bKRQh7LhQyO8sGrIMKIjCytNksxgKP1+?=
- =?us-ascii?Q?C4vHBPkfTmcMZF6SKCzEMEqvvuHpQKhr7i8CAWYr8oNDtO+5viBi6lCqFfoQ?=
- =?us-ascii?Q?EKHidqKAdg8nYsUykFaOnUeB6VcgCW31qdZT7GKByud768sbsxsmEf6yk3F2?=
- =?us-ascii?Q?gPZdGAEyhvgzjcIfNJXT2p0yb7CsII7o9OvtKpTc+LhqrlZLLsQ0rD+nM+vY?=
- =?us-ascii?Q?mtbF1nRAq3sYAA0JlzAjzLotUeC6B7SA0lcVHnVvbWCNJz1DMAkw8gmiXMjx?=
- =?us-ascii?Q?iyEl3Zb3s8LeplwghOwRHfTEke3ievjrLwEbCIQh7hLvNLpfMZOczFEV1yjr?=
- =?us-ascii?Q?mgQdpmsdfVnGF+EwHrqy+8RLGDf27nknLTrksn+LYLYmAYzMzc/q3lvJWfbn?=
- =?us-ascii?Q?sM2QhH2DatpaApSZ5bpAlyompTwPGKMScmWlFg+sn5wLvWkEmD71gCJy5PaY?=
- =?us-ascii?Q?n2+3IZH7tuXCFs9aqim75B28L7HN5g0K9cOKe4GaGZ6GL4Q0RHYJnhQItwHd?=
- =?us-ascii?Q?Mbdv8yyEooBT6cxgGJA1U7dgt6LV45du6O5JboSnaBreQW+7425JJYt0xqcS?=
- =?us-ascii?Q?68mjZR74TFY8ulsGBgCL5qVE7TEi+cN4aqlywMEe2ZwqTVGcnZeFG4DfGwnu?=
- =?us-ascii?Q?L1dUOiShNyePsd+9pB1GELFQZ5GfEpedE0mPzTF/BQjC0GkJu3+0MbrkHEea?=
- =?us-ascii?Q?BkYlK4WFO9GH7ITGz+No/OdppzdfNey+sOAKBF/S1K34f2bdIgVx6O3AvHRg?=
- =?us-ascii?Q?xQj1B7f1RJOQO7sRgk1HYpmTG/MJJtxau0EGxtT1Rqo5OlvhFuHbOJQg9TCz?=
- =?us-ascii?Q?6UzotWQWVPDV1X8KiE/BDwQknjKQdys+QpuUtHNMVNbMnG0CZuLXBMDT6OSd?=
- =?us-ascii?Q?Xwfb8nC9P1uzyxknResbMfVjv2qJsY2h53Ej9SdqRUswujzzIyiSz00C37Mk?=
- =?us-ascii?Q?OeERUO1Boz086TR7fz/0lB4hzVsTxXCGiGyrevglSRtgLSOsW/k3NUNP8zrO?=
- =?us-ascii?Q?xFz+ELrXUZEVpo3O+edhilwKvy3xtkA5BBlCfTgrYBMn0sIfiV4IHNRjBR7Q?=
- =?us-ascii?Q?cbZvx6sstus6exl0cnWKNywqe4jXamlWB/q1KCuM8IpiWpASBVy3Ho1OsGwc?=
- =?us-ascii?Q?xXJde3tis2h1nY3Bmtw+Xk5Awn/v6LsGHOjTnUccf0pq6PUhpTDREZw0KKEM?=
- =?us-ascii?Q?rj7C6CTuAvRulExxBCM6r+USWS0NabRMjpEK?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(1800799024)(376014)(36860700013)(82310400026)(35042699022);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2025 09:55:39.4956
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10a99530-5a5e-47a6-439c-08dd9916cedd
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B97.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR08MB10659
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 09:55:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217074
+ <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 10:00:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217076
 
+From: Vijay Anusuri <vanusuri@mvista.com>
 
+Upstream-Status: Backport from
+https://gitlab.gnome.org/GNOME/libsoup/-/commit/7b4ef0e004ece3a308ccfaa714c284f4c96ade34
+& https://gitlab.gnome.org/GNOME/libsoup/-/commit/f4a761fb66512fff59798765e8ac5b9e57dceef0
 
-> On 21 May 2025, at 07:19, Khem Raj via lists.openembedded.org <raj.khem=
-=3Dgmail.com@lists.openembedded.org> wrote:
-> +# Clang is fussy about incompatible options on aarch64/x86_64
-> +# x86_64-poky-linux-clang++: error: overriding '-ffp-model=3Dprecise' op=
-tion with '-ffp-contract=3Dfast' [-Werror,-Woverriding-option]
-> +CXXFLAGS:append:toolchain-clang =3D " -Wno-error=3Doverriding-option"
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../CVE-2025-32911_CVE-2025-32913-1.patch     | 72 +++++++++++++++++++
+ .../CVE-2025-32911_CVE-2025-32913-2.patch     | 44 ++++++++++++
+ .../libsoup/libsoup-2.4_2.74.2.bb             |  2 +
+ 3 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
 
-Where are these conflicting flags coming from? Feels like we should be fixi=
-ng the upstream Makefiles instead?
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
+new file mode 100644
+index 0000000000..4652635294
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
+@@ -0,0 +1,72 @@
++From 7b4ef0e004ece3a308ccfaa714c284f4c96ade34 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Fri, 27 Dec 2024 17:53:50 -0600
++Subject: [PATCH] soup_message_headers_get_content_disposition: Fix NULL deref
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/7b4ef0e004ece3a308ccfaa714c284f4c96ade34]
++CVE: CVE-2025-32911 CVE-2025-32913 #Dependency Patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libsoup/soup-message-headers.c | 13 +++++++++----
++ tests/header-parsing-test.c    | 14 ++++++++++++++
++ 2 files changed, 23 insertions(+), 4 deletions(-)
++
++diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
++index 56cc1e9d..04f4c302 100644
++--- a/libsoup/soup-message-headers.c
+++++ b/libsoup/soup-message-headers.c
++@@ -1660,10 +1660,15 @@ soup_message_headers_get_content_disposition (SoupMessageHeaders  *hdrs,
++ 	 */
++ 	if (params && g_hash_table_lookup_extended (*params, "filename",
++ 						    &orig_key, &orig_value)) {
++-		char *filename = strrchr (orig_value, '/');
++-
++-		if (filename)
++-			g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
+++                if (orig_value) {
+++                        char *filename = strrchr (orig_value, '/');
+++
+++                        if (filename)
+++                                g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
+++                } else {
+++                        /* filename with no value isn't valid. */
+++                        g_hash_table_remove (*params, "filename");
+++                }
++ 	}
++ 	return TRUE;
++ }
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index 5e423d2b..d0b360c8 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -1039,6 +1039,7 @@ do_param_list_tests (void)
++ #define RFC5987_TEST_HEADER_FALLBACK "attachment; filename*=Unknown''t%FF%FF%FFst.txt; filename=\"test.txt\""
++ #define RFC5987_TEST_HEADER_NO_TYPE  "filename=\"test.txt\""
++ #define RFC5987_TEST_HEADER_NO_TYPE_2  "filename=\"test.txt\"; foo=bar"
+++#define RFC5987_TEST_HEADER_EMPTY_FILENAME ";filename"
++ 
++ static void
++ do_content_disposition_tests (void)
++@@ -1139,6 +1140,19 @@ do_content_disposition_tests (void)
++         g_assert_cmpstr (parameter2, ==, "bar");
++ 	g_hash_table_destroy (params);
++ 
+++        /* Empty filename */
+++        soup_message_headers_clear (hdrs);
+++        soup_message_headers_append (hdrs, "Content-Disposition",
+++				     RFC5987_TEST_HEADER_EMPTY_FILENAME);
+++	if (!soup_message_headers_get_content_disposition (hdrs,
+++							   &disposition,
+++							   &params)) {
+++		soup_test_assert (FALSE, "empty filename decoding FAILED");
+++		return;
+++	}
+++        g_assert_false (g_hash_table_contains (params, "filename"));
+++	g_hash_table_destroy (params);
+++
++ 	soup_message_headers_free (hdrs);
++ 
++ 	/* Ensure that soup-multipart always quotes filename */
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
+new file mode 100644
+index 0000000000..5d9f33c736
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
+@@ -0,0 +1,44 @@
++From f4a761fb66512fff59798765e8ac5b9e57dceef0 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Fri, 27 Dec 2024 18:00:39 -0600
++Subject: [PATCH] soup_message_headers_get_content_disposition: strdup
++ truncated filenames
++
++This table frees the strings it contains.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/f4a761fb66512fff59798765e8ac5b9e57dceef0]
++CVE: CVE-2025-32911 CVE-2025-32913
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libsoup/soup-message-headers.c | 2 +-
++ tests/header-parsing-test.c    | 1 +
++ 2 files changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
++index 04f4c302..ee7a3cb1 100644
++--- a/libsoup/soup-message-headers.c
+++++ b/libsoup/soup-message-headers.c
++@@ -1664,7 +1664,7 @@ soup_message_headers_get_content_disposition (SoupMessageHeaders  *hdrs,
++                         char *filename = strrchr (orig_value, '/');
++ 
++                         if (filename)
++-                                g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
+++                                g_hash_table_insert (*params, g_strdup (orig_key), g_strdup (filename + 1));
++                 } else {
++                         /* filename with no value isn't valid. */
++                         g_hash_table_remove (*params, "filename");
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index d0b360c8..07ea2866 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -1150,6 +1150,7 @@ do_content_disposition_tests (void)
++ 		soup_test_assert (FALSE, "empty filename decoding FAILED");
++ 		return;
++ 	}
+++        g_free (disposition);
++         g_assert_false (g_hash_table_contains (params, "filename"));
++ 	g_hash_table_destroy (params);
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+index 517a8e4539..4e7667402b 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+@@ -26,6 +26,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-32910-1.patch \
+            file://CVE-2025-32910-2.patch \
+            file://CVE-2025-32910-3.patch \
++           file://CVE-2025-32911_CVE-2025-32913-1.patch \
++           file://CVE-2025-32911_CVE-2025-32913-2.patch \
+           "
+ SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
+ 
+-- 
+2.25.1
 
-Ross=
 
