@@ -1,168 +1,122 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE9D7C54ED0
-	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 19:02:01 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.31598.1747940520989815173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB7BC54E65
+	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 19:08:01 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.31729.1747940879049419388
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 May 2025 12:02:01 -0700
+ Thu, 22 May 2025 12:07:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lZkBZ98q;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-af59c920d32so5143935a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 12:02:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HkwOmF1H;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-742b614581dso6878486b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 12:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747940520; x=1748545320; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rEBdthyY63iNudy8rTXwNWcOtdDQE3CaBMRZ96eePg0=;
-        b=lZkBZ98qR8MjUplstmoOkcoBvHgED4daydkryAyQxqVfTjREGZq2CC+mxWcN0rIZWo
-         SXG2206SSIvV0nup9rzW2hkXcpEbwNSCs2+s1MKmYP3mS1HbU2gGcgdwsnDvGqQuCoXC
-         2X/ghvjsZ4XXbthLmIjnIeNrKo4yH5yHI/3aBMtiuH2hTiLR+yuQLsHpU8xmt1bZtGCx
-         NzakJmDW72QgBOrG4ToibC4k9WZMZ779JGxbB8xMNZyHS2ZPzk4B/e1s20+Cev8sbbUk
-         gRkWe2lvzvqZEqoT3u6IuAJSwEHtGJ1EE1cU1JcuVbizwo74pOv609aExnkL/igyKBrS
-         BMUA==
+        d=gmail.com; s=20230601; t=1747940878; x=1748545678; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+GrxQh3ffjFCigiRqUGzvUsV865mRLAS+R4AvkRkfWU=;
+        b=HkwOmF1HUWei74VSzVU7iJPFb0U5GjrRlAmqL06FEknu9dBRxRM9uHYiS+42ghdlbv
+         XaBC7EhjUOoufCpYmys0xI588ODdQdm9pP9jH8ZVVu7SfWbwbkwQ4t4PBNNdfURl/yIc
+         Hke23rwmgpQy9zGTZwGLTvX/ZJICVJSr7voU04nxlnV0oKDqCqDI8XFik4Mq/GVxlnF6
+         iryV4j7oX4pSJ7qJ8vvX/hpuc3orbuP8A8oTYGIhGRYRZpyhM3fmxOe6iPW6jLZXGAjM
+         5gQzqNY4bFdPcgANWlOf2Mc1KF/aVdyOtsBB2qTLMK71xbGaq/hgYziz4aNn8RYkd/Jj
+         eaFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747940520; x=1748545320;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rEBdthyY63iNudy8rTXwNWcOtdDQE3CaBMRZ96eePg0=;
-        b=MhMV06N3H2maMPlulfWjpTLcaodmlmTibwINu8KRq0DeEDTSteWE00ggat8chJ4ufh
-         eY+xjZG+/boyDFRyROFqnVimsPaj6CNKePzFr6/CtSgy077ynF2/l1kr1C/3nqSRugxD
-         munZnXs+4LQmOpVph7OAHjV6Hww6DiwGgOs7/ngt5YFwaoB3TmrAQT44io2Lvu1JURXn
-         eN0CGiMU4nNn0VVwQq+iVEGOY5YV4NCOlFJTnpJhpdQ/+LsLGsAEqeRAaD/gWUnBxYUP
-         X2K6h/pu9lk18Ys08vVw2N0pcpaLasmeWD+68TIg+QNIRSzpFhbzFxdIBgeJv3GuXtxA
-         KFKw==
-X-Gm-Message-State: AOJu0Ywe/xSiq3l/nAOjZ6LahTQM2MbuBB/1K5LnKtw7lJKfOkVYO6h+
-	jrT6JFupi8DhN60blJTMEKp5qfaVB2JFf1PxAeHmsHLdqCY3+LLi+0V1a/znAfrR
-X-Gm-Gg: ASbGncv3wdZvLS3IDpEfHJxfN5IY1hWs5QqDm65D7ltP8Itr0Q6BixBxed01WzcPWFD
-	NSoTwEboOncZ26jrcmHLTpW9yGkRRkENWNMuWw6dGQwJHek9TYWxcKbBOZAEKTx1un3OZGWB1BL
-	z0Q35ou7EKnIJ1uHOY46AllgWtRLNMRLAqNX0KckpVVGRVqyMeDIl3XGJY+jGR2PIeOX9nSGen8
-	AbZjwmlQ5OHGjgJznIdIResSJLungOL969F3Md8/ezF4qJxhYGl57eIqcqX87TUY+HHpZLcqktz
-	oR7b+UAtJPf2TuqxDSUXdr223oGPFxOjAc6tZuJkXAk=
-X-Google-Smtp-Source: AGHT+IFr5PSTBkvUKW9eube/c/TFr/Q3SqZaxU1ca0H73PPG9RR1kuOhSYuz66FVN+ADu+PhTYufVw==
-X-Received: by 2002:a17:902:ef4e:b0:220:d257:cdbd with SMTP id d9443c01a7336-233f261075dmr1444155ad.48.1747940520018;
-        Thu, 22 May 2025 12:02:00 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::5f56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4adbfcbsm112238895ad.75.2025.05.22.12.01.58
+        d=1e100.net; s=20230601; t=1747940878; x=1748545678;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+GrxQh3ffjFCigiRqUGzvUsV865mRLAS+R4AvkRkfWU=;
+        b=JwiQRo5XtyyYGTgQX+Y9WLDLLLMfQE5Q5kc+Y1Cs0v0E8Z3rt46JMS3oKOvGuk+zwN
+         lB8tZGuA2dYV6sMhb3VZBUvcWqSYMp4Rpeo6+JIA8X2/4iShk2uBkvAIHpaKUOn88idE
+         Ah2NiEZk8tik4J7e5027LtYC8hCw5hC2pokkmrb+LlEwcL8UPK7Vefx/eOJCtwQ51nZo
+         eAqGWA23hCPLVSBS73TJ4+hUcnz1emsqp8TqXUS0YpvxB50Wg0G20qz0lWrFOevjBi+W
+         tEUYyi5yVKfI+LDYdtl0sAkp6hnyPevGnNBb3W4pj/hO8cJvpFLsEZAX6zFRCrmVhvUf
+         dLqQ==
+X-Gm-Message-State: AOJu0Yw+sPPAsA8pM9U+0Zvsq116uBXw3EloGYocRsxSzwo7j8tlzYy3
+	A6KiUE7x9CYa0MOSo6gEh7pAXaLjLNC2JnGMZYrIR42vCLi32UmgA/7H4o+B3w==
+X-Gm-Gg: ASbGncuwhLF1iKS5eVKP76JVTqwcxRxWZiZiqe17zboMwN/hIljzXiIX8BLw/CxcxRz
+	nSa/MAHGJCZqH7UfdrGariFp4VizXivJzFfSR9CFR/m1pnWc0ceOTA3i91suAj8mX/ix+NYlOIR
+	27cfxhN+ECooqcaHc432yfT9JuKMGAWMNhOscSQ6Vr3EhIbG6LoZ4vER/aqfF4H0qjQPGh/FW1H
+	I8pq7M4BZJtA/H7iLf3DiljC5i4yqNxakonUfzuK+2Unh/I4Nn79CKFfB4yxMbq4TSALi85WmEm
+	4xdoIxYjl4pD5Ya5unHEhSKCXfRqGvTnsXlytEaKTox8f6NW2YywrLGf2Ber
+X-Google-Smtp-Source: AGHT+IEVJbiPeKZvx1QHPTOXjzllsGHxjF8tooeGVrqczWCEcUyRrFcIW+Gd7lWeJeoJCWwJpg+sKg==
+X-Received: by 2002:a05:6a00:9168:b0:736:3d7c:236c with SMTP id d2e1a72fcca58-742acce71d9mr34256754b3a.14.1747940878282;
+        Thu, 22 May 2025 12:07:58 -0700 (PDT)
+Received: from hiago-nb ([67.159.246.222])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a98771cdsm11958186b3a.144.2025.05.22.12.07.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 12:01:59 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] vulkan-samples: Upgrade to latest tip of trunk
-Date: Thu, 22 May 2025 12:01:56 -0700
-Message-ID: <20250522190156.731992-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250522190156.731992-1-raj.khem@gmail.com>
-References: <20250522190156.731992-1-raj.khem@gmail.com>
+        Thu, 22 May 2025 12:07:57 -0700 (PDT)
+Date: Thu, 22 May 2025 16:07:54 -0300
+From: Hiago De Franco <hiagofranco@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Anuj Mittal <anuj.mittal@intel.com>,
+	Hiago De Franco <hiago.franco@toradex.com>
+Subject: Re: [OE-core] [PATCH] base-files: refresh patch to fix fuzz
+Message-ID: <20250522190754.lbvzv554c6a34hoa@hiago-nb>
+References: <20250521202337.113556-1-hiagofranco@gmail.com>
+ <CANNYZj-Tp_s_Bg16bDA6XcDKZOtxjvuYy3h+oup4g40WTCf3Ww@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj-Tp_s_Bg16bDA6XcDKZOtxjvuYy3h+oup4g40WTCf3Ww@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 19:02:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217147
+ <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 19:08:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217148
 
-Drop backports available in latest sources
+On Thu, May 22, 2025 at 01:01:43PM +0200, Alexander Kanavin wrote:
+> On Wed, 21 May 2025 at 22:24, Hiago De Franco via
+> lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org>
+> wrote:
+> > This is due to changes to nsswitch.conf file on commit 0cb122f17cf2
+> > ("base-files: add gshadow entry in nsswitch.conf"). Fixes:
+> >
+> > ERROR: base-files-3.0.14-r0 do_patch: QA Issue: Fuzz detected:
+> >
+> > Applying patch 0001-add-nss-resolve-to-nsswitch.patch
+> > patching file nsswitch.conf
+> > Hunk #1 succeeded at 9 with fuzz 2 (offset 1 line).
+> >
+> > The context lines in the patches can be updated with devtool:
+> >
+> >     devtool modify base-files
+> >     devtool finish --force-patch-refresh base-files <layer_path>
+> >
+> > Don't forget to review changes done by devtool!
+> >
+> > Patch log indicates that patches do not apply cleanly. [patch-fuzz]
+> 
+> It helps to mention that the patch is conditional, and that's why the
+> fuzz thingy isn't seen in default builds:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../0001-framework-Include-stdint.h.patch     | 26 ----------------
- ...bal_options.cmake-removed-unused-ROO.patch | 30 -------------------
- .../vulkan/vulkan-samples_git.bb              |  4 +--
- 3 files changed, 1 insertion(+), 59 deletions(-)
- delete mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch
- delete mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch
+Ok, I can add this to the commit description in a v2. Thanks.
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch
-deleted file mode 100644
-index b30b0e0017f..00000000000
---- a/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-Include-stdint.h.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From 9a187d2f54d3683636b951a10c165d949b3a1d18 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 23 Mar 2025 20:09:35 -0700
--Subject: [PATCH] framework: Include stdint.h
--
--Needed for uint32_t used in this header
--GCC 15 gets upset about it.
--
--Upstream-Status: Submitted [https://github.com/KhronosGroup/Vulkan-Samples/pull/1314]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- framework/platform/configuration.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/framework/platform/configuration.h b/framework/platform/configuration.h
--index f6a9cae..c15f76f 100644
----- a/framework/platform/configuration.h
--+++ b/framework/platform/configuration.h
--@@ -18,6 +18,7 @@
-- #pragma once
-- 
-- #include <algorithm>
--+#include <cstdint>
-- #include <map>
-- #include <memory>
-- #include <string>
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch
-deleted file mode 100644
-index ffac2d78ce6..00000000000
---- a/meta/recipes-graphics/vulkan/vulkan-samples/0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From da4ef211810bc3b0c51ea89f02c031a170fe0cb8 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Tue, 1 Apr 2025 18:53:34 +0200
--Subject: [PATCH] bldsys/cmake/global_options.cmake: removed unused
-- ROOT_PATH_SIZE define
--
--After various refactorings it is no longer used anywhere (and
--is problematic for build reproducibility, as build path sizes can
--differ between build hosts).
--
--Upstream-Status: Submitted [https://github.com/KhronosGroup/Vulkan-Samples/pull/1325]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- bldsys/cmake/global_options.cmake | 3 ---
-- 1 file changed, 3 deletions(-)
--
--diff --git a/bldsys/cmake/global_options.cmake b/bldsys/cmake/global_options.cmake
--index 96c7add..67a6c5e 100644
----- a/bldsys/cmake/global_options.cmake
--+++ b/bldsys/cmake/global_options.cmake
--@@ -126,9 +126,6 @@ set(CMAKE_CXX_STANDARD 17)
-- set(CMAKE_DISABLE_SOURCE_CHANGES ON)
-- set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
-- 
---string(LENGTH "${CMAKE_SOURCE_DIR}/" ROOT_PATH_SIZE)
---add_definitions(-DROOT_PATH_SIZE=${ROOT_PATH_SIZE})
---
-- set(CMAKE_C_FLAGS_DEBUG   "-DDEBUG=0 ${CMAKE_C_FLAGS_DEBUG}")
-- set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG=0 ${CMAKE_CXX_FLAGS_DEBUG}")
-- 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 505b6ab2f28..1caff12a5b9 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -7,12 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
- 
- SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protocol=https;lfs=0 \
-            file://0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch;patchdir=third_party/glslang \
--           file://0001-framework-Include-stdint.h.patch \
--           file://0003-bldsys-cmake-global_options.cmake-removed-unused-ROO.patch \
-            "
- 
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "8547ce1022a19870d3e49075b5b08ca2d11c8773"
-+SRCREV = "eca122602a5d7a9f63686411dcef1b62feb36a9a"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
- S = "${WORKDIR}/git"
+> 
+> SRC_URI:append:libc-glibc = "${@bb.utils.contains('DISTRO_FEATURES',
+> 'systemd systemd-resolved', '
+> file://0001-add-nss-resolve-to-nsswitch.patch', '', d)}"
+> 
+> Which makes me wonder, should we rather ship two versions of
+> nsswitch.conf in /meta/recipes-core/base-files/ and install one, or
+> the other?
+
+We have the benefit to not touch two files at the same time when any
+modification is needed, by using this patch. However I agree that this
+conditional patch is not ideal, and looking at the git history of
+nsswitch.conf, it was added in 2010 it has only one modification in
+2025. I think we should be good by using two versions of this file.
+
+I will do it on a v2 patch, thanks for your suggestions.
+
+> 
+> Alex
+
+Regards,
+Hiago.
 
