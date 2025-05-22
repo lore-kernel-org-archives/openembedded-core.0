@@ -1,154 +1,146 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CDD6C54E90
-	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 14:35:20 +0000 (UTC)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
- by mx.groups.io with SMTP id smtpd.web11.25468.1747924510367683125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A62BC54E65
+	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 14:46:10 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.25716.1747925169734409063
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 May 2025 07:35:10 -0700
+ Thu, 22 May 2025 07:46:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nl/KOtEi;
- spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2cc89c59cc0so3964874fac.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 07:35:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747924509; x=1748529309; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TqCeiYOeEoQAOITAxRZJJEgTnpN4DeW0mwW3QIQCHAo=;
-        b=Nl/KOtEiuSXN8PCqIqqNXl+tTlzYhJXaDaEZfB48tsX/dwnig7gWfgfWmFVKK9xXXd
-         4hK1/HOJp+NXp4qYKrV+43JAmYn5wz0DodZyxJ7GlG7617Blljp1MJXE4NbXVda2zpwt
-         m2m7WjsHLpZnZMaPRdZhE+muL5gPRQPPpjHviE5SogNJ4D18+jVMu4QamwdeER1y7AaL
-         U/eyVG+71P2b0bDPsSmpSVqx0gChA+2LVBP/RQbq6RU1tO2OX2Jqby6FnKnSTZkjZcdZ
-         s51Kxbqj/4yv9FChNbKqyIFYnFrgZGR0N7rexBxNQgRpM53JcCXgH5DNOF2S8F+ZT7Kq
-         +x4g==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=dG0GYivi;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M7xxIO001325
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 14:46:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=0A4qlLMrDFf7AjHzA3rBpt3YWH2K67rsxc1
+	GJyvgZrQ=; b=dG0GYivixNOelRDWYYulyjptq74HpEX1f5QPJczlhVBQMu2dOju
+	xmcu9Mbh7K1J1pYSQOqjnNhwg597uKyT2qtXC4HvYN+wEIvEw33fGhslAj+KetYW
+	mgLxqYSV3ayZW7iZHD30rFL2nshFj1wQVmek+DSKEpY5DiFhI649HEZ/Ru41z1xx
+	McqpQ3qbfzXmUrqnT5AmijIVXjuWraT2d283oN/DMFVcKcDA7fQcZGB5hTkB7LiE
+	tcmiUyxYG9WGdUUzFMXQrCqYQHH2UReSIJ4ahmhARAGyADHjA5Db718EYfCRoKoB
+	ScQWeTjfHZTVFFjqwOGuc7JU2h/45pEvlyA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46s95tn1t4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 14:46:08 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5c9abdbd3so819179685a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 07:46:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747924509; x=1748529309;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TqCeiYOeEoQAOITAxRZJJEgTnpN4DeW0mwW3QIQCHAo=;
-        b=fZ8d7ygH1hwl6hxOOUi7vDVEIV1fSoobgWY//K0cEs9wg/EFWMJ7b1wuuqN9ILdblD
-         DIq2CDpvVJo83cghcCMK0KMVvVJo4g7wVnjRknUpdScZhpi3C2OjE6xsgUdXxiCtjCyB
-         0B4MVr/fWQcbiOZNA7g3vNzvltRX1w3squUjaR/NejQC/Jr/zKYNo5c7hXczRImrT90K
-         7/kuIytn8lhptxIn9f67LtuLTCxccVpHI1OQ0/0litfCvXM3nKWgAtzrk8RGmFZQ5NOe
-         +WI1Eip+IvkUVQ19zyOTq1b8HTLEpetF34E65A3tayAiQBNcdpYnkk0L8kwEL9wKpeCJ
-         UTEA==
-X-Gm-Message-State: AOJu0YwZttoF1zqHIWDbSCbvj1MEe75MQLg+O2Rh6Jf9ARAbEooW8mnE
-	Q5uMP0XNN3nEOJihnFNPyAYNE6XmRFNKeAkHKdBw7dmatI5FqsJPYNG9wwJmh3ZAOGHLUZUESk1
-	+9ldBqFBeJAe9GDnzrfUJGDqsfwkBYSY42gLv
-X-Gm-Gg: ASbGncsGFd9EMqAJtR/YqkCn1XgyM55p001CyNiB+hfoGRhCzhRHRbudHQIPaiyt0KE
-	/xhcufgJf6l0ca6Ogp0odH4T2MubXjAzjruueeyAz05B2bDtg0ak8B6TXNckrT5k5IceSFFLjcO
-	iFy4pbuzZGwJaXNDoLKPJjWTyksGLDlNg=
-X-Google-Smtp-Source: AGHT+IHl2ANyM+tjCOGehEyox6+88j6iZ87MxWWkS1QZCpvRBM8S5UCAZWRdWSphlqWziQUaOgrMjdjJHXEubIXXZeU=
-X-Received: by 2002:a05:6870:a2d1:b0:2b8:608d:5dd1 with SMTP id
- 586e51a60fabf-2e39bfd2338mr20024481fac.18.1747924508991; Thu, 22 May 2025
- 07:35:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747925168; x=1748529968;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0A4qlLMrDFf7AjHzA3rBpt3YWH2K67rsxc1GJyvgZrQ=;
+        b=VRM+BnCimiPsa7Bl5U7tQ9cbo+PEL0YjiIxAVAoVOfoxWu60Uftrn/77cuOI9eWH91
+         5HzMTkOtCJMLLVAi500trV8PrkK7t5jzApKeuGN/H8kWm0cRXRoyBqIQqBtAC9740pKD
+         3pLZBDVoGhEGUUXD3NJDc0VaSXc8RpO+dAm2n7ZLnGf2G22hLpCz9xJX1/yIMFkFX5AI
+         MxeqmnC3Q0sr5ghCg4USiClkHLpdVg/gnofLITpdNAgki1wp+fnSlwRzCoVTxSXqW/fY
+         ja44F0bgBFPjEXYBTFcyg9oJcsfMhWECfznyE6ljDWkH8pOy8le+UuvAnyZSphkHd4ax
+         oNgQ==
+X-Gm-Message-State: AOJu0YzPOJx1s6ug4WH0EWbF056q2/ezZD1avELpzT7TgGv34VS2XA+P
+	wzS+jMQCg2YMHImrWnuYL8DQzC6vrfosWA5fFPqlgfBdF3rdwKLsTxrXOa/yO5mUmLWn6sV1ViF
+	2ixSZ/SG2b8h4JDkimqEOtDCQhHF2cVuooC6/yDNZkOFY+aWPVkBEcHDK1FW64WUWpMFobzxc4+
+	hlurMdhT5SH8vLdu4=
+X-Gm-Gg: ASbGncsqmunMlmAHTw5gm7fcMgdpndt99x96S+zYgmS3KLFtb7XhT1Rwj0PkUKOECIi
+	SlmOFzZsyMzDUhZ5lEEDTjp8g9mjrNDZQZhExNVYqnWu3CbNuru46C1rO4ac9/XEZUznGwwnWys
+	53pu9KvzjfNAnl7WALPrk9/seiIkR3YB8MEiiB4MRugcbDulG8bFlC+MfpjxFcocFzT7Y2R0My5
+	WWoR8imY4t+WEo4p9/ETff8Sbu29wN/mZsAa8a75MeZY7AWNRhoqFhict8bvunIYbD7RzRyvceP
+	fYPogaJAKQrN0/RRnXrP1RuKzFoPKwvBapGzwwBf973BRN7Fj8zrPvM+eCiokNCqxX3mm0wNWJK
+	Hwn6Vky1EPRxUABRQOh24xVy1
+X-Received: by 2002:a05:620a:4091:b0:7c5:55f9:4bb2 with SMTP id af79cd13be357-7cd467241efmr3138536385a.22.1747925167712;
+        Thu, 22 May 2025 07:46:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGCpY7oKjFYzNKDbwwtxtEw7rJDQvvvKwx+yH/uhv75Wqy+5NC+S1Nplw8afKGP1Pp962RmNg==
+X-Received: by 2002:a05:620a:4091:b0:7c5:55f9:4bb2 with SMTP id af79cd13be357-7cd467241efmr3138531785a.22.1747925167138;
+        Thu, 22 May 2025 07:46:07 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-328084cabdasm33031551fa.44.2025.05.22.07.46.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 07:46:06 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 01/12] mesa: remove OSMesa support
+Date: Thu, 22 May 2025 17:45:54 +0300
+Message-Id: <20250522144605.2876771-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <20250521162632.27169-1-reatmon@ti.com> <CAMKF1spnAHWh=gytPt=vfaFBh81A0VRxFvWqqZnWk07YAQNSVw@mail.gmail.com>
- <c97759ed-254e-4154-85ab-7f653bf34617@ti.com>
-In-Reply-To: <c97759ed-254e-4154-85ab-7f653bf34617@ti.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 May 2025 07:34:42 -0700
-X-Gm-Features: AX0GCFsfzQ7oksgLK9hwp6HyqxWi0KW898YqxOy0DZDM1Orc0AfogWA-nbu8oy4
-Message-ID: <CAMKF1srxrrqLR139_e8DUMDpjeijHqJCVmNL-8fseC8V95j7rg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] sbc: Fix for gcc 15 compile error
-To: Ryan Eatmon <reatmon@ti.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=QKBoRhLL c=1 sm=1 tr=0 ts=682f38b0 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10
+ a=EUspDBNiAAAA:8 a=ZSQEBjlZUM_vgJQqOsUA:9 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: e2jymtS3NH5HyD8P-kw9NIiOVL922_6a
+X-Proofpoint-GUID: e2jymtS3NH5HyD8P-kw9NIiOVL922_6a
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDE1MCBTYWx0ZWRfX7FOS0/ZeQunA
+ UaQAcU24NRVm1xO6KrHLlknOZYuSSvheRe38oEpVzZtHrAYhbiAau2O72Fh9pWPYMQ6YYOCEkUY
+ 0wE+roaC6RrDY4w0+Vt0WgOr1YMZsDHwTSnK4uq4s8/4gUEssNBlI9F5YUPmFxhlGvD0uHrFa78
+ gbdqvmYbaTxjM439Y3T6nYVr/u8iFq1m1WNqzd4MFCQhID49lokqMtxumw+8BwhpgwER5Cj32vU
+ Cg5R0ggzQrs2+TEKEpGUv9V4GN3/kZq5tJQMP7FsyndsYycvZAI7k+B5JlC0GOQLsX7/4SM2HDM
+ AY781jx/9QC1i0dT2QKGTwDVkBodIScH+6vS2s3qvje2SA+Li1E3eF26tzOXxCBEe1Yl8pFU7K/
+ U3Wuj+0L6zywDg+2+J9thJCVB3EWGO3d5zH02TnVFeqkD6AX4fd00FkhfNiZdO7S1kWrO/KA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-22_07,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
+ adultscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 impostorscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505220150
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 14:35:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217111
+ <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 14:46:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217112
 
-On Thu, May 22, 2025 at 7:04=E2=80=AFAM Ryan Eatmon <reatmon@ti.com> wrote:
->
->
->
-> On 5/21/2025 3:27 PM, Khem Raj wrote:
-> > On Wed, May 21, 2025 at 9:26=E2=80=AFAM Ryan Eatmon via lists.openembed=
-ded.org
-> > <reatmon=3Dti.com@lists.openembedded.org> wrote:
-> >>
-> >> With the move to gcc 15, the code is not generating a compile error.
-> >>
-> >> ../sbc-2.1/sbc/sbc_primitives_armv6.c:284:9:
-> >>     error: too many arguments to function 'sbc_analyze_eight_armv6';
-> >>        expected 0, have 3
-> >>
-> >> Simple fix is to drop the C standard down to gnu17 to avoid this new
-> >> error.
-> >>
-> >> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
-> >> ---
-> >>   meta/recipes-multimedia/sbc/sbc_2.1.bb | 2 ++
-> >>   1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-multimedia/sbc/sbc_2.1.bb b/meta/recipes-mul=
-timedia/sbc/sbc_2.1.bb
-> >> index 5aaa52313f..8b91e7e65b 100644
-> >> --- a/meta/recipes-multimedia/sbc/sbc_2.1.bb
-> >> +++ b/meta/recipes-multimedia/sbc/sbc_2.1.bb
-> >> @@ -19,5 +19,7 @@ SRC_URI[sha256sum] =3D "426633cabd7c798236443516dfa8=
-335b47e004b0ef37ff107e0c7ead32
-> >>
-> >>   inherit autotools pkgconfig
-> >>
-> >> +CFLAGS +=3D "-std=3Dgnu17"
-> >
-> > maybe changing
-> > static void __attribute__((naked)) sbc_analyze_eight_armv6()
-> >
-> > to
-> > static void __attribute__((naked)) sbc_analyze_eight_armv6(const
-> > unsigned char *buffer, int size, int channels)
-> >
-> > in that file helps ?
->
-> Likely that would help.  I guess the philosophy question is...
->
-> Patch the source code  vs.  Lower the C standard to match what the
-> existing source was developed under?
->
-> What is the preferred method for handling things like this?
+Mesa 25.1 has dropped OSMesa support. Remove corresponding bits from the
+recipe.
 
-I think it's subjective. distro hat on you want to do minimal changes and
-perhaps pinning to C17 is fine, but we won't know when to remove it unless
-we put some markers so its technical debt we will carry
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 5 -----
+ 1 file changed, 5 deletions(-)
 
-However, fixing the package itself is paying the debt now and helps the
-ecosystem but it does mean some extra work in upstreaming the patch
-I know you have already reported the bug but this is one step more to
-provide a potential fix as well.
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 07a57b11c80b..2ff69c3ace2c 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -219,8 +219,6 @@ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'tegra', ',tegra,
+ 
+ PACKAGECONFIG[vulkan-beta] = "-Dvulkan-beta=true,-Dvulkan-beta=false"
+ 
+-PACKAGECONFIG[osmesa] = "-Dosmesa=true,-Dosmesa=false"
+-
+ PACKAGECONFIG[perfetto] = "-Dperfetto=true,-Dperfetto=false,libperfetto"
+ 
+ PACKAGECONFIG[unwind] = "-Dlibunwind=enabled,-Dlibunwind=disabled,libunwind"
+@@ -254,7 +252,6 @@ ALLOW_EMPTY:libgles3-mesa = "1"
+ RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'opencl', 'libclc spirv-tools spirv-llvm-translator', '', d)}"
+ 
+ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+-             libosmesa libosmesa-dev \
+              libgallium \
+              libgl-mesa libgl-mesa-dev \
+              libglx-mesa libglx-mesa-dev \
+@@ -353,7 +350,6 @@ FILES:libgl-mesa = "${libdir}/libGL.so.*"
+ FILES:libglx-mesa = "${libdir}/libGLX*.so.*"
+ FILES:libopencl-mesa = "${libdir}/lib*OpenCL.so.* ${libdir}/gallium-pipe/*.so ${sysconfdir}/OpenCL/vendors/*.icd"
+ FILES:libglapi = "${libdir}/libglapi.so.*"
+-FILES:libosmesa = "${libdir}/libOSMesa.so.*"
+ FILES:libxatracker = "${libdir}/libxatracker.so.*"
+ 
+ FILES:${PN}-dev = "${libdir}/pkgconfig/dri.pc ${includedir}/vulkan ${libdir}/vdpau/*.so"
+@@ -366,7 +362,6 @@ FILES:libgles1-mesa-dev = "${libdir}/libGLESv1*.* ${includedir}/GLES ${libdir}/p
+ FILES:libgles2-mesa-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2 ${libdir}/pkgconfig/glesv2.pc"
+ FILES:libgles3-mesa-dev = "${includedir}/GLES3"
+ FILES:libopencl-mesa-dev = "${libdir}/lib*OpenCL.so"
+-FILES:libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h ${libdir}/pkgconfig/osmesa.pc"
+ FILES:libxatracker-dev = "${libdir}/libxatracker.so ${libdir}/libxatracker.la \
+                           ${includedir}/xa_tracker.h ${includedir}/xa_composite.h ${includedir}/xa_context.h \
+                           ${libdir}/pkgconfig/xatracker.pc"
+-- 
+2.39.5
 
->
-> >
-> >
-> >> +
-> >>   PACKAGES =3D+ "${PN}-examples"
-> >>   FILES:${PN}-examples +=3D "${bindir}/*"
-> >> --
-> >> 2.17.1
-> >>
-> >>
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#217048): https://lists.openembedded.org/g/openembe=
-dded-core/message/217048
-> >> Mute This Topic: https://lists.openembedded.org/mt/113232263/1997914
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[raj.khem@gmail.com]
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>
->
-> --
-> Ryan Eatmon                reatmon@ti.com
-> -----------------------------------------
-> Texas Instruments, Inc.  -  LCPD  -  MGTS
 
