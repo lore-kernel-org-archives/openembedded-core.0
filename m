@@ -1,562 +1,233 @@
-Return-Path: <thakur.virendra1810@gmail.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10112C54E90
-	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 14:17:00 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.25038.1747923419523180795
- for <openembedded-core@lists.openembedded.org>;
- Thu, 22 May 2025 07:16:59 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59201C54E90
+	for <webhook@archiver.kernel.org>; Thu, 22 May 2025 14:34:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by mx.groups.io with SMTP id smtpd.web10.25280.1747924458616884826
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 22 May 2025 07:34:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JLpnsGtx;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: thakur.virendra1810@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-23228b9d684so51349215ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 07:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747923418; x=1748528218; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7GB5maEGWggMIA9q0D5qpXqbzTman1RN8eHIkBBGHp4=;
-        b=JLpnsGtxzxj3TmiMr4lQwIZk2z99h1VoSSfB+zuQeRKU6dDBux/k0rX6dd9poTYg93
-         LPODw9yqx7jl420Wg5CJthBg6AjFQpgdIi5Vd8Mv1dzXPKVjvoGssVBZJ/EE0bWudzTM
-         Au8/t6HX7hhzztXzzpiOEkMAySWgXckK/U9/f9grUD5sH4IrRfewRNVkg2qystYQ0lLq
-         D+96THWcWr/Il+vbt3vqPqpUCNd+LpNtnLa5o6VYoPnJXK+ZiAyWzearMUZRD4n+erLD
-         CWlaXZoOcUWvANCzDgGR+U+P2i0eCtrvoWpa2gSYgFRO6rHTNOOI6Z8dsF5DuyDoca2T
-         TpfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747923418; x=1748528218;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7GB5maEGWggMIA9q0D5qpXqbzTman1RN8eHIkBBGHp4=;
-        b=vgmllzepPDWo2Sy/0gOmk+xGu8ahOjVBp1QUH9sbr2sOG1EQvxtkPsHBxJHULoxLfc
-         w0Iz1uV5VY650kXEX2owt3sPxzf8gauYwsDa75+49DFBDIm7x1LE7sNJndfL/84RGue1
-         kmmz6/W7ANQ3l4vkdWOTPbY2E9AjESKr1RxRNwd45l1i/pWan2CfMm0eOxcBLg6roeLx
-         sS/4IlU+4cG6do3LgyNqU7z3jxRPrCcj/rLrDF1BdNPVZFYR4KkIgdGT7NTLLjSTg8kz
-         9n6H5EohyPMC4+6yE5Fa+616JkGi10qoBWMUNSX62hRbRlF53zr9OR+i6VMXW5n/pmoR
-         7ASw==
-X-Gm-Message-State: AOJu0Yy1UDp9ZWIDBXyMRqGvPCgCFVq29lbhKHTa9I5gxUgB2lhC1qRE
-	cRvm3J5vL7z0JoBmplu73eJRX+Jv7TwS0itUKaaeCa91/Dzvt03/keE108XCjw==
-X-Gm-Gg: ASbGnct8SUPa+u+5sJIt4sCWOyp6RhD6917LxljXRXyoIFtP/NcDm8FQaN5SQRrpbaS
-	EqmWwu6kvdIJMD4+I8xt4K8OVOoktuNEDsLrsU7YhKhAk7pnpW7umRyJh9yoosC1y5UpMqfgJMd
-	KuO6JuJmf+x6SEBL9W5nlEGIgt9UFybwDomMQDwGafPLzmI3rDlOh2x1eWB7JAgqtRsOpQysiiZ
-	A/TQBxlIgyPTAHkOuN7CMelczmPFj+G2EK5MFFtDZxIkaLzwspQbvySvwfWKJpTx/SQdzW5zfcS
-	Se6+jVwfBuQqsi+jh/7VxRK+WPZni0EDoMfH3xKb/ezR/Qfzc6UP/Qo4+95DdXXGfofonE7PeuO
-	jhs6JPA==
-X-Google-Smtp-Source: AGHT+IEtVtS/qoynAh8LlBQ9JQum1mMzVw7PhKlBkN8Jlc5VJVE91fOm/iNPgIhW34D4WeUU8n/C5w==
-X-Received: by 2002:a17:902:e808:b0:22e:3eb9:471b with SMTP id d9443c01a7336-231de36ba47mr307481615ad.23.1747923418323;
-        Thu, 22 May 2025 07:16:58 -0700 (PDT)
-Received: from LL-3020L.kpit.com ([103.170.68.39])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4e978adsm108852315ad.119.2025.05.22.07.16.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 07:16:57 -0700 (PDT)
-From: Virendra Thakur <thakur.virendra1810@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Qi.Chen@windriver.com,
-	Virendra Thakur <virendra.thakur@kpit.com>
-Subject: [OE-core][scarthgap][PATCH] util-linux: Add fix to isolate test fstab entries using CUSTOM_FSTAB
-Date: Thu, 22 May 2025 19:42:26 +0530
-Message-Id: <20250522141226.1976997-1-thakur.virendra1810@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@intel.com header.s=Intel header.b=l2UAk7PP;
+ spf=pass (domain: intel.com, ip: 192.198.163.17, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747924459; x=1779460459;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=p7fznhPseZROurqEPBZhjwwsm5oHTzH/+SeA98TJb8s=;
+  b=l2UAk7PP2XOBrKE8GGv5wYB2G/nOb0+7X7h//N22lFqs0R6MZOeQnDGq
+   0rir/84TaQsQ6BYWPuRXa9Z33Z05C5WTfTE4S7rl4vF6tCM1MmWg/xYU6
+   zmwMly8PGcqOGe/LOqdp/mukykCg/JUaZdFiTKCY+fL+jQ6ZWzzlITpd3
+   H9HivbiG8Snv8U4jES1cEYLNlAjHowdy97pBGegNC9R3fwKHzSF/Q7K0h
+   8UPudXYP3hhqxz0rvhriE868CCGs2MuTgop+eym258ToBvTB90KqM7foF
+   +7DvKaUcpW2C5+KhkZrYMEBaKUTVWum+8z2YKBGOUNZUuxN2LHkOHwFth
+   g==;
+X-CSE-ConnectionGUID: Fxofl9nhScGwBc+y/RxOsw==
+X-CSE-MsgGUID: 6JgNiTtxT1SnjCcSgNFU5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="49872044"
+X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
+   d="scan'208";a="49872044"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 07:34:18 -0700
+X-CSE-ConnectionGUID: 9Zhcx/THRRKGS1YPpLXDHQ==
+X-CSE-MsgGUID: 7kPz7EomTi6oIIIDUaEq2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,306,1739865600"; 
+   d="scan'208";a="140507175"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 07:34:18 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 22 May 2025 07:34:17 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Thu, 22 May 2025 07:34:17 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.44) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Thu, 22 May 2025 07:34:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oo6OmQA7ilH4N2Bc/yWdfR2w7MZxoEun33o7xEkhUW0KTORGazO41IchpbuGRg69BqkpK3xc+RmUlFz2z0lPNIoJ/NjxjAaANzY8jvyUvm7eqoO5yeTNGy9Hy7ze8oDaL/Z46xFzoqlPUPrHAzSeIo8t/wCAwyQmx7h/2eR/alaRRKOqzwL9noe0p9VGMBUAKEQMlQAX/2EHDXN+r2GUODgZQXdj5lCQRuojo68w+1p5lM/QKK/QfSdXSRyKxRPrjywOjEPjQ1g/RkvS6DqqMcgiWjKY32PY9irzy4LolkA52h/v9q9gHEalxhORBHbsDIMyDZLDL1ZZD7HzgmU/CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O2iZW8AKI8nOqVvUypWfUCd6SLju3NZRhQMXZOn8NRQ=;
+ b=JsFJqUXjbOeSmt/+j3zZSJ0KUIxtVJNv+imTmN5y2mQ2FH5Qsteez4ibHoKfVeKF0VpQt1ewwrrAaBi3ZD9aH1GgUeuaramVzUPCokD7DLIyM8sVRnF5mEykuMoO+YIuzJX0Qerm4q+GibDY+eGqcngJOwubz7sLW2lkk604wZPEVrSZgEh5CHZrJJf1xiNt7Mebu1ZgHyIrRMrSpZUMx5kej1rRAkQfQ5ybyOx+pvAPrkhSXDEWpo4bDLVzjTCE5oYMWNcU16s9fYQVxbgBVZnAR8Q16LK1wXzgs06mXxotynua6QE2Z+mXLoZ0dwbkmC8QK0rznjAsgS0JDc1iwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
+ by PH7PR11MB5817.namprd11.prod.outlook.com (2603:10b6:510:13a::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.32; Thu, 22 May
+ 2025 14:34:01 +0000
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a%6]) with mapi id 15.20.8769.019; Thu, 22 May 2025
+ 14:34:00 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	"qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: RE: [yocto] QA notification for completed autobuilder build
+ (yocto-4.0.27.rc1)
+Thread-Topic: [yocto] QA notification for completed autobuilder build
+ (yocto-4.0.27.rc1)
+Thread-Index: AQHbxppjaze1LuyhKkCwb7U7F8ONErPev6lg
+Date: Thu, 22 May 2025 14:34:00 +0000
+Message-ID: <DM4PR11MB77607685D6F8EC6A6DAA5CDBA199A@DM4PR11MB7760.namprd11.prod.outlook.com>
+References: <01010196da9c898e-ea7e03e6-5552-402b-a021-4e0f3dc851d0-000000@us-west-2.amazonses.com>
+In-Reply-To: <01010196da9c898e-ea7e03e6-5552-402b-a021-4e0f3dc851d0-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|PH7PR11MB5817:EE_
+x-ms-office365-filtering-correlation-id: 5bdfa259-bd81-43a5-eb07-08dd993db197
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018|7053199007;
+x-microsoft-antispam-message-info: =?us-ascii?Q?qHtc4FQ8rxYPw8WkwEQGmSmcRRj895M4jXntExFm4R3cftAz7IaPELNULLSp?=
+ =?us-ascii?Q?akdAxqnAgzbUg/5wuHuv4/7LCOmXAdJWXwYNhWhOSq0dCSNrCCFrhqUf5I/3?=
+ =?us-ascii?Q?69Zxhc6DSgcACW4/O3wtYN0WnfthC8DlKLne8NqirkucuK0T9duXEEAL19K3?=
+ =?us-ascii?Q?SabnFm7s5IgvSfC3vcY1Yc+nj85meK+PQ3MOLkRrAVfQs0ufY5IZt3118riM?=
+ =?us-ascii?Q?i+kCwrLk+l5F2GYTbY3gxHozN3uKlyKnurZNAgP7z6Ut6c9IYGf31mXdfS6Z?=
+ =?us-ascii?Q?enevmxMxN+d0eoR91zAviv6WybfVwYc+ySmCJfZNafdfWb1PYFubjLaVArEl?=
+ =?us-ascii?Q?T0LqkG0m0nsI5UE+aW0Ye+zP6+lW//MLoXKqwjSvrMpxoKbO5eRULA7T2822?=
+ =?us-ascii?Q?xEt8qK+PHhs5SHu1PPEHE7NV+YaaGv/XAoxJVchkD2JJtPBOh11WrVQkNvff?=
+ =?us-ascii?Q?PZAEA0bs2/DFIFNDqL4kLB7DQhVmiU55LqCiTseddZR/vdbq7SESWMoTLU80?=
+ =?us-ascii?Q?k+dnTGilTiAWGZ+TEpKvGfoeEfR9zmrZ2jFlRoaLkp7fTNC+ED30RrEvS99R?=
+ =?us-ascii?Q?N3KvFo2UFVUXVhaD2UWmdzFt2k6a5Yziq7Lg6ScA7Qqs1DAQHBPHG90CkyeJ?=
+ =?us-ascii?Q?D1qGmmDoK4gM9tm+ODh/iy9d9wkLKNLaQXmZUcJa4Mssx47Fr6dbOG6T2Kh+?=
+ =?us-ascii?Q?SDFNMB+KNAwOGerk1wE5f/8LD2Ac9ykP4WRT+E2AwmO+OARFkUyyRZVxgCDs?=
+ =?us-ascii?Q?Ci6aZxcR0Ts2VCCtKZEm1vbDDMvUJjzQPT2oKYYcVtE2VW9iUCErUpdot7CE?=
+ =?us-ascii?Q?LkwMdOz7H67VYpTLMAr7lPyGcRi3358QDf/Lvh7GfNmc7RFnnlqW03sNm5Yo?=
+ =?us-ascii?Q?T1bEMaXPt79VDhQDWcdP+HxCeWAuhYqMWroplMkQsXuRte41KTsKNfshMsH0?=
+ =?us-ascii?Q?w0xv0AX5MWRAAW+6AqTjSGTxa8VbiythWcG3wYx0yuEmk2jdJ+ItuLqYmlmg?=
+ =?us-ascii?Q?cwh+iwjyeBxgLXAxyOIYFL2sZ5+49gVNikQEiQzonPPRVnSJ/w2p0d3+rC9s?=
+ =?us-ascii?Q?gpUnPuy2lXwgQaCAbKWqQ8f7qr/JRIgitfCnEI1Bb3JIAn+oKS6wSSB8XUDa?=
+ =?us-ascii?Q?FuGhqAIxpgrF5EPJxac2/5wGzfln4C8U8Q/WPmneoZ8QL6WEx4cU2bjXRq6a?=
+ =?us-ascii?Q?o4C0uamNuAXXFLxbsj05CMFdfrwtInAhQi4Osnze9ONhlHnWs/UNTHTgGDEy?=
+ =?us-ascii?Q?xOwD25gFCtA1aahYBfuzslh9zGMj1HPXQyWMFghSUyoQq+XmPO2nYT8HrFqR?=
+ =?us-ascii?Q?OZLvtgBEY17jSRpLjB46y+n0qpPJ26qQQPNkM0zB44KATKdQ0v24iLD0f+QV?=
+ =?us-ascii?Q?tEmVq0xvfdQIZfANy0WZXrWm8+PaaKuockfVcGvmuGbcvWZzzNVvwEbnTBb8?=
+ =?us-ascii?Q?xIDbdP72B0w=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NNiRGdvoYFWizfpOK7+GIvOuLj4DUKL/XaNP7LNdxKfU6Ecyk0XCur5WshgX?=
+ =?us-ascii?Q?uI99eK8hfSCiybaoEmmUzFtDhzahS384WoiJvZ7tF2CQQJYVJxkkQAQX0OGl?=
+ =?us-ascii?Q?wYJo3KPM6tG68hOPo6Soc4p8fxpML3T4KUMek3q2gbwZNsOX32NDWWXWEBpk?=
+ =?us-ascii?Q?o2336dkMPTSjmPQt96mV8SVg9TX9cmoODPLw8Eka4u2IfGrlQeyd/TpgHmGt?=
+ =?us-ascii?Q?z/hJlpeqpu6ueFZOo+Zms/4X30mHV87iWeVwB3/WMxNOALvd4dfDrAzVv9MQ?=
+ =?us-ascii?Q?uNuFjDzjao0vOE5DvVgRwFjTF+cP2JTrBibnDPbhku+irrEGP4VXDbZ+Hzvo?=
+ =?us-ascii?Q?PqK8JrMEqaqXN0ikL0bevddqQP21/em903i0ZczGX+YBSFMBVFcYZd5pPtAr?=
+ =?us-ascii?Q?INx+90iTUnwTko+T49iJipa1JRpLrDc5ALq9Ni/bano9Ma6OKaM+Wf/Xx3zr?=
+ =?us-ascii?Q?Irru+o1LaUa4iNjrRpKIuY85XoCOL0bpVpnI4TrAwVO3c0gk/C5kB/WPwqNz?=
+ =?us-ascii?Q?kxYKqo0dLK2UCYQ7yWY/E0jt3bVj8o9mtjX92NattsV0zJR/9XkR5soBtOKQ?=
+ =?us-ascii?Q?3kKD5yMfV9LlHEnjN5m1J/1NbT3SOLvJpVJ1TMTweroGmpuMBcviGjVPDbGZ?=
+ =?us-ascii?Q?Vngx/mD2RPtzljLFVhtz+cDeFiErkKwKGTgd2iuEByGliGa/KuCd9pfoY4qs?=
+ =?us-ascii?Q?dsvwlSs9GUtbs4H+lwBuXkVvEmVN0V6gi21315lTCgflB2iIC6fuqL0VmaeK?=
+ =?us-ascii?Q?8Mn66WdvLAS2nxPzm/Q5d1EFdpKcLQRM9lN/kv4AImfcgo28GitGnRAMOBu+?=
+ =?us-ascii?Q?jjAcPGJwgQOg58wAO6wdsoJ9rLpScaCdcr9XJqf8iWwIvX77tQ1N5rFeK16C?=
+ =?us-ascii?Q?d8yVeUbXAvlwUJV1Pa3eK8lEI+U+dGLrQIfPa37s5w1K1Uw9wHMT6XaCLKbT?=
+ =?us-ascii?Q?Ckixu9pn2zeoGZhGQLkjbJ4Pbhc16Ps664gpOC/MQ/gl6nuAAbS1JwFSzDTn?=
+ =?us-ascii?Q?I/jyijmQgQATqfh4KaaxGsRCraeL3GlDWFrbwtiqXyhKxZuaPGYwofsYXhrk?=
+ =?us-ascii?Q?vryZgpES4szU7X1fJxEaHNFcs67S3CMc0karwbbGo6wH0Z9wbGDqcPl6cI02?=
+ =?us-ascii?Q?ERNKkkId3c/G4ZlEJNuIIx1RKWqEJEPzgFFAOxqKyDR/ULp6wSqYoRGk1vnF?=
+ =?us-ascii?Q?TJYxqpEUEVM8Zmx717mB686syvCyhUDjbnAugVED9f6tml1EGKiVK/J1Qs5S?=
+ =?us-ascii?Q?Gn+0gnvhijQAq++rU345q2xIhgu/OzPyu3kuc+98hTw8fRi2DicKPLhRHNlB?=
+ =?us-ascii?Q?JMcxvsZ4+/Q1+0SVNlrA/MOVl0tatrqyl4bCirG7VHnBLTFMAGUNaYkioMBs?=
+ =?us-ascii?Q?kHGvoZ5WXS6MbRVqrWjr/hgqVqIG5P09/tu71eAyMMAZiid+w3NUMU1fTD/L?=
+ =?us-ascii?Q?IrLrIDopjD5bl+zsBwg80gZTGpYhvyr9dW3eBpBU7siTM+fmBeuPiGe7GBkD?=
+ =?us-ascii?Q?7u13nrjLuKlOSWSVgtysrEnneQyvnx0BdQn8AVNFmOiVqfDsSCCHNsRQ4N8L?=
+ =?us-ascii?Q?eOxLVA9U9SWluC3T+7OBIkV1/IlO9dd+hdSrpLZn?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bdfa259-bd81-43a5-eb07-08dd993db197
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2025 14:34:00.8016
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tULJgmtlcj+SLif0zt3jU/fBd7aCC/LKTagPb1UEifA99R08zuBaqC1f61Bs4AYcnTCIhNpIvergbsAiW5AKgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5817
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 14:17:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217109
+ <openembedded-core@lists.openembedded.org>; Thu, 22 May 2025 14:34:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217110
 
-During ptest execution, util-linux adds mount entries in /etc/fstab
-and runs `mount -a`, which mounts all available entries from
-/etc/fstab. This can cause unintended mounts that are unrelated to
-the test, leading to incorrect test behavior.
+Hi All,
+=20
+QA for yocto-4.0.27.rc1 is completed. This is the full report for this rele=
+ase: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
+=20
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.
+=20
+No new issue found.=20
+=20
+Thanks,
+Jing Hui
 
-To avoid this, upstream util-linux introduced a mechanism using
-CUSTOM_FSTAB,which isolates test-specific fstab entries. Only entries
-listed in CUSTOM_FSTAB are mounted during test execution, ensuring
-tests do not interfere with or depend on the system's /etc/fstab.
-
-This commit backports below upstream changes to use CUSTOM_FSTAB.
-https://github.com/util-linux/util-linux/commit/ed3d33faff17fb702a3acfca2f9f24e69f4920de
-https://github.com/util-linux/util-linux/commit/b1580bd760519a2cf052f023057846e54de47484
-https://github.com/util-linux/util-linux/commit/6aa8d17b6b53b86a46c5da68c02a893113130496
-
-Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
----
- meta/recipes-core/util-linux/util-linux.inc   |   1 +
- .../util-linux/fstab-isolation.patch          | 448 ++++++++++++++++++
- 2 files changed, 449 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/fstab-isolation.patch
-
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 48520ef951..1ecf5c7b39 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -42,6 +42,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://fcntl-lock.c \
-            file://CVE-2024-28085-0001.patch \
-            file://CVE-2024-28085-0002.patch \
-+	   file://fstab-isolation.patch \
-            "
- 
- SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
-diff --git a/meta/recipes-core/util-linux/util-linux/fstab-isolation.patch b/meta/recipes-core/util-linux/util-linux/fstab-isolation.patch
-new file mode 100644
-index 0000000000..51d209ec60
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/fstab-isolation.patch
-@@ -0,0 +1,448 @@
-+From 51f1e56cc8b6843bf65ceadc5eca1545258bf020 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-+Date: Sat, 22 Apr 2023 17:48:58 +0200
-+Subject: [PATCH 1/3] tests: (functions.sh) create variable for test fstab
-+ location
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
-+(cherry picked from commit ed3d33faff17fb702a3acfca2f9f24e69f4920de)
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/ed3d33faff17fb702a3acfca2f9f24e69f4920de]
-+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-+---
-+ tests/functions.sh          | 13 +++++++------
-+ tests/ts/mount/fstab-broken |  2 +-
-+ 2 files changed, 8 insertions(+), 7 deletions(-)
-+
-+diff --git a/tests/functions.sh b/tests/functions.sh
-+index 5a562a39a..c2e2f33ae 100644
-+--- a/tests/functions.sh
-++++ b/tests/functions.sh
-+@@ -386,6 +386,7 @@ function ts_init_env {
-+ 		TS_ENABLE_UBSAN="yes"
-+ 	fi
-+ 
-++	TS_FSTAB="/etc/fstab"
-+ 	BLKID_FILE="$TS_OUTDIR/${TS_TESTNAME}.blkidtab"
-+ 
-+ 	declare -a TS_SUID_PROGS
-+@@ -824,12 +825,12 @@ function ts_is_mounted {
-+ }
-+ 
-+ function ts_fstab_open {
-+-	echo "# <!-- util-linux test entry" >> /etc/fstab
-++	echo "# <!-- util-linux test entry" >> "$TS_FSTAB"
-+ }
-+ 
-+ function ts_fstab_close {
-+-	echo "# -->" >> /etc/fstab
-+-	sync /etc/fstab 2>/dev/null
-++	echo "# -->" >> "$TS_FSTAB"
-++	sync "$TS_FSTAB" 2>/dev/null
-+ }
-+ 
-+ function ts_fstab_addline {
-+@@ -838,7 +839,7 @@ function ts_fstab_addline {
-+ 	local FS=${3:-"auto"}
-+ 	local OPT=${4:-"defaults"}
-+ 
-+-	echo "$SPEC   $MNT   $FS   $OPT   0   0" >> /etc/fstab
-++	echo "$SPEC   $MNT   $FS   $OPT   0   0" >> "$TS_FSTAB"
-+ }
-+ 
-+ function ts_fstab_lock {
-+@@ -862,9 +863,9 @@ function ts_fstab_clean {
-+   ba
-+ }
-+ s/# <!-- util-linux.*-->//;
-+-/^$/d" /etc/fstab
-++/^$/d" "$TS_FSTAB"
-+ 
-+-	sync /etc/fstab 2>/dev/null
-++	sync "$TS_FSTAB" 2>/dev/null
-+ 	ts_unlock "fstab"
-+ }
-+ 
-+diff --git a/tests/ts/mount/fstab-broken b/tests/ts/mount/fstab-broken
-+index 19edc5fe3..3b7a1ee9d 100755
-+--- a/tests/ts/mount/fstab-broken
-++++ b/tests/ts/mount/fstab-broken
-+@@ -34,7 +34,7 @@ mkdir -p $MNT
-+ 
-+ ts_fstab_lock
-+ ts_fstab_open
-+-echo "tmpd $MNT tmpfs" >> /etc/fstab
-++echo "tmpd $MNT tmpfs" >> "$TS_FSTAB"
-+ ts_fstab_close
-+ 
-+ ts_init_subtest "mount"
-+-- 
-+2.34.1
-+
-+
-+From 1e4a9141ca7d310030311e09123a81591f994f83 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-+Date: Sat, 22 Apr 2023 17:20:45 +0200
-+Subject: [PATCH 2/3] tests: (functions.sh) use per-test fstab file
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
-+(cherry picked from commit 6aa8d17b6b53b86a46c5da68c02a893113130496)
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/6aa8d17b6b53b86a46c5da68c02a893113130496]
-+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-+---
-+ tests/functions.sh | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tests/functions.sh b/tests/functions.sh
-+index c2e2f33ae..3089e8cda 100644
-+--- a/tests/functions.sh
-++++ b/tests/functions.sh
-+@@ -386,7 +386,7 @@ function ts_init_env {
-+ 		TS_ENABLE_UBSAN="yes"
-+ 	fi
-+ 
-+-	TS_FSTAB="/etc/fstab"
-++	TS_FSTAB="$TS_OUTDIR/${TS_TESTNAME}.fstab"
-+ 	BLKID_FILE="$TS_OUTDIR/${TS_TESTNAME}.blkidtab"
-+ 
-+ 	declare -a TS_SUID_PROGS
-+-- 
-+2.34.1
-+
-+
-+From 02c483f982e23a86d58cd7c6a4eb4b6e4d5def1a Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-+Date: Sat, 22 Apr 2023 17:34:28 +0200
-+Subject: [PATCH 3/3] mount: (tests) explicitly use test fstab location
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
-+(cherry picked from commit b1580bd760519a2cf052f023057846e54de47484)
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/b1580bd760519a2cf052f023057846e54de47484]
-+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-+---
-+ tests/ts/mount/fslists             | 2 +-
-+ tests/ts/mount/fstab-bind          | 2 +-
-+ tests/ts/mount/fstab-broken        | 4 ++--
-+ tests/ts/mount/fstab-btrfs         | 8 ++++----
-+ tests/ts/mount/fstab-devname       | 4 ++--
-+ tests/ts/mount/fstab-devname2label | 2 +-
-+ tests/ts/mount/fstab-devname2uuid  | 2 +-
-+ tests/ts/mount/fstab-label         | 6 +++---
-+ tests/ts/mount/fstab-label2devname | 4 ++--
-+ tests/ts/mount/fstab-label2uuid    | 4 ++--
-+ tests/ts/mount/fstab-loop          | 4 ++--
-+ tests/ts/mount/fstab-none          | 2 +-
-+ tests/ts/mount/fstab-symlink       | 2 +-
-+ tests/ts/mount/fstab-uuid          | 6 +++---
-+ tests/ts/mount/fstab-uuid2devname  | 4 ++--
-+ tests/ts/mount/fstab-uuid2label    | 4 ++--
-+ 16 files changed, 30 insertions(+), 30 deletions(-)
-+
-+diff --git a/tests/ts/mount/fslists b/tests/ts/mount/fslists
-+index 230186a1e..6ac72c3ce 100755
-+--- a/tests/ts/mount/fslists
-++++ b/tests/ts/mount/fslists
-+@@ -61,7 +61,7 @@ ts_finalize_subtest
-+ ts_init_subtest "more-types-fstab"
-+ [ -d "$TS_MOUNTPOINT" ] || mkdir -p $TS_MOUNTPOINT
-+ ts_fstab_add $DEVICE $TS_MOUNTPOINT "foo,bar,ext2"
-+-$TS_CMD_MOUNT $TS_MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $TS_MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_fstab_clean
-+ ts_is_mounted $DEVICE || ts_die "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $TS_MOUNTPOINT
-+diff --git a/tests/ts/mount/fstab-bind b/tests/ts/mount/fstab-bind
-+index 2c799df78..cae016dd2 100755
-+--- a/tests/ts/mount/fstab-bind
-++++ b/tests/ts/mount/fstab-bind
-+@@ -20,7 +20,7 @@ ts_fstab_add $MY_SOURCE "$TS_MOUNTPOINT" "none" "bind,default,noauto"
-+ mkdir -p $MY_SOURCE
-+ mkdir -p $TS_MOUNTPOINT
-+ 
-+-$TS_CMD_MOUNT $TS_MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $TS_MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ [ "$?" = "0" ] || ts_log "error: mount $TS_MOUNTPOINT"
-+ 
-+ $TS_CMD_FINDMNT --mountpoint "$TS_MOUNTPOINT" &> /dev/null
-+diff --git a/tests/ts/mount/fstab-broken b/tests/ts/mount/fstab-broken
-+index 3b7a1ee9d..ec4c34241 100755
-+--- a/tests/ts/mount/fstab-broken
-++++ b/tests/ts/mount/fstab-broken
-+@@ -38,7 +38,7 @@ echo "tmpd $MNT tmpfs" >> "$TS_FSTAB"
-+ ts_fstab_close
-+ 
-+ ts_init_subtest "mount"
-+-$TS_CMD_MOUNT $MNT &> /dev/null
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $MNT &> /dev/null
-+ [ "$?" = "0" ] || ts_log "error: mount $MNT"
-+ $TS_CMD_FINDMNT --kernel --mountpoint "$MNT" &> /dev/null
-+ if [ "$?" != "0" ]; then
-+@@ -57,7 +57,7 @@ ts_finalize_subtest
-+ 
-+ 
-+ ts_init_subtest "mount-all"
-+-$TS_CMD_MOUNT -a &> /dev/null
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -a &> /dev/null
-+ [ "$?" = "0" ] || ts_log "error: mount -a"
-+ $TS_CMD_FINDMNT --kernel --mountpoint "$MNT" &> /dev/null
-+ if [ "$?" != "0" ]; then
-+diff --git a/tests/ts/mount/fstab-btrfs b/tests/ts/mount/fstab-btrfs
-+index a1003ab52..8e76dbba6 100755
-+--- a/tests/ts/mount/fstab-btrfs
-++++ b/tests/ts/mount/fstab-btrfs
-+@@ -94,8 +94,8 @@ ts_fstab_addline "$DEVICE" "$TS_MOUNTPOINT_SUBVOLID" "btrfs" "subvolid=$NON_DEFA
-+ ts_fstab_addline "$TS_MOUNTPOINT_SUBVOLID" "$TS_MOUNTPOINT_BIND" "auto" "bind"
-+ ts_fstab_close
-+ 
-+-$TS_CMD_MOUNT -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-+-$TS_CMD_MOUNT -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ 
-+ $TS_CMD_UMOUNT "$TS_MOUNTPOINT_BIND" >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ $TS_CMD_UMOUNT "$TS_MOUNTPOINT_DEFAULT" >> $TS_OUTPUT 2>> $TS_ERRLOG
-+@@ -124,8 +124,8 @@ ts_fstab_addline "$DEVICE" "$TS_MOUNTPOINT_SUBVOLID" "auto" "subvolid=$NON_DEFAU
-+ ts_fstab_addline "$TS_MOUNTPOINT_SUBVOL/bind-mnt" "$TS_MOUNTPOINT_BIND" "auto" "bind"
-+ ts_fstab_close
-+ 
-+-$TS_CMD_MOUNT -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-+-$TS_CMD_MOUNT -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ 
-+ $TS_CMD_UMOUNT "$TS_MOUNTPOINT_BIND" >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ $TS_CMD_UMOUNT "$TS_MOUNTPOINT_DEFAULT" >> $TS_OUTPUT 2>> $TS_ERRLOG
-+diff --git a/tests/ts/mount/fstab-devname b/tests/ts/mount/fstab-devname
-+index 5b64a32a6..6ac03b5a7 100755
-+--- a/tests/ts/mount/fstab-devname
-++++ b/tests/ts/mount/fstab-devname
-+@@ -42,13 +42,13 @@ MOUNTPOINT=$TS_MOUNTPOINT
-+ ts_fstab_add $DEVICE
-+ 
-+ ts_init_subtest "mountpoint"
-+-$TS_CMD_MOUNT $MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE || >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+ 
-+ ts_init_subtest "device-name"
-+-$TS_CMD_MOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+diff --git a/tests/ts/mount/fstab-devname2label b/tests/ts/mount/fstab-devname2label
-+index 1d8562109..44066e153 100755
-+--- a/tests/ts/mount/fstab-devname2label
-++++ b/tests/ts/mount/fstab-devname2label
-+@@ -41,7 +41,7 @@ ts_device_has "LABEL" $LABEL $DEVICE \
-+ ts_fstab_add "LABEL=$LABEL"
-+ ts_udevadm_settle "$DEVICE" "LABEL"
-+ 
-+-$TS_CMD_MOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_die "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE || ts_die "Cannot umount $DEVICE"
-+ 
-+diff --git a/tests/ts/mount/fstab-devname2uuid b/tests/ts/mount/fstab-devname2uuid
-+index 8105fa028..503959103 100755
-+--- a/tests/ts/mount/fstab-devname2uuid
-++++ b/tests/ts/mount/fstab-devname2uuid
-+@@ -39,7 +39,7 @@ UUID=$(ts_uuid_by_devname "$DEVICE") || ts_die "Cannot find UUID on $DEVICE"
-+ ts_fstab_add "UUID=$UUID"
-+ ts_udevadm_settle "$DEVICE" "UUID"
-+ 
-+-$TS_CMD_MOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_die "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE || ts_die "Cannot umount $DEVICE"
-+ 
-+diff --git a/tests/ts/mount/fstab-label b/tests/ts/mount/fstab-label
-+index 4b23e7fee..a3cc06d52 100755
-+--- a/tests/ts/mount/fstab-label
-++++ b/tests/ts/mount/fstab-label
-+@@ -42,19 +42,19 @@ ts_fstab_add "LABEL=$LABEL"
-+ ts_udevadm_settle "$DEVICE" "LABEL"
-+ 
-+ ts_init_subtest "no-option"
-+-$TS_CMD_MOUNT $MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+ 
-+ ts_init_subtest "L-option"
-+-$TS_CMD_MOUNT -L $LABEL >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -L $LABEL >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG 
-+ ts_finalize_subtest
-+ 
-+ ts_init_subtest "LABEL-option"
-+-$TS_CMD_MOUNT LABEL=$LABEL >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" LABEL=$LABEL >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+diff --git a/tests/ts/mount/fstab-label2devname b/tests/ts/mount/fstab-label2devname
-+index 75ca05e8c..fddbfa0ba 100755
-+--- a/tests/ts/mount/fstab-label2devname
-++++ b/tests/ts/mount/fstab-label2devname
-+@@ -44,13 +44,13 @@ ts_udevadm_settle "$DEVICE" "LABEL"
-+ [ -d "$TS_MOUNTPOINT" ] || mkdir -p $TS_MOUNTPOINT
-+ 
-+ ts_init_subtest "L-option"
-+-$TS_CMD_MOUNT -L $LABEL >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -L $LABEL >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+ 
-+ ts_init_subtest "LABEL-option"
-+-$TS_CMD_MOUNT "LABEL=$LABEL" >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" "LABEL=$LABEL" >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+diff --git a/tests/ts/mount/fstab-label2uuid b/tests/ts/mount/fstab-label2uuid
-+index 4bfcae4b9..927cde9aa 100755
-+--- a/tests/ts/mount/fstab-label2uuid
-++++ b/tests/ts/mount/fstab-label2uuid
-+@@ -46,13 +46,13 @@ ts_udevadm_settle "$DEVICE" "LABEL" "UUID"
-+ [ -d "$TS_MOUNTPOINT" ] || mkdir -p $TS_MOUNTPOINT
-+ 
-+ ts_init_subtest "L-option"
-+-$TS_CMD_MOUNT -L $LABEL >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -L $LABEL >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+ 
-+ ts_init_subtest "LABEL-option"
-+-$TS_CMD_MOUNT "LABEL=$LABEL" >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" "LABEL=$LABEL" >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+diff --git a/tests/ts/mount/fstab-loop b/tests/ts/mount/fstab-loop
-+index 7cc589fd2..0541e3a74 100755
-+--- a/tests/ts/mount/fstab-loop
-++++ b/tests/ts/mount/fstab-loop
-+@@ -39,10 +39,10 @@ ts_fstab_lock
-+ ts_fstab_open
-+ 
-+ ts_fstab_addline "$IMG" "$TS_MOUNTPOINT-1" "ext2" "loop"
-+-$TS_CMD_MOUNT -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ 
-+ ts_fstab_addline "$IMG" "$TS_MOUNTPOINT-2" "ext2" "loop"
-+-$TS_CMD_MOUNT -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -a >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ 
-+ ts_fstab_close
-+ 
-+diff --git a/tests/ts/mount/fstab-none b/tests/ts/mount/fstab-none
-+index 6a4d05b62..95daa6cee 100755
-+--- a/tests/ts/mount/fstab-none
-++++ b/tests/ts/mount/fstab-none
-+@@ -17,7 +17,7 @@ ts_fstab_add "none" "$TS_MOUNTPOINT" "tmpfs" "rw,nosuid,nodev,relatime"
-+ 
-+ mkdir -p $TS_MOUNTPOINT
-+ 
-+-$TS_CMD_MOUNT $TS_MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $TS_MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ [ "$?" = "0" ] || ts_log "error: mount $TS_MOUNTPOINT"
-+ 
-+ $TS_CMD_FINDMNT --mountpoint "$TS_MOUNTPOINT" &> /dev/null
-+diff --git a/tests/ts/mount/fstab-symlink b/tests/ts/mount/fstab-symlink
-+index 4d3e37b19..6d419f9fe 100755
-+--- a/tests/ts/mount/fstab-symlink
-++++ b/tests/ts/mount/fstab-symlink
-+@@ -46,7 +46,7 @@ ln -s $DEVICE $LINKNAME
-+ ts_fstab_add $LINKNAME $TS_MOUNTPOINT "auto" "defaults,user"
-+ 
-+ # variant A) -- UID=0
-+-$TS_CMD_MOUNT $LINKNAME >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $LINKNAME >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_die "A) Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $LINKNAME || ts_die "A) Cannot umount $LINKNAME"
-+ 
-+diff --git a/tests/ts/mount/fstab-uuid b/tests/ts/mount/fstab-uuid
-+index 03917b782..f51bb294e 100755
-+--- a/tests/ts/mount/fstab-uuid
-++++ b/tests/ts/mount/fstab-uuid
-+@@ -42,19 +42,19 @@ ts_fstab_add "UUID=$UUID"
-+ ts_udevadm_settle "$DEVICE" "UUID"
-+ 
-+ ts_init_subtest "no-option"
-+-$TS_CMD_MOUNT $MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" $MOUNTPOINT >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+ 
-+ ts_init_subtest "U-option"
-+-$TS_CMD_MOUNT -U $UUID >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -U $UUID >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+ 
-+ ts_init_subtest "UUID-option"
-+-$TS_CMD_MOUNT UUID=$UUID >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" UUID=$UUID >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+diff --git a/tests/ts/mount/fstab-uuid2devname b/tests/ts/mount/fstab-uuid2devname
-+index 9bf165e16..2b338acb1 100755
-+--- a/tests/ts/mount/fstab-uuid2devname
-++++ b/tests/ts/mount/fstab-uuid2devname
-+@@ -42,13 +42,13 @@ ts_udevadm_settle "$DEVICE" "UUID"
-+ [ -d "$TS_MOUNTPOINT" ] || mkdir -p $TS_MOUNTPOINT
-+ 
-+ ts_init_subtest "U-option"
-+-$TS_CMD_MOUNT -U $UUID >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -U $UUID >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+ 
-+ ts_init_subtest "UUID-option"
-+-$TS_CMD_MOUNT "UUID=$UUID" >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" "UUID=$UUID" >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+diff --git a/tests/ts/mount/fstab-uuid2label b/tests/ts/mount/fstab-uuid2label
-+index de10ff0b0..02eb6b985 100755
-+--- a/tests/ts/mount/fstab-uuid2label
-++++ b/tests/ts/mount/fstab-uuid2label
-+@@ -45,13 +45,13 @@ ts_udevadm_settle "$DEVICE" "LABEL" "UUID"
-+ [ -d "$TS_MOUNTPOINT" ] || mkdir -p $TS_MOUNTPOINT
-+ 
-+ ts_init_subtest "U-option"
-+-$TS_CMD_MOUNT -U $UUID >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" -U $UUID >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_finalize_subtest
-+ 
-+ ts_init_subtest "UUID-option"
-+-$TS_CMD_MOUNT "UUID=$UUID" >> $TS_OUTPUT 2>> $TS_ERRLOG
-++$TS_CMD_MOUNT -T "$TS_FSTAB" "UUID=$UUID" >> $TS_OUTPUT 2>> $TS_ERRLOG
-+ ts_is_mounted $DEVICE || ts_log "Cannot find $DEVICE in /proc/mounts"
-+ $TS_CMD_UMOUNT $DEVICE >> $TS_OUTPUT 2>>$TS_ERRLOG
-+ ts_finalize_subtest
-+-- 
-+2.34.1
-+
--- 
-2.34.1
-
+> -----Original Message-----
+> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
+lf
+> Of Pokybuild User via lists.yoctoproject.org
+> Sent: Saturday, May 17, 2025 3:40 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [yocto] QA notification for completed autobuilder build (yocto-
+> 4.0.27.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-4.0.27.rc1) was completed on the autobuilde=
+r
+> and is available at:
+>=20
+>=20
+>     https://valkyrie.yocto.io/pub/releases/yocto-4.0.27.rc1
+>=20
+>=20
+> Build URL:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1605
+>=20
+> Build hash information:
+>=20
+> bitbake: 046871d9fd76efdca7b72718b328d8f545523f7e
+> meta-agl: d655b47bb267e6e167baaa49421b1ae26c25f74c
+> meta-arm: 6b2d97cecd1b0e4bf4caee9a65595d279b57a686
+> meta-aws: 9dd75f69c59f19125ac96a796bc97f06c4dc8a40
+> meta-clang: 8a1d0a1993040ab9d2fb7259b71e4c9582f5cd17
+> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
+> meta-intel: dc0948200594dacece4da91f4c501e9a9fb0394f
+> meta-mingw: 87c22abb1f11be430caf4372e6b833dc7d77564e
+> meta-openembedded: e42549cef364ae09b3b7c8b64bbeab32e50f1bb0
+> meta-virtualization: 227cefa1261daf20b7d9737541994ec2bba629fc
+> oecore: e8be08a624b2d024715a5c8b0c37f2345a02336b
+> poky: ab9a994a8cd8e06b519a693db444030999d273b7
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
 
