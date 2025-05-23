@@ -1,108 +1,78 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <mac@mcrowe.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E46C3DA6D
-	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 10:11:39 +0000 (UTC)
-Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.web10.44704.1747995090729460685
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58B2FC54F2E
+	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 12:21:10 +0000 (UTC)
+Received: from smarthost01b.ixn.mail.zen.net.uk (smarthost01b.ixn.mail.zen.net.uk [212.23.1.21])
+ by mx.groups.io with SMTP id smtpd.web11.47041.1748002861509363183
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 May 2025 03:11:31 -0700
+ Fri, 23 May 2025 05:21:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
-Received: from fwd85.aul.t-online.de (fwd85.aul.t-online.de [10.223.144.111])
-	by mailout02.t-online.de (Postfix) with SMTP id C4C642B27;
-	Fri, 23 May 2025 12:11:28 +0200 (CEST)
-Received: from [192.168.178.20] ([84.154.172.17]) by fwd85.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1uIPN9-23twOG0; Fri, 23 May 2025 12:11:27 +0200
-Date: Fri, 23 May 2025 12:11:22 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCH] mesa: make asahi dependent on opencl
-To: Koen Kooi <koen.kooi@oss.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-Id: <YMLPWS.2DZCYVSK3TF52@t-online.de>
-In-Reply-To: <85BA3D73-961B-4C26-B3EE-8E0B82567F47@oss.qualcomm.com>
-References: <20250523085103.654849-1-f_l_k@t-online.de>
-	<85BA3D73-961B-4C26-B3EE-8E0B82567F47@oss.qualcomm.com>
-X-Mailer: geary/46.0
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=hrporT8z;
+ spf=pass (domain: mcrowe.com, ip: 212.23.1.21, mailfrom: mac@mcrowe.com)
+Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
+	by smarthost01b.ixn.mail.zen.net.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <mac@mcrowe.com>)
+	id 1uIROV-005xfy-5k;
+	Fri, 23 May 2025 12:20:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	In-Reply-To:References; bh=6XzLQGPgAQZ5G4fEsxyCDk1VFMw0pV0ifik/BuzGk7c=; b=hr
+	porT8z5PS/O8BBArTAHdb2Q8n4qB2FhQYGjloRAPdD24M1pipLESXttRZoMEiPGBRQzx76OIckT4i
+	nJ6vDEmSr/2/L9ph7eztSXUDRW8EoOg0JVHQjlx9k5TsfrrPY8BRRHGQKruDPzjqgnXj3t6oLuMPm
+	CCHK0V8oGcOOPLPfr4o+gTvZHbwgd5s1euBnr/1sH5k41wg30FRnRtbaSlwwywRSnSuIFAuWEIx96
+	8HDDFmxhM5uERWspq9THxiAAA274fuN61tPhZIE4HNU/rnDUto1IVyy4epjjfD8tvJhDz4YrAYfkw
+	wKillFdDOtI6g78/XqStRgLGTz7DA5bQ==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
+	(envelope-from <mac@mcrowe.com>)
+	id 1uIROT-00DVPu-2F;
+	Fri, 23 May 2025 13:20:57 +0100
+From: mac@mcrowe.com
+To: openembedded-core@lists.openembedded.org
+Cc: Mike Crowe <mac@mcrowe.com>,
+	Jack Mitchell <jack@embed.me.uk>
+Subject: [PATCH] kernel-fitimage: Cope with FIT_CONF_DEFAULT_DTB being empty
+Date: Fri, 23 May 2025 13:20:45 +0100
+Message-Id: <20250523122045.3097055-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-XMF4ve/xkHhjxNFNzn/0"
-X-TOI-EXPURGATEID: 150726::1747995087-8D7F857E-3E9A0B81/0/0 CLEAN NORMAL
-X-TOI-MSGID: f4d530bc-7d9f-4ab5-ab4b-4ddff745507f
+Content-Transfer-Encoding: 8bit
+X-Originating-smarthost01b-IP: [88.97.37.36]
+Feedback-ID: 88.97.37.36
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 10:11:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217205
+ <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 12:21:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217206
 
---=-XMF4ve/xkHhjxNFNzn/0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+From: Mike Crowe <mac@mcrowe.com>
 
-Like this?
+Quote both sides of the comparison of ${FIT_CONF_DEFAULT_DTB} and $DTB
+consistently to avoid parse errors if either side is empty.
 
-# 'iris' and 'radeonsi' require LLVM, 'asahi' needs LLVM and 
-additionally requires opencl (rust)
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Reviewed-by: Jack Mitchell <jack@embed.me.uk>
+---
+ meta/classes-recipe/kernel-fitimage.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Personally I would vote for removal, because that seems 
-self-explanatory enough to me. There is
-no corresponding comment for vulkandrivers and the comment would also 
-be outdated quite soon,
-because mesa main branch has added a (by default) rusticl dependency to 
-radeonsi as well
-
-On Fri, May 23 2025 at 11:39:30 +02:00:00, Koen Kooi 
-<koen.kooi@oss.qualcomm.com> wrote:
-> 
-> 
->>  Op 23 mei 2025, om 10:51 heeft Markus Volk <f_l_k@t-online.de 
->> <mailto:f_l_k@t-online.de>> het volgende geschreven:
->> 
->>  [...]
->>  # radeonsi requires LLVM
->>  -GALLIUMDRIVERS_ASAHI = "${@bb.utils.contains 
->> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'asahi libclc', 
->> ',asahi', '', d)}"
->>  +GALLIUMDRIVERS_ASAHI = "${@bb.utils.contains 
->> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'asahi libclc 
->> opencl', ',asahi', '', d)}"
->>  GALLIUMDRIVERS_IRIS = "${@bb.utils.contains 
->> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'intel libclc', 
->> ',iris', '', d)}"
->>  GALLIUMDRIVERS_RADEONSI = "${@bb.utils.contains 
->> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'amd', ',radeonsi', 
->> '', d)}"
->>  GALLIUMDRIVERS_LLVMPIPE = ",llvmpipe"
-> 
-> Very pedantic nit-pick: the comment for these 4 lines only talks 
-> about radeon-si, I think we should either remove that comment or 
-> properly mention asahi, iris and radeonsi and their dependencies.
-> 
-> regards,
-> 
-> Koen
-
-
---=-XMF4ve/xkHhjxNFNzn/0
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto"><div>Like this?</div><div><br></div><div># 'iris' and 'radeonsi' require LLVM, 'asahi' needs LLVM and additionally requires opencl (rust)</div><div><br></div><div>Personally I would vote for removal, because that seems self-explanatory enough to me. There is</div><div>no corresponding&nbsp;comment for vulkandrivers and the comment would also be outdated quite soon,</div><div>because mesa main branch has added a (by default) rusticl dependency to radeonsi as well &nbsp; &nbsp;</div></div><div id="geary-quote" dir="auto"><br>On Fri, May 23 2025 at 11:39:30 +02:00:00, Koen Kooi &lt;koen.kooi@oss.qualcomm.com&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">
-
-<blockquote> Op 23 mei 2025, om 10:51 heeft Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt; het volgende geschreven:
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
+index 07786647e1..c81c00f777 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -593,7 +593,7 @@ fitimage_assemble() {
+ 		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtb' -printf '%P\n' | sort) \
+ 		$(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtbo' -printf '%P\n' | sort); do
+ 			# Set the default dtb image if it exists in the devicetree.
+-			if [ ${FIT_CONF_DEFAULT_DTB} = $DTB ];then
++			if [ "${FIT_CONF_DEFAULT_DTB}" = "$DTB" ];then
+ 				default_dtb_image=$(echo "$DTB" | tr '/' '_')
+ 			fi
  
- [...]
- # radeonsi requires LLVM
- -GALLIUMDRIVERS_ASAHI = "<a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'asahi libclc', ',asahi', '', d)}"
- +GALLIUMDRIVERS_ASAHI = "<a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'asahi libclc opencl', ',asahi', '', d)}"
- GALLIUMDRIVERS_IRIS = "<a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'intel libclc', ',iris', '', d)}"
- GALLIUMDRIVERS_RADEONSI = "<a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'amd', ',radeonsi', '', d)}"
- GALLIUMDRIVERS_LLVMPIPE = ",llvmpipe"
-</blockquote>
-Very pedantic nit-pick: the comment for these 4 lines only talks about radeon-si, I think we should either remove that comment or properly mention asahi, iris and radeonsi and their dependencies.
-
-regards,
-
-Koen</div></blockquote></div>
---=-XMF4ve/xkHhjxNFNzn/0--
+-- 
+2.39.5
 
 
