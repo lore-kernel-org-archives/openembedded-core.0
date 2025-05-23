@@ -1,193 +1,109 @@
-Return-Path: <philip@balister.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53D9BC3DA6D
-	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 12:25:10 +0000 (UTC)
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by mx.groups.io with SMTP id smtpd.web11.46873.1748002206352299976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91301C54ED0
+	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 13:16:00 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.48080.1748006154334394589
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 May 2025 05:10:06 -0700
+ Fri, 23 May 2025 06:15:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=xpSobNdp;
- dkim=pass header.i=@suse.de header.s=susede2_ed25519 header.b=B5I7E2fH;
- dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=xpSobNdp;
- dkim=pass header.i=@suse.de header.s=susede2_ed25519 header.b=B5I7E2fH;
- spf=pass (domain: suse.de, ip: 195.135.223.130, mailfrom: neilb@suse.de)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1929621BFA;
-	Fri, 23 May 2025 12:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1748002204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oa0an+Q6U2k/kOogtft4u+KOHqSzjK04aZoqM1uKk3A=;
-	b=xpSobNdpeKV2RBw4NmR8g8Zlb0Ay9R6p9XBMqEtD8A7lMN/Gc4tUp6FkaO/QyJUrLqCU+R
-	h8G89/Eo/b7o0T06uekONQbhoH6W7mNgRam3LcHHQEg47js6/qMQH3PzNIeRPjm3laRCzW
-	9lmth6oq4KPVqh3cV6OknQoptVCPsF8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1748002204;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oa0an+Q6U2k/kOogtft4u+KOHqSzjK04aZoqM1uKk3A=;
-	b=B5I7E2fH9XpbCTaejq9BBLwgySksQsBR7TZzjoxZYNOx9yznoBbzo1+Gbs74Sfc4iKAFNW
-	yHSB94VvU5TEocDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xpSobNdp;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=B5I7E2fH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1748002204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oa0an+Q6U2k/kOogtft4u+KOHqSzjK04aZoqM1uKk3A=;
-	b=xpSobNdpeKV2RBw4NmR8g8Zlb0Ay9R6p9XBMqEtD8A7lMN/Gc4tUp6FkaO/QyJUrLqCU+R
-	h8G89/Eo/b7o0T06uekONQbhoH6W7mNgRam3LcHHQEg47js6/qMQH3PzNIeRPjm3laRCzW
-	9lmth6oq4KPVqh3cV6OknQoptVCPsF8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1748002204;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oa0an+Q6U2k/kOogtft4u+KOHqSzjK04aZoqM1uKk3A=;
-	b=B5I7E2fH9XpbCTaejq9BBLwgySksQsBR7TZzjoxZYNOx9yznoBbzo1+Gbs74Sfc4iKAFNW
-	yHSB94VvU5TEocDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA4B71336F;
-	Fri, 23 May 2025 12:10:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2dGgHpplMGgZbgAAD6G6ig
-	(envelope-from <neilb@suse.de>); Fri, 23 May 2025 12:10:02 +0000
-MIME-Version: 1.0
-From: NeilBrown <neilb@suse.de>
-To: openembedded-core@lists.openembedded.org
-Cc: "Yan, Haixiao (CN)" <haixiao.yan.cn@windriver.com>,
- Linux NFS Mailing List <linux-nfs@vger.kernel.org>
-Subject: [PATCH OE-core] nfs-utils: don't use signals to shut down nfs server.
-Date: Fri, 23 May 2025 17:41:19 +1000
-Message-id: <174800219540.608730.11726448273017682287@noble.neil.brown.name>
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 1929621BFA
-Content-Type: text/plain; charset="utf-8"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=IqbLmHF6;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 000D843AFE;
+	Fri, 23 May 2025 13:15:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1748006152;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P54M2BZeu+WD/oaQAp/htM/OgqFj1DURsW+Vn/dNUXE=;
+	b=IqbLmHF6Pxrafp3nFltMlU+3S0r/jYzC731OzuuStqoMeQNlYe5LMmLZ9ezj/8Dak/OX5Z
+	3tSxzuN1aO4vax9G6W7VaRFv+3oIJdcOrYRAc40NhulDCcB8EUqn0X1938EDAP3w3SYctH
+	dZZy7ladQ0uc1yJ2OLNG4UByvYZm99KUSHYmKdw5+lKoW8TPYcvjN4+ETmeg1soZyWncRf
+	vGbFanm+d2vlw5vx6k/QGlnPRFp944ordp47aRLn8O9QbUXwEgGwkQv8CD53oCf7CVfdu7
+	I31SF/vhmuqweCW36NzO7jHEbAFbVI2gxErOuSbiFyUIbuRKxch+6/uqCR6I6w==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 23 May 2025 15:15:51 +0200
+Message-Id: <DA3KGS7N34KS.2QGDJ16MHESOG@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <mikko.rapeli@linaro.org>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 3/3] oeqa selftest uboot.py: add qemu KVM test
+ case
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250522134116.254270-1-mikko.rapeli@linaro.org>
+ <20250522134116.254270-3-mikko.rapeli@linaro.org>
+In-Reply-To: <20250522134116.254270-3-mikko.rapeli@linaro.org>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdekleehucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedtgfeuvdfghfegtdehvdegvefhkeegheeikeelfeefffetheeitdduudeludduleenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepmhhikhhkohdrrhgrphgvlhhisehlihhnrghrohdrohhrg
+ hdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 12:25:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217208
+ <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 13:16:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217209
 
+On Thu May 22, 2025 at 3:41 PM CEST, Mikko Rapeli via lists.openembedded.or=
+g wrote:
+> Add a test case to boot target system via u-boot
+> using qemu with KVM. This was broken recently
+> and workaround proposed to u-boot. Test case
+> works with genericarm64 and qemuarm64 target machines
+> compiled and tested on aarch64 build host with KVM
+> support.
+>
+> Test execution time with full sstate cache is
+> around 170 seconds. qemu boot itself takes just
+> a few seconds to full userspace.
+>
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
 
-Since Linux v2.4 it has been possible to stop all NFS server by running
+Hi Mikko,
 
-   rpc.nfsd 0
+I saw your other mail saying you will make an update, but as I had
+already picked these patches, here is the build result: the selftest is
+failing on armhost:
 
-i.e.  by requesting that zero threads be running.  This is preferred as
-it doesn't risk killing some other process which happens to be called
-"nfsd".
-
-Since Linux v6.6 - and other stable kernels to which
-
-  Commit: 390390240145 ("nfsd: don't allow nfsd threads to be
-  signalled.")
-
-has been backported - sending a signal no longer works to stop nfs server
-threads.
-
-This patch changes the nfsserver script to use "rpc.nfsd 0" to stop
-server threads.
-
-Signed-off-by: NeilBrown <neil@brown.name>
 ---
- .../nfs-utils/nfs-utils/nfsserver             | 28 +++----------------
- 1 file changed, 4 insertions(+), 24 deletions(-)
+2025-05-23 08:50:18,542 - oe-selftest - INFO - uboot.UBootTest.test_boot_ub=
+oot_kvm_to_full_target (subunit.RemotedTestCase)
+2025-05-23 08:50:18,543 - oe-selftest - INFO -  ... ERROR
+...
+QEMU 10.0.0 monitor - type 'help' for more information
+(qemu)
+Waiting at most 1000 seconds for login banner (05/23/25 08:33:29)
+Connection from 127.0.0.1:43786
+Target didn't reach login banner in 1000 seconds (05/23/25 08:50:12)
+Last 25 lines of login console (1721):
+Scanning bootdev 'virtio-blk#36.bootdev':
+Scanning bootdev 'virtio-net#32.bootdev':
+BOOTP broadcast 1
+...
+BOOTP broadcast 17
 
-Resending with different From: address because first attempt was bounced
-as spam
+Retry time exceeded; starting again
+No more bootdevs
+---  -----------  ------  --------  ----  ------------------------  -------=
+---------
+(1 bootflow, 1 valid)
+=3D>
+...
+RuntimeError: core-image-minimal - FAILED to start qemu - check the task lo=
+g and the boot log
+---
 
-  openembedded-core@lists.openembedded.org
-    host lb01.groups.io [45.79.81.153]
-    SMTP error from remote mail server after end of data:
-    500 This message has been flagged as spam.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1749
 
-
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/r=
-ecipes-connectivity/nfs-utils/nfs-utils/nfsserver
-index cb6c1b4d08d8..99ec280b3594 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-@@ -89,34 +89,14 @@ start_nfsd(){
- 	start-stop-daemon --start --exec "$NFS_NFSD" -- "$@"
- 	echo done
- }
--delay_nfsd(){
--	for delay in 0 1 2 3 4 5 6 7 8 9=20
--	do
--		if pidof nfsd >/dev/null
--		then
--			echo -n .
--			sleep 1
--		else
--			return 0
--		fi
--	done
--	return 1
--}
- stop_nfsd(){
--	# WARNING: this kills any process with the executable
--	# name 'nfsd'.
- 	echo -n 'stopping nfsd: '
--	start-stop-daemon --stop --quiet --signal 1 --name nfsd
--	if delay_nfsd || {
--		echo failed
--		echo ' using signal 9: '
--		start-stop-daemon --stop --quiet --signal 9 --name nfsd
--		delay_nfsd
--	}
-+	$NFS_NFSD 0
-+	if pidof nfsd
- 	then
--		echo done
--	else
- 		echo failed
-+	else
-+		echo done
- 	fi
- }
-=20
 --=20
-2.49.0
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
