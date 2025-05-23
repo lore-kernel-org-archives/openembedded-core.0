@@ -1,96 +1,193 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56CD2C3DA6D
-	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 12:21:10 +0000 (UTC)
-Received: from smarthost01a.ixn.mail.zen.net.uk (smarthost01a.ixn.mail.zen.net.uk [212.23.1.20])
- by mx.groups.io with SMTP id smtpd.web10.46724.1748002867481004438
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53D9BC3DA6D
+	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 12:25:10 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by mx.groups.io with SMTP id smtpd.web11.46873.1748002206352299976
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 May 2025 05:21:07 -0700
+ Fri, 23 May 2025 05:10:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=XGXYB2nQ;
- spf=pass (domain: mcrowe.com, ip: 212.23.1.20, mailfrom: mac@mcrowe.com)
-Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
-	by smarthost01a.ixn.mail.zen.net.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <mac@mcrowe.com>)
-	id 1uIROc-00ATAE-7I;
-	Fri, 23 May 2025 12:21:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	In-Reply-To:References; bh=EvsYX26TpDXVXMcnjDDpEydrI8J69BtVr8P5Yg4xpto=; b=XG
-	XYB2nQfq4QM+KphrFRUD5icmUyU4QHj6YvVJQZwQGsywZnQSHDJE2X1ypFRkmhIw8s6piP7/4QC34
-	KIlOdt2ru3YQhtJ19njPX9Uvbn0aZ1m7y6/Y93/eQ4AqURX+g0N1F7zXi1bHGcOjokoaSwxUnzYIz
-	h90fU/cstSXl5H71Es36lkwV2RR7D6BG6keDIUOvRXGHPnOdEESDIvUiKslMXKvmUIhjxBEXmB8WH
-	S3DebigY5OHp4cMj+2J6uE7CxwGXGhKiLgOaTIFMJxyu3fjCx2sKoJ/GCWKNZYh/qkC9QdQqPo67b
-	23QJPT2HtdGhH3iT6HyoYMsXx7ftMajQ==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
-	(envelope-from <mac@mcrowe.com>)
-	id 1uIROa-00DVRV-1A;
-	Fri, 23 May 2025 13:21:04 +0100
-From: mac@mcrowe.com
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>,
-	Jack Mitchell <jack@embed.me.uk>
-Subject: [PATCH] rootfs.py: Don't create modules directory for all kernels
-Date: Fri, 23 May 2025 13:21:02 +0100
-Message-Id: <20250523122102.3097109-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=xpSobNdp;
+ dkim=pass header.i=@suse.de header.s=susede2_ed25519 header.b=B5I7E2fH;
+ dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=xpSobNdp;
+ dkim=pass header.i=@suse.de header.s=susede2_ed25519 header.b=B5I7E2fH;
+ spf=pass (domain: suse.de, ip: 195.135.223.130, mailfrom: neilb@suse.de)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1929621BFA;
+	Fri, 23 May 2025 12:10:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1748002204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oa0an+Q6U2k/kOogtft4u+KOHqSzjK04aZoqM1uKk3A=;
+	b=xpSobNdpeKV2RBw4NmR8g8Zlb0Ay9R6p9XBMqEtD8A7lMN/Gc4tUp6FkaO/QyJUrLqCU+R
+	h8G89/Eo/b7o0T06uekONQbhoH6W7mNgRam3LcHHQEg47js6/qMQH3PzNIeRPjm3laRCzW
+	9lmth6oq4KPVqh3cV6OknQoptVCPsF8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1748002204;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oa0an+Q6U2k/kOogtft4u+KOHqSzjK04aZoqM1uKk3A=;
+	b=B5I7E2fH9XpbCTaejq9BBLwgySksQsBR7TZzjoxZYNOx9yznoBbzo1+Gbs74Sfc4iKAFNW
+	yHSB94VvU5TEocDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xpSobNdp;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=B5I7E2fH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1748002204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oa0an+Q6U2k/kOogtft4u+KOHqSzjK04aZoqM1uKk3A=;
+	b=xpSobNdpeKV2RBw4NmR8g8Zlb0Ay9R6p9XBMqEtD8A7lMN/Gc4tUp6FkaO/QyJUrLqCU+R
+	h8G89/Eo/b7o0T06uekONQbhoH6W7mNgRam3LcHHQEg47js6/qMQH3PzNIeRPjm3laRCzW
+	9lmth6oq4KPVqh3cV6OknQoptVCPsF8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1748002204;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oa0an+Q6U2k/kOogtft4u+KOHqSzjK04aZoqM1uKk3A=;
+	b=B5I7E2fH9XpbCTaejq9BBLwgySksQsBR7TZzjoxZYNOx9yznoBbzo1+Gbs74Sfc4iKAFNW
+	yHSB94VvU5TEocDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA4B71336F;
+	Fri, 23 May 2025 12:10:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2dGgHpplMGgZbgAAD6G6ig
+	(envelope-from <neilb@suse.de>); Fri, 23 May 2025 12:10:02 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Originating-smarthost01a-IP: [88.97.37.36]
-Feedback-ID: 88.97.37.36
+From: NeilBrown <neilb@suse.de>
+To: openembedded-core@lists.openembedded.org
+Cc: "Yan, Haixiao (CN)" <haixiao.yan.cn@windriver.com>,
+ Linux NFS Mailing List <linux-nfs@vger.kernel.org>
+Subject: [PATCH OE-core] nfs-utils: don't use signals to shut down nfs server.
+Date: Fri, 23 May 2025 17:41:19 +1000
+Message-id: <174800219540.608730.11726448273017682287@noble.neil.brown.name>
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 1929621BFA
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 12:21:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217207
+ <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 12:25:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217208
 
-From: Mike Crowe <mac@mcrowe.com>
 
-efa88e1c227d695319197f511701e0230d301f39 arranged for the versioned
-modules directory to be created and depmod to run for every kernel
-package. Unfortunately this happens for every _built_ kernel package,
-even if that package and/or its modules aren't installed in the rootfs.
+Since Linux v2.4 it has been possible to stop all NFS server by running
 
-Let's assume that there's no point in running depmod if the modules
-directory did not already exist.
+   rpc.nfsd 0
 
-(This problem was observed in Scarthgap and this fix was tested there.
-It doesn't look like any of the subsequent changes will have affected
-this behaviour.)
+i.e.  by requesting that zero threads be running.  This is preferred as
+it doesn't risk killing some other process which happens to be called
+"nfsd".
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
-Reviewed-by: Jack Mitchell <jack@embed.me.uk>
+Since Linux v6.6 - and other stable kernels to which
+
+  Commit: 390390240145 ("nfsd: don't allow nfsd threads to be
+  signalled.")
+
+has been backported - sending a signal no longer works to stop nfs server
+threads.
+
+This patch changes the nfsserver script to use "rpc.nfsd 0" to stop
+server threads.
+
+Signed-off-by: NeilBrown <neil@brown.name>
 ---
- meta/lib/oe/rootfs.py | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ .../nfs-utils/nfs-utils/nfsserver             | 28 +++----------------
+ 1 file changed, 4 insertions(+), 24 deletions(-)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 6b56adaf03..14befac8fa 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -362,11 +362,12 @@ class Rootfs(object, metaclass=ABCMeta):
- 
-             versioned_modules_dir = os.path.join(self.image_rootfs, modules_dir, kernel_ver)
- 
--            bb.utils.mkdirhier(versioned_modules_dir)
--
--            bb.note("Running depmodwrapper for %s ..." % versioned_modules_dir)
--            if self._exec_shell_cmd(['depmodwrapper', '-a', '-b', self.image_rootfs, kernel_ver, kernel_package_name]):
--                bb.fatal("Kernel modules dependency generation failed")
-+            if os.path.exists(versioned_modules_dir):
-+                bb.note("Running depmodwrapper for %s ..." % versioned_modules_dir)
-+                if self._exec_shell_cmd(['depmodwrapper', '-a', '-b', self.image_rootfs, kernel_ver, kernel_package_name]):
-+                    bb.fatal("Kernel modules dependency generation failed")
-+            else:
-+                bb.note("Not running depmodwrapper for %s since directory does not exist" % versioned_modules_dir)
- 
-     """
-     Create devfs:
--- 
-2.39.5
+Resending with different From: address because first attempt was bounced
+as spam
+
+  openembedded-core@lists.openembedded.org
+    host lb01.groups.io [45.79.81.153]
+    SMTP error from remote mail server after end of data:
+    500 This message has been flagged as spam.
+
+
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/r=
+ecipes-connectivity/nfs-utils/nfs-utils/nfsserver
+index cb6c1b4d08d8..99ec280b3594 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+@@ -89,34 +89,14 @@ start_nfsd(){
+ 	start-stop-daemon --start --exec "$NFS_NFSD" -- "$@"
+ 	echo done
+ }
+-delay_nfsd(){
+-	for delay in 0 1 2 3 4 5 6 7 8 9=20
+-	do
+-		if pidof nfsd >/dev/null
+-		then
+-			echo -n .
+-			sleep 1
+-		else
+-			return 0
+-		fi
+-	done
+-	return 1
+-}
+ stop_nfsd(){
+-	# WARNING: this kills any process with the executable
+-	# name 'nfsd'.
+ 	echo -n 'stopping nfsd: '
+-	start-stop-daemon --stop --quiet --signal 1 --name nfsd
+-	if delay_nfsd || {
+-		echo failed
+-		echo ' using signal 9: '
+-		start-stop-daemon --stop --quiet --signal 9 --name nfsd
+-		delay_nfsd
+-	}
++	$NFS_NFSD 0
++	if pidof nfsd
+ 	then
+-		echo done
+-	else
+ 		echo failed
++	else
++		echo done
+ 	fi
+ }
+=20
+--=20
+2.49.0
 
 
