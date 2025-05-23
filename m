@@ -1,190 +1,172 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7E4C3DA6D
-	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 09:42:39 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.44379.1747993354230328695
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4021BC5B54C
+	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 09:42:29 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web11.44668.1747993340868706752
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 May 2025 02:42:34 -0700
+ Fri, 23 May 2025 02:42:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=nUytYP15;
- spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-550eb498fbbso8525905e87.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 02:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747993352; x=1748598152; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MZAXUmx64QevPJ9fle/C+c6yP3kFNID4tBgzCvzQIlI=;
-        b=nUytYP15S7k0uaUfoDMnOEi/aUHhtCF+D71cCuBmrV+ZcgzH9HbgdlHqiHRu9IelCC
-         QClYx+983BedmF51wNLThS9laA7ECVri6ACcqtSHLXf69UIOB5wGzwn3PeGdKiXF8SFM
-         V1ZjkzlrNfgpwt6IOGJtYNJCdj+MW5Ot238b9JrVZ0bo37iiIWISdnTTwcojw9ZLzsAC
-         fSuPphDV5pjVQXH8Me+Hdf/AkLTU3+b6+F8DJxtwomp6UTOOe9+5dJMaa4pQIswLu2y1
-         tCqDegKqJCX+N5R1tVeosCqNxGOraHfZ/6kZIDXDfsmfuygAq7qYfYmMPisYXOzBjHr3
-         8Lcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747993352; x=1748598152;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MZAXUmx64QevPJ9fle/C+c6yP3kFNID4tBgzCvzQIlI=;
-        b=lbD7EI5YQgubgNK6+fcd5vbXzTLoFD+1yH1PYipVPOjyhfUP1NM1HOFKAwaQURigbs
-         Jb3a8l7m4RIvS7qNi/gQfxmhIBUgrtQq2c3LQWiMUMEU6mc6NUWcQec5cgp1lkv7K60p
-         J6G8trbaMau6nkDuPwH2raKPXaT/2Ny660PXlLXAl1//8xWPrhmOFPVWjz8jtPLadb4b
-         AfFm4Dd7dXWaiUP+j3YxQKLMB6oI92EZH4ZwAoIecZoXU2f1n+sQtJSqG9RMeV3u44Cn
-         xgmMZrQPoQLNr0KvVC37gYLpyKHISonrgK/XBqfgSn3cRlHhM7Z5hV9yA4pIqcabCmas
-         J57A==
-X-Gm-Message-State: AOJu0Yy7k/pK2lSjL7rv9s3yq33mGoRo0ZQrEsjuYAMyj0yyVUI65TQM
-	nBGLo0NBpDP9A9ZH4u9NR4Ved9d765BBWxdmGOJ2kgrV7mTqlfTIw6OPmgPfSl6jIUt2nthRYbr
-	KNgW3iF0=
-X-Gm-Gg: ASbGncuWyhbs2mbbEE+npzU2mFyNDMXa7jT4kdlhf5l7d6U8b+UChtVfsXQcjZfgBa4
-	h63kz88fFtxKugq2j8Gz2skdYbjbuflEE+Dt1AWOwIqeGkgObdrz+2mfitIHHWx2SaHNIv/0OlE
-	JsnKR2vXRYDaKWpYZZGd6FZjJ7OIeMc9YJZW+MDK0J6l07OBkdW7ztLvWsEWkDSdzDcitojzaN9
-	v33INHCJJgglm+QwHaVt1iKx+Yf4jMW75RjLCDeaJcawjr0/WEyhb+Ggzy9UFjdYpL3jTW5klJa
-	hOpgN+UAuYPFkwhqU6BZIiJVFhZW4Oc6Nmygy1+J5h/17wdPprJvmG9kxO3HNrX/aRh4eOdPD74
-	z3Wz9CZHSFfXd1gs=
-X-Google-Smtp-Source: AGHT+IGJW3v3EPNNGaLpedQoZTYCiebFDPRITzcMRkhMFPt+1/ilssWaStXRZFFwmL6Ix0JUR0dN0g==
-X-Received: by 2002:a05:6512:40c7:b0:552:12f7:2cee with SMTP id 2adb3069b0e04-55212f73459mr1177679e87.2.1747993352039;
-        Fri, 23 May 2025 02:42:32 -0700 (PDT)
-Received: from nuoska (2001-14ba-48e-3a00--183.rev.dnainternet.fi. [2001:14ba:48e:3a00::183])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e6f30329sm3790634e87.65.2025.05.23.02.42.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 02:42:31 -0700 (PDT)
-Date: Fri, 23 May 2025 12:42:30 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Pp6Kgubo;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-20250523094218111843d34306c4446c-13uwd0@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250523094218111843d34306c4446c
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 23 May 2025 11:42:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=AcvuOY2g3YF2/NGw1sTjLx/jnbsuEvLASeaPQT2Jegc=;
+ b=Pp6Kgubo0elm3CtI3esAvMdc1bslTQPw44YHG3qmlK2c5nmqVgjYk5QZxI627Q8xVhOg3U
+ w2w3VUTQm/isiGkn0VDuwYvpUuzeoZr9VsKHMG7WESIPUwk9sBL5iJ2PeeDDGLLhgRmMzBkz
+ fRukdUX9Gf8w6M7hI/kIG9Xrm7QKBIXYwSNaixixv2UUkeBc3GwGZa8emVe809QjIvsef5bo
+ sQMPyVZTImW/fcmYUgF7Nd+LQkPtfXugj/Bv4vPUQXUgoHPyhpkSIPkY2C9f5zFK33JAU+oK
+ unFYqYMJ8dwizrv8ylbWLeGzVc74GHdk8qwVq7B0ZYQZsQafimJrgm7A==;
+From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 3/3] oeqa selftest uboot.py: add qemu KVM test
- case
-Message-ID: <aDBDBgkopuFquYBZ@nuoska>
-References: <20250522134116.254270-1-mikko.rapeli@linaro.org>
- <1841DD2A7A0AA7E1.3062@lists.openembedded.org>
+Cc: marex@denx.de,
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v5 02/17] oe-selftest: fitimage: test coverage for ext dtb
+Date: Fri, 23 May 2025 11:41:03 +0200
+Message-ID: <20250523094152.727177-3-adrian.freihofer@siemens.com>
+In-Reply-To: <20250523094152.727177-1-adrian.freihofer@siemens.com>
+References: <20250523094152.727177-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1841DD2A7A0AA7E1.3062@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 09:42:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217202
+ <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 09:42:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217187
 
-Hi,
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-On Thu, May 22, 2025 at 04:41:16PM +0300, Mikko Rapeli via lists.openembedded.org wrote:
-> Add a test case to boot target system via u-boot
-> using qemu with KVM. This was broken recently
-> and workaround proposed to u-boot. Test case
-> works with genericarm64 and qemuarm64 target machines
-> compiled and tested on aarch64 build host with KVM
-> support.
-> 
-> Test execution time with full sstate cache is
-> around 170 seconds. qemu boot itself takes just
-> a few seconds to full userspace.
-> 
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> ---
->  meta/lib/oeqa/selftest/cases/uboot.py | 55 ++++++++++++++++++++++++++-
->  1 file changed, 53 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/selftest/cases/uboot.py b/meta/lib/oeqa/selftest/cases/uboot.py
-> index 39e48f8bdb..982822b389 100644
-> --- a/meta/lib/oeqa/selftest/cases/uboot.py
-> +++ b/meta/lib/oeqa/selftest/cases/uboot.py
-> @@ -6,8 +6,8 @@
->  #
->  
->  from oeqa.selftest.case import OESelftestTestCase
-> -from oeqa.utils.commands import bitbake, runqemu, get_bb_var
-> -from oeqa.core.decorator.data import skipIfNotArch
-> +from oeqa.utils.commands import bitbake, runqemu, get_bb_var, runCmd
-> +from oeqa.core.decorator.data import skipIfNotArch, skipIfNotMachine
->  from oeqa.core.decorator import OETestTag
->  
->  uboot_boot_patterns = {
-> @@ -42,3 +42,54 @@ QEMU_USE_KVM = "False"
->              status, output = qemu.run_serial(cmd)
->              self.assertEqual(status, 1, msg=output)
->              self.assertTrue("U-Boot" in output, msg=output)
-> +
-> +    @skipIfNotArch(['aarch64'])
-> +    # Also works on genericarm64 but no way to encode that currently
-> +    @skipIfNotMachine('qemuarm64', 'KVM depends that host and target architectures match, e.g. aarch64 and qemuarm64')
+There are several ways to insert external devicetrees and devicetree
+overlays into the kernel and thus at least to some extent into the FIT
+image.
+So far there is no test coverage. Let's improve this as much as possible
+without fully understanding all use cases.
 
-On second thought, these are not quite right. I think HOST_ARCH limit
-to "aarch64" is ok but will still cause this to run on x86_64 build machines
-which will not work. I think I need to add a BUILD_ARCH decorator to limit this to
-run on 'aarch64' build host when building 'aarch64' targets. Then
-KVM can work.
+This first test adds a devicetree overlay to a build configuration
+without signing, since signing is apparently not yet meaningful when
+PREFERRED_PROVIDER_virtual/dtb = “bborg-relay-00a2” is used. It is also
+not entirely clear how these external devicetree overlays are used by
+the configuration nodes of the FIT image. Currently, one configuration
+is created per dtb dtbo node, which is not really useful for dtbo nodes.
+Before this test can be extended to test devicetree overlays and
+signing, the code that creates the configuration nodes in its file
+probably needs some improvements in terms of more flexibility in
+defining the references from configuration nodes to image nodes.
 
-I'll update the changes.
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/lib/oeqa/selftest/cases/fitimage.py | 58 +++++++++++++++++++++---
+ 1 file changed, 51 insertions(+), 7 deletions(-)
 
-Cheers,
-
--Mikko
-
-> +    @OETestTag("runqemu")
-> +    def test_boot_uboot_kvm_to_full_target(self):
-> +        """
-> +        Tests building u-boot and booting it with QEMU and KVM.
-> +        Requires working KVM on build host. See "kvm-ok" output.
-> +        """
-> +
-> +        runCmd("kvm-ok")
-> +
-> +        self.write_config("""
-> +QEMU_USE_KVM = "1"
-> +
-> +# Using u-boot in EFI mode, need ESP partition for grub/systemd-boot/kernel etc
-> +IMAGE_FSTYPES:pn-core-image-minimal:append = " wic"
-> +
-> +# easiest to follow genericarm64 setup with wks file, initrd and EFI loader
-> +INITRAMFS_IMAGE="core-image-initramfs-boot"
-> +EFI_PROVIDER = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", "systemd-boot", "grub-efi", d)}"
-> +WKS_FILE = "genericarm64.wks.in"
-> +
-> +# use wic image with ESP for u-boot, not ext4
-> +QB_DEFAULT_FSTYPE = "wic"
-> +
-> +PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
-> +QB_DEFAULT_BIOS = "u-boot.bin"
-> +
-> +# let u-boot or EFI loader load kernel from ESP
-> +QB_DEFAULT_KERNEL = "none"
-> +
-> +# virt pci, not scsi because support not in u-boot to find ESP
-> +QB_DRIVE_TYPE = "vd"
-> +# qemu usb causes u-boot reset atm
-> +QB_OPT_APPEND = ""
-> +""")
-> +        bitbake("virtual/bootloader core-image-minimal")
-> +
-> +        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', "core-image-minimal") or ""
-> +        with runqemu('core-image-minimal', ssh=False, runqemuparams='nographic kvm %s' % runqemu_params) as qemu:
-> +
-> +            # boot to target and login worked, should have been fast with kvm
-> +            cmd = "dmesg"
-> +            status, output = qemu.run_serial(cmd)
-> +            self.assertEqual(status, 1, msg=output)
-> +            # Machine is qemu
-> +            self.assertTrue("Machine model: linux,dummy-virt" in output, msg=output)
-> +            # with KVM enabled
-> +            self.assertTrue("KVM: hypervisor services detected" in output, msg=output)
-> -- 
-> 2.43.0
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#217107): https://lists.openembedded.org/g/openembedded-core/message/217107
-> Mute This Topic: https://lists.openembedded.org/mt/113247084/7159507
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index b39f2622dff..c3554d4499a 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -161,10 +161,21 @@ class FitImageTestCase(OESelftestTestCase):
+ 
+     @staticmethod
+     def _get_dtb_files(bb_vars):
++        """Return a list of devicetree names
++
++        The list should be used to check the dtb and conf nodes in the FIT image or its file.
++        In addition to the entries from KERNEL_DEVICETREE, the external devicetree overlay
++        added by the test recipe bborg-relay-00a2.bb is also handled.
++        """
+         kernel_devicetree = bb_vars.get('KERNEL_DEVICETREE')
++        all_dtbs = []
+         if kernel_devicetree:
+-            return [os.path.basename(dtb) for dtb in kernel_devicetree.split()]
+-        return []
++            all_dtbs += [os.path.basename(dtb) for dtb in kernel_devicetree.split()]
++        # Support only the test recipe which provides 1 devicetree overlay
++        pref_prov_dtb = bb_vars.get('PREFERRED_PROVIDER_virtual/dtb')
++        if pref_prov_dtb == "bborg-relay-00a2":
++            all_dtbs.append("BBORG_RELAY-00A2.dtbo")
++        return all_dtbs
+ 
+     def _is_req_dict_in_dict(self, found_dict, req_dict):
+         """
+@@ -379,6 +390,7 @@ class KernelFitImageTests(FitImageTestCase):
+             'KERNEL_DEVICETREE',
+             'KERNEL_FIT_LINK_NAME',
+             'MACHINE',
++            'PREFERRED_PROVIDER_virtual/dtb',
+             'UBOOT_ARCH',
+             'UBOOT_ENTRYPOINT',
+             'UBOOT_LOADADDRESS',
+@@ -585,10 +597,16 @@ class KernelFitImageTests(FitImageTestCase):
+         # Create a configuration section for each DTB
+         if dtb_files:
+             for dtb in dtb_files:
+-                req_sections['conf-' + dtb] = {
+-                    "Kernel": "kernel-1",
+-                    "FDT": 'fdt-' + dtb,
+-                }
++                # dtb overlays do not refer to a kernel (yet?)
++                if dtb.endswith('.dtbo'):
++                    req_sections['conf-' + dtb] = {
++                        "FDT": 'fdt-' + dtb,
++                    }
++                else:
++                    req_sections['conf-' + dtb] = {
++                        "Kernel": "kernel-1",
++                        "FDT": 'fdt-' + dtb,
++                    }
+                 if initramfs_image and initramfs_image_bundle != "1":
+                     req_sections['conf-' + dtb]['Init Ramdisk'] = "ramdisk-1"
+         else:
+@@ -635,7 +653,12 @@ class KernelFitImageTests(FitImageTestCase):
+                 self.assertEqual(sign_algo, req_sign_algo, 'Signature algorithm for %s not expected value' % section)
+                 sign_value = values.get('Sign value', None)
+                 self.assertEqual(len(sign_value), fit_sign_alg_len, 'Signature value for section %s not expected length' % section)
+-                dtb_path = os.path.join(deploy_dir_image, section.replace('conf-', ''))
++                dtb_file_name = section.replace('conf-', '')
++                dtb_path = os.path.join(deploy_dir_image, dtb_file_name)
++                # External devicetrees created by devicetree.bbclass are in a subfolder and have priority
++                dtb_path_ext = os.path.join(deploy_dir_image, "devicetree", dtb_file_name)
++                if os.path.exists(dtb_path_ext):
++                    dtb_path = dtb_path_ext
+                 self._verify_fit_image_signature(uboot_tools_bindir, fitimage_path, dtb_path, section)
+             else:
+                 # Image nodes always need a hash which gets indirectly signed by the config signature
+@@ -696,6 +719,27 @@ FIT_DESC = "A model description"
+         self._test_fitimage(bb_vars)
+ 
+ 
++    def test_fit_image_ext_dtbo(self):
++        """
++        Summary:     Check if FIT image and Image Tree Source (its) are created correctly.
++        Expected:    1) its and FIT image are built successfully
++                     2) The its file contains also the external devicetree overlay
++                     3) Dumping the FIT image indicates the devicetree overlay
++        """
++        config = """
++# Enable creation of fitImage
++MACHINE = "beaglebone-yocto"
++KERNEL_IMAGETYPES += " fitImage "
++KERNEL_CLASSES = " kernel-fitimage "
++# Add a devicetree overlay which does not need kernel sources
++PREFERRED_PROVIDER_virtual/dtb = "bborg-relay-00a2"
++"""
++        config = self._config_add_uboot_env(config)
++        self.write_config(config)
++        bb_vars = self._fit_get_bb_vars()
++        self._test_fitimage(bb_vars)
++
++
+     def test_sign_fit_image_configurations(self):
+         """
+         Summary:     Check if FIT image and Image Tree Source (its) are created
+-- 
+2.49.0
 
 
