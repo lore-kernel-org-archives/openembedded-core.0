@@ -1,148 +1,244 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED974C54ED1
-	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 14:17:10 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.49087.1748009822791704353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CD0C54ED1
+	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 14:23:51 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.web10.49239.1748010229615882468
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 May 2025 07:17:03 -0700
+ Fri, 23 May 2025 07:23:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=FeXJ3NBC;
- spf=pass (domain: linaro.org, ip: 209.85.167.50, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54acc0cd458so12016767e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 07:17:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Qd1jU0TP;
+ spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2e3e58edab5so2639391fac.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 07:23:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748009821; x=1748614621; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MeCobYbMR/ZYtIZKv0kORibwsbcvACHBQD9GtZJ3jTQ=;
-        b=FeXJ3NBCiHnTqMNDoTbOhLFqeKwWmwfwdhYHACbPDRH+l1LFuMoHHPcE9oawXzNYbD
-         9LgkjXKKmYuWB9Ge6/V2WmJf/1VxAVCkTDvVX9Q+oE1P80VJMIo6EG8MJSfpPoOzcvEh
-         mAcBAdrhgwrr2/a1xqIPLol4SmscP+6COYgRMhgaYVnSPDShDJGnyGQjTMHIkL/GXeh2
-         IFNOUW1m6iuM/G3hXW6aZWwCrCuVPX2CJu6Fn4bJbmYfdz+av7/xB2U6C8ZOrLQ1CUoE
-         r3ixBSOcGBH9FVj0WyI3BW5s2qYLiMcSNukv1chTZFLRgsRWXfVrTsxPFF39dyHw6KE9
-         JR2g==
+        d=gmail.com; s=20230601; t=1748010229; x=1748615029; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TIxkIo55lc2iYivC/Q2I3cLo3egBTATVS8A+FZP6dIk=;
+        b=Qd1jU0TP2DY/0zgzyCU+/1UZLzPiaqzrLfMzapN+xAF5yTk1RwFYmaWjMP3rb8pC7Y
+         vurzLfMix4Zuz3Jt3BJH0Dh2y1xYSbgLwEmLX9MMgVqLPiSb8Rw0UmQmbwLqpsqSKZm8
+         UsChBJ+pU7MC4Izo0zHErREs1x8rTO/URafED9gpN1hA1qkFc+HHLAms2jxfS8GGGlTb
+         pa5ONqoWgYiVX0xLj7vbsifGyZgaXZmgz1ps6Nhin0LZVi0PCgj9LowxXlIivr9Y9LTK
+         A7jyUuNpdpL3og+7V09OwxKVh6cHjIy3FDWXNVogirKG0iRIrXxKlg7+Cjq5IJr1SwXM
+         0Ofg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748009821; x=1748614621;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MeCobYbMR/ZYtIZKv0kORibwsbcvACHBQD9GtZJ3jTQ=;
-        b=osR9utm4XyFwdSwr/WR+DkOp7nBQNhiKekUz+OAvVJSTf26tY0Wlvm2nFQnMKdV8vG
-         3gyeM+LTveSHQtc2UjJfsxtGdoFNm3FbwJcac6CxDo7JxvUx51uxAMHyCZke1HNKPti3
-         wQfu6Xj17NkP6kBVJ/iJLwUaEAalBjh+ircwnlHU6SKZPZgQiFziLFmcLkbG6m2jN0zz
-         9j675ewz50JcaNHbIMrL/b4phqmLPBV4WnZDXc746c0j+DHv8xUfnMW0M+X8cQXd1c4N
-         DarwVFGnCQiY13rqazqb12aNVMaDijbcLZKuKgjQ+xuhxWnJnW2qCO7DKlT9kSui9F7L
-         swYw==
-X-Gm-Message-State: AOJu0YxOETdHrmnOD42uXPdVGyo4B7cRzNksqotsXjGmg7S5UqWSQSjj
-	cKdH6ZC37tj1txUKzsYqeBAs7FEkeU6TLhhjvMRguy82mqliV7V7UaX5TO+jbux7CJY=
-X-Gm-Gg: ASbGncsb4sawN6dNq4JTGxmIwSszZRImw/tmJzgWqm8WOHi3zS2oeb9F2rCpFvBv+c7
-	XnnFUUHlkjrwTLxmOEud42H069Tjr/ziOxOD1745zh9fDm4VU2XpLQxSVkRO2u1++Qpjf95bQRv
-	YqOAy8Cz/jmRef8pnYLk4uyHrmKY8LTw6kiGWAd8v9XA5r1Zp1Q1iSQ1+bz5lRhiKjqqKfl5ruh
-	IwrHchYZ/yDsN6i+2K/eVu5sJlF2BGjqWdKpGS1J640WzNwM4OTLnfRpwy2StPuZOXTANHKqYDi
-	3sDcgXhGKaEjLzd0DWrZNMC0K4IBAWMMUVwuE3471AOzK/sXHhpc6FJvM2k1VklVB9SLT5kNqQ6
-	vmq26M0IU
-X-Google-Smtp-Source: AGHT+IH7SYU55qZvZxwpBPxyxmQ+WE0/pIshvD3Fr98UpmrtWHWv/RNhoKrtz3hysYSHHlTYGAs6qA==
-X-Received: by 2002:a05:6512:290f:b0:54f:bc10:6bae with SMTP id 2adb3069b0e04-550e71d0ba0mr10251168e87.30.1748009820493;
-        Fri, 23 May 2025 07:17:00 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e7017f7dsm3883249e87.117.2025.05.23.07.16.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 07:17:00 -0700 (PDT)
-Date: Fri, 23 May 2025 17:16:58 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 3/3] oeqa selftest uboot.py: add qemu KVM test
- case
-Message-ID: <aDCDWmpLM29OphfW@nuoska>
-References: <20250522134116.254270-1-mikko.rapeli@linaro.org>
- <20250522134116.254270-3-mikko.rapeli@linaro.org>
- <DA3KGS7N34KS.2QGDJ16MHESOG@bootlin.com>
+        d=1e100.net; s=20230601; t=1748010229; x=1748615029;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TIxkIo55lc2iYivC/Q2I3cLo3egBTATVS8A+FZP6dIk=;
+        b=N1eAWyd6eRGRcO5k8PO5qntiP3D2KzzJRvcnos3U30w155lBkqwyzu1rB6Mjw2EHtb
+         19v+BiBXTqR3nPYUFdxHdAZdbm415tq9VAG9ecy3wmzQBHzlgTV5/EqtJFV1LH6qa4vd
+         y/X7ZE2mPlqW1J+QKpqHQKuWWhNIUyA14hgoBo6bbEkaSbPkEa9hRsAYkHt50gNiQpwz
+         FVCP1HVe9cDQ6WoXFnQvKkeij3atFvZOikrpGx5chwD/TH0IktA6mSoX+VompNfAUO1a
+         BzsvjTSgUX3wc1E0HSysG3y9zYdP8OzRj9ywF/wNHmIlKCF+nSrnR8DQj4JrHjzjyJbp
+         ftIA==
+X-Gm-Message-State: AOJu0Yz1AxAMSsS7S8DttTAzOY1pqSfih/JtIiO+ipTiQaxpjrFJfCQt
+	DVeEWJXIWVTWtLoLqLsOGgmJ5R4LrSaIlEue7GcxWwpVWd30Hnw0Sma3LAx1LZdihX18CyFA9hs
+	016djYIAoov3p6U9O0WSmjk4uZu00CsZHQPvK
+X-Gm-Gg: ASbGncutAWr3lRgFKpM7tAH3vLNrpkqH5cYwhi0bVl4HIzObHoS8+hC6NRbdkgdEGy7
+	t8wWwIOMg4/fGPVnd4BeKzMXYnMjvasam2wg9nosnUVOUBkmnnw1gYYN/SeBiT2y0IZ23/IMe6m
+	6reKplE6AjmHSwwQqJsmYdOClaCCj6oiMW5ChqxfpsstHyhB3TeXBsvzvf606RcQSYcQ==
+X-Google-Smtp-Source: AGHT+IHjj91OZMskXDHnVZDQaOKkbsqVGhdBW+VBOsIpGK6eWkaEOHYogk4uaClnAbehrEPXY/K9iJx68tNmkgLfEn8=
+X-Received: by 2002:a05:6870:4f0e:b0:2cc:3530:d313 with SMTP id
+ 586e51a60fabf-2e3c84d597bmr15515921fac.25.1748010228633; Fri, 23 May 2025
+ 07:23:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DA3KGS7N34KS.2QGDJ16MHESOG@bootlin.com>
+References: <c8872756-9150-410b-9dee-01a0248ceeb3@gmail.com> <26223.1747984985015269889@lists.openembedded.org>
+In-Reply-To: <26223.1747984985015269889@lists.openembedded.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 23 May 2025 07:23:37 -0700
+X-Gm-Features: AX0GCFvJDwd1auXB8_LzgUJ_eJs39A8aDmBRIDww9cyku6ISuTDJ-jrAkpNZe8M
+Message-ID: <CAMKF1sp+uqRyf7+_7Gp-7pz0hmWv3_Zw-t6cMCDjEY1Huvwo1w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] binutils: Fix CVE-2025-1180
+To: Harish.Sadineni@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000bdd7a20635ce58d1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 14:17:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217212
+ <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 14:23:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217213
 
-Hi,
+--000000000000bdd7a20635ce58d1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 23, 2025 at 03:15:51PM +0200, Mathieu Dubois-Briand wrote:
-> On Thu May 22, 2025 at 3:41 PM CEST, Mikko Rapeli via lists.openembedded.org wrote:
-> > Add a test case to boot target system via u-boot
-> > using qemu with KVM. This was broken recently
-> > and workaround proposed to u-boot. Test case
-> > works with genericarm64 and qemuarm64 target machines
-> > compiled and tested on aarch64 build host with KVM
-> > support.
-> >
-> > Test execution time with full sstate cache is
-> > around 170 seconds. qemu boot itself takes just
-> > a few seconds to full userspace.
-> >
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> 
-> Hi Mikko,
-> 
-> I saw your other mail saying you will make an update, but as I had
-> already picked these patches, here is the build result: the selftest is
-> failing on armhost:
-> 
-> ---
-> 2025-05-23 08:50:18,542 - oe-selftest - INFO - uboot.UBootTest.test_boot_uboot_kvm_to_full_target (subunit.RemotedTestCase)
-> 2025-05-23 08:50:18,543 - oe-selftest - INFO -  ... ERROR
-> ...
-> QEMU 10.0.0 monitor - type 'help' for more information
-> (qemu)
-> Waiting at most 1000 seconds for login banner (05/23/25 08:33:29)
-> Connection from 127.0.0.1:43786
-> Target didn't reach login banner in 1000 seconds (05/23/25 08:50:12)
-> Last 25 lines of login console (1721):
-> Scanning bootdev 'virtio-blk#36.bootdev':
-> Scanning bootdev 'virtio-net#32.bootdev':
-> BOOTP broadcast 1
-> ...
-> BOOTP broadcast 17
-> 
-> Retry time exceeded; starting again
-> No more bootdevs
-> ---  -----------  ------  --------  ----  ------------------------  ----------------
-> (1 bootflow, 1 valid)
-> =>
-> ...
-> RuntimeError: core-image-minimal - FAILED to start qemu - check the task log and the boot log
-> ---
-> 
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/1749
+Thanks for the update
 
-Thanks, I will take a look. Boot to u-boot seems to ok so KVM is working on
-the aarch64 build machine but something in wic image ESP partition detection is not
-working in the same way as on my aarch64 build machine and qemuarm64 and
-genericarm64 configs.
+On Fri, May 23, 2025 at 12:23=E2=80=AFAM Sadineni, Harish via lists.openemb=
+edded.org
+<Harish.Sadineni=3Dwindriver.com@lists.openembedded.org> wrote:
 
-I will compare the runqemu and qemu-system-aarch64 arguments to figure out what is
-different.
+> Test result summary for binutils with before and after applying the patch=
+:
+>
+> Component Metric Without Patch With Patch Change
+> *binutils* Expected passes 310 310 =E2=80=94
+>   Unexpected failures 1 1 =E2=80=94
+>   Untested testcases 1 1 =E2=80=94
+>   Unsupported tests 9 9 =E2=80=94
+> *gas* Expected passes 2017 2017 =E2=80=94
+>   Unexpected failures 4 4 =E2=80=94
+>   Unsupported tests 1 1 =E2=80=94
+> *ld* Expected passes 1787 1787 =E2=80=94
+>   Expected failures 7 7 =E2=80=94
+>   Unresolved testcases 1 1 =E2=80=94
+>   Untested testcases 20 20 =E2=80=94
+>   Unsupported tests 99 99 =E2=80=94
+>
+> There is no regressions in test results.
+>
+> Thanks,
+> Harish
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#217178):
+> https://lists.openembedded.org/g/openembedded-core/message/217178
+> Mute This Topic: https://lists.openembedded.org/mt/113245812/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-One problem I thought I solved was to change from virtio scsi to virtio blk emulation
-but that seems to be effecttive albeit with a warning:
+--000000000000bdd7a20635ce58d1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/2468510/raw_inline
+<div dir=3D"auto">Thanks for the update=C2=A0</div><div><br><div class=3D"g=
+mail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Fri, May 23, 2025 at 12:23=E2=80=AFAM Sadineni, Harish via <a href=3D"http:=
+//lists.openembedded.org">lists.openembedded.org</a> &lt;Harish.Sadineni=3D=
+<a href=3D"mailto:windriver.com@lists.openembedded.org">windriver.com@lists=
+.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv>Test result summary for binutils with before and after applying the patc=
+h:<br><br>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Metric</th>
+<th>Without Patch</th>
+<th>With Patch</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>binutils</strong></td>
+<td>Expected passes</td>
+<td>310</td>
+<td>310</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td>=C2=A0</td>
+<td>Unexpected failures</td>
+<td>1</td>
+<td>1</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td>=C2=A0</td>
+<td>Untested testcases</td>
+<td>1</td>
+<td>1</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td>=C2=A0</td>
+<td>Unsupported tests</td>
+<td>9</td>
+<td>9</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td><strong>gas</strong></td>
+<td>Expected passes</td>
+<td>2017</td>
+<td>2017</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td>=C2=A0</td>
+<td>Unexpected failures</td>
+<td>4</td>
+<td>4</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td>=C2=A0</td>
+<td>Unsupported tests</td>
+<td>1</td>
+<td>1</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td><strong>ld</strong></td>
+<td>Expected passes</td>
+<td>1787</td>
+<td>1787</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td>=C2=A0</td>
+<td>Expected failures</td>
+<td>7</td>
+<td>7</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td>=C2=A0</td>
+<td>Unresolved testcases</td>
+<td>1</td>
+<td>1</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td>=C2=A0</td>
+<td>Untested testcases</td>
+<td>20</td>
+<td>20</td>
+<td>=E2=80=94</td>
+</tr>
+<tr>
+<td>=C2=A0</td>
+<td>Unsupported tests</td>
+<td>99</td>
+<td>99</td>
+<td>=E2=80=94</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div><br>There is no regressions in test results.<br><br>Thanks,<br>Harish<=
+/div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#217178): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/217178" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/217178</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113245812/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/113245812/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-runqemu - WARNING - Unknown QB_DRIVE_TYPE: vd
-runqemu - WARNING - Failed to figure out drive type, consider define or fix QB_DRIVE_TYPE
-runqemu - WARNING - Trying to use virtio block drive
-
-u-boot defconfig does not have scsi support but virtio blk works for disk with ESP
-partition in fat format.
-
-Cheers,
-
--Mikko
+--000000000000bdd7a20635ce58d1--
 
