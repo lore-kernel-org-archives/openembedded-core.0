@@ -1,137 +1,126 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9C0C3DA6D
-	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 09:41:29 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.44652.1747993287009586424
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0182C54ED0
+	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 09:42:28 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web11.44673.1747993341417411424
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 May 2025 02:41:27 -0700
+ Fri, 23 May 2025 02:42:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ecpw1L2Q;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-441c99459e9so59269415e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 02:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747993285; x=1748598085; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=C5RCLTVKweqVbXma+/l5+xIfwGCMPUgYyLPaDRueRxk=;
-        b=Ecpw1L2Q578jRFXTXvhI2SESw6FLakjZEZwLUlRwY0NuOod053hPN4Uvn3CzxABiDC
-         9x2WCDUOLEdUiXQNU9tXmVMBm23vwavU/gixa1ZACgoDGRhirUl+DD0e6Lx3W8y1OBuF
-         B0Nmiw4nx33qhIXWEQ55GzfoDZMyT0DU0sA6HtwoJIhYTbr5ZmfEe18tYbkf/goSpZ/l
-         wRan6XVNZRJk2VIxTlV1/qpPErwI4HXEaSzbfvNVrMP9RAYIuYvCpbzOlmC1Ca6Ojwcq
-         u0WcrBuppT8mlH2vHlkO4Knsm4mM8rvAhiz1lu9T6CbN3vWCF4S/94k38Vgzt5VsgQek
-         Vkxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747993285; x=1748598085;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C5RCLTVKweqVbXma+/l5+xIfwGCMPUgYyLPaDRueRxk=;
-        b=r7wmiM7jkMV3T5NA9QqqOTqMhtSiFkfmOfmCqzi2SXZNNN2WoO9W8tKc9rOzQ/ZqWu
-         mOwNvJ645xMXSfjEgyZxc7tlJoeVSBlfdHFwOUImQsXmjHatf+iMxfjXfHhKvdNswWoe
-         8KprsXQisEe0tPMcOhnXXvw2vFOzkF5Onx5Gtx1bjdGRyGzW0HtVzy6ajpIoyKux8Bjb
-         ITZxLWWsVmdBquY3AbzifpMwMPtttspZV4f36EUgNgHwumLzmLrSvhQxWMdiMPKJP9Im
-         hb1ngB4uoZW1hyZOBaXENJqwUbenXQKVzntYMwRJrUaIuixPuUaa+6asnmtqp9Rs3x0A
-         vluA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5+GiYd9xh6X9HLorLIHi3zV9OhAfFD8VUH9wYKOMKz2P8JswICf0liKaKebGxPv8qaRbW8YLs5wRAvjN5afwFQg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxaAv6jyu3GPS7R+ZGzewc0BDkr1PfWFoxBYRMOXpzFjW7pHiqO
-	M3lqXRzmCiDR88Wlq+nV3ufAucc2w+sVP5uysmKlIu5lNXkSdv6pmd3d
-X-Gm-Gg: ASbGncu0muQ0B/Ca/1gkzjlxSfQ7e0RcN3bQwpljVRN5kbmOdeXq0GhjgxXwEJvgOaH
-	XGC4HhhcDsDhkx6/rLU5kkNFlm8EtY3xQzF2R+UBMLPsZ1dNADpe8N0WLN9dHokqaq9oKNkSI5r
-	BGqGxKdEXNJ+cSSMNGuvVCpECxsBOmLo1lkJTWzdHNTIRGpk2oCRtn+wNRm++cFAPhpRUjE9aIU
-	wJM9Tu5nF1LKZYIWdQ09Io5I+2Fg2P1DoXyah8HQXdZr0jyohVAzMgBS0DlvRpVIMBHvxuLCrNG
-	UDx+tyR231Z0rWIJw+Rmv2H9lXBRtdYqYK4zNDF6uWUHqx61hXzoLgeFOjg0NcQ2sMfUtw==
-X-Google-Smtp-Source: AGHT+IG9S/bfwMF7Sfslrh+pG3Z/vqAmksQWAC6jC8CwJDJlv81eyFrsAvWiZpugKhn0M+RJTJF1GQ==
-X-Received: by 2002:a05:6000:2504:b0:3a3:6dc6:4bbb with SMTP id ffacd0b85a97d-3a36dc64d82mr17956493f8f.58.1747993285068;
-        Fri, 23 May 2025 02:41:25 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a360b0b766sm25720633f8f.56.2025.05.23.02.41.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 May 2025 02:41:24 -0700 (PDT)
-Message-ID: <f48d6366-07bf-442c-8d2f-96a826faf946@gmail.com>
-Date: Fri, 23 May 2025 11:41:24 +0200
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=I/2mhlOz;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-20250523094219605aee8e876b1b0e6b-tq_xjl@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250523094219605aee8e876b1b0e6b
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 23 May 2025 11:42:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=qXcbTlL79kE7PS7CvJzhaUCoGK5Kg1s0rVzR6cTGYoQ=;
+ b=I/2mhlOzFv4UcbP3JJhQ9RUKq3dsQDMy8slFW5Ifo1MzeIKxg6RArDOp2uba9qQN9Po+HH
+ TEPnpinn1QNPnQzOjySpdslJANChwTGykIGmUC9jQYks3t1lA7RV9E4x4599m4xXeDOz82ff
+ 3x+NeBJMr752U+gjsZJ1VTXJvd2JpXGmNkluBx937TUMEo5h/BPpL3pkdKd0TzJOyNTbLBwX
+ aQyWv2YxR6xyaTOpa9oRMSqLAaRgaeEB86p4I6fMcuqhX7rOCSnZtpo0BYgfBN4V2BY0Jban
+ +l+y74FKQS9n9NLLxsz9rAyEQcQHimL+p4lvvc9x2k2ljLwZQhoEHuqg==;
+From: AdrianF <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: marex@denx.de,
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v5 13/17] oe-selftest: fitimage refactor classes
+Date: Fri, 23 May 2025 11:41:14 +0200
+Message-ID: <20250523094152.727177-14-adrian.freihofer@siemens.com>
+In-Reply-To: <20250523094152.727177-1-adrian.freihofer@siemens.com>
+References: <20250523094152.727177-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] ca-certificates: postinst shift count out of range
- error
-To: WXbet@proton.me, openembedded-core@lists.openembedded.org
-References: <HrS5.1747939211095331723.J22A@lists.openembedded.org>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <HrS5.1747939211095331723.J22A@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 09:41:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217183
+ <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 09:42:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217186
 
-On 5/22/25 20:40, WXbet via lists.openembedded.org wrote:
-> We see the following error maybe introduced with commit
-> ca-certificates: submit sysroot patch upstream, drop default-sysroot.…
-> · openembedded/openembedded-core@90d9f0b
-> <https://github.com/openembedded/openembedded-core/commit/90d9f0ba674d4fe8e9291f0513c13dff3775c545#diff-fea5ef51cd53e027c02d43f853be31c492bdbe8de48cfbe268bb6b1bcad5f162>
->
-> Configuring ca-certificates.
-> /usr/sbin/update-ca-certificates: line 75: shift: shift count out of range
-> error: pkg_run_script: package "ca-certificates" postinst script
-> returned status 1.
-> error: opkg_configure: ca-certificates.postinst returned 1.
->  
->
-> The postinst part in ipkg looks like:
-> set -e
->     $D/usr/sbin/update-ca-certificates --sysroot $D
->
-> Created from:
-> https://github.com/openembedded/openembedded-core/commit/90d9f0ba674d4fe8e9291f0513c13dff3775c545#diff-d521676128cddb868864b5c8355a22f3245674db0e721c3458f7c35681ebd712R64-R65
-> Parameter $D is empty and so the shift-command fails.
->
-> Looks like there is a missing slash at the end of
-> `$D${sbindir}/update-ca-certificates --sysroot $D`
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-I think it should be either the slash at the end, of maybe something
-like this:
+Make the new KernelFitImageRecipeTests class the one that contains the
+code, and keep the KernelFitImageTests class as the one that just adds
+back the same tests. This will make it easier to delete the tests later,
+which will hopefully become obsolete when the kernel-fitimage.bbclass
+class is no longer needed.
 
-[ -n "$D" ] && sysroot_args="--sysroot $D"
-$D${sbindir}/update-ca-certificates $sysroot_args
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/lib/oeqa/selftest/cases/fitimage.py | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-To me, the below conditional shifting seems a bit like hiding a user error.
-
->  
-> or
->  
-> the shift error in update-ca-certificates could be avoided with a
-> patch like this:
->
-> diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
-> index 91d8024..0122c99 100755
-> --- a/sbin/update-ca-certificates
-> +++ b/sbin/update-ca-certificates
-> @@ -71,7 +71,7 @@ do
->        echo "$0: [--verbose] [--fresh]"
->        exit;;
->    esac
-> -  shift
-> +  [ $# -gt 0 ] && shift
->  done
->  
->  if [ ! -s "$CERTSCONF" ]
->
->  
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#217144): https://lists.openembedded.org/g/openembedded-core/message/217144
-> Mute This Topic: https://lists.openembedded.org/mt/113252836/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index b08e991607d..e96f8beb806 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -410,7 +410,7 @@ class FitImageTestCase(OESelftestTestCase):
+         self._check_fitimage(bb_vars, fitimage_path, uboot_tools_bindir)
+ 
+ class KernelFitImageBase(FitImageTestCase):
+-    """Test cases for the kernel-fitimage bbclass"""
++    """Test cases for the linux-yocto-fitimage recipe"""
+ 
+     def _fit_get_bb_vars(self, additional_vars=[]):
+         """Retrieve BitBake variables specific to the test case.
+@@ -450,15 +450,13 @@ class KernelFitImageBase(FitImageTestCase):
+         return bb_vars
+ 
+     def _config_add_kernel_classes(self, config):
+-        config += '# Use kernel-fitimage.bbclass for the creation of the fitImage' + os.linesep
+-        config += 'KERNEL_IMAGETYPES += " fitImage "' + os.linesep
+-        config += 'KERNEL_CLASSES = " kernel-fitimage "' + os.linesep
++        config += '# Avoid naming clashes in the deploy folder with kernel-fitimage.bbclass artifacts' + os.linesep
++        config += 'KERNEL_DEPLOYSUBDIR = "linux-yocto-fitimage"' + os.linesep
+         return config
+ 
+     @property
+     def kernel_recipe(self):
+-        # virtual/kernel does not work with SRC_URI:append:pn-%s
+-        return "linux-yocto"
++        return "linux-yocto-fitimage"
+ 
+     def _config_add_uboot_env(self, config):
+         """Generate an u-boot environment
+@@ -744,7 +742,7 @@ class KernelFitImageBase(FitImageTestCase):
+             self.assertEqual(found_comments, num_signatures, "Expected %d signed and commented (%s) sections in the fitImage." %
+                              (num_signatures, a_comment))
+ 
+-class KernelFitImageTests(KernelFitImageBase):
++class KernelFitImageRecipeTests(KernelFitImageBase):
+     """Test cases for the kernel-fitimage bbclass"""
+ 
+     def test_fit_image(self):
+@@ -984,16 +982,18 @@ FIT_HASH_ALG = "sha256"
+         bb_vars = self._fit_get_bb_vars()
+         self._test_fitimage(bb_vars)
+ 
+-class KernelFitImageRecipeTests(KernelFitImageTests):
+-    """Test cases for the linux-yocto-fitimage recipe"""
++class KernelFitImageTests(KernelFitImageRecipeTests):
++    """Test cases for the kernel-fitimage.bbclass"""
+ 
+     @property
+     def kernel_recipe(self):
+-        return "linux-yocto-fitimage"
++        # virtual/kernel does not work with SRC_URI:append:pn-%s
++        return "linux-yocto"
+ 
+     def _config_add_kernel_classes(self, config):
+-        config += '# Avoid naming clashes in the deploy folder with kernel-fitimage.bbclass artifacts' + os.linesep
+-        config += 'KERNEL_DEPLOYSUBDIR = "linux-yocto-fitimage"' + os.linesep
++        config += '# Use kernel-fitimage.bbclass for the creation of the fitImage' + os.linesep
++        config += 'KERNEL_IMAGETYPES += " fitImage "' + os.linesep
++        config += 'KERNEL_CLASSES = " kernel-fitimage "' + os.linesep
+         return config
+ 
+ class FitImagePyTests(KernelFitImageBase):
+-- 
+2.49.0
 
 
