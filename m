@@ -1,244 +1,86 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CD0C54ED1
-	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 14:23:51 +0000 (UTC)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
- by mx.groups.io with SMTP id smtpd.web10.49239.1748010229615882468
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE1CC54ED0
+	for <webhook@archiver.kernel.org>; Fri, 23 May 2025 15:11:31 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.50728.1748013084512591750
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 May 2025 07:23:49 -0700
+ Fri, 23 May 2025 08:11:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Qd1jU0TP;
- spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2e3e58edab5so2639391fac.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 07:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748010229; x=1748615029; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TIxkIo55lc2iYivC/Q2I3cLo3egBTATVS8A+FZP6dIk=;
-        b=Qd1jU0TP2DY/0zgzyCU+/1UZLzPiaqzrLfMzapN+xAF5yTk1RwFYmaWjMP3rb8pC7Y
-         vurzLfMix4Zuz3Jt3BJH0Dh2y1xYSbgLwEmLX9MMgVqLPiSb8Rw0UmQmbwLqpsqSKZm8
-         UsChBJ+pU7MC4Izo0zHErREs1x8rTO/URafED9gpN1hA1qkFc+HHLAms2jxfS8GGGlTb
-         pa5ONqoWgYiVX0xLj7vbsifGyZgaXZmgz1ps6Nhin0LZVi0PCgj9LowxXlIivr9Y9LTK
-         A7jyUuNpdpL3og+7V09OwxKVh6cHjIy3FDWXNVogirKG0iRIrXxKlg7+Cjq5IJr1SwXM
-         0Ofg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748010229; x=1748615029;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TIxkIo55lc2iYivC/Q2I3cLo3egBTATVS8A+FZP6dIk=;
-        b=N1eAWyd6eRGRcO5k8PO5qntiP3D2KzzJRvcnos3U30w155lBkqwyzu1rB6Mjw2EHtb
-         19v+BiBXTqR3nPYUFdxHdAZdbm415tq9VAG9ecy3wmzQBHzlgTV5/EqtJFV1LH6qa4vd
-         y/X7ZE2mPlqW1J+QKpqHQKuWWhNIUyA14hgoBo6bbEkaSbPkEa9hRsAYkHt50gNiQpwz
-         FVCP1HVe9cDQ6WoXFnQvKkeij3atFvZOikrpGx5chwD/TH0IktA6mSoX+VompNfAUO1a
-         BzsvjTSgUX3wc1E0HSysG3y9zYdP8OzRj9ywF/wNHmIlKCF+nSrnR8DQj4JrHjzjyJbp
-         ftIA==
-X-Gm-Message-State: AOJu0Yz1AxAMSsS7S8DttTAzOY1pqSfih/JtIiO+ipTiQaxpjrFJfCQt
-	DVeEWJXIWVTWtLoLqLsOGgmJ5R4LrSaIlEue7GcxWwpVWd30Hnw0Sma3LAx1LZdihX18CyFA9hs
-	016djYIAoov3p6U9O0WSmjk4uZu00CsZHQPvK
-X-Gm-Gg: ASbGncutAWr3lRgFKpM7tAH3vLNrpkqH5cYwhi0bVl4HIzObHoS8+hC6NRbdkgdEGy7
-	t8wWwIOMg4/fGPVnd4BeKzMXYnMjvasam2wg9nosnUVOUBkmnnw1gYYN/SeBiT2y0IZ23/IMe6m
-	6reKplE6AjmHSwwQqJsmYdOClaCCj6oiMW5ChqxfpsstHyhB3TeXBsvzvf606RcQSYcQ==
-X-Google-Smtp-Source: AGHT+IHjj91OZMskXDHnVZDQaOKkbsqVGhdBW+VBOsIpGK6eWkaEOHYogk4uaClnAbehrEPXY/K9iJx68tNmkgLfEn8=
-X-Received: by 2002:a05:6870:4f0e:b0:2cc:3530:d313 with SMTP id
- 586e51a60fabf-2e3c84d597bmr15515921fac.25.1748010228633; Fri, 23 May 2025
- 07:23:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <c8872756-9150-410b-9dee-01a0248ceeb3@gmail.com> <26223.1747984985015269889@lists.openembedded.org>
-In-Reply-To: <26223.1747984985015269889@lists.openembedded.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 23 May 2025 07:23:37 -0700
-X-Gm-Features: AX0GCFvJDwd1auXB8_LzgUJ_eJs39A8aDmBRIDww9cyku6ISuTDJ-jrAkpNZe8M
-Message-ID: <CAMKF1sp+uqRyf7+_7Gp-7pz0hmWv3_Zw-t6cMCDjEY1Huvwo1w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] binutils: Fix CVE-2025-1180
-To: Harish.Sadineni@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000bdd7a20635ce58d1"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=AMzpJ4ka;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 961001FCEA;
+	Fri, 23 May 2025 15:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1748013082;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WjFVPnJft6CPa+pWtu9QbX/fUDAR3kBvDWYDMuKKaY8=;
+	b=AMzpJ4kagU1c5lkDC6MQ7P8sl7y36LO6QcMqSP8aFuGqvk4NYWS0oFf9kp2rFVL2Inh3PI
+	esGoxsr/93j4KHHBb/hPqmpWuwbPN0FY82w4bJt7phoZfSIXI0ghrJ7q7u5BqLlspNJkPP
+	yrhNOtK5y+F1YICT/T+E2iwKSuVB3tgBJUT9MH+ajIAPiIvmUqzPAUYZTvbAYVz2GZlw0X
+	V2y6lnMhBDTbqRGSoho788QWFIZBWPv+DxEh0aJ78+9beNWtIiq4lilulbcFnjcjvZbRcq
+	boXxx3sc3n0w864JM2w4WSECf9ftIlLn94HKwEqUGEmwn3to1UV7EcqfYk9qtw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 23 May 2025 17:11:22 +0200
+Message-Id: <DA3MX857XCJV.1B59UF4ZXWM40@bootlin.com>
+Subject: Re: [OE-core] [PATCH] busybox: rm faulty .config arg to
+ merge_config.sh
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <joakim.tjernlund@infinera.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250522225348.2412108-1-joakim.tjernlund@infinera.com>
+In-Reply-To: <20250522225348.2412108-1-joakim.tjernlund@infinera.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdeludejucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevvddvhfehgeetgfehteejuedvieevfeehhfeikeehfedvjeelleetjeeigfetieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepjhhorghkihhmrdhtjhgvrhhnlhhunhgusehinhhfihhnv
+ ghrrgdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 14:23:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217213
+ <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 15:11:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217214
 
---000000000000bdd7a20635ce58d1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Thanks for the update
-
-On Fri, May 23, 2025 at 12:23=E2=80=AFAM Sadineni, Harish via lists.openemb=
-edded.org
-<Harish.Sadineni=3Dwindriver.com@lists.openembedded.org> wrote:
-
-> Test result summary for binutils with before and after applying the patch=
-:
+On Fri May 23, 2025 at 12:53 AM CEST, Joakim Tjernlund via lists.openembedd=
+ed.org wrote:
+> .config is implicit and also an output file, its precence confuses
+> merge_config.sh to not apply .cfg fragments.
 >
-> Component Metric Without Patch With Patch Change
-> *binutils* Expected passes 310 310 =E2=80=94
->   Unexpected failures 1 1 =E2=80=94
->   Untested testcases 1 1 =E2=80=94
->   Unsupported tests 9 9 =E2=80=94
-> *gas* Expected passes 2017 2017 =E2=80=94
->   Unexpected failures 4 4 =E2=80=94
->   Unsupported tests 1 1 =E2=80=94
-> *ld* Expected passes 1787 1787 =E2=80=94
->   Expected failures 7 7 =E2=80=94
->   Unresolved testcases 1 1 =E2=80=94
->   Untested testcases 20 20 =E2=80=94
->   Unsupported tests 99 99 =E2=80=94
->
-> There is no regressions in test results.
->
-> Thanks,
-> Harish
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#217178):
-> https://lists.openembedded.org/g/openembedded-core/message/217178
-> Mute This Topic: https://lists.openembedded.org/mt/113245812/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> Signed-off-by: Joakim Tjernlund <joakim.tjernlund@infinera.com>
+> ---
 
---000000000000bdd7a20635ce58d1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Joakim,
 
-<div dir=3D"auto">Thanks for the update=C2=A0</div><div><br><div class=3D"g=
-mail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On =
-Fri, May 23, 2025 at 12:23=E2=80=AFAM Sadineni, Harish via <a href=3D"http:=
-//lists.openembedded.org">lists.openembedded.org</a> &lt;Harish.Sadineni=3D=
-<a href=3D"mailto:windriver.com@lists.openembedded.org">windriver.com@lists=
-.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
-iv>Test result summary for binutils with before and after applying the patc=
-h:<br><br>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Metric</th>
-<th>Without Patch</th>
-<th>With Patch</th>
-<th>Change</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>binutils</strong></td>
-<td>Expected passes</td>
-<td>310</td>
-<td>310</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td>=C2=A0</td>
-<td>Unexpected failures</td>
-<td>1</td>
-<td>1</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td>=C2=A0</td>
-<td>Untested testcases</td>
-<td>1</td>
-<td>1</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td>=C2=A0</td>
-<td>Unsupported tests</td>
-<td>9</td>
-<td>9</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td><strong>gas</strong></td>
-<td>Expected passes</td>
-<td>2017</td>
-<td>2017</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td>=C2=A0</td>
-<td>Unexpected failures</td>
-<td>4</td>
-<td>4</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td>=C2=A0</td>
-<td>Unsupported tests</td>
-<td>1</td>
-<td>1</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td><strong>ld</strong></td>
-<td>Expected passes</td>
-<td>1787</td>
-<td>1787</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td>=C2=A0</td>
-<td>Expected failures</td>
-<td>7</td>
-<td>7</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td>=C2=A0</td>
-<td>Unresolved testcases</td>
-<td>1</td>
-<td>1</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td>=C2=A0</td>
-<td>Untested testcases</td>
-<td>20</td>
-<td>20</td>
-<td>=E2=80=94</td>
-</tr>
-<tr>
-<td>=C2=A0</td>
-<td>Unsupported tests</td>
-<td>99</td>
-<td>99</td>
-<td>=E2=80=94</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div><br>There is no regressions in test results.<br><br>Thanks,<br>Harish<=
-/div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#217178): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/217178" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/217178</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113245812/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/113245812/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+Thanks for your patch.
 
---000000000000bdd7a20635ce58d1--
+It looks like this is breaking the build on the autobuilder, maybe only
+with poky-altcfg distro.
+
+Here is the error:
+
+ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Postinstall scriptlets of =
+['busybox'] have failed. If the intention is to defer them to first boot,
+then please place them into pkg_postinst_ontarget:${PN} ().
+Deferring to first boot via 'exit 1' is no longer supported.
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/1665
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/10/builds/1685
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/1690
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/74/builds/1670
+
+Can you have a look at this error please?
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
