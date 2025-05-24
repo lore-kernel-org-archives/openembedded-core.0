@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A43FAC54FC6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 907C9C54F30
 	for <webhook@archiver.kernel.org>; Sat, 24 May 2025 13:37:04 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.7114.1748093816850941352
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.7113.1748093815113274478
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 May 2025 06:36:56 -0700
+ Sat, 24 May 2025 06:36:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FS012yhN;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-310efa0c4c1so694793a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 06:36:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=o5Tq/FRx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-30ea7770bd2so937813a91.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 06:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748093816; x=1748698616; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748093814; x=1748698614; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9w13KleNaGKqsG8vFEXD+Cus3tp1vfges6ND1VhhtXo=;
-        b=FS012yhNj8dnDh67B0ZuXk4TbetPa7F034tMqr82b/6uZXKSbZXVWmgOBwMqN5dVxO
-         DatvcmVI2FnFHS7YpvUpTWFOn3nuN1wPXCsIRT5HKB2Z73QT5GEb+PL+Dg+lJvTlv/je
-         gorskxARfEz0emOfgKE6z6S0a9n+yFQz9+Acw5avRkvqvg/gEkX68nr//WtQFdhALDcC
-         Ta8sVNzyWlTn+cIi/zETscuACWFFNA9boCiRyEAN42I+4IMXF9AN6nYHwcweh4TkT52+
-         4O7TGj/rqB8UfXIQCvc589HZ0JtAXlmwVS+KRiBquz/OYObXUQiRzndncJE2A5VJ4L4g
-         2Wtw==
+        bh=z+ACKWBP0L8jXEOSnVhX8kvype/db1ltl921TvIxh4o=;
+        b=o5Tq/FRx+TmdAsmMSoXt9syLrGDugj1R/PQoNjjhxrqmnEItvLAl5AA5N5bdi05ovs
+         8Z2VACsPN+hg0XL8LKCHxq7qe/MbN9GqT2biz5+lE+7UiL7P2anmWgaHkd8M+88VO5kJ
+         SaFyKZGYpCBa3RhNm/ixFBTqf9x5slUu8E+dh4KyUqONnVLxjQ0i/6HQ/YCZviNmW7kN
+         HuC5GxDPLFAMuNv+2w8yvB2pvMia/GWPoemRDW7l1xdLYYVHjbiMaY8LdGmIy/W1tJMw
+         FBiWMdspjeLLIJ3KEsOsOMfdzHYBuhOn0yWx8wC019NC6fiJlhdz+Z0vRwtvlckcO/My
+         RkFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748093816; x=1748698616;
+        d=1e100.net; s=20230601; t=1748093814; x=1748698614;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9w13KleNaGKqsG8vFEXD+Cus3tp1vfges6ND1VhhtXo=;
-        b=hn2oJ3OKvFnCNdQ69LKL5R2SZtCHsOMRgfGnExl+QdSjxAECXNgOu/dOkhhp7ncIHa
-         +sRP/xfSoEwPFb6jqKQwN4ipOoN1Rpoa/uqV6jP98fMx6B/Z+C6G/4qbIqAC+lTyEGdw
-         C0JuSp3pFzR9NfAZ9MQm/lYAuiTqghhQB7ch4vzQmqfyEdW5xC60HHu2R/9hcsSAxBqF
-         x2P5ktg95NPtH/BjgvieXd7FcZNy5aUe3dpTqRxWUpjjyQqqyr9EfZ+jkAQ24WXamBU5
-         pUcadg8/pFUbmS45B0MqomE7QQBr96sMUdM3YPsJZpMvnsEmjZwGIn2MoTfGBtLkhRfw
-         7t3w==
-X-Gm-Message-State: AOJu0Yx+btl7C6l4gpiMeCd2OKIJeWXheu7s1WDd5jT1US0G6/VylmSP
-	TCpkPadlYGSNpelEdK1CKiA6rg7MZ/6OtlCw3YFbLcIilraYU93SSQp3wLWT7uUqr2vaKYe3x0z
-	0dkT+
-X-Gm-Gg: ASbGncvb8NPSoc9iDpaq/GTfpImL9dbF9nDhC+/+gq8D+XREoG0hn2af9hTPm05EeNc
-	dM92tx7KvXE9YOHolu65caoigqT+3NtXH1W8Pg9ZDdUv4g+3lm7B11acTbqIwGEt4RQ2W1LQAU9
-	/QG03XfJhCx7FH3gnICpsBrjuC2i2oeBBYBcI+hbmpiNSEUPk7k/0qFA72Gf40Zni0I6hF14EM7
-	wUajX5SkNgiXL3g6jCTCF9adweJgciL26gywVXEvbaWiEfn3/UGx9CunDmJ3w7AIvHf/xXOm2OX
-	QPIuTn95PpZjE3gwltB5phEWLfQS2KGDUJWvUOkGNbQ=
-X-Google-Smtp-Source: AGHT+IHkmsQZeN8wVH/JiZB7UBKH8ubt4W6S/wI/wOxNGBOAbcZLuT9dqqgFLG7ADmxiPjOD82cU3A==
-X-Received: by 2002:a17:90b:5111:b0:30e:9aa2:6d35 with SMTP id 98e67ed59e1d1-3110f0858a5mr5807714a91.0.1748093815972;
-        Sat, 24 May 2025 06:36:55 -0700 (PDT)
+        bh=z+ACKWBP0L8jXEOSnVhX8kvype/db1ltl921TvIxh4o=;
+        b=mmHVy8V5uVPgxJXzgmRkHGX29qvqgpDpYZQWt8yLXI499NNQ4Yr3mBAcq66CMjLEnt
+         LN2eF+Ni+8vFckbMEHCh0cXNEDe7MRpFIUnFx9Gd+fUVksgN1KytFDhT1hobd4IJCKkr
+         hYe78BDYGkzvxDLeitBAwGifLu0T5Hozgbvd2cPwmoCKuk9Bb2TWluJGid0P8Te1NaF6
+         JKGt3SW68GCfD2gh/rwENvNd/nvJH19bl/tolqWYawUyv7TeZ+99g+bcuJx9ofWvkkmv
+         BgqD0e9DAWAAE1KjZ/AVpwPmINHRMxf/kM4PlwElE87qQrMaDKEEqYsfcd/2BY9RulU3
+         gRKw==
+X-Gm-Message-State: AOJu0YxYI++XODtKM68G8iI1Lj72Du4ZKfHm2p8T8EBFRXod0jCiBBsH
+	bq/7AeJZhpkn0VtUmukwlf6xkW31tbQDPUwMkCzZBRuKLPhGQ4LxQfzgvD9rNU43C0wp2J3p1Gq
+	rUnYM
+X-Gm-Gg: ASbGncszYjS+xWJX/fNusxsm3HDfXWV0oAqqyEmfMcXI1nWEyHOkcinI1SfdalOBL3A
+	49U5PsekYQR3Ib5moQFAty7yrf93nM7xWNYkyWfi3sQpKP1PR4Gk9IMm9b3+EX///sGPXQvhDjd
+	ub3G141n83yaJgxxFdQyeycY6qZghTk2B3aVZ2Am47Pat6n78yaAtkmT87D6FTikVmBebmsb001
+	ECuqQ+STAV4J7FLZTFhRq+0zMsLOpZiYdoVZ2+zEXi3A5zi2CyDBdsLy2BH44+bneb/0LoIH2zA
+	md7dNctxRuvTyKoAMmPOMEeiTXYaXjJBxhjNhDhj348=
+X-Google-Smtp-Source: AGHT+IEyS2Hv9fwJIS2Q3sprP3jKXMuB6houIMcEJQjHkijUfitDa76PY/825sWV4EQifo0JnWj3KA==
+X-Received: by 2002:a17:90b:3851:b0:2fe:8c22:48b0 with SMTP id 98e67ed59e1d1-3110f10afbcmr5177477a91.15.1748093814154;
+        Sat, 24 May 2025 06:36:54 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3157:44bf:9f62:fea8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365c4f9csm9058913a91.20.2025.05.24.06.36.55
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365c4f9csm9058913a91.20.2025.05.24.06.36.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 May 2025 06:36:55 -0700 (PDT)
+        Sat, 24 May 2025 06:36:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/12] ruby: fix CVE-2025-27221
-Date: Sat, 24 May 2025 06:36:26 -0700
-Message-ID: <c77ff1288719d90ef257dfe28cb33b3768fc124a.1748093626.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 09/12] glib-2.0: fix CVE-2025-4373
+Date: Sat, 24 May 2025 06:36:25 -0700
+Message-ID: <7a7319745637d4b681935ae71706dcc467df3040.1748093626.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1748093626.git.steve@sakoman.com>
 References: <cover.1748093626.git.steve@sakoman.com>
@@ -67,186 +67,206 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 13:37:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217235
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217234
 
-From: Divya Chellam <divya.chellam@windriver.com>
+From: Praveen Kumar <praveen.kumar@windriver.com>
 
-In the URI gem before 1.0.3 for Ruby, the URI handling methods
-(URI.join, URI#merge, URI#+) have an inadvertent leakage of
-authentication credentials because userinfo is retained even
-after changing the host.
+A flaw was found in GLib, which is vulnerable to an integer overflow
+in the g_string_insert_unichar() function. When the position at which
+to insert the character is large, the position will overflow, leading
+to a buffer underwrite.
 
-Reference:
-https://security-tracker.debian.org/tracker/CVE-2025-27221
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2025-4373
+https://security-tracker.debian.org/tracker/CVE-2025-4373
 
 Upstream-patches:
-https://github.com/ruby/uri/commit/3675494839112b64d5f082a9068237b277ed1495
-https://github.com/ruby/uri/commit/2789182478f42ccbb62197f952eb730e4f02bfc5
+https://gitlab.gnome.org/GNOME/glib/-/commit/cc647f9e46d55509a93498af19659baf9c80f2e3
+https://gitlab.gnome.org/GNOME/glib/-/commit/4d435bb4809793c445846db8fb87e3c9184c4703
 
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ruby/ruby/CVE-2025-27221-0001.patch       | 57 +++++++++++++++
- .../ruby/ruby/CVE-2025-27221-0002.patch       | 73 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.1.3.bb      |  2 +
- 3 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0001.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0002.patch
+ .../glib-2.0/glib-2.0/CVE-2025-4373-01.patch  | 120 ++++++++++++++++++
+ .../glib-2.0/glib-2.0/CVE-2025-4373-02.patch  |  29 +++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |   2 +
+ 3 files changed, 151 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0001.patch b/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0001.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
 new file mode 100644
-index 0000000000..4dd2e55b1c
+index 0000000000..5b43850c53
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0001.patch
-@@ -0,0 +1,57 @@
-+From 3675494839112b64d5f082a9068237b277ed1495 Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Fri, 21 Feb 2025 16:29:36 +0900
-+Subject: [PATCH] Truncate userinfo with URI#join, URI#merge and URI#+
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-01.patch
+@@ -0,0 +1,120 @@
++From cc647f9e46d55509a93498af19659baf9c80f2e3 Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Thu, 10 Apr 2025 10:57:20 -0500
++Subject: [PATCH 1/2] gstring: carefully handle gssize parameters
 +
-+CVE: CVE-2025-27221
++Wherever we use gssize to allow passing -1, we need to ensure we don't
++overflow the value by assigning a gsize to it without checking if the
++size exceeds the maximum gssize. The safest way to do this is to just
++use normal gsize everywhere instead and use gssize only for the
++parameter.
 +
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/3675494839112b64d5f082a9068237b277ed1495]
++Our computers don't have enough RAM to write tests for this. I tried
++forcing string->len to high values for test purposes, but this isn't
++valid and will just cause out of bounds reads/writes due to
++string->allocated_len being unexpectedly small, so I don't think we can
++test this easily.
 +
-+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++CVE: CVE-2025-4373
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/cc647f9e46d55509a93498af19659baf9c80f2e3]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 +---
-+ lib/uri/generic.rb       |  6 +++++-
-+ test/uri/test_generic.rb | 11 +++++++++++
-+ 2 files changed, 16 insertions(+), 1 deletion(-)
++ glib/gstring.c | 36 +++++++++++++++++++++++-------------
++ 1 file changed, 23 insertions(+), 13 deletions(-)
 +
-+diff --git a/lib/uri/generic.rb b/lib/uri/generic.rb
-+index cfa0de6..23d2398 100644
-+--- a/lib/uri/generic.rb
-++++ b/lib/uri/generic.rb
-+@@ -1131,7 +1131,11 @@ module URI
-+       end
-+ 
-+       # RFC2396, Section 5.2, 7)
-+-      base.set_userinfo(rel.userinfo) if rel.userinfo
-++      if rel.userinfo
-++        base.set_userinfo(rel.userinfo)
-++      else
-++        base.set_userinfo(nil)
-++      end
-+       base.set_host(rel.host)         if rel.host
-+       base.set_port(rel.port)         if rel.port
-+       base.query = rel.query       if rel.query
-+diff --git a/test/uri/test_generic.rb b/test/uri/test_generic.rb
-+index fdb405e..b74f8e6 100644
-+--- a/test/uri/test_generic.rb
-++++ b/test/uri/test_generic.rb
-+@@ -157,6 +157,17 @@ class URI::TestGeneric < Test::Unit::TestCase
-+     assert_equal(nil, url.user)
-+     assert_equal(nil, url.password)
-+     assert_equal(nil, url.userinfo)
-++
-++    # sec-2957667
-++    url = URI.parse('http://user:pass@example.com').merge('//example.net')
-++    assert_equal('http://example.net', url.to_s)
-++    assert_nil(url.userinfo)
-++    url = URI.join('http://user:pass@example.com', '//example.net')
-++    assert_equal('http://example.net', url.to_s)
-++    assert_nil(url.userinfo)
-++    url = URI.parse('http://user:pass@example.com') + '//example.net'
-++    assert_equal('http://example.net', url.to_s)
-++    assert_nil(url.userinfo)
-+   end
-+ 
-+   def test_parse_scheme_with_symbols
-+-- 
++diff --git a/glib/gstring.c b/glib/gstring.c
++index 0a509e5..d6f8735 100644
++--- a/glib/gstring.c
+++++ b/glib/gstring.c
++@@ -424,8 +424,9 @@ g_string_insert_len (GString     *string,
++     return string;
++
++   if (len < 0)
++-    len = strlen (val);
++-  len_unsigned = len;
+++    len_unsigned = strlen (val);
+++  else
+++    len_unsigned = len;
++
++   if (pos < 0)
++     pos_unsigned = string->len;
++@@ -723,10 +724,12 @@ g_string_insert_c (GString *string,
++   g_string_maybe_expand (string, 1);
++
++   if (pos < 0)
++-    pos = string->len;
+++    pos_unsigned = string->len;
++   else
++-    g_return_val_if_fail ((gsize) pos <= string->len, string);
++-  pos_unsigned = pos;
+++    {
+++      pos_unsigned = pos;
+++      g_return_val_if_fail (pos_unsigned <= string->len, string);
+++    }
++
++   /* If not just an append, move the old stuff */
++   if (pos_unsigned < string->len)
++@@ -759,6 +762,7 @@ g_string_insert_unichar (GString  *string,
++                          gssize    pos,
++                          gunichar  wc)
++ {
+++  gsize pos_unsigned;
++   gint charlen, first, i;
++   gchar *dest;
++
++@@ -800,15 +804,18 @@ g_string_insert_unichar (GString  *string,
++   g_string_maybe_expand (string, charlen);
++
++   if (pos < 0)
++-    pos = string->len;
+++    pos_unsigned = string->len;
++   else
++-    g_return_val_if_fail ((gsize) pos <= string->len, string);
+++    {
+++      pos_unsigned = pos;
+++      g_return_val_if_fail (pos_unsigned <= string->len, string);
+++    }
++
++   /* If not just an append, move the old stuff */
++-  if ((gsize) pos < string->len)
++-    memmove (string->str + pos + charlen, string->str + pos, string->len - pos);
+++  if (pos_unsigned < string->len)
+++    memmove (string->str + pos_unsigned + charlen, string->str + pos_unsigned, string->len - pos_unsigned);
++
++-  dest = string->str + pos;
+++  dest = string->str + pos_unsigned;
++   /* Code copied from g_unichar_to_utf() */
++   for (i = charlen - 1; i > 0; --i)
++     {
++@@ -866,6 +873,7 @@ g_string_overwrite_len (GString     *string,
++                         const gchar *val,
++                         gssize       len)
++ {
+++  gssize len_unsigned;
++   gsize end;
++
++   g_return_val_if_fail (string != NULL, NULL);
++@@ -877,14 +885,16 @@ g_string_overwrite_len (GString     *string,
++   g_return_val_if_fail (pos <= string->len, string);
++
++   if (len < 0)
++-    len = strlen (val);
+++    len_unsigned = strlen (val);
+++  else
+++    len_unsigned = len;
++
++-  end = pos + len;
+++  end = pos + len_unsigned;
++
++   if (end > string->len)
++     g_string_maybe_expand (string, end - string->len);
++
++-  memcpy (string->str + pos, val, len);
+++  memcpy (string->str + pos, val, len_unsigned);
++
++   if (end > string->len)
++     {
++--
 +2.40.0
-+
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0002.patch b/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0002.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
 new file mode 100644
-index 0000000000..370b1aa66d
+index 0000000000..d5a4d8dacd
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0002.patch
-@@ -0,0 +1,73 @@
-+From 2789182478f42ccbb62197f952eb730e4f02bfc5 Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Fri, 21 Feb 2025 18:16:28 +0900
-+Subject: [PATCH] Fix merger of URI with authority component
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-4373-02.patch
+@@ -0,0 +1,29 @@
++From 4d435bb4809793c445846db8fb87e3c9184c4703 Mon Sep 17 00:00:00 2001
++From: Peter Bloomfield <peterbloomfield@bellsouth.net>
++Date: Fri, 11 Apr 2025 05:52:33 +0000
++Subject: [PATCH 2/2] gstring: Make len_unsigned unsigned
 +
-+https://hackerone.com/reports/2957667
++CVE: CVE-2025-4373
 +
-+Co-authored-by: Nobuyoshi Nakada <nobu@ruby-lang.org>
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/4d435bb4809793c445846db8fb87e3c9184c4703]
 +
-+CVE: CVE-2025-27221
-+
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/2789182478f42ccbb62197f952eb730e4f02bfc5]
-+
-+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 +---
-+ lib/uri/generic.rb       | 19 +++++++------------
-+ test/uri/test_generic.rb |  7 +++++++
-+ 2 files changed, 14 insertions(+), 12 deletions(-)
++ glib/gstring.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/lib/uri/generic.rb b/lib/uri/generic.rb
-+index 23d2398..2420882 100644
-+--- a/lib/uri/generic.rb
-++++ b/lib/uri/generic.rb
-+@@ -1123,21 +1123,16 @@ module URI
-+       base.fragment=(nil)
-+ 
-+       # RFC2396, Section 5.2, 4)
-+-      if !authority
-+-        base.set_path(merge_path(base.path, rel.path)) if base.path && rel.path
-+-      else
-+-        # RFC2396, Section 5.2, 4)
-+-        base.set_path(rel.path) if rel.path
-++      if authority
-++        base.set_userinfo(rel.userinfo)
-++        base.set_host(rel.host)
-++        base.set_port(rel.port || base.default_port)
-++        base.set_path(rel.path)
-++      elsif base.path && rel.path
-++        base.set_path(merge_path(base.path, rel.path))
-+       end
-+ 
-+       # RFC2396, Section 5.2, 7)
-+-      if rel.userinfo
-+-        base.set_userinfo(rel.userinfo)
-+-      else
-+-        base.set_userinfo(nil)
-+-      end
-+-      base.set_host(rel.host)         if rel.host
-+-      base.set_port(rel.port)         if rel.port
-+       base.query = rel.query       if rel.query
-+       base.fragment=(rel.fragment) if rel.fragment
-+ 
-+diff --git a/test/uri/test_generic.rb b/test/uri/test_generic.rb
-+index b74f8e6..ade0294 100644
-+--- a/test/uri/test_generic.rb
-++++ b/test/uri/test_generic.rb
-+@@ -260,6 +260,13 @@ class URI::TestGeneric < Test::Unit::TestCase
-+     assert_equal(u0, u1)
-+   end
-+ 
-++  def test_merge_authority
-++    u = URI.parse('http://user:pass@example.com:8080')
-++    u0 = URI.parse('http://new.example.org/path')
-++    u1 = u.merge('//new.example.org/path')
-++    assert_equal(u0, u1)
-++  end
-++
-+   def test_route
-+     url = URI.parse('http://hoge/a.html').route_to('http://hoge/b.html')
-+     assert_equal('b.html', url.to_s)
-+-- 
++diff --git a/glib/gstring.c b/glib/gstring.c
++index d6f8735..d097e2f 100644
++--- a/glib/gstring.c
+++++ b/glib/gstring.c
++@@ -873,7 +873,7 @@ g_string_overwrite_len (GString     *string,
++                         const gchar *val,
++                         gssize       len)
++ {
++-  gssize len_unsigned;
+++  gsize len_unsigned;
++   gsize end;
++
++   g_return_val_if_fail (string != NULL, NULL);
++--
 +2.40.0
-+
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-index ca061e7f70..65d62002ec 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-@@ -49,6 +49,8 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://CVE-2025-27220.patch \
-            file://CVE-2025-27219.patch \
-            file://CVE-2024-43398.patch \
-+           file://CVE-2025-27221-0001.patch \
-+           file://CVE-2025-27221-0002.patch \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+index cebd84dd50..8d2c452088 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+@@ -60,6 +60,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2025-3360-04.patch \
+            file://CVE-2025-3360-05.patch \
+            file://CVE-2025-3360-06.patch \
++           file://CVE-2025-4373-01.patch \
++           file://CVE-2025-4373-02.patch \
             "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
  
 -- 
 2.43.0
