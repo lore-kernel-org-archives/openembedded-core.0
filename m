@@ -1,156 +1,80 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D54C54ED1
-	for <webhook@archiver.kernel.org>; Sat, 24 May 2025 04:51:12 +0000 (UTC)
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web11.1924.1748062271123477403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D539C54E71
+	for <webhook@archiver.kernel.org>; Sat, 24 May 2025 08:00:23 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.web11.3304.1748073616505001346
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 May 2025 21:51:11 -0700
+ Sat, 24 May 2025 01:00:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KRr3Ki2c;
- spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-72c16e658f4so250767a34.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 May 2025 21:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748062270; x=1748667070; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TMI+QnN+dp+1CvNT+JOkCMsC728Wcwzj9Yx19MavsE4=;
-        b=KRr3Ki2cAHP0sghShqbvb8r3UYb1LIFKhE2u88qyYpN63/31aBJlpyWAFyg/Qlmqz3
-         rwdsKG66qzN+vbq1V3Ayw/U9Ksxetj4J261XXMZ0v5qZbUz0r7gAtM2dZRHvnyOeIuSS
-         /PbE4fGzBIrcv+RRjvtz+9SWfrFiBJFRNWAWgDE+koTEtdEeCfy/oAJ6A+UeAV3n3WLW
-         cnX/2tkCEm5HkJ5C/MonWic9R+2VkldvhCcAaGz1HQ/PDlJHmmxcfmh8UauofhCLFopN
-         fW2FVwaaiq2uFs44Cy8Km2t+iZNQB2Teq9LlNkTIdtuiFUkdGT8YpcPFT/J3RNkVTaYg
-         kmag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748062270; x=1748667070;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TMI+QnN+dp+1CvNT+JOkCMsC728Wcwzj9Yx19MavsE4=;
-        b=vGakOGCE8Q9/y+KbPCLUMjNSQDsQjfHGfzH8M325nN3J+nG/5CER8oU5jdzOeeT/jo
-         mfT/iCGabGe34boz5OVhgWWfIZnDayv7R8rSNqGbBKWAeidnzR+LduMxoMBaptkf3svF
-         R6LBxIP1rSOwoK6Nu2PxQ2p+i9wPmisNAj4V6U/AbtoLygBNR7EQQ2zH53Y6JjkJArRC
-         FbQ8WjhiJjM9crskVhcmUOUk7M4I09oH44WOQd7JCH8YhvtgNINbuy0wPvxXmQcRs5dg
-         Q/2V4pJUdEar86Ib+JwwjpI/meMpSf8R/gdZZCdPDZ8PvJhX2WZMQx5DY38Z77QW7bqJ
-         g+7w==
-X-Gm-Message-State: AOJu0YxwwtjLoi2fhVriXdgiEKWrQ1H2wxVte5WkGhW97ioVtJUN4TpW
-	++/vMdiS3UwJR/NPnWp4mUMM5H5eK7+YjWLgZfvUhlnhtgS5LS6qy2xQ0/AMruUt7M3E9NBuFz8
-	nKbZe/kB8tNZ/4X2SPricV1ZCVpaETrs=
-X-Gm-Gg: ASbGncvf4iPXh6E/OaF8C0N3xndkgSp/VwZHZEXNtCGg0wziVFTe2O//iIKYqnvMHWa
-	pRLofvj+fNMXAAbfHSkq9mKZpg20JPOISuylYKoQ44ag+ViXn+C7teFe3WRkoFU6R4KVG2d4t/H
-	PXRu6zpbeoCIHO3q9TV2Ck4ilJdvBfkpyv
-X-Google-Smtp-Source: AGHT+IFkVUMCsruZ3fxhQXyOAdn/KoMWzj/jfPgTnY9QNdTgYoyoJeR5wqFq7OlOKkGZubh+QH9z+mK6iVyAqhnYfq4=
-X-Received: by 2002:a05:6808:80c3:b0:404:a28c:ca4b with SMTP id
- 5614622812f47-4064682c405mr1003130b6e.20.1748062269903; Fri, 23 May 2025
- 21:51:09 -0700 (PDT)
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=jEai2KaE;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=x4M9VtRA+AdPdiyYBPrE/6nyp3pHJ9n9lxb4kHcy7I4=; b=jEai2KaE2gcnwtcMfZpxbhRKw/
+	kLEhOAatPsH+gXwCwD7RDY62tQ/ncUh+O7C8CCrjkyR7FfbCfU+krEsg8pQuwdRU9deqx0C+m++RI
+	dApGL8KVP+YRm8oPnS4VWIA16VUcCsp7q8oEvAxLRPgOtdr6CfZRY4NsYZwMJxlQVSuLk4sgIpiSR
+	v2fv17fRWOTws8BHn7i5cTxeIlZ6Z00Af4/3UleXGRCsMeNdachZngHK4cEJ5gsNHlclfAachbOtn
+	JWLxL5ypeXyRTUqHvs1BXWLgPUNsVkn3tHLgd4TgZ1XP8dmRg8TzdythMFbl+gNXD18K0URBP+O9V
+	Sr62dvFw==;
+Received: from pool-174-114-102-5.cpe.net.cable.rogers.com ([174.114.102.5]:44476 helo=asus)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.1)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1uIjne-00000002ZQA-1ay7
+	for openembedded-core@lists.openembedded.org;
+	Sat, 24 May 2025 04:00:14 -0400
+Date: Sat, 24 May 2025 04:00:01 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Getting lots of "undefined reference" building gcc for qemuarm64 on
+ Ubuntu 24.04
+Message-ID: <49771c03-6f7e-84dd-91ca-6d15ba81b097@crashcourse.ca>
 MIME-Version: 1.0
-References: <20250524035958.3809327-1-raj.khem@gmail.com> <CADkTA4Ok10vyyr7hPK75=vj-GF47zf_J+RW1LKM+t2dS4_LioQ@mail.gmail.com>
-In-Reply-To: <CADkTA4Ok10vyyr7hPK75=vj-GF47zf_J+RW1LKM+t2dS4_LioQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 23 May 2025 21:50:44 -0700
-X-Gm-Features: AX0GCFse1msk7RPNnElQqZwkA6dm7wNYP8Rhlzp0F6DkYnQEVCzFJKWI98RhYf4
-Message-ID: <CAMKF1so7kadvSTZuS5UpV42H2ra2NakAH4ToQNxaD8QM=ohMhg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-yocto: Remove debug-kernel.scc for
- riscv32 kernels
-To: bruce.ashfield@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 04:51:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217222
+ <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 08:00:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217223
 
-On Fri, May 23, 2025 at 9:12=E2=80=AFPM Bruce Ashfield via
-lists.openembedded.org
-<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
->
->
->
-> On Sat, May 24, 2025 at 12:00=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wr=
-ote:
->>
->> modpost fails to process the debug location lists for riscv32
->>
->> | ERROR: modpost: vmlinux: local symbol '__asm_copy_to_user' was exporte=
-d
->> | ERROR: modpost: vmlinux: local symbol '__asm_copy_from_user' was expor=
-ted
->> | ERROR: modpost: vmlinux: local symbol '__clear_user' was exported
->> | ERROR: modpost: vmlinux: local symbol 'xor_regs_2_' was exported
->> | ERROR: modpost: vmlinux: local symbol 'xor_regs_3_' was exported
->> | ERROR: modpost: vmlinux: local symbol 'xor_regs_4_' was exported
->> | ERROR: modpost: vmlinux: local symbol 'xor_regs_5_' was exported
->> | WARNING: modpost: vmlinux: section mismatch in reference: 0x1560 (sect=
-ion: __ex_table) -> .LASF464 (section: .debug_str)
->> | ERROR: modpost: __ex_table+0x1560 references non-executable section '.=
-debug_str'
->>
->> poky adds features/debug/debug-kernel.scc via distro policy and hence
->> the builds are failing for qemuriscv32 on AB. While this should be
->> fixed in kernel build system or tools, this makes us proceed until
->> then
->
-> The question is .. how will we ever know to revisit this ? Can we raise a=
- bug
-> To track that this needs to be reenabled later ?
->
 
-I plan to open a tracker on - https://bugzilla.yoctoproject.org/
-once its back online, but more importantly I am going to raise it in
-riscv kernel community once
-I have narrowed it a bit down.
+  Apologies if this is a well-known and resolved issue -- it's been a
+while since I did a generic OE build (been working with Wind River
+lately).
 
-> Bruce
->
->>
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
->> ---
->>  meta/recipes-kernel/linux/linux-yocto_6.12.bb | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb b/meta/recipe=
-s-kernel/linux/linux-yocto_6.12.bb
->> index fefed8c9c53..83be9fed428 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
->> @@ -72,5 +72,8 @@ KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DIS=
-TRO_FEATURES", "ptest", " cg
->>  KERNEL_FEATURES:append:powerpc =3D " arch/powerpc/powerpc-debug.scc"
->>  KERNEL_FEATURES:append:powerpc64 =3D " arch/powerpc/powerpc-debug.scc"
->>  KERNEL_FEATURES:append:powerpc64le =3D " arch/powerpc/powerpc-debug.scc=
-"
->> -
->> +# Do not add debug info for riscv32, it fails during depmod
->> +# ERROR: modpost: __ex_table+0x17a4 references non-executable section '=
-.debug_loclists'
->> +# Check again during next major version upgrade
->> +KERNEL_FEATURES:remove:riscv32 =3D "features/debug/debug-kernel.scc"
->>  INSANE_SKIP:kernel-vmlinux:qemuppc64 =3D "textrel"
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#217221): https://lists.openembedded.org/g/openembedde=
-d-core/message/217221
-> Mute This Topic: https://lists.openembedded.org/mt/113276800/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+  On a fairly freshly-installed and fully-updated Ubuntu 24.04 laptop,
+I wanted to do a demo of building a qemuarm64 core-image-minimal, so I
+did all the regular steps, the build was chugging along, and failed
+building gcc-15.1.0 with a pile of "undefined reference" errors like
+this from the log.do_compile file:
+
+
+/home/rpjday/oe/builds/qemuarm64/tmp/work/cortexa57-poky-linux/gcc/15.1.0/recipe-sysroot-native/usr/bin/aarch64-poky-linux/../../libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/15.1.0/ld:
+c/c-decl.o: in function `diagnose_mismatched_decls(tree_node*,
+tree_node*, tree_node**, tree_node**) [clone .constprop.0]':
+/usr/src/debug/gcc/15.1.0/gcc/../../../../../../../work-shared/gcc-15.1.0-r0/gcc-15.1.0/gcc/c/c-decl.cc:2292:(.text+0x33fc):
+undefined reference to `c_addr_space_name(unsigned char)'
+
+I'm sure it's something stupid on my part, I'm used to generic
+core-image-minimal builds just working. This is using the master
+branch of poky -- should I dial it back to a fixed release?
+
+rday
 
