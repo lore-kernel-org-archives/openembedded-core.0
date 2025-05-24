@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D0EEC5B541
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 940B1C5AE59
 	for <webhook@archiver.kernel.org>; Sat, 24 May 2025 13:36:54 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.7016.1748093807583469226
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.7110.1748093809174083029
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 May 2025 06:36:47 -0700
+ Sat, 24 May 2025 06:36:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bnGLwVg6;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-31122925a18so190044a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 06:36:47 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=cFEO6VVA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b26f01c638fso630639a12.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 06:36:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748093807; x=1748698607; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748093808; x=1748698608; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Unpusg62R4yFfugwvtG58oq8A1AWONlspb511AlHnLk=;
-        b=bnGLwVg6gU8noxvWntnhtecq2dXK4dqDqI7upS9S+uMmPhPL4mdalETmVr2Rh4NGOE
-         o+yGVRVXVOBGjfyqFA/NhdbFo8cQhP3RJsrytzUiI4NYYSNp7us/D113OyDX5IgdsEFa
-         s8IxYR9rJttoloBvWL3B7H0MC7F+/z/MR3dbHpAg0MVYMUfR4M5frbOt7jctJPA6Y8qD
-         E/RtzUgT32sAWiPOPWKSn1xF5Ww4Z+fSMN1i7IftoQQSnakjdoyBMtaQQmyeXnuj1Dde
-         X4osfnq16rHTPpqHD6Q2fgc5tOWQEEuoJEtMb/PWWhjqg/arJ2mDhdm5k/57oA0iVpdX
-         Tvyg==
+        bh=bvdJO3RFH1UIteeFpiIJ1YjvZn+naqavHea28C+hAo8=;
+        b=cFEO6VVAcugeP9QshagZsX3JEC2TeJYEGUOkZXUtqZX24XOT5NjbIdhS0ksScLiWFQ
+         vCqniJVFbg5DKDYUK2gbtwM2uTMS9ZZ/71RdcytRoV7baVBqRHHV5NE6uzf9jgww1sxU
+         BMHGvfr7Za078YKNRFhzoc0dE9lzK1NewnVZpgIWkgGvXAza4FIzvc/X0waao6k/6fav
+         P/Ib4qDn1Khq9pdB+3LktyZQliEDXiKWo/+/GcRXSzIc3dfLsXkETd7CH1rRuI/jxm7K
+         +nwEl1ztPcxlcGMBr6G9m+ODbZ8yq8uU7H4kLVWHpEedm5kbTGBZpiwi9qfVd2M8Us76
+         KGbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748093807; x=1748698607;
+        d=1e100.net; s=20230601; t=1748093808; x=1748698608;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Unpusg62R4yFfugwvtG58oq8A1AWONlspb511AlHnLk=;
-        b=q3+M3pEUiXnuoazIvGs4Wta0VcBROljAk/Rbm+MGGBzKkz1Z38j5W1JHcSMRUtBGLY
-         4zGU7gFkNuWdCUxwP1Wop4AxHCZCiXz2qWyV/n7ZxGVzvx5uAxrsHkewvKxu+dG1zlgN
-         drIvjl2dG4RAqPTL/yC6KGPrDY4H9+ZM28hA4/BmlZh2AEr4MpyrdiyDUv78eX+lVuvF
-         w0HasgDjdnuUzQhwXaqRW5hTnUC0jiVTL6QsG5wc3R76xyiWMWJJhratuCW0X8w7sGz/
-         gm3i165X1nlJvLAI9AQ+fm/adJ1rLhmqXCcWl1H1pkH7SMhYoMPO2sGJzXbdlEa9Fn6U
-         djjg==
-X-Gm-Message-State: AOJu0Yz6tK9rUiHcIUxuC19D1M9v5Iq2mqrj51kARo3Zzs0cTlIcF9HX
-	hMo1k4XZ5+JU8e++riZWjbG4V0qeXzXpvh13sIvFF2msIkoTGURlIw/B6OVe7rlCeB1hAhG8/tW
-	YZ9m/
-X-Gm-Gg: ASbGncv2mZPhAWI3E5npwacbF99BQY6uno2G1gstcg20WxA4Gg7JgzR1IIIJLLdgfV2
-	grM7yuyhu3FC+O0hMibi8UVUakk3TolOpYU3oYRZnLeWtaZdsUSpcV/88FwuQ0RrcWFsOIBmrBP
-	+AhH40P/576JjwZxP21tpehLMHZwzxIWMJW4NKVraE5koJt5rzwJitZ01VgtiyRex/2PND+xBUW
-	vq4u9aSeNAmLYIrMmQu67fDeb/RmXfIrmIIKaXM2n9mHJxczel1MscMiNJdWLllLigZT/+gGxhb
-	LW31KiVsNNn0TljpP7p8vHaFko4eRFuiBBLSkOEL7Oc=
-X-Google-Smtp-Source: AGHT+IGzwttOv8EKZv/2tVzYOQA9o796fQywriMTvebTUgOYxb/U3OX/T92ueg1QfYRbFzTRH7mUTA==
-X-Received: by 2002:a17:90b:4c0e:b0:2ff:7b28:a51a with SMTP id 98e67ed59e1d1-3110f920c85mr4870481a91.17.1748093806739;
-        Sat, 24 May 2025 06:36:46 -0700 (PDT)
+        bh=bvdJO3RFH1UIteeFpiIJ1YjvZn+naqavHea28C+hAo8=;
+        b=UogVI5apF0I9tHXvDhajeqZwKR3TcSB59rqMVEs4+R0fsHNPY3PDlnnPd2BaMzyT1K
+         nXNCnV4Hh6PJDrhhkTHr/Y+JdNC9Ks3XabCxzcdg4DaBtMO0lEnLBleJ+4X9Qx6AXDoX
+         nCLmPUZREjW69ptPvKy1sXzgQSftkdNAlsEIRE634HNho2wAwyLubr/QT9twaQvWVtAc
+         OlJXeFh1cIuVL1REyY/v0WR/+AH3Z+q466GrGXf8IoKTbO7FVlqLwYMhp4C04l8y0S1l
+         dmgqvBFrNspig9v/rWtVJPpwgxfptryyFd+W6cE/p7/rBH469wbXyzb4vnLciUXvT7mT
+         id6g==
+X-Gm-Message-State: AOJu0Yx7x+Q1iyAqJmjAMtW2+4LR6AcWppKQfIqaqb3qeLZZQ8yXgxrK
+	5YqhEdCkhA3K76I7ZNGAw792BblIiG7VxJf+B+lb6KlycrHYEUybV7DpSFGkh7SQixoXCSc+pj0
+	y4hTd
+X-Gm-Gg: ASbGncu0WBuDlD4F+0aOAmWwLGgZgrAk6ZSK3xcL5rz/d7WiS+74C9fiDC0esciTkq2
+	lGmMR+5CQGGJuWw9SXX7txh7BpfjKc9Su1XQ24S0pknxhP7fqyoMZIpA7XJDyXohxfhdzUVR/eR
+	cxt3kzz697YBWw6UJ26X+IuuzVwqMfJKdh+EfEhxECrANCJhYSGXi0Vjs+y1wVAnZDIIgEt9QLw
+	5ag1YTuaZShQ4bR4xa80tBmFEBpyyI+ZDPeV9WJsxbTL4Y/ihjvvFlx5EmLDcJFpZROee4It1i8
+	kvrpL1w/2AH27o/wc2Dp1C59UdEx0u2zGqpIogwhn9EoLld1cO0W9g==
+X-Google-Smtp-Source: AGHT+IEtRSHBnAoO1fk2QB47HJDmQNRkigS1j61Oq7PyBYg2zVFoEbt3FhFBrL89lfO4qESC94EcQA==
+X-Received: by 2002:a17:902:fc84:b0:231:cec7:34f8 with SMTP id d9443c01a7336-23414fe5583mr43052535ad.47.1748093808329;
+        Sat, 24 May 2025 06:36:48 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3157:44bf:9f62:fea8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365c4f9csm9058913a91.20.2025.05.24.06.36.45
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365c4f9csm9058913a91.20.2025.05.24.06.36.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 May 2025 06:36:46 -0700 (PDT)
+        Sat, 24 May 2025 06:36:48 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/12] libsoup-2.4: Fix CVE-2025-32911 & CVE-2025-32913
-Date: Sat, 24 May 2025 06:36:22 -0700
-Message-ID: <ff1896b14347c7b4a166716338d3822da97be2e4.1748093626.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 07/12] libsoup-2.4: Fix CVE-2025-32912
+Date: Sat, 24 May 2025 06:36:23 -0700
+Message-ID: <e66218f6cda7de046bace6880ea5052900fd6605.1748093626.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1748093626.git.steve@sakoman.com>
 References: <cover.1748093626.git.steve@sakoman.com>
@@ -67,162 +67,117 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 13:36:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217231
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217232
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
 Upstream-Status: Backport from
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/7b4ef0e004ece3a308ccfaa714c284f4c96ade34
-& https://gitlab.gnome.org/GNOME/libsoup/-/commit/f4a761fb66512fff59798765e8ac5b9e57dceef0
+https://gitlab.gnome.org/GNOME/libsoup/-/commit/cd077513f267e43ce4b659eb18a1734d8a369992
+& https://gitlab.gnome.org/GNOME/libsoup/-/commit/910ebdcd3dd82386717a201c13c834f3a63eed7f
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../CVE-2025-32911_CVE-2025-32913-1.patch     | 72 +++++++++++++++++++
- .../CVE-2025-32911_CVE-2025-32913-2.patch     | 44 ++++++++++++
+ .../libsoup-2.4/CVE-2025-32912-1.patch        | 41 +++++++++++++++++++
+ .../libsoup-2.4/CVE-2025-32912-2.patch        | 30 ++++++++++++++
  .../libsoup/libsoup-2.4_2.74.2.bb             |  2 +
- 3 files changed, 118 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
+ 3 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
 new file mode 100644
-index 0000000000..4652635294
+index 0000000000..2a6f37cb58
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
-@@ -0,0 +1,72 @@
-+From 7b4ef0e004ece3a308ccfaa714c284f4c96ade34 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
+@@ -0,0 +1,41 @@
++From cd077513f267e43ce4b659eb18a1734d8a369992 Mon Sep 17 00:00:00 2001
 +From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Fri, 27 Dec 2024 17:53:50 -0600
-+Subject: [PATCH] soup_message_headers_get_content_disposition: Fix NULL deref
++Date: Wed, 5 Feb 2025 14:03:05 -0600
++Subject: [PATCH 1/2] auth-digest: Handle missing nonce
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/7b4ef0e004ece3a308ccfaa714c284f4c96ade34]
-+CVE: CVE-2025-32911 CVE-2025-32913 #Dependency Patch
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/cd077513f267e43ce4b659eb18a1734d8a369992]
++CVE: CVE-2025-32912
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libsoup/soup-message-headers.c | 13 +++++++++----
-+ tests/header-parsing-test.c    | 14 ++++++++++++++
-+ 2 files changed, 23 insertions(+), 4 deletions(-)
-+
-+diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
-+index 56cc1e9d..04f4c302 100644
-+--- a/libsoup/soup-message-headers.c
-++++ b/libsoup/soup-message-headers.c
-+@@ -1660,10 +1660,15 @@ soup_message_headers_get_content_disposition (SoupMessageHeaders  *hdrs,
-+ 	 */
-+ 	if (params && g_hash_table_lookup_extended (*params, "filename",
-+ 						    &orig_key, &orig_value)) {
-+-		char *filename = strrchr (orig_value, '/');
-+-
-+-		if (filename)
-+-			g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
-++                if (orig_value) {
-++                        char *filename = strrchr (orig_value, '/');
-++
-++                        if (filename)
-++                                g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
-++                } else {
-++                        /* filename with no value isn't valid. */
-++                        g_hash_table_remove (*params, "filename");
-++                }
-+ 	}
-+ 	return TRUE;
-+ }
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 5e423d2b..d0b360c8 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -1039,6 +1039,7 @@ do_param_list_tests (void)
-+ #define RFC5987_TEST_HEADER_FALLBACK "attachment; filename*=Unknown''t%FF%FF%FFst.txt; filename=\"test.txt\""
-+ #define RFC5987_TEST_HEADER_NO_TYPE  "filename=\"test.txt\""
-+ #define RFC5987_TEST_HEADER_NO_TYPE_2  "filename=\"test.txt\"; foo=bar"
-++#define RFC5987_TEST_HEADER_EMPTY_FILENAME ";filename"
-+ 
-+ static void
-+ do_content_disposition_tests (void)
-+@@ -1139,6 +1140,19 @@ do_content_disposition_tests (void)
-+         g_assert_cmpstr (parameter2, ==, "bar");
-+ 	g_hash_table_destroy (params);
-+ 
-++        /* Empty filename */
-++        soup_message_headers_clear (hdrs);
-++        soup_message_headers_append (hdrs, "Content-Disposition",
-++				     RFC5987_TEST_HEADER_EMPTY_FILENAME);
-++	if (!soup_message_headers_get_content_disposition (hdrs,
-++							   &disposition,
-++							   &params)) {
-++		soup_test_assert (FALSE, "empty filename decoding FAILED");
-++		return;
-++	}
-++        g_assert_false (g_hash_table_contains (params, "filename"));
-++	g_hash_table_destroy (params);
-++
-+ 	soup_message_headers_free (hdrs);
-+ 
-+ 	/* Ensure that soup-multipart always quotes filename */
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
-new file mode 100644
-index 0000000000..5d9f33c736
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
-@@ -0,0 +1,44 @@
-+From f4a761fb66512fff59798765e8ac5b9e57dceef0 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Fri, 27 Dec 2024 18:00:39 -0600
-+Subject: [PATCH] soup_message_headers_get_content_disposition: strdup
-+ truncated filenames
-+
-+This table frees the strings it contains.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/f4a761fb66512fff59798765e8ac5b9e57dceef0]
-+CVE: CVE-2025-32911 CVE-2025-32913
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-message-headers.c | 2 +-
-+ tests/header-parsing-test.c    | 1 +
++ libsoup/soup-auth-digest.c | 2 +-
++ tests/auth-test.c          | 1 +
 + 2 files changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
-+index 04f4c302..ee7a3cb1 100644
-+--- a/libsoup/soup-message-headers.c
-++++ b/libsoup/soup-message-headers.c
-+@@ -1664,7 +1664,7 @@ soup_message_headers_get_content_disposition (SoupMessageHeaders  *hdrs,
-+                         char *filename = strrchr (orig_value, '/');
++diff --git a/libsoup/soup-auth-digest.c b/libsoup/soup-auth-digest.c
++index a1db188..f0edb81 100644
++--- a/libsoup/soup-auth-digest.c
+++++ b/libsoup/soup-auth-digest.c
++@@ -156,7 +156,7 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
++ 	guint qop_options;
++ 	gboolean ok = TRUE;
 + 
-+                         if (filename)
-+-                                g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
-++                                g_hash_table_insert (*params, g_strdup (orig_key), g_strdup (filename + 1));
-+                 } else {
-+                         /* filename with no value isn't valid. */
-+                         g_hash_table_remove (*params, "filename");
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index d0b360c8..07ea2866 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -1150,6 +1150,7 @@ do_content_disposition_tests (void)
-+ 		soup_test_assert (FALSE, "empty filename decoding FAILED");
-+ 		return;
-+ 	}
-++        g_free (disposition);
-+         g_assert_false (g_hash_table_contains (params, "filename"));
-+ 	g_hash_table_destroy (params);
++-        if (!soup_auth_get_realm (auth))
+++        if (!soup_auth_get_realm (auth) || !g_hash_table_contains (auth_params, "nonce"))
++                 return FALSE;
++ 
++ 	g_free (priv->domain);
++diff --git a/tests/auth-test.c b/tests/auth-test.c
++index 6fb1e4a..343d7a5 100644
++--- a/tests/auth-test.c
+++++ b/tests/auth-test.c
++@@ -1629,6 +1629,7 @@ main (int argc, char **argv)
++         g_test_add_data_func ("/auth/missing-params/realm", "Digest qop=\"auth\"", do_missing_params_test);
++         g_test_add_data_func ("/auth/missing-params/nonce", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"", do_missing_params_test);
++         g_test_add_data_func ("/auth/missing-params/nonce-md5-sess", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\" algorithm=\"MD5-sess\"", do_missing_params_test);
+++	g_test_add_data_func ("/auth/missing-params/nonce-and-qop", "Digest realm=\"auth-test\"", do_missing_params_test);
++ 
++ 	ret = g_test_run ();
 + 
 +-- 
-+GitLab
++2.25.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
+new file mode 100644
+index 0000000000..4898068115
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
+@@ -0,0 +1,30 @@
++From 910ebdcd3dd82386717a201c13c834f3a63eed7f Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Sat, 8 Feb 2025 12:30:13 -0600
++Subject: [PATCH 2/2] digest-auth: Handle NULL nonce
++
++`contains` only handles a missing nonce, `lookup` handles both missing and empty.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/910ebdcd3dd82386717a201c13c834f3a63eed7f]
++CVE: CVE-2025-32912
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libsoup/soup-auth-digest.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libsoup/soup-auth-digest.c b/libsoup/soup-auth-digest.c
++index f0edb81..c49ffd9 100644
++--- a/libsoup/soup-auth-digest.c
+++++ b/libsoup/soup-auth-digest.c
++@@ -156,7 +156,7 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
++ 	guint qop_options;
++ 	gboolean ok = TRUE;
++ 
++-        if (!soup_auth_get_realm (auth) || !g_hash_table_contains (auth_params, "nonce"))
+++        if (!soup_auth_get_realm (auth) || !g_hash_table_lookup (auth_params, "nonce"))
++                 return FALSE;
++ 
++ 	g_free (priv->domain);
++-- 
++2.25.1
 +
 diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-index 517a8e4539..4e7667402b 100644
+index 4e7667402b..848ea6eb54 100644
 --- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
 +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-@@ -26,6 +26,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32910-1.patch \
-            file://CVE-2025-32910-2.patch \
+@@ -28,6 +28,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
             file://CVE-2025-32910-3.patch \
-+           file://CVE-2025-32911_CVE-2025-32913-1.patch \
-+           file://CVE-2025-32911_CVE-2025-32913-2.patch \
+            file://CVE-2025-32911_CVE-2025-32913-1.patch \
+            file://CVE-2025-32911_CVE-2025-32913-2.patch \
++           file://CVE-2025-32912-1.patch \
++           file://CVE-2025-32912-2.patch \
            "
  SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
  
