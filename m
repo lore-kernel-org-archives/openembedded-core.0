@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89A1EC54FC6
-	for <webhook@archiver.kernel.org>; Sat, 24 May 2025 13:36:44 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web11.7013.1748093801037479202
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D0EEC5B541
+	for <webhook@archiver.kernel.org>; Sat, 24 May 2025 13:36:54 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.7016.1748093807583469226
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 May 2025 06:36:41 -0700
+ Sat, 24 May 2025 06:36:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QJIOb7q5;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-310ce23a660so543116a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 06:36:40 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bnGLwVg6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-31122925a18so190044a91.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 06:36:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748093800; x=1748698600; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748093807; x=1748698607; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hExlkYm7dXFoka5g37FYf5LWVYZWpcMhSExiM9sd94g=;
-        b=QJIOb7q5NhjrGy+pWzYt5yoxlVFnZCzZUcnl10BGl2ucaQ4Tcy075EsqNxIasfPmj+
-         W0SgkzCLihhjTUV3skbsJTN8JAT58CY+KrLruXSq/yPl9dOxIvyNVqQAlf2VAdtILREa
-         K0lHlBo9G/D5k9vSOmuQq+GZ7mKgxpezgPP8EsDdWoyymUr6IbGu3tW9XyZ+lf38mmUO
-         Djg6YaCfsNyGl8e5QE/PiiY4xief8g8qVFUsJvCVHIOaQlMiH3ynKG5FbTQDzCXwmwr6
-         1qIRjQhxYsLR68M/aisB7NznjFSWhglUpmY+nGhvHf3UHALTWMIDkm9M7/S1YAwGMDTX
-         l/PQ==
+        bh=Unpusg62R4yFfugwvtG58oq8A1AWONlspb511AlHnLk=;
+        b=bnGLwVg6gU8noxvWntnhtecq2dXK4dqDqI7upS9S+uMmPhPL4mdalETmVr2Rh4NGOE
+         o+yGVRVXVOBGjfyqFA/NhdbFo8cQhP3RJsrytzUiI4NYYSNp7us/D113OyDX5IgdsEFa
+         s8IxYR9rJttoloBvWL3B7H0MC7F+/z/MR3dbHpAg0MVYMUfR4M5frbOt7jctJPA6Y8qD
+         E/RtzUgT32sAWiPOPWKSn1xF5Ww4Z+fSMN1i7IftoQQSnakjdoyBMtaQQmyeXnuj1Dde
+         X4osfnq16rHTPpqHD6Q2fgc5tOWQEEuoJEtMb/PWWhjqg/arJ2mDhdm5k/57oA0iVpdX
+         Tvyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748093800; x=1748698600;
+        d=1e100.net; s=20230601; t=1748093807; x=1748698607;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hExlkYm7dXFoka5g37FYf5LWVYZWpcMhSExiM9sd94g=;
-        b=RZvhkLlQc8X7KWNUkeDCC+sRT0KK2G61Cyd99iZ6xoaVnYDpLZPzCWIQll9bos4QTD
-         ryaj0aq7jNNfOMfp1i6e1DvLpboLRVEzG4PPq85juKJryRfsqrTZUA2LSbVLDebXPi5D
-         np5XG8OEtUmykDz3Nz+BCMbAEQ2kZb13f8Hi+viE2mK+LWn2uO4NxrTroOVtbVcCfSQ/
-         xAQbyUVUKUKtjK7Am/9CnrbMAdvYhPmuwaN9pZCSpTduXBIA+HAzGAwyTu1kCmdjD43f
-         XTiduleCxnUEsvESpm/Zli+xUA8LRm8nvZ3/nV2u4j+3Ua2/Rs8NHKXwGlOExNEhWU+X
-         I/sA==
-X-Gm-Message-State: AOJu0YzWmYEfr2c4bZxrfS3di8NAnkb6x+9VhLh+ptkBg1yenrPeCyLS
-	jqkxQIogXhEuhfkn9X+TyF5xoXo6HapdS7osK0HwblCAt9vwqCJZfxbOgYAS7RUTpVBMHd2uJIp
-	QiakN
-X-Gm-Gg: ASbGncvvs5AfciaZ+EOC3fruY2DtGkxorKJPJN9Wd+oJHHPGNOcvjyA1XoQm9tWVjOp
-	ZJvU767uAu2MCC7Zbt1S9Yh/+Jckls4EP+5rYwcQXiiTaElCEUx1FNLnkZNDm+WZuMjiEuNgsL/
-	34BQ2OtNeSXXKjCuMesMTOF3Aq5t6SgPLR4xu8Tor2E4E6Ki4OPjvrgIB6AHO11snmzAg5YezT8
-	XmywNjpOTJ86mz9LgWae6ue4OxSIm6SlTfH791QdG6bFNFHvffaGK01Vv36GwUPXcZ+MQv4jKOL
-	zZ2DyC/blVisBYiTG5d6LeqnLtwXlUAIyG1YHwvsqaBJlB8tiFnlgg==
-X-Google-Smtp-Source: AGHT+IH/g38nT6BtN3daVHjoeLpP+8Hmgeok+Jz9Ldofu97xnr67Ok9loEQv3NQFgzkSp/d4ECBLoA==
-X-Received: by 2002:a17:90b:17d0:b0:2ee:db8a:2a01 with SMTP id 98e67ed59e1d1-311104b93e9mr4058829a91.30.1748093800112;
-        Sat, 24 May 2025 06:36:40 -0700 (PDT)
+        bh=Unpusg62R4yFfugwvtG58oq8A1AWONlspb511AlHnLk=;
+        b=q3+M3pEUiXnuoazIvGs4Wta0VcBROljAk/Rbm+MGGBzKkz1Z38j5W1JHcSMRUtBGLY
+         4zGU7gFkNuWdCUxwP1Wop4AxHCZCiXz2qWyV/n7ZxGVzvx5uAxrsHkewvKxu+dG1zlgN
+         drIvjl2dG4RAqPTL/yC6KGPrDY4H9+ZM28hA4/BmlZh2AEr4MpyrdiyDUv78eX+lVuvF
+         w0HasgDjdnuUzQhwXaqRW5hTnUC0jiVTL6QsG5wc3R76xyiWMWJJhratuCW0X8w7sGz/
+         gm3i165X1nlJvLAI9AQ+fm/adJ1rLhmqXCcWl1H1pkH7SMhYoMPO2sGJzXbdlEa9Fn6U
+         djjg==
+X-Gm-Message-State: AOJu0Yz6tK9rUiHcIUxuC19D1M9v5Iq2mqrj51kARo3Zzs0cTlIcF9HX
+	hMo1k4XZ5+JU8e++riZWjbG4V0qeXzXpvh13sIvFF2msIkoTGURlIw/B6OVe7rlCeB1hAhG8/tW
+	YZ9m/
+X-Gm-Gg: ASbGncv2mZPhAWI3E5npwacbF99BQY6uno2G1gstcg20WxA4Gg7JgzR1IIIJLLdgfV2
+	grM7yuyhu3FC+O0hMibi8UVUakk3TolOpYU3oYRZnLeWtaZdsUSpcV/88FwuQ0RrcWFsOIBmrBP
+	+AhH40P/576JjwZxP21tpehLMHZwzxIWMJW4NKVraE5koJt5rzwJitZ01VgtiyRex/2PND+xBUW
+	vq4u9aSeNAmLYIrMmQu67fDeb/RmXfIrmIIKaXM2n9mHJxczel1MscMiNJdWLllLigZT/+gGxhb
+	LW31KiVsNNn0TljpP7p8vHaFko4eRFuiBBLSkOEL7Oc=
+X-Google-Smtp-Source: AGHT+IGzwttOv8EKZv/2tVzYOQA9o796fQywriMTvebTUgOYxb/U3OX/T92ueg1QfYRbFzTRH7mUTA==
+X-Received: by 2002:a17:90b:4c0e:b0:2ff:7b28:a51a with SMTP id 98e67ed59e1d1-3110f920c85mr4870481a91.17.1748093806739;
+        Sat, 24 May 2025 06:36:46 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3157:44bf:9f62:fea8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365c4f9csm9058913a91.20.2025.05.24.06.36.39
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365c4f9csm9058913a91.20.2025.05.24.06.36.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 May 2025 06:36:39 -0700 (PDT)
+        Sat, 24 May 2025 06:36:46 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/12] iputils: Security fix for CVE-2025-47268
-Date: Sat, 24 May 2025 06:36:18 -0700
-Message-ID: <a463c8e3950ccf58316d48241c2cd82484f25fda.1748093626.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 06/12] libsoup-2.4: Fix CVE-2025-32911 & CVE-2025-32913
+Date: Sat, 24 May 2025 06:36:22 -0700
+Message-ID: <ff1896b14347c7b4a166716338d3822da97be2e4.1748093626.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1748093626.git.steve@sakoman.com>
 References: <cover.1748093626.git.steve@sakoman.com>
@@ -66,191 +66,165 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 13:36:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217227
+ <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 13:36:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217231
 
-From: Yi Zhao <yi.zhao@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-CVE-2025-47268
-ping in iputils through 20240905 allows a denial of service (application
-error or incorrect data collection) via a crafted ICMP Echo Reply
-packet, because of a signed 64-bit integer overflow in timestamp
-multiplication.
+Upstream-Status: Backport from
+https://gitlab.gnome.org/GNOME/libsoup/-/commit/7b4ef0e004ece3a308ccfaa714c284f4c96ade34
+& https://gitlab.gnome.org/GNOME/libsoup/-/commit/f4a761fb66512fff59798765e8ac5b9e57dceef0
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-47268
-
-Patch from:
-https://github.com/iputils/iputils/commit/070cfacd7348386173231fb16fad4983d4e6ae40
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../iputils/iputils/CVE-2025-47268.patch      | 143 ++++++++++++++++++
- .../iputils/iputils_20211215.bb               |   1 +
- 2 files changed, 144 insertions(+)
- create mode 100644 meta/recipes-extended/iputils/iputils/CVE-2025-47268.patch
+ .../CVE-2025-32911_CVE-2025-32913-1.patch     | 72 +++++++++++++++++++
+ .../CVE-2025-32911_CVE-2025-32913-2.patch     | 44 ++++++++++++
+ .../libsoup/libsoup-2.4_2.74.2.bb             |  2 +
+ 3 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
 
-diff --git a/meta/recipes-extended/iputils/iputils/CVE-2025-47268.patch b/meta/recipes-extended/iputils/iputils/CVE-2025-47268.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
 new file mode 100644
-index 0000000000..dd31b79031
+index 0000000000..4652635294
 --- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/CVE-2025-47268.patch
-@@ -0,0 +1,143 @@
-+From 070cfacd7348386173231fb16fad4983d4e6ae40 Mon Sep 17 00:00:00 2001
-+From: Petr Vorel <pvorel@suse.cz>
-+Date: Mon, 5 May 2025 23:55:57 +0200
-+Subject: [PATCH] ping: Fix signed 64-bit integer overflow in RTT calculation
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
+@@ -0,0 +1,72 @@
++From 7b4ef0e004ece3a308ccfaa714c284f4c96ade34 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Fri, 27 Dec 2024 17:53:50 -0600
++Subject: [PATCH] soup_message_headers_get_content_disposition: Fix NULL deref
 +
-+Crafted ICMP Echo Reply packet can cause signed integer overflow in
-+
-+1) triptime calculation:
-+triptime = tv->tv_sec * 1000000 + tv->tv_usec;
-+
-+2) tsum2 increment which uses triptime
-+rts->tsum2 += (double)((long long)triptime * (long long)triptime);
-+
-+3) final tmvar:
-+tmvar = (rts->tsum2 / total) - (tmavg * tmavg)
-+
-+    $ export CFLAGS="-O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer"
-+    $ export LDFLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
-+    $ meson setup .. -Db_sanitize=address,undefined
-+    $ ninja
-+    $ ./ping/ping -c2 127.0.0.1
-+
-+    PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
-+    64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.061 ms
-+    ../ping/ping_common.c:757:25: runtime error: signed integer overflow: -2513732689199106 * 1000000 cannot be represented in type 'long int'
-+    ../ping/ping_common.c:757:12: runtime error: signed integer overflow: -4975495174606980224 + -6510615555425289427 cannot be represented in type 'long int'
-+    ../ping/ping_common.c:769:47: runtime error: signed integer overflow: 6960633343677281965 * 6960633343677281965 cannot be represented in type 'long int'
-+    24 bytes from 127.0.0.1: icmp_seq=1 ttl=64 (truncated)
-+    ./ping/ping: Warning: time of day goes back (-7256972569576721377us), taking countermeasures
-+    ./ping/ping: Warning: time of day goes back (-7256972569576721232us), taking countermeasures
-+    24 bytes from 127.0.0.1: icmp_seq=1 ttl=64 (truncated)
-+    ../ping/ping_common.c:265:16: runtime error: signed integer overflow: 6960633343677281965 * 2 cannot be represented in type 'long int'
-+    64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.565 ms
-+
-+    --- 127.0.0.1 ping statistics ---
-+    2 packets transmitted, 2 received, +2 duplicates, 0% packet loss, time 1002ms
-+    ../ping/ping_common.c:940:42: runtime error: signed integer overflow: 1740158335919320832 * 1740158335919320832 cannot be represented in type 'long int'
-+    rtt min/avg/max/mdev = 0.000/1740158335919320.832/6960633343677281.965/-1623514645242292.-224 ms
-+
-+To fix the overflow check allowed ranges of struct timeval members:
-+* tv_sec <0, LONG_MAX/1000000>
-+* tv_usec <0, 999999>
-+
-+Fix includes 2 new error messages (needs translation).
-+Also existing message "time of day goes back ..." needed to be modified
-+as it now prints tv->tv_sec which is a second (needs translation update).
-+
-+After fix:
-+
-+    $ ./ping/ping -c2 127.0.0.1
-+    64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.057 ms
-+    ./ping/ping: Warning: invalid tv_usec -6510615555424928611 us
-+    ./ping/ping: Warning: time of day goes back (-3985394643238914 s), taking countermeasures
-+    ./ping/ping: Warning: invalid tv_usec -6510615555424928461 us
-+    ./ping/ping: Warning: time of day goes back (-3985394643238914 s), taking countermeasures
-+    24 bytes from 127.0.0.1: icmp_seq=1 ttl=64 (truncated)
-+    ./ping/ping: Warning: invalid tv_usec -6510615555425884541 us
-+    ./ping/ping: Warning: time of day goes back (-4243165695442945 s), taking countermeasures
-+    24 bytes from 127.0.0.1: icmp_seq=1 ttl=64 (truncated)
-+    64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.111 ms
-+
-+    --- 127.0.0.1 ping statistics ---
-+    2 packets transmitted, 2 received, +2 duplicates, 0% packet loss, time 101ms
-+    rtt min/avg/max/mdev = 0.000/0.042/0.111/0.046 ms
-+
-+Fixes: https://github.com/iputils/iputils/issues/584
-+Fixes: CVE-2025-472
-+Link: https://github.com/Zephkek/ping-rtt-overflow/
-+Co-developed-by: Cyril Hrubis <chrubis@suse.cz>
-+Reported-by: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
-+Reviewed-by: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
-+Reviewed-by: Cyril Hrubis <chrubis@suse.cz>
-+Reviewed-by: Noah Meyerhans <noahm@debian.org>
-+Signed-off-by: Petr Vorel <pvorel@suse.cz>
-+
-+CVE: CVE-2025-47268
-+
-+Upstream-Status: Backport
-+[https://github.com/iputils/iputils/commit/070cfacd7348386173231fb16fad4983d4e6ae40]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/7b4ef0e004ece3a308ccfaa714c284f4c96ade34]
++CVE: CVE-2025-32911 CVE-2025-32913 #Dependency Patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ iputils_common.h   |  3 +++
-+ ping/ping_common.c | 22 +++++++++++++++++++---
-+ 2 files changed, 22 insertions(+), 3 deletions(-)
++ libsoup/soup-message-headers.c | 13 +++++++++----
++ tests/header-parsing-test.c    | 14 ++++++++++++++
++ 2 files changed, 23 insertions(+), 4 deletions(-)
 +
-+diff --git a/iputils_common.h b/iputils_common.h
-+index 49e790d..829a749 100644
-+--- a/iputils_common.h
-++++ b/iputils_common.h
-+@@ -10,6 +10,9 @@
-+ 	  !!__builtin_types_compatible_p(__typeof__(arr), \
-+ 					 __typeof__(&arr[0]))])) * 0)
++diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
++index 56cc1e9d..04f4c302 100644
++--- a/libsoup/soup-message-headers.c
+++++ b/libsoup/soup-message-headers.c
++@@ -1660,10 +1660,15 @@ soup_message_headers_get_content_disposition (SoupMessageHeaders  *hdrs,
++ 	 */
++ 	if (params && g_hash_table_lookup_extended (*params, "filename",
++ 						    &orig_key, &orig_value)) {
++-		char *filename = strrchr (orig_value, '/');
++-
++-		if (filename)
++-			g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
+++                if (orig_value) {
+++                        char *filename = strrchr (orig_value, '/');
+++
+++                        if (filename)
+++                                g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
+++                } else {
+++                        /* filename with no value isn't valid. */
+++                        g_hash_table_remove (*params, "filename");
+++                }
++ 	}
++ 	return TRUE;
++ }
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index 5e423d2b..d0b360c8 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -1039,6 +1039,7 @@ do_param_list_tests (void)
++ #define RFC5987_TEST_HEADER_FALLBACK "attachment; filename*=Unknown''t%FF%FF%FFst.txt; filename=\"test.txt\""
++ #define RFC5987_TEST_HEADER_NO_TYPE  "filename=\"test.txt\""
++ #define RFC5987_TEST_HEADER_NO_TYPE_2  "filename=\"test.txt\"; foo=bar"
+++#define RFC5987_TEST_HEADER_EMPTY_FILENAME ";filename"
 + 
-++/* 1000001 = 1000000 tv_sec + 1 tv_usec */
-++#define TV_SEC_MAX_VAL (LONG_MAX/1000001)
-++
-+ #ifdef __GNUC__
-+ # define iputils_attribute_format(t, n, m) __attribute__((__format__ (t, n, m)))
-+ #else
-+diff --git a/ping/ping_common.c b/ping/ping_common.c
-+index dadd2a4..4e99d89 100644
-+--- a/ping/ping_common.c
-++++ b/ping/ping_common.c
-+@@ -754,16 +754,32 @@ int gather_statistics(struct ping_rts *rts, uint8_t *icmph, int icmplen,
++ static void
++ do_content_disposition_tests (void)
++@@ -1139,6 +1140,19 @@ do_content_disposition_tests (void)
++         g_assert_cmpstr (parameter2, ==, "bar");
++ 	g_hash_table_destroy (params);
 + 
-+ restamp:
-+ 		tvsub(tv, &tmp_tv);
-+-		triptime = tv->tv_sec * 1000000 + tv->tv_usec;
-+-		if (triptime < 0) {
-+-			error(0, 0, _("Warning: time of day goes back (%ldus), taking countermeasures"), triptime);
+++        /* Empty filename */
+++        soup_message_headers_clear (hdrs);
+++        soup_message_headers_append (hdrs, "Content-Disposition",
+++				     RFC5987_TEST_HEADER_EMPTY_FILENAME);
+++	if (!soup_message_headers_get_content_disposition (hdrs,
+++							   &disposition,
+++							   &params)) {
+++		soup_test_assert (FALSE, "empty filename decoding FAILED");
+++		return;
+++	}
+++        g_assert_false (g_hash_table_contains (params, "filename"));
+++	g_hash_table_destroy (params);
 ++
-++		if (tv->tv_usec >= 1000000) {
-++			error(0, 0, _("Warning: invalid tv_usec %ld us"), tv->tv_usec);
-++			tv->tv_usec = 999999;
-++		}
-++
-++		if (tv->tv_usec < 0) {
-++			error(0, 0, _("Warning: invalid tv_usec %ld us"), tv->tv_usec);
-++			tv->tv_usec = 0;
-++		}
-++
-++		if (tv->tv_sec > TV_SEC_MAX_VAL) {
-++			error(0, 0, _("Warning: invalid tv_sec %ld s"), tv->tv_sec);
-++			triptime = 0;
-++		} else if (tv->tv_sec < 0) {
-++			error(0, 0, _("Warning: time of day goes back (%ld s), taking countermeasures"), tv->tv_sec);
-+ 			triptime = 0;
-+ 			if (!rts->opt_latency) {
-+ 				gettimeofday(tv, NULL);
-+ 				rts->opt_latency = 1;
-+ 				goto restamp;
-+ 			}
-++		} else {
-++			triptime = tv->tv_sec * 1000000 + tv->tv_usec;
-+ 		}
-++
-+ 		if (!csfailed) {
-+ 			rts->tsum += triptime;
-+ 			rts->tsum2 += (double)((long long)triptime * (long long)triptime);
++ 	soup_message_headers_free (hdrs);
++ 
++ 	/* Ensure that soup-multipart always quotes filename */
 +-- 
-+2.34.1
++GitLab
 +
-diff --git a/meta/recipes-extended/iputils/iputils_20211215.bb b/meta/recipes-extended/iputils/iputils_20211215.bb
-index 3ddce0be54..03dc97dcc8 100644
---- a/meta/recipes-extended/iputils/iputils_20211215.bb
-+++ b/meta/recipes-extended/iputils/iputils_20211215.bb
-@@ -12,6 +12,7 @@ DEPENDS = "gnutls"
- 
- SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https \
-            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-+           file://CVE-2025-47268.patch \
-            "
- SRCREV = "1d1e7c43210d8af316a41cb2c53d612a4c16f34d"
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
+new file mode 100644
+index 0000000000..5d9f33c736
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
+@@ -0,0 +1,44 @@
++From f4a761fb66512fff59798765e8ac5b9e57dceef0 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Fri, 27 Dec 2024 18:00:39 -0600
++Subject: [PATCH] soup_message_headers_get_content_disposition: strdup
++ truncated filenames
++
++This table frees the strings it contains.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/f4a761fb66512fff59798765e8ac5b9e57dceef0]
++CVE: CVE-2025-32911 CVE-2025-32913
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libsoup/soup-message-headers.c | 2 +-
++ tests/header-parsing-test.c    | 1 +
++ 2 files changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
++index 04f4c302..ee7a3cb1 100644
++--- a/libsoup/soup-message-headers.c
+++++ b/libsoup/soup-message-headers.c
++@@ -1664,7 +1664,7 @@ soup_message_headers_get_content_disposition (SoupMessageHeaders  *hdrs,
++                         char *filename = strrchr (orig_value, '/');
++ 
++                         if (filename)
++-                                g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
+++                                g_hash_table_insert (*params, g_strdup (orig_key), g_strdup (filename + 1));
++                 } else {
++                         /* filename with no value isn't valid. */
++                         g_hash_table_remove (*params, "filename");
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index d0b360c8..07ea2866 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -1150,6 +1150,7 @@ do_content_disposition_tests (void)
++ 		soup_test_assert (FALSE, "empty filename decoding FAILED");
++ 		return;
++ 	}
+++        g_free (disposition);
++         g_assert_false (g_hash_table_contains (params, "filename"));
++ 	g_hash_table_destroy (params);
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+index 517a8e4539..4e7667402b 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+@@ -26,6 +26,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-32910-1.patch \
+            file://CVE-2025-32910-2.patch \
+            file://CVE-2025-32910-3.patch \
++           file://CVE-2025-32911_CVE-2025-32913-1.patch \
++           file://CVE-2025-32911_CVE-2025-32913-2.patch \
+           "
+ SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
  
 -- 
 2.43.0
