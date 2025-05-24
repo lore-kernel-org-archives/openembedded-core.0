@@ -1,80 +1,84 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D539C54E71
-	for <webhook@archiver.kernel.org>; Sat, 24 May 2025 08:00:23 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web11.3304.1748073616505001346
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A9FFC54ED1
+	for <webhook@archiver.kernel.org>; Sat, 24 May 2025 08:10:53 +0000 (UTC)
+Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
+ by mx.groups.io with SMTP id smtpd.web11.3393.1748074249564470433
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 May 2025 01:00:17 -0700
+ Sat, 24 May 2025 01:10:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=jEai2KaE;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=x4M9VtRA+AdPdiyYBPrE/6nyp3pHJ9n9lxb4kHcy7I4=; b=jEai2KaE2gcnwtcMfZpxbhRKw/
-	kLEhOAatPsH+gXwCwD7RDY62tQ/ncUh+O7C8CCrjkyR7FfbCfU+krEsg8pQuwdRU9deqx0C+m++RI
-	dApGL8KVP+YRm8oPnS4VWIA16VUcCsp7q8oEvAxLRPgOtdr6CfZRY4NsYZwMJxlQVSuLk4sgIpiSR
-	v2fv17fRWOTws8BHn7i5cTxeIlZ6Z00Af4/3UleXGRCsMeNdachZngHK4cEJ5gsNHlclfAachbOtn
-	JWLxL5ypeXyRTUqHvs1BXWLgPUNsVkn3tHLgd4TgZ1XP8dmRg8TzdythMFbl+gNXD18K0URBP+O9V
-	Sr62dvFw==;
-Received: from pool-174-114-102-5.cpe.net.cable.rogers.com ([174.114.102.5]:44476 helo=asus)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.1)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1uIjne-00000002ZQA-1ay7
-	for openembedded-core@lists.openembedded.org;
-	Sat, 24 May 2025 04:00:14 -0400
-Date: Sat, 24 May 2025 04:00:01 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Getting lots of "undefined reference" building gcc for qemuarm64 on
- Ubuntu 24.04
-Message-ID: <49771c03-6f7e-84dd-91ca-6d15ba81b097@crashcourse.ca>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
+Received: from fwd83.aul.t-online.de (fwd83.aul.t-online.de [10.223.144.109])
+	by mailout10.t-online.de (Postfix) with SMTP id 7C47E11E9
+	for <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 10:10:47 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.170.145]) by fwd83.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1uIjxr-3y0inJ0; Sat, 24 May 2025 10:10:43 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCHv2] mesa: make asahi dependent on opencl
+Date: Sat, 24 May 2025 10:10:34 +0200
+Message-ID: <20250524081034.3635-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-TOI-EXPURGATEID: 150726::1748074243-6CFF75E4-8339FD7E/0/0 CLEAN NORMAL
+X-TOI-MSGID: 6483d0c6-7250-4382-aacd-685f71333fe6
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 08:00:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217223
+ <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 08:10:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217224
 
+asahi not only depends on libclc but also requires rusticl
 
-  Apologies if this is a well-known and resolved issue -- it's been a
-while since I did a generic OE build (been working with Wind River
-lately).
+-remove obsolete comment
 
-  On a fairly freshly-installed and fully-updated Ubuntu 24.04 laptop,
-I wanted to do a demo of building a qemuarm64 core-image-minimal, so I
-did all the regular steps, the build was chugging along, and failed
-building gcc-15.1.0 with a pile of "undefined reference" errors like
-this from the log.do_compile file:
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+index 5262b3001e..7addd8c623 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -102,7 +102,7 @@ PACKAGECONFIG[x11] =3D ",-Dglx=3Ddisabled,${X11_DEPS}=
+"
+ PACKAGECONFIG[wayland] =3D ",,wayland-native wayland libdrm wayland-prot=
+ocols"
+=20
+ VULKAN_DRIVERS_AMD =3D "${@bb.utils.contains('PACKAGECONFIG', 'amd', ',a=
+md', '', d)}"
+-VULKAN_DRIVERS_ASAHI =3D "${@bb.utils.contains('PACKAGECONFIG', 'asahi l=
+ibclc', ',asahi', '', d)}"
++VULKAN_DRIVERS_ASAHI =3D "${@bb.utils.contains('PACKAGECONFIG', 'asahi l=
+ibclc opencl', ',asahi', '', d)}"
+ VULKAN_DRIVERS_INTEL =3D "${@bb.utils.contains('PACKAGECONFIG', 'intel l=
+ibclc', ',intel', '', d)}"
+ VULKAN_DRIVERS_SWRAST =3D ",swrast"
+ # Crashes on x32
+@@ -169,8 +169,7 @@ GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACK=
+AGECONFIG', 'vc4', ',vc4', ''
+ GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'v3d', =
+',v3d', '', d)}"
+ GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'zink',=
+ ',zink', '', d)}"
+=20
+-# radeonsi requires LLVM
+-GALLIUMDRIVERS_ASAHI =3D "${@bb.utils.contains('PACKAGECONFIG', 'asahi l=
+ibclc', ',asahi', '', d)}"
++GALLIUMDRIVERS_ASAHI =3D "${@bb.utils.contains('PACKAGECONFIG', 'asahi l=
+ibclc opencl', ',asahi', '', d)}"
+ GALLIUMDRIVERS_IRIS =3D "${@bb.utils.contains('PACKAGECONFIG', 'intel li=
+bclc', ',iris', '', d)}"
+ GALLIUMDRIVERS_RADEONSI =3D "${@bb.utils.contains('PACKAGECONFIG', 'amd'=
+, ',radeonsi', '', d)}"
+ GALLIUMDRIVERS_LLVMPIPE =3D ",llvmpipe"
+--=20
+2.49.0
 
-/home/rpjday/oe/builds/qemuarm64/tmp/work/cortexa57-poky-linux/gcc/15.1.0/recipe-sysroot-native/usr/bin/aarch64-poky-linux/../../libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/15.1.0/ld:
-c/c-decl.o: in function `diagnose_mismatched_decls(tree_node*,
-tree_node*, tree_node**, tree_node**) [clone .constprop.0]':
-/usr/src/debug/gcc/15.1.0/gcc/../../../../../../../work-shared/gcc-15.1.0-r0/gcc-15.1.0/gcc/c/c-decl.cc:2292:(.text+0x33fc):
-undefined reference to `c_addr_space_name(unsigned char)'
-
-I'm sure it's something stupid on my part, I'm used to generic
-core-image-minimal builds just working. This is using the master
-branch of poky -- should I dial it back to a fixed release?
-
-rday
 
