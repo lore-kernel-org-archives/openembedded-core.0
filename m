@@ -1,165 +1,110 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7456BC54E90
-	for <webhook@archiver.kernel.org>; Sun, 25 May 2025 05:26:42 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web10.4328.1748150795960773593
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 091DEC54E90
+	for <webhook@archiver.kernel.org>; Sun, 25 May 2025 11:03:04 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.7490.1748170976582937676
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 May 2025 22:26:36 -0700
+ Sun, 25 May 2025 04:02:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NT3OdPG/;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2e3dea42465so771945fac.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 May 2025 22:26:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XZhFarJL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23228b9d684so11897615ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 May 2025 04:02:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748150795; x=1748755595; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748170976; x=1748775776; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QyDd6PawNp2+Wl7JpqTSHsGycp5kqsseKGg6cnWzwKo=;
-        b=NT3OdPG/3lrQZpLB07TQOhOoQ+f2peZcY0T5aCY1M/hzZEg/Enr1/fYq4rQucWRysL
-         Z488HNDdfgCgxrXlcVQWxPsWpiG/7e+Tz/sRQ+nxaCXBmLq/vvd3Gh2QmPGpEMDkVAyg
-         OHCGYXyvuLnXAyZLC63+QJePDodhUvN2z3CLuwLLvpeMdl2Oq4bGsT5AjFqkei0m+m/S
-         f/Bf5aQq6co8I9WgBHoDnmvbgqFbonmCmwHbN7rJW5xc+YzNGyeku6ptQNz7HvrW6o+T
-         HMWIyEHCYC15YZo3JnRHTtYpXBnYXNITrcIGDdQTPPYk41P0FX4Gr7bocf83Wz8VGhC5
-         BFxA==
+        bh=eC+Pu3i5PtkJpTAT8BWbclsfFcRrE4kteGfoR3zGGwE=;
+        b=XZhFarJLN9OwQ55xymnqoYcxeCUXpt6cSx2D1th7y4ZouyEiw4EBHhp7OC/Rbf4gG1
+         bW/V0wCMUppnmHNRw5c9+yQG83esT71iTeekoZJaT+EeZI26spMWjBpzKNK8sR9El/84
+         +Ke8Ytwsy7+26tfDIrP8DcGi8qRakhsdk35hf1kpkw1VYQF9jTWJV66CZeVWSwm6xh0X
+         iqPr1OLjAeoe8aYrN8DysM0ID/EfM21jWpMJbUdJTkS+CtJmKy7uf0CPO6mVHYQtR5Cb
+         b2OQ1cSI0qCcvCZKDDbGFryIVqE2d92l58ga3vlDsLCmWeiOX8o6PIetSbB8aWRbtt2a
+         bJKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748150795; x=1748755595;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QyDd6PawNp2+Wl7JpqTSHsGycp5kqsseKGg6cnWzwKo=;
-        b=PkcHCRXQMcVXOUjtOk6ScKzY1LJmqgPn1HN5sjVDlY42hd9RQXYpElcaI0S+qQamvW
-         xY3C2Zr+zyV/9uv3ZAnDsMKySraetUT+5PO/H1qCParnWyU+QPlYuo2zUN0tOW3YpFun
-         gT762FbCDASd0NQ+YXTNNSMVB4ILxKLO7gX427ZA174tuARp0i8ufIgoEyGTQCfJ+9GJ
-         Y8AOhB3L7w4+ibBfA8a3V/Sbb8WAnMRmlp/BJ69UG0rBCM1RLKzS4pom2YfR8J1olBSE
-         0YfrK2I9dHOq8r4OnaPzj+q9Gg9NsWklro9mGF9U635bJdh6qaJxJVp74L6IXGiRohUU
-         y1+Q==
-X-Gm-Message-State: AOJu0YxY/Abez1D5otSSQyGlLx3jFroenAJxMXENR1M1Vt+7VhwMyiYb
-	1w7cwWGX40Qw9T3fzkd/1Ao1HWsnP/ng+QGnnTy06PRcC4dd6WOEwD5ajTeC6L6RuTgDnuFJKHn
-	Ii9ULKCA68Kpz5Hn3yKQerUm4ZaOjO28=
-X-Gm-Gg: ASbGncuW7p4wq07Kpnl304eUNrnD8Zw5yeCHBx6/RdlBaLiGNbAmvroxXkad1fHBjzd
-	b2XebZB+hlYoDp6ocpptJPZxbAoRNkkui9jwpZtAinAbzgEQBJ21vsZrj44oMBsqq6eSnX+RoaT
-	R/WElqxvvyQ5oA9dJdZ+Xaf10SECEUCe+X
-X-Google-Smtp-Source: AGHT+IECyWhUeuNKMM/QzbPsP8bZeNvBVw9r/uNEEpg0altpsrS9vN4L/QNTEWKSt+m85BJOJw8KJ7+WHPBhr5dwaC4=
-X-Received: by 2002:a05:6870:3d85:b0:2d4:e101:13f1 with SMTP id
- 586e51a60fabf-2e860afe74amr3084288fac.13.1748150795066; Sat, 24 May 2025
- 22:26:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250524035958.3809327-1-raj.khem@gmail.com> <CADkTA4Ok10vyyr7hPK75=vj-GF47zf_J+RW1LKM+t2dS4_LioQ@mail.gmail.com>
- <CAMKF1so7kadvSTZuS5UpV42H2ra2NakAH4ToQNxaD8QM=ohMhg@mail.gmail.com>
-In-Reply-To: <CAMKF1so7kadvSTZuS5UpV42H2ra2NakAH4ToQNxaD8QM=ohMhg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 24 May 2025 22:26:09 -0700
-X-Gm-Features: AX0GCFuJ0jYozxet6tx0jcN_n2UmZeRs-oJJ-mQ4r1KbxVyRW-mjT3LE9y1s0Z4
-Message-ID: <CAMKF1sq7Q=Z7WxtbzAhcJGJCn8egeS90gZYqaemfYtFyhFD7CA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-yocto: Remove debug-kernel.scc for
- riscv32 kernels
-To: bruce.ashfield@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20230601; t=1748170976; x=1748775776;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=eC+Pu3i5PtkJpTAT8BWbclsfFcRrE4kteGfoR3zGGwE=;
+        b=ihTKphl8ye2CF38Fsr9WD38JNZNG3jxyzTovMY6QR5A5PkUkYicHzduKdI3ZVMAPyD
+         xMC+pvlhXhcs8uo633dioB7LATdF+L5KNIlNqAhGYO4I/+AmzN4EzRfIq/GyNAu+DMry
+         yvdD1Ll4eCDkhAUsD00eq3A1ZimDgA6bzeeOf09Jna+Ai9R4duv2118Cbnwkd/Kb/QKd
+         T1zSKUZEAB2ebQ8THUpqAhID2bAYYOHOJZlTCfdcOpULLt7OkwDVWmuBnrbCDdawPrZI
+         5XK5W2jYVEOIqG90v08fwVRDajGEEO4z2ltL2PjNLDqLN7tzJsKwQKqjFwwLt8Cab9AC
+         8iIQ==
+X-Gm-Message-State: AOJu0Yzqccv6o9itHDYCjSpjeOODbCKpANj8KW1BC9nPiOK5fE8P6PC/
+	NgKuuWwSgXP/cSA2EfAOxM+4zkc5TOb9fnpEhYvBYLnLF8huhJFZrcnbPwQ14ZkIONfnjR9eKhA
+	SX+gP
+X-Gm-Gg: ASbGnctMVQnvBj/qVZMfeXyhpZpQ/qyD/0Fu0+soVILq/aRc16HSJJIohOPax7uEqB3
+	V1EbXImp9MRNfNGiE6TVr4C4ZnBlZsrNvZZlaIrdhs7tES4XOZwgRP6Z5mBdRIEPAWGckw5AO5E
+	JD0XADqIHSSkZGAkqfJFCcnLEiuBGXk4Sq2DBYJyNFeWSfCdTfXrP3bQDhTL/FuYx9wSQMWMWfF
+	buk671vhq8VFjfKhSpbqQ5eKl6ZpLWXxjDC3VFxnjaThCCKyOhu0bnxCTkL5ql+aEPaF5csTE+I
+	DSIco4lCsRLBjr+KshiHgrzaeZNd89Ii3Nt/PwFHhhRBnaASmouH7sRe
+X-Google-Smtp-Source: AGHT+IEkswNLEU02BAWb5H9288l2ROyyslTDPDwa7e2WjuALj1f91nnCm/tVgv96M+0l3TLd9rwzmg==
+X-Received: by 2002:a17:903:19eb:b0:22e:4586:e33f with SMTP id d9443c01a7336-23414fc09d1mr92215595ad.45.1748170975597;
+        Sun, 25 May 2025 04:02:55 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2341e8ca4acsm21376765ad.113.2025.05.25.04.02.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 May 2025 04:02:55 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 9765C10038B; Sun, 25 May 2025 01:02:54 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 25 May 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 25 May 2025 01:02:54 -1000
+Message-Id: <20250525110254.9765C10038B@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 May 2025 05:26:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217240
+ <openembedded-core@lists.openembedded.org>; Sun, 25 May 2025 11:03:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217241
 
-On Fri, May 23, 2025 at 9:50=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
-> On Fri, May 23, 2025 at 9:12=E2=80=AFPM Bruce Ashfield via
-> lists.openembedded.org
-> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> >
-> >
-> > On Sat, May 24, 2025 at 12:00=E2=80=AFAM Khem Raj <raj.khem@gmail.com> =
-wrote:
-> >>
-> >> modpost fails to process the debug location lists for riscv32
-> >>
-> >> | ERROR: modpost: vmlinux: local symbol '__asm_copy_to_user' was expor=
-ted
-> >> | ERROR: modpost: vmlinux: local symbol '__asm_copy_from_user' was exp=
-orted
-> >> | ERROR: modpost: vmlinux: local symbol '__clear_user' was exported
-> >> | ERROR: modpost: vmlinux: local symbol 'xor_regs_2_' was exported
-> >> | ERROR: modpost: vmlinux: local symbol 'xor_regs_3_' was exported
-> >> | ERROR: modpost: vmlinux: local symbol 'xor_regs_4_' was exported
-> >> | ERROR: modpost: vmlinux: local symbol 'xor_regs_5_' was exported
-> >> | WARNING: modpost: vmlinux: section mismatch in reference: 0x1560 (se=
-ction: __ex_table) -> .LASF464 (section: .debug_str)
-> >> | ERROR: modpost: __ex_table+0x1560 references non-executable section =
-'.debug_str'
-> >>
-> >> poky adds features/debug/debug-kernel.scc via distro policy and hence
-> >> the builds are failing for qemuriscv32 on AB. While this should be
-> >> fixed in kernel build system or tools, this makes us proceed until
-> >> then
-> >
-> > The question is .. how will we ever know to revisit this ? Can we raise=
- a bug
-> > To track that this needs to be reenabled later ?
-> >
->
-> I plan to open a tracker on - https://bugzilla.yoctoproject.org/
-> once its back online, but more importantly I am going to raise it in
-> riscv kernel community once
-> I have narrowed it a bit down.
+Branch: master
 
+New this week: 0 CVEs
 
-Filed - https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15878
+Removed this week: 1 CVEs
+CVE-2023-3079 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3079 *
 
->
-> > Bruce
-> >
-> >>
-> >>
-> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >> ---
-> >>  meta/recipes-kernel/linux/linux-yocto_6.12.bb | 5 ++++-
-> >>  1 file changed, 4 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb b/meta/reci=
-pes-kernel/linux/linux-yocto_6.12.bb
-> >> index fefed8c9c53..83be9fed428 100644
-> >> --- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> >> +++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> >> @@ -72,5 +72,8 @@ KERNEL_FEATURES:append =3D " ${@bb.utils.contains("D=
-ISTRO_FEATURES", "ptest", " cg
-> >>  KERNEL_FEATURES:append:powerpc =3D " arch/powerpc/powerpc-debug.scc"
-> >>  KERNEL_FEATURES:append:powerpc64 =3D " arch/powerpc/powerpc-debug.scc=
-"
-> >>  KERNEL_FEATURES:append:powerpc64le =3D " arch/powerpc/powerpc-debug.s=
-cc"
-> >> -
-> >> +# Do not add debug info for riscv32, it fails during depmod
-> >> +# ERROR: modpost: __ex_table+0x17a4 references non-executable section=
- '.debug_loclists'
-> >> +# Check again during next major version upgrade
-> >> +KERNEL_FEATURES:remove:riscv32 =3D "features/debug/debug-kernel.scc"
-> >>  INSANE_SKIP:kernel-vmlinux:qemuppc64 =3D "textrel"
-> >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await t=
-hee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#217221): https://lists.openembedded.org/g/openembed=
-ded-core/message/217221
-> > Mute This Topic: https://lists.openembedded.org/mt/113276800/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+Full list:  Found 26 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
+CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
+CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
+CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
+CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
+CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
+CVE-2025-23137 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23137 *
+CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
+CVE-2025-3198 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-3198 *
+CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
+CVE-2025-37925 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37925 *
+CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
+
+Summary of CVE counts by recipe:
+  linux-yocto: 22
+  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 1
+  libsndfile1: 1
+  qemu:qemu-native:qemu-system-native: 1
+  sqlite3:sqlite3-native: 1
+
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
