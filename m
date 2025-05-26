@@ -1,94 +1,112 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46936C54ED0
-	for <webhook@archiver.kernel.org>; Sun, 25 May 2025 18:45:36 +0000 (UTC)
-Received: from smarthost01c.ixn.mail.zen.net.uk (smarthost01c.ixn.mail.zen.net.uk [212.23.1.22])
- by mx.groups.io with SMTP id smtpd.web10.14273.1748198728494922676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 203F6C54FB3
+	for <webhook@archiver.kernel.org>; Mon, 26 May 2025 01:12:18 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.20354.1748221935444641557
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 May 2025 11:45:29 -0700
+ Sun, 25 May 2025 18:12:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=mrXn31+B;
- spf=pass (domain: mcrowe.com, ip: 212.23.1.22, mailfrom: mac@mcrowe.com)
-Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
-	by smarthost01c.ixn.mail.zen.net.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <mac@mcrowe.com>)
-	id 1uJGLe-00BBCr-Lk;
-	Sun, 25 May 2025 18:45:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description; bh=XutI9FRmfxd8IUqQ5ngKujWfay/+Uioe7p9lUO74Qw8=; b=mrXn3
-	1+B1z4MyRJZgeubRih2uZ/z1ne5E8CEtH5Geu3J1mfbbnhoPZhqvO2LXPj0nyf7aPXD0AOj4EnQlk
-	P4E9tOQwDc0TLL2iZ76FWGO9I7SCm09m7C10DFP2NWq2eXQx7mpGIGi769BZTRed+HcbqAP8CvAez
-	4S4emK8fLuDVpKombsWqWLuIxdvLlVn+kN/a8X9VGFL2lJAQ230uK0muZnhiRLkoxkzItG/l4dAFK
-	dBHLng1Xi0wXWmWT4yDvZnW2pbvP3ic5a5uy3/DvOXmznOi8OxEyajXoVPvDCIrPSGL+I0IrTBXma
-	Gxo9t1HqLqRgi8iCsCI9c79SZsIuA==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
-	(envelope-from <mac@mcrowe.com>)
-	id 1uJGLe-0032kK-0R;
-	Sun, 25 May 2025 19:45:26 +0100
-Date: Sun, 25 May 2025 19:45:26 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Jack Mitchell <jack@embed.me.uk>
-Subject: Re: [OE-core] [PATCH] kernel-fitimage: Cope with
- FIT_CONF_DEFAULT_DTB being empty
-Message-ID: <aDNlRimrPXkm-2MS@mcrowe.com>
-References: <20250523122045.3097055-1-mac@mcrowe.com>
- <DA5CTNMVP3RK.LB01EWGV6S6C@bootlin.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=d3j4vony;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-234549aed3cso4201705ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 May 2025 18:12:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748221935; x=1748826735; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aAIw0CnvPWTff2f45ml5FdzfWhtDtPYGNBZXyo/XQJQ=;
+        b=d3j4vonyW98aAZLa+USz81BO6zKbe0RfrBjtSbbZLp2FScmUeEn2jyUpFIgCHTbRxZ
+         15ANAS5J1d+3tLwPP56un15WbNlaRjjGrBTb9sme3+lBHZqnCVSyIIoiB+3nLuoe0WPu
+         W00odws8ijJTtRNOkVrlvkApH15Dwhnywcv4RfJ7W67zCXVZnzQF6O/e73zruVQpT6td
+         HeyZWcW7bFXbKR2QncdctSoRpa5tcOUPVqRTY4dqtk7PFJCWppcMjbi53whW0FSx1WnL
+         WHFrYXxu8zuH7e8brYJPNLNgBCA6djZ7QQSVE6lfRAVuAuLlvdkBsD4Mz7/g23Xf4/TZ
+         CIlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748221935; x=1748826735;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aAIw0CnvPWTff2f45ml5FdzfWhtDtPYGNBZXyo/XQJQ=;
+        b=Mv6f5je5U3Wnl0cIBs8fkGiDNlj87n6wsNBpF4+v4XnBxaWrZ3HwrQlwQvfxVgSMJ4
+         qcPq9WdKlK103uhUtgyYF0xaLKOEPip3DMW8+pKf2Ape/JzhVNX0qOqRa/zO1B9256HL
+         X6C38vWNe2wGkBMCBZnPqTYQIfDSPLdmNs46vtvweWVZ5RxbaroPuRC0Ps8Lomkf5XlV
+         cgC0SQ7MNCpI6gPyIZzME4fxejReZuTXwhKzYeCziJkXP55Ta0ss1DgG/FisHIO88W2h
+         ZO+A85w9AE7eeVShoh3Mffjo1/pE1IjdcFUrdE4VjOLGMtunjwYM5EGnhoBtNfyB9+rZ
+         DKZA==
+X-Gm-Message-State: AOJu0Yxfob2N/rseYRPIHMs0mDQmtEA3stjya0s4oDeonLTgpvpELcSz
+	1otHAPbP9gdXosszagH3jlUn3X3e+Mkk0VVA0zieGPkWfaA9LKjTjbCupFKJ8J7h
+X-Gm-Gg: ASbGncvlHldIn1SbkmxTi5oy859fRwhGdey8Nq8oby9sFjptS5EXXprXO93BddaKVJh
+	5EVtATHvK+8aOATA5RJuK3rMzORctXtoRsyKKfRZ8nFD2EOs8wA8NR38kJlh09py9crFnnWiz49
+	bHhQ62jFeD5G5VIB/cFLHuonf/pubz0yAJ198T25kdX5IzdEaG4JnOKSnCtDYKo53XOzCzmzlX0
+	mkMQzrGLrvuxAekrD8omeqUTYAk2QRWA3u6rbVohvCz2vjYSDI+8upJ6+Hb0eRxCU6e3AurtH/2
+	h5f1RLICNi5xxUIsG9xJEGqEwuCZDt1ozh9UdI7WLiA=
+X-Google-Smtp-Source: AGHT+IHNpkMJQL5IaWqXKqbghPdCsh60OjxyuOdklRoANCDW5bCNZzBuLaJCd3zqYfAQSdaXINc9VA==
+X-Received: by 2002:a17:902:e74b:b0:21f:768:cced with SMTP id d9443c01a7336-23414f3abb3mr97992515ad.8.1748221934453;
+        Sun, 25 May 2025 18:12:14 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::deb9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2340c0e72fasm36355515ad.239.2025.05.25.18.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 May 2025 18:12:14 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gcc: Fix riscv32 multilib issues in non-multilib toolchain
+Date: Sun, 25 May 2025 18:12:12 -0700
+Message-ID: <20250526011212.1797936-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DA5CTNMVP3RK.LB01EWGV6S6C@bootlin.com>
-X-Originating-smarthost01c-IP: [88.97.37.36]
-Feedback-ID: 88.97.37.36
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 May 2025 18:45:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217250
+ <openembedded-core@lists.openembedded.org>; Mon, 26 May 2025 01:12:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217251
 
-On Sunday 25 May 2025 at 17:41:51 +0200, Mathieu Dubois-Briand wrote:
-> On Fri May 23, 2025 at 2:20 PM CEST, Mike Crowe via lists.openembedded.org wrote:
-> > From: Mike Crowe <mac@mcrowe.com>
-> >
-> > Quote both sides of the comparison of ${FIT_CONF_DEFAULT_DTB} and $DTB
-> > consistently to avoid parse errors if either side is empty.
-> >
-> > Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> > Reviewed-by: Jack Mitchell <jack@embed.me.uk>
-> > ---
-> 
-> Hi Mike,
-> 
-> Thanks for your patch.
-> 
-> Just a note: this patch is conflicting with the "FIT image improvements"
-> series:
-> https://lists.openembedded.org/g/openembedded-core/message/217192
-> 
-> As this series is most likely going to be merged soon, can you rewrite
-> your patch on top of it?
+GCC RISC-V multilib does not map to OE's mutlilib concept
+extend the fix [1] done for RISCV64 to RISCV32 as well
 
-Hi Mathieu,
+[1] https://git.openembedded.org/openembedded-core/commit/?id=3081f62c18fcee642ab43efa717c8f71d51ae587
 
-I spotted that not long after I posted my patch. I replied, but somehow I
-only managed to send that reply to Adrian Freihofer, the author of the
-conflicting patch. Anyway, here's what I said:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc | 2 ++
+ meta/recipes-devtools/gcc/gcc-runtime.inc         | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-> It looks like Adrian Freihofer's
-> "[PATCH v5 14/17] kernel-fitimage: re-write its code in Python"
-> in <20250523094152.727177-15-adrian.freihofer@siemens.com> removes this code
-> and replaces it with Python which won't suffer from the problem. That's
-> much better than my fix above.
-
-So my patch can be ignored.
-
-Thanks and sorry for the hassle.
-
-Mike.
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index d9959364c3a..1a4169f91aa 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -149,6 +149,7 @@ python gcc_multilib_setup() {
+         'i686'      : ['gcc/config/i386/t-linux64'],
+         'mips'      : ['gcc/config/mips/t-linux64'],
+         'mips64'    : ['gcc/config/mips/t-linux64'],
++        'riscv32'     : ['gcc/config/riscv/t-linux-multilib'],
+         'riscv64'     : ['gcc/config/riscv/t-linux-multilib'],
+         'powerpc'   : ['gcc/config/rs6000/t-linux64'],
+         'powerpc64' : ['gcc/config/rs6000/t-linux64'],
+@@ -166,6 +167,7 @@ python gcc_multilib_setup() {
+         'powerpc64' : ['gcc/config/linux.h', 'gcc/config/rs6000/linux64.h'],
+         'aarch64'   : ['gcc/config/linux.h', 'gcc/config/aarch64/aarch64-linux.h', 'gcc/config/arm/linux-eabi.h'],
+         'arm'       : ['gcc/config/linux.h', 'gcc/config/aarch64/aarch64-linux.h', 'gcc/config/arm/linux-eabi.h'],
++        'riscv32'     : ['gcc/config/linux.h'],
+         'riscv64'     : ['gcc/config/linux.h'],
+     }
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index fe1f43b2fd7..c4e1c5b9a5f 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -144,7 +144,7 @@ do_install:append:class-target () {
+ 		ln -sf ../${X86ARCH32}${TARGET_VENDOR}-${TARGET_OS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}/32
+ 	fi
+ 
+-	if [ "${TARGET_ARCH}" = "riscv64" -a "${MULTILIB_VARIANTS}" = "" ]; then
++	if [ "${TARGET_ARCH}" = "riscv32" -o "${TARGET_ARCH}" = "riscv64" ] && [ -z "${MULTILIB_VARIANTS}" ]; then
+ 		mv ${D}${includedir}/c++/${BINV}/${TARGET_SYS}/bits/* ${D}${includedir}/c++/${BINV}/bits
+ 		mv ${D}${includedir}/c++/${BINV}/${TARGET_SYS}/ext/* ${D}${includedir}/c++/${BINV}/ext
+ 	fi
 
