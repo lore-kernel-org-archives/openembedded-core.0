@@ -1,244 +1,464 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAACBC5AD49
-	for <webhook@archiver.kernel.org>; Mon, 26 May 2025 09:09:40 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by mx.groups.io with SMTP id smtpd.web10.25031.1748250577117991072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8D91C54FB3
+	for <webhook@archiver.kernel.org>; Mon, 26 May 2025 09:30:00 +0000 (UTC)
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (EUR03-VI1-obe.outbound.protection.outlook.com [40.107.103.121])
+ by mx.groups.io with SMTP id smtpd.web11.25323.1748251794650781148
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 May 2025 02:09:37 -0700
+ Mon, 26 May 2025 02:29:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Aor+AUYs;
- spf=pass (domain: intel.com, ip: 198.175.65.9, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748250577; x=1779786577;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=O2WPEgQXIgVmoDwVpSQjL92x5gHlKbWsXdI7swXfO/8=;
-  b=Aor+AUYs56rCdkLxyLM1MmcBcDAHL3ihcAs7HJ5ifWi/yWnuMTRlpx0B
-   L70kpltZnxMr/+vhHm+MNibjBYn/0KYb6P1nxqRidUyV+z1uoRAgf62xs
-   YtoWmCeWKCtfuQ0FuSYPcRy6xJ3gS5iGjWqY7YV816Jr5+PwYLhVvsQdJ
-   7OtUU1DdXbvFniU32hyaa+7GNQ9AdS4IK1qvq8I1OWKa4t3A+nn2s5W0+
-   XF/9P2VgJxBjxh1RzH/ySZUp1SaA1tsT6oHjkSzCAHhMkCC+fn7m2WK92
-   SlIVwEF77wLadD80NrKHaOsYbIttpR6GN8uTO7wTJqzksJUUu1oRs26eJ
-   w==;
-X-CSE-ConnectionGUID: ZVWKzZkwT1u+ytn7ippXbg==
-X-CSE-MsgGUID: yOYExABpSWSxk726z3ZY9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="72746502"
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="72746502"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 02:07:48 -0700
-X-CSE-ConnectionGUID: caNYvrtiTcuNFdll69lBjQ==
-X-CSE-MsgGUID: qnf3n4QUSQqEf5W2f2XmOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="146185025"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 02:07:48 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Mon, 26 May 2025 02:07:47 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Mon, 26 May 2025 02:07:47 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.78)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.55; Mon, 26 May 2025 02:07:46 -0700
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=Xb9GXIff;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 40.107.103.121, mailfrom: niko.mauno@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mTCF5VDgfKXp5z/0eijB8WhXel6fJ3NyjKpGDv/w+0IwDId2KXaiMn+tVThmk2GlZSwt5aDGhNrHcn/ssMr5uvburoFVIvA9PhbqqnSzf/e7ziLU++iF2CcROHvvx3IvBCTmI71ChKIq4FCkD9a506NaaeE16ezG0/epGJ4Efpytj1QK3PsOVb2ZN7A+4cbDAnuAwtF+LIv28DNy28TdJ258DSf4rQ57BnoWnxSsP4gTXoroefZ7TRVl2S1lxdSpIvAhe/mcM+q+xlwQtVnIPRBYNj4LkKRzmkZE0+tkzxpqvNIcVi11T7KbqL3x//gu1V/CXiQSHXJYwp2J36UfdQ==
+ b=Lnfmnn8EAminXbACmxR8oY3tSMLZWyPlBszAR4UVFwUK5R11hTxWNB+S4wo1za5x/gAEIGxsRdj1DmMxJKevc5RIWuhW4dOSQtfAeIeDq4TxDOxVFHXmgjoncIeTHfAWJSEJuw+ZQfGHvnfcI0tH2CVc2sDIMhwiD6/GN9+tfe9s1tRDyzqE3yQGbo+aQ2IW8nJ0HYy38MVaf+cf/64oppCnj0VJ7NCxzIpFmDYkMOaQSM3x/QamaTUsYAAJoDNiegS6hbsv8CjSJ2dXpQIxw9ide6b4R8Wgo4V4APuVFwxzTqPTzB2D1d5uSHQHys8b2asC2mT2HW1FGl0YQaxucg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yD+1pC0Y3FXZ9J49rp57MKW0jxej+mIhDpehK/f8XsM=;
- b=X0owjhvRz4dPQ3IwURkgjKeDTIOe1FPF7vkQfGmap+HqMQd85dNkH5K4KzNCKtluJQ/IJTebtLua93ze0iucZ2Olq1yQTQ5GHTvip28Qi0qXCDG5RHi3PHr5Eu+CXkxhhm0tIp8VZphLMzDo2ZJILwpzbNvrCz1RS/qSy8AvfkOXb4Sg50gP5ptdd0wy4LB7vYlARVZsPh8k/YXI0y59rUHjWb5jD3JLA+jIj8xz+TiBYrt4JZtKvBGBfULKorIZV3doJSn7GhHsW4SJ1Yw3QlGISaLiKEpnOQqVhsO2i83xTI+5BLIQRVuTS4ZBBsf9R062MfKnm5fPgUJ5jBC2dA==
+ bh=2ZpbgWo/SofcUv2xTfx/aHTZS9qXysn42KE3qVk8agU=;
+ b=VzaGtHjvndYqSSdiGTyiFX3catEzbdjOCCSnWSOAVXB/7pbZQXBgNWKsMkg9PzAJTrY28GbD8pRNnG2N6pOBFt+uuKwi2Q3abkBj1gwGL8L2/d6/aJKiqpMJFpqwY4d4YyFt0EGKdokP0BzwjU7uqxgGJwsw+pgPFukvCpp2sbmUfkuWb60V7rr+44wWLYXPVkx5XYRUtVum4EYqri9612bD+40X6LvHnABGhVk7Umfgp2GGBwl4ijASTdVOHtgixuYN9/jQ8LKXCEiF5cFUdxBrdbyN1qEyId5NOwRLVKGXkPxddR/0t/ihtRULKcFAWUg7UrhCv+6X2jZVbFsPQw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
- by IA1PR11MB6538.namprd11.prod.outlook.com (2603:10b6:208:3a2::5) with
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2ZpbgWo/SofcUv2xTfx/aHTZS9qXysn42KE3qVk8agU=;
+ b=Xb9GXIffe864vSsrWxIfnbtH+ElGyMOO8nOJ73agS/0KUE4oMFXj4Shc+Tl9E5C4wmC5FPQFxWQkJ/wE6iC5xtuQjf+mTY6WL+gQyDB/WQ+YGmr6mDBQyVB6PKgHYMURsn3gTEvrIDgB3rLQV02eHnUlaF+q1trKuaMnhG1Y1LTp3/2JzPEUXfS3Htgn9RJX17EXfstStX+01nRoavqPPlcZzUAp2xmPAi8q0yWIuWr8K0NGMvwuEDTMfCC2Ihmo5l6YPQedWX36F4vjtB7lkCjKQwIsu+i49L+Ge2kTTdaW9YORBjrhs4UwuPmC3fK/ohEcIMWfIRpddwJj2o5Ssw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by AM8PR06MB6836.eurprd06.prod.outlook.com (2603:10a6:20b:1c7::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.24; Mon, 26 May
- 2025 09:07:30 +0000
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a%6]) with mapi id 15.20.8769.022; Mon, 26 May 2025
- 09:07:29 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"pokybuild@yoctoproject.org" <pokybuild@yoctoproject.org>,
-	"qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"Openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [yocto] QA notification for completed autobuilder build
- (yocto-5.2.1.rc1)
-Thread-Topic: [yocto] QA notification for completed autobuilder build
- (yocto-5.2.1.rc1)
-Thread-Index: AQHbzM6OLZWY5mm8X0ejtkUdfgw417PkoS/Q
-Date: Mon, 26 May 2025 09:07:29 +0000
-Message-ID: <DM4PR11MB776046B2D4C9595FE07BD872A165A@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: <010101970344de7e-a0658898-c111-477b-b2ac-093e5ac89415-000000@us-west-2.amazonses.com>
-In-Reply-To: <010101970344de7e-a0658898-c111-477b-b2ac-093e5ac89415-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|IA1PR11MB6538:EE_
-x-ms-office365-filtering-correlation-id: 5c475341-936a-4fe6-5a6e-08dd9c34be29
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?gA3VMAPRnlCrj1bG5yE62nbgQifUUHQcsjjSIsS8nxC1/b7BbaBnCiHsvRn9?=
- =?us-ascii?Q?X/8RoRFMObwQoC4zorcU1bL2XpfIEzvONKS9DSw3HSTgkixPaNjjP2E0fiL0?=
- =?us-ascii?Q?SLcHjf5avftin04SVfQm6et4tgJkXpXcIoaGl8tb14x+sUZ2xolsGLyKZhXb?=
- =?us-ascii?Q?zqCSYqvQLR/7jf7+AGPMNr/qsUq4pZED9yHjhJPibbqbQk/K2iC4+ISAsB3q?=
- =?us-ascii?Q?08g05bdUp/V1BomhJjsEpx6zoLF+fa0KwmEo1J4XUDkc86qo5kdNDK73+cZj?=
- =?us-ascii?Q?JBscl8lUaANxM60QbAH6yJtQV8I1z8gZstxvzVrBrq302Q18rZjeJvrWyWhd?=
- =?us-ascii?Q?DLL0A60lGnjIeG5fWuLDgUgxcRQYcae8g+9fH7jYt6UNzlMph3388YJWwBpA?=
- =?us-ascii?Q?VDaoixAbMI1mnsYc+DwrsxlGZFfqsvxSkBPWzDcZnAhUp1gCwZ7CkoPfme3+?=
- =?us-ascii?Q?xMerJ18JQSK/7fDToHALn3V84GSArvs4Ozn8o3TPSGhxudRdXwcw3sZFaa5e?=
- =?us-ascii?Q?6Xp3Xt/jtvWXz92anLkRskc+7x0S4IlJRL+Yt3grPiWRae5ywF3X6CX16/i+?=
- =?us-ascii?Q?HAigiC9lvMHjpz6XLXLxn7Rgt5rceOvG8SH4cXMPIVI/6yGxGVCkZsOlrH33?=
- =?us-ascii?Q?WznwPN7GlPjkxN90hj5chuAzxdQbZrVcBB0USGKD//ypIc4+MmKdlq6fJXqH?=
- =?us-ascii?Q?hiHZCKLvtai3CMD1eNqrUFLcwbL3E6ly0NpDuaIU1neoXPuWTVgnzNP6FZkR?=
- =?us-ascii?Q?wJDcvEZOqB6hsbO9aFlI8Xr6tSeYBo0cKTc5I6gUTOtNz+4Kh6EM9CJN+tPZ?=
- =?us-ascii?Q?uoxkq3M8xJeedLagS4lqGxi1WkJ2vLde8+8CyX81qpUH5JnqPT06OxIQ94Ge?=
- =?us-ascii?Q?tmwotWW2f46T3V8fu2ydID64O+mbd3Ms4BaUsAGd11WX1QTEXZuaP2O+lVdh?=
- =?us-ascii?Q?neOLIQo8TXyyqyElf/GC4rBIGyvaEB0V5a6uCCnWxZH2tVdV9tBbik1tUb3a?=
- =?us-ascii?Q?q14zp9uPQx7Skm6Cxc3cwijiUVT3Fs9fJ1xRK28QgYuq7+9hxC8Z+KNcBM+A?=
- =?us-ascii?Q?f2GGfjc1HIHtfH/SE8Lo683cquVSfqm9C52gcBicjLAb+myN9VAUWm2MzMR4?=
- =?us-ascii?Q?UwUjPod2Rklx3sP0CnEinUSIwq8jqr/4pL6JcK6mBWHXFLVcQYSbgO8ezM48?=
- =?us-ascii?Q?gHGLOjk/LQsVplPubX5nXx+6HhJH+Gg6/vb0Z+mVVoS6rMe497QTno36sy+W?=
- =?us-ascii?Q?cE+ovKHCgV6bGH1C06xPU8wnes/xzjzc6uaIjgbSpo6NnlIlSWKgNl6DPH0Z?=
- =?us-ascii?Q?dTDmbDG1skSJ+Y1SqOI+8fnxxp3niLgnBRTw/ZsjgMSo3oJ+QPNqoxQi1lA+?=
- =?us-ascii?Q?BNQ04Xtdco/gscaiKg9kCN2L02v/9xhEyWBet8a549U6F48x9LUsrzPc+cjm?=
- =?us-ascii?Q?8lDHeSRGulA=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?c2IsxD2Jmc/mv/DMF7VTzCciYoeiMPQUGBXM1yb2A3aYyYkf/SP+DhShSrjh?=
- =?us-ascii?Q?0ILbKXO3byQjWbVzy6O9Ttuw7shtmnQwPYOBou2exAzWkjuFgfqR6kc4vlQI?=
- =?us-ascii?Q?eMBhy9zf+Dj01NUigQGjSuaWXXnChpwVxwxVuxAaMxXX5hFguLibl3s9wk5v?=
- =?us-ascii?Q?VOhux7Jf75ABUItWAm2NwE/4Njp/RkOU++BvbhbmzxmVhICprkviqabHvUJy?=
- =?us-ascii?Q?kd79J22qPFO1Umwpv+rJznEY61GjfxJWVIMF6Y3N1Ccl9FUcgd0Ol3ZT3K2k?=
- =?us-ascii?Q?3oD7r40VmbZrdbIrRofuT7N/iKpD7PxgN6h8OtbaN9QFwnwvwZ9NrH78P8nY?=
- =?us-ascii?Q?/M9frSWuKVLK3JkGyrWBHF58qA4XYXaLyJC0xJGw/fitucybVbUF9vEHCyJm?=
- =?us-ascii?Q?5Qz/4NggXHSct1arSQQU6f12aVC7eXGEvG/+guYQlU7NAnUTZH2Bydi4MsrP?=
- =?us-ascii?Q?W/0bHKN5EHjQuI74FlbNcPIt+IlCUIWgvKibzKIaXuY4Nh0NkxeKfRjMft2m?=
- =?us-ascii?Q?+CjEYlFct/nYXG+8NDbOL69zdU4kjy8+C6vUrJJCo/cxXiP9ofBBi9iQUAJZ?=
- =?us-ascii?Q?ItDVTckcLe5nDYZ8Zhir+volZNjS6XRRhBw3Wg5X614fwSmXJLnjzQwTN/En?=
- =?us-ascii?Q?ZyFksXLNUrJGBWCSlj5lKiKrn0X6vs6av6pxJYz8bI7Cl2Fq6qFwBi0ye1Md?=
- =?us-ascii?Q?gNIgj0s/pMC3bm3FgC7CJT+AA+Wgx0hEfSsGi0wt45v0v95qkM+FABhSSZ0/?=
- =?us-ascii?Q?abuR8CJlfBkAfUeJoqJzaylcE1Y0fnYWRKKf4tIIdkx56jhsvlF6fMYiLVCY?=
- =?us-ascii?Q?8+tnyfIpw+c7ctkO6utKe76uNR729MO/rX8WQLEOSfpAGBJ0phM/8AffR0WN?=
- =?us-ascii?Q?Gx4ZYMfq+e4tJjNkb53IKHBuJj2I+Fek7eADRCKhh1pGV1sdpKbr6eslLvkI?=
- =?us-ascii?Q?aW+MQRu5Siask7VcaeGyWzOBdHtYuDyAcTCDwlrke5VJQqKW0wYfzilGhtz9?=
- =?us-ascii?Q?b+FPMvzJUcCf75qhdpoiVNWzsy104TG59tjGyCNkySGIHVVpJOm1HcO8RHEu?=
- =?us-ascii?Q?Ix2FIfvZq87q6kHk+qyPJjtl21kjzGbPgwp/fbwYwY0uZlIiZ1ZrXaBah13L?=
- =?us-ascii?Q?wXo0kYOz0QkY8clELxzgmJ6qwWSiBn4+wTblvAw0D2h5JFCDnrcslP50zruA?=
- =?us-ascii?Q?9V0pHdF6PBgMFN9G8lZ4cDMv3IXifojyrBw+2Txuml4n1mT0FJzCi0SSqURp?=
- =?us-ascii?Q?Z3+lHf5fjNbskO4qmxXEJajgL2EmjOfxxKvfGHsFihsah7UP+QHPfSXJnaIN?=
- =?us-ascii?Q?HG1BzyUU+zkMQL8n6PDeiKbsLxUB5wjorx7MYINEHMxlQm4BCBfn65BbsbGl?=
- =?us-ascii?Q?iBwwr7eVxL3PSEaOLaFjkSjKn4IIBbSAh/3RihecHqLMOFFWX3r/zHpbmgtX?=
- =?us-ascii?Q?Z+06ibcxsDSYKOVWYh0n9EWTKWxxyotPoFUQs8W/ByHNQMnkMpz2k3/i99k3?=
- =?us-ascii?Q?0Y7WY3EKYesFcFtk2q5RIm4mcFt1yzrF65n5a7WM/rH435nnPzkfSRYnvVfN?=
- =?us-ascii?Q?L/8THBZpyTL4ZsLIAF2iN2u3oXgS2046OicGNJdZ?=
-Content-Type: text/plain; charset="us-ascii"
+ 2025 09:29:51 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc%6]) with mapi id 15.20.8769.022; Mon, 26 May 2025
+ 09:29:51 +0000
+From: Niko Mauno <niko.mauno@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+CC: Niko Mauno <niko.mauno@vaisala.com>
+Subject: [PATCH 3/3] linux: cve-exclusions: Amend terminology
+Date: Mon, 26 May 2025 09:29:27 +0000
+Message-ID: <20250526092927.2588577-3-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250526092927.2588577-1-niko.mauno@vaisala.com>
+References: <20250526092927.2588577-1-niko.mauno@vaisala.com>
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: GV3PEPF00002BA5.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:144:1:0:6:0:1c) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|AM8PR06MB6836:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3100a2dc-9adf-4167-2d4d-08dd9c37dd7b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?6TuKMSNzk1+Mky5tsOv+CQiV/qvGkfvN1Op1+o7GJzDSzW7EdiWEkr0c+GNe?=
+ =?us-ascii?Q?eGakq7TcVmg1Aiu3vcSsP7GMJYKqc4aWIRnilMdD+3IzrsY5vageavt13vxQ?=
+ =?us-ascii?Q?Zm7bCswbp6fw2aXzYe9IqISBKrzwBA0Dr1TsnsJ3HAqbNs0MOf/M5Pkf5OnC?=
+ =?us-ascii?Q?dhXF1cg31Y0k1YMYzNRBAcjPkJ9mdvLXkboNdT+N2huB475iCTW/Ln4vc/yQ?=
+ =?us-ascii?Q?vStHgCalP//shha0Nq+FkL+3eLaWHrtFxXmxxJqFRfRzIwzmHTTqzDJKuxdv?=
+ =?us-ascii?Q?ZgJOhrtLAUECQE3zyydd01AlWhIMPafjaNop0ipxjtKVW4hSdYqmlH+QbtWK?=
+ =?us-ascii?Q?/eE8v6uo4uKac6Vw3+Ab6Ibu3kRnTnL0iCRcj87JnHmbJsLJR2tpiXeQWn0O?=
+ =?us-ascii?Q?P0O3QczIsL8+QMEtbE3i8aY0AQrxQg+PeqyHOgzT9X1MShm+EJtUYV8qsWPs?=
+ =?us-ascii?Q?tatH6wdhg0RfCaxdsuVJMRkkPGBF2gOQCoFltvfr3RqBgIyV7GS+YqcL4rbA?=
+ =?us-ascii?Q?R3SpTLGvbUsTDKw77ujptPloDyjBnDiKC6v0vBoliavGIsBBDMdIXndE4Kux?=
+ =?us-ascii?Q?KXkVv6wfcLpcYRGk/iX5w34XkFRKPhc0TQ3vpDOtAgOWajgFqypmyPYgA6/P?=
+ =?us-ascii?Q?uRSNZl5K7Wk5PtcGZQ8JY1k2P3k9fiT6Ty7JSFFU/dRavbE2SdgiO8nC1RK8?=
+ =?us-ascii?Q?BCIv6zhVSM8XAOzJ459gAiDmquz7YhBMo/Qht0rNQZABv5gFZW1r2MMdZJWo?=
+ =?us-ascii?Q?Kem3PIVMJnbYNheKGPDBoVZE6BsTYpYTind78+R1/icMgNDom7B29qhzaKhc?=
+ =?us-ascii?Q?kqzkNa0eGBememBmANwVpDom6Qs9OX/seeeQ10h2O71jq36Bse9naY+IU+eX?=
+ =?us-ascii?Q?4rTIb3+S8tvFCJ7BOUEKzFu8h070kL6fG9DNTq8EtFShdxQSDRhM0tcdgIkz?=
+ =?us-ascii?Q?4VDp07EBfxBlo8wex6lPKuSi9xZw2CyXqTCkEr8tBcIZKSk17TsBBv0xsyQo?=
+ =?us-ascii?Q?2EpDdbY7wjJXfCmiWuXSfyvCO+FhYjnAR5ecEiShWohUUZEmMz93aGTxlrup?=
+ =?us-ascii?Q?SXzBgtgjD3DdazQ/4U31HxU0WI6lxxfMAiZcuJkmR54/KIv88sMrgzy9ipjT?=
+ =?us-ascii?Q?isJPd6Ntvj3igka0VWp3g/jylKJ9DuZvqI54EIQcTxguvfKjaI5KYwzO5RuV?=
+ =?us-ascii?Q?jSP9e70zi6dbCiUODy/rspBxOij/STyTOgciR28SD+4cTvhRvlecBoR+uifV?=
+ =?us-ascii?Q?Q+d8KintadZ3oCW7XPvLarawlp0r+2c65T4HGwq8IMZOMbeUg8Pfn3YjaFUX?=
+ =?us-ascii?Q?3rmYgWQMkWMGApQvcI3r4N0dYZwrJhAqXEQE2nXIwmQPkVV6SwVR9ZKRx15a?=
+ =?us-ascii?Q?bBCwOVBAa1WjuqSKcLC3PDvsVan2+KImvrvWO5lqO9RpsYCN97aKd8twJxpL?=
+ =?us-ascii?Q?+7RaTGAhYY8V02dhXiMRFxRnAN6kq0r+7T1vGFlxz6NEyqrUl4CcHhxKA7EZ?=
+ =?us-ascii?Q?js+5T3/N/uOT41E=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?1KdZsN0Ux4duu7yyH++n64ngwTDIK2k74HY2M/axgYj8U2aFwIQFUjdZ1IAp?=
+ =?us-ascii?Q?D3/vs3Rb3y+GxLpcV0BNDGkqHwtWYVn+IWliBrZxwO4bf+WjpwVREBpox0uN?=
+ =?us-ascii?Q?6IB/zLiHWtPKiGXTz31BwOLdFSGX00GC1vdKQAnS3ocSdCBTFQui/jxjZORS?=
+ =?us-ascii?Q?qI2eh3Es9/4OwqRbUWhe3/6SYUnx6RiclPgE+XCz2oxSa8qfsmRooR2rS58M?=
+ =?us-ascii?Q?9+tADTAyQa/HkHyb5RnbI5V1KgS06qsgsInA/xHHo2W+YehBvGJAIWbZkd+k?=
+ =?us-ascii?Q?FLgDlQAqSm+gOwSFYW9KR8zTlccNUNnXyJtKyNCVy9yBEJ0JhKgm4zy4RWjs?=
+ =?us-ascii?Q?3jL5bUWZ2dQJkJZy1ArU081yJNTjPHlPrC91pjG6d5zV9uDyV0LoEGNU3Pbd?=
+ =?us-ascii?Q?JQBDniOMEzFKTN6rPNRF0FcQDCJzxo/TvW8BCKGtz5cN/N43kYL6glA/66K4?=
+ =?us-ascii?Q?m5qdsBuQ2IJLtjhvRyn7mRhBE/ojLNDgF+DExRSOYE496cEeYG8RGLLVj3hK?=
+ =?us-ascii?Q?DgNsf2D8ZR7YlcSzWOF3S4Wg77pyC7JU4RlrKJNMva7rtHKOrDNVPds/T4qN?=
+ =?us-ascii?Q?clBea22U3HWIr9JPbuitDldnuy9Aa5+X6wVEpacsJ+5HDB9AHtlN/7IINIjR?=
+ =?us-ascii?Q?N5YSVU7zaaCVwtMcFnEB0TwGfJBUV/WTqQHBV97UsAps4LCxsmv9h8VOruYV?=
+ =?us-ascii?Q?7KIjlL7u35K739T5CXAZKtd+GQ7kVY2cFcoiH3CjBoyK/Yr25g4DGpvmx25T?=
+ =?us-ascii?Q?yKthLl1VYLtVmxiv0VpiYR8c/0DFJXOhmo8TEq5MQctf2ZVOXKqHxfduRDvS?=
+ =?us-ascii?Q?j6fgoywk1iRUAaJNog6gc/WdI21YrNvPFb/3KQaCLBtUpeBRdA1eXpG8vAsC?=
+ =?us-ascii?Q?frEpXub3ceW+23aCz7H2DegIuit7GapvCPSK8Pf5DfwQ/FMHe1XB/Ni4ggnf?=
+ =?us-ascii?Q?OBwZ0n/yvJ0j8wRstssAZ+vrecpombex9LOXccp31Vg3Kmv3RnCwa+qepyyg?=
+ =?us-ascii?Q?RFSwOUV0gKKEgN8Y8xh6F6D3slNKZQfVnYjERg9e1XLr+C71JtFY0yV61h/1?=
+ =?us-ascii?Q?9IUipGlMW/0500E6Wr855M0Nj/yN6Vqt6ghXUJCJNJhmrxKznItcF4eWhvuH?=
+ =?us-ascii?Q?RvFzDpspSd2adJqq3HZZ+ecmtLX5+hMGJwbFmV5/2X8TsG6H0BKGFEM/fJFB?=
+ =?us-ascii?Q?iDR85HU/HEYqmPmLF7SHTqli8Y36Q7M9wHIkRJJJXlM04OeBbxC43CtxygT5?=
+ =?us-ascii?Q?xvWlN/AfDmU3Y/alynJDwu1QLwo5JJ85o3KcynB9stHvcZ5RZ0Gp0vSCZfI8?=
+ =?us-ascii?Q?cCAnlk1ADbJVtoA88j5yJbzk99+3xpOs7CJpqy7viMaNlvBhvLEz86Co+mBf?=
+ =?us-ascii?Q?D+ayUUwlKJpD+7Y0b3Dob12zkapRt5DgkLBP5+aJvWQTMTKnVK/feZaiVNRS?=
+ =?us-ascii?Q?kRcqmr7JWwSVuCOSGxEWo/TBOS6Xjf1FYuZe9G2XFyDht6r+12y0a5vsE27T?=
+ =?us-ascii?Q?4BD8v4gqTD3AbvX+MtK+Ttvr5jQlE0K2EI2n4xD8zNdFjD6UPgv5g3HBF3pv?=
+ =?us-ascii?Q?62ZYhxuJWVgAuGQFfWdE1P9cNIskOIY9MYPgNQDY4KUXWk42qVJ6lI2CBUM2?=
+ =?us-ascii?Q?aw=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3100a2dc-9adf-4167-2d4d-08dd9c37dd7b
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c475341-936a-4fe6-5a6e-08dd9c34be29
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2025 09:07:29.8894
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2025 09:29:51.1573
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EQzuJIzzZSq22VsVftfIjQjI6IMOo0qafm++5Okiilwxs68+nGLaVjVk+vpsQHPRZFh0KgH4K+a/3ZZ+pNVpbw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6538
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yyx0tyt++7lWnGP/U3dixW9aVP7quDvIov9yMmFVGv3F0mMVNaWsc1ZB8RwvsYpPkcmJXnPLI8S4WBT6jhQ/uQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR06MB6836
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 May 2025 09:09:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217262
+ <openembedded-core@lists.openembedded.org>; Mon, 26 May 2025 09:30:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217263
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-5.2.1.rc=
-1. We are planning to execute following tests for this cycle:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-	1. MinnowBoard Turbot - 32bit
-	2. Alder Lake-S=20
-	3. Arrow Lake=20
-	4. Meteor Lake-P=20
-	5. Amston Lake
-	6. Bartlett lake-S
-	7. Beaglebone
-	8. BeaglePlay
-=20
-=20
-ETA for completion: Thursday, 29May 2025.
-=20
-Best regards,
-Jing Hui
+Replace the term 'needs backporting' with 'may need backporting' in
+generate-cve-exclusions.py when the checked kernel version may or may
+not be in the vulnerable version range, thus making backporting
+necessary only in the former case.
 
+In tandem we regenerate the content of cve-exclusion_6.12.inc using
+https://github.com/CVEProject/cvelistV5.git repository main branch at
+git hash b20d0043711588b6409ae3118bc0510ab888c316 to keep the content
+in sync with the script.
 
-> -----Original Message-----
-> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
-lf
-> Of Pokybuild User via lists.yoctoproject.org
-> Sent: Sunday, May 25, 2025 1:09 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [yocto] QA notification for completed autobuilder build (yocto-
-> 5.2.1.rc1)
->=20
->=20
->     A build flagged for QA (yocto-5.2.1.rc1) was completed on the autobui=
-lder
-> and is available at:
->=20
->=20
->         https://valkyrie.yocto.io/pub/releases/yocto-5.2.1.rc1
->=20
->=20
->     Build URL:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1654
->=20
->     Build hash information:
->=20
->     bitbake: 5b4e20377eea8d428edf1aeb2187c18f82ca6757
-> meta-agl: e66db9b71ee6566d5931f590e5491661e94b5e13
-> meta-arm: 4f8d2f4b2fa23b89098a8e7347d6bb26228acd68
-> meta-aws: a28a159b336db6531e5482ca5c6f92b25231b184
-> meta-clang: b3e5449f0156884d18c17efff99654cde8251411
-> meta-intel: b5c65864faeff4ed95f4f75daf5535a95a809e5e
-> meta-mingw: edce693e1b8fabd84651aa6c0888aafbcf238577
-> meta-openembedded: 2169c9afcc0945045bea49f58011080942d4ddb4
-> meta-virtualization: b54f05a85be5e2b80c111506b7c4d35d7d4eb54d
-> oecore: 17affdaa600896282e07fb4d64cb23195673baa1
-> poky: fd9b605507a20d850a9991316cd190c1d20dc4a6
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+---
+ .../linux/cve-exclusion_6.12.inc              | 142 +++++++++---------
+ .../linux/generate-cve-exclusions.py          |   2 +-
+ 2 files changed, 72 insertions(+), 72 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.12.inc b/meta/recipe=
+s-kernel/linux/cve-exclusion_6.12.inc
+index c03ad19a3d..120b1b5ef7 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
+@@ -1,6 +1,6 @@
+=20
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2025-05-24 12:02:58.590640+00:00 for version 6.12.27
++# Generated at 2025-05-24 12:18:11.126849+00:00 for version 6.12.27
+=20
+ python check_kernel_cve_status_version() {
+     this_version =3D "6.12.27"
+@@ -12356,7 +12356,7 @@ CVE_STATUS[CVE-2025-22100] =3D "fixed-version: only=
+ affects 6.13 onwards"
+=20
+ # CVE-2025-22101 needs backporting (fixed from 6.15rc1)
+=20
+-# CVE-2025-22102 needs backporting (fixed from 6.12.30)
++# CVE-2025-22102 may need backporting (fixed from 6.12.30)
+=20
+ # CVE-2025-22103 needs backporting (fixed from 6.15rc1)
+=20
+@@ -12640,7 +12640,7 @@ CVE_STATUS[CVE-2025-37819] =3D "cpe-stable-backport=
+: Backported in 6.12.26"
+=20
+ CVE_STATUS[CVE-2025-37820] =3D "cpe-stable-backport: Backported in 6.12.26=
+"
+=20
+-# CVE-2025-37821 needs backporting (fixed from 6.12.29)
++# CVE-2025-37821 may need backporting (fixed from 6.12.29)
+=20
+ CVE_STATUS[CVE-2025-37822] =3D "cpe-stable-backport: Backported in 6.12.26=
+"
+=20
+@@ -12776,99 +12776,99 @@ CVE_STATUS[CVE-2025-37888] =3D "cpe-stable-backpo=
+rt: Backported in 6.12.26"
+=20
+ CVE_STATUS[CVE-2025-37889] =3D "cpe-stable-backport: Backported in 6.12.20=
+"
+=20
+-# CVE-2025-37890 needs backporting (fixed from 6.12.28)
++# CVE-2025-37890 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37891 needs backporting (fixed from 6.12.28)
++# CVE-2025-37891 may need backporting (fixed from 6.12.28)
+=20
+ CVE_STATUS[CVE-2025-37892] =3D "cpe-stable-backport: Backported in 6.12.24=
+"
+=20
+ CVE_STATUS[CVE-2025-37893] =3D "cpe-stable-backport: Backported in 6.12.23=
+"
+=20
+-# CVE-2025-37894 needs backporting (fixed from 6.12.28)
++# CVE-2025-37894 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37895 needs backporting (fixed from 6.12.28)
++# CVE-2025-37895 may need backporting (fixed from 6.12.28)
+=20
+ CVE_STATUS[CVE-2025-37896] =3D "fixed-version: only affects 6.14 onwards"
+=20
+-# CVE-2025-37897 needs backporting (fixed from 6.12.28)
++# CVE-2025-37897 may need backporting (fixed from 6.12.28)
+=20
+ CVE_STATUS[CVE-2025-37898] =3D "fixed-version: only affects 6.13 onwards"
+=20
+-# CVE-2025-37899 needs backporting (fixed from 6.12.28)
++# CVE-2025-37899 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37900 needs backporting (fixed from 6.12.28)
++# CVE-2025-37900 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37901 needs backporting (fixed from 6.12.28)
++# CVE-2025-37901 may need backporting (fixed from 6.12.28)
+=20
+ CVE_STATUS[CVE-2025-37902] =3D "fixed-version: only affects 6.15rc5 onward=
+s"
+=20
+-# CVE-2025-37903 needs backporting (fixed from 6.12.28)
++# CVE-2025-37903 may need backporting (fixed from 6.12.28)
+=20
+ CVE_STATUS[CVE-2025-37904] =3D "fixed-version: only affects 6.13 onwards"
+=20
+-# CVE-2025-37905 needs backporting (fixed from 6.12.28)
++# CVE-2025-37905 may need backporting (fixed from 6.12.28)
+=20
+ # CVE-2025-37906 needs backporting (fixed from 6.15rc4)
+=20
+-# CVE-2025-37907 needs backporting (fixed from 6.12.28)
++# CVE-2025-37907 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37908 needs backporting (fixed from 6.12.28)
++# CVE-2025-37908 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37909 needs backporting (fixed from 6.12.28)
++# CVE-2025-37909 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37910 needs backporting (fixed from 6.12.28)
++# CVE-2025-37910 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37911 needs backporting (fixed from 6.12.28)
++# CVE-2025-37911 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37912 needs backporting (fixed from 6.12.28)
++# CVE-2025-37912 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37913 needs backporting (fixed from 6.12.28)
++# CVE-2025-37913 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37914 needs backporting (fixed from 6.12.28)
++# CVE-2025-37914 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37915 needs backporting (fixed from 6.12.28)
++# CVE-2025-37915 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37916 needs backporting (fixed from 6.12.28)
++# CVE-2025-37916 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37917 needs backporting (fixed from 6.12.28)
++# CVE-2025-37917 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37918 needs backporting (fixed from 6.12.28)
++# CVE-2025-37918 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37919 needs backporting (fixed from 6.12.28)
++# CVE-2025-37919 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37920 needs backporting (fixed from 6.12.28)
++# CVE-2025-37920 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37921 needs backporting (fixed from 6.12.28)
++# CVE-2025-37921 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37922 needs backporting (fixed from 6.12.28)
++# CVE-2025-37922 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37923 needs backporting (fixed from 6.12.28)
++# CVE-2025-37923 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37924 needs backporting (fixed from 6.12.28)
++# CVE-2025-37924 may need backporting (fixed from 6.12.28)
+=20
+ # CVE-2025-37925 needs backporting (fixed from 6.15rc1)
+=20
+-# CVE-2025-37926 needs backporting (fixed from 6.12.28)
++# CVE-2025-37926 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37927 needs backporting (fixed from 6.12.28)
++# CVE-2025-37927 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37928 needs backporting (fixed from 6.12.28)
++# CVE-2025-37928 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37929 needs backporting (fixed from 6.12.28)
++# CVE-2025-37929 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37930 needs backporting (fixed from 6.12.28)
++# CVE-2025-37930 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37931 needs backporting (fixed from 6.12.28)
++# CVE-2025-37931 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37932 needs backporting (fixed from 6.12.28)
++# CVE-2025-37932 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37933 needs backporting (fixed from 6.12.28)
++# CVE-2025-37933 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37934 needs backporting (fixed from 6.12.28)
++# CVE-2025-37934 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37935 needs backporting (fixed from 6.12.28)
++# CVE-2025-37935 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37936 needs backporting (fixed from 6.12.28)
++# CVE-2025-37936 may need backporting (fixed from 6.12.28)
+=20
+ CVE_STATUS[CVE-2025-37937] =3D "cpe-stable-backport: Backported in 6.12.23=
+"
+=20
+@@ -12888,63 +12888,63 @@ CVE_STATUS[CVE-2025-37944] =3D "cpe-stable-backpo=
+rt: Backported in 6.12.25"
+=20
+ CVE_STATUS[CVE-2025-37945] =3D "cpe-stable-backport: Backported in 6.12.24=
+"
+=20
+-# CVE-2025-37946 needs backporting (fixed from 6.12.29)
++# CVE-2025-37946 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37947 needs backporting (fixed from 6.12.29)
++# CVE-2025-37947 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37948 needs backporting (fixed from 6.12.29)
++# CVE-2025-37948 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37949 needs backporting (fixed from 6.12.29)
++# CVE-2025-37949 may need backporting (fixed from 6.12.29)
+=20
+ CVE_STATUS[CVE-2025-37950] =3D "fixed-version: only affects 6.14 onwards"
+=20
+-# CVE-2025-37951 needs backporting (fixed from 6.12.29)
++# CVE-2025-37951 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37952 needs backporting (fixed from 6.12.29)
++# CVE-2025-37952 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37953 needs backporting (fixed from 6.12.29)
++# CVE-2025-37953 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37954 needs backporting (fixed from 6.12.29)
++# CVE-2025-37954 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37955 needs backporting (fixed from 6.12.29)
++# CVE-2025-37955 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37956 needs backporting (fixed from 6.12.29)
++# CVE-2025-37956 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37957 needs backporting (fixed from 6.12.29)
++# CVE-2025-37957 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37958 needs backporting (fixed from 6.12.29)
++# CVE-2025-37958 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37959 needs backporting (fixed from 6.12.29)
++# CVE-2025-37959 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37960 needs backporting (fixed from 6.12.29)
++# CVE-2025-37960 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37961 needs backporting (fixed from 6.12.29)
++# CVE-2025-37961 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37962 needs backporting (fixed from 6.12.29)
++# CVE-2025-37962 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37963 needs backporting (fixed from 6.12.29)
++# CVE-2025-37963 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37964 needs backporting (fixed from 6.12.29)
++# CVE-2025-37964 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37965 needs backporting (fixed from 6.12.29)
++# CVE-2025-37965 may need backporting (fixed from 6.12.29)
+=20
+ CVE_STATUS[CVE-2025-37966] =3D "fixed-version: only affects 6.13 onwards"
+=20
+-# CVE-2025-37967 needs backporting (fixed from 6.12.30)
++# CVE-2025-37967 may need backporting (fixed from 6.12.30)
+=20
+-# CVE-2025-37968 needs backporting (fixed from 6.12.30)
++# CVE-2025-37968 may need backporting (fixed from 6.12.30)
+=20
+-# CVE-2025-37969 needs backporting (fixed from 6.12.29)
++# CVE-2025-37969 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37970 needs backporting (fixed from 6.12.29)
++# CVE-2025-37970 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37971 needs backporting (fixed from 6.12.29)
++# CVE-2025-37971 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37972 needs backporting (fixed from 6.12.29)
++# CVE-2025-37972 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37973 needs backporting (fixed from 6.12.29)
++# CVE-2025-37973 may need backporting (fixed from 6.12.29)
+=20
+-# CVE-2025-37974 needs backporting (fixed from 6.12.29)
++# CVE-2025-37974 may need backporting (fixed from 6.12.29)
+=20
+ CVE_STATUS[CVE-2025-37975] =3D "cpe-stable-backport: Backported in 6.12.25=
+"
+=20
+@@ -12976,9 +12976,9 @@ CVE_STATUS[CVE-2025-37988] =3D "cpe-stable-backport=
+: Backported in 6.12.26"
+=20
+ CVE_STATUS[CVE-2025-37989] =3D "cpe-stable-backport: Backported in 6.12.26=
+"
+=20
+-# CVE-2025-37990 needs backporting (fixed from 6.12.28)
++# CVE-2025-37990 may need backporting (fixed from 6.12.28)
+=20
+-# CVE-2025-37991 needs backporting (fixed from 6.12.28)
++# CVE-2025-37991 may need backporting (fixed from 6.12.28)
+=20
+ CVE_STATUS[CVE-2025-38049] =3D "cpe-stable-backport: Backported in 6.12.23=
+"
+=20
+diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/re=
+cipes-kernel/linux/generate-cve-exclusions.py
+index ea59c15a01..b45c2d5702 100755
+--- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
++++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
+@@ -141,7 +141,7 @@ do_cve_check[prefuncs] +=3D "check_kernel_cve_status_ve=
+rsion"
+                         f'CVE_STATUS[{cve}] =3D "cpe-stable-backport: Back=
+ported in {backport_ver}"'
+                     )
+                 else:
+-                    print(f"# {cve} needs backporting (fixed from {backpor=
+t_ver})")
++                    print(f"# {cve} may need backporting (fixed from {back=
+port_ver})")
+             else:
+                 print(f"# {cve} needs backporting (fixed from {fixed})")
+=20
+--=20
+2.39.5
+
 
