@@ -2,111 +2,109 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 203F6C54FB3
-	for <webhook@archiver.kernel.org>; Mon, 26 May 2025 01:12:18 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.20354.1748221935444641557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A094CC54F30
+	for <webhook@archiver.kernel.org>; Mon, 26 May 2025 01:55:58 +0000 (UTC)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web10.20890.1748224553779777240
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 May 2025 18:12:15 -0700
+ Sun, 25 May 2025 18:55:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=d3j4vony;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-234549aed3cso4201705ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 May 2025 18:12:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HSXXPdF0;
+ spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2cc36b39545so886409fac.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 May 2025 18:55:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748221935; x=1748826735; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aAIw0CnvPWTff2f45ml5FdzfWhtDtPYGNBZXyo/XQJQ=;
-        b=d3j4vonyW98aAZLa+USz81BO6zKbe0RfrBjtSbbZLp2FScmUeEn2jyUpFIgCHTbRxZ
-         15ANAS5J1d+3tLwPP56un15WbNlaRjjGrBTb9sme3+lBHZqnCVSyIIoiB+3nLuoe0WPu
-         W00odws8ijJTtRNOkVrlvkApH15Dwhnywcv4RfJ7W67zCXVZnzQF6O/e73zruVQpT6td
-         HeyZWcW7bFXbKR2QncdctSoRpa5tcOUPVqRTY4dqtk7PFJCWppcMjbi53whW0FSx1WnL
-         WHFrYXxu8zuH7e8brYJPNLNgBCA6djZ7QQSVE6lfRAVuAuLlvdkBsD4Mz7/g23Xf4/TZ
-         CIlQ==
+        d=gmail.com; s=20230601; t=1748224553; x=1748829353; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i9Ph4jH4uvoFk5n4s1UkWEt2KKKsjPTVtLUt79ALn0s=;
+        b=HSXXPdF0Kt1Drs4CXY1Y3swicuFn+O8awaUJJPLlB6kKI1oTXGEazEWJt3MhgPvWtT
+         Yv7N44OShXzg02IMa1d+c0OAN4YZNIDt1VXCqAJHV79SqmKfrrbwmxkw6F32Yi0tXoaF
+         IB+bB5+LecFQItNMzx7wvx7V3Xfkh7AJOE67h+BeUNDBIFT1QbsGAsCqQzvxJAn8gMDM
+         itCuNNRuxG8VKosunSRCKrtlCCF+MKPKF2PGHAudVsekRUfjqmrUfcHrucDFEUKDvQNk
+         0t1Fm+KCQSMb19ANL4TVF+fCf9eCwqh3yVDuB0cgHFBLlE90l1G2/Ov5C9xJGr1otvqv
+         SbyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748221935; x=1748826735;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aAIw0CnvPWTff2f45ml5FdzfWhtDtPYGNBZXyo/XQJQ=;
-        b=Mv6f5je5U3Wnl0cIBs8fkGiDNlj87n6wsNBpF4+v4XnBxaWrZ3HwrQlwQvfxVgSMJ4
-         qcPq9WdKlK103uhUtgyYF0xaLKOEPip3DMW8+pKf2Ape/JzhVNX0qOqRa/zO1B9256HL
-         X6C38vWNe2wGkBMCBZnPqTYQIfDSPLdmNs46vtvweWVZ5RxbaroPuRC0Ps8Lomkf5XlV
-         cgC0SQ7MNCpI6gPyIZzME4fxejReZuTXwhKzYeCziJkXP55Ta0ss1DgG/FisHIO88W2h
-         ZO+A85w9AE7eeVShoh3Mffjo1/pE1IjdcFUrdE4VjOLGMtunjwYM5EGnhoBtNfyB9+rZ
-         DKZA==
-X-Gm-Message-State: AOJu0Yxfob2N/rseYRPIHMs0mDQmtEA3stjya0s4oDeonLTgpvpELcSz
-	1otHAPbP9gdXosszagH3jlUn3X3e+Mkk0VVA0zieGPkWfaA9LKjTjbCupFKJ8J7h
-X-Gm-Gg: ASbGncvlHldIn1SbkmxTi5oy859fRwhGdey8Nq8oby9sFjptS5EXXprXO93BddaKVJh
-	5EVtATHvK+8aOATA5RJuK3rMzORctXtoRsyKKfRZ8nFD2EOs8wA8NR38kJlh09py9crFnnWiz49
-	bHhQ62jFeD5G5VIB/cFLHuonf/pubz0yAJ198T25kdX5IzdEaG4JnOKSnCtDYKo53XOzCzmzlX0
-	mkMQzrGLrvuxAekrD8omeqUTYAk2QRWA3u6rbVohvCz2vjYSDI+8upJ6+Hb0eRxCU6e3AurtH/2
-	h5f1RLICNi5xxUIsG9xJEGqEwuCZDt1ozh9UdI7WLiA=
-X-Google-Smtp-Source: AGHT+IHNpkMJQL5IaWqXKqbghPdCsh60OjxyuOdklRoANCDW5bCNZzBuLaJCd3zqYfAQSdaXINc9VA==
-X-Received: by 2002:a17:902:e74b:b0:21f:768:cced with SMTP id d9443c01a7336-23414f3abb3mr97992515ad.8.1748221934453;
-        Sun, 25 May 2025 18:12:14 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::deb9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2340c0e72fasm36355515ad.239.2025.05.25.18.12.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 May 2025 18:12:14 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gcc: Fix riscv32 multilib issues in non-multilib toolchain
-Date: Sun, 25 May 2025 18:12:12 -0700
-Message-ID: <20250526011212.1797936-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1748224553; x=1748829353;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i9Ph4jH4uvoFk5n4s1UkWEt2KKKsjPTVtLUt79ALn0s=;
+        b=MxPngWN5mqC1uBs1HDrSJM6l2jFM/HGc0y/+Pf7Me8Z86G9vlq6ZwVzFVF0E8c/Rye
+         GO//FGgZFWi8wku1C5rPrvhqoFUbCTYbnhK2F5Gzfif3gIrnLfJ6UGGJ12rKKh8EDpoU
+         aAM6ERk6AS38aBPGyy2NAniqrEcSt1h90TmxkKzM/R/0KdgTGAW0RZc5JbsX53mgEIYC
+         4DmrymyJut+uHV/PnIyCZXm79XtCoMimaFtuppidFs23faoD6pHOc21yfZDikd4jCKMv
+         pa+k6onoFGhXE/EJqYqRhMQrjMAobv4W0o5uuZ39vR+iYCmXCZHGNhFwYJmZpBZJtMA2
+         qE1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUWrmHdZ7FX633GWhxcE6gl+lp6zUT8oPl76A5RRTRePjsxBYaxXkgvIdbYZMj+LxoxIMMHFwHCH665UbBtvbUq1g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzsna4JejBxbkPC3RVjx1ixiKbKANgUcn9gLAinQHM4yinvozIi
+	StO6mLYOcgym5yrO2tGxBTXxkk0iJ8o5nWOX5hzPq8W3xFlnY+F2l0UIX39NkdZlzvweP3qJN+g
+	pXJ1z6k6zBdIvZRJuCzVU2RejqbpYYTM=
+X-Gm-Gg: ASbGncuFyiLC9+/jtCISMZgKDMO4Q9E0ipj1RRKuliONRojggGlFLgPmhSzYuQlBfEr
+	LELjKLv7O7UL3cdoZFhDdE3HXdQH8Q2CYmEz3Cf2Jzjq64+G3AwqjQSDjICbwOx9s+HyNaCfvDT
+	E70c+a/xzXbUdywVN6LXv+yszIs6b2TyTLjPD+HaPWHiU=
+X-Google-Smtp-Source: AGHT+IG8LXc9wT4XOWzbeGqyrvaTRIelhBLE1YgGK7Gu05J6BczUyXKK+qFYPvm5XNScbNPuZ0Mmhm4pnL1FfjQjUh8=
+X-Received: by 2002:a05:6870:a508:b0:2d4:e8ce:7bcc with SMTP id
+ 586e51a60fabf-2e83e2a1e82mr6489630fac.8.1748224552941; Sun, 25 May 2025
+ 18:55:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250521080925.815334-1-hongxu.jia@windriver.com>
+ <DA2H7Z2IQH15.8AQHUB50F8SB@bootlin.com> <AS1PR10MB5697E603603C2156BCF1DE5CFD99A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <DA2KDA7L7YRZ.2I1CKTLPP29LZ@bootlin.com> <AS1PR10MB5697DC8D007471A68D8709ECFD99A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <DA2ORDMJAWTX.2XH4RND735F7C@bootlin.com>
+In-Reply-To: <DA2ORDMJAWTX.2XH4RND735F7C@bootlin.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 25 May 2025 18:55:26 -0700
+X-Gm-Features: AX0GCFsyXTJmrIaoj4aDr6fEfi1jgDUYPdlxHJFmy4q1oEgAk5z_zD2v56z_QBg
+Message-ID: <CAMKF1spdgbveyFvNWoouh9XEdU+RAOX9pNoUgFGe4N2=XcpUEg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/5] libxml2: upgrade 2.13.8 -> 2.14.3
+To: mathieu.dubois-briand@bootlin.com
+Cc: "Marko, Peter" <Peter.Marko@siemens.com>, Hongxu Jia <hongxu.jia@windriver.com>, 
+	"alex.kanavin@gmail.com" <alex.kanavin@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 May 2025 01:12:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217251
+ <openembedded-core@lists.openembedded.org>; Mon, 26 May 2025 01:55:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217252
 
-GCC RISC-V multilib does not map to OE's mutlilib concept
-extend the fix [1] done for RISCV64 to RISCV32 as well
+libxml2 upgrade will need some package adjustments in other recipes
+depending on it. e.g. libiio from meta-oe see
 
-[1] https://git.openembedded.org/openembedded-core/commit/?id=3081f62c18fcee642ab43efa717c8f71d51ae587
+https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/2490442/raw_inlin=
+e
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-multilib-config.inc | 2 ++
- meta/recipes-devtools/gcc/gcc-runtime.inc         | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-index d9959364c3a..1a4169f91aa 100644
---- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-+++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-@@ -149,6 +149,7 @@ python gcc_multilib_setup() {
-         'i686'      : ['gcc/config/i386/t-linux64'],
-         'mips'      : ['gcc/config/mips/t-linux64'],
-         'mips64'    : ['gcc/config/mips/t-linux64'],
-+        'riscv32'     : ['gcc/config/riscv/t-linux-multilib'],
-         'riscv64'     : ['gcc/config/riscv/t-linux-multilib'],
-         'powerpc'   : ['gcc/config/rs6000/t-linux64'],
-         'powerpc64' : ['gcc/config/rs6000/t-linux64'],
-@@ -166,6 +167,7 @@ python gcc_multilib_setup() {
-         'powerpc64' : ['gcc/config/linux.h', 'gcc/config/rs6000/linux64.h'],
-         'aarch64'   : ['gcc/config/linux.h', 'gcc/config/aarch64/aarch64-linux.h', 'gcc/config/arm/linux-eabi.h'],
-         'arm'       : ['gcc/config/linux.h', 'gcc/config/aarch64/aarch64-linux.h', 'gcc/config/arm/linux-eabi.h'],
-+        'riscv32'     : ['gcc/config/linux.h'],
-         'riscv64'     : ['gcc/config/linux.h'],
-     }
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index fe1f43b2fd7..c4e1c5b9a5f 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -144,7 +144,7 @@ do_install:append:class-target () {
- 		ln -sf ../${X86ARCH32}${TARGET_VENDOR}-${TARGET_OS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}/32
- 	fi
- 
--	if [ "${TARGET_ARCH}" = "riscv64" -a "${MULTILIB_VARIANTS}" = "" ]; then
-+	if [ "${TARGET_ARCH}" = "riscv32" -o "${TARGET_ARCH}" = "riscv64" ] && [ -z "${MULTILIB_VARIANTS}" ]; then
- 		mv ${D}${includedir}/c++/${BINV}/${TARGET_SYS}/bits/* ${D}${includedir}/c++/${BINV}/bits
- 		mv ${D}${includedir}/c++/${BINV}/${TARGET_SYS}/ext/* ${D}${includedir}/c++/${BINV}/ext
- 	fi
+On Thu, May 22, 2025 at 5:25=E2=80=AFAM Mathieu Dubois-Briand via
+lists.openembedded.org
+<mathieu.dubois-briand=3Dbootlin.com@lists.openembedded.org> wrote:
+>
+> On Thu May 22, 2025 at 2:14 PM CEST, Peter Marko wrote:
+> >
+> > OK, I have updated my patch to .3 and sent to mailing list.
+> > Don't forget to pick the lttng-tools patch again with it...
+> >
+> > Peter
+> >
+>
+> Thanks, I will take both patches for my next build.
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#217094): https://lists.openembedded.org/g/openembedde=
+d-core/message/217094
+> Mute This Topic: https://lists.openembedded.org/mt/113225735/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
