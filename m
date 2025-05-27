@@ -2,179 +2,139 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F27F5C54F30
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE338C54ED1
 	for <webhook@archiver.kernel.org>; Tue, 27 May 2025 09:08:27 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.46943.1748336903622697064
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.46970.1748336899922052424
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 May 2025 02:08:24 -0700
+ Tue, 27 May 2025 02:08:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=GZsG5n+K;
- spf=pass (domain: linaro.org, ip: 209.85.208.169, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30db1bd3bddso28901491fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 02:08:23 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=cj6s0un1;
+ spf=pass (domain: linaro.org, ip: 209.85.208.170, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-32a72cb7e4dso293041fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 02:08:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748336902; x=1748941702; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ymzRLX8mHGWIXTl5rAqgtK+/CGnBh+2kv1JenCJbhYY=;
-        b=GZsG5n+KRv+qtyENJVgPVzIxLrHC+1d0d7h2kH5FIvIPX43XGhq3CWEoeD0KPARPcX
-         6OntZawDL5DjQ8dhGPYJ3OZSmRL6AcWe+C6BXAfeUVHqtSVA3L2lvboKqkp/NatOdydJ
-         1KU565au/1bHUKny3EndpNE704+3a2gVv+o9JfsLtQCuFRpPJzcqTJtAoDyUWvv45HAG
-         VlESMpcGWqL37VIwIs41iaffU3Ftvgx/CGxXyBR9wdmJxu4ydwcYdzH0WKdu4/er8zJF
-         HKKnPaJt7nMTPpua47+YloUJkEQHA6AnH6hftrRfpVScAVex+ofOiidpPNU/wXGV2rOK
-         8mYg==
+        d=linaro.org; s=google; t=1748336898; x=1748941698; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fv2X96gPCKUYBJEF1TZSMhlnIFP28fUoWr6YlbwP6Vk=;
+        b=cj6s0un11ZaiOjpn2B0RwiFsOZHtq6dDIaAdYqBOnSLLGIeXbwgCU5Al2iQG6Ua2PA
+         PX5QAbFGX9jyfaUe9QJJ6nFNnbPr+NWjGvCgbj3sPGFd9iIrAYRJjUnl0zr7TUJyeOA+
+         i81fENEMMkKdeDhB5Umf2eGJX/9t8h+ezEQrPCbLA1+YoaG4pp2SCovtWdB4pO2Ig/vC
+         0WCYh92sgUMZcKMcy3+vWfXDdVX6LEEiCowhwVeIP6oRs1CoYyy1rdBmEY803F0S4teb
+         eFOe9LDWyk6vBLpgL1tr6cDvuS0qoCwC84yATaNd0LSSRyAWrlUof6YouUeF2Jtvx6Tb
+         QO3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748336902; x=1748941702;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ymzRLX8mHGWIXTl5rAqgtK+/CGnBh+2kv1JenCJbhYY=;
-        b=Z3Il3pWxfr/l/zJMWHBf0OrBbSXDUL/QleAWbSgOY1lp9aiQA8YFX7ZTaXHArygTJ5
-         pg+aQC8xtePIoseVUOdL0vUvUa9TkpyI7r1C33rBw3DdfKKEn+qqwnLTuq+w1NaXI5yq
-         XvNaDkYbCOTiVvjM4aFFgTWUvSx8Lw/IDq1sEW64tgEa6SaGxAua2/53RWuHckDKRNaI
-         TwAyfhVrUPBd0P2J41svQkyTV9XWqBixkRi2mgkARisuY0m5WNYQynMEzx4cmH6/S8/4
-         HR1OdwiNxd5s3X77XeOdFdcltzhLy6tnrGRxrnaTlAlV047X0ZcgLgluf82u6kgPbxpJ
-         J50w==
-X-Gm-Message-State: AOJu0YwOPQrhMcv/G3D3JGk+XU45VWhjBBsqNshIyfKM3/QDwlsZGfPi
-	2NyF47p1NImxh8r0hc87n1VVIklC3pwKDXD43iR5eUHRTro8/m6ng0Pq7E7AMEQcWb1QEMYSx8M
-	MTdfKxW4=
-X-Gm-Gg: ASbGncseQjohNjMAW8FszITTRda0q3h551UxU24LTvSTfeHClOTDxVHA/aiCCrQoNX1
-	kMzdbFQ7AZPM6E9qzTs/Akpi4itR2N9Ka1B6snRhshZDJfRtvUVH73TqBrnK+Wh82XwDQsQ5L3W
-	dwSZhIXxo5lx7HCImifaTHrWbxc9vG3i+MioKGGWocLaPwpERRTmXcFbDnSyROqT7OcBFK8Um7i
-	Cq9L/V+vd3YVLNiqTmK4/B0LOnolQpnod5oHBdLS8o6NwxCJaO6TvqcwH3VcNY2umDSb6+RhRO9
-	koFPdqL8NTYY2G447gk3V9Nmd4LGPxMR0i32c5uC/vq50VXSOLb9lMA9tgywUJHDOwZhB/QOeT+
-	3c6k75yhyaat54buZvL4H4Vu5
-X-Google-Smtp-Source: AGHT+IET1TylKvo5RrUotmXUqJZEW1BudhQDBl9wp2ElE7/MiGm50YGUmV3Z7An5khjPyZnNZQ0Uzg==
-X-Received: by 2002:a05:651c:b20:b0:30b:cd68:b68d with SMTP id 38308e7fff4ca-3295b9ba38cmr32282881fa.10.1748336901685;
-        Tue, 27 May 2025 02:08:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748336898; x=1748941698;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fv2X96gPCKUYBJEF1TZSMhlnIFP28fUoWr6YlbwP6Vk=;
+        b=bLw0J6wv1zP6Nc6mbX/6S82jKCPKMW2lbGG6cDVQn6z+T/3GdvHfl4B3DD6d3GSyox
+         KHbZQXzZF4HpzPOVVAkAd8uWIOhfNhRndywVTScmwoGiNMeb+3+UCdlGdYKNO/PxfVsK
+         42DXu44rPXWCqLs7gPGwDR4KKuwmHPHgq87St86iBSW42WFc6qKntOxdnQDrCgiDKJNA
+         Fh3N1hrgyKTc0JcBjwAvFrpPUaa5WzKNiDY5ghZyGfAZ9osLddUhgeZH0O6EbBqC6+0y
+         l3TSpk3qKGJTr/737Ka1DYP2MBKqqxjaNl0ym08XPyE2vtMVmrV+wGC3XCcGaO9VqYyb
+         C2Tg==
+X-Gm-Message-State: AOJu0YyJxRtOCRntaw88YEKpGVuBlnRQSL8vHtjCEtrhCtcBPCKEAD7V
+	Bnj8nuZtOAyVRYGaBu10Y53sAFgkuwx+0f7p/D+2jlhKjl1/ZI9JOxnj5NP00kf3y6Wmtzg8znQ
+	0nNVJwJg=
+X-Gm-Gg: ASbGncujWqX93bEm2I7hFfGwKSA6cvRHvCQ8XvLXeVvWVzzgQkwQlzpDk/m8JPOdKE0
+	RLJNDWOrBCYwtkx5+sBGpEwroCXwedqegIUzU0UU06A30+g+DEFFFzjtGedf6cfTg/MWefsk8XQ
+	IP8cxd0Fw1JVaH28yPP+cNN6J0eZscNQN6jM5UMX4KMtOpx/cSICdfq8oCDHgsV36yX7o1BOlSN
+	x0tfyYFXAMtFTdV2Lrk+m6hGwhjZT8Aepss6ysxKfRNRjBbtmqQ7OlGVJS5zxUZrrNQU1dU+nDN
+	XbMJvky1Z9wr2Z4X4Ym1z8C8dgGvQDuG+FUWG5G7HGPk8fx8FMGiO2wgvFWVGspAM1zfmhok9tt
+	isKc6n+kt+ECvsZlpk2V6vmpE
+X-Google-Smtp-Source: AGHT+IEVXHXJeNQn8BdpZ8bWXT/Qtfojcm5sf2Y4v9ZKyg/GtKC6VSY9esI751Noai3F6Bfv40fptQ==
+X-Received: by 2002:a2e:a98c:0:b0:308:eb34:103a with SMTP id 38308e7fff4ca-3295ba58655mr43947481fa.28.1748336897895;
+        Tue, 27 May 2025 02:08:17 -0700 (PDT)
 Received: from localhost.localdomain (2001-14ba-48e-3a00--183.rev.dnainternet.fi. [2001:14ba:48e:3a00::183])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32a6d358ecbsm2290211fa.17.2025.05.27.02.08.21
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32a6d358ecbsm2290211fa.17.2025.05.27.02.08.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 02:08:21 -0700 (PDT)
+        Tue, 27 May 2025 02:08:17 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v5 4/4] oeqa selftest uboot.py: add qemu KVM test case
-Date: Tue, 27 May 2025 12:07:57 +0300
-Message-ID: <20250527090758.540188-4-mikko.rapeli@linaro.org>
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Subject: [PATCH v5 1/4] u-boot: disable CONFIG_BLOBLIST on genericarm64 and qemuarm64
+Date: Tue, 27 May 2025 12:07:54 +0300
+Message-ID: <20250527090758.540188-1-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250527090758.540188-1-mikko.rapeli@linaro.org>
-References: <20250527090758.540188-1-mikko.rapeli@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 09:08:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217293
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217290
 
-Add a test case to boot target system via u-boot
-using qemu with KVM. This was broken recently
-and workaround proposed to u-boot. Test case
-works with genericarm64 and qemuarm64 target machines
-compiled and tested on aarch64 build host with KVM
-support.
+Booting u-boot on qemu with kvm is currently hanging on aarch64
+build host. Root cause is in u-boot and CONFIG_BLOBLIST can be
+disabled as a workaround.
 
-Test execution time with full sstate cache is
-around 170 seconds. qemu boot itself takes just
-a few seconds to full userspace.
+To reproduce, build on kvm enabled host where "kvm-ok"
+succeeds. For example genericarm64 machine and core-image-base
+should then boot with:
 
+$ runqemu slirp nographic novga snapshot kvm
+
+On qemuarm64, default kvm setup will boot directly to kernel
+and is not affected by this. If build enables u-boot as bios
+then the same issue happens.
+
+Without this config workaround, the boot hangs without
+any messages in qemu output but ctrl-a-c to qemu console
+can shutdown the emulated machine.
+
+This seems to have regressed after u-boot 2025.04 update.
+KVM boot can be detected from speed, for example genericarm64
+boots in 550 ms with KVM and without in over 5 seconds.
+
+Fixes: [YOCTO #15872]
+
+Upstream u-boot discussion:
+https://lists.denx.de/pipermail/u-boot/2025-May/590101.html
+
+Cc: Ilias Apalodimas <ilias.apalodimas@linaro.org>
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/lib/oeqa/selftest/cases/uboot.py | 62 ++++++++++++++++++++++++++-
- 1 file changed, 60 insertions(+), 2 deletions(-)
+ meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg | 1 +
+ meta/recipes-bsp/u-boot/u-boot-common.inc                 | 4 ++++
+ 2 files changed, 5 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg
 
-v5: added WKS_FILE_DEPENDS_BOOTLOADERS:aarch64 = "grub-efi systemd-boot" to make
-    sure EFI loader is compiled before wic runs, fixes for this are queued
-    separately, hopefully fixes autobuilder side boot failure
+v4, v5: no changes, posted together with selftest for feature
 
-v4: use skipIfNotBuildArch, variable for image name except config where
-    bitbake syntax causes python parsing errors when replacing variables,
-    check that target host arch and build arch are the same for KVM to work,
-    fixed QB_DRIVE_TYPE syntax to include /dev/ path,
-    tested on aarch64 build machine and genericarm64 and qemuarm64 target machines
+v3: added u-boot discussion link to commit message
+    https://lists.openembedded.org/g/openembedded-core/message/217105
 
-v1: https://lists.openembedded.org/g/openembedded-core/message/217107
+v2: applying to genericarm64 and qemuarm64 machines only
+    https://lists.openembedded.org/g/openembedded-core/message/217054
 
-diff --git a/meta/lib/oeqa/selftest/cases/uboot.py b/meta/lib/oeqa/selftest/cases/uboot.py
-index 96da4efb06..4e203c4741 100644
---- a/meta/lib/oeqa/selftest/cases/uboot.py
-+++ b/meta/lib/oeqa/selftest/cases/uboot.py
-@@ -6,8 +6,8 @@
- #
+v1: https://lists.openembedded.org/g/openembedded-core/message/217030
+
+diff --git a/meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg b/meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg
+new file mode 100644
+index 0000000000..d01d3d12d8
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/disable-CONFIG_BLOBLIST.cfg
+@@ -0,0 +1 @@
++# CONFIG_BLOBLIST is not set
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index fd1eab5cdd..a77c49cb8b 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -16,6 +16,10 @@ SRCREV = "34820924edbc4ec7803eb89d9852f4b870fa760a"
  
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import bitbake, runqemu
--from oeqa.core.decorator.data import skipIfNotArch
-+from oeqa.utils.commands import bitbake, runqemu, get_bb_var, get_bb_vars, runCmd
-+from oeqa.core.decorator.data import skipIfNotArch, skipIfNotBuildArch
- from oeqa.core.decorator import OETestTag
+ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV}"
  
- uboot_boot_patterns = {
-@@ -41,3 +41,61 @@ QEMU_USE_KVM = "False"
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(status, 1, msg=output)
-             self.assertTrue("U-Boot" in output, msg=output)
++# workaround for aarch64 kvm qemu boot regression
++SRC_URI:append:qemuarm64 = " file://disable-CONFIG_BLOBLIST.cfg"
++SRC_URI:append:genericarm64 = " file://disable-CONFIG_BLOBLIST.cfg"
 +
-+    @skipIfNotArch(['aarch64'])
-+    @skipIfNotBuildArch(['aarch64'])
-+    @OETestTag("runqemu")
-+    def test_boot_uboot_kvm_to_full_target(self):
-+        """
-+        Tests building u-boot and booting it with QEMU and KVM.
-+        Requires working KVM on build host. See "kvm-ok" output.
-+        """
-+
-+        runCmd("kvm-ok")
-+
-+        image = "core-image-minimal"
-+        vars = get_bb_vars(['HOST_ARCH', 'BUILD_ARCH'], image)
-+        host_arch = vars['HOST_ARCH']
-+        build_arch = vars['BUILD_ARCH']
-+
-+        self.assertEqual(host_arch, build_arch, 'HOST_ARCH %s and BUILD_ARCH %s must match for KVM' % (host_arch, build_arch))
-+
-+        self.write_config("""
-+QEMU_USE_KVM = "1"
-+
-+# Using u-boot in EFI mode, need ESP partition for grub/systemd-boot/kernel etc
-+IMAGE_FSTYPES:pn-core-image-minimal:append = " wic"
-+
-+# easiest to follow genericarm64 setup with wks file, initrd and EFI loader
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
-+EFI_PROVIDER = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", "systemd-boot", "grub-efi", d)}"
-+WKS_FILE_DEPENDS_BOOTLOADERS:aarch64 = "grub-efi systemd-boot"
-+WKS_FILE = "genericarm64.wks.in"
-+
-+# use wic image with ESP for u-boot, not ext4
-+QB_DEFAULT_FSTYPE = "wic"
-+
-+PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
-+QB_DEFAULT_BIOS = "u-boot.bin"
-+
-+# let u-boot or EFI loader load kernel from ESP
-+QB_DEFAULT_KERNEL = "none"
-+
-+# virt pci, not scsi because support not in u-boot to find ESP
-+QB_DRIVE_TYPE = "/dev/vd"
-+# qemu usb causes u-boot reset atm
-+QB_OPT_APPEND = ""
-+""")
-+        bitbake("virtual/bootloader %s" % image)
-+
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', image) or ""
-+        with runqemu(image, ssh=False, runqemuparams='nographic kvm %s' % runqemu_params) as qemu:
-+
-+            # boot to target and login worked, should have been fast with kvm
-+            cmd = "dmesg"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(status, 1, msg=output)
-+            # Machine is qemu
-+            self.assertTrue("Machine model: linux,dummy-virt" in output, msg=output)
-+            # with KVM enabled
-+            self.assertTrue("KVM: hypervisor services detected" in output, msg=output)
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build"
+ 
 -- 
 2.43.0
 
