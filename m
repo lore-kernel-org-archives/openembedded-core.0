@@ -1,113 +1,121 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A361FC54ED1
-	for <webhook@archiver.kernel.org>; Tue, 27 May 2025 16:01:03 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.55845.1748361659890000663
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B817DC54ED1
+	for <webhook@archiver.kernel.org>; Tue, 27 May 2025 16:16:53 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.56331.1748362609719041441
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 May 2025 09:01:00 -0700
+ Tue, 27 May 2025 09:16:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dCWZAm/R;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: skandigraun@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a376ba6f08so2308659f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 09:00:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Yzxid87G;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so33415105e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 09:16:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748361658; x=1748966458; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Cc4r4cyHbI5AQnblhF9AwBPlLxrLnIPaD8btfQgMHCk=;
-        b=dCWZAm/Rb7SqzxaR8rkJ0ca4nwS4GrPZ0TGFxqfLyJmJ9s675+n8EIc6hyny57gBb0
-         VhfQVGnrQBTC4F67ON42V7+oMChKm8ozG/94z4yogxkzy4qxwEZnr9giRoSzRtrXerN9
-         QxPvdS+GKjutyl00/mfRHxoGeTUvhDc7pB+lrx50IT+WIuJe327X22U+HoAvitfyj375
-         eWvO53Ib9LeoYgh3Y8LYiEL7n2237L5kpEorEBkcnCIQvUfcX2/cl22Qwe67BGU2toht
-         EwSZtFZ0JdVqjAwv9+3C7ADElHUkBd5xtZuU4pK/QRTcfepmv4/vrneYxI9Y0Af0HhgZ
-         s3CA==
+        d=linuxfoundation.org; s=google; t=1748362607; x=1748967407; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2PFYq/kBAMMna8Aq6uWmEUwS85AoaTJQz+d8/9HWIxk=;
+        b=Yzxid87GRA8y/zcgDof4DPPyF2cYEHeVwGlPjM5JrUEWPP58Vo3YZypfFpdnmtf2Jv
+         iypse2c/PySCywDmhcoexM6SwGnhXA8zo1DoFq+ZbGSblVWlfLXiJOFBtxGHuHFSNOkf
+         6N/f5Ke/Bw12k0tdex+vHPb9JkrrnyHnj+gfY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748361658; x=1748966458;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cc4r4cyHbI5AQnblhF9AwBPlLxrLnIPaD8btfQgMHCk=;
-        b=WG2WvRb2OscU5RMe/61N8XG4uHOQdVO3ZGttNRtO5qTbamZc3oyqxgaJXETMrzQfJ4
-         cK5FXcZkRsSw101ARBxp88idws4QBGuU27Xvn8qk3fIdDKWATu8wFy7lQjR9fb901DGV
-         TEoPoXEmLa4nz87C4V3oBhG86B2vXSyRZasGC3MC+Tg6SJVlgWOhM03Z9b7BPTwrPYe6
-         K7GASf41K/Ddhw3RSgTOPlzGpq+3arJOnyr6qRaqC4yUmLwxxo1omof43KohfSFdrSXt
-         bvvWFF1pTYRtSkbfM+vi2mFTF8ZZMiMDl3iqRHmZehPcpSpLGjjxUP38Sb3sxltevNFC
-         i7uA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNi/sphfOrbU7dEnH7GnhcJRWjdEjgeYPAnV7zfFAIbAGiOPj/i/bPlre/CEVlSmMochRLOTZBQzbjm/HonrXgIQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwwzmsbkXrhHalP0P/UjBzfaC8yZ7i/3XcO5ZDZwZ0TkynD33mh
-	dwfK4Ux2g8+YF1NL5UdVKExO+WmKp2Z+RZRVASV9h5EyIQQ2WylJWluBdgAuMQ==
-X-Gm-Gg: ASbGnctpx7uCDP/o8RDbO/lZ9v54/pwz6cJxnc3HFWTvc63I2f43hRCICXSfrL3LKKq
-	ndxJroKZE0/DUUc5wI/4nIeazoIqgqDVl/fK0WKeHywzqHX+KJ/r2SgJNsFPMX7xpflGOKMASfS
-	fV9YJeloLRpn8GI1VZn0ZqFDh0XtvGKXdWHshe/Bu4RZULSVVeimDuAyYgRXAEMNzEhnZYeE6Bx
-	+Sik9rsb7o2kddyCBBRKR1RojGxoeCHezMMtS8Kx/JDd/OMrVQdds7WIuy6f7QCDDVYTspdTRM6
-	bI1HS/gMj50q0HAAz+xbIkLQaP2D7WQzpxjHySvt3mUKxARH143AQmiI6rQ=
-X-Google-Smtp-Source: AGHT+IEGP8zo1ltgG94H3JrYqHgZ/QQsoOfBrsVKCIKh8PSs8rbptb8ewaqF6XvME0cIRcHBiDcFVA==
-X-Received: by 2002:a5d:4208:0:b0:3a3:63d1:4160 with SMTP id ffacd0b85a97d-3a4cb4ad5d7mr9797204f8f.56.1748361657448;
-        Tue, 27 May 2025 09:00:57 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4d93ce27bsm6258872f8f.84.2025.05.27.09.00.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 May 2025 09:00:56 -0700 (PDT)
-Message-ID: <08003f5c-5919-49ec-9e3e-15fa1e62f8f2@gmail.com>
-Date: Tue, 27 May 2025 18:00:56 +0200
+        d=1e100.net; s=20230601; t=1748362607; x=1748967407;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2PFYq/kBAMMna8Aq6uWmEUwS85AoaTJQz+d8/9HWIxk=;
+        b=tF3D5NL6+Ur3BxuJs45k/LcT9DuodwH47etJLzydMoKVebtVDA44f/cJQEKyWxTf7I
+         0cK/pXwQF/udAskR0xTm4Fh+CB0jOWWE9rJdUw/P13RC5sagDZ+zcj5Uyc6tC0nD0t9M
+         eT4EO0RdcusgkuRlscWRYn7dbGsT5dBeQ9NIiHKenDZ9PeXygUXIoffczuK0WInuCyoG
+         0NcizQOZb1ZP45If5HViBYijyjaGuLcWJcmo167Lhd4px5dyMTOjqqpJACTgw+oWvZrr
+         3MxrTLQbg3bTspAOtlxRzcj+QqzzQyVDmUKe2+tG/vBr7jaXwf7OL+YdxJG4i0r4Dzh8
+         ptZg==
+X-Forwarded-Encrypted: i=1; AJvYcCXI0GGK1nKVPfFWx4vjb56R8HLhEgMkHoMj2eB4/e8IJH6lNfqlx2bbo3hnx0imgy754qx0HtnwUObnIrmRDI51nA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyIRovLRjcSRblYqvAm6+jC8Jn9hErwIjA2WLgnY0soGZoDL49J
+	9l4nyTealGqYTRzdif96VDO6Y/2Il4dlgnpjevS+A4SrzXxtPCNkKYh8a//8WaztLgA=
+X-Gm-Gg: ASbGnctciEevD3eK8LB94Z+OyHdPba8hvoOQCCaHR8I0AAk9MV2MgWomLzDJRY80VKs
+	XFJ9qlg2uW9KpXdUnUsByFVchiXs+GdHXp74o4myfvDPpq5Pt3LkvI9TaklCtSMMXYc9jdWxXI0
+	Zb8JelMByC08d5L9sRda/QAEx09jz2USYprJWhhh9u+8Ympld08EMudQuOP/ltGiwGUpqIO5MGw
+	zek2zkJ/t3jIxN/41KVwTnrY2RNhfmdIeAfNW0Wnf25VhMXSZMPuFmK/9uuDY954e7YU3zqJwn0
+	+Zyi9fC0o2jc9kKeI4+Be3bOl8g6oLIMclL10OZRk14eBbUiITBuAuGJ7+GLjSx9QcH6o29F4pY
+	mHsZRR/61nZWtC/g1kTCK7hhM/bgDvji7Qxx6JjWS
+X-Google-Smtp-Source: AGHT+IGAlxC11PA25NuDcxpHvX0Ze/WsiEGfskTf5pMWlmkhoqiR/Um6YZaqdb41giIdcMqXc3ZJBg==
+X-Received: by 2002:a05:6000:4284:b0:391:4674:b136 with SMTP id ffacd0b85a97d-3a4cb462cffmr9848377f8f.29.1748362607429;
+        Tue, 27 May 2025 09:16:47 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6923:f643:8186:933b? ([2001:8b0:aba:5f3c:6923:f643:8186:933b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4d37498e8sm8565766f8f.16.2025.05.27.09.16.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 May 2025 09:16:46 -0700 (PDT)
+Message-ID: <2c4827a29e3d68e04723c994e47af13f667d77a5.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v5 1/3] package: change location of
+ debugsources to PKGDESTWORK
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: daniel.turull@ericsson.com, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 May 2025 17:16:45 +0100
+In-Reply-To: <PR3PR07MB66667C5C1EDCC3A2C2C777758A64A@PR3PR07MB6666.eurprd07.prod.outlook.com>
+References: <20250521134400.1733473-1-daniel.turull@ericsson.com>
+		 <20250521134400.1733473-2-daniel.turull@ericsson.com>
+	 <5b20d775f1e183305d21e1daee8338311e9cb141.camel@linuxfoundation.org>
+	 <PR3PR07MB66667C5C1EDCC3A2C2C777758A64A@PR3PR07MB6666.eurprd07.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 11/15] python3-flit-core: upgrade 3.11.0 ->
- 3.12.0
-To: ccasciato@21sw.us, openembedded-core@lists.openembedded.org
-References: <23322.1747622946650098895@lists.openembedded.org>
- <22894.1748353705199489095@lists.openembedded.org>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <22894.1748353705199489095@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 16:01:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217314
+ <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 16:16:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217315
 
-On 5/27/25 15:48, Clayton Casciato via lists.openembedded.org wrote:
-> I also found this:
->  
-> "[AUH] python3-flit-core: upgrading to 3.12.0 FAILED"
->  
-> https://lists.openembedded.org/g/openembedded-core/message/214061
+On Tue, 2025-05-27 at 15:06 +0000, Daniel Turull via lists.openembedded.org=
+ wrote:
+> Thanks Richard,
+> Yes, I'm exposing the file to be able to extract the source code used
+> in the other patches in the series. Since the file was there, I
+> though it will be minimal changes on the current code and less
+> overhead creating new tasks to extract the information that is
+> already available.
 
-I tried to reproduce these errors in my env[1] with all your failing
-packages, but they built successfully. I also tried with only oe-core,
-without anything else, and that was successful too.
-The AUH failure seems to match your error, but interestingly the patch
-has survived autobuilder many times... I wonder if the error is rooted
-in build host environment, or maybe even in sstate cache somehow? (I did
-delete tmp folder, but reused sstate cache. I build my recipes in a
-Debian 12 based Docker image)
+Right, I totally understand why you've done this and that is fine. In
+order to properly review and get this merged, we just need to consider
+the other issues and properly document it. It does need to be a
+conscious decision to put the data into pkgdata (and make sure we get
+the format right).
 
-[1]:
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta-firefox         = "master:685ae3023b8ad6e6378e41058520327439ffe6cf"
-meta-clang           = "HEAD:02e254ba1fb4937530d94a154b4c713c904c2d06"
-meta-firefox-test    = "master:7ac03919ed0036da95fa3eb6643627b41d8e73eb"
-meta-multimedia      
-meta-networking      
-meta-oe              
-meta-python          = "HEAD:1d6095b73fa21062fde2b347cd61b6c5104390d9"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "HEAD:9bc47d6a4d23bff5999b69fa2b99e1b32eaa62fb"
+> Will it make more sense to create a new file under
+> "${PKGDESTWORK}/debugsources/ with the correct format and the first
+> filtering done, more aligned with existing files, since the current
+> file is use a temporal placeholder? Or something in the line of:
+> binary_file: src1 src2 src3 ...
 
+It is null delimited as some filenames can have spaces in. I know there
+has been talk of changing our existing file format to be something less
+problematic like json, the extended data is already in json. I'd
+probably suggest using json for this given it is natively supported by
+python.
+
+The above format (per binary file), in json would probably make sense
+though.
+
+> I can also create a better explanation in thee commit message, in the lin=
+es of:
+> The information provided in debugsource can be use to have more
+> detailed information on the files used during the compilation and
+> improve quality on the SPDX.
+>=20
+> I'll try to measure the increase on the sstate.
+
+I don't expect this to be a huge issue but some kind of number would be
+useful. I'd note we did compress the extended data using zstd, just to
+improve the IO impact of the files. We could consider that here too and
+probably reuse that code.
+
+Cheers,
+
+Richard
 
