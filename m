@@ -1,95 +1,94 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6EF9C54F30
-	for <webhook@archiver.kernel.org>; Tue, 27 May 2025 16:26:23 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web10.56508.1748363179975244676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98914C54ED1
+	for <webhook@archiver.kernel.org>; Tue, 27 May 2025 17:08:04 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.946.1748365681501409172
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 May 2025 09:26:20 -0700
+ Tue, 27 May 2025 10:08:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lsvW+9Ln;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6fa956f0f16so34925436d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 09:26:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XKdgs0YM;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: skandigraun@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a37a243388so3672371f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 10:08:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748363179; x=1748967979; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lfKFhxngD5N4+PkPCeh22P33FaOOFod3YRZfmIQXF1I=;
-        b=lsvW+9Ln49CofEZAS6LerIjF18qdTVGgtvP+X9YxDxnSctPvVlbycYrRf4xAk4mJsn
-         D9qDMDt36cSEjDO7mTbldzxTQuwYS5flSYcNSjQ5OEKbjlYcZqpKkb/sPbfnsuRtOUia
-         RH4bZa1ss/o99OgZdVtBkVpA5b2bQAuPsY+yghhIKEKNwNYoJgCNDTuj1WWeUTldyptz
-         j9Nc2we9dPBZoVXgTEnDZXDqD6ciWFhioYapNr+nqKaZyImfjYX6XpSIlaOiLcZSmcNr
-         xNB9UESLBP7hKb/4j0L1NO0zbCEsy9J29J1qnJWhAPREjRK4aa3ceOJPVcvRRZkAeXmV
-         YVQg==
+        d=gmail.com; s=20230601; t=1748365680; x=1748970480; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpwzkXzBqltB5qvgHKAgpl2McKz07bzbNdlcSwTqTHk=;
+        b=XKdgs0YMSIBQSx/JICrTe17OiL/RJ7+ex5CdQXjA6KLtTuCka++10y4AR+A/yfniNy
+         AzXYPvxYTIlDgMpuMs/nE74NsvyFodfkLYuxlVdQ0h5MW7Nt9oqyy+rDxOdeZqVWdfOf
+         yha7yn4A0I1nr0420WAIlOE7ea1DdDXALmZbmtN6tPhiqY7GMY1e8P3DoTfhHR9aU5YS
+         uRzqbezkemwQoyuHrdQXrZY5T1KtFv4aMioVGWhwtbwjWtUUDbX76G7a6UhqxMYC6E8x
+         Ml/WC3OCTo8bTZw9mLvZUkaHc6fWsMd+SEzy5w93BU9ZPGgQJrAlWEnUEM4gisjDljMu
+         Tn8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748363179; x=1748967979;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lfKFhxngD5N4+PkPCeh22P33FaOOFod3YRZfmIQXF1I=;
-        b=hVPEAWv7nSWEZnpHYwtmDvvku9OT0su7V8ueB4RYdxLxHAG/VId82EVu/lxj0ciNt+
-         vl6/Qn7cEP4qovKgwzi4pIlxrmIiHQBrnUbwumx9FgE+1ceaUxcYiWOTOQvqa9Fme/5l
-         O+jGN6jPCBxwLrS8fg02Kn8SwVRxCGtPmSaABlVlayBrulk2EwD+bYIqsE9tHQvA0I+z
-         CDzDnxesZR9TDCZMOuiCXjPiSJ/0nkMd48hdbODSU98TpeWm1rT6lTvGXiYyDsu7rYv0
-         wjJHeJhohEKKPQNDUtWPj9qJ2nDToPgQr64iZjjv/qsKnors5TZpXPgCE0xBXO/Sr6pu
-         quCg==
-X-Gm-Message-State: AOJu0YybymT731NQ2+4/Pj6n/PeQFShTkipqkI7Rg2uFZNfp2eex2Ovo
-	mhcO8PFRZQg+follKzYCbdIk29t2yRrMkb6LvyyStgdq0GQ/+UDExItKMQRevZc08XQxsSmcGky
-	I+R6uD8qn1nMQpukX/SMcf2EdPwbmDP4=
-X-Gm-Gg: ASbGncuHgLIMqcf1D4quRDua6n0fwjZwIe+JMJcUQs6Pe16NH7AYrOhxkIeL4ygnDtq
-	W7LAHDxJ9XonQaJyReA6WGE18BntrY7u2SKab0YOb1kCyWdncAaDV3ZJS8KvvxnZgrmc1sOa4rQ
-	P6Y5KWxFwSQgpIAXvqVIgi2pIDjpmKtESI9k4GhclP2g==
-X-Google-Smtp-Source: AGHT+IFIiQPI4Y2D6z11ZVhYEZ8GafxKKlxN5VJer220qm/n9K7fxulhBVkn5LpzIki6TCkf6KXwR+HyJwNxxyNQtWI=
-X-Received: by 2002:ad4:5bc2:0:b0:6e6:668a:a27f with SMTP id
- 6a1803df08f44-6fa9d13923cmr253670816d6.17.1748363178800; Tue, 27 May 2025
- 09:26:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748365680; x=1748970480;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpwzkXzBqltB5qvgHKAgpl2McKz07bzbNdlcSwTqTHk=;
+        b=EzdthZrrqDIMBKCxWkTM0glETdJj+dATsRs3gHxg3jCYLAJN2kJmFecAPS3qpZZvdH
+         xy8LSqwz96dph/HqILi17v33++gL0nXq6td2E74gzJ+ZfWwU5xCFWT0FShhjJjyCdZUL
+         Q/yB/XuAbIWJYKL/cvtoSAIPv3HVPvWd5WZXaVgIKiUjlt4q1PlSlsybdk1b0aXcCGEK
+         0Rcc9voE12KuVc1Efa/rRM48WPQVbhNOHzCYiBFT73njxDLbU/hmh6rjmc3EYa+38bk1
+         k60NqbwX+oa+NCTBYissTbr8cbcpd9s9R32EsLC2haNoJOErVvm9C/8cHIuK2JCaLKvS
+         +gvA==
+X-Gm-Message-State: AOJu0YxeNoFw8S5fvWf3YpyumbfJr1nuMz0JBKFK/ZwLqRR9WgrmwQXn
+	2YLlfBLXX9jKrS9uoxfxCjsB2Gcp/Nf/irJGdOOVXLw6CkD5rNLEsS4QePpwgg==
+X-Gm-Gg: ASbGncsUABVZFr9JfmLn6uA54nsKU3dj/78NdSQLiO1c6sUL6eeaj9P2lJ/wg9GwiCH
+	rjlIo3KBTPP/ClEczAY6alqei6K13qspPHevXyqsp4ICarGgC8HYfdvTPbovmVzFp6hfhO/ZTEh
+	AkeM6xl6a+wTv42C64fstXHuyMOBU/UF87CwI7sz5nq7LWCs1E0iy7bMB4+uOu1oCDohDGGQvcf
+	DK5MdN5lXHYMWjJYtwsAHsb35prRWai/4N69ijA1g6UvPCHPEC8tP+09hvvoawJ2O5Cz/c/UT6r
+	mOQ9RwIXmY85ZD5UiSWXqG/UJTDEvRyjO/8kvYPHnppG6kEJ3RXRP3ImJALuc5nI5mc=
+X-Google-Smtp-Source: AGHT+IGFT6HFs4xU2g9D1r/5Eq+y0htvX3EsyWlx3NKq/IRKrNmqb42VK2/m6GY75wtteWDuDvSnBg==
+X-Received: by 2002:a05:6000:26cc:b0:3a4:d653:8a40 with SMTP id ffacd0b85a97d-3a4d6538c18mr8772487f8f.5.1748365679691;
+        Tue, 27 May 2025 10:07:59 -0700 (PDT)
+Received: from localhost.localdomain ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4d8d945e0sm6808746f8f.94.2025.05.27.10.07.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 May 2025 10:07:59 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] conf/bitbake.conf: use gnu mirror instead of main server
+Date: Tue, 27 May 2025 19:07:58 +0200
+Message-ID: <20250527170758.2040457-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <83e0d268-ec47-4f3a-bf05-2aee4e58e749@windriver.com>
- <CANNYZj-BmEXJVc1rdVPGu5wz87AW1RvbX+WhgicAfEby7kjUhw@mail.gmail.com> <47ba1f68-f67b-4c58-b788-63e06fdf4816@windriver.com>
-In-Reply-To: <47ba1f68-f67b-4c58-b788-63e06fdf4816@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 27 May 2025 18:26:06 +0200
-X-Gm-Features: AX0GCFsOFFmAH5yWPOzDVCF_Xz6C_sniAJIjrs9H2SFV2CswjCJxLCX2KBUc5HM
-Message-ID: <CANNYZj-JtVtjk2e+Z=OmVF8RaygO5M1e+6tbQuTZYotbYetQrg@mail.gmail.com>
-Subject: Re: [OE-core] [RFC] rust: Upgrade 1.85.1->1.86.0
-To: Yash Shinde <Yash.Shinde@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"MacLeod, Randy" <randy.macleod@windriver.com>, 
-	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 16:26:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217316
+ <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 17:08:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217317
 
-On Tue, 27 May 2025 at 16:42, Yash Shinde <Yash.Shinde@windriver.com> wrote:
-> Yeah, that's the reason.
->
-> I am not sure how rust-lld is installed in ${D} now. A similar error was
-> previously resolved by using:
-> "+TARGET_CC_ARCH +=
-> "${LDFLAGS}""(https://git.yoctoproject.org/poky/commit/?id=cc24a0ff76f2e227cc3a0f478d078b2158299a80)
->
-> LDFLAGS are explicitly unset in rust recipe.
-> (https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/rust/rust_1.85.1.bb#n194)
-> I attempted to remove the "unset LDFLAGS" in rust recipe and exported
-> TARGET_CC_ARCH as above, but that didn't work.
->
-> Is there some different or recommended way to pass LDFLAGS to rust that
-> I might be missing?
+ftp.gnu.org is the main server of the GNU project, however download speed
+can vary greatly based on one's location.
 
-The issue isn't about how to pass LDFLAGS. The issue is that something
-triggers building all these additional things, including rust-lld, and
-you need to narrow down how and where that happens, and how to go back
-to the install set (and build times) we've had in 1.85. Please get to
-the particular point where that decision happens.
+Using ftpmirror.gnu.org should redirect the request to the closest up-to-date mirror,
+which should result sometimes in significantly faster download speed, depending
+on one's location. This should also distribute the traffic more across the mirrors.
 
-We can't just double the build times without a comprehensive,
-convincing investigation.
+This information was sourced from https://www.gnu.org/prep/ftp.html .
 
-Alex
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e5037c6277..13d55923b7 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -699,7 +699,7 @@ DEBIAN_MIRROR = "http://deb.debian.org/debian/pool"
+ GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
+ GNOME_GIT = "git://gitlab.gnome.org/GNOME"
+ GNOME_MIRROR = "https://download.gnome.org/sources/"
+-GNU_MIRROR = "https://ftp.gnu.org/gnu"
++GNU_MIRROR = "https://ftpmirror.gnu.org/gnu"
+ GNUPG_MIRROR = "https://www.gnupg.org/ftp/gcrypt"
+ GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
+ KERNELORG_MIRROR = "https://cdn.kernel.org/pub"
 
