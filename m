@@ -1,142 +1,206 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65A42C3ABB2
-	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 10:46:17 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.12807.1748429172386372222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 974A0C3ABB2
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 11:53:47 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web10.13791.1748433212505207427
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 May 2025 03:46:12 -0700
+ Wed, 28 May 2025 04:53:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8243786c29=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54SA2frf007272
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 03:46:12 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46udmm3n5w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 03:46:11 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 28 May 2025 03:46:09 -0700
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] webkitgtk: upgrade 2.48.1 -> 2.48.2
-Date: Wed, 28 May 2025 16:15:43 +0530
-Message-ID: <20250528104543.1389063-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Authority-Analysis: v=2.4 cv=WpErMcfv c=1 sm=1 tr=0 ts=6836e973 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=dt9VzEwgFbYA:10 a=Q1sTgoEvAAAA:8 a=NEAV23lmAAAA:8 a=LXCGm8LIAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8
- a=pGLkceISAAAA:8 a=TtWqVQ85w8xvhG5bnAYA:9 a=FkGh3qDytyf094M0uOEt:22 a=NxI9r9ql2kHpUT0AVVEO:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDA5NCBTYWx0ZWRfXwnpUwpSxfg6x mdACAStyTKxbkOqJKo8qr+hA+9FDDK9VEs/DvC5aPSnW1MOMiArWM7Wa9dh3gIT5UoBxpKWTjRL RluKlmRFnd7kkZMMrtyk/tfURjT5+JeVlDctouCTlV53IgPt+W/0L68et67IeljELGsMVpf2vg5
- wcnyDoWkLtCpe6KOGqSDxWIfbcLZsTRTmEIQB3oY9o3XO3GycZezuT+waKV9qIIuy1r7RNTPPJS 4KsQsfCa4WdwLG8COIpr/5z+OFBU+OKEExZcuFE+OIZdvFznhsSV2AYiDNx/KTz4wT3xCv1V4Zl XDoQlC+JX8EvoQcMe6E6XeeRmlNUneH79Fc6X1vr3ibKUoC2jqH5lCW4E4Go92M4dfk1SZ/F/PV
- FIfiTqvPqtVwDzPyJlPMB8XsXu0AEWL0+urFu+eY/a6ZffoCcRj8WwR2OZEsb8W9JCrSjjCT
-X-Proofpoint-ORIG-GUID: 6hxNK_NLX9IL2VqYLkvpyrEoahwi1_F8
-X-Proofpoint-GUID: 6hxNK_NLX9IL2VqYLkvpyrEoahwi1_F8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-28_05,2025-05-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=726 clxscore=1015
- mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0 adultscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
- definitions=main-2505280094
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=c4/6tGG+;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8FB3241DE2;
+	Wed, 28 May 2025 11:53:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1748433210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Y4FvpXVnNY0Q68otFMvKqtMS5jgEGcCKbb/D14OrYY=;
+	b=c4/6tGG+YR+DLpBWWmxptx9QwrAX33IHerm9yiEd422tHQC00T81xlhqytNgg8tOPbDOya
+	ml/y6jZH8wDYohK2tESTZAV4dEUELmQvw1RB5l8dNXuknjq+mZtMciF6q4srDiRHKwZjfG
+	TRix1s5T1cmXBVvDoPUwBOsdxZrxLN0IeVFX9wXH5iXydzlz1YRlYYZawuX478+Zi4wQWK
+	zxp0GeDWw/LvSRp8u/imEDb3B+Zcn5xvsz97vDkuceu465+gJ438CFJdrh1c775BEAwnrI
+	7o8sdMJb4syt1B4UFTlWV24SrkBzBW83zqyp44ypPBZ96fCYyzjC+QewGUMHMA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 28 May 2025 13:53:27 +0200
+Message-Id: <DA7RUET7783J.484RLJVMFOCZ@bootlin.com>
+Subject: Re: [oe-core][PATCHv6 0/5] Display manager proposal for x11 and
+ wayland
+Cc: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Randolph Sapp" <rs@ti.com>, <richard.purdie@linuxfoundation.org>,
+ <ross.burton@arm.com>, <alex@linutronix.de>, <otavio@ossystems.com.br>,
+ <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+ <denis@denix.org>, <reatmon@ti.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250520233935.740242-1-rs@ti.com>
+ <DA1YOI4L8TYX.ALF8S230UTO1@bootlin.com> <DA7AGREX7HJ9.33KJKYJPO1A3N@ti.com>
+In-Reply-To: <DA7AGREX7HJ9.33KJKYJPO1A3N@ti.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvfeduleculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgffgveevteeuteefffefhedtkedvieffffdujedvffehueekuedtkedugeekfedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemrgeiieemfedukedtmegttdgsvgemsgelrgekmegvheelvdemiegrfehfnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvtdgrmegrieeimeefudektdemtgdtsggvmegslegrkeemvgehledvmeeirgeffhdphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddvpdhrtghpthhtoheprhhssehtihdrtghom
+ hdprhgtphhtthhopehrihgthhgrrhgurdhpuhhrughivgeslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehrohhsshdrsghurhhtohhnsegrrhhmrdgtohhmpdhrtghpthhtoheprghlvgigsehlihhnuhhtrhhonhhigidruggvpdhrtghpthhtohepohhtrghvihhosehoshhshihsthgvmhhsrdgtohhmrdgsrhdprhgtphhtthhopehkvgigihhnrdhhrghoseifihhnughrihhvvghrrdgtohhmpdhrtghpthhtoheprghfugesthhirdgtohhmpdhrtghpthhtohepuggvthhhvghrihgughgvsehtihdrtghomh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 10:46:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217341
+ <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 11:53:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217342
 
-From: Yogita Urade <yogita.urade@windriver.com>
+On Wed May 28, 2025 at 12:16 AM CEST, Randolph Sapp wrote:
+> On Wed May 21, 2025 at 10:58 AM CDT, Mathieu Dubois-Briand wrote:
+>> On Wed May 21, 2025 at 1:39 AM CEST, rs wrote:
+>>> From: Randolph Sapp <rs@ti.com>
+>>>
+>>> We've recently run into some issues with weston-init attempting to star=
+t Weston
+>>> prior to all drm devices being registered. There's not really a good, s=
+criptable
+>>> mechanism to listen in to device registration events that works with th=
+e
+>>> existing weston-init package. Well, at least one that doesn't involve p=
+olling
+>>> files or introducing more dependency on the init system being used.
+>>>
+>>> I also see there is also a lot of scripting around starting X11,
+>>> xserver-nodm-init, that (from my limited review) should experience the =
+same
+>>> issue.
+>>>
+>>> I'd like to introduce the following display manager for oe-core, emptty=
+ [1].
+>>> This display manager is, as described upstream, a "Dead simple CLI Disp=
+lay
+>>> Manager on TTY". It supports both x11 and wayland sessions, with toggla=
+ble build
+>>> parameters to completely remove x11 and pam dependencies. It's licensed=
+ MIT,
+>>> which shouldn't be an issue for any users. (It is written in Go, if you=
+ have
+>>> opinions about that.)
+>>>
+>>> With this, both weston-init and the xserver-nodm-init packages can be r=
+e-tuned
+>>> to leverage this display manager and simply add a user and emptty confi=
+g for an
+>>> autologin session. This can resolve the current behavior across init sy=
+stems
+>>> without additional scripting, and move some development out of this lay=
+er.
+>>>
+>>> This lists myself as a maintainer of emptty as well as xserver-nodm-ini=
+t and
+>>> xuser-account since these are currently unassigned and I've reworked th=
+em
+>>> significantly here.
+>>>
+>>> Sorry for the delay on this series. I found a few bugs in emptty that I=
+ wanted
+>>> to address before submitting this officially.
+>>>
+>>> [1] https://github.com/tvrzna/emptty
+>>>
+>>> v2:
+>>> 	- Address spelling issues in commit messages
+>>> 	- Attempt to resolve some test related issues with weston
+>>> 	- Add additional logs to X11 related tests
+>>> v3:
+>>> 	- Reset AUTOLOGIN_MAX_RETRY to the default value of 2. When running
+>>> 	  under QEMU the first auth attempt almost always fails.
+>>> v4:
+>>> 	- Add a tmpfile entry for the x11 domain socket directory.
+>>> 	- Remove some scripts associated with weston-init that were being
+>>> 	  shipped with weston
+>>> v5:
+>>> 	- Move tmpfile data to individual files
+>>> 	- Add explicit entries for these in the FILES variable
+>>> v6:
+>>> 	- Do not attempt to ship a tmpfiles.d entry in libx11
+>>>
+>>
+>> Hi Randolph,
+>>
+>> Thanks for the version, but again a previously seen error. Sorry for
+>> the bad news :(
+>>
+>> RESULTS - xorg.XorgTest.test_xorg_running: FAILED (1.31s)
+>> ...
+>> AssertionError: 1 !=3D 0 : Xorg does not appear to be running   PID USER=
+       VSZ STAT COMMAND
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/1637
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/95/builds/1638
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/1649
+>>
+>> I will drop the patch on my side, but I will keep the a-full build
+>> running, we might see some other failures in the coming hours:
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1630
+>
+> Ah, the auth failures persist. Normally this is caused when the user atte=
+mpts to
+> login before the user account was created or something unusual like that.=
+ I
+> don't suppose there's any way this could be happening on the test machine=
+s?
+>
+> I'm not able to reproduce this locally, but my build config is different.=
+ I tend
+> to use oe-core and nodistro instead of poky. They aren't playing around w=
+ith the
+> reproducible build date stuff or anything like that are they?
+>
+> Well, I mean I did see this on occasion. The first login attempt almost a=
+lways
+> failed, but the subsequent attempts were fine. Bumping the attempt count =
+back up
+> the default (2) was enough to resolve it on my end, but evidently it's no=
+t
+> enough here.
+>
+> This is not happening on hardware from what I'm seeing.
 
-Includes fix for CVE-2025-24223, CVE-2025-31204, CVE-2025-31205,
-CVE-2025-31206, CVE-2025-31215 and CVE-2025-31257.
+Hi Randolph,
 
-Changelog:
-=========
-- Enable CSS Overscroll Behavior by default.
-- Change threaded rendering implementation to use Skia API 
-instead of WebCore display list that is not thread safe.
-- Fix rendering when device scale factor change comes before 
-the web view geometry update.
-- Fix network process crash on exit.
-- Fix the build with ENABLE_RESOURCE_USAGE=OFF.
-- Fix several crashes and rendering issues.
+I was able to reproduce it locally, with the following configuration:
+- https://git.yoctoproject.org/poky-ci-archive on tag
+  autobuilder.yoctoproject.org/valkyrie/a-full-1630.
+- template local.conf, with the following modifications:
+  MACHINE =3D "qemux86"
+  DISTRO =3D "poky-altcfg"
+  SDKMACHINE =3D "x86_64"
+  PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"
+  INHERIT +=3D 'image-buildinfo'
+  IMAGE_BUILDINFO_VARS:append =3D ' IMAGE_BASENAME IMAGE_NAME'
+  PACKAGE_CLASSES =3D 'package_ipk package_rpm package_deb'
+  IMAGE_ROOTFS_EXTRA_SPACE:append =3D '${@bb.utils.contains('IMAGE_FEATURES=
+', 'package-management', ' + 262144', '', d)}'
+  IMAGE_INSTALL:append =3D ' ssh-pregen-hostkeys'
+  SANITY_TESTED_DISTROS =3D ''
+  OE_FRAGMENTS +=3D 'core/yocto-autobuilder/autobuilder core/yocto-autobuil=
+der/autobuilder-resource-constraints'
+  # (Plus my own sstate cache and downloads dir).
+- bitbake core-image-sato
+- bitbake core-image-sato:do_testimage
 
-Drop fix-ftbfs-non-arm-non-x86.patch which is part of upgrade.
+Of course using the tag from poky-ci-archive is not mandatory, you
+should see the same behaviour with master branch and your patches.
 
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
----
- .../webkitgtk/fix-ftbfs-non-arm-non-x86.patch | 31 -------------------
- ...ebkitgtk_2.48.1.bb => webkitgtk_2.48.2.bb} |  3 +-
- 2 files changed, 1 insertion(+), 33 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.48.1.bb => webkitgtk_2.48.2.bb} (98%)
+I saw some oe-selftest was also failing on the autobuilder, with an
+error related to emptty. You can reproduce it with:
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.patch b/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.patch
-deleted file mode 100644
-index 2381acb1b0..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 8bee9eb95ae24c6a410f9cd614976f4653d020d9 Mon Sep 17 00:00:00 2001
--From: Michael Catanzaro <mcatanzaro@redhat.com>
--Date: Wed, 2 Apr 2025 15:01:55 -0500
--Subject: [PATCH] REGRESSION(290945.129@webkitglib/2.48): Broke non-x86,
-- non-ARM builds https://bugs.webkit.org/show_bug.cgi?id=287662
--
--Unreviewed stable branch build fix.
--
--* Source/WebCore/platform/audio/DenormalDisabler.cpp:
--
--Canonical link: https://commits.webkit.org/290945.155@webkitglib/2.48
--
--Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/8bee9eb95ae24c6a410f9cd614976f4653d020d9]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- Source/WebCore/platform/audio/DenormalDisabler.cpp | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Source/WebCore/platform/audio/DenormalDisabler.cpp b/Source/WebCore/platform/audio/DenormalDisabler.cpp
--index 35715e663ce7e..44ba08a33d5d9 100644
----- a/Source/WebCore/platform/audio/DenormalDisabler.cpp
--+++ b/Source/WebCore/platform/audio/DenormalDisabler.cpp
--@@ -91,7 +91,7 @@ DenormalDisabler::~DenormalDisabler()
--     }
-- }
-- #else
---DenormalDisabler::DenormalDisabler() = default
--+DenormalDisabler::DenormalDisabler() = default;
-- DenormalDisabler::~DenormalDisabler() = default;
-- #endif
-- 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
-index 5b9846a6d6..c501f4df7d 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
-@@ -18,9 +18,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://sys_futex.patch \
-            file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch \
-            file://fix-ftbfs-riscv64.patch \
--           file://fix-ftbfs-non-arm-non-x86.patch \
-            "
--SRC_URI[sha256sum] = "98efdf21c4cdca0fe0b73ab5a8cb52093b5aa52d9b1b016a93f71dbfa1eb258f"
-+SRC_URI[sha256sum] = "ec58f6dfc25d3b360388e192f865068d69aab09b4d7df021f90e314d2fa54f37"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
- 
--- 
-2.40.0
+oe-selftest -r sstatetests.SStateHashSameSigs3.test_sstate_sametune_samesig=
+s
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
