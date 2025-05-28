@@ -2,230 +2,163 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C7EFC3ABB2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E435C5B54E
 	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 14:43:28 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.17582.1748443405370528031
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.17457.1748443401562071520
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 May 2025 07:43:25 -0700
+ Wed, 28 May 2025 07:43:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OaM/sIie;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2345c60507bso23063875ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 07:43:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=t32wxBBh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-234d3261631so5031305ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 07:43:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748443404; x=1749048204; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kTyS9t7U0u++9m6Z3nCxe39ZPajc0eM8YarhcsuI+Gk=;
-        b=OaM/sIiejv460QftawfzRp7ZNFTgZQ5zPGg2XlX3xZAZDHTKdUNJaONVD37d/rqZO+
-         J9jMupMCmJQWpPgXs0RDMpt4U1oOv8TndQ8p6By4JdRrOWGhQoTpRjJTJJWm6eKbAmKO
-         yku9vgieF8+82iB+IOY61baouaO9HhdvV9tlMzGBN4WbkXRP1J0NIcqN01gzfpq42Xvr
-         wmlL5KfJQikA2k8GqoPuZEEX/71p3M20JF6KGmnwtLex1rOp8zFt2FzB2U4PkbIl4t5P
-         QMsR+IXaKOahuevkQHKc4Jmebvrk8sO0IfNc3cS4eKyqDbihxh4PQkUoesjI3cvz/gM8
-         oqLg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748443401; x=1749048201; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n1fM5NStq28paaeKgxpDAwdxD9Jk5WPEhCtzNKNa/io=;
+        b=t32wxBBhr4joO3APBSqj0/AzqB7Ntm09S3zQwflnyH3Jcc58/p6MG6rHknxK7dUPnO
+         bOhAuvVP77ik53auWQ68ElHk9IYlfrLB82AyatFMgdIQc/QAkT/dSXtRsfKg1V5+sR42
+         y2zTUXHRlSKS32a9YzMYRrWTC883w1q7PtCMH0nlGAkljMDc3h9W7jdcRCEPv9HLzf3P
+         kzcpjG83m1XIGBySbZpWG8L3X3OKqNftkXiyCPbNhCgfYyEFwsNmZUmidu0EpPLlEE2B
+         YV+eOU6y+IjKWdMZTjmemOIXDT9hSRnJM+f1FQkos8wa3NfJOHr4z5oZC0Sg4SoQ1ZjL
+         KB7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748443404; x=1749048204;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kTyS9t7U0u++9m6Z3nCxe39ZPajc0eM8YarhcsuI+Gk=;
-        b=FOjyBl+qfK8GfJMJEuBMHH6gUoTR0cjKw5FjPdEiRm9BjQIvR4YdyILr4QZQQZsrvi
-         KZPiZnUHg6kMB415C/EAbLkVCqGtXk2f3Cuqj2VEhDnkxEnnJchd0QGj5rj8OTJjgLmk
-         q3LIDTjmU9vs1OFaL4il/85mvEzIZoX4/E8gm2D6kCzWrrclQ8j9DJkvVaBn6T2l+Sxz
-         VO7sEkK9+cWnsA3ZMTN3ssqK1jDeuSHAm3IPtHeCWg1/WKPpJQJK/1F9zx+S2LtW/WXT
-         o3XZAMOP1qz7UO/Ox2Nqu+Roz/tmlDbeSIAvAubWqoLOOjADlunDXJivowfa0glhfOPe
-         TNfQ==
-X-Gm-Message-State: AOJu0YyATirrrxDv/JnbFMKzs++alfjboullXxJO6vFSVnwfujldmEJO
-	Jlx8Zz/1aS0N8UBv4o4hrAHQaVR1YEiln+Eo+di7LHwd3wC24wTlIC1G683o5ozeXYC/5+AaUTp
-	IErt/
-X-Gm-Gg: ASbGncvv/kir3piieJhnkWVmk9u6F5lJLGvD9yt+RP76rgLyyJbDopKqVjpDzrehO56
-	u5lUAMMQPh3R+Kgxj3QqzECHP0SQwK662StY2KDj2Al9az/RnuhX9cniVJoL4e4+4fhYZ5M6xQe
-	R48LctvEJMjy+KjSajItIfjM30WgyqI+EDbnaBdK4/3X15hU8x2gH3YYcickPpYP7fzkpNfZkNU
-	Gs7DEqolaJImANgyhVgOQMphK+YJpLg1CyJ9pcjhE4OQgIgsjeYlTUUWiST8LZ6S3Gd152tfhSb
-	M1jSdRA0wnUbRFYhatgrJXRlIpOezjeOQPfT6cPSL1w=
-X-Google-Smtp-Source: AGHT+IE5qZAwrSGhx6wfiIzeBkqh/njgJfzdhe9Lz3ZVPwHsWwQbZNQLaIrNJeORLEZJtK2nIsS7xQ==
-X-Received: by 2002:a17:903:3a86:b0:224:23ab:b88b with SMTP id d9443c01a7336-23414f48ec8mr234204785ad.8.1748443404547;
-        Wed, 28 May 2025 07:43:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748443401; x=1749048201;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n1fM5NStq28paaeKgxpDAwdxD9Jk5WPEhCtzNKNa/io=;
+        b=L0KXwvjEw2RbDtg9PwrIhyBUoTs1b3CyFhXMmyql7NyR6cDNboA+6sTwhjY5u/tF/r
+         Ai1wUup9a/cmmohDFAcb0/Ju04KuP7FwAFoI8qogUaeaK4jY8TdPYd6pDzV7G6jH3i2S
+         Lbh/Bh2pIQ1oyz4gvF+EN1UUiToz6Sq8ajlmQ4v9yTRUewCx7TA+jjZDpFoBWf/vENis
+         FQKz/jxpTyW6/oa9hKeuKRr1pch13m18tOR7fasfQEsk60ckd+9gm14cf3HemIKeL0Je
+         Hbsfl4/bs2Y/p2bHRElHDAnaf1ubYZcvaKVzXKg4cC5QnRxSc9hcVRxsy07E4KrIRzZt
+         Z1rQ==
+X-Gm-Message-State: AOJu0Yzm1lZ//ZjwrURjIAB3ZMw0XZma4mJG4VvorUEs49tbZ9EsVtSC
+	MVY/6fh8pcwT8ykPclAhQ9Je55S43bPKjmovqxjalRo+dsZSacCKHTqMBYXDRE5OfVEyrKi0z+X
+	QVwtc
+X-Gm-Gg: ASbGncu5kJ4wRqTGa8vVQ4hFZaOt/daueqVKXC8I36EP88k9DO+VWXAUjFIl6JEzV5U
+	bTzxY+LFrr56261xImjdHt208AY25BHKxsM+xKZQciX7hpgBBRWIDTKNYwHc/FyqV1LhTVnx+U/
+	yke+ja5EprcjgQOTRD2wmjyGeAenGie+VNpMFLaasgGUdvhsN5JteUl1Nd+uUyxm5P6P5yQeQWa
+	3QItErKm0NsGI4ckRUqrqp29tJU6atJbzdJmfGZ7fZePTZxZ02VwRmN2VURKovxpYWDp6gdwFhO
+	stHsJ6LRRyhnG/jM8ZrSFRhfshQiGLpT8zqfuda9k/A=
+X-Google-Smtp-Source: AGHT+IGGQI+S5RvVGHM9WoV8VSV2JMdq5JrFh0lIx3gBsttoBEBWP6nfNYSkS/DeJ+PtwArruvyfRQ==
+X-Received: by 2002:a17:903:fa4:b0:234:c22:c612 with SMTP id d9443c01a7336-23414fcded7mr303047845ad.43.1748443400494;
+        Wed, 28 May 2025 07:43:20 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:2f2f:1884:f4cc:456c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-234d358f1e2sm12626285ad.140.2025.05.28.07.43.23
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-234d358f1e2sm12626285ad.140.2025.05.28.07.43.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 07:43:24 -0700 (PDT)
+        Wed, 28 May 2025 07:43:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/11] libsoup-2.4: Fix CVE-2025-32911 & CVE-2025-32913
-Date: Wed, 28 May 2025 07:43:05 -0700
-Message-ID: <7bdeb2217253a86c941edb7c4c28ba57d855c606.1748443238.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 00/11] Patch review
+Date: Wed, 28 May 2025 07:43:03 -0700
+Message-ID: <cover.1748443238.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1748443238.git.steve@sakoman.com>
-References: <cover.1748443238.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 14:43:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217354
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217352
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Friday, May 30
 
-Upstream-Status: Backport from
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/7b4ef0e004ece3a308ccfaa714c284f4c96ade34
-& https://gitlab.gnome.org/GNOME/libsoup/-/commit/f4a761fb66512fff59798765e8ac5b9e57dceef0
+Passed a-full on autobuilder:
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../CVE-2025-32911_CVE-2025-32913-1.patch     | 72 +++++++++++++++++++
- .../CVE-2025-32911_CVE-2025-32913-2.patch     | 44 ++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |  2 +
- 3 files changed, 118 insertions(+)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1672
+
+The following changes since commit 29d920f4c2249df7a69f00100924b4525e03c0d9:
+
+  libatomic-ops: Update GITHUB_BASE_URI (2025-05-20 08:59:39 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Ashish Sharma (1):
+  libsoup: patch CVE-2025-4476
+
+Divya Chellam (1):
+  ruby: fix CVE-2025-27221
+
+Divyanshu Rathore (1):
+  ffmpeg: upgrade 6.1.1 -> 6.1.2
+
+Harish Sadineni (2):
+  binutils: Fix CVE-2025-1179
+  binutils: set CVE_STATUS for CVE-2025-1180
+
+Rogerio Guerra Borin (1):
+  u-boot: ensure keys are generated before assembling U-Boot FIT image
+
+Vijay Anusuri (4):
+  libsoup-2.4: Fix CVE-2025-32910
+  libsoup-2.4: Fix CVE-2025-32911 & CVE-2025-32913
+  libsoup-2.4: Fix CVE-2025-32912
+  libsoup-2.4: Fix CVE-2025-32914
+
+Virendra Thakur (1):
+  util-linux: Add fix to isolate test fstab entries using CUSTOM_FSTAB
+
+ meta/classes-recipe/uboot-sign.bbclass        |    2 +
+ meta/recipes-core/util-linux/util-linux.inc   |    1 +
+ .../util-linux/fstab-isolation.patch          |  448 +++++++
+ .../binutils/binutils-2.42.inc                |    3 +
+ .../binutils/binutils/CVE-2025-1179-pre.patch | 1086 +++++++++++++++++
+ .../binutils/binutils/CVE-2025-1179.patch     |  269 ++++
+ .../ruby/ruby/CVE-2025-27221-0001.patch       |   57 +
+ .../ruby/ruby/CVE-2025-27221-0002.patch       |   73 ++
+ meta/recipes-devtools/ruby/ruby_3.3.5.bb      |    2 +
+ .../ffmpeg/ffmpeg/CVE-2024-32230.patch        |   36 -
+ .../ffmpeg/ffmpeg/CVE-2024-35366.patch        |   35 -
+ .../ffmpeg/ffmpeg/CVE-2024-36613.patch        |   37 -
+ .../ffmpeg/ffmpeg/CVE-2024-36616.patch        |   35 -
+ .../ffmpeg/ffmpeg/CVE-2024-36617.patch        |   36 -
+ .../ffmpeg/ffmpeg/CVE-2024-36619.patch        |   36 -
+ .../ffmpeg/ffmpeg/CVE-2024-7055.patch         |   38 -
+ .../ffmpeg/ffmpeg/vulkan_av1_stable_API.patch |   40 +-
+ .../{ffmpeg_6.1.1.bb => ffmpeg_6.1.2.bb}      |    9 +-
+ .../libsoup-2.4/CVE-2025-32910-1.patch        |   97 ++
+ .../libsoup-2.4/CVE-2025-32910-2.patch        |  148 +++
+ .../libsoup-2.4/CVE-2025-32910-3.patch        |   26 +
+ .../CVE-2025-32911_CVE-2025-32913-1.patch     |   72 ++
+ .../CVE-2025-32911_CVE-2025-32913-2.patch     |   44 +
+ .../libsoup-2.4/CVE-2025-32912-1.patch        |   41 +
+ .../libsoup-2.4/CVE-2025-32912-2.patch        |   30 +
+ .../libsoup/libsoup-2.4/CVE-2025-32914.patch  |  137 +++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |    8 +
+ .../libsoup/libsoup-3.4.4/CVE-2025-4476.patch |   38 +
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |    1 +
+ 29 files changed, 2604 insertions(+), 281 deletions(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/fstab-isolation.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1179-pre.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1179.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0001.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0002.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-32230.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35366.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36613.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36616.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36617.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36619.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-7055.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_6.1.1.bb => ffmpeg_6.1.2.bb} (96%)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32910-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32910-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32910-3.patch
  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32914.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4476.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
-new file mode 100644
-index 0000000000..4652635294
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-1.patch
-@@ -0,0 +1,72 @@
-+From 7b4ef0e004ece3a308ccfaa714c284f4c96ade34 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Fri, 27 Dec 2024 17:53:50 -0600
-+Subject: [PATCH] soup_message_headers_get_content_disposition: Fix NULL deref
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/7b4ef0e004ece3a308ccfaa714c284f4c96ade34]
-+CVE: CVE-2025-32911 CVE-2025-32913 #Dependency Patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-message-headers.c | 13 +++++++++----
-+ tests/header-parsing-test.c    | 14 ++++++++++++++
-+ 2 files changed, 23 insertions(+), 4 deletions(-)
-+
-+diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
-+index 56cc1e9d..04f4c302 100644
-+--- a/libsoup/soup-message-headers.c
-++++ b/libsoup/soup-message-headers.c
-+@@ -1660,10 +1660,15 @@ soup_message_headers_get_content_disposition (SoupMessageHeaders  *hdrs,
-+ 	 */
-+ 	if (params && g_hash_table_lookup_extended (*params, "filename",
-+ 						    &orig_key, &orig_value)) {
-+-		char *filename = strrchr (orig_value, '/');
-+-
-+-		if (filename)
-+-			g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
-++                if (orig_value) {
-++                        char *filename = strrchr (orig_value, '/');
-++
-++                        if (filename)
-++                                g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
-++                } else {
-++                        /* filename with no value isn't valid. */
-++                        g_hash_table_remove (*params, "filename");
-++                }
-+ 	}
-+ 	return TRUE;
-+ }
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 5e423d2b..d0b360c8 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -1039,6 +1039,7 @@ do_param_list_tests (void)
-+ #define RFC5987_TEST_HEADER_FALLBACK "attachment; filename*=Unknown''t%FF%FF%FFst.txt; filename=\"test.txt\""
-+ #define RFC5987_TEST_HEADER_NO_TYPE  "filename=\"test.txt\""
-+ #define RFC5987_TEST_HEADER_NO_TYPE_2  "filename=\"test.txt\"; foo=bar"
-++#define RFC5987_TEST_HEADER_EMPTY_FILENAME ";filename"
-+ 
-+ static void
-+ do_content_disposition_tests (void)
-+@@ -1139,6 +1140,19 @@ do_content_disposition_tests (void)
-+         g_assert_cmpstr (parameter2, ==, "bar");
-+ 	g_hash_table_destroy (params);
-+ 
-++        /* Empty filename */
-++        soup_message_headers_clear (hdrs);
-++        soup_message_headers_append (hdrs, "Content-Disposition",
-++				     RFC5987_TEST_HEADER_EMPTY_FILENAME);
-++	if (!soup_message_headers_get_content_disposition (hdrs,
-++							   &disposition,
-++							   &params)) {
-++		soup_test_assert (FALSE, "empty filename decoding FAILED");
-++		return;
-++	}
-++        g_assert_false (g_hash_table_contains (params, "filename"));
-++	g_hash_table_destroy (params);
-++
-+ 	soup_message_headers_free (hdrs);
-+ 
-+ 	/* Ensure that soup-multipart always quotes filename */
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
-new file mode 100644
-index 0000000000..5d9f33c736
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32911_CVE-2025-32913-2.patch
-@@ -0,0 +1,44 @@
-+From f4a761fb66512fff59798765e8ac5b9e57dceef0 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Fri, 27 Dec 2024 18:00:39 -0600
-+Subject: [PATCH] soup_message_headers_get_content_disposition: strdup
-+ truncated filenames
-+
-+This table frees the strings it contains.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/f4a761fb66512fff59798765e8ac5b9e57dceef0]
-+CVE: CVE-2025-32911 CVE-2025-32913
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-message-headers.c | 2 +-
-+ tests/header-parsing-test.c    | 1 +
-+ 2 files changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
-+index 04f4c302..ee7a3cb1 100644
-+--- a/libsoup/soup-message-headers.c
-++++ b/libsoup/soup-message-headers.c
-+@@ -1664,7 +1664,7 @@ soup_message_headers_get_content_disposition (SoupMessageHeaders  *hdrs,
-+                         char *filename = strrchr (orig_value, '/');
-+ 
-+                         if (filename)
-+-                                g_hash_table_insert (*params, g_strdup (orig_key), filename + 1);
-++                                g_hash_table_insert (*params, g_strdup (orig_key), g_strdup (filename + 1));
-+                 } else {
-+                         /* filename with no value isn't valid. */
-+                         g_hash_table_remove (*params, "filename");
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index d0b360c8..07ea2866 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -1150,6 +1150,7 @@ do_content_disposition_tests (void)
-+ 		soup_test_assert (FALSE, "empty filename decoding FAILED");
-+ 		return;
-+ 	}
-++        g_free (disposition);
-+         g_assert_false (g_hash_table_contains (params, "filename"));
-+ 	g_hash_table_destroy (params);
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index b27c56895b..8d974c2d59 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -26,6 +26,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32910-1.patch \
-            file://CVE-2025-32910-2.patch \
-            file://CVE-2025-32910-3.patch \
-+           file://CVE-2025-32911_CVE-2025-32913-1.patch \
-+           file://CVE-2025-32911_CVE-2025-32913-2.patch \
-           "
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
- 
 -- 
 2.43.0
 
