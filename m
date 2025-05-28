@@ -1,177 +1,166 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <patrick@stwcx.xyz>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28B78C54ED1
-	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 03:31:25 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.7797.1748403078620362194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D15C5AE59
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 03:38:55 +0000 (UTC)
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+ by mx.groups.io with SMTP id smtpd.web10.7908.1748403531027912288
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 May 2025 20:31:18 -0700
+ Tue, 27 May 2025 20:38:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=72430432df=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S1F1xl004947
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 20:31:18 -0700
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04on2053.outbound.protection.outlook.com [40.107.101.53])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46u9d43dqs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 20:31:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r9I8HTBu3WckAynz4Q/rV0wyLByvOSa22pqESlTskO7XRX18sXWtYecV8RSJ3yTlcdvTgPLMGMqMbkdGKstoNJHMhiiMS2Yx9Etx5XXsjXroK8gzQwhUCDkPujXHTKHT4RKUdPyqLssZP/O1C6/Wg8ECRxjHCJuIHnuNg7KX3MjbCI+yssargZ10KoVB1xVCvI/rndl9oPFb9zjEl+Hiku3VclydUdd6LAgJ0F+Si10chUmczdghcW1uKrJTc1X1m6u19PQ0FN8qwDAcaXrZvP8e/iLAcvlemTk8BpFceYnfW/jgRRvpvylkfZ5Z1CxEnBPSFr0+j1huLuO/Q4dJdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/1TaoFCZ2v5gmE0SVuu83OVwd8ogzGU/V9MuBarRMLA=;
- b=EL6MMb6TcGA6FBO24xifeUNvTSvos1GG6RihAPa0ythKHs6ndtRiLh9vBBpdxLd6Lnlz04Yb78kVjDtptusBuCu92ySDIAiw+dQJm/Kwp2Ag5RxD8P3XORde0E57jmnB9VELFHT92UDczbD4blx82hxABhYwv6op2RBiZqoM79QlnprdXlj7c5VP360l9axv+VTNxU8J3TnSxKbOwwv/x4MIxx2CUZm3iQbfoGYEuE0FqxP3AWgd+2iDLpHOHOZub3xIoOOAEiOpc+B/5WaviY11utYS3bHeneszm2gkoyfajmd7DXPzrp5qBG+2AYSv+syyONMMpRLU/hxv4uyrlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by IA3PR11MB8895.namprd11.prod.outlook.com (2603:10b6:208:579::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.24; Wed, 28 May
- 2025 03:31:14 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8769.025; Wed, 28 May 2025
- 03:31:14 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] shadow: upgrade from 4.17.3 to 4.17.4
-Date: Wed, 28 May 2025 11:30:59 +0800
-Message-Id: <20250528033059.4037290-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0048.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b5::11) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@stwcx.xyz header.s=fm3 header.b=ApDtYQym;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=KAz870bF;
+ spf=pass (domain: stwcx.xyz, ip: 103.168.172.153, mailfrom: patrick@stwcx.xyz)
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 2CE101140119;
+	Tue, 27 May 2025 23:38:50 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Tue, 27 May 2025 23:38:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1748403530; x=1748489930; bh=NAtJ7Nkv+O
+	3UOh7we2rc4vJhF8K1MPh6MoDHQH4xOic=; b=ApDtYQymYdVYJ56QJMEMyg7aIA
+	iAGHyjwTz3vbMf9MntpH9OTWrNSoElzg0/aCNvHb/g9k2SThayeLtaDODZzk8UbG
+	3PrQ03Q4HT/FDsvf8x2+J8fdQMgXfXLKffl2B+lY+U40+Z1PgYkY/lyMD+24jCHV
+	dpZvGQc+u+dR6Y7yn0VD4yLXrm/LuxjuwL23BI/iKpOnEIlIrfNNQeBnC31Cn2Y6
+	6SQQkz+99waZ/pqRUgmqCL2OELcy0msBU4Eect2u9pm0L/Ap+YQvNrEjVP3EmrYH
+	xy/WfWCzeZ1lsXWfsr+FFot3Bf35bNa4bAZy7sRbUfkdAj8to+OmgTRGQoyg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1748403530; x=1748489930; bh=NAtJ7Nkv+O3UOh7we2rc4vJhF8K1MPh6MoD
+	HQH4xOic=; b=KAz870bFE1pzCplrmnmdo7m11yeNEnMVKi+RnRLMagx5ml+X2Cy
+	qDM6fig0yPQGYvztowUp8k2yHKAcnPwJjsySLi0whYNSss+1LqL62c1z2PVaDrgw
+	vB3Wu/ZvrBJ84gdX2/35oBAZZZMQEN0mqOEr4oMsmV7Qr8ghklvmc+5D494xCPYZ
+	K5JGGwkYNZu+EoFG4KNs3TCuWjW2g0nCSVBoxjm4zLVQafDxFAVeo3oDudSTg4Pr
+	e0h5xuiJwwlgY99Xe+HSeSvjy0ep9hEAEtM5MSsOOvDXNiaLVg8Ma491YV69SqFJ
+	UXmPMunSS4kI258mz51YP+GsDXvyQFQhjPQ==
+X-ME-Sender: <xms:SYU2aE_xPHOcEjOSo7ktWwCEDIDyKhY4jfgjAkc-ptrnxFYMWL9Nug>
+    <xme:SYU2aMvUiRDrlq-bJAgiqazCQeBToJgVWu0Hqo0ZyJxSV9N9x1m2_t7YonH9Cs-8N
+    7ZsMXOkKwU5IU4uYgA>
+X-ME-Received: <xmr:SYU2aKBUYgyWAaWKcUTwvv0G1zT1uvfNbu0IUIcjT4ICBnQkFsi_Z2SB5DY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvvddvtdculddtuddrgeefvddrtd
+    dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
+    fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
+    dtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfghrlhcuvffnffculdefhedm
+    necujfgurhepfffhvfevuffkfhggtggujgesghdtroertddtvdenucfhrhhomheprfgrth
+    hrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhesshhtfigtgidrgiihiieqnecu
+    ggftrfgrthhtvghrnhepkeduvedtkeeiiefhteejkedvvdetjeegueelfeektdevhefhvd
+    ffvedtueehheetnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitg
+    hksehsthiftgigrdighiiipdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopegrlhgvgidrkhgrnhgrvhhinhesghhmrghilhdrtghomhdprhgtph
+    htthhopehmnhhssehgohhmshhprggtvgdrtghomhdprhgtphhtthhopehophgvnhgvmhgs
+    vgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:SYU2aEc0Saah2gMexWbnmJduF7ucP0rpM5FRgAZQTVkG4tODekU-2g>
+    <xmx:SYU2aJPQ2pH93kdEVnFs4MDD6SWX4yc6i3RW89TvvVRLjU1_1rEnXA>
+    <xmx:SYU2aOl8-fOftaDYpOAKQdfWgDQb1BB7PBZj__Ql4K68TBi8_IQcRQ>
+    <xmx:SYU2aLsW3a594TQbI304VJu81eZfPAD1YlQ1_ZuoiBR58gtia45nyg>
+    <xmx:SoU2aM8fqo13cud06qQJhaUksdBpWAUKoHY3nLVcAhvRcu1EgQEJTlqn>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 May 2025 23:38:49 -0400 (EDT)
+Date: Tue, 27 May 2025 23:38:48 -0400
+From: Patrick Williams <patrick@stwcx.xyz>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: mns@gomspace.com, openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] Issues enabling systemd template service using
+ WantedBy construct (Styhead -> Walnascar)
+Message-ID: <aDaFSOfqodNDGXUV@heinlein>
+References: <Z2ch.1747051947055246176.oktf@lists.openembedded.org>
+ <CANNYZj_Fs1-_RHJgojgKPkobKe1eOCK4iwWGSXf+b1kuYr8O=Q@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|IA3PR11MB8895:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3f3f3c4-01fd-4c5f-2ca3-08dd9d98195f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?ZUUuZAppPS9mBoM9iwYE/88H74/Ydp1RoCqLXO/jfL4yG3E+f/+j+gVjsx3S?=
- =?us-ascii?Q?OD5YN+Bb35ihlhIr+fnLvW5L72Da0xQKN8uqwJvg1Dp5Dx1hz6gfNVrpts+O?=
- =?us-ascii?Q?mj18dyjWOISfJtcaSNh3/Ne07i7SGXxw5hCf2dGCer7MqniWhg5u7mG9QfRF?=
- =?us-ascii?Q?byh9iVAIBW8axT0p25zJXG18dbbRjodXkubL0XsEgqzcxqGnVajApNZ7Jho1?=
- =?us-ascii?Q?OTZIMla95jcTkdx6cUsGfKmdSxdC2cwFlUElMPV044Bq4YUFsUbSBLd/Befj?=
- =?us-ascii?Q?y+DzeyWqZhx6zfxzxQjAShQoiTo+Q9/aglSIZ+q6AD1bH0X0XgN+gg+dAssR?=
- =?us-ascii?Q?1opzJRz9LsAu/mWMzx8B2eAryHL22gFILGkdapj7S49xdonpWqizd5h+YwlQ?=
- =?us-ascii?Q?v+kHhupoh4geSm4y3WKR7oxftybo4bMPqBPK7M+rX9C6QpUNC7B+JO4tQQMp?=
- =?us-ascii?Q?t/1QI62nyfkMp8xHZZxHpy+G8pVhdqvF4/WXbBlfZEqsM8OOqxvwmXOreDu5?=
- =?us-ascii?Q?6zMD1Tt22klJ7L3ODrJSR4L7jVY/gjYRqXhZwyZHb/xE2+k9ZUnQdJxxpDpL?=
- =?us-ascii?Q?wJgI+eHm6DjLqz+amW3zs8idriqt9IxzQnaMIWQZ5lVCjSSTBJev1sDiEhmc?=
- =?us-ascii?Q?B8HdkWx0zOenYWqaAkrdKYYJaG3BhGqwkrsD6mpoS2Ee+iy4Vd0jtsroLUWn?=
- =?us-ascii?Q?ZWl6uabAjGS1eZVAPsFNZWW5ionDL3Z8WEfTwJ+k0WbFHGs1s0xUDCSCzKiT?=
- =?us-ascii?Q?Jx/AoqkdtlkCUudl7LRw2AO+28ApAlhGai1xYRj8toQBXPK36fj91/2tczZ3?=
- =?us-ascii?Q?zHSoBmYiPQQqDjVK9bmN4ewKRPX7FY+Wl9wrbAnOuUq4YFOOkbCs7LjyIW5n?=
- =?us-ascii?Q?4x/jEuphuYuK/C5kXqbMbAvi4qmpCUmtV+tyPaVuD+WnGIor1ZOcMtoilM1a?=
- =?us-ascii?Q?asrm6USPlqDtvqC09s7Avm/7aZNELSSzh+uNKGJOkMptObkR3Eq7CA3QGcrP?=
- =?us-ascii?Q?8z8qLEwF47Uf1Qsd864UVrqE+YGeSCSa5j/VtSlG06WHbd2TzBiLipmdisyC?=
- =?us-ascii?Q?3sjF0B8dry+R6b8qZERLz/katOGjt/f3wSjOrB0o6Bdr6Xro8ksUbX0Yefoi?=
- =?us-ascii?Q?A6ktc9LNJni41TdWkZGNyY8VpZ5H7W2JMMXiZw4bTBnomuInr3/o4Jluz+St?=
- =?us-ascii?Q?RmVKV4tHi9Lu5GEXUtDzUiXNzRJA5dj7W//SEeeBKtAl2Dk1p+F5nMI7FJJA?=
- =?us-ascii?Q?a754NSPlAFiVsMOoP8oa51Zmxo/OjTHvrhENofT7og0afIlIv4LpoanpYqmW?=
- =?us-ascii?Q?qK8GIvxemvJC/f2J014to3XufDWVK8B1JQEPXUhk61ITuP4jwHPB7x5g7a3f?=
- =?us-ascii?Q?vrTgXcOzfsOfAyusKPfJ4lLi9Z11Apl+VD92KyJY7ZTLdagRwkX65PfDyJPd?=
- =?us-ascii?Q?QPfFyeWueWIDR393sSfK3UAojP0nFAcSgGQlJsQBE+r0pcQNxy4aDQ=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?5y9gd4FX8pfWRX75pO0rUK0U7k9bWx6BnMYYbT7hBlai6+PrVQ/yDL6JoBaf?=
- =?us-ascii?Q?BTPiTHrqWxh6AdZmSv80Vl3Qrn+GhPM2/r4aMy3aQ9NQ/GIaV2A+2flsvBzu?=
- =?us-ascii?Q?ljNKbXrZ4vcuZlPRybdxj8yDdgdLml984nkBseRRfYpoGvyQRMyrFGb0gVta?=
- =?us-ascii?Q?tkvCyBElQDT7275KNxBBnXHjxDxqnr5hO+TeMJJKwwSdBF4Nyw6zA/UTIJCO?=
- =?us-ascii?Q?gMf7re1v/OdP7yVjrHylFyNHOxzA20FDhF0OrHlBApgTyUJH3XB/BkzyyN/V?=
- =?us-ascii?Q?9wW50DJ2fyPdClD9YgP9hd2FHKR3rSR3F4EWbg6ikq9IBuY6oYb2t9IEiQdf?=
- =?us-ascii?Q?xGfy/T8SH+s2us4fXHKoTu+BEye637RptYFCw3OvDUfZp5Lx4Xn7l9bOtyH3?=
- =?us-ascii?Q?lQYwmbTgWwfMWCfQZzsKoMILxjzEzMRRvRvEZGEelp5/ZWFTpEotpqLQy+aV?=
- =?us-ascii?Q?BOgzIxh7Ke+QNJqsjumoerv+fAuEJzLvQe7WuCxbSGPPm6ZLyRcK9RW0CQgR?=
- =?us-ascii?Q?xcu6DFCFfrUVLOjpVDtk+RSMpTRbqI2PhQGnh+ZeBbGFIPUUXuPG8dtGw4+Q?=
- =?us-ascii?Q?UvgDdaBd+9JdD4O4v1EG8Saatc+ftHwjSR9T9xByX3Td7qKUlv1/fZXOPrHa?=
- =?us-ascii?Q?48AJ5KCW0QQwcpyphbp3/a27b2OmFNtXES/5NDcqRegmuobNANxFjQVBJ0yU?=
- =?us-ascii?Q?ihdJTJwdbLQAfRDYwgpTDNBssAjeR1o9qllTiyLDzsLdaY+PhebeFdfTS3Ms?=
- =?us-ascii?Q?z4KA7NDuqUfgX/zMkw1/yhAmq5uyGCbi/zoVyLwE2d+lARQxYUenFHYbeDC3?=
- =?us-ascii?Q?G4t1ArY7+XN+LDYSJhOlFJDWk52PK0v1mH5KAWikyOMgN5YaAeIChcXak+1B?=
- =?us-ascii?Q?/rdj5SG2zhFQVsg7UUft8RRXH4iLd06GSvW1wShlRESkCYLEDXVBuhTah3Vs?=
- =?us-ascii?Q?+QPi44f0AopoWYOtbTznYsc/dWwVGCuecFNP51CMODXmDy/R0Gm/DSvagDhS?=
- =?us-ascii?Q?xNvnH8YXydHjb7WgeTzI/aA76V8pkZybQ8YgxcmXk7zJhRfQSWkGOMcIOF0W?=
- =?us-ascii?Q?ebnS26jSnALN/7pLiAfyo+fm0738FTSIL4KIGx1d7KhlaBcTpELd9ISMbHT+?=
- =?us-ascii?Q?Z8UDiD6a6rcXuhC2PslS12t8l0SSTijnkB+7TUKjhYBRgc8CllqX2AEiJgvj?=
- =?us-ascii?Q?uhZySllIgqndkAZzoYKbehoSvfbCjOG7siKjlNM4ZM6mH6WX6T9fdtR1I9w0?=
- =?us-ascii?Q?ZD9h9PIabtCCgT5lRBu3l36EYnkko+Ts/93vV/E/xFqV7cQu5382R8VZPsDG?=
- =?us-ascii?Q?cAVZ3gDVYD+rG3rf1B18WE/V7W1t79VG7BbudIG/ylnJmWUOQIDfw/5qjQPm?=
- =?us-ascii?Q?00sXtFlP0LdmaAPJLuIKkBL8JlSzXuQEfgLLZa8TqX1OvnJ61we0DZtOoobK?=
- =?us-ascii?Q?ZEsip98kG3Y2qoNjOvFQ5Fn6QmB6ZkR816NM0OGZh6g3lvioTLr426p4qDr/?=
- =?us-ascii?Q?vmSWWLZtUoE/1HXzo7goYyRQiuo2HM2xdNzXuasV42E5EtV3pJa/f2iRA4Wz?=
- =?us-ascii?Q?k0U3BpAeXdOZZ/zWNk/DOG9Hcx4BeEYQCo8Nv7+k?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3f3f3c4-01fd-4c5f-2ca3-08dd9d98195f
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 03:31:14.5358
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cVox1r8+ZUobNtWSW0pkWurADC5tPCqqs91nycLQuMPJEX2/ckz3TuuhZTR9JxXQQlmbaHMVkeUfckGmKrRsRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB8895
-X-Proofpoint-GUID: cano-Z3R3HjLQhs3genvg06wVCeYMe3N
-X-Proofpoint-ORIG-GUID: cano-Z3R3HjLQhs3genvg06wVCeYMe3N
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDAzMCBTYWx0ZWRfXzAkXjAmUcaP1 EwsAyiBeNjk9lpNVgnhUB7mF/LwLq6jf4t1mWswWFebp9BdmhGwnghBwBhvFoogX9fOHSl0HkGN PSn7XdhfViXxvANYgeMiwYmxWf8pK3aPcK8Bd6iTkmBZjnzsXFmCrgOnUlWhejsv/bviS33u1cP
- OiSfsv+DGnQAzgLWLevR4r9Z3/XbZ1vmOK9g/9WA4sFg/33njj4+iOGTMx7Qg2ysGCYsDsB6cNI ryamCuIk4ZZK/sx+0bWgUULeAk5Hb2oCrG4zneABJwOKN4uAxKLNyL4jE2ml9hOU24ThBNyfJfz 4C+sG1Pd6wnVU8bQZNJzibBiiCe6/Ffh9nH0FzH5ON31yCIGVXo2SzjhzPHVvt7WqibfLnIewfV
- F2nASZkpPh4x3VO/qP06h7zRFFZ1wPpfJtzMmsOrP9aRanBRvHRQowG5eW4E2VrtHiQZOquQ
-X-Authority-Analysis: v=2.4 cv=fdCty1QF c=1 sm=1 tr=0 ts=68368386 cx=c_pps a=hUsz26bhODo9u3wNMtt6CA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10 a=t7CeM3EgAAAA:8 a=DYhWAiVjeaHXrFRB85UA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-28_02,2025-05-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 adultscore=0 malwarescore=0 suspectscore=0 impostorscore=0
- clxscore=1015 mlxscore=0 spamscore=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
- definitions=main-2505280030
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="A6OIdSerd+Wpi+0j"
+Content-Disposition: inline
+In-Reply-To: <CANNYZj_Fs1-_RHJgojgKPkobKe1eOCK4iwWGSXf+b1kuYr8O=Q@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 03:31:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217330
+ <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 03:38:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217331
 
-From: Chen Qi <Qi.Chen@windriver.com>
 
-Upgrade shadow to 4.17.4.
+--A6OIdSerd+Wpi+0j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../shadow/{shadow_4.17.3.bb => shadow_4.17.4.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/shadow/{shadow_4.17.3.bb => shadow_4.17.4.bb} (99%)
+On Mon, May 12, 2025 at 02:19:14PM +0200, Alexander Kanavin wrote:
+> On Mon, 12 May 2025 at 14:12, Martin Siegumfeldt via
+> lists.openembedded.org <mns=3Dgomspace.com@lists.openembedded.org>
+> wrote:
+>=20
+> > As mentioned, it appears to be a regression during the styhead -> walna=
+scar development. I notice that the systemctl-native is now built from the =
+systemd sources - is this correct? Should I consequently report this throug=
+h systemd?
+>=20
+> Yes, we've transitioned to using systemd's implementation rather than our=
+ own.
+>=20
 
-diff --git a/meta/recipes-extended/shadow/shadow_4.17.3.bb b/meta/recipes-extended/shadow/shadow_4.17.4.bb
-similarity index 99%
-rename from meta/recipes-extended/shadow/shadow_4.17.3.bb
-rename to meta/recipes-extended/shadow/shadow_4.17.4.bb
-index 3d07aec3d6..73942888b6 100644
---- a/meta/recipes-extended/shadow/shadow_4.17.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.17.4.bb
-@@ -25,7 +25,7 @@ SRC_URI:append:class-native = " \
-            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
-            file://disable_syslog.patch \
-            "
--SRC_URI[sha256sum] = "2a029091d2c2f116f51b3a817ec16e7da22310a6c8116394457483c668c84b36"
-+SRC_URI[sha256sum] = "0a288c251f339846af6bdfd4447b196153204deba42407bce5b0917998322e9b"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
- 
- # Additional Policy files for PAM
--- 
-2.34.1
+I'm running into this same problem and I think there is a serious flaw
+with walnascar / master.  We are using IPKs and what is happening is
+that the `postinst` is not running correctly.  The `systemd_postinst` is
+where all of the unit files are enabled (based on the SYSTEMD_SERVICE
+variable).  If this doesn't run correctly, the image is missing all of
+the default enabled services and templates.
 
+The `systemd_postinst` has a guard "if systemctl >/dev/null 2>/dev/null"
+and if this fails, none of the unit file enable code is ran.  The thing
+is, `systemctl` will always fail because it by default is the same thing
+as `systemctl list-units`, which needs to access the systemd bus
+connection.
+
+I modified systemd.bbclass as follows:
+
+```
+ systemd_postinst() {
++systemctl || echo "It failed for some reason"
+ if systemctl >/dev/null 2>/dev/null; then
+        OPTS=3D""
+```
+
+After this, my `log.do_rootfs` is full of:
+```
+Failed to connect to system scope bus via local transport: Operation not pe=
+rmitted (consider using --machine=3D<user>@.host --user to connect to bus o=
+f other user)
+It failed for some reason
+```
+
+I think there needs to be some change in systemd_postinst to run
+something other than the equivalent of `systemctl list-units` to
+determine if the executable is valid.
+
+
+--=20
+Patrick Williams
+
+--A6OIdSerd+Wpi+0j
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmg2hUYACgkQqwNHzC0A
+wRmZBA//Q0VsbDEnMSGVOxby5SCVQxyVJsSTu5WUHejUpY53eAKIT8QHM5AX43pD
+gjvzoyAbxI8s4D9sJQNZWRypVFh3OaGQmkJGmmUS8sRAmTQ0VjUXtarXLmY8HB3r
+fNQWUv+9gTBTUK6nZUE+Kdog9nHhfUu4qEMOPsucYFYrB/M7lRd0f3o35GIVWTEa
+VuMfyf+n1IOII/2o9539pL8XC0gjWkDtXBoxaJxWpbl8ZIpUg78oTuFasr/uxXid
+t6/R4Jk7JO5GHub+QbPZAimyw1pfT3gHmAx1rOtgXU24RrqAGJvMUq2on5m/iLQC
+4qxVQOZ3RnUDc/ZM5LM4U6xkqFscbNNrs4bOeJW9V6MO4dNW6I/ovVUNMQsv0F/+
+47DG6sbfDV8dINr6gxIqJ5rJ5mUupqPfX3glAQYSbrw6LqwbJEk7leFalA6hm/2g
+5JglssYJj5dbAnagEdaqZhClMjnsk26Dl9JWr+bur4+ox12T6/YVscwhZmGiGZI4
+YBxsBQEDJjsid6AGNt9nO2jYcNGTSY2YWEF0a8nIq/+OwZ7dzBxdhd5K9pQ4bdnf
+cOpfVrUoaNmxZyt4TYLgHlvkYCxYB82jsriYpTgLZ28cSdj/yEwBIoE7adjGdIvH
+eY4SW8gqCmE8iSG9/EKjrSuIIlvf5DRde8FYhSgF7Ehae7qDzsw=
+=Q5QZ
+-----END PGP SIGNATURE-----
+
+--A6OIdSerd+Wpi+0j--
 
