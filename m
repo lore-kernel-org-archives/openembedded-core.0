@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8726FC3ABB2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A00C5B552
 	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 14:43:38 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.17590.1748443412368331045
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.17588.1748443411224211819
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 May 2025 07:43:32 -0700
+ Wed, 28 May 2025 07:43:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YLvCR0hb;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-23446bb8785so43813155ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 07:43:32 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=CDPM4GmF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-231e98e46c0so39314095ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 07:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748443412; x=1749048212; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748443410; x=1749048210; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hnJHojSTOYyn883xISPor3Ox9/nCxQBKkROgc63bpXk=;
-        b=YLvCR0hbs3MkvkXDSpZS+B9ZQ0MIAsQovuXM7AjlRMWRTxWbs0fDKd7jsaWUgdsp7O
-         xc9IxUa5bBK/wzLj/wlbO/HNHw15wM98bIR5cGrOWNl/qTD7sIu45EKuEE8HCBeeyaSA
-         UT1OE8H4GSFP/EhDeFkeNtDYA9sPOAJ+Eu3tHEeQBx94LUeGk8/5Wz3uaJltI2tLko1F
-         7Ss2EkfpujrcNr0v6G/ezQusQ/SYJv3EpkFr0ba0Sp5Z7ktcnOO/LU0sYHP6fZG1AyqG
-         DmitbqeBJ2zdAvL1u6jdKUDfd07GH1HnpZVVj26nm7qHDyr7ZTQhSZVi8vckSmaDUG4R
-         gYRA==
+        bh=p2lmgwRK8On1u/JPoOty3Nt3K2xTH+rDZIsKuvF+q08=;
+        b=CDPM4GmF87Gk8wI4vdm02rCfNEW6m/lpQ3kiGnGt76BhVQ/cr25Ya5SjEGUKCVXCjE
+         I3l7Vp9gdA+dxRGE7G5UiphXBNBXC/6HkI/vqC1mb+tprn04TEwVquWCvAM7BxpNSeQk
+         Vc7AMxubQzP7NOqGeQVadW1Y1GqZ3X9KOEgdlAda+kkjKDhL43PxPMzhk6A4Yfx5iWux
+         TztNcQgGSKS49Fsl2Ih2P5MZ6uQ7eVkawsQPnJ845LSyCablcUIKX0oJ+gVUlXDbjAn7
+         QwJPkVXv5GWVsmwToLdPX0JZ+OCN7J2udbiimKUlaszlJVswCL03rLzxu8DDj+Mkzu2H
+         j+rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748443412; x=1749048212;
+        d=1e100.net; s=20230601; t=1748443410; x=1749048210;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hnJHojSTOYyn883xISPor3Ox9/nCxQBKkROgc63bpXk=;
-        b=HdlHLpeNiHHzjcZCuLxN8CqlfM1wvdCpZlZ6gZhFgrlHOVkrUfVTLvbilYGBTAmMoZ
-         t0Z6vtlIj2v8XZOFr60+JxAmN8826vaIQPSl5wAwsBJaCaEGDVJGnc+Cqpdy+KEv7yhH
-         G0I0/+0/eP7Uy+OuoPFzVvEm9+rQX//0rCOHeDkONNC1RvGtIn5jwUYCwgRowyKEWfsY
-         74UJ4ELlxidKB+DNkqU8jQGC5FQHjpEXMZ0biWmduHaIF3aAmqMSBSa6OgyrgLzbiM4M
-         AgUedSXyLPsgrUdjaMn/ufBoetZOjg2Av2h4QUoGdYPOPaUEcnjI5CfCUkGSlzTt0vf/
-         HEtA==
-X-Gm-Message-State: AOJu0YyjZtCikGcWN/pN7M6QbQjjiXgKfLbruqNZHmxfnrbXbsN25Ci2
-	23otWdRlWikiS9OPbTJNaXMRoP9z+VknyBKhlyviHlQYrIUmpqN9PeGpjXc+A8CZficcBRJSzKQ
-	Jy0D5
-X-Gm-Gg: ASbGncugs6Z2EK4nAxp03i+ql93/baFgKx2uTABHPElpgKEV234luKLyAi8LyYeB85e
-	3BtRwLxnfDPdoHYea6IZEKrtcgjlYCf33BseuBgCFalLDR1LAXM+p6maF0bMTC6n87bgsMTlV44
-	YCFvPpd2yfgP90k0j1yeLo+dhpBBldKwKfZV0HVfIRpC5BMzZT/1KqzmqQI0lqRPu9dL09AzvB+
-	uFgVfCLdNxsHb+Y70r5OckoODFd+KikvlqZFW0jDIbpU315U4ERsFDZoJgIhlmWtJOg35QSl507
-	m/cdK1Fww1P4NtSJumGfZsShcLBa7rpA6I0oqRvan5AAR2dezpSzpg==
-X-Google-Smtp-Source: AGHT+IFQNgfnhY2sQhPg73YfmuewYNoq7LW3iqOYhwwGenTJRYleh5d+18px28PbH2TRyvISyK002Q==
-X-Received: by 2002:a17:902:f68f:b0:231:b7e1:c978 with SMTP id d9443c01a7336-23414f6229fmr253225815ad.16.1748443411572;
-        Wed, 28 May 2025 07:43:31 -0700 (PDT)
+        bh=p2lmgwRK8On1u/JPoOty3Nt3K2xTH+rDZIsKuvF+q08=;
+        b=aqfY4HiF5NWz241w9HNY7G1P2ylsguDftolxijiMBR3zr222yALQxZRliWRUhYZD0n
+         MQKrGRBTFo1psFNaAPd00yGIOGk9L75syEhU/Tbob/rXMmnrZE1P4Mfm3SBwcYMOoHJw
+         puylEhpRz5VnHN9QuP4DSXw8Omyivqe88OL3I9nyiJueuGgh8RYFIt/B+OO/bOeZFb5t
+         UhUTETKrR7xn/IPDaCYiOfzTeozgMoZrO71lMmRB4aNsZ46TY/AnhugmHOKnlcMCPoyK
+         Nx+mGimZwiUA9e2wnc58FMyDh/Gv2EumTNkM6LgZ8272UErtw9FCDtcEdc8AuW4jcM+5
+         1gwA==
+X-Gm-Message-State: AOJu0YyZ6QfYeWmBlFfKZ/JNjnLKwbwAaAOhefofculRuu4gI/OPY9ig
+	uMqSyX4tV4PMXqA4bjzjWBssIueglogtiTM8FaXfGl3XbntsSzslq9JGcPVFdC19vBXlSUDBM2j
+	xgbtp
+X-Gm-Gg: ASbGncvB9OBlBYjYC5AW4tcXA4eSEGfeyaf56G0elztcG6d8nL0qYtOFwjC9hDIgOw5
+	wo2zJICVxIb6ZcgT+5yvY4hDyZtbUtXkCEKzgx/AGgE1uKGnPC6qQZMfnXHNkn8a90kx4UfkZAz
+	qmgcQPVnpuRBY5K2dfh43ZrqFVsTHD5QdidHxNnmVBhU2auhszN3ondS2ysR7wl/dJFbDh25d2F
+	YCmY/P59qr1lUCabEBsQeGgR5r2S3gU23qXEYrdPDbk+MS4Uj/H28SLfvp4bo9r8nmoRKfH99L4
+	j5enpjAuRhZ9AEGo7OwgKaOLpf3mf5MOC1JNcT9Flig=
+X-Google-Smtp-Source: AGHT+IHdIxaS/AaMvEQFqi+vLYHkd8Xe1L4xXk6LXgfqz1k2WS9OhaalY9iGkF6e8SgApry1Pci6qw==
+X-Received: by 2002:a17:903:1947:b0:234:c8ec:51b5 with SMTP id d9443c01a7336-234c8ec551cmr52259085ad.53.1748443409881;
+        Wed, 28 May 2025 07:43:29 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:2f2f:1884:f4cc:456c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-234d358f1e2sm12626285ad.140.2025.05.28.07.43.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-234d358f1e2sm12626285ad.140.2025.05.28.07.43.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 07:43:31 -0700 (PDT)
+        Wed, 28 May 2025 07:43:29 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/11] ruby: fix CVE-2025-27221
-Date: Wed, 28 May 2025 07:43:09 -0700
-Message-ID: <421d7011269f4750f5942b815d68f77fa4559d69.1748443238.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 05/11] binutils: Fix CVE-2025-1179
+Date: Wed, 28 May 2025 07:43:08 -0700
+Message-ID: <8f54548f784ef60eaf7fb6b3f539d48b0f7192a3.1748443238.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1748443238.git.steve@sakoman.com>
 References: <cover.1748443238.git.steve@sakoman.com>
@@ -67,187 +67,1409 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 14:43:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217358
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217357
 
-From: Divya Chellam <divya.chellam@windriver.com>
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-In the URI gem before 1.0.3 for Ruby, the URI handling methods
-(URI.join, URI#merge, URI#+) have an inadvertent leakage of
-authentication credentials because userinfo is retained even
-after changing the host.
+CVE-2025-1179-pre.patch is dependency patch for CVE-2025-1179.patch
 
-Reference:
-https://security-tracker.debian.org/tracker/CVE-2025-27221
+Upstream-Status: Submitted [https://sourceware.org/pipermail/binutils/2025-May/141322.html &&
+https://sourceware.org/pipermail/binutils/2025-May/141321.html]
+CVE: CVE-2025-1179
 
-Upstream-patches:
-https://github.com/ruby/uri/commit/3675494839112b64d5f082a9068237b277ed1495
-https://github.com/ruby/uri/commit/2789182478f42ccbb62197f952eb730e4f02bfc5
+cherry picked from upstream commit:
+https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=67e30b15212adc1502b898a1ca224fdf65dc110d
+https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=1d68a49ac5d71b648304f69af978fce0f4413800
 
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ruby/ruby/CVE-2025-27221-0001.patch       | 57 +++++++++++++++
- .../ruby/ruby/CVE-2025-27221-0002.patch       | 73 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.3.5.bb      |  2 +
- 3 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0001.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0002.patch
+ .../binutils/binutils-2.42.inc                |    2 +
+ .../binutils/binutils/CVE-2025-1179-pre.patch | 1086 +++++++++++++++++
+ .../binutils/binutils/CVE-2025-1179.patch     |  269 ++++
+ 3 files changed, 1357 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1179-pre.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1179.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0001.patch b/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0001.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index bc826753cf..6d0390b5a9 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -48,5 +48,7 @@ SRC_URI = "\
+      file://0019-CVE-2025-1153-1.patch \
+      file://0020-CVE-2025-1153-2.patch \
+      file://0021-CVE-2025-1153-3.patch \
++     file://CVE-2025-1179-pre.patch \
++     file://CVE-2025-1179.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-1179-pre.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-1179-pre.patch
 new file mode 100644
-index 0000000000..95802d04f9
+index 0000000000..b5bf27ec6d
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0001.patch
-@@ -0,0 +1,57 @@
-+From 3675494839112b64d5f082a9068237b277ed1495 Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Fri, 21 Feb 2025 16:29:36 +0900
-+Subject: [PATCH] Truncate userinfo with URI#join, URI#merge and URI#+
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-1179-pre.patch
+@@ -0,0 +1,1086 @@
++From 1d68a49ac5d71b648304f69af978fce0f4413800 Mon Sep 17 00:00:00 2001
++From: "H.J. Lu" <hjl.tools@gmail.com>
++Date: Tue, 23 Jul 2024 23:39:50 -0700
++Subject: [PATCH 1/2] x86: Improve TLS transition error check
 +
-+CVE: CVE-2025-27221
++Provide detailed TLS transition errors when unsupported instructions are
++used.  Treat R_X86_64_CODE_4_GOTTPOFF and R_X86_64_CODE_6_GOTTPOFF as
++R_X86_64_GOTTPOFF when performing TLS transition.
 +
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/3675494839112b64d5f082a9068237b277ed1495]
++bfd/
 +
-+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++	PR ld/32017
++	* elf32-i386.c (elf_i386_check_tls_transition): Return different
++	enums for different errors.
++	(elf_i386_tls_transition): Change argument from r_symndx to sym.
++	Call _bfd_x86_elf_link_report_tls_transition_error to report TLS
++	transition errors.
++	(elf_i386_scan_relocs): Pass isym instead of r_symndx to
++	elf_i386_tls_transition.
++	(elf_i386_relocate_section): Pass sym instead of r_symndx to
++	elf_i386_tls_transition.
++	* elf64-x86-64.c (elf_x86_64_check_tls_transition): Return
++	different enums for different errors.
++	(elf_x86_64_tls_transition): Change argument from r_symndx to sym.
++	Treat R_X86_64_CODE_4_GOTTPOFF and R_X86_64_CODE_6_GOTTPOFF as
++	R_X86_64_GOTTPOFF.  Call
++	_bfd_x86_elf_link_report_tls_transition_error to report TLS
++	transition errors.
++	(elf_x86_64_scan_relocs): Pass isym instead of r_symndx to
++	elf_x86_64_tls_transition.
++	(elf_x86_64_relocate_section): Pass sym instead of r_symndx to
++	elf_x86_64_tls_transition.
++	* elfxx-x86.c (_bfd_x86_elf_link_report_tls_transition_error): New.
++	* elfxx-x86.h (elf_x86_tls_error_type): Likewise.
++	(_bfd_x86_elf_link_report_tls_transition_error): Likewise.
++
++ld/
++
++	PR ld/32017
++	* testsuite/ld-i386/i386.exp: Run tlsgdesc1 and tlsgdesc2.
++	* testsuite/ld-i386/tlsie2.d: Updated.
++	* testsuite/ld-i386/tlsie3.d: Likewise.
++	* testsuite/ld-i386/tlsie4.d: Likewise.
++	* testsuite/ld-i386/tlsie5.d: Likewise.
++	* testsuite/ld-x86-64/tlsie2.d: Likewise.
++	* testsuite/ld-x86-64/tlsie3.d: Likewise.
++	* testsuite/ld-i386/tlsgdesc1.d: New file.
++	* testsuite/ld-i386/tlsgdesc1.s: Likewise.
++	* testsuite/ld-i386/tlsgdesc2.d: Likewise.
++	* testsuite/ld-i386/tlsgdesc2.s: Likewise.
++	* testsuite/ld-x86-64/tlsdesc3.d: Likewise.
++	* testsuite/ld-x86-64/tlsdesc3.s: Likewise.
++	* testsuite/ld-x86-64/tlsdesc4.d: Likewise.
++	* testsuite/ld-x86-64/tlsdesc4.s: Likewise.
++	* testsuite/ld-x86-64/tlsie5.d: Likewise.
++	* testsuite/ld-x86-64/tlsie5.s: Likewise.
++	* testsuite/ld-x86-64/x86-64.exp: Run tlsie5, tlsdesc3 and
++	tlsdesc4.
++
++(cherry picked from commit:1d68a49ac5d71b648304f69af978fce0f4413800)
++Upstream-Status: Submitted [https://sourceware.org/pipermail/binutils/2025-May/141322.html]
++CVE: CVE-2025-1179
++
++Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 +---
-+ lib/uri/generic.rb       |  6 +++++-
-+ test/uri/test_generic.rb | 11 +++++++++++
-+ 2 files changed, 16 insertions(+), 1 deletion(-)
++ bfd/elf32-i386.c                  | 118 +++++++++++++-------------
++ bfd/elf64-x86-64.c                | 133 ++++++++++++++++--------------
++ bfd/elfxx-x86.c                   |  85 +++++++++++++++++++
++ bfd/elfxx-x86.h                   |  18 ++++
++ ld/testsuite/ld-i386/i386.exp     |   2 +
++ ld/testsuite/ld-i386/tlsgdesc1.d  |   4 +
++ ld/testsuite/ld-i386/tlsgdesc1.s  |  11 +++
++ ld/testsuite/ld-i386/tlsgdesc2.d  |   4 +
++ ld/testsuite/ld-i386/tlsgdesc2.s  |  11 +++
++ ld/testsuite/ld-i386/tlsie2.d     |   2 +-
++ ld/testsuite/ld-i386/tlsie3.d     |   2 +-
++ ld/testsuite/ld-i386/tlsie4.d     |   2 +-
++ ld/testsuite/ld-i386/tlsie5.d     |   2 +-
++ ld/testsuite/ld-x86-64/tlsdesc3.d |   4 +
++ ld/testsuite/ld-x86-64/tlsdesc3.s |  13 +++
++ ld/testsuite/ld-x86-64/tlsdesc4.d |   4 +
++ ld/testsuite/ld-x86-64/tlsdesc4.s |  13 +++
++ ld/testsuite/ld-x86-64/tlsie2.d   |   2 +-
++ ld/testsuite/ld-x86-64/tlsie3.d   |   2 +-
++ ld/testsuite/ld-x86-64/tlsie5.d   |   4 +
++ ld/testsuite/ld-x86-64/tlsie5.s   |  12 +++
++ ld/testsuite/ld-x86-64/x86-64.exp |   3 +
++ 22 files changed, 319 insertions(+), 132 deletions(-)
++ create mode 100644 ld/testsuite/ld-i386/tlsgdesc1.d
++ create mode 100644 ld/testsuite/ld-i386/tlsgdesc1.s
++ create mode 100644 ld/testsuite/ld-i386/tlsgdesc2.d
++ create mode 100644 ld/testsuite/ld-i386/tlsgdesc2.s
++ create mode 100644 ld/testsuite/ld-x86-64/tlsdesc3.d
++ create mode 100644 ld/testsuite/ld-x86-64/tlsdesc3.s
++ create mode 100644 ld/testsuite/ld-x86-64/tlsdesc4.d
++ create mode 100644 ld/testsuite/ld-x86-64/tlsdesc4.s
++ create mode 100644 ld/testsuite/ld-x86-64/tlsie5.d
++ create mode 100644 ld/testsuite/ld-x86-64/tlsie5.s
 +
-+diff --git a/lib/uri/generic.rb b/lib/uri/generic.rb
-+index f3540a2..ecc78c5 100644
-+--- a/lib/uri/generic.rb
-++++ b/lib/uri/generic.rb
-+@@ -1141,7 +1141,11 @@ module URI
-+       end
++diff --git a/bfd/elf32-i386.c b/bfd/elf32-i386.c
++index e2f88a11487..18a28d2491c 100644
++--- a/bfd/elf32-i386.c
+++++ b/bfd/elf32-i386.c
++@@ -839,7 +839,7 @@ static const struct elf_x86_non_lazy_plt_layout elf_i386_non_lazy_ibt_plt =
++ /* Return TRUE if the TLS access code sequence support transition
++    from R_TYPE.  */
 + 
-+       # RFC2396, Section 5.2, 7)
-+-      base.set_userinfo(rel.userinfo) if rel.userinfo
-++      if rel.userinfo
-++        base.set_userinfo(rel.userinfo)
++-static bool
+++static enum elf_x86_tls_error_type
++ elf_i386_check_tls_transition (asection *sec,
++ 			       bfd_byte *contents,
++ 			       Elf_Internal_Shdr *symtab_hdr,
++@@ -861,7 +861,7 @@ elf_i386_check_tls_transition (asection *sec,
++     case R_386_TLS_GD:
++     case R_386_TLS_LDM:
++       if (offset < 2 || (rel + 1) >= relend)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       indirect_call = false;
++       call = contents + offset + 4;
++@@ -884,19 +884,19 @@ elf_i386_check_tls_transition (asection *sec,
++ 	     can transit to different access model.  */
++ 	  if ((offset + 10) > sec->size
++ 	      || (type != 0x8d && type != 0x04))
++-	    return false;
+++	    return elf_x86_tls_error_yes;
++ 
++ 	  if (type == 0x04)
++ 	    {
++ 	      /* leal foo@tlsgd(,%ebx,1), %eax
++ 		 call ___tls_get_addr@PLT  */
++ 	      if (offset < 3)
++-		return false;
+++		return elf_x86_tls_error_yes;
++ 
++ 	      if (*(call - 7) != 0x8d
++ 		  || val != 0x1d
++ 		  || call[0] != 0xe8)
++-		return false;
+++		return elf_x86_tls_error_yes;
++ 	    }
++ 	  else
++ 	    {
++@@ -914,7 +914,7 @@ elf_i386_check_tls_transition (asection *sec,
++ 		 is used to pass parameter to ___tls_get_addr.  */
++ 	      reg = val & 7;
++ 	      if ((val & 0xf8) != 0x80 || reg == 4 || reg == 0)
++-		return false;
+++		return elf_x86_tls_error_yes;
++ 
++ 	      indirect_call = call[0] == 0xff;
++ 	      if (!(reg == 3 && call[0] == 0xe8 && call[5] == 0x90)
++@@ -922,7 +922,7 @@ elf_i386_check_tls_transition (asection *sec,
++ 		  && !(indirect_call
++ 		       && (call[1] & 0xf8) == 0x90
++ 		       && (call[1] & 0x7) == reg))
++-		return false;
+++		return elf_x86_tls_error_yes;
++ 	    }
++ 	}
++       else
++@@ -937,13 +937,13 @@ elf_i386_check_tls_transition (asection *sec,
++ 		addr32 call ___tls_get_addr
++ 	     can transit to different access model.  */
++ 	  if (type != 0x8d || (offset + 9) > sec->size)
++-	    return false;
+++	    return elf_x86_tls_error_yes;
++ 
++ 	  /* %eax can't be used as the GOT base register since it is
++ 	     used to pass parameter to ___tls_get_addr.  */
++ 	  reg = val & 7;
++ 	  if ((val & 0xf8) != 0x80 || reg == 4 || reg == 0)
++-	    return false;
+++	    return elf_x86_tls_error_yes;
++ 
++ 	  indirect_call = call[0] == 0xff;
++ 	  if (!(reg == 3 && call[0] == 0xe8)
++@@ -951,23 +951,27 @@ elf_i386_check_tls_transition (asection *sec,
++ 	      && !(indirect_call
++ 		   && (call[1] & 0xf8) == 0x90
++ 		   && (call[1] & 0x7) == reg))
++-	    return false;
+++	    return elf_x86_tls_error_yes;
++ 	}
++ 
++       r_symndx = ELF32_R_SYM (rel[1].r_info);
++       if (r_symndx < symtab_hdr->sh_info)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       h = sym_hashes[r_symndx - symtab_hdr->sh_info];
++       if (h == NULL
++ 	  || !((struct elf_x86_link_hash_entry *) h)->tls_get_addr)
++-	return false;
+++	return elf_x86_tls_error_yes;
++       else if (indirect_call)
++-	return (ELF32_R_TYPE (rel[1].r_info) == R_386_GOT32X
++-		|| ELF32_R_TYPE (rel[1].r_info) == R_386_GOT32);
+++	return ((ELF32_R_TYPE (rel[1].r_info) == R_386_GOT32X
+++		 || ELF32_R_TYPE (rel[1].r_info) == R_386_GOT32)
+++		? elf_x86_tls_error_none
+++		: elf_x86_tls_error_yes);
++       else
++-	return (ELF32_R_TYPE (rel[1].r_info) == R_386_PC32
++-		|| ELF32_R_TYPE (rel[1].r_info) == R_386_PLT32);
+++	return ((ELF32_R_TYPE (rel[1].r_info) == R_386_PC32
+++		|| ELF32_R_TYPE (rel[1].r_info) == R_386_PLT32)
+++		? elf_x86_tls_error_none
+++		: elf_x86_tls_error_yes);
++ 
++     case R_386_TLS_IE:
++       /* Check transition from IE access model:
++@@ -977,20 +981,23 @@ elf_i386_check_tls_transition (asection *sec,
++        */
++ 
++       if (offset < 1 || (offset + 4) > sec->size)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       /* Check "movl foo@tpoff(%rip), %eax" first.  */
++       val = bfd_get_8 (abfd, contents + offset - 1);
++       if (val == 0xa1)
++-	return true;
+++	return elf_x86_tls_error_none;
++ 
++       if (offset < 2)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       /* Check movl|addl foo@tpoff(%rip), %reg.   */
++       type = bfd_get_8 (abfd, contents + offset - 2);
++-      return ((type == 0x8b || type == 0x03)
++-	      && (val & 0xc7) == 0x05);
+++      if (type != 0x8b && type != 0x03)
+++	return elf_x86_tls_error_add_mov;
+++      return ((val & 0xc7) == 0x05
+++	      ? elf_x86_tls_error_none
+++	      : elf_x86_tls_error_yes);
++ 
++     case R_386_TLS_GOTIE:
++     case R_386_TLS_IE_32:
++@@ -1001,14 +1008,16 @@ elf_i386_check_tls_transition (asection *sec,
++        */
++ 
++       if (offset < 2 || (offset + 4) > sec->size)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       val = bfd_get_8 (abfd, contents + offset - 1);
++       if ((val & 0xc0) != 0x80 || (val & 7) == 4)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       type = bfd_get_8 (abfd, contents + offset - 2);
++-      return type == 0x8b || type == 0x2b || type == 0x03;
+++      return (type == 0x8b || type == 0x2b || type == 0x03
+++	      ? elf_x86_tls_error_none
+++	      : elf_x86_tls_error_add_sub_mov);
++ 
++     case R_386_TLS_GOTDESC:
++       /* Check transition from GDesc access model:
++@@ -1019,13 +1028,15 @@ elf_i386_check_tls_transition (asection *sec,
++ 	 going to be eax.  */
++ 
++       if (offset < 2 || (offset + 4) > sec->size)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       if (bfd_get_8 (abfd, contents + offset - 2) != 0x8d)
++-	return false;
+++	return elf_x86_tls_error_lea;
++ 
++       val = bfd_get_8 (abfd, contents + offset - 1);
++-      return (val & 0xc7) == 0x83;
+++      return ((val & 0xc7) == 0x83
+++	      ? elf_x86_tls_error_none
+++	      : elf_x86_tls_error_yes);
++ 
++     case R_386_TLS_DESC_CALL:
++       /* Check transition from GDesc access model:
++@@ -1035,10 +1046,12 @@ elf_i386_check_tls_transition (asection *sec,
++ 	{
++ 	  /* Make sure that it's a call *x@tlsdesc(%eax).  */
++ 	  call = contents + offset;
++-	  return call[0] == 0xff && call[1] == 0x10;
+++	  return (call[0] == 0xff && call[1] == 0x10
+++		  ? elf_x86_tls_error_none
+++		  : elf_x86_tls_error_indirect_call);
++ 	}
++ 
++-      return false;
+++      return elf_x86_tls_error_yes;
++ 
++     default:
++       abort ();
++@@ -1057,7 +1070,7 @@ elf_i386_tls_transition (struct bfd_link_info *info, bfd *abfd,
++ 			 const Elf_Internal_Rela *rel,
++ 			 const Elf_Internal_Rela *relend,
++ 			 struct elf_link_hash_entry *h,
++-			 unsigned long r_symndx,
+++			 Elf_Internal_Sym *sym,
++ 			 bool from_relocate_section)
++ {
++   unsigned int from_type = *r_type;
++@@ -1142,43 +1155,24 @@ elf_i386_tls_transition (struct bfd_link_info *info, bfd *abfd,
++     return true;
++ 
++   /* Check if the transition can be performed.  */
+++  enum elf_x86_tls_error_type tls_error;
++   if (check
++-      && ! elf_i386_check_tls_transition (sec, contents,
++-					  symtab_hdr, sym_hashes,
++-					  from_type, rel, relend))
+++      && ((tls_error = elf_i386_check_tls_transition (sec, contents,
+++						      symtab_hdr,
+++						      sym_hashes,
+++						      from_type, rel,
+++						      relend))
+++	  != elf_x86_tls_error_none))
++     {
++       reloc_howto_type *from, *to;
++-      const char *name;
++ 
++       from = elf_i386_rtype_to_howto (from_type);
++       to = elf_i386_rtype_to_howto (to_type);
++ 
++-      if (h)
++-	name = h->root.root.string;
++-      else
++-	{
++-	  struct elf_x86_link_hash_table *htab;
++-
++-	  htab = elf_x86_hash_table (info, I386_ELF_DATA);
++-	  if (htab == NULL)
++-	    name = "*unknown*";
++-	  else
++-	    {
++-	      Elf_Internal_Sym *isym;
++-
++-	      isym = bfd_sym_from_r_symndx (&htab->elf.sym_cache,
++-					    abfd, r_symndx);
++-	      name = bfd_elf_sym_name (abfd, symtab_hdr, isym, NULL);
++-	    }
++-	}
+++      _bfd_x86_elf_link_report_tls_transition_error
+++	(info, abfd, sec, symtab_hdr, h, sym, rel, from->name,
+++	 to->name, tls_error);
++ 
++-      _bfd_error_handler
++-	/* xgettext:c-format */
++-	(_("%pB: TLS transition from %s to %s against `%s'"
++-	   " at %#" PRIx64 " in section `%pA' failed"),
++-	 abfd, from->name, to->name, name,
++-	 (uint64_t) rel->r_offset, sec);
++-      bfd_set_error (bfd_error_bad_value);
++       return false;
++     }
++ 
++@@ -1600,7 +1594,7 @@ elf_i386_scan_relocs (bfd *abfd,
++       if (! elf_i386_tls_transition (info, abfd, sec, contents,
++ 				     symtab_hdr, sym_hashes,
++ 				     &r_type, GOT_UNKNOWN,
++-				     rel, rel_end, h, r_symndx, false))
+++				     rel, rel_end, h, isym, false))
++ 	goto error_return;
++ 
++       /* Check if _GLOBAL_OFFSET_TABLE_ is referenced.  */
++@@ -2875,7 +2869,7 @@ elf_i386_relocate_section (bfd *output_bfd,
++ 					 input_section, contents,
++ 					 symtab_hdr, sym_hashes,
++ 					 &r_type_tls, tls_type, rel,
++-					 relend, h, r_symndx, true))
+++					 relend, h, sym, true))
++ 	    return false;
++ 
++ 	  expected_tls_le = htab->elf.target_os == is_solaris
++@@ -3365,7 +3359,7 @@ elf_i386_relocate_section (bfd *output_bfd,
++ 					 input_section, contents,
++ 					 symtab_hdr, sym_hashes,
++ 					 &r_type, GOT_UNKNOWN, rel,
++-					 relend, h, r_symndx, true))
+++					 relend, h, sym, true))
++ 	    return false;
++ 
++ 	  if (r_type != R_386_TLS_LDM)
++diff --git a/bfd/elf64-x86-64.c b/bfd/elf64-x86-64.c
++index 2ed120af780..f116e423f61 100644
++--- a/bfd/elf64-x86-64.c
+++++ b/bfd/elf64-x86-64.c
++@@ -1120,7 +1120,7 @@ elf32_x86_64_elf_object_p (bfd *abfd)
++ /* Return TRUE if the TLS access code sequence support transition
++    from R_TYPE.  */
++ 
++-static bool
+++static enum elf_x86_tls_error_type
++ elf_x86_64_check_tls_transition (bfd *abfd,
++ 				 struct bfd_link_info *info,
++ 				 asection *sec,
++@@ -1147,7 +1147,7 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++     case R_X86_64_TLSGD:
++     case R_X86_64_TLSLD:
++       if ((rel + 1) >= relend)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       if (r_type == R_X86_64_TLSGD)
++ 	{
++@@ -1184,7 +1184,7 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++ 	  static const unsigned char leaq[] = { 0x66, 0x48, 0x8d, 0x3d };
++ 
++ 	  if ((offset + 12) > sec->size)
++-	    return false;
+++	    return elf_x86_tls_error_yes;
++ 
++ 	  call = contents + offset + 4;
++ 	  if (call[0] != 0x66
++@@ -1208,20 +1208,20 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++ 		  || call[14] != 0xd0
++ 		  || !((call[10] == 0x48 && call[12] == 0xd8)
++ 		       || (call[10] == 0x4c && call[12] == 0xf8)))
++-		return false;
+++		return elf_x86_tls_error_yes;
++ 	      largepic = true;
++ 	    }
++ 	  else if (ABI_64_P (abfd))
++ 	    {
++ 	      if (offset < 4
++ 		  || memcmp (contents + offset - 4, leaq, 4) != 0)
++-		return false;
+++		return elf_x86_tls_error_yes;
++ 	    }
++ 	  else
++ 	    {
++ 	      if (offset < 3
++ 		  || memcmp (contents + offset - 3, leaq + 1, 3) != 0)
++-		return false;
+++		return elf_x86_tls_error_yes;
++ 	    }
++ 	  indirect_call = call[2] == 0xff;
++ 	}
++@@ -1250,10 +1250,10 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++ 	  static const unsigned char lea[] = { 0x48, 0x8d, 0x3d };
++ 
++ 	  if (offset < 3 || (offset + 9) > sec->size)
++-	    return false;
+++	    return elf_x86_tls_error_yes;
++ 
++ 	  if (memcmp (contents + offset - 3, lea, 3) != 0)
++-	    return false;
+++	    return elf_x86_tls_error_yes;
++ 
++ 	  call = contents + offset + 4;
++ 	  if (!(call[0] == 0xe8
++@@ -1268,7 +1268,7 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++ 		  || call[14] != 0xd0
++ 		  || !((call[10] == 0x48 && call[12] == 0xd8)
++ 		       || (call[10] == 0x4c && call[12] == 0xf8)))
++-		return false;
+++		return elf_x86_tls_error_yes;
++ 	      largepic = true;
++ 	    }
++ 	  indirect_call = call[0] == 0xff;
++@@ -1276,22 +1276,30 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++ 
++       r_symndx = htab->r_sym (rel[1].r_info);
++       if (r_symndx < symtab_hdr->sh_info)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       h = sym_hashes[r_symndx - symtab_hdr->sh_info];
++       if (h == NULL
++ 	  || !((struct elf_x86_link_hash_entry *) h)->tls_get_addr)
++-	return false;
+++	return elf_x86_tls_error_yes;
++       else
++ 	{
++ 	  r_type = (ELF32_R_TYPE (rel[1].r_info)
++ 		    & ~R_X86_64_converted_reloc_bit);
++ 	  if (largepic)
++-	    return r_type == R_X86_64_PLTOFF64;
+++	    return (r_type == R_X86_64_PLTOFF64
+++		    ? elf_x86_tls_error_none
+++		    : elf_x86_tls_error_yes);
++ 	  else if (indirect_call)
++-	    return (r_type == R_X86_64_GOTPCRELX || r_type == R_X86_64_GOTPCREL);
+++	    return ((r_type == R_X86_64_GOTPCRELX
+++		     || r_type == R_X86_64_GOTPCREL)
+++		    ? elf_x86_tls_error_none
+++		    : elf_x86_tls_error_yes);
++ 	  else
++-	    return (r_type == R_X86_64_PC32 || r_type == R_X86_64_PLT32);
+++	    return ((r_type == R_X86_64_PC32
+++		     || r_type == R_X86_64_PLT32)
+++		    ? elf_x86_tls_error_none
+++		    : elf_x86_tls_error_yes);
++ 	}
++ 
++     case R_X86_64_CODE_4_GOTTPOFF:
++@@ -1303,7 +1311,7 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++       if (offset < 4
++ 	  || (offset + 4) > sec->size
++ 	  || contents[offset - 4] != 0xd5)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       goto check_gottpoff;
++ 
++@@ -1315,14 +1323,16 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++       if (offset < 6
++ 	  || (offset + 4) > sec->size
++ 	  || contents[offset - 6] != 0x62)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       val = bfd_get_8 (abfd, contents + offset - 2);
++       if (val != 0x01 && val != 0x03)
++-	return false;
+++	return elf_x86_tls_error_add;
++ 
++       val = bfd_get_8 (abfd, contents + offset - 1);
++-      return (val & 0xc7) == 5;
+++      return ((val & 0xc7) == 5
+++	      ? elf_x86_tls_error_none
+++	      : elf_x86_tls_error_yes);
++ 
++     case R_X86_64_GOTTPOFF:
++       /* Check transition from IE access model:
++@@ -1338,25 +1348,27 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++ 	    {
++ 	      /* X32 may have 0x44 REX prefix or no REX prefix.  */
++ 	      if (ABI_64_P (abfd))
++-		return false;
+++		return elf_x86_tls_error_yes;
++ 	    }
++ 	}
++       else
++ 	{
++ 	  /* X32 may not have any REX prefix.  */
++ 	  if (ABI_64_P (abfd))
++-	    return false;
+++	    return elf_x86_tls_error_yes;
++ 	  if (offset < 2 || (offset + 3) > sec->size)
++-	    return false;
+++	    return elf_x86_tls_error_yes;
++ 	}
++ 
++  check_gottpoff:
++       val = bfd_get_8 (abfd, contents + offset - 2);
++       if (val != 0x8b && val != 0x03)
++-	return false;
+++	return elf_x86_tls_error_add_mov;
++ 
++       val = bfd_get_8 (abfd, contents + offset - 1);
++-      return (val & 0xc7) == 5;
+++      return ((val & 0xc7) == 5
+++	      ? elf_x86_tls_error_none
+++	      : elf_x86_tls_error_yes);
++ 
++     case R_X86_64_CODE_4_GOTPC32_TLSDESC:
++       /* Check transition from GDesc access model:
++@@ -1366,7 +1378,7 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++       if (offset < 4
++ 	  || (offset + 4) > sec->size
++ 	  || contents[offset - 4] != 0xd5)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       goto check_tlsdesc;
++ 
++@@ -1380,19 +1392,21 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++ 	 going to be rax.  */
++ 
++       if (offset < 3 || (offset + 4) > sec->size)
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++       val = bfd_get_8 (abfd, contents + offset - 3);
++       val &= 0xfb;
++       if (val != 0x48 && (ABI_64_P (abfd) || val != 0x40))
++-	return false;
+++	return elf_x86_tls_error_yes;
++ 
++  check_tlsdesc:
++       if (bfd_get_8 (abfd, contents + offset - 2) != 0x8d)
++-	return false;
+++	return elf_x86_tls_error_lea;
++ 
++       val = bfd_get_8 (abfd, contents + offset - 1);
++-      return (val & 0xc7) == 0x05;
+++      return ((val & 0xc7) == 0x05
+++	      ? elf_x86_tls_error_none
+++	      : elf_x86_tls_error_yes);
++ 
++     case R_X86_64_TLSDESC_CALL:
++       /* Check transition from GDesc access model:
++@@ -1411,14 +1425,16 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++ 		{
++ 		  prefix = 1;
++ 		  if (offset + 3 > sec->size)
++-		    return false;
+++		    return elf_x86_tls_error_yes;
++ 		}
++ 	    }
++ 	  /* Make sure that it's a call *x@tlsdesc(%rax).  */
++-	  return call[prefix] == 0xff && call[1 + prefix] == 0x10;
+++	  return (call[prefix] == 0xff && call[1 + prefix] == 0x10
+++		  ? elf_x86_tls_error_none
+++		  : elf_x86_tls_error_indirect_call);
++ 	}
++ 
++-      return false;
+++      return elf_x86_tls_error_yes;
++ 
++     default:
++       abort ();
++@@ -1437,7 +1453,7 @@ elf_x86_64_tls_transition (struct bfd_link_info *info, bfd *abfd,
++ 			   const Elf_Internal_Rela *rel,
++ 			   const Elf_Internal_Rela *relend,
++ 			   struct elf_link_hash_entry *h,
++-			   unsigned long r_symndx,
+++			   Elf_Internal_Sym *sym,
++ 			   bool from_relocate_section)
++ {
++   unsigned int from_type = *r_type;
++@@ -1488,7 +1504,12 @@ elf_x86_64_tls_transition (struct bfd_link_info *info, bfd *abfd,
++ 	  /* We checked the transition before when we were called from
++ 	     elf_x86_64_scan_relocs.  We only want to check the new
++ 	     transition which hasn't been checked before.  */
++-	  check = new_to_type != to_type && from_type == to_type;
+++	  check = (new_to_type != to_type
+++		   && (from_type == to_type
+++		       || (from_type == R_X86_64_CODE_4_GOTTPOFF
+++			   && to_type == R_X86_64_GOTTPOFF)
+++		       || (from_type == R_X86_64_CODE_6_GOTTPOFF
+++			   && to_type == R_X86_64_GOTTPOFF)));
++ 	  to_type = new_to_type;
++ 	}
++ 
++@@ -1512,13 +1533,18 @@ elf_x86_64_tls_transition (struct bfd_link_info *info, bfd *abfd,
++     return true;
++ 
++   /* Check if the transition can be performed.  */
+++  enum elf_x86_tls_error_type tls_error;
++   if (check
++-      && ! elf_x86_64_check_tls_transition (abfd, info, sec, contents,
++-					    symtab_hdr, sym_hashes,
++-					    from_type, rel, relend))
+++      && ((tls_error = elf_x86_64_check_tls_transition (abfd, info, sec,
+++							contents,
+++							symtab_hdr,
+++							sym_hashes,
+++							from_type, rel,
+++							relend))
+++	  != elf_x86_tls_error_none))
+++
++     {
++       reloc_howto_type *from, *to;
++-      const char *name;
++ 
++       from = elf_x86_64_rtype_to_howto (abfd, from_type);
++       to = elf_x86_64_rtype_to_howto (abfd, to_type);
++@@ -1526,31 +1552,10 @@ elf_x86_64_tls_transition (struct bfd_link_info *info, bfd *abfd,
++       if (from == NULL || to == NULL)
++ 	return false;
++ 
++-      if (h)
++-	name = h->root.root.string;
++-      else
++-	{
++-	  struct elf_x86_link_hash_table *htab;
++-
++-	  htab = elf_x86_hash_table (info, X86_64_ELF_DATA);
++-	  if (htab == NULL)
++-	    name = "*unknown*";
++-	  else
++-	    {
++-	      Elf_Internal_Sym *isym;
+++      _bfd_x86_elf_link_report_tls_transition_error
+++	(info, abfd, sec, symtab_hdr, h, sym, rel, from->name,
+++	 to->name, tls_error);
++ 
++-	      isym = bfd_sym_from_r_symndx (&htab->elf.sym_cache,
++-					    abfd, r_symndx);
++-	      name = bfd_elf_sym_name (abfd, symtab_hdr, isym, NULL);
++-	    }
++-	}
++-
++-      _bfd_error_handler
++-	/* xgettext:c-format */
++-	(_("%pB: TLS transition from %s to %s against `%s' at %#" PRIx64
++-	   " in section `%pA' failed"),
++-	 abfd, from->name, to->name, name, (uint64_t) rel->r_offset, sec);
++-      bfd_set_error (bfd_error_bad_value);
++       return false;
++     }
++ 
++@@ -2198,7 +2203,7 @@ elf_x86_64_scan_relocs (bfd *abfd, struct bfd_link_info *info,
++       if (! elf_x86_64_tls_transition (info, abfd, sec, contents,
++ 				       symtab_hdr, sym_hashes,
++ 				       &r_type, GOT_UNKNOWN,
++-				       rel, rel_end, h, r_symndx, false))
+++				       rel, rel_end, h, isym, false))
++ 	goto error_return;
++ 
++       /* Check if _GLOBAL_OFFSET_TABLE_ is referenced.  */
++@@ -3648,7 +3653,7 @@ elf_x86_64_relocate_section (bfd *output_bfd,
++ 					   input_section, contents,
++ 					   symtab_hdr, sym_hashes,
++ 					   &r_type_tls, tls_type, rel,
++-					   relend, h, r_symndx, true))
+++					   relend, h, sym, true))
++ 	    return false;
++ 
++ 	  if (r_type_tls == R_X86_64_TPOFF32)
++@@ -4308,7 +4313,7 @@ elf_x86_64_relocate_section (bfd *output_bfd,
++ 					   input_section, contents,
++ 					   symtab_hdr, sym_hashes,
++ 					   &r_type, GOT_UNKNOWN, rel,
++-					   relend, h, r_symndx, true))
+++					   relend, h, sym, true))
++ 	    return false;
++ 
++ 	  if (r_type != R_X86_64_TLSLD)
++diff --git a/bfd/elfxx-x86.c b/bfd/elfxx-x86.c
++index 508fd771da3..b17dad759c8 100644
++--- a/bfd/elfxx-x86.c
+++++ b/bfd/elfxx-x86.c
++@@ -3202,6 +3202,91 @@ _bfd_x86_elf_link_report_relative_reloc
++        asect, abfd);
++ }
++ 
+++/* Report TLS transition error.  */
+++
+++void
+++_bfd_x86_elf_link_report_tls_transition_error
+++  (struct bfd_link_info *info, bfd *abfd, asection *asect,
+++   Elf_Internal_Shdr *symtab_hdr, struct elf_link_hash_entry *h,
+++   Elf_Internal_Sym *sym, const Elf_Internal_Rela *rel,
+++   const char *from_reloc_name, const char *to_reloc_name,
+++   enum elf_x86_tls_error_type tls_error)
+++{
+++  const char *name;
+++
+++  if (h)
+++    name = h->root.root.string;
+++  else
+++    {
+++      const struct elf_backend_data *bed
+++       = get_elf_backend_data (abfd);
+++      struct elf_x86_link_hash_table *htab
+++       = elf_x86_hash_table (info, bed->target_id);
+++      if (htab == NULL)
+++       name = "*unknown*";
 ++      else
-++        base.set_userinfo(nil)
-++      end
-+       base.set_host(rel.host)         if rel.host
-+       base.set_port(rel.port)         if rel.port
-+       base.query = rel.query       if rel.query
-+diff --git a/test/uri/test_generic.rb b/test/uri/test_generic.rb
-+index e661937..17ba2b6 100644
-+--- a/test/uri/test_generic.rb
-++++ b/test/uri/test_generic.rb
-+@@ -164,6 +164,17 @@ class URI::TestGeneric < Test::Unit::TestCase
-+     # must be empty string to identify as path-abempty, not path-absolute
-+     assert_equal('', url.host)
-+     assert_equal('http:////example.com', url.to_s)
+++       name = bfd_elf_sym_name (abfd, symtab_hdr, sym, NULL);
+++    }
 ++
-++    # sec-2957667
-++    url = URI.parse('http://user:pass@example.com').merge('//example.net')
-++    assert_equal('http://example.net', url.to_s)
-++    assert_nil(url.userinfo)
-++    url = URI.join('http://user:pass@example.com', '//example.net')
-++    assert_equal('http://example.net', url.to_s)
-++    assert_nil(url.userinfo)
-++    url = URI.parse('http://user:pass@example.com') + '//example.net'
-++    assert_equal('http://example.net', url.to_s)
-++    assert_nil(url.userinfo)
-+   end
+++  switch (tls_error)
+++    {
+++    case elf_x86_tls_error_yes:
+++      info->callbacks->einfo
+++       /* xgettext:c-format */
+++       (_("%pB: TLS transition from %s to %s against `%s' at 0x%v in "
+++          "section `%pA' failed"),
+++        abfd, from_reloc_name, to_reloc_name, name, rel->r_offset,
+++        asect);
+++      break;
+++
+++    case elf_x86_tls_error_add:
+++      info->callbacks->einfo
+++       /* xgettext:c-format */
+++       (_("%pB(%pA+0x%v): relocation %s against `%s' must be used "
+++          "in ADD only"),
+++        abfd, asect, rel->r_offset, from_reloc_name, name);
+++      break;
+++
+++    case elf_x86_tls_error_add_mov:
+++      info->callbacks->einfo
+++       /* xgettext:c-format */
+++       (_("%pB(%pA+0x%v): relocation %s against `%s' must be used "
+++          "in ADD or MOV only"),
+++        abfd, asect, rel->r_offset, from_reloc_name, name);
+++      break;
+++
+++    case elf_x86_tls_error_add_sub_mov:
+++      info->callbacks->einfo
+++       /* xgettext:c-format */
+++       (_("%pB(%pA+0x%v): relocation %s against `%s' must be used "
+++          "in ADD, SUB or MOV only"),
+++        abfd, asect, rel->r_offset, from_reloc_name, name);
+++      break;
+++
+++    case elf_x86_tls_error_indirect_call:
+++      info->callbacks->einfo
+++       /* xgettext:c-format */
+++       (_("%pB(%pA+0x%v): relocation %s against `%s' must be used "
+++          "in indirect CALL only"),
+++        abfd, asect, rel->r_offset, from_reloc_name, name);
+++      break;
+++
+++    case elf_x86_tls_error_lea:
+++      info->callbacks->einfo
+++       /* xgettext:c-format */
+++       (_("%pB(%pA+0x%v): relocation %s against `%s' must be used "
+++          "in LEA only"),
+++        abfd, asect, rel->r_offset, from_reloc_name, name);
+++      break;
+++
+++    default:
+++      abort ();
+++      break;
+++    }
+++
+++  bfd_set_error (bfd_error_bad_value);
+++}
+++
++ /* Return TRUE if symbol should be hashed in the `.gnu.hash' section.  */
 + 
-+   def test_parse_scheme_with_symbols
++ bool
++diff --git a/bfd/elfxx-x86.h b/bfd/elfxx-x86.h
++index 110bcb9ad71..02e2efa6c56 100644
++--- a/bfd/elfxx-x86.h
+++++ b/bfd/elfxx-x86.h
++@@ -767,6 +767,18 @@ struct elf_x86_plt
++   long count;
++ };
++ 
+++enum elf_x86_tls_error_type
+++{
+++  elf_x86_tls_error_none,
+++  elf_x86_tls_error_add,
+++  elf_x86_tls_error_add_mov,
+++  elf_x86_tls_error_add_sub_mov,
+++  elf_x86_tls_error_indirect_call,
+++  elf_x86_tls_error_lea,
+++  elf_x86_tls_error_yes
+++};
+++
+++
++ /* Set if a relocation is converted from a GOTPCREL relocation.  */
++ #define R_X86_64_converted_reloc_bit (1 << 7)
++ 
++@@ -908,6 +920,12 @@ extern void _bfd_x86_elf_link_fixup_ifunc_symbol
++ extern void _bfd_x86_elf_link_report_relative_reloc
++   (struct bfd_link_info *, asection *, struct elf_link_hash_entry *,
++    Elf_Internal_Sym *, const char *, const void *);
+++extern void _bfd_x86_elf_link_report_tls_transition_error
+++  (struct bfd_link_info *, bfd *, asection *, Elf_Internal_Shdr *,
+++   struct elf_link_hash_entry *, Elf_Internal_Sym *,
+++   const Elf_Internal_Rela *, const char *, const char *,
+++   enum elf_x86_tls_error_type);
+++
++ 
++ #define bfd_elf64_mkobject \
++   _bfd_x86_elf_mkobject
++diff --git a/ld/testsuite/ld-i386/i386.exp b/ld/testsuite/ld-i386/i386.exp
++index 18d1c9198ca..a8db2c713f3 100644
++--- a/ld/testsuite/ld-i386/i386.exp
+++++ b/ld/testsuite/ld-i386/i386.exp
++@@ -541,6 +541,8 @@ run_dump_test "tlsdesc2"
++ run_dump_test "report-reloc-1"
++ run_dump_test "pr27998a"
++ run_dump_test "pr27998b"
+++run_dump_test "tlsgdesc1"
+++run_dump_test "tlsgdesc2"
++ 
++ proc undefined_weak {cflags ldflags} {
++     set testname "Undefined weak symbol"
++diff --git a/ld/testsuite/ld-i386/tlsgdesc1.d b/ld/testsuite/ld-i386/tlsgdesc1.d
++new file mode 100644
++index 00000000000..2a70e81c444
++--- /dev/null
+++++ b/ld/testsuite/ld-i386/tlsgdesc1.d
++@@ -0,0 +1,4 @@
+++#name: TLS GDesc->LE transition check (LEA)
+++#as: --32
+++#ld: -melf_i386
+++#error: .*: relocation R_386_TLS_GOTDESC against `foo' must be used in LEA only
++diff --git a/ld/testsuite/ld-i386/tlsgdesc1.s b/ld/testsuite/ld-i386/tlsgdesc1.s
++new file mode 100644
++index 00000000000..c30f7523462
++--- /dev/null
+++++ b/ld/testsuite/ld-i386/tlsgdesc1.s
++@@ -0,0 +1,11 @@
+++	.text
+++	.globl _start
+++_start:
+++	movl	foo@tlsdesc(%ebx), %eax
+++	call	*foo@tlscall(%eax)
+++	.section	.tdata,"awT",@progbits
+++	.align 4
+++	.type	foo, @object
+++	.size	foo, 4
+++foo:
+++	.long	100
++diff --git a/ld/testsuite/ld-i386/tlsgdesc2.d b/ld/testsuite/ld-i386/tlsgdesc2.d
++new file mode 100644
++index 00000000000..2e6a66d372c
++--- /dev/null
+++++ b/ld/testsuite/ld-i386/tlsgdesc2.d
++@@ -0,0 +1,4 @@
+++#name: TLS GDesc->LE transition check (indirect CALL)
+++#as: --32
+++#ld: -melf_i386
+++#error: .*: relocation R_386_TLS_DESC_CALL against `foo' must be used in indirect CALL only
++diff --git a/ld/testsuite/ld-i386/tlsgdesc2.s b/ld/testsuite/ld-i386/tlsgdesc2.s
++new file mode 100644
++index 00000000000..7d9d556e2ab
++--- /dev/null
+++++ b/ld/testsuite/ld-i386/tlsgdesc2.s
++@@ -0,0 +1,11 @@
+++	.text
+++	.globl _start
+++_start:
+++	leal	foo@tlsdesc(%ebx), %eax
+++	jmp	*foo@tlscall(%eax)
+++	.section	.tdata,"awT",@progbits
+++	.align 4
+++	.type	foo, @object
+++	.size	foo, 4
+++foo:
+++	.long	100
++diff --git a/ld/testsuite/ld-i386/tlsie2.d b/ld/testsuite/ld-i386/tlsie2.d
++index ebb85fde7e7..9f9e63029d6 100644
++--- a/ld/testsuite/ld-i386/tlsie2.d
+++++ b/ld/testsuite/ld-i386/tlsie2.d
++@@ -1,4 +1,4 @@
++ #name: TLS IE->LE transition check (R_386_TLS_GOTIE with %eax)
++ #as: --32
++ #ld: -melf_i386
++-#error: .*TLS transition from R_386_TLS_GOTIE to R_386_TLS_LE_32 against `foo'.*failed.*
+++#error: .*: relocation R_386_TLS_GOTIE against `foo' must be used in ADD, SUB or MOV only
++diff --git a/ld/testsuite/ld-i386/tlsie3.d b/ld/testsuite/ld-i386/tlsie3.d
++index d993f303c25..506f1a02605 100644
++--- a/ld/testsuite/ld-i386/tlsie3.d
+++++ b/ld/testsuite/ld-i386/tlsie3.d
++@@ -1,4 +1,4 @@
++ #name: TLS IE->LE transition check (R_386_TLS_GOTIE)
++ #as: --32
++ #ld: -melf_i386
++-#error: .*TLS transition from R_386_TLS_GOTIE to R_386_TLS_LE_32 against `foo'.*failed.*
+++#error: .*: relocation R_386_TLS_GOTIE against `foo' must be used in ADD, SUB or MOV only
++diff --git a/ld/testsuite/ld-i386/tlsie4.d b/ld/testsuite/ld-i386/tlsie4.d
++index 3ca8fddf5dd..a516d002660 100644
++--- a/ld/testsuite/ld-i386/tlsie4.d
+++++ b/ld/testsuite/ld-i386/tlsie4.d
++@@ -1,4 +1,4 @@
++ #name: TLS IE->LE transition check (R_386_TLS_IE with %eax)
++ #as: --32
++ #ld: -melf_i386
++-#error: .*TLS transition from R_386_TLS_IE to R_386_TLS_LE_32 against `foo'.*failed.*
+++#error: .*: relocation R_386_TLS_IE against `foo' must be used in ADD or MOV only
++diff --git a/ld/testsuite/ld-i386/tlsie5.d b/ld/testsuite/ld-i386/tlsie5.d
++index 3febeb159a9..d3447182e19 100644
++--- a/ld/testsuite/ld-i386/tlsie5.d
+++++ b/ld/testsuite/ld-i386/tlsie5.d
++@@ -1,4 +1,4 @@
++ #name: TLS IE->LE transition check (R_386_TLS_IE)
++ #as: --32
++ #ld: -melf_i386
++-#error: .*TLS transition from R_386_TLS_IE to R_386_TLS_LE_32 against `foo'.*failed.*
+++#error: .*: relocation R_386_TLS_IE against `foo' must be used in ADD or MOV only
++diff --git a/ld/testsuite/ld-x86-64/tlsdesc3.d b/ld/testsuite/ld-x86-64/tlsdesc3.d
++new file mode 100644
++index 00000000000..bbf22ebeafe
++--- /dev/null
+++++ b/ld/testsuite/ld-x86-64/tlsdesc3.d
++@@ -0,0 +1,4 @@
+++#name: TLS GDesc->LE transition check (LEA)
+++#as: --64
+++#ld: -melf_x86_64
+++#error: .*: relocation R_X86_64_GOTPC32_TLSDESC against `foo' must be used in LEA only
++diff --git a/ld/testsuite/ld-x86-64/tlsdesc3.s b/ld/testsuite/ld-x86-64/tlsdesc3.s
++new file mode 100644
++index 00000000000..45310654ffc
++--- /dev/null
+++++ b/ld/testsuite/ld-x86-64/tlsdesc3.s
++@@ -0,0 +1,13 @@
+++	.text
+++	.globl	_start
+++	.type	_start,@function
+++_start:
+++	movq	foo@tlsdesc(%rip), %rax
+++	call	*foo@tlscall(%rax)
+++	.globl foo
+++	.section	.tdata,"awT",@progbits
+++	.align 8
+++	.type	foo, @object
+++	.size	foo, 8
+++foo:
+++	.quad	100
++diff --git a/ld/testsuite/ld-x86-64/tlsdesc4.d b/ld/testsuite/ld-x86-64/tlsdesc4.d
++new file mode 100644
++index 00000000000..b50115c7178
++--- /dev/null
+++++ b/ld/testsuite/ld-x86-64/tlsdesc4.d
++@@ -0,0 +1,4 @@
+++#name: TLS GDesc->LE transition check (indirect CALL)
+++#as: --64
+++#ld: -melf_x86_64
+++#error: .*: relocation R_X86_64_TLSDESC_CALL against `foo' must be used in indirect CALL only
++diff --git a/ld/testsuite/ld-x86-64/tlsdesc4.s b/ld/testsuite/ld-x86-64/tlsdesc4.s
++new file mode 100644
++index 00000000000..b3d6c12d4fc
++--- /dev/null
+++++ b/ld/testsuite/ld-x86-64/tlsdesc4.s
++@@ -0,0 +1,13 @@
+++	.text
+++	.globl	_start
+++	.type	_start,@function
+++_start:
+++	leaq	foo@tlsdesc(%rip), %rax
+++	jmp	*foo@tlscall(%rax)
+++	.globl foo
+++	.section	.tdata,"awT",@progbits
+++	.align 8
+++	.type	foo, @object
+++	.size	foo, 8
+++foo:
+++	.quad	100
++diff --git a/ld/testsuite/ld-x86-64/tlsie2.d b/ld/testsuite/ld-x86-64/tlsie2.d
++index 97dcc288a3d..bf8a8198b5b 100644
++--- a/ld/testsuite/ld-x86-64/tlsie2.d
+++++ b/ld/testsuite/ld-x86-64/tlsie2.d
++@@ -1,4 +1,4 @@
++ #name: TLS IE->LE transition check
++ #as: --64
++ #ld: -melf_x86_64
++-#error: .*TLS transition from R_X86_64_GOTTPOFF to R_X86_64_TPOFF32 against `foo'.*failed.*
+++#error: .*: relocation R_X86_64_GOTTPOFF against `foo' must be used in ADD or MOV only
++diff --git a/ld/testsuite/ld-x86-64/tlsie3.d b/ld/testsuite/ld-x86-64/tlsie3.d
++index 8c982a69838..49d8464fbaf 100644
++--- a/ld/testsuite/ld-x86-64/tlsie3.d
+++++ b/ld/testsuite/ld-x86-64/tlsie3.d
++@@ -1,4 +1,4 @@
++ #name: TLS IE->LE transition check (%r12)
++ #as: --64
++ #ld: -melf_x86_64
++-#error: .*TLS transition from R_X86_64_GOTTPOFF to R_X86_64_TPOFF32 against `foo'.*failed.*
+++#error: .*: relocation R_X86_64_GOTTPOFF against `foo' must be used in ADD or MOV only
++diff --git a/ld/testsuite/ld-x86-64/tlsie5.d b/ld/testsuite/ld-x86-64/tlsie5.d
++new file mode 100644
++index 00000000000..29de1cebf8e
++--- /dev/null
+++++ b/ld/testsuite/ld-x86-64/tlsie5.d
++@@ -0,0 +1,4 @@
+++#name: TLS IE->LE transition check (APX)
+++#as: --64
+++#ld: -melf_x86_64
+++#error: .*: relocation R_X86_64_CODE_6_GOTTPOFF against `foo' must be used in ADD only
++diff --git a/ld/testsuite/ld-x86-64/tlsie5.s b/ld/testsuite/ld-x86-64/tlsie5.s
++new file mode 100644
++index 00000000000..c39e46fd97b
++--- /dev/null
+++++ b/ld/testsuite/ld-x86-64/tlsie5.s
++@@ -0,0 +1,12 @@
+++	.text
+++	.globl _start
+++_start:
+++	xorq	%rax, foo@GOTTPOFF(%rip), %rax
+++	movq	(%rax), %rax
+++	.globl	foo
+++	.section	.tdata,"awT",@progbits
+++	.align 4
+++	.type	foo, @object
+++	.size	foo, 4
+++foo:
+++	.long	100
++diff --git a/ld/testsuite/ld-x86-64/x86-64.exp b/ld/testsuite/ld-x86-64/x86-64.exp
++index 2a40f0b095b..811813466f8 100644
++--- a/ld/testsuite/ld-x86-64/x86-64.exp
+++++ b/ld/testsuite/ld-x86-64/x86-64.exp
++@@ -741,6 +741,9 @@ run_dump_test "pr27016b"
++ run_dump_test "report-reloc-1"
++ run_dump_test "report-reloc-1-x32"
++ run_dump_test "pr29820"
+++run_dump_test "tlsie5"
+++run_dump_test "tlsdesc3"
+++run_dump_test "tlsdesc4"
++ 
++ proc undefined_weak {cflags ldflags} {
++     set testname "Undefined weak symbol"
 +-- 
-+2.40.0
++2.49.0
 +
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0002.patch b/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0002.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-1179.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-1179.patch
 new file mode 100644
-index 0000000000..4435b87c34
+index 0000000000..89312d8501
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2025-27221-0002.patch
-@@ -0,0 +1,73 @@
-+From 2789182478f42ccbb62197f952eb730e4f02bfc5 Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Fri, 21 Feb 2025 18:16:28 +0900
-+Subject: [PATCH] Fix merger of URI with authority component
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-1179.patch
+@@ -0,0 +1,269 @@
++From 67e30b15212adc1502b898a1ca224fdf65dc110d Mon Sep 17 00:00:00 2001
++From: "H.J. Lu" <hjl.tools@gmail.com>
++Date: Thu, 29 Aug 2024 08:47:00 -0700
++Subject: [PATCH] x86: Check invalid TLS descriptor call TLS descriptor
++ call,
 +
-+https://hackerone.com/reports/2957667
++call *x@tlsdesc(%rax)
 +
-+Co-authored-by: Nobuyoshi Nakada <nobu@ruby-lang.org>
++or
 +
-+CVE: CVE-2025-27221
++call *x@tlsdesc(%eax)
 +
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/2789182478f42ccbb62197f952eb730e4f02bfc5]
++calls _dl_tlsdesc_return which expects that RAX/EAX points to the TLS
++descriptor.  Update x86 linker to issue an error with or without TLS
++transition.
 +
-+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++bfd/
++
++	PR ld/32123
++	* elf32-i386.c (elf_i386_check_tls_transition): Move
++	R_386_TLS_DESC_CALL to ...
++	(elf_i386_tls_transition): Here.
++	* elf64-x86-64.c (elf_x86_64_check_tls_transition): Move.
++	R_X86_64_TLSDESC_CALL check to ...
++	(elf_x86_64_tls_transition): Here.
++
++ld/
++
++	PR ld/32123
++	* testsuite/ld-i386/i386.exp: Run tlsgdesc3.
++	* testsuite/ld-i386/tlsgdesc3.d: New file.
++	* testsuite/ld-x86-64/tlsdesc5.d: Likewise.
++	* testsuite/ld-x86-64/x86-64.exp: Run tlsdesc5.
++
++(cherry picked from commit:67e30b15212adc1502b898a1ca224fdf65dc110d)
++Upstream-Status: Submitted [https://sourceware.org/pipermail/binutils/2025-May/141321.html]
++CVE: CVE-2025-1179
++
++Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 +---
-+ lib/uri/generic.rb       | 19 +++++++------------
-+ test/uri/test_generic.rb |  7 +++++++
-+ 2 files changed, 14 insertions(+), 12 deletions(-)
++ bfd/elf32-i386.c                  | 44 +++++++++++++------
++ bfd/elf64-x86-64.c                | 71 +++++++++++++++++++------------
++ ld/testsuite/ld-i386/i386.exp     |  1 +
++ ld/testsuite/ld-i386/tlsgdesc3.d  |  5 +++
++ ld/testsuite/ld-x86-64/tlsdesc5.d |  5 +++
++ ld/testsuite/ld-x86-64/x86-64.exp |  1 +
++ 6 files changed, 86 insertions(+), 41 deletions(-)
++ create mode 100644 ld/testsuite/ld-i386/tlsgdesc3.d
++ create mode 100644 ld/testsuite/ld-x86-64/tlsdesc5.d
 +
-+diff --git a/lib/uri/generic.rb b/lib/uri/generic.rb
-+index ecc78c5..2c0a88d 100644
-+--- a/lib/uri/generic.rb
-++++ b/lib/uri/generic.rb
-+@@ -1133,21 +1133,16 @@ module URI
-+       base.fragment=(nil)
++diff --git a/bfd/elf32-i386.c b/bfd/elf32-i386.c
++index 18a28d2491c..9dea465f721 100644
++--- a/bfd/elf32-i386.c
+++++ b/bfd/elf32-i386.c
++@@ -1039,19 +1039,8 @@ elf_i386_check_tls_transition (asection *sec,
++ 	      : elf_x86_tls_error_yes);
 + 
-+       # RFC2396, Section 5.2, 4)
-+-      if !authority
-+-        base.set_path(merge_path(base.path, rel.path)) if base.path && rel.path
-+-      else
-+-        # RFC2396, Section 5.2, 4)
-+-        base.set_path(rel.path) if rel.path
-++      if authority
-++        base.set_userinfo(rel.userinfo)
-++        base.set_host(rel.host)
-++        base.set_port(rel.port || base.default_port)
-++        base.set_path(rel.path)
-++      elsif base.path && rel.path
-++        base.set_path(merge_path(base.path, rel.path))
-+       end
++     case R_386_TLS_DESC_CALL:
++-      /* Check transition from GDesc access model:
++-		call *x@tlsdesc(%eax)
++-       */
++-      if (offset + 2 <= sec->size)
++-	{
++-	  /* Make sure that it's a call *x@tlsdesc(%eax).  */
++-	  call = contents + offset;
++-	  return (call[0] == 0xff && call[1] == 0x10
++-		  ? elf_x86_tls_error_none
++-		  : elf_x86_tls_error_indirect_call);
++-	}
++-
++-      return elf_x86_tls_error_yes;
+++      /* It has been checked in elf_i386_tls_transition.  */
+++      return elf_x86_tls_error_none;
 + 
-+       # RFC2396, Section 5.2, 7)
-+-      if rel.userinfo
-+-        base.set_userinfo(rel.userinfo)
-+-      else
-+-        base.set_userinfo(nil)
-+-      end
-+-      base.set_host(rel.host)         if rel.host
-+-      base.set_port(rel.port)         if rel.port
-+       base.query = rel.query       if rel.query
-+       base.fragment=(rel.fragment) if rel.fragment
++     default:
++       abort ();
++@@ -1077,6 +1066,8 @@ elf_i386_tls_transition (struct bfd_link_info *info, bfd *abfd,
++   unsigned int to_type = from_type;
++   bool check = true;
++   unsigned int to_le_type, to_ie_type;
+++  bfd_vma offset;
+++  bfd_byte *call;
 + 
-+diff --git a/test/uri/test_generic.rb b/test/uri/test_generic.rb
-+index 17ba2b6..1a70dd4 100644
-+--- a/test/uri/test_generic.rb
-++++ b/test/uri/test_generic.rb
-+@@ -267,6 +267,13 @@ class URI::TestGeneric < Test::Unit::TestCase
-+     assert_equal(u0, u1)
-+   end
++   /* Skip TLS transition for functions.  */
++   if (h != NULL
++@@ -1098,9 +1089,34 @@ elf_i386_tls_transition (struct bfd_link_info *info, bfd *abfd,
 + 
-++  def test_merge_authority
-++    u = URI.parse('http://user:pass@example.com:8080')
-++    u0 = URI.parse('http://new.example.org/path')
-++    u1 = u.merge('//new.example.org/path')
-++    assert_equal(u0, u1)
-++  end
++   switch (from_type)
++     {
+++    case R_386_TLS_DESC_CALL:
+++      /* Check valid GDesc call:
+++		call *x@tlsdesc(%eax)
+++       */
+++      offset = rel->r_offset;
+++      call = NULL;
+++      if (offset + 2 <= sec->size)
+++	{
+++	  /* Make sure that it's a call *x@tlsdesc(%eax).  */
+++	  call = contents + offset;
+++	  if (call[0] != 0xff || call[1] != 0x10)
+++	    call = NULL;
+++	}
 ++
-+   def test_route
-+     url = URI.parse('http://hoge/a.html').route_to('http://hoge/b.html')
-+     assert_equal('b.html', url.to_s)
+++      if (call == NULL)
+++	{
+++	  _bfd_x86_elf_link_report_tls_transition_error
+++	    (info, abfd, sec, symtab_hdr, h, sym, rel,
+++	     "R_386_TLS_DESC_CALL", NULL,
+++	     elf_x86_tls_error_indirect_call);
+++
+++	  return false;
+++	}
+++
+++      /* Fall through.  */
+++
++     case R_386_TLS_GD:
++     case R_386_TLS_GOTDESC:
++-    case R_386_TLS_DESC_CALL:
++     case R_386_TLS_IE_32:
++     case R_386_TLS_IE:
++     case R_386_TLS_GOTIE:
++diff --git a/bfd/elf64-x86-64.c b/bfd/elf64-x86-64.c
++index f116e423f61..7af2e607b02 100644
++--- a/bfd/elf64-x86-64.c
+++++ b/bfd/elf64-x86-64.c
++@@ -1409,32 +1409,8 @@ elf_x86_64_check_tls_transition (bfd *abfd,
++ 	      : elf_x86_tls_error_yes);
++ 
++     case R_X86_64_TLSDESC_CALL:
++-      /* Check transition from GDesc access model:
++-		call *x@tlsdesc(%rax) <--- LP64 mode.
++-		call *x@tlsdesc(%eax) <--- X32 mode.
++-       */
++-      if (offset + 2 <= sec->size)
++-	{
++-	  unsigned int prefix;
++-	  call = contents + offset;
++-	  prefix = 0;
++-	  if (!ABI_64_P (abfd))
++-	    {
++-	      /* Check for call *x@tlsdesc(%eax).  */
++-	      if (call[0] == 0x67)
++-		{
++-		  prefix = 1;
++-		  if (offset + 3 > sec->size)
++-		    return elf_x86_tls_error_yes;
++-		}
++-	    }
++-	  /* Make sure that it's a call *x@tlsdesc(%rax).  */
++-	  return (call[prefix] == 0xff && call[1 + prefix] == 0x10
++-		  ? elf_x86_tls_error_none
++-		  : elf_x86_tls_error_indirect_call);
++-	}
++-
++-      return elf_x86_tls_error_yes;
+++      /* It has been checked in elf_x86_64_tls_transition.  */
+++      return elf_x86_tls_error_none;
++ 
++     default:
++       abort ();
++@@ -1459,6 +1435,8 @@ elf_x86_64_tls_transition (struct bfd_link_info *info, bfd *abfd,
++   unsigned int from_type = *r_type;
++   unsigned int to_type = from_type;
++   bool check = true;
+++  bfd_vma offset;
+++  bfd_byte *call;
++ 
++   /* Skip TLS transition for functions.  */
++   if (h != NULL
++@@ -1468,10 +1446,49 @@ elf_x86_64_tls_transition (struct bfd_link_info *info, bfd *abfd,
++ 
++   switch (from_type)
++     {
+++    case R_X86_64_TLSDESC_CALL:
+++      /* Check valid GDesc call:
+++		call *x@tlsdesc(%rax) <--- LP64 mode.
+++		call *x@tlsdesc(%eax) <--- X32 mode.
+++       */
+++      offset = rel->r_offset;
+++      call = NULL;
+++      if (offset + 2 <= sec->size)
+++	{
+++	  unsigned int prefix;
+++	  call = contents + offset;
+++	  prefix = 0;
+++	  if (!ABI_64_P (abfd))
+++	    {
+++	      /* Check for call *x@tlsdesc(%eax).  */
+++	      if (call[0] == 0x67)
+++		{
+++		  prefix = 1;
+++		  if (offset + 3 > sec->size)
+++		    call = NULL;
+++		}
+++	    }
+++
+++	  /* Make sure that it's a call *x@tlsdesc(%rax).  */
+++	  if (call != NULL
+++	      && (call[prefix] != 0xff || call[1 + prefix] != 0x10))
+++	    call = NULL;
+++	}
+++
+++      if (call == NULL)
+++	{
+++	  _bfd_x86_elf_link_report_tls_transition_error
+++	    (info, abfd, sec, symtab_hdr, h, sym, rel,
+++	     "R_X86_64_TLSDESC_CALL", NULL,
+++	     elf_x86_tls_error_indirect_call);
+++	  return false;
+++	}
+++
+++      /* Fall through.  */
+++
++     case R_X86_64_TLSGD:
++     case R_X86_64_GOTPC32_TLSDESC:
++     case R_X86_64_CODE_4_GOTPC32_TLSDESC:
++-    case R_X86_64_TLSDESC_CALL:
++     case R_X86_64_GOTTPOFF:
++     case R_X86_64_CODE_4_GOTTPOFF:
++     case R_X86_64_CODE_6_GOTTPOFF:
++diff --git a/ld/testsuite/ld-i386/i386.exp b/ld/testsuite/ld-i386/i386.exp
++index a8db2c713f3..41e8725d059 100644
++--- a/ld/testsuite/ld-i386/i386.exp
+++++ b/ld/testsuite/ld-i386/i386.exp
++@@ -543,6 +543,7 @@ run_dump_test "pr27998a"
++ run_dump_test "pr27998b"
++ run_dump_test "tlsgdesc1"
++ run_dump_test "tlsgdesc2"
+++run_dump_test "tlsgdesc3"
++ 
++ proc undefined_weak {cflags ldflags} {
++     set testname "Undefined weak symbol"
++diff --git a/ld/testsuite/ld-i386/tlsgdesc3.d b/ld/testsuite/ld-i386/tlsgdesc3.d
++new file mode 100644
++index 00000000000..f2c29d880f2
++--- /dev/null
+++++ b/ld/testsuite/ld-i386/tlsgdesc3.d
++@@ -0,0 +1,5 @@
+++#source: tlsgdesc2.s
+++#name: TLS GDesc call (indirect CALL)
+++#as: --32
+++#ld: -shared -melf_i386
+++#error: .*: relocation R_386_TLS_DESC_CALL against `foo' must be used in indirect CALL with EAX register only
++diff --git a/ld/testsuite/ld-x86-64/tlsdesc5.d b/ld/testsuite/ld-x86-64/tlsdesc5.d
++new file mode 100644
++index 00000000000..6a0158b44b7
++--- /dev/null
+++++ b/ld/testsuite/ld-x86-64/tlsdesc5.d
++@@ -0,0 +1,5 @@
+++#source: tlsdesc4.s
+++#name: TLS GDesc call (indirect CALL)
+++#as: --64
+++#ld: -shared -melf_x86_64
+++#error: .*: relocation R_X86_64_TLSDESC_CALL against `foo' must be used in indirect CALL with RAX register only
++diff --git a/ld/testsuite/ld-x86-64/x86-64.exp b/ld/testsuite/ld-x86-64/x86-64.exp
++index 811813466f8..82b0520c52a 100644
++--- a/ld/testsuite/ld-x86-64/x86-64.exp
+++++ b/ld/testsuite/ld-x86-64/x86-64.exp
++@@ -744,6 +744,7 @@ run_dump_test "pr29820"
++ run_dump_test "tlsie5"
++ run_dump_test "tlsdesc3"
++ run_dump_test "tlsdesc4"
+++run_dump_test "tlsdesc5"
++ 
++ proc undefined_weak {cflags ldflags} {
++     set testname "Undefined weak symbol"
 +-- 
-+2.40.0
++2.49.0
 +
-diff --git a/meta/recipes-devtools/ruby/ruby_3.3.5.bb b/meta/recipes-devtools/ruby/ruby_3.3.5.bb
-index c91c51657f..b37f0d03e7 100644
---- a/meta/recipes-devtools/ruby/ruby_3.3.5.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.3.5.bb
-@@ -28,6 +28,8 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-            file://CVE-2025-27219.patch \
-            file://CVE-2025-27220.patch \
-+           file://CVE-2025-27221-0001.patch \
-+           file://CVE-2025-27221-0002.patch \
-            "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
- 
 -- 
 2.43.0
 
