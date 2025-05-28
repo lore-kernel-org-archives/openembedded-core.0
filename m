@@ -1,103 +1,142 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2055AC3ABB2
-	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 09:08:27 +0000 (UTC)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web10.11434.1748423297396882866
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65A42C3ABB2
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 10:46:17 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.12807.1748429172386372222
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 May 2025 02:08:17 -0700
+ Wed, 28 May 2025 03:46:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=a4R1Rzdv;
- spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-476b4c9faa2so51300631cf.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 02:08:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748423296; x=1749028096; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uKN9VmFKJkoMBhnP+n5CexloGi+byP0NYAvvt01UPx8=;
-        b=a4R1RzdvlO9TvQG6Lnkl9dpQyV767nC3fR60P6NaJJKxToUsygeysf3mA3Om8MdLKy
-         EEWnlMQl9VY5tBXKmJYFzDNAI/JfmEJRtJNHzpF5qhiKA3pEV6RLWcINJwUmnSNGFePV
-         3A3hoq6BC1hQLiAcGf26AyH6zixk0+VyGdGGSGUyXQrLB1COZaFRLqqDkY1aHSH27jFO
-         1EUM8km2RQKeiAe2tovR7/cRcpeM0pOXmmQ+W5kGb6TVLKEnNf46VwUL01jdhX95FryQ
-         OPHRpyodpx6Ih4N3/mBmNu4ENNkM6SKBPDgZnuXCIgNqw+3cQDNqR1VypbDQE3ijKL8E
-         CqWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748423296; x=1749028096;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uKN9VmFKJkoMBhnP+n5CexloGi+byP0NYAvvt01UPx8=;
-        b=cCd9mDa8Zx7RwMutc0K+OcuXFfkqH+G0ZR9ieaiawSNc6uULO5NHpndWIpaNpKKuUy
-         wCZHNajGA7gvo6VVgmpXDsgRAI8D872TpQ4U2Elw3HYAoMY5JTeD89ATipQycVaqDspt
-         Iry7qif4nUox6hD8NTMOfTesM/AkhZ9fqTvL7+Ue1htMNTfQVcx5LB/NkoDV5cqsBxSP
-         7EvwP86tyi8sCQuHXbeB519jJgaY3LvmTc+vVoS1ia2EEkt/34uX8SAvuo50e1Ze2HuW
-         UeRsmCekT05Y0VcbwKifwrzlGaGFZyyzSuzNgY0CsOrvIb+US3UIGRa4sPWmTKFs/b5X
-         ckbw==
-X-Gm-Message-State: AOJu0YzGkeXdqIY7FKVPS2/MlO/boKsunNxQbVohqivSljdZmq7ng7bt
-	1JWSRnyYBP1bxMwWA2Vf/Li71yjV8uqx2ug/WsCV1Nbj8uZ6fYGLDxwrCnjqoCku2Y2+6Zjs9FG
-	chyQiKGyevJtnjY7GJtG5PCugnbk0Ha5y+KBk
-X-Gm-Gg: ASbGncs/Ke6britplhiztsp1rO9FoOxScAJTJ/kopCk4zGe1pZ5jRiRdMtkh5XvA1X+
-	hur1e7L0panmsHxl2sSY6hAmbZ25adR2dUNwU8yDqnJQgkgGn0vR+1vzS+f1/1rv2GNl3R2ibON
-	Y+PpBgb8CBvQHR3GDFCDjc+r8kZrC6sXoVGuKiWDSmwoe8VahR2DLQ4RK7XYVLkV6qBTQ=
-X-Google-Smtp-Source: AGHT+IHegEQw5OzmdnVIkQvD7bC2bwUZcgcqpKKPczMFLZQcaJT5IFi5eNEE3m4FIJgyhNza6eDBu70/S0pynvF+kcs=
-X-Received: by 2002:a05:6214:50e:b0:6fa:bb74:8d72 with SMTP id
- 6a1803df08f44-6fabb749064mr32208836d6.0.1748423285962; Wed, 28 May 2025
- 02:08:05 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8243786c29=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54SA2frf007272
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 03:46:12 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46udmm3n5w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 03:46:11 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 28 May 2025 03:46:09 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] webkitgtk: upgrade 2.48.1 -> 2.48.2
+Date: Wed, 28 May 2025 16:15:43 +0530
+Message-ID: <20250528104543.1389063-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20250528035625.1262266-1-patrick@stwcx.xyz>
-In-Reply-To: <20250528035625.1262266-1-patrick@stwcx.xyz>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 28 May 2025 11:07:54 +0200
-X-Gm-Features: AX0GCFsF0z8rMQXfDeqLUI5DL8lhJx5-2O5wB-TkC1Lwy1W4BjQq1a_OFnZ4PMU
-Message-ID: <CANNYZj_5Wbvx0p54pqvnpHuOAX+nhpQenZKzn1YEduDs=tf2ag@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd.bbclass: fix postinst for real systemd-systemctl-native
-To: patrick@stwcx.xyz
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Authority-Analysis: v=2.4 cv=WpErMcfv c=1 sm=1 tr=0 ts=6836e973 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=dt9VzEwgFbYA:10 a=Q1sTgoEvAAAA:8 a=NEAV23lmAAAA:8 a=LXCGm8LIAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8
+ a=pGLkceISAAAA:8 a=TtWqVQ85w8xvhG5bnAYA:9 a=FkGh3qDytyf094M0uOEt:22 a=NxI9r9ql2kHpUT0AVVEO:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDA5NCBTYWx0ZWRfXwnpUwpSxfg6x mdACAStyTKxbkOqJKo8qr+hA+9FDDK9VEs/DvC5aPSnW1MOMiArWM7Wa9dh3gIT5UoBxpKWTjRL RluKlmRFnd7kkZMMrtyk/tfURjT5+JeVlDctouCTlV53IgPt+W/0L68et67IeljELGsMVpf2vg5
+ wcnyDoWkLtCpe6KOGqSDxWIfbcLZsTRTmEIQB3oY9o3XO3GycZezuT+waKV9qIIuy1r7RNTPPJS 4KsQsfCa4WdwLG8COIpr/5z+OFBU+OKEExZcuFE+OIZdvFznhsSV2AYiDNx/KTz4wT3xCv1V4Zl XDoQlC+JX8EvoQcMe6E6XeeRmlNUneH79Fc6X1vr3ibKUoC2jqH5lCW4E4Go92M4dfk1SZ/F/PV
+ FIfiTqvPqtVwDzPyJlPMB8XsXu0AEWL0+urFu+eY/a6ZffoCcRj8WwR2OZEsb8W9JCrSjjCT
+X-Proofpoint-ORIG-GUID: 6hxNK_NLX9IL2VqYLkvpyrEoahwi1_F8
+X-Proofpoint-GUID: 6hxNK_NLX9IL2VqYLkvpyrEoahwi1_F8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-28_05,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=726 clxscore=1015
+ mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
+ definitions=main-2505280094
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 09:08:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217340
+ <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 10:46:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217341
 
-On Wed, 28 May 2025 at 05:56, Patrick Williams via
-lists.openembedded.org <patrick=stwcx.xyz@lists.openembedded.org>
-wrote:
-> The commit 7a580800db39 switched from a small Python implementation
-> of `systemctl` to using the real systemctl executable from the
-> systemd package.  In the systemd.bbclass, systemd-systemctl-native
-> is used to default-enable services, based on the SYSTEMD_SERVICES
-> variable, but this was only done if `systemctl` can be executed
-> without error.  The problem is that the real systemctl executable
-> treats a zero argument call as if `systemctl list-units` were ran.
-> This cannot be done when cross-compiling and yields:
->
-> ```
->     Failed to connect to system scope bus via local transport: Operation
->     not permitted (consider using --machine=<user>@.host --user to
->     connect to bus of other user)
-> ```
->
-> The end result is that the `systemd_postinst` effectively turns into
-> a silent no-op and services are not correctly enabled.
->
-> Switch the systemd.bbclass to use `systemctl --help` instead, which
-> does not require any dbus access to be functional.
->
-> Fixes: 7a580800db39 ("systemd: Build the systemctl executable")
+From: Yogita Urade <yogita.urade@windriver.com>
 
-I don't disagree with the patch, but I have to ask, why isn't this
-causing failures in our testing? There are images built using native
-systemctl, they contain services, and they do not produce fails on
-boot. There has to be a gap in testing somewhere, or systemctl somehow
-manages to do what it's supposed to.
+Includes fix for CVE-2025-24223, CVE-2025-31204, CVE-2025-31205,
+CVE-2025-31206, CVE-2025-31215 and CVE-2025-31257.
 
-Can you set up poky-altcfg qemux86-64 on master, build
-core-image-weston and core-image-sato-sdk, and check what is
-happening? (e.g. by booting them in with runqemu).
+Changelog:
+=========
+- Enable CSS Overscroll Behavior by default.
+- Change threaded rendering implementation to use Skia API 
+instead of WebCore display list that is not thread safe.
+- Fix rendering when device scale factor change comes before 
+the web view geometry update.
+- Fix network process crash on exit.
+- Fix the build with ENABLE_RESOURCE_USAGE=OFF.
+- Fix several crashes and rendering issues.
 
-Alex
+Drop fix-ftbfs-non-arm-non-x86.patch which is part of upgrade.
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../webkitgtk/fix-ftbfs-non-arm-non-x86.patch | 31 -------------------
+ ...ebkitgtk_2.48.1.bb => webkitgtk_2.48.2.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.48.1.bb => webkitgtk_2.48.2.bb} (98%)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.patch b/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.patch
+deleted file mode 100644
+index 2381acb1b0..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From 8bee9eb95ae24c6a410f9cd614976f4653d020d9 Mon Sep 17 00:00:00 2001
+-From: Michael Catanzaro <mcatanzaro@redhat.com>
+-Date: Wed, 2 Apr 2025 15:01:55 -0500
+-Subject: [PATCH] REGRESSION(290945.129@webkitglib/2.48): Broke non-x86,
+- non-ARM builds https://bugs.webkit.org/show_bug.cgi?id=287662
+-
+-Unreviewed stable branch build fix.
+-
+-* Source/WebCore/platform/audio/DenormalDisabler.cpp:
+-
+-Canonical link: https://commits.webkit.org/290945.155@webkitglib/2.48
+-
+-Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/8bee9eb95ae24c6a410f9cd614976f4653d020d9]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- Source/WebCore/platform/audio/DenormalDisabler.cpp | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Source/WebCore/platform/audio/DenormalDisabler.cpp b/Source/WebCore/platform/audio/DenormalDisabler.cpp
+-index 35715e663ce7e..44ba08a33d5d9 100644
+---- a/Source/WebCore/platform/audio/DenormalDisabler.cpp
+-+++ b/Source/WebCore/platform/audio/DenormalDisabler.cpp
+-@@ -91,7 +91,7 @@ DenormalDisabler::~DenormalDisabler()
+-     }
+- }
+- #else
+--DenormalDisabler::DenormalDisabler() = default
+-+DenormalDisabler::DenormalDisabler() = default;
+- DenormalDisabler::~DenormalDisabler() = default;
+- #endif
+- 
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
+similarity index 98%
+rename from meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
+index 5b9846a6d6..c501f4df7d 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
+@@ -18,9 +18,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://sys_futex.patch \
+            file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch \
+            file://fix-ftbfs-riscv64.patch \
+-           file://fix-ftbfs-non-arm-non-x86.patch \
+            "
+-SRC_URI[sha256sum] = "98efdf21c4cdca0fe0b73ab5a8cb52093b5aa52d9b1b016a93f71dbfa1eb258f"
++SRC_URI[sha256sum] = "ec58f6dfc25d3b360388e192f865068d69aab09b4d7df021f90e314d2fa54f37"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+ 
+-- 
+2.40.0
+
 
