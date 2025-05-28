@@ -1,213 +1,225 @@
-Return-Path: <anibal@limonsoftware.com>
+Return-Path: <Haixiao.Yan.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F4AC54ED1
-	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 01:05:04 +0000 (UTC)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
- by mx.groups.io with SMTP id smtpd.web11.5497.1748394296826134205
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E68C54ED1
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 02:09:54 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.6521.1748398186354489639
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 May 2025 18:04:57 -0700
+ Tue, 27 May 2025 19:09:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@limonsoftware-com.20230601.gappssmtp.com header.s=20230601 header.b=SmK7oJXZ;
- spf=pass (domain: limonsoftware.com, ip: 209.85.128.171, mailfrom: anibal@limonsoftware.com)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-70825de932bso4597777b3.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 18:04:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=limonsoftware-com.20230601.gappssmtp.com; s=20230601; t=1748394296; x=1748999096; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7ghyp1hyTTmJ0GQPz0HFRMRVzF0I6lXV2vpswDRqS4U=;
-        b=SmK7oJXZaiR7SxmmGP/qui3B9905VoXzqBIA1xx0zbwOG4z0ZLsZAPcGlw/DXZNYnB
-         VnGhidf+CANDbSl9t5YCsh5dAZg8vKlcT0JLIlYzzbD9jEWQnWYISzJdOUseTEL6GOG1
-         0psI+6tRqAX6Ys6rSLHkBP5ahR/1EhCB02vzxCFD935qM9WUrTIwKgvWe6CbiQB1P9IW
-         Mrr2Ta96oqebC1Gv0M/7w5QSOEuPt89LRMsaUjPNoSUSGjCnKkz1fCJGLLiAyvQcSB6h
-         iWIttzulvnxxCZqtmsDB85Pj9NdortpvzTBbQNpcB4HjZETSSJfJFBUrGVguSBZxd1v0
-         PcqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748394296; x=1748999096;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7ghyp1hyTTmJ0GQPz0HFRMRVzF0I6lXV2vpswDRqS4U=;
-        b=JJiYy5C2HNDDbUXCnwZshqUF29Q0jGDnSXj7TkuyiAsFir5aH+AtoHh0lseaPBNJbW
-         At2FqS4E/7BFh/xm93GsfWPXxMh5CWIpLUUEU3PNoPE6/57TfWvFf0csSblQzudC7/m7
-         Apf+AmHx30LoU6kXe2qBlxoBmPN+jF+mIpbhaBCpjE9SJ5ndYkUi4C4tL316GawqfhtA
-         mg6OB3QzKgz5sHr9iy/5cTnW0fpdTIh4Yx6gbvwXBu77PnngCFRaJ/Li8GD9eSNEMePz
-         VkfIuyIMIKGv2NyiQzr4XSxSIFGuvQh94o/mIzsGj9SOEbI4pVU5HcR7CAfKGpDEx4tX
-         hiew==
-X-Forwarded-Encrypted: i=1; AJvYcCUQ9oV3HDo3nMx+9LmLgAqDmVWQU1qs4Wn2DKtPGhHSWpdrqAB+PGp09ZwXWup+P74KL2eM8lEkNlJIRr0CKdtPag==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx9trDnVRn/JUOY9YtmCx4U92z+UnRGZUz1E8DI9RmBpaRfbth2
-	4CTeUZvKp0asoOWBN93kpi67LnuZ0smrLgJnH7acw9fgsmVbaoN1R/IJ5hoxOwKIxN95pYEkyjU
-	EGBjKfn/pjbvg/80rYlepMkxKJHHgiYSqat9dwetSEA==
-X-Gm-Gg: ASbGncsVYE6NNIAXbenz/Gouhv/tTp68jQ9w04Zn30X9epZj7ZuWVULVdXeuFDNehNE
-	1dkmy3QCh8U9NJ+Al7fOS/ZSJV2MwuveeImKX+IrKtFjqC5rXMuSd7JXOfaiNVMgesE7tT5IOpZ
-	OYQlMQqEdbSJHTbedrSzvmweFyj+xmVe91ccg=
-X-Google-Smtp-Source: AGHT+IHjcTE8UNq9COdhAtar/rwZhV6rsh8B2Y4zrvAOmQ5q80QnkNmj3C7tqg0sBltS5Y0BLFdUFdo54/cRk9BlzYY=
-X-Received: by 2002:a05:690c:f8f:b0:70c:c20a:89a5 with SMTP id
- 00721157ae682-70e8350df33mr39643457b3.19.1748394295847; Tue, 27 May 2025
- 18:04:55 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7243b7192d=haixiao.yan.cn@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S1qCnm022130
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 19:09:45 -0700
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11on2046.outbound.protection.outlook.com [40.107.236.46])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46udmm36ed-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 19:09:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=smrlZErFkyMG5zXhH+P5fH+vcEb5M75Uc99jxA5BAkJixcFChzPqOuJm7sKtnf6QrlyQwFyvQDQn21Ale/ST6VtnwcIaTMS79sxGL2fXEY7MhA+6415jlkUNVH3spy/oXZJPJDGgXaHOMiySQa8Hz3/FmfuA/o9Ur1wa9En1MQxbt5vN3Vj63750kal4mvuYfhesqRvyWI0Pzv8hNwraDt4v9yvxRpUIYt7kQXdgCjo+I4zfm+YAzFdrcdZWU6+uiiaRNzjV031SeL4cUjndmrPBv1KDnGTTLMEEIu6YBf6qs0b0X0A4JWV2IrbIJEoWijrE2YnW5Vs+xrkSnPkDlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=14z9WDkVu/wYGo6iF8/AcL+ETOA/BZgd1gKEyqN0gkc=;
+ b=awX+LS3lPAaK/48g6BqTD3iz31BQqJdUbreaWO6hNYVUzndT1hPK5MD33cxmQ9jG6jlEDv8eq9l4xfKmYyhBdCHnLluddtlLpwwanpcj+AKaANF22lK1n6lh2j4me+rck+rMpGF1dt+lHRkNJ8OUEmIFLa666LZ6/quRDCWXluojBI8RWaMmtgRay5HDZxKe9c1sf2TA1YEAisKGVJg2WKeQvRluWdUprqfy+SGQi++oao4DxIbBHxipQXRZkr1lGZzxroTT+tgRkNeFvCPEEBlKCHldhcPnaLIVleBWx1Ssu27M2LInpSzHfVPxCmj1NJcvux2z9bzVqI+pEfwSSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from CH0PR11MB8189.namprd11.prod.outlook.com (2603:10b6:610:18d::13)
+ by SA1PR11MB8522.namprd11.prod.outlook.com (2603:10b6:806:3b1::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.26; Wed, 28 May
+ 2025 02:09:43 +0000
+Received: from CH0PR11MB8189.namprd11.prod.outlook.com
+ ([fe80::4025:23a:33d9:30a4]) by CH0PR11MB8189.namprd11.prod.outlook.com
+ ([fe80::4025:23a:33d9:30a4%4]) with mapi id 15.20.8769.022; Wed, 28 May 2025
+ 02:09:42 +0000
+From: haixiao.yan.cn@eng.windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][kirkstone][PATCH 1/1] nfs-utils: don't use signals to shut down nfs server.
+Date: Wed, 28 May 2025 10:08:52 +0800
+Message-Id: <20250528020852.3765606-1-haixiao.yan.cn@eng.windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0266.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:455::19) To CH0PR11MB8189.namprd11.prod.outlook.com
+ (2603:10b6:610:18d::13)
 MIME-Version: 1.0
-References: <20240323195304.2909926-1-anibal@limonsoftware.com>
- <20240323195304.2909926-2-anibal@limonsoftware.com> <20240325101809ec807440@mail.local>
- <17C008DA5E69D9E5.27941@lists.openembedded.org> <183C6D415DE5406F.22941@lists.openembedded.org>
- <CAOU5ZMu4ysbugdvOJ4Q1YqVK4nD8frX_wAeo-mSJXRCG3tTQFA@mail.gmail.com>
- <fa7b5f9f72d23b279f8d933a7ccf4d40c629e381.camel@linuxfoundation.org>
- <CAOU5ZMtUY=pP_U+nhdyNDkKS-cGctG1ymEAXqQ6iMe4bFdEBCw@mail.gmail.com>
- <be0202a16d696f29ac3c583ad764813a98e96b68.camel@linuxfoundation.org> <18436D8E0CEF2CEC.13855@lists.openembedded.org>
-In-Reply-To: <18436D8E0CEF2CEC.13855@lists.openembedded.org>
-From: Anibal Limon <anibal@limonsoftware.com>
-Date: Tue, 27 May 2025 19:04:45 -0600
-X-Gm-Features: AX0GCFsCrLP-zRCBjuN5ssiHSGDR8Cl1qmIN95KrRL1T_39-lJ8M6TY2_0g0THc
-Message-ID: <CAOU5ZMuigVYBc5VTTaCUiGO8q0qQCuxpVXVQeXWn8jf0=F6g6g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] wic: plugins source bootimage/isoimage
- rename to allow be imported
-To: anibal@limonsoftware.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org, 
-	bruce.ashfield@gmail.com
-Content-Type: multipart/alternative; boundary="000000000000ee82b5063627c471"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR11MB8189:EE_|SA1PR11MB8522:EE_
+X-MS-Office365-Filtering-Correlation-Id: 900497ac-f459-4138-02b4-08dd9d8cb5bb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|366016|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?CAXEceuGln0Ceqx5t23HLg90M9wv5fUHhp9Y6LsmBKxw9I9B1UsepbJ7Pxv8?=
+ =?us-ascii?Q?bHEmEqyL/7k8ufDnly1GVbUu6+vnh5QGKgz2IVMp0CkRKLg8mc7uNyExtbMl?=
+ =?us-ascii?Q?FzWcvu0Ezv8taQ3Nui9yUBK+0h9wuqxxa0ZPBTd+bMtsIVhE078fxVZzowVB?=
+ =?us-ascii?Q?fr5Y32mWFQiJ2RAZ5Ngi03ytKmr0O6zfXNeLLoZupb8B4IDejoGD0K6Qiq1h?=
+ =?us-ascii?Q?xy8VTp3KnAoei8V2bekkdFkPxA7p0mJgfkHbRmxKjhcrjKxQrEd3R/nobCa4?=
+ =?us-ascii?Q?lAJoyhyV3c1eqH+h25DoZYNh2+LxfrXLWfitSwjV7hOJ1OwowgOK/d9DRgii?=
+ =?us-ascii?Q?lECuMoAKV53JKbCT3iH1FaiPKwT0/9rn7Br7j+GeHTIMDHX+lEn3Nh9pf5lM?=
+ =?us-ascii?Q?RBTJ6BThAhJeOaRBZadVz7rjxLL6My05qC2dOn2jzQDL+huaNEsT1ezt1SoO?=
+ =?us-ascii?Q?8e3AfAosAcr0B6mfwT/QCVhGAaw9KqieZldqVVRP6wcih4vKIIdpwEefiwhc?=
+ =?us-ascii?Q?CwoitVedn0ok28gCc8svUv7wO1zP+niy1CJ7jRdShwFGWACjD17QFIJNcZE3?=
+ =?us-ascii?Q?3ZJ/JPqrJaMkqfn+uDbvU9hbwMwPP4HJJeN0GQfSICVh5cFCTAE/5sGmU6RF?=
+ =?us-ascii?Q?aYLTGx3PIX2yi8TTMJ1fyOyc0Xr0uMdugpY5SQ1RcW0JZUbNeDAGZGIlL9ES?=
+ =?us-ascii?Q?CUxt4Nj0634Zi8ZGXmPR14pLEBP7ekWNJPZPjMAUKqhpm8vOLya6JI928HDB?=
+ =?us-ascii?Q?qnrk5CTpED10K5v2mYJwlvPXs6qz9RBP3VEgNgKN5Eq1HQaSM9RSF5LK0c6p?=
+ =?us-ascii?Q?QVl7Zv3y05L4CDUWQQQqPVqXa+ODvz3M1dpela3BDGpQfkvB+K0H7Fnp6fVl?=
+ =?us-ascii?Q?VqWpHAvcfts3rNAFzcB+Omde3/r55HuVojaWkdtbKiqig94L3ZNOmZ2gVisD?=
+ =?us-ascii?Q?FEQTIecBpNmHsYg+KSWz+pJgBIYyHP8Dg2X4p/OVsM95to0xVj8tkXT4si9g?=
+ =?us-ascii?Q?YSD8JM83bij1c8aGpXLNwwSPgoTHVrW+8Dvhkeu7zOm752FtsAMx300JBgMr?=
+ =?us-ascii?Q?35lAzclhMmMLDNNi7nAfJTJq+JID+knLgqNilyDgTy5ageDahs7YV4eRDPF0?=
+ =?us-ascii?Q?nkJvT75Dk2yFjiR6iHnk1scheB+vYPs1APxDRsM+qlqrLjX+gQuNboUIQppb?=
+ =?us-ascii?Q?D5rryEaRD4H87qx8yCGPI33ur1Pc0T0ZHi1PLDUT6NNbItk4giTsA8+rabX3?=
+ =?us-ascii?Q?weSRgLMy5FqmaCSvPTXGxwYydNdniPpQtJ7+1B4KhpKw6+fcaCAB74diXDjo?=
+ =?us-ascii?Q?JNKJ+MpxhhqoO/VW7RCm9AtbnseS02D3oBE9bwQoT+Rj7xpWNuJxv5TrPiWp?=
+ =?us-ascii?Q?brw2ipJqirl95uSfQiFMjK+ZLzXiodr5EdwdsbHeP0LCMk/3lEsnpfY0wp+P?=
+ =?us-ascii?Q?hNir0rBtuRK705NKnBHN/6gU5c3HIQLZEAMyFpVm/IdIoWxUoumOBQ=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB8189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?3Pa3sj+v9AMJcH4SLyx9UWYTYTrtCiK+JG6eq7hP6sgPPvexynYw5K1vbzZn?=
+ =?us-ascii?Q?06/n0XmG6JjOLVwWu2ibbR63T8Jz1w4X5uVelsp7+iMNh8slPIi9UV+zxUSc?=
+ =?us-ascii?Q?srEx72vcogW7O4c5NcgZAza2oI3uuRiYu+Nc1ejbxUG4w04An3fwZmVNlimt?=
+ =?us-ascii?Q?OisgazR0vsDptV/6wKRbR5y1T+qSpY6tkkDJu4Ftzu6phxGL+e922Wm9M82g?=
+ =?us-ascii?Q?Hweh42Qbm5kuqwWL/5BHf3li+gNTAR31cdnD+hOWAE59QDAMUBq3bDM259UY?=
+ =?us-ascii?Q?cb1elNxTcGFmXk9l5gpxYa5z1e3O8kqD75wADiieQMr8OhluQe4xKCpnejSc?=
+ =?us-ascii?Q?4gphPL+d+TuCSTNdrIeN+ymidTnRkBsFfvC2rIKm0iiGf+Nc6IxQ2nALDGe4?=
+ =?us-ascii?Q?ge3Thiixk4q5WnLzwDhcnKe6W5N52/RZTBY5dEl19PsIpv0nPrdAlvtmMuyw?=
+ =?us-ascii?Q?tJT+z7UqGJCMILOH7bIluXrkCR0Hvrxsz+Eznk0KuMuHbZFkKJlCT1TrSTxx?=
+ =?us-ascii?Q?PLjrtCposRjMAgr2E/eLxFTolJAL/lPs8eSpwzVo92U89Eb1WINdyY9pNgu3?=
+ =?us-ascii?Q?GFHg11wmXN0SIYdDwSBA4g04r9VMwEtsVnlBan4WDPxZ3Y9WZBEtnzzeRBm6?=
+ =?us-ascii?Q?UHiwWT/1OYVy6FoGUz4KDJnz3JkUZuCWjrZ8bENxYfE8Ebm+VqJO9xqKP8i4?=
+ =?us-ascii?Q?QpM1M0/TRgjBgCTUtSYhyrPjWFH72z3GH/PvZOgzWEad8RSBdtV1EHY7D6ru?=
+ =?us-ascii?Q?vQqxYsktI/Ytq6MkZOL5o7OoqnrgJTKce1w8ytv5F9RxUGO5+6M4t9jT8hhe?=
+ =?us-ascii?Q?u52Ud2BYreuG+S6+HRW9HnLvaJfGFRRaq4bw4+qrUXXuAbt6hDE2akpyrgJP?=
+ =?us-ascii?Q?OtRaDnswXEFXa5eDxO8wqTuFHSRRUk+0ZrraGhVombwX2q3E6NLHSpHyOONM?=
+ =?us-ascii?Q?/AXg+F03wDAYpDxHv4M94/zbioVNyAGE+0gVjjIkiQEJxz2B9hL076Bd895D?=
+ =?us-ascii?Q?hmLR7uwu4juVYJCrqPdhbDdltdCBdsupHjeJl3FkTkaqpgZv1DCOt95guRYO?=
+ =?us-ascii?Q?GgkkyWZrkciZVVjDiOWfgqHxFuyQ1nDqsfDbFwvxmubM5sO3td0ARTzl+/Km?=
+ =?us-ascii?Q?tBxw+vGEuY3ZliUWm6mkjyPQ9fP0tW50w7Nf7gMmoKBIF6jfnHnqfieBGFlP?=
+ =?us-ascii?Q?V1PTu0jiLiPexwIrNmenX5tW4FQ/hCT7oRyBa43nriEcCXpShGcsJAGE2SN/?=
+ =?us-ascii?Q?TxQY3UlL8PYSsb7pdiUK00dHmEOA7UJY061YnDsMRYQoN6N4texvuL2rE/jF?=
+ =?us-ascii?Q?00LyiP85L7Nf+5Z3paWqwegA+vsO4wv73FlhSwduAkwcrRAlfbzPTEl380AQ?=
+ =?us-ascii?Q?G9gGJi1YgCXCxZZME3WEAxxGnlG7SCLJ4eCgE+1HhXA2Dh6hJRy1fV7Fr9hk?=
+ =?us-ascii?Q?fPwRzorbpX7OTtkHum3NL4Ep6kkg4ZAHPhGw1ndUiycocwlMFrQqN5BjHDIV?=
+ =?us-ascii?Q?AfvPxhO4RBDcweOY+Y8Pg3uAeYM3auZrv05NhSFnVOh0JPfqXBTEneUX7xEz?=
+ =?us-ascii?Q?Sx3w+eqfcun9cgfsYoYtPBhbJGgeFpTdVxWh7zlE27xl3ZPXUUZAwU+2GuJf?=
+ =?us-ascii?Q?Rg=3D=3D?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 900497ac-f459-4138-02b4-08dd9d8cb5bb
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB8189.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2025 02:09:42.8471
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EG+kzNEBA2yoPEapIUn9jBOEBoZEdFxyIg1xqyVQ7no9v4GyjPvMGehF62vFkVL0Ad6qgC4boIyxW3tt1Nh3XCRILJew8mayVW8YcPtP59g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8522
+X-Authority-Analysis: v=2.4 cv=WpErMcfv c=1 sm=1 tr=0 ts=68367069 cx=c_pps a=5SMz4P2gKhLJVQMJtRKoOQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=38rMEbfbbFn23TXZ:21 a=xqWC_Br6kY4A:10 a=dt9VzEwgFbYA:10 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8 a=gbk0yKnyYj3XjN68PW4A:9 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDAxNyBTYWx0ZWRfX6xj2TutHMBBj zMOnnE1Rlegfrs+MrRfgPhvnrI2PifXsqA8LEgQGooUzQZMVsX7A2OdRb6/xpfnpJ8LDxmpkMoU wlcQiuXmgdceRdn3mWdacFEOPOn941CW99rLfayXYyT+HgzbzRE3keBbhYIYXfZ/znnRWLJ7+11
+ ZYXfaIoowhENlhJPfYVT8kimB+3P6NFqGllHKc96wI9ZQF0HZCzQt8GYhaOz1K6ixrAp7aez8+5 74+F9GfiUIUnpUq/tsQ407Uich6CvCFXY6yrhdTOgzcUVqquMzy61/6SxIyWdqW2HBrvNMg8B/3 RvForEyynmPftDUUxCvDiq609gwDL4gXrAmD9WuF5dl5QBsj2xGhuMDlf5MPvMrqdkE+tHbeTWV
+ CakzMDT+hWzeN1sEEy4fVpAuHXMWyHnMtJSrUAg8942OzHJRUloYFaVSPb3XAt4c0yW/gEWR
+X-Proofpoint-ORIG-GUID: _cuCd-teD3OxdulVjVqnbS0uBlZvDg0D
+X-Proofpoint-GUID: _cuCd-teD3OxdulVjVqnbS0uBlZvDg0D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-28_01,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1015
+ mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
+ definitions=main-2505280017
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 01:05:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217327
+ <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 02:09:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217328
 
---000000000000ee82b5063627c471
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@suse.de>
 
-Update, I cannot reproduce meta-intel and meta-arm, I will look at
-autobuilder full config to see if I found something I missed.
+Since Linux v2.4 it has been possible to stop all NFS server by running
 
-On Tue, May 27, 2025 at 9:58=E2=80=AFAM Anibal Limon via lists.openembedded=
-.org
-<anibal=3Dlimonsoftware.com@lists.openembedded.org> wrote:
+   rpc.nfsd 0
 
-> I will fix the failures and add the proper migration doc to the patch.
->
-> Thanks!,
-> Anibal
->
-> On Tue, May 27, 2025 at 2:04=E2=80=AFAM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> Hi Anibal,
->>
->> On Mon, 2025-05-26 at 10:30 -0600, Anibal Limon wrote:
->> > Yeah, I understand, let me know any further breakage I can fix.
->>
->> I have patches for oe-core and meta-yocto to fix the issues there.
->> meta-virtualization fails, I believe you have fixes for that. meta-arm
->> and meta-intel also showed issues:
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/builds/1599
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/41/builds/1561
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/1574
->>
->> I think the missing pieces to get this merged are:
->>
->> * A note for the migration guide explaining what changed and how to fix
->> it
->>
->> * A tweak to wic to warn about "-" characters in the plugin name. This
->> might be able to translate "-" to "_" with a warning to allow some kind
->> of slightly easier migration? At the very least we should give users a
->> better error with a hint about how to fix it.
->>
->> Cheers,
->>
->> Richard
->>
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#217313):
-> https://lists.openembedded.org/g/openembedded-core/message/217313
-> Mute This Topic: https://lists.openembedded.org/mt/105108998/8181911
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> anibal@limonsoftware.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+i.e.  by requesting that zero threads be running.  This is preferred as
+it doesn't risk killing some other process which happens to be called
+"nfsd".
 
---000000000000ee82b5063627c471
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Since Linux v6.6 - and other stable kernels to which
 
-<div dir=3D"ltr">Update, I cannot reproduce meta-intel and meta-arm, I will=
- look at autobuilder full config to see if I found something I missed.</div=
-><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">On Tue, May 27, 2025 at 9:58=E2=80=AFAM Anibal Limon via <=
-a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;ani=
-bal=3D<a href=3D"mailto:limonsoftware.com@lists.openembedded.org">limonsoft=
-ware.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>I will fix the failu=
-res and add the proper migration doc to the patch.</div><div><br></div><div=
->Thanks!,</div><div>Anibal</div></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Tue, May 27, 2025 at 2:04=E2=80=AFAM Ric=
-hard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" targe=
-t=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">Hi Anibal,<br>
-<br>
-On Mon, 2025-05-26 at 10:30 -0600, Anibal Limon wrote:<br>
-&gt; Yeah, I=C2=A0understand, let me know any further breakage I can fix.<b=
-r>
-<br>
-I have patches for oe-core and meta-yocto to fix the issues there.<br>
-meta-virtualization fails, I believe you have fixes for that. meta-arm<br>
-and meta-intel also showed issues:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/buil=
-ds/1599" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/75/builds/1599</a><br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/41/buil=
-ds/1561" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/41/builds/1561</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/buil=
-ds/1574" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/89/builds/1574</a><br>
-<br>
-I think the missing pieces to get this merged are:<br>
-<br>
-* A note for the migration guide explaining what changed and how to fix<br>
-it<br>
-<br>
-* A tweak to wic to warn about &quot;-&quot; characters in the plugin name.=
- This<br>
-might be able to translate &quot;-&quot; to &quot;_&quot; with a warning to=
- allow some kind<br>
-of slightly easier migration? At the very least we should give users a<br>
-better error with a hint about how to fix it.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#217313): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/217313" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/217313</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105108998/818=
-1911" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/105108998/8181911</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:anibal@limonsoftware.com" =
-target=3D"_blank">anibal@limonsoftware.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+  Commit: 390390240145 ("nfsd: don't allow nfsd threads to be
+  signalled.")
 
---000000000000ee82b5063627c471--
+has been backported - sending a signal no longer works to stop nfs server
+threads.
+
+This patch changes the nfsserver script to use "rpc.nfsd 0" to stop
+server threads.
+
+Signed-off-by: NeilBrown <neil@brown.name>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7b09ad289a36)
+Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
+---
+ .../nfs-utils/nfs-utils/nfsserver             | 28 +++----------------
+ 1 file changed, 4 insertions(+), 24 deletions(-)
+
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+index 0f5747cc6db9..4d78312929e2 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+@@ -66,34 +66,14 @@ start_nfsd(){
+ 	start-stop-daemon --start --exec "$NFS_NFSD" -- "$@"
+ 	echo done
+ }
+-delay_nfsd(){
+-	for delay in 0 1 2 3 4 5 6 7 8 9 
+-	do
+-		if pidof nfsd >/dev/null
+-		then
+-			echo -n .
+-			sleep 1
+-		else
+-			return 0
+-		fi
+-	done
+-	return 1
+-}
+ stop_nfsd(){
+-	# WARNING: this kills any process with the executable
+-	# name 'nfsd'.
+ 	echo -n 'stopping nfsd: '
+-	start-stop-daemon --stop --quiet --signal 1 --name nfsd
+-	if delay_nfsd || {
+-		echo failed
+-		echo ' using signal 9: '
+-		start-stop-daemon --stop --quiet --signal 9 --name nfsd
+-		delay_nfsd
+-	}
++	$NFS_NFSD 0
++	if pidof nfsd
+ 	then
+-		echo done
+-	else
+ 		echo failed
++	else
++		echo done
+ 	fi
+ }
+ 
+-- 
+2.34.1
+
 
