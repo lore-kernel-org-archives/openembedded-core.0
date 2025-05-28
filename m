@@ -1,587 +1,135 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F51DC3ABB2
-	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 15:34:11 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.944.1748446444033095006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9832CC5AD49
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 18:28:30 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web10.2764.1748456906574373246
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 May 2025 08:34:04 -0700
+ Wed, 28 May 2025 11:28:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=StLkW59v;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7424ccbef4eso3618197b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 08:34:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ayl99hfc;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4774d68c670so1224621cf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 11:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748446443; x=1749051243; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1748456905; x=1749061705; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6KU0sGW6Zmbf9fpYlPD3P3ID+SC/ksCs//G88yO/tNE=;
-        b=StLkW59vgK2cH8CSKwa27kLjkGVexh9m7y+taHL+pzOkGIp2N8fszB8Sl9nX/WvOA9
-         tNIo7hHbeWHWsJ92U/deqPCiXlPL7zyRRtpCquQI4OlTTBpjin1jFxEiHAizrFN4P2Zw
-         FtNEoQU/tXnCeCQw70UB1RpJD0SUUpHArBZBGhnZEZjxaip96Vk3nQBj/rOp2PWXGtNG
-         RAk/1Gc/yecrWqsb4mFRd3FjcxraGu0afCzMaOyJbK93FxO2NnUKYxgLRTNDb7tVl1pE
-         EMjmNj9YV/r08tfU+8nJmkfbVqi9GrIV2szEpC7xastIBIWXFJefwtv+kC6K6tzuY+8p
-         nzAQ==
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ovUsaQm7mPepkOQFW2G6XnP1Pi+400ZlwWT/Z6C0t/4=;
+        b=ayl99hfcdGxUtX2Qk3/A+bCjX75ZNhn6O0+0v+smI5uJsnRbtuukSF16itrS8Iml7B
+         j2ZVY/y7stDd8HiZhzfg4O4FnrZbF/Tejjlz524Qd8B79BnEqCKyfxbUqYIFFdXe4pDc
+         9nT8iWQRt/Q9GyV9rqqEnGlmpTSg/3HJLP16Q77UXZFPmwDQdU/yHPRF7WQstO4oKvLd
+         TchePe6mId3+yDiiImyVaRchg9kHgKWRd6OuhFOYSbF28ffQeXmD+EkWrXUrQNSwh4hJ
+         5Yv4IamfuNcW/Hw3sdqzt3pjZWKWw4xC2yNo4HQce6pdqOOOSY71v/B0kX5XioE2tWSx
+         DxLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748446443; x=1749051243;
+        d=1e100.net; s=20230601; t=1748456905; x=1749061705;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6KU0sGW6Zmbf9fpYlPD3P3ID+SC/ksCs//G88yO/tNE=;
-        b=fTgvZip6nEbAp73rnw9fdnQ+wOrhsGbDvuWdaxbWdvYdvKO9oVWxiOFEgSgwZ8g9Pp
-         dtaYCTd2CuzI35oeoxTjDQ2EE4VVRuxAuz6He60ZMjOVGRXmY85iulJ2z7a7u4Ywrvfv
-         Hb8nIlHFMt0yV5urUF/sDrBb6fTrY/tlkQ35F0jrlnMb937pj85KnZe9xaha1Fb1x+cX
-         JdVg4r5ac8ZwOhgaFOA0FMXTmPGjN7zsBoHUNZHDvd0cryHhG7D1ho35frN2wgdqrfsc
-         PV3ikS2+QCsoWccMzys8Wp8Hj5z5yWgujo2Ig9CAiW8/4KeSmWlCauoVWzKCN36NzQT+
-         DZ4A==
-X-Gm-Message-State: AOJu0YwaYCcqgt4mWflvDN9GWbEwE46AvqJ+BuPJGCBMDrNyQEIivUcy
-	EI4+CwKC+dCMrGFsMMdSK79A6vQNTzdrcK6Z4SIzAmxjtjwBWN4c1nn1hXisz79l6ej+mTJfitl
-	pWukL
-X-Gm-Gg: ASbGnctwLaDk/xmbnkf0tgdgsfWqkyo3yOp0k4ne46HrFf/JttLgkKA2wsTlFdEmzkz
-	HR2xzo6xCcyaVxAK2inBg+zGwqj11VuRWOaPbSOunNKjcC7lHcbYIStS8t2eq455ndx+LdJg6gv
-	0rvYrhu+NqIOhIwR4B0YPqXgsRtPCvKW/eAlyyr1GGqTxibP6JnyghqX7tA4R98f0CDiKNJIDjE
-	ufycrxHlX7ybZHAM57Rmx53RpcndAUt+G2KC9cZWYoHTo0x++zXiLZihA1erNIvA+51e9EEZA38
-	9S7K/iyZk/uV311QzSkShuifSgjU+Mu/jNbBbaEHQVRXqWzKCiLa8A==
-X-Google-Smtp-Source: AGHT+IF0gRHg9LPZtJi3UUCTLpRU3tV7bGgzlMhlBx7GOu7fIZwoJYDKE+qog8eg6j646n3IqnRIaA==
-X-Received: by 2002:a05:6a00:1747:b0:730:75b1:7219 with SMTP id d2e1a72fcca58-745fdf4b8a4mr26346349b3a.12.1748446442542;
-        Wed, 28 May 2025 08:34:02 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:2f2f:1884:f4cc:456c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-746e343c1basm1400268b3a.132.2025.05.28.08.34.01
-        for <openembedded-core@lists.openembedded.org>
+        bh=ovUsaQm7mPepkOQFW2G6XnP1Pi+400ZlwWT/Z6C0t/4=;
+        b=D70mOU+CYtiRQImWA7NylV0G058Ek/XtNLXciOoRaCgPp+yKaXafIS5FxCKjqnibIP
+         ta93Px3OPF+ys8SjzS0sSKygQshNx03ZX79LcOqdWI4rDs5z02CBUh4QRFQhlQB4cW3C
+         3jwdvO1YH7YYCNwL5OvQ8HOU/PJQlCmhyr0gtvUYjz5VojHIGZ4a5uyqAFTK5G9M4YlW
+         vsCBW3Zrbs8WbSgAPLmBJKJkTTZzuj2qt02RJMe7YrTu5q/pNw1E1HWIKLV82wsl2N2o
+         6eDVUVn47nfYThXDZqorVoBvgFTyjHD/7O5PJ1BfNQEWs7PMfdofH+GaAFcYeL/ehB83
+         E+0g==
+X-Gm-Message-State: AOJu0YxCjU/y0Q4Lkc7OK+5TdxAv8XwLxy3JqgPXJGH6YzV/xONx/dD/
+	BYbFa/iBl8uelpbY7IHK1mafP5zqhblOlm3Xq5XEWyccHvmOcOfmQUMbzUKg+pY4
+X-Gm-Gg: ASbGncuJbASN9HowbeNY2bNbi2dbr0IKGrzU+pIdjxzl1pRuNSPNOMgkUv1ZfczRZxV
+	Ue72VOJ5tYdHWvWwWetV//N5xwzdpOWwaNTPy2szyMb2hTaDBuXV/RTCXOuaBEscZyYidGQ35Ox
+	f+maNIixukr5kqYrcm+ZJ61eY80G/y9Yjimom3BPfrOF2gs8SHu4ZL+e+zMWcXwHmwyXOsT2DYP
+	grc4eSn4pK4LlNivIM+pP8M2iTX4bVHmO/ckN+YApIkSnEHlmqbWhbA2eT5I8vjyPbEBuYy9ZpL
+	qqtJzGl5nFgN5QsT3V1g+2gr6oPGpPUTCXitrl/ekVXrI+NOntYFpzrvwEsvQwWjVlRvAVjdMQl
+	q+hViz3240iPyYqObsFbCA3QDk/u0afMBgaGmGMNzJPM2btpsX0ve
+X-Google-Smtp-Source: AGHT+IGg2nFIX1SMvDXGJ1TvA6iaCcjtFSjVVq0+dS+X/P0NHopusd0BcvW+Hq/8NkBqUctthN+YZQ==
+X-Received: by 2002:a05:622a:429a:b0:497:7412:1174 with SMTP id d75a77b69052e-49f4624f30fmr334474471cf.11.1748456905356;
+        Wed, 28 May 2025 11:28:25 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a3c80d4dd3sm8992151cf.54.2025.05.28.11.28.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 08:34:02 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 13/14] gcc: fix incorrect preprocessor line numbers in large files
-Date: Wed, 28 May 2025 08:33:22 -0700
-Message-ID: <bc868507927fb21637e0ed63bb7ac86d69998d42.1748446235.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1748446235.git.steve@sakoman.com>
-References: <cover.1748446235.git.steve@sakoman.com>
+        Wed, 28 May 2025 11:28:24 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/4] linux-yocto/6.12: riscv config sync
+Date: Wed, 28 May 2025 14:28:18 -0400
+Message-Id: <a9decbdcfa110aec1c61ed83381d9147029ee0e3.1748456757.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1748456757.git.bruce.ashfield@gmail.com>
+References: <cover.1748456757.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 15:34:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217377
+ <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 18:28:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217382
 
-From: Yash Shinde <Yash.Shinde@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Resolve static assertion failures caused by incorrect line numbers
-after #include directives, introduced by the backport of PR108900 to GCC.
-Update line map handling to correctly compute locations in large files,
-including fixes for both LC_ENTER and LC_LEAVE to ensure accurate
-line number resolution in rare edge cases.
+Integrating the following commit(s) to linux-yocto/.:
 
-https://gcc.gnu.org/cgit/gcc/commit/?id=edf745dc519ddbfef127e2789bf11bfbacd300b7
+1/1 [
+    Author: Khem Raj
+    Email: raj.khem@gmail.com
+    Subject: bsp/qemuriscv32: Sync config with upstream defconfig 6.12+
+    Date: Tue, 20 May 2025 09:36:06 -0700
 
-Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+    Signed-off-by: Khem Raj <raj.khem@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-14.2.inc        |   1 +
- ...-incorrect-preprocessor-line-numbers.patch | 475 ++++++++++++++++++
- 2 files changed, 476 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0028-fix-incorrect-preprocessor-line-numbers.patch
+ meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-14.2.inc b/meta/recipes-devtools/gcc/gcc-14.2.inc
-index f4e364f692..fa9003f604 100644
---- a/meta/recipes-devtools/gcc/gcc-14.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-14.2.inc
-@@ -72,6 +72,7 @@ SRC_URI = "${BASEURI} \
-            file://0027-gcc-backport-patch-to-fix-data-relocation-to-ENDBR-s.patch \
-            file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch \
-            file://0001-arm-Fix-LDRD-register-overlap-PR117675.patch \
-+           file://0028-fix-incorrect-preprocessor-line-numbers.patch \
- "
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+index c6be153d16..f2ab88bc55 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+@@ -15,7 +15,7 @@ python () {
+ }
  
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
-diff --git a/meta/recipes-devtools/gcc/gcc/0028-fix-incorrect-preprocessor-line-numbers.patch b/meta/recipes-devtools/gcc/gcc/0028-fix-incorrect-preprocessor-line-numbers.patch
-new file mode 100644
-index 0000000000..5185236a3d
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0028-fix-incorrect-preprocessor-line-numbers.patch
-@@ -0,0 +1,475 @@
-+From 8cbe033a8a88fe6437cc5d343ae0ddf8dd3455c8 Mon Sep 17 00:00:00 2001
-+From: Jakub Jelinek <jakub@redhat.com>
-+Date: Thu, 8 May 2025 11:14:24 +0200
-+Subject: libcpp: Further fixes for incorrect line numbers in large files
-+ [PR120061]
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The backport of the PR108900 fix to 14 branch broke building chromium
-+because static_assert (__LINE__ == expected_line_number, ""); now triggers
-+as the __LINE__ values are off by one.
-+This isn't the case on the trunk and 15 branch because we've switched
-+to 64-bit location_t and so one actually needs far longer header files
-+to trigger it.
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120061#c11
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120061#c12
-+contain (large) testcases in patch form which show on the 14 branch
-+that the first one used to fail before the PR108900 backport and now
-+works correctly, while the second one attempts to match the chromium
-+behavior and it used to pass before the PR108900 backport and now it
-+FAILs.
-+The two testcases show rare problematic cases, because
-+do_include_common -> parse_include -> check_eol -> check_eol_1 ->
-+cpp_get_token_1 -> _cpp_lex_token -> _cpp_lex_direct -> linemap_line_start
-+triggers there
-+      /* Allocate the new line_map.  However, if the current map only has a
-+         single line we can sometimes just increase its column_bits instead. */
-+      if (line_delta < 0
-+          || last_line != ORDINARY_MAP_STARTING_LINE_NUMBER (map)
-+          || SOURCE_COLUMN (map, highest) >= (1U << (column_bits - range_bits))
-+          || ( /* We can't reuse the map if the line offset is sufficiently
-+                  large to cause overflow when computing location_t values.  */
-+              (to_line - ORDINARY_MAP_STARTING_LINE_NUMBER (map))
-+              >= (((uint64_t) 1)
-+                  << (CHAR_BIT * sizeof (linenum_type) - column_bits)))
-+          || range_bits < map->m_range_bits)
-+        map = linemap_check_ordinary
-+                (const_cast <line_map *>
-+                  (linemap_add (set, LC_RENAME,
-+                                ORDINARY_MAP_IN_SYSTEM_HEADER_P (map),
-+                                ORDINARY_MAP_FILE_NAME (map),
-+                                to_line)));
-+and so creates a new ordinary map on the line right after the
-+(problematic) #include line.
-+Now, in the spot that r14-11679-g8a884140c2bcb7 patched,
-+pfile->line_table->highest_location in all 3 tests (also
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120061#c13
-+) is before the decrement the start of the line after the #include line and so
-+the decrement is really desirable in that case to put highest_location
-+[jakub@tucnak gcc-15]$ git log -1 --format=%B r15-9638-gbfcb5da69a41f7a5e41faab39b763d9d7c8bd2ea | cat
-+libcpp: Further fixes for incorrect line numbers in large files [PR120061]
-+
-+The backport of the PR108900 fix to 14 branch broke building chromium
-+because static_assert (__LINE__ == expected_line_number, ""); now triggers
-+as the __LINE__ values are off by one.
-+This isn't the case on the trunk and 15 branch because we've switched
-+to 64-bit location_t and so one actually needs far longer header files
-+to trigger it.
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120061#c11
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120061#c12
-+contain (large) testcases in patch form which show on the 14 branch
-+that the first one used to fail before the PR108900 backport and now
-+works correctly, while the second one attempts to match the chromium
-+behavior and it used to pass before the PR108900 backport and now it
-+FAILs.
-+The two testcases show rare problematic cases, because
-+do_include_common -> parse_include -> check_eol -> check_eol_1 ->
-+cpp_get_token_1 -> _cpp_lex_token -> _cpp_lex_direct -> linemap_line_start
-+triggers there
-+      /* Allocate the new line_map.  However, if the current map only has a
-+         single line we can sometimes just increase its column_bits instead. */
-+      if (line_delta < 0
-+          || last_line != ORDINARY_MAP_STARTING_LINE_NUMBER (map)
-+          || SOURCE_COLUMN (map, highest) >= (1U << (column_bits - range_bits))
-+          || ( /* We can't reuse the map if the line offset is sufficiently
-+                  large to cause overflow when computing location_t values.  */
-+              (to_line - ORDINARY_MAP_STARTING_LINE_NUMBER (map))
-+              >= (((uint64_t) 1)
-+                  << (CHAR_BIT * sizeof (linenum_type) - column_bits)))
-+          || range_bits < map->m_range_bits)
-+        map = linemap_check_ordinary
-+                (const_cast <line_map *>
-+                  (linemap_add (set, LC_RENAME,
-+                                ORDINARY_MAP_IN_SYSTEM_HEADER_P (map),
-+                                ORDINARY_MAP_FILE_NAME (map),
-+                                to_line)));
-+and so creates a new ordinary map on the line right after the
-+(problematic) #include line.
-+Now, in the spot that r14-11679-g8a884140c2bcb7 patched,
-+pfile->line_table->highest_location in all 3 tests (also
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120061#c13
-+) is before the decrement the start of the line after the #include line and so
-+the decrement is really desirable in that case to put highest_location
-+somewhere on the line where the #include actually is.
-+But at the same time it is also undesirable, because if we do decrement it,
-+then linemap_add LC_ENTER called from _cpp_do_file_change will then
-+  /* Generate a start_location above the current highest_location.
-+     If possible, make the low range bits be zero.  */
-+  location_t start_location = set->highest_location + 1;
-+  unsigned range_bits = 0;
-+  if (start_location < LINE_MAP_MAX_LOCATION_WITH_COLS)
-+    range_bits = set->default_range_bits;
-+  start_location += (1 << range_bits) - 1;
-+  start_location &=  ~((1 << range_bits) - 1);
-+
-+  linemap_assert (!LINEMAPS_ORDINARY_USED (set)
-+                  || (start_location
-+                      >= MAP_START_LOCATION (LINEMAPS_LAST_ORDINARY_MAP (set))));
-+and we can end up with the new LC_ENTER ordinary map having the same
-+start_location as the preceding LC_RENAME one.
-+Next thing that happens is computation of included_from:
-+  if (reason == LC_ENTER)
-+    {
-+      if (set->depth == 0)
-+        map->included_from = 0;
-+      else
-+        /* The location of the end of the just-closed map.  */
-+        map->included_from
-+          = (((map[0].start_location - 1 - map[-1].start_location)
-+              & ~((1 << map[-1].m_column_and_range_bits) - 1))
-+             + map[-1].start_location);
-+The normal case (e.g. with the testcase included at the start of this comment) is
-+that map[-1] starts somewhere earlier and so map->included_from computation above
-+nicely computes location_t which expands to the start of the #include line.
-+With r14-11679 reverted, for #c11 as well as #c12
-+map[0].start_location == map[-1].start_location above, and so it is
-+((location_t) -1 & ~((1 << map[-1].m_column_and_range_bits) - 1)))
-++ map[-1].start_location,
-+which happens to be start of the #include line.
-+For #c11 map[0].start_location is 0x500003a0 and map[-1] has
-+m_column_and_range_bits 7 and map[-2] has m_column_and_range_bits 12 and
-+map[0].included_from is set to 0x50000320.
-+For #c12 map[0].start_location is 0x606c0402 and map[-2].start_location is
-+0x606c0400 and m_column_and_range_bits is 0 for all 3 maps.
-+map[0].included_from is set to 0x606c0401.
-+The last important part is again in linemap_add when doing LC_LEAVE:
-+      /* (MAP - 1) points to the map we are leaving. The
-+         map from which (MAP - 1) got included should be the map
-+         that comes right before MAP in the same file.  */
-+      from = linemap_included_from_linemap (set, map - 1);
-+
-+      /* A TO_FILE of NULL is special - we use the natural values.  */
-+      if (to_file == NULL)
-+        {
-+          to_file = ORDINARY_MAP_FILE_NAME (from);
-+          to_line = SOURCE_LINE (from, from[1].start_location);
-+          sysp = ORDINARY_MAP_IN_SYSTEM_HEADER_P (from);
-+        }
-+Here it wants to compute the right to_line which ought to be the line after
-+the #include directive.
-+On the #c11 testcase that doesn't work correctly though, because
-+map[-1].included_from is 0x50000320, from[0] for that is LC_ENTER with
-+start_location 0x4080 and m_column_and_range_bits 12 but note that we've
-+earlier computed map[-1].start_location + (-1 & 0xffffff80) and so only
-+decreased by 7 bits, so to_line is still on the line with #include and not
-+after it.  In the #c12 that doesn't happen, all the ordinary maps involved
-+there had 0 m_column_and_range_bits and so this computes correct line.
-+
-+Below is a fix for the trunk including testcases using the
-+location_overflow_plugin hack to simulate the bugs without needing huge
-+files (in the 14 case it is just 330KB and almost 10MB, but in the 15
-+case it would need to be far bigger).
-+The pre- r15-9018 trunk has
-+FAIL: gcc.dg/plugin/location-overflow-test-pr116047.c -fplugin=./location_overflow_plugin.so  scan-file static_assert[^\n\r]*6[^\n\r]*== 6
-+and current trunk
-+FAIL: gcc.dg/plugin/location-overflow-test-pr116047.c -fplugin=./location_overflow_plugin.so  scan-file static_assert[^\n\r]*6[^\n\r]*== 6
-+FAIL: gcc.dg/plugin/location-overflow-test-pr120061.c -fplugin=./location_overflow_plugin.so  scan-file static_assert[^\n\r]*5[^\n\r]*== 5
-+and with the patch everything PASSes.
-+
-+The patch reverts the r14-11679 change, because it is incorrect,
-+we really need to decrement it even when crossing ordinary map
-+boundaries, so that the location is not on the line after the #include
-+line but somewhere on the #include line.  It also patches two spots
-+in linemap_add mentioned above to make sure we get correct locations
-+both in the included_from location_t when doing LC_ENTER (second
-+line-map.cc hunk) and when doing LC_LEAVE to compute the right to_line
-+(first line-map.cc hunk), both in presence of an added LC_RENAME
-+with the same start_location as the following LC_ENTER (i.e. the
-+problematic cases).
-+The LC_ENTER hunk is mostly to ensure included_form location_t is
-+at the start of the #include line (column 0), without it we can
-+decrease include_from not enough and end up at some random column
-+in the middle of the line, because it is masking away
-+map[-1].m_column_and_range_bits bits even when in the end the resulting
-+include_from location_t will be found in map[-2] map with perhaps
-+different m_column_and_range_bits.  That alone doesn't fix the bug
-+though.
-+The more important is the LC_LEAVE hunk and the problem there is
-+caused by linemap_line_start not actually doing
-+    r = set->highest_line + (line_delta << map->m_column_and_range_bits);
-+when adding a new map (the LC_RENAME one because we need to switch to
-+different number of directly encoded ranges, or columns, etc.).
-+So, in the original PR108900 case that
-+  to_line = SOURCE_LINE (from, from[1].start_location);
-+doesn't do the right thing, from there is the last < 0x50000000 map
-+with m_column_and_range_bits 12, from[1] is the first one above it
-+and map[-1].included_from is the correct location of column 0 on
-+the #include line, but as the new LC_RENAME map has been created without
-+actually increasing highest_location to be on the new line (we've just
-+set to_line of the new LC_RENAME map to the correct line),
-+  to_line = SOURCE_LINE (from, from[1].start_location);
-+stays on the same source line.  I've tried to just replace that with
-+  to_line = SOURCE_LINE (from, linemap_included_from (map - 1)) + 1;
-+i.e. just find out the #include line from map[-1].included_from and
-+add 1 to it, unfortunately that breaks the
-+c-c++-common/cpp/line-4.c
-+test where we expect to stay on the same 0 line for LC_LEAVE from
-+<command line> and gcc.dg/cpp/trad/Wunused.c, gcc.dg/cpp/trad/builtins.c
-+and c-c++-common/analyzer/named-constants-via-macros-traditional.c tests
-+all with -traditional-cpp preprocessing where to_line is also off-by-one
-+from the expected one.
-+So, this patch instead conditionalizes it, uses the
-+  to_line = SOURCE_LINE (from, linemap_included_from (map - 1)) + 1;
-+way only if from[1] is a LC_RENAME map (rather than the usual
-+LC_ENTER one), that should limit it to the problematic cases of when
-+parse_include peeked after EOL and had to create LC_RENAME map with
-+the same start_location as the LC_ENTER after it.
-+
-+Some further justification for the LC_ENTER hunk, using the
-+https://gcc.gnu.org/pipermail/gcc-patches/2025-May/682774.html testcase
-+(old is 14 before r14-11679, vanilla current 14 and new with the 14 patch)
-+I get
-+$ /usr/src/gcc-14/obj/gcc/cc1.old -quiet -std=c23 pr116047.c -nostdinc
-+In file included from pr116047-1.h:327677:21,
-+                 from pr116047.c:4:
-+pr116047-2.h:1:1: error: unknown type name ‘a’
-+    1 | a b c;
-+      | ^
-+pr116047-2.h:1:5: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘c’
-+    1 | a b c;
-+      |     ^
-+pr116047-1.h:327677:1: error: static assertion failed: ""
-+327677 | #include "pr116047-2.h"
-+       | ^~~~~~~~~~~~~
-+$ /usr/src/gcc-14/obj/gcc/cc1.vanilla -quiet -std=c23 pr116047.c -nostdinc
-+In file included from pr116047-1.h:327678,
-+                 from pr116047.c:4:
-+pr116047-2.h:1:1: error: unknown type name ‘a’
-+    1 | a b c;
-+      | ^
-+pr116047-2.h:1:5: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘c’
-+    1 | a b c;
-+      |     ^
-+$ /usr/src/gcc-14/obj/gcc/cc1.new -quiet -std=c23 pr116047.c -nostdinc
-+In file included from pr116047-1.h:327677,
-+                 from pr116047.c:4:
-+pr116047-2.h:1:1: error: unknown type name ‘a’
-+    1 | a b c;
-+      | ^
-+pr116047-2.h:1:5: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘c’
-+    1 | a b c;
-+      |     ^
-+
-+pr116047-1.h has on lines 327677+327678:
-+ #include "pr116047-2.h"
-+ static_assert (__LINE__ == 327678, "");
-+so the static_assert failure is something that was dealt mainly in the
-+LC_LEAVE hunk and files.cc reversion, but please have a look at the
-+In file included from lines.
-+14.2 emits correct line (#include "pr116047-2.h" is indeed on line
-+327677) but some random column in there (which is not normally printed
-+for smaller headers; 21 is the . before extension in the filename).
-+Current trunk emits incorrect line (327678 instead of 327677, clearly
-+it didn't decrement).
-+And the patched compiler emits the right line with no column, as would
-+be printed if I remove e.g. 300000 newlines from the file.
-+
-+2025-05-08  Jakub Jelinek  <jakub@redhat.com>
-+
-+	PR preprocessor/108900
-+	PR preprocessor/116047
-+	PR preprocessor/120061
-+	* files.cc (_cpp_stack_file): Revert 2025-03-28 change.
-+	* line-map.cc (linemap_add): Use
-+	SOURCE_LINE (from, linemap_included_from (map - 1)) + 1; instead of
-+	SOURCE_LINE (from, from[1].start_location); to compute to_line
-+	for LC_LEAVE if from[1].reason is LC_RENAME.  For LC_ENTER
-+	included_from computation, look at map[-2] or even lower if map[-1]
-+	has the same start_location as map[0].
-+
-+	* gcc.dg/plugin/plugin.exp: Add location-overflow-test-pr116047.c
-+	and location-overflow-test-pr120061.c.
-+	* gcc.dg/plugin/location_overflow_plugin.c (plugin_init): Don't error
-+	on unknown values, instead just break.
-+	* gcc.dg/plugin/location-overflow-test-pr116047.c: New test.
-+	* gcc.dg/plugin/location-overflow-test-pr116047-1.h: New test.
-+	* gcc.dg/plugin/location-overflow-test-pr116047-2.h: New test.
-+	* gcc.dg/plugin/location-overflow-test-pr120061.c: New test.
-+	* gcc.dg/plugin/location-overflow-test-pr120061-1.h: New test.
-+	* gcc.dg/plugin/location-overflow-test-pr120061-2.h: New test.
-+
-+Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/commit/?id=edf745dc519ddbfef127e2789bf11bfbacd300b7]
-+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-+---
-+ .../plugin/location-overflow-test-pr116047-1.h     |  6 +++
-+ .../plugin/location-overflow-test-pr116047-2.h     |  1 +
-+ .../plugin/location-overflow-test-pr116047.c       |  5 +++
-+ .../plugin/location-overflow-test-pr120061-1.h     |  6 +++
-+ .../plugin/location-overflow-test-pr120061-2.h     |  1 +
-+ .../plugin/location-overflow-test-pr120061.c       |  6 +++
-+ .../gcc.dg/plugin/location_overflow_plugin.c       |  2 +-
-+ gcc/testsuite/gcc.dg/plugin/plugin.exp             |  4 +-
-+ libcpp/line-map.cc                                 | 48 ++++++++++++++++++----
-+ 10 files changed, 69 insertions(+), 18 deletions(-)
-+ create mode 100644 gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047-1.h
-+ create mode 100644 gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047-2.h
-+ create mode 100644 gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047.c
-+ create mode 100644 gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061-1.h
-+ create mode 100644 gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061-2.h
-+ create mode 100644 gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061.c
-+
-+diff --git a/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047-1.h b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047-1.h
-+new file mode 100644
-+index 000000000000..3dd6434a938b
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047-1.h
-+@@ -0,0 +1,6 @@
-++
-++
-++
-++
-++#include "location-overflow-test-pr116047-2.h"
-++static_assert (__LINE__ == 6, "");
-+diff --git a/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047-2.h b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047-2.h
-+new file mode 100644
-+index 000000000000..048f715b4656
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047-2.h
-+@@ -0,0 +1 @@
-++int i;
-+diff --git a/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047.c b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047.c
-+new file mode 100644
-+index 000000000000..33f2c4ce8def
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr116047.c
-+@@ -0,0 +1,5 @@
-++/* PR preprocessor/116047 */
-++/* { dg-do preprocess } */
-++/* { dg-options "-nostdinc -std=c23 -fplugin-arg-location_overflow_plugin-value=0x4fff8080" } */
-++#include "location-overflow-test-pr116047-1.h"
-++/* { dg-final { scan-file location-overflow-test-pr116047.i "static_assert\[^\n\r]\*6\[^\n\r]\*== 6" } } */
-+diff --git a/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061-1.h b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061-1.h
-+new file mode 100644
-+index 000000000000..ebf7704f568e
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061-1.h
-+@@ -0,0 +1,6 @@
-++
-++
-++
-++
-++#include "location-overflow-test-pr120061-2.h"
-++
-+diff --git a/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061-2.h b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061-2.h
-+new file mode 100644
-+index 000000000000..048f715b4656
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061-2.h
-+@@ -0,0 +1 @@
-++int i;
-+diff --git a/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061.c b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061.c
-+new file mode 100644
-+index 000000000000..e8e803898da3
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/plugin/location-overflow-test-pr120061.c
-+@@ -0,0 +1,6 @@
-++/* PR preprocessor/120061 */
-++/* { dg-do preprocess } */
-++/* { dg-options "-nostdinc -std=c23 -fplugin-arg-location_overflow_plugin-value=0x61000000" } */
-++#include "location-overflow-test-pr120061-1.h"
-++static_assert (__LINE__ == 5, "");
-++/* { dg-final { scan-file location-overflow-test-pr120061.i "static_assert\[^\n\r]\*5\[^\n\r]\*== 5" } } */
-+diff --git a/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.c b/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.c
-+index d0a6b0755648..6f4497a1cb16 100644
-+--- a/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.c
-++++ b/gcc/testsuite/gcc.dg/plugin/location_overflow_plugin.c
-+@@ -101,7 +101,7 @@ plugin_init (struct plugin_name_args *plugin_info,
-+       break;
-+ 
-+     default:
-+-      error_at (UNKNOWN_LOCATION, "unrecognized value for plugin argument");
-++      break;
-+     }
-+ 
-+   return 0;
-+diff --git a/gcc/testsuite/gcc.dg/plugin/plugin.exp b/gcc/testsuite/gcc.dg/plugin/plugin.exp
-+index 933f9a5850bc..438c6d87aad9 100644
-+--- a/gcc/testsuite/gcc.dg/plugin/plugin.exp
-++++ b/gcc/testsuite/gcc.dg/plugin/plugin.exp
-+@@ -126,7 +126,9 @@ set plugin_test_list [list \
-+     { location_overflow_plugin.c \
-+ 	  location-overflow-test-1.c \
-+ 	  location-overflow-test-2.c \
-+-	  location-overflow-test-pr83173.c } \
-++	  location-overflow-test-pr83173.c \
-++	  location-overflow-test-pr116047.c \
-++	  location-overflow-test-pr120061.c } \
-+     { must_tail_call_plugin.c \
-+ 	  must-tail-call-1.c \
-+ 	  must-tail-call-2.c } \
-+diff --git a/libcpp/line-map.cc b/libcpp/line-map.cc
-+index d5200b317eee..1e659638d9f7 100644
-+--- a/libcpp/line-map.cc
-++++ b/libcpp/line-map.cc
-+@@ -618,8 +618,8 @@ linemap_add (line_maps *set, enum lc_reason reason,
-+ 	 #include "included", inside the same "includer" file.  */
-+ 
-+       linemap_assert (!MAIN_FILE_P (map - 1));
-+-      /* (MAP - 1) points to the map we are leaving. The
-+-	 map from which (MAP - 1) got included should be the map
-++      /* (MAP - 1) points to the map we are leaving.  The
-++	 map from which (MAP - 1) got included should be usually the map
-+ 	 that comes right before MAP in the same file.  */
-+       from = linemap_included_from_linemap (set, map - 1);
-+ 
-+@@ -627,7 +627,24 @@ linemap_add (line_maps *set, enum lc_reason reason,
-+       if (to_file == NULL)
-+ 	{
-+ 	  to_file = ORDINARY_MAP_FILE_NAME (from);
-+-	  to_line = SOURCE_LINE (from, from[1].start_location);
-++	  /* Compute the line on which the map resumes, for #include this
-++	     should be the line after the #include line.  Usually FROM is
-++	     the map right before LC_ENTER map - the first map of the included
-++	     file, and in that case SOURCE_LINE (from, from[1].start_location);
-++	     computes the right line (and does handle even some special cases
-++	     (e.g. where for returning from <command line> we still want to
-++	     be at line 0 or some -traditional-cpp cases).  In rare cases
-++	     FROM can be followed by LC_RENAME created by linemap_line_start
-++	     for line right after #include line.  If that happens,
-++	     start_location of the FROM[1] map will be the same as
-++	     start_location of FROM[2] LC_ENTER, but FROM[1] start_location
-++	     might not have advance enough for moving to a full next line.
-++	     In that case compute the line of #include line and add 1 to it
-++	     to advance to the next line.  See PR120061.  */
-++	  if (from[1].reason == LC_RENAME)
-++	    to_line = SOURCE_LINE (from, linemap_included_from (map - 1)) + 1;
-++	  else
-++	    to_line = SOURCE_LINE (from, from[1].start_location);
-+ 	  sysp = ORDINARY_MAP_IN_SYSTEM_HEADER_P (from);
-+ 	}
-+       else
-+@@ -657,11 +674,26 @@ linemap_add (line_maps *set, enum lc_reason reason,
-+       if (set->depth == 0)
-+ 	map->included_from = 0;
-+       else
-+-	/* The location of the end of the just-closed map.  */
-+-	map->included_from
-+-	  = (((map[0].start_location - 1 - map[-1].start_location)
-+-	      & ~((1 << map[-1].m_column_and_range_bits) - 1))
-+-	     + map[-1].start_location);
-++	{
-++	  /* Compute location from whence this line map was included.
-++	     For #include this should be preferrably column 0 of the
-++	     line on which #include directive appears.
-++	     map[-1] is the just closed map and usually included_from
-++	     falls within that map.  In rare cases linemap_line_start
-++	     can insert a new LC_RENAME map for the line immediately
-++	     after #include line, in that case map[-1] will have the
-++	     same start_location as the new one and so included_from
-++	     would not be from map[-1] but likely map[-2].  If that
-++	     happens, mask off map[-2] m_column_and_range_bits bits
-++	     instead of map[-1].  See PR120061.  */
-++	  int i = -1;
-++	  while (map[i].start_location == map[0].start_location)
-++	    --i;
-++	  map->included_from
-++	    = (((map[0].start_location - 1 - map[i].start_location)
-++		& ~((1 << map[i].m_column_and_range_bits) - 1))
-++	       + map[i].start_location);
-++	}
-+       set->depth++;
-+       if (set->trace_includes)
-+ 	trace_include (set, map);
-+-- 
+ SRCREV_machine ?= "9ee7ecfcabe12ffae693f11c83d8cf6d8181f12a"
+-SRCREV_meta ?= "020a66c734ee618ed2b25a89102fd8de2ef98f9b"
++SRCREV_meta ?= "da71eb19ceab34a7a6ff4284f1580e043c870168"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.12;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+index f81f20e74e..bf7c61415e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "e4b00bee45a4432a5739542e2b50def9a63ba6d0"
+-SRCREV_meta ?= "020a66c734ee618ed2b25a89102fd8de2ef98f9b"
++SRCREV_meta ?= "da71eb19ceab34a7a6ff4284f1580e043c870168"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+index e1a7d05fbb..79fc65f826 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "e4b00bee45a4432a5739542e2b50def9a63ba6d0"
+ SRCREV_machine:qemux86-64 ?= "e4b00bee45a4432a5739542e2b50def9a63ba6d0"
+ SRCREV_machine:qemumips64 ?= "e2f38ec1df747da895699dcb9955606e1a8d60da"
+ SRCREV_machine ?= "e4b00bee45a4432a5739542e2b50def9a63ba6d0"
+-SRCREV_meta ?= "020a66c734ee618ed2b25a89102fd8de2ef98f9b"
++SRCREV_meta ?= "da71eb19ceab34a7a6ff4284f1580e043c870168"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
-2.43.0
+2.39.2
 
 
