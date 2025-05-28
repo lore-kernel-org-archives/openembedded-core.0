@@ -2,81 +2,82 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6449C3ABB2
-	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 05:41:25 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.9400.1748410881121267653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDF8AC5AE59
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 06:12:55 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.9626.1748412765642224165
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 May 2025 22:41:21 -0700
+ Tue, 27 May 2025 23:12:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Yig+ihb7;
- spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22e16234307so4883615ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 22:41:21 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=JPSGqxp4;
+ spf=pass (domain: mvista.com, ip: 209.85.210.180, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-742c5f3456fso3309280b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 23:12:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1748410880; x=1749015680; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1748412765; x=1749017565; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7/RBVoJvApbYcPVVPgMJuAc5QNDHjsG/peyLULrGWUk=;
-        b=Yig+ihb77pEDhIyQjiYsIX/tFEO2DswicGrd7iEQ7Xxdtymp43WdKKXwx3+TF417nm
-         guc2KxvTJtuJh5A/9kQgv42cjiXBHrbJabPvGxGLMj8ZW2Cwiy1FFeppCLMamUvXxdsY
-         fbsDusKewXUx0LmpkpLNgK/H+pbcpxAxcX/7s=
+        bh=n0of23t3Om1oWX4aexOcqDm2IZX/8CE3l6l4cFC644E=;
+        b=JPSGqxp4GCQRTkR12F7iqzu8HvsO6s7mH2gPTvpJSdtj/HG40m7NuArNSU/DOjstta
+         gQIgOeX7pyPwppBIrasgUTPnxvT9jGNEaoD/KvkAG1lpdeDDlXyeE+mbVJIH/j1vxKAG
+         Xq96mtptwEKIXK6h0LdPiGqr75D2myx/M2qes=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748410880; x=1749015680;
+        d=1e100.net; s=20230601; t=1748412765; x=1749017565;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7/RBVoJvApbYcPVVPgMJuAc5QNDHjsG/peyLULrGWUk=;
-        b=vUXK4CG5KNctAOVTrDdVspn6dwBU8RnDVvSW715WpnwDeuJt6gbLpfszWRy5c8XS/t
-         fj0+lnFohjZ1kk6Wo6SMJAFoUZlYGBlzSmNsRMnG8NcvQSptkIROtWwKrGKrRgAokifX
-         dv2jHm6ZqIPdgEd6IQVrtU41QgULZwwDURiSWwvIuF7w2fbCuaIvBqytRxOLuEiQtAe5
-         SjxUiAuvUNyuKWwEZEAGXYTM2t9WdGgtPhVk69RvqQ7ITTUMt+9agdpWANlhLYzBAVX9
-         vbHt/3H3RA0uyEAodtctSc2DuS6Bfg32xHZ1jKL6ylpLZYH88XTcu2LrFSyQqCPngip5
-         EBPQ==
-X-Gm-Message-State: AOJu0YxUfx6ols3mMPG/ihNGLXIUJazmlGA7k6KOXspLV1Tg8rnZxC2e
-	Tuxw9RBp1nuxQBHIv303sdclw64t3qh9esiagxQ04VVZxU4cDKTWFhoIB2WeG5nL+/nFv5httxE
-	/HYiu
-X-Gm-Gg: ASbGncvYyp+Cf3E4ugnWn4KgDNS9Fh8r53RVGnKVAGM1gUqSLQHE21JSgRrbYVDf1AA
-	iTNiYRdN876jZWHOEt3Mgk7YxhGWc0x7zqPqCaX4X1EjiC7bukfqRFLrvtMwKmAqokJyaOiP4E9
-	4DETlu4fJgSX6pydQkmVRrhra1xuJ/gFW5YUJWGUs0bApEY00+uzbokptsVi3lQazvGGDft4wgZ
-	DZEBewvgsdzsrRyDfXG/uNYr10+JFwdXWDo6HFM4Zk6IMhg1tZtC8v3gXehmL2kP+OS5Ku3p+oA
-	LTvuc2ZO8/P9mhzVsBcy54KOqqDdJHqWvuorpd+UShZ/k+D2ydKaGST3N8xEhohyFA==
-X-Google-Smtp-Source: AGHT+IFaDOg6xINTvnMmr65c6ZQuysZ9iv6ccG2NnCu8rTQ36iAQYoCwAviARxUtbKTuw8A2QsEolQ==
-X-Received: by 2002:a17:903:94c:b0:231:fd73:f8e5 with SMTP id d9443c01a7336-234b750c9c1mr49738145ad.24.1748410880319;
-        Tue, 27 May 2025 22:41:20 -0700 (PDT)
+        bh=n0of23t3Om1oWX4aexOcqDm2IZX/8CE3l6l4cFC644E=;
+        b=NOaCglmXb0KICV6Cg5aj9hGX3RMCHth6QbSDQc4tzr6h/Zujm/gOR3UOyz4l3P4rDM
+         iAkT/BALJVv9Wsi8R1MLwHViU4lk1Fl0oeZ7AETwSiWZfzQgRKuRJwjnPK3nik7wKpgK
+         rvQI4YFwQlBMt/Y4vVlh0HPm+HIYgAJe/fw/1EdsiJfpSoWqc6oXzVEG4joEjsSAS8xn
+         sncsNUiOSpNUqYsUKD1yb5+0C0FZxZ5jm4nbzAQ4v7g/USacDbg9KjN/M4EDQic0YU9C
+         cqDNeD1NgvoDM4lUlTDQuAKGPsp1Hg0arILraATq4WuK7N9P4XlJZ6C4jG98wFme9kd/
+         B1KA==
+X-Gm-Message-State: AOJu0YzBa2fNgMxCNMZgjwMCOBHKzAaxUzzJsfuAM9ZbQPgWsuZRK88n
+	UTORrBKHfqASbt3pHmG4WRM1N2EelJmko2lZnZxCNzoYN7WXMM7can3mRlVC9DfZS70se7Sf8N5
+	0/UV4
+X-Gm-Gg: ASbGnctNa6eLnwmbA8psKKq2Cs5gxxdroZOdQ7gRg1GdXTpIPMM5Vsd38hdNOx3VulK
+	9/oCoSBE8cAHA2fcHS6MJN0J+y8Ca4+14oMmTtln1fOgb6jzXEk0OSzWugWIj+y6NlWevJvq6gI
+	BUhDrpVxAVdyllmmuv8Rl+ejiyvIhDDcL6drTDVIybx4agjab3C2sDTOmzXtnXNHEKMwGrnA7sz
+	zyERWCqPuf+JSkf3f8B7rpqCeISJ9LuFABJfTx7r2DOeqEeC8NKgn6xnAXM+i2m7wTzjB7bO2ZF
+	o9UzYOHfQavEhZ0SVAO4w/3xfflPJ938vByDmlIf99YxKjGsj+jLE8XBilwLthA5Vm8NWiImKpP
+	/
+X-Google-Smtp-Source: AGHT+IE0b9zyWOyDGw8SsP2/X9Cbinzs+wyn3DDSMWsFYZN0P7BfyZil2RKUPV/t9YUmOKfKvaR4Cw==
+X-Received: by 2002:a05:6a21:1587:b0:216:5f67:98f7 with SMTP id adf61e73a8af0-2188c36c2b8mr24189906637.33.1748412764844;
+        Tue, 27 May 2025 23:12:44 -0700 (PDT)
 Received: from MVIN00016.mvista.com ([150.129.170.150])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-234d2fe1854sm3989645ad.66.2025.05.27.22.41.18
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2d99edf09csm461677a12.77.2025.05.27.23.12.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 22:41:19 -0700 (PDT)
+        Tue, 27 May 2025 23:12:44 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] libsoup-3.4.4: Fix CVE-2025-4969
-Date: Wed, 28 May 2025 11:11:10 +0530
-Message-ID: <20250528054110.43326-1-hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] libsoup-2.4: Fix CVE-2025-4969
+Date: Wed, 28 May 2025 11:42:30 +0530
+Message-ID: <20250528061230.70782-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 05:41:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217334
+ <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 06:12:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217335
 
 Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/commit/07b94e27afafebf31ef3cd868866a1e383750086
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../libsoup/libsoup-3.4.4/CVE-2025-4969.patch | 76 +++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |  1 +
+ .../libsoup/libsoup-2.4/CVE-2025-4969.patch   | 76 +++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |  1 +
  2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4969.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4969.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4969.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
 new file mode 100644
-index 0000000000..70c5fd5593
+index 0000000000..d45b2a2cb0
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4969.patch
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
 @@ -0,0 +1,76 @@
 +From 07b94e27afafebf31ef3cd868866a1e383750086 Mon Sep 17 00:00:00 2001
 +From: Milan Crha <mcrha@redhat.com>
@@ -99,10 +100,10 @@ index 0000000000..70c5fd5593
 + 2 files changed, 23 insertions(+), 1 deletion(-)
 +
 +diff --git a/libsoup/soup-multipart.c b/libsoup/soup-multipart.c
-+index 102ce37..e1c442e 100644
++index dd93973..b3611db 100644
 +--- a/libsoup/soup-multipart.c
 ++++ b/libsoup/soup-multipart.c
-+@@ -104,7 +104,7 @@ find_boundary (const char *start, const char *end,
++@@ -108,7 +108,7 @@ find_boundary (const char *start, const char *end,
 + 			continue;
 + 
 + 		/* Check that it's at start of line */
@@ -112,10 +113,10 @@ index 0000000000..70c5fd5593
 + 
 + 		/* Check for "--" or "\r\n" after boundary */
 +diff --git a/tests/multipart-test.c b/tests/multipart-test.c
-+index ab5f41c..84852e2 100644
++index 834b181..980eb68 100644
 +--- a/tests/multipart-test.c
 ++++ b/tests/multipart-test.c
-+@@ -527,6 +527,27 @@ test_multipart_bounds_bad (void)
++@@ -562,6 +562,27 @@ test_multipart_bounds_bad (void)
 + 	g_bytes_unref (bytes);
 + }
 + 
@@ -136,14 +137,14 @@ index 0000000000..70c5fd5593
 ++	g_assert_nonnull (multipart);
 ++
 ++	soup_multipart_free (multipart);
-++	soup_message_headers_unref (headers);
+++	soup_message_headers_free (headers);
 ++	g_bytes_unref (bytes);
 ++}
 ++
 + int
 + main (int argc, char **argv)
 + {
-+@@ -556,6 +577,7 @@ main (int argc, char **argv)
++@@ -593,6 +614,7 @@ main (int argc, char **argv)
 + 	g_test_add_data_func ("/multipart/async-small-reads", GINT_TO_POINTER (ASYNC_MULTIPART_SMALL_READS), test_multipart);
 + 	g_test_add_func ("/multipart/bounds-good", test_multipart_bounds_good);
 + 	g_test_add_func ("/multipart/bounds-bad", test_multipart_bounds_bad);
@@ -154,17 +155,17 @@ index 0000000000..70c5fd5593
 +-- 
 +2.49.0
 +
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index d3a0840044..21a1bbe6cd 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+index b986e2eea2..df97a68b9c 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
 @@ -31,6 +31,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-46420.patch \
+            file://CVE-2025-32912-1.patch \
+            file://CVE-2025-32912-2.patch \
             file://CVE-2025-32914.patch \
-            file://CVE-2025-4476.patch \
 +           file://CVE-2025-4969.patch \
            "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
+ SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
  
 -- 
 2.49.0
