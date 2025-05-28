@@ -1,154 +1,187 @@
-Return-Path: <trini@konsulko.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF48C5AD49
-	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 14:18:18 +0000 (UTC)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web10.16984.1748441892365121444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D76BC5AD49
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 14:43:28 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.17585.1748443406850528698
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 May 2025 07:18:12 -0700
+ Wed, 28 May 2025 07:43:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=nnv/q3X+;
- spf=pass (domain: konsulko.com, ip: 209.85.210.51, mailfrom: trini@konsulko.com)
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-72bd5f25ea6so1061852a34.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 07:18:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EXQfGQ64;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-234b9dfb842so14767795ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 07:43:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1748441891; x=1749046691; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=D6xzMSY/SiD0kWQ634Gn59Bf0FyGJEfEDdz5COwyku8=;
-        b=nnv/q3X+vCvzS5/5jvR96kpIEbTtDQQ6pfWJlWvIlFXK4eQIgu3llnVbI7myusMExa
-         5EK9t4bId2FWvAV7OH7VdBM0rLV9FNHxTkW6DAoZmwTyQ1+rf5aexniENMh4FQW75HGX
-         oMiGUPBEiZhG0IutLp7QA4WK7DnsiJYgA6oZE=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748443406; x=1749048206; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zCZb+XlXEchNmrzOVu+nDXdy6z9c+9K14oZmiIgy6aY=;
+        b=EXQfGQ64ZZ9+C+v1cNI2yieOkCPS9B2BlaNafN3WFr/qVpHima9khD5Wq0D6O1163C
+         qO45P7tKN9VMubyWDexJ/UL1gu6cMlKvjmx3h4bRp8wUg2gYmMwkD1WY2aTWF7qM4XYf
+         jqsJs4NSgRPI5HGyZoXvZbjSRJHgCceMEEibRelnKihBqV2hxq7Mw+sV/0HkfH+3nKzl
+         Mt/9ooVUr3MvNjLd1RHA6NHsBirAT0v0ygn1myvuMcZz7ZxeleBxCg8ba4muBcwfLsE7
+         talfBVikbNcQnSxl/xOygtXCurbwNFsBVRXYWzXFtD1j1zwKX5Sll62b0Mt7D0xpcGy/
+         yqcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748441891; x=1749046691;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D6xzMSY/SiD0kWQ634Gn59Bf0FyGJEfEDdz5COwyku8=;
-        b=XgJfNT/RxXz+yV6MqDbE0uS79PZJS6ZLVKz9O2DoqgsKmDvwoxmVyF/tvUJv1Clr/Q
-         0Kn1ua/R6Fof5ENajEmKa26oUi+bV3VBegqlCOFooHXFcDzpLJydvu5Di4myl7H5a3YZ
-         fYmd4drfOGFhON98OYT+IY5gNw99jgT/BornBrpGFtNdneK6F+q4L0xDJ+pf98gINY3u
-         fWnP330/SO88e8y/ACJ5y72pj55eUi8947tM6G7i6feAiMRcWZVUvyW62lr/LawBgjbr
-         NSvKLIvAqsAOOZFmLsqBN37LZvcOBpHK0zFu4iVD4fgygcAg2xKkELKmEeBJO9jPrJFI
-         EBmQ==
-X-Gm-Message-State: AOJu0YyE9bPpNgI4nAQPVeTllR/1SwlGQrX98Rli1vREZiB/eZVVHaNz
-	2AT//mXylkCHBcDRrd5sXb13hId3En7MSm6FGDbrhITDZAou4eX6bOrVuWv9RQqZgSHXi46873V
-	FerNI1gA=
-X-Gm-Gg: ASbGncuJY6ABz7ww6jHFHEhCIaRAYm5dMv2SqtgGMuTQG2scXoyXYrm3JsjbBEdWZ/8
-	TNvWOBY8rvLzhx3pLC+sQAAHI721mftNMsvmdIe+lpoaPUodbcOqOuUMLDigqq7+b7sk1qXtZcq
-	1W6WLfqpdVLNx4vwWUCcH8jnRyBn2fa7X1p/ZO2AEdWDkc0389vepYcLJdV0LBrB5bRC/R+GDv8
-	lSyrg/dt+HpxLBLXXRBTCqQrIZuvDqU8GdW25s8J3J3x+DEYRuWJwbNaPC8pNKu/THXH1sLzSgU
-	EjWBn9bG8TlLQn3a/LE8Y7o75N+EuFR5LdZVYuRcQY6f/MEoAw7m9OZ48kfzul404H5uYoGeS1Y
-	t9FblOBNeOhSM
-X-Google-Smtp-Source: AGHT+IF/dyRD6IByM1TS14YtEwckfYkI/NKcaecKWcJeJ7UiopNNaBlQRthPzZsi7e1c/CPsHpmSPA==
-X-Received: by 2002:a05:6830:f90:b0:72c:3289:ab9e with SMTP id 46e09a7af769-7355d12e5a7mr11451865a34.27.1748441891517;
-        Wed, 28 May 2025 07:18:11 -0700 (PDT)
-Received: from bill-the-cat (fixed-189-203-100-42.totalplay.net. [189.203.100.42])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-735a1cc03cbsm190079a34.43.2025.05.28.07.18.10
+        d=1e100.net; s=20230601; t=1748443406; x=1749048206;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zCZb+XlXEchNmrzOVu+nDXdy6z9c+9K14oZmiIgy6aY=;
+        b=gQDKrQjOc+SAHDXFI+FYRmRD0fYJBVXGeJSL9FuSeqZMuI69qSHXU1kblP8GmE29cp
+         4W8mMhtqu+jVBldbfJM1i5WmAkn0AxR5/t9P1APXHs98Ki5n7ouPQrX0ww/sLU30vo8v
+         Gy15xZk5qXBScxecQ5vfk5/eYIiFd6WtpddF9bU62eg/TfxGBOITMzdHqVBhAf0yqBRt
+         awoLx+oKyfyV7DxIw7ApF2Rg6jUQI1UYP5nxqpDiGkRW9YAnOX9/e7qbMUulusfkbLGk
+         sk612DWKnwyB76HC3v7g8jeiMIKqnDqTnfU15ow5vSMlo7wTW3SRWlFx4hlD52kT7q83
+         ecxQ==
+X-Gm-Message-State: AOJu0YxwvhROyVW2R365KcHAjpIYYTXopqWQRnkB186n6wlp6KbVUfKN
+	NHbSL/nKMUtEaY3wki7M19Rar+X1egpn7t8lhZpm8IAUWCe8MxSoFpEBFe20zK6EwyTiuuD7j88
+	N+Dak
+X-Gm-Gg: ASbGncs5M+1uRnpVQZU4ftJHYdSI+C8RxsEn+jxb98bGERQjc7yuXbznyYjfPxDYTaS
+	Kt1dY6yGcV/Yqu09UMcLrARHrPzqIye7193QYQvrwt88Ie+62aMmM0oi77te0dVnGLw4gP/+EyU
+	zpfAQVKsxxC1VzuUSNr00p0+X1qrnQVCWmCTNVFCSr+j/oWPxlDesXDCpsZ1+qnHNL8YZREEYpz
+	X45G8Nw1kdGglpVhCptca1TCJayCtQol8afGAEb5cMjL6d7XYukzDFPMgSg3LtcqFc29NtKyBqd
+	6kixJ4y6pYOpztjuGEkNkj/5FjxptMxLufGYOuUQbnw=
+X-Google-Smtp-Source: AGHT+IEt4F8i8NYj+wOqtx6gii/Y55rPy3CMG8MUk8Z7TCcP5FAzoquEcWHd7rcdMQw2tm+KMCH4jA==
+X-Received: by 2002:a17:902:f786:b0:234:a734:4ab1 with SMTP id d9443c01a7336-234a7344c4cmr82458735ad.3.1748443406049;
+        Wed, 28 May 2025 07:43:26 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:2f2f:1884:f4cc:456c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-234d358f1e2sm12626285ad.140.2025.05.28.07.43.25
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 07:18:10 -0700 (PDT)
-Date: Wed, 28 May 2025 08:18:08 -0600
-From: Tom Rini <trini@konsulko.com>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: openembedded-core@lists.openembedded.org,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Subject: Re: [PATCH v4 1/4] u-boot: disable CONFIG_BLOBLIST on genericarm64
- and qemuarm64
-Message-ID: <20250528141808.GU100073@bill-the-cat>
-References: <20250526083548.413834-1-mikko.rapeli@linaro.org>
- <20250528005133.GP100073@bill-the-cat>
- <aDav-wwUJUIGGFVI@nuoska>
+        Wed, 28 May 2025 07:43:25 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 03/11] libsoup-2.4: Fix CVE-2025-32912
+Date: Wed, 28 May 2025 07:43:06 -0700
+Message-ID: <c45c8ad64aafd1f8a447f4fce6a2e7c0f22ef5f0.1748443238.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1748443238.git.steve@sakoman.com>
+References: <cover.1748443238.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zV4kwB51pKy931YP"
-Content-Disposition: inline
-In-Reply-To: <aDav-wwUJUIGGFVI@nuoska>
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 14:18:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217351
+ <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 14:43:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217355
 
+From: Vijay Anusuri <vanusuri@mvista.com>
 
---zV4kwB51pKy931YP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Upstream-Status: Backport from
+https://gitlab.gnome.org/GNOME/libsoup/-/commit/cd077513f267e43ce4b659eb18a1734d8a369992
+& https://gitlab.gnome.org/GNOME/libsoup/-/commit/910ebdcd3dd82386717a201c13c834f3a63eed7f
 
-On Wed, May 28, 2025 at 09:40:59AM +0300, Mikko Rapeli wrote:
-> Hi,
->=20
-> On Tue, May 27, 2025 at 06:51:33PM -0600, Tom Rini wrote:
-> > On Mon, May 26, 2025 at 11:35:44AM +0300, Mikko Rapeli wrote:
-> >=20
-> > > Booting u-boot on qemu with kvm is currently hanging on aarch64
-> > > build host. Root cause is in u-boot and CONFIG_BLOBLIST can be
-> > > disabled as a workaround.
-> > >=20
-> > > To reproduce, build on kvm enabled host where "kvm-ok"
-> > > succeeds. For example genericarm64 machine and core-image-base
-> > > should then boot with:
-> > >=20
-> > > $ runqemu slirp nographic novga snapshot kvm
-> > >=20
-> > > On qemuarm64, default kvm setup will boot directly to kernel
-> > > and is not affected by this. If build enables u-boot as bios
-> > > then the same issue happens.
-> > >=20
-> > > Without this config workaround, the boot hangs without
-> > > any messages in qemu output but ctrl-a-c to qemu console
-> > > can shutdown the emulated machine.
-> > >=20
-> > > This seems to have regressed after u-boot 2025.04 update.
-> > > KVM boot can be detected from speed, for example genericarm64
-> > > boots in 550 ms with KVM and without in over 5 seconds.
-> > >=20
-> > > Fixes: [YOCTO #15872]
-> > >=20
-> > > Upstream u-boot discussion:
-> > > https://lists.denx.de/pipermail/u-boot/2025-May/590101.html
-> > >=20
-> > > Cc: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-> > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> >=20
-> > I think it's a tad early to disable this. On the U-Boot side, it's being
-> > looked in to. In fact, you're saying v2025.04 is working (current
-> > release) and v2025.07-rcX is failing. At this point in the U-Boot cycle
-> > I think we'll figure out the problem and fix it. If we can't figure out
-> > how to keep all the use cases working for v2025.07 then disabling
-> > BLOBLIST here in OE can be thought on, I would expect. Thanks.
->=20
-> 2025.04 is affected by this. My wording for this is not accurate enough, =
-sorry.
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libsoup-2.4/CVE-2025-32912-1.patch        | 41 +++++++++++++++++++
+ .../libsoup-2.4/CVE-2025-32912-2.patch        | 30 ++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |  2 +
+ 3 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
 
-Do you have a known good version where it does work? I assume it's
-v2025.01 that does work, and an OE-specific revert of commit
-53d5a221632e ("emulation: Use bloblist to hold tables") with appropriate
-status tags about it being discussed upstream would make the most sense.
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
+new file mode 100644
+index 0000000000..2a6f37cb58
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-1.patch
+@@ -0,0 +1,41 @@
++From cd077513f267e43ce4b659eb18a1734d8a369992 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Wed, 5 Feb 2025 14:03:05 -0600
++Subject: [PATCH 1/2] auth-digest: Handle missing nonce
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/cd077513f267e43ce4b659eb18a1734d8a369992]
++CVE: CVE-2025-32912
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libsoup/soup-auth-digest.c | 2 +-
++ tests/auth-test.c          | 1 +
++ 2 files changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/libsoup/soup-auth-digest.c b/libsoup/soup-auth-digest.c
++index a1db188..f0edb81 100644
++--- a/libsoup/soup-auth-digest.c
+++++ b/libsoup/soup-auth-digest.c
++@@ -156,7 +156,7 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
++ 	guint qop_options;
++ 	gboolean ok = TRUE;
++ 
++-        if (!soup_auth_get_realm (auth))
+++        if (!soup_auth_get_realm (auth) || !g_hash_table_contains (auth_params, "nonce"))
++                 return FALSE;
++ 
++ 	g_free (priv->domain);
++diff --git a/tests/auth-test.c b/tests/auth-test.c
++index 6fb1e4a..343d7a5 100644
++--- a/tests/auth-test.c
+++++ b/tests/auth-test.c
++@@ -1629,6 +1629,7 @@ main (int argc, char **argv)
++         g_test_add_data_func ("/auth/missing-params/realm", "Digest qop=\"auth\"", do_missing_params_test);
++         g_test_add_data_func ("/auth/missing-params/nonce", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"", do_missing_params_test);
++         g_test_add_data_func ("/auth/missing-params/nonce-md5-sess", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\" algorithm=\"MD5-sess\"", do_missing_params_test);
+++	g_test_add_data_func ("/auth/missing-params/nonce-and-qop", "Digest realm=\"auth-test\"", do_missing_params_test);
++ 
++ 	ret = g_test_run ();
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
+new file mode 100644
+index 0000000000..4898068115
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912-2.patch
+@@ -0,0 +1,30 @@
++From 910ebdcd3dd82386717a201c13c834f3a63eed7f Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Sat, 8 Feb 2025 12:30:13 -0600
++Subject: [PATCH 2/2] digest-auth: Handle NULL nonce
++
++`contains` only handles a missing nonce, `lookup` handles both missing and empty.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/910ebdcd3dd82386717a201c13c834f3a63eed7f]
++CVE: CVE-2025-32912
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ libsoup/soup-auth-digest.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libsoup/soup-auth-digest.c b/libsoup/soup-auth-digest.c
++index f0edb81..c49ffd9 100644
++--- a/libsoup/soup-auth-digest.c
+++++ b/libsoup/soup-auth-digest.c
++@@ -156,7 +156,7 @@ soup_auth_digest_update (SoupAuth *auth, SoupMessage *msg,
++ 	guint qop_options;
++ 	gboolean ok = TRUE;
++ 
++-        if (!soup_auth_get_realm (auth) || !g_hash_table_contains (auth_params, "nonce"))
+++        if (!soup_auth_get_realm (auth) || !g_hash_table_lookup (auth_params, "nonce"))
++                 return FALSE;
++ 
++ 	g_free (priv->domain);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+index 8d974c2d59..509026c4ff 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+@@ -28,6 +28,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-32910-3.patch \
+            file://CVE-2025-32911_CVE-2025-32913-1.patch \
+            file://CVE-2025-32911_CVE-2025-32913-2.patch \
++           file://CVE-2025-32912-1.patch \
++           file://CVE-2025-32912-2.patch \
+           "
+ SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
+ 
+-- 
+2.43.0
 
---=20
-Tom
-
---zV4kwB51pKy931YP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmg3GyAACgkQFHw5/5Y0
-tyxQXQv+N1HGyDNI2VoFgAgjVNUOdniuboM0FiHVAFKx8EAssGlocWFI0o9BKB0C
-vnY+QBKot9IZug2KjDuO80GzMCIvuiv/v1PoMEWfdphz9vuS305kuxvqITRtnVhh
-bFy0og9dXZkaZcD2LD7nB0WXizjc+vAtyox/UyhCI7fuwOda02T57AKQktYYWcxa
-oh+jlimvRi0zo2cezS2UpA/IVnglUCqGEnEMp8FU1gOsfRUW0PEjQ9nMHf8ukBqO
-2AHVDTCj6hV0+68G6jyy+slPjpZN1y+GiODlkbdpwfISNP+7T52CG59QCSc3ff28
-OCWDZREpauAwBWSWrdMK0EERes6PRjl3fT6PXFrOa+PdcMrCCFym90WwBU1Ly0+W
-2U8s7FZy2Mm75On7p0wtwsLPOr9dyJb7bC6gY2WXVZeSLfC9r34msQTyCeZp1PRZ
-6yTE+tEXTSRLeVVchr+gUYgZe4/TdFgQlxkneWVyF/1iF85KHTSgRwZ+zJZZAFHd
-TOpjJZo4
-=BKUq
------END PGP SIGNATURE-----
-
---zV4kwB51pKy931YP--
 
