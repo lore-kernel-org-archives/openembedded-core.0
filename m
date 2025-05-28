@@ -1,173 +1,125 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDF8AC5AE59
-	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 06:12:55 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.9626.1748412765642224165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8857C3ABB2
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 06:41:05 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.9892.1748414463690884965
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 May 2025 23:12:45 -0700
+ Tue, 27 May 2025 23:41:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=JPSGqxp4;
- spf=pass (domain: mvista.com, ip: 209.85.210.180, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-742c5f3456fso3309280b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 23:12:45 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=NoGBX/RF;
+ spf=pass (domain: linaro.org, ip: 209.85.167.45, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-553245cad29so2819308e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 May 2025 23:41:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1748412765; x=1749017565; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=n0of23t3Om1oWX4aexOcqDm2IZX/8CE3l6l4cFC644E=;
-        b=JPSGqxp4GCQRTkR12F7iqzu8HvsO6s7mH2gPTvpJSdtj/HG40m7NuArNSU/DOjstta
-         gQIgOeX7pyPwppBIrasgUTPnxvT9jGNEaoD/KvkAG1lpdeDDlXyeE+mbVJIH/j1vxKAG
-         Xq96mtptwEKIXK6h0LdPiGqr75D2myx/M2qes=
+        d=linaro.org; s=google; t=1748414462; x=1749019262; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZKPmSx5lFe5GW0U0QXhZwclsyP8hr76kCgW2hzjCmfo=;
+        b=NoGBX/RFGyO/juCzE2RefRHUBqHmIRmunYrqmyos+XGXzDNUWFODxdNKEx7i6BvUpS
+         PcUL/PrU5zQPnyQAWgUYekGy947ok2HX73lf99KBWcJRO7v5Js/5Qa8Yj9pZQKfp/WZg
+         oXsWQgtZ7AkVRrvtgw5xViNxaBvMKA+P/lqep0dTqpRroNU0fo3PUIDv9yP4HxQyKpHZ
+         +EDp0BvkaQrVLFtOM5AehRDKbgkfA0F5KPsyhLfEzgeVbK57XiIPj7wXdzSoceCsTyOF
+         5C8yukPUp1IkZcv5uEYlmOX7Eileqb+jq2gs2XgPfrKpvvRrkhSU+EKFnLTogk3PYHgw
+         Q/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748412765; x=1749017565;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n0of23t3Om1oWX4aexOcqDm2IZX/8CE3l6l4cFC644E=;
-        b=NOaCglmXb0KICV6Cg5aj9hGX3RMCHth6QbSDQc4tzr6h/Zujm/gOR3UOyz4l3P4rDM
-         iAkT/BALJVv9Wsi8R1MLwHViU4lk1Fl0oeZ7AETwSiWZfzQgRKuRJwjnPK3nik7wKpgK
-         rvQI4YFwQlBMt/Y4vVlh0HPm+HIYgAJe/fw/1EdsiJfpSoWqc6oXzVEG4joEjsSAS8xn
-         sncsNUiOSpNUqYsUKD1yb5+0C0FZxZ5jm4nbzAQ4v7g/USacDbg9KjN/M4EDQic0YU9C
-         cqDNeD1NgvoDM4lUlTDQuAKGPsp1Hg0arILraATq4WuK7N9P4XlJZ6C4jG98wFme9kd/
-         B1KA==
-X-Gm-Message-State: AOJu0YzBa2fNgMxCNMZgjwMCOBHKzAaxUzzJsfuAM9ZbQPgWsuZRK88n
-	UTORrBKHfqASbt3pHmG4WRM1N2EelJmko2lZnZxCNzoYN7WXMM7can3mRlVC9DfZS70se7Sf8N5
-	0/UV4
-X-Gm-Gg: ASbGnctNa6eLnwmbA8psKKq2Cs5gxxdroZOdQ7gRg1GdXTpIPMM5Vsd38hdNOx3VulK
-	9/oCoSBE8cAHA2fcHS6MJN0J+y8Ca4+14oMmTtln1fOgb6jzXEk0OSzWugWIj+y6NlWevJvq6gI
-	BUhDrpVxAVdyllmmuv8Rl+ejiyvIhDDcL6drTDVIybx4agjab3C2sDTOmzXtnXNHEKMwGrnA7sz
-	zyERWCqPuf+JSkf3f8B7rpqCeISJ9LuFABJfTx7r2DOeqEeC8NKgn6xnAXM+i2m7wTzjB7bO2ZF
-	o9UzYOHfQavEhZ0SVAO4w/3xfflPJ938vByDmlIf99YxKjGsj+jLE8XBilwLthA5Vm8NWiImKpP
-	/
-X-Google-Smtp-Source: AGHT+IE0b9zyWOyDGw8SsP2/X9Cbinzs+wyn3DDSMWsFYZN0P7BfyZil2RKUPV/t9YUmOKfKvaR4Cw==
-X-Received: by 2002:a05:6a21:1587:b0:216:5f67:98f7 with SMTP id adf61e73a8af0-2188c36c2b8mr24189906637.33.1748412764844;
-        Tue, 27 May 2025 23:12:44 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([150.129.170.150])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2d99edf09csm461677a12.77.2025.05.27.23.12.43
+        d=1e100.net; s=20230601; t=1748414462; x=1749019262;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZKPmSx5lFe5GW0U0QXhZwclsyP8hr76kCgW2hzjCmfo=;
+        b=e0j7y2KQSpG34jt5l+Rk/P5k7+G9B6nROyiWlJYA99HWgsKMX7TbFNrIpltHFr3+j6
+         92u7BzlegGWHkeXgj1L/Pw8u//9NznFUMYZAESypgGeFmjQimCIlgyQ2yc+kVbixU49J
+         7eQYk0lnpI3STaF/b00ljLyKo5agQiAaV5uLWpJMDBqL7uyM7lcVxDNxqqN0HYCmEIGt
+         7n5u0LOWrx4Qo4lZoaeKPGmSMDUtcYhrwuB8NWdYtAVO04esL6H0rpXdsMV151mEdBX8
+         xwL3N7LEmrsP3cyLem9AwsgVNOtuuAgIjG+6SjJehmDIqKY/ntxqRF0muthYKvTc/7mH
+         g5+Q==
+X-Gm-Message-State: AOJu0YxffeLDlTr5SYDKHtNt+cOBsf77CJ+zBsTFmmLDJ5cn5AZDBiQV
+	0ZHCrR3vMWSiVT1okGZOrH1Fp8ejhL+mPptqPG8Xfj+yVsjghRhQNNAG+OXL46yNOSs=
+X-Gm-Gg: ASbGncuM0YzB5dVfSeq4Y+Qxf4noikWprj0J5Fk2ugkzFiI2gEOdhuobZOZDv0X1v41
+	eJ7GOS9ciEYeBBWCHIlvlfmBLE7j/oioDyw+WI4m2gLO+mu9l8xwCZ0rhiMAVszClCBy8mB3qf0
+	akRTiKvtEwtDphdXi3RN6SDJB3PQmOrRKRURGSvBGKtVsLyt24IJSaGdPm1ec8D2qnLyrQuWU4f
+	CSiOZXrbNkj+VtYxEkAPcRixBtwKSzwjbjsVmZLp9QZgWOMMM/tpP24zez+SsAmjRInCSkCHDIL
+	fBK4D3+E57nGWSVbT7pO2hQwHP1nRJTXFK/7cgsAToRXKDrVNCPNWG3dieM9p9tHbyAnVOA9E7K
+	E/yw3asO8
+X-Google-Smtp-Source: AGHT+IHrmA+h+UeZ/ZyyhO/qIL8/EBkOp+CcKJjkSarBrL3C+Ej4xPJV97dFo5jWFMBfiZKk8j0+8A==
+X-Received: by 2002:a05:6512:3d0c:b0:553:2d6d:99e5 with SMTP id 2adb3069b0e04-5532d6d9b63mr938351e87.43.1748414461665;
+        Tue, 27 May 2025 23:41:01 -0700 (PDT)
+Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5532f69abebsm138870e87.133.2025.05.27.23.41.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 23:12:44 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] libsoup-2.4: Fix CVE-2025-4969
-Date: Wed, 28 May 2025 11:42:30 +0530
-Message-ID: <20250528061230.70782-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.49.0
+        Tue, 27 May 2025 23:41:01 -0700 (PDT)
+Date: Wed, 28 May 2025 09:40:59 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Tom Rini <trini@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Subject: Re: [PATCH v4 1/4] u-boot: disable CONFIG_BLOBLIST on genericarm64
+ and qemuarm64
+Message-ID: <aDav-wwUJUIGGFVI@nuoska>
+References: <20250526083548.413834-1-mikko.rapeli@linaro.org>
+ <20250528005133.GP100073@bill-the-cat>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250528005133.GP100073@bill-the-cat>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 06:12:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217335
+ <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 06:41:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217336
 
-Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/commit/07b94e27afafebf31ef3cd868866a1e383750086
+Hi,
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../libsoup/libsoup-2.4/CVE-2025-4969.patch   | 76 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
+On Tue, May 27, 2025 at 06:51:33PM -0600, Tom Rini wrote:
+> On Mon, May 26, 2025 at 11:35:44AM +0300, Mikko Rapeli wrote:
+> 
+> > Booting u-boot on qemu with kvm is currently hanging on aarch64
+> > build host. Root cause is in u-boot and CONFIG_BLOBLIST can be
+> > disabled as a workaround.
+> > 
+> > To reproduce, build on kvm enabled host where "kvm-ok"
+> > succeeds. For example genericarm64 machine and core-image-base
+> > should then boot with:
+> > 
+> > $ runqemu slirp nographic novga snapshot kvm
+> > 
+> > On qemuarm64, default kvm setup will boot directly to kernel
+> > and is not affected by this. If build enables u-boot as bios
+> > then the same issue happens.
+> > 
+> > Without this config workaround, the boot hangs without
+> > any messages in qemu output but ctrl-a-c to qemu console
+> > can shutdown the emulated machine.
+> > 
+> > This seems to have regressed after u-boot 2025.04 update.
+> > KVM boot can be detected from speed, for example genericarm64
+> > boots in 550 ms with KVM and without in over 5 seconds.
+> > 
+> > Fixes: [YOCTO #15872]
+> > 
+> > Upstream u-boot discussion:
+> > https://lists.denx.de/pipermail/u-boot/2025-May/590101.html
+> > 
+> > Cc: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> 
+> I think it's a tad early to disable this. On the U-Boot side, it's being
+> looked in to. In fact, you're saying v2025.04 is working (current
+> release) and v2025.07-rcX is failing. At this point in the U-Boot cycle
+> I think we'll figure out the problem and fix it. If we can't figure out
+> how to keep all the use cases working for v2025.07 then disabling
+> BLOBLIST here in OE can be thought on, I would expect. Thanks.
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
-new file mode 100644
-index 0000000000..d45b2a2cb0
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
-@@ -0,0 +1,76 @@
-+From 07b94e27afafebf31ef3cd868866a1e383750086 Mon Sep 17 00:00:00 2001
-+From: Milan Crha <mcrha@redhat.com>
-+Date: Mon, 19 May 2025 17:48:27 +0200
-+Subject: [PATCH] soup-multipart: Verify array bounds before accessing its
-+ members
-+
-+The boundary could be at a place which, calculated, pointed
-+before the beginning of the array. Check the bounds, to avoid
-+read out of the array bounds.
-+
-+Closes https://gitlab.gnome.org/GNOME/libsoup/-/issues/447
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/07b94e27afafebf31ef3cd868866a1e383750086]
-+CVE: CVE-2025-4969
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libsoup/soup-multipart.c |  2 +-
-+ tests/multipart-test.c   | 22 ++++++++++++++++++++++
-+ 2 files changed, 23 insertions(+), 1 deletion(-)
-+
-+diff --git a/libsoup/soup-multipart.c b/libsoup/soup-multipart.c
-+index dd93973..b3611db 100644
-+--- a/libsoup/soup-multipart.c
-++++ b/libsoup/soup-multipart.c
-+@@ -108,7 +108,7 @@ find_boundary (const char *start, const char *end,
-+ 			continue;
-+ 
-+ 		/* Check that it's at start of line */
-+-		if (!(b == start || (b[-1] == '\n' && b[-2] == '\r')))
-++		if (!(b == start || (b - start >= 2 && b[-1] == '\n' && b[-2] == '\r')))
-+ 			continue;
-+ 
-+ 		/* Check for "--" or "\r\n" after boundary */
-+diff --git a/tests/multipart-test.c b/tests/multipart-test.c
-+index 834b181..980eb68 100644
-+--- a/tests/multipart-test.c
-++++ b/tests/multipart-test.c
-+@@ -562,6 +562,27 @@ test_multipart_bounds_bad (void)
-+ 	g_bytes_unref (bytes);
-+ }
-+ 
-++static void
-++test_multipart_bounds_bad_2 (void)
-++{
-++	SoupMultipart *multipart;
-++	SoupMessageHeaders *headers;
-++	GBytes *bytes;
-++	const char *raw_data = "\n--123\r\nline\r\n--123--\r";
-++
-++	headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
-++	soup_message_headers_append (headers, "Content-Type", "multipart/mixed; boundary=\"123\"");
-++
-++	bytes = g_bytes_new (raw_data, strlen (raw_data));
-++
-++	multipart = soup_multipart_new_from_message (headers, bytes);
-++	g_assert_nonnull (multipart);
-++
-++	soup_multipart_free (multipart);
-++	soup_message_headers_free (headers);
-++	g_bytes_unref (bytes);
-++}
-++
-+ int
-+ main (int argc, char **argv)
-+ {
-+@@ -593,6 +614,7 @@ main (int argc, char **argv)
-+ 	g_test_add_data_func ("/multipart/async-small-reads", GINT_TO_POINTER (ASYNC_MULTIPART_SMALL_READS), test_multipart);
-+ 	g_test_add_func ("/multipart/bounds-good", test_multipart_bounds_good);
-+ 	g_test_add_func ("/multipart/bounds-bad", test_multipart_bounds_bad);
-++	g_test_add_func ("/multipart/bounds-bad-2", test_multipart_bounds_bad_2);
-+ 
-+ 	ret = g_test_run ();
-+ 
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index b986e2eea2..df97a68b9c 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -31,6 +31,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32912-1.patch \
-            file://CVE-2025-32912-2.patch \
-            file://CVE-2025-32914.patch \
-+           file://CVE-2025-4969.patch \
-           "
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
- 
--- 
-2.49.0
+2025.04 is affected by this. My wording for this is not accurate enough, sorry.
 
+We have a workaround for qemuarm64 and generiarm64 for testing use cases
+with disabling BLOBLIST so we might as well use it since there does
+not seem to be any downsides to it in testing.
+
+Cheers,
+
+-Mikko
 
