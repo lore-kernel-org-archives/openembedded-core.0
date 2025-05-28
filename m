@@ -1,147 +1,97 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB39C3ABB2
-	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 21:33:11 +0000 (UTC)
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
- by mx.groups.io with SMTP id smtpd.web11.6925.1748467990707999692
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D418C3ABB2
+	for <webhook@archiver.kernel.org>; Wed, 28 May 2025 21:37:52 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.7039.1748468267781464326
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 May 2025 14:33:11 -0700
+ Wed, 28 May 2025 14:37:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stwcx.xyz header.s=fm3 header.b=kcI+bvU+;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=F1trH/TC;
- spf=pass (domain: stwcx.xyz, ip: 103.168.172.156, mailfrom: patrick@stwcx.xyz)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id AB9871140139;
-	Wed, 28 May 2025 17:33:09 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 28 May 2025 17:33:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm3; t=1748467989; x=1748554389; bh=mmgLAAow/7arhPQ6hw9TR
-	om5siHGDtOjAEwjCf3T4CI=; b=kcI+bvU+DKJ+vnC0AyaX/z2K9NMXmIymfiis4
-	I04jmAR6EIoo2TKAfbvqVZmh/xn/dNAVd8DF8FzNLQMZDGUCcthNH86ZX2da0Cqo
-	Qfd6swI26m5PPGc7VWzlI2U1hTHq5pddKyCvFSBwSGV6Ekv8VbGDQh7SRF1YK2St
-	xSJC4B1mHq+2zbUBfqIDkdGLqx3jGGgVfYCo9gDKfC/ooitbOm/PlGCT32XhjExy
-	ngwXS0vVdXHAq7iobRmsGuLUdjNOnkxrQwkQaJNUFAjavoEG7oIGDpWAqQ4OnlU+
-	/3sBCX3is1lMalfjpkKCVvFE6H838Qk2srR08WVjZIsc7R6Uw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1748467989; x=1748554389; bh=mmgLAAow/7arhPQ6hw9TRom5siHGDtOjAEw
-	jCf3T4CI=; b=F1trH/TCRMI9pABdoAUBOSLMeJoCmz0BMgJGUhYx1bgSV8eB81N
-	7qNtecS/BERVSTR3pQh9JlJs7g0BlfyiEiu8yDDXeX+bIyFVrgfHIGgSdOGdS62z
-	5wGg0uhMNXkIRAIwMWSSfn3M7BAmPwnUYbs6iF1EYHACfKCshDNE+7N0zy4Jr8sQ
-	7LPdJ9RvXfxwv8q1DPH3TYbxfVwKiJwsW0s9NQdSMh821pFDNGhxOeb8g5kMkldb
-	K4/DKCxywTp1W5h75m9WofEj7gHeJI3yubQfV2/L5Z/5TchhgmYjGAsmS72kXVrb
-	BEdBIQgvvcBhXvrwm1ncC4heIP/r9n1xjDg==
-X-ME-Sender: <xms:FYE3aBl1NL539GkgXt6-zgGid9AAf0SG217wAKZbs16BI2aQrm8Dnw>
-    <xme:FYE3aM1tjAasF6tKPekbFAl6gSI6pHo0lXcn_vijkIMbXOPv784kgvIwYD5_g1BJP
-    4N_dNtLkjSCYTn0WJg>
-X-ME-Received: <xmr:FYE3aHpGzeqZ153g3uJRo0KtJF7Tc13KctqWm3QNMErhEkyVz5peWmh893A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvgeefheculddtuddrgeefvddrtd
-    dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
-    fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
-    dtnecufghrlhcuvffnffculdefhedmnecujfgurhephffvvefufffkofgggfestdekredt
-    redttdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkh
-    esshhtfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgedtffevtdfgjeevfeehkefg
-    vedvtdehudeiffefvdejtefhvefhgfehgfethfeunecuffhomhgrihhnpehkvghrnhgvlh
-    drohhrghdpfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghrufhiiigvpedt
-    necurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighiiipd
-    hnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehophgv
-    nhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdroh
-    hrghdprhgtphhtthhopehprghtrhhitghksehsthiftgigrdighiii
-X-ME-Proxy: <xmx:FYE3aBkKFHD1uP-FfTt67CCCGUWWFraqJoG-1lKGQqFztuA-vsHu3w>
-    <xmx:FYE3aP2G6vJCDQHNxK9BQn5_Bx2JVX2EWlq9-wC3dnfc81gRSPxFjQ>
-    <xmx:FYE3aAtkRXv5ZTrWBir1EuYNrpt7SHfB0X-TIK99tli48avi23iCGw>
-    <xmx:FYE3aDUMLwtKO4Sbz0SILfN0IWemwuAVDHG2G5dOwilaXdXxH-g5VA>
-    <xmx:FYE3aDItYubXJ0SW6wWCCAFxya_DwipBZStVHq2Xe8cHSHwDNxlbH197>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 May 2025 17:33:09 -0400 (EDT)
-From: Patrick Williams <patrick@stwcx.xyz>
-To: openembedded-core@lists.openembedded.org
-Cc: Patrick Williams <patrick@stwcx.xyz>
-Subject: [PATCH] systemd.bbclass: generate preset for templates
-Date: Wed, 28 May 2025 17:33:06 -0400
-Message-ID: <20250528213306.2581115-1-patrick@stwcx.xyz>
-X-Mailer: git-send-email 2.49.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G4N+620V;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so3311165e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 14:37:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1748468266; x=1749073066; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rnJwdDhWOTkY5aqRorqqMwaJEP8dF7fH/DzbWvyjtVg=;
+        b=G4N+620VGNRxWVW9kae4u6Py25D05icz6+EkMexB47ibL7rSYTUAYsKJw+Wr2mvdnD
+         eAO1JN0In8i+d1cWv5fHMUmYaNr7kMwnNo9h9B9MzUToIugv1YxefaweqLl4EYYvesSM
+         qGjvHpebw2+hJqJ50yim0UgdGkRqi8fAIydY8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748468266; x=1749073066;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rnJwdDhWOTkY5aqRorqqMwaJEP8dF7fH/DzbWvyjtVg=;
+        b=d7zJ3V+T6O4WH+/rHINVnw2sckmM6lrIuug6nKJk+ai5w1nQy32FpJGnA8NIR5BvuT
+         GlSdK2nMLC+O+7jM0+Jzw9tdlu7VnGPyCY3i+HUV2bcYMxBwd+ioT05iBrE6Y2s4lU1i
+         AJJz2R/4P0SwwZEqAiViAWAt7ltzFu68iSGVEdDO1oCeeJthyS9JKx7w9045+ArkbjMD
+         JW8xXpFrChAPF93P8kl+P3EJGgTta2fjwCBVrJyfvkW6hDeuks6Soo9lzwESZm3Z4yzQ
+         S8N2ZcjMyOQvFuSKUGtR7bdjuTxJ6crsJJXlnnJeJKCjGPcxuW7ueA5JOkmO2ejIfTkx
+         sOHw==
+X-Gm-Message-State: AOJu0YwTAuNyLawuVZPMC0QfR8c2kkx75lC/GW8e/vpqyWt2lnYljwFm
+	M1j5LJ44LkMDiv+5kXVH/CL9vCeowkdqFppYRm9AsGhuDECgCXdPrwF6MppiAVvhlkY=
+X-Gm-Gg: ASbGncuNaMgjA1ETDsZPDLj3U64jA2dwF3rOptWPcxDLO1syZpot84Ja3IYLK27NJU6
+	3Gt/kKnAWJu2+dTBAGVfO5mOYJS6S8FVd7e5NgTQeYoPaYsFc9tZVFLQ/alIlo+tM1zET9LMbPN
+	E6w8iAU6Ry977ETyOJf+TiOAFRWSkIOVvXzsPnaQKJjifzW+MaIiOWdWUW4cKIShVMj9/V6v0UQ
+	+MXVEwz3tZvhzitEjYm7XtXRXLWt9lfoUpNIQV8QL+bnnhSo3KDa7zQfPH4setydqmyI6gJKIAM
+	rJAwx7KDYRs3DGHYMOPyiOCpA7FSm/kEMkWw6q5I7ChbdadKWt3u58pySdYF/02s4UAfBbndfge
+	Btwvlbv/KtPcLC60yc7yDvuVJ4l9UO7yJQVaWXpXG
+X-Google-Smtp-Source: AGHT+IFmvRVh4EBzhEPebc40uR95XiiJzxTcIVFrQNK9ZRAk7L2CBqKfuIczXoi5dMSqbc3+7haR+A==
+X-Received: by 2002:a05:600c:4e16:b0:43d:98e7:38dc with SMTP id 5b1f17b1804b1-44c917f674amr152802185e9.5.1748468265734;
+        Wed, 28 May 2025 14:37:45 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:da37:7871:ca58:3bd4? ([2001:8b0:aba:5f3c:da37:7871:ca58:3bd4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450cfbf3e69sm2468825e9.5.2025.05.28.14.37.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 May 2025 14:37:44 -0700 (PDT)
+Message-ID: <8378752f319ac4c4bf8d24215563caf14aef304a.camel@linuxfoundation.org>
+Subject: Re: [PATCH 0/4] linux-yocto: pull request (-stable and config)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 28 May 2025 22:37:44 +0100
+In-Reply-To: <cover.1748456757.git.bruce.ashfield@gmail.com>
+References: <cover.1748456757.git.bruce.ashfield@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 21:33:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217397
+ <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 21:37:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217398
 
-There was a regression introduced by the change to use
-systemd-systemctl-native rather than a python fake implementation,
-which caused template units to not be properly enabled when set in
-the SYSTEMD_SERVICE variable.  Through investigation, it seems that
-the best way to re-enable template instances is to handle them
-explicitly in the systemd.bbclass and enable them with `preset`, like
-most units are handled[1,2].
+On Wed, 2025-05-28 at 14:28 -0400, bruce.ashfield@gmail.com wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Here's the latest round of linux-yocot stable updates.
+>=20
+> I've been sort of following the kernel CVE update series that
+> have been floating around.
 
-Per the systemd.preset manpage, the format for template units is
-different than for regular units[3].  We need to coalesce all the
-template instances onto a single line and emit them as an additional
-space-deliminated argument.
+Thanks. I'll queue them for testing.
 
-Ran this against openbmc's phosphor-ipmi-net recipe and generated
-the following preset file:
-```
-$ cat packages-split/phosphor-ipmi-net/usr/lib/systemd/system-preset/98-phosphor-ipmi-net.preset
-enable phosphor-ipmi-net@.service eth0
-enable phosphor-ipmi-net@.socket eth0
-```
+>=20
+> If that format has solidified, if someone reaches out to me,
+> I can start updating the CVE exclusions at the same time I do
+> the -stable merges.
 
-[1]: https://lore.kernel.org/openembedded-core/Z2ch.1747051947055246176.oktf@lists.openembedded.org/
-[2]: https://lore.kernel.org/openembedded-core/aDdoTVtCmElpURYD@heinlein/
-[3]: https://www.freedesktop.org/software/systemd/man/latest/systemd.preset.html
+I think we do need to start running that again as it is active now and
+does cause build warnings when out of date.
 
-Fixes: 7a580800db39 ("systemd: Build the systemctl executable")
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
----
- meta/classes-recipe/systemd.bbclass | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+> Otherwise, this is pretty basic stuff.
+>=20
+> I plan on doing an intermediate linux-libc-headers bump until
+> I can better predict the version we'll use for the fall release.
 
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index e1fe4ed072..3cc53c44d9 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -224,6 +224,8 @@ python systemd_populate_packages() {
-                         service, pkg_systemd, "Also looked for service unit '{0}'.".format(base) if base is not None else ""))
- 
-     def systemd_create_presets(pkg, action, user):
-+        import re
-+
-         # Check there is at least one service of given type (system/user), don't
-         # create empty files.
-         needs_preset = False
-@@ -239,10 +241,17 @@ python systemd_populate_packages() {
-         presetf = oe.path.join(d.getVar("PKGD"), d.getVar("systemd_unitdir"), "%s-preset/98-%s.preset" % (prefix, pkg))
-         bb.utils.mkdirhier(os.path.dirname(presetf))
-         with open(presetf, 'a') as fd:
-+            template_services = {}
-             for service in d.getVar('SYSTEMD_SERVICE:%s' % pkg).split():
-                 if not systemd_service_exists(service, user, d):
-                     continue
--                fd.write("%s %s\n" % (action,service))
-+                if '@' in service:
-+                    (subservice, instance, service_type) = re.split('[@.]', service)
-+                    template_services.setdefault(subservice + '@.' + service_type, []).append(instance)
-+                else:
-+                    fd.write("%s %s\n" % (action,service))
-+            for template, instances in template_services.items():
-+                fd.write("%s %s %s\n" % (action, template, ' '.join(instances)))
-         d.appendVar("FILES:%s" % pkg, ' ' + oe.path.join(d.getVar("systemd_unitdir"), "%s-preset/98-%s.preset" % (prefix, pkg)))
- 
-     # Run all modifications once when creating package
--- 
-2.49.0
+Sounds good to me.
 
+Cheers,
+
+Richard
 
