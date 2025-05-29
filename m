@@ -1,147 +1,161 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 616D6C54FB3
-	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 17:44:38 +0000 (UTC)
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
- by mx.groups.io with SMTP id smtpd.web11.27244.1748540671693794060
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F6D5C5AD49
+	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 17:59:08 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.27532.1748541546095639166
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 10:44:31 -0700
+ Thu, 29 May 2025 10:59:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stwcx.xyz header.s=fm3 header.b=aR4vUncM;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=oP8JVlF9;
- spf=pass (domain: stwcx.xyz, ip: 202.12.124.147, mailfrom: patrick@stwcx.xyz)
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id DDD5711400E5;
-	Thu, 29 May 2025 13:44:30 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Thu, 29 May 2025 13:44:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm3; t=1748540670; x=1748627070; bh=RtlJBHZb0o82w8eGFhFmz
-	rRstlj9ZQjsL/PrzrfboHs=; b=aR4vUncMpYMX7JNX1VWbHRVJEOHKAcHfPlDXo
-	JGmVk56Qg6fg6vVaISzMgqaiy3p6zel85FzNaaJ64qYEWROPh4SEVQxT8YUtU/Ds
-	+OJPAZLk83pas39xClzVnPUEW3BVO6pC9oMDUB7NQ6bI4yg6q1Z9CFac5Wbs/iNw
-	fKVN8JYpmp/+rJrd4KSCDe6kvVGvD9lfE70xXnpSVXETw27/fLcMonT5Tt+11zLP
-	0gZa0Eglq5GPlYlApFHNCygmHHmmbJiItXYo+oMR3aBnF5zs5EP1YrLH0tiydHUU
-	tI/Iwe4um33xRV98gybeerqV7aySbekdCw2vOgZrn9U76RQIQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1748540670; x=1748627070; bh=RtlJBHZb0o82w8eGFhFmzrRstlj9ZQjsL/P
-	rzrfboHs=; b=oP8JVlF9GMBIhK8DGbg6t4ur41n1DGeDxp0o6ImeiW6/Ao9xo47
-	NUs/esW1cA59qWDUv9VsJNSFuBX2cLXR28TFS1Fv9jQuCNDhUXOyw1ZqHG96eq1L
-	tbg8PnPe7t49IMLbXidsSRxmdKoY+8SB4GpPSxv+YzJBWves3HBzwlPfwgdwQZnE
-	FuVDMiEcYN+k6Me+hgLhMi29409qg8YeMQjMDFlOOa15AUdAkwugbMr2stomoGvz
-	Udp0izfhhkPyW/TVd6JlATDDxf7lH/2Cv+AW7sIn08iC8mDsDUobmxcjzZ/gKxaM
-	D7zK85Vm/nqLSbl6UIVIfHV32lBS4RNo0TA==
-X-ME-Sender: <xms:_pw4aGWjM07EUxtLYI_8aKA4Qq8M2pLyPU2gezK3ObpUKTSjl2ad4Q>
-    <xme:_pw4aCls2y-XTE1YPkp31WMeaGBGVnQQbAS4wGgtMPiUKZoBGolC3SwrPD3AXNKIP
-    G7iQDCCyB_wOTEAPfs>
-X-ME-Received: <xmr:_pw4aKY7xr5FfDj6HCv7kTbeAJA2YvxN4_Olhj7UQPwJDp6zgUGKvSGW3AU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvieejieculddtuddrgeefvddrtd
-    dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
-    fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
-    dtnecufghrlhcuvffnffculdefhedmnecujfgurhephffvvefufffkofgggfestdekredt
-    redttdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkh
-    esshhtfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgedtffevtdfgjeevfeehkefg
-    vedvtdehudeiffefvdejtefhvefhgfehgfethfeunecuffhomhgrihhnpehkvghrnhgvlh
-    drohhrghdpfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghrufhiiigvpedt
-    necurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighiiipd
-    hnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehophgv
-    nhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdroh
-    hrghdprhgtphhtthhopehprghtrhhitghksehsthiftgigrdighiii
-X-ME-Proxy: <xmx:_pw4aNX16YmIWDm-p-RCtxoKLRvU3yDsaxLbq7CoJyYYY9tkRTTi0w>
-    <xmx:_pw4aAnOGn4Raypv7WF5WZqMEE0GPOYA8wmCwgVwj_5jgVWb9aUCWg>
-    <xmx:_pw4aCdsuAUs5dVQ-AjxdUolc2OM1-X3A4xaSJdyrhpfY8dsVwEEHQ>
-    <xmx:_pw4aCGoQhkkUAsaTocArd8yE5Vx3cwWTizM5Z9CsAzKVI7uqq2URA>
-    <xmx:_pw4aD7qXg3YqSAOUU3xbxZpEO5xmcbm4enI_xIhbVINzavLKz8guZuB>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 May 2025 13:44:30 -0400 (EDT)
-From: Patrick Williams <patrick@stwcx.xyz>
-To: openembedded-core@lists.openembedded.org
-Cc: Patrick Williams <patrick@stwcx.xyz>
-Subject: [PATCH v2] systemd.bbclass: generate preset for templates
-Date: Thu, 29 May 2025 13:44:27 -0400
-Message-ID: <20250529174427.2731440-1-patrick@stwcx.xyz>
-X-Mailer: git-send-email 2.49.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NOPOCfBs;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b26d7ddbfd7so1349959a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 10:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748541545; x=1749146345; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oagTvCffXrj++GrVa3nLdl+c84vcOJUPnSCPQ39xhqA=;
+        b=NOPOCfBsxHnmXM0Y7fXOiKQ64w4cFMqiMZrsy7zvydoVlrdNJw8dkfclczQ0xs6H6+
+         Y9+0uVEyffWGx5pSBf6gYbRl/j9CycTmNUVs5nPeqpolxfwOWAdjirmCooiIkPrCjvck
+         m096EYf5f+QX8MFddwc4MP5hIftv3MtcoGrTwSmMZhAmX8dizz+HQ5VXZGs6S4ZEhyz8
+         aOsu3Mr2BuIHgsg4mmlW5HScOC0tvDKoqAQNJ75LwdykUnwny0dOGEDO2S5d16LmIzwM
+         RtiayZCIUaBaePsMMl7kiM7ClOfImZ0YLtBHcM9yh5ODZSH0hCrRmKzWYPTqRjV4HJKn
+         F/Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748541545; x=1749146345;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oagTvCffXrj++GrVa3nLdl+c84vcOJUPnSCPQ39xhqA=;
+        b=kn5kYd3DT+r0+wIR0sjjDAODL6BZ17rcMfq4yLV3rF0w5Jg2MGubaxu4uscjQ3x/oh
+         qMd6uGHejbHQJ1PInRO879GX6ohoIYZyx2Pkmj5Q2F7Q+dkvNdnnt4zfC3U9TP4czRze
+         sRLeX/dlSx+zRSkhvIxkJr53DcsuCDwTIH53ug7zuKrK83OWsox5LoPivy/uzHYGxNrj
+         ZkuyM3N/tJ8yj/NJbG/E4D7r4PKm069NPXlhCNAI/NAwvFDVmowz1X/Ht6jSMVvG6dVB
+         jcsBjbDRq5K3+nCKmNiGFb9MuOEnfJ0iWOCQurbn08BhOaFmQoRbsaCp3O+VOVzpo07M
+         x08g==
+X-Forwarded-Encrypted: i=1; AJvYcCV7ilKYIedNhxr9MQ7M/8Y9nQV8iYv9B6ZJ+tlVasArrkXUNlcHnWNjeLxquOHKceN50Gc3ZBX1cBRb46+lJYiv5w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyD+FXPYNmmXvYZ/Dfv20Fdp/AFJ+sYA0BdYEhVTZYTUWnI8G8H
+	d6ViQtl1yFSxT6f8lTpfbhKCPvAdFistQyVbXu9rcsZVoF9SauO6KFoz
+X-Gm-Gg: ASbGnctp6l/2VsVMgGYE/ZsClfx33RGdEctIV7NEZD84l0i5sWCAltfP3nmcx7gTtIm
+	LumBIzoE2On3eRgNsQnu49WooQscp6ry8Ft6MaATyEXZpdl8JiVRxONWCeWmpeKcENot9lvptCi
+	o/MzbBv2sQHWHrMxIgLrfIZBC/LhfGcdRkhHE/nSh1rJYRCXL6KfDeF7q9OYACa5W7PGIA9A0ek
+	oGLvugBeduVMDy6OM6jLg44OTfh/PDNWKwUlmKlaMc41md9UkO0Xw6uS2buzgjYtfoUSUyYnduV
+	irRLIygCHUtF4fNC3yN8OWKS/UVOI3UrZ1ifm9sIDlpjezKd1qZom1cOPBRAb0oRSc6gFcA30/h
+	qJfGpfDjIVaAig1Xe6lAT4E8eR4XTzacMQQSmYFQ=
+X-Google-Smtp-Source: AGHT+IFdDUOAiuuVjQGNCjHzHcFl5yR38eigEh/Bx2+ChXfMRSJT7y8/UyiIG96wzXhXXrDL7Z5WnA==
+X-Received: by 2002:a05:6a21:164e:b0:215:fb74:2dc2 with SMTP id adf61e73a8af0-21ad95296ddmr900093637.11.1748541545198;
+        Thu, 29 May 2025 10:59:05 -0700 (PDT)
+Received: from ?IPV6:2601:646:8201:fd20:80ca:2bbb:3b17:9c91? ([2601:646:8201:fd20:80ca:2bbb:3b17:9c91])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747afe9629fsm1625214b3a.5.2025.05.29.10.59.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 May 2025 10:59:04 -0700 (PDT)
+Message-ID: <d8f36286-97a2-4189-82bd-79b66afa9c9e@gmail.com>
+Date: Thu, 29 May 2025 10:59:03 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3 05/13] tcf-agent: Fix ranlib call when using
+ llvm-ranlib
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20250522-clang-toolchain-v3-0-16cfc6d9891b@gmail.com>
+ <20250522-clang-toolchain-v3-5-16cfc6d9891b@gmail.com>
+ <a5225b45761850e1a99e7f3c069768f2449fa472.camel@linuxfoundation.org>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <a5225b45761850e1a99e7f3c069768f2449fa472.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 17:44:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217430
+ <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 17:59:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217431
 
-There was a regression introduced by the change to use
-systemd-systemctl-native rather than a python fake implementation,
-which caused template units to not be properly enabled when set in
-the SYSTEMD_SERVICE variable.  Through investigation, it seems that
-the best way to re-enable template instances is to handle them
-explicitly in the systemd.bbclass and enable them with `preset`, like
-most units are handled[1,2].
 
-Per the systemd.preset manpage, the format for template units is
-different than for regular units[3].  We need to coalesce all the
-template instances onto a single line and emit them as an additional
-space-deliminated argument.
 
-Ran this against openbmc's phosphor-ipmi-net recipe and generated
-the following preset file:
-```
-$ cat packages-split/phosphor-ipmi-net/usr/lib/systemd/system-preset/98-phosphor-ipmi-net.preset
-enable phosphor-ipmi-net@.service eth0
-enable phosphor-ipmi-net@.socket eth0
-```
+On 5/29/25 2:20 AM, Richard Purdie wrote:
+> On Thu, 2025-05-22 at 20:52 -0700, Khem Raj via lists.openembedded.org wrote:
+>> This ensures that binutils-ranlib or llvm-ranlib
+>> behaves same as gcc-ranlib
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+>> index 235936288ba792c86af4dd1899b2f6585328141f..41706f4b60f1f25233ff91c8f112b8122a5c6c30 100644
+>> --- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+>> +++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+>> @@ -51,6 +51,11 @@ CFLAGS:append:riscv64 = " ${LCL_STOP_SERVICES}"
+>>   CFLAGS:append:riscv32 = " ${LCL_STOP_SERVICES}"
+>>   CFLAGS:append:loongarch64 = " ${LCL_STOP_SERVICES}"
+>>   
+>> +# This works with gcc-ranlib wrapper only which expands $@ shell array,
+>> +# but it will fail if RANLIB was set to <cross>-ranlib or
+>> +# <cross>-llvm-ranlib has same behaviour
+>> +RANLIB:append:toolchain-clang = " $@"
+>> +
+>>   do_install() {
+>>   	oe_runmake install INSTALLROOT=${D}
+>>   	install -d ${D}${sysconfdir}/init.d/
+>>
+> 
+> The people on the patch review calls are struggling to understand the
+> issue here. Could you explain this a bit more in the comment so we can
+> understand it?
+> 
+> Does this imply there is a missing piece on the commandline in the
+> makefiles (or whatever) of tcf-agent which should really be fixed
+> instead?
 
-[1]: https://lore.kernel.org/openembedded-core/Z2ch.1747051947055246176.oktf@lists.openembedded.org/
-[2]: https://lore.kernel.org/openembedded-core/aDdoTVtCmElpURYD@heinlein/
-[3]: https://www.freedesktop.org/software/systemd/man/latest/systemd.preset.html
+I can explain it a bit more. tcf-agent calls RANLIB after calling AR to 
+create the archive [1], when RANLIB is set to gcc-ranlib this goes 
+unnoticed, since calling gcc-ranlib without any arguments it silenlty 
+does nothing and exits with return code 0, however, calling ranlib or 
+llvm-ranlib does demand library name as commandline option and since it 
+is not there it exits with code 1
 
-Fixes: 7a580800db39 ("systemd: Build the systemctl executable")
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
----
- meta/classes-recipe/systemd.bbclass | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+aarch64-poky-linux-musl-llvm-ranlib
+OVERVIEW: LLVM ranlib
 
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index e1fe4ed072..b82572f8b4 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -224,6 +224,8 @@ python systemd_populate_packages() {
-                         service, pkg_systemd, "Also looked for service unit '{0}'.".format(base) if base is not None else ""))
- 
-     def systemd_create_presets(pkg, action, user):
-+        import re
-+
-         # Check there is at least one service of given type (system/user), don't
-         # create empty files.
-         needs_preset = False
-@@ -239,10 +241,17 @@ python systemd_populate_packages() {
-         presetf = oe.path.join(d.getVar("PKGD"), d.getVar("systemd_unitdir"), "%s-preset/98-%s.preset" % (prefix, pkg))
-         bb.utils.mkdirhier(os.path.dirname(presetf))
-         with open(presetf, 'a') as fd:
-+            template_services = {}
-             for service in d.getVar('SYSTEMD_SERVICE:%s' % pkg).split():
-                 if not systemd_service_exists(service, user, d):
-                     continue
--                fd.write("%s %s\n" % (action,service))
-+                if '@' in service and '@.' not in service:
-+                    (servicename, instance, service_type) = re.split('[@.]', service)
-+                    template_services.setdefault(servicename + '@.' + service_type, []).append(instance)
-+                else:
-+                    fd.write("%s %s\n" % (action,service))
-+            for template, instances in template_services.items():
-+                fd.write("%s %s %s\n" % (action, template, ' '.join(instances)))
-         d.appendVar("FILES:%s" % pkg, ' ' + oe.path.join(d.getVar("systemd_unitdir"), "%s-preset/98-%s.preset" % (prefix, pkg)))
- 
-     # Run all modifications once when creating package
--- 
-2.49.0
+Generate an index for archives
+
+USAGE: aarch64-poky-linux-musl-llvm-ranlib archive...
+
+OPTIONS:
+   -h --help             - Display available options
+   -V --version          - Display the version of this program
+   -D                    - Use zero for timestamps and uids/gids (default)
+   -U                    - Use actual timestamps and uids/gids
+   -X{32|64|32_64|any}   - Specify which archive symbol tables should be 
+generated if they do not already exist (AIX OS only)
+aarch64-poky-linux-musl-llvm-ranlib: error: an archive name must be 
+specified
+make: *** [Makefile:53: obj/GNU/Linux/a64/Debug/libtcf.a] Error 1
+
+
+When we add $@, to RANLIB then it becomes the make variable,
+$@ - An automatic Makefile variable that expands to the target name (the 
+file being built)
+
+
+so the makefile target now rightly adds the .a filename to RANLIB call.
+
+tcf-agent seems to add $@ for solaris and osx, I guess someone saw the 
+problem on default ranlib on these platforms but not on linux where 
+gcc-ar is used commonly.
+
+[1] 
+https://gitlab.eclipse.org/eclipse/tcf/tcf.agent/-/blob/master/agent/Makefile?ref_type=heads#L53
+
+> 
+> Cheers,
+> 
+> Richard
 
 
