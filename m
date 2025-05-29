@@ -2,131 +2,181 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60448C54FB3
-	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 20:43:49 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web11.3186.1748551422387064509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6561CC54FB3
+	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 20:48:09 +0000 (UTC)
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+ by mx.groups.io with SMTP id smtpd.web11.3263.1748551687633523982
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 13:43:42 -0700
+ Thu, 29 May 2025 13:48:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OcDN0DWZ;
- spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-735ae68cc78so783984a34.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 13:43:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ODNMF/G8;
+ spf=pass (domain: gmail.com, ip: 209.85.161.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6060a70ba80so710956eaf.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 13:48:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748551421; x=1749156221; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1748551687; x=1749156487; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I+FE0xpzA3bTmluJocIvzZbvsbC6qb4ajgvqgCrleQM=;
-        b=OcDN0DWZlG3ReZQTHWj+aWTkASo73KTNc3ZShuQcrZ6Bl2s9edwFVcj1dvjUda+r4W
-         QSbqSiOiHM4BSxjlKXaCBNdG669KnBIXqA51O0cyo8+TGLBPeccA4Uuff8XGVQ0n6dnp
-         LPDVpj2CqjnahWC/OvC6q6Ab39VIlbwgLCpntybK+oFhq5SlB2iu9XNUGAi9qCKf7Hlj
-         /rWb10tbNRAYgl0sJdil+i/6DtjwRuNPd/YB8Iec/jVyAOVThE4IgrmTTiul7MgzoEvp
-         cShQoR/7Dh0khwa369kD9DpkCVodlZM1g16O5TY0EdVFIA7yRCiQOuPL9uOHQxY7hmJQ
-         H4mw==
+        bh=6yV6bmKzpwujbGtf7Nu0qD7Gr5SJRgK5YnQhv4I57FY=;
+        b=ODNMF/G8SKsvNIj9fDLSStQYMICfecrmwKkEKqcEH7EoYe1n4zVPS3WIVqZdz9XdUs
+         7eIf4G57WIvu+YPHitFth02SuNl6ofrW5TkvX0VIwNcUfuRMtA1E/89Psc2AFRQba6fy
+         qMYIP047sQMA9Wf0NUqZQaZiIs0NjCtJDXMTorgbGk562YSwfMbp5WkRw/4Mkjb+xlbL
+         Elj1NfHLsoXNcRbvTdT+8ZvAbYZz4xZrq+PvGzukVRIyriLi/l9L3IZLIK0JekgwdciG
+         U6D6Nor56B78ugpecBziyHznqV5587Oi/tTZOfr6ulxZ/ac7mVWVqDdIUvccm6qbGEng
+         gkjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748551421; x=1749156221;
+        d=1e100.net; s=20230601; t=1748551687; x=1749156487;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I+FE0xpzA3bTmluJocIvzZbvsbC6qb4ajgvqgCrleQM=;
-        b=iJVQODevmJWqWarmxU3TXO/obzqlV4ErKHo2vitFVOCdzpKJqoV+ES4dYJMDepSG49
-         p22irqEhBY2DVaq3mfvWVVL2xOxXXeI1ze3joIRhZK5KvcWFfWl4C+T4eOnKpcjzsYFw
-         GKb69HUVMujrnIs1sRuuG3oLoYoV1fVo86jsq6fx24fu1ImL4D/CqVRADCVOP1VQv7Ow
-         zGTLlTlwySB/z6h9mdhJfszI00UAZgmHsdMlVsvWXCCfHz+P+qnoZXWOD8iHcglt6Qje
-         dHo3431KlR/84oUQQ742XkJzRPBt8FOc1CMtXaAeTpJX/4YZWOpK+AJdhQ4afMbkiVcN
-         juaA==
-X-Gm-Message-State: AOJu0Yy9CM/Vn6Wqkt3TACERP3umyoDANJvjR4D1Giy5xv8o734xd2MZ
-	hLWjwrfR24w/cNDP2F2Gmg2W/3dX+zu6P5pGT7PDWTzzor1mCFZQJbOBfehVVwgE5ZmWSjztaYz
-	CKCZaGpnBwrvf/cmaXOJW0HgIgDghYIA=
-X-Gm-Gg: ASbGncshVjeI/J13GyRN6bN2SJmIjoDP7r3yDw//GZKRNuQPH/hwi6vB4jjemHGSu4x
-	gi1bmkLDkODFCUdkL5fWLf6Z9Z3OmFaMSUJJXxg33GB/dKs0+rrilY3XaqD685QiXG7yrkhGf26
-	4up6qMYhX/2Wo+ZEjOPBSkX8jU0O4Qp0Ni3TI4wM1Nhlk=
-X-Google-Smtp-Source: AGHT+IEIXbgKM4fWRfffa3NR+CYz53/RB7CAeZcniG8GkC4ukrU7FsvrR6qWSsQoXbc79unQKMkdecalxtDbZ0Rz9G4=
-X-Received: by 2002:a05:6870:ea07:b0:2d5:1d1:8613 with SMTP id
- 586e51a60fabf-2e921393cf9mr454551fac.23.1748551421339; Thu, 29 May 2025
- 13:43:41 -0700 (PDT)
+        bh=6yV6bmKzpwujbGtf7Nu0qD7Gr5SJRgK5YnQhv4I57FY=;
+        b=F1q9ObrRiXBORRJjIjBzqbZk4e/ecQ1lMd/m7Y+Na/55MIcq56jmWY6mfPV2xr9j9Q
+         W+SLV56WfHoKevqfItOCVXLocVdejT7x7Nj470jdM2d4NpN8ztzLp9p9QJ/mSZaLGoPX
+         OTMJg9n0ZoJzQMRWni+kIT1jM9jbzBo1o/gTO12wWRvElt4YjLB6ngUgY73B2pCFGA9S
+         uGwnsZUmdKZclPLmS8ox09fhbx6kqyFwmLev03FiPQy1VmjY+5IkSJ5fnOvkfIF30M3+
+         ghoosfNGbazProGgMLSEvawhgjpLUu0b3mz6BolvDBs8unQZyggiRpSU3H3HcYqsgipJ
+         gOPg==
+X-Gm-Message-State: AOJu0Ywf0pXreK2ZhTlcVxqeJlmNx402u8A593L/i9xXBAbBVkSOYDZM
+	ziQ7940z16iZORqVIojyD9lOUKcfk0rwpuGv7vgP3zWdU2IFcH3UvEJtdQSEOvAyngXEbYe4819
+	1x1wkzlIEwJ7vzSfPWOcnfr0jgI7QQR/1evSJKdw=
+X-Gm-Gg: ASbGncvoaH1+blX+oyqrfJqE0QOEntyTqrRsooxZwbhXHDzJ/wAXoucbMh5zlHf0Tw0
+	NzvK3O4woFuPDyAD+cDHil4se8bzz258A4PwU6jCtktCXr5KIkSc8OFIUgG4T5asd9WKESXndzf
+	d+SLO/6HzsJkOLZKhhKWn5rbWcGR0hIy6zM7jSu35MWeM=
+X-Google-Smtp-Source: AGHT+IE2aJ4C02lxFfJC8xPyHtUKMnZjHWf6GXnU83MVI8NpfKaiZRqWNz6HldFaIIty90g2d5qIqyGLY+2mYiYPO60=
+X-Received: by 2002:a05:6870:f693:b0:2bc:918c:ee04 with SMTP id
+ 586e51a60fabf-2e921259d22mr448659fac.14.1748551686729; Thu, 29 May 2025
+ 13:48:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250522-clang-toolchain-v3-0-16cfc6d9891b@gmail.com>
- <20250522-clang-toolchain-v3-7-16cfc6d9891b@gmail.com> <4FFE439D-3DDE-4B8E-BD3A-1E8C0B76A387@arm.com>
-In-Reply-To: <4FFE439D-3DDE-4B8E-BD3A-1E8C0B76A387@arm.com>
+ <20250522-clang-toolchain-v3-5-16cfc6d9891b@gmail.com> <a5225b45761850e1a99e7f3c069768f2449fa472.camel@linuxfoundation.org>
+ <d8f36286-97a2-4189-82bd-79b66afa9c9e@gmail.com> <b175dfb344278086015735e6f8a0e7a66dfd3e32.camel@linuxfoundation.org>
+In-Reply-To: <b175dfb344278086015735e6f8a0e7a66dfd3e32.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 29 May 2025 13:43:15 -0700
-X-Gm-Features: AX0GCFuf7LtrdgB9eX1-AafVT5ueo0pi7YHmn9ylrD4fDgTxOhgRhD0gcmBLokQ
-Message-ID: <CAMKF1srPfigZbCQvwuzq0qnN9+razOu5uTHzEt7s-WOajs87hA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 07/13] pixman: Fix build with mips/clang
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 May 2025 13:47:39 -0700
+X-Gm-Features: AX0GCFsqfTifdhASqdatbcOfys-QauEzK298qOPDrUEAJraHkUKKxfX-hoBigjg
+Message-ID: <CAMKF1sowW6AjXWzkZk5vmvV54hjFAo=+P9gFTcx4y0P+rVJq_g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 05/13] tcf-agent: Fix ranlib call when using llvm-ranlib
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 20:43:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217448
+ <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 20:48:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217449
 
-On Thu, May 29, 2025 at 2:25=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
+On Thu, May 29, 2025 at 1:15=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On 23 May 2025, at 04:52, Khem Raj via lists.openembedded.org <raj.khem=
-=3Dgmail.com@lists.openembedded.org> wrote:
+> On Thu, 2025-05-29 at 10:59 -0700, Khem Raj wrote:
 > >
-> > +DEPENDS:append:toolchain-clang:mipsarch =3D " openmp=E2=80=9D
+> >
+> > On 5/29/25 2:20 AM, Richard Purdie wrote:
+> > > On Thu, 2025-05-22 at 20:52 -0700, Khem Raj via lists.openembedded.or=
+g wrote:
+> > > > This ensures that binutils-ranlib or llvm-ranlib
+> > > > behaves same as gcc-ranlib
+> > > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > ---
+> > > >   meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 5 +++++
+> > > >   1 file changed, 5 insertions(+)
+> > > >
+> > > > diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/met=
+a/recipes-devtools/tcf-agent/tcf-agent_git.bb
+> > > > index 235936288ba792c86af4dd1899b2f6585328141f..41706f4b60f1f25233f=
+f91c8f112b8122a5c6c30 100644
+> > > > --- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+> > > > +++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+> > > > @@ -51,6 +51,11 @@ CFLAGS:append:riscv64 =3D " ${LCL_STOP_SERVICES}=
+"
+> > > >   CFLAGS:append:riscv32 =3D " ${LCL_STOP_SERVICES}"
+> > > >   CFLAGS:append:loongarch64 =3D " ${LCL_STOP_SERVICES}"
+> > > >
+> > > > +# This works with gcc-ranlib wrapper only which expands $@ shell a=
+rray,
+> > > > +# but it will fail if RANLIB was set to <cross>-ranlib or
+> > > > +# <cross>-llvm-ranlib has same behaviour
+> > > > +RANLIB:append:toolchain-clang =3D " $@"
+> > > > +
+> > > >   do_install() {
+> > > >           oe_runmake install INSTALLROOT=3D${D}
+> > > >           install -d ${D}${sysconfdir}/init.d/
+> > > >
+> > >
+> > > The people on the patch review calls are struggling to understand the
+> > > issue here. Could you explain this a bit more in the comment so we ca=
+n
+> > > understand it?
+> > >
+> > > Does this imply there is a missing piece on the commandline in the
+> > > makefiles (or whatever) of tcf-agent which should really be fixed
+> > > instead?
+> >
+> > I can explain it a bit more. tcf-agent calls RANLIB after calling AR to
+> > create the archive [1], when RANLIB is set to gcc-ranlib this goes
+> > unnoticed, since calling gcc-ranlib without any arguments it silenlty
+> > does nothing and exits with return code 0, however, calling ranlib or
+> > llvm-ranlib does demand library name as commandline option and since it
+> > is not there it exits with code 1
+> >
+> > aarch64-poky-linux-musl-llvm-ranlib
+> > OVERVIEW: LLVM ranlib
+> >
+> > Generate an index for archives
+> >
+> > USAGE: aarch64-poky-linux-musl-llvm-ranlib archive...
+> >
+> > OPTIONS:
+> >    -h --help             - Display available options
+> >    -V --version          - Display the version of this program
+> >    -D                    - Use zero for timestamps and uids/gids (defau=
+lt)
+> >    -U                    - Use actual timestamps and uids/gids
+> >    -X{32|64|32_64|any}   - Specify which archive symbol tables should b=
+e
+> > generated if they do not already exist (AIX OS only)
+> > aarch64-poky-linux-musl-llvm-ranlib: error: an archive name must be
+> > specified
+> > make: *** [Makefile:53: obj/GNU/Linux/a64/Debug/libtcf.a] Error 1
+> >
+> >
+> > When we add $@, to RANLIB then it becomes the make variable,
+> > $@ - An automatic Makefile variable that expands to the target name (th=
+e
+> > file being built)
+> >
+> >
+> > so the makefile target now rightly adds the .a filename to RANLIB call.
+> >
+> > tcf-agent seems to add $@ for solaris and osx, I guess someone saw the
+> > problem on default ranlib on these platforms but not on linux where
+> > gcc-ar is used commonly.
+> >
+> > [1]
+> > https://gitlab.eclipse.org/eclipse/tcf/tcf.agent/-/blob/master/agent/Ma=
+kefile?ref_type=3Dheads#L53
 >
-> Can you elaborate on why openmp is only needed for mips with clang, and n=
-o other targets?
+> Can we open something with tcf agent to add this on linux then? I'm
+> just worried this workaround is fairly fragile and likely to cause us
+> problems in future. In some ways I'd rather patch tcf agent for this
+> issue as that would at least be clearer.
 >
+> If we have an open upstream ticket or patch, then we can probably just
+> append the variable for now.
 
-seems pixman's detection logic for openMP support checks for including
-omp.h. I see for qemumips, it ends up detecting openmp even when its
-not in dependencies because omp.h is
-installed by libgomp from gcc-runtime.
+I think upstream expects the environment to set it with the parameter
+option added, or not set it
+at all which then makes it an empty string.  In any case I have send a
+PR for it already
 
+https://gitlab.eclipse.org/eclipse/tcf/tcf.agent/-/merge_requests/7
 
-Run-time dependency OpenMP found: YES 5.1
-
-
-where the same test on qemuarm64 fails with
-
-mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux-musl/pixm=
-an/0.46.0/build/meson-private/tmpyl863djw/testfile.c:4:12:
-error: "Header 'omp_lib.h' could not be found"
-    4 |           #error "Header 'omp_lib.h' could not be found"
-      |            ^
-1 error generated.
------------
-WARNING: OpenMP found but omp.h missing.
-Run-time dependency OpenMP found: NO (tried system)
-
-It culminates to a problem in header include paths that mips and
-aarch64 clang is using
-
-mips
-#include <...> search starts here:
- /mnt/b/yoe/master/sources/poky/build/tmp/work/mips32r2-poky-linux-musl/pix=
-man/0.46.0/recipe-sysroot/usr/lib/mips-poky-linux-musl/15.1.0/include
- /mnt/b/yoe/master/sources/poky/build/tmp/work/mips32r2-poky-linux-musl/pix=
-man/0.46.0/recipe-sysroot/usr/include
- /mnt/b/yoe/master/sources/poky/build/tmp/work/mips32r2-poky-linux-musl/pix=
-man/0.46.0/recipe-sysroot-native/usr/lib/clang/20/include
-End of search list.
-
-aarch64
-#include <...> search starts here:
- /mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux-musl/pi=
-xman/0.46.0/recipe-sysroot/usr/include
- /mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-poky-linux-musl/pi=
-xman/0.46.0/recipe-sysroot-native/usr/lib/clang/20/include
-End of search list.
-
-that's why it finds omp.h since the path is on searchdir on mips but
-not on aarch64, I think mips behavior is unwanted.
-
-I think the linking to openmp should be unconditional on clang, since
-it will be using it with gcc but then disables it for clang since the
-test fails. I will send another version
-
-> Ross
+>
+> Cheers,
+>
+> Richard
 >
 
