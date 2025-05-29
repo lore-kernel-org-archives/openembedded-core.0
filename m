@@ -1,138 +1,87 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F43C5AD49
-	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 16:21:17 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web11.25270.1748535669877967778
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF55DC5AD49
+	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 16:25:57 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.25367.1748535956695278231
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 09:21:09 -0700
+ Thu, 29 May 2025 09:25:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FGzCT1YJ;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-400fa6eafa9so735813b6e.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 09:21:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N7fCYY4i;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-441ab63a415so12515935e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 09:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748535669; x=1749140469; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vjkHK36xvcjOt0ZdlZSnY7P3hIPJD9lcgexE7FicS1U=;
-        b=FGzCT1YJjZk7iak1orNxP05spEetdTI5dD92kLp5u1GAsFutConK3f2VEQ4xLV9zh5
-         V76Sv6BuPlt5L5lSfaU7jhSID/vgmOi9FUhwzH+0QHXh4B4sUHX+n9u56B7NaxuI8NBo
-         Kr4ahitnp2OrnDk3KjQX88vtrDafojpiSXKlaCe9ZGq6zOqg91uR6CNL8ka+erTw6GwI
-         OynP9MCzIEvG/k3lWWH8ygkOYCI1NEu6nQe1DOTgeF7sANI7KpiKtWw2RRiIq0PPNUvq
-         pVS56wdHAHWqxpIE3ki/rhiDZ00EEH0rpzAFrHvZLS6qWc0cugpO6uINvlU80OiS6lHn
-         OiDg==
+        d=linuxfoundation.org; s=google; t=1748535954; x=1749140754; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/0rwdShac27XUzRXgW+zNDMXkje07GuA+oBpQtIdXMc=;
+        b=N7fCYY4iUXfoSALOyxz0HpeENyftjGtnJEPiNXVQDtspPWQyDpC5AexQlrjnLNHbuQ
+         V/iu1R9j+aNgX6SxAk9O695VLKmhm2/isCeduYC+MJGRg3rcBh+nvVyy9SMC6m00oxPv
+         ftQxQyMM6qj5tshgqO9ZpIWt22Y59kWr6W6bI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748535669; x=1749140469;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vjkHK36xvcjOt0ZdlZSnY7P3hIPJD9lcgexE7FicS1U=;
-        b=ReRw4QPFvaL69XdUvS4WiKHJMD0p5I/uqgc4jzuqga3nCGeIUtMwE49sIVvpDkNQEZ
-         hsSHFxkGhmXy7OBhyvHYJEX6hnJPnmT44DH3xdJbOtWCDRMlH8PThwk+y0wrtk2gyMjb
-         r71/nz+W0ADrL36ZIi9gA0L6BMfpsyv1llnpnbN2P/K/4Ega2Np2L4BKynM4+B98rbwy
-         4JxllKGKeIA8JKhNR32wP5+fFb/xSgNXwlWxn/buHd/qj+6jU/FDehGknD1689m6eFTr
-         CZ75G2SnWUMq2ACSWgjAjVxGVTRWbG3J6i2Pkevyvj2eKN0/PGjlkju6XQHAadFr9Whm
-         2eVg==
-X-Gm-Message-State: AOJu0Yy8tpcF1Hz1GQGEvR4LbBmSFh4HvyYSUvmoI2H9x1OF9Bf9OE44
-	slqTLyehF0ehtNf1TLLty/Zb/9tM6zhM16fGVsFT5ziru+l0+X0B0B66
-X-Gm-Gg: ASbGncuuQS3yN7onZm975b7e55CgRwOO2RxEJAmWPgUIZs9UuADQ7x6e/Uq4ndKk008
-	6skuns5o93jLrRQnFFF1Pb8jkEhuOfrCKvyMy26Z6eJ20cwxEZ3khLmYhckt8BD+M8osbuz2ZyU
-	fBdXLjF0RtJIKKJhzroh+iWczsR3SZLDyFy3YTx1atrEIF9fF0ygQeWE+sOo7Y8oT7n048xmsiD
-	f/xXLr5q7lrZrUxI5+vCuL0RK8OzcE+ddXVKqLLYIrAZPc+bvZmVKHJCqZ1qmj92dMTSohWnNjx
-	arx2b0SdrTtP9GQ5boehVKzR95FqAxoW8Aw11wCkJNxpoEC9DYgVlAq0vFO15CkDo4o3nvCGoYf
-	3nGJ1GniFLkaCOAHGgOHKbzdRt+5PxA/H2U7xr8mFDB62
-X-Google-Smtp-Source: AGHT+IG7HNWiWPWdNylpggxB9UGg8hN3ry2azOL6dPWVW2ErBzddz0y/6jj8z/qPqpUsx0aM0fYIDg==
-X-Received: by 2002:a05:6808:6c88:b0:403:5277:9424 with SMTP id 5614622812f47-406797ab13amr87947b6e.32.1748535669014;
-        Thu, 29 May 2025 09:21:09 -0700 (PDT)
-Received: from ?IPV6:2601:646:8201:fd20:2986:9b50:188d:1984? ([2601:646:8201:fd20:2986:9b50:188d:1984])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-60c1ebb0104sm44384eaf.39.2025.05.29.09.21.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 May 2025 09:21:08 -0700 (PDT)
-Message-ID: <e1f901c2-aa27-4a28-a22d-64c5884e4a3b@gmail.com>
-Date: Thu, 29 May 2025 09:21:07 -0700
+        d=1e100.net; s=20230601; t=1748535954; x=1749140754;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/0rwdShac27XUzRXgW+zNDMXkje07GuA+oBpQtIdXMc=;
+        b=cy8k8PWAqqMcqz4x+jk07opouY5l/tfBl9mg4T91yWwH0SJcrUEY0e2vj2OdxptBP0
+         Ocv0NC7ZyJKSoVdLSpz8PuUxWRxHFNHef7pKb6m7S8E61dP3dQlxbYJiuD9OKk2aaDai
+         qpsD3MOUvhiOCI3B8MpWgFobIRFtEGliOyLMq4QCqssTdXxUK5BILTyr/dUmjT9T5FE5
+         Bgmqb3nrA9qwWhgffh/3cv2T/rBHZj7CAs3EkmsJTvqH1LJARCpVuwTEafhDfLqG8kOL
+         xUUG9pN4arhK9Op3V0d8/Xvn5H+YiXTgxyElVpBy4LSNSfM5+Xch9cZQZ5W0TAnLuu6c
+         R6MA==
+X-Gm-Message-State: AOJu0Yy3ok83v78osQGPeOYcFNt47cPsXvE/xAtc0XzBPW1qZbWmARfM
+	X2ZdoTjf/wGNoghp2t6LrWredRzGOaAJX9XV2Hk/CsaHKOpXM2RRC+tKlxWr7f3THpT4oNeAe40
+	ti8GFxI0=
+X-Gm-Gg: ASbGncus2LbHWB2mpzuybCnfvHv/iklLSQRbgAqZK4mJSnUgU81YyVuVJuBzW9DARp/
+	oC9mBHMfDvjljtL0QNGIcWKurOg9Kflh+Qrhwbi+gsseBsbyOITnirPT/fJusOjlDdVrlbIDVQH
+	RIAGfJwfvERYN7gaiLqVXA+evYStNePxSTJzYIRFLVD6OETTAsg5yeeYDjoOXv82ndgPAT+kl6n
+	I6+QL4Q9ph4Ylj8FWcGFtV1jgprM6m/oSznqZNOhuOivS4Y+sdkil0wGRnWNaQ3ik5cXKpXOsHA
+	PSNujdEFUUusUk4N/XWtc2HBZldaw5AZemmayzmPH0h3kvHYwH3QB/W0ziZByvzMgIkHBrYuT+s
+	vP7cf6fo3Wyqf
+X-Google-Smtp-Source: AGHT+IEZZsd95G8ypKPukErx1IGdfOMDK/TBEchImiAP7awC9uH9ed7bJ8Uc9codF04c5jD1E12KcQ==
+X-Received: by 2002:a05:600c:8207:b0:43c:fa24:873e with SMTP id 5b1f17b1804b1-450d652794amr4360435e9.13.1748535954429;
+        Thu, 29 May 2025 09:25:54 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1a5e:81:40ad:9da7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f0097539sm2468733f8f.63.2025.05.29.09.25.53
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 May 2025 09:25:53 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] sstatetests: Switch to new CDN
+Date: Thu, 29 May 2025 17:25:52 +0100
+Message-ID: <20250529162552.3115463-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 14/28] bluez: Disable invalid-pp-token
- warning with clang
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
- <20250520-clang-toolchain-v2-14-db97c2eb3756@gmail.com>
- <C6B84781-E495-4A0B-866F-28FB90D7BD3A@arm.com>
-Content-Language: en-US
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <C6B84781-E495-4A0B-866F-28FB90D7BD3A@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 16:21:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217417
+ <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 16:25:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217418
 
+The project is switching the way handle our CDN provision of sstate objects,
+update the URL accordingly.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 5/29/25 2:28 AM, Ross Burton wrote:
-> 
-> 
->> On 21 May 2025, at 07:19, Khem Raj via lists.openembedded.org <raj.khem=gmail.com@lists.openembedded.org> wrote:
->>
->> We add FIRMWARE_DIR via CFLAGS using escapes for string and clang
->> option parser flags it
->>
->> <command line>:4:23: warning: missing terminating '"' character [-Winvalid-pp-token]
->>     4 | #define FIRMWARE_DIR \"/usr/lib/firmware\"
->>       |                       ^
->>
->> emitting this warning during configure means some tests fail wrongly. e.g.
->> test for enable -fPIC -DPIC, which results in textrels in libbbluetooth.so
->>
->> This warning can be disabled, the string is correctly passed to sources in
->> the end, so its spurious
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> meta/recipes-connectivity/bluez5/bluez5.inc | 1 +
->> 1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
->> index 7bae968094f2a272c4deff7416dbd1208549e6ce..5835662f7a63a23915ec4af94597ec4a614a4640 100644
->> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
->> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
->> @@ -84,6 +84,7 @@ EXTRA_OECONF = "\
->> "
->>
->> CFLAGS += "-DFIRMWARE_DIR=\\"${nonarch_base_libdir}/firmware\\""
->> +CFLAGS:append:toolchain-clang = " -Wno-invalid-pp-token”
-> 
-> Wouldn’t it be neater to change the line above to:
-> 
-> CFLAGS += "-DFIRMWARE_DIR="${nonarch_base_libdir}/firmware”"
-> 
-> Bitbake’s parser is crazy and stuff like that works.
-
-I have tried several ways to pass it, what you suggest was in fact first 
-thing I tried and it passes -DFIRMWARE_DIR="/usr/lib/firmware” as seen 
-in bitbake preprocessing output but emits following into an implicit 
-header file that compiler sees
-
-#define FIRMWARE_DIR /usr/lib/firmware
-
-which is not right string syntax in C. what we need is
-
-#define FIRMWARE_DIR "/usr/lib/firmware"
-
-on compiler commandline it should look like
-
--DFIRMWARE_DIR=\"/usr/lib/firmware\"
-
-So how can we teach bitbake to do this ?
-
-> 
-> Ross
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 681a57f4db0..487995acc3a 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -972,7 +972,7 @@ class SStateMirrors(SStateCheckObjectPresence):
+             self.append_config("""
+ MACHINE = "{}"
+ BB_HASHSERVE_UPSTREAM = "hashserv.yoctoproject.org:8686"
+-SSTATE_MIRRORS ?= "file://.* http://cdn.jsdelivr.net/yocto/sstate/all/PATH;downloadfilename=PATH"
++SSTATE_MIRRORS ?= "file://.* http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH"
+ """.format(machine))
+         else:
+             self.append_config("""
 
