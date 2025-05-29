@@ -1,444 +1,241 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DDC3C5AD49
-	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 19:42:19 +0000 (UTC)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
- by mx.groups.io with SMTP id smtpd.web10.1907.1748547731889115451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD17C5AD49
+	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 20:04:39 +0000 (UTC)
+Received: from AS8PR03CU001.outbound.protection.outlook.com (AS8PR03CU001.outbound.protection.outlook.com [52.101.71.35])
+ by mx.groups.io with SMTP id smtpd.web10.2346.1748549069564302165
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 12:42:12 -0700
+ Thu, 29 May 2025 13:04:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ELgMPKmv;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.175, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e7dc83224d5so2162759276.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 12:42:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748547731; x=1749152531; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2iMhWtZTIZm0/YAtt7xP+Lrfm1chi1EuYZtc+rGwdsw=;
-        b=ELgMPKmvlNE0r3JpygXy8rPwMRGUELy+jdqcLmbhRJTVbiIn9Z8ETqlox+vKCc0N1a
-         oHnEoNQreM4LmFk5ydhoDxTf+ameoMx1wYbSm1ilq5krPR9XcCp7sIjlPx2zaxuMdGyK
-         ZRqBi9GDMSgdTASAgd9/NzOvsjYObSbkTwmpLpfvzDWU9w9Qs98V0pFsF76Sqzq6yEXN
-         mMOK3dihMdOBqhCFc/6b8ZyBV/yCZUc5vnM2SHtHuXTK72YDLnWT3BUejbovrSa/SIjd
-         MLOm5QZglrkk905rAUc3joA0tBFt4xoNd5qlQwfXIYcdbw1euM2DQx0zEs0LltbVDRPk
-         5t8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748547731; x=1749152531;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2iMhWtZTIZm0/YAtt7xP+Lrfm1chi1EuYZtc+rGwdsw=;
-        b=GSgPCwkD1++s0GMHelZn+3w9pEVr6q10aJ3DHfvQG9eSt4bEGpSL+USj822N9Eku1j
-         WvgsQQJQCKDfJcD3kkCj33FPsrPD6AMKs7jbB6mxuw1EAf20TlNrWv4vyILWSXxYvXUb
-         C1MAmJKee1XBHsay5qdtEXiISE5xzj57FkGEztQC5I6NCHM9K/rTu8RXLiHCxR6g9cIj
-         +rtWTr5t9+bVO1eKDhHZjkzAKQtye4gkBLLE6h+J8kHuWcaFEQg9Iu2OWDT8UjUuwbao
-         z7qenyfWURWVZv+v6TW4B+pfuXQDqifBA/4yV+grNpHDIjTkomB+rZ0IOu7qW5V9POCr
-         +oWw==
-X-Gm-Message-State: AOJu0YzG3u9p+5dwzjp8AkKDb8QGhJZDoVn7F6Man+47UUeY/JwAtVSg
-	eAIP/FaGxleDvrDEloHcY8Mdm6A2Zip0KB/dT+zak9xuyWZz6gWIjVzzQb1HNm5JZ3O9vljC7x5
-	l92tC3vMzEJFRYBvddGm5MTbhimERWWftnw27abwlHQ==
-X-Gm-Gg: ASbGncvxnzDFSU6FQqFuGISQITHHz9ZkY39DfoDyQXSb1tpt83vJNAQhXRDKlPRQ+QY
-	Dj4iG1F+Fjg40Sw4kdHMx6tMrlo7dsqhzcJyQBSTWR7HLcKlCAp5a4G5w8TU1dbB6yVXbcaONpf
-	TzV1O5Apv0OaFELvyBqaTvUAQgWAIJp2kC5XGaTdAftq/eT+veiLxMB4BEIfxCbWY+GXQOvcyNa
-	9s=
-X-Google-Smtp-Source: AGHT+IFkHPp5TzvQLFO5ds/4dL/YOzWd8dcFVjHtNqcQEI7Mk8mXraD4rwm01zTFSVonA1iOIpDQrhoSr611KYJoCds=
-X-Received: by 2002:a05:690c:6e03:b0:70e:404f:6714 with SMTP id
- 00721157ae682-70f8787aefamr79573007b3.19.1748547730649; Thu, 29 May 2025
- 12:42:10 -0700 (PDT)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=QMT0PxoY;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=QMT0PxoY;
+ spf=pass (domain: arm.com, ip: 52.101.71.35, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=KcADoVks5SxGn3mk3LwiI4QimmxYHX4C8PFzxoloGno3V8ZpJWo4mX2KdSeLkCC+EFx06THIWBuy8JjXjgd/CZTHQ7LQtkL0sTLOwzLkY1eol7VqadWyFldaT5EEjLgH3g/1sU/zsgg5gBQMEQBVGTkvbQEKW6Kax+ySw1O/9FV5r9YB2McjCfJf64tkO/dtoM3q209RFzPKJpJ2VC5+/fnGgXoWs03jL+yne2s8B309v8i8IgzpZxiqhC6qPGp8blupMA1DZlzbZsUb7LqwmjoKzeE9oN+HcmbmRfIwVnTo9WnZtWO7LpaOzp3S6V3zG6roLFHxu/k2pQS1MPGWDg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e0wdHzfGCl6HYDYM2f9sPSBeJXj2X7qMttU4CTekkVc=;
+ b=ai3GaXUhvEHso55/q+Ao//4WDuhC/NlUoelSwd5onNQSms/EKbQy153/6kBHe3succgkbtbsBHXA26vRHM6zXBQO9MSK8VyoiycF2jHBUQqQc8UQrixcF9OpsPc4JgceNhKG7ff7/bSmmL3nCW3+C2aqm3pPq5H3eTNFCjvrO3t3noBMF7ZJjDQ+Bm+C80sZGf/xlHylhIUNgppapjL/N/jOnwxbAUDwMXd87E3nE08To3TkgAsLSVHPp/SvDGWb86uX/0OKL83Pzabw0DjvMcUOl8orC9SB8tLYdW779AOfWdCakLIrObb6UkzQec+RymrNSjaiWpuD99EIH+ubXg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e0wdHzfGCl6HYDYM2f9sPSBeJXj2X7qMttU4CTekkVc=;
+ b=QMT0PxoYl9BcCF0NEacis+SQFWl6j0TDDinkb3nIj1jJ5xvBOb07YeEVd6SquEMA6w7nczviTal7XzmBuVGfaQCYXMbHubsQSfyWsdHvd+lfgjhKxu9RketGizh1tOUV+UFBnHBo/2BigumSFoWqL6ktphpmOjwXSarAUu0Rsgg=
+Received: from AS4PR10CA0011.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5dc::14)
+ by GV1PR08MB11027.eurprd08.prod.outlook.com (2603:10a6:150:1f5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Thu, 29 May
+ 2025 20:04:22 +0000
+Received: from AM4PEPF00027A68.eurprd04.prod.outlook.com
+ (2603:10a6:20b:5dc:cafe::d5) by AS4PR10CA0011.outlook.office365.com
+ (2603:10a6:20b:5dc::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.21 via Frontend Transport; Thu,
+ 29 May 2025 20:04:22 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM4PEPF00027A68.mail.protection.outlook.com (10.167.16.85) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18
+ via Frontend Transport; Thu, 29 May 2025 20:04:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OwUVzexpTb7dOgkNnW+MP6PXxTnz8ZhY5AxxHRzp91rda5yPhtB1wsrfo9lQmSH+qNJfyegg5H98qwHInkE76zagMW02oovPWaYDuVzKsSp4wPtzMdoGja/7WsUvAtil1lyo+N6puiqodWPNhCzkWMTpS6CxCNN5sJItcX5gveWTFemsxAAW7RPrH0+bQderGgOVLZsKBdgeI47wT/L2LTMHFf/XkXLzxNFHADRtVi/pPLZklKb5vV2Cql8MQ1jgu8581Czma4CgqPXmh98Ni30brltYpvZcFptaPkuMA1eP9NGK69ckJZqGcizrUp79oU8QcJkcPQpY0SE8Ofa4cA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e0wdHzfGCl6HYDYM2f9sPSBeJXj2X7qMttU4CTekkVc=;
+ b=iLDWV8h1FtNe8PXqS71aAkyPnrFvtQFudHYrHtqNbxqq5y5s9zvN/tck6o/lQIn2TWH6ICFilNk7ufnRNU1rcqzkyH9CW54qQARhmhbNy5Tl4oRBJ5fGrqwskqqpPlqwh1ARU1kTtxktlLVOhUjG6vBK7f7Gnjp3Wt3Iu+MpzywAxTjNyDarD/oUuOnDoarjohY8PnMJkv3jevkAgFbK+pu0zz+OIeY8qmmm7jLj4p1uzgeTbLbdhoTHEIvoC0A2cOrTl2Ce8uCbpJEohkCZIZLoxllYcCLC11nD4yrHcgF9PF7TweT7TtGOz9nYVd4QKWmQlVHRelsIO+qQp2LCZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e0wdHzfGCl6HYDYM2f9sPSBeJXj2X7qMttU4CTekkVc=;
+ b=QMT0PxoYl9BcCF0NEacis+SQFWl6j0TDDinkb3nIj1jJ5xvBOb07YeEVd6SquEMA6w7nczviTal7XzmBuVGfaQCYXMbHubsQSfyWsdHvd+lfgjhKxu9RketGizh1tOUV+UFBnHBo/2BigumSFoWqL6ktphpmOjwXSarAUu0Rsgg=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS1PR08MB7498.eurprd08.prod.outlook.com (2603:10a6:20b:4dd::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.29; Thu, 29 May
+ 2025 20:03:50 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8769.019; Thu, 29 May 2025
+ 20:03:49 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Joshua Watt <JPEWhacker@gmail.com>, "koen.kooi@oss.qualcomm.com"
+	<koen.kooi@oss.qualcomm.com>, "eichest@gmail.com" <eichest@gmail.com>, Stefan
+ Eichenberger <stefan.eichenberger@toradex.com>
+Subject: Re: [OE-core] [PATCH] systemd: Allow overriding PNI name policies
+Thread-Topic: [OE-core] [PATCH] systemd: Allow overriding PNI name policies
+Thread-Index: AQHbqThrnqIr45jFlEWDNLvLYzmy2bOja9SAgADovgCARgKGgA==
+Date: Thu, 29 May 2025 20:03:49 +0000
+Message-ID: <930EFAE5-0AC3-4458-BA40-898F7759FB23@arm.com>
+References: <20250409101545.5936-1-eichest@gmail.com>
+ <CAJdd5Ga7-Swcb8Zej8dpuLP5AzuBHiTmFVSatL33Biwjhym+rA@mail.gmail.com>
+ <A1955164-126F-4B34-B796-B2CD3E530AF7@oss.qualcomm.com>
+In-Reply-To: <A1955164-126F-4B34-B796-B2CD3E530AF7@oss.qualcomm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS1PR08MB7498:EE_|AM4PEPF00027A68:EE_|GV1PR08MB11027:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ec0c2e3-3a3a-4072-95d2-08dd9eec00c4
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?L1JOYXdiTlJBa0VqbVFueGdFM1V3a3lZRXpBdzFJTGV4ME41ZTZkWnorOTh6?=
+ =?utf-8?B?MGt1VVNmblQ4Zy9keDREMUpFK1dSOS9lWXliWTA2V1pXYnBJQkdmMHovTnVI?=
+ =?utf-8?B?eU0wdytKc3JDTFFTMkcrckUyWlhOd29nZEhwY0tnZUVkdTh3RGRtSkw3K1hk?=
+ =?utf-8?B?V2tMcEJLSU0rNVB1ZnZScEZQWW1JdC84ajhuMGhDdVlpWGRQemJzNVpoeDlN?=
+ =?utf-8?B?aHRGVkJmUEs1R0xYaWpPMmNpT1hZVWUrYnk3dkJqRFpQejFnR0ttRWtSU09K?=
+ =?utf-8?B?RzdVR0tBOTNSeFR0R1h4cFBwc2p1WHgwL20wOFJNaUE2K294Z2xkcDg0Q0lV?=
+ =?utf-8?B?c1J5b0wzYVIxWkFYdC8xR2dCZWNNMU1PS1V2Zi9SQnBGY2JiSm9Nb2RyRURX?=
+ =?utf-8?B?MnhPYlZYdGlCekpQbGtnYkFBeitxNG1VQ0ljRWR1Tk92NGdIRDdOZU5EQ0h5?=
+ =?utf-8?B?Vys0bGFESW9ZdVRQVWM4THZGU1hhdmdLVWQ3RGIrazBwWlJUbGd4UVlqajlG?=
+ =?utf-8?B?ZjRRNWdwWTVJenZBM0M2emxLSldudUdYSVo1cFdpSGtaaFdqR0JLZnY2bG5S?=
+ =?utf-8?B?ckJHZml4RStyTFdITU5YRlZmdmpKYzd6NXp5OFZBbVdQSHMyNkc0OHFJUEF2?=
+ =?utf-8?B?OEs1QlNkVEVrNTB4c2Q1WmZhRUgyOTVidDJMdy9qUU01RHFKNkUyZ2pMa1VS?=
+ =?utf-8?B?ZGFoczFubU16Zk5nQ0FOcmgzblh3c0E2RWVHUEhrN2hmSUYrOEw3b0svZnFO?=
+ =?utf-8?B?cXhwb1pYQ2lKZUwyZnE1K1ZJUTFCMVFTbk10OHNhOFNsQW1YeTBqM0czWHJZ?=
+ =?utf-8?B?RkJCaG9Oam53Tmx5ZWV5SkFQQVIrbUE5V2RSZkxNcGUrZ2ZzdFVxNEZjdThn?=
+ =?utf-8?B?NEdJVW1LQ1RqS0cvc3J6NDliT05kd3VoaUpzTW90dXdQekZZWVF6OGtGN3dL?=
+ =?utf-8?B?cTlBbkpyblFtaENYQmxmVDNOSWN3ZWJ5TllUemo0aUF2N0txcVV5Y3hqOTZD?=
+ =?utf-8?B?V2VKRGJLeHoxRTlnTWN0SUxlVGdnR204R2dwNTVTZzJEeFZGbzcvaXp1OXJJ?=
+ =?utf-8?B?VFFwd21ySHY3RUxqNjJRa3BGMFNIVXRDcmpBY3FrMmFBNlR6T1pJMXl4VmpK?=
+ =?utf-8?B?Ui9QSmZaeUtHRlA1TUhYTWI4N29BTmEvdmo1cVBMck5ZUjZScWR4bjZYTUw4?=
+ =?utf-8?B?T1VDbG1GSXJ6eE42Y3RlMnBwcitsMkxERUhLZFZCRllLa2RoWG5JWmlQQW0r?=
+ =?utf-8?B?cHJJOW1OSml2TWt4SG9GQVQzam9QNWMyWE9oMUdFQUdVVk5XTFAzT2N4QmRT?=
+ =?utf-8?B?MC9XS2NETXlTeFR3azR6dXNhbjVTVUo4ODJDM1hIN1FnMFFGVWd0V3VscUEr?=
+ =?utf-8?B?QXFDQ2d2dlZRYWdET1F2dTdESmduUkZUSHdVRDIyQzRyTi9rOWkvODBWWlIw?=
+ =?utf-8?B?ZmpTMXZoTUFQTnZMOSt1NUVsaXFVbmgySjUybnNRTkpuVExscjh0aHM3cGZm?=
+ =?utf-8?B?OFpnNUIya0wyN3NXU2FMR0xPNUU5WkdGNWNWWi9uWmZsRXpzMzA1My9GajJw?=
+ =?utf-8?B?MHp2MTdXYXRVdXNmVERnekpJRGRHRHdoYUo4VFQzOUF0ODk5M0hBenVHd3Rt?=
+ =?utf-8?B?cFcvYXpId2g4eExEdDUxUjFCN1RzdXJHeEE1WXdlamhjT1JKdXV0VGZmM1ps?=
+ =?utf-8?B?alJ6emZIUnplenV5YUhZWnlMUFdvRzBDc01xSExmRThoanM1ZFA3NE1DQmJn?=
+ =?utf-8?B?aDdVczl5ZU56cEt1ZmRmeWczVzM3V01zLzc0YnVnWll0OS9yT2NuWXNMRThi?=
+ =?utf-8?B?OU55b0NRSmlFZjM0YlhuZ0lrQ3o3SFUxWkxaYWxBenpMM0txaWtEb05iZU5v?=
+ =?utf-8?B?T0NrNlVlNURESlhqaG9ZK25Pakt5RmpYVkg0NUtMQU0vUjcyMWtzTW1CNDFU?=
+ =?utf-8?B?SU5MVVFyMlBIem4xMUx6Q3B1YW91UkNuaDZOWm9FRVFnVlZPMTVrNFlHR1Ni?=
+ =?utf-8?Q?4VRDgYI83+vhu2QQvHOZq1Qq5EijMo=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BFCE05D46872E8498DC7807E6842A1EE@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20250528194118.1534655-1-bruce.ashfield@gmail.com>
- <CAOSpxdYxdj6jDo7O5OPFc_G5BX_36F2nJnnpOiiHVMiRqvP-GA@mail.gmail.com> <CADkTA4NFnYGkMVKuHh77g2RTOzW2mA3CWG3BqRLfg1DRoQdJZg@mail.gmail.com>
-In-Reply-To: <CADkTA4NFnYGkMVKuHh77g2RTOzW2mA3CWG3BqRLfg1DRoQdJZg@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 29 May 2025 12:41:59 -0700
-X-Gm-Features: AX0GCFuvo8mVmpFFja1kTmDwWi0wnMTKuPp7dpofmRuMsTZpa0RjPbIj0ALqYnU
-Message-ID: <CAOSpxdZ7z6H1u3=ZD3KufJ=7FDihzhPMgNu_kOA_HGhUDi0XqA@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap 1/6] linux-yocto/6.6: update to v6.6.86
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR08MB7498
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM4PEPF00027A68.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	73eb1f24-d207-45b1-ecea-08dd9eebeda6
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|14060799003|36860700013|376014|82310400026|1800799024|35042699022;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?RGdRZGRkcHQ3cDdCMzZFOTNhRnRHZE1rdnIvQ1NpMWp0VjU2QWRGRXVPWGxP?=
+ =?utf-8?B?RFJwRkJJYXB0ejV3V0JDSGpGbW1WSnRZZXMzSHlla0RPcU1qaTJNRUVGVHhR?=
+ =?utf-8?B?SFh4cnVuRDArZXJaQUFJRnBBcm1qRVFtNnduUFZ5SkE5bU9yOUtsSVBvVmFw?=
+ =?utf-8?B?NzF6M1E1WENJS202U3p4a0NZRVNKQ3lDUjkxWkJiTFhZRUJ1MS9CNHZ2dHpx?=
+ =?utf-8?B?ZElFSmltMFYzU2VBVWhWZHVMMk8xL2Y0RGl4VG91RmpXMDluNzRzK0NhaUZT?=
+ =?utf-8?B?MysvL0k0NE1KakRVeklmNHlWWlJSeFFheGtFYUZOa1BQSGFrNXlzSURTQ2U1?=
+ =?utf-8?B?UGV5N2g3OW5YSE5nWmxpVk1Nd2gzeFNVV2xyOGhSOG9GcHZGQmQzT04xTzBZ?=
+ =?utf-8?B?YmRFL1U4T1R4MjRlbUNMRzcyOVUvL1lEaHA2aUhNaXFNYUF1V0xyOHpDMzNR?=
+ =?utf-8?B?Z1VITGc3cnpZU1V3YWtQM2wwZWF5SmNmWVNjY0RaSThRdzYya1lxTEpISWM3?=
+ =?utf-8?B?bnFUQUpBL1lMMDVBNDF3WHN3ZDZaR3F6cG8vem5pUjh6R0dnaUw3Y1hSdHdl?=
+ =?utf-8?B?V2piaGRQZDJiZHhHbk52MU5ZUkdQdnNZNE5QUkx3SHBnNWR2NGlVK25oSlNB?=
+ =?utf-8?B?bVlSdEkyMnY0R3RodEIyRXVielE5TmtiZy9tMm90OS9LNjNmeS85ZW5KOWJy?=
+ =?utf-8?B?VTVSd1NSRXR1dU5jckRKNVpzdTQ1eVVyUGk3bCtXaDd3Um5yWTQzNDNhZnlp?=
+ =?utf-8?B?YzFjM1J3NFJDeDQ2Y1l2VFhqY0pEU0kxUnVMYnozSHQ4clZYZnA4OXVFdFRH?=
+ =?utf-8?B?dGxtYXI2Sk01emt5SHRNNGpCQVBVeGRQUzg1S3hGcG1SMTlDVGwvVFhGNWlk?=
+ =?utf-8?B?L1ZBcTdVbTBFWjJSR2NyaGZlemR4dkRpL3J1Yk91UDhjdG1QczBTQytKRHd6?=
+ =?utf-8?B?czRoWjJkMjVSdHE3R2t3d2w0a3EzRXJESWd4RzdYWDVwWG0xdjJydVYxbTJP?=
+ =?utf-8?B?Wm9iMWJOMTBMSkE5ODdRWGcvdUljUks4L1Y0cmZ4M3lhbGhEOE5qT1FKUDc1?=
+ =?utf-8?B?WEhhUFJ6Qks5M2VqQjZ2WUZNK1UyT0VLOG9XL3hZcGdPK3NYa05Rc0sxeW5q?=
+ =?utf-8?B?ZzJrNkJSbFNPTDl3RUNNV3N1NkZUMFBpdlgyeUwwaGhGTlFoRVgrSG05eEp1?=
+ =?utf-8?B?c2JYb21HWmlxMDMvekYvMXZjaWovNDdNcGprUkwyeXo0Zy9yamgvVnQyRWFL?=
+ =?utf-8?B?a1pBUHN0SXdEc2g5WURHV001QkJDdmhqTWRHcXkycGdaNDVpQVBRem9XSGxJ?=
+ =?utf-8?B?WnR3emUyb3ZsSGNPaC95RWZ0SDlCVGJjQjR0dzljYWlzQXVjczl5R2Qvc2Iw?=
+ =?utf-8?B?dGFSYXZDRTlGQmRTbHo0dnlZeU5iTjdBcm81eGQ5SUdPb2dNOVlLMHpvRjN2?=
+ =?utf-8?B?VTMwR3QvaXNpYmRVcTlFY3g3ZzRCTkFKaHJURHpGazFCeFp2SzZ2QzZ4VERQ?=
+ =?utf-8?B?LzU5cnNrVi9JUVQ1eXBldzNqckRzN2JSUk95RWdva1F3WW9hbXRwdHZiSGx3?=
+ =?utf-8?B?Z1BxRllnUXJCampNWklDNnlaTDNxYTRNVkJPSmNNSDNERW5rblk3SlNFMGg4?=
+ =?utf-8?B?VitHQUV3UlRoN2MzdVp1RkRyNWVpYXBKNkJvTHZQOWRqZS9kQTJZblR5TkM1?=
+ =?utf-8?B?MGVWRHIwalgwMzZZaTVKQnA1UGsyM3ZrQ3NDYVkxdGwxeHVRZFkraFpncHZy?=
+ =?utf-8?B?QmhDejZZZWpsbmZxRG1pcGZyZ2Y1QmsvOG5HeGpTK1R3eVpuT09WQnh0Q0Vx?=
+ =?utf-8?B?d0NhOUhMZXBQQThqWC8rZlVNVzlRak96MWx0N3JCVGJsSU41SDZVVjFJTVNk?=
+ =?utf-8?B?b2hsbnlndy9Qdk9rOHZVUzZ2aDZpRVZFS2xraTNRVTJteHFnVDdJMDN6TWlT?=
+ =?utf-8?B?NHRNdFI0U3k2VjdxZkJQMlZlUlQ4SEd3U0pkNUE3SUFhZ3dYRjZySUlJM1U3?=
+ =?utf-8?B?YXM3QkJxUk8vRVhrcjQ0SFBXeW5DczhqTytMSjJwTW5vZThPYUJsUVZUaFg2?=
+ =?utf-8?Q?dZP1Rr?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(36860700013)(376014)(82310400026)(1800799024)(35042699022);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2025 20:04:21.7980
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ec0c2e3-3a3a-4072-95d2-08dd9eec00c4
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM4PEPF00027A68.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB11027
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 19:42:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217432
+ <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 20:04:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217433
 
-On Thu, May 29, 2025 at 9:58=E2=80=AFAM Bruce Ashfield <bruce.ashfield@gmai=
-l.com> wrote:
->
->
->
-> On Thu, May 29, 2025 at 11:32=E2=80=AFAM Steve Sakoman <steve@sakoman.com=
-> wrote:
->>
->> Hi Bruce,
->>
->> The current version in Scarthgap is 6.6.84, so this series seems to be
->> missing the 6.6.84 -> 6.6.85 version bump!
->
->
-> There's actually two patches missing. I thought there were 6 .. but there=
- were 8 new commits.
->
-> I just sent a v2 with 8 patches.
-
-Thanks Bruce!
-
-Steve
-
->>
->> On Wed, May 28, 2025 at 12:41=E2=80=AFPM <bruce.ashfield@gmail.com> wrot=
-e:
->> >
->> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
->> >
->> > Updating linux-yocto/6.6 to the latest korg -stable release that compr=
-ises
->> > the following commits:
->> >
->> >     3fa1ea3ede18 Linux 6.6.86
->> >     72a68d2bede3 usb: gadget: uvc: Fix ERR_PTR dereference in uvc_v4l2=
-.c
->> >     367a281315ec serial: 8250_dma: terminate correct DMA in tx_dma_flu=
-sh()
->> >     6186fb2cd363 memstick: rtsx_usb_ms: Fix slab-use-after-free in rts=
-x_usb_ms_drv_remove
->> >     2beb999f73b4 net: usb: usbnet: restore usb%d name exception for lo=
-cal mac addresses
->> >     3007115c2e40 net: usb: qmi_wwan: add Telit Cinterion FE990B compos=
-ition
->> >     ad43b150e109 net: usb: qmi_wwan: add Telit Cinterion FN990B compos=
-ition
->> >     5ec93d77200e tty: serial: fsl_lpuart: disable transmitter before c=
-hanging RS485 related registers
->> >     fe14cfba6c16 tty: serial: 8250: Add Brainboxes XC devices
->> >     be28a3dabdca tty: serial: 8250: Add some more device IDs
->> >     52eed361c250 counter: microchip-tcb-capture: Fix undefined counter=
- channel state on probe
->> >     fa15592e9d92 counter: stm32-lptimer-cnt: fix error handling when e=
-nabling
->> >     835807f54fad ALSA: hda/realtek: Support mute LED on HP Laptop 15s-=
-du3xxx
->> >     525104157385 netfilter: socket: Lookup orig tuple for IPv6 SNAT
->> >     f16a097047e3 scsi: ufs: qcom: Only free platform MSIs when ESI is =
-enabled
->> >     3918b2016d28 reset: starfive: jh71x0: Fix accessing the empty memb=
-er on JH7110 SoC
->> >     790d30578faa mm/page_alloc: fix memory accept before watermarks ge=
-ts initialized
->> >     404d85a71d5a drm/amd/display: Don't write DP_MSTM_CTRL after LT
->> >     5f57a96e92c6 drm/dp_mst: Add a helper to queue a topology probe
->> >     93ccb0fb3606 drm/dp_mst: Factor out function to queue a topology p=
-robe work
->> >     b9264aa24f62 drm/amd/display: Check denominator crb_pipes before u=
-sed
->> >     ad0410346cc4 ARM: Remove address checking for MMUless devices
->> >     1809cabfe0e9 ARM: 9351/1: fault: Add "cut here" line for prefetch =
-aborts
->> >     fe17c8aaa90f ARM: 9350/1: fault: Implement copy_from_kernel_nofaul=
-t_allowed()
->> >     9da6b6340dbc atm: Fix NULL pointer dereference
->> >     f99afc594a2b HID: hid-plantronics: Add mic mute mapping and genera=
-lize quirks
->> >     8ecdc85b5cab ALSA: usb-audio: Add quirk for Plantronics headsets t=
-o fix control names
->> >     6a5b2ed82152 ARM: dts: am335x-bone-common: Increase MDIO reset dea=
-ssert time
->> >     ceb5fadbf450 Revert "v6.6 -stable -rt merge fixup"
->> >     1c2962a164ff v6.6 -stable -rt merge fixup
->> >     18abb2787b53 x86/syscall: Mark exit[_group] syscall handlers __nor=
-eturn
->> >     2879d995e569 pnmtologo: sync with 6.6
->> >     43ea1c5e6eb3 lib/build_OID_registry: take -stable reproducibility =
-changes
->> >     35046aea43c8 bpftool: Fix undefined bpf macro for unix socket
->> >     9a558d4b8621 tools/resolve_btfids: Fix comparison of distinct poin=
-ter types warning in resolve_btfids
->> >     42b2eec2e503 bpftool: Query only cgroup-related attach types
->> >     f71bb11887ba cpu/amd: inhibit SMP check for qemux86
->> >     c31365597a17 powerpc/uaccess: Fix build errors seen with GCC 13/14
->> >     64ebf485c56b usb: dwc3: core: remove lock of otg mode during gadge=
-t suspend/resume to avoid deadlock
->> >     7c76aad68f6d kselftest: Add a ksft_perror() helper
->> >     06644f0d7193 drm/tilcdc: Set preferred depth
->> >     ff7ae7b32324 crypto: jitter - add RCT/APT support for different OS=
-Rs
->> >     50cd24ddb6f0 arm64: defconfig: remove CONFIG_IPQ_APSS_5018
->> >     58e5c91d6701 x86/alternatives: Disable interrupts and sync when op=
-timizing NOPs in place
->> >     c878fd2d4c79 x86/alternatives: Sync core before enabling interrupt=
-s
->> >     c2d64b9f52b6 qemux86: add configuration symbol to select values
->> >     630c33229e6d sched/isolation: really align nohz_full with rcu_nocb=
-s
->> >     0e5e0f68e2e6 clear_warn_once: add a clear_warn_once=3D boot parame=
-ter
->> >     46934791b902 clear_warn_once: bind a timer to written reset value
->> >     cdee9e38ff32 clear_warn_once: expand debugfs to include read suppo=
-rt
->> >     82b562b81841 tools: Remove some options from CLANG_CROSS_FLAGS
->> >     36dc380b776b libbpf: Fix build warning on ref_ctr_off
->> >     9e3e1fe20982 perf: perf can not parser the backtrace of app in the=
- 32bit system and 64bit kernel.
->> >     e497a4a5da65 perf: x86-32: explicitly include <errno.h>
->> >     7b57ddd89565 perf: mips64: Convert __u64 to unsigned long long
->> >     1cfc19423dc7 perf: fix bench numa compilation
->> >     98bc2815fade perf: add SLANG_INC for slang.h
->> >     17209a70b9b3 perf: add sgidefs.h to for mips builds
->> >     9cd4258d910a perf: change --root to --prefix for python install
->> >     8110a4f26628 perf: add 'libperl not found' warning
->> >     bc89d5e08f77 perf: force include of <stdbool.h>
->> >     4f6c760cc876 fat: Replace prandom_u32() with get_random_u32()
->> >     bc53117b12b2 fat: don't use obsolete random32 call in namei_vfat
->> >     30b2236ab378 FAT: Added FAT_NO_83NAME
->> >     cef98d22b4ed FAT: Add CONFIG_VFAT_NO_CREATE_WITH_LONGNAMES option
->> >     0bbd7daba9e1 FAT: Add CONFIG_VFAT_FS_NO_DUALNAMES option
->> >     5883fc340084 aufs6: adapt to v6.6 i_op->ctime changes
->> >     c4342d979bf2 aufs6: fix magic.mk include path
->> >     35266bc2dc81 aufs6: adapt to v6.6
->> >     8edede4e98be aufs6: core
->> >     712248233ebe aufs6: standalone
->> >     3b71a8a848d8 aufs6: mmap
->> >     3e2924871f37 aufs6: base
->> >     7f4907a93101 aufs6: kbuild
->> >     d2f7b03e4aa7 yaffs2: update VFS ctime operations to 6.6+
->> >     bcd6cfcd1aa0 yaffs2: v6.5 fixups
->> >     cc615704b5f5 yaffs2: Fix miscalculation of devname buffer length
->> >     8ef2e22dcf91 yaffs2: convert user_namespace to mnt_idmap
->> >     c9c749f9f7d3 yaffs2: replace bdevname call with sprintf
->> >     395b01cdc39d yaffs2: convert read_page -> readfolio
->> >     d98b07e43ba6 yaffs: replace IS_ERR with IS_ERR_OR_NULL to check bo=
-th ERR and NULL
->> >     613c6d50fdbe yaffs: fix -Wstringop-overread compile warning in yaf=
-fs_fix_null_name
->> >     622c4648936f yaffs2: v5.12+ build fixups (not runtime tested)
->> >     7562133d4090 yaffs: include blkdev.h
->> >     dbd44252cd59 yaffs: fix misplaced variable declaration
->> >     c223a10b1ac0 yaffs2: v5.6 build fixups
->> >     90f6007cfbf4 yaffs2: fix memory leak when /proc/yaffs is read
->> >     37ee169c5ea1 yaffs: add strict check when call yaffs_internal_read=
-_super
->> >     b6e007b8abb6 yaffs: repair yaffs_get_mtd_device
->> >     fb98f65a466a yaffs: Fix build failure by handling inode i_version =
-with proper atomic API
->> >     51e0aac75ea2 yaffs2: fix memory leak in mount/umount
->> >     2b74a0cae7b0 yaffs: Avoid setting any ACL releated xattr
->> >     ff4130a9c376 Yaffs:check oob size before auto selecting Yaffs1
->> >     ba95b409c67c fs: yaffs2: replace CURRENT_TIME by other appropriate=
- apis
->> >     8fa35eba9056 yaffs2: adjust to proper location of MS_RDONLY
->> >     1eb5deaad8c4 yaffs2: import git revision b4ce1bb (jan, 2020)
->> >     4dce67c1e8c8 initramfs: allow an optional wrapper script around in=
-itramfs generation
->> >     2f603d83fcc4 pnmtologo: use relocatable file name
->> >     664a6a0a484b tools: use basename to identify file in gen-mach-type=
-s
->> >     9de64bc0c185 lib/build_OID_registry: fix reproducibility issues
->> >     ae9b80797295 vt/conmakehash: improve reproducibility
->> >     a972323151bd iwlwifi: select MAC80211_LEDS conditionally
->> >     15d2adcc0198 net/dccp: make it depend on CONFIG_BROKEN (CVE-2020-1=
-6119)
->> >     5556a6c04b19 arm64/perf: Fix wrong cast that may cause wrong trunc=
-ation
->> >     5552dc768ffc defconfigs: drop obselete options
->> >     00fe4152df31 arm64/perf: fix backtrace for AAPCS with FP enabled
->> >     3888d0652edf linux-yocto: Handle /bin/awk issues
->> >     3d55d299f23a uvesafb: provide option to specify timeout for task c=
-ompletion
->> >     23c068c080be uvesafb: print error message when task timeout occurs
->> >     edbfc939266e compiler.h: Undef before redefining __attribute_const=
-__
->> >     c99ae7e2a19a vmware: include jiffies.h
->> >     572d84d928c8 Resolve jiffies wrapping about arp
->> >     fdcd47cac843 nfs: Allow default io size to be configured.
->> >     927d48801098 check console device file on fs when booting
->> >     57cc27f821dd mount_root: clarify error messages for when no rootfs=
- found
->> >     1b53d82a8152 mconf: fix output of cflags and libraries
->> >     1811da09f42c menuconfig,mconf-cfg: Allow specification of ncurses =
-location
->> >     83c2e0c6eb1f modpost: mask trivial warnings
->> >     6de673039484 kbuild: exclude meta directory from distclean process=
-ing
->> >     6decd32815f5 powerpc: serialize image targets
->> >     f6b683b38318 arm: serialize build targets
->> >     e798b09ebf57 mtd_blkdevs: add mtd_table_mutex lock back to blktran=
-s_{open, release} to avoid race condition
->> >     dc8a1e5a88f8 x86_64_defconfig: Fix warnings
->> >     68491e5f72b6 powerpc/ptrace: Disable array-bounds warning with gcc=
-8
->> >     d71ebfce3004 powerpc: Disable attribute-alias warnings from gcc8
->> >     62f50884b8b1 powerpc: kexec fix for powerpc64
->> >     da6871c62c37 powerpc: Add unwind information for SPE registers of =
-E500 core
->> >     f161c880c11d mips: make current_cpu_data preempt safe
->> >     5e94a8247ce7 mips: vdso: fix 'jalr $t9' crash in vdso code
->> >     19e36714b1c7 mips: Kconfig: add QEMUMIPS64 option
->> >     e2e537db3cbd 4kc cache tlb hazard: tlbp cache coherency
->> >     aee9870611e5 malta uhci quirks: make allowance for slow 4k(e)c
->> >     881948cd1517 drm/fb-helper: move zeroing code to drm_fb_helper_fil=
-l_var
->> >     98ec1963fcb7 arm64: defconfig: cleanup config options
->> >     f1727c537ba8 vexpress: Pass LOADADDR to Makefile
->> >     4474c32dc24a arm: ARM EABI socketcall
->> >     75e31a2b70fd ARM: LPAE: Invalidate the TLB for module addresses du=
-ring translation fault
->> >
->> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->> > ---
->> >  .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
->> >  .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
->> >  meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++---------=
--
->> >  3 files changed, 20 insertions(+), 20 deletions(-)
->> >
->> > diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/re=
-cipes-kernel/linux/linux-yocto-rt_6.6.bb
->> > index e0006035fe..83ab521399 100644
->> > --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
->> > +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
->> > @@ -14,13 +14,13 @@ python () {
->> >          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/ker=
-nel to linux-yocto-rt to enable it")
->> >  }
->> >
->> > -SRCREV_machine ?=3D "4c94a7140a0416421cd82fe18703e99d7c4eec8e"
->> > -SRCREV_meta ?=3D "39d19bc9f333a0bfb88cd55befe70d5da87adcf8"
->> > +SRCREV_machine ?=3D "baede5a5c17bce04338fe12d6d0f8277edd43dd4"
->> > +SRCREV_meta ?=3D "a56c84ea9e406a96490a0d70668e31b10675f1bd"
->> >
->> >  SRC_URI =3D "git://git.yoctoproject.org/linux-yocto.git;branch=3D${KB=
-RANCH};name=3Dmachine;protocol=3Dhttps \
->> >             git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta=
-;name=3Dmeta;branch=3Dyocto-6.6;destsuffix=3D${KMETA};protocol=3Dhttps"
->> >
->> > -LINUX_VERSION ?=3D "6.6.85"
->> > +LINUX_VERSION ?=3D "6.6.86"
->> >
->> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aed=
-cd7e46"
->> >
->> > diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/=
-recipes-kernel/linux/linux-yocto-tiny_6.6.bb
->> > index 8c0617be10..49a2bb9aa4 100644
->> > --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
->> > +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
->> > @@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
->> >  # CVE exclusions
->> >  include recipes-kernel/linux/cve-exclusion_6.6.inc
->> >
->> > -LINUX_VERSION ?=3D "6.6.85"
->> > +LINUX_VERSION ?=3D "6.6.86"
->> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aed=
-cd7e46"
->> >
->> >  DEPENDS +=3D "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', =
-'', d)}"
->> > @@ -17,8 +17,8 @@ DEPENDS +=3D "openssl-native util-linux-native"
->> >  KMETA =3D "kernel-meta"
->> >  KCONF_BSP_AUDIT_LEVEL =3D "2"
->> >
->> > -SRCREV_machine ?=3D "50111c8145a573a5eb34859736492d3914d74f26"
->> > -SRCREV_meta ?=3D "39d19bc9f333a0bfb88cd55befe70d5da87adcf8"
->> > +SRCREV_machine ?=3D "754b91c970cb5001c4f1b205be0b29b0efbbe82d"
->> > +SRCREV_meta ?=3D "a56c84ea9e406a96490a0d70668e31b10675f1bd"
->> >
->> >  PV =3D "${LINUX_VERSION}+git"
->> >
->> > diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recip=
-es-kernel/linux/linux-yocto_6.6.bb
->> > index 061837ec88..abbfdbbd43 100644
->> > --- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
->> > +++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
->> > @@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?=3D "v6.6/standard/base"
->> >  KBRANCH:qemuloongarch64  ?=3D "v6.6/standard/base"
->> >  KBRANCH:qemumips64 ?=3D "v6.6/standard/mti-malta64"
->> >
->> > -SRCREV_machine:qemuarm ?=3D "c7fc26b463b6d492177ab4f3133ac709f72959e6=
-"
->> > -SRCREV_machine:qemuarm64 ?=3D "a2123abde1b536e17d6f8b41c07006b1b78fc1=
-4e"
->> > -SRCREV_machine:qemuloongarch64 ?=3D "6a5b2ed821525dac9e4f3f5283376f02=
-965d3a7b"
->> > -SRCREV_machine:qemumips ?=3D "441ff4147581f8866ccb145ee1fcecb418543a4=
-6"
->> > -SRCREV_machine:qemuppc ?=3D "c186535e4a16fe6524c963f40744f56d56cc37ae=
-"
->> > -SRCREV_machine:qemuriscv64 ?=3D "6a5b2ed821525dac9e4f3f5283376f02965d=
-3a7b"
->> > -SRCREV_machine:qemuriscv32 ?=3D "6a5b2ed821525dac9e4f3f5283376f02965d=
-3a7b"
->> > -SRCREV_machine:qemux86 ?=3D "6a5b2ed821525dac9e4f3f5283376f02965d3a7b=
-"
->> > -SRCREV_machine:qemux86-64 ?=3D "6a5b2ed821525dac9e4f3f5283376f02965d3=
-a7b"
->> > -SRCREV_machine:qemumips64 ?=3D "ef983636bee26dd17055fbff877a6ca4cd10e=
-4ed"
->> > -SRCREV_machine ?=3D "6a5b2ed821525dac9e4f3f5283376f02965d3a7b"
->> > -SRCREV_meta ?=3D "39d19bc9f333a0bfb88cd55befe70d5da87adcf8"
->> > +SRCREV_machine:qemuarm ?=3D "d5fad62ae36747211fcfda82fc984c7085c7d343=
-"
->> > +SRCREV_machine:qemuarm64 ?=3D "4469abd262a2de4c66cd5d37f9dfbfb2060d4e=
-67"
->> > +SRCREV_machine:qemuloongarch64 ?=3D "257833f963feceebad0ef58d5e5426f9=
-10349a85"
->> > +SRCREV_machine:qemumips ?=3D "8dabd4628c1c131637bda6915bea0b21493b933=
-8"
->> > +SRCREV_machine:qemuppc ?=3D "1862875baa7888ec55244d0ccfe30c94f94be1a7=
-"
->> > +SRCREV_machine:qemuriscv64 ?=3D "257833f963feceebad0ef58d5e5426f91034=
-9a85"
->> > +SRCREV_machine:qemuriscv32 ?=3D "257833f963feceebad0ef58d5e5426f91034=
-9a85"
->> > +SRCREV_machine:qemux86 ?=3D "257833f963feceebad0ef58d5e5426f910349a85=
-"
->> > +SRCREV_machine:qemux86-64 ?=3D "257833f963feceebad0ef58d5e5426f910349=
-a85"
->> > +SRCREV_machine:qemumips64 ?=3D "1d698ed1a159dde9479181de457e51343c01c=
-d70"
->> > +SRCREV_machine ?=3D "257833f963feceebad0ef58d5e5426f910349a85"
->> > +SRCREV_meta ?=3D "a56c84ea9e406a96490a0d70668e31b10675f1bd"
->> >
->> >  # set your preferred provider of linux-yocto to 'linux-yocto-upstream=
-', and you'll
->> >  # get the <version>/base branch, which is pure upstream -stable, and =
-the same
->> >  # meta SRCREV as the linux-yocto-standard builds. Select your version=
- using the
->> >  # normal PREFERRED_VERSION settings.
->> >  BBCLASSEXTEND =3D "devupstream:target"
->> > -SRCREV_machine:class-devupstream ?=3D "d57a7c6169607dd09157ccf257e556=
-fb75444f28"
->> > +SRCREV_machine:class-devupstream ?=3D "3fa1ea3ede181bf11c329df056840b=
-04ec2e3dca"
->> >  PN:class-devupstream =3D "linux-yocto-upstream"
->> >  KBRANCH:class-devupstream =3D "v6.6/base"
->> >
->> > @@ -44,7 +44,7 @@ SRC_URI =3D "git://git.yoctoproject.org/linux-yocto.=
-git;name=3Dmachine;branch=3D${KBRA
->> >             git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta=
-;name=3Dmeta;branch=3Dyocto-6.6;destsuffix=3D${KMETA};protocol=3Dhttps"
->> >
->> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aed=
-cd7e46"
->> > -LINUX_VERSION ?=3D "6.6.85"
->> > +LINUX_VERSION ?=3D "6.6.86"
->> >
->> >  PV =3D "${LINUX_VERSION}+git"
->> >
->> > --
->> > 2.39.2
->> >
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
+T24gMTUgQXByIDIwMjUsIGF0IDA3OjU2LCBLb2VuIEtvb2kgdmlhIGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcgPGtvZW4ua29vaT1vc3MucXVhbGNvbW0uY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
+IHdyb3RlOg0KPiANCj4gPiBJdCdzIHZlcnkgZGlmZmljdWx0IHRvIGNvbmZpZ3VyZWQgc3lzdGVt
+ZCBpbiBhIHdheSB0aGF0IGlzIGFjY2VwdGFibGUNCj4gPiB0byBldmVyeW9uZSwgYW5kIEknbSBu
+b3Qgc3VyZSBhZGRpbmcgdmFyaWFibGUgImtub2JzIiBmb3IgZXZlcnkNCj4gPiBwb3NzaWJsZSBj
+b25maWd1cmF0aW9uIG9wdGlvbiBpcyBmZWFzaWJsZSBmb3Igc3lzdGVtZC4NCg0KTXkgMmMgaXMg
+dGhhdCBJIGFncmVlIHdpdGggSm9zaC4NCg0KSSB0aGluayB0aGF0IHdlIG5lZWQgc29tZSBoZWxw
+ZXIgY2xhc3NlcyB0byBtYWtlIGl0IHNpbXBsZSB0byBjb25maWd1cmUgc3lzdGVtZCBhdCBhIGhp
+Z2hlciBsZXZlbCBpbiBhIHNlcGFyYXRlIHJlY2lwZSwgYnkgZHJvcHBpbmcgaW4gY29uZmlndXJh
+dGlvbiBmcmFnbWVudHMgYW5kIGxpbmtzIGFzIG5lZWRlZC4gVGhpcyBzZXBhcmF0ZSByZWNpcGUg
+Y291bGQgYmUgbWFjaGluZS1zcGVjaWZpYywgdW5saWtlIHRoZSBzeXN0ZW1kIHJlY2lwZSBpdHNl
+bGYuICBXZSBjb3VsZCB0aGVuIHJlbW92ZSB0aGUgUE5JIGxvZ2ljIGZyb20gc3lzdGVtZCBpdHNl
+bGYgKGFuZCBhbnkgb3RoZXIgaGFsZi1hdHRlbXB0cyBhdCBjb25maWd1cmF0aW9uIHRvbykuDQoN
+Cj4gRm9yIG1lLCB0aGUgaXNzdWUgaXMgdGhhdCBPRS1jb3JlIGFkZHMgdGhlIE1BQyBuYW1pbmcg
+ZmVhdHVyZSB0aGF0IHVwc3RyZWFtIGhhcyBkaXNhYmxlZCBieSBkZWZhdWx0LCB3aGljaCBnaXZl
+cyBtZSB1bnByZWRpY3RhYmxlIG5hbWVzIGZvciB2YXJpb3VzIG9uLVNvQyBuZXR3b3JrIGludGVy
+ZmFjZXNbMV0uIEhhdmluZyBhIHdheSwgc3VwcG9ydGVkIGJ5IE9FLWNvcmUsIHRvIGRpc2FibGUg
+dGhlIGFkZGl0aW9uIHRoYXQgcmVzdWx0cyBpbiBwcmVkaWN0YWJsZSBuYW1lcyBub3QgYmVpbmcg
+cHJlZGljdGFibGUgd291bGQgYmUgZ3JlYXQuIEl0IHdvdWxkIG1ha2UgUE5JIGZ1bmN0aW9uIGFz
+IGludGVuZGVkIDopDQoNCkFtdXNpbmdseSwgdGhlIG1hYyBuYW1pbmcgd2FzIGFkZGVkIGZvciBz
+b21lIFNvQ3MgdGhhdCBkb27igJl0IGhhdmUgYW55dGhpbmcgZWxzZSAob2UtY29yZSA0YTdiNDJm
+YyBhbmQgMzdiZDhlOGQpLiAgSXTigJlzIGFsbW9zdCBsaWtlIHRoaXMgaXMgYSBtYWNoaW5lLXNw
+ZWNpZmljIGNvbmZpZ3VyYXRpb24gdGhhdCBzaG91bGRu4oCZdCBiZSBwYXJ0IG9mIHRoZSBjb3Jl
+IHN5c3RlbWQgcmVjaXBlIGF0IGFsbOKApg0KDQpJ4oCZbSBtb3JlIHRoYW4gaGFsZiB0ZW1wdGVk
+IHRvIHJldmVydCB0aGUgYnVsayBvZiB0aGUgUE5JIHBvbGljeSBwYXRjaGVzIChsZWF2aW5nIGp1
+c3QgdGhlIG9uL29mZiB0b2dnbGUsIHdpdGhvdXQgYWx0ZXJpbmcgdGhlIGJlaGF2aW91ciBvdGhl
+cndpc2UpLCBhbmQgaWYgc29tZW9uZSB3YW50cyB0byBvdmVycmlkZSB0aGVtIG9uIGEgcGVyLW1h
+Y2hpbmUgYmFzaXMgdGhlbiB0aGV5IGNhbiwgdXNpbmcgYSBwZXItbWFjaGluZSByZWNpcGUgdGhh
+dCB3cml0ZXMgYSBkcm9wIGZpbGUgdG8gL3Vzci9saWIvc3lzdGVtZC9uZXR3b3JrLzk5LWRlZmF1
+bHQubGluay5kL3BuaS5jb25mLiANCg0KUm9zcw==
 
