@@ -1,87 +1,127 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF55DC5AD49
-	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 16:25:57 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.25367.1748535956695278231
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91AF6C5AE59
+	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 16:28:27 +0000 (UTC)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+ by mx.groups.io with SMTP id smtpd.web10.25407.1748536104501520295
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 09:25:57 -0700
+ Thu, 29 May 2025 09:28:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N7fCYY4i;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-441ab63a415so12515935e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 09:25:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TqSVYnBD;
+ spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2d0920ce388so578081fac.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 09:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1748535954; x=1749140754; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/0rwdShac27XUzRXgW+zNDMXkje07GuA+oBpQtIdXMc=;
-        b=N7fCYY4iUXfoSALOyxz0HpeENyftjGtnJEPiNXVQDtspPWQyDpC5AexQlrjnLNHbuQ
-         V/iu1R9j+aNgX6SxAk9O695VLKmhm2/isCeduYC+MJGRg3rcBh+nvVyy9SMC6m00oxPv
-         ftQxQyMM6qj5tshgqO9ZpIWt22Y59kWr6W6bI=
+        d=gmail.com; s=20230601; t=1748536103; x=1749140903; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hI2NSLlBlt7wy56FWRcBSu4jgjEptyEHgqGTEWIerFM=;
+        b=TqSVYnBDNb6OMJ4TmiKU6UNY+N7w660OVqMdSX41pds1iJo8LaB9RTX2Z3x9wr4aqX
+         U2i1zJTxN1xqHGyxc3e9xNxb7aE0xszqIU7r2mZn6gTzwSZldiJUY9Q4fn67FNuua+l5
+         +nWafp+w9UECQoifCEbFezGUnfjicQNkqbz6Mw/gCe7UDPrrk4BoH8bLuLiTtzEFu1Hb
+         FY4bDFVeHrClXoqtn/6C29rVHHuwl311HGqBijS1heojFkF1ArjXczuMy6xb4J/cIAn5
+         5WCzZDacMPH5iqB1GenXjfd8r6X7fibrbOLUsNDj03SaJdvmkZZAzet3i6tAecPzRMWS
+         zE9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748535954; x=1749140754;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/0rwdShac27XUzRXgW+zNDMXkje07GuA+oBpQtIdXMc=;
-        b=cy8k8PWAqqMcqz4x+jk07opouY5l/tfBl9mg4T91yWwH0SJcrUEY0e2vj2OdxptBP0
-         Ocv0NC7ZyJKSoVdLSpz8PuUxWRxHFNHef7pKb6m7S8E61dP3dQlxbYJiuD9OKk2aaDai
-         qpsD3MOUvhiOCI3B8MpWgFobIRFtEGliOyLMq4QCqssTdXxUK5BILTyr/dUmjT9T5FE5
-         Bgmqb3nrA9qwWhgffh/3cv2T/rBHZj7CAs3EkmsJTvqH1LJARCpVuwTEafhDfLqG8kOL
-         xUUG9pN4arhK9Op3V0d8/Xvn5H+YiXTgxyElVpBy4LSNSfM5+Xch9cZQZ5W0TAnLuu6c
-         R6MA==
-X-Gm-Message-State: AOJu0Yy3ok83v78osQGPeOYcFNt47cPsXvE/xAtc0XzBPW1qZbWmARfM
-	X2ZdoTjf/wGNoghp2t6LrWredRzGOaAJX9XV2Hk/CsaHKOpXM2RRC+tKlxWr7f3THpT4oNeAe40
-	ti8GFxI0=
-X-Gm-Gg: ASbGncus2LbHWB2mpzuybCnfvHv/iklLSQRbgAqZK4mJSnUgU81YyVuVJuBzW9DARp/
-	oC9mBHMfDvjljtL0QNGIcWKurOg9Kflh+Qrhwbi+gsseBsbyOITnirPT/fJusOjlDdVrlbIDVQH
-	RIAGfJwfvERYN7gaiLqVXA+evYStNePxSTJzYIRFLVD6OETTAsg5yeeYDjoOXv82ndgPAT+kl6n
-	I6+QL4Q9ph4Ylj8FWcGFtV1jgprM6m/oSznqZNOhuOivS4Y+sdkil0wGRnWNaQ3ik5cXKpXOsHA
-	PSNujdEFUUusUk4N/XWtc2HBZldaw5AZemmayzmPH0h3kvHYwH3QB/W0ziZByvzMgIkHBrYuT+s
-	vP7cf6fo3Wyqf
-X-Google-Smtp-Source: AGHT+IEZZsd95G8ypKPukErx1IGdfOMDK/TBEchImiAP7awC9uH9ed7bJ8Uc9codF04c5jD1E12KcQ==
-X-Received: by 2002:a05:600c:8207:b0:43c:fa24:873e with SMTP id 5b1f17b1804b1-450d652794amr4360435e9.13.1748535954429;
-        Thu, 29 May 2025 09:25:54 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1a5e:81:40ad:9da7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f0097539sm2468733f8f.63.2025.05.29.09.25.53
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 09:25:53 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sstatetests: Switch to new CDN
-Date: Thu, 29 May 2025 17:25:52 +0100
-Message-ID: <20250529162552.3115463-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+        d=1e100.net; s=20230601; t=1748536103; x=1749140903;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hI2NSLlBlt7wy56FWRcBSu4jgjEptyEHgqGTEWIerFM=;
+        b=c003oaGlD37GMt30eOBFebbsHx/Tr2qaG+4L/OI/0n8noY4ECfNRlnsQai+RItmK9v
+         9FRlkhxkT+rz2br3sqKxfHQ8sjpLrC7f3Zw4lekzygD4PNXu3MS36zbWqGTsJVR6Ea8N
+         LyE+dPdpor0uEwsPlg4fjLnIsL9YxthgZZk5zumkUFgopdB6pqrX8Plz969TZ/as+RZk
+         eS1H1ihGl5zRMvy/A/rsYgp3pKvQCWhRdjo7btqObCaXaxd6DJCTsF+u/ViRqUM7VWKm
+         f35hClTBA6yVR/gF7ttFIYraGpxsrpnPxF3JJDAC/xM1lqD6Q5QwP12GAhjYCdCOXY6h
+         LPpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVGpbJj1RG9qL5bVrco4O82JI27DQ3J2ifD/hV+S91m4gQM8TocEILUzLgOHOIrKtYEK9dggkUtN3kq4qaAd2/4PQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz0u4yVTRmXpCwlKrrres+hzVERrtEg5sqHPAW9y3gUiUHMDppY
+	QgptgZ8SkNXOBfLXybIFVa8a8xfNhgbh4N6lBoUHD/2+GpHW3TJjXYXU
+X-Gm-Gg: ASbGncsumlsqrP3YnZtKNqBIRv/56gbIPEouhKPTPuUcZfS85zOOCYUFYlzTTWayYzw
+	sOxz8KFL4fyFKrgv9gn4aCHrfeYDcIwG8ix3QSSW8Npxf8agXaMJ9QiadJADqYtai+7flUBdvZ6
+	qpf8+F1oyKh5aUOVtdqS51DKoX3EECC3YyF1seGdxjmVSlTf0eySfCcFPXiIsQRIWS37shWsfuh
+	iJE5DzLzuPtDt1x13vfUHY5xdQ4LUfiw8W5/fVE5pJbd9x/2votwRdiSh5623oWtIgCrZT8Nr96
+	kzdK5dDfm4robAJoPZwd+WxLgAX91UvYUq40fZqA2icpnJRxFmB+dSu1vvHXFwxsQNc9lJ2Q8PK
+	zwLq0vuCexKcHSNZTDMH0QlHaitGiTeiJOjw/YK5uvoj9QEs9CVPY/As=
+X-Google-Smtp-Source: AGHT+IG6O2hvz3D/bFhxFU7hHObm7XoqvUOO6kPMNALsEpNCFcUsxW99tzLfHl4QYujld3KjmC5oyg==
+X-Received: by 2002:a05:6870:8092:b0:2d9:3868:b310 with SMTP id 586e51a60fabf-2e907ca45ffmr1383493fac.11.1748536103541;
+        Thu, 29 May 2025 09:28:23 -0700 (PDT)
+Received: from ?IPV6:2601:646:8201:fd20:2986:9b50:188d:1984? ([2601:646:8201:fd20:2986:9b50:188d:1984])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2e906457afesm326568fac.1.2025.05.29.09.28.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 May 2025 09:28:23 -0700 (PDT)
+Message-ID: <e019bc45-77c9-4c04-905f-d4e0cdaa01b4@gmail.com>
+Date: Thu, 29 May 2025 09:28:22 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3 06/13] libjpeg-turbo: Fix build on mips/clang
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20250522-clang-toolchain-v3-0-16cfc6d9891b@gmail.com>
+ <20250522-clang-toolchain-v3-6-16cfc6d9891b@gmail.com>
+ <8779472af099d97425a52fe97f63f5c5e13e9655.camel@linuxfoundation.org>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <8779472af099d97425a52fe97f63f5c5e13e9655.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 16:25:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217418
+ <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 16:28:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217419
 
-The project is switching the way handle our CDN provision of sstate objects,
-update the URL accordingly.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/sstatetests.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 681a57f4db0..487995acc3a 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -972,7 +972,7 @@ class SStateMirrors(SStateCheckObjectPresence):
-             self.append_config("""
- MACHINE = "{}"
- BB_HASHSERVE_UPSTREAM = "hashserv.yoctoproject.org:8686"
--SSTATE_MIRRORS ?= "file://.* http://cdn.jsdelivr.net/yocto/sstate/all/PATH;downloadfilename=PATH"
-+SSTATE_MIRRORS ?= "file://.* http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH"
- """.format(machine))
-         else:
-             self.append_config("""
+On 5/29/25 2:22 AM, Richard Purdie wrote:
+> On Thu, 2025-05-22 at 20:52 -0700, Khem Raj via lists.openembedded.org
+> wrote:
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb
+>> b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb
+>> index
+>> 8533bd8525311e783572cbafb6fccf240db9e0e8..90aa2ef43956f0a1e64f8e08e47
+>> d953bf5773e19 100644
+>> --- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb
+>> +++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.0.bb
+>> @@ -47,6 +47,12 @@ EXTRA_OECMAKE:append:class-target:powerpc64le = "
+>> ${@bb.utils.contains("TUNE_FEA
+>>   DEBUG_OPTIMIZATION:append:armv4 = "
+>> ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-
+>> pointer', '', d)}"
+>>   DEBUG_OPTIMIZATION:append:armv5 = "
+>> ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-
+>> pointer', '', d)}"
+>>   
+>> +# libjpeg-turbo-2.0.2/simd/mips/jsimd_dspr2.S
+>> +# <instantiation>:13:5: error: invalid token in expression
+>> +# .if $17 != 0
+>> +# ^
+>> +CFLAGS:append:toolchain-clang:mipsarch = " -no-integrated-as"
+>> +
+>>   PACKAGES =+ "jpeg-tools libturbojpeg"
+> 
+> I noticed you use "-no-integrated-as" but in the next patch in pixman,
+> you use "-fno-integrated-as". Should we be consistent or are these
+> different?
+
+they are effectively same. -no-integrated-as is legacy clang option 
+format while -fno-integrated-as is more in line with gcc options
+it's generally better to use -fno-integrated-as since it follows the 
+conventional flag naming pattern that other compilers might also recognize.
+
+I will change it in a follow up for consistency.
+
+> 
+> Cheers,
+> 
+> Richard
+
 
