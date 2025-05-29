@@ -1,104 +1,140 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <anibal@limonsoftware.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE32EC54FB3
-	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 21:59:19 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web11.4604.1748555957943158486
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A750C5B543
+	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 23:22:47 +0000 (UTC)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.web10.706.1748560963043088591
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 14:59:18 -0700
+ Thu, 29 May 2025 16:22:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fVtPAaqY;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-400fa6b3012so1514471b6e.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 14:59:17 -0700 (PDT)
+ dkim=pass header.i=@limonsoftware-com.20230601.gappssmtp.com header.s=20230601 header.b=vSiphmP2;
+ spf=pass (domain: limonsoftware.com, ip: 209.85.128.173, mailfrom: anibal@limonsoftware.com)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-70df67e1b17so14821217b3.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 16:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748555957; x=1749160757; darn=lists.openembedded.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pX5DVgbgZFdHSKX+iBVWCQ/v7W4EJAWbEtWlom28Ljc=;
-        b=fVtPAaqYiu+16iLXV2tWspcXxn87P0Ym0g9Q4SArW25WfS8m1RSgDpudAaBn+VFsCA
-         kX7PtljhtQ6utKfVDlr13Qr2rm0qtkfdkXC739gB6nPLSGghG1qABDQGm4782QwO2/CU
-         t9tn/XLVAh1Q7d3Y2qeyhsjX2kZMIxpc+Zlqp7bHvfNk85AqI781G15zIuEjAAMkZt+d
-         lE7qsFukHG3Oc9362SKOvmBtRHqZh1Y3+CMr0FJSI7x/SMAG3EbmMh3/+4H1mYzF2SmZ
-         UhWBHClWgFjhIbXwz8UsJuSPVsrgDt3Eme+C+uzU4U55rtquJQd5BjYaphwJ9LisBHqe
-         kegg==
+        d=limonsoftware-com.20230601.gappssmtp.com; s=20230601; t=1748560962; x=1749165762; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3nLWj071NEm63uIVHcoUbgixrgXsbqlkvj4monCvTz4=;
+        b=vSiphmP2abBnpDbBCl2NCRGKzwh0S8e/l02R9BrydRaYu8RtG6f+jqeOVjX+UA519H
+         KavLD/BzXuTm+wjutoNUIanmEXRyeeaA7+Lzq6YBolLOB9QJ2WAM3x6T0UVk5srHe5nI
+         KMU6wKZM4z0mAYgi0Am2h+P3BN+fKq+MtUQbRVrwsTi5EcTuGREOIEQAeo1on8YZqT01
+         +iSCkkrvqBW0UkzlpUcVGwtcvk6ukJ//LKG69EjRAWKnRJj9DWdUdvfKhmW5Pv+MhiiM
+         u9PntW0F9hYWEMYjm/3tJxYvxmMqOFT5d4bxk8uDQrO9kATowEEQ53AFrKWshaCfC7JJ
+         wKfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748555957; x=1749160757;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pX5DVgbgZFdHSKX+iBVWCQ/v7W4EJAWbEtWlom28Ljc=;
-        b=VRXKKWH+fMQXGabZ3ImXcApsNoP2FoAtl2fkYqOelrFDr1Cyeb4oe/Zw0SoiYtTvEG
-         m/TQ1n+YmGMbC6CcYPg/gQOtL98PnxI69Mxob7e3yTOST31KXRqGhSQk1REkfjF9/IPD
-         8mos4r9HFiP4lEkl1PkvWC2Hxtc/F13tSz3XQPKv1D6BmQmKc2Td9wKpW/xdwS2svlGR
-         hCtzyKhdwgDinjmXmWLLwuLtHvPlKgeAmS/HGaApVJRzIojztqFDipOoui0vrhbGxnao
-         zZVtmKL0qEv3oD44UvRWUIQk2qPvmYi7tvlVFbsWiqeOckc6GgFLiNaWsJ2MgOxj0b7w
-         A3Qw==
-X-Gm-Message-State: AOJu0YwI/PwqGIPtOTyliX9lZl2zCFHYfYrbCxBQsAtgR0eLN8AzSFbV
-	bmHw90OEUXq5iuLO4IBuFHZw++nyjAGHSZDXcXgO2FBuz99QhR4Rmg0eyqcM3kiYrdZy9U/tkgW
-	XDgENeCU5TMu3RMZWWSmllg18N+tdPQEoo6zR
-X-Gm-Gg: ASbGnctRi1c+gAE2fI6u4YRz61wlmMEKZZl+1NLKJqIxUMWQa7Au42bDscvsLPwr2Dl
-	meU6iQQyeNbDVRcxPSqcbynem9lh4PXs/SlPNKHW4vkov0Ec2JyKu3U8YqwJI3j40UEYrpjw9PZ
-	3lQgmMBNe10HVbyjvY8roobpqojmYtjaQn
-X-Google-Smtp-Source: AGHT+IEIEsZwFgVOOX3UJbNdAWHJaC1QVSlrlOIw4FZoFpvQB/OQSSQ5yo0j7KEirWNWmyH4FB7FJjTTkxjTCrKN5F0=
-X-Received: by 2002:a05:6808:680a:b0:404:ed12:450 with SMTP id
- 5614622812f47-40679fd28c5mr578225b6e.14.1748555956847; Thu, 29 May 2025
- 14:59:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748560962; x=1749165762;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3nLWj071NEm63uIVHcoUbgixrgXsbqlkvj4monCvTz4=;
+        b=A8wf3hXKAkgpqk9y+iwhgsnA7r323h9V4FGHBhr9U7FxCBD5XzepyNOM2EgrN3FqBj
+         94DLE5Jv/qmnWc6voqubSEHenTekGlNFbrgF7BcF+zvyrfEiyTfAgQRb4k9v3BNmLM0p
+         7VnesDthYgbGKl6d7j6GujXm40wmSbtjq6+kbPjlIc0V2FvRAV26YXFh7jXhe4byak0p
+         7+nNSXEZJU07DjjGKqMgnZf3wL0Ww/DqE4l4ZFdUiQyZXnYm0yJdqio7po2z4bNCg/RK
+         p8g/z8gqE2jFc4ZGkP3eDAO4tngXuBG2jIMr9Dw63gtjPLhL4dZ4dG2MFRsinJ44/NTO
+         J8hg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvST6LhRVoxs5/RUm1J/LaX1RGpQ9PpKsrk71LIcH10aPXbtp4mbs7nOJvmLhcbi6hsKO/9lG21L7QQ0xBzBsfLA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwuXbAOzijisXQVrwpnfJms011K9fzj1nwEuRIYRoXe5m8EeCuK
+	e00ZkipUNCeh7BkKu/Gb7Oo+7knNNuUMljLCQecpwfxU+00/NBPmsWOl854tJGj+5YwcfEZdFAX
+	aqNgxsueuTB7HZ8gjtsSJmKhTymBmsuLkF08qzd+Muw==
+X-Gm-Gg: ASbGnctHTLKL66t8xMYaulpjcfr/p9KlODe5OEgwjajbq0kUygHoHNaPzrHH0KueHtU
+	cLQb1nSmNXBNNCCoyWYJsG1r6ze8VoQMllC6Rd9/if7yAoeqGGaGALuBhjlkt6vj02G86eQQeiX
+	+wq6iBtLfESwr7QV412uEKgKNbiQTK/Qd7By3f5N6BinjrJKlzz+E=
+X-Google-Smtp-Source: AGHT+IE5wIeki1d+LBIAONCLzQPlV7rzUemU73CEVqHOv42EeXk9Y410gwc+xcZjUDRIZAd0KC6uCWVe/vTLOMYGa8w=
+X-Received: by 2002:a05:690c:4d82:b0:70e:22ed:e74f with SMTP id
+ 00721157ae682-70f97e9a98dmr22486507b3.2.1748560962207; Thu, 29 May 2025
+ 16:22:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250529210239.2070257-1-raj.khem@gmail.com> <20250529210239.2070257-3-raj.khem@gmail.com>
-In-Reply-To: <20250529210239.2070257-3-raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 29 May 2025 14:58:50 -0700
-X-Gm-Features: AX0GCFvgR3Vu97928Xos9rkGby-3_y32jezIsjBE5f5s8wCO2K_XJ9_NUIJBq3A
-Message-ID: <CAMKF1srsu487Zp9tsbZ=24VttRD5pYVtrPKf=YnK0DYTuLoOqg@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] vte: Pin to use GCC
-To: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20240323195304.2909926-1-anibal@limonsoftware.com>
+ <20240323195304.2909926-2-anibal@limonsoftware.com> <20240325101809ec807440@mail.local>
+ <CAOU5ZMvcO4_HWWgNc44P11w=rXh_cXyFhi7P2=D1iDhZjB+xTQ@mail.gmail.com> <FB405ACE-51BB-44F0-B449-EAC18194F176@arm.com>
+In-Reply-To: <FB405ACE-51BB-44F0-B449-EAC18194F176@arm.com>
+From: Anibal Limon <anibal@limonsoftware.com>
+Date: Thu, 29 May 2025 17:22:31 -0600
+X-Gm-Features: AX0GCFu8V2BQU9eEE5gNwri_VwL54A20pgXkmnHsaTg4jUjxD-NFKsKfdHF0uwQ
+Message-ID: <CAOU5ZMsctXq9Gf0UHdrrt-9ZKV69qMs21AjBJ7Uu=vUxmWp6Pg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] wic: plugins source bootimage/isoimage
+ rename to allow be imported
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="00000000000005578306364e939c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 21:59:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217455
+ <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 23:22:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217456
 
-I did realize that this is not working, because the problem is in the
-libraries in sysroot perhaps which are linking to the program and are
-built using clang
-so just limiting TOOLCHAIN for this recipe is not enough
+--00000000000005578306364e939c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 29, 2025 at 2:02=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
-:
+On Thu, May 29, 2025 at 2:06=E2=80=AFPM Ross Burton <Ross.Burton@arm.com> w=
+rote:
+
+> On 25 Mar 2024, at 14:39, Anibal Limon via lists.openembedded.org <anibal=
+=3D
+> limonsoftware.com@lists.openembedded.org> wrote:
+> > Thanks for reporting, I will adapt the tests.
 >
-> Fixes Qemu usermode crashes during GI data generation for armv7ve
-> when using clang
+> Without having to rewrite all of the documentation and existing files, wh=
+y
+> doesn=E2=80=99t wic just normalise the plugin name that it reads to repla=
+ce all -
+> with _?
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-support/vte/vte_0.78.2.bb | 4 ++++
->  1 file changed, 4 insertions(+)
+> This means you can still import the module names, but doesn=E2=80=99t cha=
+nge
+> existing behaviour at all.
 >
-> diff --git a/meta/recipes-support/vte/vte_0.78.2.bb b/meta/recipes-suppor=
-t/vte/vte_0.78.2.bb
-> index 0593d16cd86..b8a19a03693 100644
-> --- a/meta/recipes-support/vte/vte_0.78.2.bb
-> +++ b/meta/recipes-support/vte/vte_0.78.2.bb
-> @@ -26,6 +26,10 @@ SRC_URI[archive.sha256sum] =3D "35d7bcde07356846b4a128=
-81c8e016705b70a9004a9082285e
+
+Hi Ross,
+
+So to normalize you mean change python module name from _ to - at runtime?.
+The plugins already had a name attr with '-', the issue is when trying to
+import from an external module.
+
+Regards!,
+Anibal
+
+
 >
->  ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
->
-> +# qemu usermode crashes when using clang as system compiler but works wi=
-th gcc
-> +# see https://patchwork.yoctoproject.org/project/oe-core/patch/202409232=
-34336.3978188-1-raj.khem@gmail.com/
-> +TOOLCHAIN =3D "gcc"
-> +
->  EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dv=
-api=3Dtrue', '-Dvapi=3Dfalse', d)}"
->  EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fals=
-e', '-Ddocs=3Dfalse', '', d)}"
->
+> Ross
+
+--00000000000005578306364e939c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 29,=
+ 2025 at 2:06=E2=80=AFPM Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.=
+com">Ross.Burton@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">On 25 Mar 2024, at 14:39, Anibal Limon via <a href=
+=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lis=
+ts.openembedded.org</a> &lt;anibal=3D<a href=3D"mailto:limonsoftware.com@li=
+sts.openembedded.org" target=3D"_blank">limonsoftware.com@lists.openembedde=
+d.org</a>&gt; wrote:<br>
+&gt; Thanks for reporting, I will adapt the tests.<br>
+<br>
+Without having to rewrite all of the documentation and existing files, why =
+doesn=E2=80=99t wic just normalise the plugin name that it reads to replace=
+ all - with _?<br>
+<br>
+This means you can still import the module names, but doesn=E2=80=99t chang=
+e existing behaviour at all.<br></blockquote><div><br></div><div>Hi Ross,</=
+div><div><br></div><div>So to normalize you mean change python module name =
+from _ to - at runtime?.</div><div>The plugins already had a name attr with=
+ &#39;-&#39;, the issue is when trying to import from an external module.</=
+div><div><br></div><div>Regards!,</div><div>Anibal</div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Ross</blockquote></div></div>
+
+--00000000000005578306364e939c--
 
