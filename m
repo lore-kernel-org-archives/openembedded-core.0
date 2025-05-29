@@ -1,217 +1,95 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <praveen.kumar@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41471C54FB3
-	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 05:09:44 +0000 (UTC)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web10.14082.1748495382112390495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83275C5B549
+	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 05:43:04 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.14399.1748497377151987988
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 May 2025 22:09:42 -0700
+ Wed, 28 May 2025 22:42:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=A3rMNg3W;
- spf=pass (domain: mvista.com, ip: 209.85.167.178, mailfrom: hprajapati@mvista.com)
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3fbc00143d6so321960b6e.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 May 2025 22:09:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1748495381; x=1749100181; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rwgVO0WXZeG5j9HilKKjq+tRMRIAwSyGtJyqoT2VmMs=;
-        b=A3rMNg3Wg0Gvz96kMtdzeJJw9CUbxJxxQZE30L1rOpZCCO2QseL6CUwmm9eU9SnmVD
-         dCrzbMMHB5BEjK7aEZC85+78qCVWXYVd0gLaUdOSgSw/OAHlR/uwp/3u4SH++HXaY89M
-         ZRl/SCYzTo0YLzF8eoEQBCazRrSKntH7eRKAQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748495381; x=1749100181;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rwgVO0WXZeG5j9HilKKjq+tRMRIAwSyGtJyqoT2VmMs=;
-        b=EmQqWbE79djXb14QEhbQJ16N1+wJcDQ3zX7uoVYg63juBFA1guT8sQINCW2Bu9lpSu
-         +NVWOh6YR5oq0YRJ42en4jE7zAJV63g/OJ6qgMzIVrEyzEgZ6vBBshjP1n53sUBiQIlT
-         nCgYnbe3eeJ8SijdfkGr8mKljihloUONYuu0vFpx7gqykDSOev2UmYCeoIHR5OtAqMJx
-         KLJMCSsSTg6qmpsT3XU+B9ficmk3LKZIdFdWqjtPn1eOMxpgsxUz2lRlxt9Usbi8pPQH
-         icEI7Ub2RrDJTAdId/Mj3rr7F+y4YGEjxzGcUcJzHmz5bSqaOntijpagX/o0XT4ujD9o
-         4HEA==
-X-Gm-Message-State: AOJu0YxDAPbvMSVzBjagJXrFboVsrS4vdwk0dh7qrwNaCASG0KU2DR7/
-	v1Dx1QjZzHtB8DbDJjX0vGwYfAAJKbp7KZ7SW44bXMBHxR8gcR75dhNR3rqQulyxX5oyoXNTFJi
-	4ldjx
-X-Gm-Gg: ASbGncu+YD+7uFLRiBqRAab6xYDvGKKyvQYaa5XUOXY8MCqpzfHhIEaVy40l3cgG64E
-	GUsWKib1lwziah6+CKLQAtPQY+78/uWjOlku8LOdQ5VULtuqyU6tmbRJiPrW473rTEf3EfEEpps
-	BsvTZnMImBXq9hCe357vPPmQ1lUWN39LkW2RoL+sT4NjVasWqnrQ693jEEB8kK/M0eCGv5zQP1c
-	6W6ZDpynG1CfPUtX/2gUChnyeZcP3CavK9hnEE1Y9bAgHtUYMoZlShx+kqcFH8ETQ0UKCGCb33B
-	mP0V9DqW95WupQ7ua3zLMUbdDRwRwW9XMqL0rAie3fzNL4WuE9nZ/p3wQ+VNiu/U
-X-Google-Smtp-Source: AGHT+IFE6H5Zba9CwD7qzrk/Mm1DRIh3fTELxbPb349RgI03eOHL8PmqRc6uRXS0sdKe/NrjBjBksA==
-X-Received: by 2002:a05:6871:3781:b0:2bc:7811:5bb8 with SMTP id 586e51a60fabf-2e861fe9f34mr10164861fac.18.1748495370535;
-        Wed, 28 May 2025 22:09:30 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([43.249.234.190])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2e9067b02f3sm140673fac.15.2025.05.28.22.09.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 22:09:30 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] screen: Fix CVE-2025-46805
-Date: Thu, 29 May 2025 10:39:14 +0530
-Message-ID: <20250529050914.19800-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.49.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=82449a48d9=praveen.kumar@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54T4tAXN011607
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 05:42:56 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46u5394ya9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 05:42:55 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 28 May 2025 22:42:34 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 28 May 2025 22:42:31 -0700
+From: Praveen Kumar <praveen.kumar@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Praveen Kumar <praveen.kumar@windriver.com>
+Subject: [oe-core][PATCH 1/1] bind: upgrade 9.20.8 -> 9.20.9
+Date: Thu, 29 May 2025 11:12:45 +0530
+Message-ID: <20250529054245.3466804-1-praveen.kumar@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI5MDA1NSBTYWx0ZWRfX6726BcJ8y2Uz 8Tk3OClF6KmVzEYjiwwi7WIqp/Ba5UADZnFf1rVXy0297JO4KNQ2P8sysvh5tz6ADeMZ4+bPvkb YYozGh26pEr853ROEjkT9Ua3AIn1I0wEAUG15yW2DaO4l5UUoad5UPUdHVfR0JJJASCudpn0DBH
+ 83mubvc9GnsTKnTqSejoiCRjapccroBDlftrJzJUcBWJ+LseHbxm6R5oKlRqW6lesP2hHD+xch6 rU4NeIWsdLVHoEagOSP3HNZk065zb4Hp7WKklCSP7lgdViC7pLQ+q5meuw1zeMkpmJPngniwYhf Sm5MC/Ix80JTgKBbgpxcAh+6kY/oWJlK1Xx8EkqepDaHnyxdhzHgf24vdnDSBXqMMqRReZSrbXM
+ RXJ4OVvRmD8MNAfMu6cnMoX0zufP6kSescF76ZRsVvgdoxbyOpQLcqU9LtqnHqflTxqOsCii
+X-Authority-Analysis: v=2.4 cv=NsDRc9dJ c=1 sm=1 tr=0 ts=6837f3e0 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=SCo1hh1FAAAA:8 a=t7CeM3EgAAAA:8 a=Yams_aVIXhoTVnqRneMA:9 a=6dmPcGKlaI8A:10 a=jjiDOD437DYA:10
+ a=nwb-CePKZZm3gL-ai9HY:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: dZrjwNeHup9hanMU7L6TsJBCnKf8SXSC
+X-Proofpoint-GUID: dZrjwNeHup9hanMU7L6TsJBCnKf8SXSC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-29_03,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ impostorscore=0 mlxscore=0 spamscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 phishscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
+ definitions=main-2505290055
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 05:09:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217399
+ <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 05:43:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217400
 
-Upstream-Status: Backport from https://cgit.git.savannah.gnu.org/cgit/screen.git/commit/?id=161f85b98b7e1d5e4893aeed20f4cdb5e3dfaaa4
+Overview of changes in bind 9.20.9
+==================================
+Security Fixes:
+1. Prevent an assertion failure when processing TSIG algorithm.
+2. DNS messages that included a Transaction Signature (TSIG) containing
+   an invalid value in the algorithm field caused named to crash with an
+   assertion failure. This has been fixed. (CVE-2025-40775) [GL #5300]
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+For additional feature changes and bug fixes, please see:
+https://downloads.isc.org/isc/bind9/9.20.9/doc/arm/html/notes.html#notes-for-bind-9-20-9
+
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 ---
- .../screen/screen/CVE-2025-46805.patch        | 121 ++++++++++++++++++
- meta/recipes-extended/screen/screen_4.9.0.bb  |   1 +
- 2 files changed, 122 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2025-46805.patch
+ .../bind/{bind_9.20.8.bb => bind_9.20.9.bb}                     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind_9.20.8.bb => bind_9.20.9.bb} (97%)
 
-diff --git a/meta/recipes-extended/screen/screen/CVE-2025-46805.patch b/meta/recipes-extended/screen/screen/CVE-2025-46805.patch
-new file mode 100644
-index 0000000000..9d9d3e2827
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/CVE-2025-46805.patch
-@@ -0,0 +1,121 @@
-+From 161f85b98b7e1d5e4893aeed20f4cdb5e3dfaaa4 Mon Sep 17 00:00:00 2001
-+From: Matthias Gerstner <matthias.gerstner@suse.de>
-+Date: Mon, 12 May 2025 15:38:19 +0200
-+Subject: fix CVE-2025-46805: socket.c - don't send signals with root
-+ privileges
-+
-+The CheckPid() function was introduced to address CVE-2023-24626, to
-+prevent sending SIGCONT and SIGHUP to arbitrary PIDs in the system. This
-+fix still suffers from a TOCTOU race condition. The client can replace
-+itself by a privileged process, or try to cycle PIDs until a privileged
-+process receives the original PID.
-+
-+To prevent this, always send signals using the real privileges. Keep
-+CheckPid() for error diagnostics. If sending the actual signal fails
-+later on then there will be no more error reporting.
-+
-+It seems the original bugfix already introduced a regression when
-+attaching to another's user session that is not owned by root. In this
-+case the target sessions runs with real uid X, while for sending a
-+signal to the `pid` provided by the client real uid Y (or root
-+privileges) are required.
-+
-+This is hard to properly fix without this regression. On Linux pidfds
-+could be used to allow safely sending signals to other PIDs as root
-+without involving race conditions. In this case the client PID should
-+also be obtained via the UNIX domain socket's SO_PEERCRED option,
-+though.
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/screen.git/commit/?id=161f85b98b7e1d5e4893aeed20f4cdb5e3dfaaa4]
-+CVE: CVE-2025-46805
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ socket.c | 21 +++++++++++++--------
-+ 1 file changed, 13 insertions(+), 8 deletions(-)
-+
-+diff --git a/socket.c b/socket.c
-+index 9d87445..3bbd64e 100644
-+--- a/socket.c
-++++ b/socket.c
-+@@ -826,6 +826,11 @@ int pid;
-+   return UserStatus();
-+ }
-+ 
-++static void KillUnpriv(pid_t pid, int sig) {
-++    UserContext();
-++    UserReturn(kill(pid, sig));
-++}
-++
-+ #ifdef hpux
-+ /*
-+  * From: "F. K. Bruner" <napalm@ugcs.caltech.edu>
-+@@ -911,14 +916,14 @@ struct win *wi;
-+             {
-+ 	      Msg(errno, "Could not perform necessary sanity checks on pts device.");
-+ 	      close(i);
-+-	      Kill(pid, SIG_BYE);
-++	      KillUnpriv(pid, SIG_BYE);
-+ 	      return -1;
-+             }
-+           if (strcmp(ttyname_in_ns, m->m_tty))
-+             {
-+ 	      Msg(errno, "Attach: passed fd does not match tty: %s - %s!", ttyname_in_ns, m->m_tty[0] != '\0' ? m->m_tty : "(null)");
-+ 	      close(i);
-+-	      Kill(pid, SIG_BYE);
-++	      KillUnpriv(pid, SIG_BYE);
-+ 	      return -1;
-+ 	    }
-+ 	  /* m->m_tty so far contains the actual name of the pts device in the
-+@@ -935,19 +940,19 @@ struct win *wi;
-+ 	{
-+ 	  Msg(errno, "Attach: passed fd does not match tty: %s - %s!", m->m_tty, myttyname ? myttyname : "NULL");
-+ 	  close(i);
-+-	  Kill(pid, SIG_BYE);
-++	  KillUnpriv(pid, SIG_BYE);
-+ 	  return -1;
-+ 	}
-+     }
-+   else if ((i = secopen(m->m_tty, O_RDWR | O_NONBLOCK, 0)) < 0)
-+     {
-+       Msg(errno, "Attach: Could not open %s!", m->m_tty);
-+-      Kill(pid, SIG_BYE);
-++      KillUnpriv(pid, SIG_BYE);
-+       return -1;
-+     }
-+ #ifdef MULTIUSER
-+   if (attach)
-+-    Kill(pid, SIGCONT);
-++    KillUnpriv(pid, SIGCONT);
-+ #endif
-+ 
-+ #if defined(ultrix) || defined(pyr) || defined(NeXT)
-+@@ -960,7 +965,7 @@ struct win *wi;
-+ 	{
-+ 	  write(i, "Attaching from inside of screen?\n", 33);
-+ 	  close(i);
-+-	  Kill(pid, SIG_BYE);
-++	  KillUnpriv(pid, SIG_BYE);
-+ 	  Msg(0, "Attach msg ignored: coming from inside.");
-+ 	  return -1;
-+ 	}
-+@@ -971,7 +976,7 @@ struct win *wi;
-+ 	  {
-+ 	      write(i, "Access to session denied.\n", 26);
-+ 	      close(i);
-+-	      Kill(pid, SIG_BYE);
-++	      KillUnpriv(pid, SIG_BYE);
-+ 	      Msg(0, "Attach: access denied for user %s.", user);
-+ 	      return -1;
-+ 	  }
-+@@ -1289,7 +1294,7 @@ ReceiveMsg()
-+             Msg(0, "Query attempt with bad pid(%d)!", m.m.command.apid);
-+           }
-+           else {
-+-            Kill(m.m.command.apid,
-++            KillUnpriv(m.m.command.apid,
-+                (queryflag >= 0)
-+                    ? SIGCONT
-+                    : SIG_BYE); /* Send SIG_BYE if an error happened */
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-extended/screen/screen_4.9.0.bb b/meta/recipes-extended/screen/screen_4.9.0.bb
-index 19070d87d8..d137c85600 100644
---- a/meta/recipes-extended/screen/screen_4.9.0.bb
-+++ b/meta/recipes-extended/screen/screen_4.9.0.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0001-fix-for-multijob-build.patch \
-            file://0001-Remove-more-compatibility-stuff.patch \
-            file://CVE-2023-24626.patch \
-+           file://CVE-2025-46805.patch \
-           "
+diff --git a/meta/recipes-connectivity/bind/bind_9.20.8.bb b/meta/recipes-connectivity/bind/bind_9.20.9.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.20.8.bb
+rename to meta/recipes-connectivity/bind/bind_9.20.9.bb
+index 864daed97e..93ff957fc5 100644
+--- a/meta/recipes-connectivity/bind/bind_9.20.8.bb
++++ b/meta/recipes-connectivity/bind/bind_9.20.9.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
  
- SRC_URI[sha256sum] = "f9335281bb4d1538ed078df78a20c2f39d3af9a4e91c57d084271e0289c730f4"
+-SRC_URI[sha256sum] = "3004d99c476beab49a986c2d49f902e2cd7766c9ab18b261e8b353cabf3a04b5"
++SRC_URI[sha256sum] = "3d26900ed9c9a859073ffea9b97e292c1248dad18279b17b05fcb23c3091f86d"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
-2.49.0
+2.40.0
 
 
