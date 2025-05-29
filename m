@@ -2,63 +2,64 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71966C5AD49
-	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 09:18:45 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.16760.1748510318968907935
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77F96C5AD49
+	for <webhook@archiver.kernel.org>; Thu, 29 May 2025 09:20:55 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.16856.1748510448054655958
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 02:18:39 -0700
+ Thu, 29 May 2025 02:20:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OTtqFHIY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a4d877dfb3so700135f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 02:18:38 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z7kNfj+u;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a4bdee0bf7so379148f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 02:20:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1748510317; x=1749115117; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1748510446; x=1749115246; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YNo4nJwy671hO5RoPsolCEWmTdFnx1rgnTGHaN19iaE=;
-        b=OTtqFHIYkUQGIkSS+t0NmTuZmaEUDxyKKRLS9ZGfrqiTCepyreuuo31ZzpnNs4EbTs
-         i3atCCQ+kieHuzLVMXMxInAcx6bejQUqwzsZwKYbbtsvmK9a8EwKoRQEBAtkYZAKaZfx
-         ErsNj4ES38YTPVN+awiciTfW2QX3vd7eVvGvw=
+        bh=MKJ71OamNPiiaNh23XAgNVmjft1QxQf8Bdy7llDZ87k=;
+        b=Z7kNfj+ucVf4oUyvIJ4Xo/O8Em3pnER/aubEM8RG4hiPHnbwhfFP6i7H51tZNhXEuE
+         M4V7wch91ct5+dRQji8YXUITMDdzsferasyuO4BqlfouyhI56bmQjIpkZwU+Sevmnxxk
+         OslJqmBSojo0qxn7cZOzMDjYU3Cwz/KpLVts4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748510317; x=1749115117;
+        d=1e100.net; s=20230601; t=1748510446; x=1749115246;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YNo4nJwy671hO5RoPsolCEWmTdFnx1rgnTGHaN19iaE=;
-        b=HkmoXoRQv2ez31dBn6gNoDAL092g9y0Ne291BJmgfeXEyij2wPFfagReJje99aF5Aq
-         vUOQmiyv8EDmYZUdGUHua8QIWcFvmK42RQ4dHrkbsnrG7UeyF+BNZmU74mOfjbRzz7O2
-         AxyqsEuEnqOaEy5Qfl77rF7EKm9irAZclbqnrRC/7twP2BN57xKt9jJ4QFlWeEF+dDho
-         FtF2McxlX+/siOzbl2FeCcZjxvsxykLiYii/HJiPatecL9ZGAJ4JQZ9PupXj7B7Q0ZNo
-         dbhHrhPGxNhkKYjRPPeCCob5QhyVyqTdjVx8Z2Ek6+xC+tNG+kxKrzT7Rh+ht4l3YsSB
-         CgdA==
-X-Forwarded-Encrypted: i=1; AJvYcCWo5zFwNfAh8N7RIxonJr4KuP2D3teh9yvfvHB1wHXeWeNreRff4zDNISlt7byw+hxr2ickX1+XM1q4344Iur1IHw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyhqVoWMF7IdTK43cKFOcrytsp8w5zatMzueufmBjjX2VMkFnov
-	i+I5A8KXjw25alTxpSv1/q/xdcfEXzGyOL7xYDlQLu/D21ysRyhXuSSjygpZS1dConQ=
-X-Gm-Gg: ASbGncsKBA10mNc6ucFuutex7tgLQJSUXAqpOp2/vnQ4ikD8ggY1WpDxJfVnkHeTb9B
-	2iWdlle6zNw5pQCD+0lXqqKr0WTRJ+LBVUCbwGFBZe7DFVo+lbLm3N/Xk09SGB0eoyE9Awx2GbL
-	gnZ6lNG7KNA2Mw8Y1PoKfc1OMCa6zi170Qox5VJQ9UK02dF3oD1mm1SHcIklgiad0e5vdi7irr9
-	Uoho7/Efmc8FeUAIEKMU7cwyF6hlHPaZ1jttyqObrFRv6POiG0wsPqDb0w2i8H/XcqT+MDuhMYS
-	35sqsY+WQP7gH1AEH/ZhD1ajSDMDzj2Lwfmba4+wSbYXOuo5Rl9z0dWTrKfPfgXYNh1k5v8Rhng
-	X0tViHhSDcrCI6WT+0H+2qF/UkyuMAoYdvOE=
-X-Google-Smtp-Source: AGHT+IEBnZpqsqRaYvJ33LjT3pAp+uaftfa31JPs5V1AEWj1EgvmQ53zlw9OCCIdWpMLhPKZb4Gusw==
-X-Received: by 2002:a05:6000:178b:b0:3a4:dfaa:df8f with SMTP id ffacd0b85a97d-3a4dfaae1e8mr8758523f8f.16.1748510317159;
-        Thu, 29 May 2025 02:18:37 -0700 (PDT)
+        bh=MKJ71OamNPiiaNh23XAgNVmjft1QxQf8Bdy7llDZ87k=;
+        b=buQmztr/UFqI8EkEuyzuiPggFPWvv3Y/reQGTgyfiF93OG1GQiCkEDaukQvVIk03L7
+         RopOF5Ml6AKCXcp9kflc43hdRWTZerDgqSes2ZFic/iDHdVlZMRGgkU3aMTIta1xzUK6
+         xH3Fp68tAP33CoCmCtTlmTX4p36lNoMq+kRcmmADhtII4QW3i+q8sSQRidyxNUDDjzZR
+         DL5Wo0flXLyFoFpgx1uoJUS1GhfsM9MHgMNeu7VUngpNvK4BU9DzeJmw6LE2Zq7GNZFr
+         wCqWboFMXJinhE+T/t16WUNCtIaUKsdyETG0S3Z7yfOv1Z/28fLiDGmkWi+mFdiDBuCs
+         /auQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUAvLecL1/lTncKbRrWXKWCYG5hDcJLhM+2K+XkB3fAzZ7p/8LwOyMzo2XilWeMRrHz1HKtfv5IxiSazceCTAvGag==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw/0X0O5OXmRYqpFo/rWg3GlPffJAJ2g96B8N74Pr3yQmIHF6Zv
+	pcF/CMpw14bGWEx6cor0CxgE0O0VNT/TmsGCp4OnC4xg7wCzg6EOIZg2mUuxNUHEGD5IpnKJfht
+	sr6ZT5MU=
+X-Gm-Gg: ASbGnct1C+UckgdPGOOgA6PXwgX8d4wD/0hx9o/YvPy+9HMMCg0F7dzdTCZv+IEuVW+
+	d123f5I0MvlCvwJ3PsouQf4n8NO9KkS7sB9edDPOzqluP/CbsTKMs1Qv+LdNz8s4KjTpq6Y7eL8
+	cVYTN70zDgsWJd2WoQT1+TtbDKbPE2yS23FuT1oiSOfX6FbqWUqgkgjf7F4iRkMlryXv7Rsfvwu
+	XTL2iH40DTr8qVU9ENxlt7U4WiCxHtbbnTdDXV49VzuFcDEHidhGy9l+QAKq80wGwJqS073qkKT
+	4UZUkAA5mGs/zA4RWRPp26+3rIb41UrIHNhHoFK02QceLTRPJ8kP26MQa0lEItz5bzUyePrbUOJ
+	Bg4t9fh9myaC34a0+NmEr/83U9LQg/6DA5FBm2qEPwCkORA==
+X-Google-Smtp-Source: AGHT+IGmYbneJp+fO0Zw5CmSxJAdgIE/M4Qdk6B+Qr3WMkqUZ+Y2EsZ3vjzKb53bz+4IVaGxYx7BKg==
+X-Received: by 2002:a05:6000:2082:b0:3a4:eef5:ae26 with SMTP id ffacd0b85a97d-3a4eef5b06amr1677107f8f.55.1748510445916;
+        Thu, 29 May 2025 02:20:45 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:1a5e:81:40ad:9da7? ([2001:8b0:aba:5f3c:1a5e:81:40ad:9da7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f009745esm1386057f8f.71.2025.05.29.02.18.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f009748fsm1379510f8f.80.2025.05.29.02.20.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 02:18:36 -0700 (PDT)
-Message-ID: <052f4ddc8081195b753ca305eae99efb1a61f518.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 03/28] vte: Disable gi data generation when
- using clang on arm
+        Thu, 29 May 2025 02:20:45 -0700 (PDT)
+Message-ID: <a5225b45761850e1a99e7f3c069768f2449fa472.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 05/13] tcf-agent: Fix ranlib call when
+ using llvm-ranlib
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Date: Thu, 29 May 2025 10:18:35 +0100
-In-Reply-To: <20250520-clang-toolchain-v2-3-db97c2eb3756@gmail.com>
-References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
-	 <20250520-clang-toolchain-v2-3-db97c2eb3756@gmail.com>
+Date: Thu, 29 May 2025 10:20:44 +0100
+In-Reply-To: <20250522-clang-toolchain-v3-5-16cfc6d9891b@gmail.com>
+References: <20250522-clang-toolchain-v3-0-16cfc6d9891b@gmail.com>
+	 <20250522-clang-toolchain-v3-5-16cfc6d9891b@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.0-1 
@@ -66,49 +67,46 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 09:18:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217401
+ <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 09:20:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217402
 
-On Tue, 2025-05-20 at 23:19 -0700, Khem Raj via lists.openembedded.org wrot=
+On Thu, 2025-05-22 at 20:52 -0700, Khem Raj via lists.openembedded.org wrot=
 e:
-> Fixes Qemu usermode crashes
+> This ensures that binutils-ranlib or llvm-ranlib
+> behaves same as gcc-ranlib
 >=20
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
-> =C2=A0meta/recipes-support/vte/vte_0.78.2.bb | 4 ++++
-> =C2=A01 file changed, 4 insertions(+)
+> =C2=A0meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 5 +++++
+> =C2=A01 file changed, 5 insertions(+)
 >=20
-> diff --git a/meta/recipes-support/vte/vte_0.78.2.bb b/meta/recipes-suppor=
-t/vte/vte_0.78.2.bb
-> index 0593d16cd8678d010c240581138caf22f2908659..e37d59833cf3313bdb369f4e0=
-957dfc5e3cb3ace 100644
-> --- a/meta/recipes-support/vte/vte_0.78.2.bb
-> +++ b/meta/recipes-support/vte/vte_0.78.2.bb
-> @@ -26,6 +26,10 @@ SRC_URI[archive.sha256sum] =3D "35d7bcde07356846b4a128=
-81c8e016705b70a9004a9082285e
+> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/reci=
+pes-devtools/tcf-agent/tcf-agent_git.bb
+> index 235936288ba792c86af4dd1899b2f6585328141f..41706f4b60f1f25233ff91c8f=
+112b8122a5c6c30 100644
+> --- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+> +++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+> @@ -51,6 +51,11 @@ CFLAGS:append:riscv64 =3D " ${LCL_STOP_SERVICES}"
+> =C2=A0CFLAGS:append:riscv32 =3D " ${LCL_STOP_SERVICES}"
+> =C2=A0CFLAGS:append:loongarch64 =3D " ${LCL_STOP_SERVICES}"
 > =C2=A0
-> =C2=A0ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
-> =C2=A0
-> +# qemu usermode crashes when using clang as system compiler but works wi=
-th gcc
-> +# see https://patchwork.yoctoproject.org/project/oe-core/patch/202409232=
-34336.3978188-1-raj.khem@gmail.com/
-> +GI_DATA_ENABLED:pn-vte:toolchain-clang:armv7ve =3D "False"
+> +# This works with gcc-ranlib wrapper only which expands $@ shell array,
+> +# but it will fail if RANLIB was set to <cross>-ranlib or
+> +# <cross>-llvm-ranlib has same behaviour
+> +RANLIB:append:toolchain-clang =3D " $@"
 > +
-> =C2=A0EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True',=
- '-Dvapi=3Dtrue', '-Dvapi=3Dfalse', d)}"
-> =C2=A0EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', =
-'False', '-Ddocs=3Dfalse', '', d)}"
+> =C2=A0do_install() {
+> =C2=A0	oe_runmake install INSTALLROOT=3D${D}
+> =C2=A0	install -d ${D}${sysconfdir}/init.d/
+>=20
 
-I don't really want to regress a feature like like this in a very
-specific target as it is just going to confuse people. We should
-probably just force gcc until this gets resolved.
+The people on the patch review calls are struggling to understand the
+issue here. Could you explain this a bit more in the comment so we can
+understand it?
 
-I'm also puzzled why some people can replicate and some can't. We need
-therefore better data on this too.
-
-As such I'm reluctant to merge due to the difference in features it
-creates.
+Does this imply there is a missing piece on the commandline in the
+makefiles (or whatever) of tcf-agent which should really be fixed
+instead?
 
 Cheers,
 
