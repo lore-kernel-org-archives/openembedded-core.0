@@ -1,84 +1,93 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B024C3ABB2
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 08:49:24 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.2138.1748594955593741594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3661BC5B552
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 11:19:55 +0000 (UTC)
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+ by mx.groups.io with SMTP id smtpd.web11.4052.1748603988770404008
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 01:49:15 -0700
+ Fri, 30 May 2025 04:19:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8245dbf612=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54U8OIHH006686
-	for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 01:49:15 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46udmm62j9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 01:49:14 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Fri, 30 May 2025 01:48:54 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Fri, 30 May 2025 01:48:53 -0700
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][scarthgap][PATCH  1/1] ghostscript: upgrade 10.05.0 -> 10.05.1
-Date: Fri, 30 May 2025 14:19:10 +0530
-Message-ID: <20250530084910.647529-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BXSixP7E;
+ spf=pass (domain: gmail.com, ip: 209.85.210.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-73044329768so1501720a34.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 04:19:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748603988; x=1749208788; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=icSeNUt3Pvjq4zMwu3HhvyRA9sCMAGodHvgrqxcqUSU=;
+        b=BXSixP7ENPQYCc0xzPL6DkClof+xaK4uP0p7yggrlF2Cb1TXtB26cfMRM6viz/me2S
+         Tinkoal6037+b9xOJ8r3Vr1nKDKI9mMGKOmtw8MUjagOpGYJFRx9wI9KpRl3M+tox8SF
+         i07JNRcYMkVnI+nkOp9SLdTIKdA9WthQTXDKMIeaGCVAw19rlqe2exlURuaOtV0sLDEL
+         Ag0G/ZLgw2QRdvZ3PwKWz25ch1v66ljGVedR64n+njTD+oXyYZAIVWQsWez78S6EVO/A
+         po9aMgcnO4+VXwZWk1zMgQXGo0rfYM3EjQKc/9pLEOffqXJAhTFCKjxLqEoZ/4TCASII
+         NWYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748603988; x=1749208788;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=icSeNUt3Pvjq4zMwu3HhvyRA9sCMAGodHvgrqxcqUSU=;
+        b=R2CSubFKScYtTKw14MrBF1rHcnHKXkeq0dKHy6DqrS5x/DduY89jJwY5vSvJ4Xtvs7
+         kgrMjlnl5fOm4Zdvg0YkopQJ+5xOjvvw4IHBY5QYNELftShLPmoir9PgEgOWgcZpw7gd
+         03vCrstT36CMJsGrCb2dqha1qg7SKJYJ9KUp1RXpGA0mOY8FXodYNFL0CAaVlTk4wQXi
+         sivVKjFCIr5pZpQKZt82s66iLiFrPBbY66gumE6u3BPScJoTDaXlWHwKOYvmObTl9Xf7
+         g06VkndPZe2kKxYKSLPc9UOIClJYFnJYrNTXxXRwrQwcmDpn96zYLV8OYg65WUt/ztEA
+         JHQQ==
+X-Gm-Message-State: AOJu0Yzx/H3/YdHVJz05Ldu47U3I84mYuvO5QL8rKSqDKRHUrTyc5RXz
+	chFwui2kh27z9J0C+vZmSfbkwdL722wUknZVfyJ5Z3zIaAJwl8dUoLc7sKQazHuMoerdcAko9UR
+	vu9l2UA0E2lfGn/1TBKI7PHCLB+mlHIlSCQ==
+X-Gm-Gg: ASbGncuP+fjwaCU7g6JimP1Ox7gPzrgua9Fd3ygMVOoTqEgIJZRNu9XiDkI4MonUWYy
+	pX7+uz9Jp5ZSoIUdXlO6YhxaBW+/qxCb30APd91YQuF23U6scFIPAXVKOfpasn91tTicj3fXtX6
+	Uxej2dBKBT0qvzHCVAYeV0SpIOi8m7m60MhTT22v+70A==
+X-Google-Smtp-Source: AGHT+IFbHppw5hekepy+BknhEtF/XFwmVYYHfcg3AvOLTAzeT37v6ObXjDj6/KQhdMsbib1OkxHdEtUprmyH8NlF+2k=
+X-Received: by 2002:a05:6214:d43:b0:6fa:c41e:cc6c with SMTP id
+ 6a1803df08f44-6faceb8cb3amr50375326d6.15.1748603976907; Fri, 30 May 2025
+ 04:19:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=WpErMcfv c=1 sm=1 tr=0 ts=6839710a cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=xvhtPVTgd45RIVhUFq8A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDA3MyBTYWx0ZWRfX/uGwoR8slIK3 rQSjpx2AYjFqYxGjKppIZ2V8zGMT5NfpMPtKbd4Q2gVDJ7iR5hkxY6fdCsYs5iU2lDgYA+t9HNO oODMAWSwz7TnrP4bTchOcw2ZBmITOK4l4YsGbGhDejoW4yDzerevCNWvqhjm8spmmgIoP9Vl6CC
- jNy9HMmTPbwGuCk/6nZyvdTVZS8qCVFpOqThrMq4hAwm0b1HBXCeEboySAEpCRApopDX9Hj8FW7 uSqL4uMdlq4m5a6XkGO9EeRYor3zVr7Hz9K4ZrqpYBHYCUwbvbEuxG2BHKP0/OMJSiW/ee4pmDk h8E8fQv0+6fkVCe4tmt3r6XOftarlhj5a3mUxo43SwcB18KoX1dbuTW9U4RrssdyWQGzzeHIsvl
- Wbk4pU9cytZ9Phk9fvY3uMIAsyfzuANLJBWQ0nsYTHDOWF1ulArBHZakl4I5KU7qRJJlzd9s
-X-Proofpoint-ORIG-GUID: M5M3nvmNV4OM97xl7Kk4Y4yOJgAdSXXN
-X-Proofpoint-GUID: M5M3nvmNV4OM97xl7Kk4Y4yOJgAdSXXN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-30_03,2025-05-29_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=772 clxscore=1015
- mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0 adultscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
- definitions=main-2505300073
+References: <20250528035625.1262266-1-patrick@stwcx.xyz> <CANNYZj_5Wbvx0p54pqvnpHuOAX+nhpQenZKzn1YEduDs=tf2ag@mail.gmail.com>
+ <aDdoTVtCmElpURYD@heinlein>
+In-Reply-To: <aDdoTVtCmElpURYD@heinlein>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 30 May 2025 13:19:25 +0200
+X-Gm-Features: AX0GCFtIyQC6QZNbgOozx0CMn81uUwmg54gdgJfEEAa-SKyG-f4O3HSg32xK52c
+Message-ID: <CANNYZj90G4sbA7LY06DjmqXnnU9UQ=vMKD22XzcRHbvDu87m4A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] systemd.bbclass: fix postinst for real systemd-systemctl-native
+To: Patrick Williams <patrick@stwcx.xyz>
+Cc: openembedded-core@lists.openembedded.org, 
+	Martin Siegumfeldt <mns@gomspace.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 08:49:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217490
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 11:19:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217491
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+On Wed, 28 May 2025 at 21:47, Patrick Williams <patrick@stwcx.xyz> wrote:
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- .../{ghostscript_10.05.0.bb => ghostscript_10.05.1.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/ghostscript/{ghostscript_10.05.0.bb => ghostscript_10.05.1.bb} (97%)
+> Walnascar is currently broken for template services and so is master.
+> My suggestion would be:
+>
+>    - Revert 7a580800db39 in walnascar.
+>    - Improve systemd_create_presets to handle template services in master.
+>    - [Maybe] fix all the services failing per Mathieu on master.
+>    - [Maybe] apply this change so that `systemd_postinst` runs
+>              as it use to.
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.05.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
-similarity index 97%
-rename from meta/recipes-extended/ghostscript/ghostscript_10.05.0.bb
-rename to meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
-index 1d05945c30..bd34058517 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.05.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
-@@ -27,7 +27,7 @@ SRC_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/downlo
-            file://avoid-host-contamination.patch \
-            "
- 
--SRC_URI[sha256sum] = "56e77833de683825c420d0af8cb90aa8ba7da71ea6fb5624290cbc1b53fe7942"
-+SRC_URI[sha256sum] = "121861b6d29b2461dec6575c9f3cab665b810bd408d4ec02c86719fa708b0a49"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+3"
--- 
-2.40.0
+Thanks, I appreciate you digging into the issue.
 
+That said, the plan to fix it needs to be reordered. We have a strict
+policy of fixing issues in master first, for good reason. Also,
+backporting the fixes to stable branches is much easier to get
+accepted than major reverts like that.
+
+Also, if something currently quietly fails in poky-altcfg (it wasn't
+entirely clear from your analysis), then the fix shouldn't just
+address the issue, it should also make any possible fail a loud and
+hard one. So it doesn't quietly regress again.
+
+Alex
 
