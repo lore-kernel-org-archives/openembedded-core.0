@@ -2,63 +2,63 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DF27C5B549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5712C5B55A
 	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 11:38:35 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.4276.1748605112479004880
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web10.4133.1748605111135908206
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 04:38:32 -0700
+ Fri, 30 May 2025 04:38:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=iZJRifjc;
- spf=pass (domain: linaro.org, ip: 209.85.167.54, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5532f6d184eso2649469e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 04:38:32 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=aBMlSzHX;
+ spf=pass (domain: linaro.org, ip: 209.85.167.51, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54acc0cd458so2463565e87.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 04:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748605111; x=1749209911; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1748605109; x=1749209909; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+5pK56p6iC0Z26KB1uEbG9XW8rWxtG5WhgMWISzm9nk=;
-        b=iZJRifjcJgqMbsdTHXhYVTWA/y3P65qnXNvamaaZMcn/QIotwCiK5qyKKWHudP60t1
-         Wig0sWPUUIAdE+HgC/uT/lg/T6cxKPcNCYmkmuMynuThsAv3U6l9zdkdCbdK8W3Mymbs
-         D+WHR3mni/5dyzQ9j1/Lwds1RMqfq5Hvfl9pTVC8xPwBTE0KTgGjTNOWYctDTRlB4men
-         YBQcBEZrg860VVUVSMED39fCQzcJPhlz6ufQK6hMeEUMBXlX0RAFTTJRwocjphIoWBgF
-         gibgRR4HlHZAUxakmEk6p5LKJrf37IiULOK8YipzNBIz5zbrrooyeJqIcp5GKOV1iS47
-         X+Uw==
+        bh=5ZgnfNgk1d50UXfggC4xfzDpN2MVKZ499dDNvFRONco=;
+        b=aBMlSzHXnAEF2HEIdRDtbOCF3qEO47ypm8uQPncKwaB7VXF0N36O18FB+vjvN8sxLt
+         oobG91DA4mAXVdF2qOIhlV4qHvlqmtbG+Imy/Nhdi91tefNCYVya+e9KXoONTxK4Ldnr
+         k+hJexSqNhcPLp12u6xgv1yn1ZjfW0cQb0S6mBaSS/4YhrahJ/VtSoRcKUcJTwtA8LSe
+         5NhAqAZ2DJtGhr5bCEAr1o8yBFlqhyNo5yUXr4rPIC8pQN/Sg+hVw1inJXvcUe4HksW3
+         xBHPlMp2NRKboWJ5P9zTzMtOgn1LUbUo94BsS5kjR2UmskWnar+Bs1LElJUWFLfOYJCE
+         IUWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748605111; x=1749209911;
+        d=1e100.net; s=20230601; t=1748605109; x=1749209909;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+5pK56p6iC0Z26KB1uEbG9XW8rWxtG5WhgMWISzm9nk=;
-        b=G/KHxF7zrVKe5Oz9LdklZmbrT1m2nnsJAP0a886kl9r/00QNO4hxGeYM4eFrwaZYIQ
-         //c/FvoI3nd1t8qVWpmXARExn5bm0vHfkoKtFEgw/RhflQ7IsaH+itoVck9yltqkMkMi
-         rRizavDLhZ8dNt5amALK//xnqV5gljca65XrVN7FIsDpXe/RrBcxCaEsArEMspLPmTZW
-         ArP4WXBau4vUkHSOO7ff/oa7sQPQyYusPXqv7lr909/6OIsdgNhimGp+huLdzuJPS7Vq
-         wFh6N4U3O9aKKZIUBHlV1xKbcHpvCQiTCJ0iMPaJ7XTMXsGDQ0BJtRrFwS62XS6Cxwkr
-         Cc6w==
-X-Gm-Message-State: AOJu0YyPig1C0igBzXZ2TIqwhRbTPwQkaRnRVcK1Q4C1ZZBxILpgW/YB
-	sDhp/Veb5Ki/8q0L4qNsA5YZ9B5FmgcKyrCeYDQU/XwS9U2PzUqhfDHtGnyrDXZ1C8qdM9oVYHy
-	r0fJeg1s=
-X-Gm-Gg: ASbGnctM7CGW/JBgAe3/ihW4flGd07ePUP/fIqidEvspYrexSPM7tBv7JcEhZouslAK
-	ZPWg+G09ffboGHMfeYcjjIyevpM2wacG6TI+qx04pBgSxrnIU9Gt3ekYod3yR6KyB1op33ciSDM
-	x1DvOR8cWT61vf759ckXWPZ3yW2rm02V4qc2wvSOLHks1rybRv0puFS0w8cw/LTZlS+CBimnHJY
-	+7A/a8dHT9aydKqwMcFt/GaaM6v/x43w+w9qyAsgsZZ9lhIJQy9xj8lPS3b2Zwy4nRSxI19lW12
-	raYgKilYBtohS27n7JJWF6tUWpf1Jq6UcvXuG453Pdky1JeY/ARfWqJMDD9U9J3ejetEWHv4lP2
-	plmnoaYKUazAgQ7yJ+E7myLyTiwj8
-X-Google-Smtp-Source: AGHT+IF1tkyYU/Xfjt7GTT2jdGBUA5eacYPCq9VUGelBGaPoIv5sPv/codcZcv8B1athkrZOZJ+LLw==
-X-Received: by 2002:a05:6512:b8c:b0:553:23bf:bb26 with SMTP id 2adb3069b0e04-5533b8e1115mr1080560e87.11.1748605110564;
-        Fri, 30 May 2025 04:38:30 -0700 (PDT)
+        bh=5ZgnfNgk1d50UXfggC4xfzDpN2MVKZ499dDNvFRONco=;
+        b=uKVEOErPc0zz2rr3VrTB5p7AdwBPILNU6BbCzQ5htp1hzdFSs2S0SOQlqXTuh8dpOF
+         N0xzNVbAbScSRJwnBKA0vDM1hJCSLkG8KiXz1bpOxtL3Cdq22qmofPOwspBTOjwbdzSk
+         sKizpbrT08wuWLnlctWrvptZmOS2ZRLJ0RKZrC0DDuk8Kw+caSbaG5IccLwsorRxXH6f
+         t8tkYlzKcZcUHDWKdtixFBYJA9kkhCQ2/5LuBQjlFxUZDUS8whIXDegTZa0tpyH/RZaN
+         kMsNGyjZRxGJLla3p1jSsQNb8M1mdM7wY5ECcMTrtgJA5GCHElezKUj3851eMX0kwJZX
+         81Kw==
+X-Gm-Message-State: AOJu0YyrbKWsJoJFkfNhqAZ7dt7VZfH9q8lJXdmLUa8O19PzUcC+8sr3
+	u20YurFZyuprU92N+Cq+Tjx5anY9gMDUeK2CDJ7q4a8Yxwlscz1Hg4qGzVRIx8/7Uaky2VV8sEm
+	hNKr/i0k=
+X-Gm-Gg: ASbGncsEiZQj32lRBeyjdcUSWRq9L73mEOLGgGd3icPv//Xe4YS2rd5VChAPDZFnUH/
+	nFu9qnbShozZYPxoUX5ZbpODnIDXKspi3yvBxrr+3gjiWVsGyif7bC4zkKDMkt7VFCO54sG153O
+	QWBZss5wNqmUYvPDp8vHQuV5ifN4wLwp4bbMKkpvSNXT92IW7NfeFjoPfYA0/PF+6XlpulSAw8B
+	EpJhL72kxtAZBWYaaRMBlQqK48w7us3fOX9wpm0iv2iVo2Dudim/vKVp6Lao584ercEJu1Onxfq
+	uww/zyMVB7Gp3EH/5aD9QdWG3HFkVvM5Xkx7S6XnucMqfYZ/m/I2kanIaExCUP0Cd1OKXarkYUP
+	gEJoEYhFrWqAX5V/Vmk7+GJsBRT9EOLrPk5JXZ7A=
+X-Google-Smtp-Source: AGHT+IHDOgki2t5qGY81hKxX0+EoJLhhxKLBcLYYE6xwxZdYSzkWiw0XlDgfcUlUOvYFUCPZCpFytg==
+X-Received: by 2002:a05:6512:3dac:b0:553:2ca4:39e2 with SMTP id 2adb3069b0e04-5533b93a607mr882476e87.52.1748605109228;
+        Fri, 30 May 2025 04:38:29 -0700 (PDT)
 Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553379378f7sm676469e87.244.2025.05.30.04.38.29
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553379378f7sm676469e87.244.2025.05.30.04.38.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 04:38:30 -0700 (PDT)
+        Fri, 30 May 2025 04:38:28 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v7 5/5] image_types_wic.bbclass: add "grub-efi" back to WKS_FILE_DEPENDS_BOOTLOADERS on x86-64
-Date: Fri, 30 May 2025 14:37:45 +0300
-Message-ID: <20250530113745.778397-5-mikko.rapeli@linaro.org>
+Subject: [PATCH v7 4/5] image_types_wic.bbclass: capture verbose wic output by default
+Date: Fri, 30 May 2025 14:37:44 +0300
+Message-ID: <20250530113745.778397-4-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250530113745.778397-1-mikko.rapeli@linaro.org>
 References: <20250530113745.778397-1-mikko.rapeli@linaro.org>
@@ -68,27 +68,25 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 11:38:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217501
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217500
 
-This was removed by me without good reasons in commit
-2f0ef8cd0e61c34e67ad9c7508094da3c23f5fce
-"wic bootimg-efi.py: change UKI support from wic plugin to uki.bbclass"
-and results in grub-efi binaries missing from
-genereted ESP partition on qemux86-64.
+Call wic with --debug to capture logs from wic internals
+so that it's clear which partitions get created and which
+files get copied where. wic plugins contain for example
+race conditions which don't install files at all and thus
+images fail to boot and it's not possible to debug these without
+something in wic task logs.
 
-Fixes oeqa selftest
-overlayfs.OverlayFSEtcRunTimeTests.test_image_feature_is_missing
-after wic detects missing EFI loader files on ESP partition.
+As an example core-image-initramfs-boot do_image_wic
+log is now 576 lines which is not excessive but very
+important when debugging problems, especially race
+conditions which are only hit in some builds in CI.
 
-Test case was passing due qemu syslinux boot using kernel directly
-from /boot and not using UEFI firmware to boot.
-
-Fixes: 2f0ef8cd0e61 ("wic bootimg-efi.py: change UKI support from wic plugin to uki.bbclass")
-
-WKS_FILE_DEPENDS_BOOTLOADERS needs to list all EFI loaders because
-it's used in DEPENDS and thus can't use conditional python macros
-to select which loader is actually needed in sysroot when
-wic builds the images and ESP partition.
+With all issues I have to deal within wic, I always
+need to apply this change before I get to see any
+details what wic and its plugins are doing. Thus I
+strongly believe this verbose outuput should be the
+default.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
@@ -97,22 +95,28 @@ Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 
 v7: no changes
 
-v6: new changes in series, fixes missing grub-efi binaries
-    on qemux86-64 overlayfs selftest
+v6: no changes but this change helped to resolve issues in v5 series
+
+v5: no changes, v4 caused pseudo aborts on autobuilder
+    but these are likely fixed now after path inclusion list changes
+
+v4: https://lists.openembedded.org/g/openembedded-core/message/215221
+
+v3: https://lists.openembedded.org/g/openembedded-core/message/214360
 
 diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
-index 7c6a6f2e2307..740ed946f8fa 100644
+index a64beda95e5f..7c6a6f2e2307 100644
 --- a/meta/classes-recipe/image_types_wic.bbclass
 +++ b/meta/classes-recipe/image_types_wic.bbclass
-@@ -114,7 +114,7 @@ WKS_FILE_DEPENDS_BOOTLOADERS = ""
- WKS_FILE_DEPENDS_BOOTLOADERS:aarch64 = "grub-efi systemd-boot"
- WKS_FILE_DEPENDS_BOOTLOADERS:arm = "systemd-boot"
- WKS_FILE_DEPENDS_BOOTLOADERS:x86 = "syslinux grub-efi systemd-boot"
--WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux systemd-boot"
-+WKS_FILE_DEPENDS_BOOTLOADERS:x86-64 = "syslinux grub-efi systemd-boot"
- WKS_FILE_DEPENDS_BOOTLOADERS:x86-x32 = "syslinux grub-efi"
+@@ -72,7 +72,7 @@ IMAGE_CMD:wic () {
+ 	if [ -z "$wks" ]; then
+ 		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
+ 	fi
+-	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
++	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create --debug "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
  
- WKS_FILE_DEPENDS ??= "${WKS_FILE_DEPENDS_DEFAULT} ${WKS_FILE_DEPENDS_BOOTLOADERS}"
+ 	# look to see if the user specifies a custom imager
+ 	IMAGER=direct
 -- 
 2.43.0
 
