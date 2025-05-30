@@ -1,115 +1,114 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E230C54F30
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 06:16:13 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.816.1748585768050831661
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5900C54F30
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 06:45:43 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.1065.1748587540119309703
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 23:16:08 -0700
+ Thu, 29 May 2025 23:45:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=f7UDTeCV;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2349282084bso21571365ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 23:16:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z7mqzjW7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a361b8a66cso1043248f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 23:45:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748585767; x=1749190567; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hVAsSFLY8cZikeuq0TuAFbQguQ4eH27l3hk9kYtnN54=;
-        b=f7UDTeCVxBuyjlHNpjlFWhHKrkIIEGG4SL6RAucs+hZz3q8CQMlXbZN4sfGTQRzMi5
-         O1nBwm7Yfj0M40LCRCTr13afLbbgTYWKtTtjorR9UMWU0durSzBkIlTLcMxSKEwN9hoK
-         g/b7BmERG2Ip6Y53PTQEDE8OX22Q+KTU14guvzl92UXdZkfpgSaoGDv41ZHk6BV2TTa3
-         s3gMi+UEAkHatQr1c/Sik+Uon59ilHdK3kJrgrjoerTbVxEes5QFIA4wkgjJMDCa0Sb5
-         f/1bGKXzdLfoxLO+F4kyZtFPrn+LwgvXzPBGv5Lz6E5LfSZ3GHAhBwK13nJcIYAZXUrR
-         6IEw==
+        d=linuxfoundation.org; s=google; t=1748587538; x=1749192338; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mNTpVIw3mxtzCAYxGc/3AH/giCYWK8zx8mlPdoMWVtw=;
+        b=Z7mqzjW74gXQ0lP+F2gSslmEBRnny++nPsbVSWdtuxeNhlHcD1qDElhDncTbzbWZNK
+         X3+re+AkuOCkKTuzggPhGpfcMdQ9xVBpQS0wJkQOUsaz6T4KNMo6RmYA9Xi03qbVmcUj
+         VJT1qOAwgMJf6AXjitzDc4gI/IJMOkKlES+Qo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748585767; x=1749190567;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hVAsSFLY8cZikeuq0TuAFbQguQ4eH27l3hk9kYtnN54=;
-        b=lfG/3F4Bz+CuIsE5xhKO25YSKG3WFT5G19ONZz1LQXvflRM7noGoGVOjkCu14jy5KM
-         PPZxOQb0HsUJ0bjsxYEskME8nJXkrK4xGoYNa6eH2vk1TGx0vC5EkoAiZz3HQHD/EL5D
-         ZpqWQYNnt4LRpNro7axW3B1k0KYkIShV96veMKe7fTuAUKDxHUvhVrZz1P7mY9i9d2N6
-         01g37thMLQBQV+7+pSsFk6rHZOhRD0PQ+OwevDTZ6DTxQqH1b0Ij4Jfm3xNEFSNFtzhW
-         EfJum4wK7rim9W8H4AZbDNvEVorGWTuaVIbKEVQPzdpCuPnbgiMf06011BybZBP0zjAz
-         zH0Q==
-X-Gm-Message-State: AOJu0YwNqV6vJK272kY0Nf/hDTxa9HvINZiQPtBoWQX5G8yJ2JY0O4Sh
-	5eZk7p+YA7ST7MuEfYLV2Q+foDGAMUNQEv4NFlMBicahfH5MWdUWBBseoZifkktt
-X-Gm-Gg: ASbGncsLs/fBpdfCCR74YD4zc+aHNyDswSljArqsMwboS71NYsDX3ICZCnElygflpKu
-	MQSXdigMH2VLwlfaGxdNXmtyVj4azgW01clZN+B0jjiOYMXw+PnIvLyhw3crqcjRDGsqkCigu01
-	xQC6EvJIieUIAPYU06dG6A9POu/xvLJ5bzAjRQ8LEx4q6vT1BOhqybXJ9kUkQ5JJj68e+os26cG
-	IVTBfIPSD4LSTji5ZmVuvLv04LEBvSnvwW99bEAoDezhknIeacy8R1mk5273jO4uS/mWa6CEhN+
-	PqDpogje+Ok8UdpKE9ARGJmG89EeeZ8ZmjqVrmoGXdw=
-X-Google-Smtp-Source: AGHT+IEriShTSO9bPjzE/eB5mAAhIGeNPG1YpkX3AVcg4r5d0R5xhzEVddifNk1hfFU2hWENPrL6ug==
-X-Received: by 2002:a17:902:cece:b0:234:8a16:d62b with SMTP id d9443c01a7336-23528eed622mr35225985ad.12.1748585767212;
-        Thu, 29 May 2025 23:16:07 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::deb9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506d14ab2sm21347405ad.233.2025.05.29.23.16.06
+        d=1e100.net; s=20230601; t=1748587538; x=1749192338;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mNTpVIw3mxtzCAYxGc/3AH/giCYWK8zx8mlPdoMWVtw=;
+        b=EAYYqx8I7mzrnQy9Bke0K3lucKQohok69RWIdH8CNGI8y3lqRryheSwp9N2kzGhAtf
+         zDRqdffUj4nyyU60PNBzHyCA904QlNnupxz1cYf6+RiTQJEW/sOHyuSEvBRsUIr/H/Ij
+         OcJTC3YCZ5iXGqjyijqMYXbglDDOD4TfCWCrKB2Bvri4fKT2pqDrpN8JvGef3SG8dCT6
+         5Z6WjDfWwqBtJ2f8vI4nphpaUK/oEGm81QNr1Us3t7nD3IEzYU93VJA40ri7PhrNApbl
+         FZecJHANMNfleJMUHXDTNHvPxQJI0ZzDXCBTTHP7VD+wEfZfT/TkjV/vu4sMHQfRr5gR
+         vvtA==
+X-Forwarded-Encrypted: i=1; AJvYcCX3PxDI2vQ/CwzhrClDh3ZDHIdvqu5SX+ANq4r9Zrq7r6ehINFUKsN88qgBej7T14e7Qak4y9quXhJ2k0CY12QmUg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yww5RnCYGf4TDu1QvINXaZBPBOGKxXvVZ+K1m8NQlN5EThp9vow
+	eW9VgskN9r8ZK6A+SOFSG+tgFCFDcY/VGzajl46/+zoxGrPqam0v+9IxBHTnmX59Wm8=
+X-Gm-Gg: ASbGncuMFGsC9Y1RcQA0xfLVgFoDKkGD7K3D8w73A0R2udSOpAC2GT9+fj1+X2vWY3Z
+	veofumLW2z1IBHaKrKAEH30IgUWCafJ8SmJty+MvW/wDSY4s9GbzIIQu2qXjpLkGt8r3rmUQG7w
+	VYlnTwbIeaTk38naAZ9h1DfECwmb0T1PPA6daZVXbU0kHP/cva9ZOkexI8EtuxMj08gri/feEGy
+	TzA21sM1M9iLb2+ShanCFaWVOR4YZtEivyixjkbRFLfBF7zlcNw2DPCyvfbUj3Wv3DEOFItaxs9
+	o31pcAj7l7AKa6GRrt25+khUPlPL82z+fY8WEzzaqWu+JzUWwdb4tclunD7fQ7s5h7MjL13Ifin
+	ReVi/MkBHxFWDY3ZkLpmvXo4R40uxTAhwyOshVfqKSSfOkGKO
+X-Google-Smtp-Source: AGHT+IH2Qu+i4IusCFRrj1OnM4OaA+d2tTBDw331edIDf8AluOAZ5d/PYe0JZDx5ZgWX/SHUwvURVw==
+X-Received: by 2002:a5d:58dc:0:b0:3a4:f7db:6ff7 with SMTP id ffacd0b85a97d-3a4f7db764cmr1061046f8f.52.1748587538530;
+        Thu, 29 May 2025 23:45:38 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5d72:4093:f55c:1c6? ([2001:8b0:aba:5f3c:5d72:4093:f55c:1c6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f009fbf7sm3901331f8f.83.2025.05.29.23.45.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 23:16:06 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v5] pixmap: Enable openmp support with clang compiler
-Date: Thu, 29 May 2025 23:16:04 -0700
-Message-ID: <20250530061604.2401313-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        Thu, 29 May 2025 23:45:37 -0700 (PDT)
+Message-ID: <782b23ff482ab3749e1655288c3932fe882a41f6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] wic: plugins source bootimage/isoimage
+ rename to allow be imported
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Anibal Limon <anibal@limonsoftware.com>, Ross Burton
+ <Ross.Burton@arm.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 May 2025 07:45:36 +0100
+In-Reply-To: <CAOU5ZMsctXq9Gf0UHdrrt-9ZKV69qMs21AjBJ7Uu=vUxmWp6Pg@mail.gmail.com>
+References: <20240323195304.2909926-1-anibal@limonsoftware.com>
+	 <20240323195304.2909926-2-anibal@limonsoftware.com>
+	 <20240325101809ec807440@mail.local>
+	 <CAOU5ZMvcO4_HWWgNc44P11w=rXh_cXyFhi7P2=D1iDhZjB+xTQ@mail.gmail.com>
+	 <FB405ACE-51BB-44F0-B449-EAC18194F176@arm.com>
+	 <CAOU5ZMsctXq9Gf0UHdrrt-9ZKV69qMs21AjBJ7Uu=vUxmWp6Pg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 06:16:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217465
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 06:45:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217466
 
-pixman's meson detects openmp support and if it finds it in runtime then
-enables it, this happens for gcc via gcc-runtime, however for clang, it
-does not. In some cases e.g. mips it enables it during configure only to
-find that clang can not find the libomp during linking. Therefore, add
-the dependency on openmp when using clang compiler. This ensures consistent
-behaviour across architectures.
+On Thu, 2025-05-29 at 17:22 -0600, Anibal Limon wrote:
+>=20
+>=20
+> On Thu, May 29, 2025 at 2:06=E2=80=AFPM Ross Burton <Ross.Burton@arm.com>
+> wrote:
+> > On 25 Mar 2024, at 14:39, Anibal Limon via lists.openembedded.org
+> > <anibal=3Dlimonsoftware.com@lists.openembedded.org> wrote:
+> > > Thanks for reporting, I will adapt the tests.
+> >=20
+> > Without having to rewrite all of the documentation and existing
+> > files, why doesn=E2=80=99t wic just normalise the plugin name that it r=
+eads
+> > to replace all - with _?
+> >=20
+> > This means you can still import the module names, but doesn=E2=80=99t
+> > change existing behaviour at all.
+>=20
+> So to normalize you mean change python module name from _ to - at
+> runtime?.
+> The plugins already had a name attr with '-', the issue is when
+> trying to import from an external module.
 
-Disable internal assembler on mips since it can not handle the inline assembly
+What Ross is suggesting is that in the code in wic which parses the
+commandline parameters, we could add a line of code to change "-" in
+plugin names to "_". We'd need to tweak what gets parsed from the wks
+files too.
 
-Turn openmp into a packageconfig
+This would make the migration easier. We may or may not want to issue a
+warning at the same time so the user can know to update their wks file
+or command.
 
-openmp is not yet ported to all architectures e.g. RISCV32 does not have it
+Cheers,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-index c1c71fd4202..64d015e3406 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-@@ -23,6 +23,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
- 
- inherit meson pkgconfig
- 
-+OPENMP ?= ""
-+OPENMP:toolchain-clang = "openmp"
-+OPENMP:riscv32 = ""
-+
-+PACKAGECONFIG ??= "openmp"
-+PACKAGECONFIG:class-native ?= ""
-+
-+PACKAGECONFIG[openmp] = ",-Dopenmp=disabled,${OPENMP}"
-+
- # These are for the tests and demos, which we don't install
- EXTRA_OEMESON = "-Dgtk=disabled -Dlibpng=disabled"
- # ld: pixman/libpixman-mmx.a(pixman-mmx.c.o):
-@@ -36,7 +45,7 @@ EXTRA_OEMESON:append:class-target:powerpc64le = " ${@bb.utils.contains("TUNE_FEA
- EXTRA_OEMESON:append:armv7a = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
- EXTRA_OEMESON:append:armv7ve = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
- 
--EXTRA_OEMESON:append:class-native = " -Dopenmp=disabled"
-+CFLAGS:append:toolchain-clang:mipsarch = " -fno-integrated-as"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+Richard
 
