@@ -1,194 +1,120 @@
-Return-Path: <anibal@limonsoftware.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8224FC5AD49
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 20:06:50 +0000 (UTC)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
- by mx.groups.io with SMTP id smtpd.web10.4063.1748635609853065719
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BF4AC5B543
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 20:56:15 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.303.1748638573229881992
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 13:06:50 -0700
+ Fri, 30 May 2025 13:56:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@limonsoftware-com.20230601.gappssmtp.com header.s=20230601 header.b=lO2z8LHz;
- spf=pass (domain: limonsoftware.com, ip: 209.85.128.172, mailfrom: anibal@limonsoftware.com)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-70e767ce72eso25499087b3.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 13:06:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IX3jGWIX;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-309fac646adso3419031a91.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 13:56:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=limonsoftware-com.20230601.gappssmtp.com; s=20230601; t=1748635609; x=1749240409; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5g6lVWzqSPdD63t/3mqOm17uiik/sYOLitVzFFGdYDc=;
-        b=lO2z8LHzsDecu2mhjk49Owc/+bsJrerQF6Bo24cbJvbSyLoS3ig6qO11WkMBMsbmWO
-         lCzi6cDwgrexdfKADin9Vi9Z+8eLmbwJ7c79VU+0RTTpdkMYF6UX6QrkhaLkBfbGHVlk
-         kuLpP5J2cZNrAZ+obAXrQxeUsbeD87/SNbmPW0vfbG2PkXak9S2HY49htbVQlJmBWu1X
-         XrKO48rYppwEAKwIBTSzX+GKjtbesGDaF/zn2a2ROZkSqn/rJQcxWgnH62px+kaX4apq
-         hk7boFdwEdTk7QrSJBuKzQp2wjKECi20LHiaY5ifCus9Gv5Kjoioxs0n3BoQT4/EFguG
-         Ryxg==
+        d=gmail.com; s=20230601; t=1748638572; x=1749243372; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N/w24/kMlDs/ZM5qBGSEUUKdcl/TxbM65/cqUrKk7BM=;
+        b=IX3jGWIX+d2j6vKn1M8oIc9n3AwFVxWdUn8c/5eKegNyzNcgNGR7ZBpT8TIfL/wb/U
+         haQWvSebM3oz5yF1Dy9iXAHVlaC1/XxVHOe7qJM0+AA4O0rnoui112S0jExexM80bDl6
+         fHXYwaPckckZHWEcC+o0RvktWVhrWSLYuNezuF7Ex1FWYXG1Wu8f3GMvHkX8akKzCLDz
+         vtn+DL6yHk285ELYSZy8B9IOvSQBeIDpZFAqMLGlsCWgIzVtGmpzjjWdalwe/Im+CAPN
+         w69hXJNGf4AXQdxxBhu+dBvfRUAgmkBZs7srLrfs3LaJW1fjxalbfqBsqD2pGduw1kWm
+         GAYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748635609; x=1749240409;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1748638572; x=1749243372;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5g6lVWzqSPdD63t/3mqOm17uiik/sYOLitVzFFGdYDc=;
-        b=fxmcWkrJbaBN2DJmGa9OwEpxcXWb1Pn0SAuPw6euP9CJ7cZ2OAkkQidbtG8w/XwoUL
-         u2pk0eDEtAEtgpFNJyhsoUQNleEJ4PZ/xBgQGnF9l8Ykhvn/Fzf//6M6bLk1ogwbmnhu
-         kpdOQmf6FTE6kYPOwkWOBEy2TqVYrjmAjwUbpB4i9+QlXmHwcmmUiLS5LLz+1z476R5K
-         KCECGLjL59L/wzrfl7jNI4t+tYrbL6tu2SWkZT1m54onBbIhtwm78P2ehAEMecCp1AQr
-         gA6fi3G5dGUJmjMlh2nCvFd704xglXaVIGrpaRrWd2jpjGNzjETaU2jm23Hkjl1AILkK
-         1fSA==
-X-Forwarded-Encrypted: i=1; AJvYcCWY1t5P6pJOJfRyh//FB36wtPVG+PVd+XFNEONWyE40YJKZoqhoFxTmplUGrZBQFr1i1qJmuVyKeLweygaAiADrrg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzo2oEPYRFwlwE5RbahgsWT8UD69dNDYD7DhVNeIO+mBUv3/1A0
-	V/oD8D5m4OqeZ7vqtqSj+J5k4djcarkL4Ex+15ipIc7wGmEGNP2UrkmJnVTpDXGVGbEqvdACvkC
-	GbwMMQ1owUsOdHJgiGvbfBOTICAiKSlZMLmePXsLOiw==
-X-Gm-Gg: ASbGncuGz22aMGTEq9TPx7wjb6fJCfK0kZtr0cMf73whHybTluC+KcVo/Pps8Q4oo2X
-	suZ4YnwwHxlS4Rd5/4NqOTnTQ0n86e0AUNUZ61L4p7xwV5fuy3f/PTjPq/e1r+KnBM8rxP9MBYL
-	Cn4wVRNqwmH+9Q+0eopux3n5wlY0C+xsGxdFbwHI1X
-X-Google-Smtp-Source: AGHT+IHHPuPwFZh/J0XhZCC4B0fu72bQsss3aKgpIebwhrWfAytF9gd4kqcmYoDe6/KCrZ0y/nzEBxR0arVabLGh1HQ=
-X-Received: by 2002:a05:690c:6d12:b0:70e:23e6:60f7 with SMTP id
- 00721157ae682-71057d20cf9mr54092867b3.27.1748635608868; Fri, 30 May 2025
- 13:06:48 -0700 (PDT)
+        bh=N/w24/kMlDs/ZM5qBGSEUUKdcl/TxbM65/cqUrKk7BM=;
+        b=RhJKAeINDqUcQkhQR9u7TwemMeDDvHUTNtOr//gWy9pMj9TAvbUN/z+4x2LcAXzPuF
+         uEdZfBGfSKS8UaiS9KB5tFvj0ngOXuS1Fque/jZzpBwO+VRaNXT68YmUtljxubDU5CUF
+         OiAKGRsGgCPNTTHf9Urg14SoOeMtNDTNpO7EP/N4M+IilV3op7PRtd5H/+WWeJp5LLOZ
+         dNZDR/K51I5v78aEBRFx1kBEU/jEzhHIakTqt2gq83Eaab1u4PT/jBMBCw5arvgSaoAl
+         l1KWiSf+QyF4+/BYqfxbWI4r9D/w4bDEEEQIK41uH9GD3wylBMxh41lLKwPNYJSwlyvK
+         XY4w==
+X-Gm-Message-State: AOJu0Yw/heCtOuyFvTndKbz3YZV7AxSqm28OnrK/E61QlHCeE9Oz47TV
+	mHV8sGiYj7gy6gBUnXDkcphtpdOb1pBIwjzvZ4mJbZTZYbn7hgOLF2TTEHWPtVHI
+X-Gm-Gg: ASbGncugBNcr+DPpqYOLpwNCL1wK9g9WRSWNq7nfN0e2q42wFHCbwz65Bd1WGaTkWRg
+	XA0dhuqqxi6pm15TeAT7TUx22U9RiMtpAVOeUAtFzyYXdISMs8e53lBSC+SWD56pDd8kCR7KGcO
+	h7jW1oSJjM6c0Ir9ryQpTNjjVmiC/VSzSMJcbLr/YIDXDXUfwZR/dTMxNeNkOF4Gyyys1n0Xucr
+	ZUKZbIL0cyh0YTQRHs5Y/2zBNAZHydgXhbhEv07Yf0FBNQwHYfxcgw+qLWfa+1KUKXFJRCfUi5G
+	mqxbmU/KJaJu20pjpnkANnUmWbOqFCMheQraXPfeAP5c18UqxnC9ww==
+X-Google-Smtp-Source: AGHT+IHEU9cHOJ/5Od0z3MrCZo1USO67OfoRGvJlPXKydoCCuw6TmWa/BHNa5CiVBxtxWkUcPsE+qQ==
+X-Received: by 2002:a17:90b:1343:b0:311:c970:c9c5 with SMTP id 98e67ed59e1d1-31245def13fmr6114032a91.7.1748638572338;
+        Fri, 30 May 2025 13:56:12 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::deb9])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e3d8dfcsm1619514a91.49.2025.05.30.13.56.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 May 2025 13:56:11 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v5] pixmap: Enable openmp support with clang compiler
+Date: Fri, 30 May 2025 13:56:09 -0700
+Message-ID: <20250530205609.3185264-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20240323195304.2909926-1-anibal@limonsoftware.com>
- <20240323195304.2909926-2-anibal@limonsoftware.com> <20240325101809ec807440@mail.local>
- <CAOU5ZMvcO4_HWWgNc44P11w=rXh_cXyFhi7P2=D1iDhZjB+xTQ@mail.gmail.com>
- <FB405ACE-51BB-44F0-B449-EAC18194F176@arm.com> <CAOU5ZMsctXq9Gf0UHdrrt-9ZKV69qMs21AjBJ7Uu=vUxmWp6Pg@mail.gmail.com>
- <782b23ff482ab3749e1655288c3932fe882a41f6.camel@linuxfoundation.org>
-In-Reply-To: <782b23ff482ab3749e1655288c3932fe882a41f6.camel@linuxfoundation.org>
-From: Anibal Limon <anibal@limonsoftware.com>
-Date: Fri, 30 May 2025 14:06:38 -0600
-X-Gm-Features: AX0GCFv0LdQ_nO-j5HHg2POGmppN7GV7IErkKBLT2BucgPEPIjNfyKbASzYEMP0
-Message-ID: <CAOU5ZMuCAo=fk8OF_tpnnfyUa9d52eoUx5q1evQ3FC3ESftj=A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] wic: plugins source bootimage/isoimage
- rename to allow be imported
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <Ross.Burton@arm.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004ef85c06365ff4f3"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 20:06:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217536
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 20:56:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217537
 
---0000000000004ef85c06365ff4f3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+pixman's meson detects openmp support and if it finds it in runtime then
+enables it, this happens for gcc via gcc-runtime, however for clang, it
+does not. In some cases e.g. mips it enables it during configure only to
+find that clang can not find the libomp during linking. Therefore, add
+the dependency on openmp when using clang compiler. This ensures consistent
+behaviour across architectures.
 
-On Fri, May 30, 2025 at 12:45=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Disable internal assembler on mips since it can not handle the inline assembly
 
-> On Thu, 2025-05-29 at 17:22 -0600, Anibal Limon wrote:
-> >
-> >
-> > On Thu, May 29, 2025 at 2:06=E2=80=AFPM Ross Burton <Ross.Burton@arm.co=
-m>
-> > wrote:
-> > > On 25 Mar 2024, at 14:39, Anibal Limon via lists.openembedded.org
-> > > <anibal=3Dlimonsoftware.com@lists.openembedded.org> wrote:
-> > > > Thanks for reporting, I will adapt the tests.
-> > >
-> > > Without having to rewrite all of the documentation and existing
-> > > files, why doesn=E2=80=99t wic just normalise the plugin name that it=
- reads
-> > > to replace all - with _?
-> > >
-> > > This means you can still import the module names, but doesn=E2=80=99t
-> > > change existing behaviour at all.
-> >
-> > So to normalize you mean change python module name from _ to - at
-> > runtime?.
-> > The plugins already had a name attr with '-', the issue is when
-> > trying to import from an external module.
->
-> What Ross is suggesting is that in the code in wic which parses the
-> commandline parameters, we could add a line of code to change "-" in
-> plugin names to "_". We'd need to tweak what gets parsed from the wks
-> files too.
->
+Turn openmp into a packageconfig
 
-Yeah, I find the plugin manager when plugins are loaded.
+openmp is not yet ported to all architectures e.g. RISCV32/PPC32
+does not have it
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v5: Remove openmp on rv32 and ppc32
 
->
-> This would make the migration easier. We may or may not want to issue a
-> warning at the same time so the user can know to update their wks file
-> or command.
->
+ meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Sure, I think it starts with a warning and then makes the switch at some
-point or not.
-
- Regards!,
-Anibal
-
->
-> Cheers,
->
-> Richard
->
-
---0000000000004ef85c06365ff4f3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 30,=
- 2025 at 12:45=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purd=
-ie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, 2025-05-2=
-9 at 17:22 -0600, Anibal Limon wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Thu, May 29, 2025 at 2:06=E2=80=AFPM Ross Burton &lt;<a href=3D"mai=
-lto:Ross.Burton@arm.com" target=3D"_blank">Ross.Burton@arm.com</a>&gt;<br>
-&gt; wrote:<br>
-&gt; &gt; On 25 Mar 2024, at 14:39, Anibal Limon via <a href=3D"http://list=
-s.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded=
-.org</a><br>
-&gt; &gt; &lt;anibal=3D<a href=3D"mailto:limonsoftware.com@lists.openembedd=
-ed.org" target=3D"_blank">limonsoftware.com@lists.openembedded.org</a>&gt; =
-wrote:<br>
-&gt; &gt; &gt; Thanks for reporting, I will adapt the tests.<br>
-&gt; &gt; <br>
-&gt; &gt; Without having to rewrite all of the documentation and existing<b=
-r>
-&gt; &gt; files, why doesn=E2=80=99t wic just normalise the plugin name tha=
-t it reads<br>
-&gt; &gt; to replace all - with _?<br>
-&gt; &gt; <br>
-&gt; &gt; This means you can still import the module names, but doesn=E2=80=
-=99t<br>
-&gt; &gt; change existing behaviour at all.<br>
-&gt; <br>
-&gt; So to normalize you mean change python module name from _ to - at<br>
-&gt; runtime?.<br>
-&gt; The plugins already had a name attr with &#39;-&#39;, the issue is whe=
-n<br>
-&gt; trying to import from an external module.<br>
-<br>
-What Ross is suggesting is that in the code in wic which parses the<br>
-commandline parameters, we could add a line of code to change &quot;-&quot;=
- in<br>
-plugin names to &quot;_&quot;. We&#39;d need to tweak what gets parsed from=
- the wks<br>
-files too.<br></blockquote><div><br></div><div>Yeah, I find the plugin mana=
-ger when plugins are loaded.</div><div>=C2=A0</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
-<br>
-This would make the migration easier. We may or may not want to issue a<br>
-warning at the same time so the user can know to update their wks file<br>
-or command.<br></blockquote><div><br></div><div>Sure, I think it starts wit=
-h a warning and then makes the switch at some point or not.</div><div><br><=
-/div><div>=C2=A0Regards!,</div><div>Anibal</div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div></div>
-
---0000000000004ef85c06365ff4f3--
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
+index c1c71fd4202..925a7d7b29b 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
+@@ -23,6 +23,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
+ 
+ inherit meson pkgconfig
+ 
++OPENMP ?= ""
++OPENMP:toolchain-clang = "openmp"
++# openmp is not yet ported to rv32/ppc
++OPENMP:remove:riscv32 = "openmp"
++OPENMP:remove:powerpc = "openmp"
++
++PACKAGECONFIG ??= "openmp"
++PACKAGECONFIG:class-native ?= ""
++
++PACKAGECONFIG[openmp] = ",-Dopenmp=disabled,${OPENMP}"
++
+ # These are for the tests and demos, which we don't install
+ EXTRA_OEMESON = "-Dgtk=disabled -Dlibpng=disabled"
+ # ld: pixman/libpixman-mmx.a(pixman-mmx.c.o):
+@@ -36,7 +47,7 @@ EXTRA_OEMESON:append:class-target:powerpc64le = " ${@bb.utils.contains("TUNE_FEA
+ EXTRA_OEMESON:append:armv7a = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
+ EXTRA_OEMESON:append:armv7ve = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
+ 
+-EXTRA_OEMESON:append:class-native = " -Dopenmp=disabled"
++CFLAGS:append:toolchain-clang:mipsarch = " -fno-integrated-as"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 
