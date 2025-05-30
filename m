@@ -2,129 +2,166 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 962F9C5AD49
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 21:22:16 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.444.1748640134693015954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52864C5AD49
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 21:22:26 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.457.1748640142707067832
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 14:22:14 -0700
+ Fri, 30 May 2025 14:22:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=cTWjECxl;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22e331215dbso25695325ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 14:22:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lqa6S47d;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-23539a1a421so7990745ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 14:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748640134; x=1749244934; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FRB2RCfW1Ag2TZey/Q3pGs2pfyuvggnuf4q/ZS+fjK4=;
-        b=cTWjECxl35ezWB6s9/O3sbZfMEa8qB6dou1FillsDybyyIIK7AEDLQ47dMsZl/o9kQ
-         qNeKbQJPb9M/tvh+LtLJegF12sS69lGE8aK6MWPqJhe6LXr9gZihI7UMhxTJWvAsMhQ+
-         /oJKiMl0ElFiM4pRmKlGDNob90kPUmzuslMuwYAY59INgWXj7oDgjGpP+KuNg4ZLluEv
-         o2xZswiXuQ5H1Bi2/nbGF7kWHKfkYJniek7YfebjeU05zGAkbWl9DuBAlIYvk3y2ORUf
-         5cC9oLg1TU7Wk9ElfapFLeeJJrJkcel3xVZhUmn45p4LeyA8uCfbaswq8g/xe2+1pDsq
-         qNcg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748640142; x=1749244942; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6HM5iCE6m0Xd8GXfGMi4z6ZnO1cJhuVHBJu8gBoCpFA=;
+        b=lqa6S47dFA6Kgm3Qmk+lDsPy6qJperYJ3otUiNX/c4ybIovEYltteVFHQjv5bjiwe4
+         SDbquvuL1p0XPz7+ipP9ttdCURaoi/LtAbNbGhMp1LnBncmATHjnOiUfGTz0+6dUXWH6
+         8AgHBSGzNQGUvr8vjLlr2ypobKU51SpVVC3loYNnsQYiBSp5iFVGvidFLJXHl9cAtilw
+         q1vSVKkyz3e1ZZS1A2gmtg74FzczpNLyj2CMmJ54tIB7Et9+Ne0Fa6ipuNYVbgPJSzub
+         wGSW3uk3cbvguMzMkmj9GF9cPTXl2HGDb+nsAxStm4DG+m4JnhJ+HG2WYfhlkswwn2pY
+         Xtrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748640134; x=1749244934;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FRB2RCfW1Ag2TZey/Q3pGs2pfyuvggnuf4q/ZS+fjK4=;
-        b=xQdkVPylf+KK8h1MhE9lGfiHMYc/eSX4glzj3oauNSFg4RKYEeElmpwFd9CYB9GjEW
-         nVZ2lG5G2UQUrCYbdcGpNuIuItgjpV2d/iTZMAavDmFKSpxSZZSbe3oyA7Yfke/koqg/
-         XpHahyKVKpCxkDMW/Dc02/mu30fP22cXWj9iWymucNrYtqYZIwuskWfcbTcubTUOeTrB
-         XvGexhAy6O4RBdjJTd6uoi1zzHmGwrbtQXJY39H7LghZjX06eadVrO487WItrH0iOYQN
-         diUhzH2IYhiWeAR8perH2gzFPT5iSU3vf0GFnPLKjf9NaLZWsfLukvlkScNWJTmIw06P
-         F5pw==
-X-Gm-Message-State: AOJu0YyBSjEcfBn/EjTtCiWyiRTxyqzgH1JQaSisaU5wBvEm/eiIMoj3
-	8D2MRMej0h+JyvoHgAGtBJFRsXN2kORaWqgN3sf5CXyWfjNXXg5tOdGmi4gMvGXhrSVcOdtO21S
-	u1ktc
-X-Gm-Gg: ASbGncvPMEBUjMG6SrPagaDYOZBQchx9upzglzW/fjqAnWGAjfnFkfEAfvP+f0+NHb6
-	lHDALv6jkZ0/vckPV4favo0D7aLdO+HTUv31SCEJFX90BM4craPH+nwZFrOiJEs1/M6ys2P1sB8
-	3kSvY3NdANoz0kBBz4NY0/uyh9MXu6BFJSNhnUitb/M8/AVDeptv0iJxwq7BetXZjwqxBYapSgU
-	p7sCxLwQlWti0Wxf5ha6a1ErI45+9BCB9CTqWVb9Q71+n9l00w1UeoNRV2zi0quxFQw/psqd1KF
-	hJ73AZoXZ0QeH1Ji7D+pHz/RdjdjVot8U/UuhDFmEnjxzoi7Qje93g==
-X-Google-Smtp-Source: AGHT+IGxuTo7sINncSGYIdNgaAWuCKewZi/ZVH6QBF/gYSWvs8maeChrXGl3b9Z3lN4cIlE6jzP7uQ==
-X-Received: by 2002:a17:903:2f81:b0:235:278c:7d06 with SMTP id d9443c01a7336-2352b02548bmr68906995ad.8.1748640133524;
-        Fri, 30 May 2025 14:22:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748640142; x=1749244942;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6HM5iCE6m0Xd8GXfGMi4z6ZnO1cJhuVHBJu8gBoCpFA=;
+        b=LAe3ioqKWv27ZIlBf1EmJpOAL348jUmX0cWNqtPxLYmSIjKs5ur/NS0GWUdIiVGD0K
+         fn2pOTSH/72Ocgi0k8ogisZVy+4ZaH+D9zLJcrEEKELonpZhoTKkFwZOVLGJTuKKb0vj
+         Bpi0gqgCddcbPP0UErQICwRi7PtMFiIA8zcC9PfSrtwV2twt/nhCfiiw43+gMeWN4gNg
+         AV3ad1wjqUeparLDTiZiWNU4ZsTJQFbW0KEEvJIBLtaBZQzJ8u5rVhe0Tdj4I3z0/H6K
+         RHdmjzDS6MgpAj8fTkL1gBVIKonGzUMa1ypEWbvERwZQdb9x2yY7sMR+oHaEQULyfX8a
+         BlaA==
+X-Gm-Message-State: AOJu0YxnHRymtZMoqWqL8FnBDbHCpJxdJmt091QJdHMytd+EOVQK3Opn
+	r/kWgxgdfsKzNOgFVTRMRNCeTmn/HJX98kkNK9Z98sSOXqtSIuzw6N7Em3QOelWKV+Qxpoe+7Ql
+	uVYMF
+X-Gm-Gg: ASbGncv3QjiAa6Sf6gqIO6/zLcFDC6+p9p+jsPdTXuc3BCY8fQ1LOvnv+e7Z6PBFm/s
+	R3AHc3Zjml+vIQP8t3YwlNBPbRiiw1NdPFTBG1o0dVVeLYpZuwpQhkrZfvxJPLb2uK4/7Sm7RP0
+	5iqw6rpzZ7D3gC3XuCx40+0UiY4K8GTnb+26hI/5KdyfKpdvjrpgfp+ubO+bChFjKIgl8tvSri5
+	/s0VTrBKpHMe/VtViRTs7sBwX8lOzvq5NGZ5P+v8HRKBxC1goKwg0y+VZH9nb6LuZlC40lOlRtP
+	Ymn+Lth0bPzVjbQLsrINd+p7us7hlZkCibnnLVjyoYLELUVzTbKvtg==
+X-Google-Smtp-Source: AGHT+IGewfNCGMCFrIGhDfSgxqSl/E+zE3FD8JppIrSk6iFZk6nEC97lLoIu+o3cGtV1ZtSYbBH+zA==
+X-Received: by 2002:a17:902:e801:b0:234:c2e7:a102 with SMTP id d9443c01a7336-23529a076dcmr72064415ad.43.1748640141936;
+        Fri, 30 May 2025 14:22:21 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:c9d8:e2d0:bfbc:3a26])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506be2622sm32621815ad.102.2025.05.30.14.22.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506be2622sm32621815ad.102.2025.05.30.14.22.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 14:22:13 -0700 (PDT)
+        Fri, 30 May 2025 14:22:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/14] Patch review
-Date: Fri, 30 May 2025 14:21:50 -0700
-Message-ID: <cover.1748639952.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 05/14] linux-yocto/6.6: fix beaglebone ethernet
+Date: Fri, 30 May 2025 14:21:55 -0700
+Message-ID: <2cfbfa009094edb1445418598231c5ad2c20a507.1748639952.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1748639952.git.steve@sakoman.com>
+References: <cover.1748639952.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 21:22:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217538
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 21:22:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217543
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Wednesday, June 4
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Passed a-full on autobuilder:
+Integrating the following commit(s) to linux-yocto/6.6:
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1695
+1/1 [
+    Author: Colin Foster
+    Email: colin.foster@in-advantage.com
+    Subject: ARM: dts: am335x-bone-common: Increase MDIO reset deassert time
+    Date: Fri, 31 May 2024 13:38:17 -0500
 
-The following changes since commit 56431a98ac661eaa42803e83a9ede6eae0b72b67:
+    Prior to commit df16c1c51d81 ("net: phy: mdio_device: Reset device only
+    when necessary") MDIO reset deasserts were performed twice during boot.
+    Now that the second deassert is no longer performed, device probe
+    failures happen due to the change in timing with the following error
+    message:
 
-  u-boot: ensure keys are generated before assembling U-Boot FIT image (2025-05-27 09:47:09 -0700)
+    SMSC LAN8710/LAN8720: probe of 4a101000.mdio:00 failed with error -5
 
-are available in the Git repository at:
+    Restore the original effective timing, which resolves the probe
+    failures.
 
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+    Signed-off-by: Colin Foster <colin.foster@in-advantage.com>
+    Link: https://lore.kernel.org/r/20240531183817.2698445-1-colin.foster@in-advantage.com
+    Signed-off-by: Kevin Hilman <khilman@baylibre.com>
+]
 
-Ashish Sharma (1):
-  screen: patch CVE-2025-46805
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../linux/linux-yocto-rt_6.6.bb               |  2 +-
+ .../linux/linux-yocto-tiny_6.6.bb             |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 22 +++++++++----------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-Bruce Ashfield (8):
-  linux-yocto/6.6: update to v6.6.85
-  linux-yocto/6.6: fix beaglebone ethernet
-  linux-yocto/6.6: update to v6.6.86
-  linux-yocto/6.6: update to v6.6.87
-  linux-yocto/6.6: update to v6.6.88
-  linux-yocto/6.6: update to v6.6.89
-  linux-yocto/6.6: update to v6.6.91
-  linux-yocto/6.6: update to v6.6.92
-
-Hitendra Prajapati (2):
-  libsoup-3.4.4: Fix CVE-2025-4969
-  libsoup-2.4: Fix CVE-2025-4969
-
-NeilBrown (1):
-  nfs-utils: don't use signals to shut down nfs server.
-
-Richard Purdie (1):
-  sstatetests: Switch to new CDN
-
-Wang Mingyu (1):
-  ghostscript: upgrade 10.05.0 -> 10.05.1
-
- meta/lib/oeqa/selftest/cases/sstatetests.py   |   2 +-
- .../nfs-utils/nfs-utils/nfsserver             |  28 +----
- ...ript_10.05.0.bb => ghostscript_10.05.1.bb} |   2 +-
- .../screen/screen/CVE-2025-46805.patch        | 101 ++++++++++++++++++
- meta/recipes-extended/screen/screen_4.9.1.bb  |   1 +
- .../linux/linux-yocto-rt_6.6.bb               |   6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 ++---
- .../libsoup/libsoup-2.4/CVE-2025-4969.patch   |  76 +++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |   1 +
- .../libsoup/libsoup-3.4.4/CVE-2025-4969.patch |  76 +++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   1 +
- 12 files changed, 282 insertions(+), 46 deletions(-)
- rename meta/recipes-extended/ghostscript/{ghostscript_10.05.0.bb => ghostscript_10.05.1.bb} (97%)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2025-46805.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4969.patch
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+index c3f2c35b1f..e0006035fe 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+@@ -14,7 +14,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "0588a366e1193d9ac23855c4a3c2c784d5ca512b"
++SRCREV_machine ?= "4c94a7140a0416421cd82fe18703e99d7c4eec8e"
+ SRCREV_meta ?= "39d19bc9f333a0bfb88cd55befe70d5da87adcf8"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+index ae0316dade..8c0617be10 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+@@ -17,7 +17,7 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "93714069321a8e2f7d01f51038cc1d9afd64a57b"
++SRCREV_machine ?= "50111c8145a573a5eb34859736492d3914d74f26"
+ SRCREV_meta ?= "39d19bc9f333a0bfb88cd55befe70d5da87adcf8"
+ 
+ PV = "${LINUX_VERSION}+git"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index 55304a1929..061837ec88 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -18,17 +18,17 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
+ KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "00f5a7d26256a6c96f4c624ed2fcc2915baf69ed"
+-SRCREV_machine:qemuarm64 ?= "44c07335c9354d22e1059b773cc5acc6d5997acb"
+-SRCREV_machine:qemuloongarch64 ?= "aa6b73545c4594842542c8943dce67fe397e91cc"
+-SRCREV_machine:qemumips ?= "6f7f7ea73242088f08c504a73144e7c3649548f8"
+-SRCREV_machine:qemuppc ?= "af203c26b7349967003580d373f7bb4e32b53c5a"
+-SRCREV_machine:qemuriscv64 ?= "aa6b73545c4594842542c8943dce67fe397e91cc"
+-SRCREV_machine:qemuriscv32 ?= "aa6b73545c4594842542c8943dce67fe397e91cc"
+-SRCREV_machine:qemux86 ?= "aa6b73545c4594842542c8943dce67fe397e91cc"
+-SRCREV_machine:qemux86-64 ?= "aa6b73545c4594842542c8943dce67fe397e91cc"
+-SRCREV_machine:qemumips64 ?= "98b3401fbd220385715648e6bea870482419e7c1"
+-SRCREV_machine ?= "aa6b73545c4594842542c8943dce67fe397e91cc"
++SRCREV_machine:qemuarm ?= "c7fc26b463b6d492177ab4f3133ac709f72959e6"
++SRCREV_machine:qemuarm64 ?= "a2123abde1b536e17d6f8b41c07006b1b78fc14e"
++SRCREV_machine:qemuloongarch64 ?= "6a5b2ed821525dac9e4f3f5283376f02965d3a7b"
++SRCREV_machine:qemumips ?= "441ff4147581f8866ccb145ee1fcecb418543a46"
++SRCREV_machine:qemuppc ?= "c186535e4a16fe6524c963f40744f56d56cc37ae"
++SRCREV_machine:qemuriscv64 ?= "6a5b2ed821525dac9e4f3f5283376f02965d3a7b"
++SRCREV_machine:qemuriscv32 ?= "6a5b2ed821525dac9e4f3f5283376f02965d3a7b"
++SRCREV_machine:qemux86 ?= "6a5b2ed821525dac9e4f3f5283376f02965d3a7b"
++SRCREV_machine:qemux86-64 ?= "6a5b2ed821525dac9e4f3f5283376f02965d3a7b"
++SRCREV_machine:qemumips64 ?= "ef983636bee26dd17055fbff877a6ca4cd10e4ed"
++SRCREV_machine ?= "6a5b2ed821525dac9e4f3f5283376f02965d3a7b"
+ SRCREV_meta ?= "39d19bc9f333a0bfb88cd55befe70d5da87adcf8"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
 -- 
 2.43.0
 
