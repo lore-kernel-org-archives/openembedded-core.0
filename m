@@ -1,95 +1,85 @@
-Return-Path: <philip@balister.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 416B1C5B543
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 13:11:36 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web11.2338.1748595632572998801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92B98C5B543
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 13:15:36 +0000 (UTC)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web10.5696.1748610929156855261
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 02:00:33 -0700
+ Fri, 30 May 2025 06:15:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@salwatorska.pl header.s=google header.b=ewRvzEdz;
- spf=pass (domain: salwatorska.pl, ip: 209.85.218.54, mailfrom: marcin.bajer@salwatorska.pl)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ad55d6aeb07so278747066b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 02:00:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ahIU3v1H;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4a3db0666f2so41114901cf.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 06:15:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=salwatorska.pl; s=google; t=1748595630; x=1749200430; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lhurWsfxHph1mL+gss+TZvZmgw+ES2d7jGupwpMm2+8=;
-        b=ewRvzEdzrozhBz8r6rQp109zlqtPccQRv1ZrTE653wISwweNt8tU2m6vFt+xeYu8RV
-         ntZGv5ayVdgZdWoXIPHiBlzP+6Yens2jbKRuJjH52+DEm3R5lvUqu5cWFQqMA0NONiRO
-         9Ymn78UpHolfdMvDXl3B13sE6LYedU8ZLO6IuFe2CRU2ouLeBAIis3lsM7oAeCeF4LRN
-         GcJkoaToW3sdRtI/OJ967M1vFiH4X1zapNzjvF+22nukGnFTalDX69XoEXH5gJatVPkL
-         bq5J4kji3EumBImEijVTbnAQxa7Xsm70Q48MdGQwJw5kPE25uqQWqhvOoKLGb2i7xcV3
-         YVEA==
+        d=gmail.com; s=20230601; t=1748610928; x=1749215728; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=V5D+UTV7kneMkUwYlybbBYilILEwgBvYRJbUjBf5Prc=;
+        b=ahIU3v1HZfuT1Bb6JmcLrDdgKEnINp/bNSOYm+iITSya2s4Jmh+W7iZIPMz8FFiWfz
+         Pi6rxj9LF07jcRQnBNzUTbTgWeHp0Ya+OcKYyFJEIX7eRvcg+oiKrg6lJhrNVyNUWaCE
+         whKKqIjZdD3gh2mpU+r1C3eYdOIi+yMGpAkjLu0tV7sBt2p1stEiCvDkQt2Y4o3eDaXF
+         BGCiGNHw8FDGV+BNRz2PoHLC4DIxcr3IM2K6LOdGi1NekgzrintjqHbQjV0rL0vouvJZ
+         AHuCpDEbljUky1PppvhCPX7ZjoeYtZxfiQ8bQf/VVoBz1SHrkYhnKh7twDtDq+alXuPf
+         k1PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748595630; x=1749200430;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1748610928; x=1749215728;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lhurWsfxHph1mL+gss+TZvZmgw+ES2d7jGupwpMm2+8=;
-        b=ucr28rTVpQTRUYXmYnPpemVn8s4pFEnVSny6y8bR78DFgZjzBVBnRi5vgL+8cM/xTM
-         8oKAoBBJDhSQd7oQzPbBLSH3hrPHcqQ46aokAs4D/gOqpdfbTb7Fllv2w50FOiUTyQww
-         F6K84WJaaIquEghnRKhLOwgPEhT1BETgiIdWxMtJPVvmT35/79VH+DVm++sIbBJv2G38
-         TzK28R+oiY6DKopOtM379igd8WI+WX3Fzd1vyQZUC1A48JTbiogBDLMI1xMEBtnjuxQq
-         0rgOV/3IvLH4NOFFu776jiKywmk1TL/INmHIi7SJX2nYKiUakpSPWwKjxenuViWhFKUr
-         qhYw==
-X-Gm-Message-State: AOJu0YyUbolbUn2J8QZOZRVfCOtzeo0dhOsGEZ/l8s5ANAAMRBjIB+ez
-	aywA/2VD7EaBLFsD1bTapERgEiwmQP9vxR8wGMZxx4O/0rN0kcXbzpTBqgQbmRAeC/38ZI7UI5Q
-	/jXpn
-X-Gm-Gg: ASbGncs14enfvo66SjhOXtGZ/ubXJlMOoiXjN/hakUwCFlBsYYwBiSsdkplKuYb3SY0
-	0BGY2mA9taXv0wef/JTu3wPYa1A3VCxnBNchokOCzljHYSY4ZpKWyrvU6gMNyKURKF586/Masp6
-	llmIXH/qVfLoV56s74YiOteMco5TGVzEetN8JjExXxuF2gwUIzaD/b/K0Qg0WDspfDAlnzY56U0
-	fcM/lqUF+ZfDXS40y1ay8Sai54jYZA+gEFXHTEKqlJ1huSddvPVjaGWaAO7TtUM+Md83XTKBq0U
-	iHhaa69zuM3iwzXIZe/SibnUY1gTu9vKVtGx5gBSUCnpUFtCm0llhhnal3j7LKg3+1XDD1EjII7
-	IXeSxGB10m64KiR8N/Yk=
-X-Google-Smtp-Source: AGHT+IHbVpCmgSzRlfaSGYhFWWmKDQh9BqlsThGE2FS8UEXkG0rROTjp+Gx3a1TEnu/OALkq1pRm9Q==
-X-Received: by 2002:a17:907:9450:b0:ad8:9e5b:9217 with SMTP id a640c23a62f3a-adb36bfb683mr121143666b.45.1748595630118;
-        Fri, 30 May 2025 02:00:30 -0700 (PDT)
-Received: from plmabaj-ThinkPad-P15v-Gen-3.. ([89.171.129.30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5dd045edsm284179966b.119.2025.05.30.02.00.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 02:00:29 -0700 (PDT)
-From: Marcin Bajer <marcin.bajer@salwatorska.pl>
-To: openembedded-core@lists.openembedded.org
-Cc: Marcin Bajer <marcin.bajer@salwatorska.pl>
-Subject: [meta-oe][PATCH] signing: export rule specific environment variables with Digicert infrastructure
-Date: Fri, 30 May 2025 11:00:19 +0200
-Message-Id: <20250530090019.668412-1-marcin.bajer@salwatorska.pl>
-X-Mailer: git-send-email 2.34.1
+        bh=V5D+UTV7kneMkUwYlybbBYilILEwgBvYRJbUjBf5Prc=;
+        b=q6gFvo8XDvraiJBQ7n3zxOdV/OxWBXHjAEtO44MwX+G8SMuSrzWhyyUDk3x5WOhX/V
+         DHJZCVI/GPAwOQwfgZs8knMo6ZVy5bJNfwmxQOiMWCRLYB0GeP4EWjsYOxfFLwZioccj
+         6S50gQbEJvZ7iYGvFkihxGUXS1Fkoc8UR2UMcH2It3vg2NIfXtHA2hM/e3optF6ljwZm
+         X+ti0E5M34qSwb4UIf3h6ycxSUxXeOPYF7X2YF0CpZEMXJ+7CPkUcSHhoOGS7DtTTp0x
+         muouJA2OcMc0u5KEXJ38iy9/uNufuy7/WwQN9w8jpE5ct9drIV5SBs4ap850qQnagmav
+         YC8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXb1aoJtMDv1hiNt1fkzFq0iskdpEgKn831sPAAAmKRJvUTaPSIVXeqUTmYhz0ueOEDoNwcwukBTu3qpA9YAokzqA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxiRNdIh8SqX021Mp3E3hurq8WAdQ2Kor5oNSzZQzjRmOxe+Qd9
+	TjWny05Zd+faj9vIbJgyA/EVLbLcmY9wNAy75Ea/vF1cFnjSw4iZvqLy0Oakvpo25d5OUsxcyM1
+	X2mA2Aa1UZYtOaL57CtXu1WJe6R/ubjwo0A==
+X-Gm-Gg: ASbGnctf3YkdxFmP4/xroNtpxLFOO7+6iu89H5jza7orIAHIjypsq/NXGqdlUOYE2qG
+	CuUmw57tXnGTQHrwwoeY5f5h1eweZjMhAyJkw/8ymHJn2TXDjhGU8XfelOMQVyRpMsLZ5ZGLJV/
+	yywBs4fOT/kCUiCanaV+bbqozWbz/YAUocpZjOk0QiZw==
+X-Google-Smtp-Source: AGHT+IFlf4tK+fDQA3FrophZKyxqLy7MmivNBe9VC7JJa73n6t4iWoaNDiNjGQam38i1MmVcviFbw2ySpibH3vdjIW0=
+X-Received: by 2002:a05:6214:5199:b0:6fa:cdc9:8af7 with SMTP id
+ 6a1803df08f44-6fad19073c1mr36408126d6.7.1748610918036; Fri, 30 May 2025
+ 06:15:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <83e0d268-ec47-4f3a-bf05-2aee4e58e749@windriver.com>
+ <CANNYZj-BmEXJVc1rdVPGu5wz87AW1RvbX+WhgicAfEby7kjUhw@mail.gmail.com>
+ <47ba1f68-f67b-4c58-b788-63e06fdf4816@windriver.com> <CANNYZj-JtVtjk2e+Z=OmVF8RaygO5M1e+6tbQuTZYotbYetQrg@mail.gmail.com>
+ <7571c07b-2225-4449-8169-08b044208072@gmail.com> <afaa4102-c876-437a-871d-f6f90697d5f4@windriver.com>
+In-Reply-To: <afaa4102-c876-437a-871d-f6f90697d5f4@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 30 May 2025 15:15:07 +0200
+X-Gm-Features: AX0GCFtsOkQjl8fQXtS8WXxgnA4eNkMi71Pwhj3WQ9KnHCeYkfYUBVt2n4J5umY
+Message-ID: <CANNYZj-Pa_jhraEz7qAHoDXLxfg-7ztH4UhdRPXirw6biZGWEA@mail.gmail.com>
+Subject: Re: [OE-core] [RFC] rust: Upgrade 1.85.1->1.86.0
+To: Yash Shinde <Yash.Shinde@windriver.com>
+Cc: Khem Raj <raj.khem@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	"MacLeod, Randy" <randy.macleod@windriver.com>, 
+	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 13:11:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217505
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 13:15:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217506
 
-Digicert cloud HSM requires more variables to be exported i.e. `SM_HOST`, `SM_API_KEY`, `SM_CLIENT_CERT_FILE`. The signing provides might inject needed configuration to `meta-signing.env.d` directory in form of *.env files. In exisiting code in `signing_prepare` call source all *.env files from `meta-signing.env.d` this allows to export only variables common for all signing rules. In case, unique settings per signing rule are needed those are overwritten (sourcing next file will overwrite previously defined variables). Proposed patch allows to export signing `rule` specific variables. For example to set SM_API_KEY for rauc rule it is needed to defined in env file as `export SIGNING_PKCS11_SM_API_KEY_rauc_=abcde` . Added logic remove prefix SIGNING_PKCS11_ and surfix _rauc_ end export the variable.
----
- meta-oe/classes/signing.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Fri, 30 May 2025 at 14:42, Yash Shinde <Yash.Shinde@windriver.com> wrote:
 
-diff --git a/meta-oe/classes/signing.bbclass b/meta-oe/classes/signing.bbclass
-index f52d861b76..cefd115355 100644
---- a/meta-oe/classes/signing.bbclass
-+++ b/meta-oe/classes/signing.bbclass
-@@ -263,6 +263,12 @@ signing_prepare() {
- signing_prepare[vardeps] += "signing_get_uri signing_get_module"
- 
- signing_use_role() {
-+
-+    #import all variables dedicated to this signing rule    
-+    for env in $(ls "${STAGING_DIR_NATIVE}/var/lib/meta-signing.env.d"); do
-+        eval $(cat ${STAGING_DIR_NATIVE}/var/lib/meta-signing.env.d/$env | grep "^export SIGNING_PKCS11_.*_${1}_" | sed -e "s/SIGNING_PKCS11_//" -e "s/_${1}_//" )
-+    done
-+    
-     local role="${1}"
- 
-     export PKCS11_MODULE_PATH="$(signing_get_module $role)"
--- 
-2.34.1
+> As Khem mentioned, setting lld = false in config.toml doesn't build LLD.
+> Furthermore, using "use-lld = false" ensures that LLD is not used as the
+> default linker,
+> causing the build to fall back to the system's default linker. This
+> restores the earlier behavior.
+> Also, the package QA error for rust-lld is not seen with this.
 
+What about build times though? Are they back to what they were?
+
+Alex
 
