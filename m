@@ -2,139 +2,115 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D7CEC5B555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C56CC5B543
 	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 17:39:09 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.1257.1748626747749684577
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web10.1256.1748626745804071495
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 10:39:07 -0700
+ Fri, 30 May 2025 10:39:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xEgArpq+;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-745fe311741so2578778b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 10:39:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=K7pI5Rt1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-afc857702d1so1853163a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 10:39:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748626747; x=1749231547; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H9uA3q3WLAaOTA+82R6mO5LtlnncWzS0sbTejfPW4ao=;
-        b=xEgArpq++cFuNB5jrYhTavbwvCQXI/9Uvo9ZC+rx/LsXhcakn/P18Aa3gB4Z8vOM5C
-         Vv5TWDD0uA+STvxsrHAKae1y8pXKUHMJVphmrQV0DRGWEoN6PqQXLUWiQcVyrGfFI/RD
-         dLwwpNMkP15f6tIDk6QBjZnjBh2elYD9tLx5PyVAITtHoyS4YhrGgLrp3fj9gq9Pwyur
-         zHOI6W13+jupzzutLgaZfP32By/8ZaGzYTVglch1jHMuGXVDQNHAvBiCo2CaMRm1O9Uo
-         ieZecMw7xvIDsnsAVGfNWUkXR9L0RIoe9wc/FLX6GArxaZObb3TDHBbdXqltjwHxEb6Z
-         /hLg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748626745; x=1749231545; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FFH5gxu3JLrVG41Kk96CQHTxmQR+mCHQZhHr+WP4qQo=;
+        b=K7pI5Rt1GX3V1SG1a/hAjw6QxJ8oa+asA5IOgc3BNwp0s2OUMm12pBI7Ytp6JGRd7m
+         KZPmvB7lZHWpdo8L7BUReWFPtJtSXPpIOHLIugdaq2sBt3LWFIdhdFruuAaxU5JRKCeQ
+         R7i19CAXPzF5rrgPanNC9D6op5QVC5Ni866o+Wtl2TYmy+vdbJDmrV4xzieImQkW9ve6
+         BgWHejO4DtCFojEhsVptk0I+nm6ggMOV3UoCDGgpMBZa59sxZKcKXKc1qZxqlj06C7y1
+         t+ugkWea/Fn7FKLVTcqxBDG3MN1UqK4LNQA+hXkRb3XHIX9nRe6y51bFxLLSeHUubKtT
+         j7yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748626747; x=1749231547;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H9uA3q3WLAaOTA+82R6mO5LtlnncWzS0sbTejfPW4ao=;
-        b=SjbauS/xI+kglwHfQcWgepWT1TSSBB/YiyvzNPUzfiILll/MNS9dc0iWBrHCOe5mYz
-         p3JrxY6JmcJhgFJRz6PRDSMZ+rayUqqg+SLgs8wDkj+gTByr76PdvwuvMwxEVGfcrrWb
-         rRSvIJGhw86zd6AvkVgTtCEVQlGpRsTu4orzWLvPwIgvC9rgCjAak0g/UxD0pYo++vI6
-         3+IWB49GXIH+xF5sgBepwLexr/txz7gNhEBMuGiskLCeQioicL0HEmUfqFqHrydOo0Kx
-         NlJqvqrD/h13VDC1DkBSQDdfK17Krv9+7p+goIecVrIqCjb04VWjzexuQkzOX1fET/a4
-         +LaQ==
-X-Gm-Message-State: AOJu0YxTD0mWsbLNNzffK+uBsJFhUimJ4NpSI3wWOwK03k5VtcwREivQ
-	u/D2vzV9cqtmi5BwZYyHQnihs28BMQRN8/61cv9xw+YdnxRdq3mUsqFNtrMmqQS9Jyx2wLHDaFv
-	1IRV4
-X-Gm-Gg: ASbGncsOvjBTkpqC+TD2/t/aA/XfSrdOUuKWyu8Ngtnsc3Ybn+8lOIIIntGyEqMbh03
-	7oBVkfRiguSKHbbNf/nJSB/lxLW1fAmE9lRtuIQqCN0EcFucknJVQclgLLdoAfV4Ro6bl27TRji
-	hoMjLu4nparLslJ3tZNn82pb3ZsUn0/8/e9ilrTjS2tphZd2SHwd1IxA881vuyeM61VLMe5R4c7
-	zEHi/uSWyGfIo8XfgjSh0gXd9CtEYUleQTuNFL32I9wbPydQxAzHTaE+DsSUclBIXi0+FS9ZL4z
-	gl9Fm+gwkwZ+w0OAApOkl6LfiNpYhd60Crob7s4fLmIHhGorWsWjA9r10hMMgO0O
-X-Google-Smtp-Source: AGHT+IFgbn/xuSY9mh/zLgPJP/28I/00p5eVzO5yHQMiUg10YrxKvvMVEY1y7wf7VWFf9sQ+HlZsrg==
-X-Received: by 2002:a05:6a20:d045:b0:1f5:70d8:6a98 with SMTP id adf61e73a8af0-21ad9276080mr6543152637.0.1748626746952;
-        Fri, 30 May 2025 10:39:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748626745; x=1749231545;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FFH5gxu3JLrVG41Kk96CQHTxmQR+mCHQZhHr+WP4qQo=;
+        b=RXRJXF6X77oN2lxuisVNk17nKrEt7Gn6ghUDvaLCYRh+SPl/X+qBi0vjGHZZqKoiMI
+         bvGIHmfDE+jWw20EVIsgP8EEg++hjRKRFUwMuKj56kFye7GMEuhpAVXLCIzxjhq6DKY4
+         jqRupg1JBKMO4rljDb4EZKDuHSBEgO7m9hv1yRpOYDVqQYtwdS2jw+6sqyMVb1THE+sq
+         iMkmaYhUyPwhXEBUNUSkIbpMVGWIMPrO+DfAwb0LaOh9gS/hShRCXnYf2G+NNtPBve8C
+         ltgHl7XOxR3eq0j8Xeu4v6xKpzDOJYf0un6rGyM3WcZKyK1eHhgsoGG3n4q0j3T7ZmmT
+         vZGQ==
+X-Gm-Message-State: AOJu0YyWPA9Jsc+sZvomuX+q3n6qYu4qfTYqsXELYC8OtkC9ZHHiPBTv
+	WQBaBFBHndeJbpp4KL6NFBErrgViE3wVPvEXXwXtbwYZqzyehxdeHdX5GiWd1orVMkE+xOG+PZs
+	fGIzg
+X-Gm-Gg: ASbGnctuoUF7uLX4u+YayV8CmVlELXtBFPtA8aFYKeAYxT1iQT9cEDyJxGd/Aj1b09W
+	2CwENg3pRF/WDC42KxllIdGm02UcRXVPZxNg25fRJFViFqeXFXm40AuREOpzZrSvsjnOsrQR+ZL
+	DAeM81BSgAlGSVsndZZ0QDcdLOTBg1CxvVst+ueF6EoqTmy2i9Jw5r4ZWDJTGvAk3i9ZvAmiTix
+	DfqeCwL/xb3RGceUZUejnR7J93P9GVIoNrs4dwjttYyiDtuf3O1eVIzfCWK1NonBLj9vInRFSyx
+	3vAFf+l3+owbp2sPtPS6QyS/3iNBTYQc/k3M9Tkzga0brfNya2xB6Q==
+X-Google-Smtp-Source: AGHT+IEaj14fG7haeP3YLVNw+kcGN0ANsISbi5NQoayQ6Xe5c/v2epb0MEBAUQ+MOb6440+DNxgP6Q==
+X-Received: by 2002:a05:6a20:3d83:b0:1ee:efa5:6573 with SMTP id adf61e73a8af0-21ad94e20d8mr7152486637.8.1748626744910;
+        Fri, 30 May 2025 10:39:04 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:c9d8:e2d0:bfbc:3a26])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2ecebb5f40sm1554314a12.67.2025.05.30.10.39.06
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2ecebb5f40sm1554314a12.67.2025.05.30.10.39.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 10:39:06 -0700 (PDT)
+        Fri, 30 May 2025 10:39:04 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 01/12] binutils: Fix CVE-2025-1182
-Date: Fri, 30 May 2025 10:38:48 -0700
-Message-ID: <50ee37e89a04a3dd6b652831977171973791f6de.1748626640.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 00/12] Patch review
+Date: Fri, 30 May 2025 10:38:47 -0700
+Message-ID: <cover.1748626640.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1748626640.git.steve@sakoman.com>
-References: <cover.1748626640.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 17:39:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217524
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217523
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+Please review this set of changes for walnascar and have comments back by
+end of day Tuesday, June 3
 
-Upstream-Status: Submitted [https://sourceware.org/pipermail/binutils/2025-May/141415.html]
-CVE: CVE-2025-1182
+Passed a-full on autobuilder:
 
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1692
+
+The following changes since commit e3fa9ef3239e8bc113e211f5258f84d08284872a:
+
+  python3-pygobject: RDEPENDS on gobject-introspection (2025-05-27 09:58:23 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/walnascar-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/walnascar-nut
+
+Bruce Ashfield (9):
+  linux-yocto/6.12: update to v6.12.24
+  linux-yocto/6.12: update to v6.12.25
+  linux-yocto/6.12: bsp/genericarm64: modular configuration updates
+  linux-yocto/6.12: update to v6.12.27
+  linux-yoto/6.12: bsp/arm: fix CONFIG_CRYPTO_LIB_CHACHA
+  linux-yocto/6.12: update to v6.12.28
+  linux-yocto/6.12: update to v6.12.29
+  linux-yocto/6.12: riscv config sync
+  linux-yocto/6.12: update to v6.12.30
+
+Harish Sadineni (1):
+  binutils: Fix CVE-2025-1182
+
+NeilBrown (1):
+  nfs-utils: don't use signals to shut down nfs server.
+
+Richard Purdie (1):
+  sstatetests: Switch to new CDN
+
+ meta/lib/oeqa/selftest/cases/sstatetests.py   |  2 +-
+ .../nfs-utils/nfs-utils/nfsserver             | 28 +++------------
  .../binutils/binutils-2.44.inc                |  1 +
  .../binutils/binutils/CVE-2025-1182.patch     | 36 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
+ .../linux/linux-yocto-rt_6.12.bb              |  6 ++--
+ .../linux/linux-yocto-tiny_6.12.bb            |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb | 28 +++++++--------
+ 7 files changed, 62 insertions(+), 45 deletions(-)
  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1182.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.44.inc b/meta/recipes-devtools/binutils/binutils-2.44.inc
-index 6906ab3efb..ae9ec9efa4 100644
---- a/meta/recipes-devtools/binutils/binutils-2.44.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.44.inc
-@@ -37,5 +37,6 @@ SRC_URI = "\
-      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
-      file://0015-CVE-2025-1178.patch \
-      file://CVE-2025-1180.patch \
-+     file://CVE-2025-1182.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-1182.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-1182.patch
-new file mode 100644
-index 0000000000..b02b9fd1d2
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-1182.patch
-@@ -0,0 +1,36 @@
-+From 92bcd04fcd97f261ff40e9248e00a1dbebf3a536 Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Tue, 27 May 2025 03:37:50 -0700
-+Subject: [PATCH] Backport fix for PR 32644(CVE-2025-1182)
-+
-+Fix another illegal memory access triggered by corrupt ELF input files.
-+
-+PR 32644
-+
-+(cherry picked from commit:b425859021d17adf62f06fb904797cf8642986ad)
-+Upstream-Status: Submitted [https://sourceware.org/pipermail/binutils/2025-May/141415.html]
-+CVE: CVE-2025-1182
-+
-+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-+---
-+ bfd/elflink.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/bfd/elflink.c b/bfd/elflink.c
-+index 6346d7e2b4b..a0b237b2224 100644
-+--- a/bfd/elflink.c
-++++ b/bfd/elflink.c
-+@@ -15084,6 +15084,10 @@ bfd_elf_reloc_symbol_deleted_p (bfd_vma offset, void *cookie)
-+ 	}
-+       else
-+ 	{
-++	  if (r_symndx >= rcookie->locsymcount)
-++	    /* This can happen with corrupt input.  */
-++	    return false;
-++
-+ 	  /* It's not a relocation against a global symbol,
-+ 	     but it could be a relocation against a local
-+ 	     symbol for a discarded section.  */
-+-- 
-+2.49.0
-+
 -- 
 2.43.0
 
