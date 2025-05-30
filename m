@@ -1,199 +1,115 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 301FCC3ABB2
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 04:27:40 +0000 (UTC)
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
- by mx.groups.io with SMTP id smtpd.web10.3600.1748579252033572125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E230C54F30
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 06:16:13 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.816.1748585768050831661
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 21:27:32 -0700
+ Thu, 29 May 2025 23:16:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=bt88pXSC;
- spf=pass (domain: mvista.com, ip: 209.85.161.41, mailfrom: asharma@mvista.com)
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-60b8a9be972so481698eaf.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 21:27:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=f7UDTeCV;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2349282084bso21571365ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 23:16:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1748579251; x=1749184051; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1748585767; x=1749190567; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J8jpJWG0Y33iTaV9/un7MvivkyDSrNf8f85ytYrH8sU=;
-        b=bt88pXSCaaJEVykoVp3FdITi7mz6hopk6hR0rvIDb3be4VK6ETZMRxa77VGUqSlsVM
-         p/7GxX9BxO5UC3/YccfPiLmf8GhC87wVjquasptKUCnDHGHlbydBMVpXJDdzxpUL1qoi
-         niI9P2JO8Jx0E/VowoiZKSEMENjR8KAA2FlOE=
+        bh=hVAsSFLY8cZikeuq0TuAFbQguQ4eH27l3hk9kYtnN54=;
+        b=f7UDTeCVxBuyjlHNpjlFWhHKrkIIEGG4SL6RAucs+hZz3q8CQMlXbZN4sfGTQRzMi5
+         O1nBwm7Yfj0M40LCRCTr13afLbbgTYWKtTtjorR9UMWU0durSzBkIlTLcMxSKEwN9hoK
+         g/b7BmERG2Ip6Y53PTQEDE8OX22Q+KTU14guvzl92UXdZkfpgSaoGDv41ZHk6BV2TTa3
+         s3gMi+UEAkHatQr1c/Sik+Uon59ilHdK3kJrgrjoerTbVxEes5QFIA4wkgjJMDCa0Sb5
+         f/1bGKXzdLfoxLO+F4kyZtFPrn+LwgvXzPBGv5Lz6E5LfSZ3GHAhBwK13nJcIYAZXUrR
+         6IEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748579251; x=1749184051;
+        d=1e100.net; s=20230601; t=1748585767; x=1749190567;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J8jpJWG0Y33iTaV9/un7MvivkyDSrNf8f85ytYrH8sU=;
-        b=X5hEAfNSdwMhKJmhO6uWM/gOuE2eDiog4oenCI2Xa6E04zOL0ywu4kGtTzUAc7i7Gz
-         bFgkBGpxV18sVJWKuc8ChWwm/DOX/0Vl90aG+O6D2x7bU5BAPnA74m0jAK2PuS9C4WXI
-         Us8g5Llgw6EHPOfWjQjE9/IFw80x55CwbBv6mtNhKkGJfuxbN3dKHk9qWJLPG1Fsp+6+
-         p3rUw2tmftn/UmvwHk3eRtEvwT32soSoLnEwgjMN5IImS7AYh6N+B8qk93SMm0HpIfFT
-         vGZOiaghJIbBuSQt7OhRRYST0+fCc95hfLIMHS0z95Kwgt5Ygoeljhx/qziN/voMz/97
-         s3Mg==
-X-Gm-Message-State: AOJu0Yy/geKDEo+ecIuc+Qad7BMUTVvWkX7raTe7xkDE1C2Vtr+zPX1d
-	zf22POMIU1yWc1oMk3y8w1CHFofa2B3yuVe7JM5XmOkNIGQhMuX+v9whpIL6znjQVJQ6j1UKb+i
-	nZyIJSA0=
-X-Gm-Gg: ASbGnctlSVr5O0urFK/ATPtivTzQf13GjGmVxLufiREvZYwQ0FH/RnsPYCelQG3zNSl
-	FAntk11SibsRLgXUfYgEvn6Sj24DexDiACIDmFcETSZKAx2szZiOnF+3nSKN0qnL2dXYf3S1+FQ
-	1EWZkB5UBd9hEJnR7piCEZgmsbysientXDZqdNEz4ZxOm8LdNulcNbNWdWRw/uCKXyWYi7BhHdD
-	HhFq4Exci9SRgkL+PIvKm9JBJjvEs2SylfliDAmBk1xsI+KDvRBrPRG2nwy/FAqRibvfyWdRvL/
-	i53lrQtsH2/MwdTRWizu77SKYGkt/RSwGlEoKEQN9pCKToWBBA==
-X-Google-Smtp-Source: AGHT+IGPzSJV0VXh83Qnkv7HFTS6MOlsf3NWCpsoTfSZXpvspp4fVDm5vNQ8rTeae70YKiQsmRkT2w==
-X-Received: by 2002:a05:6808:6a98:b0:406:6e86:683e with SMTP id 5614622812f47-4067963970cmr1080927b6e.14.1748579251007;
-        Thu, 29 May 2025 21:27:31 -0700 (PDT)
-Received: from MVIN00043 ([2401:4900:1c68:dbf6:cdc7:d2b4:6541:53e5])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40678d04377sm266377b6e.49.2025.05.29.21.27.27
+        bh=hVAsSFLY8cZikeuq0TuAFbQguQ4eH27l3hk9kYtnN54=;
+        b=lfG/3F4Bz+CuIsE5xhKO25YSKG3WFT5G19ONZz1LQXvflRM7noGoGVOjkCu14jy5KM
+         PPZxOQb0HsUJ0bjsxYEskME8nJXkrK4xGoYNa6eH2vk1TGx0vC5EkoAiZz3HQHD/EL5D
+         ZpqWQYNnt4LRpNro7axW3B1k0KYkIShV96veMKe7fTuAUKDxHUvhVrZz1P7mY9i9d2N6
+         01g37thMLQBQV+7+pSsFk6rHZOhRD0PQ+OwevDTZ6DTxQqH1b0Ij4Jfm3xNEFSNFtzhW
+         EfJum4wK7rim9W8H4AZbDNvEVorGWTuaVIbKEVQPzdpCuPnbgiMf06011BybZBP0zjAz
+         zH0Q==
+X-Gm-Message-State: AOJu0YwNqV6vJK272kY0Nf/hDTxa9HvINZiQPtBoWQX5G8yJ2JY0O4Sh
+	5eZk7p+YA7ST7MuEfYLV2Q+foDGAMUNQEv4NFlMBicahfH5MWdUWBBseoZifkktt
+X-Gm-Gg: ASbGncsLs/fBpdfCCR74YD4zc+aHNyDswSljArqsMwboS71NYsDX3ICZCnElygflpKu
+	MQSXdigMH2VLwlfaGxdNXmtyVj4azgW01clZN+B0jjiOYMXw+PnIvLyhw3crqcjRDGsqkCigu01
+	xQC6EvJIieUIAPYU06dG6A9POu/xvLJ5bzAjRQ8LEx4q6vT1BOhqybXJ9kUkQ5JJj68e+os26cG
+	IVTBfIPSD4LSTji5ZmVuvLv04LEBvSnvwW99bEAoDezhknIeacy8R1mk5273jO4uS/mWa6CEhN+
+	PqDpogje+Ok8UdpKE9ARGJmG89EeeZ8ZmjqVrmoGXdw=
+X-Google-Smtp-Source: AGHT+IEriShTSO9bPjzE/eB5mAAhIGeNPG1YpkX3AVcg4r5d0R5xhzEVddifNk1hfFU2hWENPrL6ug==
+X-Received: by 2002:a17:902:cece:b0:234:8a16:d62b with SMTP id d9443c01a7336-23528eed622mr35225985ad.12.1748585767212;
+        Thu, 29 May 2025 23:16:07 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::deb9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506d14ab2sm21347405ad.233.2025.05.29.23.16.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 21:27:30 -0700 (PDT)
-Received: by MVIN00043 (sSMTP sendmail emulation); Fri, 30 May 2025 09:57:23 +0530
-From: Ashish Sharma <asharma@mvista.com>
+        Thu, 29 May 2025 23:16:06 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] screen: patch CVE-2025-46805
-Date: Fri, 30 May 2025 09:57:17 +0530
-Message-Id: <20250530042717.3497565-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v5] pixmap: Enable openmp support with clang compiler
+Date: Thu, 29 May 2025 23:16:04 -0700
+Message-ID: <20250530061604.2401313-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 04:27:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217464
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 06:16:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217465
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/screen/patch/?id=aa9f51f996a22470b8461d2b6a32e62c7ec30ed5
-Upstream commit https://git.savannah.gnu.org/cgit/screen.git/commit/?id=161f85b98b7e1d5e4893aeed20f4cdb5e3dfaaa4]
+pixman's meson detects openmp support and if it finds it in runtime then
+enables it, this happens for gcc via gcc-runtime, however for clang, it
+does not. In some cases e.g. mips it enables it during configure only to
+find that clang can not find the libomp during linking. Therefore, add
+the dependency on openmp when using clang compiler. This ensures consistent
+behaviour across architectures.
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Disable internal assembler on mips since it can not handle the inline assembly
+
+Turn openmp into a packageconfig
+
+openmp is not yet ported to all architectures e.g. RISCV32 does not have it
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../screen/screen/CVE-2025-46805.patch        | 101 ++++++++++++++++++
- meta/recipes-extended/screen/screen_4.9.1.bb  |   1 +
- 2 files changed, 102 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2025-46805.patch
+ meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/screen/screen/CVE-2025-46805.patch b/meta/recipes-extended/screen/screen/CVE-2025-46805.patch
-new file mode 100644
-index 0000000000..e0207b6072
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/CVE-2025-46805.patch
-@@ -0,0 +1,101 @@
-+From aa9f51f996a22470b8461d2b6a32e62c7ec30ed5 Mon Sep 17 00:00:00 2001
-+From: Axel Beckert <abe@debian.org>
-+Date: Mon, 19 May 2025 00:42:42 +0200
-+Subject: fix CVE-2025-46805: socket.c - don't send signals with root
-+
-+Gbp-Pq: fix-CVE-2025-46805-socket.c-don-t-send-signals-with-.patch.
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/screen/patch/?id=aa9f51f996a22470b8461d2b6a32e62c7ec30ed5 
-+Upstream commit https://git.savannah.gnu.org/cgit/screen.git/commit/?id=161f85b98b7e1d5e4893aeed20f4cdb5e3dfaaa4]
-+CVE: CVE-2025-46805
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ socket.c | 21 +++++++++++++--------
-+ 1 file changed, 13 insertions(+), 8 deletions(-)
-+
-+diff --git a/socket.c b/socket.c
-+index e268e3d..11b5e59 100644
-+--- a/socket.c
-++++ b/socket.c
-+@@ -832,6 +832,11 @@ int pid;
-+   return UserStatus();
-+ }
-+ 
-++static void KillUnpriv(pid_t pid, int sig) {
-++    UserContext();
-++    UserReturn(kill(pid, sig));
-++}
-++
-+ #ifdef hpux
-+ /*
-+  * From: "F. K. Bruner" <napalm@ugcs.caltech.edu>
-+@@ -917,14 +922,14 @@ struct win *wi;
-+             {
-+ 	      Msg(errno, "Could not perform necessary sanity checks on pts device.");
-+ 	      close(i);
-+-	      Kill(pid, SIG_BYE);
-++	      KillUnpriv(pid, SIG_BYE);
-+ 	      return -1;
-+             }
-+           if (strcmp(ttyname_in_ns, m->m_tty))
-+             {
-+ 	      Msg(errno, "Attach: passed fd does not match tty: %s - %s!", ttyname_in_ns, m->m_tty[0] != '\0' ? m->m_tty : "(null)");
-+ 	      close(i);
-+-	      Kill(pid, SIG_BYE);
-++	      KillUnpriv(pid, SIG_BYE);
-+ 	      return -1;
-+ 	    }
-+ 	  /* m->m_tty so far contains the actual name of the pts device in the
-+@@ -941,19 +946,19 @@ struct win *wi;
-+ 	{
-+ 	  Msg(errno, "Attach: passed fd does not match tty: %s - %s!", m->m_tty, myttyname ? myttyname : "NULL");
-+ 	  close(i);
-+-	  Kill(pid, SIG_BYE);
-++	  KillUnpriv(pid, SIG_BYE);
-+ 	  return -1;
-+ 	}
-+     }
-+   else if ((i = secopen(m->m_tty, O_RDWR | O_NONBLOCK, 0)) < 0)
-+     {
-+       Msg(errno, "Attach: Could not open %s!", m->m_tty);
-+-      Kill(pid, SIG_BYE);
-++      KillUnpriv(pid, SIG_BYE);
-+       return -1;
-+     }
-+ #ifdef MULTIUSER
-+   if (attach)
-+-    Kill(pid, SIGCONT);
-++    KillUnpriv(pid, SIGCONT);
-+ #endif
-+ 
-+ #if defined(ultrix) || defined(pyr) || defined(NeXT)
-+@@ -966,7 +971,7 @@ struct win *wi;
-+ 	{
-+ 	  write(i, "Attaching from inside of screen?\n", 33);
-+ 	  close(i);
-+-	  Kill(pid, SIG_BYE);
-++	  KillUnpriv(pid, SIG_BYE);
-+ 	  Msg(0, "Attach msg ignored: coming from inside.");
-+ 	  return -1;
-+ 	}
-+@@ -977,7 +982,7 @@ struct win *wi;
-+ 	  {
-+ 	      write(i, "Access to session denied.\n", 26);
-+ 	      close(i);
-+-	      Kill(pid, SIG_BYE);
-++	      KillUnpriv(pid, SIG_BYE);
-+ 	      Msg(0, "Attach: access denied for user %s.", user);
-+ 	      return -1;
-+ 	  }
-+@@ -1295,7 +1300,7 @@ ReceiveMsg()
-+             Msg(0, "Query attempt with bad pid(%d)!", m.m.command.apid);
-+           }
-+           else {
-+-            Kill(m.m.command.apid,
-++            KillUnpriv(m.m.command.apid,
-+                (queryflag >= 0)
-+                    ? SIGCONT
-+                    : SIG_BYE); /* Send SIG_BYE if an error happened */
-+-- 
-+cgit v1.2.3
-+
-diff --git a/meta/recipes-extended/screen/screen_4.9.1.bb b/meta/recipes-extended/screen/screen_4.9.1.bb
-index 7b040e6b57..96f8021255 100644
---- a/meta/recipes-extended/screen/screen_4.9.1.bb
-+++ b/meta/recipes-extended/screen/screen_4.9.1.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0002-comm.h-now-depends-on-term.h.patch \
-            file://0001-fix-for-multijob-build.patch \
-            file://0001-Remove-more-compatibility-stuff.patch \
-+           file://CVE-2025-46805.patch \
-            "
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
+index c1c71fd4202..64d015e3406 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
+@@ -23,6 +23,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
  
- SRC_URI[sha256sum] = "26cef3e3c42571c0d484ad6faf110c5c15091fbf872b06fa7aa4766c7405ac69"
--- 
-2.34.1
-
+ inherit meson pkgconfig
+ 
++OPENMP ?= ""
++OPENMP:toolchain-clang = "openmp"
++OPENMP:riscv32 = ""
++
++PACKAGECONFIG ??= "openmp"
++PACKAGECONFIG:class-native ?= ""
++
++PACKAGECONFIG[openmp] = ",-Dopenmp=disabled,${OPENMP}"
++
+ # These are for the tests and demos, which we don't install
+ EXTRA_OEMESON = "-Dgtk=disabled -Dlibpng=disabled"
+ # ld: pixman/libpixman-mmx.a(pixman-mmx.c.o):
+@@ -36,7 +45,7 @@ EXTRA_OEMESON:append:class-target:powerpc64le = " ${@bb.utils.contains("TUNE_FEA
+ EXTRA_OEMESON:append:armv7a = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
+ EXTRA_OEMESON:append:armv7ve = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
+ 
+-EXTRA_OEMESON:append:class-native = " -Dopenmp=disabled"
++CFLAGS:append:toolchain-clang:mipsarch = " -fno-integrated-as"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 
