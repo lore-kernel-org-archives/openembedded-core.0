@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4FA0C5B559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E39C5B555
 	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 17:39:29 +0000 (UTC)
 Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.1270.1748626765866444653
+ by mx.groups.io with SMTP id smtpd.web11.1351.1748626762850178887
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 10:39:25 -0700
+ Fri, 30 May 2025 10:39:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NwJn7Kf0;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ROONTwpO;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-742c035f2afso1488291b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 10:39:25 -0700 (PDT)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-73972a54919so2082272b3a.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 10:39:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748626765; x=1749231565; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748626762; x=1749231562; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ErejzOqFYaeR5nRaER0TyqIDrvLrraHeAvlvN81tAOI=;
-        b=NwJn7Kf0qHPS0wvXkQFQZQnScabGr76c2uwU7dnvtNrtUU0gHmHUaguMOZbq/+t+T7
-         Yi9pbdeNsLGeS33nQnzERp9dTCBNhDf0LxPE02piPdsfzmPyPdD+46ZG/jQlEBlET8Jl
-         l12JH/V6b5bjoK4/LD7JQrYV6VPEgzj0JjNOSTCe1VyPgNVwh/ztb6ftrfCWMekYr9Yf
-         jHoNoJkWiwriQ7Uhf4k718Tys7nHZoA8+CdMTxoRnsoCZkq0zn0XCLoQsaEhU+HHGeKM
-         z/GciYL+A4JKVzUZhp+nZXO4EPpuYsstJNpHLp/5XQSCDzF7AxRna4z6BaRCRxNUsuTo
-         li1Q==
+        bh=v4vEyXDq9WGCpK2MEkzWPH2MCnYaZZULt0yvzeGScFs=;
+        b=ROONTwpOOGE/fRPr0XThKj4FYGL3A39tBd3Nmf0Mdz+2SiW2hInxKrwQNliR8Mzov+
+         VMga/wUVzyW5e3uzAn+JCehDqrGPlKj9pzMp4yBAc2z5Voqr54qrkXpVeXV7QxkO7Fv6
+         kz81849TXXwm2t6mpGikabbQTQZbqIA30A62fz/tebROxdAv6OaE3zdYQ6bFqGdM+UCc
+         ZOHSKjrfyR8GGXmngjF18m+LX4d/4eO7j4n4iSHtEARPZCoJPHpmKJLwwPNdR5PCbnyG
+         P0fwkqRCXRK3o0ixTgZNenQ22S1OMZ5+qgED4+gZDitFuFTAVE82QpOpbfZcAhl5gTKY
+         qV/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748626765; x=1749231565;
+        d=1e100.net; s=20230601; t=1748626762; x=1749231562;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ErejzOqFYaeR5nRaER0TyqIDrvLrraHeAvlvN81tAOI=;
-        b=Ag59Lq4Yr0FGs2JfIIUZPqp1cohul0+/EjCiUICYgqfj7+0aDjQLShRZguRDj8K2HY
-         r68N9w6JU6ZhUk8OzkURmA8gbD4TExKyCGOrdaC/hYJh1QkrZYfP1zgZAcgU1mS0Q3v3
-         iq9fbuNZDfBT0hXEsHg7CWTtceu9dUIcMeBKvKdBv7wE72daC06u7177Csqe108O3yff
-         OQF+IKF9QFBJ7Tl577w0zplC+/xxcBWwwymLgQTtCmzNftWWTGciwoHbBCJ3jhQw8rHA
-         cUGdiWIwJtXGujxbdUTKwPtcwsdPp7Zt+rpzuv91O8q/iLV8+CyQzqmyfhhsgmv1ovxH
-         fk/Q==
-X-Gm-Message-State: AOJu0YyU72yyK1caLZBZFrTMMo0HyCpijaTqQwdKyivu6ltLSwO4RgFC
-	9at52Oe0EYW9uOhRWhPR7uo1mAYg9KMwe6deYCscglfCKZMolE5CJMEreJw7IQ5X5WXLDc5uI3r
-	0m0K7
-X-Gm-Gg: ASbGnctPzTZyp7lckmJBXZGhAsedSK/lrEQcoCHUK4t+1zmP8Pi/Tuf2GcVQKjfEi7t
-	kaNLe/74KpRm3gAbFBdAfQDUA1zr4kMt3fI1EsR4rkKRQujhhqN4eHbuny/bACt+WKV/GTaSE0s
-	IHLHQffDxE9MsHkiQxSbgx4I2VtlogGATtuh0bl4WlnaQl5gdEdswS5aFRmmgw5yghdh1SmfUcc
-	KLduG57MYy7SHwBKLOFfVy5AEDN2i12u7XytfMmbuMq/3mRZ/3MlZJXqVzuxsb82UFrTQ6A5BiX
-	/BCNAU/qp8V6oNciGK7joJaw5IiZnLitCMbqCbOW6OM=
-X-Google-Smtp-Source: AGHT+IG7N1WzmnyT3TXyY8WCgfaNMpT1v/YIntR4nN4FnVUeYnX9npOr7o1dFxCOLS0WZKLg+yV1fg==
-X-Received: by 2002:a05:6a20:93a1:b0:1ee:e46d:58a2 with SMTP id adf61e73a8af0-21ad9527794mr7198735637.3.1748626765084;
-        Fri, 30 May 2025 10:39:25 -0700 (PDT)
+        bh=v4vEyXDq9WGCpK2MEkzWPH2MCnYaZZULt0yvzeGScFs=;
+        b=KnK8Jf9QWiOyOLbn5qISlTq5yZEG9okQZ9GzKMc1RqS5IeB96f+ZVOMve2QA7FkC9Z
+         nzIgPfZlGtDOFO6jJBM+hinkwV7prbgNlCMq2Vhw5Bfn3XLiTOS/mijCnUSiwuF6Fqow
+         QTNWSEdCUk8FubDywxUlWTyPtmpTbnEeypACKajke3Lz3TYk2xCqFTYHuv/y7aq8XJQH
+         LqOc7tmRcb/7JJwP4vi3DR+hsX2o1W6PLfhnGR9XWCh2Sf46fO0pLOOjDIAYDAEWpBoO
+         tNx84Xi9mV6Ro9gH+zSMtbMdDnOwMZNdY8QP3LrTbokLtg7UwDF0k7XAwY+TfBnmGo/X
+         byaQ==
+X-Gm-Message-State: AOJu0YyH0jDE+pLcLRPPgO55Ah9m4D3hXce+DuXmW2sWKaQJRlmEIuat
+	CAfFKE/rpyxsyovcXoX/K+OD829N+VJ+lpCuTZPNmfVccgMCUaX3P3F3GJAo6HMbvu/PbARJB7M
+	T3NVy
+X-Gm-Gg: ASbGncuwI1Fki6FZWGi4YGQUnYD/yT/jyktKoh+EQsa21+eUaJxh/qLB9ZdORx3VoEy
+	phNyvHZc81fr4OCu4uY8s2kSbo0bndT/dDDWSY1pPkN5T741HIvk8Fhi1xzkLe8eFGW91gpVUPr
+	rnFarPMsgCrruAS68c0FYiuDOYKKFAq1GaxCN1eNManf/ki/kuxjvGA9b8UlOsqTgXV4d0IpVSt
+	UQC7a0bq4YFijTPngZQ2TsVcZCa2O45eDvepSLCuGgp1xf2mbniyN8rgDvxMrqbEg0/hYThOg+W
+	DDt/DvtsN6CtDPPp4T61WIm6LyRGvsMGf8n0ixFtJcm2Sl76q3rBQw==
+X-Google-Smtp-Source: AGHT+IHfjIB4A12nbDHLxQM4VdjuBgwYGcF1D5r3uHZeLf9qEPGb/YLioD2I44RA7yjTsm1zMxAW3w==
+X-Received: by 2002:a05:6a21:339b:b0:1f5:87a0:60ed with SMTP id adf61e73a8af0-21ad956c327mr6432675637.19.1748626761984;
+        Fri, 30 May 2025 10:39:21 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:c9d8:e2d0:bfbc:3a26])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2ecebb5f40sm1554314a12.67.2025.05.30.10.39.24
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2ecebb5f40sm1554314a12.67.2025.05.30.10.39.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 10:39:24 -0700 (PDT)
+        Fri, 30 May 2025 10:39:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 11/12] nfs-utils: don't use signals to shut down nfs server.
-Date: Fri, 30 May 2025 10:38:58 -0700
-Message-ID: <b530827b938bcae33da08b65bab96d2549056f2e.1748626640.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 09/12] linux-yocto/6.12: riscv config sync
+Date: Fri, 30 May 2025 10:38:56 -0700
+Message-ID: <9c36c898a43ccdd1f31d0bd45e1043a9f8a20b68.1748626640.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1748626640.git.steve@sakoman.com>
 References: <cover.1748626640.git.steve@sakoman.com>
@@ -67,82 +67,71 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 17:39:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217534
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217532
 
-From: NeilBrown <neilb@suse.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Since Linux v2.4 it has been possible to stop all NFS server by running
+Integrating the following commit(s) to linux-yocto/.:
 
-   rpc.nfsd 0
+1/1 [
+    Author: Khem Raj
+    Email: raj.khem@gmail.com
+    Subject: bsp/qemuriscv32: Sync config with upstream defconfig 6.12+
+    Date: Tue, 20 May 2025 09:36:06 -0700
 
-i.e.  by requesting that zero threads be running.  This is preferred as
-it doesn't risk killing some other process which happens to be called
-"nfsd".
+    Signed-off-by: Khem Raj <raj.khem@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
 
-Since Linux v6.6 - and other stable kernels to which
-
-  Commit: 390390240145 ("nfsd: don't allow nfsd threads to be
-  signalled.")
-
-has been backported - sending a signal no longer works to stop nfs server
-threads.
-
-This patch changes the nfsserver script to use "rpc.nfsd 0" to stop
-server threads.
-
-Signed-off-by: NeilBrown <neil@brown.name>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7b09ad289a36)
-Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
+(cherry picked from commit d530bd296108ea38f77c12b097c8d65bfb6a2efd)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../nfs-utils/nfs-utils/nfsserver             | 28 +++----------------
- 1 file changed, 4 insertions(+), 24 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-index cb6c1b4d08..99ec280b35 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-@@ -89,34 +89,14 @@ start_nfsd(){
- 	start-stop-daemon --start --exec "$NFS_NFSD" -- "$@"
- 	echo done
- }
--delay_nfsd(){
--	for delay in 0 1 2 3 4 5 6 7 8 9 
--	do
--		if pidof nfsd >/dev/null
--		then
--			echo -n .
--			sleep 1
--		else
--			return 0
--		fi
--	done
--	return 1
--}
- stop_nfsd(){
--	# WARNING: this kills any process with the executable
--	# name 'nfsd'.
- 	echo -n 'stopping nfsd: '
--	start-stop-daemon --stop --quiet --signal 1 --name nfsd
--	if delay_nfsd || {
--		echo failed
--		echo ' using signal 9: '
--		start-stop-daemon --stop --quiet --signal 9 --name nfsd
--		delay_nfsd
--	}
-+	$NFS_NFSD 0
-+	if pidof nfsd
- 	then
--		echo done
--	else
- 		echo failed
-+	else
-+		echo done
- 	fi
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+index c6be153d16..f2ab88bc55 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+@@ -15,7 +15,7 @@ python () {
  }
  
+ SRCREV_machine ?= "9ee7ecfcabe12ffae693f11c83d8cf6d8181f12a"
+-SRCREV_meta ?= "020a66c734ee618ed2b25a89102fd8de2ef98f9b"
++SRCREV_meta ?= "da71eb19ceab34a7a6ff4284f1580e043c870168"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.12;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+index f81f20e74e..bf7c61415e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "e4b00bee45a4432a5739542e2b50def9a63ba6d0"
+-SRCREV_meta ?= "020a66c734ee618ed2b25a89102fd8de2ef98f9b"
++SRCREV_meta ?= "da71eb19ceab34a7a6ff4284f1580e043c870168"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+index e1a7d05fbb..79fc65f826 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "e4b00bee45a4432a5739542e2b50def9a63ba6d0"
+ SRCREV_machine:qemux86-64 ?= "e4b00bee45a4432a5739542e2b50def9a63ba6d0"
+ SRCREV_machine:qemumips64 ?= "e2f38ec1df747da895699dcb9955606e1a8d60da"
+ SRCREV_machine ?= "e4b00bee45a4432a5739542e2b50def9a63ba6d0"
+-SRCREV_meta ?= "020a66c734ee618ed2b25a89102fd8de2ef98f9b"
++SRCREV_meta ?= "da71eb19ceab34a7a6ff4284f1580e043c870168"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.43.0
 
