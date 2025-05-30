@@ -1,104 +1,199 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C60B1C3ABB2
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 04:05:09 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.web10.3399.1748577909475861035
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 301FCC3ABB2
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 04:27:40 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web10.3600.1748579252033572125
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 21:05:09 -0700
+ Thu, 29 May 2025 21:27:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=m5qL1QGm;
- spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2e541e0b974so1159275fac.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 21:05:09 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=bt88pXSC;
+ spf=pass (domain: mvista.com, ip: 209.85.161.41, mailfrom: asharma@mvista.com)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-60b8a9be972so481698eaf.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 21:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748577909; x=1749182709; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SE8/6dtrvUE2tpjA+n0cZtkY9bjRwvxcYS/1YmAKgbo=;
-        b=m5qL1QGme66OHaTGKhvcYFY6W2yKhzEAF/hTfIBN6UbmKkSkYyzwgZGhmPzLzy+y8L
-         dAZDmhYHiEwh7x6+jOHBUOzV1oXTO/lY6Iv64IK8nJeFnDMowZAdk1cPlSRkT3k6qdHo
-         AFnDp41o72oN5ixSET/VECHMXzZY9QG86kpQeAaBA54QdWX7rWLsMTdM7yYj77yR3mCA
-         gLLiH5qvSRiEwTWlMec8oK+a5hHXE9e8WvP3hwo/tRefkVb1Ldl5WT3wGtjHShbS8xXj
-         8LwV9gJ38nqdNVUUjZVZuy2r19aZqS/2r3BJZwofIyj2bKafuo3aIYizQPiUfd+k07in
-         uQjw==
+        d=mvista.com; s=google; t=1748579251; x=1749184051; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J8jpJWG0Y33iTaV9/un7MvivkyDSrNf8f85ytYrH8sU=;
+        b=bt88pXSCaaJEVykoVp3FdITi7mz6hopk6hR0rvIDb3be4VK6ETZMRxa77VGUqSlsVM
+         p/7GxX9BxO5UC3/YccfPiLmf8GhC87wVjquasptKUCnDHGHlbydBMVpXJDdzxpUL1qoi
+         niI9P2JO8Jx0E/VowoiZKSEMENjR8KAA2FlOE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748577909; x=1749182709;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SE8/6dtrvUE2tpjA+n0cZtkY9bjRwvxcYS/1YmAKgbo=;
-        b=HSxitSYjOQrxQPxBSj87Pqmdrjmj27NkyXr64GUhlQqKCpGY+0LBN+T38dvpW8tFI/
-         rklgkEP1XH5Oh5eyCWglo3GtubjszCij8iNbC+u01HM7GedK0JU+SYsEVSB+Xr3jdDoh
-         /dQXOhozfDLAY2fN/yumQTbJYUiMFo5eAOD4bYDQBRG5bizO8wNST0IONSrVuNFHQ6od
-         1dC3Zo7hwesXIGwxT6HP9DW7VAQ4D/SBOZdWiNTT6+W+YDCSG0XVw08SqO+YYBl1maJI
-         S8ZKBBlYJ40Uwhq/ez36H1AsXEJQuTvJTvYU9//SmQVQWek8cEr/h0bQrMfP3fhH1qcP
-         T3tw==
-X-Gm-Message-State: AOJu0YxjMtnvjwrVZ8y9lX+iA7B637Mm7t8tRusMIPYuoP/fLVwq6Xhy
-	THnYtXWoZDJiblrIf9Xb67eLIDRjoEKZoRxXIqfrWKDKAgZ5j6xdPmz7+BfXGJ3ZFx8WiwOl3nq
-	jMEQygijtvttHLIVJ8DLMEH3S8+Em1z4U4aOu
-X-Gm-Gg: ASbGncu9K5pfNoNHYAbrqlskxKswGnEMW8TQ1G4LwEqL819IQvFQxffU4Wvujhts6aB
-	BgYOEd8sfdjp2NzqPbZ0zGkSa9BmSj6b6+1fFIS92av4OiPGo9ChxnoWBZyDOL9TPdb5pc0+RA8
-	bo7rhY09tzSmZYh4EkiTJt5qJRcOk/NKY=
-X-Google-Smtp-Source: AGHT+IE1ZGyd+JjsRQBQPQ6MSp9v2Og5fMSM17TKQso5Ii8+H25BvlR/x+NziW+/iEgdg3YF5RPNaEFuSswPoFPDQeU=
-X-Received: by 2002:a05:6871:3a0a:b0:2e8:f216:7b23 with SMTP id
- 586e51a60fabf-2e9216849d2mr932097fac.37.1748577908651; Thu, 29 May 2025
- 21:05:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748579251; x=1749184051;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J8jpJWG0Y33iTaV9/un7MvivkyDSrNf8f85ytYrH8sU=;
+        b=X5hEAfNSdwMhKJmhO6uWM/gOuE2eDiog4oenCI2Xa6E04zOL0ywu4kGtTzUAc7i7Gz
+         bFgkBGpxV18sVJWKuc8ChWwm/DOX/0Vl90aG+O6D2x7bU5BAPnA74m0jAK2PuS9C4WXI
+         Us8g5Llgw6EHPOfWjQjE9/IFw80x55CwbBv6mtNhKkGJfuxbN3dKHk9qWJLPG1Fsp+6+
+         p3rUw2tmftn/UmvwHk3eRtEvwT32soSoLnEwgjMN5IImS7AYh6N+B8qk93SMm0HpIfFT
+         vGZOiaghJIbBuSQt7OhRRYST0+fCc95hfLIMHS0z95Kwgt5Ygoeljhx/qziN/voMz/97
+         s3Mg==
+X-Gm-Message-State: AOJu0Yy/geKDEo+ecIuc+Qad7BMUTVvWkX7raTe7xkDE1C2Vtr+zPX1d
+	zf22POMIU1yWc1oMk3y8w1CHFofa2B3yuVe7JM5XmOkNIGQhMuX+v9whpIL6znjQVJQ6j1UKb+i
+	nZyIJSA0=
+X-Gm-Gg: ASbGnctlSVr5O0urFK/ATPtivTzQf13GjGmVxLufiREvZYwQ0FH/RnsPYCelQG3zNSl
+	FAntk11SibsRLgXUfYgEvn6Sj24DexDiACIDmFcETSZKAx2szZiOnF+3nSKN0qnL2dXYf3S1+FQ
+	1EWZkB5UBd9hEJnR7piCEZgmsbysientXDZqdNEz4ZxOm8LdNulcNbNWdWRw/uCKXyWYi7BhHdD
+	HhFq4Exci9SRgkL+PIvKm9JBJjvEs2SylfliDAmBk1xsI+KDvRBrPRG2nwy/FAqRibvfyWdRvL/
+	i53lrQtsH2/MwdTRWizu77SKYGkt/RSwGlEoKEQN9pCKToWBBA==
+X-Google-Smtp-Source: AGHT+IGPzSJV0VXh83Qnkv7HFTS6MOlsf3NWCpsoTfSZXpvspp4fVDm5vNQ8rTeae70YKiQsmRkT2w==
+X-Received: by 2002:a05:6808:6a98:b0:406:6e86:683e with SMTP id 5614622812f47-4067963970cmr1080927b6e.14.1748579251007;
+        Thu, 29 May 2025 21:27:31 -0700 (PDT)
+Received: from MVIN00043 ([2401:4900:1c68:dbf6:cdc7:d2b4:6541:53e5])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-40678d04377sm266377b6e.49.2025.05.29.21.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 May 2025 21:27:30 -0700 (PDT)
+Received: by MVIN00043 (sSMTP sendmail emulation); Fri, 30 May 2025 09:57:23 +0530
+From: Ashish Sharma <asharma@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ashish Sharma <asharma@mvista.com>
+Subject: [OE-core][scarthgap][PATCH] screen: patch CVE-2025-46805
+Date: Fri, 30 May 2025 09:57:17 +0530
+Message-Id: <20250530042717.3497565-1-asharma@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250530032047.1369164-1-sandeep.gundlupet-raju@amd.com>
-In-Reply-To: <20250530032047.1369164-1-sandeep.gundlupet-raju@amd.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 29 May 2025 21:04:42 -0700
-X-Gm-Features: AX0GCFvMdZvTfxG-Zel3aud-KaU97YQMaJeKWePWT9QifIZv1FuDnUhQERaSRXY
-Message-ID: <CAMKF1soCvnBtU1XzHudqNyayrt1qv824Y39pvW6ZY1H4rEie8g@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap,master][PATCH] tune-cortexr52: Add support
- for ARM Cortex-R52 32-bit
-To: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-Cc: openembedded-core@lists.openembedded.org, jon.mason@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 04:05:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217463
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 04:27:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217464
 
-LGTM
+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/screen/patch/?id=aa9f51f996a22470b8461d2b6a32e62c7ec30ed5
+Upstream commit https://git.savannah.gnu.org/cgit/screen.git/commit/?id=161f85b98b7e1d5e4893aeed20f4cdb5e3dfaaa4]
 
-On Thu, May 29, 2025 at 8:20=E2=80=AFPM Sandeep Gundlupet Raju
-<sandeep.gundlupet-raju@amd.com> wrote:
->
-> Add tune variant for ARM Cortex-R52 32-bit in GCC as there is no
-> support for Cortex-R52 32-bit toolchain.
->
-> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-> Signed-off-by: Sandeep Gundlupet Raju <grsandeep85@gmail.com>
-> ---
->  meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc b/me=
-ta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
-> index 89f0e09450..ba1c2ffa28 100644
-> --- a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
-> +++ b/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
-> @@ -18,3 +18,8 @@ AVAILTUNES                             +=3D "cortexr52h=
-f"
->  ARMPKGARCH:tune-cortexr52hf             =3D "cortexr52"
->  TUNE_FEATURES:tune-cortexr52hf          =3D "${TUNE_FEATURES:tune-cortex=
-r52} callconvention-hard"
->  PACKAGE_EXTRA_ARCHS:tune-cortexr52hf    =3D "cortexr52hf"
-> +
-> +AVAILTUNES                             +=3D "cortexr52-32"
-> +ARMPKGARCH:tune-cortexr52-32            =3D "cortexr52"
-> +TUNE_FEATURES:tune-cortexr52-32         =3D "${TUNE_FEATURES:tune-armv8r=
--crc-simd} cortexr52"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexr52-32   =3D "${PACKAGE_EXTRA_ARCHS:tune-=
-armv8r-crc-simd} cortexr52 cortexr52-32"
-> --
-> 2.34.1
->
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
+---
+ .../screen/screen/CVE-2025-46805.patch        | 101 ++++++++++++++++++
+ meta/recipes-extended/screen/screen_4.9.1.bb  |   1 +
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-extended/screen/screen/CVE-2025-46805.patch
+
+diff --git a/meta/recipes-extended/screen/screen/CVE-2025-46805.patch b/meta/recipes-extended/screen/screen/CVE-2025-46805.patch
+new file mode 100644
+index 0000000000..e0207b6072
+--- /dev/null
++++ b/meta/recipes-extended/screen/screen/CVE-2025-46805.patch
+@@ -0,0 +1,101 @@
++From aa9f51f996a22470b8461d2b6a32e62c7ec30ed5 Mon Sep 17 00:00:00 2001
++From: Axel Beckert <abe@debian.org>
++Date: Mon, 19 May 2025 00:42:42 +0200
++Subject: fix CVE-2025-46805: socket.c - don't send signals with root
++
++Gbp-Pq: fix-CVE-2025-46805-socket.c-don-t-send-signals-with-.patch.
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/screen/patch/?id=aa9f51f996a22470b8461d2b6a32e62c7ec30ed5 
++Upstream commit https://git.savannah.gnu.org/cgit/screen.git/commit/?id=161f85b98b7e1d5e4893aeed20f4cdb5e3dfaaa4]
++CVE: CVE-2025-46805
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ socket.c | 21 +++++++++++++--------
++ 1 file changed, 13 insertions(+), 8 deletions(-)
++
++diff --git a/socket.c b/socket.c
++index e268e3d..11b5e59 100644
++--- a/socket.c
+++++ b/socket.c
++@@ -832,6 +832,11 @@ int pid;
++   return UserStatus();
++ }
++ 
+++static void KillUnpriv(pid_t pid, int sig) {
+++    UserContext();
+++    UserReturn(kill(pid, sig));
+++}
+++
++ #ifdef hpux
++ /*
++  * From: "F. K. Bruner" <napalm@ugcs.caltech.edu>
++@@ -917,14 +922,14 @@ struct win *wi;
++             {
++ 	      Msg(errno, "Could not perform necessary sanity checks on pts device.");
++ 	      close(i);
++-	      Kill(pid, SIG_BYE);
+++	      KillUnpriv(pid, SIG_BYE);
++ 	      return -1;
++             }
++           if (strcmp(ttyname_in_ns, m->m_tty))
++             {
++ 	      Msg(errno, "Attach: passed fd does not match tty: %s - %s!", ttyname_in_ns, m->m_tty[0] != '\0' ? m->m_tty : "(null)");
++ 	      close(i);
++-	      Kill(pid, SIG_BYE);
+++	      KillUnpriv(pid, SIG_BYE);
++ 	      return -1;
++ 	    }
++ 	  /* m->m_tty so far contains the actual name of the pts device in the
++@@ -941,19 +946,19 @@ struct win *wi;
++ 	{
++ 	  Msg(errno, "Attach: passed fd does not match tty: %s - %s!", m->m_tty, myttyname ? myttyname : "NULL");
++ 	  close(i);
++-	  Kill(pid, SIG_BYE);
+++	  KillUnpriv(pid, SIG_BYE);
++ 	  return -1;
++ 	}
++     }
++   else if ((i = secopen(m->m_tty, O_RDWR | O_NONBLOCK, 0)) < 0)
++     {
++       Msg(errno, "Attach: Could not open %s!", m->m_tty);
++-      Kill(pid, SIG_BYE);
+++      KillUnpriv(pid, SIG_BYE);
++       return -1;
++     }
++ #ifdef MULTIUSER
++   if (attach)
++-    Kill(pid, SIGCONT);
+++    KillUnpriv(pid, SIGCONT);
++ #endif
++ 
++ #if defined(ultrix) || defined(pyr) || defined(NeXT)
++@@ -966,7 +971,7 @@ struct win *wi;
++ 	{
++ 	  write(i, "Attaching from inside of screen?\n", 33);
++ 	  close(i);
++-	  Kill(pid, SIG_BYE);
+++	  KillUnpriv(pid, SIG_BYE);
++ 	  Msg(0, "Attach msg ignored: coming from inside.");
++ 	  return -1;
++ 	}
++@@ -977,7 +982,7 @@ struct win *wi;
++ 	  {
++ 	      write(i, "Access to session denied.\n", 26);
++ 	      close(i);
++-	      Kill(pid, SIG_BYE);
+++	      KillUnpriv(pid, SIG_BYE);
++ 	      Msg(0, "Attach: access denied for user %s.", user);
++ 	      return -1;
++ 	  }
++@@ -1295,7 +1300,7 @@ ReceiveMsg()
++             Msg(0, "Query attempt with bad pid(%d)!", m.m.command.apid);
++           }
++           else {
++-            Kill(m.m.command.apid,
+++            KillUnpriv(m.m.command.apid,
++                (queryflag >= 0)
++                    ? SIGCONT
++                    : SIG_BYE); /* Send SIG_BYE if an error happened */
++-- 
++cgit v1.2.3
++
+diff --git a/meta/recipes-extended/screen/screen_4.9.1.bb b/meta/recipes-extended/screen/screen_4.9.1.bb
+index 7b040e6b57..96f8021255 100644
+--- a/meta/recipes-extended/screen/screen_4.9.1.bb
++++ b/meta/recipes-extended/screen/screen_4.9.1.bb
+@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            file://0002-comm.h-now-depends-on-term.h.patch \
+            file://0001-fix-for-multijob-build.patch \
+            file://0001-Remove-more-compatibility-stuff.patch \
++           file://CVE-2025-46805.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "26cef3e3c42571c0d484ad6faf110c5c15091fbf872b06fa7aa4766c7405ac69"
+-- 
+2.34.1
+
 
