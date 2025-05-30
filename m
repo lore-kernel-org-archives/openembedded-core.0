@@ -1,114 +1,113 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5900C54F30
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 06:45:43 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.1065.1748587540119309703
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC163C3ABB2
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 07:07:03 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.1293.1748588816008123627
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 23:45:40 -0700
+ Fri, 30 May 2025 00:06:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z7mqzjW7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a361b8a66cso1043248f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 23:45:39 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=HvRxI3mX;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54d6f933152so2610014e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 00:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1748587538; x=1749192338; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=mNTpVIw3mxtzCAYxGc/3AH/giCYWK8zx8mlPdoMWVtw=;
-        b=Z7mqzjW74gXQ0lP+F2gSslmEBRnny++nPsbVSWdtuxeNhlHcD1qDElhDncTbzbWZNK
-         X3+re+AkuOCkKTuzggPhGpfcMdQ9xVBpQS0wJkQOUsaz6T4KNMo6RmYA9Xi03qbVmcUj
-         VJT1qOAwgMJf6AXjitzDc4gI/IJMOkKlES+Qo=
+        d=linaro.org; s=google; t=1748588814; x=1749193614; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ia5nYFTC8vEniJ6Lpk2/scJ6c69Vuw+DD0ZuDb4RgGM=;
+        b=HvRxI3mX047UoD8CmAh74ZxM3sfk+PhaRqaqz+25W0ktSVMoHDV2G5Ahlh29pRRSDC
+         RRubYrZ0qqdo1jgzANccAFobyhX4fYBBN41n6LHcemKllRSJ+8CeatyW7x4Vfl+XRibQ
+         vtYH8yarna54SS2RU7iF+frteiP8lothtLTo8Y+04irz5CpmFkkbpGy59WryKOZXiXqR
+         eHtCksabnFv97LFxuBD8oC+RhTYaMu6+/OFYUWsOZQPJnvh8sMw8SAAoq5u5R3p2/a+S
+         Ym5gPezjQshC8I/yV2L+YvSuijAZmfQ9KgagmRzo040DaGKjVi2ELiLBsQCipZ2BmM3M
+         YmtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748587538; x=1749192338;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mNTpVIw3mxtzCAYxGc/3AH/giCYWK8zx8mlPdoMWVtw=;
-        b=EAYYqx8I7mzrnQy9Bke0K3lucKQohok69RWIdH8CNGI8y3lqRryheSwp9N2kzGhAtf
-         zDRqdffUj4nyyU60PNBzHyCA904QlNnupxz1cYf6+RiTQJEW/sOHyuSEvBRsUIr/H/Ij
-         OcJTC3YCZ5iXGqjyijqMYXbglDDOD4TfCWCrKB2Bvri4fKT2pqDrpN8JvGef3SG8dCT6
-         5Z6WjDfWwqBtJ2f8vI4nphpaUK/oEGm81QNr1Us3t7nD3IEzYU93VJA40ri7PhrNApbl
-         FZecJHANMNfleJMUHXDTNHvPxQJI0ZzDXCBTTHP7VD+wEfZfT/TkjV/vu4sMHQfRr5gR
-         vvtA==
-X-Forwarded-Encrypted: i=1; AJvYcCX3PxDI2vQ/CwzhrClDh3ZDHIdvqu5SX+ANq4r9Zrq7r6ehINFUKsN88qgBej7T14e7Qak4y9quXhJ2k0CY12QmUg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yww5RnCYGf4TDu1QvINXaZBPBOGKxXvVZ+K1m8NQlN5EThp9vow
-	eW9VgskN9r8ZK6A+SOFSG+tgFCFDcY/VGzajl46/+zoxGrPqam0v+9IxBHTnmX59Wm8=
-X-Gm-Gg: ASbGncuMFGsC9Y1RcQA0xfLVgFoDKkGD7K3D8w73A0R2udSOpAC2GT9+fj1+X2vWY3Z
-	veofumLW2z1IBHaKrKAEH30IgUWCafJ8SmJty+MvW/wDSY4s9GbzIIQu2qXjpLkGt8r3rmUQG7w
-	VYlnTwbIeaTk38naAZ9h1DfECwmb0T1PPA6daZVXbU0kHP/cva9ZOkexI8EtuxMj08gri/feEGy
-	TzA21sM1M9iLb2+ShanCFaWVOR4YZtEivyixjkbRFLfBF7zlcNw2DPCyvfbUj3Wv3DEOFItaxs9
-	o31pcAj7l7AKa6GRrt25+khUPlPL82z+fY8WEzzaqWu+JzUWwdb4tclunD7fQ7s5h7MjL13Ifin
-	ReVi/MkBHxFWDY3ZkLpmvXo4R40uxTAhwyOshVfqKSSfOkGKO
-X-Google-Smtp-Source: AGHT+IH2Qu+i4IusCFRrj1OnM4OaA+d2tTBDw331edIDf8AluOAZ5d/PYe0JZDx5ZgWX/SHUwvURVw==
-X-Received: by 2002:a5d:58dc:0:b0:3a4:f7db:6ff7 with SMTP id ffacd0b85a97d-3a4f7db764cmr1061046f8f.52.1748587538530;
-        Thu, 29 May 2025 23:45:38 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5d72:4093:f55c:1c6? ([2001:8b0:aba:5f3c:5d72:4093:f55c:1c6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f009fbf7sm3901331f8f.83.2025.05.29.23.45.37
+        d=1e100.net; s=20230601; t=1748588814; x=1749193614;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ia5nYFTC8vEniJ6Lpk2/scJ6c69Vuw+DD0ZuDb4RgGM=;
+        b=XWaFGkL97wTNp1J2COt270w8Ux0EciGlj9FEvDEQt+O/+B9IUZsMBC4vd5jf4N9L6U
+         WaZPmS/ltWx/GXVDvqfVjyoxYGG8uKmcWA9dtanQvSGMdg9tNN44GLAH4snFRecIdDGm
+         OZ9+tirmyl7gcAYCvtEduSyixwQUFUVHqnAlEF0js41PUYTrVypSvmGbOYPA+dN37xUj
+         jJsVlKzjMCJXTjhIBKiMVlAF0rlibSEdpB7NxVEBlC6oghnIrKQVtVoHa1SzV/F3+G0f
+         pXaHC4LlQIdUuXSi2+ziOydQEu+Itnij2Jgl5X7Yz+M1rnyQCRL6Lh9wUyroY+zVvWvw
+         7wmw==
+X-Gm-Message-State: AOJu0YyxXgk2IDxG8opYd9XFZy5uWbGBhI8Lgrz7ni0eSpfUvrQy9VPv
+	9tKDdGt8ktmM0fv+0S+Xhq32CEBVBn4KSo5KRtQ4QcRI5QXBMO0nXa8Q0tR+leXTowE=
+X-Gm-Gg: ASbGncug168XqN7CLWwOELhNhcsN0uWN7hHmKuwR6UyM7TvPZ1J5o/iT5mq1hunrG4R
+	xNZcifKRmCbI/Raj0W07YENSHiYWLxhr/hNGNN8dLOy9T2xsy9R1lUOYmAmD7KhmpiGRM1y0Z0o
+	E8dyWS3s62nuqDsbZzdxmDrEoXLX/a6yZoSX90iIx/sr8tZNy93artPmXxn31SefVR1jMWsV5NC
+	srliHBjn9GTKQMmpX5CdwvSyCKnr6gj3QmUi4UtlqyvMNvYwhv6H9G+A/lPIZn/aHYm36+Tvhht
+	stW/CgZFGwCydpgppgji4wYkPfkeOJdtnN1qcg4IeNqrur2wqGhhDyObMChZIVgUlvkbCA8rx3K
+	ct3e/DbIX
+X-Google-Smtp-Source: AGHT+IEOSld2AFdeojkyYuJBZ2llr+k4887GLdrZj5Q3N+3lhF+0Jv+1sy22l9Taz4vj0rIW470PXg==
+X-Received: by 2002:a05:6512:3b89:b0:553:2868:635e with SMTP id 2adb3069b0e04-5533d16bf33mr294593e87.23.1748588813954;
+        Fri, 30 May 2025 00:06:53 -0700 (PDT)
+Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5533787d3desm606586e87.35.2025.05.30.00.06.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 23:45:37 -0700 (PDT)
-Message-ID: <782b23ff482ab3749e1655288c3932fe882a41f6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] wic: plugins source bootimage/isoimage
- rename to allow be imported
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Anibal Limon <anibal@limonsoftware.com>, Ross Burton
- <Ross.Burton@arm.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 May 2025 07:45:36 +0100
-In-Reply-To: <CAOU5ZMsctXq9Gf0UHdrrt-9ZKV69qMs21AjBJ7Uu=vUxmWp6Pg@mail.gmail.com>
-References: <20240323195304.2909926-1-anibal@limonsoftware.com>
-	 <20240323195304.2909926-2-anibal@limonsoftware.com>
-	 <20240325101809ec807440@mail.local>
-	 <CAOU5ZMvcO4_HWWgNc44P11w=rXh_cXyFhi7P2=D1iDhZjB+xTQ@mail.gmail.com>
-	 <FB405ACE-51BB-44F0-B449-EAC18194F176@arm.com>
-	 <CAOU5ZMsctXq9Gf0UHdrrt-9ZKV69qMs21AjBJ7Uu=vUxmWp6Pg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Fri, 30 May 2025 00:06:53 -0700 (PDT)
+Date: Fri, 30 May 2025 10:06:52 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/2] linux/generate-cve-exclusions: show the
+ name and version of the data source
+Message-ID: <aDlZDCZusvsZft7_@nuoska>
+References: <20250529105808.1943410-1-ross.burton@arm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250529105808.1943410-1-ross.burton@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 06:45:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217466
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 07:07:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217467
 
-On Thu, 2025-05-29 at 17:22 -0600, Anibal Limon wrote:
->=20
->=20
-> On Thu, May 29, 2025 at 2:06=E2=80=AFPM Ross Burton <Ross.Burton@arm.com>
-> wrote:
-> > On 25 Mar 2024, at 14:39, Anibal Limon via lists.openembedded.org
-> > <anibal=3Dlimonsoftware.com@lists.openembedded.org> wrote:
-> > > Thanks for reporting, I will adapt the tests.
-> >=20
-> > Without having to rewrite all of the documentation and existing
-> > files, why doesn=E2=80=99t wic just normalise the plugin name that it r=
-eads
-> > to replace all - with _?
-> >=20
-> > This means you can still import the module names, but doesn=E2=80=99t
-> > change existing behaviour at all.
->=20
-> So to normalize you mean change python module name from _ to - at
-> runtime?.
-> The plugins already had a name attr with '-', the issue is when
-> trying to import from an external module.
+Hi,
 
-What Ross is suggesting is that in the code in wic which parses the
-commandline parameters, we could add a line of code to change "-" in
-plugin names to "_". We'd need to tweak what gets parsed from the wks
-files too.
+On Thu, May 29, 2025 at 11:58:07AM +0100, Ross Burton via lists.openembedded.org wrote:
+> Add another comment to state what the data source for the CVE data was,
+> specifically the basename of the repository and the "git describe" output
+> of HEAD.
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-kernel/linux/generate-cve-exclusions.py | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/recipes-kernel/linux/generate-cve-exclusions.py
+> index b45c2d5702a..dfc16663a58 100755
+> --- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
+> +++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
+> @@ -11,6 +11,7 @@ import json
+>  import pathlib
+>  import os
+>  import glob
+> +import subprocess
+>  
+>  from packaging.version import Version
+>  
+> @@ -92,13 +93,16 @@ def main(argp=None):
+>      parser.add_argument("version", type=Version, help="Kernel version number to generate data for, such as 6.1.38")
+>  
+>      args = parser.parse_args(argp)
+> -    datadir = args.datadir
+> +    datadir = args.datadir.resolve()
+>      version = args.version
+>      base_version = Version(f"{version.major}.{version.minor}")
+>  
+> +    data_version = subprocess.check_output(("git", "describe", "--tags", "HEAD"), cwd=datadir, text=True)
 
-This would make the migration easier. We may or may not want to issue a
-warning at the same time so the user can know to update their wks file
-or command.
+It's good to add "--always" if the repo, or clone/cached one, does not include tags
+for what ever reason.
 
 Cheers,
 
-Richard
+-Mikko
 
