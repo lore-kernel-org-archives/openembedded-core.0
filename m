@@ -1,135 +1,141 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C1BDC5AD49
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 17:11:19 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web10.703.1748625077677022012
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D7CEC5B555
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 17:39:09 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.1257.1748626747749684577
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 10:11:17 -0700
+ Fri, 30 May 2025 10:39:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=G9LyrNOh;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6fab467aacdso22683576d6.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 10:11:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xEgArpq+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-745fe311741so2578778b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 10:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748625076; x=1749229876; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c4RW9O+Vi1XJjcPc8sEMQ/DSwUYiwndtDzdfKPl4zHE=;
-        b=G9LyrNOhe3CacgwAwbgH79FZx+u7nL6A0IESJqkZXNIZ6P0YmXrIF3DoCRTEscMbR7
-         j9C9o1K6rJ3EYcWGUpbOKCsf7zuF8C2tLV7kKSQjv5aMrdJ2ALWBDYSOawvTpWFgUupT
-         BIA2xTOeAqOCvjumYKMttzs2eMdhojCq069A6JgS2PCmKNDaRGbGExaQmMSXOwvDO1l0
-         +xwaxqmXXbYnuEtsut0EV9sdPF5FPoGbUuwPo4Eny3HM7kZRtizzXxl+UgzGz6fMllyd
-         sle84txPp/bH/ZXQ+2BWRt1pl4oajp21kN2UMS6+lwD7/qGS+zWUt4Zgk0B+ZXQDSZj2
-         QFvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748625076; x=1749229876;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748626747; x=1749231547; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=c4RW9O+Vi1XJjcPc8sEMQ/DSwUYiwndtDzdfKPl4zHE=;
-        b=Bjv4bRgMk1pXBJElVpPVJ5o4Gx1TcrQYP5MLQjsgDtPbxieSR2R7qM4R0r5cdoiGxO
-         Ofr8A642uZSP6e+CBiMjct6tE/Jqrvtx1EqKmyeH+CXmO/Q+RC239V0qCrMkS+YfCtum
-         z5ZX2QVtzBg+8aMMc68LvKtofgugrptFNpPtcpgX90BdHkH6j4d42vdFvv1/mjyryFhw
-         qYTeUae+VAKZaMOvjWd7RAAEXy4DcPM5dVricApUMgNQQNMLMkUfXlXhpZ8wT1g29gxy
-         GUq0joS5GLI7uHkTFmk/bf/kgNa30rfSe/1ud87GvvEZMa+Co6nUCl5Hy9QpnKUfqRxe
-         /xLg==
-X-Gm-Message-State: AOJu0YxnzqoB1zqez1eCWDXbGcfnAOrvfECOS7O+8yNzeTHCXBtUhVMI
-	NyBV6M4eunNVqh0bySQyfB+4r9OVlX+wyPV7kkfzKiYP4c2xcmrCBIteg4hw/h43
-X-Gm-Gg: ASbGncshe1wmPPj2CvFjt6957Rorzb8i4UpO1q/DL7rsiGX/1mCBXQ3pAsxTc38rceb
-	dgWZkHPdKcDTn4CIUhdlt1ulr+VbtSHZ1VuTM/+1ilylXNOSxEnKdN69EJjW2Vt30oBp/rUWgc9
-	oEuBTlWD6dKy+KYtuZ7YQsTviVHA/OKkAHQE9JKUcXngfqe46SCQIMjdGYt6OZvukk018p3Eesv
-	HlkCttWiwnQ2P/H56pfQWfPoQ6U9GYKY4iFISAWS8JL5ddSrH27L2Zv1JxMUgqne8UxmqSkBkEN
-	49AEqNdHHfMo4wLF2BZw5G/ufX91JrSrSoQ4XtuGfSU=
-X-Google-Smtp-Source: AGHT+IGQCBiitUxEJ79tUUih6fgrqB1m4NMygy7yG+BPF8m3fJvkicWUvIHTVAuwmn0uZMucGii/gg==
-X-Received: by 2002:a17:903:289:b0:234:cb4a:bc48 with SMTP id d9443c01a7336-2352920a1b6mr62395615ad.31.1748625065968;
-        Fri, 30 May 2025 10:11:05 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::deb9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506bdb3f4sm30887555ad.86.2025.05.30.10.11.05
+        bh=H9uA3q3WLAaOTA+82R6mO5LtlnncWzS0sbTejfPW4ao=;
+        b=xEgArpq++cFuNB5jrYhTavbwvCQXI/9Uvo9ZC+rx/LsXhcakn/P18Aa3gB4Z8vOM5C
+         Vv5TWDD0uA+STvxsrHAKae1y8pXKUHMJVphmrQV0DRGWEoN6PqQXLUWiQcVyrGfFI/RD
+         dLwwpNMkP15f6tIDk6QBjZnjBh2elYD9tLx5PyVAITtHoyS4YhrGgLrp3fj9gq9Pwyur
+         zHOI6W13+jupzzutLgaZfP32By/8ZaGzYTVglch1jHMuGXVDQNHAvBiCo2CaMRm1O9Uo
+         ieZecMw7xvIDsnsAVGfNWUkXR9L0RIoe9wc/FLX6GArxaZObb3TDHBbdXqltjwHxEb6Z
+         /hLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748626747; x=1749231547;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=H9uA3q3WLAaOTA+82R6mO5LtlnncWzS0sbTejfPW4ao=;
+        b=SjbauS/xI+kglwHfQcWgepWT1TSSBB/YiyvzNPUzfiILll/MNS9dc0iWBrHCOe5mYz
+         p3JrxY6JmcJhgFJRz6PRDSMZ+rayUqqg+SLgs8wDkj+gTByr76PdvwuvMwxEVGfcrrWb
+         rRSvIJGhw86zd6AvkVgTtCEVQlGpRsTu4orzWLvPwIgvC9rgCjAak0g/UxD0pYo++vI6
+         3+IWB49GXIH+xF5sgBepwLexr/txz7gNhEBMuGiskLCeQioicL0HEmUfqFqHrydOo0Kx
+         NlJqvqrD/h13VDC1DkBSQDdfK17Krv9+7p+goIecVrIqCjb04VWjzexuQkzOX1fET/a4
+         +LaQ==
+X-Gm-Message-State: AOJu0YxTD0mWsbLNNzffK+uBsJFhUimJ4NpSI3wWOwK03k5VtcwREivQ
+	u/D2vzV9cqtmi5BwZYyHQnihs28BMQRN8/61cv9xw+YdnxRdq3mUsqFNtrMmqQS9Jyx2wLHDaFv
+	1IRV4
+X-Gm-Gg: ASbGncsOvjBTkpqC+TD2/t/aA/XfSrdOUuKWyu8Ngtnsc3Ybn+8lOIIIntGyEqMbh03
+	7oBVkfRiguSKHbbNf/nJSB/lxLW1fAmE9lRtuIQqCN0EcFucknJVQclgLLdoAfV4Ro6bl27TRji
+	hoMjLu4nparLslJ3tZNn82pb3ZsUn0/8/e9ilrTjS2tphZd2SHwd1IxA881vuyeM61VLMe5R4c7
+	zEHi/uSWyGfIo8XfgjSh0gXd9CtEYUleQTuNFL32I9wbPydQxAzHTaE+DsSUclBIXi0+FS9ZL4z
+	gl9Fm+gwkwZ+w0OAApOkl6LfiNpYhd60Crob7s4fLmIHhGorWsWjA9r10hMMgO0O
+X-Google-Smtp-Source: AGHT+IFgbn/xuSY9mh/zLgPJP/28I/00p5eVzO5yHQMiUg10YrxKvvMVEY1y7wf7VWFf9sQ+HlZsrg==
+X-Received: by 2002:a05:6a20:d045:b0:1f5:70d8:6a98 with SMTP id adf61e73a8af0-21ad9276080mr6543152637.0.1748626746952;
+        Fri, 30 May 2025 10:39:06 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:c9d8:e2d0:bfbc:3a26])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2ecebb5f40sm1554314a12.67.2025.05.30.10.39.06
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 May 2025 10:11:05 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Fri, 30 May 2025 10:39:06 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] clang: Upgrade to 20.1.6 minor release
-Date: Fri, 30 May 2025 10:11:03 -0700
-Message-ID: <20250530171103.3913632-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Subject: [OE-core][walnascar 01/12] binutils: Fix CVE-2025-1182
+Date: Fri, 30 May 2025 10:38:48 -0700
+Message-ID: <50ee37e89a04a3dd6b652831977171973791f6de.1748626640.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1748626640.git.steve@sakoman.com>
+References: <cover.1748626640.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 17:11:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217522
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 17:39:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217524
 
-Brings following commits
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-* 47addd4540b4 [libclc] Include isnan implementation for SPIR-V targets
-* 4b6e5a286653 [clang-format] Handle Java text blocks (#141334)
-* 0e1ef696f1fe [Driver] Fix _XOPEN_SOURCE definition on Solaris (#137141)
-* 5d99a97583e1 [MachO] Improve bounds check (#141083)
-* aa804fd3e624 [sanitizer_common] Remove interceptors for deprecated struct termio (#137403)
-* 53393e26d5f4 [LoongArch] Prevent R0/R1 allocation for rj operand of [G]CSRXCHG (#140862)
-* 6fcb1c127b40 [LoongArch] Fix assertion failure for annotate tablejump (#140907)
-* 15ec590e389b release/20.x: [clang-format] Fix the indent of StartOfName after AttributeMacro (#140361)
-* 802f4f75372e [clang-format] Handle raw string literals containing JSON code (#140666)
-* 9b0832508ede [SDAG] Ensure load is included in output chain of sincos expansion (#140525)
-* 8a36b8e3ab46 [clang][analyzer] Handle CXXParenInitListExpr alongside InitListExpr
-* 070cf62530ea [Clang] Demote mixed enumeration arithmetic error to a warning (#131811)
-* a169f5ca4e4f Correct position of CFI Instruction for Pointer Authentication"
-* 5befd1fb3c97 [Clang][AST] Fix HandleLValueBase to deal with references (#140105)
-* e3d2c00ccee4 [LLD][COFF] Allow -arm64xsameaddress in ARM64EC directives (#139631)
-* 85e06a761483 [LoongArch] Fix fp_to_uint/fp_to_sint conversion errors for lasx (#137129)
-* ff2e8f93f609 Fix test pfalse-v4i1.ll added in #138712 to require asserts.
-* 1e4d39e07757 Bump version to 20.1.6
+Upstream-Status: Submitted [https://sourceware.org/pipermail/binutils/2025-May/141415.html]
+CVE: CVE-2025-1182
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/maintainers.inc     | 2 +-
- meta/recipes-devtools/clang/common-clang.inc | 2 +-
- meta/recipes-devtools/clang/common.inc       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../binutils/binutils-2.44.inc                |  1 +
+ .../binutils/binutils/CVE-2025-1182.patch     | 36 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1182.patch
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 8627f72ce77..e5d24ac2c85 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -477,7 +477,7 @@ RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-dev = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
--RECIPE_MAINTAINER:pn-llvm-project-source-20.1.5 = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-llvm-project-source-20.1.6 = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-lrzsz = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-index 45616de3e3e..15e6610b9b2 100644
---- a/meta/recipes-devtools/clang/common-clang.inc
-+++ b/meta/recipes-devtools/clang/common-clang.inc
-@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
- 
- MAJOR_VER = "20"
- MINOR_VER = "1"
--PATCH_VER = "5"
-+PATCH_VER = "6"
- # could be 'rcX' or 'git' or empty ( for release )
- VER_SUFFIX = ""
- 
-diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-index f53336326aa..5244298dfb1 100644
---- a/meta/recipes-devtools/clang/common.inc
-+++ b/meta/recipes-devtools/clang/common.inc
-@@ -17,7 +17,7 @@ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}/llvm-proje
- UPSTREAM_CHECK_URI = "${LLVM_HTTP}/llvm-project/releases/"
- UPSTREAM_CHECK_REGEX = "releases/tag/llvmorg-?(?P<pver>\d+(\.\d+)+)"
- SOURCEDIR ?= "llvm-project-${PV}.src"
--SRC_URI[sha256sum] = "a069565cd1c6aee48ee0f36de300635b5781f355d7b3c96a28062d50d575fa3e"
-+SRC_URI[sha256sum] = "5c70549d524284c184fe9fbff862c3d2d7a61b787570611b5a30e5cc345f145e"
- 
- SRC_URI = "\
-     ${BASEURI} \
+diff --git a/meta/recipes-devtools/binutils/binutils-2.44.inc b/meta/recipes-devtools/binutils/binutils-2.44.inc
+index 6906ab3efb..ae9ec9efa4 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.44.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.44.inc
+@@ -37,5 +37,6 @@ SRC_URI = "\
+      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
+      file://0015-CVE-2025-1178.patch \
+      file://CVE-2025-1180.patch \
++     file://CVE-2025-1182.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-1182.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-1182.patch
+new file mode 100644
+index 0000000000..b02b9fd1d2
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-1182.patch
+@@ -0,0 +1,36 @@
++From 92bcd04fcd97f261ff40e9248e00a1dbebf3a536 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Tue, 27 May 2025 03:37:50 -0700
++Subject: [PATCH] Backport fix for PR 32644(CVE-2025-1182)
++
++Fix another illegal memory access triggered by corrupt ELF input files.
++
++PR 32644
++
++(cherry picked from commit:b425859021d17adf62f06fb904797cf8642986ad)
++Upstream-Status: Submitted [https://sourceware.org/pipermail/binutils/2025-May/141415.html]
++CVE: CVE-2025-1182
++
++Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
++---
++ bfd/elflink.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/bfd/elflink.c b/bfd/elflink.c
++index 6346d7e2b4b..a0b237b2224 100644
++--- a/bfd/elflink.c
+++++ b/bfd/elflink.c
++@@ -15084,6 +15084,10 @@ bfd_elf_reloc_symbol_deleted_p (bfd_vma offset, void *cookie)
++ 	}
++       else
++ 	{
+++	  if (r_symndx >= rcookie->locsymcount)
+++	    /* This can happen with corrupt input.  */
+++	    return false;
+++
++ 	  /* It's not a relocation against a global symbol,
++ 	     but it could be a relocation against a local
++ 	     symbol for a discarded section.  */
++-- 
++2.49.0
++
+-- 
+2.43.0
+
 
