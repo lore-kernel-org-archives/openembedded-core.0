@@ -1,319 +1,151 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <sandeep.gundlupet-raju@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D25F8C3ABB2
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 03:15:59 +0000 (UTC)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
- by mx.groups.io with SMTP id smtpd.web11.2824.1748574957994314598
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE9CAC3ABB2
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 03:20:59 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.48])
+ by mx.groups.io with SMTP id smtpd.web11.2888.1748575257369015856
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 May 2025 20:15:58 -0700
+ Thu, 29 May 2025 20:20:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MXGoRrB1;
- spf=pass (domain: gmail.com, ip: 209.85.161.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-601a8b6c133so1273131eaf.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 May 2025 20:15:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748574957; x=1749179757; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UM84oq/1KSluZ35bRhK/sXgMbu6LgzA8Oh624sk9u68=;
-        b=MXGoRrB1GfixCcUIJ+QnrCtB4QuakK5e7Y4aYMu83WkqJLM1QhzC8Wu202FJq+3Zgl
-         WSdUArLqLBPSv4GznDQitZIigighLkYV1KAoh9lzuLMcNa68XqlEvr12szl6Y9lOx/R8
-         D6rhmo5u2b1r0O9yAMtv5RGIOzGAMQEIpMjpoFailBdAlShf2rgQaSRY5S2Jig50w3Bz
-         LFwSRDShgSxFg29QeY/51Vb4iLtVyMZBdS4/5SJX4RpCgxWaU5hArm/WbgcJqPyPwp1p
-         +90PV2p4dxx8NDmaBfRaf/nipBoea027d/+FW3Km/81+u1klGCgelwHhXWpNYBT62Ra0
-         k1Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748574957; x=1749179757;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UM84oq/1KSluZ35bRhK/sXgMbu6LgzA8Oh624sk9u68=;
-        b=WevSyULcvPtVTy0aji3q7SWZLm9AvGCYHfAx8cTYXVWoLPFMHAxt19/xj6O/QgEeyd
-         ATuNKkXmJ2hlN4hCJnz+UeseHISQUyYYAU3jQFOsi3cNVda6LinVB6+rUU/eLnuPf9DR
-         4kpYaCgf/4YbVqAJV+j2DgrP6LQXaXfgnOv9cmNpbw+oF10nihxdZVTQQe+65t0VeKor
-         Iv4eZV5wyuXGEQzPvVYUaRklnE+GXgbhoLGOFvep65O59ex1pDYjlVWfGbccU6Uh/6N0
-         YGdSQlmO2bUbFb/JPNlmvzJ3uoWi4Zu0jISOkH4+UvGoyblcZD8xz9RQSJBGUErl+VZb
-         dqGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVH/xviLzbONMmCtGLwawqz/XOsyzJzlp967VCPkBUDjbB1TdmhBXeBZQt2mszuHLX4ts3YvoiIEN9Y29JD0xcIxA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwFksbu0HWomBAQxtBUFpMNWgR23a1bD0VQIVR7tl4omiiQAnrE
-	SjgrLXJxxQEHqDBp04dgcKjHteK+usB9FphQJ7/MSbBTdpVY/nolS6jR8LPFYMMp9Xs9jm+D0bQ
-	x9/vd5WYboMhsK7csesmTCxVWflM7YCM=
-X-Gm-Gg: ASbGncsQpe6DOnmxGkodpbW/u4c5ornx0EfyScNPzkajiLh0TmA69mxtSpB1hoZJOix
-	rl67xOFldE8i2gHY3a83NbP9El+mmk2dPvGHZ5wDeY7VPjMsUJ0dzymU2gda0GB7XFln0+HQjwJ
-	H4RuUtywks1uTeUW5euQvMF36PeS3YzIJXwLRVpu4zute24XT2DsR//8YwRXC7gkyUzQ==
-X-Google-Smtp-Source: AGHT+IFt6o/ERZ4DQ5ZPchqpmQm3H9i5qB371KTO0PAPFQPPe3KAFdtOooBZwJjoQKWGqm9A8rMigH3OmBEIbqwipoA=
-X-Received: by 2002:a05:6870:e814:b0:2e8:7752:b540 with SMTP id
- 586e51a60fabf-2e9214a7577mr864096fac.15.1748574957062; Thu, 29 May 2025
- 20:15:57 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=E3jKLMiL;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.220.48, mailfrom: sandeep.gundlupet-raju@amd.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nqNMosysaBl5FwUI61ePcnZaZfqKds0EzOKCyt+AIvgMFktyvhygo+DrIIgH5OetP6vjYwnEv+hasuB/CU45bap0segVUpzCpy/CjGiMsrJwRN34vJuAU0k6r9yVbxEUt6FasNKd04/I8ptUwsYWx2Af39lXSzdUEGcWRF/fkr/wN97GOHI46zP7Z/6Ni2SKZF3Zvb+LB//Dr/RtFJfFkv/5B1ni2HHyOtnBkzhHGRPktiats2d4YQFZxXPjj0VCEQbEMx+t49oaNYhWXihkLhZx+Lba5AdfLaSKz+Olmm2ONzQ+6AWUqfgE0PqVz1CpY//WbAX9Uu3+m7q3KrLpTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3V0S8dl0mGGeILvt1Mv39pUM1NteTe3xd+sq3Dr0XOQ=;
+ b=UgPA7C74o0C8kXzVJ5g4Z2RdPuVih72PsYCMw4kC5KxF/bTrILl6dRCkdzcp5vrw6RK9lkzrbdW4yqCAF9+Waj2s7nlqkjFE1Lvi2S8LcgK6e8H4OOx1acu3TjAdVfO5RdIb2pR13U4NqLjP/pi8RNFew4r4tbVkRO+mYNhV4BlaRs2jURHXaOYEKg0bDBbiGKnPzBkAcMdj+HL7dA463YfPJqXTNBBvrx/91qVDhWFYysnZWtM1bQxMmG5o32XqDVvB8KZu2ZO+hhb1TVBVlmDxP2zrnCWaQLVcqjqPqhyNx7xemFednMZDEqB70sflcaUM/KY2tz8yRFh+fL3JpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3V0S8dl0mGGeILvt1Mv39pUM1NteTe3xd+sq3Dr0XOQ=;
+ b=E3jKLMiLlyAWwbzzEWgTfxJOdF2ymTiVXptGHLbhxYngvblJ0G6/HYmOlkRlyUgj5YuiC245etfh6Yy14TiqpKoXlkz0DNrA7eGI7ZTVArjtEj0rBpSd+eF6+UNgRMawxcZW1QimBcAqEHxJAc0+Qf7pcQVRAATt29g4w3Zd7kY=
+Received: from BY5PR16CA0007.namprd16.prod.outlook.com (2603:10b6:a03:1a0::20)
+ by SN7PR12MB6813.namprd12.prod.outlook.com (2603:10b6:806:267::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.27; Fri, 30 May
+ 2025 03:20:49 +0000
+Received: from MWH0EPF000989E6.namprd02.prod.outlook.com
+ (2603:10b6:a03:1a0:cafe::6b) by BY5PR16CA0007.outlook.office365.com
+ (2603:10b6:a03:1a0::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Fri,
+ 30 May 2025 03:20:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MWH0EPF000989E6.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8769.18 via Frontend Transport; Fri, 30 May 2025 03:20:48 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 29 May
+ 2025 22:20:47 -0500
+Received: from xcosswyocto01.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 29 May 2025 22:20:47 -0500
+From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <raj.khem@gmail.com>, <jon.mason@arm.com>
+Subject: [OE-core][scarthgap,master][PATCH] tune-cortexr52: Add support for ARM Cortex-R52 32-bit
+Date: Thu, 29 May 2025 21:20:47 -0600
+Message-ID: <20250530032047.1369164-1-sandeep.gundlupet-raju@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250521031413.1566-1-liuyd.fnst@fujitsu.com> <CANNYZj9kMw3iqYi-tpWY19TbCTKjNHO2HDc=dXpu26efHDGbRQ@mail.gmail.com>
- <OSRPR01MB11597AA06EC57367CB529CBD19B98A@OSRPR01MB11597.jpnprd01.prod.outlook.com>
- <08f939dc-0880-4a2f-80af-6e8d512bf8b9@gmail.com> <OSRPR01MB1159756B512144F28ECCE295C9B61A@OSRPR01MB11597.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSRPR01MB1159756B512144F28ECCE295C9B61A@OSRPR01MB11597.jpnprd01.prod.outlook.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 29 May 2025 20:15:46 -0700
-X-Gm-Features: AX0GCFsLYjR9A47JpJPhUGKtccTfJhn92yStwDPADsz5XY4IIWNAt2OgNLTkmR4
-Message-ID: <CAMKF1sqJWO6wiUD6SMTab4ht408ZaW3e5npw_g0WdSa-oKnZPQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] clang: multilib-header fix for
- llvm/Config/llvm-config.h and clang/Config/config.h
-To: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
-Cc: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002dd074063651d5b5"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB04.amd.com: sandeep.gundlupet-raju@amd.com does
+ not designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000989E6:EE_|SN7PR12MB6813:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1bbc36e4-567d-4179-97cd-08dd9f28f935
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?SBX0ENz+iiKfKXO5jN9qWmnOIfYnN3CPr0dhzENtIczkKaNIFsywSOJ8ncA2?=
+ =?us-ascii?Q?ukIYyhw+Q2Zz0SiQOYt1guo8XeJLqs2HLxAMXd+LOtDd4hly40dTjJhbltG8?=
+ =?us-ascii?Q?c8wJEdqzE1PpUsovpoS6zAfdREmCVQqTvjR6lV3a5Uc9JwzTUyS5d6QQzNqg?=
+ =?us-ascii?Q?DugeF2xQ5MnL6lEu9cahbuHN/uWXdOPYAv6bEK7roAOcRBLD64i3iphiUtut?=
+ =?us-ascii?Q?UqlRgR1m+CJbvTa53bt7p+D5jg51vplFvHmBM1Z4Yw73ZhjjuNAC1I0+Eu/3?=
+ =?us-ascii?Q?GvNNNflKAaWdRzfhiczR8LSB4ebVgNOxPAsAjlTaRk3NmSHKOF+SSfIQZjmz?=
+ =?us-ascii?Q?NKjLvGZoABfjGzYMqTonvGDPQTuGXtI0zXuhEGPY/3PPu5yk21ooDgiwpi+H?=
+ =?us-ascii?Q?wbo4kaP6b8LdP9VG8In8mvCDsbuCp87Xk+ef8llFAFcNfoMMHE0XRzFh6kH0?=
+ =?us-ascii?Q?XQL/WyLF1E69g3QAqVgONC8FqrPbnVLXiQQiDMUPdzzEQ42Ga+tYPXg1/3bd?=
+ =?us-ascii?Q?amOXHAdts4o+ZunlaOB9EK6K5bV3UlsXBSz9NIeFFPAl//O8lyx2iDiDdyaR?=
+ =?us-ascii?Q?w3HRjIIthGud7/wDBbBGf9EuD2gHKtaYTlANYlWrQ63dRSNexjsQy9JiLkyd?=
+ =?us-ascii?Q?/Or5kQrpO4F8jYFP0fo3Js86oteHAZctTO08Upm9oqAirQ5yOIvCwzzdmRCQ?=
+ =?us-ascii?Q?qxBVlBTtMFLUNg4E8O7tdd16bBAWoJ3/aB+1uzG37T0DioubUpFFVzx5q+S+?=
+ =?us-ascii?Q?6bwSmtXw08WpVqQooDh+H+VaAiUxlew731vUbdnJvsu0jMu/KOgLisBKeT9K?=
+ =?us-ascii?Q?g3eq4kRMi/rm1Q7olKxuY9ok6QVB9nD1bXHnBfMOxYWcOT4n+a+1dQc1oxyi?=
+ =?us-ascii?Q?9OP5s3dCN4qNWbRfAPgAjxRwBcdwO39JXD/a9ZSGnvzJibbYZpuTB3y9P/9d?=
+ =?us-ascii?Q?BPgM1GTd8iVxUL5SkulP1qzfCofJmRyIQbc2iZ/X139EK4uzHRYw0j2H5dGs?=
+ =?us-ascii?Q?10cz/IfXwkqcNJGxIVhQld/1lNOgHZYjK9QCrNTRQSe4RVl1gawYIPmkcq3w?=
+ =?us-ascii?Q?G38xIG6qTPBmd1utoRSgbpP9OBUC22xE0fYpHGx+qhsX1Gg7JUjzR3G3dpXe?=
+ =?us-ascii?Q?UgwsLxdouG5GckuyP7JT6TiZgos0oWy4l8aY+UQA1aYQ1C2rBvIfpf+Gpyjf?=
+ =?us-ascii?Q?NRvKZtGRlEC1eCxeakgms51ArAKws18v1AdgWU4rCZyj6jxIgreThJhSHhZJ?=
+ =?us-ascii?Q?Lx7CAG6D8H0Dg4/o8R03Pra6nGeSLpMA6hQliIug6c+3GFU1/Qt1QdnD7FNZ?=
+ =?us-ascii?Q?h667eKl5JfA0+dAbZbTpP3zTfNQZ7gzsOmd2xX+Ziu5OGh8YlKFrfH5n1Km/?=
+ =?us-ascii?Q?MMF9vdSHOEg3HLWI4JJfOXDokEAQ1SRYNM5BWGG4dVzRTvjtXV/IK+FSSoIJ?=
+ =?us-ascii?Q?xTZybQG9dA65cBMe/h2FATuUggms1TmiZICEZNl9skJPbBn0dWZsAumsJc5I?=
+ =?us-ascii?Q?XjMLml8sFmlQbvs1KUdzQSQDFrJyv/xWfNvs?=
+X-Forefront-Antispam-Report: 
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2025 03:20:48.3517
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bbc36e4-567d-4179-97cd-08dd9f28f935
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	MWH0EPF000989E6.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6813
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 03:15:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217461
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 03:20:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217462
 
---0000000000002dd074063651d5b5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add tune variant for ARM Cortex-R52 32-bit in GCC as there is no
+support for Cortex-R52 32-bit toolchain.
 
-Yes please ping Richard or Mathieu to stage it
+Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Signed-off-by: Sandeep Gundlupet Raju <grsandeep85@gmail.com>
+---
+ meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-On Thu, May 29, 2025 at 7:58=E2=80=AFPM Yiding Liu (Fujitsu) <liuyd.fnst@fu=
-jitsu.com>
-wrote:
+diff --git a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc b/meta=
+/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+index 89f0e09450..ba1c2ffa28 100644
+--- a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
++++ b/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+@@ -18,3 +18,8 @@ AVAILTUNES                             +=3D "cortexr52hf"
+ ARMPKGARCH:tune-cortexr52hf             =3D "cortexr52"
+ TUNE_FEATURES:tune-cortexr52hf          =3D "${TUNE_FEATURES:tune-cortexr5=
+2} callconvention-hard"
+ PACKAGE_EXTRA_ARCHS:tune-cortexr52hf    =3D "cortexr52hf"
++
++AVAILTUNES                             +=3D "cortexr52-32"
++ARMPKGARCH:tune-cortexr52-32            =3D "cortexr52"
++TUNE_FEATURES:tune-cortexr52-32         =3D "${TUNE_FEATURES:tune-armv8r-c=
+rc-simd} cortexr52"
++PACKAGE_EXTRA_ARCHS:tune-cortexr52-32   =3D "${PACKAGE_EXTRA_ARCHS:tune-ar=
+mv8r-crc-simd} cortexr52 cortexr52-32"
+--=20
+2.34.1
 
->
->
-> > -----Original Message-----
-> > From: Khem Raj <raj.khem@gmail.com>
-> > Sent: 2025=E5=B9=B45=E6=9C=8823=E6=97=A5 9:45
-> > To: Liu, Yiding/=E5=88=98 =E4=B9=99=E4=B8=81 <liuyd.fnst@fujitsu.com>; =
-alex.kanavin@gmail.com
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH] clang: multilib-header fix for
-> > llvm/Config/llvm-config.h and clang/Config/config.h
-> >
-> >
-> >
-> > On 5/22/25 6:22 PM, Yiding Liu (Fujitsu) wrote:
-> > >
-> > >
-> > >> -----Original Message-----
-> > >> From: openembedded-core@lists.openembedded.org
-> > >> <openembedded-core@lists.openembedded.org> On Behalf Of Alexander
-> > >> Kanavin via lists.openembedded.org
-> > >> Sent: 2025=E5=B9=B45=E6=9C=8822=E6=97=A5 18:22
-> > >> To: Liu, Yiding/=E5=88=98 =E4=B9=99=E4=B8=81 <liuyd.fnst@fujitsu.com=
->
-> > >> Cc: Khem Raj <raj.khem@gmail.com>;
-> > >> openembedded-core@lists.openembedded.org
-> > >> Subject: Re: [OE-core] [PATCH] clang: multilib-header fix for
-> > >> llvm/Config/llvm-config.h and clang/Config/config.h
-> > >>
-> > >> On Wed, 21 May 2025 at 05:14, Yiding Liu (Fujitsu) via
-> > >> lists.openembedded.org
-> > >> <liuyd.fnst=3Dfujitsu.com@lists.openembedded.org>
-> > >> wrote:
-> > >>>
-> > >>> Error: Transaction test error:
-> > >>>    file /usr/include/clang/Config/config.h conflicts between
-> > >>> attempted installs of
-> > >>> lib32-clang-dev-20.1.4-r0.core2_32 and clang-dev-20.1.4-r0.core2_64
-> > >>>    file /usr/include/llvm/Config/llvm-config.h conflicts between
-> > >>> attempted installs of lib32-clang-dev-20.1.4-r0.core2_32 and
-> > >>> clang-dev-20.1.4-r0.core2_64
-> > >>
-> > >> What is the actual difference between the headers and where does it
-> > originate?
-> > >> Before any multilib fixes are applied, this does need to be
-> > >> investigated. This is repeatedly being asked in response to similar
-> > >> patches, and it would be good if such investigations happen up front=
-.
-> > >
-> > > Let me explain it more clearly
-> > > 1. This fix started from my original patch in April
-> > > https://lists.openembedded.org/g/openembedded-core/message/215193
-> > >
-> > > 2. Then Khem Raj raj.khem@gmail.com merged a patch set, claiming it
-> would
-> > resolve the conflict issues. But in reality, it didn=E2=80=99t.
-> > >
-> > > For the difference, I have pasted it here:
-> > >
-> > https://lists.openembedded.org/g/openembedded-core/message/216811?p=3D%=
-2
-> > >
-> > C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cllvm-co
-> > nfig.h%
-> > > 2C20%2C2%2C0%2C112624219
-> > >
-> > >
-> > > I know multi-script or multi-header is the last step we should
-> consider.
-> > > But regarding this issue, if you or Khem Raj have any good
-> suggestions, please
-> > let me know.
-> >
-> > These are configuration headers and will depend upon how clang/llvm is
-> built, I
-> > hoped that we maybe able to generate identical file by enabling all
-> backends but
-> > it has more entries that vary according to multilibs.
-> > At this point this is best we can do, install multilibbed versions of
-> these headers.
-> > This patch is fine to go in.
->
->
-> Hi Raj
->
-> I noticed this patch still hasn't been tested by the master-next branch.
-> Should we consider testing it now?
-> Or is there anything else I can do?
->
->
-> Yiding
->
->
->
-> >
-> > >
-> > >
-> > > Liu Yiding
-> > >>
-> > >> Alex
->
->
-
---0000000000002dd074063651d5b5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Yes please ping Richard or Mathieu to stage it=C2=A0</div=
-><div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Thu, May 29, 2025 at 7:58=E2=80=AFPM Yiding Liu (F=
-ujitsu) &lt;<a href=3D"mailto:liuyd.fnst@fujitsu.com">liuyd.fnst@fujitsu.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-&gt; -----Original Message-----<br>
-&gt; From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
-ank">raj.khem@gmail.com</a>&gt;<br>
-&gt; Sent: 2025=E5=B9=B45=E6=9C=8823=E6=97=A5 9:45<br>
-&gt; To: Liu, Yiding/=E5=88=98 =E4=B9=99=E4=B8=81 &lt;<a href=3D"mailto:liu=
-yd.fnst@fujitsu.com" target=3D"_blank">liuyd.fnst@fujitsu.com</a>&gt;; <a h=
-ref=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.=
-com</a><br>
-&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Subject: Re: [OE-core] [PATCH] clang: multilib-header fix for<br>
-&gt; llvm/Config/llvm-config.h and clang/Config/config.h<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; On 5/22/25 6:22 PM, Yiding Liu (Fujitsu) wrote:<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;&gt; -----Original Message-----<br>
-&gt; &gt;&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.=
-org" target=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; &gt;&gt; &lt;<a href=3D"mailto:openembedded-core@lists.openembedded.or=
-g" target=3D"_blank">openembedded-core@lists.openembedded.org</a>&gt; On Be=
-half Of Alexander<br>
-&gt; &gt;&gt; Kanavin via <a href=3D"http://lists.openembedded.org" rel=3D"=
-noreferrer" target=3D"_blank">lists.openembedded.org</a><br>
-&gt; &gt;&gt; Sent: 2025=E5=B9=B45=E6=9C=8822=E6=97=A5 18:22<br>
-&gt; &gt;&gt; To: Liu, Yiding/=E5=88=98 =E4=B9=99=E4=B8=81 &lt;<a href=3D"m=
-ailto:liuyd.fnst@fujitsu.com" target=3D"_blank">liuyd.fnst@fujitsu.com</a>&=
-gt;<br>
-&gt; &gt;&gt; Cc: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>&gt;;<br>
-&gt; &gt;&gt; <a href=3D"mailto:openembedded-core@lists.openembedded.org" t=
-arget=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; &gt;&gt; Subject: Re: [OE-core] [PATCH] clang: multilib-header fix for=
-<br>
-&gt; &gt;&gt; llvm/Config/llvm-config.h and clang/Config/config.h<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; On Wed, 21 May 2025 at 05:14, Yiding Liu (Fujitsu) via<br>
-&gt; &gt;&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" =
-target=3D"_blank">lists.openembedded.org</a><br>
-&gt; &gt;&gt; &lt;liuyd.fnst=3D<a href=3D"mailto:fujitsu.com@lists.openembe=
-dded.org" target=3D"_blank">fujitsu.com@lists.openembedded.org</a>&gt;<br>
-&gt; &gt;&gt; wrote:<br>
-&gt; &gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt; Error: Transaction test error:<br>
-&gt; &gt;&gt;&gt;=C2=A0 =C2=A0 file /usr/include/clang/Config/config.h conf=
-licts between<br>
-&gt; &gt;&gt;&gt; attempted installs of<br>
-&gt; &gt;&gt;&gt; lib32-clang-dev-20.1.4-r0.core2_32 and clang-dev-20.1.4-r=
-0.core2_64<br>
-&gt; &gt;&gt;&gt;=C2=A0 =C2=A0 file /usr/include/llvm/Config/llvm-config.h =
-conflicts between<br>
-&gt; &gt;&gt;&gt; attempted installs of lib32-clang-dev-20.1.4-r0.core2_32 =
-and<br>
-&gt; &gt;&gt;&gt; clang-dev-20.1.4-r0.core2_64<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; What is the actual difference between the headers and where d=
-oes it<br>
-&gt; originate?<br>
-&gt; &gt;&gt; Before any multilib fixes are applied, this does need to be<b=
-r>
-&gt; &gt;&gt; investigated. This is repeatedly being asked in response to s=
-imilar<br>
-&gt; &gt;&gt; patches, and it would be good if such investigations happen u=
-p front.<br>
-&gt; &gt;<br>
-&gt; &gt; Let me explain it more clearly<br>
-&gt; &gt; 1. This fix started from my original patch in April<br>
-&gt; &gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/mes=
-sage/215193" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedde=
-d.org/g/openembedded-core/message/215193</a><br>
-&gt; &gt;<br>
-&gt; &gt; 2. Then Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"=
-_blank">raj.khem@gmail.com</a> merged a patch set, claiming it would<br>
-&gt; resolve the conflict issues. But in reality, it didn=E2=80=99t.<br>
-&gt; &gt;<br>
-&gt; &gt; For the difference, I have pasted it here:<br>
-&gt; &gt;<br>
-&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/message/=
-216811?p=3D%2" rel=3D"noreferrer" target=3D"_blank">https://lists.openembed=
-ded.org/g/openembedded-core/message/216811?p=3D%2</a><br>
-&gt; &gt;<br>
-&gt; C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Cllvm-co<br>
-&gt; nfig.h%<br>
-&gt; &gt; 2C20%2C2%2C0%2C112624219<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; I know multi-script or multi-header is the last step we should co=
-nsider.<br>
-&gt; &gt; But regarding this issue, if you or Khem Raj have any good sugges=
-tions, please<br>
-&gt; let me know.<br>
-&gt; <br>
-&gt; These are configuration headers and will depend upon how clang/llvm is=
- built, I<br>
-&gt; hoped that we maybe able to generate identical file by enabling all ba=
-ckends but<br>
-&gt; it has more entries that vary according to multilibs.<br>
-&gt; At this point this is best we can do, install multilibbed versions of =
-these headers.<br>
-&gt; This patch is fine to go in.<br>
-<br>
-<br>
-Hi Raj<br>
-<br>
-I noticed this patch still hasn&#39;t been tested by the master-next branch=
-. Should we consider testing it now?<br>
-Or is there anything else I can do?<br>
-<br>
-<br>
-Yiding<br>
-<br>
-<br>
-<br>
-&gt; <br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Liu Yiding<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; Alex<br>
-<br>
-</blockquote></div></div>
-
---0000000000002dd074063651d5b5--
 
