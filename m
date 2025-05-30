@@ -1,220 +1,119 @@
-Return-Path: <andrej.kozemcak@siemens.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF0C5C54F30
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 07:11:03 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.1267.1748589058681809327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B74B7C54F30
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 07:13:13 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.1287.1748589192929849745
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 00:10:59 -0700
+ Fri, 30 May 2025 00:13:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=andrej.kozemcak@siemens.com header.s=fm2 header.b=OnXPDdld;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1328795-20250530071055ac214fd830c1c17672-aehfol@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20250530071055ac214fd830c1c17672
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 30 May 2025 09:10:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=andrej.kozemcak@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=hdgHWcgKpGTVBzPjqmadb7qpeYDAcutwJkC8LwD0w9M=;
- b=OnXPDdldINasLrjqJsPqMI0t/bp0mnuf0qBBmOQMLtJ5egCgfBDeqmY4xnq5U/4sGvgoiv
- 4Yzmj/HUrEl7uVsgegEFgG19vKVZ3HraZgFhanw0zbL0mhCeKfzyD8Bh888lAeD9W5sRpPoO
- u4QzgeZDIiG/wvdxGlSI/cTfPyF+/p6TirHwd89Te2iMqC+Ygnq92cl7UfIl17PTzeauzP2v
- UxMZ4OJ6TtOIEp6w1V6ZUxmNwW1MKHJUF58ZrIuZ/ZhcU7QxtNz4P3dSbgM6Xlb1ZJJiIAdb
- F/GNTjfX/dFvuXnTOQMm5fueqvoc4F4GC0ZXGxYbxxVTtNN5D9VsYZiA==;
-From: Andrej Kozemcak <andrej.kozemcak@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Andrej Kozemcak <andrej.kozemcak@siemens.com>
-Subject: [OE-core][kirkstone][PATCH v2] curl: add ptests
-Date: Fri, 30 May 2025 09:10:35 +0200
-Message-Id: <20250530071035.2805304-1-andrej.kozemcak@siemens.com>
-In-Reply-To: <CAOSpxdY=1nEQsOXMAqzwQ30xHUmwdUkhNGQf0T_v8G1ZfJhadA@mail.gmail.com>
-References: <CAOSpxdY=1nEQsOXMAqzwQ30xHUmwdUkhNGQf0T_v8G1ZfJhadA@mail.gmail.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8245d0438c=changqing.li@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54U5sj35016799
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 07:13:12 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 46u5396873-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 07:13:11 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Fri, 30 May 2025 00:12:51 -0700
+Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Fri, 30 May 2025 00:12:50 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [walnascar][PATCH 00/15] fix several CVEs for libsoup-2.4
+Date: Fri, 30 May 2025 15:12:54 +0800
+Message-ID: <20250530071309.1603334-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1328795:519-21489:flowmailer
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTMwMDA1OSBTYWx0ZWRfX0j9uRQzoj4uz sZrKBxPLRQSYQlgw+SfoUzHLXWpi1uJMHxfpwYwdgPMTokxdM96/GZn9c3ji4F6WLU4Rq6taG2/ kD+UBUIAR+lIdZH+r/uhrozNcNZiLV9jx862S/pJHdZX0JDDc+9kUvgMubNPtJ3O1JL2+Q3Shxq
+ HLo4I1fpETuSas09itienGqkyX39JQyIwgtIR8FCfh+BJYti95H1kGdz8mC8fC8iDwW9SXyKWjA 06VldQ0v3iot6jcFGkwskA8SHr0l2ogXcUiWGe/zcF0NzednoR4twdfSaqv8pRNQCgFeheHFiha wnIkdzTZeRuwf3FjtsmQcFehESO3gi4MbfS8Q+3RmXqc+QpnYfokS9UwpnpgUD4ogb0TX1husas
+ Ps9VCwMXvwnKzHSB0fQxhRrbIjXjQMLJlHIyFCYLh9ftFjqPtgiihQirHMJad4O5vraTkVUH
+X-Authority-Analysis: v=2.4 cv=NsDRc9dJ c=1 sm=1 tr=0 ts=68395a87 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=dt9VzEwgFbYA:10 a=t7CeM3EgAAAA:8 a=gjR99IWqj_EIfYGojPMA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: EzjyWeXgRTba4AgTMkvNXZ1JC0BO1Wo9
+X-Proofpoint-GUID: EzjyWeXgRTba4AgTMkvNXZ1JC0BO1Wo9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-30_03,2025-05-29_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=511
+ impostorscore=0 mlxscore=0 spamscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 phishscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505160000
+ definitions=main-2505300059
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 07:11:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217468
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 07:13:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217469
 
-Ptest was copy from scarthgap and then edit for kirkstone.
-For kirstone we disable this test (which is already failing in kirstone):
-- 418
-- 722
-and remove this tests (which not exist in kirstone):
-- 412
-- 413
-- 1478
-- 1477
-- 1222
-- 1279
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Andrej Kozemcak <andrej.kozemcak@siemens.com>
+*** BLURB HERE ***
 
----
-PATCH v2, list of changes:
-- fix warning: ptest-packagelists.inc [missing-ptest]
-- fix error: Nothing RPROVIDES 'locale-base-en-us'
-- can't reproduce errors: nothing provides perl-module* 
+Changqing Li (15):
+  libsoup-2.4: update patch 0001-CVE-2025-32911.patch
+  libsoup-2.4: fix CVE-2025-32053
+  libsoup-2.4: fix CVE-2025-2784
+  libsoup-2.4: fix CVE-2024-52530
+  libsoup-2.4: fix CVE-2025-32906
+  libsoup-2.4: fix CVE-2025-32914
+  libsoup-2.4: fix CVE-2025-46420
+  libsoup-2.4: fix CVE-2025-46421
+  libsoup-2.4: fix CVE-2025-32050
+  libsoup-2.4: fix CVE-2025-32052
+  libsoup-2.4: fix CVE-2025-32909
+  libsoup-2.4: fix CVE-2025-32910
+  libsoup-2.4: fix CVE-2025-32912
+  libsoup-2.4: fix CVE-2024-52531
+  libsoup-2.4: fix CVE-2025-4476
 
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-support/curl/curl/disable-tests  | 37 +++++++++++++++
- meta/recipes-support/curl/curl/run-ptest      | 13 ++++++
- meta/recipes-support/curl/curl_7.82.0.bb      | 45 ++++++++++++++++++-
- 4 files changed, 95 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/curl/curl/disable-tests
- create mode 100644 meta/recipes-support/curl/curl/run-ptest
+ .../libsoup-2.4/0001-CVE-2025-32911.patch     |   2 +-
+ .../libsoup/libsoup-2.4/CVE-2024-52530.patch  | 150 ++++++++++++++++++
+ .../libsoup-2.4/CVE-2024-52531-1.patch        |  39 +++++
+ .../libsoup-2.4/CVE-2024-52531-2.patch        | 133 ++++++++++++++++
+ .../libsoup/libsoup-2.4/CVE-2025-2784.patch   |  56 +++++++
+ .../libsoup/libsoup-2.4/CVE-2025-32050.patch  |  29 ++++
+ .../libsoup/libsoup-2.4/CVE-2025-32052.patch  |  32 ++++
+ .../libsoup/libsoup-2.4/CVE-2025-32053.patch  |  39 +++++
+ .../libsoup/libsoup-2.4/CVE-2025-32906.patch  |  71 +++++++++
+ .../libsoup/libsoup-2.4/CVE-2025-32909.patch  |  38 +++++
+ .../libsoup-2.4/CVE-2025-32910-1.patch        |  32 ++++
+ .../libsoup-2.4/CVE-2025-32910-2.patch        |  94 +++++++++++
+ .../libsoup-2.4/CVE-2025-32910-3.patch        |  28 ++++
+ .../libsoup/libsoup-2.4/CVE-2025-32912.patch  |  32 ++++
+ .../libsoup/libsoup-2.4/CVE-2025-32914.patch  |  36 +++++
+ .../libsoup/libsoup-2.4/CVE-2025-4476.patch   |  38 +++++
+ .../libsoup/libsoup-2.4/CVE-2025-46420.patch  |  61 +++++++
+ .../libsoup/libsoup-2.4/CVE-2025-46421.patch  |  48 ++++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |  20 ++-
+ 19 files changed, 976 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52531-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52531-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32050.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32052.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32053.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32906.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32909.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32910-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32910-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32910-3.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32912.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32914.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4476.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46420.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46421.patch
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 5c6a30635f..21b42fba91 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -78,6 +78,7 @@ PTESTS_FAST:remove:riscv32 = "qemu-ptest"
- PTESTS_PROBLEMS:append:riscv32 = " qemu-ptest"
- 
- PTESTS_SLOW = "\
-+    curl-ptest \
-     babeltrace-ptest \
-     babeltrace2-ptest \
-     busybox-ptest \
-diff --git a/meta/recipes-support/curl/curl/disable-tests b/meta/recipes-support/curl/curl/disable-tests
-new file mode 100644
-index 0000000000..64d59d0d8e
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/disable-tests
-@@ -0,0 +1,37 @@
-+# Intermittently fails e.g. https://autobuilder.yocto.io/pub/non-release/20231220-28/testresults/qemux86-64-ptest/curl.log
-+# https://autobuilder.yocto.io/pub/non-release/20231220-27/testresults/qemux86-64-ptest/curl.log
-+337
-+# These CRL test (alt-avc) are failing
-+356
-+# These were failing kirkstone version when adding ptest
-+418
-+722
-+# These CRL tests are scanning docs
-+971
-+# Intermittently hangs e.g http://autobuilder.yocto.io/pub/non-release/20231228-18/testresults/qemux86-64-ptest/curl.log
-+1091
-+# Intermittently hangs e.g https://autobuilder.yocto.io/pub/non-release/20231220-27/testresults/qemux86-64-ptest/curl.log
-+1096
-+# These CRL tests are scanning docs
-+1119
-+1132
-+1135
-+# These CRL tests are scanning headers
-+1167
-+# These CRL tests are scanning man pages
-+1139
-+1140
-+1173
-+1177
-+# This CRL test is looking for m4 files
-+1165
-+# This CRL test is looking for src files
-+1185
-+# These CRL tests need --libcurl option to be enabled
-+1400
-+1401
-+1402
-+1403
-+1404
-+1405
-+1465
-diff --git a/meta/recipes-support/curl/curl/run-ptest b/meta/recipes-support/curl/curl/run-ptest
-new file mode 100644
-index 0000000000..5e8d90087a
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/run-ptest
-@@ -0,0 +1,13 @@
-+#!/bin/sh
-+
-+cd tests
-+
-+# Run all tests, don't stop on first failure
-+# Don't use valgrind if it is found
-+# Use automake-style output
-+# Run four tests in parallel
-+# Print log output on failure
-+
-+# Don't run the flaky or timing dependent tests
-+# Until https://github.com/curl/curl/issues/13350 is resolved, don't run FTP tests
-+./runtests.pl -a -n -am -p !flaky !timing-dependent !FTP
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index cda42da4d3..e10193140c 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -10,6 +10,8 @@ LICENSE = "curl"
- LIC_FILES_CHKSUM = "file://COPYING;md5=190c514872597083303371684954f238"
- 
- SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-+           file://run-ptest \
-+           file://disable-tests \
-            file://CVE-2022-22576.patch \
-            file://CVE-2022-27775.patch \
-            file://CVE-2022-27776.patch \
-@@ -74,7 +76,7 @@ CVE_CHECK_IGNORE += "CVE-2023-42915"
- # ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack
- CVE_CHECK_IGNORE += "CVE-2024-32928"
- 
--inherit autotools pkgconfig binconfig multilib_header
-+inherit autotools pkgconfig binconfig multilib_header ptest
- 
- # Entropy source for random PACKAGECONFIG option
- RANDOM ?= "/dev/urandom"
-@@ -139,6 +141,47 @@ do_install:append:class-target() {
- 	    ${D}${bindir}/curl-config
- }
- 
-+do_compile_ptest() {
-+	oe_runmake -C ${B}/tests
-+}
-+
-+do_install_ptest() {
-+	cat  ${WORKDIR}/disable-tests >> ${S}/tests/data/DISABLED
-+	rm -f ${B}/tests/configurehelp.pm
-+	cp -rf ${B}/tests ${D}${PTEST_PATH}
-+        rm -f ${D}${PTEST_PATH}/tests/libtest/.libs/libhostname.la
-+        rm -f ${D}${PTEST_PATH}/tests/libtest/libhostname.la
-+        mv ${D}${PTEST_PATH}/tests/libtest/.libs/* ${D}${PTEST_PATH}/tests/libtest/
-+        mv ${D}${PTEST_PATH}/tests/libtest/libhostname.so ${D}${PTEST_PATH}/tests/libtest/.libs/
-+	cp -rf ${S}/tests ${D}${PTEST_PATH}
-+	find ${D}${PTEST_PATH}/ -type f -name Makefile.am -o -name Makefile.in -o -name Makefile -delete
-+	install -d ${D}${PTEST_PATH}/src
-+	ln -sf ${bindir}/curl   ${D}${PTEST_PATH}/src/curl
-+	cp -rf ${D}${bindir}/curl-config ${D}${PTEST_PATH}
-+}
-+
-+RDEPENDS:${PN}-ptest:append:libc-glibc = " \
-+    locale-base-en-us \
-+"
-+
-+RDEPENDS:${PN}-ptest += " \
-+	bash \
-+	perl-module-b \
-+	perl-module-base \
-+	perl-module-cwd \
-+	perl-module-digest \
-+	perl-module-digest-md5 \
-+	perl-module-file-basename \
-+	perl-module-file-spec \
-+	perl-module-file-temp \
-+	perl-module-io-socket \
-+	perl-module-ipc-open2 \
-+	perl-module-list-util \
-+	perl-module-memoize \
-+	perl-module-storable \
-+	perl-module-time-hires \
-+"
-+
- PACKAGES =+ "lib${BPN}"
- 
- FILES:lib${BPN} = "${libdir}/lib*.so.*"
 -- 
-2.39.5
+2.34.1
 
 
