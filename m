@@ -1,184 +1,95 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A1F4C5B549
-	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 13:04:06 +0000 (UTC)
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
- by mx.groups.io with SMTP id smtpd.web10.5464.1748610245029010165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 416B1C5B543
+	for <webhook@archiver.kernel.org>; Fri, 30 May 2025 13:11:36 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web11.2338.1748595632572998801
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 May 2025 06:04:05 -0700
+ Fri, 30 May 2025 02:00:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stwcx.xyz header.s=fm3 header.b=dvx2FDwW;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=rIpKEEeT;
- spf=pass (domain: stwcx.xyz, ip: 202.12.124.151, mailfrom: patrick@stwcx.xyz)
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfout.stl.internal (Postfix) with ESMTP id 1ECEF1140153;
-	Fri, 30 May 2025 09:04:04 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Fri, 30 May 2025 09:04:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1748610243; x=1748696643; bh=c50RG1m2BZ
-	zfmjmp7/4i0YSOcVEnF6vAcXgqFpM62Ho=; b=dvx2FDwWHtsJQ+F9WZhV1yiTEO
-	iWJ1TaJYB/q/kqLK/6F5+HrLyXlCYsLo7NUyeeaUfv91q4IO4VJ8YwJFcF/QqR/H
-	JhUpZp5E9Jp84enRigRJBzxqht0ArXwr+lUKV02YY21oG6MUYKZyN4xNMsy8Y37H
-	VAJOr/tPn1eWBwS60dDk2OdLpThQsvvB+iFoUrydmIPThJTyamEwvWe8CPSwB8hY
-	sL4q2uBU/JfD1X5GP448bCIi4zahxtop+ICmjBMpExUiDu9KcUdDouVvOUcAC100
-	9ZnJbolbhrkm6gCIcxsO+tZJvGOHuZOvmNhAbOXADjHZxg4gfJN3s0TEF97A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1748610243; x=1748696643; bh=c50RG1m2BZzfmjmp7/4i0YSOcVEnF6vAcXg
-	qFpM62Ho=; b=rIpKEEeT7lI+ijrlsZhDttc3VZj9bWBWgBTmMwLKG4RCw3UcN6w
-	fAjlQ8u4AnQb1ArCNY9MU+g43GZCWwW5jpL9h/Yf7bCgRWylQfcJF7k5vUKyyDM9
-	By48rg3KbDvN1RVisVtkx6CS6Ihmz5s96QZ6Q0t24BSoMnC3VavtoQtaHEAA6PUX
-	jh3XO40foc/KpTyfMGqm1jNLMHbxg7CRXeSokjIWPgBlwxf3SHaEV2kxJBd0RnHf
-	PTDaUlKEl2Nk0F7BxYHWm47IfqpX055n5gkM8S9UCPP8C5Shgq9gceSL7ixU0phL
-	GORBGpeDqoxyNHaORh/zS/WSJY8kfPJkOMg==
-X-ME-Sender: <xms:w6w5aCoNjh-lqyyszde_ivANy3thxbkn9FQa0poaF7fsYvnwQGrIjw>
-    <xme:w6w5aApz_eVb1O26KVztaKQDsVerapi7l2KTOtqAD7KFXY8CPLz129mA-Mi3FcjLa
-    p0EBWGAHwoQP2g-5PM>
-X-ME-Received: <xmr:w6w5aHNP3VI0IK-y9xNVu0rzvq6zAtDuC_ghc8m3K4J-6gsTqKgQjxJ6TEY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvledtkeculddtuddrgeefvddrtd
-    dtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggft
-    fghnshhusghstghrihgsvgdpuffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftd
-    dtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfghrlhcuvffnffculdefhedm
-    necujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomheprfgrth
-    hrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhesshhtfigtgidrgiihiieqnecu
-    ggftrfgrthhtvghrnhepjefgtdelledvfedtgeegffefueefveegjeekleegueejveevue
-    efiefgiedvjeejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghr
-    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftg
-    igrdighiiipdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopegrlhgvgidrkhgrnhgrvhhinhesghhmrghilhdrtghomhdprhgtphhtthhopehoph
-    gvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdr
-    ohhrghdprhgtphhtthhopehmnhhssehgohhmshhprggtvgdrtghomhdprhgtphhtthhope
-    hmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhm
-X-ME-Proxy: <xmx:w6w5aB6Sg1oD_JJBKFAiH785xDbIg4w7c5cyl1KBanlMmcdDCtG9FQ>
-    <xmx:w6w5aB7vN7NAuwr5ACORosup1wtdR2JWXgrg0Zt4KQ0IDSnrRyOzsg>
-    <xmx:w6w5aBhgNIQcMoQrZvqCVaUm1TgeJHHsKAQ34gWj55RTeJwdynN6OQ>
-    <xmx:w6w5aL4LYDF1XZA8yIzp8Do9oCpqCT2_600ZnxrOl8M3nHS_Qfw8uw>
-    <xmx:w6w5aGKb-XIwd0BXnMc3fANpRBUmPYxDVzSW5Rg5t1QWpL2rSXJydmYJ>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 30 May 2025 09:04:03 -0400 (EDT)
-Date: Fri, 30 May 2025 09:04:02 -0400
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Martin Siegumfeldt <mns@gomspace.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: Re: [OE-core] [PATCH] systemd.bbclass: fix postinst for real
- systemd-systemctl-native
-Message-ID: <aDmswtbTZ-Yd_GsF@heinlein>
-References: <20250528035625.1262266-1-patrick@stwcx.xyz>
- <CANNYZj_5Wbvx0p54pqvnpHuOAX+nhpQenZKzn1YEduDs=tf2ag@mail.gmail.com>
- <aDdoTVtCmElpURYD@heinlein>
- <CANNYZj90G4sbA7LY06DjmqXnnU9UQ=vMKD22XzcRHbvDu87m4A@mail.gmail.com>
+ dkim=pass header.i=@salwatorska.pl header.s=google header.b=ewRvzEdz;
+ spf=pass (domain: salwatorska.pl, ip: 209.85.218.54, mailfrom: marcin.bajer@salwatorska.pl)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ad55d6aeb07so278747066b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 02:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=salwatorska.pl; s=google; t=1748595630; x=1749200430; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lhurWsfxHph1mL+gss+TZvZmgw+ES2d7jGupwpMm2+8=;
+        b=ewRvzEdzrozhBz8r6rQp109zlqtPccQRv1ZrTE653wISwweNt8tU2m6vFt+xeYu8RV
+         ntZGv5ayVdgZdWoXIPHiBlzP+6Yens2jbKRuJjH52+DEm3R5lvUqu5cWFQqMA0NONiRO
+         9Ymn78UpHolfdMvDXl3B13sE6LYedU8ZLO6IuFe2CRU2ouLeBAIis3lsM7oAeCeF4LRN
+         GcJkoaToW3sdRtI/OJ967M1vFiH4X1zapNzjvF+22nukGnFTalDX69XoEXH5gJatVPkL
+         bq5J4kji3EumBImEijVTbnAQxa7Xsm70Q48MdGQwJw5kPE25uqQWqhvOoKLGb2i7xcV3
+         YVEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748595630; x=1749200430;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lhurWsfxHph1mL+gss+TZvZmgw+ES2d7jGupwpMm2+8=;
+        b=ucr28rTVpQTRUYXmYnPpemVn8s4pFEnVSny6y8bR78DFgZjzBVBnRi5vgL+8cM/xTM
+         8oKAoBBJDhSQd7oQzPbBLSH3hrPHcqQ46aokAs4D/gOqpdfbTb7Fllv2w50FOiUTyQww
+         F6K84WJaaIquEghnRKhLOwgPEhT1BETgiIdWxMtJPVvmT35/79VH+DVm++sIbBJv2G38
+         TzK28R+oiY6DKopOtM379igd8WI+WX3Fzd1vyQZUC1A48JTbiogBDLMI1xMEBtnjuxQq
+         0rgOV/3IvLH4NOFFu776jiKywmk1TL/INmHIi7SJX2nYKiUakpSPWwKjxenuViWhFKUr
+         qhYw==
+X-Gm-Message-State: AOJu0YyUbolbUn2J8QZOZRVfCOtzeo0dhOsGEZ/l8s5ANAAMRBjIB+ez
+	aywA/2VD7EaBLFsD1bTapERgEiwmQP9vxR8wGMZxx4O/0rN0kcXbzpTBqgQbmRAeC/38ZI7UI5Q
+	/jXpn
+X-Gm-Gg: ASbGncs14enfvo66SjhOXtGZ/ubXJlMOoiXjN/hakUwCFlBsYYwBiSsdkplKuYb3SY0
+	0BGY2mA9taXv0wef/JTu3wPYa1A3VCxnBNchokOCzljHYSY4ZpKWyrvU6gMNyKURKF586/Masp6
+	llmIXH/qVfLoV56s74YiOteMco5TGVzEetN8JjExXxuF2gwUIzaD/b/K0Qg0WDspfDAlnzY56U0
+	fcM/lqUF+ZfDXS40y1ay8Sai54jYZA+gEFXHTEKqlJ1huSddvPVjaGWaAO7TtUM+Md83XTKBq0U
+	iHhaa69zuM3iwzXIZe/SibnUY1gTu9vKVtGx5gBSUCnpUFtCm0llhhnal3j7LKg3+1XDD1EjII7
+	IXeSxGB10m64KiR8N/Yk=
+X-Google-Smtp-Source: AGHT+IHbVpCmgSzRlfaSGYhFWWmKDQh9BqlsThGE2FS8UEXkG0rROTjp+Gx3a1TEnu/OALkq1pRm9Q==
+X-Received: by 2002:a17:907:9450:b0:ad8:9e5b:9217 with SMTP id a640c23a62f3a-adb36bfb683mr121143666b.45.1748595630118;
+        Fri, 30 May 2025 02:00:30 -0700 (PDT)
+Received: from plmabaj-ThinkPad-P15v-Gen-3.. ([89.171.129.30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5dd045edsm284179966b.119.2025.05.30.02.00.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 May 2025 02:00:29 -0700 (PDT)
+From: Marcin Bajer <marcin.bajer@salwatorska.pl>
+To: openembedded-core@lists.openembedded.org
+Cc: Marcin Bajer <marcin.bajer@salwatorska.pl>
+Subject: [meta-oe][PATCH] signing: export rule specific environment variables with Digicert infrastructure
+Date: Fri, 30 May 2025 11:00:19 +0200
+Message-Id: <20250530090019.668412-1-marcin.bajer@salwatorska.pl>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="W8lTj35x7gJrKL/V"
-Content-Disposition: inline
-In-Reply-To: <CANNYZj90G4sbA7LY06DjmqXnnU9UQ=vMKD22XzcRHbvDu87m4A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 13:04:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217504
+ <openembedded-core@lists.openembedded.org>; Fri, 30 May 2025 13:11:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217505
 
+Digicert cloud HSM requires more variables to be exported i.e. `SM_HOST`, `SM_API_KEY`, `SM_CLIENT_CERT_FILE`. The signing provides might inject needed configuration to `meta-signing.env.d` directory in form of *.env files. In exisiting code in `signing_prepare` call source all *.env files from `meta-signing.env.d` this allows to export only variables common for all signing rules. In case, unique settings per signing rule are needed those are overwritten (sourcing next file will overwrite previously defined variables). Proposed patch allows to export signing `rule` specific variables. For example to set SM_API_KEY for rauc rule it is needed to defined in env file as `export SIGNING_PKCS11_SM_API_KEY_rauc_=abcde` . Added logic remove prefix SIGNING_PKCS11_ and surfix _rauc_ end export the variable.
+---
+ meta-oe/classes/signing.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
---W8lTj35x7gJrKL/V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta-oe/classes/signing.bbclass b/meta-oe/classes/signing.bbclass
+index f52d861b76..cefd115355 100644
+--- a/meta-oe/classes/signing.bbclass
++++ b/meta-oe/classes/signing.bbclass
+@@ -263,6 +263,12 @@ signing_prepare() {
+ signing_prepare[vardeps] += "signing_get_uri signing_get_module"
+ 
+ signing_use_role() {
++
++    #import all variables dedicated to this signing rule    
++    for env in $(ls "${STAGING_DIR_NATIVE}/var/lib/meta-signing.env.d"); do
++        eval $(cat ${STAGING_DIR_NATIVE}/var/lib/meta-signing.env.d/$env | grep "^export SIGNING_PKCS11_.*_${1}_" | sed -e "s/SIGNING_PKCS11_//" -e "s/_${1}_//" )
++    done
++    
+     local role="${1}"
+ 
+     export PKCS11_MODULE_PATH="$(signing_get_module $role)"
+-- 
+2.34.1
 
-On Fri, May 30, 2025 at 01:19:25PM +0200, Alexander Kanavin wrote:
-> On Wed, 28 May 2025 at 21:47, Patrick Williams <patrick@stwcx.xyz> wrote:
->=20
-> > Walnascar is currently broken for template services and so is master.
-> > My suggestion would be:
-> >
-> >    - Revert 7a580800db39 in walnascar.
-> >    - Improve systemd_create_presets to handle template services in mast=
-er.
-> >    - [Maybe] fix all the services failing per Mathieu on master.
-> >    - [Maybe] apply this change so that `systemd_postinst` runs
-> >              as it use to.
->=20
-> Thanks, I appreciate you digging into the issue.
-
-Thank you for the feedback Alex.
-
-> That said, the plan to fix it needs to be reordered. We have a strict
-> policy of fixing issues in master first, for good reason. Also,
-> backporting the fixes to stable branches is much easier to get
-> accepted than major reverts like that.
-
-Agreed.  I tried to do a simple revert locally and it had conflicts
-already.  It was easier to just do the needful in
-systemd_create_presets.
-
-This is done and ready for feedback:
-    https://lore.kernel.org/openembedded-core/20250529174427.2731440-1-patr=
-ick@stwcx.xyz/T/#u
-
-> Also, if something currently quietly fails in poky-altcfg (it wasn't
-> entirely clear from your analysis), then the fix shouldn't just
-> address the issue, it should also make any possible fail a loud and
-> hard one. So it doesn't quietly regress again.
-
-poky-altcfg does not currently fail (or fail to perform).
-    - There are no template instances in any package in poky-altcfg that
-      rely on the use of SYSTEMD_SERVICE.
-    - The only template instance in poky-altcfg is created manually with
-      symlinks (see `systemd-serialgetty.bb:do_install`).
-
-This problem only affects template instances:=20
-    SYSTEMD_SERVICE =3D "foo@bar.service" # Template instance
-    SYSTEMD_SERVICE =3D "foo.service" # Non-template instance
-
-Prior to 7a580800db39, template instances listed in SYSTEMD_SERVICE
-would have been enabled by the systemd_postinst hook that called [fake]
-systemctl.  After 7a580800db39, the systemd_postinst hook silently
-skips.
-
-Prior to 7a580800db39, non-template instances listed in SYSTEMD_SERVICE
-were enabled by systemd_create_presets files (and also duplicatively
-enabled by systemd_postinst).  After 7a580800db39, non-template
-instances are enabled only by the systemd_create_presets.
-
-With my change linked above, the template instances will be enabled by
-systemd_create_presets as well.  Thus all instances (template or not) will =
-be
-handled by systemd_create_presets, and the systemd_postinst hook only has
-effect when installing via an RPM and not when building a rootfs.
-entirely.
-
---=20
-Patrick Williams
-
---W8lTj35x7gJrKL/V
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmg5rMAACgkQqwNHzC0A
-wRlpbA/9HEY8HWbU3PH2IXCpKvzALWZP+sismV+Xc1/I579uzXsH8e9eee/gFLhk
-WSVcheosSt0kg9q1oZQ7PbuUbaEdZPDkK/uxJTc8cd7h77Obs4vkfZ+Cup52jYVC
-HXtzdx/fsRZmb6BFqCYc+R9CsbC+Z6hfRDGskNRm+IbyQuJGfLlDnsGq3+56LGkk
-8jcFj1sgRlCG2BJNVg5O4itQujBGuayKvuHzrV9vyeB7zwmXB5qnLN+ROB5j2j21
-camJ+MtW7UjiZewvTMR4CfKv58GSV0n1A0PQWfaQNO8Zb5pZUP3k3i5V8cqNqPpc
-mLVmExqMtYoniXAfJObDY7bSQPkZeXVxEJt0aqPLYfwBugm4+FM3Z/HgULE+1IH+
-5/UWg8FyGommcvI2MfQqKmWajBhoDjHzubOGQI1IMhhHHrFdClt5jrAfLtLp0SZH
-XRI1+5wc/SvCIpI994m7v7Ao2A0OFwSJrrdIYEYKpi0JrhDxRTnkO72weoEO5N87
-Uv16xAK7KovPRUA02kjzEkZXDtt/fPTQbfRMfS2BAzJziSaFkfMGGj+/L0f/xSyq
-Sphe3fBAHtbOFZvPHuvEOMYVet3VeCMJ8m/IBbXXsr18Vs8tOh6wrtacnqRlthVq
-d0fUVEWhdspDh5oEEWffOg8qv7lZhARLW15SZavTBqvL2DvXtao=
-=4EL/
------END PGP SIGNATURE-----
-
---W8lTj35x7gJrKL/V--
 
