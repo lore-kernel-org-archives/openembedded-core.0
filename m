@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88EF3C71132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C734EC8300F
 	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:56 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.27782.1748786120552370013
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.27804.1748786147994251828
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jun 2025 06:55:55 -0700
+ Sun, 01 Jun 2025 06:55:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=CJ9ILfqd;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BME0Tikf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101972bc70d9c-2fb30f68-6c8c-4e91-bc18-9b0ca10a7659-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=yKW+kJqY;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=MPFKrK4w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101972bc7077a-0a13daab-c690-4678-b7ff-15bb73fa4033-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1748786155;
+	t=1748786153;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=YtN1W3UMmEjdDXzv1tihR/IiSsUjearNUiXyYLiAxks=;
-	b=CJ9ILfqd+goyZYC9jB+EaVZkIzAW3KPTiyHLldfXHExONEj/AvvNG0ZkpV1qXtZd
-	zy+ma/xl04TztzFnVevFLJOMttQfDDQ0UORUcwdATCGPHv2aHD69QHEXVwvMRZedW4u
-	PrfqyYNQvVqSWUxSN2nWhhNkeYaJCfJvZDmHZyXA=
+	bh=qPAhuzT7VzlfGynLjbzor6wwMYMnBFB++Atn6iQ1tzQ=;
+	b=yKW+kJqYazTLigBOmFht7AxENciQVgY+I2H95Yjede5ZL9tRLsp9PsRn48udbi2W
+	9sCH9/I+ocSSY3oFahh0GUItGj8TLey/0JCq4iQZPyuJIrzBznakQZdmaQro4ksMU4a
+	19TD/j3GiVsjVq6cq1NhtErvO/hBO6EwxM5k41fw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786155;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786153;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=YtN1W3UMmEjdDXzv1tihR/IiSsUjearNUiXyYLiAxks=;
-	b=BME0TikfUWt49yXCQBArYHIVt+7KQmeByXkq7pWeGzohqwb/vCBXOfI6u31k31Le
-	Q54KlewqlVLQHzWQxjYqwNr/wiLF2AS0OeK5qRN4X11H/WMbhm5u6YH4/KDgoEYA7wO
-	y8S4BWyZztkPu5agLWyLi+gH+44T9GM/twDYwnz0=
-Content-Type: multipart/mixed; boundary="===============5359115727552975582=="
+	bh=qPAhuzT7VzlfGynLjbzor6wwMYMnBFB++Atn6iQ1tzQ=;
+	b=MPFKrK4wFgFGNSUqOfgf0xE8iM6d2Kj6drlRk3B6vydtuF4OmZSXpw7WRI1/loNL
+	yDPOgVsP1RctK1WApmpSnA4ufjOxvbNrfjOk3UbmnLS0R9o0Qn4Wi/wzyz/PjbzmMeQ
+	hu72iKK4mTVH5UGMM2VeCInnrNxg2PBV/L6CqBMQ=
+Content-Type: multipart/mixed; boundary="===============8612662286601963957=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] liburcu: upgrading to 0.15.3 SUCCEEDED
-Message-ID: <010101972bc70d9c-2fb30f68-6c8c-4e91-bc18-9b0ca10a7659-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jun 2025 13:55:54 +0000
+Subject: [AUH] gpgme: upgrading to 1.24.3 SUCCEEDED
+Message-ID: <010101972bc7077a-0a13daab-c690-4678-b7ff-15bb73fa4033-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jun 2025 13:55:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.01-54.240.27.31
+X-SES-Outgoing: 2025.06.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217673
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217667
 
---===============5359115727552975582==
+--===============8612662286601963957==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *liburcu* to *0.15.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gpgme* to *1.24.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-liburcu-upgrade-0.15.2-0.15.3.patch
+    - apply the patch: git am 0001-gpgme-upgrade-1.24.2-1.24.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,60 +72,183 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6c1c424e2ff127b41ec6df468cab686236a0c64a Mon Sep 17 00:00:00 2001
+From 5d24d8334f43afd830625e0c545f603899510ce9 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Jun 2025 13:48:45 +0000
-Subject: [PATCH] liburcu: upgrade 0.15.2 -> 0.15.3
+Date: Sun, 1 Jun 2025 13:39:49 +0000
+Subject: [PATCH] gpgme: upgrade 1.24.2 -> 1.24.3
 
 ---
- .../liburcu/{liburcu_0.15.2.bb => liburcu_0.15.3.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/liburcu/{liburcu_0.15.2.bb => liburcu_0.15.3.bb} (91%)
+ ...Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch | 2 +-
+ .../gpgme/0001-autogen.sh-remove-unknown-in-version.patch     | 2 +-
+ meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch         | 4 ++--
+ .../gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch  | 2 +-
+ .../gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch    | 2 +-
+ ...gpgme-lang-python-gpg-error-config-should-not-be-use.patch | 2 +-
+ .../gpgme/gpgme/0003-Correctly-install-python-modules.patch   | 2 +-
+ ...gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch | 2 +-
+ .../gpgme/gpgme/0006-fix-build-path-issue.patch               | 2 +-
+ .../gpgme/{gpgme_1.24.2.bb => gpgme_1.24.3.bb}                | 2 +-
+ 10 files changed, 11 insertions(+), 11 deletions(-)
+ rename meta/recipes-support/gpgme/{gpgme_1.24.2.bb => gpgme_1.24.3.bb} (97%)
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.15.2.bb b/meta/recipes-support/liburcu/liburcu_0.15.3.bb
-similarity index 91%
-rename from meta/recipes-support/liburcu/liburcu_0.15.2.bb
-rename to meta/recipes-support/liburcu/liburcu_0.15.3.bb
-index 93d6a6551f..fb4e457719 100644
---- a/meta/recipes-support/liburcu/liburcu_0.15.2.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.15.3.bb
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=c2a92498b6e88e276f986877995425b8 \
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
+index 2a906a6c73..bc929c6fd4 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
+@@ -1,4 +1,4 @@
+-From 95d0bae453b2b5a7d25b92d99565d27407fffa1b Mon Sep 17 00:00:00 2001
++From 094c572513c25fdf3b5b7fb61a750e1bc4940b92 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Fri, 10 May 2019 14:18:04 +0800
+ Subject: [PATCH] Revert "build: Make gpgme.m4 use gpgrt-config with *.pc."
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
+index 890909dd5e..d820c3b1bc 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
+@@ -1,4 +1,4 @@
+-From 0bb7fddb6a768bbc46695de4c6e0256a3580ccbb Mon Sep 17 00:00:00 2001
++From 69e1274782db6b73476b00f204dc0d6153c8ca59 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 26 Nov 2024 23:23:42 -0800
+ Subject: [PATCH] autogen.sh: remove '-unknown' in version
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
+index 9d0b4b282b..f0fbd33ae7 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
+@@ -1,4 +1,4 @@
+-From 447fd26a43f40ccb071cd19198ee43fdfce87e3a Mon Sep 17 00:00:00 2001
++From 8e82311951950d20c98f1ed257d3e04f6f62d64f Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 26 Nov 2024 23:04:52 -0800
+ Subject: [PATCH] pkgconfig
+@@ -27,7 +27,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  create mode 100644 src/gpgme-pthread.pc.in
  
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+ diff --git a/configure.ac b/configure.ac
+-index c34f700..4eddc3d 100644
++index 6fd5b4b..62f682d 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -1176,6 +1176,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
+index 932fb9c962..73bac531ca 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
+@@ -1,4 +1,4 @@
+-From 417036051c84b02fe43f162ee378278a44636451 Mon Sep 17 00:00:00 2001
++From 31c7992ccd4494060ef5becf903ed772e8320796 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 15 Dec 2022 08:44:13 -0800
+ Subject: [PATCH] posix-io.c: Use off_t instead of off64_t
+diff --git a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
+index ed2edabd63..0ed200a179 100644
+--- a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
++++ b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
+@@ -1,4 +1,4 @@
+-From aaed03b76505b1feaeeb5a4a3c6bdcc7dd089f01 Mon Sep 17 00:00:00 2001
++From 8b397a62dfecf2334b3f3140ab180b9216fcb883 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 15 Jul 2021 12:33:13 -0700
+ Subject: [PATCH] use closefrom() on linux and glibc 2.34+
+diff --git a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
+index 3a1837e857..6fb175d22b 100644
+--- a/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
++++ b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
+@@ -1,4 +1,4 @@
+-From 145adf290571b7dd47b7fca57b11349af0b94e74 Mon Sep 17 00:00:00 2001
++From 5ac7f9be801465ce0d4119f7a966d160417c2c9f Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Fri, 10 May 2019 14:30:36 +0800
+ Subject: [PATCH] gpgme/lang/python: gpg-error-config should not be used
+diff --git a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
+index 7b2831ba4f..334224ed07 100644
+--- a/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
++++ b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
+@@ -1,4 +1,4 @@
+-From d8e884d1fa8c35ce68e94a0668548580cf5ba2d3 Mon Sep 17 00:00:00 2001
++From e48281e517b81e2f3ba952be6102679e9b1ac5eb Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 30 Jan 2018 15:28:49 +0800
+ Subject: [PATCH] Correctly install python modules
+diff --git a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
+index c021e48be9..b4a64661f2 100644
+--- a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
++++ b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
+@@ -1,4 +1,4 @@
+-From 9ea685f1b898ee703b85b705c35b9cbd77cca17f Mon Sep 17 00:00:00 2001
++From 93b5b7cfefaa572b5c47fba01dcd294f827da771 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 13 Apr 2017 16:40:27 +0300
+ Subject: [PATCH] gpgme-config: skip all /lib* or /usr/lib* directories in
+diff --git a/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
+index d64168b4fd..766a8a6f76 100644
+--- a/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
++++ b/meta/recipes-support/gpgme/gpgme/0006-fix-build-path-issue.patch
+@@ -1,4 +1,4 @@
+-From f9f82874048c5eec08e815ff871462184b6d7d6a Mon Sep 17 00:00:00 2001
++From 651a7831eb2421e0bbe02769d10617f1bef38a64 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 31 Jan 2018 11:01:09 +0800
+ Subject: [PATCH] fix build path issue
+diff --git a/meta/recipes-support/gpgme/gpgme_1.24.2.bb b/meta/recipes-support/gpgme/gpgme_1.24.3.bb
+similarity index 97%
+rename from meta/recipes-support/gpgme/gpgme_1.24.2.bb
+rename to meta/recipes-support/gpgme/gpgme_1.24.3.bb
+index bc661429e7..64e3c6635a 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.24.2.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.24.3.bb
+@@ -29,7 +29,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
+            file://0001-autogen.sh-remove-unknown-in-version.patch \
+            "
  
--SRC_URI[sha256sum] = "59f36f2b8bda1b7620a7eced2634f26c549444818a8313025a3bb09c0766a61d"
-+SRC_URI[sha256sum] = "26687ec84e3e114759454c884a08abeaf79dec09b041895ddf4c45ec150acb6d"
+-SRC_URI[sha256sum] = "e11b1a0e361777e9e55f48a03d89096e2abf08c63d84b7017cfe1dce06639581"
++SRC_URI[sha256sum] = "bfc17f5bd1b178c8649fdd918956d277080f33df006a2dc40acdecdce68c50dd"
  
- S = "${WORKDIR}/userspace-rcu-${PV}"
- inherit autotools multilib_header
+ PYTHON_DEPS = "${@bb.utils.contains('LANGUAGES', 'python', 'swig-native', '', d)}"
+ 
 -- 
 2.47.1
 
 
---===============5359115727552975582==
+--===============8612662286601963957==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/liburcu: SRC_URI changed from "http://lttng.org/files/urcu/userspace-rcu-0.15.2.tar.bz2" to "http://lttng.org/files/urcu/userspace-rcu-0.15.3.tar.bz2"
-packages/core2-64-poky-linux/liburcu: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
-packages/core2-64-poky-linux/liburcu: PV changed from "0.15.2" to "0.15.3"
-packages/core2-64-poky-linux/liburcu/liburcu-dbg: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-dbg: PV changed from "0.15.2" to "0.15.3"
-packages/core2-64-poky-linux/liburcu/liburcu-dev: PKGSIZE changed from 361909 to 362025 (+0%)
-packages/core2-64-poky-linux/liburcu/liburcu-dev: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-dev: PV changed from "0.15.2" to "0.15.3"
-packages/core2-64-poky-linux/liburcu/liburcu-doc: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-doc: PV changed from "0.15.2" to "0.15.3"
-packages/core2-64-poky-linux/liburcu/liburcu-locale: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-locale: PV changed from "0.15.2" to "0.15.3"
-packages/core2-64-poky-linux/liburcu/liburcu-src: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-src: PV changed from "0.15.2" to "0.15.3"
-packages/core2-64-poky-linux/liburcu/liburcu-staticdev: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
-packages/core2-64-poky-linux/liburcu/liburcu-staticdev: PV changed from "0.15.2" to "0.15.3"
-packages/core2-64-poky-linux/liburcu/liburcu: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
-packages/core2-64-poky-linux/liburcu/liburcu: PV changed from "0.15.2" to "0.15.3"
+packages/core2-64-poky-linux/gpgme/gpgme-cpp: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/gpgme-cpp: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme/gpgme-cpp: FILELIST: removed "/usr/lib/libgpgmepp.so.6.21.2", added "/usr/lib/libgpgmepp.so.6.21.3"
+packages/core2-64-poky-linux/gpgme/gpgme-dbg: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/gpgme-dbg: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme/gpgme-dbg: FILELIST: removed "/usr/lib/.debug/libgpgmepp.so.6.21.2", added "/usr/lib/.debug/libgpgmepp.so.6.21.3"
+packages/core2-64-poky-linux/gpgme/gpgme-dbg: PKGSIZE changed from 7932136 to 7956544 (+0%)
+packages/core2-64-poky-linux/gpgme/gpgme-dev: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/gpgme-dev: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme/gpgme-doc: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/gpgme-doc: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme/gpgme-doc: FILELIST: removed "/usr/share/man/man1/gpgme-json.1"
+packages/core2-64-poky-linux/gpgme/gpgme-doc: PKGSIZE changed from 483312 to 481728 (-0%)
+packages/core2-64-poky-linux/gpgme/gpgme-locale: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/gpgme-locale: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme/gpgme-src: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/gpgme-src: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme/gpgme-staticdev: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/gpgme-staticdev: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme/gpgme-tool: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/gpgme-tool: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme/gpgme: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/gpgme: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+packages/core2-64-poky-linux/gpgme: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.24.2.tar.bz2 file://0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch file://0001-pkgconfig.patch file://0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch file://0003-Correctly-install-python-modules.patch file://0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch file://0006-fix-build-path-issue.patch file://0001-use-closefrom-on-linux-and-glibc-2.34.patch file://0001-posix-io.c-Use-off_t-instead-of-off64_t.patch file://0001-autogen.sh-remove-unknown-in-version.patch" to "https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.24.3.tar.bz2 file://0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch file://0001-pkgconfig.patch file://0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch file://0003-Correctly-install-python-modules.patch file://0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch file://0006-fix-build-p
+ ath-issue.patch file://0001-use-closefrom-on-linux-and-glibc-2.34.patch file://0001-posix-io.c-Use-off_t-instead-of-off64_t.patch file://0001-autogen.sh-remove-unknown-in-version.patch"
+packages/core2-64-poky-linux/gpgme/python3-gpg: PV changed from "1.24.2" to "1.24.3"
+packages/core2-64-poky-linux/gpgme/python3-gpg: PKGV changed from 1.24.2 [default] to 1.24.3 [default]
+Changes to packages/core2-64-poky-linux/gpgme (sysroot):
+  /usr/lib/libgpgmepp.so.6 changed symlink target from libgpgmepp.so.6.21.2 to libgpgmepp.so.6.21.3
+  /usr/lib/libgpgmepp.so changed symlink target from libgpgmepp.so.6.21.2 to libgpgmepp.so.6.21.3
+  /usr/lib/libgpgmepp.so.6.21.2 moved to /usr/lib/libgpgmepp.so.6.21.3
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2049,42 +2172,173 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============5359115727552975582==
+--===============8612662286601963957==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-liburcu-upgrade-0.15.2-0.15.3.patch"
+ filename="0001-gpgme-upgrade-1.24.2-1.24.3.patch"
 
-RnJvbSA2YzFjNDI0ZTJmZjEyN2I0MWVjNmRmNDY4Y2FiNjg2MjM2YTBjNjRhIE1vbiBTZXAgMTcg
+RnJvbSA1ZDI0ZDgzMzRmNDNhZmQ4MzA2MjVlMGM1NDVmNjAzODk5NTEwY2U5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAxMzo0ODo0NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnVyY3U6IHVwZ3JhZGUgMC4xNS4yIC0+IDAuMTUuMwoKLS0tCiAuLi4vbGlidXJjdS97bGlidXJj
-dV8wLjE1LjIuYmIgPT4gbGlidXJjdV8wLjE1LjMuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJ1cmN1L3tsaWJ1cmN1XzAuMTUuMi5iYiA9PiBsaWJ1cmN1XzAuMTUu
-My5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ1cmN1L2xp
-YnVyY3VfMC4xNS4yLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAu
-MTUuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9saWJ1cmN1L2xpYnVyY3VfMC4xNS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9saWJ1cmN1L2xpYnVyY3VfMC4xNS4zLmJiCmluZGV4IDkzZDZhNjU1MWYuLmZiNGU0NTc3
-MTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVyY3UvbGlidXJjdV8wLjE1
-LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAuMTUuMy5i
-YgpAQCAtMTQsNyArMTQsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1k
-O21kNT1jMmE5MjQ5OGI2ZTg4ZTI3NmY5ODY4Nzc5OTU0MjViOCBcCiAKIFNSQ19VUkkgPSAiaHR0
-cDovL2x0dG5nLm9yZy9maWxlcy91cmN1L3VzZXJzcGFjZS1yY3UtJHtQVn0udGFyLmJ6MiIKIAot
-U1JDX1VSSVtzaGEyNTZzdW1dID0gIjU5ZjM2ZjJiOGJkYTFiNzYyMGE3ZWNlZDI2MzRmMjZjNTQ5
-NDQ0ODE4YTgzMTMwMjVhM2JiMDljMDc2NmE2MWQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjY2
-ODdlYzg0ZTNlMTE0NzU5NDU0Yzg4NGEwOGFiZWFmNzlkZWMwOWIwNDE4OTVkZGY0YzQ1ZWMxNTBh
-Y2I2ZCIKIAogUyA9ICIke1dPUktESVJ9L3VzZXJzcGFjZS1yY3UtJHtQVn0iCiBpbmhlcml0IGF1
-dG90b29scyBtdWx0aWxpYl9oZWFkZXIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAxMzozOTo0OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdw
+Z21lOiB1cGdyYWRlIDEuMjQuMiAtPiAxLjI0LjMKCi0tLQogLi4uUmV2ZXJ0LWJ1aWxkLU1ha2Ut
+Z3BnbWUubTQtdXNlLWdwZ3J0LWNvbmZpZy13aXRoLS5wYy5wYXRjaCB8IDIgKy0KIC4uLi9ncGdt
+ZS8wMDAxLWF1dG9nZW4uc2gtcmVtb3ZlLXVua25vd24taW4tdmVyc2lvbi5wYXRjaCAgICAgfCAy
+ICstCiBtZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBrZ2NvbmZpZy5wYXRj
+aCAgICAgICAgIHwgNCArKy0tCiAuLi4vZ3BnbWUvMDAwMS1wb3NpeC1pby5jLVVzZS1vZmZfdC1p
+bnN0ZWFkLW9mLW9mZjY0X3QucGF0Y2ggIHwgMiArLQogLi4uL2dwZ21lLzAwMDEtdXNlLWNsb3Nl
+ZnJvbS1vbi1saW51eC1hbmQtZ2xpYmMtMi4zNC5wYXRjaCAgICB8IDIgKy0KIC4uLmdwZ21lLWxh
+bmctcHl0aG9uLWdwZy1lcnJvci1jb25maWctc2hvdWxkLW5vdC1iZS11c2UucGF0Y2ggfCAyICst
+CiAuLi4vZ3BnbWUvZ3BnbWUvMDAwMy1Db3JyZWN0bHktaW5zdGFsbC1weXRob24tbW9kdWxlcy5w
+YXRjaCAgIHwgMiArLQogLi4uZ3BnbWUtY29uZmlnLXNraXAtYWxsLWxpYi1vci11c3ItbGliLWRp
+cmVjdG9yaWVzLWluLS5wYXRjaCB8IDIgKy0KIC4uLi9ncGdtZS9ncGdtZS8wMDA2LWZpeC1idWls
+ZC1wYXRoLWlzc3VlLnBhdGNoICAgICAgICAgICAgICAgfCAyICstCiAuLi4vZ3BnbWUve2dwZ21l
+XzEuMjQuMi5iYiA9PiBncGdtZV8xLjI0LjMuYmJ9ICAgICAgICAgICAgICAgIHwgMiArLQogMTAg
+ZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUve2dwZ21lXzEuMjQuMi5iYiA9PiBncGdtZV8xLjI0
+LjMuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3Bn
+bWUvMDAwMS1SZXZlcnQtYnVpbGQtTWFrZS1ncGdtZS5tNC11c2UtZ3BncnQtY29uZmlnLXdpdGgt
+LnBjLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1SZXZlcnQt
+YnVpbGQtTWFrZS1ncGdtZS5tNC11c2UtZ3BncnQtY29uZmlnLXdpdGgtLnBjLnBhdGNoCmluZGV4
+IDJhOTA2YTZjNzMuLmJjOTI5YzZmZDQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2dwZ21lL2dwZ21lLzAwMDEtUmV2ZXJ0LWJ1aWxkLU1ha2UtZ3BnbWUubTQtdXNlLWdwZ3J0LWNv
+bmZpZy13aXRoLS5wYy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdt
+ZS8wMDAxLVJldmVydC1idWlsZC1NYWtlLWdwZ21lLm00LXVzZS1ncGdydC1jb25maWctd2l0aC0u
+cGMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk1ZDBiYWU0NTNiMmI1YTdkMjViOTJkOTk1
+NjVkMjc0MDdmZmZhMWIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDA5NGM1NzI1MTNj
+MjVmZGYzYjViN2ZiNjFhNzUwZTFiYzQ5NDBiOTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiBEYXRlOiBGcmksIDEw
+IE1heSAyMDE5IDE0OjE4OjA0ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJldmVydCAiYnVpbGQ6
+IE1ha2UgZ3BnbWUubTQgdXNlIGdwZ3J0LWNvbmZpZyB3aXRoICoucGMuIgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1hdXRvZ2VuLnNoLXJlbW92ZS11
+bmtub3duLWluLXZlcnNpb24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdt
+ZS8wMDAxLWF1dG9nZW4uc2gtcmVtb3ZlLXVua25vd24taW4tdmVyc2lvbi5wYXRjaAppbmRleCA4
+OTA5MDlkZDVlLi5kODIwYzNiMWJjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9n
+cGdtZS9ncGdtZS8wMDAxLWF1dG9nZW4uc2gtcmVtb3ZlLXVua25vd24taW4tdmVyc2lvbi5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLWF1dG9nZW4uc2gt
+cmVtb3ZlLXVua25vd24taW4tdmVyc2lvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMGJi
+N2ZkZGI2YTc2OGJiYzQ2Njk1ZGU0YzZlMDI1NmEzNTgwY2NiYiBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKK0Zyb20gNjllMTI3NDc4MmRiNmI3MzQ3NmIwMGYyMDRkYzBkNjE1M2M4Y2E1OSBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJp
+dmVyLmNvbT4KIERhdGU6IFR1ZSwgMjYgTm92IDIwMjQgMjM6MjM6NDIgLTA4MDAKIFN1YmplY3Q6
+IFtQQVRDSF0gYXV0b2dlbi5zaDogcmVtb3ZlICctdW5rbm93bicgaW4gdmVyc2lvbgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1wa2djb25maWcucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBrZ2NvbmZpZy5wYXRj
+aAppbmRleCA5ZDBiNGIyODJiLi5mMGZiZDMzYWU3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBrZ2NvbmZpZy5wYXRjaAorKysgYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBrZ2NvbmZpZy5wYXRjaApAQCAtMSw0ICsxLDQg
+QEAKLUZyb20gNDQ3ZmQyNmE0M2Y0MGNjYjA3MWNkMTkxOThlZTQzZmRmY2U4N2UzYSBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOGU4MjMxMTk1MTk1MGQyMGM5OGYxZWQyNTdkM2UwNGY2
+ZjYyZDY0ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBKaWEgPGhvbmd4
+dS5qaWFAd2luZHJpdmVyLmNvbT4KIERhdGU6IFR1ZSwgMjYgTm92IDIwMjQgMjM6MDQ6NTIgLTA4
+MDAKIFN1YmplY3Q6IFtQQVRDSF0gcGtnY29uZmlnCkBAIC0yNyw3ICsyNyw3IEBAIFNpZ25lZC1v
+ZmYtYnk6IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICBjcmVhdGUgbW9k
+ZSAxMDA2NDQgc3JjL2dwZ21lLXB0aHJlYWQucGMuaW4KIAogZGlmZiAtLWdpdCBhL2NvbmZpZ3Vy
+ZS5hYyBiL2NvbmZpZ3VyZS5hYwotaW5kZXggYzM0ZjcwMC4uNGVkZGMzZCAxMDA2NDQKK2luZGV4
+IDZmZDViNGIuLjYyZjY4MmQgMTAwNjQ0CiAtLS0gYS9jb25maWd1cmUuYWMKICsrKyBiL2NvbmZp
+Z3VyZS5hYwogQEAgLTExNzYsNiArMTE3Niw3IEBAIEFDX0NPTkZJR19GSUxFUyhNYWtlZmlsZSBz
+cmMvTWFrZWZpbGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21lL2dwZ21l
+LzAwMDEtcG9zaXgtaW8uYy1Vc2Utb2ZmX3QtaW5zdGVhZC1vZi1vZmY2NF90LnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1wb3NpeC1pby5jLVVzZS1vZmZfdC1p
+bnN0ZWFkLW9mLW9mZjY0X3QucGF0Y2gKaW5kZXggOTMyZmI5Yzk2Mi4uNzNiYWM1MzFjYSAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1wb3NpeC1pby5j
+LVVzZS1vZmZfdC1pbnN0ZWFkLW9mLW9mZjY0X3QucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1wb3NpeC1pby5jLVVzZS1vZmZfdC1pbnN0ZWFkLW9mLW9m
+ZjY0X3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDQxNzAzNjA1MWM4NGIwMmZlNDNmMTYy
+ZWUzNzgyNzhhNDQ2MzY0NTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDMxYzc5OTJj
+Y2Q0NDk0MDYwZWY1YmVjZjkwM2VkNzcyZTgzMjA3OTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogVGh1LCAxNSBEZWMg
+MjAyMiAwODo0NDoxMyAtMDgwMAogU3ViamVjdDogW1BBVENIXSBwb3NpeC1pby5jOiBVc2Ugb2Zm
+X3QgaW5zdGVhZCBvZiBvZmY2NF90CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9n
+cGdtZS9ncGdtZS8wMDAxLXVzZS1jbG9zZWZyb20tb24tbGludXgtYW5kLWdsaWJjLTIuMzQucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXVzZS1jbG9zZWZyb20t
+b24tbGludXgtYW5kLWdsaWJjLTIuMzQucGF0Y2gKaW5kZXggZWQyZWRhYmQ2My4uMGVkMjAwYTE3
+OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS11c2Ut
+Y2xvc2Vmcm9tLW9uLWxpbnV4LWFuZC1nbGliYy0yLjM0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1zdXBwb3J0L2dwZ21lL2dwZ21lLzAwMDEtdXNlLWNsb3NlZnJvbS1vbi1saW51eC1hbmQtZ2xp
+YmMtMi4zNC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYWFlZDAzYjc2NTA1YjFmZWFlZWI1
+YTRhM2M2YmRjYzdkZDA4OWYwMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOGIzOTdh
+NjJkZmVjZjIzMzRiM2YzMTQwYWIxODBiOTIxNmZjYjg4MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDE1IEp1
+bCAyMDIxIDEyOjMzOjEzIC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHVzZSBjbG9zZWZyb20oKSBv
+biBsaW51eCBhbmQgZ2xpYmMgMi4zNCsKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2dwZ21lL2dwZ21lLzAwMDItZ3BnbWUtbGFuZy1weXRob24tZ3BnLWVycm9yLWNvbmZpZy1zaG91
+bGQtbm90LWJlLXVzZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21lL2dwZ21lLzAw
+MDItZ3BnbWUtbGFuZy1weXRob24tZ3BnLWVycm9yLWNvbmZpZy1zaG91bGQtbm90LWJlLXVzZS5w
+YXRjaAppbmRleCAzYTE4MzdlODU3Li42ZmIxNzVkMjJiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAyLWdwZ21lLWxhbmctcHl0aG9uLWdwZy1lcnJvci1j
+b25maWctc2hvdWxkLW5vdC1iZS11c2UucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+Z3BnbWUvZ3BnbWUvMDAwMi1ncGdtZS1sYW5nLXB5dGhvbi1ncGctZXJyb3ItY29uZmlnLXNob3Vs
+ZC1ub3QtYmUtdXNlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxNDVhZGYyOTA1NzFiN2Rk
+NDdiN2ZjYTU3YjExMzQ5YWYwYjk0ZTc0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1
+YWM3ZjliZTgwMTQ2NWNlMGQ0MTE5ZjdhOTY2ZDE2MDQxN2MyYzlmIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQogRnJvbTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogRGF0
+ZTogRnJpLCAxMCBNYXkgMjAxOSAxNDozMDozNiArMDgwMAogU3ViamVjdDogW1BBVENIXSBncGdt
+ZS9sYW5nL3B5dGhvbjogZ3BnLWVycm9yLWNvbmZpZyBzaG91bGQgbm90IGJlIHVzZWQKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21lL2dwZ21lLzAwMDMtQ29ycmVjdGx5LWlu
+c3RhbGwtcHl0aG9uLW1vZHVsZXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9n
+cGdtZS8wMDAzLUNvcnJlY3RseS1pbnN0YWxsLXB5dGhvbi1tb2R1bGVzLnBhdGNoCmluZGV4IDdi
+MjgzMWJhNGYuLjMzNDIyNGVkMDcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dw
+Z21lL2dwZ21lLzAwMDMtQ29ycmVjdGx5LWluc3RhbGwtcHl0aG9uLW1vZHVsZXMucGF0Y2gKKysr
+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMy1Db3JyZWN0bHktaW5zdGFs
+bC1weXRob24tbW9kdWxlcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDhlODg0ZDFmYThj
+MzVjZTY4ZTk0YTA2Njg1NDg1ODBjZjViYTJkMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
+b20gZTQ4MjgxZTUxN2I4MWUyZjNiYTk1MmJlNjEwMjY3OWU5YjFhYzVlYiBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4K
+IERhdGU6IFR1ZSwgMzAgSmFuIDIwMTggMTU6Mjg6NDkgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0g
+Q29ycmVjdGx5IGluc3RhbGwgcHl0aG9uIG1vZHVsZXMKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1zdXBwb3J0L2dwZ21lL2dwZ21lLzAwMDUtZ3BnbWUtY29uZmlnLXNraXAtYWxsLWxpYi1vci11
+c3ItbGliLWRpcmVjdG9yaWVzLWluLS5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21l
+L2dwZ21lLzAwMDUtZ3BnbWUtY29uZmlnLXNraXAtYWxsLWxpYi1vci11c3ItbGliLWRpcmVjdG9y
+aWVzLWluLS5wYXRjaAppbmRleCBjMDIxZTQ4YmU5Li5iNGE2NDY2MWYyIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDA1LWdwZ21lLWNvbmZpZy1za2lwLWFs
+bC1saWItb3ItdXNyLWxpYi1kaXJlY3Rvcmllcy1pbi0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwNS1ncGdtZS1jb25maWctc2tpcC1hbGwtbGliLW9yLXVz
+ci1saWItZGlyZWN0b3JpZXMtaW4tLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5ZWE2ODVm
+MWI4OThlZTcwM2I4NWI3MDVjMzViOWNiZDc3Y2NhMTdmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSA5M2I1YjdjZmVmYWE1NzJiNWM0N2ZiYTAxZGNkMjk0ZjgyN2RhNzcxIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
+bWFpbC5jb20+CiBEYXRlOiBUaHUsIDEzIEFwciAyMDE3IDE2OjQwOjI3ICswMzAwCiBTdWJqZWN0
+OiBbUEFUQ0hdIGdwZ21lLWNvbmZpZzogc2tpcCBhbGwgL2xpYiogb3IgL3Vzci9saWIqIGRpcmVj
+dG9yaWVzIGluCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8w
+MDA2LWZpeC1idWlsZC1wYXRoLWlzc3VlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3Bn
+bWUvZ3BnbWUvMDAwNi1maXgtYnVpbGQtcGF0aC1pc3N1ZS5wYXRjaAppbmRleCBkNjQxNjhiNGZk
+Li43NjZhOGE2Zjc2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdt
+ZS8wMDA2LWZpeC1idWlsZC1wYXRoLWlzc3VlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBw
+b3J0L2dwZ21lL2dwZ21lLzAwMDYtZml4LWJ1aWxkLXBhdGgtaXNzdWUucGF0Y2gKQEAgLTEsNCAr
+MSw0IEBACi1Gcm9tIGY5ZjgyODc0MDQ4YzVlZWMwOGU4MTVmZjg3MTQ2MjE4NGI2ZDdkNmEgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDY1MWE3ODMxZWIyNDIxZTBiYmUwMjc2OWQxMDYx
+N2YxYmVmMzhhNjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxo
+b25neHUuamlhQHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQsIDMxIEphbiAyMDE4IDExOjAxOjA5
+ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGZpeCBidWlsZCBwYXRoIGlzc3VlCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZV8xLjI0LjIuYmIgYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9ncGdtZS9ncGdtZV8xLjI0LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWVfMS4yNC4yLmJiCnJlbmFt
+ZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZV8xLjI0LjMuYmIKaW5kZXggYmM2
+NjE0MjllNy4uNjRlM2M2NjM1YSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3Bn
+bWUvZ3BnbWVfMS4yNC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21lL2dwZ21l
+XzEuMjQuMy5iYgpAQCAtMjksNyArMjksNyBAQCBTUkNfVVJJID0gIiR7R05VUEdfTUlSUk9SfS9n
+cGdtZS8ke0JQfS50YXIuYnoyIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtYXV0b2dlbi5zaC1y
+ZW1vdmUtdW5rbm93bi1pbi12ZXJzaW9uLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiZTExYjFhMGUzNjE3NzdlOWU1NWY0OGEwM2Q4OTA5NmUyYWJmMDhjNjNk
+ODRiNzAxN2NmZTFkY2UwNjYzOTU4MSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiZmMxN2Y1YmQx
+YjE3OGM4NjQ5ZmRkOTE4OTU2ZDI3NzA4MGYzM2RmMDA2YTJkYzQwYWNkZWNkY2U2OGM1MGRkIgog
+CiBQWVRIT05fREVQUyA9ICIke0BiYi51dGlscy5jb250YWlucygnTEFOR1VBR0VTJywgJ3B5dGhv
+bicsICdzd2lnLW5hdGl2ZScsICcnLCBkKX0iCiAKLS0gCjIuNDcuMQoK
 
---===============5359115727552975582==
+--===============8612662286601963957==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/gpgme/gpgme-cpp: FILELIST: removed "/usr/lib/libgpgmepp.so.6.21.2", added "/usr/lib/libgpgmepp.so.6.21.3"
+packages/core2-64-poky-linux/gpgme/gpgme-doc: FILELIST: removed "/usr/share/man/man1/gpgme-json.1"
+Changes to packages/core2-64-poky-linux/gpgme (sysroot):
+  /usr/lib/libgpgmepp.so.6 changed symlink target from libgpgmepp.so.6.21.2 to libgpgmepp.so.6.21.3
+  /usr/lib/libgpgmepp.so changed symlink target from libgpgmepp.so.6.21.2 to libgpgmepp.so.6.21.3
+  /usr/lib/libgpgmepp.so.6.21.2 moved to /usr/lib/libgpgmepp.so.6.21.3
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4008,5 +4262,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============5359115727552975582==--
+--===============8612662286601963957==--
 
