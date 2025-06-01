@@ -1,113 +1,117 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C38DEC54FB3
-	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 11:55:52 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.25690.1748778943552916514
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 623BDC54FB3
+	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:23 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.27782.1748786120552370013
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jun 2025 04:55:43 -0700
+ Sun, 01 Jun 2025 06:55:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vY+/raTf;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2349f096605so43235545ad.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 04:55:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1748778943; x=1749383743; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iKQMYtrBoDXk78cSeMVnNrw01Pw6rKOePyqGXsTNZCM=;
-        b=vY+/raTfFmA5WoKrlm3s+mouZjr4Y3gfUBhlydH2uvu9nb1iKQu3UF0sYeeWDsH+2y
-         mFj7R0LSJbHFBn69cGRnVHh3dPLIP+LWVu7zA9Lzrqjkoxg636AA00MaEP1nopzSJd6V
-         oZT6Bin8MWwnckKj/y9ucQsnzhoJd7FEQCAbA004R9gS/F7DRXcSeOEpsQiJ4G1ZAuuH
-         ewwp9BLaSLTMdg+B/TnLVyG3i4i/IR3iBPK8NFJQGVVC+wXVcCev0tKdZO5F2r/rU4Rp
-         kyR5EU23LV8BNhsG9iWbvVctRCvStYlNJnGsvLhi6wFbd78t2WtkG2DpvXVT+7jkZBwt
-         4V9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748778943; x=1749383743;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iKQMYtrBoDXk78cSeMVnNrw01Pw6rKOePyqGXsTNZCM=;
-        b=quXZf0LAuRcxyqFItF/ZyFlYh1EZXChCjhU47F/+cWa7ZRwwUpQdKXlJrGgsZ+47fM
-         0zfUdjt7HaqvE/j7oyfhthshdR3XC7neI3flptxv1IGeuE3myXCAqu2TJt4OGMP8j7aG
-         S5xu3ZXvyFOKDnO3aXkl4COci5ST7FPWibR+lpp+z8IhbogpUza0jWsR8IMm18CbOtiR
-         H7LdRfnOcNBdd5wOYZo17XSkUiBa6SmU1vqdBOjEIEHa1rIFkg2HMVquZcgKxP3QAhhw
-         2GJKubEDsmBMc2hIpNvBaZmCJWjCSfzTfmCyAUnMZasBc3ynlaw/VIAJO0VjwxzPLoci
-         7BRg==
-X-Gm-Message-State: AOJu0YyLRHbRYXLb1OPKESqswcCCT2yweENlov9C2n2HrbPnwCAlZnLL
-	w3XJk0IQS9G2IHLpWYZKjMBKSb8sA5ZmpgjlyHk4iAVtdNYCztiN3ZtpLqnK7tUQiRyas3Ziakw
-	SudfCyjQ=
-X-Gm-Gg: ASbGncuOfRiDli82jrV3D9d1VYP2ghwCg9AVfPlDnTIJFLo5CuIrHojf84DvHdGB1sL
-	5UgXVST6RVCmGKfgnA/Rp76eKUv5sPH7POpK+IYp+jNRGMATeG43CUWC5cKboQAdEhwOmLcGBqL
-	4WNod63XyXbYi6nOOTlK+KI4wlQnULopxruiM04mj47YmkcEmcE64tCq6Dwy85UnhlPWEeds7y3
-	7DJCEI52q3oxbgJc06PnaytcszUGep86F2CbonILh2XmxGbXyj9k4ddFanSZtb309TzVqrxWyyg
-	O8EIKv8vcAvcpPwWh0nVkt5lUdWaded9xLo4eGjUcqUtyVoa0ZjfVhYm
-X-Google-Smtp-Source: AGHT+IHWKA+mrLAAfwhtjx1+BRjx3lsYBnxqUW41YIidDQfm04SqP/fLJjZsuc9D5MGnYx889/qW9Q==
-X-Received: by 2002:a17:903:183:b0:234:8ec1:4aea with SMTP id d9443c01a7336-2355fa0044cmr68072405ad.52.1748778942880;
-        Sun, 01 Jun 2025 04:55:42 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506d14bcfsm54389495ad.236.2025.06.01.04.55.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 04:55:42 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 326261003B3; Sun,  1 Jun 2025 01:55:42 -1000 (HST)
-Subject: OE-core CVE metrics for walnascar on Sun 01 Jun 2025 01:52:49 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun,  1 Jun 2025 01:55:42 -1000
-Message-Id: <20250601115542.326261003B3@builder.sakoman.com>
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=cmn9lf6c;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=HqqzW4e/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101972bc68382-aa947f48-5a03-4ec0-b7d7-ab6053548e8a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1748786119;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=926R7A+zfv0i4jtyDnQcMM8fbJn3noTo+k7mCG1aCtA=;
+	b=cmn9lf6cYs6DED1Rqlz7xLUgvcCHfafCWhexICnW/9ztjNqvZvjFcy4R14Fl1p94
+	gt8/jHslqMJw12cYCJzaCV658Tbdjbk91WaY2He/wBkgIFILG2twigUaedCW4Oyaukh
+	MzKEOZjo2RM1SasVhjESlav5ZFTaCYZ7LKefzFKo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786119;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=926R7A+zfv0i4jtyDnQcMM8fbJn3noTo+k7mCG1aCtA=;
+	b=HqqzW4e/gvjt5SX+Q9QLmR5qMKeeE6em+GoAhsMvxMFpofdHtU+2Ytvu2CLT/ETY
+	wiUbNM2YVJDjGZZaqp3+xUs+/asqjPerFxJg6PHPJL8f3XDWdpGdzeg8BMAG57/lq8+
+	dw+LN+pIRCwO/15Lq98x0kRaj2UEgMipMdpW9Q64=
+Content-Type: multipart/mixed; boundary="===============4577027835576729589=="
+MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gettext-minimal-native,gettext: upgrading to 0.25,0.25 FAILED
+Message-ID: <010101972bc68382-aa947f48-5a03-4ec0-b7d7-ab6053548e8a-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jun 2025 13:55:19 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.06.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 11:55:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217558
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217559
 
-Branch: walnascar
+--===============4577027835576729589==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-New this week: 0 CVEs
+Hello,
 
-Removed this week: 0 CVEs
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *gettext-minimal-native,gettext* to *0.25,0.25* has Failed (devtool error).
 
-Full list:  Found 30 unpatched CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3079 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3079 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-52904 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52904 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
-CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
-CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
-CVE-2025-1153 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-1153 *
-CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
-CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
-CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
-CVE-2025-23137 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23137 *
-CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
-CVE-2025-3198 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-3198 *
-CVE-2025-37838 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37838 *
-CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
-CVE-2025-37925 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37925 *
-CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
+Detailed error information:
 
-Summary of CVE counts by recipe:
-  linux-yocto: 25
-  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 2
-  libsndfile1: 1
-  qemu:qemu-native:qemu-system-native: 1
-  sqlite3:sqlite3-native: 1
+The following devtool command failed:  upgrade gettext-minimal-native -V 0.25
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 936 .bb files complete (0 cached, 936 parsed). 1915 targets, 39 skipped, 0 masked, 0 errors.
+WARNING: QA Issue: gettext-minimal-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
+NOTE: Resolving any missing task queue dependencies
 
-For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:1e811f9e707d2edfb1bc554179caeb422af86036"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+done.
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+WARNING: QA Issue: gettext-minimal-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
+WARNING: QA Issue: gettext-minimal-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
+WARNING: QA Issue: gettext-minimal-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/scripts/devtool", line 352, in <module>
+    ret = main()
+  File "/srv/pokybuild/yocto-worker/auh/build/scripts/devtool", line 338, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/srv/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/upgrade.py", line 605, in upgrade
+    old_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
+  File "/srv/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/upgrade.py", line 509, in _extract_licenses
+    with open(os.path.join(srcpath, path), 'rb') as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gettext-minimal-native/0.23.1/sources-unpack/COPYING'
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============4577027835576729589==--
 
