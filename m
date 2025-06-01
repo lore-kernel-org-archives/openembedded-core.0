@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25DABC7EE32
-	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:46 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.27773.1748786127131277289
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88EF3C71132
+	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:56 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.27782.1748786120552370013
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jun 2025 06:55:35 -0700
+ Sun, 01 Jun 2025 06:55:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=R8Mn4IOR;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=JFs8YT6W;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101972bc6bcb8-d9c7f51f-0bf8-41da-8b35-cd6a5d9856a7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=CJ9ILfqd;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BME0Tikf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101972bc70d9c-2fb30f68-6c8c-4e91-bc18-9b0ca10a7659-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1748786134;
+	t=1748786155;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2As+ES49dVlAMGQ+DYuf+3+RlUgILZW7kbh/eXryJc4=;
-	b=R8Mn4IOR0q6l6c11eofRXIkQLUPEMm4A2WjQoHpuNL+udl6u+Bh8Xmw71+MSqVpd
-	M4NG9YiTzCMztgYhsHqvfRgEvu/V58NDt/Xgj2XKnT3k/1ghYYwT81Ax50nO+dX/WxR
-	XL4iM2tjqJXurgKuE0jAtcIuZKM96wyk5sSTahkY=
+	bh=YtN1W3UMmEjdDXzv1tihR/IiSsUjearNUiXyYLiAxks=;
+	b=CJ9ILfqd+goyZYC9jB+EaVZkIzAW3KPTiyHLldfXHExONEj/AvvNG0ZkpV1qXtZd
+	zy+ma/xl04TztzFnVevFLJOMttQfDDQ0UORUcwdATCGPHv2aHD69QHEXVwvMRZedW4u
+	PrfqyYNQvVqSWUxSN2nWhhNkeYaJCfJvZDmHZyXA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786134;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786155;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2As+ES49dVlAMGQ+DYuf+3+RlUgILZW7kbh/eXryJc4=;
-	b=JFs8YT6WGxbpl0eZqSWYcHXkGSyVf7LV/78NXFHGtCaD9LxwUSm9JSENiRN815EJ
-	jTff/6AeZJUjTOh5CpA3yFXZ0j6vn+3r9x/A3aD2qfggrVEohXvpHiiFt03/UdAnK/O
-	Eo/yA0JXQj1cSIJNcnB2r/AKA013MESfN8qmeaAA=
-Content-Type: multipart/mixed; boundary="===============7483169372322449119=="
+	bh=YtN1W3UMmEjdDXzv1tihR/IiSsUjearNUiXyYLiAxks=;
+	b=BME0TikfUWt49yXCQBArYHIVt+7KQmeByXkq7pWeGzohqwb/vCBXOfI6u31k31Le
+	Q54KlewqlVLQHzWQxjYqwNr/wiLF2AS0OeK5qRN4X11H/WMbhm5u6YH4/KDgoEYA7wO
+	y8S4BWyZztkPu5agLWyLi+gH+44T9GM/twDYwnz0=
+Content-Type: multipart/mixed; boundary="===============5359115727552975582=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.132.0 SUCCEEDED
-Message-ID: <010101972bc6bcb8-d9c7f51f-0bf8-41da-8b35-cd6a5d9856a7-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jun 2025 13:55:34 +0000
+Subject: [AUH] liburcu: upgrading to 0.15.3 SUCCEEDED
+Message-ID: <010101972bc70d9c-2fb30f68-6c8c-4e91-bc18-9b0ca10a7659-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jun 2025 13:55:54 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.01-54.240.27.23
+X-SES-Outgoing: 2025.06.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217602
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217673
 
---===============7483169372322449119==
+--===============5359115727552975582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.132.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *liburcu* to *0.15.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.131.14-6.132.0.patch
+    - apply the patch: git am 0001-liburcu-upgrade-0.15.2-0.15.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,107 +72,60 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 22de4f6043e2751d339c959b5e3542e4172888f3 Mon Sep 17 00:00:00 2001
+From 6c1c424e2ff127b41ec6df468cab686236a0c64a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Jun 2025 09:23:54 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.131.14 -> 6.132.0
+Date: Sun, 1 Jun 2025 13:48:45 +0000
+Subject: [PATCH] liburcu: upgrade 0.15.2 -> 0.15.3
 
 ---
- ...on3-hypothesis_6.131.14.bb => python3-hypothesis_6.132.0.bb} | 2 +-
+ .../liburcu/{liburcu_0.15.2.bb => liburcu_0.15.3.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.131.14.bb => python3-hypothesis_6.132.0.bb} (91%)
+ rename meta/recipes-support/liburcu/{liburcu_0.15.2.bb => liburcu_0.15.3.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.131.14.bb b/meta/recipes-devtools/python/python3-hypothesis_6.132.0.bb
+diff --git a/meta/recipes-support/liburcu/liburcu_0.15.2.bb b/meta/recipes-support/liburcu/liburcu_0.15.3.bb
 similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.131.14.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.132.0.bb
-index 269ed936b6..52688b8765 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.131.14.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.132.0.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+rename from meta/recipes-support/liburcu/liburcu_0.15.2.bb
+rename to meta/recipes-support/liburcu/liburcu_0.15.3.bb
+index 93d6a6551f..fb4e457719 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.15.2.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.15.3.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=c2a92498b6e88e276f986877995425b8 \
  
--SRC_URI[sha256sum] = "347edc46cfe9bfcfb0598c4c927ed8fd573edfc8bacd2162023c4cf16accb702"
-+SRC_URI[sha256sum] = "55868060add41baa6176ed9c3456655678d140c74e3514bdf03381dae6391403"
+ SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+-SRC_URI[sha256sum] = "59f36f2b8bda1b7620a7eced2634f26c549444818a8313025a3bb09c0766a61d"
++SRC_URI[sha256sum] = "26687ec84e3e114759454c884a08abeaf79dec09b041895ddf4c45ec150acb6d"
+ 
+ S = "${WORKDIR}/userspace-rcu-${PV}"
+ inherit autotools multilib_header
 -- 
 2.47.1
 
 
---===============7483169372322449119==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.131.14-6.132.0.patch"
-
-RnJvbSAyMmRlNGY2MDQzZTI3NTFkMzM5Yzk1OWI1ZTM1NDJlNDE3Mjg4OGYzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAwOToyMzo1NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtaHlwb3RoZXNpczogdXBncmFkZSA2LjEzMS4xNCAtPiA2LjEzMi4wCgotLS0KIC4uLm9u
-My1oeXBvdGhlc2lzXzYuMTMxLjE0LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjEzMi4wLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjEzMS4xNC5iYiA9PiBweXRob24zLWh5cG90aGVzaXNfNi4xMzIuMC5iYn0gKDkxJSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182
-LjEzMS4xNC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhl
-c2lzXzYuMTMyLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMzEuMTQuYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTMy
-LjAuYmIKaW5kZXggMjY5ZWQ5MzZiNi4uNTI2ODhiODc2NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMzEuMTQuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMzIuMC5i
-YgpAQCAtMTMsNyArMTMsNyBAQCBTUkNfVVJJICs9ICIgXAogICAgIGZpbGU6Ly90ZXN0X3JsZS5w
-eSBcCiAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzQ3ZWRjNDZjZmU5YmZjZmIwNTk4
-YzRjOTI3ZWQ4ZmQ1NzNlZGZjOGJhY2QyMTYyMDIzYzRjZjE2YWNjYjcwMiIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICI1NTg2ODA2MGFkZDQxYmFhNjE3NmVkOWMzNDU2NjU1Njc4ZDE0MGM3NGUzNTE0
-YmRmMDMzODFkYWU2MzkxNDAzIgogCiBSREVQRU5EUzoke1BOfSArPSAiIFwKICAgICBweXRob24z
-LWF0dHJzIFwKLS0gCjIuNDcuMQoK
-
---===============7483169372322449119==
+--===============5359115727552975582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.131.14" to "6.132.0"
-packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.131.14 [default] to 6.132.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.131.14.tar.gz;downloadfilename=hypothesis-6.131.14.tar.gz file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.132.0.tar.gz;downloadfilename=hypothesis-6.132.0.tar.gz file://test_binary_search.py file://test_rle.py"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.131.14" to "6.132.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.131.14 [default] to 6.132.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.131.14" to "6.132.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.131.14 [default] to 6.132.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.131.14" to "6.132.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.131.14 [default] to 6.132.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.131.14" to "6.132.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.131.14 [default] to 6.132.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.131.14" to "6.132.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.131.14 [default] to 6.132.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.131.14" to "6.132.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.131.14 [default] to 6.132.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.131.14" to "6.132.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.131.14 [default] to 6.132.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.131.14" to "6.132.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.131.14 [default] to 6.132.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3335714 to 3403275 (+2%)
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/WHEEL was removed
+packages/core2-64-poky-linux/liburcu: SRC_URI changed from "http://lttng.org/files/urcu/userspace-rcu-0.15.2.tar.bz2" to "http://lttng.org/files/urcu/userspace-rcu-0.15.3.tar.bz2"
+packages/core2-64-poky-linux/liburcu: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
+packages/core2-64-poky-linux/liburcu: PV changed from "0.15.2" to "0.15.3"
+packages/core2-64-poky-linux/liburcu/liburcu-dbg: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
+packages/core2-64-poky-linux/liburcu/liburcu-dbg: PV changed from "0.15.2" to "0.15.3"
+packages/core2-64-poky-linux/liburcu/liburcu-dev: PKGSIZE changed from 361909 to 362025 (+0%)
+packages/core2-64-poky-linux/liburcu/liburcu-dev: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
+packages/core2-64-poky-linux/liburcu/liburcu-dev: PV changed from "0.15.2" to "0.15.3"
+packages/core2-64-poky-linux/liburcu/liburcu-doc: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
+packages/core2-64-poky-linux/liburcu/liburcu-doc: PV changed from "0.15.2" to "0.15.3"
+packages/core2-64-poky-linux/liburcu/liburcu-locale: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
+packages/core2-64-poky-linux/liburcu/liburcu-locale: PV changed from "0.15.2" to "0.15.3"
+packages/core2-64-poky-linux/liburcu/liburcu-src: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
+packages/core2-64-poky-linux/liburcu/liburcu-src: PV changed from "0.15.2" to "0.15.3"
+packages/core2-64-poky-linux/liburcu/liburcu-staticdev: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
+packages/core2-64-poky-linux/liburcu/liburcu-staticdev: PV changed from "0.15.2" to "0.15.3"
+packages/core2-64-poky-linux/liburcu/liburcu: PKGV changed from 0.15.2 [default] to 0.15.3 [default]
+packages/core2-64-poky-linux/liburcu/liburcu: PV changed from "0.15.2" to "0.15.3"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2096,27 +2049,42 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============7483169372322449119==
+--===============5359115727552975582==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-liburcu-upgrade-0.15.2-0.15.3.patch"
+
+RnJvbSA2YzFjNDI0ZTJmZjEyN2I0MWVjNmRmNDY4Y2FiNjg2MjM2YTBjNjRhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAxMzo0ODo0NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnVyY3U6IHVwZ3JhZGUgMC4xNS4yIC0+IDAuMTUuMwoKLS0tCiAuLi4vbGlidXJjdS97bGlidXJj
+dV8wLjE1LjIuYmIgPT4gbGlidXJjdV8wLjE1LjMuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9saWJ1cmN1L3tsaWJ1cmN1XzAuMTUuMi5iYiA9PiBsaWJ1cmN1XzAuMTUu
+My5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ1cmN1L2xp
+YnVyY3VfMC4xNS4yLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAu
+MTUuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJ1cmN1L2xpYnVyY3VfMC4xNS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJ1cmN1L2xpYnVyY3VfMC4xNS4zLmJiCmluZGV4IDkzZDZhNjU1MWYuLmZiNGU0NTc3
+MTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVyY3UvbGlidXJjdV8wLjE1
+LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAuMTUuMy5i
+YgpAQCAtMTQsNyArMTQsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1k
+O21kNT1jMmE5MjQ5OGI2ZTg4ZTI3NmY5ODY4Nzc5OTU0MjViOCBcCiAKIFNSQ19VUkkgPSAiaHR0
+cDovL2x0dG5nLm9yZy9maWxlcy91cmN1L3VzZXJzcGFjZS1yY3UtJHtQVn0udGFyLmJ6MiIKIAot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjU5ZjM2ZjJiOGJkYTFiNzYyMGE3ZWNlZDI2MzRmMjZjNTQ5
+NDQ0ODE4YTgzMTMwMjVhM2JiMDljMDc2NmE2MWQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjY2
+ODdlYzg0ZTNlMTE0NzU5NDU0Yzg4NGEwOGFiZWFmNzlkZWMwOWIwNDE4OTVkZGY0YzQ1ZWMxNTBh
+Y2I2ZCIKIAogUyA9ICIke1dPUktESVJ9L3VzZXJzcGFjZS1yY3UtJHtQVn0iCiBpbmhlcml0IGF1
+dG90b29scyBtdWx0aWxpYl9oZWFkZXIKLS0gCjIuNDcuMQoK
+
+--===============5359115727552975582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/hypothesis-6.131.14.dist-info/WHEEL was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4040,5 +4008,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============7483169372322449119==--
+--===============5359115727552975582==--
 
