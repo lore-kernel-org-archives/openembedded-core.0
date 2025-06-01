@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61D26C678DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C999C67861
 	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:56 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.27794.1748786131003985116
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.27802.1748786143471623613
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jun 2025 06:55:55 -0700
+ Sun, 01 Jun 2025 06:55:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jALJc6xA;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=sGc7yemb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101972bc70e19-4d8f92ce-e91d-45e4-8709-89f19869f3c3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lJSk4sNu;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=l/0Mom94;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101972bc6e91f-a00cbc89-7055-4fc8-93ba-7923adad1926-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1748786155;
+	t=1748786146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=i45pXD3pERJepuLlr4w1Rmq2R6aQ3E5NX4LWIPOGc7I=;
-	b=jALJc6xAPYf4jwie+HKKr8GLr3Hli73bLs6xZM2C8CSWw5wJ0J6FmKe8VkJAwu9R
-	JopWvJp99cHkD73ENgHGDUUYWnpmjNj+tuuwgFRUXnkNFGnku2SLDkIvrcRyA+6f/UY
-	rfG8cNCxjUUNAWzeo7/7OxQ39g1hF/tBLi6nWeHU=
+	bh=VZZwEXBCCl7W+L1hMLdATd13+ucToagwQpb9jCwPs5c=;
+	b=lJSk4sNuCUsAzCLq4SJwsUI0u7QaM9cIDYAIJVJg7foS2aWZLtzXiC4Fh7/HeMZs
+	S+yiZJeFE+bo7rrg8pVWGjCcFNV4dXVk7sSp+dfeaOrmoPkW59QRdoz+k9NG1A2+kWd
+	h7nkpqkqglckaXAONnGE6td6+av1FtjGvEhxmCWU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786155;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=i45pXD3pERJepuLlr4w1Rmq2R6aQ3E5NX4LWIPOGc7I=;
-	b=sGc7yembBnDPZFoIcDzxwrlgYe+guxMb2mkzfivQc3+1Xj534BtYnZFa+guWfUQd
-	fd0a+z3qC+QP3bQDZhU1KyCv+mwMsDm35WxsclDjuBx51wUwIEFXr99P7srQ27H9GZw
-	jDS5OHwFzNxLnKFT8V8lVmGlQyS4F5LB83MFGx/E=
-Content-Type: multipart/mixed; boundary="===============4343235861685258877=="
+	bh=VZZwEXBCCl7W+L1hMLdATd13+ucToagwQpb9jCwPs5c=;
+	b=l/0Mom94iKUhmTsfwPz1r67fR+DqjarhxF0kmeLMluvgyNIefrZ+7W9k1JNlqfBa
+	JA5PUKrmTU8NP86bbaeQ5D9m+9Q/uLbU2U7qDbk03Fges/L3gJ1fIlwX6FJ6i5ssIP1
+	0YIGC+0vv2SPt4W+UTM9Hwyb96v2qDoZbdTudquM=
+Content-Type: multipart/mixed; boundary="===============6148969136158843992=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vte: upgrading to 0.80.2 FAILED
-Message-ID: <010101972bc70e19-4d8f92ce-e91d-45e4-8709-89f19869f3c3-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jun 2025 13:55:55 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] gcr: upgrading to 4.4.0 FAILED
+Message-ID: <010101972bc6e91f-a00cbc89-7055-4fc8-93ba-7923adad1926-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jun 2025 13:55:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.01-54.240.27.45
+X-SES-Outgoing: 2025.06.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217672
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217638
 
---===============4343235861685258877==
+--===============6148969136158843992==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *vte* to *0.80.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *gcr* to *4.4.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe vte failed.
+The following devtool command failed:  upgrade gcr -V 4.4.0
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1915 entries from dependency cache.
@@ -74,7 +74,7 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b24e6a822280236fc3b548fc650fa7fdf73ba27f"
+workspace            = "tmp-auh-upgrades:629b0f48ed3f0545b5b313983e34f6259aa3e875"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 8 Local 8 Mirrors 0 Missed 0 Current 25 (100% match, 100% complete)
@@ -102,32 +102,29 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b24e6a822280236fc3b548fc650fa7fdf73ba27f"
+workspace            = "tmp-auh-upgrades:629b0f48ed3f0545b5b313983e34f6259aa3e875"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 9 Local 8 Mirrors 0 Missed 1 Current 19 (88% match, 96% complete)
 done.
 NOTE: Executing Tasks
-WARNING: tmp-recipetool-r4bkbwfx: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-p9ydtu9f/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-p9ydtu9f/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+WARNING: Failed to fetch URL https://download.gnome.org/sources//gcr/4.4/gcr-4.4.0.tar.xz;name=archive, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 92 tasks of which 90 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250601113323.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250601113323.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//vte/0.80/vte-0.80.2.tar.xz;name=archive...
-INFO: Rebasing devtool onto e8326f6345b94eb8782aa4a62c732e75bf44728b
-WARNING: Command 'git rebase e8326f6345b94eb8782aa4a62c732e75bf44728b' failed:
-Auto-merging README.md
-CONFLICT (content): Merge conflict in README.md
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/vte
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/vte/vte_0.80.2.bb
-
+INFO: Fetching https://download.gnome.org/sources//gcr/4.4/gcr-4.4.0.tar.xz;name=archive...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-uv2i1fy7/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-uv2i1fy7/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-uv2i1fy7/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-uv2i1fy7/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
+ cipetool-uv2i1fy7/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-uv2i1fy7/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget --tries=2 --timeout=100 --output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/gcr-4.4.0.tar.xz.tmp --continue --directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://download.gnome.org/sources//gcr/4.4/gcr-4.4.0.tar.xz' --progress=dot --verbose failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://download.gnome.org/sources//gcr/4.4/gcr-4.4.0.tar.xz;name=archive')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-uv2i1fy7/work/temp/log.do_fetch.2369632
+ERROR: Failed to fetch URL https://download.gnome.org/sources//gcr/4.4/gcr-4.4.0.tar.xz;name=archive
 
 
 Please review the attached files for further information and build/update failures.
@@ -135,5 +132,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4343235861685258877==--
+--===============6148969136158843992==--
 
