@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4294BC54FB3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C18AC5B559
 	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:33 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.27776.1748786130431140761
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.27787.1748786127441297873
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jun 2025 06:55:32 -0700
+ Sun, 01 Jun 2025 06:55:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PL9gtO9i;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AVjyvAoq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101972bc6b447-93c2af88-f29e-4509-a5d1-4d7e348bcf5d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=znd78j20;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=R7vKG8ER;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101972bc69fb3-17b61faa-df1e-4966-8869-c0433353b731-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1748786132;
+	t=1748786126;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=h32yyIeD2XtG0cE+OSSh6P5EReahYI/CBVGOfWKFQhI=;
-	b=PL9gtO9iiliY5GxVwP4mxo7M4Q3mmrfGSP9LoNhDnfTjwy7DfS4yccpWvrrzY/TQ
-	G/FRLDRDjj22+kxDdFSuQVnXjio2WwmGqQtbQIbB3SzxQdx62FpxJhPws2/wFLktRIj
-	wVtoWfBrRKdW7IWsOGUdO9iKp+GW2JDtifMMKSCw=
+	bh=ovFZycwGMPz0Hl3nC4N9fMy6+PxGdlaxkUqb/QqqcuA=;
+	b=znd78j209DI3qMwJh+J1+D6RkvVLomnsOJprjOxWulVPXCQ69897ZvUvGMHKNBQt
+	QZZuUZSRrpzGhgRtsDkrJkxHfGrqouY5aZNa61lPOZi21hmrtjcO3ANIGy6HAFDz8Fl
+	uoMEc6DBd432N36qFS0kHLvh9ko93hQ6GB91MzPg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786132;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786126;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=h32yyIeD2XtG0cE+OSSh6P5EReahYI/CBVGOfWKFQhI=;
-	b=AVjyvAoqZySQA2CxcfMqyYp0EAaP9CxEX5kua4hkZ5M2s3yjbRa3lP08U4L5ILrI
-	U6j+PoNtEciJ6C83TeW8E5UfyVs2RNNk+gGXJgGOY6aKLdVbD0+eZMNED0wbFj1CaWg
-	0n7OICDZQfz7TGygHKzm2AIOwO1+kc9gw/+ruAJY=
-Content-Type: multipart/mixed; boundary="===============7809118962526276624=="
+	bh=ovFZycwGMPz0Hl3nC4N9fMy6+PxGdlaxkUqb/QqqcuA=;
+	b=R7vKG8ER6VuSR00wSKISBc7mUQXyV6fPIyhuimwMJg+lHrG2hkYPAjNWuIBNpV1+
+	bVIx0Rn9VEr1rLX/VcPYN1ctPqpWawxZFh+KKk5jylRuIz9n5cWGYIXXv8cIuVdvkwK
+	BlmZn3gAVxmPAchB417pahE3TIgeydtjL4KmD5R0=
+Content-Type: multipart/mixed; boundary="===============1963009552280124447=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mmc-utils: upgrading to
- a23ad7875b89df0dedc23f0b173926374f01bc76 SUCCEEDED
-Message-ID: <010101972bc6b447-93c2af88-f29e-4509-a5d1-4d7e348bcf5d-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jun 2025 13:55:32 +0000
+Subject: [AUH] iproute2: upgrading to 6.15.0 SUCCEEDED
+Message-ID: <010101972bc69fb3-17b61faa-df1e-4966-8869-c0433353b731-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jun 2025 13:55:26 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.01-54.240.27.193
+X-SES-Outgoing: 2025.06.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217593
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217573
 
---===============7809118962526276624==
+--===============1963009552280124447==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mmc-utils* to *a23ad7875b89df0dedc23f0b173926374f01bc76* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *iproute2* to *6.15.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mmc-utils-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-iproute2-upgrade-6.14.0-6.15.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,210 +72,148 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 60f557ffe6ac4eb41a3d567f4f13898efeb57c40 Mon Sep 17 00:00:00 2001
+From 0c5144ebdc3370ad2930dd227e1f7a8ed27447fd Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Jun 2025 09:03:53 +0000
-Subject: [PATCH] mmc-utils: upgrade to latest revision
+Date: Sun, 1 Jun 2025 07:55:48 +0000
+Subject: [PATCH] iproute2: upgrade 6.14.0 -> 6.15.0
 
 ---
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...1-include-libnetlink.h-add-missing-include-for-htobe64.patch | 2 +-
+ .../iproute2/{iproute2_6.14.0.bb => iproute2_6.15.0.bb}         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2_6.14.0.bb => iproute2_6.15.0.bb} (97%)
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 1f287a8df9..043ac71846 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
+index c4dea39676..9bfe43e019 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
++++ b/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
+@@ -1,4 +1,4 @@
+-From 9e427aa1c647f741b08a1f0c44483ea974c7fc61 Mon Sep 17 00:00:00 2001
++From 2f39b19816d6682e805a9a8aac21495647b112e2 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Sat, 24 Aug 2024 15:32:25 +0200
+ Subject: [PATCH] include/libnetlink.h: add missing include for htobe64
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.14.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.15.0.bb
+similarity index 97%
+rename from meta/recipes-connectivity/iproute2/iproute2_6.14.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_6.15.0.bb
+index a32ac34245..592e3e15af 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_6.14.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_6.15.0.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch \
+            "
  
- SRCBRANCH ?= "master"
--SRCREV = "c515ea2e1cebfbf9d81aa6a5c1bf67a79d2a7e58"
-+SRCREV = "a23ad7875b89df0dedc23f0b173926374f01bc76"
+-SRC_URI[sha256sum] = "a6d23588150096591c3d00fc27a324a82ee71d7a1a9eea78df5df17ad9b8461f"
++SRC_URI[sha256sum] = "8041854a882583ad5263466736c9c8c68c74b1a35754ab770d23343f947528fb"
  
- PV = "0.1+git"
+ inherit update-alternatives bash-completion pkgconfig
  
 -- 
 2.47.1
 
 
---===============7809118962526276624==
+--===============1963009552280124447==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mmc-utils-upgrade-to-latest-revision.patch"
+ filename="0001-iproute2-upgrade-6.14.0-6.15.0.patch"
 
-RnJvbSA2MGY1NTdmZmU2YWM0ZWI0MWEzZDU2N2Y0ZjEzODk4ZWZlYjU3YzQwIE1vbiBTZXAgMTcg
+RnJvbSAwYzUxNDRlYmRjMzM3MGFkMjkzMGRkMjI3ZTFmN2E4ZWQyNzQ0N2ZkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAwOTowMzo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1t
-Yy11dGlsczogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21tYy9tbWMt
-dXRpbHNfZ2l0LmJiCmluZGV4IDFmMjg3YThkZjkuLjA0M2FjNzE4NDYgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvbW1jL21tYy11dGlsc19naXQuYmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0Ug
-PSAiR1BMLTIuMC1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vbW1jLmM7YmVnaW5s
-aW5lPTE7ZW5kbGluZT0yMDttZDU9ZmFlMzI3OTJlMjBmNGQyN2FkZTFjNWE3NjJkMTZiN2QiCiAK
-IFNSQ0JSQU5DSCA/PSAibWFzdGVyIgotU1JDUkVWID0gImM1MTVlYTJlMWNlYmZiZjlkODFhYTZh
-NWMxYmY2N2E3OWQyYTdlNTgiCitTUkNSRVYgPSAiYTIzYWQ3ODc1Yjg5ZGYwZGVkYzIzZjBiMTcz
-OTI2Mzc0ZjAxYmM3NiIKIAogUFYgPSAiMC4xK2dpdCIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAwNzo1NTo0OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlw
+cm91dGUyOiB1cGdyYWRlIDYuMTQuMCAtPiA2LjE1LjAKCi0tLQogLi4uMS1pbmNsdWRlLWxpYm5l
+dGxpbmsuaC1hZGQtbWlzc2luZy1pbmNsdWRlLWZvci1odG9iZTY0LnBhdGNoIHwgMiArLQogLi4u
+L2lwcm91dGUyL3tpcHJvdXRlMl82LjE0LjAuYmIgPT4gaXByb3V0ZTJfNi4xNS4wLmJifSAgICAg
+ICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi97aXByb3V0ZTJf
+Ni4xNC4wLmJiID0+IGlwcm91dGUyXzYuMTUuMC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEtaW5jbHVkZS1saWJu
+ZXRsaW5rLmgtYWRkLW1pc3NpbmctaW5jbHVkZS1mb3ItaHRvYmU2NC5wYXRjaCBiL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTIvMDAwMS1pbmNsdWRlLWxpYm5ldGxp
+bmsuaC1hZGQtbWlzc2luZy1pbmNsdWRlLWZvci1odG9iZTY0LnBhdGNoCmluZGV4IGM0ZGVhMzk2
+NzYuLjliZmU0M2UwMTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXBy
+b3V0ZTIvaXByb3V0ZTIvMDAwMS1pbmNsdWRlLWxpYm5ldGxpbmsuaC1hZGQtbWlzc2luZy1pbmNs
+dWRlLWZvci1odG9iZTY0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXBy
+b3V0ZTIvaXByb3V0ZTIvMDAwMS1pbmNsdWRlLWxpYm5ldGxpbmsuaC1hZGQtbWlzc2luZy1pbmNs
+dWRlLWZvci1odG9iZTY0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5ZTQyN2FhMWM2NDdm
+NzQxYjA4YTFmMGM0NDQ4M2VhOTc0YzdmYzYxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
+bSAyZjM5YjE5ODE2ZDY2ODJlODA1YTlhOGFhYzIxNDk1NjQ3YjExMmUyIE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4K
+IERhdGU6IFNhdCwgMjQgQXVnIDIwMjQgMTU6MzI6MjUgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0g
+aW5jbHVkZS9saWJuZXRsaW5rLmg6IGFkZCBtaXNzaW5nIGluY2x1ZGUgZm9yIGh0b2JlNjQKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4x
+NC4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl82LjE1
+LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl82LjE0LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4xNS4wLmJiCmluZGV4IGEzMmFjMzQy
+NDUuLjU5MmUzZTE1YWYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXBy
+b3V0ZTIvaXByb3V0ZTJfNi4xNC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
+aXByb3V0ZTIvaXByb3V0ZTJfNi4xNS4wLmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAi
+JHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC91dGlscy9uZXQvJHtCUE59LyR7QlB9LnRhci54eiBc
+CiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWluY2x1ZGUtbGlibmV0bGluay5oLWFkZC1taXNzaW5n
+LWluY2x1ZGUtZm9yLWh0b2JlNjQucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICJhNmQyMzU4ODE1MDA5NjU5MWMzZDAwZmMyN2EzMjRhODJlZTcxZDdhMWE5ZWVh
+NzhkZjVkZjE3YWQ5Yjg0NjFmIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjgwNDE4NTRhODgyNTgz
+YWQ1MjYzNDY2NzM2YzljOGM2OGM3NGIxYTM1NzU0YWI3NzBkMjMzNDNmOTQ3NTI4ZmIiCiAKIGlu
+aGVyaXQgdXBkYXRlLWFsdGVybmF0aXZlcyBiYXNoLWNvbXBsZXRpb24gcGtnY29uZmlnCiAKLS0g
+CjIuNDcuMQoK
 
---===============7809118962526276624==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1915 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 936 .bb files complete (935 cached, 1 parsed). 1915 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:0ff2424cd93f972f719ca382c47412635c3841ea"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 179 Local 168 Mirrors 0 Missed 11 Current 317 (93% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 496 of 496 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_recipe_qa_setscene)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1235 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_fetch)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_fetch: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_fetch: Succeeded
-NOTE: Running task 1530 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_unpack)
-NOTE: Running task 1531 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_unpack: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_unpack: Succeeded
-NOTE: Running task 1532 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_patch)
-NOTE: Running task 1533 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_collect_spdx_deps)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_patch: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_collect_spdx_deps: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe mmc-utils-0.1+git-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe mmc-utils-0.1+git-r0: task do_patch: Succeeded
-NOTE: Running task 1534 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1535 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_lic)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_populate_lic: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_lic unihash changed to 76213182aba340856010169a91bbdcad927a49ad5c704133aef971a5d6d4ad00
-NOTE: recipe mmc-utils-0.1+git-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_deploy_source_date_epoch unihash changed to 4a0e4baebd70ab8cc13ff11b8ab9d5cad7b8628453cdfc79503be7e717ee54a4
-NOTE: Setscene tasks completed
-NOTE: Running task 1536 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_configure)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_configure: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_configure: Succeeded
-NOTE: Running task 1537 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_compile)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_compile: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_compile: Succeeded
-NOTE: Running task 1538 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_install)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_install: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_install: Succeeded
-NOTE: Running task 1539 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_package)
-NOTE: Running task 1540 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_sysroot)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_populate_sysroot: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_sysroot unihash changed to 14ad94e8e6c7ce50c374b9f78164b2ee98a05d277656bd8991f54d789da21733
-NOTE: Setscene tasks completed
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_package unihash changed to 012f08d2e2c0ed5743f54b9cf43ecc14748278d19f572a1b0582ba1c822705db
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata became valid
-NOTE: Running setscene task 496 of 496 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata_setscene)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_packagedata_setscene: Started
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/mmc-utils/0.1+git/temp/log.do_packagedata_setscene.452123
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Setscene tasks completed
-NOTE: Running task 1541 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_packagedata: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_packagedata: Succeeded
-NOTE: Running task 1542 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_create_spdx)
-NOTE: Running task 1543 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_package_write_ipk)
-NOTE: Running task 1544 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_package_write_deb)
-NOTE: Running task 1545 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_package_write_rpm)
-NOTE: Running task 1546 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_package_qa)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_create_spdx: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package_write_ipk: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package_write_deb: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package_write_rpm: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package_qa: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1547 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_create_package_spdx)
-NOTE: recipe mmc-utils-0.1+git-r0: task do_create_package_spdx: Started
-NOTE: recipe mmc-utils-0.1+git-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package_qa: Succeeded
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_package_qa unihash changed to 6d32c11e3748655e2fd884c24ab8d849e58d4e823f08ee7ca22ae2799326f7f1
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package_write_deb: Succeeded
-NOTE: recipe mmc-utils-0.1+git-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1548 of 1548 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_build)
-NOTE: Tasks Summary: Attempted 1548 tasks of which 1528 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: mmc-utils-0.1+git-r0 do_packagedata_setscene: QA Issue: Package version for package mmc-utils-src went backwards which would break package feeds (from 0:0.1+git0+c515ea2e1c-r0 to 0:0.1+git0+a23ad7875b-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+git-r0 do_packagedata_setscene: QA Issue: Package version for package mmc-utils-dbg went backwards which would break package feeds (from 0:0.1+git0+c515ea2e1c-r0 to 0:0.1+git0+a23ad7875b-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+git-r0 do_packagedata_setscene: QA Issue: Package version for package mmc-utils-staticdev went backwards which would break package feeds (from 0:0.1+git0+c515ea2e1c-r0 to 0:0.1+git0+a23ad7875b-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+git-r0 do_packagedata_setscene: QA Issue: Package version for package mmc-utils-dev went backwards which would break package feeds (from 0:0.1+git0+c515ea2e1c-r0 to 0:0.1+git0+a23ad7875b-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+git-r0 do_packagedata_setscene: QA Issue: Package version for package mmc-utils-doc went backwards which would break package feeds (from 0:0.1+git0+c515ea2e1c-r0 to 0:0.1+git0+a23ad7875b-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+git-r0 do_packagedata_setscene: QA Issue: Package version for package mmc-utils-locale went backwards which would break package feeds (from 0:0.1+git0+c515ea2e1c-r0 to 0:0.1+git0+a23ad7875b-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+git-r0 do_packagedata_setscene: QA Issue: Package version for package mmc-utils went backwards which would break package feeds (from 0:0.1+git0+c515ea2e1c-r0 to 0:0.1+git0+a23ad7875b-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+git-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============7809118962526276624==
+--===============1963009552280124447==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dbg: PKGSIZE changed from 358888 to 354872 (-1%)
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dev: RRECOMMENDS: removed "mmc-utils (['= 0.1+git0+c515ea2e1c-r0'])", added "mmc-utils (['= 0.1+git0+a23ad7875b-r0'])"
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-src: PKGSIZE changed from 227386 to 225668 (-1%)
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-staticdev: RDEPENDS: removed "mmc-utils-dev (['= 0.1+git0+c515ea2e1c-r0'])", added "mmc-utils-dev (['= 0.1+git0+a23ad7875b-r0'])"
-packages/core2-64-poky-linux/mmc-utils/mmc-utils: PKGSIZE changed from 127984 to 127632 (-0%)
-packages/core2-64-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
+packages/core2-64-poky-linux/iproute2/iproute2-bash-completion: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-bash-completion: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-bridge: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-bridge: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-dbg: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-dbg: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-dbg: PKGSIZE changed from 9024008 to 9037464 (+0%)
+packages/core2-64-poky-linux/iproute2/iproute2-dev: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-dev: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-devlink: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-devlink: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-doc: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-doc: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-genl: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-genl: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-ifstat: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-ifstat: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-ip: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-ip: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-ip: PKGSIZE changed from 718844 to 722947 (+1%)
+packages/core2-64-poky-linux/iproute2/iproute2-lnstat: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-lnstat: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-locale: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-locale: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-nstat: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-nstat: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-rdma: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-rdma: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-routel: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-routel: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-rtacct: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-rtacct: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-src: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-src: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-src: PKGSIZE changed from 3710501 to 3717779 (+0%)
+packages/core2-64-poky-linux/iproute2/iproute2-ss: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-ss: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-staticdev: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-staticdev: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-tc: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-tc: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2-tipc: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2-tipc: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2/iproute2: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2/iproute2: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2: PKGV changed from 6.14.0 [default] to 6.15.0 [default]
+packages/core2-64-poky-linux/iproute2: PV changed from "6.14.0" to "6.15.0"
+packages/core2-64-poky-linux/iproute2: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.14.0.tar.xz file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch" to "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.15.0.tar.xz file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch"
 
---===============7809118962526276624==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dev: RRECOMMENDS: removed "mmc-utils (['= 0.1+git0+c515ea2e1c-r0'])", added "mmc-utils (['= 0.1+git0+a23ad7875b-r0'])"
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-staticdev: RDEPENDS: removed "mmc-utils-dev (['= 0.1+git0+c515ea2e1c-r0'])", added "mmc-utils-dev (['= 0.1+git0+a23ad7875b-r0'])"
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-packages/core2-64-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+c515ea2e1c to 0.1+git0+a23ad7875b
-
---===============7809118962526276624==--
+--===============1963009552280124447==--
 
