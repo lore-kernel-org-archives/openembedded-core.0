@@ -2,466 +2,362 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB972C61CE8
-	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:44 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.27775.1748786129144655672
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23D33C7115C
+	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:45 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.27794.1748786131003985116
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jun 2025 06:55:42 -0700
+ Sun, 01 Jun 2025 06:55:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Xg5toCP1;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AVgNNCPt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101972bc6da76-8cd24852-e5cc-4f41-a527-199b5d366ab6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=cfpP+51G;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Cl84NTlt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101972bc6d2b5-b36eca58-9827-4864-a058-9526c1481595-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1748786142;
+	t=1748786140;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mFZFm87MSjSGtazSy3y53CSXOQcOMcVxBVhCgDrkRIM=;
-	b=Xg5toCP1Uw9UXSupq7ZoSIv4jfGfUFHloAyvFCaXuDfy9wTdj0yCoXtO5nVmC96h
-	JvvHCCc2IRGdX8pAykNpgRFOVmhhy2+i6eHh+S3Tq1fGjSoOUvld7mhxz9x0cNZvb9q
-	r2LTRJoSbmghOZec9WbmnSSQYiJL0ihjTo5u5sOU=
+	bh=auT4TbMtFjGt2ZBqgxQ058/Gr+rWmvBC9e3xN0MmxoY=;
+	b=cfpP+51GKYrZY+Ji+nwInHPCnUaFLF7xZrvpoCDBFR7CjbNOEgNMvpozi5NJG2dl
+	Dy9yTGsESpYPN5EymKBKWjEL00VO6MTaIqvzEOBDJyTQivK7w/LvczfIlg0ca9B9ZyW
+	FPLokVY6Ka1pzibVzGGqGWuSjTLujIzkxP9ZPDBk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786142;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786140;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mFZFm87MSjSGtazSy3y53CSXOQcOMcVxBVhCgDrkRIM=;
-	b=AVgNNCPt+rzi7hkBLxZLz0UUtMwmT1IPlyOKw0Ozoy3OvsTTimuFNqOckT25b9GW
-	a30vcGXf9PUxBE5SZQa7ZWLw8SXQYgM9kFShosOpxC9sujDJpspcDOLrdi1WNLzPrWU
-	FUnFOiifaKuyftBvqRUubkn161UBDbMzbvuzmpkg=
-Content-Type: multipart/mixed; boundary="===============2506162417419915123=="
+	bh=auT4TbMtFjGt2ZBqgxQ058/Gr+rWmvBC9e3xN0MmxoY=;
+	b=Cl84NTltdMBzfd4uS76v4yLMiSq9EtVOPSKhbXjZa+/wHFdHSPx+19vWKNC7qhS6
+	VV0HHCYyCyqfmttyuaSNNtLcjoUu9Wei3/JO93yl61bIAI9qtPPB5+t5gEO8CaKwnF6
+	NMwVPyOwEA/8Oe4IAzABFGH4rEvbKL5Fu0R73Nl4=
+Content-Type: multipart/mixed; boundary="===============2738478582724120542=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ruby: upgrading to 3.4.4 SUCCEEDED
-Message-ID: <010101972bc6da76-8cd24852-e5cc-4f41-a527-199b5d366ab6-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jun 2025 13:55:41 +0000
+Subject: [AUH] python3-zipp: upgrading to 3.22.0 FAILED
+Message-ID: <010101972bc6d2b5-b36eca58-9827-4864-a058-9526c1481595-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jun 2025 13:55:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.01-54.240.27.23
+X-SES-Outgoing: 2025.06.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217626
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217618
 
---===============2506162417419915123==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpydWJ5KiB0byAqMy40LjQqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAgLSBh
-cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLXJ1YnktdXBncmFkZS0zLjQuMy0zLjQuNC5wYXRj
-aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
-emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
-dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
-c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
-LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
-YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
-dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
-VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
-IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
-ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
-IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
-ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
-bSAyNzNlYjNlZGMwNzU5YTI1NGI2ZmU2ZWZlMmE4YTdiZDJhOTY0YzA0IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
-dGU6IFN1biwgMSBKdW4gMjAyNSAxMDoyOTo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1Ynk6
-IHVwZ3JhZGUgMy40LjMgLT4gMy40LjQKCi0tLQogLi4uLzAwMDEtZXh0bWstZml4LWNyb3NzLWNv
-bXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0Y2ggfCA0ICsrLS0KIC4uLi12bV9kdW1wLmMt
-RGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoIHwgNCArKy0tCiAu
-Li4vcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaCAg
-ICB8IDYgKysrLS0tCiAuLi4vcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3Vt
-ZW50YXRpb24ucGF0Y2ggICB8IDIgKy0KIC4uLmItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0
-LWZpbGVzLWluLWdlbmVyYXRlZC1NLnBhdGNoIHwgNCArKy0tCiAuLi5NYXJrLUdlbXNwZWMtcmVw
-cm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaCB8IDYgKysrLS0tCiAuLi4v
-cnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2ggICAgICAgICB8
-IDIgKy0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3tydWJ5XzMuNC4zLmJiID0+IHJ1Ynlf
-My40LjQuYmJ9IHwgMiArLQogOCBmaWxlcyBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAxNSBk
-ZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS97cnVieV8zLjQu
-My5iYiA9PiBydWJ5XzMuNC40LmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0
-ZXJuYWwtZ2Vtcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS1l
-eHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaAppbmRleCBm
-MTc5NzBlOWM5Li5mYjljZjBjY2I2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDEtZXh0bWstZml4LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdl
-bXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1r
-LWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCkBAIC0xLDQgKzEs
-NCBAQAotRnJvbSAwMzcwMGVjMjU2Nzg5ZTAyZGUyMGI1OGJjYTA4MGM2ZmVmNTkyMzM2IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlMGE1YjQ5ZGQ3NzBkZTBkOTcxMWE5MjVjMDZlZTAw
-N2Y2ODdlOGEyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogPT9VVEYtOD9xP0FuZHI9
-QzM9QTk9MjBEcmFzemlrPz0gPGFuZHJlLmRyYXN6aWtAamNpLmNvbT4KIERhdGU6IE1vbiwgMzAg
-U2VwIDIwMTkgMTY6NTc6MDEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXh0bWs6IGZpeCBjcm9z
-cy1jb21waWxhdGlvbiBvZiBleHRlcm5hbCBnZW1zCkBAIC0xNiw3ICsxNiw3IEBAIFNpZ25lZC1v
-ZmYtYnk6IEFuZHLDqSBEcmFzemlrIDxhbmRyZS5kcmFzemlrQGpjaS5jb20+CiAgMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9leHQv
-ZXh0bWsucmIgYi9leHQvZXh0bWsucmIKLWluZGV4IDhiNmIzNjUuLjMwNDhmNzUgMTAwNzU1Citp
-bmRleCAxZDE2NTQ1Li5hZDk3MWVhIDEwMDc1NQogLS0tIGEvZXh0L2V4dG1rLnJiCiArKysgYi9l
-eHQvZXh0bWsucmIKIEBAIC00MzQsOCArNDM0LDggQEAgZWxzZQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLXZtX2R1bXAuYy1EZWZpbmUtUkVHX1MxLWFu
-ZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVi
-eS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3ItbXVzbC1y
-aXNjdi5wYXRjaAppbmRleCA3OTkzMjRjYWVhLi40M2I3NDJiYTEwIDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEt
-YW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3It
-bXVzbC1yaXNjdi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZjk5MmQ3ODFlMDViNjE0ODli
-ZGY1YTJhOWFlZTZjYzYxNmYxNzQyYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNzBl
-NzE3ZDk3ODE5Y2M2ODIzZWIzYTVkZDk1NTc4MzMzYzgyOTYwYSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUdWUsIDI1
-IEphbiAyMDIyIDIwOjI5OjE0IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHZtX2R1bXAuYzogRGVm
-aW5lIFJFR19TMSBhbmQgUkVHX1MyIGZvciBtdXNsL3Jpc2N2CkBAIC0xNCw3ICsxNCw3IEBAIFNp
-Z25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5n
-ZWQsIDUgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvdm1fZHVtcC5jIGIvdm1fZHVtcC5j
-Ci1pbmRleCA1ODczZTUyLi45ZWI0ZGIxIDEwMDY0NAoraW5kZXggOTkzMzlmZC4uOGM1YmIwMyAx
-MDA2NDQKIC0tLSBhL3ZtX2R1bXAuYwogKysrIGIvdm1fZHVtcC5jCiBAQCAtNDAsNiArNDAsMTEg
-QEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5
-LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcnVieS9ydWJ5LzAwMDItT2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5
-LnBhdGNoCmluZGV4IGJiNjdkZjBmNDAuLjhjNWIzZGY3MGEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9m
-LWxpYnJ1YnkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAy
-LU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gN2UyMzM3ZDhiMGRhZjI2NDc4NWNiMDZkMWQ2YzdkNjFlNDI4YTExYiBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gODAxNDZjOWNlYjFmZWY0MmQwYzhkOGY1NTg3NzUwYjE4
-ZjhlMWJlNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENocmlzdG9waGVyIExhcnNv
-biA8Y2hyaXNfbGFyc29uQG1lbnRvci5jb20+CiBEYXRlOiBUaHUsIDUgTWF5IDIwMTYgMTA6NTk6
-MDcgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gT2JleSBMREZMQUdTIGZvciB0aGUgbGluayBvZiBs
-aWJydWJ5CkBAIC0xMCwxMCArMTAsMTAgQEAgVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCiAgMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQg
-YS90ZW1wbGF0ZS9NYWtlZmlsZS5pbiBiL3RlbXBsYXRlL01ha2VmaWxlLmluCi1pbmRleCAwNTQz
-MmNkLi40MWEwNWJiIDEwMDY0NAoraW5kZXggOGY5OTZiOC4uYzcwOGI2NCAxMDA2NDQKIC0tLSBh
-L3RlbXBsYXRlL01ha2VmaWxlLmluCiArKysgYi90ZW1wbGF0ZS9NYWtlZmlsZS5pbgotQEAgLTEx
-OSw3ICsxMTksNyBAQCBFTkFCTEVfU0hBUkVEID0gQEVOQUJMRV9TSEFSRURACitAQCAtMTIwLDcg
-KzEyMCw3IEBAIEVOQUJMRV9TSEFSRUQgPSBARU5BQkxFX1NIQVJFREAKICBMRFNIQVJFRCA9IEBM
-SUJSVUJZX0xEU0hBUkVEQAogIERMRFNIQVJFRCA9IEBETERTSEFSRURACiAgWERMREZMQUdTID0g
-QERMREZMQUdTQApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8w
-MDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9j
-dW1lbnRhdGlvbi5wYXRjaAppbmRleCA4N2ExZTgyNTE2Li5lOTYxYTlmNTc1IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1
-Y2libGUtZG9jdW1lbnRhdGlvbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVi
-eS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlvbi5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gOTgwNzFjMGIyOGE0NWNkMjFhMmNiZTY3NDZjZTM5MDY3OTMy
-YjYyZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTBiMGVjYjhlN2FlOGJlMzJmZDMz
-Y2I5MGNjODgxMzZjMWMxZDk4OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENocmlz
-dGlhbiBIb2ZzdGFlZHRsZXIgPHplaGFAZGViaWFuLm9yZz4KIERhdGU6IFR1ZSwgMTAgT2N0IDIw
-MTcgMTU6MDQ6MzQgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gcmRvYzogYnVpbGQgcmVwcm9kdWNp
-YmxlIGRvY3VtZW50YXRpb24KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0LWZpbGVzLWluLWdlbmVy
-YXRlZC1NLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA0LWxpYi1t
-a21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2gKaW5k
-ZXggNGI2NzcxZmQyNi4uOGIwNThhZWQ4YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3J1YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMt
-aW4tZ2VuZXJhdGVkLU0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVi
-eS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVk
-LU0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDA4ODdmYWNjNGNhNWJjYjAyODBiMDI1YjM1
-YmJjMTg1MjhlNTI5MTQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDU5ZmYzMWUyMDI2
-NWEyZjY1MGRlMThhY2UzNTI3OGIzZTFlNGFlNjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
-cm9tOiBSZWluZXIgSGVycm1hbm4gPHJlaW5lckByZWluZXItaC5kZT4KIERhdGU6IFR1ZSwgMTAg
-T2N0IDIwMTcgMTU6MDY6MTMgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gbGliL21rbWYucmI6IHNv
-cnQgbGlzdCBvZiBvYmplY3QgZmlsZXMgaW4gZ2VuZXJhdGVkIE1ha2VmaWxlCkBAIC0xNyw3ICsx
-Nyw3IEBAIFNpZ25lZC1vZmYtYnk6IFJlaW5lciBIZXJybWFubiA8cmVpbmVyQHJlaW5lci1oLmRl
-PgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZm
-IC0tZ2l0IGEvbGliL21rbWYucmIgYi9saWIvbWttZi5yYgotaW5kZXggNzY4YTE1Mi4uZjE2Y2Rk
-OCAxMDA2NDQKK2luZGV4IDk5ZjM3NjQuLjYyMzc3YjYgMTAwNjQ0CiAtLS0gYS9saWIvbWttZi5y
-YgogKysrIGIvbGliL21rbWYucmIKIEBAIC0yNDgwLDcgKzI0ODAsNyBAQCBMT0NBTF9MSUJTID0g
-I3skTE9DQUxfTElCU30KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1
-YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRv
-by5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNw
-ZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaAppbmRleCBlZGE0
-NWRkODYyLi5lYjg1YmE1MzExIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVi
-eS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJlcHJvZHVjaWJsZS1jaGFuZ2UtZml4aW5nLTc4NDIy
-NS10b28ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1h
-cmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoCkBA
-IC0xLDQgKzEsNCBAQAotRnJvbSBmZjI1ZjZkZGRjZmJiYjdiMDQ2NDQ4NWJiNTEzMjQ1ODg2NmFi
-NTFhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkMWZkYTM2OWYxYjIwMjk5ZmUyMWQ3
-MmZhZjM2YWFjNmQzZGQ2ZDI3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTHVjYXMg
-S2FuYXNoaXJvIDxrYW5hc2hpcm9AZGViaWFuLm9yZz4KIERhdGU6IEZyaSwgMSBOb3YgMjAxOSAx
-NToyNToxNyAtMDMwMAogU3ViamVjdDogW1BBVENIXSBNYWtlIGdlbXNwZWNzIHJlcHJvZHVjaWJs
-ZQpAQCAtMTIsMTAgKzEyLDEwIEBAIFVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2RlYmlhbl0K
-ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYg
-LS1naXQgYS9saWIvcnVieWdlbXMvc3BlY2lmaWNhdGlvbi5yYiBiL2xpYi9ydWJ5Z2Vtcy9zcGVj
-aWZpY2F0aW9uLnJiCi1pbmRleCA4ZjM1M2FlLi4wOTUxMjVmIDEwMDY0NAoraW5kZXggMGI5MDVh
-Ny4uYTEwMmUzYyAxMDA2NDQKIC0tLSBhL2xpYi9ydWJ5Z2Vtcy9zcGVjaWZpY2F0aW9uLnJiCiAr
-KysgYi9saWIvcnVieWdlbXMvc3BlY2lmaWNhdGlvbi5yYgotQEAgLTE3MTEsNyArMTcxMSw5IEBA
-IGNsYXNzIEdlbTo6U3BlY2lmaWNhdGlvbiA8IEdlbTo6QmFzaWNTcGVjaWZpY2F0aW9uCitAQCAt
-MTcwOSw3ICsxNzA5LDkgQEAgY2xhc3MgR2VtOjpTcGVjaWZpY2F0aW9uIDwgR2VtOjpCYXNpY1Nw
-ZWNpZmljYXRpb24KICAgICAgICAgICAgICAgICAgcmFpc2UoR2VtOjpJbnZhbGlkU3BlY2lmaWNh
-dGlvbkV4Y2VwdGlvbiwKICAgICAgICAgICAgICAgICAgICAgICAgImludmFsaWQgZGF0ZSBmb3Jt
-YXQgaW4gc3BlY2lmaWNhdGlvbjogI3tkYXRlLmluc3BlY3R9IikKICAgICAgICAgICAgICAgIGVu
-ZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2Ut
-Z2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1Ynkv
-cnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoCmluZGV4IDEyMWJkY2Yz
-YWIuLmZjYzdlN2FhZTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1
-YnkvMDAwNi1NYWtlLWdlbXNwZWNzLXJlcHJvZHVjaWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0
-Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQ1OGJkYWNhM2Q1Mzc5YWZjYjk1NGJiNTdjNjkwYzc3
-MzY4MDdlYzUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGZhMTRhMDY3NWI1ZjI4NGY4
-MGI1ZWQ2MThiZTkzMmYzNjlhYmE2OTkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBM
-dWNhcyBLYW5hc2hpcm8gPGthbmFzaGlyb0BkZWJpYW4ub3JnPgogRGF0ZTogRnJpLCAxIE5vdiAy
-MDE5IDE1OjI1OjE3IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2UgZ2Vtc3BlY3MgcmVwcm9k
-dWNpYmxlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuNC4z
-LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQuNC5iYgpzaW1pbGFyaXR5
-IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMu
-NC4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuNC40LmJi
-CmluZGV4IDQ1MDQ3Yjg4NTkuLjM5ZTg2ZmRkMjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9ydWJ5L3J1YnlfMy40LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1
-YnkvcnVieV8zLjQuNC5iYgpAQCAtNDgsNyArNDgsNyBAQCBkb19jb25maWd1cmU6cHJlcGVuZCgp
-IHsKIAogREVQRU5EUzphcHBlbmQ6bGliYy1tdXNsID0gIiBsaWJ1Y29udGV4dCIKIAotU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjU1YTRjZDFkY2JlNWNhMjdjZjY1ZTg5YTkzNWE0ODJjMmJiMjI4NDgz
-MjkzOTI2NjU1MWMwZWM2OGI0MzdmNDYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTA1OTdiZmRm
-MzEyZTAxMGVmZDFlZmZhYThkN2YxZDc4MzMxNDZmZGMxNzk1MGNhYTgxNThmZmEzZGNiZmE4NSIK
-IAogUEFDS0FHRUNPTkZJRyA/Pz0gIiIKIFBBQ0tBR0VDT05GSUcgKz0gIiR7QGJiLnV0aWxzLmZp
-bHRlcignRElTVFJPX0ZFQVRVUkVTJywgJ2lwdjYnLCBkKX0iCi0tIAoyLjQ3LjEKCg==
-
---===============2506162417419915123==
+--===============2738478582724120542==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/ruby: SRC_URI changed from "http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.3.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch" to "http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.4.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch 
- file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch"
-packages/core2-64-poky-linux/ruby: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby-dbg: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-dbg: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby-dbg: FILELIST: removed "/usr/lib/.debug/libruby.so.3.4.3", added "/usr/lib/.debug/libruby.so.3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-dbg: PKGSIZE changed from 11977344 to 11977240 (-0%)
-packages/core2-64-poky-linux/ruby/ruby-dev: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-dev: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby-dev: PKGSIZE changed from 1587225 to 1588846 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-doc: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-doc: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby-locale: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-locale: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby-ptest: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-ptest: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby-ptest: PKGSIZE changed from 13639919 to 13643355 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-rdoc: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-rdoc: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby-ri-docs: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-ri-docs: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby-src: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-src: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby-staticdev: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby-staticdev: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby: PV changed from "3.4.3" to "3.4.4"
-packages/core2-64-poky-linux/ruby/ruby: PKGV changed from 3.4.3 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/docs -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/docs, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/stringprep -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/stringprep, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/config -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/config, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_parser -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_parser, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6 -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/rakelib -> /usr/lib/ruby/gems/3.4.0/gems/
- net-imap-0.5.8/rakelib, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/sasl, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/sample -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/sample, removed "/usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/flags.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sequence_set.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/esearch_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/vanished_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/authenticators.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/stringprep.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/config.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/errors.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib
- /net/imap/command_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl_adapter.rb /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/deprecated_client_options.rb /usr/lib/libruby.so.3.4.3 /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/uidplus_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/search_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_parser.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/data_encoding.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/data_lite.rb /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/fetch_data.rb", added "/usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/flags.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/sequence_set.rb /u
- sr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/esearch_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/vanished_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/authenticators.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/stringprep.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/config.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/errors.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/sasl.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/command_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/sasl_adapter.rb /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.8.gem /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/connection_state.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/deprecated_client_options.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/uidplus_data.rb /usr/lib/libruby.so.3.4.4 /usr/lib/ruby/gems/3.4.0/gems/net-i
- map-0.5.8/lib/net/imap/search_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_parser.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_reader.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/data_encoding.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/data_lite.rb /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.8.gemspec /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/fetch_data.rb"
-packages/core2-64-poky-linux/ruby/ruby: PKGSIZE changed from 30731324 to 30759692 (+0%)
-Changes to packages/core2-64-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.3 to libruby.so.3.4.4
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.3 to libruby.so.3.4.4
-  /usr/lib/libruby.so.3.4.3 moved to /usr/lib/libruby.so.3.4.4
-  /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.8.gem
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6 moved to /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8
-  /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.8.gemspec
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/connection_state.rb was added
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_reader.rb was added
-Changes to packages/x86_64-linux/ruby-native (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.3 to libruby.so.3.4.4
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.3 to libruby.so.3.4.4
-  /usr/lib/libruby.so.3.4.3 moved to /usr/lib/libruby.so.3.4.4
-  /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.8.gem
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6 moved to /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8
-  /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.8.gemspec
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/connection_state.rb was added
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_reader.rb was added
+Hello,
 
---===============2506162417419915123==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-zipp* to *3.22.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-python3-zipp-upgrade-3.21.0-3.22.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 8b743d1761cfed54e01e67964ddaaa863278789f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 1 Jun 2025 10:13:48 +0000
+Subject: [PATCH] python3-zipp: upgrade 3.21.0 -> 3.22.0
+
+---
+ ...-zipp_3.21.0.bb => python3-zipp_3.22.0.bb} | 51 ++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-zipp_3.21.0.bb => python3-zipp_3.22.0.bb} (10%)
+
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.21.0.bb b/meta/recipes-devtools/python/python3-zipp_3.22.0.bb
+similarity index 10%
+rename from meta/recipes-devtools/python/python3-zipp_3.21.0.bb
+rename to meta/recipes-devtools/python/python3-zipp_3.22.0.bb
+index 135a1ae533..da96a041da 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.21.0.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.22.0.bb
+@@ -1,9 +1,56 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,17 +1,18 @@
++# -Permission is hereby granted, free of charge, to any person obtaining a copy
++# -of this software and associated documentation files (the "Software"), to
++# -deal in the Software without restriction, including without limitation the
++# -rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
++# -sell copies of the Software, and to permit persons to whom the Software is
++# -furnished to do so, subject to the following conditions:
++# +MIT License
++#  
++# -The above copyright notice and this permission notice shall be included in
++# -all copies or substantial portions of the Software.
++# +Copyright (c) 2025 <copyright holders>
++#  
++# -THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# -IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# -FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++# -AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++# -LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++# -FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
++# -IN THE SOFTWARE.
++# +Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
++# +associated documentation files (the "Software"), to deal in the Software without restriction, including
++# +without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++# +copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
++# +following conditions:
++# +
++# +The above copyright notice and this permission notice shall be included in all copies or substantial
++# +portions of the Software.
++# +
++# +THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
++# +LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
++# +EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
++# +IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++# +USE OR OTHER DEALINGS IN THE SOFTWARE.
++# 
++#
++
+ SUMMARY = "Backport of pathlib-compatible object wrapper for zip files"
+ HOMEPAGE = "https://github.com/jaraco/zipp"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1aeae65f25a15b1e46d4381f2f094e0a"
+ 
+-SRC_URI[sha256sum] = "2c9958f6430a2040341a52eb608ed6dd93ef4392e02ffe219417c1b28b5dd1f4"
++SRC_URI[sha256sum] = "dd2f28c3ce4bc67507bfd3781d21b7bb2be31103b51a4553ad7d90b84e57ace5"
+ 
+ DEPENDS += "python3-setuptools-scm-native"
+ 
+-- 
+2.47.1
+
+
+--===============2738478582724120542==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ruby-upgrade-3.4.3-3.4.4.patch"
+ filename="0001-python3-zipp-upgrade-3.21.0-3.22.0.patch"
 
-RnJvbSAyNzNlYjNlZGMwNzU5YTI1NGI2ZmU2ZWZlMmE4YTdiZDJhOTY0YzA0IE1vbiBTZXAgMTcg
+RnJvbSA4Yjc0M2QxNzYxY2ZlZDU0ZTAxZTY3OTY0ZGRhYWE4NjMyNzg3ODlmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAxMDoyOTo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1
-Ynk6IHVwZ3JhZGUgMy40LjMgLT4gMy40LjQKCi0tLQogLi4uLzAwMDEtZXh0bWstZml4LWNyb3Nz
-LWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0Y2ggfCA0ICsrLS0KIC4uLi12bV9kdW1w
-LmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoIHwgNCArKy0t
-CiAuLi4vcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRj
-aCAgICB8IDYgKysrLS0tCiAuLi4vcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRv
-Y3VtZW50YXRpb24ucGF0Y2ggICB8IDIgKy0KIC4uLmItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2Jq
-ZWN0LWZpbGVzLWluLWdlbmVyYXRlZC1NLnBhdGNoIHwgNCArKy0tCiAuLi5NYXJrLUdlbXNwZWMt
-cmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaCB8IDYgKysrLS0tCiAu
-Li4vcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2ggICAgICAg
-ICB8IDIgKy0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3tydWJ5XzMuNC4zLmJiID0+IHJ1
-YnlfMy40LjQuYmJ9IHwgMiArLQogOCBmaWxlcyBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAx
-NSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS97cnVieV8z
-LjQuMy5iYiA9PiBydWJ5XzMuNC40LmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2Yt
-ZXh0ZXJuYWwtZ2Vtcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAw
-MS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaAppbmRl
-eCBmMTc5NzBlOWM5Li5mYjljZjBjY2I2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcnVieS9ydWJ5LzAwMDEtZXh0bWstZml4LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFs
-LWdlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4
-dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCkBAIC0xLDQg
-KzEsNCBAQAotRnJvbSAwMzcwMGVjMjU2Nzg5ZTAyZGUyMGI1OGJjYTA4MGM2ZmVmNTkyMzM2IE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlMGE1YjQ5ZGQ3NzBkZTBkOTcxMWE5MjVjMDZl
-ZTAwN2Y2ODdlOGEyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogPT9VVEYtOD9xP0Fu
-ZHI9QzM9QTk9MjBEcmFzemlrPz0gPGFuZHJlLmRyYXN6aWtAamNpLmNvbT4KIERhdGU6IE1vbiwg
-MzAgU2VwIDIwMTkgMTY6NTc6MDEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXh0bWs6IGZpeCBj
-cm9zcy1jb21waWxhdGlvbiBvZiBleHRlcm5hbCBnZW1zCkBAIC0xNiw3ICsxNiw3IEBAIFNpZ25l
-ZC1vZmYtYnk6IEFuZHLDqSBEcmFzemlrIDxhbmRyZS5kcmFzemlrQGpjaS5jb20+CiAgMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9l
-eHQvZXh0bWsucmIgYi9leHQvZXh0bWsucmIKLWluZGV4IDhiNmIzNjUuLjMwNDhmNzUgMTAwNzU1
-CitpbmRleCAxZDE2NTQ1Li5hZDk3MWVhIDEwMDc1NQogLS0tIGEvZXh0L2V4dG1rLnJiCiArKysg
-Yi9leHQvZXh0bWsucmIKIEBAIC00MzQsOCArNDM0LDggQEAgZWxzZQpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLXZtX2R1bXAuYy1EZWZpbmUtUkVHX1Mx
-LWFuZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1mb3ItbXVz
-bC1yaXNjdi5wYXRjaAppbmRleCA3OTkzMjRjYWVhLi40M2I3NDJiYTEwIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdf
-UzEtYW5kLVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJFR19TMi1m
-b3ItbXVzbC1yaXNjdi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZjk5MmQ3ODFlMDViNjE0
-ODliZGY1YTJhOWFlZTZjYzYxNmYxNzQyYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
-NzBlNzE3ZDk3ODE5Y2M2ODIzZWIzYTVkZDk1NTc4MzMzYzgyOTYwYSBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUdWUs
-IDI1IEphbiAyMDIyIDIwOjI5OjE0IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHZtX2R1bXAuYzog
-RGVmaW5lIFJFR19TMSBhbmQgUkVHX1MyIGZvciBtdXNsL3Jpc2N2CkBAIC0xNCw3ICsxNCw3IEBA
-IFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgMSBmaWxlIGNo
-YW5nZWQsIDUgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvdm1fZHVtcC5jIGIvdm1fZHVt
-cC5jCi1pbmRleCA1ODczZTUyLi45ZWI0ZGIxIDEwMDY0NAoraW5kZXggOTkzMzlmZC4uOGM1YmIw
-MyAxMDA2NDQKIC0tLSBhL3ZtX2R1bXAuYwogKysrIGIvdm1fZHVtcC5jCiBAQCAtNDAsNiArNDAs
-MTEgQEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1P
-YmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDItT2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJy
-dWJ5LnBhdGNoCmluZGV4IGJiNjdkZjBmNDAuLjhjNWIzZGY3MGEgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5r
-LW9mLWxpYnJ1YnkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8w
-MDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaApAQCAtMSw0ICsx
-LDQgQEAKLUZyb20gN2UyMzM3ZDhiMGRhZjI2NDc4NWNiMDZkMWQ2YzdkNjFlNDI4YTExYiBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gODAxNDZjOWNlYjFmZWY0MmQwYzhkOGY1NTg3NzUw
-YjE4ZjhlMWJlNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENocmlzdG9waGVyIExh
-cnNvbiA8Y2hyaXNfbGFyc29uQG1lbnRvci5jb20+CiBEYXRlOiBUaHUsIDUgTWF5IDIwMTYgMTA6
-NTk6MDcgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gT2JleSBMREZMQUdTIGZvciB0aGUgbGluayBv
-ZiBsaWJydWJ5CkBAIC0xMCwxMCArMTAsMTAgQEAgVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCiAg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1n
-aXQgYS90ZW1wbGF0ZS9NYWtlZmlsZS5pbiBiL3RlbXBsYXRlL01ha2VmaWxlLmluCi1pbmRleCAw
-NTQzMmNkLi40MWEwNWJiIDEwMDY0NAoraW5kZXggOGY5OTZiOC4uYzcwOGI2NCAxMDA2NDQKIC0t
-LSBhL3RlbXBsYXRlL01ha2VmaWxlLmluCiArKysgYi90ZW1wbGF0ZS9NYWtlZmlsZS5pbgotQEAg
-LTExOSw3ICsxMTksNyBAQCBFTkFCTEVfU0hBUkVEID0gQEVOQUJMRV9TSEFSRURACitAQCAtMTIw
-LDcgKzEyMCw3IEBAIEVOQUJMRV9TSEFSRUQgPSBARU5BQkxFX1NIQVJFREAKICBMRFNIQVJFRCA9
-IEBMSUJSVUJZX0xEU0hBUkVEQAogIERMRFNIQVJFRCA9IEBETERTSEFSRURACiAgWERMREZMQUdT
-ID0gQERMREZMQUdTQApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVi
-eS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUt
-ZG9jdW1lbnRhdGlvbi5wYXRjaAppbmRleCA4N2ExZTgyNTE2Li5lOTYxYTlmNTc1IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXBy
-b2R1Y2libGUtZG9jdW1lbnRhdGlvbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlvbi5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOTgwNzFjMGIyOGE0NWNkMjFhMmNiZTY3NDZjZTM5MDY3
-OTMyYjYyZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTBiMGVjYjhlN2FlOGJlMzJm
-ZDMzY2I5MGNjODgxMzZjMWMxZDk4OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENo
-cmlzdGlhbiBIb2ZzdGFlZHRsZXIgPHplaGFAZGViaWFuLm9yZz4KIERhdGU6IFR1ZSwgMTAgT2N0
-IDIwMTcgMTU6MDQ6MzQgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gcmRvYzogYnVpbGQgcmVwcm9k
-dWNpYmxlIGRvY3VtZW50YXRpb24KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwNC1saWItbWttZi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0LWZpbGVzLWluLWdl
-bmVyYXRlZC1NLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA0LWxp
-Yi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2gK
-aW5kZXggNGI2NzcxZmQyNi4uOGIwNThhZWQ4YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmls
-ZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1Ynkv
-cnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJh
-dGVkLU0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDA4ODdmYWNjNGNhNWJjYjAyODBiMDI1
-YjM1YmJjMTg1MjhlNTI5MTQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDU5ZmYzMWUy
-MDI2NWEyZjY1MGRlMThhY2UzNTI3OGIzZTFlNGFlNjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBSZWluZXIgSGVycm1hbm4gPHJlaW5lckByZWluZXItaC5kZT4KIERhdGU6IFR1ZSwg
-MTAgT2N0IDIwMTcgMTU6MDY6MTMgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gbGliL21rbWYucmI6
-IHNvcnQgbGlzdCBvZiBvYmplY3QgZmlsZXMgaW4gZ2VuZXJhdGVkIE1ha2VmaWxlCkBAIC0xNyw3
-ICsxNyw3IEBAIFNpZ25lZC1vZmYtYnk6IFJlaW5lciBIZXJybWFubiA8cmVpbmVyQHJlaW5lci1o
-LmRlPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBk
-aWZmIC0tZ2l0IGEvbGliL21rbWYucmIgYi9saWIvbWttZi5yYgotaW5kZXggNzY4YTE1Mi4uZjE2
-Y2RkOCAxMDA2NDQKK2luZGV4IDk5ZjM3NjQuLjYyMzc3YjYgMTAwNjQ0CiAtLS0gYS9saWIvbWtt
-Zi5yYgogKysrIGIvbGliL21rbWYucmIKIEBAIC0yNDgwLDcgKzI0ODAsNyBAQCBMT0NBTF9MSUJT
-ID0gI3skTE9DQUxfTElCU30KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1
-LXRvby5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdl
-bXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaAppbmRleCBl
-ZGE0NWRkODYyLi5lYjg1YmE1MzExIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJlcHJvZHVjaWJsZS1jaGFuZ2UtZml4aW5nLTc4
-NDIyNS10b28ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1
-LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNo
-CkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmZjI1ZjZkZGRjZmJiYjdiMDQ2NDQ4NWJiNTEzMjQ1ODg2
-NmFiNTFhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkMWZkYTM2OWYxYjIwMjk5ZmUy
-MWQ3MmZhZjM2YWFjNmQzZGQ2ZDI3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTHVj
-YXMgS2FuYXNoaXJvIDxrYW5hc2hpcm9AZGViaWFuLm9yZz4KIERhdGU6IEZyaSwgMSBOb3YgMjAx
-OSAxNToyNToxNyAtMDMwMAogU3ViamVjdDogW1BBVENIXSBNYWtlIGdlbXNwZWNzIHJlcHJvZHVj
-aWJsZQpAQCAtMTIsMTAgKzEyLDEwIEBAIFVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2RlYmlh
-bl0KICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRp
-ZmYgLS1naXQgYS9saWIvcnVieWdlbXMvc3BlY2lmaWNhdGlvbi5yYiBiL2xpYi9ydWJ5Z2Vtcy9z
-cGVjaWZpY2F0aW9uLnJiCi1pbmRleCA4ZjM1M2FlLi4wOTUxMjVmIDEwMDY0NAoraW5kZXggMGI5
-MDVhNy4uYTEwMmUzYyAxMDA2NDQKIC0tLSBhL2xpYi9ydWJ5Z2Vtcy9zcGVjaWZpY2F0aW9uLnJi
-CiArKysgYi9saWIvcnVieWdlbXMvc3BlY2lmaWNhdGlvbi5yYgotQEAgLTE3MTEsNyArMTcxMSw5
-IEBAIGNsYXNzIEdlbTo6U3BlY2lmaWNhdGlvbiA8IEdlbTo6QmFzaWNTcGVjaWZpY2F0aW9uCitA
-QCAtMTcwOSw3ICsxNzA5LDkgQEAgY2xhc3MgR2VtOjpTcGVjaWZpY2F0aW9uIDwgR2VtOjpCYXNp
-Y1NwZWNpZmljYXRpb24KICAgICAgICAgICAgICAgICAgcmFpc2UoR2VtOjpJbnZhbGlkU3BlY2lm
-aWNhdGlvbkV4Y2VwdGlvbiwKICAgICAgICAgICAgICAgICAgICAgICAgImludmFsaWQgZGF0ZSBm
-b3JtYXQgaW4gc3BlY2lmaWNhdGlvbjogI3tkYXRlLmluc3BlY3R9IikKICAgICAgICAgICAgICAg
-IGVuZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1h
-a2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1
-YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoCmluZGV4IDEyMWJk
-Y2YzYWIuLmZjYzdlN2FhZTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwNi1NYWtlLWdlbXNwZWNzLXJlcHJvZHVjaWJsZS5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUu
-cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQ1OGJkYWNhM2Q1Mzc5YWZjYjk1NGJiNTdjNjkw
-Yzc3MzY4MDdlYzUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGZhMTRhMDY3NWI1ZjI4
-NGY4MGI1ZWQ2MThiZTkzMmYzNjlhYmE2OTkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
-OiBMdWNhcyBLYW5hc2hpcm8gPGthbmFzaGlyb0BkZWJpYW4ub3JnPgogRGF0ZTogRnJpLCAxIE5v
-diAyMDE5IDE1OjI1OjE3IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2UgZ2Vtc3BlY3MgcmVw
-cm9kdWNpYmxlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMu
-NC4zLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQuNC5iYgpzaW1pbGFy
-aXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5
-XzMuNC4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzMuNC40
-LmJiCmluZGV4IDQ1MDQ3Yjg4NTkuLjM5ZTg2ZmRkMjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3J1YnkvcnVieV8zLjQuNC5iYgpAQCAtNDgsNyArNDgsNyBAQCBkb19jb25maWd1cmU6cHJlcGVu
-ZCgpIHsKIAogREVQRU5EUzphcHBlbmQ6bGliYy1tdXNsID0gIiBsaWJ1Y29udGV4dCIKIAotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjU1YTRjZDFkY2JlNWNhMjdjZjY1ZTg5YTkzNWE0ODJjMmJiMjI4
-NDgzMjkzOTI2NjU1MWMwZWM2OGI0MzdmNDYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTA1OTdi
-ZmRmMzEyZTAxMGVmZDFlZmZhYThkN2YxZDc4MzMxNDZmZGMxNzk1MGNhYTgxNThmZmEzZGNiZmE4
-NSIKIAogUEFDS0FHRUNPTkZJRyA/Pz0gIiIKIFBBQ0tBR0VDT05GSUcgKz0gIiR7QGJiLnV0aWxz
-LmZpbHRlcignRElTVFJPX0ZFQVRVUkVTJywgJ2lwdjYnLCBkKX0iCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAxMDoxMzo0OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtemlwcDogdXBncmFkZSAzLjIxLjAgLT4gMy4yMi4wCgotLS0KIC4uLi16aXBwXzMuMjEu
+MC5iYiA9PiBweXRob24zLXppcHBfMy4yMi4wLmJifSB8IDUxICsrKysrKysrKysrKysrKysrKy0K
+IDEgZmlsZSBjaGFuZ2VkLCA0OSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtemlwcF8zLjIxLjAuYmIgPT4g
+cHl0aG9uMy16aXBwXzMuMjIuMC5iYn0gKDEwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjIxLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjIyLjAuYmIKc2ltaWxhcml0eSBpbmRleCAxMCUK
+cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4y
+MS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlw
+cF8zLjIyLjAuYmIKaW5kZXggMTM1YTFhZTUzMy4uZGE5NmEwNDFkYSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4yMS4wLmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMjIuMC5iYgpAQCAtMSw5
+ICsxLDU2IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVu
+IHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRp
+ZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxl
+YXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhl
+IGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0
+YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVk
+LicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRQorIyArKysgTElDRU5TRQor
+IyBAQCAtMSwxNyArMSwxOCBAQAorIyAtUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJl
+ZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEgY29weQorIyAtb2YgdGhpcyBz
+b2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJl
+IiksIHRvCisjIC1kZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNs
+dWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZQorIyAtcmlnaHRzIHRvIHVzZSwgY29weSwgbW9k
+aWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29yCisjIC1z
+ZWxsIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0byB3aG9t
+IHRoZSBTb2Z0d2FyZSBpcworIyAtZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBm
+b2xsb3dpbmcgY29uZGl0aW9uczoKKyMgK01JVCBMaWNlbnNlCisjICAKKyMgLVRoZSBhYm92ZSBj
+b3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIHNoYWxsIGJlIGluY2x1
+ZGVkIGluCisjIC1hbGwgY29waWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZSBTb2Z0
+d2FyZS4KKyMgK0NvcHlyaWdodCAoYykgMjAyNSA8Y29weXJpZ2h0IGhvbGRlcnM+CisjICAKKyMg
+LVRIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFO
+WSBLSU5ELCBFWFBSRVNTIE9SCisjIC1JTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVE
+IFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElUWSwKKyMgLUZJVE5FU1MgRk9SIEEg
+UEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuIElOIE5PIEVWRU5UIFNIQUxM
+IFRIRQorIyAtQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBD
+TEFJTSwgREFNQUdFUyBPUiBPVEhFUgorIyAtTElBQklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElP
+TiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcKKyMgLUZST00sIE9VVCBP
+RiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIg
+REVBTElOR1MKKyMgLUlOIFRIRSBTT0ZUV0FSRS4KKyMgK1Blcm1pc3Npb24gaXMgaGVyZWJ5IGdy
+YW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhIGNvcHkgb2Yg
+dGhpcyBzb2Z0d2FyZSBhbmQKKyMgK2Fzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhl
+ICJTb2Z0d2FyZSIpLCB0byBkZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9u
+LCBpbmNsdWRpbmcKKyMgK3dpdGhvdXQgbGltaXRhdGlvbiB0aGUgcmlnaHRzIHRvIHVzZSwgY29w
+eSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29y
+IHNlbGwKKyMgK2NvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0
+byB3aG9tIHRoZSBTb2Z0d2FyZSBpcyBmdXJuaXNoZWQgdG8gZG8gc28sIHN1YmplY3QgdG8gdGhl
+CisjICtmb2xsb3dpbmcgY29uZGl0aW9uczoKKyMgKworIyArVGhlIGFib3ZlIGNvcHlyaWdodCBu
+b3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ugc2hhbGwgYmUgaW5jbHVkZWQgaW4gYWxs
+IGNvcGllcyBvciBzdWJzdGFudGlhbAorIyArcG9ydGlvbnMgb2YgdGhlIFNvZnR3YXJlLgorIyAr
+CisjICtUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBP
+RiBBTlkgS0lORCwgRVhQUkVTUyBPUiBJTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVAorIyArTElN
+SVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksIEZJVE5FU1MgRk9SIEEg
+UEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuIElOIE5PCisjICtFVkVOVCBT
+SEFMTCBUSEUgQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBD
+TEFJTSwgREFNQUdFUyBPUiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIKKyMgK0lOIEFOIEFDVElP
+TiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcgRlJPTSwgT1VUIE9GIE9S
+IElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFCisjICtVU0UgT1IgT1RIRVIg
+REVBTElOR1MgSU4gVEhFIFNPRlRXQVJFLgorIyAKKyMKKwogU1VNTUFSWSA9ICJCYWNrcG9ydCBv
+ZiBwYXRobGliLWNvbXBhdGlibGUgb2JqZWN0IHdyYXBwZXIgZm9yIHppcCBmaWxlcyIKIEhPTUVQ
+QUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9qYXJhY28vemlwcCIKIExJQ0VOU0UgPSAiTUlUIgot
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MTQxNjQzZTExYzQ4ODk4MTUw
+ZGFhODM4MDJkYmM2NWYiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0x
+YWVhZTY1ZjI1YTE1YjFlNDZkNDM4MWYyZjA5NGUwYSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0g
+IjJjOTk1OGY2NDMwYTIwNDAzNDFhNTJlYjYwOGVkNmRkOTNlZjQzOTJlMDJmZmUyMTk0MTdjMWIy
+OGI1ZGQxZjQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGQyZjI4YzNjZTRiYzY3NTA3YmZkMzc4
+MWQyMWI3YmIyYmUzMTEwM2I1MWE0NTUzYWQ3ZDkwYjg0ZTU3YWNlNSIKIAogREVQRU5EUyArPSAi
+cHl0aG9uMy1zZXR1cHRvb2xzLXNjbS1uYXRpdmUiCiAKLS0gCjIuNDcuMQoK
 
---===============2506162417419915123==
+--===============2738478582724120542==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/sasl, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6 -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/sample -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/sample, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/stringprep -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/stringprep, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/docs -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/docs, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/rakelib -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/rakelib, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net, directory renamed /usr/l
- ib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_parser -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_parser, directory renamed /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/config -> /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/config, removed "/usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/vanished_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_parser.rb /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/data_lite.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/flags.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl.rb /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/fetch_data.rb /usr/lib/libruby.so.3.4.3 /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/search_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib
- /net/imap/config.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/errors.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/response_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sasl_adapter.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/command_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/uidplus_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/deprecated_client_options.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/data_encoding.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/stringprep.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/esearch_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/sequence_set.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6/lib/net/imap/authenticators.rb", added "/usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/vanished_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_p
- arser.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_reader.rb /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.8.gem /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/data_lite.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/flags.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/sasl.rb /usr/lib/libruby.so.3.4.4 /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.8.gemspec /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/fetch_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/search_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/config.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/errors.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/sasl_adapter.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/command_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/conn
- ection_state.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/uidplus_data.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/deprecated_client_options.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/data_encoding.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/stringprep.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/esearch_result.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/sequence_set.rb /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/authenticators.rb"
-Changes to packages/core2-64-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.3 to libruby.so.3.4.4
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.3 to libruby.so.3.4.4
-  /usr/lib/libruby.so.3.4.3 moved to /usr/lib/libruby.so.3.4.4
-  /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.8.gem
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6 moved to /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8
-  /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.8.gemspec
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/connection_state.rb was added
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_reader.rb was added
-Changes to packages/x86_64-linux/ruby-native (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.3 to libruby.so.3.4.4
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.3 to libruby.so.3.4.4
-  /usr/lib/libruby.so.3.4.3 moved to /usr/lib/libruby.so.3.4.4
-  /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.6.gem moved to /usr/lib/ruby/gems/3.4.0/cache/net-imap-0.5.8.gem
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.6 moved to /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8
-  /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.6.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/net-imap-0.5.8.gemspec
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/connection_state.rb was added
-  /usr/lib/ruby/gems/3.4.0/gems/net-imap-0.5.8/lib/net/imap/response_reader.rb was added
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1917 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 936 .bb files complete (935 cached, 1 parsed). 1915 targets, 39 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============2506162417419915123==--
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:9a385d33750ac0e0caec444a64dddd2c8250f4d0"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 338 Local 326 Mirrors 0 Missed 12 Current 335 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 546 of 673 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools-scm_8.2.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 570 of 673 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_create_spdx_setscene)
+NOTE: recipe python3-setuptools-scm-native-8.2.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-setuptools-scm-native-8.2.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 634 of 673 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 939 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_recipe_qa)
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 641 of 673 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 646 of 673 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-wheel_0.45.1.bb:do_create_spdx_setscene)
+NOTE: recipe python3-zipp-3.22.0-r0: task do_recipe_qa: Started
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-wheel-native-0.45.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 658 of 673 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-wheel-native-0.45.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-zipp-3.22.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1355 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_fetch)
+NOTE: recipe python3-zipp-3.22.0-r0: task do_fetch: Started
+NOTE: recipe python3-zipp-3.22.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1388 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_unpack)
+NOTE: recipe python3-zipp-3.22.0-r0: task do_unpack: Started
+NOTE: recipe python3-zipp-3.22.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1389 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_patch)
+NOTE: recipe python3-zipp-3.22.0-r0: task do_patch: Started
+NOTE: recipe python3-zipp-3.22.0-r0: task do_patch: Succeeded
+NOTE: Running task 1390 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1391 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_populate_lic)
+NOTE: recipe python3-zipp-3.22.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-zipp-3.22.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-zipp-3.22.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-zipp-3.22.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 670 of 673 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1767 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1907 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_collect_spdx_deps)
+NOTE: recipe python3-zipp-3.22.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-zipp-3.22.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-zipp-3.22.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-zipp-3.22.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1912 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_configure)
+NOTE: recipe python3-zipp-3.22.0-r0: task do_configure: Started
+NOTE: recipe python3-zipp-3.22.0-r0: task do_configure: Succeeded
+NOTE: Running task 1913 of 1924 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_compile)
+NOTE: recipe python3-zipp-3.22.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| running egg_info
+| writing zipp.egg-info/PKG-INFO
+| writing dependency_links to zipp.egg-info/dependency_links.txt
+| writing requirements to zipp.egg-info/requires.txt
+| writing top-level names to zipp.egg-info/top_level.txt
+| ERROR setuptools_scm._file_finders.git listing git files failed - pretending there aren't any
+| reading manifest file 'zipp.egg-info/SOURCES.txt'
+| adding license file 'LICENSE'
+| writing manifest file 'zipp.egg-info/SOURCES.txt'
+| 
+| ERROR Missing dependencies:
+| 	coherent.licensed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.22.0/temp/run.do_compile.1032833:158 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.22.0/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.22.0/zipp-3.22.0'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.22.0/temp/run.do_compile.1032833, line 158
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.22.0/temp/run.do_compile.1032833, line 153
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.22.0/temp/run.do_compile.1032833, line 169
+NOTE: recipe python3-zipp-3.22.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1913 tasks of which 1903 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250601101334.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250601101334.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.22.0/temp/log.do_compile.1032833
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-zipp-3.22.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.22.0/temp/run.do_compile.1032833' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.22.0/temp/log.do_compile.1032833
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.22.0.bb:do_compile) failed with exit code '1'
+
+--===============2738478582724120542==--
 
