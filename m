@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D972CC77B7F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE13BC7EE2C
 	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:45 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.27798.1748786134729313030
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.27775.1748786129144655672
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jun 2025 06:55:36 -0700
+ Sun, 01 Jun 2025 06:55:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=musoqYL6;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RWOZItEi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101972bc6c47c-6e19725b-d8da-4e49-a69a-8fd4324af5b9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OR8deEa6;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WmiIuGIb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101972bc6cff7-2117aee3-6671-4657-b08f-1899f0353794-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1748786136;
+	t=1748786139;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=y5+tLTR10NI34lZmuoN0UzYnXbF3x0OhTt4Zjja9cwQ=;
-	b=musoqYL64f3PnH8uQPOTS6wHpoqRhbETX6f+h9iVPA3LsYayoGCLvL6vJp1g1hH/
-	b6nMB4r8G1+tYpMRvC/7CFX5Ltt4Povv6p4dSOrxzmBRxS3QNr1AgYqMMFRdli53iQP
-	1u7XQrxDva6ieyWInJgIs+ABP8FQSslr/HMipPjw=
+	bh=h/RQFNs9E/x1mGi4te1XJEX3AT/GLwx/0mY1UGGSmVw=;
+	b=OR8deEa65qmMFMwdDHpMk7bB/oTxqoy5D6oYbeGgFo/3ME6A8EDiip7xYWmfXy7x
+	w9t9U5l+U2OMt01M14YIQIpawMCpM7bkjeWr+azDeed8ZuZMg0YCFIywRFkZAkr3Dk1
+	cocj4YbhbNqxHjOQ2LHtSPWLCQ94W1pP5PE0YXSQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786136;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786139;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=y5+tLTR10NI34lZmuoN0UzYnXbF3x0OhTt4Zjja9cwQ=;
-	b=RWOZItEihvJh1RGTQrCiWZluBvkEnjJakDI0aAZBi9kDjjtYqWpnRyWRYgxqezrQ
-	b40ZLnkBCJScfFgR/HcQ09f1OLMBvKe+EJFgRQYJbWTAYhCOumUKjAq61icfMvJpwLt
-	qBUBOQwiTkH+UknqCECvApYRIJh/p0AmpQ1fVXz8=
-Content-Type: multipart/mixed; boundary="===============2027640219513780751=="
+	bh=h/RQFNs9E/x1mGi4te1XJEX3AT/GLwx/0mY1UGGSmVw=;
+	b=WmiIuGIblyB5uXDLb1NIi4qynpQRfaxnTY4BaQeIJ35/r/JFm50R8wNqHzjkGjcf
+	wpw+chAX4DaSMUTHHS7TOsXV5uvidf6AhAb+jACq1YzFvz6GPBA+eUQ9v788CbPJKyT
+	DqmjLPbM8TfPFZ1dRmrAM2Abg/oQvMV0E4UV3q9g=
+Content-Type: multipart/mixed; boundary="===============0860889991342627595=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Marta Rybczynska <marta.rybczynska@ygreky.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-ruamel-yaml: upgrading to 0.18.12 SUCCEEDED
-Message-ID: <010101972bc6c47c-6e19725b-d8da-4e49-a69a-8fd4324af5b9-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jun 2025 13:55:36 +0000
+Subject: [AUH] python3-uritools: upgrading to 5.0.0 SUCCEEDED
+Message-ID: <010101972bc6cff7-2117aee3-6671-4657-b08f-1899f0353794-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jun 2025 13:55:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.01-54.240.27.31
+X-SES-Outgoing: 2025.06.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217606
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217616
 
---===============2027640219513780751==
+--===============0860889991342627595==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-ruamel-yaml* to *0.18.12* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-uritools* to *5.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-ruamel-yaml-upgrade-0.18.10-0.18.12.patch
+    - apply the patch: git am 0001-python3-uritools-upgrade-4.0.3-5.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,102 +72,144 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 67dc247309bbc6da6ef3ff44001ea54901efc480 Mon Sep 17 00:00:00 2001
+From 2089abe50ffe351a5bc56ccc1556d79ff824c373 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Jun 2025 09:45:41 +0000
-Subject: [PATCH] python3-ruamel-yaml: upgrade 0.18.10 -> 0.18.12
+Date: Sun, 1 Jun 2025 10:08:42 +0000
+Subject: [PATCH] python3-uritools: upgrade 4.0.3 -> 5.0.0
 
 ---
- ...n3-ruamel-yaml_0.18.10.bb => python3-ruamel-yaml_0.18.12.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.18.10.bb => python3-ruamel-yaml_0.18.12.bb} (85%)
+ ...ols_4.0.3.bb => python3-uritools_5.0.0.bb} | 25 +++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-uritools_4.0.3.bb => python3-uritools_5.0.0.bb} (20%)
 
-diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.10.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.12.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.18.10.bb
-rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.12.bb
-index 02b04e3c0c..3b136b3b58 100644
---- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.10.bb
-+++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.12.bb
-@@ -9,7 +9,7 @@ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+diff --git a/meta/recipes-devtools/python/python3-uritools_4.0.3.bb b/meta/recipes-devtools/python/python3-uritools_5.0.0.bb
+similarity index 20%
+rename from meta/recipes-devtools/python/python3-uritools_4.0.3.bb
+rename to meta/recipes-devtools/python/python3-uritools_5.0.0.bb
+index 4210407e00..6417886cd1 100644
+--- a/meta/recipes-devtools/python/python3-uritools_4.0.3.bb
++++ b/meta/recipes-devtools/python/python3-uritools_5.0.0.bb
+@@ -1,10 +1,31 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,6 +1,6 @@
++#  The MIT License (MIT)
++#  
++# -Copyright (c) 2014-2024 Thomas Kemmer
++# +Copyright (c) 2014-2025 Thomas Kemmer
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a copy of
++#  this software and associated documentation files (the "Software"), to deal in
++# 
++#
++
+ SUMMARY = "URI parsing, classification and composition"
+ HOMEPAGE = "https://github.com/tkem/uritools/"
  
- inherit pypi python_setuptools_build_meta
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=539275e657c6b7af026bb908356f7541"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e21bbe53b2730bfe1911cf381b81821e"
  
--SRC_URI[sha256sum] = "20c86ab29ac2153f80a428e1254a8adf686d3383df04490514ca3b79a362db58"
-+SRC_URI[sha256sum] = "5a38fd5ce39d223bebb9e3a6779e86b9427a03fb0bf9f270060f8b149cffe5e2"
+-SRC_URI[sha256sum] = "ee06a182a9c849464ce9d5fa917539aacc8edd2a4924d1b7aabeeecabcae3bc2"
++SRC_URI[sha256sum] = "68180cad154062bd5b5d9ffcdd464f8de6934414b25462ae807b00b8df9345de"
  
- RDEPENDS:${PN} += "\
-     python3-shell \
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ 
 -- 
 2.47.1
 
 
---===============2027640219513780751==
+--===============0860889991342627595==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-ruamel-yaml: PV changed from "0.18.10" to "0.18.12"
-packages/core2-64-poky-linux/python3-ruamel-yaml: PKGV changed from 0.18.10 [default] to 0.18.12 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.10.tar.gz;downloadfilename=ruamel.yaml-0.18.10.tar.gz" to "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.12.tar.gz;downloadfilename=ruamel.yaml-0.18.12.tar.gz"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PV changed from "0.18.10" to "0.18.12"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PKGV changed from 0.18.10 [default] to 0.18.12 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PV changed from "0.18.10" to "0.18.12"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PKGV changed from 0.18.10 [default] to 0.18.12 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PV changed from "0.18.10" to "0.18.12"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PKGV changed from 0.18.10 [default] to 0.18.12 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PV changed from "0.18.10" to "0.18.12"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PKGV changed from 0.18.10 [default] to 0.18.12 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PV changed from "0.18.10" to "0.18.12"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PKGV changed from 0.18.10 [default] to 0.18.12 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PV changed from "0.18.10" to "0.18.12"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PKGV changed from 0.18.10 [default] to 0.18.12 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PV changed from "0.18.10" to "0.18.12"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGSIZE changed from 1200330 to 1203645 (+0%)
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGV changed from 0.18.10 [default] to 0.18.12 [default]
-Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.10.dist-info moved to /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.12.dist-info
+packages/core2-64-poky-linux/python3-uritools: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uritools/uritools-4.0.3.tar.gz;downloadfilename=uritools-4.0.3.tar.gz" to "https://files.pythonhosted.org/packages/source/u/uritools/uritools-5.0.0.tar.gz;downloadfilename=uritools-5.0.0.tar.gz"
+packages/core2-64-poky-linux/python3-uritools: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dbg: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-dev: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-doc: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-locale: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-ptest: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-ptest: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-src: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools-staticdev: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+packages/core2-64-poky-linux/python3-uritools/python3-uritools: PV changed from "4.0.3" to "5.0.0"
+packages/core2-64-poky-linux/python3-uritools/python3-uritools: PKGSIZE changed from 64483 to 64794 (+0%)
+packages/core2-64-poky-linux/python3-uritools/python3-uritools: PKGV changed from 4.0.3 [default] to 5.0.0 [default]
+Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.13/site-packages/uritools-4.0.3.dist-info moved to /usr/lib/python3.13/site-packages/uritools-5.0.0.dist-info
 
---===============2027640219513780751==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-ruamel-yaml-upgrade-0.18.10-0.18.12.patch"
-
-RnJvbSA2N2RjMjQ3MzA5YmJjNmRhNmVmM2ZmNDQwMDFlYTU0OTAxZWZjNDgwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAwOTo0NTo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcnVhbWVsLXlhbWw6IHVwZ3JhZGUgMC4xOC4xMCAtPiAwLjE4LjEyCgotLS0KIC4uLm4z
-LXJ1YW1lbC15YW1sXzAuMTguMTAuYmIgPT4gcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjEyLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcnVhbWVsLXlhbWxf
-MC4xOC4xMC5iYiA9PiBweXRob24zLXJ1YW1lbC15YW1sXzAuMTguMTIuYmJ9ICg4NSUpCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1s
-XzAuMTguMTAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVs
-LXlhbWxfMC4xOC4xMi5iYgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC4xMC5iYgpyZW5h
-bWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAu
-MTguMTIuYmIKaW5kZXggMDJiMDRlM2MwYy4uM2IxMzZiM2I1OCAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTguMTAuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTgu
-MTIuYmIKQEAgLTksNyArOSw3IEBAIFVQU1RSRUFNX0NIRUNLX1BZUElfUEFDS0FHRSA9ICIke1BZ
-UElfUEFDS0FHRX0iCiAKIGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRh
-CiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyMGM4NmFiMjlhYzIxNTNmODBhNDI4ZTEyNTRhOGFk
-ZjY4NmQzMzgzZGYwNDQ5MDUxNGNhM2I3OWEzNjJkYjU4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjVhMzhmZDVjZTM5ZDIyM2JlYmI5ZTNhNjc3OWU4NmI5NDI3YTAzZmIwYmY5ZjI3MDA2MGY4YjE0
-OWNmZmU1ZTIiCiAKIFJERVBFTkRTOiR7UE59ICs9ICJcCiAgICAgcHl0aG9uMy1zaGVsbCBcCi0t
-IAoyLjQ3LjEKCg==
-
---===============2027640219513780751==
+--===============0860889991342627595==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.10.dist-info moved to /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.12.dist-info
+Changes to packages/core2-64-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.13/site-packages/uritools-4.0.3.dist-info moved to /usr/lib/python3.13/site-packages/uritools-5.0.0.dist-info
 
---===============2027640219513780751==--
+--===============0860889991342627595==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-uritools-upgrade-4.0.3-5.0.0.patch"
+
+RnJvbSAyMDg5YWJlNTBmZmUzNTFhNWJjNTZjY2MxNTU2ZDc5ZmY4MjRjMzczIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAxMDowODo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdXJpdG9vbHM6IHVwZ3JhZGUgNC4wLjMgLT4gNS4wLjAKCi0tLQogLi4ub2xzXzQuMC4z
+LmJiID0+IHB5dGhvbjMtdXJpdG9vbHNfNS4wLjAuYmJ9IHwgMjUgKysrKysrKysrKysrKysrKyst
+LQogMSBmaWxlIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy11cml0b29sc180LjAuMy5i
+YiA9PiBweXRob24zLXVyaXRvb2xzXzUuMC4wLmJifSAoMjAlKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc180LjAuMy5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc181LjAuMC5iYgpzaW1pbGFy
+aXR5IGluZGV4IDIwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtdXJpdG9vbHNfNC4wLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy11cml0b29sc181LjAuMC5iYgppbmRleCA0MjEwNDA3ZTAwLi42NDE3ODg2
+Y2QxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJp
+dG9vbHNfNC4wLjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXVyaXRvb2xzXzUuMC4wLmJiCkBAIC0xLDEwICsxLDMxIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJ
+TEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScu
+CisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0
+aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBp
+ZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNz
+YWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRh
+dGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAt
+LS0gTElDRU5TRQorIyArKysgTElDRU5TRQorIyBAQCAtMSw2ICsxLDYgQEAKKyMgIFRoZSBNSVQg
+TGljZW5zZSAoTUlUKQorIyAgCisjIC1Db3B5cmlnaHQgKGMpIDIwMTQtMjAyNCBUaG9tYXMgS2Vt
+bWVyCisjICtDb3B5cmlnaHQgKGMpIDIwMTQtMjAyNSBUaG9tYXMgS2VtbWVyCisjICAKKyMgIFBl
+cm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29u
+IG9idGFpbmluZyBhIGNvcHkgb2YKKyMgIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9j
+dW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLCB0byBkZWFsIGluCisjIAorIworCiBT
+VU1NQVJZID0gIlVSSSBwYXJzaW5nLCBjbGFzc2lmaWNhdGlvbiBhbmQgY29tcG9zaXRpb24iCiBI
+T01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vdGtlbS91cml0b29scy8iCiAKIExJQ0VOU0Ug
+PSAiTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NTM5Mjc1ZTY1
+N2M2YjdhZjAyNmJiOTA4MzU2Zjc1NDEiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNF
+TlNFO21kNT1lMjFiYmU1M2IyNzMwYmZlMTkxMWNmMzgxYjgxODIxZSIKIAotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImVlMDZhMTgyYTljODQ5NDY0Y2U5ZDVmYTkxNzUzOWFhY2M4ZWRkMmE0OTI0ZDFi
+N2FhYmVlZWNhYmNhZTNiYzIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjgxODBjYWQxNTQwNjJi
+ZDViNWQ5ZmZjZGQ0NjRmOGRlNjkzNDQxNGIyNTQ2MmFlODA3YjAwYjhkZjkzNDVkZSIKIAogaW5o
+ZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEgcHRlc3QtcHl0aG9uLXB5dGVz
+dAogCi0tIAoyLjQ3LjEKCg==
+
+--===============0860889991342627595==--
 
