@@ -2,263 +2,113 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65CCDC8302E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 524DBC8302B
 	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 13:55:57 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.27788.1748786127611541400
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.27784.1748786124066601956
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jun 2025 06:55:54 -0700
+ Sun, 01 Jun 2025 06:55:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Lczp5uXP;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=PFQmLqeg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101972bc709a0-f322e19b-d704-4d00-891d-b9a69cb7cf48-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QydN2N6e;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OUZm+vip;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101972bc6f939-b73c086b-f85b-489c-8bb2-caee827d7512-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1748786154;
+	t=1748786149;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=IPSBD+BFP3pMKBGWv/nUyY8ZPziydarI2FQPIc3W8BE=;
-	b=Lczp5uXPjGKEIVfVMAtifWTEzpPKWw6AB8ft9Q2l/dL91mJWlLMn9g7ofSlRQ1wK
-	t7b3bDKfNERZ99y4SW6Pg0UT+kbK5M8vDoBNiZhXbm7+7Q9W+UZLr0gSnWC1gOHSNFh
-	+8Cr3R6cBUZdT1CT10OZd5v90f8gu6Q35xGB2P9s=
+	bh=2ZoHVuKBXdTeB4G2QphpI8semLrb27MixYkcqu2NM1k=;
+	b=QydN2N6edon5DpQRaxtjul7qccHR6cxPjuSv/TipdXasiLKD4fIa7vOkPGAOnKcG
+	0socSn1YWnRJ0aVvgC3rDQjtQX5BVCN4HAK9mY7+PS3P+W3IqHJQaF3D8LYmn3QArMJ
+	LvVweT9hgak+A/HvsgNx3UBsg7ZTdks85Ez4BqcA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786154;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1748786149;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=IPSBD+BFP3pMKBGWv/nUyY8ZPziydarI2FQPIc3W8BE=;
-	b=PFQmLqegrhQROwVFywSjIQu0s0HPKvQqpBnXf7tIvNUghAwHN82qYoA1F3gaBcjr
-	dABSU0tjpK7vO5PfWQ1FyoOp3SjdWTIb5eWq/csPK6hFk2hEChFwSYlUR2j6jc1k1Wb
-	LcBj2aSkzDGuJeVaeaJ9YEt9uF6yJHPrF85M4vy0=
-Content-Type: multipart/mixed; boundary="===============1524438434892165464=="
+	bh=2ZoHVuKBXdTeB4G2QphpI8semLrb27MixYkcqu2NM1k=;
+	b=OUZm+vipH+PlKPpuZ3n9PUxZZo9RcqqWUsYOcSVgXGQtilknbDQue7kif5Mot9EP
+	xIRWj6pdKuRyf+yawVENlgu0JTKJmc9Gc1GK4JVM4H84fD49GioNx8PPQg3vaFGgqLc
+	AHIrEp0Uaqi8xvF0KpCkbOiEVDxw0WFA1F94/vVg=
+Content-Type: multipart/mixed; boundary="===============1252267658217782225=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] icu: upgrading to 77-1 FAILED
-Message-ID: <010101972bc709a0-f322e19b-d704-4d00-891d-b9a69cb7cf48-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jun 2025 13:55:53 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.26.2 FAILED
+Message-ID: <010101972bc6f939-b73c086b-f85b-489c-8bb2-caee827d7512-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jun 2025 13:55:49 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.01-54.240.27.45
+X-SES-Outgoing: 2025.06.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 13:55:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217668
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217653
 
---===============1524438434892165464==
-Content-Type: text/plain; charset="utf-8"
+--===============1252267658217782225==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICppY3UqIHRvICo3Ny0xKiBoYXMgRmFpbGVkKGRvX2NvbXBpbGUpLgoKRGV0YWlsZWQgZXJy
-b3IgaW5mb3JtYXRpb246Cgpkb19jb21waWxlIGZhaWxlZAoKCgpOZXh0IHN0ZXBzOgogICAgLSBh
-cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWljdS11cGdyYWRlLTc2LTEtNzctMS5wYXRjaAog
-ICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJpemUg
-dGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhhdCBj
-b250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRlc3Rz
-CiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMgLS1y
-ZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBtYWls
-aW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hvdWxk
-IG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9fVVBE
-QVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGljIHVw
-Z3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRoZSBh
-dHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRlIGZh
-aWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3ppbGxh
-LnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVwZGF0
-ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJvbSAz
-NmRiMzQ3OWUwNDBjY2Y3Y2Y0NDBiNDRiYWZhMzhkM2JmMzZjNTA0IE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRhdGU6
-IFN1biwgMSBKdW4gMjAyNSAxMzo0MzozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGljdTogdXBn
-cmFkZSA3Ni0xIC0+IDc3LTEKCi0tLQogLi4uLzAwMDEtRGlzYWJsZS1MREZMQUdTSUNVRFQtZm9y
-LUxpbnV4LnBhdGNoIHwgMTAgKysrLS0tLQogLi4uL2ljdS8wMDAxLWljdS1BZGRlZC1hcm1lYi1z
-dXBwb3J0LnBhdGNoICAgIHwgMTAgKysrLS0tLQogLi4uL2ljdS97aWN1Xzc2LTEuYmIgPT4gaWN1
-Xzc3LTEuYmJ9ICAgICAgICAgIHwgMjYgKysrKysrKysrKysrKysrKystLQogMyBmaWxlcyBjaGFu
-Z2VkLCAzNCBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9pY3Uve2ljdV83Ni0xLmJiID0+IGljdV83Ny0xLmJifSAoODclKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxERkxBR1NJ
-Q1VEVC1mb3ItTGludXgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEt
-RGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNoCmluZGV4IGMwZTllMjgwNmIuLmVj
-MWFhZWEzZTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1E
-aXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvaWN1L2ljdS8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gMGY0ZTllZWU2NGJkNDIyMGFhNGZhZTFhYjRmN2JiZjEwYjg3
-Y2Q2OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZTA2MGRjNjdkOGRhNTZhMjk4ZTk0
-NzI3NTVkNmU3MmY2MDc2ODM3OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0g
-UmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDE1IEZlYiAyMDE0IDIxOjA2OjQy
-ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgTERGTEFHU0lDVURUIGZvciBMaW51eApA
-QCAtNywxMyArNywxMyBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgWyBPRSBDb25m
-aWd1cmF0aW9uIF0KIAogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
-bT4KIC0tLQotIGNvbmZpZy9taC1saW51eCB8IDIgKy0KKyBzb3VyY2UvY29uZmlnL21oLWxpbnV4
-IHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-Ci1kaWZmIC0tZ2l0IGEvY29uZmlnL21oLWxpbnV4IGIvY29uZmlnL21oLWxpbnV4CitkaWZmIC0t
-Z2l0IGEvc291cmNlL2NvbmZpZy9taC1saW51eCBiL3NvdXJjZS9jb25maWcvbWgtbGludXgKIGlu
-ZGV4IDUzZDY3ODAuLmI2MjI1MTMgMTAwNjQ0Ci0tLS0gYS9jb25maWcvbWgtbGludXgKLSsrKyBi
-L2NvbmZpZy9taC1saW51eAorLS0tIGEvc291cmNlL2NvbmZpZy9taC1saW51eAorKysrIGIvc291
-cmNlL2NvbmZpZy9taC1saW51eAogQEAgLTIzLDcgKzIzLDcgQEAgTERfUlBBVEg9IC1XbCwtem9y
-aWdpbiwtcnBhdGgsJyQkJ09SSUdJTgogIExEX1JQQVRIX1BSRSA9IC1XbCwtcnBhdGgsCiAgCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtaWN1LUFkZGVkLWFy
-bWViLXN1cHBvcnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtaWN1
-LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKaW5kZXggYTI1Mjg1ZmI1NC4uYTJiZjZmNDY0ZSAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLWljdS1BZGRlZC1h
-cm1lYi1zdXBwb3J0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAw
-MS1pY3UtQWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gY2Y1
-NWMwNzdiNzdiN2EyMTk1MDIzNjRlYWFkZjEyYzA3NGFiMDA1ZSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb20gMzBhMWU1NjFmNWJmZWE2YWQ0Y2MyNDI3ZDViZTlmMTJkNGE3YzBhMyBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IExlaSBNYW9odWkgPGxlaW1hb2h1aUBjbi5mdWpp
-dHN1LmNvbT4KIERhdGU6IFdlZCwgOCBNYXkgMjAxOSAxNDo0MjozMCArMDkwMAogU3ViamVjdDog
-W1BBVENIXSBpY3U6IEFkZGVkIGFybWViIHN1cHBvcnQuCkBAIC05LDEzICs5LDEzIEBAIFVwc3Ry
-ZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBMZWkgTWFvaHVpIDxsZWltYW9o
-dWlAY24uZnVqaXRzdS5jb20+CiAtLS0KLSBpMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgg
-fCAyICstCisgc291cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCB8IDIgKy0KICAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAotZGlmZiAtLWdp
-dCBhL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCBiL2kxOG4vZG91YmxlLWNvbnZlcnNp
-b24tdXRpbHMuaAorZGlmZiAtLWdpdCBhL3NvdXJjZS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0
-aWxzLmggYi9zb3VyY2UvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCiBpbmRleCAzMDM2
-NjhmLi43ZDg1OWRjIDEwMDY0NAotLS0tIGEvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5o
-Ci0rKysgYi9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKy0tLSBhL3NvdXJjZS9pMThu
-L2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKysrKyBiL3NvdXJjZS9pMThuL2RvdWJsZS1jb252
-ZXJzaW9uLXV0aWxzLmgKIEBAIC0xNDYsNyArMTQ2LDcgQEAgaW50IG1haW4oaW50IGFyZ2MsIGNo
-YXIqKiBhcmd2KSB7CiAgLy8KICAvLyBJZiBpdCBwcmludHMgImNvcnJlY3QiIHRoZW4gdGhlIGFy
-Y2hpdGVjdHVyZSBzaG91bGQgYmUgaGVyZSwgaW4gdGhlICJjb3JyZWN0IiBzZWN0aW9uLgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ni0xLmJiIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCmluZGV4IGYxMWU3MmQzNTYuLmQyYmVlNjhi
-MzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc3LTEuYmIKQEAgLTEsMyArMSwyNSBAQAor
-IyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5
-ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJl
-dHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUg
-dGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGlu
-CisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhh
-bXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBU
-aGUgY2hhbmdlczoKKyMKKyMgLS0tIC4uL0xJQ0VOU0UKKyMgKysrIC4uL0xJQ0VOU0UKKyMgQEAg
-LTIsNyArMiw3IEBACisjICAKKyMgIENPUFlSSUdIVCBBTkQgUEVSTUlTU0lPTiBOT1RJQ0UKKyMg
-IAorIyAtQ29weXJpZ2h0IMKpIDIwMTYtMjAyNCBVbmljb2RlLCBJbmMuCisjICtDb3B5cmlnaHQg
-wqkgMjAxNi0yMDI1IFVuaWNvZGUsIEluYy4KKyMgIAorIyAgTk9USUNFIFRPIFVTRVI6IENhcmVm
-dWxseSByZWFkIHRoZSBmb2xsb3dpbmcgbGVnYWwgYWdyZWVtZW50LiBCWQorIyAgRE9XTkxPQURJ
-TkcsIElOU1RBTExJTkcsIENPUFlJTkcgT1IgT1RIRVJXSVNFIFVTSU5HIERBVEEgRklMRVMsIEFO
-RC9PUgorIyAKKyMKKwogU1VNTUFSWSA9ICJJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBmb3IgVW5p
-Y29kZSBsaWJyYXJpZXMiCiBERVNDUklQVElPTiA9ICJUaGUgSW50ZXJuYXRpb25hbCBDb21wb25l
-bnQgZm9yIFVuaWNvZGUgKElDVSkgaXMgYSBtYXR1cmUsIFwKIHBvcnRhYmxlIHNldCBvZiBDL0Mr
-KyBhbmQgSmF2YSBsaWJyYXJpZXMgZm9yIFVuaWNvZGUgc3VwcG9ydCwgc29mdHdhcmUgXApAQCAt
-OTIsNyArMTE0LDcgQEAgRklMRVM6bGliaWN1aW8gPSAiJHtsaWJkaXJ9L2xpYmljdWlvLnNvLioi
-CiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9N2MzNjRhMGRlYmVjZjE2ZDVhMTNkZTJiN2YxYWFh
-YmQiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8uLi9MSUNFTlNFO21kNT1jZjU3ZDk0NTlh
-MmM1Zjg4ZWNkODNjNzUyMDdjYzVmZiIKIAogZGVmIGljdV9kb3dubG9hZF92ZXJzaW9uKGQpOgog
-ICAgIHB2c3BsaXQgPSBkLmdldFZhcignUFYnKS5zcGxpdCgnLScpCkBAIC0xMjQsNyArMTQ2LDcg
-QEAgU1JDX1VSSSA9ICIke0JBU0VfU1JDX1VSSX07bmFtZT1jb2RlIFwKIFNSQ19VUkk6YXBwZW5k
-OmNsYXNzLXRhcmdldCA9ICJcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUtTERGTEFH
-U0lDVURULWZvci1MaW51eC5wYXRjaCBcCiAgICAgICAgICAgIgotU1JDX1VSSVtjb2RlLnNoYTI1
-NnN1bV0gPSAiZGZhY2I0NmJmZTQ3NDc0MTA0NzJjZTNlMTE0NGJmMjhhMTAyZmVlYWE0ZTM4NzVi
-YWM5YjRjNmNmMzBmNGYzZSIKK1NSQ19VUklbY29kZS5zaGEyNTZzdW1dID0gIjU4OGU0MzFmNzcz
-MjdjMzkwMzFmZmJiODg0M2MwZTNiYzEyMmMyMTEzNzQ0ODVmYTg3ZGM1ZjNmYWZmMjQwNjEiCiBT
-UkNfVVJJW2RhdGEuc2hhMjU2c3VtXSA9ICIxMzNhZTU4YTY3ZDY4YjQ2ZjcyOTY4MjI5MDRjZDNj
-MzAxMjZhMGI0YjJmNjVmMGY5MDVlN2Y0N2MwZWY5ZTQ3IgogCiBVUFNUUkVBTV9DSEVDS19SRUdF
-WCA9ICJyZWxlYXNlcy90YWcvcmVsZWFzZS0oP1A8cHZlcj4oPyEuK3JjKS4rKSIKLS0gCjIuNDcu
-MQoK
+Hello,
 
---===============1524438434892165464==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-icu-upgrade-76-1-77-1.patch"
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.26.2* has Failed(do_compile).
 
-RnJvbSAzNmRiMzQ3OWUwNDBjY2Y3Y2Y0NDBiNDRiYWZhMzhkM2JmMzZjNTA0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAxMzo0MzozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlj
-dTogdXBncmFkZSA3Ni0xIC0+IDc3LTEKCi0tLQogLi4uLzAwMDEtRGlzYWJsZS1MREZMQUdTSUNV
-RFQtZm9yLUxpbnV4LnBhdGNoIHwgMTAgKysrLS0tLQogLi4uL2ljdS8wMDAxLWljdS1BZGRlZC1h
-cm1lYi1zdXBwb3J0LnBhdGNoICAgIHwgMTAgKysrLS0tLQogLi4uL2ljdS97aWN1Xzc2LTEuYmIg
-PT4gaWN1Xzc3LTEuYmJ9ICAgICAgICAgIHwgMjYgKysrKysrKysrKysrKysrKystLQogMyBmaWxl
-cyBjaGFuZ2VkLCAzNCBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtc3VwcG9ydC9pY3Uve2ljdV83Ni0xLmJiID0+IGljdV83Ny0xLmJifSAoODclKQoK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3UvMDAwMS1EaXNhYmxlLUxE
-RkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1
-LzAwMDEtRGlzYWJsZS1MREZMQUdTSUNVRFQtZm9yLUxpbnV4LnBhdGNoCmluZGV4IGMwZTllMjgw
-NmIuLmVjMWFhZWEzZTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3Uv
-MDAwMS1EaXNhYmxlLUxERkxBR1NJQ1VEVC1mb3ItTGludXgucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMGY0ZTllZWU2NGJkNDIyMGFhNGZhZTFhYjRmN2Ji
-ZjEwYjg3Y2Q2OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZTA2MGRjNjdkOGRhNTZh
-Mjk4ZTk0NzI3NTVkNmU3MmY2MDc2ODM3OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDE1IEZlYiAyMDE0IDIx
-OjA2OjQyICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgTERGTEFHU0lDVURUIGZvciBM
-aW51eApAQCAtNywxMyArNywxMyBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgWyBP
-RSBDb25maWd1cmF0aW9uIF0KIAogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdt
-YWlsLmNvbT4KIC0tLQotIGNvbmZpZy9taC1saW51eCB8IDIgKy0KKyBzb3VyY2UvY29uZmlnL21o
-LWxpbnV4IHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogCi1kaWZmIC0tZ2l0IGEvY29uZmlnL21oLWxpbnV4IGIvY29uZmlnL21oLWxpbnV4Citk
-aWZmIC0tZ2l0IGEvc291cmNlL2NvbmZpZy9taC1saW51eCBiL3NvdXJjZS9jb25maWcvbWgtbGlu
-dXgKIGluZGV4IDUzZDY3ODAuLmI2MjI1MTMgMTAwNjQ0Ci0tLS0gYS9jb25maWcvbWgtbGludXgK
-LSsrKyBiL2NvbmZpZy9taC1saW51eAorLS0tIGEvc291cmNlL2NvbmZpZy9taC1saW51eAorKysr
-IGIvc291cmNlL2NvbmZpZy9taC1saW51eAogQEAgLTIzLDcgKzIzLDcgQEAgTERfUlBBVEg9IC1X
-bCwtem9yaWdpbiwtcnBhdGgsJyQkJ09SSUdJTgogIExEX1JQQVRIX1BSRSA9IC1XbCwtcnBhdGgs
-CiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAwMDEtaWN1LUFk
-ZGVkLWFybWViLXN1cHBvcnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1LzAw
-MDEtaWN1LUFkZGVkLWFybWViLXN1cHBvcnQucGF0Y2gKaW5kZXggYTI1Mjg1ZmI1NC4uYTJiZjZm
-NDY0ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdS8wMDAxLWljdS1B
-ZGRlZC1hcm1lYi1zdXBwb3J0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9p
-Y3UvMDAwMS1pY3UtQWRkZWQtYXJtZWItc3VwcG9ydC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gY2Y1NWMwNzdiNzdiN2EyMTk1MDIzNjRlYWFkZjEyYzA3NGFiMDA1ZSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gMzBhMWU1NjFmNWJmZWE2YWQ0Y2MyNDI3ZDViZTlmMTJkNGE3YzBh
-MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IExlaSBNYW9odWkgPGxlaW1hb2h1aUBj
-bi5mdWppdHN1LmNvbT4KIERhdGU6IFdlZCwgOCBNYXkgMjAxOSAxNDo0MjozMCArMDkwMAogU3Vi
-amVjdDogW1BBVENIXSBpY3U6IEFkZGVkIGFybWViIHN1cHBvcnQuCkBAIC05LDEzICs5LDEzIEBA
-IFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBMZWkgTWFvaHVpIDxs
-ZWltYW9odWlAY24uZnVqaXRzdS5jb20+CiAtLS0KLSBpMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0
-aWxzLmggfCAyICstCisgc291cmNlL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCB8IDIg
-Ky0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAotZGlm
-ZiAtLWdpdCBhL2kxOG4vZG91YmxlLWNvbnZlcnNpb24tdXRpbHMuaCBiL2kxOG4vZG91YmxlLWNv
-bnZlcnNpb24tdXRpbHMuaAorZGlmZiAtLWdpdCBhL3NvdXJjZS9pMThuL2RvdWJsZS1jb252ZXJz
-aW9uLXV0aWxzLmggYi9zb3VyY2UvaTE4bi9kb3VibGUtY29udmVyc2lvbi11dGlscy5oCiBpbmRl
-eCAzMDM2NjhmLi43ZDg1OWRjIDEwMDY0NAotLS0tIGEvaTE4bi9kb3VibGUtY29udmVyc2lvbi11
-dGlscy5oCi0rKysgYi9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKy0tLSBhL3NvdXJj
-ZS9pMThuL2RvdWJsZS1jb252ZXJzaW9uLXV0aWxzLmgKKysrKyBiL3NvdXJjZS9pMThuL2RvdWJs
-ZS1jb252ZXJzaW9uLXV0aWxzLmgKIEBAIC0xNDYsNyArMTQ2LDcgQEAgaW50IG1haW4oaW50IGFy
-Z2MsIGNoYXIqKiBhcmd2KSB7CiAgLy8KICAvLyBJZiBpdCBwcmludHMgImNvcnJlY3QiIHRoZW4g
-dGhlIGFyY2hpdGVjdHVyZSBzaG91bGQgYmUgaGVyZSwgaW4gdGhlICJjb3JyZWN0IiBzZWN0aW9u
-LgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ni0xLmJiIGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83Ny0xLmJiCmluZGV4IGYxMWU3MmQzNTYuLmQy
-YmVlNjhiMzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzYtMS5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1Xzc3LTEuYmIKQEAgLTEsMyArMSwy
-NSBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRh
-dGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJl
-bmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1
-cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFu
-Z2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgor
-IyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQor
-IworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIC4uL0xJQ0VOU0UKKyMgKysrIC4uL0xJQ0VOU0UK
-KyMgQEAgLTIsNyArMiw3IEBACisjICAKKyMgIENPUFlSSUdIVCBBTkQgUEVSTUlTU0lPTiBOT1RJ
-Q0UKKyMgIAorIyAtQ29weXJpZ2h0IMKpIDIwMTYtMjAyNCBVbmljb2RlLCBJbmMuCisjICtDb3B5
-cmlnaHQgwqkgMjAxNi0yMDI1IFVuaWNvZGUsIEluYy4KKyMgIAorIyAgTk9USUNFIFRPIFVTRVI6
-IENhcmVmdWxseSByZWFkIHRoZSBmb2xsb3dpbmcgbGVnYWwgYWdyZWVtZW50LiBCWQorIyAgRE9X
-TkxPQURJTkcsIElOU1RBTExJTkcsIENPUFlJTkcgT1IgT1RIRVJXSVNFIFVTSU5HIERBVEEgRklM
-RVMsIEFORC9PUgorIyAKKyMKKwogU1VNTUFSWSA9ICJJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBm
-b3IgVW5pY29kZSBsaWJyYXJpZXMiCiBERVNDUklQVElPTiA9ICJUaGUgSW50ZXJuYXRpb25hbCBD
-b21wb25lbnQgZm9yIFVuaWNvZGUgKElDVSkgaXMgYSBtYXR1cmUsIFwKIHBvcnRhYmxlIHNldCBv
-ZiBDL0MrKyBhbmQgSmF2YSBsaWJyYXJpZXMgZm9yIFVuaWNvZGUgc3VwcG9ydCwgc29mdHdhcmUg
-XApAQCAtOTIsNyArMTE0LDcgQEAgRklMRVM6bGliaWN1aW8gPSAiJHtsaWJkaXJ9L2xpYmljdWlv
-LnNvLioiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotTElDX0ZJTEVT
-X0NIS1NVTSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9N2MzNjRhMGRlYmVjZjE2ZDVhMTNkZTJi
-N2YxYWFhYmQiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8uLi9MSUNFTlNFO21kNT1jZjU3
-ZDk0NTlhMmM1Zjg4ZWNkODNjNzUyMDdjYzVmZiIKIAogZGVmIGljdV9kb3dubG9hZF92ZXJzaW9u
-KGQpOgogICAgIHB2c3BsaXQgPSBkLmdldFZhcignUFYnKS5zcGxpdCgnLScpCkBAIC0xMjQsNyAr
-MTQ2LDcgQEAgU1JDX1VSSSA9ICIke0JBU0VfU1JDX1VSSX07bmFtZT1jb2RlIFwKIFNSQ19VUkk6
-YXBwZW5kOmNsYXNzLXRhcmdldCA9ICJcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUt
-TERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaCBcCiAgICAgICAgICAgIgotU1JDX1VSSVtjb2Rl
-LnNoYTI1NnN1bV0gPSAiZGZhY2I0NmJmZTQ3NDc0MTA0NzJjZTNlMTE0NGJmMjhhMTAyZmVlYWE0
-ZTM4NzViYWM5YjRjNmNmMzBmNGYzZSIKK1NSQ19VUklbY29kZS5zaGEyNTZzdW1dID0gIjU4OGU0
-MzFmNzczMjdjMzkwMzFmZmJiODg0M2MwZTNiYzEyMmMyMTEzNzQ0ODVmYTg3ZGM1ZjNmYWZmMjQw
-NjEiCiBTUkNfVVJJW2RhdGEuc2hhMjU2c3VtXSA9ICIxMzNhZTU4YTY3ZDY4YjQ2ZjcyOTY4MjI5
-MDRjZDNjMzAxMjZhMGI0YjJmNjVmMGY5MDVlN2Y0N2MwZWY5ZTQ3IgogCiBVUFNUUkVBTV9DSEVD
-S19SRUdFWCA9ICJyZWxlYXNlcy90YWcvcmVsZWFzZS0oP1A8cHZlcj4oPyEuK3JjKS4rKSIKLS0g
-CjIuNDcuMQoK
+Detailed error information:
 
---===============1524438434892165464==
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.26.1-1.26.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 04aa5bb81cff6755129fff33b4d9aaa70478d55b Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 1 Jun 2025 12:35:45 +0000
+Subject: [PATCH] gstreamer1.0-python: upgrade 1.26.1 -> 1.26.2
+
+---
+ ...reamer1.0-python_1.26.1.bb => gstreamer1.0-python_1.26.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.26.1.bb => gstreamer1.0-python_1.26.2.bb} (91%)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb
+index 6afd286d38..50ff21c1ef 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "2dce1ecc8a80ce8e0b6f0e0cb3fad3bcd5d65ebe0622ed28eaae97b4559a6a85"
++SRC_URI[sha256sum] = "757ae964c16a542d60708bcb8a67c56c5be83785c0d1c534b9b9366bf676746e"
+ 
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+-- 
+2.47.1
+
+
+--===============1252267658217782225==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -266,7 +116,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1917 entries from dependency cache.
+Loaded 1915 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 936 .bb files complete (935 cached, 1 parsed). 1915 targets, 39 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-64 sysroot...done.
@@ -286,80 +136,124 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:1c7fef6f01ccad2f2f53e4e5e66d58c3bfbcacb1"
+workspace            = "tmp-auh-upgrades:4816dd9421b8796570849ee0da3c2ddeedd4b3d0"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 136 Local 122 Mirrors 0 Missed 14 Current 232 (89% match, 96% complete)
+Sstate summary: Wanted 652 Local 640 Mirrors 0 Missed 12 Current 849 (98% match, 99% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 322 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 330 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 332 of 368 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-77-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe icu-native-77-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 333 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 334 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-77-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 760 of 1099 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch)
-NOTE: recipe icu-native-77-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 762 of 1099 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-77-1-r0: task do_fetch: Started
-NOTE: recipe icu-native-77-1-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 337 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 342 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 347 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 357 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 365 of 368 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
-WARNING: icu-77-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data - will attempt other sources if available
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-WARNING: icu-77-1-r0 do_fetch: Checksum mismatch for local file /srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip
-Cleaning and trying again.
-WARNING: icu-77-1-r0 do_fetch: Renaming /srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip to /srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip_bad-checksum_1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3
-WARNING: icu-native-77-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data - will attempt other sources if available
-WARNING: icu-native-77-1-r0 do_fetch: Checksum mismatch for local file /srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip
-Cleaning and trying again.
-WARNING: icu-native-77-1-r0 do_fetch: Renaming /srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip to /srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip_bad-checksum_1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3
-NOTE: recipe icu-77-1-r0: task do_fetch: Failed
-NOTE: recipe icu-native-77-1-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 1068 tasks of which 1066 didn't need to be rerun and 2 failed.
+NOTE: Running task 3598 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_recipe_qa)
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_recipe_qa: Started
+NOTE: Running task 3794 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_write_config)
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_write_config: Started
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_write_config: Succeeded
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 4099 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_fetch)
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_fetch: Succeeded
+NOTE: Running task 4100 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_unpack)
+NOTE: Running task 4101 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_unpack: Succeeded
+NOTE: Running task 4102 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_patch)
+NOTE: Running task 4103 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_collect_spdx_deps)
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_patch: Succeeded
+NOTE: Running task 4104 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 4105 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_populate_lic)
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_populate_lic: Started
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_populate_lic: Succeeded
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 4106 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_configure)
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_configure: Started
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_configure: Succeeded
+NOTE: Running task 4107 of 4118 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_compile)
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| [1/6] x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot -Igi/overrides/_gi_gst.cpython-313-x86_64-linux-gnu.so.p -Igi/overrides -I../gst-python-1.26.2/gi/overrides -I. -I../gst-python-1.26.2 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/gstreamer-1.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/glib-2.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/lib/glib-2.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/pytho
+ n3.13 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/pygobject-3.0 -fvisibility=hidden -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -DHAVE_CONFIG_H -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/gst-python-1.26.2=/usr/src/debug/gstreamer1.0-python/1.26.2 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/build=/usr/src/debug/gstreamer1.0-python/1.26.2 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot-native= -pipe -fPIC -pthread -MD -MQ gi/overrides/_gi_gst.cpython-313-x86_64-linux-gnu.so.p/gstmodule.c.o -MF gi/overrides/_
+ gi_gst.cpython-313-x86_64-linux-gnu.so.p/gstmodule.c.o.d -o gi/overrides/_gi_gst.cpython-313-x86_64-linux-gnu.so.p/gstmodule.c.o -c ../gst-python-1.26.2/gi/overrides/gstmodule.c
+| FAILED: gi/overrides/_gi_gst.cpython-313-x86_64-linux-gnu.so.p/gstmodule.c.o
+| x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot -Igi/overrides/_gi_gst.cpython-313-x86_64-linux-gnu.so.p -Igi/overrides -I../gst-python-1.26.2/gi/overrides -I. -I../gst-python-1.26.2 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/gstreamer-1.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/glib-2.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/lib/glib-2.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/python3.13 
+ -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/pygobject-3.0 -fvisibility=hidden -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -DHAVE_CONFIG_H -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/gst-python-1.26.2=/usr/src/debug/gstreamer1.0-python/1.26.2 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/build=/usr/src/debug/gstreamer1.0-python/1.26.2 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot-native= -pipe -fPIC -pthread -MD -MQ gi/overrides/_gi_gst.cpython-313-x86_64-linux-gnu.so.p/gstmodule.c.o -MF gi/overrides/_gi_gst
+ .cpython-313-x86_64-linux-gnu.so.p/gstmodule.c.o.d -o gi/overrides/_gi_gst.cpython-313-x86_64-linux-gnu.so.p/gstmodule.c.o -c ../gst-python-1.26.2/gi/overrides/gstmodule.c
+| ../gst-python-1.26.2/gi/overrides/gstmodule.c: In function '_gst_structure_is_writable':
+| ../gst-python-1.26.2/gi/overrides/gstmodule.c:1042:7: error: implicit declaration of function 'gst_structure_is_writable'; did you mean '_gst_structure_is_writable'? [-Wimplicit-function-declaration]
+|  1042 |   if (gst_structure_is_writable (structure)) {
+|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |       _gst_structure_is_writable
+| [2/6] x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot -Igi/overrides/_gi_gst_analytics.cpython-313-x86_64-linux-gnu.so.p -Igi/overrides -I../gst-python-1.26.2/gi/overrides -I. -I../gst-python-1.26.2 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/gstreamer-1.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/glib-2.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/lib/glib-2.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/inc
+ lude/python3.13 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/pygobject-3.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/orc-0.4 -fvisibility=hidden -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -DHAVE_CONFIG_H -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/gst-python-1.26.2=/usr/src/debug/gstreamer1.0-python/1.26.2 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/build=/usr/src/debug/gstreamer1.0-python/1.26.2 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python
+ /1.26.2/recipe-sysroot-native= -pipe -fPIC -pthread -MD -MQ gi/overrides/_gi_gst_analytics.cpython-313-x86_64-linux-gnu.so.p/gstanalyticsmodule.c.o -MF gi/overrides/_gi_gst_analytics.cpython-313-x86_64-linux-gnu.so.p/gstanalyticsmodule.c.o.d -o gi/overrides/_gi_gst_analytics.cpython-313-x86_64-linux-gnu.so.p/gstanalyticsmodule.c.o -c ../gst-python-1.26.2/gi/overrides/gstanalyticsmodule.c
+| [3/6] x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot -Iplugin/libgstpython.so.p -Iplugin -I../gst-python-1.26.2/plugin -I. -I../gst-python-1.26.2 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/gstreamer-1.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/glib-2.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/lib/glib-2.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/pygobject-3.0 -I/srv/pokybuild/yocto-worker/auh
+ /build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot/usr/include/python3.13 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -DHAVE_CONFIG_H -O2 -g -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/gst-python-1.26.2=/usr/src/debug/gstreamer1.0-python/1.26.2 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/build=/usr/src/debug/gstreamer1.0-python/1.26.2 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot-native= -pipe -fPIC -pthread -MD -MQ plugin/libgstpython.so.p/gstpythonplugin.c.o -MF plugin/libgstpython.so.p/gstpythonplugin.c.o.d -o plugin/libgstpython.so.p/gstpythonplugin.c.o -c ..
+ /gst-python-1.26.2/plugin/gstpythonplugin.c
+| ninja: build stopped: subcommand failed.
+| INFO: autodetecting backend as ninja
+| INFO: calculating backend command to run: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/recipe-sysroot-native/usr/bin/ninja -j 16 -l 75.0 -v
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/temp/run.do_compile.2870521:159 exit 1 from 'meson compile -v -j 16 -l 75'
+| WARNING: Backtrace (BB generated script):
+| 	#1: meson_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/temp/run.do_compile.2870521, line 159
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/temp/run.do_compile.2870521, line 154
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/temp/run.do_compile.2870521, line 170
+NOTE: recipe gstreamer1.0-python-1.26.2-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 4107 tasks of which 4096 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250601134319.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250601123527.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250601134319.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250601123527.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Summary: 2 tasks failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/77-1/temp/log.do_fetch.3889085
-  virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/77-1/temp/log.do_fetch.3889086
-Summary: There were 6 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-ERROR: icu-77-1-r0 do_fetch: Checksum failure fetching https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data
-ERROR: icu-77-1-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip\' has sha256 checksum \'1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3\' when \'133ae58a67d68b46f7296822904cd3c30126a0b4b2f65f0f905e7f47c0ef9e47\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[data.sha256sum] = "1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data')
-ERROR: icu-native-77-1-r0 do_fetch: Checksum failure fetching https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data
-ERROR: icu-native-77-1-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/pokybuild/yocto-worker/auh/build/build/downloads/icu4c-77_1-data.zip\' has sha256 checksum \'1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3\' when \'133ae58a67d68b46f7296822904cd3c30126a0b4b2f65f0f905e7f47c0ef9e47\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[data.sha256sum] = "1e08bfafa442260ccabf9a872d4eab12de813d42b90769df056bab032b37e1d3"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-data.zip;name=data')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/77-1/temp/log.do_fetch.3889085
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch) failed with exit code '1'
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/77-1/temp/log.do_fetch.3889086
-ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_77-1.bb:do_fetch) failed with exit code '1'
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/temp/log.do_compile.2870521
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: gstreamer1.0-python-1.26.2-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/temp/run.do_compile.2870521' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.26.2/temp/log.do_compile.2870521
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb:do_compile) failed with exit code '1'
 
---===============1524438434892165464==--
+--===============1252267658217782225==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-python-upgrade-1.26.1-1.26.2.patch"
+
+RnJvbSAwNGFhNWJiODFjZmY2NzU1MTI5ZmZmMzNiNGQ5YWFhNzA0NzhkNTViIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBKdW4gMjAyNSAxMjozNTo0NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMC1weXRob246IHVwZ3JhZGUgMS4yNi4xIC0+IDEuMjYuMgoKLS0tCiAuLi5yZWFt
+ZXIxLjAtcHl0aG9uXzEuMjYuMS5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjYuMi5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1weXRo
+b25fMS4yNi4xLmJiID0+IGdzdHJlYW1lcjEuMC1weXRob25fMS4yNi4yLmJifSAoOTElKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
+cHl0aG9uXzEuMjYuMS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
+ZWFtZXIxLjAtcHl0aG9uXzEuMjYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhvbl8x
+LjI2LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
+ZWFtZXIxLjAtcHl0aG9uXzEuMjYuMi5iYgppbmRleCA2YWZkMjg2ZDM4Li41MGZmMjFjMWVmIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
+LXB5dGhvbl8xLjI2LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC1weXRob25fMS4yNi4yLmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNFID0g
+IkxHUEwtMi4xLW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
+ZDU9YzM0ZGVhZTRlMzk1Y2EwN2U3MjVhYjAwNzZhNWY3NDAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6
+Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy8ke1BOUkVBTH0vJHtQTlJFQUx9LSR7UFZ9
+LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyZGNlMWVjYzhhODBjZThlMGI2ZjBlMGNi
+M2ZhZDNiY2Q1ZDY1ZWJlMDYyMmVkMjhlYWFlOTdiNDU1OWE2YTg1IgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjc1N2FlOTY0YzE2YTU0MmQ2MDcwOGJjYjhhNjdjNTZjNWJlODM3ODVjMGQxYzUzNGI5
+YjkzNjZiZjY3Njc0NmUiCiAKIERFUEVORFMgPSAiZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1w
+bHVnaW5zLWJhc2UgcHl0aG9uMy1weWdvYmplY3QgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkIgog
+UkRFUEVORFM6JHtQTn0gKz0gImdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNl
+IHB5dGhvbjMtcHlnb2JqZWN0IgotLSAKMi40Ny4xCgo=
+
+--===============1252267658217782225==--
 
