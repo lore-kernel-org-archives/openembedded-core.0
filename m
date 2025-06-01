@@ -1,447 +1,411 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 680C4C54FB3
-	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 14:25:48 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.28302.1748787942642593808
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB4F9C54FB3
+	for <webhook@archiver.kernel.org>; Sun,  1 Jun 2025 19:24:59 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.33874.1748805893542449074
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jun 2025 07:25:43 -0700
+ Sun, 01 Jun 2025 12:24:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mDHX6ZJS;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-441c99459e9so22866905e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 07:25:42 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=eHPtvdgV;
+ spf=pass (domain: konsulko.com, ip: 209.85.218.42, mailfrom: tim.orling@konsulko.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ad89ee255easo678513866b.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 12:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748787941; x=1749392741; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=38k9ruL37es2jfetJavicR2QObaeTDrun2Pf8IlM4yQ=;
-        b=mDHX6ZJSHeXEo8kqy7S4rUB1tTbffrLHGfum+JvdVWmmeFvRFsmZAScvadJ8SfdBju
-         bfaYzlPsNsjMIVLHgXeN/Im82ca4gpzIv81EJfVmPC3sY9g6542rCyPNBEikbyxmtOwU
-         HlmLCzwYldPN6zDZBydfCSONGcrmYWt3M+pxviSj5t9mtz7Tml4P7YhWBge0x0Nn9SZy
-         Rnp0UMC6ihhL0TqE/GGTTpw7gtCRJewvKCw0m0YMvzUZljD2fZof6N541V0yB/iusJyO
-         4zpyCrGC2Y3gLcWS3Qt0uSqKSEqVGdMd+tTAXZy/UWP4fdFMPsLCbBfIS0bBaPE0Xsl7
-         Ff7w==
+        d=konsulko.com; s=google; t=1748805891; x=1749410691; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A44Sy5wjQyb+cTQt9jLybYe2mmJgI+0WQl/epc4yjkc=;
+        b=eHPtvdgVS40gSF6dNULR663J8DbqLaKfEj56eTnaAPi63OgdXJcn15G3oTAulDRCB8
+         7eLQAu+MzoCQUGIn3H1CxRelYY9FkNpr9cky0tiUIf30jhne+jJcl/qaCSk0sgs8X1ic
+         7P9fP4Xi3hGBBYJohdlLoqR7MUDVBBNxeFa1Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748787941; x=1749392741;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=38k9ruL37es2jfetJavicR2QObaeTDrun2Pf8IlM4yQ=;
-        b=r4tAEJzRLEXehmbXpXty79l5aFyhafPoZ66LhigHUDT1bNl4l92k10CQ84S179MkO/
-         lMhg6GW2I3m3EZy+XtD8kvkvu/MNsx/cI3hGfl710vc8b/26SIL2a+IGJKKvPrOLBgNj
-         mKQEbqMfFpjt/lATE3aGQacrHYbbfTQQFU6VpxJDb+Q5MrejxyZ/nSNjKzL/4IZbbSbR
-         sA1M+nWgEbKxB1xDgUTqPXQ0n91xVnbjTj49iR/7VJETjGR3owwMRhorzUUnTMzNVBLL
-         3NUhGufFQPvncoDhcpCiiRXJyXTpC3r7fzY1oXdLKBDJOs5zZ54zy6LWosG6gW3yh1b0
-         oMSA==
-X-Gm-Message-State: AOJu0Yw3fbgUCSQqM7LiYf7TG9oIJAi0EsickdOXNnuUtQ7VhPj6AR92
-	8xUGzCrO7Dld+07WaLqG7H4QgLGAavk2McgKoFpdgCpjllQjof/zN5HU0aFaKQ==
-X-Gm-Gg: ASbGncscjvU4sCLTWNjjWSBjpyRzZSEpHMAfVDAT9NFh6YddsH/XDZd0f9DSF27/yFo
-	E4qcv6+YcWVS8BSlhCO5oQQqFo9/zBUqtzMLO0N68dzpYhFGq+K6n7oxxGDuIMBvJu4TMHXlkG/
-	5/rVVDX5Jo/DDDC1aNRbu6B9k5uM2xHjWIdnowADGC7/D0yN4rUXW2yH8EaABZtNxh+/56lqtQ9
-	vVBUFQcjdnXsXwPe9hOwtOIMCLIeBrrh1B/LmdpvAiXdwb2yM2WPR12HiZEa0Du7oh31xnVg0+b
-	BPt+LhHv0WR9hjx1K+49OtHorKvbSYK8F1zEJpmi5c5L/+WD7oz/Z6GMPSS3kjP88TJwvmWmcPr
-	x
-X-Google-Smtp-Source: AGHT+IFbX9gXbfilOiKDrEncgOZSjyk1pP+vfMH18wPf57DsPAWHxjBYiz668JVOO//55YPBErtRkg==
-X-Received: by 2002:a05:600c:3b8e:b0:43b:c0fa:f9dd with SMTP id 5b1f17b1804b1-450d65441cbmr79396575e9.25.1748787940210;
-        Sun, 01 Jun 2025 07:25:40 -0700 (PDT)
-Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe73f9csm11755252f8f.50.2025.06.01.07.25.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 07:25:39 -0700 (PDT)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [scarthgap][PATCH] systemd: upgrade 255.18 -> 255.21
-Date: Sun,  1 Jun 2025 14:25:30 +0000
-Message-ID: <20250601142530.2591748-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1748805891; x=1749410691;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A44Sy5wjQyb+cTQt9jLybYe2mmJgI+0WQl/epc4yjkc=;
+        b=thF9d4G40WSfqOIqwFLDTb3PsDA+uoDNDDGOAtFOwj8HF7qkL/8Gib4wBo3HcBHeWj
+         8Ex+DmgMCP6+RMmE9HqUbDqo0Q3yXsApwA5DZiVUv4modTkGJQkFTSP6ZYY0x6LK04Bu
+         VR2YvkwpT3e5mffzxiUVvCSYQd14ghLvxpPJe5tuBQRT9RKu4gVWZtT86nUQ9AmDbecy
+         jFPE6z81w30q2DkoBE+bR2B5iVejR/L1G9LOwEvauQLzVucDZgE2T5BT7w/n0xXbFNby
+         TJ0cYSlzuwphr3nSe9NoxIMovmqtEhqV4jd9spV6J7+fO/l3budqB71qF5j5c5xped2g
+         3s6Q==
+X-Gm-Message-State: AOJu0YyJrgBP6KuSKJctHJGjrKMtGnr3IzLDOMmt4oay8dHZCAg79yBQ
+	UiALxQdLxYssmEBkf1MFogcc7vDMHJ/6Bw3t7c9vgaFSly5EFyDfWUV8JAl+mzQuT4RH6cDdFIJ
+	O8Jzf3EYvEIY8G3I9T6lAqzfeU92yI/1SoopRfj6/J7UjzHZ5fR3zndQ5ng==
+X-Gm-Gg: ASbGncto1vrJ9TM6HcpHEITn+jajo3UEuDmAGD/V1ixT7DyeCTPIVthGs3aCuhFiFCN
+	aZpgLWxzi6p1DXZPtq/MRthlMgSQoFuyfkH7NpLU8XGh9R9lONnp1pvOUWumIBhfZjpXlD7foRG
+	Ck3H0xDtkvSnM2054KTLyDoXwKSsEKGbjS
+X-Google-Smtp-Source: AGHT+IH3omCAPnPqMSlE/w4NfKsURztlLqDcpu0KEUWrA8L4wqQkzXWKro8N8xI6JdXJ5F5E/NbzZSTIRbnWhqz4Opg=
+X-Received: by 2002:a17:906:c105:b0:ad2:2d75:d7fb with SMTP id
+ a640c23a62f3a-adb36c1863emr981747766b.55.1748805890498; Sun, 01 Jun 2025
+ 12:24:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <010101972bc6d2ab-e0d63232-7a41-4ecf-8be0-0aa2b6c01778-000000@us-west-2.amazonses.com>
+In-Reply-To: <010101972bc6d2ab-e0d63232-7a41-4ecf-8be0-0aa2b6c01778-000000@us-west-2.amazonses.com>
+From: Tim Orling <tim.orling@konsulko.com>
+Date: Sun, 1 Jun 2025 12:24:39 -0700
+X-Gm-Features: AX0GCFs_6LTDalfEl4aPp7mR_5t-NsmbEzeKXNnqIycOGZ7bXHSuD8d5LO91gk0
+Message-ID: <CAOyo-855DeYgf4PHGAHCjTOs=oNvm-Xfu8p2hYLCcw4YzKQECw@mail.gmail.com>
+Subject: Re: [AUH] python3-zipp: upgrading to 3.22.0 FAILED
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000e277eb06368799ce"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 14:25:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217675
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jun 2025 19:24:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217676
 
-The update includes 79 commits. Full list of changes can be found on
-Github [1]
+--000000000000e277eb06368799ce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-All patches were refreshed with devtool.
+This upgrade now requires 'coherent.licensed' [1] (which sounds like it
+compares to licenses at "build time", but might be trying to pull licenses
+if they aren't already downloaded [2]) and that in turn requires
+'coherent.build' [3] yet another PEP-517 backend,
 
-[1] https://github.com/systemd/systemd-stable/compare/v255.18...v255.21
+[1] https://github.com/coherent-oss/coherent.licensed
+[2] https://github.com/pypa/setuptools/issues/5002
+[3] https://github.com/coherent-oss/coherent.build
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
----
- ...-native_255.18.bb => systemd-boot-native_255.21.bb} |  0
- .../{systemd-boot_255.18.bb => systemd-boot_255.21.bb} |  0
- meta/recipes-core/systemd/systemd.inc                  |  2 +-
- .../0001-missing_type.h-add-comparison_fn_t.patch      |  2 +-
- ...d-fallback-parse_printf_format-implementation.patch |  2 +-
- ...Don-t-install-dependency-links-at-install-tim.patch |  2 +-
- ...rc-basic-missing.h-check-for-missing-strndupa.patch | 10 +++++-----
- ...ail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch |  2 +-
- .../0005-add-missing-FTW_-macros-for-musl.patch        |  2 +-
- .../0006-Use-uintmax_t-for-handling-rlim_t.patch       |  2 +-
- ...-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch |  2 +-
- ...glibc-compatible-basename-for-non-glibc-syste.patch |  2 +-
- .../0008-implment-systemd-sysv-install-for-OE.patch    |  2 +-
- ...disable-buffering-when-writing-to-oom_score_a.patch |  2 +-
- ...uish-XSI-compliant-strerror_r-from-GNU-specif.patch |  2 +-
- ...-avoid-redefinition-of-prctl_mm_map-structure.patch |  2 +-
- .../0012-do-not-disable-buffer-in-writing-files.patch  |  8 ++++----
- .../systemd/systemd/0013-Handle-__cpu_mask-usage.patch |  2 +-
- .../systemd/systemd/0014-Handle-missing-gshadow.patch  |  2 +-
- ...ng_syscall.h-Define-MIPS-ABI-defines-for-musl.patch |  2 +-
- .../0016-pass-correct-parameters-to-getdents64.patch   |  2 +-
- .../systemd/systemd/0017-Adjust-for-musl-headers.patch |  2 +-
- ...s-error-strerror-is-assumed-to-be-GNU-specifi.patch |  2 +-
- ...19-errno-util-Make-STRERROR-portable-for-musl.patch |  2 +-
- ...d-event-Make-malloc_trim-conditional-on-glibc.patch |  2 +-
- .../0021-shared-Do-not-use-malloc_info-on-musl.patch   |  2 +-
- .../0022-avoid-missing-LOCK_EX-declaration.patch       |  4 ++--
- .../systemd/{systemd_255.18.bb => systemd_v255.21.bb}  |  0
- 28 files changed, 33 insertions(+), 33 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot-native_255.18.bb => systemd-boot-native_255.21.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-boot_255.18.bb => systemd-boot_255.21.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_255.18.bb => systemd_v255.21.bb} (100%)
+On Sun, Jun 1, 2025 at 6:55=E2=80=AFAM <auh@yoctoproject.org> wrote:
 
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_255.18.bb b/meta/recipes-core/systemd/systemd-boot-native_255.21.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot-native_255.18.bb
-rename to meta/recipes-core/systemd/systemd-boot-native_255.21.bb
-diff --git a/meta/recipes-core/systemd/systemd-boot_255.18.bb b/meta/recipes-core/systemd/systemd-boot_255.21.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_255.18.bb
-rename to meta/recipes-core/systemd/systemd-boot_255.21.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 8e134d8c86..28392b6b09 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
- 
--SRCREV = "20415d357fb0e253df7444019a47674fac4ed1d6"
-+SRCREV = "70500d37992a01d3275b1c414c3ed161d6f91f9e"
- SRCBRANCH = "v255-stable"
- SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}"
- 
-diff --git a/meta/recipes-core/systemd/systemd/0001-missing_type.h-add-comparison_fn_t.patch b/meta/recipes-core/systemd/systemd/0001-missing_type.h-add-comparison_fn_t.patch
-index d2ffdd8de4..22f0468460 100644
---- a/meta/recipes-core/systemd/systemd/0001-missing_type.h-add-comparison_fn_t.patch
-+++ b/meta/recipes-core/systemd/systemd/0001-missing_type.h-add-comparison_fn_t.patch
-@@ -1,4 +1,4 @@
--From 7bbb54406dd77c358eab9df08b100ee85e176052 Mon Sep 17 00:00:00 2001
-+From b270af4c086d254758fdcd1d294b15a555a4b3ea Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 25 Feb 2019 13:55:12 +0800
- Subject: [PATCH] missing_type.h: add comparison_fn_t
-diff --git a/meta/recipes-core/systemd/systemd/0002-add-fallback-parse_printf_format-implementation.patch b/meta/recipes-core/systemd/systemd/0002-add-fallback-parse_printf_format-implementation.patch
-index df9e978e55..6cce960299 100644
---- a/meta/recipes-core/systemd/systemd/0002-add-fallback-parse_printf_format-implementation.patch
-+++ b/meta/recipes-core/systemd/systemd/0002-add-fallback-parse_printf_format-implementation.patch
-@@ -1,4 +1,4 @@
--From d0b08484a6c3113b6209d8f8e1dc1186a6427b99 Mon Sep 17 00:00:00 2001
-+From 0660aea3d7c8058d73c9f7b2971f4daf35dd7a32 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Sat, 22 May 2021 20:26:24 +0200
- Subject: [PATCH] add fallback parse_printf_format implementation
-diff --git a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-index 784f0898c0..4472dda2e8 100644
---- a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-+++ b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-@@ -1,4 +1,4 @@
--From 7e4fae68909ce4932e073dd060e22581edc39ad2 Mon Sep 17 00:00:00 2001
-+From edc39fe19419120f70341cd50d4d097a514ac9cb Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 21 Feb 2019 16:23:24 +0800
- Subject: [PATCH] binfmt: Don't install dependency links at install time for
-diff --git a/meta/recipes-core/systemd/systemd/0003-src-basic-missing.h-check-for-missing-strndupa.patch b/meta/recipes-core/systemd/systemd/0003-src-basic-missing.h-check-for-missing-strndupa.patch
-index e46b4386aa..715a0c7ec8 100644
---- a/meta/recipes-core/systemd/systemd/0003-src-basic-missing.h-check-for-missing-strndupa.patch
-+++ b/meta/recipes-core/systemd/systemd/0003-src-basic-missing.h-check-for-missing-strndupa.patch
-@@ -1,4 +1,4 @@
--From ca0b48676132744b78d99ee3ec2d33f11bb73c28 Mon Sep 17 00:00:00 2001
-+From c728a728cd54c372162f5447aa94921efb0c35f0 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 25 Feb 2019 14:18:21 +0800
- Subject: [PATCH] src/basic/missing.h: check for missing strndupa
-@@ -280,7 +280,7 @@ index b3baf03afc..7404784a01 100644
-  
-  BUS_DEFINE_PROPERTY_GET(bus_property_get_tasks_max, "t", CGroupTasksMax, cgroup_tasks_max_resolve);
- diff --git a/src/core/dbus-execute.c b/src/core/dbus-execute.c
--index 2d05ba7e1d..61a7de0037 100644
-+index 71b07a6ec1..174a94e8a0 100644
- --- a/src/core/dbus-execute.c
- +++ b/src/core/dbus-execute.c
- @@ -42,6 +42,7 @@
-@@ -352,7 +352,7 @@ index 7e0c98cb7d..978a7f5874 100644
-  #define DEFAULT_MAX_USE_LOWER (uint64_t) (1ULL*1024ULL*1024ULL)           /* 1 MiB */
-  #define DEFAULT_MAX_USE_UPPER (uint64_t) (4ULL*1024ULL*1024ULL*1024ULL)   /* 4 GiB */
- diff --git a/src/fstab-generator/fstab-generator.c b/src/fstab-generator/fstab-generator.c
--index 016f3baa7f..b1def81313 100644
-+index e7caf510ba..79b252cad7 100644
- --- a/src/fstab-generator/fstab-generator.c
- +++ b/src/fstab-generator/fstab-generator.c
- @@ -37,6 +37,7 @@
-@@ -424,7 +424,7 @@ index 5ade8e99aa..7553cf319d 100644
-  #define SNDBUF_SIZE (8*1024*1024)
-  
- diff --git a/src/libsystemd/sd-bus/sd-bus.c b/src/libsystemd/sd-bus/sd-bus.c
--index 8befc97460..6ee4d4f595 100644
-+index b32cd6c6a0..cc484454e0 100644
- --- a/src/libsystemd/sd-bus/sd-bus.c
- +++ b/src/libsystemd/sd-bus/sd-bus.c
- @@ -46,6 +46,7 @@
-@@ -616,7 +616,7 @@ index 0a31be382f..92d629e7e0 100644
-  /* up to three lines (each up to 100 characters) or 300 characters, whichever is less */
-  #define PRINT_LINE_THRESHOLD 3
- diff --git a/src/shared/pager.c b/src/shared/pager.c
--index 19deefab56..6b6d0af1a0 100644
-+index 41dd7bffdc..9ca45d8b91 100644
- --- a/src/shared/pager.c
- +++ b/src/shared/pager.c
- @@ -25,6 +25,7 @@
-diff --git a/meta/recipes-core/systemd/systemd/0004-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch b/meta/recipes-core/systemd/systemd/0004-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch
-index 43ba526792..19eaf9170d 100644
---- a/meta/recipes-core/systemd/systemd/0004-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch
-+++ b/meta/recipes-core/systemd/systemd/0004-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch
-@@ -1,4 +1,4 @@
--From 3ea9cc03431c93c86cf0ca63ad04219af221a2d0 Mon Sep 17 00:00:00 2001
-+From 674232187bf337c31a6528b4d241eafeb27ac85e Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 25 Feb 2019 14:56:21 +0800
- Subject: [PATCH] don't fail if GLOB_BRACE and GLOB_ALTDIRFUNC is not defined
-diff --git a/meta/recipes-core/systemd/systemd/0005-add-missing-FTW_-macros-for-musl.patch b/meta/recipes-core/systemd/systemd/0005-add-missing-FTW_-macros-for-musl.patch
-index c25ccde9e2..dbd94d473d 100644
---- a/meta/recipes-core/systemd/systemd/0005-add-missing-FTW_-macros-for-musl.patch
-+++ b/meta/recipes-core/systemd/systemd/0005-add-missing-FTW_-macros-for-musl.patch
-@@ -1,4 +1,4 @@
--From 885a6880ad1b687e3fbf1b9f35e218bee1fcc835 Mon Sep 17 00:00:00 2001
-+From cdaafa37983753d309d2b37f8262e71f95798e52 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 25 Feb 2019 15:00:06 +0800
- Subject: [PATCH] add missing FTW_ macros for musl
-diff --git a/meta/recipes-core/systemd/systemd/0006-Use-uintmax_t-for-handling-rlim_t.patch b/meta/recipes-core/systemd/systemd/0006-Use-uintmax_t-for-handling-rlim_t.patch
-index 13c155745a..09ffbcb70a 100644
---- a/meta/recipes-core/systemd/systemd/0006-Use-uintmax_t-for-handling-rlim_t.patch
-+++ b/meta/recipes-core/systemd/systemd/0006-Use-uintmax_t-for-handling-rlim_t.patch
-@@ -1,4 +1,4 @@
--From 646c3ced29922065eed64ac9b23af8276e989608 Mon Sep 17 00:00:00 2001
-+From 8c33fe6338c448dca8533b9d3f9933e2794bda61 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 25 Feb 2019 15:12:41 +0800
- Subject: [PATCH] Use uintmax_t for handling rlim_t
-diff --git a/meta/recipes-core/systemd/systemd/0007-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch b/meta/recipes-core/systemd/systemd/0007-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch
-index 55405c5d0b..563f033b0d 100644
---- a/meta/recipes-core/systemd/systemd/0007-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch
-+++ b/meta/recipes-core/systemd/systemd/0007-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch
-@@ -1,4 +1,4 @@
--From f772369a2519b378c09bb89bd48c3743a62404e3 Mon Sep 17 00:00:00 2001
-+From 68ab3364c0fe1073bba3adf02add7108de80a17c Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Tue, 10 Oct 2017 14:33:30 -0700
- Subject: [PATCH] don't pass AT_SYMLINK_NOFOLLOW flag to faccessat()
-diff --git a/meta/recipes-core/systemd/systemd/0008-Define-glibc-compatible-basename-for-non-glibc-syste.patch b/meta/recipes-core/systemd/systemd/0008-Define-glibc-compatible-basename-for-non-glibc-syste.patch
-index 6005b621ee..cc9f7771be 100644
---- a/meta/recipes-core/systemd/systemd/0008-Define-glibc-compatible-basename-for-non-glibc-syste.patch
-+++ b/meta/recipes-core/systemd/systemd/0008-Define-glibc-compatible-basename-for-non-glibc-syste.patch
-@@ -1,4 +1,4 @@
--From 45b1226ddbd981798e0448da41ddc4901e246b45 Mon Sep 17 00:00:00 2001
-+From 6dd1aa50da27c07530a434218b5a7a384d0c6747 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 27 May 2018 08:36:44 -0700
- Subject: [PATCH] Define glibc compatible basename() for non-glibc systems
-diff --git a/meta/recipes-core/systemd/systemd/0008-implment-systemd-sysv-install-for-OE.patch b/meta/recipes-core/systemd/systemd/0008-implment-systemd-sysv-install-for-OE.patch
-index d43eaeff7a..21faa10a95 100644
---- a/meta/recipes-core/systemd/systemd/0008-implment-systemd-sysv-install-for-OE.patch
-+++ b/meta/recipes-core/systemd/systemd/0008-implment-systemd-sysv-install-for-OE.patch
-@@ -1,4 +1,4 @@
--From abca5814cb0b5b98a1e7af829cc166e76c524f1a Mon Sep 17 00:00:00 2001
-+From 8da2b10dcbf423f791db79b7dfcc6cfaf8e26f8b Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 5 Sep 2015 06:31:47 +0000
- Subject: [PATCH] implment systemd-sysv-install for OE
-diff --git a/meta/recipes-core/systemd/systemd/0009-Do-not-disable-buffering-when-writing-to-oom_score_a.patch b/meta/recipes-core/systemd/systemd/0009-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
-index 3e557b764f..66aa8551ac 100644
---- a/meta/recipes-core/systemd/systemd/0009-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
-+++ b/meta/recipes-core/systemd/systemd/0009-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
-@@ -1,4 +1,4 @@
--From 8d61cecff3ba0687ad2c10aacb7d2aee7cb3fa79 Mon Sep 17 00:00:00 2001
-+From ed33f139195794477ac854214022034db306f42d Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Wed, 4 Jul 2018 15:00:44 +0800
- Subject: [PATCH] Do not disable buffering when writing to oom_score_adj
-diff --git a/meta/recipes-core/systemd/systemd/0010-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch b/meta/recipes-core/systemd/systemd/0010-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch
-index d4b67d15f4..66fab46128 100644
---- a/meta/recipes-core/systemd/systemd/0010-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch
-+++ b/meta/recipes-core/systemd/systemd/0010-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch
-@@ -1,4 +1,4 @@
--From 2180b639665bd314905ef058dee9a5e4a534333e Mon Sep 17 00:00:00 2001
-+From ef261a0122ff5a4340897c9afe1fae04d14eb0dd Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Tue, 10 Jul 2018 15:40:17 +0800
- Subject: [PATCH] distinguish XSI-compliant strerror_r from GNU-specifi
-diff --git a/meta/recipes-core/systemd/systemd/0011-avoid-redefinition-of-prctl_mm_map-structure.patch b/meta/recipes-core/systemd/systemd/0011-avoid-redefinition-of-prctl_mm_map-structure.patch
-index ad8888895f..1ad9a302ff 100644
---- a/meta/recipes-core/systemd/systemd/0011-avoid-redefinition-of-prctl_mm_map-structure.patch
-+++ b/meta/recipes-core/systemd/systemd/0011-avoid-redefinition-of-prctl_mm_map-structure.patch
-@@ -1,4 +1,4 @@
--From 3b1639c7052d9d574dd05d268364e7919b6f2580 Mon Sep 17 00:00:00 2001
-+From 8b76e1f027d73e26cfc8e13bd49f43197dbb9004 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 25 Feb 2019 15:44:54 +0800
- Subject: [PATCH] avoid redefinition of prctl_mm_map structure
-diff --git a/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch b/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch
-index f0eafd6fea..3ff247debb 100644
---- a/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch
-+++ b/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch
-@@ -1,4 +1,4 @@
--From c1a375d93edbfaf3f64bec88c75cfcf436d4ba05 Mon Sep 17 00:00:00 2001
-+From 9686b8c52bd9e532ebe687dd31352d884873e0a4 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Fri, 1 Mar 2019 15:22:15 +0800
- Subject: [PATCH] do not disable buffer in writing files
-@@ -188,10 +188,10 @@ index d21f3f79ff..258607cc7e 100644
-                          log_warning_errno(r, "Failed to flush binfmt_misc rules, ignoring: %m");
-                  else
- diff --git a/src/core/cgroup.c b/src/core/cgroup.c
--index 61539afdbf..77e2b35daf 100644
-+index d398655b0a..9558f38a72 100644
- --- a/src/core/cgroup.c
- +++ b/src/core/cgroup.c
--@@ -4581,7 +4581,7 @@ int unit_cgroup_freezer_action(Unit *u, FreezerAction action) {
-+@@ -4589,7 +4589,7 @@ int unit_cgroup_freezer_action(Unit *u, FreezerAction action) {
-                          u->freezer_state = FREEZER_THAWING;
-          }
-  
-@@ -201,7 +201,7 @@ index 61539afdbf..77e2b35daf 100644
-                  return r;
-  
- diff --git a/src/core/main.c b/src/core/main.c
--index 8373a156cb..33e866942c 100644
-+index 364dc895d1..d28ec42030 100644
- --- a/src/core/main.c
- +++ b/src/core/main.c
- @@ -1683,7 +1683,7 @@ static void initialize_core_pattern(bool skip_setup) {
-diff --git a/meta/recipes-core/systemd/systemd/0013-Handle-__cpu_mask-usage.patch b/meta/recipes-core/systemd/systemd/0013-Handle-__cpu_mask-usage.patch
-index 5427671553..a92d4db101 100644
---- a/meta/recipes-core/systemd/systemd/0013-Handle-__cpu_mask-usage.patch
-+++ b/meta/recipes-core/systemd/systemd/0013-Handle-__cpu_mask-usage.patch
-@@ -1,4 +1,4 @@
--From b10a273f5e26536068a90f961c2a7a6c6528083b Mon Sep 17 00:00:00 2001
-+From 385fbcc3cec50b995299e25f913d9683ddf51174 Mon Sep 17 00:00:00 2001
- From: Scott Murray <scott.murray@konsulko.com>
- Date: Fri, 13 Sep 2019 19:26:27 -0400
- Subject: [PATCH] Handle __cpu_mask usage
-diff --git a/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch b/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch
-index 679b42ff95..f84f289c2f 100644
---- a/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch
-+++ b/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch
-@@ -1,4 +1,4 @@
--From c55dd0f9e1ea05749d0a54082daa69729ee946af Mon Sep 17 00:00:00 2001
-+From bc62e5e507cc3f10fde7d35d16059a06a78757b6 Mon Sep 17 00:00:00 2001
- From: Alex Kiernan <alex.kiernan@gmail.com>
- Date: Tue, 10 Mar 2020 11:05:20 +0000
- Subject: [PATCH] Handle missing gshadow
-diff --git a/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch b/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
-index 2bd683785d..c1297f27dd 100644
---- a/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
-+++ b/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
-@@ -1,4 +1,4 @@
--From 4733cb758285ec7f63e834894aa8f09d9bc77ad5 Mon Sep 17 00:00:00 2001
-+From 79f2f3e90229f4812d93c6965cb67385642dfcc4 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 12 Apr 2021 23:44:53 -0700
- Subject: [PATCH] missing_syscall.h: Define MIPS ABI defines for musl
-diff --git a/meta/recipes-core/systemd/systemd/0016-pass-correct-parameters-to-getdents64.patch b/meta/recipes-core/systemd/systemd/0016-pass-correct-parameters-to-getdents64.patch
-index 3e359d976a..d932d7cc76 100644
---- a/meta/recipes-core/systemd/systemd/0016-pass-correct-parameters-to-getdents64.patch
-+++ b/meta/recipes-core/systemd/systemd/0016-pass-correct-parameters-to-getdents64.patch
-@@ -1,4 +1,4 @@
--From 1118d270cf2cd7c6cb99eb40ab42c3d07b20476c Mon Sep 17 00:00:00 2001
-+From a8e07d87adfeb1c72c6eaf5402db465a78e08ee6 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 21 Jan 2022 15:15:11 -0800
- Subject: [PATCH] pass correct parameters to getdents64
-diff --git a/meta/recipes-core/systemd/systemd/0017-Adjust-for-musl-headers.patch b/meta/recipes-core/systemd/systemd/0017-Adjust-for-musl-headers.patch
-index 6ae6cdfe54..6a2dcc355d 100644
---- a/meta/recipes-core/systemd/systemd/0017-Adjust-for-musl-headers.patch
-+++ b/meta/recipes-core/systemd/systemd/0017-Adjust-for-musl-headers.patch
-@@ -1,4 +1,4 @@
--From ab78d7938e732125012f8276e357e8f6d4a51476 Mon Sep 17 00:00:00 2001
-+From 5da745dc6f60f6fac65371a60eee7cecaf575eae Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 21 Jan 2022 22:19:37 -0800
- Subject: [PATCH] Adjust for musl headers
-diff --git a/meta/recipes-core/systemd/systemd/0018-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch b/meta/recipes-core/systemd/systemd/0018-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch
-index 5d74d08201..89ef33c156 100644
---- a/meta/recipes-core/systemd/systemd/0018-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch
-+++ b/meta/recipes-core/systemd/systemd/0018-test-bus-error-strerror-is-assumed-to-be-GNU-specifi.patch
-@@ -1,4 +1,4 @@
--From 20cf3569dff21f5c4e46855c3956606fa0141710 Mon Sep 17 00:00:00 2001
-+From 1c5c9714a2a9bc651687bf2c583019c52ed93ac4 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Tue, 8 Nov 2022 13:31:34 -0800
- Subject: [PATCH] test-bus-error: strerror() is assumed to be GNU specific
-diff --git a/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch b/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch
-index a20e21ee08..7911add5ea 100644
---- a/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch
-+++ b/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch
-@@ -1,4 +1,4 @@
--From 5e3e71f93adf5bdbfd470bcd93320dab314dc3ef Mon Sep 17 00:00:00 2001
-+From 43f56ac05ff4b9c7774b6f580612f2a7896a4885 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 23 Jan 2023 23:39:46 -0800
- Subject: [PATCH] errno-util: Make STRERROR portable for musl
-diff --git a/meta/recipes-core/systemd/systemd/0020-sd-event-Make-malloc_trim-conditional-on-glibc.patch b/meta/recipes-core/systemd/systemd/0020-sd-event-Make-malloc_trim-conditional-on-glibc.patch
-index bdcff34f2c..be0a0da013 100644
---- a/meta/recipes-core/systemd/systemd/0020-sd-event-Make-malloc_trim-conditional-on-glibc.patch
-+++ b/meta/recipes-core/systemd/systemd/0020-sd-event-Make-malloc_trim-conditional-on-glibc.patch
-@@ -1,4 +1,4 @@
--From 18201d3350b443c79cc85274f3944bf64de33da0 Mon Sep 17 00:00:00 2001
-+From cda1cc94bd81c8ff9135255895a414fb938e2c79 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 2 Aug 2023 12:06:27 -0700
- Subject: [PATCH] sd-event: Make malloc_trim() conditional on glibc
-diff --git a/meta/recipes-core/systemd/systemd/0021-shared-Do-not-use-malloc_info-on-musl.patch b/meta/recipes-core/systemd/systemd/0021-shared-Do-not-use-malloc_info-on-musl.patch
-index 451511be16..9aa08e59cd 100644
---- a/meta/recipes-core/systemd/systemd/0021-shared-Do-not-use-malloc_info-on-musl.patch
-+++ b/meta/recipes-core/systemd/systemd/0021-shared-Do-not-use-malloc_info-on-musl.patch
-@@ -1,4 +1,4 @@
--From 96c3d0d3a2359dd248685c2ede876d66c3faa3f9 Mon Sep 17 00:00:00 2001
-+From 2913e608d6e91c8037d698534f72970b4c365d8f Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 2 Aug 2023 12:20:40 -0700
- Subject: [PATCH] shared: Do not use malloc_info on musl
-diff --git a/meta/recipes-core/systemd/systemd/0022-avoid-missing-LOCK_EX-declaration.patch b/meta/recipes-core/systemd/systemd/0022-avoid-missing-LOCK_EX-declaration.patch
-index cd22adf0e5..e0a342355f 100644
---- a/meta/recipes-core/systemd/systemd/0022-avoid-missing-LOCK_EX-declaration.patch
-+++ b/meta/recipes-core/systemd/systemd/0022-avoid-missing-LOCK_EX-declaration.patch
-@@ -1,4 +1,4 @@
--From f3bc7816d9cca9963a2737857763ee76e300a232 Mon Sep 17 00:00:00 2001
-+From 9d151b5bb3105fb21d55a301def3d97b5a314580 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Tue, 2 Jan 2024 11:03:27 +0800
- Subject: [PATCH] avoid missing LOCK_EX declaration
-@@ -15,7 +15,7 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  2 files changed, 2 insertions(+)
- 
- diff --git a/src/core/exec-invoke.c b/src/core/exec-invoke.c
--index 22bc8d10c1..9bced8f420 100644
-+index 9d27280ed0..569311422d 100644
- --- a/src/core/exec-invoke.c
- +++ b/src/core/exec-invoke.c
- @@ -5,6 +5,7 @@
-diff --git a/meta/recipes-core/systemd/systemd_255.18.bb b/meta/recipes-core/systemd/systemd_v255.21.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd_255.18.bb
-rename to meta/recipes-core/systemd/systemd_v255.21.bb
--- 
-2.43.0
+> Hello,
+>
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe(s) *python3-zipp* to
+> *3.22.0* has Failed(do_compile).
+>
+> Detailed error information:
+>
+> do_compile failed
+>
+>
+>
+> Next steps:
+>     - apply the patch: git am 0001-python3-zipp-upgrade-3.21.0-3.22.0.pat=
+ch
+>     - check the changes to upstream patches and summarize them in the
+> commit message,
+>     - compile an image that contains the package
+>     - perform some basic sanity tests
+>     - amend the patch and sign it off: git commit -s --reset-author --ame=
+nd
+>     - send it to the appropriate mailing list
+>
+> Alternatively, if you believe the recipe should not be upgraded at this
+> time,
+> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+> automatic upgrades would no longer be attempted.
+>
+> Please review the attached files for further information and build/update
+> failures.
+> Any problem please file a bug at
+> https://bugzilla.yoctoproject.org/enter_bug.cgi?product=3DAutomated%20Upd=
+ate%20Handler
+>
+> Regards,
+> The Upgrade Helper
+>
+> -- >8 --
+> From 8b743d1761cfed54e01e67964ddaaa863278789f Mon Sep 17 00:00:00 2001
+> From: Upgrade Helper <auh@yoctoproject.org>
+> Date: Sun, 1 Jun 2025 10:13:48 +0000
+> Subject: [PATCH] python3-zipp: upgrade 3.21.0 -> 3.22.0
+>
+> ---
+>  ...-zipp_3.21.0.bb =3D> python3-zipp_3.22.0.bb} | 51 ++++++++++++++++++-
+>  1 file changed, 49 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-zipp_3.21.0.bb =3D>
+> python3-zipp_3.22.0.bb} (10%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-zipp_3.21.0.bb
+> b/meta/recipes-devtools/python/python3-zipp_3.22.0.bb
+> similarity index 10%
+> rename from meta/recipes-devtools/python/python3-zipp_3.21.0.bb
+> rename to meta/recipes-devtools/python/python3-zipp_3.22.0.bb
+> index 135a1ae533..da96a041da 100644
+> --- a/meta/recipes-devtools/python/python3-zipp_3.21.0.bb
+> +++ b/meta/recipes-devtools/python/python3-zipp_3.22.0.bb
+> @@ -1,9 +1,56 @@
+> +# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool
+> upgrade'.
+> +# The following is the difference between the old and the new license
+> text.
+> +# Please update the LICENSE value if needed, and summarize the changes i=
+n
+> +# the commit message via 'License-Update:' tag.
+> +# (example: 'License-Update: copyright years updated.')
+> +#
+> +# The changes:
+> +#
+> +# --- LICENSE
+> +# +++ LICENSE
+> +# @@ -1,17 +1,18 @@
+> +# -Permission is hereby granted, free of charge, to any person obtaining
+> a copy
+> +# -of this software and associated documentation files (the "Software"),
+> to
+> +# -deal in the Software without restriction, including without limitatio=
+n
+> the
+> +# -rights to use, copy, modify, merge, publish, distribute, sublicense,
+> and/or
+> +# -sell copies of the Software, and to permit persons to whom the
+> Software is
+> +# -furnished to do so, subject to the following conditions:
+> +# +MIT License
+> +#
+> +# -The above copyright notice and this permission notice shall be
+> included in
+> +# -all copies or substantial portions of the Software.
+> +# +Copyright (c) 2025 <copyright holders>
+> +#
+> +# -THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> EXPRESS OR
+> +# -IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> MERCHANTABILITY,
+> +# -FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+> SHALL THE
+> +# -AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHE=
+R
+> +# -LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG
+> +# -FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+> DEALINGS
+> +# -IN THE SOFTWARE.
+> +# +Permission is hereby granted, free of charge, to any person obtaining
+> a copy of this software and
+> +# +associated documentation files (the "Software"), to deal in the
+> Software without restriction, including
+> +# +without limitation the rights to use, copy, modify, merge, publish,
+> distribute, sublicense, and/or sell
+> +# +copies of the Software, and to permit persons to whom the Software is
+> furnished to do so, subject to the
+> +# +following conditions:
+> +# +
+> +# +The above copyright notice and this permission notice shall be
+> included in all copies or substantial
+> +# +portions of the Software.
+> +# +
+> +# +THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> EXPRESS OR IMPLIED, INCLUDING BUT NOT
+> +# +LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULA=
+R
+> PURPOSE AND NONINFRINGEMENT. IN NO
+> +# +EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+> DAMAGES OR OTHER LIABILITY, WHETHER
+> +# +IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+> IN CONNECTION WITH THE SOFTWARE OR THE
+> +# +USE OR OTHER DEALINGS IN THE SOFTWARE.
+> +#
+> +#
+> +
+>  SUMMARY =3D "Backport of pathlib-compatible object wrapper for zip files=
+"
+>  HOMEPAGE =3D "https://github.com/jaraco/zipp"
+>  LICENSE =3D "MIT"
+> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D141643e11c48898150daa83802dbc=
+65f"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1aeae65f25a15b1e46d4381f2f094=
+e0a"
+>
+> -SRC_URI[sha256sum] =3D
+> "2c9958f6430a2040341a52eb608ed6dd93ef4392e02ffe219417c1b28b5dd1f4"
+> +SRC_URI[sha256sum] =3D
+> "dd2f28c3ce4bc67507bfd3781d21b7bb2be31103b51a4553ad7d90b84e57ace5"
+>
+>  DEPENDS +=3D "python3-setuptools-scm-native"
+>
+> --
+> 2.47.1
+>
+>
 
+--000000000000e277eb06368799ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">This upgrade now requires &#39;coherent.licensed&#39; [1] =
+(which sounds like it compares to licenses at &quot;build time&quot;, but m=
+ight be trying to pull licenses if they aren&#39;t already downloaded [2]) =
+and that in turn requires &#39;coherent.build&#39; [3] yet another PEP-517 =
+backend,<div><br></div><div>[1]=C2=A0<a href=3D"https://github.com/coherent=
+-oss/coherent.licensed">https://github.com/coherent-oss/coherent.licensed</=
+a></div><div>[2]=C2=A0<a href=3D"https://github.com/pypa/setuptools/issues/=
+5002">https://github.com/pypa/setuptools/issues/5002</a></div><div>[3]=C2=
+=A0<a href=3D"https://github.com/coherent-oss/coherent.build">https://githu=
+b.com/coherent-oss/coherent.build</a></div></div><br><div class=3D"gmail_qu=
+ote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Ju=
+n 1, 2025 at 6:55=E2=80=AFAM &lt;<a href=3D"mailto:auh@yoctoproject.org">au=
+h@yoctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">Hello,<br>
+<br>
+this email is a notification from the Auto Upgrade Helper<br>
+that the automatic attempt to upgrade the recipe(s) *python3-zipp* to *3.22=
+.0* has Failed(do_compile).<br>
+<br>
+Detailed error information:<br>
+<br>
+do_compile failed<br>
+<br>
+<br>
+<br>
+Next steps:<br>
+=C2=A0 =C2=A0 - apply the patch: git am 0001-python3-zipp-upgrade-3.21.0-3.=
+22.0.patch<br>
+=C2=A0 =C2=A0 - check the changes to upstream patches and summarize them in=
+ the commit message,<br>
+=C2=A0 =C2=A0 - compile an image that contains the package<br>
+=C2=A0 =C2=A0 - perform some basic sanity tests<br>
+=C2=A0 =C2=A0 - amend the patch and sign it off: git commit -s --reset-auth=
+or --amend<br>
+=C2=A0 =C2=A0 - send it to the appropriate mailing list<br>
+<br>
+Alternatively, if you believe the recipe should not be upgraded at this tim=
+e,<br>
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that<br>
+automatic upgrades would no longer be attempted.<br>
+<br>
+Please review the attached files for further information and build/update f=
+ailures.<br>
+Any problem please file a bug at <a href=3D"https://bugzilla.yoctoproject.o=
+rg/enter_bug.cgi?product=3DAutomated%20Update%20Handler" rel=3D"noreferrer"=
+ target=3D"_blank">https://bugzilla.yoctoproject.org/enter_bug.cgi?product=
+=3DAutomated%20Update%20Handler</a><br>
+<br>
+Regards,<br>
+The Upgrade Helper<br>
+<br>
+-- &gt;8 --<br>
+From 8b743d1761cfed54e01e67964ddaaa863278789f Mon Sep 17 00:00:00 2001<br>
+From: Upgrade Helper &lt;<a href=3D"mailto:auh@yoctoproject.org" target=3D"=
+_blank">auh@yoctoproject.org</a>&gt;<br>
+Date: Sun, 1 Jun 2025 10:13:48 +0000<br>
+Subject: [PATCH] python3-zipp: upgrade 3.21.0 -&gt; 3.22.0<br>
+<br>
+---<br>
+=C2=A0...-<a href=3D"http://zipp_3.21.0.bb" rel=3D"noreferrer" target=3D"_b=
+lank">zipp_3.21.0.bb</a> =3D&gt; <a href=3D"http://python3-zipp_3.22.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">python3-zipp_3.22.0.bb</a>} | 51 +++++=
++++++++++++++-<br>
+=C2=A01 file changed, 49 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-zipp_3=
+.21.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-zipp_3.21.0.bb</a> =
+=3D&gt; <a href=3D"http://python3-zipp_3.22.0.bb" rel=3D"noreferrer" target=
+=3D"_blank">python3-zipp_3.22.0.bb</a>} (10%)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-zipp_3.=
+21.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-zipp_3.21.0.bb</a> b/=
+meta/recipes-devtools/python/<a href=3D"http://python3-zipp_3.22.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-zipp_3.22.0.bb</a><br>
+similarity index 10%<br>
+rename from meta/recipes-devtools/python/<a href=3D"http://python3-zipp_3.2=
+1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-zipp_3.21.0.bb</a><br>
+rename to meta/recipes-devtools/python/<a href=3D"http://python3-zipp_3.22.=
+0.bb" rel=3D"noreferrer" target=3D"_blank">python3-zipp_3.22.0.bb</a><br>
+index 135a1ae533..da96a041da 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3-zipp_3.21.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">python3-zipp_3.21.0.bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-zipp_3.22.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">python3-zipp_3.22.0.bb</a><br>
+@@ -1,9 +1,56 @@<br>
++# FIXME: the LIC_FILES_CHKSUM values have been updated by &#39;devtool upg=
+rade&#39;.<br>
++# The following is the difference between the old and the new license text=
+.<br>
++# Please update the LICENSE value if needed, and summarize the changes in<=
+br>
++# the commit message via &#39;License-Update:&#39; tag.<br>
++# (example: &#39;License-Update: copyright years updated.&#39;)<br>
++#<br>
++# The changes:<br>
++#<br>
++# --- LICENSE<br>
++# +++ LICENSE<br>
++# @@ -1,17 +1,18 @@<br>
++# -Permission is hereby granted, free of charge, to any person obtaining a=
+ copy<br>
++# -of this software and associated documentation files (the &quot;Software=
+&quot;), to<br>
++# -deal in the Software without restriction, including without limitation =
+the<br>
++# -rights to use, copy, modify, merge, publish, distribute, sublicense, an=
+d/or<br>
++# -sell copies of the Software, and to permit persons to whom the Software=
+ is<br>
++# -furnished to do so, subject to the following conditions:<br>
++# +MIT License<br>
++#=C2=A0 <br>
++# -The above copyright notice and this permission notice shall be included=
+ in<br>
++# -all copies or substantial portions of the Software.<br>
++# +Copyright (c) 2025 &lt;copyright holders&gt;<br>
++#=C2=A0 <br>
++# -THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIN=
+D, EXPRESS OR<br>
++# -IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
+,<br>
++# -FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL=
+ THE<br>
++# -AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<=
+br>
++# -LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+<br>
++# -FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEA=
+LINGS<br>
++# -IN THE SOFTWARE.<br>
++# +Permission is hereby granted, free of charge, to any person obtaining a=
+ copy of this software and<br>
++# +associated documentation files (the &quot;Software&quot;), to deal in t=
+he Software without restriction, including<br>
++# +without limitation the rights to use, copy, modify, merge, publish, dis=
+tribute, sublicense, and/or sell<br>
++# +copies of the Software, and to permit persons to whom the Software is f=
+urnished to do so, subject to the<br>
++# +following conditions:<br>
++# +<br>
++# +The above copyright notice and this permission notice shall be included=
+ in all copies or substantial<br>
++# +portions of the Software.<br>
++# +<br>
++# +THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIN=
+D, EXPRESS OR IMPLIED, INCLUDING BUT NOT<br>
++# +LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR =
+PURPOSE AND NONINFRINGEMENT. IN NO<br>
++# +EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, D=
+AMAGES OR OTHER LIABILITY, WHETHER<br>
++# +IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN=
+ CONNECTION WITH THE SOFTWARE OR THE<br>
++# +USE OR OTHER DEALINGS IN THE SOFTWARE.<br>
++# <br>
++#<br>
++<br>
+=C2=A0SUMMARY =3D &quot;Backport of pathlib-compatible object wrapper for z=
+ip files&quot;<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"https://github.com/jaraco/zipp" rel=3D"=
+noreferrer" target=3D"_blank">https://github.com/jaraco/zipp</a>&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D141643e11c48898150daa83802=
+dbc65f&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D1aeae65f25a15b1e46d4381f2f=
+094e0a&quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;2c9958f6430a2040341a52eb608ed6dd93ef4392e02ff=
+e219417c1b28b5dd1f4&quot;<br>
++SRC_URI[sha256sum] =3D &quot;dd2f28c3ce4bc67507bfd3781d21b7bb2be31103b51a4=
+553ad7d90b84e57ace5&quot;<br>
+<br>
+=C2=A0DEPENDS +=3D &quot;python3-setuptools-scm-native&quot;<br>
+<br>
+-- <br>
+2.47.1<br>
+<br>
+</blockquote></div>
+
+--000000000000e277eb06368799ce--
 
