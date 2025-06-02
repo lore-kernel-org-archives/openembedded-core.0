@@ -1,215 +1,285 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5703C5AD49
-	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 21:48:48 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.7463.1748900919680074686
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 886A8C5AD49
+	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 22:07:18 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web10.7940.1748902035495358746
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Jun 2025 14:48:40 -0700
+ Mon, 02 Jun 2025 15:07:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=HNI+fMk8;
- spf=pass (domain: konsulko.com, ip: 209.85.218.45, mailfrom: tim.orling@konsulko.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ad69e4f2100so737662766b.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 14:48:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LXD0ezlv;
+ spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-70e302191a3so42420177b3.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 15:07:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1748900918; x=1749505718; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1748902034; x=1749506834; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=V+gv9+Pm0Pp0u9n07GG5hiNZNYh+b9RsIkhKE/FxXPo=;
-        b=HNI+fMk8AzKd73ViAbYcdc9QtS5FYhLYTD9LrGu6Xeg2CcTa29y0zrG1DZCI2izSf8
-         M3e2GM4nNfebH3keLuVcZicCkC9HrBjs9dgENbxOiqAcD6UMu0MP8kewAGNszwLQVhGm
-         iGlya7NewALuFIHfKMwpty2VobzYRcTDS7two=
+        bh=Cv7R7nOT94xLfx9ZIitmL5p9x0sldqzVfcurG29s0xA=;
+        b=LXD0ezlvLAoNf9mvGvsqjPsDvK1+7VBZ+v9AC0f81PZCCBtJzDWp6N7hCTzBoHmaox
+         v2Ef4RMT2uo83cXK4gWkTYIdiCtD9MQKNtp9gzgT9ZjORSPZ43FplH0HHx7cPjO1dQXe
+         ip8fk1WAqhgETyfNhxk6Y4KdyWa3Lx3HxUxA5GoTu27nu41hh4bm3qoiGxOQIiLdtUNY
+         n9UnaK4GxHGbnNPQWxJvuB7BoWCU53HpRJ2vCNNzN5OznIBZP2TKwlBIP4unRfM6gGJ+
+         Q5H81LG8zSs9BTCrwNpqx7M7SJNauXk/Pfc7NUpYKuyuCsP0eHUxvITx2s2b82ItzS6F
+         I6vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748900918; x=1749505718;
+        d=1e100.net; s=20230601; t=1748902034; x=1749506834;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V+gv9+Pm0Pp0u9n07GG5hiNZNYh+b9RsIkhKE/FxXPo=;
-        b=Hv9ZZSlvRNdwAUMQBfsiNNsOSVAjviHWvTR1xytXh7dsyx2lEkmuFLPmAZnkORkMC6
-         uzqKHhleu1J2ZIRYx03AR/H5gXya0xgWpE/TgTKmrPym58qbyW3XhTrq2zibzvCx9iAG
-         yghtRRBc/0P6Wqub+4sMTfOeI2Xiq+E76Hg4N+wUXvRztWl2Cxobrsmw/cBY0FUSmad0
-         vX5lkWHkESV2BcEopw0CVQvWP6AvzQHIZ6IrwTXMsknagCaDUTaVYVg2XIUaOX1wpGPA
-         wrTT/LtPtz+JExM1nMdhAKUhwAOzzc/osv37qpP4eowEZynV+dJYePYYxIVufGKgFhty
-         TCLg==
-X-Gm-Message-State: AOJu0Yw86jXkDLE7IebisClxrvG5cFS6Ahm70Fa8HpMUAKyZWi1J1lEv
-	skwgjyLokGcGyQfNYN8Jx9BtOiUWSPd7UKFzt0jLNBW3+Doinf/dFuMwlYE8Tz9dG8vNQAWfN0K
-	z0miS0qxzkau+hcIyS44eEtu1rN8EkRWEq3xnXO1hyg==
-X-Gm-Gg: ASbGncutGaWE2nOJm7Kq5EYDGQuFdkh7ypqKaiJlmMjh4HYIpXMTbL0dsixcAkmhGKk
-	tillPA/Zu/u8lKxPmTw1d9pEi9rWgl3Fd0Jk2jsJSsp4e8qyNaK6d/JAx24D+D0Vc6m+kaJN19H
-	i0zqHDH9Ie1p9xdImsZEqm70LcgNh1/tKM
-X-Google-Smtp-Source: AGHT+IGrvh3+Xe1Nc2qSQtUzXQ2pOo0DljqRak2RmpZQXsrbivzx1yt5r25OH78R1BiPZcQPbUYhpALKTmf9bCz5Ejs=
-X-Received: by 2002:a17:907:db03:b0:ad2:28be:9a16 with SMTP id
- a640c23a62f3a-adb36c117ffmr1201205066b.51.1748900917970; Mon, 02 Jun 2025
- 14:48:37 -0700 (PDT)
+        bh=Cv7R7nOT94xLfx9ZIitmL5p9x0sldqzVfcurG29s0xA=;
+        b=jH/XQ2nnBUI9nY/XaEVpMiMDviqTHPVdbt0+E2Pvp8ayQEO9O2tWmwOnd+lBLgBpuc
+         ixkFTTC5iSoQfaS+sn3cYGSoJMT6Fz1t/ud/vcW0BZhVRVTDetj5onfHCoxML+OGX3q/
+         vf2c3U7i//pIRcbfktSeq4MQJlcH2RFcH7kTJrv5bDmtw5aBbGvphyU30Bej9TOdyZnx
+         7lJJx+Mt2FU5bwK/5dK9Yr/sC5Wel6mqfXDAFpXkFeKlctbJ6oyYknt11UiXU2cSWcOa
+         XSYk6/AwSUYDagmHQ4OxrWc64ZKUhp6EFIW5cvhRlIrr1Pz/KbR7FgSAI2SccCHLhXwR
+         zcdA==
+X-Gm-Message-State: AOJu0YwnYWCvU7AYGqBx0VIXjnSdxg5ImceNgs4zNzdenNpXXFYznt2W
+	xMA8uoXKTxup+5g4JbSHKGVvJ/iK+xqTg4fpS0QXcuIPhMmVn/c+BDRURNXQE7FnE75CO3MUYkV
+	mF9Au0+48E/lI6dF/J+cyLm6bkxl7/XQ=
+X-Gm-Gg: ASbGncuXPOc6BgfHXbam54n3xBtEPpHSr2B7GMz+8sdJsU4+7b8DZQvExxXgtZROIkG
+	Xe0o3Uy5n08lhRqJooLFWEzitZOBtFF2JmkyAn/V516R/Oztga3cVITPc4skySH47uWpAuIM1hY
+	j8FnOsdqMgKNVxK2YeQwWyKWZ4/NHVjuTv/V3G7XgIfWfSe/uJoG9J8IbpyVoW6YTAnBA=
+X-Google-Smtp-Source: AGHT+IFGl7oWyfYFn/Zhp1JseNL64colh4y/382dLqaPw5CYQOLg8NMMJb6zsltMMbe5INtBwvx6pydJwtzwSi+3zPM=
+X-Received: by 2002:a05:690c:490d:b0:6fb:b8a1:d3bb with SMTP id
+ 00721157ae682-70f97ebe239mr221451127b3.17.1748902034602; Mon, 02 Jun 2025
+ 15:07:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1748816484.git.tim.orling@konsulko.com> <09d7e38bfe20f3de0e2489d52305c81be2975d4b.1748816484.git.tim.orling@konsulko.com>
- <CAMKF1sprSxJnkOkM+v_k6tmwtPOiq26_A1AU0RikUrRfTN5NWA@mail.gmail.com>
-In-Reply-To: <CAMKF1sprSxJnkOkM+v_k6tmwtPOiq26_A1AU0RikUrRfTN5NWA@mail.gmail.com>
-From: Tim Orling <tim.orling@konsulko.com>
-Date: Mon, 2 Jun 2025 14:48:26 -0700
-X-Gm-Features: AX0GCFsJgBAotuWXoBp8UZz-Oq59jZdIMzLntwM3QQEt8TcSUdpN1JNb0BnY8d8
-Message-ID: <CAOyo-86pp7rnKLBLDrUj6P5q3vZqJnwkSgQTXPWNNG36LC5Nzw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/8] python3-maturin: upgrade 1.8.3 -> 1.8.6
-To: Khem Raj <raj.khem@gmail.com>
+References: <20250530205609.3185264-1-raj.khem@gmail.com> <765485fbbd229582a973ccb8e9119eec21fb2cbf.camel@linuxfoundation.org>
+In-Reply-To: <765485fbbd229582a973ccb8e9119eec21fb2cbf.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 2 Jun 2025 15:07:02 -0700
+X-Gm-Features: AX0GCFtwPm34y6AB6jPc8j4P7SaJryPi125dr6IqgUt9-3aEc-23sjuXJcsFzaY
+Message-ID: <CAMKF1sp5W5f=s19nELw_3=6Mqd6iFAnROjCAiB+0grso+cX3Ow@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5] pixmap: Enable openmp support with clang compiler
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f6965506369db9d9"
+Content-Type: multipart/alternative; boundary="0000000000008501ec06369dfcfb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 21:48:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217740
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 22:07:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217741
 
---000000000000f6965506369db9d9
+--0000000000008501ec06369dfcfb
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 2, 2025 at 2:32=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote:
+On Mon, Jun 2, 2025 at 2:41=E2=80=AFPM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> On Sun, Jun 1, 2025 at 3:26=E2=80=AFPM Tim Orling via lists.openembedded.=
-org
-> <tim.orling=3Dkonsulko.com@lists.openembedded.org> wrote:
+> On Fri, 2025-05-30 at 13:56 -0700, Khem Raj via lists.openembedded.org
+> wrote:
+> > pixman's meson detects openmp support and if it finds it in runtime the=
+n
+> > enables it, this happens for gcc via gcc-runtime, however for clang, it
+> > does not. In some cases e.g. mips it enables it during configure only t=
+o
+> > find that clang can not find the libomp during linking. Therefore, add
+> > the dependency on openmp when using clang compiler. This ensures
+> consistent
+> > behaviour across architectures.
 > >
-> > From: Tim Orling <tim.orling@konsulko.com>
+> > Disable internal assembler on mips since it can not handle the inline
+> assembly
 > >
-> > Comparing changes since 1.8.3:
-> > https://github.com/PyO3/maturin/compare/v1.8.3...v1.8.6
+> > Turn openmp into a packageconfig
 > >
-> > Changelog:
+> > openmp is not yet ported to all architectures e.g. RISCV32/PPC32
+> > does not have it
 > >
-> > 1.8.6
-> > * Print a message when overriding platform tag from _PYTHON_HOST_PLATFO=
-RM
-> >   in #2594
-> > * Use the current python interpreter's version when the abi3 feature is
-> set
-> >   with no explicit version in #2597
-> >
-> > 1.8.5
-> > * Fix release CI build
-> >
-> > 1.8.4
-> > * Install a Rust toolchain into a temporary directory when building
-> maturin
-> >   itself or a package and a Rust toolchain is missing. Set
-> >   MATURIN_NO_INSTALL_RUST to disable this behavior. #2421
-> > * Fix broken maturin develop with latest uv in #2584
-> > * Add PYO3_PYTHON env var support in #2534
-> > * Sort RECORD file in wheel archives to make them deterministic in #255=
-0
-> > * Publish wheel for loongarch64 in #2548
-> > * Add --compression-level option to build command in #2572
-> >
-> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > > ---
-> > oe-selftest for maturin passes
+> > v5: Remove openmp on rv32 and ppc32
 > >
-> >  .../python/python3-maturin-crates.inc         |  20 +-
-> >  ...l-codes-on-riscv32gc-unknown-linux-g.patch | 110 -----
-> >  .../python/python3-maturin_1.8.3.bb           |  43 --
-> >  .../python/python3-maturin_1.8.6.bb           | 405 ++++++++++++++++++
-> >  4 files changed, 415 insertions(+), 163 deletions(-)
-> >  delete mode 100644
-> meta/recipes-devtools/python/python3-maturin/0001-Define-more-ioctl-codes=
--on-riscv32gc-unknown-linux-g.patch
+> >  meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb | 13 ++++++++++++-
+> >  1 file changed, 12 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
+> b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
+> > index c1c71fd4202..925a7d7b29b 100644
+> > --- a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
+> > +++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
+> > @@ -23,6 +23,17 @@ LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D14096c769ae0cbb5fcb94ec468be11b3 \
+> >
+> >  inherit meson pkgconfig
+> >
+> > +OPENMP ?=3D ""
+> > +OPENMP:toolchain-clang =3D "openmp"
+> > +# openmp is not yet ported to rv32/ppc
+> > +OPENMP:remove:riscv32 =3D "openmp"
+> > +OPENMP:remove:powerpc =3D "openmp"
+> > +
+> > +PACKAGECONFIG ??=3D "openmp"
+> > +PACKAGECONFIG:class-native ?=3D ""
+> > +
+> > +PACKAGECONFIG[openmp] =3D ",-Dopenmp=3Ddisabled,${OPENMP}"
+> > +
+> >  # These are for the tests and demos, which we don't install
+> >  EXTRA_OEMESON =3D "-Dgtk=3Ddisabled -Dlibpng=3Ddisabled"
+> >  # ld: pixman/libpixman-mmx.a(pixman-mmx.c.o):
+> > @@ -36,7 +47,7 @@ EXTRA_OEMESON:append:class-target:powerpc64le =3D "
+> ${@bb.utils.contains("TUNE_FEA
+> >  EXTRA_OEMESON:append:armv7a =3D
+> "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=3Ddisabled",d)}"
+> >  EXTRA_OEMESON:append:armv7ve =3D
+> "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=3Ddisabled",d)}"
+> >
+> > -EXTRA_OEMESON:append:class-native =3D " -Dopenmp=3Ddisabled"
+> > +CFLAGS:append:toolchain-clang:mipsarch =3D " -fno-integrated-as"
+> >
+> >  BBCLASSEXTEND =3D "native nativesdk"
 >
-> Please keep this patch, this version of maturin still uses libc
-> 0.2.167, it breaks riscv32 builds without it.
+> I think this needs more discussion or potentially a better fix.
+>
+> Potentially the test for openmp in pixman is wrong and it shouldn't
+> build if it can find the header but not the library.
 >
 
-Yes, I caught that with v2. But thank you for the confirmation.
-https://lists.openembedded.org/g/openembedded-core/message/217722
+This is worth exploring more and if we can make the test robust it will
+benefit overall
+
+
+> Alternatively, if the openmp library can't be built, why are we
+> shipping the header? Should we delete it in that case?
+>
+
+Header is installed by gcc-runtime package
+
+
+> Something doesn't see right here and I think we need to fix the root
+> cause
+
 
 >
-> >  delete mode 100644 meta/recipes-devtools/python/
-> python3-maturin_1.8.3.bb
-> >  create mode 100644 meta/recipes-devtools/python/
-> python3-maturin_1.8.6.bb
-> <snip>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
 
---000000000000f6965506369db9d9
+--0000000000008501ec06369dfcfb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 2, =
-2025 at 2:32=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">=
-raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Sun, Jun 1, 2025 at 3:26=E2=80=AFPM Tim Orling via <a =
-href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank"=
->lists.openembedded.org</a><br>
-&lt;tim.orling=3D<a href=3D"mailto:konsulko.com@lists.openembedded.org" tar=
-get=3D"_blank">konsulko.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=
-=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
-&gt;<br>
-&gt; Comparing changes since 1.8.3:<br>
-&gt; <a href=3D"https://github.com/PyO3/maturin/compare/v1.8.3...v1.8.6" re=
-l=3D"noreferrer" target=3D"_blank">https://github.com/PyO3/maturin/compare/=
-v1.8.3...v1.8.6</a><br>
-&gt;<br>
-&gt; Changelog:<br>
-&gt;<br>
-&gt; 1.8.6<br>
-&gt; * Print a message when overriding platform tag from _PYTHON_HOST_PLATF=
-ORM<br>
-&gt;=C2=A0 =C2=A0in #2594<br>
-&gt; * Use the current python interpreter&#39;s version when the abi3 featu=
-re is set<br>
-&gt;=C2=A0 =C2=A0with no explicit version in #2597<br>
-&gt;<br>
-&gt; 1.8.5<br>
-&gt; * Fix release CI build<br>
-&gt;<br>
-&gt; 1.8.4<br>
-&gt; * Install a Rust toolchain into a temporary directory when building ma=
-turin<br>
-&gt;=C2=A0 =C2=A0itself or a package and a Rust toolchain is missing. Set<b=
-r>
-&gt;=C2=A0 =C2=A0MATURIN_NO_INSTALL_RUST to disable this behavior. #2421<br=
->
-&gt; * Fix broken maturin develop with latest uv in #2584<br>
-&gt; * Add PYO3_PYTHON env var support in #2534<br>
-&gt; * Sort RECORD file in wheel archives to make them deterministic in #25=
-50<br>
-&gt; * Publish wheel for loongarch64 in #2548<br>
-&gt; * Add --compression-level option to build command in #2572<br>
-&gt;<br>
-&gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.co=
-m" target=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 2, 2025 at 2:41=E2=80=AFPM =
+Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
+chard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">On Fri, 2025-05-30 at 13:56 -0700, Khem Raj via <a href=3D"ht=
+tp://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.ope=
+nembedded.org</a> wrote:<br>
+&gt; pixman&#39;s meson detects openmp support and if it finds it in runtim=
+e then<br>
+&gt; enables it, this happens for gcc via gcc-runtime, however for clang, i=
+t<br>
+&gt; does not. In some cases e.g. mips it enables it during configure only =
+to<br>
+&gt; find that clang can not find the libomp during linking. Therefore, add=
+<br>
+&gt; the dependency on openmp when using clang compiler. This ensures consi=
+stent<br>
+&gt; behaviour across architectures.<br>
+&gt; <br>
+&gt; Disable internal assembler on mips since it can not handle the inline =
+assembly<br>
+&gt; <br>
+&gt; Turn openmp into a packageconfig<br>
+&gt; <br>
+&gt; openmp is not yet ported to all architectures e.g. RISCV32/PPC32<br>
+&gt; does not have it<br>
+&gt; <br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
+et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
 &gt; ---<br>
-&gt; oe-selftest for maturin passes<br>
-&gt;<br>
-&gt;=C2=A0 .../python/python3-maturin-crates.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 20 +-<br>
-&gt;=C2=A0 ...l-codes-on-riscv32gc-unknown-linux-g.patch | 110 -----<br>
-&gt;=C2=A0 .../python/<a href=3D"http://python3-maturin_1.8.3.bb" rel=3D"no=
-referrer" target=3D"_blank">python3-maturin_1.8.3.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 43 --<br>
-&gt;=C2=A0 .../python/<a href=3D"http://python3-maturin_1.8.6.bb" rel=3D"no=
-referrer" target=3D"_blank">python3-maturin_1.8.6.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 405 ++++++++++++++++++<br>
-&gt;=C2=A0 4 files changed, 415 insertions(+), 163 deletions(-)<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/python3-maturin/=
-0001-Define-more-ioctl-codes-on-riscv32gc-unknown-linux-g.patch<br>
+&gt; v5: Remove openmp on rv32 and ppc32<br>
+&gt; <br>
+&gt; =C2=A0meta/recipes-graphics/xorg-lib/<a href=3D"http://pixman_0.46.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">pixman_0.46.0.bb</a> | 13 +++++++++=
++++-<br>
+&gt; =C2=A01 file changed, 12 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-graphics/xorg-lib/<a href=3D"http://pixman_0=
+.46.0.bb" rel=3D"noreferrer" target=3D"_blank">pixman_0.46.0.bb</a> b/meta/=
+recipes-graphics/xorg-lib/<a href=3D"http://pixman_0.46.0.bb" rel=3D"norefe=
+rrer" target=3D"_blank">pixman_0.46.0.bb</a><br>
+&gt; index c1c71fd4202..925a7d7b29b 100644<br>
+&gt; --- a/meta/recipes-graphics/xorg-lib/<a href=3D"http://pixman_0.46.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">pixman_0.46.0.bb</a><br>
+&gt; +++ b/meta/recipes-graphics/xorg-lib/<a href=3D"http://pixman_0.46.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">pixman_0.46.0.bb</a><br>
+&gt; @@ -23,6 +23,17 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D140=
+96c769ae0cbb5fcb94ec468be11b3=C2=A0\<br>
+&gt; =C2=A0<br>
+&gt; =C2=A0inherit meson pkgconfig<br>
+&gt; =C2=A0<br>
+&gt; +OPENMP ?=3D &quot;&quot;<br>
+&gt; +OPENMP:toolchain-clang =3D &quot;openmp&quot;<br>
+&gt; +# openmp is not yet ported to rv32/ppc<br>
+&gt; +OPENMP:remove:riscv32 =3D &quot;openmp&quot;<br>
+&gt; +OPENMP:remove:powerpc =3D &quot;openmp&quot;<br>
+&gt; +<br>
+&gt; +PACKAGECONFIG ??=3D &quot;openmp&quot;<br>
+&gt; +PACKAGECONFIG:class-native ?=3D &quot;&quot;<br>
+&gt; +<br>
+&gt; +PACKAGECONFIG[openmp] =3D &quot;,-Dopenmp=3Ddisabled,${OPENMP}&quot;<=
+br>
+&gt; +<br>
+&gt; =C2=A0# These are for the tests and demos, which we don&#39;t install<=
+br>
+&gt; =C2=A0EXTRA_OEMESON =3D &quot;-Dgtk=3Ddisabled -Dlibpng=3Ddisabled&quo=
+t;<br>
+&gt; =C2=A0# ld: pixman/libpixman-mmx.a(pixman-mmx.c.o):<br>
+&gt; @@ -36,7 +47,7 @@ EXTRA_OEMESON:append:class-target:powerpc64le =3D &q=
+uot; ${@bb.utils.contains(&quot;TUNE_FEA<br>
+&gt; =C2=A0EXTRA_OEMESON:append:armv7a =3D &quot;${@bb.utils.contains(&quot=
+;TUNE_FEATURES&quot;,&quot;neon&quot;,&quot;&quot;,&quot; -Dneon=3Ddisabled=
+&quot;,d)}&quot;<br>
+&gt; =C2=A0EXTRA_OEMESON:append:armv7ve =3D &quot;${@bb.utils.contains(&quo=
+t;TUNE_FEATURES&quot;,&quot;neon&quot;,&quot;&quot;,&quot; -Dneon=3Ddisable=
+d&quot;,d)}&quot;<br>
+&gt; =C2=A0<br>
+&gt; -EXTRA_OEMESON:append:class-native =3D &quot; -Dopenmp=3Ddisabled&quot=
+;<br>
+&gt; +CFLAGS:append:toolchain-clang:mipsarch =3D &quot; -fno-integrated-as&=
+quot;<br>
+&gt; =C2=A0<br>
+&gt; =C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
 <br>
-Please keep this patch, this version of maturin still uses libc<br>
-0.2.167, it breaks riscv32 builds without it.<br></blockquote><div><br></di=
-v><div>Yes, I caught that with v2. But thank you for the confirmation.</div=
-><div><a href=3D"https://lists.openembedded.org/g/openembedded-core/message=
-/217722">https://lists.openembedded.org/g/openembedded-core/message/217722<=
-/a>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+I think this needs more discussion or potentially a better fix.<br>
 <br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/<a href=3D"http:=
-//python3-maturin_1.8.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-ma=
-turin_1.8.3.bb</a><br>
-&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=3D"http:=
-//python3-maturin_1.8.6.bb" rel=3D"noreferrer" target=3D"_blank">python3-ma=
-turin_1.8.6.bb</a><br>&lt;snip&gt;</blockquote></div></div>
+Potentially the test for openmp in pixman is wrong and it shouldn&#39;t<br>
+build if it can find the header but not the library.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">This is worth ex=
+ploring more and if we can make the test robust it will benefit overall</di=
+v><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Alternatively, if the openmp library can&#39;t be built, why are we<br>
+shipping the header? Should we delete it in that case?<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Header is instal=
+led by gcc-runtime package</div><div dir=3D"auto"><br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex" dir=3D"auto"><br>
+Something doesn&#39;t see right here and I think we need to fix the root<br=
+>
+cause</blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
 
---000000000000f6965506369db9d9--
+--0000000000008501ec06369dfcfb--
 
