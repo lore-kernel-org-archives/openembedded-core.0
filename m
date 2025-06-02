@@ -1,170 +1,242 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1A07C5AD49
-	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 22:09:58 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.7879.1748902194002512586
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD519C5B559
+	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 22:12:18 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.7932.1748902334873400735
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Jun 2025 15:09:54 -0700
+ Mon, 02 Jun 2025 15:12:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OnbVzLAN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-451e24dfe1aso6122325e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 15:09:53 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=mO3S4/KJ;
+ spf=pass (domain: konsulko.com, ip: 209.85.218.42, mailfrom: tim.orling@konsulko.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ad1b94382b8so869403966b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 15:12:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1748902192; x=1749506992; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4Z2VwDEa+mI7mzGUkxySD1/xV+hXBlZ2ARgi7cn7d9A=;
-        b=OnbVzLANjfd0R4vArEK8y3pSVwQGmjTM2Ukzlgfx1zjeYJGpBIXmXMqe+RRTP2a93q
-         83zOncu1b6KU8SDlY+zyRfQgSn2pX/Y1i0EdK7GGPw3cT4Q0mF8RmGR0kCHuZXtd46ib
-         JeUCGRWVMwdjhXMBc71pzNSpsMeNgTITVZlPg=
+        d=konsulko.com; s=google; t=1748902333; x=1749507133; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=65dHQ/UcJLJ+EvQmMCFFB6uE4GEcOj9T9h3I+zjHiPw=;
+        b=mO3S4/KJuezrsKFagIbNX11VlnaCAt2IoGQFyR0Wd6KcU+QlWiwVY32IT814ORexyJ
+         aIAteg/C+WYVlw0c/jXNUxv6dy82xqskHC6NamgcKfj+Pd5enzZF+TgBSTihvIpdr2ZD
+         2jPkJhuxANontUaIqd4jqh3hI8r8raO92i+sQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748902192; x=1749506992;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4Z2VwDEa+mI7mzGUkxySD1/xV+hXBlZ2ARgi7cn7d9A=;
-        b=v2AyfiwuztrA//AVDSav85/pJqyzoAKcmBoUXTs6vIUUeesb5606ShBN+AHRpTyhuF
-         blxlv5hnbG6j0X62SY+uTWQKNFDlhjKphrNy10104WVdAFjZg/hcM0frKSii/7LX9UBt
-         9iYKtfpStNj59I1SxqFRsLQyAt6wzlscO4SOZddZBxFe7tEob/a3x26RQjVxKN7+mWw5
-         cR8IZAp0LVFooDeMtcTM+z+UO4LMvgYCUmbA6LtRaD75SJsI/9iS+0CWW4QAhYYNDAZv
-         r7x7IcMRVIH7J47FX4Uo2oHl9l3AqXBtAYkHLy2b6Fv/OinZqyXJdamEKxuvj+h/Ob0Q
-         pLtA==
-X-Gm-Message-State: AOJu0YyqSbRfUQKEALNBU/UTeC+5TzqdvhSoQxXqO1lIseWqUWHh/PgA
-	YnQYZB5kWLMn8WJkee/rlviBKaEK9ebf7/e6Yza1mp0K8vcjykKGW2jXH0lzyIxJhDQ=
-X-Gm-Gg: ASbGncsTvqjomYPI4vkg75QQjZAcHqKz835kr+niBXvQKg1rJSD4UMzj6ANjVN+fxWy
-	ipHKg+piJIUPFBfDe22eOmdAMHHxZ2kradCeH0vaLoyT4HSJZfe9Ss2xWXvCuaJ7YSQLUEMI6Bw
-	wb7mWdvOTSyWSs1y+BK66TSeaEZn/y5OKtbSTnp/F/ZN59usR8Sv4DqfzhfkrUibxy9HYOVYdlG
-	P4xmqLxTniM9lSWEHSSrmIePje1837EIoKevJbP1BrU+oEJtmBf/OQr5nJcJJy9RLDgdaIKW5it
-	7rehSUc8Q/bbwtXaC73SIuifLBXgK38D6qIpmKXLeSFRfoYkRHfhrLVQ6t0+0BedZog8O5iYisp
-	W2htwtb4DYv8EBpn35azUDMEx+j9dG1yUH2i5O39PiIehXWK2c5s=
-X-Google-Smtp-Source: AGHT+IFr8ShtdY+mmc9P5Lks+hS/G163qQTPeBa3AVmQb2RD/AVuvaN6ygxdAs0QJu1/0RR569vBag==
-X-Received: by 2002:a05:600c:190a:b0:43c:fa24:8721 with SMTP id 5b1f17b1804b1-450d64f99b6mr158650635e9.17.1748902192206;
-        Mon, 02 Jun 2025 15:09:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f190:efe6:7bd4:a92a? ([2001:8b0:aba:5f3c:f190:efe6:7bd4:a92a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d8000e3esm137036165e9.22.2025.06.02.15.09.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jun 2025 15:09:51 -0700 (PDT)
-Message-ID: <91a79864b7b9248c47f64365bdcd741c2a47ea0b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v5] pixmap: Enable openmp support with clang
- compiler
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1748902333; x=1749507133;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=65dHQ/UcJLJ+EvQmMCFFB6uE4GEcOj9T9h3I+zjHiPw=;
+        b=lc+9xlg2uxzqlK8L3dxTmJpMbhKDy4dV0HH6hr7Kp597srh06zlwhpiTLt4x8Jav7Q
+         wtBfJxQyJ8aVIt6a5Mgag/6fsH1U83HiUOuVuNHgSyu0zKj6sc9rYdB0cg4NXPJOvEFX
+         ZkS/KZ7q9HnCMHrAZl64wQFeV3k9/kB87wUBcMObL86SCc4Pdf3ufPmf86MNjPsIA7WZ
+         +YkDSUdHPM9SbMoV7nSoPb+dielWsc6IkJGyFzFWElGDIYu1WVECQL6tOu4XRcfItYV4
+         E2krDJdlWsBeXpn9l2uuMlX/OfV1+qlE1aAN+Zf+zAylu7/ZnVYDfGbsFCkBT20+FKyI
+         IrqA==
+X-Gm-Message-State: AOJu0Yy6w35sUs3Z6yCty8FHJR+zJbF9iD32FF/P3v6N2rykQ7dk1Aow
+	UzrBeNLdEq5QFzkNjESclvlzXfrtAoa9Ratoxte7IJ7/Kr4f/yzpakoP75NGPglW8YIJcgBGCLN
+	MeJYcMR7BffONRixIpC/rA08/ERH0EsUwV7s5LkX82GzDw0GLl37TDYDixA==
+X-Gm-Gg: ASbGnctOYLHuRHPX8dokbkL3SxTJS4L88Fj1GOOvKX4+6mQauNvNJl3MYGaUeNN/4I5
+	z0g40dyC+85NoMyhzgLX+EHz9bbxvoq/dIjPHIZNf58H+xaT1+Xj+85YFrkfOdjKwoAfDh8WsaZ
+	CzD9nePgKEzgodGCPKhQau8YCsQweI1Oz2fRrKiE+DlaM=
+X-Google-Smtp-Source: AGHT+IFNaK5ojov1BuapPCSAw1uTXpEy7RECpStQt7CxRUn9H+qb/wXY1l7olKc115QOVmfjNCMquYY8XdP6LwdGfqs=
+X-Received: by 2002:a17:906:f5a3:b0:ad8:9b5d:2c1c with SMTP id
+ a640c23a62f3a-adb32285212mr1505878566b.19.1748902333265; Mon, 02 Jun 2025
+ 15:12:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1748816484.git.tim.orling@konsulko.com> <09d7e38bfe20f3de0e2489d52305c81be2975d4b.1748816484.git.tim.orling@konsulko.com>
+ <CAMKF1sprSxJnkOkM+v_k6tmwtPOiq26_A1AU0RikUrRfTN5NWA@mail.gmail.com> <CAOyo-86pp7rnKLBLDrUj6P5q3vZqJnwkSgQTXPWNNG36LC5Nzw@mail.gmail.com>
+In-Reply-To: <CAOyo-86pp7rnKLBLDrUj6P5q3vZqJnwkSgQTXPWNNG36LC5Nzw@mail.gmail.com>
+From: Tim Orling <tim.orling@konsulko.com>
+Date: Mon, 2 Jun 2025 15:12:02 -0700
+X-Gm-Features: AX0GCFtvqTqfwrZu0oz--3VSClTI36QdI_aGuqiDwWKApJKpJ9aPwJXMCQ54Jjw
+Message-ID: <CAOyo-86KG7Nc2zPxZn+G1H25oDZGnLZsr_a9yaF2BD2gD_b=YQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/8] python3-maturin: upgrade 1.8.3 -> 1.8.6
 To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 02 Jun 2025 23:09:50 +0100
-In-Reply-To: <CAMKF1sp5W5f=s19nELw_3=6Mqd6iFAnROjCAiB+0grso+cX3Ow@mail.gmail.com>
-References: <20250530205609.3185264-1-raj.khem@gmail.com>
-	 <765485fbbd229582a973ccb8e9119eec21fb2cbf.camel@linuxfoundation.org>
-	 <CAMKF1sp5W5f=s19nELw_3=6Mqd6iFAnROjCAiB+0grso+cX3Ow@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="000000000000524a3a06369e0e02"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 22:09:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217742
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 22:12:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217743
 
-On Mon, 2025-06-02 at 15:07 -0700, Khem Raj wrote:
-> On Mon, Jun 2, 2025 at 2:41=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Fri, 2025-05-30 at 13:56 -0700, Khem Raj via
-> > lists.openembedded.org wrote:
-> > > pixman's meson detects openmp support and if it finds it in
-> > > runtime then
-> > > enables it, this happens for gcc via gcc-runtime, however for
-> > > clang, it
-> > > does not. In some cases e.g. mips it enables it during configure
-> > > only to
-> > > find that clang can not find the libomp during linking.
-> > > Therefore, add
-> > > the dependency on openmp when using clang compiler. This ensures
-> > > consistent
-> > > behaviour across architectures.
-> > >=20
-> > > Disable internal assembler on mips since it can not handle the
-> > > inline assembly
-> > >=20
-> > > Turn openmp into a packageconfig
-> > >=20
-> > > openmp is not yet ported to all architectures e.g. RISCV32/PPC32
-> > > does not have it
-> > >=20
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > > v5: Remove openmp on rv32 and ppc32
-> > >=20
-> > > =C2=A0meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb | 13
-> > > ++++++++++++-
-> > > =C2=A01 file changed, 12 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-> > > b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-> > > index c1c71fd4202..925a7d7b29b 100644
-> > > --- a/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-> > > +++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.0.bb
-> > > @@ -23,6 +23,17 @@ LIC_FILES_CHKSUM =3D
-> > > "file://COPYING;md5=3D14096c769ae0cbb5fcb94ec468be11b3=C2=A0\
-> > > =C2=A0
-> > > =C2=A0inherit meson pkgconfig
-> > > =C2=A0
-> > > +OPENMP ?=3D ""
-> > > +OPENMP:toolchain-clang =3D "openmp"
-> > > +# openmp is not yet ported to rv32/ppc
-> > > +OPENMP:remove:riscv32 =3D "openmp"
-> > > +OPENMP:remove:powerpc =3D "openmp"
-> > > +
-> > > +PACKAGECONFIG ??=3D "openmp"
-> > > +PACKAGECONFIG:class-native ?=3D ""
-> > > +
-> > > +PACKAGECONFIG[openmp] =3D ",-Dopenmp=3Ddisabled,${OPENMP}"
-> > > +
-> > > =C2=A0# These are for the tests and demos, which we don't install
-> > > =C2=A0EXTRA_OEMESON =3D "-Dgtk=3Ddisabled -Dlibpng=3Ddisabled"
-> > > =C2=A0# ld: pixman/libpixman-mmx.a(pixman-mmx.c.o):
-> > > @@ -36,7 +47,7 @@ EXTRA_OEMESON:append:class-target:powerpc64le =3D
-> > > " ${@bb.utils.contains("TUNE_FEA
-> > > =C2=A0EXTRA_OEMESON:append:armv7a =3D
-> > > "${@bb.utils.contains("TUNE_FEATURES","neon",""," -
-> > > Dneon=3Ddisabled",d)}"
-> > > =C2=A0EXTRA_OEMESON:append:armv7ve =3D
-> > > "${@bb.utils.contains("TUNE_FEATURES","neon",""," -
-> > > Dneon=3Ddisabled",d)}"
-> > > =C2=A0
-> > > -EXTRA_OEMESON:append:class-native =3D " -Dopenmp=3Ddisabled"
-> > > +CFLAGS:append:toolchain-clang:mipsarch =3D " -fno-integrated-as"
-> > > =C2=A0
-> > > =C2=A0BBCLASSEXTEND =3D "native nativesdk"
-> >=20
-> > I think this needs more discussion or potentially a better fix.
-> >=20
-> > Potentially the test for openmp in pixman is wrong and it shouldn't
-> > build if it can find the header but not the library.
-> >=20
->=20
-> This is worth exploring more and if we can make the test robust it
-> will benefit overall
+--000000000000524a3a06369e0e02
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Agreed.
+On Mon, Jun 2, 2025 at 2:48=E2=80=AFPM Tim Orling <tim.orling@konsulko.com>=
+ wrote:
 
-> > Alternatively, if the openmp library can't be built, why are we
-> > shipping the header? Should we delete it in that case?
-> >=20
->=20
->=20
-> Header is installed by gcc-runtime package
+>
+>
+> On Mon, Jun 2, 2025 at 2:32=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrot=
+e:
+>
+>> On Sun, Jun 1, 2025 at 3:26=E2=80=AFPM Tim Orling via lists.openembedded=
+.org
+>> <tim.orling=3Dkonsulko.com@lists.openembedded.org> wrote:
+>> >
+>> > From: Tim Orling <tim.orling@konsulko.com>
+>> >
+>> > Comparing changes since 1.8.3:
+>> > https://github.com/PyO3/maturin/compare/v1.8.3...v1.8.6
+>> >
+>> > Changelog:
+>> >
+>> > 1.8.6
+>> > * Print a message when overriding platform tag from
+>> _PYTHON_HOST_PLATFORM
+>> >   in #2594
+>> > * Use the current python interpreter's version when the abi3 feature i=
+s
+>> set
+>> >   with no explicit version in #2597
+>> >
+>> > 1.8.5
+>> > * Fix release CI build
+>> >
+>> > 1.8.4
+>> > * Install a Rust toolchain into a temporary directory when building
+>> maturin
+>> >   itself or a package and a Rust toolchain is missing. Set
+>> >   MATURIN_NO_INSTALL_RUST to disable this behavior. #2421
+>> > * Fix broken maturin develop with latest uv in #2584
+>> > * Add PYO3_PYTHON env var support in #2534
+>> > * Sort RECORD file in wheel archives to make them deterministic in #25=
+50
+>> > * Publish wheel for loongarch64 in #2548
+>> > * Add --compression-level option to build command in #2572
+>> >
+>> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+>> > ---
+>> > oe-selftest for maturin passes
+>> >
+>> >  .../python/python3-maturin-crates.inc         |  20 +-
+>> >  ...l-codes-on-riscv32gc-unknown-linux-g.patch | 110 -----
+>> >  .../python/python3-maturin_1.8.3.bb           |  43 --
+>> >  .../python/python3-maturin_1.8.6.bb           | 405 +++++++++++++++++=
++
+>> >  4 files changed, 415 insertions(+), 163 deletions(-)
+>> >  delete mode 100644
+>> meta/recipes-devtools/python/python3-maturin/0001-Define-more-ioctl-code=
+s-on-riscv32gc-unknown-linux-g.patch
+>>
+>> Please keep this patch, this version of maturin still uses libc
+>> 0.2.167, it breaks riscv32 builds without it.
+>>
+>
+> Yes, I caught that with v2. But thank you for the confirmation.
+> https://lists.openembedded.org/g/openembedded-core/message/217722
+>
 
-We could delete it if the library isn't present...
+I filed a bug with upstream
+https://github.com/PyO3/maturin/issues/2627
 
-You have to wonder why the code is installing it if the lib doesn't
-exist. Is that standard upstream behaviour?
 
-Cheers,
+>
+>> >  delete mode 100644 meta/recipes-devtools/python/
+>> python3-maturin_1.8.3.bb
+>> >  create mode 100644 meta/recipes-devtools/python/
+>> python3-maturin_1.8.6.bb
+>> <snip>
+>
+>
 
-Richard
+--000000000000524a3a06369e0e02
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 2, =
+2025 at 2:48=E2=80=AFPM Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulk=
+o.com">tim.orling@konsulko.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon,=
+ Jun 2, 2025 at 2:32=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gma=
+il.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On Sun, Jun 1, 2025 at 3:26=E2=
+=80=AFPM Tim Orling via <a href=3D"http://lists.openembedded.org" rel=3D"no=
+referrer" target=3D"_blank">lists.openembedded.org</a><br>
+&lt;tim.orling=3D<a href=3D"mailto:konsulko.com@lists.openembedded.org" tar=
+get=3D"_blank">konsulko.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=
+=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+&gt;<br>
+&gt; Comparing changes since 1.8.3:<br>
+&gt; <a href=3D"https://github.com/PyO3/maturin/compare/v1.8.3...v1.8.6" re=
+l=3D"noreferrer" target=3D"_blank">https://github.com/PyO3/maturin/compare/=
+v1.8.3...v1.8.6</a><br>
+&gt;<br>
+&gt; Changelog:<br>
+&gt;<br>
+&gt; 1.8.6<br>
+&gt; * Print a message when overriding platform tag from _PYTHON_HOST_PLATF=
+ORM<br>
+&gt;=C2=A0 =C2=A0in #2594<br>
+&gt; * Use the current python interpreter&#39;s version when the abi3 featu=
+re is set<br>
+&gt;=C2=A0 =C2=A0with no explicit version in #2597<br>
+&gt;<br>
+&gt; 1.8.5<br>
+&gt; * Fix release CI build<br>
+&gt;<br>
+&gt; 1.8.4<br>
+&gt; * Install a Rust toolchain into a temporary directory when building ma=
+turin<br>
+&gt;=C2=A0 =C2=A0itself or a package and a Rust toolchain is missing. Set<b=
+r>
+&gt;=C2=A0 =C2=A0MATURIN_NO_INSTALL_RUST to disable this behavior. #2421<br=
+>
+&gt; * Fix broken maturin develop with latest uv in #2584<br>
+&gt; * Add PYO3_PYTHON env var support in #2534<br>
+&gt; * Sort RECORD file in wheel archives to make them deterministic in #25=
+50<br>
+&gt; * Publish wheel for loongarch64 in #2548<br>
+&gt; * Add --compression-level option to build command in #2572<br>
+&gt;<br>
+&gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.co=
+m" target=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+&gt; ---<br>
+&gt; oe-selftest for maturin passes<br>
+&gt;<br>
+&gt;=C2=A0 .../python/python3-maturin-crates.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 20 +-<br>
+&gt;=C2=A0 ...l-codes-on-riscv32gc-unknown-linux-g.patch | 110 -----<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-maturin_1.8.3.bb" rel=3D"no=
+referrer" target=3D"_blank">python3-maturin_1.8.3.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 43 --<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-maturin_1.8.6.bb" rel=3D"no=
+referrer" target=3D"_blank">python3-maturin_1.8.6.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 405 ++++++++++++++++++<br>
+&gt;=C2=A0 4 files changed, 415 insertions(+), 163 deletions(-)<br>
+&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/python3-maturin/=
+0001-Define-more-ioctl-codes-on-riscv32gc-unknown-linux-g.patch<br>
+<br>
+Please keep this patch, this version of maturin still uses libc<br>
+0.2.167, it breaks riscv32 builds without it.<br></blockquote><div><br></di=
+v><div>Yes, I caught that with v2. But thank you for the confirmation.</div=
+><div><a href=3D"https://lists.openembedded.org/g/openembedded-core/message=
+/217722" target=3D"_blank">https://lists.openembedded.org/g/openembedded-co=
+re/message/217722</a>=C2=A0</div></div></div></blockquote><div><br></div><d=
+iv>I filed a bug with upstream<br><a href=3D"https://github.com/PyO3/maturi=
+n/issues/2627">https://github.com/PyO3/maturin/issues/2627</a></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+<br>
+&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/<a href=3D"http:=
+//python3-maturin_1.8.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-ma=
+turin_1.8.3.bb</a><br>
+&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=3D"http:=
+//python3-maturin_1.8.6.bb" rel=3D"noreferrer" target=3D"_blank">python3-ma=
+turin_1.8.6.bb</a><br>&lt;snip&gt;</blockquote></div></div>
+</blockquote></div></div>
+
+--000000000000524a3a06369e0e02--
 
