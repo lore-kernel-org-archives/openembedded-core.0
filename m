@@ -1,152 +1,373 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <rwmacleod@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DFFDC5AD49
-	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 12:33:56 +0000 (UTC)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
- by mx.groups.io with SMTP id smtpd.web11.48613.1748867629372841185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 825BCC54FB3
+	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 13:03:36 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web10.49149.1748869415748408930
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Jun 2025 05:33:49 -0700
+ Mon, 02 Jun 2025 06:03:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hAYH3Udd;
- spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: festevam@gmail.com)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4e591544d42so1437511137.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 05:33:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CdJPbPBN;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: rwmacleod@gmail.com)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7fd35b301bdso4174986a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 06:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748867628; x=1749472428; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nrrWZ5KEnFDRsHTqoXpNqNUv+W/3C7HSd45htgchyxo=;
-        b=hAYH3UddPkieCB8WAeuK+ahJ8t8vw0x9sq7V80fzlnRM82Vvp9iiTvxK5X9H+4huk+
-         R43nc8KhIikMX8J1FIg7yI6af5DynLLeYJMQUnASeRIBREhx/mDQXuQtDOpDbLo2TAhC
-         92A4UKVkeLk+qC8bx+U+ANQlPhRWKRrWOZmXdFMv43zjV+jpg6af2kFV8TsmW1Oo98zF
-         65yui0N6l2dhDfI9GrPh/Ia4TDokF4uiyWbgxwG4nfTC5/1EEMU/M02v/w6MghThDSdd
-         ZCYrUxefaSkC9Z+Vv83h1RbEWzk5Vmyk0hYr3uorAbjAEn69jPssP5b+ZE+HG5XKZtsb
-         2RvQ==
+        d=gmail.com; s=20230601; t=1748869415; x=1749474215; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nJfjL7qQ5R7yzpIcDW0rY7TC87JsOvEtgeK5f3ILfOU=;
+        b=CdJPbPBNphbfJHZzbxUpnZNIT8qrSVL4d2+g4XE7vb2N41PuTwmFSsk5MGUA3JR8X4
+         hUJqz1jFATN07GRLwtbjt3makUAiblog5X0zTsFwl8y4Q/DJm6l3wsVcx9xFePxcj2gG
+         x+9/UAYg4eFfHtF5ZSgGW340Hmy/AwdSM3IPjhVNyH0WoE8Huhr6XQX0RBZ+3qdDF6jV
+         gF/M7sJK2SMQxXRiq/XajzQmy72rxWYQlMXV/dFl68W/Z9GlcDHMZNFsLwc6xxxgnTrc
+         sN7ldlMN810R0Z/p9QFihw9xXsglr9KXvlQzc75A7uhn1sIQgoeZ2j3WeTXwGN9z+MeQ
+         r1Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748867628; x=1749472428;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1748869415; x=1749474215;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nrrWZ5KEnFDRsHTqoXpNqNUv+W/3C7HSd45htgchyxo=;
-        b=DfdNJQH02NFXLxejgwnoyeCfetZdU9STa6eItRUZa9U/UDDGYkybXKqWCFBR1Ldu6Z
-         PccMEMjJmIUEk/01zA3Agye2+mfRBeE8o4KpaPASUlQSG/0F4f6nlH7e7S+zeyJmRHd3
-         JQj2K74sQ9OgQrlFhLx19lmPvECF8F4EIoDbvo2YBZ1XNAcw8bIATsvEg56/kFyT1Ipo
-         1I6+tgpJbrWDZcDXB8kMBFpHp6clnD0HfSGj5bwUfhuRgxk0NL/rzPPHdDNx3zTHYAKB
-         2cxl2xeijsI42QKhTZvDhChemyzCmS3cd5U6F1vWXXtJPhjzzHHFRKiHCbOycEGVxW/Q
-         ogVA==
-X-Gm-Message-State: AOJu0Yz1hE0aObTa8WvZqRhc0MrXan5Nhti8X2MZg+jkvLrBPDDKnCuU
-	aCuxKzlMffx4lMKJYJjbE+v03lJ/rygi6UD1BTv8yGj72oYKkOyVKBdbjhEwOA==
-X-Gm-Gg: ASbGncvvEo8IQ71EUf8Bqqe9lqlsF3vJ26oAA1U8HtqtGP2do6sQ+IzU2RxuMxe7yTO
-	TYOpzXpoVHh4z9oB4o4ytY+87JwDrftXhmSsgSDWgRtYJYgFnG9HXZrdp5Odsg9sCI//kYutDje
-	SbEqtgpslP2niZlF+2/A+Psw9oiArr1bre3fi11e4h9Jv83oaCFB2EJyUlCy5Zee/+5lh4ZMvzn
-	HvsV1k6Eqb6E36YNpazh4mgDUPYR/y5Gx78DbeHnxzJUwT59QxYDS3kH6e4weui8z4FU8tq8wnv
-	HzRyFVUPbO9za+2fSrbD0eDFmK2b+lYoyzG78BxKwD0O827q+cW0HSwyjTIB6A3W5g==
-X-Google-Smtp-Source: AGHT+IEG5LHbTRfnEtxTqLDoeJAnLV2yI7GU+8XcQvy+W0FaUUSg+QMnXD80efO3XifP/5q38scuPg==
-X-Received: by 2002:a05:6102:2922:b0:4e2:86e6:468a with SMTP id ada2fe7eead31-4e701bd046emr4175460137.6.1748867627883;
-        Mon, 02 Jun 2025 05:33:47 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:e792:4663:e5dc:ed1f])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e6444295e2sm7050810137.5.2025.06.02.05.33.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jun 2025 05:33:47 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2] mtd-utils: Update the upstream status
-Date: Mon,  2 Jun 2025 09:33:41 -0300
-Message-Id: <20250602123341.15723-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=nJfjL7qQ5R7yzpIcDW0rY7TC87JsOvEtgeK5f3ILfOU=;
+        b=c1Q/bgGaPC1YYp216N1gNY8YR5bglILbiPX7bXKBwfLG9Wa47laF2clBCiSVPTD7Io
+         MFz7MOWFWsDjw6M5I1lFyuRj9rDjwUUPtw7L/fLGCaWTxEDMCFyqjdVX1f8g4nZL0s4u
+         bOEetMzSZ4iNFMxt3oOknjnbP6U6AjESsd+46x+VboAasMvsuc9rVN9fwYuuEuzyyde0
+         42SPDwp8Qwkuz8nws6vdvG+rrr3Be/g8istjCXMeGdaXAGspfAnXBLe++03TA93LhFLB
+         2tFH94eBrKhbUaoDRsCYr+zW6BbKAKm+AAKEX7x3kSea0y9SLpE2K9IIU4ra5bPzBoLX
+         yawA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmm9ZXRR9B1flOQB97AFS5yxh2rOoFrjA9c5hmjW4JNjMmMvDaomVggr9t5OUZqEGwxZErJ8Cq7fmi7LWORAUvEg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwQGscctcfCBBoNgGhak8Q4BgajUxSEoevB3Nr29MIwxV7KFmym
+	T5oykVf1Iqu0V1ClZ0UTcwv4GP5Co4xdwtqmg/Lbz5oRT/akfbdqzfyUZLqzCirsU71JkqRncLW
+	ylCZOSzcDhe9VDazPjGeCqEuJfjm2VsY=
+X-Gm-Gg: ASbGncslHPx/ZRp5U7ViZUIFv6fVU//an/OjnnEFmk+UDnct8a0I99szZ03morZG3xR
+	h0JJ+gCu+htruZNCYOeNHzahiCz9fDy14ATzU/rVM55+rPE1Jq2etemW7s8+n9NsyWCf4RuxccU
+	ZCBzdfjyZUNpmZ3G7fzK5KAzklkyffVDoOyg==
+X-Google-Smtp-Source: AGHT+IE+CM3uU7VUo1CnNTf7ffEpcBjad7yr6DiR6amctkxusEKz7tt+NYA2MtAbLu+XrxRaEh6q7zdPKgBOHTiKq1k=
+X-Received: by 2002:a17:90b:3945:b0:2ff:6167:e92d with SMTP id
+ 98e67ed59e1d1-31250452db1mr15106419a91.32.1748869414142; Mon, 02 Jun 2025
+ 06:03:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <83e0d268-ec47-4f3a-bf05-2aee4e58e749@windriver.com>
+ <CANNYZj-BmEXJVc1rdVPGu5wz87AW1RvbX+WhgicAfEby7kjUhw@mail.gmail.com>
+ <47ba1f68-f67b-4c58-b788-63e06fdf4816@windriver.com> <CANNYZj-JtVtjk2e+Z=OmVF8RaygO5M1e+6tbQuTZYotbYetQrg@mail.gmail.com>
+ <7571c07b-2225-4449-8169-08b044208072@gmail.com> <afaa4102-c876-437a-871d-f6f90697d5f4@windriver.com>
+ <CANNYZj-Pa_jhraEz7qAHoDXLxfg-7ztH4UhdRPXirw6biZGWEA@mail.gmail.com> <36532bcc-c9dd-430a-a932-ec81e9270f19@windriver.com>
+In-Reply-To: <36532bcc-c9dd-430a-a932-ec81e9270f19@windriver.com>
+From: Randy MacLeod <rwmacleod@gmail.com>
+Date: Mon, 2 Jun 2025 09:03:23 -0400
+X-Gm-Features: AX0GCFu6UjshxTh3LUC1TJM_fvyWcFB1_1d7fnhHBTGTxRsSjpWPaOVs_eJeyyA
+Message-ID: <CAK6=ix4WrPGEbsfRwEsZz56BJP61OnkjqO8xvcB9BYoNJ2A6RQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC] rust: Upgrade 1.85.1->1.86.0
+To: "Shinde, Yash" <Yash.Shinde@windriver.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	"MacLeod, Randy" <randy.macleod@windriver.com>, 
+	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
+Content-Type: multipart/alternative; boundary="0000000000003045fc0636966462"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 12:33:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217717
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 13:03:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217718
 
-All the patches have been accepted upstream.
+--0000000000003045fc0636966462
+Content-Type: text/plain; charset="UTF-8"
 
-Update the Upstream-Status tags accordingly.
+Hi Yash,
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
-Changes since v1:
-- Fix typo in the commit log: Uptream-Status -> Upstream-Status.
 
- .../mtd/files/0001-Improve-check-for-GCC-compiler-version.patch | 2 +-
- .../mtd/files/0001-ubifs-utils-ubifs.h-Include-fcntl.h.patch    | 2 +-
- .../mtd/files/0002-ubifs-utils-journal-Include-sys-stat.h.patch | 2 +-
- ...3-ubifs-utils-link-libmissing.a-in-case-execinfo.h-isn.patch | 2 +-
- .../0004-ubifs-utils-extract_files-Include-linux-limits.h.patch | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+On Mon, Jun 2, 2025, 07:15 Yash Shinde via lists.openembedded.org
+<Yash.Shinde=windriver.com@lists.openembedded.org> wrote:
 
-diff --git a/meta/recipes-devtools/mtd/files/0001-Improve-check-for-GCC-compiler-version.patch b/meta/recipes-devtools/mtd/files/0001-Improve-check-for-GCC-compiler-version.patch
-index 3cd58e053db5..2329dfece387 100644
---- a/meta/recipes-devtools/mtd/files/0001-Improve-check-for-GCC-compiler-version.patch
-+++ b/meta/recipes-devtools/mtd/files/0001-Improve-check-for-GCC-compiler-version.patch
-@@ -8,7 +8,7 @@ When using unreleased compiler has version like
- becomes true, therefore check for full version string
- which is more rubust.
- 
--Upstream-Status: Submitted [https://lists.infradead.org/pipermail/linux-mtd/2025-March/108860.html]
-+Upstream-Status: Backport [https://github.com/sigma-star/mtd-utils/commit/ac0ab65ebcd7b11739986b81343457469fbb43b0]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-  ubifs-utils/common/atomic.h | 6 +++++-
-diff --git a/meta/recipes-devtools/mtd/files/0001-ubifs-utils-ubifs.h-Include-fcntl.h.patch b/meta/recipes-devtools/mtd/files/0001-ubifs-utils-ubifs.h-Include-fcntl.h.patch
-index a9ececc14c60..b603ac8fd678 100644
---- a/meta/recipes-devtools/mtd/files/0001-ubifs-utils-ubifs.h-Include-fcntl.h.patch
-+++ b/meta/recipes-devtools/mtd/files/0001-ubifs-utils-ubifs.h-Include-fcntl.h.patch
-@@ -25,7 +25,7 @@ when building with musl:
- |       |                                            off_t
- | make: *** [Makefile:4878: ubifs-utils/common/mkfs_ubifs-compr.o] Error 1
- 
--Upstream-Status: Submitted [https://lore.kernel.org/linux-mtd/20250219130244.2119582-1-festevam@gmail.com/T/#t]
-+Upstream-Status: Backport [https://github.com/sigma-star/mtd-utils/commit/12bc9ad824bd8f18a5ec9c7154ad2374cf8c7ae3]
- Signed-off-by: Fabio Estevam <festevam@gmail.com>
- Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
- Reviewed-by: Khem Raj <raj.khem@gmail.com>
-diff --git a/meta/recipes-devtools/mtd/files/0002-ubifs-utils-journal-Include-sys-stat.h.patch b/meta/recipes-devtools/mtd/files/0002-ubifs-utils-journal-Include-sys-stat.h.patch
-index ea376437df91..d92a3fb4b6eb 100644
---- a/meta/recipes-devtools/mtd/files/0002-ubifs-utils-journal-Include-sys-stat.h.patch
-+++ b/meta/recipes-devtools/mtd/files/0002-ubifs-utils-journal-Include-sys-stat.h.patch
-@@ -14,7 +14,7 @@ when building with musl:
- | ../git/ubifs-utils/libubifs/journal.c:415:14: error: 'S_IFREG' undeclared (first use in this function)
- |   415 |         case S_IFREG:
- 
--Upstream-Status: Submitted [https://lore.kernel.org/linux-mtd/20250219130244.2119582-2-festevam@gmail.com/T/#t]
-+Upstream-Status: Backport [https://github.com/sigma-star/mtd-utils/commit/173f9714c8da1d685bfa951d43b9310d16bbab3c]
- Signed-off-by: Fabio Estevam <festevam@gmail.com>
- Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
- ---
-diff --git a/meta/recipes-devtools/mtd/files/0003-ubifs-utils-link-libmissing.a-in-case-execinfo.h-isn.patch b/meta/recipes-devtools/mtd/files/0003-ubifs-utils-link-libmissing.a-in-case-execinfo.h-isn.patch
-index b4c190d554ee..efaedad70b8f 100644
---- a/meta/recipes-devtools/mtd/files/0003-ubifs-utils-link-libmissing.a-in-case-execinfo.h-isn.patch
-+++ b/meta/recipes-devtools/mtd/files/0003-ubifs-utils-link-libmissing.a-in-case-execinfo.h-isn.patch
-@@ -13,7 +13,7 @@ backtrace().
- Guard the execinfo.h include and if it isn't available instead include
- libmissing.h, and link to libmissing.a to provide backtrace() if needed.
- 
--Upstream-Status: Submitted [https://lore.kernel.org/linux-mtd/20250226182400.1723418-1-ross.burton@arm.com/]
-+Upstream-Status: Backport [https://github.com/sigma-star/mtd-utils/commit/8a83b306db64d6f60186d4396b0b770163b85b6e]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
- Signed-off-by: Fabio Estevam <festevam@gmail.com>
-diff --git a/meta/recipes-devtools/mtd/files/0004-ubifs-utils-extract_files-Include-linux-limits.h.patch b/meta/recipes-devtools/mtd/files/0004-ubifs-utils-extract_files-Include-linux-limits.h.patch
-index 87806af27d3c..3444f330dccb 100644
---- a/meta/recipes-devtools/mtd/files/0004-ubifs-utils-extract_files-Include-linux-limits.h.patch
-+++ b/meta/recipes-devtools/mtd/files/0004-ubifs-utils-extract_files-Include-linux-limits.h.patch
-@@ -13,7 +13,7 @@ with musl:
- | ../git/ubifs-utils/fsck.ubifs/extract_files.c:144:47: note: each undeclared identifier is reported only once for each function it appears in
- | make: *** [Makefile:4374: ubifs-utils/fsck.ubifs/fsck_ubifs-extract_files.o] Error 1
- 
--Upstream-Status: Submitted [https://lore.kernel.org/linux-mtd/20250219130244.2119582-4-festevam@gmail.com/T/#t]
-+Upstream-Status: Backport [https://github.com/sigma-star/mtd-utils/commit/77981a2888c711268b0e7f32af6af159c2288e23]
- Signed-off-by: Fabio Estevam <festevam@gmail.com>
- Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
- ---
--- 
-2.34.1
+>
+> On 30-05-2025 18:45, Alexander Kanavin wrote:
+>
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+>
+> On Fri, 30 May 2025 at 14:42, Yash Shinde <Yash.Shinde@windriver.com> <Yash.Shinde@windriver.com> wrote:
+>
+>
+> As Khem mentioned, setting lld = false in config.toml doesn't build LLD.
+> Furthermore, using "use-lld = false" ensures that LLD is not used as the
+> default linker,
+> causing the build to fall back to the system's default linker. This
+> restores the earlier behavior.
+> Also, the package QA error for rust-lld is not seen with this.
+>
+> What about build times though? Are they back to what they were?
+>
+>
+> The build time differences on my machine are as follows:
+> rust version
+> rust upstream builds
+> rust-native (yocto build)
+> rust target (yocto build)
+> v1.85.1
+> 10 mins
+> 20 mins
+> 33 mins
+> v1.86.0
+> 22 mins (with "lld" and "use-lld" set to "false")
+> 30 mins (with default settings i.e lld = true)
+>
+> 31 mins (with "lld" and
+> "use-lld" set to "false") 43 mins (with "lld" and
+> "use-lld" set to "false")
+>
+> Note: The machine being used is a shared resource and fairly busy. Build
+> times may differ due to other user's builds.
+>
+>
+> The FS usage is as follows:
+> Rust version
+> rust upstream builds
+> Yocto rust builds
+> (build/tmp/work/core2-64-poky-linux/rust/1.86.0/rustc-1.86.0-src/build)
+> v1.85.1
+> 4.6 G
+> 6.3 G
+> v1.86.0
+> 15 G
+> 8.8 G
+>
+> The latest rust v1.86.0 upgrade changes are available at:
+> https://git.yoctoproject.org/poky-contrib/log/?h=harish/rust_1.86.0_v2
+>
 
+> Regards,
+> Yash
+>
+
+Hi Yash
+
+
+That's good progress. We'll need to think about what, it anything, we're
+missing by not building rust-lld. We should run some tests to compare the
+link times but that can likely wait until after we get the update merged.
+
+
+Remaining concerns:
+
+
+
+1. Significant increase in FS usage, compile time. Have you looked into why
+there's still such a significant increase?
+
+2.  * Enable INHIBIT_PACKAGE_DEBUG_SPLIT/STRIP to fix QA stripping errors.
+Fixes: ERROR: rust-1.86.0-r0 do_package: QA Issue: File
+'/usr/lib/rustlib/x86_64-poky-linux-gnu/bin/wasm-component-ld' from rust
+was already stripped, this will prevent future debugging!
+[already-stripped]
+
+
+Do we use this component? Is it new? Why is it produced without debug
+symbols?
+
+
+I'll take a more careful look at the commit code changes once we have
+answers to these questions.
+
+Thanks for your hard work.
+Almost done this upgrade hopefully.
+
+Randy
+
+Alex
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#217714):
+> https://lists.openembedded.org/g/openembedded-core/message/217714
+> Mute This Topic: https://lists.openembedded.org/mt/113268009/953399
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> rwmacleod@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--0000000000003045fc0636966462
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div dir=3D"auto">Hi Yash,</div><div dir=3D"auto"><br></d=
+iv><div dir=3D"auto"><br></div><div class=3D"gmail_quote gmail_quote_contai=
+ner" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 2, 2025=
+, 07:15 Yash Shinde via <a href=3D"http://lists.openembedded.org">lists.ope=
+nembedded.org</a> &lt;Yash.Shinde=3D<a href=3D"mailto:windriver.com@lists.o=
+penembedded.org">windriver.com@lists.openembedded.org</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><u></u>
+
+ =20
+  <div>
+    <p><br>
+    </p>
+    <div>On 30-05-2025 18:45, Alexander Kanavin
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+      <pre>CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.
+
+On Fri, 30 May 2025 at 14:42, Yash Shinde <a href=3D"mailto:Yash.Shinde@win=
+driver.com" target=3D"_blank" rel=3D"noreferrer">&lt;Yash.Shinde@windriver.=
+com&gt;</a> wrote:
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre>As Khem mentioned, setting lld =3D false in config.toml doesn&=
+#39;t build LLD.
+Furthermore, using &quot;use-lld =3D false&quot; ensures that LLD is not us=
+ed as the
+default linker,
+causing the build to fall back to the system&#39;s default linker. This
+restores the earlier behavior.
+Also, the package QA error for rust-lld is not seen with this.
+</pre>
+      </blockquote>
+      <pre>What about build times though? Are they back to what they were?
+
+</pre>
+    </blockquote>
+    <p>The build time differences on my machine are as follows:<br>
+    </p>
+    <table cellpadding=3D"2" cellspacing=3D"2" border=3D"1" width=3D"877" h=
+eight=3D"151">
+      <tbody>
+        <tr>
+          <td valign=3D"top">rust version<br>
+          </td>
+          <td valign=3D"top">rust upstream builds<br>
+          </td>
+          <td valign=3D"top">rust-native (yocto build)<br>
+          </td>
+          <td valign=3D"top">rust target (yocto build)<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign=3D"top">v1.85.1<br>
+          </td>
+          <td valign=3D"top">10 mins<br>
+          </td>
+          <td valign=3D"top">20 mins<br>
+          </td>
+          <td valign=3D"top">33 mins<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign=3D"top">v1.86.0 <br>
+          </td>
+          <td valign=3D"top">22 mins (with &quot;lld&quot; and &quot;use-ll=
+d&quot; set to
+            &quot;false&quot;)<br>
+            30 mins (with default settings i.e lld =3D true)<br>
+            <br>
+          </td>
+          <td valign=3D"top">31 mins (with &quot;lld&quot; and<br>
+            &quot;use-lld&quot; set to &quot;false&quot;)</td>
+          <td valign=3D"top">43 mins (with &quot;lld&quot; and<br>
+            &quot;use-lld&quot; set to &quot;false&quot;)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Note: The machine being used is a shared resource and fairly
+      busy. Build times may differ due to other user&#39;s builds.<br>
+      <br>
+      <br>
+      The FS usage is as follows:<br>
+    </p>
+    <table cellpadding=3D"2" cellspacing=3D"2" border=3D"1" width=3D"955" h=
+eight=3D"91">
+      <tbody>
+        <tr>
+          <td valign=3D"top">Rust version<br>
+          </td>
+          <td valign=3D"top">rust upstream builds<br>
+          </td>
+          <td valign=3D"top">Yocto rust builds
+            (build/tmp/work/core2-64-poky-linux/rust/1.86.0/rustc-1.86.0-sr=
+c/build)<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign=3D"top">v1.85.1<br>
+          </td>
+          <td valign=3D"top">4.6 G<br>
+          </td>
+          <td valign=3D"top">6.3 G<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign=3D"top">v1.86.0<br>
+          </td>
+          <td valign=3D"top">15 G<br>
+          </td>
+          <td valign=3D"top">8.8 G<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The latest rust v1.86.0 upgrade changes are available at:<br>
+<a href=3D"https://git.yoctoproject.org/poky-contrib/log/?h=3Dharish/rust_1=
+.86.0_v2" target=3D"_blank" rel=3D"noreferrer">https://git.yoctoproject.org=
+/poky-contrib/log/?h=3Dharish/rust_1.86.0_v2</a><br></p></div></blockquote>=
+</div><div class=3D"gmail_quote gmail_quote_container" dir=3D"auto"><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><div><p><br>
+      Regards,<br>
+      Yash<br></p></div></blockquote></div><div dir=3D"auto"><br></div><div=
+ dir=3D"auto"><p>Hi Yash=C2=A0</p><p><br></p><p>That&#39;s good progress. W=
+e&#39;ll need to think about what, it anything, we&#39;re missing by not bu=
+ilding rust-lld. We should run some tests to compare the link times but tha=
+t can likely wait until after we get the update merged.=C2=A0</p><p><br></p=
+><p>Remaining concerns: </p><p>=C2=A0</p><p>1. Significant increase in FS u=
+sage, compile time. Have you looked into why there&#39;s still such a signi=
+ficant increase?</p><p>2.=C2=A0=C2=A0* Enable INHIBIT_PACKAGE_DEBUG_SPLIT/S=
+TRIP to fix QA stripping errors. Fixes: ERROR: rust-1.86.0-r0 do_package: Q=
+A Issue: File &#39;/usr/lib/rustlib/x86_64-poky-linux-gnu/bin/wasm-componen=
+t-ld&#39; from rust was already stripped, this will prevent future debuggin=
+g! [already-stripped]=C2=A0</p><p><br></p><p>Do we use this component? Is i=
+t new? Why is it produced without debug symbols?=C2=A0</p><p><br></p><p>I&#=
+39;ll take a more careful look at the commit code changes once we have answ=
+ers to these questions.</p></div><div dir=3D"auto"><br></div><div dir=3D"au=
+to">Thanks for your hard work.=C2=A0</div><div dir=3D"auto">Almost done thi=
+s upgrade hopefully.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Ran=
+dy</div><div dir=3D"auto"><br></div><div class=3D"gmail_quote gmail_quote_c=
+ontainer" dir=3D"auto"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><p>
+    </p>
+    <blockquote type=3D"cite">
+      <pre>Alex
+</pre>
+    </blockquote>
+    <pre cols=3D"72"></pre>
+  </div>
+
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#217714): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/217714" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://lists.openembedded.org/g/openembedded-core/message/217714</a><=
+br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113268009/953=
+399" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/mt/113268009/953399</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
+enembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rwmacleod@gmail=
+.com" target=3D"_blank" rel=3D"noreferrer">rwmacleod@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000003045fc0636966462--
 
