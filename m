@@ -1,404 +1,915 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE5BC54FB3
-	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 17:10:17 +0000 (UTC)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
- by mx.groups.io with SMTP id smtpd.web11.847.1748884211214702266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A118C5AD49
+	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 18:12:37 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web11.2280.1748887949610337199
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Jun 2025 10:10:11 -0700
+ Mon, 02 Jun 2025 11:12:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OtCIQ0Y1;
- spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-70e767ce72eso46288397b3.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 10:10:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y84kZ8/+;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4a42f28017eso57714111cf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 11:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748884210; x=1749489010; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q6+TL3YNPzqy9qMlrVor8yHDSwZc0t0GdBCbm2GZA2E=;
-        b=OtCIQ0Y1comTYJEiJPXRrfEcgVVwT0p33R3cWMUE/uFgZsbB+fP7AkO1jpeN4nqhVu
-         qtGGo0vOdPshf/e46/Q6QqqefL8IEXICe6z8I6c5M9itmrZgKOcJkeY44uCQYX9dCIck
-         Fbwy+FFFf+roQoXSEJtrp/rjq52YLwtRPiwDOu7KymX65UzAQd/EnLT48H1aC9s4uwp9
-         SNdlZJZgxkUgKTdm/WB7UpgsZsHqslH+lUuc0FjiUxQQgvZrq89L1x/2UNEnYPnjrnU/
-         emsQne0WaLI0XtRKwAfw6gHN7z5leQa3MSPfw/Vsj1GWdsp5OPRx4IBMU8h5eZFSsCEC
-         KnrQ==
+        d=gmail.com; s=20230601; t=1748887948; x=1749492748; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J5TXgKW1x0c0c0PzSDkjiSjSdtb3U4VptTck+Pk0TDk=;
+        b=Y84kZ8/+gr39IlbPlz7kLit0EOv4pEgXSX7SwBVyc90PTXYepVDGx097TqYnyHuEQE
+         JDMHhZzsEtMhfG7rN28V2STAJB4Zx/6KBB1TmPRGpEYS45o/YIQF6YwhAGRYi1JYi7c0
+         i8yGf63SpvX8/34DxWn3vuVHThRcCFmG/jP6Q0EZxK6zFemK442NttYYMSP5k2prr8wd
+         UZdHtzWYPJqlrdvWG2/wlsdFeH55b7h5VP0qL24PstI+Wd13iJKh9glbx3J5GVOf7WHv
+         +OxPmljXcNB6/KcoskqgpNvqK9SRxCSH6XaSDmAIAZPjRtcIqIbTiLSLxWuPclD/J3AT
+         23hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748884210; x=1749489010;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q6+TL3YNPzqy9qMlrVor8yHDSwZc0t0GdBCbm2GZA2E=;
-        b=guCIZy+u+a82Wf0cNnv+A9fdax4AjPDj4OQan8vXmXmqRIu1zUo6J3OCkwpe8Ycsuk
-         2xvGZP7ZyRBO9PCdurNx2aGftoiEbsDE6XEg/+YAnzwpO2k4es5/BnD7UDRUMFdnxSoE
-         40+9+Osrmh9j4Cpb8+/+/nhUtyd3L5eBTjPeW3R1Mopdy7QUhix8lorIYzpyZoq0n3/H
-         rZSOa2atgAX4kk7gtTF/EsZX12U7HNjykhmLK8gB1BYLvDZdYsylBxp2O3ZqLo5U1cc6
-         9HPLLijbL/yK27OpNhszQt3eOWFP8fThTdfv4/DRuXlK2NDagaTglFmJ7oWYjm6SFDmL
-         NrIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVLvgrNR7PwGrXlf0kcPdW4ClnGuRqsGveyvObAMWWqtYCVXRqmMfuA83oGZws6Lpnctjjm2iiJKxjlWNymfP3MqA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxzAqfjnALfhIIHvmT6DUOT/SRKQENJ/xshPPVyAQvmhlh5aOPm
-	Zq+EPfGD/7QUyy8ogJWtwYDHGAZCJCB1kqhAlXp8wmLSY2KrtjRLsc8fdNxXsmsLAicygRl2Q51
-	rHqwei6ejAJMhywG+k06+Hk5Qe8zwI/s=
-X-Gm-Gg: ASbGncsWbqPyzmHE4ZnvN3grnwOztQ562d2nnSjyssCq4i/SPieWasdWBNZuepLYFBF
-	R8qkYmW8wWpmDbaOJs7DM6t7oU3xvCenoLGECx7p3pg+qU1NOT8JureIHQBMhC1pfYqcxvFq+ad
-	7uUphY1v+rwp99t4oGCTCqmhfSZauRWlQ=
-X-Google-Smtp-Source: AGHT+IGPJOToVeyuBrW18gs/HX4RShCUauFOcwfltSVElVE0z4dAVxgM5YI4yKG5SSoSDgpbCfOO9CDtEhnPU+b6zpA=
-X-Received: by 2002:a05:690c:f10:b0:70e:a1e:d9f8 with SMTP id
- 00721157ae682-71057cf3df4mr185953097b3.22.1748884210122; Mon, 02 Jun 2025
- 10:10:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748887948; x=1749492748;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J5TXgKW1x0c0c0PzSDkjiSjSdtb3U4VptTck+Pk0TDk=;
+        b=m4cByxVCStQ1buVSZHg4eg+3eDeJO6bYoFFOjwLjhzKb74mS+7cI374L/kcvAV0e4r
+         SvJVdDQ0fR1cQwVSXDjU6faK8rWEVtMIZ1XkmC0H4zskjUo1J2FYT0WcpjK2uY4Ren1C
+         8J74C1Sh8Gl4U8MK01HDlF17katkdOOGSy4Oalf7jJUNjtwde4NfndELwAQ2Y9DnzSv0
+         vGQLuYWQWz7C9JI4ykTNu4iSPFtVwcC9xztjMldDTWrFOzelXIpSmYhaNQ63/E6PYDac
+         B8vCHuG6uKj9z4D/NcrHLsJupT/ZQp8eJJ77IWBX7uKn4Vtlvf+94qkILnGtZqBcoSD2
+         15WQ==
+X-Gm-Message-State: AOJu0YwTe0MJ5MfkWF6l5vFPtDYaieTVEik73+IqqmIGomnT05U1hCez
+	tdXF2kwHD2+M67nnQeKnNCXzcQ4vVRE8Bdb5RzLqQUU8ok+0SC2S72vC
+X-Gm-Gg: ASbGncvTwWRnKOE0knKiocWlxjswQd6gatKtObsWSZfz5YVsAKT2VY/aajucOyq4cVT
+	fI4nfA4hbFtPYb5XlExDirLZLj69M/QvbPbQFKRcl/93m2DOvg1XSY2MByumR77J1/Gzds3MGZz
+	9UqA+oYPw7bg8Ky+lPGj2DK3ntfhEVAq9zYy7RpNEHW4ZDEzTbqwGH8kbyxQrD8KPl/xxb34bC9
+	6EIfUJq2fHDkpCoJq2pmSY36vt5Y1pc0XpZfNKIvXB9A9U7t4YjgrThfIxOzRJXH/9fGI9wHrjG
+	MYZvJsutjlp8bVaxGo0W/KRZ8Purp9iKiMwpAM6BqDnu7vIVlTGpE0BGJGs66v4b5cWcjntUwzz
+	nSLpbrql1EteqUhFVQ518WRXhxixb8Q==
+X-Google-Smtp-Source: AGHT+IFJqb9BrY4R39oA3moo29ErHKifts5m62vnNTJhcxJKbUeEP8rY/A4mk67QB3TTZ0Xrh74tuA==
+X-Received: by 2002:ac8:5749:0:b0:4a5:9993:ede8 with SMTP id d75a77b69052e-4a59993f10cmr2980051cf.15.1748887948323;
+        Mon, 02 Jun 2025 11:12:28 -0700 (PDT)
+Received: from gmail.com (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a435772f05sm59484541cf.16.2025.06.02.11.12.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jun 2025 11:12:27 -0700 (PDT)
+Date: Mon, 2 Jun 2025 14:12:26 -0400
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: adrian.freihofer@siemens.com
+Cc: openembedded-core@lists.openembedded.org, marex@denx.de,
+	a.fatoum@pengutronix.de
+Subject: Re: [OE-core] [PATCH v6 12/21] kernel-fit-image.bbclass: add a new
+ FIT image implementation
+Message-ID: <aD3pinBR+qWFYjZX@gmail.com>
+References: <20250602075714.32122-1-adrian.freihofer@siemens.com>
+ <20250602075714.32122-13-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-References: <83e0d268-ec47-4f3a-bf05-2aee4e58e749@windriver.com>
- <CANNYZj-BmEXJVc1rdVPGu5wz87AW1RvbX+WhgicAfEby7kjUhw@mail.gmail.com>
- <47ba1f68-f67b-4c58-b788-63e06fdf4816@windriver.com> <CANNYZj-JtVtjk2e+Z=OmVF8RaygO5M1e+6tbQuTZYotbYetQrg@mail.gmail.com>
- <7571c07b-2225-4449-8169-08b044208072@gmail.com> <afaa4102-c876-437a-871d-f6f90697d5f4@windriver.com>
- <CANNYZj-Pa_jhraEz7qAHoDXLxfg-7ztH4UhdRPXirw6biZGWEA@mail.gmail.com>
- <36532bcc-c9dd-430a-a932-ec81e9270f19@windriver.com> <CAK6=ix4WrPGEbsfRwEsZz56BJP61OnkjqO8xvcB9BYoNJ2A6RQ@mail.gmail.com>
-In-Reply-To: <CAK6=ix4WrPGEbsfRwEsZz56BJP61OnkjqO8xvcB9BYoNJ2A6RQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 2 Jun 2025 10:09:43 -0700
-X-Gm-Features: AX0GCFvBobDaf4GlKOOgyPNtTsRuAmfy3_0sr3JKu2HRkTWouUVyqwyj7dFf05c
-Message-ID: <CAMKF1spgaYyyYOs633Lr_0EMq=vmixOXLDa4Q2ivb9PJy0BY8A@mail.gmail.com>
-Subject: Re: [OE-core] [RFC] rust: Upgrade 1.85.1->1.86.0
-To: Randy MacLeod <rwmacleod@gmail.com>
-Cc: "Shinde, Yash" <Yash.Shinde@windriver.com>, Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"MacLeod, Randy" <randy.macleod@windriver.com>, 
-	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
-Content-Type: multipart/alternative; boundary="0000000000001908a7063699d6a5"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250602075714.32122-13-adrian.freihofer@siemens.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 17:10:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217723
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 18:12:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217724
 
---0000000000001908a7063699d6a5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In message: [OE-core] [PATCH v6 12/21] kernel-fit-image.bbclass: add a new FIT image implementation
+on 02/06/2025 Adrian Freihofer via lists.openembedded.org wrote:
 
-On Mon, Jun 2, 2025 at 6:03=E2=80=AFAM Randy MacLeod <rwmacleod@gmail.com> =
-wrote:
+> From: Adrian Freihofer <adrian.freihofer@siemens.com>
+> 
+> The new recipe linux-yocto-fitimage.bb and the new
+> kernel-fit-image.bbclass are intended to become successors of the
+> kernel-fitimage.bbclass.
+> 
+> Instead of injecting the FIT image related build steps into the kernel
+> recipe, the new recipe takes the kernel artifacts from the kernel recipe
+> and creates the FIT image as an independent task.
+> 
+> This solves some basic problems:
+> * sstate does not work well when a fitImage contains an initramfs. The
+>   kernel is rebuilt from scratch if the build runs from an empty TMPDIR.
+> * A fitImage kernel is not available as a package, but all other kernel
+>   image types are.
+> * The task dependencies in the kernel are very complex and difficult to
+>   debug if something goes wrong. As a separate, downstream recipe, this
+>   is now much easier.
+> 
+> The recipe takes the kernel artifacts from the deploy folder. There was
+> also a test implementation passing the kernel artifacts via sysroot
+> directory. This requires changes on the kernel.bbclass to make it
+> copying the artifacts also to the sysroot directory while the same
+> artifacts are already in the sstate-cached deploy directory.
+> 
+> The long story about this issue is here:
+> [YOCTO #12912]
+> 
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+>  meta/classes-recipe/kernel-fit-image.bbclass  | 187 ++++++
+>  meta/classes/multilib.bbclass                 |   1 +
+>  meta/lib/oe/fitimage.py                       | 547 ++++++++++++++++++
+>  .../linux/linux-yocto-fitimage.bb             |  13 +
+>  4 files changed, 748 insertions(+)
+>  create mode 100644 meta/classes-recipe/kernel-fit-image.bbclass
+>  create mode 100644 meta/lib/oe/fitimage.py
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-fitimage.bb
+> 
+> diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+> new file mode 100644
+> index 00000000000..6d80cd4bb47
+> --- /dev/null
+> +++ b/meta/classes-recipe/kernel-fit-image.bbclass
+> @@ -0,0 +1,187 @@
+> +
+> +inherit kernel-arch kernel-artifact-names uboot-config deploy
+> +require conf/image-fitimage.conf
+> +
+> +S = "${WORKDIR}/sources"
+> +UNPACKDIR = "${S}"
+> +
+> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+> +
+> +DEPENDS += "\
+> +    u-boot-tools-native dtc-native \
+> +    ${@'kernel-signing-keys-native' if d.getVar('FIT_GENERATE_KEYS') == '1' else ''} \
+> +"
+> +
+> +python () {
+> +    image = d.getVar('INITRAMFS_IMAGE')
+> +    if image and d.getVar('INITRAMFS_IMAGE_BUNDLE') != '1':
+> +        if d.getVar('INITRAMFS_MULTICONFIG'):
+> +            mc = d.getVar('BB_CURRENT_MC')
+> +            d.appendVarFlag('do_compile', 'mcdepends', ' mc:' + mc + ':${INITRAMFS_MULTICONFIG}:${INITRAMFS_IMAGE}:do_image_complete')
+> +        else:
+> +            d.appendVarFlag('do_compile', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+> +
+> +    #check if there are any dtb providers
+> +    providerdtb = d.getVar("PREFERRED_PROVIDER_virtual/dtb")
+> +    if providerdtb:
+> +        d.appendVarFlag('do_compile', 'depends', ' virtual/dtb:do_populate_sysroot')
+> +        d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
+> +}
+> +
+> +do_configure[noexec] = "1"
+> +
+> +UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
+> +KERNEL_IMAGEDEST ?= "/boot"
+> +
+> +python do_compile() {
+> +    import shutil
+> +    import oe.fitimage
+> +
+> +    itsfile = "fit-image.its"
+> +    fitname = "fitImage"
+> +    kernel_deploydir = d.getVar('DEPLOY_DIR_IMAGE')
+> +    kernel_deploysubdir = d.getVar('KERNEL_DEPLOYSUBDIR')
+> +    if kernel_deploysubdir:
+> +        kernel_deploydir = os.path.join(kernel_deploydir, kernel_deploysubdir)
+> +
+> +    # Collect all the its nodes before the its file is generated and mkimage gets executed
+> +    root_node = oe.fitimage.ItsNodeRootKernel(
+> +        d.getVar("FIT_DESC"), d.getVar("FIT_ADDRESS_CELLS"),
+> +        d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),  d.getVar("FIT_CONF_PREFIX"),
+> +        oe.types.boolean(d.getVar('UBOOT_SIGN_ENABLE')), d.getVar("UBOOT_SIGN_KEYDIR"),
+> +        d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
+> +        d.getVar("UBOOT_MKIMAGE_SIGN"), d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
+> +        d.getVar('FIT_HASH_ALG'), d.getVar('FIT_SIGN_ALG'), d.getVar('FIT_PAD_ALG'),
+> +        d.getVar('UBOOT_SIGN_KEYNAME'),
+> +        oe.types.boolean(d.getVar('FIT_SIGN_INDIVIDUAL')), d.getVar('UBOOT_SIGN_IMG_KEYNAME')
+> +    )
+> +
+> +    # Prepare a kernel image section.
+> +    shutil.copyfile(os.path.join(kernel_deploydir, "linux.bin"), "linux.bin")
+> +    with open(os.path.join(kernel_deploydir, "linux_comp")) as linux_comp_f:
+> +        linux_comp = linux_comp_f.read()
+> +    root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
+> +        d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
+> +        d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
+> +
+> +    # Prepare a DTB image section
+> +    kernel_devicetree = d.getVar('KERNEL_DEVICETREE')
+> +    external_kernel_devicetree = d.getVar("EXTERNAL_KERNEL_DEVICETREE")
+> +    if kernel_devicetree:
+> +        for dtb in kernel_devicetree.split():
+> +            # In deploy_dir the DTBs are without sub-directories also with KERNEL_DTBVENDORED = "1"
+> +            dtb_name = os.path.basename(dtb)
+> +
+> +            # Skip DTB if it's also provided in EXTERNAL_KERNEL_DEVICETREE directory
+> +            if external_kernel_devicetree:
+> +                ext_dtb_path = os.path.join(external_kernel_devicetree, dtb_name)
+> +                if os.path.exists(ext_dtb_path) and os.path.getsize(ext_dtb_path) > 0:
+> +                    continue
+> +
+> +            # Copy the dtb or dtbo file into the FIT image assembly directory
+> +            shutil.copyfile(os.path.join(kernel_deploydir, dtb_name), dtb_name)
+> +            root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
+> +                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
+> +
+> +    if external_kernel_devicetree:
+> +        # iterate over all .dtb and .dtbo files in the external kernel devicetree directory
+> +        # and copy them to the FIT image assembly directory
+> +        for dtb_name in sorted(os.listdir(external_kernel_devicetree)):
+> +            if dtb_name.endswith('.dtb') or dtb_name.endswith('.dtbo'):
+> +                dtb_path = os.path.join(external_kernel_devicetree, dtb_name)
+> +
+> +                # For symlinks, add a configuration node that refers to the DTB image node to which the symlink points
+> +                symlink_target = oe.fitimage.symlink_points_below(dtb_name, external_kernel_devicetree)
+> +                if symlink_target:
+> +                    root_node.fitimage_emit_section_dtb_alias(dtb_name, symlink_target, True)
+> +                # For real DTB files add an image node and a configuration node
+> +                else:
+> +                    shutil.copyfile(dtb_path, dtb_name)
+> +                    root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
+> +                        d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"), True)
+> +
+> +    # Prepare a u-boot script section
+> +    fit_uboot_env = d.getVar("FIT_UBOOT_ENV")
+> +    if fit_uboot_env:
+> +        root_node.fitimage_emit_section_boot_script("bootscr-"+fit_uboot_env , fit_uboot_env)
+> +
+> +    # Prepare a setup section (For x86)
+> +    setup_bin_path = os.path.join(kernel_deploydir, "setup.bin")
+> +    if os.path.exists(setup_bin_path):
+> +        shutil.copyfile(setup_bin_path, "setup.bin")
+> +        root_node.fitimage_emit_section_setup("setup-1", "setup.bin")
+> +
+> +    # Prepare a ramdisk section.
+> +    initramfs_image = d.getVar('INITRAMFS_IMAGE')
+> +    if initramfs_image and d.getVar("INITRAMFS_IMAGE_BUNDLE") != '1':
+> +        # Find and use the first initramfs image archive type we find
+> +        found = False
+> +        for img in d.getVar("FIT_SUPPORTED_INITRAMFS_FSTYPES").split():
+> +            initramfs_path = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), "%s.%s" % (d.getVar('INITRAMFS_IMAGE_NAME'), img))
+> +            if os.path.exists(initramfs_path):
+> +                bb.note("Found initramfs image: " + initramfs_path)
+> +                found = True
+> +                root_node.fitimage_emit_section_ramdisk("ramdisk-1", initramfs_path,
+> +                    initramfs_image,
+> +                    d.getVar("UBOOT_RD_LOADADDRESS"),
+> +                    d.getVar("UBOOT_RD_ENTRYPOINT"))
+> +                break
+> +            else:
+> +                bb.note("Did not find initramfs image: " + initramfs_path)
+> +
+> +        if not found:
+> +            bb.fatal("Could not find a valid initramfs type for %s, the supported types are: %s" % (d.getVar('INITRAMFS_IMAGE_NAME'), d.getVar('FIT_SUPPORTED_INITRAMFS_FSTYPES')))
+> +
+> +    # Generate the configuration section
+> +    root_node.fitimage_emit_section_config(d.getVar("FIT_CONF_DEFAULT_DTB"))
+> +
+> +    # Write the its file
+> +    root_node.write_its_file(itsfile)
+> +
+> +    # Assemble the FIT image
+> +    root_node.run_mkimage_assemble(itsfile, fitname)
+> +
+> +    # Sign the FIT image if required
+> +    root_node.run_mkimage_sign(fitname)
+> +}
+> +do_compile[depends] += "virtual/kernel:do_deploy"
+> +
+> +do_install() {
+> +    install -d "${D}/${KERNEL_IMAGEDEST}"
+> +    install -m 0644 "${B}/fitImage" "${D}/${KERNEL_IMAGEDEST}/fitImage"
+> +}
+> +
+> +FILES:${PN} = "${KERNEL_IMAGEDEST}"
+> +
+> +
+> +do_deploy() {
+> +    deploy_dir="${DEPLOYDIR}"
+> +    if [ -n "${KERNEL_DEPLOYSUBDIR}" ]; then
+> +        deploy_dir="${DEPLOYDIR}/${KERNEL_DEPLOYSUBDIR}"
+> +    fi
+> +    install -d "$deploy_dir"
+> +    install -m 0644 "${B}/fitImage" "$deploy_dir/fitImage"
+> +    install -m 0644 "${B}/fit-image.its" "$deploy_dir/fit-image.its"
+> +
+> +    if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+> +        ln -snf fit-image.its "$deploy_dir/fitImage-its-${KERNEL_FIT_NAME}.its"
+> +        if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+> +            ln -snf fit-image.its "$deploy_dir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
+> +        fi
+> +    fi
+> +
+> +    if [ -n "${INITRAMFS_IMAGE}" ]; then
+> +        ln -snf fit-image-its "$deploy_dir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
+> +        if [ -n "${KERNEL_FIT_LINK_NAME}" ]; then
+> +            ln -snf fit-image.its "$deploy_dir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+> +        fi
+> +
+> +        if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+> +            ln -snf fitImage "$deploy_dir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}"
+> +            if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
+> +                ln -snf fitImage "$deploy_dir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+> +            fi
+> +        fi
+> +    fi
+> +}
+> +addtask deploy after do_compile before do_build
+> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+> index a4151658a62..b959bbd93c0 100644
+> --- a/meta/classes/multilib.bbclass
+> +++ b/meta/classes/multilib.bbclass
+> @@ -21,6 +21,7 @@ python multilib_virtclass_handler () {
+>      bpn = d.getVar("BPN")
+>      if ("virtual/kernel" in provides
+>              or bb.data.inherits_class('module-base', d)
+> +            or bb.data.inherits_class('kernel-fit-image', d)
+>              or bpn in non_ml_recipes):
+>          raise bb.parse.SkipRecipe("We shouldn't have multilib variants for %s" % bpn)
+>  
+> diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+> new file mode 100644
+> index 00000000000..f3037991558
+> --- /dev/null
+> +++ b/meta/lib/oe/fitimage.py
+> @@ -0,0 +1,547 @@
+> +#
+> +# Copyright OpenEmbedded Contributors
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# This file contains common functions for the fitimage generation
+> +
+> +import os
+> +import shlex
+> +import subprocess
+> +import bb
+> +
+> +from oeqa.utils.commands import runCmd
+> +
+> +class ItsNode:
+> +    INDENT_SIZE = 8
+> +
+> +    def __init__(self, name, parent_node, sub_nodes=None, properties=None):
+> +        self.name = name
+> +        self.parent_node = parent_node
+> +
+> +        self.sub_nodes = []
+> +        if sub_nodes:
+> +            self.sub_nodes = sub_nodes
+> +
+> +        self.properties = {}
+> +        if properties:
+> +            self.properties = properties
+> +
+> +        if parent_node:
+> +            parent_node.add_sub_node(self)
+> +
+> +    def add_sub_node(self, sub_node):
+> +        self.sub_nodes.append(sub_node)
+> +
+> +    def add_property(self, key, value):
+> +        self.properties[key] = value
+> +
+> +    def emit(self, f, indent):
+> +        indent_str_name = " " * indent
+> +        indent_str_props = " " * (indent + self.INDENT_SIZE)
+> +        f.write("%s%s {\n" % (indent_str_name, self.name))
+> +        for key, value in self.properties.items():
+> +            bb.debug(1, "key: %s, value: %s" % (key, str(value)))
+> +            # Single integer: <0x12ab>
+> +            if isinstance(value, int):
+> +                f.write(indent_str_props + key + ' = <0x%x>;\n' % value)
+> +            # list of strings: "string1", "string2" or integers: <0x12ab 0x34cd>
+> +            elif isinstance(value, list):
+> +                if len(value) == 0:
+> +                    f.write(indent_str_props + key + ' = "";\n')
+> +                elif isinstance(value[0], int):
+> +                    list_entries = ' '.join('0x%x' % entry for entry in value)
+> +                    f.write(indent_str_props + key + ' = <%s>;\n' % list_entries)
+> +                else:
+> +                    list_entries = ', '.join('"%s"' % entry for entry in value)
+> +                    f.write(indent_str_props + key + ' = %s;\n' % list_entries)
+> +            elif isinstance(value, str):
+> +                # path: /incbin/("path/to/file")
+> +                if key in ["data"] and value.startswith('/incbin/('):
+> +                    f.write(indent_str_props + key + ' = %s;\n' % value)
+> +                # Integers which are already string formatted
+> +                elif value.startswith("<") and value.endswith(">"):
+> +                    f.write(indent_str_props + key + ' = %s;\n' % value)
+> +                else:
+> +                    f.write(indent_str_props + key + ' = "%s";\n' % value)
+> +            else:
+> +                bb.fatal("%s has unexpexted data type." % str(value))
+> +        for sub_node in self.sub_nodes:
+> +            sub_node.emit(f, indent + self.INDENT_SIZE)
+> +        f.write(indent_str_name + '};\n')
+> +
+> +class ItsNodeImages(ItsNode):
+> +    def __init__(self, parent_node):
+> +        super().__init__("images", parent_node)
+> +
+> +class ItsNodeConfigurations(ItsNode):
+> +    def __init__(self, parent_node):
+> +        super().__init__("configurations", parent_node)
+> +
+> +class ItsNodeHash(ItsNode):
+> +    def __init__(self, name, parent_node, algo, opt_props=None):
+> +        properties = {
+> +            "algo": algo
+> +        }
+> +        if opt_props:
+> +            properties.update(opt_props)
+> +        super().__init__(name, parent_node, None, properties)
+> +
+> +class ItsImageSignature(ItsNode):
+> +    def __init__(self, name, parent_node, algo, keyname, opt_props=None):
+> +        properties = {
+> +            "algo": algo,
+> +            "key-name-hint": keyname
+> +        }
+> +        if opt_props:
+> +            properties.update(opt_props)
+> +        super().__init__(name, parent_node, None, properties)
+> +
+> +class ItsNodeImage(ItsNode):
+> +    def __init__(self, name, parent_node, description, type, compression, sub_nodes=None, opt_props=None):
+> +        properties = {
+> +            "description": description,
+> +            "type": type,
+> +            "compression": compression,
+> +        }
+> +        if opt_props:
+> +            properties.update(opt_props)
+> +        super().__init__(name, parent_node, sub_nodes, properties)
+> +
+> +class ItsNodeDtb(ItsNodeImage):
+> +    def __init__(self, name, parent_node, description, type, compression,
+> +                 sub_nodes=None, opt_props=None, compatible=None):
+> +        super().__init__(name, parent_node, description, type, compression, sub_nodes, opt_props)
+> +        self.compatible = compatible
+> +
+> +class ItsNodeDtbAlias(ItsNode):
+> +    """Additional Configuration Node for a DTB
+> +
+> +    Symlinks pointing to a DTB file are handled by an addtitional
+> +    configuration node referring to another DTB image node.
+> +    """
+> +    def __init__(self, name, alias_name, compatible=None):
+> +        super().__init__(name, parent_node=None, sub_nodes=None, properties=None)
+> +        self.alias_name = alias_name
+> +        self.compatible = compatible
+> +
+> +class ItsNodeConfigurationSignature(ItsNode):
+> +    def __init__(self, name, parent_node, algo, keyname, opt_props=None):
+> +        properties = {
+> +            "algo": algo,
+> +            "key-name-hint": keyname
+> +        }
+> +        if opt_props:
+> +            properties.update(opt_props)
+> +        super().__init__(name, parent_node, None, properties)
+> +
+> +class ItsNodeConfiguration(ItsNode):
+> +    def __init__(self, name, parent_node, description, sub_nodes=None, opt_props=None):
+> +        properties = {
+> +            "description": description,
+> +        }
+> +        if opt_props:
+> +            properties.update(opt_props)
+> +        super().__init__(name, parent_node, sub_nodes, properties)
+> +
+> +class ItsNodeRootKernel(ItsNode):
+> +    """Create FIT images for the kernel
+> +
+> +    Currently only a single kernel (no less or more) can be added to the FIT
+> +    image along with 0 or more device trees and 0 or 1 ramdisk.
+> +
+> +    If a device tree included in the FIT image, the default configuration is the
+> +    firt DTB. If there is no dtb present than the default configuation the kernel.
+> +    """
+> +    def __init__(self, description, address_cells, host_prefix, arch, conf_prefix,
+> +                 sign_enable=False, sign_keydir=None,
+> +                 mkimage=None, mkimage_dtcopts=None,
+> +                 mkimage_sign=None, mkimage_sign_args=None,
+> +                 hash_algo=None, sign_algo=None, pad_algo=None,
+> +                 sign_keyname_conf=None,
+> +                 sign_individual=False, sign_keyname_img=None):
+> +        props = {
+> +            "description": description,
+> +            "#address-cells": f"<{address_cells}>"
+> +        }
+> +        super().__init__("/", None, None, props)
+> +        self.images = ItsNodeImages(self)
+> +        self.configurations = ItsNodeConfigurations(self)
+> +
+> +        self._host_prefix = host_prefix
+> +        self._arch = arch
+> +        self._conf_prefix = conf_prefix
+> +
+> +        # Signature related properties
+> +        self._sign_enable = sign_enable
+> +        self._sign_keydir = sign_keydir
+> +        self._mkimage = mkimage
+> +        self._mkimage_dtcopts = mkimage_dtcopts
+> +        self._mkimage_sign = mkimage_sign
+> +        self._mkimage_sign_args = mkimage_sign_args
+> +        self._hash_algo = hash_algo
+> +        self._sign_algo = sign_algo
+> +        self._pad_algo = pad_algo
+> +        self._sign_keyname_conf = sign_keyname_conf
+> +        self._sign_individual = sign_individual
+> +        self._sign_keyname_img = sign_keyname_img
+> +        self._sanitize_sign_config()
+> +
+> +        self._dtbs = []
+> +        self._dtb_alias = []
+> +        self._kernel = None
+> +        self._ramdisk = None
+> +        self._bootscr = None
+> +        self._setup = None
+> +
+> +    def _sanitize_sign_config(self):
+> +        if self._sign_enable:
+> +            if not self._hash_algo:
+> +                bb.fatal("FIT image signing is enabled but no hash algorithm is provided.")
+> +            if not self._sign_algo:
+> +                bb.fatal("FIT image signing is enabled but no signature algorithm is provided.")
+> +            if not self._pad_algo:
+> +                bb.fatal("FIT image signing is enabled but no padding algorithm is provided.")
+> +            if not self._sign_keyname_conf:
+> +                bb.fatal("FIT image signing is enabled but no configuration key name is provided.")
+> +            if self._sign_individual and not self._sign_keyname_img:
+> +                bb.fatal("FIT image signing is enabled for individual images but no image key name is provided.")
+> +
+> +    def write_its_file(self, itsfile):
+> +        with open(itsfile, 'w') as f:
+> +            f.write("/dts-v1/;\n\n")
+> +            self.emit(f, 0)
+> +
+> +    def its_add_node_image(self, image_id, description, image_type, compression, opt_props):
+> +        image_node = ItsNodeImage(
+> +            image_id,
+> +            self.images,
+> +            description,
+> +            image_type,
+> +            compression,
+> +            opt_props=opt_props
+> +        )
+> +        if self._hash_algo:
+> +            ItsNodeHash(
+> +                "hash-1",
+> +                image_node,
+> +                self._hash_algo
+> +            )
+> +        if self._sign_individual:
+> +            ItsImageSignature(
+> +                "signature-1",
+> +                image_node,
+> +                f"{self._hash_algo},{self._sign_algo}",
+> +                self._sign_keyname_img
+> +            )
+> +        return image_node
+> +
+> +    def its_add_node_dtb(self, image_id, description, image_type, compression, opt_props, compatible):
+> +        dtb_node = ItsNodeDtb(
+> +            image_id,
+> +            self.images,
+> +            description,
+> +            image_type,
+> +            compression,
+> +            opt_props=opt_props,
+> +            compatible=compatible
+> +        )
+> +        if self._hash_algo:
+> +            ItsNodeHash(
+> +                "hash-1",
+> +                dtb_node,
+> +                self._hash_algo
+> +            )
+> +        if self._sign_individual:
+> +            ItsImageSignature(
+> +                "signature-1",
+> +                dtb_node,
+> +                f"{self._hash_algo},{self._sign_algo}",
+> +                self._sign_keyname_img
+> +            )
+> +        return dtb_node
+> +
+> +    def fitimage_emit_section_kernel(self, kernel_id, kernel_path, compression,
+> +        load, entrypoint, mkimage_kernel_type, entrysymbol=None):
+> +        """Emit the fitImage ITS kernel section"""
+> +        if self._kernel:
+> +            bb.fatal("Kernel section already exists in the ITS file.")
+> +        if entrysymbol:
+> +            result = subprocess.run([self._host_prefix + "nm", "vmlinux"], capture_output=True, text=True)
+> +            for line in result.stdout.splitlines():
+> +                parts = line.split()
+> +                if len(parts) == 3 and parts[2] == entrysymbol:
+> +                    entrypoint = "<0x%s>" % parts[0]
+> +                    break
+> +        kernel_node = self.its_add_node_image(
+> +            kernel_id,
+> +            "Linux kernel",
+> +            mkimage_kernel_type,
+> +            compression,
+> +            {
+> +                "data": '/incbin/("' + kernel_path + '")',
+> +                "arch": self._arch,
+> +                "os": "linux",
+> +                "load": f"<{load}>",
+> +                "entry": f"<{entrypoint}>"
+> +            }
+> +        )
+> +        self._kernel = kernel_node
+> +
+> +    def fitimage_emit_section_dtb(self, dtb_id, dtb_path, dtb_loadaddress=None,
+> +                                  dtbo_loadaddress=None, add_compatible=False):
+> +        """Emit the fitImage ITS DTB section"""
+> +        load=None
+> +        dtb_ext = os.path.splitext(dtb_path)[1]
+> +        if dtb_ext == ".dtbo":
+> +            if dtbo_loadaddress:
+> +                load = dtbo_loadaddress
+> +        elif dtb_loadaddress:
+> +            load = dtb_loadaddress
+> +
+> +        opt_props = {
+> +            "data": '/incbin/("' + dtb_path + '")',
+> +            "arch": self._arch
+> +        }
+> +        if load:
+> +            opt_props["load"] = f"<{load}>"
+> +
+> +        # Preserve the DTB's compatible string to be added to the configuration node
+> +        compatible = None
+> +        if add_compatible:
+> +            compatible = get_compatible_from_dtb(dtb_path)
+> +
+> +        dtb_node = self.its_add_node_dtb(
+> +            "fdt-" + dtb_id,
+> +            "Flattened Device Tree blob",
+> +            "flat_dt",
+> +            "none",
+> +            opt_props,
+> +            compatible
+> +        )
+> +        self._dtbs.append(dtb_node)
+> +
+> +    def fitimage_emit_section_dtb_alias(self, dtb_alias_id, dtb_path, add_compatible=False):
+> +        """Add a configuration node referring to another DTB"""
+> +        # Preserve the DTB's compatible string to be added to the configuration node
+> +        compatible = None
+> +        if add_compatible:
+> +            compatible = get_compatible_from_dtb(dtb_path)
+> +
+> +        dtb_id = os.path.basename(dtb_path)
+> +        dtb_alias_node = ItsNodeDtbAlias("fdt-" + dtb_id, dtb_alias_id, compatible)
+> +        self._dtb_alias.append(dtb_alias_node)
+> +        bb.warn(f"compatible: {compatible}, dtb_alias_id: {dtb_alias_id}, dtb_id: {dtb_id}, dtb_path: {dtb_path}")
+> +
+> +    def fitimage_emit_section_boot_script(self, bootscr_id, bootscr_path):
+> +        """Emit the fitImage ITS u-boot script section"""
+> +        if self._bootscr:
+> +            bb.fatal("U-boot script section already exists in the ITS file.")
+> +        bootscr_node = self.its_add_node_image(
+> +            bootscr_id,
+> +            "U-boot script",
+> +            "script",
+> +            "none",
+> +            {
+> +                "data": '/incbin/("' + bootscr_path + '")',
+> +                "arch": self._arch,
+> +                "type": "script"
+> +            }
+> +        )
+> +        self._bootscr = bootscr_node
+> +
+> +    def fitimage_emit_section_setup(self, setup_id, setup_path):
+> +        """Emit the fitImage ITS setup section"""
+> +        if self._setup:
+> +            bb.fatal("Setup section already exists in the ITS file.")
+> +        load = "<0x00090000>"
+> +        entry = "<0x00090000>"
+> +        setup_node = self.its_add_node_image(
+> +            setup_id,
+> +            "Linux setup.bin",
+> +            "x86_setup",
+> +            "none",
+> +            {
+> +                "data": '/incbin/("' + setup_path + '")',
+> +                "arch": self._arch,
+> +                "os": "linux",
+> +                "load": load,
+> +                "entry": entry
+> +            }
+> +        )
+> +        self._setup = setup_node
+> +
+> +    def fitimage_emit_section_ramdisk(self, ramdisk_id, ramdisk_path, description="ramdisk", load=None, entry=None):
+> +        """Emit the fitImage ITS ramdisk section"""
+> +        if self._ramdisk:
+> +            bb.fatal("Ramdisk section already exists in the ITS file.")
+> +        opt_props = {
+> +            "data": '/incbin/("' + ramdisk_path + '")',
+> +            "type": "ramdisk",
+> +            "arch": self._arch,
+> +            "os": "linux"
+> +        }
+> +        if load:
+> +            opt_props["load"] = f"<{load}>"
+> +        if entry:
+> +            opt_props["entry"] = f"<{entry}>"
+> +
+> +        ramdisk_node = self.its_add_node_image(
+> +            ramdisk_id,
+> +            description,
+> +            "ramdisk",
+> +            "none",
+> +            opt_props
+> +        )
+> +        self._ramdisk = ramdisk_node
+> +
+> +    def _fitimage_emit_one_section_config(self, conf_node_name, dtb=None):
+> +        """Emit the fitImage ITS configuration section"""
+> +        opt_props = {}
+> +        conf_desc = []
+> +        sign_entries = []
+> +
+> +        if self._kernel:
+> +            conf_desc.append("Linux kernel")
+> +            opt_props["kernel"] = self._kernel.name
+> +            if self._sign_enable:
+> +                sign_entries.append("kernel")
+> +
+> +        if dtb:
+> +            conf_desc.append("FDT blob")
+> +            opt_props["fdt"] = dtb.name
+> +            if dtb.compatible:
+> +                opt_props["compatible"] = dtb.compatible
+> +            if self._sign_enable:
+> +                sign_entries.append("fdt")
+> +
+> +        if self._ramdisk:
+> +            conf_desc.append("ramdisk")
+> +            opt_props["ramdisk"] = self._ramdisk.name
+> +            if self._sign_enable:
+> +                sign_entries.append("ramdisk")
+> +
+> +        if self._bootscr:
+> +            conf_desc.append("u-boot script")
+> +            opt_props["bootscr"] = self._bootscr.name
+> +            if self._sign_enable:
+> +                sign_entries.append("bootscr")
+> +
+> +        if self._setup:
+> +            conf_desc.append("setup")
+> +            opt_props["setup"] = self._setup.name
+> +            if self._sign_enable:
+> +                sign_entries.append("setup")
+> +
+> +        # First added configuration is the default configuration
+> +        default_flag = "0"
+> +        if len(self.configurations.sub_nodes) == 0:
+> +            default_flag = "1"
+> +
+> +        conf_node = ItsNodeConfiguration(
+> +            conf_node_name,
+> +            self.configurations,
+> +            f"{default_flag} {', '.join(conf_desc)}",
+> +            opt_props=opt_props
+> +        )
+> +        if self._hash_algo:
+> +            ItsNodeHash(
+> +                "hash-1",
+> +                conf_node,
+> +                self._hash_algo
+> +            )
+> +        if self._sign_enable:
+> +            ItsNodeConfigurationSignature(
+> +                "signature-1",
+> +                conf_node,
+> +                f"{self._hash_algo},{self._sign_algo}",
+> +                self._sign_keyname_conf,
+> +                opt_props={
+> +                    "padding": self._pad_algo,
+> +                    "sign-images": sign_entries
+> +                }
+> +            )
+> +
+> +    def fitimage_emit_section_config(self, default_dtb_image=None):
+> +        if self._dtbs:
+> +            for dtb in self._dtbs:
+> +                dtb_name = dtb.name
+> +                if dtb.name.startswith("fdt-"):
+> +                    dtb_name = dtb.name[len("fdt-"):]
+> +                self._fitimage_emit_one_section_config(self._conf_prefix + dtb_name, dtb)
+> +            for dtb in self._dtb_alias:
+> +                self._fitimage_emit_one_section_config(self._conf_prefix + dtb.alias_name, dtb)
+> +        else:
+> +            # Currently exactly one kernel is supported.
+> +            self._fitimage_emit_one_section_config(self._conf_prefix + "1")
+> +
+> +        default_conf = self.configurations.sub_nodes[0].name
+> +        if default_dtb_image and self._dtbs:
+> +            default_conf = self._conf_prefix + default_dtb_image
+> +        self.configurations.add_property('default', default_conf)
+> +
+> +    def run_mkimage_assemble(self, itsfile, fitfile):
+> +        cmd = [
+> +            self._mkimage,
+> +            '-f', itsfile,
+> +            fitfile
+> +        ]
+> +        if self._mkimage_dtcopts:
+> +            cmd.insert(1, '-D')
+> +            cmd.insert(2, self._mkimage_dtcopts)
+> +        try:
+> +            subprocess.run(cmd, check=True, capture_output=True)
+> +        except subprocess.CalledProcessError as e:
+> +            bb.fatal(f"Command '{' '.join(cmd)}' failed with return code {e.returncode}\nstdout: {e.stdout.decode()}\nstderr: {e.stderr.decode()}\nitsflile: {os.path.abspath(itsfile)}")
+> +
+> +    def run_mkimage_sign(self, fitfile):
+> +        if not self._sign_enable:
+> +            bb.debug(1, "FIT image signing is disabled. Skipping signing.")
+> +            return
+> +
+> +        # Some sanity checks because mkimage exits with 0 also without needed keys
+> +        sign_key_path = os.path.join(self._sign_keydir, self._sign_keyname_conf)
+> +        if not os.path.exists(sign_key_path + '.key') or not os.path.exists(sign_key_path + '.crt'):
+> +            bb.fatal("%s.key or .crt does not exist" % sign_key_path)
+> +        if self._sign_individual:
+> +            sign_key_img_path = os.path.join(self._sign_keydir, self._sign_keyname_img)
+> +            if not os.path.exists(sign_key_img_path + '.key') or not os.path.exists(sign_key_img_path + '.crt'):
+> +                bb.fatal("%s.key or .crt does not exist" % sign_key_img_path)
+> +
+> +        cmd = [
+> +            self._mkimage_sign,
+> +            '-F',
+> +            '-k', self._sign_keydir,
+> +            '-r', fitfile
+> +        ]
+> +        if self._mkimage_dtcopts:
+> +            cmd.extend(['-D', self._mkimage_dtcopts])
+> +        if self._mkimage_sign_args:
+> +            cmd.extend(shlex.split(self._mkimage_sign_args))
+> +        try:
+> +            subprocess.run(cmd, check=True, capture_output=True)
+> +        except subprocess.CalledProcessError as e:
+> +            bb.fatal(f"Command '{' '.join(cmd)}' failed with return code {e.returncode}\nstdout: {e.stdout.decode()}\nstderr: {e.stderr.decode()}")
+> +
+> +
+> +def symlink_points_below(file_or_symlink, expected_parent_dir):
+> +    """returns symlink destination if it points below directory"""
+> +    file_path = os.path.join(expected_parent_dir, file_or_symlink)
+> +    if not os.path.islink(file_path):
+> +        return None
+> +
+> +    realpath = os.path.relpath(os.path.realpath(file_path), expected_parent_dir)
+> +    if realpath.startswith(".."):
+> +        return None
+> +
+> +    return realpath
+> +
+> +def get_compatible_from_dtb(dtb_path, fdtget_path="fdtget"):
+> +    compatible = None
+> +    cmd = [fdtget_path, "-t", "s", dtb_path, "/", "compatible"]
+> +    try:
+> +        ret = subprocess.run(cmd, check=True, capture_output=True, text=True)
+> +        compatible = ret.stdout.strip().split()
+> +    except subprocess.CalledProcessError:
+> +        compatible = None
+> +    return compatible
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-fitimage.bb b/meta/recipes-kernel/linux/linux-yocto-fitimage.bb
+> new file mode 100644
+> index 00000000000..6ce1960a871
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/linux-yocto-fitimage.bb
+> @@ -0,0 +1,13 @@
+> +SUMMARY = "The Linux kernel as a FIT image (optionally with initramfs)"
+> +SECTION = "kernel"
+> +
+> +# If an initramfs is included in the FIT image more licenses apply.
+> +# But also the kernel uses more than one license (see Documentation/process/license-rules.rst)
+> +LICENSE = "GPL-2.0-with-Linux-syscall-note"
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-with-Linux-syscall-note;md5=0bad96c422c41c3a94009dcfe1bff992"
+> +
+> +inherit linux-kernel-base kernel-fit-image
+> +
+> +# Set the version of this recipe to the version of the included kernel
+> +# (without taking the long way around via PV)
+> +PKGV = "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
 
-> Hi Yash,
->
->
-> On Mon, Jun 2, 2025, 07:15 Yash Shinde via lists.openembedded.org
-> <Yash.Shinde=3Dwindriver.com@lists.openembedded.org> wrote:
->
->>
->> On 30-05-2025 18:45, Alexander Kanavin wrote:
->>
->> CAUTION: This email comes from a non Wind River email account!
->> Do not click links or open attachments unless you recognize the sender a=
-nd know the content is safe.
->>
->> On Fri, 30 May 2025 at 14:42, Yash Shinde <Yash.Shinde@windriver.com> <Y=
-ash.Shinde@windriver.com> wrote:
->>
->>
->> As Khem mentioned, setting lld =3D false in config.toml doesn't build LL=
-D.
->> Furthermore, using "use-lld =3D false" ensures that LLD is not used as t=
-he
->> default linker,
->> causing the build to fall back to the system's default linker. This
->> restores the earlier behavior.
->> Also, the package QA error for rust-lld is not seen with this.
->>
->> What about build times though? Are they back to what they were?
->>
->>
->> The build time differences on my machine are as follows:
->> rust version
->> rust upstream builds
->> rust-native (yocto build)
->> rust target (yocto build)
->> v1.85.1
->> 10 mins
->> 20 mins
->> 33 mins
->> v1.86.0
->> 22 mins (with "lld" and "use-lld" set to "false")
->> 30 mins (with default settings i.e lld =3D true)
->>
->> 31 mins (with "lld" and
->> "use-lld" set to "false") 43 mins (with "lld" and
->> "use-lld" set to "false")
->>
->> Note: The machine being used is a shared resource and fairly busy. Build
->> times may differ due to other user's builds.
->>
->>
->> The FS usage is as follows:
->> Rust version
->> rust upstream builds
->> Yocto rust builds
->> (build/tmp/work/core2-64-poky-linux/rust/1.86.0/rustc-1.86.0-src/build)
->> v1.85.1
->> 4.6 G
->> 6.3 G
->> v1.86.0
->> 15 G
->> 8.8 G
->>
->> The latest rust v1.86.0 upgrade changes are available at:
->> https://git.yoctoproject.org/poky-contrib/log/?h=3Dharish/rust_1.86.0_v2
->>
->
->> Regards,
->> Yash
->>
->
-> Hi Yash
->
->
-> That's good progress. We'll need to think about what, it anything, we're
-> missing by not building rust-lld. We should run some tests to compare the
-> link times but that can likely wait until after we get the update merged.
->
->
-> Though the internet has some information on lld improvements having this
-in OE context will be valuable.
-I also think disabling lld is going to give us some reprieve. As more
-targets in rust seem to use it by default we need to consider that we do
-not start disabling defaults and wear off from upstream.
+At least for this part of the series, I have no concerns. Now that this
+won't need to be updated to match the kernel, the maintenance is low.
 
+I'll have a look at the other parts shortly as well.
 
-> Remaining concerns:
->
->
->
-> 1. Significant increase in FS usage, compile time. Have you looked into
-> why there's still such a significant increase?
->
-> 2.  * Enable INHIBIT_PACKAGE_DEBUG_SPLIT/STRIP to fix QA stripping errors=
-.
-> Fixes: ERROR: rust-1.86.0-r0 do_package: QA Issue: File
-> '/usr/lib/rustlib/x86_64-poky-linux-gnu/bin/wasm-component-ld' from rust
-> was already stripped, this will prevent future debugging!
-> [already-stripped]
->
->
-> Do we use this component? Is it new? Why is it produced without debug
-> symbols?
->
->
-> I'll take a more careful look at the commit code changes once we have
-> answers to these questions.
->
-> Thanks for your hard work.
-> Almost done this upgrade hopefully.
->
-> Randy
->
-> Alex
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#217714):
->> https://lists.openembedded.org/g/openembedded-core/message/217714
->> Mute This Topic: https://lists.openembedded.org/mt/113268009/953399
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> rwmacleod@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
+Bruce
 
---0000000000001908a7063699d6a5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> -- 
+> 2.49.0
+> 
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 2, =
-2025 at 6:03=E2=80=AFAM Randy MacLeod &lt;<a href=3D"mailto:rwmacleod@gmail=
-.com">rwmacleod@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex"><div dir=3D"auto"><div dir=3D"auto">Hi Yash,</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div class=3D"gmail=
-_quote" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 2, 2=
-025, 07:15 Yash Shinde via <a href=3D"http://lists.openembedded.org" target=
-=3D"_blank">lists.openembedded.org</a> &lt;Yash.Shinde=3D<a href=3D"mailto:=
-windriver.com@lists.openembedded.org" target=3D"_blank">windriver.com@lists=
-.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex"><u></u>
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#217695): https://lists.openembedded.org/g/openembedded-core/message/217695
+> Mute This Topic: https://lists.openembedded.org/mt/113424429/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
- =20
-  <div>
-    <p><br>
-    </p>
-    <div>On 30-05-2025 18:45, Alexander Kanavin
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-      <pre>CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.
-
-On Fri, 30 May 2025 at 14:42, Yash Shinde <a href=3D"mailto:Yash.Shinde@win=
-driver.com" rel=3D"noreferrer" target=3D"_blank">&lt;Yash.Shinde@windriver.=
-com&gt;</a> wrote:
-
-</pre>
-      <blockquote type=3D"cite">
-        <pre>As Khem mentioned, setting lld =3D false in config.toml doesn&=
-#39;t build LLD.
-Furthermore, using &quot;use-lld =3D false&quot; ensures that LLD is not us=
-ed as the
-default linker,
-causing the build to fall back to the system&#39;s default linker. This
-restores the earlier behavior.
-Also, the package QA error for rust-lld is not seen with this.
-</pre>
-      </blockquote>
-      <pre>What about build times though? Are they back to what they were?
-
-</pre>
-    </blockquote>
-    <p>The build time differences on my machine are as follows:<br>
-    </p>
-    <table cellpadding=3D"2" cellspacing=3D"2" border=3D"1" width=3D"877" h=
-eight=3D"151">
-      <tbody>
-        <tr>
-          <td valign=3D"top">rust version<br>
-          </td>
-          <td valign=3D"top">rust upstream builds<br>
-          </td>
-          <td valign=3D"top">rust-native (yocto build)<br>
-          </td>
-          <td valign=3D"top">rust target (yocto build)<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign=3D"top">v1.85.1<br>
-          </td>
-          <td valign=3D"top">10 mins<br>
-          </td>
-          <td valign=3D"top">20 mins<br>
-          </td>
-          <td valign=3D"top">33 mins<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign=3D"top">v1.86.0 <br>
-          </td>
-          <td valign=3D"top">22 mins (with &quot;lld&quot; and &quot;use-ll=
-d&quot; set to
-            &quot;false&quot;)<br>
-            30 mins (with default settings i.e lld =3D true)<br>
-            <br>
-          </td>
-          <td valign=3D"top">31 mins (with &quot;lld&quot; and<br>
-            &quot;use-lld&quot; set to &quot;false&quot;)</td>
-          <td valign=3D"top">43 mins (with &quot;lld&quot; and<br>
-            &quot;use-lld&quot; set to &quot;false&quot;)</td>
-        </tr>
-      </tbody>
-    </table>
-    <p>Note: The machine being used is a shared resource and fairly
-      busy. Build times may differ due to other user&#39;s builds.<br>
-      <br>
-      <br>
-      The FS usage is as follows:<br>
-    </p>
-    <table cellpadding=3D"2" cellspacing=3D"2" border=3D"1" width=3D"955" h=
-eight=3D"91">
-      <tbody>
-        <tr>
-          <td valign=3D"top">Rust version<br>
-          </td>
-          <td valign=3D"top">rust upstream builds<br>
-          </td>
-          <td valign=3D"top">Yocto rust builds
-            (build/tmp/work/core2-64-poky-linux/rust/1.86.0/rustc-1.86.0-sr=
-c/build)<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign=3D"top">v1.85.1<br>
-          </td>
-          <td valign=3D"top">4.6 G<br>
-          </td>
-          <td valign=3D"top">6.3 G<br>
-          </td>
-        </tr>
-        <tr>
-          <td valign=3D"top">v1.86.0<br>
-          </td>
-          <td valign=3D"top">15 G<br>
-          </td>
-          <td valign=3D"top">8.8 G<br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p>The latest rust v1.86.0 upgrade changes are available at:<br>
-<a href=3D"https://git.yoctoproject.org/poky-contrib/log/?h=3Dharish/rust_1=
-.86.0_v2" rel=3D"noreferrer" target=3D"_blank">https://git.yoctoproject.org=
-/poky-contrib/log/?h=3Dharish/rust_1.86.0_v2</a><br></p></div></blockquote>=
-</div><div class=3D"gmail_quote" dir=3D"auto"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex"><div><p><br>
-      Regards,<br>
-      Yash<br></p></div></blockquote></div><div dir=3D"auto"><br></div><div=
- dir=3D"auto"><p>Hi Yash=C2=A0</p><p><br></p><p>That&#39;s good progress. W=
-e&#39;ll need to think about what, it anything, we&#39;re missing by not bu=
-ilding rust-lld. We should run some tests to compare the link times but tha=
-t can likely wait until after we get the update merged.=C2=A0</p><p><br></p=
-></div></div></blockquote><div>Though the internet has some information on =
-lld improvements having this in OE context will be valuable.</div><div>I al=
-so think disabling lld is going to give us some reprieve. As more targets i=
-n rust seem to use it by default we need to consider that we do not start d=
-isabling defaults and wear off from upstream.</div><div>=C2=A0</div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex"><div dir=3D"auto"><div dir=3D"au=
-to"><p></p><p>Remaining concerns: </p><p>=C2=A0</p><p>1. Significant increa=
-se in FS usage, compile time. Have you looked into why there&#39;s still su=
-ch a significant increase?</p><p>2.=C2=A0=C2=A0* Enable INHIBIT_PACKAGE_DEB=
-UG_SPLIT/STRIP to fix QA stripping errors. Fixes: ERROR: rust-1.86.0-r0 do_=
-package: QA Issue: File &#39;/usr/lib/rustlib/x86_64-poky-linux-gnu/bin/was=
-m-component-ld&#39; from rust was already stripped, this will prevent futur=
-e debugging! [already-stripped]=C2=A0</p><p><br></p><p>Do we use this compo=
-nent? Is it new? Why is it produced without debug symbols?=C2=A0</p><p><br>=
-</p><p>I&#39;ll take a more careful look at the commit code changes once we=
- have answers to these questions.</p></div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Thanks for your hard work.=C2=A0</div><div dir=3D"auto">Almos=
-t done this upgrade hopefully.</div><div dir=3D"auto"><br></div><div dir=3D=
-"auto">Randy</div><div dir=3D"auto"><br></div><div class=3D"gmail_quote" di=
-r=3D"auto"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div><p>
-    </p>
-    <blockquote type=3D"cite">
-      <pre>Alex
-</pre>
-    </blockquote>
-    <pre cols=3D"72"></pre>
-  </div>
-
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#217714): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/217714" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/217714</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113268009/953=
-399" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/mt/113268009/953399</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" rel=3D"noreferrer" target=3D"_blank">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rwmacleod@gmail=
-.com" rel=3D"noreferrer" target=3D"_blank">rwmacleod@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-</blockquote></div></div>
-
---0000000000001908a7063699d6a5--
 
