@@ -2,35 +2,35 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B0D6C71132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B11BC71133
 	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 07:57:34 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.44073.1748851049613607219
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web10.44072.1748851049109953140
  for <openembedded-core@lists.openembedded.org>;
  Mon, 02 Jun 2025 00:57:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=xCIfPuF2;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-202506020757274c2e4b957a56db29c1-kv6_qr@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202506020757274c2e4b957a56db29c1
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=edZR8RU0;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-202506020757268d37fcd212e0c3217a-iavgwx@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202506020757268d37fcd212e0c3217a
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 02 Jun 2025 09:57:27 +0200
+        Mon, 02 Jun 2025 09:57:26 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=ZHIY3BlOK5lomKUhKp3k7RgRZmCN7HoU6+FdTwvAXk4=;
- b=xCIfPuF2v+4m1U78AoEe7A/BcxQNnqm6EHgWc/htG+VU1hFS8qFiYebE1PPMVwuxARYKpo
- o4YnKTXFdxFnyvZt+kCgwua6NI5DeKE47CWrRnWtEH3nEf79HYlhlMwJRcPmc8IFw9WUEIMH
- +sWZjTjbPSj5M4+RieXsmo1yUgcyh+UPoMFV4CsUzoNQPpy2MtEAqP0BLhjwI3cu29zQzuJp
- Y64qADk7DmVKgREqMgur/a/3sqaG3E6YGeCXo4XvpCqtem73VmGI7dllUeWl9/xesOqg33bZ
- 8NNnGlcB1aQptcUf/01wSrynlads2YTl71vPfXuF2I27kj00HbIGpK0Q==;
+ bh=6q86jXRFxKPhX1jBCIhhlWf1dmRpDQ9Bg5Irfo5/ZVk=;
+ b=edZR8RU0hLZwk1CLt3ZJfr4H4oAy8YyLmG5cnvI1Aa/mMN/DfbzNkPTXprHgSYFUyicB2J
+ cFXDCGp8dTN8+JIoe6f2tczj5S2XzFHhS0pdRQuxPcdEMcsbUTV5vhnHWjB/H1MsLqYCk3Ng
+ qIkW2s0b2L9k+c5kX3l12MTJrZd0rMyQPOc0ZiZQJSl5K8O3IaHnBtLA+G/pKtra8H91EF3o
+ xjgMkhS1hzBYkKnMBY6OYxe5NW6olLGp41sz7g8EJb33foIk0lB30KINJNwN26Rb8Nh57EW/
+ vR4nnaAJJiZr+vDborH7IDdnCiGk25SyQd5C2frxt2AXMFnqunRDJ/LQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
 	a.fatoum@pengutronix.de,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v6 08/21] oe-selftest: fitimage: cleanup FIT_GENERATE_KEYS
-Date: Mon,  2 Jun 2025 09:56:18 +0200
-Message-ID: <20250602075714.32122-9-adrian.freihofer@siemens.com>
+Subject: [PATCH v6 05/21] oe-selftest: fitimage: test FIT_CONF_DEFAULT_DTB
+Date: Mon,  2 Jun 2025 09:56:15 +0200
+Message-ID: <20250602075714.32122-6-adrian.freihofer@siemens.com>
 In-Reply-To: <20250602075714.32122-1-adrian.freihofer@siemens.com>
 References: <20250602075714.32122-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -41,128 +41,56 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 07:57:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217698
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217697
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-It is closer to practice to use static and predictable keys to sign the
-FIT images. In addition, the new kernel-signing-keys-native is only
-reliable if the temporary directory is not deleted. However, depending
-on how this test suite is started, this can happen.
-There will therefore only be one test that uses the recipe to generate
-the keys, which ensures that the recipe works in principle.
-It is also ensured that no keys are present before the test and that the
-recipe runs safely and is not skipped by Bitbake.
+Add some test coverage for non default FIT_CONF_DEFAULT_DTB.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/fitimage.py | 24 ++++++++----------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+ meta/lib/oeqa/selftest/cases/fitimage.py | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 8a3eb7f8c11..fcba28b7b76 100644
+index 812b34fab47..8a3eb7f8c11 100644
 --- a/meta/lib/oeqa/selftest/cases/fitimage.py
 +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -760,8 +760,7 @@ PREFERRED_PROVIDER_virtual/dtb = "bbb-dtbs-as-ext"
-                      and the configuration nodes are signed correctly.
-         Expected:    1) its and FIT image are built successfully
-                      2) Scanning the its file indicates signing is enabled
--                        as requested by UBOOT_SIGN_ENABLE (using 1 key
--                        generated by the test not via FIT_GENERATE_KEYS)
-+                        as requested by UBOOT_SIGN_ENABLE
-                      3) Dumping the FIT image indicates signature values
-                         are present (only for the configuration nodes as
-                         FIT_SIGN_INDIVIDUAL is disabled)
-@@ -792,10 +791,7 @@ FIT_CONF_DEFAULT_DTB = "am335x-bonegreen.dtb"
-             'UBOOT_SIGN_KEYDIR',
-         ])
- 
--        # Do not use the random keys generated by FIT_GENERATE_KEYS.
--        # Using a static key is probably a more realistic scenario.
-         self._gen_signing_key(bb_vars)
--
-         self._test_fitimage(bb_vars)
- 
-     def test_sign_fit_image_individual(self):
-@@ -804,11 +800,11 @@ FIT_CONF_DEFAULT_DTB = "am335x-bonegreen.dtb"
-                      and all nodes are signed correctly.
-         Expected:    1) its and FIT image are built successfully
-                      2) Scanning the its file indicates signing is enabled
--                        as requested by UBOOT_SIGN_ENABLE (using 2 keys
--                        generated via FIT_GENERATE_KEYS)
-+                        as requested by UBOOT_SIGN_ENABLE
-                      3) Dumping the FIT image indicates signature values
-                         are present (including for images as enabled via
-                         FIT_SIGN_INDIVIDUAL)
-+                        This also implies that FIT_GENERATE_KEYS = "1" works.
-                      4) Verify the FIT image contains the comments passed via
-                         UBOOT_MKIMAGE_SIGN_ARGS once per image and per
-                         configuration node.
-@@ -837,6 +833,10 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
-         config = self._config_add_uboot_env(config)
-         self.write_config(config)
-         bb_vars = self._fit_get_bb_vars()
+@@ -380,6 +380,7 @@ class KernelFitImageTests(FitImageTestCase):
+         """
+         internal_used = {
+             'DEPLOY_DIR_IMAGE',
++            'FIT_CONF_DEFAULT_DTB',
+             'FIT_CONF_PREFIX',
+             'FIT_DESC',
+             'FIT_HASH_ALG',
+@@ -526,10 +527,14 @@ class KernelFitImageTests(FitImageTestCase):
+                 its_field_check.append("load = <%s>;" % uboot_rd_loadaddress)
+             if uboot_rd_entrypoint:
+                 its_field_check.append("entry = <%s>;" % uboot_rd_entrypoint)
+-        its_field_check += [
+-            # 'default = bb_vars['FIT_CONF_PREFIX'] + "1";', needs more work
+-            'kernel = "kernel-1";',
+-        ]
 +
-+        # Ensure new keys are generated and FIT_GENERATE_KEYS = "1" is tested
-+        bitbake("kernel-signing-keys-native -c cleansstate")
++        fit_conf_default_dtb = bb_vars.get('FIT_CONF_DEFAULT_DTB')
++        if fit_conf_default_dtb:
++            fit_conf_prefix = bb_vars.get('FIT_CONF_PREFIX', "conf-")
++            its_field_check.append('default = "' + fit_conf_prefix + fit_conf_default_dtb + '";')
 +
-         self._test_fitimage(bb_vars)
++        its_field_check.append('kernel = "kernel-1";')
++
+         if initramfs_image and initramfs_image_bundle != "1":
+             its_field_check.append('ramdisk = "ramdisk-1";')
  
-     def test_fit_image_sign_initramfs(self):
-@@ -875,7 +875,6 @@ UBOOT_ARCH = "arm"
- UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
- UBOOT_MKIMAGE_KERNEL_TYPE = "kernel"
- UBOOT_EXTLINUX = "0"
--FIT_GENERATE_KEYS = "1"
- KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
- FIT_KERNEL_COMP_ALG = "none"
- FIT_HASH_ALG = "sha256"
-@@ -892,10 +891,7 @@ FIT_HASH_ALG = "sha256"
-             'UBOOT_SIGN_KEYDIR',
-         ])
- 
--        # Do not use the random keys generated by FIT_GENERATE_KEYS.
--        # Using a static key is probably a more realistic scenario.
-         self._gen_signing_key(bb_vars)
--
-         self._test_fitimage(bb_vars)
- 
-     def test_fit_image_sign_initramfs_bundle(self):
-@@ -933,7 +929,6 @@ UBOOT_ARCH = "arm"
- UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
- UBOOT_MKIMAGE_KERNEL_TYPE = "kernel"
- UBOOT_EXTLINUX = "0"
--FIT_GENERATE_KEYS = "1"
- KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
- FIT_KERNEL_COMP_ALG = "none"
- FIT_HASH_ALG = "sha256"
-@@ -941,6 +936,7 @@ FIT_HASH_ALG = "sha256"
-         config = self._config_add_uboot_env(config)
-         self.write_config(config)
-         bb_vars = self._fit_get_bb_vars()
-+        self._gen_signing_key(bb_vars)
-         self._test_fitimage(bb_vars)
- 
- 
-@@ -1345,9 +1341,7 @@ UBOOT_SIGN_KEYNAME = "cfg-oe-selftest"
-         self.write_config(config)
-         bb_vars = self._fit_get_bb_vars()
- 
--        # Using a static key. FIT_GENERATE_KEYS = "1" does not work without kernel-fitimage.bbclass
-         self._gen_signing_key(bb_vars)
--
-         self._test_fitimage(bb_vars)
-         self._check_kernel_dtb(bb_vars)
- 
-@@ -1508,8 +1502,6 @@ FIT_SIGN_INDIVIDUAL = "1"
+@@ -773,6 +778,7 @@ UBOOT_SIGN_ENABLE = "1"
+ UBOOT_SIGN_KEYDIR = "${TOPDIR}/signing-keys"
+ UBOOT_SIGN_KEYNAME = "dev"
+ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
++FIT_CONF_DEFAULT_DTB = "am335x-bonegreen.dtb"
  """
+         config = self._config_add_uboot_env(config)
          self.write_config(config)
-         bb_vars = self._fit_get_bb_vars()
--
--        # Using a static key. FIT_GENERATE_KEYS = "1" does not work without kernel-fitimage.bbclass
-         self._gen_signing_key(bb_vars)
- 
-         bitbake("virtual/bootloader")
 -- 
 2.49.0
 
