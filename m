@@ -2,35 +2,35 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E494AC61CE5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7311C5B549
 	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 07:57:33 +0000 (UTC)
 Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web11.44202.1748851049850672036
+ by mx.groups.io with SMTP id smtpd.web10.44077.1748851051054912047
  for <openembedded-core@lists.openembedded.org>;
  Mon, 02 Jun 2025 00:57:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=GuZX1XxK;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20250602075729e1520b488fbe383534-xnxmb_@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20250602075729e1520b488fbe383534
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=ZuoS2uw2;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-2025060207572940b13552b153ec8ed5-qjaatl@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2025060207572940b13552b153ec8ed5
         for <openembedded-core@lists.openembedded.org>;
         Mon, 02 Jun 2025 09:57:29 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=lLp+omfSVUXCBXbwnd0R2nKpHRLp1pskN6IOCQeSFT4=;
- b=GuZX1XxK0oAUcUXBz15UZt93WjzWryxmjjJPs1PJ/GloNp675Cm9jd/0W4JV9+k9ID+Cvg
- I7JrdEywn87VuUITg0RlzRazvNQozNb0/uK1pvYx6Tyzuvp8gk7PAdk/pilj6PKsqe+ukpod
- LNMGZtW98bEo9TtpQUsUv7Rt52qjjaEHm3Y8unZvZ8eMgtDRJF01BW16h6kn8XRU5urhv7GE
- +plH7oxVxoSuenz8ZQdX56nSV/iGUCNzqfejs9AUHI696xWsvr+ZZds9+57BA27gSOMayEjw
- DXFv0DSRz/9Mz5weI5EaTFrv/JrUm2FitdYWQ9XCzASjCYqBn0KGhtcg==;
+ bh=1EEw3/XeHtN8p22NoTs/dS6H5wIrVyyTJNZpMaG1G80=;
+ b=ZuoS2uw2WSevmaM/EJbH3WRdpEwgcHpKFhxHhVeBIohKj+9KN58yDsRJnqxgOARV1kuFcc
+ VXODaI7Uu86FV4NfNtWRenAsEdwzZQb5689DdrW/Gh8Lp1Ws8FBgvarufNDo+n5dl7Iaso1M
+ iwisinGnjqtEGbAT48WwZN9EuynpkXBrli5B1IC7LrsGWVSm8+AR/X5Im1nWL4415QKlBgt4
+ NZHy9ZpjI6nSHaTVxl7/3scvly7jb8OHRc+0RSmBN8GbCZ3BwRivdF2lWKQdp4cc76xTWMCc
+ N3Kz21BVb4vRaf/b0ctSNf70lnTW5GZKuo+JzNkI3GP+iNz9Fpdhi33g==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: marex@denx.de,
 	a.fatoum@pengutronix.de,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v6 20/21] kernel.bbclass: remove support for type fitImage
-Date: Mon,  2 Jun 2025 09:56:30 +0200
-Message-ID: <20250602075714.32122-21-adrian.freihofer@siemens.com>
+Subject: [PATCH v6 19/21] oe-selftest: fitimage: remove kernel-fitimage tests
+Date: Mon,  2 Jun 2025 09:56:29 +0200
+Message-ID: <20250602075714.32122-20-adrian.freihofer@siemens.com>
 In-Reply-To: <20250602075714.32122-1-adrian.freihofer@siemens.com>
 References: <20250602075714.32122-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -41,71 +41,104 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 07:57:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217705
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217707
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-kernel.bbclass is no longer involved in FIT image creation. Whether a
-FIT image is built now depends entirely on whether the linux-yocto-fitimage
-recipe (or any other recipe capable of producing a FIT image) is selected
-for the build.
-As a result, specifying the kernel image type "fitImage" in
-KERNEL_IMAGETYPE or KERNEL_IMAGETYPES is no longer necessary and gets
-removed.
+Remove the test cases for the kernel-fitimage.bbclass.
+
+The _config_add_kernel_classes function is no longer needed since the
+kernel-fitimage.bbclass is no longer handled.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/kernel.bbclass | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ meta/lib/oeqa/selftest/cases/fitimage.py | 25 ------------------------
+ 1 file changed, 25 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 36ce659762e..599996ceb0b 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -84,6 +84,10 @@ python __anonymous () {
-         types = (alttype + ' ' + types).strip()
-     d.setVar('KERNEL_IMAGETYPES', types)
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index fc66f22f2d2..1c8a5d1124c 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -434,11 +434,6 @@ class KernelFitImageBase(FitImageTestCase):
+         self.logger.debug("bb_vars: %s" % pprint.pformat(bb_vars, indent=4))
+         return bb_vars
  
-+    # Since kernel-fitimage.bbclass got replaced by kernel-fit-image.bbclass
-+    if "fitImage" in types:
-+        bb.error("fitImage is no longer supported as a KERNEL_IMAGETYPE(S)")
-+
-     # KERNEL_IMAGETYPES may contain a mixture of image types supported directly
-     # by the kernel build system and types which are created by post-processing
-     # the output of the kernel build system (e.g. compressing vmlinux ->
-@@ -477,17 +481,10 @@ kernel_do_install() {
- 	install -d ${D}/${KERNEL_IMAGEDEST}
- 
- 	#
--	# When including an initramfs bundle inside a FIT image, the fitImage is created after the install task
--	# by do_assemble_fitimage_initramfs.
--	# This happens after the generation of the initramfs bundle (done by do_bundle_initramfs).
--	# So, at the level of the install task we should not try to install the fitImage. fitImage is still not
--	# generated yet.
--	# After the generation of the fitImage, the deploy task copies the fitImage from the build directory to
--	# the deploy folder.
-+	# bundle_initramfs runs after do_install before do_deploy. do_deploy does what's needed therefore.
- 	#
+-    def _config_add_kernel_classes(self, config):
+-        config += '# Avoid naming clashes in the deploy folder with kernel-fitimage.bbclass artifacts' + os.linesep
+-        config += 'KERNEL_DEPLOYSUBDIR = "linux-yocto-fitimage"' + os.linesep
+-        return config
 -
- 	for imageType in ${KERNEL_IMAGETYPES} ; do
--		if [ $imageType != "fitImage" ] || [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ] ; then
-+		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ] ; then
- 			install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
- 		fi
- 	done
-@@ -843,11 +840,8 @@ kernel_do_deploy() {
- 		fi
- 	fi
+     @property
+     def kernel_recipe(self):
+         return "linux-yocto-fitimage"
+@@ -767,7 +762,6 @@ UBOOT_ENTRYPOINT = "0x80080000"
+ FIT_DESC = "A model description"
+ FIT_CONF_PREFIX = "foo-"
+ """
+-        config = self._config_add_kernel_classes(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+         self._test_fitimage(bb_vars)
+@@ -832,7 +826,6 @@ MACHINE = "beaglebone-yocto"
+ # Add a devicetree overlay which does not need kernel sources
+ PREFERRED_PROVIDER_virtual/dtb = "bbb-dtbs-as-ext"
+ """
+-        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+@@ -862,7 +855,6 @@ UBOOT_SIGN_KEYNAME = "dev"
+ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+ FIT_CONF_DEFAULT_DTB = "am335x-bonegreen.dtb"
+ """
+-        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
  
--	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-+	if [ -n "${INITRAMFS_IMAGE}" ] && [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
- 		for imageType in ${KERNEL_IMAGETYPES} ; do
--			if [ "$imageType" = "fitImage" ] ; then
--				continue
--			fi
- 			initramfsBaseName=$imageType-${INITRAMFS_NAME}
- 			install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType.initramfs $deployDir/$initramfsBaseName${KERNEL_IMAGE_BIN_EXT}
- 			if [ -n "${INITRAMFS_LINK_NAME}" ] ; then
+@@ -912,7 +904,6 @@ UBOOT_SIGN_KEYNAME = "cfg-oe-selftest"
+ FIT_SIGN_INDIVIDUAL = "1"
+ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+ """
+-        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+@@ -960,7 +951,6 @@ KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
+ FIT_KERNEL_COMP_ALG = "none"
+ FIT_HASH_ALG = "sha256"
+ """
+-        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+ 
+@@ -1013,27 +1003,12 @@ KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
+ FIT_KERNEL_COMP_ALG = "none"
+ FIT_HASH_ALG = "sha256"
+ """
+-        config = self._config_add_kernel_classes(config)
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+         self._gen_signing_key(bb_vars)
+         self._test_fitimage(bb_vars)
+ 
+-class KernelFitImageTests(KernelFitImageRecipeTests):
+-    """Test cases for the kernel-fitimage.bbclass"""
+-
+-    @property
+-    def kernel_recipe(self):
+-        # virtual/kernel does not work with SRC_URI:append:pn-%s
+-        return "linux-yocto"
+-
+-    def _config_add_kernel_classes(self, config):
+-        config += '# Use kernel-fitimage.bbclass for the creation of the fitImage' + os.linesep
+-        config += 'KERNEL_IMAGETYPES += " fitImage "' + os.linesep
+-        config += 'KERNEL_CLASSES = " kernel-fitimage "' + os.linesep
+-        return config
+-
+ class FitImagePyTests(KernelFitImageBase):
+     """Test cases for the fitimage.py module without calling bitbake"""
+ 
 -- 
 2.49.0
 
