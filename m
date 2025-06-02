@@ -2,89 +2,78 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B2D8C54FB3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC26C5B549
 	for <webhook@archiver.kernel.org>; Mon,  2 Jun 2025 10:36:15 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.46568.1748860181829224592
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.46566.1748860173832969701
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Jun 2025 03:29:42 -0700
+ Mon, 02 Jun 2025 03:29:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KVGcDJeT;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: samanfatimarehman@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so30114625e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 03:29:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fry6sk/j;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: samanfatimarehman@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a36e090102so2377567f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 03:29:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748860180; x=1749464980; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yHMtzU67RJ+5yfO3m3gO9GGjkWfqGM5aCrBPTovilEs=;
-        b=KVGcDJeTwWTYvfeQAfFsobING0wHrwqZIcf2yW2u52ioIlx4D9iqiEKV1SqzYk0562
-         2Z5xoi1z7cJicrUVPCRsssPvck3aU+CORZSNqQ6za3FpRpkABEFkv+XGWf6oKxBU8n8H
-         ouYft+b1/F6WhA4IQXwWvK72l8J5gzxgUA15llk7CJK+7ThHS2j5MtbgKzMAMY7P4BGb
-         nHr1a9KfWxeiF+iMrMirsr4L+ObrQ9SYUPn0N+Py8d0pVQH/4TNTfGiBqpK38+y2GVU8
-         jNYj+liM4DTfyf9QUb4f84CB0JspRnAEIBcTiRuCi5Rt/fbDBU9p/DL06/JFb4Lj3AQm
-         LbHA==
+        d=gmail.com; s=20230601; t=1748860172; x=1749464972; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VjexWlqpaIWa3pbNX+ElmNFsNxoXCRTOcjWAVLqECo4=;
+        b=Fry6sk/j5cXCydlsjJVU87LQsPypeuI3RlFuTne8cqAfdCZ6tzj7Orq5euKs4DAo6a
+         wnrJVFreC1twj+dKNVduFnW9rOHkEysIk4MzkYREqfeQ1NGbuhegaZ+PnQcDeDxH9SBg
+         gP0ibPYaXb5kYZ9iCGFGUWQVrBx0GdiYZBYPtUcXnKCXbv88WW9+KnqNQ1IjrZ197jFu
+         ZBltDIVaz8ENPeOP7gC2glINxsLhhsMeWxD5HAt966LOtl0vhps47osi4Tii49So+sNM
+         LelsGqbuMKj2vOlzTg8nNLCoEam47A0ge78nKD9/eLPG2ycjq5HF+O7Vb2VD12otxh7l
+         xl1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748860180; x=1749464980;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yHMtzU67RJ+5yfO3m3gO9GGjkWfqGM5aCrBPTovilEs=;
-        b=LPjXqu5w+jKJxzuuQRcitZJMNnWP39HxaKhWEaGW4F2pOPtI93fwM2yeHYwPuhnz4E
-         9tysZLrzd7KETMYgNcrRpNgV/vQzfW605lwcZv0PnpEVY15biGv6j1MCRXYVFCt9Rp1Y
-         KRmJoiHvcNjZLGa6abU4+clk3O89pT8dW055GNcpf13inswL0zuB2oDE87qgA6ZwDTHk
-         kbFmoNTqrUfw6aI1VJY1MF1jiSuhWG1Zhs+5QHFju4q0Tcis5ElctgXXkfwDt7IWfWui
-         YAgYO+xy9jiSeIXmf8JUUB8DxUwGMMoBM84A3il2l/giAUmQHiMhpDiVGK3SBgCY7SfS
-         Atvw==
-X-Gm-Message-State: AOJu0Yxgv0pOU7k/knHRYMtXSL0PSR9k3P7zVXm8Kprt96n+9JGlNZGA
-	wyRYz3OcHJ2BO/n6vr/RufgAATW/1VXFz2WSuomZxjfEdxE/wqlDwkjDEcrFe5LDbKY=
-X-Gm-Gg: ASbGncvQFNMPFv2KygH/tuAaTSP6obJ6z7Sa01PQfQlxR4KRHxRnwDLPJwQLwf2joJp
-	Ih6m1x3c/D3qJ5ig5FZlrKAaMf2Dy3kr+zgDpG2GlKR2sTuGVxIJQc8bBL/WA1GGyS11dcJRK8W
-	rQYqwvrWoKwtMlb1ZE2nAuRS/x0g86LTk7MEy2wEssmQpQSkXm83W6+YXxn1bspxSS30l50Qd+q
-	xCoQR/hbyqSOXEt3mnmsBviZt5sfXJ/yzc9P8YnFFemzUZt0rECaSyy3v6l2ZP5L6NqQmjfKCrd
-	UtLw1CN7bCRUAPYB1UNAtvPN9gSmt9uY2KUnzqg8/7MqZmpFA85s7aYelaIX6RQHTveeJ9Gv5OL
-	Km6Ubfo+G2DE4M8E0Dscaaxm9emBLOSCd/sidwoE=
-X-Google-Smtp-Source: AGHT+IEinSt6Brri6WXYlgMifAX936JGthKJbSB64nu4zdLKFNnZ167ibmhKvW+HrUA6xXIqW3Griw==
-X-Received: by 2002:a05:600c:45d0:b0:43d:26e3:f2f6 with SMTP id 5b1f17b1804b1-450d882b456mr87742865e9.5.1748860179500;
-        Mon, 02 Jun 2025 03:29:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748860172; x=1749464972;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VjexWlqpaIWa3pbNX+ElmNFsNxoXCRTOcjWAVLqECo4=;
+        b=ghj4sS6F2bLl+LGDlkcZSDqiDLcGcr4YU5Cuk/xN8UEonopPSmd8EfwQPzrN0W3GkC
+         HiKkHaSVWRbXV+40c2ucWWbqVXy32dnBdvxkopO+XmimcutvdCMdKvCkSi0OWvKPHXS0
+         rTVPnbpoQYu8FHJyeyvSlW03w/OhYozEJUEIT9p5uKysCIvWtFHfSdUI6ALW0ta45XGl
+         4qb6YpkXLx3AaRBIAttCwfbSM2oZk7vF8RB2E1SbnsQeKb/kdYOweKYbpR33T8nJNUNg
+         xLlmTIUe82PnSpL4Qsd2aPKcLbPzxu1imEdNOaDAD59dfkprmGXrTkI+wdN7Y6BoHOT8
+         Xe2g==
+X-Gm-Message-State: AOJu0Ywu9+RhM9z668ok2sMXLJIMDqg2Zutu2X5c9KXhqWb5CXiKMLrV
+	9kUSW6teS5HRaIgG7gUsodcet+/TyzTQUpzcyBY+vYWQx+j5sEH+FOYpgO91x0n9WjM=
+X-Gm-Gg: ASbGncugzUuhNbi1iOzLMM0R3tCNrQOIlbmuLpM+fxy6KrRfTtp8po+za4UevuGDuKC
+	0mjdkai5lU7TRmTULN6HcxciuSCe9O6Ad6tThCuySX54tQL5fL56f8MNYfqmX48D5KX9wawM0IC
+	ONaGZJwiojww+qyT4AEi093j9C3MrrdNXYaHCdcyKfnasQrqVAN50GYDnfjoPEFNpaaGRcBkWIC
+	IJEuHVjRWST6NNsSbY9lWd8f0QCmoI+R5S0ZTfz2t7Ruzws9w2/QlkAaLjsE0/XP6v5532IvxVl
+	WTAmrsmXb5TyjaNad9XRjUelKR+m3pWqygtkl/AuC/ixsyxAXZZG4dE6oI+B3thj1+ybBV4Wcr+
+	wfwoqlVZZMaTAi5fTy6ELQtoerXFkjggvPRk3rQFwBSofKnBhyuRiuNwBmEsH
+X-Google-Smtp-Source: AGHT+IHWpRgBIxLixJiq4ZAFUpySdBd1uvzI2DgrGmfx2UVIRfnieRFKdbb2f9OJIWI7A/ksjGWwkw==
+X-Received: by 2002:a05:6000:26d0:b0:3a4:e6c6:b8b1 with SMTP id ffacd0b85a97d-3a4f7a1bfa4mr9752494f8f.17.1748860171617;
+        Mon, 02 Jun 2025 03:29:31 -0700 (PDT)
 Received: from de2.fritz.box (ip-109-091-203-121.um37.pools.vodafone-ip.de. [109.91.203.121])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f009757fsm14505428f8f.78.2025.06.02.03.29.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f009757fsm14505428f8f.78.2025.06.02.03.29.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Jun 2025 03:29:39 -0700 (PDT)
+        Mon, 02 Jun 2025 03:29:31 -0700 (PDT)
 From: Khalil <samanfatimarehman@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: samanfatimarehman@gmail.com
-Subject: [PATCH 1/1] Rectified license file paths for final images
-Date: Mon,  2 Jun 2025 12:29:17 +0200
-Message-Id: <20250602102917.2424749-2-samanfatimarehman@gmail.com>
+Subject: [PATCH 0/1] Corrected license paths
+Date: Mon,  2 Jun 2025 12:29:16 +0200
+Message-Id: <20250602102917.2424749-1-samanfatimarehman@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250602102917.2424749-1-samanfatimarehman@gmail.com>
-References: <20250602102917.2424749-1-samanfatimarehman@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 10:36:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217713
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217712
 
-Signed-off-by: Saman Fatima <samanfatimarehman@gmail.com>
----
+From: Saman Fatima <samanfatimarehman@gmail.com>
+
+*** BLURB HERE ***
+
+Saman Fatima (1):
+  Rectified license file paths for final images
+
  meta/classes-recipe/license_image.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/license_image.bbclass b/meta/classes-recipe/license_image.bbclass
-index 19b3dc55ba..b5eb27fe3b 100644
---- a/meta/classes-recipe/license_image.bbclass
-+++ b/meta/classes-recipe/license_image.bbclass
-@@ -219,7 +219,7 @@ def license_deployed_manifest(d):
-             " ".join(get_deployed_files(dep_dic[dep]))
- 
-         for pkgarch in pkgarchs:
--            licfile = os.path.join(lic_dir, pkgarch, dep, "recipeinfo")
-+            licfile = os.path.join(lic_dir, dep, "recipeinfo")
-             if os.path.exists(licfile):
-                 break
-         if not os.path.exists(licfile):
 
