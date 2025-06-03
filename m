@@ -1,100 +1,104 @@
-Return-Path: <peter.suti@streamunlimited.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 564D4C5AD49
-	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 11:01:48 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.8418.1748948501941968886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32EA5C5B555
+	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 11:36:38 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.8972.1748950590407788330
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jun 2025 04:01:42 -0700
+ Tue, 03 Jun 2025 04:36:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@streamunlimited.com header.s=google header.b=Huk+EuIq;
- spf=pass (domain: streamunlimited.com, ip: 209.85.167.46, mailfrom: peter.suti@streamunlimited.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5532f9ac219so6155386e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 04:01:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NI48fNCM;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-442e9c00bf4so36021755e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 04:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=streamunlimited.com; s=google; t=1748948499; x=1749553299; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1748950589; x=1749555389; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=voyhcVxDlJ5/+DucdTo2qZQ5Q8yeRjQK3qVbX4fZmXY=;
-        b=Huk+EuIqaOntB6Jx5nxHK6GbiSX1PVk7fsq33k9RSGipVSB+n/t+0LQJWbeCNSCtvS
-         QxlQPPV94G5JP+iB+EK15ERu+l4rISlL40Bt/o9ubVsYK5kv62SisAmmFDQ9mYtIx+KS
-         l1Vzvug1p/zih4XgRVxzWoBs3w5L6XGccjVm8=
+        bh=YPjn1yBQngbKyZLG/HZHAA5F+o2WTF0DrG1stIS6Fjs=;
+        b=NI48fNCMttV5YDzD8qh816p1cxtK+qC1wkFQa/NDrBVd71tmM8rKyu5su0xEGjr3lm
+         2XEcWDzHs6MenRPGEAbszj8cWdcnsSdxW/kxwxLD/frELL3JKyoy0yA6YLpa1VbV4Ihe
+         dpVJZ/vucSeHbP+3EXI+htVdHMXEJY36/sYCoaIQ7iYSTefPlE8YiCzHawMouMtMOU8X
+         DMA+O8Knv8QRkWGwBHHsEzPsUyIPaQ8A7h5V0xhmemqRqeyIrXnzSB8AubUIZDCvYZyt
+         4IjQMIOvLQ2kFL8dz7ubsGM0qtDHOy1+pcQ1lJZZdwYa5k5if1vWmOx6IXApWikCUEro
+         Lqsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748948499; x=1749553299;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1748950589; x=1749555389;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=voyhcVxDlJ5/+DucdTo2qZQ5Q8yeRjQK3qVbX4fZmXY=;
-        b=uG0gHrCtFeD2PZbpiEYfmj8hNx1VwRw70lTU72CZOa4RyYiab4G8FkBcxJwxyLSl0e
-         MxMqv2ndEcRIL+lTAfO3zhQHfttNXpQRqJizXJl3/iNWqRLVSCsiFUiQuuEmVhpIcXhK
-         qW6AMfcL5aebGhPJexnF7vksicuaVmDfpTPuz1/WqmVZ5mmGOz+6vcZI8kZyeoDtk9nu
-         eqWm5Hv5CKwPYsoBvmztrv2CbpYKjo3/vLPlDErBeBmF5SIWkPUvRUfLmAb2hx8GonnS
-         c5tbyDunj9ETCt4pGXJBCfzGMANFLrgv7Q02U5z/OeMr7wxXddFfQVpOyXP/qlvRAH+l
-         uBKw==
-X-Gm-Message-State: AOJu0YwB/m4PhmvjDay+fkVD3KE7vgKFXs79Fbpic9Gy2lqDjY2XDMea
-	G3jP2EWOqPiQnhfuOqx7XwX4rJMO0tMx121xjEI6UnqQ/OPrxydw96E69Ho7ODOjGSJR1hoVNms
-	k+utBt/VKsX68xbW2frWD36kM8w1giVk5TtJiABD7QQ==
-X-Gm-Gg: ASbGncsZ9YhKxLrJ5JFU2HB138XLcxtBiqYPhRuywWHfR7Kwc4GXrtVik6XhUz88NMv
-	OrYhfVfKLKq+4y5NtyxqlDbJPj9wYgCNJkO/7+6P+t0an5sXQPB/oiSwBOrsTP8fanJXXSLXWEd
-	FWAGCS59UuEL2HOklnhbovtkuVxFEMN7vBAfTL24HCyg==
-X-Google-Smtp-Source: AGHT+IG0bkEsWxmu8wFIdPAG7fFn7s0CnR4h0CWe82QJ+vWuuDe/Zb1OrzVzWt8JkiFN29OQTLLGUSd+A3Fdmtho0EE=
-X-Received: by 2002:a05:6512:b88:b0:553:37e7:867a with SMTP id
- 2adb3069b0e04-5533b93b66fmr4685439e87.49.1748948498866; Tue, 03 Jun 2025
- 04:01:38 -0700 (PDT)
+        bh=YPjn1yBQngbKyZLG/HZHAA5F+o2WTF0DrG1stIS6Fjs=;
+        b=gArDCA3hR5ufTsWDbjvzv6+FoQjciEdevokDb0IqutdcrXBM6Ay09djuDS9SYbENAY
+         QXk0aEVJLzOvmQ82WLavbPoJrlJklYBdSo78pHSm+TGlZ4IQUm6ssMV+NbjnbHddOO5D
+         3c72rDHW0DDqq3pgyVmkt/1bOAMoFsJ7kw4QjKn5WyJKOBhjQl3jXUpIDkBvwpdAUShg
+         Aqr5YZ33hBwc4Ertop/DNUe+9BS1kKk9beDzy+2Ask0FzMN+8uBHwMz8TmAU1lrWKwAp
+         BBRkQokQ0T+DLZiGTIM+Dd6lD7j4/TSJ3+LjALMHKen1XfR5Od78Nd6jz+Xgh56ekTAy
+         /ccA==
+X-Gm-Message-State: AOJu0Yy6zZuB91cOHakn6HgZ/fv9/czNqkZx+Zs+ytsXoJN3IExI5cUM
+	4AYBsLvcr2cFg1ZxIgAkrtdru5kCEskEeVq6KSMZYVZ7wU0IUt8yXXDPe8DWAA==
+X-Gm-Gg: ASbGncvcXAPesZZxrmB+i9g+NA16x6fmqO5jijl00JyGQJp12jO7UuMncSyaNWahrvk
+	H+wQyVU1hyjbyLAzjx5yCfmzi9N5DwdJxvxPn2BZ36hY66eEPRbQrogtSus2ZgPypszfqwUuf+6
+	7T9ADz2B/nzReJjj/Pw1lXFj/ESni+87mnKtnP2BuQP4NXLwPNhKymIj/OdL7g0k98C8ktcQb7K
+	0DlJNtManMviPL7ZM+3Wx+Tp3DrCK/8aW3VdGd191dXZxgXBwVDYaPoYRek9728iTzKxFebLxAX
+	Ynk1P4IQymfIuhbBrRuOZrlWgXFIYb2MxLzLgIh54kdoQS3u3BzqU3mlf1XKMQO9xR+Uy+1x+P+
+	t9Ya+mVXRKkxE
+X-Google-Smtp-Source: AGHT+IFaLOGIDyfC3VJ0fmJKaENLSnTQfmuyFzPmgbN/77CrU+TlPgN4NfEGzoPGGdL5JDLaki75eg==
+X-Received: by 2002:a05:6000:220b:b0:3a4:eec5:443d with SMTP id ffacd0b85a97d-3a4f89ddde0mr12254896f8f.29.1748950588698;
+        Tue, 03 Jun 2025 04:36:28 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe73f22sm17728247f8f.43.2025.06.03.04.36.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jun 2025 04:36:28 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 4/4] fragments/qemu: add support for enabling sdl in qemu
+Date: Tue,  3 Jun 2025 13:36:20 +0200
+Message-Id: <20250603113620.3104900-4-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250603113620.3104900-1-alex.kanavin@gmail.com>
+References: <20250603113620.3104900-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-References: <20250603085808.4045687-1-peter.suti@streamunlimited.com>
- <18457EF875184E76.9693@lists.openembedded.org> <64931a5016ab1996877df1d6764faf9e87dc51e6.camel@linuxfoundation.org>
-In-Reply-To: <64931a5016ab1996877df1d6764faf9e87dc51e6.camel@linuxfoundation.org>
-From: Peter Suti <peter.suti@streamunlimited.com>
-Date: Tue, 3 Jun 2025 13:01:26 +0200
-X-Gm-Features: AX0GCFsBQHCTd-CiGaRxQCRqHD7BnNpZsV3ClVrc00j71doauu8uWYZxJXCl7AI
-Message-ID: <CACMGZgYc-31tzF8UuLLhMiuJ5kKA1_UN2t9JXzPG7DyoNJo-bA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] icecc: calculate pn and bpn from FILE
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 11:01:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217804
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 11:36:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217808
 
-On Tue, Jun 3, 2025 at 11:59=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2025-06-03 at 10:40 +0100, Richard Purdie via lists.openembedded.=
-org wrote:
-> > Unfortunately PN could be set differently to that, or set through class
-> > extensions so I don't think this is a good way to fix the issue. It
-> > does highlight that icecc probably just worked through luck anyway. It
-> > would get it approximately right most of the time but I'm not sure we
-> > want to rely on that.
+From: Alexander Kanavin <alex@linutronix.de>
 
-Maybe that is why we have to disable a bunch of recipes with
-ICECC_RECIPE_DISABLE.
+This has been the default in poky's local.conf template for
+a long time, but it's not enabled directly in poky distro.
+To allow better sstate reuse and a better user experience
+on a typical laptop (qemu will pop up a graphical window directly),
+let's add this fragment and enable it in official bitbake-setup
+configurations.
 
-> > To be honest, I'm more tempted to simply remove icecc since it would
-> > seem not a lot of people are using it if it takes this long for fixes
-> > to get sent :/.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/conf/fragments/qemu/enable-native-sdl.conf | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+ create mode 100644 meta/conf/fragments/qemu/enable-native-sdl.conf
 
-I understand. We will keep using it internally with the above patch
-because it works for our use cases and
-provides noticeable speedups still.
+diff --git a/meta/conf/fragments/qemu/enable-native-sdl.conf b/meta/conf/fragments/qemu/enable-native-sdl.conf
+new file mode 100644
+index 00000000000..21c1298171e
+--- /dev/null
++++ b/meta/conf/fragments/qemu/enable-native-sdl.conf
+@@ -0,0 +1,8 @@
++BB_CONF_FRAGMENT_SUMMARY = "Enable SDL support for direct graphical output on the build host."
++BB_CONF_FRAGMENT_DESCRIPTION = "By default qemu is built with a internal VNC server \
++support. To see graphical output from the guest system, one can use a VNC client to \
++connect to it. This fragment enables Simple Directmedia Layer support, which allows \
++seeing the graphical output from guest directly in a X/Wayland session on the build host machine. \
++"
++
++PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
+-- 
+2.39.5
 
-> Just to clarify, this would then let someone maintain this in a
-> separate layer as it is self contained. I appreciate we'd need to find
-> that maintainer someone needs to fill that role to keep this working...
->
-> Cheers,
->
-> Richard
-
-Thank you for taking a look and the quick response!
-
-Best Regards,
-Peter
 
