@@ -1,324 +1,651 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20656C5AE59
-	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 19:14:26 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.3770.1748978063062852672
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C44D3C5AE59
+	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 20:15:01 +0000 (UTC)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+ by mx.groups.io with SMTP id smtpd.web10.267.1748981695268162770
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jun 2025 12:14:23 -0700
+ Tue, 03 Jun 2025 13:14:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8249c63dc3=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 553AuTRb011365
-	for <openembedded-core@lists.openembedded.org>; Tue, 3 Jun 2025 12:14:22 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9rscde-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 12:14:22 -0700 (PDT)
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 553JAWsH010480
-	for <openembedded-core@lists.openembedded.org>; Tue, 3 Jun 2025 12:14:21 -0700
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12on2084.outbound.protection.outlook.com [40.107.243.84])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9rscdd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Jun 2025 12:14:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eFHRnlp/UijVKCrdB52LlI+U8vxMLNHP/D3+ElIWTrSXib4UxCP7o2iUbeWIjvMtxQ9m2+w4YtxJl55kuJodIrleAKtlGUjrIVEUX8Dc+GT+DjqRopEEyB0FVbmfrQOKHVMxHyELZDnGGwqd5ytZnhk4mnqGhZJQakN0HHlOfSZQZIpnJxERKs4PxGMl/YGLT/gYFGQDSE3q3WgCaxBrnuFGOqsH8jJ+XBKj4PiFzAD1C3DTV0rlzqYpIMmKBmckG7IlV6OiY/XYM0fXCavR9V/YsYPMPavrho+EFCY3U3C3R6jHIHaTAuGDulqzKjJZ9YnzGxmyf72qCbk+6PNUlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oQCZS5PO9RTKSJLNA0/8yr13vlKVB8TIjxKD8hK0yHY=;
- b=rggLAmfgW7QF33etr1U0auzHWaqswuea80SBAwNXfJmfo67Dm8E/hSsa5GrsN9uREFbcjJgaZkAoYcX2gqiqdBuBL0VV9EjsYUJViL+wwb6xDoxHUGaJTL+sB0IdL/AdpbXCOJdHMgPmr9o+B5REv9twHQ4kvyvPZTxU9uwGdXz545CTbDBo2CWqU3uId+vfvtWB8AB+7xdaxJS461Vn3dO0Ezgcd6+3XLSB8pFEXL3F368fPxTPzW1Mn6mwLMQGva9PBiAV7s5sCVSr4CEy/C6VCryoZpjy22oKCJtZ+o5rqfQzvEd3GgvEz6WrT7IJzB4QbwI21vqbfCdQdLiBBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by MW5PR11MB5882.namprd11.prod.outlook.com (2603:10b6:303:19e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.36; Tue, 3 Jun
- 2025 19:14:18 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552%5]) with mapi id 15.20.8769.037; Tue, 3 Jun 2025
- 19:14:18 +0000
-Content-Type: multipart/alternative;
- boundary="------------uCVkUAt2d0XaZkKszEO0QYKF"
-Message-ID: <0b4166f9-56b5-45cd-b492-fbd0d0680245@windriver.com>
-Date: Tue, 3 Jun 2025 15:14:15 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RFC] rust: Upgrade 1.85.1->1.86.0
-To: Yash Shinde <Yash.Shinde@windriver.com>,
-        Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>,
-        Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-        "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
-References: <83e0d268-ec47-4f3a-bf05-2aee4e58e749@windriver.com>
- <CANNYZj-BmEXJVc1rdVPGu5wz87AW1RvbX+WhgicAfEby7kjUhw@mail.gmail.com>
- <47ba1f68-f67b-4c58-b788-63e06fdf4816@windriver.com>
- <CANNYZj-JtVtjk2e+Z=OmVF8RaygO5M1e+6tbQuTZYotbYetQrg@mail.gmail.com>
- <7571c07b-2225-4449-8169-08b044208072@gmail.com>
- <afaa4102-c876-437a-871d-f6f90697d5f4@windriver.com>
- <CANNYZj-Pa_jhraEz7qAHoDXLxfg-7ztH4UhdRPXirw6biZGWEA@mail.gmail.com>
- <36532bcc-c9dd-430a-a932-ec81e9270f19@windriver.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <36532bcc-c9dd-430a-a932-ec81e9270f19@windriver.com>
-X-ClientProxiedBy: BYAPR05CA0070.namprd05.prod.outlook.com
- (2603:10b6:a03:74::47) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KBNC6b4q;
+ spf=pass (domain: gmail.com, ip: 209.85.128.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-708d90aa8f9so55914207b3.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 13:14:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748981694; x=1749586494; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UpHoN5mg6rZqVKVJdOjsIrL/g84YXoewu4gniYaEer4=;
+        b=KBNC6b4qZVKYDuiHi2T9rfBOScyq2OouhqfPy8ZbYI3rWFvpt98uxCdcI0mgp7n4gy
+         Y8daiapCykWuHpLU8JIWUIdrDSJoZe+kzKXQ4VXPH/PKMAF8hhi6SjJNKZbSIPhQUNNm
+         I8hoHfwj2wWZKsH5BSOhN++aW7CwBzop/9YujipnL1bl2B5uelgyuaq/+PoQAOcybXlc
+         641/P1vPalGWZWJ8V9eoRr9WAfbBSvUjlQnzYg5Q5IZ9V8vh05yeXc+/jj39PfzJOZjZ
+         GwU1TQ841xMcgMkTIaRv5o3FFbYjgRPiy4jpj3V3G0pqLPubuts1R8HU2VfelQJNUtq6
+         2zaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748981694; x=1749586494;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UpHoN5mg6rZqVKVJdOjsIrL/g84YXoewu4gniYaEer4=;
+        b=Fvh/30pdCYZFAHhFqjGJ4FEhy/asNz4asWqwvlB28pBjwdYYpRJwaYhFKu+1m/3jp9
+         P1GjlnmB0U4E8/nl/IscesHLWlfi9svwhPn2uaF69Flx8p51ERgpyODODA3oWCbfcZlz
+         UfSleTVufS5FdLrvAbW5w2c8/ibnxmLd3U3YyzgZItFtz2FOBgxSw1VdfZyOoiIqJK8c
+         dOlQy4ULmTRNU7U0/Zt03YVyzWGoNNnRv1fNsxH4v0Hw+E9d7q4o0O2LJRkkGTNfH4A5
+         1lb0staQM+OsH8XMv5WJu9vkFKPaTBOi0DnY0NGDRlRP0vzECBZFprtJe5ysSJwQ8cPN
+         kghQ==
+X-Gm-Message-State: AOJu0YyzxGvrRqssCONakOV0XcA8esaFaDjgn6e6qM9tPYxkKX60zaMi
+	aP5Jm/USg9kYRGtVzDrHfO4i3eqwlljHxqLBtzwxDEvTQHmBhMBdYwz3xQ7kP0RW0Q7A7UoE/RC
+	+qdnsVGQsAdG0Wzj24YvTCwMSqZJbN+aAWw==
+X-Gm-Gg: ASbGnctm0+h4gP7XbMiQCxFOggSpiae8i4Fg5cF+N1n747lP+IW/uGpcOLi6JZBXEyJ
+	+32FiZM6EtfmFysO8Fsc2FY4U82Je2EgkPDtboVu2LLFdYZIEQTt7kXVmCdBwCOvUnyihAnjDyN
+	eiP/1TiqcOodjs63qBVe7CMV4Qbw5N1C0=
+X-Google-Smtp-Source: AGHT+IHYOch/Kb02W/miXJRelOj+7sRgTlc+kegnN5Gc6TulbGsnP7uZLiXcW0uw1PS0CYs84w1FEn96dDYBNmjoIQ4=
+X-Received: by 2002:a05:690c:4d81:b0:70f:83ef:de26 with SMTP id
+ 00721157ae682-710d99f463dmr2221647b3.11.1748981694095; Tue, 03 Jun 2025
+ 13:14:54 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|MW5PR11MB5882:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3c8d934-323b-4bd7-f82f-08dda2d2d665
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|13003099007|8096899003;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?cktuT0ZsSVU5WFhNOGljRjhrVkh6R2R0R1c3NjFCM2dMOUZkcXU4U2hVYnVa?=
- =?utf-8?B?SmZFZllObVdxbE81aWVSSU5pY3BrZVo4dXBDaHo1aFRZQjBiQlp3M2FteGxR?=
- =?utf-8?B?V2xWTytacFd1bkZvdlIzRUxMZmFaaWhNNDlRZStwZDlyMU5sb3JTZjFaSDdq?=
- =?utf-8?B?TTJqRFZ4MzU3aXl3NHgrQ0ZTZTFIbVZDdjhPQ3AwYk9UT05XT2s4T053cHR5?=
- =?utf-8?B?MzcwWEp3RjdJY3dqOUJ3Rm5xWVhSYlZpVEN4ZC9xLzBLWGpNbTNZRnR4dXVv?=
- =?utf-8?B?bjJRblRibFZDMzRkYU9vblo1YW9KYm5pM1UvRlBHRUtUN1dPRURTTHRqM3hp?=
- =?utf-8?B?Sm9rMzdXZUlJRlIvQmIydDQ3b2d0QWRndXFJSW9FMzEyRWZTS2xMME9LWVhI?=
- =?utf-8?B?Skd4ZFVZYnRVV09taGM5VXFjbitrNzBsUkJFOVJmeDNwMWR2WjRjcm1JUFFa?=
- =?utf-8?B?SnIyY2VVb3FhaEh3OW9XaENtbktaVDVwclJ1c2c3ZnhVUDhkdDEvTXpmRkVJ?=
- =?utf-8?B?ZHdQMHBKZTBVR1hsS3dWUVRrYkJBcGg5REloVUo4a1k2aldpM1N5NkNvVzNo?=
- =?utf-8?B?RWd5YkhTSC93ejcxVlhYRVhYNXI2NXRoTHBuNUZwSlFlM2cyUGNYZE5hQmlw?=
- =?utf-8?B?Um5QdnJ5NFlkSEV1eWhuQU56SC9PcGRkMDcrMEFlaVdtaWJrTjRIeTF1M05l?=
- =?utf-8?B?Y1B2Zm9NdXNXSTk1bVBQMm15UkgweHJPZE0zRzlneVIvcHVXZTE0a0VwcE5C?=
- =?utf-8?B?RWY1bi91a2ZVUHdzWTVySGNPMkw3d3ZXTjc3K3U0VHBhVzBLV2NXVVVLc00r?=
- =?utf-8?B?bnR6TW5EMlUvdmpvOUpCZ3VWZ3lobHpmNlZtOW5LSk00WFZwY2M5RmVXb1Bx?=
- =?utf-8?B?UHJNVVloK3RSRDJVUy8yUzdiN2dObHhFUW1xTFlndUM2NWJFdVZNTi85VjFW?=
- =?utf-8?B?UmYxV0VrMUk5UVRSNEhMbXVhS2l3OG01N3RKK1pBdTM3azV3SCtmdzgwOS82?=
- =?utf-8?B?QlhOeUNWaEcxV002ZDA5WGtxSWVMS2xuNHBRT1N2ZGNKUldjWmpySDZrUkJJ?=
- =?utf-8?B?VElFUnRJVWdtYmxzVUFnRHNobUZrNmMyN1pBVC9Ybi9sdXBhZHc3L0I2WDc3?=
- =?utf-8?B?dXJNdjhYekpXZzhJYjMrMDJRSjRNTGd1K1VkK201TU1DVXpFYkhiUk1Cejln?=
- =?utf-8?B?K0k0b1o4RnE1cjRoME5EVTQ3S2F5VnZFNU9yanc4UkJZTGVrZEFqMkphUlZk?=
- =?utf-8?B?MHd5dDIxcXBCZDdFbFFuNUo4MlQ4aVlsdEhrQStFMkNEdjh0ZFFHTnM0dFcy?=
- =?utf-8?B?YUdlOFAxSHNoNFhkOHdhUXBra1RRTlJiQlF5RC81ejNwYzgwZXExY2RCbFZX?=
- =?utf-8?B?bUlFTkw0QUYzSytOQUFGK1BCdHJGU0JUWmVZZUwrTytleDJPcDZIYzNUbENz?=
- =?utf-8?B?bXByM2g2MWtsVG82b2M2ZE82NE5rdXRjd2lJbjdmYUVEU1kxVVN5b2l6aExx?=
- =?utf-8?B?aWo2ZUNQNEpBSG8wWEZ5cVJXOUxHYzNXWi9iK2svWVVFZlFaVU11UUFZY1JG?=
- =?utf-8?B?NU1RdFg0WWFiNk9VdFc5KzI2NFJLL0xzVnFObGZOYXBrb3RqZU1yN1JqUXRY?=
- =?utf-8?B?cFJaa1ArRUFFYXcxdmdZelNSdVA3ZmFHQktJTUFwT2NNSktGVDFzS0p0ZUs1?=
- =?utf-8?B?dWd2dWNxK08yeFE4MVdQQ1hYdUYza2ZRMWMxSVhmWVAwclA5M3hrV2Z2Rk5x?=
- =?utf-8?B?NEdwSHl2QkVqY0tNRGtmTm8yZi82R3podTNiZU1BOG9URktEdXI0ZHVxNERp?=
- =?utf-8?B?b3BoZE9xd05FdE1lR3F4U2pldlA4alFBRkpqQ2RhcTIvdm42dU5pNEo3Lzl1?=
- =?utf-8?Q?p2YU/Ip9ckIJn?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007)(8096899003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?bThDYmp3ZVg4RTBmQlQ5R2RLMnRQZ2pVaUo4YkllTWFZQ3VwSlQwMjlpRDd5?=
- =?utf-8?B?TE1RRngyTjlnM2xMK29nVVhNSTc0bFBOcGo3d2FQZjloVVg3bkxsUHduMGlO?=
- =?utf-8?B?MEhXT09Wajg3RzBudVZjbnVXeUNMMmhteGpqSmZSOThNazVaS0UvcHVsUWNL?=
- =?utf-8?B?b1M1VGlHVnhtdHJqZ1RpdklmUzE0UHFPTWxxU0dwZmlSMkk4L1NuWkFxZ0tY?=
- =?utf-8?B?VjVBSnQvWS9YUERwWkVsK3JwTy9Ua09ZbDROMGZBREsxT0lFZmZadllvcFFj?=
- =?utf-8?B?YVp2R3RBek9pRGJTaE9tK2ZSOTU0cWZTanN0bjk0TStwWGRvOEtDaDdVaytI?=
- =?utf-8?B?UldxaVBzaC84dENpNmZQNEd4L3p4TzZrQ0d3ZVkxRStBOWcvZTZPZS9iMUpV?=
- =?utf-8?B?VitMUVI0YVN5dzQxSElEOFkzTC9hWWpkdStNdUdENzlLQitxM0lSanRXWmhP?=
- =?utf-8?B?WkpjaTdxNXVveS80QTcySHB3aDVIcUdNTnh2L0Z2MWdqcW1SeEtqclF2Yk1Z?=
- =?utf-8?B?WndFd2I4d1JZUkRjTENzK29qNEVoekRGODB0MzA1SnpMdzNXUW42N3k0a2wx?=
- =?utf-8?B?ZzMrb3lGakV4ZlJnZWw0NnAzbU5UbkVndkc1c2wyVURINHlFSnRsN0VEMFRt?=
- =?utf-8?B?akRrYWp2T0c1aUgwditLbGNLR1QzaXBqMXdLWWdwRzArMnJId1k5d1RNSjFF?=
- =?utf-8?B?eDNMNlRWSW0vTUxLejlsaUZwazV4bWpwNm5UUkovcWJFbGZtdGxFa1d6eGZQ?=
- =?utf-8?B?aFdZbkVITFp3elBRa0tWL2svQTlpd3hObWhCZlVpR2thdnc2WW1JcmtTaVhI?=
- =?utf-8?B?YTUrYnU3VnZnYXdzQ0VsclFiSXo4azVoRHBNK1ZsaEtVSS9mRjdBamZkVzhL?=
- =?utf-8?B?NW9JRkM2aDFEVzA0eTlRZnh4N29MSEhHTnhCVCtXSEk0WE5HcDduRlNubFhU?=
- =?utf-8?B?ZVBKS3JBRU5Ba09rL3I4Z21GUUZHaEtmaUlHa1lOMVJJRzltZm84cU8wMkFi?=
- =?utf-8?B?d2dIOVZoWWN4MVFlOEcxbkRxNjd6cjNmajNZRWFqcFFBdk1yeU5tUWFrYklL?=
- =?utf-8?B?VGh2SjBGYUt4V0NXN3JtZVFtM3d5NFlVUUJtUWRnR2hxNVVnajk2cERnZ1Bo?=
- =?utf-8?B?WlBYSDc0ZlU5U1QyY1Z6K2ZITE9Mc0UreFJSMGpCbGhnT1RZKy9ybS8veHFG?=
- =?utf-8?B?WXgwZ2Yzbnh2SkV3QUUyWVJLY0paN244VFhZMDV4aGdMTHlESFh1aS83cWE1?=
- =?utf-8?B?dDdlVFdDcWUxdHBiZkNUalVTTUdtR0VxYzVlYVBKSmw0VGVxV1BaS29oMzV4?=
- =?utf-8?B?c0tCa2IraVVvRjhRTDJSUEx5Vnh1MXorOGt2d09QaFpYSGNhcWQ0MTJjQVBa?=
- =?utf-8?B?MlQ5eFV3OHlkVDNvR0lLQ3owUkJ2SzVZa2w4UXl4TndQRk9ra1NmZ3pYMStM?=
- =?utf-8?B?WE15VW5tMUVZdm1FZzNYam1QVy9rYlBIZWRUSVc1RHU3QS9hcHR3ZFJ5UUdr?=
- =?utf-8?B?ZWgvS1ViUUx2aHp3NXBRV0M5TEtUN3E3UHBJWkJadFJiSHNjQ1g1RGVJSmZS?=
- =?utf-8?B?TnQycEQ3cHQ3SVZXZ1g5UXJKS1llbXdTV0dXUmlUYlVOSHQxVjVESFB5bERm?=
- =?utf-8?B?QmUyZ0xxOWVSdmU5eXIyczRrVXJ1NmliajI0YlZzaDMwWEUwTlQzZzU2K0Yy?=
- =?utf-8?B?NkJ1SVJaZDNXVGV2c1NFMnpaOHBnekUxNDdadmdzN1lPMjZLRzNkL3lPZVZZ?=
- =?utf-8?B?UUtRVHdhcktMdE5CMjFhalVMTnl0ZkFmVUNBTmxwcFJ5M1JBbHRWWXgySzA3?=
- =?utf-8?B?aWZxZW9zd2FXWS9SNi9xNFN1b0hDeFp0bFJYR0hySmdBcmROcjVmMU1WcHNr?=
- =?utf-8?B?MFJPaHRPOFY3amVkbjh5dWdjWFQwNWdaeWdab2Fjb1ZBTGpndERkczNQUXla?=
- =?utf-8?B?YkNkUFlJVWVRL0ptbU5ldHVzcFltOHp6c2xRTkhZU2VreFJsM1BxUzJmajRG?=
- =?utf-8?B?ZFk4d0FGK09uaVhRdUlxWjZyM0xHR3NJMjFTZTRxRUswR2xDY0JXU0U1VVpk?=
- =?utf-8?B?WnpuQXBocXVlR3dQdEFKaENGUEYxakgwZ2RPQmk3VWJ0VHAvUExjNFdUOFJz?=
- =?utf-8?B?RGk0S2lVOEI3N1JTWnk0UzBLTzdPMjVaRGt1R0FBdU9URE10U012MzFraWRj?=
- =?utf-8?B?VWc9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3c8d934-323b-4bd7-f82f-08dda2d2d665
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 19:14:18.2485
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KEcvLcGISgUQ2Y/9L8nI6x0O6MzJjlnpRFe5q6m0m3pm8o/ExOJN3uHGWvtrFpGLMcYie+kb+g33k4PQ5miUP5Xkrm2gurEbRGSCd3D8GFE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5882
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAzMDE2NyBTYWx0ZWRfX9CzNoagApapI NuxrtVfC+UgnPVBFhqhzvF2rlz2/EU+g3XK7VnIpZvrLpGleBXTjgoF4h+ySy3eYolmM2dR7e0F ad17NfA3SI4P46sUw1e278ysLMWWDSG1JjJQU9ytZIM2v8xlR797DnVX+oDGyTURBDOQ2aaHNpe
- WG2FwatpgDjsP/K+za+lYTx02bbMV5Qx81ImZjrWrBslZ/1MVXixCe0+Ap2pcUSbGyWNrtE+cE4 o55tHmi385byk+3V2R7U8cK1BMbKmwvYBjkDmvfTtS970CLqbGpSsL+kmg7nB3XzGA2n1YpQC+4 K9RUR4hcmINr37wmqJq+srCuYBU3CoocFMNH6F+OsuXpxlrJp8TD+EB39GcF0Tzz2DoSyzN1MfW
- +WAsISYNVU5WtzKYXg9vL6flOHfNqQkeQ4ytbDp0RuTZPYgevuRIAfhhpHBhSY51J0ONfH+8
-X-Authority-Analysis: v=2.4 cv=PvyTbxM3 c=1 sm=1 tr=0 ts=683f498e cx=c_pps a=KB7kLzfingIg7eHt7PrfOA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10 a=iGHA9ds3AAAA:8 a=OQZl7eEfS2bfk_DjHpIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=0lgtpPvCYYIA:10 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=Qy0naWYV1x9khxTI7U4A:9 a=kEh9ScJpB9yDjyyS:21 a=_W_S_7VecoQA:10
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: yU5KBQFIGKwxk7xUFEc7fWmIOVlJ-WaB
-X-Proofpoint-ORIG-GUID: Gj44ZVTITD2dKzv0s4iCbDHgaQmr6kGI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-03_02,2025-06-02_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
- bulkscore=0 adultscore=0 mlxscore=0 mlxlogscore=982 impostorscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506030167
+References: <20250603062637.2915962-1-Deepesh.Varatharajan@windriver.com>
+In-Reply-To: <20250603062637.2915962-1-Deepesh.Varatharajan@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 3 Jun 2025 13:14:27 -0700
+X-Gm-Features: AX0GCFteqlP6QhAq_l_CYAwNtdRAkZWcwbLlkSHG_nFgv2lLSg284VpecUfiaYQ
+Message-ID: <CAMKF1soy2iP-vv_CMHC0tYvT3OjHS5xSXWEW8srcbjpxhRpyEg@mail.gmail.com>
+Subject: Re: [OE-core] [walnascar][PATCH] binutils: Fix CVE-2025-1181
+To: deepesh.varatharajan@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 19:14:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217821
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 20:15:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217822
 
---------------uCVkUAt2d0XaZkKszEO0QYKF
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 553AuTRb011365
-
-On 2025-06-02 7:15 a.m., Yash Shinde wrote:
-...
-> The latest rust v1.86.0 upgrade changes are available at:
+On Mon, Jun 2, 2025 at 11:26=E2=80=AFPM Varatharajan, Deepesh via
+lists.openembedded.org
+<deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> https://git.yoctoproject.org/poky-contrib/log/?h=3Dharish/rust_1.86.0_v=
-2
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 >
+> PR 32641 [https://sourceware.org/bugzilla/show_bug.cgi?id=3D32641]
+> PR 32643 [https://sourceware.org/bugzilla/show_bug.cgi?id=3D32643]
 
-You have the zsh file in with the main package in:
-
-# Whether or not to optimize the compiler and standard library
-@@ -222,6 +228,7 @@ INSANE_SKIP:${PN}:class-native =3D "already-stripped"
-FILES:${PN} +=3D "${libdir}/rustlib"
-FILES:${PN} +=3D "${libdir}/*.so"
-FILES:${PN}-dev =3D ""
-+FILES:${PN} +=3D "${datadir}/zsh"
-
-This should be a separate package like:
-
-=E2=9D=AF rg FILE.**zsh
-meta/recipes-core/systemd/systemd_257.5.bb
-511:FILES:${PN}-zsh-completion =3D "${datadir}/zsh/site-functions"
-
-meta/recipes-kernel/kmod/kmod_34.2.bb
-58:FILES:${PN}-zsh-completion =3D "${datadir}/zsh"
-
-...
-
-Thanks,
-
-../Randy
+LGTM, second patch does have some questions on bugzilla we should
+watchout for those to resolve along side.
 
 >
+> Upstream-Status: Backport
+> [https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommitdiff;h=3D18cc=
+11a2771d9e40180485da9a4fb660c03efac3
+> && https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommitdiff;h=3D93=
+1494c9a89558acb36a03a340c01726545eef24]
 >
-> Regards,
-> Yash
+> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> ---
+>  .../binutils/binutils-2.44.inc                |   2 +
+>  .../binutils/0016-CVE-2025-1181-1.patch       | 141 ++++++++
+>  .../binutils/0017-CVE-2025-1181-2.patch       | 337 ++++++++++++++++++
+>  3 files changed, 480 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0016-CVE-2025=
+-1181-1.patch
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0017-CVE-2025=
+-1181-2.patch
 >
->> Alex
-
-
---=20
-# Randy MacLeod
-# Wind River Linux
-
---------------uCVkUAt2d0XaZkKszEO0QYKF
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 553AuTRb011365
-
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <div class=3D"moz-cite-prefix">On 2025-06-02 7:15 a.m., Yash Shinde
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite" cite=3D"mid:36532bcc-c9dd-430a-a932-ec81e92=
-70f19@windriver.com">
-     =20
-    </blockquote>
-    ...<br>
-    <blockquote type=3D"cite" cite=3D"mid:36532bcc-c9dd-430a-a932-ec81e92=
-70f19@windriver.com">The
-      latest rust v1.86.0 upgrade changes are available at:
-      <p>
-        <a class=3D"moz-txt-link-freetext" href=3D"https://git.yoctoproje=
-ct.org/poky-contrib/log/?h=3Dharish/rust_1.86.0_v2" moz-do-not-send=3D"tr=
-ue">https://git.yoctoproject.org/poky-contrib/log/?h=3Dharish/rust_1.86.0=
-_v2</a><br>
-      </p>
-    </blockquote>
-    <p><br>
-      You have the zsh file in with the main package in:<br>
-    </p>
-    <div class=3D"ctx"> # Whether or not to optimize the compiler and
-      standard library</div>
-    <div class=3D"hunk">@@ -222,6 +228,7 @@ INSANE_SKIP:${PN}:class-nativ=
-e
-      =3D &quot;already-stripped&quot;</div>
-    <div class=3D"ctx"> FILES:${PN} +=3D &quot;${libdir}/rustlib&quot;</d=
-iv>
-    <div class=3D"ctx"> FILES:${PN} +=3D &quot;${libdir}/*.so&quot;</div>
-    <div class=3D"ctx"> FILES:${PN}-dev =3D &quot;&quot;</div>
-    <div class=3D"add">+FILES:${PN} +=3D &quot;${datadir}/zsh&quot;</div>
-    <div class=3D"add"><br>
-    </div>
-    <div class=3D"add">This should be a separate package like:</div>
-    <div class=3D"add"><br>
-    </div>
-    <div class=3D"add">=E2=9D=AF rg FILE.**zsh<br>
-      meta/recipes-core/systemd/systemd_257.5.bb<br>
-      511:FILES:${PN}-zsh-completion =3D &quot;${datadir}/zsh/site-functi=
-ons&quot;<br>
-      <br>
-      meta/recipes-kernel/kmod/kmod_34.2.bb<br>
-      58:FILES:${PN}-zsh-completion =3D &quot;${datadir}/zsh&quot;<br>
-      <br>
-    </div>
-    <div class=3D"add">...</div>
-    <div class=3D"add"><br>
-    </div>
-    <div class=3D"add">Thanks,<br>
-    </div>
-    <div class=3D"add"><br>
-    </div>
-    <div class=3D"add">../Randy</div>
-    <div class=3D"add"><br>
-    </div>
-    <p></p>
-    <blockquote type=3D"cite" cite=3D"mid:36532bcc-c9dd-430a-a932-ec81e92=
-70f19@windriver.com">
-      <p> <br>
-        <br>
-        Regards,<br>
-        Yash<br>
-      </p>
-      <blockquote type=3D"cite" cite=3D"mid:CANNYZj-Pa_jhraEz7qAHoDXLxfg-=
-7ztH4UhdRPXirw6biZGWEA@mail.gmail.com">
-        <pre wrap=3D"" class=3D"moz-quote-pre">Alex
-</pre>
-      </blockquote>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------uCVkUAt2d0XaZkKszEO0QYKF--
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.44.inc b/meta/reci=
+pes-devtools/binutils/binutils-2.44.inc
+> index 6906ab3efb..46a95838b7 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.44.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.44.inc
+> @@ -37,5 +37,7 @@ SRC_URI =3D "\
+>       file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.pa=
+tch \
+>       file://0015-CVE-2025-1178.patch \
+>       file://CVE-2025-1180.patch \
+> +     file://0016-CVE-2025-1181-1.patch \
+> +     file://0017-CVE-2025-1181-2.patch \
+>  "
+>  S  =3D "${WORKDIR}/git"
+> diff --git a/meta/recipes-devtools/binutils/binutils/0016-CVE-2025-1181-1=
+.patch b/meta/recipes-devtools/binutils/binutils/0016-CVE-2025-1181-1.patch
+> new file mode 100644
+> index 0000000000..d3709c7a4f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0016-CVE-2025-1181-1.patch
+> @@ -0,0 +1,141 @@
+> +From: Nick Clifton <nickc@redhat.com>
+> +Date: Wed, 5 Feb 2025 14:31:10 +0000
+> +
+> +Prevent illegal memory access when checking relocs in a corrupt ELF bina=
+ry.
+> +
+> +PR 32641
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.=
+git;a=3Dcommitdiff;h=3D18cc11a2771d9e40180485da9a4fb660c03efac3]
+> +CVE: CVE-2025-1181
+> +
+> +Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> +
+> +diff --git a/bfd/elf-bfd.h b/bfd/elf-bfd.h
+> +index 785a37dd7fd..d2bf8e5cbae 100644
+> +--- a/bfd/elf-bfd.h
+> ++++ b/bfd/elf-bfd.h
+> +@@ -3150,6 +3150,9 @@ extern bool _bfd_elf_link_mmap_section_contents
+> + extern void _bfd_elf_link_munmap_section_contents
+> +   (asection *);
+> +
+> ++extern struct elf_link_hash_entry * _bfd_elf_get_link_hash_entry
+> ++  (struct elf_link_hash_entry **, unsigned int, Elf_Internal_Shdr *);
+> ++
+> + /* Large common section.  */
+> + extern asection _bfd_elf_large_com_section;
+> +
+> +diff --git a/bfd/elf64-x86-64.c b/bfd/elf64-x86-64.c
+> +index 32db254ba6c..2d82c6583c3 100644
+> +--- a/bfd/elf64-x86-64.c
+> ++++ b/bfd/elf64-x86-64.c
+> +@@ -1744,7 +1744,7 @@ elf_x86_64_convert_load_reloc (bfd *abfd,
+> +   bool to_reloc_pc32;
+> +   bool abs_symbol;
+> +   bool local_ref;
+> +-  asection *tsec;
+> ++  asection *tsec =3D NULL;
+> +   bfd_signed_vma raddend;
+> +   unsigned int opcode;
+> +   unsigned int modrm;
+> +@@ -1910,6 +1910,9 @@ elf_x86_64_convert_load_reloc (bfd *abfd,
+> +       return true;
+> +     }
+> +
+> ++  if (tsec =3D=3D NULL)
+> ++    return false;
+> ++
+> +   /* Don't convert GOTPCREL relocation against large section.  */
+> +   if (elf_section_data (tsec) !=3D  NULL
+> +       && (elf_section_flags (tsec) & SHF_X86_64_LARGE) !=3D 0)
+> +@@ -2206,10 +2209,7 @@ elf_x86_64_scan_relocs (bfd *abfd, struct bfd_lin=
+k_info *info,
+> +       else
+> +       {
+> +         isym =3D NULL;
+> +-        h =3D sym_hashes[r_symndx - symtab_hdr->sh_info];
+> +-        while (h->root.type =3D=3D bfd_link_hash_indirect
+> +-               || h->root.type =3D=3D bfd_link_hash_warning)
+> +-          h =3D (struct elf_link_hash_entry *) h->root.u.i.link;
+> ++        h =3D _bfd_elf_get_link_hash_entry (sym_hashes, r_symndx, symta=
+b_hdr);
+> +       }
+> +
+> +       /* Check invalid x32 relocations.  */
+> +diff --git a/bfd/elflink.c b/bfd/elflink.c
+> +index 1f1263007c0..eafbd133ff5 100644
+> +--- a/bfd/elflink.c
+> ++++ b/bfd/elflink.c
+> +@@ -96,6 +96,27 @@ _bfd_elf_link_keep_memory (struct bfd_link_info *info=
+)
+> +   return true;
+> + }
+> +
+> ++struct elf_link_hash_entry *
+> ++_bfd_elf_get_link_hash_entry (struct elf_link_hash_entry **  sym_hashes=
+,
+> ++                            unsigned int                   symndx,
+> ++                            Elf_Internal_Shdr *            symtab_hdr)
+> ++{
+> ++  if (symndx < symtab_hdr->sh_info)
+> ++    return NULL;
+> ++
+> ++  struct elf_link_hash_entry *h =3D sym_hashes[symndx - symtab_hdr->sh_=
+info];
+> ++
+> ++  /* The hash might be empty.  See PR 32641 for an example of this.  */
+> ++  if (h =3D=3D NULL)
+> ++    return NULL;
+> ++
+> ++  while (h->root.type =3D=3D bfd_link_hash_indirect
+> ++       || h->root.type =3D=3D bfd_link_hash_warning)
+> ++    h =3D (struct elf_link_hash_entry *) h->root.u.i.link;
+> ++
+> ++  return h;
+> ++}
+> ++
+> + static struct elf_link_hash_entry *
+> + get_ext_sym_hash (struct elf_reloc_cookie *cookie, unsigned long r_symn=
+dx)
+> + {
+> +@@ -108,6 +129,9 @@ get_ext_sym_hash (struct elf_reloc_cookie *cookie, u=
+nsigned long r_symndx)
+> +     {
+> +       h =3D cookie->sym_hashes[r_symndx - cookie->extsymoff];
+> +
+> ++      if (h =3D=3D NULL)
+> ++      return NULL;
+> ++
+> +       while (h->root.type =3D=3D bfd_link_hash_indirect
+> +            || h->root.type =3D=3D bfd_link_hash_warning)
+> +       h =3D (struct elf_link_hash_entry *) h->root.u.i.link;
+> +diff --git a/bfd/elfxx-x86.c b/bfd/elfxx-x86.c
+> +index 8e5a005fd36..832a5495eb1 100644
+> +--- a/bfd/elfxx-x86.c
+> ++++ b/bfd/elfxx-x86.c
+> +@@ -973,15 +973,7 @@ _bfd_x86_elf_check_relocs (bfd *abfd,
+> +         goto error_return;
+> +       }
+> +
+> +-      if (r_symndx < symtab_hdr->sh_info)
+> +-      h =3D NULL;
+> +-      else
+> +-      {
+> +-        h =3D sym_hashes[r_symndx - symtab_hdr->sh_info];
+> +-        while (h->root.type =3D=3D bfd_link_hash_indirect
+> +-               || h->root.type =3D=3D bfd_link_hash_warning)
+> +-          h =3D (struct elf_link_hash_entry *) h->root.u.i.link;
+> +-      }
+> ++      h =3D _bfd_elf_get_link_hash_entry (sym_hashes, r_symndx, symtab_=
+hdr);
+> +
+> +       if (X86_NEED_DYNAMIC_RELOC_TYPE_P (is_x86_64, r_type)
+> +         && NEED_DYNAMIC_RELOCATION_P (is_x86_64, info, true, h, sec,
+> +@@ -1209,10 +1201,12 @@ _bfd_x86_elf_link_relax_section (bfd *abfd ATTRI=
+BUTE_UNUSED,
+> +       else
+> +       {
+> +         /* Get H and SEC for GENERATE_DYNAMIC_RELOCATION_P below.  */
+> +-        h =3D sym_hashes[r_symndx - symtab_hdr->sh_info];
+> +-        while (h->root.type =3D=3D bfd_link_hash_indirect
+> +-               || h->root.type =3D=3D bfd_link_hash_warning)
+> +-          h =3D (struct elf_link_hash_entry *) h->root.u.i.link;
+> ++        h =3D _bfd_elf_get_link_hash_entry (sym_hashes, r_symndx, symta=
+b_hdr);
+> ++        if (h =3D=3D NULL)
+> ++          {
+> ++            /* FIXMEL: Issue an error message ?  */
+> ++            continue;
+> ++          }
+> +
+> +         if (h->root.type =3D=3D bfd_link_hash_defined
+> +             || h->root.type =3D=3D bfd_link_hash_defweak)
+> diff --git a/meta/recipes-devtools/binutils/binutils/0017-CVE-2025-1181-2=
+.patch b/meta/recipes-devtools/binutils/binutils/0017-CVE-2025-1181-2.patch
+> new file mode 100644
+> index 0000000000..5af743582f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0017-CVE-2025-1181-2.patch
+> @@ -0,0 +1,337 @@
+> +From: Nick Clifton <nickc@redhat.com>
+> +Date: Wed, 5 Feb 2025 15:43:04 +0000
+> +
+> +Add even more checks for corrupt input when processing
+> +relocations for ELF files.
+> +
+> +PR 32643
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.=
+git;a=3Dcommitdiff;h=3D931494c9a89558acb36a03a340c01726545eef24]
+> +CVE: CVE-2025-1181
+> +
+> +Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> +
+> +diff --git a/bfd/elflink.c b/bfd/elflink.c
+> +index fd423d61..91cd7c28 100644
+> +--- a/bfd/elflink.c
+> ++++ b/bfd/elflink.c
+> +@@ -96,15 +96,17 @@
+> +   return true;
+> + }
+> +
+> +-struct elf_link_hash_entry *
+> +-_bfd_elf_get_link_hash_entry (struct elf_link_hash_entry **  sym_hashes=
+,
+> +-                            unsigned int                   symndx,
+> +-                            Elf_Internal_Shdr *            symtab_hdr)
+> ++static struct elf_link_hash_entry *
+> ++get_link_hash_entry (struct elf_link_hash_entry **  sym_hashes,
+> ++                   unsigned int                   symndx,
+> ++                   unsigned int                   ext_sym_start)
+> + {
+> +-  if (symndx < symtab_hdr->sh_info)
+> ++  if (sym_hashes =3D=3D NULL
+> ++      /* Guard against corrupt input.  See PR 32636 for an example.  */
+> ++      || symndx < ext_sym_start)
+> +     return NULL;
+> +
+> +-  struct elf_link_hash_entry *h =3D sym_hashes[symndx - symtab_hdr->sh_=
+info];
+> ++  struct elf_link_hash_entry *h =3D sym_hashes[symndx - ext_sym_start];
+> +
+> +   /* The hash might be empty.  See PR 32641 for an example of this.  */
+> +   if (h =3D=3D NULL)
+> +@@ -117,27 +119,28 @@
+> +   return h;
+> + }
+> +
+> +-static struct elf_link_hash_entry *
+> +-get_ext_sym_hash (struct elf_reloc_cookie *cookie, unsigned long r_symn=
+dx)
+> ++struct elf_link_hash_entry *
+> ++_bfd_elf_get_link_hash_entry (struct elf_link_hash_entry **  sym_hashes=
+,
+> ++                            unsigned int                   symndx,
+> ++                            Elf_Internal_Shdr *            symtab_hdr)
+> + {
+> +-  struct elf_link_hash_entry *h =3D NULL;
+> +-
+> +-  if ((r_symndx >=3D cookie->locsymcount
+> +-       || ELF_ST_BIND (cookie->locsyms[r_symndx].st_info) !=3D STB_LOCA=
+L)
+> +-      /* Guard against corrupt input.  See PR 32636 for an example.  */
+> +-      && r_symndx >=3D cookie->extsymoff)
+> +-    {
+> +-      h =3D cookie->sym_hashes[r_symndx - cookie->extsymoff];
+> ++  if (symtab_hdr =3D=3D NULL)
+> ++    return NULL;
+> +
+> +-      if (h =3D=3D NULL)
+> +-      return NULL;
+> ++  return get_link_hash_entry (sym_hashes, symndx, symtab_hdr->sh_info);
+> ++}
+> +
+> +-      while (h->root.type =3D=3D bfd_link_hash_indirect
+> +-           || h->root.type =3D=3D bfd_link_hash_warning)
+> +-      h =3D (struct elf_link_hash_entry *) h->root.u.i.link;
+> +-    }
+> ++static struct elf_link_hash_entry *
+> ++get_ext_sym_hash_from_cookie (struct elf_reloc_cookie *cookie, unsigned=
+ long r_symndx)
+> ++{
+> ++  if (cookie =3D=3D NULL || cookie->sym_hashes =3D=3D NULL)
+> ++    return NULL;
+> ++
+> ++  if (r_symndx >=3D cookie->locsymcount
+> ++      || ELF_ST_BIND (cookie->locsyms[r_symndx].st_info) !=3D STB_LOCAL=
+)
+> ++    return get_link_hash_entry (cookie->sym_hashes, r_symndx, cookie->e=
+xtsymoff);
+> +
+> +-  return h;
+> ++  return NULL;
+> + }
+> +
+> + asection *
+> +@@ -147,7 +150,7 @@
+> + {
+> +   struct elf_link_hash_entry *h;
+> +
+> +-  h =3D get_ext_sym_hash (cookie, r_symndx);
+> ++  h =3D get_ext_sym_hash_from_cookie (cookie, r_symndx);
+> +
+> +   if (h !=3D NULL)
+> +     {
+> +@@ -9105,7 +9108,6 @@
+> +                 size_t symidx,
+> +                 bfd_vma val)
+> + {
+> +-  struct elf_link_hash_entry **sym_hashes;
+> +   struct elf_link_hash_entry *h;
+> +   size_t extsymoff =3D locsymcount;
+> +
+> +@@ -9128,12 +9130,12 @@
+> +
+> +   /* It is a global symbol: set its link type
+> +      to "defined" and give it a value.  */
+> +-
+> +-  sym_hashes =3D elf_sym_hashes (bfd_with_globals);
+> +-  h =3D sym_hashes [symidx - extsymoff];
+> +-  while (h->root.type =3D=3D bfd_link_hash_indirect
+> +-       || h->root.type =3D=3D bfd_link_hash_warning)
+> +-    h =3D (struct elf_link_hash_entry *) h->root.u.i.link;
+> ++  h =3D get_link_hash_entry (elf_sym_hashes (bfd_with_globals), symidx,=
+ extsymoff);
+> ++  if (h =3D=3D NULL)
+> ++    {
+> ++      /* FIXMEL What should we do ?  */
+> ++      return;
+> ++    }
+> +   h->root.type =3D bfd_link_hash_defined;
+> +   h->root.u.def.value =3D val;
+> +   h->root.u.def.section =3D bfd_abs_section_ptr;
+> +@@ -11611,10 +11613,19 @@
+> +             || (elf_bad_symtab (input_bfd)
+> +                 && flinfo->sections[symndx] =3D=3D NULL))
+> +           {
+> +-            struct elf_link_hash_entry *h =3D sym_hashes[symndx - extsy=
+moff];
+> +-            while (h->root.type =3D=3D bfd_link_hash_indirect
+> +-                   || h->root.type =3D=3D bfd_link_hash_warning)
+> +-              h =3D (struct elf_link_hash_entry *) h->root.u.i.link;
+> ++            struct elf_link_hash_entry *h;
+> ++
+> ++            h =3D get_link_hash_entry (sym_hashes, symndx, extsymoff);
+> ++            if (h =3D=3D NULL)
+> ++              {
+> ++                _bfd_error_handler
+> ++                  /* xgettext:c-format */
+> ++                  (_("error: %pB: unable to create group section symbol=
+"),
+> ++                   input_bfd);
+> ++                bfd_set_error (bfd_error_bad_value);
+> ++                return false;
+> ++              }
+> ++
+> +             /* Arrange for symbol to be output.  */
+> +             h->indx =3D -2;
+> +             elf_section_data (osec)->this_hdr.sh_info =3D -2;
+> +@@ -11749,7 +11760,7 @@
+> +                 || (elf_bad_symtab (input_bfd)
+> +                     && flinfo->sections[r_symndx] =3D=3D NULL))
+> +               {
+> +-                h =3D sym_hashes[r_symndx - extsymoff];
+> ++                h =3D get_link_hash_entry (sym_hashes, r_symndx, extsym=
+off);
+> +
+> +                 /* Badly formatted input files can contain relocs that
+> +                    reference non-existant symbols.  Check here so that
+> +@@ -11758,17 +11769,13 @@
+> +                   {
+> +                     _bfd_error_handler
+> +                       /* xgettext:c-format */
+> +-                      (_("error: %pB contains a reloc (%#" PRIx64 ") fo=
+r section %pA "
+> ++                      (_("error: %pB contains a reloc (%#" PRIx64 ") fo=
+r section '%pA' "
+> +                          "that references a non-existent global symbol"=
+),
+> +                        input_bfd, (uint64_t) rel->r_info, o);
+> +                     bfd_set_error (bfd_error_bad_value);
+> +                     return false;
+> +                   }
+> +
+> +-                while (h->root.type =3D=3D bfd_link_hash_indirect
+> +-                       || h->root.type =3D=3D bfd_link_hash_warning)
+> +-                  h =3D (struct elf_link_hash_entry *) h->root.u.i.link=
+;
+> +-
+> +                 s_type =3D h->type;
+> +
+> +                 /* If a plugin symbol is referenced from a non-IR file,
+> +@@ -11984,7 +11991,6 @@
+> +                         && flinfo->sections[r_symndx] =3D=3D NULL))
+> +                   {
+> +                     struct elf_link_hash_entry *rh;
+> +-                    unsigned long indx;
+> +
+> +                     /* This is a reloc against a global symbol.  We
+> +                        have not yet output all the local symbols, so
+> +@@ -11993,15 +11999,16 @@
+> +                        reloc to point to the global hash table entry
+> +                        for this symbol.  The symbol index is then
+> +                        set at the end of bfd_elf_final_link.  */
+> +-                    indx =3D r_symndx - extsymoff;
+> +-                    rh =3D elf_sym_hashes (input_bfd)[indx];
+> +-                    while (rh->root.type =3D=3D bfd_link_hash_indirect
+> +-                           || rh->root.type =3D=3D bfd_link_hash_warnin=
+g)
+> +-                      rh =3D (struct elf_link_hash_entry *) rh->root.u.=
+i.link;
+> +-
+> +-                    /* Setting the index to -2 tells
+> +-                       elf_link_output_extsym that this symbol is
+> +-                       used by a reloc.  */
+> ++                    rh =3D get_link_hash_entry (elf_sym_hashes (input_b=
+fd),
+> ++                                              r_symndx, extsymoff);
+> ++                    if (rh =3D=3D NULL)
+> ++                      {
+> ++                        /* FIXME: Generate an error ?  */
+> ++                        continue;
+> ++                      }
+> ++
+> ++                    /* Setting the index to -2 tells elf_link_output_ex=
+tsym
+> ++                       that this symbol is used by a reloc.  */
+> +                     BFD_ASSERT (rh->indx < 0);
+> +                     rh->indx =3D -2;
+> +                     *rel_hash =3D rh;
+> +@@ -13965,25 +13972,21 @@
+> +                      struct elf_link_hash_entry *h,
+> +                      Elf_Internal_Sym *sym)
+> + {
+> +-  if (h !=3D NULL)
+> ++  if (h =3D=3D NULL)
+> ++    return bfd_section_from_elf_index (sec->owner, sym->st_shndx);
+> ++
+> ++  switch (h->root.type)
+> +     {
+> +-      switch (h->root.type)
+> +-      {
+> +-      case bfd_link_hash_defined:
+> +-      case bfd_link_hash_defweak:
+> +-        return h->root.u.def.section;
+> ++    case bfd_link_hash_defined:
+> ++    case bfd_link_hash_defweak:
+> ++      return h->root.u.def.section;
+> +
+> +-      case bfd_link_hash_common:
+> +-        return h->root.u.c.p->section;
+> ++    case bfd_link_hash_common:
+> ++      return h->root.u.c.p->section;
+> +
+> +-      default:
+> +-        break;
+> +-      }
+> ++    default:
+> ++      return NULL;
+> +     }
+> +-  else
+> +-    return bfd_section_from_elf_index (sec->owner, sym->st_shndx);
+> +-
+> +-  return NULL;
+> + }
+> +
+> + /* Return the debug definition section.  */
+> +@@ -14032,46 +14035,49 @@
+> +   if (r_symndx =3D=3D STN_UNDEF)
+> +     return NULL;
+> +
+> +-  h =3D get_ext_sym_hash (cookie, r_symndx);
+> ++  h =3D get_ext_sym_hash_from_cookie (cookie, r_symndx);
+> ++  if (h =3D=3D NULL)
+> ++    {
+> ++      /* A corrup tinput file can lead to a situation where the index
+> ++       does not reference either a local or an external symbol.  */
+> ++      if (r_symndx >=3D cookie->locsymcount)
+> ++      return NULL;
+> +
+> +-  if (h !=3D NULL)
+> ++      return (*gc_mark_hook) (sec, info, cookie->rel, NULL,
+> ++                            &cookie->locsyms[r_symndx]);
+> ++    }
+> ++
+> ++  bool was_marked =3D h->mark;
+> ++
+> ++  h->mark =3D 1;
+> ++  /* Keep all aliases of the symbol too.  If an object symbol
+> ++     needs to be copied into .dynbss then all of its aliases
+> ++     should be present as dynamic symbols, not just the one used
+> ++     on the copy relocation.  */
+> ++  hw =3D h;
+> ++  while (hw->is_weakalias)
+> +     {
+> +-      bool was_marked;
+> ++      hw =3D hw->u.alias;
+> ++      hw->mark =3D 1;
+> ++    }
+> +
+> +-      was_marked =3D h->mark;
+> +-      h->mark =3D 1;
+> +-      /* Keep all aliases of the symbol too.  If an object symbol
+> +-       needs to be copied into .dynbss then all of its aliases
+> +-       should be present as dynamic symbols, not just the one used
+> +-       on the copy relocation.  */
+> +-      hw =3D h;
+> +-      while (hw->is_weakalias)
+> +-      {
+> +-        hw =3D hw->u.alias;
+> +-        hw->mark =3D 1;
+> +-      }
+> ++  if (!was_marked && h->start_stop && !h->root.ldscript_def)
+> ++    {
+> ++      if (info->start_stop_gc)
+> ++      return NULL;
+> +
+> +-      if (!was_marked && h->start_stop && !h->root.ldscript_def)
+> ++      /* To work around a glibc bug, mark XXX input sections
+> ++       when there is a reference to __start_XXX or __stop_XXX
+> ++       symbols.  */
+> ++      else if (start_stop !=3D NULL)
+> +       {
+> +-        if (info->start_stop_gc)
+> +-          return NULL;
+> +-
+> +-        /* To work around a glibc bug, mark XXX input sections
+> +-           when there is a reference to __start_XXX or __stop_XXX
+> +-           symbols.  */
+> +-        else if (start_stop !=3D NULL)
+> +-          {
+> +-            asection *s =3D h->u2.start_stop_section;
+> +-            *start_stop =3D true;
+> +-            return s;
+> +-          }
+> ++        asection *s =3D h->u2.start_stop_section;
+> ++        *start_stop =3D true;
+> ++        return s;
+> +       }
+> +-
+> +-      return (*gc_mark_hook) (sec, info, cookie->rel, h, NULL);
+> +     }
+> +
+> +-  return (*gc_mark_hook) (sec, info, cookie->rel, NULL,
+> +-                        &cookie->locsyms[r_symndx]);
+> ++  return (*gc_mark_hook) (sec, info, cookie->rel, h, NULL);
+> + }
+> +
+> + /* COOKIE->rel describes a relocation against section SEC, which is
+> +@@ -15094,7 +15100,7 @@
+> +
+> +       struct elf_link_hash_entry *h;
+> +
+> +-      h =3D get_ext_sym_hash (rcookie, r_symndx);
+> ++      h =3D get_ext_sym_hash_from_cookie (rcookie, r_symndx);
+> +
+> +       if (h !=3D NULL)
+> +       {
+> --
+> 2.49.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#217759): https://lists.openembedded.org/g/openembedde=
+d-core/message/217759
+> Mute This Topic: https://lists.openembedded.org/mt/113443237/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
