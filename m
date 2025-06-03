@@ -1,138 +1,150 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95690C5AD49
-	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 22:02:45 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.2235.1748988159946570108
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC60C5AD49
+	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 22:15:25 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.2460.1748988922440843827
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jun 2025 15:02:40 -0700
+ Tue, 03 Jun 2025 15:15:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ifN4egZx;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4fea34e07so2138510f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 15:02:39 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DnWLBTjf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-450ce671a08so39564555e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 15:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1748988158; x=1749592958; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FvAELd+8RyC/AjzJwAvVwzixeeluxVGMuFgGpC3ojN8=;
-        b=ifN4egZxnAEfwBfjCBkiIpfuSTQh0Wb/RwuRYoNXrENWZujEsz8xkj5TXaNae5gRCC
-         zv0YaffMakNNpj7c6wduPIavd25bUU3W3zrgBhQHfIXY3GogB6/hkt1KxEWO0yfX85YJ
-         Lxq92dUAxjQH0kxpH0TCui9ZHH80ZQxEsZAaA=
+        d=linuxfoundation.org; s=google; t=1748988921; x=1749593721; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Urj7yCG2L2H9fcK5LDj5V0saH5qY4W968QhJgnb3qas=;
+        b=DnWLBTjf3AU0meL5qkR4KKBwBsgjH5fGFdWPO8H2d6G9s9IOP8eZBqhJQzDXbGNxqJ
+         rm5aJYSMks1LG3ncBEx2XbxRmOeRwFQ4VDFT4Y5p1t9Or+pyzMtWbQlrwAUrrYyp1TFm
+         v02O+tjsReErTreZEx/XyWEQPFJyYqCop7pnc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748988158; x=1749592958;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FvAELd+8RyC/AjzJwAvVwzixeeluxVGMuFgGpC3ojN8=;
-        b=Ab8NPHhmgvBYjla5TmlRYYb0j1dZ47hvpoKYmYOPBnF7HR+t7AxhOK9L+w9OhPfcTQ
-         2+L2oetI1C6ZerPoiPDowzh2WYG64Sx+v/VLWn/gYupvZcukIIrMInlDjRGg3ewMw/x9
-         AkUG5KuY90TN/rd9PyksziSmIFQ9jil7ZQZBvcBhgfhl0Iqn0aaNf/5M9rEAWmSD+L7N
-         eFapFYEXLOwWPN69HWpr9IYEenPeEoB9pNddx2rB7SOKmnc+tVRUG5HvF0kiHw5udAhO
-         rbeX6VslbT1d8Oxo6NPa0mObQ2EWc7jyahx2zxMiQpOyBP4hZn8gu7Oiu5c+b9oVPFm7
-         bgbg==
-X-Gm-Message-State: AOJu0YyBqnm2aEke3Sg26c/J8JTGejKocChy9GhFOUz33skLUols3s6I
-	kuEXmLp5bf9lHP4nzrVhqnpldpAieVOmoHnHwSgyLTKkUK7SWqIUyIhuLs5tpbg3l2YRvfLCC1K
-	26w/kfo0=
-X-Gm-Gg: ASbGncusMom9aeIOjKkMqV1oD8SbyxkAuOR0Gnv3Eh+QxbYv90F0wAD/T1HFPtbj0Mj
-	vXlGqQb2XuJ07sElsHriItBnw/dE3So4CqR8k405d1owF78o3jywik384z0duFZL0K2GgE3Vj3S
-	uKbzdfSD9Qgydb7oLP539ukeL+Xsi+WV2n2VxSMbB+OjCTonaz+ojhWKHQX8eiXnlyUFXEL22us
-	vfrs7UrCuh0WBN1KFIsE1Yv3hg/xmqOO8qk4WfLrj/L/mqwt39RP9QO+4bn0v2hwCDm2YB0X9kJ
-	qL0bJNYiCZQMcMj7BGMXcikrLLe4aYsRfHEEs2rOtglEQPRFfZtWLhmO2f3pSu8999WZ+rH85Y7
-	uQyVLINTBhxMgUUKwJZX7+jKlSqGkE7kb1XnFbQDCmDM0m/pdXSDQVPM6AudHqsf4k0cz/Q==
-X-Google-Smtp-Source: AGHT+IE1hm3SYyHrVgvPB2ihFJTliW4K/ax2CnFA33rg55z0+KvXr76o/BvV+34aRk9jggj4x4DMQA==
-X-Received: by 2002:a5d:64ec:0:b0:3a4:fc3f:8d5b with SMTP id ffacd0b85a97d-3a51dc31407mr203685f8f.47.1748988158042;
-        Tue, 03 Jun 2025 15:02:38 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.home (2a01cb001331aa0017b58d8bf04048c3.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:17b5:8d8b:f040:48c3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe5b887sm19999534f8f.18.2025.06.03.15.02.37
+        d=1e100.net; s=20230601; t=1748988921; x=1749593721;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Urj7yCG2L2H9fcK5LDj5V0saH5qY4W968QhJgnb3qas=;
+        b=Fl4/F/NQdV8GBMjbXGUzvnxiM1jJH3Oj4csiMsWOk6xw0eoCWKnMoHHH55gOcSHqW2
+         1usv5kftXmFbwCsC4h8R+j7WxAGzviqsptdXtEmcgmw0s4/W3EzXfam/0mOZGVKUsgd/
+         Aeq8msN+DlMRagATTRDHEq+okZox0K4P4T0X6h9NirGoXvM85EmmriIlKWRh5S2poa4a
+         TchNzth5dbu31IHyV3IZUVXsHmfe/FMinIkyGBkRFtj6y59QIOmETK8V+uYldEtJfKwy
+         3nSB/4nsRw+poUrXLZc7JSf0nEopH0aXNu+r6BPSu/EaQn7weuWcPLh77YTZDxCwgV11
+         5y7Q==
+X-Gm-Message-State: AOJu0YyfhPVGhPL3bDERDTDRN+A5B90QztdRb85HX5s4QUkzM5LV+1S5
+	pxWH5FaWqwuTlsmtPuaA9mvSazFf9ZANvsEUVz0wY1hIjkGW7CA/br7sVmBHYvI2Aq8=
+X-Gm-Gg: ASbGncsoj04FX4Fjb2okm5hd9th2U5cLFljNNgQtySedE2Xn3eBAtf3ieWHuANZoLRY
+	HiOyL0nlh8i1RBjppRy+bBg0n9GHyZCuZykZ4vV9FbvEHCcGchs+g2LTrPrSkLBdxhIkXnbf5hb
+	4kbneLuzJm3gi+E4wE5p8ZCy53hdK4USDiCmtGekvLYpomKjsEkhHRncuVBTTW+j32PgZpVh41/
+	jl47KhfRS3ONc54widtM1XKRNGiiFT3+A6XbUBslGoICF5TSdcG6Izmkxc4PMeY+xGo9lhqfA+V
+	svzZthvLwMAVbcuarly3GNk1zAQIttq+gTo2ikfjG1EE2viDpR2K616JeU9/eroOpvsJIJDscDJ
+	THbpCbr0MrG2TotMYZVtxHLQmKJnVgwkUSxQlqg==
+X-Google-Smtp-Source: AGHT+IFduduBnbMh2muTOz55YjUTHAbnO7tNC/oWmGlorP4EOFQhvPI5voBoMiF07zq/6IXe5XpF0w==
+X-Received: by 2002:a05:600c:4e4b:b0:43d:fa59:cc8f with SMTP id 5b1f17b1804b1-451f0b3a20dmr2379585e9.33.1748988920799;
+        Tue, 03 Jun 2025 15:15:20 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f4ac:889f:f8f:cc4e? ([2001:8b0:aba:5f3c:f4ac:889f:f8f:cc4e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe5b871sm19845898f8f.13.2025.06.03.15.15.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 15:02:37 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>,
-	Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
-Subject: [PATCH] reproducible: allow each layer to define its known non-repro packages
-Date: Tue,  3 Jun 2025 23:59:16 +0200
-Message-Id: <20250603215916.2429422-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.5
+        Tue, 03 Jun 2025 15:15:20 -0700 (PDT)
+Message-ID: <0e3407764e7a3f7951465b3c62cdead8baabe3b4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/1] icecc: calculate pn and bpn from FILE
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Douglas Royds <douglas.royds@taitcommunications.com>, 
+ "peter.suti@streamunlimited.com"
+	 <peter.suti@streamunlimited.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 03 Jun 2025 23:15:17 +0100
+In-Reply-To: <ME3P282MB2531A632687099F4A94BDA7F946DA@ME3P282MB2531.AUSP282.PROD.OUTLOOK.COM>
+References: <20250603085808.4045687-1-peter.suti@streamunlimited.com>
+	 <18457EF875184E76.9693@lists.openembedded.org>
+	 <64931a5016ab1996877df1d6764faf9e87dc51e6.camel@linuxfoundation.org>
+	 <CACMGZgYc-31tzF8UuLLhMiuJ5kKA1_UN2t9JXzPG7DyoNJo-bA@mail.gmail.com>
+	 <ME3P282MB2531A632687099F4A94BDA7F946DA@ME3P282MB2531.AUSP282.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 22:02:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217827
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 22:15:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217828
 
-From: Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
+On Tue, 2025-06-03 at 21:55 +0000, Douglas Royds wrote:
+> From:=C2=A0 Peter Suti via lists.openembedded.org
+> <peter.suti=3Dstreamunlimited.com@lists.openembedded.org>
+> > On Tue, Jun 3, 2025 at 11:59=E2=80=AFAM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >=20
+> > > On Tue, 2025-06-03 at 10:40 +0100, Richard Purdie via
+> > > lists.openembedded.org wrote:
+> > > > Unfortunately PN could be set differently to that, or set
+> > > > through class
+> > > > extensions so I don't think this is a good way to fix the
+> > > > issue. It
+> > > > does highlight that icecc probably just worked through luck
+> > > > anyway. It
+> > > > would get it approximately right most of the time but I'm not
+> > > > sure we
+> > > > want to rely on that.
+> >=20
+> > Maybe that is why we have to disable a bunch of recipes with
+> > ICECC_RECIPE_DISABLE.
+> >=20
+> > > > To be honest, I'm more tempted to simply remove icecc since it
+> > > > would
+> > > > seem not a lot of people are using it if it takes this long for
+> > > > fixes
+> > > > to get sent :/.
+> >=20
+> > I understand. We will keep using it internally with the above patch
+> > because it works for our use cases and
+> > provides noticeable speedups still.
+> >=20
+> > > Just to clarify, this would then let someone maintain this in a
+> > > separate layer as it is self contained. I appreciate we'd need to
+> > > find
+> > > that maintainer someone needs to fill that role to keep this
+> > > working...
+>=20
+> I suspect the reason no one has fixed this might be that no one else
+> has hit it yet =E2=80=94 we haven't. Fortunately in the meantime, Peter h=
+as
+> found a work-around that works for him.
 
-With this change, layers can use a conf/include/known_non_repro.inc file
-to extend the KNOWN_NON_REPRO_PACKAGES_LIST variable with its own known
-non-reproducible packages to make them automatically excluded from the
-reproducible test.
+Which branches are you using this with?
 
-Example of usage, in conf/include/known_non_repro.inc:
-  KNOWN_NON_REPRO_PACKAGES_LIST += " \
-        this-package-is-not-reproducible \
-  "
+> I'd argue that icecc is well supported in oe-core. These are the top
+> 6 contributors to icecc.bbclass, making 97 commits over 10 years,
+> almost 10 per year:
+>=20
+> =C2=A0=C2=A0 21 Joshua Watt
+> =C2=A0=C2=A0 18 Richard Purdie
+> =C2=A0=C2=A0 14 Martin Jansa
+> =C2=A0=C2=A0 11 Douglas Royds
+> =C2=A0=C2=A0 9 Tobias Henkel
+> =C2=A0=C2=A0 6 Dmitry Eremin-Solenikov
+>=20
+> I'm sure one of these contributors will bump into this same problem
+> at some point, and that they'll fix it then. Please don't drop it
+> from oe-core.
 
-This uses the new "include_all" in the reproducible test and will move
-the maintenance burden from AB config[0] to the layers themselves.
+I can safely say I simply don't use it and never have, which hints at
+the kinds of commits I'm responsible for. Joshua used to but doesn't
+now and hasn't for a few years. As far as I know, Martin doesn't any
+more either. I'm therefore not sure this data makes a good case for it
+being well supported.
 
-Fixes [YOCTO #15699]
+At this point I think it belongs in its own layer. I appreciate people
+don't want to hear that and yes, that means someone will have to
+actually step up maintain it rather than relying on me and others
+somehow keeping it working mostly by luck.
 
-[0]: https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json#n343
+Cheers,
 
-Co-Developed-by: Yoann Congal <yoann.congal@smile.fr>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-Signed-off-by: Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
----
- meta/lib/oeqa/selftest/cases/reproducible.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index f06027cb03..e2c3a10f06 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -14,6 +14,7 @@ import shutil
- import stat
- import os
- import datetime
-+import oeqa.utils.ftools as ftools
- 
- exclude_packages = [
- 	]
-@@ -158,6 +159,12 @@ class ReproducibleTests(OESelftestTestCase):
-     # reproducible, disable this in your derived test class
-     build_from_sstate = True
- 
-+    @classmethod
-+    def setUpClass(cls):
-+        super().setUpClass()
-+        ftools.append_file(os.path.join(cls.builddir, "conf/local.conf"), \
-+             "\ninclude_all conf/include/known_non_repro.inc\n")
-+
-     def setUpLocal(self):
-         super().setUpLocal()
-         needed_vars = [
-@@ -170,6 +177,7 @@ class ReproducibleTests(OESelftestTestCase):
-             'OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS',
-             'OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES',
-             'OEQA_REPRODUCIBLE_TEST_LEAF_TARGETS',
-+            'KNOWN_NON_REPRO_PACKAGES_LIST',
-         ]
-         bb_vars = get_bb_vars(needed_vars)
-         for v in needed_vars:
-@@ -189,6 +197,10 @@ class ReproducibleTests(OESelftestTestCase):
-             for leaf_recipe in bb_vars['OEQA_REPRODUCIBLE_TEST_LEAF_TARGETS'].split():
-                 self.sstate_targets.extend(get_bb_var('DEPENDS', leaf_recipe).split())
- 
-+        # Apply exclusion from layers (conf/include/known_non_repro.inc files)
-+        if bb_vars['KNOWN_NON_REPRO_PACKAGES_LIST']:
-+            self.oeqa_reproducible_excluded_packages = (self.oeqa_reproducible_excluded_packages or "") + bb_vars['KNOWN_NON_REPRO_PACKAGES_LIST']
-+
-         self.extraresults = {}
-         self.extraresults.setdefault('reproducible', {}).setdefault('files', {})
- 
+Richard
 
