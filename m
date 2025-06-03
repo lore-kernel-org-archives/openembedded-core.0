@@ -1,223 +1,130 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC6AC5B549
-	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 03:14:44 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.11])
- by mx.groups.io with SMTP id smtpd.web10.2815.1748920479000664347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B7FFC5AD49
+	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 05:20:45 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.4415.1748928041911426448
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Jun 2025 20:14:39 -0700
+ Mon, 02 Jun 2025 22:20:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=kUBPVtD2;
- spf=pass (domain: axis.com, ip: 52.101.84.11, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KLuqSQilg9LeeUP6V5UR2jbZffjUqGT6Grheq4YRb6t+JmahqCcilD9qlht8mAAqr9P5eiR2IE4gvbm/EbJ6EM9/3WU/aHmbnJYB6B5SaPtX0JfPUQWlrTILgVMnDfGXNJzxfJ+WeoTwRrIK7fHWXsLtlK41mLt9ABhgLvX//EIPw1kbNlGWfNKjpdKsPm+j5Sd9OIPTv9af6qkwXmcJR3TrN0mq7+PzZ9P5S9KTamsAt5zt5NYw5/PvEjny/U9MWJef4JC2Obv8ZQKQSoFNnStY/yUpjI9f/MlAUzp/O9Kn3bCqI/kvHQSAgzLXbMesieHBDYNX9VGMUA38XI9JeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h/7iJznE0Zg3G3S3wz5gQ8TQnzJ/CQvn//77OzjAB4g=;
- b=vqPo8WA82iQgyvr7ohvh9VN+eagZbjtMZb55aCwZI9eF/EjI6lOJ+KE27VFhQArjJumaC/B9N5Ene+W+xVnY/EGyyfhH+whwqySASbQQU6+N7OIj2LoTZg9o/3He1eGTJmLl+XaxglMEQW+vyYBv780xOc2Qp2UGbXQCLuSL62Iz7sYn3BSN/IEqPKC/pHnKjXib3gziH2hUhVHD/MeX7sUjhkIMp1313s3xXjzh10SHhHcvRCYjTTOPjIMCPK9qDGznpnPRrfrBkf2hSUTfKS84YnPF+8aKFu+Q77wPdhte2o3M/4+yEsAX8rhTmAn96XfdJyOFDh7I/9Xbmj8Jug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h/7iJznE0Zg3G3S3wz5gQ8TQnzJ/CQvn//77OzjAB4g=;
- b=kUBPVtD23aL+XlLjmJj/LGJrA+IctU60ed8uxfMBGah9ZcO0mItnFxCHdLLz4Bthwz/j09td4pnjVJ2PSo01h5NNhtVp7bGlAFQ1Qg1/67TngSRcBDlLPxxfN4BETXKIorwb2lnokTX93qS5MWOLNiLr9K9/Wc0k2FBMTW/paf4=
-Received: from PAZP264CA0085.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1fa::8)
- by PA1PR02MB11260.eurprd02.prod.outlook.com (2603:10a6:102:4f0::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.17; Tue, 3 Jun
- 2025 03:14:35 +0000
-Received: from AM4PEPF00025F95.EURPRD83.prod.outlook.com
- (2603:10a6:102:1fa:cafe::9b) by PAZP264CA0085.outlook.office365.com
- (2603:10a6:102:1fa::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.19 via Frontend
- Transport; Tue, 3 Jun 2025 03:14:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AM4PEPF00025F95.mail.protection.outlook.com (10.167.16.4) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8835.2 via Frontend Transport; Tue, 3 Jun 2025 03:14:33 +0000
-Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 3 Jun
- 2025 05:14:33 +0200
-Received: from se-mail01w.axis.com (10.20.40.7) by SE-MAILARCH01W.axis.com
- (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 3 Jun
- 2025 05:14:33 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Tue, 3 Jun 2025 05:14:33 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 64B92B07
-	for <openembedded-core@lists.openembedded.org>; Tue,  3 Jun 2025 05:14:33 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 5CF3D129245; Tue,  3 Jun 2025 05:14:33 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8249232b55=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5534hGfH001992
+	for <openembedded-core@lists.openembedded.org>; Mon, 2 Jun 2025 22:20:41 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9rrhry-11
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 02 Jun 2025 22:20:41 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Mon, 2 Jun 2025 22:20:06 -0700
+Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Mon, 2 Jun 2025 22:20:06 -0700
+From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] util-linux: Improve the package licenses
-Date: Tue, 3 Jun 2025 05:14:25 +0200
-Message-ID: <20250603031425.2206714-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
+Subject: [walnascar][PATCH 3/3] libsoup-2.4: fix CVE-2025-4969
+Date: Tue, 3 Jun 2025 13:20:36 +0800
+Message-ID: <20250603052036.40068-3-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250603052036.40068-1-changqing.li@windriver.com>
+References: <20250603052036.40068-1-changqing.li@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00025F95:EE_|PA1PR02MB11260:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6eebb85e-d638-45cc-3c61-08dda24cc3a0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?HwKXROVtad35fyNoM9X/BmolHRpO7D//yVvk89lV5PgegTV1NoUofn+Pp40c?=
- =?us-ascii?Q?csqO+Fcut3jXiwwak6c60yA6j95bsAuPo5bV9Hd9UBbOruvN2ZDHeIIJIjvt?=
- =?us-ascii?Q?JUm36uSJlDUr9kGOa6CjF2P2B3K5sB3m+eQm995MLr5EW85iR/IQx17OSlYt?=
- =?us-ascii?Q?fXI4av++kccrJ//x8X9FCvb9XQglC453QgeSy4Qi4De3l/B7L6p4E0tFW8Th?=
- =?us-ascii?Q?HXDKzOUBcNqaQpPVE3FV+jQSJlz6iiz10vkN9CvAoIXJRyyLQiZIfF+WLwWr?=
- =?us-ascii?Q?hnqWwYiDERKRTXOzn2srKpHstweXKbjf+GZRulvgSk3LbsmKdqVq2fNs5yGX?=
- =?us-ascii?Q?LeaIN0Z0XZhejjitI3T+Rw3vM9BR4A4IyCfFKAmw1Bs7C8QV1gl/R2DUbN2J?=
- =?us-ascii?Q?NiB4HnRQlZPd4Og2cs4vaxBJ1eVSGaTkYbJXsuLrzPS9g/VggNovfkI/L+ZM?=
- =?us-ascii?Q?B+auSZRwhEhdVy97SPj1UveEY72V5YxroCPfQZ3DNOqZUG+KkEwnhi/RTMs8?=
- =?us-ascii?Q?0M+N/RrzmqbUnU48RJaYnKDEDq0iKmlDL4MsygfOf6cfSjjuGHRWhWuT+UKi?=
- =?us-ascii?Q?/IS+4hajRnmcnnJdgybkdO1OZL9c4EgfmY61zp1u9EYcfnxYAm+vlPsZxegp?=
- =?us-ascii?Q?T1um4npgNZcnjTgMLUBS+2b6xWmG/As86fFVSQh4aPxSrHKW2aFCz7HyvlYf?=
- =?us-ascii?Q?6fZHhMbJz/MbqL5jSNabiMJoVYtLhOlvlA9hPNIt9a8QAQNTDBn4VjtATgrD?=
- =?us-ascii?Q?/MGq3h3b8o379imNVpmp/HvkVtTM5tC+Oj695YvvKlQ2q0XDmoXuAO5xPpfT?=
- =?us-ascii?Q?6KaMVcgubbLbT11F8xyJHGO5dArzgMxp9PuU6mFw/sJrxLbmOt4z+IOlfxDA?=
- =?us-ascii?Q?jtRUdDSCKH4NxetCTh0DYefJb7AE+aOXSMXOJVJ4jhH2Gw5uWtMSWticl8Rb?=
- =?us-ascii?Q?+nVuxshyBCg9rINmL/7K8BDvpsFSZW/FjtdUmQ5O93et2h1naISOAHClI2Io?=
- =?us-ascii?Q?kFqWYpgnQ00NTHugkWP2EoXPt77BlspsWKa+OySfie3ssaHPYTjPEArxTlBC?=
- =?us-ascii?Q?KLs0QhE+uCY/tO/dzvaLGFrJ5zwRa7LmhD1teowpANz1rNmiP73Mq7kUT+JL?=
- =?us-ascii?Q?NPSSVs585DOxQpzz0ft7uxt8xFJ4GISfAqNotTMFI9wjPHd5yHsQ0aDJq+jx?=
- =?us-ascii?Q?dlOboYfy/FXgRjzh+IxSXvSlkgqveSddzY4bmzulapAV90IF16ErLl0f4ML2?=
- =?us-ascii?Q?EIQDH8kL4Kkdkp6km/K++RuY9gHx/hY1X85tGhr8HhoZUmU0fnNqhrq6qOFL?=
- =?us-ascii?Q?7NAVGlKkFfYODgF+86RhftthcCMyl0Jflgfl4xw8ZMD9zzu8AImsi8LcYwvm?=
- =?us-ascii?Q?Pu5VOOAEH9sfdjHHMUub9hc4r1Wgig+1o/fRYyVYJ9/r67oiFlPmugqgXA6c?=
- =?us-ascii?Q?5czPUA6icUjlVlCQvjW4K8DUTvliPKSfLq3OLw0iGufzVx9kILApl8JF/xJP?=
- =?us-ascii?Q?8pXNfmB07WZy6bD6Kaf7KWsNtGpb7ipcb0aa?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 03:14:33.9313
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6eebb85e-d638-45cc-3c61-08dda24cc3a0
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00025F95.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR02MB11260
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAzMDA0NCBTYWx0ZWRfX7xvFbExZqmCd QqG8IJ9L4Jv7+hb93KHsdvJcLMgy10ZnVDFKQIiUgzFD4xqVqu1alHhDsrVHUf5lTiepxsS5txU dx1Up4KpY1jQIv5VzfcBlszudTT168ut/WEJ4LzEmaWI1FNEyYjXFfqhn0ueyspdDyn2il3S7OY
+ U746XTRbZ/WGFhamN3KfEsDQG2liAeTBc1TdxejP+rp5Xxpmn0pGJlhjxyfjkaVPg3u1MWj1VSx OplHy3O6mPaJApI2+fsWno1kAEHNjcj9Byp73lQ3txIcs1Vp4AseUkwuX+T0UX0g+NbOiyb0+Jn 47K6fvNQn/E5rr8oZmAR/gnft19mjFk9hunLGRX44H5oI89HLDX9dQGOpQqrQ0ceptK8ZeVGvw4
+ oxumxF7pqAkxSxItL4i0OMPHQUMgv3YNKKSFMaBBKp8hc9Y/GmV3v50j8ew3PvDu42u64HiM
+X-Authority-Analysis: v=2.4 cv=PvyTbxM3 c=1 sm=1 tr=0 ts=683e8629 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=6IFa9wvqVegA:10 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=eXHZBV4ZpkldoAy6WkEA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: ezZqeZQ6e7tdNoCKz3oSypMb_kBM2qFI
+X-Proofpoint-ORIG-GUID: ezZqeZQ6e7tdNoCKz3oSypMb_kBM2qFI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-03_01,2025-06-02_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
+ bulkscore=0 adultscore=0 mlxscore=0 mlxlogscore=744 impostorscore=0
+ lowpriorityscore=0 phishscore=0 suspectscore=0 spamscore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2506030044
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 03:14:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217749
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 05:20:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217752
 
-The default license for util-linux is GPL-2.0-or-later.
+From: Changqing Li <changqing.li@windriver.com>
 
-Most of the applications and the libraries are also linked with
-libcommon.la, which uses these licenses:
-LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & MIT
+Refer:
+https://gitlab.gnome.org/GNOME/libsoup/-/issues/447
 
-Set the above licenses for all dynamic packages, unless explicitly
-specified.
-
-In particular, this avoids setting BSD-4-Clause-UC and EUPL-1.2 on
-packages where they do not belong.
-
-License-Update: See above
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc   | 41 ++++++++++++++++---
- .../util-linux/util-linux_2.41.bb             |  3 ++
- 2 files changed, 38 insertions(+), 6 deletions(-)
+ .../libsoup/libsoup-2.4/CVE-2025-4969.patch   | 37 +++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-cor=
-e/util-linux/util-linux.inc
-index b0f2a9d497..bd7ad10035 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -6,14 +6,43 @@ disk partitioning, kernel message management, filesystem =
-creation, and system lo
-=20
- SECTION =3D "base"
-=20
-+# Most of the applications and the libraries are linked with libcommon.la,
-+# which uses these licenses
-+LIBCOMMON_LICENSES =3D "LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & =
-MIT"
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
+new file mode 100644
+index 0000000000..7bc3e8da99
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
+@@ -0,0 +1,37 @@
++From a7d0c58608ed830bedfb6b92aea11e00feb55aa9 Mon Sep 17 00:00:00 2001
++From: Milan Crha <mcrha@redhat.com>
++Date: Mon, 19 May 2025 17:48:27 +0200
++Subject: [PATCH] soup-multipart: Verify array bounds before accessing its
++ members
 +
-+# The default license is GPL-2.0-or-later
-+DEFAULT_LICENSES =3D "GPL-2.0-or-later & ${LIBCOMMON_LICENSES}"
++The boundary could be at a place which, calculated, pointed
++before the beginning of the array. Check the bounds, to avoid
++read out of the array bounds.
 +
- LICENSE =3D "GPL-1.0-or-later & GPL-2.0-only & GPL-2.0-or-later & LGPL-2.1=
--or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause-UC & MIT & EUPL-1.2"
-+# All dynamic packages use ${DEFAULT_LICENSES} with the following exceptio=
-ns
-+LICENSE:${PN}-cal =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-col =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-colcrt =3D "BSD-4-Clause-UC"
-+LICENSE:${PN}-colrm =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-column =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-coresched =3D "EUPL-1.2 & ${LIBCOMMON_LICENSES}"
- LICENSE:${PN}-fcntl-lock =3D "MIT"
--LICENSE:${PN}-fdisk =3D "GPL-1.0-or-later"
--LICENSE:${PN}-libblkid =3D "LGPL-2.1-or-later"
--LICENSE:${PN}-libfdisk =3D "LGPL-2.1-or-later"
--LICENSE:${PN}-libmount =3D "LGPL-2.1-or-later"
--LICENSE:${PN}-libsmartcols =3D "LGPL-2.1-or-later"
--LICENSE:${PN}-coresched =3D "EUPL-1.2"
-+LICENSE:${PN}-fdisk =3D "GPL-1.0-or-later & ${DEFAULT_LICENSES}"
-+LICENSE:${PN}-fsfreeze =3D "GPL-1.0-or-later"
-+LICENSE:${PN}-hexdump =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-kill =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-libblkid =3D "${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-libfdisk =3D "${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-libmount =3D "${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-libsmartcols =3D "${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-logger =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-look =3D "BSD-4-Clause-UC"
-+LICENSE:${PN}-lscpu =3D "GPL-2.0-only & ${DEFAULT_LICENSES}"
-+LICENSE:${PN}-mesg =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-nsenter =3D "GPL-2.0-only & ${DEFAULT_LICENSES}"
-+LICENSE:${PN}-renice =3D "BSD-4-Clause-UC"
-+LICENSE:${PN}-rev =3D "BSD-4-Clause-UC"
-+LICENSE:${PN}-script =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-ul =3D "BSD-4-Clause-UC"
-+LICENSE:${PN}-vipw =3D "BSD-4-Clause-UC & ${DEFAULT_LICENSES}"
-+LICENSE:${PN}-wall =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-whereis =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-+LICENSE:${PN}-write =3D "BSD-4-Clause-UC & ${LIBCOMMON_LICENSES}"
-=20
- LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D55e895a80bdd4ffc65e167=
-a76d2e7569 \
-                     file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 =
-\
-diff --git a/meta/recipes-core/util-linux/util-linux_2.41.bb b/meta/recipes=
--core/util-linux/util-linux_2.41.bb
-index 00036e8a68..6cc7708e06 100644
---- a/meta/recipes-core/util-linux/util-linux_2.41.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.41.bb
-@@ -11,6 +11,9 @@ python util_linux_binpackages () {
-         pn =3D d.getVar('PN')
-         d.appendVar('RRECOMMENDS:%s' % pn, ' %s' % pkg)
-=20
-+        if not d.getVar('LICENSE:' + pkg):
-+            d.setVar('LICENSE:' + pkg, '${DEFAULT_LICENSES}')
++Closes https://gitlab.gnome.org/GNOME/libsoup/-/issues/447
 +
-         if d.getVar('ALTERNATIVE:' + pkg):
-             return
-         if d.getVarFlag('ALTERNATIVE_LINK_NAME', modulename):
++CVE: CVE-2025-4969
++Upstream-Status: Backport
++[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/467/diffs?commit_id=b5b4dd10d4810f0c87b4eaffe88504f06e502f33]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ libsoup/soup-multipart.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libsoup/soup-multipart.c b/libsoup/soup-multipart.c
++index ce2fc10..a29cdf0 100644
++--- a/libsoup/soup-multipart.c
+++++ b/libsoup/soup-multipart.c
++@@ -108,7 +108,7 @@ find_boundary (const char *start, const char *end,
++ 			continue;
++ 
++ 		/* Check that it's at start of line */
++-		if (!(b == start || (b[-1] == '\n' && b[-2] == '\r')))
+++		if (!(b == start || (b - start >= 2 && b[-1] == '\n' && b[-2] == '\r')))
++ 			continue;
++ 
++ 		/* Check for "--" or "\r\n" after boundary */
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+index 911d95901e..e005e7200e 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+@@ -36,6 +36,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-4476.patch \
+            file://CVE-2025-32907.patch \
+            file://CVE-2025-4948.patch \
++           file://CVE-2025-4969.patch \
+ "
+ SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
+ 
+-- 
+2.34.1
+
 
