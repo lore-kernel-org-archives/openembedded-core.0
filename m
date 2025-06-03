@@ -1,419 +1,178 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B293C5AD49
-	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 08:24:46 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web10.6265.1748939069234195791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B46CBC5AE59
+	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 08:46:56 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web11.6639.1748940410096237787
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jun 2025 01:24:36 -0700
+ Tue, 03 Jun 2025 01:46:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=PKdpLVhz;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-202506030824352184e9de9fa1e37951-1swfxw@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202506030824352184e9de9fa1e37951
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 03 Jun 2025 10:24:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=mZoKeABnTuuZhw9AP6AmFIcgmMPYltC1/3xYcPTYRnw=;
- b=PKdpLVhzuSM9w4OpbRvrSToh9IcIVWO7iPKFCcv6KaAZIboB+TVszrxQRaynkx8rjXKs7K
- vmhAH1br1lgUsBVpRx1iAdayHPHGwD5Vc/WvYIrj+KXIC8lIrTYZZoZY9ruTKiphYAaO3Hvr
- 6QlcXjXcVT+CaRBg0IOKsZUyyGzZuxpk0GXTL/HkizbBbKetqFJUSwswFd/HEctufmVwg/gr
- /wkCH9nFTJWh5bNpt4VbNAVtFk92glXQNJfEA7EE+gvB2ekd8vaELb1i0PX9EKTZnPdZwjHf
- os+FOaTq/s6w9CqyyFH6u5Rh0ZWLzw3K7PhkfQgwUFcJjKONEJ92geyA==;
-From: AdrianF <adrian.freihofer@siemens.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=BOMRIjej;
+ spf=pass (domain: mvista.com, ip: 209.85.215.180, mailfrom: vanusuri@mvista.com)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b2c384b2945so4189071a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 01:46:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1748940409; x=1749545209; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6wjLFKUWROIRvC7/fXUyez2HUlNt9skhjfOvF6eo90o=;
+        b=BOMRIjej46bvy6TrfeY3fCfAMMAig869AhN1bPpV9JvPjVJtPLdtEbtR+NOWNakwc5
+         6utGWPFyXNYHuyviB5qoO64IixVBdy7OYRYy+/9KiQNPUcIKdkXIcAACfFx1aXUWT3Ha
+         /79XFXigfgPQD6dZ4kpGlau+3OutCveLW5bwo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748940409; x=1749545209;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6wjLFKUWROIRvC7/fXUyez2HUlNt9skhjfOvF6eo90o=;
+        b=LHVtx7iDvWRrrfBgaWvLWC5/AdtFIjaxABj3xvZsSqNYlPnH41Iph2DixBr8Xnb9G4
+         pVcGuUkzVigXHrCBuIbP6zaTSMNkYRZ54tUVmDVWHxKv7fxCBksluZk8Wg4eyhtXl7Gv
+         8avyaPXPj5DUdjq8wwpIp63qojPNeeXm/Z2eeS03NHJOuVqpzNjzfNocAvjWHeExluF6
+         ospFrKXCIFd9viLCJRH/MuC3eqOrTxtI4aE9Dezhd15TWLHHiTQhRM+c2H53fCxF689Q
+         LBNe9xJs94Fc33JqVSYxxt7JFYooqyExgC0wlAJKmsJ7UQQoSsNbnq7PAomP2H0J9Z3f
+         aRiQ==
+X-Gm-Message-State: AOJu0YyJDByABoMm5A+5h8YZEU+ovPzkMy6PmTE/rB1lkvTGUbV8DJHn
+	59fvM/lKgi/j2Jpxn4f2R3a/reqcEwsuJm+zPLaFI2IrlJtZk1KN3A6fJda5UadG5sGh8Ivly3b
+	S+1v7kv0=
+X-Gm-Gg: ASbGncsoFSv9N3NqzmsMUW4RDB9oymyMtCBj2T4MAtviZCiAZUE8qUdUWRZ6HxJA0lt
+	1zyDuIlZi5dD/GDv9DomFSLaOSKevwHiCIVXfK6rIdfpAbQUdf8eOtr5ywyfDksYxyEmzJg6Wib
+	y4tUIA1uTgUHIqfZ/FHMigsWat9clOaBMlN4xHxj7URB/Ak0CuKqZCcnXG4O53pKyzuotO8XgIf
+	vmVO15+K+Cik3BT8ytpxzcZDVwDB9j7uirArGLxXMJxtuviF3SdQ2Asb+x0Wd69hkfpch+bs12K
+	gPZEvRGaDhQ6a6lI1ul742SIULv7Dx/yHKAYmonthZHRBPZm37Iy3vGepTyd7g==
+X-Google-Smtp-Source: AGHT+IF2bkJqWsZ0lDqJuTQc2lc75vgbS1V1agINuvznDQYyi7iq9a5i5qsmuqjCFFW0b8ds9xBCIg==
+X-Received: by 2002:a17:90b:17c3:b0:312:1c83:58e7 with SMTP id 98e67ed59e1d1-3127c6a9c1fmr15693960a91.1.1748940408704;
+        Tue, 03 Jun 2025 01:46:48 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.207.192.97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506cd9650sm83612375ad.127.2025.06.03.01.46.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jun 2025 01:46:47 -0700 (PDT)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v7 20/20] kernel-fitimage.bbclass: remove it
-Date: Tue,  3 Jun 2025 10:23:31 +0200
-Message-ID: <20250603082419.409564-21-adrian.freihofer@siemens.com>
-In-Reply-To: <20250603082419.409564-1-adrian.freihofer@siemens.com>
-References: <20250603082419.409564-1-adrian.freihofer@siemens.com>
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] libsoup-2.4: Backport auth tests for CVE-2025-32910
+Date: Tue,  3 Jun 2025 14:16:38 +0530
+Message-Id: <20250603084638.29934-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 08:24:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217783
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 08:46:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217784
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-The integration of the FIT image-related build steps into the kernel
-recipe has proven to be not very good. The new implementation with
-kernel-fit-image.bbclass fixes some design issues:
+libsoup-2.74.2/tests/auth-test.c:1554:39: error: unknown type name 'SoupServerMessage'; did you mean 'SoupServerClass'?
 
-* sstate does not work well when a fitImage contains an initramfs. The
-  kernel is rebuilt from scratch if the build runs from an empty TMPDIR.
-* A fitImage kernel is not available as a package, but all other kernel
-  image types are.
-* The task dependencies in the kernel are very complex and difficult to
-  debug if something goes wrong. As a separate, downstream recipe, this
-  is now much easier.
+Fix auth-test.c compilation failure caused by CVE-2025-32910 patch
 
-The long storry about this issue is here:
-[YOCTO #12912]
+Link: https://gitlab.gnome.org/GNOME/libsoup/-/commit/9af7d0fc751f7afcd8b03bc827a4d3af0c4556f8
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- meta/classes-recipe/kernel-fitimage.bbclass | 289 --------------------
- meta/classes-recipe/kernel-uboot.bbclass    |  45 ---
- 2 files changed, 334 deletions(-)
- delete mode 100644 meta/classes-recipe/kernel-fitimage.bbclass
+ ...ckport-auth-tests-for-CVE-2025-32910.patch | 76 +++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.2.bb             |  1 +
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/Backport-auth-tests-for-CVE-2025-32910.patch
 
-diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-deleted file mode 100644
-index a253b210ef5..00000000000
---- a/meta/classes-recipe/kernel-fitimage.bbclass
-+++ /dev/null
-@@ -1,289 +0,0 @@
--#
--# Copyright OpenEmbedded Contributors
--#
--# SPDX-License-Identifier: MIT
--#
--
--inherit kernel-uboot kernel-artifact-names uboot-config
--require conf/image-fitimage.conf
--
--def get_fit_replacement_type(d):
--    kerneltypes = d.getVar('KERNEL_IMAGETYPES') or ""
--    replacementtype = ""
--    if 'fitImage' in kerneltypes.split():
--        uarch = d.getVar("UBOOT_ARCH")
--        if uarch == "arm64":
--            replacementtype = "Image"
--        elif uarch == "riscv":
--            replacementtype = "Image"
--        elif uarch == "mips":
--            replacementtype = "vmlinuz.bin"
--        elif uarch == "x86":
--            replacementtype = "bzImage"
--        elif uarch == "microblaze":
--            replacementtype = "linux.bin"
--        else:
--            replacementtype = "zImage"
--    return replacementtype
--
--KERNEL_IMAGETYPE_REPLACEMENT ?= "${@get_fit_replacement_type(d)}"
--DEPENDS:append = " \
--    ${@'u-boot-tools-native dtc-native' if 'fitImage' in (d.getVar('KERNEL_IMAGETYPES') or '').split() else ''} \
--    ${@'kernel-signing-keys-native' if d.getVar('FIT_GENERATE_KEYS') == '1' else ''} \
--"
--
--python __anonymous () {
--    # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
--    # to kernel.bbclass . We have to override it, since we pack zImage
--    # (at least for now) into the fitImage .
--    typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
--    if 'fitImage' in typeformake.split():
--        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', d.getVar('KERNEL_IMAGETYPE_REPLACEMENT')))
--
--    image = d.getVar('INITRAMFS_IMAGE')
--    if image and not bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')):
--        if d.getVar('INITRAMFS_MULTICONFIG'):
--            mc = d.getVar('BB_CURRENT_MC')
--            d.appendVarFlag('do_assemble_fitimage_initramfs', 'mcdepends', ' mc:' + mc + ':${INITRAMFS_MULTICONFIG}:${INITRAMFS_IMAGE}:do_image_complete')
--        else:
--            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
--
--    #check if there are any dtb providers
--    providerdtb = d.getVar("PREFERRED_PROVIDER_virtual/dtb")
--    if providerdtb:
--        d.appendVarFlag('do_assemble_fitimage', 'depends', ' virtual/dtb:do_populate_sysroot')
--        d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' virtual/dtb:do_populate_sysroot')
--        d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
--}
--
--def fitimage_assemble(d, itsfile, fitname, ramdiskcount):
--    import shutil
--    import glob
--    import oe.fitimage
--
--    DTBS=""
--    default_dtb_image=""
--
--    for f in [itsfile, os.path.join("arch", d.getVar("ARCH"), "boot", fitname)]:
--        if os.path.exists(f):
--            os.remove(f)
--
--    root_node = oe.fitimage.ItsNodeRootKernel(
--        d.getVar("FIT_DESC"), d.getVar("FIT_ADDRESS_CELLS"),
--        d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),  d.getVar("FIT_CONF_PREFIX"),
--        d.getVar('UBOOT_SIGN_ENABLE') == "1", d.getVar("UBOOT_SIGN_KEYDIR"),
--        d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
--        d.getVar("UBOOT_MKIMAGE_SIGN"), d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
--        d.getVar('FIT_HASH_ALG'), d.getVar('FIT_SIGN_ALG'), d.getVar('FIT_PAD_ALG'),
--        d.getVar('UBOOT_SIGN_KEYNAME'),
--        d.getVar('FIT_SIGN_INDIVIDUAL') == "1", d.getVar('UBOOT_SIGN_IMG_KEYNAME')
--    )
--
--    #
--    # Step 1: Prepare a kernel image section.
--    #
--    linux_comp = uboot_prep_kimage_py(d)
--    root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
--        d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
--        d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
--
--    #
--    # Step 2: Prepare a DTB image section
--    #
--    kernel_devicetree = d.getVar('KERNEL_DEVICETREE')
--    external_kernel_devicetree = d.getVar("EXTERNAL_KERNEL_DEVICETREE")
--    if kernel_devicetree:
--        for DTB in kernel_devicetree.split():
--            if "/dts/" in DTB:
--                bb.warn(f"{DTB} contains the full path to the dts file, but only the dtb name should be used.")
--                DTB = os.path.basename(DTB).replace(".dts", ".dtb")
--
--            # Skip DTB if it's also provided in EXTERNAL_KERNEL_DEVICETREE
--            if external_kernel_devicetree:
--                ext_dtb_path = os.path.join(external_kernel_devicetree, DTB)
--                if os.path.exists(ext_dtb_path) and os.path.getsize(ext_dtb_path) > 0:
--                    continue
--
--            DTB_PATH = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), "dts", DTB)
--            if not os.path.exists(DTB_PATH):
--                DTB_PATH = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), DTB)
--
--            # Strip off the path component from the filename
--            if not oe.types.boolean(d.getVar("KERNEL_DTBVENDORED")):
--                DTB = os.path.basename(DTB)
--
--            # Set the default dtb image if it exists in the devicetree.
--            if d.getVar("FIT_CONF_DEFAULT_DTB") == DTB:
--                default_dtb_image = DTB.replace("/", "_")
--
--            DTB = DTB.replace("/", "_")
--
--            # Skip DTB if we've picked it up previously
--            if DTB in DTBS.split():
--                continue
--
--            DTBS += " " + DTB
--
--            root_node.fitimage_emit_section_dtb(DTB, DTB_PATH,
--                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
--
--    if external_kernel_devicetree:
--        dtb_files = []
--        for ext in ['*.dtb', '*.dtbo']:
--            dtb_files.extend(sorted(glob.glob(os.path.join(external_kernel_devicetree, ext))))
--
--        for dtb_path in dtb_files:
--            dtb_name = os.path.relpath(dtb_path, external_kernel_devicetree)
--            dtb_name_underscore = dtb_name.replace('/', '_')
--
--            # Set the default dtb image if it exists in the devicetree.
--            if d.getVar("FIT_CONF_DEFAULT_DTB") == dtb_name:
--                default_dtb_image = dtb_name_underscore
--
--            # Skip DTB/DTBO if we've picked it up previously
--            if dtb_name_underscore in DTBS.split():
--                continue
--
--            DTBS += " " + dtb_name_underscore
--
--            # For symlinks, add a configuration node that refers to the DTB image node to which the symlink points
--            symlink_target = oe.fitimage.symlink_points_below(dtb_name, external_kernel_devicetree)
--            if symlink_target:
--                root_node.fitimage_emit_section_dtb_alias(dtb_name, symlink_target, True)
--            # For real DTB files add an image node and a configuration node
--            else:
--                root_node.fitimage_emit_section_dtb(dtb_name_underscore, dtb_path,
--                    d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"), True)
--
--    if d.getVar("FIT_CONF_DEFAULT_DTB") and not default_dtb_image:
--        bb.warn("%s is not available in the list of device trees." % d.getVar('FIT_CONF_DEFAULT_DTB'))
--
--    #
--    # Step 3: Prepare a u-boot script section
--    #
--    fit_uboot_env = d.getVar("FIT_UBOOT_ENV")
--    if fit_uboot_env:
--        unpack_dir = d.getVar("UNPACKDIR")
--        shutil.copy(os.path.join(unpack_dir, fit_uboot_env), fit_uboot_env)
--        root_node.fitimage_emit_section_boot_script("bootscr-"+fit_uboot_env , fit_uboot_env)
--
--    #
--    # Step 4: Prepare a setup section. (For x86)
--    #
--    setup_bin_path = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), "setup.bin")
--    if os.path.exists(setup_bin_path):
--        root_node.fitimage_emit_section_setup("setup-1", setup_bin_path)
--
--    #
--    # Step 5: Prepare a ramdisk section.
--    #
--    if ramdiskcount == 1 and d.getVar("INITRAMFS_IMAGE_BUNDLE") != "1":
--        # Find and use the first initramfs image archive type we find
--        found = False
--        for img in d.getVar("FIT_SUPPORTED_INITRAMFS_FSTYPES").split():
--            initramfs_path = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), "%s.%s" % (d.getVar('INITRAMFS_IMAGE_NAME'), img))
--            if os.path.exists(initramfs_path):
--                bb.note("Found initramfs image: " + initramfs_path)
--                found = True
--                root_node.fitimage_emit_section_ramdisk("ramdisk-%d" % ramdiskcount, initramfs_path,
--                    d.getVar('INITRAMFS_IMAGE'),
--                    d.getVar("UBOOT_RD_LOADADDRESS"),
--                    d.getVar("UBOOT_RD_ENTRYPOINT"))
--                break
--            else:
--                bb.note("Did not find initramfs image: " + initramfs_path)
--
--        if not found:
--            bb.fatal("Could not find a valid initramfs type for %s, the supported types are: %s" % (d.getVar('INITRAMFS_IMAGE_NAME'), d.getVar('FIT_SUPPORTED_INITRAMFS_FSTYPES')))
--
--    # Generate the configuration section
--    root_node.fitimage_emit_section_config(default_dtb_image)
--
--    #
--    # Write the ITS file
--    root_node.write_its_file(itsfile)
--
--    #
--    # Step 7: Assemble the image
--    #
--    fitfile = os.path.join(d.getVar("KERNEL_OUTPUT_DIR"), fitname)
--    root_node.run_mkimage_assemble(itsfile, fitfile)
--
--    #
--    # Step 8: Sign the image if required
--    #
--    root_node.run_mkimage_sign(fitfile)
--
--
--python do_assemble_fitimage() {
--    if "fitImage" in d.getVar("KERNEL_IMAGETYPES").split():
--        os.chdir(d.getVar("B"))
--        fitimage_assemble(d, "fit-image.its", "fitImage-none", "")
--        if d.getVar("INITRAMFS_IMAGE_BUNDLE") != "1":
--            link_name = os.path.join(d.getVar("B"), d.getVar("KERNEL_OUTPUT_DIR"), "fitImage")
--            if os.path.islink(link_name):
--                os.unlink(link_name)
--            os.symlink("fitImage-none", link_name)
--}
--
--addtask assemble_fitimage before do_install after do_compile
--
--SYSROOT_DIRS:append = " /sysroot-only"
--do_install:append() {
--	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
--		[ "${UBOOT_SIGN_ENABLE}" = "1" ]; then
--		install -D ${B}/${KERNEL_OUTPUT_DIR}/fitImage-none ${D}/sysroot-only/fitImage
--	fi
--}
--
--python do_assemble_fitimage_initramfs() {
--    if "fitImage" in d.getVar("KERNEL_IMAGETYPES").split() and d.getVar("INITRAMFS_IMAGE"):
--        os.chdir(d.getVar("B"))
--        if d.getVar("INITRAMFS_IMAGE_BUNDLE") == "1":
--            fitimage_assemble(d, "fit-image-%s.its" % d.getVar("INITRAMFS_IMAGE"), "fitImage-bundle", "")
--            link_name =  os.path.join(d.getVar("B"), d.getVar("KERNEL_OUTPUT_DIR"), "fitImage")
--            if os.path.islink(link_name):
--                os.unlink(link_name)
--            os.symlink("fitImage-bundle", link_name)
--        else:
--            fitimage_assemble(d, "fit-image-%s.its" % d.getVar("INITRAMFS_IMAGE"), "fitImage-%s" % d.getVar("INITRAMFS_IMAGE"), 1)
--}
--
--addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
--
--kernel_do_deploy[vardepsexclude] = "DATETIME"
--kernel_do_deploy:append() {
--	# Update deploy directory
--	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
--
--		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
--			bbnote "Copying fit-image.its source file..."
--			install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its-${KERNEL_FIT_NAME}.its"
--			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
--				ln -snf fitImage-its-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${KERNEL_FIT_LINK_NAME}"
--			fi
--
--			bbnote "Copying linux.bin file..."
--			install -m 0644 ${B}/linux.bin $deployDir/fitImage-linux.bin-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}
--			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
--				ln -snf fitImage-linux.bin-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT} "$deployDir/fitImage-linux.bin-${KERNEL_FIT_LINK_NAME}"
--			fi
--		fi
--
--		if [ -n "${INITRAMFS_IMAGE}" ]; then
--			bbnote "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
--			install -m 0644 ${B}/fit-image-${INITRAMFS_IMAGE}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
--			if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
--				ln -snf fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
--			fi
--
--			if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
--				bbnote "Copying fitImage-${INITRAMFS_IMAGE} file..."
--				install -m 0644 ${B}/${KERNEL_OUTPUT_DIR}/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}"
--				if [ -n "${KERNEL_FIT_LINK_NAME}" ] ; then
--					ln -snf fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
--				fi
--			fi
--		fi
--	fi
--}
-diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-recipe/kernel-uboot.bbclass
-index 6d365355e36..62974baaf06 100644
---- a/meta/classes-recipe/kernel-uboot.bbclass
-+++ b/meta/classes-recipe/kernel-uboot.bbclass
-@@ -57,48 +57,3 @@ uboot_prep_kimage() {
- 
- 	printf "$linux_comp" > "$output_dir/linux_comp"
- }
--
--def uboot_prep_kimage_py(d):
--    import subprocess
--
--    arch = d.getVar('ARCH')
--    initramfs_image_bundle = d.getVar('INITRAMFS_IMAGE_BUNDLE')
--    fit_kernel_comp_alg = d.getVar('FIT_KERNEL_COMP_ALG') or 'gzip'
--    fit_kernel_comp_alg_extension = d.getVar('FIT_KERNEL_COMP_ALG_EXTENSION') or '.gz'
--    kernel_objcopy = d.getVar('KERNEL_OBJCOPY')
--
--    vmlinux_path = ""
--    linux_suffix = ""
--    linux_comp = "none"
--
--    if os.path.exists(f'arch/{arch}/boot/compressed/vmlinux'):
--        vmlinux_path = f'arch/{arch}/boot/compressed/vmlinux'
--    elif os.path.exists(f'arch/{arch}/boot/vmlinuz.bin'):
--        if os.path.exists('linux.bin'):
--            os.remove('linux.bin')
--        os.link(f'arch/{arch}/boot/vmlinuz.bin', 'linux.bin')
--    else:
--        vmlinux_path = 'vmlinux'
--        # Use vmlinux.initramfs for linux.bin when INITRAMFS_IMAGE_BUNDLE set
--        # As per the implementation in kernel.bbclass.
--        # See do_bundle_initramfs function
--        if initramfs_image_bundle == '1' and os.path.exists('vmlinux.initramfs'):
--            vmlinux_path = 'vmlinux.initramfs'
--        linux_suffix = fit_kernel_comp_alg_extension
--        linux_comp = fit_kernel_comp_alg
--
--    if vmlinux_path:
--        subprocess.run([kernel_objcopy.strip(), '-O', 'binary', '-R', '.note', '-R', '.comment', '-S', os.path.abspath(vmlinux_path), 'linux.bin'], check=True)
--        # if ret.returncode != 0:
--        # bb.fatal(f"Error: stderr: {ret.stderr.decode('utf-8')}   stdout: {ret.stdout.decode('utf-8')}, vmlinux_path: {os.path.abspath(vmlinux_path)}, pwd: {os.getcwd()}, args: {ret.args}")
--
--    if linux_comp != "none":
--        if linux_comp == "gzip":
--            subprocess.run(['gzip', '-9', 'linux.bin'], check=True)
--        elif linux_comp == "lzo":
--            subprocess.run(['lzop', '-9', 'linux.bin'], check=True)
--        elif linux_comp == "lzma":
--            subprocess.run(['xz', '--format=lzma', '-f', '-6', 'linux.bin'], check=True)
--        os.rename(f'linux.bin{linux_suffix}', 'linux.bin')
--
--    return linux_comp
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/Backport-auth-tests-for-CVE-2025-32910.patch b/meta/recipes-support/libsoup/libsoup-2.4/Backport-auth-tests-for-CVE-2025-32910.patch
+new file mode 100644
+index 0000000000..2c23f57ccf
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/Backport-auth-tests-for-CVE-2025-32910.patch
+@@ -0,0 +1,76 @@
++From: Andreas Henriksson <andreas@fatal.se>
++Date: Sat, 26 Apr 2025 20:09:29 +0200
++Subject: Backport auth tests for CVE-2025-32910
++
++Upstream-Status: Backport [import from debian https://salsa.debian.org/gnome-team/libsoup/-/blob/debian/bullseye/debian/patches/Backport-auth-tests-for-CVE-2025-32910.patch?ref_type=heads
++Upstream commit https://gitlab.gnome.org/GNOME/libsoup/-/commit/9af7d0fc751f7afcd8b03bc827a4d3af0c4556f8]
++CVE: CVE-2025-32910
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ tests/auth-test.c | 28 ++++++++++++++++++++--------
++ 1 file changed, 20 insertions(+), 8 deletions(-)
++
++diff --git a/tests/auth-test.c b/tests/auth-test.c
++index 548ac94..f582033 100644
++--- a/tests/auth-test.c
+++++ b/tests/auth-test.c
++@@ -1549,14 +1549,26 @@ do_cancel_after_retry_test (void)
++         soup_test_session_abort_unref (session);
++ }
++ 
+++//from upstream commit 9af7d0fc751f7afcd8b03bc827a4d3af0c4556f8
+++static gboolean
+++on_digest_authenticate (SoupMessage *msg,
+++                        SoupAuth    *auth,
+++                        gboolean     retrying,
+++                        gpointer     user_data)
+++{
+++        g_assert_false (retrying);
+++        soup_auth_authenticate (auth, "user", "good");
+++        return TRUE;
+++}
+++
++ static void
++ on_request_read_for_missing_params (SoupServer        *server,
++-                                      SoupServerMessage *msg,
+++                                      SoupMessage *msg,
+++                                      SoupClientContext *client,
++                                       gpointer           user_data)
++ {
++         const char *auth_header = user_data;
++-        SoupMessageHeaders *response_headers = soup_server_message_get_response_headers (msg);
++-        soup_message_headers_replace (response_headers, "WWW-Authenticate", auth_header);
+++        soup_message_headers_replace (msg->response_headers, "WWW-Authenticate", auth_header);
++ }
++ 
++ static void
++@@ -1567,7 +1579,7 @@ do_missing_params_test (gconstpointer auth_header)
++         SoupServer *server;
++         SoupAuthDomain *digest_auth_domain;
++         gint status;
++-        GUri *uri;
+++        SoupURI *uri;
++ 
++         server = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD);
++ 	soup_server_add_handler (server, NULL,
++@@ -1586,16 +1598,16 @@ do_missing_params_test (gconstpointer auth_header)
++                           G_CALLBACK (on_request_read_for_missing_params),
++                           (gpointer)auth_header);
++ 
++-        session = soup_test_session_new (NULL);
+++        session = soup_test_session_new (SOUP_TYPE_SESSION_ASYNC, NULL);
++         msg = soup_message_new_from_uri ("GET", uri);
++-        g_signal_connect (msg, "authenticate",
+++        g_signal_connect (session, "authenticate",
++                           G_CALLBACK (on_digest_authenticate),
++                           NULL);
++ 
++-        status = soup_test_session_send_message (session, msg);
+++        status = soup_session_send_message (session, msg);
++ 
++         g_assert_cmpint (status, ==, SOUP_STATUS_UNAUTHORIZED);
++-	g_uri_unref (uri);
+++	soup_uri_free (uri);
++ 	soup_test_server_quit_unref (server);
++ }
++ 
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+index 46b9e10ac5..bb15e8b926 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+@@ -26,6 +26,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-32910-1.patch \
+            file://CVE-2025-32910-2.patch \
+            file://CVE-2025-32910-3.patch \
++           file://Backport-auth-tests-for-CVE-2025-32910.patch \
+            file://CVE-2025-32911_CVE-2025-32913-1.patch \
+            file://CVE-2025-32911_CVE-2025-32913-2.patch \
+            file://CVE-2025-32912-1.patch \
 -- 
-2.49.0
+2.25.1
 
 
