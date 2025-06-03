@@ -1,197 +1,122 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE2FDC5AD49
-	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 09:27:37 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.45])
- by mx.groups.io with SMTP id smtpd.web11.7192.1748942850755141663
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1BDCC5AE59
+	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 09:40:37 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.7242.1748943635440514469
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jun 2025 02:27:31 -0700
+ Tue, 03 Jun 2025 02:40:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=awzRKVwY;
- spf=pass (domain: cherry.de, ip: 40.107.20.45, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F3cNsGyuQgiW8rYw2cgKdHWh6nzqedS9Bgpfw0047I8Gxo13GtE4uJjXrULlPGdZo+77KSlKCJxortFCiWboZ6J+28jKKrliTtW5zd5fgrMA/HgFnqH0V4C8Jvxa9CtdneRH1tfZeM2gCDTYwv0xT5/litSYVqI4PLFSTazEtFS3cmD5dKipFnPOUA1rxq6oV88a9Rd0Y0li2loiTtE7lXqm2rgEd2kQpPitEQExjFlC9iqGbFOHYcs3V5rDQySjD9IIH0bHMmaglj1XUZwZKnNN+XmHpm+XWLcVm5voxF2euEXOux/7lW45qaIoJPCf3rYQ3tkKsybSMqgpc1o8IA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xNlN1tB6ReQqFqo4b2FhU98QvUA0Oh2GaSP7x0FJNjc=;
- b=nOOSVJ331bxH5Cg+rRy5/XW3rOrW4O06tgB6RIsS6kexrPiRdSq/LKDp2g/tIxDjN30IEkW6Tx+3SOaZK4aWAmAttZqpn7ao65zjkeV4mZD08fhpJ666mXj3sQTuCbTYMYzwd9D7ukcNWBjkPtuS0GMcVQ/HEmiGk3UvToWoxl+KR4hUSP/KZ/+/knGw2O8cKnGkNeUnyXPbvRbrMoxm8/pBVXnpc/QohGZlG4U7ZfgYPil/qhk/jaITzkMm7F9kw1i/KXunszVtQtf2QO9pryZVsSIqYS/I0yPtCbpCAYMybE4kGci9x5rsilTLnDS6faGFh7KDwEY4oL6XvYx+Tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xNlN1tB6ReQqFqo4b2FhU98QvUA0Oh2GaSP7x0FJNjc=;
- b=awzRKVwYtVuFk7HEuNXQfubtbmrTKYp7M1cz77OJ41VQgJs8Uk3lXv6jVqtrUVpamXRDUbpmi0Jczz0LcEdW6q45iRf4CLL2iEAoqudI6xOgkixWkifbv48QLteSoNGc7VbWJy7wUiyLbZHah9Ec673InzLIoNbZjHAgZj8SvOI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AM9PR04MB8906.eurprd04.prod.outlook.com (2603:10a6:20b:409::9)
- by VE1PR04MB7280.eurprd04.prod.outlook.com (2603:10a6:800:1af::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.33; Tue, 3 Jun
- 2025 09:27:25 +0000
-Received: from AM9PR04MB8906.eurprd04.prod.outlook.com
- ([fe80::d379:5378:b1:cea]) by AM9PR04MB8906.eurprd04.prod.outlook.com
- ([fe80::d379:5378:b1:cea%4]) with mapi id 15.20.8792.034; Tue, 3 Jun 2025
- 09:27:24 +0000
-Message-ID: <166b439a-86cd-4bef-816f-c016732236da@cherry.de>
-Date: Tue, 3 Jun 2025 11:27:23 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] util-linux: Improve the package licenses
-To: peter.kjellerstedt@axis.com, openembedded-core@lists.openembedded.org
-References: <20250603031425.2206714-1-pkj@axis.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20250603031425.2206714-1-pkj@axis.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO6P123CA0044.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:2fe::20) To AM9PR04MB8906.eurprd04.prod.outlook.com
- (2603:10a6:20b:409::9)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OCJ3el3/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a35c894313so4847506f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 02:40:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1748943634; x=1749548434; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R4ZvI6I03g4KNjleLCnrMHhkhhpytsirZtnsEzRjhR4=;
+        b=OCJ3el3/QMjxLUAag2yC+xOepRG13+eER3N79LMVxdigAf5aNig7FoaufPR9rea8Ft
+         5E9LwrVHilUC/woW6FuWTJZjvc6N5D0m/5GgdXESn35xXNFZhv2qa5qdr0YmEnKPj0rI
+         /eLUPttlCbq+twSi2UUSg5S3NICQh0YgfEtMs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748943634; x=1749548434;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=R4ZvI6I03g4KNjleLCnrMHhkhhpytsirZtnsEzRjhR4=;
+        b=ewQ1JssBr3BUKU2KPabBM6+WVlpdpfQfUll/ZQFd0CBaKV+NEqM5pqHfnZ0Pd+51GU
+         IKh4qZKN3A12XA/HhmRvapTGwxngTvTLOfeulkcGUHaso7w3r+BCTcbVDIqDO9goouh7
+         aRfBGqYeThFYN/2se1ml8q0Pjny/mPxARjpzLYzag0UDfc2EjufknqhWRfcLwZBlsXv/
+         nPooO4bvxmzWp9L8hH0ho7Tw87UEeJEPjUyj6U9uCcLLEjQnbmrSnhd6TFD0dEKsLfYO
+         cSEOHxsSx7nllNi0YR5ezlMkre7A+kQoPA0YV8V0eWaQZl3IuhkZJzbwWQ6kLBokXpzH
+         CnXg==
+X-Forwarded-Encrypted: i=1; AJvYcCUl7+2Tpy72diTMR+NPj0dVVs3/dA+kKZzANoG9Q7a0/RWeJJyAv1juWVZglQ7PdNWcUv+xrfpm2VoWKol2Pril6g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyEYgo7wUw6wtsmTbHcKVx4mKjLoGKiWQ3JayyFdSfZmi/BBgeV
+	X1UqP8Cl5jaRvxv+0U5Yg2PDU4FXywdUbBMlXPIvZDrfCKHKs5RZR9VPHApQN0kP6gE=
+X-Gm-Gg: ASbGnctD7w+Ry+bpzJxbyLJAT5oV8bVp+tkH5m7Yd4uIZrzf2w177KhoGSZ9p74fpsh
+	/YrKE2c4YyDKdaKSikJ5MqhQ4cz1zDND8nfuDG+wK/TqawmjsCjvdLYVnvtzovHTSv+U8XSmBkD
+	GIlS31EsJ0CqFjJxn0ohIQiBe9KrXTvWdyEN0NtOHMXn8uPjWeFS1zYNaxBAArRvncWOy1Tjjyo
+	ETO3uz5WZVYMv1vEFme2WoaiPw2QHaoI2956vVKs/ufARiY01dVZ9R1uxYRjeQoxbuq1WNdj6ON
+	qOPqKl7QJlzR7078nvtgwjSQVbzKNjPdUmvF4DLOpoLTGhYCgWv5DCEQ0StHXriVgDp2R191edQ
+	v4VUF6ICqcWOr6tK++JDOTGsvnKHeCb9xLSpRQ2j7
+X-Google-Smtp-Source: AGHT+IHRGj4+jYMHHVVkA3euNWlxIfMKByONENHXmP9EsJZfnGHsBOIrxbopdNfr7FLxL/qW+3sSqA==
+X-Received: by 2002:a05:6000:2283:b0:3a3:652d:1640 with SMTP id ffacd0b85a97d-3a4fe160ba5mr9560288f8f.2.1748943633750;
+        Tue, 03 Jun 2025 02:40:33 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3864:8101:3606:8242? ([2001:8b0:aba:5f3c:3864:8101:3606:8242])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d7f8f1adsm156801545e9.7.2025.06.03.02.40.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jun 2025 02:40:33 -0700 (PDT)
+Message-ID: <b535bfb0baaa86f325ff88e21b8bf3a8378b4635.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/1] icecc: calculate pn and bpn from FILE
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: peter.suti@streamunlimited.com, openembedded-core@lists.openembedded.org
+Date: Tue, 03 Jun 2025 10:40:32 +0100
+In-Reply-To: <20250603085808.4045687-1-peter.suti@streamunlimited.com>
+References: <20250603085808.4045687-1-peter.suti@streamunlimited.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8906:EE_|VE1PR04MB7280:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9dd4a586-6817-42f6-aa08-08dda280d9a5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?dWVTQjNEV3JRbGVNY2JkYTJQSXlYbFgvZzVHY01mU3BZb1BwdU1oWSt1bkgv?=
- =?utf-8?B?Ty9oVlQ4S0xjU1B1UVcwUE1nYUhtNXdiWVZjTXRaeXBVNVkvb0dXTjdKTnZU?=
- =?utf-8?B?Q1MzSkY1RWoveVltTmJRblZ4QVlIR1M2MXZDWXd6NU1TK2FxRHozbnl6S2Rz?=
- =?utf-8?B?Q2N6RldQOXlJNWY4VUY2UXZaMlJkSUV0UkZnTStFSDgrbjMyV3UrN0RQOEox?=
- =?utf-8?B?K212eGVoMC9BWkpRY05XclJMNUJaNW1NWk9IaTkwdXZyMktSenFIc2xUUTQ3?=
- =?utf-8?B?cEJQcEhjNXRvM0dDaWpjd1JQcm1yQVRsNkI3ajBQY1NMZjBSZ1JiTmtQSDFV?=
- =?utf-8?B?Qm4rbWluTUxGSGY1SU1reGs5UlpXakdQV05IdWg3MHU2c3FQdFAzR3BKSm9s?=
- =?utf-8?B?UTU0ZmhHNDBNbHV4bU5sSlZzc0FjQ3ZoUDVQeWI3S2dBMUdsdWYxWVZ3UjMv?=
- =?utf-8?B?RkdYczlQNjh0bjFPeWtiSGV5UmZzSDY0cWFtL3EzVnBXWkJlcTVsK2o0ZzVn?=
- =?utf-8?B?UVliajkybHNPSDdKSVVwczlaQXRlL3IyTFFlTGxtSHk1YUpNWFp4UThaSDcv?=
- =?utf-8?B?SlovRHVRMWh4MDMzN3Z0VnJ1MFVXZVdJaUplRVlzWHRac0F1VnBRa3NuNHQz?=
- =?utf-8?B?SU16UDdDaWtIbmprWDQ1NUdUZTd4YkpEck4xNGQvUUxSZHBkWStZMWNGWFpR?=
- =?utf-8?B?R2xwTkZ0L1Q0MUt3QUZQY05QNnlabTBUS01IYU1CV3drUnN1c2krZEZtcFBa?=
- =?utf-8?B?RXY0YUlLaUxwZGM1bVFiVjdHWXMxRGJyaUtidXdrb0c0M3NZQnMrY2M2WW8v?=
- =?utf-8?B?Rk5rZGFxUDhmZ0hKdWdpR2Y5VjFlUTh1bERETkpOTXZFRkhpUFVtRjV1NlRP?=
- =?utf-8?B?OCtvbGNSeXBSTGo4bFF0VkxkRVlvWnVwL3FSSnFiL1llZnJ4cVJGcEt5d2JO?=
- =?utf-8?B?dGFYaVBJTE9GZVdxNVlqanBFSkxxbGVyRElkUEsvWVNVVTZsKy83Y0N2TWI0?=
- =?utf-8?B?Ylh1clFsRlBSeFZLZkp5NmpaaDlFZkZ6K252bi9sbndtYk44TzUzdXRWV3NG?=
- =?utf-8?B?VVFaTlVMZ0s4OVlCS25zV1hqcUl3LzRWU2EyTkRZMGZ1M2lFWFlwNERhajVW?=
- =?utf-8?B?M3pFOGFBcVFXd3V6aHUwVisvdHE4OGlyakxPU29KRGlrNnJkVWFVc0pSSEhm?=
- =?utf-8?B?cjgwdTVLdjdYemFZV0NoR2xSR3VYdytlcGJnTkdaNzRoc3JBTVRkMnUybnk0?=
- =?utf-8?B?cDVFYlRSQ08veStLdVZqNVhBcDdBSDFseVZlZDZGZlZvM2VBVVdHbzlKanpa?=
- =?utf-8?B?T3NvV09zT2tvWjVuYXpvUys4anZRdFBUNlFweG5QdFdVeDVYMWRvVCs2Ujhr?=
- =?utf-8?B?Lys3YTU5Qk5EbDR1L1hTcSsyM3ZvNzYvM2MxallkdkdpMXNtWWQ1VlR5NXor?=
- =?utf-8?B?cDg5NDM4aWw5UmY1enhaWXk3a3RtNUJGTTA5RmFnYXhWT3E1V3JHUnpyZHlC?=
- =?utf-8?B?VFBXeGx2UG11L3NtZmFUb05hYjhYM3hqeXhrT090N1FoVkZFaWhGM3F1SFpN?=
- =?utf-8?B?OUpwMkVjUm11Z09WcGdjcUJMVk5xV25KUmM3RXU4M01heVZ5UklHOVVUZ2Jv?=
- =?utf-8?B?QlJoS0lzbm1JTVEra0JmVnN0aHlUZkc0QTBIL0s4WDdBck9LcEVhMmNrWUdi?=
- =?utf-8?B?V1dLYXZvNm5NMjEyNWllTUFWUW1vcDVEOW1aalJjRmkzelBYN25ZVGRqcm1E?=
- =?utf-8?B?b2g5MzUvT2FoNk9JMTQwemxQMXY0MXVHSnFRSjB4dnF1amFUWUxCR21iUlpB?=
- =?utf-8?B?L3RwRjk1SCtocUdKRS9CdHNmb3drMHhrdDVCRWp4K2VtNnJLbWd0NjFvTnhl?=
- =?utf-8?B?eEd1U3ViTDVpOTBBaEMzSHJpekNJMFUxUmNHSU1RZjZEMVNsdElzM0lsK3hs?=
- =?utf-8?Q?ZQifPKjGBFo=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8906.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NWFKVm1PYTJzUFFKK0pnajh2akN2ZzEvdkRwOXhwWmZMaU5VN1JCOVhMQzJL?=
- =?utf-8?B?K3hObnF6MTQrSk9JSDgyTmRaQ2pDRTB5bHBlLzFzaHVrMmVBbjFSOEtTUkUw?=
- =?utf-8?B?UWo4bnNmTWpzY0ZMZ013RXpFZkVPSTBlR0ROV0pzU003Znc1WlJ0NzNMZm1k?=
- =?utf-8?B?UE41RHJHaE1pVlloaU5XaFdmcUQxN1JuWGpJb0F5YlcxakRoc0pyZU9oTGto?=
- =?utf-8?B?akNXcWZ2TXFRZTdqbVJCWlJEemVJa2JYa3ZndnZUWmtGYzNrK3pjU2hkMTlE?=
- =?utf-8?B?eWJCZjFWNUVqdE1uUW1vdHQrNEIza2lXVmxVbHFobEhCMllEbC9RQUg2UUJJ?=
- =?utf-8?B?Q3ZPUWFxQlZ4VTIzM1ZGdmVzQlY2REpRcFNiZDRxWXR3OFpMQUhpUmp1N1N6?=
- =?utf-8?B?TUdFRUdMK2M0MmlrT1Q1M2NQWWFXVnBPMkt2OVZoU1hhV0NOMGtYcXV0NUsv?=
- =?utf-8?B?T21yeVRVRlZOUjlNVy8wQzdsRnhkdmFiWDFwbkNic1dGU0dnTmlRSGlFalNw?=
- =?utf-8?B?ZFBOUlU0UlVxSkN5R2hsclVHYW1TOC9TMjloeGxHV2ZTNXlzZVpIVTZPOEVa?=
- =?utf-8?B?bU51QVpwNmlzTmVsVVZTeFlvME96enE1WFhsS1ZMMUxsMzdYNWxub25sYXRy?=
- =?utf-8?B?aEQyZkd0cjgrSWhBRFhWbHdGTEJkZ0tBdnZURGRxZUcyRkJGb3pnWG5pelBF?=
- =?utf-8?B?WHlTb1owd3B5QVpiQnMwMWdaQ3BkZGpPek45dUYvUDJPSzdnZU1BUkNLZjVO?=
- =?utf-8?B?Mkp5WnRKYVBZVEo0TEYydnlEdEhrYUJZSlVkbm80Nmt4SjVVMm85dWk0TjlW?=
- =?utf-8?B?T21pYURiSG90UmRBMnFLdWNiak9ZMStEUlkyQ05aRXVIMW56OGNaOHE4NHJk?=
- =?utf-8?B?MzQ5VXhDZGFtY2sramxzV0k2YStZY1EzMll6R1BUK0wyMnZFb0tSbkxVN3px?=
- =?utf-8?B?Mm45MXlWdXp5QldlTFYrdWtQZ1d4S1QzVTYrcHFkcEwwSmdNZG9qSHMyRjgw?=
- =?utf-8?B?SGVOQ3JDcnM2bURybG83WGp5dHJETFNpZ3Y5Zm1LNmZuSEJUYnNZOFR2NFkv?=
- =?utf-8?B?VHF1WXpib0dwOGFhT1phTEtuYUo5ZkRhUHU1WWJXM2djRjFzaXRZTFo2Q2xS?=
- =?utf-8?B?Z1Z6RFdlUE1jQzVSOHd4ZXFMWFAwZUtIRHVDMXBBc0pJL3c2QTVsbHZ3K09a?=
- =?utf-8?B?RmwvVWVQd1VRd043L2ZKQXRjYWZEZk5ndWp0V01uRUxPY2dNeklhVXlBenpN?=
- =?utf-8?B?bWU3RUlqNG5POHpuemczaVJyMEt1VWN4VzRKWEsxMzVzSy82OFZZZ2RGWU1F?=
- =?utf-8?B?VExnM0xac1NVbGVDUSs3bU5tRm15dlZwbzJOay9HMHBrWVNNVTdGdGxYVS9T?=
- =?utf-8?B?WXQwQm52TjI2RHZHWDdvNTFla2p3c29ybUVlWlFqbCs4TGh6cWpuYWowVDN0?=
- =?utf-8?B?dm5pNzdhS3BrZkxGM0xvdFhwdVYyY1BJY2VVU2JrbzZxditCWTMwUThmMFow?=
- =?utf-8?B?Q1BvWEN6V2RKY3MvNXJ5MFRxVkhqdENVT055QlQ2aFJ2R0ZJQ0VBdzdIOUgr?=
- =?utf-8?B?MlNMN1ZBRFZLLzRPUitQald2TDhSOGxZS0xTTnJudTFZQStUbjZaSUgxTTRo?=
- =?utf-8?B?SlVnUW5lMTdaRXBPbk9jTmVlN1VQdW4vZlpuSW5QUXZQdG50QUhGZHpBWkh0?=
- =?utf-8?B?ZUZzU3Bpem9ycXJCRjNLNTBZWE1wamFhWTM3OGZDejV0RlBjV2ZqUlRzUSt3?=
- =?utf-8?B?MlE4cW9MZDZzTElGZUxiUU83aUN1UGdQNXZVSGFQRkhuM0huMno4MllBaXVm?=
- =?utf-8?B?dzhQVVJBU2hhL3pIN3pNcnZWNFEzZlRocTFRdHZKd3VzU3VCL2VzNER4T0RL?=
- =?utf-8?B?SWovV2t3ZkhHUDd1Lzgxd3NDa1RoYmZPNXBqRmYyN1FETWZrT2EyUWsrZjM2?=
- =?utf-8?B?OUt0SWNidWs1MnNkK2UvV085S2w2SkwxMWV2czhpMkpMRTNkdXRRYzNRb3ZB?=
- =?utf-8?B?NUthN0Zod1BSTk5MdWFDc3p3Z1BkakdUOWpLSXhsdDR4SFVSTjJheHdDWEpC?=
- =?utf-8?B?d3JGcURlU0YxQ1NIVWxBTUhmTENkL0p1d3RhWEk1QUN2QmErRWFjVkZCZWZx?=
- =?utf-8?B?VWxkS1FmWVBsamJOaGVFY25BUTRxUWRZZUt2Q29lS1I1TnhRdTRrQnEweWlH?=
- =?utf-8?B?Qnc9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9dd4a586-6817-42f6-aa08-08dda280d9a5
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8906.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2025 09:27:24.9072
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: on8fc7tOnyQuRFtY3ju9BUWRy77Q6faUXVgrJ17k0pMY6G3cmVjXQGG70I4B4mMeWEgKNR2fXgm6ppTM6W14I0mlJ4/BxnPzxtHX4r91KOI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7280
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 09:27:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217794
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 09:40:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217795
 
-Hi Peter,
-
-On 6/3/25 5:14 AM, Peter Kjellerstedt via lists.openembedded.org wrote:
-> The default license for util-linux is GPL-2.0-or-later.
-> 
-> Most of the applications and the libraries are also linked with
-> libcommon.la, which uses these licenses:
-> LGPL-2.1-or-later & BSD-2-Clause & BSD-3-Clause & MIT
-> 
-> Set the above licenses for all dynamic packages, unless explicitly
-> specified.
-> 
-> In particular, this avoids setting BSD-4-Clause-UC and EUPL-1.2 on
-> packages where they do not belong.
-> 
-> License-Update: See above
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+On Tue, 2025-06-03 at 10:58 +0200, Peter Suti via lists.openembedded.org wr=
+ote:
+> Starting with Yocto Mickledore the PN and BPN variables are set to "no-pn=
+"
+> at this point in the `use_icecc()` function, so instead we need to
+> re-parse them from the file again as a workaround otherwise icecc is brok=
+en.
+>=20
+> Fixes: 3be00ad9052de ("bitbake.conf: Add BB_HASH_CODEPARSER_VALS")
+> Where "PN=3Dnopn" is set to optimise the codeparser cache's size.
+>=20
+> [0] https://lists.yoctoproject.org/g/yocto/topic/icecc_support_broken/103=
+429714
+>=20
+> Signed-off-by: Peter Suti <peter.suti@streamunlimited.com>
 > ---
->   meta/recipes-core/util-linux/util-linux.inc   | 41 ++++++++++++++++---
->   .../util-linux/util-linux_2.41.bb             |  3 ++
->   2 files changed, 38 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> index b0f2a9d497..bd7ad10035 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -6,14 +6,43 @@ disk partitioning, kernel message management, filesystem creation, and system lo
->   
->   SECTION = "base"
->   
-> +# Most of the applications and the libraries are linked with libcommon.la,
-> +# which uses these licenses
+> =C2=A0meta/classes/icecc.bbclass | 4 ++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+> index 8a48f2ad63..e3b07028b8 100644
+> --- a/meta/classes/icecc.bbclass
+> +++ b/meta/classes/icecc.bbclass
+> @@ -143,8 +143,8 @@ def use_icecc(bb,d):
+> =C2=A0=C2=A0=C2=A0=C2=A0 if icecc_is_cross_canadian(bb, d):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return "no"
+> =C2=A0
+> -=C2=A0=C2=A0=C2=A0 pn =3D d.getVar('PN')
+> -=C2=A0=C2=A0=C2=A0 bpn =3D d.getVar('BPN')
+> +=C2=A0=C2=A0=C2=A0 pn =3D bb.parse.vars_from_file(d.getVar('FILE', False=
+),d)[0] or 'defaultpkgname'
+> +=C2=A0=C2=A0=C2=A0 bpn =3D oe.utils.prune_suffix(pn, d.getVar('SPECIAL_P=
+KGSUFFIX').split(), d)
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 # Enable/disable checks are made against BPN, be=
+cause there is a good
+> =C2=A0=C2=A0=C2=A0=C2=A0 # chance that if icecc should be skipped for a r=
+ecipe, it should be skipped
 
-Is this something we can detect directly within the binaries in a 
-package, so that we could simply add those licenses dynamically to 
-LICENSE:${PN}-x instead of having to list them by hand?
+Unfortunately PN could be set differently to that, or set through class
+extensions so I don't think this is a good way to fix the issue. It
+does highlight that icecc probably just worked through luck anyway. It
+would get it approximately right most of the time but I'm not sure we
+want to rely on that.
 
-Packages without a package-specific LICENSE will take the recipe's 
-LICENSE I believe, considering that *.la is part of the -dev package 
-should the -dev package have a "more precise" license than the recipe's 
-default?
+To be honest, I'm more tempted to simply remove icecc since it would
+seem not a lot of people are using it if it takes this long for fixes
+to get sent :/.
 
 Cheers,
-Quentin
+
+Richard
 
