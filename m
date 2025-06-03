@@ -2,166 +2,440 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B71C5AD49
-	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 20:27:45 +0000 (UTC)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web11.163.1748982456508307637
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D2AFC5AD49
+	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 20:56:25 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.868.1748984175611015045
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jun 2025 13:27:36 -0700
+ Tue, 03 Jun 2025 13:56:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PCR9aoC7;
- spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4a44e94f0b0so49487051cf.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 13:27:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UK1kymS8;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-23508d30142so64403395ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 13:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748982455; x=1749587255; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1748984175; x=1749588975; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VQx9QSp0L+K1cPJK4+KrjPf2dyEnwR9GkxjGouBw1WY=;
-        b=PCR9aoC7VYeSeaCOVM7HDmwy8uZCFydIRb6orz0hcFdQPhhxOHgTOpIWK9O+8FJpjT
-         z1g4MBi01ebSXcigQyiUmUQnBsRg0T2/F+hJleszx9ZAwuD0kSYjco2jaWkiesSHmKif
-         LmgBNguurT65D+ywfcJjwDcDqwB1uM95Rhxz+FqIANmH/GHDORI42ceKeEjAMgYkO/Sh
-         7sFDof+VRlEJjDcTrH7jrcQx6v+8k7g/yKb3bDIBHvUBo/YJwGd6HW4C+z0C2RvPlKH7
-         0Gv6c4c9LNoOMvypmZP709oOq4DSmwqHA1KT0PV+phNwWK9MRU54RaI8ZxoT7S8XWzsg
-         CB/w==
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EJ5ssy7sMh6/YppwrbVSG7Bbkv1IjLyXHF0XkmN/zTc=;
+        b=UK1kymS8xpvphVN6ww9n+BmPB9mWCkMrzQnFbIbQ86oUAlvaosCR2V/Swx1HbGmYac
+         5Wdz8B82rieMSqZ1o6vRkgjkofq5itllHJ9hd6tRjEYhs96zGwsi5hlQ4wn1ocNq3cih
+         EJ1oniQqZoTX47l3gkJjIPwdrg5RpuX+eYuKjdCccxp5s+ntfT8ANukYtxJVtNgIZFwl
+         rti/AL84FoNGl+RSZts7jzUUl+1FftCSom7CtXSEuXzIkKt4OQzHuEn7nD3uN+P+wX8g
+         e975KMFm56TylVVbmfiWNtN8uhqVvlTjKJJWpmBiEbsFO+t6EC/oZx6BHxKkOevQY/q0
+         cCsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748982455; x=1749587255;
+        d=1e100.net; s=20230601; t=1748984175; x=1749588975;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VQx9QSp0L+K1cPJK4+KrjPf2dyEnwR9GkxjGouBw1WY=;
-        b=oPN1ULgTdZUrVkkLpYAhBZYitnbZzo9QSQlb2DWJVs02hxsq8W97fnbfdB6+FitfBD
-         61KVAzMyFS5Ucwd1nco2yrqI2s+WV5u9I4H8jnnMbN3DqvcluDCMlK3cZ1M6hrnq1FTp
-         J7R0hcQRATurdvCtbEHNf4Mn2S/uOj6NQes/jpmZ544fbZGChnn5bmety7Bz35AJbLia
-         qQIZjJawrF/Z5RjC56KgwIDTtqzbmqA3E1si62aw69aEJxV48NKoEPxj7iIz/hX40XiN
-         eQiPN81ggUbJYxJWkNCJY/eR7VCceRlxnOGxdu8UjCToH2TWif9w/lPg0XjxeuOvAjuq
-         QXaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZbtva65S2D1oXMKJw4K1b4wn+4WdgsGuFDN8NZg2HSDJMJHikfG3DXOT2B6bwXNCMc7ujEfrQkV/MNHppjIZS4A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxxHqkd0XJ4BV+y/E0NV9Z/hIZPe9x/IUeIJx2PQXMHgtUTMqIT
-	8w/Luxpwd0I9g0m000X2GEjgIxvJVHKOimhXgPUbZdPiDWMbVP5ptkSth1J7RQ==
-X-Gm-Gg: ASbGnct4TcJ7HKTMjARfecBaJR8G5+IiMzSShwzgYWQy82a3Ql7vVT1fQ/wqXMJ/FK5
-	3cESRR/hmCe6IU7b+yJajQpgGSNCKimtek9Q6EpFpvDCI967H5bCUIl24QvumvkYORjnXTIVUmQ
-	/iPKWcf95VG5Ka6aXaOpIoSMKzxnQ01uabmv53Jvjg/Swvnp4FmV74/U17hCElWHZg07LAmdLbM
-	9MYxzkM5lfabhNsptqYBz2aBeOKU1AOWAwChnaSugB+CvJsdG7sBVetlb5ZH+ATFkI8ArhLAId3
-	RMFymV4VpGag/YKQvWk62A5R6ZKaLVReAMW0UrMAWY3zsIyuMyGSNqhbQNz8VSeccIDZdO9tvpv
-	GShdW69cxkjo137SE7Jfv4Q2D+nsP6Ce3JmOhxkZJKCu2ho8=
-X-Google-Smtp-Source: AGHT+IHM1GXWU5PaDPyTb60RSmXYapSh7Au0g2+drJRxL2r8jfZ+XT699DlOCFsHex66wNn8r8b6rw==
-X-Received: by 2002:a05:6a00:2da5:b0:736:6d4d:ffa6 with SMTP id d2e1a72fcca58-7480b2e0415mr513661b3a.15.1748982044047;
-        Tue, 03 Jun 2025 13:20:44 -0700 (PDT)
+        bh=EJ5ssy7sMh6/YppwrbVSG7Bbkv1IjLyXHF0XkmN/zTc=;
+        b=GdgimtbiovDI6rTyA9agDMbvhRUS6RoGzVsGhmFNoHyEHtxKGAOL3+d0e0JCyzd1sI
+         TTghtHYhUw1Jkk8r2cqmV6sCjCaaEcBlUFYHmGNSwAgqUngpOqqu8jz1LI86R6LlTyDo
+         TEIaYqrvCB2VhMcQ0J4jlb9k4j/ndMiE1Vnrr1WKgAPOM9g0aiQ0g9ksdveg8QJ5DbNU
+         SNfKgVO13ezS43ifd84lIPQ84DINgnft2PtQiPtgEr90zx5527osOAzhmjDgBkhjJXLM
+         mt21gnFw11spUqDSJmvPGYujsgjiKQhFJx0mNy2eo1VDONBUUGioqvaJWQrTS/srZivL
+         SzfA==
+X-Forwarded-Encrypted: i=1; AJvYcCU2pNvw67caNsuVf3okw6FZK6YH4zi+BpnveVqF8SZjKPOxVu3rKzcOtNpFUXsKlchiRABfESthLXH8B5A2AoZrgg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwK1fo4HyM8wnAyqoISfnwbxWG4CZNvv/s8FjE27yWNQGYK/zL+
+	LgJwodZVx6kNU4uBbQuG8m1iDpyUURlke5Glohtd6NGdaeCNL0crmwiF
+X-Gm-Gg: ASbGncu8FNK8yO+/7qTa0fZDuBRybRdB4hAnph8zOBtXkvsKMOOwuBtELUbD7JQ9jyN
+	fTYcSev0yx2awk9DWRwCrxG+PiPOqDrr5AoBAZ7yWoB0uy0TsWKeM9ZEDObihtO1dGaiHjjbJ/U
+	7YMkug08oONg4B8stY7i3bjMaeO0phGYi2Dt26VkMw451TGZMjLh90dhywR623sqX5Vd43/sem2
+	8lRHrsHP9L31WXBnBPrxJbGaImCMwyUGzz35fxm48Qr5Yfw+Z/O34LFlQeQp508CGcdGm5AljM+
+	aH90f+q5Eb58dgMUasqLzjO7Hg+OIiGuR9+a0wk0L38IZgurvVTA0xIdT09dicYFz9A+JTmV0mY
+	kszogE5Rfs+KlONjpjOj31lzSN3VUCOdVzBbgPsFE6A==
+X-Google-Smtp-Source: AGHT+IHccIezE8uNodlaK5B97ionIp2CEIhW4GwRCAoWDoeOMSh9xhEQ+Ph7If+bgUVYE1vxKzzqCw==
+X-Received: by 2002:a17:902:f785:b0:235:15f3:ef16 with SMTP id d9443c01a7336-235e114071cmr2802715ad.13.1748984174935;
+        Tue, 03 Jun 2025 13:56:14 -0700 (PDT)
 Received: from ?IPV6:2601:646:8201:fd20:bcff:6d7:a328:fe85? ([2601:646:8201:fd20:bcff:6d7:a328:fe85])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747afeab769sm9856203b3a.38.2025.06.03.13.20.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e30cb3bsm7676439a91.38.2025.06.03.13.56.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jun 2025 13:20:43 -0700 (PDT)
-Message-ID: <56e70695-1d21-47cb-81d5-8adc68348550@gmail.com>
-Date: Tue, 3 Jun 2025 13:20:42 -0700
+        Tue, 03 Jun 2025 13:56:14 -0700 (PDT)
+Message-ID: <301069e2-445c-4298-843c-c1a3f7d17ca5@gmail.com>
+Date: Tue, 3 Jun 2025 13:56:13 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH] util-linux: fix ptest failure for musl
-To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
-References: <20250603071720.2055740-1-Qi.Chen@windriver.com>
+Subject: Re: [OE-core] [RFC] rust: Upgrade 1.85.1->1.86.0
+To: Randy MacLeod <randy.macleod@windriver.com>,
+ Randy MacLeod <rwmacleod@gmail.com>
+Cc: "Shinde, Yash" <Yash.Shinde@windriver.com>,
+ Alexander Kanavin <alex.kanavin@gmail.com>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
+References: <83e0d268-ec47-4f3a-bf05-2aee4e58e749@windriver.com>
+ <CANNYZj-BmEXJVc1rdVPGu5wz87AW1RvbX+WhgicAfEby7kjUhw@mail.gmail.com>
+ <47ba1f68-f67b-4c58-b788-63e06fdf4816@windriver.com>
+ <CANNYZj-JtVtjk2e+Z=OmVF8RaygO5M1e+6tbQuTZYotbYetQrg@mail.gmail.com>
+ <7571c07b-2225-4449-8169-08b044208072@gmail.com>
+ <afaa4102-c876-437a-871d-f6f90697d5f4@windriver.com>
+ <CANNYZj-Pa_jhraEz7qAHoDXLxfg-7ztH4UhdRPXirw6biZGWEA@mail.gmail.com>
+ <36532bcc-c9dd-430a-a932-ec81e9270f19@windriver.com>
+ <CAK6=ix4WrPGEbsfRwEsZz56BJP61OnkjqO8xvcB9BYoNJ2A6RQ@mail.gmail.com>
+ <CAMKF1spgaYyyYOs633Lr_0EMq=vmixOXLDa4Q2ivb9PJy0BY8A@mail.gmail.com>
+ <105472d8-aa33-4894-b23f-0a4be90367c1@windriver.com>
 Content-Language: en-US
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20250603071720.2055740-1-Qi.Chen@windriver.com>
+In-Reply-To: <105472d8-aa33-4894-b23f-0a4be90367c1@windriver.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 20:27:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217823
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 20:56:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217824
 
 
 
-On 6/3/25 12:17 AM, Chen Qi via lists.openembedded.org wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
+On 6/3/25 11:31 AM, Randy MacLeod wrote:
+> On 2025-06-02 1:09 p.m., Khem Raj wrote:
+>>
+>>
+>> On Mon, Jun 2, 2025 at 6:03 AM Randy MacLeod <rwmacleod@gmail.com> wrote:
+>>
+>>     Hi Yash,
+>>
+>>
+>>     On Mon, Jun 2, 2025, 07:15 Yash Shinde via lists.openembedded.org
+>>     <https://urldefense.com/v3/__http://lists.openembedded.org__;!!
+>>     AjveYdw8EvQ!eFbErouxWe_8sEEVI1krYJ8mhuv-
+>>     rIrrvLEk7rYp2ZeCBYDpMmsVsNya8myxiMywaOFMMtB__0YvY7rtMhcpAg$>
+>>     <Yash.Shinde=windriver.com@lists.openembedded.org> wrote:
+>>
+>>
+>>         On 30-05-2025 18:45, Alexander Kanavin wrote:
+>>>         On Fri, 30 May 2025 at 14:42, Yash Shinde<Yash.Shinde@windriver.com> wrote:
+>>>
+>>>>         As Khem mentioned, setting lld = false in config.toml doesn't build LLD.
+>>>>         Furthermore, using "use-lld = false" ensures that LLD is not used as the
+>>>>         default linker,
+>>>>         causing the build to fall back to the system's default linker. This
+>>>>         restores the earlier behavior.
+>>>>         Also, the package QA error for rust-lld is not seen with this.
+>>>         What about build times though? Are they back to what they were?
+>>>
+>>         The build time differences on my machine are as follows:
+>>
+>>         rust version
+>>         	rust upstream builds
+>>         	rust-native (yocto build)
+>>         	rust target (yocto build)
+>>         v1.85.1
+>>         	10 mins
+>>         	20 mins
+>>         	33 mins
+>>         v1.86.0
+>>         	22 mins (with "lld" and "use-lld" set to "false")
+>>         30 mins (with default settings i.e lld = true)
+>>
+>>         	31 mins (with "lld" and
+>>         "use-lld" set to "false") 	43 mins (with "lld" and
+>>         "use-lld" set to "false")
+>>
+>>         Note: The machine being used is a shared resource and fairly
+>>         busy. Build times may differ due to other user's builds.
+>>
+>>
+>>         The FS usage is as follows:
+>>
+>>         Rust version
+>>         	rust upstream builds
+>>         	Yocto rust builds (build/tmp/work/core2-64-poky-linux/
+>>         rust/1.86.0/rustc-1.86.0-src/build)
+>>         v1.85.1
+>>         	4.6 G
+>>         	6.3 G
+>>         v1.86.0
+>>         	15 G
+>>         	8.8 G
+>>
+>>         The latest rust v1.86.0 upgrade changes are available at:
+>>         https://git.yoctoproject.org/poky-contrib/log/?h=harish/
+>>         rust_1.86.0_v2 <https://urldefense.com/v3/__https://
+>>         git.yoctoproject.org/poky-contrib/log/?
+>>         h=harish*rust_1.86.0_v2__;Lw!!AjveYdw8EvQ!
+>>         eFbErouxWe_8sEEVI1krYJ8mhuv-
+>>         rIrrvLEk7rYp2ZeCBYDpMmsVsNya8myxiMywaOFMMtB__0YvY7qkai0dkw$>
+>>
 > 
-> The kill/decode test case fails for musl. The root cause is the test
-> case only considers glibc and uses 34 as SIGRTMIN while musl uses 35.
-> Add a patch to fix this issue.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-core/util-linux/util-linux.inc   |  1 +
->   .../0001-ts-kill-decode-fix-for-musl.patch    | 43 +++++++++++++++++++
->   2 files changed, 44 insertions(+)
->   create mode 100644 meta/recipes-core/util-linux/util-linux/0001-ts-kill-decode-fix-for-musl.patch
-> 
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> index b0f2a9d497..2d003c28b2 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -42,6 +42,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
->              file://fcntl-lock.c \
->              file://0001-tests-ts-kill-decode-avoid-using-shell-built-in-kill.patch \
->              file://0001-lsfd-mkfds-foreign-sockets-skip-when-lacking-sock_di.patch \
-> +           file://0001-ts-kill-decode-fix-for-musl.patch \
->              "
->   
->   SRC_URI[sha256sum] = "81ee93b3cfdfeb7d7c4090cedeba1d7bbce9141fd0b501b686b3fe475ddca4c6"
-> diff --git a/meta/recipes-core/util-linux/util-linux/0001-ts-kill-decode-fix-for-musl.patch b/meta/recipes-core/util-linux/util-linux/0001-ts-kill-decode-fix-for-musl.patch
-> new file mode 100644
-> index 0000000000..efdd019cda
-> --- /dev/null
-> +++ b/meta/recipes-core/util-linux/util-linux/0001-ts-kill-decode-fix-for-musl.patch
-> @@ -0,0 +1,43 @@
-> +From e6b6e401b0046a524e2e3e3db66f1b85b06fa2d4 Mon Sep 17 00:00:00 2001
-> +From: Chen Qi <Qi.Chen@windriver.com>
-> +Date: Tue, 3 Jun 2025 13:18:36 +0800
-> +Subject: [PATCH] ts/kill/decode: fix for musl
-> +
-> +glibc uses 34 as the value of SIGRTMIN:
-> +https://sourceware.org/git/?p=glibc.git;a=blob;f=signal/allocrtsig.c;h=8ed8e37dd6c41f94be6eef042ce9db1af1153228;hb=HEAD#l27
-> +"""
-> +static int current_rtmin = __SIGRTMIN + RESERVED_SIGRT;
-> +"""
-> +
-> +musl uses 35 as the value of SIGRTMIN:
-> +https://git.musl-libc.org/cgit/musl/tree/src/signal/sigrtmin.c
-> +
-> +Adjust the test case to cope with musl. Otherwise, it fails with
-> +the following difference:
-> +
-> +  -Ignored: HUP QUIT TRAP PIPE ALRM
-> +  +Ignored: HUP QUIT TRAP PIPE ALRM 34
-> +
-> +Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/3605]
-> +
-> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> +---
-> + tests/ts/kill/decode | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/tests/ts/kill/decode b/tests/ts/kill/decode
-> +index 57149899e..f17ea36e2 100755
-> +--- a/tests/ts/kill/decode
-> ++++ b/tests/ts/kill/decode
-> +@@ -53,7 +53,7 @@ ACK=
-> + 	    # Sending one more USR1 is for making the signal pending state.
-> + 	    "$TS_CMD_KILL" -USR1 "$PID"
-> + 	    "$TS_CMD_KILL" -d "$PID" | {
-> +-		if [[ $("$TS_CMD_KILL" --list=34) == RT0 ]]; then
-> ++		if [[ $("$TS_CMD_KILL" --list=34) == RT0 || $("$TS_CMD_KILL" --list=35) == RT0 ]]; then
+> FS bloat is partly due to:
+>     1. we forgot to remove cargo from rust pkg,
+>     2. rust-analyzer added in 1.86, - do we need it?
 
-hardcoding these values are perhaps not ideal. Maybe using SIGRTMIN here 
-could make it work across platforms.
+I think its not a bad idea for cross compiler on host and perhaps a 
+packageconfig for target. Same for clippy, rustfmt
 
-> + 		    # See man signal(7).
-> + 		    #   The  Linux  kernel  supports a range of 33 different real-time signals,
-> + 		    #   numbered 32 to 64.  However, the glibc POSIX threads implementation in‐
-> +--
-> +2.34.1
-> +
+>     3. wasm-component-ld  built - do we need it?
+
+If we need to support wasm output for rust compiler. Seems to
+be a good candidate for packageconfig with disabled default.
+
+>     4. llvm-bitcode-linker      built - do we need it?
+> 
+
+it was used from stage0 in prior releases. Now it is cross compiled
+and is better
+
+another change is that LTO is enabled for all these tool builds which 
+might be also adding to build time, even though resulting binaries might
+be faster.
+
+> For now, drop the things we don't need by changing config.toml.
+> We can consider adding them as disabled by default 
+> PACKAGECONFIG[feature] options later.
+> 
+> This is from looking at the packages-split contents and a filtered 
+> log.do_install.
+> Details and more info below.
+> 
+> ../Randy
 > 
 > 
 > 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#217761): https://lists.openembedded.org/g/openembedded-core/message/217761
-> Mute This Topic: https://lists.openembedded.org/mt/113443532/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> I expect that rust-analyzer is also the primary reason for the build 
+> time increase but hopefully Yash can confirm.
+> 
+> I dug through the log files a bit which I don't do often these days so 
+> maybe there's a better way to get
+> this info.
+> 
+> ❯ rg  "^COMPILE|^Building" 1.85.1/log.do_install | sed 's/ (.*)$//'  > 
+> 1.85.1/COMPILE-Building
+> ❯ rg  "^COMPILE|^Building" 1.86/log.do_install | sed 's/ (.*)$//' > 
+> 1.86/COMPILE-Building
+> 
+> 
+> Diffs below (1).
+> 
+> 
+> Initially I was looking at log.do_install and filtering out noise using 
+> a combination of grep, sed, and
+> emacs macros of all things!
+> 
+> I ended up reducing the log.do_install file length by an order of magnitude:
+> ❯ wc -l */log.do_install
+>     13351 1.85.1/log.do_install
+>     22144 1.86/log.do_install
+> 
+> ❯ wc -l */log.do_install.Compiling.fix-with-emacs.Compiling.sed-path
+>    1211 1.85.1/log.do_install.Compiling.fix-with-emacs.Compiling.sed-path
+>    2103 1.86/log.do_install.Compiling.fix-with-emacs.Compiling.sed-path
+> 
+> Diff here:
+> https://www.diffchecker.com/hduQYfmq/
+> 
+> in case anyone is interested in the lower level build view.
+> 
+> 
+> 
+> 1) diff -u and sdiff of high level COMPILE|Building
+> 
+> ✦ ❯ diff -u 1.8*/COMPILE-Building
+> --- 1.85.1/COMPILE-Building    2025-06-03 14:11:34.838212146 -0400
+> +++ 1.86/COMPILE-Building    2025-06-03 14:11:44.997206613 -0400
+> @@ -2,18 +2,36 @@
+>   Building bootstrap
+>   Building stage0 library artifacts
+>   Building compiler artifacts
+> +Building stage0 tool wasm-component-ld
+> +Building tool llvm-bitcode-linker
+>   Building stage1 library artifacts
+>   Building compiler artifacts
+> +Building stage1 tool wasm-component-ld
+> +Building tool llvm-bitcode-linker
+>   Building stage1 library artifacts
+>   Building stage0 tool rust-installer
+>   Building compiler artifacts
+> +Building stage1 tool wasm-component-ld
+> +Building tool llvm-bitcode-linker
+>   Building tool rustdoc
+> +Building tool rust-analyzer-proc-macro-srv
+> +Building stage0 tool generate-copyright
+> +Building tool cargo
+> +Building tool rust-analyzer
+> +Building tool rustfmt
+> +Building tool cargo-fmt
+> +Building tool clippy-driver
+> +Building tool cargo-clippy
+>   COMPILE rust install clippy
+>   Building bootstrap
+>   Building stage0 library artifacts
+>   Building compiler artifacts
+> +Building stage0 tool wasm-component-ld
+> +Building tool llvm-bitcode-linker
+>   Building stage1 library artifacts
+>   Building compiler artifacts
+> +Building stage1 tool wasm-component-ld
+> +Building tool llvm-bitcode-linker
+>   Building stage1 library artifacts
+>   Building compiler artifacts
+>   Building tool clippy-driver
+> @@ -23,8 +41,12 @@
+>   Building bootstrap
+>   Building stage0 library artifacts
+>   Building compiler artifacts
+> +Building stage0 tool wasm-component-ld
+> +Building tool llvm-bitcode-linker
+>   Building stage1 library artifacts
+>   Building compiler artifacts
+> +Building stage1 tool wasm-component-ld
+> +Building tool llvm-bitcode-linker
+>   Building stage1 library artifacts
+>   Building compiler artifacts
+>   Building tool rustfmt
+> 
+> ✦ ❯ sdiff 1.8*/COMPILE-Building
+> COMPILE rust install                        COMPILE rust install
+> Building bootstrap                        Building bootstrap
+> Building stage0 library artifacts                Building stage0 library 
+> artifacts
+> Building compiler artifacts                    Building compiler artifacts
+>                                    >    Building stage0 tool wasm- 
+> component-ld
+>                                    >    Building tool llvm-bitcode-linker
+> Building stage1 library artifacts                Building stage1 library 
+> artifacts
+> Building compiler artifacts                    Building compiler artifacts
+>                                    >    Building stage1 tool wasm- 
+> component-ld
+>                                    >    Building tool llvm-bitcode-linker
+> Building stage1 library artifacts                Building stage1 library 
+> artifacts
+> Building stage0 tool rust-installer                Building stage0 tool 
+> rust-installer
+> Building compiler artifacts                    Building compiler artifacts
+>                                    >    Building stage1 tool wasm- 
+> component-ld
+>                                    >    Building tool llvm-bitcode-linker
+> Building tool rustdoc                        Building tool rustdoc
+>                                    >    Building tool rust-analyzer- 
+> proc-macro-srv
+>                                    >    Building stage0 tool generate- 
+> copyright
+>                                    >    Building tool cargo
+>                                    >    Building tool rust-analyzer
+>                                    >    Building tool rustfmt
+>                                    >    Building tool cargo-fmt
+>                                    >    Building tool clippy-driver
+>                                    >    Building tool cargo-clippy
+> COMPILE rust install clippy                    COMPILE rust install clippy
+> Building bootstrap                        Building bootstrap
+> Building stage0 library artifacts                Building stage0 library 
+> artifacts
+> Building compiler artifacts                    Building compiler artifacts
+>                                    >    Building stage0 tool wasm- 
+> component-ld
+>                                    >    Building tool llvm-bitcode-linker
+> Building stage1 library artifacts                Building stage1 library 
+> artifacts
+> Building compiler artifacts                    Building compiler artifacts
+>                                    >    Building stage1 tool wasm- 
+> component-ld
+>                                    >    Building tool llvm-bitcode-linker
+> Building stage1 library artifacts                Building stage1 library 
+> artifacts
+> Building compiler artifacts                    Building compiler artifacts
+> Building tool clippy-driver                    Building tool clippy-driver
+> Building tool cargo-clippy                    Building tool cargo-clippy
+> Building stage0 tool rust-installer                Building stage0 tool 
+> rust-installer
+> COMPILE rust install rustfmt                    COMPILE rust install rustfmt
+> Building bootstrap                        Building bootstrap
+> Building stage0 library artifacts                Building stage0 library 
+> artifacts
+> Building compiler artifacts                    Building compiler artifacts
+>                                    >    Building stage0 tool wasm- 
+> component-ld
+>                                    >    Building tool llvm-bitcode-linker
+> Building stage1 library artifacts                Building stage1 library 
+> artifacts
+> Building compiler artifacts                    Building compiler artifacts
+>                                    >    Building stage1 tool wasm- 
+> component-ld
+>                                    >    Building tool llvm-bitcode-linker
+> Building stage1 library artifacts                Building stage1 library 
+> artifacts
+> Building compiler artifacts                    Building compiler artifacts
+> Building tool rustfmt                        Building tool rustfmt
+> Building tool cargo-fmt                        Building tool cargo-fmt
+> Building stage0 tool rust-installer                Building stage0 tool 
+> rust-installer
+> 
+>>
+>>         Regards,
+>>         Yash
+>>
+>>
+>>     Hi Yash
+>>
+>>
+>>     That's good progress. We'll need to think about what, it anything,
+>>     we're missing by not building rust-lld. We should run some tests
+>>     to compare the link times but that can likely wait until after we
+>>     get the update merged.
+>>
+>>
+>> Though the internet has some information on lld improvements having 
+>> this in OE context will be valuable.
+>> I also think disabling lld is going to give us some reprieve. As more 
+>> targets in rust seem to use it by default we need to consider that we 
+>> do not start disabling defaults and wear off from upstream.
+>>
+>>     Remaining concerns:
+>>
+>>     1. Significant increase in FS usage, compile time. Have you looked
+>>     into why there's still such a significant increase?
+>>
+>>     2.  * Enable INHIBIT_PACKAGE_DEBUG_SPLIT/STRIP to fix QA stripping
+>>     errors. Fixes: ERROR: rust-1.86.0-r0 do_package: QA Issue: File '/
+>>     usr/lib/rustlib/x86_64-poky-linux-gnu/bin/wasm-component-ld' from
+>>     rust was already stripped, this will prevent future debugging!
+>>     [already-stripped]
+>>
+>>
+>>     Do we use this component? Is it new? Why is it produced without
+>>     debug symbols?
+>>
+>>
+>>     I'll take a more careful look at the commit code changes once we
+>>     have answers to these questions.
+>>
+>>
+>>     Thanks for your hard work.
+>>     Almost done this upgrade hopefully.
+>>
+>>     Randy
+>>
+>>>         Alex
+>>
+>>         -=-=-=-=-=-=-=-=-=-=-=-
+>>         Links: You receive all messages sent to this group.
+>>         View/Reply Online (#217714): https://lists.openembedded.org/g/
+>>         openembedded-core/message/217714 <https://urldefense.com/v3/
+>>         __https://lists.openembedded.org/g/openembedded-core/
+>>         message/217714__;!!AjveYdw8EvQ!eFbErouxWe_8sEEVI1krYJ8mhuv-
+>>         rIrrvLEk7rYp2ZeCBYDpMmsVsNya8myxiMywaOFMMtB__0YvY7oWKRQz_A$>
+>>         Mute This Topic: https://lists.openembedded.org/
+>>         mt/113268009/953399 <https://urldefense.com/v3/__https://
+>>         lists.openembedded.org/mt/113268009/953399__;!!AjveYdw8EvQ!
+>>         eFbErouxWe_8sEEVI1krYJ8mhuv-
+>>         rIrrvLEk7rYp2ZeCBYDpMmsVsNya8myxiMywaOFMMtB__0YvY7pWRz_sBA$>
+>>         Group Owner: openembedded-core+owner@lists.openembedded.org
+>>         <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+>>         Unsubscribe: https://lists.openembedded.org/g/openembedded-
+>>         core/unsub <https://urldefense.com/v3/__https://
+>>         lists.openembedded.org/g/openembedded-core/unsub__;!!
+>>         AjveYdw8EvQ!eFbErouxWe_8sEEVI1krYJ8mhuv-
+>>         rIrrvLEk7rYp2ZeCBYDpMmsVsNya8myxiMywaOFMMtB__0YvY7ryeheIkg$>
+>>         [rwmacleod@gmail.com]
+>>         -=-=-=-=-=-=-=-=-=-=-=-
+>>
+> 
+> -- 
+> # Randy MacLeod
+> # Wind River Linux
 > 
 
 
