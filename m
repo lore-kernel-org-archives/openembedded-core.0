@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 537BBC71133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 583D1C678DF
 	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 08:24:36 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.6266.1748939069319010803
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.6265.1748939069234195791
  for <openembedded-core@lists.openembedded.org>;
  Tue, 03 Jun 2025 01:24:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=q16f+32N;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20250603082431a1faed96070ff08d07-jv5vl7@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20250603082431a1faed96070ff08d07
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=gjlaxASd;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-2025060308243019ad1b5b17400d0bc6-uzsvyj@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2025060308243019ad1b5b17400d0bc6
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 03 Jun 2025 10:24:31 +0200
+        Tue, 03 Jun 2025 10:24:30 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=6zoYRnkgKdZa8Pk6Aa4IuUPOrra1leerFIRRWJfV64A=;
- b=q16f+32Nixq9mbLfsZo6poWq2X43ZtUWZa40/FbS+eYf5R0k8zaJSjHLnCX3EGqhfk8Dyt
- RYpxydEUEUEUGG0818nUZDZm5x+oCbrk+kwrpYtBAWpLjaFyBxq/gxnUcnMV8EatOIIRKeuf
- 5EACEtbvnWl6nKCu9LdHrqLJfCwLhvKBlmPtq/uyICBq6TCd7bH8cffQk47UnZFLtdBBlE/s
- qM4iXYlr0ODB1lT8zWCUdels4UTljgFoWeZ6ZRQX9pQ72LMXUDSVWDY5PgVLZ3nA9O8qvVP9
- ljPwGtNJHFkQU7yaMsBC/CiaXQVPzvJGxPak4Ftc5iDQHhn+iA05nVIg==;
+ bh=ZHIY3BlOK5lomKUhKp3k7RgRZmCN7HoU6+FdTwvAXk4=;
+ b=gjlaxASdeHMnZ0ovkuqbUQYHLovbq6gLKux41nhQ52t0AtkSQ50wAuYz5r4CS32oHaxXS9
+ 1MV3SIgxudtQRM228zdtP1DlrzI/eOUoxITrGy9CoirT2EyAyVNfVvgHmgtpJlAVQQPTjBHG
+ BGBvvWMeLjVONdmNTkdDEBGIJ2iTSyKl1vBvrVD09Rj4NrI8nyPeP7BAoJ6MKfTu1q5SacvS
+ Q7t3A2mKzpmOiqwE8mv1wcQ69AA74iiyPokGLvc3GKyZBUOL/oTctTTuPorWYKiHl8nsFNSk
+ a3BhCkpSVVabUS4ZH9cJbn3WU4mjhhQywwM6nV30JWsPlsj5P3Kcw2tA==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v7 09/20] kernel-fitimage: refactor order in its
-Date: Tue,  3 Jun 2025 10:23:20 +0200
-Message-ID: <20250603082419.409564-10-adrian.freihofer@siemens.com>
+Subject: [PATCH v7 08/20] oe-selftest: fitimage: cleanup FIT_GENERATE_KEYS
+Date: Tue,  3 Jun 2025 10:23:19 +0200
+Message-ID: <20250603082419.409564-9-adrian.freihofer@siemens.com>
 In-Reply-To: <20250603082419.409564-1-adrian.freihofer@siemens.com>
 References: <20250603082419.409564-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,113 +39,128 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 08:24:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217772
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217770
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-When the ITS file is created, the mandatory properties are written first
-before the optional properties are written.
-This is not really useful for the current implementation. But it is a
-preparation for a new Python-based implementation that will expect
-mandatory properties first. This change makes it possible to run the
-tests with both the old and the new implementation.
+It is closer to practice to use static and predictable keys to sign the
+FIT images. In addition, the new kernel-signing-keys-native is only
+reliable if the temporary directory is not deleted. However, depending
+on how this test suite is started, this can happen.
+There will therefore only be one test that uses the recipe to generate
+the keys, which ensures that the recipe works in principle.
+It is also ensured that no keys are present before the test and that the
+recipe runs safely and is not skipped by Bitbake.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/kernel-fitimage.bbclass | 20 ++++++++++----------
- meta/lib/oeqa/selftest/cases/fitimage.py    |  4 ++--
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ meta/lib/oeqa/selftest/cases/fitimage.py | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-index f5f02f30f0a..8e66f326766 100644
---- a/meta/classes-recipe/kernel-fitimage.bbclass
-+++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -128,11 +128,11 @@ fitimage_emit_section_kernel() {
- 	cat << EOF >> $1
-                 kernel-$2 {
-                         description = "Linux kernel";
--                        data = /incbin/("$3");
-                         type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
-+                        compression = "$4";
-+                        data = /incbin/("$3");
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
--                        compression = "$4";
-                         load = <${UBOOT_LOADADDRESS}>;
-                         entry = <$ENTRYPOINT>;
-                         hash-1 {
-@@ -177,10 +177,10 @@ fitimage_emit_section_dtb() {
- 	cat << EOF >> $1
-                 fdt-$2 {
-                         description = "Flattened Device Tree blob";
--                        data = /incbin/("$3");
-                         type = "flat_dt";
--                        arch = "${UBOOT_ARCH}";
-                         compression = "none";
-+                        data = /incbin/("$3");
-+                        arch = "${UBOOT_ARCH}";
-                         $dtb_loadline
-                         hash-1 {
-                                 algo = "$dtb_csum";
-@@ -215,10 +215,10 @@ fitimage_emit_section_boot_script() {
-         cat << EOF >> $1
-                 bootscr-$2 {
-                         description = "U-boot script";
--                        data = /incbin/("$3");
-                         type = "script";
--                        arch = "${UBOOT_ARCH}";
-                         compression = "none";
-+                        data = /incbin/("$3");
-+                        arch = "${UBOOT_ARCH}";
-                         hash-1 {
-                                 algo = "$bootscr_csum";
-                         };
-@@ -252,11 +252,11 @@ fitimage_emit_section_setup() {
- 	cat << EOF >> $1
-                 setup-$2 {
-                         description = "Linux setup.bin";
--                        data = /incbin/("$3");
-                         type = "x86_setup";
-+                        compression = "none";
-+                        data = /incbin/("$3");
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
--                        compression = "none";
-                         load = <0x00090000>;
-                         entry = <0x00090000>;
-                         hash-1 {
-@@ -301,11 +301,11 @@ fitimage_emit_section_ramdisk() {
- 	cat << EOF >> $1
-                 ramdisk-$2 {
-                         description = "${INITRAMFS_IMAGE}";
--                        data = /incbin/("$3");
-                         type = "ramdisk";
-+                        compression = "none";
-+                        data = /incbin/("$3");
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
--                        compression = "none";
-                         $ramdisk_loadline
-                         $ramdisk_entryline
-                         hash-1 {
 diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index fcba28b7b76..9c353b6ed13 100644
+index 8a3eb7f8c11..fcba28b7b76 100644
 --- a/meta/lib/oeqa/selftest/cases/fitimage.py
 +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -513,11 +513,11 @@ class KernelFitImageTests(FitImageTestCase):
-         its_field_check = [
-             'description = "%s";' % bb_vars['FIT_DESC'],
-             'description = "Linux kernel";',
--            'data = /incbin/("linux.bin");',
-             'type = "' + str(bb_vars['UBOOT_MKIMAGE_KERNEL_TYPE']) + '";',
-+            # 'compression = "' + str(bb_vars['FIT_KERNEL_COMP_ALG']) + '";', defined based on files in TMPDIR, not ideal...
-+            'data = /incbin/("linux.bin");',
-             'arch = "' + str(bb_vars['UBOOT_ARCH']) + '";',
-             'os = "linux";',
--            # 'compression = "' + str(bb_vars['FIT_KERNEL_COMP_ALG']) + '";', defined based on files in TMPDIR, not ideal...
-             'load = <' + str(bb_vars['UBOOT_LOADADDRESS']) + '>;',
-             'entry = <' + str(bb_vars['UBOOT_ENTRYPOINT']) + '>;',
-         ]
+@@ -760,8 +760,7 @@ PREFERRED_PROVIDER_virtual/dtb = "bbb-dtbs-as-ext"
+                      and the configuration nodes are signed correctly.
+         Expected:    1) its and FIT image are built successfully
+                      2) Scanning the its file indicates signing is enabled
+-                        as requested by UBOOT_SIGN_ENABLE (using 1 key
+-                        generated by the test not via FIT_GENERATE_KEYS)
++                        as requested by UBOOT_SIGN_ENABLE
+                      3) Dumping the FIT image indicates signature values
+                         are present (only for the configuration nodes as
+                         FIT_SIGN_INDIVIDUAL is disabled)
+@@ -792,10 +791,7 @@ FIT_CONF_DEFAULT_DTB = "am335x-bonegreen.dtb"
+             'UBOOT_SIGN_KEYDIR',
+         ])
+ 
+-        # Do not use the random keys generated by FIT_GENERATE_KEYS.
+-        # Using a static key is probably a more realistic scenario.
+         self._gen_signing_key(bb_vars)
+-
+         self._test_fitimage(bb_vars)
+ 
+     def test_sign_fit_image_individual(self):
+@@ -804,11 +800,11 @@ FIT_CONF_DEFAULT_DTB = "am335x-bonegreen.dtb"
+                      and all nodes are signed correctly.
+         Expected:    1) its and FIT image are built successfully
+                      2) Scanning the its file indicates signing is enabled
+-                        as requested by UBOOT_SIGN_ENABLE (using 2 keys
+-                        generated via FIT_GENERATE_KEYS)
++                        as requested by UBOOT_SIGN_ENABLE
+                      3) Dumping the FIT image indicates signature values
+                         are present (including for images as enabled via
+                         FIT_SIGN_INDIVIDUAL)
++                        This also implies that FIT_GENERATE_KEYS = "1" works.
+                      4) Verify the FIT image contains the comments passed via
+                         UBOOT_MKIMAGE_SIGN_ARGS once per image and per
+                         configuration node.
+@@ -837,6 +833,10 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
++
++        # Ensure new keys are generated and FIT_GENERATE_KEYS = "1" is tested
++        bitbake("kernel-signing-keys-native -c cleansstate")
++
+         self._test_fitimage(bb_vars)
+ 
+     def test_fit_image_sign_initramfs(self):
+@@ -875,7 +875,6 @@ UBOOT_ARCH = "arm"
+ UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
+ UBOOT_MKIMAGE_KERNEL_TYPE = "kernel"
+ UBOOT_EXTLINUX = "0"
+-FIT_GENERATE_KEYS = "1"
+ KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
+ FIT_KERNEL_COMP_ALG = "none"
+ FIT_HASH_ALG = "sha256"
+@@ -892,10 +891,7 @@ FIT_HASH_ALG = "sha256"
+             'UBOOT_SIGN_KEYDIR',
+         ])
+ 
+-        # Do not use the random keys generated by FIT_GENERATE_KEYS.
+-        # Using a static key is probably a more realistic scenario.
+         self._gen_signing_key(bb_vars)
+-
+         self._test_fitimage(bb_vars)
+ 
+     def test_fit_image_sign_initramfs_bundle(self):
+@@ -933,7 +929,6 @@ UBOOT_ARCH = "arm"
+ UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
+ UBOOT_MKIMAGE_KERNEL_TYPE = "kernel"
+ UBOOT_EXTLINUX = "0"
+-FIT_GENERATE_KEYS = "1"
+ KERNEL_IMAGETYPE_REPLACEMENT = "zImage"
+ FIT_KERNEL_COMP_ALG = "none"
+ FIT_HASH_ALG = "sha256"
+@@ -941,6 +936,7 @@ FIT_HASH_ALG = "sha256"
+         config = self._config_add_uboot_env(config)
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
++        self._gen_signing_key(bb_vars)
+         self._test_fitimage(bb_vars)
+ 
+ 
+@@ -1345,9 +1341,7 @@ UBOOT_SIGN_KEYNAME = "cfg-oe-selftest"
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+ 
+-        # Using a static key. FIT_GENERATE_KEYS = "1" does not work without kernel-fitimage.bbclass
+         self._gen_signing_key(bb_vars)
+-
+         self._test_fitimage(bb_vars)
+         self._check_kernel_dtb(bb_vars)
+ 
+@@ -1508,8 +1502,6 @@ FIT_SIGN_INDIVIDUAL = "1"
+ """
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+-
+-        # Using a static key. FIT_GENERATE_KEYS = "1" does not work without kernel-fitimage.bbclass
+         self._gen_signing_key(bb_vars)
+ 
+         bitbake("virtual/bootloader")
 -- 
 2.49.0
 
