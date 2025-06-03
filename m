@@ -2,36 +2,37 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60E59C71136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 586ACC71135
 	for <webhook@archiver.kernel.org>; Tue,  3 Jun 2025 08:24:36 +0000 (UTC)
 Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.6343.1748939070216158633
+ by mx.groups.io with SMTP id smtpd.web11.6346.1748939071357906739
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jun 2025 01:24:30 -0700
+ Tue, 03 Jun 2025 01:24:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=j1eRDw4D;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2025060308242858d2aab855772e7f43-daxvcl@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2025060308242858d2aab855772e7f43
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=okE17ZWq;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202506030824295a07ea1a67f9d7f270-jykhz8@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202506030824295a07ea1a67f9d7f270
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 03 Jun 2025 10:24:28 +0200
+        Tue, 03 Jun 2025 10:24:29 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=AcPXn0QSUTyakbWsLGQxdt9nPf5L/P+U8ZAEpkG1jik=;
- b=j1eRDw4DQKmcOo6T+/lljM6nkFbMkrWRdaGc+cXYOaw9PgMdn1xfl2GJv0R0fX29aBsF6M
- aWs0MKozobLeuFwL8zI6Sd7iXuKlIoWxvtFqetILz+N+0Zsf1LNw6s4BvUjBH3xVCoEs3tYq
- IkEJmAZc2ZMNHU+iVsUVFZOzrYdaf2Bx0ggiAoFxhrFDd98YMbh+4acuoMK/MfpOw9gtcJnS
- 44lI735cQ46plIGGU5HpmeFu1cuOHp5oiSZtcAa3RRKEe0HRtoDj/112/+SljRnzUPCkNAQH
- To2iq1/CjlqS5IvCozY3p/11BklcUEIfKCrYogUQ4msaGiWvN+DxPCSg==;
+ bh=/E31mOqCS7hwH3ngpiigIpIqrwNqcw8IOdtMXKCiIKI=;
+ b=okE17ZWqiH9sirkHFMm7K0z5HD7ZqnITti1I7GY80lHfIwbHNrHAoJkJy/g847dmIVLlc5
+ yATt2CsV7I8EPXAxoTwe/TT7E7DmgXfy3yGeWHzWcJOrOp6ZLaTtOLpG3ACPIu2RD8WKBWQg
+ 8tFx4+gcfkMRUK/bpw3mrrCfXINPmRk/WQtW/xvqqDy8xOD2xtNQbjoubnV1i5PTXQTBkAVP
+ NPZoRUdj4PvXcnmoU+N5Sl8fhlagzwjyWr0XDymNaxFo3IfJNteZMC+hPiuFok+AjzHPXIvZ
+ /6FIrY2Y+iABhKd5Kd9Vc5DxR+G5QkoKzoelIJBKiHY29rQzyWrucV1g==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v7 04/20] oe-selftest: fitimage: test FIT_CONF_PREFIX
-Date: Tue,  3 Jun 2025 10:23:15 +0200
-Message-ID: <20250603082419.409564-5-adrian.freihofer@siemens.com>
+Subject: [PATCH v7 06/20] kernel-signing-keys-native: refactor key generation into a new recipe
+Date: Tue,  3 Jun 2025 10:23:17 +0200
+Message-ID: <20250603082419.409564-7-adrian.freihofer@siemens.com>
 In-Reply-To: <20250603082419.409564-1-adrian.freihofer@siemens.com>
 References: <20250603082419.409564-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-1329275:519-21489:flowmailer
@@ -39,125 +40,216 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 08:24:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217765
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217771
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add a test which does not use the default FIT_CONF_PREFIX configuration.
+The do_kernel_generate_rsa_keys function from kernel-fitimage.bbclass
+is moved to a new recipe, kernel-signing-keys-native.bb. This
+refactoring introduces no functional changes.
+
+Intention this change:
+- Remove the dependency of uboot-sign.bbclass on kernel-fitimage.bbclass.
+- Simplify the use of custom key generation implementations by
+  isolating the functionality into a separate recipe.
+
+Known limitations of this (and also the previous) implementation:
+- When generating from an existing TMPDIR, the existing key is reused.
+  However, when generating from an empty TMPDIR or an SDK using the
+  sstate-cache, a new key is generated, which may lead to
+  inconsistencies.
+- The use of random keys (via FIT_GENERATE_KEYS) is convenient for
+  experiments but unsuitable for production environments requiring
+  deterministic and secure key management.
+
+Future improvements to consider:
+- Ensure reproducibility, even when using the sstate-cache. However,
+  simply storing the private key in a potentially shared sstate artifact
+  may not always be ideal from a security perspective.
+- Support encrypted keys via `SRC_URI` for reliable key updates.
+- Enable signing with an HSM (Hardware Security Module) through
+  mechanisms like PKCS#11 or post-processing scripts.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/fitimage.py | 28 ++++++++++++++----------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ meta/classes-recipe/kernel-fitimage.bbclass   | 52 +------------
+ meta/classes-recipe/uboot-sign.bbclass        |  5 +-
+ .../kernel-signing-keys-native.bb             | 75 +++++++++++++++++++
+ 3 files changed, 82 insertions(+), 50 deletions(-)
+ create mode 100644 meta/recipes-kernel/kernel-signing-keys/kernel-signing-keys-native.bb
 
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 31116979ef7..812b34fab47 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -256,7 +256,7 @@ class FitImageTestCase(OESelftestTestCase):
-         self.logger.debug("sigs:\n%s\n" % pprint.pformat(sigs, indent=4))
-         if req_sigvalues_config or req_sigvalues_image:
-             for its_path, values in sigs.items():
--                if 'conf-' in its_path:
-+                if bb_vars.get('FIT_CONF_PREFIX', "conf-") in its_path:
-                     reqsigvalues = req_sigvalues_config
-                 else:
-                     reqsigvalues = req_sigvalues_image
-@@ -380,6 +380,7 @@ class KernelFitImageTests(FitImageTestCase):
-         """
-         internal_used = {
-             'DEPLOY_DIR_IMAGE',
-+            'FIT_CONF_PREFIX',
-             'FIT_DESC',
-             'FIT_HASH_ALG',
-             'FIT_KERNEL_COMP_ALG',
-@@ -486,9 +487,9 @@ class KernelFitImageTests(FitImageTestCase):
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
+index 07786647e19..f5f02f30f0a 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -27,7 +27,10 @@ def get_fit_replacement_type(d):
+     return replacementtype
  
-         # configuration nodes (one per DTB and also one per symlink)
-         if dtb_files:
--            configurations = [ 'conf-' + conf for conf in dtb_files + dtb_symlinks]
-+            configurations = [bb_vars['FIT_CONF_PREFIX'] + conf for conf in dtb_files + dtb_symlinks]
-         else:
--            configurations = [ 'conf-1' ]
-+            configurations = [bb_vars['FIT_CONF_PREFIX'] + '1']
+ KERNEL_IMAGETYPE_REPLACEMENT ?= "${@get_fit_replacement_type(d)}"
+-DEPENDS:append = " ${@'u-boot-tools-native dtc-native' if 'fitImage' in (d.getVar('KERNEL_IMAGETYPES') or '').split() else ''}"
++DEPENDS:append = " \
++    ${@'u-boot-tools-native dtc-native' if 'fitImage' in (d.getVar('KERNEL_IMAGETYPES') or '').split() else ''} \
++    ${@'kernel-signing-keys-native' if d.getVar('FIT_GENERATE_KEYS') == '1' else ''} \
++"
  
-         # Create a list of paths for all image and configuration nodes
-         req_its_paths = []
-@@ -526,7 +527,7 @@ class KernelFitImageTests(FitImageTestCase):
-             if uboot_rd_entrypoint:
-                 its_field_check.append("entry = <%s>;" % uboot_rd_entrypoint)
-         its_field_check += [
--            # 'default = "conf-1";', needs more work
-+            # 'default = bb_vars['FIT_CONF_PREFIX'] + "1";', needs more work
-             'kernel = "kernel-1";',
-         ]
-         if initramfs_image and initramfs_image_bundle != "1":
-@@ -599,33 +600,35 @@ class KernelFitImageTests(FitImageTestCase):
-         # Create a configuration section for each DTB
-         if dtb_files:
-             for dtb in dtb_files + dtb_symlinks:
-+                conf_name = bb_vars['FIT_CONF_PREFIX'] + dtb
-                 # Assume that DTBs with an "-alias" in its name are symlink DTBs created e.g. by the
-                 # bbb-dtbs-as-ext test recipe. Make the configuration node pointing to the real DTB.
-                 real_dtb = dtb.replace("-alias", "")
-                 # dtb overlays do not refer to a kernel (yet?)
-                 if dtb.endswith('.dtbo'):
--                    req_sections['conf-' + dtb] = {
-+                    req_sections[conf_name] = {
-                         "FDT": 'fdt-' + real_dtb,
-                     }
-                 else:
--                    req_sections['conf-' + dtb] = {
-+                    req_sections[conf_name] = {
-                         "Kernel": "kernel-1",
-                         "FDT": 'fdt-' + real_dtb,
-                     }
-                 if initramfs_image and initramfs_image_bundle != "1":
--                    req_sections['conf-' + dtb]['Init Ramdisk'] = "ramdisk-1"
-+                    req_sections[conf_name]['Init Ramdisk'] = "ramdisk-1"
-         else:
--            req_sections['conf-1'] = {
-+            conf_name = bb_vars['FIT_CONF_PREFIX'] +  '1'
-+            req_sections[conf_name] = {
-                 "Kernel": "kernel-1"
-             }
-             if initramfs_image and initramfs_image_bundle != "1":
--                req_sections['conf-1']['Init Ramdisk'] = "ramdisk-1"
-+                req_sections[conf_name]['Init Ramdisk'] = "ramdisk-1"
+ python __anonymous () {
+     # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+@@ -754,53 +757,6 @@ do_assemble_fitimage_initramfs() {
  
-         # Add signing related properties if needed
-         if uboot_sign_enable == "1":
-             for section in req_sections:
-                 req_sections[section]['Hash algo'] = fit_hash_alg
--                if section.startswith('conf-'):
-+                if section.startswith(bb_vars['FIT_CONF_PREFIX']):
-                     req_sections[section]['Hash value'] = "unavailable"
-                     req_sections[section]['Sign algo'] = "%s,%s:%s" % (fit_hash_alg, fit_sign_alg, uboot_sign_keyname)
-                     num_signatures += 1
-@@ -652,13 +655,13 @@ class KernelFitImageTests(FitImageTestCase):
-         fit_sign_alg_len = FitImageTestCase.MKIMAGE_SIGNATURE_LENGTHS[fit_sign_alg]
-         for section, values in sections.items():
-             # Configuration nodes are always signed with UBOOT_SIGN_KEYNAME (if UBOOT_SIGN_ENABLE = "1")
--            if section.startswith("conf"):
-+            if section.startswith(bb_vars['FIT_CONF_PREFIX']):
-                 sign_algo = values.get('Sign algo', None)
-                 req_sign_algo = "%s,%s:%s" % (fit_hash_alg, fit_sign_alg, uboot_sign_keyname)
-                 self.assertEqual(sign_algo, req_sign_algo, 'Signature algorithm for %s not expected value' % section)
-                 sign_value = values.get('Sign value', None)
-                 self.assertEqual(len(sign_value), fit_sign_alg_len, 'Signature value for section %s not expected length' % section)
--                dtb_file_name = section.replace('conf-', '')
-+                dtb_file_name = section.replace(bb_vars['FIT_CONF_PREFIX'], '')
-                 dtb_path = os.path.join(deploy_dir_image, dtb_file_name)
-                 # External devicetrees created by devicetree.bbclass are in a subfolder and have priority
-                 dtb_path_ext = os.path.join(deploy_dir_image, "devicetree", dtb_file_name)
-@@ -718,6 +721,7 @@ UBOOT_RD_ENTRYPOINT = "0x88000000"
- UBOOT_LOADADDRESS = "0x80080000"
- UBOOT_ENTRYPOINT = "0x80080000"
- FIT_DESC = "A model description"
-+FIT_CONF_PREFIX = "foo-"
- """
-         self.write_config(config)
-         bb_vars = self._fit_get_bb_vars()
+ addtask assemble_fitimage_initramfs before do_deploy after do_bundle_initramfs
+ 
+-do_kernel_generate_rsa_keys() {
+-	if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
+-		bbwarn "FIT_GENERATE_KEYS is set to 1 even though UBOOT_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
+-	fi
+-
+-	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
+-
+-		# Generate keys to sign configuration nodes, only if they don't already exist
+-		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key ] || \
+-			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt ]; then
+-
+-			# make directory if it does not already exist
+-			mkdir -p "${UBOOT_SIGN_KEYDIR}"
+-
+-			bbnote "Generating RSA private key for signing fitImage"
+-			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
+-				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
+-			"${FIT_SIGN_NUMBITS}"
+-
+-			bbnote "Generating certificate for signing fitImage"
+-			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
+-				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
+-				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
+-		fi
+-
+-		# Generate keys to sign image nodes, only if they don't already exist
+-		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key ] || \
+-			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".crt ]; then
+-
+-			# make directory if it does not already exist
+-			mkdir -p "${UBOOT_SIGN_KEYDIR}"
+-
+-			bbnote "Generating RSA private key for signing fitImage"
+-			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
+-				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key \
+-			"${FIT_SIGN_NUMBITS}"
+-
+-			bbnote "Generating certificate for signing fitImage"
+-			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
+-				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key \
+-				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".crt
+-		fi
+-	fi
+-}
+-
+-addtask kernel_generate_rsa_keys before do_assemble_fitimage after do_compile
+-
+ kernel_do_deploy[vardepsexclude] = "DATETIME"
+ kernel_do_deploy:append() {
+ 	# Update deploy directory
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+index 796c040e8b4..73e9ce3f11f 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -112,13 +112,14 @@ UBOOT_FIT_CONF_USER_LOADABLES ?= ''
+ UBOOT_FIT_UBOOT_LOADADDRESS ?= "${UBOOT_LOADADDRESS}"
+ UBOOT_FIT_UBOOT_ENTRYPOINT ?= "${UBOOT_ENTRYPOINT}"
+ 
++
++DEPENDS:append = " ${@'kernel-signing-keys-native' if d.getVar('FIT_GENERATE_KEYS') == '1' else ''}"
++
+ python() {
+     # We need u-boot-tools-native if we're creating a U-Boot fitImage
+     sign = d.getVar('UBOOT_SIGN_ENABLE') == '1'
+     if d.getVar('UBOOT_FITIMAGE_ENABLE') == '1' or sign:
+         d.appendVar('DEPENDS', " u-boot-tools-native dtc-native")
+-    if d.getVar('FIT_GENERATE_KEYS') == '1' and sign:
+-        d.appendVarFlag('do_uboot_assemble_fitimage', 'depends', ' virtual/kernel:do_kernel_generate_rsa_keys')
+ }
+ 
+ concat_dtb() {
+diff --git a/meta/recipes-kernel/kernel-signing-keys/kernel-signing-keys-native.bb b/meta/recipes-kernel/kernel-signing-keys/kernel-signing-keys-native.bb
+new file mode 100644
+index 00000000000..704973dffb7
+--- /dev/null
++++ b/meta/recipes-kernel/kernel-signing-keys/kernel-signing-keys-native.bb
+@@ -0,0 +1,75 @@
++# Automatically generate key pairs in UBOOT_SIGN_KEYDIR if they do not exist.
++# The key pair is generated by the kernel-signing-keys-native recipe and is not
++# stored in the sstate cache. This can be beneficial from a security standpoint,
++# as it avoids unintentionally caching and distributing private keys.
++# However, this behavior can lead to non-reproducible builds. For example, if
++# the keys are deleted, they must be manually restored, or you must run:
++#   bitbake -c cleanall kernel-signing-keys-native
++# before new key pairs are generated.
++#
++# However, this approach is only suitable for simple or local development use
++# cases. For more advanced or production-grade scenarios, a more robust solution
++# is usually required—such as external signing or re-signing using e.g a HSM.
++
++
++SUMMARY = "Signing keys for the kernel FIT image"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++require conf/image-fitimage.conf
++
++DEPENDS += "openssl-native"
++
++inherit native
++
++do_fetch[noexec] = "1"
++do_unpack[noexec] = "1"
++do_patch[noexec] = "1"
++do_configure[noexec] = "1"
++do_install[noexec] = "1"
++
++
++do_compile() {
++	if [ "${UBOOT_SIGN_ENABLE}" = "0" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
++		bbwarn "FIT_GENERATE_KEYS is set to 1 even though UBOOT_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
++	fi
++
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] && [ "${FIT_GENERATE_KEYS}" = "1" ]; then
++
++		# Generate keys to sign configuration nodes, only if they don't already exist
++		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key ] || \
++			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt ]; then
++
++			# make directory if it does not already exist
++			mkdir -p "${UBOOT_SIGN_KEYDIR}"
++
++			bbnote "Generating RSA private key for signing fitImage"
++			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
++				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
++			"${FIT_SIGN_NUMBITS}"
++
++			bbnote "Generating certificate for signing fitImage"
++			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
++				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".key \
++				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
++		fi
++
++		# Generate keys to sign image nodes, only if they don't already exist
++		if [ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key ] || \
++			[ ! -f "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".crt ]; then
++
++			# make directory if it does not already exist
++			mkdir -p "${UBOOT_SIGN_KEYDIR}"
++
++			bbnote "Generating RSA private key for signing fitImage"
++			openssl genrsa ${FIT_KEY_GENRSA_ARGS} -out \
++				"${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key \
++			"${FIT_SIGN_NUMBITS}"
++
++			bbnote "Generating certificate for signing fitImage"
++			openssl req ${FIT_KEY_REQ_ARGS} "${FIT_KEY_SIGN_PKCS}" \
++				-key "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".key \
++				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_IMG_KEYNAME}".crt
++		fi
++	fi
++}
 -- 
 2.49.0
 
