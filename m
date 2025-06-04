@@ -1,140 +1,118 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E647C5B552
-	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 06:59:18 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.10230.1749020353312465950
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 172DAC5B543
+	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 07:12:38 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.10451.1749021148035565864
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jun 2025 23:59:13 -0700
+ Wed, 04 Jun 2025 00:12:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=825006eed7=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5546L6Uf022035
-	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jun 2025 06:59:12 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9q237n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 06:59:12 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 3 Jun 2025 23:59:11 -0700
-Received: from pek-lpg-core5.wrs.com (128.224.153.45) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Tue, 3 Jun 2025 23:59:09 -0700
-From: <jiaying.song.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <changqing.li@windriver.com>
-Subject: [kirkstone][PATCH] taglib: fix CVE-2023-47466
-Date: Wed, 4 Jun 2025 14:59:05 +0800
-Message-ID: <20250604065905.3714308-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M5RCiBBa;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a366843fa6so3405086f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 00:12:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1749021146; x=1749625946; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t+qE+1Izb2qzTkp0BooZxW2Hz44Z6Dysh8wn3wILUdI=;
+        b=M5RCiBBao7igwe+SMKAdrkjIy6NmJdJT34bVZV60IdvqiYMhjo5SVJlTxgIcLTSHsu
+         bW6lwdsk83xl3QoAr00sAbuLlwju4XjeSyU4C9DNc5OSLwZh0+TLWDBNd9ZBlR7pUWCg
+         izSlYo0gFACuJEs7ngaUWQaZD2HmDS//U+BWU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749021146; x=1749625946;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=t+qE+1Izb2qzTkp0BooZxW2Hz44Z6Dysh8wn3wILUdI=;
+        b=aWIglLDvVyRLZ224LeqH0kN6EJ9JrZ+yi4HMX0iwq0o5+V7NdVFm5euhjru+TNeuGG
+         Nlqq9/vNmxCoiNojWk2KrvFnyfUR181ZJq+2wy0D2s+/iY3Y5wkTOBIo12uI9EbAdtFF
+         4kotOdaIqOKwvy0ESjrdSB/8BWIWoV6iwNzZbZiTxkXBPpIFvT7xjP9X9+y/han6np24
+         ZOIpiVScuVvj+FNwFt9JoucKEap6K08LrPkuhxTbU4LgfTZir1DukRLdumLo5/bvw9sA
+         voyJ4ca90u3hPCMXU8jOo1FcVx2/elbw0g7n6COKbXrnCSMk/96ATZlEuN9OSIUY/gXv
+         aEKw==
+X-Forwarded-Encrypted: i=1; AJvYcCXxUs/MAUp5y5afbVS4bnDx5MUHIzGbVwiDrBfIc1GsBgTcCtyWRaUXJcYqH29Wm+AEmNSj5pW3Dp3ok1XxSrtnng==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwHpioUWTAAVZBfksBiyFZqRqc8Ci6T2vCMTgwChsjqNwHDCnju
+	/a4nhDiSOnZvyOuk5+Zibrq7QtbcauNks4dN7a3M6uwRYN7AYl2dUSmFVkiZD0EVfH8=
+X-Gm-Gg: ASbGnctktYPuRMEU7J6LQo8O8geqy/GJBjMvzSSrXotuwSGJ6mpHRjdhjBERFlZzpwM
+	zgHGjMS9R+ICvvATc5VZ7di8YzdeWA1OImzmIhbOaMPxbi5qeG1/5Vu9si7Elb6sA4o5Uu+H/5J
+	v9+eK0WZbnXRO7Z9B2We01GeuJSerYwdDvm3yo2c9pfsFw2/pmVJWauYSleC/xMDR9mGd8mBrSb
+	7R+aL0xZ+rzFzuETh0/oO9LxMMEwpdvcZapx/DlymoW1E/b2vIIn23CBs/YAqq+ttV75C2Z3Cdq
+	eArhvS4de1iNAPYqwlWaKJ4N+JBXn6BnkTxfXng4ub4S8H0XFPcmnAPmvIKYF++ptxs7i8RQMTd
+	GksxQqeaM8nIBah7X94RZcED57m383o4A5t/lBBr81DFBovBQ3lo=
+X-Google-Smtp-Source: AGHT+IFCAkBZK0OtfwPUfHFYsNHQ0hGqUT41eYOteHxFX7v7lEjYQF3vMBuVs+fNXgHRS6gqRYPUUA==
+X-Received: by 2002:a5d:5f54:0:b0:3a4:dfc2:bb60 with SMTP id ffacd0b85a97d-3a51d937403mr1233041f8f.26.1749021146430;
+        Wed, 04 Jun 2025 00:12:26 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:204c:fb2e:c462:29df? ([2001:8b0:aba:5f3c:204c:fb2e:c462:29df])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a521c64d22sm434495f8f.48.2025.06.04.00.12.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jun 2025 00:12:25 -0700 (PDT)
+Message-ID: <016900dc0028d234f57f41a4f16a76bfe89b10b7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v7 00/20] FIT image improvements
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Freihofer, Adrian" <adrian.freihofer@siemens.com>, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 04 Jun 2025 08:12:25 +0100
+In-Reply-To: <18458D867A23466E.18429@lists.openembedded.org>
+References: <20250603082419.409564-1-adrian.freihofer@siemens.com>
+			 <dd27e615bd3ea965dee284352c90794d77854cf0.camel@linuxfoundation.org>
+		 <3338cd8105d0f0832f01bb0f8b705e26f91c50d2.camel@siemens.com>
+	 <18458D867A23466E.18429@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: K8NbSX1oPYkB_tX5k2t7UN5bC-XKk9eM
-X-Authority-Analysis: v=2.4 cv=X8RSKHTe c=1 sm=1 tr=0 ts=683feec0 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=6IFa9wvqVegA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=qSU4cYFbAAAA:8 a=t7CeM3EgAAAA:8 a=FP58Ms26AAAA:8
- a=7Sixk0voVdRhntQFa1QA:9 a=ipjp_Qgxl_-kmBqn_OFm:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA0MDA1NyBTYWx0ZWRfX5L6FBSKloLmq NpJa3Peku5EAedWzgJP5VCjlNV/pv0qYalLwO8lAf6drdUbdzHznn9vASs9jayiThaATgBAFRbj LFLyFwAGGoA4g8vf9eH+3Km9IG7qf8oWzrDxa/kfgdj3UkqDzIi6QZ1UDC1pYNtZl+Kz3Ir+x8Q
- 4IIGvpMz6mi5c2yDHD5ACCDVELpTIMYCc55rEhblg47ySt9OEcRlk/ZHLG7CbzEESVJaPdLAfe8 lTYYVU3igdex7fb97IUCaXkiXzp1FFwlGLb5cDL91Ny6/qhc3xqaDoJQSVIr7DMW2BKCyTCekal cYko4MjEuole7zwSSwrWXA6kiET4rU3wjlTh+p/FQo0EpxEk4BU7r+9rEJvMZ0o0Of+l+i+p53N
- bLFq12vODhWD5vDNjO0yoC2t1PvbLZFwwjd3pVcHZcsWNDAu5gdoEfhOl8mhS3jBoK9SLUrA
-X-Proofpoint-ORIG-GUID: K8NbSX1oPYkB_tX5k2t7UN5bC-XKk9eM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-04_01,2025-06-03_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 impostorscore=0
- suspectscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506040057
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 06:59:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217840
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 07:12:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217841
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+On Tue, 2025-06-03 at 15:07 +0100, Richard Purdie via lists.openembedded.or=
+g wrote:
+> On Tue, 2025-06-03 at 13:35 +0000, Freihofer, Adrian wrote:
+> > My conclusion is that the change requested by this discussion
+> > https://lists.openembedded.org/g/openembedded-core/message/217730
+> > makes the linux-yocto-fitimage.bb incompatible with bitbake world.
+> > I guess that bitbake world would now fail for all build configurations,
+> > not only for musl.
+> > The background is that the kernel artifact (linux.bin) which gets
+> > included into the Fit image is no longer built by default. It requires
+> > KERNEL_CLASSES +=3D "kernel-fit-extra-artifacts".
+> >=20
+> > I guess that this !fixup patch is the solution:
+> >=20
+> > diff --git a/meta/classes-recipe/kernel-fit-image.bbclass
+> > b/meta/classes-recipe/kernel-fit-image.bbclass
+> > index 6d80cd4bb47..d2eebb88bc2 100644
+> > --- a/meta/classes-recipe/kernel-fit-image.bbclass
+> > +++ b/meta/classes-recipe/kernel-fit-image.bbclass
+> > @@ -7,6 +7,9 @@ UNPACKDIR =3D "${S}"
+> >=20
+> > =C2=A0PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+> >=20
+> > +# This bbclass requires KERNEL_CLASSES +=3D "kernel-fit-extra-artifact=
+s"
+> > +EXCLUDE_FROM_WORLD =3D "1"
+> > +
+> > =C2=A0DEPENDS +=3D "\
+> > =C2=A0=C2=A0=C2=A0=C2=A0 u-boot-tools-native dtc-native \
+> >=20
+> > But I need to test it before sending a new version. And today I have no
+> > access to my build machine.
+>=20
+> I just saw this and it matches my other email. I also just realised
+> there are mutliple other world build failures. To expedite things, I'll
+> include the above change in a test build.
 
-TagLib before 2.0 allows a segmentation violation and application crash
-during tag writing via a crafted WAV file in which an id3 chunk is the
-only valid chunk.
+I an confirm this did build successfully. I'll just clean up my patch
+in master-next with the above in it?
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2023-47466
+Cheers,
 
-Upstream patch:
-https://github.com/taglib/taglib/commit/dfa33bec0806cbb45785accb8cc6c2048a7d40cf
-
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
----
- .../taglib/files/CVE-2023-47466.patch         | 38 +++++++++++++++++++
- meta/recipes-support/taglib/taglib_1.12.bb    |  4 +-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/taglib/files/CVE-2023-47466.patch
-
-diff --git a/meta/recipes-support/taglib/files/CVE-2023-47466.patch b/meta/recipes-support/taglib/files/CVE-2023-47466.patch
-new file mode 100644
-index 0000000000..8ea8793e0a
---- /dev/null
-+++ b/meta/recipes-support/taglib/files/CVE-2023-47466.patch
-@@ -0,0 +1,38 @@
-+From 41c1c2b3609fc542e357cc80185d90a9a6fccc1a Mon Sep 17 00:00:00 2001
-+From: Urs Fleisch <ufleisch@users.sourceforge.net>
-+Date: Sun, 5 Nov 2023 14:40:18 +0100
-+Subject: [PATCH] Fix crash with invalid WAV files (#1163) (#1164)
-+
-+With specially crafted WAV files having the "id3 " chunk as the
-+only valid chunk, when trying to write the tags, the existing
-+"id3 " chunk is removed, and then vector::front() is called on
-+the now empty chunks vector.
-+Now it is checked if the vector is empty to avoid the crash.
-+
-+CVE: CVE-2023-47466
-+
-+Upstream-Status: Backport
-+[https://github.com/taglib/taglib/commit/dfa33bec0806cbb45785accb8cc6c2048a7d40cf]
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ taglib/riff/rifffile.cpp | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/taglib/riff/rifffile.cpp b/taglib/riff/rifffile.cpp
-+index 005551f..f615e6c 100644
-+--- a/taglib/riff/rifffile.cpp
-++++ b/taglib/riff/rifffile.cpp
-+@@ -361,6 +361,9 @@ void RIFF::File::writeChunk(const ByteVector &name, const ByteVector &data,
-+ 
-+ void RIFF::File::updateGlobalSize()
-+ {
-++  if(d->chunks.empty())
-++    return;
-++
-+   const Chunk first = d->chunks.front();
-+   const Chunk last  = d->chunks.back();
-+   d->size = last.offset + last.size + last.padding - first.offset + 12;
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/taglib/taglib_1.12.bb b/meta/recipes-support/taglib/taglib_1.12.bb
-index 47ad8aacb6..51e03888b4 100644
---- a/meta/recipes-support/taglib/taglib_1.12.bb
-+++ b/meta/recipes-support/taglib/taglib_1.12.bb
-@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c \
- 
- DEPENDS = "zlib"
- 
--SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
-+SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz \
-+           file://CVE-2023-47466.patch \
-+          "
- 
- SRC_URI[md5sum] = "4313ed2671234e029b7af8f97c84e9af"
- SRC_URI[sha256sum] = "7fccd07669a523b07a15bd24c8da1bbb92206cb19e9366c3692af3d79253b703"
--- 
-2.34.1
-
+Richard
 
