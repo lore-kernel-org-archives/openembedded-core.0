@@ -2,109 +2,91 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB6C2C5AE59
-	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 03:07:36 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.7670.1749006447893020410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97D4AC5B552
+	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 05:22:07 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.9152.1749014526321222729
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jun 2025 20:07:27 -0700
+ Tue, 03 Jun 2025 22:22:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gvGQzg0w;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3122368d7cfso4735556a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 20:07:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LxF7utO9;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-742c3d06de3so6930389b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jun 2025 22:22:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749006447; x=1749611247; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1749014525; x=1749619325; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=25aJTwdsEqNLrJzVQfr1zUs0DbNm8TE4ph6ySJtYE7Y=;
-        b=gvGQzg0wr293Tby+Ev4EgRCHwqneA7TwTRF7ko+hqHWPS1B+Czmnw6qt13Kx3sq55w
-         B8oRGKAw7aZuinwsX5QIfFeMjHFavGJiwcO27/Ed8hF+MfXXOapVrxiif0FazihTTcmJ
-         4In0svr4Ot0ED+9zaGvBf1uIJSY4Y1llJguifVe8SHp0QLz/PPtXLE1GRWUTfvP/ZvOD
-         QDbqrFFUV0APhSwWjA81rfHukVqUbgPtENWvI/FQxd+Yd46qqFegmoqUg6jwcdxdrnuH
-         /A20g5jqsVcUWk9f3OAPQvG5jfbBiON6mhYOkbcMrJXJoKHW2AO+cSLovtcgnC/XgFbY
-         q/CQ==
+        bh=D971onPQ7+xgz7ugKxfdTh8AjAm6uLheBrv7G7CB7HY=;
+        b=LxF7utO9sWMdIN7tI1aQMcok9oOddK9nLHO8fPgKL9coPlqlA/2+z/iMfxoLcEh01U
+         V38idnLpilBA0pG/YeTBu6hnkFE9vLwBJEhJX3frzaa6rz/Dd1/qHfOVJK3nC2H7OLZQ
+         1Iczae9ubKkjTo3ymW5uGMELO0kaDpU30Ey/8bMsHqi1pjF/TX691QwRv3ouYqdr53eO
+         +VuEfgOP1E4oSMpgdtxEFm/2XdPhTosMpcb41PxOiFvm3xNr6JD983RdmLxsXExy1joW
+         /ncN8DRrsN8X2dlbuzwt3oxeCtWwQCl9nWH0rPEitzONYkxIO6ajUvJorzzWMpiEXAyt
+         BYyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749006447; x=1749611247;
+        d=1e100.net; s=20230601; t=1749014525; x=1749619325;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=25aJTwdsEqNLrJzVQfr1zUs0DbNm8TE4ph6ySJtYE7Y=;
-        b=aMXHOK7HM0aMs+TNGGJh/e12W3t53eH1IGXlB8C82+34NkfVp5dA9Hj6hJSLuBJ6eU
-         4Bwn4GRmTckBy73A9knUkLPFwgVSPOW7b4jf9r9EAnG1L+JmjDx1qadTGkKEAM/4I3mS
-         cdyDa5Qtx1LjUvHgoxVbbgVcpvuKy0pP1IuKVQ3PfasGoaqKGHn0H75O/ewp5pzqAF5t
-         axwZn9UybaenHWrrArnkom//csT6fP8/9yecnYRx2wPETXDCDW8OXWjz0k5a3oOTl2AG
-         g8zhWE3kEeiLM00/ldg4Z6dIca4p/RdJhXBGJb1aO4qqmw4iXsMRdYTXJSJT3ZDv3Gat
-         K0RA==
-X-Gm-Message-State: AOJu0YywoANrqyk8MPA7ieSX73EYynVx2BiN1+Iln1pOLrWmAgcCmSfe
-	1vfvXFWxZI/7RO6oC2W1ELg7r8d65t/1fa4LwQbR1gV5DcWASxSoKAkNBatxJM/9
-X-Gm-Gg: ASbGnctG3R+oRDKJJdJfB2I5hRRLjVRdPc+F72OI10WejPnsR5VYcnO4T4YZ+yIte3X
-	YI4u/IT70Ofzp4Hp39ED9VOla5us/to+6dIcjfi0WyAmt3HuUH7ZU79FsRNzczVqSn8eBJS9rD/
-	Ba986DbE6SMbcxqr8jirgI9LvYnv6JMdftlEzzMD6q3B+a8UCKyh4BpxhVi0UDpkrRvmvQ8I8aU
-	yh7TYsK7xuwd7UzziL1PbT7EOvF/GpM7IWKKgvf2vtnWZSrNvrt+FQKNt3RHwWsWoicyajqYFrI
-	tg1pqksnjFwIydXaMjGVIxi3KLYget+MW9h2YPbb5g==
-X-Google-Smtp-Source: AGHT+IGW4S49SMcupeZ89vGTaAHLngJev7d/QkMqgatIRbLuT/iI6XDpYNZH32+l22jtLXZt2KuqyA==
-X-Received: by 2002:a17:90b:17c9:b0:311:baba:bb91 with SMTP id 98e67ed59e1d1-3130ccbbf51mr2102793a91.10.1749006446859;
-        Tue, 03 Jun 2025 20:07:26 -0700 (PDT)
+        bh=D971onPQ7+xgz7ugKxfdTh8AjAm6uLheBrv7G7CB7HY=;
+        b=MWJ97pzQbcOIqOImhVWnc5k6wMjQXI3A7ylSF6hqUtRu4HR5rfDl8eNccIdC4WQ/TC
+         ibbk51YFoPhhuyjl6NjQwf+xz7pvu0/fcofIFS4vtDtOs+afbjsROn3DjQBwMPXt1tMG
+         UgEn8y3s37fqvB7+911aLc11F/3WW1O3DZLPwQi3mCVVDeQ+ln7gvGJYBvSFArvvd5FF
+         QEvzR57MYcTyObNeP6dWEFz/aOs3XD5IUo5bAJ4U84ylIyEDg9WLd5howMfsOJe67l6T
+         Io1WwWU9wcF2kwYhVD7nENTBLvNhdKMCOYmqy0p309mVVI8t/DTQJRD3nZpMJ12B4KHU
+         tKNA==
+X-Gm-Message-State: AOJu0Yx4irm1mqjGTtpzMdCIruF9VinHG7CIXX511q5rM8+xm678dmXd
+	Gm5/BBOsfJW3GiLz4guP9yram32FkfK6yjV/fw9O8Gll5UY8hX7MM6Mmp7jfR+U5
+X-Gm-Gg: ASbGncvG6jvOD88kIUQceHUH0M5ETfFYoc8lPFkqT0qnCTm65iR2m45VgnB3ilbwGjf
+	SOxsbZX/UP4IBPM5oh9qvae/qFScVIxN+mBIkuSQ25aRjl8FV0Iic0HYzHRC8lGC3KPIf/RNPGn
+	LDxicPRHGaFK4WGrm1rt8BBmJznf2+qXeT6zcNmQsS40tDb6LzKVxekkTJeZVosGUtD7Z6LxbVH
+	mb/pTBJddPu2WbOh+gZz5KdhlXVF8tlJomYg6X/H39TQNeWMZ9yzs01vOGb9s2joEzcZCv3be9Y
+	NE33AFdKhNW0Id19aMBdHZ+vIU09G9zv6Ming0GgDbMBKZXbRPlNuGXkdJKc8Ug=
+X-Google-Smtp-Source: AGHT+IFVrX2NdQCRHJc0rsl2aa/z+MdmfHvAaEBZ1YnM+ET1yCkQ4jDrNxByXO7GD/DvKrL8ine3tw==
+X-Received: by 2002:a05:6a00:882:b0:747:bd3b:eadc with SMTP id d2e1a72fcca58-7480b48c7d9mr2390135b3a.23.1749014525383;
+        Tue, 03 Jun 2025 22:22:05 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::d6e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e2b544asm8743934a91.2.2025.06.03.20.07.25
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747affd41edsm10617635b3a.146.2025.06.03.22.22.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 20:07:26 -0700 (PDT)
+        Tue, 03 Jun 2025 22:22:04 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl-locale: Recommend musl-locale in every locale-base package
-Date: Tue,  3 Jun 2025 20:07:23 -0700
-Message-ID: <20250604030723.1509609-1-raj.khem@gmail.com>
+Subject: [PATCH] m4: Adjust ptest dependencies
+Date: Tue,  3 Jun 2025 22:22:02 -0700
+Message-ID: <20250604052202.1789858-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 03:07:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217834
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 05:22:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217835
 
-musl-locale installs a profile fragment in /etc/profile.d/
-which sets MUSL_LOCPATH in environment. This is required for locale
-to work correctly. e.g.
-
-root@qemux86-64:~# date
-Wed Jun  4 03:06:25 UTC 2025
-root@qemux86-64:~# LC_ALL=fr_FR.UTF-8 date
-Mer Jun  4 03:06:29 UTC 2025
-
-Works out of box now.
+This ensures the dependencies match across musl and glibc
+additional deps on iso8859 gconv/locale seems to be not
+needed anymore for glibc tests
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl-locales_git.bb | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ meta/recipes-devtools/m4/m4-1.4.20.inc | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/musl/musl-locales_git.bb b/meta/recipes-core/musl/musl-locales_git.bb
-index 1373c60daf4..2815e2ddf08 100644
---- a/meta/recipes-core/musl/musl-locales_git.bb
-+++ b/meta/recipes-core/musl/musl-locales_git.bb
-@@ -82,4 +82,21 @@ FILES:locale-base-ru-ru += "${datadir}/i18n/locales/musl/ru_RU.UTF-8"
- FILES:locale-base-sr-rs += "${datadir}/i18n/locales/musl/sr_RS.UTF-8"
- FILES:locale-base-sv-se += "${datadir}/i18n/locales/musl/sv_SE.UTF-8"
+diff --git a/meta/recipes-devtools/m4/m4-1.4.20.inc b/meta/recipes-devtools/m4/m4-1.4.20.inc
+index 0640395050a..33b17f05194 100644
+--- a/meta/recipes-devtools/m4/m4-1.4.20.inc
++++ b/meta/recipes-devtools/m4/m4-1.4.20.inc
+@@ -49,9 +49,4 @@ do_install_ptest:append:libc-glibc() {
+                        -e  "s;LOCALE_FR_UTF8='none';LOCALE_FR_UTF8='fr_FR.utf8';g" ${D}${PTEST_PATH}/tests/Makefile
+ }
  
-+RRECOMMENDS:locale-base-cs-cz += "${PN}"
-+RRECOMMENDS:locale-base-de-ch += "${PN}"
-+RRECOMMENDS:locale-base-de-de += "${PN}"
-+RRECOMMENDS:locale-base-en-gb += "${PN}"
-+RRECOMMENDS:locale-base-en-us += "${PN}"
-+RRECOMMENDS:locale-base-es-es += "${PN}"
-+RRECOMMENDS:locale-base-fi-fi += "${PN}"
-+RRECOMMENDS:locale-base-fr-ca += "${PN}"
-+RRECOMMENDS:locale-base-fr-fr += "${PN}"
-+RRECOMMENDS:locale-base-it-it += "${PN}"
-+RRECOMMENDS:locale-base-nb-no += "${PN}"
-+RRECOMMENDS:locale-base-nl-nl += "${PN}"
-+RRECOMMENDS:locale-base-pt-br += "${PN}"
-+RRECOMMENDS:locale-base-ru-ru += "${PN}"
-+RRECOMMENDS:locale-base-sr-sr += "${PN}"
-+RRECOMMENDS:locale-base-sv-se += "${PN}"
-+
- UPSTREAM_CHECK_COMMITS = "1"
+-RDEPENDS:${PN}-ptest += "make coreutils diffutils bash"
+-RDEPENDS:${PN}-ptest:append:libc-glibc = "\
+-     locale-base-fr-fr \
+-     locale-base-fr-fr.iso-8859-1 \
+-     glibc-gconv-iso8859-1 \
+-"
++RDEPENDS:${PN}-ptest += "make coreutils diffutils bash locale-base-fr-fr"
 
