@@ -1,93 +1,149 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rwmacleod@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74367C5B549
-	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 17:21:54 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.22460.1749057712588125055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B90E3C5B549
+	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 17:55:54 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web10.23429.1749059742777522589
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jun 2025 10:21:52 -0700
+ Wed, 04 Jun 2025 10:55:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cC17+jmT;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-231e8553248so885145ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 10:21:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RTQ64ewN;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: rwmacleod@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b26df8f44e6so82174a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 10:55:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749057712; x=1749662512; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zBAHw8TV2bsYPKQKYc+Q6G4fC8l2EjOOjOH+Xukg+Xk=;
-        b=cC17+jmT4bMjF64FAUFahuiZppMO5VqSsCQCUNBsIU/7b/nDFuFUd3rN3XduA8OQSN
-         ZxTxc/LEHlsSjF18xgXvBNFmjOmThcK98GHp7ehKw5J5v92G89/wyF97SPqgQfGitQga
-         8VJgOXJ+/1lObsfCSbYTAQKGvRy+cS+AC6fpxmoPu955plY/bcdcWEmV0Rrj6+w22mKO
-         6X3DTGM1ywEoqw7tgr1Is2pGhrFzERG4EL/q70m+wmBzE8z4YJQXU6M6994M/WapXk3B
-         hIVsnokm4ACUIRZIlmwd5eibOVzMxdL2bgrdDFky5vy29/5QQS+ikSGWvjiQf1D3dD5S
-         4UUw==
+        d=gmail.com; s=20230601; t=1749059742; x=1749664542; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XkubYasbLmaYT8PUG5hAu3Onw4aWKLsznsqtrTY63Fg=;
+        b=RTQ64ewNHxyNEqpehrQLtfoC2iTz+Jg2oJ0WWZ2YN0hd8vMkJkRQ4YYi1clrXTuOtx
+         k6Fa/ERd08BAvai3byima8R8MHpqwlVv//63al6RdTVlnTBP1eArJALAAu0LbRyAv5ZE
+         E47L27uArjm7kGbx0GZp6B8jt07AcwFboa9e1GArxbfkCvcAFl8Enfva325OiHY4qhwn
+         L0V9DrGmETTDgxh18rFIp6huJ2A8kacWvY9laJTH/I7QrOtJXgikQqRUZ5TltE4Ze4eS
+         nJeqxZaZni4Zm+mAq6Y+pD7Yf7ZTI7cH4yRng4iWVNZWprsqRjXyTvP82786YhGcClCP
+         lUhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749057712; x=1749662512;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1749059742; x=1749664542;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zBAHw8TV2bsYPKQKYc+Q6G4fC8l2EjOOjOH+Xukg+Xk=;
-        b=WVwOq4K3bA+Qo+P7w2HyfgKcvd8BOod5SmmVTpOkCtOcANg/hZIEiYr1fjmP1HKcrF
-         UC4jRcYCKI0e3sfOwUnhfwvpQbMHaDF3AEivKj25lmBr6ipHpvw5ew+1uAsJT9AYh5o0
-         WVSbsQQxYqaWkS2YUTsA9ILEmQ4JfW3j0xpUAjnMVVvjzwI6TwZuy0rNQr/lobBmmL+y
-         iE7hMEk9cxhmqmkcsl1Jh0N47EgweZO/xO4lb3wpVJYD3KwaVG1V3znEdujmh0r/WYbl
-         GjCpTiVfU6iZWfnEKZxQblaFimoishWGq0jS7lHo2CBlH/GrAFj6KE+rTEOkYXMAKIm6
-         J2OQ==
-X-Gm-Message-State: AOJu0Yz1Km2nTfph6JGE0wRMKX0mycYX+rBMr0T2crNF/l+GyeQBtMan
-	1b6e/0QLz4WN1DO7V2XcZ4eYKRathXxS5ux5cKKXcOpHJQaFsvnWKzaOy9DNF7xk
-X-Gm-Gg: ASbGncsfu81QreVNyLql4XpMpcT8f7h2mez1ZWNlOz/a1RM+Ra5CEzCblrR4sgmAxlM
-	ucL7PYJpON1OxsTQCQvPQrVPdDT6Fpz4eRQxkH4B3t22UJ2ZmWLKCgE+v/iG/AoKTSrVOIaqO38
-	cg4Nr1CXKtJ/Tg+BWUoaIYFm35OCkvkjJtZArfDZR9lgm20I0lYgYeglJJGj2cnqIvkzZ8uBk7C
-	51T+gcvzKZsY51YMkBjVwq8LNvnflnIHTIorG8J6ZrzBJHMRpsbgKd32AmZ/CQXKJaTh9LxYOPS
-	QK3yPkGU+cZgfPRVTfl3O6UtMvYbGGIfgUmjk/eflw==
-X-Google-Smtp-Source: AGHT+IHb7khJbHi4zi0pMRmUen/6HXPm1F8BmBjxSIe+LAtD5vlHmCcHeUqK2ZsLxe0899VOLk7Vrg==
-X-Received: by 2002:a17:903:8c5:b0:224:10a2:cae7 with SMTP id d9443c01a7336-235e1205a43mr56627135ad.40.1749057711607;
-        Wed, 04 Jun 2025 10:21:51 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::d6e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506d14c9asm106130325ad.231.2025.06.04.10.21.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jun 2025 10:21:50 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] m4: Adjust ptest dependencies
-Date: Wed,  4 Jun 2025 10:21:48 -0700
-Message-ID: <20250604172148.3469654-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        bh=XkubYasbLmaYT8PUG5hAu3Onw4aWKLsznsqtrTY63Fg=;
+        b=JHJOJBXaomalUwgcHeuDjSo5mqbejM/76SF/b4eLJq/DTMCck6dx7iRYLrPxKvHOI2
+         1Jx+B74RlTbG6rGw4bP8qo+ItaxwAeS0iMjabpceACqz2RL0FPrK7D6l1UySVA2sgc0E
+         B7xid6ecX19SW70X2OXhQIXnGEdOY7W7/eSZ5BG+XknzmTzsLDoq2tDtLTl9w722tQ0E
+         zmMmGjN0jfGA6Az9pKJch4k1y4yBiSRtZlv8wHUdfyxxoQyBQFLRe+nmhYRgLJxjvfKw
+         Aaba+0Vffv2Nsvtj8sGcnOlI7BqmebOy5Cuo6oO78SZV4f3R7HHq+V9srV8ucbTx7EFk
+         ixtQ==
+X-Gm-Message-State: AOJu0YzsiQBf3RMkuz0kUagNWM9S00JCL/z9MLSOL/IcDQWl4s0TIMai
+	kMSSl4pczqLLFCZXx5DIJVnvYIrWr6oT12RBtvKtpgp0Jm0xdocLuWi/q6ccauVwbtxrVylGssq
+	y4M5/f3D/Zb8jeLyMwGqYXhGFXxkd0Is=
+X-Gm-Gg: ASbGnctT6H/lH+M2wYhL60KGXQDA2cGKwGJ9oqBZieLfUK37oKOFs9NqE+zK+9WhQaX
+	23hxn4gxPob+tnzhQsXaY4V6Sz6hG1aeV84f9HifwSFEblJrn8FAd8CjQOd+F7kMn4iiG5XBDtZ
+	ONtkDyDv2z5DKvnv4r7hmV4+mUrr1psyVO/w==
+X-Google-Smtp-Source: AGHT+IF85Q2dvVqG2imhbph388exARM25hi/tK85aClbbwlfTiTldIegTPzGO74sDwv0L6aY27+BIrg0ETqi4gHaPVQ=
+X-Received: by 2002:a17:90b:3fd0:b0:311:c1ec:7d12 with SMTP id
+ 98e67ed59e1d1-3130cdad249mr4807704a91.23.1749059741742; Wed, 04 Jun 2025
+ 10:55:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <4832019c-26dc-4f50-ad31-3145fda752a2@gmail.com> <791.1749053399502629005@lists.openembedded.org>
+In-Reply-To: <791.1749053399502629005@lists.openembedded.org>
+From: Randy MacLeod <rwmacleod@gmail.com>
+Date: Wed, 4 Jun 2025 13:55:31 -0400
+X-Gm-Features: AX0GCFuNfTCCjO9bQYpntmWHakNACoWE38GOl_C_u79vIQlo0nqgij4mumWYZCg
+Message-ID: <CAK6=ix7d03GwenpObG4kYYYyZOzAF=DeSaat--J3FkXkL+pWYA@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH] glibc: pthreads NPTL: lost wakeup fix
+To: SunilKumar.Dora@windriver.com
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000098fc520636c2b4f6"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 17:21:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217961
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 17:55:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217962
 
-This ensures the dependencies match across musl and glibc
+--00000000000098fc520636c2b4f6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Do not drop iso-8859-1 locales/gconv
+On Wed, Jun 4, 2025, 12:10 Dora, Sunil Kumar via lists.openembedded.org
+<SunilKumar.Dora=3Dwindriver.com@lists.openembedded.org> wrote:
 
- meta/recipes-devtools/m4/m4-1.4.20.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Certainly, I=E2=80=99ll split the changes and send a revised version (V2)=
+ with
+> individual patches corresponding to each relevant commit. Thanks for the
+> feedback.
+>
 
-diff --git a/meta/recipes-devtools/m4/m4-1.4.20.inc b/meta/recipes-devtools/m4/m4-1.4.20.inc
-index 0640395050a..a31335f173e 100644
---- a/meta/recipes-devtools/m4/m4-1.4.20.inc
-+++ b/meta/recipes-devtools/m4/m4-1.4.20.inc
-@@ -49,9 +49,9 @@ do_install_ptest:append:libc-glibc() {
-                        -e  "s;LOCALE_FR_UTF8='none';LOCALE_FR_UTF8='fr_FR.utf8';g" ${D}${PTEST_PATH}/tests/Makefile
- }
- 
--RDEPENDS:${PN}-ptest += "make coreutils diffutils bash"
-+RDEPENDS:${PN}-ptest += "make coreutils diffutils bash locale-base-fr-fr"
-+
- RDEPENDS:${PN}-ptest:append:libc-glibc = "\
--     locale-base-fr-fr \
-      locale-base-fr-fr.iso-8859-1 \
-      glibc-gconv-iso8859-1 \
- "
+
+Thanks Sunil.
+
+Since these commits are merged on other branches in glibc upstream, please
+point out and explain, in the next version, any changes you had to make in
+doing the back port, if you think that makes sense.
+
+
+Randy
+
+
+
+
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#217957):
+> https://lists.openembedded.org/g/openembedded-core/message/217957
+> Mute This Topic: https://lists.openembedded.org/mt/113467561/953399
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> rwmacleod@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000098fc520636c2b4f6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div dir=3D"auto"><br></div><br><div class=3D"gmail_quote=
+ gmail_quote_container" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">=
+On Wed, Jun 4, 2025, 12:10 Dora, Sunil Kumar via <a href=3D"http://lists.op=
+enembedded.org">lists.openembedded.org</a> &lt;SunilKumar.Dora=3D<a href=3D=
+"mailto:windriver.com@lists.openembedded.org">windriver.com@lists.openembed=
+ded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>Certain=
+ly, I=E2=80=99ll split the changes and send a revised version (V2) with ind=
+ividual patches corresponding to each relevant commit. Thanks for the feedb=
+ack.</div></blockquote></div><div dir=3D"auto"><br></div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">Thanks Sunil.=C2=A0</div><div dir=3D"auto"><br>=
+</div><div dir=3D"auto">Since these commits are merged on other branches in=
+ glibc upstream, please point out and explain, in the next version, any cha=
+nges you had to make in doing the back port, if you think that makes sense.=
+=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div di=
+r=3D"auto">Randy</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></d=
+iv><div dir=3D"auto"><br></div><div class=3D"gmail_quote gmail_quote_contai=
+ner" dir=3D"auto"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#217957): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/217957" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://lists.openembedded.org/g/openembedded-core/message/217957</a><=
+br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113467561/953=
+399" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/mt/113467561/953399</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
+enembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rwmacleod@gmail=
+.com" target=3D"_blank" rel=3D"noreferrer">rwmacleod@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000098fc520636c2b4f6--
 
