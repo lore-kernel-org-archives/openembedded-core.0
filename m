@@ -1,329 +1,193 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82AD5C5B543
-	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 09:21:10 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.12233.1749028861194096151
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E87C5B543
+	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 09:23:00 +0000 (UTC)
+Received: from AS8PR03CU001.outbound.protection.outlook.com (AS8PR03CU001.outbound.protection.outlook.com [52.101.71.34])
+ by mx.groups.io with SMTP id smtpd.web10.12269.1749028979462727040
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jun 2025 02:21:01 -0700
+ Wed, 04 Jun 2025 02:23:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GP4htran;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-450d668c2a1so4859775e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 02:21:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1749028859; x=1749633659; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NgzX5ahRswVPaJlf8tWgUEhmmTme25HLU1w6gjbs6uE=;
-        b=GP4htranMuOx/LjC4lz392m2IFAdHZRojy2jSNSltNr3Y+96qN/GhHfF8soAThpgYh
-         3g/ZyLJwgInheY8IniiusnANQfOGUCAlZ/6G9iXMuUHqVlpq9NBfRDcDPzd7dhY5p6JK
-         4iURkVAfM5VRbn00Pa860SREuyNPSHlTAHnAs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749028859; x=1749633659;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NgzX5ahRswVPaJlf8tWgUEhmmTme25HLU1w6gjbs6uE=;
-        b=AMxeXN6Ac3kkFiwezjl5u5TprYB4EICmvQyRwhUC335q/oLZsD3/a9suufLOnMN4sT
-         P0QaSS34MNyqde7MIqsZjFie3eEv7B7vQaK3HdSJaqlzDMKRPVI5G0tL5qjjXUINq+6i
-         t7L935WWHaC1H4o5qbpG+CifP24wMuRPnsj21KK8Qpqx0+IlrTKKrkIQk1w80sTm49QR
-         KSUjUNllshWpWonn8Sq0FZCB8Cb3HVYPMeYMc41zFlG/MBvIaXBicKl3x7O2L3HMDxGJ
-         rouGDmXBQzpM/3hwEhaUz2IGifHzRupcFOg3brR4OGle6eGiE+cR49SMEdhsMi4kEcx/
-         NowQ==
-X-Gm-Message-State: AOJu0YycAv7s8CMaodkSa7QSP6taa7Xs7IQxknDBcD2z7BwC7o00trb+
-	JepIrfaKjQ+oGs0cdWph+AIePDMdEZonIxAuRSQ6gmQc6GYpKMFl6a+OlyFtlMfW8uKChH0rwM6
-	QzWNBg0reldAqIwXbDcMaDwGeGvbfD01o9gW5plZ6Gw==
-X-Gm-Gg: ASbGncu7xXWaaMTsilvzIhJO+py9RTMB3JID+nagslp4auFRj72AyYUDUFWVK9l5PhV
-	k4kuo8C24FpG06O0/dcUp8X4Wmznv036UyA/Y/e49L4dhL+N2HgTGCUkGl90zdCPWVYL5UEdFPj
-	0TinOu9vsbGHIo/boPreRqW1l7ddJyCo9Hpejh3H1iDn3Nf3aAdRxv2YKh/R5H3mJzmjdArynGr
-	Ikpkg==
-X-Google-Smtp-Source: AGHT+IHQIKM5r3tmzC8YflEcGNv81SUam5b6bwoat9ac0ueA+OPi2H4xlZJjjRSZnmOh5FKPV9pEhMAolI1HVavrKDQ=
-X-Received: by 2002:a05:600c:8b6d:b0:43d:fa5f:7d30 with SMTP id
- 5b1f17b1804b1-451efed66f4mr18628325e9.16.1749028859467; Wed, 04 Jun 2025
- 02:20:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250603215916.2429422-1-yoann.congal@smile.fr> <AS8PR02MB10201A85472191F69B7F5800DEF6CA@AS8PR02MB10201.eurprd02.prod.outlook.com>
-In-Reply-To: <AS8PR02MB10201A85472191F69B7F5800DEF6CA@AS8PR02MB10201.eurprd02.prod.outlook.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Wed, 4 Jun 2025 11:20:33 +0200
-X-Gm-Features: AX0GCFvcpcDriAKBmPaq7N9bDLHttPlsbVF-1qoprsizpzEWM8J9YY2qIscfna0
-Message-ID: <CAMSfU+74KEPn+uBvQH-8L8LGmU3maqixkcSk=NkXr_LW1WkmpA@mail.gmail.com>
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=L2R4hWwz;
+ spf=pass (domain: cherry.de, ip: 52.101.71.34, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JsAXzEiFNQPatb+by/aYHWlFsqHnTkoK+09qDRwJ1aXu+fELPS6FiU2DXcO2TjaNQAa7OdOOMCtMr8DuwHvjX1FhFWohK/axRBJhPyGBrUBysWXHopZjJkdJ1ep/505AzND9pvLYh34ehQrdIIq9jX2LzDyG4cME4g/HyBTUia720Nl1lIV33ug/q/zbu8KKcbiGKKULNAXPWxUR8kWOgvJhNAl/HH0H/Ns3GygR1ZX1CbpSbcdjkKM/pjhm5ZjVbgXT+KVrQtquVBc0P5l0G2TYFmk6OKBRpKaKAloikyMkPlR6GXWnPs/nXvUtbcH8q4d5tWxfPkq4C8s7GNuqig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UrSxsjqKDMy2CHmGszCbtN6tUPmRWvwEoL4UpsBts9U=;
+ b=curiPyQazSxfYKbgd1MyP5j5SGcQmS2IzgSlJIpgO1o73B7vxaksM9JaHP/7kqYT4E/fFPbrCrBsh3J3tBo44UEOLYv1h36bsBdF2KjndADt6MJa8Pz86y+8ojaJ/bzh9bey54STPXBpxaiRfvpxnGP4PJL4uTvAigk5zJS8OYxN0C93bnecWbUW2QadJOioGGF2wB6wQmnKbGMFiW55ocoUNFvfCi7WXUDH3xS1fFNsUDVOpqGTJx/JcS6DD6TErEMswnm/LiIoytq3Eqk6A2ntMOcaGaJGTkp2bzvHOu1tonsylzEFsD1DfsU7DzTKWWnct0G6scJE64skqxdQ2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UrSxsjqKDMy2CHmGszCbtN6tUPmRWvwEoL4UpsBts9U=;
+ b=L2R4hWwzvESSIBw4xyjTFSw2l0goQlO8g5xrpjXenYns1H7UUDCp9/rvnTPe/WG/XOP8hMh/Lm0KvZNZ9rr2FVXfUtEl1tBQ/IBsWpCQdXFQv2VOPG3POUbJiwJeczVkojAKavdYcwjffRyySOsR7Vfni5sexydy79crJK2dXqc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by PA1PR04MB10442.eurprd04.prod.outlook.com (2603:10a6:102:44a::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Wed, 4 Jun
+ 2025 09:22:55 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a%5]) with mapi id 15.20.8813.018; Wed, 4 Jun 2025
+ 09:22:54 +0000
+Message-ID: <4c4f6b74-1397-43c1-991e-3176d2873880@cherry.de>
+Date: Wed, 4 Jun 2025 11:22:54 +0200
+User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH] reproducible: allow each layer to define its
  known non-repro packages
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
-Content-Type: multipart/alternative; boundary="000000000000deebd10636bb838f"
+To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
+Cc: Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
+References: <20250603215916.2429422-1-yoann.congal@smile.fr>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20250603215916.2429422-1-yoann.congal@smile.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P265CA0340.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:d::16) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|PA1PR04MB10442:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f69e947-45c7-427a-32be-08dda349632c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?M0x3a2F6Y1Z6ektldVJEZUhBcm15TEZaMDhxa3JHN0laSS9rTmpXS0pMU1F4?=
+ =?utf-8?B?RW55enpQeW80cVdXYWxESDJjZ2gyMDBoMUp4RDhqY21OenFwaEsySzBXUFI1?=
+ =?utf-8?B?UFROV016dDIrL09yK0E1aW1ZVkJnaDBRYjhYdmhrY1ZXVW85WnRybGVTMlF6?=
+ =?utf-8?B?WVFFeXJqYUhtbjFDMUNEcEFjcmxuM2lNZGlrK1VTc2UyUHJUWWJsMVBOQlcw?=
+ =?utf-8?B?ak12V3hOK21RaUcyTTRDMitIOFdNbFIrODhWZkR2OU0wZlZ3QzBPSndRaDJE?=
+ =?utf-8?B?OHpxRnF2dk5zTmp6dmpUcVZOcnNZNms4RGl5ZEV3YTU0ZHFPN3lBWGJrZmxW?=
+ =?utf-8?B?d2tXdFhQZUszNXFiamFoNHVpbnFVMU53RGlzakZvTHdBd0Z1M3RrWWRwTTFG?=
+ =?utf-8?B?cGJyei9jemI0M1RPQzJhNnR5MVJFL2hNeVNkZ3JDdHlTZjJPY3VEekdxTDVt?=
+ =?utf-8?B?WE9EaVUxckFTNC8xRC9tYmw3dmozVjZhVkFGd0RuSjBxQkdJTWxZVjd3NmdH?=
+ =?utf-8?B?djhIYXVVcFRwSzlnakJITkF5dzl0aXJ3aFMySVNTQXhqbXd5Vmcwb212OTk2?=
+ =?utf-8?B?amJ3Y2RKanNyTjJwMTNJQUk1SDVvRytJVnl2NDNHWGFVMXRLY3ZmelhybWdr?=
+ =?utf-8?B?NGZ3TW9iT3FibUc4K3FUMWtwbG5kVFE3em9WU0VrdHFhYXhNckk1MUtYRXZ0?=
+ =?utf-8?B?bFQxTnk5enZ3T2dvSzgxejMvRUg3NS9malhCTGs2SWZOaEFmZEJSZ1ZubVdG?=
+ =?utf-8?B?M3dZY1RuZ3V6bkRzcDlZR1VLbUhMemNFcit5aDhYQ3ZSOEN5UnVWMXI1SGdI?=
+ =?utf-8?B?SnY5QWgzNi9qZTJ6WWU1NVRLSmEzYmU2ZXIwNi9JaXc5bTRhaklNbFRFaWRZ?=
+ =?utf-8?B?NExTNWtEb3J5R2YvUS9mbGhCbkZEMy9QRC9xZXJRZFZRbVFVb1o3TTVVZU51?=
+ =?utf-8?B?b2QxVkRIRnlYQjJ1RXhNSmVqS1FGVnV1WkRac29zTlMrTVZsUjQyTWg1UWdO?=
+ =?utf-8?B?UjYzR2VsdUU2ZHNtdG84VGZyUkpySWhqQy9RSWlkMS9zRDlsUzBkRjRmam9B?=
+ =?utf-8?B?YmZacWx4Tm94RSs2T1JJVkRUaTVMdGZKVkxkdHZ4bmhXa2tERGlvL2plYTBl?=
+ =?utf-8?B?bnNnY2ZWOUZkUGljeUVoY1kyRFQ3M21wODg3dzFCMkJZM3pxTDlzbHJPeVdt?=
+ =?utf-8?B?UUNxcEFXQ3pkV2lsZWVZWC9pb1JRcUxjL05XcjhBbm5IUVNoOEJibWhZdzd3?=
+ =?utf-8?B?M2d2U1JpaG9KcitRS2RGaHl0cmhVS1czMDVYczJTNG5VSmZlUTIzUWJZZ0dl?=
+ =?utf-8?B?UjcydkY0dlZ2U2hBMmMzUTZEL1FQWEZUVEFVelUraUNISmpFQWdWWTJzQ1lo?=
+ =?utf-8?B?WmlyTWFlVmd6SVYvdG1IRUZOcTFjYlhxdit0YmppdWdKUjVzOCtTQ2toVkpl?=
+ =?utf-8?B?eFFhMzE0clhKUmcxMDF2RzhjOGlwZkc1dGM5c256Y0JGYWlxWXJ3eHltd1V1?=
+ =?utf-8?B?WUdCVmFiYUphM3FoUmpYK3pEcXh2cUFQeHI1a3Fxb2FaSTJacHptbHhDZWFH?=
+ =?utf-8?B?dmUxZlpDdi9SUjJMNWhzQk1Wa1BGVEZ3R0RDWlFuRVM4K1pnNXNVaGZpUHU5?=
+ =?utf-8?B?UDNoTExwQzQxVEdOODJpVmptcEs2a3kxS2JCZmU1VXJPdXNvTjcxUFR0M1g3?=
+ =?utf-8?B?Ny9BVmg4RjdtN0plYVk0cUs1UzhWQWtsdzRQenMyazdhNHU3Y0R3MEJ6Wm9t?=
+ =?utf-8?B?bzh6RW02cE1pbGh5cnlnY05oZTUxdDVTNk93MVFxaG5oSUh1bExNckIzMUxq?=
+ =?utf-8?B?TTRDRXJJWmxkRVF3K2RDMy9Obm1NWFpZWXRBcTVzYXpoeVcvSm5xeXdGSVFG?=
+ =?utf-8?B?ekJlSzRwdmhtRGtaM25EUGFrdnlPbmVicDNUbDZPZmJSZHl5TS84QUI4WHI5?=
+ =?utf-8?Q?3Ct35Fo/0QM=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?UUd6UHp5c0J3R09BMzVrZHpEVExNZmNnWFdzV1RlWjh5VjJkSCtuMUxZQkpS?=
+ =?utf-8?B?aGswdldPZ0JraG9KSUg3VkczQmFGanNNWU1VajFRSFFrbkxrM1l3Ui9ZNHJt?=
+ =?utf-8?B?UzZ1NVBTc093RDlRcjEzeWpkUnZYZWZEVTRXUTN5TjJOWGd1NnJjK1ROVHdj?=
+ =?utf-8?B?TWxoK3BrSndoait2ajhyZFVBMEJnNlZHOWRFN0lVdUxRQnhZRkVMS0hPTi9z?=
+ =?utf-8?B?VzFNNjRkMVVBVExVcVR4K0txU3NaZFBZSUFZNTk2U1E2aUdjZ3R2U2E3d3lF?=
+ =?utf-8?B?Y043VGdkbC9oTm1TYXg5M3pUOC81VHBKK0lxa0lKWmZKZnY3OUtyTkh2MnQr?=
+ =?utf-8?B?RE1BbzFEMGNBUmZPZTdQVHRYem0yOFNZNFlJQjE5d0hEU2hDRFFmSjFybEE3?=
+ =?utf-8?B?bFpqN0xmVXRMaFo3UTBSdm1hUVA0QjEvaFIxRnZnTjZrSURSTk1UVkk4QnhH?=
+ =?utf-8?B?N0ljSW1lOWtJa2JXZURsVDlHeGhkQnJpZEFDQmV5WkxlNGN6cUNYbTdtQzRE?=
+ =?utf-8?B?d1YrRFdrUEIySnVoYlQ5UldZYXNTa3pwNkFOVUhoaFg4cU9kajV3OGR2RlJ2?=
+ =?utf-8?B?clBma3Q4L0lYeERiOVBMMzAweW9qOTVKVTJZaXVIT2tTbEVhK1NoUVExWTJU?=
+ =?utf-8?B?TER2dTdKdGJqdTV5dTRzbnN0TTkwaWZqa09Zb2FXUVlnNXVMQWVWK0kwUnRz?=
+ =?utf-8?B?Y0Ntb3JHa3pQZm9QVWNIZUJqMmhxcUtLZmVPR0x6YnpMVnVTRHl1MHBpSUNM?=
+ =?utf-8?B?RHlBMWdUQ0x0RVlTaWRxbytHQXJwdWdqNm5NaUd4YkR1c3UzcHBsMFBzbi9w?=
+ =?utf-8?B?WEJrNys1clJSd2hSYmx3dllvVStlUXgrVXNKVXBXME16OGhQN2RiWUNiQ0Vi?=
+ =?utf-8?B?UjgxdzFhMktKem5GdDd1QmQ2aHFXUUpOb0xTeCtIMGRSNmpBdUFhY2xrdUdQ?=
+ =?utf-8?B?eDRzWC83bndaQ051M2ViU2tBclhUM2oyVkpyZVgzTjRWT3N1dFZieDJiUXJQ?=
+ =?utf-8?B?TUlXUHRWRmc0RytQdW5wMWIyQmlEQ3JwaU5KTlBBMll0cE1Gc1grZGdTSlNl?=
+ =?utf-8?B?aWtzUWZUSmd2cTdzOWUxSXpUeHFkRE1HSGNKNnZEaW1KWUZrM1VqMU9YNlM1?=
+ =?utf-8?B?Zlg3eXF5YWxKelp6MXVVM0pSVExUb1hwQXk5Q2JKNU1HaGMxQ3dieEhlYjky?=
+ =?utf-8?B?TWpHenJRdkdwUVhPaTcyTmpQL1FVR0wxTjJxdTlyQkJjMmdiNjNXbWkvTll3?=
+ =?utf-8?B?YWhXZlQ1bDVsSnUxYm9xcnhkTXIxTExNSmRDTFNiYVh6Y1hZSEtPb2lOWm4x?=
+ =?utf-8?B?eW9mYTBocWRyaHRzNE9wdENPNUpoTFFoVXBGbm81eER2SU43cm5KR1E1UXlY?=
+ =?utf-8?B?TE41UUpncklrQ1ZzbzVIbmczaHhMVUxmdmw3V0FtckcxVlQzYjdUMTFoeXVZ?=
+ =?utf-8?B?cWtPdDhzUnNQK1BhQXd5eEYyLy81QTlMbmIzSjhJcDh6M2dYQ0lOUnE1V2tr?=
+ =?utf-8?B?WVc3ZVJhME8wSkVhK3ZwMWJEb2RkYWRqZm5QNkhhbHN6SnBmUFRYb2YrUzAx?=
+ =?utf-8?B?UW5kOVEyRm1xWGdmNXE0SXZPaUFZVlFnZ2NnWDc2RERqaTFvTi9tSklWQ1Ny?=
+ =?utf-8?B?SDdENGpZWVo2Z3ZMVXovNm9HeFJxRXZFWFVGTlp2Yk5ZMldPRkVkU3l4eDV5?=
+ =?utf-8?B?ZUJZdUFxTVFsbnBKM3pjRi9pa2RPb0I2Q2ZkTkV3RFZkblZJMmlwNDBUWE9V?=
+ =?utf-8?B?b2YveTYzbkt6UlJPaVRNZVZEZ2FGV1dON3lNQXB6Uyt3STZFZWVSK2UzQ0hI?=
+ =?utf-8?B?dnFXWDY3VTBrVDFkSW1td082Z0tubGo0LzNraEdBcGFNSzNsbEJoZnJhcGlY?=
+ =?utf-8?B?NWdOc0FGRTZ2UHI4eUNySWp1aVRBUzRGSEF5UzJ4c0oxTE9UU0N2ZWFHYkRT?=
+ =?utf-8?B?c0psNWpMU1YrK0M2L3NVNzVGTVVwZm1BL2FHLzdIMHBQZDRKamNCV1BKOEsv?=
+ =?utf-8?B?OVhOUDlnNXFkd0ZDQXBja0dPQnVqbDJGZkJzSG42ZTNKeGhIM1BGbUhVM3Y3?=
+ =?utf-8?B?eDF1VTdEQXBsTWhxWmYwREwrbFNiSS9RU25VVEViUDhPZWlXaXNrV28rT3dR?=
+ =?utf-8?B?UU10eXhRdGNoYUZpSkdjamJYRzUyMWsyMFQrWVBIS2wzeUZMQWs1am1vcGI0?=
+ =?utf-8?B?TUE9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f69e947-45c7-427a-32be-08dda349632c
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2025 09:22:54.9293
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jmofnkgMlVbuZ8BOsHZpoKRfNTLuv5jw+/6TYiL0Bxy265V6LhAq/qwh6udQ0hiU0MGtO719cbrAW4K/LV+8hvKi6IBwQvTWZphcIBYlwG4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10442
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 09:21:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217895
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 09:23:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217896
 
---000000000000deebd10636bb838f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Yoann,
 
-Le mer. 4 juin 2025 =C3=A0 11:14, Peter Kjellerstedt <peter.kjellerstedt@ax=
-is.com>
-a =C3=A9crit :
+On 6/3/25 11:59 PM, Yoann Congal via lists.openembedded.org wrote:
+> From: Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
+> 
+> With this change, layers can use a conf/include/known_non_repro.inc file
+> to extend the KNOWN_NON_REPRO_PACKAGES_LIST variable with its own known
+> non-reproducible packages to make them automatically excluded from the
+> reproducible test.
+> 
+> Example of usage, in conf/include/known_non_repro.inc:
+>    KNOWN_NON_REPRO_PACKAGES_LIST += " \
+>          this-package-is-not-reproducible \
+>    "
+> 
+> This uses the new "include_all" in the reproducible test and will move
+> the maintenance burden from AB config[0] to the layers themselves.
+> 
 
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> On Behalf Of Yoann Congal via
-> lists.openembedded.org
-> > Sent: den 3 juni 2025 23:59
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Yoann Congal <yoann.congal@smile.fr>; Guillaume Swaenepoel <
-> guillaume.swaenepoel@smile.fr>
-> > Subject: [OE-core] [PATCH] reproducible: allow each layer to define its
-> known non-repro packages
-> >
-> > From: Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
-> >
-> > With this change, layers can use a conf/include/known_non_repro.inc fil=
-e
-> > to extend the KNOWN_NON_REPRO_PACKAGES_LIST variable with its own known
-> > non-reproducible packages to make them automatically excluded from the
-> > reproducible test.
-> >
-> > Example of usage, in conf/include/known_non_repro.inc:
-> >   KNOWN_NON_REPRO_PACKAGES_LIST +=3D " \
-> >         this-package-is-not-reproducible \
-> >   "
-> >
-> > This uses the new "include_all" in the reproducible test and will move
-> > the maintenance burden from AB config[0] to the layers themselves.
-> >
-> > Fixes [YOCTO #15699]
-> >
-> > [0]:
-> https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json#n3=
-43
-> >
-> > Co-Developed-by: Yoann Congal <yoann.congal@smile.fr>
-> > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> > Signed-off-by: Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
-> > ---
-> >  meta/lib/oeqa/selftest/cases/reproducible.py | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py
-> b/meta/lib/oeqa/selftest/cases/reproducible.py
-> > index f06027cb03..e2c3a10f06 100644
-> > --- a/meta/lib/oeqa/selftest/cases/reproducible.py
-> > +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-> > @@ -14,6 +14,7 @@ import shutil
-> >  import stat
-> >  import os
-> >  import datetime
-> > +import oeqa.utils.ftools as ftools
-> >
-> >  exclude_packages =3D [
-> >       ]
-> > @@ -158,6 +159,12 @@ class ReproducibleTests(OESelftestTestCase):
-> >      # reproducible, disable this in your derived test class
-> >      build_from_sstate =3D True
-> >
-> > +    @classmethod
-> > +    def setUpClass(cls):
-> > +        super().setUpClass()
-> > +        ftools.append_file(os.path.join(cls.builddir,
-> "conf/local.conf"), \
-> > +             "\ninclude_all conf/include/known_non_repro.inc\n")
-> > +
-> >      def setUpLocal(self):
-> >          super().setUpLocal()
-> >          needed_vars =3D [
-> > @@ -170,6 +177,7 @@ class ReproducibleTests(OESelftestTestCase):
-> >              'OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS',
-> >              'OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES',
-> >              'OEQA_REPRODUCIBLE_TEST_LEAF_TARGETS',
-> > +            'KNOWN_NON_REPRO_PACKAGES_LIST',
->
-> Why do you need a new variable? Isn't this what
-> OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES is used for?
->
+A few points unrelated to implementation:
+- maybe we can shorten the variable name? NON_REPRO_PACKAGES would be 
+enough no? If a package is listed in there, it's necessarily that we 
+know it's non reproducible, would we have a variable for "unknown" 
+non-reproducible packages? Additionally, we already have a PACKAGES 
+variable which contains a space-separated list of packages to build, so 
+maybe we can drop the _LIST as the plural of PACKAGES kind of imply it's 
+a list?
+- once this gets merged, please provide documentation in yocto-docs for 
+it :)
+- why packages and not recipes? Do we need a per-package granularity? 
+Isn't the recipe broken if any package it generates is non-reproducible? 
+This would also allow recipes to add packages without having to also 
+list them to the NON_REPRO_PACKAGES list?
+- what happens if a layer has a version X of a recipe that is not 
+reproducible, but another layer has version Y that is (or vice-versa)?
 
-The idea was at some point to de-couple the two to allow to run the test
-without the exclusion coming automatically from the layer files.
-I may have over-thought this one.
-
-
-> >          ]
-> >          bb_vars =3D get_bb_vars(needed_vars)
-> >          for v in needed_vars:
-> > @@ -189,6 +197,10 @@ class ReproducibleTests(OESelftestTestCase):
-> >              for leaf_recipe in
-> bb_vars['OEQA_REPRODUCIBLE_TEST_LEAF_TARGETS'].split():
-> >                  self.sstate_targets.extend(get_bb_var('DEPENDS',
-> leaf_recipe).split())
-> >
-> > +        # Apply exclusion from layers (conf/include/known_non_repro.in=
-c
-> files)
-> > +        if bb_vars['KNOWN_NON_REPRO_PACKAGES_LIST']:
-> > +            self.oeqa_reproducible_excluded_packages =3D
-> (self.oeqa_reproducible_excluded_packages or "") +
-> bb_vars['KNOWN_NON_REPRO_PACKAGES_LIST']
-> > +
-> >          self.extraresults =3D {}
-> >          self.extraresults.setdefault('reproducible',
-> {}).setdefault('files', {})
-> >
->
-> //Peter
->
->
-
---=20
-Yoann Congal
-Smile ECS
-
---000000000000deebd10636bb838f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 4 =
-juin 2025 =C3=A0=C2=A011:14, Peter Kjellerstedt &lt;<a href=3D"mailto:peter=
-.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; a =C3=A9crit=C2=
-=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; -----O=
-riginal Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
-ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
-ded-core@lists.openembedded.org</a>&gt; On Behalf Of Yoann Congal via <a hr=
-ef=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">l=
-ists.openembedded.org</a><br>
-&gt; Sent: den 3 juni 2025 23:59<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Cc: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" target=
-=3D"_blank">yoann.congal@smile.fr</a>&gt;; Guillaume Swaenepoel &lt;<a href=
-=3D"mailto:guillaume.swaenepoel@smile.fr" target=3D"_blank">guillaume.swaen=
-epoel@smile.fr</a>&gt;<br>
-&gt; Subject: [OE-core] [PATCH] reproducible: allow each layer to define it=
-s known non-repro packages<br>
-&gt; <br>
-&gt; From: Guillaume Swaenepoel &lt;<a href=3D"mailto:guillaume.swaenepoel@=
-smile.fr" target=3D"_blank">guillaume.swaenepoel@smile.fr</a>&gt;<br>
-&gt; <br>
-&gt; With this change, layers can use a conf/include/known_non_repro.inc fi=
-le<br>
-&gt; to extend the KNOWN_NON_REPRO_PACKAGES_LIST variable with its own know=
-n<br>
-&gt; non-reproducible packages to make them automatically excluded from the=
-<br>
-&gt; reproducible test.<br>
-&gt; <br>
-&gt; Example of usage, in conf/include/known_non_repro.inc:<br>
-&gt;=C2=A0 =C2=A0KNOWN_NON_REPRO_PACKAGES_LIST +=3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0this-package-is-not-reproducible \<br=
->
-&gt;=C2=A0 =C2=A0&quot;<br>
-&gt; <br>
-&gt; This uses the new &quot;include_all&quot; in the reproducible test and=
- will move<br>
-&gt; the maintenance burden from AB config[0] to the layers themselves.<br>
-&gt; <br>
-&gt; Fixes [YOCTO #15699]<br>
-&gt; <br>
-&gt; [0]: <a href=3D"https://git.yoctoproject.org/yocto-autobuilder-helper/=
-tree/config.json#n343" rel=3D"noreferrer" target=3D"_blank">https://git.yoc=
-toproject.org/yocto-autobuilder-helper/tree/config.json#n343</a><br>
-&gt; <br>
-&gt; Co-Developed-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile=
-.fr" target=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
-&gt; Signed-off-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.f=
-r" target=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
-&gt; Signed-off-by: Guillaume Swaenepoel &lt;<a href=3D"mailto:guillaume.sw=
-aenepoel@smile.fr" target=3D"_blank">guillaume.swaenepoel@smile.fr</a>&gt;<=
-br>
-&gt; ---<br>
-&gt;=C2=A0 meta/lib/oeqa/selftest/cases/reproducible.py | 12 ++++++++++++<b=
-r>
-&gt;=C2=A0 1 file changed, 12 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/o=
-eqa/selftest/cases/reproducible.py<br>
-&gt; index f06027cb03..e2c3a10f06 100644<br>
-&gt; --- a/meta/lib/oeqa/selftest/cases/reproducible.py<br>
-&gt; +++ b/meta/lib/oeqa/selftest/cases/reproducible.py<br>
-&gt; @@ -14,6 +14,7 @@ import shutil<br>
-&gt;=C2=A0 import stat<br>
-&gt;=C2=A0 import os<br>
-&gt;=C2=A0 import datetime<br>
-&gt; +import oeqa.utils.ftools as ftools<br>
-&gt; <br>
-&gt;=C2=A0 exclude_packages =3D [<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0]<br>
-&gt; @@ -158,6 +159,12 @@ class ReproducibleTests(OESelftestTestCase):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # reproducible, disable this in your derived test =
-class<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 build_from_sstate =3D True<br>
-&gt; <br>
-&gt; +=C2=A0 =C2=A0 @classmethod<br>
-&gt; +=C2=A0 =C2=A0 def setUpClass(cls):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().setUpClass()<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ftools.append_file(os.path.join(cls.build=
-dir, &quot;conf/local.conf&quot;), \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;\ninclude_all c=
-onf/include/known_non_repro.inc\n&quot;)<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 def setUpLocal(self):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 super().setUpLocal()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 needed_vars =3D [<br>
-&gt; @@ -170,6 +177,7 @@ class ReproducibleTests(OESelftestTestCase):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;OEQA_REPRODUCIBLE=
-_TEST_SSTATE_TARGETS&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;OEQA_REPRODUCIBLE=
-_EXCLUDED_PACKAGES&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;OEQA_REPRODUCIBLE=
-_TEST_LEAF_TARGETS&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;KNOWN_NON_REPRO_PACKAG=
-ES_LIST&#39;,<br>
-<br>
-Why do you need a new variable? Isn&#39;t this what <br>
-OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES is used for?<br></blockquote><div><br><=
-/div><div>The idea was at some point to de-couple the two to allow to run t=
-he test without the exclusion coming automatically from the layer files.</d=
-iv><div>I may have over-thought this one.</div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb_vars =3D get_bb_vars(needed_vars)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for v in needed_vars:<br>
-&gt; @@ -189,6 +197,10 @@ class ReproducibleTests(OESelftestTestCase):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for leaf_recipe in bb_=
-vars[&#39;OEQA_REPRODUCIBLE_TEST_LEAF_TARGETS&#39;].split():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.sst=
-ate_targets.extend(get_bb_var(&#39;DEPENDS&#39;, leaf_recipe).split())<br>
-&gt; <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Apply exclusion from layers (conf/inclu=
-de/known_non_repro.inc files)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb_vars[&#39;KNOWN_NON_REPRO_PACKAGES_=
-LIST&#39;]:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.oeqa_reproducible_excl=
-uded_packages =3D (self.oeqa_reproducible_excluded_packages or &quot;&quot;=
-) + bb_vars[&#39;KNOWN_NON_REPRO_PACKAGES_LIST&#39;]<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.extraresults =3D {}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.extraresults.setdefault(&#39;re=
-producible&#39;, {}).setdefault(&#39;files&#39;, {})<br>
-&gt; <br>
-<br>
-//Peter<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---000000000000deebd10636bb838f--
+Cheers,
+Quentin
 
