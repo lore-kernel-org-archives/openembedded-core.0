@@ -1,141 +1,88 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5FACC5B543
-	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 18:33:15 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.24435.1749061990129201193
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBC3C5B549
+	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 20:06:36 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.26499.1749067594510534254
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jun 2025 11:33:10 -0700
+ Wed, 04 Jun 2025 13:06:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Rt7ImkLu;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a50956e5d3so111449f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 11:33:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ASkwus4c;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-451d41e1ad1so1533245e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 13:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749061988; x=1749666788; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nXQwHwIy0wF16ifc86A31qiZUOVffGsZ5YfIS56RyOQ=;
-        b=Rt7ImkLuNZ5Y+F+kx3sl5UfUGim6hfp3hnHb6iAxu1IyOZis+RjLDO8u7IT6y2fvHq
-         8z8/ZBRKjhp36FG5PNMSFVFv4Fu3rXOiBjUI0q62w8Zcvk29iVVoQSa283oG0sW6eTla
-         mDbc6hopjbGpe0ITnZjs5zn7fj1FUY6NwA074Ftuel35o8m3c54bSLWDzo7x2FOcSg2I
-         BKtuun/BQDI/CZ+ouWkJm7Z5WYvMRre4SGVwQowjAXAiNDsApTGXzl1QhQGsLJUsURaI
-         ZHT0JVVHJPJNmvx1Of1BlbNYaDUSPdLl1bBwc3M5SdC5S+CerW/9MyQrQ8uWWvMIKeMa
-         Ei7A==
+        d=linuxfoundation.org; s=google; t=1749067592; x=1749672392; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cppCkG3GMJUcqyhsk83tfI/8avKVjaj19GCTdZk2HCQ=;
+        b=ASkwus4cOjyg6KZNsCVuaabA3EkvqT11GMq0oTpOnVVZyC5lqigOQiT9HBU7r/RPdU
+         gsX09BQEYVkZFRYkqK+0V4JDG/wOOVjxO40+5H3YGZnds5S7szPDPObXlzOjxu2FQka1
+         DL1SOOL10OjVLH6JnNhgzQYSnhHMPaJUGnYHA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749061988; x=1749666788;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nXQwHwIy0wF16ifc86A31qiZUOVffGsZ5YfIS56RyOQ=;
-        b=b+xrf258hNL5i2z3Xpd/X7vxkUvFQ6v7zklZ4pDGBHK7Ly4PFzvaZHy8uzgTKEDu0B
-         +nlpY2lAIilB1IWRHrF0tVOXm3CFQoKEgxJnFYIzulEjaYLvpWCd1/JA2CKGyHYjKACa
-         FnOvFbhhGRpfD9cCbyuowsbr5D8VAzYsBcivC8Bo8gRNBER6PThW0rew/UMu9Lj/4Mxm
-         wLpSuSrSvlixJscrgb9yxxihRKfBlNdSgxlnFT85Y0x2gI2CE1iGRFiXdmBpbOIdgm31
-         5ugO2rFDqMI23qZ0wA7Iz1q++6TjHFAHraLjfcb5M345ZkD91+0MmHNdyv4GzW0sORMD
-         3ITA==
-X-Gm-Message-State: AOJu0YydznBlsu67w8zylG3TSGJuJ+3L8VbOGpyUtnuCJngd1Q3HLKM/
-	q+gxrMlIry1buNCYGR/BWCqRGPkUPCeHyxUvLwd4ai1EDYVweRQkWD1ZpItgeg==
-X-Gm-Gg: ASbGncv8CH+h5bwMdFtAf5gsuQw1/54gFN07VzOd21w3D3jvK5HH0IT3CCO6Z2fJr/Q
-	lXerx70TJhya9y+s1wNx8O86yz5Z0n4u+R1+8nxn9A810q41uLl3Y9FSa4cfoEWynj1DxHoUVyd
-	VJdwjhlx3maPtgHKWtxvNysjS7k4Xv8REB59YvM2zSp2YcJ9M+XgnxS3cZO23uA+n+5n2mhtmU7
-	FFyAHD7a3A2+25cWVhOs15aP0RMEsy+eusiIn7qiE5wE+Oj370Hp10waQ+/sgPNcNBjAIRLs+0p
-	48aYtnzcNOE/eV79+ouwqV8hcN6ELN9zThtJ/AQN0nNNP3YGrkO+FegMeF9ueIXY4bItkZU1y8X
-	3kvzZ+arlxpw=
-X-Google-Smtp-Source: AGHT+IHY/lt99Y7T0fJFldXka1tU5DqX7x7fvX51Mp8blyH8laQRrJpYBG3oIgSiuNOQUK8RANDAsQ==
-X-Received: by 2002:a05:6000:40ce:b0:3a4:d83a:eb4c with SMTP id ffacd0b85a97d-3a51d987c75mr3624190f8f.57.1749061987925;
-        Wed, 04 Jun 2025 11:33:07 -0700 (PDT)
-Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f00a02cdsm22692704f8f.94.2025.06.04.11.33.06
+        d=1e100.net; s=20230601; t=1749067592; x=1749672392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cppCkG3GMJUcqyhsk83tfI/8avKVjaj19GCTdZk2HCQ=;
+        b=Y6t5NwK0g1pJpXnlmNK4UT5LRW0Sc3dxP5FPU7eBiBoE4FeDuDdyHB1e5yMWoRtxQX
+         +ui/YMAEu1VgoKBfSlE3n4nTL7ZewbSQxwe+E9waDCsk7qwDZu8UP7XLVUpmZBDqkvgj
+         OYblRqQPBf+SvMlKy1VmcIQlRNl3hq2rjBno1GZup98ZsBncM2nMIU8VeX6ixnTx44Ux
+         YotBEnkKpR43e47YmO7pWTr0H3+fWoc48GrZBSOMwEYLxoRT6ts0wdfQVo9r8Ge4PBB4
+         zXcaIwbLzogTkOD3d5ZKFvgqa/G39cYd98nWVye0/oAaem+QCR736aw3Hf8Blf/D2K2v
+         sKOg==
+X-Gm-Message-State: AOJu0YxE68J8/vJaon7V42hZwmqKL0hQRqcR8Rx2Zj19qcdSdvA7OUfA
+	DXsGbtc01JURfbMtLMrVlulmWJg7fyMKSLlFm/mlAXd5miHRKjfjwpGeGTC8NDO/58qEJArsbDG
+	Udpmg+ZI=
+X-Gm-Gg: ASbGncv1tuOBr7SxQOTpvVq5POKsoyZP7Ig/gqjOwQeBAd0qRXrLyQgTRzGq5dz75vI
+	9/h4M0qznkDuyQznYrRT19laV7ZpI+u0wNZPZJC4fKTlqlpNzfrNlsCE8AO1CVTIkYd4XxK58xl
+	VF68HG2wz0d4m7gCj2apPKPPCgZjzYUlWDIvrdgVehizuM2nUgDaqlik5y9WT3EYnHWLYjfGAtd
+	0G/c0YWCiZFgbDzPJHzSK1tSIBclClTKPVMyqLZd3SJjPeK7pnZ3kbkPFO+EKmRF8OGYM1TtR2I
+	J3PsIbaQ0iDUfh1p4jpHJzGrjA9v6cVje087TW/kfa5/EmrAOnk4k7pTSIeEEaiA6wY8E8ylEG8
+	1Ch4l
+X-Google-Smtp-Source: AGHT+IEQ+tu/fftOi9czKbh9qFhdAgRSlZAZ+H7l4rBZfYaISrdvuili/TkiPzLaQgrmbvae6k8/Vw==
+X-Received: by 2002:a05:600c:8b27:b0:450:d37d:3584 with SMTP id 5b1f17b1804b1-451f0f31013mr41184845e9.13.1749067592292;
+        Wed, 04 Jun 2025 13:06:32 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:204c:fb2e:c462:29df])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-451f990cefesm1360215e9.21.2025.06.04.13.06.31
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jun 2025 11:33:07 -0700 (PDT)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+        Wed, 04 Jun 2025 13:06:31 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH] bluez5: upgrade 5.82 -> 5.83
-Date: Wed,  4 Jun 2025 18:32:38 +0000
-Message-ID: <20250604183238.3647-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Subject: [PATCH] barebox: Add missing depndency on lz4-native
+Date: Wed,  4 Jun 2025 21:06:30 +0100
+Message-ID: <20250604200630.3899333-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 18:33:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217963
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 20:06:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217964
 
-Changelog:
-Fix issue with handling BAP and removal of PAC.
-Fix issue with handling SID for broadcast receiver.
-Fix issue with handling HSP/HFP reconnection policy.
-Fix issue with handling cable pairing and Sixaxis controllers.
-Fix issue with handling virtual cable unplug for HID devices.
-Fix issue with handling service records for HID devices.
-Add support for AVDTP and TX timestamps.
+| /bin/sh: 1: lz4: not found
+| make[4]: *** [scripts/Makefile.lib:413: common/boards/qemu-virt/fitimage-pubkey.dtb.z] Error 1
+| make[3]: *** [tmp/work/qemuarm64-poky-linux/barebox/2025.04.0/barebox-2025.04.0/scripts/Makefile.build:293: common/boards/qemu-virt] Error 2
 
-Full changelog:
-https://github.com/bluez/bluez/compare/5.82...5.83
-
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../bluez5/bluez5/0001-bluez5-disable-aics-tests.patch      | 2 +-
- ...sts-add-a-target-for-building-tests-without-runnin.patch | 6 +++---
- .../bluez5/{bluez5_5.82.bb => bluez5_5.83.bb}               | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.82.bb => bluez5_5.83.bb} (95%)
+ meta/classes-recipe/barebox.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
-index 4e8bd040e9..3f01843ea3 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
-@@ -1,4 +1,4 @@
--From 2140aa879c24dcc9dad7e733c77c1bb212fe1ddf Mon Sep 17 00:00:00 2001
-+From 182545f2504255d67d9ec2071fd5c82ab53c5a2e Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
- Date: Sun, 30 Mar 2025 02:20:24 +0000
- Subject: [PATCH] bluez5: disable aics tests
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-index 5492509577..a9af56f141 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-@@ -1,4 +1,4 @@
--From 9d5141cecea46fb3d6f918b11705cf0b6c673bca Mon Sep 17 00:00:00 2001
-+From fa5da30786837b437707cea921056e9c1c22ffba Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 1 Apr 2016 17:07:34 +0300
- Subject: [PATCH] tests: add a target for building tests without running them
-@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 3 insertions(+)
+diff --git a/meta/classes-recipe/barebox.bbclass b/meta/classes-recipe/barebox.bbclass
+index 200ba08326a..a562dce1690 100644
+--- a/meta/classes-recipe/barebox.bbclass
++++ b/meta/classes-recipe/barebox.bbclass
+@@ -12,7 +12,7 @@ PROVIDES += "virtual/bootloader"
  
- diff --git a/Makefile.am b/Makefile.am
--index dc9a27e..949d7da 100644
-+index 02ad23c..169269d 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -723,6 +723,9 @@ endif
-+@@ -722,6 +722,9 @@ endif
-  TESTS = $(unit_tests)
-  AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
-  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.82.bb b/meta/recipes-connectivity/bluez5/bluez5_5.83.bb
-similarity index 95%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.82.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.83.bb
-index f8d73444e3..8af6bdb67e 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.82.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.83.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
  
--SRC_URI[sha256sum] = "0739fa608a837967ee6d5572b43fb89946a938d1c6c26127158aaefd743a790b"
-+SRC_URI[sha256sum] = "108522d909d220581399bfec93daab62035539ceef3dda3e79970785c63bd24c"
+-DEPENDS += "bison-native flex-native"
++DEPENDS += "bison-native flex-native lz4-native"
  
- CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
- 
--- 
-2.43.0
-
+ S = "${WORKDIR}/barebox-${PV}"
+ B = "${WORKDIR}/build"
 
