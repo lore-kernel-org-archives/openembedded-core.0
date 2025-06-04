@@ -1,230 +1,282 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 811B8C5B543
-	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 11:34:52 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.14441.1749036885380387924
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9418C5B543
+	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 11:55:02 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web10.14677.1749038099663127527
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jun 2025 04:34:45 -0700
+ Wed, 04 Jun 2025 04:54:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8250671ff5=changqing.li@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5545o2f3025602
-	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jun 2025 04:34:45 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9rtevp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 04:34:44 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 4 Jun 2025 04:34:44 -0700
-Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 4 Jun 2025 04:34:43 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [scarthgap][PATCH V2 14/14] libsoup: fix CVE-2025-2784
-Date: Wed, 4 Jun 2025 19:34:26 +0800
-Message-ID: <20250604113426.464818-15-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250604113426.464818-1-changqing.li@windriver.com>
-References: <20250604113426.464818-1-changqing.li@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z05U+W67;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-afc857702d1so5200274a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 04:54:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749038099; x=1749642899; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jtj1bLbaIDinwaILuRJeEmS7Lpmc9Q2vYmMdl4oBqc0=;
+        b=Z05U+W67LJNWxyidxjDEwqftxoHyoQkbyFVCVt0I50Cv6Fpmllcl3UCAwAgdF9/tI3
+         8VxWijAAzhzmKwigXOOXKnSDeG3/V355E710Mh0zHqExhJe7kNPE6MDhfYCJbuCUkGEP
+         J/APXQ0X8rgCZ7telbFqpY8GTw+zmOlfIhr/afdMrA0FoSvk9TCxJYAD6M+Rk7/aTRUT
+         ounmBSk4Htb+g+kcxgU3PvQ5KzurW2LYLxR0GcxZfzEqfYy69Zq3SS7MvPhlWPdFTcAa
+         mCgWytPhKYxQJ+nnRVATcMFxEwF/hYpkTRrSEpsqjIyTFsa83E4FiqbuwZsRvTJe2+o6
+         PQPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749038099; x=1749642899;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jtj1bLbaIDinwaILuRJeEmS7Lpmc9Q2vYmMdl4oBqc0=;
+        b=G2kczlyh1wiRArXzs5BBJq1oyI/+UeI7tKM3O3q1bO3P5lkk1Qon0ZT8yJ8JkswiW3
+         RsJcB6f+cYpaVzEYUrmrYQsMp+xQQecxNEjJKIIashaBkr0MsUiVXoA23jUZXT9spFHP
+         +PjcGo7SobPeTcYy731Dr0Zxp+PGfTCy0f6VmHHHGBbRpMhtCJBrxUWS9iWODdjXkpsl
+         ZKkkqNMt5/BJP/YQ95uIfE/DZk6rfe98MV7Xdu2drKO8CndZc8ecVpvajl0WPkSc0KNb
+         dXr4D2mRDkm3jCRqPW0AXtVyVhujyQTQt2pSW8wcNcYySKd7YAcNq8JlmYyccla3sQKu
+         ITHA==
+X-Gm-Message-State: AOJu0YztE8ADwmIrQGuekAShil8UGbki5X8v/J7DJEtzCnVF6P/wsIys
+	jq+mN+LzIY3XtUXYjjZXujOBCvaowzP/PCvmIRy9LHu54cu7IvFThcR3b1nDsl+NhE/84DPkg9G
+	TtDFgnd+IPRpVoxZSpV06wKNFU8Y6glVhMDFl
+X-Gm-Gg: ASbGncvFpqJbw2QlsjACwSvjhurFgnR/JfxmSsHJi84aoUcXHfMZaJR4GESkMQfF9rG
+	fKVoErHCCOw47zD4jck+7Qzu6gU3ga8CYpSDT6cg9qVmmwQEvZvmCvayeoV0r5nBnOCe6WHYUEc
+	mq3yXovy+XikQmipZb7PvOn/Am1P/pDhp1a6gUgJaQgG9g
+X-Google-Smtp-Source: AGHT+IHrgSZum1OxeLjBI2MGO/1uVdyA9xnzUW6pJj0EnqK3a0ygY/JGNI2Nskx6LyKZfs3nvRsCS4HE566VX0SP5Qg=
+X-Received: by 2002:a17:90b:5290:b0:312:1c83:58ec with SMTP id
+ 98e67ed59e1d1-3130cd14d19mr5244988a91.12.1749038098627; Wed, 04 Jun 2025
+ 04:54:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA0MDA4OCBTYWx0ZWRfXzobCfiM/jxqd /uIvNtaEppyrpA/zo5qAfWqa4+5h4kD1wvw3UbUzFJy8PBm/fe+7KQOoXdoKoCrGjQa7LONVAOS ZhATvPn9KMsRLSbWz5d0879S3JgJVRwuR7flUBrWQUm7dVOv74Pwz5qK6Ef949InXfsVry3iXRI
- zPWSfKf7JHlGNwStV4zDdRiWpRR0wzYal9sWgfILvtkg9WMAXSEF1KiKbhen3rsyBjBcBdzWAin KpQozgyC1bAGMaDmXwtHlseBxuwVXHZ5pED/aC/pCaNJ3xSIW5nGfB2wZdXYTmwviUcJ9tUxMkE 6mn/eJBLZtliWxG+89lmmRzpIsVSldzH4N0+uGgEp7LFVJGmFwxFxxNJ8Z6xouHZxM+e7DLQITF
- pfUEvu1AD0IxkXlkHYXZ1DABteBF0Wb7ARxq8TNs0Zo6J8Gpv089bfqpWogprRy0qPwo6JfO
-X-Authority-Analysis: v=2.4 cv=PvyTbxM3 c=1 sm=1 tr=0 ts=68402f54 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=6IFa9wvqVegA:10 a=GHR8O2WEAAAA:20 a=QIhr-27iAAAA:8 a=SSmOFEACAAAA:8 a=L3Y5zZzAAAAA:8 a=t7CeM3EgAAAA:8 a=V2sgnzSHAAAA:8
- a=6Ti6dSN5qNGnjUcMqEUA:9 a=cgaYBWEFosGJW4rWv5Lf:22 a=FdTzh2GWekK77mhwV6Dw:22 a=Z31ocT7rh6aUJxSkT1EX:22
-X-Proofpoint-GUID: 2j7FAtYvv4YgyPkOdCGhgOBjLHK-vj5_
-X-Proofpoint-ORIG-GUID: 2j7FAtYvv4YgyPkOdCGhgOBjLHK-vj5_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-04_03,2025-06-03_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
- bulkscore=0 adultscore=0 mlxscore=0 mlxlogscore=948 impostorscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506040088
+References: <20250604-perf-arm64-unistd-v1-1-97d3bb08927f@phytec.de>
+In-Reply-To: <20250604-perf-arm64-unistd-v1-1-97d3bb08927f@phytec.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 4 Jun 2025 07:54:47 -0400
+X-Gm-Features: AX0GCFstIJ-IItHU_NPTmC648XqK90kfbywD5IAwFlZ5DGxzHaQ4jaNdH7YXTeo
+Message-ID: <CADkTA4PKf=M6MYeuRatixn7XbeHB4WyE763S_g+dSCj20KGWEw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] perf: add arm64 source files for unistd_64.h
+To: y.moog@phytec.de
+Cc: openembedded-core@lists.openembedded.org, upstream@lists.phytec.de
+Content-Type: multipart/alternative; boundary="0000000000009141c10636bdaabc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 11:34:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217940
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 11:55:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217941
 
-From: Changqing Li <changqing.li@windriver.com>
+--0000000000009141c10636bdaabc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/issues/422
+On Wed, Jun 4, 2025 at 2:52=E2=80=AFAM Yannic Moog via lists.openembedded.o=
+rg
+<y.moog=3Dphytec.de@lists.openembedded.org> wrote:
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../libsoup/libsoup-3.4.4/CVE-2025-2784.patch | 137 ++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   1 +
- 2 files changed, 138 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-2784.patch
+> kernel commit bfb713ea53c7 ("perf tools: Fix arm64 build by generating
+> unistd_64.h")
+> introduces a new dependency on source files for arm64, specifically
+> include/uapi/asm-generic.
+>
+> Build fails with:
+> [..]/perf/1.0/perf-1.0/scripts/Makefile.asm-headers:33:
+> [...]/perf/1.0/perf-1.0/include/uapi/asm-generic/Kbuild: No such file or
+> directory
+> make[4]: *** No rule to make target
+> '[...]/perf/1.0/perf-1.0/include/uapi/asm-generic/Kbuild'.  Stop.
+>
+> Add the directory to PERF_SRC.
+> Fix whitespace error while at it.
+>
+> Signed-off-by: Yannic Moog <y.moog@phytec.de>
+> ---
+>  meta/recipes-kernel/perf/perf.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/
+> perf.bb
+> index
+> 0d19e1bdc222da26a5ad0a1d4964acca437a6692..d7a81b5802dc655917c2adf04472b8e=
+680380ec8
+> 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -151,6 +151,7 @@ PERF_SRC ?=3D "Makefile \
+>               arch/arm64/tools \
+>               ${PERF_BPF_EVENT_SRC} \
+>               arch/${ARCH}/Makefile \
+> +             ${@bb.utils.contains('ARCH', 'arm64',
+> 'include/uapi/asm-generic', '', d)} \
+>
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-2784.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-2784.patch
-new file mode 100644
-index 0000000000..b2e1c12d48
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-2784.patch
-@@ -0,0 +1,137 @@
-+From dd10ae267e33bcc35646610d7cc1841da77d05e7 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 5 Feb 2025 14:39:42 -0600
-+Subject: [PATCH] Fix CVE-2025-2784
-+
-+CVE: CVE-2025-2784
-+Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/435/diffs?commit_id=242a10fbb12dbdc12d254bd8fc8669a0ac055304
-+https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/442/diffs?commit_id=c415ad0b6771992e66c70edf373566c6e247089d]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ .../content-sniffer/soup-content-sniffer.c    | 10 ++--
-+ tests/meson.build                             |  4 +-
-+ tests/sniffing-test.c                         | 48 +++++++++++++++++++
-+ 3 files changed, 56 insertions(+), 6 deletions(-)
-+
-+diff --git a/libsoup/content-sniffer/soup-content-sniffer.c b/libsoup/content-sniffer/soup-content-sniffer.c
-+index aeee2e2..a5e18d5 100644
-+--- a/libsoup/content-sniffer/soup-content-sniffer.c
-++++ b/libsoup/content-sniffer/soup-content-sniffer.c
-+@@ -638,8 +638,11 @@ sniff_text_or_binary (SoupContentSniffer *sniffer, GBytes *buffer)
-+ }
-+ 
-+ static gboolean
-+-skip_insignificant_space (const char *resource, int *pos, int resource_length)
-++skip_insignificant_space (const char *resource, gsize *pos, gsize resource_length)
-+ {
-++        if (*pos >= resource_length)
-++	        return TRUE;
-++
-+ 	while ((resource[*pos] == '\x09') ||
-+ 	       (resource[*pos] == '\x20') ||
-+ 	       (resource[*pos] == '\x0A') ||
-+@@ -659,7 +662,7 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, GBytes *buffer)
-+ 	gsize resource_length;
-+ 	const char *resource = g_bytes_get_data (buffer, &resource_length);
-+ 	resource_length = MIN (512, resource_length);
-+-	int pos = 0;
-++	gsize pos = 0;
-+ 
-+ 	if (resource_length < 3)
-+ 		goto text_html;
-+@@ -669,9 +672,6 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, GBytes *buffer)
-+ 		pos = 3;
-+ 
-+  look_for_tag:
-+-	if (pos > resource_length)
-+-		goto text_html;
-+-
-+ 	if (skip_insignificant_space (resource, &pos, resource_length))
-+ 		goto text_html;
-+ 
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 7ef7ac5..95b13b8 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -95,7 +95,9 @@ tests = [
-+   {'name': 'server-auth'},
-+   {'name': 'server-mem-limit'},
-+   {'name': 'server'},
-+-  {'name': 'sniffing'},
-++  {'name': 'sniffing',
-++    'depends': [test_resources],
-++  },
-+   {'name': 'ssl',
-+    'dependencies': [gnutls_dep],
-+    'depends': mock_pkcs11_module,
-+diff --git a/tests/sniffing-test.c b/tests/sniffing-test.c
-+index 6116719..7857732 100644
-+--- a/tests/sniffing-test.c
-++++ b/tests/sniffing-test.c
-+@@ -342,6 +342,52 @@ test_disabled (gconstpointer data)
-+ 	g_uri_unref (uri);
-+ }
-+ 
-++static const gsize MARKUP_LENGTH = strlen ("<!--") + strlen ("-->");
-++
-++static void
-++do_skip_whitespace_test (void)
-++{
-++        SoupContentSniffer *sniffer = soup_content_sniffer_new ();
-++        SoupMessage *msg = soup_message_new (SOUP_METHOD_GET, "http://example.org");
-++        const char *test_cases[] = {
-++                "",
-++                "<rdf:RDF",
-++                "<rdf:RDFxmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"",
-++                "<rdf:RDFxmlns=\"http://purl.org/rss/1.0/\"",
-++        };
-++
-++        soup_message_headers_set_content_type (soup_message_get_response_headers (msg), "text/html", NULL);
-++
-++        for (guint i = 0; i < G_N_ELEMENTS (test_cases); i++) {
-++                const char *trailing_data = test_cases[i];
-++                gsize leading_zeros = 512 - MARKUP_LENGTH - strlen (trailing_data);
-++                gsize testsize = MARKUP_LENGTH + leading_zeros + strlen (trailing_data);
-++                guint8 *data = g_malloc0 (testsize);
-++                guint8 *p = data;
-++                char *content_type;
-++                GBytes *buffer;
-++
-++                // Format of <!--[0x00 * $leading_zeros]-->$trailing_data
-++                memcpy (p, "<!--", strlen ("<!--"));
-++                p += strlen ("<!--");
-++                p += leading_zeros;
-++                memcpy (p, "-->", strlen ("-->"));
-++                p += strlen ("-->");
-++                if (strlen (trailing_data))
-++                        memcpy (p, trailing_data, strlen (trailing_data));
-++                // Purposefully not NUL terminated.                
-++
-++                buffer = g_bytes_new_take (g_steal_pointer (&data), testsize);
-++                content_type = soup_content_sniffer_sniff (sniffer, msg, buffer, NULL);
-++
-++                g_free (content_type);
-++                g_bytes_unref (buffer);
-++        }
-++
-++        g_object_unref (msg);
-++        g_object_unref (sniffer);
-++}
-++
-+ int
-+ main (int argc, char **argv)
-+ {
-+@@ -517,6 +563,8 @@ main (int argc, char **argv)
-+ 			      "/text_or_binary/home.gif",
-+ 			      test_disabled);
-+ 
-++	g_test_add_func ("/sniffing/whitespace", do_skip_whitespace_test);
-++
-+ 	ret = g_test_run ();
-+ 
-+ 	g_uri_unref (base_uri);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index a650eed520..5b91acf36a 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -43,6 +43,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-46421.patch \
-            file://CVE-2025-4948.patch \
-            file://CVE-2025-4969.patch \
-+           file://CVE-2025-2784.patch \
+Can we be more precise on just getting what we need to generate unistd_64 ?
+
+We've always tried to copy just as much as required to get things building.
+I've been
+able to get away with being specific in kernel-devsrc in the past.
+
+Barring that, I wouldn't make this architecture specific, just copy it all
+for all architectures.
+
+Bruce
+
  "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
- 
--- 
-2.34.1
+>
+>  PERF_EXTRA_LDFLAGS =3D ""
+> @@ -208,7 +209,7 @@ python copy_perf_source_from_kernel() {
+>  do_configure:prepend () {
+>      # If building a multlib based perf, the incorrect library path will =
+be
+>      # detected by perf, since it triggers via: ifeq ($(ARCH),x86_64). In
+> a 32 bit
+> -    # build, with a 64 bit multilib, the arch won't match and the
+> detection of a
+> +    # build, with a 64 bit multilib, the arch won't match and the
+> detection of a
+>      # 64 bit build (and library) are not exected. To ensure that
+> libraries are
+>      # installed to the correct location, we can use the weak assignment
+> in the
+>      # config/Makefile.
+>
+> ---
+> base-commit: 343dd7ae4a177111e75f51f6d1ee1ce254f99e9d
+> change-id: 20250603-perf-arm64-unistd-9344a6fc96a7
+>
+> Best regards,
+> --
+> Yannic Moog <y.moog@phytec.de>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#217839):
+> https://lists.openembedded.org/g/openembedded-core/message/217839
+> Mute This Topic: https://lists.openembedded.org/mt/113462181/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--0000000000009141c10636bdaabc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 4, 2025 at 2:52=
+=E2=80=AFAM Yannic Moog via <a href=3D"http://lists.openembedded.org">lists=
+.openembedded.org</a> &lt;y.moog=3D<a href=3D"mailto:phytec.de@lists.openem=
+bedded.org">phytec.de@lists.openembedded.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">kernel commit bfb713ea53c7 (&qu=
+ot;perf tools: Fix arm64 build by generating unistd_64.h&quot;)<br>
+introduces a new dependency on source files for arm64, specifically<br>
+include/uapi/asm-generic.<br>
+<br>
+Build fails with:<br>
+[..]/perf/1.0/perf-1.0/scripts/Makefile.asm-headers:33: [...]/perf/1.0/perf=
+-1.0/include/uapi/asm-generic/Kbuild: No such file or directory<br>
+make[4]: *** No rule to make target &#39;[...]/perf/1.0/perf-1.0/include/ua=
+pi/asm-generic/Kbuild&#39;.=C2=A0 Stop.<br>
+<br>
+Add the directory to PERF_SRC.<br>
+Fix whitespace error while at it.<br>
+<br>
+Signed-off-by: Yannic Moog &lt;<a href=3D"mailto:y.moog@phytec.de" target=
+=3D"_blank">y.moog@phytec.de</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"noreferrer=
+" target=3D"_blank">perf.bb</a> | 3 ++-<br>
+=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"nor=
+eferrer" target=3D"_blank">perf.bb</a> b/meta/recipes-kernel/perf/<a href=
+=3D"http://perf.bb" rel=3D"noreferrer" target=3D"_blank">perf.bb</a><br>
+index 0d19e1bdc222da26a5ad0a1d4964acca437a6692..d7a81b5802dc655917c2adf0447=
+2b8e680380ec8 100644<br>
+--- a/meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"noreferrer=
+" target=3D"_blank">perf.bb</a><br>
++++ b/meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"noreferrer=
+" target=3D"_blank">perf.bb</a><br>
+@@ -151,6 +151,7 @@ PERF_SRC ?=3D &quot;Makefile \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 arch/arm64/tools \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PERF_BPF_EVENT_SRC} \<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 arch/${ARCH}/Makefile \<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;=
+ARCH&#39;, &#39;arm64&#39;, &#39;include/uapi/asm-generic&#39;, &#39;&#39;,=
+ d)} \<br></blockquote><div><br></div><div><div class=3D"gmail_default" sty=
+le=3D"font-size:small">Can we be more precise on just getting what we need =
+to generate unistd_64 ?</div><div class=3D"gmail_default" style=3D"font-siz=
+e:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">W=
+e&#39;ve always tried to copy just as much as required to get things buildi=
+ng. I&#39;ve been</div><div class=3D"gmail_default" style=3D"font-size:smal=
+l">able to get away with being specific in kernel-devsrc in the past.</div>=
+<div class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
+=3D"gmail_default" style=3D"font-size:small">Barring that, I wouldn&#39;t m=
+ake this architecture specific, just copy it all for all architectures.</di=
+v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
+ss=3D"gmail_default" style=3D"font-size:small">Bruce</div></div><div><br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0&quot;<br>
+<br>
+=C2=A0PERF_EXTRA_LDFLAGS =3D &quot;&quot;<br>
+@@ -208,7 +209,7 @@ python copy_perf_source_from_kernel() {<br>
+=C2=A0do_configure:prepend () {<br>
+=C2=A0 =C2=A0 =C2=A0# If building a multlib based perf, the incorrect libra=
+ry path will be<br>
+=C2=A0 =C2=A0 =C2=A0# detected by perf, since it triggers via: ifeq ($(ARCH=
+),x86_64). In a 32 bit<br>
+-=C2=A0 =C2=A0 # build, with a 64 bit multilib, the arch won&#39;t match an=
+d the detection of a <br>
++=C2=A0 =C2=A0 # build, with a 64 bit multilib, the arch won&#39;t match an=
+d the detection of a<br>
+=C2=A0 =C2=A0 =C2=A0# 64 bit build (and library) are not exected. To ensure=
+ that libraries are<br>
+=C2=A0 =C2=A0 =C2=A0# installed to the correct location, we can use the wea=
+k assignment in the<br>
+=C2=A0 =C2=A0 =C2=A0# config/Makefile.<br>
+<br>
+---<br>
+base-commit: 343dd7ae4a177111e75f51f6d1ee1ce254f99e9d<br>
+change-id: 20250603-perf-arm64-unistd-9344a6fc96a7<br>
+<br>
+Best regards,<br>
+-- <br>
+Yannic Moog &lt;<a href=3D"mailto:y.moog@phytec.de" target=3D"_blank">y.moo=
+g@phytec.de</a>&gt;<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#217839): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/217839" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/217839</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113462181/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/113462181/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--0000000000009141c10636bdaabc--
 
