@@ -1,121 +1,109 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EAEC61CE7
-	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 22:29:06 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.29930.1749076141436818174
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 190A7C5B549
+	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 23:18:37 +0000 (UTC)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.web11.31029.1749079116672516257
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jun 2025 15:29:01 -0700
+ Wed, 04 Jun 2025 16:18:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=LU5C4NxM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 554H3i2o004229
-	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jun 2025 22:29:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=H2sIvg73vDMMyuF2YBwJdwy5mLpMmVR+U/d
-	6AbRPUGE=; b=LU5C4NxMtPMA3eaexlUC0/9+70Odop+ZG9008CHpuwA6lG1Lf33
-	Xvxg/l1VY/bG7xtq6JqLvs/kenTymdCLEEQumKRpFVeamS5jMOlJsb7O7k/ktHVP
-	dDcf1qUnyspww0Xle1+AVx+bX4t0gYCCKJDeVGzYAJoRik9FsDMYzCMB52f0PS0q
-	tZ1waF4GL/dDMeDr9/PKHQop87GA1oGKb/bWCfDDUz+qdKs9hLhl9TkRIaSG+qqN
-	kkGARweDWN3SFb7qHP63iF6Y8htJArpx5X8phfSM7B5ak2BLVHprrO3GYxNG/tec
-	LtZPdwjGTbk4kfJU5hkIsbTcH0HgeifFZNg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 471g8ryfv1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 22:29:00 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7d09ed509aaso80153485a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 15:29:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TiXk9q66;
+ spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70e5d953c0bso4939547b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 16:18:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749079116; x=1749683916; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zou7v98MfDzPO2q0PQbakrMd3C4fFa3ocTqTahAv+LM=;
+        b=TiXk9q66AGkYlirOsqY0/EqGVTUG8wjl2L6KtKyMcW1/1w3/9j6z/r3GMgRQeJ9cN8
+         ainULQUAt0e8SeHihRjq7j1SsuT2PJQSra2xX1shcql0YtHkhHPjKvh4dkgMjOvJo0L5
+         AA1HtBJ2X5BKjjBVmVZEoKvYHCxv6ePnh4YcIqQcbdiGLDlGJ3KEpt2Vf4G+1uXX8mxX
+         ZvWOZvG87VJy+foxRjQmLdGepCx0v/qkBlZ8rYCLLGa3WKEUuBFSOiSjjaOke4PDQ3dq
+         e2cpY1NnjMnl2c4m4ukmkc7EEQo6rB0WGO3uw6GGvqtsL/jGXr53CLEaIRcdc2Klbs1U
+         BAPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749076139; x=1749680939;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H2sIvg73vDMMyuF2YBwJdwy5mLpMmVR+U/d6AbRPUGE=;
-        b=V2xGJLjoBOlX08BMf2E4Rzby6AZj9Rt/qH7WYM75ZQFyPvda5gVbaZ8LnwFtZHSMNx
-         BBPo0QDbPBodUXvAsnumxJgBxaRPYShyVq4tc2UO8MS3x9DHxwLh4+bSr3rqewMqHXdM
-         5FpFWbqFsjOIiktSQjP2jBMvS45i9VTDqyLVIsXkPUUnW/2ccpcx0xsOhsEZJ1DIqRDA
-         x6nzHsv9Oo+2anfhCmQzNVode6gz3DeiK+6JnNjfVTL0QnGM2SLd78ABA+89chg8O2KF
-         xgW+5YcGjq/qaql2ILf4sDTccpKb/Mb9RHiIhgaLHdawujZH2r7mJNSn4f3d9hRkl31C
-         xdWw==
-X-Gm-Message-State: AOJu0Ywyb6qtzqWiinxwblbqaVzqRTin2b4X/P79tESwJl+b2XBrTqJh
-	4fZ7z3DXo5D+TH7KxSMO0eirkC3B1a5sTw5DUPlodW7Z0pAUIyWGVemiNIAQwryftZtko2pneJm
-	WwBKMlsTNUniu7rZJljeRZe7CBTG+vCRHCoqp8QAuJctOqIrvSm58ytA92By82i3rZlVPtz/e6K
-	20Jrey+X57NAzzvhdTTg==
-X-Gm-Gg: ASbGncvN4J0rnSijO5KbbG0niE44ZJlWycjyJx8IH0yva0jKA605E+I2sp/l4Od6VLJ
-	ddow/zh/OzYCOHmiMN3x66H9V1zPWqhO/bcfJlVCHtrCB0iXQFAwt+VszxJQkTuxbroSxs44t/X
-	yY1Hq2D3kUIeHcOlhlpnOo/+/qhIguY0LxjpwstcWxjHkRr3H/RrTJ8YI+3CJrpKrdVcBlMll7J
-	IQfoe3NDff++0IcYG1NMT2c+o3oIIJvwNHkiDf8l+nJxnLnpvswvLUbql/R3ozacQQt0LLGquFO
-	Ja9Dg/EQVB2EoEK0FNPOgxXd2AfR0zr6MELJkyAPTioLrh6jgJeYvjbg6tj01Qwtfp912lzMqCi
-	RfmP3zWUbc9QYho8pzhu3bb/r
-X-Received: by 2002:a05:620a:6009:b0:7cd:cd:44f9 with SMTP id af79cd13be357-7d2199a6cafmr940194185a.36.1749076139283;
-        Wed, 04 Jun 2025 15:28:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHVu4gkbJIgwMZIr+z6JTeMaHLuYqDgFI1pAKvN8+cTy/655niHderCaCk2phGcat1UEwHh/A==
-X-Received: by 2002:a05:620a:6009:b0:7cd:cd:44f9 with SMTP id af79cd13be357-7d2199a6cafmr940190885a.36.1749076138774;
-        Wed, 04 Jun 2025 15:28:58 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55337910e38sm2430327e87.131.2025.06.04.15.28.57
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jun 2025 15:28:57 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] mesa-gl: drop obsolete comment
-Date: Thu,  5 Jun 2025 01:28:56 +0300
-Message-Id: <20250604222857.689289-1-dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1749079116; x=1749683916;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zou7v98MfDzPO2q0PQbakrMd3C4fFa3ocTqTahAv+LM=;
+        b=WkrCMWpjyJQEFXlPPhakzHcETTIbl3fqQvACxDuVSVUrmBVNT9nAZ0J2OXZvyyQ2bv
+         tdR/B6ldoND+SRQnwnTcXSpxXIFYKoeN2Ll5yzGlrO9iZRMI2/F0hl1zcN4HtnpCL+hJ
+         DsNy1vh/bnmP8Jsau+NeCXpqDxXeRDXs+i6kaMmSeX/1/HW+nO1PIaYJB0hrNB+yB/UH
+         A9sFJxhuGE+kR6NGDfz9OWYcC0OLNhefVn7FD6wNsUXUyWTnm5u7jHU8g6W1/LwlhTUn
+         Wbx7/B+A0nBYogU0bu0IAPBjWTu4e+084qe0mfGXYDnDDuvBvcuYUc1K0sQFyidjLrF3
+         KvUQ==
+X-Gm-Message-State: AOJu0YxvlXQJqVyzXra4OpU9djLLT/n0+EF6q7LXIGyh30Z8PD3SQCLy
+	1OKmNiPVSF1IOf1Njz+ihSLvH8bJhCN2KBJF0F66eEQIvgIm5Z6wk1C4xZvW6GdTseLd737cB9S
+	gkRMMHY4f8c+TFEWQCKsBcYc16gdBDxU=
+X-Gm-Gg: ASbGnctmImM4Whj/SPdaawhAKmo8c1EwS+4vOsv03jS7tJ1TqZBd/M4yzrUsKN56B/9
+	U9Q/M9N7eNDKg1mpcfl+ku05RjO6OFrZhO8cnZq5YGH8MmsZOnfK78ng/gUGwuJCep4CaFZXWSH
+	5d+8lzQexCtFZAsPPQv0Ef6jnmuc722SkQnCWDs59PQvLXI94=
+X-Google-Smtp-Source: AGHT+IG3/sFq1dH86BmFGd6WAVFJHQSw/x1VawRBV6JMA5+uPqMIZgaSFitR09u6rkyOVSOhcbPG4HkfZs0beRtblck=
+X-Received: by 2002:a05:690c:dc3:b0:70d:fe09:9b09 with SMTP id
+ 00721157ae682-710d9df19d1mr68129907b3.14.1749079115773; Wed, 04 Jun 2025
+ 16:18:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: zEENPG3hp1ChsNsW-ZqFSy2xfCoJzaYU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA0MDE4NSBTYWx0ZWRfX2HuiKUHFmOeW
- lZDumFYqBAuG/3af675JDXP0mWZtdl3fS8BjrjmKO017XvK93Lw2kURn+FEfHXAYEEO/KxQsY1F
- boD5bU9MtlQT3SsyrrM0pcatVmFrOQHqla1AEjqjUwFwXbauilHsLDrW7CrsSvj2JYf72zsaW6E
- lLBruTzSQdkPsSyoJpt+y+dTaDl9JT8f+mwgJwFs8b56g483uxEyI9s+MpCJb8wN5CBUHS+R6Ow
- LD81CdzRbjavLazWmPlv/qj/ipxfw3dajM6/Q8xxfDEM+hxRWaVO1bBEUh9p7c44PrOeFTSSD/E
- XPn2emkby6w7CXU/MaT1hr4bszLYDf0644LxnCX/IxUHTajktnVfT+Kuw2F5BTBEShdvKJAEBTU
- uoGMzEr/k/8PqP56D/PxUyRu2j6rHcgkFtWtIEaGs0hfwM2yzqdo7QFvcHIS8IFin8Z+gjN4
-X-Authority-Analysis: v=2.4 cv=RdWQC0tv c=1 sm=1 tr=0 ts=6840c8ac cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
- a=EUspDBNiAAAA:8 a=SUagrmFAZWmp-dCTvIIA:9 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: zEENPG3hp1ChsNsW-ZqFSy2xfCoJzaYU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-04_04,2025-06-03_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0
- clxscore=1015 lowpriorityscore=0 malwarescore=0 suspectscore=0
- impostorscore=0 spamscore=0 mlxlogscore=847 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506040185
+References: <20250604222857.689289-1-dmitry.baryshkov@oss.qualcomm.com> <20250604222857.689289-2-dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250604222857.689289-2-dmitry.baryshkov@oss.qualcomm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 4 Jun 2025 16:18:09 -0700
+X-Gm-Features: AX0GCFvHG2VNiMhfcBOkg3GvZAHDfs5ddEJzo__A4t5LZVMnp31auEz9O9b6xio
+Message-ID: <CAMKF1sqRzrjDXLhaMqBhve+Ua_r8NE+-uUsS1szO9zPtpO4BNA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] mesa-demos: drop osmesa PACKAGECONFIG
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 22:29:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217968
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 23:18:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217970
 
-Drop comment mentioning OSMesa (which was removed from mesa).
+Thanks for the follow up.
 
-Fixes: 7ee8e99a5204 ("mesa-gl: Remove osmesa dependency")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- meta/recipes-graphics/mesa/mesa-gl.bb | 1 -
- 1 file changed, 1 deletion(-)
+LGTM
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl.bb b/meta/recipes-graphics/mesa/mesa-gl.bb
-index 680fda1be5c9..2bdabddc287d 100644
---- a/meta/recipes-graphics/mesa/mesa-gl.bb
-+++ b/meta/recipes-graphics/mesa/mesa-gl.bb
-@@ -9,7 +9,6 @@ S = "${WORKDIR}/mesa-${PV}"
- TARGET_CFLAGS = "-I${STAGING_INCDIR}/drm"
- 
- # At least one DRI rendering engine is required to build mesa.
--# When no X11 is available, use osmesa for the rendering engine.
- PACKAGECONFIG ??= "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
- PACKAGECONFIG:class-target = "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
- 
--- 
-2.39.5
-
+On Wed, Jun 4, 2025 at 3:29=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> Support for OSMesa has been removed in the latest Mesa versions, drop
+> corresponding PACKAGECONFIG option from mesa-demos. Note, there is no
+> need to pass -Dosmesa=3Ddisabled, meson will detect that the library is
+> not available.
+>
+> Suggested-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb b/meta/recipe=
+s-graphics/mesa/mesa-demos_9.0.0.bb
+> index d92f1ddc5baa..a9e84039d2c9 100644
+> --- a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
+> +++ b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
+> @@ -30,7 +30,6 @@ PACKAGECONFIG[egl] =3D "-Degl=3Denabled,-Degl=3Ddisable=
+d,virtual/egl"
+>  PACKAGECONFIG[gles1] =3D "-Dgles1=3Denabled,-Dgles1=3Ddisabled,virtual/l=
+ibgles1"
+>  PACKAGECONFIG[gles2] =3D "-Dgles2=3Denabled,-Dgles2=3Ddisabled,virtual/l=
+ibgles2"
+>  PACKAGECONFIG[glut] =3D "-Dwith-glut=3D${STAGING_EXECPREFIXDIR},,freeglu=
+t"
+> -PACKAGECONFIG[osmesa] =3D "-Dosmesa=3Denabled,-Dosmesa=3Ddisabled,"
+>  PACKAGECONFIG[vulkan] =3D "-Dvulkan=3Denabled,-Dvulkan=3Ddisabled,vulkan=
+-loader glslang-native"
+>  PACKAGECONFIG[wayland] =3D "-Dwayland=3Denabled,-Dwayland=3Ddisabled,vir=
+tual/libgl wayland wayland-native wayland-protocols libxkbcommon libdecor"
+>  PACKAGECONFIG[x11] =3D "-Dx11=3Denabled,-Dx11=3Ddisabled,virtual/libx11 =
+libglu libxkbcommon libxcb"
+> --
+> 2.39.5
+>
 
