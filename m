@@ -2,129 +2,110 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F3BCC5B549
-	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 11:29:12 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.14320.1749036543026069509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A0C2C5B552
+	for <webhook@archiver.kernel.org>; Wed,  4 Jun 2025 11:34:32 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.14426.1749036869998934876
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jun 2025 04:29:03 -0700
+ Wed, 04 Jun 2025 04:34:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8250671ff5=changqing.li@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5548SYvk007760
-	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jun 2025 04:29:02 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9rtcss-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8250671ff5=changqing.li@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55456FaP006575
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jun 2025 11:34:29 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9q2dt2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 04:29:02 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 11:34:28 +0000 (GMT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 4 Jun 2025 04:29:02 -0700
+ 15.1.2507.43; Wed, 4 Jun 2025 04:34:27 -0700
 Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 4 Jun 2025 04:29:00 -0700
+ 15.1.2507.43 via Frontend Transport; Wed, 4 Jun 2025 04:34:27 -0700
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [scarthgap][PATH 12/14] libsoup-2.4: fix CVE-2025-4476
-Date: Wed, 4 Jun 2025 19:28:39 +0800
-Message-ID: <20250604112841.424355-13-changqing.li@windriver.com>
+Subject: [scarthgap][PATCH V2 00/14] fix several CVE for libsoup/libsoup-2.4
+Date: Wed, 4 Jun 2025 19:34:12 +0800
+Message-ID: <20250604113426.464818-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250604112841.424355-1-changqing.li@windriver.com>
-References: <20250604112841.424355-1-changqing.li@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 7gESoI6UwT5XLBw9TyKfxnGvJLobZ3kA
-X-Authority-Analysis: v=2.4 cv=VIHdn8PX c=1 sm=1 tr=0 ts=68402dfe cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=6IFa9wvqVegA:10 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=eXHZBV4ZpkldoAy6WkEA:9 a=+jEqtf1s3R9VXZ0wqowq2kgwd+I=:19
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA0MDA4NyBTYWx0ZWRfX0adr6mTYYwIY +FOELgqOwPD9EDK0t86hJvi/MeSUpyqx0srSchE+cyrAlqP56nIqAcrP+6EujNkucS/TfqhOQNl nwTvT1hPp7KH5pP/+vlF01ILBk2v9Eb/DRrcIsKqc322XhperVbXvAdt2SZGdoFafhEgT3BTC7P
- kmnkVh1OBgtpMTsziDvYi3p+X+/9erxdHbPbKBrplg1RSrDNbE4KRy/wU/JtdxVier011yAq57Q 0zLdVlcrm8qYxfVT0kAn6fqJfBN4P+9YRL+Z51YV2G8mgejMxatBt5OsKDLoXNibNDxSgL5ZTf/ 7meX8MGUhen6MbHcTDtLVT4PKYRlA+Rk8Y4n3ZgRD75+hKo4FDx/PR1+oPa+OyOfRHAc3zB/IVD
- ytHdY5dCx02aEES5srvwtCtPvjXMV0D0zNZUziqkmXAKsQ6obIqim9bdpxbuHjrSqQAE8HnF
-X-Proofpoint-ORIG-GUID: 7gESoI6UwT5XLBw9TyKfxnGvJLobZ3kA
+X-Proofpoint-GUID: tu_PCkaY21M3W386q47XY7Tq3f-CvAfA
+X-Authority-Analysis: v=2.4 cv=X8RSKHTe c=1 sm=1 tr=0 ts=68402f45 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=6IFa9wvqVegA:10 a=t7CeM3EgAAAA:8 a=yF3vOwTMPoubr7DojHQA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA0MDA4OCBTYWx0ZWRfX4TFBICRSDk/W gebX//QxwYkQ9UnAyxKuHS8SvOzX4mp7zK99bpayRDf/ZPJk/BMzjmeUXnCic2yCn2MJ+Y1uUjY jzOGWfFbUl0/TBoOr0w01+h3EnTqIc3YJooeuQ0/F/tHI8jiZluydM5Fq9j0YV1guKdzGwr7rvS
+ q3HCx6zgQF3DFp5IWMOt22iOwA51LXOe1cn6W7ErKH5wqX/Ova+Xqhkzo+E3zzxwE5hMMXWHu3f Ht1H417rE8nP7OKbKTkalmhmp/zvBuGbCtgjLPeDaKDQUtNP4VddnEo0OVocu2to62QnHMihfJ7 PqiLcVfRRrcEFbBDp2q+/Se4tNCzvlFZnokkPAcmx1+Cn4+X0xn4F+tzBOYFbC5zHPZvAEmItdF
+ OZHEurRSjSVDzE1RKMSMgKOspsmHzHjSUYcfbH8Yi/Hi7LPzI8mjgSd5U86FzsDmt1DLwgsv
+X-Proofpoint-ORIG-GUID: tu_PCkaY21M3W386q47XY7Tq3f-CvAfA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-04_03,2025-06-03_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=851
- adultscore=0 malwarescore=0 spamscore=0 impostorscore=0 mlxscore=0
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 bulkscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 impostorscore=0
+ suspectscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
+ mlxlogscore=486 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506040087
+ definitions=main-2506040088
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 11:29:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217923
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jun 2025 11:34:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217926
 
 From: Changqing Li <changqing.li@windriver.com>
 
-Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/issues/440
+Changqing Li (14):
+  libsoup-2.4: fix CVE-2025-32052
+  libsoup: fix CVE-2025-32052
+  libsoup: fix CVE-2025-32051
+  libsoup-2.4: fix CVE-2025-32050
+  libsoup: fix CVE-2025-32050
+  libsoup-2.4: fix CVE-2025-46421
+  libsoup: fix CVE-2025-46421
+  libsoup-2.4: fix CVE-2025-4948
+  libsoup: fix CVE-2025-4948
+  libsoup-2.4: fix CVE-2025-4969
+  libsoup: fix CVE-2025-4969
+  libsoup-2.4: fix CVE-2025-4476
+  libsoup-2.4: fix CVE-2025-2784
+  libsoup: fix CVE-2025-2784
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../libsoup/libsoup-2.4/CVE-2025-4476.patch   | 38 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |  1 +
- 2 files changed, 39 insertions(+)
+ .../libsoup/libsoup-2.4/CVE-2025-2784.patch   |  56 +++++++
+ .../libsoup/libsoup-2.4/CVE-2025-32050.patch  |  29 ++++
+ .../libsoup/libsoup-2.4/CVE-2025-32052.patch  |  32 ++++
+ .../libsoup/libsoup-2.4/CVE-2025-4476.patch   |  38 +++++
+ .../libsoup/libsoup-2.4/CVE-2025-46421.patch  |  48 ++++++
+ .../libsoup/libsoup-2.4/CVE-2025-4948.patch   |  38 +++++
+ .../libsoup/libsoup-2.4/CVE-2025-4969.patch   |  37 +++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |   7 +
+ .../libsoup/libsoup-3.4.4/CVE-2025-2784.patch | 137 +++++++++++++++++
+ .../libsoup-3.4.4/CVE-2025-32050.patch        |  29 ++++
+ .../libsoup-3.4.4/CVE-2025-32051-1.patch      |  29 ++++
+ .../libsoup-3.4.4/CVE-2025-32051-2.patch      |  57 +++++++
+ .../libsoup-3.4.4/CVE-2025-32052.patch        |  31 ++++
+ .../libsoup-3.4.4/CVE-2025-46421.patch        | 139 ++++++++++++++++++
+ .../libsoup/libsoup-3.4.4/CVE-2025-4948.patch |  97 ++++++++++++
+ .../libsoup/libsoup-3.4.4/CVE-2025-4969.patch |  78 ++++++++++
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |   8 +
+ 17 files changed, 890 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32050.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32052.patch
  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4476.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-46421.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4948.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4969.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-2784.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32050.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32052.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-46421.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4948.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4969.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4476.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4476.patch
-new file mode 100644
-index 0000000000..874f62e7ad
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4476.patch
-@@ -0,0 +1,38 @@
-+From 52a0f9234d384b9dab368835b22e5a5a01542168 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Fri, 16 May 2025 14:16:10 +0800
-+Subject: [PATCH] auth-digest: fix crash in
-+ soup_auth_digest_get_protection_space()
-+
-+We need to validate the Domain parameter in the WWW-Authenticate header.
-+
-+Unfortunately this crash only occurs when listening on default ports 80
-+and 443, so there's no good way to test for this. The test would require
-+running as root.
-+
-+Fixes #440
-+
-+CVE: CVE-2025-4476
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/e64c221f9c7d09b48b610c5626b3b8c400f0907c?merge_request_iid=457]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ libsoup/soup-auth-digest.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libsoup/soup-auth-digest.c b/libsoup/soup-auth-digest.c
-+index f1621ec..a2dc560 100644
-+--- a/libsoup/soup-auth-digest.c
-++++ b/libsoup/soup-auth-digest.c
-+@@ -229,7 +229,7 @@ soup_auth_digest_get_protection_space (SoupAuth *auth, SoupURI *source_uri)
-+ 			uri = soup_uri_new (d);
-+ 			if (uri && uri->scheme == source_uri->scheme &&
-+ 			    uri->port == source_uri->port &&
-+-			    !strcmp (uri->host, source_uri->host))
-++			    !g_strcmp0 (uri->host, source_uri->host))
-+ 				dir = g_strdup (uri->path);
-+ 			else
-+ 				dir = NULL;
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index f2ed9945cf..b36bd64e89 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -38,6 +38,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-46421.patch \
-            file://CVE-2025-4948.patch \
-            file://CVE-2025-4969.patch \
-+           file://CVE-2025-4476.patch \
- "
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
- 
 -- 
 2.34.1
 
