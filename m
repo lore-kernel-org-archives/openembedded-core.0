@@ -1,283 +1,160 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4410CC5AE59
-	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 10:25:29 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.3938.1749119117376701097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E192C5AE59
+	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 10:27:49 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.4032.1749119259079364674
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 03:25:17 -0700
+ Thu, 05 Jun 2025 03:27:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=n+u/Uk6R;
- spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a5123c1533so415732f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 03:25:17 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BSxIpMGP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-441d437cfaaso4882425e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 03:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1749119116; x=1749723916; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eLrVGRezHQP9K+kwzIq0GBDlaYNz50F4tZ5Q9fe48PI=;
-        b=n+u/Uk6RlrpCSaDBLAaV8rJWMuXI2chksqpXgl5qbFhAhpVdycZroQQvcthHOhBFBj
-         QdhU/i/mENmPkAhePGo/sE4IbEnjgLdCt2YlH/w6vYg5LjWpn8YPDa3WiDHL4gSGSvyj
-         YHRwtasL+iFz2dzIRezH/ujCBxKAIDTb6wSZY=
+        d=linuxfoundation.org; s=google; t=1749119257; x=1749724057; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=7XVetTh4LzQnes3rrmMcwhsNPjA58jxntenTIQO9QJo=;
+        b=BSxIpMGPpYpuNC0rdq9esKyiqQ27amEDcivlrZzfDeWqsLTJ2bi3J2icM7kFe881Kf
+         IgR4dll9VklpMnhBe7o5Y+fuZDzBXPTUuyah0vcxei/e8dkb27i+HxzuJL3TWFaBnSpW
+         D+2BXw/slXeebxyBQFjJ5dwyij3NTt0k797TM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749119116; x=1749723916;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eLrVGRezHQP9K+kwzIq0GBDlaYNz50F4tZ5Q9fe48PI=;
-        b=bIpQjHR6pM3VyR+CJFjEq0/yyBk8d53KcPK9JxGFqZ6vcCrBpEvQ+qWpB1mncq9vdx
-         THqFLu4de7Vu0qwraVMFNWhGl1RfnnY3eGNh+A8ABVDUBshhHdufl3zbZ7v1AF+58sAE
-         T+onACpMIZz6RH+HdzFDjZ/Nnc7mjqSe05vERkECj0qXR4GAQxEMrxDKGw2yC2/dQW70
-         6v+kdep66vJZ+Mcew1SyP261Vnz5j4Krxy+ZxkyidjVFDwnfpegNmIKL1l9vQkuhEnwZ
-         YjqjXCXi2iDzOkvMVVyPGlgvHZw23w+TLrzLVhZprh9LxfZU7PaBuvSfR+O+qJ8GjSZO
-         xO7A==
-X-Gm-Message-State: AOJu0YzyTTRaPt1nIHBSr1jGAQ9EvvNw+P6hYlJQvxeJkmjQrmW1edCN
-	z+846NWe4BybqfRzVD9uUYk7eXArq1hUeM8OkQFhtN7WWWl1aw/A0TKDwKrcZfXn9qVPa9HTvlt
-	jP2RUsktZ8ndNw+z9/lqZLbZh547cbRdoOLILkoMx+A==
-X-Gm-Gg: ASbGncvuiFKgXs0P/t7SuxXieDirN2JnzW7QJScJuDuBQaTXNM1ywoGaLmIdKlR3nbB
-	PO6BB3vHwA8pmgEuwrdIb4Rjr5z0Dv7nTAmpj9OmjNAIJc//Fw/0zxUGpkVC6+5fLvnlH/VG3/R
-	BGBIOkx8CoNsAM7yzk5kLscBCAOW504J9gxbU=
-X-Google-Smtp-Source: AGHT+IFwjjSCjFtiWm2iC7I3tA28S98Vi68biaZuFkgS8JFQ+6ZpwThX402Bpuj4fq/8ZyDQ7vVB7yx6ygX8K9HWalU=
-X-Received: by 2002:a5d:5850:0:b0:3a4:f6b7:8b07 with SMTP id
- ffacd0b85a97d-3a51d97c66cmr5227916f8f.48.1749119115674; Thu, 05 Jun 2025
- 03:25:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749119257; x=1749724057;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7XVetTh4LzQnes3rrmMcwhsNPjA58jxntenTIQO9QJo=;
+        b=bN9bxg9cxUHJKK5WiXz46yy+c4iUXIUF0ahDGTXbCtYYmR3rX3l393aiH0euvgp54r
+         0dKHItTNqmAeZbbZZ1gLvN+KxQzm5CQkYgKgb/REC8cTu3vcX/It+DPxuaEtJHndJ6gW
+         rW8aXF+Y6ERNPJnG04CvvVzEIY3E448sNmAKtG7Ah09X9Jh0BZHyjGs5or/xvFZxOJtc
+         KDKMArD/ty4HsfwR/XMtKx4ngY7098Ngq+nElKiny8cVXyk1y8bzuhsk00ve9qTpJPr5
+         JL23G/yGR8BpEwpRccjn3avyDZD9JFAPjRKEJZTwrvQyPmmNrCHLpxUMW7QxY3eROLBa
+         JgbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU2cGdkm1c6Kd3H20uVQ7amhT2C23nCMTQApRBFW5dj0VVIE8rtp8lQOMT+gFhNUdw4//4eKfOiCEUWK9dz7qFy8Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzSN1awb3EmjH8ZdBA51EhqU0cmC/KjiE8Xa0NahM3wXMnVAWnt
+	wHuumQha2D2KAMINe0plw+60OalJ0ezdINRGrHzXwaZ/nD3IpRy2IqGKyUU8eAahbUM=
+X-Gm-Gg: ASbGnct80EgqNcAeq58qMae6fAoNu8o6lnwvP1DOynLoFbd2f5y+hmZIcM6xw9BueEe
+	/MMPQYzONHUeoSBIkhh5f+GJm+CXQLBzNKRK/G1b+EzY5TYFuLBOaKT4K+Gb0zwKy0ldqI9OAGt
+	lQCNOORwxmGJ6+7EOmwrx1Lh2Fbilrm0slgX+jgUZd1vXLNdHi/J097AtVpWSEg573WR4RK0SNw
+	/BEg4Skgxd28PpcGcBfiwO3rJknw6TNRLUtqZBBMax5H54q4LBBBer53JpWEVGOfJR4T+w7eoDQ
+	nvzgxZQq398K3aDyt5c6ltGAK3rZASErId+tSHqLElARmEFdybcxrAhV0eSFDwLgH4VdmI8ROMZ
+	e3J9A4UfQZpNzb/TDMQxub2j9o3J4qjjVIBD6OA==
+X-Google-Smtp-Source: AGHT+IH2hEsGxRapRYzU2jITlXktd7id6T9sQzt2Varo9zkFKQ4zH5seRxymtcC9aJilovx5WLFOlQ==
+X-Received: by 2002:a05:600c:a089:b0:450:d367:c385 with SMTP id 5b1f17b1804b1-451f0b106e9mr62348395e9.16.1749119257455;
+        Thu, 05 Jun 2025 03:27:37 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:33af:62c:15cc:322e? ([2001:8b0:aba:5f3c:33af:62c:15cc:322e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe6c842sm23843578f8f.29.2025.06.05.03.27.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 03:27:36 -0700 (PDT)
+Message-ID: <d765e17f7c7b3e2d46da0f2983748dc7cf413948.camel@linuxfoundation.org>
+Subject: Re: [PATCH v6 1/3] package: export debugsources in PKGDESTWORK as
+ json
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: daniel.turull@ericsson.com, openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Date: Thu, 05 Jun 2025 11:27:35 +0100
+In-Reply-To: <20250604112133.2581063-2-daniel.turull@ericsson.com>
+References: <20250604112133.2581063-1-daniel.turull@ericsson.com>
+	 <20250604112133.2581063-2-daniel.turull@ericsson.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-References: <20250603215916.2429422-1-yoann.congal@smile.fr>
- <4c4f6b74-1397-43c1-991e-3176d2873880@cherry.de> <CAMSfU+5WE_fJ8ij_s1aowOgVbW6MeuKTP65GXQ03RRTyrn=Wzw@mail.gmail.com>
-In-Reply-To: <CAMSfU+5WE_fJ8ij_s1aowOgVbW6MeuKTP65GXQ03RRTyrn=Wzw@mail.gmail.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 5 Jun 2025 12:24:47 +0200
-X-Gm-Features: AX0GCFuZu0fqhE0FW9a2zDBaNyzxF7IlADgHg64SfPMKAFgvEH2Sq1gpw8ryI1E
-Message-ID: <CAMSfU+7FSeBPPCBEMEyP6HL44uB40n3wtAo9Gi_RCfZ2TOC7Wg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] reproducible: allow each layer to define its
- known non-repro packages
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: openembedded-core@lists.openembedded.org, 
-	Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
-Content-Type: multipart/alternative; boundary="0000000000008f5c360636d08737"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 10:25:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218001
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 10:27:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218002
 
---0000000000008f5c360636d08737
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+T24gV2VkLCAyMDI1LTA2LTA0IGF0IDEzOjIxICswMjAwLCBkYW5pZWwudHVydWxsQGVyaWNzc29u
+LmNvbSB3cm90ZToKPiBGcm9tOiBEYW5pZWwgVHVydWxsIDxkYW5pZWwudHVydWxsQGVyaWNzc29u
+LmNvbT4KPiAKPiBUaGUgc291cmNlIGluZm9ybWF0aW9uIHVzZWQgZHVyaW5nIHBhY2thZ2luZyBj
+YW4gYmUgdXNlIGZyb20gb3RoZXIgdGFza3MgdG8KPiBoYXZlIG1vcmUgZGV0YWlsZWQgaW5mb3Jt
+YXRpb24gb24gdGhlIGZpbGVzIHVzZWQgZHVyaW5nIHRoZSBjb21waWxhdGlvbiBhbmQKPiBpbXBy
+b3ZlIFNQRFggYWNjdXJhY3kuCj4gCj4gU291cmNlIGZpbGVzIHVzZWQgZHVyaW5nIGNvbXBpbGF0
+aW9uIGFyZSBzdG9yZSBhcyBjb21wcmVzc2VkIHpzdGQganNvbiBpbgo+IHBrZ2RhdGEvZGVidWdz
+b3VyY2VzLyRQTi1kZWJ1Z3NvdXJjZXMuanNvbi56c3RkCj4gRm9ybWF0Ogo+IHsgYmluYXJ5MTog
+W3NyYzEsIHNyYzIsIC4uLl0sIGJpbmFyeTI6IFtzcmMxLCBzcmMyLCAuLi5dIH0KPiAKPiBJIGNo
+ZWNrZWQgdGhlIHNzdGF0ZSBzaXplLCBhbmQgaXQgc2xpZ2h0bHkgaW5jcmVhc2UgdXNpbmcgY29y
+ZS1pbWFnZS1mdWxsLWNtZGxpbmU6Cj4gQmVmb3JlOiAyNDU0ODg0IEIKPiBBZnRlcjogMjQ1Njg2
+MCBCICgrMTk3NiBCIG9yIDAsMDglKQo+IAo+IENDOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5w
+dXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVHVydWxs
+IDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4KPiAtLS0KPiDCoG1ldGEvbGliL29lL3BhY2th
+Z2UucHkgfCA0NiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiDC
+oDEgZmlsZSBjaGFuZ2VkLCA0NiBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL21ldGEv
+bGliL29lL3BhY2thZ2UucHkgYi9tZXRhL2xpYi9vZS9wYWNrYWdlLnB5Cj4gaW5kZXggMGJjYzA0
+ZWE1NC4uYzVhY2I3ZDIwNSAxMDA2NDQKPiAtLS0gYS9tZXRhL2xpYi9vZS9wYWNrYWdlLnB5Cj4g
+KysrIGIvbWV0YS9saWIvb2UvcGFja2FnZS5weQo+IEBAIC0xMDQ5LDYgKzEwNDksNDkgQEAgZGVm
+IGNvcHlkZWJ1Z3NvdXJjZXMoZGVidWdzcmNkaXIsIHNvdXJjZXMsIGQpOgo+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBpZiBvcy5wYXRoLmV4aXN0cyhwKSBhbmQgbm90IG9zLmxpc3RkaXIocCk6
+Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgb3Mucm1kaXIocCkKPiDCoAo+ICtk
+ZWYgc2F2ZV9kZWJ1Z3NvdXJjZXNfaW5mbyhkZWJ1Z3NyY2Rpciwgc291cmNlc19yYXcsIGQpOgo+
+ICvCoMKgwqAgaW1wb3J0IGpzb24KPiArwqDCoMKgIGltcG9ydCBiYi5jb21wcmVzcy56c3RkCj4g
+K8KgwqDCoCBpZiBkZWJ1Z3NyY2RpciBhbmQgc291cmNlc19yYXc6Cj4gK8KgwqDCoMKgwqDCoMKg
+IGRlYnVnc291cmNlc19maWxlID0gZC5leHBhbmQoIiR7UEtHREVTVFdPUkt9L2RlYnVnc291cmNl
+cy8ke1BOfS1kZWJ1Z3NvdXJjZXMuanNvbi56c3RkIikKPiArwqDCoMKgwqDCoMKgwqAgZGVidWdz
+b3VyY2VzX2RpciA9IG9zLnBhdGguZGlybmFtZShkZWJ1Z3NvdXJjZXNfZmlsZSkKPiArwqDCoMKg
+wqDCoMKgwqAgaWYgbm90IG9zLnBhdGguaXNkaXIoZGVidWdzb3VyY2VzX2Rpcik6Cj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgYmIudXRpbHMubWtkaXJoaWVyKGRlYnVnc291cmNlc19kaXIpCj4g
+K8KgwqDCoMKgwqDCoMKgIGJiLnV0aWxzLnJlbW92ZShkZWJ1Z3NvdXJjZXNfZmlsZSkKPiArCj4g
+K8KgwqDCoMKgwqDCoMKgIHdvcmtkaXIgPSBkLmdldFZhcigiV09SS0RJUiIpCj4gK8KgwqDCoMKg
+wqDCoMKgIHNkaXIgPSBkLmdldFZhcigiUyIpCj4gK8KgwqDCoMKgwqDCoMKgIHBuID0gZC5nZXRW
+YXIoJ1BOJykKPiArwqDCoMKgwqDCoMKgwqAgcHYgPSBkLmdldFZhcignUFYnKQo+ICvCoMKgwqDC
+oMKgwqDCoCBzb3VyY2VzX2RpY3QgPSB7fQo+ICvCoMKgwqDCoMKgwqDCoCBmb3IgZmlsZSwgc3Jj
+X2ZpbGVzIGluIHNvdXJjZXNfcmF3Ogo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZpbGVfY2xl
+YW4gPSBmaWxlLnJlcGxhY2UoZiJ7d29ya2Rpcn0vcGFja2FnZS8iLCIiKQo+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHNvdXJjZXNfY2xlYW4gPSBbCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBzcmMucmVwbGFjZShmIi91c3Ivc3JjL2RlYnVnL3twbn0vIiwgIiIpCj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAucmVwbGFjZShmIntzZGlyfS8iLCAiIikK
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5yZXBsYWNlKGYiL3Vzci9z
+cmMva2VybmVsLyIsICIiKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+LnJlcGxhY2UoZiIvdXNyL3NyYy97cG59LyIsICIiKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgLnJlcGxhY2UoZiJ7cG59LXtwdn0vIiwgIiIpCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAucmVwbGFjZShmIntwdn0vIiwgIiIpCj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmb3Igc3JjIGluIHNyY19maWxlcwo+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgbm90IGFueShrZXl3b3JkIGluIHNyYyBmb3Iga2V5
+d29yZCBpbiAoIjxpbnRlcm5hbD4iLCAiPGJ1aWx0LWluPiIpKSBhbmQgbm90IHNyYy5lbmRzd2l0
+aCgiLyIpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIHNvdXJjZXNfZGljdFtmaWxlX2NsZWFuXSA9IHNvcnRlZChzb3VyY2VzX2NsZWFuKQo+ICvC
+oMKgwqDCoMKgwqDCoCBudW1fdGhyZWFkcyA9IGludChkLmdldFZhcigiQkJfTlVNQkVSX1RIUkVB
+RFMiKSkKPiArwqDCoMKgwqDCoMKgwqAgd2l0aCBiYi5jb21wcmVzcy56c3RkLm9wZW4oZGVidWdz
+b3VyY2VzX2ZpbGUsICJ3dCIsIGVuY29kaW5nPSJ1dGYtOCIsIG51bV90aHJlYWRzPW51bV90aHJl
+YWRzKSBhcyBmOgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGpzb24uZHVtcChzb3VyY2VzX2Rp
+Y3QsIGYsIHNvcnRfa2V5cz1UcnVlKQo+ICsKPiArZGVmIHJlYWRfZGVidWdzb3VyY2VzX2ZpbGUo
+ZCk6Cj4gK8KgwqDCoCBpbXBvcnQganNvbgo+ICvCoMKgwqAgaW1wb3J0IGJiLmNvbXByZXNzLnpz
+dGQKPiArwqDCoMKgIHRyeToKPiArwqDCoMKgwqDCoMKgwqAgZm4gPSBkLmV4cGFuZCgiJHtQS0dE
+RVNUV09SS30vZGVidWdzb3VyY2VzLyR7UE59LWRlYnVnc291cmNlcy5qc29uLnpzdGQiKQo+ICvC
+oMKgwqDCoMKgwqDCoCBudW1fdGhyZWFkcyA9IGludChkLmdldFZhcigiQkJfTlVNQkVSX1RIUkVB
+RFMiKSkKPiArwqDCoMKgwqDCoMKgwqAgd2l0aCBiYi5jb21wcmVzcy56c3RkLm9wZW4oZm4sICJy
+dCIsIGVuY29kaW5nPSJ1dGYtOCIsIG51bV90aHJlYWRzPW51bV90aHJlYWRzKSBhcyBmOgo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBqc29uLmxvYWQoZikKPiArwqDCoMKgIGV4Y2Vw
+dCBGaWxlTm90Rm91bmRFcnJvcjoKPiArwqDCoMKgwqDCoMKgwqAgYmIuZGVidWcoMSwgZiJGaWxl
+IG5vdCBmb3VuZDoge2ZufSIpCj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybiBOb25lCj4gwqAKPiDC
+oGRlZiBwcm9jZXNzX3NwbGl0X2FuZF9zdHJpcF9maWxlcyhkKToKPiDCoMKgwqDCoCBjcGF0aCA9
+IG9lLmNhY2hlZHBhdGguQ2FjaGVkUGF0aCgpCj4gQEAgLTEyODAsNiArMTMyMyw5IEBAIGRlZiBw
+cm9jZXNzX3NwbGl0X2FuZF9zdHJpcF9maWxlcyhkKToKPiDCoMKgwqDCoMKgwqDCoMKgICMgUHJv
+Y2VzcyB0aGUgZHZbInNyY2RpciJdIGlmIHJlcXVlc3RlZC4uLgo+IMKgwqDCoMKgwqDCoMKgwqAg
+IyBUaGlzIGNvcGllcyBhbmQgcGxhY2VzIHRoZSByZWZlcmVuY2VkIHNvdXJjZXMgZm9yIGxhdGVy
+IGRlYnVnZ2luZy4uLgo+IMKgwqDCoMKgwqDCoMKgwqAgY29weWRlYnVnc291cmNlcyhkdlsic3Jj
+ZGlyIl0sIHNvdXJjZXMsIGQpCj4gKwo+ICvCoMKgwqDCoMKgwqDCoCAjIFNhdmUgc291cmNlIGlu
+Zm8gdG8gYmUgYWNjZXNzaWJsZSB0byBvdGhlciB0YXNrcwo+ICvCoMKgwqDCoMKgwqDCoCBzYXZl
+X2RlYnVnc291cmNlc19pbmZvKGR2WyJzcmNkaXIiXSwgcmVzdWx0cywgZCkKPiDCoMKgwqDCoCAj
+Cj4gwqDCoMKgwqAgIyBFbmQgb2YgZGVidWcgc3BsaXR0aW5nCj4gwqDCoMKgwqAgIwoKVGhpcyBs
+b29rcyBnb29kLCBhcyBJIGFzIGFib3V0IHRvIG1lcmdlIGl0LCBJIHJlYWxpc2VkIHRoZXJlIGlz
+IG9uZQppc3N1ZS4gYml0YmFrZS5jb25mIGhhcyB0aGVzZSBlbnRyaWVzOgoKbWV0YS9jb25mL2Jp
+dGJha2UuY29uZjpvZS5wYWNrYWdlZGF0YS5lbWl0X3BrZ2RhdGFbdmFyZGVwc2V4Y2x1ZGVdID0g
+IkJCX05VTUJFUl9USFJFQURTIgptZXRhL2NvbmYvYml0YmFrZS5jb25mOm9lLnBhY2thZ2VkYXRh
+LnJlYWRfc3VicGtnZGF0YV9leHRlbmRlZFt2YXJkZXBzZXhjbHVkZV0gPSAiQkJfTlVNQkVSX1RI
+UkVBRFMiCgphbmQgSSB0aGluayB5b3UgbmVlZCB0byByZXBsaWNhdGUgdGhlc2UgZm9yIHlvdXIg
+bmV3IGZ1bmN0aW9ucy4gVGhlCnJlYXNvbiBpcyB0byBzdG9wIHNzdGF0ZSBiZWluZyBkZXBlbmRl
+bmN5IG9uIHRoZSBudW1iZXIgb2YgdGhyZWFkcwp1c2VkLgoKV2UgaGF2ZSBoYWQgd29yayBpbiBw
+cm9jZXNzIHRvIG1vdmUgdGhlc2UgZGVmaW5pdGlvbnMgYWxvbmdzaWRlIHRoZQpmdW5jdGlvbiBk
+ZWNsYXJhdGlvbnMgYnV0IEknbSBub3Qgc3VyZSB3ZSd2ZSBzb2x2ZWQgdGhhdCB5ZXQgc28gYWRk
+aW5nCnRvIGJpdGJha2UuY29uZiBpcyB0aGUgZWFzaWVzdCB0aGluZyB0byBkbyBmb3Igbm93LgoK
+Q2hlZXJzLAoKUmljaGFyZAoKCgo=
 
-Le mer. 4 juin 2025 =C3=A0 11:48, Yoann Congal <yoann.congal@smile.fr> a =
-=C3=A9crit :
-
->
->
-> Le mer. 4 juin 2025 =C3=A0 11:22, Quentin Schulz <quentin.schulz@cherry.d=
-e> a
-> =C3=A9crit :
->
->> Hi Yoann,
->>
->> On 6/3/25 11:59 PM, Yoann Congal via lists.openembedded.org wrote:
->> > From: Guillaume Swaenepoel <guillaume.swaenepoel@smile.fr>
->> >
->> > With this change, layers can use a conf/include/known_non_repro.inc fi=
-le
->> > to extend the KNOWN_NON_REPRO_PACKAGES_LIST variable with its own know=
-n
->> > non-reproducible packages to make them automatically excluded from the
->> > reproducible test.
->> >
->> > Example of usage, in conf/include/known_non_repro.inc:
->> >    KNOWN_NON_REPRO_PACKAGES_LIST +=3D " \
->> >          this-package-is-not-reproducible \
->> >    "
->> >
->> > This uses the new "include_all" in the reproducible test and will move
->> > the maintenance burden from AB config[0] to the layers themselves.
->> >
->>
->> A few points unrelated to implementation:
->> - maybe we can shorten the variable name? NON_REPRO_PACKAGES would be
->> enough no? If a package is listed in there, it's necessarily that we
->> know it's non reproducible, would we have a variable for "unknown"
->> non-reproducible packages? Additionally, we already have a PACKAGES
->> variable which contains a space-separated list of packages to build, so
->> maybe we can drop the _LIST as the plural of PACKAGES kind of imply it's
->> a list?
->>
->
-> Yes, I can shorten it a lot (I was kind of afraid to clash with existing
-> variables).
->
-> I agree on NON_REPRO_PACKAGES (if we don't switch to the more
-> direct OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES)
->
->
->> - once this gets merged, please provide documentation in yocto-docs for
->> it :)
->>
->
-> That was planned :)
->
->
->> - why packages and not recipes? Do we need a per-package granularity?
->>
->
-> The reproducibility test works at package level. (I don't know if that's
-> by choice or because it's easier)
-> For example, the main package of a recipe may be reproducible but not the
-> -ptest one.
-> Changing this to recipe level is a bit more fundamental work than I
-> anticipated but I can do it if necessary.
->
->
->> Isn't the recipe broken if any package it generates is non-reproducible?
->> This would also allow recipes to add packages without having to also
->> list them to the NON_REPRO_PACKAGES list?
->>
->
-> I don't dislike the idea of requiring more work for
-> non-reproducible recipes.
-> At some point, it might even be easier to make the recipe reproducible ;)
->
-> Joking aside, reproducibility was for a long time handled asynchronously
-> (non-repro got merged, fixed/excluded later)
->
->
->> - what happens if a layer has a version X of a recipe that is not
->> reproducible, but another layer has version Y that is (or vice-versa)?
->>
->
-> Right now, this is not handled very well : version is ignored by the
-> reproducible test. If layer X ignores the package, it will be ignored for
-> layer Y.
->
-> Taking a step back, if we are redesigning the whole thing, why not add a
-> variable into the known-non reproducible recipes? (Like INSANE_SKIPs)
->
-
- Summarizing the discussion that happened at today's patch review call:
-* RP agrees with the approach in general
-* OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES should be used instead (I'll send a
-v2)
-* We should stay at package level:
-  * switching to recipe level may over complicate things for something that
-is (hopefully) transient (all recipes/packages should be reproducible one
-day)
-  * Also, in case of a non-reproducible subpackage, we don't want to skip
-the test on the main package (e.g ruby-doc was for a long time non-repro
-but the test on the main ruby package was still valuable)
-
-Regards,
---=20
-Yoann Congal
-Smile ECS
-
---0000000000008f5c360636d08737
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 4 =
-juin 2025 =C3=A0=C2=A011:48, Yoann Congal &lt;<a href=3D"mailto:yoann.conga=
-l@smile.fr">yoann.congal@smile.fr</a>&gt; a =C3=A9crit=C2=A0:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"=
-ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
-il_attr">Le=C2=A0mer. 4 juin 2025 =C3=A0=C2=A011:22, Quentin Schulz &lt;<a =
-href=3D"mailto:quentin.schulz@cherry.de" target=3D"_blank">quentin.schulz@c=
-herry.de</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">Hi Yoann,<br>
-<br>
-On 6/3/25 11:59 PM, Yoann Congal via <a href=3D"http://lists.openembedded.o=
-rg" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<=
-br>
-&gt; From: Guillaume Swaenepoel &lt;<a href=3D"mailto:guillaume.swaenepoel@=
-smile.fr" target=3D"_blank">guillaume.swaenepoel@smile.fr</a>&gt;<br>
-&gt; <br>
-&gt; With this change, layers can use a conf/include/known_non_repro.inc fi=
-le<br>
-&gt; to extend the KNOWN_NON_REPRO_PACKAGES_LIST variable with its own know=
-n<br>
-&gt; non-reproducible packages to make them automatically excluded from the=
-<br>
-&gt; reproducible test.<br>
-&gt; <br>
-&gt; Example of usage, in conf/include/known_non_repro.inc:<br>
-&gt;=C2=A0 =C2=A0 KNOWN_NON_REPRO_PACKAGES_LIST +=3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 this-package-is-not-reproducible \<b=
-r>
-&gt;=C2=A0 =C2=A0 &quot;<br>
-&gt; <br>
-&gt; This uses the new &quot;include_all&quot; in the reproducible test and=
- will move<br>
-&gt; the maintenance burden from AB config[0] to the layers themselves.<br>
-&gt; <br>
-<br>
-A few points unrelated to implementation:<br>
-- maybe we can shorten the variable name? NON_REPRO_PACKAGES would be <br>
-enough no? If a package is listed in there, it&#39;s necessarily that we <b=
-r>
-know it&#39;s non reproducible, would we have a variable for &quot;unknown&=
-quot; <br>
-non-reproducible packages? Additionally, we already have a PACKAGES <br>
-variable which contains a space-separated list of packages to build, so <br=
->
-maybe we can drop the _LIST as the plural of PACKAGES kind of imply it&#39;=
-s <br>
-a list?<br></blockquote><div><br></div><div>Yes, I can shorten it a lot (I =
-was kind of afraid to clash with existing variables).</div><div><br></div><=
-div>I agree on=C2=A0NON_REPRO_PACKAGES (if we don&#39;t switch to the more =
-direct=C2=A0OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES)</div><div>=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-- once this gets merged, please provide documentation in yocto-docs for <br=
->
-it :)<br></blockquote><div><br></div><div>That was planned :)</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-- why packages and not recipes? Do we need a per-package granularity?<br></=
-blockquote><div><br></div><div>The reproducibility test works at package le=
-vel. (I don&#39;t know if that&#39;s by choice or because it&#39;s easier)<=
-/div><div>For example, the main package of a recipe may be reproducible but=
- not the -ptest one.</div><div>Changing this to recipe level is a bit more =
-fundamental work than I anticipated but I can do it if necessary.</div><div=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Isn&#39;t the recipe broken if any package it generates is non-reproducible=
-? <br>
-This would also allow recipes to add packages without having to also <br>
-list them to the NON_REPRO_PACKAGES list?<br></blockquote><div><br></div><d=
-iv>I don&#39;t dislike the idea of requiring more work for non-reproducible=
-=C2=A0recipes.</div><div>At some point, it might even be easier to make the=
- recipe reproducible ;)</div><div><br></div><div>Joking aside, reproducibil=
-ity was for a long time handled asynchronously (non-repro got merged, fixed=
-/excluded later)</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">
-- what happens if a layer has a version X of a recipe that is not <br>
-reproducible, but another layer has version Y that is (or vice-versa)?<br><=
-/blockquote><div><br></div><div>Right now, this is not handled very well : =
-version is ignored by the reproducible test. If layer X ignores the package=
-, it will be ignored for layer Y.</div><div>=C2=A0</div><div>Taking a step =
-back, if we are redesigning the whole thing, why not add a variable into th=
-e known-non reproducible recipes? (Like INSANE_SKIPs)</div></div></div></bl=
-ockquote><div><br></div><div>=C2=A0Summarizing the discussion that happened=
-=C2=A0at today&#39;s patch review call:</div><div>* RP agrees with the appr=
-oach in general</div><div>*=C2=A0OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES should=
- be used instead (I&#39;ll send a v2)</div><div>* We should stay at package=
- level:</div><div>=C2=A0 * switching to recipe level may over complicate th=
-ings for something that is (hopefully) transient (all recipes/packages shou=
-ld be reproducible one day)</div><div>=C2=A0 * Also, in case of a non-repro=
-ducible subpackage, we don&#39;t want to skip the test on the main package =
-(e.g ruby-doc was for a long time non-repro but the test on the main ruby p=
-ackage=C2=A0was still valuable)</div><div><br></div><div>Regards,</div></di=
-v><span class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" cla=
-ss=3D"gmail_signature"><div dir=3D"ltr"><font face=3D"Raleway, regular">Yoa=
-nn Congal</font><div><font face=3D"Raleway, regular">Smile ECS</font></div>=
-</div></div></div>
-
---0000000000008f5c360636d08737--
 
