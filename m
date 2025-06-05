@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB5CC5AE59
-	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 16:14:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86428C5AE59
+	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 16:14:32 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.11914.1749140060777744592
+ by mx.groups.io with SMTP id smtpd.web10.11688.1749140062841584933
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 09:14:20 -0700
+ Thu, 05 Jun 2025 09:14:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EE8BD1688
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:02 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D90BB1688
+	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:04 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 223323F673
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:20 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0D2543F673
+	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:21 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 07/16] mobile-broadband-provider-info: put version in recipe filename
-Date: Thu,  5 Jun 2025 17:14:05 +0100
-Message-ID: <20250605161414.1050228-7-ross.burton@arm.com>
+Subject: [PATCH v2 10/16] squashfs-tools: clean up PACKAGECONFIG
+Date: Thu,  5 Jun 2025 17:14:08 +0100
+Message-ID: <20250605161414.1050228-10-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250605161414.1050228-1-ross.burton@arm.com>
 References: <20250605161414.1050228-1-ross.burton@arm.com>
@@ -29,51 +29,51 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 16:14:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218062
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 16:14:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218065
 
-A recipe that fetches from git but is otherwise a released version
-should not be using _git.bb recipe names.
+LZMA isn't supported by the mainline kernel driver, so there's no real
+point in enabling it.
 
-Put the version in the filename and drop the explicit PV.
+Disable LZO by default, as LZO is very obsolete (last released in 2017)
+and there are better algorithms available.
+
+Move xattr to the end so it's separate from the compression algorithms.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- ...info_git.bb =3D> mobile-broadband-provider-info_20240407.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/mobile-broadband-provider-info/{mobile-=
-broadband-provider-info_git.bb =3D> mobile-broadband-provider-info_202404=
-07.bb} (97%)
+ meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mob=
-ile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-bro=
-adband-provider-info/mobile-broadband-provider-info_20240407.bb
-similarity index 97%
-rename from meta/recipes-connectivity/mobile-broadband-provider-info/mobi=
-le-broadband-provider-info_git.bb
-rename to meta/recipes-connectivity/mobile-broadband-provider-info/mobile=
--broadband-provider-info_20240407.bb
-index 06ded459344..e07b93d6955 100644
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-bro=
-adband-provider-info_git.bb
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-bro=
-adband-provider-info_20240407.bb
-@@ -5,11 +5,11 @@ SECTION =3D "network"
- LICENSE =3D "PD"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D87964579b2a8ece4bc6744d2dc9a8=
-b04"
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb b=
+/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb
+index 6357c8a5a93..fd4c5e0a452 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb
+@@ -1,5 +1,3 @@
+-# Note, we can probably remove the lzma option as it has be replaced wit=
+h xz,
+-# and I don't think the kernel supports it any more.
+ SUMMARY =3D "Tools for manipulating SquashFS filesystems"
+ HOMEPAGE =3D "https://github.com/plougher/squashfs-tools"
+ DESCRIPTION =3D "Tools to create and extract Squashfs filesystems."
+@@ -16,14 +14,14 @@ S =3D "${WORKDIR}/git"
 =20
--SRCREV =3D "55ba955d53305df96123534488fd160ea882b4dd"
--PV =3D "20240407"
- PE =3D "1"
+ EXTRA_OEMAKE =3D "${PACKAGECONFIG_CONFARGS}"
 =20
- SRC_URI =3D "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info=
-.git;protocol=3Dhttps;branch=3Dmain"
-+SRCREV =3D "55ba955d53305df96123534488fd160ea882b4dd"
-+
- S =3D "${WORKDIR}/git"
+-PACKAGECONFIG ??=3D "gzip xz lzo lz4 lzma xattr zstd"
++PACKAGECONFIG ??=3D "gzip lz4 xz zstd xattr"
+ PACKAGECONFIG[gzip] =3D "GZIP_SUPPORT=3D1,GZIP_SUPPORT=3D0,zlib"
+ PACKAGECONFIG[xz] =3D "XZ_SUPPORT=3D1,XZ_SUPPORT=3D0,xz"
+ PACKAGECONFIG[lzo] =3D "LZO_SUPPORT=3D1,LZO_SUPPORT=3D0,lzo"
+ PACKAGECONFIG[lz4] =3D "LZ4_SUPPORT=3D1,LZ4_SUPPORT=3D0,lz4"
+ PACKAGECONFIG[lzma] =3D "LZMA_XZ_SUPPORT=3D1,LZMA_XZ_SUPPORT=3D0,xz"
+-PACKAGECONFIG[xattr] =3D "XATTR_SUPPORT=3D1,XATTR_SUPPORT=3D0,attr"
+ PACKAGECONFIG[zstd] =3D "ZSTD_SUPPORT=3D1,ZSTD_SUPPORT=3D0,zstd"
++PACKAGECONFIG[xattr] =3D "XATTR_SUPPORT=3D1,XATTR_SUPPORT=3D0,attr"
 =20
- inherit meson
+ do_compile() {
+ 	oe_runmake -C ${S}/squashfs-tools all
 --=20
 2.43.0
 
