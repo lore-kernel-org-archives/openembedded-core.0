@@ -1,210 +1,222 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D2FC5AE59
-	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 11:41:49 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.5335.1749123699070646747
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A76E0C5AE59
+	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 11:50:29 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.5558.1749124227056439336
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 04:41:39 -0700
+ Thu, 05 Jun 2025 04:50:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=82513ac62d=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55556MVo022906
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Jun 2025 11:41:38 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9q3w59-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 11:41:37 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bsXKddryxGxYG5tBYq0GAdiTr1/G5hFvn8BRosH3Rqo8HgH3AU3dhmNYG1bNNG5RvuiE5p8gWcY5QWTor2UIwIs+LXQOHJgllSw/rSOunHLgSsO5dsNUvK0lxDotEMy89Qfz80w1FrC7OMBRnoJBcxx6AlIoxDIEH752PGP84Kc7T55yivduB2WVJ8Qhd+rcoLMLWMaZ62Z/4cg5b9Q3+JrNZP34JCCyuw2edk4HZMt19fa7wr6hffR6IXw/QoKZdp74qGdsSuGzd6/cLApMy1V+n3LPJeX4kIrXnGCcJtCnE+JDL0AQSX586hVCpf9kpLKURmCcbOmbyQmtzDasTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fl2TNob9mnw25ktKQZZ8dUf3e9+uNH6EeLcCLLCQbfE=;
- b=pWMSrvExocBFzBaKIsksdj4M7TWqTfmV6amg1rKe/cZtozIkjT9T2Z/SBy7QZiDuCqmUf7wsap/fHNWC+CwFQTcJdmTy48d/2nZ2VtUYRCJt8POtwq54IFPGkMyRJpt7Ercs/J2k5iHIalcztAO7PJo4WtKnX+T/TJkunErsh8cS3jrou4VgegdJMETeXr1+946u1ydvXAfPOaiyDHxILkB+V5HL9lRN6BSUcOTKyYut0gN/x/Tuy3TKBtowkoZZQUBcjyuE9Mzg5HosfZjqRM5o7wdPOX9QGWW3wGNqSBNo1Nm/TUHF/J1MUCKUizhCeAHpd8MoELoNOlxIJwhwsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
- by DM4PR11MB8159.namprd11.prod.outlook.com (2603:10b6:8:17d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.37; Thu, 5 Jun
- 2025 11:41:33 +0000
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f%3]) with mapi id 15.20.8813.020; Thu, 5 Jun 2025
- 11:41:33 +0000
-From: Deepesh.Varatharajan@windriver.com
+ dkim=pass header.i=@mvista.com header.s=google header.b=cQcADvKf;
+ spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-747c2cc3419so666528b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 04:50:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1749124226; x=1749729026; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xFC0bYTj81mksm8SgYzJM9/rj/HvsSioVCgV4/N+yW4=;
+        b=cQcADvKfVKxMoPYojfcDLgrxlQTeEi+x9YaTK9DDfMckEToS/73hnc6uPWZH3Ap/Ef
+         /PVl/Y9N2iOXnZSNc8gvu27N9r3Mh/2qLanvSbdxl4JpSntD9hbh6BXlnJlj3h25OJ5b
+         CnxvZPeyGDQLLLggBAbs0Qb/qTBs3FutdTz14=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749124226; x=1749729026;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xFC0bYTj81mksm8SgYzJM9/rj/HvsSioVCgV4/N+yW4=;
+        b=tlcDGH/WhplTqhbghhrxrE/G+tfc2g1jesKlptJdFcV243b8FNAnXyC94SG9h0J+lp
+         ZqMU3jttcaVoKn4Q7AJZSyZl8bGRyBHjcRHbyxtccquyxmO23iFERO1iz+kCRsAnO2LJ
+         T2hRJJMvAw+PgdYbNsc6uIL9Dmww4/d1DM5hB4CcflVub7Oah0xJ1MDMms1DMN0/wpwz
+         lQ2tglnvjMRgMWs1A7n4VsVjY2DJBbOFIv4xJ0RZF8R84yS2Y9D4zjHtdKl+gvMRKA1F
+         psS7aMSQ3BwRFki3hoOzQdMEV5510Lf1tvaHTkCKT8N0oByj1p75Ohg6qb+bJfcashIo
+         LdHQ==
+X-Gm-Message-State: AOJu0Yy6KeDARtbEvt/DcsQCd7aOmDD27rNdbsQwzyNDZ/l8aSRFQrru
+	RyPfTzO2+4enZQVEMM4jlGdP+jri6D+PpEFoFNeTZtJygo7t0boC5Ml4Nwg9AqRNXoFF0KMH/SQ
+	dyU/Xv7s=
+X-Gm-Gg: ASbGnctMMcUkrLXg2i8v/xkSPJyx3goQpPdcO2+s2Unr/pQxrvijoV4yt8uqcDPPlC4
+	1jFvZSkthnICyU7QvpQOL5UXMkipdvOVxBAhCdtHrZATFo+qf+7Q9wD1Fot7SwscjYXGHtxCZWW
+	qv8/ixypc3f5zTjBTPrkn6t5MWxdjsOTIj8VNqaAkt7XQZu5r4xSs3m33OXwrm2fggPffYJPc8P
+	rpcC0Qa7aKtzwnaLr+vbLytZHIqroSju7V/g1GfDiEkDNoV0P8EodTjKgQ+S9BPnW6ap8pthGEC
+	eDxop1sgywKiiMtI5FYc9QcgIyalp9++1EEJ8kCBzslBt3T3Rc0o8ugF9hh6LIHTo1EvoIle
+X-Google-Smtp-Source: AGHT+IGWMr0E/hBfbYoet9wAwVKV+mXm/EYtjjf3t+UvDzDu1nii3vTzW38kWvX5q/MhoA5Pg7G7oQ==
+X-Received: by 2002:a05:6a00:300f:b0:740:a52f:a126 with SMTP id d2e1a72fcca58-7480b2b8568mr8070923b3a.9.1749124225938;
+        Thu, 05 Jun 2025 04:50:25 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.207.192.97])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747cdb9a0b0sm10006414b3a.99.2025.06.05.04.50.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 04:50:25 -0700 (PDT)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
-Subject: [kirkstone][PATCH] binutils: Fix CVE-2025-5244
-Date: Thu,  5 Jun 2025 04:41:25 -0700
-Message-ID: <20250605114125.1325077-1-Deepesh.Varatharajan@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PH2PEPF0000385D.namprd17.prod.outlook.com
- (2603:10b6:518:1::6b) To SJ0PR11MB5648.namprd11.prod.outlook.com
- (2603:10b6:a03:302::11)
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] python3-setuptools: Fix CVE-2025-47273
+Date: Thu,  5 Jun 2025 17:20:15 +0530
+Message-Id: <20250605115015.1154750-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|DM4PR11MB8159:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22de3c6a-8fcb-45fe-9912-08dda425eba9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|1800799024|376014|366016|38350700014|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?aoHCu6Jb5NWd3DqTahjcE3O6rvwOhv9X1T0De1xGTVL3H6EnT1WLfta31ycl?=
- =?us-ascii?Q?Zw2WlvEWV+QHRTrvSzIfIPzt7I+cO2JWnxJHND6uc52xgRyjRMM52ls3q4k1?=
- =?us-ascii?Q?h/6Xm+K+sc6gXqUYwC/28RuPzpMMIukQOvGR9YrtTJsaHG8UK8sjW/iCbvZX?=
- =?us-ascii?Q?VMFAbA1YDkestq9ljOepwui5l3hIteVcBAhhwo7RjC3niUy5FdUGW4BRXp26?=
- =?us-ascii?Q?uHMzD2KHPKQtOPKCm2jKU6iKJwNpIpllv/05YyEJqEY7t/oFM70KZ3fYho3a?=
- =?us-ascii?Q?8mN/wU0DaCHCxoC7cLVdJ7xvnNHcjRmSAoVzQdlSWi2XwH+vLyqcrinsFfws?=
- =?us-ascii?Q?rRyq4KvzPJe2rC48X1Y6YABdIkLOz/S6Y0CNqytXBMfX6DULkQblcy9nDHJK?=
- =?us-ascii?Q?6yBuNY9frUK4v/87WdQmdFeXJe0DhWbR2c6vs6CYRPfJ2jVnOzO/4avgSPED?=
- =?us-ascii?Q?6YzJJ4q1PkK8YUKATdOls9KMs5HTYrKopPVip2iLFz3Z06KlZAjrK3NKsDO8?=
- =?us-ascii?Q?81207SM2KYssYJSS8E6vcbXAdqaK4AnOdQ3hTi5CePZC//gPLDWceJ70efB/?=
- =?us-ascii?Q?4vH7jngtmkkzW8zysnYueXCnIUytDkgD9LeuhC+fQEk1shjo4yvr4FjV0KdY?=
- =?us-ascii?Q?JXUsKwLPMkNbnUjphKSy1HJAAmSNqczIsOCmFkaXP9EfKJ4423s55KHn2f+S?=
- =?us-ascii?Q?D44Yvrhti4H+ja1nnQUWsFxIo94YtwBI97S4KXDpDeJM27CTcZ0DgI6oqQFu?=
- =?us-ascii?Q?f3uYsTZiph/l7PdJ/m5ODTnAglbH8k/aRwxcSzq9cTns7+OhpHZmvrY/dMS8?=
- =?us-ascii?Q?seMAlarCSzMg3X20A0XoBXsIX4HkBHnmfnRWc4aZkDvCmNlHlWN2AMPSZvNo?=
- =?us-ascii?Q?PTVD103msGhG9wDg5JVuk9G988mlB+oOFkGye1rnhudYpnWJjOBkNYDbRA4S?=
- =?us-ascii?Q?QHsrb8roPiU7y9FYNUj6fn94dnz0Sv6Q1Fcdt251G6/IVSJXGIzij1smkdA3?=
- =?us-ascii?Q?OuClAOYKr4EeWmk+wDnlQbgFGjmRbXFdMHHWa1EiPVHYcKVkvTbNcMjOhPwK?=
- =?us-ascii?Q?sU5UvfU2pHtwNhxOluWKmPQY2Iti77w3SisQsJNslAMoXTtCR2h1Z2hOfRM2?=
- =?us-ascii?Q?8YYX8UGzqXGD4Qz658X5247QayeCPT5wp78cYQi4ZcwnZiQqZjQL4BtOVfmr?=
- =?us-ascii?Q?W90Khbi3o11PrRe4zS5bhGppBvzIg6Q+SuJeK77YuyZJgTXgamfhGvJ0t1vw?=
- =?us-ascii?Q?/7QDp30H7F+MC7RNdqUyLERZdDvXUDm9+u7qH5VJMTKgxQoRVLQm8GuV3pk5?=
- =?us-ascii?Q?gZoNZqW/omM2EYPpexn3TymSM8hbom2nKQ8k92oDZg2pHOW+O8NHbflsXM+3?=
- =?us-ascii?Q?dD+4c68yyG4oSya7kZ5RmQbR2HFDv+X6iI4UNTK8tsoSXYvlVy3lersbEe/Y?=
- =?us-ascii?Q?BcVSgREb/ME=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(376014)(366016)(38350700014)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?XLTU6UM89g8vHStY5YNwLa37fKobyueHJFp/lYQsuwJog3YQq5RSOkrkHQ3e?=
- =?us-ascii?Q?Bdh4FyIxoxcP9Rpyk4TgrfBTGjhsppUP+ZvRhv5Fw2OFVocyyhXtMfHBhtDy?=
- =?us-ascii?Q?rtJZYexj9Q3YSxkVNLwWq0Zn6yUee4q1MCy561tKuMVKtNtvF4blrPVIA3po?=
- =?us-ascii?Q?0Zs/nHmUiIBdPACR4OmfnOnXwTZRJ+Yb77j7TXvliCVwrilRQ6SoxoCKkWsk?=
- =?us-ascii?Q?jA//GZuNc9qXwpBb3IT5fuyidyOToPUnSTl61O1TjJHjKsFzpLzndsW/qWg1?=
- =?us-ascii?Q?KaCFA7WZZVsYpYjDICzLkpQnZNMJqjB32hh/gnB/n8xpril7djD0ihsY7tcB?=
- =?us-ascii?Q?4xyOwlT9vgPsjgrO/J2wV2nab5xsL+E4mJnaJr+iSfzKQg4a5U+IdhIx6BpZ?=
- =?us-ascii?Q?ZlAw5/TTF575M2utTdprfF//ZQqmYQVEy+/S+q+6ubKyv17S1UmCGlF+GRiN?=
- =?us-ascii?Q?T1Yz1TeFq3YOd8ZK3ClPA3wu7QoeToZjo49WRj/nwdagIIvkO4Mmji5o2/HD?=
- =?us-ascii?Q?Q1WCGfCTFGp94ZBzNy8lRDTw7aOTPCgXeSOig6BzyTXvWFqYkpC5CovLhkoo?=
- =?us-ascii?Q?XH/NaojLzXxeJb0qG7XYKFELsRullJS2MzqFaGCn9mQSXbwQhUQ6lcL8FyoI?=
- =?us-ascii?Q?lr0/Oc/rzoZeb2mMBsro2HTOtEO8/dopBGd8K+3/L7IiyjUjTOS8Nd4RajJH?=
- =?us-ascii?Q?dLFbK1SyHFhtAqLSE3cruON5oAUDUj6wJ2L8mfluVc8fKo2db0mbqfYDlGHv?=
- =?us-ascii?Q?IWgdGDpYKr9CHVnkI8ytJayEtYI+leqJUXazliwiW6a7QH7Mkwe+W286v7u0?=
- =?us-ascii?Q?Puizrpr3xrmvucSQW11LzSeD9g4EpxOAS6lg2PiW+uufrrXOMD/3n9pfHMEM?=
- =?us-ascii?Q?6YOT5P22fr5TxQ1e38RNAmRS+v+qtGc1ON9MpSdGgU661bK1OZ1oVSp6Bize?=
- =?us-ascii?Q?jsoX8y5/Z7BqLPkdmBegX0ioMOOWPFSd7+4gOLtfqdiq1Cda4MflOR09FHai?=
- =?us-ascii?Q?OTmQiBzS5/gApS+1hH2cMz6O10Kkb05BPImga3caPzk0/jTjeKMaS1qIluSC?=
- =?us-ascii?Q?g/EXAlA2F02UoGg2BRDfYTxPUl706HjtK6K5M9bd2CumMfpZaUkd8k/iGDPM?=
- =?us-ascii?Q?oaqMt29L38oNu2dQuveqw6T97gxxXL1J+n4JoQ9uTJzoaYqhDyZmcmsNyh1I?=
- =?us-ascii?Q?WK7YROXg8lhazDQl3x2Blx+aV8UhHFeOJufn+RK/dDhkXMT8fKDAKboF3nMa?=
- =?us-ascii?Q?59WvBVUfir258Qwdx6UyQaihh1k4o+7RFAnCOmUXBV5Tp1G0tkApFAi4yi27?=
- =?us-ascii?Q?2Zr+v64FavSFgr6YCZ9y1fvEMqLR/rxuTZl9QRYxhu6hIEWgLXynDig13KHF?=
- =?us-ascii?Q?d/l6sTP9bQj9Thv5fF09XZNI478/x3y5sjEnhOnU4z4spxBe9T6t50SeSQhK?=
- =?us-ascii?Q?raRoOToXxl6AXFjOUMrzSji/SgcO2JQCVgDoZM1vuzgFFI8nfxnQGoGdDob5?=
- =?us-ascii?Q?B5yNvQ4LxMMGnOrk5SBg7VyOsGz05K53y3zSiqJqX4v6WRhcKXvGRI8n5asI?=
- =?us-ascii?Q?DBJmAlPTFeYEW0Zr16oCKij6+6wszN0Nz+FIVYwp1CFTM/0suAsl+xW/V0dN?=
- =?us-ascii?Q?p+9W20dI19XIq4AoS63YV9s=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22de3c6a-8fcb-45fe-9912-08dda425eba9
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 11:41:33.2393
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JsjbkqbLccSsXvbXNoqko6j0Rqj3ox505MDP3u1woAPM9Wp7TcyBgyl34SDH642qioOFq5RQiYZeIhlucmZDacQN6vNeyxUJZX4K6iyNyHXNCXKOdjY6ukp5j8qqDuNo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB8159
-X-Proofpoint-GUID: gmRPn40O_rAaRdLNvlzCqYRXzZmBuGX1
-X-Authority-Analysis: v=2.4 cv=X8RSKHTe c=1 sm=1 tr=0 ts=68418272 cx=c_pps a=ngScqOCEdLrCZ1H4VCpMTA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10 a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=SF8dohJSsYIBP11I8NgA:9 a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA1MDEwMSBTYWx0ZWRfX4y2+OAk2bMQ/ kEr2CUGXlJSX2K7P4AgnSMCiFwVRWjbsz6kt92Q7KL0ye8STs0gb/d+gIIEeS2hU5/qAl+zeGk6 VmyxNuX1RLilmk2S4GKWlFqpPf+y9sl8nkgrtCdYG1vkIgiQnEHQ6cDIRsuSl5Iwl8ksdxvcGXX
- O6cgL6741jqibtVA7lBDplRVahNT8ViBrtZeIx55qFF9wB5u/W1ZZSOFXi0Yeiyml4o33Au9dpm 5/5PbYCp2YaDaEufQ4OTj6KQHwf7aWL25Wg3KvXFgkZy/u4wg3JtkuZCOgVz1KXSs3D5AzIeF3E gQFrtR5HHaBv2JO01plD56agLKbMuz62CJXpum+K9NC1klz6f2VffFTM2Ag6yzniTvU8zacKCiE
- ruplghOiLXF7SswZ/0+UF7W9bd3WdG+5fGc5NR7/XG/UXcEDP9hJXYQ2lfzptooOi9DQVzeO
-X-Proofpoint-ORIG-GUID: gmRPn40O_rAaRdLNvlzCqYRXzZmBuGX1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-05_02,2025-06-03_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 impostorscore=0
- suspectscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506050101
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 11:41:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218009
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 11:50:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218010
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-PR32858 ld segfault on fuzzed object
-We missed one place where it is necessary to check for empty groups.
+Upstream-Status: Backport from
+https://github.com/pypa/setuptools/commit/d8390feaa99091d1ba9626bec0e4ba7072fc507a
+& https://github.com/pypa/setuptools/commit/250a6d17978f9f6ac3ac887091f2d32886fbbb0b
 
-Backport a patch from upstream to fix CVE-2025-5244
-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=d1458933830456e54223d9fc61f0d9b3a19256f5]
-
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/0041-CVE-2025-5244.patch         | 25 +++++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0041-CVE-2025-5244.patch
+ .../CVE-2025-47273-pre1.patch                 | 54 +++++++++++++++++
+ .../python3-setuptools/CVE-2025-47273.patch   | 59 +++++++++++++++++++
+ .../python/python3-setuptools_59.5.0.bb       |  2 +
+ 3 files changed, 115 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index 01fd03d2f4..3c7e6259eb 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -75,5 +75,6 @@ SRC_URI = "\
-      file://0038-CVE-2025-0840.patch \
-      file://0039-CVE-2025-1178.patch \
-      file://0040-CVE-2025-1180.patch \
-+     file://0041-CVE-2025-5244.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0041-CVE-2025-5244.patch b/meta/recipes-devtools/binutils/binutils/0041-CVE-2025-5244.patch
+diff --git a/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch
 new file mode 100644
-index 0000000000..e8855a4b4b
+index 0000000000..b273551ffc
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0041-CVE-2025-5244.patch
-@@ -0,0 +1,25 @@
-+From: Alan Modra <amodra@gmail.com>
-+Date: Thu, 10 Apr 2025 19:41:49 +0930
++++ b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch
+@@ -0,0 +1,54 @@
++From d8390feaa99091d1ba9626bec0e4ba7072fc507a Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Sat, 19 Apr 2025 12:49:55 -0400
++Subject: [PATCH] Extract _resolve_download_filename with test.
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=d1458933830456e54223d9fc61f0d9b3a19256f5]
-+CVE: CVE-2025-5244
++Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/d8390feaa99091d1ba9626bec0e4ba7072fc507a]
++CVE: CVE-2025-47273 #Dependency Patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ setuptools/package_index.py | 20 ++++++++++++++++----
++ 1 file changed, 16 insertions(+), 4 deletions(-)
 +
-+PR32858 ld segfault on fuzzed object
-+We missed one place where it is necessary to check for empty groups.
-+
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+
-+diff --git a/bfd/elflink.c b/bfd/elflink.c
-+index a76e8e38da7..549b7b7dd92 100644
-+--- a/bfd/elflink.c
-++++ b/bfd/elflink.c
-+@@ -14408,7 +14408,8 @@ elf_gc_sweep (bfd *abfd, struct bfd_link_info *info)
-+ 	  if (o->flags & SEC_GROUP)
-+ 	    {
-+ 	      asection *first = elf_next_in_group (o);
-+-	      o->gc_mark = first->gc_mark;
-++	      if (first != NULL)
-++		o->gc_mark = first->gc_mark;
-+ 	    }
++diff --git a/setuptools/package_index.py b/setuptools/package_index.py
++index 3a893df..f350e11 100644
++--- a/setuptools/package_index.py
+++++ b/setuptools/package_index.py
++@@ -786,9 +786,16 @@ class PackageIndex(Environment):
++                 raise DistutilsError("Download error for %s: %s"
++                                      % (url, v)) from v
 + 
-+ 	  if (o->gc_mark)
++-    def _download_url(self, url, tmpdir):
++-        # Determine download filename
++-        #
+++    @staticmethod
+++    def _resolve_download_filename(url, tmpdir):
+++        """
+++        >>> du = PackageIndex._resolve_download_filename
+++        >>> root = getfixture('tmp_path')
+++        >>> url = 'https://files.pythonhosted.org/packages/a9/5a/0db.../setuptools-78.1.0.tar.gz'
+++        >>> import pathlib
+++        >>> str(pathlib.Path(du(url, root)).relative_to(root))
+++        'setuptools-78.1.0.tar.gz'
+++        """
++         name, fragment = egg_info_for_url(url)
++         if name:
++             while '..' in name:
++@@ -799,8 +806,13 @@ class PackageIndex(Environment):
++         if name.endswith('.egg.zip'):
++             name = name[:-4]  # strip the extra .zip before download
++ 
++-        filename = os.path.join(tmpdir, name)
+++        return os.path.join(tmpdir, name)
++ 
+++    def _download_url(self, url, tmpdir):
+++        """
+++        Determine the download filename.
+++        """
+++        filename = self._resolve_download_filename(url, tmpdir)
++         return self._download_vcs(url, filename) or self._download_other(url, filename)
++ 
++     @staticmethod
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch
+new file mode 100644
+index 0000000000..4b1a01cd34
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch
+@@ -0,0 +1,59 @@
++From 250a6d17978f9f6ac3ac887091f2d32886fbbb0b Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Sat, 19 Apr 2025 13:03:47 -0400
++Subject: [PATCH] Add a check to ensure the name resolves relative to the
++ tmpdir.
++
++Closes #4946
++
++Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/250a6d17978f9f6ac3ac887091f2d32886fbbb0b]
++CVE: CVE-2025-47273
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ setuptools/package_index.py | 18 ++++++++++++++++--
++ 1 file changed, 16 insertions(+), 2 deletions(-)
++
++diff --git a/setuptools/package_index.py b/setuptools/package_index.py
++index f350e11..86bf851 100644
++--- a/setuptools/package_index.py
+++++ b/setuptools/package_index.py
++@@ -789,12 +789,20 @@ class PackageIndex(Environment):
++     @staticmethod
++     def _resolve_download_filename(url, tmpdir):
++         """
+++        >>> import pathlib
++         >>> du = PackageIndex._resolve_download_filename
++         >>> root = getfixture('tmp_path')
++         >>> url = 'https://files.pythonhosted.org/packages/a9/5a/0db.../setuptools-78.1.0.tar.gz'
++-        >>> import pathlib
++         >>> str(pathlib.Path(du(url, root)).relative_to(root))
++         'setuptools-78.1.0.tar.gz'
+++
+++        Ensures the target is always in tmpdir.
+++
+++        >>> url = 'https://anyhost/%2fhome%2fuser%2f.ssh%2fauthorized_keys'
+++        >>> du(url, root)
+++        Traceback (most recent call last):
+++        ...
+++        ValueError: Invalid filename...
++         """
++         name, fragment = egg_info_for_url(url)
++         if name:
++@@ -806,7 +814,13 @@ class PackageIndex(Environment):
++         if name.endswith('.egg.zip'):
++             name = name[:-4]  # strip the extra .zip before download
++ 
++-        return os.path.join(tmpdir, name)
+++        filename = os.path.join(tmpdir, name)
+++
+++        # ensure path resolves within the tmpdir
+++        if not filename.startswith(str(tmpdir)):
+++            raise ValueError(f"Invalid filename {filename}")
+++
+++        return filename
++ 
++     def _download_url(self, url, tmpdir):
++         """
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
+index 0c0f1e9d81..b106b188f3 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
+@@ -13,6 +13,8 @@ SRC_URI += "\
+     file://0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch \
+     file://0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch \
+     file://CVE-2024-6345.patch \
++    file://CVE-2025-47273-pre1.patch \
++    file://CVE-2025-47273.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "d144f85102f999444d06f9c0e8c737fd0194f10f2f7e5fdb77573f6e2fa4fad0"
 -- 
-2.49.0
+2.25.1
 
 
