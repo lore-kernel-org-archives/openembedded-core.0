@@ -1,98 +1,88 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4434EC5B543
-	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 20:12:04 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.17958.1749154316527078935
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C132C5AE59
+	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 20:17:04 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.18111.1749154618438237838
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 13:11:56 -0700
+ Thu, 05 Jun 2025 13:16:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 478761762
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 13:11:38 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 767C73F673
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 13:11:55 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] insane: add test for recipe naming/class mismatches
-Date: Thu,  5 Jun 2025 21:11:51 +0100
-Message-ID: <20250605201151.2019194-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OOUL3aQI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-441ab63a415so13980635e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 13:16:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1749154617; x=1749759417; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=axwNOnVWHDmU3nJ07KTVlHQbSOthFmx64jCn6Pkn+v0=;
+        b=OOUL3aQIdlpn/jN116g/ALx6vC09JyXqbE5te8CCH6IrynKXk76DIOtdtBCd0cBlhz
+         jU9RefHR4wF2xfAYwq9g6eEra0kJ+OctvjBikqXzAnkP4TJHky8bU9Buo0zu/RIN42GM
+         xlnU5yZsTCA9t3B3gKffxwe46XkJOJoONzYWY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749154617; x=1749759417;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=axwNOnVWHDmU3nJ07KTVlHQbSOthFmx64jCn6Pkn+v0=;
+        b=NH0SJv4uPN7Kc6DXwR31Zwgzyce+ljUbflu8uU4dRnwKeJF+NVirwaV4R8eAXYLGLB
+         tH45ogSBxIceWKo7TBxwP6LPGXkFdbOUzwHo4T+U6igKcRkZ0EcBhJkzQwf/NDV3FE1G
+         KZOcoTD3t9Pa/wqsBZsB62RPjju4gZ8lZLlJE9e9S9OwWLIZhrvH51DQdBD5+A408hrd
+         kFEWrcyP51XlHqOFGKBc+th/TRYmYAEMLDjraxlQjGQ6D9258v0xFKxK28LstpAHUx1T
+         GZbOHdDk5KsmB14GJ4hv8VxgCRftiKWQ6QU1rsvkxPTAzzutP2Iw9NjtYdG2fzxUsSFa
+         4PaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHQmpgLnstzSWA5GDb1zeQukB/shmcRe62ATYhFzWJK+3aIvS4lr4WLkZRMcEd8bhFqYadxIgIK9aydaUiMKrn6g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyRLU7cgUT0xYDzcMaDByhEpQQFC3TsYMiOe9X3kuciDrjJk/eZ
+	Jx8SAYH2pfYIiV8uC6LzoAM0Mge1q7vL5bEe5c80Ra5xGhwiGjTDSMctQ53zihbmngY=
+X-Gm-Gg: ASbGncsdEvfsxOXXm690StWoxzrKfk/PQS3KdZGCb3LzWMdU2C0r1YfsqLPIzNJNpYk
+	fWBJGKU910NRJNDujrWf/YLCY0IguV5JW07ghhaDYuCTfSNUMwpnKo1RWeQV86BogtBrTUVKPXe
+	jBJUCZDNcYD6ZB8OE212v2/ei7r/QiG2/01qdM2XCdKS6uLXeMGADGnNTzFFWsI4ifcTUdLG8uS
+	vC+Sqsf5BvADWNVrSg6/to3lP2gsNnl83c3bLChUHYRSgZUjfY2VpiIVxQIHueYL5j7O1o0bDz9
+	tuif5TghKakA9M73bGXRPLStvOqUuArLVlAvUIGjU5B22oS04Zw3UEgdEIFykffVmVMz16qsXIt
+	Pb4wfwkKQlHRJVvVZx9QgY1KakHWiR+GDr/qnGzlj
+X-Google-Smtp-Source: AGHT+IGPESxR/ymONaxaqcLdWBZYuF1RT7ulTuRsaj+VvvMwfvMucjk6Qnw/2V2v1DaSWcSk7BChfg==
+X-Received: by 2002:a05:600c:1391:b0:442:e9eb:cba2 with SMTP id 5b1f17b1804b1-452012b351amr9752025e9.0.1749154616641;
+        Thu, 05 Jun 2025 13:16:56 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9abe:6376:b08d:c647? ([2001:8b0:aba:5f3c:9abe:6376:b08d:c647])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45209ce0b97sm3231675e9.9.2025.06.05.13.16.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 13:16:55 -0700 (PDT)
+Message-ID: <afdd91a71d0ce9bbc3fbf6e6dbd2b3be3c81afb8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 01/16] libmodulemd: put version in recipe
+ filename
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: peter.marko@siemens.com, "ross.burton@arm.com" <ross.burton@arm.com>, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 05 Jun 2025 21:16:55 +0100
+In-Reply-To: <AS1PR10MB569780F67AB030E8A0B92B50FD6FA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20250605153508.961682-1-ross.burton@arm.com>
+	 <AS1PR10MB569780F67AB030E8A0B92B50FD6FA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 20:12:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218082
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 20:17:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218083
 
-It's not unheard of for new users to create a recipe called foo-native
-that has BBCLASSEXTEND=3D"native" instead of "inherit native". This will
-result in a foo-native recipe that is actually a target recipe, and a
-foo-native-native recipe for native builds.
+On Thu, 2025-06-05 at 15:52 +0000, Peter Marko via
+lists.openembedded.org wrote:
+> Adding tag to SRC_URI should be done only on recipe upgrade.
+> Reason is that build will fail if shallow tarball is generated before
+> this change as it does not contain the tag.
+> If we want to add tags to all recipes which are missing it. bitbake
+> needs to be adapted to add tag names to filename to distinguish old
+> and new shallow tarballs.
 
-Add a test in recipe_qa to verify that recipes called -native inherit
-native, and recipes called nativesdk- inherit nativesdk.
+FWIW this recipe was literally just upgraded so we should be ok here.
 
-As this behaviour is expected, add the new test to the set of tests
-required to pass for Yocto Project Compatible status.
+Cheers,
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes-global/insane.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
-ane.bbclass
-index 152bef8ad58..eb8591f6242 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -32,7 +32,7 @@ CHECKLAYER_REQUIRED_TESTS =3D "\
-     invalid-packageconfig la \
-     license-checksum license-exception license-exists license-file-missi=
-ng license-format license-no-generic license-syntax \
-     mime mime-xdg missing-update-alternatives multilib obsolete-license =
-\
--    packages-list patch-fuzz patch-status perllocalpod perm-config perm-=
-line perm-link \
-+    packages-list patch-fuzz patch-status perllocalpod perm-config perm-=
-line perm-link recipe-naming \
-     pkgconfig pkgvarcheck pkgv-undefined pn-overrides shebang-size src-u=
-ri-bad symlink-to-sysroot \
-     unhandled-features-check unknown-configure-option unlisted-pkg-lics =
-uppercase-pn useless-rpaths \
-     var-undefined virtual-slash xorg-driver-abi"
-@@ -1438,6 +1438,12 @@ python do_qa_unpack() {
- python do_recipe_qa() {
-     import re
-=20
-+    def test_naming(pn, d):
-+        if pn.endswith("-native") and not bb.data.inherits_class("native=
-", d):
-+            oe.qa.handle_error("recipe-naming", "Recipe %s appears nativ=
-e but is not, should inherit native" % pn, d)
-+        if pn.startswith("nativesdk-") and not bb.data.inherits_class("n=
-ativesdk", d):
-+            oe.qa.handle_error("recipe-naming", "Recipe %s appears nativ=
-esdk but is not, should inherit nativesdk" % pn, d)
-+
-     def test_missing_metadata(pn, d):
-         fn =3D d.getVar("FILE")
-         srcfile =3D d.getVar('SRC_URI').split()
-@@ -1482,6 +1488,7 @@ python do_recipe_qa() {
-                 oe.qa.handle_error("invalid-packageconfig", error_msg, d=
-)
-=20
-     pn =3D d.getVar('PN')
-+    test_naming(pn, d)
-     test_missing_metadata(pn, d)
-     test_missing_maintainer(pn, d)
-     test_srcuri(pn, d)
---=20
-2.43.0
-
+Richard
 
