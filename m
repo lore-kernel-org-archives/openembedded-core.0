@@ -1,100 +1,120 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19463C5AE59
-	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 16:46:33 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.12445.1749141992418274075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC7BBC5AE59
+	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 16:47:02 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.12454.1749142013976675757
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 09:46:32 -0700
+ Thu, 05 Jun 2025 09:46:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=rG4c7FI+;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=h9kFGMae;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019740fcb04a-a593d83a-0703-44a1-8bd3-7f1d30297ff6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1749141991; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=D58OOX02/Dup5WOb8eNkewstBoKkJotIoK6v930Sn4c=;
-	b=rG4c7FI+dH7oZXvzZCUUn/4fvlLHQXVV2CMX8GfpJgdT8bNQAbo/diAIiRTBuKZY
-	bOtmKFTQdYg4q8evs4BFUfV3ebl4BJXqLwAyAFaAnBXw8xNLA+QemLFp2Gzc7NOUBqT
-	JYesSmNMSJFZG7yiF6FI12sRgeUGg451Fjyyebrg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749141991;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=D58OOX02/Dup5WOb8eNkewstBoKkJotIoK6v930Sn4c=;
-	b=h9kFGMae04Nzvj5aSEzT/sEuyGtpXWw02pIQow7kazFtrSKwVpC52UmfyN++GeRf
-	+Ze+3TjcD3R2akYCkikDKdt2Js6UfNxvwxp9u1D4hjP74z0TcHvRg0QbYBlLiKo6GYn
-	y0muClGtIOIcv/+0GbbLY7hXXXk6A5P7gbR/6gIM=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] linux-yocto: refresh CVE exclusion list for 6.12.31
-In-Reply-To: <20250605163219.1202465-1-ross.burton@arm.com>
-References: <20250605163219.1202465-1-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019740fcb04a-a593d83a-0703-44a1-8bd3-7f1d30297ff6-000000@us-west-2.amazonses.com>
-Date: Thu, 5 Jun 2025 16:46:31 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.05-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ml8mALlP;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23526264386so10884005ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 09:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749142013; x=1749746813; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TXescvVzcu9kdzFJ3RGNqH2a6zwVMIjE2Sr/hOpJD9s=;
+        b=Ml8mALlPOa7Sj0673V2FyKtl0VeOb1Qj9U+0hbbld23F3yJw0t5gW67aWmVahbRRfZ
+         UvFvH0UqioZN7mDWe0YCSHWU8QYtslYjXL3gkhqhFKbb9TuCjDb9Tii/qeh0TbtYNp1L
+         /222Rx0utFm1mor8DEN9sM6IIKU4zKj+NzcILS6VwnRqyQsdsUKIeC+EyEPEe/mKyNVQ
+         9o0Nu0ILSmmutvHTwd3lYHxBZxD08OIWu/UDlFHeJjinv/Z64KX5HWDhSTaC6SARx9NR
+         dX1JiTYbOk+olAicpsp3ES7fIryjiRzIDv6yuRO/gG2qurIyi1mGPnktb5CASAnGVH2F
+         GrxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749142013; x=1749746813;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TXescvVzcu9kdzFJ3RGNqH2a6zwVMIjE2Sr/hOpJD9s=;
+        b=LT3w7aCZegr5fr2LNOMznE2jd0G9KXT4rpUcELPITTWyxA7/dJVsT1j1ZVhleQYrfU
+         8x4ZbfTzbfnnFgWPixmHBVbuc3UpCm07GM7LPoGcJQnwhpYspUvrSlbPoy/Q3K+FjZXE
+         M2OK6KyqyYfg/wP+gfKJcQDGW8ejO106qAxpI3C7IVUTVaB3Ca0hIaqOv8qTLYBwMOcY
+         Js3lIweLhlIjn4f+1SQnOfUG5LreJBfuehdfpTHQn17Bmwd1rdvgKDQVh23FPsKjgyvI
+         OAdGWw1VysTwNV80m0W8fPwprdzmjUOur526723WojpmfF9V/7iPCb9cJKmioY1/wEXe
+         GTQA==
+X-Gm-Message-State: AOJu0YyRyyEhdJAaz7I+Ldu+ZiX9Qfnhi/pHHnWul8IeKcIPoCRxpZ/E
+	WInI4ovw+vXNoJFOrWLXXflwg+Zqx+j5lsZJmIkJFA+D9DctdoZQDd7Wt5PYVqtl
+X-Gm-Gg: ASbGncuY259a5LXLJRclM2Uy+/gc6nRCQZkypURm58jUw8zYsPABQz09PVa9njjXntg
+	3nCDIQEnAAtgzRgI49GRaxSemfhcXoft5BJyruFwCrtLy/gvmBMYkNxyon6CUrdTYerQYfCYYbZ
+	6c/EHpB9fBfHhfUHRRTJC2YOn0YVdINhHZub92pd9/Yrkej3fiNVaxsMLSFckXm3GzYsMmx7WjF
+	1HoqJ/+7Awhg+HCUwJgVctZX2sWW/0tDYItpUnKWmPF9zRvvCRyzSE8UzlMow2i8dcjQy43f+q+
+	X8mdrwbyVMABa9kWGyax9osBwxvjQ1eCr5q+yACfh1rwuU/kXg6YCQlpe/RNhFxCUpq6Xi3XwdB
+	1zj0hgT6KDzd+WPsyjt7LkNMeVMw8aWOxxDlqq/c=
+X-Google-Smtp-Source: AGHT+IELupXTC012iPD/X+RPgo7Qvyj1j3ZskANHuqc0xWmuZSAtZweC1eBMZHCtXfrJoi8M8QNgAA==
+X-Received: by 2002:a17:903:1987:b0:235:1966:93a9 with SMTP id d9443c01a7336-23601cf6b8fmr989775ad.3.1749142013378;
+        Thu, 05 Jun 2025 09:46:53 -0700 (PDT)
+Received: from ?IPV6:2601:646:8201:fd20:6842:935a:ea78:e087? ([2601:646:8201:fd20:6842:935a:ea78:e087])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506be97e5sm121850035ad.103.2025.06.05.09.46.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Jun 2025 09:46:52 -0700 (PDT)
+Message-ID: <440c4178-40b0-47c7-b7dc-1e0ee9cf65b0@gmail.com>
+Date: Thu, 5 Jun 2025 09:46:52 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] libgcrypt: fix compile error for t-thread-local
+To: ross.burton@arm.com, "hiagofranco@gmail.com" <hiagofranco@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ Hongxu Jia <hongxu.jia@windriver.com>,
+ Hiago De Franco <hiago.franco@toradex.com>
+References: <20250602205546.426714-1-hiagofranco@gmail.com>
+ <26D43BA4-43AE-4D40-8533-8D443F804F97@arm.com>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <26D43BA4-43AE-4D40-8533-8D443F804F97@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 16:46:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218076
-
---NextPart
-Content-Type: text/plain
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/linux-yocto-refresh-CVE-exclusion-list-for-6.12.31.patch
-
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 16:47:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218077
 
 
---NextPart--
+
+On 6/5/25 6:44 AM, Ross Burton via lists.openembedded.org wrote:
+> On 2 Jun 2025, at 21:55, Hiago De Franco via lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org> wrote:
+>>
+>> From: Hiago De Franco <hiago.franco@toradex.com>
+>>
+>> Currently the libgcrypt-native build is failing with the following
+>> error:
+>>
+>> | ld: t_thread_local-t-thread-local.o: in function `main':
+>> | t-thread-local.c:(.text.startup+0x187): undefined reference to `pthread_create'
+>> | ld: t-thread-local.c:(.text.startup+0x1d0): undefined reference to `pthread_join'
+>>
+>> Backport the fix from upstream and add "-lpthread" to
+>> "t_thread_local_CFLAGS" to make the compilation successfull, similar to
+>> what 0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
+>> does.
+
+I wonder if the -pthread should be added instead of -lpthread since its 
+adding to CFLAGS and not LDFLAGS
+
+> 
+> This has been merged but I’m curious: in what situations does this fail? The commit talks about NetBSD and we’re not seeing this on the autobuilder cluster.
+> 
+
+My guess is that pthread check in configure is failing. If we can see 
+config.log from build dir for this package we can get a better idea.
+
+> Ross
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#218020): https://lists.openembedded.org/g/openembedded-core/message/218020
+> Mute This Topic: https://lists.openembedded.org/mt/113436606/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
