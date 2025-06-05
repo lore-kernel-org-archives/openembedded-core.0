@@ -1,222 +1,233 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A76E0C5AE59
-	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 11:50:29 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.5558.1749124227056439336
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86847C5B543
+	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 12:03:29 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.6])
+ by mx.groups.io with SMTP id smtpd.web10.5683.1749125006678769111
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 04:50:27 -0700
+ Thu, 05 Jun 2025 05:03:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=cQcADvKf;
- spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-747c2cc3419so666528b3a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 04:50:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1749124226; x=1749729026; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xFC0bYTj81mksm8SgYzJM9/rj/HvsSioVCgV4/N+yW4=;
-        b=cQcADvKfVKxMoPYojfcDLgrxlQTeEi+x9YaTK9DDfMckEToS/73hnc6uPWZH3Ap/Ef
-         /PVl/Y9N2iOXnZSNc8gvu27N9r3Mh/2qLanvSbdxl4JpSntD9hbh6BXlnJlj3h25OJ5b
-         CnxvZPeyGDQLLLggBAbs0Qb/qTBs3FutdTz14=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749124226; x=1749729026;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xFC0bYTj81mksm8SgYzJM9/rj/HvsSioVCgV4/N+yW4=;
-        b=tlcDGH/WhplTqhbghhrxrE/G+tfc2g1jesKlptJdFcV243b8FNAnXyC94SG9h0J+lp
-         ZqMU3jttcaVoKn4Q7AJZSyZl8bGRyBHjcRHbyxtccquyxmO23iFERO1iz+kCRsAnO2LJ
-         T2hRJJMvAw+PgdYbNsc6uIL9Dmww4/d1DM5hB4CcflVub7Oah0xJ1MDMms1DMN0/wpwz
-         lQ2tglnvjMRgMWs1A7n4VsVjY2DJBbOFIv4xJ0RZF8R84yS2Y9D4zjHtdKl+gvMRKA1F
-         psS7aMSQ3BwRFki3hoOzQdMEV5510Lf1tvaHTkCKT8N0oByj1p75Ohg6qb+bJfcashIo
-         LdHQ==
-X-Gm-Message-State: AOJu0Yy6KeDARtbEvt/DcsQCd7aOmDD27rNdbsQwzyNDZ/l8aSRFQrru
-	RyPfTzO2+4enZQVEMM4jlGdP+jri6D+PpEFoFNeTZtJygo7t0boC5Ml4Nwg9AqRNXoFF0KMH/SQ
-	dyU/Xv7s=
-X-Gm-Gg: ASbGnctMMcUkrLXg2i8v/xkSPJyx3goQpPdcO2+s2Unr/pQxrvijoV4yt8uqcDPPlC4
-	1jFvZSkthnICyU7QvpQOL5UXMkipdvOVxBAhCdtHrZATFo+qf+7Q9wD1Fot7SwscjYXGHtxCZWW
-	qv8/ixypc3f5zTjBTPrkn6t5MWxdjsOTIj8VNqaAkt7XQZu5r4xSs3m33OXwrm2fggPffYJPc8P
-	rpcC0Qa7aKtzwnaLr+vbLytZHIqroSju7V/g1GfDiEkDNoV0P8EodTjKgQ+S9BPnW6ap8pthGEC
-	eDxop1sgywKiiMtI5FYc9QcgIyalp9++1EEJ8kCBzslBt3T3Rc0o8ugF9hh6LIHTo1EvoIle
-X-Google-Smtp-Source: AGHT+IGWMr0E/hBfbYoet9wAwVKV+mXm/EYtjjf3t+UvDzDu1nii3vTzW38kWvX5q/MhoA5Pg7G7oQ==
-X-Received: by 2002:a05:6a00:300f:b0:740:a52f:a126 with SMTP id d2e1a72fcca58-7480b2b8568mr8070923b3a.9.1749124225938;
-        Thu, 05 Jun 2025 04:50:25 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([49.207.192.97])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747cdb9a0b0sm10006414b3a.99.2025.06.05.04.50.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jun 2025 04:50:25 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] python3-setuptools: Fix CVE-2025-47273
-Date: Thu,  5 Jun 2025 17:20:15 +0530
-Message-Id: <20250605115015.1154750-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=lzZRBEtX;
+ spf=pass (domain: ericsson.com, ip: 52.101.65.6, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BFTOkkqQRiTzOqqw3vnTotIsV8jD6ViH6Tfgjc8INso50wZfRU4gjbhjYF0nr8uSWfndekZRC2BtcXILAGRLkR9Oc8iE7y3x7vu+AZv4Jjt2qIuiqTSDDU3lMuLgLpf1NkoPfBzSd965pq1fMrjHJta7M+0TERZQj6a1tElEw6wYh/OqouG5i/haNGPtu+EN26NqOdEaB7vyLB1H48OmHuib8ZjAUpt+5FM0cKDG95Fq74wltT9PVMXTBN2djDxsYYPl3YLbgoYU+1czo0cfelRmKC25hNQmz+OrZY60iXMZNXQXP3CkYVQ/X7HqRHiAFwaQpR4yuMyBlyTaiaBvEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K8FqG06UJQWGA7JQTQYrJVj+gKBjj+Z6dJdQPFnHZbg=;
+ b=rNXQkApnxqoUiz9ZPhyviLPECRyxoJC3dG46WL80KPKzQP8ZwKLLnMRVcOyUoLAJQJQd9UjICc0OengZF6zHVTwt0TL0R3NFQvM0ZSCA4XuB0hc8pdHC4+eY9basZUMgHEgGu/FrohPXAuoylAHfYuKxzSg+pxCVDS7D85odU2Bjq5tgs6DV0daBLuEjpWAnOH9CvOldKMfXLZXxZpQxHas5KmPvz5wdaNYittv8xx92Apyeb4wnbSdSHcqBPI9GMGy3OnquO9mZNyV0S4rIrh4m1FMqhjZnzutkP77RKOuCvRfIXOD3hcVt3gyT/S68MHN9mpW7GfdsJ7hIuVanfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=ericsson.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K8FqG06UJQWGA7JQTQYrJVj+gKBjj+Z6dJdQPFnHZbg=;
+ b=lzZRBEtXlgmhVSp4SLyPVtkepRBVjLbBQ+P4H0shsomvaJlBUe/D9/hTXFvwo9sBY56D5K0V+BB4hktNoA6ihyLtuBdThmqvBdKH4TuTqtnZCTJA2nfzfvB4JaHA0WYXN7jzO5MHdp/t2mzwRwpRlRGq1ew0TcEaleR15xdw5XTsxq1ILi5debR5qfTzXiDsZtvIXIYHee6qdfIOmWIEAhZ4J/6N90cCreFoVaKFQ7mOtp8tjaRGQM5pIlU0Wbhlsqy17S9D5ZcOKvohEh6nj072WRi2l0wSjsfnztJc3zH7arYCU5vP096bKrZ07NMuARv2ODYTxTSoiRbi0YcXTQ==
+Received: from DB9PR06CA0024.eurprd06.prod.outlook.com (2603:10a6:10:1db::29)
+ by DB9PR07MB7705.eurprd07.prod.outlook.com (2603:10a6:10:21d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.19; Thu, 5 Jun
+ 2025 12:03:23 +0000
+Received: from DB5PEPF00014B8A.eurprd02.prod.outlook.com
+ (2603:10a6:10:1db:cafe::ee) by DB9PR06CA0024.outlook.office365.com
+ (2603:10a6:10:1db::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.26 via Frontend Transport; Thu,
+ 5 Jun 2025 12:03:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DB5PEPF00014B8A.mail.protection.outlook.com (10.167.8.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8792.29 via Frontend Transport; Thu, 5 Jun 2025 12:03:23 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Thu, 5 Jun 2025 14:03:22 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 447239582F;
+	Thu,  5 Jun 2025 14:03:22 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 2C2447083F54; Thu,  5 Jun 2025 14:03:22 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Daniel Turull <daniel.turull@ericsson.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Subject: [PATCH v7] package: export debugsources in PKGDESTWORK as json
+Date: Thu, 5 Jun 2025 14:03:06 +0200
+Message-ID: <20250605120306.3692449-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B8A:EE_|DB9PR07MB7705:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6063425-3bff-4e89-dbbb-08dda428f881
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|36860700013|82310400026|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?79BsDbExddjzO/OVJKVLcJKaBS3YUweyxK3U39lNl5ziOCT4ePUkWQjnDqN1?=
+ =?us-ascii?Q?aXd5qFnp25WkLfdGfH/2gE2lOBLLy3zo33bGIjsezHGXp+4gpzyVGUt4Epld?=
+ =?us-ascii?Q?NpYh/NpEmUOJ0pn/m2okpV3bmYwrk7j9l4DjsNnJG0lFlBuKRU7SaSn6sBf3?=
+ =?us-ascii?Q?btYG3fMZx7f4m9o9bHEZjTAAeJ+iPvXXM41el8OqDCjxCUyi90dv58PnXn82?=
+ =?us-ascii?Q?Llma7FcK6aJE0K3TCGzTaAagmzbsn3SQPd7SAfhX1maWSe+fP2JN0g4JdGHD?=
+ =?us-ascii?Q?hVR+bt382b0zyB5oYUheYmARCX09ZVg920g7qDPBJVCHO/gnYNgXNLV//lJ+?=
+ =?us-ascii?Q?rBwI52jraZX9jZr8C6HjGnbSy750uMjU2rjNg3D3obCRBkr5Qsu/gZTyJceh?=
+ =?us-ascii?Q?dinK+u9h4HSDwQN0TaSz1MXqacDiIVD5xQ8ezLBnwkcftZ5lMTMP3nLFmPff?=
+ =?us-ascii?Q?jTtOPpHumwjtzZi+mTNqoXMSaod/6r6QCEYaqG3weBhHnh6w5U0woQjp0Yoa?=
+ =?us-ascii?Q?uYvwhUJvegEFCtsXIGBk2lC5nMZB0dz6/pAbw2eUu2btJco1tX4SszBiQm1w?=
+ =?us-ascii?Q?54mTDGHGh8e9KB+lQScZxwINOupaEfGRBOl+Hnb4u8h+sAieoK7zyOmI4J9C?=
+ =?us-ascii?Q?HTnTVFhG5nqvq59E6n6X+h5GSVNmto6PW7y/P9qWmqwmlg3/f8JvuP5/76rE?=
+ =?us-ascii?Q?62nKmVMXV9YcXHBvIa934Iy1TjRreaggxrHaOyErbDEd9q+A0mQ088M9wIHm?=
+ =?us-ascii?Q?CL7j0oNKyQH5nqP8Tf6higifIs9yygdnl4DdedfoNzYPiX4ioXe/Rbydxji6?=
+ =?us-ascii?Q?vYPpMIbHLqc9SYcdrXjAyGgCcp7FpN1Ow4h1UWR3YmXtexXg7P2QasBuOSeV?=
+ =?us-ascii?Q?D401mn/axYEVVkEyQevr1VRLHdH4b4evRCg4yMu/BK6CzKC0Jn9t/351yRiE?=
+ =?us-ascii?Q?8ewrP2i6WpU8TPA/dcW1AsRB3wvg07hvXLyhJqjd1raYx/7JqIvgwZBEfTYV?=
+ =?us-ascii?Q?krueKqHok7Y3DbyvRnCZoERYJ4i8vwgud4D1KEm039b69XuyVVKdDRg/v5Mt?=
+ =?us-ascii?Q?tdjPQD9+VWM12hMDqYWXk8xUGcrsSK7dHdB2oPBWfQLTBLqMF1TqpJlXk3DD?=
+ =?us-ascii?Q?aTyqhyfF42wz8mfWCTXS6yFBS4FPh1xExPZMMaYayuAiTQiH7eCSc8CdiqZ7?=
+ =?us-ascii?Q?JH/fIBRjxPoPWZocZtiBGhGlpQshZMQJwG+Tnuy0QfmB6nkpAjp9zC3ofXRb?=
+ =?us-ascii?Q?ugJQIi9WUEA0A0zD/sX/DpQW7Cz0sMsgkXnaDC/wO3CyCEuAObvCxT4UFrpw?=
+ =?us-ascii?Q?GpWANDYQVZRmS2rbrLwqTOfIt6Y3USCP0sTmvieLEjOAqcymd8ASZSAIcd+1?=
+ =?us-ascii?Q?RwgIsgxRWkYTLhBtU+cSsVU89vLcEYniOyYysh7Sm5pc4NrED7bkVrm8KikP?=
+ =?us-ascii?Q?SkIUVE3WklPPF0kiBCN5pkXnfZdIqSCo1Rk04aJKDn8R2GrZrJBrTJBrddaP?=
+ =?us-ascii?Q?QM4DeNRSQIqhDOvFVNBiK1RTvU4rP2zjiD38?=
+X-Forefront-Antispam-Report: 
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2025 12:03:23.0506
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6063425-3bff-4e89-dbbb-08dda428f881
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B8A.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB7705
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 11:50:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218010
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 12:03:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218011
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-Upstream-Status: Backport from
-https://github.com/pypa/setuptools/commit/d8390feaa99091d1ba9626bec0e4ba7072fc507a
-& https://github.com/pypa/setuptools/commit/250a6d17978f9f6ac3ac887091f2d32886fbbb0b
+The source information used during packaging can be use from other tasks to
+have more detailed information on the files used during the compilation and
+improve SPDX accuracy.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Source files used during compilation are store as compressed zstd json in
+pkgdata/debugsources/$PN-debugsources.json.zstd
+Format:
+{ binary1: [src1, src2, ...], binary2: [src1, src2, ...] }
+
+I checked the sstate size, and it slightly increase using core-image-full-c=
+mdline:
+Before: 2454884 B
+After: 2456860 B (+1976 B or 0,08%)
+
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- .../CVE-2025-47273-pre1.patch                 | 54 +++++++++++++++++
- .../python3-setuptools/CVE-2025-47273.patch   | 59 +++++++++++++++++++
- .../python/python3-setuptools_59.5.0.bb       |  2 +
- 3 files changed, 115 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch
- create mode 100644 meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch
+ meta/conf/bitbake.conf |  2 ++
+ meta/lib/oe/package.py | 46 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch
-new file mode 100644
-index 0000000000..b273551ffc
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch
-@@ -0,0 +1,54 @@
-+From d8390feaa99091d1ba9626bec0e4ba7072fc507a Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Sat, 19 Apr 2025 12:49:55 -0400
-+Subject: [PATCH] Extract _resolve_download_filename with test.
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 13d55923b7..8c0c71d76d 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -991,5 +991,7 @@ oe.sstatesig.find_sstate_manifest[vardepsexclude] =3D "=
+BBEXTENDCURR BBEXTENDVARIAN
+ oe.utils.get_multilib_datastore[vardepsexclude] =3D "DEFAULTTUNE_MULTILIB_=
+ORIGINAL OVERRIDES"
+ oe.path.format_display[vardepsexclude] =3D "TOPDIR"
+ oe.utils.get_bb_number_threads[vardepsexclude] =3D "BB_NUMBER_THREADS"
++oe.package.save_debugsources_info[vardepsexclude] =3D "BB_NUMBER_THREADS"
++oe.package.read_debugsources_file[vardepsexclude] =3D "BB_NUMBER_THREADS"
+ oe.packagedata.emit_pkgdata[vardepsexclude] =3D "BB_NUMBER_THREADS"
+ oe.packagedata.read_subpkgdata_extended[vardepsexclude] =3D "BB_NUMBER_THR=
+EADS"
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 0bcc04ea54..c5acb7d205 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -1049,6 +1049,49 @@ def copydebugsources(debugsrcdir, sources, d):
+             if os.path.exists(p) and not os.listdir(p):
+                 os.rmdir(p)
+=20
++def save_debugsources_info(debugsrcdir, sources_raw, d):
++    import json
++    import bb.compress.zstd
++    if debugsrcdir and sources_raw:
++        debugsources_file =3D d.expand("${PKGDESTWORK}/debugsources/${PN}-=
+debugsources.json.zstd")
++        debugsources_dir =3D os.path.dirname(debugsources_file)
++        if not os.path.isdir(debugsources_dir):
++            bb.utils.mkdirhier(debugsources_dir)
++        bb.utils.remove(debugsources_file)
 +
-+Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/d8390feaa99091d1ba9626bec0e4ba7072fc507a]
-+CVE: CVE-2025-47273 #Dependency Patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ setuptools/package_index.py | 20 ++++++++++++++++----
-+ 1 file changed, 16 insertions(+), 4 deletions(-)
++        workdir =3D d.getVar("WORKDIR")
++        sdir =3D d.getVar("S")
++        pn =3D d.getVar('PN')
++        pv =3D d.getVar('PV')
++        sources_dict =3D {}
++        for file, src_files in sources_raw:
++            file_clean =3D file.replace(f"{workdir}/package/","")
++            sources_clean =3D [
++                src.replace(f"/usr/src/debug/{pn}/", "")
++                   .replace(f"{sdir}/", "")
++                   .replace(f"/usr/src/kernel/", "")
++                   .replace(f"/usr/src/{pn}/", "")
++                   .replace(f"{pn}-{pv}/", "")
++                   .replace(f"{pv}/", "")
++                for src in src_files
++                if not any(keyword in src for keyword in ("<internal>", "<=
+built-in>")) and not src.endswith("/")
++            ]
++            sources_dict[file_clean] =3D sorted(sources_clean)
++        num_threads =3D int(d.getVar("BB_NUMBER_THREADS"))
++        with bb.compress.zstd.open(debugsources_file, "wt", encoding=3D"ut=
+f-8", num_threads=3Dnum_threads) as f:
++            json.dump(sources_dict, f, sort_keys=3DTrue)
 +
-+diff --git a/setuptools/package_index.py b/setuptools/package_index.py
-+index 3a893df..f350e11 100644
-+--- a/setuptools/package_index.py
-++++ b/setuptools/package_index.py
-+@@ -786,9 +786,16 @@ class PackageIndex(Environment):
-+                 raise DistutilsError("Download error for %s: %s"
-+                                      % (url, v)) from v
-+ 
-+-    def _download_url(self, url, tmpdir):
-+-        # Determine download filename
-+-        #
-++    @staticmethod
-++    def _resolve_download_filename(url, tmpdir):
-++        """
-++        >>> du = PackageIndex._resolve_download_filename
-++        >>> root = getfixture('tmp_path')
-++        >>> url = 'https://files.pythonhosted.org/packages/a9/5a/0db.../setuptools-78.1.0.tar.gz'
-++        >>> import pathlib
-++        >>> str(pathlib.Path(du(url, root)).relative_to(root))
-++        'setuptools-78.1.0.tar.gz'
-++        """
-+         name, fragment = egg_info_for_url(url)
-+         if name:
-+             while '..' in name:
-+@@ -799,8 +806,13 @@ class PackageIndex(Environment):
-+         if name.endswith('.egg.zip'):
-+             name = name[:-4]  # strip the extra .zip before download
-+ 
-+-        filename = os.path.join(tmpdir, name)
-++        return os.path.join(tmpdir, name)
-+ 
-++    def _download_url(self, url, tmpdir):
-++        """
-++        Determine the download filename.
-++        """
-++        filename = self._resolve_download_filename(url, tmpdir)
-+         return self._download_vcs(url, filename) or self._download_other(url, filename)
-+ 
-+     @staticmethod
-+-- 
-+2.25.1
++def read_debugsources_file(d):
++    import json
++    import bb.compress.zstd
++    try:
++        fn =3D d.expand("${PKGDESTWORK}/debugsources/${PN}-debugsources.js=
+on.zstd")
++        num_threads =3D int(d.getVar("BB_NUMBER_THREADS"))
++        with bb.compress.zstd.open(fn, "rt", encoding=3D"utf-8", num_threa=
+ds=3Dnum_threads) as f:
++            return json.load(f)
++    except FileNotFoundError:
++        bb.debug(1, f"File not found: {fn}")
++        return None
+=20
+ def process_split_and_strip_files(d):
+     cpath =3D oe.cachedpath.CachedPath()
+@@ -1280,6 +1323,9 @@ def process_split_and_strip_files(d):
+         # Process the dv["srcdir"] if requested...
+         # This copies and places the referenced sources for later debuggin=
+g...
+         copydebugsources(dv["srcdir"], sources, d)
 +
-diff --git a/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch
-new file mode 100644
-index 0000000000..4b1a01cd34
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch
-@@ -0,0 +1,59 @@
-+From 250a6d17978f9f6ac3ac887091f2d32886fbbb0b Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Sat, 19 Apr 2025 13:03:47 -0400
-+Subject: [PATCH] Add a check to ensure the name resolves relative to the
-+ tmpdir.
-+
-+Closes #4946
-+
-+Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/250a6d17978f9f6ac3ac887091f2d32886fbbb0b]
-+CVE: CVE-2025-47273
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ setuptools/package_index.py | 18 ++++++++++++++++--
-+ 1 file changed, 16 insertions(+), 2 deletions(-)
-+
-+diff --git a/setuptools/package_index.py b/setuptools/package_index.py
-+index f350e11..86bf851 100644
-+--- a/setuptools/package_index.py
-++++ b/setuptools/package_index.py
-+@@ -789,12 +789,20 @@ class PackageIndex(Environment):
-+     @staticmethod
-+     def _resolve_download_filename(url, tmpdir):
-+         """
-++        >>> import pathlib
-+         >>> du = PackageIndex._resolve_download_filename
-+         >>> root = getfixture('tmp_path')
-+         >>> url = 'https://files.pythonhosted.org/packages/a9/5a/0db.../setuptools-78.1.0.tar.gz'
-+-        >>> import pathlib
-+         >>> str(pathlib.Path(du(url, root)).relative_to(root))
-+         'setuptools-78.1.0.tar.gz'
-++
-++        Ensures the target is always in tmpdir.
-++
-++        >>> url = 'https://anyhost/%2fhome%2fuser%2f.ssh%2fauthorized_keys'
-++        >>> du(url, root)
-++        Traceback (most recent call last):
-++        ...
-++        ValueError: Invalid filename...
-+         """
-+         name, fragment = egg_info_for_url(url)
-+         if name:
-+@@ -806,7 +814,13 @@ class PackageIndex(Environment):
-+         if name.endswith('.egg.zip'):
-+             name = name[:-4]  # strip the extra .zip before download
-+ 
-+-        return os.path.join(tmpdir, name)
-++        filename = os.path.join(tmpdir, name)
-++
-++        # ensure path resolves within the tmpdir
-++        if not filename.startswith(str(tmpdir)):
-++            raise ValueError(f"Invalid filename {filename}")
-++
-++        return filename
-+ 
-+     def _download_url(self, url, tmpdir):
-+         """
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-index 0c0f1e9d81..b106b188f3 100644
---- a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-@@ -13,6 +13,8 @@ SRC_URI += "\
-     file://0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch \
-     file://0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch \
-     file://CVE-2024-6345.patch \
-+    file://CVE-2025-47273-pre1.patch \
-+    file://CVE-2025-47273.patch \
- "
- 
- SRC_URI[sha256sum] = "d144f85102f999444d06f9c0e8c737fd0194f10f2f7e5fdb77573f6e2fa4fad0"
--- 
-2.25.1
-
++        # Save source info to be accessible to other tasks
++        save_debugsources_info(dv["srcdir"], results, d)
+     #
+     # End of debug splitting
+     #
 
