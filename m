@@ -1,243 +1,89 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24388C5AE59
-	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 11:01:39 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.4698.1749121290174494995
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 792B2C5B543
+	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 11:13:29 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.4926.1749122002754068198
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 04:01:30 -0700
+ Thu, 05 Jun 2025 04:13:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8251ba22d7=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5553tavq015417
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Jun 2025 11:01:29 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 471g9t3u8s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 11:01:28 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 5 Jun 2025 04:01:26 -0700
-From: dchellam <divya.chellam@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][scarthgap][PATCH 1/2] screen: fix CVE-2025-46802
-Date: Thu, 5 Jun 2025 16:30:59 +0530
-Message-ID: <20250605110100.777921-1-divya.chellam@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FSmy42Cw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-441ab63a415so8176495e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 04:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1749122001; x=1749726801; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=B02VsjFh1ENH6lUshpLETC1/9BB5Gu/K7DDFHVpGTQU=;
+        b=FSmy42CwFEnZdkI7gDGUO7sv5NCxdkBT3lbog8NYTXMNKRKdnXtdSiirm0d4Lo23D0
+         dhTjmQ/BEBayYsc+sDpaXjf89uIAj+SrmAKbcqmyMSY4IAtqh0yt/qi12si2cB0Szjan
+         0Zm61Brt0teymVE4yn30QmOTUEJlMuJgGF4M4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749122001; x=1749726801;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=B02VsjFh1ENH6lUshpLETC1/9BB5Gu/K7DDFHVpGTQU=;
+        b=NqO0O/i6UjkD96C9iY5FoRISZmS1K8MztuM724j+lqHOX1zbwchrDU0fe/exk7oVUt
+         m9bODgWSNYcAPVuRcDhPBfAhKsPXt4Vv73kF06MsIAFenYcswaxqv3Ublvh/l1L99scu
+         Xazx+eFVuvBSjgh0229pC5QA6FSkHEVSaFFJcTAXoq8cylZIsueSCjQ7VcskCvkf5sXN
+         1YCWPdHkWwDlYND39uG9uRUQ8EYAopPikIltiA/UF0jpeihY+5LKRsXekT6/5hCZ10S3
+         n88bY07pQkIueeAH8KbG5trvF+jnDpN8n17XdaDL7/nq1hqk+mD8UiRddY8idsuikd70
+         Tgbg==
+X-Forwarded-Encrypted: i=1; AJvYcCVPjsOanBulqi1Z5ZwxeUqfstjp7L847zqdNtPB0UyFfGJzjuasu9g4HuYfStlOyMT1dEv6lZb1gm04LesNdpUumA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwJww37ofDDRlAg5UdsyL33GNs40nTR0XrquveYnooyVNtIYkVb
+	XXh1G+8SwhBulfaAFwBQWKCKD9qQcSZO/M9ymL607QW8xavUrqMYUDVGYJU03eIb6j0=
+X-Gm-Gg: ASbGncsIsq8GZLBau8o9jrzkF3eOQl9GZOt1OyzmTFstvAQ7y3FJ2NTDoiKWrwO3H2M
+	c5pIFaj5ZZ6Kp5LkrcZD//N/s/fDnv+JWMg9j2dhq4SjZCxWbZm1widKue6qyepZzajxmucOt3M
+	zJ7UXbzqds8UnEf+DAs0zbtOB1wZw+BjlV50MQD+R4DiORHrQmBCFdAu/ohKR5LpNoZ2jVV2mhD
+	Sk1bKe0K5XLZdb5CDYpecujKJTyHGTkDA1ub9qpmmMd5sQgIkno44y1GGBFqQYie4vOp+Z68I88
+	enb5kdmDj8VXZiFvK0o8msqzbiXLOwHLLKY8pRSQXe4ZwnMv2BsuYaVqzEbhFBFUhVRH2iv9WTE
+	pkBk0aXKGrzMXXCnxnSUC+qLtqiTlzjiVI+htEA==
+X-Google-Smtp-Source: AGHT+IERes7qCy3UGeMt+k49Q6g/nsR2IbAFp0o3lscyMMA32eOq5EEWgr/6Gq4J45aPrgZOxgzO9g==
+X-Received: by 2002:a05:600c:1d98:b0:450:d012:df7a with SMTP id 5b1f17b1804b1-451f0b2c818mr55053215e9.28.1749122001060;
+        Thu, 05 Jun 2025 04:13:21 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:33af:62c:15cc:322e? ([2001:8b0:aba:5f3c:33af:62c:15cc:322e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-451fb2213f1sm14975815e9.32.2025.06.05.04.13.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 04:13:20 -0700 (PDT)
+Message-ID: <32101037c3eeca29077a61ca6a14e40437d8145f.camel@linuxfoundation.org>
+Subject: Re: [PATCH v6 1/3] package: export debugsources in PKGDESTWORK as
+ json
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Daniel Turull <daniel.turull@ericsson.com>, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Date: Thu, 05 Jun 2025 12:13:19 +0100
+In-Reply-To: <PR3PR07MB666659AD2EE7924E191731C08A6FA@PR3PR07MB6666.eurprd07.prod.outlook.com>
+References: <20250604112133.2581063-1-daniel.turull@ericsson.com>
+		 <20250604112133.2581063-2-daniel.turull@ericsson.com>
+	 <d765e17f7c7b3e2d46da0f2983748dc7cf413948.camel@linuxfoundation.org>
+	 <PR3PR07MB666659AD2EE7924E191731C08A6FA@PR3PR07MB6666.eurprd07.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: aiFbp22sSMNYE9IkTVPyAv4gBZbyGn7I
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA1MDA5NSBTYWx0ZWRfX92R/WewxXweN Qz21rqf1/gvK7OLOD6lETHLI/5WeNBNJy1f/VKxJmI0+oNf4bnhGzUtvB4yTTMFXXBElPVvnIAi YlQJFV9BzldPnqPfE3jPLVrglXM5iNofoCY7+3iQbLpaJJDsSVBJuzw14JETab7RiG/Q1T92RQU
- 6A47GsLdAs4kf/Rh3VaMPKS8jgpM8bglWIuqDelXiC+tLUufRew6MGEtKpc5755OldTFwTe432r s47cRumHYMZESU6GABs4PZCiargNUA5giHf7j+hYmtdIxj13FmE7evIA2qhR4FPquUm+2awoMjQ pOGKLJYbY/hRepccc1AFOw89gBcofvrgD7BNZBLSoGIV2dpz8ToIW9mgRqd+Gk2R8Co9pXN4dkM
- xMH7prCC4xrcW+puPS9mbF5Fbkm11yt/YMYKj01NOdx76rrTNVf8o1LuKKAasAb9xopmXIzl
-X-Proofpoint-GUID: aiFbp22sSMNYE9IkTVPyAv4gBZbyGn7I
-X-Authority-Analysis: v=2.4 cv=Q4DS452a c=1 sm=1 tr=0 ts=68417909 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=6IFa9wvqVegA:10 a=xNf9USuDAAAA:8 a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8 a=YE9b0svEdhvhCzDF7eUA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-05_02,2025-06-03_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=683
- suspectscore=0 bulkscore=0 impostorscore=0 mlxscore=0 priorityscore=1501
- adultscore=0 malwarescore=0 phishscore=0 spamscore=0 lowpriorityscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506050095
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 11:01:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218005
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 11:13:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218007
 
-From: Divya Chellam <divya.chellam@windriver.com>
+On Thu, 2025-06-05 at 11:01 +0000, Daniel Turull wrote:
+> Thanks, I=E2=80=99ll do that and resubmit with the changes. Should I resu=
+bmit
+> the whole series or only this patch?
 
-For a short time they PTY is set to mode 666, allowing any user on the
-system to connect to the screen session.
+Just this one is fine. I'm trying to get this sorted, then we can focus
+on the others. Joshua is the person I'll look to on the SPDX piece,
+then the wider community on the script.
 
-Reference:
-https://security-tracker.debian.org/tracker/CVE-2025-46802
+Cheers,
 
-Upstream-patch:
-https://cgit.git.savannah.gnu.org/cgit/screen.git/commit/?id=049b26b22e197ba3be9c46e5c193032e01a4724a
-
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
----
- .../screen/screen/CVE-2025-46802.patch        | 146 ++++++++++++++++++
- meta/recipes-extended/screen/screen_4.9.1.bb  |   1 +
- 2 files changed, 147 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2025-46802.patch
-
-diff --git a/meta/recipes-extended/screen/screen/CVE-2025-46802.patch b/meta/recipes-extended/screen/screen/CVE-2025-46802.patch
-new file mode 100644
-index 0000000000..e46affc480
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/CVE-2025-46802.patch
-@@ -0,0 +1,146 @@
-+From 049b26b22e197ba3be9c46e5c193032e01a4724a Mon Sep 17 00:00:00 2001
-+From: Matthias Gerstner <matthias.gerstner@suse.de>
-+Date: Mon, 12 May 2025 15:15:38 +0200
-+Subject: [PATCH] fix CVE-2025-46802: attacher.c - prevent temporary 0666 mode
-+ on PTYs
-+
-+This temporary chmod of the PTY to mode 0666 is most likely a remnant of
-+past times, before the PTY file descriptor was passed to the target
-+session via the UNIX domain socket.
-+
-+This chmod() causes a race condition during which any other user in the
-+system can open the PTY for reading and writing, and thus allows PTY
-+hijacking.
-+
-+Simply remove this logic completely.
-+
-+CVE: CVE-2025-46802
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/screen.git/commit/?id=049b26b22e197ba3be9c46e5c193032e01a4724a]
-+
-+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
-+---
-+ attacher.c | 27 ---------------------------
-+ screen.c   | 19 -------------------
-+ 2 files changed, 46 deletions(-)
-+
-+diff --git a/attacher.c b/attacher.c
-+index c35ae7a..16b151e 100644
-+--- a/attacher.c
-++++ b/attacher.c
-+@@ -73,7 +73,6 @@ extern int MasterPid, attach_fd;
-+ #ifdef MULTIUSER
-+ extern char *multi;
-+ extern int multiattach, multi_uid, own_uid;
-+-extern int tty_mode, tty_oldmode;
-+ # ifndef USE_SETEUID
-+ static int multipipe[2];
-+ # endif
-+@@ -160,9 +159,6 @@ int how;
-+ 
-+       if (pipe(multipipe))
-+ 	Panic(errno, "pipe");
-+-      if (chmod(attach_tty, 0666))
-+-	Panic(errno, "chmod %s", attach_tty);
-+-      tty_oldmode = tty_mode;
-+       eff_uid = -1;	/* make UserContext fork */
-+       real_uid = multi_uid;
-+       if ((ret = UserContext()) <= 0)
-+@@ -174,11 +170,6 @@ int how;
-+ 	    Panic(errno, "UserContext");
-+ 	  close(multipipe[1]);
-+ 	  read(multipipe[0], &dummy, 1);
-+-	  if (tty_oldmode >= 0)
-+-	    {
-+-	      chmod(attach_tty, tty_oldmode);
-+-	      tty_oldmode = -1;
-+-	    }
-+ 	  ret = UserStatus();
-+ #ifdef LOCK
-+ 	  if (ret == SIG_LOCK)
-+@@ -224,9 +215,6 @@ int how;
-+       xseteuid(multi_uid);
-+       xseteuid(own_uid);
-+ #endif
-+-      if (chmod(attach_tty, 0666))
-+-	Panic(errno, "chmod %s", attach_tty);
-+-      tty_oldmode = tty_mode;
-+     }
-+ # endif /* USE_SETEUID */
-+ #endif /* MULTIUSER */
-+@@ -423,13 +411,6 @@ int how;
-+       ContinuePlease = 0;
-+ # ifndef USE_SETEUID
-+       close(multipipe[1]);
-+-# else
-+-      xseteuid(own_uid);
-+-      if (tty_oldmode >= 0)
-+-        if (chmod(attach_tty, tty_oldmode))
-+-          Panic(errno, "chmod %s", attach_tty);
-+-      tty_oldmode = -1;
-+-      xseteuid(real_uid);
-+ # endif
-+     }
-+ #endif
-+@@ -505,14 +486,6 @@ AttacherFinit SIGDEFARG
-+ 	  close(s);
-+ 	}
-+     }
-+-#ifdef MULTIUSER
-+-  if (tty_oldmode >= 0)
-+-    {
-+-      if (setuid(own_uid))
-+-        Panic(errno, "setuid");
-+-      chmod(attach_tty, tty_oldmode);
-+-    }
-+-#endif
-+   exit(0);
-+   SIGRETURN;
-+ }
-+diff --git a/screen.c b/screen.c
-+index 7653cd1..1a23e1a 100644
-+--- a/screen.c
-++++ b/screen.c
-+@@ -230,8 +230,6 @@ char *multi_home;
-+ int multi_uid;
-+ int own_uid;
-+ int multiattach;
-+-int tty_mode;
-+-int tty_oldmode = -1;
-+ #endif
-+ 
-+ char HostName[MAXSTR];
-+@@ -1009,9 +1007,6 @@ int main(int ac, char** av)
-+ 
-+     /* ttyname implies isatty */
-+     SetTtyname(true, &st);
-+-#ifdef MULTIUSER
-+-    tty_mode = (int)st.st_mode & 0777;
-+-#endif
-+ 
-+     fl = fcntl(0, F_GETFL, 0);
-+     if (fl != -1 && (fl & (O_RDWR|O_RDONLY|O_WRONLY)) == O_RDWR)
-+@@ -2170,20 +2165,6 @@ DEFINE_VARARGS_FN(Panic)
-+       if (D_userpid)
-+         Kill(D_userpid, SIG_BYE);
-+     }
-+-#ifdef MULTIUSER
-+-  if (tty_oldmode >= 0) {
-+-
-+-# ifdef USE_SETEUID
-+-    if (setuid(own_uid))
-+-      xseteuid(own_uid);	/* may be a loop. sigh. */
-+-# else
-+-      setuid(own_uid);
-+-# endif
-+-
-+-    debug1("Panic: changing back modes from %s\n", attach_tty);
-+-    chmod(attach_tty, tty_oldmode);
-+-  }
-+-#endif
-+   eexit(1);
-+ }
-+ 
-+-- 
-+2.40.0
-+
-diff --git a/meta/recipes-extended/screen/screen_4.9.1.bb b/meta/recipes-extended/screen/screen_4.9.1.bb
-index 7b040e6b57..7d43420193 100644
---- a/meta/recipes-extended/screen/screen_4.9.1.bb
-+++ b/meta/recipes-extended/screen/screen_4.9.1.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0002-comm.h-now-depends-on-term.h.patch \
-            file://0001-fix-for-multijob-build.patch \
-            file://0001-Remove-more-compatibility-stuff.patch \
-+           file://CVE-2025-46802.patch \
-            "
- 
- SRC_URI[sha256sum] = "26cef3e3c42571c0d484ad6faf110c5c15091fbf872b06fa7aa4766c7405ac69"
--- 
-2.40.0
-
+Richard
 
