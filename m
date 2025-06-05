@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F56AC61DB2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8633BC67861
 	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 16:14:22 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.11684.1749140058238171536
+ by mx.groups.io with SMTP id smtpd.web10.11686.1749140061409418923
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 09:14:18 -0700
+ Thu, 05 Jun 2025 09:14:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 573711688
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:00 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 95DA01688
+	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:03 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7DB273F673
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:17 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BDE3F3F673
+	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:20 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 03/16] libmodulemd: add manpages
-Date: Thu,  5 Jun 2025 17:14:01 +0100
-Message-ID: <20250605161414.1050228-3-ross.burton@arm.com>
+Subject: [PATCH v2 08/16] squashfs-tools: put version in recipe filename
+Date: Thu,  5 Jun 2025 17:14:06 +0100
+Message-ID: <20250605161414.1050228-8-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250605161414.1050228-1-ross.burton@arm.com>
 References: <20250605161414.1050228-1-ross.burton@arm.com>
@@ -30,45 +30,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 16:14:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218058
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218063
 
-Inherit manpages and optionally enable the manpages. They're in the
-repository so don't need more tools to build.
+A recipe that fetches from git but is otherwise a released version
+should not be using _git.bb recipe names.
+
+Put the version in the filename, drop the explicit PV, and set the tag
+name in the SRC_URI to verify the SHA.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../{squashfs-tools_git.bb =3D> squashfs-tools_4.6.1.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/squashfs-tools/{squashfs-tools_git.bb =3D> =
+squashfs-tools_4.6.1.bb} (99%)
 
-diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb b/me=
-ta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb
-index 79fabfc8683..c31fc44ce4f 100644
---- a/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb
-+++ b/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb
-@@ -10,9 +10,9 @@ SRCREV =3D "e7f179eeeb6eee1403f090fc43a3c80bb08b5bfd"
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b=
+/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.1.bb
+similarity index 99%
+rename from meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+rename to meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.1.bb
+index 982a43f8899..51a2fbdb934 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.1.bb
+@@ -7,9 +7,9 @@ SECTION =3D "base"
+ LICENSE =3D "GPL-2.0-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
+263"
+=20
+-PV =3D "4.6.1"
+-SRCREV =3D "d8cb82d9840330f9344ec37b992595b5d7b44184"
+ SRC_URI =3D "git://github.com/plougher/squashfs-tools.git;protocol=3Dhtt=
+ps;branch=3Dv6.1.1"
++SRCREV =3D "d8cb82d9840330f9344ec37b992595b5d7b44184"
++
+ UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
 =20
  S =3D "${WORKDIR}/git"
-=20
--inherit meson gobject-introspection pkgconfig
-+inherit meson gobject-introspection pkgconfig manpages
-=20
--EXTRA_OEMESON =3D "-Dwith_py3=3Dfalse -Dwith_docs=3Dfalse -Drpmio=3Ddisa=
-bled -Dwith_manpages=3Ddisabled -Dgobject_overrides_dir_py3=3D${PYTHON_SI=
-TEPACKAGES_DIR}/gi/overrides"
-+EXTRA_OEMESON =3D "-Dwith_py3=3Dfalse -Dwith_docs=3Dfalse -Drpmio=3Ddisa=
-bled -Dgobject_overrides_dir_py3=3D${PYTHON_SITEPACKAGES_DIR}/gi/override=
-s"
-=20
- DEPENDS +=3D "glib-2.0 libyaml glib-2.0-native"
-=20
-@@ -21,3 +21,6 @@ BBCLASSEXTEND =3D "native nativesdk"
- GIR_MESON_OPTION =3D 'skip_introspection'
- GIR_MESON_ENABLE_FLAG =3D 'false'
- GIR_MESON_DISABLE_FLAG =3D 'true'
-+
-+PACKAGECONFIG ??=3D ""
-+PACKAGECONFIG[manpages] =3D "-Dwith_manpages=3Denabled,-Dwith_manpages=3D=
-disabled"
 --=20
 2.43.0
 
