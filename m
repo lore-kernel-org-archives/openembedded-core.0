@@ -2,98 +2,134 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCD6C5AE59
-	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 15:25:10 +0000 (UTC)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
- by mx.groups.io with SMTP id smtpd.web11.10647.1749137101809357517
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0309C5AE59
+	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 15:26:40 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.web11.10683.1749137200122653099
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 08:25:01 -0700
+ Thu, 05 Jun 2025 08:26:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YICd1WIk;
- spf=pass (domain: gmail.com, ip: 209.85.128.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-70e2b601a6bso11441457b3.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 08:25:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HkVJJ1/w;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-70e767ce72eso11964417b3.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 08:26:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749137101; x=1749741901; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1749137199; x=1749741999; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x9QldGxejU6kixN+oEi1HgXaEdEcDE7bHvDq6g7uiK8=;
-        b=YICd1WIko6YV+VPTx+8ApQAoCNiR6mYr6JUaxG3xSXcFdZSikuSYvRmbxjII1mUVH+
-         n8jMoYGEpb7Q4glfEAJ9hCw5PnRYknefTuj9hi6MoT+ZDlS7niT4mkWRoHPGIOWpza/a
-         cdFNWsnUfKk7XKXHhIwGEAoGFEMZZ5+L8A3JB6/OlwuALkZn90+3cYBihRbaUCJUemxk
-         bj6uKqjSlD5dtLiq50IuptOhAHs8WkvHD6pmMc8/6Zc2BLrm9DecN1WMT59BHy+0rQln
-         9PTeHEgFucnyDj/UTu/ZrKOyEU9BMAnm2pDV/BMKAszgseOmuXM6+quCt5oVWGRNO9Pj
-         TFpw==
+        bh=2NdiCifraq01+BphNfE7F1QAIpj6jGxAbeOYLrSbySM=;
+        b=HkVJJ1/w+EW/fBAmtOvsM1rWKSJjRPUgpVzz9AdC4lR2vccFn+kdJ3mSgko3QwhAMF
+         F8nIO6tGKfeVlndbdF0Z9iP97e5JuA8J3tBlk7vz9wSTwN9UfMlxjVhhMcOAMBllAEkj
+         DhkQg2KHYpYIlYPkZskf40o72LOFxZfPnz5G5s9cEqOQxHnceWs+r0SNXNnmZgQBFl41
+         QuCj+KikMh77BqzMo/QUI0RZGa5s6GHiQWT0Gp/ZHH1OJuG6C77KH6p/iIjwf7UtEWGd
+         nI7YfQg/9uLOTiHBi7wzSS8sKIrNont6A6K1DgWN9Yr1CuCK64g+cEyJ1tpvS3WGpqXT
+         l+AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749137101; x=1749741901;
+        d=1e100.net; s=20230601; t=1749137199; x=1749741999;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x9QldGxejU6kixN+oEi1HgXaEdEcDE7bHvDq6g7uiK8=;
-        b=Juim4ur9460FbJb1piqHuD0QTGXnUA5D0rGMUJhAbc4vDMdhJfyiJwaP6MKr3BAIEM
-         +VRwN3OOd2A97cONamAOg1TDLezPA0zPMxcLBBfqEqerzYuOPUJdr+Cou5LifobYbGtp
-         KyYOepKDh3bYAyBC99W2olfR8RUG+4CfD40xcLdoOAscwZ5NG3Dz3jJZlHBw/I+GwKkI
-         /2L57mwKElgdv4vIAy2Y9n2utVy0atY2v/l5tEBDErRh64cZs219C+OOcQ9JXNxSyoMT
-         GiSUa/OcTc5LvMXS0tSfYIqkz1XBG0/LQX308OZBRjGKC24Fxgv5i+3rUqKZ7rn0YUBE
-         Kydw==
-X-Forwarded-Encrypted: i=1; AJvYcCUskJmAGZdD/fbbooy2uegNo6h7Yf+RDjyAKVhODrfpPyX8IAp97rUyG+i333/7PfFZ9KObX9rsosKMMWfsICDvbw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx6R+sAvZfl1nS9sajteVMs5duFWA53+CxQf7XjpeYxKKPtr2tl
-	C8SEZgAb9nPoW03x0GFr0/2TO3+oHjzD5lO5WdPmno7h5ViLqxyP6gITj3U6k6Rx3HfZTM3T2ML
-	PZc/+x56KCa12lXnEVIWu7OA/9XeZlKDNZpKLty8=
-X-Gm-Gg: ASbGncsQXyUL8lVBPzKHnaqZ6aKSzYbu/6cxZdfhRDDaOuVgk3p38x03IiN1wYyr7IX
-	FpPMKLh0mad7878p9/9jPQt8bNHbt39/7xmSPer8OKqsG29R8QeeS23MQo6H3uDxvdLPgnOYd98
-	auUsx/T4Q+wwRi5FvvaYAcI3Y2YA/FIEg=
-X-Google-Smtp-Source: AGHT+IHWRy5NerYPsPT7HeI4wzel4f5ivl9BrFZMvS0YB45OQ+qL5iHPD4rZoyVdGalgha7LMGbASQfWObLZSTLO5VI=
-X-Received: by 2002:a05:690c:4d81:b0:70f:83ef:de26 with SMTP id
- 00721157ae682-710d99f463dmr109520557b3.11.1749137100580; Thu, 05 Jun 2025
- 08:25:00 -0700 (PDT)
+        bh=2NdiCifraq01+BphNfE7F1QAIpj6jGxAbeOYLrSbySM=;
+        b=Ylrmk53xM7Oj2vdnfr3u3fxsV/E7DA3wweEMFzqa1btkZXs8gWlEUyKktgpvCHuyiz
+         3DV3I8vW616LtBxlw6aaczN1x3HmYz8iuYeDj6jlFf9tLOTiTik7UVC4eiC4SPMAjOly
+         cIy3+BD55HrN3BR5d0wZzadbQAILbXvkBxlPzb/SvuvaPiEdium8Pl72TQfvPkxgO6Bd
+         W2WTkeewutQjWZ1GedKxmjRWca5vZYekRuBbDKu/v4mrJrs6MvSax7G7fOFuS3fc65ar
+         8Y+oi5Pfyrxk9ozV/1PVMWDMnujzujMZ6pyn2auVnwBYjr4vUhTjMgUm6EwXVwo4OdBc
+         tQxA==
+X-Gm-Message-State: AOJu0YyfUk8nbqOK7Z4TlargvgkDwGbZ2UsjbIPIbfFfllMPq/pDbk9W
+	Kh8+rDVjALpztbYss9lVNZ5dNblP6inZUbPqhQXUUP+FjZ0ptwl+VJd5Vaq/GJ7i56HDg8PmdRg
+	0GOmjRQWMJ8/lx81KOKco0PA1dYfjtQu2hzKx
+X-Gm-Gg: ASbGncuKaGzito1MtNVC1esTkp0Fm/x8hgrT9PYeJKLMUVgiFpIaz096zlC+3ycCImV
+	6slo/vuQGJnjpXggMH1pVBdeG6N+hB0qHW+kGBlfCJewvAZiG1+CJI1jmGpy9gHTLHZ7W+43UEw
+	Kp097bWhh1QAnyXWnJFN3ilr9h0Yz495o=
+X-Google-Smtp-Source: AGHT+IEF3TW95GyfW8N7jrZvrchat0328hPsGdZhmmk49x/G44fkSz6EyQoDU3sPjikxFm5ZQeOb1+GiSbBLHJ6iwm4=
+X-Received: by 2002:a05:690c:3503:b0:70e:6105:2360 with SMTP id
+ 00721157ae682-710d9f52358mr102462147b3.24.1749137199145; Thu, 05 Jun 2025
+ 08:26:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250530032047.1369164-1-sandeep.gundlupet-raju@amd.com> <8607D12C-E6E5-41DF-9809-6E748E1D749D@arm.com>
-In-Reply-To: <8607D12C-E6E5-41DF-9809-6E748E1D749D@arm.com>
+References: <20250520-clang-toolchain-v2-0-db97c2eb3756@gmail.com>
+ <20250520-clang-toolchain-v2-28-db97c2eb3756@gmail.com> <EDD30BDA-3E47-4171-8FA4-594564A7DB38@arm.com>
+In-Reply-To: <EDD30BDA-3E47-4171-8FA4-594564A7DB38@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 Jun 2025 08:24:34 -0700
-X-Gm-Features: AX0GCFus9HlfDKFXGetzE6fr__Few_EAC4Pwn5xCu0Y0vT5lgUBZ8haNmT0SdYE
-Message-ID: <CAMKF1sqFeBjSLZK5a8oubk6S5fe-HD1R9to+KZhNDa0BL816DA@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap,master][PATCH] tune-cortexr52: Add support
- for ARM Cortex-R52 32-bit
+Date: Thu, 5 Jun 2025 08:26:12 -0700
+X-Gm-Features: AX0GCFslH3krAYu4PAUtoEHo5w70ThMneGDXb36hIAvSJEJ9LDj-3v6qld_prHE
+Message-ID: <CAMKF1sqjLr2SV49UhJ1k9djvGFipcd8d=dsHSxjJpXdQBDe+CA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 28/28] perf: Do not treat maybe-uninitialized
+ warnings as errors
 To: Ross Burton <Ross.Burton@arm.com>
-Cc: "sandeep.gundlupet-raju@amd.com" <sandeep.gundlupet-raju@amd.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, Jon Mason <Jon.Mason@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 15:25:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218033
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 15:26:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218034
 
-On Thu, Jun 5, 2025 at 7:12=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
+On Thu, Jun 5, 2025 at 3:06=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
 ote:
 >
-> On 30 May 2025, at 04:20, Sandeep Gundlupet Raju via lists.openembedded.o=
-rg <sandeep.gundlupet-raju=3Damd.com@lists.openembedded.org> wrote:
-> >
-> > Add tune variant for ARM Cortex-R52 32-bit in GCC as there is no
-> > support for Cortex-R52 32-bit toolchain.
+> I just sent a patch to linux-yocto to silence this at root.
 >
-> This is the wrong fix as the existing tune file is just wrong.
->
-> The cortexr52 tune says:
->
-> TUNE_FEATURES:tune-cortexr52 =3D "aarch64 crc simd cortexr52=E2=80=9D
->
-> But the Cortex R52 Technical Reference Manual[1] says "The Cortex=C2=AE-R=
-52 processor implements the Armv8-R AArch32 architecture=E2=80=9D, so there=
- is no 64-bit R52.
->
-> The solution here is to stop it claiming to be 64-bit at all.
 
-agreed, I see that Cortex-R82 is one which implements 64bit ISA and
-not Cortex-R52
->
+Thanks, we need to send a revert for this to OE-core as well once the
+linux-yocto change is merged with link to it.
+
 > Ross
 >
-> [1] https://developer.arm.com/documentation/100026/0104/The-Cortex-R52-pr=
-ocessor/Supported-standards/Arm-architecture?lang=3Den
+> > On 21 May 2025, at 07:20, Khem Raj via lists.openembedded.org <raj.khem=
+=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > Clang finds more warnings in kernel code, make clang happy to not treat
+> > these extra warnings as errors
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > meta/recipes-kernel/perf/perf.bb | 10 ++++++++++
+> > 1 file changed, 10 insertions(+)
+> >
+> > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/per=
+f/perf.bb
+> > index d06dd2fa5a2bb9b2982572081ef57e2dbafbd5da..0d19e1bdc222da26a5ad0a1=
+d4964acca437a6692 100644
+> > --- a/meta/recipes-kernel/perf/perf.bb
+> > +++ b/meta/recipes-kernel/perf/perf.bb
+> > @@ -81,6 +81,16 @@ LDFLAGS =3D "-ldl -lutil"
+> > # avoiding the 'buildpaths' QA warning.
+> > TARGET_CC_ARCH +=3D "${SELECTED_OPTIMIZATION} ${DEBUG_PREFIX_MAP}"
+> >
+> > +#| libbpf.c: In function 'find_kernel_btf_id.constprop':
+> > +#| libbpf.c:10009:33: error: 'mod_len' may be used uninitialized [-Wer=
+ror=3Dmaybe-uninitialized]
+> > +#| 10009 |                 if (mod_name && strncmp(mod->name, mod_name=
+, mod_len) !=3D 0)
+> > +#|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+> > +#| libbpf.c:9979:21: note: 'mod_len' was declared here
+> > +#|  9979 |         int ret, i, mod_len;
+> > +#|       |                     ^~~~~~~
+> > +#| cc1: all warnings being treated as errors
+> > +TARGET_CC_ARCH:append:toolchain-clang:arm =3D " -fno-error=3Dmaybe-uni=
+nitialized"
+> > +
+> > EXTRA_OEMAKE =3D '\
+> >     V=3D1 \
+> >     VF=3D1 \
+> >
+> > --
+> > 2.49.0
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#216996): https://lists.openembedded.org/g/openembed=
+ded-core/message/216996
+> > Mute This Topic: https://lists.openembedded.org/mt/113225040/6875888
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+ross.burton@arm.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
 
