@@ -1,68 +1,107 @@
-Return-Path: <andrej.v@skyrain.eu>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF383C5AE59
-	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 09:18:48 +0000 (UTC)
-Received: from h4.cmg1.smtp.forpsi.com (h4.cmg1.smtp.forpsi.com [185.129.138.163])
- by mx.groups.io with SMTP id smtpd.web10.3070.1749115127626375447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 247C6C5B543
+	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 09:59:19 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.3570.1749117548929959485
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 02:18:48 -0700
+ Thu, 05 Jun 2025 02:59:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=Wdj5L/+u;
- spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 185.129.138.163, mailfrom: andrej.v@skyrain.eu)
-Received: from lt-aval.kyiv.ciklum.net ([85.248.43.180])
-	by cmgsmtp with ESMTPSA
-	id N6k6uYqPPwQNXN6kHuueI1; Thu, 05 Jun 2025 11:18:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
-	t=1749115125; bh=Flo+2g7GXVJhEnm3h++xgl2SW9vFtPLo+lP7NyR6ctA=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=Wdj5L/+uGeP/mhwqngHF/WdKjoQnuqDypBYKiRke2a3cjTlmXNrpU0Qnqfa3Ns/mT
-	 Oioehh6xUqAJXVv0BJUlUnhVeriGPDWI1O7tg6y5kfJDu173Eyyozdg5xrCWpJGMnK
-	 JrQKUu06oLp7GIQhdWEpc7WRrSudRezA5shGhv9BPx0irj9WZVHPywhHfoSSFvlREt
-	 Ubw9UFjISjGF+aEx+mR0EyEwGclhHGefh009ElJz8yjAeiue7EeTYxhFFdXJUFcY+O
-	 4SNPXC+Nl9QERgRrgCRL/tW2i7uvBYy2TIbEiLC+zSiZN37JhH/Sf5V2CZSxfiQcsz
-	 DGnQUbGmzgjNw==
-From: Andrej Valek <andrej.v@skyrain.eu>
-To: openembedded-core@lists.openembedded.org
-Cc: Andrej Valek <andrej.v@skyrain.eu>
-Subject: [oe][meta][PATCH] dropbear: add xauth runtime dependency when x11-forwarding is enabled
-Date: Thu,  5 Jun 2025 11:18:28 +0200
-Message-Id: <20250605091828.50442-1-andrej.v@skyrain.eu>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfKOx9QbB400yMha+D7yKcuV+qur6/Ww7kyWjMRfNzK/kvk2oqW4rJfneERR8QeYdkF9LWxIzHpd99fbGFyDFLH75gdCPnJaEjea/8WEMmoRdFP46Rrjy
- 5SBU/1xjebyYWHvhDfYydrAGh+LCOzME32/ppL7/iSth2cNohTCA6DjHb0BqJ8MT1tqtuTZSNGbHchBjsVog+4u9ZoVkY7Ti1f/LQZPETyKcL0SmNmGcECPv
- wz8MutzqdXhjmAchDXKS6RGf+OjAN5dKvkYtsSPybLA=
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Vs2ksWbM;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 67F1643256;
+	Thu,  5 Jun 2025 09:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1749117547;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dN95Wk0qSRYLl/fgX6oxVHiWpAt8xVBa20oolE2Mye0=;
+	b=Vs2ksWbMYHKlhDZ/lTjOQIAxrYHp9psQEzJcx2hFS9VVmx8myPMuDNQ4/DbhXsqVP0J9ze
+	HhZEZMw0SaHmVhYSxCeovrBk1wTLZvQ6Z2lC6qB4KoehdgEp1ZKR7JMCYYk5G1zUzbkhhF
+	c5NHJ3lTCxxQNfsWQEcVqT8R2TzhE3Fi7H/0Ew8Fvnek/sDILMKOwgx3+1CX0NK26NiFJ+
+	Ro4c5gqapQnm3aDwMmsHho2Xh/rxrTD4gPmeoYer+W2V2bFhCjpb0LuSPpQghL2IiNqR0q
+	jH9MDFln/PaqxqdCS/9L63Hw38howvH2IqrqX8SnV07ee9No2Ctmcm4D7RQoOg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Jun 2025 11:59:03 +0200
+Message-Id: <DAEIF6QL7XAS.1NMY7JXUJYGZC@bootlin.com>
+Subject: Re: [OE-core] [PATCH 0/2] Upgrade automake and rpm
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <cover.1749092509.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1749092509.git.liezhi.yang@windriver.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdefgeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeegjeeutefhhffhtdekueejffefffekleeiheefgfffvdeiudffieehffeikeegueenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhgihhthhhusgdrtghomhdpudejrdgssgdpudekrdgssgdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvuddvrddutdehrdduhedtrddvhedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdduvddruddthedrudehtddrvdehvddphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehlihgviihhihdrhigrnhhgseifihhnughrihhvvghrrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdro
+ hhpvghnvghmsggvugguvggurdhorhhg
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 09:18:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217996
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 09:59:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/217997
 
-Even if enable-x11-forwarding was used, XAUTH_COMMAND failed due to missing
-xauth.
+On Thu Jun 5, 2025 at 5:02 AM CEST, Robert Yang via lists.openembedded.org =
+wrote:
+> From: Robert Yang <liezhi.yang@windriver.com>
+>
+> The following changes since commit 2e817e6e4d53543766b935479b148a1950cc37=
+c8:
+>
+>   oeqa/maturin/guessing-game: Bump dependencies to avoid security warning=
+ (2025-06-04 08:08:28 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/robertlinux/yocto rbt/upgrade2
+>   https://github.com/robertlinux/yocto/tree/rbt/upgrade2
+>
+> Robert Yang (2):
+>   automake: 1.17 -> 1.18
+>   rpm: 4.20.0 -> 4.20.1
+>
+>  ...report-error-when-the-path-of-Perl-c.patch | 27 +++++----
+>  .../{automake_1.17.bb =3D> automake_1.18.bb}    |  2 +-
+>  ...LUGINDIR-in-top-level-CMakeLists.txt.patch | 57 -------------------
+>  ...lling-execute-package-scriptlets-wit.patch | 24 ++++----
+>  ...ge-logging-level-around-scriptlets-t.patch | 27 +++++----
+>  .../rpm/{rpm_4.20.0.bb =3D> rpm_4.20.1.bb}      |  5 +-
+>  6 files changed, 47 insertions(+), 95 deletions(-)
+>  rename meta/recipes-devtools/automake/{automake_1.17.bb =3D> automake_1.=
+18.bb} (92%)
+>  delete mode 100644 meta/recipes-devtools/rpm/files/0001-Set-RPM_PLUGINDI=
+R-in-top-level-CMakeLists.txt.patch
+>  rename meta/recipes-devtools/rpm/{rpm_4.20.0.bb =3D> rpm_4.20.1.bb} (97%=
+)
 
-Signed-off-by: Andrej Valek <andrej.v@skyrain.eu>
----
- meta/recipes-core/dropbear/dropbear_2025.88.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Robert,
 
-diff --git a/meta/recipes-core/dropbear/dropbear_2025.88.bb b/meta/recipes-core/dropbear/dropbear_2025.88.bb
-index f203763b17..a1317d3b73 100644
---- a/meta/recipes-core/dropbear/dropbear_2025.88.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2025.88.bb
-@@ -51,7 +51,7 @@ EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
- PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
- PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam,${PAM_PLUGINS}"
- PACKAGECONFIG[system-libtom] = "--disable-bundled-libtom,--enable-bundled-libtom,libtommath libtomcrypt"
--PACKAGECONFIG[enable-x11-forwarding] = ""
-+PACKAGECONFIG[enable-x11-forwarding] = ",,,xauth"
- 
- # This option appends to CFLAGS and LDFLAGS from OE
- # This is causing [textrel] QA warning
--- 
-2.34.1
+Thanks for the patches.
+
+It looks like this is breaking several builds on the autobuilder, with
+following error:
+
+ERROR: rpm-native-1_4.20.1-r0 do_compile: Execution of '/srv/pokybuild/yoct=
+o-worker/qemux86-64/build/build/tmp/work/x86_64-linux/rpm-native/4.20.1/tem=
+p/run.do_compile.320418' failed with exit code 2
+...
+| gcc: error: unrecognized command-line option =E2=80=98-fhardened=E2=80=99
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/68/builds/1841
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/43/builds/1779
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/builds/1680
+
+Can you have a look at these please?
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
