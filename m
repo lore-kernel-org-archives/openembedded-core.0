@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AC3DC61CE7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B54C61CE8
 	for <webhook@archiver.kernel.org>; Thu,  5 Jun 2025 16:14:22 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.11912.1749140059693571146
+ by mx.groups.io with SMTP id smtpd.web11.11913.1749140060301971594
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jun 2025 09:14:19 -0700
+ Thu, 05 Jun 2025 09:14:20 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C98AE1688
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:01 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FDDE1688
+	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:02 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C9B543F673
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:18 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7AB323F673
+	for <openembedded-core@lists.openembedded.org>; Thu,  5 Jun 2025 09:14:19 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 05/16] sassc: put version in recipe filename
-Date: Thu,  5 Jun 2025 17:14:03 +0100
-Message-ID: <20250605161414.1050228-5-ross.burton@arm.com>
+Subject: [PATCH v2 06/16] blktrace: put version in recipe filename
+Date: Thu,  5 Jun 2025 17:14:04 +0100
+Message-ID: <20250605161414.1050228-6-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250605161414.1050228-1-ross.burton@arm.com>
 References: <20250605161414.1050228-1-ross.burton@arm.com>
@@ -30,7 +30,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 Jun 2025 16:14:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218060
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218061
 
 A recipe that fetches from git but is otherwise a released version
 should not be using _git.bb recipe names.
@@ -39,37 +39,41 @@ Put the version in the filename and drop the explicit PV.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-support/sass/{sassc_git.bb =3D> sassc_3.6.2.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/sass/{sassc_git.bb =3D> sassc_3.6.2.bb} (84%=
-)
+ .../blktrace/{blktrace_git.bb =3D> blktrace_1.3.0.bb}        | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-kernel/blktrace/{blktrace_git.bb =3D> blktrace_1.3.0=
+.bb} (94%)
 
-diff --git a/meta/recipes-support/sass/sassc_git.bb b/meta/recipes-suppor=
-t/sass/sassc_3.6.2.bb
-similarity index 84%
-rename from meta/recipes-support/sass/sassc_git.bb
-rename to meta/recipes-support/sass/sassc_3.6.2.bb
-index 64e92f48cfd..4d4dbc03fe2 100644
---- a/meta/recipes-support/sass/sassc_git.bb
-+++ b/meta/recipes-support/sass/sassc_3.6.2.bb
-@@ -7,12 +7,11 @@ DEPENDS =3D "libsass"
+diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-=
+kernel/blktrace/blktrace_1.3.0.bb
+similarity index 94%
+rename from meta/recipes-kernel/blktrace/blktrace_git.bb
+rename to meta/recipes-kernel/blktrace/blktrace_1.3.0.bb
+index 8fc30d74fd6..061a7b97846 100644
+--- a/meta/recipes-kernel/blktrace/blktrace_git.bb
++++ b/meta/recipes-kernel/blktrace/blktrace_1.3.0.bb
+@@ -10,14 +10,13 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D393a5ca445=
+f6965873eca0259a17f833"
 =20
- inherit autotools pkgconfig
+ DEPENDS =3D "libaio"
 =20
--SRC_URI =3D "git://github.com/sass/sassc.git;branch=3Dmaster;protocol=3D=
+-SRCREV =3D "366d30b9cdb20345c5d064af850d686da79b89eb"
+=20
+-PV =3D "1.3.0+git"
+-
+-SRC_URI =3D "git://git.kernel.dk/blktrace.git;branch=3Dmaster;protocol=3D=
 https \
-+SRC_URI =3D "git://github.com/sass/sassc.git;protocol=3Dhttps;branch=3Dm=
-aster \
-            file://0001-Remove-sassc_version.h-from-source-directory.patc=
-h"
++SRC_URI =3D "git://git.kernel.dk/blktrace.git;protocol=3Dhttps;branch=3D=
+master \
+            file://0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifica=
+lly.patch \
+           "
 =20
- SRCREV =3D "66f0ef37e7f0ad3a65d2f481eff09d09408f42d0"
++SRCREV =3D "366d30b9cdb20345c5d064af850d686da79b89eb"
++
  S =3D "${WORKDIR}/git"
--PV =3D "3.6.2"
 =20
- CVE_STATUS[CVE-2022-43357] =3D "cpe-incorrect: this is CVE for libsass, =
-not sassc wrapper"
-=20
+ EXTRA_OEMAKE =3D "\
 --=20
 2.43.0
 
