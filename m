@@ -1,88 +1,124 @@
-Return-Path: <trini@konsulko.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EFD0C5AD49
-	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 18:54:15 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web11.2855.1749236054557045339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D44C61CE7
+	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 18:56:35 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.2878.1749236188153583929
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 11:54:14 -0700
+ Fri, 06 Jun 2025 11:56:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=pP8644Ed;
- spf=pass (domain: konsulko.com, ip: 209.85.167.176, mailfrom: trini@konsulko.com)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-408d7e2ad03so1631658b6e.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 11:54:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=f/Rq7Uy5;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-acae7e7587dso358613666b.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 11:56:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1749236054; x=1749840854; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/tmkZFODEQcAfKGlnGNax7Yed/T512Vo9JzlHaRA5L0=;
-        b=pP8644Ed54LpjG6sPKuiB2yQRbejNTWCGxHHo5of4xeUVYl2LEDkx7lEl+TkinOWgE
-         JmCPdzQepFZXs8skQem1dt1llVZaz6cIiyzwO1N6u2KlP2C3vgnE4xAHbJGYLVTQWW/0
-         zn/zTGkFH9hgqm4YmE423HrcdRkxmwOHBMp0w=
+        d=gmail.com; s=20230601; t=1749236186; x=1749840986; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gN2HoOLvQkhcOfGiNOC7KqmaoM2vK2sTiPcFqDKxpp8=;
+        b=f/Rq7Uy56JrUuYlwjBOgB7cbRViAphp5nrB7xR4K1FOBhP8PPKkeun4DPHujciij+B
+         0WKuA5onYjIj8oBl+S7+k1oWsdKpDde3e7vV5Mt1wKh0MGYVcttpABWGnghHKUnFj2+x
+         pGKG0gozvqsXSV3Wku8kVVmnQLXHZpkE8Yig+LuC4dZCN+dmO64BVSBuXeTatDYrNizO
+         lE61Gbk1PC7pAGZGuotdSH6fxb8Zwgif0HajgHBZG8jaQLLfOrLexFqVQuJ5Eyl0+AYQ
+         RtRlHzw+sT+IhitalDyS7T8ROcR/d89rHoo5TEyzKA8Br+QOsgSd7mBRW3/zsOdxLHBK
+         SWWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749236054; x=1749840854;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/tmkZFODEQcAfKGlnGNax7Yed/T512Vo9JzlHaRA5L0=;
-        b=glxNxLoibXA8rB0QHGOYQtYfCts1HGAQY44wSnWPgBg0nN8sFOJF3IgDe18OyspFfC
-         CygrROiWiWE1GAvHyZQmMtMb+l9rIaf11MJh3TwiEfFCPPQZfNIWRwfLcFt7pvXYkVJP
-         MYxnFdRFtVV8+YHEHb9MWm4gOw97QX9px0flI/GA4jtxaqDylGVdxN1CBwhKKbM54c9q
-         GjGVjY0yjNGBesYjYinyLePtNEldKjBLgcrRApMTVFzsFQhEpFA2UhMI9uup5iO1drTl
-         Y+F4ypUGEYA6Bkb5U8SGXMmLt+qbQZbQYW4zTAFS/uqg4piJQLJX68qsagQKOuIXpSaV
-         WHDA==
-X-Forwarded-Encrypted: i=1; AJvYcCVbUM0VIlyig4w3izaCvba0XMq+0DQXLyeLGgLoMCphtom0Vc1DKnsLJXay5Np9AcRDdNwZYPwilgAcX5VR71C27A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzSoOpv+d82eeWFVrvxFePNBJMquxTURo6qO5ecXFeSGwTylWFR
-	wUMW8KdUAgN2dufrA1wlgqzmWGdsGPllQFDoJ/N1jmYnWMeeWGi1/8O1l/tsR/cNAhc=
-X-Gm-Gg: ASbGnctPVQ1ZI1GnkeX4t8Xi6Xsbn1Av8k69+1bmH0m/HdhwAV75dYcANlGT5w2UQWV
-	rZvNWcbxaYPFV7KmclwSXtl6Dj0VLT7DMP1QLp+FLB86qzR+hwgGREMmS4Nuifgs3bfTIGdnXQt
-	LyRR4uGCg/CEOcN05I9uTjGaYDSvep8JtgH6o4QB0WP5QZjVEQa2MS/Sh0HZynqLPhgTZzGK1by
-	aErr6zRu3WlwMSEuwKcgNwKuBJO9i0ys7o7omHlFe3ZjJbFTkZ9IX9hLKpF+bgTvDCzhYLnxKKd
-	ph+8j0sGQCk6gtzGFXzZIDzbSFghqvI7foKP1PhYz+f5Yp/4jji5z/oanmbTX87okazVLLk5RCN
-	lXanVyjAv5MlHf30qeSPKi2g=
-X-Google-Smtp-Source: AGHT+IFI/XAtojLEqNVL3zgMYMBBL0h142wgyXFS3BprT5FQs/ZWWJLjGtokWie6QraPgUI2dqQoOw==
-X-Received: by 2002:a05:6808:83:b0:409:f8e:7282 with SMTP id 5614622812f47-4090f8e76e5mr782058b6e.5.1749236053783;
-        Fri, 06 Jun 2025 11:54:13 -0700 (PDT)
-Received: from bill-the-cat (fixed-189-203-100-42.totalplay.net. [189.203.100.42])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73889f5a7a9sm408718a34.27.2025.06.06.11.54.12
+        d=1e100.net; s=20230601; t=1749236186; x=1749840986;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gN2HoOLvQkhcOfGiNOC7KqmaoM2vK2sTiPcFqDKxpp8=;
+        b=n1m6/8q5h3bE71JMWv15o04new0RUa6QpKec4qn/OrDoJYwwf1xvP/bD6yC5vNqf3N
+         awYzQZ5y7IK1bdzlnV1pKGxYNdkFQBsUT+5VOFrYvX1TgoCo90TNiX4gB1pjJwUKFrvC
+         zM3leTh7AbfFe1rdGBuleMZx255Z27UWCFjk9R0lQMPxs6NIEX5aOjdFVEttYFXgvaqZ
+         d6J0nbUXmee0JWWfOvj4NLPwkwnJr78Y1rJCo+yl5Q9JBC8dCSEEf9dMOTneIuiVB6ef
+         eBJt6YYiq+7GhkYTTwaHm4lqG09EhAhB/WR/NZ1/LPnmCR3gxeH7AV4PATaRVnfWrbhZ
+         HNag==
+X-Gm-Message-State: AOJu0YxYuOta7dd9DK/gOhJO0NZ5pEkehli/ncdYLJNdeU2ZIfGIRsz+
+	C89vagwLgvm0ZYKxg7Ipd26rw6MQY/S5e6rit2fRo/Ze7yv8UahURCd+yYSyYQ==
+X-Gm-Gg: ASbGncs/xU3EHGOiy6yTHpcwlPJ4zwg4Js6ixZlocmvZnC1RPDZKveP4wR8ZzmLmOQ1
+	ahFDg30e+ds/W7TyxgubAT+JrOOnJjwL6gC/p6aDLMYoybZ0OhnRLf7pHlzPENgv2JAehrjo9T5
+	mhv+iYEkLIoNZ+XVTutrRfK8r9+mm31oebwMNQv1bMHGtzVIikulpQekqtESVmuctODABEE4uSm
+	kw9mELtPdxuhLtWgCOvK1v5Q7zbeXTyZDOIEoTsyvaYqoDuYJ7ItVqlv1xYJocjKG5aTqFCfJ24
+	O3dsIBzfVqkE+JUjxQr71yTYXXfMRlHsQQ6KxOGDlwCBvlky8A4Rm2ztklUCrvWRqdtfqtIp3w+
+	XXg==
+X-Google-Smtp-Source: AGHT+IGz1RyU1KJLmOBL/fydnCsilV8idgRefd8Xu/5cuz7/aBFFc9Tmv8eJsvkM77CBYeAXZ9G1Ug==
+X-Received: by 2002:a17:907:7f25:b0:aca:95e7:9977 with SMTP id a640c23a62f3a-ade1a922851mr400444466b.28.1749236186139;
+        Fri, 06 Jun 2025 11:56:26 -0700 (PDT)
+Received: from localhost.localdomain ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ade1dc7c92esm157209366b.168.2025.06.06.11.56.25
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 11:54:13 -0700 (PDT)
-Date: Fri, 6 Jun 2025 12:54:11 -0600
-From: Tom Rini <trini@konsulko.com>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: Quentin Schulz <quentin.schulz@cherry.de>,
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] u-boot: move arm64 disabling fragments to
- versioned recipe
-Message-ID: <20250606185411.GX1382132@bill-the-cat>
-References: <20250605160624.1029863-1-ross.burton@arm.com>
- <3f05d487-57d1-4afb-a080-06f77b5bc3ad@cherry.de>
- <A46D5071-80B2-4343-9D94-F0972F3D8777@arm.com>
+        Fri, 06 Jun 2025 11:56:25 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] weston: upgrade 14.0.1 -> 14.0.2
+Date: Fri,  6 Jun 2025 20:56:24 +0200
+Message-ID: <20250606185625.4087714-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <A46D5071-80B2-4343-9D94-F0972F3D8777@arm.com>
-X-Clacks-Overhead: GNU Terry Pratchett
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 18:54:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218179
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 18:56:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218180
 
-On Fri, Jun 06, 2025 at 10:37:22AM +0000, Ross Burton wrote:
-> On 6 Jun 2025, at 09:35, Quentin Schulz <quentin.schulz@cherry.de> wrote:
-> > 
-> > The u-boot-tools recipe also includes the u-boot-common.inc so we would be losing the patches in that recipe. I would assume CONFIG_BLOBLIST and CONFIG_USB in the defconfig fragment wouldn't matter for tools, but maybe...? What about adding it to u-boot-tools_2025.04.bb so we don't have to worry about that :) ?
-> 
-> My understanding is that they’re unrelated to the tools, which is why I only changed the actual firmware.
+While at it, also add libpam as a dependency to the vnc pkgconf, to
+avoid the following error:
 
-These are both something very specific to qemu_arm64 and not more
-general issues.
+| Run-time dependency pam found: NO (tried pkgconfig and cmake)
+|
+| ../weston-14.0.2/libweston/meson.build:95:15: ERROR: C shared or static library 'pam' not found
 
--- 
-Tom
+Changelog:
+ - frontend: Fix crash in output resize handler
+ - libweston: fix bitshift in weston_idalloc_get_id()
+ - libweston: fix realloc in weston_idalloc
+ - libweston: refactor update_lowest_free_bucket()
+ - libweston-desktop: don't try to move child surfaces to not existing layer
+ - libweston/input.c: Fix weston crash with the mouse event
+ - windowed-output-api.h: Provide ARRAY_LENGH() for windowed-output-api
+ - drm: Fix underlay test
+ - compositor: Mark pnode accordingly when buffer type is direct
+ - compositor: re-order paint node placeholder checks
+ - gl-renderer: Take direct-display into consideration
+ - shared: fix binding-modifier none
+ - vnc: Allow neatvnc in version 0.9.0
+ - compositor: Prevent startup crash when hdcp mode is set on display
+ - libweston/desktop: Avoid a potential crash on invalid resource
+ - libweston/desktop: Don't destroy the xdg_surface
+
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ .../wayland/{weston_14.0.1.bb => weston_14.0.2.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_14.0.1.bb => weston_14.0.2.bb} (98%)
+
+diff --git a/meta/recipes-graphics/wayland/weston_14.0.1.bb b/meta/recipes-graphics/wayland/weston_14.0.2.bb
+similarity index 98%
+rename from meta/recipes-graphics/wayland/weston_14.0.1.bb
+rename to meta/recipes-graphics/wayland/weston_14.0.2.bb
+index 2a0a403d99..43c22c73b6 100644
+--- a/meta/recipes-graphics/wayland/weston_14.0.1.bb
++++ b/meta/recipes-graphics/wayland/weston_14.0.2.bb
+@@ -13,7 +13,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
+            file://systemd-notify.weston-start \
+            "
+ 
+-SRC_URI[sha256sum] = "a8150505b126a59df781fe8c30c8e6f87da7013e179039eb844a5bbbcc7c79b3"
++SRC_URI[sha256sum] = "b47216b3530da76d02a3a1acbf1846a9cd41d24caa86448f9c46f78f20b6e0ac"
+ 
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/weston/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+@@ -92,7 +92,7 @@ PACKAGECONFIG[image-jpeg] = "-Dimage-jpeg=true,-Dimage-jpeg=false, jpeg"
+ # screencasting via PipeWire
+ PACKAGECONFIG[pipewire] = "-Dbackend-pipewire=true,-Dbackend-pipewire=false,pipewire"
+ # VNC remote screensharing
+-PACKAGECONFIG[vnc] = "-Dbackend-vnc=true,-Dbackend-vnc=false,neatvnc"
++PACKAGECONFIG[vnc] = "-Dbackend-vnc=true,-Dbackend-vnc=false,neatvnc libpam,libpam"
+ 
+ 
+ do_install:append() {
 
