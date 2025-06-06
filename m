@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47267C677C4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 304E2C61CE7
 	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 20:58:36 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.5506.1749243511805785406
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.5504.1749243509736897199
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 13:58:32 -0700
+ Fri, 06 Jun 2025 13:58:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KK9QWpjZ;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a51d552de4so1423472f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 13:58:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dZSvSzxT;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a361b8a664so2048775f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 13:58:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749243510; x=1749848310; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1749243508; x=1749848308; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=24KoRmr6j37rPZaMxaqnSd/338S1bGZaFmZ2mWjASH8=;
-        b=KK9QWpjZTrtrPCWfiz7LX8enOB092GNUw9tXQg7p6uFwaWA+zDMzyn0/s5pPSq9aau
-         2poYS2l156jCWl4UZkTbAHERbSWfu8D62SNPkhcPR4pcM4qccWvY4c7Ml45cFdkIxx2T
-         zEwKeKMbqngBwTyq/7x6RAsJxq2+mxcQMkXJxcRWbzexybYYkX/YHT0D2NmaAnXGL3Gw
-         O35anXWaWOttfWkRWpCRsAkP068us6pArI1KWfB9ki8F7hWO4HNIKwsMC41cVFkVOD1q
-         ga47/l4/YhKCNnsZ1hu7Lmc6LcBWHQCJ5+vkgv4KJO+4A3QBBJ9v9hKsUwUEETLlraO1
-         UsQA==
+        bh=RbsHDccuT6LL7bD8T5NhyhXi1lVlStS9IMrDDvMxPGo=;
+        b=dZSvSzxTutmnssrVpe5WpZPc8eFv5l+TCcSaHGGef3BomVC4rm7vl/jWNCJZyBUyMa
+         /gS7z3p9G6fDXhYzCYGdGTGm7ONS5pjWW7nD8QNrVBcqFoNovWEJbw7xvIyAQNGt4DLk
+         AWD+C+9iI6HwnmI4nfZXp1DgWMmTj5uSrSpbEtr8fJITqtw6p+eiDhBq+aVxiwDTMyZN
+         YEn6nEo5HsqnDmR9adXIqd8WoxcVUUtbKpbcn6cj2jUOHr2DtLU/72A5P/1FzovG3ecN
+         cYO8IP5est3wGGRaZ+CGtmzCqHW3RUKQiiryawlnxHjsAkoXOTZUpAWyfQlmEpAt2Vf4
+         buAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749243510; x=1749848310;
+        d=1e100.net; s=20230601; t=1749243508; x=1749848308;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=24KoRmr6j37rPZaMxaqnSd/338S1bGZaFmZ2mWjASH8=;
-        b=wLiSgIU/e5IfF1FjkTdkqVYDEFGW401KgIwnMgQvkY7s8W2H2t+VEf/LfNeTaLDE9p
-         B7TL9OgHFG2kWvTAGHkKma9zQ+3yIX6bUJmNYSQ7Mk6jaz9mOlBEJtFILg9mu0GCmR78
-         ZBEHBUPtINdTe+YXwrxoKQnq04eQYwvVraWEfzkRxay1GncnXpQtCLaO4vKNHDHKs8aO
-         KAJNtw9QffzNRS0N8AGoP3NucSNe1ciOwjANvz9wk192I5ydhMI2lvkPECmfLQcxjfo5
-         i7JXT77CvGuFvlxfAktG1Ss16WDQWeh+ZIudPibsJ2Zdz43y8p6/lfa3eV/eTPqMu124
-         KgmA==
-X-Gm-Message-State: AOJu0YzS18zcseUq3Js6UF6nntsTTTpcXl193/6LNI1PEpyj/IK7vo3s
-	fxfPBqWYGMTSt1ZvmXTC/zHYC/YdhOvPwCCGdbV9QV7VDsTEjHpVdkZVA0Dhow==
-X-Gm-Gg: ASbGncsa8n/rYMVlmUXLGkSJZ6Jojm1XjvzIT5q0RDMh1C2SF0vtCluAghWJMvChEWE
-	BmNn6ZhqM1jRSBXfduacdldcyAzUCyuEytTDbdEA/IsP6F3VlxosGifiPmII/7f9fMZfDGnIikK
-	xiqHilG5ML3Am4tXLd3NfbieXQtQC7Z80wCSGNEGxtchI8J9nk4F22oSSkuQdYY1pNmLoeD3+0D
-	fXDfih9iCGYI5/B3y0nlFz906VaCpejF254fvxHseuwjBvT1+ywy/0azEF3z9PMSAEmA2ldGVf5
-	pVuurhfj9n0LAzw/QpT10wpjaHmnaO6Qnz2ebIiNR1F3ogApOjtaBtLbaz8TtLdxtXj1FmEycnw
-	TKz5+KT7IJWubJMXXO09yyek=
-X-Google-Smtp-Source: AGHT+IG21ua4ZSG73krRUk3s3bEe/CQtmXUVvvpojTeaedbcU7/+WH5P1ux3EtadS2s5Chnl2cNYdA==
-X-Received: by 2002:a05:6000:144b:b0:3a4:e6b4:9c4b with SMTP id ffacd0b85a97d-3a5317849cbmr4448064f8f.1.1749243509924;
-        Fri, 06 Jun 2025 13:58:29 -0700 (PDT)
+        bh=RbsHDccuT6LL7bD8T5NhyhXi1lVlStS9IMrDDvMxPGo=;
+        b=omramaiRTpqsrgFOjX4ze2k6gnC/CCmy8WHR6Drk8TBurOqiZ+g1PZRlbdf1UxpQLG
+         tgekQVmKcKI7YluJJ+sThit1crupx3j4Vg16yO1ZWdyQ8q6J9szoKrYzIwwFv6cPaT8K
+         Eo3vneowEFE5sdTMz+Cfhd2NsXV3NvwHNpDOsGGE9u0/A67uOuubDzX0P0oycgQjkThp
+         +CtFdg9htXy1/zhutXEpkQH7FTrORFBwBiOHaU0Jp8VklLYyJVuXk8lrnbvlkzJu3ZxW
+         OACO6gOtPfXdD/xSws1C9nrPpiI/sP+y+6bjEzyWCn40U++JsxHxLPYreW5G8Xcr83Mv
+         z3MA==
+X-Gm-Message-State: AOJu0Yy+DeihhFRKlDMUMfxagwJ6nerMVypEqPMWIowrgGIQiXcoVggG
+	pqCOnJNdYzcC81ESqP3JmBzvfpdLup7Iwuwhb7sprnQe0rgqevYjShLQszv/Kg==
+X-Gm-Gg: ASbGncshUeh9zBjrLCtm6Xqt1QXcSiVrFXKXpfTWdOenoMNzeMStutpYDjur0LdMvC4
+	JPwWBGaIhp3z20aNIaheJ8v7Ek0LxnByhcRrvIWaPBfvQi/05ZuoO/ZOYINu39GS8HsCCNUqc7T
+	cI3cBlrawGoLhUSkxAu4BKhQ8mIUss+UjlchgyaTiVb+3d2iuHmQldmqPHrMWfzZHiz4sFmSswd
+	K9+tdY2fPb/90RVn9UTfxOiCQXpbvvvbzadO1e/pqHJhIp/YKwsaPBMWNvTxetTvtWBlbCnK5Bq
+	lSvbXk10KZJJ8G8Zs2I89kMr/vKQUwLAnKXwiroW/GwdLzdpZssNwvosghbB5r/KmbDG8yF3eAx
+	kmg87J4FTbDZ5
+X-Google-Smtp-Source: AGHT+IG0dNQK17ptKOqtO/3TNY9p1S5xyIqucKB+IMEASMoF0JiiC2zWm0a+2za9kwkdT8R/6Xfvbg==
+X-Received: by 2002:a05:6000:2585:b0:39f:175b:a68d with SMTP id ffacd0b85a97d-3a53188da55mr4223692f8f.11.1749243508017;
+        Fri, 06 Jun 2025 13:58:28 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a53244f4e7sm2850859f8f.77.2025.06.06.13.58.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a53244f4e7sm2850859f8f.77.2025.06.06.13.58.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 13:58:29 -0700 (PDT)
+        Fri, 06 Jun 2025 13:58:27 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/5] strace: better sed expression for ptest Makefile
-Date: Fri,  6 Jun 2025 22:58:08 +0200
-Message-Id: <20250606205809.4071299-4-alex.kanavin@gmail.com>
+Subject: [PATCH 2/5] systemtap: correctly set include location for the python module
+Date: Fri,  6 Jun 2025 22:58:06 +0200
+Message-Id: <20250606205809.4071299-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250606205809.4071299-1-alex.kanavin@gmail.com>
 References: <20250606205809.4071299-1-alex.kanavin@gmail.com>
@@ -67,32 +67,73 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 20:58:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218184
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218182
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-The previous one wasn't particularly readable, and assumed
-a particular relationship between S and B. The new one
-also works when S is in UNPACKDIR, or anywhere else.
+This issue was as well exposed by setting S to be in UNPACKDIR.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/strace/strace_6.15.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...am-use-absolute-path-for-source-dire.patch | 36 +++++++++++++++++++
+ .../recipes-kernel/systemtap/systemtap_git.bb |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-python-Makefile.am-use-absolute-path-for-source-dire.patch
 
-diff --git a/meta/recipes-devtools/strace/strace_6.15.bb b/meta/recipes-devtools/strace/strace_6.15.bb
-index d8ac2a53d09..2093c92eb31 100644
---- a/meta/recipes-devtools/strace/strace_6.15.bb
-+++ b/meta/recipes-devtools/strace/strace_6.15.bb
-@@ -45,7 +45,7 @@ do_install_ptest() {
- 	mkdir -p ${D}${PTEST_PATH}/src
- 	install -m 755 ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
- 	install -m 644 ${B}/src/config.h ${D}${PTEST_PATH}/src/
--	sed -e '/^src/s/strace.*[0-9]/ptest/' \
-+	sed -e 's/^srcdir = .*/srcdir = ..\/..\/ptest\/tests/' \
- 	    -e "/^TEST_LOG_DRIVER =/s|(top_srcdir)|(top_builddir)|" \
- 	    -i ${D}/${PTEST_PATH}/${TESTDIR}/Makefile
- }
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-python-Makefile.am-use-absolute-path-for-source-dire.patch b/meta/recipes-kernel/systemtap/systemtap/0001-python-Makefile.am-use-absolute-path-for-source-dire.patch
+new file mode 100644
+index 00000000000..dacd19edd1d
+--- /dev/null
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-python-Makefile.am-use-absolute-path-for-source-dire.patch
+@@ -0,0 +1,36 @@
++From 71e4ffd46dbbb7de1d06edb66f3e1fe0de423586 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Wed, 21 May 2025 13:25:46 +0200
++Subject: [PATCH] python/Makefile.am: use absolute path for source directory
++ includes as well
++
++Otherwise it would be relative to the build directory,
++which works only if the build and source directory are in the
++same parent directory, and breaks if they're on different levels.
++
++Upstream-Status: Submitted [by email to fche@redhat.com,wcohen@redhat.com,systemtap@sourceware.org]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ python/Makefile.am | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/python/Makefile.am b/python/Makefile.am
++index 9d5cb7bcb..130e90b24 100644
++--- a/python/Makefile.am
+++++ b/python/Makefile.am
++@@ -2,10 +2,10 @@
++ 
++ AUTOMAKE_OPTIONS = subdir-objects
++ 
++-# Note that we have to use 'abs_builddir' here since we change
+++# Note that we have to use absolute directores here since we change
++ # directories back to the source directory when building the python
++ # extension.
++-AM_CPPFLAGS = -I$(srcdir)/../includes
+++AM_CPPFLAGS = -I$(abs_srcdir)/../includes
++ AM_CPPFLAGS += -I$(abs_builddir)/../includes/sys
++ 
++ # Add OE's CFLAGS which contains `-fdebug-prefix-map' options to
++-- 
++2.39.5
++
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index 254bac4d6f9..588b3b8d36f 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -9,6 +9,7 @@ require systemtap_git.inc
+ SRC_URI += " \
+            file://0001-improve-reproducibility-for-c-compiling.patch \
+            file://0001-staprun-address-ncurses-6.3-failures.patch \
++           file://0001-python-Makefile.am-use-absolute-path-for-source-dire.patch \
+            "
+ 
+ DEPENDS = "elfutils"
 -- 
 2.39.5
 
