@@ -1,142 +1,176 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 555A3C5AD49
-	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 23:21:37 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.web10.7897.1749252096055079289
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 568EBC5AD49
+	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 23:49:47 +0000 (UTC)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by mx.groups.io with SMTP id smtpd.web10.8262.1749253786651422428
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 16:21:36 -0700
+ Fri, 06 Jun 2025 16:49:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V/9AfBqu;
- spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-70e64b430daso25114297b3.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 16:21:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749252095; x=1749856895; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+5B1juTCi6cL3e9pNlr/z4j+EQOtuhUGrYhl9QaDNxo=;
-        b=V/9AfBqumEcipvMuezL2u8QgkENqupNo6KOirHmU5yt+4vr2SiqbYp6WB7rHpguS98
-         kX2uVv+l6GVWcIjbrrGRR46wSRlzRutGUUHixHICubcy78rMSJXi81zETuWDwaOh39Ra
-         3XYPg/sJx7mEVJQG/pw2SFn/9SRvzLJpeL6CdBGsry0xOOqf3RQ4IMibvLubZa4DJ6tU
-         2N3HmO0rCqlh1F0+8F52YGTbV/dmcYVfgcHKtZlOMDDs9nHk1m7oYSiQcCgM2wxkoyOs
-         z6WrpCtG5ZG1KG3N6YzJJXCBKQwzBgWKJRrsrPSLNZYIOZEdMHyrXaE2CbC8p/7R88xj
-         aq2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749252095; x=1749856895;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+5B1juTCi6cL3e9pNlr/z4j+EQOtuhUGrYhl9QaDNxo=;
-        b=KIblwBXi7QdKTBR2pa9fLcyjoKUGuvIsIfZ9rS0kIW+5M34PZ0F7z1b4PKdnq9XC84
-         nF1feoPDcNvVs9DS/WSSNWS/GVAwe6nWHusBub9H0EKbyI2yIMDBrBb5L6m9S0mO5UTk
-         gWa1D4/gpgkmBF3lGnXlC/OQz9tvkw+h01/PXqhG8zpkqE+FDcOiFKxZRG0b+Nq+9pFh
-         q6k4VHsJVVCID6gzi4Ty4NpPd9zC1THaSgtm7O3HCZGZhEK3jjTwiPloXZGVFabrNl2x
-         LwSyqqsCS8NnuJkR6F82f3iVSIz7W/IBY7iA5M3AWz6lKuiPXow8npi4UfGLkoNyU+WZ
-         +g6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWwWW2B0l0gpn8AO1SmYALzuUmwACqR0LQwRN1wQcOj9C4kdS6r15AT9N7htFkkS/FHRH3uozPOwEzOtSXPsO53QQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzzdDMlJrIhnfBrdblBLfvF6YYf8nrASK/AiN0t/aJnkRjeB9zn
-	RzhCo5cUlzkArp5wzFcpoHPv2Ucby0Y5Gtj1UB6Wv7TJIRS1au9aJnryok/XztLaOyQAgVmAAh9
-	4wr/ugqi4C58rJejBpDOWmPZP48aeHi6N7xzw+zk=
-X-Gm-Gg: ASbGncvDrdQeMGF/dWbzPi3bPXCaLqbx0nRy5BG/H7+YmWNAkBWEPxeI5tUeYaNoqcB
-	eE/4XbdG/bstDoYP7Fvy3dMxPptmFMgB7FgFvZb7UB+I9VQZuSltIYHhZJ7zDIqWzU9zev2nNSC
-	zgy2sYU0mOqKhr7nDlmDVJoxcS/9IBmmRcKlqsE/AsiXJcOTn1mUWOog==
-X-Google-Smtp-Source: AGHT+IF5EPlohMnMtkR+VM7ks66u/xes/vh7nz/GRXXdAoyVYW0R8wL4o+34zg4oals8risLFuN3qHJKYFO599HIe9M=
-X-Received: by 2002:a05:690c:6403:b0:70e:73ae:766c with SMTP id
- 00721157ae682-710f76873c6mr76840987b3.22.1749252095125; Fri, 06 Jun 2025
- 16:21:35 -0700 (PDT)
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=W3+sI+0V;
+ spf=pass (domain: ti.com, ip: 198.47.19.246, mailfrom: rs@ti.com)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 556NnO9L326311;
+	Fri, 6 Jun 2025 18:49:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1749253764;
+	bh=LbMvrCR/tgZqjlhXdPLLbpLcfx0t0XfNwbCtFlQTYXY=;
+	h=Date:CC:Subject:From:To:References:In-Reply-To;
+	b=W3+sI+0VJROWEsnrPjJEqlZlV+5Uc+TrLbemDuUJWQgwagJKjij9zLUkPJ5bg3SQm
+	 gBUppLq2H6Rw/Xar09PMLgZC50NRNuac0yW0srp/tJL8sTyCycejycIKWkl5xDjqzI
+	 vD7YRDygq1Y/08tbaJOGEdsxp5maGzcTCurdWC8Q=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 556NnOVw2010307
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Fri, 6 Jun 2025 18:49:24 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 6
+ Jun 2025 18:49:24 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 6 Jun 2025 18:49:24 -0500
+Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 556NnOc71702062;
+	Fri, 6 Jun 2025 18:49:24 -0500
 MIME-Version: 1.0
-References: <20250530032047.1369164-1-sandeep.gundlupet-raju@amd.com>
- <8607D12C-E6E5-41DF-9809-6E748E1D749D@arm.com> <18462F4E324B73C9.10724@lists.openembedded.org>
- <1195a8d4-f134-4fe7-8169-2fb0b6f2fb6b@amd.com>
-In-Reply-To: <1195a8d4-f134-4fe7-8169-2fb0b6f2fb6b@amd.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 6 Jun 2025 16:21:09 -0700
-X-Gm-Features: AX0GCFuU4vIUx5ELGJRCfHYiuD1b4NG6FZ6HlE0MtQyupo_IPD78x5RrRf3ruJY
-Message-ID: <CAMKF1sq7FSejf79sUhHyPbMmNnNeH1xs9ACXrd2R4WBDTxYn5Q@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap,master][PATCH] tune-cortexr52: Add support
- for ARM Cortex-R52 32-bit
-To: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
-Cc: ross.burton@arm.com, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, Jon Mason <Jon.Mason@arm.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 6 Jun 2025 18:49:24 -0500
+Message-ID: <DAFUPHGYYRT1.2FFSY7HLVS32B@ti.com>
+CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: Re: [oe-core][PATCHv6 0/5] Display manager proposal for x11 and
+ wayland
+From: Randolph Sapp <rs@ti.com>
+To: Randolph Sapp <rs@ti.com>,
+        Mathieu Dubois-Briand
+	<mathieu.dubois-briand@bootlin.com>,
+        <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
+        <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250520233935.740242-1-rs@ti.com>
+ <DA1YOI4L8TYX.ALF8S230UTO1@bootlin.com> <DA7AGREX7HJ9.33KJKYJPO1A3N@ti.com>
+ <DA7RUET7783J.484RLJVMFOCZ@bootlin.com> <DAE5YENHYCZ0.39HEAHC58A3FV@ti.com>
+In-Reply-To: <DAE5YENHYCZ0.39HEAHC58A3FV@ti.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 23:21:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218189
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 23:49:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218190
 
-Hi Sandeep
-
-On Fri, Jun 6, 2025 at 10:35=E2=80=AFAM Gundlupet Raju, Sandeep
-<sandeep.gundlupet-raju@amd.com> wrote:
+On Wed Jun 4, 2025 at 7:12 PM CDT, Randolph Sapp wrote:
+> On Wed May 28, 2025 at 6:53 AM CDT, Mathieu Dubois-Briand wrote:
+>> On Wed May 28, 2025 at 12:16 AM CEST, Randolph Sapp wrote:
 >
+> [snip]
 >
-> On 6/5/2025 9:31 AM, Sandeep Gundlupet Raju via lists.openembedded.org
-> wrote:
-> >
-> > On 6/5/2025 8:12 AM, Ross Burton via lists.openembedded.org wrote:
-> >> On 30 May 2025, at 04:20, Sandeep Gundlupet Raju via
-> >> lists.openembedded.org
-> >> <sandeep.gundlupet-raju=3Damd.com@lists.openembedded.org> wrote:
-> >>> Add tune variant for ARM Cortex-R52 32-bit in GCC as there is no
-> >>> support for Cortex-R52 32-bit toolchain.
-> >> This is the wrong fix as the existing tune file is just wrong.
-> >>
-> >> The cortexr52 tune says:
-> >>
-> >> TUNE_FEATURES:tune-cortexr52 =3D "aarch64 crc simd cortexr52=E2=80=9D
-> >>
-> >> But the Cortex R52 Technical Reference Manual[1] says "The
-> >> Cortex=C2=AE-R52 processor implements the Armv8-R AArch32 architecture=
-=E2=80=9D,
-> >> so there is no 64-bit R52.
-> >>
-> >> The solution here is to stop it claiming to be 64-bit at all.
+>>> Ah, the auth failures persist. Normally this is caused when the user at=
+tempts to
+>>> login before the user account was created or something unusual like tha=
+t. I
+>>> don't suppose there's any way this could be happening on the test machi=
+nes?
+>>>
+>>> I'm not able to reproduce this locally, but my build config is differen=
+t. I tend
+>>> to use oe-core and nodistro instead of poky. They aren't playing around=
+ with the
+>>> reproducible build date stuff or anything like that are they?
+>>>
+>>> Well, I mean I did see this on occasion. The first login attempt almost=
+ always
+>>> failed, but the subsequent attempts were fine. Bumping the attempt coun=
+t back up
+>>> the default (2) was enough to resolve it on my end, but evidently it's =
+not
+>>> enough here.
+>>>
+>>> This is not happening on hardware from what I'm seeing.
+>>
+>> Hi Randolph,
+>>
+>> I was able to reproduce it locally, with the following configuration:
+>> - https://git.yoctoproject.org/poky-ci-archive on tag
+>>   autobuilder.yoctoproject.org/valkyrie/a-full-1630.
+>> - template local.conf, with the following modifications:
+>>   MACHINE =3D "qemux86"
+>>   DISTRO =3D "poky-altcfg"
+>>   SDKMACHINE =3D "x86_64"
+>>   PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"
+>>   INHERIT +=3D 'image-buildinfo'
+>>   IMAGE_BUILDINFO_VARS:append =3D ' IMAGE_BASENAME IMAGE_NAME'
+>>   PACKAGE_CLASSES =3D 'package_ipk package_rpm package_deb'
+>>   IMAGE_ROOTFS_EXTRA_SPACE:append =3D '${@bb.utils.contains('IMAGE_FEATU=
+RES', 'package-management', ' + 262144', '', d)}'
+>>   IMAGE_INSTALL:append =3D ' ssh-pregen-hostkeys'
+>>   SANITY_TESTED_DISTROS =3D ''
+>>   OE_FRAGMENTS +=3D 'core/yocto-autobuilder/autobuilder core/yocto-autob=
+uilder/autobuilder-resource-constraints'
+>>   # (Plus my own sstate cache and downloads dir).
+>> - bitbake core-image-sato
+>> - bitbake core-image-sato:do_testimage
+>>
+>> Of course using the tag from poky-ci-archive is not mandatory, you
+>> should see the same behaviour with master branch and your patches.
+>>
+>> I saw some oe-selftest was also failing on the autobuilder, with an
+>> error related to emptty. You can reproduce it with:
+>>
+>> oe-selftest -r sstatetests.SStateHashSameSigs3.test_sstate_sametune_same=
+sigs
+>
+> Status report, since it's been a little bit.
+>
+> Seems this some i386/x86 fault only exposed in this specific environment.=
+ I was
+> unable to reproduce it on Archlinux32. I've traced it back to a SEGFAULT =
+when we
+> attempt to execute mcookie as the target user. Odd stuff. Delve and gdb a=
+ren't
+> helping me here. Running some more tests to see if I can corner this some=
+ other
+> way.
+>
+> - Randolph
 
-Looking at web for docs I see
+Well, I managed to determine this is specifically an issue after loading li=
+bpam
+and attempting to authenticate.
 
-Cortex-r82 which is based on ARMv8-R with aarch64 ISA
+Seems like loading both common-auth and common-account before calling
+pam_acct_mgmt results in the above described segfault.
 
-https://developer.arm.com/Processors/Cortex-R82
+There are 3 pam interactions made after the initial auth.
+	1. pam_acct_mgmt
+	2. pam_set_item
+	3. pam_setcred
 
-Cortex-r52 which is under question here says its ARMv8-R but with 32bit ISA
+Loading only common-account reports that pam_acct_mgmt fails with the PAM_S=
+ILENT
+flag set.
 
-https://developer.arm.com/Processors/Cortex-R52
+Removing that flag makes the later pam_setcred fail, but allows pam_acct_mg=
+mt
+and pam_set_item to work correctly. Removing the call to pam_acct_mgmt
+altogether seems to allow pam_setcred to work.
 
-So I think we should remove aarch64 from this tune, that will be right
-thing to do for r52
+Removing the call to pam_acct_mgmt also allows both common-auth and
+common-account to be loaded without triggering the segfault.
 
+Very unusual. Everything points at the obvious "arch specific problems with=
+ the
+go pam wrapper", but other distributions don't seem to have this issue and
+nothing seems particularly wrong with the wrapper itself. Could be a
+manifestation of multiple issues though, considering how much the behavior
+changes depending on what pam modules are loaded.
 
-> >>
-> >> Ross
-> >>
-> >> [1]
-> >> https://developer.arm.com/documentation/100026/0104/The-Cortex-R52-pro=
-cessor/Supported-standards/Arm-architecture?lang=3Den
-> > [Sandeep]: Ross, Thanks for the reference point. I can send a v2 patch
-> > by removing 64-bit references. But I won't able to test all the use
-> > cases.
-> [Sandeep]: I had a chat with Khem and he said we can enable 64-bit ISA
-> optionally. I will wait for Khem to reply wiht right pointers. This is
-> blocking some of our deliverables to build r52-bit baremetal and zephyr
-> application.
-> >>
-> >>
-> >>
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#218036): https://lists.openembedded.org/g/openembed=
-ded-core/message/218036
-> > Mute This Topic: https://lists.openembedded.org/mt/113374193/3619217
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-sandeep.gundlupet-raju@amd.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+Guess I have some reading to do this weekend.
+
+- Randolph
 
