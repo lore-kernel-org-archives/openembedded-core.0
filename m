@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31466C61CE7
-	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 16:00:43 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.37097.1749225636749989393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 331B7C61CE7
+	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 16:00:53 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.37102.1749225643917574256
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 09:00:36 -0700
+ Fri, 06 Jun 2025 09:00:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=cX6mPhat;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso1924510b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 09:00:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2I13pgQn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-747fc7506d4so2347966b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 09:00:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749225636; x=1749830436; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749225643; x=1749830443; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O1CgjKfVxjEEk67FKgX+MgXJGosun0FwCukEiGp68Pw=;
-        b=cX6mPhatZa8a5P0dzqBU8JCf09wRm0rWUmTwfrnglPTC88COjenpPTgE0aBopl4iDz
-         aYlK0HUIdfmcpsH6dL3zlx0WCemFxJQi1EVDcWd9cruK5z4s8QiR7c8jBGwj8rZ2em9B
-         Yg8cxwXBKICemmUn0i3hyR/IyCr43lgETt4W3MddefOTPVmGnh8+T4Q3VAb/kCUIo7jW
-         zWAAHd9Dww62JkybsibLbtHdrpXHFROF/m9sU5M6q7OFAvRPKr1aJbyL6ruGjrAu76DP
-         2Z+vyCMWla9Eevig1OyUufu7CTJ5S7XJg4oqn3wxbCTsjQ5Hi7+AG6pwkqtT4McpONnN
-         omPw==
+        bh=34qitVRbpoH7T2obo3Z91c76SoEWVMVbFyyFQgsPBY8=;
+        b=2I13pgQnT/A1EsWk/BposJzyg0Lo31p4z9AnGWVccPzjG2BkM3tT1WcbFs7AFNCWPd
+         uZZRg+JR5w6qjebcyd3hztLDSQ+LAgWfsP++z63wBJJJ+Jz5QwJbgpKw9tVQESAor/kN
+         /VTQ9IJGVx9HELFjIXEC4z5nQrxfjg6NKKDKWSbwx1LxY58892EcTu2hgRLwSek60byL
+         odBxZBDUytcEw4YgKRbGmO4GbENJR3biQwCtkNg0tKTnyea5F8lbByX0ARRYqgDuOHlt
+         QrNvDQROmk39h6LdRkMbkAP+APdz+nGf3ynMMza8WbJKMi6ut9QOodl2t70VrsZ6pDZg
+         5caw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749225636; x=1749830436;
+        d=1e100.net; s=20230601; t=1749225643; x=1749830443;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O1CgjKfVxjEEk67FKgX+MgXJGosun0FwCukEiGp68Pw=;
-        b=ATX98zBViLAhm9eN1OnB4wQIcmfOe5iU09zwhM3bgSi1Ll/TrUL9uhcbYQpo8u6O2M
-         4/V45A29hwCuQZcpc1mXe6xyquxiNN9f8FafWn4+slKdihdvAAkJFPadTozerMz4xFq9
-         pm4W/HMXC+45tSgLVeG9b6ieIn5f4DiT603CIwr9Drj/FS9kexWZ2d+GcIZfQaWOM09h
-         TosKNW49M6OdaGEr6ADsMti0qypK0F722w3qd8XHtsnmjCnNZ/qCXu4d7xdONp+w9kP8
-         OIH37gLgAfU3ASZyKjm9qLwySJB75jme/QkQMhETqYQQ3gsCcQf3GwbAjUBblJkl8m+J
-         7ZfA==
-X-Gm-Message-State: AOJu0Yy+0oNNKgnu29oCfLaif+JrooFqNZKA+gJ/eohjfycO1gTYM0Ld
-	wYrcE4TZMJto9+S3TuncxTb3nFQOBL9hj/z3x4sv0m3jN6og+Ng7kcu2Hz0FlhMKVT6H8d1QXib
-	1TEuV
-X-Gm-Gg: ASbGncvlnuBNWYdftI805UkPT0hoPCOdYYyBKRI3/w5DKhPOBgMHFU8xWxc2zfzvEyU
-	gBEIUG5/hoyKZHUfArRTn9LirU4yh5xK2ByX8DnFuqgA8fMbPWbrmz5aDNNm7jZfkB35k3RZgiy
-	hAeXQN0j3InAR/YjjkW1g0PM+2/uO6fWY4TEOoNnOU0861bbmRz81QA3bJyoJom41qJoS/GsOUa
-	P42BKPeMhgMHS+gg/f0dxQwBzkNSiecaYcFYpjXkYi7Du3TdyhXmewUo+TlMX+BQsgE/RSdg2HA
-	K0fxNP232oRP9zB/35qgZi/HLe+DTUvxVFQ82SI25xFXMH13EB5llAc03E8aTBHD
-X-Google-Smtp-Source: AGHT+IFMmvXi9qKgzx59uFi8dCAbdZrU60JQXn7DUraxIxIDcNe2u5+pJBHu3HJKqjYau8ks47Pc6g==
-X-Received: by 2002:a05:6a00:1796:b0:742:a334:466a with SMTP id d2e1a72fcca58-74827ea23a8mr5524363b3a.12.1749225633872;
-        Fri, 06 Jun 2025 09:00:33 -0700 (PDT)
+        bh=34qitVRbpoH7T2obo3Z91c76SoEWVMVbFyyFQgsPBY8=;
+        b=IEeq2uyHgiaD1UPFwIe/pufJVheJdvEn/yLbizaytD3CVmIRQt6/7AkoiBRHYaPcWO
+         ULDb1fOT2DVXIYxz62vInFr9LU81zEh3pSB8IzVmsnwzHppnFDaZmL3FovRtsS/o+94U
+         sVTDxRrlDZjj2HKkriiuaCSv1Lczs+0vX7OiyCSKhibdPQV2ynlggOG/3Q2AI4V2vw9L
+         6RQJDG+R6+3I9rEogxNVBDAxR6+Ol6ey1p8ROeSevQToOb9lv8GBXCIi1+hoEektZZrg
+         +3SWMwJjx+v3scF5KKgm8tnxtw/3Q0szsS0jez9K6TLCk2hP1q9l7Gr+BKV0NnWEBG+2
+         isUQ==
+X-Gm-Message-State: AOJu0YwXP/hkwdHvD7+C8uCSv+v9heKqU5bwXLP/EINjwVf4yq8JkNKh
+	0Q00XAZXvTd8i1x1t5KyjK+nkRqYBmChVSWsjUr2VwL74DFJBtp8Tfavb2yYBE81G4nNRqxYd/o
+	7OLsg
+X-Gm-Gg: ASbGncsK1OeSENO15bAvLgqTW8ssCp7tTjWsdFIEuNSSXb7OrV2LaZRlrazyG3uVOKQ
+	PI7sINFbuR5P6mz/8Yf/DCzJ/spvcpFHV7I7KoDIsHTXHn98LvNISJN2WV4z5kWRID3mgTDVYB3
+	PyP1PE3tPegXSLAR3rlmhuQTtjsr3ZBvOHrvTcIGLZkMUAVtyJZKg2zTiflhz+6T4tq+jXwZ4e2
+	/Cjdn9/i16/nQeSLn5MHc7lGPDz2RVc12hJZX6IJrIkfQLGSuggdxB9Gr5P9gAkBG4GnIPvRSqW
+	1Qbjgo8k6qoZiCmP8k8GJbFc9qpBxQLmnPvGZNA3/kE=
+X-Google-Smtp-Source: AGHT+IFyZA7bmU3XAsRb2DbGa584uF2D9EE/pUJSoDSRCoPlrFwJHEVgfYBUgY9vi7/o/cZ2sBpZ4Q==
+X-Received: by 2002:a05:6a00:2343:b0:746:2a0b:3dc8 with SMTP id d2e1a72fcca58-74827f10ac0mr5088309b3a.17.1749225643146;
+        Fri, 06 Jun 2025 09:00:43 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:742a:4153:2a1f:f028])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b083a9bsm1436489b3a.77.2025.06.06.09.00.33
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b083a9bsm1436489b3a.77.2025.06.06.09.00.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 09:00:33 -0700 (PDT)
+        Fri, 06 Jun 2025 09:00:42 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/12] screen: fix CVE-2025-46802
-Date: Fri,  6 Jun 2025 09:00:03 -0700
-Message-ID: <b17e091eb4681b69c5a050d3fa0f9289f524e205.1749225418.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/12] screen: fix CVE-2025-46804
+Date: Fri,  6 Jun 2025 09:00:04 -0700
+Message-ID: <a313af8ca347797214669406ee86f5239997f7e3.1749225418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1749225417.git.steve@sakoman.com>
 References: <cover.1749225417.git.steve@sakoman.com>
@@ -66,189 +66,177 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 16:00:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218172
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 16:00:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218173
 
 From: Divya Chellam <divya.chellam@windriver.com>
 
-For a short time they PTY is set to mode 666, allowing any user on the
-system to connect to the screen session.
+A minor information leak when running Screen with setuid-root
+privileges allosw unprivileged users to deduce information
+about a path that would otherwise not be available.
+
+Affected are older Screen versions, as well as version 5.0.0.
 
 Reference:
-https://security-tracker.debian.org/tracker/CVE-2025-46802
+https://security-tracker.debian.org/tracker/CVE-2025-46804
 
 Upstream-patch:
-https://cgit.git.savannah.gnu.org/cgit/screen.git/commit/?id=049b26b22e197ba3be9c46e5c193032e01a4724a
+https://cgit.git.savannah.gnu.org/cgit/screen.git/commit/?id=e0eef5aac453fa98a2664416a56c50ad1d00cb30
 
 Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../screen/screen/CVE-2025-46802.patch        | 146 ++++++++++++++++++
+ .../screen/screen/CVE-2025-46804.patch        | 131 ++++++++++++++++++
  meta/recipes-extended/screen/screen_4.9.1.bb  |   1 +
- 2 files changed, 147 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2025-46802.patch
+ 2 files changed, 132 insertions(+)
+ create mode 100644 meta/recipes-extended/screen/screen/CVE-2025-46804.patch
 
-diff --git a/meta/recipes-extended/screen/screen/CVE-2025-46802.patch b/meta/recipes-extended/screen/screen/CVE-2025-46802.patch
+diff --git a/meta/recipes-extended/screen/screen/CVE-2025-46804.patch b/meta/recipes-extended/screen/screen/CVE-2025-46804.patch
 new file mode 100644
-index 0000000000..e46affc480
+index 0000000000..918c2c5ce9
 --- /dev/null
-+++ b/meta/recipes-extended/screen/screen/CVE-2025-46802.patch
-@@ -0,0 +1,146 @@
-+From 049b26b22e197ba3be9c46e5c193032e01a4724a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/screen/screen/CVE-2025-46804.patch
+@@ -0,0 +1,131 @@
++From e0eef5aac453fa98a2664416a56c50ad1d00cb30 Mon Sep 17 00:00:00 2001
 +From: Matthias Gerstner <matthias.gerstner@suse.de>
-+Date: Mon, 12 May 2025 15:15:38 +0200
-+Subject: [PATCH] fix CVE-2025-46802: attacher.c - prevent temporary 0666 mode
-+ on PTYs
++Date: Mon, 12 May 2025 15:26:11 +0200
++Subject: [PATCH] fix CVE-2025-46804: avoid file existence test information 
++ leaks
 +
-+This temporary chmod of the PTY to mode 0666 is most likely a remnant of
-+past times, before the PTY file descriptor was passed to the target
-+session via the UNIX domain socket.
++In setuid-root context the current error messages give away whether
++certain paths not accessible by the real user exist and what type they
++have. To prevent this only output generic error messages in setuid-root
++context.
 +
-+This chmod() causes a race condition during which any other user in the
-+system can open the PTY for reading and writing, and thus allows PTY
-+hijacking.
++In some situations, when an error is pertaining a directory and the
++directory is owner by the real user then we can still output more
++detailed diagnostics.
 +
-+Simply remove this logic completely.
++This change can lead to less helpful error messages when Screen is
++install setuid-root. More complex changes would be needed to avoid this
++(e.g.  only open the `SocketPath` with raised privileges when
++multi-attach is requested).
 +
-+CVE: CVE-2025-46802
++There might still be lingering some code paths that allow such
++information leaks, since `SocketPath` is a global variable that is used
++across the code base. The majority of issues should be caught with this
++fix, however.
 +
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/screen.git/commit/?id=049b26b22e197ba3be9c46e5c193032e01a4724a]
++CVE: CVE-2025-46804
++
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/screen.git/commit/?id=e0eef5aac453fa98a2664416a56c50ad1d00cb30]
 +
 +Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 +---
-+ attacher.c | 27 ---------------------------
-+ screen.c   | 19 -------------------
-+ 2 files changed, 46 deletions(-)
++ screen.c | 45 ++++++++++++++++++++++++++++++++++-----------
++ socket.c |  9 +++++++--
++ 2 files changed, 41 insertions(+), 13 deletions(-)
 +
-+diff --git a/attacher.c b/attacher.c
-+index c35ae7a..16b151e 100644
-+--- a/attacher.c
-++++ b/attacher.c
-+@@ -73,7 +73,6 @@ extern int MasterPid, attach_fd;
-+ #ifdef MULTIUSER
-+ extern char *multi;
-+ extern int multiattach, multi_uid, own_uid;
-+-extern int tty_mode, tty_oldmode;
-+ # ifndef USE_SETEUID
-+ static int multipipe[2];
-+ # endif
-+@@ -160,9 +159,6 @@ int how;
-+ 
-+       if (pipe(multipipe))
-+ 	Panic(errno, "pipe");
-+-      if (chmod(attach_tty, 0666))
-+-	Panic(errno, "chmod %s", attach_tty);
-+-      tty_oldmode = tty_mode;
-+       eff_uid = -1;	/* make UserContext fork */
-+       real_uid = multi_uid;
-+       if ((ret = UserContext()) <= 0)
-+@@ -174,11 +170,6 @@ int how;
-+ 	    Panic(errno, "UserContext");
-+ 	  close(multipipe[1]);
-+ 	  read(multipipe[0], &dummy, 1);
-+-	  if (tty_oldmode >= 0)
-+-	    {
-+-	      chmod(attach_tty, tty_oldmode);
-+-	      tty_oldmode = -1;
-+-	    }
-+ 	  ret = UserStatus();
-+ #ifdef LOCK
-+ 	  if (ret == SIG_LOCK)
-+@@ -224,9 +215,6 @@ int how;
-+       xseteuid(multi_uid);
-+       xseteuid(own_uid);
-+ #endif
-+-      if (chmod(attach_tty, 0666))
-+-	Panic(errno, "chmod %s", attach_tty);
-+-      tty_oldmode = tty_mode;
-+     }
-+ # endif /* USE_SETEUID */
-+ #endif /* MULTIUSER */
-+@@ -423,13 +411,6 @@ int how;
-+       ContinuePlease = 0;
-+ # ifndef USE_SETEUID
-+       close(multipipe[1]);
-+-# else
-+-      xseteuid(own_uid);
-+-      if (tty_oldmode >= 0)
-+-        if (chmod(attach_tty, tty_oldmode))
-+-          Panic(errno, "chmod %s", attach_tty);
-+-      tty_oldmode = -1;
-+-      xseteuid(real_uid);
-+ # endif
-+     }
-+ #endif
-+@@ -505,14 +486,6 @@ AttacherFinit SIGDEFARG
-+ 	  close(s);
-+ 	}
-+     }
-+-#ifdef MULTIUSER
-+-  if (tty_oldmode >= 0)
-+-    {
-+-      if (setuid(own_uid))
-+-        Panic(errno, "setuid");
-+-      chmod(attach_tty, tty_oldmode);
-+-    }
-+-#endif
-+   exit(0);
-+   SIGRETURN;
-+ }
 +diff --git a/screen.c b/screen.c
-+index 7653cd1..1a23e1a 100644
++index 1a23e1a..6eec151 100644
 +--- a/screen.c
 ++++ b/screen.c
-+@@ -230,8 +230,6 @@ char *multi_home;
-+ int multi_uid;
-+ int own_uid;
-+ int multiattach;
-+-int tty_mode;
-+-int tty_oldmode = -1;
++@@ -1122,15 +1122,28 @@ int main(int ac, char** av)
++ #endif
++   }
++ 
++-  if (stat(SockPath, &st) == -1)
++-    Panic(errno, "Cannot access %s", SockPath);
++-  else
++-    if (!S_ISDIR(st.st_mode))
+++  if (stat(SockPath, &st) == -1) {
+++    if (eff_uid == real_uid) {
+++      Panic(errno, "Cannot access %s", SockPath);
+++    } else {
+++      Panic(0, "Error accessing %s", SockPath);
+++    }
+++  } else if (!S_ISDIR(st.st_mode)) {
+++    if (eff_uid == real_uid || st.st_uid == real_uid) {
++       Panic(0, "%s is not a directory.", SockPath);
+++    } else {
+++      Panic(0, "Error accessing %s", SockPath);
+++    }
+++  }
++ #ifdef MULTIUSER
++   if (multi) {
++-    if ((int)st.st_uid != multi_uid)
++-      Panic(0, "%s is not the owner of %s.", multi, SockPath);
+++    if ((int)st.st_uid != multi_uid) {
+++      if (eff_uid == real_uid || st.st_uid == real_uid) {
+++        Panic(0, "%s is not the owner of %s.", multi, SockPath);
+++      } else {
+++        Panic(0, "Error accessing %s", SockPath);
+++      }
+++    }
++   }
++   else
++ #endif
++@@ -1144,9 +1157,13 @@ int main(int ac, char** av)
++       Panic(0, "You are not the owner of %s.", SockPath);
++ #endif
++   }
++-
++-  if ((st.st_mode & 0777) != 0700)
++-    Panic(0, "Directory %s must have mode 700.", SockPath);
+++  if ((st.st_mode & 0777) != 0700) {
+++    if (eff_uid == real_uid || st.st_uid == real_uid) {
+++      Panic(0, "Directory %s must have mode 700.", SockPath);
+++    } else {
+++      Panic(0, "Error accessing %s", SockPath);
+++    }
+++  }
++   if (SockMatch && index(SockMatch, '/'))
++     Panic(0, "Bad session name '%s'", SockMatch);
++   SockName = SockPath + strlen(SockPath) + 1;
++@@ -1184,8 +1201,14 @@ int main(int ac, char** av)
++       else
++         exit(9 + (fo || oth ? 1 : 0) + fo);
++     }
++-    if (fo == 0)
++-      Panic(0, "No Sockets found in %s.\n", SockPath);
+++    if (fo == 0) {
+++      if (eff_uid == real_uid || st.st_uid == real_uid) {
+++        Panic(0, "No Sockets found in %s.\n", SockPath);
+++      } else {
+++        Panic(0, "Error accessing %s", SockPath);
+++      }
+++    }
+++
++     Msg(0, "%d Socket%s in %s.", fo, fo > 1 ? "s" : "", SockPath);
++     eexit(0);
++   }
++diff --git a/socket.c b/socket.c
++index 54d8cb8..6c3502f 100644
++--- a/socket.c
+++++ b/socket.c
++@@ -169,8 +169,13 @@ bool *is_sock;
++   xsetegid(real_gid);
 + #endif
 + 
-+ char HostName[MAXSTR];
-+@@ -1009,9 +1007,6 @@ int main(int ac, char** av)
++-  if ((dirp = opendir(SockPath)) == 0)
++-    Panic(errno, "Cannot opendir %s", SockPath);
+++  if ((dirp = opendir(SockPath)) == 0) {
+++    if (eff_uid == real_uid) {
+++      Panic(errno, "Cannot opendir %s", SockPath);
+++    } else {
+++      Panic(0, "Error accessing %s", SockPath);
+++    }
+++  }
 + 
-+     /* ttyname implies isatty */
-+     SetTtyname(true, &st);
-+-#ifdef MULTIUSER
-+-    tty_mode = (int)st.st_mode & 0777;
-+-#endif
-+ 
-+     fl = fcntl(0, F_GETFL, 0);
-+     if (fl != -1 && (fl & (O_RDWR|O_RDONLY|O_WRONLY)) == O_RDWR)
-+@@ -2170,20 +2165,6 @@ DEFINE_VARARGS_FN(Panic)
-+       if (D_userpid)
-+         Kill(D_userpid, SIG_BYE);
-+     }
-+-#ifdef MULTIUSER
-+-  if (tty_oldmode >= 0) {
-+-
-+-# ifdef USE_SETEUID
-+-    if (setuid(own_uid))
-+-      xseteuid(own_uid);	/* may be a loop. sigh. */
-+-# else
-+-      setuid(own_uid);
-+-# endif
-+-
-+-    debug1("Panic: changing back modes from %s\n", attach_tty);
-+-    chmod(attach_tty, tty_oldmode);
-+-  }
-+-#endif
-+   eexit(1);
-+ }
-+ 
++   slist = 0;
++   slisttail = &slist;
 +-- 
 +2.40.0
 +
 diff --git a/meta/recipes-extended/screen/screen_4.9.1.bb b/meta/recipes-extended/screen/screen_4.9.1.bb
-index 96f8021255..bc4928ff77 100644
+index bc4928ff77..706351a593 100644
 --- a/meta/recipes-extended/screen/screen_4.9.1.bb
 +++ b/meta/recipes-extended/screen/screen_4.9.1.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0001-fix-for-multijob-build.patch \
+@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
             file://0001-Remove-more-compatibility-stuff.patch \
             file://CVE-2025-46805.patch \
-+           file://CVE-2025-46802.patch \
+            file://CVE-2025-46802.patch \
++           file://CVE-2025-46804.patch \
             "
  
  SRC_URI[sha256sum] = "26cef3e3c42571c0d484ad6faf110c5c15091fbf872b06fa7aa4766c7405ac69"
