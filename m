@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31797C61DB8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22FAEC5B555
 	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 14:28:31 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.34864.1749220107978373381
+ by mx.groups.io with SMTP id smtpd.web11.34867.1749220109863989517
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 07:28:28 -0700
+ Fri, 06 Jun 2025 07:28:29 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE715152B
-	for <openembedded-core@lists.openembedded.org>; Fri,  6 Jun 2025 07:28:09 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6FB4152B
+	for <openembedded-core@lists.openembedded.org>; Fri,  6 Jun 2025 07:28:11 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 22C033F673
-	for <openembedded-core@lists.openembedded.org>; Fri,  6 Jun 2025 07:28:27 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1FC593F673
+	for <openembedded-core@lists.openembedded.org>; Fri,  6 Jun 2025 07:28:29 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 03/16] libmodulemd: add manpages
-Date: Fri,  6 Jun 2025 15:28:08 +0100
-Message-ID: <20250606142822.3387675-3-ross.burton@arm.com>
+Subject: [PATCH v3 06/16] blktrace: put version in recipe filename
+Date: Fri,  6 Jun 2025 15:28:11 +0100
+Message-ID: <20250606142822.3387675-6-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250606142822.3387675-1-ross.burton@arm.com>
 References: <20250606142822.3387675-1-ross.burton@arm.com>
@@ -30,45 +30,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 14:28:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218144
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218147
 
-Inherit manpages and optionally enable the manpages. They're in the
-repository so don't need more tools to build.
+A recipe that fetches from git but is otherwise a released version
+should not be using _git.bb recipe names.
+
+Put the version in the filename and drop the explicit PV.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../blktrace/{blktrace_git.bb =3D> blktrace_1.3.0.bb}        | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-kernel/blktrace/{blktrace_git.bb =3D> blktrace_1.3.0=
+.bb} (94%)
 
-diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb b/me=
-ta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb
-index 79fabfc8683..c31fc44ce4f 100644
---- a/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb
-+++ b/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.1.bb
-@@ -10,9 +10,9 @@ SRCREV =3D "e7f179eeeb6eee1403f090fc43a3c80bb08b5bfd"
+diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-=
+kernel/blktrace/blktrace_1.3.0.bb
+similarity index 94%
+rename from meta/recipes-kernel/blktrace/blktrace_git.bb
+rename to meta/recipes-kernel/blktrace/blktrace_1.3.0.bb
+index 8fc30d74fd6..061a7b97846 100644
+--- a/meta/recipes-kernel/blktrace/blktrace_git.bb
++++ b/meta/recipes-kernel/blktrace/blktrace_1.3.0.bb
+@@ -10,14 +10,13 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D393a5ca445=
+f6965873eca0259a17f833"
 =20
+ DEPENDS =3D "libaio"
+=20
+-SRCREV =3D "366d30b9cdb20345c5d064af850d686da79b89eb"
+=20
+-PV =3D "1.3.0+git"
+-
+-SRC_URI =3D "git://git.kernel.dk/blktrace.git;branch=3Dmaster;protocol=3D=
+https \
++SRC_URI =3D "git://git.kernel.dk/blktrace.git;protocol=3Dhttps;branch=3D=
+master \
+            file://0001-bno_plot.py-btt_plot.py-Ask-for-python3-specifica=
+lly.patch \
+           "
+=20
++SRCREV =3D "366d30b9cdb20345c5d064af850d686da79b89eb"
++
  S =3D "${WORKDIR}/git"
 =20
--inherit meson gobject-introspection pkgconfig
-+inherit meson gobject-introspection pkgconfig manpages
-=20
--EXTRA_OEMESON =3D "-Dwith_py3=3Dfalse -Dwith_docs=3Dfalse -Drpmio=3Ddisa=
-bled -Dwith_manpages=3Ddisabled -Dgobject_overrides_dir_py3=3D${PYTHON_SI=
-TEPACKAGES_DIR}/gi/overrides"
-+EXTRA_OEMESON =3D "-Dwith_py3=3Dfalse -Dwith_docs=3Dfalse -Drpmio=3Ddisa=
-bled -Dgobject_overrides_dir_py3=3D${PYTHON_SITEPACKAGES_DIR}/gi/override=
-s"
-=20
- DEPENDS +=3D "glib-2.0 libyaml glib-2.0-native"
-=20
-@@ -21,3 +21,6 @@ BBCLASSEXTEND =3D "native nativesdk"
- GIR_MESON_OPTION =3D 'skip_introspection'
- GIR_MESON_ENABLE_FLAG =3D 'false'
- GIR_MESON_DISABLE_FLAG =3D 'true'
-+
-+PACKAGECONFIG ??=3D ""
-+PACKAGECONFIG[manpages] =3D "-Dwith_manpages=3Denabled,-Dwith_manpages=3D=
-disabled"
+ EXTRA_OEMAKE =3D "\
 --=20
 2.43.0
 
