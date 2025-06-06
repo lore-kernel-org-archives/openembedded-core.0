@@ -1,100 +1,158 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52CB4C5AD49
-	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 13:01:30 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.32969.1749214883634050608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A97D8C5B555
+	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 13:31:30 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web11.33567.1749216681336986063
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 06:01:23 -0700
+ Fri, 06 Jun 2025 06:31:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=d2VBaCNQ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=oqJrGVVa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101974554ebc2-7576efba-9f5e-4d32-a249-9d255c1bfbfe-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1749214882; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=MS0GlKSZNnnpUj9QxeQzHXTCWfo2juWRlDxtenDEXoU=;
-	b=d2VBaCNQCb0Zrgdem5QjSfQmA6b7dcFaVaUntwAdLzq5R6ss68griGOdncfHPtA8
-	ipZGA456uBl0lY10GZagzpQRfF6nsakxovAK1R8WPl/RSUOdpyBapvZDmIvdZ3Wm+t0
-	OO+WmE9YUmEvxQO31XDipfEmMK5Xvyq6F23B11Iw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749214882;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=MS0GlKSZNnnpUj9QxeQzHXTCWfo2juWRlDxtenDEXoU=;
-	b=oqJrGVVaTVsKid7w3Z3yqAp5MOK7xyBk9xErFEC1r4lUQUtkfYBLaccb+5tmNTzh
-	ZI/STTY0y0KQHpIXRWprutL6hmnHZuA9Py7iZfCixm5ng/XKyQssuKwnmHf/heA/dyJ
-	A2dYgqLQwU/Ru+ot/ffoBGwADQJzwUNoGD71rkDI=
-From: patchtest@automation.yoctoproject.org
-To: Yash.Shinde@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] rust: Upgrade 1.85.1->1.86.0
-In-Reply-To: <20250606124816.365627-1-Yash.Shinde@windriver.com>
-References: <20250606124816.365627-1-Yash.Shinde@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101974554ebc2-7576efba-9f5e-4d32-a249-9d255c1bfbfe-000000@us-west-2.amazonses.com>
-Date: Fri, 6 Jun 2025 13:01:22 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.06-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KyMtCFct;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-60766191202so1812885a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 06:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749216680; x=1749821480; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rjSE2d7OXarjCAYr6M1LMoHiPGgiypJBbdFV0PF2jzU=;
+        b=KyMtCFctPoLn7z+d94eojQfKeAaD2R/rLZ+fLa0Agi8JQ1EmQgHDmCRzgfu6wSiK+C
+         ArolJPfy9qGwwyT2bYbTtsD1Cm+WtCqH87CmOtQI2Eyfi8wXyr8ALNC/KFH5omFvISX/
+         fdzUiigGJ3rOkeNJ7koHYWxp/ptE5SotpPvikB01N58AXVMXo8DMoO4701q0InkZVYQ6
+         JbN3E5RQc8xj1khJaJrVdUs2JoBavZqgEJL7X8767for2eIbkDMHtb2zl4UVENpsNGq6
+         I9KGW55YidDTAwQBhIObVdchfbcz5/i26pBX8WUhpX8WV1DPeg8i+Xii43xaWEtZZ8wl
+         kGXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749216680; x=1749821480;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rjSE2d7OXarjCAYr6M1LMoHiPGgiypJBbdFV0PF2jzU=;
+        b=JJRTAG/GSyvX1jSHpdAoRn/Ip9JiMbkS7nCKYlqsUYzs4zwkqDw7Sp3zm/ZABh2zvL
+         oKKkqmJQWMGmmpoEBTPURFLPK0BS/v/oZRiNgj5lkttr2RjggBGVs2ekDh3W6iYEqqhT
+         3UjrZ94WXs4qH57xoYikKT/T3KoYIIdz2kdxBAkNVGAAAdG7w/gVPm/booemq4Qh5EP4
+         BnwgMt04BxWgZieJd0wJQHnsy7VfsaTg9vjKWsq8kjakdKmdrkwRcYnSYy+ipxKUCnoP
+         9fBT9OYa4IAL7lVaoJC6HJhKOnP34feNcC7ShUn4QmjqLOESq8+z4NI1Uixo7Rj/AJGD
+         vLzw==
+X-Gm-Message-State: AOJu0YyiQ3AICSH/Suqc1J3gwHws8Gpc/SS1Crmi7bvs/SyZD3r9FOvb
+	WIBE6peOj2+YJurzmAtF+GWNx9g13pcL2ir8iD6dE9mI+Wx10/2tk3u61h33Gw==
+X-Gm-Gg: ASbGnctWzTQcRBIuLdeqifLLlEf5sIaU5ptn8yxzc736zbRpcU1d3bCLZk8lnBcDas6
+	vMQ7QfeuVmYs6u0iOnNj6Bsmh8DzHcJXSvpgxNKfRMf2OTG9ZO4FYhvG5P+7RqPreiIykEx2SXF
+	tCB2f2f19SE3xiJHBor68E5nS/kLYOMlknX2JIzG3YeLHSAmY8trm1k3rCbzqibyR9OmRmF8VN+
+	jXY15AhHB9ZkJ5C6nJPf3o9VFLciTeJzaMp8w2RdMstwnhX02xdkh2Lk2EseGPRvylPELV6UUug
+	euY8dDXNLZCz+MbTBv93aAr4w9/CpH7oJAXB8WSLADqEBdPyrMYngcevuyQJx5PR++I=
+X-Google-Smtp-Source: AGHT+IHrBKDQ6/RV+xGxqGTxPS8B4IsGv8kZzun2pnsGJ60wG0IdRYSm+i0s0CSvpXZS9TBS0U5k0g==
+X-Received: by 2002:a05:6402:234d:b0:5f8:9607:3147 with SMTP id 4fb4d7f45d1cf-60773af4bd3mr2792446a12.6.1749216679272;
+        Fri, 06 Jun 2025 06:31:19 -0700 (PDT)
+Received: from localhost.localdomain ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-607783c2e93sm1026530a12.45.2025.06.06.06.31.18
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 06:31:18 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] bc: upgrade 1.08.1 -> 1.08.2
+Date: Fri,  6 Jun 2025 15:31:18 +0200
+Message-ID: <20250606133118.882464-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 13:01:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218139
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 13:31:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218140
 
---NextPart
-Content-Type: text/plain
+Changes:
+  - Remove last vestages of K&R C; this allows gcc-15+ to compile
+    the code without special options.
+  - Some typo and formatting fixes in the documentation.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+The above change also allowed dropping the relevant patch, that fixed
+gcc15 compatibility: 0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch
 
+License-Update: added copyright years to the file header.
+
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/rust-Upgrade-1.85.1--1.86.0.patch
+ ...ng-params-to-getopt-getenv-signature.patch | 40 -------------------
+ .../bc/{bc_1.08.1.bb => bc_1.08.2.bb}         |  5 +--
+ 2 files changed, 2 insertions(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-extended/bc/bc/0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch
+ rename meta/recipes-extended/bc/{bc_1.08.1.bb => bc_1.08.2.bb} (81%)
 
-FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
-FAIL: test max line length: Patch line too long (current length 210, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
-
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-extended/bc/bc/0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch b/meta/recipes-extended/bc/bc/0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch
+deleted file mode 100644
+index f43f336075..0000000000
+--- a/meta/recipes-extended/bc/bc/0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 493997b0d2c3dc6469f967d8f619ed934667c71e Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 22 Mar 2025 18:33:08 -0700
+-Subject: [PATCH] getopt: Add missing params to getopt/getenv signatures
+-
+-This ensures it can compile with GCC 15 on musl
+-
+-Upstream-Status: Submitted [sent to bug-bc@gnu.org]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- h/getopt.h   | 2 +-
+- lib/getopt.c | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/h/getopt.h b/h/getopt.h
+-index cc45f46..5ea5eac 100644
+---- a/h/getopt.h
+-+++ b/h/getopt.h
+-@@ -141,7 +141,7 @@ struct option
+-    errors, only prototype getopt for the GNU C library.  */
+- extern int getopt (int ___argc, char *const *___argv, const char *__shortopts);
+- #else /* not __GNU_LIBRARY__ */
+--extern int getopt ();
+-+extern int getopt (int,  char * const*, const char *);
+- #endif /* __GNU_LIBRARY__ */
+- 
+- #ifndef __need_getopt
+-diff --git a/lib/getopt.c b/lib/getopt.c
+-index b270074..3e6d071 100644
+---- a/lib/getopt.c
+-+++ b/lib/getopt.c
+-@@ -197,7 +197,7 @@ static char *posixly_correct;
+-    whose names are inconsistent.  */
+- 
+- #ifndef getenv
+--extern char *getenv ();
+-+extern char *getenv (const char*);
+- #endif
+- 
+- #endif /* not __GNU_LIBRARY__ */
+diff --git a/meta/recipes-extended/bc/bc_1.08.1.bb b/meta/recipes-extended/bc/bc_1.08.2.bb
+similarity index 81%
+rename from meta/recipes-extended/bc/bc_1.08.1.bb
+rename to meta/recipes-extended/bc/bc_1.08.2.bb
+index 5fbbe7ef6a..cebfed9642 100644
+--- a/meta/recipes-extended/bc/bc_1.08.1.bb
++++ b/meta/recipes-extended/bc/bc_1.08.2.bb
+@@ -5,7 +5,7 @@ DESCRIPTION = "bc is an arbitrary precision numeric processing language. Syntax
+ LICENSE = "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+-                    file://bc/bcdefs.h;endline=17;md5=4295c06df9e833519a342f7b5d43db06 \
++                    file://bc/bcdefs.h;endline=17;md5=f4a0239b216b8407783955e74938f190 \
+                     file://dc/dc.h;endline=18;md5=bad31533d57fe5948c996f9ef6643206 \
+                     file://lib/number.c;endline=20;md5=cf43068cc88f837731dc53240456cfaf"
+ 
+@@ -13,9 +13,8 @@ SECTION = "base"
+ DEPENDS = "flex-native"
+ 
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
+-           file://0001-getopt-Add-missing-params-to-getopt-getenv-signature.patch \
+            file://run-ptest"
+-SRC_URI[sha256sum] = "b71457ffeb210d7ea61825ff72b3e49dc8f2c1a04102bbe23591d783d1bfe996"
++SRC_URI[sha256sum] = "ae470fec429775653e042015edc928d07c8c3b2fc59765172a330d3d87785f86"
+ 
+ inherit autotools texinfo update-alternatives ptest
+ 
 
