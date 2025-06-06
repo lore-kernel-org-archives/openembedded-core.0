@@ -2,175 +2,227 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C42C677C4
-	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 16:00:23 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.37082.1749225617104640369
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12746C677C4
+	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 16:00:33 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.37092.1749225629360745856
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 09:00:17 -0700
+ Fri, 06 Jun 2025 09:00:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kTEqp5U7;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7376dd56f8fso2718414b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 09:00:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=g+6/lQAH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-742c3d06de3so2646448b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 09:00:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749225616; x=1749830416; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zc9/f8bQMw26n8fPZD/1M8zltNljl6LsMG+33QiIHac=;
-        b=kTEqp5U7XMEjAOOu/eQXoFlBHrNoj4eXjhWKAsc0YvgvSQ+wvcpBeDrZXkiMZHp6Jn
-         XRaY9NAJk5HQPOhrGe3BOQdYsdsYGQQLl7nOaNr2saLgrj568dqsyooeYWZ7MKga8u/G
-         vvwvlSrVFGdrmXLAehiPz4t/0KEEig/krxt+ZUCN/kMO8BPA4b2bKNxlSedD7dsiY3wn
-         49JjledmfraNmSwjgbKkaWAoyLbLh0NoNstKR7NFJw4rBtlIGiAUlTOducCHySZaZeeM
-         mZgly0htp4FjY3jr2w5Fg3FTGgRIATp5L3Kj6kkQIpMxfd6Fkpzzi6OcOVvNO3iiDtFZ
-         BEuw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749225629; x=1749830429; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kbsDPDu2sO9FJ4dLcsgADP0puUA++y3ojOxGp5L69fs=;
+        b=g+6/lQAHfmReM5zeUgu2X+aT90C5q9Ti9WY1jkRaPXZpd1JBcgi2/zwFDZjvl6Sqkg
+         r7xylDVeIQcfX+J55AKY2+7ezm1FPoA+xdopWR9aRGv6p4lcPM7u79icyOkdzo2YHB+j
+         U9nK1BTBsL60t/LZd11/3mz/uqHEwujsdaHVdCmE/bKFDkjg/gwUJDfnEzcpKfI02vM2
+         AYI/2xvTwq+Ui+OhJZ6HCJTXd3S5JHzgwhkVu/ffKfHuCnl9Pnu7rdyURyexptsMwPVt
+         Hgu5ER4dEY324vl5cKxl3y9w+wqt+0x13SI0Us0OEWXhEojVNqHnlw/CH4BrwECQte49
+         lg4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749225616; x=1749830416;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zc9/f8bQMw26n8fPZD/1M8zltNljl6LsMG+33QiIHac=;
-        b=LAHNEHEVtBNch3ei+RyPBQdvDElX6RWjg+/iiBjxMqTyLaLpW0qHkP9SdMHw6OFAvG
-         LpckLfWBPU0HXbDHVD/En0MKYfg+d1pgoOsVxkCOueCOdTKpTRfRxcpyXQHTDVVsf/ST
-         3gHg0sMxCq4qQrRnFvFax7ymbc+ksD45vwmhSv3jjVnlNSrhbw2+/CaZxLpI3hw3/pJb
-         oPcmSb9tbZ8VyeMLxnmMFz9aan2McgtS1Q6uGmeAgx4+RQh1d9ihY3m2ttD6Htfav5r+
-         4IGsEDLiFgLXCV+nbiDNebcbEZ7hZIOvlOPOI+KZ/GbrqirgetNMoK/6zZpETlgFse6L
-         5ZOA==
-X-Gm-Message-State: AOJu0YyrvBByUuAkQO8S+bJJ1T6Dbm7j3TtYoM2mSgIR2aGSTKvjZ9O2
-	rYhoLFZEoaAIpORznV3vS6BHyiJkFfPo1oJQ10huqDqco86YVLWZlczI2fqpKJubEBVQu3VIWkG
-	dXSBG
-X-Gm-Gg: ASbGnctgLuU5dqUJTm+W5kr0i7c48lFokqq0hUlFucp2xY6kIM9PlFfzsUs+jlQTpyG
-	klXvu9F8cMxtvDUjQtwZQwNXkhXN9lGB/tX+wdRy0P/Ikpct1b6QG0Sz0fXPzMgnq2RK4qEkVUn
-	lh/wauwb4zWHgWpuFf1+WjaIeRRFMoggaq5JpXoDKJh3WsaDS+shWNh6oODvzir0i53KFY4CeL4
-	CJej9+zDfE/OAwaxTefJdFQXh/ii2XbB94SNmVUYir7DTc/IK+K/BKtBawR3UMn59u7iASLlJFz
-	AdMDHsT7Juc7BE7p94YhwpCFBHMBNKzXradLjrTyF4s=
-X-Google-Smtp-Source: AGHT+IEZDhJNzngTct/Wh0iMFBHIZiHCO+TUNJ0stUum6MoWB++6VXjAnAPJvs1Az93DlNS3vOp37g==
-X-Received: by 2002:a05:6a00:cce:b0:73e:30dc:bb9b with SMTP id d2e1a72fcca58-74827e50eb9mr5541914b3a.2.1749225615802;
-        Fri, 06 Jun 2025 09:00:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749225629; x=1749830429;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kbsDPDu2sO9FJ4dLcsgADP0puUA++y3ojOxGp5L69fs=;
+        b=vC4sW7CI6SfoqI80lvcFwdHVbYatDYxHCLIFq2yXZL64D4AYPEjzDA5r6WBntaFJgz
+         AbXdAuUID08TvyAo2/1xkaIB1YhKDFwY+zys7VObNJODdCetFo6Chhl6JUzpoE1Rnu7R
+         IH7q2D9dkh9ZpC8H+ABqrRx4Od1yIoJCnesEgA5T1tuigWWPyIleYt2xjU229GIzpxuI
+         YwTqYxfsvrJ5t4hgtdr17m2l7x48N6LiERJMj2FMN3J0ymXiRWo6uDTkGkra9jQI2Ck7
+         tMk7wRv9SyusK1IBSFT5Imk+AKjZaWU+xDRJ0FtV+gfGKlCIMM19qYP6vHF1zqAWUB+Z
+         hYZA==
+X-Gm-Message-State: AOJu0YzSF1hKcWmqLOEzmJh469cGhZ+61WVPJLCziku/h8Hor7YLSFdF
+	pRVdWW3hWlsdIpLesVzNObiY+mSZvVw/pRc/XVAuDt4eEHQLK+cxd66WjghBHeX1M5D8B2vnQrp
+	tzktB
+X-Gm-Gg: ASbGncs29f+KKmCyaa8BkA3FRs5KIHo8fGsrPcupveGGmB5sM7e5baWR7c5VklpHiL4
+	QGPBawuowBy2U+8WWNrb3c790AABuTqJe/2TE+omydge4b+HAPHDmaRJbsUUuc1zShW7RxN1aNM
+	bHlnQzVjnHMLArAQKB0QUJcob4Ln9JNHQrfHiRMyBRk9SOoOR0iw9/IPFhsB1g99YxPdoivECfk
+	Db42ED9VeJTXi1GGM3wFzM8jmzxgyzoDMgEv3DaXhggUlnVvwgXjFEGSdG2xEvp/5fy8/MgJaFl
+	qYl/5+hN8XCLCSoE1hq5wr2XLdz4VQpbA14ezPEyCRo=
+X-Google-Smtp-Source: AGHT+IHIh3We8UpcMOCg7PeGLmSB5jyuQ67gqI/nLZXkO7dlhbH8E6t/uCzTIrGB/ty522lIj56fWA==
+X-Received: by 2002:a05:6a00:2303:b0:736:34a2:8a18 with SMTP id d2e1a72fcca58-74827f4494cmr5869765b3a.24.1749225628254;
+        Fri, 06 Jun 2025 09:00:28 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:742a:4153:2a1f:f028])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b083a9bsm1436489b3a.77.2025.06.06.09.00.15
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7482b083a9bsm1436489b3a.77.2025.06.06.09.00.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 09:00:15 -0700 (PDT)
+        Fri, 06 Jun 2025 09:00:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/12] Patch review
-Date: Fri,  6 Jun 2025 08:59:53 -0700
-Message-ID: <cover.1749225417.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 07/12] python3-setuptools: Fix CVE-2025-47273
+Date: Fri,  6 Jun 2025 09:00:00 -0700
+Message-ID: <9769cd99c32faf7d95a7cab07b8550b438ccaf0c.1749225418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1749225417.git.steve@sakoman.com>
+References: <cover.1749225417.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 16:00:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218162
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 16:00:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218169
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Tuesday, June 10
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport from
+https://github.com/pypa/setuptools/commit/d8390feaa99091d1ba9626bec0e4ba7072fc507a
+& https://github.com/pypa/setuptools/commit/250a6d17978f9f6ac3ac887091f2d32886fbbb0b
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1740
-
-The following changes since commit d1b64f190c1686f081f5ba2c4f2b320048f6a514:
-
-  sstatetests: Switch to new CDN (2025-06-02 07:21:18 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Changqing Li (6):
-  libsoup: fix CVE-2025-32908
-  libsoup: fix CVE-2025-32907
-  libsoup-2.4: fix CVE-2025-32907
-  libsoup-2.4: fix do_compile failure
-  libsoup-2.4: fix CVE-2025-32053
-  libsoup: fix CVE-2025-32053
-
-Deepesh Varatharajan (2):
-  binutils: Fix CVE-2025-5245
-  binutils: Fix CVE-2025-5244
-
-Divya Chellam (2):
-  screen: fix CVE-2025-46802
-  screen: fix CVE-2025-46804
-
-Guðni Már Gilbert (1):
-  systemd: upgrade 255.18 -> 255.21
-
-Vijay Anusuri (1):
-  python3-setuptools: Fix CVE-2025-47273
-
- ...55.18.bb => systemd-boot-native_255.21.bb} |   0
- ...-boot_255.18.bb => systemd-boot_255.21.bb} |   0
- meta/recipes-core/systemd/systemd.inc         |   2 +-
- ...1-missing_type.h-add-comparison_fn_t.patch |   2 +-
- ...k-parse_printf_format-implementation.patch |   2 +-
- ...tall-dependency-links-at-install-tim.patch |   2 +-
- ...missing.h-check-for-missing-strndupa.patch |  10 +-
- ...OB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch |   2 +-
- ...005-add-missing-FTW_-macros-for-musl.patch |   2 +-
- ...06-Use-uintmax_t-for-handling-rlim_t.patch |   2 +-
- ...T_SYMLINK_NOFOLLOW-flag-to-faccessat.patch |   2 +-
- ...patible-basename-for-non-glibc-syste.patch |   2 +-
- ...implment-systemd-sysv-install-for-OE.patch |   2 +-
- ...uffering-when-writing-to-oom_score_a.patch |   2 +-
- ...compliant-strerror_r-from-GNU-specif.patch |   2 +-
- ...definition-of-prctl_mm_map-structure.patch |   2 +-
- ...-not-disable-buffer-in-writing-files.patch |   8 +-
- .../0013-Handle-__cpu_mask-usage.patch        |   2 +-
- .../systemd/0014-Handle-missing-gshadow.patch |   2 +-
- ...l.h-Define-MIPS-ABI-defines-for-musl.patch |   2 +-
- ...ass-correct-parameters-to-getdents64.patch |   2 +-
- .../0017-Adjust-for-musl-headers.patch        |   2 +-
- ...trerror-is-assumed-to-be-GNU-specifi.patch |   2 +-
- ...util-Make-STRERROR-portable-for-musl.patch |   2 +-
- ...ake-malloc_trim-conditional-on-glibc.patch |   2 +-
- ...hared-Do-not-use-malloc_info-on-musl.patch |   2 +-
- ...22-avoid-missing-LOCK_EX-declaration.patch |   4 +-
- .../{systemd_255.18.bb => systemd_v255.21.bb} |   0
- .../binutils/binutils-2.42.inc                |   2 +
- .../binutils/0022-CVE-2025-5244.patch         |  25 +++
- .../binutils/0022-CVE-2025-5245.patch         |  38 ++++
- .../CVE-2025-47273-pre1.patch                 |  54 +++++
- .../python3-setuptools/CVE-2025-47273.patch   |  59 ++++++
- .../python/python3-setuptools_69.1.1.bb       |   2 +
- .../screen/screen/CVE-2025-46802.patch        | 146 +++++++++++++
- .../screen/screen/CVE-2025-46804.patch        | 131 ++++++++++++
- meta/recipes-extended/screen/screen_4.9.1.bb  |   2 +
- .../libsoup/libsoup-2.4/CVE-2025-32053.patch  |  39 ++++
- .../libsoup/libsoup-2.4/CVE-2025-32907.patch  |  39 ++++
- .../libsoup-2.4/CVE-2025-32910-1.patch        |  79 +------
- .../libsoup-2.4/CVE-2025-32910-2.patch        |  60 +-----
- .../libsoup-2.4/CVE-2025-32912-1.patch        |  20 +-
- .../libsoup/libsoup-2.4_2.74.3.bb             |   4 +-
- .../libsoup-3.4.4/CVE-2025-32053.patch        |  40 ++++
- .../libsoup-3.4.4/CVE-2025-32907-1.patch      | 200 ++++++++++++++++++
- .../libsoup-3.4.4/CVE-2025-32907-2.patch      |  68 ++++++
- .../libsoup-3.4.4/CVE-2025-32908-1.patch      |  89 ++++++++
- .../libsoup-3.4.4/CVE-2025-32908-2.patch      |  53 +++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   7 +-
- 49 files changed, 1053 insertions(+), 170 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot-native_255.18.bb => systemd-boot-native_255.21.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-boot_255.18.bb => systemd-boot_255.21.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_255.18.bb => systemd_v255.21.bb} (100%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0022-CVE-2025-5244.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0022-CVE-2025-5245.patch
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../CVE-2025-47273-pre1.patch                 | 54 +++++++++++++++++
+ .../python3-setuptools/CVE-2025-47273.patch   | 59 +++++++++++++++++++
+ .../python/python3-setuptools_69.1.1.bb       |  2 +
+ 3 files changed, 115 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch
  create mode 100644 meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2025-46802.patch
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2025-46804.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32053.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32907.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32053.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32907-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32907-2.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32908-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32908-2.patch
 
+diff --git a/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch
+new file mode 100644
+index 0000000000..72bcaea435
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273-pre1.patch
+@@ -0,0 +1,54 @@
++From d8390feaa99091d1ba9626bec0e4ba7072fc507a Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Sat, 19 Apr 2025 12:49:55 -0400
++Subject: [PATCH] Extract _resolve_download_filename with test.
++
++Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/d8390feaa99091d1ba9626bec0e4ba7072fc507a]
++CVE: CVE-2025-47273 #Dependency Patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ setuptools/package_index.py | 20 ++++++++++++++++----
++ 1 file changed, 16 insertions(+), 4 deletions(-)
++
++diff --git a/setuptools/package_index.py b/setuptools/package_index.py
++index 00a972d..d460fcb 100644
++--- a/setuptools/package_index.py
+++++ b/setuptools/package_index.py
++@@ -815,9 +815,16 @@ class PackageIndex(Environment):
++             else:
++                 raise DistutilsError("Download error for %s: %s" % (url, v)) from v
++ 
++-    def _download_url(self, url, tmpdir):
++-        # Determine download filename
++-        #
+++    @staticmethod
+++    def _resolve_download_filename(url, tmpdir):
+++        """
+++        >>> du = PackageIndex._resolve_download_filename
+++        >>> root = getfixture('tmp_path')
+++        >>> url = 'https://files.pythonhosted.org/packages/a9/5a/0db.../setuptools-78.1.0.tar.gz'
+++        >>> import pathlib
+++        >>> str(pathlib.Path(du(url, root)).relative_to(root))
+++        'setuptools-78.1.0.tar.gz'
+++        """
++         name, fragment = egg_info_for_url(url)
++         if name:
++             while '..' in name:
++@@ -828,8 +835,13 @@ class PackageIndex(Environment):
++         if name.endswith('.egg.zip'):
++             name = name[:-4]  # strip the extra .zip before download
++ 
++-        filename = os.path.join(tmpdir, name)
+++        return os.path.join(tmpdir, name)
++ 
+++    def _download_url(self, url, tmpdir):
+++        """
+++        Determine the download filename.
+++        """
+++        filename = self._resolve_download_filename(url, tmpdir)
++         return self._download_vcs(url, filename) or self._download_other(url, filename)
++ 
++     @staticmethod
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch
+new file mode 100644
+index 0000000000..be6617e0f6
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-setuptools/CVE-2025-47273.patch
+@@ -0,0 +1,59 @@
++From 250a6d17978f9f6ac3ac887091f2d32886fbbb0b Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Sat, 19 Apr 2025 13:03:47 -0400
++Subject: [PATCH] Add a check to ensure the name resolves relative to the
++ tmpdir.
++
++Closes #4946
++
++Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/250a6d17978f9f6ac3ac887091f2d32886fbbb0b]
++CVE: CVE-2025-47273
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ setuptools/package_index.py | 18 ++++++++++++++++--
++ 1 file changed, 16 insertions(+), 2 deletions(-)
++
++diff --git a/setuptools/package_index.py b/setuptools/package_index.py
++index d460fcb..6c7874d 100644
++--- a/setuptools/package_index.py
+++++ b/setuptools/package_index.py
++@@ -818,12 +818,20 @@ class PackageIndex(Environment):
++     @staticmethod
++     def _resolve_download_filename(url, tmpdir):
++         """
+++        >>> import pathlib
++         >>> du = PackageIndex._resolve_download_filename
++         >>> root = getfixture('tmp_path')
++         >>> url = 'https://files.pythonhosted.org/packages/a9/5a/0db.../setuptools-78.1.0.tar.gz'
++-        >>> import pathlib
++         >>> str(pathlib.Path(du(url, root)).relative_to(root))
++         'setuptools-78.1.0.tar.gz'
+++
+++        Ensures the target is always in tmpdir.
+++
+++        >>> url = 'https://anyhost/%2fhome%2fuser%2f.ssh%2fauthorized_keys'
+++        >>> du(url, root)
+++        Traceback (most recent call last):
+++        ...
+++        ValueError: Invalid filename...
++         """
++         name, fragment = egg_info_for_url(url)
++         if name:
++@@ -835,7 +843,13 @@ class PackageIndex(Environment):
++         if name.endswith('.egg.zip'):
++             name = name[:-4]  # strip the extra .zip before download
++ 
++-        return os.path.join(tmpdir, name)
+++        filename = os.path.join(tmpdir, name)
+++
+++        # ensure path resolves within the tmpdir
+++        if not filename.startswith(str(tmpdir)):
+++            raise ValueError(f"Invalid filename {filename}")
+++
+++        return filename
++ 
++     def _download_url(self, url, tmpdir):
++         """
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3-setuptools_69.1.1.bb b/meta/recipes-devtools/python/python3-setuptools_69.1.1.bb
+index 7663101f23..46b2f0ab00 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_69.1.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_69.1.1.bb
+@@ -13,6 +13,8 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ SRC_URI += " \
+             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch \
+             file://CVE-2024-6345.patch \
++            file://CVE-2025-47273-pre1.patch \
++            file://CVE-2025-47273.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "5c0806c7d9af348e6dd3777b4f4dbb42c7ad85b190104837488eab9a7c945cf8"
 -- 
 2.43.0
 
