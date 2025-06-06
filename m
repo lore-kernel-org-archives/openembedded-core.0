@@ -1,151 +1,244 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3586AC67861
-	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 20:58:36 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.5505.1749243511011061791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93438C5AD49
+	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 21:41:46 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.6293.1749246096950548374
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 13:58:31 -0700
+ Fri, 06 Jun 2025 14:41:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IY0EPinO;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a4f78ebec8so1535829f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 13:58:30 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZzYFgNGT;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-442fda876a6so21268095e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 14:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749243509; x=1749848309; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=awotewyAkVEL81B7kiEkmlvcmedzvUDl8UFKqsHl8So=;
-        b=IY0EPinOCzT+fTnCY+zvNQ5k+DGKqMGws+0Ufq8+F+2wB9MhOP3QrCgL/Q9s20gtM2
-         L2gDsegIIsFZLZdodKTBZMZeZDeDk70ESz+/8RenIDl6hvk+SUB4HNYR4HIfcCskjSLe
-         WSSiuPlt+Ij8dLKlSwfuJy5GAHe1P9WCGbTcFtC9m7aRkZp+Opd6Q5oOnfk6I9y+46tx
-         WOgD5mrxbhuuVX6tUrIIM29XWsddoDopGVC/sv4Y1d3rqsqcrWLqYD5G6fZ4NZs/WXhI
-         FpJ9dNtpKsMNY3xjoy7i8wz8fLitXjE7BojqdhmG7Ii+WTo5F0MEAMsUDwWJyrq1xwJV
-         qo5A==
+        d=linuxfoundation.org; s=google; t=1749246095; x=1749850895; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qkvtyH2iMevporBTTZJAl0XFFGCC9yV7msXb20+Q5rM=;
+        b=ZzYFgNGTWpdCD1btkSlbjbCK5ND+gOy+Oig7Ig7jxMYwref9dZUHwMsaP1wTt1uwus
+         uISzT7Rc+U1T39QnmW159+Tk4gMDDaM/Bn69Eeya8zDB4hJg4H3x6UIS3CHg0pdx/aU9
+         KbADLim+7IT1+dIWMz6NDzNm4HgrcusL7nyV8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749243509; x=1749848309;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=awotewyAkVEL81B7kiEkmlvcmedzvUDl8UFKqsHl8So=;
-        b=ayu9fxMwF4fhQy5qvq5iNkBJXp/AbRNIjCDXPMC7HByy9HwZ4OvGhmT5r7ytOfKl1u
-         d1JeLUyj4akebwuY9vxwiAJddR2/J0mVoEsSnibaPcfbbDwzIFwubVxmIElJxisi/j+m
-         ktxIIPHikC2f5Qnk7bGKKo+xRbRj36+L9yEwlc6txHrZ2u1qMbSdIkcIv3Wyl1sz/CAG
-         IOMqr4zW/Pfjl6r36O7nR3I17CkYn5l+WUN7Q9DK8dXUoW62hn4zRNmlfGfPFI4Zi3iX
-         yEI7yylgJqL2ezTxU0/uHIJ45is+ny/J5E4fEdOfMU44MDHYf0H6tlk3dQq9BraRxc1O
-         lC/A==
-X-Gm-Message-State: AOJu0YxyC01lmdkwE5zLtdpTFtYs0xOCBkI0lQlGzWzhwdSpJEpQjytU
-	lZXZ3xarxy/wWEui40ELZj8gVG74mCc5hzQneFG5yTrf8DY14JxJsOzqwxCNFA==
-X-Gm-Gg: ASbGncu18r5tRcopV1RBvptGHKL//Sisqx5FSocPkmz8AL3SVn2IH2gkUQyBMkOHBb4
-	1O8xHeZhl7c3etTuTGaofSUS26CZJxwZFcCzth40x9+bcRbz8OxPs4i3BbImQYJvBX1LAkyMNLa
-	//nbBINLlX6aY2DKuG0r2qT1kBq/Oxxyzv8EvoF+c9nsZdqri/MvbE9gRCAbdRoTx17MTDgw2c/
-	jOvVLNV+sfETMzs8C8AGWfS7mXbOOaSW46nHdjKc7YYtDWvblqWAyPn1ci4aNUdHcxM/JY1DcPz
-	gDGX8pRrgJVwWawbqb+9pH+FW0b6nyYRTDIlG0ZDtlH0IJ4xgrYoF8A2rJrIaSesWBLiYJ5Lg44
-	SjgVpXnH6X9vv
-X-Google-Smtp-Source: AGHT+IGW87zCbhK8sNtGoN1yTmhEHDYAY5QTVqvwrd+oBI238wTWLbMIAuX9C2L06xHpaZmv3X4UFQ==
-X-Received: by 2002:a05:6000:26c8:b0:3a4:eb92:b5eb with SMTP id ffacd0b85a97d-3a531cec2c6mr3794500f8f.50.1749243509266;
-        Fri, 06 Jun 2025 13:58:29 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a53244f4e7sm2850859f8f.77.2025.06.06.13.58.28
+        d=1e100.net; s=20230601; t=1749246095; x=1749850895;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qkvtyH2iMevporBTTZJAl0XFFGCC9yV7msXb20+Q5rM=;
+        b=ES07Btvx9q8auKgIlhom9r/HGRg+8SDdfNxMav4rQ4a4YCEuRgnkBARthp34cBWJFY
+         9FANHLUIiUsrjKvx2/hOrrgHiYhRtmw3EtdbNVvvd0K5xU8kQ2ESttXDdOeox6FkGHJf
+         0afmTeCR1LDiumtXqziNDF1TY/52P2Cgp6RpWDeeoBHhinESXkkF92uKPzj2aOghGfye
+         RIKBX+gHOpTN3WiiV1zndApi+xhfNdGwpgh6pAqBe2/0EkpoFsPhH7H8+673boc2F63e
+         UQS1SbLCtDOzluQQ3yqo4PvJKrX8vsFgcsnBARNXZIu6sru35FHxy9/Hq96Etwl3J1Dr
+         cjHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5KeaDbhir+GLPMJGDsJxJjyTMZguCjnZ45Q4d+4k8z21fMjjEAjtZXiL3i6kQNmGVzljmYbeuaR7MKBeAFeGuKg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzz9jKM6QthlaWla9b2jn2FyGRNkDT3ppGrbGwqp1bFeQEvVi7Y
+	rmaDnMs5snUz17TqZ0fITMEKcOk8xKwFy0rJBcIe07Vg6MVZ5RdDLv1Zfj/tEALycKx6/jCmgg2
+	8x5m9bX8=
+X-Gm-Gg: ASbGncs8heD1ZpDVBk81shNvBw7SEzuhRGauMWkzd0rxQTS2R4XKU7LNZBTh1SAC32d
+	HZ4aE2U00apfBeu7L1FTz/YmX3DgUx11KMDG3iPS9MIJHEToU5hk2D4+KplqzRG61kTJl7QUx0a
+	vCkJWWgMedBA5CU415NEDyE+TkH8sO8dyd6dNenYDp4mxl7d/avH/X02/MY9D+jV68tq7SR6oeu
+	NHXgEdbmaHziCmuIis7ppWcyxab4Hrk1BR8BT5XWZWr0Mogj8Z32ILWFFBpuuI0ukmW33SvvJR3
+	xTBgHDAEUmu71BGfIrDd2ECihqzag4tEgRpxjWBwjTkmcsC3c/2YOumm6/EpTpWvN0XD+nITf2H
+	b3idxtUwzV1qW3Ulom8C4OpTGMwBKQSwo+LaFDUwO
+X-Google-Smtp-Source: AGHT+IGXhG5kV/F0j1RZYcbv2jsUfZKnEf7iErwyWheUECz0QfB95vFKaJOKM8aCT3k04eME7sD0eA==
+X-Received: by 2002:a05:600c:3849:b0:442:e147:bea7 with SMTP id 5b1f17b1804b1-452013fb12bmr52868895e9.29.1749246094900;
+        Fri, 06 Jun 2025 14:41:34 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8f59:50ba:83a4:d366? ([2001:8b0:aba:5f3c:8f59:50ba:83a4:d366])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a532131df6sm2895804f8f.0.2025.06.06.14.41.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 13:58:28 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/5] piglit: replace setting PIGLIT_BUILD_DIR with a correct reproducibility fix
-Date: Fri,  6 Jun 2025 22:58:07 +0200
-Message-Id: <20250606205809.4071299-3-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250606205809.4071299-1-alex.kanavin@gmail.com>
-References: <20250606205809.4071299-1-alex.kanavin@gmail.com>
+        Fri, 06 Jun 2025 14:41:33 -0700 (PDT)
+Message-ID: <12e748b05c76144d8a6c019a2954802dce15d3f7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] rust: Upgrade 1.85.1->1.86.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
+Date: Fri, 06 Jun 2025 22:41:32 +0100
+In-Reply-To: <20250606124816.365627-1-Yash.Shinde@windriver.com>
+References: <20250606124816.365627-1-Yash.Shinde@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 20:58:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218183
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 21:41:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218186
 
-From: Alexander Kanavin <alex@linutronix.de>
-
-PIGLIT_BUILD_DIR was set to source tree location relative to B as a
-reproducibility workaround some years ago. Aafter some investigation
-I found where the actual issue is (addressed by the patch).
-
-Also, setting PIGLIT_BUILD_DIR relative to ${B} in a hardcoded way
-is problematic as S and B are not necessarily related that way (e.g. when
-sources are in UNPACKDIR or somewhere else entirely).
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- ...r.py-modify-_command-and-not-command.patch | 32 +++++++++++++++++++
- meta/recipes-graphics/piglit/piglit_git.bb    |  3 +-
- 2 files changed, 33 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
-
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
-new file mode 100644
-index 00000000000..f8600556e5d
---- /dev/null
-+++ b/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
-@@ -0,0 +1,32 @@
-+From 846efe923932d66810305b228fa09f83a172296d Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Thu, 22 May 2025 17:34:15 +0200
-+Subject: [PATCH] tests/no_error.py: modify _command and not command
-+
-+command getter function has hidden magic that prepends build paths;
-+this is an undesirable side effect here, as we only want to append a parameter
-+and not change anything else.
-+
-+In particular this avoids adding build paths to installed .xml.gz file,
-+ensuring reproducibility. Xml writer is already using _command for the
-+same reason.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/1016]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ tests/no_error.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tests/no_error.py b/tests/no_error.py
-+index 4ecaa9a01..c64eec0a1 100644
-+--- a/tests/no_error.py
-++++ b/tests/no_error.py
-+@@ -21,4 +21,4 @@ for name, test in itertools.chain(_profile1.test_list.items(),
-+                                   _profile2.test_list.items()):
-+     if isinstance(test, (PiglitGLTest, ShaderTest, MultiShaderTest)):
-+         profile.test_list['{} khr_no_error'.format(name)] = test
-+-        test.command += ['-khr_no_error']
-++        test._command += ['-khr_no_error']
-+-- 
-+2.39.5
-+
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index e30efdf33bd..dc210ff56d8 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -12,6 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
-            file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
-            file://0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch \
-            file://0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch \
-+           file://0001-tests-no_error.py-modify-_command-and-not-command.patch \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
-@@ -48,8 +49,6 @@ PACKAGECONFIG[x11] = "-DPIGLIT_USE_X11=1 -DPIGLIT_BUILD_GL_TESTS=ON -DPIGLIT_BUI
- PACKAGECONFIG[vulkan] = "-DPIGLIT_BUILD_VK_TESTS=ON,-DPIGLIT_BUILD_VK_TESTS=OFF,glslang-native vulkan-loader,glslang"
- PACKAGECONFIG[wayland] = "-DPIGLIT_USE_WAYLAND=1,-DPIGLIT_USE_WAYLAND=0,wayland-native wayland wayland-protocols"
- 
--export PIGLIT_BUILD_DIR = "../../../../git"
+On Fri, 2025-06-06 at 05:48 -0700, Yash Shinde via lists.openembedded.org w=
+rote:
+> From: Yash Shinde <Yash.Shinde@windriver.com>
+>=20
+> * Add pkgconfig-native and openssl to resolve openssl-sys crate
+> dependency on pkg-config. As per rust document this is a required depende=
+ncy.
+>=20
+> Fixes:
+> > error: failed to run custom build command for `openssl-sys v0.9.106`
+> > Could not find openssl via pkg-config:
+> > =C2=A0 The pkg-config command could not be found.
+> >=20
+> > =C2=A0 Most likely, you need to install a pkg-config package for your O=
+S.
+> > =C2=A0 Try `apt install pkg-config`, or `yum install pkg-config`,
+> > =C2=A0 or `pkg install pkg-config`, or `apk add pkgconfig` depending on=
+ your distribution
+>=20
+> https://crates.io/crates/openssl-sys/0.9.108/dependencies
+> https://github.com/rust-lang/rust/blob/master/INSTALL.md#dependencies
+>=20
+> * Add Ninja as a dependency for building Rust to prevent bootstrap
+> =C2=A0 build regression.
+>=20
+> Fixes:
+> > Building LLD for x86_64-unknown-linux-gnu
+> >=20
+> > Couldn't find required command: ninja (or ninja-build)
+> >=20
+> > You should install ninja as described at
+> > <https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages>,
+> > or set `ninja =3D false` in the `[llvm]` section of `config.toml`.
+> > Alternatively, set `download-ci-llvm =3D true` in that `[llvm]` section
+> > to download LLVM rather than building it.
+>=20
+> * Add bash to DEPENDS to resolve missing dependency for subtree-sync.sh
+> Fixes:
+> ERROR: rust-1.86.0-r0 do_package_qa: QA Issue: /usr/lib/rustlib/src/rust/=
+library/portable-simd/subtree-sync.sh
+> contained in package rust requires /bin/bash, but no providers found in R=
+DEPENDS:rust? [file-rdeps]
+>=20
+> * Add do_install:append() task to remove cargo bin from rust native build=
+s.
+> This resolves the following conflict:
+>=20
+> Fixes:
+> ERROR: libstd-rs-1.86.0-r0 do_prepare_recipe_sysroot: The file /usr/bin/c=
+argo is
+> installed by both rust-native and cargo-native, aborting
+>=20
+> * Update Unicode-3.0 license checksums.
+> License-Update: Copyright and license files to distributions are updated.
+>=20
+> https://github.com/rust-lang/rust/commit/f9c16997dc016a3ef1456f56df2ab564=
+a1c48cb2
+> =C2=A0 It adds copyright and license files (including HTML versions) to d=
+istributions,
+> =C2=A0 aligns with license compliance tools like reuse, and ensures all r=
+equired
+> =C2=A0 license texts are properly included and formatted.
+>=20
+> * Disable building of extended Rust tools to reduce build time and filesy=
+stem usage.
+> =C2=A0 Update config.toml to disable building of extended Rust tools that=
+ are not required.
+> =C2=A0 This helps minimize unnecessary build time and filesystem usage.
+>=20
+> * The "remote-test-server" bin is now generated in stage2-tools-bin dir
+> =C2=A0 rather than stage1. Update the test suite accordingly.
+>=20
+> * Fix do_package QA issue by packing missing zsh files and directories:
+>=20
+> Fixes:
+> do_package: QA Issue: rust: Files/directories were installed but not ship=
+ped in any package:
+> /usr/share/zsh
+> /usr/share/zsh/site-functions
+> /usr/share/zsh/site-functions/_cargo
+> Please set FILES such that these items are packaged. Alternatively if the=
+y are unneeded,
+> avoid installing them or delete them within do_install
+>=20
+> * Install "llvm-tblgen" from native-sysroot to recipe sysroot to handle
+> =C2=A0 file not found error during rust builds:
+>=20
+> Fixes:
+> /bin/sh: line 1:/home/poky/build/tmp/work/core2-64-poky-linux/rust/1.86.0=
+/recipe-sysroot/usr/lib/llvm-rust/bin/llvm-tblgen:
+> No such file or directory
+>=20
+> > make[2]: *** [COFF/CMakeFiles/COFFOptionsTableGen.dir/build.make:120: C=
+OFF/Options.inc] Error 127
+> > make[1]: *** [CMakeFiles/Makefile2:630: COFF/CMakeFiles/COFFOptionsTabl=
+eGen.dir/all] Error 2
+> > make[1]: *** Waiting for unfinished jobs....
+>=20
+> * From v1.86.0, a "self-contained" LLD is built as part of rust
+> =C2=A0bootstrap build. This results in additional build time and
+> =C2=A0installations. Disable rust-lld in config.toml to prevent it.
+>=20
+> =C2=A0References: https://github.com/rust-lang/rust/pull/135001
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+https://github.com/rust-lang/rust/commit/8744b44e6bde053f7656a3c727c968177e=
+e8e4b6
+>=20
+> * Drop Zdual-proc-macros-additional-check.patch patch
+> =C2=A0since it's merged with v1.86.0
+> =C2=A0https://github.com/rust-lang/rust/commit/139d6ba054a1a4cc5fe64981ad=
+46fd5547bd4916
+>=20
+> * LTO config is applied to rustdoc from v1.86.0.
+> =C2=A0Rebase 0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.pa=
+tch
+> =C2=A0which disables it to avoid suffixes in binaries causing non-reprodu=
+cibility.
+> =C2=A0https://github.com/rust-lang/rust/commit/1fe351b
+>=20
+> * Restrict tests using "//@only <target_arch>" to avoid failures on riscv=
+64,
+> =C2=A0 which is now part of default AB testing. Since riscv64 is Tier 2
+> =C2=A0 with no automated testing, some tests may fail. This approach ensu=
+res tests continue
+> =C2=A0 running on supported architectures while skipping them on riscv64.
+> =C2=A0 https://doc.rust-lang.org/rustc/platform-support.html#tier-2-with-=
+host-tools
+>=20
+> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+> ---
+> =C2=A0meta/conf/distro/include/tcmode-default.inc=C2=A0=C2=A0 |=C2=A0 2 +=
 -
- do_configure:prepend() {
-    if [ "${@bb.utils.contains('PACKAGECONFIG', 'freeglut', 'yes', 'no', d)}" = "no" ]; then
-         sed -i -e "/^#.*include <GL\/freeglut_ext.h>$/d" ${S}/src/piglit/glut_wrap.h
--- 
-2.39.5
+> =C2=A0meta/lib/oeqa/selftest/cases/rust.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0.../rust/{cargo_1.85.1.bb =3D> cargo_1.86.0.bb} |=C2=A0 0
+> =C2=A0...l-codes-on-riscv32gc-unknown-linux-g.patch | 32 -------
+> =C2=A0...teps-tool.rs-switch-off-lto-for-rust.patch | 54 +++++++++---
+> =C2=A0.../Zdual-proc-macros-additional-check.patch=C2=A0 | 31 -------
+> =C2=A0.../rust/files/rust-oe-selftest.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 85 +++++++++++--------
+> =C2=A0...ibstd-rs_1.85.1.bb =3D> libstd-rs_1.86.0.bb} |=C2=A0 2 +-
+> =C2=A0....85.1.bb =3D> rust-cross-canadian_1.86.0.bb} |=C2=A0 0
+> =C2=A0...ust-llvm_1.85.1.bb =3D> rust-llvm_1.86.0.bb} |=C2=A0 4 +-
+> =C2=A0meta/recipes-devtools/rust/rust-snapshot.inc=C2=A0 | 78 ++++++++---=
+------
+> =C2=A0meta/recipes-devtools/rust/rust-source.inc=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 3 +-
+> =C2=A0.../rust/{rust_1.85.1.bb =3D> rust_1.86.0.bb}=C2=A0=C2=A0 | 20 ++++=
+-
+> =C2=A013 files changed, 154 insertions(+), 159 deletions(-)
+> =C2=A0rename meta/recipes-devtools/rust/{cargo_1.85.1.bb =3D> cargo_1.86.=
+0.bb} (100%)
+> =C2=A0delete mode 100644 meta/recipes-devtools/rust/files/Zdual-proc-macr=
+os-additional-check.patch
+> =C2=A0rename meta/recipes-devtools/rust/{libstd-rs_1.85.1.bb =3D> libstd-=
+rs_1.86.0.bb} (95%)
+> =C2=A0rename meta/recipes-devtools/rust/{rust-cross-canadian_1.85.1.bb =
+=3D> rust-cross-canadian_1.86.0.bb} (100%)
+> =C2=A0rename meta/recipes-devtools/rust/{rust-llvm_1.85.1.bb =3D> rust-ll=
+vm_1.86.0.bb} (96%)
+> =C2=A0rename meta/recipes-devtools/rust/{rust_1.85.1.bb =3D> rust_1.86.0.=
+bb} (94%)
+
+Thanks Yash, this is definitely moving in the right direction.
+Unfortunately there was one issue that showed up during testing:
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/92/builds/1788
+
+Cheers,
+
+Richard
 
 
