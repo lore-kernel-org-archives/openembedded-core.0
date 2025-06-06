@@ -1,100 +1,184 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E330C5B559
-	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 10:54:29 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.30836.1749207268632388090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED9D7C5AD49
+	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 11:43:49 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.31570.1749210220811676110
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 03:54:28 -0700
+ Fri, 06 Jun 2025 04:43:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=U6RemcoI;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DD16441CFD;
-	Fri,  6 Jun 2025 10:54:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1749207267;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L/7YqEOTI2LOytSgJuGu+tlyH3pu5hhM3PrYaqHL1/M=;
-	b=U6RemcoINuVIEKY1E97b/SaBmPvfaiB1bVb/0qiGOuUTaoSEWpNZnVIiEp8sAnRoJdc9Ru
-	sPXUU25pgD8yOHxjg1Tk0ZO96N9lZDODY4gKN4OkQM1mcmHgyj0uZAsWhxOVvR/fSzh8mF
-	sj6i8K4GcR13cSxx1hS5BnHfNZI3O3RdkjD7bAqcuZ93Mu/yqpXy5jMo22u4t3fFXbbiAY
-	+XaWHHY407SqVKnDDuoR1X97T5P4vnavQZzQLbVVPMd/1DGxIvDiGp3bc3A7c4MFxcblZQ
-	vRiUiLfBsFRUhpqxO2FIYC1JpGj7NuZd8yu5jJtaLl+/R/wbkGi5mxSnlt5FQg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Jun 2025 12:54:25 +0200
-Message-Id: <DAFE84BBJ5UH.DKZR6CEY3A60@bootlin.com>
-Subject: Re: [OE-core] [PATCH 09/16] squashfs-tools: update to 4.7
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250605153508.961682-1-ross.burton@arm.com>
- <20250605153508.961682-9-ross.burton@arm.com>
- <DAFE7LDAH0N0.IU2XT3BPBJ78@bootlin.com>
-In-Reply-To: <DAFE7LDAH0N0.IU2XT3BPBJ78@bootlin.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevvddvhfehgeetgfehteejuedvieevfeehhfeikeehfedvjeelleetjeeigfetieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdduvddruddthedrudehtddrvdehvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvuddvrddutdehrdduhedtrddvhedvpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtoheprhhoshhsrdgsuhhrthhonhesrghrmhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=i1YFOQ0D;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-60768e108baso1597136a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 04:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749210219; x=1749815019; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DR3f2c0rMFlV9MUZ1gGPuTgKwsNlDYoURA0OtGb3qp8=;
+        b=i1YFOQ0D5moBYjHki8UXsx4VKRu9LiU00iKvoxDb7eL9LEdq7sothTWWjcx/AGuN3Q
+         0dI+lbuQonS9qH/Qo/hbFP1EC6gLRdqtFAqFHxdYFbu2Glmfh7h60K//uoq0AUF0qSuW
+         OamAHs1f9Nzq03JYckTiMPehIkzlkiMD7mzdxyemRQIViAz0/vC63XU+zjIa+QZ83EJJ
+         f5pd8IbI3fTzf+I9b0xTmkD5YrTJBScyGgIPr8yI8yP6/enlbyda1dK2DlIXi3ZLMsiD
+         07wYsbttFmkKq4m2WXC4XL50iwg7TfJ7S1zOX2xt6yOt4Z8isPcnHpS4rmqxEIIqN/sj
+         VZHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749210219; x=1749815019;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DR3f2c0rMFlV9MUZ1gGPuTgKwsNlDYoURA0OtGb3qp8=;
+        b=ONU/hzdYThGkDmao5X9EVK48UE4Y1VjDWQgfCzJTkx/D9TfT8IhaElbkng4iP4apzh
+         NCmjhj5cLuUHVfpTX32nr4d+MQD5nVj0mu25HwzTeGHWxQLIrXn48AX8U2HFDpWDQ1QL
+         AS9Kmp+P42DSFiSUE6vmMPFuQa0KRwDMsehmVoYg2ZH+sbE6BFAKvjs4S8NoV67biIgM
+         6/uuFEmU0qyUOqSy1R13bkwQV9QTwwoZ/EUW2lL2po79j0GWpbERqnm1p7baypROAD7j
+         ZxdodJ7JyrULet8rRARdaQApgqUolAwWBpiEq1CWLZAKmuJaezB1CMtFOMgrm6VLxhDk
+         CFvw==
+X-Gm-Message-State: AOJu0Yy44K6rJJ9757Y3/ATPyojn+Eg7PRCij0Fixm0twGDlGCKELQB5
+	e53esAYNdG+ioXA4dtFXpkFrtDp2I/su1ElRi0SLTPfOE39Dcg7PUAkFFz4Uzw==
+X-Gm-Gg: ASbGncvofZYx/J38S+KrgQ3aXuLk4/vEDsLZ9+WC2+1zwQn3OGvhN2ID0Ra25R7wXwt
+	f1Rpk5F8YdielVRVoMhEpv3D0dSwCaYU2dpbuaWrQ4PQTXSNvfN1o3ito2eJ1bL4xoRtKYS1CRx
+	luZidlT4UbT7i9qt8KwLYKWT1OE1s87o5J4Lgtk5Oqe+aNwQKOtnP0eQ3ikJiBcBqwxCQNBNNS9
+	JOjaYnWpoWreQVn6x8kQnVGaKzr8GuYfEEvWHriaM0t6e7WKGiSvyjf5VPHtd5ws5wRA1Kow+7w
+	5X9kVy/5PuSkOb3eCUzufg10b1QwfjrFJbOkgiN0VfZSrUqJQPalW2n/MjrxfvLJ6xmHw/9rIxf
+	otg==
+X-Google-Smtp-Source: AGHT+IHX6o+gRo7iBU0FpQoyjYFsqgo74L7O4w5h/mJc1RFwHOVLrmloKai8DvLGmLSNUjUZ4UEXcg==
+X-Received: by 2002:a05:6402:1e8a:b0:606:adda:4f14 with SMTP id 4fb4d7f45d1cf-60773ec8dc3mr2261245a12.11.1749210218742;
+        Fri, 06 Jun 2025 04:43:38 -0700 (PDT)
+Received: from localhost.localdomain ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-607783dcd0csm879858a12.55.2025.06.06.04.43.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 04:43:38 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libtheora: upgrade 1.1.1 -> 1.2.0
+Date: Fri,  6 Jun 2025 13:43:37 +0200
+Message-ID: <20250606114337.611299-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 10:54:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218132
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 11:43:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218133
 
-On Fri Jun 6, 2025 at 12:53 PM CEST, Mathieu Dubois-Briand wrote:
-> On Thu Jun 5, 2025 at 5:35 PM CEST, Ross Burton via lists.openembedded.or=
-g wrote:
->> The REPRODUCIBLE_DEFAULT option was removed in 4.7[1].
->>
->> Also clean up the tasks to be neater and more concise.
->>
->> [1] squash-tools ae9914d15293af7c596148aedd997b3058e35d9e
->>
->> Signed-off-by: Ross Burton <ross.burton@arm.com>
->> ---
->
-> Hi Ross,
->
-> It looks like this squashfs update breaks the build with musl:
->
-> NOTE: recipe vim-tiny-9.1.1198-r0: task do_compile: Started
-> ERROR: squashfs-tools-4.7-r0 do_compile: oe_runmake failed
-> ...
-> | In file included from compressor.c:29:
-> | print_pager.h:33:25: error: unknown type name 'pid_t'
-> |    33 | extern void wait_to_die(pid_t process);
-> |       |                         ^~~~~
-> | print_pager.h:34:25: error: unknown type name 'pid_t'
-> |    34 | extern FILE *exec_pager(pid_t *process);
-> |       |                         ^~~~~
-> | make: *** [<builtin>: compressor.o] Error 1
-> | make: *** Waiting for unfinished jobs....
-> | In file included from mksquashfs_help.c:35:
-> | thread.h:43:8: error: unknown type name 'pthread_mutex_t'
-> |    43 | extern pthread_mutex_t thread_mutex;
-> |       |        ^~~~~~~~~~~~~~~
-> | thread.h:46:39: error: unknown type name 'pthread_mutex_t'
-> |    46 | extern void wait_thread_idle(int tid, pthread_mutex_t *mutex);
-> |       |                                       ^~~~~~~~~~~~~~~
-> | make: *** [Makefile:551: mksquashfs_help.o] Error 1
-> | ERROR: oe_runmake failed
+Major changes:
+  - New 'ptalarbvorm' encoder
+  - New th_encode_ctl option for copying configuration from an existing
+    setup header, useful for splicing streams.
+  - Added support for RISC OS.
+  - Improved ARM support.
+  - Various speed, bug fixes and code quality improvements.
 
-Sorry, I was too quick and forgot links:
+See CHANGES file for full changelog.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/1843
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/1812
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/531
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ .../libtheora-1.1.1/autoreconf.patch          | 42 -------------------
+ .../no-docs.patch                             | 10 ++---
+ ...{libtheora_1.1.1.bb => libtheora_1.2.0.bb} |  5 +--
+ 3 files changed, 7 insertions(+), 50 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libtheora/libtheora-1.1.1/autoreconf.patch
+ rename meta/recipes-multimedia/libtheora/{libtheora-1.1.1 => libtheora}/no-docs.patch (54%)
+ rename meta/recipes-multimedia/libtheora/{libtheora_1.1.1.bb => libtheora_1.2.0.bb} (81%)
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/recipes-multimedia/libtheora/libtheora-1.1.1/autoreconf.patch b/meta/recipes-multimedia/libtheora/libtheora-1.1.1/autoreconf.patch
+deleted file mode 100644
+index 0fc09ba413..0000000000
+--- a/meta/recipes-multimedia/libtheora/libtheora-1.1.1/autoreconf.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From 859e58b440e64aeec446ae0a923a638e4203f408 Mon Sep 17 00:00:00 2001
+-From: Tim Terriberry <tterribe@xiph.org>
+-Date: Fri, 20 May 2011 20:41:50 +0000
+-Subject: [PATCH] Make autoreconf -i -f work.
+-
+-Patch from David Schleef.
+-
+-svn path=/trunk/theora/; revision=17990
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- Makefile.am  | 2 ++
+- configure.ac | 2 +-
+- 2 files changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index d833491..369978d 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -2,6 +2,8 @@
+- 
+- AUTOMAKE_OPTIONS = foreign 1.6 dist-zip dist-bzip2
+- 
+-+ACLOCAL_AMFLAGS=-I m4
+-+
+- if THEORA_ENABLE_EXAMPLES
+- EXAMPLES_DIR = examples
+- else
+-diff --git a/configure.ac b/configure.ac
+-index 8260bdf..d4feb86 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -61,7 +61,7 @@ AC_LIBTOOL_WIN32_DLL
+- AM_PROG_LIBTOOL
+- 
+- dnl Add parameters for aclocal
+--AC_SUBST(ACLOCAL_AMFLAGS, "-I m4")
+-+AC_CONFIG_MACRO_DIR([m4])
+- 
+- dnl Check for doxygen
+- AC_CHECK_PROG(HAVE_DOXYGEN, doxygen, true, false)
+diff --git a/meta/recipes-multimedia/libtheora/libtheora-1.1.1/no-docs.patch b/meta/recipes-multimedia/libtheora/libtheora/no-docs.patch
+similarity index 54%
+rename from meta/recipes-multimedia/libtheora/libtheora-1.1.1/no-docs.patch
+rename to meta/recipes-multimedia/libtheora/libtheora/no-docs.patch
+index 359f3d1a7a..e78e66592d 100644
+--- a/meta/recipes-multimedia/libtheora/libtheora-1.1.1/no-docs.patch
++++ b/meta/recipes-multimedia/libtheora/libtheora/no-docs.patch
+@@ -2,14 +2,14 @@ Upstream-Status: Inappropriate [configuration]
+ 
+ Index: libtheora-1.1.1/Makefile.am
+ ===================================================================
+---- libtheora-1.1.1.orig/Makefile.am	2009-11-25 22:01:53.593775926 +0100
+-+++ libtheora-1.1.1/Makefile.am	2009-11-25 22:02:00.777524017 +0100
+-@@ -8,7 +8,7 @@
++--- ./Makefile.am	2009-11-25 22:01:53.593775926 +0100
+++++ ./Makefile.am	2009-11-25 22:02:00.777524017 +0100
++@@ -9,7 +9,7 @@
+  EXAMPLES_DIR =
+  endif
+  
+ -SUBDIRS = lib include doc tests m4 $(EXAMPLES_DIR)
+ +SUBDIRS = lib include tests m4 $(EXAMPLES_DIR)
+  
+- 
+- # we include the whole debian/ dir in EXTRA_DIST because there's a problem
++ EXTRA_DIST = \
++ 	README.md CHANGES COPYING LICENSE \
+diff --git a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb b/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb
+similarity index 81%
+rename from meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
+rename to meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb
+index d0a9a59b7c..ec51967aa1 100644
+--- a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
++++ b/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb
+@@ -8,11 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=cf91718f59eb6a83d06dc7bcaf411132"
+ DEPENDS = "libogg"
+ 
+ 
+-SRC_URI = "http://downloads.xiph.org/releases/theora/libtheora-${PV}.tar.bz2 \
+-           file://autoreconf.patch \
++SRC_URI = "http://downloads.xiph.org/releases/theora/libtheora-${PV}.tar.xz \
+            file://no-docs.patch"
+ 
+-SRC_URI[sha256sum] = "b6ae1ee2fa3d42ac489287d3ec34c5885730b1296f0801ae577a35193d3affbc"
++SRC_URI[sha256sum] = "ebdf77a8f5c0a8f7a9e42323844fa09502b34eb1d1fece7b5f54da41fe2122ec"
+ 
+ UPSTREAM_CHECK_REGEX = "libtheora-(?P<pver>\d+(\.\d)+)\.(tar\.gz|tgz)"
+ 
 
