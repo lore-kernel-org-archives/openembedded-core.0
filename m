@@ -1,263 +1,142 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA3AC5AD49
-	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 21:43:06 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.6279.1749246184267380026
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 555A3C5AD49
+	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 23:21:37 +0000 (UTC)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.web10.7897.1749252096055079289
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 14:43:04 -0700
+ Fri, 06 Jun 2025 16:21:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HnrzWVTD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a5096158dcso2204571f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 14:43:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=V/9AfBqu;
+ spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-70e64b430daso25114297b3.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 16:21:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1749246183; x=1749850983; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1749252095; x=1749856895; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JBoZHF7hWshCAWkdvMGXx/gJl/+mg2BPhsa9RkOq7Io=;
-        b=HnrzWVTDwMWiz7mH5rep/5aHYg+3Scdo+YG9OCL/BB31L2SOVkntGwsJJ7YGkhRMbv
-         SxSOncy03CgQSKm1ue9YFR5AkgE5mnRcubGIcqgg8Bk579MpVBguDt5R6xtOiBqJ+nt9
-         O6KpCAd3eDfyVA5mxp509Xh5KpWYNJTgBtxEM=
+        bh=+5B1juTCi6cL3e9pNlr/z4j+EQOtuhUGrYhl9QaDNxo=;
+        b=V/9AfBqumEcipvMuezL2u8QgkENqupNo6KOirHmU5yt+4vr2SiqbYp6WB7rHpguS98
+         kX2uVv+l6GVWcIjbrrGRR46wSRlzRutGUUHixHICubcy78rMSJXi81zETuWDwaOh39Ra
+         3XYPg/sJx7mEVJQG/pw2SFn/9SRvzLJpeL6CdBGsry0xOOqf3RQ4IMibvLubZa4DJ6tU
+         2N3HmO0rCqlh1F0+8F52YGTbV/dmcYVfgcHKtZlOMDDs9nHk1m7oYSiQcCgM2wxkoyOs
+         z6WrpCtG5ZG1KG3N6YzJJXCBKQwzBgWKJRrsrPSLNZYIOZEdMHyrXaE2CbC8p/7R88xj
+         aq2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749246183; x=1749850983;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JBoZHF7hWshCAWkdvMGXx/gJl/+mg2BPhsa9RkOq7Io=;
-        b=evZMymKzcXPmb6rCtHbHBjo82CrL9qX0CSLlZZzaUMg3AnjG1PDCKgPGKXO7jdTEnF
-         clcmTrcno/LSFA3cKLA0E5XBex7skAb6CzumokVQpH2TYPwNGiYGcSv6asHCpHpxFYiL
-         H+kQ1uW/BMTND5BtKNqyvA2pc5+TZdk5XwCjXSNdb7103kEsJB64z/ZtdUGf5GX49v5y
-         QaBViC/GB6UwSfwXAiOQaOucGyWfgJDSa8KbYl88QCCkQVKwjiW6wWxvwXc0M4mzLvZ8
-         NctShYvGLcsh4lutH9HoyvRPjvOvaeuPqiDbT78DbhDeMs8iuU3ySPjtAz2iURI1pEtU
-         gDzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJvV3DU4Di4CW9PmsZAVCc4HHgPttv/YNiL4ETKr8A5d4bQQFK21Rabm91hUxbZ7oiTLs3PXXO2QhVOg7aBDtx4w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz3QWYDplqr4aTTDHGUt1mwuj3OaNu7kvwZeUrKA/Waex5y5L+a
-	uFdDBsooiHNcsAGQIE3F+VEYnsLbBU04xTR/yX5gYxQxkOX9FtceLltjm9B6B4F5GM5TS1Ckja5
-	nwtVvRZU=
-X-Gm-Gg: ASbGncsNNXTLG9C6DaDviKYPfoHKpK5LKHS/TxUZOo0PLngc33S788onZFp1hCicKBp
-	txqa8KZclRDzGXEujqkwoRr7dYJvlmEYnbFqQEawINGNjJ3gcHQp50rfnxg0ER4HxJHD5kgNTes
-	RUzkeef8GZfxhNSfblmOjhTDCWkeTXoeKnaH79MlRckmw/wSEJXWZZvVPMOEqh6faHCmvO6WbQB
-	TIi8sr3WzPc5fH1S050Ln8VvMCmG1QIFRVF9EdvF0Se9GW58KvPzPvniB6C3OE8F144OA3pyhng
-	u7eYsd8twgoPg9wHDy4UKAAGaawwd13WLnpsIE/1y/wuwDlYSSQ1FSWjuIyvr3ptmar1H3mj9gG
-	+3JAg/fvRtZYnaCP1nWUhVK9sWT7Lq7McZIfm0Fsd+3tCIHL2uGtrxUQbtGpC6A==
-X-Google-Smtp-Source: AGHT+IF7rn3jaAF8xB7X5p/+HjxryCtDKGWEik3eLxLDRqTyyvp+nyZScQnCM72LPUztCKDnBYrnLQ==
-X-Received: by 2002:a05:6000:2082:b0:3a3:4baa:3f3d with SMTP id ffacd0b85a97d-3a5319b69d2mr4411343f8f.6.1749246182574;
-        Fri, 06 Jun 2025 14:43:02 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8f59:50ba:83a4:d366? ([2001:8b0:aba:5f3c:8f59:50ba:83a4:d366])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a532131df6sm2898438f8f.0.2025.06.06.14.43.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 14:43:01 -0700 (PDT)
-Message-ID: <f322ed9dbb8a47bdc9e819a91b1fb7968592c41b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 09/16] squashfs-tools: update to 4.7
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-Date: Fri, 06 Jun 2025 22:43:00 +0100
-In-Reply-To: <20250606142822.3387675-9-ross.burton@arm.com>
-References: <20250606142822.3387675-1-ross.burton@arm.com>
-	 <20250606142822.3387675-9-ross.burton@arm.com>
+        d=1e100.net; s=20230601; t=1749252095; x=1749856895;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+5B1juTCi6cL3e9pNlr/z4j+EQOtuhUGrYhl9QaDNxo=;
+        b=KIblwBXi7QdKTBR2pa9fLcyjoKUGuvIsIfZ9rS0kIW+5M34PZ0F7z1b4PKdnq9XC84
+         nF1feoPDcNvVs9DS/WSSNWS/GVAwe6nWHusBub9H0EKbyI2yIMDBrBb5L6m9S0mO5UTk
+         gWa1D4/gpgkmBF3lGnXlC/OQz9tvkw+h01/PXqhG8zpkqE+FDcOiFKxZRG0b+Nq+9pFh
+         q6k4VHsJVVCID6gzi4Ty4NpPd9zC1THaSgtm7O3HCZGZhEK3jjTwiPloXZGVFabrNl2x
+         LwSyqqsCS8NnuJkR6F82f3iVSIz7W/IBY7iA5M3AWz6lKuiPXow8npi4UfGLkoNyU+WZ
+         +g6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWwWW2B0l0gpn8AO1SmYALzuUmwACqR0LQwRN1wQcOj9C4kdS6r15AT9N7htFkkS/FHRH3uozPOwEzOtSXPsO53QQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzzdDMlJrIhnfBrdblBLfvF6YYf8nrASK/AiN0t/aJnkRjeB9zn
+	RzhCo5cUlzkArp5wzFcpoHPv2Ucby0Y5Gtj1UB6Wv7TJIRS1au9aJnryok/XztLaOyQAgVmAAh9
+	4wr/ugqi4C58rJejBpDOWmPZP48aeHi6N7xzw+zk=
+X-Gm-Gg: ASbGncvDrdQeMGF/dWbzPi3bPXCaLqbx0nRy5BG/H7+YmWNAkBWEPxeI5tUeYaNoqcB
+	eE/4XbdG/bstDoYP7Fvy3dMxPptmFMgB7FgFvZb7UB+I9VQZuSltIYHhZJ7zDIqWzU9zev2nNSC
+	zgy2sYU0mOqKhr7nDlmDVJoxcS/9IBmmRcKlqsE/AsiXJcOTn1mUWOog==
+X-Google-Smtp-Source: AGHT+IF5EPlohMnMtkR+VM7ks66u/xes/vh7nz/GRXXdAoyVYW0R8wL4o+34zg4oals8risLFuN3qHJKYFO599HIe9M=
+X-Received: by 2002:a05:690c:6403:b0:70e:73ae:766c with SMTP id
+ 00721157ae682-710f76873c6mr76840987b3.22.1749252095125; Fri, 06 Jun 2025
+ 16:21:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250530032047.1369164-1-sandeep.gundlupet-raju@amd.com>
+ <8607D12C-E6E5-41DF-9809-6E748E1D749D@arm.com> <18462F4E324B73C9.10724@lists.openembedded.org>
+ <1195a8d4-f134-4fe7-8169-2fb0b6f2fb6b@amd.com>
+In-Reply-To: <1195a8d4-f134-4fe7-8169-2fb0b6f2fb6b@amd.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 6 Jun 2025 16:21:09 -0700
+X-Gm-Features: AX0GCFuU4vIUx5ELGJRCfHYiuD1b4NG6FZ6HlE0MtQyupo_IPD78x5RrRf3ruJY
+Message-ID: <CAMKF1sq7FSejf79sUhHyPbMmNnNeH1xs9ACXrd2R4WBDTxYn5Q@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap,master][PATCH] tune-cortexr52: Add support
+ for ARM Cortex-R52 32-bit
+To: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
+Cc: ross.burton@arm.com, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, Jon Mason <Jon.Mason@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 21:43:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218188
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 23:21:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218189
 
-On Fri, 2025-06-06 at 15:28 +0100, Ross Burton via lists.openembedded.org w=
-rote:
-> The REPRODUCIBLE_DEFAULT option was removed in 4.7[1].
->=20
-> Backport a patch to fix missing pthread typedefs, and a patch to fix
-> missing pid_t typedefs.
->=20
-> Also clean up the tasks to be neater and more concise.
->=20
-> [1] squash-tools ae9914d15293af7c596148aedd997b3058e35d9e
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
-> =C2=A0.../squashfs-tools/squashfs-tools/pid.patch=C2=A0=C2=A0 | 40 ++++++=
-+++++++++++++
-> =C2=A0.../squashfs-tools/thread.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 33 +++++++++++++++
-> =C2=A0...s-tools_4.6.1.bb =3D> squashfs-tools_4.7.bb} | 15 ++++---
-> =C2=A03 files changed, 80 insertions(+), 8 deletions(-)
-> =C2=A0create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-to=
-ols/pid.patch
-> =C2=A0create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-to=
-ols/thread.patch
-> =C2=A0rename meta/recipes-devtools/squashfs-tools/{squashfs-tools_4.6.1.b=
-b =3D> squashfs-tools_4.7.bb} (77%)
->=20
-> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/pid.patc=
-h b/meta/recipes-devtools/squashfs-tools/squashfs-tools/pid.patch
-> new file mode 100644
-> index 00000000000..a15b6211248
-> --- /dev/null
-> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools/pid.patch
-> @@ -0,0 +1,40 @@
-> +From 05a895b3f996d1ac157d95b04980f5f047e7dbf7 Mon Sep 17 00:00:00 2001
-> +From: Ross Burton <ross.burton@arm.com>
-> +Date: Fri, 6 Jun 2025 15:23:07 +0100
-> +Subject: [PATCH] print_pager: add missing includes
-> +
-> +When building with musl:
-> +
-> +=C2=A0 print_pager.h:33:25: error: unknown type name 'pid_t'
-> +=C2=A0=C2=A0=C2=A0=C2=A0 33 | extern void wait_to_die(pid_t process);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~
-> +=C2=A0 print_pager.h:34:25: error: unknown type name 'pid_t'
-> +=C2=A0=C2=A0=C2=A0=C2=A0 34 | extern FILE *exec_pager(pid_t *process);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~
-> +
-> +print_pager.h uses pid_t and FILE, so add the required #includes to
-> +ensure that these are defined.
-> +
-> +Upstream-Status: Submitted [https://github.com/plougher/squashfs-tools/p=
-ull/314]
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +---
-> + squashfs-tools/print_pager.h | 3 +++
-> + 1 file changed, 3 insertions(+)
-> +
-> +diff --git a/squashfs-tools/print_pager.h b/squashfs-tools/print_pager.h
-> +index c33d4d2e..f3e0da6c 100644
-> +--- a/squashfs-tools/print_pager.h
-> ++++ b/squashfs-tools/print_pager.h
-> +@@ -30,6 +30,9 @@
-> + #define MORE_PAGER 2
-> + #define UNKNOWN_PAGER 3
-> +=20
-> ++#include <stdio.h>
-> ++#include <sys/types.h>
-> ++
-> + extern void wait_to_die(pid_t process);
-> + extern FILE *exec_pager(pid_t *process);
-> + extern int get_column_width();
-> +--=20
-> +2.43.0
-> +
-> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/thread.p=
-atch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/thread.patch
-> new file mode 100644
-> index 00000000000..01741639c03
-> --- /dev/null
-> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools/thread.patch
-> @@ -0,0 +1,33 @@
-> +From b6e9f4b62cc3e762ceeddc0fc099f7d65f7b7361 Mon Sep 17 00:00:00 2001
-> +From: Shiji Yang <yangshiji66@outlook.com>
-> +Date: Wed, 4 Jun 2025 19:53:39 +0800
-> +Subject: [PATCH] thread: add the missing pthread.h header
-> +
-> +Fix build error on macos:
-> +
-> +In file included from mksquashfs_help.c:35:
-> +./thread.h:46:39: error: unknown type name 'pthread_mutex_t'; did you me=
-an 'pthread_attr_t'?
-> +=C2=A0=C2=A0 46 | extern void wait_thread_idle(int tid, pthread_mutex_t =
-*mutex);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pthread_attr_t
-> +
-> +Signed-off-by: Shiji Yang <yangshiji66@outlook.com>
-> +
-> +Upstream-Status: Backport [b6e9f4b62cc3e762ceeddc0fc099f7d65f7b7361]
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +---
-> + squashfs-tools/thread.h | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/squashfs-tools/thread.h b/squashfs-tools/thread.h
-> +index 5a22fc43..e56a58cf 100644
-> +--- a/squashfs-tools/thread.h
-> ++++ b/squashfs-tools/thread.h
-> +@@ -22,6 +22,7 @@
-> +=C2=A0 *
-> +=C2=A0 * thread.h
-> +=C2=A0 */
-> ++#include <pthread.h>
-> +=20
-> + #define TRUE 1
-> + #define FALSE 0
-> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.1.bb=
- b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb
-> similarity index 77%
-> rename from meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.1.bb
-> rename to meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb
-> index 51a2fbdb934..ae6845ddacf 100644
-> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.1.bb
-> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb
-> @@ -7,8 +7,9 @@ SECTION =3D "base"
-> =C2=A0LICENSE =3D "GPL-2.0-only"
-> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fd=
-af4a4263"
-> =C2=A0
-> -SRC_URI =3D "git://github.com/plougher/squashfs-tools.git;protocol=3Dhtt=
-ps;branch=3Dv6.1.1"
-> -SRCREV =3D "d8cb82d9840330f9344ec37b992595b5d7b44184"
-> +SRC_URI =3D "git://github.com/plougher/squashfs-tools.git;protocol=3Dhtt=
-ps;branch=3Dmaster;tag=3D${PV} \
-> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://thread.patch"
-> +SRCREV =3D "2e87d42ed089dc31990d83eeb07437b9d085d6d1"
-> =C2=A0
-> =C2=A0UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
-> =C2=A0
-> @@ -16,7 +17,7 @@ S =3D "${WORKDIR}/git"
-> =C2=A0
-> =C2=A0EXTRA_OEMAKE =3D "${PACKAGECONFIG_CONFARGS}"
-> =C2=A0
-> -PACKAGECONFIG ??=3D "gzip xz lzo lz4 lzma xattr zstd reproducible"
-> +PACKAGECONFIG ??=3D "gzip xz lzo lz4 lzma xattr zstd"
-> =C2=A0PACKAGECONFIG[gzip] =3D "GZIP_SUPPORT=3D1,GZIP_SUPPORT=3D0,zlib"
-> =C2=A0PACKAGECONFIG[xz] =3D "XZ_SUPPORT=3D1,XZ_SUPPORT=3D0,xz"
-> =C2=A0PACKAGECONFIG[lzo] =3D "LZO_SUPPORT=3D1,LZO_SUPPORT=3D0,lzo"
-> @@ -24,17 +25,15 @@ PACKAGECONFIG[lz4] =3D "LZ4_SUPPORT=3D1,LZ4_SUPPORT=
-=3D0,lz4"
-> =C2=A0PACKAGECONFIG[lzma] =3D "LZMA_XZ_SUPPORT=3D1,LZMA_XZ_SUPPORT=3D0,xz=
-"
-> =C2=A0PACKAGECONFIG[xattr] =3D "XATTR_SUPPORT=3D1,XATTR_SUPPORT=3D0,attr"
-> =C2=A0PACKAGECONFIG[zstd] =3D "ZSTD_SUPPORT=3D1,ZSTD_SUPPORT=3D0,zstd"
-> -PACKAGECONFIG[reproducible] =3D "REPRODUCIBLE_DEFAULT=3D1,REPRODUCIBLE_D=
-EFAULT=3D0,"
-> =C2=A0
-> =C2=A0do_compile() {
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cd ${S}/squashfs-tools
-> -	oe_runmake all
-> +	oe_runmake -C ${S}/squashfs-tools all
-> =C2=A0}
-> =C2=A0
-> =C2=A0do_install() {
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cd ${S}/squashfs-tools
-> +	oe_runmake -C ${S}/squashfs-tools install INSTALL_PREFIX=3D${D}${prefix=
-} INSTALL_MANPAGES_DIR=3D${D}${datadir}/man/man1
-> +
-> =C2=A0	install -d "${D}${includedir}"
-> -	oe_runmake install INSTALL_PREFIX=3D${D}${prefix} INSTALL_MANPAGES_DIR=
-=3D${D}${datadir}/man/man1
-> =C2=A0	install -m 0644 "${S}"/squashfs-tools/squashfs_fs.h "${D}${include=
-dir}"
-> =C2=A0}
-> =C2=A0
+Hi Sandeep
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/537
+On Fri, Jun 6, 2025 at 10:35=E2=80=AFAM Gundlupet Raju, Sandeep
+<sandeep.gundlupet-raju@amd.com> wrote:
+>
+>
+> On 6/5/2025 9:31 AM, Sandeep Gundlupet Raju via lists.openembedded.org
+> wrote:
+> >
+> > On 6/5/2025 8:12 AM, Ross Burton via lists.openembedded.org wrote:
+> >> On 30 May 2025, at 04:20, Sandeep Gundlupet Raju via
+> >> lists.openembedded.org
+> >> <sandeep.gundlupet-raju=3Damd.com@lists.openembedded.org> wrote:
+> >>> Add tune variant for ARM Cortex-R52 32-bit in GCC as there is no
+> >>> support for Cortex-R52 32-bit toolchain.
+> >> This is the wrong fix as the existing tune file is just wrong.
+> >>
+> >> The cortexr52 tune says:
+> >>
+> >> TUNE_FEATURES:tune-cortexr52 =3D "aarch64 crc simd cortexr52=E2=80=9D
+> >>
+> >> But the Cortex R52 Technical Reference Manual[1] says "The
+> >> Cortex=C2=AE-R52 processor implements the Armv8-R AArch32 architecture=
+=E2=80=9D,
+> >> so there is no 64-bit R52.
+> >>
+> >> The solution here is to stop it claiming to be 64-bit at all.
 
-Cheers,
+Looking at web for docs I see
 
-Richard
+Cortex-r82 which is based on ARMv8-R with aarch64 ISA
+
+https://developer.arm.com/Processors/Cortex-R82
+
+Cortex-r52 which is under question here says its ARMv8-R but with 32bit ISA
+
+https://developer.arm.com/Processors/Cortex-R52
+
+So I think we should remove aarch64 from this tune, that will be right
+thing to do for r52
+
+
+> >>
+> >> Ross
+> >>
+> >> [1]
+> >> https://developer.arm.com/documentation/100026/0104/The-Cortex-R52-pro=
+cessor/Supported-standards/Arm-architecture?lang=3Den
+> > [Sandeep]: Ross, Thanks for the reference point. I can send a v2 patch
+> > by removing 64-bit references. But I won't able to test all the use
+> > cases.
+> [Sandeep]: I had a chat with Khem and he said we can enable 64-bit ISA
+> optionally. I will wait for Khem to reply wiht right pointers. This is
+> blocking some of our deliverables to build r52-bit baremetal and zephyr
+> application.
+> >>
+> >>
+> >>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#218036): https://lists.openembedded.org/g/openembed=
+ded-core/message/218036
+> > Mute This Topic: https://lists.openembedded.org/mt/113374193/3619217
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+sandeep.gundlupet-raju@amd.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
