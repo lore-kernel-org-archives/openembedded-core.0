@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B15C61CE8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47267C677C4
 	for <webhook@archiver.kernel.org>; Fri,  6 Jun 2025 20:58:36 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.5463.1749243513018054745
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.5506.1749243511805785406
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jun 2025 13:58:33 -0700
+ Fri, 06 Jun 2025 13:58:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lcEn/kxz;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-441ab63a415so25482225e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 13:58:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KK9QWpjZ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a51d552de4so1423472f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 13:58:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749243511; x=1749848311; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1749243510; x=1749848310; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UGUtRVgK01lWp+cK69bvyOfQLszffiiiYwEGnPFfTe8=;
-        b=lcEn/kxzkKqCudCQwH/jN1uh7Z3ljvKYKCb7Q4qCIKgwUn7XWWJ31BLykSvXfBBSG1
-         1EZP2o+m7BgYrJUyEl293jlDgHzNoIfOupmYoBv4RblWVJK1Eg9MdBjPOTRTz3rSPyry
-         JVn3coF3CucTSizusVnRwZJE8LtwkffxMzqSjhFEwKkT9EX64TWvivT+BtfP7EF6EApA
-         XexscVuTv0JeXI4Yde9ZRD8lsEqJKVXo2I3tVD0ZPRZlo2vWI71A5zkeFaqyugypFufq
-         7Aa9WJTFGYqu1KOMzOEA5uh21goLI+O0RETicQMebMUd4tX1HUBKWIZgppTKvejcEsWF
-         puCw==
+        bh=24KoRmr6j37rPZaMxaqnSd/338S1bGZaFmZ2mWjASH8=;
+        b=KK9QWpjZTrtrPCWfiz7LX8enOB092GNUw9tXQg7p6uFwaWA+zDMzyn0/s5pPSq9aau
+         2poYS2l156jCWl4UZkTbAHERbSWfu8D62SNPkhcPR4pcM4qccWvY4c7Ml45cFdkIxx2T
+         zEwKeKMbqngBwTyq/7x6RAsJxq2+mxcQMkXJxcRWbzexybYYkX/YHT0D2NmaAnXGL3Gw
+         O35anXWaWOttfWkRWpCRsAkP068us6pArI1KWfB9ki8F7hWO4HNIKwsMC41cVFkVOD1q
+         ga47/l4/YhKCNnsZ1hu7Lmc6LcBWHQCJ5+vkgv4KJO+4A3QBBJ9v9hKsUwUEETLlraO1
+         UsQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749243511; x=1749848311;
+        d=1e100.net; s=20230601; t=1749243510; x=1749848310;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UGUtRVgK01lWp+cK69bvyOfQLszffiiiYwEGnPFfTe8=;
-        b=D/e8+4pIeogvzlKLSgn1lKhXHV1q2YNqq9oIkR5mHB2GGXcO8XmaEt1SiZv39o4y97
-         WX06f0tYSyW1Z0v6oqTNMcNt2Bqx7ghzuiYqKGaycrK5ZCdFNODFeldgk0U7s+UDZva8
-         K2rfJstDgscpNzLAvnb7P6uDmfnMYOo3/h8l//BKxeowvoy0g9hryLm9YBvCWI9WNnfH
-         KXgW0I+sr9ozLZBhEqQEF4oRgS8EuGP8Z8ab9tguIinDSPu/YkDOvPEEFdmNcen+jHkN
-         YwzG2iRVt5kB1H5PxYe34tWULQt7uBCD+b4dJGJgUJICveJz3Jy1PsbOU7j5/mJGzLf/
-         Kdng==
-X-Gm-Message-State: AOJu0Yz3YQZyzmg3O9/fcfrxGkOwRtEHGGKBh5yK+VI7iOEsmmOV4Jwn
-	oB5RIFYXKblL/a5+nV0OFc43kUTk0CZb1r/Z4ZFINgz3P/4oOyXzfS3inMJjIA==
-X-Gm-Gg: ASbGncumi/mcU0nl8jwR5XBJeBPHx99JN51XiKsVSHSW7uI9oT0RADuOLVDAEGe/iCX
-	fRRAJEEcmTELWR+6hQbv7GvPfxLpUBimR3xlXpxneBsOkEeo4GDWkvzIabJ4IxWtlknOJI60wbl
-	SWsOfTQ5KdZ/V3KGBDDsSaO+A7ZafMSlwx7DDI8pQFXyo8+C9DbLtwo/c+GpvZ8iWGzerw6voPV
-	RU8kOdZX1kI1XMVCiri3PwF614LUUj1OlCljhpJsXEBrrE89kdeqyjPLHA246UmA2WwqtXgmgLG
-	WkK75r9nsyRSR7LiXSvUPVX/rA6AlL6BN9Y8ThjcuCWF8/+r8HX+/grjqRXTEMMtD3xaF9+WcEX
-	+gNhXQGfGOEYL0DBr/kKHx6Y=
-X-Google-Smtp-Source: AGHT+IEhB2l2+ZCC1+igVuNNHlw26bxvJ/iLBHFo/26E/4Bh0qBEIcKC500VHDgxUfnFvel0SCVOVg==
-X-Received: by 2002:a05:600c:8b02:b0:43d:745a:5a50 with SMTP id 5b1f17b1804b1-452013b08a9mr46748075e9.19.1749243511277;
-        Fri, 06 Jun 2025 13:58:31 -0700 (PDT)
+        bh=24KoRmr6j37rPZaMxaqnSd/338S1bGZaFmZ2mWjASH8=;
+        b=wLiSgIU/e5IfF1FjkTdkqVYDEFGW401KgIwnMgQvkY7s8W2H2t+VEf/LfNeTaLDE9p
+         B7TL9OgHFG2kWvTAGHkKma9zQ+3yIX6bUJmNYSQ7Mk6jaz9mOlBEJtFILg9mu0GCmR78
+         ZBEHBUPtINdTe+YXwrxoKQnq04eQYwvVraWEfzkRxay1GncnXpQtCLaO4vKNHDHKs8aO
+         KAJNtw9QffzNRS0N8AGoP3NucSNe1ciOwjANvz9wk192I5ydhMI2lvkPECmfLQcxjfo5
+         i7JXT77CvGuFvlxfAktG1Ss16WDQWeh+ZIudPibsJ2Zdz43y8p6/lfa3eV/eTPqMu124
+         KgmA==
+X-Gm-Message-State: AOJu0YzS18zcseUq3Js6UF6nntsTTTpcXl193/6LNI1PEpyj/IK7vo3s
+	fxfPBqWYGMTSt1ZvmXTC/zHYC/YdhOvPwCCGdbV9QV7VDsTEjHpVdkZVA0Dhow==
+X-Gm-Gg: ASbGncsa8n/rYMVlmUXLGkSJZ6Jojm1XjvzIT5q0RDMh1C2SF0vtCluAghWJMvChEWE
+	BmNn6ZhqM1jRSBXfduacdldcyAzUCyuEytTDbdEA/IsP6F3VlxosGifiPmII/7f9fMZfDGnIikK
+	xiqHilG5ML3Am4tXLd3NfbieXQtQC7Z80wCSGNEGxtchI8J9nk4F22oSSkuQdYY1pNmLoeD3+0D
+	fXDfih9iCGYI5/B3y0nlFz906VaCpejF254fvxHseuwjBvT1+ywy/0azEF3z9PMSAEmA2ldGVf5
+	pVuurhfj9n0LAzw/QpT10wpjaHmnaO6Qnz2ebIiNR1F3ogApOjtaBtLbaz8TtLdxtXj1FmEycnw
+	TKz5+KT7IJWubJMXXO09yyek=
+X-Google-Smtp-Source: AGHT+IG21ua4ZSG73krRUk3s3bEe/CQtmXUVvvpojTeaedbcU7/+WH5P1ux3EtadS2s5Chnl2cNYdA==
+X-Received: by 2002:a05:6000:144b:b0:3a4:e6b4:9c4b with SMTP id ffacd0b85a97d-3a5317849cbmr4448064f8f.1.1749243509924;
+        Fri, 06 Jun 2025 13:58:29 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a53244f4e7sm2850859f8f.77.2025.06.06.13.58.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a53244f4e7sm2850859f8f.77.2025.06.06.13.58.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 13:58:30 -0700 (PDT)
+        Fri, 06 Jun 2025 13:58:29 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 5/5] m4: simplify path substitutions in ptest
-Date: Fri,  6 Jun 2025 22:58:09 +0200
-Message-Id: <20250606205809.4071299-5-alex.kanavin@gmail.com>
+Subject: [PATCH 4/5] strace: better sed expression for ptest Makefile
+Date: Fri,  6 Jun 2025 22:58:08 +0200
+Message-Id: <20250606205809.4071299-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250606205809.4071299-1-alex.kanavin@gmail.com>
 References: <20250606205809.4071299-1-alex.kanavin@gmail.com>
@@ -67,58 +67,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 Jun 2025 20:58:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218185
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218184
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-There's no need to setup a fake 'source directory' and
-redirect the tests to it; rather it's possible to point
-them directly to ptest directory (this needs to be done
-twice, in Makefile substitutions, and as a C define during
-ptest compilation).
-
-This also eliminates the assumption that S and B are in the
-same directory (no longer true when S is in UNPACKDIR).
+The previous one wasn't particularly readable, and assumed
+a particular relationship between S and B. The new one
+also works when S is in UNPACKDIR, or anywhere else.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/m4/m4-1.4.20.inc | 5 +----
- meta/recipes-devtools/m4/m4/run-ptest  | 2 +-
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/strace/strace_6.15.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/m4/m4-1.4.20.inc b/meta/recipes-devtools/m4/m4-1.4.20.inc
-index a31335f173e..aad57b8b649 100644
---- a/meta/recipes-devtools/m4/m4-1.4.20.inc
-+++ b/meta/recipes-devtools/m4/m4-1.4.20.inc
-@@ -27,7 +27,7 @@ EXTRA_OEMAKE += "'infodir=${infodir}'"
- do_compile_ptest() {
- 	cd ${B}/tests
- 	sed -i '/^buildtest-TESTS: /c buildtest-TESTS: $(TESTS) $(check_LIBRARIES) $(check_PROGRAMS)' Makefile
--	oe_runmake buildtest-TESTS
-+	oe_runmake CPPFLAGS="-DSRCDIR=\\\"${PTEST_PATH}/tests/\\\"" buildtest-TESTS
+diff --git a/meta/recipes-devtools/strace/strace_6.15.bb b/meta/recipes-devtools/strace/strace_6.15.bb
+index d8ac2a53d09..2093c92eb31 100644
+--- a/meta/recipes-devtools/strace/strace_6.15.bb
++++ b/meta/recipes-devtools/strace/strace_6.15.bb
+@@ -45,7 +45,7 @@ do_install_ptest() {
+ 	mkdir -p ${D}${PTEST_PATH}/src
+ 	install -m 755 ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
+ 	install -m 644 ${B}/src/config.h ${D}${PTEST_PATH}/src/
+-	sed -e '/^src/s/strace.*[0-9]/ptest/' \
++	sed -e 's/^srcdir = .*/srcdir = ..\/..\/ptest\/tests/' \
+ 	    -e "/^TEST_LOG_DRIVER =/s|(top_srcdir)|(top_builddir)|" \
+ 	    -i ${D}/${PTEST_PATH}/${TESTDIR}/Makefile
  }
- 
- do_install_ptest() {
-@@ -39,9 +39,6 @@ do_install_ptest() {
-                 chmod 0755 ${D}${PTEST_PATH}/tests/test-spawn-pipe-main \
-                      ${D}${PTEST_PATH}/tests/test-spawn-pipe-child ${D}${PTEST_PATH}/tests/test-version-etc \
-                      ${D}${PTEST_PATH}/tests/test-xalloc-die
--
--                ln -sf ptest ${D}${libdir}/${BPN}/${BP}
--                sed -i -e 's/@BP@/${BP}/g' ${D}${PTEST_PATH}/run-ptest
- }
- 
- do_install_ptest:append:libc-glibc() {
-diff --git a/meta/recipes-devtools/m4/m4/run-ptest b/meta/recipes-devtools/m4/m4/run-ptest
-index a91c372e541..da786e26f43 100644
---- a/meta/recipes-devtools/m4/m4/run-ptest
-+++ b/meta/recipes-devtools/m4/m4/run-ptest
-@@ -2,4 +2,4 @@
- #
- #This script is used to run m4 test suites
- cd tests 
--make -k runtest-TESTS abs_aux_dir=../../@BP@/tests/build-aux abs_top_srcdir=../../@BP@/tests abs_srcdir=../../@BP@/tests top_srcdir=.. srcdir=.
-+make -k runtest-TESTS abs_aux_dir=./build-aux abs_top_srcdir=. abs_srcdir=. top_srcdir=.. srcdir=.
 -- 
 2.39.5
 
