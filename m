@@ -2,60 +2,60 @@ Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95831C61DB2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE7EC5B543
 	for <webhook@archiver.kernel.org>; Sat,  7 Jun 2025 14:35:41 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.19652.1749306940146188424
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.19542.1749306936612336295
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Jun 2025 07:35:40 -0700
+ Sat, 07 Jun 2025 07:35:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=ZaAhG9KG;
- spf=pass (domain: snapchat.com, ip: 209.85.221.41, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a51481a598so1780031f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Jun 2025 07:35:39 -0700 (PDT)
+ dkim=pass header.i=@snap.com header.s=google header.b=MSXf87HJ;
+ spf=pass (domain: snapchat.com, ip: 209.85.128.41, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-450ce671a08so18856395e9.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Jun 2025 07:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1749306938; x=1749911738; darn=lists.openembedded.org;
+        d=snap.com; s=google; t=1749306934; x=1749911734; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XHo88n/9eQbGWl6U6W8dsCw0LWQcN34M9kC+NAKW5fc=;
-        b=ZaAhG9KGzJHe1fMWdgMt0aH16FguMtGhIZZXvFlUKFa1QCewgYF8zNg2h21Rx/ZnJk
-         KF1XwY3Csbxz4/YrrVaIe87RRRryBVw8t50kdo210VpEm8ctJi7SH7o5jPVsWsaGtXvc
-         v3dD7/EnDgyjVmFx3GNdg+lgvf7magDX8I0pM=
+        bh=b4tjtxP+/IBrctpAyzywqR4l2B+1ykZhwePHwoTOzXc=;
+        b=MSXf87HJH7Xx9PKv8rc8CDeWiCcrgDKGasmb1KRaaDLBysrlDl2gv9GiyA6ZhURkFt
+         G0A5JfZqs+KJqLv4ffeW0PKam/5rvf2j7DWX4csR6A/92w3U/EOMMr6yNwEsCCtyBEyf
+         DJWJVUF/D/7efm3knhcaH7VDFITnjyF9FYVyU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749306938; x=1749911738;
+        d=1e100.net; s=20230601; t=1749306934; x=1749911734;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XHo88n/9eQbGWl6U6W8dsCw0LWQcN34M9kC+NAKW5fc=;
-        b=vfN9CBhk9kiI0RgSqCnnG30tnKyfHKK45RlzVnJxI/qH8FFTtagvVnLHmTiHNA0MVG
-         vTHY3Le2lrEmwBsMgl4V5EQVt2x7sCT9Z0INBFT/PrMUcJvR2X4UKnJV+nJrOixF3DYb
-         SwWjn4MXGIgjTWZihJfare5xLBbdhCYfHRt6nL82CYGJans4vlK5MjS+YttK8Fql6nn/
-         cIHbGOUyIDUK4z/cUiSCjyU78bYzn2FUPzsayHR2YyBBlcKCoBbJCml60U/q4UGWbOiQ
-         MBleer2XqJ1UQnOXsW43jDKXNGGfdpyMmYNaVFqsExYc55SVhDO7V1Ypb3AWPf4Azp3o
-         pKjw==
-X-Gm-Message-State: AOJu0YwPrAED31m0iG6xL3vuaUZDIXGTYHjLYIC5tHPFwUzUJ/rjxdBN
-	dEYDGP/FqWep3VA2g7LeoxrAspZlgOfr8J3n/igoqsjn9ED9X9x6ZFSBzUeHpQv1s0LOSJuExCZ
-	pJ4NM674=
-X-Gm-Gg: ASbGncuN1ssDbMyK4csNMvalwKmQxrv5nAANL9+Vt/bIPvM5hyLbw36batCwjIFH8iq
-	Yt/vBh3FOO0wzqsXj/eeOuxxMwP0E1fJ4E0DuKc5Y4JEy8Xm1jfVSRGUt9NORY/aiuFNBa8u9d4
-	vYYZBgpApfmlkr2LKVuMWJqDke7HKzSNDcLuVVBcK8o8C4CkE8VLXlzV6ApmFvHLvUaoGNLBDZM
-	6l3fymrlI+kuupYS5VanTEgnLmBriovgKy1lAo+/TWs6Nvcd5SbYMKH5mt08YjRHYw9BcWMjv/1
-	SPB0hCLgRdZPOvOdZvAP3NUtESyiHkj6+eNB/qgxBLbl4QVAOxrzconHo5BIEaFw7a808vvKLbz
-	lCGpUMWsehiqN9TEnyS0eaCrwCt/Lk4FyPEg3A1nx
-X-Google-Smtp-Source: AGHT+IEZ3kcpHLb4+2JvF0SS6JE/8rXlXpBUvzP09VmiEIhdmyhYnP5dK0fy77eRjxNI3I5kWFw45g==
-X-Received: by 2002:a05:6000:310d:b0:3a4:edf5:b952 with SMTP id ffacd0b85a97d-3a5319a7945mr5990858f8f.36.1749306938289;
-        Sat, 07 Jun 2025 07:35:38 -0700 (PDT)
+        bh=b4tjtxP+/IBrctpAyzywqR4l2B+1ykZhwePHwoTOzXc=;
+        b=S/Wlxv76ghyuCpL+aDhuPT5jxgEfaXSp71IzDeqXB3M1XMcj0kpSCoB7+C8YeuRkJd
+         oP6AlCAjr91hWjgPo/+c+8/O75VtgrgEk5oFptwS2sC/FdSctZcgBFfNUXRMi1M4nWmE
+         W6H7pFTvyqayzWWQrACsgT0J693LKFQrf+rP7aN0dUWev3e0EhsVTBI3rlauQdmvUP6d
+         IHbuQ0RIayGbCqdXAy1eiG+SwkzYLsi7GcvWJcW8PO1LLAuWZyMFDQ6h4oXXJfPygCR4
+         Lvg1TQX+NXxtU1qGSidzcSQCKSEeE6rzfY8dnyjV5kAEDnRiZQWt1Tm7OtSWaNw0SEjc
+         pWVg==
+X-Gm-Message-State: AOJu0YxilX1HXraevilXdhGvMymSIcEZ14pYvEIGbaQ5625Otj7Q0/hf
+	UhH2wdL7VTla80RAVynKKfIKz9jYEUVbNE5y6JKKk22lSFQuG/PEUnCS+ZQwXB1CluaFf1DCrEO
+	5w6Y1Ykg=
+X-Gm-Gg: ASbGnctQGwRtnm+yrMPX7dBoLyeP/WI+LcMVj2erSyK8bbRsbdz5SrXG8obX/6eo2rG
+	gJlijUAxUYYSGZBKrQzpAialLcDHuFIcyTsG/IbGfah3l9N7iJfHa55LW9wezcAfbYUP5uPIEqF
+	/ZuVsRQfGIs+7GARYhQvEnLQ7C9ZKHk4e0EwU3Qly3uaz7E23HIyI62YDZwr8jMbZ7Ch4qTUCmE
+	dBaUElAS1bcL12F32rK34nriEaAq+OYAnBx3QNCeuB7wRm1tQOqBAHnrlvivX+HbQlJTFsVoCHN
+	vMau5nhf32+2Jq/EHblpKYSsXGqhVWWHqlxkD6MqlP+v7U9gSPj7QVnHF41dcz+AJZk0hHGN8J5
+	LTn5luWPQ8wfi9b8UNNnCiA2CdYazmz7okQ8Vxjbs
+X-Google-Smtp-Source: AGHT+IHarPeFGaNp1ISDIyKKifdC+t7zA5zFPqTyjXr16RF1HF0F3gg59LLFFrJQZ2Nn6tkHdMTZ9w==
+X-Received: by 2002:a05:600c:4ed3:b0:439:86fb:7340 with SMTP id 5b1f17b1804b1-45201436b3cmr80799065e9.30.1749306934214;
+        Sat, 07 Jun 2025 07:35:34 -0700 (PDT)
 Received: from localhost.localdomain (80-108-196-96.cable.dynamic.surfer.at. [80.108.196.96])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4521370961csm57862725e9.22.2025.06.07.07.35.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4521370961csm57862725e9.22.2025.06.07.07.35.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Jun 2025 07:35:38 -0700 (PDT)
+        Sat, 07 Jun 2025 07:35:34 -0700 (PDT)
 From: ecordonnier@snap.com
 To: openembedded-core@lists.openembedded.org
 Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [PATCH 3/3] Revert "coreutils: split out coreutils-getlimits"
-Date: Sat,  7 Jun 2025 16:35:12 +0200
-Message-ID: <20250607143512.484259-3-ecordonnier@snap.com>
+Subject: [PATCH 2/3] findutils: use getlimits from findutils
+Date: Sat,  7 Jun 2025 16:35:11 +0200
+Message-ID: <20250607143512.484259-2-ecordonnier@snap.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250607143512.484259-1-ecordonnier@snap.com>
 References: <20250607143512.484259-1-ecordonnier@snap.com>
@@ -65,65 +65,54 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 07 Jun 2025 14:35:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218198
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218197
 
 From: Etienne Cordonnier <ecordonnier@snap.com>
 
-This reverts commit 149584beef1e1b28a4e51f40515204e7edaa9d1f.
-
-The coreutils-getlimits package is no longer needed since findutils-ptest
-now uses its own getlimits implementation. This improves modularity and
-makes it easier to use alternative coreutils implementations via PREFERRED_PROVIDER
-(e.g. uutils-coreutils recipe in meta-openembedded).
+Having findutils depending on coreutils-getlimits makes it harder to replace GNU coreutils with uutils-coreutils
+using PREFERRED_PROVIDER.
+Also, the findutils repository contains a version of getlimits used for the tests, so there is no need to depend
+on coreutils's version of getlimits.
 
 Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- meta/recipes-core/coreutils/coreutils_9.7.bb | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ meta/recipes-extended/findutils/findutils/run-ptest | 3 +++
+ meta/recipes-extended/findutils/findutils_4.10.0.bb | 3 ++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_9.7.bb b/meta/recipes-core/coreutils/coreutils_9.7.bb
-index 091e1ea2c5..dc9dfae26b 100644
---- a/meta/recipes-core/coreutils/coreutils_9.7.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.7.bb
-@@ -74,11 +74,6 @@ RDEPENDS:coreutils:class-target += "${@bb.utils.contains('PACKAGECONFIG', 'singl
- # regardless of whether single-binary is in effect.
- RPROVIDES:coreutils += "${@bb.utils.contains('PACKAGECONFIG', 'single-binary', 'coreutils-stdbuf', '', d)}"
+diff --git a/meta/recipes-extended/findutils/findutils/run-ptest b/meta/recipes-extended/findutils/findutils/run-ptest
+index 3dec117067..0c9af47efd 100644
+--- a/meta/recipes-extended/findutils/findutils/run-ptest
++++ b/meta/recipes-extended/findutils/findutils/run-ptest
+@@ -5,6 +5,9 @@ ln -s /usr/bin/find /tmp/oldfind
+ # make oldfind visible
+ export PATH="/tmp:${PATH}"
  
--# put getlimits into coreutils-getlimits, because other ptest packages such as
--# findutils-ptest may need this command. Note that getlimits is a noinst_PROGRAM
--PACKAGE_BEFORE_PN:class-target += "${PN}-getlimits"
--FILES:${PN}-getlimits = "${bindir}/getlimits"
--
- # Deal with a separate builddir failure if src doesn't exist when creating version.c/version.h
- do_compile:prepend () {
- 	mkdir -p ${B}/src
-@@ -106,9 +101,6 @@ do_install:append() {
- 	# in update-alternatives to fail, therefore use lbracket - the name used
- 	# for the actual source file.
- 	mv ${D}${bindir}/[ ${D}${bindir}/lbracket.${BPN}
--
--	# this getlimits noinst_PROGRAM would possibly be needed by other ptest packages
--	install ${B}/src/getlimits ${D}/${bindir}
- }
++# Add findutils ptest directory to PATH for getlimits
++export PATH="/usr/lib/findutils/ptest:${PATH}"
++
+ export built_programs="find xargs locate updatedb"
  
- inherit update-alternatives
-@@ -213,6 +205,7 @@ do_install_ptest () {
-         fi
-     done
+ # this gets substituted by sed during build
+diff --git a/meta/recipes-extended/findutils/findutils_4.10.0.bb b/meta/recipes-extended/findutils/findutils_4.10.0.bb
+index 508485bcd3..15dedb3582 100644
+--- a/meta/recipes-extended/findutils/findutils_4.10.0.bb
++++ b/meta/recipes-extended/findutils/findutils_4.10.0.bb
+@@ -15,12 +15,13 @@ CACHED_CONFIGUREVARS += "gl_cv_func_wcwidth_works=yes"
+ EXTRA_OECONF += "ac_cv_path_SORT=${bindir}/sort"
  
-+    install ${B}/src/getlimits ${D}/${bindir}
-     # handle multilib
-     sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
- }
-@@ -224,6 +217,7 @@ do_install_ptest:append:libc-musl () {
-     sed -i -e '/tests\/split\/line-bytes.sh/d' ${D}${PTEST_PATH}/Makefile
- }
+ # need od from coreutils for -t option
+-RDEPENDS:${PN}-ptest += "bash sed grep coreutils coreutils-getlimits"
++RDEPENDS:${PN}-ptest += "bash sed grep coreutils"
  
--RDEPENDS:${PN}-ptest += "${PN}-getlimits xz  \
-+RDEPENDS:${PN}-ptest += "xz  \
-                          ${@bb.utils.contains('PACKAGECONFIG', 'acl', 'acl', '', d)} \
-                          ${@bb.utils.contains('PACKAGECONFIG', 'xattr', 'attr', '', d)}"
-+FILES:${PN}-ptest += "${bindir}/getlimits"
+ do_install_ptest:class-target() {
+     mkdir -p ${D}${PTEST_PATH}/tests/
+     cp ${S}/init.cfg ${D}${PTEST_PATH}
+     cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
++    install -m 755 ${B}/find/getlimits ${D}${PTEST_PATH}/$
+ 
+     # substitute value in run-ptest with actual version
+     sed -i -e 's/__run_ptest_version__/${PV}/' ${D}${PTEST_PATH}/run-ptest
 -- 
 2.43.0
 
