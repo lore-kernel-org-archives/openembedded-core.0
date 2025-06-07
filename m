@@ -1,92 +1,115 @@
-Return-Path: <oe@myspectrum.nl>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD9DC61CE8
-	for <webhook@archiver.kernel.org>; Sat,  7 Jun 2025 21:09:33 +0000 (UTC)
-Received: from outbound1.mail.transip.nl (outbound1.mail.transip.nl [149.210.149.72])
- by mx.groups.io with SMTP id smtpd.web11.26317.1749330566107195453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E061EC61CE8
+	for <webhook@archiver.kernel.org>; Sat,  7 Jun 2025 21:35:23 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web10.26700.1749332109118203231
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Jun 2025 14:09:27 -0700
+ Sat, 07 Jun 2025 14:35:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@myspectrum.nl header.s=transip-a header.b=sOG/fjXu;
- spf=pass (domain: myspectrum.nl, ip: 149.210.149.72, mailfrom: oe@myspectrum.nl)
-Received: from submission4.mail.transip.nl (unknown [10.103.8.155])
-	by outbound1.mail.transip.nl (Postfix) with ESMTP id 4bF9mM487PzRj1C;
-	Sat,  7 Jun 2025 23:09:23 +0200 (CEST)
-Received: from yellow.myspectrum.nl (yellow.myspectrum.nl [136.144.146.76])
-	by submission4.mail.transip.nl (Postfix) with ESMTPSA id 4bF9mL2VQ4z2pRDkJ;
-	Sat,  7 Jun 2025 23:09:22 +0200 (CEST)
-Received: from [192.168.178.17] (82-75-103-118.cable.dynamic.v4.ziggo.nl [82.75.103.118])
-	(Authenticated sender: oe@myspectrum.nl)
-	by yellow.myspectrum.nl (Postfix) with ESMTPSA id C322E2001F;
-	Sat,  7 Jun 2025 21:09:21 +0000 (UTC)
-Authentication-Results: yellow.myspectrum.nl;
-	auth=pass smtp.auth=oe@myspectrum.nl smtp.mailfrom=oe@myspectrum.nl
-Message-ID: <130b0c34-6e3a-40fd-b889-1253388cc601@myspectrum.nl>
-Date: Sat, 7 Jun 2025 23:09:21 +0200
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=CjTH26Fm;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20250607213504763cdde0783722493b-wyoyps@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250607213504763cdde0783722493b
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 07 Jun 2025 23:35:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=mZu33c5Egmy9Qrv0h/CujJCXwCpRyniRQhP8W6yxvFY=;
+ b=CjTH26Fm2zEtY/CvaqTI03WDUjSb6mejAk3JSCwAi3T9lyFzQ3CdE1nxi0DiVPdUQy+r47
+ fbjBtt8sV4rbpmtoFKmz2CzYZC3K6NCTf/cbHe071pQgMglXQekHS2AX7kHp4xCGEu1otsBV
+ K+RnmOUhdHpkjdUv379IvIZRRrAQeP8c+XhBFlEgRTiEChVF9lvaM/KbntNdbzeVEac+vaWr
+ UlKUkl4JTPU0c24mal2lGAyT0fCVC9+bNSd/WXpUaE38SMSv0aB3jO+ziqG7a7DQxFHH1iPc
+ QG+GLSp84czxeFFpPOwKrS7S86bB3o/UthT00A2X+fp0rWlr8zouRkwA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] curl: upgrade 8.12.1 -> 8.14.1
+Date: Sat,  7 Jun 2025 23:34:17 +0200
+Message-Id: <20250607213417.1831940-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/3] findutils: remove tabs
-To: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
-References: <20250607143512.484259-1-ecordonnier@snap.com>
-Content-Language: en-US
-From: Jeroen Hofstee <oe@myspectrum.nl>
-In-Reply-To: <20250607143512.484259-1-ecordonnier@snap.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: ClueGetter at submission4.mail.transip.nl
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=transip-a; d=myspectrum.nl; t=1749330562; h=from:subject:to:
- references:in-reply-to:date:mime-version:content-type;
- bh=Qp1ieRZjfuzMpcXklEQgLED9IQMmAs2es+sI5BoF/0Y=;
- b=sOG/fjXuy2kC9W+YqkG3xciIdSNJPN6uvlN11nucNXf9TQy3D9OaUYFhJjuAhOPwrQNFYH
- KEQieneH2i/WOgfSgGAMT4T1GIobdEf9n8A7s5OMUmvaYV578HErHxfgfU9Io6X9IeUlfj
- A7vWgLPOe+9oWiRTgR5fWxSGo6NkdP3BFA8gJFVId8wHfXDD5w6LRtqZ05HUaOkBeTY3V/
- OJNyTVvfNiwwJpGa7iG0kqdKkB5qZLnUt0sGOjMJghYhr0FidJ2vrGJti/yyvQGEZMoTX6
- qaf7tsqtul+7AYhLNuJMFQnMOViEwC6qaAoN64EYnmMCnlY1nPW1RmxRXfGnvw==
-X-Report-Abuse-To: abuse@transip.nl
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Jun 2025 21:09:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218204
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Jun 2025 21:35:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218205
 
-Hello Etienne,
+From: Peter Marko <peter.marko@siemens.com>
 
-On 6/7/25 16:35, Etienne Cordonnier via lists.openembedded.org wrote:
-> From: Etienne Cordonnier <ecordonnier@snap.com>
->
-> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-> ---
->   meta/recipes-extended/findutils/findutils_4.10.0.bb | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-extended/findutils/findutils_4.10.0.bb b/meta/recipes-extended/findutils/findutils_4.10.0.bb
-> index 57f77de16f..508485bcd3 100644
-> --- a/meta/recipes-extended/findutils/findutils_4.10.0.bb
-> +++ b/meta/recipes-extended/findutils/findutils_4.10.0.bb
-> @@ -18,10 +18,10 @@ EXTRA_OECONF += "ac_cv_path_SORT=${bindir}/sort"
->   RDEPENDS:${PN}-ptest += "bash sed grep coreutils coreutils-getlimits"
->   
->   do_install_ptest:class-target() {
-> -	mkdir -p ${D}${PTEST_PATH}/tests/
-> -	cp ${S}/init.cfg ${D}${PTEST_PATH}
-> -	cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
-> +    mkdir -p ${D}${PTEST_PATH}/tests/
-> +    cp ${S}/init.cfg ${D}${PTEST_PATH}
-> +    cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
->   
-> -	# substitute value in run-ptest with actual version
-> -	sed -i -e 's/__run_ptest_version__/${PV}/' ${D}${PTEST_PATH}/run-ptest
-> +    # substitute value in run-ptest with actual version
-> +    sed -i -e 's/__run_ptest_version__/${PV}/' ${D}${PTEST_PATH}/run-ptest
->   }
->
+Handle CVE-2025-4947 and CVE-2025-5025.
 
-This is a shell script, they should have tabs in openembedded-core.
+CVE-2025-5399 fixed in 8.14.1 was introduced only in 8.13.0, so Yocto
+never had version vulnerable to it.
 
-With kind regards,
+Rebase patches.
 
-Jeroen
+Add openssl-native dependency fo ptest to fix following error:
+
+    Missing or broken 'openssl' tool. openssl 1.0.2+ is required.
+    Without it, this script cannot generate the necessary certificates
+    the curl test suite needs for all its TLS related tests. at
+    ../../../curl-8.14.0/tests/certs/genserv.pl line 33.
+
+Install curlinfo for tests required since 8.14.0
+https://github.com/curl/curl/commit/7a1211d474afd4e36bfb39f2b870a418bce42138
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-support/curl/curl/no-test-timeout.patch       | 2 +-
+ .../curl/{curl_8.12.1.bb => curl_8.14.1.bb}                | 7 ++++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_8.12.1.bb => curl_8.14.1.bb} (95%)
+
+diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/recipes-support/curl/curl/no-test-timeout.patch
+index 677d177302..5b901a6fe9 100644
+--- a/meta/recipes-support/curl/curl/no-test-timeout.patch
++++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
+@@ -14,7 +14,7 @@ diff --git a/tests/servers.pm b/tests/servers.pm
+ index d4472d5..9999938 100644
+ --- a/tests/servers.pm
+ +++ b/tests/servers.pm
+-@@ -123,7 +123,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
++@@ -124,7 +124,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
+  my $sshderror;   # for socks server, ssh daemon version error
+  my %doesntrun;    # servers that don't work, identified by pidfile
+  my %PORT = (nolisten => 47); # port we use for a local non-listening service
+diff --git a/meta/recipes-support/curl/curl_8.12.1.bb b/meta/recipes-support/curl/curl_8.14.1.bb
+similarity index 95%
+rename from meta/recipes-support/curl/curl_8.12.1.bb
+rename to meta/recipes-support/curl/curl_8.14.1.bb
+index 4192693da8..08ad9cdb17 100644
+--- a/meta/recipes-support/curl/curl_8.12.1.bb
++++ b/meta/recipes-support/curl/curl_8.14.1.bb
+@@ -20,7 +20,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-curl.sh \
+ "
+ 
+-SRC_URI[sha256sum] = "0341f1ed97a26c811abaebd37d62b833956792b7607ea3f15d001613c76de202"
++SRC_URI[sha256sum] = "f4619a1e2474c4bbfedc88a7c2191209c8334b48fa1f4e53fd584cc12e9120dd"
+ 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+@@ -126,12 +126,17 @@ do_install_ptest() {
+ 		${B}/libtool --mode=install install ${B}/tests/server/$name ${D}${PTEST_PATH}/tests/server
+ 	done
+ 
++	install -d ${D}${PTEST_PATH}/src
++	install -m 755 ${B}/src/curlinfo ${D}${PTEST_PATH}/src
++
+ 	cp -r ${S}/tests/data ${D}${PTEST_PATH}/tests/
+ 
+ 	# More tests that we disable for automated QA as they're not reliable
+ 	cat ${UNPACKDIR}/disable-tests >>${D}${PTEST_PATH}/tests/data/DISABLED
+ }
+ 
++DEPENDS:append:class-target = "${@bb.utils.contains('PTEST_ENABLED', '1', ' openssl-native', '', d)}"
++
+ RDEPENDS:${PN}-ptest += " \
+ 	locale-base-en-us \
+ 	perl-module-b \
 
