@@ -1,260 +1,255 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14D67C61CE7
-	for <webhook@archiver.kernel.org>; Sat,  7 Jun 2025 22:40:34 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.web11.27666.1749336029980225285
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1181DC5AD49
+	for <webhook@archiver.kernel.org>; Sun,  8 Jun 2025 07:51:17 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.34041.1749369072066729314
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Jun 2025 15:40:30 -0700
+ Sun, 08 Jun 2025 00:51:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q6AO2oyX;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-70dd2d35449so24607177b3.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Jun 2025 15:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749336029; x=1749940829; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7AyXwqf8JQBR5PFmaD67TrofPQMoWiUcyPJ29jNfYiI=;
-        b=Q6AO2oyXzJWCkTjjm2gSARDJLvgLu2sqygdb64Ss/5gB3T/arDQ5p7Hwkqqdm7x9io
-         GZmz5uN3qoB/fC53DHT3SNfw3oUoVFbkh8HHoMt65LH76569P0BM1zkU0sSK8pKTf/dJ
-         MDnQ/N3uwvypllVE5pq06HqnD9yn4t+rC30M2eSIAEKhU2P1Qlk8+7VEGIkOih2Xehuv
-         K9Bhkcx8SNbhT2vsDodIDs5ICK0w7GYzGMIufAonzuhDoDn30omlM/YlgXE19bXmbYAa
-         dW37AnRO3/eZWdTjRar+8b0LmejQazg/07WDPgMSCDJ233Oqh3mH6vAqChWLE5XDGh/x
-         21RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749336029; x=1749940829;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7AyXwqf8JQBR5PFmaD67TrofPQMoWiUcyPJ29jNfYiI=;
-        b=F8wWL06RYYEALAvGM3nyVjnhoTtBmzpdIzf4Z55oLzrCdv3o8CsGCXtspkhU43sfCq
-         2OowfNZ52XmY3heoK1zvUqN0ReNR5lWNr6QsamMzthKS7F2Oo6HI3GDy1MnLHh6OCicx
-         6DGfeuF+yM0G9nsDNUf1uRd1p/BDT8cnb34v7feaQaTsDWGVv4rtJ9oYUWWWBIy3d1Vp
-         iGvlycOzBlDSF/b7iCO+yduWu5xnQpVHEROA69/o2NlNuIYDylOwGTPQto4xzR36aVMK
-         z+knOTUvJFoAJyfFwQYfn0dm5OQWSvKkZJPL+G2b9afUdmueWd5LBFenMkl130Dinb1H
-         bfaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXMSZV2zekTO44ujsVSaSXHYDUdKeCbxRTR4sFbeJPPqCe71Yx376lO0ko27ya2bj/GUM9xIhncYkI/2Gx9VLyC8Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyZeg9p8+/mBrOan7v0htIxzhOUJWP9AJCybNSY2SuzEgcbHurk
-	IqOC+6BT6D7t7qMENdahgmeedBB+inravNQ3zlDt+OxF42YRgAxQb9Pzl6emqBL3x4a41SKAZoQ
-	AHU0PyLnl3IBqhcP+Z/hLHpGD2Dl5/Oc=
-X-Gm-Gg: ASbGncsaDjLohTrxDjkFvsUR0U2WuPQViOpvrnuq3RW1nUdTV/MWSsAI3htwE5QaNd6
-	ttdDbKm+CE7rktb8fB2w0MPq21C3l1w7rwDksUyic3+owMyUFY97kpCvwo5/1lYF8S4bMohqLza
-	qjVOI7hOEz4Z7y/Ab+/1AoUNRjGrsfVNptBftfXUJ7foz0dlFvrd7CTCBZpOP563bYIg==
-X-Google-Smtp-Source: AGHT+IHU/7G3RfSwj2+zd3LlJAxGzsMemtLjiA+u6JthDfhq/raAMK6wbYG/z2MYiO0GHl9TZIpbObygXyO+ivTo4pE=
-X-Received: by 2002:a05:690c:4c07:b0:70c:d9e0:f657 with SMTP id
- 00721157ae682-710f77372aamr123883367b3.35.1749336029060; Sat, 07 Jun 2025
- 15:40:29 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=82543c27de=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5587o2NQ000799
+	for <openembedded-core@lists.openembedded.org>; Sun, 8 Jun 2025 07:51:11 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 474cd90sw1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 08 Jun 2025 07:51:10 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 5587pAbT003654;
+	Sun, 8 Jun 2025 07:51:10 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11on2056.outbound.protection.outlook.com [40.107.236.56])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 474cd90sw0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 08 Jun 2025 07:51:10 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FYYp4JEPZ78nI+H7b+dZyKaXi+V8QC5+zjMNVcLHGomx1wJI0l1njwmIVsUOmBXkerOKqxcXFknDRcJgmOFIG3VfMf3emvXVBJgZtvIH2q3FFsP6BgZ87FAzWZIUp2jneLwUN4IC95a1Em0VYh/ZzLLyApckFW7NvCFoo4J8kcV8Sa2NdKyF/RtnodPEW6DmXwiDWh+Tt9KPZW7GHikkpVBw5pnSrLsilaD3sx/QsJGhUTK+fLfeBXgtA0tUiCwMxnE513tvttwZiClHg0WqusXGNDgykDrYynk/7A6GjYIIllMM/toT6vLVha5h9htS/l+tbHvgc659K6GMo4D2Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zfQRqq+sn8MyWFrHQ3wmguNf3VkgTE31QVP0aQcw5GI=;
+ b=kIX1tweyhpjw4qMlIyF6wQvani0DtC05dxrNpBlbTrpGm5/VFYmO2l50PLVnSuIg9ynlXi17zp0Htp3K/hIKnDVZHIZ7EjcYWnlf9gp9igSG1YIAzzbJaun5kIevazUwCdMgyvnLgfofSS+wrc8YmR5ZlIjegKPUGM23heONFE+tlVDx3pysa8iQn21zkMGn73ZeAtjUxzglTupjiH+2NhOMM9/gCUzrjNDc5p+xee2xYbHCba6Izl5sHgVddFFabHSXXTJ4sfD+fosb8k7YoVE3budrCyYBNQWmcLmD/S5mk2gBSP6A4tNFAacP4ElDgRvkLVUyD3GZ7QKp7Rq1Pw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from LV3PR11MB8531.namprd11.prod.outlook.com (2603:10b6:408:1b6::15)
+ by CH3PR11MB8703.namprd11.prod.outlook.com (2603:10b6:610:1cd::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.26; Sun, 8 Jun
+ 2025 07:51:06 +0000
+Received: from LV3PR11MB8531.namprd11.prod.outlook.com
+ ([fe80::d341:6ff5:fce1:c6d]) by LV3PR11MB8531.namprd11.prod.outlook.com
+ ([fe80::d341:6ff5:fce1:c6d%6]) with mapi id 15.20.8813.024; Sun, 8 Jun 2025
+ 07:51:06 +0000
+Message-ID: <1fc03946-6ccf-45de-8f90-d2e714da5d3c@windriver.com>
+Date: Sun, 8 Jun 2025 15:50:59 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 0/2] Upgrade automake and rpm
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        openembedded-core@lists.openembedded.org
+References: <cover.1749092509.git.liezhi.yang@windriver.com>
+ <DAEIF6QL7XAS.1NMY7JXUJYGZC@bootlin.com>
+Content-Language: en-US
+From: Robert Yang <liezhi.yang@windriver.com>
+In-Reply-To: <DAEIF6QL7XAS.1NMY7JXUJYGZC@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: TYCPR01CA0074.jpnprd01.prod.outlook.com
+ (2603:1096:405:3::14) To LV3PR11MB8531.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::15)
 MIME-Version: 1.0
-References: <26D43BA4-43AE-4D40-8533-8D443F804F97@arm.com> <440c4178-40b0-47c7-b7dc-1e0ee9cf65b0@gmail.com>
- <20250605194043.nzlanfitchaedeyb@hiago-nb> <CAMKF1srYrrHALtb3MzfdPKZOBv_Vc9CvDbK9oXv=bK+echkugg@mail.gmail.com>
- <20250607214859.xtgkq6sirsvnweyo@hiago-nb>
-In-Reply-To: <20250607214859.xtgkq6sirsvnweyo@hiago-nb>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 7 Jun 2025 15:40:18 -0700
-X-Gm-Features: AX0GCFv_6IYhiNicKmY9reGHYc1kvmYpSSDoQBE_udVfdDU7Cr3m1_U3KBhs_xs
-Message-ID: <CAMKF1sryNXm5K5Ex9fKuooQPHptNQf=-fsuy-6cZwj7tH_rE2w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libgcrypt: fix compile error for t-thread-local
-To: Hiago De Franco <hiagofranco@gmail.com>
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Hongxu Jia <hongxu.jia@windriver.com>, Hiago De Franco <hiago.franco@toradex.com>
-Content-Type: multipart/alternative; boundary="0000000000009ae0ee063703083f"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8531:EE_|CH3PR11MB8703:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9fff2324-4caa-4db3-338f-08dda661396b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?bG8xSGkzM2ovVzdwZlRZOFA1OTk5dCtQa3RCRWladWozckZTbWplclkzVHE5?=
+ =?utf-8?B?RWtzbEdxNjNtN1E1Y0VSYmNRYmliQmRWZWplcUR3ck9sM2lXaEE0VjZpSFhS?=
+ =?utf-8?B?T3N1UWs1aWxQbjVVRlB6Rkk2K3VXV2FlcWE5OGxoTEdIYUdEOHg3eFBJVUpG?=
+ =?utf-8?B?b3Y5MDB4Ull2dkhrbnl5UG45MXVlQTZFeWtaK2ErVnhJeVlqTEFUVUhiQWxz?=
+ =?utf-8?B?WlkyNjlKSmVvTkduWnlSOENDTDE1R3Y4UG9yQURDQk5RWGVyQ0FOaEk5VUNM?=
+ =?utf-8?B?WEtiQi8rNHJtbitubFdRa1JtQmZOTWc4eFNrbG9hSkxVWmZ4WThNS2RxdzVh?=
+ =?utf-8?B?L09EallsenNxZlZKdGZaWUFOTGh4eS9Id1ZWaStZSm9oRGhscVg1TFlCQnFK?=
+ =?utf-8?B?ejZJdzNvVllOYU9rcFRTa0pIeWlvMisrSUltZWg5NktpTXlkd1FsNVc2NFNJ?=
+ =?utf-8?B?eitWZW5rbnFQVkw4UW5TRTlJdm5rUWY4UDQweStTSVZ2MWVmcEhpT01JcytW?=
+ =?utf-8?B?MjNkY1JDRUwxaDNRMTg0WnBYVldFeXNOd2E3YkNteFhFMENqT0RKSkJFMXpw?=
+ =?utf-8?B?bzBxT1l5aHdsTWNTaFVNQVRJOXpSakJiU3VBQzZTN2ZGam90N0VOd0pSWHZ0?=
+ =?utf-8?B?cnJ4ck53aXg1b3lrc2J2WDgwa3dORzZnc3BaMW40dWYrMllsdk9kbjRsSENP?=
+ =?utf-8?B?NndkSG5XRHVWVCsrMzY4bmJoaVEzZ0lsc2FYdkF0WVh1OEUyM3RLMVB5UDAv?=
+ =?utf-8?B?akZlTmhrZjJhRWV6a0l2OWtoQ2lFM0lYdEVxWGtxQ28yN2l0ZUZmRVJrTnND?=
+ =?utf-8?B?eGVVV1RQSFdZM3RSUDZXMkRFeFVjUWVOcEZYSVg5ZE01aml5NmdFWjkzYnB1?=
+ =?utf-8?B?VFlXckk0NjR5dWYzUnNvVXBqaTdnaTJyYU5rWHozeXpGRzJHdUc1NUh6NWVY?=
+ =?utf-8?B?UFQwMFByWUtidnlpQ2lrVG1iZmxhL3hweEFiVUQ5SVVPN0tpdEU2ZEVXbjJ4?=
+ =?utf-8?B?UXhDTFpneDNtczlzZmN0b2hqT0MvZkpmaVpKZHNiNUJIOE9naFZBakkvU1pr?=
+ =?utf-8?B?Yjk0VExLYnVQRitwTnlTeDZOdXUrQW1pOTA1Ny92L0taM2cxSUJ1Um9nSWlB?=
+ =?utf-8?B?M2hVUnRWQytWSTY5MXZyclFKc3FRcjltNi9NdTNHelEyc2w0SVpPck5YKy8z?=
+ =?utf-8?B?VVZQMHBCOStNbW1UaWM4RmxGd091VUtNc1JRbElJeTZBUFQ5RFNpamJxSTZh?=
+ =?utf-8?B?WkJwS1lvY2ZGQktzczBqTVZIQWVsMmRiaVZnaGFyMURrK1d0VDZUVXpnUG0w?=
+ =?utf-8?B?bURCemtSUWdjc2FaK20ySXhWZ2duT2YrRER1d0ZZYUxBczFmak9wUURDNFZG?=
+ =?utf-8?B?aVhsZFJrOXNidlJOVGRJUGNreGhNTERkbmhLWlpMQjVGMjZwSXVNcEhlVEw1?=
+ =?utf-8?B?THZqUkErUDVHMVVWSGhTNTJLRlJPY0hybnA5WGhLWTh1U1dIVENDY0laaXNZ?=
+ =?utf-8?B?UlRMbFNIM2VuLzZuTDdoVmQzOFdhaXNxSTlLTGh5ME5hOTYvWEQvS3FmYyt5?=
+ =?utf-8?B?V2U1NTlYMFlGd0wraUNjYzAzL3Rha3k4ZGV1Ums2RkNBVDBGMWlZQmRjTEZI?=
+ =?utf-8?B?WjdwY1J0WlVIU0k5T0tKakliSkd6cDkwUER3R0hubzgwVjhuK1NZRUoxMkRO?=
+ =?utf-8?B?Z0RsVkNHM1VVTjg4YmxmQTZ3OFJSTjdHTEd3UitJQ0Y5SjZBM1VkMkZFeExx?=
+ =?utf-8?B?aVl4MDFSSjNLT0R1bmlzam0vUmFkTGw3TVR1bTI4YTRuN2tYVWRlQzZXTzZE?=
+ =?utf-8?B?ZlZKRS85OWkwNFdFZmZ0MXg5akIxb05Qa2hvSkZWWFRpTDlBY2NhaWNJTVJP?=
+ =?utf-8?Q?W+0/27mP6c3PY?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8531.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?aDEwSnJNQ2trNlV0YVo4TjlIellBWjR4L3VZMFZoK25PR2tRU3hnS1JneVlo?=
+ =?utf-8?B?VEt4RzZwaWNtQmZKbmNzZkY3aFZLRDVqOU14dVYxWmhQOGpMang2L1FXaFRR?=
+ =?utf-8?B?bitQc1RqTUM5WkRrek41Y2pkUkRqa0ZJNXB2VExOQy9yZUhYa0g5QmJESzhp?=
+ =?utf-8?B?NURldjI1WWs1d1ZCNzFscmxlOVlKdHZGVm5PSEdFaDdOWGxzREpid1pqaXBv?=
+ =?utf-8?B?U2pZU0JqVXNkaFhFdTl4em5Da1JQS1hMWXRJRWczempmTmQ4dHpwZlVNN0JJ?=
+ =?utf-8?B?REJFN2V6TjhqSVhId2ptTmdOMjUrazcxTytvUVFZNXk5NUF1YlIrbGh3Ykcw?=
+ =?utf-8?B?d2F5TFNZVkhXNElmaDNTbnlBYVBIdjcrYjdpbER3ajRuY1hudjIxZnU5aFZn?=
+ =?utf-8?B?S2ZSUmZuc3N4MndtYXJPaDdlNFJDaTJpTnZYNytDKytmTWJKMmpjbjFVQzhB?=
+ =?utf-8?B?KzZuS3p0aDFiS2liZU9adHN4U0lpS2pOSGVUVVNXWkxsazFEdzZMRWZZU1VR?=
+ =?utf-8?B?SjkybytRZVpjZTBuTnczcWc4aTlXLzJCNEIwbURnQnh2cjJDT3VhMlpuTTRF?=
+ =?utf-8?B?ZGt0RG93T1lEMW5ac085MVBmRHRIbG5qQU5TaURuNjk1bnd5NFZZYm8zblVx?=
+ =?utf-8?B?UUZpK1FOUTcrU1dZUElIQStVMWgxbG52Y01nMzQ5dmlYWTNtL21PemJ5aSti?=
+ =?utf-8?B?N3U5d0FuRWhXZHZIZFNid0tGVk9LeUJVS3JzRjNTUVN3WEplSi9UeUF5MEFF?=
+ =?utf-8?B?UHRYZ1NCRDd2VXlQU3dpcFVzTVlWK3pWNG82MGFzSXVuN01qMnMzTEJidzN4?=
+ =?utf-8?B?K0RQcnI0dzFTTkN2eWxNWm1SeEx5bTlQWUVtQUJOSW5IUTZRUnhvMmhMTVdK?=
+ =?utf-8?B?bXh6eGpVdWhXY1NkYy9vM2QzNUVzMXBOa0NGMjVzRSsxSllvTHZDNDlOaHN6?=
+ =?utf-8?B?RVgxZDhmNHNkdU9VK1FleE5Jek9SYklJYk1hRWlXT3hVcUpIRnZPWWZEcFJq?=
+ =?utf-8?B?R3dTTDhlK2svTlp2bFNMTFlRT05zRmlxc1JVZDFkWndtYWYrbFByWFZJeXlF?=
+ =?utf-8?B?aHE0SVVFSFhvVkJ3Zi94SCtUdHFVRnNoZzllL0x1aGtra21wcVlpUVlsRDVo?=
+ =?utf-8?B?dUVxbmUybE9kNStqMWxZUVdzNlFlYXA0bHJoU2RLdWU0MmZnTVNONU9sazBE?=
+ =?utf-8?B?dmk2dUFBRHZaZmZ3eVp5ODZzK1EyT1d2NHJlVFhhYzFnWEludlpWSEx0T2Jw?=
+ =?utf-8?B?Wk9tL0tLQUNuK082N1RYZnV1eFVYNmpQaXB3MUduQUVnTlZ4L2dwUjdyV3BW?=
+ =?utf-8?B?MkR6UUVTSis4SGw5Uyt2TEgvT1E1Rm1TaHBNNjR6S0M3WldwZGc3ZVZnQTAx?=
+ =?utf-8?B?R1NKWTFJY3JSQU9ta1d1Sy9mYjhYaXhYLzNZR3lpb3h5eHlaOXVGZEdlcnFW?=
+ =?utf-8?B?TWdxR3F1ZXpkVWlaYUMvSWFaNEx3YkkzVGxJSkJKRTJheW4rRmJGTUErQVhk?=
+ =?utf-8?B?Tkkwb2NqUXZzNzUyLzI3S082cDdSZ0FYLzVqdGFHOUppY1R0RnhCSGExT0k4?=
+ =?utf-8?B?TXBOaTRUOVdhYk9DRnlkM1h3TUhkVTBDU1VaSkFoeTZMbUJXaU1wYlRjdVZm?=
+ =?utf-8?B?dy9QQjNvK0EyRkhDNUpCajFlNUgyV0FBcGw4UmJMN2VRd3Z5Z2hYcm9rUU1C?=
+ =?utf-8?B?TTRJc1VETVp3L3ZRa05la0hxZlM5Q3cveFNMK3NvZ3I2Sm4yTnljUm9QZUUr?=
+ =?utf-8?B?TUJvSkFueTdwdkdOQ0VjaVBQVkF1eS96RWMzZmovSFI2M0k0TzZ5QkZKRmZD?=
+ =?utf-8?B?TlBycytCMERNSzZrZEZhdzM4N3Z4MnZxVm5yejVLR29ZbU4wUlVIUzcyZElr?=
+ =?utf-8?B?cXE2ZG5EWE5XMk9oMHhvTmg2cTVQMEpOSStxeFY5U0ExWjV5cmp6NVN6M2Jo?=
+ =?utf-8?B?WndxYUZvQ2RaWDlQVWZUYWM5YmR2M3BLdGdNeVR0ZGpRaE9WVUNteVZBSFhy?=
+ =?utf-8?B?Rk44dTZxOGpNUllhQWJEa3JLQUpPSXpiU0NpWVJjMnBTZ1Bxb1VpTHpsVklj?=
+ =?utf-8?B?ZHh3b1ZSUGxSYzVMTmIwV1NSQlkzalNYemZPdlRQNXZMNCtuY3JaeWtwdUZl?=
+ =?utf-8?B?N3B2d0JjZmxDaytwV0JPVFYvK05pQkk3SDdNVEc3TGphbm4ycjRFV09wTFlB?=
+ =?utf-8?B?Q0E9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fff2324-4caa-4db3-338f-08dda661396b
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8531.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2025 07:51:06.3861
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3NJw+C1GfSB+qpdT7vWm7Bvgy5zl5AKMOR4y9zfSC8idikwAW6x7S+MLmwdnQoQNZhjqtGqdupWiqVLmGAK3qDKGtxBuEPolKB7gRn2xeeY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8703
+X-Authority-Analysis: v=2.4 cv=f+xIBPyM c=1 sm=1 tr=0 ts=684540ee cx=c_pps a=Z35tn85hJNknc3PDpfQsnQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=NEAV23lmAAAA:8 a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=dkgbdN9mAyQ5BOzQSWIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA4MDA1OCBTYWx0ZWRfX0g3OL6BilZYQ LuZxvj/lxvka/wknjKzxcC6lx22G99ckw7ZiZowpbn30r7YKwhl3CqUUNrAHwkRqq9nOmIqHHtc EVTqVNUjudcZPLRv9g/ICCZCgZLd1A8sI1tsJL12zspNRqJbA3gZ8PqmzMC3Xa+8cThyjOunk4l
+ Y6H9/mYIXLPB8+zoZDg8ujBCa+xxF3/C3JB4UOR1sSXBI75uBUvDjYi68JZAUHoTjdKxK+UKM3j MLbU1SVOAqcwn8ebvZDQhf4OOU7XIsgfv2OUVNaccPVPIlH2sjBLga8aayUVQzWofZnq16J5rvb 9bRms77RdUNFYhruVinXM32a2JRe7WEl0FyBFMf7IADqygC47D1+fdXtQVgUrf6pHU5iSLuD+mX
+ mDAyMIau/4ob2GWH11UvKKXDhpzsuXZdSWukJc2n6VufU+TCCTjrrZsLIsSnd9P9AezmNBtN
+X-Proofpoint-ORIG-GUID: kCtWlqas96hew4kkHYhI-MeWQHG-FuXA
+X-Proofpoint-GUID: avhAVaK9MdgzY8vUO-eBsGkDdmLuoRhw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-08_01,2025-06-05_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ suspectscore=0 clxscore=1015 bulkscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 mlxscore=0 priorityscore=1501
+ impostorscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2505280000 definitions=main-2506080058
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5587o2NQ000799
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Jun 2025 22:40:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218207
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Jun 2025 07:51:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218208
 
---0000000000009ae0ee063703083f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-I meant glibc on the build machine not Yocto target
 
-On Sat, Jun 7, 2025 at 2:49=E2=80=AFPM Hiago De Franco <hiagofranco@gmail.c=
-om>
-wrote:
+On 6/5/25 17:59, Mathieu Dubois-Briand wrote:
+> On Thu Jun 5, 2025 at 5:02 AM CEST, Robert Yang via lists.openembedded.=
+org wrote:
+>> From: Robert Yang <liezhi.yang@windriver.com>
+>>
+>> The following changes since commit 2e817e6e4d53543766b935479b148a1950c=
+c37c8:
+>>
+>>    oeqa/maturin/guessing-game: Bump dependencies to avoid security war=
+ning (2025-06-04 08:08:28 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://github.com/robertlinux/yocto rbt/upgrade2
+>>    https://github.com/robertlinux/yocto/tree/rbt/upgrade2
+>>
+>> Robert Yang (2):
+>>    automake: 1.17 -> 1.18
+>>    rpm: 4.20.0 -> 4.20.1
+>>
+>>   ...report-error-when-the-path-of-Perl-c.patch | 27 +++++----
+>>   .../{automake_1.17.bb =3D> automake_1.18.bb}    |  2 +-
+>>   ...LUGINDIR-in-top-level-CMakeLists.txt.patch | 57 -----------------=
+--
+>>   ...lling-execute-package-scriptlets-wit.patch | 24 ++++----
+>>   ...ge-logging-level-around-scriptlets-t.patch | 27 +++++----
+>>   .../rpm/{rpm_4.20.0.bb =3D> rpm_4.20.1.bb}      |  5 +-
+>>   6 files changed, 47 insertions(+), 95 deletions(-)
+>>   rename meta/recipes-devtools/automake/{automake_1.17.bb =3D> automak=
+e_1.18.bb} (92%)
+>>   delete mode 100644 meta/recipes-devtools/rpm/files/0001-Set-RPM_PLUG=
+INDIR-in-top-level-CMakeLists.txt.patch
+>>   rename meta/recipes-devtools/rpm/{rpm_4.20.0.bb =3D> rpm_4.20.1.bb} =
+(97%)
+>=20
+> Hi Robert,
+>=20
+> Thanks for the patches.
+>=20
+> It looks like this is breaking several builds on the autobuilder, with
+> following error:
+>=20
+> ERROR: rpm-native-1_4.20.1-r0 do_compile: Execution of '/srv/pokybuild/=
+yocto-worker/qemux86-64/build/build/tmp/work/x86_64-linux/rpm-native/4.20=
+.1/temp/run.do_compile.320418' failed with exit code 2
+> ...
+> | gcc: error: unrecognized command-line option =E2=80=98-fhardened=E2=80=
+=99
+>=20
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/68/builds/1841
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/43/builds/1779
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/builds/1680
+>=20
+> Can you have a look at these please?
 
-> On Thu, Jun 05, 2025 at 12:53:23PM -0700, Khem Raj wrote:
-> > On Thu, Jun 5, 2025 at 12:40=E2=80=AFPM Hiago De Franco <hiagofranco@gm=
-ail.com>
-> wrote:
-> > >
-> > > Hi Ross, Khem,
-> > >
-> > > On Thu, Jun 05, 2025 at 01:44:08PM +0000, Ross Burton wrote:
-> > > > On 2 Jun 2025, at 21:55, Hiago De Franco via lists.openembedded.org
-> <hiagofranco=3Dgmail.com@lists.openembedded.org> wrote:
-> > > > >
-> > > > > From: Hiago De Franco <hiago.franco@toradex.com>
-> > > > >
-> > > > > Currently the libgcrypt-native build is failing with the followin=
-g
-> > > > > error:
-> > > > >
-> > > > > | ld: t_thread_local-t-thread-local.o: in function `main':
-> > > > > | t-thread-local.c:(.text.startup+0x187): undefined reference to
-> `pthread_create'
-> > > > > | ld: t-thread-local.c:(.text.startup+0x1d0): undefined reference
-> to `pthread_join'
-> > > > >
-> > > > > Backport the fix from upstream and add "-lpthread" to
-> > > > > "t_thread_local_CFLAGS" to make the compilation successfull,
-> similar to
-> > > > > what
-> 0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-> > > > > does.
-> > > >
-> > > > This has been merged but I=E2=80=99m curious: in what situations do=
-es this
-> fail? The commit talks about NetBSD and we=E2=80=99re not seeing this on =
-the
-> autobuilder cluster.
-> > >
-> > > The NetBSD part is from the commit I backported, because I saw this w=
-as
-> > > fixed upstream. Looks they were the first to see this issue.
-> > >
-> > > I am not sure why the autobuilder was not able to catch it, we do
-> > > nightly builds of oe-core master with our hardware and the upgrade of
-> > > libgcrypt recipe introduced a regression were all our machines were
-> > > broken.
-> > >
-> > > I attached the do_compile log failure, but the issue happends here:
-> > >
-> > > build/tmp/hosttools/ld: t-thread-local.o: in function `main':
-> > > t-thread-local.c:(.text.startup+0x187): undefined reference to
-> `pthread_create'
-> > > /build/tmp/hosttools/ld: t-thread-local.c:(.text.startup+0x1d0):
-> undefined reference to `pthread_join'
-> > >
-> >
-> >
-> > My guess is that you are using glibc before pthread merge into libc.so
-> > which could be alma-8 distro or some such
-> > we do have alma-8 nodes on AB but I guess this escaped building on
-> alma-8 hosts.
-> >
-> > Whats your build distro  and version of glibc on it
-> >
->
-> In this case we are using a custom distro, and an image based on
-> core-image.
->
-> For glibc, we use the one from oe-core:
->
-> $ bitbake-getvar -r virtual/libc --value PN
-> glibc
-> $ bitbake-getvar -r virtual/libc --value PV
-> 2.41+git
->
-> [...]
->
-> Best Regards,
-> Hiago
->
+Sorry, I have a local buildtools-extended which contains gcc made me miss=
+ the=20
+error. And when I started a new terminal to drop the buildtools-extended,=
+ the
+tmp/hosttools/gcc still linked to the previous buildtools-extended, didn'=
+t
+link to /usr/bin/gcc, that might be seomthing we need to improve for host=
+tools.
 
---0000000000009ae0ee063703083f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I've sent a patch to upstream to fix the error for -fhardened:
+https://github.com/rpm-software-management/rpm/pull/3796
 
-<div dir=3D"auto">I meant glibc on the build machine not Yocto target=C2=A0=
-</div><div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Sat, Jun 7, 2025 at 2:49=E2=80=AFPM Hiago De =
-Franco &lt;<a href=3D"mailto:hiagofranco@gmail.com">hiagofranco@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, Jun 05, 2025 =
-at 12:53:23PM -0700, Khem Raj wrote:<br>
-&gt; On Thu, Jun 5, 2025 at 12:40=E2=80=AFPM Hiago De Franco &lt;<a href=3D=
-"mailto:hiagofranco@gmail.com" target=3D"_blank">hiagofranco@gmail.com</a>&=
-gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Hi Ross, Khem,<br>
-&gt; &gt;<br>
-&gt; &gt; On Thu, Jun 05, 2025 at 01:44:08PM +0000, Ross Burton wrote:<br>
-&gt; &gt; &gt; On 2 Jun 2025, at 21:55, Hiago De Franco via <a href=3D"http=
-://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.opene=
-mbedded.org</a> &lt;hiagofranco=3D<a href=3D"mailto:gmail.com@lists.openemb=
-edded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote=
-:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; From: Hiago De Franco &lt;<a href=3D"mailto:hiago.franc=
-o@toradex.com" target=3D"_blank">hiago.franco@toradex.com</a>&gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Currently the libgcrypt-native build is failing with th=
-e following<br>
-&gt; &gt; &gt; &gt; error:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; | ld: t_thread_local-t-thread-local.o: in function `mai=
-n&#39;:<br>
-&gt; &gt; &gt; &gt; | t-thread-local.c:(.text.startup+0x187): undefined ref=
-erence to `pthread_create&#39;<br>
-&gt; &gt; &gt; &gt; | ld: t-thread-local.c:(.text.startup+0x1d0): undefined=
- reference to `pthread_join&#39;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Backport the fix from upstream and add &quot;-lpthread&=
-quot; to<br>
-&gt; &gt; &gt; &gt; &quot;t_thread_local_CFLAGS&quot; to make the compilati=
-on successfull, similar to<br>
-&gt; &gt; &gt; &gt; what 0004-tests-Makefile.am-fix-undefined-reference-to-=
-pthread.patch<br>
-&gt; &gt; &gt; &gt; does.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; This has been merged but I=E2=80=99m curious: in what situat=
-ions does this fail? The commit talks about NetBSD and we=E2=80=99re not se=
-eing this on the autobuilder cluster.<br>
-&gt; &gt;<br>
-&gt; &gt; The NetBSD part is from the commit I backported, because I saw th=
-is was<br>
-&gt; &gt; fixed upstream. Looks they were the first to see this issue.<br>
-&gt; &gt;<br>
-&gt; &gt; I am not sure why the autobuilder was not able to catch it, we do=
-<br>
-&gt; &gt; nightly builds of oe-core master with our hardware and the upgrad=
-e of<br>
-&gt; &gt; libgcrypt recipe introduced a regression were all our machines we=
-re<br>
-&gt; &gt; broken.<br>
-&gt; &gt;<br>
-&gt; &gt; I attached the do_compile log failure, but the issue happends her=
-e:<br>
-&gt; &gt;<br>
-&gt; &gt; build/tmp/hosttools/ld: t-thread-local.o: in function `main&#39;:=
-<br>
-&gt; &gt; t-thread-local.c:(.text.startup+0x187): undefined reference to `p=
-thread_create&#39;<br>
-&gt; &gt; /build/tmp/hosttools/ld: t-thread-local.c:(.text.startup+0x1d0): =
-undefined reference to `pthread_join&#39;<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; <br>
-&gt; My guess is that you are using glibc before pthread merge into libc.so=
-<br>
-&gt; which could be alma-8 distro or some such<br>
-&gt; we do have alma-8 nodes on AB but I guess this escaped building on alm=
-a-8 hosts.<br>
-&gt; <br>
-&gt; Whats your build distro=C2=A0 and version of glibc on it<br>
-&gt; <br>
-<br>
-In this case we are using a custom distro, and an image based on<br>
-core-image.<br>
-<br>
-For glibc, we use the one from oe-core:<br>
-<br>
-$ bitbake-getvar -r virtual/libc --value PN<br>
-glibc<br>
-$ bitbake-getvar -r virtual/libc --value PV<br>
-2.41+git<br>
-<br>
-[...]<br>
-<br>
-Best Regards,<br>
-Hiago<br>
-</blockquote></div></div>
+And will send a V2 to upgrade rpm.
 
---0000000000009ae0ee063703083f--
+// Robert
+
+
+// Robert
+
+>=20
 
