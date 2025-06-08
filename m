@@ -2,301 +2,239 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD57C677C4
-	for <webhook@archiver.kernel.org>; Sun,  8 Jun 2025 21:43:21 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.web10.45932.1749418993385464500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E094C5AD49
+	for <webhook@archiver.kernel.org>; Sun,  8 Jun 2025 21:43:31 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web10.45933.1749418998962329771
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Jun 2025 14:43:13 -0700
+ Sun, 08 Jun 2025 14:43:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=DgqepfCK;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202506082143117b05598975ffb261d2-xbgamr@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202506082143117b05598975ffb261d2
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Xddt5u9P;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250608214321403df182d0306a64c5-t6ztel@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250608214321403df182d0306a64c5
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 08 Jun 2025 23:43:11 +0200
+        Sun, 08 Jun 2025 23:43:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=MGdjC/huXAUfY5vZ4LUkbVuPwsme1coKe4muuyk7UXw=;
- b=DgqepfCKfB6dLzWovI90tHW9hYoYJHbRD3+LvITuRHkbtKj+vYvMRWfYSwPJxVbFxtiFxE
- pzl+aQ0qNw8KvlT/EfqeeFConcu0zBLcGIil0JV+uYdjfPXSA556ltCJ3dqAggOgF1xnloMj
- j43PapLdpZKcshoyZJaYl9iWjegH+HCu3nItV9IWAgFVQeAhOWEMGNpHf3eINL9K+IUQ9MuD
- Q6VqkkCtWg+dOXJ/v3n+PocUtpn6SN/ZIZ8njSVav0mfqIvKxYT9dFDVAOVOMfpljEfpNvNE
- FDl7838Li9A3lkZTnTl/8uAFEWfGKBzzDU9+FSvlbEHx3hq8KdWx//zw==;
+ bh=rQYjhfeiWgfvock1SjJzKHTMnklauU1zuXtp55dqP1Y=;
+ b=Xddt5u9P91/Kg+Z/rOWKJw5H/JEZUNF8YSbq2m9Xx7vA5cOSCZY5bHFgOfMwnQArPnDwhs
+ f54KftCEKLCbuZ0dSBQkruVWZavDF0yXjVSagoHbrh4F0amEM+sMBS0+oZP8aQ8i7WdDKWG2
+ U1dbgtsGVg7fEm1mki/EMhNLHFkPMvAW08I34Z7Vdnh4JsdG8gaFYJp/6P4fN/HcZd6ZGDca
+ 6sSV6F/N0LMF5X6gMcT0a913YMvyqgCQF/LU6HBhMfyi6PEzdadiZY6xJThVl3a/7wEUc+4/
+ JboNsXel785XtiGK8wMieU/3Jn1jswgctpz7gMgac9Fts+g5maK0N++g==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][walnascar][PATCH 2/4] python3: backport the full fix for importlib scanning invalid distributions
-Date: Sun,  8 Jun 2025 23:42:10 +0200
-Message-Id: <20250608214212.2427283-2-peter.marko@siemens.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][walnascar][PATCH 4/4] python3: upgrade 3.13.3 -> 3.13.4
+Date: Sun,  8 Jun 2025 23:42:12 +0200
+Message-Id: <20250608214212.2427283-4-peter.marko@siemens.com>
 In-Reply-To: <20250608214212.2427283-1-peter.marko@siemens.com>
 References: <20250608214212.2427283-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Jun 2025 21:43:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218228
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Jun 2025 21:43:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218230
 
-From: Ross Burton <ross.burton@arm.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Even with our fixes in deterministic_imports.patch the
-importlib.metadata package scan was still returning Distribution objects
-for empty directories.  This interacts badly with rebuilds when recipes
-are changing as when a recipe is removed from the sysroot directories
-are not removed[1].
+Refresh patches.
 
-In particular this breaks python3-meson-python-native rebuilds when
-Meson upgrades from 1.7 to 1.8: the site-packages directory has an empty
-meson-1.7.dist-info/ and populated meson-1.8.dist-info/. Whilst it's
-deterministic to return the empty 1.7 first, this breaks pypa/build as
-it looks through the distributions in order.
+* https://www.python.org/downloads/release/python-3134/
+  Security content in this release
+  * gh-135034: [CVE 2024-12718] [CVE 2025-4138] [CVE 2025-4330]
+    [CVE 2025-4435] [CVE 2025-4517] Fixes multiple issues that allowed
+    tarfile extraction filters (filter="data" and filter="tar") to be
+    bypassed using crafted symlinks and hard links.
+  * gh-133767: Fix use-after-free in the “unicode-escape” decoder with a
+    non-“strict” error handler.
+  * gh-128840: Short-circuit the processing of long IPv6 addresses early
+    in ipaddress to prevent excessive memory consumption and a minor
+    denial-of-service.
 
-We had discussed this with upstream previously and there's a more
-comprehensive fix upstream (actually in importlib_metadata, not cpython)
-which ensures that valid distribution objects are listed first.  So we
-can drop our patch and replace it with a backport to fix these rebuilds.
+gh-133767 got meawhile CVE-2025-4516 assigned.
 
-[1] oe-core 4f94d929639 ("sstate/staging: Handle directory creation race issue")
-
-(From OE-Core rev: 73de8daa6293403f5b92d313af32882c47bce396)
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../python3/deterministic_imports.patch       |  39 -----
- .../python/python3/valid-dists.patch          | 160 ++++++++++++++++++
- .../recipes-devtools/python/python3_3.13.2.bb |   2 +-
- 3 files changed, 161 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/deterministic_imports.patch
- create mode 100644 meta/recipes-devtools/python/python3/valid-dists.patch
+ ...01-Avoid-shebang-overflow-on-python-config.py.patch |  2 +-
+ ...config.py-use-prefix-value-from-build-configu.patch |  2 +-
+ ...ailing-tests-due-to-load-variability-on-YP-AB.patch |  6 +++---
+ ...no_stdout_fileno-test-due-to-load-variability.patch |  2 +-
+ ...01-test_active_children-skip-problematic-test.patch |  2 +-
+ .../0001-test_readline-skip-limited-history-test.patch | 10 +++++-----
+ ...1-test_storlines-skip-due-to-load-variability.patch |  2 +-
+ meta/recipes-devtools/python/python3/makerace.patch    |  2 +-
+ .../python/{python3_3.13.3.bb => python3_3.13.4.bb}    |  2 +-
+ 9 files changed, 15 insertions(+), 15 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.13.3.bb => python3_3.13.4.bb} (99%)
 
-diff --git a/meta/recipes-devtools/python/python3/deterministic_imports.patch b/meta/recipes-devtools/python/python3/deterministic_imports.patch
-deleted file mode 100644
-index 61f136ef42..0000000000
---- a/meta/recipes-devtools/python/python3/deterministic_imports.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 0a02e3b85176a5ce4dd98830bb65dac8596142e9 Mon Sep 17 00:00:00 2001
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Date: Fri, 27 May 2022 17:05:44 +0100
--Subject: [PATCH] python3: Ensure stale empty python module directories don't
--
--There are two issues here. Firstly, the modules are accessed in on disk order. This
--means behaviour seen on one system might not reproduce on another and is a real headache.
--
--Secondly, empty directories left behind by previous modules might be looked at. This
--has caused a long string of different issues for us.
--
--As a result, patch this to a behaviour which works for us.
--
--Upstream-Status: Submitted [https://github.com/python/cpython/issues/120492; need to first talk to upstream to see if they'll take one or both fixes]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-----
-- Lib/importlib/metadata/__init__.py | 9 ++++++++-
-- 1 file changed, 8 insertions(+), 1 deletion(-)
--
--diff --git a/Lib/importlib/metadata/__init__.py b/Lib/importlib/metadata/__init__.py
--index 8ce62dd..a6ea6e9 100644
----- a/Lib/importlib/metadata/__init__.py
--+++ b/Lib/importlib/metadata/__init__.py
--@@ -786,7 +786,14 @@ class Lookup:
--         self.infos = FreezableDefaultDict(list)
--         self.eggs = FreezableDefaultDict(list)
-- 
---        for child in path.children():
--+        for child in sorted(path.children()):
--+            childpath = pathlib.Path(path.root, child)
--+            try:
--+                if childpath.is_dir() and not any(childpath.iterdir()):
--+                    # Empty directories aren't interesting
--+                    continue
--+            except PermissionError:
--+                continue
--             low = child.lower()
--             if low.endswith((".dist-info", ".egg-info")):
--                 # rpartition is faster than splitext and suitable for this purpose.
-diff --git a/meta/recipes-devtools/python/python3/valid-dists.patch b/meta/recipes-devtools/python/python3/valid-dists.patch
-new file mode 100644
-index 0000000000..1b2c078c21
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/valid-dists.patch
-@@ -0,0 +1,160 @@
-+From a65c29adc027b3615154cab73aaedd58a6aa23da Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Tue, 23 Jul 2024 08:36:16 -0400
-+Subject: [PATCH] Prioritize valid dists to invalid dists when retrieving by
-+ name.
-+
-+Closes python/importlib_metadata#489
-+
-+Upstream-Status: Backport [https://github.com/python/importlib_metadata/commit/a65c29adc027b3615154cab73aaedd58a6aa23da]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git i/Lib/importlib/metadata/__init__.py w/Lib/importlib/metadata/__init__.py
-+index 8ce62dd864f..085378caabc 100644
-+--- i/Lib/importlib/metadata/__init__.py
-++++ w/Lib/importlib/metadata/__init__.py
-+@@ -21,7 +21,7 @@
-+ from . import _meta
-+ from ._collections import FreezableDefaultDict, Pair
-+ from ._functools import method_cache, pass_none
-+-from ._itertools import always_iterable, unique_everseen
-++from ._itertools import always_iterable, bucket, unique_everseen
-+ from ._meta import PackageMetadata, SimplePath
-+ 
-+ from contextlib import suppress
-+@@ -404,7 +404,7 @@ def from_name(cls, name: str) -> Distribution:
-+         if not name:
-+             raise ValueError("A distribution name is required.")
-+         try:
-+-            return next(iter(cls.discover(name=name)))
-++            return next(iter(cls._prefer_valid(cls.discover(name=name))))
-+         except StopIteration:
-+             raise PackageNotFoundError(name)
-+ 
-+@@ -428,6 +428,16 @@ def discover(
-+             resolver(context) for resolver in cls._discover_resolvers()
-+         )
-+ 
-++    @staticmethod
-++    def _prefer_valid(dists: Iterable[Distribution]) -> Iterable[Distribution]:
-++        """
-++        Prefer (move to the front) distributions that have metadata.
-++
-++        Ref python/importlib_resources#489.
-++        """
-++        buckets = bucket(dists, lambda dist: bool(dist.metadata))
-++        return itertools.chain(buckets[True], buckets[False])
-++
-+     @staticmethod
-+     def at(path: str | os.PathLike[str]) -> Distribution:
-+         """Return a Distribution for the indicated metadata path.
-+diff --git i/Lib/importlib/metadata/_itertools.py w/Lib/importlib/metadata/_itertools.py
-+index d4ca9b9140e..79d37198ce7 100644
-+--- i/Lib/importlib/metadata/_itertools.py
-++++ w/Lib/importlib/metadata/_itertools.py
-+@@ -1,3 +1,4 @@
-++from collections import defaultdict, deque
-+ from itertools import filterfalse
-+ 
-+ 
-+@@ -71,3 +72,100 @@ def always_iterable(obj, base_type=(str, bytes)):
-+         return iter(obj)
-+     except TypeError:
-+         return iter((obj,))
-++
-++
-++# Copied from more_itertools 10.3
-++class bucket:
-++    """Wrap *iterable* and return an object that buckets the iterable into
-++    child iterables based on a *key* function.
-++
-++        >>> iterable = ['a1', 'b1', 'c1', 'a2', 'b2', 'c2', 'b3']
-++        >>> s = bucket(iterable, key=lambda x: x[0])  # Bucket by 1st character
-++        >>> sorted(list(s))  # Get the keys
-++        ['a', 'b', 'c']
-++        >>> a_iterable = s['a']
-++        >>> next(a_iterable)
-++        'a1'
-++        >>> next(a_iterable)
-++        'a2'
-++        >>> list(s['b'])
-++        ['b1', 'b2', 'b3']
-++
-++    The original iterable will be advanced and its items will be cached until
-++    they are used by the child iterables. This may require significant storage.
-++
-++    By default, attempting to select a bucket to which no items belong  will
-++    exhaust the iterable and cache all values.
-++    If you specify a *validator* function, selected buckets will instead be
-++    checked against it.
-++
-++        >>> from itertools import count
-++        >>> it = count(1, 2)  # Infinite sequence of odd numbers
-++        >>> key = lambda x: x % 10  # Bucket by last digit
-++        >>> validator = lambda x: x in {1, 3, 5, 7, 9}  # Odd digits only
-++        >>> s = bucket(it, key=key, validator=validator)
-++        >>> 2 in s
-++        False
-++        >>> list(s[2])
-++        []
-++
-++    """
-++
-++    def __init__(self, iterable, key, validator=None):
-++        self._it = iter(iterable)
-++        self._key = key
-++        self._cache = defaultdict(deque)
-++        self._validator = validator or (lambda x: True)
-++
-++    def __contains__(self, value):
-++        if not self._validator(value):
-++            return False
-++
-++        try:
-++            item = next(self[value])
-++        except StopIteration:
-++            return False
-++        else:
-++            self._cache[value].appendleft(item)
-++
-++        return True
-++
-++    def _get_values(self, value):
-++        """
-++        Helper to yield items from the parent iterator that match *value*.
-++        Items that don't match are stored in the local cache as they
-++        are encountered.
-++        """
-++        while True:
-++            # If we've cached some items that match the target value, emit
-++            # the first one and evict it from the cache.
-++            if self._cache[value]:
-++                yield self._cache[value].popleft()
-++            # Otherwise we need to advance the parent iterator to search for
-++            # a matching item, caching the rest.
-++            else:
-++                while True:
-++                    try:
-++                        item = next(self._it)
-++                    except StopIteration:
-++                        return
-++                    item_value = self._key(item)
-++                    if item_value == value:
-++                        yield item
-++                        break
-++                    elif self._validator(item_value):
-++                        self._cache[item_value].append(item)
-++
-++    def __iter__(self):
-++        for item in self._it:
-++            item_value = self._key(item)
-++            if self._validator(item_value):
-++                self._cache[item_value].append(item)
-++
-++        yield from self._cache.keys()
-++
-++    def __getitem__(self, value):
-++        if not self._validator(value):
-++            return iter(())
-++
-++        return self._get_values(value)
-diff --git a/meta/recipes-devtools/python/python3_3.13.2.bb b/meta/recipes-devtools/python/python3_3.13.2.bb
-index 0f0505c66c..8e16ce90dc 100644
---- a/meta/recipes-devtools/python/python3_3.13.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.2.bb
-@@ -20,7 +20,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://makerace.patch \
-            file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patch \
-            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
--           file://deterministic_imports.patch \
-+           file://valid-dists.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-Update-test_sysconfig-for-posix_user-purelib.patch \
-            file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
+diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+index 81a613c151..eaf5ea5049 100644
+--- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
++++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+@@ -19,7 +19,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index 9ec3a71..f7d5382 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2578,6 +2578,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++@@ -2585,6 +2585,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
+  	@ # Substitution happens here, as the completely-expanded BINDIR
+  	@ # is not available in configure
+  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
+diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+index ca72ebc899..ffdf9affd9 100644
+--- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
++++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+@@ -17,7 +17,7 @@ diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
+ index f8e1c7d..0882526 100644
+ --- a/Lib/sysconfig/__init__.py
+ +++ b/Lib/sysconfig/__init__.py
+-@@ -494,6 +494,11 @@ def _init_config_vars():
++@@ -501,6 +501,11 @@ def _init_config_vars():
+          _CONFIG_VARS['VPATH'] = sys._vpath
+      if os.name == 'posix':
+          _init_posix(_CONFIG_VARS)
+diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
+index c8537db1fd..8fa794b5e7 100644
+--- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
++++ b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
+@@ -26,7 +26,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
+ index 5dae370..23eb971 100644
+ --- a/Lib/test/_test_multiprocessing.py
+ +++ b/Lib/test/_test_multiprocessing.py
+-@@ -688,6 +688,7 @@ class _TestProcess(BaseTestCase):
++@@ -701,6 +701,7 @@ class _TestProcess(BaseTestCase):
+          close_queue(q)
+  
+      @support.requires_resource('walltime')
+@@ -34,7 +34,7 @@ index 5dae370..23eb971 100644
+      def test_many_processes(self):
+          if self.TYPE == 'threads':
+              self.skipTest('test not appropriate for {}'.format(self.TYPE))
+-@@ -2211,6 +2212,7 @@ class _TestBarrier(BaseTestCase):
++@@ -2232,6 +2233,7 @@ class _TestBarrier(BaseTestCase):
+          except threading.BrokenBarrierError:
+              results.append(True)
+  
+@@ -42,7 +42,7 @@ index 5dae370..23eb971 100644
+      def test_timeout(self):
+          """
+          Test wait(timeout)
+-@@ -5299,6 +5301,7 @@ class TestWait(unittest.TestCase):
++@@ -5320,6 +5322,7 @@ class TestWait(unittest.TestCase):
+          time.sleep(period)
+  
+      @support.requires_resource('walltime')
+diff --git a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
+index ea103bc834..9bc8b091cc 100644
+--- a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
++++ b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
+@@ -19,7 +19,7 @@ diff --git a/Lib/test/test_builtin.py b/Lib/test/test_builtin.py
+ index c5394de..ed17fb6 100644
+ --- a/Lib/test/test_builtin.py
+ +++ b/Lib/test/test_builtin.py
+-@@ -2435,6 +2435,7 @@ class PtyTests(unittest.TestCase):
++@@ -2474,6 +2474,7 @@ class PtyTests(unittest.TestCase):
+                           "byte 0xe9 in position 4: ordinal not in "
+                           "range(128)")
+  
+diff --git a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
+index 5f60c60b5b..08ac5861b3 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
+@@ -17,7 +17,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
+ index 23eb971..b1295b2 100644
+ --- a/Lib/test/_test_multiprocessing.py
+ +++ b/Lib/test/_test_multiprocessing.py
+-@@ -585,6 +585,7 @@ class _TestProcess(BaseTestCase):
++@@ -594,6 +594,7 @@ class _TestProcess(BaseTestCase):
+          self.assertTrue(type(cpus) is int)
+          self.assertTrue(cpus >= 1)
+  
+diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
+index 862a7f5ea7..186623b084 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
+@@ -13,12 +13,12 @@ Upstream-Status: Inappropriate [OE-specific]
+ 
+ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+ ---
+- Lib/test/test_readline.py | 2 ++
+- 1 file changed, 2 insertions(+)
++ Lib/test/test_readline.py | 3 +++
++ 1 file changed, 3 insertions(+)
+ 
+ --- a/Lib/test/test_readline.py
+ +++ b/Lib/test/test_readline.py
+-@@ -70,6 +70,7 @@ class TestHistoryManipulation (unittest.
++@@ -71,6 +71,7 @@ class TestHistoryManipulation (unittest.TestCase):
+  
+      @unittest.skipUnless(hasattr(readline, "append_history_file"),
+                           "append_history not available")
+@@ -26,7 +26,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+      def test_write_read_append(self):
+          hfile = tempfile.NamedTemporaryFile(delete=False)
+          hfile.close()
+-@@ -141,6 +142,7 @@ class TestHistoryManipulation (unittest.
++@@ -142,6 +143,7 @@ class TestHistoryManipulation (unittest.TestCase):
+          self.assertEqual(readline.get_history_item(1), "entrée 1")
+          self.assertEqual(readline.get_history_item(2), "entrée 22")
+  
+@@ -34,7 +34,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+      def test_write_read_limited_history(self):
+          previous_length = readline.get_history_length()
+          self.addCleanup(readline.set_history_length, previous_length)
+-@@ -382,6 +384,7 @@ readline.write_history_file(history_file
++@@ -390,6 +392,7 @@ readline.write_history_file(history_file)
+          self.assertIn(b"done", output)
+  
+  
+diff --git a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
+index b4f873fd72..b452c6556f 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
+@@ -19,7 +19,7 @@ diff --git a/Lib/test/test_ftplib.py b/Lib/test/test_ftplib.py
+ index bed0e6d..36602be 100644
+ --- a/Lib/test/test_ftplib.py
+ +++ b/Lib/test/test_ftplib.py
+-@@ -627,6 +627,7 @@ class TestFTPClass(TestCase):
++@@ -630,6 +630,7 @@ class TestFTPClass(TestCase):
+              self.client.storbinary('stor', f, rest=r)
+              self.assertEqual(self.server.handler_instance.rest, str(r))
+  
+diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
+index b115a6fa65..bf73135e09 100644
+--- a/meta/recipes-devtools/python/python3/makerace.patch
++++ b/meta/recipes-devtools/python/python3/makerace.patch
+@@ -20,7 +20,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index be1b9ea..9ec3a71 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2485,7 +2485,7 @@ COMPILEALL_OPTS=-j0
++@@ -2492,7 +2492,7 @@ COMPILEALL_OPTS=-j0
+  TEST_MODULES=@TEST_MODULES@
+  
+  .PHONY: libinstall
+diff --git a/meta/recipes-devtools/python/python3_3.13.3.bb b/meta/recipes-devtools/python/python3_3.13.4.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.13.3.bb
+rename to meta/recipes-devtools/python/python3_3.13.4.bb
+index 6839d28e19..5d904d6207 100644
+--- a/meta/recipes-devtools/python/python3_3.13.3.bb
++++ b/meta/recipes-devtools/python/python3_3.13.4.bb
+@@ -36,7 +36,7 @@ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "40f868bcbdeb8149a3149580bb9bfd407b3321cd48f0be631af955ac92c0e041"
++SRC_URI[sha256sum] = "27b15a797562a2971dce3ffe31bb216042ce0b995b39d768cf15f784cc757365"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 
