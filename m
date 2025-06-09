@@ -1,194 +1,165 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <sandeep.gundlupet-raju@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB2DC61CE8
-	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 16:17:27 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.64092.1749485846830091078
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB24C5B552
+	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 16:37:17 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.74])
+ by mx.groups.io with SMTP id smtpd.web11.64085.1749487035965640160
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 09:17:26 -0700
+ Mon, 09 Jun 2025 09:37:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=XufL77pb;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5599IP1p020541
-	for <openembedded-core@lists.openembedded.org>; Mon, 9 Jun 2025 16:17:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=lzm9UIXLwNun5WrhqrfvW6Zb
-	EWG8IEd43MB+jnSTjSA=; b=XufL77pbOox0bQVfubAgFmkd0OMFgLdBdulqXRi6
-	JbmgOPO6V04B7Ts9LBcCygVesfperHTes4P+QTEYv5wQ2xsc175aD8Vk9iif28fZ
-	VWir/Ogg7ksM+7HvKTKtRqYi2lzn0PWKIHc/KMF6ShGCNh8MMqeRNIdzJhseswks
-	QUkprGswUuFUulUyFFTDbEIM6sD9zJU1qr04noRpjuuhxPN+Xxymyd8Bh0KUOfF/
-	PAMKMqX9iwofl8nXpIXKodpc5l2l1lv/oFowCMJDoKPdjjMEfZUnpKM4e9uOIHVB
-	I6GHatlNRK34JGlsGxLK3HwSu2IDQuBxTjF37TrhVRwwzw==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474e6jed5k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 16:17:26 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3138e65efe2so932638a91.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 09:17:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749485845; x=1750090645;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lzm9UIXLwNun5WrhqrfvW6ZbEWG8IEd43MB+jnSTjSA=;
-        b=rW93VyELVqNVmlVIp9RDflS2A2iDlwllA3ugTACXvjFK7euSGbpjycvlZDoW9Y3qTA
-         8tyXok8rLMvQ752nr94G+q1v/pNykA/ywbgf73BnxsBtkXC9n1G7wfNLnAZbbipG7/xi
-         E1CLFY+ly340enlXM2OLyQdFcYTqnMLESCqQmXwSeMsYpphqXuZbLbMgKdpBneEr8Rds
-         PU+TxP0+Unq3S4YV2WlhqiDYNKPjChWDD5thp8z1BzwgO5Bg/0damTPNiGoOHaqyBNri
-         Ku2YQOKwFuDvcRXlU2QiqUYcGQ0ATGUrZ2feISIXHCsULNaJ+XKUp7k/WpHNLg6WPRFE
-         CHRQ==
-X-Gm-Message-State: AOJu0Yy6CqmGLBJ8e1pKHwU6XKvO9em1zebVi67At7XyVCokIKoAIVn8
-	7Ft777P4/Wdv7EqPhhgoZrC5in8Je4NZUzlKOc9qTjDXvybGK28KLOpLPTYX7oPLNeX8ftgo0c+
-	qjv0e3r7LESbVVMNsKpbktpxfxh/jxxGx2mMbKqycd2fR3yfADprPxZh+A0naO+xrvQJKUiP9SQ
-	HzbJtFdQ2KmS4sqKJWkXitbj4ZI+jGYR0xoIelLsWyRYHOGePmydzODPP1Bw==
-X-Gm-Gg: ASbGncv/1YKGsjfGa15DHxf+nFij2PEq9plHgbtvHoUaSGpQilw6BNIzGY0CtveVaQZ
-	SSpD5vWMC1OWMEYS8IZKujEtwtq8o3w2p8T1rvsaVrY0znwT8U1sEhgfcBJ7q7TEzoF7S9Nuiim
-	RszyHXx9AvibZ4Ew7ECw==
-X-Received: by 2002:a17:90b:1c08:b0:311:b5ac:6f6b with SMTP id 98e67ed59e1d1-313472e721dmr20221925a91.9.1749485845085;
-        Mon, 09 Jun 2025 09:17:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IERwKmOF92+vgR0OyLY4xDT3ckUdOAQJL6nRd5ccAZFrKZS+I9euQO4OpP/97707oTdI4YRACHhSpTQR7w6btc=
-X-Received: by 2002:a17:90b:1c08:b0:311:b5ac:6f6b with SMTP id
- 98e67ed59e1d1-313472e721dmr20221573a91.9.1749485839729; Mon, 09 Jun 2025
- 09:17:19 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=hLrZMVyZ;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.220.74, mailfrom: sandeep.gundlupet-raju@amd.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=COeKcWV8qikjGplqAN6cz8oChpyklREyPIZ/mtw6D+ytuNg6MMBpOvrNh/TgVdJ34hLlO9PGWSX9lD7MZHbARJ3BQcUkrVNMmyeAvkDEmRkon/D6qQpkw3kQWTcR6cYWK/XFPncSWS1b4vAEevwkQHKnmpvLo1S9UwIzOthZoFYb5/FHGTjSfiUubn+MdDCt7shVouzdzoYm5RInqFx9XCbEOxQcThrbiW6hZyP2cS+Jip1Y5n76trTrW2L/jO6u63DSzEu3VUGtVaa/2txrjYK2fTsbA7aKicprdQ//OfWlX/HQrGgXeAFNF3G4aNgH9i2xLXQYQ8g85/VR4LqPuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iPtsSSoRglV4NjHA24HCpsV1436iWjxalukv/tWLxyA=;
+ b=gG7VcAAFbI0eTmTTLE6EMSFE5JSg3i/lN6GFQAdHUWc1sDebiIfr/zXNouGepDon6AFqR7slyyN+Pk6yp5F7lAO6YOweCqXvUUMqtnrZ/Gweh9SgXPUMKsQ6hUuF6t/DcfTmR01RsQRCooAhgaAxY6rQ6VDQnzyHF6wbairofkMpg8Jrgvwbe6HtSlj98A1Zu2ott7RCS7+B6VWTlA4qJWLdQXUjo978aoFDlVzPfK2pO7YlObQWbgfQoi1T+FFbuiBnsrxWMA8OPln5oBlnC/B/qXMZjn0TMTAUndXHaGV6rLg36sBnsp+/a4gfS7pXh7ylnFvPGyKdKEYNCADvGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iPtsSSoRglV4NjHA24HCpsV1436iWjxalukv/tWLxyA=;
+ b=hLrZMVyZ/6BOotk2AFXv9QBlE1ruclsLKWVRl71htc6nYhDdrrG8qv8XJWg7IoTbON8UlTrr4S31+0EwEn4aDp30G1Ww4wBYceAaC82vldRSx+IEaJDDHVa1UNW0JpVUKrwkexuSTcZBskv2tHCnp0rrr//8vu2g3XUxxMdixoM=
+Received: from BYAPR02CA0062.namprd02.prod.outlook.com (2603:10b6:a03:54::39)
+ by CH3PR12MB8727.namprd12.prod.outlook.com (2603:10b6:610:173::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.34; Mon, 9 Jun
+ 2025 16:37:13 +0000
+Received: from SJ1PEPF000023CC.namprd02.prod.outlook.com
+ (2603:10b6:a03:54:cafe::ef) by BYAPR02CA0062.outlook.office365.com
+ (2603:10b6:a03:54::39) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.19 via Frontend Transport; Mon,
+ 9 Jun 2025 16:37:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF000023CC.mail.protection.outlook.com (10.167.244.6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8835.15 via Frontend Transport; Mon, 9 Jun 2025 16:37:12 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 9 Jun
+ 2025 11:37:11 -0500
+Received: from xcosswyocto01.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Mon, 9 Jun 2025 11:37:11 -0500
+From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <raj.khem@gmail.com>, <jon.mason@arm.com>, <ross.burton@arm.com>,
+	<mark.hatle@kernel.crashing.org>
+Subject: [OE-core][scarthgap,walnascar,master][PATCH v3] tune-cortexr52: Remove aarch64 for ARM Cortex-R52
+Date: Mon, 9 Jun 2025 10:37:11 -0600
+Message-ID: <20250609163711.2401924-1-sandeep.gundlupet-raju@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250522171334.3040820-1-dmitry.baryshkov@oss.qualcomm.com>
- <20250522171334.3040820-9-dmitry.baryshkov@oss.qualcomm.com> <DB5PR02MB10213DB92F7EB71D578B4A8C4EF6BA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB10213DB92F7EB71D578B4A8C4EF6BA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 9 Jun 2025 19:17:08 +0300
-X-Gm-Features: AX0GCFvKdrQBZex0qqpfoYwmlxar8DQvLoqth9md6fLz6QO2ujIj154QFaE0lAQ
-Message-ID: <CAO9ioeX9zKF8GBDHiupAfdS525RhD4Hb+Ty6cdsw7g=Kzr0CwA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 09/11] mesa: sort out PROVIDES for the glvnd case
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Authority-Analysis: v=2.4 cv=Id6HWXqa c=1 sm=1 tr=0 ts=68470916 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
- a=3-RhneuVAAAA:8 a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=EfqMrtYSJ6eyJuxBaKgA:9
- a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22 a=VLVLkjT_5ZicWzSuYqSo:22
- a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-ORIG-GUID: lnGh3SoGJ45UFHwsbAKVJv7zFk-6B2Y7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDEyMSBTYWx0ZWRfXyq219/fXQWTS
- yGGYYCn5eGGxxWX7rgp9MtS/qxvSkRmyXngIZ3NymaTomfQcZy0840XXayKQtlYk1OBB768WUwK
- tQoq1Bsz7woVEzb5ZEV5gZ5btcn3w+f3EGRQhuEZBHU3RHQvToB4rG7wvzd59vekyDTup07xkAK
- NPI7eTyI5CZOp8uQDB8EFjvMIQc/+vNRuRbYPWBA3vExfoYSJ1Num5C5IQ5Fn/XtwH8zg5Z1Fqq
- 0cxsiC2dLWDtZ5odXOaOmOcOqVJcE8Ik47Gx1NcgrUipAeQv1HnGh5B4dUJ4nOiEXvThUDoJpO9
- MmReml2jCHhsA0AhBltoGW5lVm31xaXAWs3av7kB3dNM8emZ+n/VwnDjkHjUSh0/aUNP9S3ZKTH
- 0r2v+Zyf2f94uKKTgMEDVWZGLbJIkz7nG2herZg3rqyAbzFpvuo/+IN+DBRwsm6c8yEWiKWX
-X-Proofpoint-GUID: lnGh3SoGJ45UFHwsbAKVJv7zFk-6B2Y7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-09_06,2025-06-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
- clxscore=1015 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506090121
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB04.amd.com: sandeep.gundlupet-raju@amd.com does
+ not designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023CC:EE_|CH3PR12MB8727:EE_
+X-MS-Office365-Filtering-Correlation-Id: a73707e8-d966-4c36-7f23-08dda773e2d8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?GMMmTCjTN5oQ4rCc8g9FhiXv1cb7QgEFITFxl9TH9p8EhRUCQgwqKRffjep6?=
+ =?us-ascii?Q?rEUJwZoMfIxbr9YQTNLPgMFf1XXR6Ik/jGFFKnfBu9PfBN9+dtXOjWYK5Z/T?=
+ =?us-ascii?Q?4CIbpbyS4Qs5k2yDotel8RZGphMUrWEOdW/fVkNrFz7GmWMgaC3mlFtEETf5?=
+ =?us-ascii?Q?SVX430gdnO69w9A7/ngU1ltZ7A3c7dx+tvZEkp95KgiMmZIaKfLBXbLRkppb?=
+ =?us-ascii?Q?L7R/gZ6245cjB2HUDRyZWo7G6LxIB4jzJSNEKo4mwP/3aPG0zDnDOGdRD0c+?=
+ =?us-ascii?Q?aRn+ySJKpwV4O0GQTq6zIsIDHxleQtoth/jChiF4g9b7iviLWmGO+lmeg6eE?=
+ =?us-ascii?Q?59iXz5c70865RGE0QvOZDPf10HVJp18hn/Smurp0Jkzcn/VOs/LD/4bw3qqr?=
+ =?us-ascii?Q?H18t6zjNIN+ggdEPEJwGS7+BuQfXUBxZrTjQu79oQsk3UG38f3TPl28qahgr?=
+ =?us-ascii?Q?Ueu4qiknjO2Apq6ov2PyyNewWjXnqzRApeDPNCyicy5IV1/zdBzxMhj8qHmD?=
+ =?us-ascii?Q?QijhyglX+0trjawB89dfU4+fBx4VkSobP6Y+OTXCfsleRHrB91q/iAt5+toW?=
+ =?us-ascii?Q?3YitaXTYygOBSgYD4Er9j+M4ihEz5ZuonJfiihHVlONOx0P7wM+vL1iR8bae?=
+ =?us-ascii?Q?d1lkxQJljaptRa2yOIlgReg5lxXPZctmFqH+urIGquaGtYYxYsL+Xr0usX5/?=
+ =?us-ascii?Q?MOeBWum3uJtCBoT6ZuiYMRwMhdyAKV8MZMdctQggNXhANvBjkwz1PxuhEuRY?=
+ =?us-ascii?Q?IU0bQfFudjC1wkclaWIBk/zJdmfjMg94aFSSHomGyZnE5qLe6VrZuhoQHOX/?=
+ =?us-ascii?Q?9tSISPaS4H/9Iw+6cP/tnMT+Hf6Qbq7bheGsJeflVgsEpaGYHSjgCeXwKJJM?=
+ =?us-ascii?Q?asKe8JsLS2HViTl43jR7dgbqogS+nYIVcN9lxDi+lo8tieVQw/NR1aUlfmG1?=
+ =?us-ascii?Q?g3odyjy+GRsaiCm71ESEPT+pVCaBoOndh4jKCne163I7hSzdz9RGq03t30XK?=
+ =?us-ascii?Q?2+0owEbu7t68Tlah3pZMs0sJQ3AAsxu487RlT7vEyi933WSGO48fWbUIUe8A?=
+ =?us-ascii?Q?TGsoorBgwX2Xm5AgYLnILOMhCLEIORrv8BKAqjULq8XQl1FAzhmok66BHWU9?=
+ =?us-ascii?Q?Wkt09TXFWXL6stYnwh0/OI/px8Pg5Iyh/YmqrT1IZJRTgPM2QJq/IwUEnU11?=
+ =?us-ascii?Q?dtDi4mgiOZUiHhU7GvTwhQkJz8FHfM7/8BOYjkr3MtAXJraQ4HVtdCASNfWL?=
+ =?us-ascii?Q?IIwI5TMmwyrU9iDJSYyDqK3lVr5R1HAnu+9niwg/YGy8O7mHfqwUZYQFlr6V?=
+ =?us-ascii?Q?Ma9+Zn9x3KCQE6y0aRb3nXWs08Zuj1OvVRMZSSQ2k2dhseNyfXAA68VP/ZAu?=
+ =?us-ascii?Q?jKfsEJOT+iSvtPJr1eL0YNfkfwpgPBQw5nHrKjHItV+wbJHu7Xh/AbNZe3H7?=
+ =?us-ascii?Q?NefKrFcQWL9QTbTf/zjl1EbZVmjHJkkf9VCQ5TVMCkCe17yJqndrSBy4eFIS?=
+ =?us-ascii?Q?s+bne+lKTHgzAjwehgS6j1g2Leuon+AfbilR?=
+X-Forefront-Antispam-Report: 
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 16:37:12.4128
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a73707e8-d966-4c36-7f23-08dda773e2d8
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	SJ1PEPF000023CC.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8727
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 16:17:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218297
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 16:37:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218298
 
-On Mon, 9 Jun 2025 at 12:28, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Dmitry Baryshkov via lists.openembedded.org
-> > Sent: den 22 maj 2025 19:14
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH v3 09/11] mesa: sort out PROVIDES for the glvnd case
-> >
-> > If mesa is built with GLVND enabled, it doesn't provide GL / GL ES / EGL
-> > libraries directly. Instead it provides two ICD libraries: libEGL_mesa.0
-> > and libGLX_mesa.so.0. Remove virtual provides from the glvnd case
-> > (dropping incorrect virtual/libglx provider while we are at it) and
-> > replace those with runtime providers (to be used by libglvnd in order to
-> > pull corresponding ICDs).
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >  meta/conf/distro/include/default-providers.inc |  3 ++-
-> >  meta/recipes-graphics/mesa/mesa.inc            | 12 +++++++++---
-> >  2 files changed, 11 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-> > index ee91af87968f..4f094163546c 100644
-> > --- a/meta/conf/distro/include/default-providers.inc
-> > +++ b/meta/conf/distro/include/default-providers.inc
-> > @@ -7,8 +7,9 @@ PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
-> >  PREFERRED_PROVIDER_virtual/libsdl2 ?= "libsdl2"
-> >  PREFERRED_PROVIDER_virtual/libsdl2-native ?= "libsdl2-native"
-> >  PREFERRED_PROVIDER_virtual/egl ?= "mesa"
-> > +PREFERRED_PROVIDER_virtual/libegl-icd ?= "mesa"
-> >  PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
-> > -PREFERRED_PROVIDER_virtual/libglx ?= "mesa"
-> > +PREFERRED_PROVIDER_virtual/libglx-icd ?= "mesa"
-> >  PREFERRED_PROVIDER_virtual/libgl-native ?= "mesa-native"
-> >  PREFERRED_PROVIDER_virtual/nativesdk-libgl ?= "nativesdk-mesa"
-> >  PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
->
-> What was the point of adding preferred providers for virtual/libegl-icd and
-> virtual/libglx-icd? AFAICT, there are no providers for them and no recipes
-> that depend on them, neither in OE-Core nor in meta-openembedded.
->
-> There _are_ runtime dependencies on libegl-icd and libglx-icd in libglvnd,
-> which are provided by mesa. Should they have been virtual-libegl-icd and
-> virtual-libglx-icd instead? Comparing to opencl-icd, I would have expected
-> mesa to RPROVIDES virtual-libegl-icd and virtual-libglx-icd, and for
-> default-providers.inc to set PREFERRED_RPROVIDERs for them.
+Remove aarch64 for ARM Cortex-R52 processor as it supports only 32-bit
+ISA but not 64-bit ISA. Also update ARMPKGARCH for cortexr52hf.
 
-Yes and yes. I was thinking about RPROVIDERS and then forgot about it.
-I'll send a fix together with the next libglvnd iteration.
+Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Signed-off-by: Sandeep Gundlupet Raju <grsandeep85@gmail.com>
+---
+Changes in v3:
+   - Add scarthagap, walnascar, master branch to patch subject line.
 
->
-> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-
-> > graphics/mesa/mesa.inc
-> > index 4c61447031e3..ab8c22681fe8 100644
-> > --- a/meta/recipes-graphics/mesa/mesa.inc
-> > +++ b/meta/recipes-graphics/mesa/mesa.inc
-> > @@ -37,11 +37,13 @@ do_install:append() {
-> >
-> >  DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib chrpath-replacement-native python3-mako-native gettext-native python3-pyyaml-native"
-> >  EXTRANATIVEPATH += "chrpath-native"
-> > -PROVIDES = " \
-> > +GLPROVIDES = " \
-> >      ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
-> > -    ${@bb.utils.contains('PACKAGECONFIG', 'glvnd', 'virtual/libglx', '', d)} \
-> >      ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 virtual/libgles2 virtual/libgles3', '', d)} \
-> >      ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
-> > +"
-> > +PROVIDES = " \
-> > +    ${@bb.utils.contains('PACKAGECONFIG', 'glvnd', '', d.getVar('GLPROVIDES'), d)} \
-> >      ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)} \
-> >      virtual/mesa \
-> >      "
-> > @@ -275,7 +277,11 @@ python __anonymous() {
-> >
-> >      d.setVar("DEBIAN_NOAUTONAME:%slibopencl-mesa%s" % (mlprefix, suffix), "1")
-> >
-> > -    if 'glvnd' not in pkgconfig:
-> > +    if 'glvnd' in pkgconfig:
-> > +        for p in ("libegl", "libglx"):
-> > +            fullp = mlprefix + p + "-mesa" + suffix
-> > +            d.appendVar("RPROVIDES:" + fullp, '%s-icd' % p)
-> > +    else:
-> >          for p in (("egl", "libegl", "libegl1"),
-> >                    ("opengl", "libgl", "libgl1"),
-> >                    ("gles", "libgles1", "libglesv1-cm1"),
-> > --
-> > 2.39.5
->
-> //Peter
->
+Changes in v2:
+   - Change patch subject.
+   - Discard cortexr52-32 patch implementation.
+   - Remove aarch64 for for ARM Cortex-R52 processor.
+---
+ meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc b/meta=
+/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+index 89f0e09450..e8667bc16b 100644
+--- a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
++++ b/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+@@ -10,11 +10,10 @@ require conf/machine/include/arm/arch-armv8r.inc
+=20
+ AVAILTUNES                             +=3D "cortexr52"
+ ARMPKGARCH:tune-cortexr52               =3D "cortexr52"
+-# We do not want -march since -mcpu is added above to cover for it
+-TUNE_FEATURES:tune-cortexr52            =3D "aarch64 crc simd cortexr52"
++TUNE_FEATURES:tune-cortexr52            =3D "${TUNE_FEATURES:tune-armv8r-c=
+rc-simd} cortexr52"
+ PACKAGE_EXTRA_ARCHS:tune-cortexr52      =3D "${PACKAGE_EXTRA_ARCHS:tune-ar=
+mv8r-crc-simd} cortexr52"
+=20
+ AVAILTUNES                             +=3D "cortexr52hf"
+-ARMPKGARCH:tune-cortexr52hf             =3D "cortexr52"
++ARMPKGARCH:tune-cortexr52hf             =3D "cortexr52hf"
+ TUNE_FEATURES:tune-cortexr52hf          =3D "${TUNE_FEATURES:tune-cortexr5=
+2} callconvention-hard"
+ PACKAGE_EXTRA_ARCHS:tune-cortexr52hf    =3D "cortexr52hf"
+--=20
+2.34.1
 
--- 
-With best wishes
-Dmitry
 
