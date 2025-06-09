@@ -2,106 +2,115 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0B7C61CE8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0F2C61DB2
 	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 09:58:54 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.56077.1749463130360827817
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.56079.1749463131543541615
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 02:58:50 -0700
+ Mon, 09 Jun 2025 02:58:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NeVRclSY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-453066fad06so9339485e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 02:58:50 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L+lu2Zbs;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-450d668c2a1so34549935e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 02:58:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1749463128; x=1750067928; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ris9746VJpp9uIz0NLRqtuT2xOLjDpKDYu3xhtmBMlY=;
-        b=NeVRclSYaT9Efzxpn1c5q9vFu3vDkh09iFEG6FqElsXI92NoRrdkoeITPzEiAkmK63
-         yNvUgbJg2nggElprLl02IHVyYV5w/aVTWwPxdCKZCWLk6QxyOm24JhhLhj0yzBOc2RCz
-         eYWEVCOOlgoTLC2tvGT2f81koeuBrKVeeuqYE=
+        d=linuxfoundation.org; s=google; t=1749463129; x=1750067929; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T21Jj5+Mqcz5TiQOjfElFGXP5rFHpCUrS2ljg74a5Lo=;
+        b=L+lu2ZbsdAJmNhrQbtyxS7x43ELdK6KlZuzn9NDlkYPxex75CSWejyZ9N1SdRCMwzt
+         VPLc80QRv62pDq+X/nw+MR3iAWoOLjE5AxMByOVTKkARrd+EXkZi9h4Ft1wddfbZF14X
+         Ze80gPgDE2v5MpqIgdfKIpODs0woVR6KmSBgU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749463128; x=1750067928;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ris9746VJpp9uIz0NLRqtuT2xOLjDpKDYu3xhtmBMlY=;
-        b=XmGEqF0EYgcYeDaZ+wsRfB+TfZxDwZ0DQQgGfKjCNvWQkSUoNZPnnisR5kw9Xhow7F
-         B0xNGPED7JmkXt/I5gcfUUqCJQSvQu1XpmzmQskRV431AayWTH1CQRtrF+Ca5ddTr3xT
-         VVaPCcxykKdCCAbIMQ5vtvL2n9tRURHzXy6VUmNjAN45As0VooqXf0i/XTtalYQ/rZK2
-         cfE9FAODv81aqcF5+tJvWgxwj8F/ksSckiYrGWkWzyXEh79wbt0wu/UefSlh92uMLIO1
-         H6ynqH0Hih4KQZTqX7K2yMDpZnmnQhcywxF98pgRaDhCuuOd9ok5dhGntCdkYNuY43XB
-         ePEA==
-X-Gm-Message-State: AOJu0YwsJcFMYPdHTPMH9FkOXs9m/sF1WBECuIdAn9kCeN6w+wcXhvs6
-	z14jUZ6Po6jLkTbC5KyIbqQ2AT5lX2qnM8VTVIXGE0VAOwari8AM1svX9nGlJb2Iwudn+IVCZfG
-	Wrgt28zs=
-X-Gm-Gg: ASbGncui2c4ZVJCZL3gHRx5g2cICLHqCIi91IVbyEHQBpA/hfDE7z3a4sVZG3ww2uOv
-	oOmu0MQ4dcWFboNoG1p9I4e6iTm/w/hYS9gj/Ui5dAxiCG5FvFvdTfXwnsyQoSsC9YA7IS/4cEP
-	C2G0JVvD/h+NTXLA98OZ2K7V8raEQ7yz066x26GkZ/X5XIYX5/ZtISkiarA4usEDe/ME9ma54YP
-	IzuXMvM/00ekpYMfWVMKFVTlArXRucWutrE38oNNw4J2ZmfkreykNw1fzY7Sy/qc8c+z+1uSXwV
-	jNZDE0MxGp/lvFP8Jp3BECQBr3H9kZepz9X4fuB60Zh1qbArhMYrE83yISrKECrNp54zcMsNiR9
-	sbBsJ
-X-Google-Smtp-Source: AGHT+IEPf+ZSDOy7CcCpQnOgpw1Ss1cMhbGLLPdtWDkaHdpx8RSxdyI7iVUWHlTcrB3jfx0Cx1wRmw==
-X-Received: by 2002:a05:600c:8b57:b0:43c:f1b8:16ad with SMTP id 5b1f17b1804b1-452014d5243mr126664545e9.30.1749463128303;
-        Mon, 09 Jun 2025 02:58:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749463129; x=1750067929;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T21Jj5+Mqcz5TiQOjfElFGXP5rFHpCUrS2ljg74a5Lo=;
+        b=hMYvklIc7N8InsNRq6hkZ08miymiEDilZZn6nN3LsFe9XrA9ziMIrCAw9tyEHGMBSk
+         bU78wZprgAjPkGWHHzQfuGSPBsfGHQC1x3WRsYjGPUVru+rQHf/1plEQULeITw4iQdHh
+         gmxTANQO/FpYAw3e7SfoP3pRjEjOSaLjfEm4FdwnsuvvBZx7XYTu5/dLovbOc8hhIJZz
+         ArOg5Hc9lyO14Am7FyDtSqJ8um0gZKQ9g/nUVK53wMfPThH9z4QY2Z9hebIWPDtz3t+v
+         PEcYUqE/4zOlkAz6JUIzJcC6QT5/EKoOaEcokF8aTl+O/sZQ2hZ4g+jTk9KwOsOEEoIz
+         PVnw==
+X-Gm-Message-State: AOJu0YzSmr25vP5xuKsFmb8YXNnjUYAjIOhMa8rHsSLxsW4XirI2Szgh
+	y5W8t4zx9w2iBKpvflySvVk0XQCK/zl0AmP9V4vlAWqggTjdvGZ56ZvssUSEqH0Hk+3JcVZVyUW
+	uL7CR3+k=
+X-Gm-Gg: ASbGnctCw3x9e0qZ0vkws6v+SdvXWPHNrwl21kvc4AraaHNlNtGUSCIzbBeAFnX40Xb
+	/e3pog7ermeNOY496HHqaM0TWHSmo0x5i+uS6DcpDsIZo7K9l0nxonnQjTV/dcm6i4jqeqVd3xe
+	Y8USl8d7JGXYS7b++JzcxbMLjDqAqtwJH6hwHz3qnB/Svx7PZhnFeWnJzpvjFMPOgJviwAaoYN1
+	W8Pvy+6KalpRJ20TJXAhyPRL7DZsLsD8YKT59jXCJB/SL6bFSQfozflyDvkGM9P0rNJYmcYcQam
+	gc0cp0i2k/6f61CRvfiJYDZ1tD9QxKMGrjLzN5k4dDeLQfIzsKfGL3Z2ds6qjK+lapTQaH5ohMH
+	bdFYK2UfKk7vrS/4=
+X-Google-Smtp-Source: AGHT+IGi8sicX/mcg1Xl6cZuiYnj/dq3JvtLAFdv889epl1qasqiZpeP5/2GF7bj3VHDIi/dFImjzA==
+X-Received: by 2002:a05:600c:4e4f:b0:450:d79d:3b16 with SMTP id 5b1f17b1804b1-4520159c111mr114573915e9.14.1749463129479;
+        Mon, 09 Jun 2025 02:58:49 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fa9f:168d:c475:ba8f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4521375b60fsm108406455e9.40.2025.06.09.02.58.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4521375b60fsm108406455e9.40.2025.06.09.02.58.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 02:58:47 -0700 (PDT)
+        Mon, 09 Jun 2025 02:58:48 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/5] cross: Drop unneeded exports
-Date: Mon,  9 Jun 2025 10:58:42 +0100
-Message-ID: <20250609095846.937759-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/5] compiler-rt/libcxx: Use clang as compiler
+Date: Mon,  9 Jun 2025 10:58:43 +0100
+Message-ID: <20250609095846.937759-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250609095846.937759-1-richard.purdie@linuxfoundation.org>
+References: <20250609095846.937759-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 09:58:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218251
-
-These exports are made in bitbake.conf, we don't need to duplicate these
-here. Clean up as was done in native/nativesdk.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218252
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/cross.bbclass | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb | 2 ++
+ meta/recipes-devtools/clang/compiler-rt_git.bb            | 2 ++
+ meta/recipes-devtools/clang/libcxx_git.bb                 | 2 ++
+ 3 files changed, 6 insertions(+)
 
-diff --git a/meta/classes-recipe/cross.bbclass b/meta/classes-recipe/cross.bbclass
-index 93de9a52744..9abf166e50c 100644
---- a/meta/classes-recipe/cross.bbclass
-+++ b/meta/classes-recipe/cross.bbclass
-@@ -80,17 +80,17 @@ do_packagedata[stamp-extra-info] = ""
+diff --git a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+index f8e7bb13d2b..47438014b23 100644
+--- a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
++++ b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+@@ -36,6 +36,8 @@ BUILD_CXX = "${CCACHE}${HOST_PREFIX}clang++ ${BUILD_CC_ARCH}$"
+ CFLAGS += "${COMPILER_RT}"
+ CXXFLAGS += "${COMPILER_RT} ${LIBCPLUSPLUS}"
  
- USE_NLS = "no"
++TOOLCHAIN = "clang"
++
+ DEPENDS += "ninja-native virtual/crypt compiler-rt"
+ DEPENDS:append:class-native = " clang-native libxcrypt-native libcxx-native"
+ DEPENDS:append:class-nativesdk = " virtual/cross-c++ clang-native clang-crosssdk-${SDK_SYS} nativesdk-libxcrypt nativesdk-gcc-runtime"
+diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
+index ad145f86446..7b442183efc 100644
+--- a/meta/recipes-devtools/clang/compiler-rt_git.bb
++++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
+@@ -58,6 +58,8 @@ BUILD_CXX = "${CCACHE}clang++ ${BUILD_CC_ARCH}"
+ LDFLAGS += "${COMPILER_RT} ${UNWINDLIB}"
+ CXXFLAGS += "${LIBCPLUSPLUS}"
  
--export CC = "${BUILD_CC}"
--export CXX = "${BUILD_CXX}"
--export FC = "${BUILD_FC}"
--export CPP = "${BUILD_CPP}"
--export LD = "${BUILD_LD}"
--export CCLD = "${BUILD_CCLD}"
--export AR = "${BUILD_AR}"
--export AS = "${BUILD_AS}"
--export RANLIB = "${BUILD_RANLIB}"
--export STRIP = "${BUILD_STRIP}"
--export NM = "${BUILD_NM}"
-+CC = "${BUILD_CC}"
-+CXX = "${BUILD_CXX}"
-+FC = "${BUILD_FC}"
-+CPP = "${BUILD_CPP}"
-+LD = "${BUILD_LD}"
-+CCLD = "${BUILD_CCLD}"
-+AR = "${BUILD_AR}"
-+AS = "${BUILD_AS}"
-+RANLIB = "${BUILD_RANLIB}"
-+STRIP = "${BUILD_STRIP}"
-+NM = "${BUILD_NM}"
++TOOLCHAIN = "clang"
++
+ def get_compiler_rt_arch(bb, d):
+     if bb.utils.contains('TUNE_FEATURES', 'armv5 thumb dsp', True, False, d):
+         return 'armv5te'
+diff --git a/meta/recipes-devtools/clang/libcxx_git.bb b/meta/recipes-devtools/clang/libcxx_git.bb
+index c99617c228a..f5bf17f30ae 100644
+--- a/meta/recipes-devtools/clang/libcxx_git.bb
++++ b/meta/recipes-devtools/clang/libcxx_git.bb
+@@ -54,6 +54,8 @@ BUILD_CXX = "${CCACHE}clang++ ${BUILD_CC_ARCH}"
+ LDFLAGS += "${COMPILER_RT} ${UNWINDLIB} ${LIBCPLUSPLUS}"
+ CXXFLAGS += "${LIBCPLUSPLUS}"
  
- inherit nopackages
- 
++TOOLCHAIN = "clang"
++
+ OECMAKE_SOURCEPATH = "${S}/llvm"
+ EXTRA_OECMAKE += "\
+                   -DCMAKE_BUILD_TYPE=RelWithDebInfo \
 
