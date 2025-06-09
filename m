@@ -1,110 +1,166 @@
-Return-Path: <praveen.kumar@windriver.com>
+Return-Path: <sandeep.gundlupet-raju@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B5BAC61CE8
-	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 14:35:27 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.60824.1749479719923696621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F710C61CE8
+	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 14:36:57 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.59])
+ by mx.groups.io with SMTP id smtpd.web11.60860.1749479805899812794
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 07:35:20 -0700
+ Mon, 09 Jun 2025 07:36:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8255fda859=praveen.kumar@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 559AGvit026173
-	for <openembedded-core@lists.openembedded.org>; Mon, 9 Jun 2025 14:35:19 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 474an2hwn8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 14:35:18 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 9 Jun 2025 07:35:17 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 9 Jun 2025 07:35:15 -0700
-From: Praveen Kumar <praveen.kumar@windriver.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=DWuwBUaF;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.237.59, mailfrom: sandeep.gundlupet-raju@amd.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LmgMvIERSA0kWPDRyjMCnh6AJ4c5TcxzAm4vEd9GqOSB2XsI3MxnT4MYK+XwYdJXfN978RVPL0HQfZ3p43jFnNneyamk7DvC/8o3HvAl/zbiThy8SMwD58SbfQuFcEuHp6XxpeL6w+TLIDm2jd5Oosocr0r5NAzRTdmQ/u2KmjD1cZ44fmmLQYasWnr8X8g03OxIgWdSkdoPrtGLc1HcC/xPGtxHKcjCxLGqwR/wVqzwfYMg6pAVhFr7LrgUO52lsikQ8OabZwC87DR2WYNfoTDGIPmgMaOk3s6sJXyir57omBEykNpDwPBzwhBHEyPBGnDMdkSojOpSJOHH48uv6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cce4bkyvwHgV10iUAOECco3VqW5rr9K16pCIuzcUJAg=;
+ b=QwsWv2aCP966KoCPJXEZ1sb03hGUG6fqh3ZQqrm6KowzSMFOyhgrHKY+4bfzRZg3Vzb5aNBUjtjQK+0ark09L+LC45isdLMC8p+/Jl5YPf77XuuFgNzGPPy5kOcvO5VNf3b6KVC9WnBKm17wHN7un09cCESGX2FpI33LiOJ0UoXv6NuJRPwM107Lti9Udy/zPk1apMJJVYJMyj5N8oL6QdkHXa/NpJ13XZ+xT4SOguoVZPOY98cMgpeXNlWbqdvw8cjekbvpO+3Mh6EqwOkrNVcglQiZ9hPC5Wqr6qyXAU+6goyk7TITomgQTrPuNTSLfNOzCU8y4tB6JLqAGb2kTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cce4bkyvwHgV10iUAOECco3VqW5rr9K16pCIuzcUJAg=;
+ b=DWuwBUaFry76g32RADlat8xMMOAV9edJI+h3Rehk26K3uRRVSpG/ss7G75ad1hRYLAykjX8SDYAq3AHhoNF+atZg6k1BLdGgdZb92CfWw1iEairf7sKD7vaKWjjWKP7XxpXF+1cQXc5JwosTuqsNi9uGViJ5MSUBpjbdvOeFkcQ=
+Received: from BN9PR03CA0633.namprd03.prod.outlook.com (2603:10b6:408:13b::8)
+ by DM4PR12MB8571.namprd12.prod.outlook.com (2603:10b6:8:187::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.40; Mon, 9 Jun
+ 2025 14:36:42 +0000
+Received: from BL02EPF00021F6A.namprd02.prod.outlook.com
+ (2603:10b6:408:13b:cafe::a1) by BN9PR03CA0633.outlook.office365.com
+ (2603:10b6:408:13b::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.19 via Frontend Transport; Mon,
+ 9 Jun 2025 14:36:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF00021F6A.mail.protection.outlook.com (10.167.249.6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8835.15 via Frontend Transport; Mon, 9 Jun 2025 14:36:40 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 9 Jun
+ 2025 09:36:40 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 9 Jun
+ 2025 09:36:39 -0500
+Received: from xcosswyocto01.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Mon, 9 Jun 2025 09:36:39 -0500
+From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Praveen Kumar <praveen.kumar@windriver.com>
-Subject: [oe-core][walnascar][PATCH 1/1] python3: upgrade 3.13.2 -> 3.13.4
-Date: Mon, 9 Jun 2025 20:05:04 +0530
-Message-ID: <20250609143504.1155764-1-praveen.kumar@windriver.com>
-X-Mailer: git-send-email 2.40.0
+CC: <raj.khem@gmail.com>, <jon.mason@arm.com>, <ross.burton@arm.com>,
+	<mark.hatle@kernel.crashing.org>
+Subject: [PATCH v2] tune-cortexr52: Remove aarch64 for ARM Cortex-R52
+Date: Mon, 9 Jun 2025 08:36:39 -0600
+Message-ID: <20250609143639.2388322-1-sandeep.gundlupet-raju@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDEwNyBTYWx0ZWRfX5Z6o4V9VaE1Q TWxXwS4XICZTBAU154d36OSckloxrhGFwOV3PPKLWkfFix96N//rlsVmuUShHB11/+9PZ6dW8ci VBMO2M+8JGSwdhJ6CNWxCeG/kEZUIpaHMqc4tnA8JRCw3qCYHo1tmNf9gCwrbuQC080tPAxpmTm
- FWBVzwOTMk15SBfPtddk8COhiG/FNJLqhzHb12x2hkM7zWOzcsObxfjsv/grAN6CdHw8RZ9iQ7q ccOfRkprLJb4StSvUVXpQ/pveU1nWT1OjN18HERFJIUDMFg5UdA39l4WpqzLno9i0wio6HSKKIp PZF1yqEZTmc89+Kjbb4+4/iygiOU59F/VWwZbaJ06fV6B52giK/KDvknI36qy1e9oC5LbEOYOWV
- Y5RvE8YUGoiEQuR3wyLYkJDq6GS5eV+XbNyanqeLNylGM+1TSWlMWIOIHqdZ3N4urjhcngFZ
-X-Proofpoint-GUID: tP6mtWAul_9Z9WrL0jhwjgmLOjupM_zL
-X-Authority-Analysis: v=2.4 cv=fdSty1QF c=1 sm=1 tr=0 ts=6846f126 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=8AHkEIZyAAAA:8 a=t7CeM3EgAAAA:8 a=HUfRvMtMjSzp5hYZYN4A:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=EesaM_nQlCMA:10 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: tP6mtWAul_9Z9WrL0jhwjgmLOjupM_zL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-09_05,2025-06-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- bulkscore=0 impostorscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- mlxscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506090107
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 559AGvit026173
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB05.amd.com: sandeep.gundlupet-raju@amd.com does
+ not designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F6A:EE_|DM4PR12MB8571:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17ee2db4-f8a1-456c-0a4c-08dda7630c21
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?UTTDqLNAYr489C8DbPPA4JhhydL0ZOyhg+1ynA4t2sY88WEy2iGnu+nmMkMe?=
+ =?us-ascii?Q?oLFtdjw9wrDw1b+MkO+VeoRLtI60a1FCKav+vjNcY+loobrkZ6FnDan+wZdR?=
+ =?us-ascii?Q?/b8V6f2ZHeoXfweegUjycAhEA3Cey7kndd6kUTHb9d6QMPXClsQg6x9tsz/u?=
+ =?us-ascii?Q?nOaAKZ8Fz8Eub/vQGPBtqswQLoz2evElQBTWSUCgfeZQbSlAtk5DDw3M6XE9?=
+ =?us-ascii?Q?cfoskWKsVwxByF6YKGM/7s29fp2BoLXeXAKYchwV8D4WlobVYZMBOrD1yV+T?=
+ =?us-ascii?Q?UNYzHEtGnNIB1pY/G9EGDNEl7IMeIyBSYZC7WIWdZ+5f2V8tbpf5hRMR8byB?=
+ =?us-ascii?Q?pzMj8w7nqizZUNuRe2aVRgUuZBrryIulZT+vYGluYbN+fbYrwaJ55+fEOtBx?=
+ =?us-ascii?Q?QKAH/KkPohHP7Nzlq7hDQ9rPANedFZnZEvhQt/Orq0MpQ5vIr5iiLfM2e6ZE?=
+ =?us-ascii?Q?qP9XBLayk4WiISeLYy+FXZEqkteqPA3D8zib8p+icvFp9Mi3cK9iwyHymvL/?=
+ =?us-ascii?Q?iICV7cxzqdtfqushbmXjzl5Pcp56ROKPlIriO0BGUY+vnCVnj5Z+8ShjFSKE?=
+ =?us-ascii?Q?mayuHuqFHpuXA3+l3y4n8xH6/ISluZdyxR5cx1wk3gxe9GShiH+Nnf2v5cHg?=
+ =?us-ascii?Q?Npbnb86d8/M3OVotA8A7/XV8F4lJnLioy46Uc5QUDHVHVDQnIHtPucEAMPIm?=
+ =?us-ascii?Q?jqtJQWd5ElWF3rUzoihhq6oIvZhso04Ov/ISbn61vRJYmwWFyI/jqMoO8JqQ?=
+ =?us-ascii?Q?QvrZnXgPOuDUBfHcKoIoyoCIxvX8WAZ6a7rJf8H7ho3HEF8D4pujungcBKJK?=
+ =?us-ascii?Q?X/AGlET0VEFyz9OuppYosQgN34DkhxOYf2jgtkmuGKP5RyMzqLPuQju4UzZh?=
+ =?us-ascii?Q?SHI4msuEe52InJFgZPJAe3PWabPQuLioA9sdKHWPPwLcZqvYf2JMGv3iicKP?=
+ =?us-ascii?Q?9wjLNbLK0fTe90kPFGQdv3rnlVaVKp7ZS1MJwJmhhN/gPHKeSzEU8kyvr2pB?=
+ =?us-ascii?Q?HEV9/sFP+sMoVJBlppLA9UQvOOTK/WEIwJWtPjnS6uVhW1EOmk7552PsxfWh?=
+ =?us-ascii?Q?nojoBh3/Sg4RPS6ahRoY0G0K9RTbZzRajuKajdVLIRDi2R5wL20xGXyLHQod?=
+ =?us-ascii?Q?iuDoEvSaPAP9/O3Pmz4acCesxj9ws8VMhmQ11s0Gq5nL4LAX3oWKTphLHGQR?=
+ =?us-ascii?Q?X+UYxn42X0D5s8uTpJPchplN30pHharcjlBvi2YewqDwP5PlmmjlLTTDd7fE?=
+ =?us-ascii?Q?NOezRsqp/+f4brmQ5gXNIitkeX6nevbCKKThqcgT2FY2PkTkLUP4Ydo0/OCv?=
+ =?us-ascii?Q?4XUqWhI+DFZYGn/4qp/7yCsobWrzm6m/JM0taYky5gpG6NORubTfaQhkMm/g?=
+ =?us-ascii?Q?7bUqmXs3owFU52oyQDE7WZREc4a8KHZvxv7zNxxnHuNyRBtJQK/QtaQtrKWV?=
+ =?us-ascii?Q?H6zesTMVIQ+XnKsUqM0eY0W2EDhbbh1EaOsYKYLQ2M6MCoCN20iPjzoBFb0h?=
+ =?us-ascii?Q?WYeWPYJI5tw3ob0wFj0pCzJ4EAZa7oAdKx0k?=
+X-Forefront-Antispam-Report: 
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 14:36:40.3116
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17ee2db4-f8a1-456c-0a4c-08dda7630c21
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	BL02EPF00021F6A.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8571
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 14:35:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218292
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 14:36:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218293
 
-Security content in this release:
-- gh-135034: Fixes multiple issues that allowed tarfile extraction filter=
-s
-  (filter=3D"data" and filter=3D"tar") to be bypassed using crafted symli=
-nks and
-  hard links. Addresses CVE-2024-12718, CVE-2025-4138, CVE-2025-4330, and
-  CVE-2025-4517.
-- gh-133767: Fix use-after-free in the =E2=80=9Cunicode-escape=E2=80=9D d=
-ecoder with a non-
-  =E2=80=9Cstrict=E2=80=9D error handler.
-- gh-128840: Short-circuit the processing of long IPv6 addresses early in
-  ipaddress to prevent excessive memory consumption and a minor denial-of=
--service.
+Remove aarch64 for ARM Cortex-R52 processor as it supports only 32-bit
+ISA but not 64-bit ISA. Also update ARMPKGARCH for cortexr52hf.
 
-Includes additional standard library improvements and bug fixes.
-
-References:
-https://docs.python.org/3/whatsnew/changelog.html#python-3-13-4-final
-https://www.python.org/downloads/release/python-3134/
-
-Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Signed-off-by: Sandeep Gundlupet Raju <grsandeep85@gmail.com>
 ---
- .../python/{python3_3.13.2.bb =3D> python3_3.13.4.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3_3.13.2.bb =3D> python3_3.13=
-.4.bb} (99%)
+Changes in v2:
+   - Change patch subject.
+   - Discard cortexr52-32 patch implementation.
+   - Remove aarch64 for for ARM Cortex-R52 processor.
+---
+ meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3_3.13.2.bb b/meta/recipe=
-s-devtools/python/python3_3.13.4.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.13.2.bb
-rename to meta/recipes-devtools/python/python3_3.13.4.bb
-index 7c36fd92ed..b60e84f124 100644
---- a/meta/recipes-devtools/python/python3_3.13.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.4.bb
-@@ -36,7 +36,7 @@ SRC_URI:append:class-native =3D " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-conf=
-igu.patch \
-            "
+diff --git a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc b/meta=
+/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+index 89f0e09450..e8667bc16b 100644
+--- a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
++++ b/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+@@ -10,11 +10,10 @@ require conf/machine/include/arm/arch-armv8r.inc
 =20
--SRC_URI[sha256sum] =3D "d984bcc57cd67caab26f7def42e523b1c015bbc5dc07836c=
-f4f0b63fa159eb56"
-+SRC_URI[sha256sum] =3D "27b15a797562a2971dce3ffe31bb216042ce0b995b39d768=
-cf15f784cc757365"
+ AVAILTUNES                             +=3D "cortexr52"
+ ARMPKGARCH:tune-cortexr52               =3D "cortexr52"
+-# We do not want -march since -mcpu is added above to cover for it
+-TUNE_FEATURES:tune-cortexr52            =3D "aarch64 crc simd cortexr52"
++TUNE_FEATURES:tune-cortexr52            =3D "${TUNE_FEATURES:tune-armv8r-c=
+rc-simd} cortexr52"
+ PACKAGE_EXTRA_ARCHS:tune-cortexr52      =3D "${PACKAGE_EXTRA_ARCHS:tune-ar=
+mv8r-crc-simd} cortexr52"
 =20
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ AVAILTUNES                             +=3D "cortexr52hf"
+-ARMPKGARCH:tune-cortexr52hf             =3D "cortexr52"
++ARMPKGARCH:tune-cortexr52hf             =3D "cortexr52hf"
+ TUNE_FEATURES:tune-cortexr52hf          =3D "${TUNE_FEATURES:tune-cortexr5=
+2} callconvention-hard"
+ PACKAGE_EXTRA_ARCHS:tune-cortexr52hf    =3D "cortexr52hf"
 --=20
-2.40.0
+2.34.1
 
 
