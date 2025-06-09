@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C086CC71136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC851C71133
 	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 11:20:05 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.56841.1749467998049807437
+ by mx.groups.io with SMTP id smtpd.web10.57256.1749467997340307926
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 04:19:58 -0700
+ Mon, 09 Jun 2025 04:19:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9C4114BF
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2DA3414BF
 	for <openembedded-core@lists.openembedded.org>; Mon,  9 Jun 2025 04:19:38 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 578513F59E
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Jun 2025 04:19:57 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AEEF73F59E
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Jun 2025 04:19:56 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v4 08/16] squashfs-tools: put version in recipe filename
-Date: Mon,  9 Jun 2025 12:19:40 +0100
-Message-ID: <20250609111948.2282441-8-ross.burton@arm.com>
+Subject: [PATCH v4 07/16] mobile-broadband-provider-info: put version in recipe filename
+Date: Mon,  9 Jun 2025 12:19:39 +0100
+Message-ID: <20250609111948.2282441-7-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250609111948.2282441-1-ross.burton@arm.com>
 References: <20250609111948.2282441-1-ross.burton@arm.com>
@@ -30,43 +30,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 11:20:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218277
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218276
 
 A recipe that fetches from git but is otherwise a released version
 should not be using _git.bb recipe names.
 
-Put the version in the filename, drop the explicit PV, and set the tag
-name in the SRC_URI to verify the SHA.
+Put the version in the filename and drop the explicit PV.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../{squashfs-tools_git.bb =3D> squashfs-tools_4.6.1.bb}        | 4 ++--
+ ...info_git.bb =3D> mobile-broadband-provider-info_20240407.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/squashfs-tools/{squashfs-tools_git.bb =3D> =
-squashfs-tools_4.6.1.bb} (99%)
+ rename meta/recipes-connectivity/mobile-broadband-provider-info/{mobile-=
+broadband-provider-info_git.bb =3D> mobile-broadband-provider-info_202404=
+07.bb} (97%)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b=
-/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.1.bb
-similarity index 99%
-rename from meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-rename to meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.1.bb
-index 982a43f8899..51a2fbdb934 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.6.1.bb
-@@ -7,9 +7,9 @@ SECTION =3D "base"
- LICENSE =3D "GPL-2.0-only"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
-263"
+diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mob=
+ile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-bro=
+adband-provider-info/mobile-broadband-provider-info_20240407.bb
+similarity index 97%
+rename from meta/recipes-connectivity/mobile-broadband-provider-info/mobi=
+le-broadband-provider-info_git.bb
+rename to meta/recipes-connectivity/mobile-broadband-provider-info/mobile=
+-broadband-provider-info_20240407.bb
+index 06ded459344..e07b93d6955 100644
+--- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-bro=
+adband-provider-info_git.bb
++++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-bro=
+adband-provider-info_20240407.bb
+@@ -5,11 +5,11 @@ SECTION =3D "network"
+ LICENSE =3D "PD"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D87964579b2a8ece4bc6744d2dc9a8=
+b04"
 =20
--PV =3D "4.6.1"
--SRCREV =3D "d8cb82d9840330f9344ec37b992595b5d7b44184"
- SRC_URI =3D "git://github.com/plougher/squashfs-tools.git;protocol=3Dhtt=
-ps;branch=3Dv6.1.1"
-+SRCREV =3D "d8cb82d9840330f9344ec37b992595b5d7b44184"
+-SRCREV =3D "55ba955d53305df96123534488fd160ea882b4dd"
+-PV =3D "20240407"
+ PE =3D "1"
+=20
+ SRC_URI =3D "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info=
+.git;protocol=3Dhttps;branch=3Dmain"
++SRCREV =3D "55ba955d53305df96123534488fd160ea882b4dd"
 +
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
-=20
  S =3D "${WORKDIR}/git"
+=20
+ inherit meson
 --=20
 2.43.0
 
