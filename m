@@ -1,2425 +1,1970 @@
-Return-Path: <praveen.kumar@windriver.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F388C5B552
-	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 10:13:35 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.56278.1749464010169059027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A9FFC61CE8
+	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 10:32:35 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.65])
+ by mx.groups.io with SMTP id smtpd.web10.56546.1749465146456615953
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 03:13:30 -0700
+ Mon, 09 Jun 2025 03:32:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8255fda859=praveen.kumar@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55980AeA011547
-	for <openembedded-core@lists.openembedded.org>; Mon, 9 Jun 2025 03:13:30 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 474mxm1bee-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 03:13:29 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 9 Jun 2025 03:13:27 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 9 Jun 2025 03:13:25 -0700
-From: Praveen Kumar <praveen.kumar@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Praveen Kumar <praveen.kumar@windriver.com>
-Subject: [oe-core][scarthgap][PATCH 1/1] python3: fix CVE-2024-12718, CVE-2025-4138, CVE-2025-4330, CVE-2025-4517
-Date: Mon, 9 Jun 2025 15:43:20 +0530
-Message-ID: <20250609101320.760434-1-praveen.kumar@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=ie3lSc/K;
+ spf=pass (domain: siemens.com, ip: 40.107.159.65, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fA1PMM28ZgztkycrIecC/6+fEiFlHKsRbvZBLCFhODdzRHezrEM4o/qO3kSCEtr9JWyXjOEVQAMup8E1qiuj14+cj81Z50fVgQSk11TFqhp0cGv6R1nYKou5tdhn4QB2emubQG2SKAel86Ls56OFsz/jj6DFXy0elHDnH1WL4A3IHZsn+Wg7jsX4cpzxr3Ft32ynrxfD+4eIm0TT4EbOcz5ozlFDBwJrPCpo52pcP73DgzPofNyleROqZxW4YSNMp/OJ/B/l/7hAuaVQ9FUwSRjqBGK6dt70UJWMLyuq2eGwQnF4y17vuFk+eKX7ch8UKUGPgyz09vuj7uOfM9kHzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DLFqynbY1fL1BcG/f/0GkZXtW1ODWnSRqzwXP9q1PMk=;
+ b=QabkneO9ZgXCvAJhfIba68DiwPqbKFJbsF6/Gb8EtnN7XMWGopgxMiEUYbmXJ7JRoAEbp///0RTahEWKcxfU0kI0/mm+EgDQ26cR8YwLtFtvH6ZmdYmFlNDWsDh0S0tI036FriQzjKEcPJEmv+JRn60bbr9Gba0TQTBs6i510PJilpJDNLFzatx2BayxHZbIZjjQXTU46CBkUfOxNkNal8ubBmc/7sbUoPdeYH5eKWuTRr4VMFWYaBLHv9JFttNKGEp2LrGyiAafmYEpsB3+7BYFr2VHnqS54KkDLwudOqaQcaBj+Tc4HHi3ePFU8X7rBATgYgqXniYL2ttwfqqn8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DLFqynbY1fL1BcG/f/0GkZXtW1ODWnSRqzwXP9q1PMk=;
+ b=ie3lSc/KP7dT9fGcsbSQ+p/z4PoT6/aw0qf7toNckIU8MU4VXULCMA55Qe7n+7i8h6UTb9Buhrf5l4paA6nvDnm3IGv5CJ9DTvV3wqKTKMoIOcnvNjOqIDAu+1fTOoH2AkLTuiQZHnBHJ/yxu7YHsy74iVLha7ZqjQX4E0cOMu/+MHQ+dLKf8YtElIkG7JhZAMDiQE1rQxrQcDs92DQ1vWEo9KIlQ4ERPrbOeNJqlNi2hnPzK+jLvSicCOuAGpnAdAb8p9MW5Dogv5nfyHctZ9U+cAEvo41ioHZPt8hNT7RBSoRhFJxXgL9k/mBOPvgP65zmJnx8ZkYomBkekmX7lw==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DB8PR10MB3896.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:16d::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.22; Mon, 9 Jun
+ 2025 10:32:21 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%4]) with mapi id 15.20.8813.024; Mon, 9 Jun 2025
+ 10:32:21 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "praveen.kumar@windriver.com" <praveen.kumar@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [oe-core][scarthgap][PATCH 1/1] python3: fix CVE-2024-12718,
+ CVE-2025-4138, CVE-2025-4330, CVE-2025-4517
+Thread-Topic: [oe-core][scarthgap][PATCH 1/1] python3: fix CVE-2024-12718,
+ CVE-2025-4138, CVE-2025-4330, CVE-2025-4517
+Thread-Index: AQHb2Sco6/wyf7yG50ixPUJY06yUY7P6oL9g
+Date: Mon, 9 Jun 2025 10:32:21 +0000
+Message-ID: 
+ <AS1PR10MB5697F7D0FA5EA89EF9347959FD6BA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20250609101320.760434-1-praveen.kumar@windriver.com>
+In-Reply-To: <20250609101320.760434-1-praveen.kumar@windriver.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=abcd0f3d-7b39-4ec0-ab54-e07576fd65ed;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-06-09T10:30:31Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB8PR10MB3896:EE_
+x-ms-office365-filtering-correlation-id: 00488c74-d7b0-4785-2761-08dda740eae5
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|13003099007|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?bFo3cDJBdTZhRy9HcGRTWE1SdzU3cStkdENiM1pmakJJUmlJSGRxbmZ5b1Bu?=
+ =?utf-8?B?eXZoNVpLajdXNzYwbE5MYTZpYzhjZS9nS0RGZTFodU1lZnB5dnhja3pnalZk?=
+ =?utf-8?B?TUZsV0hWdm9oOGRPUFRZSEF5THlXcndnTWJLNVhlU0I5VThiTE1YWlpKNUVr?=
+ =?utf-8?B?TU9nLzNpTjd2S3JYd0h2VVIrbjRkOVBBejB5U1RLRlBWQjBtcEgwWnRUbVJy?=
+ =?utf-8?B?TVEzUnpxajl2eUdRYU9hbU1nR1NzbnkzMTd6bjI1MWRnMk9JOW9DUlcrb29T?=
+ =?utf-8?B?THBMT3lpOFNSVm8va2VjMWlJR2xYMHB3WGdudURIN0hvbFFhTDFtNkFFSExT?=
+ =?utf-8?B?L0d0dlZxOUNRR1ZyRUxQUUdpVEZseXVmN2hVZTRhbXV2KzBPcmsreXpSOU9h?=
+ =?utf-8?B?UXRoNEx3aUF6ciszcjN5U1d1cFRiZHF1eHh6aVBJc0hhK3lidnUvamZuejlR?=
+ =?utf-8?B?N3lhWjgxZjZsTlZxY3RLNWlYdTZpaWpmL0J0M2lGc1piYlhiSHVsRnB1aE9T?=
+ =?utf-8?B?Y24vcmMyclZwZFQ1N1NiYlBjdzJ4RnQzaVBCMDd6OWsrVC82cXBOWGpqeWE2?=
+ =?utf-8?B?TG9vK013a0ViaThpeTR5NllTSTl5QnIzWEhWTEhCTC9aVkdzUE04emd2eEcx?=
+ =?utf-8?B?WmxVYmQ0dzFzZ09ncUhNRTlRYWN0cVIydnF2aXF2UXBUU1BlQmt6VEpPTFhr?=
+ =?utf-8?B?eGVsNkp1UU92b0NNd2xLakFjRXNIVE1rQmhyZzR0NHZOazIzV0tzM1MxdEll?=
+ =?utf-8?B?SE5ocDlzbVUyenNld1lWZE9Ld1JBY2dlMS9zbllEcy9yem9rQVFjRjdOMlR2?=
+ =?utf-8?B?TVBmRERURStoSVdPRnU3ZDlFZlh0S0xNVTNGWEdQYk1mUjRHbmFLc2NpZk5U?=
+ =?utf-8?B?VnpxcEpLd1VqRDVybU1BUjAxc25JV2ZhOTRTSHl2WUUwUTYxTEFLTmpDcVlt?=
+ =?utf-8?B?blFpVW05ZmlLMGpuZjViaTRnQ0JuWWFiS1NWOUxjYTQ4VDRyUUtxU2hmZWNR?=
+ =?utf-8?B?L2VUZ1FMVUY2UTlqeDdFY0VuQXdtdzBacnRpaTE3d3NheDRpcldKMlRQN0R4?=
+ =?utf-8?B?T29hQk9lSFVpZW5UeWhUbVRnSVRXZjV0ZFkyaGhQZ2dIclEzTkFVRU9GenB6?=
+ =?utf-8?B?aGdGczB5OG9Rd2FUZHlKNXpVT3hMRDBtUVhnRTJWSmZBODE4ZERHTFBIalRh?=
+ =?utf-8?B?UGdHYmZ3SUxmeDgwRHY4eDVxOHBHbjlYNUM0SU9oODIrRE1nbG11azRRRHg4?=
+ =?utf-8?B?VUJiYk9MUXV2SjY1L0FlTW5hSGpzRFdDcmFER0MvaWZRc3FySjg2RVNmRVdY?=
+ =?utf-8?B?UzNPbGJjcG5yVjZ2MnZaNmZMV1NrLzBrakEvRVQyc296aGdNN1hYYUJDTlhQ?=
+ =?utf-8?B?NVBZbjJwbzY1VmtBQkZSZWtoaFVwR1lVWmZkd1BFMlhkS1JHcHhpUUNzcXBH?=
+ =?utf-8?B?Wmd4UktjTXp6OUFjeUJYR3I5UWZmai9McGhicXByVkVaSWZ4cE9EZnZKVlo1?=
+ =?utf-8?B?d0xvQnZtWFlpNlpEOVBKY29aemxmLzhWTWJZZnpvbDA5V2ZFSnRjMXBYWTEy?=
+ =?utf-8?B?ZXo1SGhCV3R2MEJ2dGpYU1dFYXJWaStiNy9xTUZjQ2p6VEpJWnRoTE1ncnlW?=
+ =?utf-8?B?SHNFV2NwWnBtWUFNK3VVRXJnTU1Ia3NpZndUWjJ2WmpHWVBIbE5CSlQrZ2hh?=
+ =?utf-8?B?MkZNRlZMbnkxWENRc3AxU2E5cFVDSmlqdkRqZkpwSW5aYjJvaFNSbDlJZ2Jw?=
+ =?utf-8?B?d2k4N2VkQXluUTI4d1E3VW1jNU9DZEwxbTU3d1NZbk1MQkI5MEZpQ3lWbVEy?=
+ =?utf-8?B?ZDFQYUNXcC9QM2hpVWo5bmFpRWl2YmVoeEc0SWdabUM1eXhiSVJSZ0tkOEc0?=
+ =?utf-8?B?VEJCVEhUTi95eGhFdGtEVFY3eVpHTFpXRXZFakQ0b0F3UENFMGVhSGVvL1Bz?=
+ =?utf-8?B?UGZncU5yRE4vdmlPTzFnZlVaOTFGUnVvdCtac0htcWxSYUltWFYrLzJtQ1NH?=
+ =?utf-8?Q?SJ84nbVOZujl3LkOfXlhJNlIOeML98=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?V3ZWeHlKS1RzdkdCbG52eWlieHBsWENmU1ZXYy84ZlVQeFdnZks2MUpjQ2xx?=
+ =?utf-8?B?YnJ4dlZuZ0xVaEsyMUxodUxab2lRRkNYazZ2WDA5aEo1dGgraGNpeC90M01q?=
+ =?utf-8?B?Qmt2KzBRT3VEWGg2aHdMMXRxR2dVQkxMUzhGcEJSTy9rSXJQSUJIeU9PeGNh?=
+ =?utf-8?B?TjA2d3Rsb2NMRkpyZFFid29OdWxsYTVMS3BtMlpLNXVoaWtHSlhlYWg1L2Ft?=
+ =?utf-8?B?Uit3cldNcFNKeForenBjbFZsdjVOUnRERnA1T2RhZVloZHJaOVpQZzh2anNk?=
+ =?utf-8?B?ZmZ4NDdjY2ZoU3Z2WTc1ZmQrTmIxTHhOaXdkT2lzRzZuc2huaGttcUNOVTBN?=
+ =?utf-8?B?ZXR2elF6aTlVeTJNM1VrQWEzTisyQU1wdythNHA4cHJ6UGY0Y3JqRVhYZ0Vx?=
+ =?utf-8?B?c2hMeUVoQzJSc3RHWENocENWMzZxNnZvSldobjJWREVFYzlqdlVhQVE4S3da?=
+ =?utf-8?B?bHIvZDdzY21POHB3Y2FIVDV6ampYRnhIZlFUbWtGR1QzYkZ6WkRCTTl4Q204?=
+ =?utf-8?B?SEpxVTRNcXpKRWdZbGFJZlhwTHZEWk1ZZm9FRnFsajlVOXdnQk1vWklKRjBy?=
+ =?utf-8?B?b3pxbVRHN2o1RTNaZlgyeHdqRGZpVERqT052ZktiYk5lN3hnZzdhQUkyZHFn?=
+ =?utf-8?B?aVhSaDFxbEZPR0t5aGJ5ZzVvQVFnczV5aU8wOE5EVGFXdTJ1NUo0dGNXUW1p?=
+ =?utf-8?B?T2JVZXhrMUNsMDAxYU9RTkhUQWxDS2NDZUVQcUVCTlBVWFpUWWFES1ppYk5o?=
+ =?utf-8?B?bUZRRXoyemh2MFFBaHdOYVZ1dDlqdUFMcjlzVURQQVV6Y3JaNW1XeXBvL21t?=
+ =?utf-8?B?elVsbWF5NENMQVlJN0NDVDdqY1pweDVweThTM3V0K0dneFM3Z0ZpN3R1bjNC?=
+ =?utf-8?B?OW03NHQ2MG1WRFBSaXdld0FlWXRUeDhNMWVKd1Y0NUc0RXJHMXUxUzNUbzhk?=
+ =?utf-8?B?MVFhSHZ4T21WRlUyN0NCWjdzNEFGOUUrbE1kYVFySU9TVDdzYkhlNGVnbml1?=
+ =?utf-8?B?ZnVUMGdBVFpoWVd6WjQ4TVc5MlJaVHVHMk9nM0gvOXFvQ2djYlMxOVhRTGg5?=
+ =?utf-8?B?Qzl4NnV1aFVmZXhvVUhaSFJPUm4yRUxPRE1YMDJTdFFHZS9HcDkvQk5RakRP?=
+ =?utf-8?B?MUd1bExKRm5kNk1PcTlzVG9WdEdPd04rZzBMUnk4Z2ttbGJuUyt6WkEwQTMr?=
+ =?utf-8?B?eERDZHR6alJUOS91cmFhYlpVSEhTR25kTFRkZmlCTFcvUHR3ZHpxTXdxVGc0?=
+ =?utf-8?B?Tmp1bDNjUjRMSFNTYWZ0WlFjWnFUL0Z5OG9BNkxSOGxKQUxlSmwzS3Fxa2Y0?=
+ =?utf-8?B?M3RqMlBGN2Mrb0pXdEZDYlNYcVY1M1U4cTJGQUZtQ0NiTkZpdkN5S1J4Z2Jv?=
+ =?utf-8?B?ckNsWVJQTlcrdXZsd2FwTldJays4UjNnM2E5R3pUbWcyTEJva0pFdkZqM25r?=
+ =?utf-8?B?RFNmckJZOEdaYWpmeDlJWmMyVnluT2U5MHRJcjlhSG5IYWVkU3E1MGlvdFhp?=
+ =?utf-8?B?UW1ObUhUZXdjblBKZ2pVdzB2SlFRL0xrTHhXY1VyL0tzeTlxeS8xTnpWbjBR?=
+ =?utf-8?B?czNhSGVSdnRORCtsbUEvM1pvQkR2bU4rT1Z2emZjdXRLS3gwU3RSdzNTcHB2?=
+ =?utf-8?B?MXhpY0N3bW9SakJpYjdxRnp1ZlhXV2xieS9iYnVpUzM5Q0tCMjZkQWhsa2xQ?=
+ =?utf-8?B?cVc1VDZ4aTZXNzdZUzR3VGI2L0RMUGk3RFM3QVZnTjNVWmFwMGUzbGpObkN0?=
+ =?utf-8?B?NVFQK0U2dm1td1ZtOFIvMFBldFdzRDM1bVdURDY4YjFPTWpIeE9OdVM4aGlL?=
+ =?utf-8?B?akljaXBDKzBSaTZldFVWRkpiWEFnaVcwbVlaQ3BXSHJHL1FWK2R2ZGo1cHNW?=
+ =?utf-8?B?eENDMlg1L0tXOUYxOTdkWGxDM3NHeHovWkVmREVMeTl5dVRITmlkUnZsZ3VR?=
+ =?utf-8?B?dld4dUl6VmxwcmZPbVhOZEFJckpncnJiWGdPSlNXaVkwZUlrSzJmMExrZmhw?=
+ =?utf-8?B?cStWSFpCajRSWDgvUUxZZk9yeEMyN3NMZ1llbWxXTjgzWHdxSDVBclB4TWM1?=
+ =?utf-8?B?ZFpRRkowblExNXR6TXRIV2lScmRIUENHYytGOEpFeXJBY1RCYlV1VU94Yy8v?=
+ =?utf-8?Q?uzUCcZGfNUMnUEelUn7Xr81si?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-GUID: WiJYtPOOXYYghBr907MT-qDAB1i82AV5
-X-Authority-Analysis: v=2.4 cv=L74dQ/T8 c=1 sm=1 tr=0 ts=6846b3c9 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=8AHkEIZyAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
- a=t_lgowvus_p8ynNJMCIA:9 a=mc40v0PPJcZVs2WP:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjA5MDA3OCBTYWx0ZWRfX1vRmSFYB1Nqt cnkNwSYJ6hg+aOj5E+Oks1vcYEcm+6sYF3e4qrbcJ8sXBBcNdXrdALgdMIojYb3QHBMoN9OqtXF vZ3aJit6SkxaB9cmYDJEWctuS/OUy9qRcGN/4XgvcC+veI+M5ocZnCwOFna6hd0Ojq0BvbRC3Ec
- LxyHFKY0dBLA7DQRCzXESCy94vDwbFT6IzRazKFNV/4fyu1uNMDp6HiBWnLsgmzQCxqS2X5Bct9 B/Ep4oE1tQ6rtgLuEsjNVKvIWpThnAZKtT/a3AWiXnf5z3O4jzFQUWVhpc4es+91wsxbGUJQQGZ twoCOAZYc/zZd0Ia4kFTPlSJWa5cFs+HfwGGJiiAap/IQnvuNqNsB5W1bgtXq20Gt1izsnZ+1oY
- zaLESn84npdWpjf/6KZwetu+rDeneXmkYPZTuB3lgyxugbhKpmSZOT9/KH4pjrd2hjKNsbj5
-X-Proofpoint-ORIG-GUID: WiJYtPOOXYYghBr907MT-qDAB1i82AV5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-09_04,2025-06-05_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0
- mlxscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 phishscore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506090078
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 55980AeA011547
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00488c74-d7b0-4785-2761-08dda740eae5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2025 10:32:21.6521
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3kPZDjLUkLEYn2fIdEkhAiZW6OhAhlRVxp13SPuM8cwmhN6laJFDtvx25Iy130Ej6y0fk3B3saZOUZBlSnqhnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3896
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 10:13:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218265
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 10:32:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218266
 
-CVE-2024-12718:
-Allows modifying some file metadata (e.g. last modified) with
-filter=3D"data" or file permissions (chmod) with filter=3D"tar" of files
-outside the extraction directory. You are affected by this
-vulnerability if using the tarfile module to extract untrusted tar
-archives using TarFile.extractall() or TarFile.extract() using the
-filter=3D parameter with a value of "data" or "tar".
-
-CVE-2025-4138:
-Allows the extraction filter to be ignored, allowing
-symlink targets to point outside the destination directory, and the
-modification of some file metadata. You are affected by this
-vulnerability if using the tarfile module to extract untrusted tar
-archives using TarFile.extractall() or TarFile.extract() using the
-filter=3D parameter with a value of "data" or "tar".
-
-CVE-2025-4330:
-Allows the extraction filter to be ignored,
-allowing symlink targets to point outside the destination directory,
-and the modification of some file metadata. You are affected by this
-vulnerability if using the tarfile module to extract untrusted tar
-archives using TarFile.extractall() or TarFile.extract() using the
-filter=3D parameter with a value of "data" or "tar".
-
-CVE-2025-4517:
-Allows arbitrary filesystem writes outside the extraction directory
-during extraction with filter=3D"data". You are affected by this
-vulnerability if using the tarfile module to extract untrusted
-tar archives using TarFile.extractall() or TarFile.extract() using the
-filter=3D parameter with a value of "data" or "tar".
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2024-12718
-https://nvd.nist.gov/vuln/detail/CVE-2025-4138
-https://nvd.nist.gov/vuln/detail/CVE-2025-4330
-https://nvd.nist.gov/vuln/detail/CVE-2025-4517
-
-Upstream-patch:
-https://github.com/python/cpython/commit/19de092debb3d7e832e5672cc2f7b788=
-d35951da
-
-Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
----
- ...ormalize-link-targets-in-tarfile-add.patch | 1956 +++++++++++++++++
- .../recipes-devtools/python/python3_3.12.9.bb |    1 +
- 2 files changed, 1957 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-3.12-gh-135=
-034-Normalize-link-targets-in-tarfile-add.patch
-
-diff --git a/meta/recipes-devtools/python/python3/0001-3.12-gh-135034-Nor=
-malize-link-targets-in-tarfile-add.patch b/meta/recipes-devtools/python/p=
-ython3/0001-3.12-gh-135034-Normalize-link-targets-in-tarfile-add.patch
-new file mode 100644
-index 0000000000..27d20b230b
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-3.12-gh-135034-Normalize-=
-link-targets-in-tarfile-add.patch
-@@ -0,0 +1,1956 @@
-+From 19de092debb3d7e832e5672cc2f7b788d35951da Mon Sep 17 00:00:00 2001
-+From: T. Wouters <thomas@python.org>
-+Date: Tue, 3 Jun 2025 16:00:21 +0200
-+Subject: [PATCH] [3.12] gh-135034: Normalize link targets in tarfile, ad=
-d
-+ `os.path.realpath(strict=3D'allow_missing')` (GH-135037) (GH-135066)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Addresses CVEs 2024-12718, 2025-4138, 2025-4330, and 2025-4517.
-+
-+(cherry picked from commit 3612d8f51741b11f36f8fb0494d79086bac9390a)
-+
-+Co-authored-by: =C5=81ukasz Langa <lukasz@langa.pl>
-+Signed-off-by: =C5=81ukasz Langa <lukasz@langa.pl>
-+Co-authored-by: Petr Viktorin <encukou@gmail.com>
-+Co-authored-by: Seth Michael Larson <seth@python.org>
-+Co-authored-by: Adam Turner <9087854+AA-Turner@users.noreply.github.com>
-+Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
-+(cherry picked from commit 19de092debb3d7e832e5672cc2f7b788d35951da)
-+
-+CVE: CVE-2024-12718, CVE-2025-4138, CVE-2025-4330, CVE-2025-4517
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/19de=
-092debb3d7e832e5672cc2f7b788d35951da]
-+
-+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
-+---
-+ Doc/library/os.path.rst                       |  33 +-
-+ Doc/library/tarfile.rst                       |  20 ++
-+ Doc/whatsnew/3.12.rst                         |  34 ++
-+ Lib/genericpath.py                            |  11 +-
-+ Lib/ntpath.py                                 |  37 ++-
-+ Lib/posixpath.py                              |  15 +-
-+ Lib/tarfile.py                                | 161 +++++++--
-+ Lib/test/test_ntpath.py                       | 284 ++++++++++++++--
-+ Lib/test/test_posixpath.py                    | 289 +++++++++++++---
-+ Lib/test/test_tarfile.py                      | 313 ++++++++++++++++--
-+ ...-06-02-11-32-23.gh-issue-135034.RLGjbp.rst |   6 +
-+ 11 files changed, 1064 insertions(+), 139 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2025-06-02-11-32-23.gh-iss=
-ue-135034.RLGjbp.rst
-+
-+diff --git a/Doc/library/os.path.rst b/Doc/library/os.path.rst
-+index 51e89087e7f..f5e684f2ccf 100644
-+--- a/Doc/library/os.path.rst
-++++ b/Doc/library/os.path.rst
-+@@ -377,10 +377,26 @@ the :mod:`glob` module.)
-+    links encountered in the path (if they are supported by the operatin=
-g
-+    system).
-+
-+-   If a path doesn't exist or a symlink loop is encountered, and *stric=
-t* is
-+-   ``True``, :exc:`OSError` is raised. If *strict* is ``False``, the pa=
-th is
-+-   resolved as far as possible and any remainder is appended without ch=
-ecking
-+-   whether it exists.
-++   By default, the path is evaluated up to the first component that doe=
-s not
-++   exist, is a symlink loop, or whose evaluation raises :exc:`OSError`.
-++   All such components are appended unchanged to the existing part of t=
-he path.
-++
-++   Some errors that are handled this way include "access denied", "not =
-a
-++   directory", or "bad argument to internal function". Thus, the
-++   resulting path may be missing or inaccessible, may still contain
-++   links or loops, and may traverse non-directories.
-++
-++   This behavior can be modified by keyword arguments:
-++
-++   If *strict* is ``True``, the first error encountered when evaluating=
- the path is
-++   re-raised.
-++   In particular, :exc:`FileNotFoundError` is raised if *path* does not=
- exist,
-++   or another :exc:`OSError` if it is otherwise inaccessible.
-++
-++   If *strict* is :py:data:`os.path.ALLOW_MISSING`, errors other than
-++   :exc:`FileNotFoundError` are re-raised (as with ``strict=3DTrue``).
-++   Thus, the returned path will not contain any symbolic links, but the=
- named
-++   file and some of its parent directories may be missing.
-+
-+    .. note::
-+       This function emulates the operating system's procedure for makin=
-g a path
-+@@ -399,6 +415,15 @@ the :mod:`glob` module.)
-+    .. versionchanged:: 3.10
-+       The *strict* parameter was added.
-+
-++   .. versionchanged:: next
-++      The :py:data:`~os.path.ALLOW_MISSING` value for the *strict* para=
-meter
-++      was added.
-++
-++.. data:: ALLOW_MISSING
-++
-++   Special value used for the *strict* argument in :func:`realpath`.
-++
-++   .. versionadded:: next
-+
-+ .. function:: relpath(path, start=3Dos.curdir)
-+
-+diff --git a/Doc/library/tarfile.rst b/Doc/library/tarfile.rst
-+index 0352cddb16e..a2403b70e29 100644
-+--- a/Doc/library/tarfile.rst
-++++ b/Doc/library/tarfile.rst
-+@@ -249,6 +249,15 @@ The :mod:`tarfile` module defines the following exc=
-eptions:
-+    Raised to refuse extracting a symbolic link pointing outside the des=
-tination
-+    directory.
-+
-++.. exception:: LinkFallbackError
-++
-++   Raised to refuse emulating a link (hard or symbolic) by extracting a=
-nother
-++   archive member, when that member would be rejected by the filter loc=
-ation.
-++   The exception that was raised to reject the replacement member is av=
-ailable
-++   as :attr:`!BaseException.__context__`.
-++
-++   .. versionadded:: next
-++
-+
-+ The following constants are available at the module level:
-+
-+@@ -1039,6 +1048,12 @@ reused in custom filters:
-+   Implements the ``'data'`` filter.
-+   In addition to what ``tar_filter`` does:
-+
-++  - Normalize link targets (:attr:`TarInfo.linkname`) using
-++    :func:`os.path.normpath`.
-++    Note that this removes internal ``..`` components, which may change=
- the
-++    meaning of the link if the path in :attr:`!TarInfo.linkname` traver=
-ses
-++    symbolic links.
-++
-+   - :ref:`Refuse <tarfile-extraction-refuse>` to extract links (hard or=
- soft)
-+     that link to absolute paths, or ones that link outside the destinat=
-ion.
-+
-+@@ -1067,6 +1082,10 @@ reused in custom filters:
-+
-+   Return the modified ``TarInfo`` member.
-+
-++  .. versionchanged:: next
-++
-++     Link targets are now normalized.
-++
-+
-+ .. _tarfile-extraction-refuse:
-+
-+@@ -1093,6 +1112,7 @@ Here is an incomplete list of things to consider:
-+ * Extract to a :func:`new temporary directory <tempfile.mkdtemp>`
-+   to prevent e.g. exploiting pre-existing links, and to make it easier =
-to
-+   clean up after a failed extraction.
-++* Disallow symbolic links if you do not need the functionality.
-+ * When working with untrusted data, use external (e.g. OS-level) limits=
- on
-+   disk, memory and CPU usage.
-+ * Check filenames against an allow-list of characters
-+diff --git a/Doc/whatsnew/3.12.rst b/Doc/whatsnew/3.12.rst
-+index add932b47d7..605ea0b8d42 100644
-+--- a/Doc/whatsnew/3.12.rst
-++++ b/Doc/whatsnew/3.12.rst
-+@@ -2312,3 +2312,37 @@ sys
-+ * The previously undocumented special function :func:`sys.getobjects`,
-+   which only exists in specialized builds of Python, may now return obj=
-ects
-+   from other interpreters than the one it's called in.
-++
-++
-++Notable changes in 3.12.10
-++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-++
-++os.path
-++-------
-++
-++* The *strict* parameter to :func:`os.path.realpath` accepts a new valu=
-e,
-++  :data:`os.path.ALLOW_MISSING`.
-++  If used, errors other than :exc:`FileNotFoundError` will be re-raised=
-;
-++  the resulting path can be missing but it will be free of symlinks.
-++  (Contributed by Petr Viktorin for :cve:`2025-4517`.)
-++
-++tarfile
-++-------
-++
-++* :func:`~tarfile.data_filter` now normalizes symbolic link targets in =
-order to
-++  avoid path traversal attacks.
-++  (Contributed by Petr Viktorin in :gh:`127987` and :cve:`2025-4138`.)
-++* :func:`~tarfile.TarFile.extractall` now skips fixing up directory att=
-ributes
-++  when a directory was removed or replaced by another kind of file.
-++  (Contributed by Petr Viktorin in :gh:`127987` and :cve:`2024-12718`.)
-++* :func:`~tarfile.TarFile.extract` and :func:`~tarfile.TarFile.extracta=
-ll`
-++  now (re-)apply the extraction filter when substituting a link (hard o=
-r
-++  symbolic) with a copy of another archive member, and when fixing up
-++  directory attributes.
-++  The former raises a new exception, :exc:`~tarfile.LinkFallbackError`.
-++  (Contributed by Petr Viktorin for :cve:`2025-4330` and :cve:`2024-127=
-18`.)
-++* :func:`~tarfile.TarFile.extract` and :func:`~tarfile.TarFile.extracta=
-ll`
-++  no longer extract rejected members when
-++  :func:`~tarfile.TarFile.errorlevel` is zero.
-++  (Contributed by Matt Prodani and Petr Viktorin in :gh:`112887`
-++  and :cve:`2025-4435`.)
-+diff --git a/Lib/genericpath.py b/Lib/genericpath.py
-+index 1bd5b3897c3..233f7a3c67d 100644
-+--- a/Lib/genericpath.py
-++++ b/Lib/genericpath.py
-+@@ -8,7 +8,7 @@
-+
-+ __all__ =3D ['commonprefix', 'exists', 'getatime', 'getctime', 'getmtim=
-e',
-+            'getsize', 'isdir', 'isfile', 'islink', 'samefile', 'sameope=
-nfile',
-+-           'samestat']
-++           'samestat', 'ALLOW_MISSING']
-+
-+
-+ # Does a path exist?
-+@@ -165,3 +165,12 @@ def _check_arg_types(funcname, *args):
-+                             f'os.PathLike object, not {s.__class__.__na=
-me__!r}') from None
-+     if hasstr and hasbytes:
-+         raise TypeError("Can't mix strings and bytes in path components=
-") from None
-++
-++# A singleton with a true boolean value.
-++@object.__new__
-++class ALLOW_MISSING:
-++    """Special value for use in realpath()."""
-++    def __repr__(self):
-++        return 'os.path.ALLOW_MISSING'
-++    def __reduce__(self):
-++        return self.__class__.__name__
-+diff --git a/Lib/ntpath.py b/Lib/ntpath.py
-+index c05e965fcb9..1bef630bd9c 100644
-+--- a/Lib/ntpath.py
-++++ b/Lib/ntpath.py
-+@@ -30,7 +30,8 @@
-+            "ismount", "expanduser","expandvars","normpath","abspath",
-+            "curdir","pardir","sep","pathsep","defpath","altsep",
-+            "extsep","devnull","realpath","supports_unicode_filenames","=
-relpath",
-+-           "samefile", "sameopenfile", "samestat", "commonpath", "isjun=
-ction"]
-++           "samefile", "sameopenfile", "samestat", "commonpath", "isjun=
-ction",
-++           "ALLOW_MISSING"]
-+
-+ def _get_bothseps(path):
-+     if isinstance(path, bytes):
-+@@ -609,9 +610,10 @@ def abspath(path):
-+     from nt import _getfinalpathname, readlink as _nt_readlink
-+ except ImportError:
-+     # realpath is a no-op on systems without _getfinalpathname support.
-+-    realpath =3D abspath
-++    def realpath(path, *, strict=3DFalse):
-++        return abspath(path)
-+ else:
-+-    def _readlink_deep(path):
-++    def _readlink_deep(path, ignored_error=3DOSError):
-+         # These error codes indicate that we should stop reading links =
-and
-+         # return the path we currently have.
-+         # 1: ERROR_INVALID_FUNCTION
-+@@ -644,7 +646,7 @@ def _readlink_deep(path):
-+                         path =3D old_path
-+                         break
-+                     path =3D normpath(join(dirname(old_path), path))
-+-            except OSError as ex:
-++            except ignored_error as ex:
-+                 if ex.winerror in allowed_winerror:
-+                     break
-+                 raise
-+@@ -653,7 +655,7 @@ def _readlink_deep(path):
-+                 break
-+         return path
-+
-+-    def _getfinalpathname_nonstrict(path):
-++    def _getfinalpathname_nonstrict(path, ignored_error=3DOSError):
-+         # These error codes indicate that we should stop resolving the =
-path
-+         # and return the value we currently have.
-+         # 1: ERROR_INVALID_FUNCTION
-+@@ -680,17 +682,18 @@ def _getfinalpathname_nonstrict(path):
-+             try:
-+                 path =3D _getfinalpathname(path)
-+                 return join(path, tail) if tail else path
-+-            except OSError as ex:
-++            except ignored_error as ex:
-+                 if ex.winerror not in allowed_winerror:
-+                     raise
-+                 try:
-+                     # The OS could not resolve this path fully, so we a=
-ttempt
-+                     # to follow the link ourselves. If we succeed, join=
- the tail
-+                     # and return.
-+-                    new_path =3D _readlink_deep(path)
-++                    new_path =3D _readlink_deep(path,
-++                                              ignored_error=3Dignored_e=
-rror)
-+                     if new_path !=3D path:
-+                         return join(new_path, tail) if tail else new_pa=
-th
-+-                except OSError:
-++                except ignored_error:
-+                     # If we fail to readlink(), let's keep traversing
-+                     pass
-+                 path, name =3D split(path)
-+@@ -721,6 +724,15 @@ def realpath(path, *, strict=3DFalse):
-+             if normcase(path) =3D=3D normcase(devnull):
-+                 return '\\\\.\\NUL'
-+         had_prefix =3D path.startswith(prefix)
-++
-++        if strict is ALLOW_MISSING:
-++            ignored_error =3D FileNotFoundError
-++            strict =3D True
-++        elif strict:
-++            ignored_error =3D ()
-++        else:
-++            ignored_error =3D OSError
-++
-+         if not had_prefix and not isabs(path):
-+             path =3D join(cwd, path)
-+         try:
-+@@ -728,17 +740,16 @@ def realpath(path, *, strict=3DFalse):
-+             initial_winerror =3D 0
-+         except ValueError as ex:
-+             # gh-106242: Raised for embedded null characters
-+-            # In strict mode, we convert into an OSError.
-++            # In strict modes, we convert into an OSError.
-+             # Non-strict mode returns the path as-is, since we've alrea=
-dy
-+             # made it absolute.
-+             if strict:
-+                 raise OSError(str(ex)) from None
-+             path =3D normpath(path)
-+-        except OSError as ex:
-+-            if strict:
-+-                raise
-++        except ignored_error as ex:
-+             initial_winerror =3D ex.winerror
-+-            path =3D _getfinalpathname_nonstrict(path)
-++            path =3D _getfinalpathname_nonstrict(path,
-++                                               ignored_error=3Dignored_=
-error)
-+         # The path returned by _getfinalpathname will always start with=
- \\?\ -
-+         # strip off that prefix unless it was already provided on the o=
-riginal
-+         # path.
-+diff --git a/Lib/posixpath.py b/Lib/posixpath.py
-+index f1e4237b3aa..90a6f545f90 100644
-+--- a/Lib/posixpath.py
-++++ b/Lib/posixpath.py
-+@@ -35,7 +35,7 @@
-+            "samefile","sameopenfile","samestat",
-+            "curdir","pardir","sep","pathsep","defpath","altsep","extsep=
-",
-+            "devnull","realpath","supports_unicode_filenames","relpath",
-+-           "commonpath", "isjunction"]
-++           "commonpath", "isjunction", "ALLOW_MISSING"]
-+
-+
-+ def _get_sep(path):
-+@@ -438,6 +438,15 @@ def _joinrealpath(path, rest, strict, seen):
-+         sep =3D '/'
-+         curdir =3D '.'
-+         pardir =3D '..'
-++        getcwd =3D os.getcwd
-++    if strict is ALLOW_MISSING:
-++        ignored_error =3D FileNotFoundError
-++    elif strict:
-++        ignored_error =3D ()
-++    else:
-++        ignored_error =3D OSError
-++
-++    maxlinks =3D None
-+
-+     if isabs(rest):
-+         rest =3D rest[1:]
-+@@ -460,9 +469,7 @@ def _joinrealpath(path, rest, strict, seen):
-+         newpath =3D join(path, name)
-+         try:
-+             st =3D os.lstat(newpath)
-+-        except OSError:
-+-            if strict:
-+-                raise
-++        except ignored_error:
-+             is_link =3D False
-+         else:
-+             is_link =3D stat.S_ISLNK(st.st_mode)
-+diff --git a/Lib/tarfile.py b/Lib/tarfile.py
-+index 0a0f31eca06..9999a99d54d 100755
-+--- a/Lib/tarfile.py
-++++ b/Lib/tarfile.py
-+@@ -752,10 +752,22 @@ def __init__(self, tarinfo, path):
-+         super().__init__(f'{tarinfo.name!r} would link to {path!r}, '
-+                          + 'which is outside the destination')
-+
-++class LinkFallbackError(FilterError):
-++    def __init__(self, tarinfo, path):
-++        self.tarinfo =3D tarinfo
-++        self._path =3D path
-++        super().__init__(f'link {tarinfo.name!r} would be extracted as =
-a '
-++                         + f'copy of {path!r}, which was rejected')
-++
-++# Errors caused by filters -- both "fatal" and "non-fatal" -- that
-++# we consider to be issues with the argument, rather than a bug in the
-++# filter function
-++_FILTER_ERRORS =3D (FilterError, OSError, ExtractError)
-++
-+ def _get_filtered_attrs(member, dest_path, for_data=3DTrue):
-+     new_attrs =3D {}
-+     name =3D member.name
-+-    dest_path =3D os.path.realpath(dest_path)
-++    dest_path =3D os.path.realpath(dest_path, strict=3Dos.path.ALLOW_MI=
-SSING)
-+     # Strip leading / (tar's directory separator) from filenames.
-+     # Include os.sep (target OS directory separator) as well.
-+     if name.startswith(('/', os.sep)):
-+@@ -765,7 +777,8 @@ def _get_filtered_attrs(member, dest_path, for_data=3D=
-True):
-+         # For example, 'C:/foo' on Windows.
-+         raise AbsolutePathError(member)
-+     # Ensure we stay in the destination
-+-    target_path =3D os.path.realpath(os.path.join(dest_path, name))
-++    target_path =3D os.path.realpath(os.path.join(dest_path, name),
-++                                   strict=3Dos.path.ALLOW_MISSING)
-+     if os.path.commonpath([target_path, dest_path]) !=3D dest_path:
-+         raise OutsideDestinationError(member, target_path)
-+     # Limit permissions (no high bits, and go-w)
-+@@ -803,6 +816,9 @@ def _get_filtered_attrs(member, dest_path, for_data=3D=
-True):
-+         if member.islnk() or member.issym():
-+             if os.path.isabs(member.linkname):
-+                 raise AbsoluteLinkError(member)
-++            normalized =3D os.path.normpath(member.linkname)
-++            if normalized !=3D member.linkname:
-++                new_attrs['linkname'] =3D normalized
-+             if member.issym():
-+                 target_path =3D os.path.join(dest_path,
-+                                            os.path.dirname(name),
-+@@ -810,7 +826,8 @@ def _get_filtered_attrs(member, dest_path, for_data=3D=
-True):
-+             else:
-+                 target_path =3D os.path.join(dest_path,
-+                                            member.linkname)
-+-            target_path =3D os.path.realpath(target_path)
-++            target_path =3D os.path.realpath(target_path,
-++                                           strict=3Dos.path.ALLOW_MISSI=
-NG)
-+             if os.path.commonpath([target_path, dest_path]) !=3D dest_p=
-ath:
-+                 raise LinkOutsideDestinationError(member, target_path)
-+     return new_attrs
-+@@ -2291,30 +2308,58 @@ def extractall(self, path=3D".", members=3DNone,=
- *, numeric_owner=3DFalse,
-+             members =3D self
-+
-+         for member in members:
-+-            tarinfo =3D self._get_extract_tarinfo(member, filter_functi=
-on, path)
-++            tarinfo, unfiltered =3D self._get_extract_tarinfo(
-++                member, filter_function, path)
-+             if tarinfo is None:
-+                 continue
-+             if tarinfo.isdir():
-+                 # For directories, delay setting attributes until later=
-,
-+                 # since permissions can interfere with extraction and
-+                 # extracting contents can reset mtime.
-+-                directories.append(tarinfo)
-++                directories.append(unfiltered)
-+             self._extract_one(tarinfo, path, set_attrs=3Dnot tarinfo.is=
-dir(),
-+-                              numeric_owner=3Dnumeric_owner)
-++                              numeric_owner=3Dnumeric_owner,
-++                              filter_function=3Dfilter_function)
-+
-+         # Reverse sort directories.
-+         directories.sort(key=3Dlambda a: a.name, reverse=3DTrue)
-+
-++
-+         # Set correct owner, mtime and filemode on directories.
-+-        for tarinfo in directories:
-+-            dirpath =3D os.path.join(path, tarinfo.name)
-++        for unfiltered in directories:
-+             try:
-++                # Need to re-apply any filter, to take the *current* fi=
-lesystem
-++                # state into account.
-++                try:
-++                    tarinfo =3D filter_function(unfiltered, path)
-++                except _FILTER_ERRORS as exc:
-++                    self._log_no_directory_fixup(unfiltered, repr(exc))
-++                    continue
-++                if tarinfo is None:
-++                    self._log_no_directory_fixup(unfiltered,
-++                                                 'excluded by filter')
-++                    continue
-++                dirpath =3D os.path.join(path, tarinfo.name)
-++                try:
-++                    lstat =3D os.lstat(dirpath)
-++                except FileNotFoundError:
-++                    self._log_no_directory_fixup(tarinfo, 'missing')
-++                    continue
-++                if not stat.S_ISDIR(lstat.st_mode):
-++                    # This is no longer a directory; presumably a later
-++                    # member overwrote the entry.
-++                    self._log_no_directory_fixup(tarinfo, 'not a direct=
-ory')
-++                    continue
-+                 self.chown(tarinfo, dirpath, numeric_owner=3Dnumeric_ow=
-ner)
-+                 self.utime(tarinfo, dirpath)
-+                 self.chmod(tarinfo, dirpath)
-+             except ExtractError as e:
-+                 self._handle_nonfatal_error(e)
-+
-++    def _log_no_directory_fixup(self, member, reason):
-++        self._dbg(2, "tarfile: Not fixing up directory %r (%s)" %
-++                  (member.name, reason))
-++
-+     def extract(self, member, path=3D"", set_attrs=3DTrue, *, numeric_o=
-wner=3DFalse,
-+                 filter=3DNone):
-+         """Extract a member from the archive to the current working dir=
-ectory,
-+@@ -2330,41 +2375,56 @@ def extract(self, member, path=3D"", set_attrs=3D=
-True, *, numeric_owner=3DFalse,
-+            String names of common filters are accepted.
-+         """
-+         filter_function =3D self._get_filter_function(filter)
-+-        tarinfo =3D self._get_extract_tarinfo(member, filter_function, =
-path)
-++        tarinfo, unfiltered =3D self._get_extract_tarinfo(
-++            member, filter_function, path)
-+         if tarinfo is not None:
-+             self._extract_one(tarinfo, path, set_attrs, numeric_owner)
-+
-+     def _get_extract_tarinfo(self, member, filter_function, path):
-+-        """Get filtered TarInfo (or None) from member, which might be a=
- str"""
-++        """Get (filtered, unfiltered) TarInfos from *member*
-++
-++        *member* might be a string.
-++
-++        Return (None, None) if not found.
-++        """
-++
-+         if isinstance(member, str):
-+-            tarinfo =3D self.getmember(member)
-++            unfiltered =3D self.getmember(member)
-+         else:
-+-            tarinfo =3D member
-++            unfiltered =3D member
-+
-+-        unfiltered =3D tarinfo
-++        filtered =3D None
-+         try:
-+-            tarinfo =3D filter_function(tarinfo, path)
-++            filtered =3D filter_function(unfiltered, path)
-+         except (OSError, FilterError) as e:
-+             self._handle_fatal_error(e)
-+         except ExtractError as e:
-+             self._handle_nonfatal_error(e)
-+-        if tarinfo is None:
-++        if filtered is None:
-+             self._dbg(2, "tarfile: Excluded %r" % unfiltered.name)
-+-            return None
-++            return None, None
-++
-+         # Prepare the link target for makelink().
-+-        if tarinfo.islnk():
-+-            tarinfo =3D copy.copy(tarinfo)
-+-            tarinfo._link_target =3D os.path.join(path, tarinfo.linknam=
-e)
-+-        return tarinfo
-++        if filtered.islnk():
-++            filtered =3D copy.copy(filtered)
-++            filtered._link_target =3D os.path.join(path, filtered.linkn=
-ame)
-++        return filtered, unfiltered
-+
-+-    def _extract_one(self, tarinfo, path, set_attrs, numeric_owner):
-+-        """Extract from filtered tarinfo to disk"""
-++    def _extract_one(self, tarinfo, path, set_attrs, numeric_owner,
-++                     filter_function=3DNone):
-++        """Extract from filtered tarinfo to disk.
-++
-++           filter_function is only used when extracting a *different*
-++           member (e.g. as fallback to creating a symlink)
-++        """
-+         self._check("r")
-+
-+         try:
-+             self._extract_member(tarinfo, os.path.join(path, tarinfo.na=
-me),
-+                                  set_attrs=3Dset_attrs,
-+-                                 numeric_owner=3Dnumeric_owner)
-++                                 numeric_owner=3Dnumeric_owner,
-++                                 filter_function=3Dfilter_function,
-++                                 extraction_root=3Dpath)
-+         except OSError as e:
-+             self._handle_fatal_error(e)
-+         except ExtractError as e:
-+@@ -2422,9 +2482,13 @@ def extractfile(self, member):
-+             return None
-+
-+     def _extract_member(self, tarinfo, targetpath, set_attrs=3DTrue,
-+-                        numeric_owner=3DFalse):
-+-        """Extract the TarInfo object tarinfo to a physical
-++                        numeric_owner=3DFalse, *, filter_function=3DNon=
-e,
-++                        extraction_root=3DNone):
-++        """Extract the filtered TarInfo object tarinfo to a physical
-+            file called targetpath.
-++
-++           filter_function is only used when extracting a *different*
-++           member (e.g. as fallback to creating a symlink)
-+         """
-+         # Fetch the TarInfo object for the given name
-+         # and build the destination pathname, replacing
-+@@ -2453,7 +2517,10 @@ def _extract_member(self, tarinfo, targetpath, se=
-t_attrs=3DTrue,
-+         elif tarinfo.ischr() or tarinfo.isblk():
-+             self.makedev(tarinfo, targetpath)
-+         elif tarinfo.islnk() or tarinfo.issym():
-+-            self.makelink(tarinfo, targetpath)
-++            self.makelink_with_filter(
-++                tarinfo, targetpath,
-++                filter_function=3Dfilter_function,
-++                extraction_root=3Dextraction_root)
-+         elif tarinfo.type not in SUPPORTED_TYPES:
-+             self.makeunknown(tarinfo, targetpath)
-+         else:
-+@@ -2536,10 +2603,18 @@ def makedev(self, tarinfo, targetpath):
-+                  os.makedev(tarinfo.devmajor, tarinfo.devminor))
-+
-+     def makelink(self, tarinfo, targetpath):
-++        return self.makelink_with_filter(tarinfo, targetpath, None, Non=
-e)
-++
-++    def makelink_with_filter(self, tarinfo, targetpath,
-++                             filter_function, extraction_root):
-+         """Make a (symbolic) link called targetpath. If it cannot be cr=
-eated
-+           (platform limitation), we try to make a copy of the reference=
-d file
-+           instead of a link.
-++
-++          filter_function is only used when extracting a *different*
-++          member (e.g. as fallback to creating a link).
-+         """
-++        keyerror_to_extracterror =3D False
-+         try:
-+             # For systems that support symbolic and hard links.
-+             if tarinfo.issym():
-+@@ -2547,18 +2622,38 @@ def makelink(self, tarinfo, targetpath):
-+                     # Avoid FileExistsError on following os.symlink.
-+                     os.unlink(targetpath)
-+                 os.symlink(tarinfo.linkname, targetpath)
-++                return
-+             else:
-+                 if os.path.exists(tarinfo._link_target):
-+                     os.link(tarinfo._link_target, targetpath)
-+-                else:
-+-                    self._extract_member(self._find_link_target(tarinfo=
-),
-+-                                         targetpath)
-++                    return
-+         except symlink_exception:
-++            keyerror_to_extracterror =3D True
-++
-++        try:
-++            unfiltered =3D self._find_link_target(tarinfo)
-++        except KeyError:
-++            if keyerror_to_extracterror:
-++                raise ExtractError(
-++                    "unable to resolve link inside archive") from None
-++            else:
-++                raise
-++
-++        if filter_function is None:
-++            filtered =3D unfiltered
-++        else:
-++            if extraction_root is None:
-++                raise ExtractError(
-++                    "makelink_with_filter: if filter_function is not No=
-ne, "
-++                    + "extraction_root must also not be None")
-+             try:
-+-                self._extract_member(self._find_link_target(tarinfo),
-+-                                     targetpath)
-+-            except KeyError:
-+-                raise ExtractError("unable to resolve link inside archi=
-ve") from None
-++                filtered =3D filter_function(unfiltered, extraction_roo=
-t)
-++            except _FILTER_ERRORS as cause:
-++                raise LinkFallbackError(tarinfo, unfiltered.name) from =
-cause
-++        if filtered is not None:
-++            self._extract_member(filtered, targetpath,
-++                                 filter_function=3Dfilter_function,
-++                                 extraction_root=3Dextraction_root)
-+
-+     def chown(self, tarinfo, targetpath, numeric_owner):
-+         """Set owner of targetpath according to tarinfo. If numeric_own=
-er
-+diff --git a/Lib/test/test_ntpath.py b/Lib/test/test_ntpath.py
-+index 4924db983b5..93d70112845 100644
-+--- a/Lib/test/test_ntpath.py
-++++ b/Lib/test/test_ntpath.py
-+@@ -2,9 +2,11 @@
-+ import ntpath
-+ import os
-+ import string
-++import subprocess
-+ import sys
-+ import unittest
-+ import warnings
-++from ntpath import ALLOW_MISSING
-+ from test.support import cpython_only, os_helper
-+ from test.support import TestFailed, is_emscripten
-+ from test.support.os_helper import FakePath
-+@@ -76,6 +78,27 @@ def tester(fn, wantResult):
-+               %(str(fn), str(wantResult), repr(gotResult)))
-+
-+
-++def _parameterize(*parameters):
-++    """Simplistic decorator to parametrize a test
-++
-++    Runs the decorated test multiple times in subTest, with a value fro=
-m
-++    'parameters' passed as an extra positional argument.
-++    Calls doCleanups() after each run.
-++
-++    Not for general use. Intended to avoid indenting for easier backpor=
-ts.
-++
-++    See https://discuss.python.org/t/91827 for discussing generalizatio=
-ns.
-++    """
-++    def _parametrize_decorator(func):
-++        def _parameterized(self, *args, **kwargs):
-++            for parameter in parameters:
-++                with self.subTest(parameter):
-++                    func(self, *args, parameter, **kwargs)
-++                self.doCleanups()
-++        return _parameterized
-++    return _parametrize_decorator
-++
-++
-+ class NtpathTestCase(unittest.TestCase):
-+     def assertPathEqual(self, path1, path2):
-+         if path1 =3D=3D path2 or _norm(path1) =3D=3D _norm(path2):
-+@@ -363,6 +386,27 @@ def test_realpath_curdir(self):
-+         tester("ntpath.realpath('.\\.')", expected)
-+         tester("ntpath.realpath('\\'.join(['.'] * 100))", expected)
-+
-++    def test_realpath_curdir_strict(self):
-++        expected =3D ntpath.normpath(os.getcwd())
-++        tester("ntpath.realpath('.', strict=3DTrue)", expected)
-++        tester("ntpath.realpath('./.', strict=3DTrue)", expected)
-++        tester("ntpath.realpath('/'.join(['.'] * 100), strict=3DTrue)",=
- expected)
-++        tester("ntpath.realpath('.\\.', strict=3DTrue)", expected)
-++        tester("ntpath.realpath('\\'.join(['.'] * 100), strict=3DTrue)"=
-, expected)
-++
-++    def test_realpath_curdir_missing_ok(self):
-++        expected =3D ntpath.normpath(os.getcwd())
-++        tester("ntpath.realpath('.', strict=3DALLOW_MISSING)",
-++               expected)
-++        tester("ntpath.realpath('./.', strict=3DALLOW_MISSING)",
-++               expected)
-++        tester("ntpath.realpath('/'.join(['.'] * 100), strict=3DALLOW_M=
-ISSING)",
-++               expected)
-++        tester("ntpath.realpath('.\\.', strict=3DALLOW_MISSING)",
-++               expected)
-++        tester("ntpath.realpath('\\'.join(['.'] * 100), strict=3DALLOW_=
-MISSING)",
-++               expected)
-++
-+     def test_realpath_pardir(self):
-+         expected =3D ntpath.normpath(os.getcwd())
-+         tester("ntpath.realpath('..')", ntpath.dirname(expected))
-+@@ -375,28 +419,59 @@ def test_realpath_pardir(self):
-+         tester("ntpath.realpath('\\'.join(['..'] * 50))",
-+                ntpath.splitdrive(expected)[0] + '\\')
-+
-++    def test_realpath_pardir_strict(self):
-++        expected =3D ntpath.normpath(os.getcwd())
-++        tester("ntpath.realpath('..', strict=3DTrue)", ntpath.dirname(e=
-xpected))
-++        tester("ntpath.realpath('../..', strict=3DTrue)",
-++               ntpath.dirname(ntpath.dirname(expected)))
-++        tester("ntpath.realpath('/'.join(['..'] * 50), strict=3DTrue)",
-++               ntpath.splitdrive(expected)[0] + '\\')
-++        tester("ntpath.realpath('..\\..', strict=3DTrue)",
-++               ntpath.dirname(ntpath.dirname(expected)))
-++        tester("ntpath.realpath('\\'.join(['..'] * 50), strict=3DTrue)"=
-,
-++               ntpath.splitdrive(expected)[0] + '\\')
-++
-++    def test_realpath_pardir_missing_ok(self):
-++        expected =3D ntpath.normpath(os.getcwd())
-++        tester("ntpath.realpath('..', strict=3DALLOW_MISSING)",
-++               ntpath.dirname(expected))
-++        tester("ntpath.realpath('../..', strict=3DALLOW_MISSING)",
-++               ntpath.dirname(ntpath.dirname(expected)))
-++        tester("ntpath.realpath('/'.join(['..'] * 50), strict=3DALLOW_M=
-ISSING)",
-++               ntpath.splitdrive(expected)[0] + '\\')
-++        tester("ntpath.realpath('..\\..', strict=3DALLOW_MISSING)",
-++               ntpath.dirname(ntpath.dirname(expected)))
-++        tester("ntpath.realpath('\\'.join(['..'] * 50), strict=3DALLOW_=
-MISSING)",
-++               ntpath.splitdrive(expected)[0] + '\\')
-++
-+     @os_helper.skip_unless_symlink
-+     @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-+-    def test_realpath_basic(self):
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_basic(self, kwargs):
-+         ABSTFN =3D ntpath.abspath(os_helper.TESTFN)
-+         open(ABSTFN, "wb").close()
-+         self.addCleanup(os_helper.unlink, ABSTFN)
-+         self.addCleanup(os_helper.unlink, ABSTFN + "1")
-+
-+         os.symlink(ABSTFN, ABSTFN + "1")
-+-        self.assertPathEqual(ntpath.realpath(ABSTFN + "1"), ABSTFN)
-+-        self.assertPathEqual(ntpath.realpath(os.fsencode(ABSTFN + "1"))=
-,
-++        self.assertPathEqual(ntpath.realpath(ABSTFN + "1", **kwargs), A=
-BSTFN)
-++        self.assertPathEqual(ntpath.realpath(os.fsencode(ABSTFN + "1"),=
- **kwargs),
-+                          os.fsencode(ABSTFN))
-+
-+         # gh-88013: call ntpath.realpath with binary drive name may rai=
-se a
-+         # TypeError. The drive should not exist to reproduce the bug.
-+         drives =3D {f"{c}:\\" for c in string.ascii_uppercase} - set(os=
-.listdrives())
-+         d =3D drives.pop().encode()
-+-        self.assertEqual(ntpath.realpath(d), d)
-++        self.assertEqual(ntpath.realpath(d, strict=3DFalse), d)
-+
-+         # gh-106242: Embedded nulls and non-strict fallback to abspath
-+-        self.assertEqual(ABSTFN + "\0spam",
-+-                         ntpath.realpath(os_helper.TESTFN + "\0spam", s=
-trict=3DFalse))
-++        if kwargs:
-++            with self.assertRaises(OSError):
-++                ntpath.realpath(os_helper.TESTFN + "\0spam",
-++                                **kwargs)
-++        else:
-++            self.assertEqual(ABSTFN + "\0spam",
-++                                ntpath.realpath(os_helper.TESTFN + "\0s=
-pam", **kwargs))
-+
-+     @os_helper.skip_unless_symlink
-+     @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-+@@ -408,19 +483,77 @@ def test_realpath_strict(self):
-+         self.addCleanup(os_helper.unlink, ABSTFN)
-+         self.assertRaises(FileNotFoundError, ntpath.realpath, ABSTFN, s=
-trict=3DTrue)
-+         self.assertRaises(FileNotFoundError, ntpath.realpath, ABSTFN + =
-"2", strict=3DTrue)
-++
-++    @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-++    def test_realpath_invalid_paths(self):
-++        realpath =3D ntpath.realpath
-++        ABSTFN =3D ntpath.abspath(os_helper.TESTFN)
-++        ABSTFNb =3D os.fsencode(ABSTFN)
-++        path =3D ABSTFN + '\x00'
-++        # gh-106242: Embedded nulls and non-strict fallback to abspath
-++        self.assertEqual(realpath(path, strict=3DFalse), path)
-+         # gh-106242: Embedded nulls should raise OSError (not ValueErro=
-r)
-+-        self.assertRaises(OSError, ntpath.realpath, ABSTFN + "\0spam", =
-strict=3DTrue)
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DTrue=
-)
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DALLO=
-W_MISSING)
-++        path =3D ABSTFNb + b'\x00'
-++        self.assertEqual(realpath(path, strict=3DFalse), path)
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DTrue=
-)
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DALLO=
-W_MISSING)
-++        path =3D ABSTFN + '\\nonexistent\\x\x00'
-++        self.assertEqual(realpath(path, strict=3DFalse), path)
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DTrue=
-)
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DALLO=
-W_MISSING)
-++        path =3D ABSTFNb + b'\\nonexistent\\x\x00'
-++        self.assertEqual(realpath(path, strict=3DFalse), path)
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DTrue=
-)
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DALLO=
-W_MISSING)
-++        path =3D ABSTFN + '\x00\\..'
-++        self.assertEqual(realpath(path, strict=3DFalse), os.getcwd())
-++        self.assertEqual(realpath(path, strict=3DTrue), os.getcwd())
-++        self.assertEqual(realpath(path, strict=3DALLOW_MISSING), os.get=
-cwd())
-++        path =3D ABSTFNb + b'\x00\\..'
-++        self.assertEqual(realpath(path, strict=3DFalse), os.getcwdb())
-++        self.assertEqual(realpath(path, strict=3DTrue), os.getcwdb())
-++        self.assertEqual(realpath(path, strict=3DALLOW_MISSING), os.get=
-cwdb())
-++        path =3D ABSTFN + '\\nonexistent\\x\x00\\..'
-++        self.assertEqual(realpath(path, strict=3DFalse), ABSTFN + '\\no=
-nexistent')
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DTrue=
-)
-++        self.assertEqual(realpath(path, strict=3DALLOW_MISSING), ABSTFN=
- + '\\nonexistent')
-++        path =3D ABSTFNb + b'\\nonexistent\\x\x00\\..'
-++        self.assertEqual(realpath(path, strict=3DFalse), ABSTFNb + b'\\=
-nonexistent')
-++        self.assertRaises(OSError, ntpath.realpath, path, strict=3DTrue=
-)
-++        self.assertEqual(realpath(path, strict=3DALLOW_MISSING), ABSTFN=
-b + b'\\nonexistent')
-++
-++    @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_invalid_unicode_paths(self, kwargs):
-++        realpath =3D ntpath.realpath
-++        ABSTFN =3D ntpath.abspath(os_helper.TESTFN)
-++        ABSTFNb =3D os.fsencode(ABSTFN)
-++        path =3D ABSTFNb + b'\xff'
-++        self.assertRaises(UnicodeDecodeError, ntpath.realpath, path, **=
-kwargs)
-++        self.assertRaises(UnicodeDecodeError, ntpath.realpath, path, **=
-kwargs)
-++        path =3D ABSTFNb + b'\\nonexistent\\\xff'
-++        self.assertRaises(UnicodeDecodeError, ntpath.realpath, path, **=
-kwargs)
-++        self.assertRaises(UnicodeDecodeError, ntpath.realpath, path, **=
-kwargs)
-++        path =3D ABSTFNb + b'\xff\\..'
-++        self.assertRaises(UnicodeDecodeError, ntpath.realpath, path, **=
-kwargs)
-++        self.assertRaises(UnicodeDecodeError, ntpath.realpath, path, **=
-kwargs)
-++        path =3D ABSTFNb + b'\\nonexistent\\\xff\\..'
-++        self.assertRaises(UnicodeDecodeError, ntpath.realpath, path, **=
-kwargs)
-++        self.assertRaises(UnicodeDecodeError, ntpath.realpath, path, **=
-kwargs)
-+
-+     @os_helper.skip_unless_symlink
-+     @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-+-    def test_realpath_relative(self):
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_relative(self, kwargs):
-+         ABSTFN =3D ntpath.abspath(os_helper.TESTFN)
-+         open(ABSTFN, "wb").close()
-+         self.addCleanup(os_helper.unlink, ABSTFN)
-+         self.addCleanup(os_helper.unlink, ABSTFN + "1")
-+
-+         os.symlink(ABSTFN, ntpath.relpath(ABSTFN + "1"))
-+-        self.assertPathEqual(ntpath.realpath(ABSTFN + "1"), ABSTFN)
-++        self.assertPathEqual(ntpath.realpath(ABSTFN + "1", **kwargs), A=
-BSTFN)
-+
-+     @os_helper.skip_unless_symlink
-+     @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-+@@ -572,7 +705,62 @@ def test_realpath_symlink_loops_strict(self):
-+
-+     @os_helper.skip_unless_symlink
-+     @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-+-    def test_realpath_symlink_prefix(self):
-++    def test_realpath_symlink_loops_raise(self):
-++        # Symlink loops raise OSError in ALLOW_MISSING mode
-++        ABSTFN =3D ntpath.abspath(os_helper.TESTFN)
-++        self.addCleanup(os_helper.unlink, ABSTFN)
-++        self.addCleanup(os_helper.unlink, ABSTFN + "1")
-++        self.addCleanup(os_helper.unlink, ABSTFN + "2")
-++        self.addCleanup(os_helper.unlink, ABSTFN + "y")
-++        self.addCleanup(os_helper.unlink, ABSTFN + "c")
-++        self.addCleanup(os_helper.unlink, ABSTFN + "a")
-++        self.addCleanup(os_helper.unlink, ABSTFN + "x")
-++
-++        os.symlink(ABSTFN, ABSTFN)
-++        self.assertRaises(OSError, ntpath.realpath, ABSTFN, strict=3DAL=
-LOW_MISSING)
-++
-++        os.symlink(ABSTFN + "1", ABSTFN + "2")
-++        os.symlink(ABSTFN + "2", ABSTFN + "1")
-++        self.assertRaises(OSError, ntpath.realpath, ABSTFN + "1",
-++                            strict=3DALLOW_MISSING)
-++        self.assertRaises(OSError, ntpath.realpath, ABSTFN + "2",
-++                            strict=3DALLOW_MISSING)
-++        self.assertRaises(OSError, ntpath.realpath, ABSTFN + "1\\x",
-++                            strict=3DALLOW_MISSING)
-++
-++        # Windows eliminates '..' components before resolving links;
-++        # realpath is not expected to raise if this removes the loop.
-++        self.assertPathEqual(ntpath.realpath(ABSTFN + "1\\.."),
-++                             ntpath.dirname(ABSTFN))
-++        self.assertPathEqual(ntpath.realpath(ABSTFN + "1\\..\\x"),
-++                             ntpath.dirname(ABSTFN) + "\\x")
-++
-++        os.symlink(ABSTFN + "x", ABSTFN + "y")
-++        self.assertPathEqual(ntpath.realpath(ABSTFN + "1\\..\\"
-++                                             + ntpath.basename(ABSTFN) =
-+ "y"),
-++                             ABSTFN + "x")
-++        self.assertRaises(
-++            OSError, ntpath.realpath,
-++            ABSTFN + "1\\..\\" + ntpath.basename(ABSTFN) + "1",
-++            strict=3DALLOW_MISSING)
-++
-++        os.symlink(ntpath.basename(ABSTFN) + "a\\b", ABSTFN + "a")
-++        self.assertRaises(OSError, ntpath.realpath, ABSTFN + "a",
-++                            strict=3DALLOW_MISSING)
-++
-++        os.symlink("..\\" + ntpath.basename(ntpath.dirname(ABSTFN))
-++                + "\\" + ntpath.basename(ABSTFN) + "c", ABSTFN + "c")
-++        self.assertRaises(OSError, ntpath.realpath, ABSTFN + "c",
-++                            strict=3DALLOW_MISSING)
-++
-++        # Test using relative path as well.
-++        self.assertRaises(OSError, ntpath.realpath, ntpath.basename(ABS=
-TFN),
-++                            strict=3DALLOW_MISSING)
-++
-++    @os_helper.skip_unless_symlink
-++    @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_symlink_prefix(self, kwargs):
-+         ABSTFN =3D ntpath.abspath(os_helper.TESTFN)
-+         self.addCleanup(os_helper.unlink, ABSTFN + "3")
-+         self.addCleanup(os_helper.unlink, "\\\\?\\" + ABSTFN + "3.")
-+@@ -587,9 +775,9 @@ def test_realpath_symlink_prefix(self):
-+             f.write(b'1')
-+         os.symlink("\\\\?\\" + ABSTFN + "3.", ABSTFN + "3.link")
-+
-+-        self.assertPathEqual(ntpath.realpath(ABSTFN + "3link"),
-++        self.assertPathEqual(ntpath.realpath(ABSTFN + "3link", **kwargs=
-),
-+                              ABSTFN + "3")
-+-        self.assertPathEqual(ntpath.realpath(ABSTFN + "3.link"),
-++        self.assertPathEqual(ntpath.realpath(ABSTFN + "3.link", **kwarg=
-s),
-+                              "\\\\?\\" + ABSTFN + "3.")
-+
-+         # Resolved paths should be usable to open target files
-+@@ -599,14 +787,17 @@ def test_realpath_symlink_prefix(self):
-+             self.assertEqual(f.read(), b'1')
-+
-+         # When the prefix is included, it is not stripped
-+-        self.assertPathEqual(ntpath.realpath("\\\\?\\" + ABSTFN + "3lin=
-k"),
-++        self.assertPathEqual(ntpath.realpath("\\\\?\\" + ABSTFN + "3lin=
-k", **kwargs),
-+                              "\\\\?\\" + ABSTFN + "3")
-+-        self.assertPathEqual(ntpath.realpath("\\\\?\\" + ABSTFN + "3.li=
-nk"),
-++        self.assertPathEqual(ntpath.realpath("\\\\?\\" + ABSTFN + "3.li=
-nk", **kwargs),
-+                              "\\\\?\\" + ABSTFN + "3.")
-+
-+     @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-+     def test_realpath_nul(self):
-+         tester("ntpath.realpath('NUL')", r'\\.\NUL')
-++        tester("ntpath.realpath('NUL', strict=3DFalse)", r'\\.\NUL')
-++        tester("ntpath.realpath('NUL', strict=3DTrue)", r'\\.\NUL')
-++        tester("ntpath.realpath('NUL', strict=3DALLOW_MISSING)", r'\\.\=
-NUL')
-+
-+     @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-+     @unittest.skipUnless(HAVE_GETSHORTPATHNAME, 'need _getshortpathname=
-')
-+@@ -630,12 +821,65 @@ def test_realpath_cwd(self):
-+
-+         self.assertPathEqual(test_file_long, ntpath.realpath(test_file_=
-short))
-+
-+-        with os_helper.change_cwd(test_dir_long):
-+-            self.assertPathEqual(test_file_long, ntpath.realpath("file.=
-txt"))
-+-        with os_helper.change_cwd(test_dir_long.lower()):
-+-            self.assertPathEqual(test_file_long, ntpath.realpath("file.=
-txt"))
-+-        with os_helper.change_cwd(test_dir_short):
-+-            self.assertPathEqual(test_file_long, ntpath.realpath("file.=
-txt"))
-++        for kwargs in {}, {'strict': True}, {'strict': ALLOW_MISSING}:
-++            with self.subTest(**kwargs):
-++                with os_helper.change_cwd(test_dir_long):
-++                    self.assertPathEqual(
-++                        test_file_long,
-++                        ntpath.realpath("file.txt", **kwargs))
-++                with os_helper.change_cwd(test_dir_long.lower()):
-++                    self.assertPathEqual(
-++                        test_file_long,
-++                        ntpath.realpath("file.txt", **kwargs))
-++                with os_helper.change_cwd(test_dir_short):
-++                    self.assertPathEqual(
-++                        test_file_long,
-++                        ntpath.realpath("file.txt", **kwargs))
-++
-++    @unittest.skipUnless(HAVE_GETFINALPATHNAME, 'need _getfinalpathname=
-')
-++    def test_realpath_permission(self):
-++        # Test whether python can resolve the real filename of a
-++        # shortened file name even if it does not have permission to ac=
-cess it.
-++        ABSTFN =3D ntpath.realpath(os_helper.TESTFN)
-++
-++        os_helper.unlink(ABSTFN)
-++        os_helper.rmtree(ABSTFN)
-++        os.mkdir(ABSTFN)
-++        self.addCleanup(os_helper.rmtree, ABSTFN)
-++
-++        test_file =3D ntpath.join(ABSTFN, "LongFileName123.txt")
-++        test_file_short =3D ntpath.join(ABSTFN, "LONGFI~1.TXT")
-++
-++        with open(test_file, "wb") as f:
-++            f.write(b"content")
-++        # Automatic generation of short names may be disabled on
-++        # NTFS volumes for the sake of performance.
-++        # They're not supported at all on ReFS and exFAT.
-++        p =3D subprocess.run(
-++            # Try to set the short name manually.
-++            ['fsutil.exe', 'file', 'setShortName', test_file, 'LONGFI~1=
-.TXT'],
-++            creationflags=3Dsubprocess.DETACHED_PROCESS
-++        )
-++
-++        if p.returncode:
-++            raise unittest.SkipTest('failed to set short name')
-++
-++        try:
-++            self.assertPathEqual(test_file, ntpath.realpath(test_file_s=
-hort))
-++        except AssertionError:
-++            raise unittest.SkipTest('the filesystem seems to lack suppo=
-rt for short filenames')
-++
-++        # Deny the right to [S]YNCHRONIZE on the file to
-++        # force nt._getfinalpathname to fail with ERROR_ACCESS_DENIED.
-++        p =3D subprocess.run(
-++            ['icacls.exe', test_file, '/deny', '*S-1-5-32-545:(S)'],
-++            creationflags=3Dsubprocess.DETACHED_PROCESS
-++        )
-++
-++        if p.returncode:
-++            raise unittest.SkipTest('failed to deny access to the test =
-file')
-++
-++        self.assertPathEqual(test_file, ntpath.realpath(test_file_short=
-))
-+
-+     def test_expandvars(self):
-+         with os_helper.EnvironmentVarGuard() as env:
-+diff --git a/Lib/test/test_posixpath.py b/Lib/test/test_posixpath.py
-+index cc4fd2f4c95..7ae54d29b5e 100644
-+--- a/Lib/test/test_posixpath.py
-++++ b/Lib/test/test_posixpath.py
-+@@ -3,7 +3,9 @@
-+ import posixpath
-+ import sys
-+ import unittest
-+-from posixpath import realpath, abspath, dirname, basename
-++from functools import partial
-++from posixpath import realpath, abspath, dirname, basename, ALLOW_MISSI=
-NG
-++from test import support
-+ from test import test_genericpath
-+ from test.support import import_helper
-+ from test.support import cpython_only, os_helper
-+@@ -37,6 +39,26 @@ def safe_rmdir(dirname):
-+     except OSError:
-+         pass
-+
-++def _parameterize(*parameters):
-++    """Simplistic decorator to parametrize a test
-++
-++    Runs the decorated test multiple times in subTest, with a value fro=
-m
-++    'parameters' passed as an extra positional argument.
-++    Does *not* call doCleanups() after each run.
-++
-++    Not for general use. Intended to avoid indenting for easier backpor=
-ts.
-++
-++    See https://discuss.python.org/t/91827 for discussing generalizatio=
-ns.
-++    """
-++    def _parametrize_decorator(func):
-++        def _parameterized(self, *args, **kwargs):
-++            for parameter in parameters:
-++                with self.subTest(parameter):
-++                    func(self, *args, parameter, **kwargs)
-++        return _parameterized
-++    return _parametrize_decorator
-++
-++
-+ class PosixPathTest(unittest.TestCase):
-+
-+     def setUp(self):
-+@@ -425,32 +447,35 @@ def test_normpath(self):
-+                 self.assertEqual(result, expected)
-+
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_curdir(self):
-+-        self.assertEqual(realpath('.'), os.getcwd())
-+-        self.assertEqual(realpath('./.'), os.getcwd())
-+-        self.assertEqual(realpath('/'.join(['.'] * 100)), os.getcwd())
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_curdir(self, kwargs):
-++        self.assertEqual(realpath('.', **kwargs), os.getcwd())
-++        self.assertEqual(realpath('./.', **kwargs), os.getcwd())
-++        self.assertEqual(realpath('/'.join(['.'] * 100), **kwargs), os.=
-getcwd())
-+
-+-        self.assertEqual(realpath(b'.'), os.getcwdb())
-+-        self.assertEqual(realpath(b'./.'), os.getcwdb())
-+-        self.assertEqual(realpath(b'/'.join([b'.'] * 100)), os.getcwdb(=
-))
-++        self.assertEqual(realpath(b'.', **kwargs), os.getcwdb())
-++        self.assertEqual(realpath(b'./.', **kwargs), os.getcwdb())
-++        self.assertEqual(realpath(b'/'.join([b'.'] * 100), **kwargs), o=
-s.getcwdb())
-+
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_pardir(self):
-+-        self.assertEqual(realpath('..'), dirname(os.getcwd()))
-+-        self.assertEqual(realpath('../..'), dirname(dirname(os.getcwd()=
-)))
-+-        self.assertEqual(realpath('/'.join(['..'] * 100)), '/')
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_pardir(self, kwargs):
-++        self.assertEqual(realpath('..', **kwargs), dirname(os.getcwd())=
-)
-++        self.assertEqual(realpath('../..', **kwargs), dirname(dirname(o=
-s.getcwd())))
-++        self.assertEqual(realpath('/'.join(['..'] * 100), **kwargs), '/=
-')
-+
-+-        self.assertEqual(realpath(b'..'), dirname(os.getcwdb()))
-+-        self.assertEqual(realpath(b'../..'), dirname(dirname(os.getcwdb=
-())))
-+-        self.assertEqual(realpath(b'/'.join([b'..'] * 100)), b'/')
-++        self.assertEqual(realpath(b'..', **kwargs), dirname(os.getcwdb(=
-)))
-++        self.assertEqual(realpath(b'../..', **kwargs), dirname(dirname(=
-os.getcwdb())))
-++        self.assertEqual(realpath(b'/'.join([b'..'] * 100), **kwargs), =
-b'/')
-+
-+     @os_helper.skip_unless_symlink
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_basic(self):
-++    @_parameterize({}, {'strict': ALLOW_MISSING})
-++    def test_realpath_basic(self, kwargs):
-+         # Basic operation.
-+         try:
-+             os.symlink(ABSTFN+"1", ABSTFN)
-+-            self.assertEqual(realpath(ABSTFN), ABSTFN+"1")
-++            self.assertEqual(realpath(ABSTFN, **kwargs), ABSTFN+"1")
-+         finally:
-+             os_helper.unlink(ABSTFN)
-+
-+@@ -466,15 +491,122 @@ def test_realpath_strict(self):
-+         finally:
-+             os_helper.unlink(ABSTFN)
-+
-++    def test_realpath_invalid_paths(self):
-++        path =3D '/\x00'
-++        self.assertRaises(ValueError, realpath, path, strict=3DFalse)
-++        self.assertRaises(ValueError, realpath, path, strict=3DTrue)
-++        self.assertRaises(ValueError, realpath, path, strict=3DALLOW_MI=
-SSING)
-++        path =3D b'/\x00'
-++        self.assertRaises(ValueError, realpath, path, strict=3DFalse)
-++        self.assertRaises(ValueError, realpath, path, strict=3DTrue)
-++        self.assertRaises(ValueError, realpath, path, strict=3DALLOW_MI=
-SSING)
-++        path =3D '/nonexistent/x\x00'
-++        self.assertRaises(ValueError, realpath, path, strict=3DFalse)
-++        self.assertRaises(FileNotFoundError, realpath, path, strict=3DT=
-rue)
-++        self.assertRaises(ValueError, realpath, path, strict=3DALLOW_MI=
-SSING)
-++        path =3D b'/nonexistent/x\x00'
-++        self.assertRaises(ValueError, realpath, path, strict=3DFalse)
-++        self.assertRaises(FileNotFoundError, realpath, path, strict=3DT=
-rue)
-++        self.assertRaises(ValueError, realpath, path, strict=3DALLOW_MI=
-SSING)
-++        path =3D '/\x00/..'
-++        self.assertRaises(ValueError, realpath, path, strict=3DFalse)
-++        self.assertRaises(ValueError, realpath, path, strict=3DTrue)
-++        self.assertRaises(ValueError, realpath, path, strict=3DALLOW_MI=
-SSING)
-++        path =3D b'/\x00/..'
-++        self.assertRaises(ValueError, realpath, path, strict=3DFalse)
-++        self.assertRaises(ValueError, realpath, path, strict=3DTrue)
-++        self.assertRaises(ValueError, realpath, path, strict=3DALLOW_MI=
-SSING)
-++
-++        path =3D '/nonexistent/x\x00/..'
-++        self.assertRaises(ValueError, realpath, path, strict=3DFalse)
-++        self.assertRaises(FileNotFoundError, realpath, path, strict=3DT=
-rue)
-++        self.assertRaises(ValueError, realpath, path, strict=3DALLOW_MI=
-SSING)
-++        path =3D b'/nonexistent/x\x00/..'
-++        self.assertRaises(ValueError, realpath, path, strict=3DFalse)
-++        self.assertRaises(FileNotFoundError, realpath, path, strict=3DT=
-rue)
-++        self.assertRaises(ValueError, realpath, path, strict=3DALLOW_MI=
-SSING)
-++
-++        path =3D '/\udfff'
-++        if sys.platform =3D=3D 'win32':
-++            self.assertEqual(realpath(path, strict=3DFalse), path)
-++            self.assertRaises(FileNotFoundError, realpath, path, strict=
-=3DTrue)
-++            self.assertEqual(realpath(path, strict=3DALLOW_MISSING), pa=
-th)
-++        else:
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DFalse)
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DTrue)
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DALLOW_MISSING)
-++        path =3D '/nonexistent/\udfff'
-++        if sys.platform =3D=3D 'win32':
-++            self.assertEqual(realpath(path, strict=3DFalse), path)
-++            self.assertEqual(realpath(path, strict=3DALLOW_MISSING), pa=
-th)
-++        else:
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DFalse)
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DALLOW_MISSING)
-++        self.assertRaises(FileNotFoundError, realpath, path, strict=3DT=
-rue)
-++        path =3D '/\udfff/..'
-++        if sys.platform =3D=3D 'win32':
-++            self.assertEqual(realpath(path, strict=3DFalse), '/')
-++            self.assertRaises(FileNotFoundError, realpath, path, strict=
-=3DTrue)
-++            self.assertEqual(realpath(path, strict=3DALLOW_MISSING), '/=
-')
-++        else:
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DFalse)
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DTrue)
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DALLOW_MISSING)
-++        path =3D '/nonexistent/\udfff/..'
-++        if sys.platform =3D=3D 'win32':
-++            self.assertEqual(realpath(path, strict=3DFalse), '/nonexist=
-ent')
-++            self.assertEqual(realpath(path, strict=3DALLOW_MISSING), '/=
-nonexistent')
-++        else:
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DFalse)
-++            self.assertRaises(UnicodeEncodeError, realpath, path, stric=
-t=3DALLOW_MISSING)
-++        self.assertRaises(FileNotFoundError, realpath, path, strict=3DT=
-rue)
-++
-++        path =3D b'/\xff'
-++        if sys.platform =3D=3D 'win32':
-++            self.assertRaises(UnicodeDecodeError, realpath, path, stric=
-t=3DFalse)
-++            self.assertRaises(UnicodeDecodeError, realpath, path, stric=
-t=3DTrue)
-++            self.assertRaises(UnicodeDecodeError, realpath, path, stric=
-t=3DALLOW_MISSING)
-++        else:
-++            self.assertEqual(realpath(path, strict=3DFalse), path)
-++            if support.is_wasi:
-++                self.assertRaises(OSError, realpath, path, strict=3DTru=
-e)
-++                self.assertRaises(OSError, realpath, path, strict=3DALL=
-OW_MISSING)
-++            else:
-++                self.assertRaises(FileNotFoundError, realpath, path, st=
-rict=3DTrue)
-++                self.assertEqual(realpath(path, strict=3DALLOW_MISSING)=
-, path)
-++        path =3D b'/nonexistent/\xff'
-++        if sys.platform =3D=3D 'win32':
-++            self.assertRaises(UnicodeDecodeError, realpath, path, stric=
-t=3DFalse)
-++            self.assertRaises(UnicodeDecodeError, realpath, path, stric=
-t=3DALLOW_MISSING)
-++        else:
-++            self.assertEqual(realpath(path, strict=3DFalse), path)
-++        if support.is_wasi:
-++            self.assertRaises(OSError, realpath, path, strict=3DTrue)
-++            self.assertRaises(OSError, realpath, path, strict=3DALLOW_M=
-ISSING)
-++        else:
-++            self.assertRaises(FileNotFoundError, realpath, path, strict=
-=3DTrue)
-++
-+     @os_helper.skip_unless_symlink
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_relative(self):
-++    @_parameterize({}, {'strict': ALLOW_MISSING})
-++    def test_realpath_relative(self, kwargs):
-+         try:
-+             os.symlink(posixpath.relpath(ABSTFN+"1"), ABSTFN)
-+-            self.assertEqual(realpath(ABSTFN), ABSTFN+"1")
-++            self.assertEqual(realpath(ABSTFN, **kwargs), ABSTFN+"1")
-+         finally:
-+             os_helper.unlink(ABSTFN)
-+
-++    @os_helper.skip_unless_symlink
-++    @skip_if_ABSTFN_contains_backslash
-++    @_parameterize({}, {'strict': ALLOW_MISSING})
-++    def test_realpath_missing_pardir(self, kwargs):
-++        try:
-++            os.symlink(os_helper.TESTFN + "1", os_helper.TESTFN)
-++            self.assertEqual(
-++                realpath("nonexistent/../" + os_helper.TESTFN, **kwargs=
-), ABSTFN + "1")
-++        finally:
-++            os_helper.unlink(os_helper.TESTFN)
-++
-+     @os_helper.skip_unless_symlink
-+     @skip_if_ABSTFN_contains_backslash
-+     def test_realpath_symlink_loops(self):
-+@@ -518,37 +650,38 @@ def test_realpath_symlink_loops(self):
-+
-+     @os_helper.skip_unless_symlink
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_symlink_loops_strict(self):
-++    @_parameterize({'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_symlink_loops_strict(self, kwargs):
-+         # Bug #43757, raise OSError if we get into an infinite symlink =
-loop in
-+-        # strict mode.
-++        # the strict modes.
-+         try:
-+             os.symlink(ABSTFN, ABSTFN)
-+-            self.assertRaises(OSError, realpath, ABSTFN, strict=3DTrue)
-++            self.assertRaises(OSError, realpath, ABSTFN, **kwargs)
-+
-+             os.symlink(ABSTFN+"1", ABSTFN+"2")
-+             os.symlink(ABSTFN+"2", ABSTFN+"1")
-+-            self.assertRaises(OSError, realpath, ABSTFN+"1", strict=3DT=
-rue)
-+-            self.assertRaises(OSError, realpath, ABSTFN+"2", strict=3DT=
-rue)
-++            self.assertRaises(OSError, realpath, ABSTFN+"1", **kwargs)
-++            self.assertRaises(OSError, realpath, ABSTFN+"2", **kwargs)
-+
-+-            self.assertRaises(OSError, realpath, ABSTFN+"1/x", strict=3D=
-True)
-+-            self.assertRaises(OSError, realpath, ABSTFN+"1/..", strict=3D=
-True)
-+-            self.assertRaises(OSError, realpath, ABSTFN+"1/../x", stric=
-t=3DTrue)
-++            self.assertRaises(OSError, realpath, ABSTFN+"1/x", **kwargs=
-)
-++            self.assertRaises(OSError, realpath, ABSTFN+"1/..", **kwarg=
-s)
-++            self.assertRaises(OSError, realpath, ABSTFN+"1/../x", **kwa=
-rgs)
-+             os.symlink(ABSTFN+"x", ABSTFN+"y")
-+             self.assertRaises(OSError, realpath,
-+-                              ABSTFN+"1/../" + basename(ABSTFN) + "y", =
-strict=3DTrue)
-++                              ABSTFN+"1/../" + basename(ABSTFN) + "y", =
-**kwargs)
-+             self.assertRaises(OSError, realpath,
-+-                              ABSTFN+"1/../" + basename(ABSTFN) + "1", =
-strict=3DTrue)
-++                              ABSTFN+"1/../" + basename(ABSTFN) + "1", =
-**kwargs)
-+
-+             os.symlink(basename(ABSTFN) + "a/b", ABSTFN+"a")
-+-            self.assertRaises(OSError, realpath, ABSTFN+"a", strict=3DT=
-rue)
-++            self.assertRaises(OSError, realpath, ABSTFN+"a", **kwargs)
-+
-+             os.symlink("../" + basename(dirname(ABSTFN)) + "/" +
-+                        basename(ABSTFN) + "c", ABSTFN+"c")
-+-            self.assertRaises(OSError, realpath, ABSTFN+"c", strict=3DT=
-rue)
-++            self.assertRaises(OSError, realpath, ABSTFN+"c", **kwargs)
-+
-+             # Test using relative path as well.
-+             with os_helper.change_cwd(dirname(ABSTFN)):
-+-                self.assertRaises(OSError, realpath, basename(ABSTFN), =
-strict=3DTrue)
-++                self.assertRaises(OSError, realpath, basename(ABSTFN), =
-**kwargs)
-+         finally:
-+             os_helper.unlink(ABSTFN)
-+             os_helper.unlink(ABSTFN+"1")
-+@@ -559,13 +692,14 @@ def test_realpath_symlink_loops_strict(self):
-+
-+     @os_helper.skip_unless_symlink
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_repeated_indirect_symlinks(self):
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_repeated_indirect_symlinks(self, kwargs):
-+         # Issue #6975.
-+         try:
-+             os.mkdir(ABSTFN)
-+             os.symlink('../' + basename(ABSTFN), ABSTFN + '/self')
-+             os.symlink('self/self/self', ABSTFN + '/link')
-+-            self.assertEqual(realpath(ABSTFN + '/link'), ABSTFN)
-++            self.assertEqual(realpath(ABSTFN + '/link', **kwargs), ABST=
-FN)
-+         finally:
-+             os_helper.unlink(ABSTFN + '/self')
-+             os_helper.unlink(ABSTFN + '/link')
-+@@ -573,14 +707,15 @@ def test_realpath_repeated_indirect_symlinks(self)=
-:
-+
-+     @os_helper.skip_unless_symlink
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_deep_recursion(self):
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_deep_recursion(self, kwargs):
-+         depth =3D 10
-+         try:
-+             os.mkdir(ABSTFN)
-+             for i in range(depth):
-+                 os.symlink('/'.join(['%d' % i] * 10), ABSTFN + '/%d' % =
-(i + 1))
-+             os.symlink('.', ABSTFN + '/0')
-+-            self.assertEqual(realpath(ABSTFN + '/%d' % depth), ABSTFN)
-++            self.assertEqual(realpath(ABSTFN + '/%d' % depth, **kwargs)=
-, ABSTFN)
-+
-+             # Test using relative path as well.
-+             with os_helper.change_cwd(ABSTFN):
-+@@ -592,7 +727,8 @@ def test_realpath_deep_recursion(self):
-+
-+     @os_helper.skip_unless_symlink
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_resolve_parents(self):
-++    @_parameterize({}, {'strict': ALLOW_MISSING})
-++    def test_realpath_resolve_parents(self, kwargs):
-+         # We also need to resolve any symlinks in the parents of a rela=
-tive
-+         # path passed to realpath. E.g.: current working directory is
-+         # /usr/doc with 'doc' being a symlink to /usr/share/doc. We cal=
-l
-+@@ -603,7 +739,8 @@ def test_realpath_resolve_parents(self):
-+             os.symlink(ABSTFN + "/y", ABSTFN + "/k")
-+
-+             with os_helper.change_cwd(ABSTFN + "/k"):
-+-                self.assertEqual(realpath("a"), ABSTFN + "/y/a")
-++                self.assertEqual(realpath("a", **kwargs),
-++                                    ABSTFN + "/y/a")
-+         finally:
-+             os_helper.unlink(ABSTFN + "/k")
-+             safe_rmdir(ABSTFN + "/y")
-+@@ -611,7 +748,8 @@ def test_realpath_resolve_parents(self):
-+
-+     @os_helper.skip_unless_symlink
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_resolve_before_normalizing(self):
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_resolve_before_normalizing(self, kwargs):
-+         # Bug #990669: Symbolic links should be resolved before we
-+         # normalize the path. E.g.: if we have directories 'a', 'k' and=
- 'y'
-+         # in the following hierarchy:
-+@@ -626,10 +764,10 @@ def test_realpath_resolve_before_normalizing(self)=
-:
-+             os.symlink(ABSTFN + "/k/y", ABSTFN + "/link-y")
-+
-+             # Absolute path.
-+-            self.assertEqual(realpath(ABSTFN + "/link-y/.."), ABSTFN + =
-"/k")
-++            self.assertEqual(realpath(ABSTFN + "/link-y/..", **kwargs),=
- ABSTFN + "/k")
-+             # Relative path.
-+             with os_helper.change_cwd(dirname(ABSTFN)):
-+-                self.assertEqual(realpath(basename(ABSTFN) + "/link-y/.=
-."),
-++                self.assertEqual(realpath(basename(ABSTFN) + "/link-y/.=
-.", **kwargs),
-+                                  ABSTFN + "/k")
-+         finally:
-+             os_helper.unlink(ABSTFN + "/link-y")
-+@@ -639,7 +777,8 @@ def test_realpath_resolve_before_normalizing(self):
-+
-+     @os_helper.skip_unless_symlink
-+     @skip_if_ABSTFN_contains_backslash
-+-    def test_realpath_resolve_first(self):
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_resolve_first(self, kwargs):
-+         # Bug #1213894: The first component of the path, if not absolut=
-e,
-+         # must be resolved too.
-+
-+@@ -649,13 +788,70 @@ def test_realpath_resolve_first(self):
-+             os.symlink(ABSTFN, ABSTFN + "link")
-+             with os_helper.change_cwd(dirname(ABSTFN)):
-+                 base =3D basename(ABSTFN)
-+-                self.assertEqual(realpath(base + "link"), ABSTFN)
-+-                self.assertEqual(realpath(base + "link/k"), ABSTFN + "/=
-k")
-++                self.assertEqual(realpath(base + "link", **kwargs), ABS=
-TFN)
-++                self.assertEqual(realpath(base + "link/k", **kwargs), A=
-BSTFN + "/k")
-+         finally:
-+             os_helper.unlink(ABSTFN + "link")
-+             safe_rmdir(ABSTFN + "/k")
-+             safe_rmdir(ABSTFN)
-+
-++    @os_helper.skip_unless_symlink
-++    @skip_if_ABSTFN_contains_backslash
-++    @unittest.skipIf(os.chmod not in os.supports_follow_symlinks, "Can'=
-t set symlink permissions")
-++    @unittest.skipIf(sys.platform !=3D "darwin", "only macOS requires r=
-ead permission to readlink()")
-++    @_parameterize({'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_realpath_unreadable_symlink_strict(self, kwargs):
-++        try:
-++            os.symlink(ABSTFN+"1", ABSTFN)
-++            os.chmod(ABSTFN, 0o000, follow_symlinks=3DFalse)
-++            with self.assertRaises(PermissionError):
-++                realpath(ABSTFN, **kwargs)
-++            with self.assertRaises(PermissionError):
-++                realpath(ABSTFN + '/foo', **kwargs),
-++            with self.assertRaises(PermissionError):
-++                realpath(ABSTFN + '/../foo', **kwargs)
-++            with self.assertRaises(PermissionError):
-++                realpath(ABSTFN + '/foo/..', **kwargs)
-++        finally:
-++            os.chmod(ABSTFN, 0o755, follow_symlinks=3DFalse)
-++            os.unlink(ABSTFN)
-++
-++    @skip_if_ABSTFN_contains_backslash
-++    @os_helper.skip_unless_symlink
-++    def test_realpath_unreadable_directory(self):
-++        try:
-++            os.mkdir(ABSTFN)
-++            os.mkdir(ABSTFN + '/k')
-++            os.chmod(ABSTFN, 0o000)
-++            self.assertEqual(realpath(ABSTFN, strict=3DFalse), ABSTFN)
-++            self.assertEqual(realpath(ABSTFN, strict=3DTrue), ABSTFN)
-++            self.assertEqual(realpath(ABSTFN, strict=3DALLOW_MISSING), =
-ABSTFN)
-++
-++            try:
-++                os.stat(ABSTFN)
-++            except PermissionError:
-++                pass
-++            else:
-++                self.skipTest('Cannot block permissions')
-++
-++            self.assertEqual(realpath(ABSTFN + '/k', strict=3DFalse),
-++                             ABSTFN + '/k')
-++            self.assertRaises(PermissionError, realpath, ABSTFN + '/k',
-++                              strict=3DTrue)
-++            self.assertRaises(PermissionError, realpath, ABSTFN + '/k',
-++                              strict=3DALLOW_MISSING)
-++
-++            self.assertEqual(realpath(ABSTFN + '/missing', strict=3DFal=
-se),
-++                             ABSTFN + '/missing')
-++            self.assertRaises(PermissionError, realpath, ABSTFN + '/mis=
-sing',
-++                              strict=3DTrue)
-++            self.assertRaises(PermissionError, realpath, ABSTFN + '/mis=
-sing',
-++                              strict=3DALLOW_MISSING)
-++        finally:
-++            os.chmod(ABSTFN, 0o755)
-++            safe_rmdir(ABSTFN + '/k')
-++            safe_rmdir(ABSTFN)
-++
-+     def test_relpath(self):
-+         (real_getcwd, os.getcwd) =3D (os.getcwd, lambda: r"/home/user/b=
-ar")
-+         try:
-+@@ -835,9 +1031,12 @@ def test_path_normpath(self):
-+     def test_path_abspath(self):
-+         self.assertPathEqual(self.path.abspath)
-+
-+-    def test_path_realpath(self):
-++    @_parameterize({}, {'strict': True}, {'strict': ALLOW_MISSING})
-++    def test_path_realpath(self, kwargs):
-+         self.assertPathEqual(self.path.realpath)
-+
-++        self.assertPathEqual(partial(self.path.realpath, **kwargs))
-++
-+     def test_path_relpath(self):
-+         self.assertPathEqual(self.path.relpath)
-+
-+diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index e28d0311826..1c598e11642 100644
-+--- a/Lib/test/test_tarfile.py
-++++ b/Lib/test/test_tarfile.py
-+@@ -2627,7 +2627,8 @@ def test__all__(self):
-+             'PAX_NUMBER_FIELDS', 'stn', 'nts', 'nti', 'itn', 'calc_chks=
-ums',
-+             'copyfileobj', 'filemode', 'EmptyHeaderError',
-+             'TruncatedHeaderError', 'EOFHeaderError', 'InvalidHeaderErr=
-or',
-+-            'SubsequentHeaderError', 'ExFileObject', 'main'}
-++            'SubsequentHeaderError', 'ExFileObject', 'main',
-++            "LinkFallbackError"}
-+         support.check__all__(self, tarfile, not_exported=3Dnot_exported=
-)
-+
-+     def test_useful_error_message_when_modules_missing(self):
-+@@ -2642,6 +2643,31 @@ def test_useful_error_message_when_modules_missin=
-g(self):
-+             str(excinfo.exception),
-+         )
-+
-++    @unittest.skipUnless(os_helper.can_symlink(), 'requires symlink sup=
-port')
-++    @unittest.skipUnless(hasattr(os, 'chmod'), "missing os.chmod")
-++    @unittest.mock.patch('os.chmod')
-++    def test_deferred_directory_attributes_update(self, mock_chmod):
-++        # Regression test for gh-127987: setting attributes on arbitrar=
-y files
-++        tempdir =3D os.path.join(TEMPDIR, 'test127987')
-++        def mock_chmod_side_effect(path, mode, **kwargs):
-++            target_path =3D os.path.realpath(path)
-++            if os.path.commonpath([target_path, tempdir]) !=3D tempdir:
-++                raise Exception("should not try to chmod anything outsi=
-de the destination", target_path)
-++        mock_chmod.side_effect =3D mock_chmod_side_effect
-++
-++        outside_tree_dir =3D os.path.join(TEMPDIR, 'outside_tree_dir')
-++        with ArchiveMaker() as arc:
-++            arc.add('x', symlink_to=3D'.')
-++            arc.add('x', type=3Dtarfile.DIRTYPE, mode=3D'?rwsrwsrwt')
-++            arc.add('x', symlink_to=3Doutside_tree_dir)
-++
-++        os.makedirs(outside_tree_dir)
-++        try:
-++            arc.open().extractall(path=3Dtempdir, filter=3D'tar')
-++        finally:
-++            os_helper.rmtree(outside_tree_dir)
-++            os_helper.rmtree(tempdir)
-++
-+
-+ class CommandLineTest(unittest.TestCase):
-+
-+@@ -3202,6 +3228,10 @@ def check_files_present(self, directory):
-+         got_paths =3D set(
-+             p.relative_to(directory)
-+             for p in pathlib.Path(directory).glob('**/*'))
-++        if self.extraction_filter =3D=3D 'data':
-++            # The 'data' filter is expected to reject special files
-++            for path in 'ustar/fifotype', 'ustar/blktype', 'ustar/chrty=
-pe':
-++                got_paths.discard(pathlib.Path(path))
-+         self.assertEqual(self.control_paths, got_paths)
-+
-+     @contextmanager
-+@@ -3428,12 +3458,28 @@ def __exit__(self, *exc):
-+         self.bio =3D None
-+
-+     def add(self, name, *, type=3DNone, symlink_to=3DNone, hardlink_to=3D=
-None,
-+-            mode=3DNone, size=3DNone, **kwargs):
-+-        """Add a member to the test archive. Call within `with`."""
-++            mode=3DNone, size=3DNone, content=3DNone, **kwargs):
-++        """Add a member to the test archive. Call within `with`.
-++
-++        Provides many shortcuts:
-++        - default `type` is based on symlink_to, hardlink_to, and trail=
-ing `/`
-++          in name (which is stripped)
-++        - size & content defaults are based on each other
-++        - content can be str or bytes
-++        - mode should be textual ('-rwxrwxrwx')
-++
-++        (add more! this is unstable internal test-only API)
-++        """
-+         name =3D str(name)
-+         tarinfo =3D tarfile.TarInfo(name).replace(**kwargs)
-++        if content is not None:
-++            if isinstance(content, str):
-++                content =3D content.encode()
-++            size =3D len(content)
-+         if size is not None:
-+             tarinfo.size =3D size
-++            if content is None:
-++                content =3D bytes(tarinfo.size)
-+         if mode:
-+             tarinfo.mode =3D _filemode_to_int(mode)
-+         if symlink_to is not None:
-+@@ -3447,7 +3493,7 @@ def add(self, name, *, type=3DNone, symlink_to=3DN=
-one, hardlink_to=3DNone,
-+         if type is not None:
-+             tarinfo.type =3D type
-+         if tarinfo.isreg():
-+-            fileobj =3D io.BytesIO(bytes(tarinfo.size))
-++            fileobj =3D io.BytesIO(content)
-+         else:
-+             fileobj =3D None
-+         self.tar_w.addfile(tarinfo, fileobj)
-+@@ -3481,7 +3527,7 @@ class TestExtractionFilters(unittest.TestCase):
-+     destdir =3D outerdir / 'dest'
-+
-+     @contextmanager
-+-    def check_context(self, tar, filter):
-++    def check_context(self, tar, filter, *, check_flag=3DTrue):
-+         """Extracts `tar` to `self.destdir` and allows checking the res=
-ult
-+
-+         If an error occurs, it must be checked using `expect_exception`
-+@@ -3490,27 +3536,40 @@ def check_context(self, tar, filter):
-+         except the destination directory itself and parent directories =
-of
-+         other files.
-+         When checking directories, do so before their contents.
-++
-++        A file called 'flag' is made in outerdir (i.e. outside destdir)
-++        before extraction; it should not be altered nor should its cont=
-ents
-++        be read/copied.
-+         """
-+         with os_helper.temp_dir(self.outerdir):
-++            flag_path =3D self.outerdir / 'flag'
-++            flag_path.write_text('capture me')
-+             try:
-+                 tar.extractall(self.destdir, filter=3Dfilter)
-+             except Exception as exc:
-+                 self.raised_exception =3D exc
-++                self.reraise_exception =3D True
-+                 self.expected_paths =3D set()
-+             else:
-+                 self.raised_exception =3D None
-++                self.reraise_exception =3D False
-+                 self.expected_paths =3D set(self.outerdir.glob('**/*'))
-+                 self.expected_paths.discard(self.destdir)
-++                self.expected_paths.discard(flag_path)
-+             try:
-+-                yield
-++                yield self
-+             finally:
-+                 tar.close()
-+-            if self.raised_exception:
-++            if self.reraise_exception:
-+                 raise self.raised_exception
-+             self.assertEqual(self.expected_paths, set())
-++            if check_flag:
-++                self.assertEqual(flag_path.read_text(), 'capture me')
-++            else:
-++                assert filter =3D=3D 'fully_trusted'
-+
-+     def expect_file(self, name, type=3DNone, symlink_to=3DNone, mode=3D=
-None,
-+-                    size=3DNone):
-++                    size=3DNone, content=3DNone):
-+         """Check a single file. See check_context."""
-+         if self.raised_exception:
-+             raise self.raised_exception
-+@@ -3529,26 +3588,45 @@ def expect_file(self, name, type=3DNone, symlink=
-_to=3DNone, mode=3DNone,
-+             # The symlink might be the same (textually) as what we expe=
-ct,
-+             # but some systems change the link to an equivalent path, s=
-o
-+             # we fall back to samefile().
-+-            if expected !=3D got:
-+-                self.assertTrue(got.samefile(expected))
-++            try:
-++                if expected !=3D got:
-++                    self.assertTrue(got.samefile(expected))
-++            except Exception as e:
-++                # attach a note, so it's shown even if `samefile` fails
-++                e.add_note(f'{expected=3D}, {got=3D}')
-++                raise
-+         elif type =3D=3D tarfile.REGTYPE or type is None:
-+             self.assertTrue(path.is_file())
-+         elif type =3D=3D tarfile.DIRTYPE:
-+             self.assertTrue(path.is_dir())
-+         elif type =3D=3D tarfile.FIFOTYPE:
-+             self.assertTrue(path.is_fifo())
-++        elif type =3D=3D tarfile.SYMTYPE:
-++            self.assertTrue(path.is_symlink())
-+         else:
-+             raise NotImplementedError(type)
-+         if size is not None:
-+             self.assertEqual(path.stat().st_size, size)
-++        if content is not None:
-++            self.assertEqual(path.read_text(), content)
-+         for parent in path.parents:
-+             self.expected_paths.discard(parent)
-+
-++    def expect_any_tree(self, name):
-++        """Check a directory; forget about its contents."""
-++        tree_path =3D (self.destdir / name).resolve()
-++        self.expect_file(tree_path, type=3Dtarfile.DIRTYPE)
-++        self.expected_paths =3D {
-++            p for p in self.expected_paths
-++            if tree_path not in p.parents
-++        }
-++
-+     def expect_exception(self, exc_type, message_re=3D'.'):
-+         with self.assertRaisesRegex(exc_type, message_re):
-+             if self.raised_exception is not None:
-+                 raise self.raised_exception
-+-        self.raised_exception =3D None
-++        self.reraise_exception =3D False
-++        return self.raised_exception
-+
-+     def test_benign_file(self):
-+         with ArchiveMaker() as arc:
-+@@ -3633,6 +3711,80 @@ def test_parent_symlink(self):
-+             with self.check_context(arc.open(), 'data'):
-+                 self.expect_file('parent/evil')
-+
-++    @symlink_test
-++    @os_helper.skip_unless_symlink
-++    def test_realpath_limit_attack(self):
-++        # (CVE-2025-4517)
-++
-++        with ArchiveMaker() as arc:
-++            # populate the symlinks and dirs that expand in os.path.rea=
-lpath()
-++            # The component length is chosen so that in common cases, t=
-he unexpanded
-++            # path fits in PATH_MAX, but it overflows when the final sy=
-mlink
-++            # is expanded
-++            steps =3D "abcdefghijklmnop"
-++            if sys.platform =3D=3D 'win32':
-++                component =3D 'd' * 25
-++            elif 'PC_PATH_MAX' in os.pathconf_names:
-++                max_path_len =3D os.pathconf(self.outerdir.parent, "PC_=
-PATH_MAX")
-++                path_sep_len =3D 1
-++                dest_len =3D len(str(self.destdir)) + path_sep_len
-++                component_len =3D (max_path_len - dest_len) // (len(ste=
-ps) + path_sep_len)
-++                component =3D 'd' * component_len
-++            else:
-++                raise NotImplementedError("Need to guess component leng=
-th for {sys.platform}")
-++            path =3D ""
-++            step_path =3D ""
-++            for i in steps:
-++                arc.add(os.path.join(path, component), type=3Dtarfile.D=
-IRTYPE,
-++                        mode=3D'drwxrwxrwx')
-++                arc.add(os.path.join(path, i), symlink_to=3Dcomponent)
-++                path =3D os.path.join(path, component)
-++                step_path =3D os.path.join(step_path, i)
-++            # create the final symlink that exceeds PATH_MAX and simply=
- points
-++            # to the top dir.
-++            # this link will never be expanded by
-++            # os.path.realpath(strict=3DFalse), nor anything after it.
-++            linkpath =3D os.path.join(*steps, "l"*254)
-++            parent_segments =3D [".."] * len(steps)
-++            arc.add(linkpath, symlink_to=3Dos.path.join(*parent_segment=
-s))
-++            # make a symlink outside to keep the tar command happy
-++            arc.add("escape", symlink_to=3Dos.path.join(linkpath, "..")=
-)
-++            # use the symlinks above, that are not checked, to create a=
- hardlink
-++            # to a file outside of the destination path
-++            arc.add("flaglink", hardlink_to=3Dos.path.join("escape", "f=
-lag"))
-++            # now that we have the hardlink we can overwrite the file
-++            arc.add("flaglink", content=3D'overwrite')
-++            # we can also create new files as well!
-++            arc.add("escape/newfile", content=3D'new')
-++
-++        with (self.subTest('fully_trusted'),
-++              self.check_context(arc.open(), filter=3D'fully_trusted',
-++                                 check_flag=3DFalse)):
-++            if sys.platform =3D=3D 'win32':
-++                self.expect_exception((FileNotFoundError, FileExistsErr=
-or))
-++            elif self.raised_exception:
-++                # Cannot symlink/hardlink: tarfile falls back to getmem=
-ber()
-++                self.expect_exception(KeyError)
-++                # Otherwise, this block should never enter.
-++            else:
-++                self.expect_any_tree(component)
-++                self.expect_file('flaglink', content=3D'overwrite')
-++                self.expect_file('../newfile', content=3D'new')
-++                self.expect_file('escape', type=3Dtarfile.SYMTYPE)
-++                self.expect_file('a', symlink_to=3Dcomponent)
-++
-++        for filter in 'tar', 'data':
-++            with self.subTest(filter), self.check_context(arc.open(), f=
-ilter=3Dfilter):
-++                exc =3D self.expect_exception((OSError, KeyError))
-++                if isinstance(exc, OSError):
-++                    if sys.platform =3D=3D 'win32':
-++                        # 3: ERROR_PATH_NOT_FOUND
-++                        # 5: ERROR_ACCESS_DENIED
-++                        # 206: ERROR_FILENAME_EXCED_RANGE
-++                        self.assertIn(exc.winerror, (3, 5, 206))
-++                    else:
-++                        self.assertEqual(exc.errno, errno.ENAMETOOLONG)
-++
-+     @symlink_test
-+     def test_parent_symlink2(self):
-+         # Test interplaying symlinks
-+@@ -3855,8 +4007,8 @@ def test_chains(self):
-+             arc.add('symlink2', symlink_to=3Dos.path.join(
-+                 'linkdir', 'hardlink2'))
-+             arc.add('targetdir/target', size=3D3)
-+-            arc.add('linkdir/hardlink', hardlink_to=3D'targetdir/target=
-')
-+-            arc.add('linkdir/hardlink2', hardlink_to=3D'linkdir/symlink=
-')
-++            arc.add('linkdir/hardlink', hardlink_to=3Dos.path.join('tar=
-getdir', 'target'))
-++            arc.add('linkdir/hardlink2', hardlink_to=3Dos.path.join('li=
-nkdir', 'symlink'))
-+
-+         for filter in 'tar', 'data', 'fully_trusted':
-+             with self.check_context(arc.open(), filter):
-+@@ -3872,6 +4024,129 @@ def test_chains(self):
-+                     self.expect_file('linkdir/symlink', size=3D3)
-+                     self.expect_file('symlink2', size=3D3)
-+
-++    @symlink_test
-++    def test_sneaky_hardlink_fallback(self):
-++        # (CVE-2025-4330)
-++        # Test that when hardlink extraction falls back to extracting m=
-embers
-++        # from the archive, the extracted member is (re-)filtered.
-++        with ArchiveMaker() as arc:
-++            # Create a directory structure so the c/escape symlink stay=
-s
-++            # inside the path
-++            arc.add("a/t/dummy")
-++            # Create b/ directory
-++            arc.add("b/")
-++            # Point "c" to the bottom of the tree in "a"
-++            arc.add("c", symlink_to=3Dos.path.join("a", "t"))
-++            # link to non-existant location under "a"
-++            arc.add("c/escape", symlink_to=3Dos.path.join("..", "..",
-++                                                        "link_here"))
-++            # Move "c" to point to "b" ("c/escape" no longer exists)
-++            arc.add("c", symlink_to=3D"b")
-++            # Attempt to create a hard link to "c/escape". Since it doe=
-sn't
-++            # exist it will attempt to extract "cescape" but at "boom".
-++            arc.add("boom", hardlink_to=3Dos.path.join("c", "escape"))
-++
-++        with self.check_context(arc.open(), 'data'):
-++            if not os_helper.can_symlink():
-++                # When 'c/escape' is extracted, 'c' is a regular
-++                # directory, and 'c/escape' *would* point outside
-++                # the destination if symlinks were allowed.
-++                self.expect_exception(
-++                    tarfile.LinkOutsideDestinationError)
-++            elif sys.platform =3D=3D "win32":
-++                # On Windows, 'c/escape' points outside the destination
-++                self.expect_exception(tarfile.LinkOutsideDestinationErr=
-or)
-++            else:
-++                e =3D self.expect_exception(
-++                    tarfile.LinkFallbackError,
-++                    "link 'boom' would be extracted as a copy of "
-++                    + "'c/escape', which was rejected")
-++                self.assertIsInstance(e.__cause__,
-++                                      tarfile.LinkOutsideDestinationErr=
-or)
-++        for filter in 'tar', 'fully_trusted':
-++            with self.subTest(filter), self.check_context(arc.open(), f=
-ilter):
-++                if not os_helper.can_symlink():
-++                    self.expect_file("a/t/dummy")
-++                    self.expect_file("b/")
-++                    self.expect_file("c/")
-++                else:
-++                    self.expect_file("a/t/dummy")
-++                    self.expect_file("b/")
-++                    self.expect_file("a/t/escape", symlink_to=3D'../../=
-link_here')
-++                    self.expect_file("boom", symlink_to=3D'../../link_h=
-ere')
-++                    self.expect_file("c", symlink_to=3D'b')
-++
-++    @symlink_test
-++    def test_exfiltration_via_symlink(self):
-++        # (CVE-2025-4138)
-++        # Test changing symlinks that result in a symlink pointing outs=
-ide
-++        # the extraction directory, unless prevented by 'data' filter's
-++        # normalization.
-++        with ArchiveMaker() as arc:
-++            arc.add("escape", symlink_to=3Dos.path.join('link', 'link',=
- '..', '..', 'link-here'))
-++            arc.add("link", symlink_to=3D'./')
-++
-++        for filter in 'tar', 'data', 'fully_trusted':
-++            with self.check_context(arc.open(), filter):
-++                if os_helper.can_symlink():
-++                    self.expect_file("link", symlink_to=3D'./')
-++                    if filter =3D=3D 'data':
-++                        self.expect_file("escape", symlink_to=3D'link-h=
-ere')
-++                    else:
-++                        self.expect_file("escape",
-++                                         symlink_to=3D'link/link/../../=
-link-here')
-++                else:
-++                    # Nothing is extracted.
-++                    pass
-++
-++    @symlink_test
-++    def test_chmod_outside_dir(self):
-++        # (CVE-2024-12718)
-++        # Test that members used for delayed updates of directory metad=
-ata
-++        # are (re-)filtered.
-++        with ArchiveMaker() as arc:
-++            # "pwn" is a veeeery innocent symlink:
-++            arc.add("a/pwn", symlink_to=3D'.')
-++            # But now "pwn" is also a directory, so it's scheduled to h=
-ave its
-++            # metadata updated later:
-++            arc.add("a/pwn/", mode=3D'drwxrwxrwx')
-++            # Oops, "pwn" is not so innocent any more:
-++            arc.add("a/pwn", symlink_to=3D'x/../')
-++            # Newly created symlink points to the dest dir,
-++            # so it's OK for the "data" filter.
-++            arc.add('a/x', symlink_to=3D('../'))
-++            # But now "pwn" points outside the dest dir
-++
-++        for filter in 'tar', 'data', 'fully_trusted':
-++            with self.check_context(arc.open(), filter) as cc:
-++                if not os_helper.can_symlink():
-++                    self.expect_file("a/pwn/")
-++                elif filter =3D=3D 'data':
-++                    self.expect_file("a/x", symlink_to=3D'../')
-++                    self.expect_file("a/pwn", symlink_to=3D'.')
-++                else:
-++                    self.expect_file("a/x", symlink_to=3D'../')
-++                    self.expect_file("a/pwn", symlink_to=3D'x/../')
-++                if sys.platform !=3D "win32":
-++                    st_mode =3D cc.outerdir.stat().st_mode
-++                    self.assertNotEqual(st_mode & 0o777, 0o777)
-++
-++    def test_link_fallback_normalizes(self):
-++        # Make sure hardlink fallbacks work for non-normalized paths fo=
-r all
-++        # filters
-++        with ArchiveMaker() as arc:
-++            arc.add("dir/")
-++            arc.add("dir/../afile")
-++            arc.add("link1", hardlink_to=3D'dir/../afile')
-++            arc.add("link2", hardlink_to=3D'dir/../dir/../afile')
-++
-++        for filter in 'tar', 'data', 'fully_trusted':
-++            with self.check_context(arc.open(), filter) as cc:
-++                self.expect_file("dir/")
-++                self.expect_file("afile")
-++                self.expect_file("link1")
-++                self.expect_file("link2")
-++
-+     def test_modes(self):
-+         # Test how file modes are extracted
-+         # (Note that the modes are ignored on platforms without working=
- chmod)
-+@@ -3985,7 +4260,7 @@ def test_tar_filter(self):
-+         # The 'tar' filter returns TarInfo objects with the same name/t=
-ype.
-+         # (It can also fail for particularly "evil" input, but we don't=
- have
-+         # that in the test archive.)
-+-        with tarfile.TarFile.open(tarname) as tar:
-++        with tarfile.TarFile.open(tarname, encoding=3D"iso8859-1") as t=
-ar:
-+             for tarinfo in tar.getmembers():
-+                 filtered =3D tarfile.tar_filter(tarinfo, '')
-+                 self.assertIs(filtered.name, tarinfo.name)
-+@@ -3994,7 +4269,7 @@ def test_tar_filter(self):
-+     def test_data_filter(self):
-+         # The 'data' filter either raises, or returns TarInfo with the =
-same
-+         # name/type.
-+-        with tarfile.TarFile.open(tarname) as tar:
-++        with tarfile.TarFile.open(tarname, encoding=3D"iso8859-1") as t=
-ar:
-+             for tarinfo in tar.getmembers():
-+                 try:
-+                     filtered =3D tarfile.data_filter(tarinfo, '')
-+@@ -4124,13 +4399,13 @@ def valueerror_filter(tarinfo, path):
-+         # If errorlevel is 0, errors affected by errorlevel are ignored
-+
-+         with self.check_context(arc.open(errorlevel=3D0), extracterror_=
-filter):
-+-            self.expect_file('file')
-++            pass
-+
-+         with self.check_context(arc.open(errorlevel=3D0), filtererror_f=
-ilter):
-+-            self.expect_file('file')
-++            pass
-+
-+         with self.check_context(arc.open(errorlevel=3D0), oserror_filte=
-r):
-+-            self.expect_file('file')
-++            pass
-+
-+         with self.check_context(arc.open(errorlevel=3D0), tarerror_filt=
-er):
-+             self.expect_exception(tarfile.TarError)
-+@@ -4141,7 +4416,7 @@ def valueerror_filter(tarinfo, path):
-+         # If 1, all fatal errors are raised
-+
-+         with self.check_context(arc.open(errorlevel=3D1), extracterror_=
-filter):
-+-            self.expect_file('file')
-++            pass
-+
-+         with self.check_context(arc.open(errorlevel=3D1), filtererror_f=
-ilter):
-+             self.expect_exception(tarfile.FilterError)
-+diff --git a/Misc/NEWS.d/next/Security/2025-06-02-11-32-23.gh-issue-1350=
-34.RLGjbp.rst b/Misc/NEWS.d/next/Security/2025-06-02-11-32-23.gh-issue-13=
-5034.RLGjbp.rst
-+new file mode 100644
-+index 00000000000..08a0087e203
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2025-06-02-11-32-23.gh-issue-135034.RLGj=
-bp.rst
-+@@ -0,0 +1,6 @@
-++Fixes multiple issues that allowed ``tarfile`` extraction filters
-++(``filter=3D"data"`` and ``filter=3D"tar"``) to be bypassed using craft=
-ed
-++symlinks and hard links.
-++
-++Addresses :cve:`2024-12718`, :cve:`2025-4138`, :cve:`2025-4330`, and :c=
-ve:`2025-4517`.
-++
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/python/python3_3.12.9.bb b/meta/recipe=
-s-devtools/python/python3_3.12.9.bb
-index 8e03ff5f2b..bbba622b41 100644
---- a/meta/recipes-devtools/python/python3_3.12.9.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.9.bb
-@@ -35,6 +35,7 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
-hon-${PV}.tar.xz \
- 	   file://0001-test_active_children-skip-problematic-test.patch \
-            file://0001-test_readline-skip-limited-history-test.patch \
-            file://0001-ctypes-correct-gcc-check-in-test.patch \
-+           file://0001-3.12-gh-135034-Normalize-link-targets-in-tarfile-=
-add.patch \
-            "
-=20
- SRC_URI:append:class-native =3D " \
---=20
-2.40.0
-
+SSBoYXZlIGFscmVhZHkgc2VudCBhIHZlcnNpb24gYnVtcCwgdGhlcmUgaXMgbm8gbmVlZCB0byBj
+aGVycnktcGljayBsYXJnZSBwYXRjaGVzLg0KaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
+L2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMTgyMzENCg0KUGV0ZXINCg0KPiAtLS0tLU9y
+aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zz4gT24gQmVoYWxmIE9mIFByYXZlZW4gS3VtYXIgdmlhDQo+IGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcNCj4gU2VudDogTW9uZGF5LCBKdW5lIDksIDIwMjUgMTI6MTMNCj4gVG86IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IFByYXZlZW4gS3VtYXIgPHByYXZl
+ZW4ua3VtYXJAd2luZHJpdmVyLmNvbT4NCj4gU3ViamVjdDogW29lLWNvcmVdW3NjYXJ0aGdhcF1b
+UEFUQ0ggMS8xXSBweXRob24zOiBmaXggQ1ZFLTIwMjQtMTI3MTgsIENWRS0NCj4gMjAyNS00MTM4
+LCBDVkUtMjAyNS00MzMwLCBDVkUtMjAyNS00NTE3DQo+IA0KPiBDVkUtMjAyNC0xMjcxODoNCj4g
+QWxsb3dzIG1vZGlmeWluZyBzb21lIGZpbGUgbWV0YWRhdGEgKGUuZy4gbGFzdCBtb2RpZmllZCkg
+d2l0aA0KPiBmaWx0ZXI9ImRhdGEiIG9yIGZpbGUgcGVybWlzc2lvbnMgKGNobW9kKSB3aXRoIGZp
+bHRlcj0idGFyIiBvZiBmaWxlcw0KPiBvdXRzaWRlIHRoZSBleHRyYWN0aW9uIGRpcmVjdG9yeS4g
+WW91IGFyZSBhZmZlY3RlZCBieSB0aGlzDQo+IHZ1bG5lcmFiaWxpdHkgaWYgdXNpbmcgdGhlIHRh
+cmZpbGUgbW9kdWxlIHRvIGV4dHJhY3QgdW50cnVzdGVkIHRhcg0KPiBhcmNoaXZlcyB1c2luZyBU
+YXJGaWxlLmV4dHJhY3RhbGwoKSBvciBUYXJGaWxlLmV4dHJhY3QoKSB1c2luZyB0aGUNCj4gZmls
+dGVyPSBwYXJhbWV0ZXIgd2l0aCBhIHZhbHVlIG9mICJkYXRhIiBvciAidGFyIi4NCj4gDQo+IENW
+RS0yMDI1LTQxMzg6DQo+IEFsbG93cyB0aGUgZXh0cmFjdGlvbiBmaWx0ZXIgdG8gYmUgaWdub3Jl
+ZCwgYWxsb3dpbmcNCj4gc3ltbGluayB0YXJnZXRzIHRvIHBvaW50IG91dHNpZGUgdGhlIGRlc3Rp
+bmF0aW9uIGRpcmVjdG9yeSwgYW5kIHRoZQ0KPiBtb2RpZmljYXRpb24gb2Ygc29tZSBmaWxlIG1l
+dGFkYXRhLiBZb3UgYXJlIGFmZmVjdGVkIGJ5IHRoaXMNCj4gdnVsbmVyYWJpbGl0eSBpZiB1c2lu
+ZyB0aGUgdGFyZmlsZSBtb2R1bGUgdG8gZXh0cmFjdCB1bnRydXN0ZWQgdGFyDQo+IGFyY2hpdmVz
+IHVzaW5nIFRhckZpbGUuZXh0cmFjdGFsbCgpIG9yIFRhckZpbGUuZXh0cmFjdCgpIHVzaW5nIHRo
+ZQ0KPiBmaWx0ZXI9IHBhcmFtZXRlciB3aXRoIGEgdmFsdWUgb2YgImRhdGEiIG9yICJ0YXIiLg0K
+PiANCj4gQ1ZFLTIwMjUtNDMzMDoNCj4gQWxsb3dzIHRoZSBleHRyYWN0aW9uIGZpbHRlciB0byBi
+ZSBpZ25vcmVkLA0KPiBhbGxvd2luZyBzeW1saW5rIHRhcmdldHMgdG8gcG9pbnQgb3V0c2lkZSB0
+aGUgZGVzdGluYXRpb24gZGlyZWN0b3J5LA0KPiBhbmQgdGhlIG1vZGlmaWNhdGlvbiBvZiBzb21l
+IGZpbGUgbWV0YWRhdGEuIFlvdSBhcmUgYWZmZWN0ZWQgYnkgdGhpcw0KPiB2dWxuZXJhYmlsaXR5
+IGlmIHVzaW5nIHRoZSB0YXJmaWxlIG1vZHVsZSB0byBleHRyYWN0IHVudHJ1c3RlZCB0YXINCj4g
+YXJjaGl2ZXMgdXNpbmcgVGFyRmlsZS5leHRyYWN0YWxsKCkgb3IgVGFyRmlsZS5leHRyYWN0KCkg
+dXNpbmcgdGhlDQo+IGZpbHRlcj0gcGFyYW1ldGVyIHdpdGggYSB2YWx1ZSBvZiAiZGF0YSIgb3Ig
+InRhciIuDQo+IA0KPiBDVkUtMjAyNS00NTE3Og0KPiBBbGxvd3MgYXJiaXRyYXJ5IGZpbGVzeXN0
+ZW0gd3JpdGVzIG91dHNpZGUgdGhlIGV4dHJhY3Rpb24gZGlyZWN0b3J5DQo+IGR1cmluZyBleHRy
+YWN0aW9uIHdpdGggZmlsdGVyPSJkYXRhIi4gWW91IGFyZSBhZmZlY3RlZCBieSB0aGlzDQo+IHZ1
+bG5lcmFiaWxpdHkgaWYgdXNpbmcgdGhlIHRhcmZpbGUgbW9kdWxlIHRvIGV4dHJhY3QgdW50cnVz
+dGVkDQo+IHRhciBhcmNoaXZlcyB1c2luZyBUYXJGaWxlLmV4dHJhY3RhbGwoKSBvciBUYXJGaWxl
+LmV4dHJhY3QoKSB1c2luZyB0aGUNCj4gZmlsdGVyPSBwYXJhbWV0ZXIgd2l0aCBhIHZhbHVlIG9m
+ICJkYXRhIiBvciAidGFyIi4NCj4gDQo+IFJlZmVyZW5jZXM6DQo+IGh0dHBzOi8vbnZkLm5pc3Qu
+Z292L3Z1bG4vZGV0YWlsL0NWRS0yMDI0LTEyNzE4DQo+IGh0dHBzOi8vbnZkLm5pc3QuZ292L3Z1
+bG4vZGV0YWlsL0NWRS0yMDI1LTQxMzgNCj4gaHR0cHM6Ly9udmQubmlzdC5nb3YvdnVsbi9kZXRh
+aWwvQ1ZFLTIwMjUtNDMzMA0KPiBodHRwczovL252ZC5uaXN0Lmdvdi92dWxuL2RldGFpbC9DVkUt
+MjAyNS00NTE3DQo+IA0KPiBVcHN0cmVhbS1wYXRjaDoNCj4gaHR0cHM6Ly9naXRodWIuY29tL3B5
+dGhvbi9jcHl0aG9uL2NvbW1pdC8xOWRlMDkyZGViYjNkN2U4MzJlNTY3MmNjMmY3Yjc4OA0KPiBk
+MzU5NTFkYQ0KPiANCj4gU2lnbmVkLW9mZi1ieTogUHJhdmVlbiBLdW1hciA8cHJhdmVlbi5rdW1h
+ckB3aW5kcml2ZXIuY29tPg0KPiAtLS0NCj4gIC4uLm9ybWFsaXplLWxpbmstdGFyZ2V0cy1pbi10
+YXJmaWxlLWFkZC5wYXRjaCB8IDE5NTYgKysrKysrKysrKysrKysrKysNCj4gIC4uLi9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zXzMuMTIuOS5iYiB8ICAgIDEgKw0KPiAgMiBmaWxlcyBj
+aGFuZ2VkLCAxOTU3IGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS0zLjEyLWdoLTEzNTAzNC0NCj4gTm9y
+bWFsaXplLWxpbmstdGFyZ2V0cy1pbi10YXJmaWxlLWFkZC5wYXRjaA0KPiANCj4gZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy8wMDAxLTMuMTItZ2gtMTM1
+MDM0LU5vcm1hbGl6ZS0NCj4gbGluay10YXJnZXRzLWluLXRhcmZpbGUtYWRkLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDEtMy4xMi0NCj4gZ2gtMTM1MDM0
+LU5vcm1hbGl6ZS1saW5rLXRhcmdldHMtaW4tdGFyZmlsZS1hZGQucGF0Y2gNCj4gbmV3IGZpbGUg
+bW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMC4uMjdkMjBiMjMwYg0KPiAtLS0gL2Rldi9u
+dWxsDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy8wMDAxLTMu
+MTItZ2gtMTM1MDM0LU5vcm1hbGl6ZS1saW5rLQ0KPiB0YXJnZXRzLWluLXRhcmZpbGUtYWRkLnBh
+dGNoDQo+IEBAIC0wLDAgKzEsMTk1NiBAQA0KPiArRnJvbSAxOWRlMDkyZGViYjNkN2U4MzJlNTY3
+MmNjMmY3Yjc4OGQzNTk1MWRhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiArRnJvbTogVC4g
+V291dGVycyA8dGhvbWFzQHB5dGhvbi5vcmc+DQo+ICtEYXRlOiBUdWUsIDMgSnVuIDIwMjUgMTY6
+MDA6MjEgKzAyMDANCj4gK1N1YmplY3Q6IFtQQVRDSF0gWzMuMTJdIGdoLTEzNTAzNDogTm9ybWFs
+aXplIGxpbmsgdGFyZ2V0cyBpbiB0YXJmaWxlLCBhZGQNCj4gKyBgb3MucGF0aC5yZWFscGF0aChz
+dHJpY3Q9J2FsbG93X21pc3NpbmcnKWAgKEdILTEzNTAzNykgKEdILTEzNTA2NikNCj4gK01JTUUt
+VmVyc2lvbjogMS4wDQo+ICtDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgN
+Cj4gK0NvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQNCj4gKw0KPiArQWRkcmVzc2VzIENW
+RXMgMjAyNC0xMjcxOCwgMjAyNS00MTM4LCAyMDI1LTQzMzAsIGFuZCAyMDI1LTQ1MTcuDQo+ICsN
+Cj4gKyhjaGVycnkgcGlja2VkIGZyb20gY29tbWl0IDM2MTJkOGY1MTc0MWIxMWYzNmY4ZmIwNDk0
+ZDc5MDg2YmFjOTM5MGEpDQo+ICsNCj4gK0NvLWF1dGhvcmVkLWJ5OiDFgXVrYXN6IExhbmdhIDxs
+dWthc3pAbGFuZ2EucGw+DQo+ICtTaWduZWQtb2ZmLWJ5OiDFgXVrYXN6IExhbmdhIDxsdWthc3pA
+bGFuZ2EucGw+DQo+ICtDby1hdXRob3JlZC1ieTogUGV0ciBWaWt0b3JpbiA8ZW5jdWtvdUBnbWFp
+bC5jb20+DQo+ICtDby1hdXRob3JlZC1ieTogU2V0aCBNaWNoYWVsIExhcnNvbiA8c2V0aEBweXRo
+b24ub3JnPg0KPiArQ28tYXV0aG9yZWQtYnk6IEFkYW0gVHVybmVyIDw5MDg3ODU0K0FBLVR1cm5l
+ckB1c2Vycy5ub3JlcGx5LmdpdGh1Yi5jb20+DQo+ICtDby1hdXRob3JlZC1ieTogU2VyaGl5IFN0
+b3JjaGFrYSA8c3RvcmNoYWthQGdtYWlsLmNvbT4NCj4gKyhjaGVycnkgcGlja2VkIGZyb20gY29t
+bWl0IDE5ZGUwOTJkZWJiM2Q3ZTgzMmU1NjcyY2MyZjdiNzg4ZDM1OTUxZGEpDQo+ICsNCj4gK0NW
+RTogQ1ZFLTIwMjQtMTI3MTgsIENWRS0yMDI1LTQxMzgsIENWRS0yMDI1LTQzMzAsIENWRS0yMDI1
+LTQ1MTcNCj4gKw0KPiArVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydA0KPiBbaHR0cHM6Ly9naXRo
+dWIuY29tL3B5dGhvbi9jcHl0aG9uL2NvbW1pdC8xOWRlMDkyZGViYjNkN2U4MzJlNTY3MmNjMmY3
+Yjc4OA0KPiBkMzU5NTFkYV0NCj4gKw0KPiArU2lnbmVkLW9mZi1ieTogUHJhdmVlbiBLdW1hciA8
+cHJhdmVlbi5rdW1hckB3aW5kcml2ZXIuY29tPg0KPiArLS0tDQo+ICsgRG9jL2xpYnJhcnkvb3Mu
+cGF0aC5yc3QgICAgICAgICAgICAgICAgICAgICAgIHwgIDMzICstDQo+ICsgRG9jL2xpYnJhcnkv
+dGFyZmlsZS5yc3QgICAgICAgICAgICAgICAgICAgICAgIHwgIDIwICsrDQo+ICsgRG9jL3doYXRz
+bmV3LzMuMTIucnN0ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDM0ICsrDQo+ICsgTGliL2dl
+bmVyaWNwYXRoLnB5ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDExICstDQo+ICsgTGli
+L250cGF0aC5weSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDM3ICsrLQ0KPiAr
+IExpYi9wb3NpeHBhdGgucHkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxNSArLQ0K
+PiArIExpYi90YXJmaWxlLnB5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDE2MSAr
+KysrKysrLS0NCj4gKyBMaWIvdGVzdC90ZXN0X250cGF0aC5weSAgICAgICAgICAgICAgICAgICAg
+ICAgfCAyODQgKysrKysrKysrKysrKystLQ0KPiArIExpYi90ZXN0L3Rlc3RfcG9zaXhwYXRoLnB5
+ICAgICAgICAgICAgICAgICAgICB8IDI4OSArKysrKysrKysrKysrLS0tDQo+ICsgTGliL3Rlc3Qv
+dGVzdF90YXJmaWxlLnB5ICAgICAgICAgICAgICAgICAgICAgIHwgMzEzICsrKysrKysrKysrKysr
+KystLQ0KPiArIC4uLi0wNi0wMi0xMS0zMi0yMy5naC1pc3N1ZS0xMzUwMzQuUkxHamJwLnJzdCB8
+ICAgNiArDQo+ICsgMTEgZmlsZXMgY2hhbmdlZCwgMTA2NCBpbnNlcnRpb25zKCspLCAxMzkgZGVs
+ZXRpb25zKC0pDQo+ICsgY3JlYXRlIG1vZGUgMTAwNjQ0IE1pc2MvTkVXUy5kL25leHQvU2VjdXJp
+dHkvMjAyNS0wNi0wMi0xMS0zMi0yMy5naC1pc3N1ZS0NCj4gMTM1MDM0LlJMR2picC5yc3QNCj4g
+Kw0KPiArZGlmZiAtLWdpdCBhL0RvYy9saWJyYXJ5L29zLnBhdGgucnN0IGIvRG9jL2xpYnJhcnkv
+b3MucGF0aC5yc3QNCj4gK2luZGV4IDUxZTg5MDg3ZTdmLi5mNWU2ODRmMmNjZiAxMDA2NDQNCj4g
+Ky0tLSBhL0RvYy9saWJyYXJ5L29zLnBhdGgucnN0DQo+ICsrKysgYi9Eb2MvbGlicmFyeS9vcy5w
+YXRoLnJzdA0KPiArQEAgLTM3NywxMCArMzc3LDI2IEBAIHRoZSA6bW9kOmBnbG9iYCBtb2R1bGUu
+KQ0KPiArICAgIGxpbmtzIGVuY291bnRlcmVkIGluIHRoZSBwYXRoIChpZiB0aGV5IGFyZSBzdXBw
+b3J0ZWQgYnkgdGhlIG9wZXJhdGluZw0KPiArICAgIHN5c3RlbSkuDQo+ICsNCj4gKy0gICBJZiBh
+IHBhdGggZG9lc24ndCBleGlzdCBvciBhIHN5bWxpbmsgbG9vcCBpcyBlbmNvdW50ZXJlZCwgYW5k
+ICpzdHJpY3QqIGlzDQo+ICstICAgYGBUcnVlYGAsIDpleGM6YE9TRXJyb3JgIGlzIHJhaXNlZC4g
+SWYgKnN0cmljdCogaXMgYGBGYWxzZWBgLCB0aGUgcGF0aCBpcw0KPiArLSAgIHJlc29sdmVkIGFz
+IGZhciBhcyBwb3NzaWJsZSBhbmQgYW55IHJlbWFpbmRlciBpcyBhcHBlbmRlZCB3aXRob3V0IGNo
+ZWNraW5nDQo+ICstICAgd2hldGhlciBpdCBleGlzdHMuDQo+ICsrICAgQnkgZGVmYXVsdCwgdGhl
+IHBhdGggaXMgZXZhbHVhdGVkIHVwIHRvIHRoZSBmaXJzdCBjb21wb25lbnQgdGhhdCBkb2VzIG5v
+dA0KPiArKyAgIGV4aXN0LCBpcyBhIHN5bWxpbmsgbG9vcCwgb3Igd2hvc2UgZXZhbHVhdGlvbiBy
+YWlzZXMgOmV4YzpgT1NFcnJvcmAuDQo+ICsrICAgQWxsIHN1Y2ggY29tcG9uZW50cyBhcmUgYXBw
+ZW5kZWQgdW5jaGFuZ2VkIHRvIHRoZSBleGlzdGluZyBwYXJ0IG9mIHRoZQ0KPiBwYXRoLg0KPiAr
+Kw0KPiArKyAgIFNvbWUgZXJyb3JzIHRoYXQgYXJlIGhhbmRsZWQgdGhpcyB3YXkgaW5jbHVkZSAi
+YWNjZXNzIGRlbmllZCIsICJub3QgYQ0KPiArKyAgIGRpcmVjdG9yeSIsIG9yICJiYWQgYXJndW1l
+bnQgdG8gaW50ZXJuYWwgZnVuY3Rpb24iLiBUaHVzLCB0aGUNCj4gKysgICByZXN1bHRpbmcgcGF0
+aCBtYXkgYmUgbWlzc2luZyBvciBpbmFjY2Vzc2libGUsIG1heSBzdGlsbCBjb250YWluDQo+ICsr
+ICAgbGlua3Mgb3IgbG9vcHMsIGFuZCBtYXkgdHJhdmVyc2Ugbm9uLWRpcmVjdG9yaWVzLg0KPiAr
+Kw0KPiArKyAgIFRoaXMgYmVoYXZpb3IgY2FuIGJlIG1vZGlmaWVkIGJ5IGtleXdvcmQgYXJndW1l
+bnRzOg0KPiArKw0KPiArKyAgIElmICpzdHJpY3QqIGlzIGBgVHJ1ZWBgLCB0aGUgZmlyc3QgZXJy
+b3IgZW5jb3VudGVyZWQgd2hlbiBldmFsdWF0aW5nIHRoZSBwYXRoIGlzDQo+ICsrICAgcmUtcmFp
+c2VkLg0KPiArKyAgIEluIHBhcnRpY3VsYXIsIDpleGM6YEZpbGVOb3RGb3VuZEVycm9yYCBpcyBy
+YWlzZWQgaWYgKnBhdGgqIGRvZXMgbm90IGV4aXN0LA0KPiArKyAgIG9yIGFub3RoZXIgOmV4Yzpg
+T1NFcnJvcmAgaWYgaXQgaXMgb3RoZXJ3aXNlIGluYWNjZXNzaWJsZS4NCj4gKysNCj4gKysgICBJ
+ZiAqc3RyaWN0KiBpcyA6cHk6ZGF0YTpgb3MucGF0aC5BTExPV19NSVNTSU5HYCwgZXJyb3JzIG90
+aGVyIHRoYW4NCj4gKysgICA6ZXhjOmBGaWxlTm90Rm91bmRFcnJvcmAgYXJlIHJlLXJhaXNlZCAo
+YXMgd2l0aCBgYHN0cmljdD1UcnVlYGApLg0KPiArKyAgIFRodXMsIHRoZSByZXR1cm5lZCBwYXRo
+IHdpbGwgbm90IGNvbnRhaW4gYW55IHN5bWJvbGljIGxpbmtzLCBidXQgdGhlIG5hbWVkDQo+ICsr
+ICAgZmlsZSBhbmQgc29tZSBvZiBpdHMgcGFyZW50IGRpcmVjdG9yaWVzIG1heSBiZSBtaXNzaW5n
+Lg0KPiArDQo+ICsgICAgLi4gbm90ZTo6DQo+ICsgICAgICAgVGhpcyBmdW5jdGlvbiBlbXVsYXRl
+cyB0aGUgb3BlcmF0aW5nIHN5c3RlbSdzIHByb2NlZHVyZSBmb3IgbWFraW5nIGEgcGF0aA0KPiAr
+QEAgLTM5OSw2ICs0MTUsMTUgQEAgdGhlIDptb2Q6YGdsb2JgIG1vZHVsZS4pDQo+ICsgICAgLi4g
+dmVyc2lvbmNoYW5nZWQ6OiAzLjEwDQo+ICsgICAgICAgVGhlICpzdHJpY3QqIHBhcmFtZXRlciB3
+YXMgYWRkZWQuDQo+ICsNCj4gKysgICAuLiB2ZXJzaW9uY2hhbmdlZDo6IG5leHQNCj4gKysgICAg
+ICBUaGUgOnB5OmRhdGE6YH5vcy5wYXRoLkFMTE9XX01JU1NJTkdgIHZhbHVlIGZvciB0aGUgKnN0
+cmljdCogcGFyYW1ldGVyDQo+ICsrICAgICAgd2FzIGFkZGVkLg0KPiArKw0KPiArKy4uIGRhdGE6
+OiBBTExPV19NSVNTSU5HDQo+ICsrDQo+ICsrICAgU3BlY2lhbCB2YWx1ZSB1c2VkIGZvciB0aGUg
+KnN0cmljdCogYXJndW1lbnQgaW4gOmZ1bmM6YHJlYWxwYXRoYC4NCj4gKysNCj4gKysgICAuLiB2
+ZXJzaW9uYWRkZWQ6OiBuZXh0DQo+ICsNCj4gKyAuLiBmdW5jdGlvbjo6IHJlbHBhdGgocGF0aCwg
+c3RhcnQ9b3MuY3VyZGlyKQ0KPiArDQo+ICtkaWZmIC0tZ2l0IGEvRG9jL2xpYnJhcnkvdGFyZmls
+ZS5yc3QgYi9Eb2MvbGlicmFyeS90YXJmaWxlLnJzdA0KPiAraW5kZXggMDM1MmNkZGIxNmUuLmEy
+NDAzYjcwZTI5IDEwMDY0NA0KPiArLS0tIGEvRG9jL2xpYnJhcnkvdGFyZmlsZS5yc3QNCj4gKysr
+KyBiL0RvYy9saWJyYXJ5L3RhcmZpbGUucnN0DQo+ICtAQCAtMjQ5LDYgKzI0OSwxNSBAQCBUaGUg
+Om1vZDpgdGFyZmlsZWAgbW9kdWxlIGRlZmluZXMgdGhlIGZvbGxvd2luZw0KPiBleGNlcHRpb25z
+Og0KPiArICAgIFJhaXNlZCB0byByZWZ1c2UgZXh0cmFjdGluZyBhIHN5bWJvbGljIGxpbmsgcG9p
+bnRpbmcgb3V0c2lkZSB0aGUgZGVzdGluYXRpb24NCj4gKyAgICBkaXJlY3RvcnkuDQo+ICsNCj4g
+KysuLiBleGNlcHRpb246OiBMaW5rRmFsbGJhY2tFcnJvcg0KPiArKw0KPiArKyAgIFJhaXNlZCB0
+byByZWZ1c2UgZW11bGF0aW5nIGEgbGluayAoaGFyZCBvciBzeW1ib2xpYykgYnkgZXh0cmFjdGlu
+ZyBhbm90aGVyDQo+ICsrICAgYXJjaGl2ZSBtZW1iZXIsIHdoZW4gdGhhdCBtZW1iZXIgd291bGQg
+YmUgcmVqZWN0ZWQgYnkgdGhlIGZpbHRlciBsb2NhdGlvbi4NCj4gKysgICBUaGUgZXhjZXB0aW9u
+IHRoYXQgd2FzIHJhaXNlZCB0byByZWplY3QgdGhlIHJlcGxhY2VtZW50IG1lbWJlciBpcyBhdmFp
+bGFibGUNCj4gKysgICBhcyA6YXR0cjpgIUJhc2VFeGNlcHRpb24uX19jb250ZXh0X19gLg0KPiAr
+Kw0KPiArKyAgIC4uIHZlcnNpb25hZGRlZDo6IG5leHQNCj4gKysNCj4gKw0KPiArIFRoZSBmb2xs
+b3dpbmcgY29uc3RhbnRzIGFyZSBhdmFpbGFibGUgYXQgdGhlIG1vZHVsZSBsZXZlbDoNCj4gKw0K
+PiArQEAgLTEwMzksNiArMTA0OCwxMiBAQCByZXVzZWQgaW4gY3VzdG9tIGZpbHRlcnM6DQo+ICsg
+ICBJbXBsZW1lbnRzIHRoZSBgYCdkYXRhJ2BgIGZpbHRlci4NCj4gKyAgIEluIGFkZGl0aW9uIHRv
+IHdoYXQgYGB0YXJfZmlsdGVyYGAgZG9lczoNCj4gKw0KPiArKyAgLSBOb3JtYWxpemUgbGluayB0
+YXJnZXRzICg6YXR0cjpgVGFySW5mby5saW5rbmFtZWApIHVzaW5nDQo+ICsrICAgIDpmdW5jOmBv
+cy5wYXRoLm5vcm1wYXRoYC4NCj4gKysgICAgTm90ZSB0aGF0IHRoaXMgcmVtb3ZlcyBpbnRlcm5h
+bCBgYC4uYGAgY29tcG9uZW50cywgd2hpY2ggbWF5IGNoYW5nZSB0aGUNCj4gKysgICAgbWVhbmlu
+ZyBvZiB0aGUgbGluayBpZiB0aGUgcGF0aCBpbiA6YXR0cjpgIVRhckluZm8ubGlua25hbWVgIHRy
+YXZlcnNlcw0KPiArKyAgICBzeW1ib2xpYyBsaW5rcy4NCj4gKysNCj4gKyAgIC0gOnJlZjpgUmVm
+dXNlIDx0YXJmaWxlLWV4dHJhY3Rpb24tcmVmdXNlPmAgdG8gZXh0cmFjdCBsaW5rcyAoaGFyZCBv
+ciBzb2Z0KQ0KPiArICAgICB0aGF0IGxpbmsgdG8gYWJzb2x1dGUgcGF0aHMsIG9yIG9uZXMgdGhh
+dCBsaW5rIG91dHNpZGUgdGhlIGRlc3RpbmF0aW9uLg0KPiArDQo+ICtAQCAtMTA2Nyw2ICsxMDgy
+LDEwIEBAIHJldXNlZCBpbiBjdXN0b20gZmlsdGVyczoNCj4gKw0KPiArICAgUmV0dXJuIHRoZSBt
+b2RpZmllZCBgYFRhckluZm9gYCBtZW1iZXIuDQo+ICsNCj4gKysgIC4uIHZlcnNpb25jaGFuZ2Vk
+OjogbmV4dA0KPiArKw0KPiArKyAgICAgTGluayB0YXJnZXRzIGFyZSBub3cgbm9ybWFsaXplZC4N
+Cj4gKysNCj4gKw0KPiArIC4uIF90YXJmaWxlLWV4dHJhY3Rpb24tcmVmdXNlOg0KPiArDQo+ICtA
+QCAtMTA5Myw2ICsxMTEyLDcgQEAgSGVyZSBpcyBhbiBpbmNvbXBsZXRlIGxpc3Qgb2YgdGhpbmdz
+IHRvIGNvbnNpZGVyOg0KPiArICogRXh0cmFjdCB0byBhIDpmdW5jOmBuZXcgdGVtcG9yYXJ5IGRp
+cmVjdG9yeSA8dGVtcGZpbGUubWtkdGVtcD5gDQo+ICsgICB0byBwcmV2ZW50IGUuZy4gZXhwbG9p
+dGluZyBwcmUtZXhpc3RpbmcgbGlua3MsIGFuZCB0byBtYWtlIGl0IGVhc2llciB0bw0KPiArICAg
+Y2xlYW4gdXAgYWZ0ZXIgYSBmYWlsZWQgZXh0cmFjdGlvbi4NCj4gKysqIERpc2FsbG93IHN5bWJv
+bGljIGxpbmtzIGlmIHlvdSBkbyBub3QgbmVlZCB0aGUgZnVuY3Rpb25hbGl0eS4NCj4gKyAqIFdo
+ZW4gd29ya2luZyB3aXRoIHVudHJ1c3RlZCBkYXRhLCB1c2UgZXh0ZXJuYWwgKGUuZy4gT1MtbGV2
+ZWwpIGxpbWl0cyBvbg0KPiArICAgZGlzaywgbWVtb3J5IGFuZCBDUFUgdXNhZ2UuDQo+ICsgKiBD
+aGVjayBmaWxlbmFtZXMgYWdhaW5zdCBhbiBhbGxvdy1saXN0IG9mIGNoYXJhY3RlcnMNCj4gK2Rp
+ZmYgLS1naXQgYS9Eb2Mvd2hhdHNuZXcvMy4xMi5yc3QgYi9Eb2Mvd2hhdHNuZXcvMy4xMi5yc3QN
+Cj4gK2luZGV4IGFkZDkzMmI0N2Q3Li42MDVlYTBiOGQ0MiAxMDA2NDQNCj4gKy0tLSBhL0RvYy93
+aGF0c25ldy8zLjEyLnJzdA0KPiArKysrIGIvRG9jL3doYXRzbmV3LzMuMTIucnN0DQo+ICtAQCAt
+MjMxMiwzICsyMzEyLDM3IEBAIHN5cw0KPiArICogVGhlIHByZXZpb3VzbHkgdW5kb2N1bWVudGVk
+IHNwZWNpYWwgZnVuY3Rpb24gOmZ1bmM6YHN5cy5nZXRvYmplY3RzYCwNCj4gKyAgIHdoaWNoIG9u
+bHkgZXhpc3RzIGluIHNwZWNpYWxpemVkIGJ1aWxkcyBvZiBQeXRob24sIG1heSBub3cgcmV0dXJu
+IG9iamVjdHMNCj4gKyAgIGZyb20gb3RoZXIgaW50ZXJwcmV0ZXJzIHRoYW4gdGhlIG9uZSBpdCdz
+IGNhbGxlZCBpbi4NCj4gKysNCj4gKysNCj4gKytOb3RhYmxlIGNoYW5nZXMgaW4gMy4xMi4xMA0K
+PiArKz09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ICsrDQo+ICsrb3MucGF0aA0KPiArKy0t
+LS0tLS0NCj4gKysNCj4gKysqIFRoZSAqc3RyaWN0KiBwYXJhbWV0ZXIgdG8gOmZ1bmM6YG9zLnBh
+dGgucmVhbHBhdGhgIGFjY2VwdHMgYSBuZXcgdmFsdWUsDQo+ICsrICA6ZGF0YTpgb3MucGF0aC5B
+TExPV19NSVNTSU5HYC4NCj4gKysgIElmIHVzZWQsIGVycm9ycyBvdGhlciB0aGFuIDpleGM6YEZp
+bGVOb3RGb3VuZEVycm9yYCB3aWxsIGJlIHJlLXJhaXNlZDsNCj4gKysgIHRoZSByZXN1bHRpbmcg
+cGF0aCBjYW4gYmUgbWlzc2luZyBidXQgaXQgd2lsbCBiZSBmcmVlIG9mIHN5bWxpbmtzLg0KPiAr
+KyAgKENvbnRyaWJ1dGVkIGJ5IFBldHIgVmlrdG9yaW4gZm9yIDpjdmU6YDIwMjUtNDUxN2AuKQ0K
+PiArKw0KPiArK3RhcmZpbGUNCj4gKystLS0tLS0tDQo+ICsrDQo+ICsrKiA6ZnVuYzpgfnRhcmZp
+bGUuZGF0YV9maWx0ZXJgIG5vdyBub3JtYWxpemVzIHN5bWJvbGljIGxpbmsgdGFyZ2V0cyBpbiBv
+cmRlciB0bw0KPiArKyAgYXZvaWQgcGF0aCB0cmF2ZXJzYWwgYXR0YWNrcy4NCj4gKysgIChDb250
+cmlidXRlZCBieSBQZXRyIFZpa3RvcmluIGluIDpnaDpgMTI3OTg3YCBhbmQgOmN2ZTpgMjAyNS00
+MTM4YC4pDQo+ICsrKiA6ZnVuYzpgfnRhcmZpbGUuVGFyRmlsZS5leHRyYWN0YWxsYCBub3cgc2tp
+cHMgZml4aW5nIHVwIGRpcmVjdG9yeSBhdHRyaWJ1dGVzDQo+ICsrICB3aGVuIGEgZGlyZWN0b3J5
+IHdhcyByZW1vdmVkIG9yIHJlcGxhY2VkIGJ5IGFub3RoZXIga2luZCBvZiBmaWxlLg0KPiArKyAg
+KENvbnRyaWJ1dGVkIGJ5IFBldHIgVmlrdG9yaW4gaW4gOmdoOmAxMjc5ODdgIGFuZCA6Y3ZlOmAy
+MDI0LTEyNzE4YC4pDQo+ICsrKiA6ZnVuYzpgfnRhcmZpbGUuVGFyRmlsZS5leHRyYWN0YCBhbmQg
+OmZ1bmM6YH50YXJmaWxlLlRhckZpbGUuZXh0cmFjdGFsbGANCj4gKysgIG5vdyAocmUtKWFwcGx5
+IHRoZSBleHRyYWN0aW9uIGZpbHRlciB3aGVuIHN1YnN0aXR1dGluZyBhIGxpbmsgKGhhcmQgb3IN
+Cj4gKysgIHN5bWJvbGljKSB3aXRoIGEgY29weSBvZiBhbm90aGVyIGFyY2hpdmUgbWVtYmVyLCBh
+bmQgd2hlbiBmaXhpbmcgdXANCj4gKysgIGRpcmVjdG9yeSBhdHRyaWJ1dGVzLg0KPiArKyAgVGhl
+IGZvcm1lciByYWlzZXMgYSBuZXcgZXhjZXB0aW9uLCA6ZXhjOmB+dGFyZmlsZS5MaW5rRmFsbGJh
+Y2tFcnJvcmAuDQo+ICsrICAoQ29udHJpYnV0ZWQgYnkgUGV0ciBWaWt0b3JpbiBmb3IgOmN2ZTpg
+MjAyNS00MzMwYCBhbmQgOmN2ZTpgMjAyNC0xMjcxOGAuKQ0KPiArKyogOmZ1bmM6YH50YXJmaWxl
+LlRhckZpbGUuZXh0cmFjdGAgYW5kIDpmdW5jOmB+dGFyZmlsZS5UYXJGaWxlLmV4dHJhY3RhbGxg
+DQo+ICsrICBubyBsb25nZXIgZXh0cmFjdCByZWplY3RlZCBtZW1iZXJzIHdoZW4NCj4gKysgIDpm
+dW5jOmB+dGFyZmlsZS5UYXJGaWxlLmVycm9ybGV2ZWxgIGlzIHplcm8uDQo+ICsrICAoQ29udHJp
+YnV0ZWQgYnkgTWF0dCBQcm9kYW5pIGFuZCBQZXRyIFZpa3RvcmluIGluIDpnaDpgMTEyODg3YA0K
+PiArKyAgYW5kIDpjdmU6YDIwMjUtNDQzNWAuKQ0KPiArZGlmZiAtLWdpdCBhL0xpYi9nZW5lcmlj
+cGF0aC5weSBiL0xpYi9nZW5lcmljcGF0aC5weQ0KPiAraW5kZXggMWJkNWIzODk3YzMuLjIzM2Y3
+YTNjNjdkIDEwMDY0NA0KPiArLS0tIGEvTGliL2dlbmVyaWNwYXRoLnB5DQo+ICsrKysgYi9MaWIv
+Z2VuZXJpY3BhdGgucHkNCj4gK0BAIC04LDcgKzgsNyBAQA0KPiArDQo+ICsgX19hbGxfXyA9IFsn
+Y29tbW9ucHJlZml4JywgJ2V4aXN0cycsICdnZXRhdGltZScsICdnZXRjdGltZScsICdnZXRtdGlt
+ZScsDQo+ICsgICAgICAgICAgICAnZ2V0c2l6ZScsICdpc2RpcicsICdpc2ZpbGUnLCAnaXNsaW5r
+JywgJ3NhbWVmaWxlJywgJ3NhbWVvcGVuZmlsZScsDQo+ICstICAgICAgICAgICAnc2FtZXN0YXQn
+XQ0KPiArKyAgICAgICAgICAgJ3NhbWVzdGF0JywgJ0FMTE9XX01JU1NJTkcnXQ0KPiArDQo+ICsN
+Cj4gKyAjIERvZXMgYSBwYXRoIGV4aXN0Pw0KPiArQEAgLTE2NSwzICsxNjUsMTIgQEAgZGVmIF9j
+aGVja19hcmdfdHlwZXMoZnVuY25hbWUsICphcmdzKToNCj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgZidvcy5QYXRoTGlrZSBvYmplY3QsIG5vdCB7cy5fX2NsYXNzX18uX19uYW1lX18h
+cn0nKSBmcm9tDQo+IE5vbmUNCj4gKyAgICAgaWYgaGFzc3RyIGFuZCBoYXNieXRlczoNCj4gKyAg
+ICAgICAgIHJhaXNlIFR5cGVFcnJvcigiQ2FuJ3QgbWl4IHN0cmluZ3MgYW5kIGJ5dGVzIGluIHBh
+dGggY29tcG9uZW50cyIpIGZyb20NCj4gTm9uZQ0KPiArKw0KPiArKyMgQSBzaW5nbGV0b24gd2l0
+aCBhIHRydWUgYm9vbGVhbiB2YWx1ZS4NCj4gKytAb2JqZWN0Ll9fbmV3X18NCj4gKytjbGFzcyBB
+TExPV19NSVNTSU5HOg0KPiArKyAgICAiIiJTcGVjaWFsIHZhbHVlIGZvciB1c2UgaW4gcmVhbHBh
+dGgoKS4iIiINCj4gKysgICAgZGVmIF9fcmVwcl9fKHNlbGYpOg0KPiArKyAgICAgICAgcmV0dXJu
+ICdvcy5wYXRoLkFMTE9XX01JU1NJTkcnDQo+ICsrICAgIGRlZiBfX3JlZHVjZV9fKHNlbGYpOg0K
+PiArKyAgICAgICAgcmV0dXJuIHNlbGYuX19jbGFzc19fLl9fbmFtZV9fDQo+ICtkaWZmIC0tZ2l0
+IGEvTGliL250cGF0aC5weSBiL0xpYi9udHBhdGgucHkNCj4gK2luZGV4IGMwNWU5NjVmY2I5Li4x
+YmVmNjMwYmQ5YyAxMDA2NDQNCj4gKy0tLSBhL0xpYi9udHBhdGgucHkNCj4gKysrKyBiL0xpYi9u
+dHBhdGgucHkNCj4gK0BAIC0zMCw3ICszMCw4IEBADQo+ICsgICAgICAgICAgICAiaXNtb3VudCIs
+ICJleHBhbmR1c2VyIiwiZXhwYW5kdmFycyIsIm5vcm1wYXRoIiwiYWJzcGF0aCIsDQo+ICsgICAg
+ICAgICAgICAiY3VyZGlyIiwicGFyZGlyIiwic2VwIiwicGF0aHNlcCIsImRlZnBhdGgiLCJhbHRz
+ZXAiLA0KPiArICAgICAgICAgICAgImV4dHNlcCIsImRldm51bGwiLCJyZWFscGF0aCIsInN1cHBv
+cnRzX3VuaWNvZGVfZmlsZW5hbWVzIiwicmVscGF0aCIsDQo+ICstICAgICAgICAgICAic2FtZWZp
+bGUiLCAic2FtZW9wZW5maWxlIiwgInNhbWVzdGF0IiwgImNvbW1vbnBhdGgiLCAiaXNqdW5jdGlv
+biJdDQo+ICsrICAgICAgICAgICAic2FtZWZpbGUiLCAic2FtZW9wZW5maWxlIiwgInNhbWVzdGF0
+IiwgImNvbW1vbnBhdGgiLCAiaXNqdW5jdGlvbiIsDQo+ICsrICAgICAgICAgICAiQUxMT1dfTUlT
+U0lORyJdDQo+ICsNCj4gKyBkZWYgX2dldF9ib3Roc2VwcyhwYXRoKToNCj4gKyAgICAgaWYgaXNp
+bnN0YW5jZShwYXRoLCBieXRlcyk6DQo+ICtAQCAtNjA5LDkgKzYxMCwxMCBAQCBkZWYgYWJzcGF0
+aChwYXRoKToNCj4gKyAgICAgZnJvbSBudCBpbXBvcnQgX2dldGZpbmFscGF0aG5hbWUsIHJlYWRs
+aW5rIGFzIF9udF9yZWFkbGluaw0KPiArIGV4Y2VwdCBJbXBvcnRFcnJvcjoNCj4gKyAgICAgIyBy
+ZWFscGF0aCBpcyBhIG5vLW9wIG9uIHN5c3RlbXMgd2l0aG91dCBfZ2V0ZmluYWxwYXRobmFtZSBz
+dXBwb3J0Lg0KPiArLSAgICByZWFscGF0aCA9IGFic3BhdGgNCj4gKysgICAgZGVmIHJlYWxwYXRo
+KHBhdGgsICosIHN0cmljdD1GYWxzZSk6DQo+ICsrICAgICAgICByZXR1cm4gYWJzcGF0aChwYXRo
+KQ0KPiArIGVsc2U6DQo+ICstICAgIGRlZiBfcmVhZGxpbmtfZGVlcChwYXRoKToNCj4gKysgICAg
+ZGVmIF9yZWFkbGlua19kZWVwKHBhdGgsIGlnbm9yZWRfZXJyb3I9T1NFcnJvcik6DQo+ICsgICAg
+ICAgICAjIFRoZXNlIGVycm9yIGNvZGVzIGluZGljYXRlIHRoYXQgd2Ugc2hvdWxkIHN0b3AgcmVh
+ZGluZyBsaW5rcyBhbmQNCj4gKyAgICAgICAgICMgcmV0dXJuIHRoZSBwYXRoIHdlIGN1cnJlbnRs
+eSBoYXZlLg0KPiArICAgICAgICAgIyAxOiBFUlJPUl9JTlZBTElEX0ZVTkNUSU9ODQo+ICtAQCAt
+NjQ0LDcgKzY0Niw3IEBAIGRlZiBfcmVhZGxpbmtfZGVlcChwYXRoKToNCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICBwYXRoID0gb2xkX3BhdGgNCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ICBicmVhaw0KPiArICAgICAgICAgICAgICAgICAgICAgcGF0aCA9IG5vcm1wYXRoKGpvaW4oZGly
+bmFtZShvbGRfcGF0aCksIHBhdGgpKQ0KPiArLSAgICAgICAgICAgIGV4Y2VwdCBPU0Vycm9yIGFz
+IGV4Og0KPiArKyAgICAgICAgICAgIGV4Y2VwdCBpZ25vcmVkX2Vycm9yIGFzIGV4Og0KPiArICAg
+ICAgICAgICAgICAgICBpZiBleC53aW5lcnJvciBpbiBhbGxvd2VkX3dpbmVycm9yOg0KPiArICAg
+ICAgICAgICAgICAgICAgICAgYnJlYWsNCj4gKyAgICAgICAgICAgICAgICAgcmFpc2UNCj4gK0BA
+IC02NTMsNyArNjU1LDcgQEAgZGVmIF9yZWFkbGlua19kZWVwKHBhdGgpOg0KPiArICAgICAgICAg
+ICAgICAgICBicmVhaw0KPiArICAgICAgICAgcmV0dXJuIHBhdGgNCj4gKw0KPiArLSAgICBkZWYg
+X2dldGZpbmFscGF0aG5hbWVfbm9uc3RyaWN0KHBhdGgpOg0KPiArKyAgICBkZWYgX2dldGZpbmFs
+cGF0aG5hbWVfbm9uc3RyaWN0KHBhdGgsIGlnbm9yZWRfZXJyb3I9T1NFcnJvcik6DQo+ICsgICAg
+ICAgICAjIFRoZXNlIGVycm9yIGNvZGVzIGluZGljYXRlIHRoYXQgd2Ugc2hvdWxkIHN0b3AgcmVz
+b2x2aW5nIHRoZSBwYXRoDQo+ICsgICAgICAgICAjIGFuZCByZXR1cm4gdGhlIHZhbHVlIHdlIGN1
+cnJlbnRseSBoYXZlLg0KPiArICAgICAgICAgIyAxOiBFUlJPUl9JTlZBTElEX0ZVTkNUSU9ODQo+
+ICtAQCAtNjgwLDE3ICs2ODIsMTggQEAgZGVmIF9nZXRmaW5hbHBhdGhuYW1lX25vbnN0cmljdChw
+YXRoKToNCj4gKyAgICAgICAgICAgICB0cnk6DQo+ICsgICAgICAgICAgICAgICAgIHBhdGggPSBf
+Z2V0ZmluYWxwYXRobmFtZShwYXRoKQ0KPiArICAgICAgICAgICAgICAgICByZXR1cm4gam9pbihw
+YXRoLCB0YWlsKSBpZiB0YWlsIGVsc2UgcGF0aA0KPiArLSAgICAgICAgICAgIGV4Y2VwdCBPU0Vy
+cm9yIGFzIGV4Og0KPiArKyAgICAgICAgICAgIGV4Y2VwdCBpZ25vcmVkX2Vycm9yIGFzIGV4Og0K
+PiArICAgICAgICAgICAgICAgICBpZiBleC53aW5lcnJvciBub3QgaW4gYWxsb3dlZF93aW5lcnJv
+cjoNCj4gKyAgICAgICAgICAgICAgICAgICAgIHJhaXNlDQo+ICsgICAgICAgICAgICAgICAgIHRy
+eToNCj4gKyAgICAgICAgICAgICAgICAgICAgICMgVGhlIE9TIGNvdWxkIG5vdCByZXNvbHZlIHRo
+aXMgcGF0aCBmdWxseSwgc28gd2UgYXR0ZW1wdA0KPiArICAgICAgICAgICAgICAgICAgICAgIyB0
+byBmb2xsb3cgdGhlIGxpbmsgb3Vyc2VsdmVzLiBJZiB3ZSBzdWNjZWVkLCBqb2luIHRoZSB0YWls
+DQo+ICsgICAgICAgICAgICAgICAgICAgICAjIGFuZCByZXR1cm4uDQo+ICstICAgICAgICAgICAg
+ICAgICAgICBuZXdfcGF0aCA9IF9yZWFkbGlua19kZWVwKHBhdGgpDQo+ICsrICAgICAgICAgICAg
+ICAgICAgICBuZXdfcGF0aCA9IF9yZWFkbGlua19kZWVwKHBhdGgsDQo+ICsrICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlnbm9yZWRfZXJyb3I9aWdub3JlZF9l
+cnJvcikNCj4gKyAgICAgICAgICAgICAgICAgICAgIGlmIG5ld19wYXRoICE9IHBhdGg6DQo+ICsg
+ICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIGpvaW4obmV3X3BhdGgsIHRhaWwpIGlmIHRh
+aWwgZWxzZSBuZXdfcGF0aA0KPiArLSAgICAgICAgICAgICAgICBleGNlcHQgT1NFcnJvcjoNCj4g
+KysgICAgICAgICAgICAgICAgZXhjZXB0IGlnbm9yZWRfZXJyb3I6DQo+ICsgICAgICAgICAgICAg
+ICAgICAgICAjIElmIHdlIGZhaWwgdG8gcmVhZGxpbmsoKSwgbGV0J3Mga2VlcCB0cmF2ZXJzaW5n
+DQo+ICsgICAgICAgICAgICAgICAgICAgICBwYXNzDQo+ICsgICAgICAgICAgICAgICAgIHBhdGgs
+IG5hbWUgPSBzcGxpdChwYXRoKQ0KPiArQEAgLTcyMSw2ICs3MjQsMTUgQEAgZGVmIHJlYWxwYXRo
+KHBhdGgsICosIHN0cmljdD1GYWxzZSk6DQo+ICsgICAgICAgICAgICAgaWYgbm9ybWNhc2UocGF0
+aCkgPT0gbm9ybWNhc2UoZGV2bnVsbCk6DQo+ICsgICAgICAgICAgICAgICAgIHJldHVybiAnXFxc
+XC5cXE5VTCcNCj4gKyAgICAgICAgIGhhZF9wcmVmaXggPSBwYXRoLnN0YXJ0c3dpdGgocHJlZml4
+KQ0KPiArKw0KPiArKyAgICAgICAgaWYgc3RyaWN0IGlzIEFMTE9XX01JU1NJTkc6DQo+ICsrICAg
+ICAgICAgICAgaWdub3JlZF9lcnJvciA9IEZpbGVOb3RGb3VuZEVycm9yDQo+ICsrICAgICAgICAg
+ICAgc3RyaWN0ID0gVHJ1ZQ0KPiArKyAgICAgICAgZWxpZiBzdHJpY3Q6DQo+ICsrICAgICAgICAg
+ICAgaWdub3JlZF9lcnJvciA9ICgpDQo+ICsrICAgICAgICBlbHNlOg0KPiArKyAgICAgICAgICAg
+IGlnbm9yZWRfZXJyb3IgPSBPU0Vycm9yDQo+ICsrDQo+ICsgICAgICAgICBpZiBub3QgaGFkX3By
+ZWZpeCBhbmQgbm90IGlzYWJzKHBhdGgpOg0KPiArICAgICAgICAgICAgIHBhdGggPSBqb2luKGN3
+ZCwgcGF0aCkNCj4gKyAgICAgICAgIHRyeToNCj4gK0BAIC03MjgsMTcgKzc0MCwxNiBAQCBkZWYg
+cmVhbHBhdGgocGF0aCwgKiwgc3RyaWN0PUZhbHNlKToNCj4gKyAgICAgICAgICAgICBpbml0aWFs
+X3dpbmVycm9yID0gMA0KPiArICAgICAgICAgZXhjZXB0IFZhbHVlRXJyb3IgYXMgZXg6DQo+ICsg
+ICAgICAgICAgICAgIyBnaC0xMDYyNDI6IFJhaXNlZCBmb3IgZW1iZWRkZWQgbnVsbCBjaGFyYWN0
+ZXJzDQo+ICstICAgICAgICAgICAgIyBJbiBzdHJpY3QgbW9kZSwgd2UgY29udmVydCBpbnRvIGFu
+IE9TRXJyb3IuDQo+ICsrICAgICAgICAgICAgIyBJbiBzdHJpY3QgbW9kZXMsIHdlIGNvbnZlcnQg
+aW50byBhbiBPU0Vycm9yLg0KPiArICAgICAgICAgICAgICMgTm9uLXN0cmljdCBtb2RlIHJldHVy
+bnMgdGhlIHBhdGggYXMtaXMsIHNpbmNlIHdlJ3ZlIGFscmVhZHkNCj4gKyAgICAgICAgICAgICAj
+IG1hZGUgaXQgYWJzb2x1dGUuDQo+ICsgICAgICAgICAgICAgaWYgc3RyaWN0Og0KPiArICAgICAg
+ICAgICAgICAgICByYWlzZSBPU0Vycm9yKHN0cihleCkpIGZyb20gTm9uZQ0KPiArICAgICAgICAg
+ICAgIHBhdGggPSBub3JtcGF0aChwYXRoKQ0KPiArLSAgICAgICAgZXhjZXB0IE9TRXJyb3IgYXMg
+ZXg6DQo+ICstICAgICAgICAgICAgaWYgc3RyaWN0Og0KPiArLSAgICAgICAgICAgICAgICByYWlz
+ZQ0KPiArKyAgICAgICAgZXhjZXB0IGlnbm9yZWRfZXJyb3IgYXMgZXg6DQo+ICsgICAgICAgICAg
+ICAgaW5pdGlhbF93aW5lcnJvciA9IGV4LndpbmVycm9yDQo+ICstICAgICAgICAgICAgcGF0aCA9
+IF9nZXRmaW5hbHBhdGhuYW1lX25vbnN0cmljdChwYXRoKQ0KPiArKyAgICAgICAgICAgIHBhdGgg
+PSBfZ2V0ZmluYWxwYXRobmFtZV9ub25zdHJpY3QocGF0aCwNCj4gKysgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlnbm9yZWRfZXJyb3I9aWdub3JlZF9lcnJv
+cikNCj4gKyAgICAgICAgICMgVGhlIHBhdGggcmV0dXJuZWQgYnkgX2dldGZpbmFscGF0aG5hbWUg
+d2lsbCBhbHdheXMgc3RhcnQgd2l0aCBcXD9cIC0NCj4gKyAgICAgICAgICMgc3RyaXAgb2ZmIHRo
+YXQgcHJlZml4IHVubGVzcyBpdCB3YXMgYWxyZWFkeSBwcm92aWRlZCBvbiB0aGUgb3JpZ2luYWwN
+Cj4gKyAgICAgICAgICMgcGF0aC4NCj4gK2RpZmYgLS1naXQgYS9MaWIvcG9zaXhwYXRoLnB5IGIv
+TGliL3Bvc2l4cGF0aC5weQ0KPiAraW5kZXggZjFlNDIzN2IzYWEuLjkwYTZmNTQ1ZjkwIDEwMDY0
+NA0KPiArLS0tIGEvTGliL3Bvc2l4cGF0aC5weQ0KPiArKysrIGIvTGliL3Bvc2l4cGF0aC5weQ0K
+PiArQEAgLTM1LDcgKzM1LDcgQEANCj4gKyAgICAgICAgICAgICJzYW1lZmlsZSIsInNhbWVvcGVu
+ZmlsZSIsInNhbWVzdGF0IiwNCj4gKyAgICAgICAgICAgICJjdXJkaXIiLCJwYXJkaXIiLCJzZXAi
+LCJwYXRoc2VwIiwiZGVmcGF0aCIsImFsdHNlcCIsImV4dHNlcCIsDQo+ICsgICAgICAgICAgICAi
+ZGV2bnVsbCIsInJlYWxwYXRoIiwic3VwcG9ydHNfdW5pY29kZV9maWxlbmFtZXMiLCJyZWxwYXRo
+IiwNCj4gKy0gICAgICAgICAgICJjb21tb25wYXRoIiwgImlzanVuY3Rpb24iXQ0KPiArKyAgICAg
+ICAgICAgImNvbW1vbnBhdGgiLCAiaXNqdW5jdGlvbiIsICJBTExPV19NSVNTSU5HIl0NCj4gKw0K
+PiArDQo+ICsgZGVmIF9nZXRfc2VwKHBhdGgpOg0KPiArQEAgLTQzOCw2ICs0MzgsMTUgQEAgZGVm
+IF9qb2lucmVhbHBhdGgocGF0aCwgcmVzdCwgc3RyaWN0LCBzZWVuKToNCj4gKyAgICAgICAgIHNl
+cCA9ICcvJw0KPiArICAgICAgICAgY3VyZGlyID0gJy4nDQo+ICsgICAgICAgICBwYXJkaXIgPSAn
+Li4nDQo+ICsrICAgICAgICBnZXRjd2QgPSBvcy5nZXRjd2QNCj4gKysgICAgaWYgc3RyaWN0IGlz
+IEFMTE9XX01JU1NJTkc6DQo+ICsrICAgICAgICBpZ25vcmVkX2Vycm9yID0gRmlsZU5vdEZvdW5k
+RXJyb3INCj4gKysgICAgZWxpZiBzdHJpY3Q6DQo+ICsrICAgICAgICBpZ25vcmVkX2Vycm9yID0g
+KCkNCj4gKysgICAgZWxzZToNCj4gKysgICAgICAgIGlnbm9yZWRfZXJyb3IgPSBPU0Vycm9yDQo+
+ICsrDQo+ICsrICAgIG1heGxpbmtzID0gTm9uZQ0KPiArDQo+ICsgICAgIGlmIGlzYWJzKHJlc3Qp
+Og0KPiArICAgICAgICAgcmVzdCA9IHJlc3RbMTpdDQo+ICtAQCAtNDYwLDkgKzQ2OSw3IEBAIGRl
+ZiBfam9pbnJlYWxwYXRoKHBhdGgsIHJlc3QsIHN0cmljdCwgc2Vlbik6DQo+ICsgICAgICAgICBu
+ZXdwYXRoID0gam9pbihwYXRoLCBuYW1lKQ0KPiArICAgICAgICAgdHJ5Og0KPiArICAgICAgICAg
+ICAgIHN0ID0gb3MubHN0YXQobmV3cGF0aCkNCj4gKy0gICAgICAgIGV4Y2VwdCBPU0Vycm9yOg0K
+PiArLSAgICAgICAgICAgIGlmIHN0cmljdDoNCj4gKy0gICAgICAgICAgICAgICAgcmFpc2UNCj4g
+KysgICAgICAgIGV4Y2VwdCBpZ25vcmVkX2Vycm9yOg0KPiArICAgICAgICAgICAgIGlzX2xpbmsg
+PSBGYWxzZQ0KPiArICAgICAgICAgZWxzZToNCj4gKyAgICAgICAgICAgICBpc19saW5rID0gc3Rh
+dC5TX0lTTE5LKHN0LnN0X21vZGUpDQo+ICtkaWZmIC0tZ2l0IGEvTGliL3RhcmZpbGUucHkgYi9M
+aWIvdGFyZmlsZS5weQ0KPiAraW5kZXggMGEwZjMxZWNhMDYuLjk5OTlhOTlkNTRkIDEwMDc1NQ0K
+PiArLS0tIGEvTGliL3RhcmZpbGUucHkNCj4gKysrKyBiL0xpYi90YXJmaWxlLnB5DQo+ICtAQCAt
+NzUyLDEwICs3NTIsMjIgQEAgZGVmIF9faW5pdF9fKHNlbGYsIHRhcmluZm8sIHBhdGgpOg0KPiAr
+ICAgICAgICAgc3VwZXIoKS5fX2luaXRfXyhmJ3t0YXJpbmZvLm5hbWUhcn0gd291bGQgbGluayB0
+byB7cGF0aCFyfSwgJw0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICArICd3aGljaCBpcyBv
+dXRzaWRlIHRoZSBkZXN0aW5hdGlvbicpDQo+ICsNCj4gKytjbGFzcyBMaW5rRmFsbGJhY2tFcnJv
+cihGaWx0ZXJFcnJvcik6DQo+ICsrICAgIGRlZiBfX2luaXRfXyhzZWxmLCB0YXJpbmZvLCBwYXRo
+KToNCj4gKysgICAgICAgIHNlbGYudGFyaW5mbyA9IHRhcmluZm8NCj4gKysgICAgICAgIHNlbGYu
+X3BhdGggPSBwYXRoDQo+ICsrICAgICAgICBzdXBlcigpLl9faW5pdF9fKGYnbGluayB7dGFyaW5m
+by5uYW1lIXJ9IHdvdWxkIGJlIGV4dHJhY3RlZCBhcyBhICcNCj4gKysgICAgICAgICAgICAgICAg
+ICAgICAgICAgKyBmJ2NvcHkgb2Yge3BhdGghcn0sIHdoaWNoIHdhcyByZWplY3RlZCcpDQo+ICsr
+DQo+ICsrIyBFcnJvcnMgY2F1c2VkIGJ5IGZpbHRlcnMgLS0gYm90aCAiZmF0YWwiIGFuZCAibm9u
+LWZhdGFsIiAtLSB0aGF0DQo+ICsrIyB3ZSBjb25zaWRlciB0byBiZSBpc3N1ZXMgd2l0aCB0aGUg
+YXJndW1lbnQsIHJhdGhlciB0aGFuIGEgYnVnIGluIHRoZQ0KPiArKyMgZmlsdGVyIGZ1bmN0aW9u
+DQo+ICsrX0ZJTFRFUl9FUlJPUlMgPSAoRmlsdGVyRXJyb3IsIE9TRXJyb3IsIEV4dHJhY3RFcnJv
+cikNCj4gKysNCj4gKyBkZWYgX2dldF9maWx0ZXJlZF9hdHRycyhtZW1iZXIsIGRlc3RfcGF0aCwg
+Zm9yX2RhdGE9VHJ1ZSk6DQo+ICsgICAgIG5ld19hdHRycyA9IHt9DQo+ICsgICAgIG5hbWUgPSBt
+ZW1iZXIubmFtZQ0KPiArLSAgICBkZXN0X3BhdGggPSBvcy5wYXRoLnJlYWxwYXRoKGRlc3RfcGF0
+aCkNCj4gKysgICAgZGVzdF9wYXRoID0gb3MucGF0aC5yZWFscGF0aChkZXN0X3BhdGgsIHN0cmlj
+dD1vcy5wYXRoLkFMTE9XX01JU1NJTkcpDQo+ICsgICAgICMgU3RyaXAgbGVhZGluZyAvICh0YXIn
+cyBkaXJlY3Rvcnkgc2VwYXJhdG9yKSBmcm9tIGZpbGVuYW1lcy4NCj4gKyAgICAgIyBJbmNsdWRl
+IG9zLnNlcCAodGFyZ2V0IE9TIGRpcmVjdG9yeSBzZXBhcmF0b3IpIGFzIHdlbGwuDQo+ICsgICAg
+IGlmIG5hbWUuc3RhcnRzd2l0aCgoJy8nLCBvcy5zZXApKToNCj4gK0BAIC03NjUsNyArNzc3LDgg
+QEAgZGVmIF9nZXRfZmlsdGVyZWRfYXR0cnMobWVtYmVyLCBkZXN0X3BhdGgsDQo+IGZvcl9kYXRh
+PVRydWUpOg0KPiArICAgICAgICAgIyBGb3IgZXhhbXBsZSwgJ0M6L2Zvbycgb24gV2luZG93cy4N
+Cj4gKyAgICAgICAgIHJhaXNlIEFic29sdXRlUGF0aEVycm9yKG1lbWJlcikNCj4gKyAgICAgIyBF
+bnN1cmUgd2Ugc3RheSBpbiB0aGUgZGVzdGluYXRpb24NCj4gKy0gICAgdGFyZ2V0X3BhdGggPSBv
+cy5wYXRoLnJlYWxwYXRoKG9zLnBhdGguam9pbihkZXN0X3BhdGgsIG5hbWUpKQ0KPiArKyAgICB0
+YXJnZXRfcGF0aCA9IG9zLnBhdGgucmVhbHBhdGgob3MucGF0aC5qb2luKGRlc3RfcGF0aCwgbmFt
+ZSksDQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJpY3Q9b3MucGF0
+aC5BTExPV19NSVNTSU5HKQ0KPiArICAgICBpZiBvcy5wYXRoLmNvbW1vbnBhdGgoW3RhcmdldF9w
+YXRoLCBkZXN0X3BhdGhdKSAhPSBkZXN0X3BhdGg6DQo+ICsgICAgICAgICByYWlzZSBPdXRzaWRl
+RGVzdGluYXRpb25FcnJvcihtZW1iZXIsIHRhcmdldF9wYXRoKQ0KPiArICAgICAjIExpbWl0IHBl
+cm1pc3Npb25zIChubyBoaWdoIGJpdHMsIGFuZCBnby13KQ0KPiArQEAgLTgwMyw2ICs4MTYsOSBA
+QCBkZWYgX2dldF9maWx0ZXJlZF9hdHRycyhtZW1iZXIsIGRlc3RfcGF0aCwNCj4gZm9yX2RhdGE9
+VHJ1ZSk6DQo+ICsgICAgICAgICBpZiBtZW1iZXIuaXNsbmsoKSBvciBtZW1iZXIuaXNzeW0oKToN
+Cj4gKyAgICAgICAgICAgICBpZiBvcy5wYXRoLmlzYWJzKG1lbWJlci5saW5rbmFtZSk6DQo+ICsg
+ICAgICAgICAgICAgICAgIHJhaXNlIEFic29sdXRlTGlua0Vycm9yKG1lbWJlcikNCj4gKysgICAg
+ICAgICAgICBub3JtYWxpemVkID0gb3MucGF0aC5ub3JtcGF0aChtZW1iZXIubGlua25hbWUpDQo+
+ICsrICAgICAgICAgICAgaWYgbm9ybWFsaXplZCAhPSBtZW1iZXIubGlua25hbWU6DQo+ICsrICAg
+ICAgICAgICAgICAgIG5ld19hdHRyc1snbGlua25hbWUnXSA9IG5vcm1hbGl6ZWQNCj4gKyAgICAg
+ICAgICAgICBpZiBtZW1iZXIuaXNzeW0oKToNCj4gKyAgICAgICAgICAgICAgICAgdGFyZ2V0X3Bh
+dGggPSBvcy5wYXRoLmpvaW4oZGVzdF9wYXRoLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBvcy5wYXRoLmRpcm5hbWUobmFtZSksDQo+ICtAQCAtODEwLDcg
+KzgyNiw4IEBAIGRlZiBfZ2V0X2ZpbHRlcmVkX2F0dHJzKG1lbWJlciwgZGVzdF9wYXRoLA0KPiBm
+b3JfZGF0YT1UcnVlKToNCj4gKyAgICAgICAgICAgICBlbHNlOg0KPiArICAgICAgICAgICAgICAg
+ICB0YXJnZXRfcGF0aCA9IG9zLnBhdGguam9pbihkZXN0X3BhdGgsDQo+ICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1lbWJlci5saW5rbmFtZSkNCj4gKy0gICAg
+ICAgICAgICB0YXJnZXRfcGF0aCA9IG9zLnBhdGgucmVhbHBhdGgodGFyZ2V0X3BhdGgpDQo+ICsr
+ICAgICAgICAgICAgdGFyZ2V0X3BhdGggPSBvcy5wYXRoLnJlYWxwYXRoKHRhcmdldF9wYXRoLA0K
+PiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJpY3Q9b3Mu
+cGF0aC5BTExPV19NSVNTSU5HKQ0KPiArICAgICAgICAgICAgIGlmIG9zLnBhdGguY29tbW9ucGF0
+aChbdGFyZ2V0X3BhdGgsIGRlc3RfcGF0aF0pICE9IGRlc3RfcGF0aDoNCj4gKyAgICAgICAgICAg
+ICAgICAgcmFpc2UgTGlua091dHNpZGVEZXN0aW5hdGlvbkVycm9yKG1lbWJlciwgdGFyZ2V0X3Bh
+dGgpDQo+ICsgICAgIHJldHVybiBuZXdfYXR0cnMNCj4gK0BAIC0yMjkxLDMwICsyMzA4LDU4IEBA
+IGRlZiBleHRyYWN0YWxsKHNlbGYsIHBhdGg9Ii4iLCBtZW1iZXJzPU5vbmUsICosDQo+IG51bWVy
+aWNfb3duZXI9RmFsc2UsDQo+ICsgICAgICAgICAgICAgbWVtYmVycyA9IHNlbGYNCj4gKw0KPiAr
+ICAgICAgICAgZm9yIG1lbWJlciBpbiBtZW1iZXJzOg0KPiArLSAgICAgICAgICAgIHRhcmluZm8g
+PSBzZWxmLl9nZXRfZXh0cmFjdF90YXJpbmZvKG1lbWJlciwgZmlsdGVyX2Z1bmN0aW9uLCBwYXRo
+KQ0KPiArKyAgICAgICAgICAgIHRhcmluZm8sIHVuZmlsdGVyZWQgPSBzZWxmLl9nZXRfZXh0cmFj
+dF90YXJpbmZvKA0KPiArKyAgICAgICAgICAgICAgICBtZW1iZXIsIGZpbHRlcl9mdW5jdGlvbiwg
+cGF0aCkNCj4gKyAgICAgICAgICAgICBpZiB0YXJpbmZvIGlzIE5vbmU6DQo+ICsgICAgICAgICAg
+ICAgICAgIGNvbnRpbnVlDQo+ICsgICAgICAgICAgICAgaWYgdGFyaW5mby5pc2RpcigpOg0KPiAr
+ICAgICAgICAgICAgICAgICAjIEZvciBkaXJlY3RvcmllcywgZGVsYXkgc2V0dGluZyBhdHRyaWJ1
+dGVzIHVudGlsIGxhdGVyLA0KPiArICAgICAgICAgICAgICAgICAjIHNpbmNlIHBlcm1pc3Npb25z
+IGNhbiBpbnRlcmZlcmUgd2l0aCBleHRyYWN0aW9uIGFuZA0KPiArICAgICAgICAgICAgICAgICAj
+IGV4dHJhY3RpbmcgY29udGVudHMgY2FuIHJlc2V0IG10aW1lLg0KPiArLSAgICAgICAgICAgICAg
+ICBkaXJlY3Rvcmllcy5hcHBlbmQodGFyaW5mbykNCj4gKysgICAgICAgICAgICAgICAgZGlyZWN0
+b3JpZXMuYXBwZW5kKHVuZmlsdGVyZWQpDQo+ICsgICAgICAgICAgICAgc2VsZi5fZXh0cmFjdF9v
+bmUodGFyaW5mbywgcGF0aCwgc2V0X2F0dHJzPW5vdCB0YXJpbmZvLmlzZGlyKCksDQo+ICstICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgbnVtZXJpY19vd25lcj1udW1lcmljX293bmVyKQ0K
+PiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG51bWVyaWNfb3duZXI9bnVtZXJpY19v
+d25lciwNCj4gKysgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaWx0ZXJfZnVuY3Rpb249
+ZmlsdGVyX2Z1bmN0aW9uKQ0KPiArDQo+ICsgICAgICAgICAjIFJldmVyc2Ugc29ydCBkaXJlY3Rv
+cmllcy4NCj4gKyAgICAgICAgIGRpcmVjdG9yaWVzLnNvcnQoa2V5PWxhbWJkYSBhOiBhLm5hbWUs
+IHJldmVyc2U9VHJ1ZSkNCj4gKw0KPiArKw0KPiArICAgICAgICAgIyBTZXQgY29ycmVjdCBvd25l
+ciwgbXRpbWUgYW5kIGZpbGVtb2RlIG9uIGRpcmVjdG9yaWVzLg0KPiArLSAgICAgICAgZm9yIHRh
+cmluZm8gaW4gZGlyZWN0b3JpZXM6DQo+ICstICAgICAgICAgICAgZGlycGF0aCA9IG9zLnBhdGgu
+am9pbihwYXRoLCB0YXJpbmZvLm5hbWUpDQo+ICsrICAgICAgICBmb3IgdW5maWx0ZXJlZCBpbiBk
+aXJlY3RvcmllczoNCj4gKyAgICAgICAgICAgICB0cnk6DQo+ICsrICAgICAgICAgICAgICAgICMg
+TmVlZCB0byByZS1hcHBseSBhbnkgZmlsdGVyLCB0byB0YWtlIHRoZSAqY3VycmVudCogZmlsZXN5
+c3RlbQ0KPiArKyAgICAgICAgICAgICAgICAjIHN0YXRlIGludG8gYWNjb3VudC4NCj4gKysgICAg
+ICAgICAgICAgICAgdHJ5Og0KPiArKyAgICAgICAgICAgICAgICAgICAgdGFyaW5mbyA9IGZpbHRl
+cl9mdW5jdGlvbih1bmZpbHRlcmVkLCBwYXRoKQ0KPiArKyAgICAgICAgICAgICAgICBleGNlcHQg
+X0ZJTFRFUl9FUlJPUlMgYXMgZXhjOg0KPiArKyAgICAgICAgICAgICAgICAgICAgc2VsZi5fbG9n
+X25vX2RpcmVjdG9yeV9maXh1cCh1bmZpbHRlcmVkLCByZXByKGV4YykpDQo+ICsrICAgICAgICAg
+ICAgICAgICAgICBjb250aW51ZQ0KPiArKyAgICAgICAgICAgICAgICBpZiB0YXJpbmZvIGlzIE5v
+bmU6DQo+ICsrICAgICAgICAgICAgICAgICAgICBzZWxmLl9sb2dfbm9fZGlyZWN0b3J5X2ZpeHVw
+KHVuZmlsdGVyZWQsDQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICdleGNsdWRlZCBieSBmaWx0ZXInKQ0KPiArKyAgICAgICAgICAgICAgICAgICAg
+Y29udGludWUNCj4gKysgICAgICAgICAgICAgICAgZGlycGF0aCA9IG9zLnBhdGguam9pbihwYXRo
+LCB0YXJpbmZvLm5hbWUpDQo+ICsrICAgICAgICAgICAgICAgIHRyeToNCj4gKysgICAgICAgICAg
+ICAgICAgICAgIGxzdGF0ID0gb3MubHN0YXQoZGlycGF0aCkNCj4gKysgICAgICAgICAgICAgICAg
+ZXhjZXB0IEZpbGVOb3RGb3VuZEVycm9yOg0KPiArKyAgICAgICAgICAgICAgICAgICAgc2VsZi5f
+bG9nX25vX2RpcmVjdG9yeV9maXh1cCh0YXJpbmZvLCAnbWlzc2luZycpDQo+ICsrICAgICAgICAg
+ICAgICAgICAgICBjb250aW51ZQ0KPiArKyAgICAgICAgICAgICAgICBpZiBub3Qgc3RhdC5TX0lT
+RElSKGxzdGF0LnN0X21vZGUpOg0KPiArKyAgICAgICAgICAgICAgICAgICAgIyBUaGlzIGlzIG5v
+IGxvbmdlciBhIGRpcmVjdG9yeTsgcHJlc3VtYWJseSBhIGxhdGVyDQo+ICsrICAgICAgICAgICAg
+ICAgICAgICAjIG1lbWJlciBvdmVyd3JvdGUgdGhlIGVudHJ5Lg0KPiArKyAgICAgICAgICAgICAg
+ICAgICAgc2VsZi5fbG9nX25vX2RpcmVjdG9yeV9maXh1cCh0YXJpbmZvLCAnbm90IGEgZGlyZWN0
+b3J5JykNCj4gKysgICAgICAgICAgICAgICAgICAgIGNvbnRpbnVlDQo+ICsgICAgICAgICAgICAg
+ICAgIHNlbGYuY2hvd24odGFyaW5mbywgZGlycGF0aCwgbnVtZXJpY19vd25lcj1udW1lcmljX293
+bmVyKQ0KPiArICAgICAgICAgICAgICAgICBzZWxmLnV0aW1lKHRhcmluZm8sIGRpcnBhdGgpDQo+
+ICsgICAgICAgICAgICAgICAgIHNlbGYuY2htb2QodGFyaW5mbywgZGlycGF0aCkNCj4gKyAgICAg
+ICAgICAgICBleGNlcHQgRXh0cmFjdEVycm9yIGFzIGU6DQo+ICsgICAgICAgICAgICAgICAgIHNl
+bGYuX2hhbmRsZV9ub25mYXRhbF9lcnJvcihlKQ0KPiArDQo+ICsrICAgIGRlZiBfbG9nX25vX2Rp
+cmVjdG9yeV9maXh1cChzZWxmLCBtZW1iZXIsIHJlYXNvbik6DQo+ICsrICAgICAgICBzZWxmLl9k
+YmcoMiwgInRhcmZpbGU6IE5vdCBmaXhpbmcgdXAgZGlyZWN0b3J5ICVyICglcykiICUNCj4gKysg
+ICAgICAgICAgICAgICAgICAobWVtYmVyLm5hbWUsIHJlYXNvbikpDQo+ICsrDQo+ICsgICAgIGRl
+ZiBleHRyYWN0KHNlbGYsIG1lbWJlciwgcGF0aD0iIiwgc2V0X2F0dHJzPVRydWUsICosIG51bWVy
+aWNfb3duZXI9RmFsc2UsDQo+ICsgICAgICAgICAgICAgICAgIGZpbHRlcj1Ob25lKToNCj4gKyAg
+ICAgICAgICIiIkV4dHJhY3QgYSBtZW1iZXIgZnJvbSB0aGUgYXJjaGl2ZSB0byB0aGUgY3VycmVu
+dCB3b3JraW5nIGRpcmVjdG9yeSwNCj4gK0BAIC0yMzMwLDQxICsyMzc1LDU2IEBAIGRlZiBleHRy
+YWN0KHNlbGYsIG1lbWJlciwgcGF0aD0iIiwgc2V0X2F0dHJzPVRydWUsICosDQo+IG51bWVyaWNf
+b3duZXI9RmFsc2UsDQo+ICsgICAgICAgICAgICBTdHJpbmcgbmFtZXMgb2YgY29tbW9uIGZpbHRl
+cnMgYXJlIGFjY2VwdGVkLg0KPiArICAgICAgICAgIiIiDQo+ICsgICAgICAgICBmaWx0ZXJfZnVu
+Y3Rpb24gPSBzZWxmLl9nZXRfZmlsdGVyX2Z1bmN0aW9uKGZpbHRlcikNCj4gKy0gICAgICAgIHRh
+cmluZm8gPSBzZWxmLl9nZXRfZXh0cmFjdF90YXJpbmZvKG1lbWJlciwgZmlsdGVyX2Z1bmN0aW9u
+LCBwYXRoKQ0KPiArKyAgICAgICAgdGFyaW5mbywgdW5maWx0ZXJlZCA9IHNlbGYuX2dldF9leHRy
+YWN0X3RhcmluZm8oDQo+ICsrICAgICAgICAgICAgbWVtYmVyLCBmaWx0ZXJfZnVuY3Rpb24sIHBh
+dGgpDQo+ICsgICAgICAgICBpZiB0YXJpbmZvIGlzIG5vdCBOb25lOg0KPiArICAgICAgICAgICAg
+IHNlbGYuX2V4dHJhY3Rfb25lKHRhcmluZm8sIHBhdGgsIHNldF9hdHRycywgbnVtZXJpY19vd25l
+cikNCj4gKw0KPiArICAgICBkZWYgX2dldF9leHRyYWN0X3RhcmluZm8oc2VsZiwgbWVtYmVyLCBm
+aWx0ZXJfZnVuY3Rpb24sIHBhdGgpOg0KPiArLSAgICAgICAgIiIiR2V0IGZpbHRlcmVkIFRhcklu
+Zm8gKG9yIE5vbmUpIGZyb20gbWVtYmVyLCB3aGljaCBtaWdodCBiZSBhIHN0ciIiIg0KPiArKyAg
+ICAgICAgIiIiR2V0IChmaWx0ZXJlZCwgdW5maWx0ZXJlZCkgVGFySW5mb3MgZnJvbSAqbWVtYmVy
+Kg0KPiArKw0KPiArKyAgICAgICAgKm1lbWJlciogbWlnaHQgYmUgYSBzdHJpbmcuDQo+ICsrDQo+
+ICsrICAgICAgICBSZXR1cm4gKE5vbmUsIE5vbmUpIGlmIG5vdCBmb3VuZC4NCj4gKysgICAgICAg
+ICIiIg0KPiArKw0KPiArICAgICAgICAgaWYgaXNpbnN0YW5jZShtZW1iZXIsIHN0cik6DQo+ICst
+ICAgICAgICAgICAgdGFyaW5mbyA9IHNlbGYuZ2V0bWVtYmVyKG1lbWJlcikNCj4gKysgICAgICAg
+ICAgICB1bmZpbHRlcmVkID0gc2VsZi5nZXRtZW1iZXIobWVtYmVyKQ0KPiArICAgICAgICAgZWxz
+ZToNCj4gKy0gICAgICAgICAgICB0YXJpbmZvID0gbWVtYmVyDQo+ICsrICAgICAgICAgICAgdW5m
+aWx0ZXJlZCA9IG1lbWJlcg0KPiArDQo+ICstICAgICAgICB1bmZpbHRlcmVkID0gdGFyaW5mbw0K
+PiArKyAgICAgICAgZmlsdGVyZWQgPSBOb25lDQo+ICsgICAgICAgICB0cnk6DQo+ICstICAgICAg
+ICAgICAgdGFyaW5mbyA9IGZpbHRlcl9mdW5jdGlvbih0YXJpbmZvLCBwYXRoKQ0KPiArKyAgICAg
+ICAgICAgIGZpbHRlcmVkID0gZmlsdGVyX2Z1bmN0aW9uKHVuZmlsdGVyZWQsIHBhdGgpDQo+ICsg
+ICAgICAgICBleGNlcHQgKE9TRXJyb3IsIEZpbHRlckVycm9yKSBhcyBlOg0KPiArICAgICAgICAg
+ICAgIHNlbGYuX2hhbmRsZV9mYXRhbF9lcnJvcihlKQ0KPiArICAgICAgICAgZXhjZXB0IEV4dHJh
+Y3RFcnJvciBhcyBlOg0KPiArICAgICAgICAgICAgIHNlbGYuX2hhbmRsZV9ub25mYXRhbF9lcnJv
+cihlKQ0KPiArLSAgICAgICAgaWYgdGFyaW5mbyBpcyBOb25lOg0KPiArKyAgICAgICAgaWYgZmls
+dGVyZWQgaXMgTm9uZToNCj4gKyAgICAgICAgICAgICBzZWxmLl9kYmcoMiwgInRhcmZpbGU6IEV4
+Y2x1ZGVkICVyIiAlIHVuZmlsdGVyZWQubmFtZSkNCj4gKy0gICAgICAgICAgICByZXR1cm4gTm9u
+ZQ0KPiArKyAgICAgICAgICAgIHJldHVybiBOb25lLCBOb25lDQo+ICsrDQo+ICsgICAgICAgICAj
+IFByZXBhcmUgdGhlIGxpbmsgdGFyZ2V0IGZvciBtYWtlbGluaygpLg0KPiArLSAgICAgICAgaWYg
+dGFyaW5mby5pc2xuaygpOg0KPiArLSAgICAgICAgICAgIHRhcmluZm8gPSBjb3B5LmNvcHkodGFy
+aW5mbykNCj4gKy0gICAgICAgICAgICB0YXJpbmZvLl9saW5rX3RhcmdldCA9IG9zLnBhdGguam9p
+bihwYXRoLCB0YXJpbmZvLmxpbmtuYW1lKQ0KPiArLSAgICAgICAgcmV0dXJuIHRhcmluZm8NCj4g
+KysgICAgICAgIGlmIGZpbHRlcmVkLmlzbG5rKCk6DQo+ICsrICAgICAgICAgICAgZmlsdGVyZWQg
+PSBjb3B5LmNvcHkoZmlsdGVyZWQpDQo+ICsrICAgICAgICAgICAgZmlsdGVyZWQuX2xpbmtfdGFy
+Z2V0ID0gb3MucGF0aC5qb2luKHBhdGgsIGZpbHRlcmVkLmxpbmtuYW1lKQ0KPiArKyAgICAgICAg
+cmV0dXJuIGZpbHRlcmVkLCB1bmZpbHRlcmVkDQo+ICsNCj4gKy0gICAgZGVmIF9leHRyYWN0X29u
+ZShzZWxmLCB0YXJpbmZvLCBwYXRoLCBzZXRfYXR0cnMsIG51bWVyaWNfb3duZXIpOg0KPiArLSAg
+ICAgICAgIiIiRXh0cmFjdCBmcm9tIGZpbHRlcmVkIHRhcmluZm8gdG8gZGlzayIiIg0KPiArKyAg
+ICBkZWYgX2V4dHJhY3Rfb25lKHNlbGYsIHRhcmluZm8sIHBhdGgsIHNldF9hdHRycywgbnVtZXJp
+Y19vd25lciwNCj4gKysgICAgICAgICAgICAgICAgICAgICBmaWx0ZXJfZnVuY3Rpb249Tm9uZSk6
+DQo+ICsrICAgICAgICAiIiJFeHRyYWN0IGZyb20gZmlsdGVyZWQgdGFyaW5mbyB0byBkaXNrLg0K
+PiArKw0KPiArKyAgICAgICAgICAgZmlsdGVyX2Z1bmN0aW9uIGlzIG9ubHkgdXNlZCB3aGVuIGV4
+dHJhY3RpbmcgYSAqZGlmZmVyZW50Kg0KPiArKyAgICAgICAgICAgbWVtYmVyIChlLmcuIGFzIGZh
+bGxiYWNrIHRvIGNyZWF0aW5nIGEgc3ltbGluaykNCj4gKysgICAgICAgICIiIg0KPiArICAgICAg
+ICAgc2VsZi5fY2hlY2soInIiKQ0KPiArDQo+ICsgICAgICAgICB0cnk6DQo+ICsgICAgICAgICAg
+ICAgc2VsZi5fZXh0cmFjdF9tZW1iZXIodGFyaW5mbywgb3MucGF0aC5qb2luKHBhdGgsIHRhcmlu
+Zm8ubmFtZSksDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2V0X2F0dHJz
+PXNldF9hdHRycywNCj4gKy0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBudW1lcmlj
+X293bmVyPW51bWVyaWNfb3duZXIpDQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgbnVtZXJpY19vd25lcj1udW1lcmljX293bmVyLA0KPiArKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIGZpbHRlcl9mdW5jdGlvbj1maWx0ZXJfZnVuY3Rpb24sDQo+ICsrICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgZXh0cmFjdGlvbl9yb290PXBhdGgpDQo+ICsgICAg
+ICAgICBleGNlcHQgT1NFcnJvciBhcyBlOg0KPiArICAgICAgICAgICAgIHNlbGYuX2hhbmRsZV9m
+YXRhbF9lcnJvcihlKQ0KPiArICAgICAgICAgZXhjZXB0IEV4dHJhY3RFcnJvciBhcyBlOg0KPiAr
+QEAgLTI0MjIsOSArMjQ4MiwxMyBAQCBkZWYgZXh0cmFjdGZpbGUoc2VsZiwgbWVtYmVyKToNCj4g
+KyAgICAgICAgICAgICByZXR1cm4gTm9uZQ0KPiArDQo+ICsgICAgIGRlZiBfZXh0cmFjdF9tZW1i
+ZXIoc2VsZiwgdGFyaW5mbywgdGFyZ2V0cGF0aCwgc2V0X2F0dHJzPVRydWUsDQo+ICstICAgICAg
+ICAgICAgICAgICAgICAgICAgbnVtZXJpY19vd25lcj1GYWxzZSk6DQo+ICstICAgICAgICAiIiJF
+eHRyYWN0IHRoZSBUYXJJbmZvIG9iamVjdCB0YXJpbmZvIHRvIGEgcGh5c2ljYWwNCj4gKysgICAg
+ICAgICAgICAgICAgICAgICAgICBudW1lcmljX293bmVyPUZhbHNlLCAqLCBmaWx0ZXJfZnVuY3Rp
+b249Tm9uZSwNCj4gKysgICAgICAgICAgICAgICAgICAgICAgICBleHRyYWN0aW9uX3Jvb3Q9Tm9u
+ZSk6DQo+ICsrICAgICAgICAiIiJFeHRyYWN0IHRoZSBmaWx0ZXJlZCBUYXJJbmZvIG9iamVjdCB0
+YXJpbmZvIHRvIGEgcGh5c2ljYWwNCj4gKyAgICAgICAgICAgIGZpbGUgY2FsbGVkIHRhcmdldHBh
+dGguDQo+ICsrDQo+ICsrICAgICAgICAgICBmaWx0ZXJfZnVuY3Rpb24gaXMgb25seSB1c2VkIHdo
+ZW4gZXh0cmFjdGluZyBhICpkaWZmZXJlbnQqDQo+ICsrICAgICAgICAgICBtZW1iZXIgKGUuZy4g
+YXMgZmFsbGJhY2sgdG8gY3JlYXRpbmcgYSBzeW1saW5rKQ0KPiArICAgICAgICAgIiIiDQo+ICsg
+ICAgICAgICAjIEZldGNoIHRoZSBUYXJJbmZvIG9iamVjdCBmb3IgdGhlIGdpdmVuIG5hbWUNCj4g
+KyAgICAgICAgICMgYW5kIGJ1aWxkIHRoZSBkZXN0aW5hdGlvbiBwYXRobmFtZSwgcmVwbGFjaW5n
+DQo+ICtAQCAtMjQ1Myw3ICsyNTE3LDEwIEBAIGRlZiBfZXh0cmFjdF9tZW1iZXIoc2VsZiwgdGFy
+aW5mbywgdGFyZ2V0cGF0aCwNCj4gc2V0X2F0dHJzPVRydWUsDQo+ICsgICAgICAgICBlbGlmIHRh
+cmluZm8uaXNjaHIoKSBvciB0YXJpbmZvLmlzYmxrKCk6DQo+ICsgICAgICAgICAgICAgc2VsZi5t
+YWtlZGV2KHRhcmluZm8sIHRhcmdldHBhdGgpDQo+ICsgICAgICAgICBlbGlmIHRhcmluZm8uaXNs
+bmsoKSBvciB0YXJpbmZvLmlzc3ltKCk6DQo+ICstICAgICAgICAgICAgc2VsZi5tYWtlbGluayh0
+YXJpbmZvLCB0YXJnZXRwYXRoKQ0KPiArKyAgICAgICAgICAgIHNlbGYubWFrZWxpbmtfd2l0aF9m
+aWx0ZXIoDQo+ICsrICAgICAgICAgICAgICAgIHRhcmluZm8sIHRhcmdldHBhdGgsDQo+ICsrICAg
+ICAgICAgICAgICAgIGZpbHRlcl9mdW5jdGlvbj1maWx0ZXJfZnVuY3Rpb24sDQo+ICsrICAgICAg
+ICAgICAgICAgIGV4dHJhY3Rpb25fcm9vdD1leHRyYWN0aW9uX3Jvb3QpDQo+ICsgICAgICAgICBl
+bGlmIHRhcmluZm8udHlwZSBub3QgaW4gU1VQUE9SVEVEX1RZUEVTOg0KPiArICAgICAgICAgICAg
+IHNlbGYubWFrZXVua25vd24odGFyaW5mbywgdGFyZ2V0cGF0aCkNCj4gKyAgICAgICAgIGVsc2U6
+DQo+ICtAQCAtMjUzNiwxMCArMjYwMywxOCBAQCBkZWYgbWFrZWRldihzZWxmLCB0YXJpbmZvLCB0
+YXJnZXRwYXRoKToNCj4gKyAgICAgICAgICAgICAgICAgIG9zLm1ha2VkZXYodGFyaW5mby5kZXZt
+YWpvciwgdGFyaW5mby5kZXZtaW5vcikpDQo+ICsNCj4gKyAgICAgZGVmIG1ha2VsaW5rKHNlbGYs
+IHRhcmluZm8sIHRhcmdldHBhdGgpOg0KPiArKyAgICAgICAgcmV0dXJuIHNlbGYubWFrZWxpbmtf
+d2l0aF9maWx0ZXIodGFyaW5mbywgdGFyZ2V0cGF0aCwgTm9uZSwgTm9uZSkNCj4gKysNCj4gKysg
+ICAgZGVmIG1ha2VsaW5rX3dpdGhfZmlsdGVyKHNlbGYsIHRhcmluZm8sIHRhcmdldHBhdGgsDQo+
+ICsrICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaWx0ZXJfZnVuY3Rpb24sIGV4dHJhY3Rp
+b25fcm9vdCk6DQo+ICsgICAgICAgICAiIiJNYWtlIGEgKHN5bWJvbGljKSBsaW5rIGNhbGxlZCB0
+YXJnZXRwYXRoLiBJZiBpdCBjYW5ub3QgYmUgY3JlYXRlZA0KPiArICAgICAgICAgICAocGxhdGZv
+cm0gbGltaXRhdGlvbiksIHdlIHRyeSB0byBtYWtlIGEgY29weSBvZiB0aGUgcmVmZXJlbmNlZCBm
+aWxlDQo+ICsgICAgICAgICAgIGluc3RlYWQgb2YgYSBsaW5rLg0KPiArKw0KPiArKyAgICAgICAg
+ICBmaWx0ZXJfZnVuY3Rpb24gaXMgb25seSB1c2VkIHdoZW4gZXh0cmFjdGluZyBhICpkaWZmZXJl
+bnQqDQo+ICsrICAgICAgICAgIG1lbWJlciAoZS5nLiBhcyBmYWxsYmFjayB0byBjcmVhdGluZyBh
+IGxpbmspLg0KPiArICAgICAgICAgIiIiDQo+ICsrICAgICAgICBrZXllcnJvcl90b19leHRyYWN0
+ZXJyb3IgPSBGYWxzZQ0KPiArICAgICAgICAgdHJ5Og0KPiArICAgICAgICAgICAgICMgRm9yIHN5
+c3RlbXMgdGhhdCBzdXBwb3J0IHN5bWJvbGljIGFuZCBoYXJkIGxpbmtzLg0KPiArICAgICAgICAg
+ICAgIGlmIHRhcmluZm8uaXNzeW0oKToNCj4gK0BAIC0yNTQ3LDE4ICsyNjIyLDM4IEBAIGRlZiBt
+YWtlbGluayhzZWxmLCB0YXJpbmZvLCB0YXJnZXRwYXRoKToNCj4gKyAgICAgICAgICAgICAgICAg
+ICAgICMgQXZvaWQgRmlsZUV4aXN0c0Vycm9yIG9uIGZvbGxvd2luZyBvcy5zeW1saW5rLg0KPiAr
+ICAgICAgICAgICAgICAgICAgICAgb3MudW5saW5rKHRhcmdldHBhdGgpDQo+ICsgICAgICAgICAg
+ICAgICAgIG9zLnN5bWxpbmsodGFyaW5mby5saW5rbmFtZSwgdGFyZ2V0cGF0aCkNCj4gKysgICAg
+ICAgICAgICAgICAgcmV0dXJuDQo+ICsgICAgICAgICAgICAgZWxzZToNCj4gKyAgICAgICAgICAg
+ICAgICAgaWYgb3MucGF0aC5leGlzdHModGFyaW5mby5fbGlua190YXJnZXQpOg0KPiArICAgICAg
+ICAgICAgICAgICAgICAgb3MubGluayh0YXJpbmZvLl9saW5rX3RhcmdldCwgdGFyZ2V0cGF0aCkN
+Cj4gKy0gICAgICAgICAgICAgICAgZWxzZToNCj4gKy0gICAgICAgICAgICAgICAgICAgIHNlbGYu
+X2V4dHJhY3RfbWVtYmVyKHNlbGYuX2ZpbmRfbGlua190YXJnZXQodGFyaW5mbyksDQo+ICstICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YXJnZXRwYXRoKQ0KPiArKyAg
+ICAgICAgICAgICAgICAgICAgcmV0dXJuDQo+ICsgICAgICAgICBleGNlcHQgc3ltbGlua19leGNl
+cHRpb246DQo+ICsrICAgICAgICAgICAga2V5ZXJyb3JfdG9fZXh0cmFjdGVycm9yID0gVHJ1ZQ0K
+PiArKw0KPiArKyAgICAgICAgdHJ5Og0KPiArKyAgICAgICAgICAgIHVuZmlsdGVyZWQgPSBzZWxm
+Ll9maW5kX2xpbmtfdGFyZ2V0KHRhcmluZm8pDQo+ICsrICAgICAgICBleGNlcHQgS2V5RXJyb3I6
+DQo+ICsrICAgICAgICAgICAgaWYga2V5ZXJyb3JfdG9fZXh0cmFjdGVycm9yOg0KPiArKyAgICAg
+ICAgICAgICAgICByYWlzZSBFeHRyYWN0RXJyb3IoDQo+ICsrICAgICAgICAgICAgICAgICAgICAi
+dW5hYmxlIHRvIHJlc29sdmUgbGluayBpbnNpZGUgYXJjaGl2ZSIpIGZyb20gTm9uZQ0KPiArKyAg
+ICAgICAgICAgIGVsc2U6DQo+ICsrICAgICAgICAgICAgICAgIHJhaXNlDQo+ICsrDQo+ICsrICAg
+ICAgICBpZiBmaWx0ZXJfZnVuY3Rpb24gaXMgTm9uZToNCj4gKysgICAgICAgICAgICBmaWx0ZXJl
+ZCA9IHVuZmlsdGVyZWQNCj4gKysgICAgICAgIGVsc2U6DQo+ICsrICAgICAgICAgICAgaWYgZXh0
+cmFjdGlvbl9yb290IGlzIE5vbmU6DQo+ICsrICAgICAgICAgICAgICAgIHJhaXNlIEV4dHJhY3RF
+cnJvcigNCj4gKysgICAgICAgICAgICAgICAgICAgICJtYWtlbGlua193aXRoX2ZpbHRlcjogaWYg
+ZmlsdGVyX2Z1bmN0aW9uIGlzIG5vdCBOb25lLCAiDQo+ICsrICAgICAgICAgICAgICAgICAgICAr
+ICJleHRyYWN0aW9uX3Jvb3QgbXVzdCBhbHNvIG5vdCBiZSBOb25lIikNCj4gKyAgICAgICAgICAg
+ICB0cnk6DQo+ICstICAgICAgICAgICAgICAgIHNlbGYuX2V4dHJhY3RfbWVtYmVyKHNlbGYuX2Zp
+bmRfbGlua190YXJnZXQodGFyaW5mbyksDQo+ICstICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHRhcmdldHBhdGgpDQo+ICstICAgICAgICAgICAgZXhjZXB0IEtleUVycm9yOg0K
+PiArLSAgICAgICAgICAgICAgICByYWlzZSBFeHRyYWN0RXJyb3IoInVuYWJsZSB0byByZXNvbHZl
+IGxpbmsgaW5zaWRlIGFyY2hpdmUiKSBmcm9tIE5vbmUNCj4gKysgICAgICAgICAgICAgICAgZmls
+dGVyZWQgPSBmaWx0ZXJfZnVuY3Rpb24odW5maWx0ZXJlZCwgZXh0cmFjdGlvbl9yb290KQ0KPiAr
+KyAgICAgICAgICAgIGV4Y2VwdCBfRklMVEVSX0VSUk9SUyBhcyBjYXVzZToNCj4gKysgICAgICAg
+ICAgICAgICAgcmFpc2UgTGlua0ZhbGxiYWNrRXJyb3IodGFyaW5mbywgdW5maWx0ZXJlZC5uYW1l
+KSBmcm9tIGNhdXNlDQo+ICsrICAgICAgICBpZiBmaWx0ZXJlZCBpcyBub3QgTm9uZToNCj4gKysg
+ICAgICAgICAgICBzZWxmLl9leHRyYWN0X21lbWJlcihmaWx0ZXJlZCwgdGFyZ2V0cGF0aCwNCj4g
+KysgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaWx0ZXJfZnVuY3Rpb249ZmlsdGVy
+X2Z1bmN0aW9uLA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGV4dHJhY3Rp
+b25fcm9vdD1leHRyYWN0aW9uX3Jvb3QpDQo+ICsNCj4gKyAgICAgZGVmIGNob3duKHNlbGYsIHRh
+cmluZm8sIHRhcmdldHBhdGgsIG51bWVyaWNfb3duZXIpOg0KPiArICAgICAgICAgIiIiU2V0IG93
+bmVyIG9mIHRhcmdldHBhdGggYWNjb3JkaW5nIHRvIHRhcmluZm8uIElmIG51bWVyaWNfb3duZXIN
+Cj4gK2RpZmYgLS1naXQgYS9MaWIvdGVzdC90ZXN0X250cGF0aC5weSBiL0xpYi90ZXN0L3Rlc3Rf
+bnRwYXRoLnB5DQo+ICtpbmRleCA0OTI0ZGI5ODNiNS4uOTNkNzAxMTI4NDUgMTAwNjQ0DQo+ICst
+LS0gYS9MaWIvdGVzdC90ZXN0X250cGF0aC5weQ0KPiArKysrIGIvTGliL3Rlc3QvdGVzdF9udHBh
+dGgucHkNCj4gK0BAIC0yLDkgKzIsMTEgQEANCj4gKyBpbXBvcnQgbnRwYXRoDQo+ICsgaW1wb3J0
+IG9zDQo+ICsgaW1wb3J0IHN0cmluZw0KPiArK2ltcG9ydCBzdWJwcm9jZXNzDQo+ICsgaW1wb3J0
+IHN5cw0KPiArIGltcG9ydCB1bml0dGVzdA0KPiArIGltcG9ydCB3YXJuaW5ncw0KPiArK2Zyb20g
+bnRwYXRoIGltcG9ydCBBTExPV19NSVNTSU5HDQo+ICsgZnJvbSB0ZXN0LnN1cHBvcnQgaW1wb3J0
+IGNweXRob25fb25seSwgb3NfaGVscGVyDQo+ICsgZnJvbSB0ZXN0LnN1cHBvcnQgaW1wb3J0IFRl
+c3RGYWlsZWQsIGlzX2Vtc2NyaXB0ZW4NCj4gKyBmcm9tIHRlc3Quc3VwcG9ydC5vc19oZWxwZXIg
+aW1wb3J0IEZha2VQYXRoDQo+ICtAQCAtNzYsNiArNzgsMjcgQEAgZGVmIHRlc3Rlcihmbiwgd2Fu
+dFJlc3VsdCk6DQo+ICsgICAgICAgICAgICAgICAlKHN0cihmbiksIHN0cih3YW50UmVzdWx0KSwg
+cmVwcihnb3RSZXN1bHQpKSkNCj4gKw0KPiArDQo+ICsrZGVmIF9wYXJhbWV0ZXJpemUoKnBhcmFt
+ZXRlcnMpOg0KPiArKyAgICAiIiJTaW1wbGlzdGljIGRlY29yYXRvciB0byBwYXJhbWV0cml6ZSBh
+IHRlc3QNCj4gKysNCj4gKysgICAgUnVucyB0aGUgZGVjb3JhdGVkIHRlc3QgbXVsdGlwbGUgdGlt
+ZXMgaW4gc3ViVGVzdCwgd2l0aCBhIHZhbHVlIGZyb20NCj4gKysgICAgJ3BhcmFtZXRlcnMnIHBh
+c3NlZCBhcyBhbiBleHRyYSBwb3NpdGlvbmFsIGFyZ3VtZW50Lg0KPiArKyAgICBDYWxscyBkb0Ns
+ZWFudXBzKCkgYWZ0ZXIgZWFjaCBydW4uDQo+ICsrDQo+ICsrICAgIE5vdCBmb3IgZ2VuZXJhbCB1
+c2UuIEludGVuZGVkIHRvIGF2b2lkIGluZGVudGluZyBmb3IgZWFzaWVyIGJhY2twb3J0cy4NCj4g
+KysNCj4gKysgICAgU2VlIGh0dHBzOi8vZGlzY3Vzcy5weXRob24ub3JnL3QvOTE4MjcgZm9yIGRp
+c2N1c3NpbmcgZ2VuZXJhbGl6YXRpb25zLg0KPiArKyAgICAiIiINCj4gKysgICAgZGVmIF9wYXJh
+bWV0cml6ZV9kZWNvcmF0b3IoZnVuYyk6DQo+ICsrICAgICAgICBkZWYgX3BhcmFtZXRlcml6ZWQo
+c2VsZiwgKmFyZ3MsICoqa3dhcmdzKToNCj4gKysgICAgICAgICAgICBmb3IgcGFyYW1ldGVyIGlu
+IHBhcmFtZXRlcnM6DQo+ICsrICAgICAgICAgICAgICAgIHdpdGggc2VsZi5zdWJUZXN0KHBhcmFt
+ZXRlcik6DQo+ICsrICAgICAgICAgICAgICAgICAgICBmdW5jKHNlbGYsICphcmdzLCBwYXJhbWV0
+ZXIsICoqa3dhcmdzKQ0KPiArKyAgICAgICAgICAgICAgICBzZWxmLmRvQ2xlYW51cHMoKQ0KPiAr
+KyAgICAgICAgcmV0dXJuIF9wYXJhbWV0ZXJpemVkDQo+ICsrICAgIHJldHVybiBfcGFyYW1ldHJp
+emVfZGVjb3JhdG9yDQo+ICsrDQo+ICsrDQo+ICsgY2xhc3MgTnRwYXRoVGVzdENhc2UodW5pdHRl
+c3QuVGVzdENhc2UpOg0KPiArICAgICBkZWYgYXNzZXJ0UGF0aEVxdWFsKHNlbGYsIHBhdGgxLCBw
+YXRoMik6DQo+ICsgICAgICAgICBpZiBwYXRoMSA9PSBwYXRoMiBvciBfbm9ybShwYXRoMSkgPT0g
+X25vcm0ocGF0aDIpOg0KPiArQEAgLTM2Myw2ICszODYsMjcgQEAgZGVmIHRlc3RfcmVhbHBhdGhf
+Y3VyZGlyKHNlbGYpOg0KPiArICAgICAgICAgdGVzdGVyKCJudHBhdGgucmVhbHBhdGgoJy5cXC4n
+KSIsIGV4cGVjdGVkKQ0KPiArICAgICAgICAgdGVzdGVyKCJudHBhdGgucmVhbHBhdGgoJ1xcJy5q
+b2luKFsnLiddICogMTAwKSkiLCBleHBlY3RlZCkNCj4gKw0KPiArKyAgICBkZWYgdGVzdF9yZWFs
+cGF0aF9jdXJkaXJfc3RyaWN0KHNlbGYpOg0KPiArKyAgICAgICAgZXhwZWN0ZWQgPSBudHBhdGgu
+bm9ybXBhdGgob3MuZ2V0Y3dkKCkpDQo+ICsrICAgICAgICB0ZXN0ZXIoIm50cGF0aC5yZWFscGF0
+aCgnLicsIHN0cmljdD1UcnVlKSIsIGV4cGVjdGVkKQ0KPiArKyAgICAgICAgdGVzdGVyKCJudHBh
+dGgucmVhbHBhdGgoJy4vLicsIHN0cmljdD1UcnVlKSIsIGV4cGVjdGVkKQ0KPiArKyAgICAgICAg
+dGVzdGVyKCJudHBhdGgucmVhbHBhdGgoJy8nLmpvaW4oWycuJ10gKiAxMDApLCBzdHJpY3Q9VHJ1
+ZSkiLCBleHBlY3RlZCkNCj4gKysgICAgICAgIHRlc3RlcigibnRwYXRoLnJlYWxwYXRoKCcuXFwu
+Jywgc3RyaWN0PVRydWUpIiwgZXhwZWN0ZWQpDQo+ICsrICAgICAgICB0ZXN0ZXIoIm50cGF0aC5y
+ZWFscGF0aCgnXFwnLmpvaW4oWycuJ10gKiAxMDApLCBzdHJpY3Q9VHJ1ZSkiLCBleHBlY3RlZCkN
+Cj4gKysNCj4gKysgICAgZGVmIHRlc3RfcmVhbHBhdGhfY3VyZGlyX21pc3Npbmdfb2soc2VsZik6
+DQo+ICsrICAgICAgICBleHBlY3RlZCA9IG50cGF0aC5ub3JtcGF0aChvcy5nZXRjd2QoKSkNCj4g
+KysgICAgICAgIHRlc3RlcigibnRwYXRoLnJlYWxwYXRoKCcuJywgc3RyaWN0PUFMTE9XX01JU1NJ
+TkcpIiwNCj4gKysgICAgICAgICAgICAgICBleHBlY3RlZCkNCj4gKysgICAgICAgIHRlc3Rlcigi
+bnRwYXRoLnJlYWxwYXRoKCcuLy4nLCBzdHJpY3Q9QUxMT1dfTUlTU0lORykiLA0KPiArKyAgICAg
+ICAgICAgICAgIGV4cGVjdGVkKQ0KPiArKyAgICAgICAgdGVzdGVyKCJudHBhdGgucmVhbHBhdGgo
+Jy8nLmpvaW4oWycuJ10gKiAxMDApLCBzdHJpY3Q9QUxMT1dfTUlTU0lORykiLA0KPiArKyAgICAg
+ICAgICAgICAgIGV4cGVjdGVkKQ0KPiArKyAgICAgICAgdGVzdGVyKCJudHBhdGgucmVhbHBhdGgo
+Jy5cXC4nLCBzdHJpY3Q9QUxMT1dfTUlTU0lORykiLA0KPiArKyAgICAgICAgICAgICAgIGV4cGVj
+dGVkKQ0KPiArKyAgICAgICAgdGVzdGVyKCJudHBhdGgucmVhbHBhdGgoJ1xcJy5qb2luKFsnLidd
+ICogMTAwKSwgc3RyaWN0PUFMTE9XX01JU1NJTkcpIiwNCj4gKysgICAgICAgICAgICAgICBleHBl
+Y3RlZCkNCj4gKysNCj4gKyAgICAgZGVmIHRlc3RfcmVhbHBhdGhfcGFyZGlyKHNlbGYpOg0KPiAr
+ICAgICAgICAgZXhwZWN0ZWQgPSBudHBhdGgubm9ybXBhdGgob3MuZ2V0Y3dkKCkpDQo+ICsgICAg
+ICAgICB0ZXN0ZXIoIm50cGF0aC5yZWFscGF0aCgnLi4nKSIsIG50cGF0aC5kaXJuYW1lKGV4cGVj
+dGVkKSkNCj4gK0BAIC0zNzUsMjggKzQxOSw1OSBAQCBkZWYgdGVzdF9yZWFscGF0aF9wYXJkaXIo
+c2VsZik6DQo+ICsgICAgICAgICB0ZXN0ZXIoIm50cGF0aC5yZWFscGF0aCgnXFwnLmpvaW4oWycu
+LiddICogNTApKSIsDQo+ICsgICAgICAgICAgICAgICAgbnRwYXRoLnNwbGl0ZHJpdmUoZXhwZWN0
+ZWQpWzBdICsgJ1xcJykNCj4gKw0KPiArKyAgICBkZWYgdGVzdF9yZWFscGF0aF9wYXJkaXJfc3Ry
+aWN0KHNlbGYpOg0KPiArKyAgICAgICAgZXhwZWN0ZWQgPSBudHBhdGgubm9ybXBhdGgob3MuZ2V0
+Y3dkKCkpDQo+ICsrICAgICAgICB0ZXN0ZXIoIm50cGF0aC5yZWFscGF0aCgnLi4nLCBzdHJpY3Q9
+VHJ1ZSkiLCBudHBhdGguZGlybmFtZShleHBlY3RlZCkpDQo+ICsrICAgICAgICB0ZXN0ZXIoIm50
+cGF0aC5yZWFscGF0aCgnLi4vLi4nLCBzdHJpY3Q9VHJ1ZSkiLA0KPiArKyAgICAgICAgICAgICAg
+IG50cGF0aC5kaXJuYW1lKG50cGF0aC5kaXJuYW1lKGV4cGVjdGVkKSkpDQo+ICsrICAgICAgICB0
+ZXN0ZXIoIm50cGF0aC5yZWFscGF0aCgnLycuam9pbihbJy4uJ10gKiA1MCksIHN0cmljdD1UcnVl
+KSIsDQo+ICsrICAgICAgICAgICAgICAgbnRwYXRoLnNwbGl0ZHJpdmUoZXhwZWN0ZWQpWzBdICsg
+J1xcJykNCj4gKysgICAgICAgIHRlc3RlcigibnRwYXRoLnJlYWxwYXRoKCcuLlxcLi4nLCBzdHJp
+Y3Q9VHJ1ZSkiLA0KPiArKyAgICAgICAgICAgICAgIG50cGF0aC5kaXJuYW1lKG50cGF0aC5kaXJu
+YW1lKGV4cGVjdGVkKSkpDQo+ICsrICAgICAgICB0ZXN0ZXIoIm50cGF0aC5yZWFscGF0aCgnXFwn
+LmpvaW4oWycuLiddICogNTApLCBzdHJpY3Q9VHJ1ZSkiLA0KPiArKyAgICAgICAgICAgICAgIG50
+cGF0aC5zcGxpdGRyaXZlKGV4cGVjdGVkKVswXSArICdcXCcpDQo+ICsrDQo+ICsrICAgIGRlZiB0
+ZXN0X3JlYWxwYXRoX3BhcmRpcl9taXNzaW5nX29rKHNlbGYpOg0KPiArKyAgICAgICAgZXhwZWN0
+ZWQgPSBudHBhdGgubm9ybXBhdGgob3MuZ2V0Y3dkKCkpDQo+ICsrICAgICAgICB0ZXN0ZXIoIm50
+cGF0aC5yZWFscGF0aCgnLi4nLCBzdHJpY3Q9QUxMT1dfTUlTU0lORykiLA0KPiArKyAgICAgICAg
+ICAgICAgIG50cGF0aC5kaXJuYW1lKGV4cGVjdGVkKSkNCj4gKysgICAgICAgIHRlc3RlcigibnRw
+YXRoLnJlYWxwYXRoKCcuLi8uLicsIHN0cmljdD1BTExPV19NSVNTSU5HKSIsDQo+ICsrICAgICAg
+ICAgICAgICAgbnRwYXRoLmRpcm5hbWUobnRwYXRoLmRpcm5hbWUoZXhwZWN0ZWQpKSkNCj4gKysg
+ICAgICAgIHRlc3RlcigibnRwYXRoLnJlYWxwYXRoKCcvJy5qb2luKFsnLi4nXSAqIDUwKSwgc3Ry
+aWN0PUFMTE9XX01JU1NJTkcpIiwNCj4gKysgICAgICAgICAgICAgICBudHBhdGguc3BsaXRkcml2
+ZShleHBlY3RlZClbMF0gKyAnXFwnKQ0KPiArKyAgICAgICAgdGVzdGVyKCJudHBhdGgucmVhbHBh
+dGgoJy4uXFwuLicsIHN0cmljdD1BTExPV19NSVNTSU5HKSIsDQo+ICsrICAgICAgICAgICAgICAg
+bnRwYXRoLmRpcm5hbWUobnRwYXRoLmRpcm5hbWUoZXhwZWN0ZWQpKSkNCj4gKysgICAgICAgIHRl
+c3RlcigibnRwYXRoLnJlYWxwYXRoKCdcXCcuam9pbihbJy4uJ10gKiA1MCksIHN0cmljdD1BTExP
+V19NSVNTSU5HKSIsDQo+ICsrICAgICAgICAgICAgICAgbnRwYXRoLnNwbGl0ZHJpdmUoZXhwZWN0
+ZWQpWzBdICsgJ1xcJykNCj4gKysNCj4gKyAgICAgQG9zX2hlbHBlci5za2lwX3VubGVzc19zeW1s
+aW5rDQo+ICsgICAgIEB1bml0dGVzdC5za2lwVW5sZXNzKEhBVkVfR0VURklOQUxQQVRITkFNRSwg
+J25lZWQNCj4gX2dldGZpbmFscGF0aG5hbWUnKQ0KPiArLSAgICBkZWYgdGVzdF9yZWFscGF0aF9i
+YXNpYyhzZWxmKToNCj4gKysgICAgQF9wYXJhbWV0ZXJpemUoe30sIHsnc3RyaWN0JzogVHJ1ZX0s
+IHsnc3RyaWN0JzogQUxMT1dfTUlTU0lOR30pDQo+ICsrICAgIGRlZiB0ZXN0X3JlYWxwYXRoX2Jh
+c2ljKHNlbGYsIGt3YXJncyk6DQo+ICsgICAgICAgICBBQlNURk4gPSBudHBhdGguYWJzcGF0aChv
+c19oZWxwZXIuVEVTVEZOKQ0KPiArICAgICAgICAgb3BlbihBQlNURk4sICJ3YiIpLmNsb3NlKCkN
+Cj4gKyAgICAgICAgIHNlbGYuYWRkQ2xlYW51cChvc19oZWxwZXIudW5saW5rLCBBQlNURk4pDQo+
+ICsgICAgICAgICBzZWxmLmFkZENsZWFudXAob3NfaGVscGVyLnVubGluaywgQUJTVEZOICsgIjEi
+KQ0KPiArDQo+ICsgICAgICAgICBvcy5zeW1saW5rKEFCU1RGTiwgQUJTVEZOICsgIjEiKQ0KPiAr
+LSAgICAgICAgc2VsZi5hc3NlcnRQYXRoRXF1YWwobnRwYXRoLnJlYWxwYXRoKEFCU1RGTiArICIx
+IiksIEFCU1RGTikNCj4gKy0gICAgICAgIHNlbGYuYXNzZXJ0UGF0aEVxdWFsKG50cGF0aC5yZWFs
+cGF0aChvcy5mc2VuY29kZShBQlNURk4gKyAiMSIpKSwNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0
+UGF0aEVxdWFsKG50cGF0aC5yZWFscGF0aChBQlNURk4gKyAiMSIsICoqa3dhcmdzKSwgQUJTVEZO
+KQ0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRQYXRoRXF1YWwobnRwYXRoLnJlYWxwYXRoKG9zLmZz
+ZW5jb2RlKEFCU1RGTiArICIxIiksDQo+ICoqa3dhcmdzKSwNCj4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgb3MuZnNlbmNvZGUoQUJTVEZOKSkNCj4gKw0KPiArICAgICAgICAgIyBnaC04ODAx
+MzogY2FsbCBudHBhdGgucmVhbHBhdGggd2l0aCBiaW5hcnkgZHJpdmUgbmFtZSBtYXkgcmFpc2Ug
+YQ0KPiArICAgICAgICAgIyBUeXBlRXJyb3IuIFRoZSBkcml2ZSBzaG91bGQgbm90IGV4aXN0IHRv
+IHJlcHJvZHVjZSB0aGUgYnVnLg0KPiArICAgICAgICAgZHJpdmVzID0ge2Yie2N9OlxcIiBmb3Ig
+YyBpbiBzdHJpbmcuYXNjaWlfdXBwZXJjYXNlfSAtIHNldChvcy5saXN0ZHJpdmVzKCkpDQo+ICsg
+ICAgICAgICBkID0gZHJpdmVzLnBvcCgpLmVuY29kZSgpDQo+ICstICAgICAgICBzZWxmLmFzc2Vy
+dEVxdWFsKG50cGF0aC5yZWFscGF0aChkKSwgZCkNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0RXF1
+YWwobnRwYXRoLnJlYWxwYXRoKGQsIHN0cmljdD1GYWxzZSksIGQpDQo+ICsNCj4gKyAgICAgICAg
+ICMgZ2gtMTA2MjQyOiBFbWJlZGRlZCBudWxscyBhbmQgbm9uLXN0cmljdCBmYWxsYmFjayB0byBh
+YnNwYXRoDQo+ICstICAgICAgICBzZWxmLmFzc2VydEVxdWFsKEFCU1RGTiArICJcMHNwYW0iLA0K
+PiArLSAgICAgICAgICAgICAgICAgICAgICAgICBudHBhdGgucmVhbHBhdGgob3NfaGVscGVyLlRF
+U1RGTiArICJcMHNwYW0iLCBzdHJpY3Q9RmFsc2UpKQ0KPiArKyAgICAgICAgaWYga3dhcmdzOg0K
+PiArKyAgICAgICAgICAgIHdpdGggc2VsZi5hc3NlcnRSYWlzZXMoT1NFcnJvcik6DQo+ICsrICAg
+ICAgICAgICAgICAgIG50cGF0aC5yZWFscGF0aChvc19oZWxwZXIuVEVTVEZOICsgIlwwc3BhbSIs
+DQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAqKmt3YXJncykNCj4gKysgICAg
+ICAgIGVsc2U6DQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChBQlNURk4gKyAiXDBz
+cGFtIiwNCj4gKysgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG50cGF0aC5yZWFscGF0
+aChvc19oZWxwZXIuVEVTVEZOICsgIlwwc3BhbSIsICoqa3dhcmdzKSkNCj4gKw0KPiArICAgICBA
+b3NfaGVscGVyLnNraXBfdW5sZXNzX3N5bWxpbmsNCj4gKyAgICAgQHVuaXR0ZXN0LnNraXBVbmxl
+c3MoSEFWRV9HRVRGSU5BTFBBVEhOQU1FLCAnbmVlZA0KPiBfZ2V0ZmluYWxwYXRobmFtZScpDQo+
+ICtAQCAtNDA4LDE5ICs0ODMsNzcgQEAgZGVmIHRlc3RfcmVhbHBhdGhfc3RyaWN0KHNlbGYpOg0K
+PiArICAgICAgICAgc2VsZi5hZGRDbGVhbnVwKG9zX2hlbHBlci51bmxpbmssIEFCU1RGTikNCj4g
+KyAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKEZpbGVOb3RGb3VuZEVycm9yLCBudHBhdGgucmVh
+bHBhdGgsIEFCU1RGTiwgc3RyaWN0PVRydWUpDQo+ICsgICAgICAgICBzZWxmLmFzc2VydFJhaXNl
+cyhGaWxlTm90Rm91bmRFcnJvciwgbnRwYXRoLnJlYWxwYXRoLCBBQlNURk4gKyAiMiIsDQo+IHN0
+cmljdD1UcnVlKQ0KPiArKw0KPiArKyAgICBAdW5pdHRlc3Quc2tpcFVubGVzcyhIQVZFX0dFVEZJ
+TkFMUEFUSE5BTUUsICduZWVkDQo+IF9nZXRmaW5hbHBhdGhuYW1lJykNCj4gKysgICAgZGVmIHRl
+c3RfcmVhbHBhdGhfaW52YWxpZF9wYXRocyhzZWxmKToNCj4gKysgICAgICAgIHJlYWxwYXRoID0g
+bnRwYXRoLnJlYWxwYXRoDQo+ICsrICAgICAgICBBQlNURk4gPSBudHBhdGguYWJzcGF0aChvc19o
+ZWxwZXIuVEVTVEZOKQ0KPiArKyAgICAgICAgQUJTVEZOYiA9IG9zLmZzZW5jb2RlKEFCU1RGTikN
+Cj4gKysgICAgICAgIHBhdGggPSBBQlNURk4gKyAnXHgwMCcNCj4gKysgICAgICAgICMgZ2gtMTA2
+MjQyOiBFbWJlZGRlZCBudWxscyBhbmQgbm9uLXN0cmljdCBmYWxsYmFjayB0byBhYnNwYXRoDQo+
+ICsrICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKHBhdGgsIHN0cmljdD1GYWxzZSks
+IHBhdGgpDQo+ICsgICAgICAgICAjIGdoLTEwNjI0MjogRW1iZWRkZWQgbnVsbHMgc2hvdWxkIHJh
+aXNlIE9TRXJyb3IgKG5vdCBWYWx1ZUVycm9yKQ0KPiArLSAgICAgICAgc2VsZi5hc3NlcnRSYWlz
+ZXMoT1NFcnJvciwgbnRwYXRoLnJlYWxwYXRoLCBBQlNURk4gKyAiXDBzcGFtIiwNCj4gc3RyaWN0
+PVRydWUpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhPU0Vycm9yLCBudHBhdGgucmVh
+bHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMo
+T1NFcnJvciwgbnRwYXRoLnJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9QUxMT1dfTUlTU0lORykNCj4g
+KysgICAgICAgIHBhdGggPSBBQlNURk5iICsgYidceDAwJw0KPiArKyAgICAgICAgc2VsZi5hc3Nl
+cnRFcXVhbChyZWFscGF0aChwYXRoLCBzdHJpY3Q9RmFsc2UpLCBwYXRoKQ0KPiArKyAgICAgICAg
+c2VsZi5hc3NlcnRSYWlzZXMoT1NFcnJvciwgbnRwYXRoLnJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9
+VHJ1ZSkNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIG50cGF0aC5yZWFs
+cGF0aCwgcGF0aCwgc3RyaWN0PUFMTE9XX01JU1NJTkcpDQo+ICsrICAgICAgICBwYXRoID0gQUJT
+VEZOICsgJ1xcbm9uZXhpc3RlbnRcXHhceDAwJw0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRFcXVh
+bChyZWFscGF0aChwYXRoLCBzdHJpY3Q9RmFsc2UpLCBwYXRoKQ0KPiArKyAgICAgICAgc2VsZi5h
+c3NlcnRSYWlzZXMoT1NFcnJvciwgbnRwYXRoLnJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9VHJ1ZSkN
+Cj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIG50cGF0aC5yZWFscGF0aCwg
+cGF0aCwgc3RyaWN0PUFMTE9XX01JU1NJTkcpDQo+ICsrICAgICAgICBwYXRoID0gQUJTVEZOYiAr
+IGInXFxub25leGlzdGVudFxceFx4MDAnDQo+ICsrICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJl
+YWxwYXRoKHBhdGgsIHN0cmljdD1GYWxzZSksIHBhdGgpDQo+ICsrICAgICAgICBzZWxmLmFzc2Vy
+dFJhaXNlcyhPU0Vycm9yLCBudHBhdGgucmVhbHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiAr
+KyAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoT1NFcnJvciwgbnRwYXRoLnJlYWxwYXRoLCBwYXRo
+LCBzdHJpY3Q9QUxMT1dfTUlTU0lORykNCj4gKysgICAgICAgIHBhdGggPSBBQlNURk4gKyAnXHgw
+MFxcLi4nDQo+ICsrICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKHBhdGgsIHN0cmlj
+dD1GYWxzZSksIG9zLmdldGN3ZCgpKQ0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFs
+cGF0aChwYXRoLCBzdHJpY3Q9VHJ1ZSksIG9zLmdldGN3ZCgpKQ0KPiArKyAgICAgICAgc2VsZi5h
+c3NlcnRFcXVhbChyZWFscGF0aChwYXRoLCBzdHJpY3Q9QUxMT1dfTUlTU0lORyksIG9zLmdldGN3
+ZCgpKQ0KPiArKyAgICAgICAgcGF0aCA9IEFCU1RGTmIgKyBiJ1x4MDBcXC4uJw0KPiArKyAgICAg
+ICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChwYXRoLCBzdHJpY3Q9RmFsc2UpLCBvcy5nZXRj
+d2RiKCkpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKHBhdGgsIHN0cmlj
+dD1UcnVlKSwgb3MuZ2V0Y3dkYigpKQ0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFs
+cGF0aChwYXRoLCBzdHJpY3Q9QUxMT1dfTUlTU0lORyksIG9zLmdldGN3ZGIoKSkNCj4gKysgICAg
+ICAgIHBhdGggPSBBQlNURk4gKyAnXFxub25leGlzdGVudFxceFx4MDBcXC4uJw0KPiArKyAgICAg
+ICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChwYXRoLCBzdHJpY3Q9RmFsc2UpLCBBQlNURk4g
+KyAnXFxub25leGlzdGVudCcpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhPU0Vycm9y
+LCBudHBhdGgucmVhbHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiArKyAgICAgICAgc2VsZi5h
+c3NlcnRFcXVhbChyZWFscGF0aChwYXRoLCBzdHJpY3Q9QUxMT1dfTUlTU0lORyksIEFCU1RGTiAr
+DQo+ICdcXG5vbmV4aXN0ZW50JykNCj4gKysgICAgICAgIHBhdGggPSBBQlNURk5iICsgYidcXG5v
+bmV4aXN0ZW50XFx4XHgwMFxcLi4nDQo+ICsrICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxw
+YXRoKHBhdGgsIHN0cmljdD1GYWxzZSksIEFCU1RGTmIgKyBiJ1xcbm9uZXhpc3RlbnQnKQ0KPiAr
+KyAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoT1NFcnJvciwgbnRwYXRoLnJlYWxwYXRoLCBwYXRo
+LCBzdHJpY3Q9VHJ1ZSkNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgocGF0
+aCwgc3RyaWN0PUFMTE9XX01JU1NJTkcpLCBBQlNURk5iICsNCj4gYidcXG5vbmV4aXN0ZW50JykN
+Cj4gKysNCj4gKysgICAgQHVuaXR0ZXN0LnNraXBVbmxlc3MoSEFWRV9HRVRGSU5BTFBBVEhOQU1F
+LCAnbmVlZA0KPiBfZ2V0ZmluYWxwYXRobmFtZScpDQo+ICsrICAgIEBfcGFyYW1ldGVyaXplKHt9
+LCB7J3N0cmljdCc6IFRydWV9LCB7J3N0cmljdCc6IEFMTE9XX01JU1NJTkd9KQ0KPiArKyAgICBk
+ZWYgdGVzdF9yZWFscGF0aF9pbnZhbGlkX3VuaWNvZGVfcGF0aHMoc2VsZiwga3dhcmdzKToNCj4g
+KysgICAgICAgIHJlYWxwYXRoID0gbnRwYXRoLnJlYWxwYXRoDQo+ICsrICAgICAgICBBQlNURk4g
+PSBudHBhdGguYWJzcGF0aChvc19oZWxwZXIuVEVTVEZOKQ0KPiArKyAgICAgICAgQUJTVEZOYiA9
+IG9zLmZzZW5jb2RlKEFCU1RGTikNCj4gKysgICAgICAgIHBhdGggPSBBQlNURk5iICsgYidceGZm
+Jw0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoVW5pY29kZURlY29kZUVycm9yLCBudHBh
+dGgucmVhbHBhdGgsIHBhdGgsICoqa3dhcmdzKQ0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRSYWlz
+ZXMoVW5pY29kZURlY29kZUVycm9yLCBudHBhdGgucmVhbHBhdGgsIHBhdGgsICoqa3dhcmdzKQ0K
+PiArKyAgICAgICAgcGF0aCA9IEFCU1RGTmIgKyBiJ1xcbm9uZXhpc3RlbnRcXFx4ZmYnDQo+ICsr
+ICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhVbmljb2RlRGVjb2RlRXJyb3IsIG50cGF0aC5yZWFs
+cGF0aCwgcGF0aCwgKiprd2FyZ3MpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhVbmlj
+b2RlRGVjb2RlRXJyb3IsIG50cGF0aC5yZWFscGF0aCwgcGF0aCwgKiprd2FyZ3MpDQo+ICsrICAg
+ICAgICBwYXRoID0gQUJTVEZOYiArIGInXHhmZlxcLi4nDQo+ICsrICAgICAgICBzZWxmLmFzc2Vy
+dFJhaXNlcyhVbmljb2RlRGVjb2RlRXJyb3IsIG50cGF0aC5yZWFscGF0aCwgcGF0aCwgKiprd2Fy
+Z3MpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhVbmljb2RlRGVjb2RlRXJyb3IsIG50
+cGF0aC5yZWFscGF0aCwgcGF0aCwgKiprd2FyZ3MpDQo+ICsrICAgICAgICBwYXRoID0gQUJTVEZO
+YiArIGInXFxub25leGlzdGVudFxcXHhmZlxcLi4nDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJh
+aXNlcyhVbmljb2RlRGVjb2RlRXJyb3IsIG50cGF0aC5yZWFscGF0aCwgcGF0aCwgKiprd2FyZ3Mp
+DQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhVbmljb2RlRGVjb2RlRXJyb3IsIG50cGF0
+aC5yZWFscGF0aCwgcGF0aCwgKiprd2FyZ3MpDQo+ICsNCj4gKyAgICAgQG9zX2hlbHBlci5za2lw
+X3VubGVzc19zeW1saW5rDQo+ICsgICAgIEB1bml0dGVzdC5za2lwVW5sZXNzKEhBVkVfR0VURklO
+QUxQQVRITkFNRSwgJ25lZWQNCj4gX2dldGZpbmFscGF0aG5hbWUnKQ0KPiArLSAgICBkZWYgdGVz
+dF9yZWFscGF0aF9yZWxhdGl2ZShzZWxmKToNCj4gKysgICAgQF9wYXJhbWV0ZXJpemUoe30sIHsn
+c3RyaWN0JzogVHJ1ZX0sIHsnc3RyaWN0JzogQUxMT1dfTUlTU0lOR30pDQo+ICsrICAgIGRlZiB0
+ZXN0X3JlYWxwYXRoX3JlbGF0aXZlKHNlbGYsIGt3YXJncyk6DQo+ICsgICAgICAgICBBQlNURk4g
+PSBudHBhdGguYWJzcGF0aChvc19oZWxwZXIuVEVTVEZOKQ0KPiArICAgICAgICAgb3BlbihBQlNU
+Rk4sICJ3YiIpLmNsb3NlKCkNCj4gKyAgICAgICAgIHNlbGYuYWRkQ2xlYW51cChvc19oZWxwZXIu
+dW5saW5rLCBBQlNURk4pDQo+ICsgICAgICAgICBzZWxmLmFkZENsZWFudXAob3NfaGVscGVyLnVu
+bGluaywgQUJTVEZOICsgIjEiKQ0KPiArDQo+ICsgICAgICAgICBvcy5zeW1saW5rKEFCU1RGTiwg
+bnRwYXRoLnJlbHBhdGgoQUJTVEZOICsgIjEiKSkNCj4gKy0gICAgICAgIHNlbGYuYXNzZXJ0UGF0
+aEVxdWFsKG50cGF0aC5yZWFscGF0aChBQlNURk4gKyAiMSIpLCBBQlNURk4pDQo+ICsrICAgICAg
+ICBzZWxmLmFzc2VydFBhdGhFcXVhbChudHBhdGgucmVhbHBhdGgoQUJTVEZOICsgIjEiLCAqKmt3
+YXJncyksIEFCU1RGTikNCj4gKw0KPiArICAgICBAb3NfaGVscGVyLnNraXBfdW5sZXNzX3N5bWxp
+bmsNCj4gKyAgICAgQHVuaXR0ZXN0LnNraXBVbmxlc3MoSEFWRV9HRVRGSU5BTFBBVEhOQU1FLCAn
+bmVlZA0KPiBfZ2V0ZmluYWxwYXRobmFtZScpDQo+ICtAQCAtNTcyLDcgKzcwNSw2MiBAQCBkZWYg
+dGVzdF9yZWFscGF0aF9zeW1saW5rX2xvb3BzX3N0cmljdChzZWxmKToNCj4gKw0KPiArICAgICBA
+b3NfaGVscGVyLnNraXBfdW5sZXNzX3N5bWxpbmsNCj4gKyAgICAgQHVuaXR0ZXN0LnNraXBVbmxl
+c3MoSEFWRV9HRVRGSU5BTFBBVEhOQU1FLCAnbmVlZA0KPiBfZ2V0ZmluYWxwYXRobmFtZScpDQo+
+ICstICAgIGRlZiB0ZXN0X3JlYWxwYXRoX3N5bWxpbmtfcHJlZml4KHNlbGYpOg0KPiArKyAgICBk
+ZWYgdGVzdF9yZWFscGF0aF9zeW1saW5rX2xvb3BzX3JhaXNlKHNlbGYpOg0KPiArKyAgICAgICAg
+IyBTeW1saW5rIGxvb3BzIHJhaXNlIE9TRXJyb3IgaW4gQUxMT1dfTUlTU0lORyBtb2RlDQo+ICsr
+ICAgICAgICBBQlNURk4gPSBudHBhdGguYWJzcGF0aChvc19oZWxwZXIuVEVTVEZOKQ0KPiArKyAg
+ICAgICAgc2VsZi5hZGRDbGVhbnVwKG9zX2hlbHBlci51bmxpbmssIEFCU1RGTikNCj4gKysgICAg
+ICAgIHNlbGYuYWRkQ2xlYW51cChvc19oZWxwZXIudW5saW5rLCBBQlNURk4gKyAiMSIpDQo+ICsr
+ICAgICAgICBzZWxmLmFkZENsZWFudXAob3NfaGVscGVyLnVubGluaywgQUJTVEZOICsgIjIiKQ0K
+PiArKyAgICAgICAgc2VsZi5hZGRDbGVhbnVwKG9zX2hlbHBlci51bmxpbmssIEFCU1RGTiArICJ5
+IikNCj4gKysgICAgICAgIHNlbGYuYWRkQ2xlYW51cChvc19oZWxwZXIudW5saW5rLCBBQlNURk4g
+KyAiYyIpDQo+ICsrICAgICAgICBzZWxmLmFkZENsZWFudXAob3NfaGVscGVyLnVubGluaywgQUJT
+VEZOICsgImEiKQ0KPiArKyAgICAgICAgc2VsZi5hZGRDbGVhbnVwKG9zX2hlbHBlci51bmxpbmss
+IEFCU1RGTiArICJ4IikNCj4gKysNCj4gKysgICAgICAgIG9zLnN5bWxpbmsoQUJTVEZOLCBBQlNU
+Rk4pDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhPU0Vycm9yLCBudHBhdGgucmVhbHBh
+dGgsIEFCU1RGTiwNCj4gc3RyaWN0PUFMTE9XX01JU1NJTkcpDQo+ICsrDQo+ICsrICAgICAgICBv
+cy5zeW1saW5rKEFCU1RGTiArICIxIiwgQUJTVEZOICsgIjIiKQ0KPiArKyAgICAgICAgb3Muc3lt
+bGluayhBQlNURk4gKyAiMiIsIEFCU1RGTiArICIxIikNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0
+UmFpc2VzKE9TRXJyb3IsIG50cGF0aC5yZWFscGF0aCwgQUJTVEZOICsgIjEiLA0KPiArKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBzdHJpY3Q9QUxMT1dfTUlTU0lORykNCj4gKysgICAgICAg
+IHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIG50cGF0aC5yZWFscGF0aCwgQUJTVEZOICsgIjIi
+LA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJpY3Q9QUxMT1dfTUlTU0lORykN
+Cj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIG50cGF0aC5yZWFscGF0aCwg
+QUJTVEZOICsgIjFcXHgiLA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJpY3Q9
+QUxMT1dfTUlTU0lORykNCj4gKysNCj4gKysgICAgICAgICMgV2luZG93cyBlbGltaW5hdGVzICcu
+LicgY29tcG9uZW50cyBiZWZvcmUgcmVzb2x2aW5nIGxpbmtzOw0KPiArKyAgICAgICAgIyByZWFs
+cGF0aCBpcyBub3QgZXhwZWN0ZWQgdG8gcmFpc2UgaWYgdGhpcyByZW1vdmVzIHRoZSBsb29wLg0K
+PiArKyAgICAgICAgc2VsZi5hc3NlcnRQYXRoRXF1YWwobnRwYXRoLnJlYWxwYXRoKEFCU1RGTiAr
+ICIxXFwuLiIpLA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbnRwYXRoLmRpcm5h
+bWUoQUJTVEZOKSkNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UGF0aEVxdWFsKG50cGF0aC5yZWFs
+cGF0aChBQlNURk4gKyAiMVxcLi5cXHgiKSwNCj4gKysgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIG50cGF0aC5kaXJuYW1lKEFCU1RGTikgKyAiXFx4IikNCj4gKysNCj4gKysgICAgICAgIG9z
+LnN5bWxpbmsoQUJTVEZOICsgIngiLCBBQlNURk4gKyAieSIpDQo+ICsrICAgICAgICBzZWxmLmFz
+c2VydFBhdGhFcXVhbChudHBhdGgucmVhbHBhdGgoQUJTVEZOICsgIjFcXC4uXFwiDQo+ICsrICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKyBudHBhdGguYmFzZW5h
+bWUoQUJTVEZOKSArICJ5IiksDQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgICAgICBBQlNU
+Rk4gKyAieCIpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcygNCj4gKysgICAgICAgICAg
+ICBPU0Vycm9yLCBudHBhdGgucmVhbHBhdGgsDQo+ICsrICAgICAgICAgICAgQUJTVEZOICsgIjFc
+XC4uXFwiICsgbnRwYXRoLmJhc2VuYW1lKEFCU1RGTikgKyAiMSIsDQo+ICsrICAgICAgICAgICAg
+c3RyaWN0PUFMTE9XX01JU1NJTkcpDQo+ICsrDQo+ICsrICAgICAgICBvcy5zeW1saW5rKG50cGF0
+aC5iYXNlbmFtZShBQlNURk4pICsgImFcXGIiLCBBQlNURk4gKyAiYSIpDQo+ICsrICAgICAgICBz
+ZWxmLmFzc2VydFJhaXNlcyhPU0Vycm9yLCBudHBhdGgucmVhbHBhdGgsIEFCU1RGTiArICJhIiwN
+Cj4gKysgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RyaWN0PUFMTE9XX01JU1NJTkcpDQo+
+ICsrDQo+ICsrICAgICAgICBvcy5zeW1saW5rKCIuLlxcIiArIG50cGF0aC5iYXNlbmFtZShudHBh
+dGguZGlybmFtZShBQlNURk4pKQ0KPiArKyAgICAgICAgICAgICAgICArICJcXCIgKyBudHBhdGgu
+YmFzZW5hbWUoQUJTVEZOKSArICJjIiwgQUJTVEZOICsgImMiKQ0KPiArKyAgICAgICAgc2VsZi5h
+c3NlcnRSYWlzZXMoT1NFcnJvciwgbnRwYXRoLnJlYWxwYXRoLCBBQlNURk4gKyAiYyIsDQo+ICsr
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cmljdD1BTExPV19NSVNTSU5HKQ0KPiArKw0K
+PiArKyAgICAgICAgIyBUZXN0IHVzaW5nIHJlbGF0aXZlIHBhdGggYXMgd2VsbC4NCj4gKysgICAg
+ICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIG50cGF0aC5yZWFscGF0aCwgbnRwYXRoLmJh
+c2VuYW1lKEFCU1RGTiksDQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cmljdD1B
+TExPV19NSVNTSU5HKQ0KPiArKw0KPiArKyAgICBAb3NfaGVscGVyLnNraXBfdW5sZXNzX3N5bWxp
+bmsNCj4gKysgICAgQHVuaXR0ZXN0LnNraXBVbmxlc3MoSEFWRV9HRVRGSU5BTFBBVEhOQU1FLCAn
+bmVlZA0KPiBfZ2V0ZmluYWxwYXRobmFtZScpDQo+ICsrICAgIEBfcGFyYW1ldGVyaXplKHt9LCB7
+J3N0cmljdCc6IFRydWV9LCB7J3N0cmljdCc6IEFMTE9XX01JU1NJTkd9KQ0KPiArKyAgICBkZWYg
+dGVzdF9yZWFscGF0aF9zeW1saW5rX3ByZWZpeChzZWxmLCBrd2FyZ3MpOg0KPiArICAgICAgICAg
+QUJTVEZOID0gbnRwYXRoLmFic3BhdGgob3NfaGVscGVyLlRFU1RGTikNCj4gKyAgICAgICAgIHNl
+bGYuYWRkQ2xlYW51cChvc19oZWxwZXIudW5saW5rLCBBQlNURk4gKyAiMyIpDQo+ICsgICAgICAg
+ICBzZWxmLmFkZENsZWFudXAob3NfaGVscGVyLnVubGluaywgIlxcXFw/XFwiICsgQUJTVEZOICsg
+IjMuIikNCj4gK0BAIC01ODcsOSArNzc1LDkgQEAgZGVmIHRlc3RfcmVhbHBhdGhfc3ltbGlua19w
+cmVmaXgoc2VsZik6DQo+ICsgICAgICAgICAgICAgZi53cml0ZShiJzEnKQ0KPiArICAgICAgICAg
+b3Muc3ltbGluaygiXFxcXD9cXCIgKyBBQlNURk4gKyAiMy4iLCBBQlNURk4gKyAiMy5saW5rIikN
+Cj4gKw0KPiArLSAgICAgICAgc2VsZi5hc3NlcnRQYXRoRXF1YWwobnRwYXRoLnJlYWxwYXRoKEFC
+U1RGTiArICIzbGluayIpLA0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRQYXRoRXF1YWwobnRwYXRo
+LnJlYWxwYXRoKEFCU1RGTiArICIzbGluayIsICoqa3dhcmdzKSwNCj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIEFCU1RGTiArICIzIikNCj4gKy0gICAgICAgIHNlbGYuYXNzZXJ0UGF0
+aEVxdWFsKG50cGF0aC5yZWFscGF0aChBQlNURk4gKyAiMy5saW5rIiksDQo+ICsrICAgICAgICBz
+ZWxmLmFzc2VydFBhdGhFcXVhbChudHBhdGgucmVhbHBhdGgoQUJTVEZOICsgIjMubGluayIsICoq
+a3dhcmdzKSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJcXFxcP1xcIiArIEFC
+U1RGTiArICIzLiIpDQo+ICsNCj4gKyAgICAgICAgICMgUmVzb2x2ZWQgcGF0aHMgc2hvdWxkIGJl
+IHVzYWJsZSB0byBvcGVuIHRhcmdldCBmaWxlcw0KPiArQEAgLTU5OSwxNCArNzg3LDE3IEBAIGRl
+ZiB0ZXN0X3JlYWxwYXRoX3N5bWxpbmtfcHJlZml4KHNlbGYpOg0KPiArICAgICAgICAgICAgIHNl
+bGYuYXNzZXJ0RXF1YWwoZi5yZWFkKCksIGInMScpDQo+ICsNCj4gKyAgICAgICAgICMgV2hlbiB0
+aGUgcHJlZml4IGlzIGluY2x1ZGVkLCBpdCBpcyBub3Qgc3RyaXBwZWQNCj4gKy0gICAgICAgIHNl
+bGYuYXNzZXJ0UGF0aEVxdWFsKG50cGF0aC5yZWFscGF0aCgiXFxcXD9cXCIgKyBBQlNURk4gKyAi
+M2xpbmsiKSwNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UGF0aEVxdWFsKG50cGF0aC5yZWFscGF0
+aCgiXFxcXD9cXCIgKyBBQlNURk4gKyAiM2xpbmsiLA0KPiAqKmt3YXJncyksDQo+ICsgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAiXFxcXD9cXCIgKyBBQlNURk4gKyAiMyIpDQo+ICstICAg
+ICAgICBzZWxmLmFzc2VydFBhdGhFcXVhbChudHBhdGgucmVhbHBhdGgoIlxcXFw/XFwiICsgQUJT
+VEZOICsgIjMubGluayIpLA0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRQYXRoRXF1YWwobnRwYXRo
+LnJlYWxwYXRoKCJcXFxcP1xcIiArIEFCU1RGTiArICIzLmxpbmsiLA0KPiAqKmt3YXJncyksDQo+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiXFxcXD9cXCIgKyBBQlNURk4gKyAiMy4i
+KQ0KPiArDQo+ICsgICAgIEB1bml0dGVzdC5za2lwVW5sZXNzKEhBVkVfR0VURklOQUxQQVRITkFN
+RSwgJ25lZWQNCj4gX2dldGZpbmFscGF0aG5hbWUnKQ0KPiArICAgICBkZWYgdGVzdF9yZWFscGF0
+aF9udWwoc2VsZik6DQo+ICsgICAgICAgICB0ZXN0ZXIoIm50cGF0aC5yZWFscGF0aCgnTlVMJyki
+LCByJ1xcLlxOVUwnKQ0KPiArKyAgICAgICAgdGVzdGVyKCJudHBhdGgucmVhbHBhdGgoJ05VTCcs
+IHN0cmljdD1GYWxzZSkiLCByJ1xcLlxOVUwnKQ0KPiArKyAgICAgICAgdGVzdGVyKCJudHBhdGgu
+cmVhbHBhdGgoJ05VTCcsIHN0cmljdD1UcnVlKSIsIHInXFwuXE5VTCcpDQo+ICsrICAgICAgICB0
+ZXN0ZXIoIm50cGF0aC5yZWFscGF0aCgnTlVMJywgc3RyaWN0PUFMTE9XX01JU1NJTkcpIiwgcidc
+XC5cTlVMJykNCj4gKw0KPiArICAgICBAdW5pdHRlc3Quc2tpcFVubGVzcyhIQVZFX0dFVEZJTkFM
+UEFUSE5BTUUsICduZWVkDQo+IF9nZXRmaW5hbHBhdGhuYW1lJykNCj4gKyAgICAgQHVuaXR0ZXN0
+LnNraXBVbmxlc3MoSEFWRV9HRVRTSE9SVFBBVEhOQU1FLCAnbmVlZA0KPiBfZ2V0c2hvcnRwYXRo
+bmFtZScpDQo+ICtAQCAtNjMwLDEyICs4MjEsNjUgQEAgZGVmIHRlc3RfcmVhbHBhdGhfY3dkKHNl
+bGYpOg0KPiArDQo+ICsgICAgICAgICBzZWxmLmFzc2VydFBhdGhFcXVhbCh0ZXN0X2ZpbGVfbG9u
+ZywgbnRwYXRoLnJlYWxwYXRoKHRlc3RfZmlsZV9zaG9ydCkpDQo+ICsNCj4gKy0gICAgICAgIHdp
+dGggb3NfaGVscGVyLmNoYW5nZV9jd2QodGVzdF9kaXJfbG9uZyk6DQo+ICstICAgICAgICAgICAg
+c2VsZi5hc3NlcnRQYXRoRXF1YWwodGVzdF9maWxlX2xvbmcsIG50cGF0aC5yZWFscGF0aCgiZmls
+ZS50eHQiKSkNCj4gKy0gICAgICAgIHdpdGggb3NfaGVscGVyLmNoYW5nZV9jd2QodGVzdF9kaXJf
+bG9uZy5sb3dlcigpKToNCj4gKy0gICAgICAgICAgICBzZWxmLmFzc2VydFBhdGhFcXVhbCh0ZXN0
+X2ZpbGVfbG9uZywgbnRwYXRoLnJlYWxwYXRoKCJmaWxlLnR4dCIpKQ0KPiArLSAgICAgICAgd2l0
+aCBvc19oZWxwZXIuY2hhbmdlX2N3ZCh0ZXN0X2Rpcl9zaG9ydCk6DQo+ICstICAgICAgICAgICAg
+c2VsZi5hc3NlcnRQYXRoRXF1YWwodGVzdF9maWxlX2xvbmcsIG50cGF0aC5yZWFscGF0aCgiZmls
+ZS50eHQiKSkNCj4gKysgICAgICAgIGZvciBrd2FyZ3MgaW4ge30sIHsnc3RyaWN0JzogVHJ1ZX0s
+IHsnc3RyaWN0JzogQUxMT1dfTUlTU0lOR306DQo+ICsrICAgICAgICAgICAgd2l0aCBzZWxmLnN1
+YlRlc3QoKiprd2FyZ3MpOg0KPiArKyAgICAgICAgICAgICAgICB3aXRoIG9zX2hlbHBlci5jaGFu
+Z2VfY3dkKHRlc3RfZGlyX2xvbmcpOg0KPiArKyAgICAgICAgICAgICAgICAgICAgc2VsZi5hc3Nl
+cnRQYXRoRXF1YWwoDQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgdGVzdF9maWxlX2xvbmcs
+DQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgbnRwYXRoLnJlYWxwYXRoKCJmaWxlLnR4dCIs
+ICoqa3dhcmdzKSkNCj4gKysgICAgICAgICAgICAgICAgd2l0aCBvc19oZWxwZXIuY2hhbmdlX2N3
+ZCh0ZXN0X2Rpcl9sb25nLmxvd2VyKCkpOg0KPiArKyAgICAgICAgICAgICAgICAgICAgc2VsZi5h
+c3NlcnRQYXRoRXF1YWwoDQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgdGVzdF9maWxlX2xv
+bmcsDQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgbnRwYXRoLnJlYWxwYXRoKCJmaWxlLnR4
+dCIsICoqa3dhcmdzKSkNCj4gKysgICAgICAgICAgICAgICAgd2l0aCBvc19oZWxwZXIuY2hhbmdl
+X2N3ZCh0ZXN0X2Rpcl9zaG9ydCk6DQo+ICsrICAgICAgICAgICAgICAgICAgICBzZWxmLmFzc2Vy
+dFBhdGhFcXVhbCgNCj4gKysgICAgICAgICAgICAgICAgICAgICAgICB0ZXN0X2ZpbGVfbG9uZywN
+Cj4gKysgICAgICAgICAgICAgICAgICAgICAgICBudHBhdGgucmVhbHBhdGgoImZpbGUudHh0Iiwg
+Kiprd2FyZ3MpKQ0KPiArKw0KPiArKyAgICBAdW5pdHRlc3Quc2tpcFVubGVzcyhIQVZFX0dFVEZJ
+TkFMUEFUSE5BTUUsICduZWVkDQo+IF9nZXRmaW5hbHBhdGhuYW1lJykNCj4gKysgICAgZGVmIHRl
+c3RfcmVhbHBhdGhfcGVybWlzc2lvbihzZWxmKToNCj4gKysgICAgICAgICMgVGVzdCB3aGV0aGVy
+IHB5dGhvbiBjYW4gcmVzb2x2ZSB0aGUgcmVhbCBmaWxlbmFtZSBvZiBhDQo+ICsrICAgICAgICAj
+IHNob3J0ZW5lZCBmaWxlIG5hbWUgZXZlbiBpZiBpdCBkb2VzIG5vdCBoYXZlIHBlcm1pc3Npb24g
+dG8gYWNjZXNzIGl0Lg0KPiArKyAgICAgICAgQUJTVEZOID0gbnRwYXRoLnJlYWxwYXRoKG9zX2hl
+bHBlci5URVNURk4pDQo+ICsrDQo+ICsrICAgICAgICBvc19oZWxwZXIudW5saW5rKEFCU1RGTikN
+Cj4gKysgICAgICAgIG9zX2hlbHBlci5ybXRyZWUoQUJTVEZOKQ0KPiArKyAgICAgICAgb3MubWtk
+aXIoQUJTVEZOKQ0KPiArKyAgICAgICAgc2VsZi5hZGRDbGVhbnVwKG9zX2hlbHBlci5ybXRyZWUs
+IEFCU1RGTikNCj4gKysNCj4gKysgICAgICAgIHRlc3RfZmlsZSA9IG50cGF0aC5qb2luKEFCU1RG
+TiwgIkxvbmdGaWxlTmFtZTEyMy50eHQiKQ0KPiArKyAgICAgICAgdGVzdF9maWxlX3Nob3J0ID0g
+bnRwYXRoLmpvaW4oQUJTVEZOLCAiTE9OR0ZJfjEuVFhUIikNCj4gKysNCj4gKysgICAgICAgIHdp
+dGggb3Blbih0ZXN0X2ZpbGUsICJ3YiIpIGFzIGY6DQo+ICsrICAgICAgICAgICAgZi53cml0ZShi
+ImNvbnRlbnQiKQ0KPiArKyAgICAgICAgIyBBdXRvbWF0aWMgZ2VuZXJhdGlvbiBvZiBzaG9ydCBu
+YW1lcyBtYXkgYmUgZGlzYWJsZWQgb24NCj4gKysgICAgICAgICMgTlRGUyB2b2x1bWVzIGZvciB0
+aGUgc2FrZSBvZiBwZXJmb3JtYW5jZS4NCj4gKysgICAgICAgICMgVGhleSdyZSBub3Qgc3VwcG9y
+dGVkIGF0IGFsbCBvbiBSZUZTIGFuZCBleEZBVC4NCj4gKysgICAgICAgIHAgPSBzdWJwcm9jZXNz
+LnJ1bigNCj4gKysgICAgICAgICAgICAjIFRyeSB0byBzZXQgdGhlIHNob3J0IG5hbWUgbWFudWFs
+bHkuDQo+ICsrICAgICAgICAgICAgWydmc3V0aWwuZXhlJywgJ2ZpbGUnLCAnc2V0U2hvcnROYW1l
+JywgdGVzdF9maWxlLCAnTE9OR0ZJfjEuVFhUJ10sDQo+ICsrICAgICAgICAgICAgY3JlYXRpb25m
+bGFncz1zdWJwcm9jZXNzLkRFVEFDSEVEX1BST0NFU1MNCj4gKysgICAgICAgICkNCj4gKysNCj4g
+KysgICAgICAgIGlmIHAucmV0dXJuY29kZToNCj4gKysgICAgICAgICAgICByYWlzZSB1bml0dGVz
+dC5Ta2lwVGVzdCgnZmFpbGVkIHRvIHNldCBzaG9ydCBuYW1lJykNCj4gKysNCj4gKysgICAgICAg
+IHRyeToNCj4gKysgICAgICAgICAgICBzZWxmLmFzc2VydFBhdGhFcXVhbCh0ZXN0X2ZpbGUsIG50
+cGF0aC5yZWFscGF0aCh0ZXN0X2ZpbGVfc2hvcnQpKQ0KPiArKyAgICAgICAgZXhjZXB0IEFzc2Vy
+dGlvbkVycm9yOg0KPiArKyAgICAgICAgICAgIHJhaXNlIHVuaXR0ZXN0LlNraXBUZXN0KCd0aGUg
+ZmlsZXN5c3RlbSBzZWVtcyB0byBsYWNrIHN1cHBvcnQgZm9yIHNob3J0DQo+IGZpbGVuYW1lcycp
+DQo+ICsrDQo+ICsrICAgICAgICAjIERlbnkgdGhlIHJpZ2h0IHRvIFtTXVlOQ0hST05JWkUgb24g
+dGhlIGZpbGUgdG8NCj4gKysgICAgICAgICMgZm9yY2UgbnQuX2dldGZpbmFscGF0aG5hbWUgdG8g
+ZmFpbCB3aXRoIEVSUk9SX0FDQ0VTU19ERU5JRUQuDQo+ICsrICAgICAgICBwID0gc3VicHJvY2Vz
+cy5ydW4oDQo+ICsrICAgICAgICAgICAgWydpY2FjbHMuZXhlJywgdGVzdF9maWxlLCAnL2Rlbnkn
+LCAnKlMtMS01LTMyLTU0NTooUyknXSwNCj4gKysgICAgICAgICAgICBjcmVhdGlvbmZsYWdzPXN1
+YnByb2Nlc3MuREVUQUNIRURfUFJPQ0VTUw0KPiArKyAgICAgICAgKQ0KPiArKw0KPiArKyAgICAg
+ICAgaWYgcC5yZXR1cm5jb2RlOg0KPiArKyAgICAgICAgICAgIHJhaXNlIHVuaXR0ZXN0LlNraXBU
+ZXN0KCdmYWlsZWQgdG8gZGVueSBhY2Nlc3MgdG8gdGhlIHRlc3QgZmlsZScpDQo+ICsrDQo+ICsr
+ICAgICAgICBzZWxmLmFzc2VydFBhdGhFcXVhbCh0ZXN0X2ZpbGUsIG50cGF0aC5yZWFscGF0aCh0
+ZXN0X2ZpbGVfc2hvcnQpKQ0KPiArDQo+ICsgICAgIGRlZiB0ZXN0X2V4cGFuZHZhcnMoc2VsZik6
+DQo+ICsgICAgICAgICB3aXRoIG9zX2hlbHBlci5FbnZpcm9ubWVudFZhckd1YXJkKCkgYXMgZW52
+Og0KPiArZGlmZiAtLWdpdCBhL0xpYi90ZXN0L3Rlc3RfcG9zaXhwYXRoLnB5IGIvTGliL3Rlc3Qv
+dGVzdF9wb3NpeHBhdGgucHkNCj4gK2luZGV4IGNjNGZkMmY0Yzk1Li43YWU1NGQyOWI1ZSAxMDA2
+NDQNCj4gKy0tLSBhL0xpYi90ZXN0L3Rlc3RfcG9zaXhwYXRoLnB5DQo+ICsrKysgYi9MaWIvdGVz
+dC90ZXN0X3Bvc2l4cGF0aC5weQ0KPiArQEAgLTMsNyArMyw5IEBADQo+ICsgaW1wb3J0IHBvc2l4
+cGF0aA0KPiArIGltcG9ydCBzeXMNCj4gKyBpbXBvcnQgdW5pdHRlc3QNCj4gKy1mcm9tIHBvc2l4
+cGF0aCBpbXBvcnQgcmVhbHBhdGgsIGFic3BhdGgsIGRpcm5hbWUsIGJhc2VuYW1lDQo+ICsrZnJv
+bSBmdW5jdG9vbHMgaW1wb3J0IHBhcnRpYWwNCj4gKytmcm9tIHBvc2l4cGF0aCBpbXBvcnQgcmVh
+bHBhdGgsIGFic3BhdGgsIGRpcm5hbWUsIGJhc2VuYW1lLA0KPiBBTExPV19NSVNTSU5HDQo+ICsr
+ZnJvbSB0ZXN0IGltcG9ydCBzdXBwb3J0DQo+ICsgZnJvbSB0ZXN0IGltcG9ydCB0ZXN0X2dlbmVy
+aWNwYXRoDQo+ICsgZnJvbSB0ZXN0LnN1cHBvcnQgaW1wb3J0IGltcG9ydF9oZWxwZXINCj4gKyBm
+cm9tIHRlc3Quc3VwcG9ydCBpbXBvcnQgY3B5dGhvbl9vbmx5LCBvc19oZWxwZXINCj4gK0BAIC0z
+Nyw2ICszOSwyNiBAQCBkZWYgc2FmZV9ybWRpcihkaXJuYW1lKToNCj4gKyAgICAgZXhjZXB0IE9T
+RXJyb3I6DQo+ICsgICAgICAgICBwYXNzDQo+ICsNCj4gKytkZWYgX3BhcmFtZXRlcml6ZSgqcGFy
+YW1ldGVycyk6DQo+ICsrICAgICIiIlNpbXBsaXN0aWMgZGVjb3JhdG9yIHRvIHBhcmFtZXRyaXpl
+IGEgdGVzdA0KPiArKw0KPiArKyAgICBSdW5zIHRoZSBkZWNvcmF0ZWQgdGVzdCBtdWx0aXBsZSB0
+aW1lcyBpbiBzdWJUZXN0LCB3aXRoIGEgdmFsdWUgZnJvbQ0KPiArKyAgICAncGFyYW1ldGVycycg
+cGFzc2VkIGFzIGFuIGV4dHJhIHBvc2l0aW9uYWwgYXJndW1lbnQuDQo+ICsrICAgIERvZXMgKm5v
+dCogY2FsbCBkb0NsZWFudXBzKCkgYWZ0ZXIgZWFjaCBydW4uDQo+ICsrDQo+ICsrICAgIE5vdCBm
+b3IgZ2VuZXJhbCB1c2UuIEludGVuZGVkIHRvIGF2b2lkIGluZGVudGluZyBmb3IgZWFzaWVyIGJh
+Y2twb3J0cy4NCj4gKysNCj4gKysgICAgU2VlIGh0dHBzOi8vZGlzY3Vzcy5weXRob24ub3JnL3Qv
+OTE4MjcgZm9yIGRpc2N1c3NpbmcgZ2VuZXJhbGl6YXRpb25zLg0KPiArKyAgICAiIiINCj4gKysg
+ICAgZGVmIF9wYXJhbWV0cml6ZV9kZWNvcmF0b3IoZnVuYyk6DQo+ICsrICAgICAgICBkZWYgX3Bh
+cmFtZXRlcml6ZWQoc2VsZiwgKmFyZ3MsICoqa3dhcmdzKToNCj4gKysgICAgICAgICAgICBmb3Ig
+cGFyYW1ldGVyIGluIHBhcmFtZXRlcnM6DQo+ICsrICAgICAgICAgICAgICAgIHdpdGggc2VsZi5z
+dWJUZXN0KHBhcmFtZXRlcik6DQo+ICsrICAgICAgICAgICAgICAgICAgICBmdW5jKHNlbGYsICph
+cmdzLCBwYXJhbWV0ZXIsICoqa3dhcmdzKQ0KPiArKyAgICAgICAgcmV0dXJuIF9wYXJhbWV0ZXJp
+emVkDQo+ICsrICAgIHJldHVybiBfcGFyYW1ldHJpemVfZGVjb3JhdG9yDQo+ICsrDQo+ICsrDQo+
+ICsgY2xhc3MgUG9zaXhQYXRoVGVzdCh1bml0dGVzdC5UZXN0Q2FzZSk6DQo+ICsNCj4gKyAgICAg
+ZGVmIHNldFVwKHNlbGYpOg0KPiArQEAgLTQyNSwzMiArNDQ3LDM1IEBAIGRlZiB0ZXN0X25vcm1w
+YXRoKHNlbGYpOg0KPiArICAgICAgICAgICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlc3VsdCwg
+ZXhwZWN0ZWQpDQo+ICsNCj4gKyAgICAgQHNraXBfaWZfQUJTVEZOX2NvbnRhaW5zX2JhY2tzbGFz
+aA0KPiArLSAgICBkZWYgdGVzdF9yZWFscGF0aF9jdXJkaXIoc2VsZik6DQo+ICstICAgICAgICBz
+ZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKCcuJyksIG9zLmdldGN3ZCgpKQ0KPiArLSAgICAgICAg
+c2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aCgnLi8uJyksIG9zLmdldGN3ZCgpKQ0KPiArLSAgICAg
+ICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aCgnLycuam9pbihbJy4nXSAqIDEwMCkpLCBvcy5n
+ZXRjd2QoKSkNCj4gKysgICAgQF9wYXJhbWV0ZXJpemUoe30sIHsnc3RyaWN0JzogVHJ1ZX0sIHsn
+c3RyaWN0JzogQUxMT1dfTUlTU0lOR30pDQo+ICsrICAgIGRlZiB0ZXN0X3JlYWxwYXRoX2N1cmRp
+cihzZWxmLCBrd2FyZ3MpOg0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aCgn
+LicsICoqa3dhcmdzKSwgb3MuZ2V0Y3dkKCkpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydEVxdWFs
+KHJlYWxwYXRoKCcuLy4nLCAqKmt3YXJncyksIG9zLmdldGN3ZCgpKQ0KPiArKyAgICAgICAgc2Vs
+Zi5hc3NlcnRFcXVhbChyZWFscGF0aCgnLycuam9pbihbJy4nXSAqIDEwMCksICoqa3dhcmdzKSwg
+b3MuZ2V0Y3dkKCkpDQo+ICsNCj4gKy0gICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgo
+YicuJyksIG9zLmdldGN3ZGIoKSkNCj4gKy0gICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBh
+dGgoYicuLy4nKSwgb3MuZ2V0Y3dkYigpKQ0KPiArLSAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChy
+ZWFscGF0aChiJy8nLmpvaW4oW2InLiddICogMTAwKSksIG9zLmdldGN3ZGIoKSkNCj4gKysgICAg
+ICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgoYicuJywgKiprd2FyZ3MpLCBvcy5nZXRjd2Ri
+KCkpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKGInLi8uJywgKiprd2Fy
+Z3MpLCBvcy5nZXRjd2RiKCkpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRo
+KGInLycuam9pbihbYicuJ10gKiAxMDApLCAqKmt3YXJncyksIG9zLmdldGN3ZGIoKSkNCj4gKw0K
+PiArICAgICBAc2tpcF9pZl9BQlNURk5fY29udGFpbnNfYmFja3NsYXNoDQo+ICstICAgIGRlZiB0
+ZXN0X3JlYWxwYXRoX3BhcmRpcihzZWxmKToNCj4gKy0gICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwo
+cmVhbHBhdGgoJy4uJyksIGRpcm5hbWUob3MuZ2V0Y3dkKCkpKQ0KPiArLSAgICAgICAgc2VsZi5h
+c3NlcnRFcXVhbChyZWFscGF0aCgnLi4vLi4nKSwgZGlybmFtZShkaXJuYW1lKG9zLmdldGN3ZCgp
+KSkpDQo+ICstICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKCcvJy5qb2luKFsnLi4n
+XSAqIDEwMCkpLCAnLycpDQo+ICsrICAgIEBfcGFyYW1ldGVyaXplKHt9LCB7J3N0cmljdCc6IFRy
+dWV9LCB7J3N0cmljdCc6IEFMTE9XX01JU1NJTkd9KQ0KPiArKyAgICBkZWYgdGVzdF9yZWFscGF0
+aF9wYXJkaXIoc2VsZiwga3dhcmdzKToNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVh
+bHBhdGgoJy4uJywgKiprd2FyZ3MpLCBkaXJuYW1lKG9zLmdldGN3ZCgpKSkNCj4gKysgICAgICAg
+IHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgoJy4uLy4uJywgKiprd2FyZ3MpLCBkaXJuYW1lKGRp
+cm5hbWUob3MuZ2V0Y3dkKCkpKSkNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBh
+dGgoJy8nLmpvaW4oWycuLiddICogMTAwKSwgKiprd2FyZ3MpLCAnLycpDQo+ICsNCj4gKy0gICAg
+ICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgoYicuLicpLCBkaXJuYW1lKG9zLmdldGN3ZGIo
+KSkpDQo+ICstICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKGInLi4vLi4nKSwgZGly
+bmFtZShkaXJuYW1lKG9zLmdldGN3ZGIoKSkpKQ0KPiArLSAgICAgICAgc2VsZi5hc3NlcnRFcXVh
+bChyZWFscGF0aChiJy8nLmpvaW4oW2InLi4nXSAqIDEwMCkpLCBiJy8nKQ0KPiArKyAgICAgICAg
+c2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChiJy4uJywgKiprd2FyZ3MpLCBkaXJuYW1lKG9zLmdl
+dGN3ZGIoKSkpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKGInLi4vLi4n
+LCAqKmt3YXJncyksDQo+IGRpcm5hbWUoZGlybmFtZShvcy5nZXRjd2RiKCkpKSkNCj4gKysgICAg
+ICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgoYicvJy5qb2luKFtiJy4uJ10gKiAxMDApLCAq
+Kmt3YXJncyksIGInLycpDQo+ICsNCj4gKyAgICAgQG9zX2hlbHBlci5za2lwX3VubGVzc19zeW1s
+aW5rDQo+ICsgICAgIEBza2lwX2lmX0FCU1RGTl9jb250YWluc19iYWNrc2xhc2gNCj4gKy0gICAg
+ZGVmIHRlc3RfcmVhbHBhdGhfYmFzaWMoc2VsZik6DQo+ICsrICAgIEBfcGFyYW1ldGVyaXplKHt9
+LCB7J3N0cmljdCc6IEFMTE9XX01JU1NJTkd9KQ0KPiArKyAgICBkZWYgdGVzdF9yZWFscGF0aF9i
+YXNpYyhzZWxmLCBrd2FyZ3MpOg0KPiArICAgICAgICAgIyBCYXNpYyBvcGVyYXRpb24uDQo+ICsg
+ICAgICAgICB0cnk6DQo+ICsgICAgICAgICAgICAgb3Muc3ltbGluayhBQlNURk4rIjEiLCBBQlNU
+Rk4pDQo+ICstICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChBQlNURk4pLCBB
+QlNURk4rIjEiKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgoQUJT
+VEZOLCAqKmt3YXJncyksIEFCU1RGTisiMSIpDQo+ICsgICAgICAgICBmaW5hbGx5Og0KPiArICAg
+ICAgICAgICAgIG9zX2hlbHBlci51bmxpbmsoQUJTVEZOKQ0KPiArDQo+ICtAQCAtNDY2LDE1ICs0
+OTEsMTIyIEBAIGRlZiB0ZXN0X3JlYWxwYXRoX3N0cmljdChzZWxmKToNCj4gKyAgICAgICAgIGZp
+bmFsbHk6DQo+ICsgICAgICAgICAgICAgb3NfaGVscGVyLnVubGluayhBQlNURk4pDQo+ICsNCj4g
+KysgICAgZGVmIHRlc3RfcmVhbHBhdGhfaW52YWxpZF9wYXRocyhzZWxmKToNCj4gKysgICAgICAg
+IHBhdGggPSAnL1x4MDAnDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhWYWx1ZUVycm9y
+LCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PUZhbHNlKQ0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRS
+YWlzZXMoVmFsdWVFcnJvciwgcmVhbHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiArKyAgICAg
+ICAgc2VsZi5hc3NlcnRSYWlzZXMoVmFsdWVFcnJvciwgcmVhbHBhdGgsIHBhdGgsIHN0cmljdD1B
+TExPV19NSVNTSU5HKQ0KPiArKyAgICAgICAgcGF0aCA9IGInL1x4MDAnDQo+ICsrICAgICAgICBz
+ZWxmLmFzc2VydFJhaXNlcyhWYWx1ZUVycm9yLCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PUZhbHNl
+KQ0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoVmFsdWVFcnJvciwgcmVhbHBhdGgsIHBh
+dGgsIHN0cmljdD1UcnVlKQ0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoVmFsdWVFcnJv
+ciwgcmVhbHBhdGgsIHBhdGgsIHN0cmljdD1BTExPV19NSVNTSU5HKQ0KPiArKyAgICAgICAgcGF0
+aCA9ICcvbm9uZXhpc3RlbnQveFx4MDAnDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhW
+YWx1ZUVycm9yLCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PUZhbHNlKQ0KPiArKyAgICAgICAgc2Vs
+Zi5hc3NlcnRSYWlzZXMoRmlsZU5vdEZvdW5kRXJyb3IsIHJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9
+VHJ1ZSkNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKFZhbHVlRXJyb3IsIHJlYWxwYXRo
+LCBwYXRoLCBzdHJpY3Q9QUxMT1dfTUlTU0lORykNCj4gKysgICAgICAgIHBhdGggPSBiJy9ub25l
+eGlzdGVudC94XHgwMCcNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKFZhbHVlRXJyb3Is
+IHJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9RmFsc2UpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJh
+aXNlcyhGaWxlTm90Rm91bmRFcnJvciwgcmVhbHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiAr
+KyAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoVmFsdWVFcnJvciwgcmVhbHBhdGgsIHBhdGgsIHN0
+cmljdD1BTExPV19NSVNTSU5HKQ0KPiArKyAgICAgICAgcGF0aCA9ICcvXHgwMC8uLicNCj4gKysg
+ICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKFZhbHVlRXJyb3IsIHJlYWxwYXRoLCBwYXRoLCBzdHJp
+Y3Q9RmFsc2UpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhWYWx1ZUVycm9yLCByZWFs
+cGF0aCwgcGF0aCwgc3RyaWN0PVRydWUpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhW
+YWx1ZUVycm9yLCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PUFMTE9XX01JU1NJTkcpDQo+ICsrICAg
+ICAgICBwYXRoID0gYicvXHgwMC8uLicNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKFZh
+bHVlRXJyb3IsIHJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9RmFsc2UpDQo+ICsrICAgICAgICBzZWxm
+LmFzc2VydFJhaXNlcyhWYWx1ZUVycm9yLCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PVRydWUpDQo+
+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhWYWx1ZUVycm9yLCByZWFscGF0aCwgcGF0aCwg
+c3RyaWN0PUFMTE9XX01JU1NJTkcpDQo+ICsrDQo+ICsrICAgICAgICBwYXRoID0gJy9ub25leGlz
+dGVudC94XHgwMC8uLicNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKFZhbHVlRXJyb3Is
+IHJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9RmFsc2UpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJh
+aXNlcyhGaWxlTm90Rm91bmRFcnJvciwgcmVhbHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiAr
+KyAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoVmFsdWVFcnJvciwgcmVhbHBhdGgsIHBhdGgsIHN0
+cmljdD1BTExPV19NSVNTSU5HKQ0KPiArKyAgICAgICAgcGF0aCA9IGInL25vbmV4aXN0ZW50L3hc
+eDAwLy4uJw0KPiArKyAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoVmFsdWVFcnJvciwgcmVhbHBh
+dGgsIHBhdGgsIHN0cmljdD1GYWxzZSkNCj4gKysgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKEZp
+bGVOb3RGb3VuZEVycm9yLCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PVRydWUpDQo+ICsrICAgICAg
+ICBzZWxmLmFzc2VydFJhaXNlcyhWYWx1ZUVycm9yLCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PUFM
+TE9XX01JU1NJTkcpDQo+ICsrDQo+ICsrICAgICAgICBwYXRoID0gJy9cdWRmZmYnDQo+ICsrICAg
+ICAgICBpZiBzeXMucGxhdGZvcm0gPT0gJ3dpbjMyJzoNCj4gKysgICAgICAgICAgICBzZWxmLmFz
+c2VydEVxdWFsKHJlYWxwYXRoKHBhdGgsIHN0cmljdD1GYWxzZSksIHBhdGgpDQo+ICsrICAgICAg
+ICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoRmlsZU5vdEZvdW5kRXJyb3IsIHJlYWxwYXRoLCBwYXRo
+LCBzdHJpY3Q9VHJ1ZSkNCj4gKysgICAgICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRo
+KHBhdGgsIHN0cmljdD1BTExPV19NSVNTSU5HKSwgcGF0aCkNCj4gKysgICAgICAgIGVsc2U6DQo+
+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoVW5pY29kZUVuY29kZUVycm9yLCByZWFs
+cGF0aCwgcGF0aCwgc3RyaWN0PUZhbHNlKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFp
+c2VzKFVuaWNvZGVFbmNvZGVFcnJvciwgcmVhbHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiAr
+KyAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKFVuaWNvZGVFbmNvZGVFcnJvciwgcmVhbHBh
+dGgsIHBhdGgsDQo+IHN0cmljdD1BTExPV19NSVNTSU5HKQ0KPiArKyAgICAgICAgcGF0aCA9ICcv
+bm9uZXhpc3RlbnQvXHVkZmZmJw0KPiArKyAgICAgICAgaWYgc3lzLnBsYXRmb3JtID09ICd3aW4z
+Mic6DQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChwYXRoLCBzdHJp
+Y3Q9RmFsc2UpLCBwYXRoKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBh
+dGgocGF0aCwgc3RyaWN0PUFMTE9XX01JU1NJTkcpLCBwYXRoKQ0KPiArKyAgICAgICAgZWxzZToN
+Cj4gKysgICAgICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhVbmljb2RlRW5jb2RlRXJyb3IsIHJl
+YWxwYXRoLCBwYXRoLCBzdHJpY3Q9RmFsc2UpDQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRS
+YWlzZXMoVW5pY29kZUVuY29kZUVycm9yLCByZWFscGF0aCwgcGF0aCwNCj4gc3RyaWN0PUFMTE9X
+X01JU1NJTkcpDQo+ICsrICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhGaWxlTm90Rm91bmRFcnJv
+ciwgcmVhbHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiArKyAgICAgICAgcGF0aCA9ICcvXHVk
+ZmZmLy4uJw0KPiArKyAgICAgICAgaWYgc3lzLnBsYXRmb3JtID09ICd3aW4zMic6DQo+ICsrICAg
+ICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChwYXRoLCBzdHJpY3Q9RmFsc2UpLCAn
+LycpDQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoRmlsZU5vdEZvdW5kRXJyb3Is
+IHJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9VHJ1ZSkNCj4gKysgICAgICAgICAgICBzZWxmLmFzc2Vy
+dEVxdWFsKHJlYWxwYXRoKHBhdGgsIHN0cmljdD1BTExPV19NSVNTSU5HKSwgJy8nKQ0KPiArKyAg
+ICAgICAgZWxzZToNCj4gKysgICAgICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhVbmljb2RlRW5j
+b2RlRXJyb3IsIHJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9RmFsc2UpDQo+ICsrICAgICAgICAgICAg
+c2VsZi5hc3NlcnRSYWlzZXMoVW5pY29kZUVuY29kZUVycm9yLCByZWFscGF0aCwgcGF0aCwgc3Ry
+aWN0PVRydWUpDQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoVW5pY29kZUVuY29k
+ZUVycm9yLCByZWFscGF0aCwgcGF0aCwNCj4gc3RyaWN0PUFMTE9XX01JU1NJTkcpDQo+ICsrICAg
+ICAgICBwYXRoID0gJy9ub25leGlzdGVudC9cdWRmZmYvLi4nDQo+ICsrICAgICAgICBpZiBzeXMu
+cGxhdGZvcm0gPT0gJ3dpbjMyJzoNCj4gKysgICAgICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJl
+YWxwYXRoKHBhdGgsIHN0cmljdD1GYWxzZSksICcvbm9uZXhpc3RlbnQnKQ0KPiArKyAgICAgICAg
+ICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgocGF0aCwgc3RyaWN0PUFMTE9XX01JU1NJTkcp
+LCAnL25vbmV4aXN0ZW50JykNCj4gKysgICAgICAgIGVsc2U6DQo+ICsrICAgICAgICAgICAgc2Vs
+Zi5hc3NlcnRSYWlzZXMoVW5pY29kZUVuY29kZUVycm9yLCByZWFscGF0aCwgcGF0aCwgc3RyaWN0
+PUZhbHNlKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKFVuaWNvZGVFbmNvZGVF
+cnJvciwgcmVhbHBhdGgsIHBhdGgsDQo+IHN0cmljdD1BTExPV19NSVNTSU5HKQ0KPiArKyAgICAg
+ICAgc2VsZi5hc3NlcnRSYWlzZXMoRmlsZU5vdEZvdW5kRXJyb3IsIHJlYWxwYXRoLCBwYXRoLCBz
+dHJpY3Q9VHJ1ZSkNCj4gKysNCj4gKysgICAgICAgIHBhdGggPSBiJy9ceGZmJw0KPiArKyAgICAg
+ICAgaWYgc3lzLnBsYXRmb3JtID09ICd3aW4zMic6DQo+ICsrICAgICAgICAgICAgc2VsZi5hc3Nl
+cnRSYWlzZXMoVW5pY29kZURlY29kZUVycm9yLCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PUZhbHNl
+KQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKFVuaWNvZGVEZWNvZGVFcnJvciwg
+cmVhbHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0
+UmFpc2VzKFVuaWNvZGVEZWNvZGVFcnJvciwgcmVhbHBhdGgsIHBhdGgsDQo+IHN0cmljdD1BTExP
+V19NSVNTSU5HKQ0KPiArKyAgICAgICAgZWxzZToNCj4gKysgICAgICAgICAgICBzZWxmLmFzc2Vy
+dEVxdWFsKHJlYWxwYXRoKHBhdGgsIHN0cmljdD1GYWxzZSksIHBhdGgpDQo+ICsrICAgICAgICAg
+ICAgaWYgc3VwcG9ydC5pc193YXNpOg0KPiArKyAgICAgICAgICAgICAgICBzZWxmLmFzc2VydFJh
+aXNlcyhPU0Vycm9yLCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PVRydWUpDQo+ICsrICAgICAgICAg
+ICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIHJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9
+QUxMT1dfTUlTU0lORykNCj4gKysgICAgICAgICAgICBlbHNlOg0KPiArKyAgICAgICAgICAgICAg
+ICBzZWxmLmFzc2VydFJhaXNlcyhGaWxlTm90Rm91bmRFcnJvciwgcmVhbHBhdGgsIHBhdGgsIHN0
+cmljdD1UcnVlKQ0KPiArKyAgICAgICAgICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRo
+KHBhdGgsIHN0cmljdD1BTExPV19NSVNTSU5HKSwgcGF0aCkNCj4gKysgICAgICAgIHBhdGggPSBi
+Jy9ub25leGlzdGVudC9ceGZmJw0KPiArKyAgICAgICAgaWYgc3lzLnBsYXRmb3JtID09ICd3aW4z
+Mic6DQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoVW5pY29kZURlY29kZUVycm9y
+LCByZWFscGF0aCwgcGF0aCwgc3RyaWN0PUZhbHNlKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNz
+ZXJ0UmFpc2VzKFVuaWNvZGVEZWNvZGVFcnJvciwgcmVhbHBhdGgsIHBhdGgsDQo+IHN0cmljdD1B
+TExPV19NSVNTSU5HKQ0KPiArKyAgICAgICAgZWxzZToNCj4gKysgICAgICAgICAgICBzZWxmLmFz
+c2VydEVxdWFsKHJlYWxwYXRoKHBhdGgsIHN0cmljdD1GYWxzZSksIHBhdGgpDQo+ICsrICAgICAg
+ICBpZiBzdXBwb3J0LmlzX3dhc2k6DQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMo
+T1NFcnJvciwgcmVhbHBhdGgsIHBhdGgsIHN0cmljdD1UcnVlKQ0KPiArKyAgICAgICAgICAgIHNl
+bGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIHJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9QUxMT1dfTUlT
+U0lORykNCj4gKysgICAgICAgIGVsc2U6DQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRSYWlz
+ZXMoRmlsZU5vdEZvdW5kRXJyb3IsIHJlYWxwYXRoLCBwYXRoLCBzdHJpY3Q9VHJ1ZSkNCj4gKysN
+Cj4gKyAgICAgQG9zX2hlbHBlci5za2lwX3VubGVzc19zeW1saW5rDQo+ICsgICAgIEBza2lwX2lm
+X0FCU1RGTl9jb250YWluc19iYWNrc2xhc2gNCj4gKy0gICAgZGVmIHRlc3RfcmVhbHBhdGhfcmVs
+YXRpdmUoc2VsZik6DQo+ICsrICAgIEBfcGFyYW1ldGVyaXplKHt9LCB7J3N0cmljdCc6IEFMTE9X
+X01JU1NJTkd9KQ0KPiArKyAgICBkZWYgdGVzdF9yZWFscGF0aF9yZWxhdGl2ZShzZWxmLCBrd2Fy
+Z3MpOg0KPiArICAgICAgICAgdHJ5Og0KPiArICAgICAgICAgICAgIG9zLnN5bWxpbmsocG9zaXhw
+YXRoLnJlbHBhdGgoQUJTVEZOKyIxIiksIEFCU1RGTikNCj4gKy0gICAgICAgICAgICBzZWxmLmFz
+c2VydEVxdWFsKHJlYWxwYXRoKEFCU1RGTiksIEFCU1RGTisiMSIpDQo+ICsrICAgICAgICAgICAg
+c2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChBQlNURk4sICoqa3dhcmdzKSwgQUJTVEZOKyIxIikN
+Cj4gKyAgICAgICAgIGZpbmFsbHk6DQo+ICsgICAgICAgICAgICAgb3NfaGVscGVyLnVubGluayhB
+QlNURk4pDQo+ICsNCj4gKysgICAgQG9zX2hlbHBlci5za2lwX3VubGVzc19zeW1saW5rDQo+ICsr
+ICAgIEBza2lwX2lmX0FCU1RGTl9jb250YWluc19iYWNrc2xhc2gNCj4gKysgICAgQF9wYXJhbWV0
+ZXJpemUoe30sIHsnc3RyaWN0JzogQUxMT1dfTUlTU0lOR30pDQo+ICsrICAgIGRlZiB0ZXN0X3Jl
+YWxwYXRoX21pc3NpbmdfcGFyZGlyKHNlbGYsIGt3YXJncyk6DQo+ICsrICAgICAgICB0cnk6DQo+
+ICsrICAgICAgICAgICAgb3Muc3ltbGluayhvc19oZWxwZXIuVEVTVEZOICsgIjEiLCBvc19oZWxw
+ZXIuVEVTVEZOKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwoDQo+ICsrICAgICAg
+ICAgICAgICAgIHJlYWxwYXRoKCJub25leGlzdGVudC8uLi8iICsgb3NfaGVscGVyLlRFU1RGTiwg
+Kiprd2FyZ3MpLCBBQlNURk4gKw0KPiAiMSIpDQo+ICsrICAgICAgICBmaW5hbGx5Og0KPiArKyAg
+ICAgICAgICAgIG9zX2hlbHBlci51bmxpbmsob3NfaGVscGVyLlRFU1RGTikNCj4gKysNCj4gKyAg
+ICAgQG9zX2hlbHBlci5za2lwX3VubGVzc19zeW1saW5rDQo+ICsgICAgIEBza2lwX2lmX0FCU1RG
+Tl9jb250YWluc19iYWNrc2xhc2gNCj4gKyAgICAgZGVmIHRlc3RfcmVhbHBhdGhfc3ltbGlua19s
+b29wcyhzZWxmKToNCj4gK0BAIC01MTgsMzcgKzY1MCwzOCBAQCBkZWYgdGVzdF9yZWFscGF0aF9z
+eW1saW5rX2xvb3BzKHNlbGYpOg0KPiArDQo+ICsgICAgIEBvc19oZWxwZXIuc2tpcF91bmxlc3Nf
+c3ltbGluaw0KPiArICAgICBAc2tpcF9pZl9BQlNURk5fY29udGFpbnNfYmFja3NsYXNoDQo+ICst
+ICAgIGRlZiB0ZXN0X3JlYWxwYXRoX3N5bWxpbmtfbG9vcHNfc3RyaWN0KHNlbGYpOg0KPiArKyAg
+ICBAX3BhcmFtZXRlcml6ZSh7J3N0cmljdCc6IFRydWV9LCB7J3N0cmljdCc6IEFMTE9XX01JU1NJ
+Tkd9KQ0KPiArKyAgICBkZWYgdGVzdF9yZWFscGF0aF9zeW1saW5rX2xvb3BzX3N0cmljdChzZWxm
+LCBrd2FyZ3MpOg0KPiArICAgICAgICAgIyBCdWcgIzQzNzU3LCByYWlzZSBPU0Vycm9yIGlmIHdl
+IGdldCBpbnRvIGFuIGluZmluaXRlIHN5bWxpbmsgbG9vcCBpbg0KPiArLSAgICAgICAgIyBzdHJp
+Y3QgbW9kZS4NCj4gKysgICAgICAgICMgdGhlIHN0cmljdCBtb2Rlcy4NCj4gKyAgICAgICAgIHRy
+eToNCj4gKyAgICAgICAgICAgICBvcy5zeW1saW5rKEFCU1RGTiwgQUJTVEZOKQ0KPiArLSAgICAg
+ICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIHJlYWxwYXRoLCBBQlNURk4sIHN0cmlj
+dD1UcnVlKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIHJlYWxw
+YXRoLCBBQlNURk4sICoqa3dhcmdzKQ0KPiArDQo+ICsgICAgICAgICAgICAgb3Muc3ltbGluayhB
+QlNURk4rIjEiLCBBQlNURk4rIjIiKQ0KPiArICAgICAgICAgICAgIG9zLnN5bWxpbmsoQUJTVEZO
+KyIyIiwgQUJTVEZOKyIxIikNCj4gKy0gICAgICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhPU0Vy
+cm9yLCByZWFscGF0aCwgQUJTVEZOKyIxIiwgc3RyaWN0PVRydWUpDQo+ICstICAgICAgICAgICAg
+c2VsZi5hc3NlcnRSYWlzZXMoT1NFcnJvciwgcmVhbHBhdGgsIEFCU1RGTisiMiIsIHN0cmljdD1U
+cnVlKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIHJlYWxwYXRo
+LCBBQlNURk4rIjEiLCAqKmt3YXJncykNCj4gKysgICAgICAgICAgICBzZWxmLmFzc2VydFJhaXNl
+cyhPU0Vycm9yLCByZWFscGF0aCwgQUJTVEZOKyIyIiwgKiprd2FyZ3MpDQo+ICsNCj4gKy0gICAg
+ICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhPU0Vycm9yLCByZWFscGF0aCwgQUJTVEZOKyIxL3gi
+LCBzdHJpY3Q9VHJ1ZSkNCj4gKy0gICAgICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhPU0Vycm9y
+LCByZWFscGF0aCwgQUJTVEZOKyIxLy4uIiwgc3RyaWN0PVRydWUpDQo+ICstICAgICAgICAgICAg
+c2VsZi5hc3NlcnRSYWlzZXMoT1NFcnJvciwgcmVhbHBhdGgsIEFCU1RGTisiMS8uLi94Iiwgc3Ry
+aWN0PVRydWUpDQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoT1NFcnJvciwgcmVh
+bHBhdGgsIEFCU1RGTisiMS94IiwgKiprd2FyZ3MpDQo+ICsrICAgICAgICAgICAgc2VsZi5hc3Nl
+cnRSYWlzZXMoT1NFcnJvciwgcmVhbHBhdGgsIEFCU1RGTisiMS8uLiIsICoqa3dhcmdzKQ0KPiAr
+KyAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIHJlYWxwYXRoLCBBQlNURk4r
+IjEvLi4veCIsICoqa3dhcmdzKQ0KPiArICAgICAgICAgICAgIG9zLnN5bWxpbmsoQUJTVEZOKyJ4
+IiwgQUJTVEZOKyJ5IikNCj4gKyAgICAgICAgICAgICBzZWxmLmFzc2VydFJhaXNlcyhPU0Vycm9y
+LCByZWFscGF0aCwNCj4gKy0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBBQlNURk4rIjEv
+Li4vIiArIGJhc2VuYW1lKEFCU1RGTikgKyAieSIsIHN0cmljdD1UcnVlKQ0KPiArKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIEFCU1RGTisiMS8uLi8iICsgYmFzZW5hbWUoQUJTVEZOKSAr
+ICJ5IiwgKiprd2FyZ3MpDQo+ICsgICAgICAgICAgICAgc2VsZi5hc3NlcnRSYWlzZXMoT1NFcnJv
+ciwgcmVhbHBhdGgsDQo+ICstICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQUJTVEZOKyIx
+Ly4uLyIgKyBiYXNlbmFtZShBQlNURk4pICsgIjEiLCBzdHJpY3Q9VHJ1ZSkNCj4gKysgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBBQlNURk4rIjEvLi4vIiArIGJhc2VuYW1lKEFCU1RGTikg
+KyAiMSIsICoqa3dhcmdzKQ0KPiArDQo+ICsgICAgICAgICAgICAgb3Muc3ltbGluayhiYXNlbmFt
+ZShBQlNURk4pICsgImEvYiIsIEFCU1RGTisiYSIpDQo+ICstICAgICAgICAgICAgc2VsZi5hc3Nl
+cnRSYWlzZXMoT1NFcnJvciwgcmVhbHBhdGgsIEFCU1RGTisiYSIsIHN0cmljdD1UcnVlKQ0KPiAr
+KyAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIHJlYWxwYXRoLCBBQlNURk4r
+ImEiLCAqKmt3YXJncykNCj4gKw0KPiArICAgICAgICAgICAgIG9zLnN5bWxpbmsoIi4uLyIgKyBi
+YXNlbmFtZShkaXJuYW1lKEFCU1RGTikpICsgIi8iICsNCj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgIGJhc2VuYW1lKEFCU1RGTikgKyAiYyIsIEFCU1RGTisiYyIpDQo+ICstICAgICAgICAgICAg
+c2VsZi5hc3NlcnRSYWlzZXMoT1NFcnJvciwgcmVhbHBhdGgsIEFCU1RGTisiYyIsIHN0cmljdD1U
+cnVlKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIHJlYWxwYXRo
+LCBBQlNURk4rImMiLCAqKmt3YXJncykNCj4gKw0KPiArICAgICAgICAgICAgICMgVGVzdCB1c2lu
+ZyByZWxhdGl2ZSBwYXRoIGFzIHdlbGwuDQo+ICsgICAgICAgICAgICAgd2l0aCBvc19oZWxwZXIu
+Y2hhbmdlX2N3ZChkaXJuYW1lKEFCU1RGTikpOg0KPiArLSAgICAgICAgICAgICAgICBzZWxmLmFz
+c2VydFJhaXNlcyhPU0Vycm9yLCByZWFscGF0aCwgYmFzZW5hbWUoQUJTVEZOKSwgc3RyaWN0PVRy
+dWUpDQo+ICsrICAgICAgICAgICAgICAgIHNlbGYuYXNzZXJ0UmFpc2VzKE9TRXJyb3IsIHJlYWxw
+YXRoLCBiYXNlbmFtZShBQlNURk4pLCAqKmt3YXJncykNCj4gKyAgICAgICAgIGZpbmFsbHk6DQo+
+ICsgICAgICAgICAgICAgb3NfaGVscGVyLnVubGluayhBQlNURk4pDQo+ICsgICAgICAgICAgICAg
+b3NfaGVscGVyLnVubGluayhBQlNURk4rIjEiKQ0KPiArQEAgLTU1OSwxMyArNjkyLDE0IEBAIGRl
+ZiB0ZXN0X3JlYWxwYXRoX3N5bWxpbmtfbG9vcHNfc3RyaWN0KHNlbGYpOg0KPiArDQo+ICsgICAg
+IEBvc19oZWxwZXIuc2tpcF91bmxlc3Nfc3ltbGluaw0KPiArICAgICBAc2tpcF9pZl9BQlNURk5f
+Y29udGFpbnNfYmFja3NsYXNoDQo+ICstICAgIGRlZiB0ZXN0X3JlYWxwYXRoX3JlcGVhdGVkX2lu
+ZGlyZWN0X3N5bWxpbmtzKHNlbGYpOg0KPiArKyAgICBAX3BhcmFtZXRlcml6ZSh7fSwgeydzdHJp
+Y3QnOiBUcnVlfSwgeydzdHJpY3QnOiBBTExPV19NSVNTSU5HfSkNCj4gKysgICAgZGVmIHRlc3Rf
+cmVhbHBhdGhfcmVwZWF0ZWRfaW5kaXJlY3Rfc3ltbGlua3Moc2VsZiwga3dhcmdzKToNCj4gKyAg
+ICAgICAgICMgSXNzdWUgIzY5NzUuDQo+ICsgICAgICAgICB0cnk6DQo+ICsgICAgICAgICAgICAg
+b3MubWtkaXIoQUJTVEZOKQ0KPiArICAgICAgICAgICAgIG9zLnN5bWxpbmsoJy4uLycgKyBiYXNl
+bmFtZShBQlNURk4pLCBBQlNURk4gKyAnL3NlbGYnKQ0KPiArICAgICAgICAgICAgIG9zLnN5bWxp
+bmsoJ3NlbGYvc2VsZi9zZWxmJywgQUJTVEZOICsgJy9saW5rJykNCj4gKy0gICAgICAgICAgICBz
+ZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKEFCU1RGTiArICcvbGluaycpLCBBQlNURk4pDQo+ICsr
+ICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChBQlNURk4gKyAnL2xpbmsnLCAq
+Kmt3YXJncyksIEFCU1RGTikNCj4gKyAgICAgICAgIGZpbmFsbHk6DQo+ICsgICAgICAgICAgICAg
+b3NfaGVscGVyLnVubGluayhBQlNURk4gKyAnL3NlbGYnKQ0KPiArICAgICAgICAgICAgIG9zX2hl
+bHBlci51bmxpbmsoQUJTVEZOICsgJy9saW5rJykNCj4gK0BAIC01NzMsMTQgKzcwNywxNSBAQCBk
+ZWYgdGVzdF9yZWFscGF0aF9yZXBlYXRlZF9pbmRpcmVjdF9zeW1saW5rcyhzZWxmKToNCj4gKw0K
+PiArICAgICBAb3NfaGVscGVyLnNraXBfdW5sZXNzX3N5bWxpbmsNCj4gKyAgICAgQHNraXBfaWZf
+QUJTVEZOX2NvbnRhaW5zX2JhY2tzbGFzaA0KPiArLSAgICBkZWYgdGVzdF9yZWFscGF0aF9kZWVw
+X3JlY3Vyc2lvbihzZWxmKToNCj4gKysgICAgQF9wYXJhbWV0ZXJpemUoe30sIHsnc3RyaWN0Jzog
+VHJ1ZX0sIHsnc3RyaWN0JzogQUxMT1dfTUlTU0lOR30pDQo+ICsrICAgIGRlZiB0ZXN0X3JlYWxw
+YXRoX2RlZXBfcmVjdXJzaW9uKHNlbGYsIGt3YXJncyk6DQo+ICsgICAgICAgICBkZXB0aCA9IDEw
+DQo+ICsgICAgICAgICB0cnk6DQo+ICsgICAgICAgICAgICAgb3MubWtkaXIoQUJTVEZOKQ0KPiAr
+ICAgICAgICAgICAgIGZvciBpIGluIHJhbmdlKGRlcHRoKToNCj4gKyAgICAgICAgICAgICAgICAg
+b3Muc3ltbGluaygnLycuam9pbihbJyVkJyAlIGldICogMTApLCBBQlNURk4gKyAnLyVkJyAlIChp
+ICsgMSkpDQo+ICsgICAgICAgICAgICAgb3Muc3ltbGluaygnLicsIEFCU1RGTiArICcvMCcpDQo+
+ICstICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChBQlNURk4gKyAnLyVkJyAl
+IGRlcHRoKSwgQUJTVEZOKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBh
+dGgoQUJTVEZOICsgJy8lZCcgJSBkZXB0aCwgKiprd2FyZ3MpLCBBQlNURk4pDQo+ICsNCj4gKyAg
+ICAgICAgICAgICAjIFRlc3QgdXNpbmcgcmVsYXRpdmUgcGF0aCBhcyB3ZWxsLg0KPiArICAgICAg
+ICAgICAgIHdpdGggb3NfaGVscGVyLmNoYW5nZV9jd2QoQUJTVEZOKToNCj4gK0BAIC01OTIsNyAr
+NzI3LDggQEAgZGVmIHRlc3RfcmVhbHBhdGhfZGVlcF9yZWN1cnNpb24oc2VsZik6DQo+ICsNCj4g
+KyAgICAgQG9zX2hlbHBlci5za2lwX3VubGVzc19zeW1saW5rDQo+ICsgICAgIEBza2lwX2lmX0FC
+U1RGTl9jb250YWluc19iYWNrc2xhc2gNCj4gKy0gICAgZGVmIHRlc3RfcmVhbHBhdGhfcmVzb2x2
+ZV9wYXJlbnRzKHNlbGYpOg0KPiArKyAgICBAX3BhcmFtZXRlcml6ZSh7fSwgeydzdHJpY3QnOiBB
+TExPV19NSVNTSU5HfSkNCj4gKysgICAgZGVmIHRlc3RfcmVhbHBhdGhfcmVzb2x2ZV9wYXJlbnRz
+KHNlbGYsIGt3YXJncyk6DQo+ICsgICAgICAgICAjIFdlIGFsc28gbmVlZCB0byByZXNvbHZlIGFu
+eSBzeW1saW5rcyBpbiB0aGUgcGFyZW50cyBvZiBhIHJlbGF0aXZlDQo+ICsgICAgICAgICAjIHBh
+dGggcGFzc2VkIHRvIHJlYWxwYXRoLiBFLmcuOiBjdXJyZW50IHdvcmtpbmcgZGlyZWN0b3J5IGlz
+DQo+ICsgICAgICAgICAjIC91c3IvZG9jIHdpdGggJ2RvYycgYmVpbmcgYSBzeW1saW5rIHRvIC91
+c3Ivc2hhcmUvZG9jLiBXZSBjYWxsDQo+ICtAQCAtNjAzLDcgKzczOSw4IEBAIGRlZiB0ZXN0X3Jl
+YWxwYXRoX3Jlc29sdmVfcGFyZW50cyhzZWxmKToNCj4gKyAgICAgICAgICAgICBvcy5zeW1saW5r
+KEFCU1RGTiArICIveSIsIEFCU1RGTiArICIvayIpDQo+ICsNCj4gKyAgICAgICAgICAgICB3aXRo
+IG9zX2hlbHBlci5jaGFuZ2VfY3dkKEFCU1RGTiArICIvayIpOg0KPiArLSAgICAgICAgICAgICAg
+ICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKCJhIiksIEFCU1RGTiArICIveS9hIikNCj4gKysg
+ICAgICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aCgiYSIsICoqa3dhcmdzKSwN
+Cj4gKysgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBBQlNURk4gKyAiL3kvYSIp
+DQo+ICsgICAgICAgICBmaW5hbGx5Og0KPiArICAgICAgICAgICAgIG9zX2hlbHBlci51bmxpbmso
+QUJTVEZOICsgIi9rIikNCj4gKyAgICAgICAgICAgICBzYWZlX3JtZGlyKEFCU1RGTiArICIveSIp
+DQo+ICtAQCAtNjExLDcgKzc0OCw4IEBAIGRlZiB0ZXN0X3JlYWxwYXRoX3Jlc29sdmVfcGFyZW50
+cyhzZWxmKToNCj4gKw0KPiArICAgICBAb3NfaGVscGVyLnNraXBfdW5sZXNzX3N5bWxpbmsNCj4g
+KyAgICAgQHNraXBfaWZfQUJTVEZOX2NvbnRhaW5zX2JhY2tzbGFzaA0KPiArLSAgICBkZWYgdGVz
+dF9yZWFscGF0aF9yZXNvbHZlX2JlZm9yZV9ub3JtYWxpemluZyhzZWxmKToNCj4gKysgICAgQF9w
+YXJhbWV0ZXJpemUoe30sIHsnc3RyaWN0JzogVHJ1ZX0sIHsnc3RyaWN0JzogQUxMT1dfTUlTU0lO
+R30pDQo+ICsrICAgIGRlZiB0ZXN0X3JlYWxwYXRoX3Jlc29sdmVfYmVmb3JlX25vcm1hbGl6aW5n
+KHNlbGYsIGt3YXJncyk6DQo+ICsgICAgICAgICAjIEJ1ZyAjOTkwNjY5OiBTeW1ib2xpYyBsaW5r
+cyBzaG91bGQgYmUgcmVzb2x2ZWQgYmVmb3JlIHdlDQo+ICsgICAgICAgICAjIG5vcm1hbGl6ZSB0
+aGUgcGF0aC4gRS5nLjogaWYgd2UgaGF2ZSBkaXJlY3RvcmllcyAnYScsICdrJyBhbmQgJ3knDQo+
+ICsgICAgICAgICAjIGluIHRoZSBmb2xsb3dpbmcgaGllcmFyY2h5Og0KPiArQEAgLTYyNiwxMCAr
+NzY0LDEwIEBAIGRlZiB0ZXN0X3JlYWxwYXRoX3Jlc29sdmVfYmVmb3JlX25vcm1hbGl6aW5nKHNl
+bGYpOg0KPiArICAgICAgICAgICAgIG9zLnN5bWxpbmsoQUJTVEZOICsgIi9rL3kiLCBBQlNURk4g
+KyAiL2xpbmsteSIpDQo+ICsNCj4gKyAgICAgICAgICAgICAjIEFic29sdXRlIHBhdGguDQo+ICst
+ICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChBQlNURk4gKyAiL2xpbmsteS8u
+LiIpLCBBQlNURk4gKyAiL2siKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVh
+bHBhdGgoQUJTVEZOICsgIi9saW5rLXkvLi4iLCAqKmt3YXJncyksIEFCU1RGTiArDQo+ICIvayIp
+DQo+ICsgICAgICAgICAgICAgIyBSZWxhdGl2ZSBwYXRoLg0KPiArICAgICAgICAgICAgIHdpdGgg
+b3NfaGVscGVyLmNoYW5nZV9jd2QoZGlybmFtZShBQlNURk4pKToNCj4gKy0gICAgICAgICAgICAg
+ICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChiYXNlbmFtZShBQlNURk4pICsgIi9saW5rLXkv
+Li4iKSwNCj4gKysgICAgICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChiYXNl
+bmFtZShBQlNURk4pICsgIi9saW5rLXkvLi4iLCAqKmt3YXJncyksDQo+ICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgQUJTVEZOICsgIi9rIikNCj4gKyAgICAgICAgIGZpbmFsbHk6
+DQo+ICsgICAgICAgICAgICAgb3NfaGVscGVyLnVubGluayhBQlNURk4gKyAiL2xpbmsteSIpDQo+
+ICtAQCAtNjM5LDcgKzc3Nyw4IEBAIGRlZiB0ZXN0X3JlYWxwYXRoX3Jlc29sdmVfYmVmb3JlX25v
+cm1hbGl6aW5nKHNlbGYpOg0KPiArDQo+ICsgICAgIEBvc19oZWxwZXIuc2tpcF91bmxlc3Nfc3lt
+bGluaw0KPiArICAgICBAc2tpcF9pZl9BQlNURk5fY29udGFpbnNfYmFja3NsYXNoDQo+ICstICAg
+IGRlZiB0ZXN0X3JlYWxwYXRoX3Jlc29sdmVfZmlyc3Qoc2VsZik6DQo+ICsrICAgIEBfcGFyYW1l
+dGVyaXplKHt9LCB7J3N0cmljdCc6IFRydWV9LCB7J3N0cmljdCc6IEFMTE9XX01JU1NJTkd9KQ0K
+PiArKyAgICBkZWYgdGVzdF9yZWFscGF0aF9yZXNvbHZlX2ZpcnN0KHNlbGYsIGt3YXJncyk6DQo+
+ICsgICAgICAgICAjIEJ1ZyAjMTIxMzg5NDogVGhlIGZpcnN0IGNvbXBvbmVudCBvZiB0aGUgcGF0
+aCwgaWYgbm90IGFic29sdXRlLA0KPiArICAgICAgICAgIyBtdXN0IGJlIHJlc29sdmVkIHRvby4N
+Cj4gKw0KPiArQEAgLTY0OSwxMyArNzg4LDcwIEBAIGRlZiB0ZXN0X3JlYWxwYXRoX3Jlc29sdmVf
+Zmlyc3Qoc2VsZik6DQo+ICsgICAgICAgICAgICAgb3Muc3ltbGluayhBQlNURk4sIEFCU1RGTiAr
+ICJsaW5rIikNCj4gKyAgICAgICAgICAgICB3aXRoIG9zX2hlbHBlci5jaGFuZ2VfY3dkKGRpcm5h
+bWUoQUJTVEZOKSk6DQo+ICsgICAgICAgICAgICAgICAgIGJhc2UgPSBiYXNlbmFtZShBQlNURk4p
+DQo+ICstICAgICAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgoYmFzZSArICJs
+aW5rIiksIEFCU1RGTikNCj4gKy0gICAgICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChyZWFs
+cGF0aChiYXNlICsgImxpbmsvayIpLCBBQlNURk4gKyAiL2siKQ0KPiArKyAgICAgICAgICAgICAg
+ICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKGJhc2UgKyAibGluayIsICoqa3dhcmdzKSwgQUJT
+VEZOKQ0KPiArKyAgICAgICAgICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlYWxwYXRoKGJhc2Ug
+KyAibGluay9rIiwgKiprd2FyZ3MpLCBBQlNURk4gKyAiL2siKQ0KPiArICAgICAgICAgZmluYWxs
+eToNCj4gKyAgICAgICAgICAgICBvc19oZWxwZXIudW5saW5rKEFCU1RGTiArICJsaW5rIikNCj4g
+KyAgICAgICAgICAgICBzYWZlX3JtZGlyKEFCU1RGTiArICIvayIpDQo+ICsgICAgICAgICAgICAg
+c2FmZV9ybWRpcihBQlNURk4pDQo+ICsNCj4gKysgICAgQG9zX2hlbHBlci5za2lwX3VubGVzc19z
+eW1saW5rDQo+ICsrICAgIEBza2lwX2lmX0FCU1RGTl9jb250YWluc19iYWNrc2xhc2gNCj4gKysg
+ICAgQHVuaXR0ZXN0LnNraXBJZihvcy5jaG1vZCBub3QgaW4gb3Muc3VwcG9ydHNfZm9sbG93X3N5
+bWxpbmtzLCAiQ2FuJ3Qgc2V0DQo+IHN5bWxpbmsgcGVybWlzc2lvbnMiKQ0KPiArKyAgICBAdW5p
+dHRlc3Quc2tpcElmKHN5cy5wbGF0Zm9ybSAhPSAiZGFyd2luIiwgIm9ubHkgbWFjT1MgcmVxdWly
+ZXMgcmVhZA0KPiBwZXJtaXNzaW9uIHRvIHJlYWRsaW5rKCkiKQ0KPiArKyAgICBAX3BhcmFtZXRl
+cml6ZSh7J3N0cmljdCc6IFRydWV9LCB7J3N0cmljdCc6IEFMTE9XX01JU1NJTkd9KQ0KPiArKyAg
+ICBkZWYgdGVzdF9yZWFscGF0aF91bnJlYWRhYmxlX3N5bWxpbmtfc3RyaWN0KHNlbGYsIGt3YXJn
+cyk6DQo+ICsrICAgICAgICB0cnk6DQo+ICsrICAgICAgICAgICAgb3Muc3ltbGluayhBQlNURk4r
+IjEiLCBBQlNURk4pDQo+ICsrICAgICAgICAgICAgb3MuY2htb2QoQUJTVEZOLCAwbzAwMCwgZm9s
+bG93X3N5bWxpbmtzPUZhbHNlKQ0KPiArKyAgICAgICAgICAgIHdpdGggc2VsZi5hc3NlcnRSYWlz
+ZXMoUGVybWlzc2lvbkVycm9yKToNCj4gKysgICAgICAgICAgICAgICAgcmVhbHBhdGgoQUJTVEZO
+LCAqKmt3YXJncykNCj4gKysgICAgICAgICAgICB3aXRoIHNlbGYuYXNzZXJ0UmFpc2VzKFBlcm1p
+c3Npb25FcnJvcik6DQo+ICsrICAgICAgICAgICAgICAgIHJlYWxwYXRoKEFCU1RGTiArICcvZm9v
+JywgKiprd2FyZ3MpLA0KPiArKyAgICAgICAgICAgIHdpdGggc2VsZi5hc3NlcnRSYWlzZXMoUGVy
+bWlzc2lvbkVycm9yKToNCj4gKysgICAgICAgICAgICAgICAgcmVhbHBhdGgoQUJTVEZOICsgJy8u
+Li9mb28nLCAqKmt3YXJncykNCj4gKysgICAgICAgICAgICB3aXRoIHNlbGYuYXNzZXJ0UmFpc2Vz
+KFBlcm1pc3Npb25FcnJvcik6DQo+ICsrICAgICAgICAgICAgICAgIHJlYWxwYXRoKEFCU1RGTiAr
+ICcvZm9vLy4uJywgKiprd2FyZ3MpDQo+ICsrICAgICAgICBmaW5hbGx5Og0KPiArKyAgICAgICAg
+ICAgIG9zLmNobW9kKEFCU1RGTiwgMG83NTUsIGZvbGxvd19zeW1saW5rcz1GYWxzZSkNCj4gKysg
+ICAgICAgICAgICBvcy51bmxpbmsoQUJTVEZOKQ0KPiArKw0KPiArKyAgICBAc2tpcF9pZl9BQlNU
+Rk5fY29udGFpbnNfYmFja3NsYXNoDQo+ICsrICAgIEBvc19oZWxwZXIuc2tpcF91bmxlc3Nfc3lt
+bGluaw0KPiArKyAgICBkZWYgdGVzdF9yZWFscGF0aF91bnJlYWRhYmxlX2RpcmVjdG9yeShzZWxm
+KToNCj4gKysgICAgICAgIHRyeToNCj4gKysgICAgICAgICAgICBvcy5ta2RpcihBQlNURk4pDQo+
+ICsrICAgICAgICAgICAgb3MubWtkaXIoQUJTVEZOICsgJy9rJykNCj4gKysgICAgICAgICAgICBv
+cy5jaG1vZChBQlNURk4sIDBvMDAwKQ0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwo
+cmVhbHBhdGgoQUJTVEZOLCBzdHJpY3Q9RmFsc2UpLCBBQlNURk4pDQo+ICsrICAgICAgICAgICAg
+c2VsZi5hc3NlcnRFcXVhbChyZWFscGF0aChBQlNURk4sIHN0cmljdD1UcnVlKSwgQUJTVEZOKQ0K
+PiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgoQUJTVEZOLCBzdHJpY3Q9
+QUxMT1dfTUlTU0lORyksIEFCU1RGTikNCj4gKysNCj4gKysgICAgICAgICAgICB0cnk6DQo+ICsr
+ICAgICAgICAgICAgICAgIG9zLnN0YXQoQUJTVEZOKQ0KPiArKyAgICAgICAgICAgIGV4Y2VwdCBQ
+ZXJtaXNzaW9uRXJyb3I6DQo+ICsrICAgICAgICAgICAgICAgIHBhc3MNCj4gKysgICAgICAgICAg
+ICBlbHNlOg0KPiArKyAgICAgICAgICAgICAgICBzZWxmLnNraXBUZXN0KCdDYW5ub3QgYmxvY2sg
+cGVybWlzc2lvbnMnKQ0KPiArKw0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVh
+bHBhdGgoQUJTVEZOICsgJy9rJywgc3RyaWN0PUZhbHNlKSwNCj4gKysgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIEFCU1RGTiArICcvaycpDQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRS
+YWlzZXMoUGVybWlzc2lvbkVycm9yLCByZWFscGF0aCwgQUJTVEZOICsgJy9rJywNCj4gKysgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJpY3Q9VHJ1ZSkNCj4gKysgICAgICAgICAgICBz
+ZWxmLmFzc2VydFJhaXNlcyhQZXJtaXNzaW9uRXJyb3IsIHJlYWxwYXRoLCBBQlNURk4gKyAnL2sn
+LA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cmljdD1BTExPV19NSVNTSU5H
+KQ0KPiArKw0KPiArKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVhbHBhdGgoQUJTVEZO
+ICsgJy9taXNzaW5nJywgc3RyaWN0PUZhbHNlKSwNCj4gKysgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIEFCU1RGTiArICcvbWlzc2luZycpDQo+ICsrICAgICAgICAgICAgc2VsZi5hc3NlcnRS
+YWlzZXMoUGVybWlzc2lvbkVycm9yLCByZWFscGF0aCwgQUJTVEZOICsgJy9taXNzaW5nJywNCj4g
+KysgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJpY3Q9VHJ1ZSkNCj4gKysgICAgICAg
+ICAgICBzZWxmLmFzc2VydFJhaXNlcyhQZXJtaXNzaW9uRXJyb3IsIHJlYWxwYXRoLCBBQlNURk4g
+KyAnL21pc3NpbmcnLA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cmljdD1B
+TExPV19NSVNTSU5HKQ0KPiArKyAgICAgICAgZmluYWxseToNCj4gKysgICAgICAgICAgICBvcy5j
+aG1vZChBQlNURk4sIDBvNzU1KQ0KPiArKyAgICAgICAgICAgIHNhZmVfcm1kaXIoQUJTVEZOICsg
+Jy9rJykNCj4gKysgICAgICAgICAgICBzYWZlX3JtZGlyKEFCU1RGTikNCj4gKysNCj4gKyAgICAg
+ZGVmIHRlc3RfcmVscGF0aChzZWxmKToNCj4gKyAgICAgICAgIChyZWFsX2dldGN3ZCwgb3MuZ2V0
+Y3dkKSA9IChvcy5nZXRjd2QsIGxhbWJkYTogciIvaG9tZS91c2VyL2JhciIpDQo+ICsgICAgICAg
+ICB0cnk6DQo+ICtAQCAtODM1LDkgKzEwMzEsMTIgQEAgZGVmIHRlc3RfcGF0aF9ub3JtcGF0aChz
+ZWxmKToNCj4gKyAgICAgZGVmIHRlc3RfcGF0aF9hYnNwYXRoKHNlbGYpOg0KPiArICAgICAgICAg
+c2VsZi5hc3NlcnRQYXRoRXF1YWwoc2VsZi5wYXRoLmFic3BhdGgpDQo+ICsNCj4gKy0gICAgZGVm
+IHRlc3RfcGF0aF9yZWFscGF0aChzZWxmKToNCj4gKysgICAgQF9wYXJhbWV0ZXJpemUoe30sIHsn
+c3RyaWN0JzogVHJ1ZX0sIHsnc3RyaWN0JzogQUxMT1dfTUlTU0lOR30pDQo+ICsrICAgIGRlZiB0
+ZXN0X3BhdGhfcmVhbHBhdGgoc2VsZiwga3dhcmdzKToNCj4gKyAgICAgICAgIHNlbGYuYXNzZXJ0
+UGF0aEVxdWFsKHNlbGYucGF0aC5yZWFscGF0aCkNCj4gKw0KPiArKyAgICAgICAgc2VsZi5hc3Nl
+cnRQYXRoRXF1YWwocGFydGlhbChzZWxmLnBhdGgucmVhbHBhdGgsICoqa3dhcmdzKSkNCj4gKysN
+Cj4gKyAgICAgZGVmIHRlc3RfcGF0aF9yZWxwYXRoKHNlbGYpOg0KPiArICAgICAgICAgc2VsZi5h
+c3NlcnRQYXRoRXF1YWwoc2VsZi5wYXRoLnJlbHBhdGgpDQo+ICsNCj4gK2RpZmYgLS1naXQgYS9M
+aWIvdGVzdC90ZXN0X3RhcmZpbGUucHkgYi9MaWIvdGVzdC90ZXN0X3RhcmZpbGUucHkNCj4gK2lu
+ZGV4IGUyOGQwMzExODI2Li4xYzU5OGUxMTY0MiAxMDA2NDQNCj4gKy0tLSBhL0xpYi90ZXN0L3Rl
+c3RfdGFyZmlsZS5weQ0KPiArKysrIGIvTGliL3Rlc3QvdGVzdF90YXJmaWxlLnB5DQo+ICtAQCAt
+MjYyNyw3ICsyNjI3LDggQEAgZGVmIHRlc3RfX2FsbF9fKHNlbGYpOg0KPiArICAgICAgICAgICAg
+ICdQQVhfTlVNQkVSX0ZJRUxEUycsICdzdG4nLCAnbnRzJywgJ250aScsICdpdG4nLCAnY2FsY19j
+aGtzdW1zJywNCj4gKyAgICAgICAgICAgICAnY29weWZpbGVvYmonLCAnZmlsZW1vZGUnLCAnRW1w
+dHlIZWFkZXJFcnJvcicsDQo+ICsgICAgICAgICAgICAgJ1RydW5jYXRlZEhlYWRlckVycm9yJywg
+J0VPRkhlYWRlckVycm9yJywgJ0ludmFsaWRIZWFkZXJFcnJvcicsDQo+ICstICAgICAgICAgICAg
+J1N1YnNlcXVlbnRIZWFkZXJFcnJvcicsICdFeEZpbGVPYmplY3QnLCAnbWFpbid9DQo+ICsrICAg
+ICAgICAgICAgJ1N1YnNlcXVlbnRIZWFkZXJFcnJvcicsICdFeEZpbGVPYmplY3QnLCAnbWFpbics
+DQo+ICsrICAgICAgICAgICAgIkxpbmtGYWxsYmFja0Vycm9yIn0NCj4gKyAgICAgICAgIHN1cHBv
+cnQuY2hlY2tfX2FsbF9fKHNlbGYsIHRhcmZpbGUsIG5vdF9leHBvcnRlZD1ub3RfZXhwb3J0ZWQp
+DQo+ICsNCj4gKyAgICAgZGVmIHRlc3RfdXNlZnVsX2Vycm9yX21lc3NhZ2Vfd2hlbl9tb2R1bGVz
+X21pc3Npbmcoc2VsZik6DQo+ICtAQCAtMjY0Miw2ICsyNjQzLDMxIEBAIGRlZg0KPiB0ZXN0X3Vz
+ZWZ1bF9lcnJvcl9tZXNzYWdlX3doZW5fbW9kdWxlc19taXNzaW5nKHNlbGYpOg0KPiArICAgICAg
+ICAgICAgIHN0cihleGNpbmZvLmV4Y2VwdGlvbiksDQo+ICsgICAgICAgICApDQo+ICsNCj4gKysg
+ICAgQHVuaXR0ZXN0LnNraXBVbmxlc3Mob3NfaGVscGVyLmNhbl9zeW1saW5rKCksICdyZXF1aXJl
+cyBzeW1saW5rIHN1cHBvcnQnKQ0KPiArKyAgICBAdW5pdHRlc3Quc2tpcFVubGVzcyhoYXNhdHRy
+KG9zLCAnY2htb2QnKSwgIm1pc3Npbmcgb3MuY2htb2QiKQ0KPiArKyAgICBAdW5pdHRlc3QubW9j
+ay5wYXRjaCgnb3MuY2htb2QnKQ0KPiArKyAgICBkZWYgdGVzdF9kZWZlcnJlZF9kaXJlY3Rvcnlf
+YXR0cmlidXRlc191cGRhdGUoc2VsZiwgbW9ja19jaG1vZCk6DQo+ICsrICAgICAgICAjIFJlZ3Jl
+c3Npb24gdGVzdCBmb3IgZ2gtMTI3OTg3OiBzZXR0aW5nIGF0dHJpYnV0ZXMgb24gYXJiaXRyYXJ5
+IGZpbGVzDQo+ICsrICAgICAgICB0ZW1wZGlyID0gb3MucGF0aC5qb2luKFRFTVBESVIsICd0ZXN0
+MTI3OTg3JykNCj4gKysgICAgICAgIGRlZiBtb2NrX2NobW9kX3NpZGVfZWZmZWN0KHBhdGgsIG1v
+ZGUsICoqa3dhcmdzKToNCj4gKysgICAgICAgICAgICB0YXJnZXRfcGF0aCA9IG9zLnBhdGgucmVh
+bHBhdGgocGF0aCkNCj4gKysgICAgICAgICAgICBpZiBvcy5wYXRoLmNvbW1vbnBhdGgoW3Rhcmdl
+dF9wYXRoLCB0ZW1wZGlyXSkgIT0gdGVtcGRpcjoNCj4gKysgICAgICAgICAgICAgICAgcmFpc2Ug
+RXhjZXB0aW9uKCJzaG91bGQgbm90IHRyeSB0byBjaG1vZCBhbnl0aGluZyBvdXRzaWRlIHRoZQ0K
+PiBkZXN0aW5hdGlvbiIsIHRhcmdldF9wYXRoKQ0KPiArKyAgICAgICAgbW9ja19jaG1vZC5zaWRl
+X2VmZmVjdCA9IG1vY2tfY2htb2Rfc2lkZV9lZmZlY3QNCj4gKysNCj4gKysgICAgICAgIG91dHNp
+ZGVfdHJlZV9kaXIgPSBvcy5wYXRoLmpvaW4oVEVNUERJUiwgJ291dHNpZGVfdHJlZV9kaXInKQ0K
+PiArKyAgICAgICAgd2l0aCBBcmNoaXZlTWFrZXIoKSBhcyBhcmM6DQo+ICsrICAgICAgICAgICAg
+YXJjLmFkZCgneCcsIHN5bWxpbmtfdG89Jy4nKQ0KPiArKyAgICAgICAgICAgIGFyYy5hZGQoJ3gn
+LCB0eXBlPXRhcmZpbGUuRElSVFlQRSwgbW9kZT0nP3J3c3J3c3J3dCcpDQo+ICsrICAgICAgICAg
+ICAgYXJjLmFkZCgneCcsIHN5bWxpbmtfdG89b3V0c2lkZV90cmVlX2RpcikNCj4gKysNCj4gKysg
+ICAgICAgIG9zLm1ha2VkaXJzKG91dHNpZGVfdHJlZV9kaXIpDQo+ICsrICAgICAgICB0cnk6DQo+
+ICsrICAgICAgICAgICAgYXJjLm9wZW4oKS5leHRyYWN0YWxsKHBhdGg9dGVtcGRpciwgZmlsdGVy
+PSd0YXInKQ0KPiArKyAgICAgICAgZmluYWxseToNCj4gKysgICAgICAgICAgICBvc19oZWxwZXIu
+cm10cmVlKG91dHNpZGVfdHJlZV9kaXIpDQo+ICsrICAgICAgICAgICAgb3NfaGVscGVyLnJtdHJl
+ZSh0ZW1wZGlyKQ0KPiArKw0KPiArDQo+ICsgY2xhc3MgQ29tbWFuZExpbmVUZXN0KHVuaXR0ZXN0
+LlRlc3RDYXNlKToNCj4gKw0KPiArQEAgLTMyMDIsNiArMzIyOCwxMCBAQCBkZWYgY2hlY2tfZmls
+ZXNfcHJlc2VudChzZWxmLCBkaXJlY3RvcnkpOg0KPiArICAgICAgICAgZ290X3BhdGhzID0gc2V0
+KA0KPiArICAgICAgICAgICAgIHAucmVsYXRpdmVfdG8oZGlyZWN0b3J5KQ0KPiArICAgICAgICAg
+ICAgIGZvciBwIGluIHBhdGhsaWIuUGF0aChkaXJlY3RvcnkpLmdsb2IoJyoqLyonKSkNCj4gKysg
+ICAgICAgIGlmIHNlbGYuZXh0cmFjdGlvbl9maWx0ZXIgPT0gJ2RhdGEnOg0KPiArKyAgICAgICAg
+ICAgICMgVGhlICdkYXRhJyBmaWx0ZXIgaXMgZXhwZWN0ZWQgdG8gcmVqZWN0IHNwZWNpYWwgZmls
+ZXMNCj4gKysgICAgICAgICAgICBmb3IgcGF0aCBpbiAndXN0YXIvZmlmb3R5cGUnLCAndXN0YXIv
+YmxrdHlwZScsICd1c3Rhci9jaHJ0eXBlJzoNCj4gKysgICAgICAgICAgICAgICAgZ290X3BhdGhz
+LmRpc2NhcmQocGF0aGxpYi5QYXRoKHBhdGgpKQ0KPiArICAgICAgICAgc2VsZi5hc3NlcnRFcXVh
+bChzZWxmLmNvbnRyb2xfcGF0aHMsIGdvdF9wYXRocykNCj4gKw0KPiArICAgICBAY29udGV4dG1h
+bmFnZXINCj4gK0BAIC0zNDI4LDEyICszNDU4LDI4IEBAIGRlZiBfX2V4aXRfXyhzZWxmLCAqZXhj
+KToNCj4gKyAgICAgICAgIHNlbGYuYmlvID0gTm9uZQ0KPiArDQo+ICsgICAgIGRlZiBhZGQoc2Vs
+ZiwgbmFtZSwgKiwgdHlwZT1Ob25lLCBzeW1saW5rX3RvPU5vbmUsIGhhcmRsaW5rX3RvPU5vbmUs
+DQo+ICstICAgICAgICAgICAgbW9kZT1Ob25lLCBzaXplPU5vbmUsICoqa3dhcmdzKToNCj4gKy0g
+ICAgICAgICIiIkFkZCBhIG1lbWJlciB0byB0aGUgdGVzdCBhcmNoaXZlLiBDYWxsIHdpdGhpbiBg
+d2l0aGAuIiIiDQo+ICsrICAgICAgICAgICAgbW9kZT1Ob25lLCBzaXplPU5vbmUsIGNvbnRlbnQ9
+Tm9uZSwgKiprd2FyZ3MpOg0KPiArKyAgICAgICAgIiIiQWRkIGEgbWVtYmVyIHRvIHRoZSB0ZXN0
+IGFyY2hpdmUuIENhbGwgd2l0aGluIGB3aXRoYC4NCj4gKysNCj4gKysgICAgICAgIFByb3ZpZGVz
+IG1hbnkgc2hvcnRjdXRzOg0KPiArKyAgICAgICAgLSBkZWZhdWx0IGB0eXBlYCBpcyBiYXNlZCBv
+biBzeW1saW5rX3RvLCBoYXJkbGlua190bywgYW5kIHRyYWlsaW5nIGAvYA0KPiArKyAgICAgICAg
+ICBpbiBuYW1lICh3aGljaCBpcyBzdHJpcHBlZCkNCj4gKysgICAgICAgIC0gc2l6ZSAmIGNvbnRl
+bnQgZGVmYXVsdHMgYXJlIGJhc2VkIG9uIGVhY2ggb3RoZXINCj4gKysgICAgICAgIC0gY29udGVu
+dCBjYW4gYmUgc3RyIG9yIGJ5dGVzDQo+ICsrICAgICAgICAtIG1vZGUgc2hvdWxkIGJlIHRleHR1
+YWwgKCctcnd4cnd4cnd4JykNCj4gKysNCj4gKysgICAgICAgIChhZGQgbW9yZSEgdGhpcyBpcyB1
+bnN0YWJsZSBpbnRlcm5hbCB0ZXN0LW9ubHkgQVBJKQ0KPiArKyAgICAgICAgIiIiDQo+ICsgICAg
+ICAgICBuYW1lID0gc3RyKG5hbWUpDQo+ICsgICAgICAgICB0YXJpbmZvID0gdGFyZmlsZS5UYXJJ
+bmZvKG5hbWUpLnJlcGxhY2UoKiprd2FyZ3MpDQo+ICsrICAgICAgICBpZiBjb250ZW50IGlzIG5v
+dCBOb25lOg0KPiArKyAgICAgICAgICAgIGlmIGlzaW5zdGFuY2UoY29udGVudCwgc3RyKToNCj4g
+KysgICAgICAgICAgICAgICAgY29udGVudCA9IGNvbnRlbnQuZW5jb2RlKCkNCj4gKysgICAgICAg
+ICAgICBzaXplID0gbGVuKGNvbnRlbnQpDQo+ICsgICAgICAgICBpZiBzaXplIGlzIG5vdCBOb25l
+Og0KPiArICAgICAgICAgICAgIHRhcmluZm8uc2l6ZSA9IHNpemUNCj4gKysgICAgICAgICAgICBp
+ZiBjb250ZW50IGlzIE5vbmU6DQo+ICsrICAgICAgICAgICAgICAgIGNvbnRlbnQgPSBieXRlcyh0
+YXJpbmZvLnNpemUpDQo+ICsgICAgICAgICBpZiBtb2RlOg0KPiArICAgICAgICAgICAgIHRhcmlu
+Zm8ubW9kZSA9IF9maWxlbW9kZV90b19pbnQobW9kZSkNCj4gKyAgICAgICAgIGlmIHN5bWxpbmtf
+dG8gaXMgbm90IE5vbmU6DQo+ICtAQCAtMzQ0Nyw3ICszNDkzLDcgQEAgZGVmIGFkZChzZWxmLCBu
+YW1lLCAqLCB0eXBlPU5vbmUsIHN5bWxpbmtfdG89Tm9uZSwNCj4gaGFyZGxpbmtfdG89Tm9uZSwN
+Cj4gKyAgICAgICAgIGlmIHR5cGUgaXMgbm90IE5vbmU6DQo+ICsgICAgICAgICAgICAgdGFyaW5m
+by50eXBlID0gdHlwZQ0KPiArICAgICAgICAgaWYgdGFyaW5mby5pc3JlZygpOg0KPiArLSAgICAg
+ICAgICAgIGZpbGVvYmogPSBpby5CeXRlc0lPKGJ5dGVzKHRhcmluZm8uc2l6ZSkpDQo+ICsrICAg
+ICAgICAgICAgZmlsZW9iaiA9IGlvLkJ5dGVzSU8oY29udGVudCkNCj4gKyAgICAgICAgIGVsc2U6
+DQo+ICsgICAgICAgICAgICAgZmlsZW9iaiA9IE5vbmUNCj4gKyAgICAgICAgIHNlbGYudGFyX3cu
+YWRkZmlsZSh0YXJpbmZvLCBmaWxlb2JqKQ0KPiArQEAgLTM0ODEsNyArMzUyNyw3IEBAIGNsYXNz
+IFRlc3RFeHRyYWN0aW9uRmlsdGVycyh1bml0dGVzdC5UZXN0Q2FzZSk6DQo+ICsgICAgIGRlc3Rk
+aXIgPSBvdXRlcmRpciAvICdkZXN0Jw0KPiArDQo+ICsgICAgIEBjb250ZXh0bWFuYWdlcg0KPiAr
+LSAgICBkZWYgY2hlY2tfY29udGV4dChzZWxmLCB0YXIsIGZpbHRlcik6DQo+ICsrICAgIGRlZiBj
+aGVja19jb250ZXh0KHNlbGYsIHRhciwgZmlsdGVyLCAqLCBjaGVja19mbGFnPVRydWUpOg0KPiAr
+ICAgICAgICAgIiIiRXh0cmFjdHMgYHRhcmAgdG8gYHNlbGYuZGVzdGRpcmAgYW5kIGFsbG93cyBj
+aGVja2luZyB0aGUgcmVzdWx0DQo+ICsNCj4gKyAgICAgICAgIElmIGFuIGVycm9yIG9jY3Vycywg
+aXQgbXVzdCBiZSBjaGVja2VkIHVzaW5nIGBleHBlY3RfZXhjZXB0aW9uYA0KPiArQEAgLTM0OTAs
+MjcgKzM1MzYsNDAgQEAgZGVmIGNoZWNrX2NvbnRleHQoc2VsZiwgdGFyLCBmaWx0ZXIpOg0KPiAr
+ICAgICAgICAgZXhjZXB0IHRoZSBkZXN0aW5hdGlvbiBkaXJlY3RvcnkgaXRzZWxmIGFuZCBwYXJl
+bnQgZGlyZWN0b3JpZXMgb2YNCj4gKyAgICAgICAgIG90aGVyIGZpbGVzLg0KPiArICAgICAgICAg
+V2hlbiBjaGVja2luZyBkaXJlY3RvcmllcywgZG8gc28gYmVmb3JlIHRoZWlyIGNvbnRlbnRzLg0K
+PiArKw0KPiArKyAgICAgICAgQSBmaWxlIGNhbGxlZCAnZmxhZycgaXMgbWFkZSBpbiBvdXRlcmRp
+ciAoaS5lLiBvdXRzaWRlIGRlc3RkaXIpDQo+ICsrICAgICAgICBiZWZvcmUgZXh0cmFjdGlvbjsg
+aXQgc2hvdWxkIG5vdCBiZSBhbHRlcmVkIG5vciBzaG91bGQgaXRzIGNvbnRlbnRzDQo+ICsrICAg
+ICAgICBiZSByZWFkL2NvcGllZC4NCj4gKyAgICAgICAgICIiIg0KPiArICAgICAgICAgd2l0aCBv
+c19oZWxwZXIudGVtcF9kaXIoc2VsZi5vdXRlcmRpcik6DQo+ICsrICAgICAgICAgICAgZmxhZ19w
+YXRoID0gc2VsZi5vdXRlcmRpciAvICdmbGFnJw0KPiArKyAgICAgICAgICAgIGZsYWdfcGF0aC53
+cml0ZV90ZXh0KCdjYXB0dXJlIG1lJykNCj4gKyAgICAgICAgICAgICB0cnk6DQo+ICsgICAgICAg
+ICAgICAgICAgIHRhci5leHRyYWN0YWxsKHNlbGYuZGVzdGRpciwgZmlsdGVyPWZpbHRlcikNCj4g
+KyAgICAgICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGV4YzoNCj4gKyAgICAgICAgICAgICAg
+ICAgc2VsZi5yYWlzZWRfZXhjZXB0aW9uID0gZXhjDQo+ICsrICAgICAgICAgICAgICAgIHNlbGYu
+cmVyYWlzZV9leGNlcHRpb24gPSBUcnVlDQo+ICsgICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0
+ZWRfcGF0aHMgPSBzZXQoKQ0KPiArICAgICAgICAgICAgIGVsc2U6DQo+ICsgICAgICAgICAgICAg
+ICAgIHNlbGYucmFpc2VkX2V4Y2VwdGlvbiA9IE5vbmUNCj4gKysgICAgICAgICAgICAgICAgc2Vs
+Zi5yZXJhaXNlX2V4Y2VwdGlvbiA9IEZhbHNlDQo+ICsgICAgICAgICAgICAgICAgIHNlbGYuZXhw
+ZWN0ZWRfcGF0aHMgPSBzZXQoc2VsZi5vdXRlcmRpci5nbG9iKCcqKi8qJykpDQo+ICsgICAgICAg
+ICAgICAgICAgIHNlbGYuZXhwZWN0ZWRfcGF0aHMuZGlzY2FyZChzZWxmLmRlc3RkaXIpDQo+ICsr
+ICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0ZWRfcGF0aHMuZGlzY2FyZChmbGFnX3BhdGgpDQo+
+ICsgICAgICAgICAgICAgdHJ5Og0KPiArLSAgICAgICAgICAgICAgICB5aWVsZA0KPiArKyAgICAg
+ICAgICAgICAgICB5aWVsZCBzZWxmDQo+ICsgICAgICAgICAgICAgZmluYWxseToNCj4gKyAgICAg
+ICAgICAgICAgICAgdGFyLmNsb3NlKCkNCj4gKy0gICAgICAgICAgICBpZiBzZWxmLnJhaXNlZF9l
+eGNlcHRpb246DQo+ICsrICAgICAgICAgICAgaWYgc2VsZi5yZXJhaXNlX2V4Y2VwdGlvbjoNCj4g
+KyAgICAgICAgICAgICAgICAgcmFpc2Ugc2VsZi5yYWlzZWRfZXhjZXB0aW9uDQo+ICsgICAgICAg
+ICAgICAgc2VsZi5hc3NlcnRFcXVhbChzZWxmLmV4cGVjdGVkX3BhdGhzLCBzZXQoKSkNCj4gKysg
+ICAgICAgICAgICBpZiBjaGVja19mbGFnOg0KPiArKyAgICAgICAgICAgICAgICBzZWxmLmFzc2Vy
+dEVxdWFsKGZsYWdfcGF0aC5yZWFkX3RleHQoKSwgJ2NhcHR1cmUgbWUnKQ0KPiArKyAgICAgICAg
+ICAgIGVsc2U6DQo+ICsrICAgICAgICAgICAgICAgIGFzc2VydCBmaWx0ZXIgPT0gJ2Z1bGx5X3Ry
+dXN0ZWQnDQo+ICsNCj4gKyAgICAgZGVmIGV4cGVjdF9maWxlKHNlbGYsIG5hbWUsIHR5cGU9Tm9u
+ZSwgc3ltbGlua190bz1Ob25lLCBtb2RlPU5vbmUsDQo+ICstICAgICAgICAgICAgICAgICAgICBz
+aXplPU5vbmUpOg0KPiArKyAgICAgICAgICAgICAgICAgICAgc2l6ZT1Ob25lLCBjb250ZW50PU5v
+bmUpOg0KPiArICAgICAgICAgIiIiQ2hlY2sgYSBzaW5nbGUgZmlsZS4gU2VlIGNoZWNrX2NvbnRl
+eHQuIiIiDQo+ICsgICAgICAgICBpZiBzZWxmLnJhaXNlZF9leGNlcHRpb246DQo+ICsgICAgICAg
+ICAgICAgcmFpc2Ugc2VsZi5yYWlzZWRfZXhjZXB0aW9uDQo+ICtAQCAtMzUyOSwyNiArMzU4OCw0
+NSBAQCBkZWYgZXhwZWN0X2ZpbGUoc2VsZiwgbmFtZSwgdHlwZT1Ob25lLA0KPiBzeW1saW5rX3Rv
+PU5vbmUsIG1vZGU9Tm9uZSwNCj4gKyAgICAgICAgICAgICAjIFRoZSBzeW1saW5rIG1pZ2h0IGJl
+IHRoZSBzYW1lICh0ZXh0dWFsbHkpIGFzIHdoYXQgd2UgZXhwZWN0LA0KPiArICAgICAgICAgICAg
+ICMgYnV0IHNvbWUgc3lzdGVtcyBjaGFuZ2UgdGhlIGxpbmsgdG8gYW4gZXF1aXZhbGVudCBwYXRo
+LCBzbw0KPiArICAgICAgICAgICAgICMgd2UgZmFsbCBiYWNrIHRvIHNhbWVmaWxlKCkuDQo+ICst
+ICAgICAgICAgICAgaWYgZXhwZWN0ZWQgIT0gZ290Og0KPiArLSAgICAgICAgICAgICAgICBzZWxm
+LmFzc2VydFRydWUoZ290LnNhbWVmaWxlKGV4cGVjdGVkKSkNCj4gKysgICAgICAgICAgICB0cnk6
+DQo+ICsrICAgICAgICAgICAgICAgIGlmIGV4cGVjdGVkICE9IGdvdDoNCj4gKysgICAgICAgICAg
+ICAgICAgICAgIHNlbGYuYXNzZXJ0VHJ1ZShnb3Quc2FtZWZpbGUoZXhwZWN0ZWQpKQ0KPiArKyAg
+ICAgICAgICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZToNCj4gKysgICAgICAgICAgICAgICAgIyBh
+dHRhY2ggYSBub3RlLCBzbyBpdCdzIHNob3duIGV2ZW4gaWYgYHNhbWVmaWxlYCBmYWlscw0KPiAr
+KyAgICAgICAgICAgICAgICBlLmFkZF9ub3RlKGYne2V4cGVjdGVkPX0sIHtnb3Q9fScpDQo+ICsr
+ICAgICAgICAgICAgICAgIHJhaXNlDQo+ICsgICAgICAgICBlbGlmIHR5cGUgPT0gdGFyZmlsZS5S
+RUdUWVBFIG9yIHR5cGUgaXMgTm9uZToNCj4gKyAgICAgICAgICAgICBzZWxmLmFzc2VydFRydWUo
+cGF0aC5pc19maWxlKCkpDQo+ICsgICAgICAgICBlbGlmIHR5cGUgPT0gdGFyZmlsZS5ESVJUWVBF
+Og0KPiArICAgICAgICAgICAgIHNlbGYuYXNzZXJ0VHJ1ZShwYXRoLmlzX2RpcigpKQ0KPiArICAg
+ICAgICAgZWxpZiB0eXBlID09IHRhcmZpbGUuRklGT1RZUEU6DQo+ICsgICAgICAgICAgICAgc2Vs
+Zi5hc3NlcnRUcnVlKHBhdGguaXNfZmlmbygpKQ0KPiArKyAgICAgICAgZWxpZiB0eXBlID09IHRh
+cmZpbGUuU1lNVFlQRToNCj4gKysgICAgICAgICAgICBzZWxmLmFzc2VydFRydWUocGF0aC5pc19z
+eW1saW5rKCkpDQo+ICsgICAgICAgICBlbHNlOg0KPiArICAgICAgICAgICAgIHJhaXNlIE5vdElt
+cGxlbWVudGVkRXJyb3IodHlwZSkNCj4gKyAgICAgICAgIGlmIHNpemUgaXMgbm90IE5vbmU6DQo+
+ICsgICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChwYXRoLnN0YXQoKS5zdF9zaXplLCBzaXpl
+KQ0KPiArKyAgICAgICAgaWYgY29udGVudCBpcyBub3QgTm9uZToNCj4gKysgICAgICAgICAgICBz
+ZWxmLmFzc2VydEVxdWFsKHBhdGgucmVhZF90ZXh0KCksIGNvbnRlbnQpDQo+ICsgICAgICAgICBm
+b3IgcGFyZW50IGluIHBhdGgucGFyZW50czoNCj4gKyAgICAgICAgICAgICBzZWxmLmV4cGVjdGVk
+X3BhdGhzLmRpc2NhcmQocGFyZW50KQ0KPiArDQo+ICsrICAgIGRlZiBleHBlY3RfYW55X3RyZWUo
+c2VsZiwgbmFtZSk6DQo+ICsrICAgICAgICAiIiJDaGVjayBhIGRpcmVjdG9yeTsgZm9yZ2V0IGFi
+b3V0IGl0cyBjb250ZW50cy4iIiINCj4gKysgICAgICAgIHRyZWVfcGF0aCA9IChzZWxmLmRlc3Rk
+aXIgLyBuYW1lKS5yZXNvbHZlKCkNCj4gKysgICAgICAgIHNlbGYuZXhwZWN0X2ZpbGUodHJlZV9w
+YXRoLCB0eXBlPXRhcmZpbGUuRElSVFlQRSkNCj4gKysgICAgICAgIHNlbGYuZXhwZWN0ZWRfcGF0
+aHMgPSB7DQo+ICsrICAgICAgICAgICAgcCBmb3IgcCBpbiBzZWxmLmV4cGVjdGVkX3BhdGhzDQo+
+ICsrICAgICAgICAgICAgaWYgdHJlZV9wYXRoIG5vdCBpbiBwLnBhcmVudHMNCj4gKysgICAgICAg
+IH0NCj4gKysNCj4gKyAgICAgZGVmIGV4cGVjdF9leGNlcHRpb24oc2VsZiwgZXhjX3R5cGUsIG1l
+c3NhZ2VfcmU9Jy4nKToNCj4gKyAgICAgICAgIHdpdGggc2VsZi5hc3NlcnRSYWlzZXNSZWdleChl
+eGNfdHlwZSwgbWVzc2FnZV9yZSk6DQo+ICsgICAgICAgICAgICAgaWYgc2VsZi5yYWlzZWRfZXhj
+ZXB0aW9uIGlzIG5vdCBOb25lOg0KPiArICAgICAgICAgICAgICAgICByYWlzZSBzZWxmLnJhaXNl
+ZF9leGNlcHRpb24NCj4gKy0gICAgICAgIHNlbGYucmFpc2VkX2V4Y2VwdGlvbiA9IE5vbmUNCj4g
+KysgICAgICAgIHNlbGYucmVyYWlzZV9leGNlcHRpb24gPSBGYWxzZQ0KPiArKyAgICAgICAgcmV0
+dXJuIHNlbGYucmFpc2VkX2V4Y2VwdGlvbg0KPiArDQo+ICsgICAgIGRlZiB0ZXN0X2Jlbmlnbl9m
+aWxlKHNlbGYpOg0KPiArICAgICAgICAgd2l0aCBBcmNoaXZlTWFrZXIoKSBhcyBhcmM6DQo+ICtA
+QCAtMzYzMyw2ICszNzExLDgwIEBAIGRlZiB0ZXN0X3BhcmVudF9zeW1saW5rKHNlbGYpOg0KPiAr
+ICAgICAgICAgICAgIHdpdGggc2VsZi5jaGVja19jb250ZXh0KGFyYy5vcGVuKCksICdkYXRhJyk6
+DQo+ICsgICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0X2ZpbGUoJ3BhcmVudC9ldmlsJykNCj4g
+Kw0KPiArKyAgICBAc3ltbGlua190ZXN0DQo+ICsrICAgIEBvc19oZWxwZXIuc2tpcF91bmxlc3Nf
+c3ltbGluaw0KPiArKyAgICBkZWYgdGVzdF9yZWFscGF0aF9saW1pdF9hdHRhY2soc2VsZik6DQo+
+ICsrICAgICAgICAjIChDVkUtMjAyNS00NTE3KQ0KPiArKw0KPiArKyAgICAgICAgd2l0aCBBcmNo
+aXZlTWFrZXIoKSBhcyBhcmM6DQo+ICsrICAgICAgICAgICAgIyBwb3B1bGF0ZSB0aGUgc3ltbGlu
+a3MgYW5kIGRpcnMgdGhhdCBleHBhbmQgaW4gb3MucGF0aC5yZWFscGF0aCgpDQo+ICsrICAgICAg
+ICAgICAgIyBUaGUgY29tcG9uZW50IGxlbmd0aCBpcyBjaG9zZW4gc28gdGhhdCBpbiBjb21tb24g
+Y2FzZXMsIHRoZQ0KPiB1bmV4cGFuZGVkDQo+ICsrICAgICAgICAgICAgIyBwYXRoIGZpdHMgaW4g
+UEFUSF9NQVgsIGJ1dCBpdCBvdmVyZmxvd3Mgd2hlbiB0aGUgZmluYWwgc3ltbGluaw0KPiArKyAg
+ICAgICAgICAgICMgaXMgZXhwYW5kZWQNCj4gKysgICAgICAgICAgICBzdGVwcyA9ICJhYmNkZWZn
+aGlqa2xtbm9wIg0KPiArKyAgICAgICAgICAgIGlmIHN5cy5wbGF0Zm9ybSA9PSAnd2luMzInOg0K
+PiArKyAgICAgICAgICAgICAgICBjb21wb25lbnQgPSAnZCcgKiAyNQ0KPiArKyAgICAgICAgICAg
+IGVsaWYgJ1BDX1BBVEhfTUFYJyBpbiBvcy5wYXRoY29uZl9uYW1lczoNCj4gKysgICAgICAgICAg
+ICAgICAgbWF4X3BhdGhfbGVuID0gb3MucGF0aGNvbmYoc2VsZi5vdXRlcmRpci5wYXJlbnQsICJQ
+Q19QQVRIX01BWCIpDQo+ICsrICAgICAgICAgICAgICAgIHBhdGhfc2VwX2xlbiA9IDENCj4gKysg
+ICAgICAgICAgICAgICAgZGVzdF9sZW4gPSBsZW4oc3RyKHNlbGYuZGVzdGRpcikpICsgcGF0aF9z
+ZXBfbGVuDQo+ICsrICAgICAgICAgICAgICAgIGNvbXBvbmVudF9sZW4gPSAobWF4X3BhdGhfbGVu
+IC0gZGVzdF9sZW4pIC8vIChsZW4oc3RlcHMpICsNCj4gcGF0aF9zZXBfbGVuKQ0KPiArKyAgICAg
+ICAgICAgICAgICBjb21wb25lbnQgPSAnZCcgKiBjb21wb25lbnRfbGVuDQo+ICsrICAgICAgICAg
+ICAgZWxzZToNCj4gKysgICAgICAgICAgICAgICAgcmFpc2UgTm90SW1wbGVtZW50ZWRFcnJvcigi
+TmVlZCB0byBndWVzcyBjb21wb25lbnQgbGVuZ3RoIGZvcg0KPiB7c3lzLnBsYXRmb3JtfSIpDQo+
+ICsrICAgICAgICAgICAgcGF0aCA9ICIiDQo+ICsrICAgICAgICAgICAgc3RlcF9wYXRoID0gIiIN
+Cj4gKysgICAgICAgICAgICBmb3IgaSBpbiBzdGVwczoNCj4gKysgICAgICAgICAgICAgICAgYXJj
+LmFkZChvcy5wYXRoLmpvaW4ocGF0aCwgY29tcG9uZW50KSwgdHlwZT10YXJmaWxlLkRJUlRZUEUs
+DQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgbW9kZT0nZHJ3eHJ3eHJ3eCcpDQo+ICsrICAg
+ICAgICAgICAgICAgIGFyYy5hZGQob3MucGF0aC5qb2luKHBhdGgsIGkpLCBzeW1saW5rX3RvPWNv
+bXBvbmVudCkNCj4gKysgICAgICAgICAgICAgICAgcGF0aCA9IG9zLnBhdGguam9pbihwYXRoLCBj
+b21wb25lbnQpDQo+ICsrICAgICAgICAgICAgICAgIHN0ZXBfcGF0aCA9IG9zLnBhdGguam9pbihz
+dGVwX3BhdGgsIGkpDQo+ICsrICAgICAgICAgICAgIyBjcmVhdGUgdGhlIGZpbmFsIHN5bWxpbmsg
+dGhhdCBleGNlZWRzIFBBVEhfTUFYIGFuZCBzaW1wbHkgcG9pbnRzDQo+ICsrICAgICAgICAgICAg
+IyB0byB0aGUgdG9wIGRpci4NCj4gKysgICAgICAgICAgICAjIHRoaXMgbGluayB3aWxsIG5ldmVy
+IGJlIGV4cGFuZGVkIGJ5DQo+ICsrICAgICAgICAgICAgIyBvcy5wYXRoLnJlYWxwYXRoKHN0cmlj
+dD1GYWxzZSksIG5vciBhbnl0aGluZyBhZnRlciBpdC4NCj4gKysgICAgICAgICAgICBsaW5rcGF0
+aCA9IG9zLnBhdGguam9pbigqc3RlcHMsICJsIioyNTQpDQo+ICsrICAgICAgICAgICAgcGFyZW50
+X3NlZ21lbnRzID0gWyIuLiJdICogbGVuKHN0ZXBzKQ0KPiArKyAgICAgICAgICAgIGFyYy5hZGQo
+bGlua3BhdGgsIHN5bWxpbmtfdG89b3MucGF0aC5qb2luKCpwYXJlbnRfc2VnbWVudHMpKQ0KPiAr
+KyAgICAgICAgICAgICMgbWFrZSBhIHN5bWxpbmsgb3V0c2lkZSB0byBrZWVwIHRoZSB0YXIgY29t
+bWFuZCBoYXBweQ0KPiArKyAgICAgICAgICAgIGFyYy5hZGQoImVzY2FwZSIsIHN5bWxpbmtfdG89
+b3MucGF0aC5qb2luKGxpbmtwYXRoLCAiLi4iKSkNCj4gKysgICAgICAgICAgICAjIHVzZSB0aGUg
+c3ltbGlua3MgYWJvdmUsIHRoYXQgYXJlIG5vdCBjaGVja2VkLCB0byBjcmVhdGUgYSBoYXJkbGlu
+aw0KPiArKyAgICAgICAgICAgICMgdG8gYSBmaWxlIG91dHNpZGUgb2YgdGhlIGRlc3RpbmF0aW9u
+IHBhdGgNCj4gKysgICAgICAgICAgICBhcmMuYWRkKCJmbGFnbGluayIsIGhhcmRsaW5rX3RvPW9z
+LnBhdGguam9pbigiZXNjYXBlIiwgImZsYWciKSkNCj4gKysgICAgICAgICAgICAjIG5vdyB0aGF0
+IHdlIGhhdmUgdGhlIGhhcmRsaW5rIHdlIGNhbiBvdmVyd3JpdGUgdGhlIGZpbGUNCj4gKysgICAg
+ICAgICAgICBhcmMuYWRkKCJmbGFnbGluayIsIGNvbnRlbnQ9J292ZXJ3cml0ZScpDQo+ICsrICAg
+ICAgICAgICAgIyB3ZSBjYW4gYWxzbyBjcmVhdGUgbmV3IGZpbGVzIGFzIHdlbGwhDQo+ICsrICAg
+ICAgICAgICAgYXJjLmFkZCgiZXNjYXBlL25ld2ZpbGUiLCBjb250ZW50PSduZXcnKQ0KPiArKw0K
+PiArKyAgICAgICAgd2l0aCAoc2VsZi5zdWJUZXN0KCdmdWxseV90cnVzdGVkJyksDQo+ICsrICAg
+ICAgICAgICAgICBzZWxmLmNoZWNrX2NvbnRleHQoYXJjLm9wZW4oKSwgZmlsdGVyPSdmdWxseV90
+cnVzdGVkJywNCj4gKysgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjaGVja19mbGFn
+PUZhbHNlKSk6DQo+ICsrICAgICAgICAgICAgaWYgc3lzLnBsYXRmb3JtID09ICd3aW4zMic6DQo+
+ICsrICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0X2V4Y2VwdGlvbigoRmlsZU5vdEZvdW5kRXJy
+b3IsIEZpbGVFeGlzdHNFcnJvcikpDQo+ICsrICAgICAgICAgICAgZWxpZiBzZWxmLnJhaXNlZF9l
+eGNlcHRpb246DQo+ICsrICAgICAgICAgICAgICAgICMgQ2Fubm90IHN5bWxpbmsvaGFyZGxpbms6
+IHRhcmZpbGUgZmFsbHMgYmFjayB0byBnZXRtZW1iZXIoKQ0KPiArKyAgICAgICAgICAgICAgICBz
+ZWxmLmV4cGVjdF9leGNlcHRpb24oS2V5RXJyb3IpDQo+ICsrICAgICAgICAgICAgICAgICMgT3Ro
+ZXJ3aXNlLCB0aGlzIGJsb2NrIHNob3VsZCBuZXZlciBlbnRlci4NCj4gKysgICAgICAgICAgICBl
+bHNlOg0KPiArKyAgICAgICAgICAgICAgICBzZWxmLmV4cGVjdF9hbnlfdHJlZShjb21wb25lbnQp
+DQo+ICsrICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0X2ZpbGUoJ2ZsYWdsaW5rJywgY29udGVu
+dD0nb3ZlcndyaXRlJykNCj4gKysgICAgICAgICAgICAgICAgc2VsZi5leHBlY3RfZmlsZSgnLi4v
+bmV3ZmlsZScsIGNvbnRlbnQ9J25ldycpDQo+ICsrICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0
+X2ZpbGUoJ2VzY2FwZScsIHR5cGU9dGFyZmlsZS5TWU1UWVBFKQ0KPiArKyAgICAgICAgICAgICAg
+ICBzZWxmLmV4cGVjdF9maWxlKCdhJywgc3ltbGlua190bz1jb21wb25lbnQpDQo+ICsrDQo+ICsr
+ICAgICAgICBmb3IgZmlsdGVyIGluICd0YXInLCAnZGF0YSc6DQo+ICsrICAgICAgICAgICAgd2l0
+aCBzZWxmLnN1YlRlc3QoZmlsdGVyKSwgc2VsZi5jaGVja19jb250ZXh0KGFyYy5vcGVuKCksIGZp
+bHRlcj1maWx0ZXIpOg0KPiArKyAgICAgICAgICAgICAgICBleGMgPSBzZWxmLmV4cGVjdF9leGNl
+cHRpb24oKE9TRXJyb3IsIEtleUVycm9yKSkNCj4gKysgICAgICAgICAgICAgICAgaWYgaXNpbnN0
+YW5jZShleGMsIE9TRXJyb3IpOg0KPiArKyAgICAgICAgICAgICAgICAgICAgaWYgc3lzLnBsYXRm
+b3JtID09ICd3aW4zMic6DQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgIyAzOiBFUlJPUl9Q
+QVRIX05PVF9GT1VORA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICMgNTogRVJST1JfQUND
+RVNTX0RFTklFRA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICMgMjA2OiBFUlJPUl9GSUxF
+TkFNRV9FWENFRF9SQU5HRQ0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgIHNlbGYuYXNzZXJ0
+SW4oZXhjLndpbmVycm9yLCAoMywgNSwgMjA2KSkNCj4gKysgICAgICAgICAgICAgICAgICAgIGVs
+c2U6DQo+ICsrICAgICAgICAgICAgICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChleGMuZXJy
+bm8sIGVycm5vLkVOQU1FVE9PTE9ORykNCj4gKysNCj4gKyAgICAgQHN5bWxpbmtfdGVzdA0KPiAr
+ICAgICBkZWYgdGVzdF9wYXJlbnRfc3ltbGluazIoc2VsZik6DQo+ICsgICAgICAgICAjIFRlc3Qg
+aW50ZXJwbGF5aW5nIHN5bWxpbmtzDQo+ICtAQCAtMzg1NSw4ICs0MDA3LDggQEAgZGVmIHRlc3Rf
+Y2hhaW5zKHNlbGYpOg0KPiArICAgICAgICAgICAgIGFyYy5hZGQoJ3N5bWxpbmsyJywgc3ltbGlu
+a190bz1vcy5wYXRoLmpvaW4oDQo+ICsgICAgICAgICAgICAgICAgICdsaW5rZGlyJywgJ2hhcmRs
+aW5rMicpKQ0KPiArICAgICAgICAgICAgIGFyYy5hZGQoJ3RhcmdldGRpci90YXJnZXQnLCBzaXpl
+PTMpDQo+ICstICAgICAgICAgICAgYXJjLmFkZCgnbGlua2Rpci9oYXJkbGluaycsIGhhcmRsaW5r
+X3RvPSd0YXJnZXRkaXIvdGFyZ2V0JykNCj4gKy0gICAgICAgICAgICBhcmMuYWRkKCdsaW5rZGly
+L2hhcmRsaW5rMicsIGhhcmRsaW5rX3RvPSdsaW5rZGlyL3N5bWxpbmsnKQ0KPiArKyAgICAgICAg
+ICAgIGFyYy5hZGQoJ2xpbmtkaXIvaGFyZGxpbmsnLCBoYXJkbGlua190bz1vcy5wYXRoLmpvaW4o
+J3RhcmdldGRpcicsICd0YXJnZXQnKSkNCj4gKysgICAgICAgICAgICBhcmMuYWRkKCdsaW5rZGly
+L2hhcmRsaW5rMicsIGhhcmRsaW5rX3RvPW9zLnBhdGguam9pbignbGlua2RpcicsICdzeW1saW5r
+JykpDQo+ICsNCj4gKyAgICAgICAgIGZvciBmaWx0ZXIgaW4gJ3RhcicsICdkYXRhJywgJ2Z1bGx5
+X3RydXN0ZWQnOg0KPiArICAgICAgICAgICAgIHdpdGggc2VsZi5jaGVja19jb250ZXh0KGFyYy5v
+cGVuKCksIGZpbHRlcik6DQo+ICtAQCAtMzg3Miw2ICs0MDI0LDEyOSBAQCBkZWYgdGVzdF9jaGFp
+bnMoc2VsZik6DQo+ICsgICAgICAgICAgICAgICAgICAgICBzZWxmLmV4cGVjdF9maWxlKCdsaW5r
+ZGlyL3N5bWxpbmsnLCBzaXplPTMpDQo+ICsgICAgICAgICAgICAgICAgICAgICBzZWxmLmV4cGVj
+dF9maWxlKCdzeW1saW5rMicsIHNpemU9MykNCj4gKw0KPiArKyAgICBAc3ltbGlua190ZXN0DQo+
+ICsrICAgIGRlZiB0ZXN0X3NuZWFreV9oYXJkbGlua19mYWxsYmFjayhzZWxmKToNCj4gKysgICAg
+ICAgICMgKENWRS0yMDI1LTQzMzApDQo+ICsrICAgICAgICAjIFRlc3QgdGhhdCB3aGVuIGhhcmRs
+aW5rIGV4dHJhY3Rpb24gZmFsbHMgYmFjayB0byBleHRyYWN0aW5nIG1lbWJlcnMNCj4gKysgICAg
+ICAgICMgZnJvbSB0aGUgYXJjaGl2ZSwgdGhlIGV4dHJhY3RlZCBtZW1iZXIgaXMgKHJlLSlmaWx0
+ZXJlZC4NCj4gKysgICAgICAgIHdpdGggQXJjaGl2ZU1ha2VyKCkgYXMgYXJjOg0KPiArKyAgICAg
+ICAgICAgICMgQ3JlYXRlIGEgZGlyZWN0b3J5IHN0cnVjdHVyZSBzbyB0aGUgYy9lc2NhcGUgc3lt
+bGluayBzdGF5cw0KPiArKyAgICAgICAgICAgICMgaW5zaWRlIHRoZSBwYXRoDQo+ICsrICAgICAg
+ICAgICAgYXJjLmFkZCgiYS90L2R1bW15IikNCj4gKysgICAgICAgICAgICAjIENyZWF0ZSBiLyBk
+aXJlY3RvcnkNCj4gKysgICAgICAgICAgICBhcmMuYWRkKCJiLyIpDQo+ICsrICAgICAgICAgICAg
+IyBQb2ludCAiYyIgdG8gdGhlIGJvdHRvbSBvZiB0aGUgdHJlZSBpbiAiYSINCj4gKysgICAgICAg
+ICAgICBhcmMuYWRkKCJjIiwgc3ltbGlua190bz1vcy5wYXRoLmpvaW4oImEiLCAidCIpKQ0KPiAr
+KyAgICAgICAgICAgICMgbGluayB0byBub24tZXhpc3RhbnQgbG9jYXRpb24gdW5kZXIgImEiDQo+
+ICsrICAgICAgICAgICAgYXJjLmFkZCgiYy9lc2NhcGUiLCBzeW1saW5rX3RvPW9zLnBhdGguam9p
+bigiLi4iLCAiLi4iLA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgImxpbmtfaGVyZSIpKQ0KPiArKyAgICAgICAgICAgICMgTW92ZSAi
+YyIgdG8gcG9pbnQgdG8gImIiICgiYy9lc2NhcGUiIG5vIGxvbmdlciBleGlzdHMpDQo+ICsrICAg
+ICAgICAgICAgYXJjLmFkZCgiYyIsIHN5bWxpbmtfdG89ImIiKQ0KPiArKyAgICAgICAgICAgICMg
+QXR0ZW1wdCB0byBjcmVhdGUgYSBoYXJkIGxpbmsgdG8gImMvZXNjYXBlIi4gU2luY2UgaXQgZG9l
+c24ndA0KPiArKyAgICAgICAgICAgICMgZXhpc3QgaXQgd2lsbCBhdHRlbXB0IHRvIGV4dHJhY3Qg
+ImNlc2NhcGUiIGJ1dCBhdCAiYm9vbSIuDQo+ICsrICAgICAgICAgICAgYXJjLmFkZCgiYm9vbSIs
+IGhhcmRsaW5rX3RvPW9zLnBhdGguam9pbigiYyIsICJlc2NhcGUiKSkNCj4gKysNCj4gKysgICAg
+ICAgIHdpdGggc2VsZi5jaGVja19jb250ZXh0KGFyYy5vcGVuKCksICdkYXRhJyk6DQo+ICsrICAg
+ICAgICAgICAgaWYgbm90IG9zX2hlbHBlci5jYW5fc3ltbGluaygpOg0KPiArKyAgICAgICAgICAg
+ICAgICAjIFdoZW4gJ2MvZXNjYXBlJyBpcyBleHRyYWN0ZWQsICdjJyBpcyBhIHJlZ3VsYXINCj4g
+KysgICAgICAgICAgICAgICAgIyBkaXJlY3RvcnksIGFuZCAnYy9lc2NhcGUnICp3b3VsZCogcG9p
+bnQgb3V0c2lkZQ0KPiArKyAgICAgICAgICAgICAgICAjIHRoZSBkZXN0aW5hdGlvbiBpZiBzeW1s
+aW5rcyB3ZXJlIGFsbG93ZWQuDQo+ICsrICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0X2V4Y2Vw
+dGlvbigNCj4gKysgICAgICAgICAgICAgICAgICAgIHRhcmZpbGUuTGlua091dHNpZGVEZXN0aW5h
+dGlvbkVycm9yKQ0KPiArKyAgICAgICAgICAgIGVsaWYgc3lzLnBsYXRmb3JtID09ICJ3aW4zMiI6
+DQo+ICsrICAgICAgICAgICAgICAgICMgT24gV2luZG93cywgJ2MvZXNjYXBlJyBwb2ludHMgb3V0
+c2lkZSB0aGUgZGVzdGluYXRpb24NCj4gKysgICAgICAgICAgICAgICAgc2VsZi5leHBlY3RfZXhj
+ZXB0aW9uKHRhcmZpbGUuTGlua091dHNpZGVEZXN0aW5hdGlvbkVycm9yKQ0KPiArKyAgICAgICAg
+ICAgIGVsc2U6DQo+ICsrICAgICAgICAgICAgICAgIGUgPSBzZWxmLmV4cGVjdF9leGNlcHRpb24o
+DQo+ICsrICAgICAgICAgICAgICAgICAgICB0YXJmaWxlLkxpbmtGYWxsYmFja0Vycm9yLA0KPiAr
+KyAgICAgICAgICAgICAgICAgICAgImxpbmsgJ2Jvb20nIHdvdWxkIGJlIGV4dHJhY3RlZCBhcyBh
+IGNvcHkgb2YgIg0KPiArKyAgICAgICAgICAgICAgICAgICAgKyAiJ2MvZXNjYXBlJywgd2hpY2gg
+d2FzIHJlamVjdGVkIikNCj4gKysgICAgICAgICAgICAgICAgc2VsZi5hc3NlcnRJc0luc3RhbmNl
+KGUuX19jYXVzZV9fLA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+dGFyZmlsZS5MaW5rT3V0c2lkZURlc3RpbmF0aW9uRXJyb3IpDQo+ICsrICAgICAgICBmb3IgZmls
+dGVyIGluICd0YXInLCAnZnVsbHlfdHJ1c3RlZCc6DQo+ICsrICAgICAgICAgICAgd2l0aCBzZWxm
+LnN1YlRlc3QoZmlsdGVyKSwgc2VsZi5jaGVja19jb250ZXh0KGFyYy5vcGVuKCksIGZpbHRlcik6
+DQo+ICsrICAgICAgICAgICAgICAgIGlmIG5vdCBvc19oZWxwZXIuY2FuX3N5bWxpbmsoKToNCj4g
+KysgICAgICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0X2ZpbGUoImEvdC9kdW1teSIpDQo+ICsr
+ICAgICAgICAgICAgICAgICAgICBzZWxmLmV4cGVjdF9maWxlKCJiLyIpDQo+ICsrICAgICAgICAg
+ICAgICAgICAgICBzZWxmLmV4cGVjdF9maWxlKCJjLyIpDQo+ICsrICAgICAgICAgICAgICAgIGVs
+c2U6DQo+ICsrICAgICAgICAgICAgICAgICAgICBzZWxmLmV4cGVjdF9maWxlKCJhL3QvZHVtbXki
+KQ0KPiArKyAgICAgICAgICAgICAgICAgICAgc2VsZi5leHBlY3RfZmlsZSgiYi8iKQ0KPiArKyAg
+ICAgICAgICAgICAgICAgICAgc2VsZi5leHBlY3RfZmlsZSgiYS90L2VzY2FwZSIsIHN5bWxpbmtf
+dG89Jy4uLy4uL2xpbmtfaGVyZScpDQo+ICsrICAgICAgICAgICAgICAgICAgICBzZWxmLmV4cGVj
+dF9maWxlKCJib29tIiwgc3ltbGlua190bz0nLi4vLi4vbGlua19oZXJlJykNCj4gKysgICAgICAg
+ICAgICAgICAgICAgIHNlbGYuZXhwZWN0X2ZpbGUoImMiLCBzeW1saW5rX3RvPSdiJykNCj4gKysN
+Cj4gKysgICAgQHN5bWxpbmtfdGVzdA0KPiArKyAgICBkZWYgdGVzdF9leGZpbHRyYXRpb25fdmlh
+X3N5bWxpbmsoc2VsZik6DQo+ICsrICAgICAgICAjIChDVkUtMjAyNS00MTM4KQ0KPiArKyAgICAg
+ICAgIyBUZXN0IGNoYW5naW5nIHN5bWxpbmtzIHRoYXQgcmVzdWx0IGluIGEgc3ltbGluayBwb2lu
+dGluZyBvdXRzaWRlDQo+ICsrICAgICAgICAjIHRoZSBleHRyYWN0aW9uIGRpcmVjdG9yeSwgdW5s
+ZXNzIHByZXZlbnRlZCBieSAnZGF0YScgZmlsdGVyJ3MNCj4gKysgICAgICAgICMgbm9ybWFsaXph
+dGlvbi4NCj4gKysgICAgICAgIHdpdGggQXJjaGl2ZU1ha2VyKCkgYXMgYXJjOg0KPiArKyAgICAg
+ICAgICAgIGFyYy5hZGQoImVzY2FwZSIsIHN5bWxpbmtfdG89b3MucGF0aC5qb2luKCdsaW5rJywg
+J2xpbmsnLCAnLi4nLCAnLi4nLCAnbGluay0NCj4gaGVyZScpKQ0KPiArKyAgICAgICAgICAgIGFy
+Yy5hZGQoImxpbmsiLCBzeW1saW5rX3RvPScuLycpDQo+ICsrDQo+ICsrICAgICAgICBmb3IgZmls
+dGVyIGluICd0YXInLCAnZGF0YScsICdmdWxseV90cnVzdGVkJzoNCj4gKysgICAgICAgICAgICB3
+aXRoIHNlbGYuY2hlY2tfY29udGV4dChhcmMub3BlbigpLCBmaWx0ZXIpOg0KPiArKyAgICAgICAg
+ICAgICAgICBpZiBvc19oZWxwZXIuY2FuX3N5bWxpbmsoKToNCj4gKysgICAgICAgICAgICAgICAg
+ICAgIHNlbGYuZXhwZWN0X2ZpbGUoImxpbmsiLCBzeW1saW5rX3RvPScuLycpDQo+ICsrICAgICAg
+ICAgICAgICAgICAgICBpZiBmaWx0ZXIgPT0gJ2RhdGEnOg0KPiArKyAgICAgICAgICAgICAgICAg
+ICAgICAgIHNlbGYuZXhwZWN0X2ZpbGUoImVzY2FwZSIsIHN5bWxpbmtfdG89J2xpbmstaGVyZScp
+DQo+ICsrICAgICAgICAgICAgICAgICAgICBlbHNlOg0KPiArKyAgICAgICAgICAgICAgICAgICAg
+ICAgIHNlbGYuZXhwZWN0X2ZpbGUoImVzY2FwZSIsDQo+ICsrICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBzeW1saW5rX3RvPSdsaW5rL2xpbmsvLi4vLi4vbGluay1oZXJl
+JykNCj4gKysgICAgICAgICAgICAgICAgZWxzZToNCj4gKysgICAgICAgICAgICAgICAgICAgICMg
+Tm90aGluZyBpcyBleHRyYWN0ZWQuDQo+ICsrICAgICAgICAgICAgICAgICAgICBwYXNzDQo+ICsr
+DQo+ICsrICAgIEBzeW1saW5rX3Rlc3QNCj4gKysgICAgZGVmIHRlc3RfY2htb2Rfb3V0c2lkZV9k
+aXIoc2VsZik6DQo+ICsrICAgICAgICAjIChDVkUtMjAyNC0xMjcxOCkNCj4gKysgICAgICAgICMg
+VGVzdCB0aGF0IG1lbWJlcnMgdXNlZCBmb3IgZGVsYXllZCB1cGRhdGVzIG9mIGRpcmVjdG9yeSBt
+ZXRhZGF0YQ0KPiArKyAgICAgICAgIyBhcmUgKHJlLSlmaWx0ZXJlZC4NCj4gKysgICAgICAgIHdp
+dGggQXJjaGl2ZU1ha2VyKCkgYXMgYXJjOg0KPiArKyAgICAgICAgICAgICMgInB3biIgaXMgYSB2
+ZWVlZXJ5IGlubm9jZW50IHN5bWxpbms6DQo+ICsrICAgICAgICAgICAgYXJjLmFkZCgiYS9wd24i
+LCBzeW1saW5rX3RvPScuJykNCj4gKysgICAgICAgICAgICAjIEJ1dCBub3cgInB3biIgaXMgYWxz
+byBhIGRpcmVjdG9yeSwgc28gaXQncyBzY2hlZHVsZWQgdG8gaGF2ZSBpdHMNCj4gKysgICAgICAg
+ICAgICAjIG1ldGFkYXRhIHVwZGF0ZWQgbGF0ZXI6DQo+ICsrICAgICAgICAgICAgYXJjLmFkZCgi
+YS9wd24vIiwgbW9kZT0nZHJ3eHJ3eHJ3eCcpDQo+ICsrICAgICAgICAgICAgIyBPb3BzLCAicHdu
+IiBpcyBub3Qgc28gaW5ub2NlbnQgYW55IG1vcmU6DQo+ICsrICAgICAgICAgICAgYXJjLmFkZCgi
+YS9wd24iLCBzeW1saW5rX3RvPSd4Ly4uLycpDQo+ICsrICAgICAgICAgICAgIyBOZXdseSBjcmVh
+dGVkIHN5bWxpbmsgcG9pbnRzIHRvIHRoZSBkZXN0IGRpciwNCj4gKysgICAgICAgICAgICAjIHNv
+IGl0J3MgT0sgZm9yIHRoZSAiZGF0YSIgZmlsdGVyLg0KPiArKyAgICAgICAgICAgIGFyYy5hZGQo
+J2EveCcsIHN5bWxpbmtfdG89KCcuLi8nKSkNCj4gKysgICAgICAgICAgICAjIEJ1dCBub3cgInB3
+biIgcG9pbnRzIG91dHNpZGUgdGhlIGRlc3QgZGlyDQo+ICsrDQo+ICsrICAgICAgICBmb3IgZmls
+dGVyIGluICd0YXInLCAnZGF0YScsICdmdWxseV90cnVzdGVkJzoNCj4gKysgICAgICAgICAgICB3
+aXRoIHNlbGYuY2hlY2tfY29udGV4dChhcmMub3BlbigpLCBmaWx0ZXIpIGFzIGNjOg0KPiArKyAg
+ICAgICAgICAgICAgICBpZiBub3Qgb3NfaGVscGVyLmNhbl9zeW1saW5rKCk6DQo+ICsrICAgICAg
+ICAgICAgICAgICAgICBzZWxmLmV4cGVjdF9maWxlKCJhL3B3bi8iKQ0KPiArKyAgICAgICAgICAg
+ICAgICBlbGlmIGZpbHRlciA9PSAnZGF0YSc6DQo+ICsrICAgICAgICAgICAgICAgICAgICBzZWxm
+LmV4cGVjdF9maWxlKCJhL3giLCBzeW1saW5rX3RvPScuLi8nKQ0KPiArKyAgICAgICAgICAgICAg
+ICAgICAgc2VsZi5leHBlY3RfZmlsZSgiYS9wd24iLCBzeW1saW5rX3RvPScuJykNCj4gKysgICAg
+ICAgICAgICAgICAgZWxzZToNCj4gKysgICAgICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0X2Zp
+bGUoImEveCIsIHN5bWxpbmtfdG89Jy4uLycpDQo+ICsrICAgICAgICAgICAgICAgICAgICBzZWxm
+LmV4cGVjdF9maWxlKCJhL3B3biIsIHN5bWxpbmtfdG89J3gvLi4vJykNCj4gKysgICAgICAgICAg
+ICAgICAgaWYgc3lzLnBsYXRmb3JtICE9ICJ3aW4zMiI6DQo+ICsrICAgICAgICAgICAgICAgICAg
+ICBzdF9tb2RlID0gY2Mub3V0ZXJkaXIuc3RhdCgpLnN0X21vZGUNCj4gKysgICAgICAgICAgICAg
+ICAgICAgIHNlbGYuYXNzZXJ0Tm90RXF1YWwoc3RfbW9kZSAmIDBvNzc3LCAwbzc3NykNCj4gKysN
+Cj4gKysgICAgZGVmIHRlc3RfbGlua19mYWxsYmFja19ub3JtYWxpemVzKHNlbGYpOg0KPiArKyAg
+ICAgICAgIyBNYWtlIHN1cmUgaGFyZGxpbmsgZmFsbGJhY2tzIHdvcmsgZm9yIG5vbi1ub3JtYWxp
+emVkIHBhdGhzIGZvciBhbGwNCj4gKysgICAgICAgICMgZmlsdGVycw0KPiArKyAgICAgICAgd2l0
+aCBBcmNoaXZlTWFrZXIoKSBhcyBhcmM6DQo+ICsrICAgICAgICAgICAgYXJjLmFkZCgiZGlyLyIp
+DQo+ICsrICAgICAgICAgICAgYXJjLmFkZCgiZGlyLy4uL2FmaWxlIikNCj4gKysgICAgICAgICAg
+ICBhcmMuYWRkKCJsaW5rMSIsIGhhcmRsaW5rX3RvPSdkaXIvLi4vYWZpbGUnKQ0KPiArKyAgICAg
+ICAgICAgIGFyYy5hZGQoImxpbmsyIiwgaGFyZGxpbmtfdG89J2Rpci8uLi9kaXIvLi4vYWZpbGUn
+KQ0KPiArKw0KPiArKyAgICAgICAgZm9yIGZpbHRlciBpbiAndGFyJywgJ2RhdGEnLCAnZnVsbHlf
+dHJ1c3RlZCc6DQo+ICsrICAgICAgICAgICAgd2l0aCBzZWxmLmNoZWNrX2NvbnRleHQoYXJjLm9w
+ZW4oKSwgZmlsdGVyKSBhcyBjYzoNCj4gKysgICAgICAgICAgICAgICAgc2VsZi5leHBlY3RfZmls
+ZSgiZGlyLyIpDQo+ICsrICAgICAgICAgICAgICAgIHNlbGYuZXhwZWN0X2ZpbGUoImFmaWxlIikN
+Cj4gKysgICAgICAgICAgICAgICAgc2VsZi5leHBlY3RfZmlsZSgibGluazEiKQ0KPiArKyAgICAg
+ICAgICAgICAgICBzZWxmLmV4cGVjdF9maWxlKCJsaW5rMiIpDQo+ICsrDQo+ICsgICAgIGRlZiB0
+ZXN0X21vZGVzKHNlbGYpOg0KPiArICAgICAgICAgIyBUZXN0IGhvdyBmaWxlIG1vZGVzIGFyZSBl
+eHRyYWN0ZWQNCj4gKyAgICAgICAgICMgKE5vdGUgdGhhdCB0aGUgbW9kZXMgYXJlIGlnbm9yZWQg
+b24gcGxhdGZvcm1zIHdpdGhvdXQgd29ya2luZyBjaG1vZCkNCj4gK0BAIC0zOTg1LDcgKzQyNjAs
+NyBAQCBkZWYgdGVzdF90YXJfZmlsdGVyKHNlbGYpOg0KPiArICAgICAgICAgIyBUaGUgJ3Rhcicg
+ZmlsdGVyIHJldHVybnMgVGFySW5mbyBvYmplY3RzIHdpdGggdGhlIHNhbWUgbmFtZS90eXBlLg0K
+PiArICAgICAgICAgIyAoSXQgY2FuIGFsc28gZmFpbCBmb3IgcGFydGljdWxhcmx5ICJldmlsIiBp
+bnB1dCwgYnV0IHdlIGRvbid0IGhhdmUNCj4gKyAgICAgICAgICMgdGhhdCBpbiB0aGUgdGVzdCBh
+cmNoaXZlLikNCj4gKy0gICAgICAgIHdpdGggdGFyZmlsZS5UYXJGaWxlLm9wZW4odGFybmFtZSkg
+YXMgdGFyOg0KPiArKyAgICAgICAgd2l0aCB0YXJmaWxlLlRhckZpbGUub3Blbih0YXJuYW1lLCBl
+bmNvZGluZz0iaXNvODg1OS0xIikgYXMgdGFyOg0KPiArICAgICAgICAgICAgIGZvciB0YXJpbmZv
+IGluIHRhci5nZXRtZW1iZXJzKCk6DQo+ICsgICAgICAgICAgICAgICAgIGZpbHRlcmVkID0gdGFy
+ZmlsZS50YXJfZmlsdGVyKHRhcmluZm8sICcnKQ0KPiArICAgICAgICAgICAgICAgICBzZWxmLmFz
+c2VydElzKGZpbHRlcmVkLm5hbWUsIHRhcmluZm8ubmFtZSkNCj4gK0BAIC0zOTk0LDcgKzQyNjks
+NyBAQCBkZWYgdGVzdF90YXJfZmlsdGVyKHNlbGYpOg0KPiArICAgICBkZWYgdGVzdF9kYXRhX2Zp
+bHRlcihzZWxmKToNCj4gKyAgICAgICAgICMgVGhlICdkYXRhJyBmaWx0ZXIgZWl0aGVyIHJhaXNl
+cywgb3IgcmV0dXJucyBUYXJJbmZvIHdpdGggdGhlIHNhbWUNCj4gKyAgICAgICAgICMgbmFtZS90
+eXBlLg0KPiArLSAgICAgICAgd2l0aCB0YXJmaWxlLlRhckZpbGUub3Blbih0YXJuYW1lKSBhcyB0
+YXI6DQo+ICsrICAgICAgICB3aXRoIHRhcmZpbGUuVGFyRmlsZS5vcGVuKHRhcm5hbWUsIGVuY29k
+aW5nPSJpc284ODU5LTEiKSBhcyB0YXI6DQo+ICsgICAgICAgICAgICAgZm9yIHRhcmluZm8gaW4g
+dGFyLmdldG1lbWJlcnMoKToNCj4gKyAgICAgICAgICAgICAgICAgdHJ5Og0KPiArICAgICAgICAg
+ICAgICAgICAgICAgZmlsdGVyZWQgPSB0YXJmaWxlLmRhdGFfZmlsdGVyKHRhcmluZm8sICcnKQ0K
+PiArQEAgLTQxMjQsMTMgKzQzOTksMTMgQEAgZGVmIHZhbHVlZXJyb3JfZmlsdGVyKHRhcmluZm8s
+IHBhdGgpOg0KPiArICAgICAgICAgIyBJZiBlcnJvcmxldmVsIGlzIDAsIGVycm9ycyBhZmZlY3Rl
+ZCBieSBlcnJvcmxldmVsIGFyZSBpZ25vcmVkDQo+ICsNCj4gKyAgICAgICAgIHdpdGggc2VsZi5j
+aGVja19jb250ZXh0KGFyYy5vcGVuKGVycm9ybGV2ZWw9MCksIGV4dHJhY3RlcnJvcl9maWx0ZXIp
+Og0KPiArLSAgICAgICAgICAgIHNlbGYuZXhwZWN0X2ZpbGUoJ2ZpbGUnKQ0KPiArKyAgICAgICAg
+ICAgIHBhc3MNCj4gKw0KPiArICAgICAgICAgd2l0aCBzZWxmLmNoZWNrX2NvbnRleHQoYXJjLm9w
+ZW4oZXJyb3JsZXZlbD0wKSwgZmlsdGVyZXJyb3JfZmlsdGVyKToNCj4gKy0gICAgICAgICAgICBz
+ZWxmLmV4cGVjdF9maWxlKCdmaWxlJykNCj4gKysgICAgICAgICAgICBwYXNzDQo+ICsNCj4gKyAg
+ICAgICAgIHdpdGggc2VsZi5jaGVja19jb250ZXh0KGFyYy5vcGVuKGVycm9ybGV2ZWw9MCksIG9z
+ZXJyb3JfZmlsdGVyKToNCj4gKy0gICAgICAgICAgICBzZWxmLmV4cGVjdF9maWxlKCdmaWxlJykN
+Cj4gKysgICAgICAgICAgICBwYXNzDQo+ICsNCj4gKyAgICAgICAgIHdpdGggc2VsZi5jaGVja19j
+b250ZXh0KGFyYy5vcGVuKGVycm9ybGV2ZWw9MCksIHRhcmVycm9yX2ZpbHRlcik6DQo+ICsgICAg
+ICAgICAgICAgc2VsZi5leHBlY3RfZXhjZXB0aW9uKHRhcmZpbGUuVGFyRXJyb3IpDQo+ICtAQCAt
+NDE0MSw3ICs0NDE2LDcgQEAgZGVmIHZhbHVlZXJyb3JfZmlsdGVyKHRhcmluZm8sIHBhdGgpOg0K
+PiArICAgICAgICAgIyBJZiAxLCBhbGwgZmF0YWwgZXJyb3JzIGFyZSByYWlzZWQNCj4gKw0KPiAr
+ICAgICAgICAgd2l0aCBzZWxmLmNoZWNrX2NvbnRleHQoYXJjLm9wZW4oZXJyb3JsZXZlbD0xKSwg
+ZXh0cmFjdGVycm9yX2ZpbHRlcik6DQo+ICstICAgICAgICAgICAgc2VsZi5leHBlY3RfZmlsZSgn
+ZmlsZScpDQo+ICsrICAgICAgICAgICAgcGFzcw0KPiArDQo+ICsgICAgICAgICB3aXRoIHNlbGYu
+Y2hlY2tfY29udGV4dChhcmMub3BlbihlcnJvcmxldmVsPTEpLCBmaWx0ZXJlcnJvcl9maWx0ZXIp
+Og0KPiArICAgICAgICAgICAgIHNlbGYuZXhwZWN0X2V4Y2VwdGlvbih0YXJmaWxlLkZpbHRlckVy
+cm9yKQ0KPiArZGlmZiAtLWdpdCBhL01pc2MvTkVXUy5kL25leHQvU2VjdXJpdHkvMjAyNS0wNi0w
+Mi0xMS0zMi0yMy5naC1pc3N1ZS0NCj4gMTM1MDM0LlJMR2picC5yc3QgYi9NaXNjL05FV1MuZC9u
+ZXh0L1NlY3VyaXR5LzIwMjUtMDYtMDItMTEtMzItMjMuZ2gtaXNzdWUtDQo+IDEzNTAzNC5STEdq
+YnAucnN0DQo+ICtuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiAraW5kZXggMDAwMDAwMDAwMDAuLjA4
+YTAwODdlMjAzDQo+ICstLS0gL2Rldi9udWxsDQo+ICsrKysgYi9NaXNjL05FV1MuZC9uZXh0L1Nl
+Y3VyaXR5LzIwMjUtMDYtMDItMTEtMzItMjMuZ2gtaXNzdWUtDQo+IDEzNTAzNC5STEdqYnAucnN0
+DQo+ICtAQCAtMCwwICsxLDYgQEANCj4gKytGaXhlcyBtdWx0aXBsZSBpc3N1ZXMgdGhhdCBhbGxv
+d2VkIGBgdGFyZmlsZWBgIGV4dHJhY3Rpb24gZmlsdGVycw0KPiArKyhgYGZpbHRlcj0iZGF0YSJg
+YCBhbmQgYGBmaWx0ZXI9InRhciJgYCkgdG8gYmUgYnlwYXNzZWQgdXNpbmcgY3JhZnRlZA0KPiAr
+K3N5bWxpbmtzIGFuZCBoYXJkIGxpbmtzLg0KPiArKw0KPiArK0FkZHJlc3NlcyA6Y3ZlOmAyMDI0
+LTEyNzE4YCwgOmN2ZTpgMjAyNS00MTM4YCwgOmN2ZTpgMjAyNS00MzMwYCwgYW5kDQo+IDpjdmU6
+YDIwMjUtNDUxN2AuDQo+ICsrDQo+ICstLQ0KPiArMi40MC4wDQo+IGRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjNfMy4xMi45LmJiIGIvbWV0YS9yZWNpcGVz
+LQ0KPiBkZXZ0b29scy9weXRob24vcHl0aG9uM18zLjEyLjkuYmINCj4gaW5kZXggOGUwM2ZmNWYy
+Yi4uYmJiYTYyMmI0MSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zXzMuMTIuOS5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjNfMy4xMi45LmJiDQo+IEBAIC0zNSw2ICszNSw3IEBAIFNSQ19VUkkgPSAiaHR0cDov
+L3d3dy5weXRob24ub3JnL2Z0cC9weXRob24vJHtQVn0vUHl0aG9uLQ0KPiAke1BWfS50YXIueHog
+XA0KPiAgCSAgIGZpbGU6Ly8wMDAxLXRlc3RfYWN0aXZlX2NoaWxkcmVuLXNraXAtcHJvYmxlbWF0
+aWMtdGVzdC5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXRlc3RfcmVhZGxpbmUt
+c2tpcC1saW1pdGVkLWhpc3RvcnktdGVzdC5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8w
+MDAxLWN0eXBlcy1jb3JyZWN0LWdjYy1jaGVjay1pbi10ZXN0LnBhdGNoIFwNCj4gKyAgICAgICAg
+ICAgZmlsZTovLzAwMDEtMy4xMi1naC0xMzUwMzQtTm9ybWFsaXplLWxpbmstdGFyZ2V0cy1pbi10
+YXJmaWxlLWFkZC5wYXRjaCBcDQo+ICAgICAgICAgICAgICINCj4gDQo+ICBTUkNfVVJJOmFwcGVu
+ZDpjbGFzcy1uYXRpdmUgPSAiIFwNCj4gLS0NCj4gMi40MC4wDQoNCg==
 
