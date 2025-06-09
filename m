@@ -2,86 +2,106 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D44C61CE8
-	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 09:52:25 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.55578.1749462739355908280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25333C5B552
+	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 09:54:15 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.55595.1749462847893315258
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 02:52:19 -0700
+ Mon, 09 Jun 2025 02:54:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RI958Eh8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4508287895dso31529835e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 02:52:19 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KMATMJz+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a54836cb7fso573636f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 02:54:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1749462737; x=1750067537; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m5h3cVRsI6g4ZGIykj0ZD2tddHq/J9Jt2gzMhPGJv7U=;
-        b=RI958Eh8BdwwH4EVhmBhAT1YPTwS7S12nOamwXnLhxfqJC3jZCRWludP/jk/FRNAn8
-         0bR6cXSYwUJYQWyrwe8prv+BjOf4iUiUusNmto1E7nb1HB1fgKGl+qGQYpqHISLXaRkX
-         UEK+0kio2BP2nRROf09c3K9UtnwB/ObYzla6w=
+        d=linuxfoundation.org; s=google; t=1749462846; x=1750067646; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8hFv/GY+cZOzdQF83g0IXNxPcGF3l8XksyIHNldknN4=;
+        b=KMATMJz+HHzrLTeBz2Z00HSfL7dHgmgrbe/s5f/yKJiXJcWuml9tWekP/ljG3SzSZg
+         GZoqyJxXQJ5NIrwjn2wij9bIal0NOEl0tStg/xwvP52WqAOChRx2HJCHOALMhctpWrKI
+         OH3dUoDAws7TZGEkHSaTvGQwOmZZuBVS7/1HU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749462737; x=1750067537;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m5h3cVRsI6g4ZGIykj0ZD2tddHq/J9Jt2gzMhPGJv7U=;
-        b=vZBPPPChniU22hBn/GLf1Djamv06RwnH3jM0N/mkEm0GSEt3wGjKNXJ+X/ACcqdP+s
-         J+eexhvFfnGUbJDe3ovqkg1yNU5PEVhgxq10Qhmgw/fylw2ti/nZUhGcEoiQ8ebs3auv
-         Vx32uxyuPW7xgLxArL98WlxrWj8PtGJ7vWHMxdFywd8xfpz+gnzgxPdxwRFFUXcWReD9
-         mOhG7ALcPn2ZFCeJFRm0WuFHN633813xJSMO8axU06R3aDd9jHNMH+XMQ0kyZSb2k9E1
-         kD0DyhM233/6RV87vc+MxL+H+KOe2Lu6YIK/TfcxfU1hJPTU12O842CBSjxsUuZ74gjz
-         mkVQ==
-X-Gm-Message-State: AOJu0YyH2677AtO8nyVDFFplHsgaIZ4pt6ihifAdof8pmV30StCTEh2a
-	9mHlBKmi9tAYXJOaLcGT+YIvCcKeAqhgeLL6ahrn1TMF94R/rkfuoINRmLNI4K6Guu1hEMZz2gp
-	5CNOmSzA=
-X-Gm-Gg: ASbGnctz+PDITK74IE25FLm5XffB+TYpsmFCpNQbdHTfn02LMNCpJu4nxwkec+NKimK
-	M2U8bga+JuL77FbQKeWkhDolz1GXKVLoueWC2h/YOZwpvuZ1cIJcL53X0iRpBtrYUoIO2CjViKH
-	PJfPSZ+FbzAyURIcNYoUWHE3cT707eDXhVp2OHY1w7wY6sdgPs9KtksVjMXuypjCmGAiAxNvWXG
-	mwT9JPmOtRdQRXOLLx68an2AHO2MbSlrjb0F310oLDvsHNk/abLeXUOCpBEIhtIoxcYCaL+LoJw
-	5bwZrfZrEFVO+IZng/pLqrRS1Q93+v3NmLtYDyIU0cMb9AkKMwYZS+WAmp+RDDkcRZyrWy0BPTx
-	xZZ+9
-X-Google-Smtp-Source: AGHT+IHIt9rR2lLX54dy1ANvwvUsI+Z/ZFvqi60kMosgiFKnyLHBYBpNH6J1auWZXazK3eR/kS+HxA==
-X-Received: by 2002:a05:6000:2404:b0:3a4:e231:8632 with SMTP id ffacd0b85a97d-3a531327354mr8941946f8f.12.1749462736948;
-        Mon, 09 Jun 2025 02:52:16 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fa9f:168d:c475:ba8f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a53244f516sm9079801f8f.74.2025.06.09.02.52.16
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1749462846; x=1750067646;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8hFv/GY+cZOzdQF83g0IXNxPcGF3l8XksyIHNldknN4=;
+        b=IGO8MNOAsHPdizCFM+bQHgXTv66DMtG8JQ5OeDlXEnjmmDGbMHmgYemOOc9VVEvgFO
+         1/8+uAKmzncLxCEP6JwqqV+bf9IOnBzk9dEPQSMhmP3oryaW0Mpid/WFxRdzWpwxsKeX
+         +Xdev0c0xlPsmAtlwltkZK4ZoJOsCTe5DwKX42whtYsu+X0boqQWaimxMHn8xjxO8eyV
+         X+ZAHqVpwqfYf2UquSCeflVE/PAGqMueVTPydccmgJu0O+L1K+fleTmU+M5wj7hGX8yk
+         DphertFU9Y69ABP3noj0JMUuU47OffPeTokpWrB3JRVn0Oq5psBcPmAjbHQVQAFiKl0a
+         YohQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWeYUaG1f8UjIQ6VxFR0Lqi/dwNj/2hmUTXguUfgnonrxQvWpjjfnil1fpkUYXoAMyfiz6IL0a0UhutX5zTf4PmJg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyAy50Cxk8hODWYjix+jdt2NoK4aQCkWFg9YcQ+oq2XGpp4Xefz
+	YqRC87eoK4KCf98L84r58HRZ0cIcD42QXK/2Vj4V5fQ8Hnd1xHBmVO/e/Jh6kS2VQYc=
+X-Gm-Gg: ASbGnctWQf9mXrkDh7LWgv8OcaX2vzeg3nf74Sl8tX20p8erGw2W+/C/0YhIAQLXm9Q
+	KTiJvMP9bRf87h565JFLFjpMbimkD7IQeZmSlgrwWd0eqts+uMWxZCtM2jrjwyYRF8QBY686A8c
+	eZbeGM5SaKg2GdrhF1R8A+v1eQGf6LiX0DMQmeVU3NDz1zi4O2X9mentU960VOJPNv8iotutBnJ
+	Ifwc62WRiwUA7hTx3l81vyGjSMqtFIIxsUvWyOyZgBYH9ERxIXY6blOa4tMkOTxZHye0+au3oMl
+	FgKUJPA0bewihf/hzpK8xF9hk187p8GYTuJ3wzbtOkGY5pUSdTjmIhGpffoJ1vh2y9LPVdIsmHS
+	IGh2NbJRRx4VeOgDyFKuGcemFywJkJIaRjJhiEkOr
+X-Google-Smtp-Source: AGHT+IEZvr7o/+bv3fqIPSkrn4/IT6H19x5y31ZrWp5u1ST9VRB2HEEou6hJGWpfcqAvdy6h6tkxAg==
+X-Received: by 2002:a5d:64e9:0:b0:3a5:2cca:6054 with SMTP id ffacd0b85a97d-3a53188a6f8mr9244985f8f.4.1749462846254;
+        Mon, 09 Jun 2025 02:54:06 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fa9f:168d:c475:ba8f? ([2001:8b0:aba:5f3c:fa9f:168d:c475:ba8f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a532450b08sm8947953f8f.80.2025.06.09.02.54.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 02:52:16 -0700 (PDT)
+        Mon, 09 Jun 2025 02:54:05 -0700 (PDT)
+Message-ID: <375b983ead887292c9321ae47203e9eeed86e782.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3: drop old nis module dependencies
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] xwayland: Add missing libtirpc dependency
-Date: Mon,  9 Jun 2025 10:52:15 +0100
-Message-ID: <20250609095215.936751-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+To: gudni.m.g@gmail.com, openembedded-core@lists.openembedded.org
+Date: Mon, 09 Jun 2025 10:54:04 +0100
+In-Reply-To: <20250608122244.3093502-1-gudni.m.g@gmail.com>
+References: <20250608122244.3093502-1-gudni.m.g@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 09:52:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218249
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 09:54:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218250
 
-This was being pulled in through python by accident. It no longer needs
-it but exposes this missing dependency.
+On Sun, 2025-06-08 at 12:22 +0000, Gu=C3=B0ni M=C3=A1r Gilbert via lists.op=
+enembedded.org wrote:
+> libnsl2 and libtirpc were build dependencies for the nis module.
+>=20
+> The nis module was deprecated in Python 3.11 and removed in Python 3.13
+>=20
+> Signed-off-by: Gu=C3=B0ni M=C3=A1r Gilbert <gudni.m.g@gmail.com>
+> ---
+> =C2=A0meta/recipes-devtools/python/python3_3.13.3.bb | 2 --
+> =C2=A01 file changed, 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/python/python3_3.13.3.bb b/meta/recipe=
+s-devtools/python/python3_3.13.3.bb
+> index 6839d28e19..11dd6f4b8f 100644
+> --- a/meta/recipes-devtools/python/python3_3.13.3.bb
+> +++ b/meta/recipes-devtools/python/python3_3.13.3.bb
+> @@ -72,8 +72,6 @@ DEPENDS =3D "\
+> =C2=A0=C2=A0=C2=A0=C2=A0 bzip2-replacement-native \
+> =C2=A0=C2=A0=C2=A0=C2=A0 expat \
+> =C2=A0=C2=A0=C2=A0=C2=A0 libffi \
+> -=C2=A0=C2=A0=C2=A0 libnsl2 \
+> -=C2=A0=C2=A0=C2=A0 libtirpc \
+> =C2=A0=C2=A0=C2=A0=C2=A0 ncurses \
+> =C2=A0=C2=A0=C2=A0=C2=A0 openssl \
+> =C2=A0=C2=A0=C2=A0=C2=A0 sqlite3 \
+>=20
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-graphics/xwayland/xwayland_24.1.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Well spotted, removing things like this is definitely desirable!
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.6.bb b/meta/recipes-graphics/xwayland/xwayland_24.1.6.bb
-index 350b8e93cc6..540ec100bda 100644
---- a/meta/recipes-graphics/xwayland/xwayland_24.1.6.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_24.1.6.bb
-@@ -17,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
- inherit meson features_check pkgconfig
- REQUIRED_DISTRO_FEATURES = "x11 opengl"
- 
--DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy libxcvt"
-+DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy libxcvt libtirpc"
- 
- OPENGL_PKGCONFIGS = "glx glamor dri3"
- PACKAGECONFIG ??= "${XORG_CRYPTO} ${XWAYLAND_EI} \
+I think this patch causes xwayland to break as it was seeing libtirpc
+through python's dependency but that is a bug in the xwayland recipe we
+should find separately, I've sent a patch. I'll retry testing and see
+if anything else shows up.
+
+Cheers,
+
+Richard
 
