@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13CA4C678DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 064ECC5B552
 	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 09:59:45 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.55670.1749463180116016557
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.56097.1749463182305611214
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 02:59:40 -0700
+ Mon, 09 Jun 2025 02:59:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PGcMEnBq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so53244005e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 02:59:39 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eMghwXC0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a503d9ef59so3422211f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 02:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1749463178; x=1750067978; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1749463180; x=1750067980; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/XNY8kOK7YPjSvD9xMMolu5NvYia8wEw10XBXajqs0Y=;
-        b=PGcMEnBqzvkxoOQYJUlzeA06bICv8d9JLdRzskQ/k0chdU8V/h5kPKbQplRQptQ6KI
-         v0hmBwPQSF1p/ZD2maNVMcVadActeRZ2OX4rN43CKIthjJCFOdGWfe3b/m3LVNngxvVl
-         RNPVlmIHcCl/9RYbU5GG+XQ/f9z9trJbZ5Lh8=
+        bh=l/HdiM27TpldNt9iXnG9Yfmfb7pGoxEUyhlx7tTSLlY=;
+        b=eMghwXC0WYV4uwGPDk2kaopLphXG3ag8I3XDYyXUnTA8kRd2W+/6oDtr8maqCzhndJ
+         6arvfl5PAgRhG8eIiJovxp8AJBdIgpD9vJEfjsXtlBXuaFauQ/RvupmZ8OWdo+s1ITjT
+         Sv9sSOQS2BTQj34xZwMhr/ffXCLpQf2x0HorA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749463178; x=1750067978;
+        d=1e100.net; s=20230601; t=1749463180; x=1750067980;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/XNY8kOK7YPjSvD9xMMolu5NvYia8wEw10XBXajqs0Y=;
-        b=nudAAysXbIKhAVejEI/qughXxB/PS+QXDKXnxkHdwUaiT9dIjWM0pCTI2itfCC0D50
-         DWfGXDBruNhnVcJMtLL5iyCiG2XjaTPGOqj30mg+wYAJz5TnnMMxnRhYdszK1oXkDt5a
-         VgYX7uODoCRn0oAU4tKti6WntOWhoXLJusOD+nQuzUBkYt5bR4BjpdhN7BWs33sJOGtO
-         rDcbjNe5QXd0B+tXdipzyoe24dYhiNJNuPp7pWvpsMdV/rDloH3x1Vm6jMaoM3FxjUMe
-         A6rrmCc8fm82Alb5aWI0Vf05t2lRmXmGWzqrZLOecYjMbhDkiM5kRAz3JC8iRDV8b1Md
-         BKHQ==
-X-Gm-Message-State: AOJu0YwtBBl6xy0t7DYxYhUcpcfZ+8oDpHD9wjj45O6LP0TKq7m4b8DL
-	t4w1YXdiOq6gyFQ/PxLOg6Pf0x2Ru3cJDB3QRLcc8N3ebZE2EluewuQbSZunHtw7/cSGjeVpl3v
-	CDOsJD/c=
-X-Gm-Gg: ASbGncv5YXt2RPxSJtpQ9N7IYwLA0YToeecwM8nmJTA4a4ZL0XXlobu3gpmosPoviaX
-	VHCrKGlF8TyCT+vyNYJ0BSiVGns/SLKlM2zZeShFiSfT4VmaFH7OvnadwPV/lzcG14ABwTwWl0C
-	i9AvpeNCL/gaPBpBrJmrPx2nRwsr4rsCT24NvmCZzn30KMcJ1USCyBCX6n/62hU5tLZRQvLaHCv
-	bfUtfrkxx8Yj53Vk4XLwxg7WOasmMlrktMd8Nbda/EAz7bXKgBi6YjrMftGvrPhLNisOmyQmZ0v
-	rfVGjg4asScb2AyM5IHfeRt4z+IH94Zv4Vstc1eXvTM0vIj1tKbkilwrnfq087hoXacB6xeunsx
-	SJNtjdcuiEsHSyFiTWWBy+9KXfg==
-X-Google-Smtp-Source: AGHT+IHM1Z3ER68BaB4jGupIrPDWQ0rZftbcsoWotT8oPtO3dkU4LalynuVkxk7q5b2A0YxErlsAHw==
-X-Received: by 2002:a05:600c:8b43:b0:43d:fa59:af97 with SMTP id 5b1f17b1804b1-45201427c5amr100648455e9.32.1749463178063;
-        Mon, 09 Jun 2025 02:59:38 -0700 (PDT)
+        bh=l/HdiM27TpldNt9iXnG9Yfmfb7pGoxEUyhlx7tTSLlY=;
+        b=e8CFx/WDaMieYkeX2kGjFpMox1m2zpxwMPPkZzAxSfTBkGNzTiE0KylyxPR3XGEcf1
+         1uCYy60eDRlEckF7s4DpbJ/bmoZrWT1+r8INaCI+buVQUwzZU44nrXQjSS/USPCT+4Bh
+         vE1vLMj6IuLYe48V5Mj6n8rmtl8q215ynCaH6PJEoqjrnC0w9XXTfKd80jeTt6KrhqFk
+         JxAIQhbYuriQ6eLJqwx1LvS5o8PXKdtQHtrMhfJMKr0561cjnv5omokUj7GJrs7E4dgZ
+         UdOREdcrR4lAsoeZ+aSiDbFVGFOnKnQq7sgfQemcJQBWEgqNGLHq7rYnG4sEiTX2j62F
+         DAMQ==
+X-Gm-Message-State: AOJu0Yxy/wLfAycoC/EgBt2SWoi7TBAro9ePiYXbM4FEDH+GCBiLm6Co
+	4HQvBX9j8D26D8lM7sqKuxzPL/bDwTjaxKoE2jqVYl5V5tf/UTIC9QbxkbWkzUeMccVt5soPSHT
+	MvTl0yzE=
+X-Gm-Gg: ASbGnctB6oKZUykAbbs9bVSSV35MiWOymtYgfFEd0w14ukGd69S67azyaNxhQu7iSc4
+	sOhpe3t7LLsD7wkYWgCfU75u4FXODHJKTWrmL2ZlCU1QK+vJluhZaVbaB7mGGGIno6jHI+2qqRd
+	FCXtrD6433UMrEs2eGgvJRtAMFlP6/7TKLxcHG5+j8Ferm1d4HuAoeHDWsYnv50IFLlR9ZLXNVt
+	1JPPG03JOpF/HXJFS02zPHO9KIMInJgeUlnEFeyUFYnZJYq8StXx1BjpeAvxWxqZCIH4DrMMadh
+	jotWy2/+OKs9KWWR5w342tomQtH3Bg4AB9mwRl5lqxJk+P+clY2Pzj/sWfgxLbMs61YwW9iXaj+
+	hE2Y6uJFJ2x7gDEk=
+X-Google-Smtp-Source: AGHT+IFyRwLS6bvq4IHzkLv6Jk2MbH7Z7YMTRFoWXfXGyBz5N2XwbSxiNeXe0OWrHVXWKMizrF1wvg==
+X-Received: by 2002:a5d:5189:0:b0:3a5:4b67:5a70 with SMTP id ffacd0b85a97d-3a54b675b04mr1472471f8f.18.1749463180331;
+        Mon, 09 Jun 2025 02:59:40 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fa9f:168d:c475:ba8f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45209bc6d6dsm106289785e9.3.2025.06.09.02.59.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45209bc6d6dsm106289785e9.3.2025.06.09.02.59.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 02:59:37 -0700 (PDT)
+        Mon, 09 Jun 2025 02:59:39 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/5] toolchain/gcc/clang: Update PREFERRED_PROVIDER to work with multilibs
-Date: Mon,  9 Jun 2025 10:59:32 +0100
-Message-ID: <20250609095934.937987-3-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 5/5] cross/crosssdk: Allow deferring of these classes too
+Date: Mon,  9 Jun 2025 10:59:34 +0100
+Message-ID: <20250609095934.937987-5-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250609095934.937987-1-richard.purdie@linuxfoundation.org>
 References: <20250609095934.937987-1-richard.purdie@linuxfoundation.org>
@@ -65,84 +65,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 09:59:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218258
-
-As currently written, the PREFERRED_PROVIDER entries don't work with multilib
-since they are added after the manipulations by multilib_global at ConfigParsed
-time. We therefore need to spell out the configs correctly for multilib.
-
-To avoid variable overwritten warnings from the expansion, we then have to
-expand out the nativesdk providers usng class overrides.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218260
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/toolchain/clang.bbclass | 21 ++++++++++++---------
- meta/classes/toolchain/gcc.bbclass   | 22 ++++++++++++++--------
- 2 files changed, 26 insertions(+), 17 deletions(-)
+ meta/classes-recipe/crosssdk.bbclass | 1 +
+ meta/conf/bitbake.conf               | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/toolchain/clang.bbclass b/meta/classes/toolchain/clang.bbclass
-index 8a0a2c315a2..d7b8a3657c6 100644
---- a/meta/classes/toolchain/clang.bbclass
-+++ b/meta/classes/toolchain/clang.bbclass
-@@ -14,15 +14,18 @@ STRINGS = "${HOST_PREFIX}llvm-strings"
- NM = "${HOST_PREFIX}llvm-nm"
- READELF = "${HOST_PREFIX}llvm-readelf"
+diff --git a/meta/classes-recipe/crosssdk.bbclass b/meta/classes-recipe/crosssdk.bbclass
+index 824b1bcff47..3541c2c393d 100644
+--- a/meta/classes-recipe/crosssdk.bbclass
++++ b/meta/classes-recipe/crosssdk.bbclass
+@@ -4,6 +4,7 @@
+ # SPDX-License-Identifier: MIT
+ #
  
--PREFERRED_PROVIDER_virtual/cross-cc = "${MLPREFIX}clang-cross-${TARGET_ARCH}"
--PREFERRED_PROVIDER_virtual/cross-c++ = "${MLPREFIX}clang-cross-${TARGET_ARCH}"
--PREFERRED_PROVIDER_virtual/compilerlibs = "gcc-runtime"
--PREFERRED_PROVIDER_virtual/cross-cc:class-nativesdk = "clang-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/cross-c++:class-nativesdk = "clang-crosssdk-${SDK_SYS}"
--
--PREFERRED_PROVIDER_virtual/nativesdk-cross-cc = "clang-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/nativesdk-cross-c++ = "clang-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs = "nativesdk-gcc-runtime"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-cc = "${MLPREFIX}clang-cross-${TARGET_ARCH}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-c++ = "${MLPREFIX}clang-cross-${TARGET_ARCH}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}compilerlibs = "${MLPREFIX}gcc-runtime"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-cc:class-nativesdk = "clang-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-c++:class-nativesdk = "clang-crosssdk-${SDK_SYS}"
-+
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-crosssdk = "clang-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-crosssdk = "clang-crosssdk-${SDK_SYS}"
-+
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cross-canadian = "clang-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian = "clang-crosssdk-${SDK_SYS}"
-+
++BB_DEFER_BBCLASSES:remove = "cross"
+ inherit cross
  
- BASE_DEFAULT_DEPS:append:class-target = " compiler-rt"
+ CLASSOVERRIDE = "class-crosssdk"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5cda0e474ab..14484f17532 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -947,7 +947,7 @@ BB_DEFAULT_UMASK ??= "022"
+ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+ BB_DEFAULT_EVENTLOG ?= "${LOG_DIR}/eventlog/${DATETIME}.json"
  
-diff --git a/meta/classes/toolchain/gcc.bbclass b/meta/classes/toolchain/gcc.bbclass
-index 75f9abe999a..a5adb5ca372 100644
---- a/meta/classes/toolchain/gcc.bbclass
-+++ b/meta/classes/toolchain/gcc.bbclass
-@@ -14,14 +14,20 @@ STRINGS = "${HOST_PREFIX}strings"
- NM = "${HOST_PREFIX}gcc-nm"
- READELF = "${HOST_PREFIX}readelf"
+-BB_DEFER_BBCLASSES = "native nativesdk"
++BB_DEFER_BBCLASSES = "native nativesdk cross crosssdk"
  
--PREFERRED_PROVIDER_virtual/cross-cc = "${MLPREFIX}gcc-cross-${TARGET_ARCH}"
--PREFERRED_PROVIDER_virtual/cross-c++ = "${MLPREFIX}gcc-cross-${TARGET_ARCH}"
--PREFERRED_PROVIDER_virtual/compilerlibs = "gcc-runtime"
--PREFERRED_PROVIDER_virtual/cross-cc:class-nativesdk = "gcc-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/cross-c++:class-nativesdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-cc = "${MLPREFIX}gcc-cross-${TARGET_ARCH}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-c++ = "${MLPREFIX}gcc-cross-${TARGET_ARCH}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}compilerlibs = "${MLPREFIX}gcc-runtime"
- 
--PREFERRED_PROVIDER_virtual/nativesdk-cross-cc = "gcc-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/nativesdk-cross-c++ = "gcc-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs = "nativesdk-gcc-runtime"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-cc:class-nativesdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-c++:class-nativesdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}compilerlibs:class-nativesdk = "nativesdk-gcc-runtime"
-+
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-crosssdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-crosssdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs:class-crosssdk = "nativesdk-gcc-runtime"
-+
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cross-canadian = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs:class-cross-canadian = "nativesdk-gcc-runtime"
- 
- TCOVERRIDE = "toolchain-gcc"
+ # Setup our default hash policy
+ BB_SIGNATURE_HANDLER ?= "OEBasicHash"
 
