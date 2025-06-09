@@ -2,61 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 054B6C677C4
-	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 09:58:55 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.56081.1749463133714460365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3641C5B552
+	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 09:58:54 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.55660.1749463132622000564
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 02:58:54 -0700
+ Mon, 09 Jun 2025 02:58:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OmdRsGpO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-451d3f72391so54714435e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 02:58:53 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SbujRCfT;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-453066fad06so9339895e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 02:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1749463132; x=1750067932; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1749463131; x=1750067931; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bBEtAt9u/9IGCU4cbtBYHyT4NPNkIi3vzvy65oIsaUI=;
-        b=OmdRsGpOunmbTSItMdU006sB/WoFaIkIy0j8KfEnCb1dcgPf41qmB1omsbgvd67EJW
-         2LHBmrNS0SHze2GDCA1/iQOpkZDN9M2NfsmGIcBzmEXkIMNAdIu2NuLpjIr+c4Jq00QJ
-         KebmrDSFZETpyLTl67ZUYFdR3eyKD6dJpkmkw=
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+7egqJ9tj461vB/u5hA3KwKKdPWWMcOhaU0MEjGwGrA=;
+        b=SbujRCfTm6O0i0GXp5vDqB9gNIFLQdjumhsOrpr1prJ1/mgYtIHe6GRKBt4m8NJgr8
+         gn76eHN0eWMh+RIQClbOxQo0WCsfGgzSafeeVNBHd9Kk2639hII2utArHGewIf+7To64
+         ssxBEYNyrNFh/RSLyjMwuge+/oGrwbYolUwDE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749463132; x=1750067932;
+        d=1e100.net; s=20230601; t=1749463131; x=1750067931;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bBEtAt9u/9IGCU4cbtBYHyT4NPNkIi3vzvy65oIsaUI=;
-        b=R9uVMDDxgo6UKH+mxWzHEAdKUTDrlA10gaG29l8KJc+MtWzSUAWKYkuwA98xtghWkh
-         5Qg5ctm5ZUhQoDAe7hKctCbyK0dud1YG2R+tdNFKB9S+LTz7u1KYwo9MJ7W0F8XDtgBF
-         JJhjihELu0K+df7ZeqKKqQ30MlMPbhIrwOxv3rzNtRDiwk3KlmaFrGtMUeUGKM3/5g8O
-         miq9szuz4wMiRRUBkpTmog/QOW3v6ueDmU02OSVs2hF/7m+wwpflwVAjBUAp/ORCNunB
-         nlm7jQGxtELnvnrqO2oq6dUzXtKSByLJp4XEwtQlzIojwDu8/9ZboWNYKk5WmKTnIlkH
-         kzsQ==
-X-Gm-Message-State: AOJu0Ywvtd363FRtsxqKjNL+kilVUYqG2CqX1qXY49+m52fVij0A/9Dj
-	HdpSFG2WJJ1Hznm+ssmtQ92b/Z923yXSs9Gj1qOs9axv6tN1qq2LBJ6qLJ0+KRHfx2/U8JDSOhl
-	f+cmh/zI=
-X-Gm-Gg: ASbGnctuf7LcHUt2B7Q5VjfocrLVvn3erjfDj4b5GIpWA4I+2H3n6KxN3LASlNi4Up3
-	FDxEp5CzNaLMRPd/HuT+NichxoCeXCg7R10Pbb75nP+EjGioxCUa1YP8+pc4EyxNxHuGgrD+I8q
-	ZYjGV1qG5FO6E9vhFPjJLBeuywQM5S4VGtRPUktIT+dp6HXy4uFBPCVND0ggef3/iQcD1tbpG6+
-	UIEWtJ00d3dNzonoSptqFufL5Z+C+RTJj8lzpIaGRx943kE+1Vij9G5L4UjdE1aNn7wWJ1vGpbt
-	ZqtlFw0HZJaF+g1x9b+JGc9eNoyrSgUsEX5t3rAKc2y0d0zWs/nkpXpZHV9/lLU1XcMibLY0Cn8
-	GlAjk
-X-Google-Smtp-Source: AGHT+IGYf9cX+36tH2Igyk2EJY+UA4yD0CseUw842yLKUzeZFenUwvRlK32+kzbVhQkfSEo35Ol1ZA==
-X-Received: by 2002:a05:6000:2485:b0:3a4:e60a:c409 with SMTP id ffacd0b85a97d-3a531ab6daemr9550663f8f.41.1749463131752;
-        Mon, 09 Jun 2025 02:58:51 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fa9f:168d:c475:ba8f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4521375b60fsm108406455e9.40.2025.06.09.02.58.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=+7egqJ9tj461vB/u5hA3KwKKdPWWMcOhaU0MEjGwGrA=;
+        b=imyRkJnKIBQZBQb5fSe96pnMWkgfNV7QK0aUhEa1HWPSZIwNHLE31CQmHiObhGORuT
+         QkzSwZKVXJogMEdxR/QGjM3veFlCRkyhy95OfVpoSkfa+jJm2JHsj/9YmHcR0X9c8101
+         WdUIMhxWQSkOL9bpclKDK5jpbn+4ebbv4kr8GbW/TJ3OjS2yCF/tbJEQgnbSWJgRmfoS
+         V74gGYKPXAjXaDIAn9dDpcraEbBFBuOXU2Dz5eKAh0KTWF5MuVvnpNkCTyGXGqDnx3Ht
+         Ch1Ff//l/wuPFOE18r9g4qkJNFIohzqED68cdk8jTw0d6Zki5ky+0FQmwObLYAN+jqHh
+         f2+A==
+X-Gm-Message-State: AOJu0YyPJKDapo4hEjoyXs//C7i2u0pqeqguCgyP5eg6/BRrLo7u0j7Q
+	f9UZK2mddAXqBlWUtcLvClW4TI4sFYZhy1YkffVMg0zVTufk6eeqolCsH0lU/zg5GZjZuNfofb9
+	4dP7URnE=
+X-Gm-Gg: ASbGncuRTvIVbKiTZk1/CKp0/x8BVVoEMtfqps2F27RXPcLE9pDdSkSlTBA4fQRDfTg
+	OxXY8etKJ7uuWl3Gs8WQv6UAPfC/jF+bwUqWEC4iLPyqDVUmsG1OmPCnLo3Hy+SBAMvmpDOW0pg
+	Eb5d1UbZwJ7yILdFANxwIaxnlLoy5jDDnhDuV8rDA8n3yE3G38jxavsHk28DLuHa8V4YpwHOyLe
+	eZ/NLFayQ/2aGvzpMtT2Pv5e5mECZYIfuihMZCkSE8lpT3FFPWz5U8HAPk3vtYQNHf2Sk7n1ZvA
+	taLjZhm+BuSPBG5hJJEpMZ+iBxqnl8aFdJtpXwQTQ/6mGodVbZ56vifSwFnFZLUiyZH1xPIMDv4
+	iW18A
+X-Google-Smtp-Source: AGHT+IGhBYjwX2MyeL6OZ8dAKOg6+K40cFE5X6MvrjIcpOmSb1c/eH2jAasDD7r8Usn0Zcku2W5IZA==
+X-Received: by 2002:a05:6000:1ac7:b0:3a3:67bb:8f3f with SMTP id ffacd0b85a97d-3a531cb9ed0mr10176733f8f.53.1749463130573;
         Mon, 09 Jun 2025 02:58:50 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fa9f:168d:c475:ba8f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4521375b60fsm108406455e9.40.2025.06.09.02.58.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jun 2025 02:58:49 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH 4/5] meta: Add TCOVERRIDE for toolchain selection at recipe scope
-Date: Mon,  9 Jun 2025 10:58:45 +0100
-Message-ID: <20250609095846.937759-4-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/5] ghostscript: Use TARGET_CFLAGS to pass compiler options
+Date: Mon,  9 Jun 2025 10:58:44 +0100
+Message-ID: <20250609095846.937759-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250609095846.937759-1-richard.purdie@linuxfoundation.org>
 References: <20250609095846.937759-1-richard.purdie@linuxfoundation.org>
@@ -65,54 +64,28 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 09:58:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218254
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 09:58:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218253
 
-From: Khem Raj <raj.khem@gmail.com>
+Passing compiler options via CC is error prone when we allow toolchain
+selection. Use TARGET_CFLAGS instead.
 
-TCOVERRIDE is defined to toolchain-<TOOLCHAIN> and its added to OVERRIDES
-that a recipe can see and it can use "toolchain-gcc" or "toolchain-clang"
-to set specific metadata based upon global distro toolchain policy.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf        | 2 +-
- meta/conf/toolchain/clang.inc | 2 ++
- meta/conf/toolchain/gcc.inc   | 1 +
- 3 files changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f55237e1de4..61c6a492bcb 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -801,7 +801,7 @@ DISTRO_NAME ??= "OpenEmbedded"
- # And finally '<foo>:forcevariable' overrides any standard variable, with the highest priority.
- # This works for functions as well, they are really just variables.
- #
--OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:layer-${FILE_LAYERNAME}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
-+OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:layer-${FILE_LAYERNAME}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:${TCOVERRIDE}${LIBCOVERRIDE}:forcevariable"
- FILE_LAYERNAME ??= "config"
- LIBCOVERRIDE ?= ""
- CLASSOVERRIDE ?= "class-target"
-diff --git a/meta/conf/toolchain/clang.inc b/meta/conf/toolchain/clang.inc
-index 2bd4a07a867..fab94f0b14b 100644
---- a/meta/conf/toolchain/clang.inc
-+++ b/meta/conf/toolchain/clang.inc
-@@ -30,3 +30,5 @@ TUNE_CCARGS += "${@bb.utils.contains("DISTRO_FEATURES", "usrmerge", " --dyld-pre
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
+index 8f132d55c69..cd7087721f1 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.05.1.bb
+@@ -48,7 +48,7 @@ EXTRA_OECONF:append:mipsarcho32 = " --with-large_color_index=0"
+ EXTRA_OECONF:append:armv7a = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
+ EXTRA_OECONF:append:armv7ve = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
  
- LDFLAGS:append:class-nativesdk:x86-64 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
- LDFLAGS:append:class-nativesdk:aarch64 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
-+
-+TCOVERRIDE = "toolchain-clang"
-diff --git a/meta/conf/toolchain/gcc.inc b/meta/conf/toolchain/gcc.inc
-index 36d33f5d6d0..75f9abe999a 100644
---- a/meta/conf/toolchain/gcc.inc
-+++ b/meta/conf/toolchain/gcc.inc
-@@ -24,3 +24,4 @@ PREFERRED_PROVIDER_virtual/nativesdk-cross-cc = "gcc-crosssdk-${SDK_SYS}"
- PREFERRED_PROVIDER_virtual/nativesdk-cross-c++ = "gcc-crosssdk-${SDK_SYS}"
- PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs = "nativesdk-gcc-runtime"
+-CC += "-std=gnu17"
++TARGET_CFLAGS += "-std=gnu17"
  
-+TCOVERRIDE = "toolchain-gcc"
+ # Uses autoconf but not automake, can't do out-of-tree
+ inherit autotools-brokensep pkgconfig
 
