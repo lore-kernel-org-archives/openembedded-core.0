@@ -1,243 +1,243 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3587AC61DB2
-	for <webhook@archiver.kernel.org>; Mon,  9 Jun 2025 21:25:09 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.14])
- by mx.groups.io with SMTP id smtpd.web11.71254.1749504298980373336
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D318C5B552
+	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 02:09:50 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.77069.1749521385323910195
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 14:24:59 -0700
+ Mon, 09 Jun 2025 19:09:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=rDb5fV1O;
- spf=pass (domain: axis.com, ip: 40.107.162.14, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X1xpRvR/x1NNaayfYSnDLw5ujge4zZD7I6I2NDkZN0kXnCqEWS/E2dfRDUXj0ARwcm8ziSPc0DniG/TF74v/eUkiVxoVHLbQWzlEIuHIfBemf6+337mhQZ2le33f9WFG/f29LSlmijbeA1CgIN4FdMzbj6ucU6CdslrzBG0OzGJLIeR7b9cNoK0bglrit+gjY8Cot/mnUcirRUYNoOWZoAEhsh283AlzeMJBcUDA0biSe3XuxEs6x7KPwQNarNlFqsi3gTqAIIx2RMCYzHsizgxA/OJc6969BRYkhzpTOLLk21ru2uzGTKJhwZuoJct01+hkvW3IBGn7Pu2yzOecNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=imYiN89mduRh+Y1H7SYp60lEHGUwecSPz88coe9ucgo=;
- b=J8oDyzgxin57gkz57+GaPcNis3rUhGiU9ztTS6LZS3pLTpoEZmQRzvrIvbc/2P9bfKbNq5SsoIOilgKyVWsNdepqrJqO4pVuY/+bKdDqlrizRwoRLAlFoGOmUgzaUjHQO36UQzfKZiCEKoBlnCOdMAO3copmFmaSxDJQK45OPwUjPMMLyXAlkInnQ9YkqyDWYWdwHKw90u/SFxhcMWcYuJrM1igtFkCbDpRbMVGS44wmKpk5inIsyCdRNH+fLi/fEJ/lX7UTR7wqqd3Jbay6bJbXJVAgLi/Q5WMjtBs6PFtQE5gn9awgsLO33B8Po7EwQ+aO3g2xNMBF3eFhzpmfLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=imYiN89mduRh+Y1H7SYp60lEHGUwecSPz88coe9ucgo=;
- b=rDb5fV1O1aE5eavgwu0sR26+0y/s7XKBbz/nguit175fdtuDioxTr4PNjaFeZMVv9RlZEbpocE1tdS6AREgnAxQSAa1MIdU5+/useJKwlSZeUyBq4CcWUgwNy8Ss0+vDpwJwp0b29iFIgfl5qFdtsL7YQQWKfMwZVEYk1zp6qeE=
-Received: from DUZPR01CA0028.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46b::7) by PA4PR02MB6832.eurprd02.prod.outlook.com
- (2603:10a6:102:fe::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.28; Mon, 9 Jun
- 2025 21:24:53 +0000
-Received: from DU6PEPF0000A7E4.eurprd02.prod.outlook.com
- (2603:10a6:10:46b:cafe::ba) by DUZPR01CA0028.outlook.office365.com
- (2603:10a6:10:46b::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.35 via Frontend Transport; Mon,
- 9 Jun 2025 21:25:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU6PEPF0000A7E4.mail.protection.outlook.com (10.167.8.43) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8835.15 via Frontend Transport; Mon, 9 Jun 2025 21:24:53 +0000
-Received: from se-mail02w.axis.com (10.20.40.8) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Mon, 9 Jun
- 2025 23:24:52 +0200
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Mon, 9 Jun 2025 23:24:52 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id C9BAD193F
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Jun 2025 23:24:52 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id C43ED1291BE; Mon,  9 Jun 2025 23:24:52 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] cmake: Update to 3.31.7
-Date: Mon, 9 Jun 2025 23:24:48 +0200
-Message-ID: <20250609212448.1000608-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@mvista.com header.s=google header.b=jkeFt0ci;
+ spf=pass (domain: mvista.com, ip: 209.85.218.47, mailfrom: vanusuri@mvista.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ade5b8aab41so311096866b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 19:09:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1749521384; x=1750126184; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/x/pSQyJe90z+oEdb9WDAoP9MeRLIAY9TuA1YEQZ8g8=;
+        b=jkeFt0cixISha4SZtvqHbzT2kcy2bs3kPnEHsrPyCzQNAJAdYhmXYjnyATMCwMNYi0
+         lyCCc/STcQf1EWHCW9/VQjLmM6OejipmOtCaMcx+oZWi8e8Ce0vOj8Vu3PVR2ijGJ1QC
+         SNnmQbKTbqPCHnQ3ZIyM55oHMcT+dpQg2oclY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749521384; x=1750126184;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/x/pSQyJe90z+oEdb9WDAoP9MeRLIAY9TuA1YEQZ8g8=;
+        b=hT0V7rj/XsspXrPyQxqBDrBaoyW92LVeHyh0+odasqtLeepBtNMK1CIFuqsbR5hPwh
+         bfs3x70dSO/Y2StjmnbtLhnkX/XVi540G2FFAugN7KH2S5FAWyvwAJ2a+auDJm10r9Ck
+         DTJGYdOnuHHFf4n3zLYGN1CegGEQYipHZh6Qdlf0ym29sMLlGuQuXXo7dLTbtFgsTm9s
+         8Cem2iKsO8Tiso0miYf5m3PvXJ7vK7rGdn2HVJ5YQHPPdKIRt4E8Uc2Q8Fe+UFpcPb9D
+         Fdk+UJHvke690YyghwH2mT3k65YzqVO67b+fFN+v7HSa96M8oLKIM9/TyBVZPxROrCrY
+         hpDw==
+X-Gm-Message-State: AOJu0YyAssuATtHNNkT0Rut0HiWPbu2k6yFHvYyx5npwfg8wlmWY8Jki
+	ezr8PskIHkJsFxz4KrX/KfIDTIAqbd5S53m+PS0YqdTgPoSAGe9DdcYRPPRjLiIhYQP96ypu9P7
+	ZpE4UEYywYV9pe6YgAfgwq9NYRz7WL8oTOGGFkjE64q884xKkV6BE
+X-Gm-Gg: ASbGnctO5+sVZSRfSAIeFJJ+hB6tWg6qGrXY9+xUcCdYkuvZ8R9sLSUT2UXljIutFB+
+	HHW8vzNuhbl3IuED0Ch5Fg0PL9m0xc5c3pXEVIcLKvg5jm7FNHSJcUBAT1P0a8+pjPRyF9FNFbj
+	5s7KS05Dv1TeFN1GK6aMXhhDUUoVSOfIQfU2Ez5lQbMnkZ
+X-Google-Smtp-Source: AGHT+IFIFeKWZ6KeIgOEL4DxMHL3n++yvkE1Ao+6dSZmflpuTo6dXQEAQxBsnRDWCX854fFL/pEtC9oUG+oxkPl9xxw=
+X-Received: by 2002:a17:907:805:b0:ade:3bec:ea40 with SMTP id
+ a640c23a62f3a-ade3becfd3bmr977240466b.10.1749521372607; Mon, 09 Jun 2025
+ 19:09:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000A7E4:EE_|PA4PR02MB6832:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a6c23a1-3d1a-4a1b-3b09-08dda79c1307
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?NgTnjm0k0KLrDrP06xKLWoz7tWnyAcKvRyVvaVXoaa8o5qqLXXRcdIJX+mX+?=
- =?us-ascii?Q?+C0GI83Izg5Tdt0FWzH9T9EwdTXgeMtUddSrxfpHUTxnxN2uLyzTtsjjOrf6?=
- =?us-ascii?Q?lfo9tXww2dv/JrShrW89MyA44omMv1LwSkWZFb6J5EhwueyY4214hhgwwVpF?=
- =?us-ascii?Q?a8+yFYLarugwkg0AboCzg1noHO7VojLRhhEHPiwSgl6mT6KhsBU/mYq7tLxE?=
- =?us-ascii?Q?Nc+LfjKOrI/5UYVkxbjjO5EKdZtvjxuPzoZzM6Lz0jNPqeARxw+m8Xlh5kTm?=
- =?us-ascii?Q?PYNDSqYKsZyw+tXMncDpy5RHaY6GKE4ISDoRl4nD39Vlg31axPhedWh0nCkx?=
- =?us-ascii?Q?YwfLE/Oq6dhIngG2/HqvPWi8/Vc7KpgKp8/hJeniMl1t8sUFHMdFns5QwHft?=
- =?us-ascii?Q?eueg4puXPQ3XCE7LUosQ2iQS8F4FC3mb0J1MphOYWsOlXcu9XrfZlN+mFflf?=
- =?us-ascii?Q?eGPpc3/laH+B3BStG2u1ccjeR5eQC5GfskezgwmsQt1XJMyoALzkRDkDwT/s?=
- =?us-ascii?Q?r3Lcc1Bi7jBXwbFnm1ujxo9e3/xcYJ/0AKI/RlRHi6I/3dG2lwgR8zmyHweR?=
- =?us-ascii?Q?vhMZpv0bzhvicPd9uqWPyCHDJanb96c2lVkSnVAlh1uTSMu6AwN0H8c21pGL?=
- =?us-ascii?Q?yYNQMDW7gIdvcInUAGfEFpn3pDRdT/vlbZBcDpYbqpVUYPVNRfcLEl4jfdYD?=
- =?us-ascii?Q?RC9aa+x0c5aHIpwv8G/DyML+aAGkf20toFU0H78dNkdJcmT5wuwlAlkWkclK?=
- =?us-ascii?Q?jfon1or33Qa7qEsydvA9wbV49zB6Z81EckthuNcXXY/qbUPYngPh7lwzEYdP?=
- =?us-ascii?Q?uo2Xdfhxxv+JHnNsbMQoruP9QADY9jw71HgbdBL1xRgogX3FcCuU82z/QURV?=
- =?us-ascii?Q?Mn1Wb5yxJDc56TqTbg9oNFKLZlpnLrQSPzQgSHWM1pyMQIlH7B3ARpxlh03M?=
- =?us-ascii?Q?B89CUwS4rrriE3AC7cD80pkfQ0LetYV2L89E/rf/H9X9iNceF4IfPP/IAPy0?=
- =?us-ascii?Q?QsIIl109PP+VEOfQjlqNRVL15xYxjLZun/d5B+9tNnVMJEt6cJ/LTH7Bm/X4?=
- =?us-ascii?Q?7nDYzuV3PENUu0QX+TwPcbYkS6Q2L2BkZPJycIiOcceoabABxq58QzUWkq23?=
- =?us-ascii?Q?fTlH+h+STpEt9xDtc3S9eKyabXm1tXmlhO5T+Y1JlM4QO5THV2qRxgooZ+Ug?=
- =?us-ascii?Q?ZfCHYQvoQejZZJyvWS2vMbZSk2sMbYlL7wC6qfPQ2JttT4+z2Yaf7OQr2887?=
- =?us-ascii?Q?2mC4GjAeHe8cP7oLEKVtpFh1B5uaLbFozzRc+BjK5zLhlN+RrFAPj3hjhlnD?=
- =?us-ascii?Q?WPBdCTlj16AH2EAat5z2SGwektCTB7Q9zSXCDW+WE3sfPgqQ03phz+EMKBmR?=
- =?us-ascii?Q?nPN19b/qeZcWKYavM544lbh+0+1KdV5m4+UtnWIc/062ZWFHO+/gWVLjtlK0?=
- =?us-ascii?Q?RA8tVZy+jNcgvCSyiC3MZEFAZqJjl/8Wic5zoN10cXYLBy+/cMABzQ=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 21:24:53.1942
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a6c23a1-3d1a-4a1b-3b09-08dda79c1307
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000A7E4.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB6832
+References: <20250604053655.96207-1-vanusuri@mvista.com> <CANQUz18y87HfvcgbAUFb6nRkhP_gxrhAEd9BdMAcFT3qUxde6Q@mail.gmail.com>
+ <CAOSpxdYYL3QKBc0CAo5FjpWkvKqr3h+ZFsKt6jGLr=ics=k2qw@mail.gmail.com>
+In-Reply-To: <CAOSpxdYYL3QKBc0CAo5FjpWkvKqr3h+ZFsKt6jGLr=ics=k2qw@mail.gmail.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Tue, 10 Jun 2025 07:39:20 +0530
+X-Gm-Features: AX0GCFtvBqtdIe4sPwmT07_GpnH_eqXgiH20UnItDwm_toW0Dp1g1dTmNffcdbY
+Message-ID: <CANQUz1_vkK_UeTku9V=dkb5pOEKySSnJJWX7qJL6iv-vn8m3fw@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH] kea: upgrade 2.4.1 -> 2.4.2
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000f10a0f06372e2fe5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Jun 2025 21:25:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218307
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 02:09:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218308
 
-Changes since 3.31.6:
-* 5c7224b: Tests: Teach RunCMake to ignore GNU ld --warn-rwx-segments
-           warnings
-* e9c4940: cmake-gui: Fix regression that prints an incidental error on
-           fresh build trees
-* 1b0c92a: cmCurl: Avoid using undocumented type for CURLOPT_NETRC
-           values
-* 1b4a802: MSVC: Split C++23 flag selection into dedicated block
-* b3f1c60: MSVC: Use -std:c++23preview flag for C++23 when available
-* 90d9c79: file(MAKE_DIRECTORY): Do not make directories for command
-           keywords
-* a039a16: file(MAKE_DIRECTORY): Clarify formatting of unexpected
-           arguments error
-* d54916d: MSVC: Revert use of temporary -std:c++23preview flag for
-           C++23
-* bbbbab4: Help: Add 3.31 release note for CMAKE_CONFIG_DIR
-* 9b5915c: MARMASM: Fix loading linker information
-* 3f5f2b2: Linker: Honor
-           CMAKE_<LANG>_LINK_LIBRARY_USING_FEATURE_SUPPORTED when FALSE
-* a9b126b: Linker: Save linker inspection results with compiler
-           inspection results
-* 7b552b9: Linker: Save GNU push-/pop-state detection with compiler
-           inspection results
-* d5be7c7: Linker: Detect GNU push-state/pop-state flags more robustly
-* cbb8f30: CUDAToolkit: Restore ability to find cupti library
-* aa64d44: macOS: Define _DARWIN_C_SOURCE in more sources
-* 14ffd1c: cmXCodeObject: Drop unused CoreFoundation header
-* 42390e7: Source: Include specific CoreFoundation headers instead of
-           umbrella header
-* 7b16db9: CMake 3.31.7
+--000000000000f10a0f06372e2fe5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- ...ative_3.31.6.bb =3D> cmake-native_3.31.7.bb} |  0
- meta/recipes-devtools/cmake/cmake.inc         |  3 +-
- ...ng-undocumented-type-for-CURLOPT_NET.patch | 30 -------------------
- .../{cmake_3.31.6.bb =3D> cmake_3.31.7.bb}      |  0
- 4 files changed, 1 insertion(+), 32 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.31.6.bb =3D> cmake-nati=
-ve_3.31.7.bb} (100%)
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-cmCurl-Avoid-usi=
-ng-undocumented-type-for-CURLOPT_NET.patch
- rename meta/recipes-devtools/cmake/{cmake_3.31.6.bb =3D> cmake_3.31.7.bb} =
-(100%)
+Thanks for the update.
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.31.6.bb b/meta/reci=
-pes-devtools/cmake/cmake-native_3.31.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.31.6.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.31.7.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/=
-cmake/cmake.inc
-index 9b1898f22f..ee17482e3f 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -18,10 +18,9 @@ CMAKE_MAJOR_VERSION =3D "${@'.'.join(d.getVar('PV').spli=
-t('.')[0:2])}"
-=20
- SRC_URI =3D "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.t=
-ar.gz \
-            file://0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-f=
-l.patch \
--           file://0001-cmCurl-Avoid-using-undocumented-type-for-CURLOPT_NE=
-T.patch \
-            "
-=20
--SRC_URI[sha256sum] =3D "653427f0f5014750aafff22727fb2aa60c6c732ca91808cfb7=
-8ce22ddd9e55f0"
-+SRC_URI[sha256sum] =3D "a6d2eb1ebeb99130dfe63ef5a340c3fdb11431cce3d7ca1485=
-24c125924cea68"
-=20
- UPSTREAM_CHECK_REGEX =3D "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
-=20
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-cmCurl-Avoid-using-undo=
-cumented-type-for-CURLOPT_NET.patch b/meta/recipes-devtools/cmake/cmake/000=
-1-cmCurl-Avoid-using-undocumented-type-for-CURLOPT_NET.patch
-deleted file mode 100644
-index c719c1fdfb..0000000000
---- a/meta/recipes-devtools/cmake/cmake/0001-cmCurl-Avoid-using-undocumente=
-d-type-for-CURLOPT_NET.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From c608975f4490f67872926f2601e5c37f2e570307 Mon Sep 17 00:00:00 2001
--From: Wang Mingyu <wangmy@fujitsu.com>
--Date: Wed, 9 Apr 2025 01:40:46 +0000
--Subject: [PATCH] cmCurl: Avoid using undocumented type for CURLOPT_NETRC
-- values
--
--Fix: nativesdk-cmake/3.31.6/cmake-3.31.6/Source/cmCurl.cxx:178:26: error: =
-invalid conversion from 'long int' to 'CURL_NETRC_OPTION' [-fpermissive]
--Upstream-Status: Backport [https://gitlab.kitware.com/cmake/cmake/-/merge_=
-requests/10449/diffs?commit_id=3D1b0c92a3a1b782ff3e1c4499b6ab8db614d45bcd]
--
--Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-----
-- Source/cmCurl.cxx | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Source/cmCurl.cxx b/Source/cmCurl.cxx
--index b9133ed7..0cf8a71a 100644
----- a/Source/cmCurl.cxx
--+++ b/Source/cmCurl.cxx
--@@ -170,7 +170,7 @@ std::string cmCurlSetNETRCOption(::CURL* curl, const s=
-td::string& netrc_level,
--                                  const std::string& netrc_file)
-- {
--   std::string e;
---  CURL_NETRC_OPTION curl_netrc_level =3D CURL_NETRC_LAST;
--+  long curl_netrc_level =3D CURL_NETRC_LAST;
--   ::CURLcode res;
--=20
--   if (!netrc_level.empty()) {
----=20
--2.43.0
--
-diff --git a/meta/recipes-devtools/cmake/cmake_3.31.6.bb b/meta/recipes-dev=
-tools/cmake/cmake_3.31.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.31.6.bb
-rename to meta/recipes-devtools/cmake/cmake_3.31.7.bb
+Thanks & Regards,
+Vijay
+
+On Mon, Jun 9, 2025 at 10:07=E2=80=AFPM Steve Sakoman <steve@sakoman.com> w=
+rote:
+
+> On Sun, Jun 8, 2025 at 7:38=E2=80=AFPM Vijay Anusuri <vanusuri@mvista.com=
+> wrote:
+>
+> > Any update on this ?
+>
+> It should be in the next batch of patches sent out for review (within
+> the next or so)
+>
+> Steve
+>
+> > On Wed, Jun 4, 2025 at 11:07=E2=80=AFAM <vanusuri@mvista.com> wrote:
+> >>
+> >> From: Vijay Anusuri <vanusuri@mvista.com>
+> >>
+> >> Changelog
+> >> https://downloads.isc.org/isc/kea/2.4.2/Kea-2.4.2-ReleaseNotes.txt
+> >>
+> >> License-Update: Update copyright year
+> >>
+> >> Includes security fixes for CVE-2025-32801, CVE-2025-32802 and
+> CVE-2025-32803
+> >>
+> >> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> >> ---
+> >>  meta/recipes-connectivity/kea/{kea_2.4.1.bb =3D> kea_2.4.2.bb} | 4 ++=
+--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>  rename meta/recipes-connectivity/kea/{kea_2.4.1.bb =3D> kea_2.4.2.bb}
+> (94%)
+> >>
+> >> diff --git a/meta/recipes-connectivity/kea/kea_2.4.1.bb
+> b/meta/recipes-connectivity/kea/kea_2.4.2.bb
+> >> similarity index 94%
+> >> rename from meta/recipes-connectivity/kea/kea_2.4.1.bb
+> >> rename to meta/recipes-connectivity/kea/kea_2.4.2.bb
+> >> index fcdb4889d9..6bb7cb9164 100644
+> >> --- a/meta/recipes-connectivity/kea/kea_2.4.1.bb
+> >> +++ b/meta/recipes-connectivity/kea/kea_2.4.2.bb
+> >> @@ -3,7 +3,7 @@ DESCRIPTION =3D "Kea is the next generation of DHCP
+> software developed by ISC. It
+> >>  HOMEPAGE =3D "http://kea.isc.org"
+> >>  SECTION =3D "connectivity"
+> >>  LICENSE =3D "MPL-2.0"
+> >> -LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3Dea061fa0188838072c4248c1318ec131"
+> >> +LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3Dee16e7280a6cf2a1487717faf33190dc"
+> >>
+> >>  DEPENDS =3D "boost log4cplus openssl"
+> >>
+> >> @@ -18,7 +18,7 @@ SRC_URI =3D "
+> http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+> >>             file://fix_pid_keactrl.patch \
+> >>
+>  file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
+> >>             "
+> >> -SRC_URI[sha256sum] =3D
+> "815c61f5c271caa4a1db31dd656eb50a7f6ea973da3690f7c8581408e180131a"
+> >> +SRC_URI[sha256sum] =3D
+> "6e82fb319d3b871c0d39bbd504f2cda0c66fa1262865872985fb4fb91b4eaafc"
+> >>
+> >>  inherit autotools systemd update-rc.d upstream-version-is-even
+> >>
+> >> --
+> >> 2.25.1
+> >>
+>
+
+--000000000000f10a0f06372e2fe5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks for the update.<br><br></div><div>Thanks &amp;=
+ Regards,</div><div>Vijay</div></div><br><div class=3D"gmail_quote gmail_qu=
+ote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 9, 2025 at=
+ 10:07=E2=80=AFPM Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com">st=
+eve@sakoman.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">On Sun, Jun 8, 2025 at 7:38=E2=80=AFPM Vijay Anusuri &lt;<a =
+href=3D"mailto:vanusuri@mvista.com" target=3D"_blank">vanusuri@mvista.com</=
+a>&gt; wrote:<br>
+<br>
+&gt; Any update on this ?<br>
+<br>
+It should be in the next batch of patches sent out for review (within<br>
+the next or so)<br>
+<br>
+Steve<br>
+<br>
+&gt; On Wed, Jun 4, 2025 at 11:07=E2=80=AFAM &lt;<a href=3D"mailto:vanusuri=
+@mvista.com" target=3D"_blank">vanusuri@mvista.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" tar=
+get=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Changelog<br>
+&gt;&gt; <a href=3D"https://downloads.isc.org/isc/kea/2.4.2/Kea-2.4.2-Relea=
+seNotes.txt" rel=3D"noreferrer" target=3D"_blank">https://downloads.isc.org=
+/isc/kea/2.4.2/Kea-2.4.2-ReleaseNotes.txt</a><br>
+&gt;&gt;<br>
+&gt;&gt; License-Update: Update copyright year<br>
+&gt;&gt;<br>
+&gt;&gt; Includes security fixes for CVE-2025-32801, CVE-2025-32802 and CVE=
+-2025-32803<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista=
+.com" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 meta/recipes-connectivity/kea/{<a href=3D"http://kea_2.4.1.b=
+b" rel=3D"noreferrer" target=3D"_blank">kea_2.4.1.bb</a> =3D&gt; <a href=3D=
+"http://kea_2.4.2.bb" rel=3D"noreferrer" target=3D"_blank">kea_2.4.2.bb</a>=
+} | 4 ++--<br>
+&gt;&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;&gt;=C2=A0 rename meta/recipes-connectivity/kea/{<a href=3D"http://kea_=
+2.4.1.bb" rel=3D"noreferrer" target=3D"_blank">kea_2.4.1.bb</a> =3D&gt; <a =
+href=3D"http://kea_2.4.2.bb" rel=3D"noreferrer" target=3D"_blank">kea_2.4.2=
+.bb</a>} (94%)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/recipes-connectivity/kea/<a href=3D"http://kea_2=
+.4.1.bb" rel=3D"noreferrer" target=3D"_blank">kea_2.4.1.bb</a> b/meta/recip=
+es-connectivity/kea/<a href=3D"http://kea_2.4.2.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">kea_2.4.2.bb</a><br>
+&gt;&gt; similarity index 94%<br>
+&gt;&gt; rename from meta/recipes-connectivity/kea/<a href=3D"http://kea_2.=
+4.1.bb" rel=3D"noreferrer" target=3D"_blank">kea_2.4.1.bb</a><br>
+&gt;&gt; rename to meta/recipes-connectivity/kea/<a href=3D"http://kea_2.4.=
+2.bb" rel=3D"noreferrer" target=3D"_blank">kea_2.4.2.bb</a><br>
+&gt;&gt; index fcdb4889d9..6bb7cb9164 100644<br>
+&gt;&gt; --- a/meta/recipes-connectivity/kea/<a href=3D"http://kea_2.4.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">kea_2.4.1.bb</a><br>
+&gt;&gt; +++ b/meta/recipes-connectivity/kea/<a href=3D"http://kea_2.4.2.bb=
+" rel=3D"noreferrer" target=3D"_blank">kea_2.4.2.bb</a><br>
+&gt;&gt; @@ -3,7 +3,7 @@ DESCRIPTION =3D &quot;Kea is the next generation o=
+f DHCP software developed by ISC. It<br>
+&gt;&gt;=C2=A0 HOMEPAGE =3D &quot;<a href=3D"http://kea.isc.org" rel=3D"nor=
+eferrer" target=3D"_blank">http://kea.isc.org</a>&quot;<br>
+&gt;&gt;=C2=A0 SECTION =3D &quot;connectivity&quot;<br>
+&gt;&gt;=C2=A0 LICENSE =3D &quot;MPL-2.0&quot;<br>
+&gt;&gt; -LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dea061fa0188838072=
+c4248c1318ec131&quot;<br>
+&gt;&gt; +LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dee16e7280a6cf2a14=
+87717faf33190dc&quot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 DEPENDS =3D &quot;boost log4cplus openssl&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; @@ -18,7 +18,7 @@ SRC_URI =3D &quot;<a href=3D"http://ftp.isc.org/=
+isc/kea/$%7BPV%7D/$%7BBP%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz</a> \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://fix_pid_keac=
+trl.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-src-lib=
+-log-logger_unittest_support.cc-do-not-write-.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;&gt; -SRC_URI[sha256sum] =3D &quot;815c61f5c271caa4a1db31dd656eb50a7f6e=
+a973da3690f7c8581408e180131a&quot;<br>
+&gt;&gt; +SRC_URI[sha256sum] =3D &quot;6e82fb319d3b871c0d39bbd504f2cda0c66f=
+a1262865872985fb4fb91b4eaafc&quot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 inherit autotools systemd update-rc.d upstream-version-is-ev=
+en<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.25.1<br>
+&gt;&gt;<br>
+</blockquote></div>
+
+--000000000000f10a0f06372e2fe5--
 
