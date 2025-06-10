@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B727FC677C4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B90DDC71130
 	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 19:34:49 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web10.96411.1749584080780082671
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.95774.1749584083908840615
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 12:34:40 -0700
+ Tue, 10 Jun 2025 12:34:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zXnxsQHG;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3127cc662e2so178142a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:34:40 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XbTLLH7Q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-31329098ae8so170887a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584080; x=1750188880; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584083; x=1750188883; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sCX4aQ7Fp8wmuY9OL4SHc5gYNxpV34FwxydZ7vPYrng=;
-        b=zXnxsQHGwZ9fZohDIxMklZ86SU8m+qFY569NrZOOsxZNUlbky956WSTIprMyfJUuJ1
-         PJ/3m9t21jdu/G0PPJd2zCkyqCXqYH281Ii7b8XHdeiJDU5XUyfxoPD4/IpPUyDL3WTy
-         tGOYgII1K2Oq4FjAStencH26MbYm4m1ISY1zZZ8y8NNvgAkCtdG9pWL0X8xVf1goqmrj
-         HNRfz4RBGuNs5ffPR0/hLG2t/vItA6PHEH61pJqP/uBqbdyC6uzbX6c0Q4DSa6wH3duH
-         vv+yww/39bGyWDHzAfttbGkWT3Sdzp2K/7G8lI0uDr000AVkuIkx2Czed03Yf0LkwvQl
-         HqZw==
+        bh=cMIKSHOSEUMhG/R/J6bRm7XZ3P1gqOpIV0xpRf+DZ6E=;
+        b=XbTLLH7QxjfVuKX4N6DdN2AZjuOq5Z4jD5lk+O/Epg/mApGXZuib/WxwHLNWEVluNc
+         w6TirYLR4CZ2/tr2PjMfY2geN6If7F77m+rMWXweeXrT7o1XtFgynZbj0XvwFHcjeAnk
+         9lcGOVvJms7C/dOKQgslw/SNbaHBQTbtJRGqyAQJlMDqCpZfuh5EH6RMk9HED0P8OdML
+         Rp3qAVOXipYSdvwKkdZnP/pkZsmSwxvmojP0riaakyqBsj6rnysNLZSlcSQ4aHejHXZJ
+         y81Qq962aT9rvcA82zhHxIEywOTQTMRv6gEmHiu0mjZEMEDlQH5ZKS9+Hd/Gy1ri3BMV
+         Na6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749584080; x=1750188880;
+        d=1e100.net; s=20230601; t=1749584083; x=1750188883;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sCX4aQ7Fp8wmuY9OL4SHc5gYNxpV34FwxydZ7vPYrng=;
-        b=LECltGzIoqqbXguEVrFyFDSFo9Vqn/aJLVXwq7PVKVkuegt6RDxyueimY5h1WkrscK
-         s6Yqh9Q7HcdAK9HI6SS8t4jNnabcHAG/zlrSv9yqmEsBiys6diYKos5htc4IHoX7nuPy
-         Aosk90C+w4w8FQg3MxFZO0XhpR8/ENTr/lAbiFBL6NSSLVcRbvZVCuPFxkucceteTIcZ
-         agfBXw6VnXZBehDJkbRSrJKsT6eDRBUxR50nVCA4n9+GlG4vX5im2B4jGhTt2YOIApzJ
-         Yq9oAl8xlNCtGGlparETXWPy7ZytG1vrpg30F2LL3BhYL4kSxM5tonoIiumR0HBoOxmI
-         AnTQ==
-X-Gm-Message-State: AOJu0YwpyhNMjWjxfNcdOjyhbzNEDkjKSBulelbvb0lV5cR913hGB0DT
-	68sqvN9bNOkQX/BzjG6Ufu8FawsamYuqrRv3ISARit8Zo4g4ksD64ePCf9qHqtZA/53B7VWNvK7
-	b8hhz
-X-Gm-Gg: ASbGncsVpkKtFvDrrc9CyDTLheas5S9uEWhnBLXtGfEULxvbu6Jauh//cqSmCrevUUO
-	eDWoSvRAR/otNVutFz4Zg+wSwjMjyozmaxoVLO8dWtxKeAI8xW9Lzmr/xEWwYhi9I9hqMjXqLqN
-	WS9dEehupWT6SKlJ9fvb/yOWnJcG+az7aOrwa9eysj99oaEJjuT+mAeT3eySisDzOdJlK6FRvJA
-	NTJ/PQHxFqtYJpwtIDPfMuV2kdTYexHFBcLg3lwnPXiDNYbti6uNGN21ytcylAhuAVC1u6/w/8T
-	uPF2P+V70JL6US9Nl7edNpLXoUcCWGSK2texlg2YsAnzl8DIMjMp/g==
-X-Google-Smtp-Source: AGHT+IH1cuXaMaEgvS9P2fzXBQNMzqYHHZAybETf3y8UgkcBXD0ljYxBCxuF/dDadmDVqSPLqgXYKA==
-X-Received: by 2002:a17:90b:2702:b0:311:a5ab:3d47 with SMTP id 98e67ed59e1d1-313af7e0b2amr828762a91.1.1749584079881;
-        Tue, 10 Jun 2025 12:34:39 -0700 (PDT)
+        bh=cMIKSHOSEUMhG/R/J6bRm7XZ3P1gqOpIV0xpRf+DZ6E=;
+        b=m9CaX8G/ab6ydcox8fpTSr+3mu4TTNFKNIi5DSbhU9qIFRIQgCWQLj4PVjwDAeHXbI
+         IyD/GyhonP3+3tSlncwNxnPQbCsIsywfcrHWs8p5U4pUjGZizpihp32b+rsOi+zRl8bu
+         fLSJjdjOqAa0Ij6h2Z5Mtt5+MGrtaB2f7Yo5XuB0w2J1eJNup+wi3KUesoHJ+TH3M4hw
+         okjhP9NRnkoNZHSuq5UPKC+uJzpt9raDIW1GLqz1OZXDX1isDr4mAUF3FEtr1EZwVXQn
+         mv+1UPnXMKJI57D19Qcq71vyZQzB6thY/dG16OQiRyMJuFPFYVKaB1EYIoYf9o3WNOBQ
+         jXBg==
+X-Gm-Message-State: AOJu0Yz5Q8z1PmFrkmVuS8Fxfg8qBDsk9W0Dz616NkgFC7QnfaJw/DgG
+	ZtbtKVOHCOUEYL1GxDPXO/5ILMEMHY2YHAo93+LZixwek6V9JZ9I7rDmAX9WECezRPkJ0BNzZCK
+	VmuN+
+X-Gm-Gg: ASbGncvuJ0+0v9Xuo8w/aafgD3vdxiblM6gwuPklDR2GOoWhzl1OJkNg9Gpp8VHjUGE
+	K58cjDiuVIs30R5bQHuBGezvXqRJaTA8zaITuljD3lmn4KtyzVNu107CPj42qbU073+qZTGAu6j
+	/tqHPPR1oZHGM7DXOAfvOADp7v71851FkX13sxKp0irGsVTEb715EkJVJzKkvJfmlovnPC78GGW
+	djF7PMFkwxlsMnWpjzj5r7Z3YW0ATVyrHoqXXLy2idMno/nG2Ub8SJ+I4+B2vXGMQmGve6PydH3
+	eBLlDpbW9lkoC85k01wSkHqSi1MgoU+hxHGncIWHyZX5FP+gJrZhvg==
+X-Google-Smtp-Source: AGHT+IFdGVgMCsTxbISRXRTywq2z0ipi6TYTyKGyQffey2F2FOZSnmKIa8C9Gc6/yl86Sevwy66vxg==
+X-Received: by 2002:a17:90b:4a8b:b0:311:482a:f956 with SMTP id 98e67ed59e1d1-313af83e755mr817211a91.5.1749584082945;
+        Tue, 10 Jun 2025 12:34:42 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7bc4:2c75:fa51:ff16])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313b10c7a88sm73897a91.33.2025.06.10.12.34.39
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313b10c7a88sm73897a91.33.2025.06.10.12.34.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 12:34:39 -0700 (PDT)
+        Tue, 10 Jun 2025 12:34:42 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 09/16] libsoup: fix CVE-2025-4948
-Date: Tue, 10 Jun 2025 12:34:04 -0700
-Message-ID: <737d50288a37f51f17cf3fef0422e27dbd115cce.1749583904.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/16] libsoup-2.4: fix CVE-2025-2784
+Date: Tue, 10 Jun 2025 12:34:06 -0700
+Message-ID: <9c014c1b96f4ebeb0f6f504b6c7c0d8063b6a6b7.1749583904.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1749583904.git.steve@sakoman.com>
 References: <cover.1749583904.git.steve@sakoman.com>
@@ -67,135 +67,94 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 19:34:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218414
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218416
 
 From: Changqing Li <changqing.li@windriver.com>
 
 Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/issues/449
+https://gitlab.gnome.org/GNOME/libsoup/-/issues/422
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup/libsoup-3.4.4/CVE-2025-4948.patch | 97 +++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |  1 +
- 2 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4948.patch
+ .../libsoup/libsoup-2.4/CVE-2025-2784.patch   | 56 +++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.3.bb             |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4948.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4948.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch
 new file mode 100644
-index 0000000000..07c85f5381
+index 0000000000..106f907168
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4948.patch
-@@ -0,0 +1,97 @@
-+From a23ce8f8e60e79990e26376c8b0d40841aed4b81 Mon Sep 17 00:00:00 2001
-+From: Milan Crha <mcrha@redhat.com>
-+Date: Thu, 15 May 2025 17:49:11 +0200
-+Subject: [PATCH] soup-multipart: Verify boundary limits for multipart body
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch
+@@ -0,0 +1,56 @@
++From 2eacbd762332795e00692ddab2515c6da23198d3 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Mon, 12 May 2025 14:06:41 +0800
++Subject: [PATCH] sniffer: Add better coverage of skip_insignificant_space()
 +
-+It could happen that the boundary started at a place which resulted into
-+a negative number, which in an unsigned integer is a very large value.
-+Check the body size is not a negative value before setting it.
-+
-+Closes https://gitlab.gnome.org/GNOME/libsoup/-/issues/449
-+
-+Part-of: <https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/463>
-+
-+CVE: CVE-2025-4948
++CVE: CVE-2025-2784
 +Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/463/diffs?commit_id=f2f28afe0b3b2b3009ab67d6874457ec6bac70c0]
++[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/435/diffs?commit_id=242a10fbb12dbdc12d254bd8fc8669a0ac055304;
++ https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/442/diffs?commit_id=c415ad0b6771992e66c70edf373566c6e247089d]
++
++Test code is not added since it uses some functions not defined in
++version 2.74. These tests are not used now, so just ignore them.
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ libsoup/soup-multipart.c |  2 +-
-+ tests/multipart-test.c   | 40 ++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 41 insertions(+), 1 deletion(-)
++ libsoup/soup-content-sniffer.c |  9 +++----
++ 1 files changed, 3 insertions(+), 4 deletions(-)
 +
-+diff --git a/libsoup/soup-multipart.c b/libsoup/soup-multipart.c
-+index e1c442e..27257e4 100644
-+--- a/libsoup/soup-multipart.c
-++++ b/libsoup/soup-multipart.c
-+@@ -204,7 +204,7 @@ soup_multipart_new_from_message (SoupMessageHeaders *headers,
-+ 		 */
-+ 		part_body = g_bytes_new_from_bytes (body, // FIXME
-+ 						    split - body_data,
-+-						    end - 2 - split);
-++						    end - 2 >= split ? end - 2 - split : 0);
-+ 		g_ptr_array_add (multipart->bodies, part_body);
-+ 
-+ 		start = end;
-+diff --git a/tests/multipart-test.c b/tests/multipart-test.c
-+index 84852e2..2ae888c 100644
-+--- a/tests/multipart-test.c
-++++ b/tests/multipart-test.c
-+@@ -548,6 +548,45 @@ test_multipart_bounds_bad_2 (void)
-+ 	g_bytes_unref (bytes);
++diff --git a/libsoup/soup-content-sniffer.c b/libsoup/soup-content-sniffer.c
++index 5f2896e..9554636 100644
++--- a/libsoup/soup-content-sniffer.c
+++++ b/libsoup/soup-content-sniffer.c
++@@ -612,8 +612,10 @@ sniff_text_or_binary (SoupContentSniffer *sniffer, SoupBuffer *buffer)
 + }
 + 
-++static void
-++test_multipart_too_large (void)
-++{
-++	const char *raw_body =
-++		"-------------------\r\n"
-++		"-\n"
-++		"Cont\"\r\n"
-++		"Content-Tynt----e:n\x8erQK\r\n"
-++		"Content-Disposition:   name=  form-; name=\"file\"; filename=\"ype:i/  -d; ----\xae\r\n"
-++		"Content-Typimag\x01/png--\\\n"
-++		"\r\n"
-++		"---:\n\r\n"
-++		"\r\n"
-++		"-------------------------------------\r\n"
-++		"---------\r\n"
-++		"----------------------";
-++	GBytes *body;
-++	GHashTable *params;
-++	SoupMessageHeaders *headers;
-++	SoupMultipart *multipart;
-++
-++	params = g_hash_table_new (g_str_hash, g_str_equal);
-++	g_hash_table_insert (params, (gpointer) "boundary", (gpointer) "-----------------");
-++	headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
-++	soup_message_headers_set_content_type (headers, "multipart/form-data", params);
-++	g_hash_table_unref (params);
-++
-++	body = g_bytes_new_static (raw_body, strlen (raw_body));
-++	multipart = soup_multipart_new_from_message (headers, body);
-++	soup_message_headers_unref (headers);
-++	g_bytes_unref (body);
-++
-++	g_assert_nonnull (multipart);
-++	g_assert_cmpint (soup_multipart_get_length (multipart), ==, 1);
-++	g_assert_true (soup_multipart_get_part (multipart, 0, &headers, &body));
-++	g_assert_cmpint (g_bytes_get_size (body), ==, 0);
-++	soup_multipart_free (multipart);
-++}
-++
-+ int
-+ main (int argc, char **argv)
++ static gboolean
++-skip_insignificant_space (const char *resource, int *pos, int resource_length)
+++skip_insignificant_space (const char *resource, gsize *pos, gsize resource_length)
 + {
-+@@ -578,6 +617,7 @@ main (int argc, char **argv)
-+ 	g_test_add_func ("/multipart/bounds-good", test_multipart_bounds_good);
-+ 	g_test_add_func ("/multipart/bounds-bad", test_multipart_bounds_bad);
-+ 	g_test_add_func ("/multipart/bounds-bad-2", test_multipart_bounds_bad_2);
-++	g_test_add_func ("/multipart/too-large", test_multipart_too_large);
+++	if (*pos >= resource_length)
+++		return TRUE;
++ 	while ((resource[*pos] == '\x09') ||
++ 	       (resource[*pos] == '\x20') ||
++ 	       (resource[*pos] == '\x0A') ||
++@@ -632,7 +634,7 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, SoupBuffer *buffer)
++ {
++ 	const char *resource = (const char *)buffer->data;
++ 	int resource_length = MIN (512, buffer->length);
++-	int pos = 0;
+++	gsize pos = 0;
 + 
-+ 	ret = g_test_run ();
++ 	if (resource_length < 3)
++ 		goto text_html;
++@@ -642,9 +644,6 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, SoupBuffer *buffer)
++ 		pos = 3;
 + 
++  look_for_tag:
++-	if (pos > resource_length)
++-		goto text_html;
++-
++ 	if (skip_insignificant_space (resource, &pos, resource_length))
++ 		goto text_html;
++
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index 473a980b1a..9b8bf5b9a2 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -42,6 +42,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32051-2.patch \
-            file://CVE-2025-32050.patch \
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+index 8f0b706276..0da309ebd8 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
+@@ -39,6 +39,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
             file://CVE-2025-46421.patch \
-+           file://CVE-2025-4948.patch \
+            file://CVE-2025-4948.patch \
+            file://CVE-2025-4476.patch \
++           file://CVE-2025-2784.patch \
  "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
+ SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
  
 -- 
 2.43.0
