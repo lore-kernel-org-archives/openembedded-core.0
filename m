@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B90DDC71130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F3FC71133
 	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 19:34:49 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.95774.1749584083908840615
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web10.96415.1749584086949367954
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 12:34:43 -0700
+ Tue, 10 Jun 2025 12:34:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XbTLLH7Q;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-31329098ae8so170887a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:34:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=IubEWOsb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b1396171fb1so3069201a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:34:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584083; x=1750188883; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584086; x=1750188886; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cMIKSHOSEUMhG/R/J6bRm7XZ3P1gqOpIV0xpRf+DZ6E=;
-        b=XbTLLH7QxjfVuKX4N6DdN2AZjuOq5Z4jD5lk+O/Epg/mApGXZuib/WxwHLNWEVluNc
-         w6TirYLR4CZ2/tr2PjMfY2geN6If7F77m+rMWXweeXrT7o1XtFgynZbj0XvwFHcjeAnk
-         9lcGOVvJms7C/dOKQgslw/SNbaHBQTbtJRGqyAQJlMDqCpZfuh5EH6RMk9HED0P8OdML
-         Rp3qAVOXipYSdvwKkdZnP/pkZsmSwxvmojP0riaakyqBsj6rnysNLZSlcSQ4aHejHXZJ
-         y81Qq962aT9rvcA82zhHxIEywOTQTMRv6gEmHiu0mjZEMEDlQH5ZKS9+Hd/Gy1ri3BMV
-         Na6g==
+        bh=LsFW0c2kwLdW2dncq0cqyQNjfmqiZewBLI9Cgn1Qg54=;
+        b=IubEWOsbCDfy/JLYOnCM+mLMSyLwZkV3MhE7DjpzQ32y1ZJ/YMaKf6ATrZ+UGMXap3
+         isrjPanqfM7ndJOo4NNkR72US/U1xrFfGcXa/QCWIf4dfrnusneGCpgb5itw21RsEfqW
+         yY1NvB80bvmkksp9vl9RyC3jMZTxRXfrx+PDYBJl8319gi0/BTyhRMtOXDTfG21+qNYu
+         eH8bYKTY9Z+2WcvDBvm9MfWfOH46G4L8anBtHIFMOEPAXY4oHl0yhZCd1jGE4DGl100F
+         AniD1x+keT70iCyTmXqEn5IULc/MF0TOn7h986o0a/QPqhF8extM6BjT+qVhcOnFCrv3
+         8/qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749584083; x=1750188883;
+        d=1e100.net; s=20230601; t=1749584086; x=1750188886;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cMIKSHOSEUMhG/R/J6bRm7XZ3P1gqOpIV0xpRf+DZ6E=;
-        b=m9CaX8G/ab6ydcox8fpTSr+3mu4TTNFKNIi5DSbhU9qIFRIQgCWQLj4PVjwDAeHXbI
-         IyD/GyhonP3+3tSlncwNxnPQbCsIsywfcrHWs8p5U4pUjGZizpihp32b+rsOi+zRl8bu
-         fLSJjdjOqAa0Ij6h2Z5Mtt5+MGrtaB2f7Yo5XuB0w2J1eJNup+wi3KUesoHJ+TH3M4hw
-         okjhP9NRnkoNZHSuq5UPKC+uJzpt9raDIW1GLqz1OZXDX1isDr4mAUF3FEtr1EZwVXQn
-         mv+1UPnXMKJI57D19Qcq71vyZQzB6thY/dG16OQiRyMJuFPFYVKaB1EYIoYf9o3WNOBQ
-         jXBg==
-X-Gm-Message-State: AOJu0Yz5Q8z1PmFrkmVuS8Fxfg8qBDsk9W0Dz616NkgFC7QnfaJw/DgG
-	ZtbtKVOHCOUEYL1GxDPXO/5ILMEMHY2YHAo93+LZixwek6V9JZ9I7rDmAX9WECezRPkJ0BNzZCK
-	VmuN+
-X-Gm-Gg: ASbGncvuJ0+0v9Xuo8w/aafgD3vdxiblM6gwuPklDR2GOoWhzl1OJkNg9Gpp8VHjUGE
-	K58cjDiuVIs30R5bQHuBGezvXqRJaTA8zaITuljD3lmn4KtyzVNu107CPj42qbU073+qZTGAu6j
-	/tqHPPR1oZHGM7DXOAfvOADp7v71851FkX13sxKp0irGsVTEb715EkJVJzKkvJfmlovnPC78GGW
-	djF7PMFkwxlsMnWpjzj5r7Z3YW0ATVyrHoqXXLy2idMno/nG2Ub8SJ+I4+B2vXGMQmGve6PydH3
-	eBLlDpbW9lkoC85k01wSkHqSi1MgoU+hxHGncIWHyZX5FP+gJrZhvg==
-X-Google-Smtp-Source: AGHT+IFdGVgMCsTxbISRXRTywq2z0ipi6TYTyKGyQffey2F2FOZSnmKIa8C9Gc6/yl86Sevwy66vxg==
-X-Received: by 2002:a17:90b:4a8b:b0:311:482a:f956 with SMTP id 98e67ed59e1d1-313af83e755mr817211a91.5.1749584082945;
-        Tue, 10 Jun 2025 12:34:42 -0700 (PDT)
+        bh=LsFW0c2kwLdW2dncq0cqyQNjfmqiZewBLI9Cgn1Qg54=;
+        b=vS4edBCz4HtK3E97+fACOrZL4WzvFPs/G6in/8Jf0YaiW3sOc+/e9+wGw5o/NHel1/
+         s/Ooz2Obm0xTPaDnooyRngpvFonwB1FMkkbRIR2cQQdTsOj0vl99721BOkmoJr05bVkF
+         yH6eesMrRPJ2GkdMmb69E/M6DtRlWLUq8r4oC3J8vuoy/fLschCMrf9BRPRcascdpf24
+         6L4HL1ypBYXCKpw25z/MhVGNTQvfXfROuP3TPkSwf3IA+HJTcoRR8lG4M6xMsAyCXTTw
+         rbtsymd/PHL0foJMfixwmsTVPYkEm0RvL4pQWf8heqjOi+EdM4+paQXtju8gIS4rQoEf
+         hpBg==
+X-Gm-Message-State: AOJu0Yy5LiKcZnEfpS6RsE/Nw/Ua0sR7fg1q7jfWFS2GmLhfWOo/hzIY
+	su5Z/zIXcQa2oG/RJM8QGtW/MWrkh+z4zthk7M7v+oz/FzI1U4ijSyIhl05boAQgS3fHg3Snojk
+	DIQPw
+X-Gm-Gg: ASbGncsyj6PMucW9f0AJlutUYAlUGTBg+1SC7Hemz/ulPR4jpypR9uEepEDK5HPBuve
+	/hEjleayjLMGHUUqwDAeKGQc3bUarUshWW3Vx6lnjMXqMT4EtoNmoWAOg62LYa2qVxmVw4yypUz
+	n7xoK3oS71ppufo1myfK3U/iNVqHjR22PE2wDJOPCR4yK+pjkZ1fgmxAvWA23RGgvxI5As2OdpB
+	7U7mEcd0PnP1ZF85nwNTskccSRNBevYfTb1snlXUQUm9X3pVFSOLqc57aNh4/uSeGWu/GuXp+EM
+	xRkOBxlDOlshRtGBij6+VD9yBNGPbNeLmSUusl/OdN+TWQHSV21P8CqW2qKnt/Gm
+X-Google-Smtp-Source: AGHT+IGeSVjsVA7QqS9BKDCw6tXxmr33rnTJcuGeu9p6XH1UYI0wkMoVntbljLIzlf6eXbqSFwMCkQ==
+X-Received: by 2002:a17:90b:55d0:b0:312:26d9:d5b4 with SMTP id 98e67ed59e1d1-313af196987mr1093147a91.17.1749584086202;
+        Tue, 10 Jun 2025 12:34:46 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7bc4:2c75:fa51:ff16])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313b10c7a88sm73897a91.33.2025.06.10.12.34.42
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313b10c7a88sm73897a91.33.2025.06.10.12.34.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 12:34:42 -0700 (PDT)
+        Tue, 10 Jun 2025 12:34:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 11/16] libsoup-2.4: fix CVE-2025-2784
-Date: Tue, 10 Jun 2025 12:34:06 -0700
-Message-ID: <9c014c1b96f4ebeb0f6f504b6c7c0d8063b6a6b7.1749583904.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 13/16] kea: upgrade 2.4.1 -> 2.4.2
+Date: Tue, 10 Jun 2025 12:34:08 -0700
+Message-ID: <2f3d2a2848472bdf87fbce00967bc780fc859e05.1749583904.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1749583904.git.steve@sakoman.com>
 References: <cover.1749583904.git.steve@sakoman.com>
@@ -67,94 +67,48 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 19:34:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218416
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218418
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/issues/422
+Changelog
+https://downloads.isc.org/isc/kea/2.4.2/Kea-2.4.2-ReleaseNotes.txt
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+License-Update: Update copyright year
+
+Includes security fixes for CVE-2025-32801, CVE-2025-32802 and CVE-2025-32803
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup/libsoup-2.4/CVE-2025-2784.patch   | 56 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch
+ meta/recipes-connectivity/kea/{kea_2.4.1.bb => kea_2.4.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/kea/{kea_2.4.1.bb => kea_2.4.2.bb} (94%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch
-new file mode 100644
-index 0000000000..106f907168
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-2784.patch
-@@ -0,0 +1,56 @@
-+From 2eacbd762332795e00692ddab2515c6da23198d3 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 12 May 2025 14:06:41 +0800
-+Subject: [PATCH] sniffer: Add better coverage of skip_insignificant_space()
-+
-+CVE: CVE-2025-2784
-+Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/435/diffs?commit_id=242a10fbb12dbdc12d254bd8fc8669a0ac055304;
-+ https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/442/diffs?commit_id=c415ad0b6771992e66c70edf373566c6e247089d]
-+
-+Test code is not added since it uses some functions not defined in
-+version 2.74. These tests are not used now, so just ignore them.
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ libsoup/soup-content-sniffer.c |  9 +++----
-+ 1 files changed, 3 insertions(+), 4 deletions(-)
-+
-+diff --git a/libsoup/soup-content-sniffer.c b/libsoup/soup-content-sniffer.c
-+index 5f2896e..9554636 100644
-+--- a/libsoup/soup-content-sniffer.c
-++++ b/libsoup/soup-content-sniffer.c
-+@@ -612,8 +612,10 @@ sniff_text_or_binary (SoupContentSniffer *sniffer, SoupBuffer *buffer)
-+ }
-+ 
-+ static gboolean
-+-skip_insignificant_space (const char *resource, int *pos, int resource_length)
-++skip_insignificant_space (const char *resource, gsize *pos, gsize resource_length)
-+ {
-++	if (*pos >= resource_length)
-++		return TRUE;
-+ 	while ((resource[*pos] == '\x09') ||
-+ 	       (resource[*pos] == '\x20') ||
-+ 	       (resource[*pos] == '\x0A') ||
-+@@ -632,7 +634,7 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, SoupBuffer *buffer)
-+ {
-+ 	const char *resource = (const char *)buffer->data;
-+ 	int resource_length = MIN (512, buffer->length);
-+-	int pos = 0;
-++	gsize pos = 0;
-+ 
-+ 	if (resource_length < 3)
-+ 		goto text_html;
-+@@ -642,9 +644,6 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, SoupBuffer *buffer)
-+ 		pos = 3;
-+ 
-+  look_for_tag:
-+-	if (pos > resource_length)
-+-		goto text_html;
-+-
-+ 	if (skip_insignificant_space (resource, &pos, resource_length))
-+ 		goto text_html;
-+
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 8f0b706276..0da309ebd8 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -39,6 +39,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-46421.patch \
-            file://CVE-2025-4948.patch \
-            file://CVE-2025-4476.patch \
-+           file://CVE-2025-2784.patch \
- "
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
+diff --git a/meta/recipes-connectivity/kea/kea_2.4.1.bb b/meta/recipes-connectivity/kea/kea_2.4.2.bb
+similarity index 94%
+rename from meta/recipes-connectivity/kea/kea_2.4.1.bb
+rename to meta/recipes-connectivity/kea/kea_2.4.2.bb
+index fcdb4889d9..6bb7cb9164 100644
+--- a/meta/recipes-connectivity/kea/kea_2.4.1.bb
++++ b/meta/recipes-connectivity/kea/kea_2.4.2.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Kea is the next generation of DHCP software developed by ISC. It
+ HOMEPAGE = "http://kea.isc.org"
+ SECTION = "connectivity"
+ LICENSE = "MPL-2.0"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=ea061fa0188838072c4248c1318ec131"
++LIC_FILES_CHKSUM = "file://COPYING;md5=ee16e7280a6cf2a1487717faf33190dc"
+ 
+ DEPENDS = "boost log4cplus openssl"
+ 
+@@ -18,7 +18,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+            file://fix_pid_keactrl.patch \
+            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
+            "
+-SRC_URI[sha256sum] = "815c61f5c271caa4a1db31dd656eb50a7f6ea973da3690f7c8581408e180131a"
++SRC_URI[sha256sum] = "6e82fb319d3b871c0d39bbd504f2cda0c66fa1262865872985fb4fb91b4eaafc"
+ 
+ inherit autotools systemd update-rc.d upstream-version-is-even
  
 -- 
 2.43.0
