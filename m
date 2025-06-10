@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9ADEC61DB2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8290C71133
 	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 19:38:39 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web10.96523.1749584310180260801
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.95891.1749584316810852410
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 12:38:30 -0700
+ Tue, 10 Jun 2025 12:38:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GJFO0SZ8;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b2c4476d381so197340a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:38:30 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=R/53WJqG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-236192f8770so1668995ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584309; x=1750189109; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584316; x=1750189116; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1jkSVEdjphHODdTmOhvbvSR8WE0eRj2aIRxQ5J173/s=;
-        b=GJFO0SZ8R9wN04NEsVkL9UlvugSaUoVyRoHuPIbXYzkjHgXu8OWw6KFEJwocNQsqkv
-         t4mlw4B5DCdzdRnI8GIPl59KpDkwrs0pgLqlQyCTZNFJCmMxtHpJwN+/jCL0LrHNM8uW
-         2iWAX5VgXMyX8Y9BaTx3Kai7N3n96T2SgRqOuoFQwYHUhjFhVxG9Iwg+DNR5KDQYH1aN
-         40Z687ruQBjnDjSWGcgxJpcHayXeFT06QHePVDIh/M3/PaDHwQrDdJXv/tQDA2MlqJNc
-         VmzMBSGJxSLdDYSUTQGj0LkvueF1sNTF0GR6mJkvrfUYhwVo9deYy6uSAiOTFd3xbFdY
-         6/hg==
+        bh=93mf7hk/khpH0AHKI0KXpNH1rK2qS2Rrxu2hT+Lncy0=;
+        b=R/53WJqGDsbWRcOzoYTcUEggM5OXiN5/5xQTaUr6YG70qPi9AUnMzBhcefjEjrmY6L
+         uWm/M2vCp59FJfEboCnb+bnG5arw7aOy1qN2imewQHpb7hdfjKHaoPtIjyZqzE8JiQ/R
+         FD/sBRCLoVExizSE4aDXLHrTuxS9xS4qgmm9P7PNssjGKXlBw2SJr27+LcrVUDENPuAj
+         3zNfcxhkHq4E22bLo2I698BoqNpkCk3KGv4/zNv1DeA849iT0zJhvB2YdBxRoseAAbb/
+         5wn2PMF4AbF8U4CpMr8PmUI4ZeY8ehpEs35sZHLsd3krFdtlMvtkPVzQ0svFkDbj7oYt
+         50Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749584309; x=1750189109;
+        d=1e100.net; s=20230601; t=1749584316; x=1750189116;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1jkSVEdjphHODdTmOhvbvSR8WE0eRj2aIRxQ5J173/s=;
-        b=P5mLVaM5h4JCmJSy6498/Zq7Cso9lmzkeBMjni6bqYfCV7c2hzPZSZbtPCQ77CnYCc
-         WinkDiX0hzG7R8/ilX1vpktFAnx9FieJvOSifPKnAS7RgHfTAxPi2OPHBsPb1/XRrGUU
-         hnl/mEtu73BGqOWczUH37v03M+1fPjqqyxNggfllsHiebBClaKCEWdimVLXrVhv0QOml
-         vHte7PgwXEA7oHGDRl8/UGFiRF80TR8Km0/w5DJYQ8jhasevKEKiSfb+pQvpxflGljgP
-         yL4J/HZDfRDYdSqkkMxfAoRaAHEteqRF9IT0jnLnPpWNtFpkQ0yR6woHu7evOHNwb2+6
-         VNUA==
-X-Gm-Message-State: AOJu0YzaKG3JCXQYq04vYFJbcDf9VGlziX30eg0TCnzwRQfy8CKtoLmR
-	RfEEnmucOTNn1BlcVvDvxcem/xR1oR2HvEPmgHQxW6LGPz/ZgtYWRUXvF7itQAM0L7+cNyb+ktq
-	SEORh
-X-Gm-Gg: ASbGncuxC8BtG7+inF6/lsArtCCH6ETXNweYkM8p98nYIQU2DyVIRZnl13LtV34y4z0
-	/YbxR6BF27Pia4u00lV8BmX+GaTgzhlGaoyoGZyYSH6+K5bOXjeY4svJC/7EylTKiYlA/Gfx6Yz
-	xGFZ41Fnenc+73fwAcQw+Xyzmmu3uAxU6DpX8xrkz66GiS4TGeldvimX4p82L073C7YjTdmYuNO
-	kxQjp1Saz3mKsWAJD7JMPwAS3QUyPuCOGppddyPrcQA7Pv/HZkTL5DpMZdmRdNZStIjy+8tQa9+
-	qtLffNKgeaWr8IO4wbHSPWpWAhWNleWFjZbY/J5ww25PXyps1uP6AQ==
-X-Google-Smtp-Source: AGHT+IHyMheW95s4tggKq6dAmB4H4JiWF5tPMgd/Q5P0re2QEQVJAy4SIJVqD3zrnp/HDOJ1BHcMAw==
-X-Received: by 2002:a05:6a20:7d9b:b0:21f:5283:4fa5 with SMTP id adf61e73a8af0-21f86dea0fbmr938326637.3.1749584309403;
-        Tue, 10 Jun 2025 12:38:29 -0700 (PDT)
+        bh=93mf7hk/khpH0AHKI0KXpNH1rK2qS2Rrxu2hT+Lncy0=;
+        b=ADAqegdK+ytGRcNzj3yfdRekiSgexeaA+9jHFQqKdfkq5nWLArdTnC3nwn/LZZ8ha8
+         +yKwmAHcCIxKz3vJQuO3l3kF9f7UyEtzhoZ396kzn6N5vabEuMqv0e+GHVxAfHL51wOX
+         9WerRblBlHBgy0vUo7TsYoE+Js73BnaDrmI2nYlkYd/1bf4X2LoqwUwIiqRLtZJt271g
+         VPfgvKU/RqDJ2PByJCJxraPx2cMe886CCr+K/rzjde0sMbHQsZVEJOdw34tCmy0i90aB
+         h6vFrLMIiHQZKepX4i7ghUvv+polIetzvz8tWECe97QPqYdSC9sdVrc1J5BLuaaIuN2y
+         8CDg==
+X-Gm-Message-State: AOJu0YwP/Ed+h4THYeqlZ1ru9NxJppBIVmX94JTYKKhK3dnWhDobJwHd
+	tQr2R6jKUhDW4Oj+lJO0kmJL6j/OJbyREHFN9cnBlJFObDXl9HhTnAwNM4QEIU7ziLR2vRTQv44
+	n3gIp
+X-Gm-Gg: ASbGncuims01yes/e/mjDkd9jcW7XAAJahoUd0AN8Itm0gIDicNUCQBmJvOaf67y4cU
+	fI/vTtRL2YB4kwRm8+GSP3GhJlOx9S/6eoQBroyd5bI6RTiF3OZZDRqHKlNo5qdZPxKno+RN967
+	/Y952lhWAjdhqddmuHtecGMlTfwIXrEtRFS++iJueHW5rmlfrhLhPBFWOB06lLZrVZydSkNnSnh
+	0Ln8gOEjpkKUEKkfR4m5kjpwml55WRPVJ+HBDOcolYliOgS1ajkBcfNpHmZbL0gxLVrmn/r+Dxi
+	29RZEEcAwHp9Mucm3nFwGZTbu4GbAQPLRLHqKF5JFj43yAUmoIPlrg==
+X-Google-Smtp-Source: AGHT+IHE0wKYVez99w0sodQUdYk9nCJepytLegfbD+bFoqX6Dd0aVwN35E7OlpGmJK6WoaMYIwholA==
+X-Received: by 2002:a17:902:ef07:b0:234:24a8:bee9 with SMTP id d9443c01a7336-2364169f471mr7256865ad.4.1749584315845;
+        Tue, 10 Jun 2025 12:38:35 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7bc4:2c75:fa51:ff16])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2f5f7827c0sm7198595a12.62.2025.06.10.12.38.28
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2f5f7827c0sm7198595a12.62.2025.06.10.12.38.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 12:38:28 -0700 (PDT)
+        Tue, 10 Jun 2025 12:38:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/15] ghostscript: fix CVE-2025-48708
-Date: Tue, 10 Jun 2025 12:38:07 -0700
-Message-ID: <7052a81e4f9b19b5640b414c10b19f8232d81572.1749584149.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/15] ffmpeg: upgrade 5.0.1 -> 5.0.3
+Date: Tue, 10 Jun 2025 12:38:11 -0700
+Message-ID: <dadb16481810ebda8091b36e3ee03713c90b5e7e.1749584149.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1749584149.git.steve@sakoman.com>
 References: <cover.1749584149.git.steve@sakoman.com>
@@ -67,86 +67,101 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 19:38:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218423
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218427
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-gs_lib_ctx_stash_sanitized_arg in base/gslibctx.c in Artifex Ghostscript before 10.05.1
-lacks argument sanitization for the # case. A created PDF document includes
-its password in cleartext.
+Refreshed CVE-2024-36613.patch against to the current version
+Removed below patches since already fixed in this version
+
+0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch [1]
+0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch [2]
+0001-avcodec-vp3-Add-missing-check-for-av_malloc.patch [3]
+0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch [4]
+CVE-2022-48434.patch [5]
+
+[1] https://github.com/FFmpeg/FFmpeg/commit/1eb002596e3761d88de4aeea3158692b82fb6307
+[2] https://github.com/FFmpeg/FFmpeg/commit/293dc39bcaa99f213c6b7a703e11f146abf5d3be
+[3] https://github.com/FFmpeg/FFmpeg/commit/2cdddcd6ec90c7a248ffe792d85faa4d89eab9f7
+[4] https://github.com/FFmpeg/FFmpeg/commit/481e81be1271ac9a0124ee615700390c2371bd89
+[5] https://github.com/FFmpeg/FFmpeg/commit/3bc28e9d1ab33627cea3c632dd6b0c33e22e93ba
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ghostscript/CVE-2025-48708.patch          | 46 +++++++++++++++++++
- .../ghostscript/ghostscript_9.55.0.bb         |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-48708.patch
+ .../ffmpeg/ffmpeg/CVE-2024-36613.patch         | 18 +++++++++---------
+ .../{ffmpeg_5.0.1.bb => ffmpeg_5.0.3.bb}       |  7 +------
+ 2 files changed, 10 insertions(+), 15 deletions(-)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_5.0.1.bb => ffmpeg_5.0.3.bb} (96%)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-48708.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-48708.patch
-new file mode 100644
-index 0000000000..5c8069a4ea
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2025-48708.patch
-@@ -0,0 +1,46 @@
-+From 5b5968c306b3e35cdeec83bb15026fd74a7334de Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <Ken.Sharp@artifex.com>
-+Date: Sat, 12 Apr 2025 10:24:43 +0100
-+Subject: [PATCH] Argument sanitisation - handle '#' as per '='
-+
-+Bug 708446
-+
-+CVE: CVE-2025-48708
-+
-+Upstream-Status: Backport [https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=5b5968c306b3e35cdeec83bb15026fd74a7334de]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ base/gslibctx.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/base/gslibctx.c b/base/gslibctx.c
-+index 2cf5c9dda..40ff984f9 100644
-+--- a/base/gslibctx.c
-++++ b/base/gslibctx.c
-+@@ -1225,9 +1225,9 @@ gs_lib_ctx_stash_sanitized_arg(gs_lib_ctx_t *ctx, const char *arg)
-+         case '-': /* Need to check for permitted file lists */
-+             /* By default, we want to keep the key, but lose the value */
-+             p = arg+2;
-+-            while (*p && *p != '=')
-++            while (*p && *p != '=' && *p != '#')
-+                 p++;
-+-            if (*p == '=')
-++            if (*p == '=' || *p == '#')
-+                 p++;
-+             if (*p == 0)
-+                 break; /* No value to elide */
-+@@ -1269,9 +1269,9 @@ gs_lib_ctx_stash_sanitized_arg(gs_lib_ctx_t *ctx, const char *arg)
-+         case 'S':
-+             /* By default, we want to keep the key, but lose the value */
-+             p = arg+2;
-+-            while (*p && *p != '=')
-++            while (*p && *p != '=' && *p != '#')
-+                 p++;
-+-            if (*p == '=')
-++            if (*p == '=' || *p == '#')
-+                 p++;
-+             if (*p == 0)
-+                 break; /* No value to elide */
-+--
-+2.40.0
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-index e872fbe88c..3b50ac1409 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-@@ -73,6 +73,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2025-27835.patch \
-                 file://CVE-2025-27836-1.patch \
-                 file://CVE-2025-27836-2.patch \
-+                file://CVE-2025-48708.patch \
- "
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36613.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36613.patch
+index 300b8d1e49..8dc43c3b68 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36613.patch
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-36613.patch
+@@ -1,8 +1,7 @@
+ From 1f6fcc64179377114b4ecc3b9f63bd5774a64edf Mon Sep 17 00:00:00 2001
+ From: Michael Niedermayer <michael@niedermayer.cc>
+ Date: Sat, 30 Sep 2023 00:51:29 +0200
+-Subject: [PATCH 2/4] avformat/dxa: Adjust order of operations around block
+- align
++Subject: [PATCH] avformat/dxa: Adjust order of operations around block  align
  
- SRC_URI = "${SRC_URI_BASE} \
+ Fixes: 51896/clusterfuzz-testcase-minimized-ffmpeg_dem_DXA_fuzzer-5730576523198464
+ Fixes: signed integer overflow: 2147483566 + 82 cannot be represented in type 'int'
+@@ -22,17 +21,18 @@ Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/libavformat/dxa.c b/libavformat/dxa.c
+-index 16fbb08..53747c8 100644
++index 474b852..b4d9d00 100644
+ --- a/libavformat/dxa.c
+ +++ b/libavformat/dxa.c
+-@@ -120,7 +120,7 @@ static int dxa_read_header(AVFormatContext *s)
+-         }
+-         c->bpc = (fsize + c->frames - 1) / c->frames;
+-         if(ast->codecpar->block_align)
++@@ -122,7 +122,7 @@ static int dxa_read_header(AVFormatContext *s)
++         if(ast->codecpar->block_align) {
++             if (c->bpc > INT_MAX - ast->codecpar->block_align + 1)
++                 return AVERROR_INVALIDDATA;
+ -            c->bpc = ((c->bpc + ast->codecpar->block_align - 1) / ast->codecpar->block_align) * ast->codecpar->block_align;
+ +            c->bpc = ((c->bpc - 1 + ast->codecpar->block_align) / ast->codecpar->block_align) * ast->codecpar->block_align;
++         }
+          c->bytes_left = fsize;
+          c->wavpos = avio_tell(pb);
+-         avio_seek(pb, c->vidpos, SEEK_SET);
+---
++-- 
+ 2.40.0
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
+similarity index 96%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
+index 4b99c0fa21..127552396d 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
+@@ -24,11 +24,6 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
+-           file://0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch \
+-           file://0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch \
+-           file://0001-avcodec-vp3-Add-missing-check-for-av_malloc.patch \
+-           file://0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch \
+-           file://CVE-2022-48434.patch \
+            file://CVE-2024-32230.patch \
+            file://CVE-2023-51793.patch \
+            file://CVE-2023-50008.patch \
+@@ -53,7 +48,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://CVE-2025-25473.patch \
+           "
+ 
+-SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
++SRC_URI[sha256sum] = "04c70c377de233a4b217c2fdf76b19aeb225a287daeb2348bccd978c47b1a1db"
+ 
+ # CVE-2023-39018 issue belongs to ffmpeg-cli-wrapper (Java wrapper around the FFmpeg CLI)
+ # and not ffmepg itself.
 -- 
 2.43.0
 
