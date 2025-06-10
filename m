@@ -1,1046 +1,176 @@
-Return-Path: <philip@balister.org>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA2AC5B552
-	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 15:11:17 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web11.88810.1749567387967914575
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D1BC5B552
+	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 15:13:17 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.57])
+ by mx.groups.io with SMTP id smtpd.web10.89772.1749568389063365211
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 07:56:28 -0700
+ Tue, 10 Jun 2025 08:13:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HyZUN1EN;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: mimoghosh9@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2cc82edcf49so1689697fac.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 07:56:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749567387; x=1750172187; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GkPVtK86EZWX/1mW1mnFm60IDuUUN2zFoliN+4NCjP8=;
-        b=HyZUN1ENAyiChO3qfQZ/jHrg+paPbalmDg6OUFEe0t+KeHe9l3gw7Im6+LyU30ipFf
-         tbGI5gw95Skg6wn8uHqKrNXF/FnHxJ5kI6qoum5vxOtTcipEn773xRBANhEuA5PijPje
-         69FMCyvArW/sD5CvmKfWz+dho569BqN3dMhewzzicJhdtNRzcjKCFCsT9uBf7836VHPn
-         KrDuEfPi9yyOMz5hC0uwLREvJbocXiooNYIAk5ANJFVIgf+/ULdSo6y1CMQeVt9jnVR/
-         z4brAMnEy4lIPNn561C8rlxPv49V9rON3RfJHNusBjyEkaN4xqX/iXlS6gZMLQ68v7Re
-         VcQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749567387; x=1750172187;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GkPVtK86EZWX/1mW1mnFm60IDuUUN2zFoliN+4NCjP8=;
-        b=d8JDst8park+f35W4NmFmGtXIVYTKiDTY0yPhke5qtlepBiBFx+N52dGJluMYv2asp
-         M0VzMD4g21aWCjhuhhxZNpMCX1u7Mhn7gjqePze57dKbuTLb5kESPIUp3tZc4W8ONAMj
-         2msKu+ZooRD8oMyq2chH7sPQuBfVlhsVSJEbMCH761a/KKRQGGy1TQHKGBdrQv5vWWAE
-         lyVulDYtDFGr2P5AqXFWNropWV85WFwgQtowBbR+Lk4HiPIBScwrY+ThxztTOqBuqGsj
-         YTcpcQY4KmrBgRu65rc+HiRymsHLRG+E0GWSXfOPfU4AGTqGL7b4ilnNMpEPHpOErWAe
-         JRxw==
-X-Forwarded-Encrypted: i=1; AJvYcCWNbwJLmvUam2gqVUDEFeXTzTZf4LzgPevd5E1dsxFH40OY6KOUExiR5jrZn9n8n678lVnZCcvCelly9RQYuQAd7Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzpKbpLvh7J5aztXhqPHWq1DvB2sp0eHpyt3yvk0UvYyqdNkwMq
-	t0/n4Ne9TKrrCfY6tHX47sQ/sabcRkzwc+EWnjaN3yIo5UBh1vrewP+Nwmbv75m/GyvT8tIBhAF
-	57+fMw7szMtuhrLkZ+yOs5znOZTHcefg=
-X-Gm-Gg: ASbGncuXCRRJivJqWBfGCPE6YJRJczhjwv5v1w5Y03Na/Op//ujocifiPKdE3gQ4Qdx
-	ZYRRmN9Z7RaQ/nh6t1OqGkiiajdl2pvuXoOd9rLvuq3q+8Qj6CjGraBbngggJlPemcwXzGDZnez
-	KO4BYJkHYg6T+wYUZ9jOHKgvrWsrmpZz101MKPzsBZ0dKzAGzojGODwQ1X7Mj6A88dA23N9JEeM
-	5PRfQ==
-X-Google-Smtp-Source: AGHT+IF7ZayGgT1MEe9AvGDaOYZ6Y6LT5gMnw/nK86HAlibOkeu5tYrxs7EJ/V1doUEtCoOIRuCKSFWbTrbK0IXHVDA=
-X-Received: by 2002:a05:6870:a78d:b0:2e9:1fae:4aef with SMTP id
- 586e51a60fabf-2ea007c18abmr9466513fac.13.1749567386834; Tue, 10 Jun 2025
- 07:56:26 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=ndRZuYGp;
+ spf=pass (domain: cherry.de, ip: 40.107.130.57, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xWO73eN9puIxx6JHLrMc0RDOvGc5ECh3MmLzZ5eXpwxig1jBtwE84uuMyRqOPUskmZJ3aachMyyB6gdrwDbsVq28z1BLVQPkumbE6UcATwm223BzZ5tBbviO4FxQyYUIEpvr+pvRncPqHcE1T7NTY+2rdTMoUm4+45JNorqoozdVHdNEj+QFEehkH7vCyw6JMCv826rwp+NW8O5OyQQfFE87vivvhcZtg6V6YEiq2mkR/2QyG866AFrJ43LoZtHMVAVYLTnJYn8GSXEXUal0ckncnasG17hgFcCU/pOYlBorEI1GEQf+2gc7ruXmsGvUEmHqMwBDTFB1aBv437hf4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yug+vSzFhZoU/T024bLajrXtmg7/FQhjar8x7UfmYB4=;
+ b=RS8o7tTBWA5IRgybzzV/FzN71ijqv0oZbxCF8W8FFOLWKqpbxK4XFxa/NXHsH4wtyzs+9zY2yD1bAApRiWOo5VfXGDRb9/xNOXEJ0/kStPJuV4tR4h0ozPU/uOwEiOFFn2FiEnW10FomM7FY30jdJJWh/O6hH/rRrWmmk7oQCTbzhFm5Tr1rz2jrJLaxCJDkKxNv1J7XSBIQTmgraReuN400t064xM5XCS4snmlW1r7nZzuBzujhe588hOeblrAxkr6yhxPYVpMBtsoaT3HyIjxQb2Heymp1cXuJDUMH3s0cyL0dwP3hk7MOexP4ZZWAFaGnQ+Lw6XZsnjlcTYZHhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yug+vSzFhZoU/T024bLajrXtmg7/FQhjar8x7UfmYB4=;
+ b=ndRZuYGpdKpQb/PoUBtQJFIyu5dRG14EsqZbkseNqa+xwCGnj5h/xxk9io81Tmn4x8IId9QwPfP3PZ0UVTVdF6yCrhM1+W4vbP+o2W/EEl1oRPQD6PUalHO0bhJ7PbujJJuDtNOAHjzGgQ01xox4HeydxZUj12T04mqY0p6vewQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by DU4PR04MB10744.eurprd04.prod.outlook.com (2603:10a6:10:590::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.29; Tue, 10 Jun
+ 2025 15:13:04 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a%5]) with mapi id 15.20.8835.018; Tue, 10 Jun 2025
+ 15:13:04 +0000
+Message-ID: <26b17dde-918b-4af7-ac6c-7dc80c5e9cbe@cherry.de>
+Date: Tue, 10 Jun 2025 17:13:03 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [yocto] Yocto Project Status 10 June. 2025 (WW23)
+To: yocto@lists.yoctoproject.org, mimoghosh9@gmail.com, skandigraun@gmail.com
+Cc: sjolley.yp.pm@gmail.com, openembedded-core@lists.openembedded.org
 References: <CAK5yBb-PRoA1biG6PA_hX_RndM9QqG7G_7ikYFUZE3goEaP-_Q@mail.gmail.com>
  <8ce48df3-b8a2-4b95-96df-bf0fc1ac1eaa@gmail.com>
-In-Reply-To: <8ce48df3-b8a2-4b95-96df-bf0fc1ac1eaa@gmail.com>
-From: Mimo Ghosh <mimoghosh9@gmail.com>
-Date: Tue, 10 Jun 2025 20:26:13 +0530
-X-Gm-Features: AX0GCFtzx2zVy5ZTuAcZSlb9oMZjf8bu79OH9OrfuHt04iaM0-eetxOBRJXQjxA
-Message-ID: <CAOKCUoUsLb_u1KmP3sWOx5q_cOmj62W6sx+BJVp6TbGV4Mf1kA@mail.gmail.com>
-Subject: Re: [yocto] Yocto Project Status 10 June. 2025 (WW23)
-To: yocto@lists.yoctoproject.org, skandigraun@gmail.com
-Cc: sjolley.yp.pm@gmail.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000009a5d6e063738e67e"
+ <CAOKCUoUsLb_u1KmP3sWOx5q_cOmj62W6sx+BJVp6TbGV4Mf1kA@mail.gmail.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <CAOKCUoUsLb_u1KmP3sWOx5q_cOmj62W6sx+BJVp6TbGV4Mf1kA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CWLP123CA0177.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:19b::14) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|DU4PR04MB10744:EE_
+X-MS-Office365-Filtering-Correlation-Id: a07d4144-47d0-42b2-2fc0-08dda8314c4f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|4022899009|366016|1800799024|376014|556444022;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?NmIvbHZDeitrYmZUU0pMdkV6RDErdUxacjBqdG80T0lDN0FDcllqbFV5NmZC?=
+ =?utf-8?B?aEVRSW9sQXRod0JXdEpBMHFZWnlWZnJQcUY0eGxqeldBWVZNMmlYWkNRQU1W?=
+ =?utf-8?B?MnBzelFTcVNkTk5hcWkrYUVxbk15alBKK1JBWGhnSTMxSnNVcG0xUDZMdXVn?=
+ =?utf-8?B?UzVNYzZxeXJndGJnU1pGODgwRHFmSjVsVHIzVHlpdnNRdUpKYzhZbkp4MTZO?=
+ =?utf-8?B?aE1zOHVCbmJ6a0M2dE9XUEk2Z1lQSkZ1WnNBaFZaTTB6eWZ5aUhlMDBCOWxp?=
+ =?utf-8?B?dHd6MjJuVEZxMzdualV0Vi9zaU5DM2ZnQ0U5MzJjOFlwWUhaWkFOSFl3dTJn?=
+ =?utf-8?B?ZGk0OHBPb2Fnbk5EbWhxRDNGSnZDbGVxRUZ0MmtXL0k2OGo0aVc5SVhGSnlr?=
+ =?utf-8?B?b3Zub1NlTmFRaUpJcE1rRzR4bXl2VjU2bW02cHdueWx4dUlkcjlEbEM2am5S?=
+ =?utf-8?B?akg2S0xaL2xoR1dXWGZIdTBGTEt5c08wSG5XbUV1OWtuUUx2Ymorb0svSzBR?=
+ =?utf-8?B?OHl5L3JOSUZ6Ni9Kb1Mxekgzakp3ang2eHFsQ3dJNFhqZkJnNWptVUJ0eHhD?=
+ =?utf-8?B?bnVJL3BkOGZoQmd6K20rbmZwN3RHc1ZRdWVDeVl2V2cyb3FTTW8razlsQmZT?=
+ =?utf-8?B?WDg0Rm5yb1RGYkFVNGNiY2xFb0w0UXFrNyswalJnbVpINSsrRStiZi9HWHJs?=
+ =?utf-8?B?YkwyMm5wYVZ0RnFWZ3JjRXlMZ0xXWUZIWnY5TTZQQTVuejNHUjRLVXRFU2Fv?=
+ =?utf-8?B?R2NkOElIUTM0OFFRUHZEMjkrb05DZW9mb2Zja21tS2cyT0pLWHAwRy9oNGNV?=
+ =?utf-8?B?VC9qZFF4d29oSXh6TmZiZDFReTBUektYQkVhdWZFSi9Vd0MrMVRIaElhcTFQ?=
+ =?utf-8?B?WExDWE5hZk01WkNlYm9zR3dNSFBVejdCdlNkVmFjY1NGcnBpNEhpZGM2dllQ?=
+ =?utf-8?B?RGRUcnl2Z0M5eU9UQlhzdytkdjJ3RXd0NnUvVjVTenQ0SFA0bC9mUm1sc1p6?=
+ =?utf-8?B?QmRQTC9WK2xBVEdTakpvVzJiYTZ0amJWVTFpaHhjWjlRSWpydVpSYkJac1BF?=
+ =?utf-8?B?M3l2ZUEzWlkxOGVoaXloeFpJTk5nclVoQldub0FRSVQ5bHYrSjlvWUhsc3dY?=
+ =?utf-8?B?dWVJdU1qQklnMmhIdHE0NktBZjdjTFJGSFZUQTdWaDZBZ09LbG9LNmdTRjF2?=
+ =?utf-8?B?M25oYk9RU0o1b3BPRFdGWWRLOE94cytITnJqWVQ2d2ozOHQ5ZlU4akFJNUF1?=
+ =?utf-8?B?eGg2ZlBXb2xZRndOdTlnb2RTem5xUkFZTkV5MTFCSkdXNXBQZVVpYlNEczRv?=
+ =?utf-8?B?dDVkbURVMEw4RjB0VzM5Z3BHWmtoRWhDWjBMcGM1ZUtZTzc3elBZYUw1K2tj?=
+ =?utf-8?B?eXEyZGx0R2gzbUdHMjI0UVJBckVTYXEyYXpWRHV2ZGxwVVRHcFNFallWbkZT?=
+ =?utf-8?B?T0RZUW52Rm1pZENpMUNhUHdXU0ZKK1NZN0ZxNEtpT1VFRDNaZXdFd3hpTzBE?=
+ =?utf-8?B?SUZUWEplRE0raUJsZlJUeTBBMzZDTVhVV0FhaFRwVGZSNks3QXBCV3NaTWNM?=
+ =?utf-8?B?K0Z3YTZGOWkwUkp1eE8xdzBkOUVzT3V3Nk1MOTh5Y1VyTXduWDhUVlpTWEla?=
+ =?utf-8?B?by85SmQyNkt0MlFJQVlia3RxdzdKUm4zVGRNeU5JZGI4Y1FiamlvbEZSa1I1?=
+ =?utf-8?B?SWt3YncvV2owcm9HeUY1VUplSmtreTQ5djUvWjY0b1R0QlMxeXBIaG44R3Uw?=
+ =?utf-8?B?TEllZUtmcFdzaDAxTktpdjN2bkNQbE5TOWNKZVRnaGNlZkZUQnpsaE5KSGNx?=
+ =?utf-8?B?R016bzVvQVdqMTVTdkFiZ09ka1NkdTVkT3dpT09EVTJDRE9lRHFucGx2U3cw?=
+ =?utf-8?B?MTAwNFFNVmgydjZESWJhNG9tODNvVnlkVFU5K1NwY1h4RzhsNXJHUlB3d2p3?=
+ =?utf-8?B?U3VqT2tXNGVJTEZ1eWI0Wnova3EvbFRIVzBwUFFYRWEwNGtPV0pucWNTbnlh?=
+ =?utf-8?B?Z0FsWVlIdXZBPT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(366016)(1800799024)(376014)(556444022);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?SEhWNE1KeFRPeUtvT3o4WUo2TzNrRkZDVmlDS0cxeDFCN0dkNkh0bmhmdW9a?=
+ =?utf-8?B?eXg4ZTVtNGl1VWxud1hlS09oL0N4Uk50OHFtZHA2WXZLSTlpZ0VtVlV1ejR5?=
+ =?utf-8?B?RjNvQ3ZhVjA1QlBpNmhDNDRPYTAweTd5K0wrQzZ6MWRVTWFZREc4NklFdGlZ?=
+ =?utf-8?B?V21wVUdmZnNoNHRxcTRQZ0g4TG9tVDFmNm9nUHhWdk1lZDFseWpHdW0yZloy?=
+ =?utf-8?B?MjBDUVBYeXBLei94ZFFCdWtmdkVjYkkzS2xEVmx6Q0JXdHVrMlRWRC9LRFdL?=
+ =?utf-8?B?c255UkJPVVBvcGJNNHZzOThWL2FlbEZBWEFWZUVvaTJzLzBQU3FlcnI3RFpS?=
+ =?utf-8?B?cHdvTWgvWTlxQkRJM1JWNkR1QWxQUU8zbVNNTXVBc01idEFORlI4NmxqV3pw?=
+ =?utf-8?B?clA3WUhlM25tVUJTcEhxamhHU2RSYUdGWFhaM1NONlJtam1uNUZQaG1JWENl?=
+ =?utf-8?B?Q2ZXNjJqdzlWdm1WaWh0ZDU2YlNEcXhpOElDTVRGbExOY1Zhd3NOY05KYURP?=
+ =?utf-8?B?UVRDdC9jRHBQTUxSaGQvOEoxbCszeVZmSVd1N3ZUajM4RVNibU1Hay9Tdlc0?=
+ =?utf-8?B?OEFyREZkeVRwanZYVWs2RDAxeGdZalZaaldOVjAyMTkvN1VrNW5EU2hCV1o3?=
+ =?utf-8?B?Nm05RzZJaWtHVFNtUEFwdFZGLzd5OEVuZUE2Nm1GREpNejRMazE2TGFGUzE3?=
+ =?utf-8?B?L3lZUExhdC9Zd29xTmZvbnJ4bnMvV2JmempYa2tkTmp4bFh6NE90TXFtUGVM?=
+ =?utf-8?B?QXRvMXZieDE4S1Q4SjBYcThsdVJGVXJZeUhNM2ZibVV1bjNRVFVyTUsrUE12?=
+ =?utf-8?B?dUVySEhHMGsyYVVhbEs1NEJqbVByNTJIZCtCM3ZJRFUycGRRNGFLenE2RU80?=
+ =?utf-8?B?OEF0Ym13QmJocHBteVhPYzB6a3JqY0doS0N5aTF5ZVUyS2h1ZmRFdFdrYkx0?=
+ =?utf-8?B?TjlHY3pCMFkraDYxODE2clE1N2MxY0hWYVVPbFcvVUJTd2duZk4rbHcyd1Nq?=
+ =?utf-8?B?UlE4N3VkeWlCc1ppdGhtUWpvNkRJTjdXYWR0ekdjVjQrWnRoYm5mU0xRUk52?=
+ =?utf-8?B?Z01IK1FYVTNkWFZxc3luUEpsRkFRSHhac2licHlHMnFCUGpoWUdIYjNZN1Vu?=
+ =?utf-8?B?Ump1ZjMybGQwU1IyWVUwMS9qQTM1aTJlT1VWQVhPaU1rL1B4VHkyWU9rQ0Ry?=
+ =?utf-8?B?WDUyWmpyL0hWaVN2cXBoQ0loUGxiRk9tZnpsNExrV2NsaVpXbmVOaXE3OUR4?=
+ =?utf-8?B?VHRTZ1pLUzJVNERsNXJtWExaajE1SGE0TmlhWnBlOE5YSzV6Kzl6RUpUc012?=
+ =?utf-8?B?aWFYM2p3NjROZ3hXL3ErNllqaWdBS2Nnbm5yeit6eE56Ymxaby9qVW9uaFNP?=
+ =?utf-8?B?UkNGZWhySDh2cmFra3FaS2Z4TVlNWXIvYi9TcWM5clJlU2JybG9BdmFnSEpP?=
+ =?utf-8?B?WHFmSHR6WExqejZCR3k1a2doclk3eDFycGFvbjdWb3ROM1RPNVhoT3Y2b3hB?=
+ =?utf-8?B?UWFxUWN6UnRad2QzWllmWEw3V1AwYUJYcTdINFQyWVJFcW5VYjMwZkI5cnFT?=
+ =?utf-8?B?MEovN3d1OUJTYjBxWjZpRlB6ZDVMYWYyaEJmd3QvUGZzbzkwV1lDTHpZTGJr?=
+ =?utf-8?B?TFh0a2dlMDJvWkRtLzBSYzlIYWpPelVmaGxTVTRoQTN6QVhZc21CQWpkajdJ?=
+ =?utf-8?B?cHpVblhVMzZlMllhR3VEY3dwZlVxY3lqQXZBaWgweTJWbVY4TzBGdVFDc0JB?=
+ =?utf-8?B?VEpKdFJmK0FrbXhJTi8xVnJKNmZyNzJnOUxCSVpCaXRpeFJadHhWQ25uWnVX?=
+ =?utf-8?B?MDZURlp3bE1KQ1prdWN0dkZnQmR4TTUva0ZpK3NMYmlja0ZWRWMzdk1scGNk?=
+ =?utf-8?B?dGhxdzBxUEpJTmFvclZiL0J6RlZtNkdXemFUeXBLVkpoYWdUYVkxSkhvQ3NS?=
+ =?utf-8?B?Vm1pU2NwRVN5Q05uV2hmN1YzSVI2Mk5oTGtEQ2gyUDAzY3FTNURwamJROHpK?=
+ =?utf-8?B?Z2s2VWxiOWlVTmEwL0xkd2pCaFBWRzV5cmdhdDA1QWxoRnBvamw4SVdvL3FX?=
+ =?utf-8?B?d2M1SjQ3NzJwK2s0RmR1ZElNKzkvT294alllK3FGK3hZWHdqSnRYemhCRVha?=
+ =?utf-8?B?UTRLRk4xVU9NdGIvWGxBalZaVzJISHcyYVhkeE5JRHdmUUludXUwRkJhSFU1?=
+ =?utf-8?B?bWc9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: a07d4144-47d0-42b2-2fc0-08dda8314c4f
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2025 15:13:04.4531
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZdEwvWf4u+LqWWD+rWXhKrjTMXB+F0U/WbBlVANYD+oi0psx8RdhHiqEbie23cpp1fG88GJrUwLkC5CTQumExinIVxZs5CP2AMvgdv8VAjQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10744
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 15:11:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218358
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 15:13:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218359
 
---0000000000009a5d6e063738e67e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Mimo,
 
-Why am getting those mail not sure. Which is not related to my queries.
-Unexpectedly getting those. I was registered to get help. But it is
-diverting to another way... Fuck of those silly sitts thing..... looking
-for unsubscribe....
+On 6/10/25 4:56 PM, Mimo Ghosh via lists.yoctoproject.org wrote:
+> You don't often get email from mimoghosh9=gmail.com@lists.yoctoproject.org. Learn why this is important<https://aka.ms/LearnAboutSenderIdentification>
+> Why am getting those mail not sure. Which is not related to my queries.
+> Unexpectedly getting those. I was registered to get help. But it is diverting to another way... Fuck of those silly sitts thing..... looking for unsubscribe....
+> 
 
-On Tue, 10 Jun 2025, 20:16 Gyorgy Sarvari via lists.yoctoproject.org,
-<skandigraun=3Dgmail.com@lists.yoctoproject.org> wrote:
+You need to be subscribed to post but you can disable receiving any mail 
+if you want via settings on lists.openembedded.org
 
-> On 6/10/25 16:40, Stephen Jolley via lists.yoctoproject.org wrote:
-> >
-> > Current Dev Position: YP 5.3 M1
-> >
-> > Next Deadline: YP 5.3 M1 Build date 2025-06-09
-> >
-> >
-> > Next Team Meetings:
-> >
-> >  *
-> >
-> >     Bug Triage meeting - Thursday June 12th 7:30 am PDT
-> >     (https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09
-> >     <https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09=
->)
-> >
-> >  *
-> >
-> >     Weekly Project Engineering Sync  - Tuesday June 10th 8 am PDT
-> >     (https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
-> >     <https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09=
->)
-> >     <https://zoom.us/j/990892712>
-> >
-> >  *
-> >
-> >     Yocto Project Patch Review - Thursday June 12th 10am GMT and
-> >     Monday June 16th 9am PDT
-> >     (https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4E=
-b.1
-> >     <https://zoom.us/j/97762397148?pwd=3D1xkiC9hp9SjEonaTaONwTb6iWry4Eb=
-.1
-> >)
-> >
-> >
-> > Project data dashboard: https://dashboard.yoctoproject.org/
-> > <https://dashboard.yoctoproject.org/>
-> >
-> >
-> > Key Status/Updates:
-> >
-> >  *
-> >
-> >     YP 4.0.27 and YP 5.2.1 were released.
-> >
-> >  *
-> >
-> >     YP 5.0.10 is due to be released.
-> >
-> >  *
-> >
-> >     YP 5.3 M1 is now due to build
-> >
-> >  *
-> >
-> >     Patches continue to merge into master for upgrades and fixes.
-> >
-> >  *
-> >
-> >     The clang build time and size increases continue to cause
-> >     significant concern.
-> >
->
-> Is there more info available on this somewhere? I'd be interested if
-> there are any concrete recipes/configurations where this is showing
-> prominently and could be used as a benchmark. Or is it more like an
-> overall "lot of small things add up to a big one" issue?
->
-> >  *
-> >
-> >     Patches for changing the workdir layout for unpack have been
-> >     proposed with potentially significant impact for git based
-> >     recipes. Feedback/review is welcome.
-> >
-> >  *
-> >
-> >     Network access outside of do_fetch now causes yocto-check-layer to
-> >     fail which is a new change/requirement for Yocto Compatible v3. We
-> >     need to work out how to handle this for go recipes in particular
-> >     in meta-openembedded.
-> >
-> >  *
-> >
-> >     Patches were sent out for a proposed toolchain selection mechanism
-> >     implementation, feedback/review is welcome.
-> >
-> >  *
-> >
-> >     Icecc.bbclass was removed.
-> >
-> >  *
-> >
-> >     lz4 was removed from HOSTTOOLS as it was unneeded.
-> >
-> >  *
-> >
-> >     Fitimage restructuring was merged, thanks Adrian.
-> >
-> >  *
-> >
-> >     The project has switched to a different CDN setup with a different
-> >     URL. This is proving reliable on the autobuilder so far, huge
-> >     thanks to Michael Halstead for working on this.
-> >
-> >
-> > Ways to contribute:
-> >
-> >  *
-> >
-> >     As people are likely aware, the project has a number of components
-> >     which are either unmaintained, or have people with little to no
-> >     time trying to keep them alive. These components include: devtool,
-> >     toaster, wic, oeqa, autobuilder, CROPs containers, pseudo and
-> >     more. Many have open bugs. Help is welcome in trying to better
-> >     look after these components!
-> >
-> >  *
-> >
-> >     There is an issue open upstream with the openssl project related
-> >     to making path relocation of openssl easier (as used in our
-> >     buildtools tarball and SDK). We=E2=80=99d love assistance in moving=
- this
-> >     forward and getting some kind of upstream feature merged to make
-> >     this easier: https://github.com/openssl/openssl/pull/19260
-> >     <https://github.com/openssl/openssl/pull/19260>
-> >
-> >  *
-> >
-> >     There are bugs identified as possible for newcomers to the
-> >     project:
-> >     https://dashboard.yoctoproject.org/bugtriage/#newcomer-container
-> >     <https://dashboard.yoctoproject.org/bugtriage/#newcomer-container>
-> >
-> >  *
-> >
-> >     There are bugs that are currently unassigned for YP 5.3. See:
-> >
-> https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium+_5.3_Unassigned_Enha=
-ncements/Bugs
-> >     <
-> https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium+_5.3_Unassigned_Enha=
-ncements/Bugs
-> >
-> >
-> >  *
-> >
-> >     We=E2=80=99d welcome new maintainers for recipes in OE-Core. Please=
- see
-> >     the list at:
-> >
-> http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/m=
-aintainers.inc
-> >     <
-> http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/m=
-aintainers.inc
-> >and
-> >     discuss with the existing maintainer, or ask on the OE-Core
-> >     mailing list. We will likely move a chunk of these to =E2=80=9CUnas=
-signed=E2=80=9D
-> >     soon to help facilitate this.
-> >
-> >  *
-> >
-> >     Help is very much welcome in trying to resolve our autobuilder
-> >     intermittent issues. You can see the list of failures we=E2=80=99re
-> >     continuing to see by searching for the =E2=80=9CAB-INT=E2=80=9D tag=
- in bugzilla:
-> >     https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-INT
-> >     <https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-INT=
->.
-> >
-> >  *
-> >
-> >     Help us resolve CVE issues: CVE metrics
-> >     <https://autobuilder.yocto.io/pub/non-release/patchmetrics/>
-> >
-> >  *
-> >
-> >     We have a growing number of bugs in bugzilla, any help with them
-> >     is appreciated.
-> >
-> >  *
-> >
-> >     Regarding bugs, even if you can=E2=80=99t fix a bug, submitting a f=
-ailing
-> >     test case that can reproduce the issue significantly improves the
-> >     chances it might get fixed.
-> >
-> >  *
-> >
-> >     Further help on optimizing build disk usage would be most welcome.
-> >
-> >  *
-> >
-> >     Ongoing project development plans are being developed in this
-> >     document:
-> >
-> https://docs.google.com/document/d/1xsnN_HcaMhqg6Dn1P_19AnumDaUMQSdFZ_I4r=
-jD830A/edit?usp=3Dsharing
-> >     <
-> https://docs.google.com/document/d/1xsnN_HcaMhqg6Dn1P_19AnumDaUMQSdFZ_I4r=
-jD830A/edit?usp=3Dsharing
-> >
-> >
-> > We need to continue to develop this as it will allow us to potentially
-> > find ways to fund specific work items.
-> >
-> >
-> > Tracking Metrics:
-> >
-> >  *
-> >
-> >     WDD 2740 (last week 2778)
-> >     (https://wiki.yoctoproject.org/charts/combo.html
-> >     <https://wiki.yoctoproject.org/charts/combo.html>)
-> >
-> >  *
-> >
-> >     OE-Core/Poky Patch Metrics
-> >
-> >      o
-> >
-> >         Total patches found: 1089 (last week 1089)
-> >
-> >      o
-> >
-> >         Patches in the Pending State: 157 (14%) [last week 157 (14%)]
-> >
-> >      o
-> >
-> >         https://autobuilder.yocto.io/pub/non-release/patchmetrics/
-> >         <https://autobuilder.yocto.io/pub/non-release/patchmetrics/>
-> >
-> >
-> > YP 5.3 Milestone Dates:
-> >
-> >  *
-> >
-> >     YP 5.3 M1 Build Date 2025-06-09
-> >
-> >  *
-> >
-> >     YP 5.3 M1 Release Date 2025-06-20
-> >
-> >  *
-> >
-> >     YP 5.3 M2 Build Date 2025-07-21
-> >
-> >  *
-> >
-> >     YP 5.3 M2 Release Date 2025-08-01
-> >
-> >  *
-> >
-> >     YP 5.3 M3 Build Date 2025-09-01
-> >
-> >  *
-> >
-> >     YP 5.3 M3 Release Date 2025-09-12
-> >
-> >  *
-> >
-> >     YP 5.3 M4 Build Date 2025-10-06
-> >
-> >  *
-> >
-> >     YP 5.3 M4 Release Date 2025-10-31
-> >
-> >
-> > Upcoming dot releases:.
-> >
-> >  *
-> >
-> >     YP 4.0.27 was released.
-> >
-> >  *
-> >
-> >     YP 5.2.1 was released.
-> >
-> >  *
-> >
-> >     YP 5.0.10  is ready for release.
-> >
-> >  *
-> >
-> >     YP 4.0.28 Build Date 2025-06-30
-> >
-> >  *
-> >
-> >     YP 4.0.28 Release Date 2025-07-11
-> >
-> >  *
-> >
-> >     YP 5.2.2 Build Date 2025-07-07
-> >
-> >  *
-> >
-> >     YP 5.2.2 Release Date 2025-07-18
-> >
-> >  *
-> >
-> >     YP 5.0.11 Build Date 2025-07-14
-> >
-> >  *
-> >
-> >     YP 5.0.11 Release Date 2025-07-25
-> >
-> >  *
-> >
-> >     YP 4.0.29 Build Date 2025-08-11
-> >
-> >  *
-> >
-> >     YP 4.0.29 Release Date 2025-08-25
-> >
-> >  *
-> >
-> >     YP 5.2.3 Build Date 2025-08-18
-> >
-> >  *
-> >
-> >     YP 5.2.3 Release Date 2025-08-29
-> >
-> >  *
-> >
-> >     YP 5.0.12 Build Date 2025-08-25
-> >
-> >  *
-> >
-> >     YP 5.0.12 Release Date 2025-09-05
-> >
-> >  *
-> >
-> >     YP 4.0.30 Build Date 2025-09-22
-> >
-> >  *
-> >
-> >     YP 4.0.30 Release Date 2025-10-03
-> >
-> >  *
-> >
-> >     YP 5.2.4 Build Date 2025-09-29
-> >
-> >  *
-> >
-> >     YP 5.2.4 Release Date 2025-10-10
-> >
-> >  *
-> >
-> >     YP 5.0.13 Build Date 2025-10-13
-> >
-> >  *
-> >
-> >     YP 5.0.13 Release Date 2025-10-24
-> >
-> >  *
-> >
-> >     YP 4.0.31 Build Date 2025-11-03
-> >
-> >  *
-> >
-> >     YP 4.031 Release Date 2025-11-14
-> >
-> >  *
-> >
-> >     YP 5.0.14 Build Date 2025-11-17
-> >
-> >  *
-> >
-> >     YP 5.0.14 Release Date 2025-11-28
-> >
-> >  *
-> >
-> >     YP 4.0.32 Build Date 2025-12-15
-> >
-> >  *
-> >
-> >     YP 4.0.32 Release Date 2025-12-24
-> >
-> >  *
-> >
-> >     YP 5.0.15 Build Date 2026-01-05
-> >
-> >  *
-> >
-> >     YP 5.0.15 Release Date 2026-01-16
-> >
-> >
-> > The Yocto Project=E2=80=99s technical governance is through its Technic=
-al
-> > Steering Committee, more information is available at:
-> >
-> > https://wiki.yoctoproject.org/wiki/TSC
-> > <https://wiki.yoctoproject.org/wiki/TSC>
-> >
-> >
-> > The Status reports are now stored on the wiki at:
-> > https://wiki.yoctoproject.org/wiki/Weekly_Status
-> > <https://wiki.yoctoproject.org/wiki/Weekly_Status>
-> >
-> >
-> > [If anyone has suggestions for other information you=E2=80=99d like to =
-see on
-> > this weekly status update, let us know!]
-> >
-> >
-> > Thanks,
-> >
-> >
-> >
-> > */Stephen K. Jolley/*
-> >
-> > *Yocto Project Program Manager*
-> >
-> > (    *Cell*:                (208) 244-4460
-> >
-> > * *Email*:                 _s
-> > <mailto:stephen.k.jolley@intel.com>jolley.yp.pm@gmail.com_
-> >
-> >
-> >
-> >
->
->
->=20
->
->
+Once logged in, go to the group you want to modify (Your Groups, top 
+left) then you'll see a Subscription menu on the left navigation panel, 
+click to expand, then Settings. In there you'll have an Email Delivery 
+section, just select No Email for example.
 
---0000000000009a5d6e063738e67e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Why am getting those mail not sure. Which is not related =
-to my queries.=C2=A0<div dir=3D"auto">Unexpectedly getting those. I was reg=
-istered to get help. But it is diverting to another way... Fuck of those si=
-lly sitts thing..... looking for unsubscribe....</div></div><br><div class=
-=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Tue, 10 Jun 2025, 20:16 Gyorgy Sarvari via <a href=3D"http://lists.yoc=
-toproject.org">lists.yoctoproject.org</a>, &lt;skandigraun=3D<a href=3D"mai=
-lto:gmail.com@lists.yoctoproject.org">gmail.com@lists.yoctoproject.org</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">On 6/10/25 16:40, Stephe=
-n Jolley via <a href=3D"http://lists.yoctoproject.org" rel=3D"noreferrer no=
-referrer" target=3D"_blank">lists.yoctoproject.org</a> wrote:<br>
-&gt;<br>
-&gt; Current Dev Position: YP 5.3 M1<br>
-&gt;<br>
-&gt; Next Deadline: YP 5.3 M1 Build date 2025-06-09<br>
-&gt;<br>
-&gt;<br>
-&gt; Next Team Meetings:<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Bug Triage meeting - Thursday June 12th 7:30 am PDT=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0(<a href=3D"https://zoom.us/j/454367603?pwd=3DZGxoa=
-2ZXL3FkM3Y0bFd5aVpHVVZ6dz09" rel=3D"noreferrer noreferrer" target=3D"_blank=
-">https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</a><br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://zoom.us/j/454367603?pwd=3DZG=
-xoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</a>=
-&gt;)<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Weekly Project Engineering Sync=C2=A0 - Tuesday Jun=
-e 10th 8 am PDT<br>
-&gt;=C2=A0 =C2=A0 =C2=A0(<a href=3D"https://zoom.us/j/990892712?pwd=3DcHU1M=
-jhoM2x6ck81bkcrYjRrcmJsUT09" rel=3D"noreferrer noreferrer" target=3D"_blank=
-">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a><br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://zoom.us/j/990892712?pwd=3DcH=
-U1MjhoM2x6ck81bkcrYjRrcmJsUT09" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a>=
-&gt;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://zoom.us/j/990892712" rel=3D"=
-noreferrer noreferrer" target=3D"_blank">https://zoom.us/j/990892712</a>&gt=
-;<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Yocto Project Patch Review - Thursday June 12th 10a=
-m GMT and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Monday June 16th 9am PDT<br>
-&gt;=C2=A0 =C2=A0 =C2=A0(<a href=3D"https://zoom.us/j/97762397148?pwd=3D1xk=
-0iC9hp9SjEonaTaONwTb6iWry4Eb.1" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1<=
-/a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://zoom.us/j/97762397148?pwd=3D=
-1xkiC9hp9SjEonaTaONwTb6iWry4Eb.1" rel=3D"noreferrer noreferrer" target=3D"_=
-blank">https://zoom.us/j/97762397148?pwd=3D1xkiC9hp9SjEonaTaONwTb6iWry4Eb.1=
-</a>&gt;)<br>
-&gt;<br>
-&gt;<br>
-&gt; Project data dashboard: <a href=3D"https://dashboard.yoctoproject.org/=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">https://dashboard.yoctopr=
-oject.org/</a><br>
-&gt; &lt;<a href=3D"https://dashboard.yoctoproject.org/" rel=3D"noreferrer =
-noreferrer" target=3D"_blank">https://dashboard.yoctoproject.org/</a>&gt;=
-=C2=A0<br>
-&gt;<br>
-&gt;<br>
-&gt; Key Status/Updates:<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.27 and YP 5.2.1 were released.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.10 is due to be released.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.3 M1 is now due to build<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Patches continue to merge into master for upgrades =
-and fixes.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0The clang build time and size increases continue to=
- cause<br>
-&gt;=C2=A0 =C2=A0 =C2=A0significant concern.<br>
-&gt;<br>
-<br>
-Is there more info available on this somewhere? I&#39;d be interested if<br=
->
-there are any concrete recipes/configurations where this is showing<br>
-prominently and could be used as a benchmark. Or is it more like an<br>
-overall &quot;lot of small things add up to a big one&quot; issue?<br>
-<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Patches for changing the workdir layout for unpack =
-have been<br>
-&gt;=C2=A0 =C2=A0 =C2=A0proposed with potentially significant impact for gi=
-t based<br>
-&gt;=C2=A0 =C2=A0 =C2=A0recipes. Feedback/review is welcome.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Network access outside of do_fetch now causes yocto=
--check-layer to<br>
-&gt;=C2=A0 =C2=A0 =C2=A0fail which is a new change/requirement for Yocto Co=
-mpatible v3. We<br>
-&gt;=C2=A0 =C2=A0 =C2=A0need to work out how to handle this for go recipes =
-in particular<br>
-&gt;=C2=A0 =C2=A0 =C2=A0in meta-openembedded.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Patches were sent out for a proposed toolchain sele=
-ction mechanism<br>
-&gt;=C2=A0 =C2=A0 =C2=A0implementation, feedback/review is welcome.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Icecc.bbclass was removed.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0lz4 was removed from HOSTTOOLS as it was unneeded.<=
-br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Fitimage restructuring was merged, thanks Adrian.<b=
-r>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0The project has switched to a different CDN setup w=
-ith a different<br>
-&gt;=C2=A0 =C2=A0 =C2=A0URL. This is proving reliable on the autobuilder so=
- far, huge<br>
-&gt;=C2=A0 =C2=A0 =C2=A0thanks to Michael Halstead for working on this.<br>
-&gt;<br>
-&gt;<br>
-&gt; Ways to contribute:<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0As people are likely aware, the project has a numbe=
-r of components<br>
-&gt;=C2=A0 =C2=A0 =C2=A0which are either unmaintained, or have people with =
-little to no<br>
-&gt;=C2=A0 =C2=A0 =C2=A0time trying to keep them alive. These components in=
-clude: devtool,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0toaster, wic, oeqa, autobuilder, CROPs containers, =
-pseudo and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0more. Many have open bugs. Help is welcome in tryin=
-g to better<br>
-&gt;=C2=A0 =C2=A0 =C2=A0look after these components!<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0There is an issue open upstream with the openssl pr=
-oject related<br>
-&gt;=C2=A0 =C2=A0 =C2=A0to making path relocation of openssl easier (as use=
-d in our<br>
-&gt;=C2=A0 =C2=A0 =C2=A0buildtools tarball and SDK). We=E2=80=99d love assi=
-stance in moving this<br>
-&gt;=C2=A0 =C2=A0 =C2=A0forward and getting some kind of upstream feature m=
-erged to make<br>
-&gt;=C2=A0 =C2=A0 =C2=A0this easier: <a href=3D"https://github.com/openssl/=
-openssl/pull/19260" rel=3D"noreferrer noreferrer" target=3D"_blank">https:/=
-/github.com/openssl/openssl/pull/19260</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://github.com/openssl/openssl/p=
-ull/19260" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.c=
-om/openssl/openssl/pull/19260</a>&gt;<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0There are bugs identified as possible for newcomers=
- to the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0project:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://dashboard.yoctoproject.org/bugtr=
-iage/#newcomer-container" rel=3D"noreferrer noreferrer" target=3D"_blank">h=
-ttps://dashboard.yoctoproject.org/bugtriage/#newcomer-container</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://dashboard.yoctoproject.org/b=
-ugtriage/#newcomer-container" rel=3D"noreferrer noreferrer" target=3D"_blan=
-k">https://dashboard.yoctoproject.org/bugtriage/#newcomer-container</a>&gt;=
-<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0There are bugs that are currently unassigned for YP=
- 5.3. See:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://wiki.yoctoproject.org/wiki/Bug_T=
-riage#Medium+_5.3_Unassigned_Enhancements/Bugs" rel=3D"noreferrer noreferre=
-r" target=3D"_blank">https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium+_=
-5.3_Unassigned_Enhancements/Bugs</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://wiki.yoctoproject.org/wiki/B=
-ug_Triage#Medium+_5.3_Unassigned_Enhancements/Bugs" rel=3D"noreferrer noref=
-errer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/Bug_Triage#Medi=
-um+_5.3_Unassigned_Enhancements/Bugs</a>&gt;<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0We=E2=80=99d welcome new maintainers for recipes in=
- OE-Core. Please see<br>
-&gt;=C2=A0 =C2=A0 =C2=A0the list at:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/cgit.cgi/pok=
-y/tree/meta/conf/distro/include/maintainers.inc" rel=3D"noreferrer noreferr=
-er" target=3D"_blank">http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/c=
-onf/distro/include/maintainers.inc</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://git.yoctoproject.org/cgit.cgi=
-/poky/tree/meta/conf/distro/include/maintainers.inc" rel=3D"noreferrer nore=
-ferrer" target=3D"_blank">http://git.yoctoproject.org/cgit.cgi/poky/tree/me=
-ta/conf/distro/include/maintainers.inc</a>&gt;and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0discuss with the existing maintainer, or ask on the=
- OE-Core<br>
-&gt;=C2=A0 =C2=A0 =C2=A0mailing list. We will likely move a chunk of these =
-to =E2=80=9CUnassigned=E2=80=9D<br>
-&gt;=C2=A0 =C2=A0 =C2=A0soon to help facilitate this.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Help is very much welcome in trying to resolve our =
-autobuilder<br>
-&gt;=C2=A0 =C2=A0 =C2=A0intermittent issues. You can see the list of failur=
-es we=E2=80=99re<br>
-&gt;=C2=A0 =C2=A0 =C2=A0continuing to see by searching for the =E2=80=9CAB-=
-INT=E2=80=9D tag in bugzilla:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://bugzilla.yoctoproject.org/buglis=
-t.cgi?quicksearch=3DAB-INT" rel=3D"noreferrer noreferrer" target=3D"_blank"=
->https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-INT</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://bugzilla.yoctoproject.org/bu=
-glist.cgi?quicksearch=3DAB-INT" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-INT</a>=
-&gt;.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Help us resolve CVE issues: CVE metrics<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://autobuilder.yocto.io/pub/non=
--release/patchmetrics/" rel=3D"noreferrer noreferrer" target=3D"_blank">htt=
-ps://autobuilder.yocto.io/pub/non-release/patchmetrics/</a>&gt;=C2=A0<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0We have a growing number of bugs in bugzilla, any h=
-elp with them<br>
-&gt;=C2=A0 =C2=A0 =C2=A0is appreciated.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Regarding bugs, even if you can=E2=80=99t fix a bug=
-, submitting a failing<br>
-&gt;=C2=A0 =C2=A0 =C2=A0test case that can reproduce the issue significantl=
-y improves the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0chances it might get fixed.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Further help on optimizing build disk usage would b=
-e most welcome.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Ongoing project development plans are being develop=
-ed in this<br>
-&gt;=C2=A0 =C2=A0 =C2=A0document:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://docs.google.com/document/d/1xsnN=
-_HcaMhqg6Dn1P_19AnumDaUMQSdFZ_I4rjD830A/edit?usp=3Dsharing" rel=3D"noreferr=
-er noreferrer" target=3D"_blank">https://docs.google.com/document/d/1xsnN_H=
-caMhqg6Dn1P_19AnumDaUMQSdFZ_I4rjD830A/edit?usp=3Dsharing</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://docs.google.com/document/d/1=
-xsnN_HcaMhqg6Dn1P_19AnumDaUMQSdFZ_I4rjD830A/edit?usp=3Dsharing" rel=3D"nore=
-ferrer noreferrer" target=3D"_blank">https://docs.google.com/document/d/1xs=
-nN_HcaMhqg6Dn1P_19AnumDaUMQSdFZ_I4rjD830A/edit?usp=3Dsharing</a>&gt;<br>
-&gt;<br>
-&gt; We need to continue to develop this as it will allow us to potentially=
-<br>
-&gt; find ways to fund specific work items.<br>
-&gt;<br>
-&gt;<br>
-&gt; Tracking Metrics:<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0WDD 2740 (last week 2778)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0(<a href=3D"https://wiki.yoctoproject.org/charts/co=
-mbo.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://wiki.yoct=
-oproject.org/charts/combo.html</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://wiki.yoctoproject.org/charts=
-/combo.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://wiki.y=
-octoproject.org/charts/combo.html</a>&gt;)<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0OE-Core/Poky Patch Metrics<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 o<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Total patches found: 1089 (last week =
-1089)<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 o<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Patches in the Pending State: 157 (14=
-%) [last week 157 (14%)]<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 o<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://autobuilder.yocto.=
-io/pub/non-release/patchmetrics/" rel=3D"noreferrer noreferrer" target=3D"_=
-blank">https://autobuilder.yocto.io/pub/non-release/patchmetrics/</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://autobuilder.yo=
-cto.io/pub/non-release/patchmetrics/" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">https://autobuilder.yocto.io/pub/non-release/patchmetrics/</a>&=
-gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; YP 5.3 Milestone Dates:<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.3 M1 Build Date 2025-06-09<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.3 M1 Release Date 2025-06-20<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.3 M2 Build Date 2025-07-21<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.3 M2 Release Date 2025-08-01<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.3 M3 Build Date 2025-09-01<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.3 M3 Release Date 2025-09-12<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.3 M4 Build Date 2025-10-06<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.3 M4 Release Date 2025-10-31<br>
-&gt;<br>
-&gt;<br>
-&gt; Upcoming dot releases:.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.27 was released.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.2.1 was released.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.10=C2=A0 is ready for release.<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.28 Build Date 2025-06-30<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.28 Release Date 2025-07-11<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.2.2 Build Date 2025-07-07<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.2.2 Release Date 2025-07-18<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.11 Build Date 2025-07-14<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.11 Release Date 2025-07-25<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.29 Build Date 2025-08-11<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.29 Release Date 2025-08-25<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.2.3 Build Date 2025-08-18<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.2.3 Release Date 2025-08-29<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.12 Build Date 2025-08-25<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.12 Release Date 2025-09-05<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.30 Build Date 2025-09-22<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.30 Release Date 2025-10-03<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.2.4 Build Date 2025-09-29<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.2.4 Release Date 2025-10-10<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.13 Build Date 2025-10-13<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.13 Release Date 2025-10-24<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.31 Build Date 2025-11-03<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.031 Release Date 2025-11-14<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.14 Build Date 2025-11-17<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.14 Release Date 2025-11-28<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.32 Build Date 2025-12-15<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 4.0.32 Release Date 2025-12-24<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.15 Build Date 2026-01-05<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0YP 5.0.15 Release Date 2026-01-16<br>
-&gt;<br>
-&gt;<br>
-&gt; The Yocto Project=E2=80=99s technical governance is through its Techni=
-cal<br>
-&gt; Steering Committee, more information is available at:<br>
-&gt;<br>
-&gt; <a href=3D"https://wiki.yoctoproject.org/wiki/TSC" rel=3D"noreferrer n=
-oreferrer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/TSC</a><br>
-&gt; &lt;<a href=3D"https://wiki.yoctoproject.org/wiki/TSC" rel=3D"noreferr=
-er noreferrer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/TSC</a>=
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; The Status reports are now stored on the wiki at:<br>
-&gt; <a href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status" rel=3D"no=
-referrer noreferrer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/W=
-eekly_Status</a><br>
-&gt; &lt;<a href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">https://wiki.yoctoproject.org/=
-wiki/Weekly_Status</a>&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; [If anyone has suggestions for other information you=E2=80=99d like to=
- see on<br>
-&gt; this weekly status update, let us know!]<br>
-&gt;<br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt;<br>
-&gt; =C2=A0<br>
-&gt;<br>
-&gt; */Stephen K. Jolley/*<br>
-&gt;<br>
-&gt; *Yocto Project Program Manager*<br>
-&gt;<br>
-&gt; (=C2=A0=C2=A0=C2=A0=C2=A0*Cell*:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (208) 244-4460<br>
-&gt;<br>
-&gt; *=C2=A0*Email*:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0_s<br>
-&gt; &lt;mailto:<a href=3D"mailto:stephen.k.jolley@intel.com" target=3D"_bl=
-ank" rel=3D"noreferrer">stephen.k.jolley@intel.com</a>&gt;jolley.yp.pm@gmai=
-l.com_<br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000009a5d6e063738e67e--
+Cheers,
+Quentin
 
