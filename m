@@ -2,241 +2,306 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C136EC61DB2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE92FC71135
 	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 19:34:49 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.96412.1749584085448840794
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.96416.1749584088618005939
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 12:34:45 -0700
+ Tue, 10 Jun 2025 12:34:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gxw/4QV5;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b1fb650bdf7so3247492a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:34:45 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=UfWFgA2s;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3109f106867so7037133a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:34:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584085; x=1750188885; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584088; x=1750188888; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SPCvp7wTfPX73nnMQYlqG3H52Dc1Yysym3rnAJL29PA=;
-        b=gxw/4QV5LeLU/pNMK+jzodM8+Ifs8a0HBLx25wMAiUPUYRA7Bgb5P+ymMpkfo9VFvt
-         /sEAEYai/XapTHq7u/gS55jYB4gO6zqlgpQPF/4Dp+kNQaRCQ1nv6abN5hlnnUk2N8in
-         CIFsH6IVqzchbfsiabdMfbkwXLmr/a2Fj6qxZIpvpzCDzERlzpOkCPuEXnD+uA7BkKw6
-         FLOGhpg2y1aJPFZtdB73l+aX+HixnXw5r3JiUApThbRhEChxFQwm1KuJDC8Ot8oaxJ8d
-         dKqevGDdOuVbdEa+smuydI6y0jd63fzishwJnGHCTlH0E9BlLhrJtcWUi9CtSY/PXlu6
-         zbPQ==
+        bh=9cZfwonTDHQksT57a7WQmY1EDHhBK4Spi4wa87QkOz0=;
+        b=UfWFgA2st9KM/kz88/iBbiTP2utAasBRJs+y/0BKZyzFY6pqVZLJgRPlhG+4lNmKJd
+         d0UYPJGprH0GIz65I+EO4vZZEUDBZz0h0LAs38b+KjFdaUKfRN1f4pAew55DjOH0apmH
+         i1sw8XZAX2d6Qwaf7PloZ7eDvCsVhRams1yE/W3ikdhspNqcP7tps8JV4UdWbHOC9WmM
+         6q3Wa2joJQS6I3MhqAGXqEDj6XRaq0+9yHDmpb6GRohYYLYbQChw+hnYo0mC+Hco/JBR
+         4BOppEf/sl0YJCcgY5E2FPZgao5YKZl9rozCXaOlyVGRlPnzIbWAhWrNkBAxkJYZviQE
+         Bp/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749584085; x=1750188885;
+        d=1e100.net; s=20230601; t=1749584088; x=1750188888;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SPCvp7wTfPX73nnMQYlqG3H52Dc1Yysym3rnAJL29PA=;
-        b=YAD1RgxLHqTgpxF2PuI8cNtrO3Hj1Rgq7i5BuAdvSbj0xJMRAp0x717RqlnAJ3YZ8O
-         kdJ12D/OoRW7E89gpl06rDwES5DCE+F4rC4ljwivNN7/Ziq0Be9vOnDQHkHYXJ1cLkD5
-         jyPpJZL+K4jl88656IxCzOaLjl8Rd8JjDPoiCJz5gNisYEQL8AkyD+InQIX53AxLqDXN
-         dSx4ouw05Ftx6z0Xu7xEo5c66E7evNUsXnSvo653thetdDJXfRNkSBoO1Ui4A6jRsakH
-         wGzx2KOFnnqFs5YXV+p7cKAHZre61UfiftaPTaYwf7lYswxoB3UD2YMKypSer5Ge4yFS
-         KoOA==
-X-Gm-Message-State: AOJu0Yyv8fZs3lKlRGH6np1PAIIm2dnhnqv5B8vRsrqHE2MqXFqbNRkE
-	jmxdHWz+F1TAXkT364UyXbvJ04+6y/Jozc4Oa9LMP0SSl38LhPiZ8ousPDDmjnQ4188LMAR8gPM
-	Mx2sa
-X-Gm-Gg: ASbGncvRGmoXrVJxC8faSQSfV3hFFVD1gKFPAYgRO44ZgGbL4j6cLvdJcbvX3J5hA3m
-	ABvAvz5tvdO3tx9qn/k0cCRnkpyS/dAXunTp8Q4PA3G2L8BK01yVLpgZn5n8m38mhZyLBMT5Wb+
-	MsF7Q5SypCQaji4qILt8CMesSzVobuT5c7oHPKAY19VT1HTxublDRCBHnI2eX1bu9H1DumH8Tga
-	FN1EGOcYbDwp2bzTcrSZ3p5TAiVKejf6QY27a88KdlxXeUw10u9Yb/u6xPM+0jCE6JYgteG3+iN
-	Wmy4lReZ54rB/grknKHJ3bQJ+dhUgZawvpbczfxFZR0h/xFLPvgSgQ==
-X-Google-Smtp-Source: AGHT+IHFZFyTbxMXbLL5ODApw5nK/QjKvjBu5FVCLzE6HK6LeqrVxXa7iTZWqyVOLbLA/Pb5OnNfJg==
-X-Received: by 2002:a17:90b:582e:b0:312:e8ed:758 with SMTP id 98e67ed59e1d1-313af10bc7dmr1051494a91.13.1749584084718;
-        Tue, 10 Jun 2025 12:34:44 -0700 (PDT)
+        bh=9cZfwonTDHQksT57a7WQmY1EDHhBK4Spi4wa87QkOz0=;
+        b=jn6OOG7eXBaVjMlJFf1fCPBsnh6e3px7P+WxBDULW3wdFhcDlQePo5CFZFsOfJz790
+         tVafGhnAfJn9lCMtOaWSsOiEg4z8hb3/72jSXk6FCL1Md4pYL5Pru3fCx4RT0Em7wJFS
+         +ZWcz8d/YJ2GRBxtFSTFmXI57SWZn5ZwrgA5a8TM3+AXKyhr2+HTuoG9M5A4ldQbMrM6
+         rNJwPwEEeI6jl9mSr2D6g9+lbKiHjO6KEzAjGbbNtPVmTvqa2zXJwCF1Z4gzUj28yJkQ
+         NjOqez5j+SEgKhE0/GmYpBXLH8CnVdZVkfJ0G4jpbiiC0OrPQhu34YMAbZNUexWBU2xw
+         CGAA==
+X-Gm-Message-State: AOJu0YyLM52Wc78xA6EwJb3uxemJbh2WK8xTggv4FgvXe73mnXFhhbax
+	PbGxPtmKSrseuRO4rGx7uwaO3qNN9OGjJ/PWhIWQZmyxIs4Cp1I6gTxAZ5DDtcEqIV+ORB/LWqz
+	Vjgqj
+X-Gm-Gg: ASbGncvE6858b+8qeSBeP5x+Dk6SNzZXrZUdwZuiI1dVOTDyoYhmS5UmH9eSUbWALdX
+	2YM2CIwLYN2+dmDqUYTGioK03ZEK3JBgrnJgR5BwQ9fBqjUYmzNDPZO2ug/DnOkJX5fbzupl1Jw
+	nZm/txPYyPd17RkJXL6IUeK5evo7Ul1GmnbsUcr7Ga6wOooGBPVPojy2OZlMR45GFvlYnREZRy8
+	9H8nMq7RjD7bArER2TiV2xwd0IDNmI6I2Y7QQbORppaMYldHjRBoPSL0WHiNbM2OSDoFY8neTe6
+	v+kBEX1ar9c+2QYjVSAA0FoECIURYlEe/y/0iyR6nCamjjM8jHn7zA==
+X-Google-Smtp-Source: AGHT+IEVVBtLO6Dz8fwolHIPg2QHF2KsgDWMSFha7nqBjlw0fejqoIcGOJ+KZfPEB/zP/muI3XT7TA==
+X-Received: by 2002:a17:90b:38d2:b0:311:b5ac:6f63 with SMTP id 98e67ed59e1d1-313af1b311bmr882764a91.21.1749584087775;
+        Tue, 10 Jun 2025 12:34:47 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7bc4:2c75:fa51:ff16])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313b10c7a88sm73897a91.33.2025.06.10.12.34.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313b10c7a88sm73897a91.33.2025.06.10.12.34.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 12:34:44 -0700 (PDT)
+        Tue, 10 Jun 2025 12:34:47 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/16] libsoup: fix CVE-2025-2784
-Date: Tue, 10 Jun 2025 12:34:07 -0700
-Message-ID: <504d92b01ac9a227e8e57b677f016fdfeccd5666.1749583904.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 14/16] python3: upgrade 3.12.9 -> 3.12.11
+Date: Tue, 10 Jun 2025 12:34:09 -0700
+Message-ID: <6cca08b2857efd5481e837ecd6bb295cb8a99ee1.1749583904.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1749583904.git.steve@sakoman.com>
 References: <cover.1749583904.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 19:34:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218417
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218419
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/issues/422
+Drop upstreamed patch and refresh remaining patches.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+* https://www.python.org/downloads/release/python-31210/
+
+  Python 3.12.10 is the latest maintenance release of Python 3.12, and
+  the last full maintenance release. Subsequent releases of 3.12 will be
+  security-fixes only.
+
+* https://www.python.org/downloads/release/python-31211/
+
+  Security content in this release
+  * gh-135034: [CVE 2024-12718] [CVE 2025-4138] [CVE 2025-4330]
+    [CVE 2025-4435] [CVE 2025-4517] Fixes multiple issues that allowed
+    tarfile extraction filters (filter="data" and filter="tar") to be
+    bypassed using crafted symlinks and hard links.
+  * gh-133767: Fix use-after-free in the “unicode-escape” decoder with a
+    non-“strict” error handler.
+  * gh-128840: Short-circuit the processing of long IPv6 addresses early
+    in ipaddress to prevent excessive memory consumption and a minor
+    denial-of-service.
+
+gh-133767 got meawhile CVE-2025-4516 assigned.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup/libsoup-3.4.4/CVE-2025-2784.patch | 137 ++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   1 +
- 2 files changed, 138 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-2784.patch
+ ...shebang-overflow-on-python-config.py.patch |  2 +-
+ ...-use-prefix-value-from-build-configu.patch |  2 +-
+ ...sts-due-to-load-variability-on-YP-AB.patch |  6 +--
+ ...001-ctypes-correct-gcc-check-in-test.patch | 53 -------------------
+ ...e-treat-overflow-in-UID-GID-as-failu.patch |  2 +-
+ ..._fileno-test-due-to-load-variability.patch |  2 +-
+ ...orlines-skip-due-to-load-variability.patch |  2 +-
+ .../python/python3/makerace.patch             |  2 +-
+ .../{python3_3.12.9.bb => python3_3.12.11.bb} |  3 +-
+ 9 files changed, 10 insertions(+), 64 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/0001-ctypes-correct-gcc-check-in-test.patch
+ rename meta/recipes-devtools/python/{python3_3.12.9.bb => python3_3.12.11.bb} (99%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-2784.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-2784.patch
-new file mode 100644
-index 0000000000..b2e1c12d48
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-2784.patch
-@@ -0,0 +1,137 @@
-+From dd10ae267e33bcc35646610d7cc1841da77d05e7 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 5 Feb 2025 14:39:42 -0600
-+Subject: [PATCH] Fix CVE-2025-2784
-+
-+CVE: CVE-2025-2784
-+Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/435/diffs?commit_id=242a10fbb12dbdc12d254bd8fc8669a0ac055304
-+https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/442/diffs?commit_id=c415ad0b6771992e66c70edf373566c6e247089d]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ .../content-sniffer/soup-content-sniffer.c    | 10 ++--
-+ tests/meson.build                             |  4 +-
-+ tests/sniffing-test.c                         | 48 +++++++++++++++++++
-+ 3 files changed, 56 insertions(+), 6 deletions(-)
-+
-+diff --git a/libsoup/content-sniffer/soup-content-sniffer.c b/libsoup/content-sniffer/soup-content-sniffer.c
-+index aeee2e2..a5e18d5 100644
-+--- a/libsoup/content-sniffer/soup-content-sniffer.c
-++++ b/libsoup/content-sniffer/soup-content-sniffer.c
-+@@ -638,8 +638,11 @@ sniff_text_or_binary (SoupContentSniffer *sniffer, GBytes *buffer)
-+ }
-+ 
-+ static gboolean
-+-skip_insignificant_space (const char *resource, int *pos, int resource_length)
-++skip_insignificant_space (const char *resource, gsize *pos, gsize resource_length)
-+ {
-++        if (*pos >= resource_length)
-++	        return TRUE;
-++
-+ 	while ((resource[*pos] == '\x09') ||
-+ 	       (resource[*pos] == '\x20') ||
-+ 	       (resource[*pos] == '\x0A') ||
-+@@ -659,7 +662,7 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, GBytes *buffer)
-+ 	gsize resource_length;
-+ 	const char *resource = g_bytes_get_data (buffer, &resource_length);
-+ 	resource_length = MIN (512, resource_length);
-+-	int pos = 0;
-++	gsize pos = 0;
-+ 
-+ 	if (resource_length < 3)
-+ 		goto text_html;
-+@@ -669,9 +672,6 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, GBytes *buffer)
-+ 		pos = 3;
-+ 
-+  look_for_tag:
-+-	if (pos > resource_length)
-+-		goto text_html;
-+-
-+ 	if (skip_insignificant_space (resource, &pos, resource_length))
-+ 		goto text_html;
-+ 
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 7ef7ac5..95b13b8 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -95,7 +95,9 @@ tests = [
-+   {'name': 'server-auth'},
-+   {'name': 'server-mem-limit'},
-+   {'name': 'server'},
-+-  {'name': 'sniffing'},
-++  {'name': 'sniffing',
-++    'depends': [test_resources],
-++  },
-+   {'name': 'ssl',
-+    'dependencies': [gnutls_dep],
-+    'depends': mock_pkcs11_module,
-+diff --git a/tests/sniffing-test.c b/tests/sniffing-test.c
-+index 6116719..7857732 100644
-+--- a/tests/sniffing-test.c
-++++ b/tests/sniffing-test.c
-+@@ -342,6 +342,52 @@ test_disabled (gconstpointer data)
-+ 	g_uri_unref (uri);
-+ }
-+ 
-++static const gsize MARKUP_LENGTH = strlen ("<!--") + strlen ("-->");
-++
-++static void
-++do_skip_whitespace_test (void)
-++{
-++        SoupContentSniffer *sniffer = soup_content_sniffer_new ();
-++        SoupMessage *msg = soup_message_new (SOUP_METHOD_GET, "http://example.org");
-++        const char *test_cases[] = {
-++                "",
-++                "<rdf:RDF",
-++                "<rdf:RDFxmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"",
-++                "<rdf:RDFxmlns=\"http://purl.org/rss/1.0/\"",
-++        };
-++
-++        soup_message_headers_set_content_type (soup_message_get_response_headers (msg), "text/html", NULL);
-++
-++        for (guint i = 0; i < G_N_ELEMENTS (test_cases); i++) {
-++                const char *trailing_data = test_cases[i];
-++                gsize leading_zeros = 512 - MARKUP_LENGTH - strlen (trailing_data);
-++                gsize testsize = MARKUP_LENGTH + leading_zeros + strlen (trailing_data);
-++                guint8 *data = g_malloc0 (testsize);
-++                guint8 *p = data;
-++                char *content_type;
-++                GBytes *buffer;
-++
-++                // Format of <!--[0x00 * $leading_zeros]-->$trailing_data
-++                memcpy (p, "<!--", strlen ("<!--"));
-++                p += strlen ("<!--");
-++                p += leading_zeros;
-++                memcpy (p, "-->", strlen ("-->"));
-++                p += strlen ("-->");
-++                if (strlen (trailing_data))
-++                        memcpy (p, trailing_data, strlen (trailing_data));
-++                // Purposefully not NUL terminated.                
-++
-++                buffer = g_bytes_new_take (g_steal_pointer (&data), testsize);
-++                content_type = soup_content_sniffer_sniff (sniffer, msg, buffer, NULL);
-++
-++                g_free (content_type);
-++                g_bytes_unref (buffer);
-++        }
-++
-++        g_object_unref (msg);
-++        g_object_unref (sniffer);
-++}
-++
-+ int
-+ main (int argc, char **argv)
-+ {
-+@@ -517,6 +563,8 @@ main (int argc, char **argv)
-+ 			      "/text_or_binary/home.gif",
-+ 			      test_disabled);
-+ 
-++	g_test_add_func ("/sniffing/whitespace", do_skip_whitespace_test);
-++
-+ 	ret = g_test_run ();
-+ 
-+ 	g_uri_unref (base_uri);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index 9b8bf5b9a2..37319f007f 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -43,6 +43,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32050.patch \
-            file://CVE-2025-46421.patch \
-            file://CVE-2025-4948.patch \
-+           file://CVE-2025-2784.patch \
- "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
+diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+index 6e4930b9ec..a8f98d873e 100644
+--- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
++++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+@@ -19,7 +19,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index 2d235d2..1ac2263 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2355,6 +2355,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++@@ -2356,6 +2356,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
+  	@ # Substitution happens here, as the completely-expanded BINDIR
+  	@ # is not available in configure
+  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
+diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+index 1b9f3565d3..c42a56bcb3 100644
+--- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
++++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+@@ -17,7 +17,7 @@ diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+ index 6258b68..d59ec6e 100644
+ --- a/Lib/sysconfig.py
+ +++ b/Lib/sysconfig.py
+-@@ -668,6 +668,11 @@ def _init_config_vars():
++@@ -675,6 +675,11 @@ def _init_config_vars():
+          _CONFIG_VARS['VPATH'] = sys._vpath
+      if os.name == 'posix':
+          _init_posix(_CONFIG_VARS)
+diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
+index ec3bb9cbbd..051ec2c635 100644
+--- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
++++ b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
+@@ -26,7 +26,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
+ index 3b4415b..1f94dec 100644
+ --- a/Lib/test/_test_multiprocessing.py
+ +++ b/Lib/test/_test_multiprocessing.py
+-@@ -688,6 +688,7 @@ class _TestProcess(BaseTestCase):
++@@ -692,6 +692,7 @@ class _TestProcess(BaseTestCase):
+          close_queue(q)
+  
+      @support.requires_resource('walltime')
+@@ -34,7 +34,7 @@ index 3b4415b..1f94dec 100644
+      def test_many_processes(self):
+          if self.TYPE == 'threads':
+              self.skipTest('test not appropriate for {}'.format(self.TYPE))
+-@@ -2211,6 +2212,7 @@ class _TestBarrier(BaseTestCase):
++@@ -2223,6 +2224,7 @@ class _TestBarrier(BaseTestCase):
+          except threading.BrokenBarrierError:
+              results.append(True)
+  
+@@ -42,7 +42,7 @@ index 3b4415b..1f94dec 100644
+      def test_timeout(self):
+          """
+          Test wait(timeout)
+-@@ -5208,6 +5210,7 @@ class TestWait(unittest.TestCase):
++@@ -5220,6 +5222,7 @@ class TestWait(unittest.TestCase):
+          time.sleep(period)
+  
+      @support.requires_resource('walltime')
+diff --git a/meta/recipes-devtools/python/python3/0001-ctypes-correct-gcc-check-in-test.patch b/meta/recipes-devtools/python/python3/0001-ctypes-correct-gcc-check-in-test.patch
+deleted file mode 100644
+index 3dd762e519..0000000000
+--- a/meta/recipes-devtools/python/python3/0001-ctypes-correct-gcc-check-in-test.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From 2e2a0c8593a38f2020cc2baeeaa7972eb86773f9 Mon Sep 17 00:00:00 2001
+-From: Peter Marko <peter.marko@siemens.com>
+-Date: Sat, 8 Feb 2025 23:57:17 +0100
+-Subject: [PATCH] ctypes: correct gcc check in test
+-
+-In case gcc is not available, it will throw exception and test fails.
+-So chatch the exception to skip the test correctly.
+-
+-======================================================================
+-ERROR: test_null_dlsym (test.test_ctypes.test_dlerror.TestNullDlsym.test_null_dlsym)
+-----------------------------------------------------------------------
+-Traceback (most recent call last):
+-  File "/usr/lib/python3.12/test/test_ctypes/test_dlerror.py", line 61, in test_null_dlsym
+-    retcode = subprocess.call(["gcc", "--version"],
+-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-  File "/usr/lib/python3.12/subprocess.py", line 391, in call
+-    with Popen(*popenargs, **kwargs) as p:
+-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-  File "/usr/lib/python3.12/subprocess.py", line 1028, in __init__
+-    self._execute_child(args, executable, preexec_fn, close_fds,
+-  File "/usr/lib/python3.12/subprocess.py", line 1963, in _execute_child
+-    raise child_exception_type(errno_num, err_msg, err_filename)
+-FileNotFoundError: [Errno 2] No such file or directory: 'gcc'
+-
+-Upstream-Status: Submitted [https://github.com/python/cpython/pull/129872]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- Lib/test/test_ctypes/test_dlerror.py | 11 +++++++----
+- 1 file changed, 7 insertions(+), 4 deletions(-)
+-
+-diff --git a/Lib/test/test_ctypes/test_dlerror.py b/Lib/test/test_ctypes/test_dlerror.py
+-index 6bf492399cb..56eb7622b4d 100644
+---- a/Lib/test/test_ctypes/test_dlerror.py
+-+++ b/Lib/test/test_ctypes/test_dlerror.py
+-@@ -58,11 +58,14 @@ def test_null_dlsym(self):
+-         import subprocess
+-         import tempfile
+- 
+--        retcode = subprocess.call(["gcc", "--version"],
+--                                  stdout=subprocess.DEVNULL,
+--                                  stderr=subprocess.DEVNULL)
+--        if retcode != 0:
+-+        try:
+-+            retcode = subprocess.call(["gcc", "--version"],
+-+                                      stdout=subprocess.DEVNULL,
+-+                                      stderr=subprocess.DEVNULL)
+-+        except:
+-             self.skipTest("gcc is missing")
+-+        if retcode != 0:
+-+            self.skipTest("gcc is not working")
+- 
+-         pipe_r, pipe_w = os.pipe()
+-         self.addCleanup(os.close, pipe_r)
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+index 5c74443e62..1cffdd6e05 100644
+--- a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
++++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+@@ -16,7 +16,7 @@ diff --git a/Lib/tarfile.py b/Lib/tarfile.py
+ index 0a0f31e..4dfb67d 100755
+ --- a/Lib/tarfile.py
+ +++ b/Lib/tarfile.py
+-@@ -2590,7 +2590,8 @@ class TarFile(object):
++@@ -2685,7 +2685,8 @@ class TarFile(object):
+                      os.lchown(targetpath, u, g)
+                  else:
+                      os.chown(targetpath, u, g)
+diff --git a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
+index e105f36eca..4920cb9ad9 100644
+--- a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
++++ b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
+@@ -19,7 +19,7 @@ diff --git a/Lib/test/test_builtin.py b/Lib/test/test_builtin.py
+ index c71c568..e41ab5e 100644
+ --- a/Lib/test/test_builtin.py
+ +++ b/Lib/test/test_builtin.py
+-@@ -2352,6 +2352,7 @@ class PtyTests(unittest.TestCase):
++@@ -2375,6 +2375,7 @@ class PtyTests(unittest.TestCase):
+          # Check stdin/stdout error handler is used when invoking PyOS_Readline()
+          self.check_input_tty("prompté", b"quux\xe9", "ascii")
+  
+diff --git a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
+index 22aabbb2ed..88cd93a51f 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
+@@ -19,7 +19,7 @@ diff --git a/Lib/test/test_ftplib.py b/Lib/test/test_ftplib.py
+ index 4c4a449..b8c79a4 100644
+ --- a/Lib/test/test_ftplib.py
+ +++ b/Lib/test/test_ftplib.py
+-@@ -626,6 +626,7 @@ class TestFTPClass(TestCase):
++@@ -629,6 +629,7 @@ class TestFTPClass(TestCase):
+              self.client.storbinary('stor', f, rest=r)
+              self.assertEqual(self.server.handler_instance.rest, str(r))
+  
+diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
+index 862b648685..fbe12a5fca 100644
+--- a/meta/recipes-devtools/python/python3/makerace.patch
++++ b/meta/recipes-devtools/python/python3/makerace.patch
+@@ -20,7 +20,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index dce36a5..2d235d2 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2266,7 +2266,7 @@ COMPILEALL_OPTS=-j0
++@@ -2267,7 +2267,7 @@ COMPILEALL_OPTS=-j0
+  TEST_MODULES=@TEST_MODULES@
+  
+  .PHONY: libinstall
+diff --git a/meta/recipes-devtools/python/python3_3.12.9.bb b/meta/recipes-devtools/python/python3_3.12.11.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.12.9.bb
+rename to meta/recipes-devtools/python/python3_3.12.11.bb
+index 8e03ff5f2b..706dabb5cd 100644
+--- a/meta/recipes-devtools/python/python3_3.12.9.bb
++++ b/meta/recipes-devtools/python/python3_3.12.11.bb
+@@ -34,14 +34,13 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+ 	   file://0001-test_deadlock-skip-problematic-test.patch \
+ 	   file://0001-test_active_children-skip-problematic-test.patch \
+            file://0001-test_readline-skip-limited-history-test.patch \
+-           file://0001-ctypes-correct-gcc-check-in-test.patch \
+            "
  
+ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "7220835d9f90b37c006e9842a8dff4580aaca4318674f947302b8d28f3f81112"
++SRC_URI[sha256sum] = "c30bb24b7f1e9a19b11b55a546434f74e739bb4c271a3e3a80ff4380d49f7adb"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.43.0
 
