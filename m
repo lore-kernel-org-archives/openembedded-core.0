@@ -2,40 +2,40 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6916C678DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFED4C5B552
 	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 15:25:07 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.23])
- by mx.groups.io with SMTP id smtpd.web10.90072.1749569103511828373
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.67])
+ by mx.groups.io with SMTP id smtpd.web11.89529.1749569104967939760
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 08:25:03 -0700
+ Tue, 10 Jun 2025 08:25:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=mvK0Csom;
- spf=pass (domain: ericsson.com, ip: 40.107.159.23, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=KBZc1x+j;
+ spf=pass (domain: ericsson.com, ip: 52.101.66.67, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pTFINRWxtQD+iUWdqG+PfapF+7y8TYQ+a+I0TWhhFhg62UK7BsrPe3kb/GAs+dBmpV9XPJh5ji60ypcmAcpGmo3VsUYm9Jxig5BGUCVF1y3RvH1HyzrfeqRJdd3huhgMhcudvMC4Ah5u319BAHuotuaFW2jkjK1pWbUqzn3/95lHr5y5yHZqe+Dy1tOBNC3vAu+SttZhUIZWOdHuXPc8c+J8TdXxywfSD9Lln29crMak6K5tk6MiqasjIuZWVf9vgJ9zEzY5pV465pmP3ja9I1vmQb1mq9U1qOTgBI9dsVohnma0EtTsFpAvTFRYoWrISZ9e6ydtpO+6/mdAvyrqLw==
+ b=DCXJV+7fuiVaoD/In+lPICoc5MRTgQy0jmcqqbLLIc3bryGUBkTdD/Rf3VHHXAabu6G12lGfPAuv7YzNUTzuHm3mhOEUoaMEj6gx8XwdDYc63oZ000BuJVbOI22FT7UszYq+PJs2GiR/EYpIu8DepS87dFTJk5irg1FYiGiHveMTOpZGuK2DW46OTpt2vG/MiivLn0JqRnMW+KTPmtHy283kpEXVR2DVtxNuqwflSUlRaEu78/R5942DbFrNhBMHJedAUDdCIYHYZOH4jOZeMQk0NAW1tffgZ49Fb+tRnELA6O2GaY8sP2Y0hQfTcFBXO/ltR6GKpLEiPD2VmUk2fQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QUJMWecbuoWo0cyvVht33qdnLpuNRnAqY0gLvA1/+Mg=;
- b=GaU0clfKGEAJf0yXzzZks55sZPUP6cq3kLks5xX4mh8NcPF0LQ7GO50xv3b75k2to/GlzK+hMHejXdVBC9+9A3KQSTZIePuUGLmO7E3Xgndf1hEsgc6D8bVco7dxcZZqZX3o0xIh5nWSjJzaZY8eDFzJe8Uwqo506xDI6LBaoN4EMSTNPmEnNWDGwI/+BZ7FKI8YsmAhULj0PLf1YVHk3TKMQW0AP+J566C/+9IL0eZa8UZxPRoSmBIYL3TVUFmVrjOCBpcV+5AUK7if9+IdzKtAqtLBFNFzTYuhLhH0JF8eJEs/gwDv5ZSerPN9waqBLmfBltTx6Arf1AKBThl7vQ==
+ bh=60bZ4rj/t8mQXWNl4Bx5T1hSRtaFFSCRT/Dc2YF3B0M=;
+ b=DhjXYPm7j3PE+CFmh8ZG5S3kAG2u8A+fBCx7jlBniiD0BWt4df68SDzF4xOvr5gtlsf6jP9aIYOckNIY1qjsT+vdRhnD2K5nOubeXix6b6K8ZWVnSqeiuEk3mvBUZNt/YtV79otJmyGzNdtJybkgMu9e87oizweFC7bFQPTv2F+YC/8CCoQyxe1bpVCsSF26IZTXFWnNAvuTLHP9C0m/aVZwnYuLVeI7NdrLIPqJ2VyU4LQsEsacEDtHcEIReatPP3wd3Y/dfsX5IPb4KnIslJlcwk4b771/wSdV6f1DJLI0K9BsabnZ2ywxmPqnPih7SGDKqUGwNAGlX7o/3Rfz7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=cherry.de smtp.mailfrom=ericsson.com;
+ 192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QUJMWecbuoWo0cyvVht33qdnLpuNRnAqY0gLvA1/+Mg=;
- b=mvK0CsomB6wxUVfdQYo0JRvr8wmN9A8cWk0tPA9KCr4WM83FQRUW2pw1yStt6LDeyYXF/1RSGyl4yhHa82xvO3D06vLHbfD/JzVKVMv0eUtvlBvfbsGG0o3HzdsDKnBN/ejhsKXTC9Kw4g4aqrjEjWWmYMArQPrj77xAz4Icz8KoG6QzcaCDlp/dum3CgNbjpw5NbEP2UVI1oRNYOW7UpsZx5PwuQ3x56dXTgzozvR41DN8+cpR+GQKenpyPhHi6z0KuEVg26qWjclsl3seJg+Pe7g8jEesFVA1GOCGjUoLCUJomnyE8ANT04Gbj+QRTr24rpy9H7co6v1a0hiND8g==
-Received: from AS4P189CA0027.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5db::16)
- by VI1PR0701MB7024.eurprd07.prod.outlook.com (2603:10a6:800:192::11) with
+ bh=60bZ4rj/t8mQXWNl4Bx5T1hSRtaFFSCRT/Dc2YF3B0M=;
+ b=KBZc1x+jXqgggok4/GkolvEzoUCqc1RCh34he2M+oB8E6Ow/ypg6ebVM0z7NQqGhghGzuhns2y3sSSoTAAoZpvTpRlZzC5Xzceim8+JGFvRIbW4BGQHhPtayprSLfzQrKONO6OvEqDSu+RkpL0JXQa9FmcqGobVh5TWZV2OygMngvtEpSQs4u0lmt6M6yi4YgJTgXRtSdqjB9mqrXUfukAbarbsGqX4S+dcVE3o/0237+b3gZRL+v93/639JYfa8DfkGRDPJGYt51PduTg3TENFc3satF8ndgjDuilP0frXmmNG8s26UNu7H1W5ASzBWH0pumiaKjYs8ePGCwMOHBw==
+Received: from PR2P264CA0044.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101:1::32) by
+ GV4PR07MB10507.eurprd07.prod.outlook.com (2603:10a6:150:29a::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.26; Tue, 10 Jun
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.18; Tue, 10 Jun
  2025 15:24:57 +0000
-Received: from AMS1EPF00000042.eurprd04.prod.outlook.com
- (2603:10a6:20b:5db:cafe::54) by AS4P189CA0027.outlook.office365.com
- (2603:10a6:20b:5db::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.19 via Frontend Transport; Tue,
+Received: from AMS0EPF00000193.eurprd05.prod.outlook.com
+ (2603:10a6:101:1:cafe::f8) by PR2P264CA0044.outlook.office365.com
+ (2603:10a6:101:1::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.35 via Frontend Transport; Tue,
  10 Jun 2025 15:24:57 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
@@ -44,26 +44,25 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- AMS1EPF00000042.mail.protection.outlook.com (10.167.16.39) with Microsoft
+ AMS0EPF00000193.mail.protection.outlook.com (10.167.16.212) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.8835.15 via Frontend Transport; Tue, 10 Jun 2025 15:24:57 +0000
-Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.69) with Microsoft SMTP Server
+Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.62) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1544.14; Tue, 10 Jun 2025 17:24:56 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 11E1C9582F;
+	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 11E6C4020AA6;
 	Tue, 10 Jun 2025 17:24:56 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id ECAE87083F56; Tue, 10 Jun 2025 17:24:55 +0200 (CEST)
+	id F10F97083F57; Tue, 10 Jun 2025 17:24:55 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>, Quentin Schulz
-	<quentin.schulz@cherry.de>, Joshua Watt <JPEWhacker@gmail.com>, Peter Marko
-	<peter.marko@siemens.com>
-Subject: [PATCH v8 2/3] spdx: add option to include only compiled sources
-Date: Tue, 10 Jun 2025 17:24:42 +0200
-Message-ID: <20250610152443.2162164-3-daniel.turull@ericsson.com>
+CC: Daniel Turull <daniel.turull@ericsson.com>, Peter Marko
+	<peter.marko@siemens.com>, Marta Rybczynska <rybczynska@gmail.com>
+Subject: [PATCH v8 3/3] improve_kernel_cve_report: add script for postprocesing of kernel CVE data
+Date: Tue, 10 Jun 2025 17:24:43 +0200
+Message-ID: <20250610152443.2162164-4-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250610152443.2162164-1-daniel.turull@ericsson.com>
 References: <20250610152443.2162164-1-daniel.turull@ericsson.com>
@@ -72,219 +71,648 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF00000042:EE_|VI1PR0701MB7024:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75a8b419-2e19-4c3d-373b-08dda832f539
+X-MS-TrafficTypeDiagnostic: AMS0EPF00000193:EE_|GV4PR07MB10507:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13588f52-239e-4ec0-9c56-08dda832f588
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014|13003099007|7053199007;
+	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?+I+XBhg7PWOLAaBlzMONycR/vmLE3xyI+iI/TnzWzc49e8ddAddNHczlWqoX?=
- =?us-ascii?Q?yImcMwh49ZQS87/O2gUU/sBDlamr82VHySOYFUAeC+YFJqmOsyXGUnB//ezN?=
- =?us-ascii?Q?2ZpDIqSOjn350QLEhFiB19yRhvk0O9Z1tD6ujD6F56ykqhhpUHPt+QTanX78?=
- =?us-ascii?Q?YxtBdsHr8EnHvTkbpmFCWLQCFzA2IYfxH9HL+WUecMcQzSKoDnktnebtvp6o?=
- =?us-ascii?Q?K+ml1GJJSL7zZfwTkfx4gwEmCMXpE5q/Fe/8XFsNOTqwUu3UvCovDPtOODvg?=
- =?us-ascii?Q?doa2tskmIYg/1ELliGW8iYf+kqBNjM7Wq+0scOw6yuln6O9MNsOlv2BHKYN0?=
- =?us-ascii?Q?f772MLtP16gt9jsfyEgJWp2gViAAM97oilWtDXDcwmfQ7DT/iqf7X0oeq5rh?=
- =?us-ascii?Q?rxEnj3Ii8UlTdvXNnhVtH94xYwzna844ChiZ/lQVKk6J8P2lviJJ+BUtTcRI?=
- =?us-ascii?Q?VslhEVYbAh8GEpZ1zlabRfpIpEJT3ch2ex3c3OiV0prFN0YRU54CvAC105H4?=
- =?us-ascii?Q?xnpVBqy1YV8IWeL1EwR2TAP8eVQ1/l8SwtAWZpWl8nvEE7H0nG85H3lbaAuK?=
- =?us-ascii?Q?awn6JM+8GuwPGmnQW+yfxQAfQCoR1lM1hEQbMj7jf5LyRXLS8OAE/alddoDp?=
- =?us-ascii?Q?n94U4NZ6vbgvXtL+lFfM/WbFBFMSuWIgHGoCvL43150yGocoEPkC9LRWB8rI?=
- =?us-ascii?Q?evU3Wl2YCYdnH80N15CSuSw8jkX8yTCDc43MkVYDX/rZzgM7HXPV2vgURXzA?=
- =?us-ascii?Q?GNCsBdNBqoyY8RIMRdrabFqNazmvIFUTxFpA6rkc0TbquqBlUHXItfoWkFHZ?=
- =?us-ascii?Q?C5afaMfsGkWtrkMPRfJBnMFXLYAfXACdJBQ5BZpMOKmFpeoYIvPBSIvEPcLE?=
- =?us-ascii?Q?3ovlVCFhzXTwtEIOAEKc1YaL72DPu7DU++hjse0Pbw7gz+MSJfg5tA9wN5AC?=
- =?us-ascii?Q?gMkmDqc5ree/e8ZKlhQf0BCgGvQLEKWXkYomtJuOfs2sJ/ebn8xn9Kbb0VTf?=
- =?us-ascii?Q?LDGE0FH4JTfRX7MywrLGAv78q8ZIROato4LzKfQsLDVVwnp8HLAb1eI6vO+v?=
- =?us-ascii?Q?XBzVw/ySaYb6KsZXRLTiXyDElnKSGNkW7k+mmfokjOYjpFkCEyk/a/JT7yu+?=
- =?us-ascii?Q?Xt3T1mVALBmWFGotEza8MQSq6DagctS/7a9hh0JonbIVmQG3gSuxmCD0wKw9?=
- =?us-ascii?Q?qi7EcHPpt8d9h3yJntWPO2Ax+2a//blonZNuGVS+QyTn0QVt4j+Sy60Q8QTz?=
- =?us-ascii?Q?85xbFeZaK701cJbVvtITkj+/clv8rIKc3RKegByH10fEM0quQbDcXBYTlCeo?=
- =?us-ascii?Q?vzDbtRS0amHh/5EnY4T+M1h4z+rnFuE+KiFdG7IATbo2UDzXZU1SqfgDJ2VY?=
- =?us-ascii?Q?H57QTAwIODR1t3cFBD/k9Nt7cK5dbrWcSg//HfG04B3MSV8HDW+lRvlqbc7z?=
- =?us-ascii?Q?Kb9UJT8MJ3C35v+4meiBQrgD/CmgFjs9aXyeAjiWkXHkn+814lItNQ=3D=3D?=
+	=?us-ascii?Q?d5w8a2eu5mn/9nEp6i/C0jtt9fT4IER8Qx/uavkJt+yxlHcklyfaHNIOc1Sn?=
+ =?us-ascii?Q?8dX9A5VJ3ugZGIz9l2ZqNJTGbq9z9MwvOt4XkiCFkJ2A58M52nNi0hCSBbX1?=
+ =?us-ascii?Q?8I996UOXQlZiJkqthR7ULc3vmWKlHCRow6kHnStteQVc4FjUg9YePaGdN1iS?=
+ =?us-ascii?Q?tC/SZvb5ln4boArhsBc4INa7Ha7NWdHC+1yoi502O/myjX/vl8rg90lY132z?=
+ =?us-ascii?Q?VPmPxFPbQ8QtG6fi6f/03G49g+SVcqOpzNXyMEW7GjqMxpvbomsuBb/N2mzz?=
+ =?us-ascii?Q?1KTgqa+rHYKQ8LV/O6mD5NWvv54GklNFtd4Shy9BiYy8SJ8MXfK+Q9ByHVzA?=
+ =?us-ascii?Q?pgjjpeQUIdvbhkW1BO857pahPmjKhPkR11hiISAtJswEmUoR5tG7GL/DoIe1?=
+ =?us-ascii?Q?1DgmkGxItwxJ7HuoJSKSPn7d9ioDTe6zSynCaXnZ8kPCCdSjzKve1vJ8FSiB?=
+ =?us-ascii?Q?2bD+Bz8C6Wr06lpeLz8UwX6qjgoO9qPAMUzozAVcnX9MVWbn2MO8MVOuw2zw?=
+ =?us-ascii?Q?bs5m1kSB6Vtj/PbpFdt7CtiFrTkiPvA+ojie2C1GRW/S9CI53xSTGBE5UXNO?=
+ =?us-ascii?Q?bJk69my6733fPGgy4uWnITTOqeJrHTi6yYodVWlQ52a5sO444v17EyK+uhCR?=
+ =?us-ascii?Q?TjKfKGmuph48jOdN/s4Q4m2J1mxLNRbB+oSsAoNhKSSfHbGPwGhjZBPkTnl7?=
+ =?us-ascii?Q?k41KiVnJK6uTVX5lCcH+06B82MAn01CRpTWbAqQXfkiyQdXejC9WKtzaV6Oh?=
+ =?us-ascii?Q?iR+7iw8HzyYdXFtUYCyI0rzhFRSKDQyJJ+IN/rzi5+Ilg3N5aePX7Qs5mBeB?=
+ =?us-ascii?Q?jOYsx6nipSaK9kWWq2zS6n8bKwMWPNb84wEypcandKdgNJiau4H7gXC+ZlGh?=
+ =?us-ascii?Q?+UzuLlJ3GNpp6JcqlREucF8KIRMnsb9N2jEa+IIIBJYJJ2xxDK/1KZf6St6h?=
+ =?us-ascii?Q?E7Aqa8Jp2UaA1aN7FLB+2S6gcu2DM+iORdN4c3UW0AFjCyzlF+hY7em38ZiL?=
+ =?us-ascii?Q?3/P6Lfgkb6YOhZyUGVKgZ5hgBvbvYhzatqilOx0wo2gUMOWpxSjFYx5ZY04M?=
+ =?us-ascii?Q?ehS2v/kOu4ytEt8IiRQcV5bbpCSP/0rCBa8bRcSgmo2XdYfz05XIwj9FeZhk?=
+ =?us-ascii?Q?t3zrFW6msJ0/AqSaj6k21SA7skCBNohh/Nnh5wpI2C9ECRBnOmm8UpUcEMQk?=
+ =?us-ascii?Q?QQsZmHP9af4jdvzskt5AC+SUsEZRNxFrtVTqq1akWWhNuHXUAyzAiiJ4TIbn?=
+ =?us-ascii?Q?MLTDkElxaSMfwLaV0kDUH7Rr5UvaFECkxKUacfAyET0VRXOEV+aJpFhZf3W3?=
+ =?us-ascii?Q?v2qzBUWeYKpTEIfFmo1RVqG0FzSvNqT4cnpRyuekSQPXo1UhG4iFBAZyspcH?=
+ =?us-ascii?Q?DFl8Eq3c63euM3tHodaDxBFWSI/DL9wz6BR/0Z0BhqR1s7XTGY6uHTm7kCAJ?=
+ =?us-ascii?Q?FGaseH/C2kCF1ZHaGIR7fG+D6mySo/ztYoH/NJZNs1U74ZmjiKGU+uf+nzAY?=
+ =?us-ascii?Q?nYN4/u7xl5mTwmwVkz3elIpracHTRrOWV+EYrN7JJiCg3w2dmlNLH8rHaw?=
+ =?us-ascii?Q?=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014)(13003099007)(7053199007);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026)(13003099007);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2025 15:24:57.1882
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2025 15:24:57.7062
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75a8b419-2e19-4c3d-373b-08dda832f539
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13588f52-239e-4ec0-9c56-08dda832f588
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF00000042.eurprd04.prod.outlook.com
+	AMS0EPF00000193.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0701MB7024
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4PR07MB10507
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 15:25:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218362
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218363
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-When SPDX_INCLUDE_COMPILED_SOURCES is enabled, only include the
-source code files that are used during compilation.
+Adding postprocessing script to process data from linux CNA that includes m=
+ore accurate metadata and it is updated directly by the source.
 
-It uses debugsource information generated during do_package.
+Example of enhanced CVE from a report from cve-check:
 
-This enables an external tool to use the SPDX information to disregard
-vulnerabilities that are not compiled.
+{
+  "id": "CVE-2024-26710",
+  "status": "Ignored",
+  "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-26710",
+  "summary": "In the Linux kernel, the following vulnerability [...]",
+  "scorev2": "0.0",
+  "scorev3": "5.5",
+  "scorev4": "0.0",
+  "modified": "2025-03-17T15:36:11.620",
+  "vector": "LOCAL",
+  "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+  "detail": "not-applicable-config",
+  "description": "Source code not compiled by config. ['arch/powerpc/includ=
+e/asm/thread_info.h']"
+},
 
-As example, when used with the default config with linux-yocto, the spdx si=
-ze is
-reduced from 156MB to 61MB.
+And same from a report generated with vex:
+{
+  "id": "CVE-2024-26710",
+  "status": "Ignored",
+  "link": "https://nvd.nist.gov/vuln/detail/CVE-2024-26710",
+  "detail": "not-applicable-config",
+  "description": "Source code not compiled by config. ['arch/powerpc/includ=
+e/asm/thread_info.h']"
+},
 
-Tested with bitbake world on oe-core.
+For unpatched CVEs, provide more context in the description:
+Tested with 6.12.22 kernel
+{
+  "id": "CVE-2025-39728",
+  "status": "Unpatched",
+  "link": "https://nvd.nist.gov/vuln/detail/CVE-2025-39728",
+  "summary": "In the Linux kernel, the following vulnerability has been [..=
+.],
+  "scorev2": "0.0",
+  "scorev3": "0.0",
+  "scorev4": "0.0",
+  "modified": "2025-04-21T14:23:45.950",
+  "vector": "UNKNOWN",
+  "vectorString": "UNKNOWN",
+  "detail": "version-in-range",
+  "description": "Needs backporting (fixed from 6.12.23)"
+},
 
-CC: Quentin Schulz <quentin.schulz@cherry.de>
-CC: Joshua Watt <JPEWhacker@gmail.com>
 CC: Peter Marko <peter.marko@siemens.com>
+CC: Marta Rybczynska <rybczynska@gmail.com>
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- meta/classes/create-spdx-2.2.bbclass |  9 ++++++
- meta/classes/spdx-common.bbclass     |  3 ++
- meta/lib/oe/spdx30_tasks.py          | 10 +++++++
- meta/lib/oe/spdx_common.py           | 41 ++++++++++++++++++++++++++++
- 4 files changed, 63 insertions(+)
+ scripts/contrib/improve_kernel_cve_report.py | 467 +++++++++++++++++++
+ 1 file changed, 467 insertions(+)
+ create mode 100755 scripts/contrib/improve_kernel_cve_report.py
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spd=
-x-2.2.bbclass
-index 7e8f8b9ff5..6fc60a1d97 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -137,6 +137,11 @@ def add_package_files(d, doc, spdx_pkg, topdir, get_sp=
-dxid, get_types, *, archiv
-     spdx_files =3D []
-=20
-     file_counter =3D 1
+diff --git a/scripts/contrib/improve_kernel_cve_report.py b/scripts/contrib=
+/improve_kernel_cve_report.py
+new file mode 100755
+index 0000000000..829cc4cd30
+--- /dev/null
++++ b/scripts/contrib/improve_kernel_cve_report.py
+@@ -0,0 +1,467 @@
++#! /usr/bin/env python3
++#
++# Copyright OpenEmbedded Contributors
++#
++# The script uses another source of CVE information from linux-vulns
++# to enrich the cve-summary from cve-check or vex.
++# It can also use the list of compiled files from the kernel spdx to ignor=
+e CVEs
++# that are not affected since the files are not compiled.
++#
++# It creates a new json file with updated CVE information
++#
++# Compiled files can be extracted adding the following in local.conf
++# SPDX_INCLUDE_COMPILED_SOURCES:pn-linux-yocto =3D "1"
++#
++# Tested with the following CVE sources:
++# - https://git.kernel.org/pub/scm/linux/security/vulns.git
++# - https://github.com/CVEProject/cvelistV5
++#
++# Example:
++# python3 ./openembedded-core/scripts/contrib/improve_kernel_cve_report.py=
+ --spdx tmp/deploy/spdx/3.0.1/qemux86_64/recipes/recipe-linux-yocto.spdx.js=
+on --kernel-version 6.12.27 --datadir ./vulns
++# python3 ./openembedded-core/scripts/contrib/improve_kernel_cve_report.py=
+ --spdx tmp/deploy/spdx/3.0.1/qemux86_64/recipes/recipe-linux-yocto.spdx.js=
+on --datadir ./vulns --old-cve-report build/tmp/log/cve/cve-summary.json
++#
++# SPDX-License-Identifier: GPLv2
 +
-+    check_compiled_sources =3D d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") =
-=3D=3D "1"
-+    if check_compiled_sources:
-+        compiled_sources, types =3D oe.spdx_common.get_compiled_sources(d)
-+        bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
-     for subdir, dirs, files in os.walk(topdir):
-         dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
-         if subdir =3D=3D str(topdir):
-@@ -147,6 +152,10 @@ def add_package_files(d, doc, spdx_pkg, topdir, get_sp=
-dxid, get_types, *, archiv
-             filename =3D str(filepath.relative_to(topdir))
-=20
-             if not filepath.is_symlink() and filepath.is_file():
-+                # Check if file is compiled
-+                if check_compiled_sources:
-+                     if not oe.spdx_common.is_compiled_source(filename, co=
-mpiled_sources, types):
-+                          continue
-                 spdx_file =3D oe.spdx.SPDXFile()
-                 spdx_file.SPDXID =3D get_spdxid(file_counter)
-                 for t in get_types(filepath):
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bb=
-class
-index 713a7fc651..ca0416d1c7 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -26,6 +26,7 @@ SPDX_TOOL_VERSION ??=3D "1.0"
- SPDXRUNTIMEDEPLOY =3D "${SPDXDIR}/runtime-deploy"
-=20
- SPDX_INCLUDE_SOURCES ??=3D "0"
-+SPDX_INCLUDE_COMPILED_SOURCES ??=3D "0"
-=20
- SPDX_UUID_NAMESPACE ??=3D "sbom.openembedded.org"
- SPDX_NAMESPACE_PREFIX ??=3D "http://spdx.org/spdxdocs"
-@@ -40,6 +41,8 @@ SPDX_MULTILIB_SSTATE_ARCHS ??=3D "${SSTATE_ARCHS}"
- python () {
-     from oe.cve_check import extend_cve_status
-     extend_cve_status(d)
-+    if d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") =3D=3D "1":
-+        d.setVar("SPDX_INCLUDE_SOURCES", "1")
- }
-=20
- def create_spdx_source_deps(d):
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 61d7ba45e3..beeafc2bb7 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -156,6 +156,11 @@ def add_package_files(
-         bb.note(f"Skip {topdir}")
-         return spdx_files
-=20
-+    check_compiled_sources =3D d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") =
-=3D=3D "1"
-+    if check_compiled_sources:
-+        compiled_sources, types =3D oe.spdx_common.get_compiled_sources(d)
-+        bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
++import argparse
++import json
++import sys
++import logging
++import glob
++import os
++import pathlib
++from packaging.version import Version
 +
-     for subdir, dirs, files in os.walk(topdir, onerror=3Dwalk_error):
-         dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
-         if subdir =3D=3D str(topdir):
-@@ -171,6 +176,11 @@ def add_package_files(
-             filename =3D str(filepath.relative_to(topdir))
-             file_purposes =3D get_purposes(filepath)
-=20
-+            # Check if file is compiled
-+            if check_compiled_sources:
-+                if not oe.spdx_common.is_compiled_source(filename, compile=
-d_sources, types):
-+                    continue
++def is_linux_cve(cve_info):
++    '''Return true is the CVE belongs to Linux'''
++    if not "affected" in cve_info["containers"]["cna"]:
++        return False
++    for affected in cve_info["containers"]["cna"]["affected"]:
++        if not "product" in affected:
++            return False
++        if affected["product"] =3D=3D "Linux" and affected["vendor"] =3D=
+=3D "Linux":
++            return True
++    return False
 +
-             spdx_file =3D objset.new_file(
-                 get_spdxid(file_counter),
-                 filename,
-diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
-index 4caefc7673..c2dec65563 100644
---- a/meta/lib/oe/spdx_common.py
-+++ b/meta/lib/oe/spdx_common.py
-@@ -242,3 +242,44 @@ def fetch_data_to_uri(fd, name):
-         uri =3D uri + "@" + fd.revision
-=20
-     return uri
-+
-+def is_compiled_source (filename, compiled_sources, types):
++def get_kernel_cves(datadir, compiled_files, version):
 +    """
-+    Check if the file is a compiled file
++    Get CVEs for the kernel
 +    """
-+    import os
-+    # If we don't have compiled source, we assume all are compiled.
-+    if not compiled_sources:
-+        return True
++    cves =3D {}
 +
-+    # We return always true if the file type is not in the list of compile=
-d files.
-+    # Some files in the source directory are not compiled, for example, Ma=
-kefiles,
-+    # but also python .py file. We need to include them in the SPDX.
-+    basename =3D os.path.basename(filename)
-+    ext =3D basename.partition(".")[2]
-+    if ext not in types:
-+        return True
-+    # Check that the file is in the list
-+    return filename in compiled_sources
++    check_config =3D len(compiled_files) > 0
 +
-+def get_compiled_sources(d):
++    base_version =3D Version(f"{version.major}.{version.minor}")
++
++    # Check all CVES from kernel vulns
++    pattern =3D os.path.join(datadir, '**', "CVE-*.json")
++    cve_files =3D glob.glob(pattern, recursive=3DTrue)
++    not_applicable_config =3D 0
++    fixed_as_later_backport =3D 0
++    vulnerable =3D 0
++    not_vulnerable =3D 0
++    for cve_file in sorted(cve_files):
++        cve_info =3D {}
++        with open(cve_file, "r", encoding=3D'ISO-8859-1') as f:
++            cve_info =3D json.load(f)
++
++        if len(cve_info) =3D=3D 0:
++            logging.error("Not valid data in %s. Aborting", cve_file)
++            break
++
++        if not is_linux_cve(cve_info):
++            continue
++        cve_id =3D os.path.basename(cve_file)[:-5]
++        description =3D cve_info["containers"]["cna"]["descriptions"][0]["=
+value"]
++        if cve_file.find("rejected") >=3D 0:
++            logging.debug("%s is rejected by the CNA", cve_id)
++            cves[cve_id] =3D {
++                "id": cve_id,
++                "status": "Ignored",
++                "detail": "rejected",
++                "summary": description,
++                "description": f"Rejected by CNA"
++            }
++            continue
++        if any(elem in cve_file for elem in ["review", "reverved", "testin=
+g"]):
++            continue
++
++        is_vulnerable, first_affected, last_affected, better_match_first, =
+better_match_last, affected_versions =3D get_cpe_applicability(cve_info, ve=
+rsion)
++
++        logging.debug("%s: %s (%s - %s) (%s - %s)", cve_id, is_vulnerable,=
+ better_match_first, better_match_last, first_affected, last_affected)
++
++        if is_vulnerable is None:
++            logging.warning("%s doesn't have good metadata", cve_id)
++        if is_vulnerable:
++            is_affected =3D True
++            affected_files =3D []
++            if check_config:
++                is_affected, affected_files =3D check_kernel_compiled_file=
+s(compiled_files, cve_info)
++
++            if not is_affected and len(affected_files) > 0:
++                logging.debug(
++                    "%s - not applicable configuration since affected file=
+s not compiled: %s",
++                    cve_id, affected_files)
++                cves[cve_id] =3D {
++                    "id": cve_id,
++                    "status": "Ignored",
++                    "detail": "not-applicable-config",
++                    "summary": description,
++                    "description": f"Source code not compiled by config. {=
+affected_files}"
++                }
++                not_applicable_config +=3D1
++            # Check if we have backport
++            else:
++                if not better_match_last:
++                    fixed_in =3D last_affected
++                else:
++                    fixed_in =3D better_match_last
++                logging.debug("%s needs backporting (fixed from %s)", cve_=
+id, fixed_in)
++                cves[cve_id] =3D {
++                        "id": cve_id,
++                        "status": "Unpatched",
++                        "detail": "version-in-range",
++                        "summary": description,
++                        "description": f"Needs backporting (fixed from {fi=
+xed_in})"
++                }
++                vulnerable +=3D 1
++                if (better_match_last and
++                    Version(f"{better_match_last.major}.{better_match_last=
+.minor}") =3D=3D base_version):
++                    fixed_as_later_backport +=3D 1
++        # Not vulnerable
++        else:
++            if not first_affected:
++                logging.debug("%s - not known affected %s",
++                              cve_id,
++                              better_match_last)
++                cves[cve_id] =3D {
++                    "id": cve_id,
++                    "status": "Patched",
++                    "detail": "version-not-in-range",
++                    "summary": description,
++                    "description": "No CPE match"
++                }
++                not_vulnerable +=3D 1
++                continue
++            backport_base =3D Version(f"{better_match_last.major}.{better_=
+match_last.minor}")
++            if version < first_affected:
++                logging.debug('%s - fixed-version: only affects %s onwards=
+',
++                              cve_id,
++                              first_affected)
++                cves[cve_id] =3D {
++                    "id": cve_id,
++                    "status": "Patched",
++                    "detail": "fixed-version",
++                    "summary": description,
++                    "description": f"only affects {first_affected} onwards=
+"
++                }
++                not_vulnerable +=3D 1
++            elif last_affected <=3D version:
++                logging.debug("%s - fixed-version: Fixed from version %s",
++                              cve_id,
++                              last_affected)
++                cves[cve_id] =3D {
++                    "id": cve_id,
++                    "status": "Patched",
++                    "detail": "fixed-version",
++                    "summary": description,
++                    "description": f"fixed-version: Fixed from version {la=
+st_affected}"
++                }
++                not_vulnerable +=3D 1
++            elif backport_base =3D=3D base_version:
++                logging.debug("%s - cpe-stable-backport: Backported in %s"=
+,
++                              cve_id,
++                              better_match_last)
++                cves[cve_id] =3D {
++                    "id": cve_id,
++                    "status": "Patched",
++                    "detail": "cpe-stable-backport",
++                    "summary": description,
++                    "description": f"Backported in {better_match_last}"
++                }
++                not_vulnerable +=3D 1
++            else:
++                logging.debug("%s - version not affected %s", cve_id, str(=
+affected_versions))
++                cves[cve_id] =3D {
++                    "id": cve_id,
++                    "status": "Patched",
++                    "detail": "version-not-in-range",
++                    "summary": description,
++                    "description": f"Range {affected_versions}"
++                }
++                not_vulnerable +=3D 1
++
++    logging.info("Total CVEs ignored due to not applicable config: %d", no=
+t_applicable_config)
++    logging.info("Total CVEs not vulnerable due version-not-in-range: %d",=
+ not_vulnerable)
++    logging.info("Total vulnerable CVEs: %d", vulnerable)
++
++    logging.info("Total CVEs already backported in %s: %s", base_version,
++                    fixed_as_later_backport)
++    return cves
++
++def read_spdx(spdx_file):
++    '''Open SPDX file and extract compiled files'''
++    with open(spdx_file, 'r', encoding=3D'ISO-8859-1') as f:
++        spdx =3D json.load(f)
++        if "spdxVersion" in spdx:
++            if spdx["spdxVersion"] =3D=3D "SPDX-2.2":
++                return read_spdx2(spdx)
++        if "@graph" in spdx:
++            return read_spdx3(spdx)
++    return []
++
++def read_spdx2(spdx):
++    '''
++    Read spdx2 compiled files from spdx
++    '''
++    cfiles =3D set()
++    if 'files' not in spdx:
++        return cfiles
++    for item in spdx['files']:
++        for ftype in item['fileTypes']:
++            if ftype =3D=3D "SOURCE":
++                filename =3D item["fileName"][item["fileName"].find("/")+1=
+:]
++                cfiles.add(filename)
++    return cfiles
++
++def read_spdx3(spdx):
++    '''
++    Read spdx3 compiled files from spdx
++    '''
++    cfiles =3D set()
++    for item in spdx["@graph"]:
++        if "software_primaryPurpose" not in item:
++            continue
++        if item["software_primaryPurpose"] =3D=3D "source":
++            filename =3D item['name'][item['name'].find("/")+1:]
++            cfiles.add(filename)
++    return cfiles
++
++def check_kernel_compiled_files(compiled_files, cve_info):
 +    """
-+    Get list of compiled sources from debug information and normalize the =
-paths
++    Return if a CVE affected us depending on compiled files
 +    """
-+    import itertools
-+    source_info =3D oe.package.read_debugsources_info(d)
-+    if not source_info:
-+        bb.debug(1, "Do not have debugsources.list. Skipping")
-+        return [], []
++    files_affected =3D set()
++    is_affected =3D False
 +
-+    # Sources are not split now in SPDX, so we aggregate them
-+    sources =3D set(itertools.chain.from_iterable(source_info.values()))
-+    # Check extensions of files
-+    types =3D set()
-+    for src in sources:
-+        basename =3D os.path.basename(src)
-+        ext =3D basename.partition(".")[2]
-+        if ext not in types and ext:
-+            types.add(ext)
-+    bb.debug(1, f"Num of sources: {len(sources)} and types: {len(types)} {=
-str(types)}")
-+    return sources, types
++    for item in cve_info['containers']['cna']['affected']:
++        if "programFiles" in item:
++            for f in item['programFiles']:
++                if f not in files_affected:
++                    files_affected.add(f)
++
++    if len(files_affected) > 0:
++        for f in files_affected:
++            if f in compiled_files:
++                logging.debug("File match: %s", f)
++                is_affected =3D True
++    return is_affected, files_affected
++
++def get_cpe_applicability(cve_info, v):
++    '''
++    Check if version is affected and return affected versions
++    '''
++    base_branch =3D Version(f"{v.major}.{v.minor}")
++    affected =3D []
++    if not 'cpeApplicability' in cve_info["containers"]["cna"]:
++        return None, None, None, None, None, None
++
++    for nodes in cve_info["containers"]["cna"]["cpeApplicability"]:
++        for node in nodes.values():
++            vulnerable =3D False
++            matched_branch =3D False
++            first_affected =3D Version("5000")
++            last_affected =3D Version("0")
++            better_match_first =3D Version("0")
++            better_match_last =3D Version("5000")
++
++            if len(node[0]['cpeMatch']) =3D=3D 0:
++                first_affected =3D None
++                last_affected =3D None
++                better_match_first =3D None
++                better_match_last =3D None
++
++            for cpe_match in node[0]['cpeMatch']:
++                version_start_including =3D Version("0")
++                version_end_excluding =3D Version("0")
++                if 'versionStartIncluding' in cpe_match:
++                    version_start_including =3D Version(cpe_match['version=
+StartIncluding'])
++                else:
++                    version_start_including =3D Version("0")
++                # if versionEndExcluding is missing we are in a branch, wh=
+ich is not fixed.
++                if "versionEndExcluding" in cpe_match:
++                    version_end_excluding =3D Version(cpe_match["versionEn=
+dExcluding"])
++                else:
++                    # if versionEndExcluding is missing we are in a branch=
+, which is not fixed.
++                    version_end_excluding =3D Version(
++                        f"{version_start_including.major}.{version_start_i=
+ncluding.minor}.5000"
++                    )
++                affected.append(f" {version_start_including}-{version_end_=
+excluding}")
++                # Detect if versionEnd is in fixed in base branch. It has =
+precedence over the rest
++                branch_end =3D Version(f"{version_end_excluding.major}.{ve=
+rsion_end_excluding.minor}")
++                if branch_end =3D=3D base_branch:
++                    if version_start_including <=3D v < version_end_exclud=
+ing:
++                        vulnerable =3D cpe_match['vulnerable']
++                    # If we don't match in our branch, we are not vulnerab=
+le,
++                    # since we have a backport
++                    matched_branch =3D True
++                    better_match_first =3D version_start_including
++                    better_match_last =3D version_end_excluding
++                if version_start_including <=3D v < version_end_excluding =
+and not matched_branch:
++                    if version_end_excluding < better_match_last:
++                        better_match_first =3D max(version_start_including=
+, better_match_first)
++                        better_match_last =3D min(better_match_last, versi=
+on_end_excluding)
++                        vulnerable =3D cpe_match['vulnerable']
++                        matched_branch =3D True
++
++                first_affected =3D min(version_start_including, first_affe=
+cted)
++                last_affected =3D max(version_end_excluding, last_affected=
+)
++            # Not a better match, we use the first and last affected inste=
+ad of the fake .5000
++            if vulnerable and better_match_last =3D=3D Version(f"{base_bra=
+nch}.5000"):
++                better_match_last =3D last_affected
++                better_match_first =3D first_affected
++    return vulnerable, first_affected, last_affected, better_match_first, =
+better_match_last, affected
++
++def copy_data(old, new):
++    '''Update dictionary with new entries, while keeping the old ones'''
++    for k in new.keys():
++        old[k] =3D new[k]
++    return old
++
++# Function taken from cve_check.bbclass. Adapted to cve fields
++def cve_update(cve_data, cve, entry):
++    # If no entry, just add it
++    if cve not in cve_data:
++        cve_data[cve] =3D entry
++        return
++    # If we are updating, there might be change in the status
++    if cve_data[cve]['status'] =3D=3D "Unknown":
++        cve_data[cve] =3D copy_data(cve_data[cve], entry)
++        return
++    if cve_data[cve]['status'] =3D=3D entry['status']:
++        return
++    if entry['status'] =3D=3D "Unpatched" and cve_data[cve]['status'] =3D=
+=3D "Patched":
++        logging.warning("CVE entry %s update from Patched to Unpatched fro=
+m the scan result", cve)
++        cve_data[cve] =3D copy_data(cve_data[cve], entry)
++        return
++    if entry['status'] =3D=3D "Patched" and cve_data[cve]['status'] =3D=3D=
+ "Unpatched":
++        logging.warning("CVE entry %s update from Unpatched to Patched fro=
+m the scan result", cve)
++        cve_data[cve] =3D copy_data(cve_data[cve], entry)
++        return
++    # If we have an "Ignored", it has a priority
++    if cve_data[cve]['status'] =3D=3D "Ignored":
++        logging.debug("CVE %s not updating because Ignored", cve)
++        return
++    # If we have an "Ignored", it has a priority
++    if entry['status'] =3D=3D "Ignored":
++        cve_data[cve] =3D copy_data(cve_data[cve], entry)
++        logging.debug("CVE entry %s updated from Unpatched to Ignored", cv=
+e)
++        return
++    logging.warning("Unhandled CVE entry update for %s %s from %s %s to %s=
+",
++        cve, cve_data[cve]['status'], cve_data[cve]['detail'],  entry['sta=
+tus'], entry['detail'])
++
++def main():
++    parser =3D argparse.ArgumentParser(
++        description=3D"Update cve-summary with kernel compiled files and k=
+ernel CVE information"
++    )
++    parser.add_argument(
++        "-s",
++        "--spdx",
++        help=3D"SPDX2/3 for the kernel. Needs to include compiled sources"=
+,
++    )
++    parser.add_argument(
++        "--datadir",
++        type=3Dpathlib.Path,
++        help=3D"Directory where CVE data is",
++        required=3DTrue
++    )
++    parser.add_argument(
++        "--old-cve-report",
++        help=3D"CVE report to update. (Optional)",
++    )
++    parser.add_argument(
++        "--kernel-version",
++        help=3D"Kernel version. Needed if old cve_report is not provided (=
+Optional)",
++        type=3DVersion
++    )
++    parser.add_argument(
++        "--new-cve-report",
++        help=3D"Output file",
++        default=3D"cve-summary-enhance.json"
++    )
++    parser.add_argument(
++        "-D",
++        "--debug",
++        help=3D'Enable debug ',
++        action=3D"store_true")
++
++    args =3D parser.parse_args()
++
++    if args.debug:
++        log_level=3Dlogging.DEBUG
++    else:
++        log_level=3Dlogging.INFO
++    logging.basicConfig(format=3D'[%(filename)s:%(lineno)d] %(message)s', =
+level=3Dlog_level)
++
++    if not args.kernel_version and not args.old_cve_report:
++        parser.error("either --kernel-version or --old-cve-report are need=
+ed")
++        return -1
++
++    # by default we don't check the compiled files, unless provided
++    compiled_files =3D []
++    if args.spdx:
++        compiled_files =3D read_spdx(args.spdx)
++        logging.info("Total compiled files %d", len(compiled_files))
++
++    if args.old_cve_report:
++        with open(args.old_cve_report, encoding=3D'ISO-8859-1') as f:
++            cve_report =3D json.load(f)
++    else:
++        #If summary not provided, we create one
++        cve_report =3D {
++            "version": "1",
++            "package": [
++                {
++                    "name": "linux-yocto",
++                    "version": str(args.kernel_version),
++                    "products": [
++                        {
++                            "product": "linux_kernel",
++                            "cvesInRecord": "Yes"
++                        }
++                    ],
++                    "issue": []
++                }
++            ]
++        }
++
++    for pkg in cve_report['package']:
++        is_kernel =3D False
++        for product in pkg['products']:
++            if product['product'] =3D=3D "linux_kernel":
++                is_kernel=3DTrue
++        if not is_kernel:
++            continue
++
++        kernel_cves =3D get_kernel_cves(args.datadir,
++                                      compiled_files,
++                                      Version(pkg["version"]))
++        logging.info("Total kernel cves from kernel CNA: %s", len(kernel_c=
+ves))
++        cves =3D {issue["id"]: issue for issue in pkg["issue"]}
++        logging.info("Total kernel before processing cves: %s", len(cves))
++
++        for cve in kernel_cves:
++            cve_update(cves, cve, kernel_cves[cve])
++
++        pkg["issue"] =3D []
++        for cve in sorted(cves):
++            pkg["issue"].extend([cves[cve]])
++        logging.info("Total kernel cves after processing: %s", len(pkg['is=
+sue']))
++
++    with open(args.new_cve_report, "w", encoding=3D'ISO-8859-1') as f:
++        json.dump(cve_report, f, indent=3D2)
++
++    return 0
++
++if __name__ =3D=3D "__main__":
++    sys.exit(main())
++
 
