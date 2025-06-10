@@ -1,129 +1,133 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30991C61DB2
-	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 22:08:30 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.236.1749593304971587252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32067C677C4
+	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 22:08:40 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web10.252.1749593311059647661
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 15:08:25 -0700
+ Tue, 10 Jun 2025 15:08:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SVhPwPN/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a51d552de4so3242914f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 15:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1749593303; x=1750198103; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hGMxKrRLTMl0VkL262/W31MsgAYF98/HADulP1Ofwyg=;
-        b=SVhPwPN/CAJk6ZPY8GugS81YuD/RHiu7QCaT7v6kjbdV7UaqQsl4EZJNALcgSoLtKT
-         +vu0ev3z4xiWlX2h1UtvmcthJDHV7N+LT8dBdoMgD6F+2Qg5UB0Q48ZlGNP+BX+ITEtU
-         4Beovp32LdctHehaKVmyoKiJn8cOORnQ0oCJo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749593303; x=1750198103;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hGMxKrRLTMl0VkL262/W31MsgAYF98/HADulP1Ofwyg=;
-        b=bAJFzCQLErl12hD0I4sP6eIOkxFn22Al8l4iPZmn0Xw9oIzCWUMMIhd87YvRu0BByn
-         Xq1sxogXu6OQWviUNcPCLte/W0nGO4vdCO5R9psarwlAH6hok5zyXkjDFfwjqwlukRDS
-         lQB91ae1b4J+rdIrJGrogIvWHOjVt5LFpiE5kuHY3VzngZ38JsJ5+UPVuyTnrezqDe5/
-         S/OiAc562Zl5FarF9GCCc84p+GteBtOtpZ+RcQjgh3C6xrO+jl87imK+zGZdBc0GFkI0
-         kUBqP3wjS9tw4x0SREU6ucZh3wQe5h117q1h4d5R/8onQKtd7nXBaCSVWehweMSBHMST
-         nXsw==
-X-Forwarded-Encrypted: i=1; AJvYcCXf0mJUc0otyN5dlECaH87REw5coNTDa3KcvJTPDeZV6SBTlqLhQ80/NpN3HSDg55ky4bGcY/DynYPsZHvYttkCfQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzlBtySImF5bktJBier7cTEimIa+2ndrABYcvGdRpYVvRFhwZIK
-	IDraBBSRTXbVvAIg5EfBu8yA1nniWA57lkRkfVbcvS72Ly3hVwE1Gz9HtQk3BbWmyHzs2vnBZxI
-	++j77frM=
-X-Gm-Gg: ASbGncuR1zAA83b4escApvob3Shl/hV6YTU25cgFyQvibTQbKjv6+PxhA8G1sObTy3k
-	F3I+xwpbsWnUeR33cW6Dp8owdrfXyXMWkzP3dTBpd8UiVMSfWSHD3TWr6LZNc69QBWY+Vso7UxI
-	Jpeh9JlWCI+Yam055z8T06AMrCrBQkZdWwZnNkNmgsfTUm5ZwkUtA4eZUMu9gOeXYR76yvYihXm
-	LRHFoIDxmZ0UsiUQCYThK7gTRP0GKGVaZTHffcQlla0HpuptWJJjKKSnoRZPUgz3Mq60S/aR5dr
-	Y0cza2YOmb+99ZAdtBX5KsqKKT6JjtlHm3Uod/x+6pWuwNSeQUOL905IrJVYO++IUNJBDiqqnRd
-	1IjDPz0Y7sryKDTkQy/0RX+SLDU1dXSWUqH2z/Z3kX+eN6u3lkNA=
-X-Google-Smtp-Source: AGHT+IHCes8BANbVmRBCjash/nk9u/USBrHFRYB7ZFfC5dOoCpUtD/qyFQMuv2GnCw4Pqlb/MhMiug==
-X-Received: by 2002:a5d:5271:0:b0:3a4:f90c:31e3 with SMTP id ffacd0b85a97d-3a558acbd57mr361919f8f.31.1749593303247;
-        Tue, 10 Jun 2025 15:08:23 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a404:24a5:298c:75da? ([2001:8b0:aba:5f3c:a404:24a5:298c:75da])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a532461798sm13109896f8f.87.2025.06.10.15.08.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 15:08:22 -0700 (PDT)
-Message-ID: <d9eedf9bba828511961d3bdc65e630884d438387.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] toaster.bbclass: fix toaster error caused by
- tabs in BBLAYERS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: osose.itua@savoirfairelinux.com, openembedded-core@lists.openembedded.org
-Cc: Anakin Childerhose <anakin.childerhose@savoirfairelinux.com>
-Date: Tue, 10 Jun 2025 23:08:21 +0100
-In-Reply-To: <20250610214206.3584227-1-osose.itua@savoirfairelinux.com>
-References: <20250610214206.3584227-1-osose.itua@savoirfairelinux.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=MyDYUm6l;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20250610220825fa6948ffaa961dcaa1-6quqzj@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20250610220825fa6948ffaa961dcaa1
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 11 Jun 2025 00:08:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=DvprV2ouO+rQTXhoKQuACky6Q9uX5luvKHJ327vKu4I=;
+ b=MyDYUm6lP0GyFvUUQXjVnD+iVA7HPsPLjQkiJRVpOYGETsDiFsVPhO7N4VoRDiqdjlrr/S
+ iN/anI1/tS7cMryeL1lLD5etXkQLeyR8HlDzfQbP4iaZLoHTlQeXaRlZSGO0KIK91kt2SqFY
+ fIYLPGalzzXpqbjAHhq+cAI8G+YaOB5NTJDBfdcR4vey5X8p/KnvxscdXQDYNGu1y5TbXFlP
+ 8je+SgzXoVziMMDeG0kNgeXDRXU/jBuBAlg3WA3wuivZnpDJLxPLP2PNC1M9gAkDM1EgxQox
+ E5+ei/gFwax1Eu2urozpWzZPzKSNU3DV33bCkroLiIXFXPU4c7d+K7Mw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] go: upgrade 1.24.3 -> 1.24.4
+Date: Wed, 11 Jun 2025 00:07:38 +0200
+Message-Id: <20250610220738.2183730-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 22:08:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218440
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 22:08:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218441
 
-On Tue, 2025-06-10 at 17:42 -0400, Osose Itua via lists.openembedded.org wr=
-ote:
-> Users may unknowingly put tabs in BBLAYERS instead of spaces, and this is
-> interpreted as a literal "\t" at the start of the filepath which causes
-> _get_layer_dict() function to fail at finding the filepath.
->=20
-> Replace any tabs found with an empty string to resolve this.
->=20
-> Min steps to reproduce:
-> - Clone the poky repo:
-> =C2=A0=C2=A0=C2=A0 git clone git://git.yoctoproject.org/poky
-> =C2=A0=C2=A0=C2=A0 cd poky
-> =C2=A0=C2=A0=C2=A0 source oe-init-build-env
-> - Insert tabs in the BBLAYERS variable in bblayers.conf
-> =C2=A0 - Note: tab needs to be in the recipe that is being built for the =
-error to be observed
-> =C2=A0 - Ex: `	/home/<user>/src/poky/meta-skeleton \`
-> - Start toaster
-> =C2=A0 source toaster start
-> =C2=A0 bitbake hello
->=20
-> Error message:
-> FileNotFoundError: [Errno 2] No such file or directory: '\t/home/<user>/s=
-rc/poky/meta-skeleton=E2=80=99
->=20
-> Fix by removing tabs and replacing them with empty strings.
->=20
-> Suggested-by: Anakin Childerhose <anakin.childerhose@savoirfairelinux.com=
->
-> Signed-off-by: Osose Itua <osose.itua@savoirfairelinux.com>
-> ---
-> =C2=A0meta/classes/toaster.bbclass | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-> index 03c4f3a930..fab22fd0b9 100644
-> --- a/meta/classes/toaster.bbclass
-> +++ b/meta/classes/toaster.bbclass
-> @@ -80,7 +80,7 @@ python toaster_layerinfo_dumpdata() {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return layer_info
-> =C2=A0
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0 bblayers =3D e.data.getVar("BBLAYERS")
-> +=C2=A0=C2=A0=C2=A0 bblayers =3D e.data.getVar("BBLAYERS").replace("\t", =
-"")
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 llayerinfo =3D {}
-> =C2=A0
+From: Peter Marko <peter.marko@siemens.com>
 
-I suspect you should replace with " " just in case they've used it as a
-delimiter. Looking at the class, why is the code using split(" ")
-instead of split() which would probably handle this more nicely?
+Upgrade to latest 1.24.x release [1]:
 
-Cheers,
+$ git --no-pager log --oneline go1.24.3..go1.24.4
+6796ebb2cb [release-branch.go1.24] go1.24.4
+85897ca220 [release-branch.go1.24] net/http: strip sensitive proxy headers from redirect requests
+9f9cf28f8f [release-branch.go1.24] os: don't follow symlinks on Windows when O_CREATE|O_EXCL
+a31c931adf [release-branch.go1.24] cmd/link: allow linkname reference to a TEXT symbol regardless of size
+03811ab1b3 [release-branch.go1.24] crypto/x509: decouple key usage and policy validation
+04a9473847 [release-branch.go1.24] lib/fips140: set inprocess.txt to v1.0.0
+db8f1dc948 [release-branch.go1.24] hash/maphash: hash channels in purego version of maphash.Comparable
+664cf832ec [release-branch.go1.24] runtime/debug: document DefaultGODEBUG as a BuildSetting
+431f75a0b9 [release-branch.go1.24] os: fix Root.Mkdir permission bits on OpenBSD
 
-Richard
+Fixes CVE-2025-4673, CVE-2025-0913 and CVE-2025-22874 [2].
+
+[1] https://github.com/golang/go/compare/go1.24.3...go1.24.4
+[2] https://groups.google.com/g/golang-announce/c/ufZ8WpEsA3A
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-devtools/go/{go-1.24.3.inc => go-1.24.4.inc}   | 2 +-
+ ...o-binary-native_1.24.3.bb => go-binary-native_1.24.4.bb} | 6 +++---
+ ...cross-canadian_1.24.3.bb => go-cross-canadian_1.24.4.bb} | 0
+ .../go/{go-cross_1.24.3.bb => go-cross_1.24.4.bb}           | 0
+ .../go/{go-crosssdk_1.24.3.bb => go-crosssdk_1.24.4.bb}     | 0
+ .../go/{go-runtime_1.24.3.bb => go-runtime_1.24.4.bb}       | 0
+ meta/recipes-devtools/go/{go_1.24.3.bb => go_1.24.4.bb}     | 0
+ 7 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.24.3.inc => go-1.24.4.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.24.3.bb => go-binary-native_1.24.4.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.24.3.bb => go-cross-canadian_1.24.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.24.3.bb => go-cross_1.24.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.24.3.bb => go-crosssdk_1.24.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.24.3.bb => go-runtime_1.24.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.24.3.bb => go_1.24.4.bb} (100%)
+
+diff --git a/meta/recipes-devtools/go/go-1.24.3.inc b/meta/recipes-devtools/go/go-1.24.4.inc
+similarity index 91%
+rename from meta/recipes-devtools/go/go-1.24.3.inc
+rename to meta/recipes-devtools/go/go-1.24.4.inc
+index 78e26146b5..eff3f2f605 100644
+--- a/meta/recipes-devtools/go/go-1.24.3.inc
++++ b/meta/recipes-devtools/go/go-1.24.4.inc
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
+     file://6d265b008e3d106b2706645e5a88cd8e2fb98953.patch \
+ "
+-SRC_URI[main.sha256sum] = "229c08b600b1446798109fae1f569228102c8473caba8104b6418cb5bc032878"
++SRC_URI[main.sha256sum] = "5a86a83a31f9fa81490b8c5420ac384fd3d95a3e71fba665c7b3f95d1dfef2b4"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.24.3.bb b/meta/recipes-devtools/go/go-binary-native_1.24.4.bb
+similarity index 78%
+rename from meta/recipes-devtools/go/go-binary-native_1.24.3.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.24.4.bb
+index af56dc9111..9f788536c4 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.24.3.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.24.4.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+ 
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "3333f6ea53afa971e9078895eaa4ac7204a8c6b5c68c10e6bc9a33e8e391bdd8"
+-SRC_URI[go_linux_arm64.sha256sum] = "a463cb59382bd7ae7d8f4c68846e73c4d589f223c589ac76871b66811ded7836"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "341a749d168f47b1d4dad25e32cae70849b7ceed7c290823b853c9e6b0df0856"
++SRC_URI[go_linux_amd64.sha256sum] = "77e5da33bb72aeaef1ba4418b6fe511bc4d041873cbf82e5aa6318740df98717"
++SRC_URI[go_linux_arm64.sha256sum] = "d5501ee5aca0f258d5fe9bfaed401958445014495dc115f202d43d5210b45241"
++SRC_URI[go_linux_ppc64le.sha256sum] = "9ca4afef813a2578c23843b640ae0290aa54b2e3c950a6cc4c99e16a57dec2ec"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.24.3.bb b/meta/recipes-devtools/go/go-cross-canadian_1.24.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.24.3.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.24.4.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.24.3.bb b/meta/recipes-devtools/go/go-cross_1.24.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.24.3.bb
+rename to meta/recipes-devtools/go/go-cross_1.24.4.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.24.3.bb b/meta/recipes-devtools/go/go-crosssdk_1.24.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.24.3.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.24.4.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.24.3.bb b/meta/recipes-devtools/go/go-runtime_1.24.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.24.3.bb
+rename to meta/recipes-devtools/go/go-runtime_1.24.4.bb
+diff --git a/meta/recipes-devtools/go/go_1.24.3.bb b/meta/recipes-devtools/go/go_1.24.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.24.3.bb
+rename to meta/recipes-devtools/go/go_1.24.4.bb
 
