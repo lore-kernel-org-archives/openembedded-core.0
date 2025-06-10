@@ -1,96 +1,93 @@
-Return-Path: <andrej.v@skyrain.eu>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 377F4C5B543
-	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 06:42:34 +0000 (UTC)
-Received: from h2.cmg2.smtp.forpsi.com (h2.cmg2.smtp.forpsi.com [81.2.195.189])
- by mx.groups.io with SMTP id smtpd.web11.80209.1749537745976128911
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97814C5B543
+	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 08:04:14 +0000 (UTC)
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+ by mx.groups.io with SMTP id smtpd.web11.81166.1749542646371465557
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 23:42:26 -0700
+ Tue, 10 Jun 2025 01:04:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=B9Cyvn4x;
- dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=B9Cyvn4x;
- spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 81.2.195.189, mailfrom: andrej.v@skyrain.eu)
-Received: from [172.25.231.43] ([85.248.43.180])
-	by cmgsmtp with ESMTPSA
-	id OsgguyEgX75drOsghuCDSG; Tue, 10 Jun 2025 08:42:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
-	t=1749537744; bh=/1QJapm0HGrAtmlVl4f78EPLFilX+qQYq8bKotXtLXc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	b=B9Cyvn4xToYoS+i1ijWSTYgiT0Ib+dIpslkUuDWFXvCwhIzGHfLGDZTJUzso7t+nU
-	 Rz54rlTTkSsfWv5m8piIGXpRtp8kYcVAToluIS9h7HEhqp/uVnoYgMODqCBUbmlUWn
-	 KdJvN31FIk7v8bFpswavRLd1nJNRlxHyh2JcQteYgEDK5ZkdM/g0obJC9W5hcs/42l
-	 bL6nhjYGc5UVe8hTlFUWFozJoWi8AAn/dtDN4ACSI2NGB962kUBR0KhsbNO3VgegS4
-	 7KGyiejCCZaEjqmmRt1B+Ew0Inm7UjodNwhIocEfmvgNhqwzhzd6NmY5bY4rDxFYhK
-	 3vJmpVEumYNHA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
-	t=1749537744; bh=/1QJapm0HGrAtmlVl4f78EPLFilX+qQYq8bKotXtLXc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	b=B9Cyvn4xToYoS+i1ijWSTYgiT0Ib+dIpslkUuDWFXvCwhIzGHfLGDZTJUzso7t+nU
-	 Rz54rlTTkSsfWv5m8piIGXpRtp8kYcVAToluIS9h7HEhqp/uVnoYgMODqCBUbmlUWn
-	 KdJvN31FIk7v8bFpswavRLd1nJNRlxHyh2JcQteYgEDK5ZkdM/g0obJC9W5hcs/42l
-	 bL6nhjYGc5UVe8hTlFUWFozJoWi8AAn/dtDN4ACSI2NGB962kUBR0KhsbNO3VgegS4
-	 7KGyiejCCZaEjqmmRt1B+Ew0Inm7UjodNwhIocEfmvgNhqwzhzd6NmY5bY4rDxFYhK
-	 3vJmpVEumYNHA==
-Message-ID: <e36d3a92-1548-4bce-af35-cb35b4327bbe@skyrain.eu>
-Date: Tue, 10 Jun 2025 08:42:22 +0200
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A+0N5BlW;
+ spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-407aac76036so3289992b6e.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 01:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749542645; x=1750147445; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wAOyv/OaUmIffFG13accZhPTU5trmI690I4PhwAONgo=;
+        b=A+0N5BlW1iEkDMl0UU1peSYNo+vA7WWf5zY/qk01lGCXe4DZtdBQVTWOqz2EJQhMkc
+         aeXjkIZbngHUhEbeTsrDCfghQlhICWYKRcL4d3TEi1X0Nwg97Ed8v7m3Dbh0rLujQEm5
+         Vva4CbmiogtGjFi3WvoIueIlsK4PO13MWf3XLWcazKwIgXtP/QcMGbuGu2JaqIMD2ugu
+         2zQwMCk78tkcKfFKL0ECftMtNH+S3Dbx+Rg5qqvvwhus6T30CcNbDtmrvw39K2eRSYPO
+         lHT9qj5fgL8fFInnwa+FTUS6vK4wpbVfvCrHFKXxuwdQUMi2RTlgSu15ziRd+UI2Ogz9
+         mKCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749542645; x=1750147445;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wAOyv/OaUmIffFG13accZhPTU5trmI690I4PhwAONgo=;
+        b=xECFqJhwi/pdi6mw3LMbm7D0QaHfOffUc+InZWQ5RIBSd/F8bTxYLbUDKU7Suxq8bK
+         aQ9y0OH2FQT+PyIYuNFgYD8GM917jN3J4KwtoZ39wYFzyRxbGT8NKkwk+0eXt/7Umdq4
+         LCxizuAmNgF/hJYm6Q6L3RJ6o4IvZq9zPvTqXhyrAUH5i3aiR4O7TZJmMIz+hj5BnlB+
+         1/tjUQAk8GqISOJJJn0udOB6GMC8OpNe5M//UPMxTtoMnM47Kdo+i+xFoD5ifAOi3Vz4
+         G2lEp9iHQ4IgZwLfP2lBkLeJvA8aQNbMLz9Fg51/RuzGSourcm6thDu5xXyqP371GEBA
+         dASw==
+X-Gm-Message-State: AOJu0YxYczgyBUHB7iiDi2WU6uhJFWuKZ5ZuWRAgqfv4l3B7G/7HZj7r
+	j/q/eya9kQfSbQz+bYDUyqzOtrV96bZ05OQWsjmgOKZf0PcOBoL/wBfRK6TvU5vQ3VFzuBXb1/e
+	tiLLjUbt6MfjbVXSfaMKZtbEBfSevxcy/ehlb
+X-Gm-Gg: ASbGncvEBEahpHKqOzpNOa6fEIckE76glxsWh9Q20t3TBqjYRWfRef48TfdpDHWqrEv
+	21vbTfDEHzGxiQUJAUmVWSa9jbaFv0enrdwZesOoA+AoxxlPlEXe4EcVhujCxOI7I6J8n2qGW6H
+	m3DAxjXYr2ilO7Fhj9YcmuEodE27K0RWt3reQwfZ6rGA==
+X-Google-Smtp-Source: AGHT+IG690xhYKwT7D26pE03ji5Od0AL0qFQ12mIlNE0gxsLzudArBQ3KOe6tWJluVgRFomcN58ds5ZreJej0UUvwsA=
+X-Received: by 2002:a05:6214:29c2:b0:6e6:9ce0:da9d with SMTP id
+ 6a1803df08f44-6fb08f69de4mr273524996d6.27.1749542634017; Tue, 10 Jun 2025
+ 01:03:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [oe][meta][PATCH] dropbear: add xauth runtime
- dependency when x11-forwarding is enabled
-To: ross.burton@arm.com
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20250605091828.50442-1-andrej.v@skyrain.eu>
- <912349A0-C95B-487F-80D0-D5402A94ED30@arm.com>
-Content-Language: en-US
-From: Andrej Valek <andrej.v@skyrain.eu>
-In-Reply-To: <912349A0-C95B-487F-80D0-D5402A94ED30@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfD2rBWXtZs9ZfnRX8N/lDVcO56Qk8Bi7eUYlLwRlqj/LDdaFFZekMcAFDE+EDwnwMIUSdF+DfHNHXFHefadTFNsthkL1psP8g59YcJrgek/Z8ZU9zrEq
- IBbM320+WMiXbqHiacCP4CGtNHx9SzQzpdP9+cE2uOEmxYMBh2tKZSFkCbkHlxzHjFleyOCGKKCHfO4xSShONOXSEkmwqDAHyJdKo2RZABvM8dhcdjld2KIA
- urSjCoP5BUpSOn2Z1HtLrQ==
+References: <20250606161630.4027025-1-skandigraun@gmail.com>
+In-Reply-To: <20250606161630.4027025-1-skandigraun@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 10 Jun 2025 10:03:42 +0200
+X-Gm-Features: AX0GCFslzaQbYSUJHndYFfeoJaYPBGp3Z_zQXmnk_tVPS6WuCQRWQEUNN5q1j4Y
+Message-ID: <CANNYZj9WWDqrpsmRkAM00=tcmeB1WuRDWsAmshbUvGq+z_xKSg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] seatd: fix packaging error with systemd DISTRO_FEATURES
+To: skandigraun@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 06:42:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218317
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 08:04:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218318
 
-Hi Ross,
-
-What do you mean by "should be a recommends not a depends"? AFAIK: 
-PACKAGECONFIG[x] = "with,without,depends,rdepends", so I would say my 
-variant is ok, or?
-
-No, I'm fully on your side to enable the forwarding by default when x11 
-is enabled.
-
-Will you take a care of it, or should I?
-
-BR,
-Andy
-
-On 09.06.2025 18:54, Ross Burton via lists.openembedded.org wrote:
-> On 5 Jun 2025, at 10:18, Andrej Valek via lists.openembedded.org <andrej.v=skyrain.eu@lists.openembedded.org> wrote:
->> -PACKAGECONFIG[enable-x11-forwarding] = ""
->> +PACKAGECONFIG[enable-x11-forwarding] = “,,,xauth”
-> It feels like this should be a recommends not a depends (so add another comma).
+On Fri, 6 Jun 2025 at 18:16, Gyorgy Sarvari via lists.openembedded.org
+<skandigraun=gmail.com@lists.openembedded.org> wrote:
 >
-> Whilst you’re here: do you think we should enable x11 forwarding if x11 is in DISTRO_FEATURES by default, or is there a good reason to keep it disabled by default?
+> The systemd unit file for this recipe is only installed in case
+> the target system's init system is not sysvinit (the recipe assumes
+> that in this case it is systemd). It is achieved by inspecting the
+> VIRTUAL-RUNTIME_init_manager variable.
 >
-> Thanks,
-> Ross
+> However the systemd class was inherited unconditionally. This caused
+> a failure in do_package task, in case systemd is present in the
+> DISTRO_FEATURES but the system's init manager is sysvinit: in this case
+> the systemd unit file is not installed, however systemd.bbclass is
+> still trying to register is as a startup service. At this point
+> it failed:
 >
+> ERROR: seatd-0.9.1-r0 do_package: Didn't find service unit 'seatd.service', specified in SYSTEMD_SERVICE:seatd.
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#218301): https://lists.openembedded.org/g/openembedded-core/message/218301
-> Mute This Topic: https://lists.openembedded.org/mt/113482164/3619876
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [andrej.v@skyrain.eu]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> To avoid this, inherit systemd bbclass only in case the init system is
+> specified as systemd.
 
+> +inherit meson pkgconfig update-rc.d useradd ${@bb.utils.filter('VIRTUAL-RUNTIME_init_manager', 'systemd',  d)}
+
+Conditional inherits are best avoided. There are plenty of recipes
+that inherit systemd unconditionally, and they do not require similar
+fixes. Perhaps we should install the service file unconditionally?
+
+Alex
 
