@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17741C71134
-	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 16:09:08 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.91277.1749571740476786512
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F30E3C5B552
+	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 16:09:07 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.91283.1749571745186831764
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 09:09:00 -0700
+ Tue, 10 Jun 2025 09:09:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zY1dJPy7;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-23636167afeso12668645ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 09:09:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vL2TVUgr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2350fc2591dso46557605ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 09:09:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749571740; x=1750176540; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749571744; x=1750176544; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K0gWXw5a4WG+2PfgGlYw8nxvbB7aV0dJZKycEaN+V/0=;
-        b=zY1dJPy7ACnKuyIpUraOsbSNCw6HDw80IbXNBxG29QaDzL7JBF70oM/OeLym7LDzXj
-         PIS4tb4zkPIUOfbY2p6E9ewoULQlECnzuRMGXrrmPzQWvkR3/IjkzK9xqR69XqhkjVPV
-         J0p9tuuqzPIjezbYv8IU1Kdbxhf6FBOujrHC4pMf8DtSaJOtNpzoN1lvdCS4OZqVgyFF
-         9gpdbmWyQvZPq54ULVLFbfGH/7Z+P2qlXB9S7lq7/tKONIKI9NC+78rILcKBq1yVLxUG
-         lm/dW/6Sxk1NGi+WEZ9AYua4XJfG4DKv6jduAWpRCeZ/MvLkm+z+FqICUMasPetNWaoc
-         BdWQ==
+        bh=pcGQiQH+J5SFjte67z7JugQlHPNk2LsujYWOA54ELVE=;
+        b=vL2TVUgr0TxakoVn+3M1db4/8JIJ6eYIuCa5AOCAM1KNyWNiHmAXWAWUHS+rHYl7qL
+         eFHjbtTvpeBfIl1r8vCv3lUodRKFOCLv3JmIIOXyxAFgeG1XRFesv/pHuXPCnITNbOdR
+         y7ulLmts/9G+GBaDYCkWMYSaPTqC4r+2F78/OAAWeptcSdD313xlGhvZGUaNazRtIEXe
+         q3xRww8nmM5ny0cEi3BUOJ6xy2brJaaA2j833r/yyPhb55uH+xWo+Vq//4xTYic+fh2z
+         FodjkdLZ9L8J4RUkSCrc2lcD5/3BgMBiWh/R1piOxOHkOm1/UKq5WvyGEgdhv6O4nuWD
+         EtTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749571740; x=1750176540;
+        d=1e100.net; s=20230601; t=1749571744; x=1750176544;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=K0gWXw5a4WG+2PfgGlYw8nxvbB7aV0dJZKycEaN+V/0=;
-        b=t079vx4dn39OvFYZoMfOgW0P828BDfee6YIQ+7lgXXVFcf7QOdrfoMw0ZIWKwbmZjb
-         NnV28i6n6YUJOwaY/kc0oIcMLIWiB/A3lCOIqMLaDlgTqWDzA88g04NviK5c7goB79dl
-         aTNfqXV1jIN/MKeRWWmKq3UGBqQJ/BWarRYApACddQ20+/v3w3+HEKurq4wcCnzEOlcU
-         e6Ticpnzpt+jS1YNGkkqjj3Fs42m50zuggGFDmUP3y8Z1Bw4LDup2izeRWIr4oyiwm1w
-         qXVX/RsAiIJO0vuct7yjIbM/AP/GZs9hMOYKTwNtKYzsLfKJUx03nh6Y0Bk3R3ExETPx
-         /7sQ==
-X-Gm-Message-State: AOJu0YzclPFWf+DxVKFOuyg4W657tR2cdvMS/MNoPpflCgHUkEgHYvLt
-	+GuALhTE+l4b1/Eb+mOzy6zmM+8/8czgwXZ71y30SBMG/kHDMaiZMiN6xG6+uyvxRdOtiUVnzh0
-	wb9HG
-X-Gm-Gg: ASbGncsmEp6ISSFOCMG9AwTPIs6629EVdZcLerw6Ol4rjzqQjVA8LH448NGBKOhKvc3
-	bicf6BS3/zs3o5sEY4jaQpU3iyyz7Cb++syBDEH1MXTwCvoJx+WkAhkLuoaFtufGtjtH22tz8lg
-	uaCP5BbIZPbhv1OZarakIAswaRorrVrf9xXAfinZRXJtCP5KIHxALPanmzhDDGESkU+6/S1LANr
-	3Pxu/kYr/eyMfncTDx1hY30BCYFqe/qMgfor4yWsJwzeLXV5XmVc1QEqBnW8dSl3dMryzof/9+n
-	c8YBKDvZOrftLSH/KZVk5HNixSIlnKCAm+JS/EE2qfkdTBi2W+8I9g==
-X-Google-Smtp-Source: AGHT+IGKtC5ScNmaYC5IrxOXNUPJje0chL34KQ3u/UGLAwekN0mg0ICxaNI+zBZfUBxKT4uLF7S/PQ==
-X-Received: by 2002:a17:903:1b4e:b0:235:779:edf0 with SMTP id d9443c01a7336-23601dec500mr251817345ad.50.1749571739655;
-        Tue, 10 Jun 2025 09:08:59 -0700 (PDT)
+        bh=pcGQiQH+J5SFjte67z7JugQlHPNk2LsujYWOA54ELVE=;
+        b=lW8inNQ1T1JczSHkoAn50ifManVa5PVXOr4qAjatcveMqo4DBThf6J4CwY2IWS9EWt
+         lZpfUZYkNSUe4WIWI8mGoVdeLFvwg23dDr3LlqKOgb+ILw+aq25YJ2IYpd7jYxtGYcRl
+         UUYtsuwNQ89n7pwRFnhqMmgIXIJDoWpgOezOOb8muVfa57klQ6Db/MwZlEgE9rpNPRCU
+         eZL21TZ9vbMhGQOePjTeiMN2PaP5yXExIF7+HP3F2DtPouE1i1Mkuw7c3Ef4LIMB0sH0
+         vn4xDnXFy0italBUD6blCOQiF+bnsZXVDaALT6SlcT2Xy2ILjymaPny273Ih+rIAyWwN
+         6vCQ==
+X-Gm-Message-State: AOJu0YxFJga6iO4KDG9rFP/XanPYIBoe0RVXhhehL8PpkrRc1UO7Wvp7
+	kosxRnaqyR033AXqyJEhKy02PvK7jAxzMlPKYvvNJZ3kIDm6E7Mwihh7so00p/yHZZd9FGSchRQ
+	rg2Lc
+X-Gm-Gg: ASbGnctDUxGI/TV2JPkfQ1RHIq80s8naXWQ6HuU4XXMGl2GcdQwo8zouNh/HhQvEr37
+	b8cVdjqz4B9X2z0VqDZJAYHsIfz/tfTlHu7Zop/sIhTsI35RI2s7G8xDlPcqPkuMjWSI4FALcxv
+	49waL6frb6W1pXyD8cUUYtMFn0Qiwsbru3UBLYpFRBkhV5Tu2S0KJGT9zRc9p2i7foG8SocQqMD
+	zLNLgpmzSFEAuAuncaMlwJMdLDV2zEs4/2BgIoaP3VHrwMoUUNdsYpm8LXfxQLmpaScc8/jeZg1
+	W/OuiW+sOjmuXwGqKsmZFLt4HysWcEGbvge0MLAF89h5MBqTIevFwg==
+X-Google-Smtp-Source: AGHT+IFCREXFuurhww1njh7gQ7mqcot0JomUUm1FRHzQ4su7WdDvhlVKXdW5Xp9WjbcyvNFqi6kFAw==
+X-Received: by 2002:a17:902:c949:b0:234:1e11:95a3 with SMTP id d9443c01a7336-23635c5af8dmr63015365ad.13.1749571744317;
+        Tue, 10 Jun 2025 09:09:04 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7bc4:2c75:fa51:ff16])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236034056e7sm72597295ad.166.2025.06.10.09.08.58
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236034056e7sm72597295ad.166.2025.06.10.09.09.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 09:08:59 -0700 (PDT)
+        Tue, 10 Jun 2025 09:09:04 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 06/32] libsoup-2.4: fix CVE-2025-32914
-Date: Tue, 10 Jun 2025 09:08:19 -0700
-Message-ID: <1b3ed35fe9afa00987f64415a43ae9ed4f53e7f3.1749571556.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 09/32] libsoup-2.4: fix CVE-2025-32050
+Date: Tue, 10 Jun 2025 09:08:22 -0700
+Message-ID: <8de43e4c2d202a0bbb242cbc0dc096d07b78f0c1.1749571556.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1749571556.git.steve@sakoman.com>
 References: <cover.1749571556.git.steve@sakoman.com>
@@ -66,72 +66,66 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 16:09:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218375
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 16:09:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218378
 
 From: Changqing Li <changqing.li@windriver.com>
 
 Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/450
+https://gitlab.gnome.org/GNOME/libsoup/-/issues/424
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup/libsoup-2.4/CVE-2025-32914.patch  | 35 +++++++++++++++++++
+ .../libsoup/libsoup-2.4/CVE-2025-32050.patch  | 29 +++++++++++++++++++
  .../libsoup/libsoup-2.4_2.74.3.bb             |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32914.patch
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32050.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32914.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32914.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32050.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32050.patch
 new file mode 100644
-index 0000000000..9f3bb21a25
+index 0000000000..c032846ef0
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32914.patch
-@@ -0,0 +1,35 @@
-+From ac844b9fc7945c38ea21fb7cf1a49a5c226d7c9c Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 12 May 2025 16:17:20 +0800
-+Subject: [PATCH] Resolve "(CVE-2025-32914) (#YWH-PGM9867-23) OOB Read on
-+ libsoup through function "soup_multipart_new_from_message" in
-+ soup-multipart.c leads to crash or exit of process"
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32050.patch
+@@ -0,0 +1,29 @@
++From 5709dfffb6fdc5b66ce001bf82a755ad8ad1d992 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Mon, 28 Oct 2024 12:29:48 -0500
++Subject: [PATCH] Fix using int instead of size_t for strcspn return
 +
-+CVE: CVE-2025-32914
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/450/diffs?commit_id=5bfcf8157597f2d327050114fb37ff600004dbcf]
-+
-+Test code are not added since some functions not aligned with version
-+2.74.3
++CVE: CVE-2025-32050
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/9bb0a55de55c6940ced811a64fbca82fe93a9323]
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ libsoup/soup-multipart.c |  2 +-
-+ 1 files changed, 1 insertions(+), 1 deletion(-)
++ libsoup/soup-headers.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/libsoup/soup-multipart.c b/libsoup/soup-multipart.c
-+index a7e550f..dd93973 100644
-+--- a/libsoup/soup-multipart.c
-++++ b/libsoup/soup-multipart.c
-+@@ -181,7 +181,7 @@ soup_multipart_new_from_message (SoupMessageHeaders *headers,
-+ 			return NULL;
-+ 		}
++diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
++index 9707ca0..67905b2 100644
++--- a/libsoup/soup-headers.c
+++++ b/libsoup/soup-headers.c
++@@ -902,7 +902,7 @@ append_param_quoted (GString    *string,
++ 		     const char *name,
++ 		     const char *value)
++ {
++-	int len;
+++	gsize len;
 + 
-+-		split = strstr (start, "\r\n\r\n");
-++		split = g_strstr_len (start, body_end - start, "\r\n\r\n");
-+ 		if (!split || split > end) {
-+ 			soup_multipart_free (multipart);
-+ 			soup_buffer_free (flattened);
-+ 
++ 	g_string_append (string, name);
++ 	g_string_append (string, "=\"");
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 79ffa19c20..7c1de29fd5 100644
+index 3b460852f3..4ddcd1734d 100644
 --- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
 +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-2784.patch \
-            file://CVE-2024-52530.patch \
-            file://CVE-2025-32906.patch \
-+           file://CVE-2025-32914.patch \
+@@ -24,6 +24,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-32914.patch \
+            file://CVE-2025-46420.patch \
+            file://CVE-2025-46421.patch \
++           file://CVE-2025-32050.patch \
  "
  SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
  
