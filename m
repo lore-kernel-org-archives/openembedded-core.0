@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2930C71133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C11E2C71136
 	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 19:34:39 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web10.96410.1749584077955917735
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.95766.1749584071643644569
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 12:34:38 -0700
+ Tue, 10 Jun 2025 12:34:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GbVfsWhL;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b26df8f44e6so5889723a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:34:37 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xDKGCp5k;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2349f096605so70084385ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 12:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584077; x=1750188877; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749584071; x=1750188871; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YpNbkV5mdJT74wnbQdwkPYzbabp/UQZTecy9p01vjRI=;
-        b=GbVfsWhL9aTrCrty15UbXraJA60qv0THlCuNgMwgfl+5j7qo1YhK3Lc7s9ar4pq6q0
-         rOBvncbPH7iNv2KJ8rExo9UbPrzioctY6cKPvIlTOLGvXy3ViU1mH9YmbqfrYMta47ru
-         sXScCdavd0uqacfByK2b3lpwEkg8vf74qedD2EQEhSb1yvC9lBkv6NasTN+HyJ5qpc5A
-         bDoutjKQxGp22X+BPVWVjmRSoEG4EpdTKAWnG4ygI2pGHclGU5Q6VXxFi7ezIlbsi+wb
-         07aGYzUrAwH/dQC/igKfZDLs2+dZCKJMoboAdpk8rbbzYvM1AKBBYqJD96ewHhFMsuBS
-         Sa2g==
+        bh=vrL4QCsw9nvYF7sM5SkuxYxV3KLu+JdAR5iRxLzkmmI=;
+        b=xDKGCp5kUFvx1QzW3Ol6zL4CdSehCXRMQV4blna5+uHpqo/LQ/x2BLMuCmkEb1UPI9
+         d6yj1/O2/dE/9PtyyGpe15jhuK7jeMcHTsygKmoxTxsw78wMcliCZ/YOumG2f+y9fIVZ
+         hj7UEPgVwrVXNgTSpRjdV0msglqlB334zxsrtgGS+nGuM1rQYrBsXQeI0sC3TGgss1/o
+         JUhwWTVjrR8lqQqUnr4qmn9BH9myayiJ4EbaSlC205OfBBStTPCDA9Pmt3INUJNnKa1A
+         OjFVzuapHrWczqykNxLe3g+3SYPiRKQwAmt/AmHBwf6QDRB/N5OrZW305PjQTqCM3f9b
+         e4iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749584077; x=1750188877;
+        d=1e100.net; s=20230601; t=1749584071; x=1750188871;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YpNbkV5mdJT74wnbQdwkPYzbabp/UQZTecy9p01vjRI=;
-        b=gKir0uFCBSZ4CxsgP6J2PK3EmCOSZHp50PdebP6OFnju2rF07bxHS8jQ/h3MMpmQf8
-         18H4l6/n3h+88nXit7YlDGV+G5tUfEB46xv/xgSFig5kq6DDvpMJVPyf7XIdM+MlNRox
-         NBYqwC5E01wqDo9D2eHLtKFtfSBaLgTT+52JxokKx4cHeMRsCqYRzgCp7oiYEXVMeVHD
-         O5WjKCQCLHI9fSWaSR4B3p2Wz7d/lt3D+lAuMIql2SbR1w0S4unRDP/mKZ773u3NzJxQ
-         eUeKyvj2SlDX1T9DM1hNqspySJgu4s+1dDAdcu/MUjeUHzKIcbKZWHmUl5bZoLCEIWES
-         I6hA==
-X-Gm-Message-State: AOJu0YwJAsx6MGBDQcEaphc6xiC4RV8FK8W6IaerutsY+2xAFx5N4opR
-	7zqGPggF3HuzNqJWq45/ql57z8ZiREMhsDPM3s9RJYjmreKlQiG06UCpiLnflwqzyzqMNqv2/Uq
-	iZeZs
-X-Gm-Gg: ASbGncsBxK0P1xaxBvXkXksCtaiIfandDjMHdL1xb3CGAQElwTUrTXUOhh59JC1/ycm
-	G27Z95zJXwu0G1W6H4GeFaSrwxXedmUrHH3hZ5uQPGxBU84VM2w9TaE6RBOXIMF6+hDynKQ2AsP
-	9D+wpUOf2Z/my5rjBIodevc8pdiho8kq0/5WT7PErsbxsFKC0xPAEaGF9OpXiTN0y6usmY5JqJ9
-	CnEiX18LRVo4jdVSVjOqesX3rC+on2zgw/4LAEe8GkrzgU6iQlrwqzBCPdRh0oKZY3Ss9q95zDA
-	GuyWs0gPp/dxIGHx8yEZgSYULMZiqd9s5eMlmalVJdL4qTxrwnzx5A==
-X-Google-Smtp-Source: AGHT+IERorebaBgkkkZm9mh7npVMkuayJLb6PhNkBIW9Pvw/c36WQJCL1tQoZA7+XtxHgD1hJLp5sA==
-X-Received: by 2002:a17:90b:548d:b0:312:db8:dbd1 with SMTP id 98e67ed59e1d1-313af148f14mr960047a91.5.1749584077046;
-        Tue, 10 Jun 2025 12:34:37 -0700 (PDT)
+        bh=vrL4QCsw9nvYF7sM5SkuxYxV3KLu+JdAR5iRxLzkmmI=;
+        b=l2yNlB53HaFKkmwLTgZpmMZ6k//BtFyavIWxgqOURHPfIsE6E7Yzq9F4sfLeWDte6V
+         o/TJUduQXVG9TsTGy9oOjFMxZq7RHMXdVdPuqUOzNZx0vaLBh+nvjU7hBaSVc43LHRsv
+         xRY/vHX12RsshGK0c7kbcxH56y8Y7GKMIdF06gYbbwJ/BsB+RdsJVrVHpFKGnDBwq/zs
+         nuUECYA5fSe/pnXXOjFV+WugE4syqg4UfecieBkjfeRQsPm5d5AqVMXNE31/4D31W+Fp
+         F4XKhS3XQQVEFH9bmV2B5EPxRVaaFpT7Gxtt4egDQI/AYNcLKee0opVlzdISO/f2fds7
+         Ux+A==
+X-Gm-Message-State: AOJu0YyhwsXB4s84049RXtRs9d9OVJ4y7DGnCCkWVYN0col25uAm3q3g
+	ushiY4C/qnLzhiWQFr3yn36mrCUYAVrcN9K5aDBuBxgDnwvZY2/Ssw6B9YZG87Xrtt4jOhLGBY5
+	ZIxnN
+X-Gm-Gg: ASbGncswCUqUc77po0J+wvSRyC2Qg+8BtLNEWiE4Nr/7x89CpaokhD2wFFBrnH/2pqq
+	cQWJxwk1mHzVDVM/Y1V7hVuD1iB246/sJmTPaamqGPy/FNBt7ZPrDyjJTNAXjv6RrYim2wosOC6
+	D2RgqlhrQF4Ao4R8dNkydrccI3bndR1oiiUftfGb3ukPG3VcEjlCH69gnheN0Ht+dlmO2QBbTN6
+	hPmeP6v3CxsDU2x6FMxyx0u6TwTma5GsCEtFjgXNNgwBQchJiqYg3f45sg2PQPAUDC7I77OlfUA
+	bMtT5uAFVE4zwU5+mCtn/ait/WJOsooZl8soqXJmbi9dyHi/qu+4yg==
+X-Google-Smtp-Source: AGHT+IEAGcn5iPjVFN4dhLvX/c/Rn5Mce3XZ5scwBrcahsEA+yXia4OYG6Blt14Samye1PPZLV1FEg==
+X-Received: by 2002:a17:903:32c1:b0:235:a9b:21e7 with SMTP id d9443c01a7336-23641b2654bmr6979925ad.48.1749584070871;
+        Tue, 10 Jun 2025 12:34:30 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7bc4:2c75:fa51:ff16])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313b10c7a88sm73897a91.33.2025.06.10.12.34.36
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313b10c7a88sm73897a91.33.2025.06.10.12.34.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 12:34:36 -0700 (PDT)
+        Tue, 10 Jun 2025 12:34:30 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/16] libsoup: fix CVE-2025-46421
-Date: Tue, 10 Jun 2025 12:34:02 -0700
-Message-ID: <f1450eea34202a9cc46294e3d8244c829556c369.1749583904.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 03/16] libsoup: fix CVE-2025-32051
+Date: Tue, 10 Jun 2025 12:33:58 -0700
+Message-ID: <dd92cad39759b7ad105d8bcd42672847a273bccc.1749583904.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1749583904.git.steve@sakoman.com>
 References: <cover.1749583904.git.steve@sakoman.com>
@@ -67,175 +67,131 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 19:34:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218412
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218408
 
 From: Changqing Li <changqing.li@windriver.com>
 
 Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/issues/439
+https://gitlab.gnome.org/GNOME/libsoup/-/issues/401
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup-3.4.4/CVE-2025-46421.patch        | 139 ++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   1 +
- 2 files changed, 140 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-46421.patch
+ .../libsoup-3.4.4/CVE-2025-32051-1.patch      | 29 ++++++++++
+ .../libsoup-3.4.4/CVE-2025-32051-2.patch      | 57 +++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |  2 +
+ 3 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-2.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-46421.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-46421.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-1.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-1.patch
 new file mode 100644
-index 0000000000..72683d8fce
+index 0000000000..efeda48b11
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-46421.patch
-@@ -0,0 +1,139 @@
-+From 85c5227eef7370832044eb918e8a99c0bcbab86f Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 5 Feb 2025 16:18:10 -0600
-+Subject: [PATCH] session: Strip authentication credentails on cross-origin
-+ redirect
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-1.patch
+@@ -0,0 +1,29 @@
++From dc5db30989f385303c79ec3188c52e33f6f5886e Mon Sep 17 00:00:00 2001
++From: Ar Jun <pkillarjun@protonmail.com>
++Date: Sat, 16 Nov 2024 11:50:09 -0600
++Subject: [PATCH 1/2] Fix possible NULL deref in soup_uri_decode_data_uri
 +
-+This should match the behavior of Firefox and Safari but not of Chromium.
-+
-+CVE: CVE-2025-46421
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/436/diffs?commit_id=3e5c26415811f19e7737238bb23305ffaf96f66b]
++CVE: CVE-2025-32051
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/0713ba4a719da938dc8facc89fca99cd0aa3069f]
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ libsoup/soup-session.c |  6 ++++
-+ tests/auth-test.c      | 77 ++++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 83 insertions(+)
++ libsoup/soup-uri-utils.c | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/libsoup/soup-session.c b/libsoup/soup-session.c
-+index 631bec0..9f00b05 100644
-+--- a/libsoup/soup-session.c
-++++ b/libsoup/soup-session.c
-+@@ -1230,6 +1230,12 @@ soup_session_redirect_message (SoupSession *session,
-+ 						   SOUP_ENCODING_NONE);
-+ 	}
++diff --git a/libsoup/soup-uri-utils.c b/libsoup/soup-uri-utils.c
++index be2b79b..0251279 100644
++--- a/libsoup/soup-uri-utils.c
+++++ b/libsoup/soup-uri-utils.c
++@@ -303,6 +303,8 @@ soup_uri_decode_data_uri (const char *uri,
 + 
-++        /* Strip all credentials on cross-origin redirect. */
-++        if (!soup_uri_host_equal (soup_message_get_uri (msg), new_uri)) {
-++                soup_message_headers_remove_common (soup_message_get_request_headers (msg), SOUP_HEADER_AUTHORIZATION);
-++                soup_message_set_auth (msg, NULL);
++         uri_string = g_uri_to_string (soup_uri);
++         g_uri_unref (soup_uri);
+++        if (!uri_string)
+++                return NULL;
++ 
++         start = uri_string + 5;
++         comma = strchr (start, ',');
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-2.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-2.patch
+new file mode 100644
+index 0000000000..24c184bb86
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-32051-2.patch
+@@ -0,0 +1,57 @@
++From 7d1557a60145927806c88d321e8322a9d9f49bb2 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Fri, 22 Nov 2024 13:39:51 -0600
++Subject: [PATCH 2/2] soup_uri_decode_data_uri(): Handle URIs with a path
++ starting with //
++
++CVE: CVE-2025-32051
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/79cfd65c9bd8024cd45dd725c284766329873709]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ libsoup/soup-uri-utils.c | 8 ++++++++
++ tests/uri-parsing-test.c | 2 ++
++ 2 files changed, 10 insertions(+)
++
++diff --git a/libsoup/soup-uri-utils.c b/libsoup/soup-uri-utils.c
++index 0251279..1ff11cd 100644
++--- a/libsoup/soup-uri-utils.c
+++++ b/libsoup/soup-uri-utils.c
++@@ -286,6 +286,7 @@ soup_uri_decode_data_uri (const char *uri,
++         gboolean base64 = FALSE;
++         char *uri_string;
++         GBytes *bytes;
+++        const char *path;
++ 
++         g_return_val_if_fail (uri != NULL, NULL);
++ 
++@@ -301,6 +302,13 @@ soup_uri_decode_data_uri (const char *uri,
++         if (content_type)
++                 *content_type = NULL;
++ 
+++        /* g_uri_to_string() is picky about paths that start with `//` and will assert. */
+++        path = g_uri_get_path (soup_uri);
+++        if (path[0] == '/' && path[1] == '/') {
+++                g_uri_unref (soup_uri);
+++                return NULL;
 ++        }
 ++
-+         soup_message_set_request_host_from_uri (msg, new_uri);
-+ 	soup_message_set_uri (msg, new_uri);
-+ 	g_uri_unref (new_uri);
-+diff --git a/tests/auth-test.c b/tests/auth-test.c
-+index 484097f..7c3b551 100644
-+--- a/tests/auth-test.c
-++++ b/tests/auth-test.c
-+@@ -1,6 +1,7 @@
-+ /* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*- */
++         uri_string = g_uri_to_string (soup_uri);
++         g_uri_unref (soup_uri);
++         if (!uri_string)
++diff --git a/tests/uri-parsing-test.c b/tests/uri-parsing-test.c
++index 1f16273..418391e 100644
++--- a/tests/uri-parsing-test.c
+++++ b/tests/uri-parsing-test.c
++@@ -141,6 +141,8 @@ static struct {
++         { "data:text/plain;base64,aGVsbG8=", "hello", "text/plain" },
++         { "data:text/plain;base64,invalid=", "", "text/plain" },
++         { "data:,", "", CONTENT_TYPE_DEFAULT },
+++        { "data:.///", NULL, NULL },
+++        { "data:/.//", NULL, NULL },
++ };
 + 
-+ #include "test-utils.h"
-++#include "soup-uri-utils-private.h"
-+ 
-+ static const char *base_uri;
-+ static GMainLoop *loop;
-+@@ -1916,6 +1917,81 @@ do_missing_params_test (gconstpointer auth_header)
-+ 	soup_test_server_quit_unref (server);
-+ }
-+ 
-++static void
-++redirect_server_callback (SoupServer        *server,
-++                          SoupServerMessage *msg,
-++                          const char        *path,
-++                          GHashTable        *query,
-++                          gpointer           user_data)
-++{
-++    static gboolean redirected = FALSE;
-++
-++    if (!redirected) {
-++        char *redirect_uri = g_uri_to_string (user_data);
-++        soup_server_message_set_redirect (msg, SOUP_STATUS_MOVED_PERMANENTLY, redirect_uri);
-++        g_free (redirect_uri);
-++        redirected = TRUE;
-++        return;
-++    }
-++
-++    g_assert_not_reached ();
-++}
-++
-++static gboolean
-++auth_for_redirect_callback (SoupMessage *msg, SoupAuth *auth, gboolean retrying, gpointer user_data)
-++{
-++    GUri *known_server_uri = user_data;
-++
-++    if (!soup_uri_host_equal (known_server_uri, soup_message_get_uri (msg)))
-++        return FALSE;
-++
-++    soup_auth_authenticate (auth, "user", "good-basic");
-++
-++    return TRUE;
-++}
-++
-++static void
-++do_strip_on_crossorigin_redirect (void)
-++{
-++    SoupSession *session;
-++    SoupMessage *msg;
-++    SoupServer *server1, *server2;
-++    SoupAuthDomain *auth_domain;
-++    GUri *uri;
-++    gint status;
-++
-++    server1 = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD);
-++    server2 = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD);
-++
-++    /* Both servers have the same credentials. */
-++    auth_domain = soup_auth_domain_basic_new ("realm", "auth-test", "auth-callback", server_basic_auth_callback, NULL);
-++    soup_auth_domain_add_path (auth_domain, "/");
-++    soup_server_add_auth_domain (server1, auth_domain);
-++    soup_server_add_auth_domain (server2, auth_domain);
-++    g_object_unref (auth_domain);
-++
-++    /* Server 1 asks for auth, then redirects to Server 2. */
-++    soup_server_add_handler (server1, NULL,
-++                    redirect_server_callback,
-++                   soup_test_server_get_uri (server2, "http", NULL), (GDestroyNotify)g_uri_unref);
-++    /* Server 2 requires auth. */
-++    soup_server_add_handler (server2, NULL, server_callback, NULL, NULL);
-++
-++    session = soup_test_session_new (NULL);
-++    uri = soup_test_server_get_uri (server1, "http", NULL);
-++    msg = soup_message_new_from_uri ("GET", uri);
-++    /* The client only sends credentials for the host it knows. */
-++    g_signal_connect (msg, "authenticate", G_CALLBACK (auth_for_redirect_callback), uri);
-++
-++    status = soup_test_session_send_message (session, msg);
-++
-++    g_assert_cmpint (status, ==, SOUP_STATUS_UNAUTHORIZED);
-++
-++    g_uri_unref (uri);
-++    soup_test_server_quit_unref (server1);
-++    soup_test_server_quit_unref (server2);
-++}
-++
-+ int
-+ main (int argc, char **argv)
-+ {
-+@@ -1949,6 +2025,7 @@ main (int argc, char **argv)
-+ 	g_test_add_func ("/auth/auth-uri", do_auth_uri_test);
-+         g_test_add_func ("/auth/cancel-request-on-authenticate", do_cancel_request_on_authenticate);
-+         g_test_add_func ("/auth/multiple-algorithms", do_multiple_digest_algorithms);
-++        g_test_add_func ("/auth/strip-on-crossorigin-redirect", do_strip_on_crossorigin_redirect);
-+         g_test_add_data_func ("/auth/missing-params/realm", "Digest qop=\"auth\"", do_missing_params_test);
-+         g_test_add_data_func ("/auth/missing-params/nonce", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"", do_missing_params_test);
-+         g_test_add_data_func ("/auth/missing-params/nonce-md5-sess", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\" algorithm=\"MD5-sess\"", do_missing_params_test);
++ static void
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index 23d44d1572..473a980b1a 100644
+index e7dccb6380..9af7de192f 100644
 --- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
 +++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -41,6 +41,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32051-1.patch \
-            file://CVE-2025-32051-2.patch \
-            file://CVE-2025-32050.patch \
-+           file://CVE-2025-46421.patch \
+@@ -38,6 +38,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-32907-2.patch \
+            file://CVE-2025-32053.patch \
+            file://CVE-2025-32052.patch \
++           file://CVE-2025-32051-1.patch \
++           file://CVE-2025-32051-2.patch \
  "
  SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
  
