@@ -1,100 +1,96 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <andrej.v@skyrain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61DB4C5B543
-	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 06:32:14 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.80593.1749537131894494214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 377F4C5B543
+	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 06:42:34 +0000 (UTC)
+Received: from h2.cmg2.smtp.forpsi.com (h2.cmg2.smtp.forpsi.com [81.2.195.189])
+ by mx.groups.io with SMTP id smtpd.web11.80209.1749537745976128911
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jun 2025 23:32:11 -0700
+ Mon, 09 Jun 2025 23:42:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YGsZP9kp;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=lmzflb/X;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010197588a0994-438c0d85-1ade-448f-b3b2-77ac4c5c0477-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1749537131; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=fZk3j8acJ5mpuSvrePCeB6NeJlLvLK7Tp0SIziNfrz4=;
-	b=YGsZP9kpjTuGoiaIK8kuHf5pcXs9zK4IBc2/heDPBFjYm803+3TGruA6X2B2rtY9
-	iaMKNiGS68D/a7y1nWwVq6c8FMaWivM2VN53/VbHwmxIj+GAslca0tdN66ZaGG5vkLN
-	wpw2n/0ldf4GS1nXYnkuKo1WdlBjQflxOfqtfzzw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749537131;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=fZk3j8acJ5mpuSvrePCeB6NeJlLvLK7Tp0SIziNfrz4=;
-	b=lmzflb/XHpd72SGBm9yAL1RpNayd1qwGd4jNni9xMQO+LmmGBVOiyEt7rI1PM2O7
-	e39jcLYPn9cbBZSWkTvEeKMQcdQtLXxjDHqjg+oct1ueDpt6M0vQdpV28A+KAFNEJP9
-	MjboMGP5OsmDzcOBQijK0SJqGAS+RuY96b29KA1M=
-From: patchtest@automation.yoctoproject.org
-To: Yash.Shinde@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] rust: Upgrade 1.85.1->1.86.0
-In-Reply-To: <20250610061954.2344667-1-Yash.Shinde@windriver.com>
-References: <20250610061954.2344667-1-Yash.Shinde@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010197588a0994-438c0d85-1ade-448f-b3b2-77ac4c5c0477-000000@us-west-2.amazonses.com>
-Date: Tue, 10 Jun 2025 06:32:10 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.10-54.240.27.33
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=B9Cyvn4x;
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=B9Cyvn4x;
+ spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 81.2.195.189, mailfrom: andrej.v@skyrain.eu)
+Received: from [172.25.231.43] ([85.248.43.180])
+	by cmgsmtp with ESMTPSA
+	id OsgguyEgX75drOsghuCDSG; Tue, 10 Jun 2025 08:42:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1749537744; bh=/1QJapm0HGrAtmlVl4f78EPLFilX+qQYq8bKotXtLXc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	b=B9Cyvn4xToYoS+i1ijWSTYgiT0Ib+dIpslkUuDWFXvCwhIzGHfLGDZTJUzso7t+nU
+	 Rz54rlTTkSsfWv5m8piIGXpRtp8kYcVAToluIS9h7HEhqp/uVnoYgMODqCBUbmlUWn
+	 KdJvN31FIk7v8bFpswavRLd1nJNRlxHyh2JcQteYgEDK5ZkdM/g0obJC9W5hcs/42l
+	 bL6nhjYGc5UVe8hTlFUWFozJoWi8AAn/dtDN4ACSI2NGB962kUBR0KhsbNO3VgegS4
+	 7KGyiejCCZaEjqmmRt1B+Ew0Inm7UjodNwhIocEfmvgNhqwzhzd6NmY5bY4rDxFYhK
+	 3vJmpVEumYNHA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1749537744; bh=/1QJapm0HGrAtmlVl4f78EPLFilX+qQYq8bKotXtLXc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	b=B9Cyvn4xToYoS+i1ijWSTYgiT0Ib+dIpslkUuDWFXvCwhIzGHfLGDZTJUzso7t+nU
+	 Rz54rlTTkSsfWv5m8piIGXpRtp8kYcVAToluIS9h7HEhqp/uVnoYgMODqCBUbmlUWn
+	 KdJvN31FIk7v8bFpswavRLd1nJNRlxHyh2JcQteYgEDK5ZkdM/g0obJC9W5hcs/42l
+	 bL6nhjYGc5UVe8hTlFUWFozJoWi8AAn/dtDN4ACSI2NGB962kUBR0KhsbNO3VgegS4
+	 7KGyiejCCZaEjqmmRt1B+Ew0Inm7UjodNwhIocEfmvgNhqwzhzd6NmY5bY4rDxFYhK
+	 3vJmpVEumYNHA==
+Message-ID: <e36d3a92-1548-4bce-af35-cb35b4327bbe@skyrain.eu>
+Date: Tue, 10 Jun 2025 08:42:22 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [oe][meta][PATCH] dropbear: add xauth runtime
+ dependency when x11-forwarding is enabled
+To: ross.burton@arm.com
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20250605091828.50442-1-andrej.v@skyrain.eu>
+ <912349A0-C95B-487F-80D0-D5402A94ED30@arm.com>
+Content-Language: en-US
+From: Andrej Valek <andrej.v@skyrain.eu>
+In-Reply-To: <912349A0-C95B-487F-80D0-D5402A94ED30@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfD2rBWXtZs9ZfnRX8N/lDVcO56Qk8Bi7eUYlLwRlqj/LDdaFFZekMcAFDE+EDwnwMIUSdF+DfHNHXFHefadTFNsthkL1psP8g59YcJrgek/Z8ZU9zrEq
+ IBbM320+WMiXbqHiacCP4CGtNHx9SzQzpdP9+cE2uOEmxYMBh2tKZSFkCbkHlxzHjFleyOCGKKCHfO4xSShONOXSEkmwqDAHyJdKo2RZABvM8dhcdjld2KIA
+ urSjCoP5BUpSOn2Z1HtLrQ==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 06:32:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218316
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 06:42:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218317
 
---NextPart
-Content-Type: text/plain
+Hi Ross,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+What do you mean by "should be a recommends not a depends"? AFAIK: 
+PACKAGECONFIG[x] = "with,without,depends,rdepends", so I would say my 
+variant is ok, or?
 
----
-Testing patch /home/patchtest/share/mboxes/v2-rust-Upgrade-1.85.1--1.86.0.patch
+No, I'm fully on your side to enable the forwarding by default when x11 
+is enabled.
 
-FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+Will you take a care of it, or should I?
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+BR,
+Andy
 
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+On 09.06.2025 18:54, Ross Burton via lists.openembedded.org wrote:
+> On 5 Jun 2025, at 10:18, Andrej Valek via lists.openembedded.org <andrej.v=skyrain.eu@lists.openembedded.org> wrote:
+>> -PACKAGECONFIG[enable-x11-forwarding] = ""
+>> +PACKAGECONFIG[enable-x11-forwarding] = “,,,xauth”
+> It feels like this should be a recommends not a depends (so add another comma).
+>
+> Whilst you’re here: do you think we should enable x11 forwarding if x11 is in DISTRO_FEATURES by default, or is there a good reason to keep it disabled by default?
+>
+> Thanks,
+> Ross
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#218301): https://lists.openembedded.org/g/openembedded-core/message/218301
+> Mute This Topic: https://lists.openembedded.org/mt/113482164/3619876
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [andrej.v@skyrain.eu]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
