@@ -1,86 +1,172 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94568C71141
-	for <webhook@archiver.kernel.org>; Wed, 11 Jun 2025 18:35:48 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web10.2944.1749666944434576006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A112C71136
+	for <webhook@archiver.kernel.org>; Wed, 11 Jun 2025 18:36:28 +0000 (UTC)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web11.2880.1749666978776579311
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jun 2025 11:35:44 -0700
+ Wed, 11 Jun 2025 11:36:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lPF0NdEb;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-607ea238c37so481943a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 11:35:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mpSqWM8P;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: zboszor@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-86cf9f7abc4so10477039f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 11:36:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749666943; x=1750271743; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1749666978; x=1750271778; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TVg0hE0PI9Z+Om0YlYBBB54tRhlqwmyz5fAQ3WYvuL0=;
-        b=lPF0NdEbSwVYB3rUz5YcQGM6gY3SljvgMwcJvoUBkKEfNjrOhl3VkKTKg7LsI3jk1a
-         YSZiDw6VxymDVsTIUh6WkDEmXPrPqbA77+DVvfITUIqmhaWmInwUZVtvipJr4ZEbZ7In
-         MbPiUohEBBtBcqSz1Igxs09tgdYB1YUjJ4ymKacaZf8aMHUu1oMN3c8areMZuiaFH5E0
-         Eji+oGePu8s3kzCvuc0XjZPUFkwLEtx2kbCrPh5vLyMddmfcGoiWY8b4DcYJkP066Gyc
-         vR++HBOsQjtQNdMRsl8oroF3dxtM9CWYbfixDdSlc1yr4nEDqPUQ20OfUNNmc/Cj5Wm+
-         ORxA==
+        bh=Drh3YpONfXf9+az234XAmJEs6DvGl50/qV9vbE/C0kU=;
+        b=mpSqWM8PCTWMhSpS2p+eT0N+cwawpFVYUTaYut3Vwl677i2YN5PX8svA8G1t/ZQggi
+         knXOaL49hbTSlZO+yJK2BAlrZwv7Bm7CjfqOclyuHL+7K8+JaKBS6TsS6DpSMcE+/BNy
+         JcoGSjsJZqi3Sj42TVIe8lgkxKqvpEBVoCr9yCaI4tLATel/Bj7ClAwh0aaS+cFSEXRa
+         hDP8MWmGKT6U1p0l2R1+TUhHWtPar8pixJa04FSQEEZyou6AyqxCDaTGT9hfEQM1YcGZ
+         92rHKJsWMyR47cIMcvZD6fL1XlHb+Efu4eV/lD4U4dqH/1Zy1A++QJwdf4yBET4rSWmo
+         OLfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749666943; x=1750271743;
+        d=1e100.net; s=20230601; t=1749666978; x=1750271778;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TVg0hE0PI9Z+Om0YlYBBB54tRhlqwmyz5fAQ3WYvuL0=;
-        b=mGO1iId6LDAQmzOXKRDZwV1Y8gvbjq11U9rX/ucFnkycXMx/iBC1kdU62bOYeuK/iL
-         VsujX+X2LHAJpptj7a1SIxOfMNPra4mbrep3dgAmepCp5Mbw/YmyEJ1b4jyuGR4Mebuf
-         mGUpzrnudpM18951aWgohUY75ietkHBUC0M23O0zEt/c41uIBFnhdt7akaQ2At4EtESi
-         sO9f3nQxXI+x38Oj5nU1lsJxAaZzJxRb4N/PQpkDCcZO994nNQ+xbmyu8iigGxX6O2DY
-         KjYAhHkiS2xNqZRukB2Tozcv14YEp0sBjNgALOIGIgD6fc+dUd90J8RgZLPRhkGGaXIy
-         i0fw==
-X-Forwarded-Encrypted: i=1; AJvYcCX2bW0c/RtO1tyq7P2PsCsIhyRU2JM0srYatbl4EiKSegGWBqr5oVhsQOCy0ZckdEs6gsCKZBiVqOg8tFOHtbrtWw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzTzO8L8i/ljkoare0qkjKcWnvp6O36LSfB9BnPQ4aSnExV/XLP
-	Wvt74N/lSCn00FKVY+RdJ9nhlPZE66/X2k6o5akFv8gr4SHpzq2bL2Zk
-X-Gm-Gg: ASbGncvlln1vWinP9fROhhMB2pKF0A3DAuDiKmcIvyStWvrrMiDCCkMT6URW3VGneBD
-	dXSQ+hWUP9MNcMfhs9TJ57lY0jSC5WRzrcfsXxXCH3gEA7LTz8iH07lR4CHFHnTkQc5BnG8tIvK
-	3ZcoeK6qQAtFClVrQq9bZNiyiD+clnrmzoJ6jY7D5w5QLunNH9CiV6gOoLnFgZk87XKa1izB9zH
-	ONB4oja5KrO+VoxVhiSay2RZN/wt00PL+zvfoMSW0GmNieTliBhmZKr0p6b06uZ9DLi8PnS0eJD
-	Pj48esvUD8RfkwvNIc06V1zKLlROhnyfnDV1GCiYxHIS2i8FLrBtGqaPCGi8PF8lOIU=
-X-Google-Smtp-Source: AGHT+IEnqMNbJ7zXW/A2UGljsG/dd2cyLGbitSUyyA32Aw0BggAoaTOZDCusEeqDbkAtKYzVAiilig==
-X-Received: by 2002:a05:6402:1e89:b0:606:adda:4f14 with SMTP id 4fb4d7f45d1cf-60846ace9a2mr4115482a12.11.1749666942641;
-        Wed, 11 Jun 2025 11:35:42 -0700 (PDT)
-Received: from [192.168.1.2] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-607783dccbdsm7734995a12.54.2025.06.11.11.35.41
+        bh=Drh3YpONfXf9+az234XAmJEs6DvGl50/qV9vbE/C0kU=;
+        b=mhWnw6C1md0i0EsTiC+1gd4EbsZ7Wv/o3v+PMQXbnX6wCyKWn89oIMSsS5CjMa05jR
+         iZLx7qu8Bob6DZrIOJp9LX+RBPyv1Lp3B+CAIm9KoSXYIELDWZvISw8vyr6dN5MDefo+
+         lyRxUdXPH5IKFMeuPj8Qk8qfChZnleidtlEkuaNmfX9yAy58NScdRNK2GybzU2DxId9V
+         4GuLFm+wbnkeAnZlUIh+ZfrrQZ2oBmSUFSA2xCd5tHl/HyCPulwbczsVNplB88vUM3nW
+         UzDCunTn/J1h15Sv5e9NBQwaL+kMtPPrvz/PQVmHtSOde5viXO2xek/pcL/EnR0cZqF0
+         cJ2Q==
+X-Gm-Message-State: AOJu0YzqI5s+I3b94VPRapHsz0r2n6EMDVPMgzXJHrHSIcf4LT0ubxQD
+	lzoi6kCPcgHA9G6/p2GhHzgxwAt/GJzOuf3weWbv6EOq+q3TNlP0xjd3
+X-Gm-Gg: ASbGncsH4he8ewdMvGiGnYK7Y+KUJujk6CLB7Gjk0D2D/DJAPy6Vnavf+D8AaQfAvvB
+	PalescF82QWXQOldoAnqs/JlQruLOLVUzOMBtGqjf9X1YLATzzmilo2yJXST4lvxhCx1nVoBW9v
+	hBK/TepXk5JD1mIkhIicwB6KSw0gw5JaIaGbSx1OrcvROm4o4j3WoDG3SJqet4pk5e05/14Acv/
+	Am52MF4RpUMEjs1JF4KYKpHUprE5JhCUYfOVGoFotXJzTwBff+hk4zZf6jk/po+vcw5iQ0MR9Z9
+	SV9cpsYfiP41HLN/ICARt6sS30QAYieryIywhawV81LoPmxl4XhMHxt4dQY/NiNAMk9GT6/nncd
+	zRIF9PHW6rKD746I1s3A=
+X-Google-Smtp-Source: AGHT+IEv2jcD+SLld4bEljE8eYl3FLnBFsnObIfP8v41lKS00DdOWZAf9t+LyaafZZ5jQsD3IIQjzg==
+X-Received: by 2002:a05:6602:2770:b0:873:47c7:6ff3 with SMTP id ca18e2360f4ac-875bc47a4e1mr559466539f.7.1749666977846;
+        Wed, 11 Jun 2025 11:36:17 -0700 (PDT)
+Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5012aacc252sm501441173.116.2025.06.11.11.36.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jun 2025 11:35:42 -0700 (PDT)
-Message-ID: <9708ea34-8a8c-4704-951c-d4e8b0973fc7@gmail.com>
-Date: Wed, 11 Jun 2025 20:35:40 +0200
+        Wed, 11 Jun 2025 11:36:17 -0700 (PDT)
+Message-ID: <63ef3071-74eb-4caf-a08e-77d91bf82c44@gmail.com>
+Date: Wed, 11 Jun 2025 20:36:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RFC PATCH 1/9] bitbake.conf: set
- BB_GIT_DEFAULT_DESTSUFFIX to match default S value
-To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-References: <20250610094400.1653931-1-alex.kanavin@gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa: Fix bindgen includes
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org, Markus Volk <f_l_k@t-online.de>
+References: <20250610142413.681911-1-zboszor@gmail.com>
+ <CAO9ioeUn24ndJqaH1O8B0G+mB8JKx_JcROXhzJqrw36L84bmNw@mail.gmail.com>
+ <8e9387de-14f0-4def-a41e-3b8aeaa178a0@gmail.com>
+ <8155d605-c759-4645-a82a-15ef65f95e66@oss.qualcomm.com>
 Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <20250610094400.1653931-1-alex.kanavin@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <8155d605-c759-4645-a82a-15ef65f95e66@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 18:35:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218467
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 18:36:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218468
 
-Possibly the recipes would need more modifications than this, especially
-the ones using default ${S} (maybe?).
+2025. 06. 11. 19:34 keltezéssel, Dmitry Baryshkov írta:
+> On 11/06/2025 13:46, Böszörményi Zoltán wrote:
+>> 2025. 06. 10. 21:49 keltezéssel, Dmitry Baryshkov via lists.openembedded.org írta:
+>>> On Tue, 10 Jun 2025 at 17:24, Zoltán Böszörményi <zboszor@gmail.com> wrote:
+>>>> Add a patch to fix bindgen errors due to not finding headers
+>>>> in the system, like:
+>>>>
+>>>> |...
+>>>> | ../mesa-25.1.2/src/gallium/frontends/rusticl/ rusticl_llvm_bindings.hpp:1:10: fatal 
+>>>> error: 'clang/Basic/Version.h' file not found
+>>>> | Unable to generate bindings: clang diagnosed error: ../mesa-25.1.2/ 
+>>>> src/gallium/frontends/rusticl/rusticl_llvm_bindings.hpp:1:10: fatal error: 
+>>>> 'clang/Basic/Version.h' file not found
+>>>> |...
+>>>> | .../work/corei7-64-oe-linux/mesa/25.1.2/mesa-25.1.2/include/./GL/ glx.h:30:10: 
+>>>> fatal error: 'X11/Xlib.h' file not found
+>>>> | Unable to generate bindings: clang diagnosed error: /data2/dtd- 
+>>>> yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/mesa/25.1.2/mesa-25.1.2/ 
+>>>> include/./GL/glx.h:30:10: fatal error: 'X11/Xlib.h' file not found
+>>> Can we fix this on the meson side by passing additional include path
+>>> through the cross file?
+>>
+>> This seems to work in mesa.inc without patching Mesa:
+>>
+>> CFLAGS:append:class-target = " -I${STAGING_INCDIR}"
+>> CXXFLAGS:append:class-target = " -I${STAGING_INCDIR}"
+>
+> My question was more about meson.bbclass, where we set bindgen_clang_args. See the 
+> bindgen_args() function.
 
-I tried to apply it on the current master and build some base recipes in
-a clean build dir. I tried to build git recipe (was curious how it
-behaves). First gnu-config-native failed to install, as it couldn't find
-some files due to the move. I fixed that, but right after pkgconfig and
-binutils failed to patch - the src is in .../sources/git folder, but it
-is trying to patch in .../sources/${PN}-${PV}.
+I wouldn't change meson.bbclass because it works for the
+most recipes already.
 
-Or am I missing something?
+Besides, it seems to be a meson bug, not a meson.bbclass bug
+as -isystem and other include path related flags (besides -I) are
+ignored in CFLAGS/CXXFLAGS.
+
+The "clang diag" messages are likely coming from mixed up host
+vs target header paths.
+
+See
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/35435#note_2952621
+https://github.com/mesonbuild/meson/blob/master/mesonbuild/modules/rust.py#L392-L397
+
+If we changed meson.bbclass to add -I${STAGING_INCDIR} to
+the proper places in meson.cross, it would still print the
+clang diag warning. Adding -isystem would still get ignored.
+
+FWIW, --sysroot is also ignored by meson and adding it forcibly
+throws a different error. See
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/35435#note_2952805
+
+¯\_(ツ)_/¯
+
+>> but it also[1] prints this for some of the bindgen runs:
+>>
+>> clang diag: /home/zozo/yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/ 
+>> mesa/25.1.3/recipe-sysroot/usr/include/stdint.h:95:11: warning: '__INT64_C' macro 
+>> redefined [-Wmacro-redefined]
+>> clang diag: /home/zozo/yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/ 
+>> mesa/25.1.3/recipe-sysroot/usr/include/stdint.h:96:11: warning: '__UINT64_C' macro 
+>> redefined [-Wmacro-redefined]
+>>
+>> [1] Using the previously posted patch also prints the same.
+>>
+>> It seems to be caused by a meson bug because it doesn't
+>> collect the -isystem or --sysroot flags for rust/bindgen.
+>> See the discussion at the MR link in the patch.
+>>
+>> CFLAGS and CXXFLAGS changes are both needed because
+>> bindgen is run on both .h and .hpp files for rusticl.
+>>
+>>>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+>>>> ---
+>>>>   ...w-build-option-for-extra-bindgen-inc.patch | 57 +++++++++++++++++++
+>>>>   meta/recipes-graphics/mesa/mesa.inc           |  3 +-
+>>>>   2 files changed, 59 insertions(+), 1 deletion(-)
+>>>>   create mode 100644 meta/recipes-graphics/mesa/files/0001-rusticl- 
+>>>> Add-a-new-build-option-for-extra-bindgen-inc.patch
+>>>>
+>>>
+>>>
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#218438): https://lists.openembedded.org/g/ 
+>>> openembedded-core/message/218438
+>>> Mute This Topic: https://lists.openembedded.org/mt/113570520/3617728
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>
+>>
+>
+>
+
 
