@@ -1,216 +1,224 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <yongxin.liu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6975C677C4
-	for <webhook@archiver.kernel.org>; Tue, 10 Jun 2025 23:33:10 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.50])
- by mx.groups.io with SMTP id smtpd.web10.1889.1749598382015402885
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 934B3C61DB2
+	for <webhook@archiver.kernel.org>; Wed, 11 Jun 2025 02:07:36 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.920.1749607653064741494
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jun 2025 16:33:02 -0700
+ Tue, 10 Jun 2025 19:07:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=2ZPD9I0B;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.236.50, mailfrom: sandeep.gundlupet-raju@amd.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8257843b84=yongxin.liu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55B1K1aZ013980
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 19:07:32 -0700
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11on2041.outbound.protection.outlook.com [40.107.223.41])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 474mxm3m5h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 19:07:32 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PZ9hrqOw1gz8b/wJd/5TIb0aSCm4CNVfvBwD6HVHO4/dALgkN5JoZeXz6E13A1qyI0VmzV3dyw2+XStnvNsGGOoiYOx1Y/jU7spvdys5FVJJ6gEXlWgJK2VjjUywuNLFRdRc/1oGNACdNBZtCj66rduwUWuzOhdpu828RlLe8CBaFJdqvA9Wx529/1zUq8sYd+ylb1HZcF//fVljIRl4DMU8aBhyNmvzZaaFPcezyDhp9hCIQww50AhumOVmqRVV4MQkRaOPvCliIzfn+3qTyqWHFkbx1pB8zO6DoHTZk+DhSNwA8J+ElJ2LV0vSHP6SjHno7RKyQR+pCCLCT7oazg==
+ b=MI2bsH1H07dDkrhifuyJJFsCASJtv0lCVnTDTe9uEyaNt4doyWYYDYtlxdw97vpeaTB5w6rU5bq9xbLTanEHDdXBMXB2ObidPm8cKdPJY+NUYpbqlRJCeXpfNnWH35HvZCHPzzcTMokjXN7b7CBOSE/WJIHU1dQ5/fJDTx7cE0ArEYsMs9qg2sa3oKWs6TBqFeie4ooreq9YUc6vDt0jkb07rUiUjF340Ul1qh/qqZ0SIEhNyXXCTRJoDwbEd4Fjbo9KoaiPNc7aR8B0At+RqY1IJx6SHlmuM6aOF34ppr7O2Ch9d7WrJ+jBoGAiwjUFSqh4sJFppg9H4NsQHKD6Jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zKJaBlp5Nn1DdUECwRbhqQiSNibqgTsyK8UA+ILQM3M=;
- b=E2/KHPyhTyRazH9APkOVvTjUuCzdwi8DpxvRgVRnIJn/XCLOaPkxnN11hMCItytevcoOVbastykoroxDqWZBbTRC81twoBYj2nqWuvhFOLlQ1ws1/3j9B8dUlenW9VpDYJ3Xkmk8Dvifca9657gJwJZs3aeCkmapfl37VQuZi4z401qmdttc3q7vumEhGjXZbDzO21BoNyEg7Z+MA53RxVSiBVVzsorUv5qhGe6e++wNHmBaRqzq6zUiYkB5Bn6vs8ULXfmTjyy1Lhr3aXGU9M+p5fJ5YaLrJZ/KmxaZcCVUTrhuthYmKpuM9KK2TVBadQDASiwuK+eezGfduYdZPw==
+ bh=UMUv3Z0G+9n+xgBperWjntcCiPtQrUk9eZbtGxs2J1Q=;
+ b=V4iLb8ZB2IrvJCohm30spSzL3Yt3Bi9Gu9E/kE68bg2/0sAujkYrJaklS70BLBbsSwxJIMJm7cQEwp5LJI0vhRbxblJ/d0LnNi4np0luIvjsr1ovUDIWJADSxf5wR+TTdQMakJj7bKGfqzJ4iae1qlSU2B3PveB15kOWP/h3JRHE8HA+RNTb9kNoHkgQGAxd+S6J5vrsp5h2q+SXsZx/Hk4yuTOt57twlnG7jlmjKT8uZYC5nyEpV1RUGVt0rpUyUH3KMtr86V9BJQJ6PbfLZH+EzzhLzudjjry+pGuYpqYd2JTezT3TbzPr07gjPYRDfjrP6QOwl/thB+n5DOW37g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zKJaBlp5Nn1DdUECwRbhqQiSNibqgTsyK8UA+ILQM3M=;
- b=2ZPD9I0B+64vBKnQQZBlkjRhw/jX+jnSl4RghaLY3fVqizoTzOs+C5JMPL61ejs976fQG+POQLoFnIFB49wjxbMDhpUEpkmPFunsrsnkPwG9zv1vgojLcpjPyRkkgqkb7Jk0IUNldBLbR6NjqMPu18oau/Pol7ZwlIQR/TLQYSw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4357.namprd12.prod.outlook.com (2603:10b6:208:262::19)
- by SA1PR12MB6920.namprd12.prod.outlook.com (2603:10b6:806:258::5) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5072.namprd11.prod.outlook.com (2603:10b6:a03:2db::18)
+ by DS7PR11MB8854.namprd11.prod.outlook.com (2603:10b6:8:256::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.18; Tue, 10 Jun
- 2025 23:32:58 +0000
-Received: from MN2PR12MB4357.namprd12.prod.outlook.com
- ([fe80::fb07:a830:460:38fe]) by MN2PR12MB4357.namprd12.prod.outlook.com
- ([fe80::fb07:a830:460:38fe%7]) with mapi id 15.20.8792.040; Tue, 10 Jun 2025
- 23:32:58 +0000
-Message-ID: <37991b5a-6216-4dc7-be8c-8c2abbc8f55b@amd.com>
-Date: Tue, 10 Jun 2025 17:32:54 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][scarthgap,master][PATCH] tune-cortexr52: Add support
- for ARM Cortex-R52 32-bit
-To: raj.khem@gmail.com, mathieu.dubois-briand@bootlin.com
-CC: ross.burton@arm.com,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, Jon Mason <Jon.Mason@arm.com>
-References: <20250530032047.1369164-1-sandeep.gundlupet-raju@amd.com>
- <8607D12C-E6E5-41DF-9809-6E748E1D749D@arm.com>
- <18462F4E324B73C9.10724@lists.openembedded.org>
- <1195a8d4-f134-4fe7-8169-2fb0b6f2fb6b@amd.com>
- <CAMKF1sq7FSejf79sUhHyPbMmNnNeH1xs9ACXrd2R4WBDTxYn5Q@mail.gmail.com>
-Content-Language: en-US
-From: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
-In-Reply-To: <CAMKF1sq7FSejf79sUhHyPbMmNnNeH1xs9ACXrd2R4WBDTxYn5Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: SJ0PR13CA0091.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::6) To MN2PR12MB4357.namprd12.prod.outlook.com
- (2603:10b6:208:262::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.26; Wed, 11 Jun
+ 2025 02:07:28 +0000
+Received: from SJ0PR11MB5072.namprd11.prod.outlook.com
+ ([fe80::a14a:e00c:58fc:e4f8]) by SJ0PR11MB5072.namprd11.prod.outlook.com
+ ([fe80::a14a:e00c:58fc:e4f8%5]) with mapi id 15.20.8835.018; Wed, 11 Jun 2025
+ 02:07:27 +0000
+From: yongxin.liu@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][walnascar][PATCH] util-linux: fix agetty segfault issue
+Date: Wed, 11 Jun 2025 10:07:01 +0800
+Message-ID: <20250611020701.1005436-1-yongxin.liu@windriver.com>
+X-Mailer: git-send-email 2.46.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0343.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:38e::11) To SJ0PR11MB5072.namprd11.prod.outlook.com
+ (2603:10b6:a03:2db::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4357:EE_|SA1PR12MB6920:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e24d9b0-0f3d-4795-51ad-08dda877217b
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5072:EE_|DS7PR11MB8854:EE_
+X-MS-Office365-Filtering-Correlation-Id: 810ff1c5-33fa-4618-0549-08dda88cb6fc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|4022899009|1800799024;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|52116014|1800799024|376014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?q0A2QJ7GBVY1ry6stCOUsS1/Ax32TGA6XmiMpOz/luKW2/E769XiqOMjHMEF?=
- =?us-ascii?Q?DtOKPo3D7imqMNYxkDUqObj6G1cYqRMyW9Z3M6LSi/YRxE5mv2lSd4mZ30MC?=
- =?us-ascii?Q?yKQ33P03AyUzee6j2RhmC0DTnAT0J2B4+RRAPRNH/22aD7QsLYhVYURumPqj?=
- =?us-ascii?Q?ie66HNuieXxW/jegNTfUKpm3SS1OT0+fI9U7DgRgSx1o+gOM3ScZJdpb3pVe?=
- =?us-ascii?Q?fL963E+gMf+Ekc+WgVO8SqW6/tzM/Xp7+RsVycyAfltw21BaW4rODSmGGSe+?=
- =?us-ascii?Q?94oaTPEcSaxKaq/JjvgEFJYGgcf58e/mP2Ha60v3kHcwF+trbFwq6zHimqiz?=
- =?us-ascii?Q?riaNjrm7YlO6iN1IENSTIkCPey61HCMUhnh0BhjJVdOfbo0uopzXLXZVRECr?=
- =?us-ascii?Q?TOT4/LUGuGoIdHUu2rvDanN2RhvJrsnLsaJMmRcgVNkPinn/ZKPyVhM3zwu8?=
- =?us-ascii?Q?pax/osrlTRTPqn868P+FnX7Wk0/MrXpQtcIxx7VM9sJYA/vkFsC4ZEvsLjcs?=
- =?us-ascii?Q?2vNTSqEQ4wtJGMDOm7gSvDntpGKYUqw8bGuKgLdODj20E5h1fmNZGD5sUqsU?=
- =?us-ascii?Q?YVYTW5JURpD0NiNKvSeQRIU822f/9Oz/W2Sm6o5MbERXyDG/IFyyEsdlcQxU?=
- =?us-ascii?Q?s2q1E07YRQ53SM4qqDqTIWX6gzdS+sprdgieb33gPmPhqco9GV2CXD6t/oqx?=
- =?us-ascii?Q?WX/bDI0RCnI+nxwscKqyx6llguUhp0H94oFQG8dt0wg+HYfx7tW1+KBHZItz?=
- =?us-ascii?Q?T84ezPEC0Z0jvOjG/fczRCcY2youQ1BcrBn+x7iAKV/PjPIafGXbtZhL6efp?=
- =?us-ascii?Q?fyYnlMSSLn/JD9zKjU7YxSuONB6tbvo+JkakmDXDGo+gwzC2tJXCcId4IzNS?=
- =?us-ascii?Q?agUFuKJ0TuRlfXCYhdsax+yVXh1w06AkpxOL6YUrIBlhqvNS0fUibRWEhypi?=
- =?us-ascii?Q?zh2+E8nmBw8fACXcmRAFGcRk8XIzxX5dyCrPFqocDP2Nw0qulMSOpEkTuNqT?=
- =?us-ascii?Q?0o/2N0c+AYuHxQFzJblaqlgc5ipVNWI3tQAcq37ZGh1VdFcWuKlgI4jrA4IW?=
- =?us-ascii?Q?ZTzSkjol+Pv7PR81lgC194MMyaIu3Ib8BOFfpxnmt34hUs/PShCgwAzlGilv?=
- =?us-ascii?Q?bTfV8udn7I1pquX6rEmdGIVp+E03n/6D7ir9BXNt68W09WxR6bZBFGsA3iU3?=
- =?us-ascii?Q?7hbhrXQnAmiUboHc5vFmhD+q615c324ELCq+q2Lr5ibvSynmA50LM/d41jsV?=
- =?us-ascii?Q?fhac9xvT4440q071W5bDpe/t87PMvkriWsZBEEZAKxdGEiEvjyLU0KgN6uKs?=
- =?us-ascii?Q?3BNIh5WqI742k3DmByqYB3WOeZASxoldvnHuQci0O/AuEQMEZN/39Yi5M0ar?=
- =?us-ascii?Q?+klr/w1gX96pag2d7CL6QjtqJYQvLw9kGqnP3Govt5P4LzNilwDL6dvVNjdH?=
- =?us-ascii?Q?bMbyYIL14SY=3D?=
+	=?us-ascii?Q?BcNwgrZ2ltcnZynfyAj1YzbG5wT6Jn7vJ5OsaR++w8d9mJ10S9OuignC1Ejw?=
+ =?us-ascii?Q?yaUzLx6JZeoTG0n0wQSAFcm674E6HVofAQ34iuC9+5mLuE1IGU/IKKggNd5N?=
+ =?us-ascii?Q?hOKFgz0UPVPhd+sVfrrk9n8ZIvp0cQWJKTu11BOnsfjOZaBXFq3DdMD/O9US?=
+ =?us-ascii?Q?pmXhry1f1Hz9PeHMKIPTjB7q70q8414bHXwQJyFOxbOmlQIZjqzLWeXX82RM?=
+ =?us-ascii?Q?riC6RKvNbddQE4NMB80rK6Z0Y1uhRFIgh3aRkvATgVEWLtCTo8FCMP1l2kwd?=
+ =?us-ascii?Q?mESRHWwe74uAd0VXh0Q7BdRhCSdujXpSNDuM+TjVJ9iFqKzvhFDQRZ/i4aWw?=
+ =?us-ascii?Q?VhKLtd8AO5UCSn8MccMIMqMlCGf/kP/jxJKdAT1EHQIcdrDt3QG6/3OSZ/Ei?=
+ =?us-ascii?Q?oRstj40biL+raKjbY5vtKJ5YESlf0cQkldipB3Rse5iV72w7CZHnRXxW6AKb?=
+ =?us-ascii?Q?zrLNx0p8mNXW2g20XgOixDV+TXNdiAzqLRyp96TFuBa8cOFuA9arGs9RSQyU?=
+ =?us-ascii?Q?x9PQT150U+ko+RFIeLMLNmIekFakG9TPiPm0iMDXK9zT9CVWtMW8bxLlxMRY?=
+ =?us-ascii?Q?7maYTQxnCDouoRSS5u067YxYpOWLb/YamUo2rn+aBjqe6AsuD1S13mRgEcrv?=
+ =?us-ascii?Q?MTs3hqPtb/PI5jnx9/YJqoh/+EoeSzfodPA8Osrck9xnb6G/4u9iiA1nkSfE?=
+ =?us-ascii?Q?sHGQQgjXpiG5LnkjOyoq46GAJr192ED4FU7Rf2hgTgF1X/OudmzZRLOzh2P4?=
+ =?us-ascii?Q?3BLVuXvNWVYT2xdJjrj/0WC6yDQzPbtJQGz5/eTLVwhUNDM0l8vkvxpzUsyq?=
+ =?us-ascii?Q?k+X3xnFPnuLmbUIK/fJhMZMLuXoZB6n/ulv95a5CLZH3x05CfG0wXhKXeGd9?=
+ =?us-ascii?Q?48Bbk2WGXcwdk1GwhrR3C9bgKQfRcZ5whWldFPJ4azihkS61uWZmSBg5BRg4?=
+ =?us-ascii?Q?rGou9t7cEFUSy0krzMaPjJ10J3X1DJ8NhwNOqg8C6yu5s/jFaXY0aYOMmSBO?=
+ =?us-ascii?Q?/PHu4KJRUFU9/vXGAr6FQJ5bHEPP0Sa5Z5rnLYbYGHODBdX5IbpgO7XJ6xyL?=
+ =?us-ascii?Q?LCDyvUKp3bpXl20uPGtwXx9/QTe5mYyJBA3WwNn67nh2oFvox3EKeAeSt4JA?=
+ =?us-ascii?Q?cMZzeyIlEatiKCsZEdB8N8Bdbw2jdOUF3xo4IRrnhtQQur4/FrLZOWCDkE3n?=
+ =?us-ascii?Q?RbvfnoOMjgc4ZcBWrunjIRzdxQMbNjMmrrCNYTg4gNRB/pgZ5Ye9bAv6fLAd?=
+ =?us-ascii?Q?9tczd9nspG/+mCK3nypT4WZCUXryrRew1Da1J6Axp3hAwZb80blMz/LkO7JE?=
+ =?us-ascii?Q?xT+yHj4GJpe/NrHC4TmuWguZuRb3hDHxYNTIP6bdzEWyqy0Vu+yY6YnU4H9V?=
+ =?us-ascii?Q?GDFHbUG5T0m8jSpk1YAEMF8xaor4ZLDRihEOmIHJGdpLDkOw2OoxMpznd1aK?=
+ =?us-ascii?Q?z36TfOxmKDK6OwQeSh5lMGTObqdt+XMCamALyJb4ZyqvKuTkrg2zf6UkDwt3?=
+ =?us-ascii?Q?Y7khMCw4Hlzotq8=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4357.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(4022899009)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5072.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?zEVW3CvTg6jWcCmjb0HGNKrrZVQv+xNSMpSVoAAb+xqXHGspEYUwuJoDT67L?=
- =?us-ascii?Q?N3qHhf/Mvj/yYuu3yZXc4QueZwcrHBUGQpxL/2LY3jmyIbz80D+QRl2qZ6hR?=
- =?us-ascii?Q?tKZz5S0ko/ma7SVc8wVefXgtF03mca+uuCIYuNFv+T/+vKPV93pWiKZJSqtz?=
- =?us-ascii?Q?8iy9K6UpvsL66tFPN0E+/UzT0aPolaDOS20GTheOLbskujUG9ukzU0jfoAD9?=
- =?us-ascii?Q?zbe8SqnYH847NckSYamR26cseVNLF3Y6E+sVQSuvMOLt2/BtBVe7PFPjv9Wr?=
- =?us-ascii?Q?0HjpeQu47TwnESE3ryvvqiDy0aug0S0XRiPND/J11GCZfbq8GAnMhYzfRfs3?=
- =?us-ascii?Q?OeGvpABHw3m8abq9H2bdrxCj3LOmlqoobMbZk3Jo6gGcQpWa76Cn/bnsopt6?=
- =?us-ascii?Q?m1R0LMoaMtRGs0DaMI4DiODIiZRLKqgDajz1dR/Db9uPzXF72kLf45yvqkis?=
- =?us-ascii?Q?FMTAibFRYKDwqNsrplyXl0h5gKesx3cTnb2Rv3JbL/q0MhS73s5r1D1aH3Ov?=
- =?us-ascii?Q?8zOLbUKwj03YevvmZVfIvBMNuDRSRqzNSoGeX7h/M6ZsC19i2skZpMkaDagM?=
- =?us-ascii?Q?km07UxDAZ+S2gzFdjrclWzzaySllaM/Rpv+q+O59R4DYi5jqYSLdkv4LrKXH?=
- =?us-ascii?Q?UnJU2HNcFGEQEWOeFHAhaWgZ0t1FqKu9Ww7lFOAPGu4hXayWU/qqjrpCqIRg?=
- =?us-ascii?Q?Gz9HvaLfjkYkxOq6J40W+W4rk6ialhE7U0rvM1Cy+0EWm4mIw3T8X4oW4pd/?=
- =?us-ascii?Q?bX9S71tgLXvsfrgdvCOWOlD9TB6xi2P36XohGnWOGxadNYWiwkNDKljSh7Ac?=
- =?us-ascii?Q?l/ustXpzyQE02CxcJ8AHMewBbMaSc9QLwKbaLORCsnzcKDtipxaIm3M+IM2D?=
- =?us-ascii?Q?sAlC3J3DaenM/yELZGZEVjQmZni9z6p4pq3S0LEn8aUl/2qV183C/yi5Qcud?=
- =?us-ascii?Q?W6aOgXVjnmVZp0rJfLBJGaVO4j6qkgEgxOZpj5Sd7X/57yM3xI7+EIkKcGKs?=
- =?us-ascii?Q?H6bbx0xq3Zs3VPIUeWJ1sHx8sWHx8Gy4RUJ7OmHPhB29CU0Cw856cFvkLwUf?=
- =?us-ascii?Q?t0thrE3Rk3gCu91qjI1Gbs7/da++ExeUQk3Oq1y4e6Yr0g42MoM85e4Ejsb7?=
- =?us-ascii?Q?NCXCgGslxbIygmMfrjs9c+qEsGEpSfMCH5+na424eAe9+3h+4x+Qq4UFJ7G+?=
- =?us-ascii?Q?W1LmEzvtc1MtfW8LXgOD2iCyxx98PjxT9ehQFg0jB0TvcI4cSU7GdaL+alQZ?=
- =?us-ascii?Q?FPIDpWTCQt43WzqUvsCTKSaZkGV9ayynDZ7RWSIN04PhKE0qI+sA1G9f/KpA?=
- =?us-ascii?Q?6sZ1hkmnus1NCLIEA9HIISdWoL+pVQMEnpEzRmO6W9LuzR75OECutwCt5JMz?=
- =?us-ascii?Q?hhhGUDNB2V8n+6zuiO6AQIu3SU2eyllpAus1IsufBbj5RBrYkXSOINYFTKWK?=
- =?us-ascii?Q?fHlKDQQyWgSqxfyD3g9PM84F+xA2hHsaVfWKFKSLrodaci3iO+GXKJd2y3ID?=
- =?us-ascii?Q?8U++Hi6+h3qzAUwrz+ZVYP/V+qQosBOfgVtae5wL02RtSLWcgFq3TfuWuK2D?=
- =?us-ascii?Q?8VkcCHCUzBIJajOVh8D2X0qKFth2CnNX12rt/SpI?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e24d9b0-0f3d-4795-51ad-08dda877217b
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4357.namprd12.prod.outlook.com
+	=?us-ascii?Q?H8Kzc8+JS1EXRS1d51kku8fdvrpW694TG5/GdxsEIKXkRh0mOg86ZyGChNe4?=
+ =?us-ascii?Q?IgQuVP13tQOq4yaOVMKrkMiELuq1KIjewM0fQdremguvYMWDdFJNdc+EPQJ8?=
+ =?us-ascii?Q?sxEHhm8+7FELnZGenfN51OwpYYZgmLc67JKuNzDmHniqqnaEoCV+GCgnbzDZ?=
+ =?us-ascii?Q?6Ysg0EWN42pbc3PE4LQFGCNTDU08LBlXwCCFuBwIjqo3GEnlMx733lPWNfyV?=
+ =?us-ascii?Q?WcKW/WJCgP881f9B1d5fYTElbCScW3t5Ok4lZ2KDe0E91a6EvczzHCbbJ6+C?=
+ =?us-ascii?Q?6bM2fXZO130RDJ9mtjeqn/0rdUaNBRVjsTDJ/I2LByC/PYcRK7p+//RUinUR?=
+ =?us-ascii?Q?FshxQxFyzTrkzxlmJNz3xLhI1gCRPBLwCQPBXKtJh9sWXyH4F/uu9wAa9N2J?=
+ =?us-ascii?Q?IEdUet0wbUluZND8UZ1MAiSXvHVnRQXRwSF+Ebf6SC4FScokb1CQ0k3Z1s73?=
+ =?us-ascii?Q?ZAZTn9UNfTMFjtrbPq2o0Bl/e7mA+UJpt+bPYppxZUI7iKYJPm5LXROS/+Lt?=
+ =?us-ascii?Q?gwfLHw6yzx1Ktpa++YTrkiTj9LZpIwZEAaJiDVu6vXX1sj2coRSlN2LEnJuY?=
+ =?us-ascii?Q?lqzjd7J+1YEo5z0Ire0VKrzqDgyGKi+rstfHgOlM/ey7lATdQ1DLXLtF0zT4?=
+ =?us-ascii?Q?JHQilKfSHI7+lvB4/fdarFVLXTliuESeVfm8/p0hPM+dBrA9j1/hJSva7q32?=
+ =?us-ascii?Q?i7zDUijADVr09dPmCbi1bMP9wgW9EsjvlL9Ud1VrSZdWaiL/TiRbwZrwNqjZ?=
+ =?us-ascii?Q?LPdL6GpDYX1r38TXuz+k0c7trDyf6sWVHJskvAJLJy3jWZVUTHCJPOYhy4pC?=
+ =?us-ascii?Q?F8h7ub+PDPgXoE/CV4ArEdWgoLDXHi+CgTjCqSLcYIPzFBPtoPvrKauniTIn?=
+ =?us-ascii?Q?XA00aiEngUp5EG5GdWjYpaKKd6GVGMHJFGbwS3BIvNneA98c7hAf0vHBLyYe?=
+ =?us-ascii?Q?r1H8bwJ0IstcU4pSbeI6KTsl+p312P6x0Uwi6pXd6mLlxExnhOa3iKdI+Wca?=
+ =?us-ascii?Q?EeQgC91Yple9VweUybMKA7MhcY7fhfSOX8ShdvJYL0R0JJ6Isaw/wwuXVUML?=
+ =?us-ascii?Q?CScXlFqcayNrKA75NN1R92IzNfs2o1ZBKgKqbIkiBEtM4ssoRmOHWhNbOQUs?=
+ =?us-ascii?Q?nhqvu5fh0nnAnOb7id/Q1HOysxBjVqQghTSOwqNtdPHL+f1hAUnX7sg4w4m2?=
+ =?us-ascii?Q?44Y2MxOxPBeEV5L1eMMhhhU86Lxv5Imcgz9lIzeRN19rrIcosLD88yhjOCEU?=
+ =?us-ascii?Q?DMyr/G4nwvC+DTnzhnoJoH7LmX7Vtb8eMSh+eW+JedFEMG7vkdMPDxo1aGV0?=
+ =?us-ascii?Q?y19Zazh6h2FUuAol3/gVLap+gKhzIMsmXj/niKHm4Xj7Rn0omUvm7WsQfmKJ?=
+ =?us-ascii?Q?gAJ9w6Sqtnr8zU4qlcJUYu3PStz3RawK/EXXGv4qGV3F20EWjVhxTo3Qr6oP?=
+ =?us-ascii?Q?iYav5N7jplMPPdDkD2rYgRpWgLBcljpMaskSpECHOK6T3OwvPTK5LE+EjMaH?=
+ =?us-ascii?Q?qUMPY782pGJUpDShPABnAEvuFhaGn3eqULRwxP01IQiVclrrjZQOohcSkgfd?=
+ =?us-ascii?Q?oQid6NTQnwoszhS5hQDObm7uUvXcJkzvW3yQSCMlXsx/Am1Qzz/bRY4Ubp/v?=
+ =?us-ascii?Q?7g=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 810ff1c5-33fa-4618-0549-08dda88cb6fc
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5072.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2025 23:32:58.2611
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 02:07:27.8378
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ul54V3fW1x2c4fv2UvHPAmgxOOiwuU+HL+XWFiAyGqZjFkT4Ywb6n+t9jj9uxrxD3EgI33NyJebE2mj2Ib3CEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6920
+X-MS-Exchange-CrossTenant-UserPrincipalName: nAqtRzptwWoWpt79tiUtzwGvbQzHoHGfQr1nW70gflkUMOcnBI69LAcYetD/EVXawK2P8VidnCai1lGU9WkNJThIVpKBtp694rq+X/Nk2nA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB8854
+X-Proofpoint-GUID: 6vhFx0-26QsS6zeF1fh4mwjfEln8pUkp
+X-Authority-Analysis: v=2.4 cv=L74dQ/T8 c=1 sm=1 tr=0 ts=6848e4e4 cx=c_pps a=jCnb3yOdQC6N0W1MV5DAOg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=zYFN5UzSIAfY-ava1X4A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDAxNyBTYWx0ZWRfX+F92s+z6CiBb yL4fJZv4IclqDUxKGlJJHBgsEM/5+PFu5X7z2rCA8z9hXd3gxQ4Cg9KL8RpkVw9r/+hZlCyEp4X lK3X5aQsOBWTC5yLnAFUhz+olIDw62SBr6a8g5venuqta5mY7tL3jXwEX4adOV32X2ceB1dCklg
+ wAJg7HadEnA8YQ4rCMhY6Wp+WTYdmXDNF/6QlFuPU/NvLwFu+zZ+i5dnFlcsAWdU782nypwOhqb f+mEHINezOeoR+zBShFddPtEe5QICQhNDK4UBJAwvSa2y2gJ6BBTP3EPY35o+OE2zRfLE6TLZ6Q aqypXhR8niuRqsC8O4mVslO7EnLQSKQLBNRO636pupHqOOosrmixpUlHhYbsyz7VHUdK3Lkdi3+
+ ac2no9X9cdtZjNlybILjcGmA1wysOo/OJQp1D0J9ws29MlSF3LTCZVuC5RNIwMX02BXS6eIL
+X-Proofpoint-ORIG-GUID: 6vhFx0-26QsS6zeF1fh4mwjfEln8pUkp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-11_01,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ priorityscore=1501 mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0
+ mlxscore=0 lowpriorityscore=0 clxscore=1011 malwarescore=0 phishscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2506110017
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Jun 2025 23:33:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218443
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 02:07:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218444
 
+From: Yongxin Liu <yongxin.liu@windriver.com>
 
-On 6/6/2025 5:21 PM, Khem Raj via lists.openembedded.org wrote:
-> Hi Sandeep
->
-> On Fri, Jun 6, 2025 at 10:35=E2=80=AFAM Gundlupet Raju, Sandeep
-> <sandeep.gundlupet-raju@amd.com> wrote:
->>
->> On 6/5/2025 9:31 AM, Sandeep Gundlupet Raju via lists.openembedded.org
->> wrote:
->>> On 6/5/2025 8:12 AM, Ross Burton via lists.openembedded.org wrote:
->>>> On 30 May 2025, at 04:20, Sandeep Gundlupet Raju via
->>>> lists.openembedded.org
->>>> <sandeep.gundlupet-raju=3Damd.com@lists.openembedded.org> wrote:
->>>>> Add tune variant for ARM Cortex-R52 32-bit in GCC as there is no
->>>>> support for Cortex-R52 32-bit toolchain.
->>>> This is the wrong fix as the existing tune file is just wrong.
->>>>
->>>> The cortexr52 tune says:
->>>>
->>>> TUNE_FEATURES:tune-cortexr52 =3D "aarch64 crc simd cortexr52=E2=80=9D
->>>>
->>>> But the Cortex R52 Technical Reference Manual[1] says "The
->>>> Cortex=C2=AE-R52 processor implements the Armv8-R AArch32 architecture=
-=E2=80=9D,
->>>> so there is no 64-bit R52.
->>>>
->>>> The solution here is to stop it claiming to be 64-bit at all.
-> Looking at web for docs I see
->
-> Cortex-r82 which is based on ARMv8-R with aarch64 ISA
->
-> https://developer.arm.com/Processors/Cortex-R82
->
-> Cortex-r52 which is under question here says its ARMv8-R but with 32bit I=
-SA
->
-> https://developer.arm.com/Processors/Cortex-R52
->
-> So I think we should remove aarch64 from this tune, that will be right
-> thing to do for r52
-[Sandeep]: Mathieu please drop=20
-https://git.openembedded.org/openembedded-core-contrib/commit/meta/conf/mac=
-hine/include/arm/armv8r?h=3Dmathieu/master-next&id=3D10bce00fb2176515a35c42=
-2028d43adb10d02def=20
-patch from master-next branch.
->
->
->>>> Ross
->>>>
->>>> [1]
->>>> https://developer.arm.com/documentation/100026/0104/The-Cortex-R52-pro=
-cessor/Supported-standards/Arm-architecture?lang=3Den
->>> [Sandeep]: Ross, Thanks for the reference point. I can send a v2 patch
->>> by removing 64-bit references. But I won't able to test all the use
->>> cases.
->> [Sandeep]: I had a chat with Khem and he said we can enable 64-bit ISA
->> optionally. I will wait for Khem to reply wiht right pointers. This is
->> blocking some of our deliverables to build r52-bit baremetal and zephyr
->> application.
->>>>
->>>>
->>>
->>>
->>>
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#218189): https://lists.openembedded.org/g/openembed=
-ded-core/message/218189
->>> Mute This Topic: https://lists.openembedded.org/mt/113374193/3619217
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-sandeep.gundlupet-raju@amd.com]
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>
+Backport a commit from util-linux upstream to fix the following error.
+
+agetty: segfault at 0 ip 00007fc65600295c sp 00007fffa8dd67e8 error 4 in libc.so.6
+
+Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc   |  1 +
+ ...tty-fix-stdin-conversion-to-tty-name.patch | 40 +++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0003-agetty-fix-stdin-conversion-to-tty-name.patch
+
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 4e8701ffdf..cbf148073b 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -40,6 +40,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://fcntl-lock.c \
+            file://0001-cfdisk-add-sector-size-commanand-line-option.patch \
+            file://0002-sfdisk-add-sector-size-commanand-line-option.patch \
++           file://0003-agetty-fix-stdin-conversion-to-tty-name.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "5c1daf733b04e9859afdc3bd87cc481180ee0f88b5c0946b16fdec931975fb79"
+diff --git a/meta/recipes-core/util-linux/util-linux/0003-agetty-fix-stdin-conversion-to-tty-name.patch b/meta/recipes-core/util-linux/util-linux/0003-agetty-fix-stdin-conversion-to-tty-name.patch
+new file mode 100644
+index 0000000000..2766ee2c0d
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/0003-agetty-fix-stdin-conversion-to-tty-name.patch
+@@ -0,0 +1,40 @@
++From bd6c104f931329ce6fbc5a1250c8c80a1d8223ee Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Mon, 24 Feb 2025 13:37:04 +0100
++Subject: [PATCH] agetty: fix stdin conversion to tty name
++
++Addresses: https://github.com/util-linux/util-linux/issues/3304
++
++Upstream-Status: Backport
++[https://github.com/util-linux/util-linux/commit/bd6c104f931329ce6fbc5a1250c8c80a1d8223ee]
++Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
++---
++ term-utils/agetty.c | 10 +++++++---
++ 1 file changed, 7 insertions(+), 3 deletions(-)
++
++diff --git a/term-utils/agetty.c b/term-utils/agetty.c
++index aa859c27b..0dfe52c90 100644
++--- a/term-utils/agetty.c
+++++ b/term-utils/agetty.c
++@@ -928,11 +928,15 @@ static void parse_args(int argc, char **argv, struct options *op)
++ 
++ 	/* resolve the tty path in case it was provided as stdin */
++ 	if (strcmp(op->tty, "-") == 0) {
+++		int fd;
+++		const char *name = op->tty;
+++
++ 		op->tty_is_stdin = 1;
++-		int fd = get_terminal_name(NULL, &op->tty, NULL);
++-		if (fd < 0) {
+++		fd = get_terminal_name(NULL, &name, NULL);
+++		if (fd >= 0)
+++			op->tty = name;	/* set real device name */
+++		else
++ 			log_warn(_("could not get terminal name: %d"), fd);
++-		}
++ 	}
++ 
++ 	/* On virtual console remember the line which is used for */
++-- 
++2.46.2
++
+-- 
+2.46.2
+
 
