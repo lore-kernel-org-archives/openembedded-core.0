@@ -1,295 +1,229 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2386C71136
-	for <webhook@archiver.kernel.org>; Wed, 11 Jun 2025 19:04:38 +0000 (UTC)
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by mx.groups.io with SMTP id smtpd.web10.3596.1749668672519671601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9062C71135
+	for <webhook@archiver.kernel.org>; Wed, 11 Jun 2025 19:32:38 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.4239.1749670350887041051
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jun 2025 12:04:32 -0700
+ Wed, 11 Jun 2025 12:32:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=F/zu9b2D;
- spf=pass (domain: ti.com, ip: 198.47.19.246, mailfrom: reatmon@ti.com)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55BJ4VNG1458712
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 14:04:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1749668671;
-	bh=9zC/OF2vkDSFhwSOAHf8r2wluvpeFrib8STDf9Ub+iQ=;
-	h=From:To:Subject:Date;
-	b=F/zu9b2DUruGPQ2vUJT3F8H3y0QRt6trEqfDFBSL2NIsf+j6ePI7YcC7az/Auirrr
-	 x5OhHqJ3MP9OdfofyihZR0sOXyi49uTuPM9CR8XOkhUcCtVzktKMmPKjhVcR9Dhwqk
-	 8amK11wTmwQD7qBVjJ1RIT7U8PCep1TC2HXGMflw=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55BJ4Vt41226982
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 14:04:31 -0500
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 11
- Jun 2025 14:04:31 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 11 Jun 2025 14:04:31 -0500
-Received: from uda0214219 (uda0214219.dhcp.ti.com [128.247.81.222])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55BJ4VFl784789
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 14:04:31 -0500
-Received: from reatmon by uda0214219 with local (Exim 4.90_1)
-	(envelope-from <reatmon@ti.com>)
-	id 1uPQkQ-0003UU-UY
-	for openembedded-core@lists.openembedded.org; Wed, 11 Jun 2025 14:04:31 -0500
-From: Ryan Eatmon <reatmon@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] u-boot: Allow for customizing installed/deployed file names
-Date: Wed, 11 Jun 2025 14:04:30 -0500
-Message-ID: <20250611190430.13378-1-reatmon@ti.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=YnRepyJA;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55B9DLG3027902
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 19:32:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	0XQYST0p2R7m+R9vi4DTIwL2HKbTkbxO7Cliuctln3c=; b=YnRepyJA1sbOE4yJ
+	XbyOC4N8r4IJOSJEYjSvsONlJtB/XZvvyyCXYekgI9toxll4dr7qauustQKFAuCt
+	qAzwSFm1t+ayv6VYqQLRuOdY1w3PZSifdJGa8i1CgsB2CTdtb1TMbsY6Z8lG5xIO
+	1BAHT+rr+PNxjqrY3UKKs/FFSNagw6SJ19swfYJDSuPQfzIaR74MtMvGy2Ov2Dh3
+	a0ydF3ov70LHxpEerwexg0DTdSfmGep/5RwKMEnWeJoqaGfEfPRhEMPdF0pYTG66
+	B/H3B/KkE7HwYRh/Wvm4irsdtaHG+IaVQT8d+LmEiUMI7j9IC6XV6pjWUTRMEwqO
+	QQbY2w==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 476jrhd2v2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 19:32:29 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2362e130be8so1326785ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 12:32:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749670348; x=1750275148;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0XQYST0p2R7m+R9vi4DTIwL2HKbTkbxO7Cliuctln3c=;
+        b=tFsUYzeFx3Wje6+mNBCOktWJimsQIuSDdSnqz1XvYTQGS+3W8kiFg4Uh4gLWyf5XTK
+         Y9qDFgjqTkBkz27qpZDXLG83eKs0DMfwkGR+OkCTnBHHehrQnvginzTsBw8qO3+B97hy
+         djfCGsQb865Qzoe/3THMFUgP3HsvT5UhZRC/C0zzDU4XQT0i6929MshzhFispZIcM54o
+         iJ5+XUqBdGw///7QwbKjNZVr0DxA1UyVID9HNfSxxcWDABxZEgWqe+uwBHlgdbC1OZAA
+         R4DCmOu9U304pHz2pp735rHJLksohTJRcahm/YKi6gL1YCV74E8BMhRnXsHIG0z1jdxh
+         n8ew==
+X-Gm-Message-State: AOJu0Yz46O/Di6W56ivtONWWPdApGufHQsa84Xa/iiT3kDvCzZFG6TyB
+	pVXvm5gLy7oR1mR0SYoozsQBdQqBsD8NzUJcAJPnRUHP9CXfhbp3sV9hyGumoyg9Swkw3YWHhgT
+	KY47u8swi4rvv6OjMFQRPWPSScJewv9NKYkidHwGrWAYbOojtcKpETLJmj+MSQ0GWqERhWOdpE4
+	6X3i4AVFQJQ+hT0wvcm5pO86FUFOdlnZNJ6XoimwyE98AvsP5Wg/YMmDaqmw==
+X-Gm-Gg: ASbGncvJP716TFZyfF2YXZPEVP68P9V7fvOHw8lV1HwtLmE4Lw/pLWQuFF9LutIPZex
+	ddKP8c5Yvi/CLsw1WmLn9ZHrChYwnPNon+5XPz5/MYuKJ48DXEUqnEqNe1jLuQcDJbLqWGITveg
+	1kPw==
+X-Received: by 2002:a17:90b:1c09:b0:312:e8ed:758 with SMTP id 98e67ed59e1d1-313bfb677c7mr1030432a91.13.1749670348310;
+        Wed, 11 Jun 2025 12:32:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFFrjhfiDBbCtPgHKyu81OvbAmLxgtz9N3Utf7fF+VF1kjd84GLeTGBxALoNCuDpI5cyQ2lGxzR5WQsLSSk2RA=
+X-Received: by 2002:a17:90b:1c09:b0:312:e8ed:758 with SMTP id
+ 98e67ed59e1d1-313bfb677c7mr1030395a91.13.1749670347697; Wed, 11 Jun 2025
+ 12:32:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250610142413.681911-1-zboszor@gmail.com> <CAO9ioeUn24ndJqaH1O8B0G+mB8JKx_JcROXhzJqrw36L84bmNw@mail.gmail.com>
+ <8e9387de-14f0-4def-a41e-3b8aeaa178a0@gmail.com> <8155d605-c759-4645-a82a-15ef65f95e66@oss.qualcomm.com>
+ <63ef3071-74eb-4caf-a08e-77d91bf82c44@gmail.com>
+In-Reply-To: <63ef3071-74eb-4caf-a08e-77d91bf82c44@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Wed, 11 Jun 2025 22:32:16 +0300
+X-Gm-Features: AX0GCFtNcoyd9KstYA0mcdwjGxnGZTj_N30NpJzC1aXX5JuKGkS_UbjzTU9F7fY
+Message-ID: <CAO9ioeVE94tAha_o0Q1tcP-2LhD6YAVtLUMkqACr4q55=ahgVQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa: Fix bindgen includes
+To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Markus Volk <f_l_k@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=EovSrTcA c=1 sm=1 tr=0 ts=6849d9cd cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
+ a=e5mUnYsNAAAA:8 a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=pGLkceISAAAA:8
+ a=IjkHuktu5FxUroAh0YQA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-ORIG-GUID: L_beYmvA2HniD5bR3WTMtbuQLcJmgeMP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDE2NCBTYWx0ZWRfXwxGp5BsDIohK
+ 9rML/7DO9qBawS5SRa0PxFpqOYFrMEi2VaoRL4LyWjUByo0jSoCeQkPsPR0tg1QVgLrxOfSWGai
+ vbzEO15G29XMDWkEoCyqb86U2fTrK73yZx/rilN/3OsXGJwGP/t/Kp2ifCJC1D6HFD7VqP2RRXP
+ +zrnxdI3le4x6HNu6qmFLKBzLGrBt47LcP3RThB25Q8vwWn+yd5BVOvgoQELeuiHuVFUNQ7BE26
+ lTl0CJECuSN3b8H/gA8vljHHFN1q3pqEPnEnJoz1KcrWI7sWBzqCbineDowXQgjxqcvfW6yvjbI
+ cPAgx6RMX1SgaSBcumL+MOEkF1mjIksM1LvB6GrH8xMJ77hJGbUbMCt/HQPoR+l9/lPAEdcozBY
+ 5veBl5f26zS0usWQz/D3dDehr+l4UQTpXutcrwHGiUNQsF2Wz4lAfl8bozWV4iiI7p+asSsz
+X-Proofpoint-GUID: L_beYmvA2HniD5bR3WTMtbuQLcJmgeMP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-11_08,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=993
+ mlxscore=0 clxscore=1015 malwarescore=0 adultscore=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506110164
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 19:04:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218469
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 19:32:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218470
 
-When assembling all of the various filenames that are installed/deployed
-from u-boot, we have been including the PV and PR in the filenames.  This
-change introduces a simple variable indirection for those places so that
-the values for PV and PR can be modified if desired.
+On Wed, 11 Jun 2025 at 21:36, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zbosz=
+or@gmail.com> wrote:
+>
+> 2025. 06. 11. 19:34 keltez=C3=A9ssel, Dmitry Baryshkov =C3=ADrta:
+> > On 11/06/2025 13:46, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n wrote:
+> >> 2025. 06. 10. 21:49 keltez=C3=A9ssel, Dmitry Baryshkov via lists.opene=
+mbedded.org =C3=ADrta:
+> >>> On Tue, 10 Jun 2025 at 17:24, Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi =
+<zboszor@gmail.com> wrote:
+> >>>> Add a patch to fix bindgen errors due to not finding headers
+> >>>> in the system, like:
+> >>>>
+> >>>> |...
+> >>>> | ../mesa-25.1.2/src/gallium/frontends/rusticl/ rusticl_llvm_binding=
+s.hpp:1:10: fatal
+> >>>> error: 'clang/Basic/Version.h' file not found
+> >>>> | Unable to generate bindings: clang diagnosed error: ../mesa-25.1.2=
+/
+> >>>> src/gallium/frontends/rusticl/rusticl_llvm_bindings.hpp:1:10: fatal =
+error:
+> >>>> 'clang/Basic/Version.h' file not found
+> >>>> |...
+> >>>> | .../work/corei7-64-oe-linux/mesa/25.1.2/mesa-25.1.2/include/./GL/ =
+glx.h:30:10:
+> >>>> fatal error: 'X11/Xlib.h' file not found
+> >>>> | Unable to generate bindings: clang diagnosed error: /data2/dtd-
+> >>>> yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/mesa/25.1.2/mesa-25.1.2/
+> >>>> include/./GL/glx.h:30:10: fatal error: 'X11/Xlib.h' file not found
+> >>> Can we fix this on the meson side by passing additional include path
+> >>> through the cross file?
+> >>
+> >> This seems to work in mesa.inc without patching Mesa:
+> >>
+> >> CFLAGS:append:class-target =3D " -I${STAGING_INCDIR}"
+> >> CXXFLAGS:append:class-target =3D " -I${STAGING_INCDIR}"
+> >
+> > My question was more about meson.bbclass, where we set bindgen_clang_ar=
+gs. See the
+> > bindgen_args() function.
+>
+> I wouldn't change meson.bbclass because it works for the
+> most recipes already.
 
-In this case, we are wanting to use the value for PKGV instead of PV so
-that we can pick up the git commit, but a change of that magnitude in a
-bbappend would be impossible with all of the places where PV is hard-coded.
+The bindgen_args was implemented for mesa as the first user. It is not
+frequent for the packaged software to use rust.bindgen.
 
-This change should not be disruptive since the default value for the new
-UBOOT_PV and UBOOT_PR are just PV and PR respectively.
+>
+> Besides, it seems to be a meson bug, not a meson.bbclass bug
+> as -isystem and other include path related flags (besides -I) are
+> ignored in CFLAGS/CXXFLAGS.
+>
+> The "clang diag" messages are likely coming from mixed up host
+> vs target header paths.
+>
+> See
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/35435#note_2952=
+621
+> https://github.com/mesonbuild/meson/blob/master/mesonbuild/modules/rust.p=
+y#L392-L397
+>
+> If we changed meson.bbclass to add -I${STAGING_INCDIR} to
+> the proper places in meson.cross, it would still print the
+> clang diag warning. Adding -isystem would still get ignored.
 
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
----
- meta/classes-recipe/uboot-config.bbclass | 15 +++--
- meta/recipes-bsp/u-boot/u-boot.inc       | 80 ++++++++++++------------
- 2 files changed, 50 insertions(+), 45 deletions(-)
+Are we ta
 
-diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe/uboot-config.bbclass
-index f44605cb6a..6287701888 100644
---- a/meta/classes-recipe/uboot-config.bbclass
-+++ b/meta/classes-recipe/uboot-config.bbclass
-@@ -22,12 +22,17 @@ def removesuffix(s, suffix):
- UBOOT_ENTRYPOINT ?= "0x20008000"
- UBOOT_LOADADDRESS ?= "${UBOOT_ENTRYPOINT}"
- 
-+# When naming the files we install/deploy, the package version and revision
-+# are part of the filename.  Allow these to be customized if desired.
-+UBOOT_PV ?= "${PV}"
-+UBOOT_PR ?= "${PR}"
-+
- # Some versions of u-boot use .bin and others use .img.  By default use .bin
- # but enable individual recipes to change this value.
- UBOOT_SUFFIX ??= "bin"
- UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
- UBOOT_BINARYNAME ?= "${@os.path.splitext(d.getVar("UBOOT_BINARY"))[0]}"
--UBOOT_IMAGE ?= "${UBOOT_BINARYNAME}-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
-+UBOOT_IMAGE ?= "${UBOOT_BINARYNAME}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_SUFFIX}"
- UBOOT_SYMLINK ?= "${UBOOT_BINARYNAME}-${MACHINE}.${UBOOT_SUFFIX}"
- UBOOT_MAKE_TARGET ?= "all"
- 
-@@ -36,7 +41,7 @@ UBOOT_MAKE_TARGET ?= "all"
- # purposes.
- UBOOT_ELF ?= ""
- UBOOT_ELF_SUFFIX ?= "elf"
--UBOOT_ELF_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}"
-+UBOOT_ELF_IMAGE ?= "u-boot-${MACHINE}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ELF_SUFFIX}"
- UBOOT_ELF_BINARY ?= "u-boot.${UBOOT_ELF_SUFFIX}"
- UBOOT_ELF_SYMLINK ?= "u-boot-${MACHINE}.${UBOOT_ELF_SUFFIX}"
- 
-@@ -49,7 +54,7 @@ SPL_BINARY ?= ""
- SPL_DELIMITER  ?= "${@'.' if d.getVar("SPL_SUFFIX") else ''}"
- SPL_BINARYFILE ?= "${@os.path.basename(d.getVar("SPL_BINARY"))}"
- SPL_BINARYNAME ?= "${@removesuffix(d.getVar("SPL_BINARYFILE"), "." + d.getVar("SPL_SUFFIX"))}"
--SPL_IMAGE ?= "${SPL_BINARYNAME}-${MACHINE}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX}"
-+SPL_IMAGE ?= "${SPL_BINARYNAME}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR}${SPL_DELIMITER}${SPL_SUFFIX}"
- SPL_SYMLINK ?= "${SPL_BINARYNAME}-${MACHINE}${SPL_DELIMITER}${SPL_SUFFIX}"
- 
- # Additional environment variables or a script can be installed alongside
-@@ -62,14 +67,14 @@ UBOOT_ENV ?= ""
- UBOOT_ENV_SRC_SUFFIX ?= "cmd"
- UBOOT_ENV_SRC ?= "${UBOOT_ENV}.${UBOOT_ENV_SRC_SUFFIX}"
- UBOOT_ENV_BINARY ?= "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
--UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFFIX}"
-+UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ENV_SUFFIX}"
- UBOOT_ENV_SYMLINK ?= "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
- 
- # U-Boot EXTLINUX variables. U-Boot searches for /boot/extlinux/extlinux.conf
- # to find EXTLINUX conf file.
- UBOOT_EXTLINUX_INSTALL_DIR ?= "/boot/extlinux"
- UBOOT_EXTLINUX_CONF_NAME ?= "extlinux.conf"
--UBOOT_EXTLINUX_SYMLINK ?= "${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}-${PR}"
-+UBOOT_EXTLINUX_SYMLINK ?= "${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR}"
- 
- # Options for the device tree compiler passed to mkimage '-D' feature:
- UBOOT_MKIMAGE_DTCOPTS ??= ""
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 9464736b84..84e636f9b0 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -192,16 +192,16 @@ uboot_install_config () {
-     config=$1
-     type=$2
- 
--    install -D -m 644 ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
--    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
--    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-+    install -D -m 644 ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_SUFFIX}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
- 
-     # Install the uboot-initial-env
-     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
--        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
--        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${type}
--        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
-+        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_PV}-${UBOOT_PR}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_PV}-${UBOOT_PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_PV}-${UBOOT_PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${type}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_PV}-${UBOOT_PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
-     fi
- }
- 
-@@ -211,9 +211,9 @@ uboot_install () {
- 
-     # Install the uboot-initial-env
-     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
--        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}
--        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
-+        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
-     fi
- }
- 
-@@ -221,9 +221,9 @@ uboot_install_elf_config () {
-     config=$1
-     type=$2
- 
--    install -m 644 ${B}/${config}/${UBOOT_ELF} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
--    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
--    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-+    install -m 644 ${B}/${config}/${UBOOT_ELF} ${D}/boot/u-boot-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ELF_SUFFIX}
-+    ln -sf u-boot-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
-+    ln -sf u-boot-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}
- }
- 
- uboot_install_elf () {
-@@ -235,9 +235,9 @@ uboot_install_spl_config () {
-     config=$1
-     type=$2
- 
--    install -m 644 ${B}/${config}/${SPL_BINARY} ${D}/boot/${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX}
--    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}-${type}
--    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}
-+    install -m 644 ${B}/${config}/${SPL_BINARY} ${D}/boot/${SPL_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}${SPL_DELIMITER}${SPL_SUFFIX}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}-${type}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}
- }
- 
- uboot_install_spl () {
-@@ -282,10 +282,10 @@ do_deploy () {
-     fi
- 
-     if [ -e ${UNPACKDIR}/fw_env.config ] ; then
--        install -D -m 644 ${UNPACKDIR}/fw_env.config ${DEPLOYDIR}/fw_env.config-${MACHINE}-${PV}-${PR}
-+        install -D -m 644 ${UNPACKDIR}/fw_env.config ${DEPLOYDIR}/fw_env.config-${MACHINE}-${UBOOT_PV}-${UBOOT_PR}
-         cd ${DEPLOYDIR}
--        ln -sf fw_env.config-${MACHINE}-${PV}-${PR} fw_env.config-${MACHINE}
--        ln -sf fw_env.config-${MACHINE}-${PV}-${PR} fw_env.config
-+        ln -sf fw_env.config-${MACHINE}-${UBOOT_PV}-${UBOOT_PR} fw_env.config-${MACHINE}
-+        ln -sf fw_env.config-${MACHINE}-${UBOOT_PV}-${UBOOT_PR} fw_env.config
-     fi
- 
-     if [ -n "${UBOOT_ELF}" ]
-@@ -355,19 +355,19 @@ uboot_deploy_config () {
-     config=$1
-     type=$2
- 
--    install -D -m 644 ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-+    install -D -m 644 ${B}/${config}/${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_SUFFIX}
-     cd ${DEPLOYDIR}
--    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
--    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
--    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}-${type}
--    ln -sf ${UBOOT_BINARYNAME}-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}-${type}
-+    ln -sf ${UBOOT_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
- 
-     # Deploy the uboot-initial-env
-     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
-+        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_PV}-${UBOOT_PR}
-         cd ${DEPLOYDIR}
--        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
--        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${type}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_PV}-${UBOOT_PR} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_PV}-${UBOOT_PR} ${UBOOT_INITIAL_ENV}-${type}
-     fi
- }
- 
-@@ -381,10 +381,10 @@ uboot_deploy () {
- 
-     # Deploy the uboot-initial-env
-     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
--        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
-+        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR}
-         cd ${DEPLOYDIR}
--        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}
--        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR} ${UBOOT_INITIAL_ENV}-${MACHINE}
-+        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_PV}-${UBOOT_PR} ${UBOOT_INITIAL_ENV}
-     fi
- }
- 
-@@ -392,11 +392,11 @@ uboot_deploy_elf_config () {
-     config=$1
-     type=$2
- 
--    install -m 644 ${B}/${config}/${UBOOT_ELF} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
--    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}-${type}
--    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
--    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}-${type}
--    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}
-+    install -m 644 ${B}/${config}/${UBOOT_ELF} ${DEPLOYDIR}/u-boot-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ELF_SUFFIX}
-+    ln -sf u-boot-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}-${type}
-+    ln -sf u-boot-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
-+    ln -sf u-boot-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}-${type}
-+    ln -sf u-boot-${type}-${UBOOT_PV}-${UBOOT_PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}
- }
- 
- uboot_deploy_elf () {
-@@ -409,12 +409,12 @@ uboot_deploy_spl_config () {
-     config=$1
-     type=$2
- 
--    install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX}
-+    install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}${SPL_DELIMITER}${SPL_SUFFIX}
-     rm -f ${DEPLOYDIR}/${SPL_BINARYFILE} ${DEPLOYDIR}/${SPL_SYMLINK}
--    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_BINARYFILE}-${type}
--    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_BINARYFILE}
--    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
--    ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_SYMLINK}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_BINARYFILE}-${type}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_BINARYFILE}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-+    ln -sf ${SPL_BINARYNAME}-${type}-${UBOOT_PV}-${UBOOT_PR}${SPL_DELIMITER}${SPL_SUFFIX} ${DEPLOYDIR}/${SPL_SYMLINK}
- }
- 
- uboot_deploy_spl () {
--- 
-2.17.1
+>
+> FWIW, --sysroot is also ignored by meson and adding it forcibly
+> throws a different error. See
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/35435#note_2952=
+805
 
+How were you passing it? Via CFLAGS / CPPFLAGS or via bindgen args?
+
+>
+> =C2=AF\_(=E3=83=84)_/=C2=AF
+>
+> >> but it also[1] prints this for some of the bindgen runs:
+> >>
+> >> clang diag: /home/zozo/yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/
+> >> mesa/25.1.3/recipe-sysroot/usr/include/stdint.h:95:11: warning: '__INT=
+64_C' macro
+> >> redefined [-Wmacro-redefined]
+> >> clang diag: /home/zozo/yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/
+> >> mesa/25.1.3/recipe-sysroot/usr/include/stdint.h:96:11: warning: '__UIN=
+T64_C' macro
+> >> redefined [-Wmacro-redefined]
+> >>
+> >> [1] Using the previously posted patch also prints the same.
+> >>
+> >> It seems to be caused by a meson bug because it doesn't
+> >> collect the -isystem or --sysroot flags for rust/bindgen.
+> >> See the discussion at the MR link in the patch.
+> >>
+> >> CFLAGS and CXXFLAGS changes are both needed because
+> >> bindgen is run on both .h and .hpp files for rusticl.
+> >>
+> >>>> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail=
+.com>
+> >>>> ---
+> >>>>   ...w-build-option-for-extra-bindgen-inc.patch | 57 +++++++++++++++=
+++++
+> >>>>   meta/recipes-graphics/mesa/mesa.inc           |  3 +-
+> >>>>   2 files changed, 59 insertions(+), 1 deletion(-)
+> >>>>   create mode 100644 meta/recipes-graphics/mesa/files/0001-rusticl-
+> >>>> Add-a-new-build-option-for-extra-bindgen-inc.patch
+> >>>>
+> >>>
+> >>>
+> >>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >>> Links: You receive all messages sent to this group.
+> >>> View/Reply Online (#218438): https://lists.openembedded.org/g/
+> >>> openembedded-core/message/218438
+> >>> Mute This Topic: https://lists.openembedded.org/mt/113570520/3617728
+> >>> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [zboszor@gmail.com]
+> >>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >>>
+> >>
+> >
+> >
+>
+
+
+--=20
+With best wishes
+Dmitry
 
