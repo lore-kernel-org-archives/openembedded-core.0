@@ -1,223 +1,225 @@
-Return-Path: <anibal@limonsoftware.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6534C71136
-	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 14:48:25 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.web11.14990.1749739704259176401
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2788C71136
+	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 15:02:25 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.45])
+ by mx.groups.io with SMTP id smtpd.web10.15632.1749740539804489665
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Jun 2025 07:48:24 -0700
+ Thu, 12 Jun 2025 08:02:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@limonsoftware-com.20230601.gappssmtp.com header.s=20230601 header.b=qNtoYeeI;
- spf=pass (domain: limonsoftware.com, ip: 209.85.128.173, mailfrom: anibal@limonsoftware.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-70e5d953c0bso11522897b3.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 07:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=limonsoftware-com.20230601.gappssmtp.com; s=20230601; t=1749739703; x=1750344503; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W0Og5UIHJscaHlE+yxnc3ezdZVf7ZNCOwVBUE6e412E=;
-        b=qNtoYeeIVUXOCQSuycN5hF1b1jcpF5yq1ilH0E4mq/75TpyAYTLlg5HMrw82+wQeV0
-         tqZPPC2rysfGXhx4GWzCOS12awa03i2MEdkZz89uClqUJ7RUVTzZOs2tTQm3OhGkVBn0
-         WuweRfwnrzqtBEeu31dmUZBG65C45+eKlQvSzU5R/FBEKPi1OmaZVTywH+qMOZ9WrJPX
-         pW0HF6QwIdbt5qmdfyEaG1e8rvqdslwrYHcC1Q6XUlHrpsP0Hnp4N+wTvJKHkDn392Oj
-         z21a6wOOCkiw+//jzzdgWMLFWQ4jumFRCePjnmbr7nJoVlOmoMr9gCb94+RYSw3uxpw3
-         6ysQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749739703; x=1750344503;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W0Og5UIHJscaHlE+yxnc3ezdZVf7ZNCOwVBUE6e412E=;
-        b=empFf/z3WMft55YZEwdtXT4KAlglQuRBq3bnSCoz++wqoL/FS9LNmRPhqyLUM8Td4t
-         VIxheQEoVhUivJwaRsyUadNg3jmjEj/Rb6VWG/G6BvdRot4vzxkGd0HmKS0wt+wA6jgT
-         XHV7ZsfwiruazlFDFJ8hwJewFderUy5SO/MIIPec4xuZ5+tEGRN7pBUoUAt+M84ocMLg
-         5jAxKt9sXBREM9cDUizNKjgTbMKUrGvdlbGZfmRaNOVylqCmIxubCtYWdNx/tIiCaZ0O
-         DCJTypKb1xaPZYhVQK2TdHeqVSzaadmHw4ST7sw/pmNApXrPwGOgcAFT5Pcpgu9/ftYg
-         qeUw==
-X-Gm-Message-State: AOJu0Yzvrxkx4bmPazgdl2xmg6gh+mfFxYccOqzgNGHHCWywPVWwYD1B
-	uA+hYFYtmpdZ9ilpNJIwN7UFcMNkSaC0d25raGiEfHresYO5caQAID4v9nAkp/Qbw6JCfV7ndRH
-	yymoX1WeXdbwEPvXzmYCuWUHmWCAYHHGWSBIICEUBUQ==
-X-Gm-Gg: ASbGnctbT/37F+N7TXLiLXnRt68d77vKWan7RbWDQeI4Il4VcjSvIBvZpXWrDi6dzrH
-	QfeRcsuVxsnLRTTr0zaoom5V2LRWjT7lbm2BUGSkGHRQtrrMwBFo5y2l7YnxPpGiRlbL+auQMN1
-	SeKPgYuKJxzAEtzUhms9ZcK9cbHZ0GusuwLWk8WxvOksJ9VL/QJp0fndru
-X-Google-Smtp-Source: AGHT+IE9gAm7Gp9kY2bVfXWUu4A6XBQm1FwhvoGmhBFQsETVk+9ATwkC+KV51FbbzYYOZiK7o8v9aT74YAwSQrJ2vnA=
-X-Received: by 2002:a05:690c:6212:b0:6fb:1f78:d9ee with SMTP id
- 00721157ae682-7114ec6a174mr61715357b3.15.1749739703287; Thu, 12 Jun 2025
- 07:48:23 -0700 (PDT)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=O6mHg4ZT;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=O6mHg4ZT;
+ spf=pass (domain: arm.com, ip: 52.101.65.45, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=rzKGVt3GnaAfaElByh3AQb7E/mViOpluCqkW3E/JPlvn9Q8mRt/3eHIZ7bYLLU6LvDrBxvRkddS5oZQdWoTlwdZNAGyY7NET3gGiPw3Jcec8TluxI+LFHwNFfxubn4cvE58lyqLvQaGSQ2onv4sCT793iPJzvqBFDQYTimyAMMcvM4N5mxRscMegv0g0qmannNokQayhmgkVy3/NbRGcVk6BRbdSkE0QLMCjlpUoj7z+WkhbtBzo6/I2eqbxQqGceA3iaNjlpEQ1dIviZjYL+JHNjo3iELW0UtNB7YJUgUSpVQYtjC81GiQlEmUCjGNI9OYvEWu1uzepnaUCV5xKzg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MfjBp8em2nbfMCNJ/gpOVqZrA23k8oijD5OUcN5U818=;
+ b=yjQAmMNeXmaJZhgRqNOhjMo1VK0tpU48siAhWs+Vl36lQn2MyYYuXPayXpe0dugqtXO0icj+CveOEvDvBreUV7HBynmDHOfFtBLiV65vnZcloBsqZ7w7PCL8+99e3n8IzEQe0JcRGC2FgXjpscZ6lXGWzCJrG3pS3EXVh1Eb3PZVEdbrwvR/eM2crFAA4LifzfXtm+FCRTxiXY2RRt0GiWG2PfTM1uir4dIawO2YsLpYKrDgEzE69O+tjPyP9VZRPgvaOoU5+/m+u5LsCjyZRdUxQ8MwtbQPITWLMJrsPkl27ZLcxBt286dbID3d0DiTtkHSIB6/8g/AqgQZc+nlfg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=limonsoftware.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MfjBp8em2nbfMCNJ/gpOVqZrA23k8oijD5OUcN5U818=;
+ b=O6mHg4ZTLaOPZqSGGi3mKwWlaKZGCCrJopTrhq5mMn0wPXgTYpiOQAzzLgXbHG69rplkJRPACVtzOPJMkcV+qoIMI6iYU2j2yP1fS08osZ1ltLaED/5t4MnIcH//xWYAgI4YsnejcrB+ctuKFyqD1GhITq3bvHR0e5dvwPSWleg=
+Received: from DUZPR01CA0131.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bc::16) by VI0PR08MB10559.eurprd08.prod.outlook.com
+ (2603:10a6:800:20f::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.22; Thu, 12 Jun
+ 2025 15:02:15 +0000
+Received: from DB1PEPF00039232.eurprd03.prod.outlook.com
+ (2603:10a6:10:4bc:cafe::ff) by DUZPR01CA0131.outlook.office365.com
+ (2603:10a6:10:4bc::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.23 via Frontend Transport; Thu,
+ 12 Jun 2025 15:02:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB1PEPF00039232.mail.protection.outlook.com (10.167.8.105) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.15
+ via Frontend Transport; Thu, 12 Jun 2025 15:02:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jvUtdLj+XVw6n3+QoCqocJ6AHMg6sN0OAjx4Fpps7sX3t5LHMagmKC7r8nCVrsnUVw14y6GXEZIQnZYT1ezrwRgGkCJCSPTT42OfKuJKuta9kJmcZIrC3q+7NyGLXtYe1gac24vQZIQ1C97mbfQozlwm5iWaezi4RdrEBi+8UytGY3xTW7kAlUn0rlrcjflqt14N+gjU9SL/FMqjtyxwSbTvmo2f60gxT0EHGVCkmB1gwdZt8USHkBS9JIe6E57mz3EcuWxEekbVg+MmHHaBRj8pMPdjpqNSqoDEvIVblqUogupAwqiPztd2pevNHZnapkeborO1mwsq4r2m3FMt0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MfjBp8em2nbfMCNJ/gpOVqZrA23k8oijD5OUcN5U818=;
+ b=XVeynnDMq0tuDj5g/8aBOT+vKKw1vimfLuNPGmYfetE+DVFx/tIhmW/chFJp+3Mt09kKZGN62sz/tWBS754LQdGcHddUnY5pgr55zTzMdITB4TwsjWGRyG4OKyBdB0gUmP/WgYfmNW2hYS+ugkIsZ1FoJHzxf7yg8KCGwgKzdMgPHaqgivCGPgAHjKsgU7qzKZnlvSNnIx/kWDR7VfWK0P0RAUETSVf6ScT9rmTsMIIukQpIAnmASxdRcK/JCZAwBc43bxkoAFPyu6vWItj+7MoeE3lUEWx2kb6FFMj1rLhSGSUquVn/6n8IVDdMRrFtUqzB0PRuGNd53xAyphN2fg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MfjBp8em2nbfMCNJ/gpOVqZrA23k8oijD5OUcN5U818=;
+ b=O6mHg4ZTLaOPZqSGGi3mKwWlaKZGCCrJopTrhq5mMn0wPXgTYpiOQAzzLgXbHG69rplkJRPACVtzOPJMkcV+qoIMI6iYU2j2yP1fS08osZ1ltLaED/5t4MnIcH//xWYAgI4YsnejcrB+ctuKFyqD1GhITq3bvHR0e5dvwPSWleg=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DBAPR08MB5848.eurprd08.prod.outlook.com (2603:10a6:10:1b1::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.19; Thu, 12 Jun
+ 2025 15:01:39 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8835.018; Thu, 12 Jun 2025
+ 15:01:39 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Anibal Limon <anibal@limonsoftware.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, "bruce.ashfield@gmail.com"
+	<bruce.ashfield@gmail.com>
+Subject: Re: [PATCH 3/3] wic: plugins source bootimage/isoimage rename to have
+ valid indentifier
+Thread-Topic: [PATCH 3/3] wic: plugins source bootimage/isoimage rename to
+ have valid indentifier
+Thread-Index: AQHb2uY1iB9UsjydaUO3HIpSm33DO7P+naaAgAECTAA=
+Date: Thu, 12 Jun 2025 15:01:39 +0000
+Message-ID: <BB304894-22E7-438B-A97A-C689712E1473@arm.com>
+References: <20250611153319.54778-1-anibal@limonsoftware.com>
+ <20250611153319.54778-3-anibal@limonsoftware.com>
+ <CAOU5ZMs1DZM-3-h=_5-9m7nqFuU7i4VwH6ZcbzAwD2uByNt3=w@mail.gmail.com>
+In-Reply-To: 
+ <CAOU5ZMs1DZM-3-h=_5-9m7nqFuU7i4VwH6ZcbzAwD2uByNt3=w@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DBAPR08MB5848:EE_|DB1PEPF00039232:EE_|VI0PR08MB10559:EE_
+X-MS-Office365-Filtering-Correlation-Id: c0210141-f16f-4bcf-c0c7-08dda9c21d4a
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?TjZjWW1SSzc0WmJmOTR3ZzNyN1BRL1RnRWgvR3E4cVlycEJoVnRRUmY4VVly?=
+ =?utf-8?B?M2libVZMOHllMkxWZzVGdWJJUDY2R2VDeW05eElXN2lzS2Y5RGFHSFZITWdS?=
+ =?utf-8?B?akxLdU5pdXZtbTU3Z21mTFhvRzVoZERIWkYzNjRRVUtESlRYUnFlTVZRb2JO?=
+ =?utf-8?B?U0tnQW5ydU9kSDBBcjZKUVhiZnRzK3dyQmkreGw0ZUNwbzN3YWVkUEpBVVBP?=
+ =?utf-8?B?elM1R2FHUFFZT3NrN0QwTDZLOFBUSXovLzkrQllFNUNKY1R4enB5WGtxaXpt?=
+ =?utf-8?B?djNmZWdRbmlScDZYZjNRekZIQlowZEd1QktZSVMxSE1sYkVtRzdPMi80aGRK?=
+ =?utf-8?B?K2JQdThRYk12NlBhdFluYXRLNEJtVzc0UU1Sd1RxT1FvU1BXcUhVWUNFblBX?=
+ =?utf-8?B?czdheWlHWld4cGh5M3o0UkRFT2tDK0YyM2RjSWdPMkdYSW9tVjNHY2tEcFJN?=
+ =?utf-8?B?WkhIWC9SMzdhWDNOdTVJOHk4M2kzQ25pVHFSZmpnczlwaGxqVTg0UFJNRFhJ?=
+ =?utf-8?B?NG5hNElGblExbzRhcmtONUJHRkppVGo4Qk9tOG5RSnVRa1h0cHhLR0JaSUZ3?=
+ =?utf-8?B?WWpHUXVFRHppU2FIUXhNcklRbEU3Y2hadmdQU0htVi9BTXV5WnNJZjJmSWJ1?=
+ =?utf-8?B?eWg5VDZ6TkhzamdWTkJaY0JXTGNkakFBak5yNFE1Y3MwNDl4dzhiSGFYT2Mz?=
+ =?utf-8?B?T3VsK0lsUTdBenRqWngwblpQZFprMHVGeGE3Q3BTOENWRkczMnk4aGUvTzBS?=
+ =?utf-8?B?REMxamxKbU9vaGlpTGNRenJPOUUxdkp5ZzhOSld2VmZLcVUrN0dDZTMwSy9E?=
+ =?utf-8?B?Q2RBaUo3eXNXckwyaW9oN2dxRWNpOFNJZUtLNkp2L1FqUjhNMFh3NjhsYVRY?=
+ =?utf-8?B?ME1JSHZtV0tid3dkVzF2c05ST3lYdDFVZXYyV3drc0pOTEJTTnROZVJNVTVq?=
+ =?utf-8?B?M3lXT0kxUWdta0cwTHRPdjA2TXdqUWxhOUVEM2FjWFlYbEJnN04yVDRnc1dC?=
+ =?utf-8?B?QWVPZnE3UGRPUWRwOGNLd1c5U1hOUFlmdlFDeHpNcFBLNGtsKy9Jdzg5ejVQ?=
+ =?utf-8?B?NDM2bVpyQi9IaEF3OURpbmJTQTJxbmVRZHNJSW1TQ3VBRGZ4NjZ1Ri9kUU5v?=
+ =?utf-8?B?NmtvNVVCeFBIOUxCOXp5NHFIWk5VeEZlY3JtUit6RFY0MW84WXZscFQ0aG9q?=
+ =?utf-8?B?T2h4YWtOa2V5R1FaczIwYmJJWENWVFJKZFYyamtwc1JVeVRTOFViaHkwWTFM?=
+ =?utf-8?B?d1lXaWdOSjI3Q0M5M3d4WlFMc0cyRCswNlR3V3pWekxNTlBGTlFzU0Vxdi9S?=
+ =?utf-8?B?dTNyRklNcHMzYjlWRlRlSTJLR1VDSTFta0QzbTVZZnNIS1p4K0Q1cWtzSlFn?=
+ =?utf-8?B?VWpwVlo4QlgxbWxML1ZwK1FWUys3UlcvaDRaM3prQmlJMHJKekFSY2tOZkFV?=
+ =?utf-8?B?c3lEa1RkV3N6S1F4OC9GUzNhWjVYbWhmNTNIY1VhdlhiTDFZWm9zM1o1d3ZH?=
+ =?utf-8?B?R2E1VDZQWndtNVNsMGZsL0g2U0c3dmQ4V2xxeTVsZHhqUkdDMGJ4YmFhaGli?=
+ =?utf-8?B?MWQwSHl4THkzZStRMzhLNmhjQ0lZc3Z5c0k4SzJqbnZOS0JMU0pRaVovRlh4?=
+ =?utf-8?B?Y28vL2tjL05WTDVxRHphVnVMcjFKY0ZVZ2xJWGNUWStFbnZ0RjBPREcyWVpM?=
+ =?utf-8?B?NzVaRHJYTkJleFgxN3V1RFkwUHRDQWVnSjJSZFZBajNUUCtpSGxYRFFOUkxF?=
+ =?utf-8?B?RlJCZWE5VHNmOVhGMkJlZ0FEMjN5U0NaTW83MUV2K0ppQy8zai9QbGJ5WEpL?=
+ =?utf-8?B?dm9QSS9XTFk3QUdEQ0dEbVdrdzVMWWN5Mml6OURwbXpMMk5OWTJUUWVRcXh0?=
+ =?utf-8?B?MnhndkdiNHlpTW1wNDFjWUkrVTJEUkRHaHdmYy9mNjBoTUVzMENNVEhPWGpt?=
+ =?utf-8?B?eHZOcEEwRG5jS3VKeDNaQjkxMk5xOVNPUm1aTm1scmRzSlhvcnhwODEza2g2?=
+ =?utf-8?B?WE1LSU41dFNRPT0=?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EAECBEE592F2E546A1C3DF082F3875A7@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20250611153319.54778-1-anibal@limonsoftware.com> <DAKJ465UQIQP.2RNSHUDVHRKO0@bootlin.com>
-In-Reply-To: <DAKJ465UQIQP.2RNSHUDVHRKO0@bootlin.com>
-From: Anibal Limon <anibal@limonsoftware.com>
-Date: Thu, 12 Jun 2025 08:48:12 -0600
-X-Gm-Features: AX0GCFviaTycT0CNSht6k5rKl3bRL64mGS3iGsoGaKZc2NH8ZwhYz9asZ3a_YYU
-Message-ID: <CAOU5ZMtO_L5jGS1bR+PKZRgePuU+G-O8nPK0R6jztukT0Z-jwQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] wic: pluginbase workaround on invalid
- module filenames
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org, Ross.Burton@arm.com, 
-	bruce.ashfield@gmail.com
-Content-Type: multipart/alternative; boundary="00000000000076d5ee063761054f"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5848
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF00039232.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	8e7e2f9e-b92c-42fe-fe58-08dda9c208c7
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|35042699022|376014|36860700013|1800799024|14060799003|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?R1dxeGdzNDd0UVRpRll5TVpQRWxiU1V0T3VoRHljTXlxYUovbUMzcVIyRUli?=
+ =?utf-8?B?NVN1NURwN2tXZVZGcjBkRVZOaTJwOEVxNStuS2lORkUyT3draFMwUnpaNWdW?=
+ =?utf-8?B?MHVCMldaOFgwNzRaOEpxQTI4VGVFY3dNb0lOM3RSbEdGOUVFWjVIZDlXbnRU?=
+ =?utf-8?B?L1RhQklwS01LS0Fib2xHM2JOZ0NmaHpod0VxN3N5V3d2MFA2eE1qSmpBY0Nr?=
+ =?utf-8?B?TVZmaksxMk11cEF1UDM3SXVtTFgzTDZ3SllERjdkanIveklpbWZkUmdtTkR4?=
+ =?utf-8?B?OStSYTdGVFB6dmhWWm14SnVHa3F5c3VQSWs5SzRtamxCMkgrUnZONzNRM0Jx?=
+ =?utf-8?B?VmNKdzloSTI2Rm1JYitoQzZkaGpYVldIc3BCZFVtUGxWUTQzcUVvelFKNlZ2?=
+ =?utf-8?B?TklYSDRrd1MxK2NSYkVJdGsrcjZHTEtmeS9TV3BHdkpzQXpMTTBBcmFuK2Fu?=
+ =?utf-8?B?OXFadWdvQVRjSmx6eTRNR2NienRRS0lMbVFRdDVsTzhML0V1UDY3U1NhcGFz?=
+ =?utf-8?B?MWNTMEtnNXV2dzdHeEZPRzlZRnAyaTRhcjJEMFM5VURuZmFZbThkOStIZ2Ra?=
+ =?utf-8?B?SWRDaGxRUE9uY3FPbTJxMmY2dVZ5MnFYazRpMHYwd0Raa3dqRElxaUlsTDlw?=
+ =?utf-8?B?NUxENndRd2RZcUo4SWxtTjNXTWZnTFhJZGt2WVNtUlZvWm1yc3dPWHQ4TEFB?=
+ =?utf-8?B?cmdRRjN6d3VOUFBKRTg1bmErQ3hqdTJTdVV1ZXJnMGcvNGlEeCthd05mdE95?=
+ =?utf-8?B?NHJWZkpaMWJ4NExIWVYyNU9IY0N2QUNNWFR4QURxYXdaZVRnOHBqbHowOFBH?=
+ =?utf-8?B?Q2paeDFKZXQ0eWZ2aHA4WDlpcXM4UnpFTFlmd01kSzFTeHVyaytGeEdMQjNh?=
+ =?utf-8?B?RVIwTHBzUjVXaUxDZTMycG9ZS2lRemNUWXFwVHMrdStiNGJ1cXJBVG40bUV3?=
+ =?utf-8?B?aGRINnU4M2tqdlRaYlNaUW41TDU1SDVEejJSeEQrZUZuWXIxOVRXMGgwUCtH?=
+ =?utf-8?B?dTJ0RzRsWW1KZ1poaTA4TlhuK2dCUTllZGJBNGQraGhmcVZiZHJNQTU0U0xR?=
+ =?utf-8?B?VHdLd1B4N0t4OERQUXc5QTMxOE1WVWx6dnNvZThrNVNZT2E0bG8rOUs4WXN1?=
+ =?utf-8?B?eDRVNFAxUnB4MXpIVVZiR3dvcXJyK1JxZCt1bSs4bnN4MXI2emdqWGt1WU5v?=
+ =?utf-8?B?NExESWxFODFqU3E5d0tVdEJDTzBSZnRMRzhBZzdZUXNzN1U0OVZ2Z1BIaUJB?=
+ =?utf-8?B?OEh2RExzVEVIbk5UMWxRbWcrNWsyVjlBejZydk1oN0NkSzB1eHJ6Q3JpYlNl?=
+ =?utf-8?B?SHFwSG9jczF0NVJkV2EvNzkxR1prR0s0aVB4WThaKzV3MnU3SG5sZW9TRDdN?=
+ =?utf-8?B?dkV5SEgzSnB1WjNtaXNVMUpNRGJSN3BvWXhHanhjOUlUc0o1THdLUWRvbnpJ?=
+ =?utf-8?B?OWhkMFlFTDB6R3lhdDdGYkJPU2RCb2k3TnlKa0xEU3FpSW0zaVAzRXpQYlVp?=
+ =?utf-8?B?bjBpcXB6cHQzczdXQVZVQWJsNDBaL0JXSXdMdmNNdkZ6MmloaFgvRHZMTWhr?=
+ =?utf-8?B?TkNqZHFWcXFnQmhoTGVZSC9WRGRFVmxEQ0xDa0J5TW95djEwcloxWGoyOE9O?=
+ =?utf-8?B?ejl6RHFxQ2R0VXFCQkdEL0Y2SzVVUlRuc3cxMVNuK28xc2JOM3lzNHZJUVkz?=
+ =?utf-8?B?Unl4RGdKRlNhMmZmZHVpVUwva1RiNGVBeDBoNkFCKzFwclQza3ROL3NaMzNB?=
+ =?utf-8?B?NDdmSnZSQklGQ1QvcnZselJvdkZhWS9HQ010TVI0U0o3MW03cmtmb09GZXQy?=
+ =?utf-8?B?WGo2dnFKdjlkWUR3Wkh3UjZXSnlKYklleVZjL1Z5M3ljbURJQ1FDSnhOQi8z?=
+ =?utf-8?B?MjNwb3J3eXRIa0ZHb2lzdnB4M0NTbnFYUnVPUW5hSEFLYXJaWUlOdnUrNnRS?=
+ =?utf-8?B?Yk0rcXlXNWJ1ZWh0RnNDUktsN29DMm5qdkxxdTR1emVCOVBRSzNONkl0RTVj?=
+ =?utf-8?B?WEk5SDlRSTNtWmk1NVpwT0J2Y2ZDT2p2cEUxaGJ1U2VjRnU1WTFMVk8xTmNJ?=
+ =?utf-8?Q?nb3GbJ?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(376014)(36860700013)(1800799024)(14060799003)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 15:02:13.5642
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0210141-f16f-4bcf-c0c7-08dda9c21d4a
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF00039232.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10559
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 14:48:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218527
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 15:02:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218528
 
---00000000000076d5ee063761054f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Mathieu,
-
-On Thu, Jun 12, 2025 at 5:47=E2=80=AFAM Mathieu Dubois-Briand <
-mathieu.dubois-briand@bootlin.com> wrote:
-
-> On Wed Jun 11, 2025 at 5:33 PM CEST, Anibal Limon wrote:
-> > Apply a workaround on invalid identifiers replace '-' to '_' to load
-> > the module with valid identifier.
-> >
-> > Let the user know (warning) about plugin doesn't has a valid module
-> > identifier to encourage fix, it gives time before rename oe-core wic
-> > plugins and drop workaround.
-> >
-> > Signed-off-by: Anibal Limon <anibal@limonsoftware.com>
-> > ---
->
-> Hi Anibal,
->
-> Thanks for the new series.
->
-> I believe we have oe oe-selftest errors on x86, while creating image:
->
-> 2025-06-12 09:33:17,228 - oe-selftest - INFO -
-> overlayfs.OverlayFSEtcRunTimeTests.test_lower_layer_access
-> (subunit.RemotedTestCase)
-> 2025-06-12 09:33:17,228 - oe-selftest - INFO -  ... FAIL
-> ...
-> |   File
-> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/scripts/lib/wic/plu=
-gins/source/bootimg_biosplusefi.py",
-> line 159, in do_configure_partition
-> |     cls.__instanciateSubClasses()
-> |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
-> |   File
-> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/scripts/lib/wic/plu=
-gins/source/bootimg_biosplusefi.py",
-> line 108, in __instanciateSubClasses
-> |     loader.exec_module(mod)
-> |     ~~~~~~~~~~~~~~~~~~^^^^^
-> |   File "<frozen importlib._bootstrap_external>", line 1022, in
-> exec_module
-> |   File "<frozen importlib._bootstrap_external>", line 1159, in get_code
-> |   File "<frozen importlib._bootstrap_external>", line 1217, in get_data
-> | FileNotFoundError: [Errno 2] No such file or directory:
-> '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/scripts/lib/wic/plu=
-gins/source/bootimg-pcbios.py'
-> | WARNING: exit code 1 from a shell command.
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1750
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1689
->
-> Can you have a look at this issue?
->
-
-I saw RP is fixing the renaming issues, applying patches upon, to see if it
-is possible to land the renames.
-If not, only the initial two patches of the series will be applied.
-
-Thanks!,
-Anibal
-
-
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
-
---00000000000076d5ee063761054f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Mathieu,</div><br><div class=3D"gmail_=
-quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, =
-Jun 12, 2025 at 5:47=E2=80=AFAM Mathieu Dubois-Briand &lt;<a href=3D"mailto=
-:mathieu.dubois-briand@bootlin.com">mathieu.dubois-briand@bootlin.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed=
- Jun 11, 2025 at 5:33 PM CEST, Anibal Limon wrote:<br>
-&gt; Apply a workaround on invalid identifiers replace &#39;-&#39; to &#39;=
-_&#39; to load<br>
-&gt; the module with valid identifier.<br>
-&gt;<br>
-&gt; Let the user know (warning) about plugin doesn&#39;t has a valid modul=
-e<br>
-&gt; identifier to encourage fix, it gives time before rename oe-core wic<b=
-r>
-&gt; plugins and drop workaround.<br>
-&gt;<br>
-&gt; Signed-off-by: Anibal Limon &lt;<a href=3D"mailto:anibal@limonsoftware=
-.com" target=3D"_blank">anibal@limonsoftware.com</a>&gt;<br>
-&gt; ---<br>
-<br>
-Hi Anibal,<br>
-<br>
-Thanks for the new series.<br>
-<br>
-I believe we have oe oe-selftest errors on x86, while creating image:<br>
-<br>
-2025-06-12 09:33:17,228 - oe-selftest - INFO - overlayfs.OverlayFSEtcRunTim=
-eTests.test_lower_layer_access (subunit.RemotedTestCase)<br>
-2025-06-12 09:33:17,228 - oe-selftest - INFO -=C2=A0 ... FAIL<br>
-...<br>
-|=C2=A0 =C2=A0File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/bui=
-ld/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py&quot;, line 159, i=
-n do_configure_partition<br>
-|=C2=A0 =C2=A0 =C2=A0cls.__instanciateSubClasses()<br>
-|=C2=A0 =C2=A0 =C2=A0~~~~~~~~~~~~~~~~~~~~~~~~~~~^^<br>
-|=C2=A0 =C2=A0File &quot;/srv/pokybuild/yocto-worker/oe-selftest-debian/bui=
-ld/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py&quot;, line 108, i=
-n __instanciateSubClasses<br>
-|=C2=A0 =C2=A0 =C2=A0loader.exec_module(mod)<br>
-|=C2=A0 =C2=A0 =C2=A0~~~~~~~~~~~~~~~~~~^^^^^<br>
-|=C2=A0 =C2=A0File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;=
-, line 1022, in exec_module<br>
-|=C2=A0 =C2=A0File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;=
-, line 1159, in get_code<br>
-|=C2=A0 =C2=A0File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;=
-, line 1217, in get_data<br>
-| FileNotFoundError: [Errno 2] No such file or directory: &#39;/srv/pokybui=
-ld/yocto-worker/oe-selftest-debian/build/scripts/lib/wic/plugins/source/boo=
-timg-pcbios.py&#39;<br>
-| WARNING: exit code 1 from a shell command.<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/buil=
-ds/1750" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/35/builds/1750</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/buil=
-ds/1689" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/48/builds/1689</a><br>
-<br>
-Can you have a look at this issue?<br></blockquote><div><br></div><div>I sa=
-w RP is fixing the renaming issues, applying patches upon, to see if it is =
-possible to land the renames.</div><div>If not, only the initial two patche=
-s of the series will be applied.</div><div><br></div><div>Thanks!,</div><di=
-v>Anibal</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
-<br>
--- <br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-<br>
-</blockquote></div></div>
-
---00000000000076d5ee063761054f--
+T24gMTIgSnVuIDIwMjUsIGF0IDAwOjM2LCBBbmliYWwgTGltb24gPGFuaWJhbEBsaW1vbnNvZnR3
+YXJlLmNvbT4gd3JvdGU6DQo+IFRoaXMgcGF0Y2ggaXMgdGhlIHByZXZpb3VzIG9uZSwgb25seSBz
+ZW50IHRvIG5vdGUgaXMgcGFydCBvZiB0aGUgc2VyaWVzIGFuZCBjYW4NCj4gYmUgaW50ZWdyYXRl
+ZCBsYXRlciBhZnRlciBsYXllcnMgZml4IHBsdWdpbiBmaWxlbmFtZXMuDQoNCldlIGRvbuKAmXQg
+bmVlZCB0byBtYWtlIGV2ZXJ5b25lIGNoYW5nZSB0aGVpciB3aWMgZmlsZXMgdGhvdWdoOg0KDQox
+KSBjaGFuZ2Ugd2ljIHRvIHdhcm4gaWYgdGhlIHBsdWdpbnMgaGF2ZSBpbnZhbGlkIGZpbGVuYW1l
+cw0KMikgcmVuYW1lIHBsdWdpbnMgdG8gYmUgdmFsaWQNCjMpIHdoZW4gcGFyc2luZyB3aWMgZmls
+ZXMsIHRyYW5zZm9ybSB0aGUgcGx1Z2luIG5hbWUgIHdpdGggcy8tL18uICBUaGlzIG1lYW5zIHdl
+IGRvbuKAmXQgbmVlZCB0byBhbHRlciBhbnkgZXhpc3Rpbmcgd2ljIGZpbGVzLg0KDQpZb3UgaGF2
+ZSAxIGFuZCAyIGFscmVhZHkuIDMgaXMgYSBxdWljayAucmVwbGFjZSgpIGNhbGwuICANCg0KQ2hl
+ZXJzLA0KUm9zcw==
 
