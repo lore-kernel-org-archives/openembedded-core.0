@@ -1,86 +1,92 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09E02C61CE8
-	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 10:20:14 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web11.9472.1749723607124328182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B271C71136
+	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 10:29:14 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web10.9702.1749724151457169948
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Jun 2025 03:20:07 -0700
+ Thu, 12 Jun 2025 03:29:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DGnlYrVu;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6f0ad744811so6437686d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 03:20:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YF4UM+cY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-601dfef6a8dso1418611a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 03:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749723606; x=1750328406; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=n6gbhLvD9f/zyRsJpTl9wpD6xYZEltRZQyUZ3/3zLFg=;
-        b=DGnlYrVuDs+RUb+eS6mOEMqnHSkKdADljjRFk0GRJB9ZhbD22L3YdkKcmw7ndihT2q
-         4vDlMYGjs8C42VTy1mn3+z8Sq1lZjIaadFctGYozgSE7MZHu3dWZetAEfs+zO9WyGj/C
-         IYRF6hM5NyMN+SEuLViOcN/Ci6jErZf5wdbebFMGamRVmnebh++wckUQzkajilm06hb3
-         N2MERnEBJoSFnGplBcSkKN8Z2Aipld2Tv76um6Ia18R3LMY7pdn0zNYq03nHBgfO20XR
-         PIVXj38q8Xf18U+6vWzv+OrERC11Jmu2yUswA8BiESelzS8xyENO6rLDEV+PYAy/26/d
-         cOEQ==
+        d=gmail.com; s=20230601; t=1749724150; x=1750328950; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7+8GSJl1ZnxyJuggOHOtFQ7AYx3a0t3Xhb2Z5sRMaZI=;
+        b=YF4UM+cY8wm+FqImaWxff/gFwfE1qGkrRzZUEhqJzfIFiuohWBB0Um4KpYJxgtZGZ4
+         o87RgfvjOAhlENPH7V+oT4gmXy9AqZGfarHWq16AdqJFCnWznfZoLhxi8TT4I/lkcyJc
+         zjeduvPd3Uo8LBYVIYs22k2ZchP2ro8oIWXwWQhPnKkBF2gyvekkUegSeLTCal5JVZ1M
+         hwlzWfmLsODELDqbl5h4SHdBCtrisKXWHwg/nugyfgI3MviWafwnTX2+DV7FsGgkwiM1
+         kWIDCbmsV4J0O+PUlrmb+0tk7SjLJD0jYA6Fr4y+sjr5KbNVwoBYmiau5TxIzr3JxgYc
+         ppig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749723606; x=1750328406;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n6gbhLvD9f/zyRsJpTl9wpD6xYZEltRZQyUZ3/3zLFg=;
-        b=V0FKKI8yxVOkNjcRASMyBI8QmMb4+t7jUHoDgyIv8/0IzrOi4X3nBRntUJ4mSpAJYV
-         T5zglJCkENWhnqQBweJuixnqzU/qQBwyrFKslLhV/0wFmcKm3BsO5ZztjqY4ipy1XrEa
-         iv1ww4yeFjDQ8yAQuk6751hryYxkYYlSNYSyCqv7b11GAaCCy6fSaBWuO5lj7bw3SDed
-         H967m4Z30oyk671yCBy7JoLjZB/aa+NVDt6v/xTyYUyvf0xYdriNk5OYk3mGQEQdKyeI
-         upvJogViuq9qQG0qjsrhjChgOTcj8UMNU+uAusZORKT6B9Oeg+Sw0e32NraUmlqnpusc
-         DsSQ==
-X-Gm-Message-State: AOJu0YzLn7RR3MmE/YY4qMruyoFvRjhaLXqQySzlkRxn/fdCUhonVmZy
-	+bGGLtlrcCSW7MmoooQCYhw3xf6phOshogp6eCkuoEJZxL2x4LCZw6hU2hqjrVMdcE6waqOdoFn
-	5/7faow068mXuVkyIfrdeCz5wFaGs18nn1Q==
-X-Gm-Gg: ASbGncsdPeRmxkdaXFONXrAQNFXRa+23YeCS3qCMuKq7m3pUJYrLfxPx/dK7GOXBh0s
-	6reOmMPulGW8n3xyZ68PJWc+WLbnL6jmWWQVEcYdsGu4FpkaWNJLfV0G8QU5N85dPu/Qq0v1TWI
-	Lvjjs5uzmh16zpIDl5Eg0Hj/AFGQoDQbMmMB5nrMCz9XKXdyN/76LmlY+7A0LQCgU5YSpBJN7yR
-	5TMnlC8aGBcsWUU
-X-Google-Smtp-Source: AGHT+IHXmDQ3oBgJQNnd0A2d/VFUstOpsOBaGYD0N1PvS1MbNv8hHOdbVaai5eOX2fAX5+KJqZUk12Jgr6vV42iNcEw=
-X-Received: by 2002:ad4:5aac:0:b0:6fa:ce87:230c with SMTP id
- 6a1803df08f44-6fb34e9ac2dmr43193646d6.25.1749723606041; Thu, 12 Jun 2025
- 03:20:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749724150; x=1750328950;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7+8GSJl1ZnxyJuggOHOtFQ7AYx3a0t3Xhb2Z5sRMaZI=;
+        b=YLFgpX8x0G71grkLYBSgU4ScJ4a5mXjfQzltajxIc8+JsQRnGbwMVEE/tfx0VocwRW
+         pS0To/wxbWQgFgD64Z/275ce5keyHQDBUp7SlKP5xx2+NNjK7y5q8a4GliFHcQ74kqxv
+         i0jqzRSikJHYb9TZTKdNu1ig1hAZNeBnD7EwHlr6CR/Qp1o3ZWmqKjZxpqtSYzhda0jz
+         hyOpyoeiWzLFFTWEdTzlW2paE4AkDrI4Jac5A4dkIJaQ89mxiW+TeI/UQ4kHwWlOVYLV
+         2eUpvw1Zvb59+Z981cxuE58YpJ3F8/wwYewZHm2aniwA7NloZmnfvrcV+rBWqw5BH4mw
+         xplQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW2agMJG1RN4Uqh1hvpYM93pY1hgtgoXdc4xsbVO436l8a4ycb7KO5MubZJgAyBJ/vnO/iikHdWecAv/17wIrsWkw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx2OkyTwhjbSNsk4rjvPVnTiqEggPYJSQ6Dvy3ozphX4Rbh3k7j
+	G1dWb3YuiJpEEs6G95qNVSNPUt7+loFwIRLjJDi8RejN6gkexB9I3AQp0xJKtUu4
+X-Gm-Gg: ASbGncupScTtKxqUxgBl3IkQdRJnT7RlkykBygq169Y/oMesurJvNtJjQUSciy9vd4/
+	jYtfbCv8ohel/mOilqK2tCluFK2gF5lvbqqKNom6VsH86hyk0m8VQX6Y3J4WouzATvWKWXrNxZW
+	RWg7ynj1Kv7L0n4ix3frnU7+z30Wa/ZNJeY5HqHlgdnKc8PUutOGooTiU8VdBbngpgYn3iDpRSh
+	GxzmHqY1eru/Q/8Cor2p5spQIXX9dFhPaku5UYoHY1jENmbsZG9N1sBHvRBC5KCX30pqObInBUx
+	PiWutDaChx2HfZEdDVg8IFnFnJaH/FaXeExSqdUuHrA55oWHu6yKoQUFMhI/8TjdyvVWNQ==
+X-Google-Smtp-Source: AGHT+IFWrp5vQ0XFKdaCZu4cbUpQ9QhQTb4caAAF7PEqylnmnlpMWN3Nzua9RJwPp1+ekm43u+1QGQ==
+X-Received: by 2002:a17:907:3f8b:b0:ad8:9ab7:a270 with SMTP id a640c23a62f3a-adea93e62a9mr270956166b.38.1749724149197;
+        Thu, 12 Jun 2025 03:29:09 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adead4cab0esm111020466b.29.2025.06.12.03.29.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jun 2025 03:29:08 -0700 (PDT)
+Message-ID: <0b6715b7-a0c0-4bc2-8773-abf0b677c01c@gmail.com>
+Date: Thu, 12 Jun 2025 12:29:07 +0200
 MIME-Version: 1.0
-References: <20250604081744.2068514-1-hongxu.jia@windriver.com>
-In-Reply-To: <20250604081744.2068514-1-hongxu.jia@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 12 Jun 2025 12:19:55 +0200
-X-Gm-Features: AX0GCFufkBvpgkuLm_H9Eyn4ENiw-_lOdDONwhT-LAS9Z_O6LiYF37RLFvCBFOY
-Message-ID: <CANNYZj-s9CQMzG3+b2N-ppbCT9=Gt5Ax9OUH1hBJMW_EFEROWQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sysfsutils: fix my_strncat function
-To: hongxu.jia@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [kirkstone][PATCH V2 0/8] glibc: Fix lost wakeup in
+ pthread_cond_wait (PR25847)
+To: SunilKumar.Dora@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
+ =SunilKumar.Dora@windriver.com
+References: <20250612095639.3630518-1-sunilkumar.dora@windriver.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <20250612095639.3630518-1-sunilkumar.dora@windriver.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 10:20:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218501
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 10:29:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218502
 
-On Wed, 4 Jun 2025 at 10:18, hongxu via lists.openembedded.org
-<hongxu.jia=eng.windriver.com@lists.openembedded.org> wrote:
-> +The meaning of the "len" parameter in the my_strncat function is the size limit for copying characters from "from", not the size limit for "to" after copying.
-> +Also, the "#define safestrcat(to, from) my_strncat(to, from, sizeof(to) - strlen(to) - 1)" has already imposed a limit on max based on the size of "to".
-> +Modify the function to prevent truncation of content when too many bytes are passed to the my_strcat function.
-> +
-> +Upstream-Status: Submitted [https://github.com/linux-ras/sysfsutils/pull/30/commits/c2326946c0c2a4206c9b079a9fe25f7f9115295c]
+On 6/12/25 11:56, Dora, Sunil Kumar via lists.openembedded.org wrote:
+> From: Sunil Dora <sunilkumar.dora@windriver.com>
+>
+> V2 changes:
+> - Split the previous single large patch into 9 individual patches, 
+>   each corresponding to an upstream commit, for easier review as requested.
+>
+Thanks a lot for splitting it and for the extended introduction, it was
+much easier the patches compare it to the source.
 
-This project was last active in July 2021, so I'd like to ask, how are
-you using it, and are there viable alternatives?
+One small thing: the recipe name is missing from the individual commit
+summaries/email subjects.
+Otherwise (for the whole series):
 
-On the patch review call we were wondering if the right thing to do is
-to remove sysfsutils from oe-core, as it shouldn't carry unmaintained
-software.
+Reviewed-by: Gyorgy Sarvari <skandigraun@gmail.com>
 
-There's a number of recipes in meta-oe that depend on it, some of them
-equally outdated. That needs to be reviewed.
-
-Alex
 
