@@ -1,391 +1,256 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD084C61CE8
-	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 07:06:32 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.6925.1749711987133208724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49670C71136
+	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 08:08:53 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.7673.1749715728988022795
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Jun 2025 00:06:27 -0700
+ Thu, 12 Jun 2025 01:08:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ayeh4nem;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4533027c0ceso908525e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 00:06:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1749711985; x=1750316785; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VNIh0/LcHpyzYTyjBGdzPBSqHLD3FuZr8rDZYsqMNFM=;
-        b=ayeh4nem2ibVdAlmMyPEm9EiL5/WMyGwefvb+6ioFXXNgSyoE8buAygABI5joMUuCn
-         fLpr//WYXFTX84u+0ml0zIRum8iH51fssYVi9Z+dXWa2TYFksVaAEhlwFtuO/1urOnkx
-         +dXvFzsZjcqr9g70+Z8y9j6skVgXRmyir0iiQ=
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=G7SEVAxK;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55C84tfH027165
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 08:08:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	0ceh+glryhWGkf6K+hv49YlSMG9XD7+ODsKARa9F094=; b=G7SEVAxKdsgf3Jwt
+	lNR//RNMS7YJNO7/PKdNlYlVTJZaArwkqsBczxT4jTvRx0GqxxHjCA7XP4Ri1FO4
+	L9ZuvOv9NYOLHO6gk7UeR5xgkBE+XZeNHGNszy2w1wSC70EK3eqqBeRsnEk7wyA4
+	ydvMZPMu6aD+FX1EIaa4qYX0eF3OzN9+cHpbIBiPlJo44FaCNyw0IIdQRQOY1r90
+	7LR/3/DCsL1d4MQCTIYy2EDDnRaBl6eTSkYjiR6jflrq/948o5yw6vwTDQkJMTqP
+	iPGVEoIe2zCed2/+Rmij+XZV8rF4JkEk2Uduhl6237RKqxDACtwomBXavVTuu7og
+	9re3QQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 474ccvfn2j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 08:08:48 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5bb68b386so219986385a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 01:08:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749711985; x=1750316785;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VNIh0/LcHpyzYTyjBGdzPBSqHLD3FuZr8rDZYsqMNFM=;
-        b=DFcu7iiMRPd9M9wIpyDl/INl8qosEvEAzJJCM/Z0hsacQVFCFuq/ZfVTdB0mU3VnFj
-         dNInCEHGEv4F8GU6/W55dP0hHB2MiWM5Psj0QpwJXqOJg6KBnpJHfyXUmNopUdL5gCvL
-         /e1FsznhZka0hCbic+iy3WVd6z0xRoD+cSu2teN6HQkNzeR+VDfp7dZf8qp+j+/WpVL+
-         KwI9VTA4iNHNCDTBXXmNpWoM78hNWTF45Vvi3CJeZUZl/SxkRR7MKJ2ccx187BAiuvS/
-         vIZeBGsEOBBZlUbjHjbazrzaCtkDzHpYcep1Tsw9TwhgO1ZyoHO8ThPNMv54vAHlq9c6
-         5Eyg==
-X-Gm-Message-State: AOJu0Yx8TwIqn/hYYUs3FIaqzD66erpNAoRgZIFKUi0X9TjMct3Sh3fu
-	QcDaJvuVNq0/1bxF4SGvuUMr/u/fecqzT9mcDluRV1qbkejiU4VtUFJW1ihU/+4zzMD30tQfbc8
-	XqIzNp8dpj+xzSFGAbNyx5mR9nnfGzcquxrxvXNlaNA==
-X-Gm-Gg: ASbGncsV/RD8sD+sMFWoyfDXP0tMNEVd+KBGTvDijgFZzUf83cFL0Kg20Jz5L90w1AM
-	sXexJeXk+4x+pRgCygJMLeo5nSa/N/8gdzRYe67mnU//DtrJzL2khNwPROHM/5YmxS3Ejdkx2eL
-	xFYTO7zmakpsZ5CCuZL12reh2QNagDVrbY1g5x3VwAF0RA4UcKjy0fbwaSgXRj34XSBHZNLzt8Q
-	QiH
-X-Google-Smtp-Source: AGHT+IEKvOyARgylKVbwpNUUtWlImlgbz2ENp/VIlD0n6U0s8KcgKzH5zt1TxaWwJounz9kKF2fm3BDaIYDC6jCpi7Y=
-X-Received: by 2002:a05:600c:8b27:b0:442:d9fb:d9f1 with SMTP id
- 5b1f17b1804b1-4532b89b6afmr25136855e9.4.1749711985445; Thu, 12 Jun 2025
- 00:06:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749715717; x=1750320517;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0ceh+glryhWGkf6K+hv49YlSMG9XD7+ODsKARa9F094=;
+        b=any+hC2WmTmJzBulf5qkkSiR/NLhAeVfKFTAATdgcgcVuzD8Sv2uFZjIeNdEDrARba
+         XGnmRmWvvW3D5bIoFiKUs+ymBfSvoMZWWXNC+8YUBMI+NnrM/G0Yxlk/Y8c/CI8Z6NP+
+         NTp0J/foO16ecbR1QLz/lK4RK1mtiOfxNq2CMTaq3r6YHkvFzs6xWPJkAkIXK2DJMS/p
+         Vg/RW4wRlhdVjwsKJYUD2eiaabdXBBvP79gHi5Zqx3mMhIrBCwjGnXvteuVEuTnA7wUY
+         Y60vj6CZYKhHBB6Kj+7DpsBrwNnP4fm7lfIFRElle6QE7MA1LyaWEQW1sX2SAmLWpuZ4
+         pyLg==
+X-Gm-Message-State: AOJu0Yzhq4HJvIggS8JQ2rPLcDU2SmGUYSZ4r4SyOUpl7Vz/jJNUzMtX
+	r0aHX19d28/ymugdhQGYKM9IZTf1aoEKqmEUL8H9NAMM7Kw/n5le/NaXsuTzcoys5n9RGmlgK8C
+	Hr+Fh/qEq6dv+f+8bTDiOUFQFGp2Hro0l8WyIzW6LGKFd4OqUiJyKYIkePa1P4UyYK1C/aOARYQ
+	oniRs0rKs=
+X-Gm-Gg: ASbGnctHv+Ebb687510y22wWQiqKtniNc61U1nKRt9xs7A2RBi9SS7KZykF+W15Qfux
+	lhTVLr5C0uqDM7WYanx5A0oTH4dpO6w3mAFTtWwSenxcBJQHvwWGmq5n0lxrUHhkFpYcqd+SsXv
+	VyHzqMMvVzj3kcPtu8Pakaahhc9eJbR8Ehpd132fxog+LrRKveOeVjFkK2IOraUMD+f4ZSsyP8q
+	fwMaVBW7Un7opJE22pZKZMw0+O0JHvQv6tQy6lk51nFFoyxVpGONf2i7hwNghKdSnBdv+LFe9At
+	KS/9jqbtgKPx01Pr+jP2UHEMZxKX/XOTc4wnTfF7FArnIfRFFCTKAGcsFE2/XRPfUoERxkLLZo/
+	YR2uAtl8FOZNzktR/zQRWb3RC
+X-Received: by 2002:a05:620a:4153:b0:7ce:f3fd:cc69 with SMTP id af79cd13be357-7d3b29fc080mr385065785a.19.1749715717332;
+        Thu, 12 Jun 2025 01:08:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGb57+Q567igysP8+uWEHO0JsLb21XhEXY61CyXGc+YHhbgj4yFYOyKNlaWZhLRN4UmIl3RIA==
+X-Received: by 2002:a05:620a:4153:b0:7ce:f3fd:cc69 with SMTP id af79cd13be357-7d3b29fc080mr385062985a.19.1749715716809;
+        Thu, 12 Jun 2025 01:08:36 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0c3:3a00::4c9? (2001-14ba-a0c3-3a00--4c9.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::4c9])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32b3320eaaasm1385861fa.111.2025.06.12.01.08.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Jun 2025 01:08:35 -0700 (PDT)
+Message-ID: <6ce1ccba-2d62-4cb2-b327-9dd81a942765@oss.qualcomm.com>
+Date: Thu, 12 Jun 2025 11:08:34 +0300
 MIME-Version: 1.0
-References: <20250612042855.1377855-1-archana.polampalli@windriver.com>
-In-Reply-To: <20250612042855.1377855-1-archana.polampalli@windriver.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 12 Jun 2025 09:05:58 +0200
-X-Gm-Features: AX0GCFuwduUefS2TFQ2AEnSEw7eE9XNedUCSos4C2HsAjKfYF1yomsBSciy2Cyg
-Message-ID: <CAMSfU+4P_LQ41=9HfZJ6Wtt_5cOwDFMZ5iC7ZkP0m-BkX22aMw@mail.gmail.com>
-Subject: Re: [oe-core][kirkstone][PATCH 1/1] python3-cryptography: fix
- IndentationError caused by CVE-2024-26130 fix
-To: archana.polampalli@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000005a1e9b06375a916e"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] mesa: Fix bindgen includes
+To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Markus Volk <f_l_k@t-online.de>
+References: <20250610142413.681911-1-zboszor@gmail.com>
+ <CAO9ioeUn24ndJqaH1O8B0G+mB8JKx_JcROXhzJqrw36L84bmNw@mail.gmail.com>
+ <8e9387de-14f0-4def-a41e-3b8aeaa178a0@gmail.com>
+ <8155d605-c759-4645-a82a-15ef65f95e66@oss.qualcomm.com>
+ <63ef3071-74eb-4caf-a08e-77d91bf82c44@gmail.com>
+ <CAO9ioeVE94tAha_o0Q1tcP-2LhD6YAVtLUMkqACr4q55=ahgVQ@mail.gmail.com>
+ <96fc5917-bd69-41e3-892e-b683fd635b9e@gmail.com>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <96fc5917-bd69-41e3-892e-b683fd635b9e@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Proofpoint-ORIG-GUID: CDKlZA6k6jznJIwzaq9xVOwj2jy54BoV
+X-Authority-Analysis: v=2.4 cv=TsLmhCXh c=1 sm=1 tr=0 ts=684a8b10 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6IFa9wvqVegA:10 a=e5mUnYsNAAAA:8 a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8
+ a=pGLkceISAAAA:8 a=-wQqb4ZEc6nhM_m6cpYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=Vxmtnl_E_bksehYqCbjh:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: CDKlZA6k6jznJIwzaq9xVOwj2jy54BoV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEyMDA2MiBTYWx0ZWRfXws2ObpIYKDwL
+ FmoobWoPNm2lJLXeK6dGn96DdJuZsJuAa16qRl/t/kQ39rEiaQRFat43c7ucc0olYJTAVWEgRK+
+ hLx0J7jdDtNMllwA3KiRW/qQw3jI5zw1dh2eeoO/Maf1h3jtWAKR5KBPj3wjzbP+jrut70vLLJ+
+ SK3fzM9dOnz60wPj4OikNeRSy81hELC4NhriAVZI5Aevsny+8X7Uk7KsttIDl70BUGHV3YdL7Jf
+ PawXMQQG2QI97PdNibYmknQqUXYtcDP8Csk6fQMQFJCRByQXSgFB5//pKkdnQ88OtjQ66Y0iK7C
+ aWch3rZKACvksNcBGoNvjUNCLqRji/K5eHTRbRokMD+9YjcGTnVu/PpBhCCPZfXJigduW5Fbwa+
+ 6jV/J04yBOLChtXCrnWnrlZLiAgmNudEsOAeTp13qVe1QtLWKFYykce5mmCRzfbLpmm8v+Wg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-12_05,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 impostorscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 clxscore=1015 mlxscore=0
+ malwarescore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506120062
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 55C84tfH027165
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 07:06:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218484
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 08:08:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218485
 
---0000000000005a1e9b06375a916e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 12/06/2025 07:23, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n wrote:
+> 2025. 06. 11. 21:32 keltez=C3=A9ssel, Dmitry Baryshkov =C3=ADrta:
+>> On Wed, 11 Jun 2025 at 21:36, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <=
+zboszor@gmail.com>=20
+>> wrote:
+>>> 2025. 06. 11. 19:34 keltez=C3=A9ssel, Dmitry Baryshkov =C3=ADrta:
+>>>> On 11/06/2025 13:46, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n wrote:
+>>>>> 2025. 06. 10. 21:49 keltez=C3=A9ssel, Dmitry Baryshkov via=20
+>>>>> lists.openembedded.org =C3=ADrta:
+>>>>>> On Tue, 10 Jun 2025 at 17:24, Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9n=
+yi=20
+>>>>>> <zboszor@gmail.com> wrote:
+>>>>>>> Add a patch to fix bindgen errors due to not finding headers
+>>>>>>> in the system, like:
+>>>>>>>
+>>>>>>> |...
+>>>>>>> | ../mesa-25.1.2/src/gallium/frontends/rusticl/=20
+>>>>>>> rusticl_llvm_bindings.hpp:1:10: fatal
+>>>>>>> error: 'clang/Basic/Version.h' file not found
+>>>>>>> | Unable to generate bindings: clang diagnosed error: ../=20
+>>>>>>> mesa-25.1.2/
+>>>>>>> src/gallium/frontends/rusticl/rusticl_llvm_bindings.hpp:1:10:=20
+>>>>>>> fatal error:
+>>>>>>> 'clang/Basic/Version.h' file not found
+>>>>>>> |...
+>>>>>>> | .../work/corei7-64-oe-linux/mesa/25.1.2/mesa-25.1.2/include/./=20
+>>>>>>> GL/ glx.h:30:10:
+>>>>>>> fatal error: 'X11/Xlib.h' file not found
+>>>>>>> | Unable to generate bindings: clang diagnosed error: /data2/dtd-
+>>>>>>> yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/mesa/25.1.2/mesa-25.1=
+.2/
+>>>>>>> include/./GL/glx.h:30:10: fatal error: 'X11/Xlib.h' file not foun=
+d
+>>>>>> Can we fix this on the meson side by passing additional include pa=
+th
+>>>>>> through the cross file?
+>>>>> This seems to work in mesa.inc without patching Mesa:
+>>>>>
+>>>>> CFLAGS:append:class-target =3D " -I${STAGING_INCDIR}"
+>>>>> CXXFLAGS:append:class-target =3D " -I${STAGING_INCDIR}"
+>>>> My question was more about meson.bbclass, where we set=20
+>>>> bindgen_clang_args. See the
+>>>> bindgen_args() function.
+>>> I wouldn't change meson.bbclass because it works for the
+>>> most recipes already.
+>> The bindgen_args was implemented for mesa as the first user. It is not
+>> frequent for the packaged software to use rust.bindgen.
+>>
+>>> Besides, it seems to be a meson bug, not a meson.bbclass bug
+>>> as -isystem and other include path related flags (besides -I) are
+>>> ignored in CFLAGS/CXXFLAGS.
+>>>
+>>> The "clang diag" messages are likely coming from mixed up host
+>>> vs target header paths.
+>>>
+>>> See
+>>> https://gitlab.freedesktop.org/mesa/mesa/-/=20
+>>> merge_requests/35435#note_2952621
+>>> https://github.com/mesonbuild/meson/blob/master/mesonbuild/modules/=20
+>>> rust.py#L392-L397
+>>>
+>>> If we changed meson.bbclass to add -I${STAGING_INCDIR} to
+>>> the proper places in meson.cross, it would still print the
+>>> clang diag warning. Adding -isystem would still get ignored.
+>> Are we ta
+>=20
+> ???
+>=20
+>>> FWIW, --sysroot is also ignored by meson and adding it forcibly
+>>> throws a different error. See
+>>> https://gitlab.freedesktop.org/mesa/mesa/-/=20
+>>> merge_requests/35435#note_2952805
+>> How were you passing it? Via CFLAGS / CPPFLAGS or via bindgen args?
+>=20
+> Using=C2=A0 this patch and -Dbindgen-sysroot=3D${STAGING_DIR_TARGET}
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/35435/diffs?=20
+> commit_id=3Da82381aeaba32775db51080b823893e4b6f647fb
+>=20
+> --sysroot is not passing through to bindgen from CFLAGS/CXXFLAGS
+> due to the filtering of flags in meson by the already qouted code piece=
+ at
+> https://github.com/mesonbuild/meson/blob/master/mesonbuild/modules/=20
+> rust.py#L392-L397
 
-Le jeu. 12 juin 2025 =C3=A0 06:29, Polampalli, Archana via lists.openembedd=
-ed.org
-<archana.polampalli=3Dwindriver.com@lists.openembedded.org> a =C3=A9crit :
+Can we pass those flags via bindgen_clang_args? If I understand=20
+correctly, then they will bypass all the filtering.
 
-> From: Archana Polampalli <archana.polampalli@windriver.com>
->
-> fixes:
->
->    File
-> "/usr/lib/python3-cryptography/ptest/tests/hazmat/primitives/test_pkcs12.=
-py",
-> line 28
->        @pytest.mark.supported(
->    IndentationError: unexpected indent
->
-> Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
->
+>=20
+>>> =C2=AF\_(=E3=83=84)_/=C2=AF
+>>>
+>>>>> but it also[1] prints this for some of the bindgen runs:
+>>>>>
+>>>>> clang diag: /home/zozo/yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/
+>>>>> mesa/25.1.3/recipe-sysroot/usr/include/stdint.h:95:11: warning:=20
+>>>>> '__INT64_C' macro
+>>>>> redefined [-Wmacro-redefined]
+>>>>> clang diag: /home/zozo/yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/
+>>>>> mesa/25.1.3/recipe-sysroot/usr/include/stdint.h:96:11: warning:=20
+>>>>> '__UINT64_C' macro
+>>>>> redefined [-Wmacro-redefined]
+>>>>>
+>>>>> [1] Using the previously posted patch also prints the same.
+>>>>>
+>>>>> It seems to be caused by a meson bug because it doesn't
+>>>>> collect the -isystem or --sysroot flags for rust/bindgen.
+>>>>> See the discussion at the MR link in the patch.
+>>>>>
+>>>>> CFLAGS and CXXFLAGS changes are both needed because
+>>>>> bindgen is run on both .h and .hpp files for rusticl.
+>>>>>
+>>>>>>> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gm=
+ail.com>
+>>>>>>> ---
+>>>>>>> =C2=A0=C2=A0 ...w-build-option-for-extra-bindgen-inc.patch | 57 +=
+++++++++++=20
+>>>>>>> ++++++++
+>>>>>>> =C2=A0=C2=A0 meta/recipes-graphics/mesa/mesa.inc=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +-
+>>>>>>> =C2=A0=C2=A0 2 files changed, 59 insertions(+), 1 deletion(-)
+>>>>>>> =C2=A0=C2=A0 create mode 100644 meta/recipes-graphics/mesa/files/=
+0001-rusticl-
+>>>>>>> Add-a-new-build-option-for-extra-bindgen-inc.patch
+>>>>>>>
+>>>>>>
+>>>>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>>>>> Links: You receive all messages sent to this group.
+>>>>>> View/Reply Online (#218438): https://lists.openembedded.org/g/
+>>>>>> openembedded-core/message/218438
+>>>>>> Mute This Topic: https://lists.openembedded.org/mt/113570520/36177=
+28
+>>>>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>>>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/=20
+>>>>>> unsub [zboszor@gmail.com]
+>>>>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>>>>>
+>>>>
+>>
+>=20
 
-Hello,
-
-Shouldn't we fix CVE-2024-26130.patch instead of carrying this new patch?
-
-Thanks!
-
-
-> ---
->  ...st_pkcs12.py-correct-the-Indentation.patch | 60 +++++++++++++++++++
->  .../python/python3-cryptography_36.0.2.bb     |  1 +
->  2 files changed, 61 insertions(+)
->  create mode 100644
-> meta/recipes-devtools/python/python3-cryptography/0001-test_pkcs12.py-cor=
-rect-the-Indentation.patch
->
-> diff --git
-> a/meta/recipes-devtools/python/python3-cryptography/0001-test_pkcs12.py-c=
-orrect-the-Indentation.patch
-> b/meta/recipes-devtools/python/python3-cryptography/0001-test_pkcs12.py-c=
-orrect-the-Indentation.patch
-> new file mode 100644
-> index 0000000000..09e540c887
-> --- /dev/null
-> +++
-> b/meta/recipes-devtools/python/python3-cryptography/0001-test_pkcs12.py-c=
-orrect-the-Indentation.patch
-> @@ -0,0 +1,60 @@
-> +From b737b6609cd6394c895258e0ae9b341650747918 Mon Sep 17 00:00:00 2001
-> +From: Archana Polampalli <archana.polampalli@windriver.com>
-> +Date: Tue, 10 Jun 2025 11:52:53 +0530
-> +Subject: [PATCH] test_pkcs12.py: correct the Indentation
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-> +---
-> + tests/hazmat/primitives/test_pkcs12.py | 34 +++++++++++++-------------
-> + 1 file changed, 17 insertions(+), 17 deletions(-)
-> +
-> +diff --git a/tests/hazmat/primitives/test_pkcs12.py
-> b/tests/hazmat/primitives/test_pkcs12.py
-> +index 8af4c93..1084038 100644
-> +--- a/tests/hazmat/primitives/test_pkcs12.py
-> ++++ b/tests/hazmat/primitives/test_pkcs12.py
-> +@@ -25,23 +25,23 @@ from ...doubles import DummyKeySerializationEncrypti=
-on
-> + from ...utils import load_vectors_from_file
-> +
-> +
-> +-   @pytest.mark.supported(
-> +-       only_if=3Dlambda backend:
-> backend._lib.Cryptography_HAS_PKCS12_SET_MAC,
-> +-       skip_message=3D"Requires OpenSSL with PKCS12_set_mac",
-> +-   )
-> +-   def test_set_mac_key_certificate_mismatch(self, backend):
-> +-       cacert, _ =3D _load_ca(backend)
-> +-       key =3D ec.generate_private_key(ec.SECP256R1())
-> +-       encryption =3D (
-> +-           serialization.PrivateFormat.PKCS12.encryption_builder()
-> +-           .hmac_hash(hashes.SHA256())
-> +-           .build(b"password")
-> +-       )
-> +-
-> +-       with pytest.raises(ValueError):
-> +-           serialize_key_and_certificates(
-> +-               b"name", key, cacert, [], encryption
-> +-           )
-> ++    @pytest.mark.supported(
-> ++        only_if=3Dlambda backend:
-> backend._lib.Cryptography_HAS_PKCS12_SET_MAC,
-> ++        skip_message=3D"Requires OpenSSL with PKCS12_set_mac",
-> ++    )
-> ++    def test_set_mac_key_certificate_mismatch(self, backend):
-> ++        cacert, _ =3D _load_ca(backend)
-> ++        key =3D ec.generate_private_key(ec.SECP256R1())
-> ++        encryption =3D (
-> ++            serialization.PrivateFormat.PKCS12.encryption_builder()
-> ++            .hmac_hash(hashes.SHA256())
-> ++            .build(b"password")
-> ++        )
-> ++
-> ++        with pytest.raises(ValueError):
-> ++            serialize_key_and_certificates(
-> ++                b"name", key, cacert, [], encryption
-> ++            )
-> +
-> + @pytest.mark.skip_fips(
-> +     reason=3D"PKCS12 unsupported in FIPS mode. So much bad crypto in it=
-."
-> +--
-> +2.40.0
-> +
-> diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> index 83381f225c..173e47b463 100644
-> --- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> +++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> @@ -20,6 +20,7 @@ SRC_URI +=3D " \
->      file://CVE-2023-23931.patch \
->      file://CVE-2023-49083.patch \
->      file://CVE-2024-26130.patch \
-> +    file://0001-test_pkcs12.py-correct-the-Indentation.patch \
->  "
->
->  inherit pypi python_setuptools3_rust
-> --
-> 2.40.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#218475):
-> https://lists.openembedded.org/g/openembedded-core/message/218475
-> Mute This Topic: https://lists.openembedded.org/mt/113601601/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
 
 --=20
-Yoann Congal
-Smile ECS
-
---0000000000005a1e9b06375a916e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 12=
- juin 2025 =C3=A0=C2=A006:29, Polampalli, Archana via <a href=3D"http://lis=
-ts.openembedded.org">lists.openembedded.org</a> &lt;archana.polampalli=3D<a=
- href=3D"mailto:windriver.com@lists.openembedded.org">windriver.com@lists.o=
-penembedded.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">From: Archana Polampalli &lt;<a href=3D"mailto:=
-archana.polampalli@windriver.com" target=3D"_blank">archana.polampalli@wind=
-river.com</a>&gt;<br>
-<br>
-fixes:<br>
-<br>
-=C2=A0 =C2=A0File &quot;/usr/lib/python3-cryptography/ptest/tests/hazmat/pr=
-imitives/test_pkcs12.py&quot;, line 28<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0@pytest.mark.supported(<br>
-=C2=A0 =C2=A0IndentationError: unexpected indent<br>
-<br>
-Signed-off-by: Archana Polampalli &lt;<a href=3D"mailto:archana.polampalli@=
-windriver.com" target=3D"_blank">archana.polampalli@windriver.com</a>&gt;<b=
-r></blockquote><div><br></div><div>Hello,</div><div><br></div><div>Shouldn&=
-#39;t we fix=C2=A0CVE-2024-26130.patch instead of carrying this new patch?<=
-/div><div><br></div><div>Thanks!</div><div>=C2=A0</div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
----<br>
-=C2=A0...st_pkcs12.py-correct-the-Indentation.patch | 60 ++++++++++++++++++=
-+<br>
-=C2=A0.../python/<a href=3D"http://python3-cryptography_36.0.2.bb" rel=3D"n=
-oreferrer" target=3D"_blank">python3-cryptography_36.0.2.bb</a>=C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 1 +<br>
-=C2=A02 files changed, 61 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/python/python3-cryptography/=
-0001-test_pkcs12.py-correct-the-Indentation.patch<br>
-<br>
-diff --git a/meta/recipes-devtools/python/python3-cryptography/0001-test_pk=
-cs12.py-correct-the-Indentation.patch b/meta/recipes-devtools/python/python=
-3-cryptography/0001-test_pkcs12.py-correct-the-Indentation.patch<br>
-new file mode 100644<br>
-index 0000000000..09e540c887<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/python/python3-cryptography/0001-test_pkcs12.py=
--correct-the-Indentation.patch<br>
-@@ -0,0 +1,60 @@<br>
-+From b737b6609cd6394c895258e0ae9b341650747918 Mon Sep 17 00:00:00 2001<br>
-+From: Archana Polampalli &lt;<a href=3D"mailto:archana.polampalli@windrive=
-r.com" target=3D"_blank">archana.polampalli@windriver.com</a>&gt;<br>
-+Date: Tue, 10 Jun 2025 11:52:53 +0530<br>
-+Subject: [PATCH] test_pkcs12.py: correct the Indentation<br>
-+<br>
-+Upstream-Status: Pending<br>
-+<br>
-+Signed-off-by: Archana Polampalli &lt;<a href=3D"mailto:archana.polampalli=
-@windriver.com" target=3D"_blank">archana.polampalli@windriver.com</a>&gt;<=
-br>
-+---<br>
-+ tests/hazmat/primitives/test_pkcs12.py | 34 +++++++++++++-------------<br=
->
-+ 1 file changed, 17 insertions(+), 17 deletions(-)<br>
-+<br>
-+diff --git a/tests/hazmat/primitives/test_pkcs12.py b/tests/hazmat/primiti=
-ves/test_pkcs12.py<br>
-+index 8af4c93..1084038 100644<br>
-+--- a/tests/hazmat/primitives/test_pkcs12.py<br>
-++++ b/tests/hazmat/primitives/test_pkcs12.py<br>
-+@@ -25,23 +25,23 @@ from ...doubles import DummyKeySerializationEncryption=
-<br>
-+ from ...utils import load_vectors_from_file<br>
-+ <br>
-+ <br>
-+-=C2=A0 =C2=A0@pytest.mark.supported(<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0only_if=3Dlambda backend: backend._lib.Cryptog=
-raphy_HAS_PKCS12_SET_MAC,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0skip_message=3D&quot;Requires OpenSSL with PKC=
-S12_set_mac&quot;,<br>
-+-=C2=A0 =C2=A0)<br>
-+-=C2=A0 =C2=A0def test_set_mac_key_certificate_mismatch(self, backend):<br=
->
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cacert, _ =3D _load_ca(backend)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0key =3D ec.generate_private_key(ec.SECP256R1()=
-)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0encryption =3D (<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0serialization.PrivateFormat.PKCS=
-12.encryption_builder()<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.hmac_hash(hashes.SHA256())<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.build(b&quot;password&quot;)<br=
->
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-+-<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0with pytest.raises(ValueError):<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0serialize_key_and_certificates(<=
-br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0b&quot;name&quot;,=
- key, cacert, [], encryption<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-++=C2=A0 =C2=A0 @pytest.mark.supported(<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 only_if=3Dlambda backend: backend._lib.Crypto=
-graphy_HAS_PKCS12_SET_MAC,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 skip_message=3D&quot;Requires OpenSSL with PK=
-CS12_set_mac&quot;,<br>
-++=C2=A0 =C2=A0 )<br>
-++=C2=A0 =C2=A0 def test_set_mac_key_certificate_mismatch(self, backend):<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cacert, _ =3D _load_ca(backend)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 key =3D ec.generate_private_key(ec.SECP256R1(=
-))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 encryption =3D (<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 serialization.PrivateFormat.PKC=
-S12.encryption_builder()<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .hmac_hash(hashes.SHA256())<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .build(b&quot;password&quot;)<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 with pytest.raises(ValueError):<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 serialize_key_and_certificates(=
-<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b&quot;name&quot;=
-, key, cacert, [], encryption<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-+ <br>
-+ @pytest.mark.skip_fips(<br>
-+=C2=A0 =C2=A0 =C2=A0reason=3D&quot;PKCS12 unsupported in FIPS mode. So muc=
-h bad crypto in it.&quot;<br>
-+-- <br>
-+2.40.0<br>
-+<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-cryptog=
-raphy_36.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_=
-36.0.2.bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-cryp=
-tography_36.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptograp=
-hy_36.0.2.bb</a><br>
-index 83381f225c..173e47b463 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3-cryptography_3=
-6.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_36.0.2.=
-bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3-cryptography_3=
-6.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_36.0.2.=
-bb</a><br>
-@@ -20,6 +20,7 @@ SRC_URI +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0file://CVE-2023-23931.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://CVE-2023-49083.patch \<br>
-=C2=A0 =C2=A0 =C2=A0file://CVE-2024-26130.patch \<br>
-+=C2=A0 =C2=A0 file://0001-test_pkcs12.py-correct-the-Indentation.patch \<b=
-r>
-=C2=A0&quot;<br>
-<br>
-=C2=A0inherit pypi python_setuptools3_rust<br>
--- <br>
-2.40.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#218475): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/218475" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/218475</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113601601/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/113601601/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---0000000000005a1e9b06375a916e--
+With best wishes
+Dmitry
 
