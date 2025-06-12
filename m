@@ -1,148 +1,128 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AA78C71143
-	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 14:00:05 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.14016.1749736801585265845
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E2EEC71136
+	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 14:20:45 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.14527.1749738038296259685
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Jun 2025 07:00:01 -0700
+ Thu, 12 Jun 2025 07:20:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CPhg19uO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4531e146a24so6699985e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 07:00:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=W5owKdeq;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-60794c43101so1772692a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 07:20:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1749736799; x=1750341599; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/XNY8kOK7YPjSvD9xMMolu5NvYia8wEw10XBXajqs0Y=;
-        b=CPhg19uOJAlncWgVokhEKzSVZdh33c3A7pQNaEpMYBHW1R5ZptZPLTFNNs8QDHJtR9
-         XAbadFe9R+efm5D0X9qzB3KgQJJ9IyVNYPzDX5YFU65T9fTkXtQw82Qn8twgZ9ahTa8c
-         k0Ju60pa8tR6A9TbHe4mExPtaS23+4qpZFgAo=
+        d=gmail.com; s=20230601; t=1749738036; x=1750342836; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lmmvIgtPClHFH3tlH1Rz53g9p4N+mXUA1TK8Qtr2Mr8=;
+        b=W5owKdeqTY5R65Q2P/KUJEWDWyETBFo7xQ/CNWyWmlaPSiMwkungp1Ny6QOG+nxUsO
+         E6geiVu8ROHwKvIrfIwdEkhS83UVZ6Wx+Czy+VVSZCSFJUExgdT4c92+RCLrTWfKBam/
+         FtKMfCBf2SnIT/F3o370eFSONYZ/qVDaKiexMbLIw68Vu56055Vf7btbYYQly9Iv3HrJ
+         s7mMRnbTiuN9d5UU2SpRijwn/gfovl6erNlyz7gYJyvAl3U0nNIoq/Kb3MdHlBklAo3z
+         0K555MndkEg4OEBiwWEHbFcyYozrbKCyAYBatdI59Ms2Nqe7Y404oxFTsZgI3bbYgsqe
+         3jDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749736799; x=1750341599;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/XNY8kOK7YPjSvD9xMMolu5NvYia8wEw10XBXajqs0Y=;
-        b=QREpzPk/YzxE5om1EcrGJ6J4JBCCA/6tOncNAC63oAbmwIr1nLDQj9pMV6PrUJyD1X
-         b/4VcNsCr2JCC+3b4zB11pyOpGXPedFTubb+IbmiGyBsUJ1aE6dO4nbZuikPWeSYLR2l
-         X4pVAJMEHQwMTA0wL7lklZW5gZMVBKpxd70MS/wMx4sLouM+OsYJmfmvyM9YpPIEU5Ke
-         p+sBmtir66Zs2Yu+w62RqkVlbJFotwxkgkoPFQH7l0W/2b/ywrbXC2v60iauhtvkK8Vj
-         wG+AKhBkJbO4BiRJLqB2STzUYfEzfcN3QI/gjXWLlpnFHmdp0RfemYAORBT452n49Dqs
-         T0eQ==
-X-Gm-Message-State: AOJu0YxCY3PFWLn/sziTR6JEOZQV1yUnIp6pZtamGa8ucLSRMwh1fjjw
-	M9oGTpAa/fEnwYp7CHndzlqoukhYH4Ca+1hDNB6Nq064G7j1HCYAe7Rx443jJnQvL+jbnptwHZQ
-	nR7F8ayg=
-X-Gm-Gg: ASbGnctKwa9Up1HoqYuRIKVf4lSHZe4/vLa2iTLl6cq/XT9TatkJgOH9Yj7g6ZP4Zsu
-	IsSUiYG5xtLgx0y1/4121kwd5K2XgviZyT0Ai3+xrRQIKpUl6v9qpspQAbcDNyuLYX3H9R23XWu
-	eTdvEqLyEHN2ojQDZ5e17HEOgBJixJKZuh6ytL3Qok2p+jUu9a75cbD22SOqulFWP8VJjUKn/JM
-	8xe9hA/p6HqIWSHlFl5CVVuCt9MXsBgeYAUa29LBKO90U5BtWdodeYadVtm3qMLWJFtPvwfMANK
-	bZzG1CydIq5l1KImdaBljTWh4DdIkbnG9U2YAAGE+OvIaPbA3kBxLk1WYGeH5HLMRG5taOyJT4w
-	hqiJDbIu+zHmYQ9c=
-X-Google-Smtp-Source: AGHT+IHVcyptm3jXtGN3xNnB8jqijbQg4f5TYQXqDdPgZEMKckJfegZCwNs8X2MzVc1RL6IqG9prmw==
-X-Received: by 2002:a05:6000:310d:b0:3a5:52b2:fa65 with SMTP id ffacd0b85a97d-3a558688d7dmr6695153f8f.5.1749736799417;
-        Thu, 12 Jun 2025 06:59:59 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9e93:4c2d:3b22:8e08])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a561976f13sm2089474f8f.4.2025.06.12.06.59.58
+        d=1e100.net; s=20230601; t=1749738036; x=1750342836;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lmmvIgtPClHFH3tlH1Rz53g9p4N+mXUA1TK8Qtr2Mr8=;
+        b=TFV82BzcAOge5RL9O3buUWgXqQlln/YDixG3tEKQMSAF31qniYFcA9D418K8J+6cZo
+         9w1ktjY9OJe8CyizxW45IVOCqAgU10hnpdBrqmioFlmOeLUMnn+FCBPzHwXaIUFn8dKQ
+         46Ti6GK5EuYZvQKc5SznDKJxxWlyIKA4OBWUUtSif7OrrGyssiiHh22s3u8dXT5XApEz
+         ZAQ7DbJ/FPFv/Wy6s15GEZDT9KSJojyo1Qm/9Z1JmYmki4KLmMgColOXqUbU2r2nlXQ6
+         WW+Sa7u1z2K5pA34OSE2vZy4KejRvPKeVGoObIoRr4a/nemJpIc0eBEXi29Qgl/wo2xJ
+         hkJg==
+X-Gm-Message-State: AOJu0YwxTELWD3QS9Ir6thQw44k4hy47bZL2wHPZgrLmTp4zyfkC6xvl
+	Bp8ffFO0xgMxP3zNJWKW2mqHj3brO8piUJulE/P3/tyAK7/kHEcPJphqQfg/Zqzb
+X-Gm-Gg: ASbGncvREFdg1L2IRuHtd9KvtB9Pf3ZjuOSYpFQ5egENYrdB0pyMTxb2NdD7xWhhLKY
+	9I9TzE6dZFD1fU/cMUmdh5E03fjKycPAhS4wV47I07nd4dguA8EztXT/GKXD4ANTq9Ar5k/EZxC
+	TXixePNR8THRbVnboo7DCTpOfogCPXg7AwbmWPvqXeHLk5SJH2yr15UT+AcZYR10hDtcgA/vChE
+	zNZfxLJRP6697zpTxGm5sOzObslnE5rnltrkBhKYiryzZpfaQLgGUr2keNTHwWq7rRFCL8xb5Dr
+	j2gOuGZ/O7eu92aozTyUu4OLbH9N8pFReS5BHE+yS79BEefmxzFi441U1n78H3wwHwsMJyB8QrZ
+	tAQ==
+X-Google-Smtp-Source: AGHT+IHqLnqbwRfn/0Fv5eub2279XwJTXPcQynUranel2sTjrIjDIo8u6SqTCz2S1K0O2nfOaGl8wQ==
+X-Received: by 2002:a17:907:3d0b:b0:ad5:27b6:7fd1 with SMTP id a640c23a62f3a-ade89462d04mr715222766b.17.1749738036011;
+        Thu, 12 Jun 2025 07:20:36 -0700 (PDT)
+Received: from localhost.localdomain ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adead4ce1cdsm140290366b.6.2025.06.12.07.20.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 06:59:58 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 12 Jun 2025 07:20:35 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/5] toolchain/gcc/clang: Update PREFERRED_PROVIDER to work with multilibs
-Date: Thu, 12 Jun 2025 14:59:53 +0100
-Message-ID: <20250612135955.1413300-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250612135955.1413300-1-richard.purdie@linuxfoundation.org>
-References: <20250612135955.1413300-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH v2] weston: upgrade 14.0.1 -> 14.0.2
+Date: Thu, 12 Jun 2025 16:20:34 +0200
+Message-ID: <20250612142034.1807820-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 14:00:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218523
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 14:20:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218526
 
-As currently written, the PREFERRED_PROVIDER entries don't work with multilib
-since they are added after the manipulations by multilib_global at ConfigParsed
-time. We therefore need to spell out the configs correctly for multilib.
+While at it, also add libpam as a dependency to the vnc pkgconf, to
+avoid the following error:
 
-To avoid variable overwritten warnings from the expansion, we then have to
-expand out the nativesdk providers usng class overrides.
+| Run-time dependency pam found: NO (tried pkgconfig and cmake)
+|
+| ../weston-14.0.2/libweston/meson.build:95:15: ERROR: C shared or static library 'pam' not found
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Changelog:
+ - frontend: Fix crash in output resize handler
+ - libweston: fix bitshift in weston_idalloc_get_id()
+ - libweston: fix realloc in weston_idalloc
+ - libweston: refactor update_lowest_free_bucket()
+ - libweston-desktop: don't try to move child surfaces to not existing layer
+ - libweston/input.c: Fix weston crash with the mouse event
+ - windowed-output-api.h: Provide ARRAY_LENGH() for windowed-output-api
+ - drm: Fix underlay test
+ - compositor: Mark pnode accordingly when buffer type is direct
+ - compositor: re-order paint node placeholder checks
+ - gl-renderer: Take direct-display into consideration
+ - shared: fix binding-modifier none
+ - vnc: Allow neatvnc in version 0.9.0
+ - compositor: Prevent startup crash when hdcp mode is set on display
+ - libweston/desktop: Avoid a potential crash on invalid resource
+ - libweston/desktop: Don't destroy the xdg_surface
+
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- meta/classes/toolchain/clang.bbclass | 21 ++++++++++++---------
- meta/classes/toolchain/gcc.bbclass   | 22 ++++++++++++++--------
- 2 files changed, 26 insertions(+), 17 deletions(-)
 
-diff --git a/meta/classes/toolchain/clang.bbclass b/meta/classes/toolchain/clang.bbclass
-index 8a0a2c315a2..d7b8a3657c6 100644
---- a/meta/classes/toolchain/clang.bbclass
-+++ b/meta/classes/toolchain/clang.bbclass
-@@ -14,15 +14,18 @@ STRINGS = "${HOST_PREFIX}llvm-strings"
- NM = "${HOST_PREFIX}llvm-nm"
- READELF = "${HOST_PREFIX}llvm-readelf"
+v2:
+- Remove libpam as RDEPENDS from vnc PACKAGECONFIG, and keep it only in DEPENDS
+
+ .../wayland/{weston_14.0.1.bb => weston_14.0.2.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_14.0.1.bb => weston_14.0.2.bb} (98%)
+
+diff --git a/meta/recipes-graphics/wayland/weston_14.0.1.bb b/meta/recipes-graphics/wayland/weston_14.0.2.bb
+similarity index 98%
+rename from meta/recipes-graphics/wayland/weston_14.0.1.bb
+rename to meta/recipes-graphics/wayland/weston_14.0.2.bb
+index 2a0a403d99..03b49d730e 100644
+--- a/meta/recipes-graphics/wayland/weston_14.0.1.bb
++++ b/meta/recipes-graphics/wayland/weston_14.0.2.bb
+@@ -13,7 +13,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
+            file://systemd-notify.weston-start \
+            "
  
--PREFERRED_PROVIDER_virtual/cross-cc = "${MLPREFIX}clang-cross-${TARGET_ARCH}"
--PREFERRED_PROVIDER_virtual/cross-c++ = "${MLPREFIX}clang-cross-${TARGET_ARCH}"
--PREFERRED_PROVIDER_virtual/compilerlibs = "gcc-runtime"
--PREFERRED_PROVIDER_virtual/cross-cc:class-nativesdk = "clang-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/cross-c++:class-nativesdk = "clang-crosssdk-${SDK_SYS}"
--
--PREFERRED_PROVIDER_virtual/nativesdk-cross-cc = "clang-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/nativesdk-cross-c++ = "clang-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs = "nativesdk-gcc-runtime"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-cc = "${MLPREFIX}clang-cross-${TARGET_ARCH}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-c++ = "${MLPREFIX}clang-cross-${TARGET_ARCH}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}compilerlibs = "${MLPREFIX}gcc-runtime"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-cc:class-nativesdk = "clang-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-c++:class-nativesdk = "clang-crosssdk-${SDK_SYS}"
-+
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-crosssdk = "clang-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-crosssdk = "clang-crosssdk-${SDK_SYS}"
-+
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cross-canadian = "clang-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian = "clang-crosssdk-${SDK_SYS}"
-+
+-SRC_URI[sha256sum] = "a8150505b126a59df781fe8c30c8e6f87da7013e179039eb844a5bbbcc7c79b3"
++SRC_URI[sha256sum] = "b47216b3530da76d02a3a1acbf1846a9cd41d24caa86448f9c46f78f20b6e0ac"
  
- BASE_DEFAULT_DEPS:append:class-target = " compiler-rt"
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/weston/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+@@ -92,7 +92,7 @@ PACKAGECONFIG[image-jpeg] = "-Dimage-jpeg=true,-Dimage-jpeg=false, jpeg"
+ # screencasting via PipeWire
+ PACKAGECONFIG[pipewire] = "-Dbackend-pipewire=true,-Dbackend-pipewire=false,pipewire"
+ # VNC remote screensharing
+-PACKAGECONFIG[vnc] = "-Dbackend-vnc=true,-Dbackend-vnc=false,neatvnc"
++PACKAGECONFIG[vnc] = "-Dbackend-vnc=true,-Dbackend-vnc=false,neatvnc libpam"
  
-diff --git a/meta/classes/toolchain/gcc.bbclass b/meta/classes/toolchain/gcc.bbclass
-index 75f9abe999a..a5adb5ca372 100644
---- a/meta/classes/toolchain/gcc.bbclass
-+++ b/meta/classes/toolchain/gcc.bbclass
-@@ -14,14 +14,20 @@ STRINGS = "${HOST_PREFIX}strings"
- NM = "${HOST_PREFIX}gcc-nm"
- READELF = "${HOST_PREFIX}readelf"
  
--PREFERRED_PROVIDER_virtual/cross-cc = "${MLPREFIX}gcc-cross-${TARGET_ARCH}"
--PREFERRED_PROVIDER_virtual/cross-c++ = "${MLPREFIX}gcc-cross-${TARGET_ARCH}"
--PREFERRED_PROVIDER_virtual/compilerlibs = "gcc-runtime"
--PREFERRED_PROVIDER_virtual/cross-cc:class-nativesdk = "gcc-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/cross-c++:class-nativesdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-cc = "${MLPREFIX}gcc-cross-${TARGET_ARCH}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-c++ = "${MLPREFIX}gcc-cross-${TARGET_ARCH}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}compilerlibs = "${MLPREFIX}gcc-runtime"
- 
--PREFERRED_PROVIDER_virtual/nativesdk-cross-cc = "gcc-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/nativesdk-cross-c++ = "gcc-crosssdk-${SDK_SYS}"
--PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs = "nativesdk-gcc-runtime"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-cc:class-nativesdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}cross-c++:class-nativesdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/${MLPREFIX}compilerlibs:class-nativesdk = "nativesdk-gcc-runtime"
-+
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-crosssdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-crosssdk = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs:class-crosssdk = "nativesdk-gcc-runtime"
-+
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cross-canadian = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian = "gcc-crosssdk-${SDK_SYS}"
-+PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs:class-cross-canadian = "nativesdk-gcc-runtime"
- 
- TCOVERRIDE = "toolchain-gcc"
+ do_install:append() {
 
