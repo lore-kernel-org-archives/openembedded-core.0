@@ -1,184 +1,153 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE72C61CE8
-	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 04:23:42 +0000 (UTC)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
- by mx.groups.io with SMTP id smtpd.web10.5159.1749702221712458395
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E675C61CE8
+	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 04:29:02 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.5224.1749702539972418508
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jun 2025 21:23:41 -0700
+ Wed, 11 Jun 2025 21:29:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=csoQc+V7;
- spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: zboszor@gmail.com)
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-86cfc1b6dcaso19901139f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 21:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749702221; x=1750307021; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Gqk0H0a+Vst48UioXQ4EtFGEXLvdwmI9i69aTrpOOkE=;
-        b=csoQc+V7U2xwOF0H6svxPZzvc9Uij5Lf3dP07JB4wUu6OGkbs7gYo3o+B/HfLF18Cn
-         EjWWjtNPAczvBWZCRQ4RsjFoKITxomaYsu3geNEjgBXv7UgtewrjCuULff91Ughc9Vv+
-         LHVNDTfil38VQid92y58Mie27eN22LDM49T5VKhShkC24pL+Tk8gtGHtHKSaHfatw4+t
-         ag+ddmn5xMsv6dMndYWZoTG2nxrRxKYrq3iwGjfaTxI1F9/lmrCBWrvEf3uuIR32M/C8
-         2/udjJh0CUNNZGvqVEKPjJFIWq4S68LBYwCeCZmrxVJMyc9unEPiCYp2LfnbdSt/ONGX
-         PGpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749702221; x=1750307021;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gqk0H0a+Vst48UioXQ4EtFGEXLvdwmI9i69aTrpOOkE=;
-        b=A+JgqCxsYHkWaZFDIv5IsnqsadF8ADhpiDf7O4QBl6X+HZzCw97m4paaFe/rRpHhxr
-         gvoFmBI+6T1GsNxOnN91Yrjr6E8m/XpRHRVmk8YfH6pAt2ZAsgh+GN1C6NwPYGyzJPd0
-         5D+NFCag9jDrl2GuTXh173ckUyMjTXlHorEpLybsvFpFJV3WhLgrw+6wbHQFb8Pk6rH6
-         DPtQyS+2pR9ecb1UuIA4CHTCjZR8ijNDuAEKlUNHPdr6yPPPUNHlHNlQjb7Jkh4Uwula
-         3niHntCynrPCn5mWs9Lngi8s+0ii7np7GYP38cKQPUj9OmwoaS5zwBhKEJh5J9BEY4dM
-         XoZA==
-X-Gm-Message-State: AOJu0YzZFMmWdayVi9l97T+omziAZf/Hu/aXq1bEgpIS/D123e+2eHA/
-	VynUCm7+i1qb86oGu6wCbdWI77UG4NG19CiAQFHNIMSEt8duTvmlYPFD
-X-Gm-Gg: ASbGncv1wnyLX5fWBBg21o97+TUzFWvdgbt8vUlBYJ3jRfe5VEYjGCkir9b231SndR4
-	Iz4DQF+nHl1Z6aW0Tjkzd55+nkvW6U+o9dTQyrHFdu/4M4mTWrI1EyhE5hZr3URhYg7i2dqao1o
-	Xot7WCJNtLcTDThYgh77sm2sDgZAjt5jvHa6tadPU00k7UCD6ZK8kzAxeHDdPKkG1f/ih5+S3KF
-	ZYTevYhxvQtqqbdkwbiyqViGkV2jTDPuaIZGXEweJJDcB6R3t7wIyIVu7dMldV452/32LSRpjp+
-	Xhk5Ak5uSWZXILkGGRPD2c5Z74o7YC85xz1KTXotZ9AJ8xhjcryYpJqsPyCfVi0Ty4/EBRkPie0
-	Ld1Ca6tG/FGL7Eem/n80=
-X-Google-Smtp-Source: AGHT+IHtZQRC9KrlKVIJe1vwIwNYGkkE4/nMGjI+Ezjd76eBJZ3CaDQ29K+Bx9HrAfalRx+3nh36yQ==
-X-Received: by 2002:a05:6602:7512:b0:86a:24a7:cecb with SMTP id ca18e2360f4ac-875bc3e0aafmr872490539f.4.1749702220725;
-        Wed, 11 Jun 2025 21:23:40 -0700 (PDT)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5013b799f81sm130896173.58.2025.06.11.21.23.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jun 2025 21:23:39 -0700 (PDT)
-Message-ID: <96fc5917-bd69-41e3-892e-b683fd635b9e@gmail.com>
-Date: Thu, 12 Jun 2025 06:23:36 +0200
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8258012de4=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55C2YXlS001317
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 21:28:59 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 474gq4525g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Jun 2025 21:28:58 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Wed, 11 Jun 2025 21:28:58 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Wed, 11 Jun 2025 21:28:56 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][kirkstone][PATCH  1/1] python3-cryptography: fix IndentationError caused by CVE-2024-26130 fix
+Date: Thu, 12 Jun 2025 09:58:55 +0530
+Message-ID: <20250612042855.1377855-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] mesa: Fix bindgen includes
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org, Markus Volk <f_l_k@t-online.de>
-References: <20250610142413.681911-1-zboszor@gmail.com>
- <CAO9ioeUn24ndJqaH1O8B0G+mB8JKx_JcROXhzJqrw36L84bmNw@mail.gmail.com>
- <8e9387de-14f0-4def-a41e-3b8aeaa178a0@gmail.com>
- <8155d605-c759-4645-a82a-15ef65f95e66@oss.qualcomm.com>
- <63ef3071-74eb-4caf-a08e-77d91bf82c44@gmail.com>
- <CAO9ioeVE94tAha_o0Q1tcP-2LhD6YAVtLUMkqACr4q55=ahgVQ@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CAO9ioeVE94tAha_o0Q1tcP-2LhD6YAVtLUMkqACr4q55=ahgVQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=Qrde3Uyd c=1 sm=1 tr=0 ts=684a578a cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=6IFa9wvqVegA:10 a=t7CeM3EgAAAA:8 a=pwiSL_CrTg9_fvnJRv4A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: _n6KavzmZlOTh4di4vavxYqvxLh8WD3k
+X-Proofpoint-ORIG-GUID: _n6KavzmZlOTh4di4vavxYqvxLh8WD3k
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEyMDAzMiBTYWx0ZWRfX/KAL9RHeo2uA NpSpX9mW/fBZ4byzb49RlAWZ71Fn3L/kKK0cd8OrSgIrEvQL6jrzt1hmwCj2VNCqrXA4KSv1kFq zdbzC0vslFwHBF/gyPJKLStOnW1WGLCfIQfHVhCY6/4ncv6U4aTxr0g6PyVgVxlef5ApVTmELOr
+ OPmxotfQcAsnNOI3oC6RZDsJY3bA6KFEoztp5XORRbCyG46CpY3zDlcaauPouJKsN5LEqO+IqXF YzabTHSN3X6O++XjxyYKohL60adT/RaQjAVzpxB4XicH64XynWXTY702MNhGNEV8LL0CXYWG4zC 17NQ0bwZBFXsC4/0a5ky3RVGB7WbvSb/o1II1gK4bZ1Ucnoh39FKTYBXFFdAz68Ri1nVwD4Nc1M
+ /T74IpYpiw/6sgWBe9uPDHrVOzoNoUUKwF/6JPnpY6zFlu6HGdEUtJmnvp5xBL46b/AHP6lQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-12_02,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ suspectscore=0 impostorscore=0 bulkscore=0 mlxscore=0 mlxlogscore=587
+ spamscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2506120032
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 04:23:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218474
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 04:29:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218475
 
-2025. 06. 11. 21:32 keltezéssel, Dmitry Baryshkov írta:
-> On Wed, 11 Jun 2025 at 21:36, Böszörményi Zoltán <zboszor@gmail.com> wrote:
->> 2025. 06. 11. 19:34 keltezéssel, Dmitry Baryshkov írta:
->>> On 11/06/2025 13:46, Böszörményi Zoltán wrote:
->>>> 2025. 06. 10. 21:49 keltezéssel, Dmitry Baryshkov via lists.openembedded.org írta:
->>>>> On Tue, 10 Jun 2025 at 17:24, Zoltán Böszörményi <zboszor@gmail.com> wrote:
->>>>>> Add a patch to fix bindgen errors due to not finding headers
->>>>>> in the system, like:
->>>>>>
->>>>>> |...
->>>>>> | ../mesa-25.1.2/src/gallium/frontends/rusticl/ rusticl_llvm_bindings.hpp:1:10: fatal
->>>>>> error: 'clang/Basic/Version.h' file not found
->>>>>> | Unable to generate bindings: clang diagnosed error: ../mesa-25.1.2/
->>>>>> src/gallium/frontends/rusticl/rusticl_llvm_bindings.hpp:1:10: fatal error:
->>>>>> 'clang/Basic/Version.h' file not found
->>>>>> |...
->>>>>> | .../work/corei7-64-oe-linux/mesa/25.1.2/mesa-25.1.2/include/./GL/ glx.h:30:10:
->>>>>> fatal error: 'X11/Xlib.h' file not found
->>>>>> | Unable to generate bindings: clang diagnosed error: /data2/dtd-
->>>>>> yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/mesa/25.1.2/mesa-25.1.2/
->>>>>> include/./GL/glx.h:30:10: fatal error: 'X11/Xlib.h' file not found
->>>>> Can we fix this on the meson side by passing additional include path
->>>>> through the cross file?
->>>> This seems to work in mesa.inc without patching Mesa:
->>>>
->>>> CFLAGS:append:class-target = " -I${STAGING_INCDIR}"
->>>> CXXFLAGS:append:class-target = " -I${STAGING_INCDIR}"
->>> My question was more about meson.bbclass, where we set bindgen_clang_args. See the
->>> bindgen_args() function.
->> I wouldn't change meson.bbclass because it works for the
->> most recipes already.
-> The bindgen_args was implemented for mesa as the first user. It is not
-> frequent for the packaged software to use rust.bindgen.
->
->> Besides, it seems to be a meson bug, not a meson.bbclass bug
->> as -isystem and other include path related flags (besides -I) are
->> ignored in CFLAGS/CXXFLAGS.
->>
->> The "clang diag" messages are likely coming from mixed up host
->> vs target header paths.
->>
->> See
->> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/35435#note_2952621
->> https://github.com/mesonbuild/meson/blob/master/mesonbuild/modules/rust.py#L392-L397
->>
->> If we changed meson.bbclass to add -I${STAGING_INCDIR} to
->> the proper places in meson.cross, it would still print the
->> clang diag warning. Adding -isystem would still get ignored.
-> Are we ta
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-???
+fixes:
 
->> FWIW, --sysroot is also ignored by meson and adding it forcibly
->> throws a different error. See
->> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/35435#note_2952805
-> How were you passing it? Via CFLAGS / CPPFLAGS or via bindgen args?
+   File "/usr/lib/python3-cryptography/ptest/tests/hazmat/primitives/test_pkcs12.py", line 28
+       @pytest.mark.supported(
+   IndentationError: unexpected indent
 
-Using  this patch and -Dbindgen-sysroot=${STAGING_DIR_TARGET}
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/35435/diffs?commit_id=a82381aeaba32775db51080b823893e4b6f647fb
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ ...st_pkcs12.py-correct-the-Indentation.patch | 60 +++++++++++++++++++
+ .../python/python3-cryptography_36.0.2.bb     |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/0001-test_pkcs12.py-correct-the-Indentation.patch
 
---sysroot is not passing through to bindgen from CFLAGS/CXXFLAGS
-due to the filtering of flags in meson by the already qouted code piece at
-https://github.com/mesonbuild/meson/blob/master/mesonbuild/modules/rust.py#L392-L397
-
->> ¯\_(ツ)_/¯
->>
->>>> but it also[1] prints this for some of the bindgen runs:
->>>>
->>>> clang diag: /home/zozo/yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/
->>>> mesa/25.1.3/recipe-sysroot/usr/include/stdint.h:95:11: warning: '__INT64_C' macro
->>>> redefined [-Wmacro-redefined]
->>>> clang diag: /home/zozo/yocto-5.2/tmp-sicom/work/corei7-64-oe-linux/
->>>> mesa/25.1.3/recipe-sysroot/usr/include/stdint.h:96:11: warning: '__UINT64_C' macro
->>>> redefined [-Wmacro-redefined]
->>>>
->>>> [1] Using the previously posted patch also prints the same.
->>>>
->>>> It seems to be caused by a meson bug because it doesn't
->>>> collect the -isystem or --sysroot flags for rust/bindgen.
->>>> See the discussion at the MR link in the patch.
->>>>
->>>> CFLAGS and CXXFLAGS changes are both needed because
->>>> bindgen is run on both .h and .hpp files for rusticl.
->>>>
->>>>>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
->>>>>> ---
->>>>>>    ...w-build-option-for-extra-bindgen-inc.patch | 57 +++++++++++++++++++
->>>>>>    meta/recipes-graphics/mesa/mesa.inc           |  3 +-
->>>>>>    2 files changed, 59 insertions(+), 1 deletion(-)
->>>>>>    create mode 100644 meta/recipes-graphics/mesa/files/0001-rusticl-
->>>>>> Add-a-new-build-option-for-extra-bindgen-inc.patch
->>>>>>
->>>>>
->>>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>> Links: You receive all messages sent to this group.
->>>>> View/Reply Online (#218438): https://lists.openembedded.org/g/
->>>>> openembedded-core/message/218438
->>>>> Mute This Topic: https://lists.openembedded.org/mt/113570520/3617728
->>>>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
->>>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>>
->>>
->
+diff --git a/meta/recipes-devtools/python/python3-cryptography/0001-test_pkcs12.py-correct-the-Indentation.patch b/meta/recipes-devtools/python/python3-cryptography/0001-test_pkcs12.py-correct-the-Indentation.patch
+new file mode 100644
+index 0000000000..09e540c887
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cryptography/0001-test_pkcs12.py-correct-the-Indentation.patch
+@@ -0,0 +1,60 @@
++From b737b6609cd6394c895258e0ae9b341650747918 Mon Sep 17 00:00:00 2001
++From: Archana Polampalli <archana.polampalli@windriver.com>
++Date: Tue, 10 Jun 2025 11:52:53 +0530
++Subject: [PATCH] test_pkcs12.py: correct the Indentation
++
++Upstream-Status: Pending
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ tests/hazmat/primitives/test_pkcs12.py | 34 +++++++++++++-------------
++ 1 file changed, 17 insertions(+), 17 deletions(-)
++
++diff --git a/tests/hazmat/primitives/test_pkcs12.py b/tests/hazmat/primitives/test_pkcs12.py
++index 8af4c93..1084038 100644
++--- a/tests/hazmat/primitives/test_pkcs12.py
+++++ b/tests/hazmat/primitives/test_pkcs12.py
++@@ -25,23 +25,23 @@ from ...doubles import DummyKeySerializationEncryption
++ from ...utils import load_vectors_from_file
++ 
++ 
++-   @pytest.mark.supported(
++-       only_if=lambda backend: backend._lib.Cryptography_HAS_PKCS12_SET_MAC,
++-       skip_message="Requires OpenSSL with PKCS12_set_mac",
++-   )
++-   def test_set_mac_key_certificate_mismatch(self, backend):
++-       cacert, _ = _load_ca(backend)
++-       key = ec.generate_private_key(ec.SECP256R1())
++-       encryption = (
++-           serialization.PrivateFormat.PKCS12.encryption_builder()
++-           .hmac_hash(hashes.SHA256())
++-           .build(b"password")
++-       )
++-
++-       with pytest.raises(ValueError):
++-           serialize_key_and_certificates(
++-               b"name", key, cacert, [], encryption
++-           )
+++    @pytest.mark.supported(
+++        only_if=lambda backend: backend._lib.Cryptography_HAS_PKCS12_SET_MAC,
+++        skip_message="Requires OpenSSL with PKCS12_set_mac",
+++    )
+++    def test_set_mac_key_certificate_mismatch(self, backend):
+++        cacert, _ = _load_ca(backend)
+++        key = ec.generate_private_key(ec.SECP256R1())
+++        encryption = (
+++            serialization.PrivateFormat.PKCS12.encryption_builder()
+++            .hmac_hash(hashes.SHA256())
+++            .build(b"password")
+++        )
+++
+++        with pytest.raises(ValueError):
+++            serialize_key_and_certificates(
+++                b"name", key, cacert, [], encryption
+++            )
++ 
++ @pytest.mark.skip_fips(
++     reason="PKCS12 unsupported in FIPS mode. So much bad crypto in it."
++-- 
++2.40.0
++
+diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+index 83381f225c..173e47b463 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+@@ -20,6 +20,7 @@ SRC_URI += " \
+     file://CVE-2023-23931.patch \
+     file://CVE-2023-49083.patch \
+     file://CVE-2024-26130.patch \
++    file://0001-test_pkcs12.py-correct-the-Indentation.patch \
+ "
+ 
+ inherit pypi python_setuptools3_rust
+-- 
+2.40.0
 
 
