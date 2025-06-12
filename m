@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB764C71136
-	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 21:16:17 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web10.5895.1749762972489559958
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 000EAC71136
+	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 21:17:37 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web10.5927.1749763055076946516
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Jun 2025 14:16:12 -0700
+ Thu, 12 Jun 2025 14:17:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=e4Mh1/7z;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-2025061221161027bc1587f2e9027b14-op6tb6@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2025061221161027bc1587f2e9027b14
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=uxUVmAOq;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250612211732ab42a14d43891243ce-itf0fq@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250612211732ab42a14d43891243ce
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 12 Jun 2025 23:16:10 +0200
+        Thu, 12 Jun 2025 23:17:33 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=hTvYncmwRJNKaiYV1hf0nDqELwp4Qj7vi0X0JXeXkVg=;
- b=e4Mh1/7zy6i+xKh2Z1l/6COkFfF2BkydX0PdOivRAh4MhrVyvPo7hAm0zYWIytqHfU5nzp
- TX5WVzC8d7kZObiA5TGaY2YPM20wd7olIpVv7/Xscca+tqjqdGbGPlNOXWhyftZ08JcI3xP8
- 8Yv6oA9EbyU2UmHReg7JjaTmM2n1YqUgTtSJe22QioNXkoZnuEF8ta5+uAkaERJhsWyOLqB5
- cRX0OsZI0IdTOLhgog0tOEcIW5O6s6p9Lf5j7+EDvCZyHqk3OiNfEP2U6M6wiydIstJyGR6L
- XxetlhI+BFOly4jVJuNJxbriqXUGw3J30V4nRoD8NtasoZPVBXNdft8A==;
+ bh=PfsahF2sjFGSWHCpSYoc3m4e90DQFRtlxet/R2MJjgs=;
+ b=uxUVmAOqfM+kNcDIG6PhqGqgjfCvtO8MzQ9akuOZN/qQsEzlUEjoBTnzS9ff8cY22uBVP+
+ vOOLFGJEzolBUIXQgzyiMQT59ioxv2oCbbONQUjWSx3cA/mtywmtHPVFJ12krWjIfIB8eXAX
+ rJ5583cyiIQIO+Yms6w9tG5+ZV60GiyG6xo44Mpy2Pldkx6nP5FMTl+ZS4iRThgsSKEcjM5y
+ +YKIXAdqU13hga8FwzjTe10z/HnaarBY23N3Aq2+Ulm4xsilsaqC9b+2kKkGDjib8nlUIQLJ
+ +F9NhEDsC6RVikgrGyMKO4g+hdy92LQRZnL4yqFCWrSU+KooTkJU36vw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][walnascar][PATCH] net-tools: patch CVE-2025-46836
-Date: Thu, 12 Jun 2025 23:15:24 +0200
-Message-Id: <20250612211524.3517991-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] net-tools: patch CVE-2025-46836
+Date: Thu, 12 Jun 2025 23:16:46 +0200
+Message-Id: <20250612211646.3518106-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,8 +37,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 21:16:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218540
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 21:17:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218541
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -188,7 +188,7 @@ index 0000000000..d2c3673a24
 +         }
 + 
 diff --git a/meta/recipes-extended/net-tools/net-tools_2.10.bb b/meta/recipes-extended/net-tools/net-tools_2.10.bb
-index 7facc0cc8d..547079f4cf 100644
+index 33304297ec..c4d298181a 100644
 --- a/meta/recipes-extended/net-tools/net-tools_2.10.bb
 +++ b/meta/recipes-extended/net-tools/net-tools_2.10.bb
 @@ -11,6 +11,8 @@ SRC_URI = "git://git.code.sf.net/p/net-tools/code;protocol=https;branch=master \
