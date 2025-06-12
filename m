@@ -1,104 +1,74 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB74C71136
-	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 11:47:54 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.11035.1749728863947711511
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92506C71136
+	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 12:15:04 +0000 (UTC)
+Received: from smtp-42aa.mail.infomaniak.ch (smtp-42aa.mail.infomaniak.ch [84.16.66.170])
+ by mx.groups.io with SMTP id smtpd.web11.11313.1749730503685439612
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Jun 2025 04:47:44 -0700
+ Thu, 12 Jun 2025 05:15:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=pdIEl1ZP;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D62FD43A1A;
-	Thu, 12 Jun 2025 11:47:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1749728862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fG7D3tVa3YiDE4X8yUK4fEJL90/7VBCfatt03UkR5r0=;
-	b=pdIEl1ZPcT9jWUT6BWzAIckkCjZFZqzeRRhj9g958jGS2aq/U6skTs5irrbnzGDC8EcmEJ
-	3J/fJO/z3TRuHVhzPjf2hTTHmXoeClgOjnTFho812w41o2sUMD/NUONGzS+IhobxD5m4vX
-	Ld1c/kOJrE1Lfn5wGoOF+Ktu9DF+qjN8UR8kx2XIB8Xvtsay/kBaoiojLdGem/51SXCd8+
-	DTmsE/mXtnx3tNvKDEmDlJZsJj25Bbjt6FaF1vG5VyD9//JRPt+GoLdnKdWp9JWE8izuUa
-	KbZsGyvBJiLVVsr6Prc5gA0gZWxjEYRHy3F6Lz1tB7MMDgQ9wnsmCeXraym3pw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Jun 2025 13:47:41 +0200
-Message-Id: <DAKJ465UQIQP.2RNSHUDVHRKO0@bootlin.com>
-Subject: Re: [OE-core] [PATCH 1/3] wic: pluginbase workaround on invalid
- module filenames
-Cc: <richard.purdie@linuxfoundation.org>, <Ross.Burton@arm.com>,
- <bruce.ashfield@gmail.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Anibal Limon" <anibal@limonsoftware.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250611153319.54778-1-anibal@limonsoftware.com>
-In-Reply-To: <20250611153319.54778-1-anibal@limonsoftware.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddugeellecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeeghfektedtfeegjeffvdfhudetledvfeffhfetkeffleefjefgieffudetjeevnecuffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtoheprghnihgsrghlsehlihhmohhnshhofhhtfigrrhgvrdgtohhmpdhrtghpthhto
- hepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheprhhitghhrghrugdrphhurhguihgvsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheptfhoshhsrdeuuhhrthhonhesrghrmhdrtghomhdprhgtphhtthhopegsrhhutggvrdgrshhhfhhivghlugesghhmrghilhdrtghomh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 84.16.66.170, mailfrom: foss+yocto@0leil.net)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4bJ1gT4wfrzbQc;
+	Thu, 12 Jun 2025 14:15:01 +0200 (CEST)
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4bJ1gT0lHlzY7K;
+	Thu, 12 Jun 2025 14:15:00 +0200 (CEST)
+From: Quentin Schulz <foss+yocto@0leil.net>
+Subject: [PATCH 0/2] mesa: disable building nouveau/r300 on non-x86/i686
+ machines by default
+Date: Thu, 12 Jun 2025 14:14:30 +0200
+Message-Id: <20250612-mesa-pkgconfig-no-hardcode-llvm-v1-0-479632e13175@cherry.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKbESmgC/x3NQQqDMBBG4avIrDuQpFikVyldTJPfOFQTSUAE8
+ e4Gl9/mvYMqiqLSuzuoYNOqOTXYR0d+khTBGprJGdebl3W8oAqv/+hzGjVyyjxJCT4H8DxvCxv
+ IgJ810g9PapW1YNT9Pny+53kBYk2Ly3EAAAA=
+X-Change-ID: 20250612-mesa-pkgconfig-no-hardcode-llvm-0ea8eb10a583
+To: openembedded-core@lists.openembedded.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Quentin Schulz <quentin.schulz@cherry.de>
+X-Mailer: b4 0.14.2
+X-Infomaniak-Routing: alpha
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 11:47:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218514
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 12:15:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218515
 
-On Wed Jun 11, 2025 at 5:33 PM CEST, Anibal Limon wrote:
-> Apply a workaround on invalid identifiers replace '-' to '_' to load
-> the module with valid identifier.
->
-> Let the user know (warning) about plugin doesn't has a valid module
-> identifier to encourage fix, it gives time before rename oe-core wic
-> plugins and drop workaround.
->
-> Signed-off-by: Anibal Limon <anibal@limonsoftware.com>
-> ---
+Whenever building gallium-llvm drivers on non-x86/i686 machines, we
+currently always build r300 and nouveau drivers but they aren't
+necessarily needed.
 
-Hi Anibal,
+So this makes them optional by either reusing the amd PACKAGECONFIG or
+adding the new nouveau PACKAGECONFIG.
 
-Thanks for the new series.
+This shouldn't change anything for you except if you're building
+gallium-llvm drivers for non-x86/i686 machines and want those to be
+enabled, then you'll need to add amd or nouveau to your PACKAGECONFIG.
 
-I believe we have oe oe-selftest errors on x86, while creating image:
+Note: not tested
+Note: weirdly enough, the tegra PACKAGECONFIG enables both tegra and
+nouveau gallium drivers but not via the gallium-llvm PACKAGECONFIG, so
+I'm not sure nouveau is actually an llvm driver or if it is, that tegra
+PACKAGECONFIG actually works standalone.
 
-2025-06-12 09:33:17,228 - oe-selftest - INFO - overlayfs.OverlayFSEtcRunTim=
-eTests.test_lower_layer_access (subunit.RemotedTestCase)
-2025-06-12 09:33:17,228 - oe-selftest - INFO -  ... FAIL
-...
-|   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/scripts/lib/=
-wic/plugins/source/bootimg_biosplusefi.py", line 159, in do_configure_parti=
-tion
-|     cls.__instanciateSubClasses()
-|     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
-|   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/scripts/lib/=
-wic/plugins/source/bootimg_biosplusefi.py", line 108, in __instanciateSubCl=
-asses
-|     loader.exec_module(mod)
-|     ~~~~~~~~~~~~~~~~~~^^^^^
-|   File "<frozen importlib._bootstrap_external>", line 1022, in exec_modul=
-e
-|   File "<frozen importlib._bootstrap_external>", line 1159, in get_code
-|   File "<frozen importlib._bootstrap_external>", line 1217, in get_data
-| FileNotFoundError: [Errno 2] No such file or directory: '/srv/pokybuild/y=
-octo-worker/oe-selftest-debian/build/scripts/lib/wic/plugins/source/bootimg=
--pcbios.py'
-| WARNING: exit code 1 from a shell command.
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+---
+Quentin Schulz (2):
+      mesa: do not build r300 AMD gallium-llvm driver if not requested
+      mesa: do not build nouveau NVIDIA gallium-llvm driver if not requested
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/1750
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1689
+ meta/recipes-graphics/mesa/mesa.inc | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+---
+base-commit: aad1f72e157cb58b70de5943646de3543d8844da
+change-id: 20250612-mesa-pkgconfig-no-hardcode-llvm-0ea8eb10a583
 
-Can you have a look at this issue?
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
+-- 
+Quentin Schulz <quentin.schulz@cherry.de>
 
 
