@@ -2,31 +2,29 @@ Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92506C71136
-	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 12:15:04 +0000 (UTC)
-Received: from smtp-42aa.mail.infomaniak.ch (smtp-42aa.mail.infomaniak.ch [84.16.66.170])
- by mx.groups.io with SMTP id smtpd.web11.11313.1749730503685439612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BBF2C71136
+	for <webhook@archiver.kernel.org>; Thu, 12 Jun 2025 12:15:14 +0000 (UTC)
+Received: from smtp-42a8.mail.infomaniak.ch (smtp-42a8.mail.infomaniak.ch [84.16.66.168])
+ by mx.groups.io with SMTP id smtpd.web10.11524.1749730503722129441
  for <openembedded-core@lists.openembedded.org>;
  Thu, 12 Jun 2025 05:15:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 84.16.66.170, mailfrom: foss+yocto@0leil.net)
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 84.16.66.168, mailfrom: foss+yocto@0leil.net)
 Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4bJ1gT4wfrzbQc;
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4bJ1gV1mxRzqkK;
+	Thu, 12 Jun 2025 14:15:02 +0200 (CEST)
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4bJ1gT5H22zVhH;
 	Thu, 12 Jun 2025 14:15:01 +0200 (CEST)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4bJ1gT0lHlzY7K;
-	Thu, 12 Jun 2025 14:15:00 +0200 (CEST)
 From: Quentin Schulz <foss+yocto@0leil.net>
-Subject: [PATCH 0/2] mesa: disable building nouveau/r300 on non-x86/i686
- machines by default
-Date: Thu, 12 Jun 2025 14:14:30 +0200
-Message-Id: <20250612-mesa-pkgconfig-no-hardcode-llvm-v1-0-479632e13175@cherry.de>
+Date: Thu, 12 Jun 2025 14:14:31 +0200
+Subject: [PATCH 1/2] mesa: do not build r300 AMD gallium-llvm driver if not
+ requested
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKbESmgC/x3NQQqDMBBG4avIrDuQpFikVyldTJPfOFQTSUAE8
- e4Gl9/mvYMqiqLSuzuoYNOqOTXYR0d+khTBGprJGdebl3W8oAqv/+hzGjVyyjxJCT4H8DxvCxv
- IgJ810g9PapW1YNT9Pny+53kBYk2Ly3EAAAA=
-X-Change-ID: 20250612-mesa-pkgconfig-no-hardcode-llvm-0ea8eb10a583
+Message-Id: <20250612-mesa-pkgconfig-no-hardcode-llvm-v1-1-479632e13175@cherry.de>
+References: <20250612-mesa-pkgconfig-no-hardcode-llvm-v1-0-479632e13175@cherry.de>
+In-Reply-To: <20250612-mesa-pkgconfig-no-hardcode-llvm-v1-0-479632e13175@cherry.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
  Quentin Schulz <quentin.schulz@cherry.de>
@@ -35,40 +33,47 @@ X-Infomaniak-Routing: alpha
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 12:15:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218515
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 12:15:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218517
 
-Whenever building gallium-llvm drivers on non-x86/i686 machines, we
-currently always build r300 and nouveau drivers but they aren't
-necessarily needed.
+From: Quentin Schulz <quentin.schulz@cherry.de>
 
-So this makes them optional by either reusing the amd PACKAGECONFIG or
-adding the new nouveau PACKAGECONFIG.
+It doesn't make much sense to always build the r300 AMD gallium LLVM
+driver as that's HW-specific.
 
-This shouldn't change anything for you except if you're building
-gallium-llvm drivers for non-x86/i686 machines and want those to be
-enabled, then you'll need to add amd or nouveau to your PACKAGECONFIG.
+Instead, let's guard it with the amd PACKAGECONFIG.
 
-Note: not tested
-Note: weirdly enough, the tegra PACKAGECONFIG enables both tegra and
-nouveau gallium drivers but not via the gallium-llvm PACKAGECONFIG, so
-I'm not sure nouveau is actually an llvm driver or if it is, that tegra
-PACKAGECONFIG actually works standalone.
+This will only disable R300 for target mesa on non-x86/i686 machines
+where gallium-llvm PACKAGECONFIG is selected but not amd, otherwise
+behavior is left unchanged.
 
 Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
-Quentin Schulz (2):
-      mesa: do not build r300 AMD gallium-llvm driver if not requested
-      mesa: do not build nouveau NVIDIA gallium-llvm driver if not requested
+ meta/recipes-graphics/mesa/mesa.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- meta/recipes-graphics/mesa/mesa.inc | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
----
-base-commit: aad1f72e157cb58b70de5943646de3543d8844da
-change-id: 20250612-mesa-pkgconfig-no-hardcode-llvm-0ea8eb10a583
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index b222e72fdddd7e17dfbefdb776eead027a216f2d..291124f29f5fe755abb327874129cc39d8c7d994 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -171,13 +171,14 @@ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'v3d', ',v3d', ''
+ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'zink', ',zink', '', d)}"
+ 
+ GALLIUMDRIVERS_ASAHI = "${@bb.utils.contains('PACKAGECONFIG', 'asahi libclc opencl', ',asahi', '', d)}"
++GALLIUMDRIVERS_AMD = "${@bb.utils.contains('PACKAGECONFIG', 'amd', ',r300', '', d)}"
+ GALLIUMDRIVERS_IRIS = "${@bb.utils.contains('PACKAGECONFIG', 'intel libclc', ',iris', '', d)}"
+ GALLIUMDRIVERS_RADEONSI = "${@bb.utils.contains('PACKAGECONFIG', 'amd', ',radeonsi', '', d)}"
+ GALLIUMDRIVERS_LLVMPIPE = ",llvmpipe"
+ # llvmpipe crashes on x32
+ GALLIUMDRIVERS_LLVMPIPE:x86-x32 = ""
+ GALLIUMDRIVERS_SVGA = "${@bb.utils.contains('PACKAGECONFIG', 'svga', ',svga', '', d)}"
+-GALLIUMDRIVERS_LLVM = ",r300,nouveau${GALLIUMDRIVERS_LLVMPIPE}${GALLIUMDRIVERS_ASAHI}${GALLIUMDRIVERS_IRIS}${GALLIUMDRIVERS_RADEONSI}${GALLIUMDRIVERS_SVGA}"
++GALLIUMDRIVERS_LLVM = ",nouveau${GALLIUMDRIVERS_LLVMPIPE}${GALLIUMDRIVERS_AMD}${GALLIUMDRIVERS_ASAHI}${GALLIUMDRIVERS_IRIS}${GALLIUMDRIVERS_RADEONSI}${GALLIUMDRIVERS_SVGA}"
+ 
+ PACKAGECONFIG[amd] = ""
+ PACKAGECONFIG[svga] = ""
 
-Best regards,
 -- 
-Quentin Schulz <quentin.schulz@cherry.de>
+2.49.0
 
 
