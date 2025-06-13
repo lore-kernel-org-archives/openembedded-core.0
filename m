@@ -1,222 +1,207 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9110C71148
-	for <webhook@archiver.kernel.org>; Fri, 13 Jun 2025 15:58:16 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.651.1749830288930032917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD9A8C71148
+	for <webhook@archiver.kernel.org>; Fri, 13 Jun 2025 16:24:06 +0000 (UTC)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+ by mx.groups.io with SMTP id smtpd.web11.1372.1749831838623081174
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Jun 2025 08:58:09 -0700
+ Fri, 13 Jun 2025 09:23:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hTC0qjfF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-450cfb790f7so17845435e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 08:58:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ioI5BVWV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.180, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-70f94fe1e40so37240187b3.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 09:23:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1749830287; x=1750435087; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=en7DIljVEZR5bs3htRn2ATbsA3cp2Vu4DZmi4fW6A4g=;
-        b=hTC0qjfFXfWAr6grda/VwtThMe3glvb4wx8sZ+b1oDECSFS2BbjmFeH/RxMyZ4Up4U
-         /q32/TxZ7buNTPUhBU3MpI+aQJmoFquj+I+DMdYIpJhZvm2jfAb3WqMGLlxEr+B8rMi2
-         xjlBBnCtmW0XtweaiKHYVS+AOHPprozWiv6Bk=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1749831838; x=1750436638; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QH5zooVJDa8RK4OcjcUjren6/FS0TiYoubQXvc3luUg=;
+        b=ioI5BVWV82nuXEhDtJJXBkXPDPs+Ep6mviV4jMcfnplF8SCZryp8NHjDbXc7/8aPo6
+         wAidog0kRsnPMNZztpzuQhQ9COidmUn1N5J7Hq+Qtf2imXBBW3koI7eZs8DvWOQx3Qj1
+         Q5db7j4lUpVFtU8n1UpmfHW3Iq+aXo0Z03d2EIu/tZF8OSC3ZhzYPGwMSnuEu3jnYykf
+         aytS8ZDinv1QQpuWGOFtgRYifKB8OGlyr6N79EEwqu7pL7vlOd3Y5NRpOg/FbIp/DAzS
+         zCtUKCDwG6DqAW74rqNSUzwSGoEYXsVge8pUS7DDjJMdDvDgpBdOCawUy7HQiNYKCbJf
+         hWBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749830287; x=1750435087;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=en7DIljVEZR5bs3htRn2ATbsA3cp2Vu4DZmi4fW6A4g=;
-        b=c+aaXZvfBqv+JhGfDixJai9WpIdLV/DAU98sunJhu63Jp1KPSMsj2VrWnMMbGPQYkj
-         7Z+dio2676ha2HApzRA84t9acNffx1+JfXCVPoKZds+CeyXMKGdCAJpof4/xxD0kWXDr
-         JD/Z2H5oh1aIAP4DS7gjjdnLBrz3xdne9XXAJh/G4yd9T6RSt8k8hvN+IGTaUQPBFM3L
-         vlfcvnO5NFN2GB9SO/9ClBEjn3vZwTjz7rw7mO9BNKGXO/iGno5f4TJE2+RzG6h2UHsb
-         T6P1y7gbvRuMQzGLM/FQc+HVGdCdp4iokEtbxDqK+JR2rSxiam0rRptSDbzWvONUzk2Z
-         kwHg==
-X-Gm-Message-State: AOJu0Yw5Hg6GyWGLbereGjac2FD1JUWOXjMUGcjc73p76SXTp8E8k3nQ
-	ZxvrqtQlbY/sHmNzTkqTWEa0b47qITLFNwR0VbrdQGrWj8ad/OnpzhWI0SJemn/MyUq2XpxvPKn
-	gZMyebBE=
-X-Gm-Gg: ASbGncvfAv+LGMCXn7rVeqUTWL25PGLUjpXO0loVbwtIdYfGKWeXmDm1nLL0GovHeNz
-	+WmhqQdxqy22UgIAwkhN7bkOTuD6he3s85yrd6zxfzbEYsPXVG7aad1Omi2tc16Ajk8e/u6/Aaz
-	RbJz2SpVQXJQ0NIU6HayRQPyfOhTiHLI0Y5dKzqwQ+ftgVNiEJsPppp1LYvRik8eRIE4ohpGFZL
-	jmqAm1k2NRVDP0iZ8b9E0u+naEf2zVm+QeVsH5Ot5/UeE3+G0LHEq//AGxn8gRQE7sXjkb8i0OS
-	RWo3cX7FhPdMNKZHYM6jlS/sjbLJkD2DejjtaKEeh8445HTlymDeOHV4GhI0nFw8qvUYXnqCmOu
-	SMWbnXOTyu8fPqCc=
-X-Google-Smtp-Source: AGHT+IHPv6QqlB0uZoWAOdfDUtmHYkgi+r/dgyaabM1QJ3Kgaxf4TyBnbfITl1DQuOLuPOod16M5Bg==
-X-Received: by 2002:a05:600c:a42:b0:453:608:a18b with SMTP id 5b1f17b1804b1-4533ca54d23mr1445535e9.9.1749830286599;
-        Fri, 13 Jun 2025 08:58:06 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3ba4:44fa:9d9b:3977])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e24420csm55250765e9.20.2025.06.13.08.58.03
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 08:58:04 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] lib/oe: Move vardepexclude entries alongside functions
-Date: Fri, 13 Jun 2025 16:58:02 +0100
-Message-ID: <20250613155802.1599801-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+        d=1e100.net; s=20230601; t=1749831838; x=1750436638;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QH5zooVJDa8RK4OcjcUjren6/FS0TiYoubQXvc3luUg=;
+        b=DA9gJXvEVaSJIYvFNCgn7hzl47SIik3gkEiABnxAWvo6gyB1/ALwjWm+oZi2U22kuh
+         kDJJLlmh/ihGkKDroEu7ciQVBR4Nlf3N0PUPx0+QnrZwSSRJrB3bxYsZe7uDbWm9CGqB
+         tI1nNOT94WJyJSG3YATYGgwVrDGWB6kJNZcY+pKt4DaaC1B+C1cULM/Dv8RTWJg6rN3m
+         L3vnr5J+59YQXiJOoDGsBFlkkuJkEabKw0NE+Xv9aK95bpj8pK1f3MZwkhvCKqhRY6SQ
+         o5yZuK+NDsHUCqNoE9roD8buTwNkEzLMX/OxmWeBw2shICsc8dxivANdZIJtdaVn3z03
+         Jk3Q==
+X-Gm-Message-State: AOJu0YwQ69hlQQjB4PRVesS7NTj+820sHYkI1hPxLyUpT+zxP21BvUVc
+	ulpwTmAoEB1SqE5o4El2ugnIoIE5W88l9aq9ixCL+h37qCsJsv+gGDMm7YT/CIGdFishDj8x67j
+	ZxLBo4LGWVRkfYewTAC//ciNrF0sZehw6kLm8Mr9Z+w==
+X-Gm-Gg: ASbGncsp0U+X0I8ATcQwesdIHHD26ZfjvkbKRQYpxuylaGK9ksKTU3Iyfz7S1fnAfwC
+	Tn2PFeUqD2s4KLuoSlTdDLZAhkrZVPQzVST7nTz56tiv0hhljWBzLV/1UojOtMlm9jitZkpU9no
+	9xzOUzX2r3XA3nP2ZuXRm8XfUUSwC61JiYBB/zbDLWVtXsXGBuv7SXGaCrKh9O8iXDz8sFjTBR8
+	qQ=
+X-Google-Smtp-Source: AGHT+IHkLfS5t3bSJtqBlgql5CJnzppCaD8bRJ5rARxZH9Gj/JJkoRCYDvbFYftVk4d669A2vpIHaLa2tFyDGu/YOUw=
+X-Received: by 2002:a05:690c:700b:b0:703:b47a:7312 with SMTP id
+ 00721157ae682-7117494035emr5623517b3.15.1749831837679; Fri, 13 Jun 2025
+ 09:23:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250613034352.175878-1-changqing.li@windriver.com>
+In-Reply-To: <20250613034352.175878-1-changqing.li@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 13 Jun 2025 09:23:46 -0700
+X-Gm-Features: AX0GCFusQQ8mPCLlXda41zS7xiLVDh1AoB8KAktl4u5nag-XscTx53--46ZjLIQ
+Message-ID: <CAOSpxdZwOjkN+OaHEzhv6qngpS+aGTx8OcdCWR9ewb9U5PSvfQ@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH 00/20] *** libsoup/libsoup-2.4: fix
+ CVEs ***
+To: changqing.li@windriver.com, Vijay Anusuri <vanusuri@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 15:58:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218616
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 16:24:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218617
 
-Now we have decorators that can do this, move the variable dependencies
-exclusions alongside the code that needs them for maintainability.
+Hi Vijay and Changqing,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/bitbake.conf     | 8 --------
- meta/lib/oe/package.py     | 3 +++
- meta/lib/oe/packagedata.py | 3 +++
- meta/lib/oe/path.py        | 3 +++
- meta/lib/oe/sstatesig.py   | 2 ++
- meta/lib/oe/utils.py       | 5 ++++-
- 6 files changed, 15 insertions(+), 9 deletions(-)
+Seems you sent similar patch series at just about the same time!
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f085a0f7475..54d6bebc39f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -986,11 +986,3 @@ MULTILIB_VARIANTS ??= ""
- # support unihashes.
- BB_UNIHASH ?= "${BB_TASKHASH}"
- 
--oe.sstatesig.find_sstate_manifest[vardepsexclude] = "BBEXTENDCURR BBEXTENDVARIANT OVERRIDES PACKAGE_EXTRA_ARCHS"
--oe.utils.get_multilib_datastore[vardepsexclude] = "DEFAULTTUNE_MULTILIB_ORIGINAL OVERRIDES"
--oe.path.format_display[vardepsexclude] = "TOPDIR"
--oe.utils.get_bb_number_threads[vardepsexclude] = "BB_NUMBER_THREADS"
--oe.package.save_debugsources_info[vardepsexclude] = "BB_NUMBER_THREADS"
--oe.package.read_debugsources_info[vardepsexclude] = "BB_NUMBER_THREADS"
--oe.packagedata.emit_pkgdata[vardepsexclude] = "BB_NUMBER_THREADS"
--oe.packagedata.read_subpkgdata_extended[vardepsexclude] = "BB_NUMBER_THREADS"
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index 60392cbcedb..ce69151e5d3 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -16,6 +16,7 @@ import mmap
- import subprocess
- import shutil
- 
-+import bb.parse
- import oe.cachedpath
- 
- def runstrip(file, elftype, strip, extra_strip_sections=''):
-@@ -1049,6 +1050,7 @@ def copydebugsources(debugsrcdir, sources, d):
-             if os.path.exists(p) and not os.listdir(p):
-                 os.rmdir(p)
- 
-+@bb.parse.vardepsexclude("BB_NUMBER_THREADS")
- def save_debugsources_info(debugsrcdir, sources_raw, d):
-     import json
-     import bb.compress.zstd
-@@ -1081,6 +1083,7 @@ def save_debugsources_info(debugsrcdir, sources_raw, d):
-         with bb.compress.zstd.open(debugsources_file, "wt", encoding="utf-8", num_threads=num_threads) as f:
-             json.dump(sources_dict, f, sort_keys=True)
- 
-+@bb.parse.vardepsexclude("BB_NUMBER_THREADS")
- def read_debugsources_info(d):
-     import json
-     import bb.compress.zstd
-diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
-index 2d1d6ddeb75..b6a10a930a5 100644
---- a/meta/lib/oe/packagedata.py
-+++ b/meta/lib/oe/packagedata.py
-@@ -7,6 +7,7 @@
- import codecs
- import os
- import json
-+import bb.parse
- import bb.compress.zstd
- import oe.path
- 
-@@ -64,6 +65,7 @@ def read_subpkgdata_dict(pkg, d):
-         ret[newvar] = subd[var]
-     return ret
- 
-+@bb.parse.vardepsexclude("BB_NUMBER_THREADS")
- def read_subpkgdata_extended(pkg, d):
-     import json
-     import bb.compress.zstd
-@@ -182,6 +184,7 @@ def runtime_mapping_rename(varname, pkg, d):
- 
-     #bb.note("%s after: %s" % (varname, d.getVar(varname)))
- 
-+@bb.parse.vardepsexclude("BB_NUMBER_THREADS")
- def emit_pkgdata(pkgfiles, d):
-     def process_postinst_on_target(pkg, mlprefix):
-         pkgval = d.getVar('PKG:%s' % pkg)
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 5d21cdcbdff..a1efe97d881 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -10,6 +10,8 @@ import shutil
- import subprocess
- import os.path
- 
-+import bb.parse
-+
- def join(*paths):
-     """Like os.path.join but doesn't treat absolute RHS specially"""
-     return os.path.normpath("/".join(paths))
-@@ -77,6 +79,7 @@ def replace_absolute_symlinks(basedir, d):
-             os.remove(path)
-             os.symlink(base, path)
- 
-+@bb.parse.vardepsexclude("TOPDIR")
- def format_display(path, metadata):
-     """ Prepare a path for display to the user. """
-     rel = relative(metadata.getVar("TOPDIR"), path)
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 826549948e2..ef687f5d417 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -3,6 +3,7 @@
- #
- # SPDX-License-Identifier: GPL-2.0-only
- #
-+import bb.parse
- import bb.siggen
- import bb.runqueue
- import oe
-@@ -493,6 +494,7 @@ def sstate_get_manifest_filename(task, d):
-         d2.setVar("SSTATE_MANMACH", extrainf)
-     return (d2.expand("${SSTATE_MANFILEPREFIX}.%s" % task), d2)
- 
-+@bb.parse.vardepsexclude("BBEXTENDCURR", "BBEXTENDVARIANT", "OVERRIDES", "PACKAGE_EXTRA_ARCHS")
- def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
-     d2 = d
-     variant = ''
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index d272dd2b8da..a11db5f3cd9 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -9,6 +9,8 @@ import multiprocessing
- import traceback
- import errno
- 
-+import bb.parse
-+
- def read_file(filename):
-     try:
-         f = open( filename, "r" )
-@@ -265,6 +267,7 @@ def execute_pre_post_process(d, cmds):
-         bb.note("Executing %s ..." % cmd)
-         bb.build.exec_func(cmd, d)
- 
-+@bb.parse.vardepsexclude("BB_NUMBER_THREADS")
- def get_bb_number_threads(d):
-     return int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
- 
-@@ -467,7 +470,7 @@ def host_gcc_version(d, taskcontextonly=False):
-     version = match.group(1)
-     return "-%s" % version if version in ("4.8", "4.9") else ""
- 
--
-+@bb.parse.vardepsexclude("DEFAULTTUNE_MULTILIB_ORIGINAL", "OVERRIDES")
- def get_multilib_datastore(variant, d):
-     localdata = bb.data.createCopy(d)
-     if variant:
+There is a good deal of overlap, but each contains some that the other lack=
+s.
+
+Also, Changqing's has a conflict in "libsoup-2.4: fix do_compile
+failure" with a patch currently in kirkstone: "libsoup-2.4: Backport
+auth tests for CVE-2025-32910"
+
+Could you please work together to decide which I should take and
+submit a new series?
+
+Thanks!
+
+Steve
+
+On Thu, Jun 12, 2025 at 8:43=E2=80=AFPM Changqing Li via
+lists.openembedded.org
+<changqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Changqing Li <changqing.li@windriver.com>
+>
+> Backport several CVE fixes from branch scarthgap, cherry picked from
+> poky-contrib: stable/scarthgap-nut,  and do some changes accordingly.
+>
+> Ashish Sharma (1):
+>   libsoup: patch CVE-2025-4476
+>
+> Changqing Li (17):
+>   libsoup-2.4: fix CVE-2025-32907
+>   libsoup-2.4: fix CVE-2025-32053
+>   libsoup-2.4: fix CVE-2025-32052
+>   libsoup-2.4: fix CVE-2025-32050
+>   libsoup-2.4: fix CVE-2025-46421
+>   libsoup-2.4: fix CVE-2025-4948
+>   libsoup-2.4: fix CVE-2025-4476
+>   libsoup-2.4: fix CVE-2025-2784
+>   libsoup-2.4: fix do_compile failure
+>   libsoup: fix CVE-2025-32907
+>   libsoup: fix CVE-2025-32053
+>   libsoup: fix CVE-2025-32052
+>   libsoup: fix CVE-2025-32051
+>   libsoup: fix CVE-2025-32050
+>   libsoup: fix CVE-2025-46421
+>   libsoup: fix CVE-2025-4948
+>   libsoup: fix CVE-2025-2784
+>
+> Hitendra Prajapati (2):
+>   libsoup-2.4: Fix CVE-2025-4969
+>   libsoup: Fix CVE-2025-4969
+>
+>  .../libsoup/libsoup-2.4/CVE-2025-2784.patch   |  56 +++++
+>  .../libsoup/libsoup-2.4/CVE-2025-32050.patch  |  29 +++
+>  .../libsoup/libsoup-2.4/CVE-2025-32052.patch  |  32 +++
+>  .../libsoup/libsoup-2.4/CVE-2025-32053.patch  |  39 ++++
+>  .../libsoup/libsoup-2.4/CVE-2025-32907.patch  |  39 ++++
+>  .../libsoup-2.4/CVE-2025-32910-1.patch        |  79 +------
+>  .../libsoup-2.4/CVE-2025-32910-2.patch        |  60 +-----
+>  .../libsoup-2.4/CVE-2025-32912-1.patch        |  20 +-
+>  .../libsoup/libsoup-2.4/CVE-2025-4476.patch   |  38 ++++
+>  .../libsoup/libsoup-2.4/CVE-2025-46421.patch  |  47 ++++
+>  .../libsoup/libsoup-2.4/CVE-2025-4948.patch   |  38 ++++
+>  .../libsoup/libsoup-2.4/CVE-2025-4969.patch   |  76 +++++++
+>  .../libsoup/libsoup-2.4_2.74.2.bb             |   9 +
+>  .../libsoup/libsoup/CVE-2025-2784.patch       | 137 ++++++++++++
+>  .../libsoup/libsoup/CVE-2025-32050.patch      |  29 +++
+>  .../libsoup/libsoup/CVE-2025-32051-1.patch    |  29 +++
+>  .../libsoup/libsoup/CVE-2025-32051-2.patch    |  57 +++++
+>  .../libsoup/libsoup/CVE-2025-32052.patch      |  31 +++
+>  .../libsoup/libsoup/CVE-2025-32053.patch      |  40 ++++
+>  .../libsoup/libsoup/CVE-2025-32907-1.patch    | 200 ++++++++++++++++++
+>  .../libsoup/libsoup/CVE-2025-32907-2.patch    |  68 ++++++
+>  .../libsoup/libsoup/CVE-2025-4476.patch       |  38 ++++
+>  .../libsoup/libsoup/CVE-2025-46421.patch      | 139 ++++++++++++
+>  .../libsoup/libsoup/CVE-2025-4948.patch       |  97 +++++++++
+>  .../libsoup/libsoup/CVE-2025-4969.patch       |  76 +++++++
+>  meta/recipes-support/libsoup/libsoup_3.0.7.bb |  12 ++
+>  26 files changed, 1380 insertions(+), 135 deletions(-)
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-278=
+4.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-320=
+50.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-320=
+52.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-320=
+53.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-329=
+07.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-447=
+6.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-464=
+21.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-494=
+8.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-496=
+9.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-2784.pa=
+tch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-32050.p=
+atch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-32051-1=
+.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-32051-2=
+.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-32052.p=
+atch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-32053.p=
+atch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-32907-1=
+.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-32907-2=
+.patch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-4476.pa=
+tch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-46421.p=
+atch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-4948.pa=
+tch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-4969.pa=
+tch
+>
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#218553): https://lists.openembedded.org/g/openembedde=
+d-core/message/218553
+> Mute This Topic: https://lists.openembedded.org/mt/113619132/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
