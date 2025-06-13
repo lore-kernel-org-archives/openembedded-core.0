@@ -1,136 +1,111 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40B85C71151
-	for <webhook@archiver.kernel.org>; Fri, 13 Jun 2025 12:04:11 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.8733.1749816249610075298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 541B4C61DB2
+	for <webhook@archiver.kernel.org>; Fri, 13 Jun 2025 12:32:41 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.9255.1749817957561432596
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Jun 2025 05:04:09 -0700
+ Fri, 13 Jun 2025 05:32:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=KJLDjwrm;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55D8IwTf026067
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 12:04:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=SF/2SxdgCVJ
-	hFVdyXueN66J/zGhkwBQ48ktSk4pZ5jo=; b=KJLDjwrmLuLV+NOTHFYRy9dYrhn
-	hrUhZ9Azb61uIJ0B8qqaXzgXFZSU7k/IXux97LQVvypdRHH23jY/B0x7rpWex+zN
-	L8RDVedGpFjjnnWxvaMnYcJo8ApV+inxl0/5QLsp5nZXjtH5koIFOD9HC4P+v7BV
-	r3BmC2XOE6vXzXd/MAk3NkBeUn83/CPMIHPDycE1R5C2lt3EBnutHzyM/j/fB3bP
-	mGxsPfoHD3oDXFKyXJcd+m+XzWC8ANQ/5gF4GsRUdJGnbApT8+FB3leiQgftkndi
-	Re3TAS/qml66on1Gm1dsBrWcjntd5OGJg+GKymKFEGVspatYfVdjJ/iVSLw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 475v2ye8rg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 12:04:09 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7d097fd7b32so489005185a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 05:04:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UOCVhiFW;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ad8a8da2376so347575266b.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 05:32:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749817956; x=1750422756; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yw5DbNSVRrH4XJgpRmyivfhh4yMbmzHe5yNIJuBRkfw=;
+        b=UOCVhiFWIJwABNilcv4ci3jQtx3mwAk/a3fu9PHLuNr2FySh9g5JOKcw5frjGxwXw8
+         tngkUSbN5Ks4gwaPhNzySlWE1fcv3Fqc0s1aE+Ml13Yc1j6r7sxCOG38xMay0DOLvgPL
+         xTe+6G8o0diyPngGDdZMSXFaBJCZ+hhD3oQA+kJP2SDhwh5W1mznTdQf47TjMW/2zjYU
+         BrRTERBYqCPHSUfQGnYs0PTMNBdKFsTh+vZh1+5EppOK7qriHIjayWWJ3EwkdGsEZAKT
+         uEhl0+O0ciyxLu1auMCVZHsEuOC1NWKLo39u1lDozjwNt6NFY2pol2t2+D8NqVW7vfed
+         qK9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749816248; x=1750421048;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SF/2SxdgCVJhFVdyXueN66J/zGhkwBQ48ktSk4pZ5jo=;
-        b=hJZGyEzNRsT9SNwgy3vTX5NF2zO4cVM5MwyljkwGvqfsocWGRaP1G4QC+OfTDNB/E7
-         8K/GPWOQWTPc52VG+qFzPZIG7wucnk8WDQ3MA6n0pweed1ivp6ZsZOkOCvl7nY4mgJLd
-         4nwKBkzi277wsyzOJ/2Yx3K7l4iWJCZdPg9dK1NZE2FBBRkiuC6B7CAvFf8Axr5r240w
-         DywuZg5AIDuL//fJENQO7ol0DrzuAb+HTwohD0w0JSgmU1xRkgEWG6iVA+fmDnCgz8o0
-         Lo9cPhI278uzHPfWW2toNltfourdn+U8/MsDWDBDYKr9UMBe8RBonlCwoA5pKyaJKAWc
-         iBJw==
-X-Gm-Message-State: AOJu0YyZycNhL3R8s5KmeWoe2IESB6bwnsKcAYfJ/WyNCwI/NCKi7U53
-	vPmufajF+6pEjpEqxuVDVpSWGLJtnzlHcUFYSagrdbz/Rf8M/99EB+9iLryUjWqAmbPZC5Hl3gR
-	LL6b0ippucfED/wpWgmMxcxkQ5JgwretsxbqT9oOwQxGNMF0E0NLeDcRP8klBADyAQhI1ViYm7A
-	7m7Pg0jTWCWmf8E5L8zg==
-X-Gm-Gg: ASbGncvVMvmmGpefQE5RgqxPXw0MAbF3mXCJ0BObQELnSVyFBrN2NR3jrej8XHsnOLY
-	nQgydwxGqKE1iip/tlW3Za/OjoNSHlPCHYtSIJpkIRlSRMa2jbrwJTKYiO6Uz1NL/ZHSUADQx/N
-	flAK2KNskgEOyxUd7BqkGKW5yFAw0928V38gsktzBhwXQLvixDrktMPlIZ0A3IoYRKXEBA05WGW
-	Cn+b/DT57M91uxi13FEtinLwODc8BGx9Now3ev17+2Zoih6Kp+MAHb8fuBNbZq0VBv1LkYFMlV5
-	0lf3IvtuxiC270wUCWcJ09eJQ4+x7olG+dKKoEBPtxaAtjd6Husz9DLIQP/9fueG3jSEM54ORBc
-	IOockKFG0sf0st7U0EMOpXJVVxLtbtPvayJk=
-X-Received: by 2002:a05:620a:6008:b0:7d2:28c7:7795 with SMTP id af79cd13be357-7d3bc447521mr488793785a.35.1749816247616;
-        Fri, 13 Jun 2025 05:04:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG6lbUSzZlIHLDE7brAobwvoxbIiCmz5PofOxJ2lNhIpGYhzW7dCbPKEyMudj+7d00eYvS6Sw==
-X-Received: by 2002:a05:620a:6008:b0:7d2:28c7:7795 with SMTP id af79cd13be357-7d3bc447521mr488734085a.35.1749816242166;
-        Fri, 13 Jun 2025 05:04:02 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac11ff5dsm422913e87.31.2025.06.13.05.04.00
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 05:04:01 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/3] default-providers: fix GLVND providers to be selected at runtime
-Date: Fri, 13 Jun 2025 15:03:57 +0300
-Message-Id: <20250613120358.2011626-2-dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250613120358.2011626-1-dmitry.baryshkov@oss.qualcomm.com>
-References: <20250613120358.2011626-1-dmitry.baryshkov@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1749817956; x=1750422756;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yw5DbNSVRrH4XJgpRmyivfhh4yMbmzHe5yNIJuBRkfw=;
+        b=XTgJ0/JZZC9gZkqTTszFLyd1UBSacQe2099Snotv5OGX5JL3/KqEDoiV3uzgtsOln8
+         pkY+PKaGFYf3gqmgw6a8pru2hzpBoLBzdWOcjzMqvzItsrpocoBOnqHLcPELKX0yz+3s
+         663wg7XtXcODKLL68lNKM9B1BKFMEySl5046hChzisdillzjFYsehYXgryfbMgDjFMlD
+         YWbeUrCZESAFIdTaDEe3CM9myeQ2E2eR8vn/qsarGinwHFwEAh6+V1yDaepfTOgGDpbn
+         fucrb3kPelE8enHipp4pcTnEiMMZEFyFaWJbuACA5dacwrj6UGtgeocQ7XNbsk9HzODI
+         +SqA==
+X-Gm-Message-State: AOJu0YyI4DiE3GOr+Lo9VBLLlWCgYVo9ZLo92y/nGwlESoL1ptxKfJ3F
+	5rXUvPZm02kSxjka3C2ILLgxKUer7l1LR4m7duSqyRLmeG2FbTiY7MZp
+X-Gm-Gg: ASbGncv8x0HBsrisMVFLvow6X/DU7fuO/tfLIN+2aVtt5RpP2dW2PgmhIAQJK1CiV/C
+	wg0wfi2e+zprmlmq+bJPOoyzU1xnCTs5GEeA89L1G2wfsgn8J28RuC7Tn/OMjZvuJ6b4gObc7/H
+	vnJXnW2eCKynEBwjRoLK8YSuJRMLDUkuD8t1LcR05hd/GyFcyNhIVAOLPq1V3M8mcfH4wjXNWMy
+	NuStmBMOkzJvolXEw9UYSzqpbYXM4y+arTUDpwVbskJgkSsoAhw3Um97lJi4jcROJmrSxN/fxkd
+	Px0xB366+3c7zn9O2gL4WunDJWkQokNZ/HefpgcE4p2TdQM4SsEOpoznYCkmgAzTMYvl7KHA1BB
+	4bcdU
+X-Google-Smtp-Source: AGHT+IEUcCSSsxnb7faUDiEM3pXKC7xzvmx76MA0sbjMNSWpuqWmWnpGA0POODuuCuMuEPeYu0jSYg==
+X-Received: by 2002:a17:907:d27:b0:ad8:96d2:f42 with SMTP id a640c23a62f3a-adec5c3e53dmr300935566b.36.1749817955553;
+        Fri, 13 Jun 2025 05:32:35 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec81c6b64sm123887766b.65.2025.06.13.05.32.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Jun 2025 05:32:35 -0700 (PDT)
+Message-ID: <a75d2071-2b1e-4322-b4e9-8a17ed913683@gmail.com>
+Date: Fri, 13 Jun 2025 14:32:33 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEzMDA4NyBTYWx0ZWRfX78y8CbAXYRYG
- nIsphaYot1SCv9XZPr35fIKTAAEFRCHofxJSs4iBMGyBxvFoEzCfkH8zEJ2Z0k1bfLaKBkbBmaf
- 853EZlzwiha2Vgu4W61cXbWK7BIq2s2AgPZRtEqC/E+O+OX42yjP4ieqZ/y0bcFNPNazAbQuwq9
- X3i114qVjri0ZCkn/2dYFTSB4SL+NmsVLI/Lspoyb91UcrU+6HAOIRRz8AHB6wr7dg9cawleY71
- Eix83eYtZwnZc99nV7/GUi2eq4dJDDimPe+HoXRORpc3v45KBwnB5Ff0enj2JwjaYjFV0dcwORg
- Lub4x/fCr3eRT7xcmYPqM/Wz1Q+fOwRi1IDfPO9wvF3wJKqFduCR0Pk9yCrjQ0M08AJr5N3arDv
- qI1OQw6Y5XKzn528SMEMRcVkqBioJSpY7Wldw4+2P/dS95BHXJY4fjVl+VytiSOINHREftmI
-X-Proofpoint-GUID: d2yFUItvdfInQCFq-hO-rSb1XatKFOYf
-X-Proofpoint-ORIG-GUID: d2yFUItvdfInQCFq-hO-rSb1XatKFOYf
-X-Authority-Analysis: v=2.4 cv=f+BIBPyM c=1 sm=1 tr=0 ts=684c13b9 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
- a=EUspDBNiAAAA:8 a=FpLzd-OWU6oQ4w_CiacA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-13_01,2025-06-12_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 mlxlogscore=934 bulkscore=0 impostorscore=0
- lowpriorityscore=0 priorityscore=1501 adultscore=0 phishscore=0 mlxscore=0
- malwarescore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506130087
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [RFC PATCH 1/9] bitbake.conf: set
+ BB_GIT_DEFAULT_DESTSUFFIX to match default S value
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Alexander Kanavin <alex@linutronix.de>
+References: <20250610094400.1653931-1-alex.kanavin@gmail.com>
+ <9708ea34-8a8c-4704-951c-d4e8b0973fc7@gmail.com>
+ <CANNYZj-hVH+RgfGYVekiCNnGU5-rNJmWp-XZZKx+g_a4Tb=7JA@mail.gmail.com>
+ <18489765F96109C1.12911@lists.openembedded.org>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <18489765F96109C1.12911@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 12:04:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218598
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 12:32:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218599
 
-The virtual-{libegl,libglx}-icd names are RPROVIDES, not PROVIDES,
-because they are a runtime dependency of libglvnd. Make
-default-providers follow that and specify PREFERRED_RPROVIDER instead of
-PREFERRED_PROVIDER for those names.
+On 6/13/25 13:41, Gyorgy Sarvari via lists.openembedded.org wrote:
+> On 6/13/25 13:25, Alexander Kanavin wrote:
+>> On Wed, 11 Jun 2025 at 20:35, Gyorgy Sarvari <skandigraun@gmail.com> wrote:
+>>> Possibly the recipes would need more modifications than this, especially
+>>> the ones using default ${S} (maybe?).
+>>>
+>>> I tried to apply it on the current master and build some base recipes in
+>>> a clean build dir. I tried to build git recipe (was curious how it
+>>> behaves). First gnu-config-native failed to install, as it couldn't find
+>>> some files due to the move. I fixed that, but right after pkgconfig and
+>>> binutils failed to patch - the src is in .../sources/git folder, but it
+>>> is trying to patch in .../sources/${PN}-${PV}.
+>>>
+>>> Or am I missing something?
+>> I just realized: did you take the necessary bitbake patch?
+>>
+>> https://patchwork.yoctoproject.org/project/bitbake/patch/20250610094334.1653567-1-alex.kanavin@gmail.com/
+> Hmmm.... quite possibly no, I grabbed only this series. Let me give it a go.
 
-Fixes: 9d3b4c9bc403 ("mesa: sort out PROVIDES for the glvnd case")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- meta/conf/distro/include/default-providers.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Yup, thank you, that was it, mystery solved.
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 4f094163546c..274ad0c4f630 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -7,9 +7,7 @@ PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
- PREFERRED_PROVIDER_virtual/libsdl2 ?= "libsdl2"
- PREFERRED_PROVIDER_virtual/libsdl2-native ?= "libsdl2-native"
- PREFERRED_PROVIDER_virtual/egl ?= "mesa"
--PREFERRED_PROVIDER_virtual/libegl-icd ?= "mesa"
- PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
--PREFERRED_PROVIDER_virtual/libglx-icd ?= "mesa"
- PREFERRED_PROVIDER_virtual/libgl-native ?= "mesa-native"
- PREFERRED_PROVIDER_virtual/nativesdk-libgl ?= "nativesdk-mesa"
- PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
-@@ -68,4 +66,6 @@ PREFERRED_RPROVIDER_initd-functions ?= "initscripts"
- PREFERRED_PROVIDER_nativesdk-mesa ?= "nativesdk-mesa"
- PREFERRED_PROVIDER_virtual/nativesdk-libsdl2 ?= "nativesdk-libsdl2"
- 
-+PREFERRED_RPROVIDER_virtual-libegl-icd ?= "mesa"
-+PREFERRED_RPROVIDER_virtual-libglx-icd ?= "mesa"
- PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?= "rxvt-unicode"
--- 
-2.39.5
+>> Alex
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#218591): https://lists.openembedded.org/g/openembedded-core/message/218591
+> Mute This Topic: https://lists.openembedded.org/mt/113566716/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
