@@ -1,231 +1,480 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79D86C61DB2
-	for <webhook@archiver.kernel.org>; Fri, 13 Jun 2025 03:44:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00020C61DB2
+	for <webhook@archiver.kernel.org>; Fri, 13 Jun 2025 05:01:17 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.1725.1749786257703652637
+ by mx.groups.io with SMTP id smtpd.web10.2909.1749790874896169820
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Jun 2025 20:44:17 -0700
+ Thu, 12 Jun 2025 22:01:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8259073970=changqing.li@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55D3OHJm017774
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 20:44:17 -0700
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=82598fc9cb=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55D4cvRQ024970
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 22:01:14 -0700
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 474mxm66y1-14
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 474gq46d08-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 20:44:16 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Jun 2025 22:01:13 -0700 (PDT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Thu, 12 Jun 2025 20:44:14 -0700
-Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
+ 15.1.2507.43; Thu, 12 Jun 2025 22:01:13 -0700
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.57 via Frontend Transport; Thu, 12 Jun 2025 20:44:13 -0700
-From: <changqing.li@windriver.com>
+ 15.1.2507.57 via Frontend Transport; Thu, 12 Jun 2025 22:01:13 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH 20/20] libsoup: fix CVE-2025-2784
-Date: Fri, 13 Jun 2025 11:43:52 +0800
-Message-ID: <20250613034352.175878-21-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250613034352.175878-1-changqing.li@windriver.com>
-References: <20250613034352.175878-1-changqing.li@windriver.com>
+Subject: [PATCH] ovmf: fix CVE-2024-38797
+Date: Thu, 12 Jun 2025 22:01:13 -0700
+Message-ID: <20250613050113.3022522-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Proofpoint-GUID: dlCicCkxzgZnhKBqFDj3nmnWYSCBMEe3
-X-Authority-Analysis: v=2.4 cv=L74dQ/T8 c=1 sm=1 tr=0 ts=684b9e91 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=6IFa9wvqVegA:10 a=GHR8O2WEAAAA:20 a=QIhr-27iAAAA:8 a=SSmOFEACAAAA:8 a=L3Y5zZzAAAAA:8 a=t7CeM3EgAAAA:8 a=_enOPnqeAAAA:8
- a=V2sgnzSHAAAA:8 a=1WiJ8EELnH8tvs35IkwA:9 a=cgaYBWEFosGJW4rWv5Lf:22 a=FdTzh2GWekK77mhwV6Dw:22 a=XAbD3I9PDrnSMThV5XoS:22 a=Z31ocT7rh6aUJxSkT1EX:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEzMDAyNiBTYWx0ZWRfXwGDeXX6NriQk gz7Yhxw49KhTYTCoQ+Qi/gsp7+RZi6qAhZKB+xNGfkxsCA+musX6MXjMdOaJ8p95x6Us5oNi49S gKYX0jNeC1H2gNH/X/1q3brbkMJ0soZVCKTzNGSN155l6Q3diqr7UG5a7CQMgrftRzoYZ7EKV3Y
- sFL8qi8K69hSTNZ33BGI1jfg1OoHyaAptXw3pZE4igVL34mTejPG9it1iXroeZhmrc+QFP0Ribc 21U1FFBiNECmublPxyucBIDnlGFzqwNPgMRDFZaCv57tAOzrcEs6MOEa/wMWu8iRMgUhXq78JFR s7h4tFE1Kgf6aZwiGgl97U4SbTCE0TgHcbDSSX4dJVMIFVbR9lcbbYOemPS9UMpFCk1Y5UeirfC
- ttP1ktomg8jQiFOA+aQtJ6hdSyi5bQfJ5ddPMyGtnP1UtF7R+QwW+vmyI5KDA9IIa3ibfhic
-X-Proofpoint-ORIG-GUID: dlCicCkxzgZnhKBqFDj3nmnWYSCBMEe3
+X-Authority-Analysis: v=2.4 cv=Qrde3Uyd c=1 sm=1 tr=0 ts=684bb09a cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=6IFa9wvqVegA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=t7CeM3EgAAAA:8 a=yMhMjlubAAAA:8 a=QyXUC8HyAAAA:8
+ a=RkDKFArEn3lLgLxa9W0A:9 a=MRw_IcwRwWj9AOZ2:21 a=bkWp_v3HvcftT6DRAIDL:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: OXm5hmEiyKnZyz2k1vkJrBlndwbEJ-Q1
+X-Proofpoint-ORIG-GUID: OXm5hmEiyKnZyz2k1vkJrBlndwbEJ-Q1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEzMDAzNSBTYWx0ZWRfX/v6N6KY4CH3P 0RZJF/QOo6fiHlX7uyccF35gXqAVHp/TsYGDLRdvqrhbZEdtG0nfw+ZeRye7jqfWk8S18LeOpVH vcSTEN7cwGKP3uGs6lni+c7Ypgbb9pzw0ElonRNVLGqlPGm6NX4fAq8GoL9znsM8QKEQXXNUADq
+ Q2MWFsysfJVFv8yp0ZiM1mpe68rbzi4vCPItM8PcmpFv5vELlQV+hBiMTmfv2Fwf3JUkAoUss4q HE0w704WXjsGguoVmqpcn4KgglCjXefeq6jprCD5QEDDZ9oH0tDIoGPK18EW6Lrax37AJcsAhei F8G4C2jkj5VCyIUEJyJKzdftQGYJecGZIdDAcudQVZbMkVsoNMGOJT8mrhs2/rCq/0ZuUnbXSil
+ pBglYTV/Jf6lP42gJIozvR+OSr7AB0yrgMkbFFfC5wOrmFBosYb2tf96oYoIEx9SFIDR0/XB
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-12_10,2025-06-12_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 mlxlogscore=949 adultscore=0 spamscore=0 suspectscore=0
- mlxscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 phishscore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506130026
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ suspectscore=0 impostorscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999
+ spamscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2506130035
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 03:44:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218573
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 05:01:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218574
 
-From: Changqing Li <changqing.li@windriver.com>
+According to [1]:
 
-Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/issues/422
+EDK2 contains a vulnerability in the HashPeImageByType(). A user may cause =
+a read out of
+bounds when a corrupted data pointer and length are sent via an adjecent ne=
+twork.
+A successful exploit of this vulnerability may lead to a loss of Integrity =
+and/or
+Availability.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Backport fixes from upstream edk2 [2][3]
+
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-38797
+[2] https://github.com/tianocore/edk2/security/advisories/GHSA-4wjw-6xmf-44=
+xf
+[3] https://github.com/tianocore/edk2/pull/10928
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../libsoup/libsoup/CVE-2025-2784.patch       | 137 ++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.0.7.bb |   1 +
- 2 files changed, 138 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-2784.patch
+ .../ovmf/ovmf/CVE-2024-38797-1.patch          | 43 ++++++++
+ .../ovmf/ovmf/CVE-2024-38797-2.patch          | 63 ++++++++++++
+ .../ovmf/ovmf/CVE-2024-38797-3.patch          | 99 +++++++++++++++++++
+ .../ovmf/ovmf/CVE-2024-38797-4.patch          | 97 ++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |  4 +
+ 5 files changed, 306 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2024-38797-1.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2024-38797-2.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2024-38797-3.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2024-38797-4.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2025-2784.patch b/meta/recipes-support/libsoup/libsoup/CVE-2025-2784.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2024-38797-1.patch b/meta/reci=
+pes-core/ovmf/ovmf/CVE-2024-38797-1.patch
 new file mode 100644
-index 0000000000..a106355fea
+index 0000000000..066dfa0ff0
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2025-2784.patch
-@@ -0,0 +1,137 @@
-+From eccf5de94afbd32acd78c00c685b30cfa0f44fe4 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 5 Feb 2025 14:39:42 -0600
-+Subject: [PATCH] Fix CVE-2025-2784
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2024-38797-1.patch
+@@ -0,0 +1,43 @@
++From 2c8fb3e5164effc8a370e800fe91db7341e69116 Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Mon, 7 Apr 2025 11:23:41 -0700
++Subject: [PATCH 1/4] SecurityPkg: Update SecurityFixes.yaml for CVE-2024-3=
+8797
 +
-+CVE: CVE-2025-2784
-+Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/435/diffs?commit_id=242a10fbb12dbdc12d254bd8fc8669a0ac055304
-+https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/442/diffs?commit_id=c415ad0b6771992e66c70edf373566c6e247089d]
++This commit updates the SecurityFixes.yaml file to include
++information about the CVE-2024-38797 vulnerability.
 +
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Signed-off-by: Doug Flick <DougFlick@microsoft.com>
++
++CVE: CVE-2024-38797
++Upstream-Status: Backport [https://github.com/tianocore/edk2/pull/10928/co=
+mmits/519366f542e9370bee982b1c3687ffedb5cabc21]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ .../content-sniffer/soup-content-sniffer.c    | 10 ++--
-+ tests/meson.build                             |  4 +-
-+ tests/sniffing-test.c                         | 48 +++++++++++++++++++
-+ 3 files changed, 56 insertions(+), 6 deletions(-)
++ SecurityPkg/SecurityFixes.yaml | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
 +
-+diff --git a/libsoup/content-sniffer/soup-content-sniffer.c b/libsoup/content-sniffer/soup-content-sniffer.c
-+index 6ca9cc9..3d0e831 100644
-+--- a/libsoup/content-sniffer/soup-content-sniffer.c
-++++ b/libsoup/content-sniffer/soup-content-sniffer.c
-+@@ -635,8 +635,11 @@ sniff_text_or_binary (SoupContentSniffer *sniffer, GBytes *buffer)
-+ }
-+ 
-+ static gboolean
-+-skip_insignificant_space (const char *resource, int *pos, int resource_length)
-++skip_insignificant_space (const char *resource, gsize *pos, gsize resource_length)
-+ {
-++        if (*pos >= resource_length)
-++	        return TRUE;
-++
-+ 	while ((resource[*pos] == '\x09') ||
-+ 	       (resource[*pos] == '\x20') ||
-+ 	       (resource[*pos] == '\x0A') ||
-+@@ -656,7 +659,7 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, GBytes *buffer)
-+ 	gsize resource_length;
-+ 	const char *resource = g_bytes_get_data (buffer, &resource_length);
-+ 	resource_length = MIN (512, resource_length);
-+-	int pos = 0;
-++	gsize pos = 0;
-+ 
-+ 	if (resource_length < 3)
-+ 		goto text_html;
-+@@ -666,9 +669,6 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, GBytes *buffer)
-+ 		pos = 3;
-+ 
-+  look_for_tag:
-+-	if (pos > resource_length)
-+-		goto text_html;
-+-
-+ 	if (skip_insignificant_space (resource, &pos, resource_length))
-+ 		goto text_html;
-+ 
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 164094e..2919eef 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -93,7 +93,9 @@ tests = [
-+   {'name': 'server-auth'},
-+   {'name': 'server-mem-limit'},
-+   {'name': 'server'},
-+-  {'name': 'sniffing'},
-++  {'name': 'sniffing',
-++    'depends': [test_resources],
-++  },
-+   {'name': 'socket'},
-+   {'name': 'ssl',
-+    'dependencies': [gnutls_dep],
-+diff --git a/tests/sniffing-test.c b/tests/sniffing-test.c
-+index 6116719..7857732 100644
-+--- a/tests/sniffing-test.c
-++++ b/tests/sniffing-test.c
-+@@ -342,6 +342,52 @@ test_disabled (gconstpointer data)
-+ 	g_uri_unref (uri);
-+ }
-+ 
-++static const gsize MARKUP_LENGTH = strlen ("<!--") + strlen ("-->");
-++
-++static void
-++do_skip_whitespace_test (void)
-++{
-++        SoupContentSniffer *sniffer = soup_content_sniffer_new ();
-++        SoupMessage *msg = soup_message_new (SOUP_METHOD_GET, "http://example.org");
-++        const char *test_cases[] = {
-++                "",
-++                "<rdf:RDF",
-++                "<rdf:RDFxmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"",
-++                "<rdf:RDFxmlns=\"http://purl.org/rss/1.0/\"",
-++        };
-++
-++        soup_message_headers_set_content_type (soup_message_get_response_headers (msg), "text/html", NULL);
-++
-++        for (guint i = 0; i < G_N_ELEMENTS (test_cases); i++) {
-++                const char *trailing_data = test_cases[i];
-++                gsize leading_zeros = 512 - MARKUP_LENGTH - strlen (trailing_data);
-++                gsize testsize = MARKUP_LENGTH + leading_zeros + strlen (trailing_data);
-++                guint8 *data = g_malloc0 (testsize);
-++                guint8 *p = data;
-++                char *content_type;
-++                GBytes *buffer;
-++
-++                // Format of <!--[0x00 * $leading_zeros]-->$trailing_data
-++                memcpy (p, "<!--", strlen ("<!--"));
-++                p += strlen ("<!--");
-++                p += leading_zeros;
-++                memcpy (p, "-->", strlen ("-->"));
-++                p += strlen ("-->");
-++                if (strlen (trailing_data))
-++                        memcpy (p, trailing_data, strlen (trailing_data));
-++                // Purposefully not NUL terminated.                
-++
-++                buffer = g_bytes_new_take (g_steal_pointer (&data), testsize);
-++                content_type = soup_content_sniffer_sniff (sniffer, msg, buffer, NULL);
-++
-++                g_free (content_type);
-++                g_bytes_unref (buffer);
-++        }
-++
-++        g_object_unref (msg);
-++        g_object_unref (sniffer);
-++}
-++
-+ int
-+ main (int argc, char **argv)
-+ {
-+@@ -517,6 +563,8 @@ main (int argc, char **argv)
-+ 			      "/text_or_binary/home.gif",
-+ 			      test_disabled);
-+ 
-++	g_test_add_func ("/sniffing/whitespace", do_skip_whitespace_test);
-++
-+ 	ret = g_test_run ();
-+ 
-+ 	g_uri_unref (base_uri);
-+-- 
++diff --git a/SecurityPkg/SecurityFixes.yaml b/SecurityPkg/SecurityFixes.ya=
+ml
++index b4006b4..06b597a 100644
++--- a/SecurityPkg/SecurityFixes.yaml
+++++ b/SecurityPkg/SecurityFixes.yaml
++@@ -40,3 +40,18 @@ CVE_2022_36764:
++     - Library\DxeTpmMeasureBootLib\DxeTpmMeasureBootLib.c=0D
++   links:=0D
++     - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4118=0D
+++CVE_2024_38797:=0D
+++  commit-titles:=0D
+++    - "SecurityPkg: Out of bound read in HashPeImageByType()"=0D
+++    - "SecurityPkg: Improving HashPeImageByType () logic"=0D
+++    - "SecurityPkg: Improving SecureBootConfigImpl:HashPeImageByType () l=
+ogic"=0D
+++  cve: CVE-2024-38797=0D
+++  date_reported: 2024-06-04 12:00 UTC=0D
+++  description: Out of bound read in HashPeImageByType()=0D
+++  note:=0D
+++  files_impacted:=0D
+++    - SecurityPkg\Library\DxeImageVerificationLib\DxeImageVerificationLib=
+.c=0D
+++    - SecurityPkg\VariableAuthenticated\SecureBootConfigDxe\SecureBootCon=
+figImpl.c=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D2214=0D
+++    - https://github.com/tianocore/edk2/security/advisories/GHSA-4wjw-6xm=
+f-44xf=0D
++--=20
 +2.34.1
 +
-diff --git a/meta/recipes-support/libsoup/libsoup_3.0.7.bb b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-index 57f6ecac1a..7f4513afca 100644
---- a/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-@@ -41,6 +41,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32050.patch \
-            file://CVE-2025-46421.patch \
-            file://CVE-2025-4948.patch \
-+           file://CVE-2025-2784.patch \
-           "
- SRC_URI[sha256sum] = "ebdf90cf3599c11acbb6818a9d9e3fc9d2c68e56eb829b93962972683e1bf7c8"
- 
--- 
-2.34.1
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2024-38797-2.patch b/meta/reci=
+pes-core/ovmf/ovmf/CVE-2024-38797-2.patch
+new file mode 100644
+index 0000000000..9bf6645681
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2024-38797-2.patch
+@@ -0,0 +1,63 @@
++From 1a7be26382c4a34504875f094e15fe371d44192e Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Thu, 3 Oct 2024 09:37:18 -0700
++Subject: [PATCH 2/4] SecurityPkg: Out of bound read in HashPeImageByType()
++
++In HashPeImageByType(), the hash of PE/COFF image is calculated.
++This function may get untrusted input.
++
++Inside this function, the following code verifies the loaded image has
++the correct format, by reading the second byte of the buffer.
++
++```c
++  if ((*(AuthData + 1) & TWO_BYTE_ENCODE) !=3D TWO_BYTE_ENCODE) {
++  	...
++  }
++```
++
++The input image is not trusted and that may not have the second byte to
++read. So this poses an out of bound read error.
++
++With below fix we are assuring that we don't do out of bound read. i.e,
++we make sure that AuthDataSize is greater than 1.
++
++```c
++  if (AuthDataSize > 1
++      && (*(AuthData + 1) & TWO_BYTE_ENCODE) !=3D TWO_BYTE_ENCODE){
++    ...
++  }
++```
++
++AuthDataSize size is verified before reading the second byte.
++So if AuthDataSize is less than 2, the second byte will not be read, and
++the out of bound read situation won't occur.
++
++Tested the patch on real platform with and without TPM connected and
++verified image is booting fine.
++
++Authored-by: Raj AlwinX Selvaraj <Alw...@intel.com>
++Signed-off-by: Doug Flick <DougFlick@microsoft.com>
++
++CVE: CVE-2024-38797
++Upstream-Status: Backport [https://github.com/tianocore/edk2/pull/10928/co=
+mmits/2dcdb41b564aa3cb846644b4b1722a0b3ae5e06b]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ .../Library/DxeImageVerificationLib/DxeImageVerificationLib.c   | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerificat=
+ionLib.c b/SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerification=
+Lib.c
++index b05da19..2afa2c9 100644
++--- a/SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerificationLib.c
+++++ b/SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerificationLib.c
++@@ -642,7 +642,7 @@ HashPeImageByType (
++     //    This field has the fixed offset (+32) in final Authenticode ASN=
+.1 data.=0D
++     //    Fixed offset (+32) is calculated based on two bytes of length e=
+ncoding.=0D
++     //=0D
++-    if ((*(AuthData + 1) & TWO_BYTE_ENCODE) !=3D TWO_BYTE_ENCODE) {=0D
+++    if ((AuthDataSize > 1) && ((*(AuthData + 1) & TWO_BYTE_ENCODE) !=3D T=
+WO_BYTE_ENCODE)) {=0D
++       //=0D
++       // Only support two bytes of Long Form of Length Encoding.=0D
++       //=0D
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2024-38797-3.patch b/meta/reci=
+pes-core/ovmf/ovmf/CVE-2024-38797-3.patch
+new file mode 100644
+index 0000000000..169c78daab
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2024-38797-3.patch
+@@ -0,0 +1,99 @@
++From 4db363db013a92937431234252fc9d84e44fc120 Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Thu, 3 Oct 2024 10:16:57 -0700
++Subject: [PATCH 3/4] SecurityPkg: Improving HashPeImageByType () logic
++
++Namely:
++
++(1) The TWO_BYTE_ENCODE check is independent of Index. If it evalutes
++    to TRUE for Index=3D=3D0, then it will evaluate to TRUE for all other
++    Index values as well. As a result, the (Index =3D=3D HASHALG_MAX)
++    condition will fire after the loop, and we'll return
++    EFI_UNSUPPORTED.
++
++    While this is correct, functionally speaking, it is wasteful to
++    keep re-checking TWO_BYTE_ENCODE in the loop body. The check
++    should be made at the top of the function, and EFI_UNSUPPORTED
++    should be returned at once, if appropriate.
++
++(2) If the hash algorithm selected by Index has such a large OID that
++    the OID comparison cannot even be performed (because AuthDataSize
++    is not large enough for containing the OID in question, starting
++    at offset 32), then the function returns EFI_UNSUPPORTED at once.
++
++    This is bogus; this case should simply be treated as an OID
++    mismatch, and the loop should advance to the next Index value /
++    hash algorithm candidate. A remaining hash algo may have a shorter
++    OID and yield an OID match.
++
++Signed-off-by: Doug Flick <DougFlick@microsoft.com>
++
++CVE: CVE-2024-38797
++Upstream-Status: Backport [https://github.com/tianocore/edk2/pull/10928/co=
+mmits/5df518ec510324f48ed1cf0376150960644b41f0]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ .../DxeImageVerificationLib.c                 | 37 ++++++++++---------
++ 1 file changed, 19 insertions(+), 18 deletions(-)
++
++diff --git a/SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerificat=
+ionLib.c b/SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerification=
+Lib.c
++index 2afa2c9..2eca39d 100644
++--- a/SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerificationLib.c
+++++ b/SecurityPkg/Library/DxeImageVerificationLib/DxeImageVerificationLib.c
++@@ -618,6 +618,7 @@ Done:
++   @param[in]  AuthDataSize        Size of the Authenticode Signature in b=
+ytes.=0D
++ =0D
++   @retval EFI_UNSUPPORTED             Hash algorithm is not supported.=0D
+++  @retval EFI_BAD_BUFFER_SIZE         AuthData provided is invalid size.=
+=0D
++   @retval EFI_SUCCESS                 Hash successfully.=0D
++ =0D
++ **/=0D
++@@ -629,28 +630,28 @@ HashPeImageByType (
++ {=0D
++   UINT8  Index;=0D
++ =0D
++-  for (Index =3D 0; Index < HASHALG_MAX; Index++) {=0D
+++  //=0D
+++  // Check the Hash algorithm in PE/COFF Authenticode.=0D
+++  //    According to PKCS#7 Definition:=0D
+++  //        SignedData ::=3D SEQUENCE {=0D
+++  //            version Version,=0D
+++  //            digestAlgorithms DigestAlgorithmIdentifiers,=0D
+++  //            contentInfo ContentInfo,=0D
+++  //            .... }=0D
+++  //    The DigestAlgorithmIdentifiers can be used to determine the hash =
+algorithm in PE/COFF hashing=0D
+++  //    This field has the fixed offset (+32) in final Authenticode ASN.1=
+ data.=0D
+++  //    Fixed offset (+32) is calculated based on two bytes of length enc=
+oding.=0D
+++  //=0D
+++  if ((AuthDataSize > 1) && ((*(AuthData + 1) & TWO_BYTE_ENCODE) !=3D TWO=
+_BYTE_ENCODE)) {=0D
++     //=0D
++-    // Check the Hash algorithm in PE/COFF Authenticode.=0D
++-    //    According to PKCS#7 Definition:=0D
++-    //        SignedData ::=3D SEQUENCE {=0D
++-    //            version Version,=0D
++-    //            digestAlgorithms DigestAlgorithmIdentifiers,=0D
++-    //            contentInfo ContentInfo,=0D
++-    //            .... }=0D
++-    //    The DigestAlgorithmIdentifiers can be used to determine the has=
+h algorithm in PE/COFF hashing=0D
++-    //    This field has the fixed offset (+32) in final Authenticode ASN=
+.1 data.=0D
++-    //    Fixed offset (+32) is calculated based on two bytes of length e=
+ncoding.=0D
+++    // Only support two bytes of Long Form of Length Encoding.=0D
++     //=0D
++-    if ((AuthDataSize > 1) && ((*(AuthData + 1) & TWO_BYTE_ENCODE) !=3D T=
+WO_BYTE_ENCODE)) {=0D
++-      //=0D
++-      // Only support two bytes of Long Form of Length Encoding.=0D
++-      //=0D
++-      continue;=0D
++-    }=0D
+++    return EFI_BAD_BUFFER_SIZE;=0D
+++  }=0D
++ =0D
+++  for (Index =3D 0; Index < HASHALG_MAX; Index++) {=0D
++     if (AuthDataSize < 32 + mHash[Index].OidLength) {=0D
++-      return EFI_UNSUPPORTED;=0D
+++      continue;=0D
++     }=0D
++ =0D
++     if (CompareMem (AuthData + 32, mHash[Index].OidValue, mHash[Index].Oi=
+dLength) =3D=3D 0) {=0D
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2024-38797-4.patch b/meta/reci=
+pes-core/ovmf/ovmf/CVE-2024-38797-4.patch
+new file mode 100644
+index 0000000000..86bc950e7d
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2024-38797-4.patch
+@@ -0,0 +1,97 @@
++From cb3342702c5c1f8a4ddbb6d503a98ed720d14eb3 Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Fri, 17 Jan 2025 11:30:17 -0800
++Subject: [PATCH 4/4] SecurityPkg: Improving
++ SecureBootConfigImpl:HashPeImageByType () logic
++
++Namely:
++
++(1) The TWO_BYTE_ENCODE check is independent of Index. If it evalutes
++    to TRUE for Index=3D=3D0, then it will evaluate to TRUE for all other
++    Index values as well. As a result, the (Index =3D=3D HASHALG_MAX)
++    condition will fire after the loop, and we'll return
++    EFI_UNSUPPORTED.
++
++    While this is correct, functionally speaking, it is wasteful to
++    keep re-checking TWO_BYTE_ENCODE in the loop body. The check
++    should be made at the top of the function, and EFI_UNSUPPORTED
++    should be returned at once, if appropriate.
++
++(2) If the hash algorithm selected by Index has such a large OID that
++    the OID comparison cannot even be performed (because AuthDataSize
++    is not large enough for containing the OID in question, starting
++    at offset 32), then the function returns EFI_UNSUPPORTED at once.
++
++    This is bogus; this case should simply be treated as an OID
++    mismatch, and the loop should advance to the next Index value /
++    hash algorithm candidate. A remaining hash algo may have a shorter
++    OID and yield an OID match.
++
++Signed-off-by: Doug Flick <DougFlick@microsoft.com>
++
++CVE: CVE-2024-38797
++Upstream-Status: Backport [https://github.com/tianocore/edk2/pull/10928/co=
+mmits/8676572908b950dd4d1f8985006011be99c0a5b6]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ .../SecureBootConfigImpl.c                    | 37 +++++++++++--------
++ 1 file changed, 21 insertions(+), 16 deletions(-)
++
++diff --git a/SecurityPkg/VariableAuthenticated/SecureBootConfigDxe/SecureB=
+ootConfigImpl.c b/SecurityPkg/VariableAuthenticated/SecureBootConfigDxe/Sec=
+ureBootConfigImpl.c
++index 6d4560c..155e755 100644
++--- a/SecurityPkg/VariableAuthenticated/SecureBootConfigDxe/SecureBootConf=
+igImpl.c
+++++ b/SecurityPkg/VariableAuthenticated/SecureBootConfigDxe/SecureBootConf=
+igImpl.c
++@@ -2096,30 +2096,35 @@ HashPeImageByType (
++ {=0D
++   UINT8                     Index;=0D
++   WIN_CERTIFICATE_EFI_PKCS  *PkcsCertData;=0D
+++  UINT32                    PkcsCertSize;=0D
++ =0D
++   PkcsCertData =3D (WIN_CERTIFICATE_EFI_PKCS *)(mImageBase + mSecDataDir-=
+>Offset);=0D
+++  PkcsCertSize =3D mSecDataDir->SizeOfCert;=0D
++ =0D
++-  for (Index =3D 0; Index < HASHALG_MAX; Index++) {=0D
+++  //=0D
+++  // Check the Hash algorithm in PE/COFF Authenticode.=0D
+++  //    According to PKCS#7 Definition:=0D
+++  //        SignedData ::=3D SEQUENCE {=0D
+++  //            version Version,=0D
+++  //            digestAlgorithms DigestAlgorithmIdentifiers,=0D
+++  //            contentInfo ContentInfo,=0D
+++  //            .... }=0D
+++  //    The DigestAlgorithmIdentifiers can be used to determine the hash =
+algorithm in PE/COFF hashing=0D
+++  //    This field has the fixed offset (+32) in final Authenticode ASN.1=
+ data.=0D
+++  //    Fixed offset (+32) is calculated based on two bytes of length enc=
+oding.=0D
+++  //=0D
+++  if ((PkcsCertSize > 1) && ((*(PkcsCertData->CertData + 1) & TWO_BYTE_EN=
+CODE) !=3D TWO_BYTE_ENCODE)) {=0D
++     //=0D
++-    // Check the Hash algorithm in PE/COFF Authenticode.=0D
++-    //    According to PKCS#7 Definition:=0D
++-    //        SignedData ::=3D SEQUENCE {=0D
++-    //            version Version,=0D
++-    //            digestAlgorithms DigestAlgorithmIdentifiers,=0D
++-    //            contentInfo ContentInfo,=0D
++-    //            .... }=0D
++-    //    The DigestAlgorithmIdentifiers can be used to determine the has=
+h algorithm in PE/COFF hashing=0D
++-    //    This field has the fixed offset (+32) in final Authenticode ASN=
+.1 data.=0D
++-    //    Fixed offset (+32) is calculated based on two bytes of length e=
+ncoding.=0D
+++    // Only support two bytes of Long Form of Length Encoding.=0D
++     //=0D
++-    if ((*(PkcsCertData->CertData + 1) & TWO_BYTE_ENCODE) !=3D TWO_BYTE_E=
+NCODE) {=0D
++-      //=0D
++-      // Only support two bytes of Long Form of Length Encoding.=0D
++-      //=0D
+++    return EFI_BAD_BUFFER_SIZE;=0D
+++  }=0D
+++=0D
+++  for (Index =3D 0; Index < HASHALG_MAX; Index++) {=0D
+++    if (PkcsCertSize < 32 + mHash[Index].OidLength) {=0D
++       continue;=0D
++     }=0D
++ =0D
++-    //=0D
++     if (CompareMem (PkcsCertData->CertData + 32, mHash[Index].OidValue, m=
+Hash[Index].OidLength) =3D=3D 0) {=0D
++       break;=0D
++     }=0D
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
+mf_git.bb
+index aa7de3af2b..ab6c580722 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -27,6 +27,10 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branc=
+h=3Dmaster;protocol=3Dhttps \
+            file://0003-debug-prefix-map.patch \
+            file://0004-reproducible.patch \
+            file://CVE-2025-2295.patch \
++           file://CVE-2024-38797-1.patch \
++           file://CVE-2024-38797-2.patch \
++           file://CVE-2024-38797-3.patch \
++           file://CVE-2024-38797-4.patch \
+            "
+=20
+ PV =3D "edk2-stable202502"
+--=20
+2.49.0
 
 
