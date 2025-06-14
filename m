@@ -1,224 +1,202 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 524A2C71135
-	for <webhook@archiver.kernel.org>; Fri, 13 Jun 2025 21:49:48 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.8357.1749851384786316784
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A63C71136
+	for <webhook@archiver.kernel.org>; Sat, 14 Jun 2025 01:05:23 +0000 (UTC)
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by mx.groups.io with SMTP id smtpd.web11.2032.1749863115309129806
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Jun 2025 14:49:45 -0700
+ Fri, 13 Jun 2025 18:05:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=frfbzWoy;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20250613214942731b9a8aec86a766cc-pvpbqo@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250613214942731b9a8aec86a766cc
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 13 Jun 2025 23:49:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=YvXqfRt8/kZhH+TH1Bl/q4Dn+M8pTG/FyZ2gF5S+UYo=;
- b=frfbzWoyhz9cHkFQaU84bhemSNgZUmZ6w+NozBhzkLKQhr1Wv0O1sngygAt3rF0TbYXBNE
- gHTA0liP3FFrtZ6EwPRX497oyOWKvn3k9vI3ZFunDMJ8q4HdxxDXAqcxq8ecdltgK9BrBrn7
- 3a6q3o/Kp6cIJiVOifEfyxP2WH3v6WRwGqprYio7F/MWghXja8VR2c/TXQNOFpJFAyUAm5Z3
- 38Vf3cUqomq67/xPQ6JNwEv3dmse5eY++qee5qFEyXzixp2JWZkkG1rD7Qzrn8zLwHi0uNeJ
- f7Q7tNk+LyQVBTLWNse3fW3/N3ANNRUxqFSF1tLTRuFwSpm7qFHwdJHw==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][walnascar][PATCH 2/2] systemd: upgrade 257.5 -> 257.6
-Date: Fri, 13 Jun 2025 23:48:47 +0200
-Message-Id: <20250613214847.1418662-2-peter.marko@siemens.com>
-In-Reply-To: <20250613214847.1418662-1-peter.marko@siemens.com>
-References: <20250613214847.1418662-1-peter.marko@siemens.com>
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=qEhBPUsL;
+ spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: rs@ti.com)
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55E14r132111448;
+	Fri, 13 Jun 2025 20:04:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1749863093;
+	bh=Ql9j0d0osKpGVGJt/vcbAwBfZyUDbZ3DgldlhqtBpF0=;
+	h=Date:Subject:From:To:CC:References:In-Reply-To;
+	b=qEhBPUsLf6ESBq6ak1qs+YKTMQ4dz9tThXvJU3LCAoVFs2Eq67TJj/UrvJ9V4sq+I
+	 gPL05XIYNv0jfPMp35Kr+HdPDCSq35EdAiIuulb7Z9ie8X6YeJtL+wZSditCWO1rDl
+	 H4bHzZ5mzvBisZiDd3aOGrHiSqNj/WS1muyXoc54=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55E14qYQ589588
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Fri, 13 Jun 2025 20:04:53 -0500
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 13
+ Jun 2025 20:04:52 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Fri, 13 Jun 2025 20:04:52 -0500
+Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55E14qav154601;
+	Fri, 13 Jun 2025 20:04:52 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 13 Jun 2025 20:04:52 -0500
+Message-ID: <DALUP31PRAWK.LADOXLI1SELP@ti.com>
+Subject: Re: [oe-core][PATCHv6 0/5] Display manager proposal for x11 and
+ wayland
+From: Randolph Sapp <rs@ti.com>
+To: <rs@ti.com>, Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
+        <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>
+CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250520233935.740242-1-rs@ti.com>
+ <DA1YOI4L8TYX.ALF8S230UTO1@bootlin.com> <DA7AGREX7HJ9.33KJKYJPO1A3N@ti.com>
+ <DA7RUET7783J.484RLJVMFOCZ@bootlin.com> <DAE5YENHYCZ0.39HEAHC58A3FV@ti.com>
+ <1846990D23EB4550.17668@lists.openembedded.org>
+In-Reply-To: <1846990D23EB4550.17668@lists.openembedded.org>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Jun 2025 21:49:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218632
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 01:05:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218633
 
-From: Peter Marko <peter.marko@siemens.com>
+On Fri Jun 6, 2025 at 6:49 PM CDT, Randolph Sapp via lists.openembedded.org=
+ wrote:
+> On Wed Jun 4, 2025 at 7:12 PM CDT, Randolph Sapp wrote:
+>> On Wed May 28, 2025 at 6:53 AM CDT, Mathieu Dubois-Briand wrote:
+>>> On Wed May 28, 2025 at 12:16 AM CEST, Randolph Sapp wrote:
+>>
+>> [snip]
+>>
+>>>> Ah, the auth failures persist. Normally this is caused when the user a=
+ttempts to
+>>>> login before the user account was created or something unusual like th=
+at. I
+>>>> don't suppose there's any way this could be happening on the test mach=
+ines?
+>>>>
+>>>> I'm not able to reproduce this locally, but my build config is differe=
+nt. I tend
+>>>> to use oe-core and nodistro instead of poky. They aren't playing aroun=
+d with the
+>>>> reproducible build date stuff or anything like that are they?
+>>>>
+>>>> Well, I mean I did see this on occasion. The first login attempt almos=
+t always
+>>>> failed, but the subsequent attempts were fine. Bumping the attempt cou=
+nt back up
+>>>> the default (2) was enough to resolve it on my end, but evidently it's=
+ not
+>>>> enough here.
+>>>>
+>>>> This is not happening on hardware from what I'm seeing.
+>>>
+>>> Hi Randolph,
+>>>
+>>> I was able to reproduce it locally, with the following configuration:
+>>> - https://git.yoctoproject.org/poky-ci-archive on tag
+>>>   autobuilder.yoctoproject.org/valkyrie/a-full-1630.
+>>> - template local.conf, with the following modifications:
+>>>   MACHINE =3D "qemux86"
+>>>   DISTRO =3D "poky-altcfg"
+>>>   SDKMACHINE =3D "x86_64"
+>>>   PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"
+>>>   INHERIT +=3D 'image-buildinfo'
+>>>   IMAGE_BUILDINFO_VARS:append =3D ' IMAGE_BASENAME IMAGE_NAME'
+>>>   PACKAGE_CLASSES =3D 'package_ipk package_rpm package_deb'
+>>>   IMAGE_ROOTFS_EXTRA_SPACE:append =3D '${@bb.utils.contains('IMAGE_FEAT=
+URES', 'package-management', ' + 262144', '', d)}'
+>>>   IMAGE_INSTALL:append =3D ' ssh-pregen-hostkeys'
+>>>   SANITY_TESTED_DISTROS =3D ''
+>>>   OE_FRAGMENTS +=3D 'core/yocto-autobuilder/autobuilder core/yocto-auto=
+builder/autobuilder-resource-constraints'
+>>>   # (Plus my own sstate cache and downloads dir).
+>>> - bitbake core-image-sato
+>>> - bitbake core-image-sato:do_testimage
+>>>
+>>> Of course using the tag from poky-ci-archive is not mandatory, you
+>>> should see the same behaviour with master branch and your patches.
+>>>
+>>> I saw some oe-selftest was also failing on the autobuilder, with an
+>>> error related to emptty. You can reproduce it with:
+>>>
+>>> oe-selftest -r sstatetests.SStateHashSameSigs3.test_sstate_sametune_sam=
+esigs
+>>
+>> Status report, since it's been a little bit.
+>>
+>> Seems this some i386/x86 fault only exposed in this specific environment=
+. I was
+>> unable to reproduce it on Archlinux32. I've traced it back to a SEGFAULT=
+ when we
+>> attempt to execute mcookie as the target user. Odd stuff. Delve and gdb =
+aren't
+>> helping me here. Running some more tests to see if I can corner this som=
+e other
+>> way.
+>>
+>> - Randolph
+>
+> Well, I managed to determine this is specifically an issue after loading =
+libpam
+> and attempting to authenticate.
+>
+> Seems like loading both common-auth and common-account before calling
+> pam_acct_mgmt results in the above described segfault.
+>
+> There are 3 pam interactions made after the initial auth.
+> 	1. pam_acct_mgmt
+> 	2. pam_set_item
+> 	3. pam_setcred
+>
+> Loading only common-account reports that pam_acct_mgmt fails with the PAM=
+_SILENT
+> flag set.
+>
+> Removing that flag makes the later pam_setcred fail, but allows pam_acct_=
+mgmt
+> and pam_set_item to work correctly. Removing the call to pam_acct_mgmt
+> altogether seems to allow pam_setcred to work.
+>
+> Removing the call to pam_acct_mgmt also allows both common-auth and
+> common-account to be loaded without triggering the segfault.
+>
+> Very unusual. Everything points at the obvious "arch specific problems wi=
+th the
+> go pam wrapper", but other distributions don't seem to have this issue an=
+d
+> nothing seems particularly wrong with the wrapper itself. Could be a
+> manifestation of multiple issues though, considering how much the behavio=
+r
+> changes depending on what pam modules are loaded.
+>
+> Guess I have some reading to do this weekend.
+>
+> - Randolph
 
-Handles CVE-2025-4598
+Found out that specifying the noreap option for pam_unix in the account con=
+text
+fixes things. Suppose go was having issues with the new signal handler bein=
+g
+registered in _unix_run_verify_binary. Still weird that it was only really =
+an
+issue on i386/x86, and only in this environment.
 
-Rebase patches
+This means we can't inherit the common-account, we'll have to require pam_u=
+nix
+as part of the pam.conf directly. There's also a conditional fork in the
+pam_unix password path with another signal handler that we should probably =
+guard
+against to prevent issues with selinux configs.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- ...ative_257.5.bb => systemd-boot-native_257.6.bb} |  0
- ...systemd-boot_257.5.bb => systemd-boot_257.6.bb} |  0
- ..._257.5.bb => systemd-systemctl-native_257.6.bb} |  0
- meta/recipes-core/systemd/systemd.inc              |  2 +-
- ...llback-parse_printf_format-implementation.patch |  2 +-
- ...12-do-not-disable-buffer-in-writing-files.patch | 14 +++++++-------
- .../systemd/0014-Handle-missing-gshadow.patch      |  4 ++--
- ...rrno-util-Make-STRERROR-portable-for-musl.patch |  7 +++----
- .../systemd/{systemd_257.5.bb => systemd_257.6.bb} |  0
- 9 files changed, 14 insertions(+), 15 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot-native_257.5.bb => systemd-boot-native_257.6.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-boot_257.5.bb => systemd-boot_257.6.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-systemctl-native_257.5.bb => systemd-systemctl-native_257.6.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_257.5.bb => systemd_257.6.bb} (100%)
+I'm still not entirely satisfied with this debug. Something seems off, but =
+given
+go's use of coroutines it would make sense this would cause *some* issue. S=
+till
+odd. I'll poke around a bit more.
 
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_257.5.bb b/meta/recipes-core/systemd/systemd-boot-native_257.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot-native_257.5.bb
-rename to meta/recipes-core/systemd/systemd-boot-native_257.6.bb
-diff --git a/meta/recipes-core/systemd/systemd-boot_257.5.bb b/meta/recipes-core/systemd/systemd-boot_257.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_257.5.bb
-rename to meta/recipes-core/systemd/systemd-boot_257.6.bb
-diff --git a/meta/recipes-core/systemd/systemd-systemctl-native_257.5.bb b/meta/recipes-core/systemd/systemd-systemctl-native_257.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-systemctl-native_257.5.bb
-rename to meta/recipes-core/systemd/systemd-systemctl-native_257.6.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 243053a8c7..5ed84757f3 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
- 
--SRCREV = "1c93ed4c72a4513d9cefcd1f89d11a9dc828d06c"
-+SRCREV = "00a12c234e2506f5cab683460199575f13c454db"
- SRCBRANCH = "v257-stable"
- SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH};tag=v${PV}"
- 
-diff --git a/meta/recipes-core/systemd/systemd/0004-add-fallback-parse_printf_format-implementation.patch b/meta/recipes-core/systemd/systemd/0004-add-fallback-parse_printf_format-implementation.patch
-index f9a45bb40b..47b8583e7a 100644
---- a/meta/recipes-core/systemd/systemd/0004-add-fallback-parse_printf_format-implementation.patch
-+++ b/meta/recipes-core/systemd/systemd/0004-add-fallback-parse_printf_format-implementation.patch
-@@ -25,7 +25,7 @@ diff --git a/meson.build b/meson.build
- index bffda86845..4146f4beef 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -773,6 +773,7 @@ foreach header : ['crypt.h',
-+@@ -770,6 +770,7 @@ foreach header : ['crypt.h',
-                    'linux/ioprio.h',
-                    'linux/memfd.h',
-                    'linux/time_types.h',
-diff --git a/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch b/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch
-index 00b4b777f4..0bbc6bbac7 100644
---- a/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch
-+++ b/meta/recipes-core/systemd/systemd/0012-do-not-disable-buffer-in-writing-files.patch
-@@ -71,7 +71,7 @@ diff --git a/src/basic/namespace-util.c b/src/basic/namespace-util.c
- index 332e8cdfd5..804498127d 100644
- --- a/src/basic/namespace-util.c
- +++ b/src/basic/namespace-util.c
--@@ -354,12 +354,12 @@ int userns_acquire(const char *uid_map, const char *gid_map) {
-+@@ -359,12 +359,12 @@ int userns_acquire(const char *uid_map, const char *gid_map) {
-                  freeze();
-  
-          xsprintf(path, "/proc/" PID_FMT "/uid_map", pid);
-@@ -154,7 +154,7 @@ diff --git a/src/core/cgroup.c b/src/core/cgroup.c
- index 6933aae54d..ab6fccc0e4 100644
- --- a/src/core/cgroup.c
- +++ b/src/core/cgroup.c
--@@ -5167,7 +5167,7 @@ int unit_cgroup_freezer_action(Unit *u, FreezerAction action) {
-+@@ -5175,7 +5175,7 @@ int unit_cgroup_freezer_action(Unit *u, FreezerAction action) {
-          if (r < 0)
-                  return r;
-  
-@@ -180,7 +180,7 @@ diff --git a/src/core/main.c b/src/core/main.c
- index 172742c769..e68ce2a6d8 100644
- --- a/src/core/main.c
- +++ b/src/core/main.c
--@@ -1812,7 +1812,7 @@ static void initialize_core_pattern(bool skip_setup) {
-+@@ -1826,7 +1826,7 @@ static void initialize_core_pattern(bool skip_setup) {
-          if (getpid_cached() != 1)
-                  return;
-  
-@@ -231,7 +231,7 @@ diff --git a/src/libsystemd/sd-device/sd-device.c b/src/libsystemd/sd-device/sd-
- index 01fa90b1ff..83ab655bf4 100644
- --- a/src/libsystemd/sd-device/sd-device.c
- +++ b/src/libsystemd/sd-device/sd-device.c
--@@ -2563,7 +2563,7 @@ _public_ int sd_device_set_sysattr_value(sd_device *device, const char *sysattr,
-+@@ -2564,7 +2564,7 @@ _public_ int sd_device_set_sysattr_value(sd_device *device, const char *sysattr,
-          if (!value)
-                  return -ENOMEM;
-  
-@@ -359,7 +359,7 @@ diff --git a/src/shared/coredump-util.c b/src/shared/coredump-util.c
- index 805503f366..3234a1d76e 100644
- --- a/src/shared/coredump-util.c
- +++ b/src/shared/coredump-util.c
--@@ -173,7 +173,7 @@ void disable_coredumps(void) {
-+@@ -180,7 +180,7 @@ void disable_coredumps(void) {
-          if (detect_container() > 0)
-                  return;
-  
-@@ -372,7 +372,7 @@ diff --git a/src/shared/hibernate-util.c b/src/shared/hibernate-util.c
- index 1213fdc2c7..4c26e6a4ee 100644
- --- a/src/shared/hibernate-util.c
- +++ b/src/shared/hibernate-util.c
--@@ -495,7 +495,7 @@ int write_resume_config(dev_t devno, uint64_t offset, const char *device) {
-+@@ -498,7 +498,7 @@ int write_resume_config(dev_t devno, uint64_t offset, const char *device) {
-  
-          /* We write the offset first since it's safer. Note that this file is only available in 4.17+, so
-           * fail gracefully if it doesn't exist and we're only overwriting it with 0. */
-@@ -381,7 +381,7 @@ index 1213fdc2c7..4c26e6a4ee 100644
-          if (r == -ENOENT) {
-                  if (offset != 0)
-                          return log_error_errno(SYNTHETIC_ERRNO(EOPNOTSUPP),
--@@ -511,7 +511,7 @@ int write_resume_config(dev_t devno, uint64_t offset, const char *device) {
-+@@ -514,7 +514,7 @@ int write_resume_config(dev_t devno, uint64_t offset, const char *device) {
-                  log_debug("Wrote resume_offset=%s for device '%s' to /sys/power/resume_offset.",
-                            offset_str, device);
-  
-diff --git a/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch b/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch
-index 08d4e384ff..0aabae6d82 100644
---- a/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch
-+++ b/meta/recipes-core/systemd/systemd/0014-Handle-missing-gshadow.patch
-@@ -140,7 +140,7 @@ diff --git a/src/shared/userdb.c b/src/shared/userdb.c
- index ff83d4bf90..54d36cc706 100644
- --- a/src/shared/userdb.c
- +++ b/src/shared/userdb.c
--@@ -1041,13 +1041,15 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
-+@@ -1042,13 +1042,15 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
-                  if (gr) {
-                          _cleanup_free_ char *buffer = NULL;
-                          bool incomplete = false;
-@@ -157,7 +157,7 @@ index ff83d4bf90..54d36cc706 100644
-                          if (!FLAGS_SET(iterator->flags, USERDB_SUPPRESS_SHADOW)) {
-                                  r = nss_sgrp_for_group(gr, &sgrp, &buffer);
-                                  if (r < 0) {
--@@ -1060,6 +1062,9 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
-+@@ -1061,6 +1063,9 @@ int groupdb_iterator_get(UserDBIterator *iterator, GroupRecord **ret) {
-                          }
-  
-                          r = nss_group_to_group_record(gr, r >= 0 ? &sgrp : NULL, ret);
-diff --git a/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch b/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch
-index 791079a19f..56083cc7b3 100644
---- a/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch
-+++ b/meta/recipes-core/systemd/systemd/0019-errno-util-Make-STRERROR-portable-for-musl.patch
-@@ -11,8 +11,8 @@ Upstream-Status: Inappropriate [musl specific]
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- src/basic/errno-util.h | 12 ++++++++++--
-- 1 file changed, 10 insertions(+), 2 deletions(-)
-+ src/basic/errno-util.h | 10 +++++++++-
-+ 1 file changed, 9 insertions(+), 1 deletion(-)
- 
- diff --git a/src/basic/errno-util.h b/src/basic/errno-util.h
- index 48b76e4bf7..6e7653e2d9 100644
-@@ -23,9 +23,8 @@ index 48b76e4bf7..6e7653e2d9 100644
-   *
-   * Note that we use the GNU variant of strerror_r() here. */
- -#define STRERROR(errnum) strerror_r(abs(errnum), (char[ERRNO_BUF_LEN]){}, ERRNO_BUF_LEN)
---
- +static inline const char * STRERROR(int errnum);
--+
-+ 
- +static inline const char * STRERROR(int errnum) {
- +#ifdef __GLIBC__
- +        return strerror_r(abs(errnum), (char[ERRNO_BUF_LEN]){}, ERRNO_BUF_LEN);
-diff --git a/meta/recipes-core/systemd/systemd_257.5.bb b/meta/recipes-core/systemd/systemd_257.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd_257.5.bb
-rename to meta/recipes-core/systemd/systemd_257.6.bb
+- Randolph
 
