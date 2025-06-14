@@ -1,77 +1,91 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3374C71141
-	for <webhook@archiver.kernel.org>; Sat, 14 Jun 2025 07:48:35 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.6230.1749887307146839992
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63EFAC71141
+	for <webhook@archiver.kernel.org>; Sat, 14 Jun 2025 13:11:07 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.9494.1749906665833054117
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Jun 2025 00:48:28 -0700
+ Sat, 14 Jun 2025 06:11:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=v77KDhYo;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202506140748221a286e560a57320788-pjrkpd@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202506140748221a286e560a57320788
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 14 Jun 2025 09:48:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=gKLgIRQgVOu13TsDCk87FKFqH+7NYhL5YWOeUeAucxM=;
- b=v77KDhYoHiHRCzgU23P2EiymS/Cbi75uDcS8I2fmJ3Vr079ImDdEnCflMvp5xhkeTlv5xF
- h7DnT7Oay5ItVM2L6FVUlwDMwn9RAL8Zyf1CLmjBLd2DJQiGwf2c0L7ttXo1FE4ia09+zcz7
- HUQGXiVVYDDZEnDf+0MncQGetd9HgKA6jYBeWLd8YbLWefNxvYOe6jQHLLvMruJmcuERRLl1
- Z80H7EU/D8Anc4jUfzfWa6PpLz0bTF/uHTiT4liEnpcL409hfVWW9IIfbPjaU0TNDmsuOs4m
- euAv723NezvUGEOWiciZTsYO2FX6K/vEUWSjsoP1aQzfNccpQuv2waSA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][walnascar][PATCH] testimage: get real os-release file
-Date: Sat, 14 Jun 2025 09:47:33 +0200
-Message-Id: <20250614074733.7751-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YuzyqZ3S;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 85FE743A0D;
+	Sat, 14 Jun 2025 13:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1749906663;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GfFAe4gM1oSjdawBrILoix//oB+u5XhAUrnypemVmdg=;
+	b=YuzyqZ3S6IRa58fcam5bd7TMgyR0+qm0iwFShDyUutKZNVXGhQxv0OzsZjw8SFmqqJRDP2
+	r/FZpDnJNWJOSWN9mxdopPxfYNrLrltQXBHJksU8LtxsdNa+h5WOuZRHC3AHsDK4tCJg/g
+	2iGDTL9yzUSQ7VRUWybpwZ9DAatDgyNg97IMl8+MAcHhJ+jGFN4KkQPusM7WQAXRdWfzGY
+	RviPMz3rLrxXOq2j8sFnY4Ky3P0OEi2o8e4OyucwkdmEP2HFdRJ0sOagBBdIo87t5fpSjd
+	IY4T/lA49+ivKB0WU/boxbyVoU7e1kT6cEdk89j99OcdbRr2AwRIBcjTXZIqrA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 14 Jun 2025 15:11:03 +0200
+Message-Id: <DAMA532J68XE.3FVM6GD3KHACL@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2 3/3] libglvnd: migrate from meta-oe
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <dmitry.baryshkov@oss.qualcomm.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250613120358.2011626-1-dmitry.baryshkov@oss.qualcomm.com>
+ <20250613120358.2011626-3-dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250613120358.2011626-3-dmitry.baryshkov@oss.qualcomm.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvtdeludcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpegggfgtfffkuffhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvedvvdfhheegtefgheetjeeuvdeiveefhefhieekheefvdejleelteejiefgteeinecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemrgeiieemfedukedtmegtjedvheemgeehkeejmegrhedtfeemsgehrgehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvtdgrmegrieeimeefudektdemtgejvdehmeegheekjeemrgehtdefmegshegrhedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovhesohhsshdrqhhurghltghomhhmrdgtohhmpdhrt
+ ghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 07:48:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218634
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 13:11:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218635
 
-From: Peter Marko <peter.marko@siemens.com>
+On Fri Jun 13, 2025 at 2:03 PM CEST, Dmitry Baryshkov via lists.openembedde=
+d.org wrote:
+> libglvnd is a vendor-neutral approach to handling OpenGL / OpenGL ES /
+> EGL / GLX libraries. It has been proposed and initially implemented by
+> NVIDIA in order to simplify coinstallation of GL drivers provided by
+> different vendors. Major Linux distributions (Debian, Ubuntu, Fedora,
+> etc.) have already switched to libglvnd.
+>
+> Having libglvnd in OE-Core simplifies integration of this ABI into
+> distro and BSP layers (e.g. it will help meta-tegra, which currently
+> provides its own version of the recipe).
+>
+> Import recipe for libglvnd from the meta-oe layer (changes: fix virtual
+> package names, add add the SUMMARY data, drop git@ from SRC_URI).
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
 
-/etc/os-release is a symlink to /usr/lib.
-Symlink is retrieved as a dead link which points to nowhere if also the
-original file is not accompanying it.
-Fetch the real file in addition to this link.
+Hi Dmitry,
 
-Alternative could be to use "tar -h" (supported also by busybox tar),
-however that could lose some important information if links are relevant
-for failure analysis.
+Thanks for your patch.
 
-(From OE-Core rev: ed43f9ccb3c08845259e24440912631afd780d12)
+> +PACKAGECONFIG[glx] =3D "-Dglx=3Denabled,-Dglx=3Ddisabled,libx11 libxext =
+xorgproto,,virtual-libglx-icd"
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes-recipe/testimage.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+It looks like this dependency is not present in oe-core:
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index e090b1ef4b..847a6f18a8 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -26,7 +26,9 @@ TESTIMAGE_FAILED_QA_ARTIFACTS = "\
-     ${localstatedir}/log \
-     ${localstatedir}/volatile/log \
-     ${sysconfdir}/version \
--    ${sysconfdir}/os-release"
-+    ${sysconfdir}/os-release \
-+    ${nonarch_libdir}/os-release \
-+"
- 
- # If some ptests are run and fail, retrieve corresponding directories
- TESTIMAGE_FAILED_QA_ARTIFACTS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${libdir}/*/ptest', '', d)}"
+WARNING: Nothing RPROVIDES 'nativesdk-virtual-libglx-icd' (but virtual:nati=
+vesdk:/srv/pokybuild/yocto-worker/a-full/build/meta/recipes-graphics/libglv=
+nd/libglvnd_1.7.0.bb RDEPENDS on or otherwise requires it)
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1799/ste=
+ps/13/logs/stdio
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
