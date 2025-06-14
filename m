@@ -1,194 +1,98 @@
-Return-Path: <paulrajsandeep30@gmail.com>
+Return-Path: <setairidis@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C669C7114A
-	for <webhook@archiver.kernel.org>; Sat, 14 Jun 2025 20:39:29 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.17044.1749933567603565720
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7889C7114A
+	for <webhook@archiver.kernel.org>; Sat, 14 Jun 2025 21:03:49 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.17432.1749935028261045611
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Jun 2025 13:39:27 -0700
+ Sat, 14 Jun 2025 14:03:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cWER1JS3;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: paulrajsandeep30@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-60768f080d8so6202741a12.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 13:39:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SBV2vLsh;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: setairidis@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ade33027bcfso517921666b.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 14:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749933566; x=1750538366; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0OdKhcdX/Ld6/B+nz9FudFYRAeeXiuopDkfggmHtu4c=;
-        b=cWER1JS3uKPJmm57QQuRIFVZFO9TdrnCMh1h0foe6aqj3rSQWJI83fxU+2Cm/O+Ujn
-         SMaWG84P7nOIeTjS/SXfmssnJO/e+1Ehg2oqxXu9Z23aJj+U4ZV7iP9DnJt4RG2wDj7m
-         Wtu6lKpTWx6xA6NQ0+9QzMnVVYfZXU0mxBnQOc1qcirVgEBHfK+f0XIDGnlTiMgHu/Zk
-         7S9QPlISewSNaM7W3qsQ3GQiMmfDpwB4J/eHutA7EGfSNkGpxdL9kIMTMYvMebJITY6s
-         93Wgts2+fY72dQUJI74GhGw1q4yR8lpLUsGoKbl2pXslkFBhQUudkvxUIAQVRuSxBEuz
-         7YWA==
+        d=gmail.com; s=20230601; t=1749935027; x=1750539827; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PR6IynR8lAGxG2+bYIeWpyL2lfyc054Qmg0/QKvDK6w=;
+        b=SBV2vLshhBLoEfHyWyEPSsO7fo9qutFCrnObaYyCND/64j5Tp5yyxaA2T4VWQZlVdA
+         PESldsGCptN0un212dso6J7v3pzU6AB3FIXXL2bs404x0trXVztjaEHRwMnGe3KSNiRS
+         3OMy4O8sUU5iCqCM3uZxG48hHNjfhsh6RSPV4hHW0A7+4QoFQwMSiKxSqcTLNnonE7lc
+         lGa+mgdtQGRq1lmuzdnzzt0+alSfC5HuZcA9vHrN7XGBFpmgWtXisHrIlSINgrdUqr0Q
+         3OLX41zlNVFHwAbrQOwrZ6/4PwmgjmPpg/Fja4xEmL2c6TQiuqqmSJJ6p80TpMhiGV+9
+         j9nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749933566; x=1750538366;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1749935027; x=1750539827;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0OdKhcdX/Ld6/B+nz9FudFYRAeeXiuopDkfggmHtu4c=;
-        b=Cj/ma5bh2NCBM4Xc0yVuSv48jDr/JEHtk8CyfzDk4qEyumoSWdoBW95/3WPepJ8CON
-         hd29p0bMXL7bg5xALTrL96JoOwh5dMN/zQRS0f7Lra9c7Rv98E7MSkkloC4CitZuhMD1
-         1+q+rAOGcgoRgCEp4W/60HRdud70UpKEKRBLPg/eabMkGOFVfvjiYaKu3LhOJTmFkQ9e
-         zTi8oPBwah7aGiHR1DFvOpH06qydGD2bOqmSK78JgwcLMyYN7p4FOgLOOXTZFViIpXdq
-         qAkVLASTF/btq71VeXTfAdcGzCvVD/rUtxLEgX31cBHH+zIj5j5odnexs3QGjEh1z18u
-         J8gQ==
-X-Gm-Message-State: AOJu0YzZ29MnAjX4mKn1SNW0CCIgueAJzAyvvGfwQ/7eiBU902XeXcDq
-	HFSAxqTPHycWWmO/azPLMaI4PEkM7wVkkVNwk3e8Ry9yItROSWVmJ28/iBwvApu/S1XjuydLbjF
-	4/1oNfz1xrcFe8w5sKnpcxak+e1qqOD4/Pg==
-X-Gm-Gg: ASbGncsvhyrzkkqhW6oLz58IiMDTi5ylh2CARrp2U/R9eHPW9aKeP+G8ZWUBw1t1aL6
-	HKmmbWtaPZJSRLD0r8t3/wDyoq9s90us877mbh1795W4zTAcKfUbSjRrU7IIngdyx54TvvK1msf
-	e6Hq4em1n5dBEkIZylRlYlprvgSAaZ/firQAmLzEaFxaQ=
-X-Google-Smtp-Source: AGHT+IGu93GP+KkLLxC94zvvxmBww60zajR1g64jAao9oosD/cWo320pRgX+YtiZmsHlHY1U0QKpiPD5ZTdhV3sU8Ec=
-X-Received: by 2002:a17:907:e8d:b0:ade:42a7:dad2 with SMTP id
- a640c23a62f3a-adfad5c7513mr353525966b.33.1749933565415; Sat, 14 Jun 2025
- 13:39:25 -0700 (PDT)
+        bh=PR6IynR8lAGxG2+bYIeWpyL2lfyc054Qmg0/QKvDK6w=;
+        b=NX+LDEdrLu6U2w5y4QZnTVIeJ0VYLpWBI/ZrKZtbMUl4kpuFMYhT+NWhnVtr6HaiPU
+         LXOjwMlQN0rqs4Ben92OCi/EF00oLeKlLfEuqZhR9yfW1yg6AK8OK9+qv2gHm9krF1Mk
+         moLSBs9t4gVy6j5Bvf1LRLwnRTm5SXJ+M1wGpfxvaE42qewcFYvEYwp4Evgg2rclurno
+         jywpPaDk+O7MN4Z0eqOxMvf373s8Cgpl+Z1GctFZg/7WtTgrJpmx28jfwpoepwdnAet4
+         WFFfch9YvboI8VF2ey3V9n2mJ01bOn49uIJuL/eePMmS0x+Yfn7Jt933y9guvXVe/d4a
+         fwrg==
+X-Gm-Message-State: AOJu0YwVYfNRad3kp3LhHt8CMa/UvL2Q2XTeB78D7WtrXg2AbOAaHa8S
+	djj6ENFRWzJakI9CMj9FNu4v2pXlF8DKKqHoWwPQvDj02d8JPCuBUqHiPWAm4MjaU7M=
+X-Gm-Gg: ASbGncvqpI1q1Qo421+J10GMGT9YDZodOCIugqyOO9Dv8I+TfTwyWg86st8yaxCCvZD
+	tbGocoWtML5gP7JnbeZ/MdASmLD90djmu5DyrvXhpvyocQPgZh0DgqXzMtkKOCWZBRM7jxIHCw6
+	2e2NbKGlViKuXqfu1blQzA8H1yr+gOqOZ11LsfWkwPB14zCbd2AvYWhM779leHGTDfYvBxk+tZO
+	5iktii4ItW3YJLHjHvZMiyiF9zmejkNTfU1RYkwZ0XlLXAxgMIdJileymCUH+SHAxALXsl0B9eJ
+	b9K7y5YvML7LRGqtHEGGCJDJ/66xxsRDTOA4oXfRBHv5Ia4WIF9PmNC3Lffdg24Cij6JQ3Izejf
+	DglD0pnYrWqKNXGf7UdZ8bdEmSKHpX04QxttE4dCT1gGIK0YhgpBYRWLbdQA=
+X-Google-Smtp-Source: AGHT+IFfgg22QDt+seIDncOZ3YHXOI4sZhcMQrCAF4ZY++y7cCIUr5iSJH8IbbW0pRYUngPQrWaErg==
+X-Received: by 2002:a17:907:6ea0:b0:ade:31bf:6119 with SMTP id a640c23a62f3a-adfad29fcbcmr313044966b.12.1749935026343;
+        Sat, 14 Jun 2025 14:03:46 -0700 (PDT)
+Received: from DESKTOP-LR19VKC.localdomain (ip-095-223-184-217.um35.pools.vodafone-ip.de. [95.223.184.217])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec81c1fc2sm365722166b.59.2025.06.14.14.03.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Jun 2025 14:03:45 -0700 (PDT)
+From: Savvas Etairidis <setairidis@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Savvas Etairidis <setairidis@gmail.com>
+Subject: [scarthgap] systemd: Rename systemd_v255.21 to systemd_255.21
+Date: Sat, 14 Jun 2025 23:03:18 +0200
+Message-Id: <20250614210317.1303-1-setairidis@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250614203340.11007-1-setairidis@gmail.com>
-In-Reply-To: <20250614203340.11007-1-setairidis@gmail.com>
-From: Sandeep Paulraj <paulrajsandeep30@gmail.com>
-Date: Sat, 14 Jun 2025 13:39:13 -0700
-X-Gm-Features: AX0GCFtQt35YLwti3jJLtXjiob1iqRNtsRA1aD8Lm2QhjoSRDc2MUmoABt22kUc
-Message-ID: <CAA7AJv7S7ZuAaAoBZJDut33U4Q1FvkCODZ0V+VUYGu=_LuaWfg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd: Rename systemd_v255.21 to systemd_255.21
-To: setairidis@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000008c13bc06378e28a4"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 20:39:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218643
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 21:03:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218644
 
---0000000000008c13bc06378e28a4
-Content-Type: text/plain; charset="UTF-8"
+Pumped PE property to two, since this is not a version bump
+but a rename. The recipe was accidentally renamed with a 'v'
+prefix in 29e623b2ad00555788412fa520fbb9ffec794cbb.
 
-On Sat, Jun 14, 2025, 1:33 PM Savvas Etairidis via lists.openembedded.org
-<setairidis=gmail.com@lists.openembedded.org> wrote:
+Signed-off-by: Savvas Etairidis <setairidis@gmail.com>
+---
+ .../systemd/{systemd_v255.21.bb => systemd_255.21.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd_v255.21.bb => systemd_255.21.bb} (99%)
 
-> Pumped PE property to two, since this is not a version bump
-> but a rename. The recipe was accidentally renamed with a 'v'
-> prefix in 29e623b2ad00555788412fa520fbb9ffec794cbb.
->
-> Signed-off-by: Savvas Etairidis <setairidis@gmail.com>
-> ---
->  .../systemd/{systemd_v255.21.bb => systemd_255.21.bb}           | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-core/systemd/{systemd_v255.21.bb => systemd_255.21.bb}
-> (99%)
->
-> diff --git a/meta/recipes-core/systemd/systemd_v255.21.bb
-> b/meta/recipes-core/systemd/systemd_255.21.bb
-> similarity index 99%
-> rename from meta/recipes-core/systemd/systemd_v255.21.bb
-> rename to meta/recipes-core/systemd/systemd_255.21.bb
-> index bb9dc3da33..aee677bc87 100644
-> --- a/meta/recipes-core/systemd/systemd_v255.21.bb
-> +++ b/meta/recipes-core/systemd/systemd_255.21.bb
-> @@ -2,7 +2,7 @@ require systemd.inc
->
->  PROVIDES = "udev"
->
-> -PE = "1"
-> +PE = "2"
->
->  DEPENDS = "gperf-native libcap util-linux python3-jinja2-native"
->
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#218642):
-> https://lists.openembedded.org/g/openembedded-core/message/218642
-> Mute This Topic: https://lists.openembedded.org/mt/113646285/4454772
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> paulrajsandeep30@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+diff --git a/meta/recipes-core/systemd/systemd_v255.21.bb b/meta/recipes-core/systemd/systemd_255.21.bb
+similarity index 99%
+rename from meta/recipes-core/systemd/systemd_v255.21.bb
+rename to meta/recipes-core/systemd/systemd_255.21.bb
+index bb9dc3da33..aee677bc87 100644
+--- a/meta/recipes-core/systemd/systemd_v255.21.bb
++++ b/meta/recipes-core/systemd/systemd_255.21.bb
+@@ -2,7 +2,7 @@ require systemd.inc
 
---0000000000008c13bc06378e28a4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ PROVIDES = "udev"
 
-<div dir=3D"auto"></div><br><div class=3D"gmail_quote gmail_quote_container=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jun 14, 2025, 1:33 PM Savva=
-s Etairidis via <a href=3D"http://lists.openembedded.org">lists.openembedde=
-d.org</a> &lt;setairidis=3D<a href=3D"mailto:gmail.com@lists.openembedded.o=
-rg">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">Pumped PE property to two, since this is not a version bum=
-p<br>
-but a rename. The recipe was accidentally renamed with a &#39;v&#39;<br>
-prefix in 29e623b2ad00555788412fa520fbb9ffec794cbb.<br>
-<br>
-Signed-off-by: Savvas Etairidis &lt;<a href=3D"mailto:setairidis@gmail.com"=
- target=3D"_blank" rel=3D"noreferrer">setairidis@gmail.com</a>&gt;<br>
----<br>
-=C2=A0.../systemd/{<a href=3D"http://systemd_v255.21.bb" rel=3D"noreferrer =
-noreferrer" target=3D"_blank">systemd_v255.21.bb</a> =3D&gt; <a href=3D"htt=
-p://systemd_255.21.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">syst=
-emd_255.21.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-core/systemd/{<a href=3D"http://systemd_v255.21.b=
-b" rel=3D"noreferrer noreferrer" target=3D"_blank">systemd_v255.21.bb</a> =
-=3D&gt; <a href=3D"http://systemd_255.21.bb" rel=3D"noreferrer noreferrer" =
-target=3D"_blank">systemd_255.21.bb</a>} (99%)<br>
-<br>
-diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_v255.21.bb=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">systemd_v255.21.bb</a> b/=
-meta/recipes-core/systemd/<a href=3D"http://systemd_255.21.bb" rel=3D"noref=
-errer noreferrer" target=3D"_blank">systemd_255.21.bb</a><br>
-similarity index 99%<br>
-rename from meta/recipes-core/systemd/<a href=3D"http://systemd_v255.21.bb"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">systemd_v255.21.bb</a><br>
-rename to meta/recipes-core/systemd/<a href=3D"http://systemd_255.21.bb" re=
-l=3D"noreferrer noreferrer" target=3D"_blank">systemd_255.21.bb</a><br>
-index bb9dc3da33..aee677bc87 100644<br>
---- a/meta/recipes-core/systemd/<a href=3D"http://systemd_v255.21.bb" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">systemd_v255.21.bb</a><br>
-+++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_255.21.bb" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">systemd_255.21.bb</a><br>
-@@ -2,7 +2,7 @@ require systemd.inc<br>
-<br>
-=C2=A0PROVIDES =3D &quot;udev&quot;<br>
-<br>
--PE =3D &quot;1&quot;<br>
-+PE =3D &quot;2&quot;<br>
-<br>
-=C2=A0DEPENDS =3D &quot;gperf-native libcap util-linux python3-jinja2-nativ=
-e&quot;<br>
-<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#218642): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/218642" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/218642</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113646285/445=
-4772" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/113646285/4454772</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:paulrajsandeep3=
-0@gmail.com" target=3D"_blank" rel=3D"noreferrer">paulrajsandeep30@gmail.co=
-m</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+-PE = "1"
++PE = "2"
 
---0000000000008c13bc06378e28a4--
+ DEPENDS = "gperf-native libcap util-linux python3-jinja2-native"
+
+--
+2.34.1
+
 
