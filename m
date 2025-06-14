@@ -1,100 +1,98 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <setairidis@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D9FC71135
-	for <webhook@archiver.kernel.org>; Sat, 14 Jun 2025 20:31:09 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.16749.1749933061815643589
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8890FC7114A
+	for <webhook@archiver.kernel.org>; Sat, 14 Jun 2025 20:33:49 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.17198.1749933227664051416
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Jun 2025 13:31:01 -0700
+ Sat, 14 Jun 2025 13:33:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=rhV+u4GT;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=V5Qmhzei;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010197702372e1-c0f22c3c-a470-4ec4-a1ab-fecb9fec850d-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1749933061; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=sRr2/KYZJEeLi6WIzwermsdmEbRLx+7CqLor+8Ed0NM=;
-	b=rhV+u4GTcfreCqSUO+94Qvcb1SvNSnLBqEAdROlP2HbK8YNRHMF52xaUq9/PMb8B
-	qYjrelioJl+SzqCDgGam4IPnBUHOsJ/byNT5vXNRD1iQs6RSY8/O/9lP9N/O8s8r2pz
-	oY9xO2LNl8QAIjmXZrh3sz/MFZoKtltWu2xg1ycc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749933061;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=sRr2/KYZJEeLi6WIzwermsdmEbRLx+7CqLor+8Ed0NM=;
-	b=V5QmhzeiFaID2j/YGhSTUqsjuoGIS82CTH6xhR0pM8mzn8ne03O19HtdJV/q61nG
-	FuJZ3nHpkC+vaV+IZbXuAB/Uy/Ai5Hq8U8QJ9J7WQyw19mWsbBpqrUBHncdzh/om8DK
-	oTwnQ+qOEesHVfgYT4c8QJkVqA8437gtu4I3TBAw=
-From: patchtest@automation.yoctoproject.org
-To: Savvas Etairidis <setairidis@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [scarthgap] systemd: Rename systemd_v255.21 to systemd_255.21
-In-Reply-To: <20250614201753.7492-1-setairidis@gmail.com>
-References: <20250614201753.7492-1-setairidis@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010197702372e1-c0f22c3c-a470-4ec4-a1ab-fecb9fec850d-000000@us-west-2.amazonses.com>
-Date: Sat, 14 Jun 2025 20:31:00 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.14-54.240.27.33
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZvUmPNPO;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: setairidis@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-acae7e7587dso484042966b.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 13:33:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749933226; x=1750538026; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PR6IynR8lAGxG2+bYIeWpyL2lfyc054Qmg0/QKvDK6w=;
+        b=ZvUmPNPOTNp9rm/Lv4xblQDbzuwWJV1NSmNpnW6SVd2oSnfHrVae8Uywkfl/sA9iGW
+         kf08gL7ypB4Yc36CuVn8tUOrUSugJCakIeq9maDFQzdcGbyd6kbniifhb4D3Skp6LJ6c
+         eY4bIQORsP6BQvnDQtKI85vEz9GO35XigjdDLdo8RF8565epsGGfqBAn4cn/2eWizZzp
+         uaoBW9iZVwCbxnd0xHG6qb9jq/iM1OS9zS4TVy0s4sZrt+GkC0/l//kJ1JKoE1Mn29nw
+         tcjt89HF0L0hCiaezcKbVbskuvigsxx8BA6mKRQf/wH6BsBtzDCVTNZnxGYuFB2pmDeA
+         4/sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749933226; x=1750538026;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PR6IynR8lAGxG2+bYIeWpyL2lfyc054Qmg0/QKvDK6w=;
+        b=dl2oGEDA3lq3JWLnN5et+gjGIlaw6BGLaYXXfFeeiihoZTtpZnM/9LgEYHnuHtvfMx
+         /iwh2LDCXY1b1JgrHOaBsnN3PXuuATO/n5vWhgIdhTDKGVmRzRmakL7rUAhpuExu/eOm
+         3KV7V1qvAHXAYkB/08Gykv8fz5tSX7ZlUyLwF0nKqSsO8+E7kNMwp0KcZbHIIxrqEMeM
+         d7/89M+LIi33GpWv024ZzgdT8GW6Seqnx3SmUIFp8T6gySMYur4JoXXXIP+UW3fF76jg
+         i+ARNSCcKnKTdsEzG+6FOuAZKbSqtVLG1zUeEFVoz9OK9l21myEHgqLpzOTf/OpGTqVg
+         LBCg==
+X-Gm-Message-State: AOJu0YweqSXevX4EHakvcZEo3FLJnmK1JOVsqD0C1CpEvjEUIZ5c1uyw
+	tpfKQtA1hj1oJPUwb2OOrAtZYUX5vsBOQdCYHVYsbrEIM7Op8RS+9a4yV0f5HA6ENxM=
+X-Gm-Gg: ASbGncspJBX+ZnsOIwvPjzxMdt3DQOZumB+hELZLlxMUElJglYIhc4/AWt194jmeXbC
+	duYFMBGTc5WDBLp5dU6qqkVrQFdbRhBIvkIKRLS/ogXrDzaSAimY8vJvZ2r1+bvjgnEJxF3UhqK
+	QfDdzdahX1/0nUsXBu05SYUenk8k/j8rp91UrjlLLi3iMbw33O62RVxxeG6ZU9NWHkqYKfi8uKy
+	RgotHkIOyszxzKH1bS8nRzWueJOq+FDePpV/r1qBx2nz9UjOE8s9yMMAd76qdYD5kqaGbTnYQeX
+	XGSu92jQXk1tniWczkm9kOub3REEMugK1wwZzHRFUCxJ1qsFA+bCRVYLeOrNjpX/7/Nedhwf+4b
+	PbUlCOiUc4AMO0yX3P7ZqeK33cNl5ZGMYzwzuxq6jVACsrBFpDW+eEpORGvg=
+X-Google-Smtp-Source: AGHT+IEOaHKmrVIUiRZBSYjm7UHGKsy35QBSO7RsZO8HWfn6+HdhOmbQ2q3C++RiUZ3iRcDsWyvxOA==
+X-Received: by 2002:a17:906:c14c:b0:ade:484d:1518 with SMTP id a640c23a62f3a-adfad38b235mr380004566b.26.1749933225754;
+        Sat, 14 Jun 2025 13:33:45 -0700 (PDT)
+Received: from DESKTOP-LR19VKC.localdomain (ip-095-223-184-217.um35.pools.vodafone-ip.de. [95.223.184.217])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec8158cc8sm357048966b.1.2025.06.14.13.33.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Jun 2025 13:33:45 -0700 (PDT)
+From: Savvas Etairidis <setairidis@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Savvas Etairidis <setairidis@gmail.com>
+Subject: [PATCH] systemd: Rename systemd_v255.21 to systemd_255.21
+Date: Sat, 14 Jun 2025 22:33:40 +0200
+Message-Id: <20250614203340.11007-1-setairidis@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 20:31:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218641
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Jun 2025 20:33:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218642
 
---NextPart
-Content-Type: text/plain
+Pumped PE property to two, since this is not a version bump
+but a rename. The recipe was accidentally renamed with a 'v'
+prefix in 29e623b2ad00555788412fa520fbb9ffec794cbb.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Savvas Etairidis <setairidis@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/scarthgap-systemd-Rename-systemd_v255.21-to-systemd_255.21.patch
+ .../systemd/{systemd_v255.21.bb => systemd_255.21.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd_v255.21.bb => systemd_255.21.bb} (99%)
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+diff --git a/meta/recipes-core/systemd/systemd_v255.21.bb b/meta/recipes-core/systemd/systemd_255.21.bb
+similarity index 99%
+rename from meta/recipes-core/systemd/systemd_v255.21.bb
+rename to meta/recipes-core/systemd/systemd_255.21.bb
+index bb9dc3da33..aee677bc87 100644
+--- a/meta/recipes-core/systemd/systemd_v255.21.bb
++++ b/meta/recipes-core/systemd/systemd_255.21.bb
+@@ -2,7 +2,7 @@ require systemd.inc
+ 
+ PROVIDES = "udev"
+ 
+-PE = "1"
++PE = "2"
+ 
+ DEPENDS = "gperf-native libcap util-linux python3-jinja2-native"
+ 
+-- 
+2.34.1
 
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
