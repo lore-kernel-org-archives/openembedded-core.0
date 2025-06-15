@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2731DC73C66
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A4B0C77B7A
 	for <webhook@archiver.kernel.org>; Sun, 15 Jun 2025 13:14:52 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.8861.1749993279951664391
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.8869.1749993288265087895
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Jun 2025 06:14:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aizJwAeZ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=lYruZlXH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019773ba71a9-ccda6fd7-cde8-422a-aef2-bc39b124fcf2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=THXfdhOJ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YWD1wIty;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019773ba6fde-ff9ffd6f-56cd-48f0-ac82-e02e25854c15-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1749993288;
+	t=1749993287;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=CXJ7nfJJJ5Lfv2TYTdymDYISKri/dd9aKRRT7GqF4Qk=;
-	b=aizJwAeZgVQF1VcG9huh7k9+YEXC6zH34iqD0q1yL09vUxBJ59odSiVzZieMdg3s
-	hIkjw491h4cvWsQr3Z/GMwR3Y9hcFixIKlQYIsJ9Jf1PZyoPWG6/Hj7M+L88zp6vPMu
-	PrM+ZR8vjCvmwAtcWf8HQW2/8pDEs/aAxBo1eE24=
+	bh=Na2i34avXeZl8QoHx8FVXbEHLGZCHO5NwZ5aLxkzLc4=;
+	b=THXfdhOJWrf/JrxBDnvGirTKMa2JEQJ1RVzxfV+gg/CPbPkCh8/SHNwHUaXCx1jz
+	yvTkIKtyffoG05W7qRTiVfUZBb5PhZA6Jv3bJ7cD37XFbRPHmtvRIiFNvl34G3ilArp
+	TQI38HB9j4MdbaLtahumpC9OjScPKoeQW5i1MO1Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993288;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993287;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=CXJ7nfJJJ5Lfv2TYTdymDYISKri/dd9aKRRT7GqF4Qk=;
-	b=lYruZlXHHgf4/cvjnMN4l93GYkh0avVLjB94d33lQ9QfNwVAZFL/U6/hvmmWe5kJ
-	gxmfmJTif8Gg5NUaRA8VYlsrgYADlRB71AYah7hf80j6H5Y8e6sEUtt1jFaI1BsxZXt
-	XKj5Cem60s4pBJ593BWrbi2QFliqj4kckyJbWk+k=
-Content-Type: multipart/mixed; boundary="===============2624002296877824093=="
+	bh=Na2i34avXeZl8QoHx8FVXbEHLGZCHO5NwZ5aLxkzLc4=;
+	b=YWD1wItyMftL7zJaEFkv8QctoIIyA9chqjKQEyt7a2oTWUb9Jfqhev6csIX80B98
+	/Ylxj5l6G7I5XReSPWOwrhW++j2uG286rQti4XQnTROist5NsOKShlq5mj7Sx5CM6G1
+	LyfuT9SKjTpEIj6AVhmcN2RO8HRtinu/sEQiia5E=
+Content-Type: multipart/mixed; boundary="===============9134665214776195506=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Zang Ruochen <zangruochen@loongson.cn>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pbr: upgrading to 6.1.1 FAILED
-Message-ID: <0101019773ba71a9-ccda6fd7-cde8-422a-aef2-bc39b124fcf2-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Jun 2025 13:14:48 +0000
+Subject: [AUH] python3-hatch-vcs: upgrading to 0.5.0 SUCCEEDED
+Message-ID: <0101019773ba6fde-ff9ffd6f-56cd-48f0-ac82-e02e25854c15-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Jun 2025 13:14:47 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.15-54.240.27.45
+X-SES-Outgoing: 2025.06.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 13:14:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218683
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218682
 
---===============2624002296877824093==
+--===============9134665214776195506==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,90 +51,121 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pbr* to *6.1.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-hatch-vcs* to *0.5.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-hatch-vcs-upgrade-0.4.0-0.5.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3-pbr failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1910 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b3d2fff8b2b189af37806b43033c55b646bce609"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 23 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 936 .bb files complete (0 cached, 936 parsed). 1911 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b3d2fff8b2b189af37806b43033c55b646bce609"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/p/pbr/pbr-6.1.1.tar.gz;downloadfilename=pbr-6.1.1.tar.gz...
-INFO: Rebasing devtool onto 6f03847c8aa18db1884e2b9e060010a795773109
-WARNING: Command 'git rebase 6f03847c8aa18db1884e2b9e060010a795773109' failed:
-Auto-merging pbr/tests/test_integration.py
-Auto-merging pbr/tests/test_packaging.py
-CONFLICT (content): Merge conflict in pbr/tests/test_packaging.py
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/python3-pbr
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/python3-pbr/python3-pbr_6.1.1.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2624002296877824093==--
+
+-- >8 --
+From 070e067ed3e1486ff56d9a866e6be4e304a5426a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 15 Jun 2025 08:23:16 +0000
+Subject: [PATCH] python3-hatch-vcs: upgrade 0.4.0 -> 0.5.0
+
+---
+ .../{python3-hatch-vcs_0.4.0.bb => python3-hatch-vcs_0.5.0.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hatch-vcs_0.4.0.bb => python3-hatch-vcs_0.5.0.bb} (79%)
+
+diff --git a/meta/recipes-devtools/python/python3-hatch-vcs_0.4.0.bb b/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-hatch-vcs_0.4.0.bb
+rename to meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb
+index ac70295f45..011e28eb81 100644
+--- a/meta/recipes-devtools/python/python3-hatch-vcs_0.4.0.bb
++++ b/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb
+@@ -8,6 +8,6 @@ inherit pypi python_hatchling
+ PYPI_PACKAGE = "hatch_vcs"
+ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+ 
+-SRC_URI[sha256sum] = "093810748fe01db0d451fabcf2c1ac2688caefd232d4ede967090b1c1b07d9f7"
++SRC_URI[sha256sum] = "0395fa126940340215090c344a2bf4e2a77bcbe7daab16f41b37b98c95809ff9"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.47.1
+
+
+--===============9134665214776195506==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-hatch-vcs-upgrade-0.4.0-0.5.0.patch"
+
+RnJvbSAwNzBlMDY3ZWQzZTE0ODZmZjU2ZDlhODY2ZTZiZTRlMzA0YTU0MjZhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgSnVuIDIwMjUgMDg6MjM6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWhhdGNoLXZjczogdXBncmFkZSAwLjQuMCAtPiAwLjUuMAoKLS0tCiAuLi4ve3B5dGhv
+bjMtaGF0Y2gtdmNzXzAuNC4wLmJiID0+IHB5dGhvbjMtaGF0Y2gtdmNzXzAuNS4wLmJifSAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWhhdGNoLXZjc18wLjQuMC5i
+YiA9PiBweXRob24zLWhhdGNoLXZjc18wLjUuMC5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2gtdmNzXzAuNC4wLmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWhhdGNoLXZjc18wLjUuMC5iYgpzaW1p
+bGFyaXR5IGluZGV4IDc5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtaGF0Y2gtdmNzXzAuNC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2gtdmNzXzAuNS4wLmJiCmluZGV4IGFjNzAyOTVmNDUuLjAx
+MWUyOGViODEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1oYXRjaC12Y3NfMC40LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLWhhdGNoLXZjc18wLjUuMC5iYgpAQCAtOCw2ICs4LDYgQEAgaW5oZXJpdCBweXBpIHB5
+dGhvbl9oYXRjaGxpbmcKIFBZUElfUEFDS0FHRSA9ICJoYXRjaF92Y3MiCiBVUFNUUkVBTV9DSEVD
+S19QWVBJX1BBQ0tBR0UgPSAiJHtQWVBJX1BBQ0tBR0V9IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiMDkzODEwNzQ4ZmUwMWRiMGQ0NTFmYWJjZjJjMWFjMjY4OGNhZWZkMjMyZDRlZGU5NjcwOTBi
+MWMxYjA3ZDlmNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwMzk1ZmExMjY5NDAzNDAyMTUwOTBj
+MzQ0YTJiZjRlMmE3N2JjYmU3ZGFhYjE2ZjQxYjM3Yjk4Yzk1ODA5ZmY5IgogCiBCQkNMQVNTRVhU
+RU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCi0tIAoyLjQ3LjEKCg==
+
+--===============9134665214776195506==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-hatch-vcs: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hatch_vcs/hatch_vcs-0.4.0.tar.gz;downloadfilename=hatch_vcs-0.4.0.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hatch_vcs/hatch_vcs-0.5.0.tar.gz;downloadfilename=hatch_vcs-0.5.0.tar.gz"
+packages/core2-64-poky-linux/python3-hatch-vcs: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dbg: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dbg: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dev: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dev: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-doc: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-doc: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-locale: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-locale: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-src: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-src: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-staticdev: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-staticdev: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs: PKGSIZE changed from 26221 to 26637 (+2%)
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+Changes to packages/core2-64-poky-linux/python3-hatch-vcs (sysroot):
+  /usr/lib/python3.13/site-packages/hatch_vcs-0.4.0.dist-info moved to /usr/lib/python3.13/site-packages/hatch_vcs-0.5.0.dist-info
+
+--===============9134665214776195506==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/python3-hatch-vcs (sysroot):
+  /usr/lib/python3.13/site-packages/hatch_vcs-0.4.0.dist-info moved to /usr/lib/python3.13/site-packages/hatch_vcs-0.5.0.dist-info
+
+--===============9134665214776195506==--
 
