@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EA7CC8302A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A089EC8302E
 	for <webhook@archiver.kernel.org>; Sun, 15 Jun 2025 13:14:53 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.8887.1749993280586977019
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.8886.1749993279766792752
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jun 2025 06:14:51 -0700
+ Sun, 15 Jun 2025 06:14:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=3NQPRlK/;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=D99KTZVK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019773ba7d8e-afdedf13-5908-446f-963a-b56c53d3ce86-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ewcNrLBR;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dsSDNphO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019773ba809d-40a73a8f-e1f8-4fbf-9283-be4471d8e08a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1749993291;
+	t=1749993292;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=URFLFQejxNOYeKAJGOy95ftH9HToqN09n/OccxW2l4A=;
-	b=3NQPRlK/VgOlCQ2K8BHuBQDK495M2PeaTP5hLLr5c4Xx/WANe4W6MsYNkrdd2aI+
-	kwU7CvRuwqcTzXyhlBrsjL+cU2xPxJSU4UKKUgyp/V6+GZgFJjoXh55Rlcd5vv+R5PA
-	p4dR1f2VHR4+vnvAXwt4SEgJr2scSYLLEygKGAQg=
+	bh=sVtryESorVhDrmiK/jQFtZQNO11WoXwXyfphIIhV56c=;
+	b=ewcNrLBR8HcdX+/toFxU7Fq/9Jh8a5x/tr2nIQaXltHR6x7u+K6kEKHNX7rPbP15
+	nrq+7QcP9iRm6sL+BkkHn2ovmQLnYTVBr2yzHtf2b/9dEjXmkdcq2np2hgZ2OJWjWa7
+	tMWmOLQqIF0Pbr89EouIttqZUElmynMSjX5G/FxQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993291;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993292;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=URFLFQejxNOYeKAJGOy95ftH9HToqN09n/OccxW2l4A=;
-	b=D99KTZVK98cAqp6B0yArEogjz9GBkSYh6CBg7zqYS0Jce9w3th6ilCNqBPpWDaV1
-	swiuwfV/k3Lf1NAp2N0Ai6mgr+MWfUDokfDTvegxm9qUkGCK+SUAYr0NLkwm1J/uRJ7
-	gFdyQJiuKEIcDCf0pLtXW3jqzkVAb+LsFCwQAzis=
-Content-Type: multipart/mixed; boundary="===============3232172904977371429=="
+	bh=sVtryESorVhDrmiK/jQFtZQNO11WoXwXyfphIIhV56c=;
+	b=dsSDNphOfl3XxUpy988DcK0FktGoTkrms93VQSoS5gOedq/gXLcHKMmqFrhqnokn
+	27bE1hoakupHWMFapc5t8ffNsyKf0CXBzjswe/VfuOLoEg/A1iMnSkuNA0hrVhtTGW7
+	udzPbQVkL1i/t6hpruzwOJAMmL6iX+iMg1qi0Hm8=
+Content-Type: multipart/mixed; boundary="===============6381489572610220556=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-ruamel-yaml: upgrading to 0.18.14 SUCCEEDED
-Message-ID: <0101019773ba7d8e-afdedf13-5908-446f-963a-b56c53d3ce86-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-typing-extensions: upgrading to 4.14.0 SUCCEEDED
+Message-ID: <0101019773ba809d-40a73a8f-e1f8-4fbf-9283-be4471d8e08a-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Jun 2025 13:14:51 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.15-54.240.27.29
+X-SES-Outgoing: 2025.06.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 13:14:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218692
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218697
 
---===============3232172904977371429==
+--===============6381489572610220556==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-ruamel-yaml* to *0.18.14* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-typing-extensions* to *4.14.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-ruamel-yaml-upgrade-0.18.12-0.18.14.patch
+    - apply the patch: git am 0001-python3-typing-extensions-upgrade-4.13.2-4.14.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,62 +72,94 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From debf9dde66e46d391a9b7da1f59b57785944735b Mon Sep 17 00:00:00 2001
+From b9fae6c91d593cb5a546237272b560bb692e5130 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Jun 2025 08:54:52 +0000
-Subject: [PATCH] python3-ruamel-yaml: upgrade 0.18.12 -> 0.18.14
+Date: Sun, 15 Jun 2025 09:02:49 +0000
+Subject: [PATCH] python3-typing-extensions: upgrade 4.13.2 -> 4.14.0
 
 ---
- ...n3-ruamel-yaml_0.18.12.bb => python3-ruamel-yaml_0.18.14.bb} | 2 +-
+ ...extensions_4.13.2.bb => python3-typing-extensions_4.14.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.18.12.bb => python3-ruamel-yaml_0.18.14.bb} (85%)
+ rename meta/recipes-devtools/python/{python3-typing-extensions_4.13.2.bb => python3-typing-extensions_4.14.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.12.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.14.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.18.12.bb
-rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.14.bb
-index 3b136b3b58..e7ac24abb8 100644
---- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.12.bb
-+++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.14.bb
-@@ -9,7 +9,7 @@ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.13.2.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.14.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-typing-extensions_4.13.2.bb
+rename to meta/recipes-devtools/python/python3-typing-extensions_4.14.0.bb
+index 9c83ae6c61..1c03aacc10 100644
+--- a/meta/recipes-devtools/python/python3-typing-extensions_4.13.2.bb
++++ b/meta/recipes-devtools/python/python3-typing-extensions_4.14.0.bb
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
+ PYPI_PACKAGE = "typing_extensions"
+ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
  
- inherit pypi python_setuptools_build_meta
+-SRC_URI[sha256sum] = "e6c81219bd689f51865d9e372991c540bda33a0379d5573cddb9a3a23f7caaef"
++SRC_URI[sha256sum] = "8676b788e32f02ab42d9e7c61324048ae4c6d844a399eebace3d4979d75ceef4"
  
--SRC_URI[sha256sum] = "5a38fd5ce39d223bebb9e3a6779e86b9427a03fb0bf9f270060f8b149cffe5e2"
-+SRC_URI[sha256sum] = "7227b76aaec364df15936730efbf7d72b30c0b79b1d578bbb8e3dcb2d81f52b7"
+ inherit pypi python_flit_core
  
- RDEPENDS:${PN} += "\
-     python3-shell \
 -- 
 2.47.1
 
 
---===============3232172904977371429==
+--===============6381489572610220556==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-typing-extensions-upgrade-4.13.2-4.14.0.patch"
+
+RnJvbSBiOWZhZTZjOTFkNTkzY2I1YTU0NjIzNzI3MmI1NjBiYjY5MmU1MTMwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgSnVuIDIwMjUgMDk6MDI6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXR5cGluZy1leHRlbnNpb25zOiB1cGdyYWRlIDQuMTMuMiAtPiA0LjE0LjAKCi0tLQog
+Li4uZXh0ZW5zaW9uc180LjEzLjIuYmIgPT4gcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjE0
+LjAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy10eXBpbmct
+ZXh0ZW5zaW9uc180LjEzLjIuYmIgPT4gcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjE0LjAu
+YmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLXR5cGluZy1leHRlbnNpb25zXzQuMTMuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjE0LjAuYmIKc2ltaWxhcml0eSBpbmRl
+eCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXR5
+cGluZy1leHRlbnNpb25zXzQuMTMuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTQuMC5iYgppbmRleCA5YzgzYWU2
+YzYxLi4xYzAzYWFjYzEwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC4xMy4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjE0LjAuYmIKQEAgLTE2
+LDcgKzE2LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZmNmNmIy
+NDljMjY0MTU0MDIxOWE3MjdmMzVkOGQyYzIiCiBQWVBJX1BBQ0tBR0UgPSAidHlwaW5nX2V4dGVu
+c2lvbnMiCiBVUFNUUkVBTV9DSEVDS19QWVBJX1BBQ0tBR0UgPSAiJHtQWVBJX1BBQ0tBR0V9Igog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZTZjODEyMTliZDY4OWY1MTg2NWQ5ZTM3Mjk5MWM1NDBi
+ZGEzM2EwMzc5ZDU1NzNjZGRiOWEzYTIzZjdjYWFlZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4
+Njc2Yjc4OGUzMmYwMmFiNDJkOWU3YzYxMzI0MDQ4YWU0YzZkODQ0YTM5OWVlYmFjZTNkNDk3OWQ3
+NWNlZWY0IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2ZsaXRfY29yZQogCi0tIAoyLjQ3LjEKCg==
+
+--===============6381489572610220556==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-ruamel-yaml: PV changed from "0.18.12" to "0.18.14"
-packages/core2-64-poky-linux/python3-ruamel-yaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.12.tar.gz;downloadfilename=ruamel.yaml-0.18.12.tar.gz" to "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.14.tar.gz;downloadfilename=ruamel.yaml-0.18.14.tar.gz"
-packages/core2-64-poky-linux/python3-ruamel-yaml: PKGV changed from 0.18.12 [default] to 0.18.14 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PV changed from "0.18.12" to "0.18.14"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PKGV changed from 0.18.12 [default] to 0.18.14 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PV changed from "0.18.12" to "0.18.14"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PKGV changed from 0.18.12 [default] to 0.18.14 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PV changed from "0.18.12" to "0.18.14"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PKGV changed from 0.18.12 [default] to 0.18.14 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PV changed from "0.18.12" to "0.18.14"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PKGV changed from 0.18.12 [default] to 0.18.14 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PV changed from "0.18.12" to "0.18.14"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PKGV changed from 0.18.12 [default] to 0.18.14 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PV changed from "0.18.12" to "0.18.14"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PKGV changed from 0.18.12 [default] to 0.18.14 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PV changed from "0.18.12" to "0.18.14"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGSIZE changed from 1203591 to 1204026 (+0%)
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGV changed from 0.18.12 [default] to 0.18.14 [default]
-Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.12.dist-info moved to /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.14.dist-info
+packages/core2-64-poky-linux/python3-typing-extensions: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.13.2.tar.gz;downloadfilename=typing_extensions-4.13.2.tar.gz" to "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.14.0.tar.gz;downloadfilename=typing_extensions-4.14.0.tar.gz"
+packages/core2-64-poky-linux/python3-typing-extensions: PKGV changed from 4.13.2 [default] to 4.14.0 [default]
+packages/core2-64-poky-linux/python3-typing-extensions: PV changed from "4.13.2" to "4.14.0"
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PKGV changed from 4.13.2 [default] to 4.14.0 [default]
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PV changed from "4.13.2" to "4.14.0"
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PKGV changed from 4.13.2 [default] to 4.14.0 [default]
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PV changed from "4.13.2" to "4.14.0"
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PKGV changed from 4.13.2 [default] to 4.14.0 [default]
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PV changed from "4.13.2" to "4.14.0"
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PKGV changed from 4.13.2 [default] to 4.14.0 [default]
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PV changed from "4.13.2" to "4.14.0"
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PKGV changed from 4.13.2 [default] to 4.14.0 [default]
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PV changed from "4.13.2" to "4.14.0"
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PKGV changed from 4.13.2 [default] to 4.14.0 [default]
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PV changed from "4.13.2" to "4.14.0"
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGSIZE changed from 367762 to 335471 (-9%)
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGV changed from 4.13.2 [default] to 4.14.0 [default]
+packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PV changed from "4.13.2" to "4.14.0"
+Changes to packages/core2-64-poky-linux/python3-typing-extensions (sysroot):
+  /usr/lib/python3.13/site-packages/typing_extensions-4.13.2.dist-info moved to /usr/lib/python3.13/site-packages/typing_extensions-4.14.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2051,45 +2083,14 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============3232172904977371429==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-ruamel-yaml-upgrade-0.18.12-0.18.14.patch"
-
-RnJvbSBkZWJmOWRkZTY2ZTQ2ZDM5MWE5YjdkYTFmNTliNTc3ODU5NDQ3MzViIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSnVuIDIwMjUgMDg6NTQ6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXJ1YW1lbC15YW1sOiB1cGdyYWRlIDAuMTguMTIgLT4gMC4xOC4xNAoKLS0tCiAuLi5u
-My1ydWFtZWwteWFtbF8wLjE4LjEyLmJiID0+IHB5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC4xNC5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXJ1YW1lbC15YW1s
-XzAuMTguMTIuYmIgPT4gcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjE0LmJifSAoODUlKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFt
-bF8wLjE4LjEyLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1l
-bC15YW1sXzAuMTguMTQuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTguMTIuYmIKcmVu
-YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8w
-LjE4LjE0LmJiCmluZGV4IDNiMTM2YjNiNTguLmU3YWMyNGFiYjggMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjEyLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4
-LjE0LmJiCkBAIC05LDcgKzksNyBAQCBVUFNUUkVBTV9DSEVDS19QWVBJX1BBQ0tBR0UgPSAiJHtQ
-WVBJX1BBQ0tBR0V9IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0
-YQogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWEzOGZkNWNlMzlkMjIzYmViYjllM2E2Nzc5ZTg2
-Yjk0MjdhMDNmYjBiZjlmMjcwMDYwZjhiMTQ5Y2ZmZTVlMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICI3MjI3Yjc2YWFlYzM2NGRmMTU5MzY3MzBlZmJmN2Q3MmIzMGMwYjc5YjFkNTc4YmJiOGUzZGNi
-MmQ4MWY1MmI3IgogCiBSREVQRU5EUzoke1BOfSArPSAiXAogICAgIHB5dGhvbjMtc2hlbGwgXAot
-LSAKMi40Ny4xCgo=
-
---===============3232172904977371429==
+--===============6381489572610220556==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.12.dist-info moved to /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.14.dist-info
+Changes to packages/core2-64-poky-linux/python3-typing-extensions (sysroot):
+  /usr/lib/python3.13/site-packages/typing_extensions-4.13.2.dist-info moved to /usr/lib/python3.13/site-packages/typing_extensions-4.14.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4013,5 +4014,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============3232172904977371429==--
+--===============6381489572610220556==--
 
