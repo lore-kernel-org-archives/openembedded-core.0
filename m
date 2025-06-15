@@ -2,49 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59027C83029
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E43FC83028
 	for <webhook@archiver.kernel.org>; Sun, 15 Jun 2025 13:14:53 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.8888.1749993282205802143
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.8863.1749993282158080202
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Jun 2025 06:14:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OMqN8Mlo;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=tP/FYtcR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019773ba5746-ffff0d73-ff60-41db-ba13-22523b969aea-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=b8cHJaZH;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=gNh7CWU4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019773ba5883-75d5783d-d53d-4512-bd53-8a4312741346-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1749993281;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=TmXn9fz9xj6K/wqE1bJnJJT2GukV+nTSEgZL51iLI0M=;
-	b=OMqN8Mlof2Is2cbS24ffTApGawDMt1TqraJ6Bbx4WIv7H7HYlG5k5ViPyFu8mtBF
-	wzcT/XGZ5tGVZ1PfIGokKTHfOTu4m5JVmUfwnXUJRktunX//R2pDw2FhlYTrkf9lFnD
-	HDyCgVJ26s+5sxf2320LlwyWQpKdAFfRcIyNswwg=
+	bh=PZd6tCcPuLd59LrctcQrMnGsT2Zb0z1iAQFzxozkwE8=;
+	b=b8cHJaZH7e27m2QxDzmLfwjyS77Lk2uR9Rbt1nqHlVxt/CyZVfxd66oBzdVHfY05
+	frc2TimKWmdxKJutJy1a4GT/KAs5J4+CuLHOHvuwAoVM/sXzZQK+x30/dnS7wjd0qtW
+	uk8N0TdR+nmT6dNFsSDjhPnh2Dx+H7djj4eBi5ko=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993281;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=TmXn9fz9xj6K/wqE1bJnJJT2GukV+nTSEgZL51iLI0M=;
-	b=tP/FYtcRTxqMYrJD4e8wYcA5m+yjURymlLClJVqESUrQ2DQQT+g8mS3TGxSJhtNV
-	Fe5M/mp9YsF5nGlxsg+7OrfjCAMMqBr+7/ldJSsIp/oeI5yT0F5J5O6b4yDWhm/WJ98
-	7EipJlNDxviwVpzdIBRq1pysgnBghJi1hcSaN0AI=
-Content-Type: multipart/mixed; boundary="===============7172831697339472674=="
+	bh=PZd6tCcPuLd59LrctcQrMnGsT2Zb0z1iAQFzxozkwE8=;
+	b=gNh7CWU4taRUWvfWX1HexsIYLEfZZBb3AE0HFudxImutgc1VBoCaB3Nvwt7h5fVv
+	MkdFa9QuAYRoc0EuZKlIfw5Yxc7FbRwgBcz2xpGAQ9mwLyg8nwDTh3RUw4djgTdqR0d
+	ZKWnxDMecp0XSH6wsv4gCJNdSDarRmgryImLUnic=
+Content-Type: multipart/mixed; boundary="===============8440356239418234768=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: 
-	=?utf-8?q?Enrico_J=C3=B6rns_=3Cyocto=40pengutronix=2Ede=3E?=@yoctoproject.org
+To: Victor Kamensky <victor.kamensky7@gmail.com>, 
+	Victor Kamensky <victor.kamensky7@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] barebox-tools: upgrading to 2025.06.0 SUCCEEDED
-Message-ID: <0101019773ba5746-ffff0d73-ff60-41db-ba13-22523b969aea-000000@us-west-2.amazonses.com>
+Subject: [AUH] systemtap-native,systemtap: upgrading to 5.3,5.3 FAILED
+Message-ID: <0101019773ba5883-75d5783d-d53d-4512-bd53-8a4312741346-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Jun 2025 13:14:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.15-54.240.27.31
+X-SES-Outgoing: 2025.06.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 13:14:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218660
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218659
 
---===============7172831697339472674==
+--===============8440356239418234768==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,102 +52,97 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *barebox-tools* to *2025.06.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *systemtap-native,systemtap* to *5.3,5.3* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-barebox-tools-upgrade-2025.04.0-2025.06.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade systemtap-native -V 5.3 -S c4fc655170b534478a6b131292b987630c7c0865
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1910 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:2dbdd9a07dbe284c59da49543b83ce6391863687"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+done.
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto c4fc655170b534478a6b131292b987630c7c0865
+ERROR: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 93, in include_single_file
+    bb.parse.handle(fn, data, True)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 136, in handle
+    abs_fn = resolve_file(fn, d)
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py", line 139, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found in %s" % (fn, bbpath))
+FileNotFoundError: [Errno 2] file systemtap_5.3.bb not found in /srv/pokybuild/yocto-worker/auh/build/build/workspace:/srv/pokybuild/yocto-worker/auh/build/meta-poky:/srv/pokybuild/yocto-worker/auh/build/build:/srv/pokybuild/yocto-worker/auh/build/meta:/srv/pokybuild/yocto-worker/auh/build/meta-yocto-bsp
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/command.py", line 91, in runCommand
+    result = command_method(self, commandline)
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/command.py", line 596, in parseRecipeFile
+    envdata = command.cooker.databuilder.parseRecipe(virtualfn, appendfiles, layername)
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/cookerdata.py", line 551, in parseRecipe
+    datastores = self.parseRecipeVariants(virtualfn, appends, virtonly=True, layername=layername)
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/cookerdata.py", line 525, in parseRecipeVariants
+    return self._parse_recipe(bb_data, bbfile, appends, mc, layername)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/cookerdata.py", line 513, in _parse_recipe
+    return bb.parse.handle(bbfile, bb_data)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 146, in handle
+    statements.eval(d)
+    ~~~~~~~~~~~~~~~^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/ast.py", line 20, in eval
+    statement.eval(data)
+    ~~~~~~~~~~~~~~^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/ast.py", line 42, in eval
+    bb.parse.ConfHandler.include(self.filename, s, self.lineno, data, "include required")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 70, in include
+    include_single_file(parentfn, fn, lineno, data, error_out)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 97, in include_single_file
+    raise ParseError("Could not %s file %s" % (error_out, fn), parentfn, lineno)
+bb.parse.ParseError: ParseError at /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemtap-native/systemtap-native_5.3.bb:1: Could not include required file systemtap_5.3.bb
+
+ERROR: Parsing of upgraded recipe failed
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 47da562fbdfd59f98129d99842ea9cf7c27b0bcc Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Jun 2025 07:10:39 +0000
-Subject: [PATCH] barebox-tools: upgrade 2025.04.0 -> 2025.06.0
-
----
- meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
-index d6ea1eedfe..67bc964188 100644
---- a/meta/recipes-bsp/barebox/barebox-common.inc
-+++ b/meta/recipes-bsp/barebox/barebox-common.inc
-@@ -3,6 +3,6 @@ SECTION = "bootloaders"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
- 
--PV = "2025.04.0"
-+PV = "2025.06.0"
- SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
--SRC_URI[sha256sum] = "3124f3c2b69d9ce0512b2d40fa17cace9c356f65f005a63da0474387b8839c41"
-+SRC_URI[sha256sum] = "d05bc1f85dc1d95b0b6b6a52cac0a469148fbb8f1edb0d352c3ca3b632426941"
--- 
-2.47.1
-
-
---===============7172831697339472674==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-barebox-tools-upgrade-2025.04.0-2025.06.0.patch"
-
-RnJvbSA0N2RhNTYyZmJkZmQ1OWY5ODEyOWQ5OTg0MmVhOWNmN2MyN2IwYmNjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSnVuIDIwMjUgMDc6MTA6MzkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
-YXJlYm94LXRvb2xzOiB1cGdyYWRlIDIwMjUuMDQuMCAtPiAyMDI1LjA2LjAKCi0tLQogbWV0YS9y
-ZWNpcGVzLWJzcC9iYXJlYm94L2JhcmVib3gtY29tbW9uLmluYyB8IDQgKystLQogMSBmaWxlIGNo
-YW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtYnNwL2JhcmVib3gvYmFyZWJveC1jb21tb24uaW5jIGIvbWV0YS9yZWNpcGVzLWJz
-cC9iYXJlYm94L2JhcmVib3gtY29tbW9uLmluYwppbmRleCBkNmVhMWVlZGZlLi42N2JjOTY0MTg4
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtYnNwL2JhcmVib3gvYmFyZWJveC1jb21tb24uaW5j
-CisrKyBiL21ldGEvcmVjaXBlcy1ic3AvYmFyZWJveC9iYXJlYm94LWNvbW1vbi5pbmMKQEAgLTMs
-NiArMyw2IEBAIFNFQ1RJT04gPSAiYm9vdGxvYWRlcnMiCiAKIExJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL0NPUFlJTkc7bWQ1PWY1MTI1ZDEzZTAwMGI5Y2ExZjBkMzM2NDI4NmM0MTkyIgogCi1Q
-ViA9ICIyMDI1LjA0LjAiCitQViA9ICIyMDI1LjA2LjAiCiBTUkNfVVJJID0gImh0dHBzOi8vYmFy
-ZWJveC5vcmcvZG93bmxvYWQvYmFyZWJveC0ke1BWfS50YXIuYnoyIgotU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjMxMjRmM2MyYjY5ZDljZTA1MTJiMmQ0MGZhMTdjYWNlOWMzNTZmNjVmMDA1YTYzZGEw
-NDc0Mzg3Yjg4MzljNDEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDA1YmMxZjg1ZGMxZDk1YjBi
-NmI2YTUyY2FjMGE0NjkxNDhmYmI4ZjFlZGIwZDM1MmMzY2EzYjYzMjQyNjk0MSIKLS0gCjIuNDcu
-MQoK
-
---===============7172831697339472674==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-dbg: PV changed from "2025.04.0" to "2025.06.0"
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-dbg: PKGV changed from 2025.04.0 [default] to 2025.06.0 [default]
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-dev: PV changed from "2025.04.0" to "2025.06.0"
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-dev: PKGV changed from 2025.04.0 [default] to 2025.06.0 [default]
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-doc: PV changed from "2025.04.0" to "2025.06.0"
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-doc: PKGV changed from 2025.04.0 [default] to 2025.06.0 [default]
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-locale: PV changed from "2025.04.0" to "2025.06.0"
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-locale: PKGV changed from 2025.04.0 [default] to 2025.06.0 [default]
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-src: PV changed from "2025.04.0" to "2025.06.0"
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-src: PKGV changed from 2025.04.0 [default] to 2025.06.0 [default]
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-staticdev: PV changed from "2025.04.0" to "2025.06.0"
-packages/core2-64-poky-linux/barebox-tools/barebox-tools-staticdev: PKGV changed from 2025.04.0 [default] to 2025.06.0 [default]
-packages/core2-64-poky-linux/barebox-tools/barebox-tools: PV changed from "2025.04.0" to "2025.06.0"
-packages/core2-64-poky-linux/barebox-tools/barebox-tools: PKGV changed from 2025.04.0 [default] to 2025.06.0 [default]
-packages/core2-64-poky-linux/barebox-tools: PV changed from "2025.04.0" to "2025.06.0"
-packages/core2-64-poky-linux/barebox-tools: SRC_URI changed from "https://barebox.org/download/barebox-2025.04.0.tar.bz2" to "https://barebox.org/download/barebox-2025.06.0.tar.bz2"
-packages/core2-64-poky-linux/barebox-tools: PKGV changed from 2025.04.0 [default] to 2025.06.0 [default]
-
---===============7172831697339472674==--
+--===============8440356239418234768==--
 
