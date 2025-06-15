@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF124C7115E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0BBAC7115C
 	for <webhook@archiver.kernel.org>; Sun, 15 Jun 2025 13:14:51 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.8888.1749993282205802143
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.8894.1749993286066454687
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Jun 2025 06:14:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=s+tXn8rK;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BIqCZyDE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019773ba7662-7bc138c9-563e-4026-a8ef-6c37a1517b59-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IK1PoZC6;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=PN1fFkj8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019773ba73dd-7f879e93-0062-451a-a15b-cdfa1b8936c1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1749993289;
+	t=1749993288;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=A6vrHbRd6xlBadqARnjJsQvUDKCcYZSblsq7f8Uc81c=;
-	b=s+tXn8rKWf1LSldZnYqEGQRYX6MQVr5lmEDmCO9LoRHL+b7t+9YEN4Rl1tjvSfm3
-	1NjbaWLXGkN100rVqkqXiqz7nOcipRh5cNM3agsN9OuAoH5N6aTEIgEgFZ2AxSbWnFo
-	0l7BZl/10ok9YTDqLlIT6dBRrIcyP+Oe6q06hUuo=
+	bh=j6c84NgAAjJsQSp2fNSCl3ssQOkIkMEBsLkZWIHPcTk=;
+	b=IK1PoZC6TIXZCu4JkkYHzl/pN/yciGPYGik7CM0gz9am+u/iMzfDjhjpyyRjzCIa
+	ET9KrnZd9AbwhChGydygad/rpeq8+YZ7U3RtaLJgitFLAVWdPq3xma2V7NYqxlEMJsC
+	spMXtOv180hlNhw0GqYQkC04Ip+yuoUD+LBMHvwo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993289;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993288;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=A6vrHbRd6xlBadqARnjJsQvUDKCcYZSblsq7f8Uc81c=;
-	b=BIqCZyDE+c3WfwafIvZVUooiH6vOfnNxxrs3SQusLqYIUfhVHUd2GYZzD8UQ7hLz
-	wfBjSEXLf1ux7l8g1oBQd5oCj/dQ9BdzmBnP+Bs+mQY85V3dgyx4obSEmSUgup4urcn
-	bkRODqxHF+yP/3inTtPb3sHSuUKyhYb9s15/4xXs=
-Content-Type: multipart/mixed; boundary="===============2171697227725126625=="
+	bh=j6c84NgAAjJsQSp2fNSCl3ssQOkIkMEBsLkZWIHPcTk=;
+	b=PN1fFkj8ld/iwPM3DwjmFC0ILxJkXWQeJKWodvc6CPeynLm3xQTTQpOdgiMFbdXB
+	WjV/ftjF+fxgY3Nx3FtRb2ToFKuzyK90eZmVNVFnfIPaahvv0ipsa78sebOvXJ9CFje
+	nP/DhZKl/iu/tYlcs23vGp5j5uFP+KQtRzbaKTkU=
+Content-Type: multipart/mixed; boundary="===============3433626965357203347=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pytest-subtests: upgrading to 0.14.2 SUCCEEDED
-Message-ID: <0101019773ba7662-7bc138c9-563e-4026-a8ef-6c37a1517b59-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Jun 2025 13:14:49 +0000
+Subject: [AUH] python3-hypothesis: upgrading to 6.135.9 SUCCEEDED
+Message-ID: <0101019773ba73dd-7f879e93-0062-451a-a15b-cdfa1b8936c1-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Jun 2025 13:14:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.15-54.240.27.31
+X-SES-Outgoing: 2025.06.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 13:14:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218688
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218687
 
---===============2171697227725126625==
+--===============3433626965357203347==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pytest-subtests* to *0.14.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.135.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pytest-subtests-upgrade-0.14.1-0.14.2.patch
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.132.0-6.135.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,62 +72,67 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e33f35b9f5c1207ef01d9a0b221fe45a93f2ee1a Mon Sep 17 00:00:00 2001
+From e2169e6d69de3e005606723dcf29d84aae98b3e7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Jun 2025 08:47:21 +0000
-Subject: [PATCH] python3-pytest-subtests: upgrade 0.14.1 -> 0.14.2
+Date: Sun, 15 Jun 2025 08:25:43 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.132.0 -> 6.135.9
 
 ---
- ...est-subtests_0.14.1.bb => python3-pytest-subtests_0.14.2.bb} | 2 +-
+ ...hon3-hypothesis_6.132.0.bb => python3-hypothesis_6.135.9.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytest-subtests_0.14.1.bb => python3-pytest-subtests_0.14.2.bb} (88%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.132.0.bb => python3-hypothesis_6.135.9.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-pytest-subtests_0.14.1.bb b/meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-pytest-subtests_0.14.1.bb
-rename to meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
-index 56cec25b86..58212bfb1c 100644
---- a/meta/recipes-devtools/python/python3-pytest-subtests_0.14.1.bb
-+++ b/meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
-@@ -7,7 +7,7 @@ BUGTRACKER = "https://github.com/pytest-dev/pytest-subtests/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=242b4e17fa287dcf7aef372f6bc3dcb1"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.132.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.135.9.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.132.0.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.135.9.bb
+index 52688b8765..efc5229fbc 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.132.0.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.135.9.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
--SRC_URI[sha256sum] = "350c00adc36c3aff676a66135c81aed9e2182e15f6c3ec8721366918bbbf7580"
-+SRC_URI[sha256sum] = "7154a8665fd528ee70a76d00216a44d139dc3c9c83521a0f779f7b0ad4f800de"
+-SRC_URI[sha256sum] = "55868060add41baa6176ed9c3456655678d140c74e3514bdf03381dae6391403"
++SRC_URI[sha256sum] = "a80a256268b8af3d34d62be30f6bf4a7d099b2b762621cc5f3f1de65e7b98543"
  
- PYPI_PACKAGE = "pytest_subtests"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.47.1
 
 
---===============2171697227725126625==
+--===============3433626965357203347==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pytest-subtests: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytest_subtests/pytest_subtests-0.14.1.tar.gz;downloadfilename=pytest_subtests-0.14.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pytest_subtests/pytest_subtests-0.14.2.tar.gz;downloadfilename=pytest_subtests-0.14.2.tar.gz"
-packages/core2-64-poky-linux/python3-pytest-subtests: PKGV changed from 0.14.1 [default] to 0.14.2 [default]
-packages/core2-64-poky-linux/python3-pytest-subtests: PV changed from "0.14.1" to "0.14.2"
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dbg: PKGV changed from 0.14.1 [default] to 0.14.2 [default]
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dbg: PV changed from "0.14.1" to "0.14.2"
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dev: PKGV changed from 0.14.1 [default] to 0.14.2 [default]
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dev: PV changed from "0.14.1" to "0.14.2"
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-doc: PKGV changed from 0.14.1 [default] to 0.14.2 [default]
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-doc: PV changed from "0.14.1" to "0.14.2"
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-locale: PKGV changed from 0.14.1 [default] to 0.14.2 [default]
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-locale: PV changed from "0.14.1" to "0.14.2"
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-src: PKGV changed from 0.14.1 [default] to 0.14.2 [default]
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-src: PV changed from "0.14.1" to "0.14.2"
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-staticdev: PKGV changed from 0.14.1 [default] to 0.14.2 [default]
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests-staticdev: PV changed from "0.14.1" to "0.14.2"
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests: PKGV changed from 0.14.1 [default] to 0.14.2 [default]
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests: PKGSIZE changed from 47343 to 48280 (+2%)
-packages/core2-64-poky-linux/python3-pytest-subtests/python3-pytest-subtests: PV changed from "0.14.1" to "0.14.2"
-Changes to packages/core2-64-poky-linux/python3-pytest-subtests (sysroot):
-  /usr/lib/python3.13/site-packages/pytest_subtests-0.14.1.dist-info moved to /usr/lib/python3.13/site-packages/pytest_subtests-0.14.2.dist-info
+packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.132.0 [default] to 6.135.9 [default]
+packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.132.0.tar.gz;downloadfilename=hypothesis-6.132.0.tar.gz file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.135.9.tar.gz;downloadfilename=hypothesis-6.135.9.tar.gz file://test_binary_search.py file://test_rle.py"
+packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.132.0" to "6.135.9"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.132.0 [default] to 6.135.9 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.132.0" to "6.135.9"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.132.0 [default] to 6.135.9 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.132.0" to "6.135.9"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.132.0 [default] to 6.135.9 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.132.0" to "6.135.9"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.132.0 [default] to 6.135.9 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.132.0" to "6.135.9"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.132.0 [default] to 6.135.9 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.132.0" to "6.135.9"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.132.0 [default] to 6.135.9 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.132.0" to "6.135.9"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.132.0 [default] to 6.135.9 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.132.0" to "6.135.9"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.132.0 [default] to 6.135.9 [default]
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/hypothesis-6.135.9.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info -> /usr/lib/python3.13/site-packages/hypothesis-6.135.9.dist-info, added "/usr/lib/python3.13/site-packages/hypothesis/internal/conjecture/provider_conformance.py /usr/lib/python3.13/site-packages/hypothesis/internal/conjecture/__pycache__/provider_conformance.cpython-313.pyc"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.132.0" to "6.135.9"
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3402406 to 3469718 (+2%)
+Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info moved to /usr/lib/python3.13/site-packages/hypothesis-6.135.9.dist-info
+  /usr/lib/python3.13/site-packages/hypothesis/internal/conjecture/provider_conformance.py was added
+  /usr/lib/python3.13/site-packages/hypothesis/internal/conjecture/__pycache__/provider_conformance.cpython-313.pyc was added
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2051,47 +2056,47 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============2171697227725126625==
+--===============3433626965357203347==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pytest-subtests-upgrade-0.14.1-0.14.2.patch"
+ filename="0001-python3-hypothesis-upgrade-6.132.0-6.135.9.patch"
 
-RnJvbSBlMzNmMzViOWY1YzEyMDdlZjAxZDlhMGIyMjFmZTQ1YTkzZjJlZTFhIE1vbiBTZXAgMTcg
+RnJvbSBlMjE2OWU2ZDY5ZGUzZTAwNTYwNjcyM2RjZjI5ZDg0YWFlOThiM2U3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSnVuIDIwMjUgMDg6NDc6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5dGVzdC1zdWJ0ZXN0czogdXBncmFkZSAwLjE0LjEgLT4gMC4xNC4yCgotLS0KIC4u
-LmVzdC1zdWJ0ZXN0c18wLjE0LjEuYmIgPT4gcHl0aG9uMy1weXRlc3Qtc3VidGVzdHNfMC4xNC4y
-LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHl0ZXN0LXN1
-YnRlc3RzXzAuMTQuMS5iYiA9PiBweXRob24zLXB5dGVzdC1zdWJ0ZXN0c18wLjE0LjIuYmJ9ICg4
-OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5
-dGVzdC1zdWJ0ZXN0c18wLjE0LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtcHl0ZXN0LXN1YnRlc3RzXzAuMTQuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDg4JQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0LXN1YnRl
-c3RzXzAuMTQuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXB5dGVzdC1zdWJ0ZXN0c18wLjE0LjIuYmIKaW5kZXggNTZjZWMyNWI4Ni4uNTgyMTJiZmIx
-YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dGVz
-dC1zdWJ0ZXN0c18wLjE0LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXB5dGVzdC1zdWJ0ZXN0c18wLjE0LjIuYmIKQEAgLTcsNyArNyw3IEBAIEJVR1RSQUNL
-RVIgPSAiaHR0cHM6Ly9naXRodWIuY29tL3B5dGVzdC1kZXYvcHl0ZXN0LXN1YnRlc3RzL2lzc3Vl
-cyIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTtt
-ZDU9MjQyYjRlMTdmYTI4N2RjZjdhZWYzNzJmNmJjM2RjYjEiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIzNTBjMDBhZGMzNmMzYWZmNjc2YTY2MTM1YzgxYWVkOWUyMTgyZTE1ZjZjM2VjODcyMTM2
-NjkxOGJiYmY3NTgwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjcxNTRhODY2NWZkNTI4ZWU3MGE3
-NmQwMDIxNmE0NGQxMzlkYzNjOWM4MzUyMWEwZjc3OWY3YjBhZDRmODAwZGUiCiAKIFBZUElfUEFD
-S0FHRSA9ICJweXRlc3Rfc3VidGVzdHMiCiBVUFNUUkVBTV9DSEVDS19QWVBJX1BBQ0tBR0UgPSAi
-JHtQWVBJX1BBQ0tBR0V9IgotLSAKMi40Ny4xCgo=
+CkRhdGU6IFN1biwgMTUgSnVuIDIwMjUgMDg6MjU6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xMzIuMCAtPiA2LjEzNS45CgotLS0KIC4uLmhv
+bjMtaHlwb3RoZXNpc182LjEzMi4wLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjEzNS45LmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
+LjEzMi4wLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjEzNS45LmJifSAoOTElKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
+MTMyLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
+c182LjEzNS45LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTMyLjAuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTM1Ljku
+YmIKaW5kZXggNTI2ODhiODc2NS4uZWZjNTIyOWZiYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMzIuMC5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjEzNS45LmJiCkBA
+IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
+ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1NTg2ODA2MGFkZDQxYmFhNjE3NmVkOWMz
+NDU2NjU1Njc4ZDE0MGM3NGUzNTE0YmRmMDMzODFkYWU2MzkxNDAzIgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gImE4MGEyNTYyNjhiOGFmM2QzNGQ2MmJlMzBmNmJmNGE3ZDA5OWIyYjc2MjYyMWNjNWYz
+ZjFkZTY1ZTdiOTg1NDMiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
+cnMgXAotLSAKMi40Ny4xCgo=
 
---===============2171697227725126625==
+--===============3433626965357203347==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-pytest-subtests (sysroot):
-  /usr/lib/python3.13/site-packages/pytest_subtests-0.14.1.dist-info moved to /usr/lib/python3.13/site-packages/pytest_subtests-0.14.2.dist-info
+packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info -> /usr/lib/python3.13/site-packages/hypothesis-6.135.9.dist-info, directory renamed /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/hypothesis-6.135.9.dist-info/licenses, added "/usr/lib/python3.13/site-packages/hypothesis/internal/conjecture/__pycache__/provider_conformance.cpython-313.pyc /usr/lib/python3.13/site-packages/hypothesis/internal/conjecture/provider_conformance.py"
+Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.13/site-packages/hypothesis-6.132.0.dist-info moved to /usr/lib/python3.13/site-packages/hypothesis-6.135.9.dist-info
+  /usr/lib/python3.13/site-packages/hypothesis/internal/conjecture/provider_conformance.py was added
+  /usr/lib/python3.13/site-packages/hypothesis/internal/conjecture/__pycache__/provider_conformance.cpython-313.pyc was added
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4015,5 +4020,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============2171697227725126625==--
+--===============3433626965357203347==--
 
