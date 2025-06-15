@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C37C7EE2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB730C7EE30
 	for <webhook@archiver.kernel.org>; Sun, 15 Jun 2025 13:14:52 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.8856.1749993275954159520
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.8886.1749993279766792752
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Jun 2025 06:14:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=2zFfVa5R;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=HR7GWzz8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019773ba671e-82f0d9dc-14ab-47b3-8c6e-b7a3b3543eb2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=h9CJ5GjM;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=QnAUj13C;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019773ba6619-04d07728-7b8b-4b18-b47a-840004fdbedb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1749993285;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BtLGvNakV0WdCZD+fy5HW2juilSN8AgQ3ZURZ5YeRkA=;
-	b=2zFfVa5RhljlfhYK8F2a9O2p4gU13R09UVgNet1N/NP/v2aGZ35v3Ny5arJLF+lV
-	HBwKApgI+1GgntufqKItMfBgaEYChqQr9r+wAdnlLQvKfKUEx4kwIYyJPLkca6yNPCN
-	qYoB4eQa4joe1bejZxV7b26JGVwoDFZy+92vPrrE=
+	bh=h5H8MiJFsOShEkOjCfe1ICjNhLVtWZIFb/sWD5uUmpQ=;
+	b=h9CJ5GjM5d8ZSMYPjQAhukh4J3gSymJ4fZLTVH7OIhEJSarO/jXfY3fIIcOvgtpI
+	tXG0izwvEfApzWFK8jjuaNCT+aSVUlY/PgMjt/FK2ztRZjUXfdfTRUKD1O+ZjkIX/w2
+	7Mg4PPMICc3vxEDfPLFLHWwWqOZEqsohlT667v4U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993285;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BtLGvNakV0WdCZD+fy5HW2juilSN8AgQ3ZURZ5YeRkA=;
-	b=HR7GWzz8kq8bfVrbPonyKCEki41YET+OZN7taH47yE2az0jAue7Eiv4UDbpSKfam
-	4zCyL0jjVSpUQK82aOvendlnaTsy6gtDolVbdgxs52vghQuuH3cOMRibv7/4KdC134m
-	G38iWVRt0dGOeDEr3zR4cWgoTK5jU1G2cHlxMwTE=
-Content-Type: multipart/mixed; boundary="===============7406819829277324128=="
+	bh=h5H8MiJFsOShEkOjCfe1ICjNhLVtWZIFb/sWD5uUmpQ=;
+	b=QnAUj13CcpbeUCBmdYRr8ZbQcz0k+w39jRhGUb04H0mue8+JyJpqPdUHqW+j+0np
+	7uocj/GnulS1s7dQ6tovv4k47A33fRfr45hpljbEgKBYDrcK6Bi7OCMMuYkYc8p3Z1S
+	PpGV2u+G/sF158Gtp6MBMuUeOI1MC6RDIE99CSI4=
+Content-Type: multipart/mixed; boundary="===============6784124619696457143=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: "zhengrq.fnst" <zhengrq.fnst@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-certifi: upgrading to 2025.6.15 SUCCEEDED
-Message-ID: <0101019773ba671e-82f0d9dc-14ab-47b3-8c6e-b7a3b3543eb2-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-booleanpy: upgrading to 5.0 FAILED
+Message-ID: <0101019773ba6619-04d07728-7b8b-4b18-b47a-840004fdbedb-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Jun 2025 13:14:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.15-54.240.27.193
+X-SES-Outgoing: 2025.06.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 13:14:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218676
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218674
 
---===============7406819829277324128==
+--===============6784124619696457143==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,123 +51,86 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-certifi* to *2025.6.15* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-booleanpy* to *5.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-certifi-upgrade-2025.4.26-2025.6.15.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade python3-booleanpy -V 5.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1910 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:615c77c5e697296cb49ade6940755f26b9c50ea7"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 23 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 936 .bb files complete (0 cached, 936 parsed). 1911 targets, 39 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.12.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:615c77c5e697296cb49ade6940755f26b9c50ea7"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250615080448.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250615080448.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kk6zy8ds/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kk6zy8ds/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kk6zy8ds/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kk6zy8ds/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
+ cipetool-kk6zy8ds/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kk6zy8ds/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget --tries=2 --timeout=100 --output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/boolean.py-5.0.tar.gz.tmp --continue --directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz' --progress=dot --verbose failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-kk6zy8ds/work/temp/log.do_fetch.1681387
+ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 62e183dfeff7a884b3cdf07e82ae9ca8e6023342 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Jun 2025 08:07:08 +0000
-Subject: [PATCH] python3-certifi: upgrade 2025.4.26 -> 2025.6.15
-
----
- ...ython3-certifi_2025.4.26.bb => python3-certifi_2025.6.15.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-certifi_2025.4.26.bb => python3-certifi_2025.6.15.bb} (86%)
-
-diff --git a/meta/recipes-devtools/python/python3-certifi_2025.4.26.bb b/meta/recipes-devtools/python/python3-certifi_2025.6.15.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-certifi_2025.4.26.bb
-rename to meta/recipes-devtools/python/python3-certifi_2025.6.15.bb
-index 07f9f3bfc8..32e677c638 100644
---- a/meta/recipes-devtools/python/python3-certifi_2025.4.26.bb
-+++ b/meta/recipes-devtools/python/python3-certifi_2025.6.15.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = " http://certifi.io/"
- LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=11618cb6a975948679286b1211bd573c"
- 
--SRC_URI[sha256sum] = "0a816057ea3cdefcef70270d2c515e4506bbc954f417fa5ade2021213bb8f0c6"
-+SRC_URI[sha256sum] = "d747aa5a8b9bbbb1bb8c22bb13e22bd1f18e9796defa16bab421f7f7a317323b"
- 
- inherit pypi setuptools3
- 
--- 
-2.47.1
-
-
---===============7406819829277324128==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-certifi-upgrade-2025.4.26-2025.6.15.patch"
-
-RnJvbSA2MmUxODNkZmVmZjdhODg0YjNjZGYwN2U4MmFlOWNhOGU2MDIzMzQyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSnVuIDIwMjUgMDg6MDc6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWNlcnRpZmk6IHVwZ3JhZGUgMjAyNS40LjI2IC0+IDIwMjUuNi4xNQoKLS0tCiAuLi55
-dGhvbjMtY2VydGlmaV8yMDI1LjQuMjYuYmIgPT4gcHl0aG9uMy1jZXJ0aWZpXzIwMjUuNi4xNS5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWNlcnRpZmlfMjAy
-NS40LjI2LmJiID0+IHB5dGhvbjMtY2VydGlmaV8yMDI1LjYuMTUuYmJ9ICg4NiUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyNS40
-LjI2LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAy
-NS42LjE1LmJiCnNpbWlsYXJpdHkgaW5kZXggODYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjUuNC4yNi5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyNS42LjE1LmJiCmlu
-ZGV4IDA3ZjlmM2JmYzguLjMyZTY3N2M2MzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjUuNC4yNi5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2VydGlmaV8yMDI1LjYuMTUuYmIKQEAgLTcsNyAr
-Nyw3IEBAIEhPTUVQQUdFID0gIiBodHRwOi8vY2VydGlmaS5pby8iCiBMSUNFTlNFID0gIklTQyIK
-IExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTExNjE4Y2I2YTk3NTk0ODY3
-OTI4NmIxMjExYmQ1NzNjIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMGE4MTYwNTdlYTNjZGVm
-Y2VmNzAyNzBkMmM1MTVlNDUwNmJiYzk1NGY0MTdmYTVhZGUyMDIxMjEzYmI4ZjBjNiIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICJkNzQ3YWE1YThiOWJiYmIxYmI4YzIyYmIxM2UyMmJkMWYxOGU5Nzk2
-ZGVmYTE2YmFiNDIxZjdmN2EzMTczMjNiIgogCiBpbmhlcml0IHB5cGkgc2V0dXB0b29sczMKIAot
-LSAKMi40Ny4xCgo=
-
---===============7406819829277324128==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-certifi: PV changed from "2025.4.26" to "2025.6.15"
-packages/core2-64-poky-linux/python3-certifi: PKGV changed from 2025.4.26 [default] to 2025.6.15 [default]
-packages/core2-64-poky-linux/python3-certifi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2025.4.26.tar.gz;downloadfilename=certifi-2025.4.26.tar.gz" to "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2025.6.15.tar.gz;downloadfilename=certifi-2025.6.15.tar.gz"
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-dbg: PV changed from "2025.4.26" to "2025.6.15"
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-dbg: PKGV changed from 2025.4.26 [default] to 2025.6.15 [default]
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-dev: PV changed from "2025.4.26" to "2025.6.15"
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-dev: PKGV changed from 2025.4.26 [default] to 2025.6.15 [default]
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-doc: PV changed from "2025.4.26" to "2025.6.15"
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-doc: PKGV changed from 2025.4.26 [default] to 2025.6.15 [default]
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-locale: PV changed from "2025.4.26" to "2025.6.15"
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-locale: PKGV changed from 2025.4.26 [default] to 2025.6.15 [default]
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-src: PV changed from "2025.4.26" to "2025.6.15"
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-src: PKGV changed from 2025.4.26 [default] to 2025.6.15 [default]
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-staticdev: PV changed from "2025.4.26" to "2025.6.15"
-packages/core2-64-poky-linux/python3-certifi/python3-certifi-staticdev: PKGV changed from 2025.4.26 [default] to 2025.6.15 [default]
-packages/core2-64-poky-linux/python3-certifi/python3-certifi: PV changed from "2025.4.26" to "2025.6.15"
-packages/core2-64-poky-linux/python3-certifi/python3-certifi: PKGSIZE changed from 296135 to 291370 (-2%)
-packages/core2-64-poky-linux/python3-certifi/python3-certifi: PKGV changed from 2025.4.26 [default] to 2025.6.15 [default]
-Changes to packages/core2-64-poky-linux/python3-certifi (sysroot):
-  /usr/lib/python3.13/site-packages/certifi-2025.4.26.dist-info moved to /usr/lib/python3.13/site-packages/certifi-2025.6.15.dist-info
-
---===============7406819829277324128==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-certifi (sysroot):
-  /usr/lib/python3.13/site-packages/certifi-2025.4.26.dist-info moved to /usr/lib/python3.13/site-packages/certifi-2025.6.15.dist-info
-
---===============7406819829277324128==--
+--===============6784124619696457143==--
 
