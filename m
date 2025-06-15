@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A6D7C7115B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D839C7115C
 	for <webhook@archiver.kernel.org>; Sun, 15 Jun 2025 13:14:41 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.8860.1749993279234242259
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.8859.1749993278910107075
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jun 2025 06:14:39 -0700
+ Sun, 15 Jun 2025 06:14:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Ni9/K3wi;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ctxL+Rcl;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019773ba4bfc-6f2b623e-519e-406a-be30-0458453d8a5e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=tQV4Jh5T;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=iTgjsihZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019773ba4a4f-56ae1fc2-993d-42e2-a425-aeabdd9a0691-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1749993278;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3VpY453vQCZ8aV+h9h2lsBo/ymKbnuI8SsZMSjRdl6s=;
-	b=Ni9/K3wiuBmR49LZlTFz/88Zu118K25dptt2fnchC6cRaO4F9zcCKfVn/iC0y2t3
-	16ibY2rtVXWvDCehiScW5x/RYCmSLBZtpNSBHobPlUsOtVa9whN+T/QellqHqeqVkwu
-	tnSX9T82qM2PDr3DhhnSDgY66lVRqvvQ2sysOwdM=
+	bh=zR7T6XUbkceOQvVrwssLNB7M1EXXWgjCeqI0K6V1RPc=;
+	b=tQV4Jh5TxPknopGOqr5jTn7Mg//I/IH4m2Ttude5sg6fdV3mVW1YQSsLuXBXcSvx
+	dQfLMuKMENX8fjkj+V+fr5NTUAGGWB78TdR5GjIZ4AroUvxOz6H3y0dxT7zuhH4aXEA
+	A19OAvnolaFHfTGGp3OPayMlCOuUH+yTBoYvaa7U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993278;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3VpY453vQCZ8aV+h9h2lsBo/ymKbnuI8SsZMSjRdl6s=;
-	b=ctxL+RclYHK4NUSDjIpR/pBumK1Q4SX1XRvwW1TBeLiPGsKPDLGpeulMco6QT87c
-	DQHmYKpV2jjZVgvUPDiCG0CDjwDryGpOoiCEEAlIu6WMy5Qus1kQXd94+OIZ637C37V
-	KrzfDR7XiycgdKVFLn4q6JyMWH566vgFm5bOi+DM=
-Content-Type: multipart/mixed; boundary="===============9027322060555240961=="
+	bh=zR7T6XUbkceOQvVrwssLNB7M1EXXWgjCeqI0K6V1RPc=;
+	b=iTgjsihZG21d+gptVzZP1Eyc1Z/iNmJ6d+Rpse7tTI2dorxKsyw0XP3ArW6QbpO/
+	6kpEy/W2S74L55yVsZ6DsXDW8Pj0PVQ3Vqja1cYPo7XThNBaoYP1rHhOL4LxLLHgSDi
+	dKWj1N+9k3Q1Ru5x6oVuA70hVaVR4SKMGXxNGaa4=
+Content-Type: multipart/mixed; boundary="===============8979687044885807912=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] cmake-native,cmake: upgrading to 4.0.3,4.0.3 FAILED
-Message-ID: <0101019773ba4bfc-6f2b623e-519e-406a-be30-0458453d8a5e-000000@us-west-2.amazonses.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] llvm-project-source-20.1.6: upgrading to 20.1.7 FAILED
+Message-ID: <0101019773ba4a4f-56ae1fc2-993d-42e2-a425-aeabdd9a0691-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Jun 2025 13:14:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.15-54.240.27.192
+X-SES-Outgoing: 2025.06.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 13:14:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218654
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218652
 
---===============9027322060555240961==
+--===============8979687044885807912==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,138 +51,69 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cmake-native,cmake* to *4.0.3,4.0.3* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *llvm-project-source-20.1.6* to *20.1.7* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe cmake-native failed.
+The following devtool command failed:  finish -f llvm-project-source-20.1.6 /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/clang
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1911 entries from dependency cache.
-WARNING: QA Issue: cmake-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:8db1a3bfd6f45c2f50429e89670a0aca8e65b4c2"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-done.
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: QA Issue: cmake-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
-WARNING: QA Issue: cmake-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
-WARNING: QA Issue: cmake-native: native/nativesdk class is not inherited last, this can result in unexpected behaviour. Classes inherited after native/nativesdk: devtool-source.bbclass [native-last]
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
+Loaded 1910 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 936 .bb files complete (0 cached, 936 parsed). 1911 targets, 39 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+Parsing of 936 .bb files complete (934 cached, 2 parsed). 1911 targets, 39 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
 
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:8db1a3bfd6f45c2f50429e89670a0aca8e65b4c2"
+ERROR: Unable to parse /srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py", line 145, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/clang/conf/layer.conf not found
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/cookerdata.py", line 163, in wrapped
+    return func(fn, *args)
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/cookerdata.py", line 180, in parse_config_file
+    return bb.parse.handle(fn, data, include, baseconfig=True)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/parse/__init__.py", line 145, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/clang/conf/layer.conf not found
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   1% |                                    | ETA:  0:00:07
-Adding changed files:   3% |#                                   | ETA:  0:00:05
-Adding changed files:   5% |##                                  | ETA:  0:00:04
-Adding changed files:   7% |##                                  | ETA:  0:00:04
-Adding changed files:   9% |###                                 | ETA:  0:00:04
-Adding changed files:  11% |####                                | ETA:  0:00:03
-Adding changed files:  13% |####                                | ETA:  0:00:03
-Adding changed files:  15% |#####                               | ETA:  0:00:03
-Adding changed files:  17% |######                              | ETA:  0:00:03
-Adding changed files:  19% |######                              | ETA:  0:00:03
-Adding changed files:  21% |#######                             | ETA:  0:00:03
-Adding changed files:  23% |########                            | ETA:  0:00:03
-Adding changed files:  25% |#########                           | ETA:  0:00:03
-Adding changed files:  27% |#########                           | ETA:  0:00:03
-Adding changed files:  28% |##########                          | ETA:  0:00:02
-Adding changed files:  30% |###########                         | ETA:  0:00:02
-Adding changed files:  32% |###########                         | ETA:  0:00:02
-Adding changed files:  34% |############                        | ETA:  0:00:02
-Adding changed files:  36% |#############                       | ETA:  0:00:02
-Adding changed files:  38% |#############                       | ETA:  0:00:02
-Adding changed files:  40% |##############                      | ETA:  0:00:02
-Adding changed files:  42% |###############                     | ETA:  0:00:02
-Adding changed files:  44% |###############                     | ETA:  0:00:02
-Adding changed files:  46% |################                    | ETA:  0:00:02
-Adding changed files:  48% |#################                   | ETA:  0:00:02
-Adding changed files:  50% |##################                  | ETA:  0:00:02
-Adding changed files:  52% |##################                  | ETA:  0:00:01
-Adding changed files:  54% |###################                 | ETA:  0:00:01
-Adding changed files:  55% |####################                | ETA:  0:00:01
-Adding changed files:  57% |####################                | ETA:  0:00:01
-Adding changed files:  59% |#####################               | ETA:  0:00:01
-Adding changed files:  61% |######################              | ETA:  0:00:01
-Adding changed files:  63% |######################              | ETA:  0:00:01
-Adding changed files:  65% |#######################             | ETA:  0:00:01
-Adding changed files:  67% |########################            | ETA:  0:00:01
-Adding changed files:  69% |#########################           | ETA:  0:00:01
-Adding changed files:  71% |#########################           | ETA:  0:00:01
-Adding changed files:  73% |##########################          | ETA:  0:00:01
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  77% |###########################         | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  81% |#############################       | ETA:  0:00:00
-Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:04
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://cmake.org/files/v4.0/cmake-4.0.3.tar.gz...
-INFO: Rebasing devtool onto 9611c98c610b3521eb62c12070c6a18d9a3c1a7b
-WARNING: Command 'git rebase 9611c98c610b3521eb62c12070c6a18d9a3c1a7b' failed:
-Auto-merging Modules/CMakeDetermineCompilerABI.cmake
-CONFLICT (content): Merge conflict in Modules/CMakeDetermineCompilerABI.cmake
+During handling of the above exception, another exception occurred:
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/cmake-native
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/cmake-native/cmake-native_4.0.3.bb
-
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/scripts/devtool", line 352, in <module>
+    ret = main()
+  File "/srv/pokybuild/yocto-worker/auh/build/scripts/devtool", line 338, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/srv/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/standard.py", line 2177, in finish
+    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
+                                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/standard.py", line 1874, in _update_recipe
+    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
+                                ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/standard.py", line 1703, in _update_recipe_patch
+    appendfile, destpath = oe.recipeutils.bbappend_recipe(
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+                    rd, appendlayerdir, files,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+                    redirect_output=dry_run_outdir,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    params=params)
+                    ^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/meta/lib/oe/recipeutils.py", line 721, in bbappend_recipe
+    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
+                         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/meta/lib/oe/recipeutils.py", line 630, in get_bbappend_path
+    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
+  File "/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/cookerdata.py", line 175, in wrapped
+    raise bb.BBHandledException()
+bb.BBHandledException
 
 
 Please review the attached files for further information and build/update failures.
@@ -190,5 +121,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============9027322060555240961==--
+--===============8979687044885807912==--
 
