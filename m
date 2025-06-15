@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B56BFC83030
-	for <webhook@archiver.kernel.org>; Sun, 15 Jun 2025 13:14:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 025F0C71151
+	for <webhook@archiver.kernel.org>; Sun, 15 Jun 2025 13:15:04 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.8896.1749993292071222519
+ by mx.groups.io with SMTP id smtpd.web10.8860.1749993279234242259
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jun 2025 06:14:52 -0700
+ Sun, 15 Jun 2025 06:15:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=J8+oZmgK;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=a4OgfqCG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019773ba7f07-5a10c2db-1082-43e8-b434-6405f891cb4d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hYDX51vW;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=kPdGHQ5x;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019773baac4d-17308b9a-2127-4b65-83f4-db78b7e91024-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1749993291;
+	t=1749993303;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=B0swvTdUASGcbalSd0RV4z7lJU6DMSf1J4Vtsp+wDHE=;
-	b=J8+oZmgKcSq9dMwsxVKfNIyG8O8hjVjQR+Ta70KS5ycNKrwusQhHNO9MsycWM3LU
-	i6b6F+LSs1BSEa9wQ+wQO61LTDmtoMRmWl3FgCB13IG5Sj9PLofCR7TI7C4eUsfFFu1
-	L9LFFa8kcm2SLtPviNAwBZypWvcpZ81UJV1qd9P0=
+	bh=ih2CkqFBGCrWGVUbHE8BXqz5AQZ3qZD40/thxn1j+QE=;
+	b=hYDX51vWCW6gj6E5HBTgGkCv5eUWSBPXIJ3XHm1Z0xIsaEC2fNctpJxZZWcc7Dyt
+	czwdThstir50yjZkb5p3o0wqJ7LXBJ9F6V9qr1L4JgnXAJvDa6/tzGttKsdnTtHCg9K
+	XXWV+LQwQCio3CBoIMkTTi7EStJA9nJL9CGsA0Lo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993291;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1749993303;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=B0swvTdUASGcbalSd0RV4z7lJU6DMSf1J4Vtsp+wDHE=;
-	b=a4OgfqCGmPVZ4fu2Kyk3RJ0l5PIw2LhS4aliIDshKnPm0DGELtM9IWcyUqVRMIN9
-	o20f5ix7UtJLtI7hHC7IsXJjTV1NV7AQWNig7KNyFT5CX2cItehihIJ+KxfssjwqEr6
-	f1At+tFYls/N7yYwy46ewWRnhbPdoXpOfqhptUuI=
-Content-Type: multipart/mixed; boundary="===============2051674781221311390=="
+	bh=ih2CkqFBGCrWGVUbHE8BXqz5AQZ3qZD40/thxn1j+QE=;
+	b=kPdGHQ5xMJHYxYBehd6T61/PFbP1/owBZRbQdDdgZ8ZXFscLNm75xSetwWjP4Wg8
+	yFney9zOYuLH9MZzc5L6lZeHYCk/RTnwgVpDPOgERN60VzboLAaO0ZyfhIQ18eL/XOu
+	Ao97uLPQG0UJjNKRqW/b+RIJbC921clY6tsSmQHg=
+Content-Type: multipart/mixed; boundary="===============6434155041478547065=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-unittest-automake-output: upgrading to 0.3 FAILED
-Message-ID: <0101019773ba7f07-5a10c2db-1082-43e8-b434-6405f891cb4d-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Jun 2025 13:14:51 +0000
+Subject: [AUH] diffoscope: upgrading to 298 SUCCEEDED
+Message-ID: <0101019773baac4d-17308b9a-2127-4b65-83f4-db78b7e91024-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Jun 2025 13:15:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.06.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 13:14:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218694
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 13:15:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218737
 
---===============2051674781221311390==
+--===============6434155041478547065==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-unittest-automake-output* to *0.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *diffoscope* to *298* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch
+    - apply the patch: git am 0001-diffoscope-upgrade-297-298.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,163 +72,99 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8cbf4a5855ccc445a390909a5b4ebab3200e42f5 Mon Sep 17 00:00:00 2001
+From df5cc6b40bdd1c2be47748c8b884eac9cfb56447 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Jun 2025 09:04:22 +0000
-Subject: [PATCH] python3-unittest-automake-output: upgrade 0.2 -> 0.3
+Date: Sun, 15 Jun 2025 12:54:29 +0000
+Subject: [PATCH] diffoscope: upgrade 297 -> 298
 
 ---
- ...ke-output_0.2.bb => python3-unittest-automake-output_0.3.bb} | 2 +-
+ .../diffoscope/{diffoscope_297.bb => diffoscope_298.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-unittest-automake-output_0.2.bb => python3-unittest-automake-output_0.3.bb} (91%)
+ rename meta/recipes-support/diffoscope/{diffoscope_297.bb => diffoscope_298.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
-rename to meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
-index a8b834a126..3c8fe320d0 100644
---- a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
-+++ b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f6f16008d9fb7349f06609329f1ab93b"
- SRC_URI = "git://gitlab.com/rossburton/python-unittest-automake-output;protocol=https;branch=main \
-            file://0001-Update-__version__-to-match-the-tag-version.patch"
+diff --git a/meta/recipes-support/diffoscope/diffoscope_297.bb b/meta/recipes-support/diffoscope/diffoscope_298.bb
+similarity index 93%
+rename from meta/recipes-support/diffoscope/diffoscope_297.bb
+rename to meta/recipes-support/diffoscope/diffoscope_298.bb
+index 6f6f4ac520..4a50059c99 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_297.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_298.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
  
--SRCREV = "aebdfb188e368c690ea55cf6c9c9ffa1a52def65"
-+SRCREV = "3376ff9bc319f8338849b7b9f63b9325d7b7663a"
+ inherit pypi setuptools3
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "25532061c640b4be7496f9a726640e20ca0fcb8e46a8a1a46e51ac940a5f4e57"
++SRC_URI[sha256sum] = "9644b7e711df71f13c5f50f3d1353c1e6d09f462d342d9771576e75f3dd8c3e1"
  
+ RDEPENDS:${PN} += "\
+         binutils \
 -- 
 2.47.1
 
 
---===============2051674781221311390==
+--===============6434155041478547065==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1912 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 935 .bb files complete (934 cached, 1 parsed). 1910 targets, 39 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PV changed from "297" to "298"
+packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 297 [default] to 298 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PV changed from "297" to "298"
+packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 297 [default] to 298 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PV changed from "297" to "298"
+packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 297 [default] to 298 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PV changed from "297" to "298"
+packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 297 [default] to 298 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-src: PV changed from "297" to "298"
+packages/core2-64-poky-linux/diffoscope/diffoscope-src: PKGV changed from 297 [default] to 298 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "297" to "298"
+packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 297 [default] to 298 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope: PV changed from "297" to "298"
+packages/core2-64-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1384788 to 1386037 (+0%)
+packages/core2-64-poky-linux/diffoscope/diffoscope: PKGV changed from 297 [default] to 298 [default]
+packages/core2-64-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-297.tar.gz;downloadfilename=diffoscope-297.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-298.tar.gz;downloadfilename=diffoscope-298.tar.gz"
+packages/core2-64-poky-linux/diffoscope: PV changed from "297" to "298"
+packages/core2-64-poky-linux/diffoscope: PKGV changed from 297 [default] to 298 [default]
+Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.13/site-packages/diffoscope-297.dist-info moved to /usr/lib/python3.13/site-packages/diffoscope-298.dist-info
 
-Build Configuration:
-BB_VERSION           = "2.12.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:bd283a4a904b1e2596f9c0aa6824e5c7b6824d7d"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 314 Local 302 Mirrors 0 Missed 12 Current 324 (96% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 464 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.4.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.13.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.13.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 600 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_create_spdx_setscene)
-NOTE: Running task 914 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_recipe_qa)
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa: Started
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 608 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 615 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa: Succeeded
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_recipe_qa unihash changed to 573a6c127ee07a7bebbb024c4092fa9abb0087cc1eb8ac4575ecba853349bfe7
-NOTE: Running task 1070 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_fetch)
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 626 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Started
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1308 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_unpack)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1309 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 635 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1671 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1807 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_collect_spdx_deps)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1811 tasks of which 1805 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250615090408.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250615090408.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.1995165
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-unittest-automake-output-0.3-r0 do_patch: Applying patch '0001-Update-__version__-to-match-the-tag-version.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/git'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-Update-__version__-to-match-the-tag-version.patch
-patching file src/putao/__init__.py
-Hunk #1 FAILED at 5.
-1 out of 1 hunk FAILED -- rejects in file src/putao/__init__.py
-Patch 0001-Update-__version__-to-match-the-tag-version.patch does not apply (enforce with -f)
-
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.1995165
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch) failed with exit code '1'
-
---===============2051674781221311390==
+--===============6434155041478547065==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch"
+ filename="0001-diffoscope-upgrade-297-298.patch"
 
-RnJvbSA4Y2JmNGE1ODU1Y2NjNDQ1YTM5MDkwOWE1YjRlYmFiMzIwMGU0MmY1IE1vbiBTZXAgMTcg
+RnJvbSBkZjVjYzZiNDBiZGQxYzJiZTQ3NzQ4YzhiODg0ZWFjOWNmYjU2NDQ3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSnVuIDIwMjUgMDk6MDQ6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dDogdXBncmFkZSAwLjIgLT4gMC4zCgotLS0K
-IC4uLmtlLW91dHB1dF8wLjIuYmIgPT4gcHl0aG9uMy11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXRf
-MC4zLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdW5pdHRl
-c3QtYXV0b21ha2Utb3V0cHV0XzAuMi5iYiA9PiBweXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
-dHB1dF8wLjMuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjIuYmIgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMy5i
-YgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMi5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
-dHB1dF8wLjMuYmIKaW5kZXggYThiODM0YTEyNi4uM2M4ZmUzMjBkMCAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1
-dF8wLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0
-ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjMuYmIKQEAgLTYsNyArNiw3IEBAIExJQ19GSUxFU19DSEtT
-VU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWY2ZjE2MDA4ZDlmYjczNDlmMDY2MDkzMjlmMWFiOTNi
-IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuY29tL3Jvc3NidXJ0b24vcHl0aG9uLXVuaXR0ZXN0
-LWF1dG9tYWtlLW91dHB1dDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiBcCiAgICAgICAgICAg
-IGZpbGU6Ly8wMDAxLVVwZGF0ZS1fX3ZlcnNpb25fXy10by1tYXRjaC10aGUtdGFnLXZlcnNpb24u
-cGF0Y2giCiAKLVNSQ1JFViA9ICJhZWJkZmIxODhlMzY4YzY5MGVhNTVjZjZjOWM5ZmZhMWE1MmRl
-ZjY1IgorU1JDUkVWID0gIjMzNzZmZjliYzMxOWY4MzM4ODQ5YjdiOWY2M2I5MzI1ZDdiNzY2M2Ei
-CiAKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFN1biwgMTUgSnVuIDIwMjUgMTI6NTQ6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+aWZmb3Njb3BlOiB1cGdyYWRlIDI5NyAtPiAyOTgKCi0tLQogLi4uL2RpZmZvc2NvcGUve2RpZmZv
+c2NvcGVfMjk3LmJiID0+IGRpZmZvc2NvcGVfMjk4LmJifSAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS97ZGlmZm9zY29wZV8yOTcuYmIgPT4gZGlmZm9zY29wZV8y
+OTguYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
+ZS9kaWZmb3Njb3BlXzI5Ny5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2NvcGUvZGlm
+Zm9zY29wZV8yOTguYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI5Ny5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI5OC5iYgppbmRleCA2ZjZmNGFj
+NTIwLi40YTUwMDU5Yzk5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Nj
+b3BlL2RpZmZvc2NvcGVfMjk3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
+cGUvZGlmZm9zY29wZV8yOTguYmIKQEAgLTEyLDcgKzEyLDcgQEAgUFlQSV9QQUNLQUdFID0gImRp
+ZmZvc2NvcGUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiMjU1MzIwNjFjNjQwYjRiZTc0OTZmOWE3MjY2NDBlMjBjYTBmY2I4ZTQ2YThhMWE0NmU1
+MWFjOTQwYTVmNGU1NyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5NjQ0YjdlNzExZGY3MWYxM2M1
+ZjUwZjNkMTM1M2MxZTZkMDlmNDYyZDM0MmQ5NzcxNTc2ZTc1ZjNkZDhjM2UxIgogCiBSREVQRU5E
+Uzoke1BOfSArPSAiXAogICAgICAgICBiaW51dGlscyBcCi0tIAoyLjQ3LjEKCg==
 
---===============2051674781221311390==--
+--===============6434155041478547065==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.13/site-packages/diffoscope-297.dist-info moved to /usr/lib/python3.13/site-packages/diffoscope-298.dist-info
+
+--===============6434155041478547065==--
 
