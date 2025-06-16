@@ -2,71 +2,71 @@ Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7280FC71135
-	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 04:46:21 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.23284.1750049171688451681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80C01C71136
+	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 04:52:51 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.23330.1750049563264991047
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jun 2025 21:46:11 -0700
+ Sun, 15 Jun 2025 21:52:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mRixA5vp;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: ppjadhav456@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7426c44e014so3164625b3a.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 21:46:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=diCBltWP;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-234f17910d8so36678575ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 21:52:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750049171; x=1750653971; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1750049562; x=1750654362; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=80raAc3EpRlroMlTW9oFAT+PqviyGgs/q5p5ETSzc5E=;
-        b=mRixA5vpMjs5LcK8vvaTJXVRopGnz8rGLnu0BYKFDCcjJClVMTTSd24gP0T0LIzyXt
-         iw1NPSienYPhu5vwmgvS1GpFILcIraw6OnuA6w+9jrC51wHoOGhvy8p0Ag/mbCD0vPym
-         XUmA0V0lbCLXnoTcLsPbyv4m6MBN4HbpSHH57u8I4Rm2paJ1Xji2L3zADzJ7R21cfdp4
-         IZZBbOyqy+KJRMUsh6Q3DZ2y9HP7PicnLfMp/ADkApa8MTErdkzlRLaEEVh/sQBtQvXj
-         w/ZKHYkYhzBq80VAZ9JRL0MHf7ATMGLRo6Kf+vu5L72zqug3JOsN+FWQJ6ED8p+RJi6c
-         nhiw==
+        bh=cURX+89VOdk7jgglMTy1mz4LH36B7/MNMFDg+SMVQOs=;
+        b=diCBltWPN2VvmqjM1wQxqoysVt6HKhOf3q1Y4hzoMjUulJa4V3ayNoXgvgWMolJAS/
+         ljicvDbQIYkr+sgcEGtymhOJneir46VXa+lbjBkrimtVvy3Pd8dMEUJpaWov1BtaZaV6
+         7D8hgFLIBnI2LxLx7uDEpDPBspojsVkjFDdPL6g2HBDrVwxSky2IdMhcja+CglKd+E1V
+         SwwwytMuuzTr/KcKSLV+ky0qpBGyrIl1fRX8+i86CutvE+VB0M4INYSYkynNHgOZtpLq
+         w+jAhnsOPfZnuLbbPADbT7gIko8FqgfuV0/fMQ4C9/JGwar+uf6LOQO7oUKd5KjCkmIW
+         Og7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750049171; x=1750653971;
+        d=1e100.net; s=20230601; t=1750049562; x=1750654362;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=80raAc3EpRlroMlTW9oFAT+PqviyGgs/q5p5ETSzc5E=;
-        b=X2AJNBtfrvkpNb51VbxAfUtOFAvoMKVU0XhvmaaOMN/GD1QGYAOgF9b97vuZtOzgIp
-         c0/dhNvPcJiwPVxMFD9owXtjVaHR31L2F3jerdssGUsytfxIRcwK1fb5+yMlxKPsFQG0
-         6pNb8l+rsS8n3aEOCBNvyRG+fYECYYMdBhP21Z6oEzcCjivBm8wHyi0KV/UuDJI2P/1w
-         QteDFbdjwATUrOH6HkNfCPBcTNPFC9Iqk2goabzoG9Kk8pSu5qRj1Y9esSm8kq5XcaMQ
-         bwhD3BXuVyJrFf73vXOL3jkr/LM+cfCDcJoHJL26bejKYxUzZJEy2nxwyj7nKsUPhULQ
-         mlbw==
-X-Gm-Message-State: AOJu0YxTD3LJDLq3stP93LopW6D3Cj9eSz+5syyYAZ34J4+QH1C5EUmJ
-	xpdR93wg5xXHHR88DL1+yV5rUaIMwjQLEq/CR5/Mwr2XIjF9MNpouNhDJZS6Zg==
-X-Gm-Gg: ASbGncsR3XBF0mqwd0wbv/jpmGXd3DwZfZn4HDO+Rl1yVqd4WMtUNKvdv1F29GKlqbW
-	36NoYNuhJSASf48YM4ZKYVwDxvvid9X/3qOI+fN0w8XeiJB5kyxo2KsTx4DaYHoCp1FJVQTdY9F
-	JkvJNCtPF7CwvqKO/uWTrMxfQGSkS43CNvohN3bLVXMIJJ61VzdzJw6GPQMQXZfTkE2tttGIsMz
-	iwgIxikQC79mADW8AngNlrpVpJRxSF+rpoiqZklnSJqHLUk2i4ykxuATYyw65D2pAqrBzYDxkBR
-	L9nJXrjZZv88LWa0SRqDtR+sxVowblJXDyNk7bohKrd59liWhkg9+uCKYHYaPc1cwScJIc0rWLX
-	Sxnhoo8LP
-X-Google-Smtp-Source: AGHT+IEQKniADX6k08aDYJAwZD6B0CPWg+XeVd9J3/rv81XYtvK5wVmI/3fWB5FG63x6Pg59wK5pfA==
-X-Received: by 2002:a05:6a00:4646:b0:736:5753:12f7 with SMTP id d2e1a72fcca58-7489cdedcfamr11169696b3a.3.1750049170875;
-        Sun, 15 Jun 2025 21:46:10 -0700 (PDT)
+        bh=cURX+89VOdk7jgglMTy1mz4LH36B7/MNMFDg+SMVQOs=;
+        b=wiCLH5pB3QVRKVbvWSbPdfD2vv8EieXC274iM4QUEimY2GXn5lqWamzQ3QbvuJBGQw
+         mQ06IUx6b3hQrF7Mksz7UWylKoSvfBHTFq4SQ/qxBJIScnMvTrGnaUW/hm1I3zm3Ni/Q
+         +rr8nMmqRfXrJxeMd+XjRYczfdbGx6uP4xnP3JU7nutr9UdB/Id0PrnCtX2QRQcGu+wd
+         sQ8yMrHB0E5V4jlY8OysC59lWArIOVe3SDWDgOugdT8Dy1aVAq5raExh7r9LRo0SP2Iy
+         m+GddLuAYxYXIWwXduruqhtk4JW+Rdvn1IMpYtz0Yi8v54gXIiFXnPW8ogAaXUuMYBwF
+         8IjQ==
+X-Gm-Message-State: AOJu0YzMUR7Raz1+SsgrPrACcHGOG0Pz4PoVA7bO2yCNRz3mZAFIhAdQ
+	YHc4yUxZKXSOQdRSjQ7HMKmcZ1AcjY/mElXU8N1eKijVVXIwcBKaqJ1ixhxQrw==
+X-Gm-Gg: ASbGncul7M5O3c6yve25bbwB+AB7k1bGkL3vNEzVpJpWXXgdpvyV8vwH9zWe7O1scP5
+	Y1Ebc5fFKKKjxrg8qYaINFtz+noylubeS6s3qX/2d6A04LMCrkcfefrwQVCwTKuoWnrZXHq3ZaY
+	kPH2UEcRHDL+Smmh8aWC3JkVunL6VIKjVSVoMj7u1Hl4XJeV70YTZf+vrVY9cVR6KGNK1A9JA0x
+	KRn3+/E8LUo0uUXMx7LXr1yylylEJtoVuEiluk220BCPY7YI14o+QxYrLWy8objIR8FcKq6AdHw
+	m+US5ErLwOKGtCP0FaqsL/rXMNPotPqGdMUBxSLzRgpCvA+g4CGoR2NLubNDk8SpdVRwT0Qy+A=
+	=
+X-Google-Smtp-Source: AGHT+IGoaTEPWbPixO9JtLUr7DjBDp1jwYYWB/uDma03ekDbv1mY09QGfRXy3WAEhBS1BRY2w6eT6Q==
+X-Received: by 2002:a17:902:da2d:b0:235:2375:7ead with SMTP id d9443c01a7336-2366b14d317mr125723335ad.28.1750049562440;
+        Sun, 15 Jun 2025 21:52:42 -0700 (PDT)
 Received: from L-15936L.kpit.com ([43.231.237.248])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748900063ebsm5981187b3a.62.2025.06.15.21.46.08
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea8ccbsm52049785ad.167.2025.06.15.21.52.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jun 2025 21:46:10 -0700 (PDT)
+        Sun, 15 Jun 2025 21:52:42 -0700 (PDT)
 From: Poonam Jadhav <ppjadhav456@gmail.com>
 X-Google-Original-From: Poonam Jadhav <poonam.jadhav@kpit.com>
 To: openembedded-core@lists.openembedded.org,
 	ppjadhav456@gmail.com
 Cc: virendra.thakur@kpit.com
-Subject: [OE-core][scarthgap][PATCH] libpng: Add ptest
-Date: Mon, 16 Jun 2025 10:16:04 +0530
-Message-Id: <20250616044604.177410-1-poonam.jadhav@kpit.com>
+Subject: [OE-core][kirkstone][PATCH] libpng: Improve ptest
+Date: Mon, 16 Jun 2025 10:22:36 +0530
+Message-Id: <20250616045236.253202-1-poonam.jadhav@kpit.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 04:46:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218765
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 04:52:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218766
 
 Install libpng test-suite to run it as a ptest.
 As the test-suite takes more than 30 seconds to run,
@@ -74,69 +74,96 @@ add libpng-ptest to PTESTS_SLOW in ptest-packagelists.inc
 
 Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../recipes-multimedia/libpng/files/run-ptest |  7 ++++
- .../libpng/libpng_1.6.42.bb                   | 42 ++++++++++++++++++-
- 3 files changed, 48 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/libpng/files/run-ptest
+ .../distro/include/ptest-packagelists.inc     |  2 +-
+ .../recipes-multimedia/libpng/files/run-ptest | 26 +----------
+ .../libpng/libpng_1.6.39.bb                   | 43 +++++++++++++++----
+ 3 files changed, 38 insertions(+), 33 deletions(-)
 
 diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 3387e19191..9950e46776 100644
+index 5c6a30635f..53c023bb81 100644
 --- a/meta/conf/distro/include/ptest-packagelists.inc
 +++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -102,6 +102,7 @@ PTESTS_SLOW = "\
-     libevent \
-     libgcrypt \
-     libmodule-build-perl \
-+    libpng \
-     lttng-tools \
-     openssh \
-     openssl \
+@@ -29,7 +29,6 @@ PTESTS_FAST = "\
+     libnl-ptest \
+     libmodule-build-perl-ptest \
+     libpcre-ptest \
+-    libpng-ptest \
+     libssh2-ptest \
+     libtimedate-perl-ptest \
+     libtest-needs-perl-ptest \
+@@ -88,6 +87,7 @@ PTESTS_SLOW = "\
+     glib-2.0-ptest \
+     gstreamer1.0-ptest \
+     libevent-ptest \
++    libpng-ptest \
+     lttng-tools-ptest \
+     openssh-ptest \
+     openssl-ptest \
 diff --git a/meta/recipes-multimedia/libpng/files/run-ptest b/meta/recipes-multimedia/libpng/files/run-ptest
-new file mode 100644
-index 0000000000..85051a59f5
---- /dev/null
+index 9ab5d0c1f4..85051a59f5 100644
+--- a/meta/recipes-multimedia/libpng/files/run-ptest
 +++ b/meta/recipes-multimedia/libpng/files/run-ptest
-@@ -0,0 +1,7 @@
-+#!/bin/sh
-+
-+set -eux
-+
+@@ -2,28 +2,6 @@
+ 
+ set -eux
+ 
+-./pngfix pngtest.png &> log.txt  2>&1
 +cd src
-+
+ 
+-if grep -i "OK" log.txt 2>&1 ; then
+-   echo "PASS: pngfix passed"
+-else
+-   echo "FAIL: pngfix failed"
+-fi
+-rm -f log.txt
+-
+-./pngtest pngtest.png &> log.txt 2>&1
+-
+-if grep -i "PASS" log.txt 2>&1 ; then
+-   echo "PASS: pngtest passed"
+-else
+-   echo "FAIL: pngtest failed"
+-fi
+-rm -f log.txt
+-
+-for i in pngstest timepng; do
+-    if "./${i}" pngtest.png 2>&1; then
+-        echo "PASS: $i"
+-    else
+-        echo "FAIL: $i"
+-    fi
+-done
 +make check-TESTS
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-index 673133bb4a..4c21e8d597 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-@@ -10,7 +10,10 @@ DEPENDS = "zlib"
- 
- LIBV = "16"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz \
-+           file://run-ptest \
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
+index 94db1d3f6b..011eec94a2 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
+@@ -13,7 +13,7 @@ LIBV = "16"
+ SRC_URI = "\
+            ${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
+            file://run-ptest \
+-           "
 +"
-+
- SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
  
- MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
-@@ -19,7 +22,7 @@ UPSTREAM_CHECK_URI = "http://libpng.org/pub/png/libpng.html"
+ SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
  
- BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
- 
--inherit autotools binconfig-disabled pkgconfig
-+inherit autotools binconfig-disabled pkgconfig ptest
- 
- # Work around missing symbols
- ARMNEON = "${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off", d)}"
-@@ -30,4 +33,39 @@ PACKAGES =+ "${PN}-tools"
+@@ -32,15 +32,42 @@ PACKAGES =+ "${PN}-tools"
  
  FILES:${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}/pngcp"
  
+-BBCLASSEXTEND = "native nativesdk"
+-
+ # CVE-2019-17371 is actually a memory leak in gif2png 2.x
+ CVE_CHECK_IGNORE += "CVE-2019-17371"
+ 
 +RDEPENDS:${PN}-ptest += "make bash gawk"
 +
-+do_install_ptest() {
+ do_install_ptest() {
+-    install -m644 "${S}/pngtest.png" "${D}${PTEST_PATH}"
+-    install -m755 "${B}/.libs/pngfix" "${D}${PTEST_PATH}"
+-    install -m755 "${B}/.libs/pngtest" "${D}${PTEST_PATH}"
+-    install -m755 "${B}/.libs/pngstest" "${D}${PTEST_PATH}"
+-    install -m755 "${B}/.libs/timepng" "${D}${PTEST_PATH}"
 +    # Install test scripts to ptest path
 +    install -d ${D}${PTEST_PATH}/src/tests
 +    install -m 755 ${S}/tests/* ${D}${PTEST_PATH}/src/tests
@@ -167,9 +194,9 @@ index 673133bb4a..4c21e8d597 100644
 +        ${B}/Makefile > ${D}${PTEST_PATH}/src/Makefile
 +
 +    sed -e 's|#!/bin/awk|#!/usr/bin/awk|g' -i ${D}${PTEST_PATH}/src/tests/scripts/*.awk
-+}
+ }
 +
- BBCLASSEXTEND = "native nativesdk"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.34.1
 
