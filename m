@@ -1,122 +1,122 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 755ECC71136
-	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 10:11:24 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.27020.1750068677980193667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D31DC71135
+	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 10:12:04 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.27040.1750068717096012013
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jun 2025 03:11:18 -0700
+ Mon, 16 Jun 2025 03:11:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Blxbrv3Z;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: skandigraun@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4e742dc97so3488840f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 03:11:17 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UucUF54h;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-450cea01b9cso19426305e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 03:11:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750068676; x=1750673476; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fq7R5kWmuwxbenxWD4HxJmVx7v95C94xDK441oIryuo=;
-        b=Blxbrv3ZIoTjRvkidJxN/koJZuCv896YfkMqhTnR3WAaVe+mr+WpZryE1XiFwH1DvL
-         4tyVO1K5fWJtvncRpfVbbX2iAIYeaXTPVFbVAucPueJ/e4K9RgV3IovS71jkxjxjt9zj
-         hvcZ/9SRVqfz++XlZN3QWLGgJU+kdfsauWj8HRwr4J7TKE8LaliFA/UjlFNY9C4BQv3r
-         iSU4Vy9CwQbQQ4PKnt5muLiJRAj3TRf8hJW5hmCmtQZsPPV5nHk2Jl9i4IKoPWQDBir3
-         nGoUIn4fXNHfpjDKRiCeugL/V9ftX5w7qoBLPVk8swnRGXVY4r/c11DEiHIkPDdXjAMW
-         RYIg==
+        d=linuxfoundation.org; s=google; t=1750068715; x=1750673515; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kMv9fOBKKqAp4aCRTEa+aAs4VCin+EyxCoA1V4RKwgk=;
+        b=UucUF54hbTu4zFt+sP/uKw9IUK3VNAlYDyP4d296Hy73yRFRbbbWlbHAy0l+pc30SO
+         jP9WDmBwDSga4Z4Xqpmyfq+GPT56a3pXuhQ0xXZvyThe2k5w/vvMP1zmf0G0eeewZvL0
+         l4/u26mi04C4YGt2/nAODVW4KpR+4jHKbS4k8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750068676; x=1750673476;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fq7R5kWmuwxbenxWD4HxJmVx7v95C94xDK441oIryuo=;
-        b=kNg8olcVDwnZAXOhPNlKpNcPN20WjITRkNd4OB2L6Ox0P7TSz+reEpjJjD2p7oBYby
-         1demAt2yv+VoDcfNhz+IvMEv3jXf/5+SjMtb+P2eOgj8hPmeeOxpZPp8WsZyQe3gbQHK
-         fmzoIu073ZWPfZgVGlBNCDbiOrH7b3av6vo27gNdT6+GxA3FAzSYmtw+7Ol4hrjkbT4F
-         feY6SRiDo9FTrUz0FqdPE45mEFORhznV8vT6Wxksy1DhD8qoXuoSsEvcYbkSDq6kHQ/1
-         4R9czmbJnDmybGoeq1EmYPGWbOjua7+jQo7bjUw1LtriKTWKAqjfeQjdoovGMC27OoWE
-         BuUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUymgxuEei+vHJVJlRqboWDn1VSse+Yhns8xrK5aDfhyvZoVD4zH0KNH4X/289iSg71EXQ3Vi3EE42sru4zMfG1SQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx52G01zVyWnKn0tocY7Dw5xTNc1fypzciAiBpGYcG036Mc4rv8
-	InAG6FTwwRjP/NMLy5oc1jrqOxR00qiIKRuqXRnA1T7FYQHWUxbO2XDsvSLn0A==
-X-Gm-Gg: ASbGncuXTqE1CvzFoPJWp5V+3FchCZskS3NCY23ANNS26PBxR1m4XlfY6WGkYuiyM/y
-	kM//ng6isfDfXaxMTQIADwip5jTbR6KM8V+sQOOKjuSwdjqRKb3ytRi+ASmI9NBL/2GaGNZH6Ts
-	vc/mSDc996CltK0/h1H4p6veaYxU72Y0ogJkC3ISDf8Vbq+7mb5lHFzNHjdBvK746nfCQ5+mqhp
-	KGUdAeTtDkaun7ZbJ1A+TLw56igAVXVoWpC3DAZ4s7imAKjmp8agYu9pytcvK+RoKCIuj17kVF7
-	IWdzA2Rtyc6v67cQfUY4M4owWAWr6Lp1OC3xexOHXdo0He0bHnjDt5rgvuqjMBorqC+TWNNaSMZ
-	L/+q1
-X-Google-Smtp-Source: AGHT+IEoaZU685oyY1RxMhWH9bhmu7Mp6SyTxKHfukljAV+mwGtKh3HvAP/7oiX0n3Pi2Ui9aLwa5Q==
-X-Received: by 2002:a05:6000:4205:b0:3a4:eb43:6003 with SMTP id ffacd0b85a97d-3a572e89634mr6807588f8f.29.1750068675990;
-        Mon, 16 Jun 2025 03:11:15 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b0898fsm10862697f8f.54.2025.06.16.03.11.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jun 2025 03:11:15 -0700 (PDT)
-Message-ID: <56a9d083-72f6-44f2-be3a-29691745bcff@gmail.com>
-Date: Mon, 16 Jun 2025 12:11:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 0/6] ISA based RISC-V tune implementation
+        d=1e100.net; s=20230601; t=1750068715; x=1750673515;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kMv9fOBKKqAp4aCRTEa+aAs4VCin+EyxCoA1V4RKwgk=;
+        b=OAiHWvwqZpW/PAFEVCpubHB1aQkELaT//1JKQAxbHz5eCGsmA4xSXXGxF7GuCl8GCS
+         SSI9GetwLY5vUAtMCmM2mi8jlAXhb9J9CasDiefy3RnP3xLkSh1ed4IciQhgVxSaI8G4
+         ws+9jDBGxD4ZHvNGHpsaLYIZwUflrghTF8jSs0rOPPpwljzssPDiJoNIKteTRKwaqi+k
+         rcnW/It+g3MezFQQnUSwLrg1pIrDh0s06TggpT9OU010XUVckPLgaF1WXLeIKyGwJk9x
+         77ZdBvyy73tdNpTb6aqEsnBYCPeUFuorL1Df+KAmQllhQ94w2BoS3EJucdPzfv8eI63C
+         UXyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVxZnxYc32yYStTtMmWjjc4bPaLN24vqE5rRBzmr5+A2KipmsdrxsN0Ufz/sl6Jrvxyo+fmFzwOOxHD5ayJ/yII0A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwbHN4r33Al9lPR+mncKv0kV8yJn+JgccecZfykWFJkB5rXiZPE
+	2CMDITfvQH1CMVfMoa4tDDGJNikMbFeb0vU7G2craHSuZUzmITyj5/U8p8DmZ3wj88d6EXKKh4x
+	kQFhkBQw=
+X-Gm-Gg: ASbGncsWfRa/k1Da6Nu6La9KDpQLvFFetJAnnCj3YALRAupeH5ZvgwrI7U+MqjoMa8r
+	T/rEsQLZfG3iI3wa/j5dqd99BRbCxxTo/S7BqdqUhf/5Y5NNtiKTSH2ohLbBDH0kfqjACXsjNlM
+	lPVGfwOyJJkP883QlhpW5l1kdHGqWWc+y1AaygPuEerj8BfAEyymhniZ1wtWGxWFwT+jo/XFn5a
+	33Atg5dxD9DCQza5LUvpUoGnZYYenGJps7DP3DMJTbUzOFrPqm0QtcuGutehy8nlre2MQOTPWxg
+	msUu48gT+zeeCgNKb6Pot5dxx8ftUP6LGXbaaDOM04m+a+wItnTipsTdxJRgYEjQtIerSPkzg+v
+	gOZfpYq19+yNfko6Z+JlyXK6t0JeYuPB1svPYYGyncJmERiP5
+X-Google-Smtp-Source: AGHT+IEMzsMpb00E45D1YCNlky7DsjCScF2JHCMKG4btcWcWU1Oh5tq+w2dDyLjyYdZBb6r6yOIkvQ==
+X-Received: by 2002:a05:600c:35ca:b0:442:cd03:3e2 with SMTP id 5b1f17b1804b1-4533ca58543mr82652635e9.2.1750068715133;
+        Mon, 16 Jun 2025 03:11:55 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a03:fc99:2a4c:41a2? ([2001:8b0:aba:5f3c:a03:fc99:2a4c:41a2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532dea1b1asm143269765e9.14.2025.06.16.03.11.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 03:11:54 -0700 (PDT)
+Message-ID: <8bf4ccf58f9d948a5501c7eecf1daabc98c64ebf.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/6] riscv tunes: ISA Implementation of RISC-V
+ tune features
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: mark.hatle@kernel.crashing.org, openembedded-core@lists.openembedded.org
-References: <1750040965-15015-1-git-send-email-mark.hatle@kernel.crashing.org>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <1750040965-15015-1-git-send-email-mark.hatle@kernel.crashing.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Mon, 16 Jun 2025 11:11:53 +0100
+In-Reply-To: <1750040965-15015-2-git-send-email-mark.hatle@kernel.crashing.org>
+References: 
+	<1750040965-15015-1-git-send-email-mark.hatle@kernel.crashing.org>
+	 <1750040965-15015-2-git-send-email-mark.hatle@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 10:11:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218809
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 10:12:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218810
 
-On 6/16/25 04:29, Mark Hatle via lists.openembedded.org wrote:
+On Sun, 2025-06-15 at 21:29 -0500, Mark Hatle via lists.openembedded.org wr=
+ote:
 > From: Mark Hatle <mark.hatle@amd.com>
->
-> The following implements the risc-v processor tune based on the ISA approach
-> as documented in the oe-architecture post:
->
-> https://lists.openembedded.org/g/openembedded-architecture/message/2155
->
-> This set also attempts to make u-boot and kernel configurations dynamic
-> based on the TUNE_FEATURES.
->
-> For the linux-yocto, I suspect that the config fragments should be
-> sent to the kmeta (kernel-cache), but I'd like a review from Bruce and
-> others before I do this.
->
-> Additionally, this enables a new (optional) features_check for TUNE_FEATURES.
->
-> I've found numerous items in the system have certain RISC-V ISA expectations
-> that may need to be addressed over time, however the obvious one is the
-> Linux kernel requires ima_zicsr_zifencei.  Since it has it's own -march=
-> setting this will ensure the processor defintion will be compatible.
->
-> Also dynamically configure the QEMU cpu based on the tune_features.  This
-> is nice to ensure that what we're actually building should be able to run
-> on real hardware.  However, it does highlight some of the (extension)
-> limitations in the current design.  (limitations as in extension not yet
-> enabled.)
->
-> Note: OpenSBI _requires_ the 'c' extension or it will not execute.  I
-> suspect this can be fixed, but it's beyond my capabilities at this time.
->
+>=20
+> This implements the following base ISAs:
+>=20
+> * rv32i, rv64i
+> * rv32e, rv64i
+>=20
+> The following ABIs:
+> * ilp32, ilp32e, ilp32f, ilp32d
+> * lp64, lp64e, lp64f, lp64d
+>=20
+> The following ISA extension are also implemented:
+> * M - Integer Multiplication and Division Extension
+> * A - Atomic Memory Extension
+> * F - Single-Precision Floating-Point Extension
+> * D - Double-Precision Floating-Point Extension
+> * C - Compressed Extension
+> * B - Bit Manipulation Extension (implies Zba, Zbb, Zbs)
+> * V - Vector Operations Extension
+> * Zicsr - Control and Status Register Access Extension
+> * Zifencei - Instruction-Fetch Fence Extension
+> * Zba - Address bit manipulation extension
+> * Zbb - Basic bit manipulation extension
+> * Zbc - Carry-less multiplication extension
+> * Zbs - Single-bit manipulation extension
+> * Zicbom - Cache-block management extension
+>=20
+> The existing processors tunes are preserved:
+> * riscv64 (rv64gc)
+> * riscv32 (rv32gc)
+> * riscv64nf (rv64imac_zicsr_zifencei)
+> * riscv32nf (rv32imac_zicsr_zifencei)
+> * riscv64nc (rv64imafd_zicsr_zifencei)
+>=20
+> Previously defined feature 'big-endian' has been removed as it was not us=
+ed.
 
-I'm not a particularly advanced risc-v user, but I use qemuriscv64 to
-run smoketests on Firefox, with a barely-extended core-image-sato.
+I tried this (just 1/6) and it caused:
 
-After applying your this patch series, librsvg fails to compile with lot
-of "undefined reference" errors[1]. I haven't looked into this at all
-yet, hoping that someone would know the solution from the top of the
-head. Does this need some magic Rust flag maybe?
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/builds/142
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/135
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/114
 
-Beside applying this series, I didn't do any other modifications, and
-without these changes librsvg builds (did I miss some new config, or
-another patch?) .
+Cheers,
 
-
-[1]: full log:
-https://gist.githubusercontent.com/OldManYellsAtCloud/e9968f3c63df943e8fd54dc217ab15e6/raw
-
+Richard
 
