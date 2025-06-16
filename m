@@ -2,61 +2,61 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A40C71155
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1942CC71136
 	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 11:56:25 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.23292.1750049235642207684
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.23905.1750052845337057783
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jun 2025 21:47:15 -0700
+ Sun, 15 Jun 2025 22:47:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nyz+3up2;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: nmjain23@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23636167b30so34979475ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 21:47:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mx5KbgJ5;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: nmjain23@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b2fc93728b2so3214953a12.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 22:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750049235; x=1750654035; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1750052844; x=1750657644; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yZY8wLaiDG5HCn3cqg0MF3xtJzkNJuIE4FLd2lU8jJI=;
-        b=Nyz+3up2HUV4eLEUaBz8bsybje6DaaS7XXLuvZgo8heFVjkpp0Z7Bhir+dQvNnIOxd
-         7gBIeKT339zF5rV+jLA/75nvujjNUFp7CgEtcbM2E9m3TbwIkTR6D7fAEKh2H4pzGdj4
-         syITQlLXuO+sxTx6U2Z/qplhvVfU2lYNCQGKtr6GGGzLwM7N0wTaaugMJLZ8KssXjJWk
-         C3kg974QVga3kv9S5ElG5AS3yiHtBPwEhjxFY0wCUnHprJMyTB7qLfe0qbzXCvRgT0rb
-         slZfCjAfFOwXDVDznk9VRDgl+SNYNGel6YVLizNJOcHWg71UfJQ+d7TJdXx+IObDMRda
-         HS7A==
+        bh=HMDvsj6uLAVhVYuajS2Nv1tQAxbk8ZJT5mY+ixK/+m4=;
+        b=Mx5KbgJ5LusfJwoar8HcgAOhoCIAhpg4WqYyFZ94oqV+cOwKKeKRPUyL8+mWv5habT
+         qTMvJEMNBikIliIrd/Le3WZl4s6BauC1NnsEAbFFgOzzEWZ0IZDu2ej6yq/oroUQiWVg
+         LBSbRJ9iSvwD91Adz50cEm4C3CHYSFqPEF+0xNITqm5ZqKDjx0GA2oHsXy9PBeq7MrRo
+         jea9IdK92ztXuaoenn/+u3tjFydOJ73xAa3g5U6YZ2IZBDPxw4LdkfNxp7mFG73kMpbo
+         YnGL+DiLy7mRn9v85MphYVz+T/aBHdCDireppD6KZyWSDmr6dNqYz6nUk8aPx5+hXRlh
+         hkHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750049235; x=1750654035;
+        d=1e100.net; s=20230601; t=1750052844; x=1750657644;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yZY8wLaiDG5HCn3cqg0MF3xtJzkNJuIE4FLd2lU8jJI=;
-        b=JgH4S/YrgxAROuOTRRCThESvFbEoPjWnsO+J1Zb1JRZBa1HvRjMSmbZJBq/EYT+xg/
-         31ddy8A+RTbgRJyRpwQsTeUX4LNqalc5TexP/TSsXWJG2rbPUKQm6ClX8ORc5wE5ctXo
-         uppZYjuiiwHwIfQoSdiOTBH1eWQJ5ALaXUx4LFasrnxL4Zoo8qjYqIeAl0glLJbo3vIo
-         rn3aH+OSB6xp3k3724Og82rvYqlKv73oBOVfI9VGYcig200581O1RibAVxxR44e3JWJU
-         UvnIhLEyLfA/vrBEvc8qmH8ci8VAi8OPCb+hNUwu+aPbB7js6LHYKreTBm+4en3fNi8n
-         tnZA==
-X-Gm-Message-State: AOJu0YzQaGCdQtVnNsbqkflusNtWb1cLNaJZ6UHOOiQY2FgBSV/nPpJH
-	8duzcsWG+DUKPyhGvkWBZ4HDuuRDdXp0xGU8aN7vTFmzd0flIhhgKF5/pui80A==
-X-Gm-Gg: ASbGncveiMNsFg6LUpQU6eDH8nCm2OZXJHTd6b8TA651DZVqa8jnuTOXg6EPpRI5sXt
-	6r1cZrQMby5zvfx+DJPu7onVV100jqMHROUfm5MJnEVEQBhe+QqvlhB9jnvW/zN/ezD8y8oyc8G
-	NZY1rbFPmntlE8TCD2dsw4lKdlAwqTe6+/SiUcsekEul02xzpLFO/RmfJgnsH+nXdcwNfcfAYls
-	2biBpOMcpAGoDh5DmM/Irg/bdd89LQjFdLDw1D9ZgLnP37I3iTa70uPs0ddmbMJJZQ0Kgr/6oyV
-	R0S55fklpxSQA5VeG3U716NPOi3M4ZzmlX6nh2cROIoVO6fVHFTJMNPFnjd+ksY27oo=
-X-Google-Smtp-Source: AGHT+IHUdM/3TV04HE9dV5kPgAhEv+nBA6qVpROsyqTOl8xggf1A9MVqTTs5jlxHrXIQjqOodvEX+w==
-X-Received: by 2002:a17:902:f68d:b0:234:8f5d:e3a4 with SMTP id d9443c01a7336-2366b32e4camr115989485ad.2.1750049234495;
-        Sun, 15 Jun 2025 21:47:14 -0700 (PDT)
+        bh=HMDvsj6uLAVhVYuajS2Nv1tQAxbk8ZJT5mY+ixK/+m4=;
+        b=atgWkMc3epvuf1KmZn/5gY0IUtEHTSBefE//MU0yy/p4jwUuNxH0oORf+DkKucWuA5
+         RzJQ8BUmrg1dQtKL/iniHTm9sM7cL78AyjhbydgLydWLF/kel8lRu1uABQ28Ur8ZZwg/
+         rK5yllABQ91UZvhtDxnyuOLSJ01Hnqq4kouHMekq2dKzjYf1nNznzjNTezNgxppnrSgN
+         Z76Vq6rz+Dc1JGsW67N1j1QXUE5C/2rlfFgtH4OAbolg5YuUNdJtOn6T77XLqinZZbZy
+         bmkjh3GZUVPqR4S0VP1H7PtexyLsC09Cy727lspQLDs5mkuzeMIHPvDnluH85GdduHr+
+         cxxw==
+X-Gm-Message-State: AOJu0Yw0oxyoYAFPP0OJCJ4eair9tmh2ddjdetbEZb6/b1PAm1abX7Qd
+	+YJ1fWwDBHpcGOrm1DU7aEDA1MUjuvNZBnoM/fx8TcMcxSmAvj99oycrq7YgRM7Z
+X-Gm-Gg: ASbGncvUCMMhRqKnkdwgH1BdueE28jUxLrG/pnmDgHY7ILPtjjPSq3OMEYFocgf5UhO
+	wqEjpOQeTfwtRlkCYVnNdbKA/bYKcH9ZiFiDv5pS88Bq6yqVr7QzmtUuprcDgn/KJUVLXKnLxIJ
+	jwXDIfwaSXIERqGB/1T/Seev8Jxg7kw8DUK7PthAcIQB0bFQ6/VYFNFDXi6ss2hwpojKW8ZVhjs
+	k2kq7RUpJi7e2t1HCNfHnZTYn3KXrBZFFC6h1n+4tEpz5TVZ7up0lqppaMk7OI3dgggrwg0Ugsb
+	S6DOvdf3wOjIIlgf32XDeRQWmKbUuKSPd7czyTWs8a2AJGFSWqenodyRqKYpMpeKcsM=
+X-Google-Smtp-Source: AGHT+IFmD/pMpaacrFxxgY/SAPRjnVK89Rcc3CFdejdFlLz6InK6QL4LdBVR/TJ2sT1PWFDiqcJoBw==
+X-Received: by 2002:a05:6a21:6481:b0:21c:faa4:9ab9 with SMTP id adf61e73a8af0-21fbd631592mr12170352637.22.1750052844423;
+        Sun, 15 Jun 2025 22:47:24 -0700 (PDT)
 Received: from LL-3450L.kpit.com ([2405:201:6807:8e5:486a:d246:6c6e:6f5e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365de78287sm52137335ad.102.2025.06.15.21.47.13
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7489000604dsm5836981b3a.46.2025.06.15.22.47.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jun 2025 21:47:14 -0700 (PDT)
+        Sun, 15 Jun 2025 22:47:24 -0700 (PDT)
 From: Naman Jain <nmjain23@gmail.com>
 X-Google-Original-From: Naman Jain <namanj1@kpit.com>
 To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com
-Subject: [[kirkstone][PATCH]] ffmpeg: Add "libswresample libavcodec" to CVE_PRODUCT
-Date: Mon, 16 Jun 2025 10:16:12 +0530
-Message-Id: <20250616044612.3449659-1-namanj1@kpit.com>
+Cc: denis@denix.org
+Subject: [[kirkstone][PATCH]] xz: Update LICENSE variable for xz packages
+Date: Mon, 16 Jun 2025 11:16:59 +0530
+Message-Id: <20250616054659.3501263-1-namanj1@kpit.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,39 +64,53 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 11:56:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218816
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218817
 
 From: aszh07 <mail2szahir@gmail.com>
 
-Currently, CVE_PRODUCT only detects vulnerabilities where the product is "ffmpeg".
+Update LICENSE defined for xz packages to match the license
+information provided in the xz COPYING file.
 
-However, there are also vulnerabilities where the product is "libswresample",
-and "libavcodec" as shown below.
-https://app.opencve.io/vendors/?vendor=ffmpeg
+The License information from PACKAGERS file of xz mentions
+packages with lzma files are in public domain.They ask to
+use GPLv2+, if only it's not possible to mention "PD and GPLv2+".
 
-Therefore, add "libswresample libavcodec" to CVE_PRODUCT to detect vulnerabilities
-where the product is "libswresample libavcodec" as well.
+Include PD license with GPLv2 to packages with lzma content:
+xz-dev package contains lzma header
+xz-doc package contains lzma man pages
+xz packages contains lzma binaries
 
-(From OE-Core rev: 9684eba5c543de229108008e29afd1dd021a9799)
+Links: https://github.com/tukaani-project/xz/blob/v5.4.6/COPYING
+       https://github.com/tukaani-project/xz/blob/v5.4.6/PACKAGERS
 
-Signed-off-by: aszh07 <mail2szahir@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(From OE-Core rev: d511c41dac048fbdd93a54136e93b0623a18a83d)
+
+Signed-off-by: Bhabu Bindu <bindu.bhabu@kpit.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Naman Jain <namanj1@kpit.com>
+(cherry picked from commit 4e5b955def5d9f305f5aba2c68b73287c03fd163)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/xz/xz_5.2.6.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index 4b99c0fa21..3dddf50a63 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -231,3 +231,5 @@ INSANE_SKIP:${MLPREFIX}libavutil = "textrel"
- INSANE_SKIP:${MLPREFIX}libswscale = "textrel"
- INSANE_SKIP:${MLPREFIX}libswresample = "textrel"
- INSANE_SKIP:${MLPREFIX}libpostproc = "textrel"
-+
-+CVE_PRODUCT = "ffmpeg libswresample libavcodec"
+diff --git a/meta/recipes-extended/xz/xz_5.2.6.bb b/meta/recipes-extended/xz/xz_5.2.6.bb
+index 7f889e4367..938c659008 100644
+--- a/meta/recipes-extended/xz/xz_5.2.6.bb
++++ b/meta/recipes-extended/xz/xz_5.2.6.bb
+@@ -9,10 +9,10 @@ SECTION = "base"
+ # libgnu, which appears to be used for DOS builds. So we're left with
+ # GPL-2.0-or-later and PD.
+ LICENSE = "GPL-2.0-or-later & GPL-3.0-with-autoconf-exception & LGPL-2.1-or-later & PD"
+-LICENSE:${PN} = "GPL-2.0-or-later"
+-LICENSE:${PN}-dev = "GPL-2.0-or-later"
++LICENSE:${PN} = "PD & GPL-2.0-or-later"
++LICENSE:${PN}-dev = "PD & GPL-2.0-or-later"
+ LICENSE:${PN}-staticdev = "GPL-2.0-or-later"
+-LICENSE:${PN}-doc = "GPL-2.0-or-later"
++LICENSE:${PN}-doc = "PD & GPL-2.0-or-later"
+ LICENSE:${PN}-dbg = "GPL-2.0-or-later"
+ LICENSE:${PN}-locale = "GPL-2.0-or-later"
+ LICENSE:liblzma = "PD"
 -- 
 2.34.1
 
