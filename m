@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 274ADC73C66
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AA3CC7115F
 	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 09:50:14 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.26736.1750067410163489194
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.26735.1750067409580993779
  for <openembedded-core@lists.openembedded.org>;
  Mon, 16 Jun 2025 02:50:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iFR2pQl1;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-451e2f0d9c2so36686895e9.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kRG1TBji;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4532ff4331cso10696965e9.1
         for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 02:50:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1750067408; x=1750672208; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8OkTH6xR8korUVn3BDc1AjA3uj3Q/1pyUdNaqhu/92A=;
-        b=iFR2pQl1mWdZXVzjZ6jPpED5bx8gBAFuaIaF4Jmcy2OyTrpX5OLpOZBemS5E859Lkl
-         srnKXlOBzB4mIRO2Z76Qq8NAMq5PbkoKm1x+Rhmlx62NiLEacIEHMEKlqUVQyt672WMO
-         GGReZa2U2HReFFytEpgDs1ntXFJuUpRpOI+5lHgK6YS3Aw/n2UWQOnDoiu9HSn+LGRs7
-         kA9D3yO1KsG/ztnZ8pQTkQQStDlCLFxU3r+0qx88rRQgPYUn4Sl0jI+1K+78TL5PZ9MR
-         36UV7Y+ph/ZCdYW/ZhTIE4IrnRJUsUOfTGJBhSQ2fyjfv1D1HkzMACiZ2Zm74USrDcNT
-         ylAg==
+        bh=UqdAMnYVvaZy7QyYhtomIwEcGeBlaRlyo9siKTpizVQ=;
+        b=kRG1TBjih97JmCnF4UsAYJQzbZG6Q0VHju7FBbmsz+lMubzimd20YctXKZbwwRdYcw
+         hNEm8Ke21jPkxOX9c/ZWhXHEKu6GzHBHBTJdgul4In4SUI0Ywfk8gh4DqTsU3VFHm5vO
+         GmrY84ljsXA5/HiR4dog3SuNhYSdPQz+AtQhpH7lV2gjTaT+XWLZY13Jk2OP2iW+Dppo
+         Qi/ijnEz0jt7q2LEjgfTQIUPHLZOR/D3x9CrQeK/Qe5Qn3InKap3G/z3Wr410kI2WP3n
+         Jt74KqMP2REcun9KndgzV7nI0/WyBhlVYqG6VJJBvYtXI24pvnDDuGzzSMMFN8qjnSl5
+         W6DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1750067408; x=1750672208;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8OkTH6xR8korUVn3BDc1AjA3uj3Q/1pyUdNaqhu/92A=;
-        b=MR4hJqeJcj54U3Aq613tlJ0FXsZj32Hc5CjB+cN+xWppCG+BpaDZh8qmvL8R5oNHud
-         w1l0f2xuzM2UeRBa6WzyQOqlrjAeGr93eMWJG6KnXaPWNqUHSDNkq38ixO4ekixqJ/Fv
-         O1841y1T8ZGaO+/SRO68uK8mioG9iojnANkv4egIvMlIoMYRheue743A9Re5frK8hict
-         Gp7MJK0wMqa/2VOrTdPjfA1M/gMNy+hKKKtQa1ih65ol6+2IiKTcKWIFLDa7m0QSbipn
-         A5FjRwi9YAR5DPCyvb+Zuu/RZNMAA5qFtYw4gn/KWE4ON/MlPj4a2/Mw5NLHOvWGuYwn
-         Bdow==
-X-Gm-Message-State: AOJu0Yy7LUFA56zFiEl3EL5YKnQ62G/mJBzCZtLez0C0EW2sliXueAg5
-	9g+0mGhgmSbcKBxoy7mC4wuv2Gg8lBCJMAWnej2bvmvIS1JXVwiDwtFUssDyaA==
-X-Gm-Gg: ASbGncvt9iB0uYdFDpBoEQmpQc1s8pLqR4p1TQRPqyn1zfn+jTw6naKT+85jrwYXh5z
-	viz1b92i489Wei47thAH2Npq1p9MyhE19WyPfc96YcUCzlQHRsd5jBlfcnjRftM4Fj0k5/6LLdY
-	U97S+86Guz/3DkHj+qbKbIp46B8HtBXVx9xKldRhJEyc/lsIndi5S1uP+BwBjtuUzK3Wgi9c1BK
-	DuFAqI4v/2b/51VQBDXlGxkeG2u5VSd59eIupEzMKo+2ks3ghowIFxZJk/WeanNfGynIL16vzua
-	xm0e2ln8Ddgv9RHzzaOCyjBrk1LE8+Ic6W83FTK/M/Htj8Aw9AmjKOlGHDqlqtnQdDNyJEZbJOp
-	kcQ9h9jr6ux0eQn7hLQRBz/o=
-X-Google-Smtp-Source: AGHT+IGFG/qtcYhkA9Gq0cwx57VxvMuA0NOinkY2PHWh9SpvHwc9Uxz/i7N2hnylD00OSRk36fDnCA==
-X-Received: by 2002:a05:600c:6211:b0:450:c9e3:91fe with SMTP id 5b1f17b1804b1-4533c83f4afmr71265965e9.0.1750067407882;
-        Mon, 16 Jun 2025 02:50:07 -0700 (PDT)
+        bh=UqdAMnYVvaZy7QyYhtomIwEcGeBlaRlyo9siKTpizVQ=;
+        b=E/n/8qN1Mc7yxuR4pd6+Znf1ayWbwc4bqqYM8d0cNyNbros8+UtXZ5nKqMDk9JRmuQ
+         cZq2auMQhFBxtQ1nG48xM+y3M7fewNLyRWqam2zM/xweEv3dknLFr7Kh4QAR72KnU+jL
+         YahLhc+RjZ7dPk70H8DqwORlphqn24JviLZ94YnwRfXXf7Bu+DijJpY8AS/aTNU4i3h9
+         POaL9WY339eqzOI6XvM3bwFsQ6dYnuB41sKMpIoG7/ZIHre052BCcMvAh19Eh9p88uC2
+         Vf3h+WRbxjIAo8U5jxRIs8BcWxvjNVDtPjKuB7/lqGuprEWKw+bSxiLHor1lVJ7b8Dr+
+         c02w==
+X-Gm-Message-State: AOJu0YzdKjZEW/W6JHHhYmIyXgZ2n8j+fzfxVgTOWiVQPw2moJkH3FVz
+	UJw5r/rwz8fMJBCLISMmmqenIACsKqOh/iiDOIDJHD/T7KsiQTz3apHzB42Vzg==
+X-Gm-Gg: ASbGncsuaH7HNKkuUPeCCEXN3hIqpZyvKW74vdic484UfGA58c9gT8lDbJoG45cNt89
+	tSbISEmLO28ffdHMIgXXQZ7blSm96rYRpOI/RYrzq1ZKdm9xGpbWWcCijR+WapG34jZ+lxgBM7R
+	7Un8MQg/f3vrrct7mMxYi+rG++9SEPbTrtlvICdAEmTnwbkFz5iZpAKsOFzVEMh7xjQ/0OTDGqa
+	5AZauOJcDzqkFMuD/PUDYlMncnOVqY7H/tEgx8qyIh5325aNVxpvOG8uk59+m7OO4K1PN7V5WbN
+	GtkP8CjPplaCWb2YTwPubgW/MX0fsrNJcFzTDsMvNlPtDqXuhTjm/7abjP34DRYaDxipZXSKZMc
+	UAD6hyKjzjmssRqwrrWrMFEk=
+X-Google-Smtp-Source: AGHT+IElRbZaRN1qNxq7a82ONsxaAASBL8DjMCFt1iXrYGrdQGRTHB6cVdi8hD5+GboShOllMSyqlg==
+X-Received: by 2002:a05:600c:6099:b0:43c:eeee:b70a with SMTP id 5b1f17b1804b1-4533cadb4femr63276035e9.22.1750067406966;
+        Mon, 16 Jun 2025 02:50:06 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4533fa7a9a8sm72811805e9.23.2025.06.16.02.50.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4533fa7a9a8sm72811805e9.23.2025.06.16.02.50.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 02:50:07 -0700 (PDT)
+        Mon, 16 Jun 2025 02:50:06 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/10] meta: set S from UNPACKDIR in recipes that use only local files
-Date: Mon, 16 Jun 2025 11:49:56 +0200
-Message-Id: <20250616095000.2918921-6-alex.kanavin@gmail.com>
+Subject: [PATCH 05/10] meta: set S to be in UNPACKDIR in recipes that explicitly set S
+Date: Mon, 16 Jun 2025 11:49:55 +0200
+Message-Id: <20250616095000.2918921-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250616095000.2918921-1-alex.kanavin@gmail.com>
 References: <20250616095000.2918921-1-alex.kanavin@gmail.com>
@@ -67,1317 +67,1529 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 09:50:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218804
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218803
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-There is no need to have two assignments; also setting S from
-UNPACKDIR (and not vice versa) is more logical as unpack
-task comes first, and tasks that come after unpack use S to access
-unpack results.
-
-Also adjust reference test data in selftest/recipeutils to reflect changes in test recipes.
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta-selftest/recipes-test/cpp/cpp-example.inc                | 3 +--
- meta-selftest/recipes-test/devtool/devtool-test-localonly.bb  | 3 +--
- meta-selftest/recipes-test/devtool/devtool-test-reset-re++.bb | 3 +--
- meta-selftest/recipes-test/fortran/fortran-helloworld.bb      | 3 +--
- .../recipes-test/recipeutils/recipeutils-test_1.2.bb          | 3 +--
- meta-selftest/recipes-test/selftest-chown/selftest-chown.bb   | 3 +--
- .../recipes-test/selftest-hardlink/selftest-hardlink.bb       | 3 +--
- .../recipes-test/selftest-hello/selftest-hello_1.0.bb         | 3 +--
- meta-selftest/recipes-test/selftest-users/acreategroup.bb     | 3 +--
- meta-selftest/recipes-test/selftest-users/bcreategroup.bb     | 3 +--
- meta-selftest/recipes-test/selftest-users/ccreategroup.bb     | 3 +--
- meta-selftest/recipes-test/selftest-users/creategroup1.bb     | 3 +--
- meta-selftest/recipes-test/selftest-users/creategroup2.bb     | 3 +--
- meta-selftest/recipes-test/selftest-users/dcreategroup.bb     | 3 +--
- meta-selftest/recipes-test/selftest-users/useraddbadtask.bb   | 3 +--
- meta-selftest/recipes-test/testrpm/testrpm_0.0.1.bb           | 3 +--
- meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb       | 3 +--
- meta-skeleton/recipes-skeleton/hello-single/hello_1.0.bb      | 3 +--
- meta-skeleton/recipes-skeleton/service/service_0.1.bb         | 3 +--
- meta-skeleton/recipes-skeleton/useradd/useradd-example.bb     | 3 +--
- meta/classes-recipe/devicetree.bbclass                        | 3 +--
- meta/classes-recipe/kernel-fit-image.bbclass                  | 3 +--
- meta/lib/oeqa/selftest/cases/recipeutils.py                   | 4 ++--
- meta/recipes-bsp/alsa-state/alsa-state.bb                     | 3 +--
- meta/recipes-bsp/formfactor/formfactor_0.0.bb                 | 3 +--
- meta/recipes-bsp/grub/grub-bootconf_1.00.bb                   | 3 +--
- meta/recipes-bsp/keymaps/keymaps_1.0.bb                       | 3 +--
- meta/recipes-connectivity/connman/connman-conf.bb             | 3 +--
- meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb        | 3 +--
- .../ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb            | 3 +--
- meta/recipes-core/base-files/base-files_3.0.14.bb             | 3 +--
- meta/recipes-core/busybox/busybox-inittab_1.37.0.bb           | 3 +--
- meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb          | 3 +--
- meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb         | 3 +--
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb    | 3 +--
- .../initrdscripts/initramfs-live-boot-tiny_1.0.bb             | 3 +--
- meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb    | 3 +--
- .../initrdscripts/initramfs-live-install-efi-testfs_1.0.bb    | 3 +--
- .../initrdscripts/initramfs-live-install-efi_1.0.bb           | 3 +--
- .../initrdscripts/initramfs-live-install-testfs_1.0.bb        | 3 +--
- meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb | 3 +--
- .../initrdscripts/initramfs-module-install-efi_1.0.bb         | 3 +--
- .../initrdscripts/initramfs-module-install_1.0.bb             | 3 +--
- .../initrdscripts/initramfs-module-setup-live_1.0.bb          | 3 +--
- meta/recipes-core/initscripts/initscripts_1.0.bb              | 3 +--
- meta/recipes-core/musl/bsd-headers.bb                         | 3 +--
- meta/recipes-core/musl/libssp-nonshared.bb                    | 3 +--
- meta/recipes-core/musl/musl-legacy-error.bb                   | 3 +--
- meta/recipes-core/systemd/systemd-bootconf_1.00.bb            | 3 +--
- meta/recipes-core/systemd/systemd-compat-units.bb             | 3 +--
- meta/recipes-core/systemd/systemd-conf_1.0.bb                 | 3 +--
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb        | 3 +--
- meta/recipes-core/udev/udev-extraconf_1.1.bb                  | 3 +--
- meta/recipes-core/volatile-binds/volatile-binds.bb            | 3 +--
- meta/recipes-devtools/devel-config/distcc-config.bb           | 3 +--
- meta/recipes-devtools/devel-config/nfs-export-root.bb         | 3 +--
- meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb     | 3 +--
- meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb          | 3 +--
- meta/recipes-devtools/makedevs/makedevs_1.0.1.bb              | 3 +--
- meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb            | 3 +--
- meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb       | 3 +--
- meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb          | 3 +--
- meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb           | 3 +--
- meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb      | 3 +--
- meta/recipes-devtools/rust/rust-cross-canadian.inc            | 3 +--
- meta/recipes-extended/shadow/shadow-securetty_4.6.bb          | 3 +--
- meta/recipes-extended/shadow/shadow-sysroot_4.6.bb            | 3 +--
- .../texinfo-dummy-native/texinfo-dummy-native.bb              | 3 +--
- meta/recipes-extended/watchdog/watchdog-config.bb             | 3 +--
- meta/recipes-graphics/builder/builder_0.1.bb                  | 3 +--
- .../recipes-graphics/matchbox-session/matchbox-session_0.1.bb | 3 +--
- meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb    | 3 +--
- meta/recipes-graphics/pong-clock/pong-clock_1.0.bb            | 3 +--
- meta/recipes-graphics/wayland/weston-init.bb                  | 3 +--
- meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb     | 3 +--
- .../xinput-calibrator/pointercal-xinput_0.0.bb                | 3 +--
- meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb | 3 +--
- meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb   | 3 +--
- meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb           | 3 +--
- meta/recipes-kernel/linux/linux-dummy.bb                      | 3 +--
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb  | 3 +--
- .../modutils-initscripts/modutils-initscripts.bb              | 3 +--
- meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb  | 3 +--
- .../pulseaudio-sato/pulseaudio-client-conf-sato_1.bb          | 3 +--
- meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb        | 3 +--
- meta/recipes-support/user-creation/xuser-account_0.1.bb       | 3 +--
- 86 files changed, 87 insertions(+), 172 deletions(-)
+ meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb       | 2 +-
+ meta-selftest/recipes-test/devtool/devtool-test-ignored.bb      | 2 +-
+ meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb   | 2 +-
+ .../recipes-test/devtool/devtool-test-long-filename.bb          | 2 +-
+ meta-selftest/recipes-test/devtool/devtool-test-patch-gz.bb     | 2 +-
+ meta-selftest/recipes-test/devtool/devtool-test-subdir.bb       | 2 +-
+ .../recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb         | 2 +-
+ .../devtool/devtool-upgrade-test1_1.5.3.bb.upgraded             | 2 +-
+ .../recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb         | 2 +-
+ .../devtool/devtool-upgrade-test3_1.5.3.bb.upgraded             | 2 +-
+ .../recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb         | 2 +-
+ .../devtool/devtool-upgrade-test4_1.5.3.bb.upgraded             | 2 +-
+ meta-selftest/recipes-test/selftest-ed/selftest-ed_1.20.2.bb    | 2 +-
+ meta-selftest/recipes-test/selftest-ed/selftest-ed_1.21.1.bb    | 2 +-
+ meta/classes-recipe/barebox.bbclass                             | 2 +-
+ meta/classes-recipe/pypi.bbclass                                | 2 +-
+ meta/recipes-bsp/barebox/barebox-tools.bb                       | 2 +-
+ meta/recipes-bsp/grub/grub-efi_2.12.bb                          | 2 +-
+ meta/recipes-connectivity/bluez5/bluez5.inc                     | 2 +-
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb | 2 +-
+ meta/recipes-core/base-passwd/base-passwd_3.6.7.bb              | 2 +-
+ meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb      | 2 +-
+ meta/recipes-core/glib-2.0/glib.inc                             | 2 +-
+ meta/recipes-core/glibc/ldconfig-native_2.12.1.bb               | 2 +-
+ meta/recipes-core/netbase/netbase_6.5.bb                        | 2 +-
+ meta/recipes-core/sysvinit/sysvinit_3.14.bb                     | 2 +-
+ meta/recipes-core/util-linux/util-linux-libuuid_2.41.bb         | 2 +-
+ meta/recipes-devtools/chrpath/chrpath_0.18.bb                   | 2 +-
+ .../docbook-xml/docbook-xsl-stylesheets_1.79.1.bb               | 2 +-
+ meta/recipes-devtools/expect/expect_5.45.4.bb                   | 2 +-
+ meta/recipes-devtools/git/git_2.49.0.bb                         | 2 +-
+ meta/recipes-devtools/go/go-binary-native_1.24.4.bb             | 2 +-
+ meta/recipes-devtools/go/go-common.inc                          | 2 +-
+ meta/recipes-devtools/libtool/nativesdk-libtool_2.5.4.bb        | 2 +-
+ meta/recipes-devtools/patch/patch.inc                           | 2 +-
+ meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb             | 2 +-
+ meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb       | 2 +-
+ meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb          | 2 +-
+ meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb       | 2 +-
+ meta/recipes-devtools/perl/libtest-warnings-perl_0.038.bb       | 2 +-
+ meta/recipes-devtools/perl/libtry-tiny-perl_0.32.bb             | 2 +-
+ meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb           | 2 +-
+ meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb           | 2 +-
+ meta/recipes-devtools/python/python3-babel_2.17.0.bb            | 2 +-
+ meta/recipes-devtools/python/python3-dbus_1.4.0.bb              | 2 +-
+ meta/recipes-devtools/python/python3-maturin_1.8.6.bb           | 2 +-
+ meta/recipes-devtools/python/python3-numpy_2.2.6.bb             | 2 +-
+ meta/recipes-devtools/python/python3-pycairo_1.28.0.bb          | 2 +-
+ meta/recipes-devtools/python/python3-pygobject_3.52.3.bb        | 2 +-
+ meta/recipes-devtools/python/python3-scons_4.9.1.bb             | 2 +-
+ meta/recipes-devtools/python/python3_3.13.4.bb                  | 2 +-
+ meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
+ meta/recipes-devtools/tcltk/tcl_9.0.1.bb                        | 2 +-
+ meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb                     | 2 +-
+ meta/recipes-extended/pam/libpam_1.7.0.bb                       | 2 +-
+ meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb         | 2 +-
+ meta/recipes-extended/perl/libtimedate-perl_2.30.bb             | 2 +-
+ meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb | 2 +-
+ meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb         | 2 +-
+ meta/recipes-extended/perl/libxml-sax-perl_1.02.bb              | 2 +-
+ meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb          | 2 +-
+ meta/recipes-extended/timezone/timezone.inc                     | 2 +-
+ meta/recipes-extended/unzip/unzip_6.0.bb                        | 2 +-
+ meta/recipes-extended/zip/zip_3.0.bb                            | 2 +-
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb                         | 2 +-
+ meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb                        | 2 +-
+ meta/recipes-gnome/gtk+/gtk4_4.18.5.bb                          | 2 +-
+ meta/recipes-graphics/libsdl2/libsdl2_2.32.6.bb                 | 2 +-
+ meta/recipes-graphics/libva/libva.inc                           | 2 +-
+ meta/recipes-graphics/mesa/libglu_9.0.3.bb                      | 2 +-
+ meta/recipes-graphics/mesa/mesa-gl.bb                           | 2 +-
+ meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb       | 2 +-
+ meta/recipes-graphics/xorg-font/xorg-font-common.inc            | 2 +-
+ meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb           | 2 +-
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc              | 2 +-
+ meta/recipes-graphics/xorg-util/xorg-util-common.inc            | 2 +-
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc             | 2 +-
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc   | 2 +-
+ meta/recipes-kernel/perf/perf.bb                                | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.2.bb  | 2 +-
+ .../gstreamer/gstreamer1.0-plugins-bad_1.26.2.bb                | 2 +-
+ .../gstreamer/gstreamer1.0-plugins-base_1.26.2.bb               | 2 +-
+ .../gstreamer/gstreamer1.0-plugins-good_1.26.2.bb               | 2 +-
+ .../gstreamer/gstreamer1.0-plugins-ugly_1.26.2.bb               | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb | 2 +-
+ .../gstreamer/gstreamer1.0-rtsp-server_1.26.2.bb                | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.2.bb  | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.2.bb        | 2 +-
+ meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb   | 2 +-
+ meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb         | 2 +-
+ meta/recipes-support/appstream/appstream_1.0.5.bb               | 2 +-
+ meta/recipes-support/boost/boost-1.88.0.inc                     | 2 +-
+ .../recipes-support/ca-certificates/ca-certificates_20250419.bb | 2 +-
+ meta/recipes-support/consolekit/consolekit_0.4.6.bb             | 2 +-
+ meta/recipes-support/enchant/enchant2_2.8.6.bb                  | 2 +-
+ meta/recipes-support/icu/icu_77-1.bb                            | 2 +-
+ meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb       | 2 +-
+ meta/recipes-support/libcheck/libcheck_0.15.2.bb                | 2 +-
+ meta/recipes-support/libevent/libevent_2.1.12.bb                | 2 +-
+ meta/recipes-support/libfm/libfm-extra_1.3.2.bb                 | 2 +-
+ meta/recipes-support/libmpc/libmpc_1.3.1.bb                     | 2 +-
+ meta/recipes-support/libpcre/libpcre2_10.45.bb                  | 2 +-
+ meta/recipes-support/libpcre/libpcre_8.45.bb                    | 2 +-
+ meta/recipes-support/libsoup/libsoup_3.6.5.bb                   | 2 +-
+ meta/recipes-support/liburcu/liburcu_0.15.3.bb                  | 2 +-
+ meta/recipes-support/libusb/libusb1_1.0.29.bb                   | 2 +-
+ meta/recipes-support/libxslt/libxslt_1.1.43.bb                  | 2 +-
+ meta/recipes-support/libyaml/libyaml_0.2.5.bb                   | 2 +-
+ meta/recipes-support/sqlite/sqlite3.inc                         | 2 +-
+ 109 files changed, 109 insertions(+), 109 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/cpp/cpp-example.inc b/meta-selftest/recipes-test/cpp/cpp-example.inc
-index 41aaa7219a1..76ff64e87f5 100644
---- a/meta-selftest/recipes-test/cpp/cpp-example.inc
-+++ b/meta-selftest/recipes-test/cpp/cpp-example.inc
-@@ -19,7 +19,6 @@ SRC_URI = "\
-     file://run-ptest \
- "
+diff --git a/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb b/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb
+index 9a136f29788..f6555a31dd2 100644
+--- a/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb
++++ b/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb
+@@ -12,7 +12,7 @@ SRCREV = "d3d096eda182644868f8e7458dcfa538ff637db3"
+ SRCREV_FORMAT .= "_hello-lib"
+ SRCREV_hello-lib = "59c84574e844617043cf337bc8fa537cf87ad8ae"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/rust"
++S = "${UNPACKDIR}/rust"
  
- inherit ptest
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-localonly.bb b/meta-selftest/recipes-test/devtool/devtool-test-localonly.bb
-index 446c51f09b5..54463fed98c 100644
---- a/meta-selftest/recipes-test/devtool/devtool-test-localonly.bb
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-localonly.bb
-@@ -6,8 +6,7 @@ SRC_URI = "file://file1 \
+ inherit cargo cargo-update-recipe-crates ptest-cargo
  
- SRC_URI:append:class-native = " file://file3"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-test-ignored.bb b/meta-selftest/recipes-test/devtool/devtool-test-ignored.bb
+index 6a3d58c8841..c7740eb118d 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-test-ignored.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-test-ignored.bb
+@@ -4,6 +4,6 @@ INHIBIT_DEFAULT_DEPS = "1"
+ SRC_URI = "file://${BPN}.tar.gz \
+            file://${BPN}.patch"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/${BPN}"
++S = "${UNPACKDIR}/${BPN}"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb b/meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb
+index d0fd6979783..03e082e83fb 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-test-local_6.03.bb
+@@ -12,7 +12,7 @@ SRC_URI:append:class-native = " file://file3"
+ SRC_URI[md5sum] = "92a253df9211e9c20172796ecf388f13"
+ SRC_URI[sha256sum] = "26d3986d2bea109d5dc0e4f8c4822a459276cf021125e8c9f23c3cca5d8c850e"
+ 
+-S = "${WORKDIR}/syslinux-${PV}"
++S = "${UNPACKDIR}/syslinux-${PV}"
  
  EXCLUDE_FROM_WORLD = "1"
  BBCLASSEXTEND = "native"
-diff --git a/meta-selftest/recipes-test/devtool/devtool-test-reset-re++.bb b/meta-selftest/recipes-test/devtool/devtool-test-reset-re++.bb
-index 35672a5265f..0146be4c520 100644
---- a/meta-selftest/recipes-test/devtool/devtool-test-reset-re++.bb
-+++ b/meta-selftest/recipes-test/devtool/devtool-test-reset-re++.bb
-@@ -3,7 +3,6 @@ INHIBIT_DEFAULT_DEPS = "1"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-test-long-filename.bb b/meta-selftest/recipes-test/devtool/devtool-test-long-filename.bb
+index 3ec22cae7fa..3653403a2e6 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-test-long-filename.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-test-long-filename.bb
+@@ -4,6 +4,6 @@ INHIBIT_DEFAULT_DEPS = "1"
+ SRC_URI = "file://${BPN}.tar.gz \
+            file://0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch"
  
- SRC_URI = "file://file1"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/${BPN}"
++S = "${UNPACKDIR}/${BPN}"
  
  EXCLUDE_FROM_WORLD = "1"
-diff --git a/meta-selftest/recipes-test/fortran/fortran-helloworld.bb b/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
-index 11928dc95a9..240ed473cc1 100644
---- a/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
-+++ b/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
-@@ -6,8 +6,7 @@ DEPENDS = "libgfortran"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-test-patch-gz.bb b/meta-selftest/recipes-test/devtool/devtool-test-patch-gz.bb
+index e25b3d97473..f6960320dbe 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-test-patch-gz.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-test-patch-gz.bb
+@@ -8,7 +8,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/xrestop/xrestop-0.4.tar.gz
+            "
+ UPSTREAM_VERSION_UNKNOWN = "1"
  
- SRC_URI = "file://hello.f95"
+-S = "${WORKDIR}/xrestop-0.4"
++S = "${UNPACKDIR}/xrestop-0.4"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ SRC_URI[md5sum] = "d8a54596cbaf037e62b80c4585a3ca9b"
+ SRC_URI[sha256sum] = "67c2fc94a7ecedbaae0d1837e82e93d1d98f4a6d759828860e552119af3ce257"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-test-subdir.bb b/meta-selftest/recipes-test/devtool/devtool-test-subdir.bb
+index 3f6956524ba..966142431b2 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-test-subdir.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-test-subdir.bb
+@@ -4,6 +4,6 @@ INHIBIT_DEFAULT_DEPS = "1"
+ SRC_URI = "file://devtool-test-subdir.tar.gz \
+            file://testfile;subdir=${BPN}"
  
- # These set flags that Fortran doesn't support
- SECURITY_CFLAGS = ""
-diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-index 8b314d396ee..dfaf67c9388 100644
---- a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-+++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-@@ -6,8 +6,7 @@ LICENSE = "HPND"
- LIC_FILES_CHKSUM = "file://${UNPACKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
- DEPENDS += "zlib"
+-S = "${WORKDIR}/${BPN}"
++S = "${UNPACKDIR}/${BPN}"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb
+index fee5bee7398..254ea457085 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb
+@@ -14,7 +14,7 @@ SRC_URI[sha256sum] = "681bcca9784bf3cb2207e68236d1f68e2aa7b80f999b5750dc77dcd756
  
- BBCLASSEXTEND = "native nativesdk"
+ PR = "r5"
  
-diff --git a/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
-index a0eeb4f2231..ca22e1e19c9 100644
---- a/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
-+++ b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
-@@ -5,8 +5,7 @@ LICENSE = "MIT"
- 
- DEPENDS += "coreutils-native"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- inherit useradd allarch
- 
-diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-index 64fea8ed951..8b2aa6c7376 100644
---- a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-+++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-@@ -6,8 +6,7 @@ SRC_URI = "file://hello.c \
-            file://gdb.sh \
- "
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_compile () {
- 	${CC} hello.c -o hello1 ${CFLAGS} ${LDFLAGS}
-diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-index 2dc352d479e..0ffe7308ba8 100644
---- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-@@ -5,8 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- 
- SRC_URI = "file://helloworld.c"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_compile() {
- 	${CC} ${CFLAGS} ${LDFLAGS} helloworld.c -o helloworld
-diff --git a/meta-selftest/recipes-test/selftest-users/acreategroup.bb b/meta-selftest/recipes-test/selftest-users/acreategroup.bb
-index a970c41134f..07771ecf409 100644
---- a/meta-selftest/recipes-test/selftest-users/acreategroup.bb
-+++ b/meta-selftest/recipes-test/selftest-users/acreategroup.bb
-@@ -3,8 +3,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- 
- LICENSE = "MIT"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/pv-${PV}"
++S = "${UNPACKDIR}/pv-${PV}"
  
  EXCLUDE_FROM_WORLD = "1"
  
-diff --git a/meta-selftest/recipes-test/selftest-users/bcreategroup.bb b/meta-selftest/recipes-test/selftest-users/bcreategroup.bb
-index 08106dab7cc..0071fcc331c 100644
---- a/meta-selftest/recipes-test/selftest-users/bcreategroup.bb
-+++ b/meta-selftest/recipes-test/selftest-users/bcreategroup.bb
-@@ -7,8 +7,7 @@ LICENSE = "MIT"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb.upgraded
+index d75df0c8c7e..f80744e14be 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb.upgraded
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb.upgraded
+@@ -11,7 +11,7 @@ RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
  
- USERADD_DEPENDS = "acreategroup ccreategroup"
+ SRC_URI[sha256sum] = "9dd45391806b0ed215abee4c5ac1597d018c386fe9c1f5afd2f6bc3b07fd82c3"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- EXCLUDE_FROM_WORLD = "1"
- 
-diff --git a/meta-selftest/recipes-test/selftest-users/ccreategroup.bb b/meta-selftest/recipes-test/selftest-users/ccreategroup.bb
-index c82ced84812..16859166302 100644
---- a/meta-selftest/recipes-test/selftest-users/ccreategroup.bb
-+++ b/meta-selftest/recipes-test/selftest-users/ccreategroup.bb
-@@ -5,8 +5,7 @@ LICENSE = "MIT"
- 
- USERADD_DEPENDS = "acreategroup"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/pv-${PV}"
++S = "${UNPACKDIR}/pv-${PV}"
  
  EXCLUDE_FROM_WORLD = "1"
  
-diff --git a/meta-selftest/recipes-test/selftest-users/creategroup1.bb b/meta-selftest/recipes-test/selftest-users/creategroup1.bb
-index 4ab278f5895..28651d3ed70 100644
---- a/meta-selftest/recipes-test/selftest-users/creategroup1.bb
-+++ b/meta-selftest/recipes-test/selftest-users/creategroup1.bb
-@@ -3,8 +3,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb
+index 69c0d351ec8..0501e2025f4 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb
+@@ -8,7 +8,7 @@ RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
  
- LICENSE = "MIT"
+ SRC_URI[md5sum] = "9365d86bd884222b4bf1039b5a9ed1bd"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- inherit useradd allarch
- 
-diff --git a/meta-selftest/recipes-test/selftest-users/creategroup2.bb b/meta-selftest/recipes-test/selftest-users/creategroup2.bb
-index 179aba9bfcc..2840c921061 100644
---- a/meta-selftest/recipes-test/selftest-users/creategroup2.bb
-+++ b/meta-selftest/recipes-test/selftest-users/creategroup2.bb
-@@ -5,8 +5,7 @@ LICENSE = "MIT"
- 
- USERADD_DEPENDS = "creategroup1"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- inherit useradd allarch
- 
-diff --git a/meta-selftest/recipes-test/selftest-users/dcreategroup.bb b/meta-selftest/recipes-test/selftest-users/dcreategroup.bb
-index 0030e81ee0a..eba91fe63dc 100644
---- a/meta-selftest/recipes-test/selftest-users/dcreategroup.bb
-+++ b/meta-selftest/recipes-test/selftest-users/dcreategroup.bb
-@@ -5,8 +5,7 @@ LICENSE = "MIT"
- 
- USERADD_DEPENDS = "bcreategroup"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/pv-${PV}"
++S = "${UNPACKDIR}/pv-${PV}"
  
  EXCLUDE_FROM_WORLD = "1"
  
-diff --git a/meta-selftest/recipes-test/selftest-users/useraddbadtask.bb b/meta-selftest/recipes-test/selftest-users/useraddbadtask.bb
-index 2863541010c..7ba7ec85feb 100644
---- a/meta-selftest/recipes-test/selftest-users/useraddbadtask.bb
-+++ b/meta-selftest/recipes-test/selftest-users/useraddbadtask.bb
-@@ -5,8 +5,7 @@ LICENSE = "MIT"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.upgraded
+index 3ce7e85e101..2ba7c8213e4 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.upgraded
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.upgraded
+@@ -7,7 +7,7 @@ SRC_URI = "http://www.ivarch.com/programs/sources/pv-${PV}.tar.gz"
+ UPSTREAM_CHECK_URI = "http://www.ivarch.com/programs/pv.shtml"
+ RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
  
- DEPENDS:append = "coreutils-native"
+-S = "${WORKDIR}/pv-${PV}"
++S = "${UNPACKDIR}/pv-${PV}"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ EXCLUDE_FROM_WORLD = "1"
  
- inherit useradd allarch
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb
+index 9abf80e6ed5..71c03653f73 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb
+@@ -14,7 +14,7 @@ SRC_URI[sha512sum] = "32efe7071a363f547afc74e96774f711795edda1d2702823a347d0f995
  
-diff --git a/meta-selftest/recipes-test/testrpm/testrpm_0.0.1.bb b/meta-selftest/recipes-test/testrpm/testrpm_0.0.1.bb
-index db674d0efc2..17ab7af0abd 100644
---- a/meta-selftest/recipes-test/testrpm/testrpm_0.0.1.bb
-+++ b/meta-selftest/recipes-test/testrpm/testrpm_0.0.1.bb
-@@ -6,8 +6,7 @@ LICENSE = "MIT"
- SRC_URI = "file://testfile.txt"
- INHIBIT_DEFAULT_DEPS = "1"
+ PR = "r5"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/pv-${PV}"
++S = "${UNPACKDIR}/pv-${PV}"
  
- do_compile(){
- 	echo "testdata" > ${B}/"file with [brackets].txt"
-diff --git a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-index 79f2e8a0923..e5f0ca10237 100644
---- a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-+++ b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-@@ -10,8 +10,7 @@ SRC_URI = "file://Makefile \
-            file://COPYING \
-           "
+ EXCLUDE_FROM_WORLD = "1"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.upgraded
+index cd2a0842f4d..0bc9f71da6a 100644
+--- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.upgraded
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.upgraded
+@@ -11,7 +11,7 @@ SRC_URI[sha256sum] = "9dd45391806b0ed215abee4c5ac1597d018c386fe9c1f5afd2f6bc3b07
+ SRC_URI[sha384sum] = "218c8d2d097aeba5310be759bc20573f18ffa0b11701eac6dd2e7e14ddf13c6e0e094ca7ca026eaa05ef92a056402e36"
+ SRC_URI[sha512sum] = "1cf9d7376fceefcd594d0a8b591afc8e11ce89f7210d10ad74438974ecebe9cc5d9ec4db9cc79e0566bfd2b0278c0cc263c07547803e7536432cd1ffd32d8a45"
  
- # The inherit of module.bbclass will automatically name module packages with
- # "kernel-module-" prefix as required by the oe-core build environment.
-diff --git a/meta-skeleton/recipes-skeleton/hello-single/hello_1.0.bb b/meta-skeleton/recipes-skeleton/hello-single/hello_1.0.bb
-index 8be79809195..cb07b139748 100644
---- a/meta-skeleton/recipes-skeleton/hello-single/hello_1.0.bb
-+++ b/meta-skeleton/recipes-skeleton/hello-single/hello_1.0.bb
-@@ -5,8 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
+-S = "${WORKDIR}/pv-${PV}"
++S = "${UNPACKDIR}/pv-${PV}"
  
- SRC_URI = "file://helloworld.c"
+ EXCLUDE_FROM_WORLD = "1"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+diff --git a/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.20.2.bb b/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.20.2.bb
+index d4232b72ee4..e183d2d4e55 100644
+--- a/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.20.2.bb
++++ b/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.20.2.bb
+@@ -21,7 +21,7 @@ UPSTREAM_CHECK_URI = "${GNU_MIRROR}/ed/"
  
- do_compile() {
- 	${CC} ${LDFLAGS} helloworld.c -o helloworld
-diff --git a/meta-skeleton/recipes-skeleton/service/service_0.1.bb b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-index 54b834d45f9..f249579310d 100644
---- a/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-+++ b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-@@ -9,8 +9,7 @@ SRC_URI = "file://skeleton \
- 	   file://COPYRIGHT \
- 	   "
+ SRC_URI[sha256sum] = "65fec7318f48c2ca17f334ac0f4703defe62037bb13cc23920de077b5fa24523"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/ed-${PV}"
++S = "${UNPACKDIR}/ed-${PV}"
  
- do_compile () {
- 	${CC} ${CFLAGS} ${LDFLAGS} ${S}/skeleton_test.c -o ${B}/skeleton-test
-diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
-index b0d96e7f711..5783d9e2452 100644
---- a/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
-+++ b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
-@@ -9,8 +9,7 @@ SRC_URI = "file://file1 \
-            file://file3 \
-            file://file4"
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+diff --git a/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.21.1.bb b/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.21.1.bb
+index acd1ce5907e..6b8ce6e23b6 100644
+--- a/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.21.1.bb
++++ b/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.21.1.bb
+@@ -22,7 +22,7 @@ UPSTREAM_CHECK_URI = "${GNU_MIRROR}/ed/"
  
- PACKAGES =+ "${PN}-user3"
+ SRC_URI[sha256sum] = "d6d0c7192b02b0519c902a93719053e865ade5a784a3b327d93d888457b23c4b"
  
-diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-recipe/devicetree.bbclass
-index 2a2ac93e9bd..ce9d008aac1 100644
---- a/meta/classes-recipe/devicetree.bbclass
-+++ b/meta/classes-recipe/devicetree.bbclass
-@@ -40,8 +40,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- SYSROOT_DIRS += "/boot/devicetree"
- FILES:${PN} = "/boot/devicetree/*.dtb /boot/devicetree/*.dtbo"
+-S = "${WORKDIR}/ed-${PV}"
++S = "${UNPACKDIR}/ed-${PV}"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
+ 
+diff --git a/meta/classes-recipe/barebox.bbclass b/meta/classes-recipe/barebox.bbclass
+index a562dce1690..ece8fb64856 100644
+--- a/meta/classes-recipe/barebox.bbclass
++++ b/meta/classes-recipe/barebox.bbclass
+@@ -14,7 +14,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ DEPENDS += "bison-native flex-native lz4-native"
+ 
+-S = "${WORKDIR}/barebox-${PV}"
++S = "${UNPACKDIR}/barebox-${PV}"
  B = "${WORKDIR}/build"
  
- # Default kernel includes, these represent what are normally used for in-kernel
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index d2eebb88bc2..39845997ed4 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -2,8 +2,7 @@
- inherit kernel-arch kernel-artifact-names uboot-config deploy
- require conf/image-fitimage.conf
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
-diff --git a/meta/lib/oeqa/selftest/cases/recipeutils.py b/meta/lib/oeqa/selftest/cases/recipeutils.py
-index 99497371724..e697fd29209 100644
---- a/meta/lib/oeqa/selftest/cases/recipeutils.py
-+++ b/meta/lib/oeqa/selftest/cases/recipeutils.py
-@@ -72,7 +72,7 @@ class RecipeUtilsTests(OESelftestTestCase):
-         expected_patch = """
- --- a/recipes-test/recipeutils/recipeutils-test_1.2.bb
- +++ b/recipes-test/recipeutils/recipeutils-test_1.2.bb
--@@ -11,6 +11,4 @@
-+@@ -10,6 +10,4 @@
-  
-  BBCLASSEXTEND = "native nativesdk"
-  
-@@ -97,7 +97,7 @@ class RecipeUtilsTests(OESelftestTestCase):
-         expected_patch = """
- --- a/recipes-test/recipeutils/recipeutils-test_1.2.bb
- +++ b/recipes-test/recipeutils/recipeutils-test_1.2.bb
--@@ -11,6 +11,3 @@
-+@@ -10,6 +10,3 @@
-  
-  BBCLASSEXTEND = "native nativesdk"
-  
-diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
-index 099fbd3b9d8..9452a1a4ce4 100644
---- a/meta/recipes-bsp/alsa-state/alsa-state.bb
-+++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
-@@ -21,8 +21,7 @@ SRC_URI = "\
-   file://alsa-state-init \
- "
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- # As the recipe doesn't inherit systemd.bbclass, we need to set this variable
- # manually to avoid unnecessary postinst/preinst generated.
-diff --git a/meta/recipes-bsp/formfactor/formfactor_0.0.bb b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-index 4714bb2e5e2..f8d5613ffac 100644
---- a/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-+++ b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-@@ -8,8 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- 
- SRC_URI = "file://config file://machconfig"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- INHIBIT_DEFAULT_DEPS = "1"
-diff --git a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-index a004e3a3b2f..0b4005e5bf0 100644
---- a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-+++ b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-@@ -11,8 +11,7 @@ inherit grub-efi-cfg
- 
  require conf/image-uefi.conf
+diff --git a/meta/classes-recipe/pypi.bbclass b/meta/classes-recipe/pypi.bbclass
+index b0bc167cdfa..eb30004a0fc 100644
+--- a/meta/classes-recipe/pypi.bbclass
++++ b/meta/classes-recipe/pypi.bbclass
+@@ -41,7 +41,7 @@ PYPI_SRC_URI ?= "${@pypi_src_uri(d)}"
+ HOMEPAGE ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
+ SECTION = "devel/python"
+ SRC_URI:prepend = "${PYPI_SRC_URI} "
+-S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
++S = "${UNPACKDIR}/${PYPI_PACKAGE}-${PV}"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ # Replace any '_' characters in the pypi URI with '-'s to follow the PyPi website naming conventions
+ UPSTREAM_CHECK_PYPI_PACKAGE ?= "${@pypi_normalize(d)}"
+diff --git a/meta/recipes-bsp/barebox/barebox-tools.bb b/meta/recipes-bsp/barebox/barebox-tools.bb
+index 2a117bc9c08..e519796c1d2 100644
+--- a/meta/recipes-bsp/barebox/barebox-tools.bb
++++ b/meta/recipes-bsp/barebox/barebox-tools.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPL-2.0-only"
  
- GRUB_CFG = "${S}/grub-bootconf"
- LABELS = "boot"
-diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-index 0425197c981..ab2d68d6a19 100644
---- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-+++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-@@ -24,8 +24,7 @@ SRC_URI = "file://keymap.sh"
- INITSCRIPT_NAME = "keymap.sh"
- INITSCRIPT_PARAMS = "start 01 S ."
+ DEPENDS = "bison-native flex-native libusb1"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/barebox-${PV}"
++S = "${UNPACKDIR}/barebox-${PV}"
+ B = "${WORKDIR}/build"
  
- do_install () {
-     # Only install the script if 'sysvinit' is in DISTRO_FEATURES
-diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
-index 73c54cddae8..a787232476e 100644
---- a/meta/recipes-connectivity/connman/connman-conf.bb
-+++ b/meta/recipes-connectivity/connman/connman-conf.bb
-@@ -8,8 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;m
- SRC_URI = "file://main.conf \
+ inherit pkgconfig
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.12.bb b/meta/recipes-bsp/grub/grub-efi_2.12.bb
+index 5b435245ee6..6354b43989c 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.12.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.12.bb
+@@ -11,7 +11,7 @@ SRC_URI += " \
+            file://cfg \
            "
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/grub-${PV}"
++S = "${UNPACKDIR}/grub-${PV}"
  
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
-diff --git a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-index 0ee47d47c2b..5c9c8219d72 100644
---- a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-+++ b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-@@ -11,8 +11,7 @@ SRC_URI = "file://host-peer \
- 
- inherit allarch useradd
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
- 	install -d ${D}${sysconfdir}/ppp/peers
-diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
-index db5a0eb8ce5..57b05349290 100644
---- a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
-+++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
-@@ -6,8 +6,7 @@ SRC_URI = "file://dropbear_rsa_host_key \
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 59b084d1414..3f01bb35d92 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -25,8 +25,7 @@ SRC_URI = "file://rotation \
-            file://licenses/GPL-2 \
+ # Determine the target arch for the grub modules
+ python __anonymous () {
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 7bae968094f..287ebf658ef 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -69,7 +69,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-bluez5-disable-aics-tests.patch \
             "
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-diff --git a/meta/recipes-core/busybox/busybox-inittab_1.37.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.37.0.bb
-index 4ffc44c808a..3bdec248de4 100644
---- a/meta/recipes-core/busybox/busybox-inittab_1.37.0.bb
-+++ b/meta/recipes-core/busybox/busybox-inittab_1.37.0.bb
-@@ -4,8 +4,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;m
- 
- SRC_URI = "file://inittab"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-index ddf9d1b3112..da594d00b76 100644
---- a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-+++ b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-@@ -15,8 +15,7 @@ SRC_URI = "file://copyright \
-            file://interfaces \
-            file://nfsroot"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install () {
- 	install -d ${D}${sysconfdir}/init.d \
-diff --git a/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb
-index ec3544c67a9..e0a6319ccf1 100644
---- a/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-boot_1.0.bb
-@@ -3,8 +3,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SRC_URI = "file://init-boot.sh"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-         install -m 0755 ${S}/init-boot.sh ${D}/init
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index bb4984366d1..a3e4e2a7e97 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -20,8 +20,7 @@ SRC_URI = "file://init \
-            file://overlayroot \
-           "
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-     install -d ${D}/init.d
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot-tiny_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot-tiny_1.0.bb
-index 40046f30a76..6b99ab1843a 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-boot-tiny_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-boot-tiny_1.0.bb
-@@ -5,8 +5,7 @@ DEPENDS = "virtual/kernel"
- RDEPENDS:${PN} = "busybox-mdev"
- SRC_URI = "file://init-live.sh"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-         install -m 0755 ${S}/init-live.sh ${D}/init
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-index 7851cc9605a..8c8355a53e4 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-@@ -5,8 +5,7 @@ DEPENDS = "virtual/kernel"
- RDEPENDS:${PN} = "udev udev-extraconf"
- SRC_URI = "file://init-live.sh"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-         install -m 0755 ${S}/init-live.sh ${D}/init
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-efi-testfs_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-efi-testfs_1.0.bb
-index 31291bcdf2c..e3087273201 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install-efi-testfs_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install-efi-testfs_1.0.bb
-@@ -5,8 +5,7 @@ SRC_URI = "file://init-install-efi-testfs.sh"
- 
- RDEPENDS:${PN} = "parted e2fsprogs-mke2fs dosfstools"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-         install -m 0755 ${S}/init-install-efi-testfs.sh ${D}/install-efi.sh
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
-index ff3b5622db7..77462f44258 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
-@@ -6,8 +6,7 @@ SRC_URI = "file://init-install-efi.sh"
- RDEPENDS:${PN} = "parted e2fsprogs-mke2fs dosfstools util-linux-blkid ${VIRTUAL-RUNTIME_base-utils}"
- RRECOMMENDS:${PN} = "${VIRTUAL-RUNTIME_base-utils-syslog}"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-         install -m 0755 ${S}/init-install-efi.sh ${D}/install-efi.sh
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-testfs_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-testfs_1.0.bb
-index 19f05f9fecd..05f92203cd6 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install-testfs_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install-testfs_1.0.bb
-@@ -5,8 +5,7 @@ SRC_URI = "file://init-install-testfs.sh"
- 
- RDEPENDS:${PN} = "grub parted e2fsprogs-mke2fs"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-         install -m 0755 ${S}/init-install-testfs.sh ${D}/install.sh
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-index 1d489e2b649..791bd57171f 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-@@ -3,8 +3,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SRC_URI = "file://init-install.sh"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- RDEPENDS:${PN} = "grub parted e2fsprogs-mke2fs util-linux-blkid ${VIRTUAL-RUNTIME_base-utils}"
- RRECOMMENDS:${PN} = "${VIRTUAL-RUNTIME_base-utils-syslog}"
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-index bb3f275f266..0115741f4c1 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-@@ -7,8 +7,7 @@ RRECOMMENDS:${PN} = "${VIRTUAL-RUNTIME_base-utils-syslog}"
- 
- SRC_URI = "file://init-install-efi.sh"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-     install -d ${D}/init.d
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-index d6d83487312..96fd8310d27 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-@@ -12,8 +12,7 @@ COMPATIBLE_HOST:armv7ve = 'null'
- 
- SRC_URI = "file://init-install.sh"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-     install -d ${D}/init.d
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-index 4d9ef79a634..c2ab107980e 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-@@ -9,8 +9,7 @@ inherit allarch
- FILESEXTRAPATHS:prepend := "${THISDIR}/initramfs-framework:"
- SRC_URI = "file://setup-live"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-     install -d ${D}/init.d
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 0bc078c5eb8..c984257c5c8 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -35,8 +35,7 @@ SRC_URI = "file://functions \
-            ${@bb.utils.contains('DISTRO_FEATURES','selinux','file://sushell','',d)} \
- "
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- SRC_URI:append:arm = " file://alignment.sh"
- SRC_URI:append:armeb = " file://alignment.sh"
-diff --git a/meta/recipes-core/musl/bsd-headers.bb b/meta/recipes-core/musl/bsd-headers.bb
-index 7d0bdee8704..ad9ba81e4f9 100644
---- a/meta/recipes-core/musl/bsd-headers.bb
-+++ b/meta/recipes-core/musl/bsd-headers.bb
-@@ -15,8 +15,7 @@ do_compile[noexec] = "1"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
- 	install -Dm 0644 ${S}/sys-queue.h ${D}${includedir}/sys/queue.h
-diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipes-core/musl/libssp-nonshared.bb
-index fde3bc97b47..4bcbaef7ea4 100644
---- a/meta/recipes-core/musl/libssp-nonshared.bb
-+++ b/meta/recipes-core/musl/libssp-nonshared.bb
-@@ -17,8 +17,7 @@ DEPENDS = "virtual/cross-binutils \
- 
- do_configure[noexec] = "1"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_compile() {
- 	${CC} ${CPPFLAGS} ${CFLAGS} -fPIE -c stack_chk.c -o stack_chk.o
-diff --git a/meta/recipes-core/musl/musl-legacy-error.bb b/meta/recipes-core/musl/musl-legacy-error.bb
-index 11a838a6e8a..b40075c0b6b 100644
---- a/meta/recipes-core/musl/musl-legacy-error.bb
-+++ b/meta/recipes-core/musl/musl-legacy-error.bb
-@@ -13,8 +13,7 @@ do_compile[noexec] = "1"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
- 	install -Dm 0644 ${S}/error.h -t ${D}${includedir}
-diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-index 0ec49365d02..5efac3e4106 100644
---- a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-+++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-@@ -7,8 +7,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- inherit systemd-boot-cfg
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- LABELS = "boot"
- 
-diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-index 33257395440..187f0d4626e 100644
---- a/meta/recipes-core/systemd/systemd-compat-units.bb
-+++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-@@ -5,8 +5,7 @@ LICENSE = "MIT"
- 
- PACKAGE_WRITE_DEPS += "systemd-systemctl-native"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- inherit features_check
- 
-diff --git a/meta/recipes-core/systemd/systemd-conf_1.0.bb b/meta/recipes-core/systemd/systemd-conf_1.0.bb
-index b8bea0c25be..60066cd60a6 100644
---- a/meta/recipes-core/systemd/systemd-conf_1.0.bb
-+++ b/meta/recipes-core/systemd/systemd-conf_1.0.bb
-@@ -21,8 +21,7 @@ SRC_URI = "\
-     file://wired.network \
- "
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
- 	install -D -m0644 ${S}/journald.conf ${D}${systemd_unitdir}/journald.conf.d/00-${PN}.conf
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 6ff2ca1bf43..748e5e6d065 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -6,8 +6,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;m
- SRC_URI = "file://inittab \
-            file://start_getty"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index 0d7e4f4f369..2ba6606c059 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -13,8 +13,7 @@ SRC_URI = " \
-        file://localextra.rules \
- "
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- MOUNT_BASE = "/run/media"
- MOUNT_GROUP ?= "disk"
-diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
-index 3597ec73561..857bcc93ff1 100644
---- a/meta/recipes-core/volatile-binds/volatile-binds.bb
-+++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
-@@ -9,8 +9,7 @@ SRC_URI = "\
-     file://volatile-binds.service.in \
- "
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- inherit allarch systemd features_check
- 
-diff --git a/meta/recipes-devtools/devel-config/distcc-config.bb b/meta/recipes-devtools/devel-config/distcc-config.bb
-index 2c30488b820..f5b2f0f246c 100644
---- a/meta/recipes-devtools/devel-config/distcc-config.bb
-+++ b/meta/recipes-devtools/devel-config/distcc-config.bb
-@@ -6,8 +6,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- 
- SRC_URI = "file://distcc.sh"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- # Default to the host machine for a running qemu session
- DISTCC_HOSTS ?= "192.168.7.1"
-diff --git a/meta/recipes-devtools/devel-config/nfs-export-root.bb b/meta/recipes-devtools/devel-config/nfs-export-root.bb
-index ad5486aa87f..a827bb58eea 100644
---- a/meta/recipes-devtools/devel-config/nfs-export-root.bb
-+++ b/meta/recipes-devtools/devel-config/nfs-export-root.bb
-@@ -5,8 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- 
- SRC_URI = "file://exports"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
- 	install -d ${D}${sysconfdir}
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-index 58e9b6659e5..1148d536944 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-@@ -26,8 +26,7 @@ SRC_URI[payloadPV.sha256sum] = "4e4e037a2b83c98c6c94818390d4bdd3f6e10f6ec62dd791
- 
- UPSTREAM_CHECK_REGEX = "docbook-xml-(?P<pver>4(\.\d+)).zip"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_configure (){
-     :
-diff --git a/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
-index 8e42b12b77c..c1eca13107b 100644
---- a/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
-+++ b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
-@@ -8,8 +8,7 @@ BBCLASSEXTEND = "native"
- DEPENDS = "elfutils"
- DEPENDS:append:libc-musl = " argp-standalone"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/bluez-${PV}"
++S = "${UNPACKDIR}/bluez-${PV}"
+ 
+ CVE_PRODUCT = "bluez"
+ 
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+index ac99d0db498..6dc76494f7c 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+@@ -19,7 +19,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
+            "
+ SRC_URI[sha256sum] = "912ea06f74e30a8e36fbb68064d6cdff218d8d591db0fc5d75dee6c81ac7fc0a"
+ 
+-S = "${WORKDIR}/wpa_supplicant-${PV}"
++S = "${UNPACKDIR}/wpa_supplicant-${PV}"
+ 
+ inherit pkgconfig systemd
+ 
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
+index 3d5247ee87b..177927d6748 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
+@@ -21,7 +21,7 @@ SRC_URI[sha256sum] = "cf869870fed7862b57bfa9e99cd5cd6f365e2349705a1b65af7fc18262
+ # so we check the latest upstream from a directory that does get updated
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/"
+ 
+-S = "${WORKDIR}/work"
++S = "${UNPACKDIR}/work"
+ 
+ PACKAGECONFIG = "${@bb.utils.filter('DISTRO_FEATURES', 'selinux', d)}"
+ PACKAGECONFIG[selinux] = "--enable-selinux, --disable-selinux, libselinux"
+diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb
+index e443b6b34fa..941896ec48d 100644
+--- a/meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb
++++ b/meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb
+@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://${UNPACKDIR}/COPYING;md5=4bd090a20bfcd1a18f1f79837b5e
+ 
+ inherit native
+ 
+-S = "${WORKDIR}/gettext-${PV}"
++S = "${UNPACKDIR}/gettext-${PV}"
+ 
+ python get_aclocal_files() {
+     fpath = oe.path.join(d.getVar("S"), "/gettext-tools/m4/Makefile.am")
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 38e75aab618..ba7763c8417 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -30,7 +30,7 @@ LEAD_SONAME = "libglib-2.0.*"
+ 
+ inherit meson gettext gi-docgen pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages gobject-introspection-data
+ 
+-S = "${WORKDIR}/glib-${PV}"
++S = "${UNPACKDIR}/glib-${PV}"
+ 
+ GIDOCGEN_MESON_OPTION = "documentation"
+ 
+diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+index 9ca95d1e52f..cd091d0d87f 100644
+--- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
++++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+@@ -24,7 +24,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${P}:"
+ 
+ inherit native
+ 
+-S = "${WORKDIR}/${PN}-${PV}"
++S = "${UNPACKDIR}/${PN}-${PV}"
  
  do_compile () {
- 	${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ${S}/dwarfsrcfiles.c -lelf -ldw
-diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-index 7b11093364a..deed6845370 100644
---- a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-+++ b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-@@ -5,8 +5,7 @@ LIC_FILES_CHKSUM = "file://makedevs.c;beginline=2;endline=2;md5=c3817b10013a3007
- SECTION = "base"
- SRC_URI = "file://makedevs.c"
+ 	$CC ldconfig.c -std=gnu99 chroot_canon.c xmalloc.c xstrdup.c cache.c readlib.c  -I. dl-cache.c -o ldconfig
+diff --git a/meta/recipes-core/netbase/netbase_6.5.bb b/meta/recipes-core/netbase/netbase_6.5.bb
+index d273dbfe663..c6cf798421f 100644
+--- a/meta/recipes-core/netbase/netbase_6.5.bb
++++ b/meta/recipes-core/netbase/netbase_6.5.bb
+@@ -22,4 +22,4 @@ do_install () {
+ 	install -m 0644 ${S}/etc/ethertypes ${D}${sysconfdir}/ethertypes
+ }
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/netbase"
++S = "${UNPACKDIR}/netbase"
+diff --git a/meta/recipes-core/sysvinit/sysvinit_3.14.bb b/meta/recipes-core/sysvinit/sysvinit_3.14.bb
+index 521eda0bfba..d4bb797624f 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_3.14.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_3.14.bb
+@@ -20,7 +20,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.xz \
+            "
+ SRC_URI[sha256sum] = "c90874b8c054a35991fb8c4d30c443ed1e9b1815ff6165c7b483f558be4e4b53"
  
- FILES:${PN}:append:class-nativesdk = " ${datadir}"
+-S = "${WORKDIR}/sysvinit-${PV}"
++S = "${UNPACKDIR}/sysvinit-${PV}"
  
-diff --git a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-index 4db35c1092e..128baa9a081 100644
---- a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-@@ -3,8 +3,7 @@ HOMEPAGE = "https://git.yoctoproject.org/opkg/"
- LICENSE = "MIT"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
+ inherit update-alternatives features_check github-releases
+ DEPENDS:append = " update-rc.d-native base-passwd virtual/crypt"
+diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.41.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.41.bb
+index ad0bfa1d129..5ad2997c27d 100644
+--- a/meta/recipes-core/util-linux/util-linux-libuuid_2.41.bb
++++ b/meta/recipes-core/util-linux/util-linux-libuuid_2.41.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ inherit autotools gettext pkgconfig
  
- do_compile() {
- 	mkdir -p ${S}/${sysconfdir}/opkg/
-diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-index 90bba84b03c..8dfa2b74d96 100644
---- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-+++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-@@ -18,8 +18,7 @@ SRC_URI = "file://${COREBASE}/scripts/runqemu \
-            file://${COREBASE}/scripts/runqemu-export-rootfs \
-           "
+-S = "${WORKDIR}/util-linux-${PV}"
++S = "${UNPACKDIR}/util-linux-${PV}"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ EXTRA_AUTORECONF += "--exclude=gtkdocize"
+ EXTRA_OECONF += "--disable-all-programs --enable-libuuid"
+diff --git a/meta/recipes-devtools/chrpath/chrpath_0.18.bb b/meta/recipes-devtools/chrpath/chrpath_0.18.bb
+index 653c1115d0f..3d89fd2c92b 100644
+--- a/meta/recipes-devtools/chrpath/chrpath_0.18.bb
++++ b/meta/recipes-devtools/chrpath/chrpath_0.18.bb
+@@ -12,7 +12,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/c/${BPN}/${BPN}_${PV}.orig.tar.gz \
+ SRC_URI[sha256sum] = "f09c49f0618660ca11fc6d9580ddde904c7224d4c6d0f6f2d1f9bcdc9102c9aa"
+ 
+ inherit autotools
+-S = "${WORKDIR}/chrpath"
++S = "${UNPACKDIR}/chrpath"
+ 
+ # We don't have a staged chrpath-native for ensuring our binary is
+ # relocatable, so use the one we've just built
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
+index ea81bf95075..7e4730b5e9d 100644
+--- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
++++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
+@@ -13,7 +13,7 @@ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/docbook/files/docbook-xsl/
+ # Reject versions ending in .0 as those are release candidates
+ UPSTREAM_CHECK_REGEX = "/docbook-xsl/(?P<pver>(\d+[\.\-_]*)+(?!\.0)\.\d+)/"
+ 
+-S = "${WORKDIR}/docbook-xsl-${PV}"
++S = "${UNPACKDIR}/docbook-xsl-${PV}"
+ 
+ inherit allarch xmlcatalog
+ 
+diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
+index e3ecf4b25e8..48b5b0d934b 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.4.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+@@ -37,7 +37,7 @@ SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/expect/files/Expect/"
+ UPSTREAM_CHECK_REGEX = "/Expect/(?P<pver>(\d+[\.\-_]*)+)/"
+ 
+-S = "${WORKDIR}/${BPN}${PV}"
++S = "${UNPACKDIR}/${BPN}${PV}"
+ 
+ EXTRA_AUTORECONF += "--exclude=aclocal"
+ 
+diff --git a/meta/recipes-devtools/git/git_2.49.0.bb b/meta/recipes-devtools/git/git_2.49.0.bb
+index 3538170d08b..e1b501d62b1 100644
+--- a/meta/recipes-devtools/git/git_2.49.0.bb
++++ b/meta/recipes-devtools/git/git_2.49.0.bb
+@@ -16,7 +16,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-git.sh \
+            "
+ 
+-S = "${WORKDIR}/git-${PV}"
++S = "${UNPACKDIR}/git-${PV}"
+ 
+ LIC_FILES_CHKSUM = "\
+ 	file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1 \
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.24.4.bb b/meta/recipes-devtools/go/go-binary-native_1.24.4.bb
+index 9f788536c4a..d673c2c068d 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.24.4.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.24.4.bb
+@@ -18,7 +18,7 @@ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+ 
+ CVE_PRODUCT = "golang:go"
+ 
+-S = "${WORKDIR}/go"
++S = "${UNPACKDIR}/go"
+ 
+ inherit goarch native
+ 
+diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
+index ca8469dbd91..20386f09991 100644
+--- a/meta/recipes-devtools/go/go-common.inc
++++ b/meta/recipes-devtools/go/go-common.inc
+@@ -15,7 +15,7 @@ LICENSE = "BSD-3-Clause"
+ inherit goarch
+ 
+ SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main"
+-S = "${WORKDIR}/go"
++S = "${UNPACKDIR}/go"
+ B = "${S}"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
+ 
+diff --git a/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.4.bb b/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.4.bb
+index 2e39a1e1d76..de556a5d81c 100644
+--- a/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.4.bb
++++ b/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.4.bb
+@@ -7,7 +7,7 @@ SRC_URI += "file://0008-libtool-Avoid-relinking-when-cross-compiling-its-poi.pat
  
  inherit nativesdk
  
-diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-index 28a3b95c4ea..30108e76df6 100644
---- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-@@ -6,8 +6,7 @@ LIC_FILES_CHKSUM = "file://${S}/qemu-oe-bridge-helper.c;endline=4;md5=ae00a3bab8
+-S = "${WORKDIR}/libtool-${PV}"
++S = "${UNPACKDIR}/libtool-${PV}"
+ FILES:${PN} += "${datadir}/libtool/*"
  
- SRC_URI = "file://qemu-oe-bridge-helper.c"
+ do_install () {
+diff --git a/meta/recipes-devtools/patch/patch.inc b/meta/recipes-devtools/patch/patch.inc
+index a12d426b2cd..44d3046fd87 100644
+--- a/meta/recipes-devtools/patch/patch.inc
++++ b/meta/recipes-devtools/patch/patch.inc
+@@ -6,7 +6,7 @@ SECTION = "utils"
+ HOMEPAGE = "http://savannah.gnu.org/projects/patch/"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ SRC_URI = "${GNU_MIRROR}/patch/patch-${PV}.tar.gz"
+-S = "${WORKDIR}/patch-${PV}"
++S = "${UNPACKDIR}/patch-${PV}"
  
- inherit native
+ inherit autotools update-alternatives
  
-diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-index 6d0e7883ad9..3418979968e 100644
---- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-@@ -2,8 +2,7 @@ SUMMARY = "QEMU wrapper script"
- HOMEPAGE = "http://qemu.org"
- LICENSE = "MIT"
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb b/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
+index 42ba15a572e..debf2717ce9 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
+@@ -20,7 +20,7 @@ GITHUB_BASE_URI = "https://github.com/arsv/perl-cross/releases/"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ SRC_URI[perl-cross.sha256sum] = "131f7496152ee32067dbac2bc9b44b2f582fc778140e545701b3b2faee782f1d"
  
- DEPENDS += "qemu-native"
+-S = "${WORKDIR}/perl-cross-${PV}"
++S = "${UNPACKDIR}/perl-cross-${PV}"
  
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-index f571e619218..5486f89ae75 100644
---- a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-@@ -8,8 +8,7 @@ SRC_URI = "file://run-postinsts \
-            file://run-postinsts.init \
-            file://run-postinsts.service"
+ do_configure () {
+ }
+diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
+index b57618724d1..b27a8c15e6c 100644
+--- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
++++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
+@@ -18,7 +18,7 @@ SRC_URI = "${CPAN_MIRROR}/authors/id/L/LE/LEONT/Module-Build-${PV}.tar.gz \
+            "
+ SRC_URI[sha256sum] = "66aeac6127418be5e471ead3744648c766bd01482825c5b66652675f2bc86a8f"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/Module-Build-${PV}"
++S = "${UNPACKDIR}/Module-Build-${PV}"
  
- inherit allarch systemd update-rc.d
+ inherit cpan_build ptest-perl
  
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index 09e1b911a28..df8b78d326e 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -13,8 +13,7 @@ DEPENDS += "virtual/nativesdk-cross-cc virtual/nativesdk-libc virtual/nativesdk-
+diff --git a/meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb b/meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb
+index 1c3a7e5136e..eae128b0ccc 100644
+--- a/meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb
++++ b/meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb
+@@ -13,7 +13,7 @@ SRC_URI = "${CPAN_MIRROR}/authors/id/R/RJ/RJBS/Test-Fatal-${PV}.tar.gz"
  
- SRC_URI += "file://target-rust-ccld.c"
- LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=af4e0e29f81a34cffe05aa07c89e93e9;endline=7"
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ SRC_URI[sha256sum] = "37dfffdafb84b762efe96b02fb2aa41f37026c73e6b83590db76229697f3c4a6"
  
- # Need to use our SDK's sh here, see #14878
- create_sdk_wrapper () {
-diff --git a/meta/recipes-extended/shadow/shadow-securetty_4.6.bb b/meta/recipes-extended/shadow/shadow-securetty_4.6.bb
-index 913c159c818..dbcfad5f1bf 100644
---- a/meta/recipes-extended/shadow/shadow-securetty_4.6.bb
-+++ b/meta/recipes-extended/shadow/shadow-securetty_4.6.bb
-@@ -8,8 +8,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+-S = "${WORKDIR}/Test-Fatal-${PV}"
++S = "${UNPACKDIR}/Test-Fatal-${PV}"
  
- SRC_URI = "file://securetty"
+ inherit cpan ptest-perl
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+diff --git a/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb b/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb
+index 79a06170e02..0045e575af8 100644
+--- a/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb
++++ b/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb
+@@ -19,7 +19,7 @@ SRC_URI = "https://cpan.metacpan.org/authors/id/H/HA/${CPAN_AUTHOR}/${CPAN_NAME}
  
- # Since SERIAL_CONSOLES is likely to be set from the machine configuration
- PACKAGE_ARCH = "${MACHINE_ARCH}"
-diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-index 13cfab6aabb..aa132970b8c 100644
---- a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-+++ b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-@@ -13,8 +13,7 @@ DEPENDS = "base-passwd"
- # can add custom users/groups for recipes that use inherit useradd.
- SRC_URI = "file://login.defs_shadow-sysroot"
+ SRC_URI[sha256sum] = "923ffdc78fcba96609753e4bae26b0ba0186893de4a63cd5236e012c7c90e208"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/${CPAN_NAME}-${PV}"
++S = "${UNPACKDIR}/${CPAN_NAME}-${PV}"
  
- do_install() {
- 	install -d ${D}${sysconfdir}
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-index 51d9c927661..9773d134cfb 100644
---- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-@@ -8,8 +8,7 @@ PV = "1.0"
+ inherit cpan ptest-perl
  
- SRC_URI = "file://template.py file://COPYING"
+diff --git a/meta/recipes-devtools/perl/libtest-warnings-perl_0.038.bb b/meta/recipes-devtools/perl/libtest-warnings-perl_0.038.bb
+index 656b38f2d84..2eccf409991 100644
+--- a/meta/recipes-devtools/perl/libtest-warnings-perl_0.038.bb
++++ b/meta/recipes-devtools/perl/libtest-warnings-perl_0.038.bb
+@@ -17,7 +17,7 @@ SRC_URI = "${CPAN_MIRROR}/authors/id/E/ET/ETHER/Test-Warnings-${PV}.tar.gz"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ SRC_URI[sha256sum] = "3da27e003a3c3cafed3c09b42be05cf9bdbff0bee5c8590a731b02853880a273"
  
- inherit native
+-S = "${WORKDIR}/Test-Warnings-${PV}"
++S = "${UNPACKDIR}/Test-Warnings-${PV}"
  
-diff --git a/meta/recipes-extended/watchdog/watchdog-config.bb b/meta/recipes-extended/watchdog/watchdog-config.bb
-index 17151ced5ec..58c565bd302 100644
---- a/meta/recipes-extended/watchdog/watchdog-config.bb
-+++ b/meta/recipes-extended/watchdog/watchdog-config.bb
-@@ -13,8 +13,7 @@ SRC_URI = " \
-     file://watchdog.conf \
+ inherit cpan ptest-perl
+ 
+diff --git a/meta/recipes-devtools/perl/libtry-tiny-perl_0.32.bb b/meta/recipes-devtools/perl/libtry-tiny-perl_0.32.bb
+index d0714695b8a..e924b3bd640 100644
+--- a/meta/recipes-devtools/perl/libtry-tiny-perl_0.32.bb
++++ b/meta/recipes-devtools/perl/libtry-tiny-perl_0.32.bb
+@@ -13,7 +13,7 @@ SRC_URI = "${CPAN_MIRROR}/authors/id/E/ET/ETHER/Try-Tiny-${PV}.tar.gz"
+ 
+ SRC_URI[sha256sum] = "ef2d6cab0bad18e3ab1c4e6125cc5f695c7e459899f512451c8fa3ef83fa7fc0"
+ 
+-S = "${WORKDIR}/Try-Tiny-${PV}"
++S = "${UNPACKDIR}/Try-Tiny-${PV}"
+ 
+ inherit cpan ptest-perl
+ 
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
+index 1f312b00e1c..b6d28c4bb3a 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
+@@ -12,7 +12,7 @@ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz \
+ 
+ SRC_URI[sha256sum] = "ad4aae643ec784f489b956abe952432871a622d4e2b5c619e8855accbfc4d1d8"
+ 
+-S = "${WORKDIR}/XML-Parser-${PV}"
++S = "${UNPACKDIR}/XML-Parser-${PV}"
+ 
+ EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR} CC='${CC}' LD='${CCLD}' FULL_AR='${AR}'"
+ 
+diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
+index dff0f84aabc..a4f08433e74 100644
+--- a/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
++++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
+@@ -14,7 +14,7 @@ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Simple-${PV}.tar.gz"
+ 
+ SRC_URI[sha256sum] = "531fddaebea2416743eb5c4fdfab028f502123d9a220405a4100e68fc480dbf8"
+ 
+-S = "${WORKDIR}/XML-Simple-${PV}"
++S = "${UNPACKDIR}/XML-Simple-${PV}"
+ 
+ EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
+ 
+diff --git a/meta/recipes-devtools/python/python3-babel_2.17.0.bb b/meta/recipes-devtools/python/python3-babel_2.17.0.bb
+index f7ffbccdac2..adffaa044ca 100644
+--- a/meta/recipes-devtools/python/python3-babel_2.17.0.bb
++++ b/meta/recipes-devtools/python/python3-babel_2.17.0.bb
+@@ -7,7 +7,7 @@ SRC_URI[sha256sum] = "0c54cffb19f690cdcc52a3b50bcbf71e07a808d1c80d549f2459b9d2cf
+ 
+ inherit pypi setuptools3
+ 
+-S = "${WORKDIR}/babel-${PV}"
++S = "${UNPACKDIR}/babel-${PV}"
+ 
+ CLEANBROKEN = "1"
+ 
+diff --git a/meta/recipes-devtools/python/python3-dbus_1.4.0.bb b/meta/recipes-devtools/python/python3-dbus_1.4.0.bb
+index 057c97f6564..2854eda30a0 100644
+--- a/meta/recipes-devtools/python/python3-dbus_1.4.0.bb
++++ b/meta/recipes-devtools/python/python3-dbus_1.4.0.bb
+@@ -9,7 +9,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.ta
+ 
+ SRC_URI[sha256sum] = "c36b28f10ffcc8f1f798aca973bcc132f91f33eb9b6b8904381b4077766043d5"
+ 
+-S = "${WORKDIR}/dbus-python-${PV}"
++S = "${UNPACKDIR}/dbus-python-${PV}"
+ 
+ inherit setuptools3-base meson pkgconfig
+ 
+diff --git a/meta/recipes-devtools/python/python3-maturin_1.8.6.bb b/meta/recipes-devtools/python/python3-maturin_1.8.6.bb
+index ab509331c36..f80bf6051f5 100644
+--- a/meta/recipes-devtools/python/python3-maturin_1.8.6.bb
++++ b/meta/recipes-devtools/python/python3-maturin_1.8.6.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://license-apache;md5=1836efb2eb779966696f473ee8540542 \
+ SRC_URI += "file://0001-Define-more-ioctl-codes-on-riscv32gc-unknown-linux-g.patch;patchdir=${CARGO_VENDORING_DIRECTORY}/libc-0.2.167"
+ SRC_URI[sha256sum] = "0e0dc2e0bfaa2e1bd238e0236cf8a2b7e2250ccaa29c1aa8d0e61fa664b0289d"
+ 
+-S = "${WORKDIR}/maturin-${PV}"
++S = "${UNPACKDIR}/maturin-${PV}"
+ 
+ CFLAGS += "-ffile-prefix-map=${CARGO_HOME}=${TARGET_DBGSRC_DIR}/cargo_home"
+ 
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.2.6.bb b/meta/recipes-devtools/python/python3-numpy_2.2.6.bb
+index 10468d68503..25bab41f62f 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.2.6.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.2.6.bb
+@@ -19,7 +19,7 @@ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+ 
+ inherit pkgconfig ptest python_mesonpy github-releases cython
+ 
+-S = "${WORKDIR}/numpy-${PV}"
++S = "${UNPACKDIR}/numpy-${PV}"
+ 
+ PACKAGECONFIG[svml] = "-Ddisable-svml=false,-Ddisable-svml=true"
+ 
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.28.0.bb b/meta/recipes-devtools/python/python3-pycairo_1.28.0.bb
+index c610f3eae92..498c4db5869 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.28.0.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.28.0.bb
+@@ -15,7 +15,7 @@ GITHUB_BASE_URI = "https://github.com/pygobject/pycairo/releases/"
+ 
+ SRC_URI[sha256sum] = "26ec5c6126781eb167089a123919f87baa2740da2cca9098be8b3a6b91cc5fbc"
+ 
+-S = "${WORKDIR}/pycairo-${PV}"
++S = "${UNPACKDIR}/pycairo-${PV}"
+ 
+ inherit meson pkgconfig python3targetconfig github-releases
+ 
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.52.3.bb b/meta/recipes-devtools/python/python3-pygobject_3.52.3.bb
+index d0384fcce1f..42b071ca086 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.52.3.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.52.3.bb
+@@ -21,7 +21,7 @@ SRCNAME = "pygobject"
+ SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.gz"
+ SRC_URI[sha256sum] = "00e427d291e957462a8fad659a9f9c8be776ff82a8b76bdf402f1eaeec086d82"
+ 
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
++S = "${UNPACKDIR}/${SRCNAME}-${PV}"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', [ 'directfb', 'wayland', 'x11' ], 'cairo', '', d)}"
+ 
+diff --git a/meta/recipes-devtools/python/python3-scons_4.9.1.bb b/meta/recipes-devtools/python/python3-scons_4.9.1.bb
+index c8496679707..1eac1ce5a9a 100644
+--- a/meta/recipes-devtools/python/python3-scons_4.9.1.bb
++++ b/meta/recipes-devtools/python/python3-scons_4.9.1.bb
+@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "bacac880ba2e86d6a156c116e2f8f2bfa82b257046f3ac2666c85c53c6
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-S = "${WORKDIR}/scons-${PV}"
++S = "${UNPACKDIR}/scons-${PV}"
+ 
+ RDEPENDS:${PN}:class-target = "\
+   python3-core \
+diff --git a/meta/recipes-devtools/python/python3_3.13.4.bb b/meta/recipes-devtools/python/python3_3.13.4.bb
+index 5b49fee3bff..a5277b3c5ab 100644
+--- a/meta/recipes-devtools/python/python3_3.13.4.bb
++++ b/meta/recipes-devtools/python/python3_3.13.4.bb
+@@ -53,7 +53,7 @@ CVE_STATUS[CVE-2023-36632] = "disputed: Not an issue, in fact expected behaviour
+ 
+ PYTHON_MAJMIN = "3.13"
+ 
+-S = "${WORKDIR}/Python-${PV}"
++S = "${UNPACKDIR}/Python-${PV}"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index f9c1fcd1c8a..30b159a84f3 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -12,7 +12,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
  "
+ SRC_URI[rust.sha256sum] = "d939eada065dc827a9d4dbb55bd48533ad14c16e7f0a42e70147029c82a7707b"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
++RUSTSRC = "${UNPACKDIR}/rustc-${RUST_VERSION}-src"
  
- # The default value is 60 seconds when null.
- WATCHDOG_TIMEOUT ??= ""
-diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
-index 39abaf31ce5..b8a77983640 100644
---- a/meta/recipes-graphics/builder/builder_0.1.bb
-+++ b/meta/recipes-graphics/builder/builder_0.1.bb
-@@ -7,8 +7,7 @@ LIC_FILES_CHKSUM = "file://builder_session.sh;endline=5;md5=84796c3c41785d86100f
- SRC_URI = "file://builder_session.sh \
-           "
+ UPSTREAM_CHECK_URI = "https://forge.rust-lang.org/infra/other-installation-methods.html"
+ UPSTREAM_CHECK_REGEX = "rustc-(?P<pver>\d+(\.\d+)+)-src"
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb b/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
+index 485b293768d..70aa9b606c6 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
+@@ -28,7 +28,7 @@ SRC_URI[sha256sum] = "488fcb6c875a1762e9e8478319b20fbad9a31de475f056aeed94cc54b4
+ UPSTREAM_CHECK_URI = "https://www.tcl.tk/software/tcltk/download.html"
+ UPSTREAM_CHECK_REGEX = "tcl(?P<pver>\d+(\.\d+)+)-src"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/${BPN}${PV}"
++S = "${UNPACKDIR}/${BPN}${PV}"
  
- RDEPENDS:${PN} = "mini-x-session"
+ VER = "${PV}"
  
-diff --git a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-index 8a4cfef6315..3f446445e79 100644
---- a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-+++ b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-@@ -11,8 +11,7 @@ RCONFLICTS:${PN} = "matchbox-common"
+diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
+index 076bbc906c4..225f04be489 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
++++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
+@@ -32,7 +32,7 @@ SRC_URI:class-native = "${BASE_SRC_URI}"
+ UPSTREAM_CHECK_URI = "https://www.tcl.tk/software/tcltk/download.html"
+ UPSTREAM_CHECK_REGEX = "tcl(?P<pver>8(\.\d+)+)-src"
  
- SRC_URI = "file://matchbox-session"
+-S = "${WORKDIR}/tcl${PV}"
++S = "${UNPACKDIR}/tcl${PV}"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ VER = "${PV}"
+ 
+diff --git a/meta/recipes-extended/pam/libpam_1.7.0.bb b/meta/recipes-extended/pam/libpam_1.7.0.bb
+index 4abc52bd93b..dea9ff592b6 100644
+--- a/meta/recipes-extended/pam/libpam_1.7.0.bb
++++ b/meta/recipes-extended/pam/libpam_1.7.0.bb
+@@ -31,7 +31,7 @@ DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
+ 
+ EXTRA_OEMESON = "-Ddocs=disabled -Dsecuredir=${base_libdir}/security"
+ 
+-S = "${WORKDIR}/Linux-PAM-${PV}"
++S = "${UNPACKDIR}/Linux-PAM-${PV}"
+ 
+ inherit meson gettext pkgconfig systemd ptest github-releases
+ 
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
+index 6e9f8817732..7e167d6e675 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://cpan.metacpan.org/authors/id/T/TI/TIMLEGGE/Convert-ASN1-${PV}
+ 
+ SRC_URI[sha256sum] = "a628d7c9d390568fb76359975fa03f626ce57f10dc17980e8e3587d7713e4ee7"
+ 
+-S = "${WORKDIR}/Convert-ASN1-${PV}"
++S = "${UNPACKDIR}/Convert-ASN1-${PV}"
+ 
+ inherit cpan ptest-perl
+ 
+diff --git a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
+index 3b681225c2c..7f9f40d9961 100644
+--- a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
++++ b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://README;beginline=21;md5=576b7cb41e5e821501a01ed66f0f9
+ 
+ SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/TimeDate-${PV}.tar.gz"
+ 
+-S = "${WORKDIR}/TimeDate-${PV}"
++S = "${UNPACKDIR}/TimeDate-${PV}"
+ 
+ inherit cpan ptest-perl
+ 
+diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+index ae0e5ad08a9..9653cb427b2 100644
+--- a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
++++ b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+@@ -16,7 +16,7 @@ SRC_URI[sha256sum] = "47e995859f8dd0413aa3f22d350c4a62da652e854267aa0586ae544ae2
+ 
+ UPSTREAM_CHECK_REGEX = "XML\-NamespaceSupport\-(?P<pver>(\d+\.\d+))(?!_\d+).tar"
+ 
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
++S = "${UNPACKDIR}/${SRCNAME}-${PV}"
+ 
+ inherit cpan ptest-perl
+ 
+diff --git a/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb b/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
+index 8e8be934416..8d97e95e830 100644
+--- a/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
++++ b/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
+@@ -16,7 +16,7 @@ SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-Base-${PV}
+ 
+ SRC_URI[sha256sum] = "66cb355ba4ef47c10ca738bd35999723644386ac853abbeb5132841f5e8a2ad0"
+ 
+-S = "${WORKDIR}/XML-SAX-Base-${PV}"
++S = "${UNPACKDIR}/XML-SAX-Base-${PV}"
+ 
+ inherit cpan ptest-perl
+ 
+diff --git a/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb b/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb
+index 218af5c4375..67bdac981dd 100644
+--- a/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb
++++ b/meta/recipes-extended/perl/libxml-sax-perl_1.02.bb
+@@ -19,7 +19,7 @@ SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-${PV}.tar.
+ 
+ SRC_URI[sha256sum] = "4506c387043aa6a77b455f00f57409f3720aa7e553495ab2535263b4ed1ea12a"
+ 
+-S = "${WORKDIR}/XML-SAX-${PV}"
++S = "${UNPACKDIR}/XML-SAX-${PV}"
+ 
+ inherit cpan ptest-perl
+ 
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+index de5fb3c5433..da3ff908915 100644
+--- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+@@ -52,7 +52,7 @@ SRC_URI = "http://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
+ 
+ SRC_URI[sha256sum] = "9543d7adedf78a6de0b221ccbbd1952e08b5138717f4ade814039bb489a4315d"
+ 
+-S = "${WORKDIR}/tcp_wrappers_${PV}"
++S = "${UNPACKDIR}/tcp_wrappers_${PV}"
+ 
+ CFLAGS += "-std=gnu17"
+ 
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 8f7868f0981..9a5105ffd74 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -12,7 +12,7 @@ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+            "
+ 
+-S = "${WORKDIR}/tz"
++S = "${UNPACKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index b2fed672396..d6289deff75 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -43,7 +43,7 @@ CVE_STATUS[CVE-2008-0888] = "fixed-version: Patch from https://bugzilla.redhat.c
+ # exclude version 5.5.2 which triggers a false positive
+ UPSTREAM_CHECK_REGEX = "unzip(?P<pver>(?!552).+)\.tgz"
+ 
+-S = "${WORKDIR}/unzip60"
++S = "${UNPACKDIR}/unzip60"
+ 
+ # Makefile uses CF_NOOPT instead of CFLAGS.  We lifted the values from
+ # Makefile and add CFLAGS.  Optimization will be overriden by unzip
+diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
+index 27691bd89a4..0824b30da28 100644
+--- a/meta/recipes-extended/zip/zip_3.0.bb
++++ b/meta/recipes-extended/zip/zip_3.0.bb
+@@ -7,7 +7,7 @@ LICENSE = "Info-ZIP"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=04d43c5d70b496c032308106e26ae17d"
  
  
- inherit update-alternatives
-diff --git a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-index 48d50c8f66d..a6626b5d18a 100644
---- a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-+++ b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-@@ -12,8 +12,7 @@ RCONFLICTS:${PN} = "matchbox-common"
+-S = "${WORKDIR}/zip30"
++S = "${UNPACKDIR}/zip30"
  
- SRC_URI = "file://mini-x-session"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.gz \
+            file://fix-security-format.patch \
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index 1e29bd9bb07..54666801c56 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -22,7 +22,7 @@ SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.xz;na
+ SRC_URI[archive.md5sum] = "2b16996d0e4b112856ee5c59130e822c"
+ SRC_URI[archive.sha256sum] = "1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e0cfa51a04d784c"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/GConf-${PV}"
++S = "${UNPACKDIR}/GConf-${PV}"
  
- RDEPENDS:${PN} = "sudo"
+ EXTRA_OECONF = "--enable-shared --disable-static \
+                 --disable-orbit --with-openldap=no --disable-gtk"
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb
+index 15870dcc08b..5892bb31397 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb
+@@ -23,7 +23,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
+            "
+ SRC_URI[sha256sum] = "7e04f0648515034b806b74ae5d774d87cffb1a2a96c468cb5be476d51bf2f3c7"
  
-diff --git a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-index ee5173dc83d..a30cdd1dcb1 100644
---- a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-+++ b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-@@ -10,8 +10,7 @@ SRC_URI = "file://pong-clock-no-flicker.c"
+-S = "${WORKDIR}/gtk+-${PV}"
++S = "${UNPACKDIR}/gtk+-${PV}"
  
- LIC_FILES_CHKSUM = "file://pong-clock-no-flicker.c;beginline=1;endline=23;md5=dd248d50f73f746d1ee78586b0b2ebd3"
+ BBCLASSEXTEND = "native nativesdk"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.18.5.bb b/meta/recipes-gnome/gtk+/gtk4_4.18.5.bb
+index 85773b11743..6c5ffa5fae1 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.18.5.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.18.5.bb
+@@ -40,7 +40,7 @@ UPSTREAM_CHECK_REGEX = "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz"
+ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-${PV}.tar.xz"
+ SRC_URI[sha256sum] = "bb5267a062f5936947d34c9999390a674b0b2b0d8aa3472fe0d05e2064955abc"
  
- do_compile () {
- 	${CC} ${CFLAGS} ${LDFLAGS} -o pong-clock pong-clock-no-flicker.c `pkg-config --cflags --libs x11 xau xdmcp`
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index 5723655a9bb..fc817d113fe 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -13,8 +13,7 @@ SRC_URI = "file://init \
-            file://weston-autologin \
-            file://weston-start"
+-S = "${WORKDIR}/gtk-${PV}"
++S = "${UNPACKDIR}/gtk-${PV}"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ CVE_PRODUCT = "gnome:gtk"
  
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xwayland', '', d)}"
- PACKAGECONFIG:append:qemuriscv64 = " use-pixman"
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-index cd4acf81551..169269eefb3 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-@@ -12,8 +12,7 @@ SRC_URI = "file://xserver-nodm \
-            file://capability.conf \
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.32.6.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.32.6.bb
+index 75710b962a3..fff757624ab 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.32.6.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.32.6.bb
+@@ -23,7 +23,7 @@ PROVIDES = "virtual/libsdl2"
+ 
+ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
+ 
+-S = "${WORKDIR}/SDL2-${PV}"
++S = "${UNPACKDIR}/SDL2-${PV}"
+ 
+ SRC_URI[sha256sum] = "6a7a40d6c2e00016791815e1a9f4042809210bdf10cc78d2c75b45c4f52f93ad"
+ 
+diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
+index 784ab8b79f0..5dda701ed09 100644
+--- a/meta/recipes-graphics/libva/libva.inc
++++ b/meta/recipes-graphics/libva/libva.inc
+@@ -20,7 +20,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libva-${PV}.tar.bz2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+ SRC_URI[sha256sum] = "e3da2250654c8d52b3f59f8cb3f3d8e7fb1a2ee64378dbc400fbc5663de7edb8"
+ 
+-S = "${WORKDIR}/libva-${PV}"
++S = "${UNPACKDIR}/libva-${PV}"
+ 
+ GITHUB_BASE_URI = "https://github.com/intel/libva/releases"
+ 
+diff --git a/meta/recipes-graphics/mesa/libglu_9.0.3.bb b/meta/recipes-graphics/mesa/libglu_9.0.3.bb
+index 9e23ff830fc..0e38671e417 100644
+--- a/meta/recipes-graphics/mesa/libglu_9.0.3.bb
++++ b/meta/recipes-graphics/mesa/libglu_9.0.3.bb
+@@ -16,7 +16,7 @@ SRC_URI = "https://archive.mesa3d.org/glu/glu-${PV}.tar.xz \
+ 
+ SRC_URI[sha256sum] = "bd43fe12f374b1192eb15fe20e45ff456b9bc26ab57f0eee919f96ca0f8a330f"
+ 
+-S = "${WORKDIR}/glu-${PV}"
++S = "${UNPACKDIR}/glu-${PV}"
+ 
+ DEPENDS = "virtual/libgl"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa-gl.bb b/meta/recipes-graphics/mesa/mesa-gl.bb
+index 2bdabddc287..e2f03c81c45 100644
+--- a/meta/recipes-graphics/mesa/mesa-gl.bb
++++ b/meta/recipes-graphics/mesa/mesa-gl.bb
+@@ -4,7 +4,7 @@ SUMMARY += " (OpenGL only, no EGL/GLES)"
+ 
+ PROVIDES = "virtual/libgl virtual/mesa"
+ 
+-S = "${WORKDIR}/mesa-${PV}"
++S = "${UNPACKDIR}/mesa-${PV}"
+ 
+ TARGET_CFLAGS = "-I${STAGING_INCDIR}/drm"
+ 
+diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb
+index 584a19a42a4..7d70c37c466 100644
+--- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb
++++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.1.5.bb
+@@ -15,7 +15,7 @@ SRC_URI = "https://github.com/liberationfonts/liberation-fonts/files/7261482/lib
+ SRC_URI[sha256sum] = "7191c669bf38899f73a2094ed00f7b800553364f90e2637010a69c0e268f25d0"
+ GITHUB_BASE_URI = "https://github.com/liberationfonts/liberation-fonts/releases"
+ 
+-S = "${WORKDIR}/liberation-fonts-ttf-${PV}"
++S = "${UNPACKDIR}/liberation-fonts-ttf-${PV}"
+ 
+ inherit allarch fontcache github-releases
+ 
+diff --git a/meta/recipes-graphics/xorg-font/xorg-font-common.inc b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+index edf7cf76421..a11b8e8ab25 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
++++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+@@ -11,7 +11,7 @@ XORG_PN = "${BPN}"
+ 
+ SRC_URI_EXT = "bz2"
+ SRC_URI = "${XORG_MIRROR}/individual/font/${XORG_PN}-${PV}.tar.${SRC_URI_EXT}"
+-S = "${WORKDIR}/${XORG_PN}-${PV}"
++S = "${UNPACKDIR}/${XORG_PN}-${PV}"
+ 
+ inherit autotools pkgconfig features_check
+ 
+diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+index e51e3fbc3ad..28010f5f227 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
++++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+@@ -19,7 +19,7 @@ inherit allarch features_check
+ # The font-alias requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-S = "${WORKDIR}/misc"
++S = "${UNPACKDIR}/misc"
+ 
+ PACKAGES = "${PN}"
+ FILES:${PN} = "${libdir}/X11/ ${datadir}/fonts/X11/"
+diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+index 15c7ecf7826..ba7fcb73044 100644
+--- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
++++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+@@ -10,7 +10,7 @@ XORG_EXT ?= "tar.xz"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.${XORG_EXT}"
+ 
+-S = "${WORKDIR}/${XORG_PN}-${PV}"
++S = "${UNPACKDIR}/${XORG_PN}-${PV}"
+ 
+ inherit autotools features_check pkgconfig
+ 
+diff --git a/meta/recipes-graphics/xorg-util/xorg-util-common.inc b/meta/recipes-graphics/xorg-util/xorg-util-common.inc
+index a4c85a4ebcd..198921116d7 100644
+--- a/meta/recipes-graphics/xorg-util/xorg-util-common.inc
++++ b/meta/recipes-graphics/xorg-util/xorg-util-common.inc
+@@ -8,6 +8,6 @@ XORG_PN = "${BPN}"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/util/${XORG_PN}-${PV}.tar.gz"
+ 
+-S = "${WORKDIR}/${XORG_PN}-${PV}"
++S = "${UNPACKDIR}/${XORG_PN}-${PV}"
+ 
+ inherit autotools pkgconfig
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 7645f11c146..0dece7bba3e 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -30,7 +30,7 @@ impossible or difficult to exploit. There is currently no upstream patch \
+ available for this flaw."
+ CVE_STATUS[CVE-2022-3553] = "cpe-incorrect: This is specific to XQuartz, which is the macOS X server port"
+ 
+-S = "${WORKDIR}/${XORG_PN}-${PV}"
++S = "${UNPACKDIR}/${XORG_PN}-${PV}"
+ 
+ inherit meson pkgconfig
+ 
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index 3a8d32e7857..1f5c47f4533 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -60,7 +60,7 @@ KORG_ARCHIVE_COMPRESSION ?= "xz"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/v${HEADER_FETCH_VER}/linux-${PV}.tar.${KORG_ARCHIVE_COMPRESSION}"
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/"
+ 
+-S = "${WORKDIR}/linux-${PV}"
++S = "${UNPACKDIR}/linux-${PV}"
+ 
+ EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCPP="${BUILD_CPP}""
+ 
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 6cc5499d8dd..b30ae30e9d1 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -66,7 +66,7 @@ include ${@bb.utils.contains('PACKAGECONFIG', 'perl', 'perf-perl.inc', '', d)}
+ 
+ inherit kernelsrc
+ 
+-S = "${WORKDIR}/${BP}"
++S = "${UNPACKDIR}/${BP}"
+ 
+ # The LDFLAGS is required or some old kernels fails due missing
+ # symbols and this is preferred than requiring patches to every old
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.2.bb
+index 88cc0b530d2..e3410f09075 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.2.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+ SRC_URI[sha256sum] = "2eceba9cae4c495bb4ea134c27f010356036f1fa1972db5f54833f5f6c9f8db0"
+ 
+-S = "${WORKDIR}/gst-libav-${PV}"
++S = "${UNPACKDIR}/gst-libav-${PV}"
+ 
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base ffmpeg"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.2.bb
+index e0329cd0047..b311286cc27 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.2.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            "
+ SRC_URI[sha256sum] = "cb116bfc3722c2de53838899006cafdb3c7c0bc69cd769b33c992a8421a9d844"
+ 
+-S = "${WORKDIR}/gst-plugins-bad-${PV}"
++S = "${UNPACKDIR}/gst-plugins-bad-${PV}"
+ 
+ LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.2.bb
+index dc703569404..c264a14ee6b 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.2.bb
+@@ -13,7 +13,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            "
+ SRC_URI[sha256sum] = "f4b9fc0be852fe5f65401d18ae6218e4aea3ff7a3c9f8d265939b9c4704915f7"
+ 
+-S = "${WORKDIR}/gst-plugins-base-${PV}"
++S = "${UNPACKDIR}/gst-plugins-base-${PV}"
+ 
+ DEPENDS += "iso-codes util-linux zlib"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.2.bb
+index 467ccd9893d..7a81a29d958 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.26.2.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
+ 
+ SRC_URI[sha256sum] = "d864b9aec28c3a80895468c909dd303e5f22f92d6e2b1137f80e2a1454584339"
+ 
+-S = "${WORKDIR}/gst-plugins-good-${PV}"
++S = "${UNPACKDIR}/gst-plugins-good-${PV}"
+ 
+ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.2.bb
+index 106fea361cb..fcd97e42450 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.2.bb
+@@ -17,7 +17,7 @@ SRC_URI = " \
+ 
+ SRC_URI[sha256sum] = "ec2d7556c6b8c2694f9b918ab9c4c6c998fb908c6b6a6ad57441702dad14ce73"
+ 
+-S = "${WORKDIR}/gst-plugins-ugly-${PV}"
++S = "${UNPACKDIR}/gst-plugins-ugly-${PV}"
+ 
+ DEPENDS += "gstreamer1.0-plugins-base"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb
+index 50ff21c1ef1..3c60e09d853 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.26.2.bb
+@@ -15,7 +15,7 @@ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ 
+ PNREAL = "gst-python"
+ 
+-S = "${WORKDIR}/${PNREAL}-${PV}"
++S = "${UNPACKDIR}/${PNREAL}-${PV}"
+ 
+ EXTRA_OEMESON += "\
+     -Dtests=disabled \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.2.bb
+index 85b56155505..51085bb3fa8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.26.2.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.x
+ 
+ SRC_URI[sha256sum] = "f942b2a499ed6d161222868db0e80de45297b4777ff189c6fb890bde698c2dc3"
+ 
+-S = "${WORKDIR}/${PNREAL}-${PV}"
++S = "${UNPACKDIR}/${PNREAL}-${PV}"
+ 
+ inherit meson pkgconfig upstream-version-is-even gobject-introspection
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.2.bb
+index 7079641bc43..9b8aaf09df6 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.2.bb
+@@ -13,7 +13,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.x
+ 
+ SRC_URI[sha256sum] = "0e24194236ed3b7f06f90e90efdf17f3f5ee39132e20081189a6c7690601051a"
+ 
+-S = "${WORKDIR}/${REALPN}-${PV}"
++S = "${UNPACKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+ 
+ inherit meson pkgconfig features_check upstream-version-is-even
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.2.bb
+index d288236abc9..a921e39144c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.2.bb
+@@ -13,7 +13,7 @@ inherit meson pkgconfig gettext upstream-version-is-even gobject-introspection p
+ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     file://gst/gst.h;beginline=1;endline=21;md5=e059138481205ee2c6fc1c079c016d0d"
+ 
+-S = "${WORKDIR}/gstreamer-${PV}"
++S = "${UNPACKDIR}/gstreamer-${PV}"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+            file://run-ptest \
+diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb
+index 29d48fd333c..819096878b8 100644
+--- a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb
++++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb
+@@ -16,7 +16,7 @@ CVE_PRODUCT = "libsamplerate"
+ 
+ GITHUB_BASE_URI = "https://github.com/libsndfile/libsamplerate/releases"
+ 
+-S = "${WORKDIR}/libsamplerate-${PV}"
++S = "${UNPACKDIR}/libsamplerate-${PV}"
+ 
+ inherit autotools pkgconfig github-releases
+ 
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+index 63c1570621b..0ec40dda7aa 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+@@ -21,7 +21,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e77fe93202736b47c07035910f47974a"
+ 
+ CVE_PRODUCT = "libsndfile"
+ 
+-S = "${WORKDIR}/libsndfile-${PV}"
++S = "${UNPACKDIR}/libsndfile-${PV}"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'alsa', d)}"
+ PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
+diff --git a/meta/recipes-support/appstream/appstream_1.0.5.bb b/meta/recipes-support/appstream/appstream_1.0.5.bb
+index 3e4f8708d8d..bb293f76e2d 100644
+--- a/meta/recipes-support/appstream/appstream_1.0.5.bb
++++ b/meta/recipes-support/appstream/appstream_1.0.5.bb
+@@ -32,7 +32,7 @@ SRC_URI = " \
  "
+ SRC_URI[sha256sum] = "ce0ed29e89abd5f0cf790ea87d792f1967c3413060beb30e63a979578d975121"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/AppStream-${PV}"
++S = "${UNPACKDIR}/AppStream-${PV}"
  
- # Since we refer to ROOTLESS_X which is normally enabled per-machine
- PACKAGE_ARCH = "${MACHINE_ARCH}"
-diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-index f4516e69750..39bb5803f1b 100644
---- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-+++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-@@ -8,8 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
+ PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
  
- SRC_URI = "file://pointercal.xinput"
+diff --git a/meta/recipes-support/boost/boost-1.88.0.inc b/meta/recipes-support/boost/boost-1.88.0.inc
+index 917f1a9600f..96bd986f6a9 100644
+--- a/meta/recipes-support/boost/boost-1.88.0.inc
++++ b/meta/recipes-support/boost/boost-1.88.0.inc
+@@ -17,4 +17,4 @@ SRC_URI[sha256sum] = "46d9d2c06637b219270877c9e16155cbd015b6dc84349af064c088e9b5
+ UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
+ UPSTREAM_CHECK_REGEX = "release/(?P<pver>.*)/source/"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-     # Only install file if it has a contents
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-index d57b3427f8d..8f3b9217a03 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-@@ -7,8 +7,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- SRC_URI = "file://xorg.conf"
- SRC_URI:append:qemuall = " file://noblank.conf"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- CONFFILES:${PN} = "${sysconfdir}/X11/xorg.conf"
- 
-diff --git a/meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb b/meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
-index a766b00bef0..b19f53e20d8 100644
---- a/meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
-+++ b/meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
-@@ -7,8 +7,7 @@ SRC_URI = "file://dt-doc-validate \
-            file://dt-mk-schema \
-            file://dt-validate"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_install() {
-     install -d ${D}${bindir}/
-diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-index 29f34d7f36b..5e70e01102f 100644
---- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-+++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-@@ -1,8 +1,7 @@
- SUMMARY = "Wrapper script for the Linux kernel module dependency indexer"
- LICENSE = "MIT"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- # The kernel and the staging dir for it is machine specific
-diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-index 3e9a563cad8..f52e3a7b564 100644
---- a/meta/recipes-kernel/linux/linux-dummy.bb
-+++ b/meta/recipes-kernel/linux/linux-dummy.bb
-@@ -31,8 +31,7 @@ COMPATIBLE_HOST = ".*-linux"
- 
- SRC_URI = "file://COPYING.GPL"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_configure() {
- 	:
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 1a20472994b..8fcb5e6eb3f 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -8,8 +8,7 @@ inherit pkgconfig
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot"
- do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
-diff --git a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
-index 49268445a88..fb7b09393a3 100644
---- a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
-+++ b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
-@@ -4,8 +4,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://modutils.sh;beginline=3;endline=3;md5=b2dccaa94b3629a08bfb4f983cad6f89"
- SRC_URI = "file://modutils.sh"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- INITSCRIPT_NAME = "modutils.sh"
- INITSCRIPT_PARAMS = "start 06 S ."
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-index bb7ddbc7f42..75065163bae 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-@@ -20,8 +20,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "file://session \
-            file://index.theme"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
- FILES:${PN} += "${datadir}/themes/Sato/index.theme"
- 
-diff --git a/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb b/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
-index 20368703c4d..65748ee771f 100644
---- a/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
-+++ b/meta/recipes-sato/pulseaudio-sato/pulseaudio-client-conf-sato_1.bb
-@@ -5,8 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- 
- SRC_URI = "file://50-sato.conf"
- 
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
- 
+-S = "${WORKDIR}/${BOOST_P}"
++S = "${UNPACKDIR}/${BOOST_P}"
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb b/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
+index 01f594095e9..a11433c9daf 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
+@@ -20,7 +20,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/c/ca-certificates/${BPN}_${PV}.tar.xz \
+            file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
+            file://0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch \
+            "
+-S = "${WORKDIR}/ca-certificates"
++S = "${UNPACKDIR}/ca-certificates"
  inherit allarch
  
-diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb b/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
-index 8c6c0edf107..73334fb7289 100644
---- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
-+++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
-@@ -5,8 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- SRC_URI = "file://shutdown.desktop"
+ EXTRA_OEMAKE = "\
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.6.bb b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
+index fc1b9856312..acef3483bb3 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.6.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
+@@ -22,7 +22,7 @@ SRC_URI = "http://www.freedesktop.org/software/ConsoleKit/dist/ConsoleKit-${PV}.
  
+ SRC_URI[sha256sum] = "b41d17e06f80059589fbeefe96ad07bcc564c49e65516da1caf975146475565c"
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+-S = "${WORKDIR}/ConsoleKit-${PV}"
++S = "${UNPACKDIR}/ConsoleKit-${PV}"
  
- do_install() {
- 	install -d ${D}${datadir}/applications
-diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb b/meta/recipes-support/user-creation/xuser-account_0.1.bb
-index 80a429c6d33..04f506e7a39 100644
---- a/meta/recipes-support/user-creation/xuser-account_0.1.bb
-+++ b/meta/recipes-support/user-creation/xuser-account_0.1.bb
-@@ -6,8 +6,7 @@ SRC_URI = "file://system-xuser.conf"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd polkit', d)}"
  
- inherit allarch useradd
+diff --git a/meta/recipes-support/enchant/enchant2_2.8.6.bb b/meta/recipes-support/enchant/enchant2_2.8.6.bb
+index 66de313d9d8..2696fc0f81a 100644
+--- a/meta/recipes-support/enchant/enchant2_2.8.6.bb
++++ b/meta/recipes-support/enchant/enchant2_2.8.6.bb
+@@ -16,7 +16,7 @@ SRC_URI[sha256sum] = "c4cd0889d8aff8248fc3913de5a83907013962f0e1895030a3836468cd
  
--S = "${WORKDIR}/sources"
--UNPACKDIR = "${S}"
-+S = "${UNPACKDIR}"
+ GITHUB_BASE_URI = "https://github.com/rrthomas/enchant/releases"
  
- do_configure() {
-     :
+-S = "${WORKDIR}/enchant-${PV}"
++S = "${UNPACKDIR}/enchant-${PV}"
+ 
+ PACKAGECONFIG ??= "aspell"
+ PACKAGECONFIG[aspell]  = "--with-aspell,--without-aspell,aspell,aspell"
+diff --git a/meta/recipes-support/icu/icu_77-1.bb b/meta/recipes-support/icu/icu_77-1.bb
+index 90af2cdc27c..e655b18ad24 100644
+--- a/meta/recipes-support/icu/icu_77-1.bb
++++ b/meta/recipes-support/icu/icu_77-1.bb
+@@ -10,7 +10,7 @@ DEPENDS = "icu-native autoconf-archive-native"
+ 
+ CVE_PRODUCT = "international_components_for_unicode"
+ 
+-S = "${WORKDIR}/icu/source"
++S = "${UNPACKDIR}/icu/source"
+ STAGING_ICU_DIR_NATIVE = "${STAGING_DATADIR_NATIVE}/${BPN}/${PV}"
+ 
+ ICU_MAJOR_VER = "${@d.getVar('PV').split('-')[0]}"
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
+index 569da165105..00994dfae05 100644
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
+@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "d305207fe207f2b3fb5cb4c019da12b44ce3fcbc593dfd5080d867b1a2
+ 
+ CVE_PRODUCT = "libatomic_ops"
+ 
+-S = "${WORKDIR}/libatomic_ops-${PV}"
++S = "${UNPACKDIR}/libatomic_ops-${PV}"
+ 
+ ALLOW_EMPTY:${PN} = "1"
+ 
+diff --git a/meta/recipes-support/libcheck/libcheck_0.15.2.bb b/meta/recipes-support/libcheck/libcheck_0.15.2.bb
+index 5ab67b87286..16e0c441ab0 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.15.2.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.15.2.bb
+@@ -16,7 +16,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/check-${PV}.tar.gz \
+ SRC_URI[sha256sum] = "a8de4e0bacfb4d76dd1c618ded263523b53b85d92a146d8835eb1a52932fa20a"
+ GITHUB_BASE_URI = "https://github.com/libcheck/check/releases/"
+ 
+-S = "${WORKDIR}/check-${PV}"
++S = "${UNPACKDIR}/check-${PV}"
+ 
+ inherit autotools pkgconfig texinfo github-releases
+ 
+diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/recipes-support/libevent/libevent_2.1.12.bb
+index 25388fb4d7f..2fadf109432 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.12.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
+@@ -23,7 +23,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/release-${PV}-stable/${BP}-stable.tar.gz
+ SRC_URI[sha256sum] = "92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb"
+ UPSTREAM_CHECK_REGEX = "releases/tag/release-(?P<pver>.+)-stable"
+ 
+-S = "${WORKDIR}/${BPN}-${PV}-stable"
++S = "${UNPACKDIR}/${BPN}-${PV}-stable"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+diff --git a/meta/recipes-support/libfm/libfm-extra_1.3.2.bb b/meta/recipes-support/libfm/libfm-extra_1.3.2.bb
+index b7a9b25f862..5bf2f0f5025 100644
+--- a/meta/recipes-support/libfm/libfm-extra_1.3.2.bb
++++ b/meta/recipes-support/libfm/libfm-extra_1.3.2.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${SOURCEFORGE_PROJECT}/libfm-${PV}.tar.xz \
+ 
+ SRC_URI[sha256sum] = "a5042630304cf8e5d8cff9d565c6bd546f228b48c960153ed366a34e87cad1e5"
+ 
+-S = "${WORKDIR}/libfm-${PV}"
++S = "${UNPACKDIR}/libfm-${PV}"
+ 
+ EXTRA_OECONF = "--with-extra-only --with-gtk=no"
+ 
+diff --git a/meta/recipes-support/libmpc/libmpc_1.3.1.bb b/meta/recipes-support/libmpc/libmpc_1.3.1.bb
+index ed57396c0a0..b3853fc9644 100644
+--- a/meta/recipes-support/libmpc/libmpc_1.3.1.bb
++++ b/meta/recipes-support/libmpc/libmpc_1.3.1.bb
+@@ -7,6 +7,6 @@ SRC_URI = "${GNU_MIRROR}/mpc/mpc-${PV}.tar.gz"
+ 
+ SRC_URI[sha256sum] = "ab642492f5cf882b74aa0cb730cd410a81edcdbec895183ce930e706c1c759b8"
+ 
+-S = "${WORKDIR}/mpc-${PV}"
++S = "${UNPACKDIR}/mpc-${PV}"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.45.bb b/meta/recipes-support/libpcre/libpcre2_10.45.bb
+index e82de0fa5bd..4fbb8921c5a 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.45.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.45.bb
+@@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "21547f3516120c75597e5b30a992e27a592a31950b5140e7b8bfde3f19
+ 
+ CVE_PRODUCT = "pcre2"
+ 
+-S = "${WORKDIR}/pcre2-${PV}"
++S = "${UNPACKDIR}/pcre2-${PV}"
+ 
+ PROVIDES += "pcre2"
+ DEPENDS += "bzip2 zlib"
+diff --git a/meta/recipes-support/libpcre/libpcre_8.45.bb b/meta/recipes-support/libpcre/libpcre_8.45.bb
+index 933bb00de65..67327065e49 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.45.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.45.bb
+@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "4dae6fdcd2bb0bb6c37b5f97c33c2be954da743985369cddac3546e321
+ 
+ CVE_PRODUCT = "pcre"
+ 
+-S = "${WORKDIR}/pcre-${PV}"
++S = "${UNPACKDIR}/pcre-${PV}"
+ 
+ PROVIDES += "pcre"
+ DEPENDS += "bzip2 zlib"
+diff --git a/meta/recipes-support/libsoup/libsoup_3.6.5.bb b/meta/recipes-support/libsoup/libsoup_3.6.5.bb
+index fbe9a79b0f1..29e45dfb977 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.6.5.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.6.5.bb
+@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "6891765aac3e949017945c3eaebd8cc8216df772456dc9f460976fbdb7
+ PROVIDES = "libsoup-3.0"
+ CVE_PRODUCT = "libsoup"
+ 
+-S = "${WORKDIR}/libsoup-${PV}"
++S = "${UNPACKDIR}/libsoup-${PV}"
+ 
+ inherit meson gettext pkgconfig upstream-version-is-even gobject-introspection gi-docgen vala
+ 
+diff --git a/meta/recipes-support/liburcu/liburcu_0.15.3.bb b/meta/recipes-support/liburcu/liburcu_0.15.3.bb
+index fb4e457719f..ae5daed7018 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.15.3.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.15.3.bb
+@@ -16,7 +16,7 @@ SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+ 
+ SRC_URI[sha256sum] = "26687ec84e3e114759454c884a08abeaf79dec09b041895ddf4c45ec150acb6d"
+ 
+-S = "${WORKDIR}/userspace-rcu-${PV}"
++S = "${UNPACKDIR}/userspace-rcu-${PV}"
+ inherit autotools multilib_header
+ 
+ CPPFLAGS:append:riscv64  = " -pthread -D_REENTRANT"
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.29.bb b/meta/recipes-support/libusb/libusb1_1.0.29.bb
+index bae5e2c09f7..2f43ee68b70 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.29.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.29.bb
+@@ -21,7 +21,7 @@ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+ 
+ SRC_URI[sha256sum] = "5977fc950f8d1395ccea9bd48c06b3f808fd3c2c961b44b0c2e6e29fc3a70a85"
+ 
+-S = "${WORKDIR}/libusb-${PV}"
++S = "${UNPACKDIR}/libusb-${PV}"
+ 
+ inherit autotools pkgconfig ptest github-releases
+ 
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.43.bb b/meta/recipes-support/libxslt/libxslt_1.1.43.bb
+index d251fa8122f..c0699cbce80 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.43.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.43.bb
+@@ -21,7 +21,7 @@ UPSTREAM_CHECK_REGEX = "libxslt-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ CVE_STATUS[CVE-2022-29824] = "not-applicable-config: Static linking to libxml2 is not enabled."
+ 
+-S = "${WORKDIR}/libxslt-${PV}"
++S = "${UNPACKDIR}/libxslt-${PV}"
+ 
+ BINCONFIG = "${bindir}/xslt-config"
+ 
+diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+index b1f516f7fee..9b77e7cfc89 100644
+--- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
++++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://License;md5=7bbd28caa69f81f5cd5f48647236663d"
+ SRC_URI = "https://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz"
+ SRC_URI[sha256sum] = "c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4"
+ 
+-S = "${WORKDIR}/yaml-${PV}"
++S = "${UNPACKDIR}/yaml-${PV}"
+ 
+ inherit autotools
+ 
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+index d093ec5859e..28a33282ae1 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -13,7 +13,7 @@ def sqlite_download_version(d):
+ 
+ SQLITE_PV = "${@sqlite_download_version(d)}"
+ 
+-S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
++S = "${UNPACKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ 
+ UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
+ UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
 -- 
 2.39.5
 
