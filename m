@@ -1,132 +1,129 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9A6BC71155
-	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 16:00:31 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.803.1750089623529722131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE49CC71155
+	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 16:08:41 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.1004.1750090111893261087
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jun 2025 09:00:23 -0700
+ Mon, 16 Jun 2025 09:08:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 55GG0Mjp019845
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 11:00:22 -0500
-Received: from [192.168.2.13] ([192.168.2.13])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 55GG0LVU012648
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 11:00:22 -0500
-Message-ID: <0c3f1531-bf37-455e-b87f-b049fd1037a1@kernel.crashing.org>
-Date: Mon, 16 Jun 2025 11:00:21 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 0/6] ISA based RISC-V tune implementation
-Content-Language: en-US
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=olEhUJdA;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55G9PQFO006188
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 16:08:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=KSF7lGwo+O1aB3ZWX18e2dA7zWGL0FBGdbM
+	RtMXlTi8=; b=olEhUJdAnMYdk5EXoIc5UP2bTYoaf7PV9iiQfgjuLbrtiFWtJDF
+	1PzNX/KzPkhFaiSkav2B8T+PA6MpKev2EJAduPEbQCDPVO1F2RNmAWSWSS07KQrW
+	07TMiTVNMw7lWtDaq2GFd8wIIIZfU3/c543jA9R2GgxR7Ry14fLl8pEqGCYIWcDe
+	AlT+dH99MCDpI19LNaAbFAT9YCxcrnvgPIL7gFhsMFaiMA/RUkCFmY4Chke/em9M
+	SVS+IWIAgywrTz7b9QrPdlvTVS4at5h8EQSU3vg9WFbHSnUPGLEoFjadezVTFT0L
+	7+9ZtBYBX8pMUA+5SWwWgkG8XPl1GDNBVIw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791fsw3wr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 16:08:27 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c955be751aso787169185a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 09:08:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750090106; x=1750694906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KSF7lGwo+O1aB3ZWX18e2dA7zWGL0FBGdbMRtMXlTi8=;
+        b=bmaE402VDagQTPXq0OZuFsg+4NWkKP96KDMoaMoxNusurcLKzEUVzinXMtxKfQE76s
+         us7AfDL7LJEgCYL3HdxKmXys2vPusLACOAVkLGkarITUsJjTfxd09/WIYsTOiUzoa2M7
+         wI1tBwVqyK5Js/ZLIc7MPT8H8aDUgoWoJAEy8gAQ47Rqx3yCXCUAog3fRp/idq5mbUc4
+         i1GcHH82djdInDpxSonK121ZiGdDg2CGqvAueTpJqlphTdJeBjRBST9naAZxbSwoTQq/
+         bWh32oQZ1KY1yuws7p4/WdHa451C9wRW95tX3dRDZMOsSAlk8sI7Bqxrl2BGWC8+XHk9
+         Z4ag==
+X-Gm-Message-State: AOJu0YzeJyudOUpjdmwcVMkF6RWQmuLkLBhCC55OZF9b2Rsm9Eq8P6hm
+	1Q6V/b/egZtVil7S8mrrphOX8kpl3addGSIwYUWIXO49vzy1M3FDS6XuTqWzuttdSDWdQwVzHdh
+	HKbDgSzEAPree+lqxHlYq5M83Bklk10tfZn9oC6lmLHRzdnXXNBsOKkCQ113jZOC1tJRbO4u8Qq
+	ZVxMFZAmyXoEeKBtSbzQ==
+X-Gm-Gg: ASbGncuvO6eXydnUoaGBKAdnq+JygpmBkyhLhHdIQed013wZUtSYymxa5O9g03UcJSf
+	uUvrYVr+67Rpn7RekvCMKDSDSGEiybPmYCOTsS2ZDbYk9O+30BLgRHj4AIGchh2LV35j4HewHbK
+	GG43Vj5IKbWh7b4CZ7jh0JVix3CGvL5l7nHNvyBb/709I5zHQi7Sq0m4p7YpaP6krTCKEjD2sPR
+	+9HU6pT4n+YJz9eRvW9sXLUdRbjbmYxQan+jQ7lza+eKfAguMWf7yl65SpIveBEI6Vr1w/aWgGS
+	rDRCVBVchx2uzcXrowBaNhCHUe2lB0i96498BYO7Ya++cQPetomCWcc8cV0Cw6bDEivGBbx8ILV
+	GsSivIjVafaEib2aa3gnGUMLgIXkMo5jQnVA=
+X-Received: by 2002:a05:620a:44d4:b0:7c5:4b18:c4c3 with SMTP id af79cd13be357-7d3c6cd9fa8mr1224704985a.30.1750090106446;
+        Mon, 16 Jun 2025 09:08:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFmTCEBE8D6NPdAmMGFel7CofneUxsHQfShMHP56SZJNwKQMTSwHxad0z8lMhzvPkre/vIe6Q==
+X-Received: by 2002:a05:620a:44d4:b0:7c5:4b18:c4c3 with SMTP id af79cd13be357-7d3c6cd9fa8mr1224699185a.30.1750090105838;
+        Mon, 16 Jun 2025 09:08:25 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553ac1c1a7esm1591241e87.154.2025.06.16.09.08.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 09:08:24 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-References: <1750040965-15015-1-git-send-email-mark.hatle@kernel.crashing.org>
- <56a9d083-72f6-44f2-be3a-29691745bcff@gmail.com>
- <18498B713347A8EF.22186@lists.openembedded.org>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <18498B713347A8EF.22186@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH v3] qemu.inc: handle GLVND-related providers
+Date: Mon, 16 Jun 2025 19:08:24 +0300
+Message-Id: <20250616160824.1518028-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDEwNSBTYWx0ZWRfXy3+W4ri6wP8D
+ aX4CS0c+yMVRRFHOgD6i2Hj/h7o2+TvH/rJyVYLttKAaoqH37pmJ+bsfaSf4ihDlvg3YYeeHqt2
+ csvpamsIQlrDJHOq4W07uZULNXQ9U375Hi1YnB7VvJ8/MdXvHjL/9BhY7UBuqxzkZ3ore12/qDB
+ bzR5Oud3q2V4j/ehEBFQSrQDhMkEVmaPkg1OFjxXiRWIhv9/LeFIj38uCOy5W3HWJ4Jm/Uh4LFM
+ hFSJxucHN/EJeaJXwUp5xGokY6Uc4M2RbjjWf3scVYiQ5sBo40aJ3hboRe5ZhVzk153HWnkV6Yc
+ 4Ya6QgmdfIKWOoitWrQTCoRnRH7PKMecqHSJkl+Al9OMcBox2hKKpe3vyW2zaglh8KxhgWLiQq3
+ tX4cStDCP10k+GlRk3293WxgBrkDjI8bZHWKM6/UwryjrudxybtHY/HfORYWO4zONUAw1z4N
+X-Proofpoint-ORIG-GUID: SUK_9-6uG1MMOmfbdZ9qmHIYaklkjn3z
+X-Authority-Analysis: v=2.4 cv=OLIn3TaB c=1 sm=1 tr=0 ts=6850417b cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+ a=EUspDBNiAAAA:8 a=W9iCNbZZEcnRtfTvM1gA:9 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: SUK_9-6uG1MMOmfbdZ9qmHIYaklkjn3z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-16_08,2025-06-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 impostorscore=0 mlxscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 phishscore=0 spamscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506160105
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 16:00:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218833
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 16:08:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218834
 
+If GLVND is enabled, then libglvnd is providing all OpenGL / ES
+libraries. Tune qemu.inc to select a correct package in
+this case.
 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/conf/machine/include/qemu.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-On 6/16/25 9:12 AM, Mark Hatle wrote:
-> 
-> 
-> On 6/16/25 5:11 AM, Gyorgy Sarvari wrote:
->> On 6/16/25 04:29, Mark Hatle via lists.openembedded.org wrote:
->>> From: Mark Hatle <mark.hatle@amd.com>
->>>
->>> The following implements the risc-v processor tune based on the ISA approach
->>> as documented in the oe-architecture post:
->>>
->>> https://lists.openembedded.org/g/openembedded-architecture/message/2155
->>>
->>> This set also attempts to make u-boot and kernel configurations dynamic
->>> based on the TUNE_FEATURES.
->>>
->>> For the linux-yocto, I suspect that the config fragments should be
->>> sent to the kmeta (kernel-cache), but I'd like a review from Bruce and
->>> others before I do this.
->>>
->>> Additionally, this enables a new (optional) features_check for TUNE_FEATURES.
->>>
->>> I've found numerous items in the system have certain RISC-V ISA expectations
->>> that may need to be addressed over time, however the obvious one is the
->>> Linux kernel requires ima_zicsr_zifencei.  Since it has it's own -march=
->>> setting this will ensure the processor defintion will be compatible.
->>>
->>> Also dynamically configure the QEMU cpu based on the tune_features.  This
->>> is nice to ensure that what we're actually building should be able to run
->>> on real hardware.  However, it does highlight some of the (extension)
->>> limitations in the current design.  (limitations as in extension not yet
->>> enabled.)
->>>
->>> Note: OpenSBI _requires_ the 'c' extension or it will not execute.  I
->>> suspect this can be fixed, but it's beyond my capabilities at this time.
->>>
->>
->> I'm not a particularly advanced risc-v user, but I use qemuriscv64 to
->> run smoketests on Firefox, with a barely-extended core-image-sato.
->>
->> After applying your this patch series, librsvg fails to compile with lot
->> of "undefined reference" errors[1]. I haven't looked into this at all
->> yet, hoping that someone would know the solution from the top of the
->> head. Does this need some magic Rust flag maybe?
->>
->> Beside applying this series, I didn't do any other modifications, and
->> without these changes librsvg builds (did I miss some new config, or
->> another patch?) .
-> 
-> The ONLY patch required to test this is the first one, the rest are all
-> additional functionality based on the first patch.
-> 
-> Honestly I have no idea how to debug this.  The configuration selected:
-> 
-> -march=rv64imafdc_zicsr_zifencei -mabi=lp64d
-> 
-> is perfectly reasonable and contains the 'a' (atomic) operations, so I don't
-> know how or why these atomic_loads_4 and _8 would not be defined, yet used by
-> the compiler.
-> 
-> I do see a reference in the error message to:
-> 
-> .text._ZN69_$LT$smallvec..SmallVec$LT$A$GT$$u20$as$u20$core
-> 
-> This configuration has _vector_ (v) support _disabled_.
-> 
-> Could there be something in the toolchain that is assuming vector support is
-> always enabled, if so that could be a large part of the problem.
-> 
-> @Khem any ideas?
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index d7392d476238..4fa18812dbc3 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -1,9 +1,9 @@
+ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+-PREFERRED_PROVIDER_virtual/egl ?= "mesa"
+-PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
+-PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
+-PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+-PREFERRED_PROVIDER_virtual/libgles3 ?= "mesa"
++PREFERRED_PROVIDER_virtual/egl ?= "${@bb.utils.contains('DISTRO_FEATURES','glvnd','libglvnd','mesa',d)}"
++PREFERRED_PROVIDER_virtual/libgl ?= "${@bb.utils.contains('DISTRO_FEATURES','glvnd','libglvnd','mesa',d)}"
++PREFERRED_PROVIDER_virtual/libgles1 ?= "${@bb.utils.contains('DISTRO_FEATURES','glvnd','libglvnd','mesa',d)}"
++PREFERRED_PROVIDER_virtual/libgles2 ?= "${@bb.utils.contains('DISTRO_FEATURES','glvnd','libglvnd','mesa',d)}"
++PREFERRED_PROVIDER_virtual/libgles3 ?= "${@bb.utils.contains('DISTRO_FEATURES','glvnd','libglvnd','mesa',d)}"
+ 
+ XSERVER ?= "xserver-xorg \
+             ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast xserver-xorg-extension-glx', '', d)} \
+-- 
+2.39.5
 
-I've reproduced the issue.  This due to RUST.  I'm also getting additional error 
-messages about the ABI being incorrect (it's definitely not incorrect), so rust 
-itself is configured in correctly after this change.
-
-Still investigating.
-
---Mark
-
->>
->> [1]: full log:
->> https://gist.githubusercontent.com/OldManYellsAtCloud/e9968f3c63df943e8fd54dc217ab15e6/raw
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#218827): https://lists.openembedded.org/g/openembedded-core/message/218827
->> Mute This Topic: https://lists.openembedded.org/mt/113664652/3616948
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
 
