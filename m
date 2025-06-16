@@ -2,91 +2,114 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A0ACC7115C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5C4C7115E
 	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 11:56:25 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.25098.1750059830314592417
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.24250.1750055062664149033
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jun 2025 00:43:50 -0700
+ Sun, 15 Jun 2025 23:24:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sifive.com header.s=google header.b=kAcvzInu;
- spf=pass (domain: sifive.com, ip: 209.85.214.182, mailfrom: jimmy.ho@sifive.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-235f9e87f78so43149825ad.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 00:43:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EEAM/Uyr;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: nmjain23@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-747fc77bb2aso3025862b3a.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 23:24:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1750059829; x=1750664629; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1750055062; x=1750659862; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MyBFn0vIRrw/GeRl9hOj09hOl5GSn8Say1zd4WmsLkk=;
-        b=kAcvzInuVghmO9njOU7G6B1BLNCfv/ilwlCm1hpM36IIeQOTcz+CjdNWc5GPwqIpYq
-         /4GEGVOdpAs3s8neHyK/u3uYctm5s2VVbotCSDj6anzYEryWuDS2WnlkNe/9MrkYILJF
-         RQ8cZjNNX2EShOpRezlzRfhEa47znMKDtjpaJwFv0PLnKrSpwytF8Z9E/fPQdUb85IoN
-         wWpBp+IHh6zcL88s/+NiW2A5uRC38RiWDhou09X7SQQbFIv//foI8HIJAxMkq06w3DV4
-         u+M6K/4fMiCU7bCDDXMdsqWq4Jk4fod2/ZZLrVcfpwUidEKrj0//XcEQgfuXSghaVLcE
-         7O3g==
+        bh=YeIsLE2QCR9js1eXFlcY4JDFKw9C1FdXqMLAelmtumk=;
+        b=EEAM/UyrgtkF36xjSVF9wJQ1tZs2uSDk8LvIQ2dmjOcxiIUyxqBi2vAESqweBLKz6i
+         YDBgrPCZZ1qIfXORpxiaHhjYYBcJt92n7ppTedhI05ibCGGWC9k9lJ02HENdKB0VQm9o
+         EevkisofHvNCS5/CPXnoeDhAvU0/mrT2iZmx01RKejXe30Oklo+yHjC2GH/H8m2AMGvy
+         Me8EBY1jEF1nFHaei0Hilkfa7vtjiI7WFMXrePfe2T+plQYpeinqhsKlUyVZ4VNAaPCo
+         zdvVOb0bM6M16YUC5sUGtc9EWqmsn51+5nRqi+/s88Hpe4ZUynWTDglL8AXAb1/xNXwL
+         dJvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750059829; x=1750664629;
+        d=1e100.net; s=20230601; t=1750055062; x=1750659862;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MyBFn0vIRrw/GeRl9hOj09hOl5GSn8Say1zd4WmsLkk=;
-        b=HQyJGM+L3TJXsHKWs5KXZYY94i/AOjaaZc+kzwMjhswtM7yWVbmmhUJPQE0ouKXbYy
-         9CMUOS3XvqkcsOvasfJlxxJZoAhEViRrb8JfO+rdQ/EO1CjNcLF3Uuva5NtpQeZn38e7
-         yfFi9n04IdMo20ZyCStK+WTvwO3VsEjXAlha3AshBviPxCgIu/RYsnJf7jkrVhKEdFAR
-         vCz5x5AJ+MtwFc/yBkTrFRStM6f4ANJY0NNk3GvpeyIdL30PEQ15MFGxyQbZItXjTSpr
-         JlPZwR0ZJgW1ctFeVfeB5F6hmyX3UACMaCqsa17v1a9Rrne+f5xdVuZEwRxd5gp60t7g
-         v+bQ==
-X-Gm-Message-State: AOJu0YwetqAUPaL2NrKGnSXrpWGE3MA/MZrYLs0+XKfrHxZLCJV/Uq3C
-	YPzUIdl1aK/fxBLyAJIU/GwbNl+d3Ysu3wUUZIDspFB/SgI0zZWBFWcJMZSGF+CZyn81BEG5MH+
-	RJ9oL2xmfv9EDhy5cBkH3ay8rDa3/0AdSvtAx0zXhRPDpNphWoy9GNP9+dPdkT2MFJfspq+Tsu5
-	n9QenLsTg4mMHqwUS+UNWMppYgDilAYhXgFKFBMpWWa8rsXNl4xqfCZgC4un78ZQSw
-X-Gm-Gg: ASbGncuX4ZnXIGk3sc5TlgGwWaWZGLXiTRAQcw9s7kZlyxKw6fNdDAvlj8e6bC2p0RU
-	aewbsA1bqXzhaCJhgyTtvR6PZARLEBFhqruW5/H25wRj3X9xAKac8IzCo5UgMJ5U9LUR4DrfTZF
-	MuQhTxIvJ4p33zIekqIya9s1cPw45Jpop7Ddm+NUqnRidHWLJrQBkQgk8BVUvgB6KcECA3Ao+a1
-	Edhw2/jl8u9rjGw0P7wP2S8brCKRQUCQ0mppVXk9Lepuy2Kz/6+zJVq9Z5bcqNN9UJ7MsLDlX7f
-	f9Po7s1VKbb8fuA8RUVEPSIQi9w/6pUp0qo26qTJuebvgE56kSdy0V/5niVmrWbng6xYT4GSI8W
-	hD49sMKlkQw==
-X-Google-Smtp-Source: AGHT+IGVj0gmACQ/XQ3IugRxD84FJAVTYkPk/51kxqdJDnAYdu+1Dq0suH5eMLdHZDOrCh4BSpRJlw==
-X-Received: by 2002:a17:902:ea03:b0:235:ef67:b595 with SMTP id d9443c01a7336-2366b14954fmr134709615ad.35.1750059829089;
-        Mon, 16 Jun 2025 00:43:49 -0700 (PDT)
-Received: from hsinchu01.internal.sifive.com ([210.176.154.34])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236704de5c0sm33452235ad.39.2025.06.16.00.43.48
+        bh=YeIsLE2QCR9js1eXFlcY4JDFKw9C1FdXqMLAelmtumk=;
+        b=NsFKyu54r5zR9AyXBeCG0+fVbrB1Q6YWF7F9t3kvXYETtx+QVLpE6qwE7P4Mk3pIyX
+         3lSETVeDUoczsglCaAtvVmn2UEplp0Y0hwq1F/yCbvddwx+aoe6LZKUUMTWvDurI/3bo
+         63q0quzBN3PpGcCXUuda+06Z28t3wASr0qA7WfCF0caVBzQHIKzHR4wwRTHOskjhO2uS
+         uCGdjVjcGDK8gax2XpdAsBt+9ZohxCjNqAxztLrqGO+at2a5arG+fWNnX6S8JIRTc2WH
+         VEGLKCLyC76MQcIPlirIuaTqXPs7mv+zTagwvkvv4QF/rZaRnf4hQ2TiAmBkh1xpN1uY
+         7G5A==
+X-Gm-Message-State: AOJu0YzjDULnLMO3xTMrEtmPvA5GlP/7ByIpNHbRSZuF2VzKRsN3JV5v
+	DCW5ZpCGtZktEKfl4Aai4fwpuGFpOlLT+rOGyp44yvyKjJXV7j5LiuRQyHrxCsq7
+X-Gm-Gg: ASbGncuJKJJXN4mGAXBDIe2nfmYQwkcECE1UEJXAl3+zc59X6VgR52oDakyjmBgXEh3
+	+k9h3xEsYp9P2S7hRq3fIN01vGPiHx9Gd1E8XZ6iiJJ59qi7KQpl3FQfq2+nsOiOkkucid11SGa
+	NA3NKlmspyDHfvB78bJSWX/m7PLG03TedFKL9yDsIceaZFhbm7oqe4lcLuCR86FbSvdSbRNFchc
+	eLvmau9IGyGu6i3KDiAEvMuOIItjxyl/VU8ri+kieXzADqUhy/0paTNhAWNaK4yWzaDGrfDjHIH
+	M/Wawvs2Fm8RJS/xGtOQnJ2pPe8IqgN4GCaezeUpQFA3/uv/BXu044v1cJpDUCtcY0QDjpbsOaI
+	hYw==
+X-Google-Smtp-Source: AGHT+IEaOxVUWp4uNdIVNHwFBVwP01yMurS5evBmdaPl7j4fzfSIwSwJVyIZ4W4EldHx4qTZxtjm6w==
+X-Received: by 2002:a05:6a20:6a0b:b0:215:df90:b298 with SMTP id adf61e73a8af0-21fbd559f50mr11600892637.26.1750055061644;
+        Sun, 15 Jun 2025 23:24:21 -0700 (PDT)
+Received: from LL-3450L.kpit.com ([2405:201:6807:8e5:486a:d246:6c6e:6f5e])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2fe1691bf6sm5109497a12.67.2025.06.15.23.24.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 00:43:48 -0700 (PDT)
-From: Jimmy Ho <jimmy.ho@sifive.com>
+        Sun, 15 Jun 2025 23:24:21 -0700 (PDT)
+From: Naman Jain <nmjain23@gmail.com>
+X-Google-Original-From: Naman Jain <namanj1@kpit.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jimmy Ho <jimmy.ho@sifive.com>
-Subject: [PATCH] nfsrootfs: disable warning message if bootargs root parameter have not been defined
-Date: Mon, 16 Jun 2025 15:43:41 +0800
-Message-ID: <20250616074341.32477-1-jimmy.ho@sifive.com>
-X-Mailer: git-send-email 2.48.1
+Cc: liezhi.yang@windriver.com
+Subject: [kirkstone][PATCH] e2fsprogs: removed 'sed -u' option
+Date: Mon, 16 Jun 2025 11:53:54 +0530
+Message-Id: <20250616062354.3531944-1-namanj1@kpit.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 11:56:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218819
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218818
 
-Signed-off-by: Jimmy Ho <jimmy.ho@sifive.com>
+From: Aditya Tayade <Aditya.Tayade@kpit.com>
+
+In embedded box, sed might be provided another providers like Busybox,
+hence use generic options whenever possible.
+/bin/sed -> /etc/alternatives/sed
+/etc/alternatives/sed -> /bin/busybox.nosuid
+
+Here used 'sed -u' option is not necessary, hence removed it.
+
+Fixes below error:
+sed: invalid option -- 'u'
+
+Also added 'set -eux' option which halts execution of the script
+on any failures.
+
+(From OE-Core rev: 5b3b290baa0a83f493b7ca25d5ffa5ff279bcc69)
+
+Signed-off-by: Aditya Tayade <Aditya.Tayade@kpit.com>
+Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 07caee1829d2a61bc018fe0e37ecd482922179ee)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit d2da6b5c5668dbc84b905ba2fe4c9b57b580fd82)
 ---
- meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-index e67ee4c25d..1e76258ce1 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-@@ -1,7 +1,7 @@
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+index 279923db8e..1857a17189 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+@@ -1,7 +1,8 @@
  #!/bin/sh
  
- nfsrootfs_enabled() {
--	if [ ${bootparam_root} != "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]; then
-+	if [ -z ${bootparam_root} ] || [ ${bootparam_root} != "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]; then
- 		return 1
- 	fi
- 	return 0
++set -eux
+ cd ./test
+-SKIP_SLOW_TESTS=yes ./test_script | sed -u -e '/:[[:space:]]ok/s/^/PASS: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/SKIP: /'
++SKIP_SLOW_TESTS=yes ./test_script | sed -e '/:[[:space:]]ok/s/^/PASS: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/SKIP: /'
+ rm -rf /var/volatile/tmp/*e2fsprogs*
+ rm -f tmp-*
+ rm -f *.tmp
 -- 
-2.39.3
+2.34.1
 
 
