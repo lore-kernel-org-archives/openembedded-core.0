@@ -2,116 +2,91 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1942CC71136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A0ACC7115C
 	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 11:56:25 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.23905.1750052845337057783
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.25098.1750059830314592417
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jun 2025 22:47:25 -0700
+ Mon, 16 Jun 2025 00:43:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mx5KbgJ5;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: nmjain23@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b2fc93728b2so3214953a12.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 22:47:25 -0700 (PDT)
+ dkim=pass header.i=@sifive.com header.s=google header.b=kAcvzInu;
+ spf=pass (domain: sifive.com, ip: 209.85.214.182, mailfrom: jimmy.ho@sifive.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-235f9e87f78so43149825ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 00:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750052844; x=1750657644; darn=lists.openembedded.org;
+        d=sifive.com; s=google; t=1750059829; x=1750664629; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HMDvsj6uLAVhVYuajS2Nv1tQAxbk8ZJT5mY+ixK/+m4=;
-        b=Mx5KbgJ5LusfJwoar8HcgAOhoCIAhpg4WqYyFZ94oqV+cOwKKeKRPUyL8+mWv5habT
-         qTMvJEMNBikIliIrd/Le3WZl4s6BauC1NnsEAbFFgOzzEWZ0IZDu2ej6yq/oroUQiWVg
-         LBSbRJ9iSvwD91Adz50cEm4C3CHYSFqPEF+0xNITqm5ZqKDjx0GA2oHsXy9PBeq7MrRo
-         jea9IdK92ztXuaoenn/+u3tjFydOJ73xAa3g5U6YZ2IZBDPxw4LdkfNxp7mFG73kMpbo
-         YnGL+DiLy7mRn9v85MphYVz+T/aBHdCDireppD6KZyWSDmr6dNqYz6nUk8aPx5+hXRlh
-         hkHQ==
+        bh=MyBFn0vIRrw/GeRl9hOj09hOl5GSn8Say1zd4WmsLkk=;
+        b=kAcvzInuVghmO9njOU7G6B1BLNCfv/ilwlCm1hpM36IIeQOTcz+CjdNWc5GPwqIpYq
+         /4GEGVOdpAs3s8neHyK/u3uYctm5s2VVbotCSDj6anzYEryWuDS2WnlkNe/9MrkYILJF
+         RQ8cZjNNX2EShOpRezlzRfhEa47znMKDtjpaJwFv0PLnKrSpwytF8Z9E/fPQdUb85IoN
+         wWpBp+IHh6zcL88s/+NiW2A5uRC38RiWDhou09X7SQQbFIv//foI8HIJAxMkq06w3DV4
+         u+M6K/4fMiCU7bCDDXMdsqWq4Jk4fod2/ZZLrVcfpwUidEKrj0//XcEQgfuXSghaVLcE
+         7O3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750052844; x=1750657644;
+        d=1e100.net; s=20230601; t=1750059829; x=1750664629;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HMDvsj6uLAVhVYuajS2Nv1tQAxbk8ZJT5mY+ixK/+m4=;
-        b=atgWkMc3epvuf1KmZn/5gY0IUtEHTSBefE//MU0yy/p4jwUuNxH0oORf+DkKucWuA5
-         RzJQ8BUmrg1dQtKL/iniHTm9sM7cL78AyjhbydgLydWLF/kel8lRu1uABQ28Ur8ZZwg/
-         rK5yllABQ91UZvhtDxnyuOLSJ01Hnqq4kouHMekq2dKzjYf1nNznzjNTezNgxppnrSgN
-         Z76Vq6rz+Dc1JGsW67N1j1QXUE5C/2rlfFgtH4OAbolg5YuUNdJtOn6T77XLqinZZbZy
-         bmkjh3GZUVPqR4S0VP1H7PtexyLsC09Cy727lspQLDs5mkuzeMIHPvDnluH85GdduHr+
-         cxxw==
-X-Gm-Message-State: AOJu0Yw0oxyoYAFPP0OJCJ4eair9tmh2ddjdetbEZb6/b1PAm1abX7Qd
-	+YJ1fWwDBHpcGOrm1DU7aEDA1MUjuvNZBnoM/fx8TcMcxSmAvj99oycrq7YgRM7Z
-X-Gm-Gg: ASbGncvUCMMhRqKnkdwgH1BdueE28jUxLrG/pnmDgHY7ILPtjjPSq3OMEYFocgf5UhO
-	wqEjpOQeTfwtRlkCYVnNdbKA/bYKcH9ZiFiDv5pS88Bq6yqVr7QzmtUuprcDgn/KJUVLXKnLxIJ
-	jwXDIfwaSXIERqGB/1T/Seev8Jxg7kw8DUK7PthAcIQB0bFQ6/VYFNFDXi6ss2hwpojKW8ZVhjs
-	k2kq7RUpJi7e2t1HCNfHnZTYn3KXrBZFFC6h1n+4tEpz5TVZ7up0lqppaMk7OI3dgggrwg0Ugsb
-	S6DOvdf3wOjIIlgf32XDeRQWmKbUuKSPd7czyTWs8a2AJGFSWqenodyRqKYpMpeKcsM=
-X-Google-Smtp-Source: AGHT+IFmD/pMpaacrFxxgY/SAPRjnVK89Rcc3CFdejdFlLz6InK6QL4LdBVR/TJ2sT1PWFDiqcJoBw==
-X-Received: by 2002:a05:6a21:6481:b0:21c:faa4:9ab9 with SMTP id adf61e73a8af0-21fbd631592mr12170352637.22.1750052844423;
-        Sun, 15 Jun 2025 22:47:24 -0700 (PDT)
-Received: from LL-3450L.kpit.com ([2405:201:6807:8e5:486a:d246:6c6e:6f5e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7489000604dsm5836981b3a.46.2025.06.15.22.47.22
+        bh=MyBFn0vIRrw/GeRl9hOj09hOl5GSn8Say1zd4WmsLkk=;
+        b=HQyJGM+L3TJXsHKWs5KXZYY94i/AOjaaZc+kzwMjhswtM7yWVbmmhUJPQE0ouKXbYy
+         9CMUOS3XvqkcsOvasfJlxxJZoAhEViRrb8JfO+rdQ/EO1CjNcLF3Uuva5NtpQeZn38e7
+         yfFi9n04IdMo20ZyCStK+WTvwO3VsEjXAlha3AshBviPxCgIu/RYsnJf7jkrVhKEdFAR
+         vCz5x5AJ+MtwFc/yBkTrFRStM6f4ANJY0NNk3GvpeyIdL30PEQ15MFGxyQbZItXjTSpr
+         JlPZwR0ZJgW1ctFeVfeB5F6hmyX3UACMaCqsa17v1a9Rrne+f5xdVuZEwRxd5gp60t7g
+         v+bQ==
+X-Gm-Message-State: AOJu0YwetqAUPaL2NrKGnSXrpWGE3MA/MZrYLs0+XKfrHxZLCJV/Uq3C
+	YPzUIdl1aK/fxBLyAJIU/GwbNl+d3Ysu3wUUZIDspFB/SgI0zZWBFWcJMZSGF+CZyn81BEG5MH+
+	RJ9oL2xmfv9EDhy5cBkH3ay8rDa3/0AdSvtAx0zXhRPDpNphWoy9GNP9+dPdkT2MFJfspq+Tsu5
+	n9QenLsTg4mMHqwUS+UNWMppYgDilAYhXgFKFBMpWWa8rsXNl4xqfCZgC4un78ZQSw
+X-Gm-Gg: ASbGncuX4ZnXIGk3sc5TlgGwWaWZGLXiTRAQcw9s7kZlyxKw6fNdDAvlj8e6bC2p0RU
+	aewbsA1bqXzhaCJhgyTtvR6PZARLEBFhqruW5/H25wRj3X9xAKac8IzCo5UgMJ5U9LUR4DrfTZF
+	MuQhTxIvJ4p33zIekqIya9s1cPw45Jpop7Ddm+NUqnRidHWLJrQBkQgk8BVUvgB6KcECA3Ao+a1
+	Edhw2/jl8u9rjGw0P7wP2S8brCKRQUCQ0mppVXk9Lepuy2Kz/6+zJVq9Z5bcqNN9UJ7MsLDlX7f
+	f9Po7s1VKbb8fuA8RUVEPSIQi9w/6pUp0qo26qTJuebvgE56kSdy0V/5niVmrWbng6xYT4GSI8W
+	hD49sMKlkQw==
+X-Google-Smtp-Source: AGHT+IGVj0gmACQ/XQ3IugRxD84FJAVTYkPk/51kxqdJDnAYdu+1Dq0suH5eMLdHZDOrCh4BSpRJlw==
+X-Received: by 2002:a17:902:ea03:b0:235:ef67:b595 with SMTP id d9443c01a7336-2366b14954fmr134709615ad.35.1750059829089;
+        Mon, 16 Jun 2025 00:43:49 -0700 (PDT)
+Received: from hsinchu01.internal.sifive.com ([210.176.154.34])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236704de5c0sm33452235ad.39.2025.06.16.00.43.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jun 2025 22:47:24 -0700 (PDT)
-From: Naman Jain <nmjain23@gmail.com>
-X-Google-Original-From: Naman Jain <namanj1@kpit.com>
+        Mon, 16 Jun 2025 00:43:48 -0700 (PDT)
+From: Jimmy Ho <jimmy.ho@sifive.com>
 To: openembedded-core@lists.openembedded.org
-Cc: denis@denix.org
-Subject: [[kirkstone][PATCH]] xz: Update LICENSE variable for xz packages
-Date: Mon, 16 Jun 2025 11:16:59 +0530
-Message-Id: <20250616054659.3501263-1-namanj1@kpit.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Jimmy Ho <jimmy.ho@sifive.com>
+Subject: [PATCH] nfsrootfs: disable warning message if bootargs root parameter have not been defined
+Date: Mon, 16 Jun 2025 15:43:41 +0800
+Message-ID: <20250616074341.32477-1-jimmy.ho@sifive.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 11:56:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218817
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218819
 
-From: aszh07 <mail2szahir@gmail.com>
-
-Update LICENSE defined for xz packages to match the license
-information provided in the xz COPYING file.
-
-The License information from PACKAGERS file of xz mentions
-packages with lzma files are in public domain.They ask to
-use GPLv2+, if only it's not possible to mention "PD and GPLv2+".
-
-Include PD license with GPLv2 to packages with lzma content:
-xz-dev package contains lzma header
-xz-doc package contains lzma man pages
-xz packages contains lzma binaries
-
-Links: https://github.com/tukaani-project/xz/blob/v5.4.6/COPYING
-       https://github.com/tukaani-project/xz/blob/v5.4.6/PACKAGERS
-
-(From OE-Core rev: d511c41dac048fbdd93a54136e93b0623a18a83d)
-
-Signed-off-by: Bhabu Bindu <bindu.bhabu@kpit.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4e5b955def5d9f305f5aba2c68b73287c03fd163)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Jimmy Ho <jimmy.ho@sifive.com>
 ---
- meta/recipes-extended/xz/xz_5.2.6.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/xz/xz_5.2.6.bb b/meta/recipes-extended/xz/xz_5.2.6.bb
-index 7f889e4367..938c659008 100644
---- a/meta/recipes-extended/xz/xz_5.2.6.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.6.bb
-@@ -9,10 +9,10 @@ SECTION = "base"
- # libgnu, which appears to be used for DOS builds. So we're left with
- # GPL-2.0-or-later and PD.
- LICENSE = "GPL-2.0-or-later & GPL-3.0-with-autoconf-exception & LGPL-2.1-or-later & PD"
--LICENSE:${PN} = "GPL-2.0-or-later"
--LICENSE:${PN}-dev = "GPL-2.0-or-later"
-+LICENSE:${PN} = "PD & GPL-2.0-or-later"
-+LICENSE:${PN}-dev = "PD & GPL-2.0-or-later"
- LICENSE:${PN}-staticdev = "GPL-2.0-or-later"
--LICENSE:${PN}-doc = "GPL-2.0-or-later"
-+LICENSE:${PN}-doc = "PD & GPL-2.0-or-later"
- LICENSE:${PN}-dbg = "GPL-2.0-or-later"
- LICENSE:${PN}-locale = "GPL-2.0-or-later"
- LICENSE:liblzma = "PD"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+index e67ee4c25d..1e76258ce1 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ 
+ nfsrootfs_enabled() {
+-	if [ ${bootparam_root} != "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]; then
++	if [ -z ${bootparam_root} ] || [ ${bootparam_root} != "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]; then
+ 		return 1
+ 	fi
+ 	return 0
 -- 
-2.34.1
+2.39.3
 
 
