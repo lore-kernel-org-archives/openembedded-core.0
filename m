@@ -1,202 +1,157 @@
-Return-Path: <ppjadhav456@gmail.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80C01C71136
-	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 04:52:51 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web10.23330.1750049563264991047
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90220C71136
+	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 05:01:01 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.23454.1750050057504583427
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jun 2025 21:52:43 -0700
+ Sun, 15 Jun 2025 22:00:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=diCBltWP;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: ppjadhav456@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-234f17910d8so36678575ad.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 21:52:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750049562; x=1750654362; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cURX+89VOdk7jgglMTy1mz4LH36B7/MNMFDg+SMVQOs=;
-        b=diCBltWPN2VvmqjM1wQxqoysVt6HKhOf3q1Y4hzoMjUulJa4V3ayNoXgvgWMolJAS/
-         ljicvDbQIYkr+sgcEGtymhOJneir46VXa+lbjBkrimtVvy3Pd8dMEUJpaWov1BtaZaV6
-         7D8hgFLIBnI2LxLx7uDEpDPBspojsVkjFDdPL6g2HBDrVwxSky2IdMhcja+CglKd+E1V
-         SwwwytMuuzTr/KcKSLV+ky0qpBGyrIl1fRX8+i86CutvE+VB0M4INYSYkynNHgOZtpLq
-         w+jAhnsOPfZnuLbbPADbT7gIko8FqgfuV0/fMQ4C9/JGwar+uf6LOQO7oUKd5KjCkmIW
-         Og7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750049562; x=1750654362;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cURX+89VOdk7jgglMTy1mz4LH36B7/MNMFDg+SMVQOs=;
-        b=wiCLH5pB3QVRKVbvWSbPdfD2vv8EieXC274iM4QUEimY2GXn5lqWamzQ3QbvuJBGQw
-         mQ06IUx6b3hQrF7Mksz7UWylKoSvfBHTFq4SQ/qxBJIScnMvTrGnaUW/hm1I3zm3Ni/Q
-         +rr8nMmqRfXrJxeMd+XjRYczfdbGx6uP4xnP3JU7nutr9UdB/Id0PrnCtX2QRQcGu+wd
-         sQ8yMrHB0E5V4jlY8OysC59lWArIOVe3SDWDgOugdT8Dy1aVAq5raExh7r9LRo0SP2Iy
-         m+GddLuAYxYXIWwXduruqhtk4JW+Rdvn1IMpYtz0Yi8v54gXIiFXnPW8ogAaXUuMYBwF
-         8IjQ==
-X-Gm-Message-State: AOJu0YzMUR7Raz1+SsgrPrACcHGOG0Pz4PoVA7bO2yCNRz3mZAFIhAdQ
-	YHc4yUxZKXSOQdRSjQ7HMKmcZ1AcjY/mElXU8N1eKijVVXIwcBKaqJ1ixhxQrw==
-X-Gm-Gg: ASbGncul7M5O3c6yve25bbwB+AB7k1bGkL3vNEzVpJpWXXgdpvyV8vwH9zWe7O1scP5
-	Y1Ebc5fFKKKjxrg8qYaINFtz+noylubeS6s3qX/2d6A04LMCrkcfefrwQVCwTKuoWnrZXHq3ZaY
-	kPH2UEcRHDL+Smmh8aWC3JkVunL6VIKjVSVoMj7u1Hl4XJeV70YTZf+vrVY9cVR6KGNK1A9JA0x
-	KRn3+/E8LUo0uUXMx7LXr1yylylEJtoVuEiluk220BCPY7YI14o+QxYrLWy8objIR8FcKq6AdHw
-	m+US5ErLwOKGtCP0FaqsL/rXMNPotPqGdMUBxSLzRgpCvA+g4CGoR2NLubNDk8SpdVRwT0Qy+A=
-	=
-X-Google-Smtp-Source: AGHT+IGoaTEPWbPixO9JtLUr7DjBDp1jwYYWB/uDma03ekDbv1mY09QGfRXy3WAEhBS1BRY2w6eT6Q==
-X-Received: by 2002:a17:902:da2d:b0:235:2375:7ead with SMTP id d9443c01a7336-2366b14d317mr125723335ad.28.1750049562440;
-        Sun, 15 Jun 2025 21:52:42 -0700 (PDT)
-Received: from L-15936L.kpit.com ([43.231.237.248])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea8ccbsm52049785ad.167.2025.06.15.21.52.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jun 2025 21:52:42 -0700 (PDT)
-From: Poonam Jadhav <ppjadhav456@gmail.com>
-X-Google-Original-From: Poonam Jadhav <poonam.jadhav@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	ppjadhav456@gmail.com
-Cc: virendra.thakur@kpit.com
-Subject: [OE-core][kirkstone][PATCH] libpng: Improve ptest
-Date: Mon, 16 Jun 2025 10:22:36 +0530
-Message-Id: <20250616045236.253202-1-poonam.jadhav@kpit.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=82628a79e0=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55G4FInB019702
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 05:00:56 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 478xa1hgdh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 05:00:56 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Sun, 15 Jun 2025 22:00:55 -0700
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 15 Jun 2025 22:00:54 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] libxml2: fix CVE-2025-6021
+Date: Mon, 16 Jun 2025 13:00:53 +0800
+Message-ID: <20250616050053.986442-1-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=PuiTbxM3 c=1 sm=1 tr=0 ts=684fa508 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=6IFa9wvqVegA:10 a=PYnjg3YJAAAA:8 a=xNf9USuDAAAA:8 a=GHR8O2WEAAAA:20 a=SSmOFEACAAAA:8 a=t7CeM3EgAAAA:8
+ a=Mr0PqM1J5brvtOELVKUA:9 a=m9p5bXcFLgAA:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: NRXbsF2jmfdvbQJX6SnsGVodttS1DLzn
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDAzMSBTYWx0ZWRfX1ZxehoJ4Yl5U ss7mzKlBAjvezekWLqXip3djF/NxWMviH7G4PH2Bk+2D8TWDjsHxjE5DU1VAImmFzblYwaFaHNP o/ymvi7Hag7DKDXHdMNNFoZA1FkUy22dnJtiglTG8zgCB7yxoTZ/lr70NVcfb8G/eoBoSuXP71G
+ JvUika4NqE442jDsgkhk/FWwuZPuubDqfC1R/UbTTKz+paErvNv6+v+i2SFI1V+/KW97sOyQMr4 JLtcHbNPZjkr1cEB4h07z3wKlXoCwqaTXcm+mEq3jO7+5Zbw8SzSpz2XgMAapIG8N9D5Ls+loOP 4lKRPmolh9NjEQPhG63c0Iua9wnVE+oSb5WPs4a7Lhxh9BKaHnZuHWN8TFLUhHCQwLKl09uT6uA
+ 5loCpH+YgpPWdr7Qi9iD9V10eIbWRARUxLpyCW7j8DhUr8LPvZP3QLnYrUdAR9WjqOfw0af9
+X-Proofpoint-GUID: NRXbsF2jmfdvbQJX6SnsGVodttS1DLzn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-16_02,2025-06-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 mlxscore=0 malwarescore=0 clxscore=1015
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2506160031
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 04:52:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218766
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 05:01:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218767
 
-Install libpng test-suite to run it as a ptest.
-As the test-suite takes more than 30 seconds to run,
-add libpng-ptest to PTESTS_SLOW in ptest-packagelists.inc
+According to [1]
 
-Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
+A flaw was found in libxml2's xmlBuildQName function, where integer overflows
+in buffer size calculations can lead to a stack-based buffer overflow. This
+issue can result in memory corruption or a denial of service when processing
+crafted input.
+
+Refer debian [2], backport a fix [3] from upstream
+
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-6021
+[2] https://security-tracker.debian.org/tracker/CVE-2025-6021
+[3] https://gitlab.gnome.org/GNOME/libxml2/-/commit/acbbeef9f5dcdcc901c5f3fa14d583ef8cfd22f0
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  2 +-
- .../recipes-multimedia/libpng/files/run-ptest | 26 +----------
- .../libpng/libpng_1.6.39.bb                   | 43 +++++++++++++++----
- 3 files changed, 38 insertions(+), 33 deletions(-)
+ .../libxml/libxml2/CVE-2025-6021.patch        | 59 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.14.3.bb    |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 5c6a30635f..53c023bb81 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -29,7 +29,6 @@ PTESTS_FAST = "\
-     libnl-ptest \
-     libmodule-build-perl-ptest \
-     libpcre-ptest \
--    libpng-ptest \
-     libssh2-ptest \
-     libtimedate-perl-ptest \
-     libtest-needs-perl-ptest \
-@@ -88,6 +87,7 @@ PTESTS_SLOW = "\
-     glib-2.0-ptest \
-     gstreamer1.0-ptest \
-     libevent-ptest \
-+    libpng-ptest \
-     lttng-tools-ptest \
-     openssh-ptest \
-     openssl-ptest \
-diff --git a/meta/recipes-multimedia/libpng/files/run-ptest b/meta/recipes-multimedia/libpng/files/run-ptest
-index 9ab5d0c1f4..85051a59f5 100644
---- a/meta/recipes-multimedia/libpng/files/run-ptest
-+++ b/meta/recipes-multimedia/libpng/files/run-ptest
-@@ -2,28 +2,6 @@
- 
- set -eux
- 
--./pngfix pngtest.png &> log.txt  2>&1
-+cd src
- 
--if grep -i "OK" log.txt 2>&1 ; then
--   echo "PASS: pngfix passed"
--else
--   echo "FAIL: pngfix failed"
--fi
--rm -f log.txt
--
--./pngtest pngtest.png &> log.txt 2>&1
--
--if grep -i "PASS" log.txt 2>&1 ; then
--   echo "PASS: pngtest passed"
--else
--   echo "FAIL: pngtest failed"
--fi
--rm -f log.txt
--
--for i in pngstest timepng; do
--    if "./${i}" pngtest.png 2>&1; then
--        echo "PASS: $i"
--    else
--        echo "FAIL: $i"
--    fi
--done
-+make check-TESTS
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-index 94db1d3f6b..011eec94a2 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-@@ -13,7 +13,7 @@ LIBV = "16"
- SRC_URI = "\
-            ${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
+new file mode 100644
+index 00000000000..157486848b9
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
+@@ -0,0 +1,59 @@
++From 33d7969baf541326a35e2fbe31943c46af8c71db Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Tue, 27 May 2025 12:53:17 +0200
++Subject: [PATCH] tree: Fix integer overflow in xmlBuildQName
++
++This issue affects memory safety and might receive a CVE ID later.
++
++Fixes #926.
++
++Signed-off-by: Nick Wellnhofer <wellnhofer@aevum.de>
++
++Add '#include <stdint.h>' to assure the definition of SIZE_MAX
++CVE: CVE-2025-6021
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/acbbeef9f5dcdcc901c5f3fa14d583ef8cfd22f0]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ tree.c | 9 ++++++---
++ 1 file changed, 6 insertions(+), 3 deletions(-)
++
++diff --git a/tree.c b/tree.c
++index 7454b07..22ec11c 100644
++--- a/tree.c
+++++ b/tree.c
++@@ -23,6 +23,7 @@
++ #include <limits.h>
++ #include <ctype.h>
++ #include <stdlib.h>
+++#include <stdint.h>
++ 
++ #ifdef LIBXML_ZLIB_ENABLED
++ #include <zlib.h>
++@@ -168,10 +169,10 @@ xmlGetParameterEntityFromDtd(const xmlDtd *dtd, const xmlChar *name) {
++ xmlChar *
++ xmlBuildQName(const xmlChar *ncname, const xmlChar *prefix,
++ 	      xmlChar *memory, int len) {
++-    int lenn, lenp;
+++    size_t lenn, lenp;
++     xmlChar *ret;
++ 
++-    if (ncname == NULL) return(NULL);
+++    if ((ncname == NULL) || (len < 0)) return(NULL);
++     if (prefix == NULL) return((xmlChar *) ncname);
++ 
++ #ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
++@@ -182,8 +183,10 @@ xmlBuildQName(const xmlChar *ncname, const xmlChar *prefix,
++ 
++     lenn = strlen((char *) ncname);
++     lenp = strlen((char *) prefix);
+++    if (lenn >= SIZE_MAX - lenp - 1)
+++        return(NULL);
++ 
++-    if ((memory == NULL) || (len < lenn + lenp + 2)) {
+++    if ((memory == NULL) || ((size_t) len < lenn + lenp + 2)) {
++ 	ret = xmlMalloc(lenn + lenp + 2);
++ 	if (ret == NULL)
++ 	    return(NULL);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.14.3.bb b/meta/recipes-core/libxml/libxml2_2.14.3.bb
+index da75cbe4507..4baab59186e 100644
+--- a/meta/recipes-core/libxml/libxml2_2.14.3.bb
++++ b/meta/recipes-core/libxml/libxml2_2.14.3.bb
+@@ -18,6 +18,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
             file://run-ptest \
--           "
-+"
+            file://install-tests.patch \
+            file://0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch \
++           file://CVE-2025-6021.patch \
+            "
  
- SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
- 
-@@ -32,15 +32,42 @@ PACKAGES =+ "${PN}-tools"
- 
- FILES:${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}/pngcp"
- 
--BBCLASSEXTEND = "native nativesdk"
--
- # CVE-2019-17371 is actually a memory leak in gif2png 2.x
- CVE_CHECK_IGNORE += "CVE-2019-17371"
- 
-+RDEPENDS:${PN}-ptest += "make bash gawk"
-+
- do_install_ptest() {
--    install -m644 "${S}/pngtest.png" "${D}${PTEST_PATH}"
--    install -m755 "${B}/.libs/pngfix" "${D}${PTEST_PATH}"
--    install -m755 "${B}/.libs/pngtest" "${D}${PTEST_PATH}"
--    install -m755 "${B}/.libs/pngstest" "${D}${PTEST_PATH}"
--    install -m755 "${B}/.libs/timepng" "${D}${PTEST_PATH}"
-+    # Install test scripts to ptest path
-+    install -d ${D}${PTEST_PATH}/src/tests
-+    install -m 755 ${S}/tests/* ${D}${PTEST_PATH}/src/tests
-+    install -m 755 ${S}/test-driver ${D}${PTEST_PATH}/src
-+    install -d ${D}${PTEST_PATH}/src/tests/scripts
-+    install -m 755 ${S}/scripts/*.awk ${D}${PTEST_PATH}/src/tests/scripts
-+    install -m 644 ${S}/scripts/pnglib* ${S}/scripts/*.c ${S}/scripts/*.def ${S}/scripts/macro.lst ${D}${PTEST_PATH}/src/tests/scripts
-+    install -m 644 ${S}/scripts/pnglibconf.h.prebuilt ${D}${PTEST_PATH}/src/tests/scripts/pnglibconf.h
-+    install -d ${D}${PTEST_PATH}/src/contrib/tools
-+    install -m 755 ${S}/contrib/tools/*.sh ${D}${PTEST_PATH}/src/contrib/tools
-+    install -m 644 ${S}/contrib/tools/*.c ${S}/contrib/tools/*.h ${D}${PTEST_PATH}/src/contrib/tools
-+
-+    # Install .libs directory binaries to ptest path
-+    install -m 755 ${B}/.libs/pngtest ${B}/.libs/pngstest ${B}/.libs/pngimage ${B}/.libs/pngunknown ${B}/.libs/pngvalid ${D}${PTEST_PATH}/src
-+
-+    # Copy png files to ptest path
-+    cd ${S} && find contrib -name '*.png' | cpio -pd ${D}${PTEST_PATH}/src
-+
-+    # Install Makefile and png files
-+    install -m 644 ${S}/pngtest.png ${D}${PTEST_PATH}/src
-+    install -m 644 ${S}/*.png ${S}/*.h ${S}/*.c ${S}/*.dfa ${B}/pnglibconf.out ${S}/Makefile.am ${S}/Makefile.in ${D}${PTEST_PATH}/src/tests
-+
-+    sed -e 's/^abs_srcdir = ..*/abs_srcdir = \.\./'          \
-+        -e 's/^top_srcdir = ..*/top_srcdir = \.\./'          \
-+        -e 's/^srcdir = ..*/srcdir = \./'                    \
-+        -e 's/^Makefile: ..*/Makefile: /'                    \
-+        -e 's/check-TESTS: $(check_PROGRAMS)/check-TESTS:/g' \
-+        ${B}/Makefile > ${D}${PTEST_PATH}/src/Makefile
-+
-+    sed -e 's|#!/bin/awk|#!/usr/bin/awk|g' -i ${D}${PTEST_PATH}/src/tests/scripts/*.awk
- }
-+
-+BBCLASSEXTEND = "native nativesdk"
+ SRC_URI[archive.sha256sum] = "6de55cacc8c2bc758f2ef6f93c313cb30e4dd5d84ac5d3c7ccbd9344d8cc6833"
 -- 
 2.34.1
 
