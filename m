@@ -1,85 +1,92 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexander.sowarka@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F9B0C71159
-	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 16:39:02 +0000 (UTC)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
- by mx.groups.io with SMTP id smtpd.web10.1840.1750091935841267978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD80BC71136
+	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 18:30:52 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.4590.1750098643470774027
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jun 2025 09:38:55 -0700
+ Mon, 16 Jun 2025 11:30:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=C40EmTYf;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.174, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e733cd55f9eso4326345276.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 09:38:55 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=IuELFiQo;
+ spf=pass (domain: linaro.org, ip: 209.85.216.49, mailfrom: alexander.sowarka@linaro.org)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3122a63201bso4569027a91.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 11:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750091935; x=1750696735; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hU8V1BPbPUV3z9Ot6ARem6H5bEqEFiXYBWuEM4yzfB0=;
-        b=C40EmTYfngsqo0uRGp6V7EpMHihhVOBYtlv+uOZNB6YOMBA9T+nJddhcO0YTEwyd5c
-         TxYp20qVu6MQl5tKUoyoOvW9chfhIuyLRPBJFssCcip8/Ete6AG8Uz7sqYUkPFl2ypEi
-         Pql1vU/Fra+NFymo2jXbJeGpbmQcDoiKkZqbABf49JyNpCXNfbwhoCVeFxRV+fiu2y1i
-         4NpBzyT1Aus+Y9ieZYjf08y/wQojZ9XPKQn2J2NFL5t7w2spmJvsWHaGdt88uw3efp9U
-         VsAAuDgjcXq7WCEMMoHBEdiAxk5qJnNGE4jtXAKlrl79YnJ73cxBHFMAtIli6Cwg0Vru
-         +hjQ==
+        d=linaro.org; s=google; t=1750098642; x=1750703442; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mQOVLTI7pDaqq5du7e8MB1gMF+rnjF8yBflOuT8tNtM=;
+        b=IuELFiQorby6ccojonjPPhnj8a74JAJrHS9KvkZzGIatN3tgrsXrOeuiyeq5ueVSFp
+         hpGqBZdi4q9Dq//4t9aIY4vyL3uuQxDEwR8T33uyzGrOaVZrMslvVUQj204M1rW+8xyL
+         KD9hCyptOYwsHL+pdiQEb4dguY1CE1VWmoFsyXYJ/+yMtTtwRNHhXv6Tul/MwDACSWR+
+         jSED2KWGTodLWA7+NQlItjmlD9a5xaCtRUqoq/8xjQdDTMNO0y9rCgqurfaNf6ZFio2L
+         nSIvWz8fHLBYXpc6w5TDAJl91qfi8fkCfxVN8x5/L/NLUucrrtic3sSgrSikruu5kWUT
+         UMYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750091935; x=1750696735;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hU8V1BPbPUV3z9Ot6ARem6H5bEqEFiXYBWuEM4yzfB0=;
-        b=vvtgaY91++oqwpTlCoIDz7sA+zai9Y1wBFVaWVEcwSGCFOlL6MCddPX0H4LuTZ+AGL
-         FvtIcOXUVdz1etEaKFH0w7TwARrXG11Mt85C8pqT1QaQnfaWmZz8U0fN7/At84W/kz9L
-         9uWAyeP8XI2mpHicbCE38K0GfoIMo+AMtqqHMd/SFCZOib6L5BXY+tag0dZy1RXIZVgi
-         u4QFCaD1rnRjgHmXmApDG+9lCYs4TyZsqWCaZ6TJz9JKHxi3RdLl+Xr6jy8APwhkkYN8
-         RR/M+aFLFuC3uh7wymnKvw3wxkcuuGunbKKqD/+L8eE0mMCZlcaum8eyF/KBnjCcLNxx
-         W7og==
-X-Forwarded-Encrypted: i=1; AJvYcCXbiahfUKs7RWKoQ+mS4an2NMnHDRk4W9i86g+WG2FLiR7TlMwLhbLzpI6HjjuVmQ0nDlKYKoobVYiTBc6aTmjlbQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwIDeoSi2eAi3tmgq1ECPXLtFt2m3TaoNZ8TKwgovx/5nwYE30K
-	XaSmCUQs3yoKJisGl9vvGklgiAHAc1uXg1ziWkhyJBd+Fi6ciue3n8Do07IwXMzL9WRbv1ccfXv
-	3Wj1G1EUyHO/YVz3u4NT0tlt8iT9eBSsQHWnphxfz3Q==
-X-Gm-Gg: ASbGnctTjU0X2U+ms2iGIFBsMjj/0hiJuKRnDcxU4gekSbS2TquCxaVzBse22GU+Wpw
-	8QDc6kVeBe7WpPIvA02IdXwZi0rb+XI4BF0+tEAeKAh+YPDSdeU67L9gkixQFehSWoNI/1CqX5I
-	0fv/nyOvIUc2/z6Vo9Mp4BxSdAy+anJx3iEG2jeboG0cEOlBVBVZbwmrAV6bAtz+hkMOgJmj5Sf
-	w==
-X-Google-Smtp-Source: AGHT+IGzjmLYujWWTTSxMvTVFOcQScHKajJbAmT5qqGXF3PmGMLD0G0DLwqo5dj49xI+cvYumNw+aou49DcE2+wPGHU=
-X-Received: by 2002:a05:6902:140d:b0:e7f:7200:c58d with SMTP id
- 3f1490d57ef6-e822ac2f6eamr13595186276.7.1750091934240; Mon, 16 Jun 2025
- 09:38:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750098642; x=1750703442;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mQOVLTI7pDaqq5du7e8MB1gMF+rnjF8yBflOuT8tNtM=;
+        b=KyiFNV+XlLyNsP2IcAflCwlAopdshyMg/dO4WWxNlnNEzR5wumW9co9j0eSIuVK/in
+         Rqivurm3pDn29UitkhUarmzzHAFabMBRZHHFLkJ3sPENXIWFWXKexGfr9fGLP8OL30X2
+         wJ/dosbLf6gh0UDJYGgg8WE1XVMxij9wgNAlXsHMXpGyoaczWh8UC7IxhHFncyZtZuvp
+         hP4RGiSQ+yrdHgp63L6I+nmYvGjP1ewcln+8md2WW+ACWdvKHLnkjJ2WPrCYiSaBEuwf
+         eA+BiPuR0Z8qaR9XBwQMiZriTKQwXUzsjmVR7eGJBXd6yL2rWwA0GXv9nFqq5+YVMl+w
+         xIBQ==
+X-Gm-Message-State: AOJu0YxJYCX4cNF+wEXLI7igfgYvhN783YDRd2KbK4FJCq6BoRZ7OYE/
+	VWVks0nkzM7ug4x6OeHlTyln27kb3AlpI0vdF6/wyETRBcf+GhC2/ImTnpE60318a6qZY3MNqrX
+	zfww7MDE=
+X-Gm-Gg: ASbGncuwvgVeZAxvyfV0ZRVFJVFa/x1REJn0xIcBwq3cd4/mpe5RDpK/HAy6auiIMnv
+	T+UFM3334PQ6Fn30j4DlsGz6AD2Vce49W3lq3sdndWSU1qUkCsnzoVsweMJnJ9W1rn3iL2iqQS3
+	49o4kjnpwnd/F/rq0CSLZx4HVLUvPxaWldbmXEAhhkxFi0FhZwNW5z/KYyA6b6WcJro25mh7g3+
+	tb8b9ouahSeaeO7EZoGS3mJrFnSKqZWOgEezjnSD3wE/52QEi5SfO+59CPo7HexBVOEW/u6eGgQ
+	4JN3seJWmX3SVJ6Y06q7KiMiSEVBPBub2eeg7XsQFmP+vxG4djc1
+X-Google-Smtp-Source: AGHT+IEQkpuYudbDZ8kbq9cZ9hTml2wnHKyhLf5t+Vg1L+I4KqsadvgqGvTOSF35K0Wpa//k9ylQsg==
+X-Received: by 2002:a17:90a:c107:b0:311:fc8b:31b5 with SMTP id 98e67ed59e1d1-313f1ca1398mr18660624a91.14.1750098642369;
+        Mon, 16 Jun 2025 11:30:42 -0700 (PDT)
+Received: from fedora.. ([2804:14c:117:3195::1009])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313c1c6ab7bsm9042843a91.46.2025.06.16.11.30.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 11:30:41 -0700 (PDT)
+From: Alexander Sowarka <alexander.sowarka@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Sowarka <alexander.sowarka@linaro.org>
+Subject: [PATCH] kernel-yocto: Do not use allnoconfig for in-tree configs
+Date: Mon, 16 Jun 2025 15:30:28 -0300
+Message-ID: <20250616183028.87531-1-alexander.sowarka@linaro.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250613110126.187329-1-vanusuri@mvista.com> <ac6f29e2-36f7-497b-a733-c892cae2fa2f@gmail.com>
-In-Reply-To: <ac6f29e2-36f7-497b-a733-c892cae2fa2f@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 16 Jun 2025 09:38:42 -0700
-X-Gm-Features: AX0GCFsHoBEWWLZpsrWuywVK2am3GkqJ3zedlzG3L-GJ_ZmH93dSVt8tJH2ZtuA
-Message-ID: <CAOSpxdajhrk16_obwLkaNrTG4iT+9-BB9cjjgiEmpdgcis4HxA@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH] python3-requests: upgrade 2.32.3 -> 2.32.4
-To: skandigraun@gmail.com
-Cc: vanusuri@mvista.com, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 16:39:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218844
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 18:30:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218845
 
-On Fri, Jun 13, 2025 at 4:56=E2=80=AFAM Gyorgy Sarvari via
-lists.openembedded.org <skandigraun=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> There seem to be some duplication in your and Wind River's contributions
-> today - this, and some of the libsoup CVE fixes in Kirkstone are also
-> duped only with a few hours of difference.
->
-> It's mostly an observation, rather than anything else.
+The documentation clearly states that in-tree configs, configured with
+KBUILD_DEFCONFIG will set all missing config flags to their default
+value and specifying KCONFIG_MODE is not required.
+Fix the check for in-tree configs.
 
-This doesn't happen very often, but when it does I'll typically take
-the first one to hit the mailing list (unless there is an issue with
-it!)
+Signed-off-by: Alexander Sowarka <alexander.sowarka@linaro.org>
+---
+ meta/classes-recipe/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Steve
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
+index 9a86616dad..44d09a9b42 100644
+--- a/meta/classes-recipe/kernel-yocto.bbclass
++++ b/meta/classes-recipe/kernel-yocto.bbclass
+@@ -460,7 +460,7 @@ do_kernel_configme() {
+ 			config_flags=""
+ 			;;
+ 		*)
+-			if [ -f ${WORKDIR}/defconfig ]; then
++			if [ -z ${KBUILD_DEFCONFIG} ] && [ -f ${WORKDIR}/defconfig ]; then
+ 				config_flags="-n"
+ 			fi
+ 			;;
 
