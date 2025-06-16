@@ -1,450 +1,286 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 914EDC71136
-	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 10:51:14 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.27622.1750071067504085721
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B152DC71136
+	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 10:56:04 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.27630.1750071362197113273
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jun 2025 03:51:07 -0700
+ Mon, 16 Jun 2025 03:56:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z09iSZQ8;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b2fa3957661so3596368a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 03:51:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FytCiVPs;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-441ab63a415so50843445e9.3;
+        Mon, 16 Jun 2025 03:56:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750071067; x=1750675867; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=31bLhDcdc21HRs/2aDh77bd0qagDOVovlyISEzcBje0=;
-        b=Z09iSZQ8XSAjHSZIEjgPJlpGvfVsPRMBbWBQ2KVM5kTTC6qRo6eeL84v7lYNk240SJ
-         utaV2tdXjCfGw3xlFxuIl3XuQ3tVpysWujIE2np3j+0GK+Nq+hyGnyn7Ow3PazeOMekH
-         ZszBFE7gxNoOAGA9XKizJsUCkAv8ChklzGEgospVmtQEhug70dJh09+6C1sQ9l4ACt1M
-         UYpAxGWYre6Wu94H9pd/vLlSYcV2fGX7nVjx7mwJe8jfowk3u/455oErDYGZPQDcxpbh
-         NMfUHKl1Dd2DXUX2zDgb+Hc/bFsevdCdvaBCUok7NyNqbonpQCx+qFnXiwi4bGvzEwV6
-         ZeIg==
+        d=gmail.com; s=20230601; t=1750071360; x=1750676160; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=903ZXdBGhNxlTtfWLgyGskT2Fi0+iq+Bqm3IGpb07S4=;
+        b=FytCiVPsb0Z5uXkh3m9PR/O/4sgOB0oi/tRSf8n93VIIhczlr7PiPdkYIXZpIm9lGR
+         XaAl78sdlaA7fo0a/P9NvU1PXm0AILO9c09CV8w9Wvn9nfFBLPsTKZ1KPVheQSmTMWVy
+         CGr5iCwXdrhTUOw1Ek42OFazLoZR8FnKUVt9iExIHW12//i4cbGqFrFIzJjP7KSb428o
+         0cBticL7zHgMbUmpRHb2Cfjm5AkTGMh2sHD+ptR1GNNyvmeqZv+sYAyzko8tAYkVJ5Gq
+         3KzXULfSgR2NN7e1uBlZAi07l8+txm1hofpHoIK14KzRLVNPVo1qdOocLJwoZnzEW2k7
+         xhXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750071067; x=1750675867;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1750071360; x=1750676160;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=31bLhDcdc21HRs/2aDh77bd0qagDOVovlyISEzcBje0=;
-        b=aNyQns9UR2WQ/WY4bRTs0nHe+C0qs9j3XhxNbcOLDGyiJFxo4Lu371Epvw5OVnoyaf
-         hVGpwhNkAXs85SU3d7BwwGiZJOzlHC0hzA8x7WfMRlIV5VtJNSQBI89c/UpoqwBGJLIV
-         cB2mldZ7yrA4e9WNnDy/6JmDHeVldJMIHc1XjSnjdf4ACuElSiBTdo7NmFi7+HZqnMlM
-         +81x6rHZhklwoZDujrlnAPP7u694CP+aNuzgZVMxheSHmmRDReTFipTIwF8MuOHWsF06
-         oj3oYYwExzuzLvxVMBAEwykxKnDoX9aIJf+B1SVyTq1eQxXihr7D0C/FAsGjIDJ8AXRf
-         RFNA==
-X-Gm-Message-State: AOJu0Yzajx0KprqHLnJtdIZ+vBjTo5+C/3kCAmcsgFtJTJUatSf6twjr
-	KPhCdcK2NCV3NAGctwAk6FuvwVQT4P9E97Y0rNHw3RyoJACOksuuwRH5SjiGWGf7XYI481tDxBt
-	K40Nne4TF4WZUDKfH7IoWv0Ox3XxGMkc=
-X-Gm-Gg: ASbGnctVlFd0UUW5XV7ibTJeLvPMr7oPI5cqL0UhMPUwhm4xsmhy8xQym8F9bHitaCG
-	1V1bL3AAa68cyUAPhM20fauKAXonQpXVWm/QDviS/6xTg41F1FjDX3xAbJ0jq27oJXbG69ulAKD
-	atD9XxaLiBvhuMfj6Mb8EwMu2st7UNIJ4wmLq44F2HERtq
-X-Google-Smtp-Source: AGHT+IHLBp2hUQNy6ndXHLvXnTL4ySurOO+9wgQXPjWZE/0q1JrpE71IODNNwnm74913cwRiI50G8876LqeoXmosMuM=
-X-Received: by 2002:a17:90b:2745:b0:312:e9bd:5d37 with SMTP id
- 98e67ed59e1d1-313f1c7b54dmr12556587a91.6.1750071066717; Mon, 16 Jun 2025
- 03:51:06 -0700 (PDT)
+        bh=903ZXdBGhNxlTtfWLgyGskT2Fi0+iq+Bqm3IGpb07S4=;
+        b=J3x5riNC7Xwfr+Irl5P3UPFx0BT6dJPFGbBQH9ngV77be5kRez20yM6CG/lezkwRXX
+         N1+X+g13KF47yT6YyTNtzSgQywB7zIwdqVLzzbZKVLtXjBjDacQns/LhI78yjP9mTh1U
+         rXJggzMwKvnzbIvZnM95jF4z6d1T3u8AH4++weBnVkWhGMy247ZmkYtZI1iDZJ/wKmKR
+         JZ15iXRX6htY58h1qjbZzdkN8f3wWlt4nZclYOdJlwlaCzDy4bbZFQbpmgbvNMMYQ2eZ
+         uDE3cmgZaEwO5M41S+BeI1S2yln2/OYiFU3yBrBqOw5u42Qs7wWSMHoBOV6q5uAIHqcV
+         +2qw==
+X-Forwarded-Encrypted: i=1; AJvYcCXd8z1ME5oxrnhZEKfL6Q/Zqg1AJMHzd7/yaBTyZZ+A0wWX6pOa8qWjwqBAo+8osqf6Fs4BwOgbnOSiZtkZKCEUSA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzQHAgyiJanKlg3Ls1VapldyULdt5fkc0jrYCqMOkwjuVxY3fEc
+	Ef5PadXCpF/2VANaYMiHB2/9Sg0VADrch6wzNqx18mXO//HnLV4vlrkRXZgBVQ==
+X-Gm-Gg: ASbGncvKpL8WaVgREb+5J4jlt5gInNde0nZtSR293QEINm3nVtLmD+L54U9yyJsryZY
+	iTPJdUQxs+Qpb2bBus4pd0gEvALegmPG7CgtkoE+pQTcPYkX4i09wbvfeh7kOLwN1v7VA8OeGLf
+	kFQZI5aPLcGulbbBWFdMsCG+BT2TstLa0JaqQeWOeL1ke/UFmFCnzMMb6/YZjf85vxF8GHfAB0K
+	JFsmm8E99655rzaNfyIExI1L41frSVSS2uQtzSCbf1uo2cBnkvnZa6MQ2jFHe30tIg4PvJgG3OL
+	CB8tceZ93D1KttJB3bHTPp22SAxwQO5+IFtEOKi8kKCvJzjVFHbhazLeFbZy75/TGQ/J1Uq9lGm
+	NL0p+s9PnXh+nx3A8t+6hbW4=
+X-Google-Smtp-Source: AGHT+IFX0GEVX8u+IbpAtKIYb7x+8qU+RiFhTYlV2Sc1KonJiKRMaEWSt8bNBNamiNHDpBSvlG+1pQ==
+X-Received: by 2002:a05:600c:c16a:b0:450:d614:cb with SMTP id 5b1f17b1804b1-4533cacab63mr74173085e9.33.1750071360183;
+        Mon, 16 Jun 2025 03:56:00 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b628ecsm10870394f8f.92.2025.06.16.03.55.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 03:55:59 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [RFC PATCH] bitbake: add support for 'built-in' fragments
+Date: Mon, 16 Jun 2025 12:55:52 +0200
+Message-Id: <20250616105552.2939169-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <1750040965-15015-1-git-send-email-mark.hatle@kernel.crashing.org> <1750040965-15015-3-git-send-email-mark.hatle@kernel.crashing.org>
-In-Reply-To: <1750040965-15015-3-git-send-email-mark.hatle@kernel.crashing.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 16 Jun 2025 06:50:55 -0400
-X-Gm-Features: AX0GCFt-BPpdIKEoY_37dtyfH6p11suUWIFvsg79gm_aO36I_J1jzz6WONLzxJg
-Message-ID: <CADkTA4MOF_HiEe8DUYuUvtD=BgXKfv-tdjxSQZHdWZxWhrW=6A@mail.gmail.com>
-Subject: Re: [PATCH 2/6] linux-yocto: Enable risc-v TUNE_FEATURES ISA selections
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000004371af0637ae2cdf"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 10:51:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218811
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 10:56:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218812
 
---0000000000004371af0637ae2cdf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Alexander Kanavin <alex@linutronix.de>
 
-On Sun, Jun 15, 2025 at 10:30=E2=80=AFPM Mark Hatle <mark.hatle@kernel.cras=
-hing.org>
-wrote:
+Note: this deliberately puts bitbake and core changes into one commit
+to make RFC review easier.
 
-> From: Mark Hatle <mark.hatle@amd.com>
->
-> Allow the risc-v TUNE_FEATURES to select specific ISA (kconfig) selection=
-s
-> in the kernel config via config fragments.
->
-> This allows the following items to be selected dynamically:
->
->     CONFIG_ARCH_RV32I
->     CONFIG_ARCH_RV64I
->     CONFIG_FPU
->     CONFIG_RISCV_ISA_C
->     CONFIG_RISCV_ISA_V
->     CONFIG_RISCV_ISA_ZBB
->     CONFIG_RISCV_ISA_ZICBOM
->     CONFIG_RISCV_ISA_ZICBOZ
->     CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI
->
+When reviewing proposed fragments to add settings for DISTRO and MACHINE,
+RP noted that such fragments only add clutter and overhead, and there's
+no need to maintain them as separate files.
 
-As you probably suspected, These need to be submitted to the kernel-cache
-and enabled via KERNEL_FEATURES additions, not just added to the SRC_URI.
+Rather when bitbake sees 'fragmentvar/fragmentvalue' it can expand that into
+FRAGMENTVAR = "fragmentvalue".
 
-Cheers,
+This is a RFC proposal to add such 'built-in' fragments; I had to pick a
+name for the concept, and open to alternative suggestions.
 
-Bruce
+The centerpiece is the
 
+OE_FRAGMENTS_BUILTIN ?= "machine:MACHINE distro:DISTRO"
 
+setting in bitbake.conf, which acts as both a definition and an allowlist
+for such fragments.
 
->
-> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
-> ---
->  meta/recipes-kernel/linux/files/risc-v-isa-c.cfg   |  1 +
->  .../linux/files/risc-v-isa-clear.cfg               |  9 +++++++++
->  meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg |  1 +
->  .../linux/files/risc-v-isa-rv32i.cfg               |  2 ++
->  .../linux/files/risc-v-isa-rv64i.cfg               |  2 ++
->  meta/recipes-kernel/linux/files/risc-v-isa-v.cfg   |  1 +
->  meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg |  1 +
->  .../linux/files/risc-v-isa-zicbom.cfg              |  1 +
->  meta/recipes-kernel/linux/linux-yocto.inc          | 14 ++++++++++++++
->  9 files changed, 32 insertions(+)
->  create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-c.cfg
->  create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-clear.cfg
->  create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg
->  create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-rv32i.cfg
->  create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-rv64i.cfg
->  create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-v.cfg
->  create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg
->  create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-zicbom.cfg
->
-> diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-c.cfg
-> b/meta/recipes-kernel/linux/files/risc-v-isa-c.cfg
-> new file mode 100644
-> index 0000000000..1cb459f636
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/risc-v-isa-c.cfg
-> @@ -0,0 +1 @@
-> +CONFIG_RISCV_ISA_C=3Dy
-> diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-clear.cfg
-> b/meta/recipes-kernel/linux/files/risc-v-isa-clear.cfg
-> new file mode 100644
-> index 0000000000..ba18d7b9b5
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/risc-v-isa-clear.cfg
-> @@ -0,0 +1,9 @@
-> +# CONFIG_ARCH_RV32I is not set
-> +# CONFIG_ARCH_RV64I is not set
-> +# CONFIG_FPU is not set
-> +# CONFIG_RISCV_ISA_C is not set
-> +# CONFIG_RISCV_ISA_V is not set
-> +# CONFIG_RISCV_ISA_ZBB is not set
-> +# CONFIG_RISCV_ISA_ZICBOM is not set
-> +# CONFIG_RISCV_ISA_ZICBOZ is not set
-> +# CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI is not set
-> diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg
-> b/meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg
-> new file mode 100644
-> index 0000000000..c099c8e81d
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg
-> @@ -0,0 +1 @@
-> +CONFIG_FPU=3Dy
-> diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-rv32i.cfg
-> b/meta/recipes-kernel/linux/files/risc-v-isa-rv32i.cfg
-> new file mode 100644
-> index 0000000000..4c6bac5138
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/risc-v-isa-rv32i.cfg
-> @@ -0,0 +1,2 @@
-> +CONFIG_ARCH_RV32I=3Dy
-> +CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI=3Dy
-> diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-rv64i.cfg
-> b/meta/recipes-kernel/linux/files/risc-v-isa-rv64i.cfg
-> new file mode 100644
-> index 0000000000..002b492e4c
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/risc-v-isa-rv64i.cfg
-> @@ -0,0 +1,2 @@
-> +CONFIG_ARCH_RV64I=3Dy
-> +CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI=3Dy
-> diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-v.cfg
-> b/meta/recipes-kernel/linux/files/risc-v-isa-v.cfg
-> new file mode 100644
-> index 0000000000..c29c97fc4a
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/risc-v-isa-v.cfg
-> @@ -0,0 +1 @@
-> +CONFIG_RISCV_ISA_V=3Dy
-> diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg
-> b/meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg
-> new file mode 100644
-> index 0000000000..2b71b016f8
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg
-> @@ -0,0 +1 @@
-> +CONFIG_RISCV_ISA_ZBB=3Dy
-> diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-zicbom.cfg
-> b/meta/recipes-kernel/linux/files/risc-v-isa-zicbom.cfg
-> new file mode 100644
-> index 0000000000..96daf04b20
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/risc-v-isa-zicbom.cfg
-> @@ -0,0 +1 @@
-> +CONFIG_RISCV_ISA_ZICBOM=3Dy
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
-> b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 389329030d..cdf2583698 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -37,6 +37,20 @@ KERNEL_FEATURES:append =3D "
-> ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
->  KERNEL_FEATURES:append =3D " ${@bb.utils.contains('MACHINE_FEATURES',
-> 'numa', 'features/numa/numa.scc', '', d)}"
->  KERNEL_FEATURES:append =3D " ${@bb.utils.contains('MACHINE_FEATURES',
-> 'vfat', 'cfg/fs/vfat.scc', '', d)}"
->
-> +SRC_URI_RISCV =3D "\
-> +    file://risc-v-isa-clear.cfg \
-> +    ${@bb.utils.contains(    "TUNE_FEATURES", "rv 32 i m a",
-> "file://risc-v-isa-rv32i.cfg", "", d)} \
-> +    ${@bb.utils.contains(    "TUNE_FEATURES", "rv 64 i m a",
-> "file://risc-v-isa-rv64i.cfg", "", d)} \
-> +    ${@bb.utils.contains(    "TUNE_FEATURES", "f d",
->  "file://risc-v-isa-fpu.cfg",   "", d)} \
-> +    ${@bb.utils.contains(    "TUNE_FEATURES", "c",
->  "file://risc-v-isa-c.cfg",     "", d)} \
-> +    ${@bb.utils.contains(    "TUNE_FEATURES", "v",
->  "file://risc-v-isa-v.cfg",     "", d)} \
-> +    ${@bb.utils.contains_any("TUNE_FEATURES", "b zbb",
->  "file://risc-v-isa-zbb.cfg",   "", d)} \
-> +    ${@bb.utils.contains(    "TUNE_FEATURES", "zicbom",
-> "file://risc-v-isa-zicbom.cfg",   "", d)} \
-> +    "
-> +
-> +SRC_URI:append:riscv32 =3D "${SRC_URI_RISCV}"
-> +SRC_URI:append:riscv64 =3D "${SRC_URI_RISCV}"
-> +
->  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
->  # by the kernel. This is typically the branch that should be built,
->  # and it can be specific to the machine or shared
-> --
-> 2.34.1
->
->
+With that in place, it's possible to set
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+OE_FRAGMENTS += "distro/poky machine/qemuarm"
 
---0000000000004371af0637ae2cdf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+and bitbake will interpret that as
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jun 15, 2025 at 10:30=
-=E2=80=AFPM Mark Hatle &lt;<a href=3D"mailto:mark.hatle@kernel.crashing.org=
-">mark.hatle@kernel.crashing.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">From: Mark Hatle &lt;<a href=3D"mailto:mar=
-k.hatle@amd.com" target=3D"_blank">mark.hatle@amd.com</a>&gt;<br>
-<br>
-Allow the risc-v TUNE_FEATURES to select specific ISA (kconfig) selections<=
-br>
-in the kernel config via config fragments.<br>
-<br>
-This allows the following items to be selected dynamically:<br>
-<br>
-=C2=A0 =C2=A0 CONFIG_ARCH_RV32I<br>
-=C2=A0 =C2=A0 CONFIG_ARCH_RV64I<br>
-=C2=A0 =C2=A0 CONFIG_FPU<br>
-=C2=A0 =C2=A0 CONFIG_RISCV_ISA_C<br>
-=C2=A0 =C2=A0 CONFIG_RISCV_ISA_V<br>
-=C2=A0 =C2=A0 CONFIG_RISCV_ISA_ZBB<br>
-=C2=A0 =C2=A0 CONFIG_RISCV_ISA_ZICBOM<br>
-=C2=A0 =C2=A0 CONFIG_RISCV_ISA_ZICBOZ<br>
-=C2=A0 =C2=A0 CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI<br></blockquot=
-e><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small=
-">As you probably suspected, These need to be submitted to the kernel-cache=
-</div><div class=3D"gmail_default" style=3D"font-size:small">and enabled vi=
-a KERNEL_FEATURES additions, not just added to the SRC_URI.</div><div class=
-=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_=
-default" style=3D"font-size:small">Cheers,</div><div class=3D"gmail_default=
-" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D=
-"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@amd.com" target=
-=3D"_blank">mark.hatle@amd.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/linux/files/risc-v-isa-c.cfg=C2=A0 =C2=A0|=C2=A0 =
-1 +<br>
-=C2=A0.../linux/files/risc-v-isa-clear.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 9 +++++++++<br>
-=C2=A0meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg |=C2=A0 1 +<br>
-=C2=A0.../linux/files/risc-v-isa-rv32i.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 ++<br>
-=C2=A0.../linux/files/risc-v-isa-rv64i.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 ++<br>
-=C2=A0meta/recipes-kernel/linux/files/risc-v-isa-v.cfg=C2=A0 =C2=A0|=C2=A0 =
-1 +<br>
-=C2=A0meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg |=C2=A0 1 +<br>
-=C2=A0.../linux/files/risc-v-isa-zicbom.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
-=C2=A0meta/recipes-kernel/linux/linux-yocto.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 14 ++++++++++++++<br>
-=C2=A09 files changed, 32 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-c.cfg<b=
-r>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-clear.c=
-fg<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg=
-<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-rv32i.c=
-fg<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-rv64i.c=
-fg<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-v.cfg<b=
-r>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg=
-<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-zicbom.=
-cfg<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-c.cfg b/meta/recipe=
-s-kernel/linux/files/risc-v-isa-c.cfg<br>
-new file mode 100644<br>
-index 0000000000..1cb459f636<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/risc-v-isa-c.cfg<br>
-@@ -0,0 +1 @@<br>
-+CONFIG_RISCV_ISA_C=3Dy<br>
-diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-clear.cfg b/meta/re=
-cipes-kernel/linux/files/risc-v-isa-clear.cfg<br>
-new file mode 100644<br>
-index 0000000000..ba18d7b9b5<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/risc-v-isa-clear.cfg<br>
-@@ -0,0 +1,9 @@<br>
-+# CONFIG_ARCH_RV32I is not set<br>
-+# CONFIG_ARCH_RV64I is not set<br>
-+# CONFIG_FPU is not set<br>
-+# CONFIG_RISCV_ISA_C is not set<br>
-+# CONFIG_RISCV_ISA_V is not set<br>
-+# CONFIG_RISCV_ISA_ZBB is not set<br>
-+# CONFIG_RISCV_ISA_ZICBOM is not set<br>
-+# CONFIG_RISCV_ISA_ZICBOZ is not set<br>
-+# CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI is not set<br>
-diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg b/meta/reci=
-pes-kernel/linux/files/risc-v-isa-fpu.cfg<br>
-new file mode 100644<br>
-index 0000000000..c099c8e81d<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg<br>
-@@ -0,0 +1 @@<br>
-+CONFIG_FPU=3Dy<br>
-diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-rv32i.cfg b/meta/re=
-cipes-kernel/linux/files/risc-v-isa-rv32i.cfg<br>
-new file mode 100644<br>
-index 0000000000..4c6bac5138<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/risc-v-isa-rv32i.cfg<br>
-@@ -0,0 +1,2 @@<br>
-+CONFIG_ARCH_RV32I=3Dy<br>
-+CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI=3Dy<br>
-diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-rv64i.cfg b/meta/re=
-cipes-kernel/linux/files/risc-v-isa-rv64i.cfg<br>
-new file mode 100644<br>
-index 0000000000..002b492e4c<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/risc-v-isa-rv64i.cfg<br>
-@@ -0,0 +1,2 @@<br>
-+CONFIG_ARCH_RV64I=3Dy<br>
-+CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI=3Dy<br>
-diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-v.cfg b/meta/recipe=
-s-kernel/linux/files/risc-v-isa-v.cfg<br>
-new file mode 100644<br>
-index 0000000000..c29c97fc4a<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/risc-v-isa-v.cfg<br>
-@@ -0,0 +1 @@<br>
-+CONFIG_RISCV_ISA_V=3Dy<br>
-diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg b/meta/reci=
-pes-kernel/linux/files/risc-v-isa-zbb.cfg<br>
-new file mode 100644<br>
-index 0000000000..2b71b016f8<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg<br>
-@@ -0,0 +1 @@<br>
-+CONFIG_RISCV_ISA_ZBB=3Dy<br>
-diff --git a/meta/recipes-kernel/linux/files/risc-v-isa-zicbom.cfg b/meta/r=
-ecipes-kernel/linux/files/risc-v-isa-zicbom.cfg<br>
-new file mode 100644<br>
-index 0000000000..96daf04b20<br>
---- /dev/null<br>
-+++ b/meta/recipes-kernel/linux/files/risc-v-isa-zicbom.cfg<br>
-@@ -0,0 +1 @@<br>
-+CONFIG_RISCV_ISA_ZICBOM=3Dy<br>
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kerne=
-l/linux/linux-yocto.inc<br>
-index 389329030d..cdf2583698 100644<br>
---- a/meta/recipes-kernel/linux/linux-yocto.inc<br>
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc<br>
-@@ -37,6 +37,20 @@ KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&=
-#39;MACHINE_FEATURES&#39;, &#39;efi&#39;, &#39;cfg/<br>
-=C2=A0KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&#39;MACHINE_F=
-EATURES&#39;, &#39;numa&#39;, &#39;features/numa/numa.scc&#39;, &#39;&#39;,=
- d)}&quot;<br>
-=C2=A0KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&#39;MACHINE_F=
-EATURES&#39;, &#39;vfat&#39;, &#39;cfg/fs/vfat.scc&#39;, &#39;&#39;, d)}&qu=
-ot;<br>
-<br>
-+SRC_URI_RISCV =3D &quot;\<br>
-+=C2=A0 =C2=A0 file://risc-v-isa-clear.cfg \<br>
-+=C2=A0 =C2=A0 ${@bb.utils.contains(=C2=A0 =C2=A0 &quot;TUNE_FEATURES&quot;=
-, &quot;rv 32 i m a&quot;, &quot;file://risc-v-isa-rv32i.cfg&quot;, &quot;&=
-quot;, d)} \<br>
-+=C2=A0 =C2=A0 ${@bb.utils.contains(=C2=A0 =C2=A0 &quot;TUNE_FEATURES&quot;=
-, &quot;rv 64 i m a&quot;, &quot;file://risc-v-isa-rv64i.cfg&quot;, &quot;&=
-quot;, d)} \<br>
-+=C2=A0 =C2=A0 ${@bb.utils.contains(=C2=A0 =C2=A0 &quot;TUNE_FEATURES&quot;=
-, &quot;f d&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;file://risc-v-isa=
--fpu.cfg&quot;,=C2=A0 =C2=A0&quot;&quot;, d)} \<br>
-+=C2=A0 =C2=A0 ${@bb.utils.contains(=C2=A0 =C2=A0 &quot;TUNE_FEATURES&quot;=
-, &quot;c&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;file://risc-=
-v-isa-c.cfg&quot;,=C2=A0 =C2=A0 =C2=A0&quot;&quot;, d)} \<br>
-+=C2=A0 =C2=A0 ${@bb.utils.contains(=C2=A0 =C2=A0 &quot;TUNE_FEATURES&quot;=
-, &quot;v&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;file://risc-=
-v-isa-v.cfg&quot;,=C2=A0 =C2=A0 =C2=A0&quot;&quot;, d)} \<br>
-+=C2=A0 =C2=A0 ${@bb.utils.contains_any(&quot;TUNE_FEATURES&quot;, &quot;b =
-zbb&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;file://risc-v-isa-zbb.cfg&quot;,=
-=C2=A0 =C2=A0&quot;&quot;, d)} \<br>
-+=C2=A0 =C2=A0 ${@bb.utils.contains(=C2=A0 =C2=A0 &quot;TUNE_FEATURES&quot;=
-, &quot;zicbom&quot;,=C2=A0 =C2=A0 =C2=A0 &quot;file://risc-v-isa-zicbom.cf=
-g&quot;,=C2=A0 =C2=A0&quot;&quot;, d)} \<br>
-+=C2=A0 =C2=A0 &quot;<br>
-+<br>
-+SRC_URI:append:riscv32 =3D &quot;${SRC_URI_RISCV}&quot;<br>
-+SRC_URI:append:riscv64 =3D &quot;${SRC_URI_RISCV}&quot;<br>
-+<br>
-=C2=A0# A KMACHINE is the mapping of a yocto $MACHINE to what is built<br>
-=C2=A0# by the kernel. This is typically the branch that should be built,<b=
-r>
-=C2=A0# and it can be specific to the machine or shared<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
+DISTRO = "poky"
+MACHINE = "qemuarm"
 
---0000000000004371af0637ae2cdf--
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ .../bitbake-user-manual-metadata.rst          | 19 ++++++++++++++--
+ bitbake/lib/bb/parse/ast.py                   | 16 ++++++++++++--
+ bitbake/lib/bb/parse/parse_py/ConfHandler.py  |  2 +-
+ meta/conf/bitbake.conf                        |  3 ++-
+ meta/lib/bbconfigbuild/configfragments.py     | 22 ++++++++++++++++++-
+ 5 files changed, 55 insertions(+), 7 deletions(-)
+
+diff --git a/bitbake/doc/bitbake-user-manual/bitbake-user-manual-metadata.rst b/bitbake/doc/bitbake-user-manual/bitbake-user-manual-metadata.rst
+index a27b7758d97..f60a9d83123 100644
+--- a/bitbake/doc/bitbake-user-manual/bitbake-user-manual-metadata.rst
++++ b/bitbake/doc/bitbake-user-manual/bitbake-user-manual-metadata.rst
+@@ -998,9 +998,9 @@ This directive allows fine-tuning local configurations with configuration
+ snippets contained in layers in a structured, controlled way. Typically it would
+ go into ``bitbake.conf``, for example::
+ 
+-   addfragments conf/fragments OE_FRAGMENTS OE_FRAGMENTS_METADATA_VARS
++   addfragments conf/fragments OE_FRAGMENTS OE_FRAGMENTS_METADATA_VARS OE_BUILTIN_FRAGMENTS
+ 
+-``addfragments`` takes three parameters:
++``addfragments`` takes four parameters:
+ 
+ -  path prefix for fragment files inside the layer file tree that bitbake
+    uses to construct full paths to the fragment files
+@@ -1011,6 +1011,8 @@ go into ``bitbake.conf``, for example::
+ -  name of variable that contains a list of variable names containing
+    fragment-specific metadata (such as descriptions)
+ 
++-  name of variable that contains definitions for built-in fragments
++
+ This allows listing enabled configuration fragments in ``OE_FRAGMENTS``
+ variable like this::
+ 
+@@ -1035,6 +1037,19 @@ The implementation will add a flag containing the fragment name to each of those
+ when parsing fragments, so that the variables are namespaced by fragment name, and do not override
+ each other when several fragments are enabled.
+ 
++The variable containing a built-in fragment definitions could look like this::
++
++   OE_BUILTIN_FRAGMENTS = "someprefix:SOMEVARIABLE anotherprefix:ANOTHERVARIABLE"
++
++and then if 'someprefix/somevalue' is added to the variable that holds the list
++of enabled fragments:
++
++  OE_FRAGMENTS = "... someprefix/somevalue"
++
++bitbake will treat that as direct value assignment in its configuration::
++
++  SOMEVARIABLE = "somevalue"
++
+ Functions
+ =========
+ 
+diff --git a/bitbake/lib/bb/parse/ast.py b/bitbake/lib/bb/parse/ast.py
+index 290ed45048c..f9133c4e60b 100644
+--- a/bitbake/lib/bb/parse/ast.py
++++ b/bitbake/lib/bb/parse/ast.py
+@@ -345,11 +345,12 @@ class InheritDeferredNode(AstNode):
+         data.setVar('__BBDEFINHERITS', inherits)
+ 
+ class AddFragmentsNode(AstNode):
+-    def __init__(self, filename, lineno, fragments_path_prefix, fragments_variable, flagged_variables_list_variable):
++    def __init__(self, filename, lineno, fragments_path_prefix, fragments_variable, flagged_variables_list_variable, builtin_fragments_variable):
+         AstNode.__init__(self, filename, lineno)
+         self.fragments_path_prefix = fragments_path_prefix
+         self.fragments_variable = fragments_variable
+         self.flagged_variables_list_variable = flagged_variables_list_variable
++        self.builtin_fragments_variable = builtin_fragments_variable
+ 
+     def eval(self, data):
+         # No need to use mark_dependency since we would only match a fragment
+@@ -362,13 +363,23 @@ class AddFragmentsNode(AstNode):
+                    return candidate_fragment_path
+            return None
+ 
++        def check_and_set_builtin_fragment(fragment, data, builtin_fragments):
++            prefix, value = fragment.split('/', 1)
++            if prefix in builtin_fragments.keys():
++                data.setVar(builtin_fragments[prefix], value)
++                return True
++            return False
++
+         fragments = data.getVar(self.fragments_variable)
+         layers = data.getVar('BBLAYERS')
+         flagged_variables = data.getVar(self.flagged_variables_list_variable).split()
++        builtin_fragments = {f[0]:f[1] for f in [f.split(':') for f in data.getVar(self.builtin_fragments_variable).split()] }
+ 
+         if not fragments:
+             return
+         for f in fragments.split():
++            if check_and_set_builtin_fragment(f, data, builtin_fragments):
++                continue
+             layerid, fragment_name = f.split('/', 1)
+             full_fragment_name = data.expand("{}/{}.conf".format(self.fragments_path_prefix, fragment_name))
+             fragment_path = find_fragment(layers, layerid, full_fragment_name)
+@@ -432,7 +443,8 @@ def handleAddFragments(statements, filename, lineno, m):
+     fragments_path_prefix = m.group(1)
+     fragments_variable = m.group(2)
+     flagged_variables_list_variable = m.group(3)
+-    statements.append(AddFragmentsNode(filename, lineno, fragments_path_prefix, fragments_variable, flagged_variables_list_variable))
++    builtin_fragments_variable = m.group(4)
++    statements.append(AddFragmentsNode(filename, lineno, fragments_path_prefix, fragments_variable, flagged_variables_list_variable, builtin_fragments_variable))
+ 
+ def runAnonFuncs(d):
+     code = []
+diff --git a/bitbake/lib/bb/parse/parse_py/ConfHandler.py b/bitbake/lib/bb/parse/parse_py/ConfHandler.py
+index 675838d8452..9ddbae123dc 100644
+--- a/bitbake/lib/bb/parse/parse_py/ConfHandler.py
++++ b/bitbake/lib/bb/parse/parse_py/ConfHandler.py
+@@ -48,7 +48,7 @@ __export_regexp__ = re.compile( r"export\s+([a-zA-Z0-9\-_+.${}/~]+)$" )
+ __unset_regexp__ = re.compile( r"unset\s+([a-zA-Z0-9\-_+.${}/~]+)$" )
+ __unset_flag_regexp__ = re.compile( r"unset\s+([a-zA-Z0-9\-_+.${}/~]+)\[([a-zA-Z0-9\-_+.][a-zA-Z0-9\-_+.@]+)\]$" )
+ __addpylib_regexp__      = re.compile(r"addpylib\s+(.+)\s+(.+)" )
+-__addfragments_regexp__  = re.compile(r"addfragments\s+(.+)\s+(.+)\s+(.+)" )
++__addfragments_regexp__  = re.compile(r"addfragments\s+(.+)\s+(.+)\s+(.+)\s+(.+)" )
+ 
+ def init(data):
+     return
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e600d9d774a..b2414ec2a7f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -821,7 +821,8 @@ include conf/local.conf
+ 
+ OE_FRAGMENTS_PREFIX ?= "conf/fragments"
+ OE_FRAGMENTS_METADATA_VARS ?= "BB_CONF_FRAGMENT_SUMMARY BB_CONF_FRAGMENT_DESCRIPTION"
+-addfragments ${OE_FRAGMENTS_PREFIX} OE_FRAGMENTS OE_FRAGMENTS_METADATA_VARS
++OE_FRAGMENTS_BUILTIN ?= "machine:MACHINE distro:DISTRO"
++addfragments ${OE_FRAGMENTS_PREFIX} OE_FRAGMENTS OE_FRAGMENTS_METADATA_VARS OE_FRAGMENTS_BUILTIN
+ 
+ require ${@"conf/multiconfig/${BB_CURRENT_MC}.conf" if "${BB_CURRENT_MC}" != "" else ""}
+ include conf/machine/${MACHINE}.conf
+diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
+index c1dddc3e4cb..61c33ac3161 100644
+--- a/meta/lib/bbconfigbuild/configfragments.py
++++ b/meta/lib/bbconfigbuild/configfragments.py
+@@ -62,7 +62,22 @@ class ConfigFragmentsPlugin(LayerPlugin):
+             else:
+                 print('Name: {}\nPath: {}\nEnabled: {}\nSummary: {}\nDescription:\n{}\n'.format(f['name'], f['path'], 'yes' if is_enabled else 'no', f['summary'],''.join(f['description'])))
+ 
++        def print_builtin_fragments(builtin, enabled):
++            print('Available built-in fragments:')
++            builtin_dict = {i[0]:i[1] for i in [f.split(':') for f in builtin]}
++            for prefix,var in builtin_dict.items():
++                print('{}/...\tSets {} = ...'.format(prefix, var))
++            print('')
++            enabled_builtin_fragments = [f for f in enabled if self.builtin_fragment_exists(f)]
++            print('Enabled built-in fragments:')
++            for f in enabled_builtin_fragments:
++                 prefix, value = f.split('/', 1)
++                 print('{}\tSets {} = "{}"'.format(f, builtin_dict[prefix], value))
++            print('')
++
+         all_enabled_fragments = (self.tinfoil.config_data.getVar('OE_FRAGMENTS') or "").split()
++        all_builtin_fragments = (self.tinfoil.config_data.getVar('OE_FRAGMENTS_BUILTIN') or "").split()
++        print_builtin_fragments(all_builtin_fragments, all_enabled_fragments)
+ 
+         for layername, layerdata in self.discover_fragments().items():
+             layerdir = layerdata['layerdir']
+@@ -89,6 +104,11 @@ class ConfigFragmentsPlugin(LayerPlugin):
+                   return True
+         return False
+ 
++    def builtin_fragment_exists(self, fragmentname):
++        fragment_prefix = fragmentname.split("/",1)[0]
++        fragment_prefix_defs = set([f.split(':')[0] for f in self.tinfoil.config_data.getVar('OE_FRAGMENTS_BUILTIN').split()])
++        return fragment_prefix in fragment_prefix_defs
++
+     def create_conf(self, confpath):
+         if not os.path.exists(confpath):
+             with open(confpath, 'w') as f:
+@@ -112,7 +132,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
+             return " ".join(enabled_fragments), None, 0, True
+ 
+         for f in args.fragmentname:
+-            if not self.fragment_exists(f):
++            if not self.fragment_exists(f) and not self.builtin_fragment_exists(f):
+                 raise Exception("Fragment {} does not exist; use 'list-fragments' to see the full list.".format(f))
+ 
+         self.create_conf(args.confpath)
+-- 
+2.39.5
+
 
