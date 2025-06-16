@@ -2,111 +2,93 @@ Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24CC7C71155
-	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 14:14:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD06C71136
+	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 14:22:26 +0000 (UTC)
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.31512.1750083247713762251
+ by mx.groups.io with SMTP id smtpd.web11.31917.1750083744672223082
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jun 2025 07:14:08 -0700
+ Mon, 16 Jun 2025 07:22:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 55GED0xZ006737;
-	Mon, 16 Jun 2025 09:13:02 -0500
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 55GELE5m007561;
+	Mon, 16 Jun 2025 09:21:16 -0500
 Received: from [192.168.2.13] ([192.168.2.13])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 55GECwfJ009676;
-	Mon, 16 Jun 2025 09:12:58 -0500
-Message-ID: <563f3847-1ded-4eb6-ab2b-caded5a0626d@kernel.crashing.org>
-Date: Mon, 16 Jun 2025 09:12:58 -0500
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 55GELCh0009917;
+	Mon, 16 Jun 2025 09:21:12 -0500
+Message-ID: <996eaf10-fd50-40ec-b266-64becb4cf4fd@kernel.crashing.org>
+Date: Mon, 16 Jun 2025 09:21:12 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 0/6] ISA based RISC-V tune implementation
+Subject: Re: [OE-core] [PATCH 1/6] riscv tunes: ISA Implementation of RISC-V
+ tune features
 Content-Language: en-US
-To: Gyorgy Sarvari <skandigraun@gmail.com>,
-        openembedded-core@lists.openembedded.org,
-        Khem Raj <raj.khem@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org
 References: <1750040965-15015-1-git-send-email-mark.hatle@kernel.crashing.org>
- <56a9d083-72f6-44f2-be3a-29691745bcff@gmail.com>
+ <1750040965-15015-2-git-send-email-mark.hatle@kernel.crashing.org>
+ <8bf4ccf58f9d948a5501c7eecf1daabc98c64ebf.camel@linuxfoundation.org>
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <56a9d083-72f6-44f2-be3a-29691745bcff@gmail.com>
+In-Reply-To: <8bf4ccf58f9d948a5501c7eecf1daabc98c64ebf.camel@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 14:14:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218827
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 14:22:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218828
 
+These all seem to be related to the same issue reported by Gyorgy Sarvari.
 
+atomic_4 and atomic_8 functions are not working.
 
-On 6/16/25 5:11 AM, Gyorgy Sarvari wrote:
-> On 6/16/25 04:29, Mark Hatle via lists.openembedded.org wrote:
+--Mark
+
+On 6/16/25 5:11 AM, Richard Purdie wrote:
+> On Sun, 2025-06-15 at 21:29 -0500, Mark Hatle via lists.openembedded.org wrote:
 >> From: Mark Hatle <mark.hatle@amd.com>
 >>
->> The following implements the risc-v processor tune based on the ISA approach
->> as documented in the oe-architecture post:
+>> This implements the following base ISAs:
 >>
->> https://lists.openembedded.org/g/openembedded-architecture/message/2155
+>> * rv32i, rv64i
+>> * rv32e, rv64i
 >>
->> This set also attempts to make u-boot and kernel configurations dynamic
->> based on the TUNE_FEATURES.
+>> The following ABIs:
+>> * ilp32, ilp32e, ilp32f, ilp32d
+>> * lp64, lp64e, lp64f, lp64d
 >>
->> For the linux-yocto, I suspect that the config fragments should be
->> sent to the kmeta (kernel-cache), but I'd like a review from Bruce and
->> others before I do this.
+>> The following ISA extension are also implemented:
+>> * M - Integer Multiplication and Division Extension
+>> * A - Atomic Memory Extension
+>> * F - Single-Precision Floating-Point Extension
+>> * D - Double-Precision Floating-Point Extension
+>> * C - Compressed Extension
+>> * B - Bit Manipulation Extension (implies Zba, Zbb, Zbs)
+>> * V - Vector Operations Extension
+>> * Zicsr - Control and Status Register Access Extension
+>> * Zifencei - Instruction-Fetch Fence Extension
+>> * Zba - Address bit manipulation extension
+>> * Zbb - Basic bit manipulation extension
+>> * Zbc - Carry-less multiplication extension
+>> * Zbs - Single-bit manipulation extension
+>> * Zicbom - Cache-block management extension
 >>
->> Additionally, this enables a new (optional) features_check for TUNE_FEATURES.
+>> The existing processors tunes are preserved:
+>> * riscv64 (rv64gc)
+>> * riscv32 (rv32gc)
+>> * riscv64nf (rv64imac_zicsr_zifencei)
+>> * riscv32nf (rv32imac_zicsr_zifencei)
+>> * riscv64nc (rv64imafd_zicsr_zifencei)
 >>
->> I've found numerous items in the system have certain RISC-V ISA expectations
->> that may need to be addressed over time, however the obvious one is the
->> Linux kernel requires ima_zicsr_zifencei.  Since it has it's own -march=
->> setting this will ensure the processor defintion will be compatible.
->>
->> Also dynamically configure the QEMU cpu based on the tune_features.  This
->> is nice to ensure that what we're actually building should be able to run
->> on real hardware.  However, it does highlight some of the (extension)
->> limitations in the current design.  (limitations as in extension not yet
->> enabled.)
->>
->> Note: OpenSBI _requires_ the 'c' extension or it will not execute.  I
->> suspect this can be fixed, but it's beyond my capabilities at this time.
->>
+>> Previously defined feature 'big-endian' has been removed as it was not used.
 > 
-> I'm not a particularly advanced risc-v user, but I use qemuriscv64 to
-> run smoketests on Firefox, with a barely-extended core-image-sato.
+> I tried this (just 1/6) and it caused:
 > 
-> After applying your this patch series, librsvg fails to compile with lot
-> of "undefined reference" errors[1]. I haven't looked into this at all
-> yet, hoping that someone would know the solution from the top of the
-> head. Does this need some magic Rust flag maybe?
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/builds/142
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/135
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/114
 > 
-> Beside applying this series, I didn't do any other modifications, and
-> without these changes librsvg builds (did I miss some new config, or
-> another patch?) .
-
-The ONLY patch required to test this is the first one, the rest are all 
-additional functionality based on the first patch.
-
-Honestly I have no idea how to debug this.  The configuration selected:
-
--march=rv64imafdc_zicsr_zifencei -mabi=lp64d
-
-is perfectly reasonable and contains the 'a' (atomic) operations, so I don't 
-know how or why these atomic_loads_4 and _8 would not be defined, yet used by 
-the compiler.
-
-I do see a reference in the error message to:
-
-.text._ZN69_$LT$smallvec..SmallVec$LT$A$GT$$u20$as$u20$core
-
-This configuration has _vector_ (v) support _disabled_.
-
-Could there be something in the toolchain that is assuming vector support is 
-always enabled, if so that could be a large part of the problem.
-
-@Khem any ideas?
-
+> Cheers,
 > 
-> [1]: full log:
-> https://gist.githubusercontent.com/OldManYellsAtCloud/e9968f3c63df943e8fd54dc217ab15e6/raw
+> Richard
 
