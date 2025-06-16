@@ -2,50 +2,50 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D3FC7115D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F0AC73C66
 	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 09:17:02 +0000 (UTC)
 Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
  by mx.groups.io with SMTP id smtpd.web11.26248.1750065413679155080
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jun 2025 02:16:55 -0700
+ Mon, 16 Jun 2025 02:16:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=uIVIl+05;
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=eKoWOEJX;
  spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1750065414; x=1781601414;
+  t=1750065419; x=1781601419;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=27DtQRorUaS6MJ55A5ocJD+6ec9m4RUEXAZCD6jYkgA=;
-  b=uIVIl+05Udl9bMKaZWZHlY10UDp+qsfEVOCGNP52BjzopcfIdOwPMLF3
-   wum0aj3wgFJleZ0RaB8W95OzhgiIhnUzglZe/ptEvfbeATXJF9JlJOJLI
-   es1pvXv/MtMv/KjqslcfCS/F1gmuFqSQKQ26e0EvUkgAlkFQrVSHgZ+os
-   o9KMrOzLQvGeFXhtojRJd+4GzVuDT+PiXQRkSs/06bC90EQkfg5hF8tnh
-   tZHYsRc5SjDxcsWgumNPpAjG7sgm3qDNlf4aH8yb0tIqE0S714tE6oddF
-   6rwLlXzd7ZDN/DJEMvj9tvGb7wuC+0OR9HIFZaI1xd40103lR0Aeklbwm
-   g==;
-X-CSE-ConnectionGUID: iUKLQ0GrQTCdmGJF6ico9g==
-X-CSE-MsgGUID: /ydwznyeRSOQZ2akrQz0bA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="181755384"
+  bh=K1a5Q4bX9ktAs0aR4QWCe86F3liVEgqG4DZX/gzrc0Q=;
+  b=eKoWOEJX0O71aWI5i7GZOqGLHdXKDLot8X6Pwp8Ib/mXPXkOmlahynCf
+   v/bmtQJ3TLLlrxHOtaa4+F5/0ZoNXgZuSNTVRD6P6X6Es6BEn0cOF5hpE
+   J2nU1aA0PFHrBndO+UexzgeQ5KmsrEu2uGIruAJZL4nsVxTIqVAQzvCX+
+   QUG0a788CbmGgGVcPe6Bg+PQtRK3PZdfJ6KKUacR+RBYADInHKoCLa630
+   IZlBY/Hs4n3+8mDnVI00TwR4ACe5osXn2ilDFw/cX9LcZMPD8IbbV6+0q
+   lv71CgI2u6zF2RnAN1PcL1FuE06M5YUBuo2pFwJS32toSkmmepz4bhM9V
+   w==;
+X-CSE-ConnectionGUID: /5uBVtUUQoSbwv4nEgAxYA==
+X-CSE-MsgGUID: uQ9belp7SBuScXZm/78zvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="181755390"
 X-IronPort-AV: E=Sophos;i="6.16,240,1744038000"; 
-   d="scan'208";a="181755384"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 18:16:51 +0900
+   d="scan'208";a="181755390"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 18:16:57 +0900
 Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 8D6D7D5051
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 18:16:49 +0900 (JST)
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id A7748D5004
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 18:16:55 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 3E4B0CFB67
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 18:16:49 +0900 (JST)
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 58B11CFB67
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 18:16:55 +0900 (JST)
 Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 776661A0073;
-	Mon, 16 Jun 2025 17:16:48 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id DC0501A0074;
+	Mon, 16 Jun 2025 17:16:54 +0800 (CST)
 From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 04/24] hwdata: upgrade 0.395 -> 0.396
-Date: Mon, 16 Jun 2025 17:16:22 +0800
-Message-ID: <20250616091643.918-4-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 20/24] python3-pytest: upgrade 8.3.5 -> 8.4.0
+Date: Mon, 16 Jun 2025 17:16:38 +0800
+Message-ID: <20250616091643.918-20-wangmy@fujitsu.com>
 X-Mailer: git-send-email 2.49.0.windows.1
 In-Reply-To: <20250616091643.918-1-wangmy@fujitsu.com>
 References: <20250616091643.918-1-wangmy@fujitsu.com>
@@ -55,31 +55,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 09:17:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218777
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218790
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../recipes-support/hwdata/{hwdata_0.395.bb => hwdata_0.396.bb} | 2 +-
+ .../python/{python3-pytest_8.3.5.bb => python3-pytest_8.4.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/hwdata/{hwdata_0.395.bb => hwdata_0.396.bb} (93%)
+ rename meta/recipes-devtools/python/{python3-pytest_8.3.5.bb => python3-pytest_8.4.0.bb} (91%)
 
-diff --git a/meta/recipes-support/hwdata/hwdata_0.395.bb b/meta/recipes-support/hwdata/hwdata_0.396.bb
-similarity index 93%
-rename from meta/recipes-support/hwdata/hwdata_0.395.bb
-rename to meta/recipes-support/hwdata/hwdata_0.396.bb
-index 73b846b181..291a4ef85d 100644
---- a/meta/recipes-support/hwdata/hwdata_0.395.bb
-+++ b/meta/recipes-support/hwdata/hwdata_0.396.bb
-@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0-or-later | X11"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1556547711e8246992b999edd9445a57"
+diff --git a/meta/recipes-devtools/python/python3-pytest_8.3.5.bb b/meta/recipes-devtools/python/python3-pytest_8.4.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-pytest_8.3.5.bb
+rename to meta/recipes-devtools/python/python3-pytest_8.4.0.bb
+index 4d4e8b8511..fb235d82b8 100644
+--- a/meta/recipes-devtools/python/python3-pytest_8.3.5.bb
++++ b/meta/recipes-devtools/python/python3-pytest_8.4.0.bb
+@@ -5,7 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
  
- SRC_URI = "git://github.com/vcrhonek/${BPN}.git;branch=master;protocol=https;tag=v${PV}"
--SRCREV = "95c1de6c4a0d40415867b29c0791480fb8ad3cdb"
-+SRCREV = "736513dfc1d44c5fb48bead62af7e91c4e1d1dd2"
+-SRC_URI[sha256sum] = "f4efe70cc14e511565ac476b57c279e12a855b11f48f212af1080ef2263d3845"
++SRC_URI[sha256sum] = "14d920b48472ea0dbf68e45b96cd1ffda4705f33307dcc86c676c1b5104838a6"
  
- S = "${WORKDIR}/git"
+ DEPENDS += "python3-setuptools-scm-native"
  
 -- 
 2.43.0
