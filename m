@@ -1,128 +1,103 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE31C7115C
-	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 11:42:34 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.28387.1750074146306193875
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A40C71155
+	for <webhook@archiver.kernel.org>; Mon, 16 Jun 2025 11:56:25 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.23292.1750049235642207684
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jun 2025 04:42:26 -0700
+ Sun, 15 Jun 2025 21:47:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WRZky6XC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso4316053f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 04:42:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nyz+3up2;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: nmjain23@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23636167b30so34979475ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jun 2025 21:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1750074144; x=1750678944; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iBxrzs/LPE+uUgTLJLz6ryU5HoB+rx8D9zLhyaWnrVs=;
-        b=WRZky6XCJD17g8U3/s8XabsD2bwt8LbwElyUtBq4j0dBX8pXsvEKiZw94gaAmwFVMl
-         kpJBjuCBziLlSw0uDOuCkV/KWiWVzxJKbf4cw/27An//A4Wz06fFiHncHHD0LFUVmquL
-         kPz2tGNf2GydvDeCkKMwxlSvzwyr2DwUAxHw4=
+        d=gmail.com; s=20230601; t=1750049235; x=1750654035; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yZY8wLaiDG5HCn3cqg0MF3xtJzkNJuIE4FLd2lU8jJI=;
+        b=Nyz+3up2HUV4eLEUaBz8bsybje6DaaS7XXLuvZgo8heFVjkpp0Z7Bhir+dQvNnIOxd
+         7gBIeKT339zF5rV+jLA/75nvujjNUFp7CgEtcbM2E9m3TbwIkTR6D7fAEKh2H4pzGdj4
+         syITQlLXuO+sxTx6U2Z/qplhvVfU2lYNCQGKtr6GGGzLwM7N0wTaaugMJLZ8KssXjJWk
+         C3kg974QVga3kv9S5ElG5AS3yiHtBPwEhjxFY0wCUnHprJMyTB7qLfe0qbzXCvRgT0rb
+         slZfCjAfFOwXDVDznk9VRDgl+SNYNGel6YVLizNJOcHWg71UfJQ+d7TJdXx+IObDMRda
+         HS7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750074144; x=1750678944;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iBxrzs/LPE+uUgTLJLz6ryU5HoB+rx8D9zLhyaWnrVs=;
-        b=PVER7Ec3/Pg+k/lyiKojv811QgLslsP3b1Hxyr52pmpsnmfqcOJr4Sr3G6PsvPD3kD
-         dsGFR3yItNXolQtMx3Pa9v728oJV3lKAruUuq4uarHb74GcVd8ptK7G0tA4Nfrt2+ML+
-         yC0ZaPgWU4azPPTRr1mGR6vZJcFITvFIjzB76RUM2LCqj4DQByV7AJyyTpcMQH0oaCuy
-         jJ2Otl4It8GiwCGK5GewwdT0oy1XonODfBSWmfHa+NHaF3poitEwmSGjzQ+/ZMZ8/S+K
-         bfb4mkVkdR5Xa3aGn+cr/DUJE0bp+7aX2K57zo7vnBvR0vJ9V6H7N2v7Ht41yo2/Uhbd
-         6ZIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAAmzzFOLavvYwFiM6svD/XYoQmctWfbR4QdX6DJV87Em+Dk+9TLjOmTphjttRi7dHboAhiS01TRuI9mJTxpUm2g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YytmpMUutD1Vsb48r1uwm7uxFv0TkVGM0Ri4+S779u7v/j5ltLe
-	DaXKuELwM1zeGxbJvuFk43aGaTbh1HQ3WpAW8mtxgJQ6CVgm88nk8/GJ+o4bje83eNA=
-X-Gm-Gg: ASbGncsOexE3dBaEJVuEbV1OkIP21bfHidtgjiIiolb7BzUQ3TJ+OeXMK51zOGTzrJ7
-	KAokmi7UpmBuSDsYodGzHBGD52wYdUygBXvJgxQMWCdMy4RM4+lD4Ym3aP+pnhhUTL0YQkZHR00
-	50TV9Z/egFKU197vCXSYFp0o9qqamPR7KSEKkkcX9dk6dvcf7+kH3XK8KT7hrwgygoFreYATyji
-	oszUQrW6CqT1uRbdPeaafAHsa+vwAkkjBJV6mXx1vZJew9I2I3ad49EnI0PVCqwGVlzl5ud5MbB
-	TOZHP+asFmDmGNijQHC3zwRfRirFsDZtQ0jE4//8WvySfdh7P/TKjsbY8yG+S0mSiujR6UCvlXI
-	aUjNYevwb3Lri1DRbG6gMIr38hNZlqq7xsxVYJ5x89T4T46nI
-X-Google-Smtp-Source: AGHT+IEFWCMYuc4faRXuMqjaJnE3m5MXgtIXfemmEL/MOG4SqqS0hFdCqABXaMD/LOlK5HgXs9OQrg==
-X-Received: by 2002:a05:6000:4211:b0:3a4:dc42:a0ac with SMTP id ffacd0b85a97d-3a572e4b6eemr7477250f8f.49.1750074144523;
-        Mon, 16 Jun 2025 04:42:24 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a03:fc99:2a4c:41a2? ([2001:8b0:aba:5f3c:a03:fc99:2a4c:41a2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b28240sm10898616f8f.72.2025.06.16.04.42.23
+        d=1e100.net; s=20230601; t=1750049235; x=1750654035;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yZY8wLaiDG5HCn3cqg0MF3xtJzkNJuIE4FLd2lU8jJI=;
+        b=JgH4S/YrgxAROuOTRRCThESvFbEoPjWnsO+J1Zb1JRZBa1HvRjMSmbZJBq/EYT+xg/
+         31ddy8A+RTbgRJyRpwQsTeUX4LNqalc5TexP/TSsXWJG2rbPUKQm6ClX8ORc5wE5ctXo
+         uppZYjuiiwHwIfQoSdiOTBH1eWQJ5ALaXUx4LFasrnxL4Zoo8qjYqIeAl0glLJbo3vIo
+         rn3aH+OSB6xp3k3724Og82rvYqlKv73oBOVfI9VGYcig200581O1RibAVxxR44e3JWJU
+         UvnIhLEyLfA/vrBEvc8qmH8ci8VAi8OPCb+hNUwu+aPbB7js6LHYKreTBm+4en3fNi8n
+         tnZA==
+X-Gm-Message-State: AOJu0YzQaGCdQtVnNsbqkflusNtWb1cLNaJZ6UHOOiQY2FgBSV/nPpJH
+	8duzcsWG+DUKPyhGvkWBZ4HDuuRDdXp0xGU8aN7vTFmzd0flIhhgKF5/pui80A==
+X-Gm-Gg: ASbGncveiMNsFg6LUpQU6eDH8nCm2OZXJHTd6b8TA651DZVqa8jnuTOXg6EPpRI5sXt
+	6r1cZrQMby5zvfx+DJPu7onVV100jqMHROUfm5MJnEVEQBhe+QqvlhB9jnvW/zN/ezD8y8oyc8G
+	NZY1rbFPmntlE8TCD2dsw4lKdlAwqTe6+/SiUcsekEul02xzpLFO/RmfJgnsH+nXdcwNfcfAYls
+	2biBpOMcpAGoDh5DmM/Irg/bdd89LQjFdLDw1D9ZgLnP37I3iTa70uPs0ddmbMJJZQ0Kgr/6oyV
+	R0S55fklpxSQA5VeG3U716NPOi3M4ZzmlX6nh2cROIoVO6fVHFTJMNPFnjd+ksY27oo=
+X-Google-Smtp-Source: AGHT+IHUdM/3TV04HE9dV5kPgAhEv+nBA6qVpROsyqTOl8xggf1A9MVqTTs5jlxHrXIQjqOodvEX+w==
+X-Received: by 2002:a17:902:f68d:b0:234:8f5d:e3a4 with SMTP id d9443c01a7336-2366b32e4camr115989485ad.2.1750049234495;
+        Sun, 15 Jun 2025 21:47:14 -0700 (PDT)
+Received: from LL-3450L.kpit.com ([2405:201:6807:8e5:486a:d246:6c6e:6f5e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365de78287sm52137335ad.102.2025.06.15.21.47.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 04:42:23 -0700 (PDT)
-Message-ID: <19216fd3887717be59f8f2028d52000b8da039ce.camel@linuxfoundation.org>
-Subject: Re: [bitbake-devel] [RFC PATCH] bitbake: add support for 'built-in'
- fragments
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, bitbake-devel@lists.openembedded.org, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Mon, 16 Jun 2025 12:42:23 +0100
-In-Reply-To: <20250616105552.2939169-1-alex.kanavin@gmail.com>
-References: <20250616105552.2939169-1-alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Sun, 15 Jun 2025 21:47:14 -0700 (PDT)
+From: Naman Jain <nmjain23@gmail.com>
+X-Google-Original-From: Naman Jain <namanj1@kpit.com>
+To: openembedded-core@lists.openembedded.org
+Cc: alex.kanavin@gmail.com
+Subject: [[kirkstone][PATCH]] ffmpeg: Add "libswresample libavcodec" to CVE_PRODUCT
+Date: Mon, 16 Jun 2025 10:16:12 +0530
+Message-Id: <20250616044612.3449659-1-namanj1@kpit.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 11:42:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218815
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jun 2025 11:56:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218816
 
-On Mon, 2025-06-16 at 12:55 +0200, Alexander Kanavin via lists.openembedded=
-.org wrote:
-> From: Alexander Kanavin <alex@linutronix.de>
->=20
-> Note: this deliberately puts bitbake and core changes into one commit
-> to make RFC review easier.
->=20
-> When reviewing proposed fragments to add settings for DISTRO and MACHINE,
-> RP noted that such fragments only add clutter and overhead, and there's
-> no need to maintain them as separate files.
->=20
-> Rather when bitbake sees 'fragmentvar/fragmentvalue' it can expand that i=
-nto
-> FRAGMENTVAR =3D "fragmentvalue".
->=20
-> This is a RFC proposal to add such 'built-in' fragments; I had to pick a
-> name for the concept, and open to alternative suggestions.
->=20
-> The centerpiece is the
->=20
-> OE_FRAGMENTS_BUILTIN ?=3D "machine:MACHINE distro:DISTRO"
->=20
-> setting in bitbake.conf, which acts as both a definition and an allowlist
-> for such fragments.
->=20
-> With that in place, it's possible to set
->=20
-> OE_FRAGMENTS +=3D "distro/poky machine/qemuarm"
->=20
-> and bitbake will interpret that as
->=20
-> DISTRO =3D "poky"
-> MACHINE =3D "qemuarm"
->=20
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
-> =C2=A0.../bitbake-user-manual-metadata.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 19 ++++++++++++++--
-> =C2=A0bitbake/lib/bb/parse/ast.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 16 =
-++++++++++++--
-> =C2=A0bitbake/lib/bb/parse/parse_py/ConfHandler.py=C2=A0 |=C2=A0 2 +-
-> =C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
-> =C2=A0meta/lib/bbconfigbuild/configfragments.py=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 22 ++++++++++++++++++-
-> =C2=A05 files changed, 55 insertions(+), 7 deletions(-)
+From: aszh07 <mail2szahir@gmail.com>
 
-FWIW at a first glance I like this a lot. I need to have a think about
-the details but in general I'm very happy to see this.
+Currently, CVE_PRODUCT only detects vulnerabilities where the product is "ffmpeg".
 
-Cheers,
+However, there are also vulnerabilities where the product is "libswresample",
+and "libavcodec" as shown below.
+https://app.opencve.io/vendors/?vendor=ffmpeg
 
-Richard
+Therefore, add "libswresample libavcodec" to CVE_PRODUCT to detect vulnerabilities
+where the product is "libswresample libavcodec" as well.
+
+(From OE-Core rev: 9684eba5c543de229108008e29afd1dd021a9799)
+
+Signed-off-by: aszh07 <mail2szahir@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Naman Jain <namanj1@kpit.com>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+index 4b99c0fa21..3dddf50a63 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+@@ -231,3 +231,5 @@ INSANE_SKIP:${MLPREFIX}libavutil = "textrel"
+ INSANE_SKIP:${MLPREFIX}libswscale = "textrel"
+ INSANE_SKIP:${MLPREFIX}libswresample = "textrel"
+ INSANE_SKIP:${MLPREFIX}libpostproc = "textrel"
++
++CVE_PRODUCT = "ffmpeg libswresample libavcodec"
+-- 
+2.34.1
+
 
