@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C79CCC7115E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5104C71157
 	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 17:13:43 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.25143.1750180420480226844
+ by mx.groups.io with SMTP id smtpd.web11.25144.1750180421771007594
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 10:13:40 -0700
+ Tue, 17 Jun 2025 10:13:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1FA5F150C
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:13:19 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 637ED150C
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:13:20 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B02F43F673
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:13:39 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 003503F673
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:13:40 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] scripts/test-remote-image: remove useless postconfig arguments
-Date: Tue, 17 Jun 2025 18:13:30 +0100
-Message-ID: <20250617171332.3162295-2-ross.burton@arm.com>
+Subject: [PATCH 4/4] oeqa/selftest: add new test for toolchain switching
+Date: Tue, 17 Jun 2025 18:13:32 +0100
+Message-ID: <20250617171332.3162295-4-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250617171332.3162295-1-ross.burton@arm.com>
 References: <20250617171332.3162295-1-ross.burton@arm.com>
@@ -30,48 +30,112 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 17:13:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218911
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218913
 
-I can't see a reason for this script to need to use postconfig files
-to bounce a variable assignment through another, so remove them.
+Add a basic test for the toolchain switching code: set the
+toolchain to GCC by default but Clang for a specific recipe, and verify
+that two recipes are built with the expected compiler.
+
+This works because before we strip the installed binaries there is a
+.comment segment that contains the list of toolchains used.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- scripts/test-remote-image | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/selftest/cases/toolchain.py | 71 +++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/toolchain.py
 
-diff --git a/scripts/test-remote-image b/scripts/test-remote-image
-index d209d228544..1d018992b07 100755
---- a/scripts/test-remote-image
-+++ b/scripts/test-remote-image
-@@ -152,8 +152,7 @@ class AutoTargetProfile(BaseTargetProfile):
-         return controller
-=20
-     def set_kernel_file(self):
--        postconfig =3D "QA_GET_MACHINE =3D \"${MACHINE}\""
--        machine =3D get_bb_var('QA_GET_MACHINE', postconfig=3Dpostconfig=
-)
-+        machine =3D get_bb_var('MACHINE')
-         self.kernel_file =3D self.kernel_type + '-' + machine + '.bin'
-=20
-     def set_rootfs_file(self):
-@@ -215,13 +214,11 @@ class PublicAB(BaseRepoProfile):
-     def get_repo_path(self):
-         path =3D '/machines/'
-=20
--        postconfig =3D "QA_GET_MACHINE =3D \"${MACHINE}\""
--        machine =3D get_bb_var('QA_GET_MACHINE', postconfig=3Dpostconfig=
-)
-+        machine =3D get_bb_var('MACHINE')
-         if 'qemu' in machine:
-             path +=3D 'qemu/'
-=20
--        postconfig =3D "QA_GET_DISTRO =3D \"${DISTRO}\""
--        distro =3D get_bb_var('QA_GET_DISTRO', postconfig=3Dpostconfig)
-+        distro =3D get_bb_var('DISTRO')
-         path +=3D distro.replace('poky', machine) + '/'
-         return path
-=20
+diff --git a/meta/lib/oeqa/selftest/cases/toolchain.py b/meta/lib/oeqa/se=
+lftest/cases/toolchain.py
+new file mode 100644
+index 00000000000..b4b280d0375
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/toolchain.py
+@@ -0,0 +1,71 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++import shutil
++import subprocess
++import tempfile
++from types import SimpleNamespace
++
++import oe.path
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
++
++class ToolchainTests(OESelftestTestCase):
++
++    def test_toolchain_switching(self):
++        """
++        Test that a configuration that uses GCC by default but clang for=
+ one
++        specific recipe does infact do that.
++        """
++
++        def extract_comment(objcopy, filename):
++            """
++            Using the specified `objcopy`, return the .comment segment f=
+rom
++            `filename` as a bytes().
++            """
++            with tempfile.NamedTemporaryFile(prefix=3D"comment-") as f:
++                cmd =3D [objcopy, "--dump-section", ".comment=3D" + f.na=
+me, filename]
++                subprocess.run(cmd, check=3DTrue)
++                # clang's objcopy writes to a temporary file and renames=
+, so we need to re-open.
++                with open(f.name, "rb") as f2:
++                    return f2.read()
++
++        def check_recipe(recipe, filename, override, comment_present, co=
+mment_absent=3DNone):
++            """
++            Check that `filename` in `recipe`'s bindir contains `comment=
+`, and
++            the overrides contain `override`.
++            """
++            d =3D SimpleNamespace(**get_bb_vars(("D", "bindir", "OBJCOPY=
+", "OVERRIDES", "PATH"), target=3Drecipe))
++
++            self.assertIn(override, d.OVERRIDES)
++
++            binary =3D oe.path.join(d.D, d.bindir, filename)
++
++            objcopy =3D shutil.which(d.OBJCOPY, path=3Dd.PATH)
++            self.assertIsNotNone(objcopy)
++
++            comment =3D extract_comment(objcopy, binary)
++            self.assertIn(comment_present, comment)
++            if comment_absent:
++                self.assertNotIn(comment_absent, comment)
++
++
++        # GCC by default, clang for selftest-hello.
++        self.write_config("""
++TOOLCHAIN =3D "gcc"
++TOOLCHAIN:pn-selftest-hello =3D "clang"
++        """)
++
++        # Force these recipes to re-install so we can extract the .comme=
+nts from
++        # the install directory, as they're stripped out of the final pa=
+ckages.
++        bitbake("m4 selftest-hello -C install")
++
++        # m4 should be built with GCC and only GCC
++        check_recipe("m4", "m4", "toolchain-gcc", b"GCC: (GNU)", b"clang=
+")
++
++        # helloworld should be built with clang. We can't assert that GC=
+C is not
++        # present as it will be linked against glibc which is built with=
+ GCC.
++        check_recipe("selftest-hello", "helloworld", "toolchain-clang", =
+b"clang version")
 --=20
 2.43.0
 
