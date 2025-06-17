@@ -1,311 +1,205 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC5DC71136
-	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 09:26:10 +0000 (UTC)
-Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
- by mx.groups.io with SMTP id smtpd.web11.14645.1750152364160163485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D0B7C71136
+	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 09:33:00 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.14736.1750152771385581376
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 02:26:05 -0700
+ Tue, 17 Jun 2025 02:32:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=Mdo5PiKd;
- spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=256d9e307=moritz.haase@bmw.de)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hfQYrEjw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-453398e90e9so28945115e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 02:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1750152364; x=1781688364;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RNOOvDkpI4hOGsiy//qq7oONH0Tvt/4d/ijufgA0wcA=;
-  b=Mdo5PiKd8lns7zDC+9FYrwGra3nQNOtyRhNPTQYUNb4lPBra3CKM9HVJ
-   ouksWcP2+lUUbkYGPOBMpNpfD7CnbLRGnt8nQaP2ymW/NHaExVknSE6ch
-   Raowi3EjR34vVjHGx4DG5i2CbwZNO+ha0FkiSlVGFKfLocjuvNFm1K0aN
-   4=;
-X-CSE-ConnectionGUID: AuMY453wRjuMBMzQ6Kd9DQ==
-X-CSE-MsgGUID: InrvA/QbQPaJfO8Xh99mjQ==
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
- esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 17 Jun 2025 11:25:47 +0200
-Received: from esabb1.muc ([160.50.100.31])  by esagw2.muc with ESMTP/TLS;
- 17 Jun 2025 11:25:46 +0200
-Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
- by esabb1.muc with ESMTP/TLS; 17 Jun 2025 11:25:46 +0200
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.213) by
- smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
- Server (version=TLS; Tue, 17 Jun 2025 11:25:45 +0200
-X-CSE-ConnectionGUID: tU7bL3KKQeCQxSdkfbyRUw==
-X-CSE-MsgGUID: hYIN7xIJT5aQ5P0KIssYug==
-X-CSE-ConnectionGUID: rwskzEHRSr6E8PfunFD+aw==
-X-CSE-MsgGUID: NY856Uv2RoqBpwRYC1L8/w==
-From: Moritz Haase <Moritz.Haase@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>, John Drouhard <john@drouhard.dev>
-Subject: [PATCH] cmake: Correctly handle cost data of tests with arbitrary chars in name
-Date: Tue, 17 Jun 2025 11:24:56 +0200
-Message-ID: <20250617092456.1601525-1-Moritz.Haase@bmw.de>
-X-Mailer: git-send-email 2.49.0
+        d=linuxfoundation.org; s=google; t=1750152770; x=1750757570; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NL4YVibSPX+iJrazakeNz/90rJinu5DnjAG7Q4vtHaw=;
+        b=hfQYrEjwKrFDbaNKQ4iZ/MsQKpSVeN3HM+H2lnGkbb6XLjZZCPIYlBC1G9DdSR8S/P
+         V6Pbp4yKO/yUW3mVxHbPD3Si/jIKsSzlD2Ar+XQifuiPDhvGGtSnn88223MxEGk8RgcL
+         fxZKYU+OmAeUAamwBmb2wDcAoz33YxaI2Oq00=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750152770; x=1750757570;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NL4YVibSPX+iJrazakeNz/90rJinu5DnjAG7Q4vtHaw=;
+        b=F7BjJT+Pg98OZj3Pj2n1qF2whGI+PkPYYXHhr62vHv+DAM7ULU5hcphOrQ0iY0Q71W
+         cbKrxwRcWSwYFdBL0a0Ykb6COPE8e5F3El9Vb9BUf7j7Anks6LkyiQPXrFVsMpobFWEs
+         iJpBDhJgpPlMtuhmpl0DfqCkjUJSBNcJXO4sqJIRcwcVm2sZoq9rcHf0xkjaKvOUcGDN
+         qBPpxuTmt3BfFLEb2wchG2WC70gSL6mQUj95rO/7TOnTUISq/jJYpbl+8JbsfXX3Ehde
+         gk5UHmjf5BBmOFsp/vyCt8ZgcEYnzkvkSICO7a9Bano3YmgfdanW5GWRF8/o0Y4+zZpm
+         ciaA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0Xf3r1DpuZ4nP2BfZT24zMbgnpa3DGV5ewMwbrQPjotsoIiC+LUg1icTirboh49JZ06WCDvx8lTvbHRCy+HfJug==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywp3mlUyHCAzIOaajgRq0WJS/MM9pIOnJbYCHfwAIuYYAeESyt5
+	GqI/L4M34QoLD0K6HpL7/+IiPW0ddyPn0dkn4TaIpmGRhTAHwZPPGfSdfzl3R62VW/0=
+X-Gm-Gg: ASbGncsXUwL1moA6FUtjVQWfLcDKYE3jmQYqulimGtcj4vIrAZE1tTuI8xa20BZ5H+p
+	qimpHTm9eKgI/x7pEpcuN01UYqEEvYE8sCitCpXdwk8eGeDf0Cimb5ccSBfjzYe2stf9fOhOSdV
+	3w1h/0ctxsKcXnID5Ww8j63cFpjBYnmEGy2NZkCuqLSJKcSY5zUwrnvSU047yjYtpiZmkUiIDJ2
+	T5hHJan9dpv/gh9oF50LHACbLzF85MluedYP+rSlgYIxLsXYxGi4jMsLjP1sZcTxjCOLtRyd2lP
+	JzdfvsVC+5Jgi/isfXMJkuRb1qgrlSGZoRtbCpSoswKDcqc2RQYmJPmrSt5cs1U1qh4/TGjCwYy
+	NQUtOt5MIZR0BhvHllnpPCCypS2A11pMAp/12swu361pev9QdUc0=
+X-Google-Smtp-Source: AGHT+IEApjPf8mXbbmjXOGtyR9PdbRK9kIk8lsQ947btHfKvDla+GcUJ6QZT+cuKG7/YLnb5gfxK5Q==
+X-Received: by 2002:a05:600c:a00c:b0:43c:f629:66f4 with SMTP id 5b1f17b1804b1-4533fc72ca5mr110573965e9.0.1750152769721;
+        Tue, 17 Jun 2025 02:32:49 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1aa8:70fb:7368:37ad? ([2001:8b0:aba:5f3c:1aa8:70fb:7368:37ad])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e244392sm169623875e9.22.2025.06.17.02.32.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 02:32:49 -0700 (PDT)
+Message-ID: <1a7f82da17a76d675848414a269c996638b97414.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/5] toolchain: Provide abstraction for recipe
+ specific toolchain selection
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Jun 2025 10:32:48 +0100
+In-Reply-To: <1849CA0B3F4FE921.11779@lists.openembedded.org>
+References: <20250612135955.1413300-1-richard.purdie@linuxfoundation.org>
+		 <20250612135955.1413300-2-richard.purdie@linuxfoundation.org>
+		 <DB5PR02MB102130026EDA1102924183010EF73A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+	 <1849CA0B3F4FE921.11779@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SMUCMP08A.europe.bmw.corp (2a03:1e80:a15:58f::212c) To
- smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:26:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218867
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:33:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218868
 
-ctest automatically optimizes the order of (parallel) test execution based on
-historic test case runtime via the COST property (see [0]), which can have a
-significant impact on overall test run times. Sadly this feature is broken in
-CMake < 4.0.0 for test cases that have spaces in their name (see [1]).
+On Tue, 2025-06-17 at 10:21 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Tue, 2025-06-17 at 09:12 +0000, Peter Kjellerstedt wrote:
+> > > -----Original Message-----
+> > > From:
+> > > openembedded-core@lists.openembedded.org=C2=A0<openembedded-core@list=
+s.openembedded.org
+> > > > On Behalf Of Richard Purdie via lists.openembedded.org
+> > > Sent: den 12 juni 2025 16:00
+> > > To: openembedded-core@lists.openembedded.org
+> > > Subject: [OE-core] [PATCH 2/5] toolchain: Provide abstraction for
+> > > recipe
+> > > specific toolchain selection
+> > >=20
+> > > This implements a toolchain selection mechanism, defaulting to
+> > > gcc
+> > > as per the existing defaults.
+> > >=20
+> > > Introduce a variable called TOOLCHAIN, which denotes the familiar
+> > > name for toolchain e.g. "gcc" which selects GNU compiler +
+> > > binutils
+> > > as default C/C++ toolchain or "clang" which will use LLVM/Clang
+> > > Compiler
+> > >=20
+> > > TOOLCHAIN variable has a global fallback to "gcc" in
+> > > configuration
+> > > metadata. A distro can switch to using say "clang" as default
+> > > system
+> > > compiler by defining
+> > >=20
+> > > TOOLCHAIN ?=3D "clang"
+> > >=20
+> > > In local.conf or other distro specific global configuration
+> > > metadata
+> > >=20
+> > > It is also selectable at recipe scope, since not all packages are
+> > > buildable with either clang or gcc, a recipe can explicitly
+> > > demand
+> > > a given toolchain e.g. glibc can not be built with clang
+> > > therefore
+> > > glibc recipe sets.
+> > >=20
+> > > TOOLCHAIN =3D "gcc"
+> > >=20
+> > > Based on ideas/work by Khem Raj <raj.khem@gmail.com>
+> > >=20
+> > > Signed-off-by: Richard Purdie
+> > > <richard.purdie@linuxfoundation.org>
+> > > ---
+> > > =C2=A0meta/classes-global/base.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 9
+> > > +++++++++
+> > > =C2=A0.../clang.inc =3D> classes/toolchain/clang.bbclass}=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0
+> > > =C2=A0.../toolchain/gcc-native.bbclass}=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0
+> > > =C2=A0.../toolchain/gcc.inc =3D> classes/toolchain/gcc.bbclass}=C2=A0=
+ | 0
+> > > =C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 3 ---
+> > > =C2=A0meta/recipes-devtools/binutils/binutils-cross.inc=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 ++
+> > > =C2=A0meta/recipes-devtools/clang/clang-cross_git.bb=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+> > > =C2=A0meta/recipes-devtools/clang/clang-crosssdk_git.bb=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+> > > =C2=A08 files changed, 13 insertions(+), 3 deletions(-)
+> > > =C2=A0rename meta/{conf/toolchain/clang.inc =3D>
+> > > classes/toolchain/clang.bbclass} (100%)
+> > > =C2=A0rename meta/{conf/toolchain/build-gcc.inc =3D>
+> > > classes/toolchain/gcc-native.bbclass} (100%)
+> > > =C2=A0rename meta/{conf/toolchain/gcc.inc =3D>
+> > > classes/toolchain/gcc.bbclass} (100%)
+> > >=20
+> > > diff --git a/meta/classes-global/base.bbclass b/meta/classes-
+> > > global/base.bbclass
+> > > index 4ac3b83eb5c..4809cca27de 100644
+> > > --- a/meta/classes-global/base.bbclass
+> > > +++ b/meta/classes-global/base.bbclass
+> > > @@ -19,6 +19,15 @@ PACKAGECONFIG_CONFARGS ??=3D ""
+> > >=20
+> > > =C2=A0inherit metadata_scm
+> > >=20
+> > > +TOOLCHAIN ??=3D "gcc"
+> > > +TOOLCHAIN:class-native ??=3D "gcc"
+> > > +TOOLCHAIN:class-cross ??=3D "gcc"
+> > > +TOOLCHAIN:class-crosssdk ??=3D "gcc"
+> > > +TOOLCHAIN:class-nativesdk ??=3D "gcc"
+> > > +
+> > > +inherit toolchain/gcc-native
+> > > +inherit_defer toolchain/${TOOLCHAIN}
+> >=20
+> > What if you want to use clang as your native compiler for
+> > everything,
+> > i.e., even when building target recipes? Would something like this=20
+> > make sense?
+> >=20
+> > TOOLCHAIN_NATIVE ??=3D "gcc"
+> >=20
+> > TOOLCHAIN ??=3D "gcc"
+> > TOOLCHAIN:class-native ??=3D "${TOOLCHAIN_NATIVE}"
+> > TOOLCHAIN:class-cross ??=3D "gcc"
+> > TOOLCHAIN:class-crosssdk ??=3D "gcc"
+> > TOOLCHAIN:class-nativesdk ??=3D "gcc"
+> >=20
+> > inherit toolchain/${TOOLCHAIN_NATIVE}-native
+> > inherit_defer toolchain/${TOOLCHAIN}
+>=20
+> You'd need to use inherit_defer there ;-)
+>=20
+> But, I know what you mean and this doesn't work since a recipe like
+> clang-cross sets TOOLCHAIN =3D "clang" and you'd override it here to
+> gcc.
+>=20
+> Ultimately we do want to allow native and sdk toolchain selection but
+> I'd not got to enabling that yet.
 
-This commit backports the upstream fix. As repeated test runs are expected to
-mainly take place inside the SDK, the patch is only applied to 'nativesdk'
-builds.
+I also just realised this was against an older patch. I did end up
+merging something different to this due to the reasons I mentioned. I
+don't think it was possible to use just the TOOLCHAIN variable to cover
+all options, much as I'd liked to have.
 
-[0]: https://cmake.org/cmake/help/latest/prop_test/COST.html
-[1]: https://gitlab.kitware.com/cmake/cmake/-/issues/26594
+Cheers,
 
-Reported-By: John Drouhard <john@drouhard.dev>
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
----
- .../cmake/cmake-native_3.31.6.bb              |   2 +-
- ...trary-characters-in-test-names-of-CT.patch | 202 ++++++++++++++++++
- meta/recipes-devtools/cmake/cmake_3.31.6.bb   |   1 +
- 3 files changed, 204 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
-
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.31.6.bb b/meta/recipes-devtools/cmake/cmake-native_3.31.6.bb
-index e285a17681..b940abb3fd 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.31.6.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_3.31.6.bb
-@@ -51,7 +51,7 @@ do_compile() {
- do_install() {
- 	oe_runmake 'DESTDIR=${D}' install
- 
--	# The following codes are here because eSDK needs to provide compatibilty
-+	# The following codes are here because eSDK needs to provide compatibility
- 	# for SDK. That is, eSDK could also be used like traditional SDK.
- 	mkdir -p ${D}${datadir}/cmake
- 	install -m 644 ${UNPACKDIR}/OEToolchainConfig.cmake ${D}${datadir}/cmake/
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch b/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
-new file mode 100644
-index 0000000000..31f6148cac
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
-@@ -0,0 +1,202 @@
-+From c7e8b03324883760a2d6fab86ae034beb82af651 Mon Sep 17 00:00:00 2001
-+From: John Drouhard <john@drouhard.dev>
-+Date: Thu, 9 Jan 2025 20:34:42 -0600
-+Subject: [PATCH] ctest: Allow arbitrary characters in test names of
-+ CTestCostData.txt
-+
-+This changes the way lines in CTestCostData.txt are parsed to allow for
-+spaces in the test name.
-+
-+It does so by looking for space characters from the end; and once two
-+have been found, assumes everything from the beginning up to that
-+second-to-last-space is the test name.
-+
-+Additionally, parsing the file should be much more efficient since there
-+is no string or vector heap allocation per line. The std::string used by
-+the parse function to convert the int and float should be within most
-+standard libraries' small string optimization.
-+
-+Fixes: #26594
-+
-+Upstream-Status: Backport [4.0.0, 040da7d83216ace59710407e8ce35d5fd38e1340]
-+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-+---
-+ Source/CTest/cmCTestMultiProcessHandler.cxx | 77 +++++++++++++++------
-+ Source/CTest/cmCTestMultiProcessHandler.h   |  3 +-
-+ Tests/CTestTestScheduler/CMakeLists.txt     |  4 +-
-+ 3 files changed, 61 insertions(+), 23 deletions(-)
-+
-+diff --git a/Source/CTest/cmCTestMultiProcessHandler.cxx b/Source/CTest/cmCTestMultiProcessHandler.cxx
-+index 84ea32b84d40025ec333a90d30c42eeaf7adc9ef..231e7b5f39b1d8aa75f4e59a890a099b53fcdaac 100644
-+--- a/Source/CTest/cmCTestMultiProcessHandler.cxx
-++++ b/Source/CTest/cmCTestMultiProcessHandler.cxx
-+@@ -20,6 +20,7 @@
-+ 
-+ #include <cm/memory>
-+ #include <cm/optional>
-++#include <cm/string_view>
-+ #include <cmext/algorithm>
-+ 
-+ #include <cm3p/json/value.h>
-+@@ -52,6 +53,48 @@ constexpr unsigned long kParallelLevelMinimum = 2u;
-+ // Under a job server, parallelism is effectively limited
-+ // only by available job server tokens.
-+ constexpr unsigned long kParallelLevelUnbounded = 0x10000u;
-++
-++struct CostEntry
-++{
-++  cm::string_view name;
-++  int prevRuns;
-++  float cost;
-++};
-++
-++cm::optional<CostEntry> splitCostLine(cm::string_view line)
-++{
-++  std::string part;
-++  cm::string_view::size_type pos1 = line.size();
-++  cm::string_view::size_type pos2 = line.find_last_of(' ', pos1);
-++  auto findNext = [line, &part, &pos1, &pos2]() -> bool {
-++    if (pos2 != cm::string_view::npos) {
-++      cm::string_view sub = line.substr(pos2 + 1, pos1 - pos2 - 1);
-++      part.assign(sub.begin(), sub.end());
-++      pos1 = pos2;
-++      if (pos1 > 0) {
-++        pos2 = line.find_last_of(' ', pos1 - 1);
-++      }
-++      return true;
-++    }
-++    return false;
-++  };
-++
-++  // parse the cost
-++  if (!findNext()) {
-++    return cm::nullopt;
-++  }
-++  float cost = static_cast<float>(atof(part.c_str()));
-++
-++  // parse the previous runs
-++  if (!findNext()) {
-++    return cm::nullopt;
-++  }
-++  int prev = atoi(part.c_str());
-++
-++  // from start to the last found space is the name
-++  return CostEntry{ line.substr(0, pos1), prev, cost };
-++}
-++
-+ }
-+ 
-+ namespace cmsys {
-+@@ -797,24 +840,21 @@ void cmCTestMultiProcessHandler::UpdateCostData()
-+       if (line == "---") {
-+         break;
-+       }
-+-      std::vector<std::string> parts = cmSystemTools::SplitString(line, ' ');
-+       // Format: <name> <previous_runs> <avg_cost>
-+-      if (parts.size() < 3) {
-++      cm::optional<CostEntry> entry = splitCostLine(line);
-++      if (!entry) {
-+         break;
-+       }
-+ 
-+-      std::string name = parts[0];
-+-      int prev = atoi(parts[1].c_str());
-+-      float cost = static_cast<float>(atof(parts[2].c_str()));
-+-
-+-      int index = this->SearchByName(name);
-++      int index = this->SearchByName(entry->name);
-+       if (index == -1) {
-+         // This test is not in memory. We just rewrite the entry
-+-        fout << name << " " << prev << " " << cost << "\n";
-++        fout << entry->name << " " << entry->prevRuns << " " << entry->cost
-++             << "\n";
-+       } else {
-+         // Update with our new average cost
-+-        fout << name << " " << this->Properties[index]->PreviousRuns << " "
-+-             << this->Properties[index]->Cost << "\n";
-++        fout << entry->name << " " << this->Properties[index]->PreviousRuns
-++             << " " << this->Properties[index]->Cost << "\n";
-+         temp.erase(index);
-+       }
-+     }
-+@@ -850,28 +890,25 @@ void cmCTestMultiProcessHandler::ReadCostData()
-+         break;
-+       }
-+ 
-+-      std::vector<std::string> parts = cmSystemTools::SplitString(line, ' ');
-++      // Format: <name> <previous_runs> <avg_cost>
-++      cm::optional<CostEntry> entry = splitCostLine(line);
-+ 
-+       // Probably an older version of the file, will be fixed next run
-+-      if (parts.size() < 3) {
-++      if (!entry) {
-+         fin.close();
-+         return;
-+       }
-+ 
-+-      std::string name = parts[0];
-+-      int prev = atoi(parts[1].c_str());
-+-      float cost = static_cast<float>(atof(parts[2].c_str()));
-+-
-+-      int index = this->SearchByName(name);
-++      int index = this->SearchByName(entry->name);
-+       if (index == -1) {
-+         continue;
-+       }
-+ 
-+-      this->Properties[index]->PreviousRuns = prev;
-++      this->Properties[index]->PreviousRuns = entry->prevRuns;
-+       // When not running in parallel mode, don't use cost data
-+       if (this->GetParallelLevel() > 1 && this->Properties[index] &&
-+           this->Properties[index]->Cost == 0) {
-+-        this->Properties[index]->Cost = cost;
-++        this->Properties[index]->Cost = entry->cost;
-+       }
-+     }
-+     // Next part of the file is the failed tests
-+@@ -884,7 +921,7 @@ void cmCTestMultiProcessHandler::ReadCostData()
-+   }
-+ }
-+ 
-+-int cmCTestMultiProcessHandler::SearchByName(std::string const& name)
-++int cmCTestMultiProcessHandler::SearchByName(cm::string_view name)
-+ {
-+   int index = -1;
-+ 
-+diff --git a/Source/CTest/cmCTestMultiProcessHandler.h b/Source/CTest/cmCTestMultiProcessHandler.h
-+index fd6c17f2fac06949c20f3792dd3eae442b15850b..811be613c3387240c0181f8372b24cf09219621f 100644
-+--- a/Source/CTest/cmCTestMultiProcessHandler.h
-++++ b/Source/CTest/cmCTestMultiProcessHandler.h
-+@@ -13,6 +13,7 @@
-+ #include <vector>
-+ 
-+ #include <cm/optional>
-++#include <cm/string_view>
-+ 
-+ #include "cmCTest.h"
-+ #include "cmCTestResourceAllocator.h"
-+@@ -110,7 +111,7 @@ protected:
-+   void UpdateCostData();
-+   void ReadCostData();
-+   // Return index of a test based on its name
-+-  int SearchByName(std::string const& name);
-++  int SearchByName(cm::string_view name);
-+ 
-+   void CreateTestCostList();
-+ 
-+diff --git a/Tests/CTestTestScheduler/CMakeLists.txt b/Tests/CTestTestScheduler/CMakeLists.txt
-+index 6f8cb4dbc0de35984540e1868788e0a02124e819..daf6ce2b23d8c048334ae1047759130b246dccef 100644
-+--- a/Tests/CTestTestScheduler/CMakeLists.txt
-++++ b/Tests/CTestTestScheduler/CMakeLists.txt
-+@@ -1,9 +1,9 @@
-+-cmake_minimum_required(VERSION 3.10)
-++cmake_minimum_required(VERSION 3.19)
-+ project (CTestTestScheduler)
-+ include (CTest)
-+ 
-+ add_executable (Sleep sleep.c)
-+ 
-+ foreach (time RANGE 1 4)
-+-  add_test (TestSleep${time} Sleep ${time})
-++  add_test ("TestSleep ${time}" Sleep ${time})
-+ endforeach ()
-diff --git a/meta/recipes-devtools/cmake/cmake_3.31.6.bb b/meta/recipes-devtools/cmake/cmake_3.31.6.bb
-index 7d8b8cac65..2d343d6f52 100644
---- a/meta/recipes-devtools/cmake/cmake_3.31.6.bb
-+++ b/meta/recipes-devtools/cmake/cmake_3.31.6.bb
-@@ -5,6 +5,7 @@ inherit cmake bash-completion
- DEPENDS += "curl expat zlib libarchive xz ncurses bzip2"
- 
- SRC_URI:append:class-nativesdk = " \
-+    file://0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch \
-     file://OEToolchainConfig.cmake \
-     file://SDKToolchainConfig.cmake.template \
-     file://cmake-setup.py \
+Richard
 
