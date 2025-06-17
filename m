@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C96B9C71157
-	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 16:00:22 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.23112.1750176021059855018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 093A8C7115F
+	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 16:00:23 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.23017.1750176014732664612
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 09:00:21 -0700
+ Tue, 17 Jun 2025 09:00:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=o+2/7Vq1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-235ea292956so54415135ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:00:21 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2caD8YuF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-311e2cc157bso4884538a91.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176020; x=1750780820; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176014; x=1750780814; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8MtXEg1UdNJIMk4RnmEBAE5kO5viPf2g7JpTxP0URhg=;
-        b=o+2/7Vq1L3UpONIpWmz6MrvhbKjXNN4Z9/+p7p/sZMwURYL0u2V7J04k+bFs57lSo4
-         BY6QJL5upugVCfZUSXZIGdqXIECHTyGL8oqM1MwElcUNfi3ZmgCd+9XfOEqySsAd+q5S
-         5bG0gvatCMmxDPQffIwvumikrEdbFtv7OaGGa9/HgSxCPzSPEk502RopXjfVtIe258O8
-         FUeut+7mMJue6ZZpGRZpQAaxMwTJx+Uu0pA0g0bhHPGzhID7tuJWnQctaUovx07dpz0/
-         +rdrhNUlwyWrimDaDyQrc314D/LHlcS3nXMazfnJ1BTpneHl3MlMAoLtOwaRJmbbsWS4
-         OI1w==
+        bh=DaKSPc5rwrEMV/HncWsoVuydRt6O4ociiDTDbLy/cXE=;
+        b=2caD8YuFKUL43V4IirAka1GxQXpkuAkXBGyL/mTt/uG1TtfBqwQ8SKbo58j4qhiriO
+         ifyGqh6edf3QcyfWtZ/slCYcNclOfeNwRKyqk5eugytdqiFXKQfvMmQijt/pCtYKcS0H
+         ftnU8GNlPRxByjitot7fkbqnY4HrFfl/W5ofqRyscyAkWNCdL6zlSFk9K2Lxba9XG3d5
+         2Q790ov8a8ADXuMXF4QPjXz8pXHbkw6E27XluAvsBr/3JzJp4tkBo0C/kdEltLEceXQV
+         AwL862Xcvu4qXUEAFBpL3V8j70S8SJxWoZ27LlvcDHPxWoE8buOsmX3vqokdMVAe155l
+         8gEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750176020; x=1750780820;
+        d=1e100.net; s=20230601; t=1750176014; x=1750780814;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8MtXEg1UdNJIMk4RnmEBAE5kO5viPf2g7JpTxP0URhg=;
-        b=wH3H4PkGd2f6TKzvNgZq/VNoDYUX/qydqKwGSH20jyTcButKKT1kIYMDlPMtKT7R/z
-         gOWe1+WVBDAtb4/PEs7CZgiNLYxOFJ0tf5jiqFC52uKuiNIEDV6uOu54eyvCB6YU2DI5
-         6gmr8mGW0lenS4PvCKYu1XZNBqAjjUc617Q3oaD6FrTpmBHp8itSDbonGrcFWBOumu8E
-         XdLqtPXIsUhWXdD0dGdUly46jnB31SrKiqccdA+aLj+eqpyo9HJ4lOg6+G/RO1dQJQZ1
-         IziIpOWYINrqzfKvzMbgs8wMfazDH7ba9wnskrJqsacgFKE1UZNorfiz4NheUAwOJFoZ
-         RtiQ==
-X-Gm-Message-State: AOJu0YwIQ9D0k3/U4Evjokx2BcerctO+GAZLCnNXCANiEfh/37s6i2uw
-	+7tiBq7Iu2LMDa/UvudC4pujUghTDm1bE1FQD8tJy/1e2VlYddyZpYHaqHHHIMiza43OAx+/5yb
-	SDhbr
-X-Gm-Gg: ASbGncuEfDOfSpscDu39wH0fZZG/PNXWwPBUqLO1Qq3ayhpfmpVV7GSpCjiBGKjevu0
-	1uZLXkSQVnKNgswr/73570OSMXbz/lDJxHlSQPe6EF+qam/FiR4kyUCTC6gGgnTNvngSrvL5JpN
-	ZCgufKgG0gHTPH5Ydg7wYp5+dUnah4w3PoC/vq7LDZpJzmXQaVAuGN1C8HtK4G6FnL7MVuSvcEx
-	3dl0lA141HyCoIcxdHAOSzkd8xoYIehHYxjyvLlaAdvHmnaLBW06vwHbxC01nVoWAftTXJ1dBib
-	icetbghkCC3ar592hZhp8yL51GBuHXep7/R/DVgHyGoXx5t/5yC60g==
-X-Google-Smtp-Source: AGHT+IHiKO428YosNxV3B/FQTvDUJ/jDRzyQos+2Rs4tB0ZF4M+TyfvkFbCZbJqHeGww+vU/V6FuXQ==
-X-Received: by 2002:a17:903:120f:b0:234:8eeb:d834 with SMTP id d9443c01a7336-2366b006032mr203302885ad.16.1750176018938;
-        Tue, 17 Jun 2025 09:00:18 -0700 (PDT)
+        bh=DaKSPc5rwrEMV/HncWsoVuydRt6O4ociiDTDbLy/cXE=;
+        b=YXx2kpTLuRJ6EalJPha9nuLqKoBR/aOCNLvxHOZnYReRm79aDIVsA+ghu4yUKK6EOC
+         suXXkcBeB04fnvVk9ejTJV0iYv0kYkz9AWA/8d8nhVZHocoJ3hQm2XEphzQYMDU9lCJ/
+         nzc1Dr8k97YOrulXgi4wUsHBQCyW+iBRbx4Q0JVvKIi6Ui+PfsiyM2eU6m+rdW90pfuV
+         OK+lh1MUaD49ad9lah9hyf8KuhwCrPyTi4lB8Ph7H4y81ebi1MNyfMJsTYR4s5Yy5V/6
+         zu7o8lFTMJVGoiJkwPB6plaMQ/67DpkB/xE/QRZ4MSXn0VidCeONTt69bQfWBESYXWdR
+         zpzw==
+X-Gm-Message-State: AOJu0YzqZlBVk20GBsLxRImzS+0TILYkYBrINwE2tTeOXSkLiLXEtGq4
+	YgGMWnvUcekukYMJcZRowmx6b+Qne3cRC6JwsCu6CYrEXLaYIHeN66PAyw7SXKGun0tgWrSsus7
+	/EyWZ
+X-Gm-Gg: ASbGncuMoZ2qHjE/crr4vsRINJ1r8vd649uNiiA2z8wnIw53mEv/hqtOpG/rcI+MfA+
+	oawXB/IcfAbS/w2uafbttoaeagO7ks4gwItus1kR5CsndUTxEUm6oaWBMKxd9jwSgohKYUmva+b
+	AVcqnXieWPRQc/PnjLniotfxglHits2BJeVJ94QaBDQW2d3LLitqCXIgDA3F2nTvhZFn+vkRuh5
+	qa3plD2ZI7cDn4ek24gkVIrKKtWLcoBBYYqTWmwLQrPL+Ae1cfvYHAPj05oXypesa83oiQxvHel
+	0WrK7ZM4nU7nIRxVWrUvV/Voi7DejrM9CzF+wwywi6QBgLPdmAfQ4Q==
+X-Google-Smtp-Source: AGHT+IFD3eedk3y4NVgItO4THFxjibCxdCsDxpIEzczqhETxG0buJhxsF/M5xNvhPAjRcgxoaE2mVw==
+X-Received: by 2002:a17:90b:1c81:b0:311:ffe8:20ee with SMTP id 98e67ed59e1d1-313f1c0168cmr22333828a91.11.1750176013789;
+        Tue, 17 Jun 2025 09:00:13 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7ce4:2bd1:2434:c118])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea7d82sm81475515ad.146.2025.06.17.09.00.18
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea7d82sm81475515ad.146.2025.06.17.09.00.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 09:00:18 -0700 (PDT)
+        Tue, 17 Jun 2025 09:00:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 10/12] util-linux: fix agetty segfault issue
-Date: Tue, 17 Jun 2025 08:59:50 -0700
-Message-ID: <e9cfc549091b77d08817eb7235076c7a0c20e4fa.1750175857.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 07/12] scripts/install-buildtools: Update to 5.2.1
+Date: Tue, 17 Jun 2025 08:59:47 -0700
+Message-ID: <91d430e7a68a0cc819398bd05d020f850364fdf1.1750175857.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1750175857.git.steve@sakoman.com>
 References: <cover.1750175857.git.steve@sakoman.com>
@@ -66,81 +66,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 16:00:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218897
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 16:00:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218895
 
-From: Yongxin Liu <yongxin.liu@windriver.com>
+From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 
-Backport a commit from util-linux upstream to fix the following error.
+Update to the 5.2.1 release of the 5.2.1 series for buildtools
 
-agetty: segfault at 0 ip 00007fc65600295c sp 00007fffa8dd67e8 error 4 in libc.so.6
-
-Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc   |  1 +
- ...tty-fix-stdin-conversion-to-tty-name.patch | 40 +++++++++++++++++++
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/0003-agetty-fix-stdin-conversion-to-tty-name.patch
+ scripts/install-buildtools | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 4e8701ffdf..cbf148073b 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -40,6 +40,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://fcntl-lock.c \
-            file://0001-cfdisk-add-sector-size-commanand-line-option.patch \
-            file://0002-sfdisk-add-sector-size-commanand-line-option.patch \
-+           file://0003-agetty-fix-stdin-conversion-to-tty-name.patch \
-            "
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index 6750ffcbcc..aa23942858 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
  
- SRC_URI[sha256sum] = "5c1daf733b04e9859afdc3bd87cc481180ee0f88b5c0946b16fdec931975fb79"
-diff --git a/meta/recipes-core/util-linux/util-linux/0003-agetty-fix-stdin-conversion-to-tty-name.patch b/meta/recipes-core/util-linux/util-linux/0003-agetty-fix-stdin-conversion-to-tty-name.patch
-new file mode 100644
-index 0000000000..2766ee2c0d
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/0003-agetty-fix-stdin-conversion-to-tty-name.patch
-@@ -0,0 +1,40 @@
-+From bd6c104f931329ce6fbc5a1250c8c80a1d8223ee Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Mon, 24 Feb 2025 13:37:04 +0100
-+Subject: [PATCH] agetty: fix stdin conversion to tty name
-+
-+Addresses: https://github.com/util-linux/util-linux/issues/3304
-+
-+Upstream-Status: Backport
-+[https://github.com/util-linux/util-linux/commit/bd6c104f931329ce6fbc5a1250c8c80a1d8223ee]
-+Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
-+---
-+ term-utils/agetty.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/term-utils/agetty.c b/term-utils/agetty.c
-+index aa859c27b..0dfe52c90 100644
-+--- a/term-utils/agetty.c
-++++ b/term-utils/agetty.c
-+@@ -928,11 +928,15 @@ static void parse_args(int argc, char **argv, struct options *op)
-+ 
-+ 	/* resolve the tty path in case it was provided as stdin */
-+ 	if (strcmp(op->tty, "-") == 0) {
-++		int fd;
-++		const char *name = op->tty;
-++
-+ 		op->tty_is_stdin = 1;
-+-		int fd = get_terminal_name(NULL, &op->tty, NULL);
-+-		if (fd < 0) {
-++		fd = get_terminal_name(NULL, &name, NULL);
-++		if (fd >= 0)
-++			op->tty = name;	/* set real device name */
-++		else
-+ 			log_warn(_("could not get terminal name: %d"), fd);
-+-		}
-+ 	}
-+ 
-+ 	/* On virtual console remember the line which is used for */
-+-- 
-+2.46.2
-+
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-5.2'
+-DEFAULT_INSTALLER_VERSION = '5.2'
++DEFAULT_RELEASE = 'yocto-5.2.1'
++DEFAULT_INSTALLER_VERSION = '5.2.1'
+ DEFAULT_BUILDDATE = '202110XX'
+ 
+ # Python version sanity check
 -- 
 2.43.0
 
