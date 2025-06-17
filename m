@@ -1,76 +1,65 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA233C71157
-	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 08:06:49 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.13234.1750147605737841779
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C3BC71157
+	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 08:10:59 +0000 (UTC)
+Received: from TWMBX01.aspeed.com (TWMBX01.aspeed.com [211.20.114.72])
+ by mx.groups.io with SMTP id smtpd.web10.13301.1750147855276325504
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 01:06:46 -0700
+ Tue, 17 Jun 2025 01:10:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=pgrweTOL;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4B10C43955;
-	Tue, 17 Jun 2025 08:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1750147604;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oja1UgyAEYGPywnbYWVEQBxfNZMeUdq95a7XcaaPE0Y=;
-	b=pgrweTOLfasWu+p3LnjBukgruiVh/QU8EXK+R7ANLm9ueIoK+5Duria2WIom6dGz3OghKh
-	e1qoMT9lUa3e0TKht9jqIi/K6leONNgCoUu13EFxExcaplWMvMNPE/jZqSdHjqGJCU8+7K
-	1p/XgO3C6wh0l3dUXMlWRjVE9u7UOGknHDQUZCjnB+So76IZ5Z/fn9N15hVAT+Q8OEdPDW
-	WIKJ+Gm9I8S/RD6tKH5DndiB2T9fLSnqacD01bmqtcrpQxbvNCzHaAui5ZhDMS1F0/Pasb
-	srgB8VIn+7xiMT6f4HgAf7YYQV7QSZ4SMmjnNH8bSOGzJVGmQXLnvcOe/z8fVw==
-Mime-Version: 1.0
+ dkim=none (message not signed); spf=pass (domain: aspeedtech.com, ip: 211.20.114.72, mailfrom: jamin_lin@aspeedtech.com)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 17 Jun
+ 2025 16:10:52 +0800
+Received: from mail.aspeedtech.com (192.168.10.10) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Tue, 17 Jun 2025 16:10:52 +0800
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <troy_lee@aspeedtech.com>, <jamin_lin@aspeedtech.com>
+Subject: [PATCH v2 0/3] Support signing U-Boot FIT image without SPL
+Date: Tue, 17 Jun 2025 16:10:49 +0800
+Message-ID: <20250617081052.3087995-1-jamin_lin@aspeedtech.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 17 Jun 2025 10:06:39 +0200
-Message-Id: <DAONJNWI9CKT.Z78C1GZFMAUI@bootlin.com>
-Subject: Re: [OE-core][meta][PATCH v2] dropbear: add xauth runtime
- recommends dependency on x11 DISTRO_FEATURE
-Cc: <ross.burton@arm.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Andrej Valek" <andrej.v@skyrain.eu>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250605091828.50442-1-andrej.v@skyrain.eu>
- <20250616073742.47439-1-andrej.v@skyrain.eu>
-In-Reply-To: <20250616073742.47439-1-andrej.v@skyrain.eu>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvkeekhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkefhkeeifeethfejteevfeduheduvddvuedvvddugfffhfevkefftefhuefftddunecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedprhgtphhtthhopegrnhgurhgvjhdrvhesshhkhihrrghinhdrvghupdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhis
- hhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheprhhoshhsrdgsuhhrthhonhesrghrmhdrtghomh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 08:06:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218857
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 08:10:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218858
 
-On Mon Jun 16, 2025 at 9:37 AM CEST, Andrej Valek wrote:
-> Change enable-x11-forwarding PACKAGECONFIG to x11, while we can rely
-> directly on X11 DISTRO_FEATURE. Previously when enable-x11-forwarding was
-> used, the XAUTH_COMMAND failed due to missing xauth. So add xauth to
-> runtime recommends dependency and enable this behavior as default.
->
-> Signed-off-by: Andrej Valek <andrej.v@skyrain.eu>
-> ---
+v1:
+- uboot-sign: Make SPL DTB public key injection optional
 
-Hi Andrej,
+v2:
+- Fix review issue
+- Add test for signing U-Boot FIT image without SPL
+- Refactor condition checks to use && and || instead of -a and -o
+- Support signing U-Boot FIT image without SPL
+  - The `SPL_DTB_BINARY` variable can be explicitly set to an empty string
+    to indicate that no SPL is present.
+  - The signing logic checks `SPL_DTB_BINARY` and skips injecting the
+    key or verifying the SPL DTB if it is empty.
+  - The FIT image generation and deployment are always performed if
+    `UBOOT_FITIMAGE_ENABLE` is enabled, regardless of the SPL settings.
 
-It looks like the v2 depends on the v1 here. I would have been happy to
-squash them, but the commit message is different, so I don't want to
-interfere too much here.
+Jamin Lin (3):
+  uboot-sign: Support signing U-Boot FIT image without SPL
+  uboot-sign.bbclass: Refactor condition checks to use && and || instead
+    of -a and -o
+  oe-selftest: fitimage: Add test for signing U-Boot FIT image without
+    SPL
 
-Do you mind sending a v3 with a single commit?
+ meta/classes-recipe/uboot-sign.bbclass   | 74 ++++++++++++++----------
+ meta/lib/oeqa/selftest/cases/fitimage.py | 37 ++++++++++++
+ 2 files changed, 79 insertions(+), 32 deletions(-)
 
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
 
 
