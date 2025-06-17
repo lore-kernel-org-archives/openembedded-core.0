@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24EE8C7115B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B3D5C7115F
 	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 16:04:53 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.23250.1750176287027430146
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.23161.1750176285268725166
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 09:04:47 -0700
+ Tue, 17 Jun 2025 09:04:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ge5hvgKG;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b2fb8226e1cso6579895a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:04:46 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lJhn+lhs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-235e1d710d8so73306615ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:04:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176286; x=1750781086; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176284; x=1750781084; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OydPDF6Qz3g8De6UTxCHOqLcDFzmMlRvjvYPw0Hw750=;
-        b=Ge5hvgKG/HLuryMbs6YCR25pswe3par8qJ0ERe6OhJwIEJwzYiMquMxBgL3Fw9LCK3
-         dNl6L1+EJyE1i8w7wUfQ0CzMiqy1w8knRoergVU9oXxOjum0j+uIj28DKveUaNzmfZb9
-         iyiX3bY/KOFDxSE+pX0bpoMUCkUyXjRIZC7wph6AFk3rZQKJwwi8uPpY1/gHmjsteaVb
-         CPxrtIedtqGbuLgd5vdEbFv76b5dMBEWFCmqv3wONfXhPjgCILx82vL+AtEo8uVH8EJM
-         sEGbXABYt9dS+pGDdGlbldfa60QNwJ//7UzioIMMbRNJq0d/SPhmIWyVksLHYNUQfcO/
-         emkg==
+        bh=oyDdgCVpjdDmRPMoR5Z/qsZrLax2U9xVqctrw999I7Q=;
+        b=lJhn+lhs0cNIF3LgjcuuTP3yziVIeaa6f4SpGV2wP/WTvJwkdvl0T6rxTd3lJdjH3O
+         JHl7JEwHa6FHlGKMRcuNrueLIIbGPVtcsY5KJIYq6KqbjtR2ulabm3TIZ3fLWI0XjD0e
+         8i/x2Uroj4uMROPpMQk5E/0IDehzkFcU0BMXy60H7JCOQt7Np0WnJXtIuXltr1y0uq/6
+         M2MCaZMufKu4BBcAL1AW0y8toGpK3vXg6L+6/H3SlaQ1SQnJUkPoAAsVL4vvfPHutWbq
+         zRGg3VaNuMKX99Y2kTUBixCysjY4VZHU1bMLkTlrChT67K3h0eFsGHw72/Z7Ht3q2GeR
+         DBxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750176286; x=1750781086;
+        d=1e100.net; s=20230601; t=1750176284; x=1750781084;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OydPDF6Qz3g8De6UTxCHOqLcDFzmMlRvjvYPw0Hw750=;
-        b=Z8UZeKICQ6iyGrmu0AX0flMsc8+I5oMyQuLpHzUyCVJSod+cQw0FbsqwMAW/4j1jju
-         RmPtOToyI5vQ9P2D0VHkavxUdSc4og6u+g3RJF5s84i4gQ/j7tsI2jTTAYj8E3il8Q+k
-         qQP29nudWzyzgH77xr0tXq384otjU0kSIZZp538R0ORQ1FjfarWLBd8c5jGGvUtA/UkL
-         ShjLmy8d/3BY/4MSrGKnHtTQrKPLfmvjzZ+MEL4a5ZDT4sRAJmNakVggSJum1SXxZ3en
-         +Xoo9QSGPTCakvAW8l1R31guck1paA2XFgG/QonXIq+nnOmUexP7s7ZjSWm8O7sZZc4i
-         q9kg==
-X-Gm-Message-State: AOJu0Yx6d1OTKJddNSrfl5FVfN79vOOZcu1skLFaJZlhApAPfJ2NoXPa
-	KGmxCJH6FOszlZwcd4waY/BTtNUmf5odL6JPbgBT07Pi0f7jb/xocavSkHI/U43/+1mEAN/9wgm
-	DJfE5
-X-Gm-Gg: ASbGncud6HUOexMIpuDtSZNP/wG12CWe3kMeDtyhba4U1MmZGMIqpFTUsgIJ+BxLnfm
-	XBN6sDaO/OCZCgfSS/nYgRaExKg/pDFrRSS+9HBmytjhBWsOh29K9nrEqhOLMyanKMIJaM1a5FM
-	X50VpFfCuwDYm7eabPp/qGD5+BIxUkfHj8O2yIXisM1AYSrgCofK6ixl/bYBavgFexAnGf+m3Yc
-	exuWLJfgfloyXdsyZLlCZ8NKSwmRpKVKIze6jmreX+j+5/CNJowGoD8zZ0qqYASiO+L92MsXPTp
-	AG0lx+uLuExOuOr/eLxTgEKqYXWG+qzEsa+d3EdEyTIlX4jLHanfCg==
-X-Google-Smtp-Source: AGHT+IF4MCoHyJHiZMZttMnVxnTYY84Q6dAWsUTxv9rE1LTv2rOm6g1N1SGmATOgA/9fjdtpNoXgsQ==
-X-Received: by 2002:a17:90b:2783:b0:2fa:562c:c1cf with SMTP id 98e67ed59e1d1-31427ce9b73mr4503971a91.1.1750176286110;
-        Tue, 17 Jun 2025 09:04:46 -0700 (PDT)
+        bh=oyDdgCVpjdDmRPMoR5Z/qsZrLax2U9xVqctrw999I7Q=;
+        b=rQUuE/1RUCN+0AK4PKLvNPi8sGymW95Sza0+r+iMvCuD7Py8xDW3w844RmOMk/u1Mc
+         GttsJDOl4YUPlI0oZOLP2O0WmPo1+PvdIlz5o4novyKZO/9nsKLNiJlsofCWf7zGMUKm
+         coMxCap/39Pw3rjGxNknceTMPYH4AKsjVo2qGrg9EDx7wbPGiB9E6eCdMU2Qpklt0tj8
+         lf143b0zZ6aNCaTxl3uDOlErmhEYYhSfRUtf3YSeAyXUAeOCYgGgVmhlN9izbYMVjQxD
+         vzmuuKtE5f1a77k9+k4gJgzYkbzaS0+KJPl1P8kM4L9Q6AFfM8onZvgoLH04LEj7NxGN
+         u3iA==
+X-Gm-Message-State: AOJu0Yz+Ovk350N+o6pBea38j5bc6vQjo7VNP8YAL4ubrVwzO2BVMNAe
+	nrkHOA99Ttj/tuRISQazQS6eUzFh4IOaxmfO6dT3Dj4JH7BYsOhljWH6CLU6LlJ0I/dSDILEdNs
+	ide71
+X-Gm-Gg: ASbGncsiBaf9z5bf9HROZ6qo9vWjYlA8IybyDEAh55D0Khaz7EOszgQl1rKzZmQjSK6
+	cZcebi7P7aO4DJ1/oRmhT01/g8CJy0/raOX1K5owuXzcDgQtKcoweFG09WPgLraflshmdX3kEOx
+	tGCnhcGiBhwCkxpZEOYt7TJEDzr8+ujKysGjFBJmcn/qwT/gKVECfuSBQAeKf3xuTgoOhgR/KBY
+	Oat39vcPo0TP+lp1bdXGDngHQdeAWl2/JD5cpeusN1NfsXGoHw1mFIbA8iBGlqtviFullJRcNG/
+	JlIuCK1X552j6/Y4KwMFFBlmmB1Lv3daaLaW8TtzBayjluYWrRzJbg==
+X-Google-Smtp-Source: AGHT+IGGtNdSjwYDEfGvKbgkQ+YxffnzUqgiOgu6PMGRh3sZ68sLkFdEbDqTTvhXBDcPx7mrA4fN9g==
+X-Received: by 2002:a17:902:ce89:b0:220:c164:6ee1 with SMTP id d9443c01a7336-2366b3dd319mr227430005ad.32.1750176284385;
+        Tue, 17 Jun 2025 09:04:44 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7ce4:2bd1:2434:c118])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365decaf71sm82043365ad.217.2025.06.17.09.04.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365decaf71sm82043365ad.217.2025.06.17.09.04.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 09:04:45 -0700 (PDT)
+        Tue, 17 Jun 2025 09:04:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 7/8] libpng: Add ptest
-Date: Tue, 17 Jun 2025 09:04:25 -0700
-Message-ID: <1b52b7ebe5f8fb490088622181cdb95e6b7f5a29.1750176125.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 6/8] tune-cortexr52: Remove aarch64 for ARM Cortex-R52
+Date: Tue, 17 Jun 2025 09:04:24 -0700
+Message-ID: <8ee21ec40e9f25ee97ec077b93751fea14b66e32.1750176125.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1750176125.git.steve@sakoman.com>
 References: <cover.1750176125.git.steve@sakoman.com>
@@ -67,113 +67,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 16:04:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218908
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218907
 
-From: Poonam Jadhav <ppjadhav456@gmail.com>
+From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 
-Install libpng test-suite to run it as a ptest.
-As the test-suite takes more than 30 seconds to run,
-add libpng-ptest to PTESTS_SLOW in ptest-packagelists.inc
+Remove aarch64 for ARM Cortex-R52 processor as it supports only 32-bit
+ISA but not 64-bit ISA. Also update ARMPKGARCH for cortexr52hf.
 
-Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
+Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Signed-off-by: Sandeep Gundlupet Raju <grsandeep85@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../recipes-multimedia/libpng/files/run-ptest |  7 ++++
- .../libpng/libpng_1.6.42.bb                   | 42 ++++++++++++++++++-
- 3 files changed, 48 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/libpng/files/run-ptest
+ meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 3387e19191..9950e46776 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -102,6 +102,7 @@ PTESTS_SLOW = "\
-     libevent \
-     libgcrypt \
-     libmodule-build-perl \
-+    libpng \
-     lttng-tools \
-     openssh \
-     openssl \
-diff --git a/meta/recipes-multimedia/libpng/files/run-ptest b/meta/recipes-multimedia/libpng/files/run-ptest
-new file mode 100644
-index 0000000000..85051a59f5
---- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/run-ptest
-@@ -0,0 +1,7 @@
-+#!/bin/sh
-+
-+set -eux
-+
-+cd src
-+
-+make check-TESTS
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-index 673133bb4a..4c21e8d597 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-@@ -10,7 +10,10 @@ DEPENDS = "zlib"
+diff --git a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc b/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+index 89f0e09450..e8667bc16b 100644
+--- a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
++++ b/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+@@ -10,11 +10,10 @@ require conf/machine/include/arm/arch-armv8r.inc
  
- LIBV = "16"
+ AVAILTUNES                             += "cortexr52"
+ ARMPKGARCH:tune-cortexr52               = "cortexr52"
+-# We do not want -march since -mcpu is added above to cover for it
+-TUNE_FEATURES:tune-cortexr52            = "aarch64 crc simd cortexr52"
++TUNE_FEATURES:tune-cortexr52            = "${TUNE_FEATURES:tune-armv8r-crc-simd} cortexr52"
+ PACKAGE_EXTRA_ARCHS:tune-cortexr52      = "${PACKAGE_EXTRA_ARCHS:tune-armv8r-crc-simd} cortexr52"
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz \
-+           file://run-ptest \
-+"
-+
- SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
- 
- MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
-@@ -19,7 +22,7 @@ UPSTREAM_CHECK_URI = "http://libpng.org/pub/png/libpng.html"
- 
- BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
- 
--inherit autotools binconfig-disabled pkgconfig
-+inherit autotools binconfig-disabled pkgconfig ptest
- 
- # Work around missing symbols
- ARMNEON = "${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off", d)}"
-@@ -30,4 +33,39 @@ PACKAGES =+ "${PN}-tools"
- 
- FILES:${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}/pngcp"
- 
-+RDEPENDS:${PN}-ptest += "make bash gawk"
-+
-+do_install_ptest() {
-+    # Install test scripts to ptest path
-+    install -d ${D}${PTEST_PATH}/src/tests
-+    install -m 755 ${S}/tests/* ${D}${PTEST_PATH}/src/tests
-+    install -m 755 ${S}/test-driver ${D}${PTEST_PATH}/src
-+    install -d ${D}${PTEST_PATH}/src/tests/scripts
-+    install -m 755 ${S}/scripts/*.awk ${D}${PTEST_PATH}/src/tests/scripts
-+    install -m 644 ${S}/scripts/pnglib* ${S}/scripts/*.c ${S}/scripts/*.def ${S}/scripts/macro.lst ${D}${PTEST_PATH}/src/tests/scripts
-+    install -m 644 ${S}/scripts/pnglibconf.h.prebuilt ${D}${PTEST_PATH}/src/tests/scripts/pnglibconf.h
-+    install -d ${D}${PTEST_PATH}/src/contrib/tools
-+    install -m 755 ${S}/contrib/tools/*.sh ${D}${PTEST_PATH}/src/contrib/tools
-+    install -m 644 ${S}/contrib/tools/*.c ${S}/contrib/tools/*.h ${D}${PTEST_PATH}/src/contrib/tools
-+
-+    # Install .libs directory binaries to ptest path
-+    install -m 755 ${B}/.libs/pngtest ${B}/.libs/pngstest ${B}/.libs/pngimage ${B}/.libs/pngunknown ${B}/.libs/pngvalid ${D}${PTEST_PATH}/src
-+
-+    # Copy png files to ptest path
-+    cd ${S} && find contrib -name '*.png' | cpio -pd ${D}${PTEST_PATH}/src
-+
-+    # Install Makefile and png files
-+    install -m 644 ${S}/pngtest.png ${D}${PTEST_PATH}/src
-+    install -m 644 ${S}/*.png ${S}/*.h ${S}/*.c ${S}/*.dfa ${B}/pnglibconf.out ${S}/Makefile.am ${S}/Makefile.in ${D}${PTEST_PATH}/src/tests
-+
-+    sed -e 's/^abs_srcdir = ..*/abs_srcdir = \.\./'          \
-+        -e 's/^top_srcdir = ..*/top_srcdir = \.\./'          \
-+        -e 's/^srcdir = ..*/srcdir = \./'                    \
-+        -e 's/^Makefile: ..*/Makefile: /'                    \
-+        -e 's/check-TESTS: $(check_PROGRAMS)/check-TESTS:/g' \
-+        ${B}/Makefile > ${D}${PTEST_PATH}/src/Makefile
-+
-+    sed -e 's|#!/bin/awk|#!/usr/bin/awk|g' -i ${D}${PTEST_PATH}/src/tests/scripts/*.awk
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
+ AVAILTUNES                             += "cortexr52hf"
+-ARMPKGARCH:tune-cortexr52hf             = "cortexr52"
++ARMPKGARCH:tune-cortexr52hf             = "cortexr52hf"
+ TUNE_FEATURES:tune-cortexr52hf          = "${TUNE_FEATURES:tune-cortexr52} callconvention-hard"
+ PACKAGE_EXTRA_ARCHS:tune-cortexr52hf    = "cortexr52hf"
 -- 
 2.43.0
 
