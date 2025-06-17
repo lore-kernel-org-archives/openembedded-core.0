@@ -2,7 +2,7 @@ Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B58D4C7115F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6688C7115B
 	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 08:10:59 +0000 (UTC)
 Received: from TWMBX01.aspeed.com (TWMBX01.aspeed.com [211.20.114.72])
  by mx.groups.io with SMTP id smtpd.web10.13301.1750147855276325504
@@ -20,9 +20,9 @@ Received: from mail.aspeedtech.com (192.168.10.10) by TWMBX01.aspeed.com
 From: Jamin Lin <jamin_lin@aspeedtech.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <troy_lee@aspeedtech.com>, <jamin_lin@aspeedtech.com>
-Subject: [PATCH v2 1/3] uboot-sign: Support signing U-Boot FIT image without SPL
-Date: Tue, 17 Jun 2025 16:10:50 +0800
-Message-ID: <20250617081052.3087995-2-jamin_lin@aspeedtech.com>
+Subject: [PATCH v2 2/3] uboot-sign.bbclass: Refactor condition checks to use && and || instead of -a and -o
+Date: Tue, 17 Jun 2025 16:10:51 +0800
+Message-ID: <20250617081052.3087995-3-jamin_lin@aspeedtech.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250617081052.3087995-1-jamin_lin@aspeedtech.com>
 References: <20250617081052.3087995-1-jamin_lin@aspeedtech.com>
@@ -33,152 +33,150 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 08:10:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218859
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218860
 
-Previously, the signing flow in "uboot-sign.bbclass" assumed that SPL was a=
-lways
-present and that the FIT signing process must inject the public key into th=
-e
-SPL DTB. This made it inflexible for use cases where only the U-Boot proper
-FIT image is built and signed, with no SPL binary at all.
+This commit cleans up and modernizes the shell condition expressions in
+`uboot-sign.bbclass` to follow best practices for portable and reliable she=
+ll usage.
 
-This change introduces the following adjustments:
-- The `SPL_DTB_BINARY` variable can be explicitly set to an empty string
-  to indicate that no SPL is present.
-- The signing logic checks `SPL_DTB_BINARY` and skips injecting the
-  key or verifying the SPL DTB if it is empty.
-- The FIT image generation and deployment are always performed if
-  `UBOOT_FITIMAGE_ENABLE` is enabled, regardless of the SPL settings.
-- The deploy helper now uses a single check on `SPL_DTB_BINARY` to decide
-  whether to deploy the signed SPL DTB.
+Key changes:
+- Replace legacy `[ -a ]` and `[ -o ]` with explicit `[ ] && [ ]` and `[ ] =
+|| [ ]`.
+  Modern POSIX and busybox sh recommend using `&&` and `||` instead of `-a`=
+ and `-o`
+  because `-a` and `-o` are less robust and can cause parsing ambiguities i=
+n some shells.
+- Simplify `concat_dtb()` by moving the DTB existence check to the top and =
+using
+  early `return` to avoid deep nesting.
+- Remove redundant fallback `else` blocks; use clearer control flow with di=
+rect checks.
 
-Now the sign step checks if SPL_DTB_BINARY is empty:
-If present, it signs the FIT image and injects the public key into the SPL =
-DTB,
-then verifies both.
-If empty, it only signs the FIT image and generates the ITS with the signat=
-ure
-node, but does not attempt to verify or add the key to a non-existent SPL D=
-TB.
+This improves maintainability, reduces shell syntax pitfalls, and aligns wi=
+th
+current shell scripting best practices.
 
-Key Behavior Explained
-If SPL_DTB_BINARY is empty, we assume there is no SPL.
-If UBOOT_FITIMAGE_ENABLE=3D1, we always create the FIT image and ITS.
-If SPL_SIGN_ENABLE=3D1, we always sign the FIT image, but only inject the k=
-ey into
-the SPL DTB if it exists.
-
-Example usage:
-  UBOOT_FITIMAGE_ENABLE =3D "1"
-  SPL_SIGN_ENABLE =3D "1"
-  SPL_DTB_BINARY =3D ""
-
-This means:
-  - Generate and sign the FIT image.
-  - Do not attempt to sign or deploy an SPL DTB.
-
-This aligns the implementation with real scenarios where some boards do not
-require an SPL.
+References:
+- POSIX recommends avoiding `-a` and `-o` in `[ ]` and using explicit `&&` =
+and `||`:
+  https://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html
 
 Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 50 +++++++++++++++-----------
- 1 file changed, 29 insertions(+), 21 deletions(-)
+ meta/classes-recipe/uboot-sign.bbclass | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
 diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/u=
 boot-sign.bbclass
-index 73e9ce3f11..01c53c7448 100644
+index 01c53c7448..0f387a3a3e 100644
 --- a/meta/classes-recipe/uboot-sign.bbclass
 +++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -50,6 +50,8 @@ UBOOT_FITIMAGE_BINARY ?=3D "u-boot-fitImage"
- UBOOT_FITIMAGE_SYMLINK ?=3D "u-boot-fitImage-${MACHINE}"
- SPL_DIR ?=3D "spl"
- SPL_DTB_IMAGE ?=3D "u-boot-spl-${MACHINE}-${PV}-${PR}.dtb"
-+# When SPL is not used, set SPL_DTB_BINARY ?=3D "" to explicitly indicate
-+# that no SPL DTB should be created or signed.
- SPL_DTB_BINARY ?=3D "u-boot-spl.dtb"
- SPL_DTB_SIGNED ?=3D "${SPL_DTB_BINARY}-signed"
- SPL_DTB_SYMLINK ?=3D "u-boot-spl-${MACHINE}.dtb"
-@@ -466,25 +468,31 @@ EOF
- 		${UBOOT_FITIMAGE_BINARY}
-=20
- 	if [ "${SPL_SIGN_ENABLE}" =3D "1" ] ; then
--		#
--		# Sign the U-boot FIT image and add public key to SPL dtb
--		#
--		${UBOOT_MKIMAGE_SIGN} \
--			${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else =
-''} \
--			-F -k "${SPL_SIGN_KEYDIR}" \
--			-K "${SPL_DIR}/${SPL_DTB_BINARY}" \
--			-r ${UBOOT_FITIMAGE_BINARY} \
--			${SPL_MKIMAGE_SIGN_ARGS}
--		#
--		# Verify the U-boot FIT image and SPL dtb
--		#
--		${UBOOT_FIT_CHECK_SIGN} \
--			-k "${SPL_DIR}/${SPL_DTB_BINARY}" \
--			-f ${UBOOT_FITIMAGE_BINARY}
--	fi
-+		if [ -n "${SPL_DTB_BINARY}" ] ; then
-+			#
-+			# Sign the U-boot FIT image and add public key to SPL dtb
-+			#
-+			${UBOOT_MKIMAGE_SIGN} \
-+				${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else=
- ''} \
-+				-F -k "${SPL_SIGN_KEYDIR}" \
-+				-K "${SPL_DIR}/${SPL_DTB_BINARY}" \
-+				-r ${UBOOT_FITIMAGE_BINARY} \
-+				${SPL_MKIMAGE_SIGN_ARGS}
-=20
--	if [ -e "${SPL_DIR}/${SPL_DTB_BINARY}" ]; then
--		cp ${SPL_DIR}/${SPL_DTB_BINARY} ${SPL_DIR}/${SPL_DTB_SIGNED}
-+			# Verify the U-boot FIT image and SPL dtb
-+			${UBOOT_FIT_CHECK_SIGN} \
-+				-k "${SPL_DIR}/${SPL_DTB_BINARY}" \
-+				-f ${UBOOT_FITIMAGE_BINARY}
-+
-+			cp ${SPL_DIR}/${SPL_DTB_BINARY} ${SPL_DIR}/${SPL_DTB_SIGNED}
-+		else
-+			# Sign the U-boot FIT image
-+			${UBOOT_MKIMAGE_SIGN} \
-+				${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else=
- ''} \
-+				-F -k "${SPL_SIGN_KEYDIR}" \
-+				-r ${UBOOT_FITIMAGE_BINARY} \
-+				${SPL_MKIMAGE_SIGN_ARGS}
+@@ -198,21 +198,23 @@ concat_dtb() {
+ 	# If we're not using a signed u-boot fit, concatenate SPL w/o DTB & U-Boo=
+t DTB
+ 	# with public key (otherwise U-Boot will be packaged by uboot_fitimage_as=
+semble)
+ 	if [ "${SPL_SIGN_ENABLE}" !=3D "1" ] ; then
+-		if [ "x${UBOOT_SUFFIX}" =3D "ximg" -o "x${UBOOT_SUFFIX}" =3D "xrom" ] &&=
+ \
+-			[ -e "${UBOOT_DTB_BINARY}" ]; then
++		if [ ! -e "${UBOOT_DTB_BINARY}" ]; then
++			bbwarn "Failure while adding public key to u-boot binary. Verified boot=
+ won't be available."
++			return
 +		fi
++
++		if [ "x${UBOOT_SUFFIX}" =3D "ximg" ] || [ "x${UBOOT_SUFFIX}" =3D "xrom" =
+]; then
+ 			oe_runmake EXT_DTB=3D"${UBOOT_DTB_SIGNED}" ${UBOOT_MAKE_TARGET}
+ 			if [ -n "${binary}" ]; then
+ 				cp ${binary} ${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
+ 			fi
+-		elif [ -e "${UBOOT_NODTB_BINARY}" -a -e "${UBOOT_DTB_BINARY}" ]; then
++		elif [ -e "${UBOOT_NODTB_BINARY}" ]; then
+ 			if [ -n "${binary}" ]; then
+ 				cat ${UBOOT_NODTB_BINARY} ${UBOOT_DTB_SIGNED} | tee ${binary} > \
+ 					${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
+ 			else
+ 				cat ${UBOOT_NODTB_BINARY} ${UBOOT_DTB_SIGNED} > ${UBOOT_BINARY}
+ 			fi
+-		else
+-			bbwarn "Failure while adding public key to u-boot binary. Verified boot=
+ won't be available."
+ 		fi
  	fi
  }
+@@ -244,7 +246,7 @@ deploy_dtb() {
+ }
 =20
-@@ -496,7 +504,7 @@ uboot_assemble_fitimage_helper() {
+ concat_spl_dtb() {
+-	if [ -e "${SPL_DIR}/${SPL_NODTB_BINARY}" -a -e "${SPL_DIR}/${SPL_DTB_BINA=
+RY}" ] ; then
++	if [ -e "${SPL_DIR}/${SPL_NODTB_BINARY}" ] && [ -e "${SPL_DIR}/${SPL_DTB_=
+BINARY}" ] ; then
+ 		cat ${SPL_DIR}/${SPL_NODTB_BINARY} ${SPL_DIR}/${SPL_DTB_SIGNED} > "${SPL=
+_BINARY}"
+ 	else
+ 		bbwarn "Failure while adding public key to spl binary. Verified U-Boot b=
+oot won't be available."
+@@ -500,7 +502,7 @@ uboot_assemble_fitimage_helper() {
+ 	type=3D"$1"
+ 	binary=3D"$2"
+=20
+-	if [ "${UBOOT_SIGN_ENABLE}" =3D "1" -a -n "${UBOOT_DTB_BINARY}" ] ; then
++	if [ "${UBOOT_SIGN_ENABLE}" =3D "1" ] && [ -n "${UBOOT_DTB_BINARY}" ] ; t=
+hen
  		concat_dtb "$type" "$binary"
  	fi
 =20
--	if [ "${UBOOT_FITIMAGE_ENABLE}" =3D "1" -a -n "${SPL_DTB_BINARY}" ]; then
-+	if [ "${UBOOT_FITIMAGE_ENABLE}" =3D "1" ]; then
+@@ -508,7 +510,7 @@ uboot_assemble_fitimage_helper() {
  		uboot_fitimage_assemble
  	fi
 =20
-@@ -543,7 +551,7 @@ deploy_helper() {
+-	if [ "${SPL_SIGN_ENABLE}" =3D "1" -a -n "${SPL_DTB_BINARY}" ] ; then
++	if [ "${SPL_SIGN_ENABLE}" =3D "1" ] && [ -n "${SPL_DTB_BINARY}" ] ; then
+ 		concat_spl_dtb
+ 	fi
+ }
+@@ -547,7 +549,7 @@ addtask uboot_assemble_fitimage before do_install do_de=
+ploy after do_compile
+ deploy_helper() {
+ 	type=3D"$1"
+=20
+-	if [ "${UBOOT_SIGN_ENABLE}" =3D "1" -a -n "${UBOOT_DTB_SIGNED}" ] ; then
++	if [ "${UBOOT_SIGN_ENABLE}" =3D "1" ] && [ -n "${UBOOT_DTB_SIGNED}" ] ; t=
+hen
  		deploy_dtb $type
  	fi
 =20
--	if [ "${UBOOT_FITIMAGE_ENABLE}" =3D "1" -a -n "${SPL_DTB_BINARY}" ]; then
-+	if [ "${UBOOT_FITIMAGE_ENABLE}" =3D "1" ]; then
- 		if [ -n "${type}" ]; then
- 			uboot_its_image=3D"u-boot-its-${type}-${PV}-${PR}"
- 			uboot_fitimage_image=3D"u-boot-fitImage-${type}-${PV}-${PR}"
-@@ -561,7 +569,7 @@ deploy_helper() {
+@@ -569,7 +571,7 @@ deploy_helper() {
  		fi
  	fi
 =20
--	if [ "${SPL_SIGN_ENABLE}" =3D "1" -a -n "${SPL_DTB_SIGNED}" ] ; then
-+	if [ "${SPL_SIGN_ENABLE}" =3D "1" -a -n "${SPL_DTB_BINARY}" ] ; then
+-	if [ "${SPL_SIGN_ENABLE}" =3D "1" -a -n "${SPL_DTB_BINARY}" ] ; then
++	if [ "${SPL_SIGN_ENABLE}" =3D "1" ] && [ -n "${SPL_DTB_BINARY}" ] ; then
  		deploy_spl_dtb $type
  	fi
  }
+@@ -594,7 +596,7 @@ do_deploy:prepend() {
+ 		deploy_helper ""
+ 	fi
+=20
+-	if [ "${UBOOT_SIGN_ENABLE}" =3D "1" -a -n "${UBOOT_DTB_BINARY}" ] ; then
++	if [ "${UBOOT_SIGN_ENABLE}" =3D "1" ] && [ -n "${UBOOT_DTB_BINARY}" ] ; t=
+hen
+ 		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
+ 		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
+ 		ln -sf ${UBOOT_NODTB_IMAGE} ${DEPLOYDIR}/${UBOOT_NODTB_SYMLINK}
+@@ -608,7 +610,7 @@ do_deploy:prepend() {
+ 		ln -sf ${UBOOT_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_FITIMAGE_SYMLINK}
+ 	fi
+=20
+-	if [ "${SPL_SIGN_ENABLE}" =3D "1" -a -n "${SPL_DTB_BINARY}" ] ; then
++	if [ "${SPL_SIGN_ENABLE}" =3D "1" ] && [ -n "${SPL_DTB_BINARY}" ] ; then
+ 		ln -sf ${SPL_DTB_IMAGE} ${DEPLOYDIR}/${SPL_DTB_SYMLINK}
+ 		ln -sf ${SPL_DTB_IMAGE} ${DEPLOYDIR}/${SPL_DTB_BINARY}
+ 		ln -sf ${SPL_NODTB_IMAGE} ${DEPLOYDIR}/${SPL_NODTB_SYMLINK}
 --=20
 2.43.0
 
