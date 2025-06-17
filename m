@@ -2,65 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27ADAC7115F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10BA9C71157
 	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 16:04:43 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.23242.1750176276239834216
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.23160.1750176274414682806
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 09:04:36 -0700
+ Tue, 17 Jun 2025 09:04:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SBWYh+6/;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-311d5fdf1f0so5578931a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:04:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sM/uFiKY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-235f9ea8d08so58460885ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176275; x=1750781075; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dN2uSRla74aVupL1MLnJ2nyE6w29AFr9ILkf55gjbSc=;
-        b=SBWYh+6/hg/V/wdEYEnyv6ScP4LQW3/MDz57pk90TT9VA61fAJKAIuNlasTssgpKnt
-         5qYGRavz3Wuyq8m1uGebmhfJJzAKsEs9uxn840ne+tX2UQsRu0gX31VbvYJ8er879HTK
-         01+ck/X3UnX8d5oIhjvbl75mbHhuB2olprlt91bCQ1X9W+aYk7B6nVF0sUokHAQVAidh
-         0j0kXgTSQn4uzQzb70A/JWgf/cVi73Ddl9m0wq7YymSRUzx+YNSVhJl6wCIbEfw3BroD
-         zsvHTmhnVT36NEQQrn/5qTLikpt5mv82qMpIRqvEQVR9sXXOM228IYB+Z5fwIEb1xVYY
-         NkgQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176274; x=1750781074; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kqPYWdbOX0+EPNWdgzS2lhlaDWZUyeku2wowja6vCrs=;
+        b=sM/uFiKY3kovha3hi8OQHPM7OMshwnZEhkXhO90nLxdJQ67Z1vpbsAB86EncF+s3bM
+         4x+eB9cd2G+WaDeGC0kcENUBcmh87uYG1d+7HCHZNoqt44wuEBjpoYQC3O+eZI/RkNfH
+         tPA212TCPcdqMfpWye7928LyvA2Q5Y0977MkqzTpg4hWw8mUYRWMVGroCy0kS3aanBoK
+         NinG2A7pcSXOigLHxeDYwXNFivy9Rh5xKBVM5MHRuXtNri/ertgPBUqICcicI4O1Ljmt
+         LryqSyhwvrAccFjL9VNOgoS+ORrdsumX6aACV3kqx5NDhK9fikEFvZeEoWj6Swz4wKJk
+         DpFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750176275; x=1750781075;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dN2uSRla74aVupL1MLnJ2nyE6w29AFr9ILkf55gjbSc=;
-        b=IWlJ/QJl1fnlb5oH3G4hiGX83XHlINgqmQmZQFWD9eGNVFZMj+SpeVW7/1nsPQeWxl
-         9eWMg0EuNMkqIlwd2kHrSHNN93GRHV5QCyMLejd66Zk82GYsEJRosa5RKoykq0Bi3YMs
-         +iyJdB/8MXzpWdrBzGWxOzOTdpzAvSoR3EMbW/QUP6UlzuofjFuP04QEVIUZzKNd6I+y
-         dOdvZ4RKG9magVlAsiMvDit3/RF+2MLF1BTmGzhyL00xjF3GqW0WfS9rXF0AsbFKutQt
-         DhEHLIfOPiC9FHwE36h+uWmEQWmJNooXGSUIRqEzureRxYTZQ6VQuwWdy7GqUVX5mq80
-         d7wA==
-X-Gm-Message-State: AOJu0YyYpwQeU1Q/fLNlEDqLsP7+kP8EGmdX6LR9gPlYlHS8wunQeqpk
-	lYd7YztSPYKtdOPSA+FaZdhJR/IvMrxW3iSOGr/Z4x572GaNGQqeBQdOWFobvUR26dxGjLyghKr
-	RXFft
-X-Gm-Gg: ASbGnctsKJ5MT3XdHVustBj2MCVP3R5ZdHu0lTHIFVjtXBB6TMi4HNXmVp6dmVHfkGE
-	N/KcB0sFsr73+Ic7q019YAxE98USdTt+awJc4RWeIhEO3plr6HZH1IU4n2TUCVb7AugJwrI6H0r
-	Pen6Ng0GNxqP1AKKTXR2O7zVsUk0+nrY/ARfTBV+lYzr7jKkkv56UgLO7gSp7p6lLwNfTP/UOS8
-	qXSSziFMultw/1dYqX7iGR9fdgeNFCgVFIbWSgEwOdhR/PlIDYoseCDs04bhE92rXrnF1syZoNS
-	tW3Vg1A574CW36OZerdjh4RXke9QzjjzTM/ohM8OtFZlRRl7Cc+tYA==
-X-Google-Smtp-Source: AGHT+IHAWGbFuWGIhHwip5SJ9Rqz3WEcO02pxz09toQ955nC43L77v7qA9oWsRzYQOUAe1nsEL2r8g==
-X-Received: by 2002:a17:90a:e7c2:b0:312:639:a062 with SMTP id 98e67ed59e1d1-313f1daa971mr24516828a91.16.1750176275098;
-        Tue, 17 Jun 2025 09:04:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750176274; x=1750781074;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kqPYWdbOX0+EPNWdgzS2lhlaDWZUyeku2wowja6vCrs=;
+        b=XdD8MF6amIfl5Uo8v1GRpDfKYwndadQkm8R/5c44cCrHsc4lx0jq63LF5PNP8JvZYa
+         YyLm2ORswBUuAPRc7CRz/HIYM8jQn8WGExoAsSBk4GOTj042BTkil0HkfRHoyZLufdCS
+         gzppoqFZrjMtHSJp/IDiUSVi3lzu4FYcHMC6fLj9i7zve+eMKy94PUszt9BSl+xIz643
+         nYU0Os60CAtl69BD1qn3q34RI5nFrfHysHZmCxnUdUl+XHvij0R+vLCaOuuUsF25Gc0w
+         uDWvB//BYQxWfYiVtuT0J8J66UxxdAPUCfQ5IpboFH8djg/gEH7isdnv/OrWHeWcHfbL
+         cMvw==
+X-Gm-Message-State: AOJu0YwFJtN9V4S6TrGpZer0gG4gHmp15muYizUF5Fa7o3QPW4saPPoN
+	tWu36w2bpLX/ZkVSTAK9dPs5viG8JPVjJFaxMWIP8DCBvSmahzDIx2OOpKZd2ZNo2xFvh4HYyjY
+	vIw9Q
+X-Gm-Gg: ASbGncusojBzqj2RGHyyrhP+iysxZ3VuYLn2dppCLPbCg+iEQkYSlkU9dcAP74qZeHH
+	NvszGTCLWhvotKX4qgZjBS64ADUGe/MavPUN9gfhwlwf9BWv9B5qOjfQHU2qbUcwnRHd63X8ZBM
+	C3dfOez3qSeBH3hz5/tX7i2HDd6KmArJaJoJR2kYxwTWLyYjj3ZbrOQzcylE7SeOY78wbhN49CU
+	ZIFXHg2prYhkI8Gyxt/K2vR+91MsQ42FIwDRXRQwKhBmc4MITPEK+NE2p5L0fC+mq5adelhWZhX
+	Dix0f8ByNA9/dIdyLDKQuhY+hpWnQolOA5ejSNlgB8sTDrenMTujRg==
+X-Google-Smtp-Source: AGHT+IHEMcvHzpNPSu4/9GDe153eNshNp176kmBwA9iaAhI/Coiw13SLMhWhVb5fu0AZH92/ldsQ9Q==
+X-Received: by 2002:a17:902:cccd:b0:235:f298:cbbe with SMTP id d9443c01a7336-2366afe481cmr248300835ad.12.1750176272999;
+        Tue, 17 Jun 2025 09:04:32 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7ce4:2bd1:2434:c118])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365decaf71sm82043365ad.217.2025.06.17.09.04.34
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365decaf71sm82043365ad.217.2025.06.17.09.04.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 09:04:34 -0700 (PDT)
+        Tue, 17 Jun 2025 09:04:32 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 1/8] net-tools: patch CVE-2025-46836
-Date: Tue, 17 Jun 2025 09:04:19 -0700
-Message-ID: <352525443b1844cdfd28355dfc1444046bbb76e8.1750176125.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 0/8] Patch review
+Date: Tue, 17 Jun 2025 09:04:18 -0700
+Message-ID: <cover.1750176125.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1750176125.git.steve@sakoman.com>
-References: <cover.1750176125.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -68,169 +64,93 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 16:04:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218902
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218901
 
-From: Peter Marko <peter.marko@siemens.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Thursday, June 19
 
-Backport patch for this CVE and also patch for its regression.
+Passed a-full on autobuilder:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../net-tools/CVE-2025-46836-01.patch         | 91 +++++++++++++++++++
- .../net-tools/CVE-2025-46836-02.patch         | 31 +++++++
- .../net-tools/net-tools_2.10.bb               |  2 +
- 3 files changed, 124 insertions(+)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1820
+
+The following changes since commit f7ee6db8ca5dc72b7a468531e31403b60e6a0020:
+
+  testimage: get real os-release file (2025-06-09 08:06:42 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Aleksandar Nikolic (1):
+  scripts/install-buildtools: Update to 5.0.10
+
+Colin Pinnell McAllister (1):
+  ffmpeg: fix CVE-2025-1373
+
+Deepesh Varatharajan (1):
+  gcc: Upgrade to GCC 13.4
+
+Jiaying Song (1):
+  python3-requests: upgrade 2.32.3 -> 2.32.4
+
+Peter Marko (1):
+  net-tools: patch CVE-2025-46836
+
+Poonam Jadhav (1):
+  libpng: Add ptest
+
+Sandeep Gundlupet Raju (1):
+  tune-cortexr52: Remove aarch64 for ARM Cortex-R52
+
+Savvas Etairidis (1):
+  systemd: Rename systemd_v255.21 to systemd_255.21
+
+ meta/conf/distro/include/maintainers.inc      |   2 +-
+ .../distro/include/ptest-packagelists.inc     |   1 +
+ .../include/arm/armv8r/tune-cortexr52.inc     |   5 +-
+ .../{systemd_v255.21.bb => systemd_255.21.bb} |   0
+ .../gcc/{gcc-13.3.inc => gcc-13.4.inc}        |   8 +-
+ ...ian_13.3.bb => gcc-cross-canadian_13.4.bb} |   0
+ .../{gcc-cross_13.3.bb => gcc-cross_13.4.bb}  |   0
+ ...-crosssdk_13.3.bb => gcc-crosssdk_13.4.bb} |   0
+ ...cc-runtime_13.3.bb => gcc-runtime_13.4.bb} |   0
+ ...itizers_13.3.bb => gcc-sanitizers_13.4.bb} |   0
+ ...{gcc-source_13.3.bb => gcc-source_13.4.bb} |   0
+ ...ix-c-tweak-for-Wrange-loop-construct.patch | 113 ----
+ ...4fffe3fc82a710bea66ad651720d71c938b8.patch | 549 ------------------
+ .../gcc/{gcc_13.3.bb => gcc_13.4.bb}          |   0
+ ...initial_13.3.bb => libgcc-initial_13.4.bb} |   0
+ .../gcc/{libgcc_13.3.bb => libgcc_13.4.bb}    |   0
+ ...ibgfortran_13.3.bb => libgfortran_13.4.bb} |   0
+ ...s_2.32.3.bb => python3-requests_2.32.4.bb} |   2 +-
+ .../net-tools/CVE-2025-46836-01.patch         |  91 +++
+ .../net-tools/CVE-2025-46836-02.patch         |  31 +
+ .../net-tools/net-tools_2.10.bb               |   2 +
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.2.bb |   4 +
+ .../recipes-multimedia/libpng/files/run-ptest |   7 +
+ .../libpng/libpng_1.6.42.bb                   |  42 +-
+ scripts/install-buildtools                    |   4 +-
+ 25 files changed, 185 insertions(+), 676 deletions(-)
+ rename meta/recipes-core/systemd/{systemd_v255.21.bb => systemd_255.21.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-13.3.inc => gcc-13.4.inc} (94%)
+ rename meta/recipes-devtools/gcc/{gcc-cross-canadian_13.3.bb => gcc-cross-canadian_13.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross_13.3.bb => gcc-cross_13.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-crosssdk_13.3.bb => gcc-crosssdk_13.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-runtime_13.3.bb => gcc-runtime_13.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-sanitizers_13.3.bb => gcc-sanitizers_13.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-source_13.3.bb => gcc-source_13.4.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc/0028-gcc-Fix-c-tweak-for-Wrange-loop-construct.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
+ rename meta/recipes-devtools/gcc/{gcc_13.3.bb => gcc_13.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc-initial_13.3.bb => libgcc-initial_13.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc_13.3.bb => libgcc_13.4.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgfortran_13.3.bb => libgfortran_13.4.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-requests_2.32.3.bb => python3-requests_2.32.4.bb} (91%)
  create mode 100644 meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-01.patch
  create mode 100644 meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-02.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/run-ptest
 
-diff --git a/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-01.patch b/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-01.patch
-new file mode 100644
-index 0000000000..0d55512497
---- /dev/null
-+++ b/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-01.patch
-@@ -0,0 +1,91 @@
-+From 7a8f42fb20013a1493d8cae1c43436f85e656f2d Mon Sep 17 00:00:00 2001
-+From: Zephkeks <zephyrofficialdiscord@gmail.com>
-+Date: Tue, 13 May 2025 11:04:17 +0200
-+Subject: [PATCH] CVE-2025-46836: interface.c: Stack-based Buffer Overflow in
-+ get_name()
-+
-+Coordinated as GHSA-pfwf-h6m3-63wf
-+
-+CVE: CVE-2025-46836
-+Upstream-Status: Backport [https://sourceforge.net/p/net-tools/code/ci/7a8f42fb20013a1493d8cae1c43436f85e656f2d/]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/interface.c | 63 ++++++++++++++++++++++++++++++-------------------
-+ 1 file changed, 39 insertions(+), 24 deletions(-)
-+
-+diff --git a/lib/interface.c b/lib/interface.c
-+index 71d4163..a054f12 100644
-+--- a/lib/interface.c
-++++ b/lib/interface.c
-+@@ -211,32 +211,47 @@ out:
-+ }
-+ 
-+ static const char *get_name(char *name, const char *p)
-++/* Safe version — guarantees at most IFNAMSIZ‑1 bytes are copied
-++   and the destination buffer is always NUL‑terminated.             */
-+ {
-+-    while (isspace(*p))
-+-	p++;
-+-    while (*p) {
-+-	if (isspace(*p))
-+-	    break;
-+-	if (*p == ':') {	/* could be an alias */
-+-		const char *dot = p++;
-+- 		while (*p && isdigit(*p)) p++;
-+-		if (*p == ':') {
-+-			/* Yes it is, backup and copy it. */
-+-			p = dot;
-+-			*name++ = *p++;
-+-			while (*p && isdigit(*p)) {
-+-				*name++ = *p++;
-+-			}
-+-		} else {
-+-			/* No, it isn't */
-+-			p = dot;
-+-	    }
-+-	    p++;
-+-	    break;
-+-	}
-+-	*name++ = *p++;
-++    char       *dst = name;                 /* current write ptr          */
-++    const char *end = name + IFNAMSIZ - 1;  /* last byte we may write     */
-++
-++    /* Skip leading white‑space. */
-++    while (isspace((unsigned char)*p))
-++        ++p;
-++
-++    /* Copy until white‑space, end of string, or buffer full. */
-++    while (*p && !isspace((unsigned char)*p) && dst < end) {
-++        if (*p == ':') {                    /* possible alias veth0:123:  */
-++            const char *dot = p;            /* remember the colon         */
-++            ++p;
-++            while (*p && isdigit((unsigned char)*p))
-++                ++p;
-++
-++            if (*p == ':') {                /* confirmed alias            */
-++                p = dot;                    /* rewind and copy it all     */
-++
-++                /* copy the colon */
-++                if (dst < end)
-++                    *dst++ = *p++;
-++
-++                /* copy the digits */
-++                while (*p && isdigit((unsigned char)*p) && dst < end)
-++                    *dst++ = *p++;
-++
-++                if (*p == ':')              /* consume trailing colon     */
-++                    ++p;
-++            } else {              /* if so treat as normal */
-++                p = dot;
-++            }
-++            break;                          /* interface name ends here   */
-++        }
-++
-++        *dst++ = *p++;                      /* ordinary character copy    */
-+     }
-+-    *name++ = '\0';
-++
-++    *dst = '\0';                            /* always NUL‑terminate       */
-+     return p;
-+ }
-+ 
-diff --git a/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-02.patch b/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-02.patch
-new file mode 100644
-index 0000000000..d2c3673a24
---- /dev/null
-+++ b/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-02.patch
-@@ -0,0 +1,31 @@
-+From ddb0e375fb9ca95bb69335540b85bbdaa2714348 Mon Sep 17 00:00:00 2001
-+From: Bernd Eckenfels <net-tools@lina.inka.de>
-+Date: Sat, 17 May 2025 21:53:23 +0200
-+Subject: [PATCH] Interface statistic regression after 7a8f42fb2
-+
-+CVE: CVE-2025-46836
-+Upstream-Status: Backport [https://sourceforge.net/p/net-tools/code/ci/ddb0e375fb9ca95bb69335540b85bbdaa2714348/]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/interface.c | 5 ++---
-+ 1 file changed, 2 insertions(+), 3 deletions(-)
-+
-+diff --git a/lib/interface.c b/lib/interface.c
-+index a054f12..ca4adf1 100644
-+--- a/lib/interface.c
-++++ b/lib/interface.c
-+@@ -239,12 +239,11 @@ static const char *get_name(char *name, const char *p)
-+                 /* copy the digits */
-+                 while (*p && isdigit((unsigned char)*p) && dst < end)
-+                     *dst++ = *p++;
-+-
-+-                if (*p == ':')              /* consume trailing colon     */
-+-                    ++p;
-+             } else {              /* if so treat as normal */
-+                 p = dot;
-+             }
-++            if (*p == ':')                  /* consume trailing colon */
-++                ++p;
-+             break;                          /* interface name ends here   */
-+         }
-+ 
-diff --git a/meta/recipes-extended/net-tools/net-tools_2.10.bb b/meta/recipes-extended/net-tools/net-tools_2.10.bb
-index 33304297ec..c4d298181a 100644
---- a/meta/recipes-extended/net-tools/net-tools_2.10.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_2.10.bb
-@@ -11,6 +11,8 @@ SRC_URI = "git://git.code.sf.net/p/net-tools/code;protocol=https;branch=master \
-     file://net-tools-config.h \
-     file://net-tools-config.make \
-     file://Add_missing_headers.patch \
-+    file://CVE-2025-46836-01.patch \
-+    file://CVE-2025-46836-02.patch \
- "
- 
- S = "${WORKDIR}/git"
 -- 
 2.43.0
 
