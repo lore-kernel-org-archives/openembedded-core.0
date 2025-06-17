@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 093A8C7115F
-	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 16:00:23 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.23017.1750176014732664612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3700C71136
+	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 16:00:32 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.23119.1750176028508139244
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 09:00:14 -0700
+ Tue, 17 Jun 2025 09:00:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2caD8YuF;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-311e2cc157bso4884538a91.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:00:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Vt09OSXn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-235f9ea8d08so58393505ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176014; x=1750780814; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176028; x=1750780828; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DaKSPc5rwrEMV/HncWsoVuydRt6O4ociiDTDbLy/cXE=;
-        b=2caD8YuFKUL43V4IirAka1GxQXpkuAkXBGyL/mTt/uG1TtfBqwQ8SKbo58j4qhiriO
-         ifyGqh6edf3QcyfWtZ/slCYcNclOfeNwRKyqk5eugytdqiFXKQfvMmQijt/pCtYKcS0H
-         ftnU8GNlPRxByjitot7fkbqnY4HrFfl/W5ofqRyscyAkWNCdL6zlSFk9K2Lxba9XG3d5
-         2Q790ov8a8ADXuMXF4QPjXz8pXHbkw6E27XluAvsBr/3JzJp4tkBo0C/kdEltLEceXQV
-         AwL862Xcvu4qXUEAFBpL3V8j70S8SJxWoZ27LlvcDHPxWoE8buOsmX3vqokdMVAe155l
-         8gEg==
+        bh=oyDdgCVpjdDmRPMoR5Z/qsZrLax2U9xVqctrw999I7Q=;
+        b=Vt09OSXnt+Na2Cu7SvkYg6vxYcgnyKOQ68OniItIDMjuxdLu41wYfWdiw9qYKdvQBf
+         bnivekojBCXqB6LqT/sCqaN2zPKgTNygAxRlNaC5uKGaopEWkS2kF2BqryPUzJTYd94Q
+         kTJb1DKuvCNQLxOVVuzKObODjSp5Tix4eW+cvcIyXg2CIsbes/n2G8VopEmcqc7sSpCB
+         MwYxEgFqVwCaXfRIFX0xg84hdZY+WI6XORKiEqcKtYrcBhMeeudpqrpGmCfz3ZJjxVNe
+         3I05dJLzho/XTSfZ20ZxmdHl++AnU/Lhsz0ClPMFsj4T4OGqLhUY5bFvbs3Qb6gNwouu
+         s9Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750176014; x=1750780814;
+        d=1e100.net; s=20230601; t=1750176028; x=1750780828;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DaKSPc5rwrEMV/HncWsoVuydRt6O4ociiDTDbLy/cXE=;
-        b=YXx2kpTLuRJ6EalJPha9nuLqKoBR/aOCNLvxHOZnYReRm79aDIVsA+ghu4yUKK6EOC
-         suXXkcBeB04fnvVk9ejTJV0iYv0kYkz9AWA/8d8nhVZHocoJ3hQm2XEphzQYMDU9lCJ/
-         nzc1Dr8k97YOrulXgi4wUsHBQCyW+iBRbx4Q0JVvKIi6Ui+PfsiyM2eU6m+rdW90pfuV
-         OK+lh1MUaD49ad9lah9hyf8KuhwCrPyTi4lB8Ph7H4y81ebi1MNyfMJsTYR4s5Yy5V/6
-         zu7o8lFTMJVGoiJkwPB6plaMQ/67DpkB/xE/QRZ4MSXn0VidCeONTt69bQfWBESYXWdR
-         zpzw==
-X-Gm-Message-State: AOJu0YzqZlBVk20GBsLxRImzS+0TILYkYBrINwE2tTeOXSkLiLXEtGq4
-	YgGMWnvUcekukYMJcZRowmx6b+Qne3cRC6JwsCu6CYrEXLaYIHeN66PAyw7SXKGun0tgWrSsus7
-	/EyWZ
-X-Gm-Gg: ASbGncuMoZ2qHjE/crr4vsRINJ1r8vd649uNiiA2z8wnIw53mEv/hqtOpG/rcI+MfA+
-	oawXB/IcfAbS/w2uafbttoaeagO7ks4gwItus1kR5CsndUTxEUm6oaWBMKxd9jwSgohKYUmva+b
-	AVcqnXieWPRQc/PnjLniotfxglHits2BJeVJ94QaBDQW2d3LLitqCXIgDA3F2nTvhZFn+vkRuh5
-	qa3plD2ZI7cDn4ek24gkVIrKKtWLcoBBYYqTWmwLQrPL+Ae1cfvYHAPj05oXypesa83oiQxvHel
-	0WrK7ZM4nU7nIRxVWrUvV/Voi7DejrM9CzF+wwywi6QBgLPdmAfQ4Q==
-X-Google-Smtp-Source: AGHT+IFD3eedk3y4NVgItO4THFxjibCxdCsDxpIEzczqhETxG0buJhxsF/M5xNvhPAjRcgxoaE2mVw==
-X-Received: by 2002:a17:90b:1c81:b0:311:ffe8:20ee with SMTP id 98e67ed59e1d1-313f1c0168cmr22333828a91.11.1750176013789;
-        Tue, 17 Jun 2025 09:00:13 -0700 (PDT)
+        bh=oyDdgCVpjdDmRPMoR5Z/qsZrLax2U9xVqctrw999I7Q=;
+        b=quVUhruii3z/A9cOJtXSaX9QMu2m89AZWagRaUsBkkZ5cXskJb7x809aAMOlnTuQq4
+         Bk+GdYp7gB4jep/eZjcHedEmSmhgxdtIJanurvl5ytJPbQDn2D1cWiRmk4DZsk+5jkk0
+         nJ5ATLURKalCIFMo50Vt4Wi233ZAtJT6wYIYCo7uL4s3dnCUyG1UT0CTrNCOMTPtejS/
+         3/0yn7fj80CGqtC0AQhEXIlUlTjPTJiFIibUI8Dbz74A2F2YyiWVJzOSIZjp41svV8UO
+         QwtwKvGE405SmSQbrqTy426c2lDJjphR/YR3i1Qf0j8/7+arGKaYLzf0jtK5eNQ+hYGZ
+         HnYA==
+X-Gm-Message-State: AOJu0Yy6pHicAKyGu0v9g0Xh6Vpzrn0+DqSzxRzbjztAw6xibGT9uCjY
+	Qi4RVjvqrpSrvyZe5H+NNmMSJDMYh/VNmDGkLGwTJmHhm4GGaN+KigFqpeDUbCDpc3rigyHrpkw
+	MJaXg
+X-Gm-Gg: ASbGnct8/0abv7rkVee0jnGSnHYoBHXTSdpja5st4Zd3tCZzLtVNQwjzZc0xbU2gpo2
+	JEtXMd0OrLD3Ashq5JLOtapTO6x71jgGSctuqTLOGcB/EFg1P7zpTbvfIv9vCCjKDCpWFR93eX/
+	OE2Zn9zpy20FaSVEkU6ezANUl4ePwrntT8sq7kE2hisCkTQNEPUjaVeyncrNYOk2IVx5M5yyeLm
+	01lpaRsiWBfsgZKbUgip0MZTZUuP9Ybsl8zpE8pkR6lj4/ziKa9EXswEYzYfC4W4UsREpekhIk8
+	XfBxHkfjX39/pUqxQbHC5jvz8iYBEoyxxXVQry5ZCKl/uZ9Vs0yQ3Q==
+X-Google-Smtp-Source: AGHT+IFbZQ7+YrdxOEdRtrrbvSEC8pbUWa2j3c9EyppWrzHzTGQC7HUo9S9HhW7arBRwj/3SVp7Jkw==
+X-Received: by 2002:a17:902:f551:b0:220:c4e8:3b9f with SMTP id d9443c01a7336-2366aeea034mr216524685ad.0.1750176022549;
+        Tue, 17 Jun 2025 09:00:22 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7ce4:2bd1:2434:c118])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea7d82sm81475515ad.146.2025.06.17.09.00.13
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea7d82sm81475515ad.146.2025.06.17.09.00.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 09:00:13 -0700 (PDT)
+        Tue, 17 Jun 2025 09:00:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 07/12] scripts/install-buildtools: Update to 5.2.1
-Date: Tue, 17 Jun 2025 08:59:47 -0700
-Message-ID: <91d430e7a68a0cc819398bd05d020f850364fdf1.1750175857.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 12/12] tune-cortexr52: Remove aarch64 for ARM Cortex-R52
+Date: Tue, 17 Jun 2025 08:59:52 -0700
+Message-ID: <fd79c20430ad5c540522ddbe72ef235379c628bd.1750175857.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1750175857.git.steve@sakoman.com>
 References: <cover.1750175857.git.steve@sakoman.com>
@@ -66,34 +66,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 16:00:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218895
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 16:00:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218900
 
-From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 
-Update to the 5.2.1 release of the 5.2.1 series for buildtools
+Remove aarch64 for ARM Cortex-R52 processor as it supports only 32-bit
+ISA but not 64-bit ISA. Also update ARMPKGARCH for cortexr52hf.
 
-Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Signed-off-by: Sandeep Gundlupet Raju <grsandeep85@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/install-buildtools | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 6750ffcbcc..aa23942858 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+diff --git a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc b/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+index 89f0e09450..e8667bc16b 100644
+--- a/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
++++ b/meta/conf/machine/include/arm/armv8r/tune-cortexr52.inc
+@@ -10,11 +10,10 @@ require conf/machine/include/arm/arch-armv8r.inc
  
- DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE = 'yocto-5.2'
--DEFAULT_INSTALLER_VERSION = '5.2'
-+DEFAULT_RELEASE = 'yocto-5.2.1'
-+DEFAULT_INSTALLER_VERSION = '5.2.1'
- DEFAULT_BUILDDATE = '202110XX'
+ AVAILTUNES                             += "cortexr52"
+ ARMPKGARCH:tune-cortexr52               = "cortexr52"
+-# We do not want -march since -mcpu is added above to cover for it
+-TUNE_FEATURES:tune-cortexr52            = "aarch64 crc simd cortexr52"
++TUNE_FEATURES:tune-cortexr52            = "${TUNE_FEATURES:tune-armv8r-crc-simd} cortexr52"
+ PACKAGE_EXTRA_ARCHS:tune-cortexr52      = "${PACKAGE_EXTRA_ARCHS:tune-armv8r-crc-simd} cortexr52"
  
- # Python version sanity check
+ AVAILTUNES                             += "cortexr52hf"
+-ARMPKGARCH:tune-cortexr52hf             = "cortexr52"
++ARMPKGARCH:tune-cortexr52hf             = "cortexr52hf"
+ TUNE_FEATURES:tune-cortexr52hf          = "${TUNE_FEATURES:tune-cortexr52} callconvention-hard"
+ PACKAGE_EXTRA_ARCHS:tune-cortexr52hf    = "cortexr52hf"
 -- 
 2.43.0
 
