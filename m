@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C84C7115D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A43C77B73
 	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 21:20:55 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.31417.1750195249687947376
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.31266.1750195254546609458
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 14:20:49 -0700
+ Tue, 17 Jun 2025 14:20:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=czAG7Qu/;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7486ca9d396so3954591b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 14:20:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=T5aXIZrl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-74877ac9d42so3880369b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 14:20:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750195249; x=1750800049; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750195254; x=1750800054; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2p6JUAV4I48Id7z22H7SNSbW6mzNFQA669abKDeiSo0=;
-        b=czAG7Qu/ZteIOCT0ZgVhPp1S7YA0YYUTmyJN7Ei4LPRw5yfsfyE6Fk7wBrRYZU5rW9
-         N2OVwIruBKDjbtPS7EJq2EVDE6bVL3M6ex/Yb8gaAJEc9rACatUEjaX0ZX43WE8c9pJ9
-         T/kpa9+A1j1IVXVxMArOGZa9CDH5OM402NVUDEpN2b+PQemDx05HIR5v5JMu7mqlRQuM
-         OVgUXPjP5hohrLG9ZJDlStaiCagbySUEj2lA8JlZjX7fqXo3aKAKjtOss/Cyl/eL4/6A
-         fVq3Sz1FctqTGxcPj4M4m6s8l9Fea0pnz/3OSZB8BhyPoFBFFSrhIxIBSVDB+XfXEWCe
-         qAqA==
+        bh=eHGSg8qpJVlw3moiuxMKsz+F6xBZ/WFNzgXiZWZ73oY=;
+        b=T5aXIZrlDSrqAjJM7ClZ7l2tFlroPqMoF9jdp/SJPvPuJkKxtnJbpWXfJR+iGUGfJp
+         Plb02pBKm7lVS1YhniwhlrG9GyipkMn/W/OhD4v/qhZTOXA6oKQ0IKZ+gIFCOdxb0HIK
+         0Y5Y+lJF3oXW9ixiDk2v3QXFi1sGVzGrI5888kqTu6QWdq5cwqEhWWpcLALvfh2WLgsG
+         y20WnbA8dWBeH3GnxMf5nrBalTAVGvLk/Rts5ipQ20RVUf4Kn5g3SJpYYhmjmVM9a+iv
+         LnBQqqGdrNWDBJK4TtT2COrGZP82+4qNmAf5mvUBtccXvGCVr2/Dn7jNpmzvA4SorjKt
+         Rolw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750195249; x=1750800049;
+        d=1e100.net; s=20230601; t=1750195254; x=1750800054;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2p6JUAV4I48Id7z22H7SNSbW6mzNFQA669abKDeiSo0=;
-        b=OozNX5iJ04UtqukBm5kHHlyZ0NAzDkKV1qIDi7ps2Bjsp1F6vknm5gWU8eG4MAf11b
-         SR+fEvHlAjPrjH+mkMTXVI/FUHlog7S6KbibMGKTTtlPf3tlIjCCP/mlTCvhGqgAjJ2m
-         dlCwBIo+8pTfhpl2+4sPowWRtvFsaoQUNcbOGEKa7/4iNPBrLtXotvsnyoQ6azWw3kyK
-         yp047JDhW8yIKHARtYJMXTWKYKIH4O1T3KtaAzuclUulmnxCoR0nccLmvLqgiFy9RlOn
-         OHr4qqsloG3wHQEzxitshKyTQ++ZC9+1sxrdT6QKB+lgyhc9j4qpRWW0WCojFkVaMwqL
-         7SGg==
-X-Gm-Message-State: AOJu0YyitRLxpDTohiG317AkMH/8V1LBLu85xZ0syuE8rD7aV5VPQdzl
-	VitEmwfaWclFggxXOIzky+q+iKzWvG8IvaZbWr9xWrZDubBQQSLLPAjM430FFwEvGb/KGUwJj+X
-	MwpHL
-X-Gm-Gg: ASbGncu4SkHh4rxfyZVgVoVeTVQUtGMpHh6w7oF5uoRfM+RzR3OyPAXvGNxnThvNbkW
-	w2QtGYR0yJ9E3rIrhIHhPyLO1Bo8SeZZVYS0Jpukw8sk0YliU1lL0znrwrbgwc5dvlX2ajm2uin
-	NYVbewvq/lH24EEjzveQ/7/ULj6AG8WPKzWyWtH0ghsCq9q1gOmeqeKIX5vKrgeWSSUGpNt8hx0
-	dvGFOHRkxL3BKNcCHpqMuJA0+wyhf8v3sKYVPFSFlyU0kFN5ERSSPocNBHSAFzlrsx+GtvhsloS
-	rNdML8ZoL40bjHduNF67t07IZ0I+rMwnOnvL58Wv1Z+f62IgvQZ8ew==
-X-Google-Smtp-Source: AGHT+IHbEYc9VWUzblSy7SEBDIpCYe0NFtqr1MGRNP+3qvGsyyI5h0PnJXN1UmLucycoweskYqi0JA==
-X-Received: by 2002:a05:6a00:4602:b0:748:3849:e790 with SMTP id d2e1a72fcca58-7489ccc77c6mr19556198b3a.0.1750195248814;
-        Tue, 17 Jun 2025 14:20:48 -0700 (PDT)
+        bh=eHGSg8qpJVlw3moiuxMKsz+F6xBZ/WFNzgXiZWZ73oY=;
+        b=t8SrhIjc6gqsuM3Wj7hetzAnerUKGO3ZEaBUhslbEzkVIkYkLXL67DyipDxh0hGpvp
+         /mfmc+8VQSIiqV1OI1OzuoCwasC31zzH+L6vfwkNMBnlgh7YcQ24ue1DZew3sMHCOYUf
+         wno4ybxVI2r32/U0FMecczz2TtUGfq//GrnLGakEl5klZNgQyrFrlx3+ZFCHPMDatTop
+         RakIqc4Ck5R/KYEEYfOow9P97uvp4NntIIkZ467MWkawmG1h0YnQeM41gisonMQ4+icN
+         bzu1XNPF7LwYe1EzQPd/d7ae9pQSWjnJTb6utE20LzSN19l/x7VlB6jRFifabx7E7vc8
+         IrMA==
+X-Gm-Message-State: AOJu0Yz52xJxDj0Eiql0BkcMas1xsIh3BjgZHxDNsFKgbYJnsIxRuHka
+	TdNOZIhRK5gajs3PoIYcejPpSeo6D+6n26OUsTBfXBzzB1/bdtzlLtXupNb/NC5WAvNt1xHbIwN
+	Olm/P
+X-Gm-Gg: ASbGncuoe4IbgJcJy6RMS4TfyLXoswzgfgORfGiCFGZCkjoTZljPys6/rEMEUVMoR4n
+	0XtdY5Eu+brQB30imvec1tTtfy3hhW2dBk+EdoyzhG5xlh1BY6hC/LcfS5ORCyRVisA8dRxC+J4
+	bIEzh8MjAGoGteng+z/OGQTy1coty7jdjmvo2OtIZK0+mQudKaNjqn5FKmdtDmPe1rR3vpvukq2
+	XvzHFQ4swMy3FQNY4MY0UhGKGgHprF7C4Ts+Um7GLaDZCu9kfttpOdgLbf8zQBmWFGTzb8f0uGj
+	Mca9ICt64qk532mgufJX+AOhWpiShPqWIAkgh54yF2aiiB0iFdVqbQ==
+X-Google-Smtp-Source: AGHT+IG3tPcYdzCqTJ9Njrz4uJ7OurXoHGjbwJDUKifhATbIFlBh7AA6h5ZSL+FOqo5DZQ46DPDCRQ==
+X-Received: by 2002:a05:6a00:22cd:b0:740:afda:a742 with SMTP id d2e1a72fcca58-7489ccee906mr19901423b3a.0.1750195253736;
+        Tue, 17 Jun 2025 14:20:53 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7ce4:2bd1:2434:c118])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffeccf1sm9720728b3a.18.2025.06.17.14.20.48
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffeccf1sm9720728b3a.18.2025.06.17.14.20.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 14:20:48 -0700 (PDT)
+        Tue, 17 Jun 2025 14:20:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/27] libsoup-2.4: Fix CVE-2025-32053
-Date: Tue, 17 Jun 2025 14:20:07 -0700
-Message-ID: <a563a644fcdb556d904c3c391fbf9435fcd4bdf0.1750195103.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 13/27] ffmpeg: fix CVE-2025-1373
+Date: Tue, 17 Jun 2025 14:20:10 -0700
+Message-ID: <99cda92e387ca071c4235c14a137510a4fb481c2.1750195103.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1750195103.git.steve@sakoman.com>
 References: <cover.1750195103.git.steve@sakoman.com>
@@ -67,77 +67,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 21:20:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218927
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218930
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Colin Pinnell McAllister <colin.mcallister@garmin.com>
 
-Upstream-Status: Backport
-[https://gitlab.gnome.org/GNOME/libsoup/-/commit/eaed42ca8d40cd9ab63764e3d63641180505f40a]
+CVE-2025-1373 does not appear to affect ffmpeg 5.0.3. The CVE has been
+added to the ignore list.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Colin Pinnell McAllister <colin.mcallister@garmin.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup/libsoup-2.4/CVE-2025-32053.patch  | 38 +++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.2.bb             |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32053.patch
+ meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32053.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32053.patch
-new file mode 100644
-index 0000000000..139e8936a0
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-32053.patch
-@@ -0,0 +1,38 @@
-+From eaed42ca8d40cd9ab63764e3d63641180505f40a Mon Sep 17 00:00:00 2001
-+From: Ar Jun <pkillarjun@protonmail.com>
-+Date: Mon, 18 Nov 2024 14:59:51 -0600
-+Subject: [PATCH] Fix heap buffer overflow in
-+ soup-content-sniffer.c:sniff_feed_or_html()
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/eaed42ca8d40cd9ab63764e3d63641180505f40a]
-+CVE: CVE-2025-32053
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/content-sniffer/soup-content-sniffer.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libsoup/content-sniffer/soup-content-sniffer.c b/libsoup/content-sniffer/soup-content-sniffer.c
-+index b62e4888..5a181ff1 100644
-+--- a/libsoup/soup-content-sniffer.c
-++++ b/libsoup/soup-content-sniffer.c
-+@@ -641,7 +641,7 @@ skip_insignificant_space (const char *resource, int *pos, int resource_length)
-+ 	       (resource[*pos] == '\x0D')) {
-+ 		*pos = *pos + 1;
-+ 
-+-		if (*pos > resource_length)
-++		if (*pos >= resource_length)
-+ 			return TRUE;
-+ 	}
-+ 
-+@@ -704,7 +704,7 @@ sniff_feed_or_html (SoupContentSniffer *sniffer, GBytes *buffer)
-+ 		do {
-+ 			pos++;
-+ 
-+-			if (pos > resource_length)
-++			if ((pos + 1) > resource_length)
-+ 				goto text_html;
-+ 		} while (resource[pos] != '>');
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-index f9358773e4..61ebebeacd 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-@@ -36,6 +36,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-2784-2.patch \
-            file://CVE-2025-32050.patch \
-            file://CVE-2025-32052.patch \
-+           file://CVE-2025-32053.patch \
-           "
- SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
+index 4ae444258f..ae257a3926 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
+@@ -81,6 +81,11 @@ CVE_CHECK_IGNORE += "CVE-2024-22862"
+ # bugfix: https://github.com/FFmpeg/FFmpeg/commit/9903ba28c28ab18dc7b7b6fb8571cc8b5caae1a6
+ CVE_CHECK_IGNORE += "CVE-2024-7272"
  
++# Vulnerable code not present in any release
++# introduced: https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/19f7dae81ab2c19643b97da7556383ee3f721e78
++# bugfix: https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/43be8d07281caca2e88bfd8ee2333633e1fb1a13
++CVE_CHECK_IGNORE += "CVE-2025-1373"
++
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET:armv4 = "arm"
+ ARM_INSTRUCTION_SET:armv5 = "arm"
 -- 
 2.43.0
 
