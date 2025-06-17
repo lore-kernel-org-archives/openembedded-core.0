@@ -2,35 +2,35 @@ Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD10C7115A
-	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 10:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA8BC71157
+	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 10:10:00 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.15147.1750154988658608193
+ by mx.groups.io with SMTP id smtpd.web10.15148.1750154992854708930
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 03:09:48 -0700
+ Tue, 17 Jun 2025 03:09:53 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8263d137de=sunilkumar.dora@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55H6v8CF009026
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:09:47 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55H6v8CI009026
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:09:52 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 478xa1jy6v-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 478xa1jy77-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:09:47 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:09:51 +0000 (GMT)
 Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 55HA87ij003080
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:09:47 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04on2060.outbound.protection.outlook.com [40.107.102.60])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 478xa1jy6s-1
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 55HA3hFd028261
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:09:51 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04on2064.outbound.protection.outlook.com [40.107.102.64])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 478xa1jy73-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Jun 2025 10:09:46 +0000 (GMT)
+	Tue, 17 Jun 2025 10:09:51 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u2q1IWzBb0SEMQUTTT6BMtf0KUS5ci+hd05WJYaTh6/W8XWCJTQ/IuqfEdciQLRsfRG8qUghE7deoU+S8NRswrC6knTMQVSJBxlhqwNMB8YytAyBG9J1vuBpdHOGvFFeJErfoeyJrRF8uJCdOLe9nS/PbIT1gKTpIBJGhtQDvR7eDeMhwxmMYxAY3bmsSJ9fZBKki7m1y5rv4uxiW/r2c1oLV99ENeVxH47GGCo1l7YXN9gWKNYkxhwpzZf68ECFy9Qp63jtFZrmnffdOLs+olDQdN2RJ75UdvBfbT1d2O5IhrX6iX7MpO/y69uQMQQkAJhVyfFjvFVe65t+/4KIrA==
+ b=nteP+tCfyF1b/UXGKkdtlwDeqtevyBTgimcrY6Zrgr7N05HA53FghR3arvoiOBNjxg9LtjNwA4gvpxhhasCVXprkC3xllDBJZR1fI2Cfl6e1XiqKSrFDYFio30sDdhIZdJPP0Y0kRwvZNmCwi9+qJHIC8cZOXdQr4jXVlwaR+mcNolk8zwSprwBJI9lhdE4JKZqW48SbDEdcej0BRe9om9NEaIxBlvNpfcIKd0XPj5Fk3DyIj7Od68oL2Gx/gMgmW8MzWX9kAKll6fpZ0n6DVOMswT9h4sWEhYHJ1b3kXfTvHor05Su8nRLgtT0duRAfVeJIgY23D3Q1KsH1v5cbKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZOM8zYDXVQrGsYCQPPzA7VWSwYyukA3d8CSsallujY4=;
- b=mW/NoGQclCSGF+zzC9NA9UeyAlVwJQ6Sqm+T0QTXNDFLsiCzIyUKsSVE0/CPHeeMlogpiA2IXACRqvJ7Np0NXgZygUMcIDHnOWcXyN7Qy+y2LUrbnnfZh859p5nOHCu6JoIbqEN5wBCplZqlVgOYqB2EOs+d8cYwK9XH1dyoyMP7Bx4JEU730M2UaBRVrSKrFkufVG8qVvDxHn9t9u5+0b12Tgt8DndfOr3WvTfW2GdLxEv07Na/mkGQ0WwS2f4IKlVcFEZKQjF6BU5VxKi6GPWJK4I6H6fm4mOSWACFsYbZDw7V2kDBqd8t4CD05LKbszOl7EYFSrN7KUdnutEHYw==
+ bh=Qbb7Qte1jn92QW5PknwpML7H64n2hYUMGDNfeEkBriE=;
+ b=WMAwIyZL5s2Nh+hemUZP70uQdgbKwwJ2vp2v45jIhbZRI6IfqyxZAPPEr0c3h98H6wxHrczsCoCe7WqcKKOw7EXd25QgUBEHOmYXH9OLTVsrj7EoXAW+wVNr0lX/kmVa3U24TDdvSk5sdGArNrnNOpepHRzMh2IDqd+7gt8QtWi/UYa9dFIlcRZPfCa2ifXZu9DArvEIakygQn0BVT52X6SSFe+c3sjKlsr807RHafvC95JohlYw+UmzkzELal0SSnn0VMkl1T/zHfyYgn/pmwc8WQr9mJH5FyudQcExTsSwYBLrN+sOXEm0RXiUJVd0ehkd6/353k0ZwXXGHpBOQw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -38,18 +38,18 @@ Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
  SJ5PPF12B0A4A9B.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::811) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.25; Tue, 17 Jun
- 2025 10:09:44 +0000
+ 2025 10:09:49 +0000
 Received: from DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::9fa:eb3f:cf26:264d]) by DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::9fa:eb3f:cf26:264d%4]) with mapi id 15.20.8835.027; Tue, 17 Jun 2025
- 10:09:44 +0000
+ 10:09:49 +0000
 From: sunilkumar.dora@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
         skandigraun@gmail.com, steve@sakoman.com
-Subject: [kirkstone][PATCH V3 6/8] glibc: nptl Fix indentation
-Date: Tue, 17 Jun 2025 03:08:53 -0700
-Message-ID: <20250617100855.2696492-7-sunilkumar.dora@windriver.com>
+Subject: [kirkstone][PATCH V3 7/8] glibc: nptl rename __condvar_quiesce_and_switch_g1
+Date: Tue, 17 Jun 2025 03:08:54 -0700
+Message-ID: <20250617100855.2696492-8-sunilkumar.dora@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250617100855.2696492-1-sunilkumar.dora@windriver.com>
 References: <20250617100855.2696492-1-sunilkumar.dora@windriver.com>
@@ -61,87 +61,87 @@ X-ClientProxiedBy: BY3PR10CA0030.namprd10.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|SJ5PPF12B0A4A9B:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d3c75fe-f149-4a6c-739a-08ddad871554
+X-MS-Office365-Filtering-Correlation-Id: ce97cb5f-ea07-406a-c18b-08ddad8717d6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?6OBNsQpKhFPOq1dQoY16zVz0L+khUNgU3mlCiohDwf8vsjqaqjGtP81+KXWb?=
- =?us-ascii?Q?aaFCbQpHZAarxTrIc16WxdBdjZm/qOV3ANu+X7x4Dm1U/vSEzoy7PGTkW+Kw?=
- =?us-ascii?Q?I4ByEtFENNOQLexSaqX/JyfDZoPrlV0yp11FqBHdCuH+bpbPV+vFL/KIFrjm?=
- =?us-ascii?Q?ECYNUpypJ0BHbkCR4XuPIHIQlywoor31XKEvY1kAbPf6MdyrglXU1JgW5Fyc?=
- =?us-ascii?Q?sFqtVxerPSeKFIUJuG1dZWQfd9clkuCYHfI8iWFz0zO5J6UgDTMDB7qMMUZ/?=
- =?us-ascii?Q?fbdsvBuFLhsNN+aZNo4mc8N6PLSjO9mhxYRPSwefVC4cCi+D+W4lNrsGL7Wk?=
- =?us-ascii?Q?CPot6ECkKdv99gTFO74JSTeOonZHXIH6bc/FgeVHAPivTR4HstNYjqsCR0sY?=
- =?us-ascii?Q?UTWQorTazS8yq7x0lcH/3OKcEtb3lrOAOQ50V0smJH8mxhzJhDJs6Z2eA9wm?=
- =?us-ascii?Q?FStgxB4lj6jo77owh5l7cpEMaCRogzbSCr6Yk+A1/LqDJJ4Im/0LkuxZ23JR?=
- =?us-ascii?Q?RXKPRI9NWLq6FznfdX7DxebFksAga0JDgcTbmSm0gONOok8Z/wPIvQhb+yDZ?=
- =?us-ascii?Q?1qEnd0nWdcyL2hgve2hL2VF8w6P/v6ibfG7zVH3OWqvsmA+o8pue4AP+eKx2?=
- =?us-ascii?Q?fsKzAU3YDKIA0MBMEBiIkJ6Jo7j7c+vKMUJysvlvEPZ4YHOtMfGZjlhLJJ6X?=
- =?us-ascii?Q?ji4xo/RKvOX9DX3KBBJcnH9Tv42YfVSj/SNHznJUfioEObeoH6erRkZOA80C?=
- =?us-ascii?Q?Faam+EJUVofqGLiVvOq7w8TtRxGCJfEe+WHfwzr6C1e3h0q8bwy4SSX3/mnu?=
- =?us-ascii?Q?6rZvvDb+MJHUP5pyvWhWSFs5Q/Lj9OeQE1vmFb6kdP0kKbRQ/Jk3F2MO5A7A?=
- =?us-ascii?Q?okCj5/x/alRI5sW/0i2QWrboYN0c8p9qxrp5z6iQlsokbqU/VaQ5fzb47N0+?=
- =?us-ascii?Q?gDLDLWdwtfayMD48uir9fqP+TfVJEdQa0NMijA4pO2Ovze4Z4e2OBxQ5WH0k?=
- =?us-ascii?Q?RhJr922HdMfbQSwtjvsYJefBaxmzlsufAa++iiQmeAxAyfzs7Ce4CSRYvRNf?=
- =?us-ascii?Q?TElJFjwuSwVaEEsB8utlpA+wbdYeuwfcDm+g8HvGRAYIufHBJUf2J0V6EW2s?=
- =?us-ascii?Q?W7Xqfd/db+d6ySj28uXkeWlME1cic24JmyiktoixVtIKg3MDqYFxdIempY9I?=
- =?us-ascii?Q?BajCbRLg7OSrbVfoEn6vNF0a/3u1yop1+P++NP0i/uqC2EQZreL5JraM8WyD?=
- =?us-ascii?Q?GCt3GMUpZ317SqsDLEe2ttbCnvDC7sKZDfIx1gi9aE6M72OesKzMjXHcLNh4?=
- =?us-ascii?Q?4BuObkF2OouT3CXuPvIStgDhK/jG/MZDSrmiT9443JXP54OaV57KQrnOg7nf?=
- =?us-ascii?Q?2ftl8ovjIGGHDvX5s+esmL3ByDVvoTAcgv54bwj+6rCispMskeCa7p6ZHxpL?=
- =?us-ascii?Q?btzu6gX8aXA=3D?=
+	=?us-ascii?Q?NPVQ8WP53eCRZRz0vq7fNfYR6dvksIWNtYaKyll484lBCCJctTAC5B2fYdu1?=
+ =?us-ascii?Q?mzA4Pbnv4WPCso35EwfSkTB5bWpw97uqt3G+Cvglw1OgPrC97jiJObXOQ9y1?=
+ =?us-ascii?Q?NcGChWNkxZxTAILe9g+Bq5WXYTfnWp/EfREVMplOAd2XkxaCvV1B4KIUM6jw?=
+ =?us-ascii?Q?Yh/7pb6syaEVcMRkRlDMA/SjTOOEN0dg2Maj3vgGD/jR57YQ2tq/iJrSwA3h?=
+ =?us-ascii?Q?dT/Mb5sXXutmCaitCV4lSQ2PUXiLmvoemgtOaP0F5IBFCNOqh26dMb78kQli?=
+ =?us-ascii?Q?6cS0qiILy5rNC2sdfWPm1rS+ca6Pu6Yo/hrjzjo2yU/Ig3BL3Qmfb6neMw/6?=
+ =?us-ascii?Q?F0WgRBMDF3H5l4sZDlqdEq6hEZySWj7UO8qoX3qClVWupdc9wrc65YPRLG0m?=
+ =?us-ascii?Q?w4QPlgHD/tUNidYXkVmAO+ZELKxz2Ghpj3Taw5QKqjo2oWO8wE6mebKKie5o?=
+ =?us-ascii?Q?XBR2mTBRrgskT+/4vaoCKlidWOZ9C54MAAzw9fj+NVGRhyvbwT2d07WlILex?=
+ =?us-ascii?Q?IkN7Jsnu4cQ5M39NtPbdaEJwhST1qNWSJ7MP5qGG1JiaKAvgXNNPPQrtz57j?=
+ =?us-ascii?Q?wlYwrMztuCU0MvwkgqhjXVhgQl4mLM9zdqpx0p7WJsqB5xjEmA2/VmYEMzXu?=
+ =?us-ascii?Q?vRjNc07bB8iLeX9l7IAYiILOJWOKRz/gm28v0pZM5LXF5w1vzhC1cOBiBZKW?=
+ =?us-ascii?Q?IhfuIjv6Zb6B58h+0B3Jr+2e8JjdyXivPIuSBAHyXmPS2GXXKENE6lKuP7Yr?=
+ =?us-ascii?Q?VDrXIUxslhn7syXW0voE0Km9sBuqPNAs1pLqxe+zGb5LtdYLdFN1BjdcgTgp?=
+ =?us-ascii?Q?6ZnvYVhwcahSPvBj7xdLSBEMHBO3XzS82/IS+eBIsswpt52WDh/mAkL4kWcO?=
+ =?us-ascii?Q?pMO9emvnkhl81fPJRxic/vJOlEkWGa5C9SRf5olDUh8itt6wtYTSr3mrtIec?=
+ =?us-ascii?Q?B9qcqR4Hgk4OiqlXM6h9bIjx/ku3b3ivzCdWjJjR0ZLf0g7F00vXTPOiUHEu?=
+ =?us-ascii?Q?WqsvSVC9o99kd9SAvCKxgxUOc1syf205J0weQdoCQyrAP5f2SPXFTjksl5+2?=
+ =?us-ascii?Q?dmuOmyiDRSXXX1vROhSwVqUh+C0sbAM/IH8LIHSujSXqOK7H5uaTN3fAhRTL?=
+ =?us-ascii?Q?l/qF66hGp4KYMhgbe736XUBHjKXxZFOC1CiXw9BAj3TpUqOocSeVVC6KAJ8Q?=
+ =?us-ascii?Q?ekTuDcdN4lBRXsCBzdLjV99HSXI01CV8ctRAO3T1vjqJ0Agwv9SM8GS4TxIM?=
+ =?us-ascii?Q?CvFjwlwaEOPAjXgF2jav1Rx2PBQ3OQXI4JeMWdw7CQISzF1iCgawI8cKYt/M?=
+ =?us-ascii?Q?XPsC0BOaO8jKOkbhLGQ0nkPkSPfUHrqTMIADjRN8DOwrGrTHl1/5y5XDkvec?=
+ =?us-ascii?Q?Xy9JK0ApnEoDtivVp2e9sXZYs0xtzlEihmfzaFfHdrK1o3nUHmiZlXEbWAON?=
+ =?us-ascii?Q?fP1wMYFfo6n5HohXLkm5DEmd7NZcmSo8?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?oYYnyZ7UrnZ3tT8Dnb9GfErb6p13/WJzNYdg9Ji361SSojrCs4ODKIadfoxG?=
- =?us-ascii?Q?+DVTZECitmOIci5puZ1nfHkF2gvz06dqywB+7NUmq98QCUoUuVKfFChyPBJK?=
- =?us-ascii?Q?XnHXmTvoYGcKRsutsgaYaX30RlTqaob2t27rGJG+FFIaU7QBci/VdfrZ9/id?=
- =?us-ascii?Q?7QXOjIiGFOH3CpoUOS6NpD+1MY8CWYCox3gZR/h872y7jLPo303zL6TiR7fD?=
- =?us-ascii?Q?j2N6NnlXafwr+FKWP6SnjPnPENSv1Sz3yBJTja0YG4J/6QlTbocqwjX5nNip?=
- =?us-ascii?Q?W9ybc+10QptaQ3lCnxAzA5FnIqyOl3C3MkH3cAaGQ7aj3znm6owMyTK/1gco?=
- =?us-ascii?Q?+bXy2VmksUytoEnnfQElCOYaTMH7qNBvaSAZR2G3qA/4DrQp3ZkmInaD+Ada?=
- =?us-ascii?Q?oVkOZfqO/DnllG6H/kHbNornW+bQD8fjau7yfr7gm7hRnVqVCP9Xz3vJivHl?=
- =?us-ascii?Q?u2yzCRh7WdEVqARp9CINEAAvL3VKZu7SAmFIWTEJyemO08I9Leih3kqhktpz?=
- =?us-ascii?Q?qE3FWFuTYyGJmvTjN31bhXuQatsOolikyOe2XKHrqps2cJc+6cTt3LBcF4ZQ?=
- =?us-ascii?Q?6/9EvGn4IVwQJjbnsqDCrI30X2zGu6C47naaV8SfeUKRy+i1w+hcXK2lQ/f+?=
- =?us-ascii?Q?zsPTmVooh4u47SNrhq2iaA0c/sRVxKFxnrhtLNJWpac/VIQCAmBu4xOSjbMh?=
- =?us-ascii?Q?B6DYXphTvrkCmjSLuI0GHHlSxhvvMsFhykS0rTHjQ+jS+rdmwPhnoTnlhFb5?=
- =?us-ascii?Q?poH+EUpQn9bekh8qsgwTNyoecYIqgle0+LXWJY6oPB8DrgLZ1IxDi0oia2DC?=
- =?us-ascii?Q?WmQOwnvkNUkphs+kYKqxoLLmYyloDXGqI34otlbZPFabl2MNwiHh6UZnYCZM?=
- =?us-ascii?Q?TVLnrL3F08kXri38VDCF4o+8tF3lbesAAd8NPJ+IRoHiDxGQPtJCfdc1zNgj?=
- =?us-ascii?Q?h90yrSKOIk4yO82+YcDFrKYQ1l2jZRbnzmd/d3qO9Q7kgkk7sQLImHItxosf?=
- =?us-ascii?Q?1KExnPBOJri7jKtEaNw53sY0onUeKQuGgz2vU9Fwg1m0T4zq/+yMK/jsUTyl?=
- =?us-ascii?Q?PU8d17+zpRLAewX/cZrspBAAb8ddRmnD3I/zJPCpIU1bM9P4lMxbCuystWxd?=
- =?us-ascii?Q?rgVM+t0+ZF3+IflRg/crmZi/Re3kBeWMX69xjavzDYUYUJAer1O2mk/2b2Qd?=
- =?us-ascii?Q?uWbhe5rQTnCSfsWGbMVCoXvzsgSfZmKtHMfhv6osVXXP67DObssuV5xeIffa?=
- =?us-ascii?Q?v0nATthJtJ7j1C3zUhMWC/ufK7hvkE+3P3Fe5YezwfaVM4kctEbdhGPNrBGg?=
- =?us-ascii?Q?De1IM/ApEylzJcnVkCz9MNeONd7/N070r8b1ye3P8KmKbTfR9bcYtAv2gE2U?=
- =?us-ascii?Q?UguCP3T2EzYuHV1pUzxTjexrXI0yYBRvPwCxKMG0C9jSgmAXRNKoueQHR1T8?=
- =?us-ascii?Q?W53FOZirkgRXANdEiI80jMxJ6zkk9qO68pbgWnDaTeVjAzyk6vEhCcBa6Lbh?=
- =?us-ascii?Q?KzOi4jwU+x7nWub48sKPX2PivLv0p8FmMaG15qTRpEe2gwQJ50j808iKUzmS?=
- =?us-ascii?Q?hSrySqgp8ZyU2fMuFOPw4UhegN9DMZtAnwCd8+Dr9JC2VPY08GEEKekXraBM?=
- =?us-ascii?Q?gQ=3D=3D?=
+	=?us-ascii?Q?n0UNeh+LPzldozsReGqE+Io+Y/9RchyS5gpfPdmc6N7tOUkHP4O93ZrzUMSL?=
+ =?us-ascii?Q?dHabZzqNpQtpDTcFyJw3JL4hHP+DcHuTh2d3pB9BGtu3AJUoWSFDK9En5x+X?=
+ =?us-ascii?Q?OL31PCsjdp927K/kAIIp6s8pkrPiZqbiBFLZuMI3F9FwimyVlBgz/6XJ80YQ?=
+ =?us-ascii?Q?At5XYKyLPa/ri3h9OTY0IqiCv8El6GeaLse8Nury7PnHQWztRHcweS5EY+RF?=
+ =?us-ascii?Q?navSaCBfKzps/zPzN7r8fb7qPwdu+Z6EAEK6BvpUPqhekk5RTSPYU9FUmG2+?=
+ =?us-ascii?Q?KH3SRDyqt7oa18hTUVgjCwayDBKNPJYJ84zQLRokMMXuxFgCoivGDRtl0V6a?=
+ =?us-ascii?Q?pruTE9vr+6qiHhlPkikAQ+FSm/8bLIEycZUa9H0EQ10jpr6wTzpQqWoSBF3p?=
+ =?us-ascii?Q?olSG//XzlzLOouHaSK4mJXqAMkT4ZTzScAU35dfmYb+kvrWQpbIeCP3ynXc3?=
+ =?us-ascii?Q?lqTrleffTPRHDj00h33BzKPLPQIFN3D/0h6ymC47WiRjJyLkwUcK6UApP2xb?=
+ =?us-ascii?Q?U1oFtEpWDTTHQmbAXgf2EIi2kzCqT5bucJhBm14xIxPrzZPVrGj14OhomQJT?=
+ =?us-ascii?Q?RsCZW87yKVF9CzoAbbqdB3vtm4ONCjHbwph6MMYCHt/iOMsMamKsYH4cKdZg?=
+ =?us-ascii?Q?IsrzLbWfWZcD6AbMjxIG8Pb3onLKVoXxoO+FsNRrE5xbwS8/IIIwXS+5XuDv?=
+ =?us-ascii?Q?TCvjb6eoCLr0s6SaDE11bfRWDdAIujaJSjftUZpaKzrRHr8rl6GMalLgFB/O?=
+ =?us-ascii?Q?8ChRln+IOrxpG1w13LWiyclIgGiOttQlb/sT6p9tWmwTiG70WU73rPjdBtWk?=
+ =?us-ascii?Q?6dbigHMDo+/3opeYMrFiPboBzSWqDhizU87X4omqeZG7jMyQGT8pRn4vvpZc?=
+ =?us-ascii?Q?/2FReQvew/o+3AzAmqFHSUMB71eq3vem2q+NpZhBMHgRrWdTWEhQ4TG4tTks?=
+ =?us-ascii?Q?SIBN+2MfSIP4tW06JGdJFI+MQZpV29tNt/bYNr4hWrUCpXufR3/8JRwFT8r1?=
+ =?us-ascii?Q?f5gez00A3Vxs+lS+w0cDh6kGBBVCNI5ewVPjlTTZfAgX2FX8mpY50C8VkTub?=
+ =?us-ascii?Q?UwvT9Hv61FqRnH7rswLumirPgSGDVfFih6Sd2p5GwdVeRN1RAAvYWDgmy8Gs?=
+ =?us-ascii?Q?m8kPXJlHYU5bx/CIm6u2x4ehir/c7E0FX3Z6ilIAILbtmqYc2vKmNTMGumDg?=
+ =?us-ascii?Q?iCMI78AV3hQtXnCZ1nwykC/2wf+oeKOzhPcKbn3DKvSEfvkO5SyuWsgXiMQz?=
+ =?us-ascii?Q?CEP5SzL6Pt1pSrzsbG/UZjNnxse0MTV4wB6brAcuB+i3mJz8OSHHcJlT7AL+?=
+ =?us-ascii?Q?5mqL97hoPhjF6HqCIr1EzhAPM6VX29cFdMFmTZrvJa8r1hxbEDCoboh8sNOd?=
+ =?us-ascii?Q?uKmatkG0xsvuonED6v0/HmULrt2RC9CHsxLEOfLUkt6bVpCMMXG0wb6DeAjp?=
+ =?us-ascii?Q?NJrrgOhx5p+M58RjgKah7JoaJvUcuFWj5M2jaM+Iuk3E0AOZz6HEBWNSXpSv?=
+ =?us-ascii?Q?I3KaJIkQY2Ux+tWrwqzffdmO8OgOswi7RHk56tBSQthc4ySaGh0fQDAN9Bpu?=
+ =?us-ascii?Q?TbyISCHFk0IYVz3kAzNjYRldTEjs+sXq016qipqJW8WW7pPu5ABFkml6NXc1?=
+ =?us-ascii?Q?ew=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d3c75fe-f149-4a6c-739a-08ddad871554
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce97cb5f-ea07-406a-c18b-08ddad8717d6
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 10:09:44.8178
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 10:09:48.9847
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1Q3Eyxom85kcG/tDM098lrXQOnkiFTKD2rBJjnX7LaE/hod/lhoOxt4Kcw+h36204TCJT3AUuPcKpXkRoPVDUN9B61BaXJtO7NHczFLdxGE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: avnDYnL/6N4zQFKAoSkR07cVKhHyPQhar8QR6bzUNRIqpEkHAioEoMgEwPSIiPlHPdqG4TXZ9F3bFfGDdQexh9PxINfPPd2cmapT91awc70=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF12B0A4A9B
-X-Authority-Analysis: v=2.4 cv=PuiTbxM3 c=1 sm=1 tr=0 ts=68513eeb cx=c_pps a=up6PulAVXqy3i+yUvDkarA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10 a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=7ZBXszWF_8vsTP3PHmcA:9 a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: zTCLGhtcXytGmtVkYJIpk_YWBViVFoSx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE3MDA4MiBTYWx0ZWRfX2a7J3q/Ie0Ct wG0wFCWMwhKnA0Lnr0jAtUXXD2+mMVa8BqnsLTue2SMyoOUJ6824k3ilnhfrmuL0mdEAxA1he2B ElTeuYyVhKe38ewUg/rHDp/2wQ8Tx3q/tIJeqoDDRtxWOrC6rIBvLeBvFNmeiNmz0UQgC8izTc+
- xfjpqc7BxlmQh9EIXemjCEANWbd6zLo4qJwuOTdcjylBNgADMIr+1nKXgKF33CIShlj3OMHA+VY dw0iYHP239hqMwugm2s+R7oSQq/GAUI/do0O/0IU6mFfd56sptlqtEf0AfhyJg7UhknK5a3Ja60 1J2OoNa6/HY9uyc/1czR61/TNt+QGtRV/JI8t4VbacSaKLVppvUOWLaAWAz5asZWvK7IYqdS+CF
- 2tjTkSOmtGIrc7xsp436hVqzTcht/ay7T0uI1E6AjmNnwsENp5jsZODToLgH47aOAcUb7po8
-X-Proofpoint-GUID: GOp777M-1ZNfvRkO7L-ts4jF0vcyd67B
+X-Authority-Analysis: v=2.4 cv=PuiTbxM3 c=1 sm=1 tr=0 ts=68513eef cx=c_pps a=hgGIz9PNuEDlV8tZGFw49A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10 a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=uyKIICsDoPcSdIl6ehEA:9 a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: Al1OEtXoiTmshdCRWqu1URfTxamWQjid
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE3MDA4MiBTYWx0ZWRfX0JQ7B2Uk5XLM uvEJAJzGoN8GNi/Qt60Gtamc/13XkCYd/2oz90AN8/mENOgl5kM/PBiuPkvpPsCmOrdnChVoVXy b54Czl8+RCam5i7pvCoeRPdN41Ra9xDoXywtzHcx2oJASnlHta2e4yNTyIs95ZsxJUkwPmc1BX1
+ yCeSg+O0PBTdo/3cXWTdChLMa0dMuVkRDWNefxebYqKjQ/2U1W1uTK7K5+Vud6QZsjXoRz7T4OQ FolGrGsj586n1c33VGkTqNh6sf4cF91jkiIGbr5I0QFRUHYJ6Ee0Ji9/A8bZ2oB+sH4k98MQzrK 3RVHIVSqzCGGLcI4V7pxIDCMl89v8GaJvBU/hlSCHQ0GOBZosSebU0Fuvv9Uwyty1Y4KExr5lDl
+ oYGxfOrRkOca++HAFD9PXesjkDuWx8YSoxZ49oBcbe8iQeZcJN3U9BCs1iDyM8nGDQiEdsvT
+X-Proofpoint-GUID: XU_1GFrfI2JFf4zouhSNJwXsJWBVBqgq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-06-17_04,2025-06-13_01,2025-03-28_01
@@ -154,8 +154,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamsco
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:09:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218875
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 10:10:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218876
 
 From: Sunil Dora <sunilkumar.dora@windriver.com>
 
@@ -163,199 +163,190 @@ The following commits have been cherry-picked from Glibc master branch:
 Bug : https://sourceware.org/bugzilla/show_bug.cgi?id=25847
 
 Upstream-Status: Backport
-[https://sourceware.org/git/?p=glibc.git;a=commit;h=ee6c14ed59d480720721aaacc5fb03213dc153da]
+[https://sourceware.org/git/?p=glibc.git;a=commit;h=4b79e27a5073c02f6bff9aa8f4791230a0ab1867]
 
 Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 ---
- .../glibc/glibc/0026-PR25847-6.patch          | 169 ++++++++++++++++++
+ .../glibc/glibc/0026-PR25847-7.patch          | 160 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.35.bb         |   1 +
- 2 files changed, 170 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0026-PR25847-6.patch
+ 2 files changed, 161 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0026-PR25847-7.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0026-PR25847-6.patch b/meta/recipes-core/glibc/glibc/0026-PR25847-6.patch
+diff --git a/meta/recipes-core/glibc/glibc/0026-PR25847-7.patch b/meta/recipes-core/glibc/glibc/0026-PR25847-7.patch
 new file mode 100644
-index 0000000000..cf87e21ddd
+index 0000000000..a9e9cc7c48
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0026-PR25847-6.patch
-@@ -0,0 +1,169 @@
-+From a2faee6d0dac6e5232255da9afda4d9ed6cfb6e5 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/0026-PR25847-7.patch
+@@ -0,0 +1,160 @@
++From 2a601ac9041e2ca645acad2c174b1c545cfceafe Mon Sep 17 00:00:00 2001
 +From: Malte Skarupke <malteskarupke@fastmail.fm>
-+Date: Tue, 17 Jun 2025 01:37:12 -0700
-+Subject: [PATCH] nptl: Fix indentation
++Date: Tue, 17 Jun 2025 01:53:25 -0700
++Subject: [PATCH] nptl: rename __condvar_quiesce_and_switch_g1
 +
-+In my previous change I turned a nested loop into a simple loop. I'm doing
-+the resulting indentation changes in a separate commit to make the diff on
-+the previous commit easier to review.
++This function no longer waits for threads to leave g1, so rename it to
++__condvar_switch_g1
 +
 +The following commits have been cherry-picked from Glibc master branch:
 +Bug : https://sourceware.org/bugzilla/show_bug.cgi?id=25847
 +
 +Upstream-Status: Backport
-+[https://sourceware.org/git/?p=glibc.git;a=commit;h=ee6c14ed59d480720721aaacc5fb03213dc153da]
++[https://sourceware.org/git/?p=glibc.git;a=commit;h=4b79e27a5073c02f6bff9aa8f4791230a0ab1867]
 +
 +Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 +---
-+ nptl/pthread_cond_wait.c | 132 ++++++++++++++++-----------------------
-+ 1 file changed, 54 insertions(+), 78 deletions(-)
++ nptl/pthread_cond_broadcast.c |  4 ++--
++ nptl/pthread_cond_common.c    | 26 ++++++++++++--------------
++ nptl/pthread_cond_signal.c    | 17 ++++++++---------
++ nptl/pthread_cond_wait.c      |  9 ++++-----
++ 4 files changed, 26 insertions(+), 30 deletions(-)
 +
++diff --git a/nptl/pthread_cond_broadcast.c b/nptl/pthread_cond_broadcast.c
++index 5ae141ac81..a07435589a 100644
++--- a/nptl/pthread_cond_broadcast.c
+++++ b/nptl/pthread_cond_broadcast.c
++@@ -60,7 +60,7 @@ ___pthread_cond_broadcast (pthread_cond_t *cond)
++ 				cond->__data.__g_size[g1] << 1);
++       cond->__data.__g_size[g1] = 0;
++ 
++-      /* We need to wake G1 waiters before we quiesce G1 below.  */
+++      /* We need to wake G1 waiters before we switch G1 below.  */
++       /* TODO Only set it if there are indeed futex waiters.  We could
++ 	 also try to move this out of the critical section in cases when
++ 	 G2 is empty (and we don't need to quiesce).  */
++@@ -69,7 +69,7 @@ ___pthread_cond_broadcast (pthread_cond_t *cond)
++ 
++   /* G1 is complete.  Step (2) is next unless there are no waiters in G2, in
++      which case we can stop.  */
++-  if (__condvar_quiesce_and_switch_g1 (cond, wseq, &g1, private))
+++  if (__condvar_switch_g1 (cond, wseq, &g1, private))
++     {
++       /* Step (3): Send signals to all waiters in the old G2 / new G1.  */
++       atomic_fetch_add_relaxed (cond->__data.__g_signals + g1,
++diff --git a/nptl/pthread_cond_common.c b/nptl/pthread_cond_common.c
++index f976a533a1..3baac4dabc 100644
++--- a/nptl/pthread_cond_common.c
+++++ b/nptl/pthread_cond_common.c
++@@ -189,16 +189,15 @@ __condvar_get_private (int flags)
++     return FUTEX_SHARED;
++ }
++ 
++-/* This closes G1 (whose index is in G1INDEX), waits for all futex waiters to
++-   leave G1, converts G1 into a fresh G2, and then switches group roles so that
++-   the former G2 becomes the new G1 ending at the current __wseq value when we
++-   eventually make the switch (WSEQ is just an observation of __wseq by the
++-   signaler).
+++/* This closes G1 (whose index is in G1INDEX), converts G1 into a fresh G2,
+++   and then switches group roles so that the former G2 becomes the new G1
+++   ending at the current __wseq value when we eventually make the switch
+++   (WSEQ is just an observation of __wseq by the signaler).
++    If G2 is empty, it will not switch groups because then it would create an
++    empty G1 which would require switching groups again on the next signal.
++    Returns false iff groups were not switched because G2 was empty.  */
++ static bool __attribute__ ((unused))
++-__condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
+++__condvar_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
++     unsigned int *g1index, int private)
++ {
++   unsigned int g1 = *g1index;
++@@ -214,8 +213,7 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
++ 	  + cond->__data.__g_size[g1 ^ 1]) == 0)
++ 	return false;
++ 
++-  /* Now try to close and quiesce G1.  We have to consider the following kinds
++-     of waiters:
+++  /* We have to consider the following kinds of waiters:
++      * Waiters from less recent groups than G1 are not affected because
++        nothing will change for them apart from __g1_start getting larger.
++      * New waiters arriving concurrently with the group switching will all go
++@@ -223,12 +221,12 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
++        are not affected.
++      * Waiters in G1 have already received a signal and been woken.  */
++ 
++-  /* Update __g1_start, which finishes closing this group.  The value we add
++-     will never be negative because old_orig_size can only be zero when we
++-     switch groups the first time after a condvar was initialized, in which
++-     case G1 will be at index 1 and we will add a value of 1.
++-     Relaxed MO is fine because the change comes with no additional
++-     constraints that others would have to observe.  */
+++  /* Update __g1_start, which closes this group.  The value we add will never
+++     be negative because old_orig_size can only be zero when we switch groups
+++     the first time after a condvar was initialized, in which case G1 will be
+++     at index 1 and we will add a value of 1. Relaxed MO is fine because the
+++     change comes with no additional constraints that others would have to
+++     observe.  */
++   __condvar_add_g1_start_relaxed (cond,
++       (old_orig_size << 1) + (g1 == 1 ? 1 : - 1));
++ 
++diff --git a/nptl/pthread_cond_signal.c b/nptl/pthread_cond_signal.c
++index 14800ba00b..a9bc10dcca 100644
++--- a/nptl/pthread_cond_signal.c
+++++ b/nptl/pthread_cond_signal.c
++@@ -69,18 +69,17 @@ ___pthread_cond_signal (pthread_cond_t *cond)
++   bool do_futex_wake = false;
++ 
++   /* If G1 is still receiving signals, we put the signal there.  If not, we
++-     check if G2 has waiters, and if so, quiesce and switch G1 to the former
++-     G2; if this results in a new G1 with waiters (G2 might have cancellations
++-     already, see __condvar_quiesce_and_switch_g1), we put the signal in the
++-     new G1.  */
+++     check if G2 has waiters, and if so, switch G1 to the former G2; if this
+++     results in a new G1 with waiters (G2 might have cancellations already,
+++     see __condvar_switch_g1), we put the signal in the new G1. */
++   if ((cond->__data.__g_size[g1] != 0)
++-      || __condvar_quiesce_and_switch_g1 (cond, wseq, &g1, private))
+++      || __condvar_switch_g1 (cond, wseq, &g1, private))
++     {
++       /* Add a signal.  Relaxed MO is fine because signaling does not need to
++-	 establish a happens-before relation (see above).  We do not mask the
++-	 release-MO store when initializing a group in
++-	 __condvar_quiesce_and_switch_g1 because we use an atomic
++-	 read-modify-write and thus extend that store's release sequence.  */
+++         establish a happens-before relation (see above).  We do not mask the
+++         release-MO store when initializing a group in __condvar_switch_g1
+++         because we use an atomic read-modify-write and thus extend that
+++         store's release sequence.  */
++       atomic_fetch_add_relaxed (cond->__data.__g_signals + g1, 2);
++       cond->__data.__g_size[g1]--;
++       /* TODO Only set it if there are indeed futex waiters.  */
 +diff --git a/nptl/pthread_cond_wait.c b/nptl/pthread_cond_wait.c
-+index 5c86880105..104ebd48ca 100644
++index 104ebd48ca..bb46f3605d 100644
 +--- a/nptl/pthread_cond_wait.c
 ++++ b/nptl/pthread_cond_wait.c
-+@@ -410,87 +410,63 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+       return err;
-+     }
-+ 
-+-
-+-      while (1)
-+-	{
-+-	  /* Now wait until a signal is available in our group or it is closed.
-+-	     Acquire MO so that if we observe (signals == lowseq) after group
-+-	     switching in __condvar_quiesce_and_switch_g1, we synchronize with that
-+-	     store and will see the prior update of __g1_start done while switching
-+-	     groups too.  */
-+-	  unsigned int signals = atomic_load_acquire (cond->__data.__g_signals + g);
-+-	  uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
-+-	  unsigned int lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
-+-
-+-	  if (seq < (g1_start >> 1))
-+-	    {
-+-	      /* If the group is closed already,
-+-	         then this waiter originally had enough extra signals to
-+-	         consume, up until the time its group was closed.  */
-+-	       break;
-+-	    }
-+-
-+-	  /* If there is an available signal, don't block.
-+-	     If __g1_start has advanced at all, then we must be in G1
-+-	     by now, perhaps in the process of switching back to an older
-+-	     G2, but in either case we're allowed to consume the available
-+-	     signal and should not block anymore.  */
-+-	  if ((int)(signals - lowseq) >= 2)
-+-           {
-+-             /* Try to grab a signal.  See above for MO.  (if we do another loop
-+-                iteration we need to see the correct value of g1_start)  */
-+-                     if (atomic_compare_exchange_weak_acquire (
-+-                               cond->__data.__g_signals + g,
-++  while (1)
-++    {
-++      /* Now wait until a signal is available in our group or it is closed.
-++         Acquire MO so that if we observe (signals == lowseq) after group
-++         switching in __condvar_quiesce_and_switch_g1, we synchronize with that
-++         store and will see the prior update of __g1_start done while switching
-++         groups too.  */
-++      unsigned int signals = atomic_load_acquire (cond->__data.__g_signals + g);
-++      uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
-++      unsigned int lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
-++
-++      if (seq < (g1_start >> 1))
-++        {
-++          /* If the group is closed already,
-++             then this waiter originally had enough extra signals to
-++             consume, up until the time its group was closed.  */
-++           break;
-++        }
-++
-++      /* If there is an available signal, don't block.
-++         If __g1_start has advanced at all, then we must be in G1
-++         by now, perhaps in the process of switching back to an older
-++         G2, but in either case we're allowed to consume the available
-++         signal and should not block anymore.  */
-++      if ((int)(signals - lowseq) >= 2)
-++        {
-++         /* Try to grab a signal.  See above for MO.  (if we do another loop
-++            iteration we need to see the correct value of g1_start)  */
-++           if (atomic_compare_exchange_weak_acquire (
-++                       cond->__data.__g_signals + g,
-+                        &signals, signals - 2))
-+-                       break;
-+-                     else
-+-                       continue;
-+-           }
-+-	  /* No signals available after spinning, so prepare to block.
-+-	     We first acquire a group reference and use acquire MO for that so
-+-	     that we synchronize with the dummy read-modify-write in
-+-	     __condvar_quiesce_and_switch_g1 if we read from that.  In turn,
-+-	     in this case this will make us see the advancement of __g_signals
-+-	     to the upcoming new g1_start that occurs with a concurrent
-+-	     attempt to reuse the group's slot.
-+-	     We use acquire MO for the __g_signals check to make the
-+-	     __g1_start check work (see spinning above).
-+-	     Note that the group reference acquisition will not mask the
-+-	     release MO when decrementing the reference count because we use
-+-	     an atomic read-modify-write operation and thus extend the release
-+-	     sequence.  */
-+-	  atomic_fetch_add_acquire (cond->__data.__g_refs + g, 2);
-+-
-+-	  // Now block.
-+-	  struct _pthread_cleanup_buffer buffer;
-+-	  struct _condvar_cleanup_buffer cbuffer;
-+-	  cbuffer.wseq = wseq;
-+-	  cbuffer.cond = cond;
-+-	  cbuffer.mutex = mutex;
-+-	  cbuffer.private = private;
-+-	  __pthread_cleanup_push (&buffer, __condvar_cleanup_waiting, &cbuffer);
-+-
-+-	  err = __futex_abstimed_wait_cancelable64 (
-+-	    cond->__data.__g_signals + g, signals, clockid, abstime, private);
-+-
-+-	  __pthread_cleanup_pop (&buffer, 0);
-+-
-+-	  if (__glibc_unlikely (err == ETIMEDOUT || err == EOVERFLOW))
-+-	    {
-+-	      __condvar_dec_grefs (cond, g, private);
-+-	      /* If we timed out, we effectively cancel waiting.  Note that
-+-		 we have decremented __g_refs before cancellation, so that a
-+-		 deadlock between waiting for quiescence of our group in
-+-		 __condvar_quiesce_and_switch_g1 and us trying to acquire
-+-		 the lock during cancellation is not possible.  */
-+-	      __condvar_cancel_waiting (cond, seq, g, private);
-+-	      result = err;
-+ 	      break;
-+-	    }
-+-	  else
-+-	    __condvar_dec_grefs (cond, g, private);
-+-
-++	   else
-++	      continue;
-+ 	}
-++      // Now block.
-++      struct _pthread_cleanup_buffer buffer;
-++      struct _condvar_cleanup_buffer cbuffer;
-++      cbuffer.wseq = wseq;
-++      cbuffer.cond = cond;
-++      cbuffer.mutex = mutex;
-++      cbuffer.private = private;
-++      __pthread_cleanup_push (&buffer, __condvar_cleanup_waiting, &cbuffer);
-++
-++      err = __futex_abstimed_wait_cancelable64 (
-++        cond->__data.__g_signals + g, signals, clockid, abstime, private);
-++
-++      __pthread_cleanup_pop (&buffer, 0);
-++
-++      if (__glibc_unlikely (err == ETIMEDOUT || err == EOVERFLOW))
-++        {
-++          /* If we timed out, we effectively cancel waiting.  */
-++          __condvar_cancel_waiting (cond, seq, g, private);
-++          result = err;
-++          break;
-++        }
-++    }
-+ 
-+   /* Confirm that we have been woken.  We do that before acquiring the mutex
-+      to allow for execution of pthread_cond_destroy while having acquired the
++@@ -382,8 +382,7 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++      because we do not need to establish any happens-before relation with
++      signalers (see __pthread_cond_signal); modification order alone
++      establishes a total order of waiters/signals.  We do need acquire MO
++-     to synchronize with group reinitialization in
++-     __condvar_quiesce_and_switch_g1.  */
+++     to synchronize with group reinitialization in __condvar_switch_g1.  */
++   uint64_t wseq = __condvar_fetch_add_wseq_acquire (cond, 2);
++   /* Find our group's index.  We always go into what was G2 when we acquired
++      our position.  */
++@@ -414,9 +413,9 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++     {
++       /* Now wait until a signal is available in our group or it is closed.
++          Acquire MO so that if we observe (signals == lowseq) after group
++-         switching in __condvar_quiesce_and_switch_g1, we synchronize with that
++-         store and will see the prior update of __g1_start done while switching
++-         groups too.  */
+++         switching in __condvar_switch_g1, we synchronize with that store and
+++         will see the prior update of __g1_start done while switching groups
+++         too.  */
++       unsigned int signals = atomic_load_acquire (cond->__data.__g_signals + g);
++       uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
++       unsigned int lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
 +-- 
 +2.49.0
 +
 diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
-index 05f408065f..45e6dedecb 100644
+index 45e6dedecb..547d0a3d7d 100644
 --- a/meta/recipes-core/glibc/glibc_2.35.bb
 +++ b/meta/recipes-core/glibc/glibc_2.35.bb
-@@ -66,6 +66,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0026-PR25847-3.patch \
+@@ -67,6 +67,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
             file://0026-PR25847-4.patch \
             file://0026-PR25847-5.patch \
-+           file://0026-PR25847-6.patch \
+            file://0026-PR25847-6.patch \
++           file://0026-PR25847-7.patch \
             \
             file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
             file://0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch \
