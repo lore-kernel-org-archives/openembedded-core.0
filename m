@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3885BC71136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30DA7C7115D
 	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 21:21:05 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.31271.1750195262600809379
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.31422.1750195261177065573
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 14:21:02 -0700
+ Tue, 17 Jun 2025 14:21:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LMsPObqX;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-742caef5896so5174852b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 14:21:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QG5F2P/c;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-748e378ba4fso392256b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 14:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750195262; x=1750800062; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750195260; x=1750800060; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rYlAxPuXA8dnfmu8i+wfbdgDc6Ycx58eTjl1jZj+m5E=;
-        b=LMsPObqX388VTqFXkjL2DvZrezEnlEfDSNCDcCoHm2nXlKCijHQITkmnM2uvsAnfGU
-         PIUvmsJ/yeFJMTV/PpomP2BEQxnjf0RDNMK/8IMsGs136u+DyugBLvrqtGDat3tVNlKx
-         rB3P9p/UAVAv8DAKBpBkaKwp9iof0etS0c8hF1EMcM0XG/91VnSECRoiv+4xyu4uGcTE
-         A+QxjCrEwAGhInMELX+JBpEWnRzJMVomMWH7MLMonCagZD7ApKCCERWlGhKKHVfkeyEp
-         gBMF4ss7R39od2EQdzBA+Kh6nSEybOW5dXTPrFvmvGCIYFo2HOFWsAtYfXrxfanLojUR
-         hrCA==
+        bh=776AGtm1GUAsf2d8a4E/DtcHPM1G3jvwfP/nT02CJvg=;
+        b=QG5F2P/cEt65aeFCe+Pa/4Dvs+ygBHju4iDQw5mqqSPuk5R/tOPbA/zqqHUi6f27uv
+         wMGYHIUE1REnG1cO1TkamDsT2BOk2E1vdfHi1P0yuAu7YIbJ8wSKOqtw5mZi8k+UkUhE
+         9EtvamgWVNxhUCQ+ZhDFYVHu/Gi6d33b1Q9DQHoANtQZrGsnV4+X+HYoBln5VFmuzyn0
+         X3P4Qi32rf7wbdpwb+Lc063Dhe3ujnstydJNz3AfAEMKO8sGF/DHzidkBXm5wyM/D8l4
+         +hVZQWL8l7CmlAR0atlF91ZsBNTJxX/3xFgXYN5UpfttveBK+7WVOa3wWW/gaz/FelWD
+         +6AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750195262; x=1750800062;
+        d=1e100.net; s=20230601; t=1750195260; x=1750800060;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rYlAxPuXA8dnfmu8i+wfbdgDc6Ycx58eTjl1jZj+m5E=;
-        b=dhTdZ5ji92QpQKxqc8KTGH4v4Gx/cjEGx+D3dTyJ2353G2vLenJgl1QXBUXcoRVelD
-         j8qKIHV3y0dYMluCddUbOxzgm4xOukZA7DF3UxKO3QvQBHqcLxLyT7u6FTVdLz42tppZ
-         v36pm1HdAnGhuw0c0RcYPgZSdIVG2DxjRNHViXrSafScAbaZdQmcG2Q2GhL+Nm60D5ho
-         dftaHcsMf3/zsnPnHYEWXDq35On46Cz47u8FpiuAR16WpFaB4X1X3/F4fS0up9tigQaL
-         7kxloDL8TI/YZPEheNxL9EwGXSlOEyCRYkh1IvsL27LuV/pXHEBj8W5Yp7g+8u816beD
-         EaJA==
-X-Gm-Message-State: AOJu0Yy7SXGqMK4JGG3QG3yKC1rLOXoQHWpm2D58aGZfA5YLvnzfFdLy
-	7Qxs6dUts11It1GBEFN7qCPfGfj/tiwgBc13pD9CP6OE3SL8qXQmGOtpb0aX+/Qy5HOp+foI8GH
-	HhUza
-X-Gm-Gg: ASbGncu22YNX/NCQodKL61QyzHYDu1f0J19WtVf0Plwccoewe+5Vdh1SFelgA1dh4/B
-	5SffDw8hhxbwNw0aaTeRsPYVvMjgU4V0M+ABGQDcmyVev93Up4ud53N4+kreEv+jn3sdulqNL9l
-	DZyPgPy++nMGQ3yPdIv/jAcTRrRQ6o6D6x+nYgycWs3xj+uC7Fb8Z6D/ZLWvs+TZYVPQyLI8YHw
-	UeS50uOioQIbsuwyDvRi/Sybjw/l11MU5l9OSelsas8ASZ64O8gwe6ixA0RCtZB0H3QhXqKwLZw
-	K/MO+P5g4z1WyqhgsJ2WknlHO2MFHRVHDAEv1rS2sJhrvYvPL9VD7A==
-X-Google-Smtp-Source: AGHT+IGSli+bcx9ox1ljWWCtoc3dN8uAUq7nUnmH47eroCYvy7soufkfO1Js6SUaqxYXNpJqxg+xxQ==
-X-Received: by 2002:a05:6a00:3a17:b0:748:2fa4:14c0 with SMTP id d2e1a72fcca58-7489ccc780cmr20445449b3a.0.1750195261783;
-        Tue, 17 Jun 2025 14:21:01 -0700 (PDT)
+        bh=776AGtm1GUAsf2d8a4E/DtcHPM1G3jvwfP/nT02CJvg=;
+        b=Q3dGWMxCfzJvmSX5JRHzXZhn/PiKDUZVE8etypeuCGl9u1A6j1+/q6thWSH+s6lA89
+         c01DehDLu1c9yBiBFPjboxegfJRfboEv2jVlTSuqLlfOYo4EYi50m0RnGH8Q+8FAQ+Eb
+         5nbJJVuRVWvmb5/H/IsXbQigKC+DOVi958F+Twv1Yw0mWdAMf7x99n51yXfWZRaP1BRq
+         Ku8TrVuip6Y9BVZ4+jiIZVnXWNtfgMrBmq9huk6tjsqo7/yggboPLsCnGOPD9TK4GwaZ
+         Ipbb0/5edI4IRXHu9v4n42V9tiNssHIK8g1pn7CtVpJNoBMuzNdZjThGTbV6pK0crTvN
+         +okQ==
+X-Gm-Message-State: AOJu0Yz3TlI9Ib21xbc9P1YwL07sPpzJL8LmlLBaBEFy7ZY5AYYy5LIg
+	5a3hEImp4xajgH5aB6dBcVkiB7FOjatVRiI/F9v0C+kkiZ0iIvcLeIUO3ZFecmQ/l/Iun3Jcu/t
+	MaEWL
+X-Gm-Gg: ASbGncs2TZZx54AH8NZxcMcmvZfwYPp8fiv/qSfMFXl5vWkwi/ufh2YdW6kKgDXrxyI
+	TA580pgsNbVR88QjP1lb69y+ymXWsAZWsn+Vqo1+jr5WztPdNB9vNm+qJF675DdY9NccSVncmsD
+	IxoK4PWlduHm9RpWVV4442pcy+SbPpybtxZjWDLglQ1AOwUP4IdCrAQtsTLHUYuQh1ddameHEpj
+	b5/ib21MkDB4nGDYhM7ntpJ6JDl0NTUN7qER/OE1fW/fCruCLAKeYmrTeSRek8JtwMCTtI+Iols
+	o+lqEcf0l5kaRstxvZL68R/RetST53Ez3xGx8NfeCG9oKXHUzF675w==
+X-Google-Smtp-Source: AGHT+IEef9MPmHpLrsSOfvbdpUOLmusjvAgd9KNp55HIfc550dcobfUhHOGllm7h+fD6+SvhvSgowA==
+X-Received: by 2002:a05:6a00:3c8f:b0:73c:c11:b42e with SMTP id d2e1a72fcca58-7489d0309f3mr21723315b3a.20.1750195260181;
+        Tue, 17 Jun 2025 14:21:00 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7ce4:2bd1:2434:c118])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffeccf1sm9720728b3a.18.2025.06.17.14.21.01
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffeccf1sm9720728b3a.18.2025.06.17.14.20.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 14:21:01 -0700 (PDT)
+        Tue, 17 Jun 2025 14:20:59 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 18/27] xz: Update LICENSE variable for xz packages
-Date: Tue, 17 Jun 2025 14:20:15 -0700
-Message-ID: <a9b751f211ccfc1c8d58aba290dc8b4de5383acc.1750195103.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 17/27] libpng: Improve ptest
+Date: Tue, 17 Jun 2025 14:20:14 -0700
+Message-ID: <5835b803acc255c227213670588dd01c5168c266.1750195103.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1750195103.git.steve@sakoman.com>
 References: <cover.1750195103.git.steve@sakoman.com>
@@ -67,53 +67,140 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 21:21:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218935
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218934
 
-From: aszh07 <mail2szahir@gmail.com>
+From: Poonam Jadhav <ppjadhav456@gmail.com>
 
-Update LICENSE defined for xz packages to match the license
-information provided in the xz COPYING file.
+Install libpng test-suite to run it as a ptest.
+As the test-suite takes more than 30 seconds to run,
+add libpng-ptest to PTESTS_SLOW in ptest-packagelists.inc
 
-The License information from PACKAGERS file of xz mentions
-packages with lzma files are in public domain.They ask to
-use GPLv2+, if only it's not possible to mention "PD and GPLv2+".
-
-Include PD license with GPLv2 to packages with lzma content:
-xz-dev package contains lzma header
-xz-doc package contains lzma man pages
-xz packages contains lzma binaries
-
-Links: https://github.com/tukaani-project/xz/blob/v5.4.6/COPYING
-       https://github.com/tukaani-project/xz/blob/v5.4.6/PACKAGERS
-
-(From OE-Core rev: d511c41dac048fbdd93a54136e93b0623a18a83d)
-
-Signed-off-by: Bhabu Bindu <bindu.bhabu@kpit.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4e5b955def5d9f305f5aba2c68b73287c03fd163)
+Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/xz/xz_5.2.6.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../distro/include/ptest-packagelists.inc     |  2 +-
+ .../recipes-multimedia/libpng/files/run-ptest | 26 +----------
+ .../libpng/libpng_1.6.39.bb                   | 43 +++++++++++++++----
+ 3 files changed, 38 insertions(+), 33 deletions(-)
 
-diff --git a/meta/recipes-extended/xz/xz_5.2.6.bb b/meta/recipes-extended/xz/xz_5.2.6.bb
-index 7f889e4367..938c659008 100644
---- a/meta/recipes-extended/xz/xz_5.2.6.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.6.bb
-@@ -9,10 +9,10 @@ SECTION = "base"
- # libgnu, which appears to be used for DOS builds. So we're left with
- # GPL-2.0-or-later and PD.
- LICENSE = "GPL-2.0-or-later & GPL-3.0-with-autoconf-exception & LGPL-2.1-or-later & PD"
--LICENSE:${PN} = "GPL-2.0-or-later"
--LICENSE:${PN}-dev = "GPL-2.0-or-later"
-+LICENSE:${PN} = "PD & GPL-2.0-or-later"
-+LICENSE:${PN}-dev = "PD & GPL-2.0-or-later"
- LICENSE:${PN}-staticdev = "GPL-2.0-or-later"
--LICENSE:${PN}-doc = "GPL-2.0-or-later"
-+LICENSE:${PN}-doc = "PD & GPL-2.0-or-later"
- LICENSE:${PN}-dbg = "GPL-2.0-or-later"
- LICENSE:${PN}-locale = "GPL-2.0-or-later"
- LICENSE:liblzma = "PD"
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 5c6a30635f..53c023bb81 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -29,7 +29,6 @@ PTESTS_FAST = "\
+     libnl-ptest \
+     libmodule-build-perl-ptest \
+     libpcre-ptest \
+-    libpng-ptest \
+     libssh2-ptest \
+     libtimedate-perl-ptest \
+     libtest-needs-perl-ptest \
+@@ -88,6 +87,7 @@ PTESTS_SLOW = "\
+     glib-2.0-ptest \
+     gstreamer1.0-ptest \
+     libevent-ptest \
++    libpng-ptest \
+     lttng-tools-ptest \
+     openssh-ptest \
+     openssl-ptest \
+diff --git a/meta/recipes-multimedia/libpng/files/run-ptest b/meta/recipes-multimedia/libpng/files/run-ptest
+index 9ab5d0c1f4..85051a59f5 100644
+--- a/meta/recipes-multimedia/libpng/files/run-ptest
++++ b/meta/recipes-multimedia/libpng/files/run-ptest
+@@ -2,28 +2,6 @@
+ 
+ set -eux
+ 
+-./pngfix pngtest.png &> log.txt  2>&1
++cd src
+ 
+-if grep -i "OK" log.txt 2>&1 ; then
+-   echo "PASS: pngfix passed"
+-else
+-   echo "FAIL: pngfix failed"
+-fi
+-rm -f log.txt
+-
+-./pngtest pngtest.png &> log.txt 2>&1
+-
+-if grep -i "PASS" log.txt 2>&1 ; then
+-   echo "PASS: pngtest passed"
+-else
+-   echo "FAIL: pngtest failed"
+-fi
+-rm -f log.txt
+-
+-for i in pngstest timepng; do
+-    if "./${i}" pngtest.png 2>&1; then
+-        echo "PASS: $i"
+-    else
+-        echo "FAIL: $i"
+-    fi
+-done
++make check-TESTS
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
+index 94db1d3f6b..011eec94a2 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
+@@ -13,7 +13,7 @@ LIBV = "16"
+ SRC_URI = "\
+            ${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
+            file://run-ptest \
+-           "
++"
+ 
+ SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
+ 
+@@ -32,15 +32,42 @@ PACKAGES =+ "${PN}-tools"
+ 
+ FILES:${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}/pngcp"
+ 
+-BBCLASSEXTEND = "native nativesdk"
+-
+ # CVE-2019-17371 is actually a memory leak in gif2png 2.x
+ CVE_CHECK_IGNORE += "CVE-2019-17371"
+ 
++RDEPENDS:${PN}-ptest += "make bash gawk"
++
+ do_install_ptest() {
+-    install -m644 "${S}/pngtest.png" "${D}${PTEST_PATH}"
+-    install -m755 "${B}/.libs/pngfix" "${D}${PTEST_PATH}"
+-    install -m755 "${B}/.libs/pngtest" "${D}${PTEST_PATH}"
+-    install -m755 "${B}/.libs/pngstest" "${D}${PTEST_PATH}"
+-    install -m755 "${B}/.libs/timepng" "${D}${PTEST_PATH}"
++    # Install test scripts to ptest path
++    install -d ${D}${PTEST_PATH}/src/tests
++    install -m 755 ${S}/tests/* ${D}${PTEST_PATH}/src/tests
++    install -m 755 ${S}/test-driver ${D}${PTEST_PATH}/src
++    install -d ${D}${PTEST_PATH}/src/tests/scripts
++    install -m 755 ${S}/scripts/*.awk ${D}${PTEST_PATH}/src/tests/scripts
++    install -m 644 ${S}/scripts/pnglib* ${S}/scripts/*.c ${S}/scripts/*.def ${S}/scripts/macro.lst ${D}${PTEST_PATH}/src/tests/scripts
++    install -m 644 ${S}/scripts/pnglibconf.h.prebuilt ${D}${PTEST_PATH}/src/tests/scripts/pnglibconf.h
++    install -d ${D}${PTEST_PATH}/src/contrib/tools
++    install -m 755 ${S}/contrib/tools/*.sh ${D}${PTEST_PATH}/src/contrib/tools
++    install -m 644 ${S}/contrib/tools/*.c ${S}/contrib/tools/*.h ${D}${PTEST_PATH}/src/contrib/tools
++
++    # Install .libs directory binaries to ptest path
++    install -m 755 ${B}/.libs/pngtest ${B}/.libs/pngstest ${B}/.libs/pngimage ${B}/.libs/pngunknown ${B}/.libs/pngvalid ${D}${PTEST_PATH}/src
++
++    # Copy png files to ptest path
++    cd ${S} && find contrib -name '*.png' | cpio -pd ${D}${PTEST_PATH}/src
++
++    # Install Makefile and png files
++    install -m 644 ${S}/pngtest.png ${D}${PTEST_PATH}/src
++    install -m 644 ${S}/*.png ${S}/*.h ${S}/*.c ${S}/*.dfa ${B}/pnglibconf.out ${S}/Makefile.am ${S}/Makefile.in ${D}${PTEST_PATH}/src/tests
++
++    sed -e 's/^abs_srcdir = ..*/abs_srcdir = \.\./'          \
++        -e 's/^top_srcdir = ..*/top_srcdir = \.\./'          \
++        -e 's/^srcdir = ..*/srcdir = \./'                    \
++        -e 's/^Makefile: ..*/Makefile: /'                    \
++        -e 's/check-TESTS: $(check_PROGRAMS)/check-TESTS:/g' \
++        ${B}/Makefile > ${D}${PTEST_PATH}/src/Makefile
++
++    sed -e 's|#!/bin/awk|#!/usr/bin/awk|g' -i ${D}${PTEST_PATH}/src/tests/scripts/*.awk
+ }
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.43.0
 
