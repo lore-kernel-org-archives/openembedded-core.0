@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C961C7115A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29B88C7115B
 	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 21:21:05 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.31419.1750195256111333363
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.31420.1750195259432250870
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 14:20:56 -0700
+ Tue, 17 Jun 2025 14:20:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u/NLXSmX;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-747abb3cd0bso80891b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 14:20:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KsuDjZfu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-748435ce7cdso5284728b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 14:20:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750195255; x=1750800055; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750195259; x=1750800059; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZBjWYjfA8SItULboc/ftNmWzz5Wo1DMkEeaJQ1mC3Ek=;
-        b=u/NLXSmXi1hpwr6joLvKPj5Sc1ANGy+2SJ7dRie3zXKECT+h8ztx84OJFrIKFH0EDv
-         knUk+uJjPebYsFUdKNLpsFj7hyZqF9qH1negb2l9ieb94EGRWb/2reoFY4tc05dP/GfW
-         da+5CfTC38AdzkMcYjfP0KNS2kOG2VtyfHUn5bw/nvV/8p57HjFP2S7Z6rCSSqlZ24yb
-         8BRKDontTBt/pQS35TlZUnoBYRt3N8sHGecg1GhG0xHD8kesMPTcwAkffLyBtTD+t/E/
-         dYgAeZLDChoVD526gicJQeIhcDWDVfhssks/bgM7KwSGZz+up6bNqE7B23XvG0vY1jAL
-         UDbw==
+        bh=9Q1G1hunavYzFZ2EnsmNhTxSQpof6nHE82P4BafI0zc=;
+        b=KsuDjZfu+58INSsfpOhqlxooegh2UcqVhb9U4ZGUTNNP9nh4tu7KAOdCl+9Zqlz5iU
+         8wht9sq/FzKV41C5OnRtOoyF8A3YBIgwlFGgFD0dGkA4Bdl8AvqnCLH+yPfsvGOOIpuT
+         lYhvN2kboOdtIV3a5aTuYBbvpQl0j9UWuoJCFB8skOwkKz+G6rzIDiQDkBTMmJ2NTpWE
+         zVT6KbzoqNAB/u0Iqyn9Dl4czWljShB1XTCyyIkZVVhnovvvrE12TS6WN5DJXJJ7/8ir
+         Isfrkn8BjAHXtVrILtkciCfEgdiBYxFj5TuLwy11i5jQlepEFARGrflqSJdfeNI05geg
+         aBzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750195255; x=1750800055;
+        d=1e100.net; s=20230601; t=1750195259; x=1750800059;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZBjWYjfA8SItULboc/ftNmWzz5Wo1DMkEeaJQ1mC3Ek=;
-        b=YA402H7gOutRecBb8OXN0PsvFFrIFfOiu/MJTh34/H40BTqG1cZXSq0oznfIDXwuWl
-         amGYd1U1jMwp/FqgB84kQJgTqN/BYWsnkzPbSLErw2aZXq4N9efVxcR7fj4Nrio19uBf
-         TH20rNZbd/Y77UfykhLWSAqSkVRQIogAPWqI0JbodRrEeQvRo3ph0LJRiuiB04bYaazv
-         HyaaaJvjacoPgwRNZu/O3do2GpOFqeNxARcdFZEM609LjmP2fsP/Z8Ph3w0b1g0kVQ6l
-         oiBL36r89YuCHwGo4mT9bH6e0tbTi29AOzqyVHwQe32KbWv9HwRx4bqTd1WmTgTvXkjV
-         4Xbg==
-X-Gm-Message-State: AOJu0YyREEa/QEw3W0+wpTQIS7w6uV0v+jiCOciVTwAc0SE/NDDDab8s
-	LYiBRPdip5Ffv6HFJsEhy1cTgzKgOzvWw+eMsfnx0DKlQmesfPDDj0aKidfMD+ihwrfEDL4MKUX
-	1VZU3
-X-Gm-Gg: ASbGncts8Sd/6Bmm5GGfeqVhv4bGU/tpBFjDLcsbvArVsx/9qwJErI3BEwqoGL9a+A7
-	EuC53/S6IEcjCaFNiBMZiAAQkW3esjukoQzMRX06jK+2SWJM78Kr2UjkDmobCBR/YVsxmJdqfCn
-	L4Ci2eFZqRzxeUbbLASpJ2p063Bfs53n81xcvAbQ713DJ+mBLcHTfBwI090amhFr+K8AtVihPas
-	EUjBLkT5wOjJ2J37ssDd2OD6dNORj3F4YNBSXecft4k77y6W6CWFnSh+9T+1cb85OOi0tyCmUki
-	0EP7CpjX5IkILTvUtwWNQavXqmntGQ7FaegES2dGIovduCGrPvdwMg==
-X-Google-Smtp-Source: AGHT+IEYEuQoQvDQ0M+vJ4sL4IG4rHgZj2OXs6bMbsmfSTyR84rdVvHR1cz9AT1ffuKdELIxWj3Upw==
-X-Received: by 2002:a05:6a00:7596:b0:742:b928:59cb with SMTP id d2e1a72fcca58-748e6fcd4a7mr135773b3a.7.1750195255281;
-        Tue, 17 Jun 2025 14:20:55 -0700 (PDT)
+        bh=9Q1G1hunavYzFZ2EnsmNhTxSQpof6nHE82P4BafI0zc=;
+        b=JkAundWMjPDNcili8FANt8y+8KwRgL8H89WdGd2hz83NvRJeVqHm2AICoJ3PJnLX77
+         6l5s+KtAFzX/r4RUHhHAgc+uKpt611OzsPY7pY4fAjd3PVXsl88prw84UVSSdWYmvc1+
+         wnhvpK3Ak3vk4T9HVfYh49fXlVDAASlLVOTwXMhc9kxDQWjrNLiEbA03nBVWplVQsPxp
+         yl2AxbCJmh4qNegzo9WFVrwDP8bMRrZkW2WwSoK3QQJMkGM/O0b+AD2FrTsD50hYZ2LB
+         80trh9B7nNUaRPUh6+h6r5UJqGMfClpJkT/CXO8HxuSUKyx/2Uw+15uMoImut31+39/g
+         U8Xg==
+X-Gm-Message-State: AOJu0Yyd6oC/yvarhmPrTwvIWyEXAEMcc7ZjfF/kq3uRdrdPWUEo4fFB
+	XuThcmBGVs94MBYJ6ckcrkXiaF5kPbffchETflxndjEoSE9GZfbXkLYnUyvB6N0gBEI9IVy6Ds1
+	Gdkqd
+X-Gm-Gg: ASbGncsfJ57rH9AQTtk1xAvwA1Har3QIiz/lrpZhOHKvjVyu2hzErgivxngL/gWEFcV
+	Qyses5w5gWIVMEgIVzocGgrHDRs7fA3nztv5NS0YanauCpV+M0P3SyxRKOhV3R28bn8nanl7B/X
+	9LXpZdArsrUQpsjVUGn0CxGqkPWlD4bIKrQ8TbIEPOO3rHTMbzy9/OBhUMs5uVE1YyMx9rXD54a
+	B9lMkwMiTG3gFmUAR78fjYLqOopGoiU2Jn0kyQXcHX2NRm/UWx+IDGMZHan4tf6RpwI6+w0o2TM
+	x38bWMQXo9H0bHPvDuJ7MizXOv2aKm6UAbhhK0ZiOWHcrSmB/kbK2VMSyvt4HaQp
+X-Google-Smtp-Source: AGHT+IFTOurVf76M9P2x8I/P9QNYZeWFgnyv4m/yQSBrWmXge5Fr8W8VR4U43ZzgjE3Az5rIYlzPwQ==
+X-Received: by 2002:a05:6a00:4646:b0:740:aa33:c6f8 with SMTP id d2e1a72fcca58-7489ce314f7mr20660604b3a.7.1750195258690;
+        Tue, 17 Jun 2025 14:20:58 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7ce4:2bd1:2434:c118])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffeccf1sm9720728b3a.18.2025.06.17.14.20.54
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffeccf1sm9720728b3a.18.2025.06.17.14.20.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 14:20:54 -0700 (PDT)
+        Tue, 17 Jun 2025 14:20:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/27] ffmpeg: Add "libswresample libavcodec" to CVE_PRODUCT
-Date: Tue, 17 Jun 2025 14:20:11 -0700
-Message-ID: <34df694e0cdf4c1e3dfc99502a9e615b8c802cdb.1750195103.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 16/27] babeltrace/libatomic-ops: correct the SRC_URI
+Date: Tue, 17 Jun 2025 14:20:13 -0700
+Message-ID: <94d24ff01573dc1d65078c92150dc252b3e9b145.1750195103.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1750195103.git.steve@sakoman.com>
 References: <cover.1750195103.git.steve@sakoman.com>
@@ -67,40 +67,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 21:21:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218931
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218933
 
-From: aszh07 <mail2szahir@gmail.com>
+From: Guocai He <guocai.he.cn@windriver.com>
 
-Currently, CVE_PRODUCT only detects vulnerabilities where the product is "ffmpeg".
+The old SRC_URIs are not available and need to update.
 
-However, there are also vulnerabilities where the product is "libswresample",
-and "libavcodec" as shown below.
-https://app.opencve.io/vendors/?vendor=ffmpeg
-
-Therefore, add "libswresample libavcodec" to CVE_PRODUCT to detect vulnerabilities
-where the product is "libswresample libavcodec" as well.
-
-(From OE-Core rev: 9684eba5c543de229108008e29afd1dd021a9799)
-
-Signed-off-by: aszh07 <mail2szahir@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Naman Jain <namanj1@kpit.com>
+Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-kernel/lttng/babeltrace_1.5.11.bb             | 2 +-
+ meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
-index ae257a3926..dcdb65d2eb 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb
-@@ -233,3 +233,5 @@ INSANE_SKIP:${MLPREFIX}libavutil = "textrel"
- INSANE_SKIP:${MLPREFIX}libswscale = "textrel"
- INSANE_SKIP:${MLPREFIX}libswresample = "textrel"
- INSANE_SKIP:${MLPREFIX}libpostproc = "textrel"
-+
-+CVE_PRODUCT = "ffmpeg libswresample libavcodec"
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.11.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.11.bb
+index 8e2fe4164d..0e93207139 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.5.11.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.5.11.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
+ 
+ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
+ 
+-SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.5 \
++SRC_URI = "git://git.efficios.com/babeltrace.git;protocol=https;branch=stable-1.5 \
+ 	   file://run-ptest \
+ 	  "
+ SRCREV = "91c00f70884887ff5c4849a8e3d47e311a22ba9d"
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb
+index fad92df507..69d8a266f6 100644
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://doc/LICENSING.txt;md5=dfc50c7cea7b66935844587a0f7389e7 \
+                     "
+ 
+-SRC_URI = "https://github.com/ivmai/libatomic_ops/releases/download/v${PV}/libatomic_ops-${PV}.tar.gz"
+-UPSTREAM_CHECK_URI = "https://github.com/ivmai/libatomic_ops/releases"
++SRC_URI = "https://github.com/bdwgc/libatomic_ops/releases/download/v${PV}/libatomic_ops-${PV}.tar.gz"
++UPSTREAM_CHECK_URI = "https://github.com/bdwgc/libatomic_ops/releases"
+ 
+ SRC_URI[sha256sum] = "390f244d424714735b7050d056567615b3b8f29008a663c262fb548f1802d292"
+ 
 -- 
 2.43.0
 
