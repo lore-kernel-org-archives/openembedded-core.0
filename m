@@ -1,89 +1,226 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 125D1C71157
-	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 08:49:00 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web10.13989.1750150137678843444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 734D4C71136
+	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 09:12:50 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.31])
+ by mx.groups.io with SMTP id smtpd.web11.14460.1750151569630230841
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 01:48:57 -0700
+ Tue, 17 Jun 2025 02:12:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nRBQ/seu;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6f8a87f0c0fso53250036d6.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 01:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750150137; x=1750754937; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=A9pDoINFYF/GZDTuYq326/Q5H8EGjuJG4XWHgjOHoOI=;
-        b=nRBQ/seutTQ42+DgdrSv8Y9bnhwM0QCfuKKNJKsITq90kYV5/6Qu2nlw2aeN+n7wuE
-         cmmb7wkQzaNuHbTknzpccmS4B4fme8MLHFnxMvJ032toyA0c2XlE6OGlKfMzzM7VNdd3
-         2IaPdSYECJBlyVqzwxznOxPQVOB6WCF8ED6lKPbNBYdrXdfjoHXC2YSI5+WHmKiZTS5U
-         ilo/nagKtUjQL+hLmdOc1efRMgy9Joqmzpj1c7oKlxoRk4b3ydKP8sxrtwtpbNuy5rKq
-         KCTICf2qOxAPTA9tke7LyLmiE+hk2HFMyiHWaSvqSh/CO0YHKbD7zqIRMwANtojHCBG5
-         SF/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750150137; x=1750754937;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A9pDoINFYF/GZDTuYq326/Q5H8EGjuJG4XWHgjOHoOI=;
-        b=VMFgD284VFfYqwrYac2yLkcjj8B+p0WkWy0SNB9wwVlgcnDsUZOfvMQ9WTBg1/R7R4
-         CWLwq8Js9hrihyySETs/WBsTkUYEKS+SWKsW5zWNJmAblRrgujz8H4e4tVY9g3ytF+9p
-         oeVIhb5bUJ0TTBagdyGh7ytq1btzvJ7+3PfTZhR3iuLqQ/P6eRUjj9Nn+N+0nheGEM6m
-         uezkpjrA8vGThcCeFhMVXu8NfhkkJv9TT00EaK6IHhWnBZd6DzX7c1xZTaygbl2gr6tz
-         rvvTW2gN09y92VTROYmigIncTi3snnB9rGcnMA1+LZsxbnW8adzZap7CSmadRyL1DXp1
-         HQmw==
-X-Gm-Message-State: AOJu0YzHZH0zxUdybBUozck+16C98QOQKLfC1JSKfjKnykYtBhUOSbzv
-	/1pcHCsmc8v+IUxB9908Ocs5QBJ279OMj+zS6eoO6rT5O5Q60PWPpb04sYsg6JLcxvVM18OFwJn
-	ZGRXNsxihNrI9oYzitWL5qFSEOPHpue4=
-X-Gm-Gg: ASbGncvQlRVGckXr+JaLHTVeedtEMa1V78PiU++RApU0TCzjPkQX/EuSfc7Pq2oLwga
-	q15YgoxXuOXKqJ7/yscrwHmUglzTIjjMtExUm+O+jWENHBfHNfuijDlfmv4q75EdzD4xLb89zew
-	/v89kwD8uSCCSfcx/0Fuxq2V3NCxc1vjiClIJ+ziFVpzF7WvoyaugXXh3MUC9cqEFCB2X9Tg4XB
-	zE7WA==
-X-Google-Smtp-Source: AGHT+IHg5dHA5ZbMk66anGTAYxi9w5qll1eOViUwZari/nE1ifhID1EflgTLxc7ZDx2UKNz4Fut8ypq4kkSCPCQMgNc=
-X-Received: by 2002:ad4:5c6b:0:b0:6fa:c99a:b5e1 with SMTP id
- 6a1803df08f44-6fb47725fb8mr221187546d6.17.1750150136613; Tue, 17 Jun 2025
- 01:48:56 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=rnaNOWEK;
+ spf=pass (domain: axis.com, ip: 40.107.159.31, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Jlhu+0lWt3fUbKCIi5zmfqSk+3BFlNMHkS3SZbDqJcPKMu3uoqL4+VsctSgfZ6K7VqcETb57Cp8exbKauz+Ts/OtSrwBg4ySf23+szVWA+/7xAQqW+l3lz2vWYG3YAGrUHzVDQhkLmWAGujqiSyOYQXr7IVRFeyXXdF0IjHkFMCgAtDdGclLW8vSb9AQzFh5FUy3vP9PdhCdR3LS4yIG64UjCYlWUVaO9ZUqjNJizNMLtzkhLNEzuC2rJTGiJGiI4Bqo5NJVOMkSvj9TrFfqsqPILRhT85Tpz5J9DbY35I6kIZz55fnZUrMjyNfjbIfnzZP4ZkkheZwz4HH83VcpxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8WxRGBOXtKbFIN3KHBgHb2KQcJbEiNnIJx7EoZrJADk=;
+ b=AFrUFGjpZ/tv4lXnBw+I0hdDV2GrqYrrigYOZxM1n3k90iKkBc7zwOFlbCpcuYZEaBaSQAg/fl4gcvsuZVTCE6YUntdH4AztpYxZ8J4LQROcLV2hz3c/vstLKMpSTHfewgVzot0YOQ6iSeX74hAapfEgPtExH9TZ3iYvcLsMRUEliKR9M/dXkEWZ6AmwYORZC64gfKZIi6/yej5XTHz7hkIWQqYi0SN3UOJvFnoB/KdovfoRHDOgAoiB7jiWuCx30fSyGHk1JVIWuQqyGh5kwMbG827byRBktW3drkuzzciG5YyNw2BwM3qurQe2B1RV0k6KVgX2SFT41hdG0TmxYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8WxRGBOXtKbFIN3KHBgHb2KQcJbEiNnIJx7EoZrJADk=;
+ b=rnaNOWEKlO2dHeLQSQ6wGvPb/ukrLDpRRiUkP39BZS2xFEaCHQXFa5AyDSSnu/BN5anwjfjXsuymaVvAa/GunaKgfnWi0PQS8IhAWD0Y7ZU5v/522iUvBFhfGXaDmzHymE2rCKohc30JPAutwdGB128Y8umc/oB8+APonVPLqL0=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by DBAPR02MB6424.eurprd02.prod.outlook.com (2603:10a6:10:191::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Tue, 17 Jun
+ 2025 09:12:46 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9%5]) with mapi id 15.20.8835.027; Tue, 17 Jun 2025
+ 09:12:45 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 2/5] toolchain: Provide abstraction for recipe
+ specific toolchain selection
+Thread-Topic: [OE-core] [PATCH 2/5] toolchain: Provide abstraction for recipe
+ specific toolchain selection
+Thread-Index: AQHb26JdU0yf+MYnRE6DwdY3cqL3VbQHFgxg
+Date: Tue, 17 Jun 2025 09:12:45 +0000
+Message-ID: 
+ <DB5PR02MB102130026EDA1102924183010EF73A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20250612135955.1413300-1-richard.purdie@linuxfoundation.org>
+ <20250612135955.1413300-2-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20250612135955.1413300-2-richard.purdie@linuxfoundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DBAPR02MB6424:EE_
+x-ms-office365-filtering-correlation-id: 3ceafd40-ebef-48d9-332a-08ddad7f1f9c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?/n6BUXFwzjcLQ8uJXshS3ddr4S/qBbDpvifOcrW7xLscqBRvTp+VyDOd70jG?=
+ =?us-ascii?Q?GBH2tpwyAgO7jWdmo5xqWwY2gSEXvZ2jJKj+JDPzesgW3bN6+VabAIjadyb+?=
+ =?us-ascii?Q?BCDs71UUlvqeuPZKSsM94xWWkBd1l4bJWJfpa3rRPJiDQzRbFEKM3izA4vrh?=
+ =?us-ascii?Q?RcfgUVOU/HvVhv/5mijdIwDkpRXz7Hp2HWlDXmmWCqTzpGQk/Rlw2ZhFknv5?=
+ =?us-ascii?Q?8X/LBQ+ceFB5DMbA/u7CGSBCqmALZay/LMK7VSXE15nfPjko5jZzcKN9BYQ5?=
+ =?us-ascii?Q?RmNGO+fRvBQB/zRchzUd3xgUVeyJAYr8Fq8oQN5ygxrjXdtA4jX9LhR03NTM?=
+ =?us-ascii?Q?YzQ6vYU37Uyq70RWHn4yTbTUadgxm5h+6FeXoF+TYfRb8YaezP93mP8T6Dkg?=
+ =?us-ascii?Q?GGsNAwlfVgzrPa+H35Jsvk2RzuHn6pMprAsUkN1DBqxLbLSMnLpX0LHezDyQ?=
+ =?us-ascii?Q?8GeWoB26zGdLkftDOLJ3WDZkkSERnAHUUkg4JO3KcstcbIZvIgWOcgnQGTLS?=
+ =?us-ascii?Q?EmzOjKhBIod1UGSQWRNKz6N5kwEwQMxbuTmYllkIKguABu95hzSVtcTvPhIX?=
+ =?us-ascii?Q?tJ3RhefsLZ+Rf7qtBBQ/iGjiAwbj4wvTeuiq6ddVF64pdYWD/tHVrvIcl3QI?=
+ =?us-ascii?Q?qRK6gFonlTaz/pVYTSqyJaEW+xtnMw/5yu2f7b3XsubeQlvy67tDhTFFGjOn?=
+ =?us-ascii?Q?4QZdj3mqUKEAXysqeeGdGDMnU+y0dSLXenED6Sdo3rmq9vvY+aoqrRIjNRyD?=
+ =?us-ascii?Q?ELldTfaOVpxhv5cSriBkVX+lurVJrAqE4sSrYMooJ8BPXIZEXhXpBRg8tpqK?=
+ =?us-ascii?Q?eFK42GATQr2aepoBM9QiDJQ1bO1WZoZ+/gqV8rIy7IPi3R6VdBCvTB0fDIe8?=
+ =?us-ascii?Q?/Gc9+nIpdNYu77ZcTuTP2nIpa70lLaIgeBYnST9huR+5JwZ/DQpXJqiSn8yS?=
+ =?us-ascii?Q?wA4g4MmawOyKISoy6D6NuzUoKO6mPowSaKQcqA/69DKh/AmR7AucaPfE2yZO?=
+ =?us-ascii?Q?559bZQf4Nyt0sL3cFTRYIGTQog4+b8R0YvI8puWblveqcEzVUgWch8/vFWrN?=
+ =?us-ascii?Q?+wmfbi3V30BEZlTN1JlP5fy8Tr4SdLCtmh5qhtLRhOJaRCC/IoK9l/C5UKho?=
+ =?us-ascii?Q?V/EpKB0/iAYWWYLdeRQKFeXx78vGmqhmiBCPb4AKcm6smNsG/7aBSJCZLdnh?=
+ =?us-ascii?Q?OOAYwCj4N+AOs/VtL3GNl4MOYyfE7r6Ht96Qpm5lIRLQcW8yvVp6YwIRshW/?=
+ =?us-ascii?Q?G8By8zmlJf14X8h+e+JhRMc6Q5cRcvwE7stLibIv/j9MZgjMidTB02KjjnH+?=
+ =?us-ascii?Q?1sVNIPcjyBi1igh2FEIV2puj3hi2OMq4np5oJr8nJB7PkKJfSHbPlgVM8KUm?=
+ =?us-ascii?Q?oDwnaqUrfvKk5PXlmV8AfCqUodhff2+Z9PvufbvNEe903E+UXyfSeoIKtfzF?=
+ =?us-ascii?Q?yQaDGHdi3Rw8Gz7CnbvKmMrz9kP3YEUk2BqJzuxio05zRKAwQBV40w=3D=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?dr7zzThOxGkirhduSlXzlsAIESXLKsR4Tpcim1YvWYWxjkHEm1IByMSARHzg?=
+ =?us-ascii?Q?uRCvPoy8OKAOlCCOoEl6SfsEyZh6xTbo8FlUHo/oFAjivlXB+rZBElwLLKe3?=
+ =?us-ascii?Q?eiN3EJmUcU9WxnwvHWLC76l1NHcF9ELxmRyR3swF/wiFjlQd+SyYGfJPeVjE?=
+ =?us-ascii?Q?pfuoz4yrOMzTbXKPb9no7lH8loubPKVcN9OFmcjYisCXcljiTEs17KgjheRX?=
+ =?us-ascii?Q?sRTlKMLB4f8DpgubkZq1ESO9+5/F5OQ0klNgr5Yx3jX9MvJ28soC7+b1ppws?=
+ =?us-ascii?Q?WrkD/VJXBAI650Av2iqY2WNvFQC/iGomNntwrk+rmgZyrSnCCyOFTrPR8yUy?=
+ =?us-ascii?Q?iyT6O+VLUs2gE8SSxpmdE61SW8Nu0wudVGJGOUq82wv7WyHDfN6jwLx12UzS?=
+ =?us-ascii?Q?sOxs+vsSrHP+CA6cDZ8J9PE7hDK5Qg0ve6wjBbRzGZf2QOE6iYJc6QXNebTz?=
+ =?us-ascii?Q?yaNuG2DjyPAtMj4devuwkFgwvRWsrCn/OVghCSznRvAQ855cRdprC40qp9On?=
+ =?us-ascii?Q?Xa0ra/+wSrVIV+4idXKfrkvXdo1rcXKk2GV2J7xxy4npkHn4xGO01pWW6m1h?=
+ =?us-ascii?Q?3adui5tFF3J9dFZ6giw7amZhkqFdnHIdHbPIq2irdG3wtwgZAzKhNWDDWSnf?=
+ =?us-ascii?Q?Vqied4ndVA0HF/B8ngn9wzXrM3N3oIGjcXk9dflTRjrLsVu0rQ/xuZvYvmCF?=
+ =?us-ascii?Q?yrpt56SeBBwpNelcklNjROBrhvOgZ2nvi6uUHRI+8imuumGFzAw5m35QAWzW?=
+ =?us-ascii?Q?52x6pfrCiABwudFr4FKt5lgvnl+0B/ASGvp6J/9WZ1Y5EP3i6oVipIsVUKZC?=
+ =?us-ascii?Q?9rnT6b4tge9c9mqrQMtLm827kmkSp8I3dv3EkxgxM1K+HsmyBh88Un8HBUrq?=
+ =?us-ascii?Q?KAk5Ry89FNqR007KKH393/y91d3CBhJVnLNQIa5VuKpyPe19X06pcjIlyOn2?=
+ =?us-ascii?Q?YbxN9i82s0ScP38I/sF6WQWv+ASDhocHcEmbRlF18vS84QCl9ZM6LBHqirsJ?=
+ =?us-ascii?Q?K1jWyfAFCxzZK1qW0WuuVvUCTAleUzNTelKk0qCgJAO+qDcvIwEKkWKHXJBz?=
+ =?us-ascii?Q?/LfrCZm1JwEfCpX4tUDfxnuoRMiAsVk2UakaCwHCWSiFnwMHXLMpBL/KQ6Wh?=
+ =?us-ascii?Q?1ecP9MXZDRWUWpbmGYW9MnrCREDH1P4mBJAGeoRNudfuh3z4tQr1mJdeJzBz?=
+ =?us-ascii?Q?3G7uHLuGv/6nZS0OKA7SeOsSi1EyfVS04BSkbIgtlJce8RP6tRlNEstu9ZSG?=
+ =?us-ascii?Q?8DJSallz+SP5s1iS3S75P3Ionm7lJzCnqSrTtrXKmu+S8r1GUQWeCRjBQW8o?=
+ =?us-ascii?Q?ydJI9NBjrZSyGn+shx29uVJeUlakeb5FXrkY8ou5DxAlga4Ya1SCX6zxQ2Of?=
+ =?us-ascii?Q?tSctFqWQVP+nzvYgZ4JMZSXEgwU9JWRmyE8w69eNh//01aVKQo5n6e6IfzLO?=
+ =?us-ascii?Q?4IlOSGM2kLWriFX5CFxtIXvtUqCpaJpyRNp9h+/NkwzqGeBN0lhRs5O/zqlV?=
+ =?us-ascii?Q?nsdvOlueNIysxma0JrXSNgBXVDciF8+vm7YLe7ML1KasZJm7loXhXgFFd77y?=
+ =?us-ascii?Q?UbnGPvXu6d2V5syrhyA=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20250617052540.8256-1-victor.kamensky7@gmail.com>
- <CANNYZj9np2KGj20Khpgfa2Z_dnd0qNZKh_Q1Bp-E9HThdnB8ZA@mail.gmail.com> <CAHSqoWtbgnjMMPtaauzgXD+a6P_zRkm85sTxDnBPE-W05zqSdQ@mail.gmail.com>
-In-Reply-To: <CAHSqoWtbgnjMMPtaauzgXD+a6P_zRkm85sTxDnBPE-W05zqSdQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 17 Jun 2025 10:48:45 +0200
-X-Gm-Features: AX0GCFt4_4TVdTW8NhkK3cmvZ81mDCU4LQnFkUC5RpttpzSQcrhjLtdq80p3Lgk
-Message-ID: <CANNYZj8z3a=_iRW+t4V7O7W44miyKgEsASQHcoGDN1G+SBEKpw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] systemtap: upgrade 5.2 -> 5.3
-To: Victor Kamensky <victor.kamensky7@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ceafd40-ebef-48d9-332a-08ddad7f1f9c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2025 09:12:45.8832
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nqUAXHO7e0T2TjhRwuvvx8oUIm9gAZMGB69qfqX6+m1fQ02GUqwcgrpblWo0Yuwf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR02MB6424
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 08:49:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218864
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:12:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218865
 
-On Tue, 17 Jun 2025 at 10:20, Victor Kamensky
-<victor.kamensky7@gmail.com> wrote:
-> Because of that for 5.0 I had to do shenanigans: specify githash from
-> master branch
-> and explicitly add their patches to reach release-5.0 tag. Otherwise,
-> if they repeat it again
-> in future versions I will have to take 'tag' off because githash from
-> main branch won't
-> match it.
->
-> Although I don't see 'nobranch=1' used in any places now.
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Richard Purdie via lists.openembedded.org
+> Sent: den 12 juni 2025 16:00
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 2/5] toolchain: Provide abstraction for recipe
+> specific toolchain selection
+>=20
+> This implements a toolchain selection mechanism, defaulting to gcc
+> as per the existing defaults.
+>=20
+> Introduce a variable called TOOLCHAIN, which denotes the familiar
+> name for toolchain e.g. "gcc" which selects GNU compiler + binutils
+> as default C/C++ toolchain or "clang" which will use LLVM/Clang Compiler
+>=20
+> TOOLCHAIN variable has a global fallback to "gcc" in configuration
+> metadata. A distro can switch to using say "clang" as default system
+> compiler by defining
+>=20
+> TOOLCHAIN ?=3D "clang"
+>=20
+> In local.conf or other distro specific global configuration metadata
+>=20
+> It is also selectable at recipe scope, since not all packages are
+> buildable with either clang or gcc, a recipe can explicitly demand
+> a given toolchain e.g. glibc can not be built with clang therefore
+> glibc recipe sets.
+>=20
+> TOOLCHAIN =3D "gcc"
+>=20
+> Based on ideas/work by Khem Raj <raj.khem@gmail.com>
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes-global/base.bbclass                         | 9 +++++++++
+>  .../clang.inc =3D> classes/toolchain/clang.bbclass}        | 0
+>  .../toolchain/gcc-native.bbclass}                        | 0
+>  .../toolchain/gcc.inc =3D> classes/toolchain/gcc.bbclass}  | 0
+>  meta/conf/bitbake.conf                                   | 3 ---
+>  meta/recipes-devtools/binutils/binutils-cross.inc        | 2 ++
+>  meta/recipes-devtools/clang/clang-cross_git.bb           | 1 +
+>  meta/recipes-devtools/clang/clang-crosssdk_git.bb        | 1 +
+>  8 files changed, 13 insertions(+), 3 deletions(-)
+>  rename meta/{conf/toolchain/clang.inc =3D> classes/toolchain/clang.bbcla=
+ss} (100%)
+>  rename meta/{conf/toolchain/build-gcc.inc =3D> classes/toolchain/gcc-nat=
+ive.bbclass} (100%)
+>  rename meta/{conf/toolchain/gcc.inc =3D> classes/toolchain/gcc.bbclass} =
+(100%)
+>=20
+> diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.=
+bbclass
+> index 4ac3b83eb5c..4809cca27de 100644
+> --- a/meta/classes-global/base.bbclass
+> +++ b/meta/classes-global/base.bbclass
+> @@ -19,6 +19,15 @@ PACKAGECONFIG_CONFARGS ??=3D ""
+>=20
+>  inherit metadata_scm
+>=20
+> +TOOLCHAIN ??=3D "gcc"
+> +TOOLCHAIN:class-native ??=3D "gcc"
+> +TOOLCHAIN:class-cross ??=3D "gcc"
+> +TOOLCHAIN:class-crosssdk ??=3D "gcc"
+> +TOOLCHAIN:class-nativesdk ??=3D "gcc"
+> +
+> +inherit toolchain/gcc-native
+> +inherit_defer toolchain/${TOOLCHAIN}
 
-I would add nobranch only when updating to a release that is indeed
-not on any branch. And remove it if a later release is again on a
-branch. It's best to explicitly specify the branch and have it
-checked: it's a kind of quality check to ensure SRCREV is not pointing
-to random 'dangling commits' or throwaway private development
-branches.
+What if you want to use clang as your native compiler for everything,=20
+i.e., even when building target recipes? Would something like this=20
+make sense?
 
-Alex
+TOOLCHAIN_NATIVE ??=3D "gcc"
+
+TOOLCHAIN ??=3D "gcc"
+TOOLCHAIN:class-native ??=3D "${TOOLCHAIN_NATIVE}"
+TOOLCHAIN:class-cross ??=3D "gcc"
+TOOLCHAIN:class-crosssdk ??=3D "gcc"
+TOOLCHAIN:class-nativesdk ??=3D "gcc"
+
+inherit toolchain/${TOOLCHAIN_NATIVE}-native
+inherit_defer toolchain/${TOOLCHAIN}
+
+//Peter
+
 
