@@ -2,165 +2,235 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6066C71157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD28BC71136
 	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 16:00:12 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.23009.1750176006733169949
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.23005.1750176004758316578
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 09:00:06 -0700
+ Tue, 17 Jun 2025 09:00:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Kk6dIxNM;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-311d5fdf1f0so5572425a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:00:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=D49PE/Vr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-313f928718eso2684597a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 09:00:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176006; x=1750780806; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750176004; x=1750780804; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=91/Ofv8OT0QYh7qtczoGKUhQm/A69/aPyHlH6LuaMqo=;
-        b=Kk6dIxNM57U4eOO/xsmEJ4XTRWYi3fARJj99tM9pw4N5VdLNUix5XY37zLHbAK0wJC
-         Miap5uxYic8HhkYiDDPWV+6vGYuABYdNJASj/2b+h9mBjk8YZMlbFO8+h6b0Hi/jxRFL
-         BMudksZmBYZWSQwLOFHV9cuKXlodj7cvbnlUZqImMo3FoU/a7+p3k2Si8z6vqLDQkBkj
-         y3aH7wpLjL6OySM4vMmiYG+iqwAN6EApIAzt7h0T8hS/seCpsg7lSv7a6iBLCFMSTZrt
-         lL72NlHeIroAkowkDED8zawvaLVno9IuwcP2QxlslVxWzbYAsxeF/STNTov9QNPHr92v
-         BLrg==
+        bh=nBvA8gaIIAnsWtOoQTpxnpLNRcKsr/M6LDE2vKBiqKs=;
+        b=D49PE/VrBPS0IK+InF9O0gAb5cKiap+v/a63I6G6vQeMS8eLCkhqIBf1YP83xbon80
+         wxaXIfE7AtzLVJGvEuWUtOeD3MiWFGJ3uGhojK+OSKjboKUimmZ4sWGFN0umlhIgWYKv
+         XmdmcxBiJXIS+1MvSqAF9YMitUBnj+svWbSF3DTgoxphg8f7shaAjLyP5bU/9xS75/u+
+         gNC2NR3RFQHB8wGZ/1XYx+JejZhAasnGZxSEY0Xbks0ZKo7gZCXhUKz2+6qNHxy3vepa
+         PkRjIcFTiqfRpaqmjhQwDEyvKh2sUFnHiD9lPvBOX5X4YhaJQANam4ubRZzfFLghVLFB
+         uIzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750176006; x=1750780806;
+        d=1e100.net; s=20230601; t=1750176004; x=1750780804;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=91/Ofv8OT0QYh7qtczoGKUhQm/A69/aPyHlH6LuaMqo=;
-        b=UpM9PHcFKse7TnMoJdMjPBANyw7OAm6X225KfjpxaY2xAToIQkL4+ryWrzyQAaUFOD
-         eg6gsJPqWreaZ16DnuQpshSf1xt2I7eHFNv/+TRiQLLGOj5JZMeyZtojHEAlYDM0Ullq
-         xF4ZHDgYKPphnfFXv0u6TyKBliEprS5QYnFaT6FVpqFCmDrl61baqbgFZL9i2kqV0QQl
-         KoUyo9j3TkpN+l/cj7vLO41a6sfYa3rNgfo5y/XGCz/Rxtn06q8/KgBHewsrZAKo85pX
-         GEdS4ETYEUgFdffAQxK+6fbZ5omagDL9Kvju1BxOlX0xsCy1iaRBLeDYaXCqvgLYIrO/
-         QAjw==
-X-Gm-Message-State: AOJu0YySIBv7wG44HmVi2sNLbXp7piLODtFbEigRzqimb9y0ptzayUwS
-	rlHp77O6wcbLoKnsX7kt4veDz2MEiBnzgmFCLDHiKgKZtaef6qRhhHZvwhtYsY+x12iOgK4SaGE
-	mat9e
-X-Gm-Gg: ASbGncv0ts8icI3TL9Pr+oyJxkn9EUA+fMdi3fl1NaQl0BS9F837LI42YyY0fpb5nTs
-	6vMZNXIc6V492sL4yHCF0z2eUvR8rpR7z33d1LmjLv/gNl43wUlJtuQhwLr5DeG9kaD42H031S3
-	s8XeQiF7fePLfg2etvMUmvF1e3AR2iFupuEMP0Zw0zpKAtliiQFVsVboP0CJr5glazJ2Nh29/+t
-	tMSSS42uvY9nDnRCYXPLkutOa7nDUgWNolhuAEdqo6ByCeStnH2VsP9L3nh6a87qj1XDXMlZphs
-	P7Aa+JHuZtzm8sZi9Nl9S8DYVBG6RNfyFJKnvO/ABHMoTe4IbcMrOQ==
-X-Google-Smtp-Source: AGHT+IEjZdD3UcQmf7EXk8ZmMGiifH7EAxCE0BnoOqRXgB4MD2/EKAE5EdQo1J6SfrGh5Q5FBVSdgw==
-X-Received: by 2002:a17:90b:4ed0:b0:313:17ec:80ec with SMTP id 98e67ed59e1d1-313f1dee7d8mr16643370a91.26.1750176005560;
-        Tue, 17 Jun 2025 09:00:05 -0700 (PDT)
+        bh=nBvA8gaIIAnsWtOoQTpxnpLNRcKsr/M6LDE2vKBiqKs=;
+        b=s9DG+x62aDs0Z+gXBNcnWWVVg1dJQ8MepF25NxGcYsSb3O6y75Tc00D+unD884PwiP
+         ZXd7bcYDhpvbWZhelHUyXF9YRvA6PeVapNbhT/JN/+pCzMbCCq3WUeTsuxaP1Luv0Iuh
+         vXci2CmWbknbUTqGAiDL0p/Oou+Ccri+cTkcz2LnJHrj7Idyau2LuK71zYBkBV8U+0Bh
+         0eNH6lVrxeLvwWLifN9it8phIzm4MRkLzLsFmm1jcBVTo1bdw101Yi0SzNTKUynZYeeW
+         h+qtuWMqTTydz9Lv/6xFv5C4iwuqCCpmyKlzK60U7MJRtLaLbAq4eVUD6QFKx5B/LH4u
+         mWdw==
+X-Gm-Message-State: AOJu0Yy3VAlOwVFIkek6tYL0u9kAyX0QoOpN5k/KO55KG6LdptDkbiRp
+	35Yo0gKoCcZEjPQyNfCAfXEym4TUnv3SYxZNd6o++Fj66QDChDAc2VMD4DEUlPbtDQKF7iJx9gw
+	esqCY
+X-Gm-Gg: ASbGnctoOBGvKvThNv3Tbo9Cto6GTxeioOrXNtm6b4mexyIh/+WBS2meOq6nQ5A55S5
+	0Al5rbE4o3ZE1IwiVpE7K8qdrcMHAHxdnGSEgwRRxtJAer7kUCMA7nY0Ptu09CuhUZ21OeoZhHs
+	J6XmjlB+u5eLxJBQPe0QnsmqovEmhxG49MZ0Vat5k5qO9Ga/aHfXTMEujIMCBfLuewJ5vK7T9L2
+	6Y7rkgIojUCXyZXZm8553BpSnhe+/aVrbvW33L0dZxFxj6cmmxEm5zHNW5wC4xW0BYB31vTgvEM
+	4miKBgxEsGbGdICcWIkPH05YxdbOZlO2A1LChfF+l7BJwKzNKegdww==
+X-Google-Smtp-Source: AGHT+IGrKAmaAIdOLait/uA1FmK34AARvG2R9SGLknHEgID5DhFwG+o+YbQwUMN5MKewsQdFVcndIQ==
+X-Received: by 2002:a17:90b:278d:b0:311:c970:c9bc with SMTP id 98e67ed59e1d1-313f1d0734dmr20645071a91.30.1750176003805;
+        Tue, 17 Jun 2025 09:00:03 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7ce4:2bd1:2434:c118])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea7d82sm81475515ad.146.2025.06.17.09.00.04
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365dea7d82sm81475515ad.146.2025.06.17.09.00.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 09:00:05 -0700 (PDT)
+        Tue, 17 Jun 2025 09:00:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 03/12] go: upgrade 1.24.3 -> 1.24.4
-Date: Tue, 17 Jun 2025 08:59:43 -0700
-Message-ID: <50fe0b3832f741bc7f9ea0b996a7e99c5696c0ba.1750175857.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 02/12] net-tools: patch CVE-2025-46836
+Date: Tue, 17 Jun 2025 08:59:42 -0700
+Message-ID: <0d880cdb51e47f78387b63063727fe6df1b009e6.1750175857.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1750175857.git.steve@sakoman.com>
 References: <cover.1750175857.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 16:00:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218891
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218890
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Upgrade to latest 1.24.x release [1]:
-
-$ git --no-pager log --oneline go1.24.3..go1.24.4
-6796ebb2cb [release-branch.go1.24] go1.24.4
-85897ca220 [release-branch.go1.24] net/http: strip sensitive proxy headers from redirect requests
-9f9cf28f8f [release-branch.go1.24] os: don't follow symlinks on Windows when O_CREATE|O_EXCL
-a31c931adf [release-branch.go1.24] cmd/link: allow linkname reference to a TEXT symbol regardless of size
-03811ab1b3 [release-branch.go1.24] crypto/x509: decouple key usage and policy validation
-04a9473847 [release-branch.go1.24] lib/fips140: set inprocess.txt to v1.0.0
-db8f1dc948 [release-branch.go1.24] hash/maphash: hash channels in purego version of maphash.Comparable
-664cf832ec [release-branch.go1.24] runtime/debug: document DefaultGODEBUG as a BuildSetting
-431f75a0b9 [release-branch.go1.24] os: fix Root.Mkdir permission bits on OpenBSD
-
-Fixes CVE-2025-4673, CVE-2025-0913 and CVE-2025-22874 [2].
-
-[1] https://github.com/golang/go/compare/go1.24.3...go1.24.4
-[2] https://groups.google.com/g/golang-announce/c/ufZ8WpEsA3A
+Backport patch for this CVE and also patch for its regression.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/{go-1.24.3.inc => go-1.24.4.inc}   | 2 +-
- ...o-binary-native_1.24.3.bb => go-binary-native_1.24.4.bb} | 6 +++---
- ...cross-canadian_1.24.3.bb => go-cross-canadian_1.24.4.bb} | 0
- .../go/{go-cross_1.24.3.bb => go-cross_1.24.4.bb}           | 0
- .../go/{go-crosssdk_1.24.3.bb => go-crosssdk_1.24.4.bb}     | 0
- .../go/{go-runtime_1.24.3.bb => go-runtime_1.24.4.bb}       | 0
- meta/recipes-devtools/go/{go_1.24.3.bb => go_1.24.4.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.24.3.inc => go-1.24.4.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.24.3.bb => go-binary-native_1.24.4.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.24.3.bb => go-cross-canadian_1.24.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.24.3.bb => go-cross_1.24.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.24.3.bb => go-crosssdk_1.24.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.24.3.bb => go-runtime_1.24.4.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.24.3.bb => go_1.24.4.bb} (100%)
+ .../net-tools/CVE-2025-46836-01.patch         | 91 +++++++++++++++++++
+ .../net-tools/CVE-2025-46836-02.patch         | 31 +++++++
+ .../net-tools/net-tools_2.10.bb               |  2 +
+ 3 files changed, 124 insertions(+)
+ create mode 100644 meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-01.patch
+ create mode 100644 meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-02.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.24.3.inc b/meta/recipes-devtools/go/go-1.24.4.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.24.3.inc
-rename to meta/recipes-devtools/go/go-1.24.4.inc
-index 78e26146b5..eff3f2f605 100644
---- a/meta/recipes-devtools/go/go-1.24.3.inc
-+++ b/meta/recipes-devtools/go/go-1.24.4.inc
-@@ -17,4 +17,4 @@ SRC_URI += "\
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
-     file://6d265b008e3d106b2706645e5a88cd8e2fb98953.patch \
+diff --git a/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-01.patch b/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-01.patch
+new file mode 100644
+index 0000000000..0d55512497
+--- /dev/null
++++ b/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-01.patch
+@@ -0,0 +1,91 @@
++From 7a8f42fb20013a1493d8cae1c43436f85e656f2d Mon Sep 17 00:00:00 2001
++From: Zephkeks <zephyrofficialdiscord@gmail.com>
++Date: Tue, 13 May 2025 11:04:17 +0200
++Subject: [PATCH] CVE-2025-46836: interface.c: Stack-based Buffer Overflow in
++ get_name()
++
++Coordinated as GHSA-pfwf-h6m3-63wf
++
++CVE: CVE-2025-46836
++Upstream-Status: Backport [https://sourceforge.net/p/net-tools/code/ci/7a8f42fb20013a1493d8cae1c43436f85e656f2d/]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/interface.c | 63 ++++++++++++++++++++++++++++++-------------------
++ 1 file changed, 39 insertions(+), 24 deletions(-)
++
++diff --git a/lib/interface.c b/lib/interface.c
++index 71d4163..a054f12 100644
++--- a/lib/interface.c
+++++ b/lib/interface.c
++@@ -211,32 +211,47 @@ out:
++ }
++ 
++ static const char *get_name(char *name, const char *p)
+++/* Safe version — guarantees at most IFNAMSIZ‑1 bytes are copied
+++   and the destination buffer is always NUL‑terminated.             */
++ {
++-    while (isspace(*p))
++-	p++;
++-    while (*p) {
++-	if (isspace(*p))
++-	    break;
++-	if (*p == ':') {	/* could be an alias */
++-		const char *dot = p++;
++- 		while (*p && isdigit(*p)) p++;
++-		if (*p == ':') {
++-			/* Yes it is, backup and copy it. */
++-			p = dot;
++-			*name++ = *p++;
++-			while (*p && isdigit(*p)) {
++-				*name++ = *p++;
++-			}
++-		} else {
++-			/* No, it isn't */
++-			p = dot;
++-	    }
++-	    p++;
++-	    break;
++-	}
++-	*name++ = *p++;
+++    char       *dst = name;                 /* current write ptr          */
+++    const char *end = name + IFNAMSIZ - 1;  /* last byte we may write     */
+++
+++    /* Skip leading white‑space. */
+++    while (isspace((unsigned char)*p))
+++        ++p;
+++
+++    /* Copy until white‑space, end of string, or buffer full. */
+++    while (*p && !isspace((unsigned char)*p) && dst < end) {
+++        if (*p == ':') {                    /* possible alias veth0:123:  */
+++            const char *dot = p;            /* remember the colon         */
+++            ++p;
+++            while (*p && isdigit((unsigned char)*p))
+++                ++p;
+++
+++            if (*p == ':') {                /* confirmed alias            */
+++                p = dot;                    /* rewind and copy it all     */
+++
+++                /* copy the colon */
+++                if (dst < end)
+++                    *dst++ = *p++;
+++
+++                /* copy the digits */
+++                while (*p && isdigit((unsigned char)*p) && dst < end)
+++                    *dst++ = *p++;
+++
+++                if (*p == ':')              /* consume trailing colon     */
+++                    ++p;
+++            } else {              /* if so treat as normal */
+++                p = dot;
+++            }
+++            break;                          /* interface name ends here   */
+++        }
+++
+++        *dst++ = *p++;                      /* ordinary character copy    */
++     }
++-    *name++ = '\0';
+++
+++    *dst = '\0';                            /* always NUL‑terminate       */
++     return p;
++ }
++ 
+diff --git a/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-02.patch b/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-02.patch
+new file mode 100644
+index 0000000000..d2c3673a24
+--- /dev/null
++++ b/meta/recipes-extended/net-tools/net-tools/CVE-2025-46836-02.patch
+@@ -0,0 +1,31 @@
++From ddb0e375fb9ca95bb69335540b85bbdaa2714348 Mon Sep 17 00:00:00 2001
++From: Bernd Eckenfels <net-tools@lina.inka.de>
++Date: Sat, 17 May 2025 21:53:23 +0200
++Subject: [PATCH] Interface statistic regression after 7a8f42fb2
++
++CVE: CVE-2025-46836
++Upstream-Status: Backport [https://sourceforge.net/p/net-tools/code/ci/ddb0e375fb9ca95bb69335540b85bbdaa2714348/]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/interface.c | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/lib/interface.c b/lib/interface.c
++index a054f12..ca4adf1 100644
++--- a/lib/interface.c
+++++ b/lib/interface.c
++@@ -239,12 +239,11 @@ static const char *get_name(char *name, const char *p)
++                 /* copy the digits */
++                 while (*p && isdigit((unsigned char)*p) && dst < end)
++                     *dst++ = *p++;
++-
++-                if (*p == ':')              /* consume trailing colon     */
++-                    ++p;
++             } else {              /* if so treat as normal */
++                 p = dot;
++             }
+++            if (*p == ':')                  /* consume trailing colon */
+++                ++p;
++             break;                          /* interface name ends here   */
++         }
++ 
+diff --git a/meta/recipes-extended/net-tools/net-tools_2.10.bb b/meta/recipes-extended/net-tools/net-tools_2.10.bb
+index 7facc0cc8d..547079f4cf 100644
+--- a/meta/recipes-extended/net-tools/net-tools_2.10.bb
++++ b/meta/recipes-extended/net-tools/net-tools_2.10.bb
+@@ -11,6 +11,8 @@ SRC_URI = "git://git.code.sf.net/p/net-tools/code;protocol=https;branch=master \
+     file://net-tools-config.h \
+     file://net-tools-config.make \
+     file://Add_missing_headers.patch \
++    file://CVE-2025-46836-01.patch \
++    file://CVE-2025-46836-02.patch \
  "
--SRC_URI[main.sha256sum] = "229c08b600b1446798109fae1f569228102c8473caba8104b6418cb5bc032878"
-+SRC_URI[main.sha256sum] = "5a86a83a31f9fa81490b8c5420ac384fd3d95a3e71fba665c7b3f95d1dfef2b4"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.24.3.bb b/meta/recipes-devtools/go/go-binary-native_1.24.4.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.24.3.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.24.4.bb
-index af56dc9111..9f788536c4 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.24.3.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.24.4.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "3333f6ea53afa971e9078895eaa4ac7204a8c6b5c68c10e6bc9a33e8e391bdd8"
--SRC_URI[go_linux_arm64.sha256sum] = "a463cb59382bd7ae7d8f4c68846e73c4d589f223c589ac76871b66811ded7836"
--SRC_URI[go_linux_ppc64le.sha256sum] = "341a749d168f47b1d4dad25e32cae70849b7ceed7c290823b853c9e6b0df0856"
-+SRC_URI[go_linux_amd64.sha256sum] = "77e5da33bb72aeaef1ba4418b6fe511bc4d041873cbf82e5aa6318740df98717"
-+SRC_URI[go_linux_arm64.sha256sum] = "d5501ee5aca0f258d5fe9bfaed401958445014495dc115f202d43d5210b45241"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "9ca4afef813a2578c23843b640ae0290aa54b2e3c950a6cc4c99e16a57dec2ec"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.24.3.bb b/meta/recipes-devtools/go/go-cross-canadian_1.24.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.24.3.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.24.4.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.24.3.bb b/meta/recipes-devtools/go/go-cross_1.24.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.24.3.bb
-rename to meta/recipes-devtools/go/go-cross_1.24.4.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.24.3.bb b/meta/recipes-devtools/go/go-crosssdk_1.24.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.24.3.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.24.4.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.24.3.bb b/meta/recipes-devtools/go/go-runtime_1.24.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.24.3.bb
-rename to meta/recipes-devtools/go/go-runtime_1.24.4.bb
-diff --git a/meta/recipes-devtools/go/go_1.24.3.bb b/meta/recipes-devtools/go/go_1.24.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.24.3.bb
-rename to meta/recipes-devtools/go/go_1.24.4.bb
+ S = "${WORKDIR}/git"
 -- 
 2.43.0
 
