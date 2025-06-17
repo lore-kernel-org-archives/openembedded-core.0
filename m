@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4566BC71157
-	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 21:21:15 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.31427.1750195266471097645
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65DA6C71136
+	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 21:21:25 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web11.31439.1750195276569450290
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 14:21:06 -0700
+ Tue, 17 Jun 2025 14:21:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=IsD+ZtbO;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-748d982e97cso878276b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 14:21:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=j3DyBrGC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b2f62bbb5d6so5070444a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 14:21:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750195266; x=1750800066; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750195276; x=1750800076; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kmCZhtDufwPtQ6jq2Oi2yAdI+Wz1/BKUS0SsHgpAv3k=;
-        b=IsD+ZtbOE5GAavbzKOAfH6prW5duVe++Oy6EU5iZY9AYnQKBxQoRMHpJrBvqkvNgO6
-         +IcDoqZ2Ja5UXJ/YmKzUry+y15X6Ic7/p0KFEMZID58NXqx8GhLwiR4/eKEoMQfAmBA3
-         U2VP0Js30Uai/XmpU2DsKvrGg+KaAgZ2uhDMkS5AZvcZ5quQmnA5wLCe6S2ZnFxI7vYM
-         1SvvSXWWDeP393o6Z/KcN2R+wbKTo2p/pj1OI8i3QjNZAqUitKaZ2hincWzMHCFx25oG
-         PRWlvQWh6qCt7iwvUM+dLCobyIAy/aV4uqL3fx3RGOuvKKA2xELnB2tSIq4seLOg1h8i
-         vkSw==
+        bh=jETi5rplYRmxTDWSiK8F3DabK0IwNd1381dc/j9zDuM=;
+        b=j3DyBrGC0fsQRgHrt0KMI47MwnMFUeogr90lhoeiRT4cUuoO1elNo6jFMPpD0oahL5
+         ckVuMjlj6U3aqKi3Dhx5cIy+fhJq7WZP1393jlYxkkZAAD1bRJBqHZx+cvO/TS2Ob6KA
+         1gkS1DAH9YTMhbH6Audbx755XSoFBdx3+kNVxwYbvaeJtA+XrpqZTjKAjD6I+qAmA3UL
+         KKDegPFd3YaHiUU44L8MyxdP0i8NdW0IdTBA7vvsLBRlfHXE5InkBMPLSCiW8SwZJQWy
+         bztfintn90bezCH7UF8Gy0V9cxk2J7Lh9UtTTRUBVCO5KIbHB2DHFrbahuLKlhgG9ZI5
+         dnKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750195266; x=1750800066;
+        d=1e100.net; s=20230601; t=1750195276; x=1750800076;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kmCZhtDufwPtQ6jq2Oi2yAdI+Wz1/BKUS0SsHgpAv3k=;
-        b=aVq+ZcQdTWtJMPQyBJAQULp7J6DWIszwLCkvBdwddRFXqwZc2II1HQg8fqaJES4Uvg
-         R+lCsMMP1pG4WzPRFCTFmyotbFCPnx7jPTQD/l3m5BB2cREX5dtbThLbIUtRIyer9UHO
-         GpLmLBZJSgtLe1GEh4UCGVKAVlGiO0hw0e3l29xmMmuNpFcaJgRrW4aY/mkDcKGIqxpI
-         a4g3McHeW/PMIGFisVfGiaSMJQl/g+mAm4WBwzbYy9tyAuPNRhRsyG7TgixGq2IgwLzm
-         6yedp4NqMl53hSlXRfmr5OpurT5AG2BgahNasATLXsz/8Wa9YIKp3y16dIKG+SpYbevM
-         3kgw==
-X-Gm-Message-State: AOJu0Yz3iGJiPzKb72jX3ukc2JXi8qe8UkypajqeN7jKIlI8hKpqQvS4
-	HHXsl0yL6pvl27xPDkU0z8PpTijcNmMIWVg1bqpS6YweXwgIfjeFjkNQMrTQ4qQYBpk4bHby+/k
-	Hvj2N
-X-Gm-Gg: ASbGnctb9c5Zbb58ZWs6YxGQIM07rpG8H7w9VL8AN3e7or6aSBpQBh4ioirIF9X7yY4
-	Q9YH+gWsUVxDChXKREcFm1wT5oQG3HetqzmUIfaSv1IpuMK3OEInK524u1eukUSY4IGRYeqDmah
-	ZfUg7d5CS5ejdo/9nv70h2O3bcng0/jmxzoVJPP3WRD/gvYQEuytRn6imbQMYpReoQUm/yK2PUE
-	aoJjyEChn6V8HVTbbcx0k5qdKqsiOtfIk1KzTo+bzV13ZwM+AuYlb66IaUDq1Iferqxp2wNQuis
-	3z9W3Lj2G89lyfpuBScRni8rPXOHeX+bwAhxOoltqeGpJeXsrOpnyg==
-X-Google-Smtp-Source: AGHT+IGuvCWpE0VF2+mF8pujjYxQxJJtX/6Ox2OuBac0Nyic+KYImCTGGNcRLeyx++g5q1tUbGr/Tw==
-X-Received: by 2002:a05:6a00:ccb:b0:748:e38d:fed4 with SMTP id d2e1a72fcca58-748e38e07b4mr1351970b3a.6.1750195265204;
-        Tue, 17 Jun 2025 14:21:05 -0700 (PDT)
+        bh=jETi5rplYRmxTDWSiK8F3DabK0IwNd1381dc/j9zDuM=;
+        b=rpP+RuNfjvwgyTKkXbYonZWHc7Na3Gk3v6Tl3aBeh51xhSPmi+mttSKYIXcm/lX7lr
+         xvb1aVLqOv0oJA7H6ildrFe7hffMTr9nWSEyOFc3DLStrSeOCSLNVw0RTzJfFyTS26GS
+         4PE6Z3glNCmVYaw/wPwUAJwwuchA4afh4Z74SQXvGIDMSqEXCSn0Vt1KqaPZKBm8KVLB
+         dgW8fHsEwq6KcZKy4LC8cJc+WrHF8pVPR65hBg6lLKa7R2NuwsECh/1jjCiReuVPjdVV
+         FFyBQ9z0vgmNPzd783LTYxqcuHgcolZxY4qH6aDS9NW6yPWChlwKHc+EXwlUS/qj2dbb
+         sWBQ==
+X-Gm-Message-State: AOJu0YzpIQXfP55SeAdZyPjJY/KOCYGNPOd0Ggj1O7VL5z95bRQPGw+z
+	UUZ/4CPbhUy7iRbl9JIB12i54HcGM+IJ0yBcGZxMNvbH3wAoMsR2cVP/oaqZ55sPUteD7iRKZEx
+	6RCau
+X-Gm-Gg: ASbGncufMsYU0DeM8Oas5dNhSbUocSK1Sq48ttSFCOTMHj5uBa82041OtQYK6BsMA2n
+	xBkhMmHBEQe4z8tFKuUDXZwnkpam0EGMQOjeBM702LiE0MYl22UjciUwz1jKhwNFzmLVe46W76P
+	UhOfZ1y19qfcYCS76qfPdQW8HGNQYsEKV9lfz17LxwYTm2vTXSgcQ5HFA6iDBKk/LPFWhb0gImV
+	22MmxIlhV7t8ZWTrOk7ZffGs6YGut7wMyhsZPL8HIRxd1IwMSGBZsJdP11xstSbvAUkYEuNOTQI
+	HbtcztPsiS+tbSBAOA/K28pn6FboYO7BYf2NKTQVM9CBrZHs5P4ASg==
+X-Google-Smtp-Source: AGHT+IEFAUjLqTsV/AD3wcDyhTfxwvKWQSDo71J7gAtnyhhadrYNixLyd9stLwmIl1u2CE78IPIhCQ==
+X-Received: by 2002:a05:6a20:6f08:b0:21f:543f:f124 with SMTP id adf61e73a8af0-21fbd5f1ecamr25624547637.24.1750195275545;
+        Tue, 17 Jun 2025 14:21:15 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:7ce4:2bd1:2434:c118])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffeccf1sm9720728b3a.18.2025.06.17.14.21.04
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffeccf1sm9720728b3a.18.2025.06.17.14.21.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 14:21:04 -0700 (PDT)
+        Tue, 17 Jun 2025 14:21:15 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 20/27] glibc: pthreads NPTL lost wakeup fix 2
-Date: Tue, 17 Jun 2025 14:20:17 -0700
-Message-ID: <c05290e51d0faf661bac587066a79626919609e8.1750195103.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 26/27] glibc: nptl rename __condvar_quiesce_and_switch_g1
+Date: Tue, 17 Jun 2025 14:20:23 -0700
+Message-ID: <e7eb16d59c81636c1fdffca307768776d990d732.1750195103.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1750195103.git.steve@sakoman.com>
 References: <cover.1750195103.git.steve@sakoman.com>
@@ -66,8 +66,8 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 21:21:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218937
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 21:21:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218943
 
 From: Sunil Dora <sunilkumar.dora@windriver.com>
 
@@ -75,486 +75,191 @@ The following commits have been cherry-picked from Glibc master branch:
 Bug : https://sourceware.org/bugzilla/show_bug.cgi?id=25847
 
 Upstream-Status: Backport
-[https://sourceware.org/git/?p=glibc.git;a=commit;h=1db84775f831a1494993ce9c118deaf9537cc50a]
+[https://sourceware.org/git/?p=glibc.git;a=commit;h=4b79e27a5073c02f6bff9aa8f4791230a0ab1867]
 
 Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../glibc/glibc/0026-PR25847-1.patch          | 455 ++++++++++++++++++
+ .../glibc/glibc/0026-PR25847-7.patch          | 160 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.35.bb         |   1 +
- 2 files changed, 456 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0026-PR25847-1.patch
+ 2 files changed, 161 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0026-PR25847-7.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0026-PR25847-1.patch b/meta/recipes-core/glibc/glibc/0026-PR25847-1.patch
+diff --git a/meta/recipes-core/glibc/glibc/0026-PR25847-7.patch b/meta/recipes-core/glibc/glibc/0026-PR25847-7.patch
 new file mode 100644
-index 0000000000..44a2b6772c
+index 0000000000..a9e9cc7c48
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0026-PR25847-1.patch
-@@ -0,0 +1,455 @@
-+From 31d9848830e496f57d4182b518467c4c63bfd4bd Mon Sep 17 00:00:00 2001
-+From: Frank Barrus <frankbarrus_sw@shaggy.cc>
-+Date: Mon, 16 Jun 2025 22:37:54 -0700
-+Subject: [PATCH] pthreads NPTL: lost wakeup fix 2
++++ b/meta/recipes-core/glibc/glibc/0026-PR25847-7.patch
+@@ -0,0 +1,160 @@
++From 2a601ac9041e2ca645acad2c174b1c545cfceafe Mon Sep 17 00:00:00 2001
++From: Malte Skarupke <malteskarupke@fastmail.fm>
++Date: Tue, 17 Jun 2025 01:53:25 -0700
++Subject: [PATCH] nptl: rename __condvar_quiesce_and_switch_g1
 +
-+This fixes the lost wakeup (from a bug in signal stealing) with a change
-+in the usage of g_signals[] in the condition variable internal state.
-+It also completely eliminates the concept and handling of signal stealing,
-+as well as the need for signalers to block to wait for waiters to wake
-+up every time there is a G1/G2 switch.  This greatly reduces the average
-+and maximum latency for pthread_cond_signal.
-+
-+The g_signals[] field now contains a signal count that is relative to
-+the current g1_start value.  Since it is a 32-bit field, and the LSB is
-+still reserved (though not currently used anymore), it has a 31-bit value
-+that corresponds to the low 31 bits of the sequence number in g1_start.
-+(since g1_start also has an LSB flag, this means bits 31:1 in g_signals
-+correspond to bits 31:1 in g1_start, plus the current signal count)
-+
-+By making the signal count relative to g1_start, there is no longer
-+any ambiguity or A/B/A issue, and thus any checks before blocking,
-+including the futex call itself, are guaranteed not to block if the G1/G2
-+switch occurs, even if the signal count remains the same.  This allows
-+initially safely blocking in G2 until the switch to G1 occurs, and
-+then transitioning from G1 to a new G1 or G2, and always being able to
-+distinguish the state change.  This removes the race condition and A/B/A
-+problems that otherwise ocurred if a late (pre-empted) waiter were to
-+resume just as the futex call attempted to block on g_signal since
-+otherwise there was no last opportunity to re-check things like whether
-+the current G1 group was already closed.
-+
-+By fixing these issues, the signal stealing code can be eliminated,
-+since there is no concept of signal stealing anymore.  The code to block
-+for all waiters to exit g_refs can also be removed, since any waiters
-+that are still in the g_refs region can be guaranteed to safely wake
-+up and exit.  If there are still any left at this time, they are all
-+sent one final futex wakeup to ensure that they are not blocked any
-+longer, but there is no need for the signaller to block and wait for
-+them to wake up and exit the g_refs region.
-+
-+The signal count is then effectively "zeroed" but since it is now
-+relative to g1_start, this is done by advancing it to a new value that
-+can be observed by any pending blocking waiters.  Any late waiters can
-+always tell the difference, and can thus just cleanly exit if they are
-+in a stale G1 or G2.  They can never steal a signal from the current
-+G1 if they are not in the current G1, since the signal value that has
-+to match in the cmpxchg has the low 31 bits of the g1_start value
-+contained in it, and that's first checked, and then it won't match if
-+there's a G1/G2 change.
-+
-+Note: the 31-bit sequence number used in g_signals is designed to
-+handle wrap-around when checking the signal count, but if the entire
-+31-bit wraparound (2 billion signals) occurs while there is still a
-+late waiter that has not yet resumed, and it happens to then match
-+the current g1_start low bits, and the pre-emption occurs after the
-+normal "closed group" checks (which are 64-bit) but then hits the
-+futex syscall and signal consuming code, then an A/B/A issue could
-+still result and cause an incorrect assumption about whether it
-+should block.  This particular scenario seems unlikely in practice.
-+Note that once awake from the futex, the waiter would notice the
-+closed group before consuming the signal (since that's still a 64-bit
-+check that would not be aliased in the wrap-around in g_signals),
-+so the biggest impact would be blocking on the futex until the next
-+full wakeup from a G1/G2 switch.
++This function no longer waits for threads to leave g1, so rename it to
++__condvar_switch_g1
 +
 +The following commits have been cherry-picked from Glibc master branch:
 +Bug : https://sourceware.org/bugzilla/show_bug.cgi?id=25847
 +
 +Upstream-Status: Backport
-+[https://sourceware.org/git/?p=glibc.git;a=commit;h=1db84775f831a1494993ce9c118deaf9537cc50a]
++[https://sourceware.org/git/?p=glibc.git;a=commit;h=4b79e27a5073c02f6bff9aa8f4791230a0ab1867]
 +
 +Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 +---
-+ nptl/pthread_cond_common.c | 106 +++++++++------------------
-+ nptl/pthread_cond_wait.c   | 144 ++++++++++++-------------------------
-+ 2 files changed, 81 insertions(+), 169 deletions(-)
++ nptl/pthread_cond_broadcast.c |  4 ++--
++ nptl/pthread_cond_common.c    | 26 ++++++++++++--------------
++ nptl/pthread_cond_signal.c    | 17 ++++++++---------
++ nptl/pthread_cond_wait.c      |  9 ++++-----
++ 4 files changed, 26 insertions(+), 30 deletions(-)
 +
++diff --git a/nptl/pthread_cond_broadcast.c b/nptl/pthread_cond_broadcast.c
++index 5ae141ac81..a07435589a 100644
++--- a/nptl/pthread_cond_broadcast.c
+++++ b/nptl/pthread_cond_broadcast.c
++@@ -60,7 +60,7 @@ ___pthread_cond_broadcast (pthread_cond_t *cond)
++ 				cond->__data.__g_size[g1] << 1);
++       cond->__data.__g_size[g1] = 0;
++ 
++-      /* We need to wake G1 waiters before we quiesce G1 below.  */
+++      /* We need to wake G1 waiters before we switch G1 below.  */
++       /* TODO Only set it if there are indeed futex waiters.  We could
++ 	 also try to move this out of the critical section in cases when
++ 	 G2 is empty (and we don't need to quiesce).  */
++@@ -69,7 +69,7 @@ ___pthread_cond_broadcast (pthread_cond_t *cond)
++ 
++   /* G1 is complete.  Step (2) is next unless there are no waiters in G2, in
++      which case we can stop.  */
++-  if (__condvar_quiesce_and_switch_g1 (cond, wseq, &g1, private))
+++  if (__condvar_switch_g1 (cond, wseq, &g1, private))
++     {
++       /* Step (3): Send signals to all waiters in the old G2 / new G1.  */
++       atomic_fetch_add_relaxed (cond->__data.__g_signals + g1,
 +diff --git a/nptl/pthread_cond_common.c b/nptl/pthread_cond_common.c
-+index fb035f72c3..8dd7037923 100644
++index f976a533a1..3baac4dabc 100644
 +--- a/nptl/pthread_cond_common.c
 ++++ b/nptl/pthread_cond_common.c
-+@@ -201,7 +201,6 @@ static bool __attribute__ ((unused))
-+ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
++@@ -189,16 +189,15 @@ __condvar_get_private (int flags)
++     return FUTEX_SHARED;
++ }
++ 
++-/* This closes G1 (whose index is in G1INDEX), waits for all futex waiters to
++-   leave G1, converts G1 into a fresh G2, and then switches group roles so that
++-   the former G2 becomes the new G1 ending at the current __wseq value when we
++-   eventually make the switch (WSEQ is just an observation of __wseq by the
++-   signaler).
+++/* This closes G1 (whose index is in G1INDEX), converts G1 into a fresh G2,
+++   and then switches group roles so that the former G2 becomes the new G1
+++   ending at the current __wseq value when we eventually make the switch
+++   (WSEQ is just an observation of __wseq by the signaler).
++    If G2 is empty, it will not switch groups because then it would create an
++    empty G1 which would require switching groups again on the next signal.
++    Returns false iff groups were not switched because G2 was empty.  */
++ static bool __attribute__ ((unused))
++-__condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
+++__condvar_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
 +     unsigned int *g1index, int private)
 + {
-+-  const unsigned int maxspin = 0;
 +   unsigned int g1 = *g1index;
++@@ -214,8 +213,7 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
++ 	  + cond->__data.__g_size[g1 ^ 1]) == 0)
++ 	return false;
 + 
-+   /* If there is no waiter in G2, we don't do anything.  The expression may
-+@@ -222,85 +221,46 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
++-  /* Now try to close and quiesce G1.  We have to consider the following kinds
++-     of waiters:
+++  /* We have to consider the following kinds of waiters:
++      * Waiters from less recent groups than G1 are not affected because
++        nothing will change for them apart from __g1_start getting larger.
 +      * New waiters arriving concurrently with the group switching will all go
-+        into G2 until we atomically make the switch.  Waiters existing in G2
++@@ -223,12 +221,12 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
 +        are not affected.
-+-     * Waiters in G1 will be closed out immediately by setting a flag in
-+-       __g_signals, which will prevent waiters from blocking using a futex on
-+-       __g_signals and also notifies them that the group is closed.  As a
-+-       result, they will eventually remove their group reference, allowing us
-+-       to close switch group roles.  */
-+-
-+-  /* First, set the closed flag on __g_signals.  This tells waiters that are
-+-     about to wait that they shouldn't do that anymore.  This basically
-+-     serves as an advance notificaton of the upcoming change to __g1_start;
-+-     waiters interpret it as if __g1_start was larger than their waiter
-+-     sequence position.  This allows us to change __g1_start after waiting
-+-     for all existing waiters with group references to leave, which in turn
-+-     makes recovery after stealing a signal simpler because it then can be
-+-     skipped if __g1_start indicates that the group is closed (otherwise,
-+-     we would have to recover always because waiters don't know how big their
-+-     groups are).  Relaxed MO is fine.  */
-+-  atomic_fetch_or_relaxed (cond->__data.__g_signals + g1, 1);
-+-
-+-  /* Wait until there are no group references anymore.  The fetch-or operation
-+-     injects us into the modification order of __g_refs; release MO ensures
-+-     that waiters incrementing __g_refs after our fetch-or see the previous
-+-     changes to __g_signals and to __g1_start that had to happen before we can
-+-     switch this G1 and alias with an older group (we have two groups, so
-+-     aliasing requires switching group roles twice).  Note that nobody else
-+-     can have set the wake-request flag, so we do not have to act upon it.
-+-
-+-     Also note that it is harmless if older waiters or waiters from this G1
-+-     get a group reference after we have quiesced the group because it will
-+-     remain closed for them either because of the closed flag in __g_signals
-+-     or the later update to __g1_start.  New waiters will never arrive here
-+-     but instead continue to go into the still current G2.  */
-+-  unsigned r = atomic_fetch_or_release (cond->__data.__g_refs + g1, 0);
-+-  while ((r >> 1) > 0)
-+-    {
-+-      for (unsigned int spin = maxspin; ((r >> 1) > 0) && (spin > 0); spin--)
-+-	{
-+-	  /* TODO Back off.  */
-+-	  r = atomic_load_relaxed (cond->__data.__g_refs + g1);
-+-	}
-+-      if ((r >> 1) > 0)
-+-	{
-+-	  /* There is still a waiter after spinning.  Set the wake-request
-+-	     flag and block.  Relaxed MO is fine because this is just about
-+-	     this futex word.
-+-
-+-	     Update r to include the set wake-request flag so that the upcoming
-+-	     futex_wait only blocks if the flag is still set (otherwise, we'd
-+-	     violate the basic client-side futex protocol).  */
-+-	  r = atomic_fetch_or_relaxed (cond->__data.__g_refs + g1, 1) | 1;
-+-
-+-	  if ((r >> 1) > 0)
-+-	    futex_wait_simple (cond->__data.__g_refs + g1, r, private);
-+-	  /* Reload here so we eventually see the most recent value even if we
-+-	     do not spin.   */
-+-	  r = atomic_load_relaxed (cond->__data.__g_refs + g1);
-+-	}
-+-    }
-+-  /* Acquire MO so that we synchronize with the release operation that waiters
-+-     use to decrement __g_refs and thus happen after the waiters we waited
-+-     for.  */
-+-  atomic_thread_fence_acquire ();
-++     * Waiters in G1 will be closed out immediately by the advancing of
-++       __g_signals to the next "lowseq" (low 31 bits of the new g1_start),
-++       which will prevent waiters from blocking using a futex on
-++       __g_signals since it provides enough signals for all possible
-++       remaining waiters.  As a result, they can each consume a signal
-++       and they will eventually remove their group reference.  */
++      * Waiters in G1 have already received a signal and been woken.  */
 + 
-+   /* Update __g1_start, which finishes closing this group.  The value we add
-+      will never be negative because old_orig_size can only be zero when we
-+      switch groups the first time after a condvar was initialized, in which
-+-     case G1 will be at index 1 and we will add a value of 1.  See above for
-+-     why this takes place after waiting for quiescence of the group.
-++     case G1 will be at index 1 and we will add a value of 1.
-+      Relaxed MO is fine because the change comes with no additional
-+      constraints that others would have to observe.  */
++-  /* Update __g1_start, which finishes closing this group.  The value we add
++-     will never be negative because old_orig_size can only be zero when we
++-     switch groups the first time after a condvar was initialized, in which
++-     case G1 will be at index 1 and we will add a value of 1.
++-     Relaxed MO is fine because the change comes with no additional
++-     constraints that others would have to observe.  */
+++  /* Update __g1_start, which closes this group.  The value we add will never
+++     be negative because old_orig_size can only be zero when we switch groups
+++     the first time after a condvar was initialized, in which case G1 will be
+++     at index 1 and we will add a value of 1. Relaxed MO is fine because the
+++     change comes with no additional constraints that others would have to
+++     observe.  */
 +   __condvar_add_g1_start_relaxed (cond,
 +       (old_orig_size << 1) + (g1 == 1 ? 1 : - 1));
 + 
-+-  /* Now reopen the group, thus enabling waiters to again block using the
-+-     futex controlled by __g_signals.  Release MO so that observers that see
-+-     no signals (and thus can block) also see the write __g1_start and thus
-+-     that this is now a new group (see __pthread_cond_wait_common for the
-+-     matching acquire MO loads).  */
-+-  atomic_store_release (cond->__data.__g_signals + g1, 0);
-+-
-++  unsigned int lowseq = ((old_g1_start + old_orig_size) << 1) & ~1U;
-++
-++  /* If any waiters still hold group references (and thus could be blocked),
-++     then wake them all up now and prevent any running ones from blocking.
-++     This is effectively a catch-all for any possible current or future
-++     bugs that can allow the group size to reach 0 before all G1 waiters
-++     have been awakened or at least given signals to consume, or any
-++     other case that can leave blocked (or about to block) older waiters..  */
-++  if ((atomic_fetch_or_release (cond->__data.__g_refs + g1, 0) >> 1) > 0)
-++   {
-++    /* First advance signals to the end of the group (i.e. enough signals
-++       for the entire G1 group) to ensure that waiters which have not
-++       yet blocked in the futex will not block.
-++       Note that in the vast majority of cases, this should never
-++       actually be necessary, since __g_signals will have enough
-++       signals for the remaining g_refs waiters.  As an optimization,
-++       we could check this first before proceeding, although that
-++       could still leave the potential for futex lost wakeup bugs
-++       if the signal count was non-zero but the futex wakeup
-++       was somehow lost.  */
-++    atomic_store_release (cond->__data.__g_signals + g1, lowseq);
-++
-++    futex_wake (cond->__data.__g_signals + g1, INT_MAX, private);
-++   }
-+   /* At this point, the old G1 is now a valid new G2 (but not in use yet).
-+      No old waiter can neither grab a signal nor acquire a reference without
-+      noticing that __g1_start is larger.
-+@@ -311,6 +271,10 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
-+   g1 ^= 1;
-+   *g1index ^= 1;
++diff --git a/nptl/pthread_cond_signal.c b/nptl/pthread_cond_signal.c
++index 14800ba00b..a9bc10dcca 100644
++--- a/nptl/pthread_cond_signal.c
+++++ b/nptl/pthread_cond_signal.c
++@@ -69,18 +69,17 @@ ___pthread_cond_signal (pthread_cond_t *cond)
++   bool do_futex_wake = false;
 + 
-++  /* Now advance the new G1 g_signals to the new lowseq, giving it
-++     an effective signal count of 0 to start.  */
-++  atomic_store_release (cond->__data.__g_signals + g1, lowseq);
-++
-+   /* These values are just observed by signalers, and thus protected by the
-+      lock.  */
-+   unsigned int orig_size = wseq - (old_g1_start + old_orig_size);
++   /* If G1 is still receiving signals, we put the signal there.  If not, we
++-     check if G2 has waiters, and if so, quiesce and switch G1 to the former
++-     G2; if this results in a new G1 with waiters (G2 might have cancellations
++-     already, see __condvar_quiesce_and_switch_g1), we put the signal in the
++-     new G1.  */
+++     check if G2 has waiters, and if so, switch G1 to the former G2; if this
+++     results in a new G1 with waiters (G2 might have cancellations already,
+++     see __condvar_switch_g1), we put the signal in the new G1. */
++   if ((cond->__data.__g_size[g1] != 0)
++-      || __condvar_quiesce_and_switch_g1 (cond, wseq, &g1, private))
+++      || __condvar_switch_g1 (cond, wseq, &g1, private))
++     {
++       /* Add a signal.  Relaxed MO is fine because signaling does not need to
++-	 establish a happens-before relation (see above).  We do not mask the
++-	 release-MO store when initializing a group in
++-	 __condvar_quiesce_and_switch_g1 because we use an atomic
++-	 read-modify-write and thus extend that store's release sequence.  */
+++         establish a happens-before relation (see above).  We do not mask the
+++         release-MO store when initializing a group in __condvar_switch_g1
+++         because we use an atomic read-modify-write and thus extend that
+++         store's release sequence.  */
++       atomic_fetch_add_relaxed (cond->__data.__g_signals + g1, 2);
++       cond->__data.__g_size[g1]--;
++       /* TODO Only set it if there are indeed futex waiters.  */
 +diff --git a/nptl/pthread_cond_wait.c b/nptl/pthread_cond_wait.c
-+index 20c348a503..1cb3dbf7b0 100644
++index 104ebd48ca..bb46f3605d 100644
 +--- a/nptl/pthread_cond_wait.c
 ++++ b/nptl/pthread_cond_wait.c
-+@@ -238,9 +238,7 @@ __condvar_cleanup_waiting (void *arg)
-+    signaled), and a reference count.
-+ 
-+    The group reference count is used to maintain the number of waiters that
-+-   are using the group's futex.  Before a group can change its role, the
-+-   reference count must show that no waiters are using the futex anymore; this
-+-   prevents ABA issues on the futex word.
-++   are using the group's futex.
-+ 
-+    To represent which intervals in the waiter sequence the groups cover (and
-+    thus also which group slot contains G1 or G2), we use a 64b counter to
-+@@ -300,11 +298,12 @@ __condvar_cleanup_waiting (void *arg)
-+        last reference.
-+      * Reference count used by waiters concurrently with signalers that have
-+        acquired the condvar-internal lock.
-+-   __g_signals: The number of signals that can still be consumed.
-++   __g_signals: The number of signals that can still be consumed, relative to
-++     the current g1_start.  (i.e. bits 31 to 1 of __g_signals are bits
-++     31 to 1 of g1_start with the signal count added)
-+      * Used as a futex word by waiters.  Used concurrently by waiters and
-+        signalers.
-+-     * LSB is true iff this group has been completely signaled (i.e., it is
-+-       closed).
-++     * LSB is currently reserved and 0.
-+    __g_size: Waiters remaining in this group (i.e., which have not been
-+      signaled yet.
-+      * Accessed by signalers and waiters that cancel waiting (both do so only
-+@@ -328,18 +327,6 @@ __condvar_cleanup_waiting (void *arg)
-+    sufficient because if a waiter can see a sufficiently large value, it could
-+    have also consume a signal in the waiters group.
-+ 
-+-   Waiters try to grab a signal from __g_signals without holding a reference
-+-   count, which can lead to stealing a signal from a more recent group after
-+-   their own group was already closed.  They cannot always detect whether they
-+-   in fact did because they do not know when they stole, but they can
-+-   conservatively add a signal back to the group they stole from; if they
-+-   did so unnecessarily, all that happens is a spurious wake-up.  To make this
-+-   even less likely, __g1_start contains the index of the current g2 too,
-+-   which allows waiters to check if there aliasing on the group slots; if
-+-   there wasn't, they didn't steal from the current G1, which means that the
-+-   G1 they stole from must have been already closed and they do not need to
-+-   fix anything.
-+-
-+    It is essential that the last field in pthread_cond_t is __g_signals[1]:
-+    The previous condvar used a pointer-sized field in pthread_cond_t, so a
-+    PTHREAD_COND_INITIALIZER from that condvar implementation might only
-+@@ -435,6 +422,9 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++@@ -382,8 +382,7 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++      because we do not need to establish any happens-before relation with
++      signalers (see __pthread_cond_signal); modification order alone
++      establishes a total order of waiters/signals.  We do need acquire MO
++-     to synchronize with group reinitialization in
++-     __condvar_quiesce_and_switch_g1.  */
+++     to synchronize with group reinitialization in __condvar_switch_g1.  */
++   uint64_t wseq = __condvar_fetch_add_wseq_acquire (cond, 2);
++   /* Find our group's index.  We always go into what was G2 when we acquired
++      our position.  */
++@@ -414,9 +413,9 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
 +     {
-+       while (1)
-+ 	{
-++          uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
-++          unsigned int lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
-++
-+ 	  /* Spin-wait first.
-+ 	     Note that spinning first without checking whether a timeout
-+ 	     passed might lead to what looks like a spurious wake-up even
-+@@ -446,35 +436,45 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+ 	     having to compare against the current time seems to be the right
-+ 	     choice from a performance perspective for most use cases.  */
-+ 	  unsigned int spin = maxspin;
-+-	  while (signals == 0 && spin > 0)
-++	  while (spin > 0 && ((int)(signals - lowseq) < 2))
-+ 	    {
-+ 	      /* Check that we are not spinning on a group that's already
-+ 		 closed.  */
-+-	      if (seq < (__condvar_load_g1_start_relaxed (cond) >> 1))
-+-		goto done;
-++	      if (seq < (g1_start >> 1))
-++		break;
-+ 
-+ 	      /* TODO Back off.  */
-+ 
-+ 	      /* Reload signals.  See above for MO.  */
-+ 	      signals = atomic_load_acquire (cond->__data.__g_signals + g);
-++              g1_start = __condvar_load_g1_start_relaxed (cond);
-++              lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
-+ 	      spin--;
-+ 	    }
-+ 
-+-	  /* If our group will be closed as indicated by the flag on signals,
-+-	     don't bother grabbing a signal.  */
-+-	  if (signals & 1)
-+-	    goto done;
-+-
-+-	  /* If there is an available signal, don't block.  */
-+-	  if (signals != 0)
-++          if (seq < (g1_start >> 1))
-++	    {
-++              /* If the group is closed already,
-++	         then this waiter originally had enough extra signals to
-++	         consume, up until the time its group was closed.  */
-++	       goto done;
-++            }
-++
-++	  /* If there is an available signal, don't block.
-++             If __g1_start has advanced at all, then we must be in G1
-++	     by now, perhaps in the process of switching back to an older
-++	     G2, but in either case we're allowed to consume the available
-++	     signal and should not block anymore.  */
-++	  if ((int)(signals - lowseq) >= 2)
-+ 	    break;
-+ 
-+ 	  /* No signals available after spinning, so prepare to block.
-+ 	     We first acquire a group reference and use acquire MO for that so
-+ 	     that we synchronize with the dummy read-modify-write in
-+ 	     __condvar_quiesce_and_switch_g1 if we read from that.  In turn,
-+-	     in this case this will make us see the closed flag on __g_signals
-+-	     that designates a concurrent attempt to reuse the group's slot.
-++	     in this case this will make us see the advancement of __g_signals
-++	     to the upcoming new g1_start that occurs with a concurrent
-++	     attempt to reuse the group's slot.
-+ 	     We use acquire MO for the __g_signals check to make the
-+ 	     __g1_start check work (see spinning above).
-+ 	     Note that the group reference acquisition will not mask the
-+@@ -482,15 +482,24 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+ 	     an atomic read-modify-write operation and thus extend the release
-+ 	     sequence.  */
-+ 	  atomic_fetch_add_acquire (cond->__data.__g_refs + g, 2);
-+-	  if (((atomic_load_acquire (cond->__data.__g_signals + g) & 1) != 0)
-+-	      || (seq < (__condvar_load_g1_start_relaxed (cond) >> 1)))
-++	  signals = atomic_load_acquire (cond->__data.__g_signals + g);
-++          g1_start = __condvar_load_g1_start_relaxed (cond);
-++          lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
-++
-++          if (seq < (g1_start >> 1))
-+ 	    {
-+-	      /* Our group is closed.  Wake up any signalers that might be
-+-		 waiting.  */
-++              /* group is closed already, so don't block */
-+ 	      __condvar_dec_grefs (cond, g, private);
-+ 	      goto done;
-+ 	    }
-+ 
-++	  if ((int)(signals - lowseq) >= 2)
-++	    {
-++	      /* a signal showed up or G1/G2 switched after we grabbed the refcount */
-++	      __condvar_dec_grefs (cond, g, private);
-++	      break;
-++            }
-++
-+ 	  // Now block.
-+ 	  struct _pthread_cleanup_buffer buffer;
-+ 	  struct _condvar_cleanup_buffer cbuffer;
-+@@ -501,7 +510,7 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+ 	  __pthread_cleanup_push (&buffer, __condvar_cleanup_waiting, &cbuffer);
-+ 
-+ 	  err = __futex_abstimed_wait_cancelable64 (
-+-	    cond->__data.__g_signals + g, 0, clockid, abstime, private);
-++	    cond->__data.__g_signals + g, signals, clockid, abstime, private);
-+ 
-+ 	  __pthread_cleanup_pop (&buffer, 0);
-+ 
-+@@ -524,6 +533,8 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+ 	  signals = atomic_load_acquire (cond->__data.__g_signals + g);
-+ 	}
-+ 
-++       if (seq < (__condvar_load_g1_start_relaxed (cond) >> 1))
-++	 goto done;
-+     }
-+   /* Try to grab a signal.  Use acquire MO so that we see an up-to-date value
-+      of __g1_start below (see spinning above for a similar case).  In
-+@@ -532,69 +543,6 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+   while (!atomic_compare_exchange_weak_acquire (cond->__data.__g_signals + g,
-+ 						&signals, signals - 2));
-+ 
-+-  /* We consumed a signal but we could have consumed from a more recent group
-+-     that aliased with ours due to being in the same group slot.  If this
-+-     might be the case our group must be closed as visible through
-+-     __g1_start.  */
-+-  uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
-+-  if (seq < (g1_start >> 1))
-+-    {
-+-      /* We potentially stole a signal from a more recent group but we do not
-+-	 know which group we really consumed from.
-+-	 We do not care about groups older than current G1 because they are
-+-	 closed; we could have stolen from these, but then we just add a
-+-	 spurious wake-up for the current groups.
-+-	 We will never steal a signal from current G2 that was really intended
-+-	 for G2 because G2 never receives signals (until it becomes G1).  We
-+-	 could have stolen a signal from G2 that was conservatively added by a
-+-	 previous waiter that also thought it stole a signal -- but given that
-+-	 that signal was added unnecessarily, it's not a problem if we steal
-+-	 it.
-+-	 Thus, the remaining case is that we could have stolen from the current
-+-	 G1, where "current" means the __g1_start value we observed.  However,
-+-	 if the current G1 does not have the same slot index as we do, we did
-+-	 not steal from it and do not need to undo that.  This is the reason
-+-	 for putting a bit with G2's index into__g1_start as well.  */
-+-      if (((g1_start & 1) ^ 1) == g)
-+-	{
-+-	  /* We have to conservatively undo our potential mistake of stealing
-+-	     a signal.  We can stop trying to do that when the current G1
-+-	     changes because other spinning waiters will notice this too and
-+-	     __condvar_quiesce_and_switch_g1 has checked that there are no
-+-	     futex waiters anymore before switching G1.
-+-	     Relaxed MO is fine for the __g1_start load because we need to
-+-	     merely be able to observe this fact and not have to observe
-+-	     something else as well.
-+-	     ??? Would it help to spin for a little while to see whether the
-+-	     current G1 gets closed?  This might be worthwhile if the group is
-+-	     small or close to being closed.  */
-+-	  unsigned int s = atomic_load_relaxed (cond->__data.__g_signals + g);
-+-	  while (__condvar_load_g1_start_relaxed (cond) == g1_start)
-+-	    {
-+-	      /* Try to add a signal.  We don't need to acquire the lock
-+-		 because at worst we can cause a spurious wake-up.  If the
-+-		 group is in the process of being closed (LSB is true), this
-+-		 has an effect similar to us adding a signal.  */
-+-	      if (((s & 1) != 0)
-+-		  || atomic_compare_exchange_weak_relaxed
-+-		       (cond->__data.__g_signals + g, &s, s + 2))
-+-		{
-+-		  /* If we added a signal, we also need to add a wake-up on
-+-		     the futex.  We also need to do that if we skipped adding
-+-		     a signal because the group is being closed because
-+-		     while __condvar_quiesce_and_switch_g1 could have closed
-+-		     the group, it might stil be waiting for futex waiters to
-+-		     leave (and one of those waiters might be the one we stole
-+-		     the signal from, which cause it to block using the
-+-		     futex).  */
-+-		  futex_wake (cond->__data.__g_signals + g, 1, private);
-+-		  break;
-+-		}
-+-	      /* TODO Back off.  */
-+-	    }
-+-	}
-+-    }
-+-
-+  done:
-+ 
-+   /* Confirm that we have been woken.  We do that before acquiring the mutex
++       /* Now wait until a signal is available in our group or it is closed.
++          Acquire MO so that if we observe (signals == lowseq) after group
++-         switching in __condvar_quiesce_and_switch_g1, we synchronize with that
++-         store and will see the prior update of __g1_start done while switching
++-         groups too.  */
+++         switching in __condvar_switch_g1, we synchronize with that store and
+++         will see the prior update of __g1_start done while switching groups
+++         too.  */
++       unsigned int signals = atomic_load_acquire (cond->__data.__g_signals + g);
++       uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
++       unsigned int lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
 +-- 
 +2.49.0
 +
 diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
-index 1ea4d5a252..f15e031971 100644
+index d3c0cbd703..af122f00fb 100644
 --- a/meta/recipes-core/glibc/glibc_2.35.bb
 +++ b/meta/recipes-core/glibc/glibc_2.35.bb
-@@ -62,6 +62,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0023-timezone-Make-shell-interpreter-overridable-in-tzsel.patch \
-            file://0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0025-CVE-2025-4802.patch \
-+           file://0026-PR25847-1.patch \
+@@ -68,6 +68,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0026-PR25847-4.patch \
+            file://0026-PR25847-5.patch \
+            file://0026-PR25847-6.patch \
++           file://0026-PR25847-7.patch \
             \
             file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
             file://0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch \
