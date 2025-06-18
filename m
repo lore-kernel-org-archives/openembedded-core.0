@@ -1,145 +1,114 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C37A3C71157
-	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 07:42:24 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.1527.1750232542963606687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E92C7115B
+	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 07:44:54 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web11.1571.1750232692217779451
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jun 2025 00:42:23 -0700
+ Wed, 18 Jun 2025 00:44:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UKlJGvZt;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-450cf214200so56553085e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 00:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750232541; x=1750837341; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c6wo+aQPvl+GkfCpd+X+ylInSs/uVKESUT70XoXgmxc=;
-        b=UKlJGvZtiLhvpWmLdnMXdGD71b7YE7AZvBUuArfvzzIqGld4QhWzST8VtWrkc6lWIN
-         xiIPNS2eMbjtWSsRoz2PcB88TBuIpKKVyF7YFpSQNDNC6VGRtLyXamztQeAjYICScq9j
-         F4BrGAUfxQ6llfO9m6a9AUUGua/07vuxFqcDPHi119iBroTsK72lCo9ppTa5CKKmoL1q
-         G8nsiSWXdO9rcVaEX6YVl7gHDcoaOY5l8606MN7qLI9otPu9Zjsj7FGFGlROkzOfokiK
-         5/jWIn6fGKa+Icv1U4SDaq4BkaWqD2ZuhffE8mUFG28GDvFb613KHQJFCf18G8Nzrej3
-         BpfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750232541; x=1750837341;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c6wo+aQPvl+GkfCpd+X+ylInSs/uVKESUT70XoXgmxc=;
-        b=RHxPbdX/bonfvOHiZzqyp/Bq1PGXJywcS8SJ8bL0xq+Sl0T5CnTXSwJdArDsnVfdY1
-         6lB+pz4kRCZdwuODIK8FuWuUzHKtD7vrayEFFB1JT30R/1zdviAQLRbgNkKE0VsFn9Ja
-         EPH/LsNxk4IKPak9Jghn+PXzcnq7OcDS0dYQmdzz2okabBxBsvhl01tgZPBdjET7jHZu
-         YDgsT9OaTyXHbk8/dM0UD7TB6jEXnjOz/VEUXIFLPVkfxu4KUNEG0G/lhIg/dkvObtxV
-         hcznzbtc2Xl2celiWHEuDikCQny5Up0LQofUU7nzUifovS/BzW0Yx5sFzmO/tF2eVP96
-         jbZg==
-X-Forwarded-Encrypted: i=1; AJvYcCXD6jH60atmbTTISTBft/0qTXS2GMCjonZSWhpBHhcl2GsygQ9GyfM0c/GOoT/kHYgc5oIMVYOydN+VG9w2bJxxyw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyDSeRtPR5GlryrdUj6I0T4fMQ4ILdQ0mgqf64LScytqz7w5CLl
-	ngwkH50bQkU+Y431NOGwmVTCU6Kk9V1Gf38zxwxNzLkb4sFZ9xzbARqH
-X-Gm-Gg: ASbGncvujrvt39HwUzl/2/SsIf31ImSfuOlggTXDWtEVleJmbbHP9UYvy+bTj1cLDWx
-	GDXSOi1MW/5NNQtw7CblrBJMBh2xbxdycOxCqvXRIRP76CdoGZ/GJKdysjeIo/rq8K2hcBet0DI
-	dFYS1SHuN5JJaxEKYG+Ev3eaoK9ynmR/hv4wJwKMV8hs78ZJivyvvZATE2B8fUOAO3tWpgo80KU
-	vHsM4mmKXnrDkJwhKLbHvq5eTMJlsTkmc+RJ/4Fh/VSXk0hwZ+jFeYbfHrN06KQUTrygI8Ieu8v
-	y5XCBno5spjK+uUu95ktF+MM1afd574HyWxuLlcGXEOeULtrWE9pwUvNrtPbR15W819lMg==
-X-Google-Smtp-Source: AGHT+IGAJk8jWDC2OaeovElMoJ98hrvXRHVhnU7ugLEZtMTfK10GEJ9Yd1DGQa9ZpScshCXuWXE/5Q==
-X-Received: by 2002:a05:6000:22c7:b0:3a4:f7dd:234b with SMTP id ffacd0b85a97d-3a571896c71mr12389598f8f.0.1750232540456;
-        Wed, 18 Jun 2025 00:42:20 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a54d98sm15971429f8f.7.2025.06.18.00.42.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jun 2025 00:42:20 -0700 (PDT)
-Message-ID: <47bc64c5-3a95-439a-952a-601114f15f86@gmail.com>
-Date: Wed, 18 Jun 2025 09:42:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][scarthgap 8/8] systemd: Rename systemd_v255.21 to
- systemd_255.21
-To: ChenQi <Qi.Chen@windriver.com>, steve@sakoman.com,
- openembedded-core@lists.openembedded.org
-References: <cover.1750176125.git.steve@sakoman.com>
- <db02a4cc542d0e7e563ec46c91bf9a7313a71d02.1750176125.git.steve@sakoman.com>
- <3285382b-51c5-4ea2-9784-91267d1180ac@gmail.com>
- <582ab22a-f015-4611-b1d5-3c2c624585a1@windriver.com>
- <9470af8d-87e5-40bc-a79d-cddbf58c92ca@gmail.com>
- <af5e4d92-5144-4c26-ac56-423c2fa5286f@windriver.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <af5e4d92-5144-4c26-ac56-423c2fa5286f@windriver.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ejsL3SJV;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 130CF438EC;
+	Wed, 18 Jun 2025 07:44:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750232690;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pvic/0Brzy+O2ZlSobz9TwFIXgphqglIei/5MyUVkKs=;
+	b=ejsL3SJVP2m0wz6hy328Gk2vpKQETsKCYWz1FfOrNGiKTtLIyzTGYfqNzMjmRSD9Y9cUh+
+	hTnF1rw7SHA0zSjTKR8jfP9I2JmXLVRSu28wa/BMxWa7OE/pl4CMyQkjjvtEAelQm9Zq1R
+	+J1Uwb2ki/O0/uMgQdvrUfC/2IxBRwWDZOR6/OG3ywdA87tG+v8dMaYoxpfEFbeeXpnhmY
+	VSPtlzziyyCJgqUyICkYyWGARqeCJLFp+c7W1t+VJUKVXeQWg1m2L8fnlebBSGljtSZ39P
+	1JmZ7W3G1KxspfqJHcKKW6J9to8o4DCQR/tiGDJnjwWNv/yikga0wnfUpLAdwA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 18 Jun 2025 09:44:48 +0200
+Message-Id: <DAPHPH52I484.2B0WX2IL9VY0O@bootlin.com>
+Subject: Re: [OE-core][PATCH 3/5] python3: upgrade 3.13.4 -> 3.13.5
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Trevor Gamblin" <tgamblin@baylibre.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250617155339.1305652-1-tgamblin@baylibre.com>
+ <20250617155339.1305652-3-tgamblin@baylibre.com>
+In-Reply-To: <20250617155339.1305652-3-tgamblin@baylibre.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkuffhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepledtgfegvefhjeefteektddvledvveetueeffeegvefhjeeliefhheegveevieejnecuffhomhgrihhnpehphihthhhonhdrohhrghdphihotghtohhprhhojhgvtghtrdhorhhgpdihohgtthhordhiohdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepthhgrghmsghlihhnsegsrgihl
+ hhisghrvgdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 07:42:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218975
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 07:44:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218976
 
-On 6/18/25 09:36, ChenQi wrote:
-> On 6/18/25 15:29, Gyorgy Sarvari wrote:
->> On 6/18/25 09:24, ChenQi wrote:
->>> The author's V1 patch bumped PE.
->>> I replied to that patch, asking the author to not bump PE.
->>> My reason is that we'll need to bump PE in later releases too
->>> (walnascar, master) if we bump PE in scarthgap.
->> My main question would be if bumping PE is worse than breaking this
->> recipe in this release. Maybe it is - I just didn't see much discussions
->> over this.
-> Luckily, the commit that introduced this issue was not released yet.
+On Tue Jun 17, 2025 at 5:53 PM CEST, Trevor Gamblin wrote:
+> Changelog: https://docs.python.org/3/whatsnew/changelog.html#python-3-13-=
+5-final
 >
-> poky [2][0] $ git describe --contains 417cecf76b
-> fatal: cannot describe '417cecf76b91f58a61e8cc9e4bc57ddda87aac58'
+> ptests look OK:
 >
-> poky [2][0] $ git log --oneline scarthgap-5.0.10..417cecf76b | wc -l
-> 31
+> |443 tests OK.
+> |
+> |Total duration: 2 min 43 sec
+> |Total tests: run=3D44,050 skipped=3D2,309
+> |Total test files: run=3D471/480 skipped=3D28 resource_denied=3D9
+> |Result: SUCCESS
+> |DURATION: 164
+> |END: /usr/lib/python3/ptest
+> |2025-06-17T14:05
+> |STOP: ptest-runner
+> |TOTAL: 1 FAIL: 0
+>
+> Reproducibility OK:
+>
+> |2025-06-17 10:34:28,071 - oe-selftest - INFO -  ... ok
+> |2025-06-17 10:35:04,539 - oe-selftest - INFO - -------------------------=
+---------------------------------------------
+> |2025-06-17 10:35:04,539 - oe-selftest - INFO - Ran 1 test in 1429.952s
+> |2025-06-17 10:35:04,539 - oe-selftest - INFO - OK
+> |2025-06-17 10:35:08,924 - oe-selftest - INFO - RESULTS:
+> |2025-06-17 10:35:08,924 - oe-selftest - INFO - RESULTS - reproducible.Re=
+producibleTests.test_reproducible_builds: PASSED (1393.34s)
+> |2025-06-17 10:35:08,925 - oe-selftest - INFO - SUMMARY:
+> |2025-06-17 10:35:08,925 - oe-selftest - INFO - oe-selftest () - Ran 1 te=
+st in 1429.952s
+> |2025-06-17 10:35:08,925 - oe-selftest - INFO - oe-selftest - OK - All re=
+quired tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=3D0)
+>
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
 
-Oh... indeed. I thought that this was tagged already long ago. Thanks
-for this, this does answer my concerns.
+Hi Trevor,
 
-> Regards,
-> Qi
->
->>> Regards,
->>> Qi
->>>
->>> On 6/18/25 15:08, Gyorgy Sarvari via lists.openembedded.org wrote:
->>>> On 6/17/25 18:04, Steve Sakoman via lists.openembedded.org wrote:
->>>>> From: Savvas Etairidis <setairidis@gmail.com>
->>>>>
->>>>> The recipe was accidentally renamed with a 'v'
->>>>> prefix in 29e623b2ad00555788412fa520fbb9ffec794cbb.
->>>>>
->>>>> Signed-off-by: Savvas Etairidis <setairidis@gmail.com>
->>>>> Signed-off-by: Steve Sakoman <steve@sakoman.com>
->>>>> ---
->>>>>    .../systemd/{systemd_v255.21.bb => systemd_255.21.bb}             | 0
->>>>>    1 file changed, 0 insertions(+), 0 deletions(-)
->>>>>    rename meta/recipes-core/systemd/{systemd_v255.21.bb => systemd_255.21.bb} (100%)
->>>>>
->>>> Personally I'm not affected by this issue, and have no problem with this
->>>> patch, but a few weeks ago there were people who were unhappy when a
->>>> similar issue popped up in Walnascar with autoconf (though it was caught
->>>> before merging), which makes me wonder if this is the way to go.
->>>>
->>>> Systemd already has a PE[1], exactly because of the same situation: "v"
->>>> was removed from the start of ${PV} - maybe it's time to bump.
->>>>
->>>> Anyway, as this patch does no harm to me, this is not a complaint
->>>> against it, but I thought it would be worth to mention it at least.
->>>>
->>>> [1]:
->>>> https://git.yoctoproject.org/poky/commit/?id=f95bbe35b2aab929e50471db8ba50781d5027a01
->>>>
->>>>
->>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>> Links: You receive all messages sent to this group.
->>>> View/Reply Online (#218970): https://lists.openembedded.org/g/openembedded-core/message/218970
->>>> Mute This Topic: https://lists.openembedded.org/mt/113692551/7304865
->>>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Qi.Chen@eng.windriver.com]
->>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>
+Thanks for your patch.
+
+I believe we still have a ptest failure related to this upgrade:
+
+Failed ptests:
+{'python3-pytz': ['pytz/tests/test_docs.py:test_suite',
+                  'pytz/tests/test_tzinfo.py:test_suite']}
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/1724
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/1724
+
+Ptest logs can be found here:
+
+https://valkyrie.yocto.io/pub/non-release/20250617-94/testresults/qemuarm64=
+-ptest/core-image-ptest-python3-pytz/
+https://valkyrie.yocto.io/pub/non-release/20250617-94/testresults/qemux86-6=
+4-ptest/core-image-ptest-python3-pytz/
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
