@@ -1,182 +1,127 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF3AAC71157
-	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 12:52:26 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.30])
- by mx.groups.io with SMTP id smtpd.web11.6532.1750251139525404954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C64E6C71157
+	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 13:01:26 +0000 (UTC)
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+ by mx.groups.io with SMTP id smtpd.web10.6693.1750251682371965160
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jun 2025 05:52:19 -0700
+ Wed, 18 Jun 2025 06:01:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=W7kMlwtx;
- spf=pass (domain: axis.com, ip: 52.101.69.30, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WKPzDBim5XrEt/V6ORL0dZfCT7OAX5JtPDQ48iMJXPkTRO834fHNrJzZ04oxS1BBv0/vLcu6d8Us503pnHjKedrwpUkvevEXlkcvNyDVdRFFZZf4EZ5HEjJbktb+YS0SHFeBgKH2Em3ZSS2EwwtLHcrFlguv9cf9ZnVPbb3SacCdFUeJ3JWHr2xUQBsUhbeBbKdVte+28dE6R69wq22oScafW0rxpnTa6mJ33dlttTMCFaUU+C1c7YWlBsu9BJKiCPkkVFe0SjkVaLraFB3TXPjnYqVo76PqmKITtSlM9qMnBN7q9v583/vNtGjHUYhi1t7jn/1mNmJX0DiIJV3E4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t1Zka74L4xmHP2BbEC8+apcYjE1OZa/YJHqAbL5y7WU=;
- b=JPBg5oEU1BlHRm7nIB1A5AJoquHLvBoCeI1fD3ZqfBGDZrLkFibejHM2yDnwBsnjmU6KQZVbwhxgZhhepjquNwTliS15d8A1+vJomRRa+6JnYh6HhYg32cFXmmsjvCX16pIClpIhsfaytMr4RJNQbt+DzgwUl3jLCwcbZSpR5IclIImMv0wxAZ6byNZ39GlVOpYm49X8TCcCALZuWNqgRaE9hK9Yz/Fg64v5Cns/v3gFzgOE4QGsc6shC09KhtEKtUMICwYm3eV+zTfBQPZp+03133gSY+Hti++XrgxHqTNerlAfFGVTjbDX5hbQGwJ0UAr3weQsSbLPwx/rMwr3xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t1Zka74L4xmHP2BbEC8+apcYjE1OZa/YJHqAbL5y7WU=;
- b=W7kMlwtx87SXEItIqKakNtXBPf30lRxuawI1yvCsD8E40ZEuiTrKAGOUmul56SWALxNZlhs2Ow+Omv2T9QXCzOo2iDXUToNNmd6dfg0Xjz3a9K8GjG1OdHAjeRXp07so2isda0l2eH3jU7PT/o36hSrvkyZKILn7gkz13I07hwE=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by AS1PR02MB10347.eurprd02.prod.outlook.com (2603:10a6:20b:472::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.30; Wed, 18 Jun
- 2025 12:52:16 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9%5]) with mapi id 15.20.8835.027; Wed, 18 Jun 2025
- 12:52:15 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "dmitry.baryshkov@oss.qualcomm.com" <dmitry.baryshkov@oss.qualcomm.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH v4 3/8] qemux86: drop duplicates with qemu.inc
-Thread-Topic: [OE-core] [PATCH v4 3/8] qemux86: drop duplicates with qemu.inc
-Thread-Index: AQHb4DXdSUHimKlN002LU1VEp3MFoLQI3n3w
-Date: Wed, 18 Jun 2025 12:52:15 +0000
-Message-ID: 
- <DB5PR02MB102133C566C13BE6F44D80629EF72A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20250618094550.1335521-1-dmitry.baryshkov@oss.qualcomm.com>
- <20250618094550.1335521-3-dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20250618094550.1335521-3-dmitry.baryshkov@oss.qualcomm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AS1PR02MB10347:EE_
-x-ms-office365-filtering-correlation-id: 2e2ee138-3445-42a3-e7cc-08ddae66f3f7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?EV/5SDbz2L+sgxqlhTr0ZiztuT/8CGX/gqpBuG147+8ySq4GgIXeJTzSxpjn?=
- =?us-ascii?Q?RWztMZQbrlDvTtiGwmevsBG+QUPVbKK58Lt1O+jNBj4Xm+v8qogsSvmNXRzj?=
- =?us-ascii?Q?hc2xc70WZD11VpZ6gjEMjKhmYxW6ob9bNCI4+ES0h9fTR49p0lcDb4rbr3HN?=
- =?us-ascii?Q?6s2X2b9ppxKBdKGqZDZXFSEGqvAYJut6tgr4MBmg/FEmrCDz5RCO88G5e391?=
- =?us-ascii?Q?qhtVzbrnk0KUcHtsGQMcfB+LBuqvplPK8MiYQXd8EQAwgBWsAk3Um+gT287b?=
- =?us-ascii?Q?oTaZLFR/eOE6UPt4AUTvfq4kJuvbtkVAFKjSVsmUAS08z66/etnHHdzU0N1X?=
- =?us-ascii?Q?EDthNUxCS6IWJPtZwgRQFutJ2hMZClcMJ4JC8D3zzqPAssTQuGB5FEIYcGPF?=
- =?us-ascii?Q?v2uGydGufG1o5aLtvN6FGli3NMNMVdmsv/kR4IwyCpeVJudC61QMb12sqn0H?=
- =?us-ascii?Q?cNF9Vj9eK19PH+wf2ze6II58KDDZSu+Jn3gdqVwRrQERwinUpEobPCUP28Ik?=
- =?us-ascii?Q?Og8dqrXcFPIzlQQmYfMa7uyY8HiNyEF5Y+qmBVVK0buU/WyGsOpsvFOvbemS?=
- =?us-ascii?Q?HmfwTJcFHGqyJ8b8diyGbQ2YevZx4Y4w/kZT1yukM/uL+HpiDLksx1XVTDWN?=
- =?us-ascii?Q?lu91ElsvB6C3HhYabRFtOBLQoOBtlb2skZhpj8UIvafni7asFNjuy9J0LT/y?=
- =?us-ascii?Q?mrMQapyggnPLx+KuqHzx2Wp8R5GGUzI5d679il2Hwb8QXVsELgjZ+EC6sE0S?=
- =?us-ascii?Q?JHknPneBrJTTuyQdYgbT5czPqppuH1PEl2Yivsdsf2k3cxJqZ6TnZFzsozo1?=
- =?us-ascii?Q?Zqs9vnhBUXYI1FwJFof53MQpAzxP3TDEg7jrGq4pL4LIzueQVZ7Eb1r+1WqQ?=
- =?us-ascii?Q?Xykettuiab8LPlVTXyoQXRLdpySzzhpRJUvDOcfsqATRP/XDquty3xsimCpI?=
- =?us-ascii?Q?Rw7kZTOTtVAg7GSoMyPcX3sIMC7I72O7cQlTZowvXsHld2OqXRzaZxvFMvqG?=
- =?us-ascii?Q?2PoZ1ObZFP0UxSbP8guxUsD/xucKmEUc8NxrMOvJOdRX8xSV+cwkElcFyq92?=
- =?us-ascii?Q?MkPrSxQQ+4hmgEUrMrUYczdVEcRYS0F2iyoC2A/Yiuqtj1k002oQRnjKtNBc?=
- =?us-ascii?Q?ChHw3pwPpvNDHDTCEBvT/lAEqstMuWfj3RqaHbbnHsSxPVz+JrToD4Bff3An?=
- =?us-ascii?Q?o1CEi8Tt1gVQM6votvvPSNNe58+U2ofORfFIP1tTFjBKRm+AsUAx1PMCJpsI?=
- =?us-ascii?Q?7+9dSyBvBeHcfobW2daxMR24ooHXEL0WEpoOmR/ybfZv3LBIwUoCYJJE3tGb?=
- =?us-ascii?Q?WJNPx+XSdHH2tYIzh8q7Me/ohV+/emMvooyjNrSSOjk0dkGkAR9dllRoc8Sn?=
- =?us-ascii?Q?1G1odHGQf8hyCWiY/kth/jTZyrL3Fj7lOfBMvMfWw/Y66qwxwTbmdPjqDNxC?=
- =?us-ascii?Q?Tp8HTOcKetbBV46Y/B/LABLSdA0145vYWBBOvUEPlFmOq5YxjM3+AA=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?aKK30UFvFLqRX3NVw3Bddw73gxsW2w5S35nvl0I+oTyLzbm7YSee0b55nThb?=
- =?us-ascii?Q?kR3UteWWUSfIDLERNjOXa1mTnG97fhaEB0uGA+hZmAmCpE+sDnJyBvi8bTJ7?=
- =?us-ascii?Q?oJbDYpPOJxzw6XICNDl8TpWCgSuL4XJvrHPMGh+kWtpstoR5RmFUXCZlKctd?=
- =?us-ascii?Q?uE6s19C/5FjJQGGjkV0ICH+QwnVRQD7YafKAaEmKa/GKIhJ1Uv2J4tbPv3rM?=
- =?us-ascii?Q?uGrsup8h3+gPd8D5BfOBvo+xk8Kg8WhEhbBY4B+XHH3GU3/m7d0keC9U9eYT?=
- =?us-ascii?Q?hmoKV1AdFIKymig7G1qvBtKWjlI6ipVwTonUdeGTV7pe7quSx/6XwkbvO+3r?=
- =?us-ascii?Q?5bwIPmh7GE4giGG0N0mRAA4kvkj5uI74GmZF531Cccjnf+r5/8hHEGyBFDWG?=
- =?us-ascii?Q?6EFsElnE0Klm/BCe3v42egB0eYw9En81hlZ0ARivuIy+w7rj30hyJoUnXZ2U?=
- =?us-ascii?Q?ZPBGczi+Wzva5nNOcBDzIXvr77R9Stv/nA/ZSQrQBQr3L90RiwSQw9BH/M+L?=
- =?us-ascii?Q?BN0h0vGR0KO9n0HWy0CggTyHukFHVMiiExym7Vv4TD3BRemoP41aVWmGU4aN?=
- =?us-ascii?Q?bTn3kr5+iZ9lUMrtqf5HC7prC8oAy5c4ENbIXVVWM1sglA2R3TeFfMEHmeAW?=
- =?us-ascii?Q?jaOlcXS3XfGHeomp7Zrd8biwnATpxe66yJG+4//hVzWXIkq5IsOYJwReQK6q?=
- =?us-ascii?Q?GTOof0WuxllMFHh1y+8CXSyXuxbywvTGPKPLScsXDgQeGNyuLpdgS9YxmONW?=
- =?us-ascii?Q?LdOzmpKEKbVVmyYcLZEMiw2k3Cfgv17+WyJ0SHtmQw/B++T7GsiJnm216JX0?=
- =?us-ascii?Q?oWeHvHiGgp24aDyLqH4rl73Kp6qMjXOEW52N0Ny0j6fxnGUuOeDnjR/L7jCs?=
- =?us-ascii?Q?TnndUGpw6rFJlOu+WQiGsMXbf/URrvwOOipCGVr5ri0Z7nYB+YSJC42Oh0Fv?=
- =?us-ascii?Q?OZ3L134ijLBRm4yFr1/HwtS82s8qjp250TDnVAUJQ8K9wj2H8rQ8K8S+WoKo?=
- =?us-ascii?Q?aFrOyyjYJsocLyV6wviZf3zRVf8F85EOFvAe3GUCAWWpHegUjXe8NT8wJys3?=
- =?us-ascii?Q?2AnVCAq0e1R6NYd9UdhFcAyItJ2IgDMANpDtknhbU3750T1Lr4uhKJkdYcPv?=
- =?us-ascii?Q?MK9IQDLMaAIgiovSdb2unO17DvZ4ZK/ssIR2U25F+IlDrx9c5eUPcQgl4JkO?=
- =?us-ascii?Q?dLex0tk5Dp9QJKNVADkmvqbsYhhftoG8rBr232g2N4kLkENBNEWjgTsq7x9E?=
- =?us-ascii?Q?m4tbwXyiPFTsmLkrnBAigIgqXQHqYROxpFqDSt/J4q92bl00ogmEog4FmP7a?=
- =?us-ascii?Q?48NHY0qj97nSSK+wNOX4zs6cssHuh2g52x83uXvES91uloK5UWHCTHNZfmR2?=
- =?us-ascii?Q?HzOk9DaVrM5OxqpKXpPD80NXysd/TG9dWZtSbAFRCvfzRy1XgL10ovGunSYO?=
- =?us-ascii?Q?vnVFsHMvuT7GYOpgFkVU1tLaLtqhhrbmijDll2h+BmYxywSKyOcJbPkstZ8Y?=
- =?us-ascii?Q?HdUiZcxZG3WPHa/9i0Fs6c2Q8E1wzcR+17GgynBA9ztOdKK5gi2xuQD60SfW?=
- =?us-ascii?Q?D9K8fF2KE1VuKLWrw64=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=mJxlFkUb;
+ spf=pass (domain: baylibre.com, ip: 209.85.161.42, mailfrom: tgamblin@baylibre.com)
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-60b8a9be972so1551562eaf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 06:01:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1750251681; x=1750856481; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MwPmC4rB7OScgZGMULM/tOFBwkzQyDxae5kaoIAMOhs=;
+        b=mJxlFkUboR2gbT/fbsfVZhSBtHyHvBnfe7m4IP3cytMPSYztn8N4p3d/JD61OhFX5u
+         aSgU+fJqLaZLdzhyRjP1yOvrtO9zLLgHCbtBucLwFm2iWvYMlc5Mx11SMnpQIRTDyEjo
+         UOOxTbOcihZBROE951t20uguLFfaqtIbeffugvbKdLc3nYs4uLt4JiNcaZVxdD3URjvK
+         0F+GR9pRH+dWZSksQpLHjcRu3sWye6KdNrPjc1e/qthLI6hn7ln2RXCZUAbPJ9CboxH7
+         Q7DYpqUJRGmoPvNQJMboTdJ5ggf59Omb0ANZx9hrmwakiP1x0lQgMn9X8O8hWWMsJ/tA
+         VyxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750251681; x=1750856481;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MwPmC4rB7OScgZGMULM/tOFBwkzQyDxae5kaoIAMOhs=;
+        b=h4LQN66IlnVYulGDCuBN7AFMj/RMfjxmn4W6NuC8F1iSEqK2BsWPzScGuyEMcxvaoK
+         QrFKAbM6Jyaz0b+wFC19jFfI6JMdXUB8khGBAtpgXXKOaMr2boRGc2/U4az4Iu8N1+xp
+         OpkNZkXitkgb7swq5CYkOiMysyrUdzeFnLtCR0thCJegRCmOgY5hoPskW/yOQ+1U1Rji
+         5jRREIkm3ILs5IQAGkS9Vsq0Zhr9N9lkhtWW69FHMBPxiUyutX9l9VeRygkRyjm/Hgnv
+         9gvvOUi32Tcv4itHRThwlLbGw/0ixhA7Q7aM5Ewl7pJtkWias0GmFnQU3ZyyJwv5t46G
+         fOsQ==
+X-Gm-Message-State: AOJu0YywTbtApdX/DP/qFAqvqK3WQhDBkucpWsu4SIVD0bI2gvKO9Mzx
+	ZiMbwEIW+b/1yn2LuGAvXtcSkIvhZ7M+dzbNR6sYnSIbKRil/GfomTopN9T+aKtp4BbOj5sibQE
+	d4fkJdTk=
+X-Gm-Gg: ASbGncsExEowonJMFOYY1E1HxfTy2vYsrAH8XojvmilmjVJ7rse6QBnA0dZ+l/Thy0c
+	y/kEVz4sbOTvPvob2DCWNdmYQQj8cHgsgIcB6zxnA3S9k8K1NAWnm7s1DAS3U+NHY47uHPtw4Ce
+	ocy44u9HjZTJ2EIjEs9z6psV7gXhnCsLjhWVn62G73fwN/TCM/uXlW7ayrDHInCkjWMgI9Cfa9c
+	dxs61FEOkyjd5l05Yi1iDpTCqcHo1eXJnSC4eYq3/ciUJXTXdOFu3FHjw8oW9kz26yOpdZPZLqo
+	k3eAjR2rwlH7ZZTh9kJe1QOI1mWx9Vbpyx58L2hPlg8R4zMq1eTTbIno3XX4pWq0j6Vm5X5Rcn3
+	mSxVo/p0X8XA3fdCGH1VGUQ==
+X-Google-Smtp-Source: AGHT+IFMBoi6kHmid1EtpWDdLbsH9+MscNIeiqrrImhWv51T8CnSW6/CscMfyS9PaEtf2kHOLn5O2g==
+X-Received: by 2002:a05:6102:442b:b0:4e5:9c06:39d8 with SMTP id ada2fe7eead31-4e7f60f09fcmr12543397137.5.1750251666841;
+        Wed, 18 Jun 2025 06:01:06 -0700 (PDT)
+Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a72a2e94desm71398731cf.20.2025.06.18.06.01.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 06:01:06 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap][PATCH] unzip: Fix build with GCC-15
+Date: Wed, 18 Jun 2025 09:01:03 -0400
+Message-ID: <20250618130103.3905926-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e2ee138-3445-42a3-e7cc-08ddae66f3f7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2025 12:52:15.8936
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ei45tYmdlkNrTJj8GkgLmwzMwPK7IAq1IHVQ2hcWk5xF3ERclcQzkQUd4bzcVFb1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR02MB10347
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 12:52:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219007
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 13:01:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219008
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Dmitry Baryshkov via lists.openembedded.org
-> Sent: den 18 juni 2025 11:46
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH v4 3/8] qemux86: drop duplicates with qemu.inc
->=20
-> qemu.inc already includes PREFERRED_PROVIDER values for xserver and GL
-> libraries. Drop the same values being set in the machine config.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-The subject and commit message for this and the next commit should be=20
-updated to reflect that the duplicates are in default-providers.inc=20
-rather than qemu.inc.
+Add a patch to remove redundant declarations
 
-//Peter
+(From OE-Core rev: 20ae2ce01f5114f6df67c0cfb6d820fc1513cdcc)
 
-> ---
->  meta/conf/machine/qemux86.conf | 6 ------
->  1 file changed, 6 deletions(-)
->=20
-> diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.c=
-onf
-> index 1e072e1ae285..51f080bd2a51 100644
-> --- a/meta/conf/machine/qemux86.conf
-> +++ b/meta/conf/machine/qemux86.conf
-> @@ -2,12 +2,6 @@
->  #@NAME: QEMU x86 machine
->  #@DESCRIPTION: Machine configuration for running an x86 system on QEMU
->=20
-> -PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
-> -PREFERRED_PROVIDER_virtual/libgl ?=3D "mesa"
-> -PREFERRED_PROVIDER_virtual/libgles1 ?=3D "mesa"
-> -PREFERRED_PROVIDER_virtual/libgles2 ?=3D "mesa"
-> -PREFERRED_PROVIDER_virtual/libgles3 ?=3D "mesa"
-> -
->  require conf/machine/include/qemu.inc
->  DEFAULTTUNE ?=3D "core2-32"
->  require conf/machine/include/x86/tune-corei7.inc
-> --
-> 2.39.5
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Backport this to scarthgap so that it can build on systems with gcc 15
+(e.g. Fedora 42).
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ meta/recipes-extended/unzip/unzip/gcc15.patch | 17 +++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/gcc15.patch
+
+diff --git a/meta/recipes-extended/unzip/unzip/gcc15.patch b/meta/recipes-extended/unzip/unzip/gcc15.patch
+new file mode 100644
+index 0000000000..42a2f81681
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/gcc15.patch
+@@ -0,0 +1,17 @@
++Do not redefine gmtime(), localtime()
++
++They are already provided by system time.h header
++
++Upstream-Status: Inactive-Upstream [need a new release]
++
++Sign-off-by: Khem Raj <raj.khem@gmail.com>
++--- a/unix/unxcfg.h
+++++ b/unix/unxcfg.h
++@@ -117,7 +117,6 @@ typedef struct stat z_stat;
++ #  endif
++ #else
++ #  include <time.h>
++-   struct tm *gmtime(), *localtime();
++ #endif
++ 
++ #if (defined(BSD4_4) || (defined(SYSV) && defined(MODERN)))
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index c13e7a008e..0a88b4c092 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+         file://CVE-2022-0530.patch \
+         file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
+         file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
++        file://gcc15.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+-- 
+2.49.0
 
 
