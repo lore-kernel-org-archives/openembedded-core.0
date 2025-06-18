@@ -2,164 +2,154 @@ Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE8EC77B7A
-	for <webhook@archiver.kernel.org>; Tue, 17 Jun 2025 23:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84C04C71157
+	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 00:20:57 +0000 (UTC)
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.34212.1750203587888285719
+ by mx.groups.io with SMTP id smtpd.web11.34923.1750206048482338840
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jun 2025 16:39:48 -0700
+ Tue, 17 Jun 2025 17:20:48 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org.net (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 55HNdjaU026548
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 18:39:47 -0500
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
+Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 55I0Klnk028645
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 19:20:47 -0500
+Received: from [192.168.2.13] ([192.168.2.13])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 55I0KkJM001010
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 19:20:47 -0500
+Message-ID: <aa295c1a-50f3-4f26-92f2-e844c96ba5ed@kernel.crashing.org>
+Date: Tue, 17 Jun 2025 19:20:46 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2 0/7] ISA based RISC-V tune implementation
+Content-Language: en-US
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 7/7] rust-target-config.bbclass: Update for new riscv TUNE_FEATURES
-Date: Tue, 17 Jun 2025 18:39:44 -0500
-Message-Id: <1750203584-32065-8-git-send-email-mark.hatle@kernel.crashing.org>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1750203584-32065-1-git-send-email-mark.hatle@kernel.crashing.org>
-References: <1750203584-32065-1-git-send-email-mark.hatle@kernel.crashing.org>
+References: <1849F8E3D5C2FC6B.11779@lists.openembedded.org>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <1849F8E3D5C2FC6B.11779@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jun 2025 23:39:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218953
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 00:20:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218954
 
-From: Mark Hatle <mark.hatle@amd.com>
+After I hit send, I realized that the order of the patches is likely wrong.
 
-Add the new TUNE_FEATURES to the 'features:' list, based on matching output
-with:
+(using mailed order) should probably be:
 
-   rustc --target=riscv32i-unknown-none-elf -Ctarget-feature=help
+1, 7, 2, 3, 4, 5, 6
 
-Use the TUNE_RISCV_ABI instead of guessing for the ABI.
+or 1 & 7 squashed..  (7 requires 1..  and without 7 rust won't build after 1 is 
+introduced.)
 
-Pass the arch "as-is", since it should now be riscv32 or riscv64.
+--Mark
 
-Signed-off-by: Mark Hatle <mark.hatle@amd.com>
----
- .../classes-recipe/rust-target-config.bbclass | 65 ++++++++++++-------
- meta/lib/oe/rust.py                           |  2 -
- 2 files changed, 41 insertions(+), 26 deletions(-)
-
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
-index c04940ce54..906a5083d7 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -77,8 +77,33 @@ def llvm_features_from_tune(d):
-         f.append("+a15")
-     if 'cortexa17' in feat:
-         f.append("+a17")
--    if ('riscv64' in feat) or ('riscv32' in feat):
--        f.append("+a,+c,+d,+f,+m")
-+    if 'rv' in feat:
-+        if 'm' in feat:
-+            f.append("+m")
-+        if 'a' in feat:
-+            f.append("+a")
-+        if 'f' in feat:
-+            f.append("+f")
-+        if 'd' in feat:
-+            f.append("+d")
-+        if 'c' in feat:
-+            f.append("+c")
-+        if 'v' in feat:
-+            f.append("+v")
-+        if 'zicbom' in feat:
-+            f.append("+zicbom")
-+        if 'zicsr' in feat:
-+            f.append("+zicsr")
-+        if 'zifencei' in feat:
-+            f.append("+zifencei")
-+        if 'zba' in feat:
-+            f.append("+zba")
-+        if 'zbb' in feat:
-+            f.append("+zbb")
-+        if 'zbc' in feat:
-+            f.append("+zbc")
-+        if 'zbs' in feat:
-+            f.append("+zbs")
-     return f
- llvm_features_from_tune[vardepvalue] = "${@llvm_features_from_tune(d)}"
- 
-@@ -236,19 +261,19 @@ TARGET_POINTER_WIDTH[powerpc64le] = "64"
- TARGET_C_INT_WIDTH[powerpc64le] = "32"
- MAX_ATOMIC_WIDTH[powerpc64le] = "64"
- 
--## riscv32gc-unknown-linux-{gnu, musl}
--DATA_LAYOUT[riscv32gc] = "e-m:e-p:32:32-i64:64-n32-S128"
--TARGET_ENDIAN[riscv32gc] = "little"
--TARGET_POINTER_WIDTH[riscv32gc] = "32"
--TARGET_C_INT_WIDTH[riscv32gc] = "32"
--MAX_ATOMIC_WIDTH[riscv32gc] = "32"
-+## riscv32-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[riscv32] = "e-m:e-p:32:32-i64:64-n32-S128"
-+TARGET_ENDIAN[riscv32] = "little"
-+TARGET_POINTER_WIDTH[riscv32] = "32"
-+TARGET_C_INT_WIDTH[riscv32] = "32"
-+MAX_ATOMIC_WIDTH[riscv32] = "32"
- 
--## riscv64gc-unknown-linux-{gnu, musl}
--DATA_LAYOUT[riscv64gc] = "e-m:e-p:64:64-i64:64-i128:128-n32:64-S128"
--TARGET_ENDIAN[riscv64gc] = "little"
--TARGET_POINTER_WIDTH[riscv64gc] = "64"
--TARGET_C_INT_WIDTH[riscv64gc] = "32"
--MAX_ATOMIC_WIDTH[riscv64gc] = "64"
-+## riscv64-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[riscv64] = "e-m:e-p:64:64-i64:64-i128:128-n32:64-S128"
-+TARGET_ENDIAN[riscv64] = "little"
-+TARGET_POINTER_WIDTH[riscv64] = "64"
-+TARGET_C_INT_WIDTH[riscv64] = "32"
-+MAX_ATOMIC_WIDTH[riscv64] = "64"
- 
- ## loongarch64-unknown-linux-{gnu, musl}
- DATA_LAYOUT[loongarch64] = "e-m:e-p:64:64-i64:64-i128:128-n32:64-S128"
-@@ -271,19 +296,11 @@ def arch_to_rust_target_arch(arch):
-         return "arm"
-     elif arch == "powerpc64le":
-         return "powerpc64"
--    elif arch == "riscv32gc":
--        return "riscv32"
--    elif arch == "riscv64gc":
--        return "riscv64"
-     else:
-         return arch
- 
- # Convert a rust target string to a llvm-compatible triplet
- def rust_sys_to_llvm_target(sys):
--    if sys.startswith('riscv32gc-'):
--        return sys.replace('riscv32gc-', 'riscv32-', 1)
--    if sys.startswith('riscv64gc-'):
--        return sys.replace('riscv64gc-', 'riscv64-', 1)
-     return sys
- 
- # generates our target CPU value
-@@ -380,9 +397,9 @@ def rust_gen_target(d, thing, wd, arch):
-     else:
-         tspec['env'] = "gnu"
-     if "riscv64" in tspec['llvm-target']:
--        tspec['llvm-abiname'] = "lp64d"
-+        tspec['llvm-abiname'] = d.getVar('TUNE_RISCV_ABI')
-     if "riscv32" in tspec['llvm-target']:
--        tspec['llvm-abiname'] = "ilp32d"
-+        tspec['llvm-abiname'] = d.getVar('TUNE_RISCV_ABI')
-     if "loongarch64" in tspec['llvm-target']:
-         tspec['llvm-abiname'] = "lp64d"
-     tspec['vendor'] = "unknown"
-diff --git a/meta/lib/oe/rust.py b/meta/lib/oe/rust.py
-index 185553eeeb..1dc9cf150d 100644
---- a/meta/lib/oe/rust.py
-+++ b/meta/lib/oe/rust.py
-@@ -8,6 +8,4 @@
- def arch_to_rust_arch(arch):
-     if arch == "ppc64le":
-         return "powerpc64le"
--    if arch in ('riscv32', 'riscv64'):
--        return arch + 'gc'
-     return arch
--- 
-2.34.1
-
+On 6/17/25 6:39 PM, Mark Hatle wrote:
+> From: Mark Hatle <mark.hatle@amd.com>
+> 
+> The following implements the risc-v processor tune based on the ISA approach
+> as documented in the oe-architecture post:
+> 
+> https://lists.openembedded.org/g/openembedded-architecture/message/2155
+> 
+> This set also attempts to make u-boot and kernel configurations dynamic
+> based on the TUNE_FEATURES.
+> 
+> For the linux-yocto, I suspect that the config fragments should be
+> sent to the kmeta (kernel-cache), but I'd like a review from Bruce and
+> others before I do this.
+> 
+> Additionally, this enables a new (optional) features_check for TUNE_FEATURES.
+> 
+> I've found numerous items in the system have certain RISC-V ISA expectations
+> that may need to be addressed over time, however the obvious one is the
+> Linux kernel requires ima_zicsr_zifencei.  Since it has it's own -march=
+> setting this will ensure the processor defintion will be compatible.
+> 
+> Also dynamically configure the QEMU cpu based on the tune_features.  This
+> is nice to ensure that what we're actually building should be able to run
+> on real hardware.  However, it does highlight some of the (extension)
+> limitations in the current design.  (limitations as in extension not yet
+> enabled.)
+> 
+> Note: OpenSBI _requires_ the 'c' extension or it will not execute.  I
+> suspect this can be fixed, but it's beyond my capabilities at this time.
+> 
+> v2:
+> 
+> - Note: the linux-yocto change still needs further rework (noted in commit)
+>    (if everything else is merged, it will still work fine)
+> 
+> - Change the TUNE_FEATURES check to kernel.bbclass per review comments
+> 
+> - Add 7/7 patch for RUST configuration.
+> 
+> Mark Hatle (7):
+>    riscv tunes: ISA Implementation of RISC-V tune features
+>    linux-yocto: Enable risc-v TUNE_FEATURES ISA selections ** DO NOT
+>      MERGE **
+>    u-boot: Dynamic RISC-V ISA configuration
+>    qemuriscv: Dynamically configure qemu CPU
+>    features_check.bbclass: Add support for required TUNE_FEATURES
+>    kernel.bbclass: State riscv required tune_features for Linux
+>    rust-target-config.bbclass: Update for new riscv TUNE_FEATURES
+> 
+>   meta/classes-recipe/features_check.bbclass    |   2 +-
+>   meta/classes-recipe/kernel.bbclass            |   6 +-
+>   .../classes-recipe/rust-target-config.bbclass |  65 ++++++---
+>   meta/conf/machine/include/riscv/README        | 122 ++++++++++++++++
+>   .../conf/machine/include/riscv/arch-riscv.inc | 138 +++++++++++++++++-
+>   meta/conf/machine/include/riscv/qemuriscv.inc |  31 +++-
+>   .../conf/machine/include/riscv/tune-riscv.inc |  40 ++---
+>   meta/conf/machine/qemuriscv32.conf            |   4 +-
+>   meta/lib/oe/__init__.py                       |   2 +-
+>   meta/lib/oe/rust.py                           |   2 -
+>   meta/lib/oe/tune.py                           |  81 ++++++++++
+>   .../u-boot/files/u-boot-riscv-isa_a.cfg       |   1 +
+>   .../u-boot/files/u-boot-riscv-isa_c.cfg       |   1 +
+>   .../u-boot/files/u-boot-riscv-isa_clear.cfg   |   6 +
+>   .../u-boot/files/u-boot-riscv-isa_d.cfg       |   1 +
+>   .../u-boot/files/u-boot-riscv-isa_f.cfg       |   1 +
+>   .../u-boot/files/u-boot-riscv-isa_zbb.cfg     |   1 +
+>   .../u-boot/files/u-boot-riscv-isa_zicbom.cfg  |   1 +
+>   meta/recipes-bsp/u-boot/u-boot-common.inc     |  12 ++
+>   .../linux/files/risc-v-isa-c.cfg              |   1 +
+>   .../linux/files/risc-v-isa-clear.cfg          |   9 ++
+>   .../linux/files/risc-v-isa-fpu.cfg            |   1 +
+>   .../linux/files/risc-v-isa-rv32i.cfg          |   2 +
+>   .../linux/files/risc-v-isa-rv64i.cfg          |   2 +
+>   .../linux/files/risc-v-isa-v.cfg              |   1 +
+>   .../linux/files/risc-v-isa-zbb.cfg            |   1 +
+>   .../linux/files/risc-v-isa-zicbom.cfg         |   1 +
+>   meta/recipes-kernel/linux/linux-yocto.inc     |  14 ++
+>   28 files changed, 480 insertions(+), 69 deletions(-)
+>   create mode 100644 meta/conf/machine/include/riscv/README
+>   create mode 100644 meta/lib/oe/tune.py
+>   create mode 100644 meta/recipes-bsp/u-boot/files/u-boot-riscv-isa_a.cfg
+>   create mode 100644 meta/recipes-bsp/u-boot/files/u-boot-riscv-isa_c.cfg
+>   create mode 100644 meta/recipes-bsp/u-boot/files/u-boot-riscv-isa_clear.cfg
+>   create mode 100644 meta/recipes-bsp/u-boot/files/u-boot-riscv-isa_d.cfg
+>   create mode 100644 meta/recipes-bsp/u-boot/files/u-boot-riscv-isa_f.cfg
+>   create mode 100644 meta/recipes-bsp/u-boot/files/u-boot-riscv-isa_zbb.cfg
+>   create mode 100644 meta/recipes-bsp/u-boot/files/u-boot-riscv-isa_zicbom.cfg
+>   create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-c.cfg
+>   create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-clear.cfg
+>   create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-fpu.cfg
+>   create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-rv32i.cfg
+>   create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-rv64i.cfg
+>   create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-v.cfg
+>   create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-zbb.cfg
+>   create mode 100644 meta/recipes-kernel/linux/files/risc-v-isa-zicbom.cfg
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#218946): https://lists.openembedded.org/g/openembedded-core/message/218946
+> Mute This Topic: https://lists.openembedded.org/mt/113700336/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
