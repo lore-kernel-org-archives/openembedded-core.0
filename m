@@ -1,134 +1,79 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55736C7115A
-	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 17:22:27 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.1510.1750267342458584913
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66C0EC7115A
+	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 17:37:57 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.1925.1750268275183663415
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jun 2025 10:22:23 -0700
+ Wed, 18 Jun 2025 10:37:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=WRL6eOvk;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202506181722180ecfa3d1c51b9e42aa-rsfe0z@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202506181722180ecfa3d1c51b9e42aa
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 18 Jun 2025 19:22:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=2pwXrMciOd1H096KVtLqiWKNiPgySqzyQESo2JJXlio=;
- b=WRL6eOvkExnQL2K1lf+hgL+kpq0GS1srXEP+xGGHC2Ngw2rQgqSW6XnQWymwauq+78i5K3
- nqQNwdB2rPLoXZF6UjWLS3Vb7kxRk2enU49yr5HmmmzwZI6oapd7oh5JCzYMwI0UQHMkCmgZ
- UZPhGdLK1O+8oakNq0M5bQxYCCtNkPV16ZSBAO/KivN6Dt4fYjBGSSPJAeOcPmxDwauLkkz4
- f024ZU79gyf/i48S0NV67Bca1QtzDNmKvSjSuON7oOXmmTGSl8uRrurps4GVNhw1lVMFqe2v
- MytxXa1yPpEKIYlIxLQWR65Djietw7QQONn7L/aLw31p6hxbkDLN2raw==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] glibc: stable 2.39 branch updates
-Date: Wed, 18 Jun 2025 19:21:31 +0200
-Message-Id: <20250618172131.2131228-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eJtrTkYh;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6097de2852aso3983567a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 10:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750268273; x=1750873073; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XpRPO8+g9EEasjA1Ej3L72PTvBwC7ybS6snY2+VCus4=;
+        b=eJtrTkYhvhhRXoTF6uAusSICMih0nLkrUaHvWXXXbmATZCKR4GFDJaefB6Atp4hnXv
+         lVFweVJ4kjDH9KoCvhRTj9XU/p/xMfaIqS8Fz4rzmZ6Y6i6HdHSssXDcFWZQoe0c8OQ9
+         p3Gg+/sLaJ8hAZaa66h2PuPKdHvvi3R9Z8uN5eOY6E6QH2ZyJMShZs3TeumSWEnqvmlq
+         78sGQU3s42QbqKaXTQ/xCeQuKRPijptbljl8EM79IzOgwjIp2wvRYxdXyGC1SoJ8O7xG
+         YNKdbZnqnRoitkunvJxuRGgqEQiLhWctVVC1hXJZkWjZWGwH2YMl/wx8DbwSnE87N4Jt
+         NK6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750268273; x=1750873073;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XpRPO8+g9EEasjA1Ej3L72PTvBwC7ybS6snY2+VCus4=;
+        b=Safy3PnpuAf/plAcoQ4SNvJyHeNn/Eh1rWcM2QhbM5qyLKDYOLz8FY6wj0ooU1OvTv
+         8CBGXEPheSSJVpRSFTzJUbrG0SzkwrT6bDj8RaPl3Y83DVBcgdJmi42jg3bPIIlTkKO2
+         7iXw2+WeH/65unf1YYZjl7xGKqxpZMmkQhB4JBDxUxg8iOZUFGlDu7r7HQdUOIJYBFqQ
+         DsDXJJlTPwr0QCweTpXgtZzry+ZqvcIbBNN+J0gt3OsgNX4cOl6yIbR/LupDxr+XKXKq
+         kowGuOmSCBxS/I9qcuteYIz1p0d3Q4mlwYzVOxXbGLO0O1fqWu4fiDweKps343IGHIjs
+         SKCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU1ZU0M33lY3ZDVIyXeN0JAjW9r5oD1oX229eYdRt+hyUtZnBv6xts0yCMC9FyBkYPINRdtmWGcui9w4YihFeAwqQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwpQ0Vflx5h8B0GEbLc0BTZxatS4v++2VdvfVofc811XogoxhUl
+	0AXlKqkxma8VcrhFMZcA2afAfEI30zsmeZWutMBbEJn8G+sh2llwqFHu
+X-Gm-Gg: ASbGnctn630r8QH2W0zGdHQphMa2jJ+EujjsFDuTPXJEA+5xzY2q+Ogr6XGmN3T0AdJ
+	QuLXpKNNNBS5PODBURP9kEXmmbYlgzA7x7SELTKsxF/YnxiV50RFxvFm0HfGMLMFNA/+T+T0EJx
+	GtepuGLm0ncNtOvQOoBwXJAH1cdm5xIg1rLq1vYP2Z+TIImnEDEq8RgEXWlkcnWtVApTNkf8mtW
+	lmXGqIxMALGLVdsPXBPfKEtPVUtuCOg5WQPHhPKDeQCGfTgB7A2sqjUXKFF1bGIpQ4TdZQGQURe
+	IshDb/d+IqH80od+yokgNFFROPbocKTVx8/Fk1L2oeb7VyuCDTJadxw4giTIQ58yGGz1qA==
+X-Google-Smtp-Source: AGHT+IH7x2wTsttuDKo4RXSYqrx9E+W046ngI0ZbOm82yCLtHAZ4BNY0k5+kdiLCv/3pPKMOSvtFHA==
+X-Received: by 2002:a05:6402:4316:b0:602:f026:7cfa with SMTP id 4fb4d7f45d1cf-608d08b6989mr17443565a12.13.1750268273397;
+        Wed, 18 Jun 2025 10:37:53 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-608b4a5e6dbsm9991439a12.51.2025.06.18.10.37.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Jun 2025 10:37:52 -0700 (PDT)
+Message-ID: <ff7d6019-9983-4bfb-b625-2ea3163cbaff@gmail.com>
+Date: Wed, 18 Jun 2025 19:37:52 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] glibc: stable 2.39 branch updates
+To: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
+References: <20250618172131.2131228-1-peter.marko@siemens.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <20250618172131.2131228-1-peter.marko@siemens.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 17:22:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219027
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 17:37:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219028
 
-From: Peter Marko <peter.marko@siemens.com>
-
-$ git log --oneline 5b4c4617016d28569106549dff6f9fec73eed5ce..0c76c951620f9e12df2a89b2c684878b55bb6795
-0c76c95162 ppc64le: Revert "powerpc: Optimized strcmp for power10" (CVE-2025-5702)
-b48d7ab036 ppc64le: Revert "powerpc : Add optimized memchr for POWER10" (Bug 33059)
-55cdcadf73 ppc64le: Revert "powerpc: Fix performance issues of strcmp power10" (CVE-2025-5702)
-84bdbf8a6f ppc64le: Revert "powerpc: Optimized strncmp for power10" (CVE-2025-5745)
-d952c6efaa sparc: Fix argument passing to __libc_start_main (BZ 32981)
-515d4166f4 elf: Fix subprocess status handling for tst-dlopen-sgid (bug 32987)
-899dd3ab2f x86_64: Fix typo in ifunc-impl-list.c.
-624285af3b elf: Test case for bug 32976 (CVE-2025-4802)
-2ca34d7627 support: Use const char * argument in support_capture_subprogram_self_sgid
-dab44a3b2b elf: Keep using minimal malloc after early DTV resize (bug 32412)
-5cf17ebc65 hurd: Fix tst-stack2 test build on Hurd
-
-test results:
-            Before After  Diff
-FAIL           140   142    +2
-PASS          5846  5846     0
-UNSUPPORTED    243   243     0
-XFAIL           16    16     0
-XPASS            4     4     0
-
-failed test changes:
--elf/tst-audit21
-+elf/tst-audit-tlsdesc-dlopen2
-+elf/tst-dlopen-sgid
--malloc/tst-free-errno-malloc-hugetlb1
-+malloc/tst-free-errno
-+malloc/tst-malloc-tcache-leak
--nptl/tst-mutex10
-+nptl/tst-mutexpi8-static
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-core/glibc/glibc-version.inc                       | 2 +-
- ...0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch | 2 +-
- ...3-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch | 2 +-
- meta/recipes-core/glibc/glibc_2.41.bb                           | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index d84106fb95..2d31131e03 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.41/master"
- PV = "2.41+git"
--SRCREV_glibc ?= "5b4c4617016d28569106549dff6f9fec73eed5ce"
-+SRCREV_glibc ?= "0c76c951620f9e12df2a89b2c684878b55bb6795"
- SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
-diff --git a/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch b/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
-index 862c7b9086..b42b186418 100644
---- a/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
-+++ b/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
-@@ -13,7 +13,7 @@ diff --git a/Makeconfig b/Makeconfig
- index e35c5cfe4e..7a19c731c6 100644
- --- a/Makeconfig
- +++ b/Makeconfig
--@@ -1176,7 +1176,7 @@ endif
-+@@ -1172,7 +1172,7 @@ endif
-  
-  # The assembler can generate debug information too.
-  ifndef ASFLAGS
-diff --git a/meta/recipes-core/glibc/glibc/0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch b/meta/recipes-core/glibc/glibc/0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch
-index 71777d3f2c..50d80ed577 100644
---- a/meta/recipes-core/glibc/glibc/0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch
-+++ b/meta/recipes-core/glibc/glibc/0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch
-@@ -40,7 +40,7 @@ index 8a755293b3..22dafcaad1 100644
-    # tests
-  
-  # process_madvise requires CAP_SYS_ADMIN.
--@@ -277,9 +278,10 @@ tests-time64 += \
-+@@ -282,9 +283,10 @@ tests-time64 += \
-    tst-ntp_gettimex-time64 \
-    tst-ppoll-time64 \
-    tst-prctl-time64 \
-diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-core/glibc/glibc_2.41.bb
-index 82dcf08fcd..731b9ee255 100644
---- a/meta/recipes-core/glibc/glibc_2.41.bb
-+++ b/meta/recipes-core/glibc/glibc_2.41.bb
-@@ -17,7 +17,7 @@ Allows for ASLR bypass so can bypass some hardening, not an exploit in itself, m
- easier access for another. 'ASLR bypass itself is not a vulnerability.'"
- 
- CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
--CVE_STATUS_STABLE_BACKPORTS = ""
-+CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-4802 CVE-2025-5702 CVE-2025-5745"
- CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
- 
- DEPENDS += "gperf-native bison-native"
+On 6/18/25 19:21, Peter Marko via lists.openembedded.org wrote:
+>  SRCBRANCH ?= "release/2.41/master"
+>  PV = "2.41+git"
+>
+The subject made me scratch my head a bit until I noticed that it
+doesn't look correct: it should be 2.41 instead of 2.39
 
