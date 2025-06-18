@@ -1,87 +1,121 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5997C7115A
-	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 13:16:36 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.7190.1750252592667747695
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 109FCC7115A
+	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 13:59:47 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web10.8074.1750255176846916571
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jun 2025 06:16:32 -0700
+ Wed, 18 Jun 2025 06:59:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8264e32d1b=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55IAmJsZ025230
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 13:16:31 GMT
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 478xa1mme8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 13:16:31 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Wed, 18 Jun 2025 06:16:30 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.57 via Frontend Transport; Wed, 18 Jun 2025 06:16:28 -0700
-From: ssambu <soumya.sambu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] systemtap: add sysroot Python paths to configure flags
-Date: Wed, 18 Jun 2025 18:46:24 +0530
-Message-ID: <20250618131624.4093387-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=h+bsbLf1;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.54, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6faf66905baso97146406d6.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 06:59:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1750255175; x=1750859975; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Kiq2HW9jUkH4hadxO2i5EeR7rL+n8+vGAu28c/MctE=;
+        b=h+bsbLf1PIa/KiWgLDMZ5TRaM1iUHxaBxm4rcl5OXAOF9mWUC15QgiTABK88+LL93a
+         ARHiFQSyvUHKqgcBXv3eFJKXeeIXuvzi+P1DM8jqfVYDMVUmlwvL0j855yCzhXYSP06k
+         IaOn/SH+r4kC9zB00oANr0lw5GiK2wmRPMv1XTSVkSPtWbc4eSUm3LRlyhAGMpWZ6QSe
+         WxCGw6uRP7lLf9ycuV/7zsDTKdD9Fci5uPVVz4oFhDGjMiLhVrcMZcMLpNZmfNDBSLCa
+         sGyjlcdiSJHOh+PRAavDjaXrkYxqqlUcdYh+ZtuiZwSAH14d7/EYoAJeWQZkigXNCZuh
+         9rQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750255175; x=1750859975;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0Kiq2HW9jUkH4hadxO2i5EeR7rL+n8+vGAu28c/MctE=;
+        b=AFltT0t8DK3ogpVyyjYplvjggFB/WDjSl6ibWHqpEmPya1MFHwppR9T3XsCzbeGEpH
+         gbmpKDJGVgBky0W6E3VDGwAc10xjIcWaqb5rzRlaIIe45U/LPg+jHL378N6c6js7cIk9
+         /h2+5Mad3h3kidCIA2aFEpmubJ1uGK0LckAL+nV6Awgwel+5/PDQZ5fWl0WnOaf/5F7C
+         dOjPMM3JIik0uN8orbkUCcmkCE56fGcRGlQmxNst8yn3hDNcZ2gtbj/SB8zy/mWZ38pT
+         H0sTrRIr/w4ruGCAKa2A2LDFTu0G5I3bQMeLIVpFo6ToZs2OJK3Q3cFfBUP4j7js3UMs
+         AW3g==
+X-Gm-Message-State: AOJu0YwWbYFawGHKJbOzrEqWs8M4sMbj+dpnHKmCjXA7iSxoGXsYj/ND
+	XNhdHAefOlEu2/9nnyPxC+EToPaf6CIgKyGd45WEC3kyfkgvv7g2XvqkZ0/vaS3lSaIYo7BxSCO
+	PCTADWkQ=
+X-Gm-Gg: ASbGncvDvndhGeYw/g4sXkCrxAruEdJ0Ag6OIMbHBufcKJ1Mtd/f/mTwB00+mZa5fk7
+	gPpLotbNxOAbGmq3/o0EGZvR4lQhKGrvwgKwOWjjXhhzhs/RdBlaHrV2+4MGfIs/EfTcjzhwd/A
+	7sz2KfPVEs/yZdxlv3Gs/kh/aka0i6JBhMPCamMzY8Vzju8CPzErKZDSUhOVGAYZ+7FOeQb8tM2
+	Bg4IZtdKj8/02uTpGA6SaDIC1fceDmuEAUzEqje7Ptaf0v91pfLQU7L7Yv/O87SwFFExH/FHGud
+	Q5vMM2D15z0+cyJC1d7zfr1kB2oWiXMq3m91+l1cs5acImuxw8FIqUWhrsprur6kHupo7IzESOp
+	3Gt4TWJmBbJ8Fkormne8jqA==
+X-Google-Smtp-Source: AGHT+IGOpy/OHDohx4/rkMlYQFJGxxAwFUJZdP/kQPtmKAXbwiBOUA2utnUtanK7f0ofstMNVgJ49A==
+X-Received: by 2002:a05:6214:5b0e:b0:6fa:fda5:1966 with SMTP id 6a1803df08f44-6fb47777b82mr289714256d6.33.1750255175229;
+        Wed, 18 Jun 2025 06:59:35 -0700 (PDT)
+Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fb565052b0sm32486636d6.37.2025.06.18.06.59.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 06:59:34 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: mathieu.dubois-briand@bootlin.com
+Subject: [OE-core][PATCH] python3-pytest: upgrade 8.3.5 -> 8.4.1
+Date: Wed, 18 Jun 2025 09:59:33 -0400
+Message-ID: <20250618135933.4178060-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=PuiTbxM3 c=1 sm=1 tr=0 ts=6852bc2f cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=6IFa9wvqVegA:10 a=t7CeM3EgAAAA:8 a=O0CcSXKsLRh4rcT418cA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: InLmKisbwyDvGx_k18yVU97UauPJsYDC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE4MDExMiBTYWx0ZWRfX50DPrkJ1E5Mt ZNDgZdIpJaV05LOG3ghM1EeRXBX5X6Nt8hN9GBzwrpNxRnF02+6tBDn2Q6IUOsUAy5XZbpk306W 7IrFTEMj6GS5ZKM6TupJOwUPrrB0mqovf+PWH0BqJ0GyCtwSU8y6+44Bql5qmlFI7TKkN5PHn3Z
- 1mjjAOXXpgsHRcEmiQpyoHUc+NNGvWVIaEZEhinb0iw9i05zJoUqBsnMqfNcs2xJoPPqrrcL/dj hOusSUf34tHlwnJEunTvwALI9YuyPk7vMVI4V49yGtQAy7SkYJF+n9U43xcRNcwVT/ZUqrcSX2V 5RCi7k3CGmAlRi/3wPXwqcnsAMg3vC+TqtWURi/5isvGiN7sLcTLAGFDkmCnojjSFyRqgknCPKE
- 0g8AkpiWJ/GlDiE4OXkSy9/KSmH1XhYtQJUKZph3HpsknBhGDdAhW598nRvVxWJXD4j2Go14
-X-Proofpoint-GUID: InLmKisbwyDvGx_k18yVU97UauPJsYDC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-18_05,2025-06-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- bulkscore=0 phishscore=0 suspectscore=0 mlxlogscore=652 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 mlxscore=0 malwarescore=0 clxscore=1015
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506180112
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 13:16:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219012
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 13:59:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219013
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+Changelog for 8.4.0: https://docs.pytest.org/en/stable/changelog.html#pytest-8-4-0-2025-06-02
 
-Explicitly set Python-related flags to use sysroot-staged headers and tools.
+Add colorama (moved to oe-core from meta-python) and pygments to
+RDEPENDS.
 
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Note that 8.4.0 accidentally removed pytest.PytestReturnNotNoneWarning,
+which seems to have broken some tests (e.g. python3-pytz). See:
+https://github.com/pytest-dev/pytest/releases/tag/8.4.1
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+ .../{python3-pytest_8.3.5.bb => python3-pytest_8.4.1.bb}    | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pytest_8.3.5.bb => python3-pytest_8.4.1.bb} (87%)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index c84fc27001..40ccf1d523 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -35,6 +35,13 @@ PACKAGECONFIG[python3-probes] = "--with-python3-probes,--without-python3-probes,
- inherit autotools gettext pkgconfig systemd
- inherit ${@bb.utils.contains('PACKAGECONFIG', 'python3-probes', 'setuptools3-base', '', d)}
+diff --git a/meta/recipes-devtools/python/python3-pytest_8.3.5.bb b/meta/recipes-devtools/python/python3-pytest_8.4.1.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-pytest_8.3.5.bb
+rename to meta/recipes-devtools/python/python3-pytest_8.4.1.bb
+index 4d4e8b8511..1f98b6d87e 100644
+--- a/meta/recipes-devtools/python/python3-pytest_8.3.5.bb
++++ b/meta/recipes-devtools/python/python3-pytest_8.4.1.bb
+@@ -5,21 +5,23 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
  
-+EXTRA_OECONF += " \
-+    PYTHON_CPPFLAGS=-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION} \
-+    PYTHON3_CONFIG=${STAGING_BINDIR_NATIVE}/python3-config \
-+"
-+
-+CPPFLAGS:append = " -I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}"
-+
- # exporter comes with python3-probes
- PACKAGES =+ "${PN}-exporter"
- FILES:${PN}-exporter = "${sysconfdir}/stap-exporter/* \
+-SRC_URI[sha256sum] = "f4efe70cc14e511565ac476b57c279e12a855b11f48f212af1080ef2263d3845"
++SRC_URI[sha256sum] = "7c67fd69174877359ed9371ec3af8a3d2b04741818c51e5e99cc1742251fa93c"
+ 
+ DEPENDS += "python3-setuptools-scm-native"
+ 
+ inherit update-alternatives pypi python_setuptools_build_meta
+ 
+ RDEPENDS:${PN} += " \
+-    python3-xml \
++    python3-colorama \
+     python3-debugger \
+     python3-doctest \
+     python3-iniconfig \
+     python3-json \
+     python3-packaging \
+     python3-pluggy \
++    python3-pygments \
+     python3-tomllib \
++    python3-xml \
+ "
+ 
+ ALTERNATIVE:${PN} += "py.test pytest"
 -- 
-2.40.0
+2.49.0
 
 
