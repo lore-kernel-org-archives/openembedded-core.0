@@ -1,168 +1,121 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FD16C7115B
-	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 09:08:55 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.9])
- by mx.groups.io with SMTP id smtpd.web11.2880.1750237729732947957
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9464BC71157
+	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 09:17:05 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.3003.1750238215692398775
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jun 2025 02:08:50 -0700
+ Wed, 18 Jun 2025 02:16:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=SNXaeQ2+;
- spf=pass (domain: cherry.de, ip: 40.107.159.9, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GaCbUtqAWJCI+8caGmL78b7xjmD9FQp+otNe4so8+EDsHwCq8z26JLtuUSrHJDMe6ua9nsTiJczPsFDThSyOFMufL7V64tmigZr2sLw7kuvfeA3uFOF6HSf8i4IzvWBQLbWVQcSsDw2npwgFWoom55gVjKSOYwDFoKpO8V1su8D5SNHiLJwPcAkLLRPj0WuC4s+itCAGY/3/X3MMNIZyTHr46SN0rLFG7rV4fnx2jx6bMeMuvbGTTJi1oo1o3DB1IhMdhuugyq34xid5JV1bR8hRm2HmyvQ/2pjtr6TepaSgMJHUL4q7KXj2LaV325+3KRvt8bXeBmMKkSUDfTkisA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LPMHZSt34mL8LWnvHAwYD2WgiNmRg1Axb/G8rPtbLo0=;
- b=vuDEn6tQlPowEEuOCqUAd6k+FvKlqvzd/UuDD2XjyyqfDJ2qnSbfqI6FKkkzkQ5jlp12emkU5J7LbthM2eeWPsdZcA9T1D79PB7JJVO7AqXeDl2kwRDLxJ91BBFWANWJOZN2lAW+roKNf/VZ+mls4y66gN/Ez7TqKFAenwrkW4hCvLAeowXwMb1fBFZFtT149FNq/R/YE3b4HBwPpRwxVkvWVMoC3FWE/Wxmt5BxUFKG0IjlxdyWHVQZ1lMxBZIh/ZjWqQNezbTk0eLJqVNdY416pkIMYNRCCXgA0UyCTVX7icgL9fF2YDo1rpvEsi44SWlofJrAoN1QJ/i+hb4+Dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LPMHZSt34mL8LWnvHAwYD2WgiNmRg1Axb/G8rPtbLo0=;
- b=SNXaeQ2+eOkCtUA/glz2+EB4cEy3k5ahTNkCo6anjBAH05aFeQWl3pXwPhawu6PNrRLNsT/7TNWONwE1mRyMmWaQRlWN5tKJ1u2tSjSYEOyD6B8qcTXRjzHveDVnUDd85gC0dE3BUZBcPjEtnL5ifEZ81iRBQP5AWjNb9DsUjBM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
- by VI0PR04MB10162.eurprd04.prod.outlook.com (2603:10a6:800:244::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Wed, 18 Jun
- 2025 09:08:46 +0000
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1%6]) with mapi id 15.20.8857.019; Wed, 18 Jun 2025
- 09:08:40 +0000
-Message-ID: <13fbdf85-4909-42be-8cf7-9b1161a6020e@cherry.de>
-Date: Wed, 18 Jun 2025 11:08:40 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] oe-selftest: fitimage: fix new parser
- compatibility
-To: adrian.freihofer@siemens.com, openembedded-core@lists.openembedded.org
-References: <20250615191601.1261775-1-adrian.freihofer@siemens.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20250615191601.1261775-1-adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0117.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::7) To AS8PR04MB8897.eurprd04.prod.outlook.com
- (2603:10a6:20b:42c::20)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Fl0E+b+T;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-451d54214adso51371265e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 02:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1750238214; x=1750843014; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WI5eokaJkkZ5ohzXxSm+M9LI6w86l5duO/XUupnUpM0=;
+        b=Fl0E+b+Ti1lsnahzizT58/tref9fu/WeW4qCVcp3JOW6jwNSqCh7edJFeJPajSUExo
+         0Bbu0ZEotOxPtpYZaR4ZnuW6AQVOBfqqz4amOuQjGfFdkCWEtg3ewC/TWfn6KloPeQDl
+         yptFEh9h/an6eOHXTTnJFIaz3AdL+uhCnoBn8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750238214; x=1750843014;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WI5eokaJkkZ5ohzXxSm+M9LI6w86l5duO/XUupnUpM0=;
+        b=r2SBe7BahlJJO/K6nF6lpalxIy8Mw07Wm5jqLG47xnBIRWpdbQKC4fd/cK0RGc9si9
+         c1QxaIMZxvdWtFppd8oNa/EA+T9NMRBmv/ZzK+JWE74MY+DnWyuK/AGtC6RsdMjmWePA
+         PsAqSzo3Odxe3rgR3MaEjY9UWhv3tnX0Qns7fmUYjSqnqve77qo6CZbjKTUV/ws8xJyF
+         UU4JKvSl7k+1+sU14g7o1CS9n82j6ueATNcfbLobH2uVJv0r94KZTYJLqYCUoPIlp+p6
+         pa2UNWRnKptRKUzp4SgvwXzl4igBRbZaqCFM6zXlEcNl8ade75a4CNpwkYUKQkLQGWBR
+         ti/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUtTspnL7rq5Cc5ctb7L5SfN3FROtkQBMzeUNMuK8ayyEC0NfpMwNzYykfEooAeuWte90dDXLrciihZjxPv+mT7hg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxnG7Xl66qvWzMuFOSSRjPLNSlwI6BUgssnOv/MJ26r3gjjxKku
+	2s1s04DmcQc7UeFzClJIYFmKCm+rC5abM/fu0r79fg6m9LU7iqiNAxq+IvWVAowruas=
+X-Gm-Gg: ASbGncvAynFBt/KLPjX48Ioh/aFhVtnI5ama3s4+aJpCWtKFtutYhwfOVNYA05fTLj5
+	GlF2i7Ji45WDS4MlHSZ96higzVXUFOjjf2sqVQgBrYRZisRQVian7lid4rcDVkuaeZiV84kaUsz
+	IAsmTDQliyCZxDAeRQddp2ki2Ph+Ei4zyQYFZDa7Ltm6D9336yl3y1/PJ4A+95gK8h5UZEgSpvW
+	ccAVqvL8d+4nQYXNSeQbnwbOGLKTl6Rg4dOFDVCg+1+gzHWBSPNoYRbxRdQNibnEK5n28TrHNZj
+	b4ZseEJ7RKA1SF2zIbbnPcVUEfNvbCqYCBcxY4QWi6sSWua3V3Q1tuvkX34VoJGX/QCEzantD1k
+	H2Qb1F+TTRTO+AjIDambaKcJb91N0QOz0WKDYR7PoYjfOXbKb
+X-Google-Smtp-Source: AGHT+IHuUx1f8TdXWmI1DovVN7QQM0L2JF2vvOFg8DMLgEqewPhxn7MqONBPyjovhTg4CS9g60ZmhA==
+X-Received: by 2002:a05:600c:35cc:b0:453:23fe:ca86 with SMTP id 5b1f17b1804b1-4533ca466e5mr150149595e9.4.1750238213972;
+        Wed, 18 Jun 2025 02:16:53 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6b28:e0f6:35f:8b38? ([2001:8b0:aba:5f3c:6b28:e0f6:35f:8b38])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b798d3sm16255693f8f.100.2025.06.18.02.16.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 02:16:53 -0700 (PDT)
+Message-ID: <4c05d53a7665ca1568309eec2d07fd0b7d9a27f2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] packagegroup-base: fix override syntax
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: quentin.schulz@cherry.de, adrian.freihofer@siemens.com, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jun 2025 10:16:52 +0100
+In-Reply-To: <805efa18-5a8c-435f-af91-737618a1c16f@cherry.de>
+References: <20250615191535.1261591-1-adrian.freihofer@siemens.com>
+	 <805efa18-5a8c-435f-af91-737618a1c16f@cherry.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|VI0PR04MB10162:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6bd790c1-620c-455a-66d6-08ddae47b7c4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?RFdMbm1EajlnbXNRL0ZxVEY5TGJMcGV4Y3lxVnE0NldUQmtXdmRjaUdwU3RT?=
- =?utf-8?B?dFBpZzZkdkMwTTgrbFZia1YvcEYvOHFONWdGQy9HU1NPWU8xblozeVI2WWQ1?=
- =?utf-8?B?SDNmM1JMVGV2QjJORjNaNXU2djhDZXBXR2pjaHFIbUh4WWR5N29jOVVuMXlm?=
- =?utf-8?B?WlQ3TVM5eWdCaGFaY3pKWWFNVkluWTEzZnJjNFhjYW4rZ2FDcko4bWdad05n?=
- =?utf-8?B?M0VkWVlHWUxJRU9qZXdNakYwZlZubitUVlowelo2Mkxwa3UvSzRpNDIwV2d2?=
- =?utf-8?B?Rm1rL0d1RlFNUDRvRldlc1JkMzl5cVZ3STR0UFI5UWwrM1BSLzFyL2x2RGJu?=
- =?utf-8?B?MVJoRDFrZkIvOFh6alVPVkxtRlNlTHRPdVN1KzMrTklMRllzMTFjaU0rVlZl?=
- =?utf-8?B?ajZSKzh5Ri9mWWRjZzlYYzVsdlhWdWhZSVdHNTZUMVpKbWU0M3ZpY2tnc1VK?=
- =?utf-8?B?ZmhOYzExTE9YeHVIRk9NeTVFbFp6MDgxRndpR0RWTDMzQ3lsWEF1OG9wa0l4?=
- =?utf-8?B?R1RSMVl4MVFxSEQxVDE3aDlyc2FOV3FmUEFlSWpFZ0JFZzZNdG1KUWxzYUlY?=
- =?utf-8?B?elpjSnkrYzR6NEV0dG5KbGdMazFmV3RNajR0VGRCY2VnanNTa2YweDArVHlx?=
- =?utf-8?B?UFYyWDM3aTZ2WTNIQkFiZFBKWG80bStORGhUV21WWjFLZ2d1ait2dHpQRHYz?=
- =?utf-8?B?aTJ3cTgzQ0N2MGJtaFRpMVNtRkYyNkV4bHpSV2g5MFQ2Z2lQNXgvUGhjd1Z0?=
- =?utf-8?B?ZC9FYVFUTkpCRjV2N1VoelNpT0w3QUZZd1N5dDBiOFFlMERyN1pnS1dvM29Y?=
- =?utf-8?B?RVRmZDZPVjJZY2FwVUNFVTZOa0dYTHJyOEs5aGlHaGdNRi81emdzMXNHVHJH?=
- =?utf-8?B?eFZxWXVmNlFDaTMvUGd2UDdxSEtYOGthd0RBcEJ1d3dMRlhBd0ljdktuR3U0?=
- =?utf-8?B?U0ovelZMNFAxOEtlL05CUDR4TGRqUEo1bVBXQkVTenA2aEpQdWVVVHVvaWRz?=
- =?utf-8?B?MVFlNUt1ZzlSalREVDA3a1JzSjVoa0MrSzhITDY0YzRLUUJPNHVsYUxnZzJa?=
- =?utf-8?B?YjY0eVR5dE5PaGpPQ3Q3OURwaDkwK3VWRFJsd1J4MXJzZTkyQ2ZsZFd1bUdm?=
- =?utf-8?B?M01wdjhPSjZhNnJTVlh2OFEzaTJtdWp1RE5Yc1BGN09VOXR6cWUzZ2k5WWc3?=
- =?utf-8?B?dG1Hb0xWNWlpSlk2Z1BYak9mMExpWHRJUTdRZFBCeWV3QmZOb2NtSmhza0JM?=
- =?utf-8?B?c3lsQVVKNVg3ZzBzM1V3eWVJVEpLMWFKQ0FyRWNZdzFhbjhiZjlwQlpMSzdq?=
- =?utf-8?B?b2pqMXRHME9RckovRXJqMFlIUU9EMXBmVTkrdE82Z3ZVUjMwV0dGUW92a2p1?=
- =?utf-8?B?NlFRWmhmdlljVlJTM0VZaWtWZFpxbHkyeVFYRDJlY2huQ1N2cEdoUzB6YXZR?=
- =?utf-8?B?aDhWckl5U3FPSCtUTFROdW12TTRMRFZNMnRWanNkS1lRYkRZNERiaXhDUU9C?=
- =?utf-8?B?ZUxjd2VhaitWVnV3V1Qxejh6SUlpeTNGV0N6L3ZPLytXMDAvUFZlaGNobGxo?=
- =?utf-8?B?bHVNbE50bmJPWUFWVlc0ODExUzlWaEVXbkNlS2pRM0pFamRnMCtNajhCWHRG?=
- =?utf-8?B?WU9YQnZSSzMwOENiSDIzTmFkeUVVdzlXU1RPTDdjL3AxOXJmNklEQ2JTU25s?=
- =?utf-8?B?Z3l1NE9RLzNtNmNUMnNsc3Zmb1pObnBIUWJKWXF0RkVwdloxRmRkMWdLM1Jv?=
- =?utf-8?B?TnFyWWhBeGRTbS9vSUZxc3phR2JUa0UweFczUVZLb3hMWFRDMldUdDdYNTVx?=
- =?utf-8?B?ZDBkSGN5MUxTQkwwd0svM1VqMExGZFU3NU9QcXJMZDZhc2NCNjYrV0xseVNK?=
- =?utf-8?B?WkJRUi8vTzZTZU9UMGFzT0RwZDhNTXpEdmFRWTYrR1R4K3p4SE8vbjNiQ25m?=
- =?utf-8?Q?f/Fha4Ow924=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?TVRtbG4yWmtDWHFTUDRXa21aUGljbXFlUFRMVGtHSzAvUzhJQXVvZ3A5eXRF?=
- =?utf-8?B?R1NrbXdoTWRNRklsYnhsT3NSeERvSnBDcTU5SVJJdFhGb1hmV01mMnpZdHU0?=
- =?utf-8?B?NEk3Mk9qWXRvakhOTENYcnRRcnZSZlNxcFl1dGtwNkZRM3gxSXc5dm9mUlFJ?=
- =?utf-8?B?WUpOVHB6cVlLdElxNUNJS1BQR2VpKzdham1OK3YyaUJnNlo1aDNoekxCRkZK?=
- =?utf-8?B?bk5wMU5UUExVczlRVlhMNW9IN0sxajVtSzdKN0dFZW1mMnZjdndvVDVpMUZY?=
- =?utf-8?B?L0ZqM0sxcHI1eDJUYXJKTG91aC9rN1hFc3RzWUZjZURIdkFMbklOWTNoQjFL?=
- =?utf-8?B?RENGaE52Q1FOZ050VnM5S0lydzFlVXl4Ti9KbHlVbmpYalJkLzV6VEdmRGR5?=
- =?utf-8?B?SzNwSFEyeVlXdUh5WjRDMzZlb2NCR3FocmZkMUdsVFA2SGJXdHR2cE1zMHVq?=
- =?utf-8?B?MW52SStKYUszNC81dlFhdEZYYnJmQnJHcUJPZmhpQ3M3V2xKUWVtb0VVcjZs?=
- =?utf-8?B?QWQxc1dmRlM1eVNDN3RCOEJvNEQ0enFoQnVKRWVJem9YTHBpRXp6a29aM3Yy?=
- =?utf-8?B?VTJMd2lXTTJSR2RIUnRDZnl4TzdFZGh4YzJJTE5qMUJIZHEvaTk0dnJKaCtS?=
- =?utf-8?B?SHNGSkRDTWFJMHd5WWlHME5ZVTlVTHpaKzdYWVNTTFF2L2dBVFp0Y1hWODlm?=
- =?utf-8?B?QWpDdjhqOXJ4Nlc2dEdXYmo5UzQ0QlVhbFc0QW9sUHJxNER0M3J3eE9HU3Jh?=
- =?utf-8?B?Nlp0bFVZMk1YZkw1dnhMeWZHT3ZnT0pVZ1JxWHZYcEU2K2lkMEhnL1JaYW1l?=
- =?utf-8?B?c0I3a3pncjF5SGFjaFhhakc5bTdkU0tpWkY5ME15VW1mdG1walFIRjhhTXM4?=
- =?utf-8?B?YjFnTjdvTUdySFlXN1Rickl3UkFKeHlpZllXSUdIWCtSVHcrV21WeVN5N0c3?=
- =?utf-8?B?a0QzQ0NScmd2Vm13UlFWcVJZa0dQeWtIMk9rNHkreTBudVN3QjRJWXU1WlZj?=
- =?utf-8?B?V2pnR2Mzak9IRlUvNUIxTUdYSnRxN2JXL1hCQUI5Nm9SdXJydC9GSEtTdmQy?=
- =?utf-8?B?ekczQk5OekpOckVQUWhGMncwdjVhOW5EclNrZEJuem5oS0xlaFpNektzU0Ey?=
- =?utf-8?B?ejdyUGpNK2hHcFBIdzJ5K01GMThQejY1NzZaM29mMFZYYnBVYkRtVmhKVHJt?=
- =?utf-8?B?NFFLOGJOdEZMaXlpTzJTWGtndCtJRTJhZTVlSzMwQkJGTmZQRjNqMzdkMGhI?=
- =?utf-8?B?NkgwL2R5ZmhnUkpuZHFCZ09LWjF5QVRqeFZvVCs5Y2d4KzRjNXdERmtoMDlw?=
- =?utf-8?B?SU1mcU5nVklyR1Riem1LVTVyRlByRnN6bEJJcHBkaWpZdGVjSmI3WUxDeThW?=
- =?utf-8?B?VUZha1o3bzhNc01qM1JMTnN6QnpkZFhwck5WbEh2cjVJUkVlTnEzelpBbFha?=
- =?utf-8?B?bnhCODU4R21WR3B3M2lqMzhpeGIzb3plNm9GRzZPTmF4U3JzWDlQZnl3T2Vv?=
- =?utf-8?B?Q1dVbk9PbEJrTDNYYjFRcVY0U2Z3Z29ZekVjYlhlclUzd1pMZjJpSHJiTW5Z?=
- =?utf-8?B?dGFoUXc5VG8yVUpkOUVURU1TNTFSQlA0VHBTMC93QVRxUTkyWVNjQzhBcEJR?=
- =?utf-8?B?SXBoeVdvbUNkRUdPdmJZREpJK2JBSDUzbW1WSXRZK0ZaMVAya2dCVFJTWHNm?=
- =?utf-8?B?RWtJN0hQTzFrdDVqbEQrZDFCRTRVT3pjY1NGVHhJSDhTR3hxdkkzMUEzbnRH?=
- =?utf-8?B?VEdBSVR1bFZ1TTkrRzFkcnVaWHYvcWFkaWZ5cVNjNDhOdHhxNHd0eWprS0tk?=
- =?utf-8?B?SXBhbWRaZHFKSTZTRldCV09JNWJhZGxiRmpHRFdyZSttSlZLdmw2eEdNR3ZH?=
- =?utf-8?B?cExLN0hnSmxNZFZIVmo0K2hCZG1wSUg0dDhmYzJoN1FUTytob2pEWW9BNmdL?=
- =?utf-8?B?MC9DQjFOZlprN1A1SFNlYWttNmpqOHprNlhjNytia0g4ZC9oREpEY3licnRt?=
- =?utf-8?B?VUVweDBDcXdRQ0xBNHNoT3EwN0x4aUM2anB1UHVmdWZHNXdacWk4NEdOTXgy?=
- =?utf-8?B?Q1lMUnEvK3hNY0xka1BUUHRNK3M2M2hQdGxVVVBzek9yZTVlVG9IdER2Sm5S?=
- =?utf-8?B?UFM1Snh1dGhra1RTbFBLYmF0TlNtbnRWNitVeWdQWWFjTUo0ejRmdnBlQ3hQ?=
- =?utf-8?B?N2c9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6bd790c1-620c-455a-66d6-08ddae47b7c4
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 09:08:40.6923
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IGooZDxKExnG54ehx0y50TsQhBiEcWXd+qruBiiEt8nF5sQDqlEMSc6yUL4p3+n11JEhuaoiPHXwnFN8vYMz8Nn1D73AZJGvqQEseSaZeHg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10162
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 09:08:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218984
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 09:17:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218985
 
-Hi Adrian,
+On Wed, 2025-06-18 at 11:07 +0200, Quentin Schulz via lists.openembedded.or=
+g wrote:
+> Hi Adrian,
+>=20
+> On 6/15/25 9:15 PM, Adrian Freihofer via lists.openembedded.org wrote:
+> > From: Adrian Freihofer <adrian.freihofer@siemens.com>
+> >=20
+> > Looks like one more left over from the override syntax change.
+> >=20
+> > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> > ---
+> > =C2=A0 meta/recipes-core/packagegroups/packagegroup-base.bb | 2 +-
+> > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/met=
+a/recipes-core/packagegroups/packagegroup-base.bb
+> > index cb9d1f07af5..2e051dba33d 100644
+> > --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
+> > +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> > @@ -119,7 +119,7 @@ python __anonymous () {
+> > =C2=A0 # packages added by distribution
+> > =C2=A0 #
+> > =C2=A0 SUMMARY:packagegroup-distro-base =3D "${DISTRO} extras"
+> > -DEPENDS_packagegroup-distro-base =3D "${DISTRO_EXTRA_DEPENDS}"
+> > +DEPENDS:packagegroup-distro-base =3D "${DISTRO_EXTRA_DEPENDS}"
+>=20
+> I'm not sure this is actually doing anything?
+>=20
+> Nothing sets DISTRO_EXTRA_DEPENDS in poky, it's also not documented.
+>=20
+> This line was added 18 years ago during a git sync with svn=20
+> (3e5ee5acdca51af57c7b6ccd2136f7b548a80293) so history is lost sadly.
+>=20
+> DEPENDS:recipe-name isnt' even a valid override as far as i know (it=20
+> should be pn-recipe-name) and even if it was, what would be the point,=
+=20
+> we already are in the recipe so there's no need for an override. The=20
+> RDEPENDS overrides make sense because it applies for the package and not=
+=20
+> recipe (and most recipes have the main package named after the recipe).
+>=20
+> So I think we should simply remove this line?
 
-On 6/15/25 9:16 PM, Adrian Freihofer via lists.openembedded.org wrote:
-> From: Adrian Freihofer <adrian.freihofer@siemens.com>
-> 
-> Recent parser changes throw a warning if there is no space around the
-> = operator.
-> 
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Good point. I think it can be removed as you're right, the override
+makes no sense anyway.
 
-Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
+Cheers,
 
-Thanks!
-Quentin
+Richard
 
