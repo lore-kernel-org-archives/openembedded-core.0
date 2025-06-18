@@ -2,101 +2,143 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B2FBC71157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B337C7115C
 	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 09:21:15 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.3103.1750238469934416675
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.3093.1750238470598363027
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Jun 2025 02:21:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UfBpYthn;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a510432236so4951742f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 02:21:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=d/W60OxN;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a54700a46eso4235140f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 02:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750238468; x=1750843268; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hAfPxn9JEc9u1Co2NS/Gm/MrjqnWx9DW8XbcouDhcfs=;
-        b=UfBpYthnlt3+q7i/szao7Y3oGSKaGk6oWcuZjSo3vC1MxAbHuRrztbM9oPbePcNvWF
-         vd9hMPgB1kY1rUdWBoleAywpw+rASPkdr0YKbdlquhCcxXJwfBLyvizGrDreB31QBEit
-         t6KWX7Ip4w+e2rFa0vHl52/Z2TvcxW9ipb7DDnsLpyNZFH0bUwQIxzUP4Af0ix0ORvVt
-         XBxQJm6rdZdHmNIlBYVQYytxwdmERVGmiFaaox9AJ7GWfD2nbxvwKXTRMisgAKhwSvZs
-         DEELXBP5bYfkJXvogFdBKdwHI8v76QeQMiaLIcEeAxo9zsQxHm9bjQBXv9XuYADqvB0v
-         PK3g==
+        d=gmail.com; s=20230601; t=1750238469; x=1750843269; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9VWhkEbyGhfbv0bKVAbistp1Uw2F1szpwrW5ZSRdbZM=;
+        b=d/W60OxN9IlW9KS+equ3xcs1JVt+8ykgVkPmMYrEazvYtBqJJCFSYpxGnxAJ1vzNKL
+         n437nfsjQcfCLfXGAW/RnvoD/Wv04FgUtUJfW7CBRlYuDxVT8YLXejLuw8YBH+hQj7oQ
+         AusQykaN378P3xL3si5S62RMWR0xgMACG+uWs4sbrmsesuzzes3gNpcKEbWf4F5fEESe
+         o1vkAIpJbSVcLuELZMPecImPvNPIJLvXl5uY+alrVgLRdm7Ll+mEKaLc6wkXMNZu72h4
+         xCKvRsp0VO3JebyvssK6nPtz4DeHwCbcFGkR61/1xjql8Z7YJ3WJIFf9DdaOWX+ioQiM
+         qo3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750238468; x=1750843268;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hAfPxn9JEc9u1Co2NS/Gm/MrjqnWx9DW8XbcouDhcfs=;
-        b=dKeEUcTeJraXEF+gyUrXP9m/4MTQkLrF8i2hMpVW1z+e+Gc4x/lZtS5oIUwL5M31nT
-         KwNKcQ86+RDHDQSU6+avkGP1O4YMcKFz/ANam4ZG1b9qjm983SCl33r8MLGGIlj5IzWC
-         vxyoxFWqgg+kBC9dzaHNrUTAddHjKXR9cYram6asnoNKw5zQUcOJKeJWgjZ13QP1zy1K
-         HGE8cZJEPcu2iOaE5zMVDp6++g7rEAw54H2pozxTzfulPHy5D0uWjqw7T8eGyG2K4VN5
-         sJ4gUTHm1rzIV6A9GvPdvDrPUEH7I2cYHhIvD+LR6FAeAsAnwGSFQOomlAbZmWY/bpfm
-         v8Nw==
-X-Gm-Message-State: AOJu0YwHbt9HFtlxN5HyyYbdKcPC3r7H2xIRweMlbsHnPm0nZ5V54/GB
-	eTyDH3knCdh9ahQoh4e5aB4yPfAHp6ggR6DPXCyvw8ggeIjylA5WYjTdo8GGSQ==
-X-Gm-Gg: ASbGncstlKqxBsy67v+yU2U80rADZ3wJSaD3kphcZ5AlSH5Ur9lAGRm8SYAxAPqqhKg
-	FUcBeZezgK3tnm+ePb8A4DV/j+o7PPl/pfKpFK7j/dWq6Oq7z9Dt1MfTOsH2Ixe+olGdCFEFICV
-	QZOYCqzpNDDvo8NhkVRYCHqz0fVVPH62lgWVkNQsA4WykYKTkryiLJpk1yimpCLC0ogBWn/NGvH
-	/vP57V3shQF+W9bwdHVpMQ9RvqWwZj10jyHx2F+4Jegri/dwgvwOVzB83VoTW3c/9KXkLlxsJDv
-	OpQusxtLp2ub+zMxr1KFnqvF02fEt/s2bupH6xTGMrzLwdtVHC7tLSg7QSVyWNHkXIZ1XAtM7mi
-	H+qWr8dikFFelm616P/RBWZ8=
-X-Google-Smtp-Source: AGHT+IEyyEsEO8wZ3KOTYSw6h76wJrm94THWsWsCWuUlNDRjEnaKKnXxYk+X8j65ID2LtLj0akZFKw==
-X-Received: by 2002:a05:6000:2486:b0:3a4:ec32:e4f3 with SMTP id ffacd0b85a97d-3a5723975b5mr14205623f8f.17.1750238467969;
-        Wed, 18 Jun 2025 02:21:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750238469; x=1750843269;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9VWhkEbyGhfbv0bKVAbistp1Uw2F1szpwrW5ZSRdbZM=;
+        b=se6mu8AMae/xuZi6LWdmeOIYz7GNJNqOI/sMrFZ4nzTa6Mbs3dkdZEPMgrw+mmAHqd
+         jBkMnmGY2N9jjENcIEHDPBAV5hyKCrVJOR02BFTB+Jk4Vbyhm2W17l4IyLtOL003OaBO
+         SKShDiZ/8fVrRdO1eMvG1IklgiBNcKopPzK1Lof7QOW6bYrwCnFBGzb4+simzzpMZvMI
+         NFEARNkfausIdKj4Lwwx82hCqPTTu/1gF9x8JS1f8PG0tnBlN8B90hmrB0JdiB+upP+m
+         70trM0DAx8Wt19Oe5iP2JHeYv1GIexq40vXI6WRys/uDrhRQiS06zD39FyWPFXqnjOpk
+         J9cQ==
+X-Gm-Message-State: AOJu0YzeVQqktSlwUToCYcsVbaJH6Cod7QJ3bv1Udrq/U9zQF2potfTx
+	THJUXE9+SehVX2bGNu4BTbtttNMo1CAo4wDMEDMWYRjhzUVpLNWW+WHrv/NEvg==
+X-Gm-Gg: ASbGncsU37Tb3+DTqn0jdzhn5zsVTGoPt+XxqH+Vl6toUSlVgg0WqTIuQCjTAM37KHB
+	XY+2kr2nFi6ZG5Z1ObJlWqkku5TfuaKsO0cwoh2np4TWM6UDkP8PNd7Xr5eFUEvTCrAbtA+9m9r
+	KpM+Gh59f/q23wQ4ruKhKNOs7kkl87YRDYOH9uk61bGew2G+WMpbxNLa188Qh6n+HhAJcqYWdPl
+	Y1pxMh+e2kT0hek/RhpwPXm5xv2NVZEaKGkT+DYMsbaxx404DWk1ZJsEUiEDYVIcQTFK2pBqolB
+	/LV0i1mv6SBcLcEDSv6i1Qgr4zbqc8AUhSk1GvKxnG9nE2+5WKlcYRDDrriMY3EZSR0fCeqRnvZ
+	+24+kHVM8cPg3kOkT+7GUnJDOmYweZjmLGQ==
+X-Google-Smtp-Source: AGHT+IFbLVzCnoHaNaXS0fFpa3ba6qQboc8Og6neyORgIFanl8st3acNtVgLzJfbKmDvKOi373yfsQ==
+X-Received: by 2002:a05:6000:2308:b0:3a4:f939:b53 with SMTP id ffacd0b85a97d-3a5723a3ae0mr12783207f8f.38.1750238468819;
+        Wed, 18 Jun 2025 02:21:08 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b28240sm16459936f8f.72.2025.06.18.02.21.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568b28240sm16459936f8f.72.2025.06.18.02.21.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 02:21:07 -0700 (PDT)
+        Wed, 18 Jun 2025 02:21:08 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/2] bitbake.conf: enable built-in fragments for MACHINE and DISTRO
-Date: Wed, 18 Jun 2025 11:21:01 +0200
-Message-Id: <20250618092102.4142243-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/2] lib/bbconfigbuild/configfragments: add support for listing and enabling built-in fragments
+Date: Wed, 18 Jun 2025 11:21:02 +0200
+Message-Id: <20250618092102.4142243-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250618092102.4142243-1-alex.kanavin@gmail.com>
+References: <20250618092102.4142243-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 09:21:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218986
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218987
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Please see the patch for bitbake for rationale. With this
-setting in place, it's possible to set
+Sample output:
 
-OE_FRAGMENTS += "distro/poky machine/qemuarm"
+$ bitbake-config-build enable-fragment machine/qemuarm
+Fragment machine/qemuarm added to /srv/storage/alex/yocto/build-64-alt/conf/auto.conf.
 
-and bitbake will interpret that as
+$ bitbake-config-build list-fragments
+Available built-in fragments:
+machine/...	Sets MACHINE = ...
+distro/...	Sets DISTRO = ...
 
-DISTRO = "poky"
-MACHINE = "qemuarm"
+Enabled built-in fragments:
+machine/qemuarm	Sets MACHINE = "qemuarm"
+
+... (standard on-disk fragments output follows)
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/bitbake.conf | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/bbconfigbuild/configfragments.py | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 54d6bebc39f..77399abce0a 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -821,7 +821,8 @@ include conf/local.conf
+diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
+index c1dddc3e4cb..61c33ac3161 100644
+--- a/meta/lib/bbconfigbuild/configfragments.py
++++ b/meta/lib/bbconfigbuild/configfragments.py
+@@ -62,7 +62,22 @@ class ConfigFragmentsPlugin(LayerPlugin):
+             else:
+                 print('Name: {}\nPath: {}\nEnabled: {}\nSummary: {}\nDescription:\n{}\n'.format(f['name'], f['path'], 'yes' if is_enabled else 'no', f['summary'],''.join(f['description'])))
  
- OE_FRAGMENTS_PREFIX ?= "conf/fragments"
- OE_FRAGMENTS_METADATA_VARS ?= "BB_CONF_FRAGMENT_SUMMARY BB_CONF_FRAGMENT_DESCRIPTION"
--addfragments ${OE_FRAGMENTS_PREFIX} OE_FRAGMENTS OE_FRAGMENTS_METADATA_VARS
-+OE_FRAGMENTS_BUILTIN ?= "machine:MACHINE distro:DISTRO"
-+addfragments ${OE_FRAGMENTS_PREFIX} OE_FRAGMENTS OE_FRAGMENTS_METADATA_VARS OE_FRAGMENTS_BUILTIN
++        def print_builtin_fragments(builtin, enabled):
++            print('Available built-in fragments:')
++            builtin_dict = {i[0]:i[1] for i in [f.split(':') for f in builtin]}
++            for prefix,var in builtin_dict.items():
++                print('{}/...\tSets {} = ...'.format(prefix, var))
++            print('')
++            enabled_builtin_fragments = [f for f in enabled if self.builtin_fragment_exists(f)]
++            print('Enabled built-in fragments:')
++            for f in enabled_builtin_fragments:
++                 prefix, value = f.split('/', 1)
++                 print('{}\tSets {} = "{}"'.format(f, builtin_dict[prefix], value))
++            print('')
++
+         all_enabled_fragments = (self.tinfoil.config_data.getVar('OE_FRAGMENTS') or "").split()
++        all_builtin_fragments = (self.tinfoil.config_data.getVar('OE_FRAGMENTS_BUILTIN') or "").split()
++        print_builtin_fragments(all_builtin_fragments, all_enabled_fragments)
  
- require ${@"conf/multiconfig/${BB_CURRENT_MC}.conf" if "${BB_CURRENT_MC}" != "" else ""}
- include conf/machine/${MACHINE}.conf
+         for layername, layerdata in self.discover_fragments().items():
+             layerdir = layerdata['layerdir']
+@@ -89,6 +104,11 @@ class ConfigFragmentsPlugin(LayerPlugin):
+                   return True
+         return False
+ 
++    def builtin_fragment_exists(self, fragmentname):
++        fragment_prefix = fragmentname.split("/",1)[0]
++        fragment_prefix_defs = set([f.split(':')[0] for f in self.tinfoil.config_data.getVar('OE_FRAGMENTS_BUILTIN').split()])
++        return fragment_prefix in fragment_prefix_defs
++
+     def create_conf(self, confpath):
+         if not os.path.exists(confpath):
+             with open(confpath, 'w') as f:
+@@ -112,7 +132,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
+             return " ".join(enabled_fragments), None, 0, True
+ 
+         for f in args.fragmentname:
+-            if not self.fragment_exists(f):
++            if not self.fragment_exists(f) and not self.builtin_fragment_exists(f):
+                 raise Exception("Fragment {} does not exist; use 'list-fragments' to see the full list.".format(f))
+ 
+         self.create_conf(args.confpath)
 -- 
 2.39.5
 
