@@ -1,96 +1,101 @@
-Return-Path: <andrej.v@skyrain.eu>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F30C71157
-	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 08:05:14 +0000 (UTC)
-Received: from h3.cmg1.smtp.forpsi.com (h3.cmg1.smtp.forpsi.com [185.129.138.162])
- by mx.groups.io with SMTP id smtpd.web11.1946.1750233905691940433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BBB3C71157
+	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 08:16:15 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.2160.1750234565469863848
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jun 2025 01:05:06 -0700
+ Wed, 18 Jun 2025 01:16:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=kWk7UZYV;
- dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=kWk7UZYV;
- spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 185.129.138.162, mailfrom: andrej.v@skyrain.eu)
-Received: from localhost.localdomain ([178.143.45.236])
-	by cmgsmtp with ESMTPSA
-	id Rnmju6G0owQNXRnn4uVZ3o; Wed, 18 Jun 2025 10:05:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
-	t=1750233903; bh=Uw/v87GTyCB7vhNhlSui2uTSxIKXOzzoIYS+/EM/4Yo=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=kWk7UZYV/6T13yyM1d/J9RGdxebFK4jnwXueg2ZLHGsM9FomYWvJdXWza1g7lTAFP
-	 jlRzi3pfWFKVERavcqaa83AqIRVUtYLfes/Wy2dhavI0hftNfXBLcRKrGtyLabkrJG
-	 gAPElnN6vM2XVLld4ktKfLL/MVHoaPJ371/Q6uu7o1SRVPt6sBRpHs6CSOzo4R+SOE
-	 9sa3ALk0m+O6Dp8cJ15/Ek9Ri9nvtgIZ+nn1QoxXmNXASa9Y578QA9mdvMd6zUQd79
-	 j1cZxkeHRgDlZrNFOvoBiF0GHyCmwcv4UxHWQEsDBj6rPYrbVTkEvRn5hyFBZ+rD63
-	 oAHuvZZBgatnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
-	t=1750233903; bh=Uw/v87GTyCB7vhNhlSui2uTSxIKXOzzoIYS+/EM/4Yo=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=kWk7UZYV/6T13yyM1d/J9RGdxebFK4jnwXueg2ZLHGsM9FomYWvJdXWza1g7lTAFP
-	 jlRzi3pfWFKVERavcqaa83AqIRVUtYLfes/Wy2dhavI0hftNfXBLcRKrGtyLabkrJG
-	 gAPElnN6vM2XVLld4ktKfLL/MVHoaPJ371/Q6uu7o1SRVPt6sBRpHs6CSOzo4R+SOE
-	 9sa3ALk0m+O6Dp8cJ15/Ek9Ri9nvtgIZ+nn1QoxXmNXASa9Y578QA9mdvMd6zUQd79
-	 j1cZxkeHRgDlZrNFOvoBiF0GHyCmwcv4UxHWQEsDBj6rPYrbVTkEvRn5hyFBZ+rD63
-	 oAHuvZZBgatnQ==
-From: Andrej Valek <andrej.v@skyrain.eu>
-To: openembedded-core@lists.openembedded.org
-Cc: ross.burton@arm.com,
-	Andrej Valek <andrej.v@skyrain.eu>
-Subject: [oe][meta-oe][PATCH v3] dropbear: add xauth runtime recommends dependency on x11 DISTRO_FEATURE
-Date: Wed, 18 Jun 2025 10:04:39 +0200
-Message-Id: <20250618080439.274019-1-andrej.v@skyrain.eu>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250605091828.50442-1-andrej.v@skyrain.eu>
-References: <20250605091828.50442-1-andrej.v@skyrain.eu>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfIFaaJYYDnB6XmGc9YdI88d8JlJDa90ClPNXdyXRFazZVM3sT32khm+j2nHpT+o1wWCWW0affW1F1dDnAMKN0/c2DMH8pLFs0EvJCDjZe/9uVGBoYjLL
- 5h4yZZ76B/RSPuvGfOCsbX0KI+6JWqlxpvylK6vCBdQ6EmIKrg3wFAit7n0O3qOIVaZ8r2Sb3/z/8qyn8zZN4NE3cLok5kDpvKC1zsIzNDpAv4oPTlkn38gk
- IVla0HXJ3J46zmkrgAjKAL5jckbOeA6UvCTyaTpvCE9jby1u7/fhYEzGjVEK0MJZ
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=3dV8U4Ig;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=HquPPcZp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010197821c0712-d5bf5a33-ba77-439e-bd9e-05a1c730000f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1750234564; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=5KPL5EmkosEY+Q/PYtDIVM/V7zKK1+U/jT+K5WrXYrI=;
+	b=3dV8U4Igcr1tocBn7a+Ml2NWbe2xz4C3sFyWWCGFhN7yCy3xs4XHAEwAT3uxyALZ
+	X8aOi+puzuitnN29rTZkfpqi/bhWxAIulELd3z6pxO6azFlNFIQUKSRT03z+4iJOfIp
+	MPnPSG2dKwngU16Or1PcXBeZNtnffnIrVH0JSk8g=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1750234564;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=5KPL5EmkosEY+Q/PYtDIVM/V7zKK1+U/jT+K5WrXYrI=;
+	b=HquPPcZpTCbzrrVfUyBLZB/wDghc/lEanf3+KvR0PhTjqt51ZHUYVr+DOJ8wtaIy
+	zNr3hqAqdK6zetBLyIeSS7fJlUIcTzUcmnQdZas2Hm2/isDz2nlBlD4cqNEdf4sNKB/
+	LSiDsWLqH006hN4cYntRAWmzRkcbSr/y3f8iEBGo=
+From: patchtest@automation.yoctoproject.org
+To: Andrej Valek <andrej.v@skyrain.eu>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [oe][meta-oe][PATCH v3] dropbear: add xauth runtime recommends
+ dependency on x11 DISTRO_FEATURE
+In-Reply-To: <20250618080439.274019-1-andrej.v@skyrain.eu>
+References: <20250618080439.274019-1-andrej.v@skyrain.eu>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010197821c0712-d5bf5a33-ba77-439e-bd9e-05a1c730000f-000000@us-west-2.amazonses.com>
+Date: Wed, 18 Jun 2025 08:16:04 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.06.18-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 08:05:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218979
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 08:16:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/218980
 
-Change enable-x11-forwarding PACKAGECONFIG to x11, while we can rely
-directly on X11 DISTRO_FEATURE. Previously when enable-x11-forwarding was
-used, the XAUTH_COMMAND failed due to missing xauth. So add xauth to
-runtime recommends dependency and enable this behavior as default.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Andrej Valek <andrej.v@skyrain.eu>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-core/dropbear/dropbear_2025.88.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Testing patch /home/patchtest/share/mboxes/oe-meta-oe-v3-dropbear-add-xauth-runtime-recommends-dependency-on-x11-DISTRO_FEATURE.patch
 
-diff --git a/meta/recipes-core/dropbear/dropbear_2025.88.bb b/meta/recipes-core/dropbear/dropbear_2025.88.bb
-index f203763b17..72a886d907 100644
---- a/meta/recipes-core/dropbear/dropbear_2025.88.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2025.88.bb
-@@ -48,10 +48,10 @@ SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
- BINCOMMANDS = "dbclient ssh scp"
- EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
- 
--PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
-+PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
- PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam,${PAM_PLUGINS}"
- PACKAGECONFIG[system-libtom] = "--disable-bundled-libtom,--enable-bundled-libtom,libtommath libtomcrypt"
--PACKAGECONFIG[enable-x11-forwarding] = ""
-+PACKAGECONFIG[x11] = ",,,,xauth"
- 
- # This option appends to CFLAGS and LDFLAGS from OE
- # This is causing [textrel] QA warning
-@@ -62,7 +62,7 @@ EXTRA_OECONF:append:libc-musl = " --disable-wtmp --disable-lastlog"
- 
- do_configure:append() {
- 	echo "/* Dropbear features */" > ${B}/localoptions.h
--	if ${@bb.utils.contains('PACKAGECONFIG', 'enable-x11-forwarding', 'true', 'false', d)}; then
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'x11', 'true', 'false', d)}; then
- 		echo "#define DROPBEAR_X11FWD 1" >> ${B}/localoptions.h
- 	fi
- }
--- 
-2.34.1
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
