@@ -1,767 +1,250 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48052C7115A
-	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 14:13:37 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.8501.1750256010425264448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69898C7115A
+	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 16:00:14 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.web11.2584.1750262406323067076
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jun 2025 07:13:32 -0700
+ Wed, 18 Jun 2025 09:00:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 55IECKQZ026648;
-	Wed, 18 Jun 2025 09:12:22 -0500
-Received: from [192.168.2.13] ([192.168.2.13])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 55IECI3b020872;
-	Wed, 18 Jun 2025 09:12:18 -0500
-Message-ID: <bd5ef7eb-b7ce-40af-9dbb-d616a5a494cf@kernel.crashing.org>
-Date: Wed, 18 Jun 2025 09:12:18 -0500
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=czJLObf9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.177, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-70f147b5a52so52389487b3.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 09:00:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750262405; x=1750867205; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FeTuPlUdPXs/QsP1kqcwITx1xSi7D4vk0ljSp+jtGRc=;
+        b=czJLObf9hcdPoRtcWagxMylKO5VW+oTjL4McOe+fmyNg5ZMDZ/8G02Z3meFzLTXPaz
+         UznpYDHhxZHYLPqZgQRNiY5glGwIrwZg20HPSTsJttFcNHne5SIG2FejQQjSSeoYUtrw
+         qVxxHHahQ6pUFfnbsG+EkNYMIq+ViWOx/U4s0C50A7HZ3YT5vqYQQYlZJEHY0jFnjH11
+         wL/+oFqM12kunDRN4BtDXm7eUYi4cRc+QxA337kJTljFu+MzM/65HJ2hdXmswmMzqLpA
+         ciBWALTi2ymuZAYgl1qO08HtMnpH5CNOJeB7cGj++Rd+rVR06v5DYzdvCfgglX559cQV
+         idGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750262405; x=1750867205;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FeTuPlUdPXs/QsP1kqcwITx1xSi7D4vk0ljSp+jtGRc=;
+        b=PiID5Y7FLl6fClH379Mj9lqPk8BE3T5TpLdTRDZLy64+1gNZdXw8FYf3PCM8csrYZc
+         vACUv3+/8QdKFum+nR01X633beNHqAppICDgRNlpfUAy91yQwtE27CNMOIOAxijCqhUZ
+         OD4+Zo1/Bqj2bD9ow73+Ob0I/iIDnxiK16eElUJYiQd7H/fMij+i0I/iABPm7JAxzND5
+         7DEQ6798UKGZwi36lQkiOFe2l/fgR3Y64yfPYgHGpxASDaNMvkKe9pgSEW3tBTG7Hiv8
+         HfdcTRqpBVgH+Hmha1WubJX+4NRI2bpnxIfBaG4fA8nnHmso5ntabya80Zwt8r9B+Kq9
+         5I+g==
+X-Gm-Message-State: AOJu0YwCZrbg/dJ+2cAlsS/znN7qGZHS4WX3wub1c3Eev1G+pptpbT1T
+	cKBgpQrkj0NtOozSkHLIy0KwWbXSgtfBlZMaMflc8uH8wA554o/Ee+dGUeUPCQmrvb9lbjWtgGA
+	iwVCoD/xtJt4/D0vD+VfZi2vwBNdclOO2VmW2R/hQ1w==
+X-Gm-Gg: ASbGncsqTOm2QHitETFJybCPTBLVkIDZR0jVIr/0eNRUaWx+Ig89/IDiGPx+SFjbc3v
+	V892044+sPe9KCgwHjsj7vKnLsW1kPrD7F/tN7duMLJGh7kZz3GOUbCHYW4vb59UulWSIUikJEM
+	e7uHYYUvZiUZPkflKaTSGhP9ITL8u4wBj9g8n8YLyOJ4Gkp+DrMIzpy2YprVuH+DJbJdtcQ40lL
+	jA=
+X-Google-Smtp-Source: AGHT+IFFZrf8bxY3nPsEGufdBiODcrVBkHLqOTf+45ARKKCSglwiYN7ntBQMxqcZXnOGOpjYsvmjhh8UspmQqZSkfCo=
+X-Received: by 2002:a05:690c:3808:b0:70f:83ef:ddff with SMTP id
+ 00721157ae682-7117544368dmr273657277b3.30.1750262405232; Wed, 18 Jun 2025
+ 09:00:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 1/7] riscv tunes: ISA Implementation of
- RISC-V tune features
-Content-Language: en-US
-To: Alistair Francis <alistair23@gmail.com>
+References: <20250618030710.4051350-1-Qi.Chen@windriver.com>
+In-Reply-To: <20250618030710.4051350-1-Qi.Chen@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 18 Jun 2025 08:59:53 -0700
+X-Gm-Features: Ac12FXz7a0_nliAPvHbUhYPML5dJRbYEc_h1Qu5Gj4JoLjU5ptVcy0Cf3vtvzJI
+Message-ID: <CAOSpxdYc3=+6N2iQugrJC=chmHvg-ShMMLsCfuCnSUmZ0qb8bg@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH] coreutils: fix CVE-2025-5278
+To: Qi.Chen@windriver.com
 Cc: openembedded-core@lists.openembedded.org
-References: <1750203584-32065-1-git-send-email-mark.hatle@kernel.crashing.org>
- <1750203584-32065-2-git-send-email-mark.hatle@kernel.crashing.org>
- <CAKmqyKObqM_S_kWWts-uJcFRkbmbimpD2iTXTC5w_ycc48Z8rA@mail.gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <CAKmqyKObqM_S_kWWts-uJcFRkbmbimpD2iTXTC5w_ycc48Z8rA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 55IECKQZ026648
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 14:13:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219022
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 16:00:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219023
 
+On Tue, Jun 17, 2025 at 8:07=E2=80=AFPM Chen Qi via lists.openembedded.org
+<Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Backport patch to fix CVE-2025-5278.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  ...1-sort-fix-buffer-under-read-CWE-127.patch | 112 ++++++++++++++++++
 
+Could you please send a V2 using the standard convention of naming the
+patch file with the CVE number?  (CVE-2025-5278.patch)
 
-On 6/17/25 11:00 PM, Alistair Francis wrote:
-> On Wed, Jun 18, 2025 at 9:39=E2=80=AFAM Mark Hatle via lists.openembedd=
-ed.org
-> <mark.hatle=3Dkernel.crashing.org@lists.openembedded.org> wrote:
->>
->> From: Mark Hatle <mark.hatle@amd.com>
->>
->> This implements the following base ISAs:
->>
->> * rv32i, rv64i
->> * rv32e, rv64i
->>
->> The following ABIs:
->> * ilp32, ilp32e, ilp32f, ilp32d
->> * lp64, lp64e, lp64f, lp64d
->>
->> The following ISA extension are also implemented:
->> * M - Integer Multiplication and Division Extension
->> * A - Atomic Memory Extension
->> * F - Single-Precision Floating-Point Extension
->> * D - Double-Precision Floating-Point Extension
->> * C - Compressed Extension
->> * B - Bit Manipulation Extension (implies Zba, Zbb, Zbs)
->> * V - Vector Operations Extension
->> * Zicsr - Control and Status Register Access Extension
->> * Zifencei - Instruction-Fetch Fence Extension
->> * Zba - Address bit manipulation extension
->> * Zbb - Basic bit manipulation extension
->> * Zbc - Carry-less multiplication extension
->> * Zbs - Single-bit manipulation extension
->> * Zicbom - Cache-block management extension
->>
->> The existing processors tunes are preserved:
->> * riscv64 (rv64gc)
->> * riscv32 (rv32gc)
->> * riscv64nf (rv64imac_zicsr_zifencei)
->> * riscv32nf (rv32imac_zicsr_zifencei)
->> * riscv64nc (rv64imafd_zicsr_zifencei)
->=20
-> I'm not sure this is the way we want to handle this. You are picking
-> and choosing each individual extension, which is difficult for users
-> to do. Not to mention it's easy to get wrong as some extensions
-> conflict with other extensions.
->=20
-> You also end up using the `rv32` or `rv64` CPUs with QEMU and enabling
-> extensions manually. We will probably remove those CPUs from QEMU in
-> the future as they cause a lot of user confusion.
->=20
-> I think instead we should be moving towards the RISC-V profiles.
-> Individual extensions can still be enabled/disabled on top of a
-> profile if required. That's what we are doing in QEMU and it makes
-> things a lot clearer to users exactly what is/isn't enabled.
+Thanks!
 
-As I've said elsewhere, profiles mean ISA + extensions.
+Steve
 
-   "Profiles only describe ISA features, not a complete execution environ=
-ment."
-
-=20
-https://github.com/riscv/riscv-profiles/blob/main/src/profiles.adoc#2-pro=
-files-versus-platforms
-
-For someone who understands what a specific profile is, it should be impl=
-emented=20
-in the new meta/lib/oe/tune.py file.  Any missing TUNE_FEATURES should be=
- added.
-
-I'd recommend a new function like:
-
-riscv_profile_to_tune(profile):
-
-and/or
-
-riscv_profile_to_isa(profile):
-
-(the later could call the existing riscv_isa_to_tune)
-
-Then in the tune-<name>.inc file, the user would implement it as:
-
-   require conf/machine/include/riscv/arch-riscv.inc
-
-   DEFAULTTUNE ?=3D "my-magic-cpu"
-
-   AVAILTUNES +=3D "my-magic-cpu"
-
-   TUNE_FEATURES:tune-my-magic-cpu :=3D "${@riscv_profile_to_tune("rva20u=
-32")} m a"
-   PACKAGE_EXTRA_ARCHS:tune-my-magic-cpu =3D "${TUNE_RISCV_PKGARCH}"
-
-The above should result in:
-
-rv 32 i m a , since RVI20U32 says "no mandatory extensions" but M A F D C=
-=20
-Zifencei and Zicntr are optional. (rvi20u64 is similar)
-
-Note: rv 32 i m a is not Linux compatible, we need zicsr and zifencei as =
-well,=20
-but Zicsr is not listed as mandatory or optional
-
-while RVA22U64 defines a specific set that contains extensions which my p=
-arts do=20
-NOT support.
-
-Thus we _MUST_ have a way to be able to use ISA + extension which is the =
-lowest=20
-common denominator of what _WE_ support, while giving users views into th=
-e=20
-approaches they want.
-
-_I_ do not intend to implement the profile_to_... functions, as I won't s=
-ee any=20
-use in the parts that I have to support.  But as a project, I do think so=
-meone=20
-should implement thing table and function to make it easier for people wh=
-o want=20
-to use profiles to specify something.
-
---Mark
-
-> Alistair
->=20
->>
->> Previously defined feature 'big-endian' has been removed as it was not=
- used.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
->> ---
->>   meta/conf/machine/include/riscv/README        | 122 ++++++++++++++++
->>   .../conf/machine/include/riscv/arch-riscv.inc | 138 ++++++++++++++++=
-+-
->>   .../conf/machine/include/riscv/tune-riscv.inc |  40 ++---
->>   meta/conf/machine/qemuriscv32.conf            |   4 +-
->>   meta/lib/oe/__init__.py                       |   2 +-
->>   meta/lib/oe/tune.py                           |  81 ++++++++++
->>   6 files changed, 349 insertions(+), 38 deletions(-)
->>   create mode 100644 meta/conf/machine/include/riscv/README
->>   create mode 100644 meta/lib/oe/tune.py
->>
->> diff --git a/meta/conf/machine/include/riscv/README b/meta/conf/machin=
-e/include/riscv/README
->> new file mode 100644
->> index 0000000000..beef68f523
->> --- /dev/null
->> +++ b/meta/conf/machine/include/riscv/README
->> @@ -0,0 +1,122 @@
->> +2025/06/08 - Mark Hatle <mark.hatle@amd.com>
->> + - Initial Revision
->> +
->> +The RISC-V ISA is broken into two parts, a base ISA and extensions.  =
-As
->> +of the writing of this document these are documented at:
->> +
->> +https://lf-riscv.atlassian.net/wiki/spaces/HOME/pages/16154769/RISC-V=
-+Technical+Specifications
->> +
->> +Specifically "The RISC-V Instruction Set Manual Volume I: Unprivilege=
-d ISA"
->> +was used to create this implementation.
->> +
->> +Requirements
->> +------------
->> +As RISC-V is a =E2=80=9Cvariable=E2=80=9D ISA (a base isa plus numero=
-us extensions), a
->> +mechanism is required to specify a series of ISA features that a user=
- or
->> +tune can use to specify a specific CPU instantiation.
->> +
->> +Not all ratified or draft features should or can be implemented with =
-the
->> +available resources.
->> +
->> +The implementation should work for Linux, baremetal (newlib), zephyr =
-and
->> +other operating systems.  Supported extensions should be based on
->> +real-world examples.
->> +
->> +Linux
->> +-----
->> +Linux required base and support extensions should be available.  Linu=
-x
->> +requires:
->> +* Base: rv32ima & rv64ima
->> +* Optional FPU: fd
->> +* Optional RISCV_ISA_C: c
->> +* Optiona RISCV_ISA_V: v
->> +* Required additional: _zicsr_zifencei
->> +* Optional RISCV_ISA_ZBA: _zba
->> +* Optional RISCV_ISA_ZBB: _zbb
->> +* Optional RISCV_ISA_ZBC: _zbc (not supported by current QEMU design)
->> +
->> +See: https://git.yoctoproject.org/linux-yocto/tree/arch/riscv/Makefil=
-e?h=3Dv6.12/base
->> +
->> +Baremetal
->> +---------
->> +AMD Microblaze-V FPGA support uses the following static configuration=
-s:
->> +Base: rv32e, rv32i, rv64i
->> +Extensions: m, a, f, d, c, b, zicsr, zifencei
->> +
->> +Zephyr
->> +------
->> +AMD Microblaze-V development for Zephyr is the same as Baremetal, wit=
-h a
->> +few additional extensions: zbc, zicbom
->> +
->> +ABI
->> +---
->> +The following ABIs are supported GNU tools and some combination of sy=
-stems.
->> +* ilp32 - Integer, long and pointer are 32-bit
->> +* lp64 - Long and pointer are 64-bit (integer is 32-bit)
->> +
->> +The ABI is dependent upon the core system implementation, as ilp32 ca=
-n
->> +only used on an =E2=80=98rv32=E2=80=99 system, while lp64 can only be=
- used on an =E2=80=98rv64=E2=80=99
->> +system.
->> +
->> +There are additional variations of each ABI:
->> +* e - used with the Reduced register extension
->> +* f - used when single precision floating point (but not double preci=
-sion) is
->> +      enabled
->> +* d - used when both single and double precision floating point is en=
-abled
->> +
->> +Based on the above, the ABI should be automatically determined based =
-on
->> +the selected Base ISA and Extensions.
->> +
->> +Implementation
->> +--------------
->> +To make it easier to generate the RISC-V canonical arch, ISA based -m=
-arch,
->> +and the ABI string, a few new variables are added for specific RISC-V=
- items.
->> +
->> +TUNE_RISCV_ARCH - This contains the canonical GNU style arch, general=
-ly this
->> +                  will evaluate to "riscv32" or "riscv64".
->> +
->> +TUNE_RISCV_MARCH - This will contain an ISA based -march string compa=
-tible
->> +                   with gcc and similar toolchains.  For example:
->> +                   rv32imacfd_zicsr_zifencei
->> +
->> +TUNE_RISCV_ABI - This is the generated ABI that corresponds to the AR=
-CH and
->> +                 MARCH/ISA values.  For riscv32, the value will be il=
-p32
->> +                 (int, long and pointer is 32-bit) with the ISA
->> +                 variation.  For riscv64, the value will be lp64 (lon=
-g
->> +                 and pointer are 64-bit bit, while int is 32-bit) wit=
-h the
->> +                 ISA variation.  The ISA affects the ABI when the 'e'=
-, 'f'
->> +                 and 'd' extension are used.
->> +
->> +TUNE_RISCV_PKGARCH - This is the generated PKGARCH value.
->> +
->> +The standard variables are defined as:
->> +
->> +TUNE_CCARGS =3D "${@ '-march=3D${TUNE_RISCV_MARCH} -mabi=3D${TUNE_RIS=
-CV_ABI}' if not d.getVar('TUNE_CCARGS:tune-${DEFAULTTUNE}') else 'TUNE_CC=
-ARGS:tune-${DEFAULTTUNE}'}"
->> +
->> +The above will allow the user to specify an implementation specific
->> +TUNE_CCARGS for a given processor tune if the default implementtion i=
-s
->> +not adequate for some reason.  It is expected that most, if not all,
->> +implementations will use the default behavior.
->> +
->> +TUNE_ARCH =3D "${TUNE_RISCV_ARCH}"
->> +TUNE_PKGARCH =3D "${TUNE_RISCV_PKGARCH}"
->> +
->> +The above two will always base their setting off the standard TUNE_FE=
-ATURES.
->> +
->> +Ratified and draft extensions should be implemented as TUNE_FEATURES =
-in
->> +the arch-riscv.inc file.
->> +
->> +Vendor specific extensions and processor specific settings should go
->> +into a 'tune-<vendor>.inc' file, with tune-riscv.inc being reserved f=
-or
->> +general purpose tunes.
->> +
->> +TUNE_FEATURE Helper
->> +-------------------
->> +A special helper function has been written that will convert RISC-V I=
-SA
->> +notation into TUNE_FEATURE notion, for example:
->> +
->> +rv32g -> rv 32 i m a f d zicsr zifencei
->> +
->> +The helper can be called using oe.tune.riscv_isa_to_tune("<ISA>") suc=
-h as
->> +oe.tune.riscv_isa_to_tune("rv64gc") which would return:
->> + rv 64 i m a f d c zicsr zifencei
->> diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/con=
-f/machine/include/riscv/arch-riscv.inc
->> index b34064e78f..99bed8fde5 100644
->> --- a/meta/conf/machine/include/riscv/arch-riscv.inc
->> +++ b/meta/conf/machine/include/riscv/arch-riscv.inc
->> @@ -1,14 +1,140 @@
->>   # RISCV Architecture definition
->>
->> -DEFAULTTUNE ?=3D "riscv64"
->> +# Based on the RISC-V Instruction Set Manual Volume I: Unprivileged I=
-SA from May 2025
->> +# As well as the RISC-V options for using GCC (as of June 2025)
->>
->> -TUNE_ARCH =3D "${TUNE_ARCH:tune-${DEFAULTTUNE}}"
->> -TUNE_PKGARCH =3D "${TUNE_PKGARCH:tune-${DEFAULTTUNE}}"
->> -TUNE_CCARGS:append =3D "${@bb.utils.contains('TUNE_FEATURES', 'riscv6=
-4nf', ' -mabi=3Dlp64', ' ', d)}"
->> -TUNE_CCARGS:append =3D "${@bb.utils.contains('TUNE_FEATURES', 'riscv3=
-2nf', ' -mabi=3Dilp32', ' ', d)}"
->> +# Note: the following should be implemented in the order that GCC exp=
-ects
->> +# -march=3D values to be defined in.
->>
->> -TUNE_CCARGS:append =3D "${@bb.utils.contains('TUNE_FEATURES', 'riscv6=
-4nc', ' -march=3Drv64imafd', ' ', d)}"
->> +# Base ISA
->> +# All supported march strings must start with rv32 or rv64
->> +TUNEVALID[rv] =3D "RISC-V"
->> +TUNE_RISCV_ARCH =3D "${@bb.utils.contains("TUNE_FEATURES", "rv", "ris=
-cv", "", d)}"
->> +TUNE_RISCV_MARCH =3D "${@bb.utils.contains("TUNE_FEATURES", "rv", "rv=
-", "", d)}"
->> +TUNE_RISCV_ABI =3D ""
->>
->> +# There are two primary ABIs, ilp32 and lp64
->> +# There are variants of both, that appears to be based on extensions =
-above
->> +# For example:
->> +#   rv32i uses ilp32, rv32e uses ilp32e, rv32f uses ilp32f
->> +#   rv64i uses lp64, rv64if uses lp64f, rv64id uses lp64d
->> +TUNEVALID[32] =3D "ISA XLEN - 32-bit"
->> +TUNECONFLICTS[32] =3D "64"
->> +TUNE_RISCV_ARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "32", "32=
-", "", d)}"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "32", "3=
-2", "", d)}"
->> +TUNE_RISCV_ABI .=3D "${@bb.utils.contains("TUNE_FEATURES", "32", "ilp=
-32", "", d)}"
->> +
->> +TUNEVALID[64] =3D "ISA XLEN - 64-bit"
->> +TUNECONFLICTS[64] =3D "32"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "64", "6=
-4", "", d)}"
->> +TUNE_RISCV_ARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "64", "64=
-", "", d)}"
->> +TUNE_RISCV_ABI .=3D "${@bb.utils.contains("TUNE_FEATURES", "64", "lp6=
-4", "", d)}"
->> +
->> +# The package arch starts with the canonical arch, but adds some exte=
-nsions to make
->> +# package compatibility clear
->> +TUNE_RISCV_PKGARCH =3D "${TUNE_RISCV_ARCH}"
->> +
->> +# i, e, or g are defined by gcc, but 'g' refers to 'i' + extensions '=
-MAFD Zicsr Zifencei'
->> +# So 'g' will not be defined here as it is an abbreviation of the exp=
-anded version
->> +TUNEVALID[e] =3D "Reduced register base integer extension"
->> +TUNECONFLICTS[e] =3D "i"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "e", "e"=
-, "", d)}"
->> +TUNE_RISCV_ABI .=3D "${@bb.utils.contains("TUNE_FEATURES", "e", "e", =
-"", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "e", "=
-e", "", d)}"
->> +
->> +TUNEVALID[i] =3D "Base integer extension"
->> +TUNECONFLICTS[i] =3D "e"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "i", "i"=
-, "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "i", "=
-i", "", d)}"
->> +
->> +# Extensions
->> +TUNEVALID[m] =3D "Integer multiplication and division extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "m", "m"=
-, "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "m", "=
-m", "", d)}"
->> +
->> +TUNEVALID[a] =3D "Atomic extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "a", "a"=
-, "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "a", "=
-a", "", d)}"
->> +
->> +TUNEVALID[f] =3D "Single-precision floating-point extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "f d=
-", "f", "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "f=
- d", "f", "", d)}"
->> +
->> +TUNEVALID[d] =3D "Double-precision floating-point extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "d", "d"=
-, "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "d", "=
-d", "", d)}"
->> +
->> +# Only f OR d, but just one
->> +TUNE_RISCV_ABI .=3D "${@bb.utils.contains("TUNE_FEATURES", "d", "d", =
-bb.utils.contains("TUNE_FEATURES", "f", "f", "", d), d)}"
->> +
->> +TUNEVALID[c] =3D "Compressed extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "c", "c"=
-, "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "c", "=
-c", "", d)}"
->> +
->> +TUNEVALID[b] =3D "Bit Manipulation extension"
->> +# Handled below via zba, zbb, zbs
->> +# This matches current Linux kernel behavior
->> +#TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "b", "b=
-", "", d)}"
->> +#TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "b", =
-"b", "", d)}"
->> +
->> +TUNEVALID[v] =3D "Vector operations extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "v", "v"=
-, "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "v", "=
-v", "", d)}"
->> +
->> +# Now the special Z extensions
->> +TUNEVALID[zicbom] =3D "Cache-block management extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "zic=
-bom", "_zicbom", "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "z=
-icbom", "_zicbom", "", d)}"
->> +
->> +TUNEVALID[zicsr] =3D "Control and status register access extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "zic=
-sr f d", "_zicsr", "", d)}"
->> +# If zicsr (or zifencei) is in the path, OpenSBI fails to use the ext=
-ensions, do to (Makefile):
->> +#   # Check whether the assembler and the compiler support the Zicsr =
-and Zifencei extensions
->> +#   CC_SUPPORT_ZICSR_ZIFENCEI :=3D $(shell $(CC) $(CLANG_TARGET) $(RE=
-LAX_FLAG) -nostdlib -march=3Drv$(OPENSBI_CC_XLEN)imafd_zicsr_zifencei -x =
-c /dev/null -o /dev/null 2>&1 | grep -e "zicsr" -e "zifencei" > /dev/null=
- && echo n || echo y)
->> +# this will match on the path containing zicsr or zifencei when an er=
-ror is reported, which
->> +# will always happens in this check.
->> +#
->> +# Yocto Project Bugzilla 15897
->> +#
->> +#TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "=
-zicsr f d", "_zicsr", "", d)}"
->> +
->> +TUNEVALID[zifencei] =3D "Instruction-fetch fence extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "zifence=
-i", "_zifencei", "", d)}"
->> +# See above Bug 15897
->> +#TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "zife=
-ncei", "_zifencei", "", d)}"
->> +
->> +TUNEVALID[zba] =3D "Address bit manipulation extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "b z=
-ba", "_zba", "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "b=
- zba", "_zba", "", d)}"
->> +
->> +TUNEVALID[zbb] =3D "Basic bit manipulation extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "b z=
-bb", "_zbb", "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "b=
- zbb", "_zbb", "", d)}"
->> +
->> +TUNEVALID[zbc] =3D "Carry-less multiplication extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "zbc=
-", "_zbc", "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "z=
-bc", "_zbc", "", d)}"
->> +
->> +TUNEVALID[zbs] =3D "Single-bit manipulation extension"
->> +TUNE_RISCV_MARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "b z=
-bs", "_zbs", "", d)}"
->> +TUNE_RISCV_PKGARCH .=3D "${@bb.utils.contains_any("TUNE_FEATURES", "b=
- zbs", "_zbs", "", d)}"
->> +
->> +# Construct TUNE_CCARGS
->> +# This should result in a CCARG similar to:
->> +#   -march=3Drv32imac -mabi=3Dilp32
->> +TUNE_CCARGS =3D "${@ '-march=3D${TUNE_RISCV_MARCH} -mabi=3D${TUNE_RIS=
-CV_ABI}' if not d.getVar('TUNE_CCARGS:tune-${DEFAULTTUNE}') else 'TUNE_CC=
-ARGS:tune-${DEFAULTTUNE}'}"
->> +
->> +# Construct TUNE_ARCH
->> +# This should result in an arch string similar to:
->> +#   riscv32
->> +TUNE_ARCH =3D "${TUNE_RISCV_ARCH}"
->> +
->> +# Construct TUNE_PKGARCH
->> +# This should result in a package are like:
->> +#    riscv32imac
->> +TUNE_PKGARCH =3D "${TUNE_RISCV_PKGARCH}"
->> +
->> +# Misc settings
->>   # Fix: ld: unrecognized option '--hash-style=3Dsysv'
->>   LINKER_HASH_STYLE:libc-newlib =3D ""
->>   LINKER_HASH_STYLE:libc-picolibc =3D ""
->> diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/con=
-f/machine/include/riscv/tune-riscv.inc
->> index 804712077e..12c1125c8b 100644
->> --- a/meta/conf/machine/include/riscv/tune-riscv.inc
->> +++ b/meta/conf/machine/include/riscv/tune-riscv.inc
->> @@ -1,41 +1,23 @@
->>   require conf/machine/include/riscv/arch-riscv.inc
->>
->> -TUNEVALID[riscv64] =3D "Enable 64-bit RISC-V optimizations"
->> -TUNEVALID[riscv32] =3D "Enable 32-bit RISC-V optimizations"
->> -
->> -TUNEVALID[riscv64nf] =3D "Enable 64-bit RISC-V optimizations no float=
-ing point"
->> -TUNEVALID[riscv32nf] =3D "Enable 32-bit RISC-V optimizations no float=
-ing point"
->> -
->> -TUNEVALID[riscv64nc] =3D "Enable 64-bit RISC-V optimizations without =
-compressed instructions"
->> -
->> -TUNEVALID[bigendian] =3D "Big endian mode"
->> +DEFAULTTUNE ?=3D "riscv64"
->>
->>   AVAILTUNES +=3D "riscv64 riscv32 riscv64nc riscv64nf riscv32nf"
->>
->>   # Default
->> -TUNE_FEATURES:tune-riscv64 =3D "riscv64"
->> -TUNE_ARCH:tune-riscv64 =3D "riscv64"
->> -TUNE_PKGARCH:tune-riscv64 =3D "riscv64"
->> -PACKAGE_EXTRA_ARCHS:tune-riscv64 =3D "riscv64"
->> +TUNE_FEATURES:tune-riscv64 :=3D "${@oe.tune.riscv_isa_to_tune("rv64gc=
-")}"
->> +PACKAGE_EXTRA_ARCHS:tune-riscv64 =3D "${TUNE_RISCV_PKGARCH}"
->>
->> -TUNE_FEATURES:tune-riscv32 =3D "riscv32"
->> -TUNE_ARCH:tune-riscv32 =3D "riscv32"
->> -TUNE_PKGARCH:tune-riscv32 =3D "riscv32"
->> -PACKAGE_EXTRA_ARCHS:tune-riscv32 =3D "riscv32"
->> +TUNE_FEATURES:tune-riscv32 :=3D "${@oe.tune.riscv_isa_to_tune("rv32gc=
-")}"
->> +PACKAGE_EXTRA_ARCHS:tune-riscv32 =3D "${TUNE_RISCV_PKGARCH}"
->>
->>   # No float
->> -TUNE_FEATURES:tune-riscv64nf =3D "${TUNE_FEATURES:tune-riscv64} riscv=
-64nf"
->> -TUNE_ARCH:tune-riscv64nf =3D "riscv64"
->> -TUNE_PKGARCH:tune-riscv64nf =3D "riscv64nf"
->> -PACKAGE_EXTRA_ARCHS:tune-riscv64nf =3D "riscv64nf"
->> +TUNE_FEATURES:tune-riscv64nf :=3D "${@oe.tune.riscv_isa_to_tune("rv64=
-imac_zicsr_zifencei")}"
->> +PACKAGE_EXTRA_ARCHS:tune-riscv64nf =3D "${TUNE_RISCV_PKGARCH}"
->>
->> -TUNE_FEATURES:tune-riscv32nf =3D "${TUNE_FEATURES:tune-riscv32} riscv=
-32nf"
->> -TUNE_ARCH:tune-riscv32nf =3D "riscv32"
->> -TUNE_PKGARCH:tune-riscv32nf =3D "riscv32nf"
->> -PACKAGE_EXTRA_ARCHS:tune-riscv32nf =3D "riscv32nf"
->> +TUNE_FEATURES:tune-riscv32nf :=3D "${@oe.tune.riscv_isa_to_tune("rv32=
-imac_zicsr_zifencei")}"
->> +PACKAGE_EXTRA_ARCHS:tune-riscv32nf =3D "${TUNE_RISCV_PKGARCH}"
->>
->>   # no compressed
->> -TUNE_FEATURES:tune-riscv64nc =3D "${TUNE_FEATURES:tune-riscv64} riscv=
-64nc"
->> -TUNE_ARCH:tune-riscv64nc =3D "riscv64"
->> -TUNE_PKGARCH:tune-riscv64nc =3D "riscv64nc"
->> -PACKAGE_EXTRA_ARCHS:tune-riscv64nc =3D "riscv64nc"
->> +TUNE_FEATURES:tune-riscv64nc :=3D "${@oe.tune.riscv_isa_to_tune("rv64=
-imafd_zicsr_zifencei")}"
->> +PACKAGE_EXTRA_ARCHS:tune-riscv64nc =3D "${TUNE_RISCV_PKGARCH}"
->> diff --git a/meta/conf/machine/qemuriscv32.conf b/meta/conf/machine/qe=
-muriscv32.conf
->> index d3858dc051..aff36c28a5 100644
->> --- a/meta/conf/machine/qemuriscv32.conf
->> +++ b/meta/conf/machine/qemuriscv32.conf
->> @@ -2,9 +2,9 @@
->>   #@NAME: generic riscv32 machine
->>   #@DESCRIPTION: Machine configuration for running a generic riscv32
->>
->> -require conf/machine/include/riscv/qemuriscv.inc
->> +DEFAULTTUNE ?=3D "riscv32"
->>
->> -DEFAULTTUNE =3D "riscv32"
->> +require conf/machine/include/riscv/qemuriscv.inc
->>
->>   PREFERRED_VERSION_openocd-native =3D "riscv"
->>   PREFERRED_VERSION_openocd =3D "riscv"
->> diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
->> index dd094a874a..73de774266 100644
->> --- a/meta/lib/oe/__init__.py
->> +++ b/meta/lib/oe/__init__.py
->> @@ -12,4 +12,4 @@ __path__ =3D extend_path(__path__, __name__)
->>   BBIMPORTS =3D ["qa", "data", "path", "utils", "types", "package", "p=
-ackagedata", \
->>                "packagegroup", "sstatesig", "lsb", "cachedpath", "lice=
-nse", "qemu", \
->>                "reproducible", "rust", "buildcfg", "go", "spdx30_tasks=
-", "spdx_common", \
->> -             "cve_check"]
->> +             "cve_check", "tune"]
->> diff --git a/meta/lib/oe/tune.py b/meta/lib/oe/tune.py
->> new file mode 100644
->> index 0000000000..7fda19430d
->> --- /dev/null
->> +++ b/meta/lib/oe/tune.py
->> @@ -0,0 +1,81 @@
->> +#
->> +# Copyright OpenEmbedded Contributors
->> +#
->> +# SPDX-License-Identifier: GPL-2.0-only
->> +#
->> +
->> +# riscv_isa_to_tune(isa)
->> +#
->> +# Automatically translate a RISC-V ISA string to TUNE_FEATURES
->> +#
->> +# Abbreviations, such as rv32g -> rv32imaffd_zicsr_zifencei are suppo=
-rted.
->> +#
->> +# Profiles, such as rva22u64, are NOT supported, you must use ISA str=
-ings.
->> +#
->> +def riscv_isa_to_tune(isa):
->> +    _isa =3D isa.lower()
->> +
->> +    feature =3D []
->> +    iter =3D 0
->> +
->> +    # rv or riscv
->> +    if _isa[iter:].startswith('rv'):
->> +        feature.append('rv')
->> +        iter =3D iter + 2
->> +    elif _isa[iter:].startswith('riscv'):
->> +        feature.append('rv')
->> +        iter =3D iter + 5
->> +    else:
->> +        # Not a risc-v ISA!
->> +        return _isa
->> +
->> +    while (_isa[iter:]):
->> +        # Skip _ and whitespace
->> +        if _isa[iter] =3D=3D '_' or _isa[iter].isspace():
->> +            iter =3D iter + 1
->> +            continue
->> +
->> +        # Length, just capture numbers here
->> +        if _isa[iter].isdigit():
->> +            iter_end =3D iter
->> +            while iter_end < len(_isa) and _isa[iter_end].isdigit():
->> +                iter_end =3D iter_end + 1
->> +
->> +            feature.append(_isa[iter:iter_end])
->> +            iter =3D iter_end
->> +            continue
->> +
->> +        # Typically i, e or g is next, followed by extensions.
->> +        # Extensions are single character, except for Z, Ss, Sh, Sm, =
-Sv, and X
->> +
->> +        # If the extension starts with 'Z', 'S' or 'X' use the name u=
-ntil the next _, whitespace or end
->> +        if _isa[iter] in ['z', 's', 'x']:
->> +            ext_type =3D _isa[iter]
->> +            iter_end =3D iter + 1
->> +
->> +            # Multicharacter extension, these are supposed to have a =
-_ before the next multicharacter extension
->> +            # See 37.4 and 37.5:
->> +            # 37.4: Underscores "_" may be used to separate ISA exten=
-sions...
->> +            # 37.5: All multi-letter extensions ... must be separated=
- from other multi-letter extensions by an underscore...
->> +            # Some extensions permit only alphabetic characters, whil=
-e others allow alphanumeric chartacters
->> +            while iter_end < len(_isa) and _isa[iter_end] !=3D "_" an=
-d not _isa[iter_end].isspace():
->> +                iter_end =3D iter_end + 1
->> +
->> +            feature.append(_isa[iter:iter_end])
->> +            iter =3D iter_end
->> +            continue
->> +
->> +        # 'g' is special, it's an abbreviation for imafd_zicsr_zifenc=
-ei
->> +        # When expanding the abbreviation, any additional letters mus=
-t appear before the _z* extensions
->> +        if _isa[iter] =3D=3D 'g':
->> +            _isa =3D 'imafd' + _isa[iter+1:] + '_zicsr_zifencei'
->> +            iter =3D 0
->> +            continue
->> +
->> +        feature.append(_isa[iter])
->> +        iter =3D iter + 1
->> +        continue
->> +
->> +    # Eliminate duplicates, but preserve the order
->> +    feature =3D list(dict.fromkeys(feature))
->> +    return ' '.join(feature)
->> --
->> 2.34.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#218948): https://lists.openembedded.org/g/openembe=
-dded-core/message/218948
->> Mute This Topic: https://lists.openembedded.org/mt/113700338/3619028
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[alistair23@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+>  meta/recipes-core/coreutils/coreutils_9.4.bb  |   1 +
+>  2 files changed, 113 insertions(+)
+>  create mode 100644 meta/recipes-core/coreutils/coreutils/0001-sort-fix-b=
+uffer-under-read-CWE-127.patch
+>
+> diff --git a/meta/recipes-core/coreutils/coreutils/0001-sort-fix-buffer-u=
+nder-read-CWE-127.patch b/meta/recipes-core/coreutils/coreutils/0001-sort-f=
+ix-buffer-under-read-CWE-127.patch
+> new file mode 100644
+> index 0000000000..41be1635b5
+> --- /dev/null
+> +++ b/meta/recipes-core/coreutils/coreutils/0001-sort-fix-buffer-under-re=
+ad-CWE-127.patch
+> @@ -0,0 +1,112 @@
+> +From 8763c305c29d0abb7e2be4695212b42917d054b2 Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?P=3DC3=3DA1draig=3D20Brady?=3D <P@draigBrady.com>
+> +Date: Tue, 20 May 2025 16:03:44 +0100
+> +Subject: [PATCH] sort: fix buffer under-read (CWE-127)
+> +
+> +* src/sort.c (begfield): Check pointer adjustment
+> +to avoid Out-of-range pointer offset (CWE-823).
+> +(limfield): Likewise.
+> +* tests/sort/sort-field-limit.sh: Add a new test,
+> +which triggers with ASAN or Valgrind.
+> +* tests/local.mk: Reference the new test.
+> +* NEWS: Mention bug fix introduced in v7.2 (2009).
+> +Fixes https://bugs.gnu.org/78507
+> +
+> +CVE: CVE-2025-5278
+> +
+> +Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/coreut=
+ils.git/commit/?id=3D8c9602e3a145e9596dc1a63c6ed67865814b6633]
+> +
+> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> +---
+> + src/sort.c                     | 12 ++++++++++--
+> + tests/local.mk                 |  1 +
+> + tests/sort/sort-field-limit.sh | 35 ++++++++++++++++++++++++++++++++++
+> + 3 files changed, 46 insertions(+), 2 deletions(-)
+> + create mode 100755 tests/sort/sort-field-limit.sh
+> +
+> +diff --git a/src/sort.c b/src/sort.c
+> +index b10183b6f..7af1a2512 100644
+> +--- a/src/sort.c
+> ++++ b/src/sort.c
+> +@@ -1644,7 +1644,11 @@ begfield (struct line const *line, struct keyfiel=
+d const *key)
+> +       ++ptr;
+> +
+> +   /* Advance PTR by SCHAR (if possible), but no further than LIM.  */
+> +-  ptr =3D MIN (lim, ptr + schar);
+> ++  size_t remaining_bytes =3D lim - ptr;
+> ++  if (schar < remaining_bytes)
+> ++    ptr +=3D schar;
+> ++  else
+> ++    ptr =3D lim;
+> +
+> +   return ptr;
+> + }
+> +@@ -1746,7 +1750,11 @@ limfield (struct line const *line, struct keyfiel=
+d const *key)
+> +           ++ptr;
+> +
+> +       /* Advance PTR by ECHAR (if possible), but no further than LIM.  =
+*/
+> +-      ptr =3D MIN (lim, ptr + echar);
+> ++      size_t remaining_bytes =3D lim - ptr;
+> ++      if (echar < remaining_bytes)
+> ++        ptr +=3D echar;
+> ++      else
+> ++        ptr =3D lim;
+> +     }
+> +
+> +   return ptr;
+> +diff --git a/tests/local.mk b/tests/local.mk
+> +index 4da6756ac..642d225fa 100644
+> +--- a/tests/local.mk
+> ++++ b/tests/local.mk
+> +@@ -388,6 +388,7 @@ all_tests =3D                                       =
+ \
+> +   tests/sort/sort-debug-keys.sh                       \
+> +   tests/sort/sort-debug-warn.sh                       \
+> +   tests/sort/sort-discrim.sh                  \
+> ++  tests/sort/sort-field-limit.sh              \
+> +   tests/sort/sort-files0-from.pl              \
+> +   tests/sort/sort-float.sh                    \
+> +   tests/sort/sort-h-thousands-sep.sh          \
+> +diff --git a/tests/sort/sort-field-limit.sh b/tests/sort/sort-field-limi=
+t.sh
+> +new file mode 100755
+> +index 000000000..52d8e1d17
+> +--- /dev/null
+> ++++ b/tests/sort/sort-field-limit.sh
+> +@@ -0,0 +1,35 @@
+> ++#!/bin/sh
+> ++# From 7.2-9.7, this would trigger an out of bounds mem read
+> ++
+> ++# Copyright (C) 2025 Free Software Foundation, Inc.
+> ++
+> ++# This program is free software: you can redistribute it and/or modify
+> ++# it under the terms of the GNU General Public License as published by
+> ++# the Free Software Foundation, either version 3 of the License, or
+> ++# (at your option) any later version.
+> ++
+> ++# This program is distributed in the hope that it will be useful,
+> ++# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> ++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> ++# GNU General Public License for more details.
+> ++
+> ++# You should have received a copy of the GNU General Public License
+> ++# along with this program.  If not, see <https://www.gnu.org/licenses/>=
+.
+> ++
+> ++. "${srcdir=3D.}/tests/init.sh"; path_prepend_ ./src
+> ++print_ver_ sort
+> ++getlimits_
+> ++
+> ++# This issue triggers with valgrind or ASAN
+> ++valgrind --error-exitcode=3D1 sort --version 2>/dev/null &&
+> ++  VALGRIND=3D'valgrind --error-exitcode=3D1'
+> ++
+> ++{ printf '%s\n' aa bb; } > in || framework_failure_
+> ++
+> ++_POSIX2_VERSION=3D200809 $VALGRIND sort +0.${SIZE_MAX}R in > out || fai=
+l=3D1
+> ++compare in out || fail=3D1
+> ++
+> ++_POSIX2_VERSION=3D200809 $VALGRIND sort +1 -1.${SIZE_MAX}R in > out || =
+fail=3D1
+> ++compare in out || fail=3D1
+> ++
+> ++Exit $fail
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-core/coreutils/coreutils_9.4.bb b/meta/recipes-=
+core/coreutils/coreutils_9.4.bb
+> index 62ecdea6ec..ce35240d44 100644
+> --- a/meta/recipes-core/coreutils/coreutils_9.4.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_9.4.bb
+> @@ -18,6 +18,7 @@ SRC_URI =3D "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+>             file://0001-local.mk-fix-cross-compiling-problem.patch \
+>             file://0001-posixtm-pacify-clang-18.patch \
+>             file://CVE-2024-0684.patch \
+> +           file://0001-sort-fix-buffer-under-read-CWE-127.patch \
+>             file://run-ptest \
+>             "
+>  SRC_URI[sha256sum] =3D "ea613a4cf44612326e917201bbbcdfbd301de21ffc3b59b6=
+e5c07e040b275e52"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#218968): https://lists.openembedded.org/g/openembedde=
+d-core/message/218968
+> Mute This Topic: https://lists.openembedded.org/mt/113702781/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
