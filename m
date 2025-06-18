@@ -1,142 +1,100 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5581C7115A
-	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 13:06:26 +0000 (UTC)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web11.6915.1750251983538941243
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8EE0C7115A
+	for <webhook@archiver.kernel.org>; Wed, 18 Jun 2025 13:16:16 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.7180.1750252570608150870
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jun 2025 06:06:23 -0700
+ Wed, 18 Jun 2025 06:16:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=rXuQcsHY;
- spf=pass (domain: baylibre.com, ip: 209.85.160.180, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4a56cc0def0so116818091cf.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 06:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1750251981; x=1750856781; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jApyGhJiwhOT2lloUN4Udp5/SUtOGSQiT3wqkyKC4gQ=;
-        b=rXuQcsHY4s3CDPcWPMngL5o91W52S3/HaZkyrBZAiUkXduiufmSVSrpk+1AXVWK6j/
-         +UN5PFEOF40S/sqgPp++4mBrLfp8wTBSPfOEj//YgAAyCYntPV7M5TSISopKpL+r3H7A
-         uI4XBRfgSl/xhDI3DRoJbtNtdYxUtAHSUNmHBdCGcELCb1LNE9ivD26XSbPtI8NWnb3X
-         AelnjtszQZWSIyo+R/axBZ8hif16lGj2JsFJpeMVfahaUPSWocj1s3liMhrnAIS/rDdU
-         uhSE3L2YDs8nqLUpRxqbrTOzR+e9UeCRt3O/u7gr31RIBczy36+3f9Q908uLxsNLWer0
-         62hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750251981; x=1750856781;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jApyGhJiwhOT2lloUN4Udp5/SUtOGSQiT3wqkyKC4gQ=;
-        b=G8DV4Ns8RGuP6o3PkrWwgg2NegOreNnd0rA9uZK4HjeZF3vf6W9Rff6IA4dmGNLbQc
-         VF0V6/lAmOys2PHeZp8cJw0YMA1wWDUMHzGcUvlYABsardY5DJNOR/dx8djzG8D+cUWo
-         LYHRPuQBfp1bgKbli8EW//Tk+qJKZtTFIbA+U79wNhN3D3Syd7FTv0oG61XtWy/taJvp
-         PTNBnMJztfHXK/Z06Fh04fI/d1DqHnrzOlhdrb3RUgveKjHFydh0cedCaIv6QDPaAExm
-         f0Ymx9P+O2oxgo21nAIwg+KyWDM1zY/qCvM100THvTjg0tSfjfNnqG1rn4fWMwPLm61p
-         Zrog==
-X-Gm-Message-State: AOJu0YzUkKlmA7+L89w1dwgl5DfcHDAAcR8ZRT0wQAo5s58z+qBk9EZM
-	MGn7cMHZBggCYCPDMg6RZPZ8QviQ55pcJtylhbPq4gFz8Tx2OBKlG/jTJP5pNEeqVcoKjbcgNL3
-	6nKPOpVY=
-X-Gm-Gg: ASbGnctCrMaSh3Kc47Eu2+30fTHFH+fcLJga/trWKz4nH0ifIqYvroU5o9ozXY4V5zX
-	h96kL5wAI4T+3oKN30pc7ermhRGZPa2lLkoP++knndquan6X+clsyfwfRfYQo1alkkqb4bT5PBd
-	LsA2J3xe/NZsD0Ueeaouoj5yK8k8bn2ejS7Ye4FZLmlzFIJyh6CsfGDfJYmGR3N5LiuW4FBbzr9
-	s232kGRwIOZ4eyLHcbNf+zRYM9++4jssbAUI1xtCs1fwzNWaHXMGmL9gR5nvWz0TpbyO4dXAdTR
-	CXZn2WspQ5qTUK2b0HUmRyctL2ZKy9q2er1aiC6c9zRC0W06eLo5qLqXCIuEkzjMORycud8rgmi
-	8hK07LkL4srDF0gZd+i7zHYABIEp1Rw==
-X-Google-Smtp-Source: AGHT+IE4eNV3tbFLZ9q5V3As44PrrWAzqhdoBFwru2NRTjP8E7iMl8vIQVCUA7Ok30YRR0kkgZoOZQ==
-X-Received: by 2002:a05:620a:1aa1:b0:7d2:3db:a4c0 with SMTP id af79cd13be357-7d3c6ced80dmr2636592285a.41.1750251981483;
-        Wed, 18 Jun 2025 06:06:21 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d3b8ed6630sm757852885a.89.2025.06.18.06.06.20
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jun 2025 06:06:20 -0700 (PDT)
-Message-ID: <59919691-d210-4680-a458-e28b96da0963@baylibre.com>
-Date: Wed, 18 Jun 2025 09:06:19 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][scarthgap][PATCH] unzip: Fix build with GCC-15
-To: openembedded-core@lists.openembedded.org
-References: <184A24A1EC25AE27.21548@lists.openembedded.org>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <184A24A1EC25AE27.21548@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=2EB1Dret;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RwuTFNlc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010197832ec44f-47079c19-1e30-44df-9cc9-0921b287c895-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1750252569; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=eXe0axbNh6+DKuCTLA5+d1g/VLlOCmUUiRxcDsU990g=;
+	b=2EB1DretE5g2a+6yWXiVFK3KG6rw+EM6wP19ySJ2qCEMxsoAELJwkROrV94GcSss
+	SaEKLTDbClW3sHx42G60taadTCqusGxx2h6PfC4OwIdYKYv1Bo4HEsX1XxYhtWiwlY5
+	DD2eg/BXG5BA9FrAA01PdMOvc+yYovfIPrPL+544=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1750252569;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=eXe0axbNh6+DKuCTLA5+d1g/VLlOCmUUiRxcDsU990g=;
+	b=RwuTFNlcMqAlzHWRfzM/6DSjnm2Pcj9GKWPmW4Jp97giwiHZQzg9Agx5PJRT6HBC
+	i7p0Cs2o+Y6CLw3m5V+5G3V9jC63hhBUc1M3ZUssGVGry075rI30zjwQYqijeoXM2Tx
+	Qn/okYu77QcbaRXMI4poUl+XAc3+6n6Vvj3zVKCI=
+From: patchtest@automation.yoctoproject.org
+To: Trevor Gamblin <tgamblin@baylibre.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][scarthgap][PATCH] unzip: Fix build with GCC-15
+In-Reply-To: <20250618130103.3905926-1-tgamblin@baylibre.com>
+References: <20250618130103.3905926-1-tgamblin@baylibre.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010197832ec44f-47079c19-1e30-44df-9cc9-0921b287c895-000000@us-west-2.amazonses.com>
+Date: Wed, 18 Jun 2025 13:16:09 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.06.18-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 13:06:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219010
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 13:16:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219011
 
-Please disregard this one for now, looks like there may be other issues...
+--NextPart
+Content-Type: text/plain
 
-On 2025-06-18 09:01, Trevor Gamblin via lists.openembedded.org wrote:
-> From: Khem Raj <raj.khem@gmail.com>
->
-> Add a patch to remove redundant declarations
->
-> (From OE-Core rev: 20ae2ce01f5114f6df67c0cfb6d820fc1513cdcc)
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> Backport this to scarthgap so that it can build on systems with gcc 15
-> (e.g. Fedora 42).
->
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> ---
->   meta/recipes-extended/unzip/unzip/gcc15.patch | 17 +++++++++++++++++
->   meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
->   2 files changed, 18 insertions(+)
->   create mode 100644 meta/recipes-extended/unzip/unzip/gcc15.patch
->
-> diff --git a/meta/recipes-extended/unzip/unzip/gcc15.patch b/meta/recipes-extended/unzip/unzip/gcc15.patch
-> new file mode 100644
-> index 0000000000..42a2f81681
-> --- /dev/null
-> +++ b/meta/recipes-extended/unzip/unzip/gcc15.patch
-> @@ -0,0 +1,17 @@
-> +Do not redefine gmtime(), localtime()
-> +
-> +They are already provided by system time.h header
-> +
-> +Upstream-Status: Inactive-Upstream [need a new release]
-> +
-> +Sign-off-by: Khem Raj <raj.khem@gmail.com>
-> +--- a/unix/unxcfg.h
-> ++++ b/unix/unxcfg.h
-> +@@ -117,7 +117,6 @@ typedef struct stat z_stat;
-> + #  endif
-> + #else
-> + #  include <time.h>
-> +-   struct tm *gmtime(), *localtime();
-> + #endif
-> +
-> + #if (defined(BSD4_4) || (defined(SYSV) && defined(MODERN)))
-> diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-> index c13e7a008e..0a88b4c092 100644
-> --- a/meta/recipes-extended/unzip/unzip_6.0.bb
-> +++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-> @@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
->           file://CVE-2022-0530.patch \
->           file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
->           file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
-> +        file://gcc15.patch \
->   "
->   UPSTREAM_VERSION_UNKNOWN = "1"
->   
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#219008): https://lists.openembedded.org/g/openembedded-core/message/219008
-> Mute This Topic: https://lists.openembedded.org/mt/113707386/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
+---
+Testing patch /home/patchtest/share/mboxes/scarthgap-unzip-Fix-build-with-GCC-15.patch
+
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'gcc15.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
