@@ -1,133 +1,382 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <andrej.v@skyrain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E35C7115B
-	for <webhook@archiver.kernel.org>; Thu, 19 Jun 2025 10:31:33 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.11422.1750329084949837508
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1281DC7115A
+	for <webhook@archiver.kernel.org>; Thu, 19 Jun 2025 10:57:54 +0000 (UTC)
+Received: from h4.cmg1.smtp.forpsi.com (h4.cmg1.smtp.forpsi.com [185.129.138.163])
+ by mx.groups.io with SMTP id smtpd.web10.12018.1750330665960212367
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Jun 2025 03:31:25 -0700
+ Thu, 19 Jun 2025 03:57:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=k2XM9cwM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55J6bKCN003269
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 10:31:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TeD1Z3fw02GF1Wizy4mjCAZU/KYYhgkn3TEruiLeHgA=; b=k2XM9cwMmomwsRjO
-	effTQHhpqzwD0Vfu9GuNMskCbt6+tT15e2HO5OmPAVDpfu5hFwTZpdTdO3KbTr3W
-	wW+tTPOjBqvQoNB7cVGyFIT55LPiZNjgPoySd53fTc+//OAU/PGODXehJdiZZBFW
-	frWgsUv4dHEIhREXlC1rPkknezU9KbzG2UYIJMHvAQ7F5IjyGqWP1pWz3rvLvKW4
-	Uv4nA09hCzZfi/78OEYWoa4xQr6SZWkXOCntzoYAjCbJz7wGJaOOj1MrbL9vrnNZ
-	4ohlD+fxV96747m01t4b/rYDpXOgkcl1f9hh0ZAvdUr58HwOF4taw7i19Y5ZEvSG
-	xE4xtA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ag23bkx8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 10:31:23 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7d399070cecso132324885a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 03:31:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750329083; x=1750933883;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TeD1Z3fw02GF1Wizy4mjCAZU/KYYhgkn3TEruiLeHgA=;
-        b=cjsj7B1NrHJP5V8sRpJmR0qmJyU2EKpcm+qu5616cErotEgqoKtkCnAXYCXE8oU1iV
-         21yE5B5Yj51HdL0/yD8yuuThNtv5jzF8xW7abk5nANUUGDSsTGafjfFvGo1DcSh0UD/8
-         SQTby51HNPIBFWbM0gH4846TRd68uqIb66MLny97TQ3dmUMqeQmFLNEy4WO5Hg8OOMnH
-         9Jf1SNqRiFeV2oiw0zzMEGzOMlbDYv2XU6DahJGLzMw00jVhRGGTQ5HLw0vXG19CtTSC
-         aGb2XxWPVMW67/Br2NsZSndqBdaYX35i7vBe4J2KDyW7WGGYpvV/AjvUVE6pG+yNZE5I
-         HRQg==
-X-Gm-Message-State: AOJu0Yx3W/X0beLKa5CP19TKfsDx4cxRIM72lWGGBU6NBNk67jadzVBR
-	bAkFFkAXVrqXr3SRQ/ayO72X3lKrr/Tf1w5JLguC4YuOPs6th4Ri1CHKZ66Wgy/EtOcY8RA8oYW
-	hpUEd/GjPKej85hplF5BjieIMcg7RHJiR5Iln8tYx3i2lpmbFZH0n5MgoCWTzHtJ/jOu06EVvea
-	fwzhoTy5t5E0BaLk89cMfz
-X-Gm-Gg: ASbGnctJ3TpiGARIjqrsllpPsfZaJkc6jH0x4MkLzVhh2bMPxmAHJdJY6CC1hggF0bD
-	5HpxtW75ZQhy4Udt0SloWDSKF4f44yLyl9sHWebUxibxLYaHbAD5HeVY2P0FQXWdPeS7nrdEB81
-	qRxzHbdYzRqUOgBz0mgKuk5XUaXCjtE2JQuyGbkhqcmzOQpBTKjRLdPb/Z9wQUHsxbFGEbuGiGq
-	xx2Y+VFMqOwMzE9oa7F6CqqNqiTSMH/Cl3sVis3Ijodi7EHqitzufojlRGzAcjBEJnjij6fJ/Oy
-	l/R1xXQgbms1Z7XZXebaJduEp7WcyuSvQXWyhLkbiw==
-X-Received: by 2002:a05:620a:3199:b0:7d2:27ff:2133 with SMTP id af79cd13be357-7d3c6c090c0mr3002707285a.1.1750329082923;
-        Thu, 19 Jun 2025 03:31:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEVY+PaP0g8jIzitU+J0qQ3sAPZTYbITjs3WXqmBpAdQhO3AH6E/iMEGYly6kq+r5UgXHLJ6Q==
-X-Received: by 2002:a05:620a:3199:b0:7d2:27ff:2133 with SMTP id af79cd13be357-7d3c6c090c0mr3002703585a.1.1750329082387;
-        Thu, 19 Jun 2025 03:31:22 -0700 (PDT)
-Received: from [10.92.240.160] ([212.136.9.4])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec81c60f1sm1213169366b.60.2025.06.19.03.31.21
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jun 2025 03:31:21 -0700 (PDT)
-Message-ID: <35d83c74-b6fc-43cb-89f1-7d7aa48294c7@oss.qualcomm.com>
-Date: Thu, 19 Jun 2025 13:31:20 +0300
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=H31RXkAC;
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=H31RXkAC;
+ spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 185.129.138.163, mailfrom: andrej.v@skyrain.eu)
+Received: from [192.168.10.89] ([178.143.45.236])
+	by cmgsmtp with ESMTPSA
+	id SCxjuRvTtwQNXSCxjuZtRS; Thu, 19 Jun 2025 12:57:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1750330663; bh=9F4a7aS1rzg3BfF8qxrQcitxS9h59jccstWIrTjkFgs=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:From;
+	b=H31RXkAC+vJxO/lWphmPvGgPiAvyy1kp/IQMt1ukgXpp0+YIggRZthvrIRmD6arSa
+	 MBwWMh4NR/WOVulqZ2Ek6qH2sq0nOvXnbkTv91E+3TlXa+BhyStaBSOHML5sDOZt2R
+	 5jVxI2X7U8AAM+RpBqICXOg4KhOIcTnpTxm2Fr5XV/qimMm4S/De/Zp9qKNxVRSrFR
+	 XnVi8frpdWWrcJb2G2CJVzwHsm7FD5aucrleekzLaumTcFz/DnAM6mNA3498+AXycF
+	 vva0zljulCcsLD4fwMBf6heqvmJVhg4wGmpwqrXRUnmanE4j1NLiA16FO0Di6KrAS7
+	 6aAe057MsPY4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1750330663; bh=9F4a7aS1rzg3BfF8qxrQcitxS9h59jccstWIrTjkFgs=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:From;
+	b=H31RXkAC+vJxO/lWphmPvGgPiAvyy1kp/IQMt1ukgXpp0+YIggRZthvrIRmD6arSa
+	 MBwWMh4NR/WOVulqZ2Ek6qH2sq0nOvXnbkTv91E+3TlXa+BhyStaBSOHML5sDOZt2R
+	 5jVxI2X7U8AAM+RpBqICXOg4KhOIcTnpTxm2Fr5XV/qimMm4S/De/Zp9qKNxVRSrFR
+	 XnVi8frpdWWrcJb2G2CJVzwHsm7FD5aucrleekzLaumTcFz/DnAM6mNA3498+AXycF
+	 vva0zljulCcsLD4fwMBf6heqvmJVhg4wGmpwqrXRUnmanE4j1NLiA16FO0Di6KrAS7
+	 6aAe057MsPY4g==
+Content-Type: multipart/alternative;
+ boundary="------------HTGj6InLdFpHwF0LSM53hC0B"
+Message-ID: <b8c345d7-af11-49e8-b689-0a8c16f7bc6d@skyrain.eu>
+Date: Thu, 19 Jun 2025 12:57:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 8/8] fixup! libglvnd: migrate from meta-oe
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-References: <20250618212055.1529969-1-dmitry.baryshkov@oss.qualcomm.com>
- <20250618212055.1529969-8-dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [OE-core] perf: nativesdk
+To: peter.marko@siemens.com
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+References: <7dee70c7-d0a8-44ea-94a1-2c4be581208e@skyrain.eu>
+ <CANNYZj91bFZAMB0XiLyEewy6t0RnrtNAZGEsiV+znM5xSY7S0Q@mail.gmail.com>
+ <5a82dfcd-f526-4da7-a39b-081d7b689f57@skyrain.eu>
+ <CANNYZj8LHBsahWB6k6SHZygNVh7jcyDLV5H6n77FcTGnmRXdUw@mail.gmail.com>
+ <AS1PR10MB569796A8477A0D6B2E8892BBFD7DA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 Content-Language: en-US
-In-Reply-To: <20250618212055.1529969-8-dmitry.baryshkov@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: xw4ObSMzmvt1HMjB-kiLB_f6ijwOhart
-X-Authority-Analysis: v=2.4 cv=edY9f6EH c=1 sm=1 tr=0 ts=6853e6fb cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=Kch52H_EZlXUohy0w54A:9
- a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE5MDA4OCBTYWx0ZWRfX2LqjhpTq8ltj
- RpcV0ykGIO6bEBrkXPUXmgrsfYwAnPS7GFJFI9wc6oyU7JDi6p4BMkx332/+2FTuSvVRH1X5MH/
- UL2QdW0qkJYzCusEy1tueToz2bUyULOtW4AzcLToLdLOL3keF84d0SU/MpwHTg7BK+t+0XLVJtN
- IKtmDfl71Tw0Rothh24N+3ij9XZgPeT2al/tVU/Qswr8JQQT8apats9fVVRqGlXlaJErkaq/nBx
- ZZDEXq7lu+cY7tYH+5CAEC1AT3mHcgtvBtbBg0skKEy3uc3sEC6V472Fy/rr75udDBzpTJCRWo/
- VyzKUx4dwajeayzhfrB0mCAqYf7zKybN91aVCqtN/FWzvUfPtNR5wt7sERnvvLWtvERhmvevN8k
- CRvB1si7cJfrec9xr/yHbNcnq928+mxKaFao/wEZvH2XhB/be6er7wTpqDcAsbr5Fi3hXNf/
-X-Proofpoint-GUID: xw4ObSMzmvt1HMjB-kiLB_f6ijwOhart
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-19_03,2025-06-18_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 clxscore=1015 mlxlogscore=595 malwarescore=0
- phishscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506190088
+From: Andrej Valek <andrej.v@skyrain.eu>
+In-Reply-To: <AS1PR10MB569796A8477A0D6B2E8892BBFD7DA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+X-CMAE-Envelope: MS4xfHIGzpPrjlleGzd0NBDEKOgogkC5oJdZJHRcqytRJJYGC6Wig3xBcEkMcGd/Ght387rMTz1tJi+aJq/4roVl4ynTZU/kxTcfRiSIIWXOLKwfOZO3vmXU
+ q2G1/QUsh+BtqW2DEx6AwnSqot5BHRUIAK8gOhzwqn2BKxnaVzKbwYS4IzR72b7+EMww6mG+XMnu1glFs3lQdE8DsaoNYQ5rpPI6bjW4VU8zoYNMkwRBkVde
+ 2U0KYpSuqWN9nVZ3ODUF3tM+iX1O71KjJfxFBm5//egk6vV1KEinP0nN1H22PO0W
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 10:31:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219065
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 10:57:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219066
 
-On 19/06/2025 00:20, Dmitry Baryshkov wrote:
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+This is a multi-part message in MIME format.
+--------------HTGj6InLdFpHwF0LSM53hC0B
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Ouch, This should have been squashed into the earlier patch. I got 
-distracted and forgot about it...
+Thanks for pointing me out to the right direction.
 
-> ---
->   meta/lib/oeqa/selftest/cases/distrodata.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
-> index 1e88ea82e6a8..f2c6124d704f 100644
-> --- a/meta/lib/oeqa/selftest/cases/distrodata.py
-> +++ b/meta/lib/oeqa/selftest/cases/distrodata.py
-> @@ -56,7 +56,7 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
->   
->           def is_maintainer_exception(entry):
->               exceptions = ["musl", "newlib", "picolibc", "linux-yocto", "linux-dummy", "mesa-gl", "libgfortran", "libx11-compose-data",
-> -                          "cve-update-nvd2-native", "barebox"]
-> +                          "cve-update-nvd2-native", "barebox", "libglvnd"]
->               for i in exceptions:
->                    if i in entry:
->                        return True
+Yes, I know, that the perf sources are coming directly from kernel. So
 
+> It seems as though perf recipe depends on the kernel sources too, so
+> as it stands, you can't build it natively. I'd directly eliminate the
+> target deps (e.g. actually remove them from the recipe, as an
+> experiment) and see how far you get with bitbake perf-native.
 
--- 
-With best wishes
-Dmitry
+is not possible. But anyway, at the begging I was going with the wrong 
+direction. But yes, once I commented-out the section in gcc-cross, I was 
+able to compile a nativesdk- variant,
+
+file perf
+perf: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically 
+linked, interpreter 
+/usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-hiltisdk-linux/lib/ld-linux-x86-64.so.2, 
+BuildID[sha1]=34bfdb0e321eae26426e45c78c29f63e73ee62d4, for GNU/Linux 
+3.2.0, with debug_info, not stripped
+
+but didn't invest more time in tuning or execution.
+
+> Also I doubt that perf supports cross-build, meaning analyzing ARM processor counters on x86.
+> You may have to match your native host machine with target device maybe to point of exact processor type, not only architecture type.
+
+I know, that this has to be matching due to ABI, unwinding and so on... 
+. On the other hand, if I didn't have confirmation, that x86 could in 
+some modes understand arm64 counters I didn't go in this direction.
+
+x86_64 x86_64 x86_64 GNU/Linux variant of perf
+perf script -i perf.data --symfs rootfs
+unwind: target platform=arm64 is not supported
+   systemd-logind     339    65.306223:          1 cycles:P: 
+ffff80008007ff30 [unknown] ([kernel.kallsyms])
+   systemd-logind     339    65.306230:          1 cycles:P: 
+ffff80008007ff30 [unknown] ([kernel.kallsyms])
+
+So yes, script or inject modes can do some stuff. So I wanted to use the 
+perf binary directly from Yocto and not from host.
+
+Anyway as I mentioned, I found a correct usable way.
+Use qemu-aarch64 for arm binary execution, pass some args and voila:
+   systemd-logind     341    43.234008:        711 cycles:P: 
+ffff80008007ff30 finish_task_switch.isra.0+0x90 ([kernel.kallsyms])
+   systemd-logind     341    43.234016:        711 cycles:P: 
+ffff80008007ff30 finish_task_switch.isra.0+0x90 ([kernel.kallsyms])
+   systemd-logind     341    43.234020:        711 cycles:P: 
+ffff80008007ff30 finish_task_switch.isra.0+0x90 ([kernel.kallsyms])
+
+It can fully unwind the stack... .
+
+BR,
+Andy
+
+On 19.06.2025 10:59, Peter Marko via lists.openembedded.org wrote:
+> What you want to do is not really possible.
+> Perf recipe does not have its own sources, it only copies sources from kernel and then builds them.
+> And you cannot depend on target recipe (kernel) in native recipe (perf-native).
+>
+> Also I doubt that perf supports cross-build, meaning analyzing ARM processor counters on x86.
+> You may have to match your native host machine with target device maybe to point of exact processor type, not only architecture type.
+>
+> Peter
+>
+>> -----Original Message-----
+>> From:openembedded-core@lists.openembedded.org <openembedded-
+>> core@lists.openembedded.org> On Behalf Of Alexander Kanavin via
+>> lists.openembedded.org
+>> Sent: Thursday, June 19, 2025 10:13
+>> To: Andrej Valek<andrej.v@skyrain.eu>
+>> Cc:openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] perf: nativesdk
+>>
+>> On Thu, 19 Jun 2025 at 10:07, Andrej Valek<andrej.v@skyrain.eu> wrote:
+>>> maybe I have to do some more tuning, but what I did:
+>>> BBCLASSEXTEND = "native nativesdk"
+>>> DEPENDS:remove:class-native = "virtual/${MLPREFIX}libc"
+>>>
+>>> then I run: "bitbake perf-native" and I have the same issue:
+>>>
+>>> ERROR: perf-native-1.0-r0 do_configure: The sstate manifest for task
+>>> 'linux-libc-headers:populate_sysroot' (multilib variant '') could not be
+>>> found.
+>>> The pkgarchs considered were: machineA, cortexa53, cortexa53,
+>>> armv8a-crc, armv8a, aarch64, allarch, x86_64_x86_64-nativesdk.
+>>> But none of these manifests exists:
+>>>
+>>> /home/build/tmp/sstate-control/manifest-machineA-linux-libc-
+>> headers.populate_sysroot
+>>> /home/build/tmp/sstate-control/manifest-cortexa53-linux-libc-
+>> headers.populate_sysroot
+>>> /home/build/tmp/sstate-control/manifest-cortexa53-linux-libc-
+>> headers.populate_sysroot
+>>> /home/build/tmp/sstate-control/manifest-armv8a-crc-linux-libc-
+>> headers.populate_sysroot
+>>> /home/build/tmp/sstate-control/manifest-armv8a-linux-libc-
+>> headers.populate_sysroot
+>>> /home/build/tmp/sstate-control/manifest-aarch64-linux-libc-
+>> headers.populate_sysroot
+>>> /home/build/tmp/sstate-control/manifest-allarch-linux-libc-
+>> headers.populate_sysroot
+>>> /home/build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-linux-libc-
+>> headers.populate_sysroot
+>>> So nope, it's not working.
+>> It seems as though perf recipe depends on the kernel sources too, so
+>> as it stands, you can't build it natively. I'd directly eliminate the
+>> target deps (e.g. actually remove them from the recipe, as an
+>> experiment) and see how far you get with bitbake perf-native.
+>>
+>> Alex
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#219062):https://lists.openembedded.org/g/openembedded-core/message/219062
+>> Mute This Topic:https://lists.openembedded.org/mt/113722107/3619876
+>> Group Owner:openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [andrej.v@skyrain.eu]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+
+--------------HTGj6InLdFpHwF0LSM53hC0B
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <font face="monospace">Thanks for pointing me out to the right
+      direction.<br>
+      <br>
+      Yes, I know, that the perf sources are coming directly from
+      kernel. So<br>
+    </font>
+    <pre wrap="" class="moz-quote-pre">&gt; It seems as though perf recipe depends on the kernel sources too, so
+&gt; as it stands, you can't build it natively. I'd directly eliminate the
+&gt; target deps (e.g. actually remove them from the recipe, as an
+&gt; experiment) and see how far you get with bitbake perf-native.
+<font face="monospace" style="white-space: normal;">
+</font></pre>
+    <font face="monospace" style="white-space: normal;">is not possible.
+      But anyway, at the begging I was going with the wrong direction.
+      But yes, once I commented-out the section in gcc-cross, I was able
+      to compile a nativesdk- variant,<br>
+      <br>
+      file perf<br>
+      perf: ELF 64-bit LSB executable, x86-64, version 1 (SYSV),
+      dynamically linked, interpreter
+/usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-hiltisdk-linux/lib/ld-linux-x86-64.so.2,
+      BuildID[sha1]=34bfdb0e321eae26426e45c78c29f63e73ee62d4, for
+      GNU/Linux 3.2.0, with debug_info, not stripped<br>
+      <br>
+      but didn't invest more time in tuning or execution.<br>
+    </font>
+    <pre wrap="" class="moz-quote-pre">&gt; Also I doubt that perf supports cross-build, meaning analyzing ARM processor counters on x86.
+&gt; You may have to match your native host machine with target device maybe to point of exact processor type, not only architecture type.</pre>
+    <font face="monospace">I know, that this has to be matching due to
+      ABI, unwinding and so on... . On the other hand, if I didn't have
+      confirmation, that x86 could in some modes understand arm64
+      counters I didn't go in this direction.<br>
+      <br>
+    </font><font face="monospace" style="white-space: normal;">x86_64
+      x86_64 x86_64 GNU/Linux variant of perf<br>
+      perf script -i perf.data --symfs rootfs<br>
+      unwind: target platform=arm64 is not supported<br>
+        systemd-logind     339    65.306223:          1 cycles:P: 
+      ffff80008007ff30 [unknown] ([kernel.kallsyms])<br>
+        systemd-logind     339    65.306230:          1 cycles:P: 
+      ffff80008007ff30 [unknown] ([kernel.kallsyms])<br>
+      <br>
+      So yes, script or inject modes can do some stuff. So I wanted to
+      use the perf binary directly from Yocto and not from host.<br>
+      <br>
+      Anyway as I mentioned, I found a correct usable way.<br>
+      Use qemu-aarch64 for arm binary execution, pass some args and
+      voila:<br>
+        systemd-logind     341    43.234008:        711 cycles:P: 
+      ffff80008007ff30 finish_task_switch.isra.0+0x90
+      ([kernel.kallsyms])<br>
+        systemd-logind     341    43.234016:        711 cycles:P: 
+      ffff80008007ff30 finish_task_switch.isra.0+0x90
+      ([kernel.kallsyms])<br>
+        systemd-logind     341    43.234020:        711 cycles:P: 
+      ffff80008007ff30 finish_task_switch.isra.0+0x90
+      ([kernel.kallsyms])<br>
+      <br>
+      It can fully unwind the stack... .<br>
+      <br>
+      BR,<br>
+      Andy<br>
+    </font><br>
+    <div class="moz-cite-prefix">On 19.06.2025 10:59, Peter Marko via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:AS1PR10MB569796A8477A0D6B2E8892BBFD7DA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM">
+      <pre wrap="" class="moz-quote-pre">What you want to do is not really possible.
+Perf recipe does not have its own sources, it only copies sources from kernel and then builds them.
+And you cannot depend on target recipe (kernel) in native recipe (perf-native).
+
+Also I doubt that perf supports cross-build, meaning analyzing ARM processor counters on x86.
+You may have to match your native host machine with target device maybe to point of exact processor type, not only architecture type.
+
+Peter
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">-----Original Message-----
+From: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a> &lt;openembedded-
+<a class="moz-txt-link-abbreviated" href="mailto:core@lists.openembedded.org">core@lists.openembedded.org</a>&gt; On Behalf Of Alexander Kanavin via
+lists.openembedded.org
+Sent: Thursday, June 19, 2025 10:13
+To: Andrej Valek <a class="moz-txt-link-rfc2396E" href="mailto:andrej.v@skyrain.eu">&lt;andrej.v@skyrain.eu&gt;</a>
+Cc: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
+Subject: Re: [OE-core] perf: nativesdk
+
+On Thu, 19 Jun 2025 at 10:07, Andrej Valek <a class="moz-txt-link-rfc2396E" href="mailto:andrej.v@skyrain.eu">&lt;andrej.v@skyrain.eu&gt;</a> wrote:
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">maybe I have to do some more tuning, but what I did:
+BBCLASSEXTEND = "native nativesdk"
+DEPENDS:remove:class-native = "virtual/${MLPREFIX}libc"
+
+then I run: "bitbake perf-native" and I have the same issue:
+
+ERROR: perf-native-1.0-r0 do_configure: The sstate manifest for task
+'linux-libc-headers:populate_sysroot' (multilib variant '') could not be
+found.
+The pkgarchs considered were: machineA, cortexa53, cortexa53,
+armv8a-crc, armv8a, aarch64, allarch, x86_64_x86_64-nativesdk.
+But none of these manifests exists:
+
+/home/build/tmp/sstate-control/manifest-machineA-linux-libc-
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">headers.populate_sysroot
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">/home/build/tmp/sstate-control/manifest-cortexa53-linux-libc-
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">headers.populate_sysroot
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">/home/build/tmp/sstate-control/manifest-cortexa53-linux-libc-
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">headers.populate_sysroot
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">/home/build/tmp/sstate-control/manifest-armv8a-crc-linux-libc-
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">headers.populate_sysroot
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">/home/build/tmp/sstate-control/manifest-armv8a-linux-libc-
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">headers.populate_sysroot
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">/home/build/tmp/sstate-control/manifest-aarch64-linux-libc-
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">headers.populate_sysroot
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">/home/build/tmp/sstate-control/manifest-allarch-linux-libc-
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">headers.populate_sysroot
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">/home/build/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-linux-libc-
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">headers.populate_sysroot
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">
+So nope, it's not working.
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">
+It seems as though perf recipe depends on the kernel sources too, so
+as it stands, you can't build it natively. I'd directly eliminate the
+target deps (e.g. actually remove them from the recipe, as an
+experiment) and see how far you get with bitbake perf-native.
+
+Alex
+</pre>
+        <br>
+        <fieldset class="moz-mime-attachment-header"></fieldset>
+        <pre wrap="" class="moz-quote-pre">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#219062): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/219062">https://lists.openembedded.org/g/openembedded-core/message/219062</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/113722107/3619876">https://lists.openembedded.org/mt/113722107/3619876</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:andrej.v@skyrain.eu">andrej.v@skyrain.eu</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+      </blockquote>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------HTGj6InLdFpHwF0LSM53hC0B--
 
