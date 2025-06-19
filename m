@@ -1,94 +1,88 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2791C7115A
-	for <webhook@archiver.kernel.org>; Thu, 19 Jun 2025 15:32:31 +0000 (UTC)
-Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
- by mx.groups.io with SMTP id smtpd.web10.2670.1750347151093639374
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 446DBC7115A
+	for <webhook@archiver.kernel.org>; Thu, 19 Jun 2025 16:50:12 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.4644.1750351804787495024
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Jun 2025 08:32:31 -0700
+ Thu, 19 Jun 2025 09:50:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=PiqtOsG7;
- spf=pass (domain: bootlin.com, ip: 217.70.178.235, mailfrom: antonin.godard@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F41B9442A7;
-	Thu, 19 Jun 2025 15:32:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1750347149;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Ad0liPOvKQXsIacdiLfZzPsn8MRFwtPIq+pQyU0czE=;
-	b=PiqtOsG7bW37r435JXuhoJa3N2DV8zvxpsTVQg8sBkvQzuSi9llP46HFgd74bZUg6NEUmP
-	1Il/kpns+XtoxqVDBUTOV9XjHO3M/4PIxpIZ2pEyK5uCZLXLzPM5nk5BxFkODCWqr8rcvd
-	VB076AxJM5lIZtK00DsrlqMckNu6D91OIBp10fqLbrsf6pNFTI0Ze2/Gg2Dt9Nuxn8uiGe
-	b9g14gJ7zs/mxhC2eXC+9pt2hSdGrRDYpsV0Kod9hL6nQka3NeujvP1DLIHnlhEXLtIbvU
-	CBflg3zd8YA3uSWoqBr1vX56QiSVRYuzlQUI7X442LlRyttnQgEGJJ+/ravcbg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Jun 2025 17:32:28 +0200
-Message-Id: <DAQMA3E0OM0S.N9VZOQHC3GPL@bootlin.com>
-Subject: Re: [OE-core] [PATCH] nfsrootfs: disable warning message if
- bootargs root parameter have not been defined
-Cc: "Alexander Kanavin" <alex.kanavin@gmail.com>
-From: "Antonin Godard" <antonin.godard@bootlin.com>
-To: <jimmy.ho@sifive.com>, <openembedded-core@lists.openembedded.org>
-References: <20250619082919.12390-1-jimmy.ho@sifive.com>
-In-Reply-To: <20250619082919.12390-1-jimmy.ho@sifive.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdehkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkufevhffvfhgjsehtqhertddttdejnecuhfhrohhmpedftehnthhonhhinhcuifhouggrrhgufdcuoegrnhhtohhnihhnrdhgohgurghrugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepffekhedtfedvueevgeeffffhvdegveeguefggeduhffhfeekvdehkeefueejveelnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeftgekudemvggsrgejmedusgeksgemrgehtgelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeftgekudemvggsrgejmedusgeksgemrgehtgelpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpegrnhhtohhnihhnrdhgohgurghrugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedprhgtphhtthhopehjihhmmhihrdhhohesshhifhhivhgvrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpv
- ghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheprghlvgigrdhkrghnrghvihhnsehgmhgrihhlrdgtohhm
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=yOA/2yQj;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-2025061916500173099a7bcd1d457f0d-3pzyn6@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2025061916500173099a7bcd1d457f0d
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 19 Jun 2025 18:50:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=QTU4ks5a5FCQS6lsfKQ7dxMgPVTT6jFVVlT0uyoPgTE=;
+ b=yOA/2yQjNZXov35E8QQBy835Bsvrs0SIt5Zf1CgjR1bZL/l6fJjaoTBkjCCD3k+AvIG3y6
+ PjnFDihBK+k3ulPAooehRTvQFNZ4u3awO4/NQ668gpfIwLY2n+Tx6oxNCFQF/AlbQ4yOraXf
+ ncLXP+zuG/vSikaXvGuWf14uBoIA5HgdFgzuskhhbOOG6kEFMoOJAFjTW5jqXsHAdrQCNMMn
+ 90M6pmM+76rgcBBSkNlRrlGxpEMKq+OvR1iC0kUnUdp1tkEDwZOwhO5JRsIpKg1R9UzOBBB7
+ rE6sd1xHkjLy6eQ7I4OwapmQKhIj6EvtnumdWzfGD+CXRtvRW32+fBSQ==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] go: ignore CVE-2024-3566
+Date: Thu, 19 Jun 2025 18:49:11 +0200
+Message-Id: <20250619164911.14992-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 15:32:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219089
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 16:50:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219090
 
-On Thu Jun 19, 2025 at 10:29 AM CEST, Jimmy Ho via lists.openembedded.org w=
-rote:
-> we have case that don't define root in bootargs,
-> if [ ${bootparam_root} !=3D "/dev/nfs" ] will output warning "/init.d/85-=
-nfsrootfs: line 4: [: !=3D: unary operator expected"
-> by checking  whether bootparam_root is defined can clear this warning mes=
-sage=20
->
-> Signed-off-by: Jimmy Ho <jimmy.ho@sifive.com>
-> ---
->  meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootf=
-s b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-> index e67ee4c25d..1e76258ce1 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-> @@ -1,7 +1,7 @@
->  #!/bin/sh
-> =20
->  nfsrootfs_enabled() {
-> -	if [ ${bootparam_root} !=3D "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]=
-; then
-> +	if [ -z ${bootparam_root} ] || [ ${bootparam_root} !=3D "/dev/nfs" ] ||=
- [ -z ${bootparam_nfsroot} ]; then
+From: Peter Marko <peter.marko@siemens.com>
 
-I think a better way of fixing this would be to replace
+NVD ([1]) tracks this as:
+cpe:2.3:a:golang:go:*:*:*:*:*:*:*:*
+Running on/with
+  cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*
 
-  [ ${bootparam_root} !=3D "/dev/nfs" ]
+Yocto cve-check ignores the "Running on/with", so it needs to be ignored
+explicitly.
 
-by
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-3566
 
-  [ "${bootparam_root}" !=3D "/dev/nfs" ]
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-devtools/go/go-binary-native_1.17.13.bb | 3 +++
+ meta/recipes-devtools/go/go-common.inc               | 3 +++
+ 2 files changed, 6 insertions(+)
 
-instead of an extra condition.
-
-Antonin
-
---=20
-Antonin Godard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.17.13.bb b/meta/recipes-devtools/go/go-binary-native_1.17.13.bb
+index 4ee0148417..0f356b0e79 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.17.13.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.17.13.bb
+@@ -14,6 +14,9 @@ SRC_URI[go_linux_arm64.sha256sum] = "914daad3f011cc2014dea799bb7490442677e4ad6de
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+ 
++# not-applicable-platform: Issue only applies on Windows
++CVE_CHECK_IGNORE += "CVE-2024-3566"
++
+ S = "${WORKDIR}/go"
+ 
+ inherit goarch native
+diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
+index 83f8db7b39..e2ffba27bd 100644
+--- a/meta/recipes-devtools/go/go-common.inc
++++ b/meta/recipes-devtools/go/go-common.inc
+@@ -19,6 +19,9 @@ S = "${WORKDIR}/go"
+ B = "${S}"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
+ 
++# not-applicable-platform: Issue only applies on Windows
++CVE_CHECK_IGNORE += "CVE-2024-3566"
++
+ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+ SSTATE_SCAN_CMD = "true"
+ 
 
