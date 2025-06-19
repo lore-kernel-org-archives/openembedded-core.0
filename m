@@ -1,144 +1,133 @@
-Return-Path: <philip@balister.org>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D34E5C73C66
-	for <webhook@archiver.kernel.org>; Thu, 19 Jun 2025 10:17:13 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.8237.1750313542694871299
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E35C7115B
+	for <webhook@archiver.kernel.org>; Thu, 19 Jun 2025 10:31:33 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.11422.1750329084949837508
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jun 2025 23:12:23 -0700
+ Thu, 19 Jun 2025 03:31:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sifive.com header.s=google header.b=k3aDzzMj;
- spf=pass (domain: sifive.com, ip: 209.85.128.49, mailfrom: jimmy.ho@sifive.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-453426170b6so8953115e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jun 2025 23:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1750313541; x=1750918341; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cYanlfONYj9XYK9YfnTmV4KmkpsrqcXkW1mkky6CWpY=;
-        b=k3aDzzMjIbd9R4zQqV60mp4v80PM3VOjiphGG3N/fzHb/tSk0O9ju7QEdPtwFOLVop
-         UB+l7X5UpGH5H2Sv/RcgKyF3Vh6YakfqHYx/U4R3R/PXRCm18Sb/fcD1HUr6RtH/uiYz
-         fnbkUmHSCInJkabJoHvCtLk82qBCVv9q3d59c6l7+Hylt6vbRb5+7aY+e6YkkQEmD2+c
-         NBjN0Po4gi6g0DNbyatXs5J/RLCQo0ywoUy4vPyCdbDatamYNmrIsa8sEw1jwXJGec5D
-         w5mhi/sFqfZgcvsKd/QDuGCkahh7/f7NLV6G43/HmvVGlLnrt/d6rm4t88u1nsVUEBet
-         WGKg==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=k2XM9cwM;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55J6bKCN003269
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 10:31:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	TeD1Z3fw02GF1Wizy4mjCAZU/KYYhgkn3TEruiLeHgA=; b=k2XM9cwMmomwsRjO
+	effTQHhpqzwD0Vfu9GuNMskCbt6+tT15e2HO5OmPAVDpfu5hFwTZpdTdO3KbTr3W
+	wW+tTPOjBqvQoNB7cVGyFIT55LPiZNjgPoySd53fTc+//OAU/PGODXehJdiZZBFW
+	frWgsUv4dHEIhREXlC1rPkknezU9KbzG2UYIJMHvAQ7F5IjyGqWP1pWz3rvLvKW4
+	Uv4nA09hCzZfi/78OEYWoa4xQr6SZWkXOCntzoYAjCbJz7wGJaOOj1MrbL9vrnNZ
+	4ohlD+fxV96747m01t4b/rYDpXOgkcl1f9hh0ZAvdUr58HwOF4taw7i19Y5ZEvSG
+	xE4xtA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ag23bkx8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 10:31:23 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7d399070cecso132324885a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 03:31:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750313541; x=1750918341;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cYanlfONYj9XYK9YfnTmV4KmkpsrqcXkW1mkky6CWpY=;
-        b=jE5cEu/ofBGbKb5FqwJHei1O3rvADXLJ21y8l8zfLopC0w7QvqnnkCNMumMZ8Wxix/
-         r12WdWuKptYrKyxs7wUq0ZGxNkKL9/IAyBWtCOi0Fj9iVlKUXQqSDzIfwIchRTr8VH4K
-         jEPXQaKinGyDswjNHgjpZik1gGPvLyTuOsUh/FXUPR9SNqFy8GtQtIytE5hHbW/1DLEF
-         c8+fz4eKCfJZ5apo41ZawMeeK6q1KMDXSej4b03L9mBEZ4cwGOl2xgXfym+9Nyrkowt4
-         aO/wPWX9uD7RJeLKuO901u3WtAGBs6oAk+krx3myuGtp0GNNEuaQw69pBiBuJWAzuXNR
-         ZJ5g==
-X-Gm-Message-State: AOJu0YyUXaiBA+SodMClcRKiJ9dw4QKDG6Pu5Xuq8cWmU4hpzG+Iz7VK
-	FY17ZGP+vGWq9nqrL1HQ2V2EiFJBHk4oizIIQ2gGYGHVX+HMVCGtOCKgmSyqgwe7T/C4AVZIq/t
-	8UEUAhIxcp3n6PB5g2b4NOYnufS/eS0rXEsvk1Vl4rg==
-X-Gm-Gg: ASbGncvATByc8JwhiAYboSa7MavNUqpBq397+mBAogWy57+Jnb3WbdvCPpNBm04i4Lh
-	wxV//9mM8D6eNkRsnV7ceZqXiHOJoYrXfucSLVLwxOUzJGDFtfBoQFRwlhec+op9ErSlKy6wejD
-	5kgnOKl1nQGLEhe3va/19lVTOU1943Om+6veQkxgxKyt8uJg==
-X-Google-Smtp-Source: AGHT+IEXHgD5/Ny7/hi7b8hlj2HZC4EK91ilkUO5boXADe6eVQgdd5mjY4kEtVI8JWmL4Km/ZaNEeAErGEMhgdwOF+M=
-X-Received: by 2002:a05:6000:400d:b0:3a4:e231:8632 with SMTP id
- ffacd0b85a97d-3a6c96ba73dmr1652825f8f.12.1750313541038; Wed, 18 Jun 2025
- 23:12:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750329083; x=1750933883;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TeD1Z3fw02GF1Wizy4mjCAZU/KYYhgkn3TEruiLeHgA=;
+        b=cjsj7B1NrHJP5V8sRpJmR0qmJyU2EKpcm+qu5616cErotEgqoKtkCnAXYCXE8oU1iV
+         21yE5B5Yj51HdL0/yD8yuuThNtv5jzF8xW7abk5nANUUGDSsTGafjfFvGo1DcSh0UD/8
+         SQTby51HNPIBFWbM0gH4846TRd68uqIb66MLny97TQ3dmUMqeQmFLNEy4WO5Hg8OOMnH
+         9Jf1SNqRiFeV2oiw0zzMEGzOMlbDYv2XU6DahJGLzMw00jVhRGGTQ5HLw0vXG19CtTSC
+         aGb2XxWPVMW67/Br2NsZSndqBdaYX35i7vBe4J2KDyW7WGGYpvV/AjvUVE6pG+yNZE5I
+         HRQg==
+X-Gm-Message-State: AOJu0Yx3W/X0beLKa5CP19TKfsDx4cxRIM72lWGGBU6NBNk67jadzVBR
+	bAkFFkAXVrqXr3SRQ/ayO72X3lKrr/Tf1w5JLguC4YuOPs6th4Ri1CHKZ66Wgy/EtOcY8RA8oYW
+	hpUEd/GjPKej85hplF5BjieIMcg7RHJiR5Iln8tYx3i2lpmbFZH0n5MgoCWTzHtJ/jOu06EVvea
+	fwzhoTy5t5E0BaLk89cMfz
+X-Gm-Gg: ASbGnctJ3TpiGARIjqrsllpPsfZaJkc6jH0x4MkLzVhh2bMPxmAHJdJY6CC1hggF0bD
+	5HpxtW75ZQhy4Udt0SloWDSKF4f44yLyl9sHWebUxibxLYaHbAD5HeVY2P0FQXWdPeS7nrdEB81
+	qRxzHbdYzRqUOgBz0mgKuk5XUaXCjtE2JQuyGbkhqcmzOQpBTKjRLdPb/Z9wQUHsxbFGEbuGiGq
+	xx2Y+VFMqOwMzE9oa7F6CqqNqiTSMH/Cl3sVis3Ijodi7EHqitzufojlRGzAcjBEJnjij6fJ/Oy
+	l/R1xXQgbms1Z7XZXebaJduEp7WcyuSvQXWyhLkbiw==
+X-Received: by 2002:a05:620a:3199:b0:7d2:27ff:2133 with SMTP id af79cd13be357-7d3c6c090c0mr3002707285a.1.1750329082923;
+        Thu, 19 Jun 2025 03:31:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEVY+PaP0g8jIzitU+J0qQ3sAPZTYbITjs3WXqmBpAdQhO3AH6E/iMEGYly6kq+r5UgXHLJ6Q==
+X-Received: by 2002:a05:620a:3199:b0:7d2:27ff:2133 with SMTP id af79cd13be357-7d3c6c090c0mr3002703585a.1.1750329082387;
+        Thu, 19 Jun 2025 03:31:22 -0700 (PDT)
+Received: from [10.92.240.160] ([212.136.9.4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec81c60f1sm1213169366b.60.2025.06.19.03.31.21
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Jun 2025 03:31:21 -0700 (PDT)
+Message-ID: <35d83c74-b6fc-43cb-89f1-7d7aa48294c7@oss.qualcomm.com>
+Date: Thu, 19 Jun 2025 13:31:20 +0300
 MIME-Version: 1.0
-References: <20250616074341.32477-1-jimmy.ho@sifive.com> <CANNYZj-njPQU9VN3yxZSs1cRiWNvZ172nzV=abD2jVm0mGfpdQ@mail.gmail.com>
-In-Reply-To: <CANNYZj-njPQU9VN3yxZSs1cRiWNvZ172nzV=abD2jVm0mGfpdQ@mail.gmail.com>
-From: Jimmy Ho <jimmy.ho@sifive.com>
-Date: Thu, 19 Jun 2025 14:12:09 +0800
-X-Gm-Features: Ac12FXxUlkdiG8dSrNHYE-bhVyqXmeu3sYsz24vEgLldPdTJUcUDDhtjwNBCyms
-Message-ID: <CAJh9TSLZvZG6VJdqOZiMhGJykKQHCf2uem3ebVxRH_0o0FahYg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] nfsrootfs: disable warning message if bootargs root parameter have not been defined
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000dc07f80637e6a001"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 8/8] fixup! libglvnd: migrate from meta-oe
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+References: <20250618212055.1529969-1-dmitry.baryshkov@oss.qualcomm.com>
+ <20250618212055.1529969-8-dmitry.baryshkov@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20250618212055.1529969-8-dmitry.baryshkov@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: xw4ObSMzmvt1HMjB-kiLB_f6ijwOhart
+X-Authority-Analysis: v=2.4 cv=edY9f6EH c=1 sm=1 tr=0 ts=6853e6fb cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=Kch52H_EZlXUohy0w54A:9
+ a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE5MDA4OCBTYWx0ZWRfX2LqjhpTq8ltj
+ RpcV0ykGIO6bEBrkXPUXmgrsfYwAnPS7GFJFI9wc6oyU7JDi6p4BMkx332/+2FTuSvVRH1X5MH/
+ UL2QdW0qkJYzCusEy1tueToz2bUyULOtW4AzcLToLdLOL3keF84d0SU/MpwHTg7BK+t+0XLVJtN
+ IKtmDfl71Tw0Rothh24N+3ij9XZgPeT2al/tVU/Qswr8JQQT8apats9fVVRqGlXlaJErkaq/nBx
+ ZZDEXq7lu+cY7tYH+5CAEC1AT3mHcgtvBtbBg0skKEy3uc3sEC6V472Fy/rr75udDBzpTJCRWo/
+ VyzKUx4dwajeayzhfrB0mCAqYf7zKybN91aVCqtN/FWzvUfPtNR5wt7sERnvvLWtvERhmvevN8k
+ CRvB1si7cJfrec9xr/yHbNcnq928+mxKaFao/wEZvH2XhB/be6er7wTpqDcAsbr5Fi3hXNf/
+X-Proofpoint-GUID: xw4ObSMzmvt1HMjB-kiLB_f6ijwOhart
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-19_03,2025-06-18_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0
+ impostorscore=0 mlxscore=0 clxscore=1015 mlxlogscore=595 malwarescore=0
+ phishscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506190088
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 10:17:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219063
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 10:31:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219065
 
---000000000000dc07f80637e6a001
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 19/06/2025 00:20, Dmitry Baryshkov wrote:
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-hi Alexander:
-in one of our use case, we don't define root in bootargs,
-if [ ${bootparam_root} !=3D "/dev/nfs" ] will output /init.d/85-nfsrootfs:
-line 4: [: !=3D: unary operator expected
-by checking   if [-z ${bootparam_root} ] can clear this warning message
-thanks
-best regards
-jimmy ho
+Ouch, This should have been squashed into the earlier patch. I got 
+distracted and forgot about it...
 
-On Mon, Jun 16, 2025 at 9:52=E2=80=AFPM Alexander Kanavin <alex.kanavin@gma=
-il.com>
-wrote:
+> ---
+>   meta/lib/oeqa/selftest/cases/distrodata.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
+> index 1e88ea82e6a8..f2c6124d704f 100644
+> --- a/meta/lib/oeqa/selftest/cases/distrodata.py
+> +++ b/meta/lib/oeqa/selftest/cases/distrodata.py
+> @@ -56,7 +56,7 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
+>   
+>           def is_maintainer_exception(entry):
+>               exceptions = ["musl", "newlib", "picolibc", "linux-yocto", "linux-dummy", "mesa-gl", "libgfortran", "libx11-compose-data",
+> -                          "cve-update-nvd2-native", "barebox"]
+> +                          "cve-update-nvd2-native", "barebox", "libglvnd"]
+>               for i in exceptions:
+>                    if i in entry:
+>                        return True
 
-> On Mon, 16 Jun 2025 at 13:56, Jimmy Ho via lists.openembedded.org
-> <jimmy.ho=3Dsifive.com@lists.openembedded.org> wrote:
-> >  nfsrootfs_enabled() {
-> > -       if [ ${bootparam_root} !=3D "/dev/nfs" ] || [ -z
-> ${bootparam_nfsroot} ]; then
-> > +       if [ -z ${bootparam_root} ] || [ ${bootparam_root} !=3D "/dev/n=
-fs"
-> ] || [ -z ${bootparam_nfsroot} ]; then
-> >                 return 1
-> >         fi
-> >         return 0
->
-> This needs a bit more explanation. What is the warning message, why
-> does it need to be disabled, and how does the above change achieve it?
->
-> Alex
->
 
---000000000000dc07f80637e6a001
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">hi Alexander:<div>in one of our use case, we don&#39;t def=
-ine root in bootargs,<span style=3D"color:rgb(80,0,80)">=C2=A0<br>if [=C2=
-=A0</span><span style=3D"color:rgb(80,0,80)">${bootparam_root} !=3D &quot;/=
-dev/nfs&quot; ] will output=C2=A0</span><span style=3D"background-color:tra=
-nsparent;font-family:ui-monospace,SFMono-Regular,&quot;SF Mono&quot;,Menlo,=
-Consolas,&quot;Liberation Mono&quot;,monospace;color:rgb(31,35,40);font-siz=
-e:11.9px">/init.d/85-nfsrootfs: line 4: [: !=3D: unary operator expected</s=
-pan></div>by checking=C2=A0=C2=A0<span style=3D"color:rgb(80,0,80)">=C2=A0i=
-f [-z ${bootparam_root} ] can clear this warning message=C2=A0</span><div><=
-span style=3D"color:rgb(80,0,80)">thanks=C2=A0</span></div><div><span style=
-=3D"color:rgb(80,0,80)">best regards=C2=A0</span></div><font color=3D"#8888=
-88"><div><span style=3D"color:rgb(80,0,80)">jimmy ho</span></div></font></d=
-iv><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Mon, Jun 16, 2025 at 9:52=E2=80=AFPM Alexander Kanavi=
-n &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mo=
-n, 16 Jun 2025 at 13:56, Jimmy Ho via <a href=3D"http://lists.openembedded.=
-org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a><br>
-&lt;jimmy.ho=3D<a href=3D"mailto:sifive.com@lists.openembedded.org" target=
-=3D"_blank">sifive.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;=C2=A0 nfsrootfs_enabled() {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ${bootparam_root} !=3D &quot;/dev/nfs=
-&quot; ] || [ -z ${bootparam_nfsroot} ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -z ${bootparam_root} ] || [ ${bootpar=
-am_root} !=3D &quot;/dev/nfs&quot; ] || [ -z ${bootparam_nfsroot} ]; then<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0<br>
-<br>
-This needs a bit more explanation. What is the warning message, why<br>
-does it need to be disabled, and how does the above change achieve it?<br>
-<br>
-Alex<br>
-</blockquote></div>
-
---000000000000dc07f80637e6a001--
+-- 
+With best wishes
+Dmitry
 
