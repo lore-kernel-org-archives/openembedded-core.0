@@ -1,201 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E106EC71155
-	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 08:18:15 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web10.2894.1750407493447715039
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1DB1C71155
+	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 08:18:45 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.2908.1750407521782536665
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jun 2025 01:18:13 -0700
+ Fri, 20 Jun 2025 01:18:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZNCj8YZX;
- spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4a44b3526e6so19742141cf.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 01:18:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750407492; x=1751012292; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=K3nLSQYOnjRcJg8CvatSXD1TMk5XQOZv7/zMJbM61BE=;
-        b=ZNCj8YZXuZU7HfQAKPyBHn3UJDzJFfJKhS+VzK/G/anaAgDQR72xC2rxwzRoajteVH
-         0w0Hzir7eBUfBTasEEAqqcpo6KAo3Y459TcsNVFlFU9pXuP2LGz62OqgEhRFuq55Pe2u
-         CJt2VhtUwDIY/6Nl5/cIJTnCUzqKapMEVAL0BO7BkVVgRrZoO21QWTmPSBK2tc3vW5a3
-         V459RW1wvk4Og9REiHMzeZEmKv+XsSfmO+IlRrdtOrOj/b+inIlgws0cdMdlKwPIOBlz
-         nfhMtLu+xCkZyAkC3OjRy77BxRX1bildQhPSaj4Hx5gg0nPjaO5TpyiocWvaLhEfi2Qz
-         K9Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750407492; x=1751012292;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K3nLSQYOnjRcJg8CvatSXD1TMk5XQOZv7/zMJbM61BE=;
-        b=FkGCZzvcnlV9ZtIlm1qMQ8QWj+u301+bF9LrQEHqaodX3DH8GmUN6gYtitxxCx++DV
-         3+Gq+K5r5p/3Vm0kjgGCVjzUwFFUIuL+1KFK/IqdrhQ83hnjqObLUI4W2Myi3fgUWcjF
-         5vfq0PUYyHw3yEy6c5/XMzVklmlazW0QmTfFP4YPg8nsGv74AKYkjoA/mSqsaSKtEzaU
-         w8CZSaR2x4x8PpSTEVUm1fnwTAeIwVvs7hMnXFE7NP4HcCBcyawvSKPg2vSBAeAaFvef
-         Um4VB8hwCanT8wAoKiHxvfSEq4r6cPuaxgl2r+rsQhpCAi2/9+Sz5iFEQJ7H+xv4sfS5
-         RYAA==
-X-Gm-Message-State: AOJu0YxFseI5Lsr7wAeHwzb/QcEzOSsdjt5KysjyJs/2v/VJB1i/2Qd0
-	GD/k27cMQSucPPzV7kFpNf3PyHfZKYcT2KE3moZIkVaKo01pRgp9755F/tlew1yiG3CytnUPqU8
-	68t90BBQo6OndOcRUCtoxb4LNrQ004Pfzefjk
-X-Gm-Gg: ASbGncs/xszFeRog7yZJNs7X1GveTYtOszXux2dme/xnVDldhyxAW119s81Q0zfczW/
-	fFxRIqmt0PKZpLwnp8iYYVcxVqY/4CN2/uSZSqwfGBnnSKggq+iUsK1moMxopkBWYucIyKQ1Imf
-	Dby1Ps0AzbzZ7ITdowAlp12kYE/V2vn46gSEgJW//L8s3pA9acaPA4s87OUQ5fU36Y0/SJq9auN
-	vuswOAs5hGgQG05
-X-Google-Smtp-Source: AGHT+IEUZZK4QJFWscIaBFQQbEBLa0Z5WvMM6LXAF5cfRjHee0J0apT5xTvgYJmirMHhuLz5dd2Y0fS5l7oOyKlb99E=
-X-Received: by 2002:a05:6214:2e45:b0:6fa:9baa:face with SMTP id
- 6a1803df08f44-6fd0a5b0f02mr37417196d6.35.1750407492266; Fri, 20 Jun 2025
- 01:18:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250620075818.3320026-1-Moritz.Haase@bmw.de>
-In-Reply-To: <20250620075818.3320026-1-Moritz.Haase@bmw.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 20 Jun 2025 10:18:01 +0200
-X-Gm-Features: Ac12FXzWsN28dyT0yWp5I6Z0UmXEBbAXFvju709U5NmDhwMklF_1y8Px_qPQXMs
-Message-ID: <CANNYZj-0eFFWne=f24EN9Q7Hxv5yzKwp4yeniD7DDCv4du9Xzw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cmake: Ensure find_package() uses deterministic
- search order by default
-To: Moritz.Haase@bmw.de
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FcP86zYn;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YnyaQCK0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101978c6b2291-a46eefc0-5d50-491c-87a2-6187a0335200-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1750407521; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=XbQJScxl+CFRmNJ0Tyl2AUUGsX06Ohy5ktG+OVSErX4=;
+	b=FcP86zYn+VLvZEYqQLSCwdq0WKqVOfoabbyK2zdMBu9ViOa6URofblE0pQBaCB59
+	uTJsSvgm8HtGb91kj35xm6jb5g1S4xSlLTmd+zdyiIolY0cVkmZ+jfoiFtzXIXDtUpO
+	q7v0UNtAjqhAMgrJdMDe7/9rQCZz7vnJRQHSgOMw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1750407521;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=XbQJScxl+CFRmNJ0Tyl2AUUGsX06Ohy5ktG+OVSErX4=;
+	b=YnyaQCK0LBymChhszXsCGDEcXxBh5b1Tykkp2FBBpk0ni4sCfAyRgnGSVzPGd+R9
+	R3aiIoTzfjbwieJOzRIuLbi/CEEyqNqsAHVgv8avysyYvPVNSxHxx/bpOh8Aku++WPC
+	Jtrcf1MI0x24nqvFsYf+IGbJ/NnXq8MvPHynuac8=
+From: patchtest@automation.yoctoproject.org
+To: AdrianF <adrian.freihofer@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/5] beaglebone-yocto: remove redundant boot files
+In-Reply-To: <20250620080840.562802-4-adrian.freihofer@siemens.com>
+References: <20250620080840.562802-4-adrian.freihofer@siemens.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101978c6b2291-a46eefc0-5d50-491c-87a2-6187a0335200-000000@us-west-2.amazonses.com>
+Date: Fri, 20 Jun 2025 08:18:40 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.06.20-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 08:18:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219113
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 08:18:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219116
 
-Can you work on a cmake update to 4.x rather please? There's been
-another similar 'cmake backport to fix my particular issue' patch
-recently, and I'd rather see efforts to keep up to date with upstream.
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
+---
+Testing patch /home/patchtest/share/mboxes/3-5-beaglebone-yocto-remove-redundant-boot-files.patch
+
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
-Alex
-
-On Fri, 20 Jun 2025 at 09:58, Moritz Haase via lists.openembedded.org
-<Moritz.Haase=bmw.de@lists.openembedded.org> wrote:
->
-> Historically, find_package() does not guarantee the order in which directories
-> matching a search path containing a glob expression are processed in - the
-> "first valid package" will be selected if there are multiple candidates. In such
-> cases, which package is chosen is completely random and can change, potentially
-> leading to build failures and reproducibility issues. This is rather unexpected
-> and confusing for developers.
->
-> Changing the default sort order and direction to natural sorting with a
-> descending order will result in the newest version of a library being picked in
-> case there are multiple ones available.
->
-> This commit backports a corresponding fix from upstream, which was accepted for
-> CMake 4.2 (see [0]). Documentation changes have been dropped, as have been
-> changes to tests that do not exist on CMake 3.31.6.
->
-> Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-> ---
->  meta/recipes-devtools/cmake/cmake.inc         |  1 +
->  ...-deterministic-search-order-by-defau.patch | 74 +++++++++++++++++++
->  2 files changed, 75 insertions(+)
->  create mode 100644 meta/recipes-devtools/cmake/cmake/0001-find_package-Use-deterministic-search-order-by-defau.patch
->
-> diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-> index 9b1898f22f..a18a95233d 100644
-> --- a/meta/recipes-devtools/cmake/cmake.inc
-> +++ b/meta/recipes-devtools/cmake/cmake.inc
-> @@ -19,6 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
->  SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
->             file://0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch \
->             file://0001-cmCurl-Avoid-using-undocumented-type-for-CURLOPT_NET.patch \
-> +           file://0001-find_package-Use-deterministic-search-order-by-defau.patch \
->             "
->
->  SRC_URI[sha256sum] = "653427f0f5014750aafff22727fb2aa60c6c732ca91808cfb78ce22ddd9e55f0"
-> diff --git a/meta/recipes-devtools/cmake/cmake/0001-find_package-Use-deterministic-search-order-by-defau.patch b/meta/recipes-devtools/cmake/cmake/0001-find_package-Use-deterministic-search-order-by-defau.patch
-> new file mode 100644
-> index 0000000000..164f5c6428
-> --- /dev/null
-> +++ b/meta/recipes-devtools/cmake/cmake/0001-find_package-Use-deterministic-search-order-by-defau.patch
-> @@ -0,0 +1,74 @@
-> +From fa3c5c6d914abfe7c8d3335eeddedd53518946be Mon Sep 17 00:00:00 2001
-> +From: Moritz Haase <Moritz.Haase@bmw.de>
-> +Date: Fri, 13 Jun 2025 13:41:50 +0200
-> +Subject: [PATCH] find_package: Use deterministic search order by default
-> +
-> +Historically, find_package() does not guarantee the order in which directories
-> +matching a search path containing a glob expression are processed in - the
-> +"first valid package" will be selected if there are multiple candidates. In such
-> +cases, which package is chosen is completely random and can change, potentially
-> +leading to build failures and reproducibility issues. This is rather unexpected
-> +and confusing for developers.
-> +
-> +Now that CMake has bumped its major version, it's a good time to change default
-> +sort order and direction to natural sorting with a descending order. That will
-> +result in the newest version of a library being picked in case there are
-> +multiple ones available.
-> +
-> +Upstream-Status: Backport [4.2.0 (planned), 61d8fae11655d3a2c4b8fd80af7a0d1d5f3e2f9f]
-> +Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-> +---
-> + Source/cmFindPackageCommand.h        |  8 ++++----
-> + Tests/FindPackageTest/CMakeLists.txt | 13 ++++++++++++-
-> + 2 files changed, 16 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/Source/cmFindPackageCommand.h b/Source/cmFindPackageCommand.h
-> +index 653e15f51faf84406e8c962207303852d1c8ad3e..478a0c6ff96d08afb01d5f056bc86372bdeae149 100644
-> +--- a/Source/cmFindPackageCommand.h
-> ++++ b/Source/cmFindPackageCommand.h
-> +@@ -220,10 +220,10 @@ private:
-> +
-> +   class FlushDebugBufferOnExit;
-> +
-> +-  /*! the selected sortOrder (None by default)*/
-> +-  SortOrderType SortOrder = None;
-> +-  /*! the selected sortDirection (Asc by default)*/
-> +-  SortDirectionType SortDirection = Asc;
-> ++  /*! the selected sortOrder (Natural by default)*/
-> ++  SortOrderType SortOrder = Natural;
-> ++  /*! the selected sortDirection (Dec by default)*/
-> ++  SortDirectionType SortDirection = Dec;
-> +
-> +   struct ConfigFileInfo
-> +   {
-> +diff --git a/Tests/FindPackageTest/CMakeLists.txt b/Tests/FindPackageTest/CMakeLists.txt
-> +index 73d3fb4832203b4d4d10c9a4956546a1ad8be7fd..0a2186df562d302eb44d2e4046c42c96ed524f09 100644
-> +--- a/Tests/FindPackageTest/CMakeLists.txt
-> ++++ b/Tests/FindPackageTest/CMakeLists.txt
-> +@@ -116,7 +116,7 @@ foreach(p ${PACKAGES})
-> + endforeach()
-> +
-> + # Enable framework and bundle searching.  Make sure bundles are found
-> +-# before unix-syle packages.
-> ++# before unix-style packages.
-> + set(CMAKE_FIND_FRAMEWORK LAST)
-> + set(CMAKE_FIND_APPBUNDLE FIRST)
-> +
-> +@@ -579,6 +579,17 @@ IF (NOT "${SortLib_VERSION}" STREQUAL "4.0.0")
-> + endif()
-> + unset(SortLib_VERSION)
-> +
-> ++
-> ++set(SortLib_DIR "" CACHE FILEPATH "Wipe out find results for testing." FORCE)
-> ++# Expected to default to 'NATURAL' and 'DEC'
-> ++unset(CMAKE_FIND_PACKAGE_SORT_ORDER)
-> ++unset(CMAKE_FIND_PACKAGE_SORT_DIRECTION)
-> ++FIND_PACKAGE(SortLib CONFIG)
-> ++IF (NOT "${SortLib_VERSION}" STREQUAL "3.10.1")
-> ++  message(SEND_ERROR "FIND_PACKAGE_SORT_ORDER Default! ${SortLib_VERSION}")
-> ++endif()
-> ++unset(SortLib_VERSION)
-> ++
-> + unset(CMAKE_FIND_PACKAGE_SORT_ORDER)
-> + unset(CMAKE_FIND_PACKAGE_SORT_DIRECTION)
-> + set(CMAKE_PREFIX_PATH )
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#219104): https://lists.openembedded.org/g/openembedded-core/message/219104
-> Mute This Topic: https://lists.openembedded.org/mt/113739065/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+--NextPart--
 
