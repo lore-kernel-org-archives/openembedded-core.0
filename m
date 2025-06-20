@@ -1,83 +1,81 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03056C7115D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02275C71155
 	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 08:14:36 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.2846.1750407271875600329
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web10.2839.1750407272378256608
  for <openembedded-core@lists.openembedded.org>;
  Fri, 20 Jun 2025 01:14:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iuzLd1gt;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ad88d77314bso310258066b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 01:14:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iCzpvOVT;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7d21f21baf7so184210985a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 01:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750407270; x=1751012070; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/1rq/JxsHvOKrvOSp8yP+/rwn4SNhmxp6aGDcoUX7bg=;
-        b=iuzLd1gtQPnNwMpJB61u5VFDVdgnVj4f2aeHdFnwxby2shSexY6Edaq6k5mIlkYIW5
-         HOl2RzUC6Z75tw3RczVjcmyPvfU9YBn1AObaIfUhMsuQ/qtPQ9gWByFEZJjaubtRzeT/
-         fgKvaYiQl0i2XmZUhb5qw7pdEU8CZgPPmdRZeBOV4f2topoz9iwoJbvnJXu0Knvi40/h
-         NR4zJy4PrDbgXhqcnFRlcW5yfsO2I2Y/s26OKWYHwOURmydNnIQcUT2QV3nUoh4kzXlL
-         vCpXplkk6qpppRrDnc9nJCcFjOqlySB6cslXmnguVqnuKR0JLHKHhEFqjhKdHpVnHgAi
-         e5Sg==
+        d=gmail.com; s=20230601; t=1750407271; x=1751012071; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FlouaHGQAtJFqWGYYD6Y7haKF1i5uG/avfgEP2sMG0w=;
+        b=iCzpvOVT7t46uL+Ykb/sAm6Wt6i0RnCYxslL0+EpcOPUXu90S0qjXYTY91E63mFqc/
+         WC0byz27540qlQAyRZJ1r+rgNsVWie3Qf2ohexF8h2fB67MaJLTD35g1emzCu07LwJgy
+         YZAjocY1DfD+T4ohwBMqw6+VUqjdJxAR9f2a5/kC+S5tg98GukHJiF86CEv0ve/vY0vm
+         UT8v5p54QjdkOV++bp+jmRQd/GU/JsyC0DbbVyRwU+P0TN4r0OzhaIBUaXRdP6b+HlE5
+         6/wruyTWt7qvqaDRfKVTO5eWSDBI5GpQwTE2qi8/bSen2jFZWKmNHfPJZEiABefw+D0x
+         ykJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750407270; x=1751012070;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/1rq/JxsHvOKrvOSp8yP+/rwn4SNhmxp6aGDcoUX7bg=;
-        b=g04sLqeq4GXt/kkafjpt2SjY8n1eGXqvK+qL6UW9Agc+UaAF0avabl9krefuAK6Pi2
-         GCdUwTzFx79zEp6Yu4Dtz1vmkPl/ltKmsniXKaAoBqbmiL4tss+6DPHH7NyfPFmBRiYj
-         /8HLjLTOs543FiKCSVt/BRg0E+M71nFXy0qxS4kKekm8fY8WxpIp7tNblDoAr1sMn0/Y
-         LoqTj+57gfZ83E03PgAubzg1EZcx1yuR947GWFckBd13Jam8Mk16s2Qzh6wjbn28btgJ
-         KAV2snRUCoi/FucLYB7m2WUpBZXDWz7sBVcmfGaR3Ecs3bAMfvRAgTHjXYth2M09cDvL
-         2kIw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPw8dFl6XP+FAFNeLKUPxXfHENFv0nE1B7BrUTrc+Eh6pIE/KEraJ66nVxZP649vVhg4ye7LbgPA/2oeOawqB4uw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxOgPh+pk9fyA84ekA6fRabuvnxSQa1s2A0pAwC2jAztmwPmk7G
-	GLFEks9zlkHdWJmgsPNe3+LAEbfrWG3yhYfgIBXHWLPB1ePhck/WNjtM
-X-Gm-Gg: ASbGncuq6Xfw7nNS9XCRtu5KKHp9BGAeLn6vEarfmUTLjbHvsgyhxCL0BZ8djV5UKJN
-	UGlywuXiX6O/6GGW5S3ozhOxNOBa4jDVa01zYLt4Wh2ij+RNbvicog+KQ+9Voyqj3rYjzbKbVvC
-	A7tOOX1yYnn5j5SYYny5DpeHpRSKwCFEJqz1uCaYMd4RDXHn0zoGzq3npU1Y/alemZZf7xamkgy
-	aLIiW+6DQJ6+hLy6mFfI6ZaSe2dRPHIw9ybGk2tZdxvsXiJaCn3XmeKZEpIXEvcIVESD7qUXXBe
-	kIYdrzouElGAvF2FXNC0IcolzY1bPIzlwEPEJiij5CAtnHRelZisuE2vD5v+DqdVJwASMLtjpmW
-	A3Lf7
-X-Google-Smtp-Source: AGHT+IFoCNxW0bVK8FtrGbUq7geuaHjG0QK/nNpuV5R4zl+8IxxEdpHh0oIFOOGwsMZ2DLZ7Jj5dHQ==
-X-Received: by 2002:a17:906:f593:b0:aca:c507:a4e8 with SMTP id a640c23a62f3a-ae0579c4416mr158751566b.21.1750407269800;
-        Fri, 20 Jun 2025 01:14:29 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae053edc0c8sm123993366b.64.2025.06.20.01.14.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jun 2025 01:14:29 -0700 (PDT)
-Message-ID: <81ea6232-76be-4629-8a0c-5e409710b551@gmail.com>
-Date: Fri, 20 Jun 2025 10:14:28 +0200
+        d=1e100.net; s=20230601; t=1750407271; x=1751012071;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FlouaHGQAtJFqWGYYD6Y7haKF1i5uG/avfgEP2sMG0w=;
+        b=GvJP00svtbcZ7iH9lgsJVRCSRrwHBL6Zh/DQzFLw65GSne2cKwT7qnmykAe2x58kjL
+         LxP0pJJk8LoVrDzE26ST/h5HaWeENDHG/cty9SR9pNyikDkDt5T2IXBq2XaVU5VFHLMS
+         yGynzaLF/6fJAC1PgokBfABmfaArvmJTJ7FvwAXhfPuSJsFQ9e1cbrVDWF2pPYJaWfpP
+         c2LvLZtXO9/4IhZ51KnjvkWbE0WxlSv2s6lMnnRxBmpofqL/qtRrhKFvDpGk06JFD9sK
+         487/X7OaqR0HATzwtGn/x3NdxQ78iaCRjZrEBO0UoMXk7UaH3hUKifXLp/E3xRezPFse
+         Q0dg==
+X-Gm-Message-State: AOJu0Yxa2MZ/f7uvJARo1uRiORZdMV3jsEXC84pE8rQvNZqDrtVEGPp2
+	6TwJV30LRPbuUQn2PwFo6Qk3M5XqomOH33Yu02oINqttqvwRmfwXSRo94hprsLMUbcFA7wpciyD
+	1mg/1HCiHDeAKpshmREzuVNjSRhqnUQHg7A==
+X-Gm-Gg: ASbGncuYuhLSkYmJI1MOvxjNStDIAxcxEe3bzx5mEZ9gS2TpOfdrk8DRf2nK91Eacop
+	aCMGXycRvU3jk1Oh+H+FeX8/OCxrPtkLaU2Jf6sEx1ToQ3GjjytLkqn3ZP1R1Tb9p3Hw+vLAKqO
+	Wq/EkenL73ufCkm+hgz4mG80YA/nywepRVheouxTptYqsJ0OY4RmK4whEVc86N+JVvVzyrlqf4r
+	yxYdA==
+X-Google-Smtp-Source: AGHT+IHBJh+He/L6ve/xD88eDGLaS5x8taCKzfyVJn7kZtMOnCM1MFvmTpkjGCrf5t9LCQ3Idw+Sv0OY1rHonwbbfPM=
+X-Received: by 2002:a05:6214:d65:b0:6fa:fbb4:6408 with SMTP id
+ 6a1803df08f44-6fd0a468d1bmr35896316d6.7.1750407271161; Fri, 20 Jun 2025
+ 01:14:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] cmake: Ensure find_package() uses deterministic
- search order by default
-To: Moritz.Haase@bmw.de, openembedded-core@lists.openembedded.org
-References: <20250620075818.3320026-1-Moritz.Haase@bmw.de>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <20250620075818.3320026-1-Moritz.Haase@bmw.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250620080840.562802-1-adrian.freihofer@siemens.com> <20250620080840.562802-5-adrian.freihofer@siemens.com>
+In-Reply-To: <20250620080840.562802-5-adrian.freihofer@siemens.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 20 Jun 2025 10:14:19 +0200
+X-Gm-Features: Ac12FXyUWiJ8gpD5QRR2p63ui379vbl2I7XaR8m67NrBPtSylkEggYR2VLACqiU
+Message-ID: <CANNYZj_8XRvkDLwiysEVtx48_v3GJyMBwHrFpd+qQhLS_zfzZw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/5] oe-selftest: devtool: split tap detection
+ into function
+To: adrian.freihofer@siemens.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 08:14:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219111
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219112
 
-On 6/20/25 09:58, Moritz Haase via lists.openembedded.org wrote:
-> This commit backports a corresponding fix from upstream, which was accepted for
-> CMake 4.2 (see [0]). Documentation changes have been dropped, as have been
-> changes to tests that do not exist on CMake 3.31.6.
->
-> Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
->
-[0] seems to be missing from the message.
+On Fri, 20 Jun 2025 at 10:08, Adrian Freihofer via
+lists.openembedded.org
+<adrian.freihofer=siemens.com@lists.openembedded.org> wrote:
+> +    if not os.path.exists('/etc/runqemu-nosudo'):
+> +        return False
+
+While this is being refactored, can we please drop this bit? This file
+is created only by runqemu-gen-tapdevs, and it's possible to use other
+ways to make the devices (e.g. runqemu-ifup).
+
+I've recently had to comment this out in order to be able to run the tests.
+
+Alex
 
