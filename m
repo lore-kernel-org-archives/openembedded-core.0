@@ -2,66 +2,66 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C216C7115C
-	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 16:20:51 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.792.1750436441387950044
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 768D8C7115B
+	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 16:21:51 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.813.1750436505815871213
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jun 2025 09:20:41 -0700
+ Fri, 20 Jun 2025 09:21:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FC/shBQw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so21366905e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 09:20:41 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JhYQZGp0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a589d99963so2021939f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 09:21:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1750436439; x=1751041239; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1750436503; x=1751041303; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LxmM0/XZrZRue0KFtIwCyUCQEHFzru40ypJpmOT/SxA=;
-        b=FC/shBQwoN4jju2pYCPAUmLC0DMgreQky68ow6hQO27GYzz0wPIKMUZzQs0EjMNTV+
-         b66yd1QpAaZSSMCMLqr861s1jc6tPOeIEkN77PLjuWsaMTjPjPQJ7ZF+5iIItbFudfL6
-         gkr2dTFc9br91Obo1y5eHUw9zbcKWCowcqXQE=
+        bh=HK6ofu2MRs6AGkTP5nQRotrByzJeEtgFuUtRvX55I6E=;
+        b=JhYQZGp04l8plqApeor3y6zxIR49NYkTiU+L0eIWybg1L1xQG6f3ft2QZnyrUkRvUl
+         dnWhvls0745Z3tP1ajZK7HRq9xbxFfYq2jpp8io/I+edoGO8n4qAuOq8iEtFZN5qE2xe
+         5/CQCvC2FOX0a1AY72oTE/NLwkTA511biarOM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750436439; x=1751041239;
+        d=1e100.net; s=20230601; t=1750436503; x=1751041303;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LxmM0/XZrZRue0KFtIwCyUCQEHFzru40ypJpmOT/SxA=;
-        b=E2AdifqZ6BYnPbj0Mbr1wxw5agHHRZopOmV6o+f18zyN2IQnQHIrOH4KtZtGItVe5R
-         9eHBJcsPfjmQshODjXP/vsxbCKCBu8tOIJkMKltaY9LE6qNO8+Vd7rISn6Xp8vedEQ+b
-         Dnp0vWcEXs1CPB9z6aQvSjY+VopeadxvfPmnBhpf6wCEjQr9UK0GdRPOJHMKiZaIlq7b
-         4LLJckpNBmfo2iU0t3iUuktzzar6Wh/oG9myl4IIxHxB5krloP5KJrzQ4M+x6FBqRb9v
-         n7DIHKOpJBi7DrmhXya5x63sgRkTXlM4x1FsllBCvWwyN4hQkWZbZXJIrXE+9btrSn8d
-         F2ZA==
-X-Gm-Message-State: AOJu0YztWW8ySPgxCQE0kGZgN0OaPUjHIve79iNTV+59ZYcORvxue/K3
-	UDXzSgiCrKIzmQ+IijXVbJTV1436ulD+Hm4ryzNb8rL8/WkMF8pu9L3OtDIh+HdDQjGjZP0iK/x
-	IVY4X9qc=
-X-Gm-Gg: ASbGnctyqva1T0Si82OkeZQBrGKwYsi5jO+RAemZ/+fXM4//9h1znMiSsMqpVwHHGa6
-	wavuD4eG9HS5N4EK70Rv22nRFH55kwunh9RfzS/+U/jL/picf7VzGXKNWnTIokc3kTgtSvHyhq9
-	Tsk7uj8WfQb9CmMe2g5+y0u+PF+fZtc130ilUwfMe3wMfEKgaLf+niI5CEUDiQ96huLp0dZyLiV
-	PvmhcjEQUe+9L630UFm1bFmXAKgXz8FHXM+4KYU+Yi9S+cqgeyp3yuo3g3GrElzg3UvEVkcf8vV
-	43O2KDCCPdm+Uz8lhPTZ5ZvdnUWpzDtsbMiziMFwnL7A9pboTcNgWo/X/NGBO+l4eDaD6uzFUSA
-	DSbsj/2JvplVP9vE=
-X-Google-Smtp-Source: AGHT+IFDg1CVLqOey7nXYPoi8K5m3m4HF+HgXrXpKDZE57UyedXWa0RfsPz/UvgWcAjo+x2FapclfQ==
-X-Received: by 2002:a05:600c:37c5:b0:43d:9f2:6274 with SMTP id 5b1f17b1804b1-453657bf2abmr34416875e9.14.1750436438854;
-        Fri, 20 Jun 2025 09:20:38 -0700 (PDT)
+        bh=HK6ofu2MRs6AGkTP5nQRotrByzJeEtgFuUtRvX55I6E=;
+        b=nza9OOI24J9PNKklkALmYuEWZFwNxcgttB5DF58xZW9XpZeGa2Kfk72YAMU5SpGhWz
+         ABAYvxF2Om6uhcAgGhptiyoOOfDSmO1vS2tYn+AIHmKQspu7Udqqg/BMiTDsS+egtUBy
+         gIkDCFw6wmEoVKCi6oRZFxgiwG9ugYfwIdPUweNxEH77TXGWRB6RabG4P9hdbebyRTzQ
+         r5AK+3+2n0yUuEqfN3bXpqYAj10ouzLl1e++7+IaaGcvNzj18EMeCjUiasF3HFxqQdH6
+         sj0cdUUP5Ccs4sk7lGW8QId4iZxG/5+41rkAfxQkiCw5hSyx4Rzn1s6UWieuZ09G67ot
+         SiJg==
+X-Gm-Message-State: AOJu0Yxv0L0S9v2WzV0r+iHamGRZaGwI15POoXdmrWDEc2tgXUJjC4FN
+	J7i9++ocEfgjDKMLC88UaDioDG/VSmuy6Mb43xejcVtW1WylYGnVRb8Zy3B0NOhQVniYw1mdr20
+	oUF87KKU=
+X-Gm-Gg: ASbGncs+C6U1VaVtSs7hxC3EFzMcxDuVjbyRfMm6s+LJnt/DPf4QvyvtlJpe79ugtKp
+	+sj0DMoFC1brV64U3P8jZ2yQE9tSUcOcJH+D9Don/mMXrtax64eNvA0w7L9V+Umn3G5clxCN5/m
+	BOYgy88UgiKco8Gdr6+frm40O/xKtBes1azelG07MjN+Q6EoUtIV0Fb4mj7hAGjhNROL5StrNJA
+	Phv6e9ST3PA5oSVFj4DUYQ+wUcOxAXUsKpF23P8BE9eilE6WWmSS6PIr8LaBXYxhMgWdJRocTLf
+	9/1JDaTJ6oZ7V46otH2cqUq/J85v3GJIK+7axiSNK6s0K5eKZ7sUuVMJR89OrXKhAkKRYm6fPot
+	Kv3tGOhBa6tzmGHE=
+X-Google-Smtp-Source: AGHT+IHECWqatEJrKdbuwsoFUIho9DOz1bWSDQoIw/DTIPYYtd2iKr7a2mL37zvpyIepG7ZJ78pxrQ==
+X-Received: by 2002:a05:6000:2002:b0:3a5:783f:528a with SMTP id ffacd0b85a97d-3a6d12fc180mr3197550f8f.59.1750436502992;
+        Fri, 20 Jun 2025 09:21:42 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b606:370e:6752:7b3d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4535e97adf3sm63097595e9.8.2025.06.20.09.20.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6d0f1815dsm2417501f8f.28.2025.06.20.09.21.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 09:20:38 -0700 (PDT)
+        Fri, 20 Jun 2025 09:21:42 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] buildhistory: Drop BUILDHISTORY_RESET due to reliability issues
-Date: Fri, 20 Jun 2025 17:20:37 +0100
-Message-ID: <20250620162037.2529555-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH v2] buildhistory: Drop BUILDHISTORY_RESET due to reliability issues
+Date: Fri, 20 Jun 2025 17:21:41 +0100
+Message-ID: <20250620162141.2529718-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 16:20:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219141
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 16:21:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219142
 
 The implementation of BUILDHISTORY_RESET is problematic, particlarly given that
 people are trying to create an API with it alongside BUILDHISTORY_PRESERVE
@@ -98,11 +98,11 @@ way you can follow the code, and have tests.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/buildhistory.bbclass | 73 +++----------------------------
- 1 file changed, 6 insertions(+), 67 deletions(-)
+ meta/classes/buildhistory.bbclass | 74 +++----------------------------
+ 1 file changed, 6 insertions(+), 68 deletions(-)
 
 diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index ed8d5b98c20..4a380c10c6d 100644
+index e9701826205..4a380c10c6d 100644
 --- a/meta/classes/buildhistory.bbclass
 +++ b/meta/classes/buildhistory.bbclass
 @@ -16,28 +16,6 @@ BUILDHISTORY_DIR ?= "${TOPDIR}/buildhistory"
@@ -186,21 +186,22 @@ index ed8d5b98c20..4a380c10c6d 100644
      pn = d.getVar('PN')
      pe = d.getVar('PE') or "0"
      pv = d.getVar('PV')
-@@ -272,13 +236,6 @@ python buildhistory_emit_pkghistory() {
-                     else:
-                         os.unlink(itempath)
- 
--    if os.path.exists(oldpkghistdir):
--        # We need to make sure that all files in preserve
--        # are restored from buildhistory/old successfully
+@@ -260,14 +224,6 @@ python buildhistory_emit_pkghistory() {
+     if not os.path.exists(pkghistdir):
+         bb.utils.mkdirhier(pkghistdir)
+     else:
+-        # We need to make sure that all files kept in
+-        # buildhistory/old are restored successfully
+-        # otherwise next block of code wont have files to
+-        # check and purge
 -        if d.getVar("BUILDHISTORY_RESET"):
 -            for pkg in packagelist:
 -                preservebuildhistoryfiles(pkg, preserve)
 -
-     rcpinfo = RecipeInfo(pn)
-     rcpinfo.pe = pe
-     rcpinfo.pv = pv
-@@ -886,25 +843,7 @@ END
+         # Remove files for packages that no longer exist
+         for item in os.listdir(pkghistdir):
+             if item not in preserve:
+@@ -887,25 +843,7 @@ END
  
  python buildhistory_eventhandler() {
      if (e.data.getVar('BUILDHISTORY_FEATURES') or "").strip():
