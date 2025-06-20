@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1DB1C71155
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2D4DC7115B
 	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 08:18:45 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.2908.1750407521782536665
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.2907.1750407520232574799
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jun 2025 01:18:41 -0700
+ Fri, 20 Jun 2025 01:18:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FcP86zYn;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YnyaQCK0;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101978c6b2291-a46eefc0-5d50-491c-87a2-6187a0335200-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HLmyjFgL;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=q5wJL06N;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101978c6b1c3e-3363546e-eb4b-464d-9821-dfd31aaec6db-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1750407521; i=@automation.yoctoproject.org;
+	t=1750407519; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=XbQJScxl+CFRmNJ0Tyl2AUUGsX06Ohy5ktG+OVSErX4=;
-	b=FcP86zYn+VLvZEYqQLSCwdq0WKqVOfoabbyK2zdMBu9ViOa6URofblE0pQBaCB59
-	uTJsSvgm8HtGb91kj35xm6jb5g1S4xSlLTmd+zdyiIolY0cVkmZ+jfoiFtzXIXDtUpO
-	q7v0UNtAjqhAMgrJdMDe7/9rQCZz7vnJRQHSgOMw=
+	bh=iv44z1CFE+NW80+wD+c3lsfiJhahA61NNcSIklitGcw=;
+	b=HLmyjFgLFq0zUTjBLIi1Rsy9Fr5caTF5Rrd2OtZln+tg3jJW9ri8+YMWuzNKMczk
+	uF34onBtqMbCkVgZ/WIaPqu2U9xSUfyZVZ7axkMC73A3AVKmpacLgx0WsV34ZcAw7Uj
+	ddHK8UR8TbcMCgQhANo0SL2eNEUXI2jfHiJIpb1Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1750407521;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1750407519;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=XbQJScxl+CFRmNJ0Tyl2AUUGsX06Ohy5ktG+OVSErX4=;
-	b=YnyaQCK0LBymChhszXsCGDEcXxBh5b1Tykkp2FBBpk0ni4sCfAyRgnGSVzPGd+R9
-	R3aiIoTzfjbwieJOzRIuLbi/CEEyqNqsAHVgv8avysyYvPVNSxHxx/bpOh8Aku++WPC
-	Jtrcf1MI0x24nqvFsYf+IGbJ/NnXq8MvPHynuac8=
+	bh=iv44z1CFE+NW80+wD+c3lsfiJhahA61NNcSIklitGcw=;
+	b=q5wJL06NwIabvRuNb3fhR/gfTPMtFFV/MumbVETV3zdGUQhYIWWhLOivpT0jmpJt
+	TGKChxlKeK0XpGNN7R5SRZs2mTCsugey5Jhk6NDyTthnjoNRdj4t6D9GGh5MxRNWP8Y
+	wTHcx4YBuiz6UDbY9PjI6XQ1XEklr/HQVf2syfuU=
 From: patchtest@automation.yoctoproject.org
 To: AdrianF <adrian.freihofer@siemens.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 3/5] beaglebone-yocto: remove redundant boot files
-In-Reply-To: <20250620080840.562802-4-adrian.freihofer@siemens.com>
-References: <20250620080840.562802-4-adrian.freihofer@siemens.com>
+Subject: Patchtest results for [PATCH 1/5] beaglebone-yocto: support initramfs in qemu
+In-Reply-To: <20250620080840.562802-2-adrian.freihofer@siemens.com>
+References: <20250620080840.562802-2-adrian.freihofer@siemens.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101978c6b2291-a46eefc0-5d50-491c-87a2-6187a0335200-000000@us-west-2.amazonses.com>
-Date: Fri, 20 Jun 2025 08:18:40 +0000
+Message-ID: <010101978c6b1c3e-3363546e-eb4b-464d-9821-dfd31aaec6db-000000@us-west-2.amazonses.com>
+Date: Fri, 20 Jun 2025 08:18:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.20-54.240.27.191
+X-SES-Outgoing: 2025.06.20-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 08:18:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219116
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219114
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/3-5-beaglebone-yocto-remove-redundant-boot-files.patch
+Testing patch /home/patchtest/share/mboxes/1-5-beaglebone-yocto-support-initramfs-in-qemu.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
