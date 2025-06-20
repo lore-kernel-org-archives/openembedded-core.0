@@ -1,148 +1,319 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C53C7115B
-	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 06:09:45 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.1499.1750399774284288678
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23767C71155
+	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 06:38:25 +0000 (UTC)
+Received: from esa10.hc324-48.eu.iphmx.com (esa10.hc324-48.eu.iphmx.com [207.54.69.29])
+ by mx.groups.io with SMTP id smtpd.web11.1832.1750401498178911220
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Jun 2025 23:09:34 -0700
+ Thu, 19 Jun 2025 23:38:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8266961c6e=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55K4UANL022928
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 23:09:34 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47c80s1duf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Jun 2025 23:09:33 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Thu, 19 Jun 2025 23:09:33 -0700
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Thu, 19 Jun 2025 23:09:32 -0700
-From: <liezhi.yang@windriver.com>
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=kF6QU5ED;
+ spf=pass (domain: bmw.de, ip: 207.54.69.29, mailfrom: prvs=2599e2df9=moritz.haase@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1750401498; x=1781937498;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=i/tzyOlvKKEZp5JDBTzypByN+RtohAAIbUzl+aiyJuQ=;
+  b=kF6QU5EDb5E4KqEJCaEsqfmqnyTVP9qivjOVb/aGvCoLRiwSRfdecj2D
+   grzQG/xxidfbo8/bRlH0/AHoJBQY6SbHZEoA3lU0if1Ac9uNL/ctNv4bp
+   vqnIBL3QQ56KL6SZ49liJORRNvBph0i+jDpITUAM4FiX89TQP/NwgmZtp
+   M=;
+X-CSE-ConnectionGUID: bV+T5Bk5SOSa9kTHPcN3dw==
+X-CSE-MsgGUID: U5sk7JCsSQ+cebBBDkcppQ==
+Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
+ esa10.hc324-48.eu.iphmx.com with ESMTP/TLS; 20 Jun 2025 08:38:16 +0200
+Received: from esabb2.muc ([160.50.100.34])  by esagw3.muc with ESMTP/TLS;
+ 20 Jun 2025 08:38:16 +0200
+Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
+ by esabb2.muc with ESMTP/TLS; 20 Jun 2025 08:38:16 +0200
+Received: from q1054628.de-cci.bmwgroup.net (10.30.85.205) by
+ smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
+ Server (version=TLS; Fri, 20 Jun 2025 08:38:15 +0200
+X-CSE-ConnectionGUID: YBUJ0LNZSCC6gXlKvs1AfA==
+X-CSE-MsgGUID: pAQ3n5urTk25s3/xQslmXg==
+X-CSE-ConnectionGUID: nW+V3R9+Rgmj8GOqawq6zw==
+X-CSE-MsgGUID: YkkDdL4WSFeonq77+yJr+w==
+From: Moritz Haase <Moritz.Haase@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] rpm: Update 0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
-Date: Thu, 19 Jun 2025 23:09:32 -0700
-Message-ID: <78dbb196cb743a93be89afbd46a2ec0e277e2d7a.1750399682.git.liezhi.yang@windriver.com>
+CC: Moritz Haase <Moritz.Haase@bmw.de>, John Drouhard <john@drouhard.dev>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH] cmake: Correctly handle cost data of tests with arbitrary chars in name
+Date: Fri, 20 Jun 2025 08:37:41 +0200
+Message-ID: <20250620063741.3087457-1-Moritz.Haase@bmw.de>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1750399682.git.liezhi.yang@windriver.com>
-References: <cover.1750399682.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=edg9f6EH c=1 sm=1 tr=0 ts=6854fb1d cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=6IFa9wvqVegA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=6Sd-ObLmOBPbu3gRxgUA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIwMDA0NCBTYWx0ZWRfX+h8kwjmltS+F 4fBZ6oW14AsEi89vwRx1nS/F3yFi82gIgkhEVpHE8IpUKTGm7+vujmuMgn22hBtdqqHNGB33Bom L8d8FqI9I0HP/HLQeKncMVRI54k76nQObbjL/CxocmccJ7LanJQ2nf1XAKYdmPFYFLYOK9g1vZJ
- fE5c4TJ68Fb2ynZnOHyiWRIeBoYjTmQEa3YvpqeoBuzcODIAQvHLjjXxwlMs1lvSpiAF+OvndFe 7RK6A3bDITivosQgwC+LxCc9ja4etWj9471OauG4DpIu6GE+DttA85Jzn1mgqbz7GcjD+XIjsCB 9DFBqzCHFv8aIWy/b04J1obI5poRfM8lEExyq5YomBo5aCqZD2nXpTWiWeurTbsOmnTo9eGm26v
- HIvG13cGO8Eh6eCjj9ZrXqGbqHVWbcRzUz7PhbRMs25wK0ft+11LW5dQqoUmr/vDKuGA+dZI
-X-Proofpoint-GUID: -zVYp2BOF3l6Dwc_hF1j-jBdkpZ5kRHn
-X-Proofpoint-ORIG-GUID: -zVYp2BOF3l6Dwc_hF1j-jBdkpZ5kRHn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-20_02,2025-06-18_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- adultscore=0 clxscore=1015 malwarescore=0 phishscore=0 spamscore=0
- mlxscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506200044
+X-ClientProxiedBy: smucmp17b.europe.bmw.corp (2a03:1e80:a15:58f::1:4c) To
+ smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 06:09:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219101
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 06:38:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219102
 
-From: Robert Yang <liezhi.yang@windriver.com>
+ctest automatically optimizes the order of (parallel) test execution based on
+historic test case runtime via the COST property (see [0]), which can have a
+significant impact on overall test run times. Sadly this feature is broken in
+CMake < 4.0.0 for test cases that have spaces in their name (see [1]).
 
-The patch merged by upstream is different, so backport the one from upstream.
+This commit is a backport of f24178f3 (which itself backports the upstream fix).
+The patch was adapted slightly to apply cleanly to the older CMake version in
+scarthgap. As repeated test runs are expected to mainly take place inside the
+SDK, the patch is only applied to 'nativesdk' builds.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+[0]: https://cmake.org/cmake/help/latest/prop_test/COST.html
+[1]: https://gitlab.kitware.com/cmake/cmake/-/issues/26594
+
+Reported-By: John Drouhard <john@drouhard.dev>
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...akeLists.txt-Fix-checking-for-CFLAGS.patch | 42 +++++++------------
- 1 file changed, 15 insertions(+), 27 deletions(-)
+ .../cmake/cmake-native_3.28.3.bb              |   2 +-
+ ...trary-characters-in-test-names-of-CT.patch | 205 ++++++++++++++++++
+ meta/recipes-devtools/cmake/cmake_3.28.3.bb   |   1 +
+ 3 files changed, 207 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
-index ed270a5704..412e1c146d 100644
---- a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-Fix-checking-for-CFLAGS.patch
-@@ -1,18 +1,9 @@
--From 19f7ef341f19ac5594c7d0113f9eb8224934464a Mon Sep 17 00:00:00 2001
-+From e14502834fe6a9c6c9a439401ac3d2c8fd979267 Mon Sep 17 00:00:00 2001
- From: Robert Yang <liezhi.yang@windriver.com>
--Date: Sun, 8 Jun 2025 00:19:06 -0700
--Subject: [PATCH] CMakeLists.txt: Fix checking for CFLAGS
-+Date: Sun, 8 Jun 2025 00:36:38 -0700
-+Subject: [PATCH] CMakeLists.txt: Improve checking for CFLAGS
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb b/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
+index 546d117156..376da3254b 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
+@@ -51,7 +51,7 @@ do_compile() {
+ do_install() {
+ 	oe_runmake 'DESTDIR=${D}' install
  
--The previous code doesn't work because the check_c_compiler_flag() only ran
--once because 'found' is in CACHE, here is log:
---- Performing Test found
---- Performing Test found - Success
--
--That would result in:
--* All the flags are added when the first one works
--* None of the flags is added when the first one doesn't work
--
--We can use "unset(found CACHE)" to fix that, but the log is still not clear:
-+The previous log wasn't clear:
- -- Performing Test found
- -- Performing Test found - Success
- -- Performing Test found
-@@ -20,15 +11,15 @@ We can use "unset(found CACHE)" to fix that, but the log is still not clear:
- -- Performing Test found
- -- Performing Test found - Failed
+-	# The following codes are here because eSDK needs to provide compatibilty
++	# The following codes are here because eSDK needs to provide compatibility
+ 	# for SDK. That is, eSDK could also be used like traditional SDK.
+ 	mkdir -p ${D}${datadir}/cmake
+ 	install -m 644 ${WORKDIR}/OEToolchainConfig.cmake ${D}${datadir}/cmake/
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch b/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
+new file mode 100644
+index 0000000000..77c1d6378d
+--- /dev/null
++++ b/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
+@@ -0,0 +1,205 @@
++From 49576cf1df618609be4aa1000749ad087c143df0 Mon Sep 17 00:00:00 2001
++From: John Drouhard <john@drouhard.dev>
++Date: Thu, 9 Jan 2025 20:34:42 -0600
++Subject: [PATCH] ctest: Allow arbitrary characters in test names of
++ CTestCostData.txt
++
++This changes the way lines in CTestCostData.txt are parsed to allow for
++spaces in the test name.
++
++It does so by looking for space characters from the end; and once two
++have been found, assumes everything from the beginning up to that
++second-to-last-space is the test name.
++
++Additionally, parsing the file should be much more efficient since there
++is no string or vector heap allocation per line. The std::string used by
++the parse function to convert the int and float should be within most
++standard libraries' small string optimization.
++
++Fixes: #26594
++
++Upstream-Status: Backport [4.0.0, 040da7d83216ace59710407e8ce35d5fd38e1340]
++Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
++---
++ Source/CTest/cmCTestMultiProcessHandler.cxx | 80 +++++++++++++++------
++ Source/CTest/cmCTestMultiProcessHandler.h   |  3 +-
++ Tests/CTestTestScheduler/CMakeLists.txt     |  4 +-
++ 3 files changed, 64 insertions(+), 23 deletions(-)
++
++diff --git a/Source/CTest/cmCTestMultiProcessHandler.cxx b/Source/CTest/cmCTestMultiProcessHandler.cxx
++index ca07a081eafced40697d82b08c0e2a504939fc4d..59a101454b84367d219e79a01ff72702df0dfa7f 100644
++--- a/Source/CTest/cmCTestMultiProcessHandler.cxx
+++++ b/Source/CTest/cmCTestMultiProcessHandler.cxx
++@@ -20,6 +20,7 @@
++ 
++ #include <cm/memory>
++ #include <cm/optional>
+++#include <cm/string_view>
++ #include <cmext/algorithm>
++ 
++ #include <cm3p/json/value.h>
++@@ -43,6 +44,51 @@
++ #include "cmUVSignalHackRAII.h" // IWYU pragma: keep
++ #include "cmWorkingDirectory.h"
++ 
+++namespace {
+++
+++struct CostEntry
+++{
+++  cm::string_view name;
+++  int prevRuns;
+++  float cost;
+++};
+++
+++cm::optional<CostEntry> splitCostLine(cm::string_view line)
+++{
+++  std::string part;
+++  cm::string_view::size_type pos1 = line.size();
+++  cm::string_view::size_type pos2 = line.find_last_of(' ', pos1);
+++  auto findNext = [line, &part, &pos1, &pos2]() -> bool {
+++    if (pos2 != cm::string_view::npos) {
+++      cm::string_view sub = line.substr(pos2 + 1, pos1 - pos2 - 1);
+++      part.assign(sub.begin(), sub.end());
+++      pos1 = pos2;
+++      if (pos1 > 0) {
+++        pos2 = line.find_last_of(' ', pos1 - 1);
+++      }
+++      return true;
+++    }
+++    return false;
+++  };
+++
+++  // parse the cost
+++  if (!findNext()) {
+++    return cm::nullopt;
+++  }
+++  float cost = static_cast<float>(atof(part.c_str()));
+++
+++  // parse the previous runs
+++  if (!findNext()) {
+++    return cm::nullopt;
+++  }
+++  int prev = atoi(part.c_str());
+++
+++  // from start to the last found space is the name
+++  return CostEntry{ line.substr(0, pos1), prev, cost };
+++}
+++
+++}
+++
++ namespace cmsys {
++ class RegularExpression;
++ }
++@@ -697,24 +743,21 @@ void cmCTestMultiProcessHandler::UpdateCostData()
++       if (line == "---") {
++         break;
++       }
++-      std::vector<std::string> parts = cmSystemTools::SplitString(line, ' ');
++       // Format: <name> <previous_runs> <avg_cost>
++-      if (parts.size() < 3) {
+++      cm::optional<CostEntry> entry = splitCostLine(line);
+++      if (!entry) {
++         break;
++       }
++ 
++-      std::string name = parts[0];
++-      int prev = atoi(parts[1].c_str());
++-      float cost = static_cast<float>(atof(parts[2].c_str()));
++-
++-      int index = this->SearchByName(name);
+++      int index = this->SearchByName(entry->name);
++       if (index == -1) {
++         // This test is not in memory. We just rewrite the entry
++-        fout << name << " " << prev << " " << cost << "\n";
+++        fout << entry->name << " " << entry->prevRuns << " " << entry->cost
+++             << "\n";
++       } else {
++         // Update with our new average cost
++-        fout << name << " " << this->Properties[index]->PreviousRuns << " "
++-             << this->Properties[index]->Cost << "\n";
+++        fout << entry->name << " " << this->Properties[index]->PreviousRuns
+++             << " " << this->Properties[index]->Cost << "\n";
++         temp.erase(index);
++       }
++     }
++@@ -750,28 +793,25 @@ void cmCTestMultiProcessHandler::ReadCostData()
++         break;
++       }
++ 
++-      std::vector<std::string> parts = cmSystemTools::SplitString(line, ' ');
+++      // Format: <name> <previous_runs> <avg_cost>
+++      cm::optional<CostEntry> entry = splitCostLine(line);
++ 
++       // Probably an older version of the file, will be fixed next run
++-      if (parts.size() < 3) {
+++      if (!entry) {
++         fin.close();
++         return;
++       }
++ 
++-      std::string name = parts[0];
++-      int prev = atoi(parts[1].c_str());
++-      float cost = static_cast<float>(atof(parts[2].c_str()));
++-
++-      int index = this->SearchByName(name);
+++      int index = this->SearchByName(entry->name);
++       if (index == -1) {
++         continue;
++       }
++ 
++-      this->Properties[index]->PreviousRuns = prev;
+++      this->Properties[index]->PreviousRuns = entry->prevRuns;
++       // When not running in parallel mode, don't use cost data
++       if (this->ParallelLevel > 1 && this->Properties[index] &&
++           this->Properties[index]->Cost == 0) {
++-        this->Properties[index]->Cost = cost;
+++        this->Properties[index]->Cost = entry->cost;
++       }
++     }
++     // Next part of the file is the failed tests
++@@ -784,7 +824,7 @@ void cmCTestMultiProcessHandler::ReadCostData()
++   }
++ }
++ 
++-int cmCTestMultiProcessHandler::SearchByName(std::string const& name)
+++int cmCTestMultiProcessHandler::SearchByName(cm::string_view name)
++ {
++   int index = -1;
++ 
++diff --git a/Source/CTest/cmCTestMultiProcessHandler.h b/Source/CTest/cmCTestMultiProcessHandler.h
++index 3b4e9c59ad1871168d8528be0586831e2416ae36..8d33dabcf0d9fc6e11459105c65eadaa1de33e42 100644
++--- a/Source/CTest/cmCTestMultiProcessHandler.h
+++++ b/Source/CTest/cmCTestMultiProcessHandler.h
++@@ -12,6 +12,7 @@
++ #include <vector>
++ 
++ #include <cm/optional>
+++#include <cm/string_view>
++ 
++ #include <cm3p/uv.h>
++ 
++@@ -113,7 +114,7 @@ protected:
++   void UpdateCostData();
++   void ReadCostData();
++   // Return index of a test based on its name
++-  int SearchByName(std::string const& name);
+++  int SearchByName(cm::string_view name);
++ 
++   void CreateTestCostList();
++ 
++diff --git a/Tests/CTestTestScheduler/CMakeLists.txt b/Tests/CTestTestScheduler/CMakeLists.txt
++index 91d565d4020aafda6d49462cd8616d168d5844b6..daf6ce2b23d8c048334ae1047759130b246dccef 100644
++--- a/Tests/CTestTestScheduler/CMakeLists.txt
+++++ b/Tests/CTestTestScheduler/CMakeLists.txt
++@@ -1,9 +1,9 @@
++-cmake_minimum_required (VERSION 3.5)
+++cmake_minimum_required(VERSION 3.19)
++ project (CTestTestScheduler)
++ include (CTest)
++ 
++ add_executable (Sleep sleep.c)
++ 
++ foreach (time RANGE 1 4)
++-  add_test (TestSleep${time} Sleep ${time})
+++  add_test ("TestSleep ${time}" Sleep ${time})
++ endforeach ()
+diff --git a/meta/recipes-devtools/cmake/cmake_3.28.3.bb b/meta/recipes-devtools/cmake/cmake_3.28.3.bb
+index 6a9a3266df..63d483801a 100644
+--- a/meta/recipes-devtools/cmake/cmake_3.28.3.bb
++++ b/meta/recipes-devtools/cmake/cmake_3.28.3.bb
+@@ -5,6 +5,7 @@ inherit cmake bash-completion
+ DEPENDS += "curl expat zlib libarchive xz ncurses bzip2"
  
--Use a new var SUPPORTS_${flag} will make it more clear:
---- Performing Test SUPPORTS_-fno-strict-overflow
---- Performing Test SUPPORTS_-fno-strict-overflow - Success
---- Performing Test SUPPORTS_-fno-delete-null-pointer-checks
---- Performing Test SUPPORTS_-fno-delete-null-pointer-checks - Success
---- Performing Test SUPPORTS_-fhardened
---- Performing Test SUPPORTS_-fhardened - Failed
-+Use a new var compiler-supports${flag} will make it more clear:
-+-- Performing Test compiler-supports-fno-strict-overflow
-+-- Performing Test compiler-supports-fno-strict-overflow - Success
-+-- Performing Test compiler-supports-fno-delete-null-pointer-checks
-+-- Performing Test compiler-supports-fno-delete-null-pointer-checks - Success
-+-- Performing Test compiler-supports-fhardened
-+-- Performing Test compiler-supports-fhardened - Failed
- 
--Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/3796]
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/e14502834fe6a9c6c9a439401ac3d2c8fd979267]
- 
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- ---
-@@ -36,7 +27,7 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-  1 file changed, 2 insertions(+), 3 deletions(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 08e3e5274..a7566ab5a 100644
-+index 08e3e5274..f275c396b 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
- @@ -416,11 +416,10 @@ endif()
-@@ -45,14 +36,11 @@ index 08e3e5274..a7566ab5a 100644
-  foreach (flag -fno-strict-overflow -fno-delete-null-pointer-checks -fhardened)
- -	check_c_compiler_flag(${flag} found)
- -	if (found)
--+	check_c_compiler_flag(${flag} SUPPORTS_${flag})
--+	if (SUPPORTS_${flag})
-++	check_c_compiler_flag(${flag} compiler-supports${flag})
-++	if (compiler-supports${flag})
-  		add_compile_options(${flag})
-  	endif()
- -	unset(found)
-  endforeach()
-  
-  # generated sources
---- 
--2.49.0
--
--- 
-2.49.0
-
+ SRC_URI:append:class-nativesdk = " \
++    file://0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch \
+     file://OEToolchainConfig.cmake \
+     file://SDKToolchainConfig.cmake.template \
+     file://cmake-setup.py \
 
