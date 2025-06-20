@@ -1,231 +1,124 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768D8C7115B
-	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 16:21:51 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.813.1750436505815871213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64171C77B7C
+	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 19:15:12 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.4506.1750446903803912960
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jun 2025 09:21:46 -0700
+ Fri, 20 Jun 2025 12:15:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JhYQZGp0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a589d99963so2021939f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 09:21:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1750436503; x=1751041303; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HK6ofu2MRs6AGkTP5nQRotrByzJeEtgFuUtRvX55I6E=;
-        b=JhYQZGp04l8plqApeor3y6zxIR49NYkTiU+L0eIWybg1L1xQG6f3ft2QZnyrUkRvUl
-         dnWhvls0745Z3tP1ajZK7HRq9xbxFfYq2jpp8io/I+edoGO8n4qAuOq8iEtFZN5qE2xe
-         5/CQCvC2FOX0a1AY72oTE/NLwkTA511biarOM=
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=FcJuVimC;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55KFcoWO030403
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 19:15:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=kJX1dqjNAGWO2wLzRWmaoCqaAK9z5u71Yjx
+	uUfDD9yI=; b=FcJuVimC0YLEPqNpKqXtqMS5uxpur5QzC+SIFWjGc/d2vMS3MmP
+	w7JRL7mSwx86fEcW3SlCgaQfLIYwYtM/tJJCETnAxgN1dxp3Ckb204msjedGclf8
+	ITF7SjHAwsZfNnGMPzZ5ybI/MhIn8gCzMnLO46dBobEy24fQdzfidW/nmR4BCwtn
+	+ChQ8lJzgZgQAb0kTefLtHg2lZXfke7zDhgQKPcX9Tte2vMkIcTjFZvXZDILjHQS
+	SgAlERUBNQOlQw5+iudO+W0pRIvVeQYxF772o5FOyOdHyAanho9OLrTyCYwJiPp1
+	W8abng58nn1cl6NPDoKeU4sug7AaD9+qN8w==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47daf98hbm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 19:15:03 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7d3cbf784acso551445585a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 12:15:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750436503; x=1751041303;
+        d=1e100.net; s=20230601; t=1750446901; x=1751051701;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HK6ofu2MRs6AGkTP5nQRotrByzJeEtgFuUtRvX55I6E=;
-        b=nza9OOI24J9PNKklkALmYuEWZFwNxcgttB5DF58xZW9XpZeGa2Kfk72YAMU5SpGhWz
-         ABAYvxF2Om6uhcAgGhptiyoOOfDSmO1vS2tYn+AIHmKQspu7Udqqg/BMiTDsS+egtUBy
-         gIkDCFw6wmEoVKCi6oRZFxgiwG9ugYfwIdPUweNxEH77TXGWRB6RabG4P9hdbebyRTzQ
-         r5AK+3+2n0yUuEqfN3bXpqYAj10ouzLl1e++7+IaaGcvNzj18EMeCjUiasF3HFxqQdH6
-         sj0cdUUP5Ccs4sk7lGW8QId4iZxG/5+41rkAfxQkiCw5hSyx4Rzn1s6UWieuZ09G67ot
-         SiJg==
-X-Gm-Message-State: AOJu0Yxv0L0S9v2WzV0r+iHamGRZaGwI15POoXdmrWDEc2tgXUJjC4FN
-	J7i9++ocEfgjDKMLC88UaDioDG/VSmuy6Mb43xejcVtW1WylYGnVRb8Zy3B0NOhQVniYw1mdr20
-	oUF87KKU=
-X-Gm-Gg: ASbGncs+C6U1VaVtSs7hxC3EFzMcxDuVjbyRfMm6s+LJnt/DPf4QvyvtlJpe79ugtKp
-	+sj0DMoFC1brV64U3P8jZ2yQE9tSUcOcJH+D9Don/mMXrtax64eNvA0w7L9V+Umn3G5clxCN5/m
-	BOYgy88UgiKco8Gdr6+frm40O/xKtBes1azelG07MjN+Q6EoUtIV0Fb4mj7hAGjhNROL5StrNJA
-	Phv6e9ST3PA5oSVFj4DUYQ+wUcOxAXUsKpF23P8BE9eilE6WWmSS6PIr8LaBXYxhMgWdJRocTLf
-	9/1JDaTJ6oZ7V46otH2cqUq/J85v3GJIK+7axiSNK6s0K5eKZ7sUuVMJR89OrXKhAkKRYm6fPot
-	Kv3tGOhBa6tzmGHE=
-X-Google-Smtp-Source: AGHT+IHECWqatEJrKdbuwsoFUIho9DOz1bWSDQoIw/DTIPYYtd2iKr7a2mL37zvpyIepG7ZJ78pxrQ==
-X-Received: by 2002:a05:6000:2002:b0:3a5:783f:528a with SMTP id ffacd0b85a97d-3a6d12fc180mr3197550f8f.59.1750436502992;
-        Fri, 20 Jun 2025 09:21:42 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b606:370e:6752:7b3d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6d0f1815dsm2417501f8f.28.2025.06.20.09.21.42
+        bh=kJX1dqjNAGWO2wLzRWmaoCqaAK9z5u71YjxuUfDD9yI=;
+        b=OlGmDDppkkZwUNNdCKkdH81IASMuhI+0IDCzV/Zu+EZLSrGpFpSOgtKKVI1s49mmpF
+         k557j+owTmNmdZ5ZEskdMnMQzL+Wq/LYGTHAWfQK3do47qCe5PSJoRL8lMzGUyht5D7b
+         0UyYp/4fhp+m1gCJlqnUpu0/PYBTbHnKd2wq5qeZA72XFVfDxJQE+c4fjKniu4wu1AIB
+         ICJNhs2xE30wulhNxnOiNTFhLYEQuX2H0z822Arudt8fmnSnTr/9R1Jph6o+bKOHRBDr
+         yxAoR4IH1sNU4Fzva3G5I1XePT9ibCiMjPY9AktHdwm0hY8RALq9G5asWONPB5rDsGL7
+         aRVA==
+X-Gm-Message-State: AOJu0YydRoQqX1THphVQBKXOTQK1eryB8NkGxOx3dJEmRRDxnd6NkXZZ
+	xMBnl5BH0zDK+D0plCMsL/IXEs2AJ2hCvDihtLisoow/l+lO99++39NYTHlWk+YR6VolXQfjrMV
+	ooajeDBKlZn7P8dDDa8fG7Zf+yYNiyKZXz58PpigPRZTJnclUFSMywXCG97fjwXGWxg6sLJRHlh
+	e/ixXVxgXN0MNqgGjMTg==
+X-Gm-Gg: ASbGnctyHna/vIfE93M62sKQFFihvXZtsSNBxRjzvUz6ygKXJGcoooKXhMm5+JE8VNR
+	ogisF6ghoYU3aq2BjGNNFrBcl+bo0l/8QyTN1H3Q0FnAQwQC5seTYCaRWJuDVyTbQVqjs1TOcRM
+	jRPqZ4f3WTdXOZ1UlLT/ukkkgrCA9vrQKmddBdXBkVG5YlIMeEowyGechg9S6Hm9WAlHsVlqlu6
+	x+QYl9dy3mDuiAW7cPfhNaUZCo1dtHKEKJ9/UOpQheto/dd3hbfxg8uoJAe5xDyEJbKQLBuVQsF
+	JVz3nQ5JtYsW1l4TkSa5nVRruGJkXnaS6qQYx0qnLwo0jrwWvNazK12pMWE6iR60AVuoeh2TaUi
+	Gp1ONQbOJNaXyMEB22lVX9oxbR3vYEu4K5ZY=
+X-Received: by 2002:a05:620a:f11:b0:7d3:8d33:f550 with SMTP id af79cd13be357-7d3f9946aa5mr541231285a.42.1750446900897;
+        Fri, 20 Jun 2025 12:15:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGHFUpNsPFKLKalZJfqVX2Nta4fOKuMVXON6s6NCtmN+WS7plzVBYSdqbn9JU5XIHlpkm9vDA==
+X-Received: by 2002:a05:620a:f11:b0:7d3:8d33:f550 with SMTP id af79cd13be357-7d3f9946aa5mr541227485a.42.1750446900324;
+        Fri, 20 Jun 2025 12:15:00 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553e41cc124sm381614e87.215.2025.06.20.12.14.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 09:21:42 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Fri, 20 Jun 2025 12:14:59 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] buildhistory: Drop BUILDHISTORY_RESET due to reliability issues
-Date: Fri, 20 Jun 2025 17:21:41 +0100
-Message-ID: <20250620162141.2529718-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+Subject: [PATCH v7 1/8] mesa: fix RPROVIDEd package names
+Date: Fri, 20 Jun 2025 22:14:50 +0300
+Message-Id: <20250620191457.2018861-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIwMDEzMyBTYWx0ZWRfX9O4/qNK32qOu
+ SMOu46fcTcNg0zuMqzna8B7M9a4bx7F4z94m2iNOYT0i8x5YyzaC0QZq4wuDgKzS4RT7S4zdscm
+ L5IaqkFO26z4HEE2s8/p2JoYN/VDEFHKall0Myk3i0SbzWFdK+h6JltuIcg5OXXsJHqhax7nEc6
+ hyiRZb6sgOJxyRjlJswzUV9NR2OeRu92TGeIYMsV9MH/0JKoFR6wAh6qAT4yQQbnFb4JeODBPXC
+ W+fHR1XGkmHUyev1p5ImUNKuu2w1uvi+As3SiF/gU/awCQXBlVEmUkD8qO1cHlm0e2+atVwZ/jj
+ jjqYZHE3x2m2D5huJTcMrZVdJQOhDIjkM53YkpjhHGR7uPswADse741HQiANof9b4DUccWKKidQ
+ VkWaTOQ8VC/NyLGYZp2kZTJUCMC69FYEQODQXfV7CKaLiil71USWAGiT0xRwEY6pK6fQG/FO
+X-Proofpoint-ORIG-GUID: gOw5OHRLDrYe2i6xtlTVvXMfZZaeZ4-a
+X-Authority-Analysis: v=2.4 cv=Q+TS452a c=1 sm=1 tr=0 ts=6855b337 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+ a=EUspDBNiAAAA:8 a=9Lscu--00yPY4GOp4jwA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: gOw5OHRLDrYe2i6xtlTVvXMfZZaeZ4-a
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-20_08,2025-06-20_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 suspectscore=0 priorityscore=1501 mlxscore=0
+ phishscore=0 mlxlogscore=989 malwarescore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506200133
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 16:21:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219142
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 19:15:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219143
 
-The implementation of BUILDHISTORY_RESET is problematic, particlarly given that
-people are trying to create an API with it alongside BUILDHISTORY_PRESERVE
-which simply doesn't exist and can't work reliably. Worse, the code paths with
-this bolted on implementation are convoluted and near impossible to follow.
+The BCP for virtual runtime package names is virtual-foo. Make mesa
+follow the established convention and change the names of the provied
+packages to virtual-foo-icd.
 
-BUILDHISTORY_PRESERVE is effectively internal API, used to stop buildhistory
-removing some files which are needed for data, or are created at different
-parts of the build. Add a comment to explain what it is doing and why these files
-are listed.
-
-Commit 9f68a45aa238ae5fcdfaca71ba0e7015e9cb720e tried to "fix" preserve support
-with the reset functionality but it didn't fully work and has just exposed futher
-issues. There is a further fix however I can brely follow the code and in reviewing
-it, I've concluded we shouldn't be doing this at all.
-
-Due to the way BUILDHISTORY_RESET was implemented, horrible races were introduced
-making it unclear what happens to the data if builds fail for example, or how sstate
-interacts with the build since things get reset but stamps do not and tasks may not
-rerun. It also interacts badly with any additions to the preserve list, due to
-misunderstandings on what that variable does.
-
-Having stared long and hard at the code, and really struggled to understand it, I',
-of the view that "reset" for CI purposes should be done by the CI itself. The CI can
-choose to remove some files or all files and decide how to handle failures. It has
-to handle the buildhistory directory anyway.
-
-Therefore drop BUILDHISTORY_RESET support, allowing the "old" codepaths to be dropped.
-BUILDHISTORY_PRESERVE is better documented to hint that it is internal API and to
-show what it is really for.
-
-If we really do want some functionality list this, it needs to be implemented in a
-way you can follow the code, and have tests.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Fixes: 9d3b4c9bc403 ("mesa: sort out PROVIDES for the glvnd case")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/classes/buildhistory.bbclass | 74 +++----------------------------
- 1 file changed, 6 insertions(+), 68 deletions(-)
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index e9701826205..4a380c10c6d 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -16,28 +16,6 @@ BUILDHISTORY_DIR ?= "${TOPDIR}/buildhistory"
- BUILDHISTORY_DIR_IMAGE = "${BUILDHISTORY_DIR}/images/${MACHINE_ARCH}/${TCLIBC}/${IMAGE_BASENAME}"
- BUILDHISTORY_DIR_PACKAGE = "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}/${PN}"
- 
--# Setting this to non-empty will remove the old content of the buildhistory as part of
--# the current bitbake invocation and replace it with information about what was built
--# during the build.
--#
--# This is meant to be used in continuous integration (CI) systems when invoking bitbake
--# for full world builds. The effect in that case is that information about packages
--# that no longer get build also gets removed from the buildhistory, which is not
--# the case otherwise.
--#
--# The advantage over manually cleaning the buildhistory outside of bitbake is that
--# the "version-going-backwards" check still works. When relying on that, be careful
--# about failed world builds: they will lead to incomplete information in the
--# buildhistory because information about packages that could not be built will
--# also get removed. A CI system should handle that by discarding the buildhistory
--# of failed builds.
--#
--# The expected usage is via auto.conf, but passing via the command line also works
--# with: BB_ENV_PASSTHROUGH_ADDITIONS=BUILDHISTORY_RESET BUILDHISTORY_RESET=1
--BUILDHISTORY_RESET ?= ""
--
--BUILDHISTORY_OLD_DIR = "${BUILDHISTORY_DIR}/${@ "old" if "${BUILDHISTORY_RESET}" else ""}"
--BUILDHISTORY_OLD_DIR_PACKAGE = "${BUILDHISTORY_OLD_DIR}/packages/${MULTIMACH_TARGET_SYS}/${PN}"
- BUILDHISTORY_DIR_SDK = "${BUILDHISTORY_DIR}/sdk/${SDK_NAME}${SDK_EXT}/${IMAGE_BASENAME}"
- BUILDHISTORY_IMAGE_FILES ?= "/etc/passwd /etc/group"
- BUILDHISTORY_SDK_FILES ?= "conf/local.conf conf/bblayers.conf conf/auto.conf conf/locked-sigs.inc conf/devtool.conf"
-@@ -70,9 +48,10 @@ SSTATEPOSTUNPACKFUNCS[vardepvalueexclude] .= "| buildhistory_emit_outputsigs"
- # necessary because some of these items (package directories, files that
- # we no longer emit) might be obsolete.
- #
--# When extending build history, derive your class from buildhistory.bbclass
--# and extend this list here with the additional files created by the derived
--# class.
-+# The files listed here are either written by tasks that aren't do_package (e.g.
-+# latest_srcrev from do_fetch) so do_package must not remove them, or, they're
-+# used to read values in do_package before always being overwritten, e.g. latest,
-+# for version backwards checks.
- BUILDHISTORY_PRESERVE = "latest latest_srcrev sysroot"
- 
- PATCH_GIT_USER_EMAIL ?= "buildhistory@oe"
-@@ -108,7 +87,6 @@ python buildhistory_emit_pkghistory() {
-         return 0
- 
-     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
--    oldpkghistdir = d.getVar('BUILDHISTORY_OLD_DIR_PACKAGE')
- 
-     class RecipeInfo:
-         def __init__(self, name):
-@@ -203,7 +181,7 @@ python buildhistory_emit_pkghistory() {
- 
-     def getlastpkgversion(pkg):
-         try:
--            histfile = os.path.join(oldpkghistdir, pkg, "latest")
-+            histfile = os.path.join(pkghistdir, pkg, "latest")
-             return readPackageInfo(pkg, histfile)
-         except EnvironmentError:
-             return None
-@@ -219,20 +197,6 @@ python buildhistory_emit_pkghistory() {
-         items.sort()
-         return ' '.join(items)
- 
--    def preservebuildhistoryfiles(pkg, preserve):
--        if os.path.exists(os.path.join(oldpkghistdir, pkg)):
--            listofobjs = os.listdir(os.path.join(oldpkghistdir, pkg))
--            for obj in listofobjs:
--                if obj not in preserve:
--                    continue
--                try:
--                    bb.utils.mkdirhier(os.path.join(pkghistdir, pkg))
--                    shutil.copyfile(os.path.join(oldpkghistdir, pkg, obj), os.path.join(pkghistdir, pkg, obj))
--                except IOError as e:
--                    bb.note("Unable to copy file. %s" % e)
--                except EnvironmentError as e:
--                    bb.note("Unable to copy file. %s" % e)
--
-     pn = d.getVar('PN')
-     pe = d.getVar('PE') or "0"
-     pv = d.getVar('PV')
-@@ -260,14 +224,6 @@ python buildhistory_emit_pkghistory() {
-     if not os.path.exists(pkghistdir):
-         bb.utils.mkdirhier(pkghistdir)
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index c3adb5ef78ac..b3b369d0eefb 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -286,7 +286,7 @@ python __anonymous() {
+     if 'glvnd' in pkgconfig:
+         for p in ("libegl", "libglx"):
+             fullp = mlprefix + p + "-mesa" + suffix
+-            d.appendVar("RPROVIDES:" + fullp, '%s-icd' % p)
++            d.appendVar("RPROVIDES:" + fullp, ' virtual-%s-icd' % p)
      else:
--        # We need to make sure that all files kept in
--        # buildhistory/old are restored successfully
--        # otherwise next block of code wont have files to
--        # check and purge
--        if d.getVar("BUILDHISTORY_RESET"):
--            for pkg in packagelist:
--                preservebuildhistoryfiles(pkg, preserve)
--
-         # Remove files for packages that no longer exist
-         for item in os.listdir(pkghistdir):
-             if item not in preserve:
-@@ -887,25 +843,7 @@ END
- 
- python buildhistory_eventhandler() {
-     if (e.data.getVar('BUILDHISTORY_FEATURES') or "").strip():
--        reset = e.data.getVar("BUILDHISTORY_RESET")
--        olddir = e.data.getVar("BUILDHISTORY_OLD_DIR")
--        if isinstance(e, bb.event.BuildStarted):
--            if reset:
--                import shutil
--                # Clean up after potentially interrupted build.
--                if os.path.isdir(olddir):
--                    shutil.rmtree(olddir)
--                rootdir = e.data.getVar("BUILDHISTORY_DIR")
--                bb.utils.mkdirhier(rootdir)
--                entries = [ x for x in os.listdir(rootdir) if not x.startswith('.') ]
--                bb.utils.mkdirhier(olddir)
--                for entry in entries:
--                    bb.utils.rename(os.path.join(rootdir, entry),
--                              os.path.join(olddir, entry))
--        elif isinstance(e, bb.event.BuildCompleted):
--            if reset:
--                import shutil
--                shutil.rmtree(olddir)
-+        if isinstance(e, bb.event.BuildCompleted):
-             if e.data.getVar("BUILDHISTORY_COMMIT") == "1":
-                 bb.note("Writing buildhistory")
-                 bb.build.exec_func("buildhistory_write_sigs", d)
+         for p in (("egl", "libegl", "libegl1"),
+                   ("opengl", "libgl", "libgl1"),
+-- 
+2.39.5
+
 
