@@ -2,26 +2,26 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA40BC7115C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C85F0C7EE2E
 	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 15:14:45 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.2675.1750432481838287330
+ by mx.groups.io with SMTP id smtpd.web10.2670.1750432479360482781
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jun 2025 08:14:41 -0700
+ Fri, 20 Jun 2025 08:14:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5446176A;
-	Fri, 20 Jun 2025 08:14:21 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C60516F2;
+	Fri, 20 Jun 2025 08:14:19 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F0A463F673;
-	Fri, 20 Jun 2025 08:14:40 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 861A93F673;
+	Fri, 20 Jun 2025 08:14:38 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: christian.lindeberg@axis.com
-Subject: [PATCH 09/12] classes/go-mod-update-modules: add class to generate module list
-Date: Fri, 20 Jun 2025 16:14:26 +0100
-Message-ID: <20250620151429.3210879-9-ross.burton@arm.com>
+Subject: [PATCH 06/12] recipetool: allow recipe create handlers to specify bitbake tasks to run
+Date: Fri, 20 Jun 2025 16:14:23 +0100
+Message-ID: <20250620151429.3210879-6-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250620151429.3210879-1-ross.burton@arm.com>
 References: <20250620151429.3210879-1-ross.burton@arm.com>
@@ -31,206 +31,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 15:14:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219136
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219133
 
-Almost entirely based on the create_go.py module for recipetool by
-Christian Lindeberg <christian.lindeberg@axis.com>, this instead has the
-logic inside a class that can be used to update the list of Go modules
-that are used, both SRC_URI and LICENSE.
+When creating a recipe there can be cases where there is a class that
+does some of the recipe creation (such as cargo-update-recipe-crates).
 
-Integration with devtool upgrade will come shortly, but it needs a bit
-more work.
+To avoid duplication of code, look for run_task assignments in the
+extravalues dictionary returned by the handler, and if it is set then
+call that task after writing the recipe.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../go-mod-update-modules.bbclass             | 152 ++++++++++++++++++
- 1 file changed, 152 insertions(+)
- create mode 100644 meta/classes-recipe/go-mod-update-modules.bbclass
+ scripts/lib/recipetool/create.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/classes-recipe/go-mod-update-modules.bbclass b/meta/cla=
-sses-recipe/go-mod-update-modules.bbclass
-new file mode 100644
-index 00000000000..6ef7ab553b0
---- /dev/null
-+++ b/meta/classes-recipe/go-mod-update-modules.bbclass
-@@ -0,0 +1,152 @@
-+addtask do_update_modules after do_configure
-+do_update_modules[nostamp] =3D "1"
-+do_update_modules[network] =3D "1"
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/cr=
+eate.py
+index b2101f39325..f0584d84701 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -765,6 +765,7 @@ def create_recipe(args):
+     extrafiles =3D extravalues.pop('extrafiles', {})
+     extra_pn =3D extravalues.pop('PN', None)
+     extra_pv =3D extravalues.pop('PV', None)
++    run_task =3D extravalues.pop('run_task', None)
+=20
+     if extra_pv and not realpv:
+         realpv =3D extra_pv
+@@ -919,6 +920,10 @@ def create_recipe(args):
+         log_info_cond('Recipe %s has been created; further editing may b=
+e required to make it fully functional' % outfile, args.devtool)
+         tinfoil.modified_files()
+=20
++    if run_task:
++        logger.info("Running task %s" % run_task)
++        tinfoil.build_file_sync(outfile, run_task)
 +
-+# This class maintains two files, BPN-go-mods.inc and BPN-licenses.inc.
-+#
-+# -go-mods.inc will append SRC_URI with all of the Go modules that are
-+# dependencies of this recipe.
-+#
-+# -licenses.inc will append LICENSE and LIC_FILES_CHKSUM with the found =
-licenses
-+# in the modules.
-+#
-+# These files are machine-generated and should not be modified.
-+
-+python do_update_modules() {
-+    import subprocess, tempfile, json, re, urllib.parse
-+    from oe.license import tidy_licenses
-+    from oe.license_finder import find_licenses
-+
-+    def unescape_path(path):
-+        """Unescape capital letters using exclamation points."""
-+        return re.sub(r'!([a-z])', lambda m: m.group(1).upper(), path)
-+
-+    def fold_uri(uri):
-+        """Fold URI for sorting shorter module paths before longer."""
-+        return uri.replace(';', ' ').replace('/', '!')
-+
-+    def parse_existing_licenses():
-+        hashes =3D {}
-+        for url in d.getVar("LIC_FILES_CHKSUM").split():
-+            (method, host, path, user, pswd, parm) =3D bb.fetch.decodeur=
-l(url)
-+            if "spdx" in parm and parm["spdx"] !=3D "Unknown":
-+                hashes[parm["md5"]] =3D urllib.parse.unquote_plus(parm["=
-spdx"])
-+        return hashes
-+
-+    bpn =3D d.getVar("BPN")
-+    thisdir =3D d.getVar("THISDIR")
-+    s_dir =3D d.getVar("S")
-+
-+    with tempfile.TemporaryDirectory(prefix=3D'go-mod-') as mod_cache_di=
-r:
-+        notice =3D """
-+# This file has been generated by go-mod-update-modules.bbclass
-+#
-+# Do not modify it by hand, as the contents will be replaced when
-+# running the update-modules task.
-+
-+"""
-+
-+        env =3D dict(os.environ, GOMODCACHE=3Dmod_cache_dir)
-+
-+        source =3D d.expand("${WORKDIR}/${GO_SRCURI_DESTSUFFIX}")
-+        output =3D subprocess.check_output(("go", "mod", "edit", "-json"=
-), cwd=3Dsource, env=3Denv, text=3DTrue)
-+        go_mod =3D json.loads(output)
-+
-+        output =3D subprocess.check_output(("go", "list", "-json=3DDir,M=
-odule", "-deps", f"{go_mod['Module']['Path']}/..."), cwd=3Dsource, env=3D=
-env, text=3DTrue)
-+
-+        #
-+        # Licenses
-+        #
-+
-+        # load hashes from the existing licenses.inc
-+        extra_hashes =3D parse_existing_licenses()
-+
-+        # The output of this isn't actually valid JSON, but a series of =
-dicts.
-+        # Wrap in [] and join the dicts with ,
-+        # Very frustrating that the json parser in python can't repeated=
-ly
-+        # parse from a stream.
-+        pkgs =3D json.loads('[' + output.replace('}\n{', '},\n{') + ']')
-+        # Collect licenses for the dependencies.
-+        licenses =3D set()
-+        lic_files_chksum =3D []
-+        lic_files =3D {}
-+
-+        for pkg in pkgs:
-+            mod =3D pkg.get('Module', None)
-+            if not mod or mod.get('Main', False):
-+                continue
-+
-+            mod_dir =3D mod['Dir']
-+
-+            if mod_dir.startswith(s_dir):
-+                continue
-+
-+            path =3D os.path.relpath(mod_dir, mod_cache_dir)
-+
-+            for license_name, license_file, license_md5 in find_licenses=
-(mod['Dir'], d, first_only=3DTrue, extra_hashes=3Dextra_hashes):
-+                lic_files[os.path.join(path, license_file)] =3D (license=
-_name, license_md5)
-+
-+        for lic_file in lic_files:
-+            license_name, license_md5 =3D lic_files[lic_file]
-+            if license_name =3D=3D "Unknown":
-+                bb.warn(f"Unknown license: {lic_file} {license_md5}")
-+
-+            licenses.add(lic_files[lic_file][0])
-+            lic_files_chksum.append(
-+                f'file://pkg/mod/{lic_file};md5=3D{license_md5};spdx=3D{=
-urllib.parse.quote_plus(license_name)}')
-+
-+        licenses_filename =3D os.path.join(thisdir, f"{bpn}-licenses.inc=
-")
-+        with open(licenses_filename, "w") as f:
-+            f.write(notice)
-+            f.write(f'LICENSE +=3D "& {" & ".join(tidy_licenses(licenses=
-))}"\n\n')
-+            f.write('LIC_FILES_CHKSUM +=3D "\\\n')
-+            for lic in sorted(lic_files_chksum, key=3Dfold_uri):
-+                f.write('    ' + lic + ' \\\n')
-+            f.write('"\n')
-+
-+        #
-+        # Sources
-+        #
-+
-+        # Collect the module cache files downloaded by the go list comma=
-nd as
-+        # the go list command knows best what the go list command needs =
-and it
-+        # needs more files in the module cache than the go install comma=
-nd as
-+        # it doesn't do the dependency pruning mentioned in the Go modul=
-e
-+        # reference, https://go.dev/ref/mod, for go 1.17 or higher.
-+        src_uris =3D []
-+        downloaddir =3D os.path.join(mod_cache_dir, 'cache', 'download')
-+        for dirpath, _, filenames in os.walk(downloaddir):
-+            # We want to process files under @v directories
-+            path, base =3D os.path.split(os.path.relpath(dirpath, downlo=
-addir))
-+            if base !=3D '@v':
-+                continue
-+
-+            path =3D unescape_path(path)
-+            zipver =3D None
-+            for name in filenames:
-+                ver, ext =3D os.path.splitext(name)
-+                if ext =3D=3D '.zip':
-+                    chksum =3D bb.utils.sha256_file(os.path.join(dirpath=
-, name))
-+                    src_uris.append(f'gomod://{path};version=3D{ver};sha=
-256sum=3D{chksum}')
-+                    zipver =3D ver
-+                    break
-+            for name in filenames:
-+                ver, ext =3D os.path.splitext(name)
-+                if ext =3D=3D '.mod' and ver !=3D zipver:
-+                    chksum =3D bb.utils.sha256_file(os.path.join(dirpath=
-, name))
-+                    src_uris.append(f'gomod://{path};version=3D{ver};mod=
-=3D1;sha256sum=3D{chksum}')
-+
-+
-+        go_mods_filename =3D os.path.join(thisdir, f"{bpn}-go-mods.inc")
-+        with open(go_mods_filename, "w") as f:
-+            f.write(notice)
-+            f.write('SRC_URI +=3D "\\\n')
-+            for uri in sorted(src_uris, key=3Dfold_uri):
-+                f.write('    ' + uri + ' \\\n')
-+            f.write('"\n')
-+
-+        subprocess.check_output(("go", "clean", "-modcache"), cwd=3Dsour=
-ce, env=3Denv, text=3DTrue)
-+}
-+
-+# This doesn't work as we need to wipe the inc files first so we don't t=
-ry looking for LICENSE files that don't yet exist
-+# RECIPE_UPGRADE_EXTRA_TASKS +=3D "do_update_modules"
+     if tempsrc:
+         if args.keep_temp:
+             logger.info('Preserving temporary directory %s' % tempsrc)
 --=20
 2.43.0
 
