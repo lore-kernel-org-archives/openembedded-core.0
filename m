@@ -2,48 +2,48 @@ Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23767C71155
-	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 06:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D5C3C7115B
+	for <webhook@archiver.kernel.org>; Fri, 20 Jun 2025 07:02:45 +0000 (UTC)
 Received: from esa10.hc324-48.eu.iphmx.com (esa10.hc324-48.eu.iphmx.com [207.54.69.29])
- by mx.groups.io with SMTP id smtpd.web11.1832.1750401498178911220
+ by mx.groups.io with SMTP id smtpd.web10.2133.1750402957579518272
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Jun 2025 23:38:19 -0700
+ Fri, 20 Jun 2025 00:02:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=kF6QU5ED;
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=fSL4bDo1;
  spf=pass (domain: bmw.de, ip: 207.54.69.29, mailfrom: prvs=2599e2df9=moritz.haase@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1750401498; x=1781937498;
+  t=1750402957; x=1781938957;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=i/tzyOlvKKEZp5JDBTzypByN+RtohAAIbUzl+aiyJuQ=;
-  b=kF6QU5EDb5E4KqEJCaEsqfmqnyTVP9qivjOVb/aGvCoLRiwSRfdecj2D
-   grzQG/xxidfbo8/bRlH0/AHoJBQY6SbHZEoA3lU0if1Ac9uNL/ctNv4bp
-   vqnIBL3QQ56KL6SZ49liJORRNvBph0i+jDpITUAM4FiX89TQP/NwgmZtp
-   M=;
-X-CSE-ConnectionGUID: bV+T5Bk5SOSa9kTHPcN3dw==
-X-CSE-MsgGUID: U5sk7JCsSQ+cebBBDkcppQ==
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
- esa10.hc324-48.eu.iphmx.com with ESMTP/TLS; 20 Jun 2025 08:38:16 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw3.muc with ESMTP/TLS;
- 20 Jun 2025 08:38:16 +0200
+  bh=jouf8RfFq7BpIlLjdK2lN8ehNILnP4F0Ca9XvwqgcLs=;
+  b=fSL4bDo1xyuXUfUkbqF+1GDc2/ExFqb7pxRgcdIaecdjo+c4wVv9vLar
+   qm1A24+eG+XEdNTbJATM03xucxPzp4PdF3phckJXgr2jeZJmPR0V6EGGw
+   VJWZ96Mv/X2hEdN5OBFlUUl6uqb/wA52QNLk3SVjDj2vxM4xIyjwcUqef
+   4=;
+X-CSE-ConnectionGUID: QZ0In9EgQIeFWucXKThnBQ==
+X-CSE-MsgGUID: /7Uptjk/T4iPpiVemN/gkg==
+Received: from 160.46.252.49.spf.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+ esa10.hc324-48.eu.iphmx.com with ESMTP/TLS; 20 Jun 2025 09:02:35 +0200
+Received: from esabb1.muc ([160.50.100.31])  by esagw6.muc with ESMTP/TLS;
+ 20 Jun 2025 09:02:35 +0200
 Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
- by esabb2.muc with ESMTP/TLS; 20 Jun 2025 08:38:16 +0200
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.205) by
+ by esabb1.muc with ESMTP/TLS; 20 Jun 2025 09:02:35 +0200
+Received: from q1054628.de-cci.bmwgroup.net (10.30.85.200) by
  smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
- Server (version=TLS; Fri, 20 Jun 2025 08:38:15 +0200
-X-CSE-ConnectionGUID: YBUJ0LNZSCC6gXlKvs1AfA==
-X-CSE-MsgGUID: pAQ3n5urTk25s3/xQslmXg==
-X-CSE-ConnectionGUID: nW+V3R9+Rgmj8GOqawq6zw==
-X-CSE-MsgGUID: YkkDdL4WSFeonq77+yJr+w==
+ Server (version=TLS; Fri, 20 Jun 2025 09:02:35 +0200
+X-CSE-ConnectionGUID: ZxigsieHT5KKmoCIT+ViQA==
+X-CSE-MsgGUID: 12+aPfrCSjKoxYjPmppvAQ==
+X-CSE-ConnectionGUID: MIYQDD1SRAWgAnPxbTMbqw==
+X-CSE-MsgGUID: 56GY6U27TgqM7YCqnFb4VQ==
 From: Moritz Haase <Moritz.Haase@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
 CC: Moritz Haase <Moritz.Haase@bmw.de>, John Drouhard <john@drouhard.dev>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, Richard Purdie
 	<richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH] cmake: Correctly handle cost data of tests with arbitrary chars in name
-Date: Fri, 20 Jun 2025 08:37:41 +0200
-Message-ID: <20250620063741.3087457-1-Moritz.Haase@bmw.de>
+Subject: [kirkstone][PATCH] cmake: Correctly handle cost data of tests with arbitrary chars in name
+Date: Fri, 20 Jun 2025 09:02:16 +0200
+Message-ID: <20250620070216.3107546-1-Moritz.Haase@bmw.de>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,8 +53,8 @@ X-ClientProxiedBy: smucmp17b.europe.bmw.corp (2a03:1e80:a15:58f::1:4c) To
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 06:38:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219102
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Jun 2025 07:02:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219103
 
 ctest automatically optimizes the order of (parallel) test execution based on
 historic test case runtime via the COST property (see [0]), which can have a
@@ -62,8 +62,8 @@ significant impact on overall test run times. Sadly this feature is broken in
 CMake < 4.0.0 for test cases that have spaces in their name (see [1]).
 
 This commit is a backport of f24178f3 (which itself backports the upstream fix).
-The patch was adapted slightly to apply cleanly to the older CMake version in
-scarthgap. As repeated test runs are expected to mainly take place inside the
+the patch was adapted slightly to apply cleanly to the older CMake version in
+kirkstone. As repeated test runs are expected to mainly take place inside the
 SDK, the patch is only applied to 'nativesdk' builds.
 
 [0]: https://cmake.org/cmake/help/latest/prop_test/COST.html
@@ -74,17 +74,17 @@ Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../cmake/cmake-native_3.28.3.bb              |   2 +-
+ .../cmake/cmake-native_3.22.3.bb              |   2 +-
  ...trary-characters-in-test-names-of-CT.patch | 205 ++++++++++++++++++
- meta/recipes-devtools/cmake/cmake_3.28.3.bb   |   1 +
+ meta/recipes-devtools/cmake/cmake_3.22.3.bb   |   1 +
  3 files changed, 207 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb b/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
-index 546d117156..376da3254b 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
-@@ -51,7 +51,7 @@ do_compile() {
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb b/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
+index 45ea78ae00..447554aa2e 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
+@@ -49,7 +49,7 @@ do_compile() {
  do_install() {
  	oe_runmake 'DESTDIR=${D}' install
  
@@ -95,11 +95,11 @@ index 546d117156..376da3254b 100644
  	install -m 644 ${WORKDIR}/OEToolchainConfig.cmake ${D}${datadir}/cmake/
 diff --git a/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch b/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
 new file mode 100644
-index 0000000000..77c1d6378d
+index 0000000000..10fc4f545e
 --- /dev/null
 +++ b/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
 @@ -0,0 +1,205 @@
-+From 49576cf1df618609be4aa1000749ad087c143df0 Mon Sep 17 00:00:00 2001
++From 4f992e105bf4a85062bb439ca63daefc8a992f94 Mon Sep 17 00:00:00 2001
 +From: John Drouhard <john@drouhard.dev>
 +Date: Thu, 9 Jan 2025 20:34:42 -0600
 +Subject: [PATCH] ctest: Allow arbitrary characters in test names of
@@ -128,18 +128,18 @@ index 0000000000..77c1d6378d
 + 3 files changed, 64 insertions(+), 23 deletions(-)
 +
 +diff --git a/Source/CTest/cmCTestMultiProcessHandler.cxx b/Source/CTest/cmCTestMultiProcessHandler.cxx
-+index ca07a081eafced40697d82b08c0e2a504939fc4d..59a101454b84367d219e79a01ff72702df0dfa7f 100644
++index d90c4a64651e4d53cc219abe76cb10a342e8aa35..311d2368bcc99abfb4b61c77032b26a440bc5bde 100644
 +--- a/Source/CTest/cmCTestMultiProcessHandler.cxx
 ++++ b/Source/CTest/cmCTestMultiProcessHandler.cxx
-+@@ -20,6 +20,7 @@
++@@ -19,6 +19,7 @@
++ #include <vector>
 + 
 + #include <cm/memory>
-+ #include <cm/optional>
 ++#include <cm/string_view>
 + #include <cmext/algorithm>
 + 
 + #include <cm3p/json/value.h>
-+@@ -43,6 +44,51 @@
++@@ -41,6 +42,51 @@
 + #include "cmUVSignalHackRAII.h" // IWYU pragma: keep
 + #include "cmWorkingDirectory.h"
 + 
@@ -191,7 +191,7 @@ index 0000000000..77c1d6378d
 + namespace cmsys {
 + class RegularExpression;
 + }
-+@@ -697,24 +743,21 @@ void cmCTestMultiProcessHandler::UpdateCostData()
++@@ -691,24 +737,21 @@ void cmCTestMultiProcessHandler::UpdateCostData()
 +       if (line == "---") {
 +         break;
 +       }
@@ -223,7 +223,7 @@ index 0000000000..77c1d6378d
 +         temp.erase(index);
 +       }
 +     }
-+@@ -750,28 +793,25 @@ void cmCTestMultiProcessHandler::ReadCostData()
++@@ -744,28 +787,25 @@ void cmCTestMultiProcessHandler::ReadCostData()
 +         break;
 +       }
 + 
@@ -258,7 +258,7 @@ index 0000000000..77c1d6378d
 +       }
 +     }
 +     // Next part of the file is the failed tests
-+@@ -784,7 +824,7 @@ void cmCTestMultiProcessHandler::ReadCostData()
++@@ -778,7 +818,7 @@ void cmCTestMultiProcessHandler::ReadCostData()
 +   }
 + }
 + 
@@ -268,18 +268,18 @@ index 0000000000..77c1d6378d
 +   int index = -1;
 + 
 +diff --git a/Source/CTest/cmCTestMultiProcessHandler.h b/Source/CTest/cmCTestMultiProcessHandler.h
-+index 3b4e9c59ad1871168d8528be0586831e2416ae36..8d33dabcf0d9fc6e11459105c65eadaa1de33e42 100644
++index 5de42f9e3209f4b7f0e856afc458e8b4a35d87b7..11e995d9e06ba9fdb0e086dc3e5e4175f8158cd0 100644
 +--- a/Source/CTest/cmCTestMultiProcessHandler.h
 ++++ b/Source/CTest/cmCTestMultiProcessHandler.h
-+@@ -12,6 +12,7 @@
++@@ -10,6 +10,7 @@
++ #include <string>
 + #include <vector>
 + 
-+ #include <cm/optional>
 ++#include <cm/string_view>
-+ 
 + #include <cm3p/uv.h>
++ #include <stddef.h>
 + 
-+@@ -113,7 +114,7 @@ protected:
++@@ -111,7 +112,7 @@ protected:
 +   void UpdateCostData();
 +   void ReadCostData();
 +   // Return index of a test based on its name
@@ -289,11 +289,11 @@ index 0000000000..77c1d6378d
 +   void CreateTestCostList();
 + 
 +diff --git a/Tests/CTestTestScheduler/CMakeLists.txt b/Tests/CTestTestScheduler/CMakeLists.txt
-+index 91d565d4020aafda6d49462cd8616d168d5844b6..daf6ce2b23d8c048334ae1047759130b246dccef 100644
++index a3f0f27cdcb901bb309bb6cb6cd9307ce1ba20a2..daf6ce2b23d8c048334ae1047759130b246dccef 100644
 +--- a/Tests/CTestTestScheduler/CMakeLists.txt
 ++++ b/Tests/CTestTestScheduler/CMakeLists.txt
 +@@ -1,9 +1,9 @@
-+-cmake_minimum_required (VERSION 3.5)
++-cmake_minimum_required (VERSION 2.8.12)
 ++cmake_minimum_required(VERSION 3.19)
 + project (CTestTestScheduler)
 + include (CTest)
@@ -304,16 +304,16 @@ index 0000000000..77c1d6378d
 +-  add_test (TestSleep${time} Sleep ${time})
 ++  add_test ("TestSleep ${time}" Sleep ${time})
 + endforeach ()
-diff --git a/meta/recipes-devtools/cmake/cmake_3.28.3.bb b/meta/recipes-devtools/cmake/cmake_3.28.3.bb
-index 6a9a3266df..63d483801a 100644
---- a/meta/recipes-devtools/cmake/cmake_3.28.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake_3.28.3.bb
-@@ -5,6 +5,7 @@ inherit cmake bash-completion
- DEPENDS += "curl expat zlib libarchive xz ncurses bzip2"
- 
- SRC_URI:append:class-nativesdk = " \
-+    file://0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch \
-     file://OEToolchainConfig.cmake \
-     file://SDKToolchainConfig.cmake.template \
+diff --git a/meta/recipes-devtools/cmake/cmake_3.22.3.bb b/meta/recipes-devtools/cmake/cmake_3.22.3.bb
+index 752c37ba7d..04a0f0e793 100644
+--- a/meta/recipes-devtools/cmake/cmake_3.22.3.bb
++++ b/meta/recipes-devtools/cmake/cmake_3.22.3.bb
+@@ -10,6 +10,7 @@ SRC_URI:append:class-nativesdk = " \
      file://cmake-setup.py \
+     file://environment.d-cmake.sh \
+     file://0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch \
++    file://0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch \
+ "
+ 
+ LICENSE:append = " & BSD-1-Clause & MIT"
 
