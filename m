@@ -1,124 +1,111 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB30EC7115C
-	for <webhook@archiver.kernel.org>; Sat, 21 Jun 2025 16:17:04 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web10.10308.1750522617401728777
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAF01C7115C
+	for <webhook@archiver.kernel.org>; Sun, 22 Jun 2025 11:03:00 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.24320.1750590173291524459
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Jun 2025 09:16:58 -0700
+ Sun, 22 Jun 2025 04:02:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=woNyhmi4;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-2025062116165423f71dee909afe2dad-y_i9sy@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2025062116165423f71dee909afe2dad
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 21 Jun 2025 18:16:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=zjNHZdteeIBoPCPP6bcWYnF0blnhFK6eWH7MYPWBbRg=;
- b=woNyhmi4zezM56gsWBuxcqw/LZbHGPoVehsdS+41LWDxOfLdPvmWuuJznbIxc8mTPS3u9T
- nDNUlHD2AIu+zhQ9M4PE+caEcXiA3LGapkldu/TjAFvTGTgG2dUJzplgDfxwrjutbhLPvl3y
- xRUPJqgz4COYIK7i+KvIgLsu2oetGfKaVT7qimNsoNNTNc2px72/BO+qzAtPs+jOxofF+cmh
- aydyc/1dAei2xQUr6GXok1KTeFb4P9+DqtfjAIOZJRsu5EzaWGttNUGI746ni5g8kTNcj+0m
- 0F8WCzJbcNacEPLFdwr+/RsT8k2fpeR+Jt0uJkOhhTxSvYqlD8Z0zNLA==;
-From: AdrianF <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 1/1] oe-selftest: devtool: split tap detection into function
-Date: Sat, 21 Jun 2025 18:14:10 +0200
-Message-ID: <20250621161649.798992-2-adrian.freihofer@siemens.com>
-In-Reply-To: <20250621161649.798992-1-adrian.freihofer@siemens.com>
-References: <20250621161649.798992-1-adrian.freihofer@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=b9Se3nZ9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-234c5b57557so33041655ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jun 2025 04:02:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750590172; x=1751194972; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zpmMEpkCYBMKdGZd+XSXYtzYyHHyJ7JvsNdyDW0IVt8=;
+        b=b9Se3nZ9CWBujeMEgAhinkYSrzGweyWKHlc3lXAL2oyjXVhS0vzvuDmmbT1qdiaiTq
+         yyHBKpUgbdj90hSexkCor62vpfXJRShIEZmrzVjCDrUI3n4H/6UDyF4xLdGTkFnt/Eva
+         UVkAE/pQBaSeSyNSTtEIbZIgjJWsfAAcUDHAJJMOhvM3+jqaWfYtpy7ABin4LxcPfkM2
+         8V1LKtOcAEpIVeFpdCCRmgrEGHmmtoduVNDjEH7oC5lJb7jpZfBUM6JLwsY29j6v7Svf
+         EKpmn1hieseJyHtppPOcIygr9nQev5EJioeKXMpJjYOYSUuDsDcIRcukopa11x6nSAYS
+         F7PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750590172; x=1751194972;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zpmMEpkCYBMKdGZd+XSXYtzYyHHyJ7JvsNdyDW0IVt8=;
+        b=b1DCtPmstzl+QYrReM4xxegcfom5ASoHroeB/VOlfa7VZTA6w2+dTylWKYGRPT2pdC
+         z85/TyzpFShCw025toLarvRkXKr9d+HIS99FXYQqDBCvzD9i+bLwk3Xhiw0DVZtnEjxZ
+         7ojdhoACMHKZowBJpBGq2ub7Fp4w97NfK5Yk54wrbr7mGShy0teXYBM16jloJB6rBtGC
+         67ZA8keLOJ4FdVCPF4PiodmBp2yVvUpyd0vpU6vjakrD0K2/5Jqfa8qdryxhqfoFb/Rv
+         Vqv+hiNdxTHiDPHxZs9B++sIHBvN17PPT6WhFyK0jxf/rUmaSQUq0anY0159ZdULy2Rg
+         3GOg==
+X-Gm-Message-State: AOJu0Yy4bWDOyvBJcO1ykpc5D8fHDu+4VwGjNJ1W0WDjZ4Lauxawb9w/
+	8jI1KfnvM/wF/pwP+ekzjIduDbJPMjdVCm/qFXNiScWqGRTCppt6t0swnMALRIz6/dMqMt4sPFp
+	J5H9b
+X-Gm-Gg: ASbGncvJqmcdArnZCMM0hmx3WL2+LrCGKoV1aJHJNDwlBGGQ43i72DI9xZeGxsfxZ+N
+	FmEWBsIJsAGglhDc8aq0pbS6r2Ui4AIJATurATXP1sTujgT5BeP7/l3CotGlPbgSEoUDhlrKfOz
+	LUrX7IqBTG9xwZN3wvJQrb3jGYHOc1W9qLu3xo5RHKbKx2Xjf5V+vgBu4+BaOUVmTvK8Qiqq2xp
+	OUzwJ253zpAmN0iayFdzn1shmph1tXXdy4c5RHh+KpVIWeLCiD0TMvKYntclCmvoNJsvNl0MfZr
+	2xhIAoBJikoifjU8u99zw3B0yPrEOu3PJ/rUMumJG04o74dY8y91Drky8fV9lXz/Duw=
+X-Google-Smtp-Source: AGHT+IE+AGy1GxU4D69Fj682mJMNrnnoNUI9zXACMt1M3g8idKailYbbCimx4XHXErEUj8vtUfKzlA==
+X-Received: by 2002:a17:902:ec8c:b0:237:c8de:f289 with SMTP id d9443c01a7336-237d996bf44mr133570555ad.36.1750590172433;
+        Sun, 22 Jun 2025 04:02:52 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d86103e5sm57775335ad.120.2025.06.22.04.02.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Jun 2025 04:02:52 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id A3C6D100337; Sun, 22 Jun 2025 01:02:51 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 22 Jun 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 22 Jun 2025 01:02:51 -1000
+Message-Id: <20250622110251.A3C6D100337@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Jun 2025 16:17:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219168
+ <openembedded-core@lists.openembedded.org>; Sun, 22 Jun 2025 11:03:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219170
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+Branch: master
 
-Make the check for tap devices available as a function which can be used
-by other tests as well.
+New this week: 1 CVEs
+CVE-2025-5914 (CVSS3: N/A): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-5914 *
 
-Remove /etc/runqemu-nosudo check for tap device detection.
-The /etc/runqemu-nosudo file is a state file created by the
-runqemu-gen-tapdevs script. Tap device detection now relies only on the
-presence of tap interfaces, making the check more robust and not
-dependent on the runqemu-gen-tapdevs script, which is just one way of
-creating the tap interfaces.
+Removed this week: 0 CVEs
 
-Simplify the code by removing the fallback to ifconfig if the ip command
-is not available. ip commands are nowadays available on all host
-machines. The transition from ifconfig to ip has taken place long time
-ago e.g. for the runqemu-gen-tapdevs script.
+Full list:  Found 27 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
+CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
+CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
+CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
+CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
+CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
+CVE-2025-23137 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23137 *
+CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
+CVE-2025-37803 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37803 *
+CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
+CVE-2025-37925 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37925 *
+CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
+CVE-2025-5914 (CVSS3: N/A): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-5914 *
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- meta/lib/oeqa/selftest/cases/devtool.py | 14 ++------------
- meta/lib/oeqa/utils/commands.py         | 10 ++++++++++
- 2 files changed, 12 insertions(+), 12 deletions(-)
+Summary of CVE counts by recipe:
+  linux-yocto: 23
+  libarchive:libarchive-native: 1
+  libsndfile1: 1
+  qemu:qemu-native:qemu-system-native: 1
+  sqlite3:sqlite3-native: 1
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 74a7727cc00..668ed0c7876 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -16,7 +16,7 @@ import json
- 
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer
--from oeqa.utils.commands import get_bb_vars, runqemu, get_test_layer
-+from oeqa.utils.commands import get_bb_vars, runqemu, runqemu_check_taps, get_test_layer
- from oeqa.core.decorator import OETestTag
- 
- oldmetapath = None
-@@ -277,18 +277,8 @@ class DevtoolTestCase(OESelftestTestCase):
-         machine = get_bb_var('MACHINE')
-         if not machine.startswith('qemu'):
-             self.skipTest('This test only works with qemu machines')
--        if not os.path.exists('/etc/runqemu-nosudo'):
-+        if not runqemu_check_taps():
-             self.skipTest('You must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
--        result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show', ignore_status=True)
--        if result.status != 0:
--            result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ifconfig -a', ignore_status=True)
--            if result.status != 0:
--                self.skipTest('Failed to determine if tap devices exist with ifconfig or ip: %s' % result.output)
--        for line in result.output.splitlines():
--            if line.startswith('tap'):
--                break
--        else:
--            self.skipTest('No tap devices found - you must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
- 
-     def _test_devtool_add_git_url(self, git_url, version, pn, resulting_src_uri, srcrev=None):
-         self.track_for_cleanup(self.workspacedir)
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index b60a6e6c389..5eaedd2fd96 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -401,6 +401,16 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
-         targetlogger.removeHandler(handler)
-         qemu.stop()
- 
-+def runqemu_check_taps():
-+    """Check if tap devices for runqemu are available"""
-+    result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show', ignore_status=True)
-+    if result.status != 0:
-+        return False
-+    for line in result.output.splitlines():
-+        if line.startswith('tap'):
-+            return True
-+    return False
-+
- def updateEnv(env_file):
-     """
-     Source a file and update environment.
--- 
-2.49.0
-
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
