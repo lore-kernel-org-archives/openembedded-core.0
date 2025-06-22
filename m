@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D833C7115A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 070BDC7115D
 	for <webhook@archiver.kernel.org>; Sun, 22 Jun 2025 15:02:32 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.27811.1750604551238475773
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.27632.1750604544948674306
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Jun 2025 08:02:31 -0700
+ Sun, 22 Jun 2025 08:02:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kxelXlnt;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-747ef5996edso2491805b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jun 2025 08:02:31 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oAC8OMk3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7399a2dc13fso3773449b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jun 2025 08:02:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750604550; x=1751209350; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1750604544; x=1751209344; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eR1Nm13rICRDac20kubTrKj0gusCPe6VrULwNpIqSXY=;
-        b=kxelXlntpzogMzrcOZnl46ix8ApUoJ2ykeHHGbqhrpayHoxcscAy0oU4erG9vwSXLO
-         Yai/GeifCI60/fEaT2Xaw4SQjQOO1XIGP+Ge7TBrH1tMDEb9lgiZ81pz2EyzxnDWCppA
-         +5JRJiKXeUCNpnMjB2XHNlt0LhCt/T0khjQGs2QtrBsSwMygw8DYD8uKyZjp7gpmIUFS
-         w7ZGJ3Hhyo4kAI4zhrXLgy3qWO3SkWX6YWvjRs6KNEOSpq4JybcKLe2dVSndVgGwRB33
-         wr9gcRuuoJeE21xxDztpA5fKg7/tOY0IMcSG3vdaYsEqzi4lIJvrksWb79uHpUZsVnAz
-         PySg==
+        bh=bhxQ4/xszM9bBSdN1AtVmV3/EAgJxWu/PVDYdh5S6Qk=;
+        b=oAC8OMk3YNm0eMeebC4XGyUzQwduAiV2oppNHGTDHUOB1Vf8JOcL82/yZXDDmp2dTw
+         X4I89YTda60CoyA6PFlzWLG3zbVGka7sfof7TQkhr2mvRCj0CwuEcNKpMXC9e9ACkalC
+         MOP/lgTbSxtQQFPRqR2QCJnQOLwaZqst4+li/9O3B82vhnFPhflNG0w89sVy6MoqPPA7
+         On+B9HzJlzve8QezGPDki4UYT6xLtsadGQzwgflAL5XNl7/L1vDTqmsq+BqWyn3RJahB
+         sIqN46SkaTZIJm0CKL/8cgbPlZnkGO7Kjjej2+TdPkjxOTCgaJpxO2jf5VEs37OuqyOz
+         Py8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750604550; x=1751209350;
+        d=1e100.net; s=20230601; t=1750604544; x=1751209344;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eR1Nm13rICRDac20kubTrKj0gusCPe6VrULwNpIqSXY=;
-        b=dD+dh89XY0gzLqP/Lsmpb2LVJRUHi8QXx2XQHCF6YnqaNJ+hCJ9puTcO8MZMAvQJzf
-         gtIxgW22g6CKEQAJIxwG9kXN284XYhY+dz2V/b4aqPjwiPYSMJ/E6FQHm5BVU8JksmUL
-         ATqBFSMhbLyDqzSrUVvi8tY2Ryuyt4ThRRXgCOO9ejW2MsGe/D/GBGoYnbmdo24aQ6tg
-         XJTqGF5Bm8eU95EkbSJtoL4f7IKrTHz6mUJJ+gjitXoVFzEKyqX4+WV1KyPshmCmDe/n
-         KSR2hCvRcba/DSgpjwtTzcuWBvaE2+sbsyzvO/4LKRF8Od10p5yM6+kNdOzkxpUfMShO
-         RCkg==
-X-Gm-Message-State: AOJu0Yydnc7QTsWcYP/c1nDJMT37YUtz0KFeOKYZiduBZXGXsTTO0CMA
-	eaXXr8nEDMP7J2Ebc7jNtudQp1G9bbKcko338sfo5H2htYwV/j8JANKaKxiyJvxQCfiPwU5ieQd
-	jpKLd2iw=
-X-Gm-Gg: ASbGncvItYZaQk41TVWEf3hwY+qjlDOtBcpYi9laG8zzrEpqF9xm0XG3XDlBT4aem6x
-	ovPV9GzCygDUmmRfIxnfk38Pwwb77w+iCNFC17Z6TGvBq/QTWGF/ZfkJfbYnP+nzm79bTCX4CtC
-	X+aNaBCUrpIWRKNrHXLjU5lVtD8a4mYtNPM52PRywu1QaNDNr+Re+iRgmg65J1y2fLItYlPFg8o
-	L9JwK6mNUkM5TJwQrB0tX9UbqN6fKo8F78Y2JAMIxnLiqULjEg1gTn/zqQTuU555ITYQoCMtzWO
-	8BtLv+UggnXpQMvgJb/E6n9uI7Hbh/++HxSJugUtEPsVQhId3k+EDA==
-X-Google-Smtp-Source: AGHT+IHBaVt1w8bfxZ3OTbOaERG4Aeb/2xWAy1W1gDdcECOb7MqYpgzJwxoijYmsRQQPyBFONB/Gqg==
-X-Received: by 2002:a05:6a21:6d9c:b0:1f5:8153:93fb with SMTP id adf61e73a8af0-22026e8cef8mr13689083637.10.1750604550318;
-        Sun, 22 Jun 2025 08:02:30 -0700 (PDT)
+        bh=bhxQ4/xszM9bBSdN1AtVmV3/EAgJxWu/PVDYdh5S6Qk=;
+        b=Lpxh3l2jgB+f71gNK8+547rFDPQBLN0nX0Ocy5caqvlu/1jg291nVJxaz2Mya2fuWj
+         vOxp36eYEPDmF/tsTReVsXtR1f1EJLb6Wx9sfocPougGptvyoBcJIUCkxOvYW2Ua2oYu
+         VWkbxN3nWqinTy96RJB1PmyVC/EWFBPGN+hFwJkWurakpbslU2spHHxAzRelI6PDKfMa
+         uYtTEYxKZJBnmBs4POGZb8HTUU/9wxDiktt68kyAw/cNdhfvEaIG0LLkYnGzOCRjdLu/
+         uvSMNY/pjpHpeTdsAn4O/eNn6cspIX8MeZl1VaYMmnNf6XjOTH+uzD+UpsLL6DvoEygo
+         I/sA==
+X-Gm-Message-State: AOJu0YyzRMcSt26T671bdTDUyJIUt/n6Q6bKriC+dN9hm1mLSt2mnFXE
+	vP1lC1FRqKRll70ydSjTmhwvlNquk0KnxFJ0hfc3lv5cJJdtqX1aqM/sx37/1A+2x6mtexzUZrz
+	zxtS2yCI=
+X-Gm-Gg: ASbGncuc4TmDhcWKPrs6+pnchU5OfQC1qebUQC+g4DBNVgqwW9mt0QvBZUi2MrFTCJJ
+	GDAsNO/QY/ZDN67TtqtTbZxTc1WKooEixNe3uYA4USCRem8Jdqx1XYZ2aTLDfMiPIO8KUKvXQN1
+	Gf2V4BfFZP/DSTqBntx3Ehxk/5ikoLy8NJEWIYnV2QMj8He0/HRHjj6uDozCnniHqjFEBV5dGtQ
+	I2lE7hS+PsHtqph1rkKlkeryFdivaDd8OCPBAqrUlbS/L+VcKBjvq2O0r343udLzMkx3ZQpVTTW
+	HPu60Erz93y4Lm5YZDiLUKnhLwNtzpw36GsUcQSx7c2uy1JmmANBGg==
+X-Google-Smtp-Source: AGHT+IGukdH3yoUqipdv8xSFQcK45JSLV8qd6sbg+qTKCv3xGhLeKv+zQ5OOMI3YB3tspPKNpsWHHw==
+X-Received: by 2002:a05:6a00:198e:b0:748:2ff7:5e22 with SMTP id d2e1a72fcca58-7490d6bc974mr10716778b3a.10.1750604543915;
+        Sun, 22 Jun 2025 08:02:23 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:4a75:9ad8:d661:8bd8])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a46eb71sm6222521b3a.22.2025.06.22.08.02.29
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a46eb71sm6222521b3a.22.2025.06.22.08.02.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jun 2025 08:02:30 -0700 (PDT)
+        Sun, 22 Jun 2025 08:02:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/14] libsoup: fix CVE-2025-46421
-Date: Sun, 22 Jun 2025 08:00:00 -0700
-Message-ID: <388453296c32759623ed35a8142c6af2df7f30b0.1750604257.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/14] libsoup: fix CVE-2025-32907
+Date: Sun, 22 Jun 2025 07:59:58 -0700
+Message-ID: <e31c9f12193d040480eca6a4be6a9ec6675b19f8.1750604257.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1750604257.git.steve@sakoman.com>
 References: <cover.1750604257.git.steve@sakoman.com>
@@ -67,175 +67,313 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 22 Jun 2025 15:02:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219184
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219182
 
 From: Changqing Li <changqing.li@windriver.com>
 
 Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/issues/439
+https://gitlab.gnome.org/GNOME/libsoup/-/issues/429
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup/libsoup/CVE-2025-46421.patch      | 139 ++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.0.7.bb |   1 +
- 2 files changed, 140 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-46421.patch
+ .../libsoup/libsoup/CVE-2025-32907-1.patch    | 200 ++++++++++++++++++
+ .../libsoup/libsoup/CVE-2025-32907-2.patch    |  68 ++++++
+ meta/recipes-support/libsoup/libsoup_3.0.7.bb |   2 +
+ 3 files changed, 270 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-32907-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-32907-2.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2025-46421.patch b/meta/recipes-support/libsoup/libsoup/CVE-2025-46421.patch
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2025-32907-1.patch b/meta/recipes-support/libsoup/libsoup/CVE-2025-32907-1.patch
 new file mode 100644
-index 0000000000..72683d8fce
+index 0000000000..41b7d276a4
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2025-46421.patch
-@@ -0,0 +1,139 @@
-+From 85c5227eef7370832044eb918e8a99c0bcbab86f Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Wed, 5 Feb 2025 16:18:10 -0600
-+Subject: [PATCH] session: Strip authentication credentails on cross-origin
-+ redirect
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2025-32907-1.patch
+@@ -0,0 +1,200 @@
++From 7507b0713c2f02af1cd561ebb99477e0a099419d Mon Sep 17 00:00:00 2001
++From: Milan Crha <mcrha@redhat.com>
++Date: Tue, 15 Apr 2025 12:17:39 +0200
++Subject: [PATCH 1/2] soup-message-headers: Correct merge of ranges
 +
-+This should match the behavior of Firefox and Safari but not of Chromium.
++It had been skipping every second range, which generated an array
++of a lot of insane ranges, causing large memory usage by the server.
 +
-+CVE: CVE-2025-46421
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/436/diffs?commit_id=3e5c26415811f19e7737238bb23305ffaf96f66b]
++Closes #428
++
++Part-of: <https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/452>
++
++CVE: CVE-2025-32907
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/452/commits]
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ libsoup/soup-session.c |  6 ++++
-+ tests/auth-test.c      | 77 ++++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 83 insertions(+)
++ libsoup/soup-message-headers.c |   1 +
++ tests/meson.build              |   1 +
++ tests/server-mem-limit-test.c  | 144 +++++++++++++++++++++++++++++++++
++ 3 files changed, 146 insertions(+)
++ create mode 100644 tests/server-mem-limit-test.c
 +
-+diff --git a/libsoup/soup-session.c b/libsoup/soup-session.c
-+index 631bec0..9f00b05 100644
-+--- a/libsoup/soup-session.c
-++++ b/libsoup/soup-session.c
-+@@ -1230,6 +1230,12 @@ soup_session_redirect_message (SoupSession *session,
-+ 						   SOUP_ENCODING_NONE);
++diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
++index ee7a3cb..f101d4b 100644
++--- a/libsoup/soup-message-headers.c
+++++ b/libsoup/soup-message-headers.c
++@@ -1244,6 +1244,7 @@ soup_message_headers_get_ranges_internal (SoupMessageHeaders  *hdrs,
++ 			if (cur->start <= prev->end) {
++ 				prev->end = MAX (prev->end, cur->end);
++ 				g_array_remove_index (array, i);
+++				i--;
++ 			}
++ 		}
 + 	}
-+ 
-++        /* Strip all credentials on cross-origin redirect. */
-++        if (!soup_uri_host_equal (soup_message_get_uri (msg), new_uri)) {
-++                soup_message_headers_remove_common (soup_message_get_request_headers (msg), SOUP_HEADER_AUTHORIZATION);
-++                soup_message_set_auth (msg, NULL);
-++        }
++diff --git a/tests/meson.build b/tests/meson.build
++index ee118a0..8e7b51d 100644
++--- a/tests/meson.build
+++++ b/tests/meson.build
++@@ -102,6 +102,7 @@ tests = [
++   {'name': 'samesite'},
++   {'name': 'session'},
++   {'name': 'server-auth'},
+++  {'name': 'server-mem-limit'},
++   {'name': 'server'},
++   {'name': 'sniffing',
++     'depends': [test_resources],
++diff --git a/tests/server-mem-limit-test.c b/tests/server-mem-limit-test.c
++new file mode 100644
++index 0000000..98f1c40
++--- /dev/null
+++++ b/tests/server-mem-limit-test.c
++@@ -0,0 +1,144 @@
+++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*- */
+++/*
+++ * Copyright (C) 2025 Red Hat <www.redhat.com>
+++ */
 ++
-+         soup_message_set_request_host_from_uri (msg, new_uri);
-+ 	soup_message_set_uri (msg, new_uri);
-+ 	g_uri_unref (new_uri);
-+diff --git a/tests/auth-test.c b/tests/auth-test.c
-+index 484097f..7c3b551 100644
-+--- a/tests/auth-test.c
-++++ b/tests/auth-test.c
-+@@ -1,6 +1,7 @@
-+ /* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*- */
-+ 
-+ #include "test-utils.h"
-++#include "soup-uri-utils-private.h"
-+ 
-+ static const char *base_uri;
-+ static GMainLoop *loop;
-+@@ -1916,6 +1917,81 @@ do_missing_params_test (gconstpointer auth_header)
-+ 	soup_test_server_quit_unref (server);
-+ }
-+ 
+++#include "test-utils.h"
+++
+++#include <sys/resource.h>
+++
+++/*
+++ This test limits memory usage to trigger too large buffer allocation crash.
+++ As restoring the limits back to what it was does not always work, it's split
+++ out of the server-test.c test with copied minimal server code.
+++ */
+++
+++typedef struct {
+++	SoupServer *server;
+++	GUri *base_uri, *ssl_base_uri;
+++	GSList *handlers;
+++} ServerData;
+++
 ++static void
-++redirect_server_callback (SoupServer        *server,
-++                          SoupServerMessage *msg,
-++                          const char        *path,
-++                          GHashTable        *query,
-++                          gpointer           user_data)
+++server_setup_nohandler (ServerData *sd, gconstpointer test_data)
 ++{
-++    static gboolean redirected = FALSE;
-++
-++    if (!redirected) {
-++        char *redirect_uri = g_uri_to_string (user_data);
-++        soup_server_message_set_redirect (msg, SOUP_STATUS_MOVED_PERMANENTLY, redirect_uri);
-++        g_free (redirect_uri);
-++        redirected = TRUE;
-++        return;
-++    }
-++
-++    g_assert_not_reached ();
-++}
-++
-++static gboolean
-++auth_for_redirect_callback (SoupMessage *msg, SoupAuth *auth, gboolean retrying, gpointer user_data)
-++{
-++    GUri *known_server_uri = user_data;
-++
-++    if (!soup_uri_host_equal (known_server_uri, soup_message_get_uri (msg)))
-++        return FALSE;
-++
-++    soup_auth_authenticate (auth, "user", "good-basic");
-++
-++    return TRUE;
+++	sd->server = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD);
+++	sd->base_uri = soup_test_server_get_uri (sd->server, "http", NULL);
+++	if (tls_available)
+++		sd->ssl_base_uri = soup_test_server_get_uri (sd->server, "https", NULL);
 ++}
 ++
 ++static void
-++do_strip_on_crossorigin_redirect (void)
+++server_add_handler (ServerData         *sd,
+++		    const char         *path,
+++		    SoupServerCallback  callback,
+++		    gpointer            user_data,
+++		    GDestroyNotify      destroy)
 ++{
-++    SoupSession *session;
-++    SoupMessage *msg;
-++    SoupServer *server1, *server2;
-++    SoupAuthDomain *auth_domain;
-++    GUri *uri;
-++    gint status;
-++
-++    server1 = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD);
-++    server2 = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD);
-++
-++    /* Both servers have the same credentials. */
-++    auth_domain = soup_auth_domain_basic_new ("realm", "auth-test", "auth-callback", server_basic_auth_callback, NULL);
-++    soup_auth_domain_add_path (auth_domain, "/");
-++    soup_server_add_auth_domain (server1, auth_domain);
-++    soup_server_add_auth_domain (server2, auth_domain);
-++    g_object_unref (auth_domain);
-++
-++    /* Server 1 asks for auth, then redirects to Server 2. */
-++    soup_server_add_handler (server1, NULL,
-++                    redirect_server_callback,
-++                   soup_test_server_get_uri (server2, "http", NULL), (GDestroyNotify)g_uri_unref);
-++    /* Server 2 requires auth. */
-++    soup_server_add_handler (server2, NULL, server_callback, NULL, NULL);
-++
-++    session = soup_test_session_new (NULL);
-++    uri = soup_test_server_get_uri (server1, "http", NULL);
-++    msg = soup_message_new_from_uri ("GET", uri);
-++    /* The client only sends credentials for the host it knows. */
-++    g_signal_connect (msg, "authenticate", G_CALLBACK (auth_for_redirect_callback), uri);
-++
-++    status = soup_test_session_send_message (session, msg);
-++
-++    g_assert_cmpint (status, ==, SOUP_STATUS_UNAUTHORIZED);
-++
-++    g_uri_unref (uri);
-++    soup_test_server_quit_unref (server1);
-++    soup_test_server_quit_unref (server2);
+++	soup_server_add_handler (sd->server, path, callback, user_data, destroy);
+++	sd->handlers = g_slist_prepend (sd->handlers, g_strdup (path));
 ++}
 ++
-+ int
-+ main (int argc, char **argv)
+++static void
+++server_setup (ServerData *sd, gconstpointer test_data)
+++{
+++	server_setup_nohandler (sd, test_data);
+++}
+++
+++static void
+++server_teardown (ServerData *sd, gconstpointer test_data)
+++{
+++	GSList *iter;
+++
+++	for (iter = sd->handlers; iter; iter = iter->next)
+++		soup_server_remove_handler (sd->server, iter->data);
+++	g_slist_free_full (sd->handlers, g_free);
+++
+++	g_clear_pointer (&sd->server, soup_test_server_quit_unref);
+++	g_clear_pointer (&sd->base_uri, g_uri_unref);
+++	g_clear_pointer (&sd->ssl_base_uri, g_uri_unref);
+++}
+++
+++static void
+++server_file_callback (SoupServer        *server,
+++		      SoupServerMessage *msg,
+++		      const char        *path,
+++		      GHashTable        *query,
+++		      gpointer           data)
+++{
+++	void *mem;
+++
+++	g_assert_cmpstr (path, ==, "/file");
+++	g_assert_cmpstr (soup_server_message_get_method (msg), ==, SOUP_METHOD_GET);
+++
+++	mem = g_malloc0 (sizeof (char) * 1024 * 1024);
+++	/* fedora-scan CI claims a warning about possibly leaked `mem` variable, thus use
+++	   the copy and free it explicitly, to workaround the false positive; the g_steal_pointer()
+++	   did not help for the malloc-ed memory */
+++	soup_server_message_set_response (msg, "application/octet-stream", SOUP_MEMORY_COPY, mem, sizeof (char) * 1024 *1024);
+++	soup_server_message_set_status (msg, SOUP_STATUS_OK, NULL);
+++	g_free (mem);
+++}
+++
+++static void
+++do_ranges_overlaps_test (ServerData *sd, gconstpointer test_data)
+++{
+++	SoupSession *session;
+++	SoupMessage *msg;
+++	GString *range;
+++	GUri *uri;
+++	const char *chunk = ",0,0,0,0,0,0,0,0,0,0,0";
+++
+++	g_test_bug ("428");
+++
+++	#ifdef G_OS_WIN32
+++	g_test_skip ("Cannot run under windows");
+++	return;
+++	#endif
+++
+++	range = g_string_sized_new (99 * 1024);
+++	g_string_append (range, "bytes=1024");
+++	while (range->len < 99 * 1024)
+++		g_string_append (range, chunk);
+++
+++	session = soup_test_session_new (NULL);
+++	server_add_handler (sd, "/file", server_file_callback, NULL, NULL);
+++
+++	uri = g_uri_parse_relative (sd->base_uri, "/file", SOUP_HTTP_URI_FLAGS, NULL);
+++
+++	msg = soup_message_new_from_uri ("GET", uri);
+++	soup_message_headers_append (soup_message_get_request_headers (msg), "Range", range->str);
+++
+++	soup_test_session_send_message (session, msg);
+++
+++	soup_test_assert_message_status (msg, SOUP_STATUS_PARTIAL_CONTENT);
+++
+++	g_object_unref (msg);
+++
+++	g_string_free (range, TRUE);
+++	g_uri_unref (uri);
+++
+++	soup_test_session_abort_unref (session);
+++}
+++
+++int
+++main (int argc, char **argv)
+++{
+++	int ret;
+++
+++	test_init (argc, argv, NULL);
+++
+++	#ifndef G_OS_WIN32
+++	struct rlimit new_rlimit = { 1024 * 1024 * 64, 1024 * 1024 * 64 };
+++	/* limit memory usage, to trigger too large memory allocation abort */
+++	g_assert_cmpint (setrlimit (RLIMIT_DATA, &new_rlimit), ==, 0);
+++	#endif
+++
+++	g_test_add ("/server-mem/range-overlaps", ServerData, NULL,
+++		    server_setup, do_ranges_overlaps_test, server_teardown);
+++
+++	ret = g_test_run ();
+++
+++	test_cleanup ();
+++	return ret;
+++}
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2025-32907-2.patch b/meta/recipes-support/libsoup/libsoup/CVE-2025-32907-2.patch
+new file mode 100644
+index 0000000000..9c838a55af
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2025-32907-2.patch
+@@ -0,0 +1,68 @@
++From f31dfc357ffdd8d18d3593a06cd4acb888eaba70 Mon Sep 17 00:00:00 2001
++From: Milan Crha <mcrha@redhat.com>
++Date: Tue, 13 May 2025 14:20:46 +0200
++Subject: [PATCH 2/2] server-mem-limit-test: Limit memory usage only when not
++ built witha sanitizer
++
++A build with -Db_sanitize=address crashes with failed mmap(), which is done
++inside libasan. The test requires 20.0TB of virtual memory when running with
++the sanitizer, which is beyond unsigned integer limits and may not trigger
++the bug anyway.
++
++Part-of: <https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/452>
++
++CVE: CVE-2025-32907
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/452/commits]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ meson.build                   |  4 ++++
++ tests/server-mem-limit-test.c | 13 +++++++++----
++ 2 files changed, 13 insertions(+), 4 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index d4110da..74323ea 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -357,6 +357,10 @@ configinc = include_directories('.')
++ 
++ prefix = get_option('prefix')
++ 
+++if get_option('b_sanitize') != 'none'
+++  cdata.set_quoted('B_SANITIZE_OPTION', get_option('b_sanitize'))
+++endif
+++
++ cdata.set_quoted('PACKAGE_VERSION', soup_version)
++ cdata.set_quoted('LOCALEDIR', join_paths(prefix, get_option('localedir')))
++ cdata.set_quoted('GETTEXT_PACKAGE', libsoup_api_name)
++diff --git a/tests/server-mem-limit-test.c b/tests/server-mem-limit-test.c
++index 98f1c40..65dc875 100644
++--- a/tests/server-mem-limit-test.c
+++++ b/tests/server-mem-limit-test.c
++@@ -126,14 +126,19 @@ main (int argc, char **argv)
 + {
-+@@ -1949,6 +2025,7 @@ main (int argc, char **argv)
-+ 	g_test_add_func ("/auth/auth-uri", do_auth_uri_test);
-+         g_test_add_func ("/auth/cancel-request-on-authenticate", do_cancel_request_on_authenticate);
-+         g_test_add_func ("/auth/multiple-algorithms", do_multiple_digest_algorithms);
-++        g_test_add_func ("/auth/strip-on-crossorigin-redirect", do_strip_on_crossorigin_redirect);
-+         g_test_add_data_func ("/auth/missing-params/realm", "Digest qop=\"auth\"", do_missing_params_test);
-+         g_test_add_data_func ("/auth/missing-params/nonce", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"", do_missing_params_test);
-+         g_test_add_data_func ("/auth/missing-params/nonce-md5-sess", "Digest realm=\"auth-test\", qop=\"auth,auth-int\", opaque=\"5ccc069c403ebaf9f0171e9517f40e41\" algorithm=\"MD5-sess\"", do_missing_params_test);
++ 	int ret;
++ 
++-	test_init (argc, argv, NULL);
++-
++-	#ifndef G_OS_WIN32
++-	struct rlimit new_rlimit = { 1024 * 1024 * 64, 1024 * 1024 * 64 };
+++	/* a build with an address sanitizer may crash on mmap() with the limit,
+++	   thus skip the limit set in such case, even it may not necessarily
+++	   trigger the bug if it regresses */
+++	#if !defined(G_OS_WIN32) && !defined(B_SANITIZE_OPTION)
+++	struct rlimit new_rlimit = { 1024UL * 1024UL * 1024UL * 2UL, 1024UL * 1024UL * 1024UL * 2UL };
++ 	/* limit memory usage, to trigger too large memory allocation abort */
++ 	g_assert_cmpint (setrlimit (RLIMIT_DATA, &new_rlimit), ==, 0);
+++	#else
+++	g_message ("server-mem-limit-test: Running without memory limit");
++ 	#endif
++ 
+++	test_init (argc, argv, NULL);
+++
++ 	g_test_add ("/server-mem/range-overlaps", ServerData, NULL,
++ 		    server_setup, do_ranges_overlaps_test, server_teardown);
++ 
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-support/libsoup/libsoup_3.0.7.bb b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-index be29ff0e5d..49aa28964c 100644
+index d0cd1f436a..90733a73e8 100644
 --- a/meta/recipes-support/libsoup/libsoup_3.0.7.bb
 +++ b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-@@ -42,6 +42,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32907-2.patch \
-            file://CVE-2025-32051-1.patch \
-            file://CVE-2025-32051-2.patch \
-+           file://CVE-2025-46421.patch \
+@@ -38,6 +38,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-46420.patch \
+            file://CVE-2025-4476.patch \
+            file://CVE-2025-4969.patch \
++           file://CVE-2025-32907-1.patch \
++           file://CVE-2025-32907-2.patch \
            "
  SRC_URI[sha256sum] = "ebdf90cf3599c11acbb6818a9d9e3fc9d2c68e56eb829b93962972683e1bf7c8"
  
