@@ -2,41 +2,40 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC874C7EE30
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB96CC7115B
 	for <webhook@archiver.kernel.org>; Mon, 23 Jun 2025 09:31:38 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.15721.1750671097801878188
+ by mx.groups.io with SMTP id smtpd.web10.15720.1750671097058915191
  for <openembedded-core@lists.openembedded.org>;
  Mon, 23 Jun 2025 02:31:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=as7I5qzI;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FC4WSG49;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101979c20fc0c-40072ddc-be36-45ea-b5fd-ecde425720bd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Y1TUZGDq;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bSZGn3Fr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101979c20f8e0-98432950-5163-4e86-b434-a2f9092c9e6c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1750671096; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=RkSSWglDYcfsjwalTKMtHk0Lw95dAxVnGPRXhluS7u8=;
-	b=as7I5qzIrqTJHIc4HogVNnifRMTuErmOMgFJ84Zsm78c0XnXzKLm5nJL9MhttCPt
-	lPJfAlg+hNJDSGAM0/+6Za+V0saYoP7ZzYb+Gy0MSsYB9jmQSXQEjwuC+A+ObQ6F71r
-	lUVccjK24cdFlSrWRuMG2AW2IBTDxl0GV9/6IFJM=
+	bh=1lGlwu9idwECFpZ4/3S4ODD7do7pbcMgbDVYAMca2/0=;
+	b=Y1TUZGDqwdQ/x1Kc0cu7wFyPaEIzTbQ1h00oKYK6XqzKP9ycS4OWzV8eigYaJ8Ue
+	nzMV4Id8xzRx930mbmug3bFIW9Km3CA/cPbh5qErUOBuj+VspEzI4KyaGX7cLFmfqLi
+	LQVs8kJrZGLS2v+CeFVVp+xxQSrZp2WxJKFWPfr0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1750671096;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=RkSSWglDYcfsjwalTKMtHk0Lw95dAxVnGPRXhluS7u8=;
-	b=FC4WSG49lgF02/Kfz/7n6iMo2hXk7kyfdKLy43OcQtqr37I4O6iTciPkTZkliLME
-	JW+HlSKnObmtu2INTOMo6QIrfIZXpmjUy7gbCu0xIqXYylr/78p7Y4TwaZ8CLx0/6Ay
-	Rb4z4rHt6WbFNfB527xmAJuN/z1mQMCAACt/3WVI=
+	bh=1lGlwu9idwECFpZ4/3S4ODD7do7pbcMgbDVYAMca2/0=;
+	b=bSZGn3Fr2hkGmDGE6lT35oI1UvSyjPFbya/Q+VQNigjGh010yeGbvXIuYJpMX+fT
+	TOw3/51glixFjPgtSfC5H/se0+NqnsbTuWoVGv3mXJa1PZ0GRhxTQ5Wdn0M6AgCkNK3
+	Y42zYZcEl/vE1KKAVeonJoouPRqlyqqd49mZSdQ0=
 From: patchtest@automation.yoctoproject.org
 To: Moritz Haase <Moritz.Haase@bmw.de>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] json-c: Don't build unneeded apps to unblock builds with
- CMake 4+
-In-Reply-To: <20250623091203.2859711-1-Moritz.Haase@bmw.de>
-References: <20250623091203.2859711-1-Moritz.Haase@bmw.de>
+Subject: Patchtest results for [PATCH] dnf: upgrade 4.22.0 -> 4.23.0
+In-Reply-To: <20250623091552.2864463-1-Moritz.Haase@bmw.de>
+References: <20250623091552.2864463-1-Moritz.Haase@bmw.de>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101979c20fc0c-40072ddc-be36-45ea-b5fd-ecde425720bd-000000@us-west-2.amazonses.com>
+Message-ID: <010101979c20f8e0-98432950-5163-4e86-b434-a2f9092c9e6c-000000@us-west-2.amazonses.com>
 Date: Mon, 23 Jun 2025 09:31:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.06.23-54.240.27.191
@@ -44,7 +43,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 Jun 2025 09:31:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219208
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219207
 
 --NextPart
 Content-Type: text/plain
@@ -54,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/json-c-Don-t-build-unneeded-apps-to-unblock-builds-with-CMake-4.patch
+Testing patch /home/patchtest/share/mboxes/dnf-upgrade-4.22.0---4.23.0.patch
 
 FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
