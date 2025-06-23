@@ -1,242 +1,191 @@
-Return-Path: <gavrosc@yahoo.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8246FC77B7C
-	for <webhook@archiver.kernel.org>; Mon, 23 Jun 2025 14:32:40 +0000 (UTC)
-Received: from sonic314-13.consmr.mail.bf2.yahoo.com (sonic314-13.consmr.mail.bf2.yahoo.com [74.6.132.123])
- by mx.groups.io with SMTP id smtpd.web11.21295.1750689152449601134
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6842DC77B7F
+	for <webhook@archiver.kernel.org>; Mon, 23 Jun 2025 14:38:52 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.42])
+ by mx.groups.io with SMTP id smtpd.web11.105.1750689524473787098
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Jun 2025 07:32:32 -0700
+ Mon, 23 Jun 2025 07:38:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yahoo.com header.s=s2048 header.b=nEFra072;
- spf=neutral (domain: yahoo.com, ip: 74.6.132.123, mailfrom: gavrosc@yahoo.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1750689151; bh=3BxexQ6FVqKvV0KpYY5WoUIH+cTWCAfCX/9aq85GmNU=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=nEFra072/zRTV+nPMCESip9IgpjKr8g+yJlAGbdAJ+9JScqKRRj0g+jOGeOXlGvGwzDdZ9y1BJNiYqhVBhMh8XEomKrObJYTBg2zThIbh83Apr7wS4NDaglZKtGbzQDWIVrLDjIrMHsmRcMZYe+a2OvCmL1BwzGneZNnJKMekuUWLueZQGifaW5rpMi+hQqa7tVa6Uq4hKA9ojxeqk6vtoruAbnmFb8FfKGFGIo5/efDOOeQ13z/oiy/KD/fxR8Ol1/FMyi9ARy33CJxSNV2cr8rkjPCFQXsydCNFcw6y18p4U4zj4id+IzjWMXn3GlZu/Gn1L2TNfWGx2uxpWaXBA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1750689151; bh=tgz8yBBQ1EY4MfVduHnFBW0SmAYgpCSMpoVdwYDKEgH=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=FWuAoWjNfEyZwaSA3fZHdWUgTRl/TyxJW+Yv3lByhJfkKN0sv1+fnf1Imze/4IZMKEQIo3+cq5+S9ONx9gnkw7h+iOsq08O5UlyXPLN2dImRUWXDjr2c3958eIDGsEAEF0rgZ3CTPJE2xAtzq9MYm7B11v5DZW+jPQhO0Aa8vEvMi2GtK3OJg8z+mrAi3ff7/0+2QtF83shMGpvGTn/jwlYqKQDg/ThPUb8fEXCSG2+4E6uC7oRhHWhVUEeALRXxojWOGsjp50YKOO0Nl5cF5G4B6+WvkNugVefvAYft++SCbTDZ9KrveB9MHP5S3WaX9X/yGhMQm/XUIDNEba0HxQ==
-X-YMail-OSG: TgEhS1wVM1nUzliisI8zPHL4F0bOiRpE0cu50WHQcuSLcBpyrQ0f06G_tDOxzYo
- hLl_zMislg5R_17042Ya1RkKIxHbgl7O0gLgxYA7w.3og1xjz.aOcqod0rmOs6KPfZ1ieBqCkWlC
- r_dIMNoPXx_bd0LV9iTIfTCSDjoGc9vQ9u818et5o9kn_Pa9X8tiLKfD_954C5vqr.xAxJoGlcN3
- c5tio.9ploEaHo1qq6.erPMqflm9gkbIKTASBVG0sY_YuWRF_NhZHg5meSuXSYvPogIWBtKEl5Q3
- LQ9BhN5rYx9SLSdturtseIhS88W1ajnLmjW5HEyguw12T18mRWoHYGhBf0NsZWBoJr8ZC0Y4iCtX
- 4fl1ZyegzXIajibzKOnLSN4LPNcIxqOJESxZPQzrrwwLF8fczdF5SNFManvaNJB4wgOgg9C9NDgZ
- uab8cUa7HrKKwiWv5.iK5P3T5fHe0eX8OPfiKWM.sJPHuM6vQofIV7Y8hi8h6ZYLBtIi0o9wKVpw
- Z9u4_08vrOi6cWN5lxLL5PzGw9g_nbyrAE2x0uf0vgaZ7sxEuSis2x5QoAS1a1scnLWP_Uqg8Xha
- q9ykIDdWiWvUPspYPhGc_.BV33hqwbkQY.98thn6d_c42.GtvdTfbQO9okFqSKWSqD.WMlbwEGw6
- oeWlxlbAJ.n45uH6_g5hQCKc.d_JDF0JbXsZ3B9YFV6bDPV6gCzjEXjV_hMW0rNCF2U.9PSGvr5Z
- XqCDfD1VFduA0fxb7BjrtHbsIh0bsZ3WkA2G1A91DGQCdUPpw_JgyATh8xaoJ1v7awG4OKcARIgx
- Ut_hce06dVa1HfWD_VqvmgQVi.11v4a7ofo3DHLmmKuBoo0eqghX8HhdCeCLwzVeBZzd_snCH8Ls
- Tqts77aWIJpKhzz8_hzIxxoq3nvfIkBzhGF3D48e66qzjrOgb4yVXf57JdAlqDGfLJ.CBj7HCC5R
- c7Lj3IMu_To1PhWlIchLiRChm0yjXOtgoyKYdVBZq8lnENAIZYW898dkpbgBoFsg71wz4QPoivI8
- L5eG1zBntwDtPauc8CDhBHNnJaeZIkQJ0acLypw0.bfhI9mqwditxEzOiygW.eMMldJ1UTgpV2_l
- 5HuFHPi52zttufRVRvTuurZivzVZEUo_LaUjSLb5FOUCGQPVwklQTiZBgRnVlq0PiKUJczMAuLSy
- TQLaMyE_hqdKU4kZkhPjTbliEsyEd0E1uD62TbNDj777IW334YQWMAgXA.sb0ojB2Jyv1KBfpSye
- tj8HwYYzgyvkqg1HhKQtqy1q1rAYYsjjNLD6Yku_vX6EjPQa3XIFoH.Kajd8pD.UdLZ4zGoHRkx_
- jvdFCaTjxxHqVZTM38Q9FASouXyC0NcF9kkMW9HImVjvxOChy1So2rUVLYUbEf6cz5lcBMssArlN
- UIomDOfsZ51u86nX6ViYaMgmgqe1AdBnQpQ.1YBpEm4pTfTkK4JoZNAsX4C9NyRIAHalzws1bvkK
- qJi5ceIvprKGCf2cY8hvyt3iSPcXJaNxtNYNL4VE5qxWGEn6moNSwiZa4eC_IQdNP3m1FIZ3ZVVR
- Gg8VxDGh1KPdqsPy7onY2Rh_WQhseNlE9oUFlGvC7dXzI8fA.UQKOM7Son2gh7Iy8WTYGVr16_7s
- Hm7iDp5CGzc1kT2f964LQLjDuRryyQsoJEU3cpDXqXnv32Kn72w0rZl8lbNP.VH2J3YQ02v8y0yU
- xMD4vwbX2LSKG_Q7zYua8uRwM7P8FjftG_4xz2FYiYy..SMVu1UnDNt7ZU_VzbbtlXQd59CDvCJA
- _TYhx_Z.SplKCIblexN5b8_4UQdbjPjY0Fg3nKNmQL1nE5YThlA22yOAOyFBkcxoiJoNh9Vb86XU
- Y_4DwIXH3Pbmrv8HlWcFHBXVDFJREgsiD78VtfqEl2otWOCjyiAHcqvU4DvQyTH1zUHOJGIqI1Ha
- WW1q4W_jUKKN.9XEd3ZlHH6MZ9Mcg.WI07pm578F3qkC2LZmGM7XX5cYj1aenUII5ZNXTumSTexn
- xaDW4vw0roFlLgIoJIxyL.qPm8A_jg2aXLgXrugKIfh8WqzvbnwrYIztzMdFwHMnMztTX9DW.AoQ
- ZzdclP3KSvpbLgCjSh7L7x9HvuA.ZiikeLEmV8g_3s85rfUer9eJ5p.hYBaNHT6CO6MK0ejAzuyy
- JlWwR25OFKwUwDc_cyOJdJwXgREiFeM0sSeF8Yf4f.QIwifK.6kUarBFvkeqMrJoNAeIbDL3X_Hk
- QhlvT0IhR5O6BLWHOD2Z73kds08wZUUzDnBd_0L2DaWD46S6myxWdBlimNSTcrIg-
-X-Sonic-MF: <gavrosc@yahoo.com>
-X-Sonic-ID: 615344a5-aa46-4bab-9603-e0fb499b9f59
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.bf2.yahoo.com with HTTP; Mon, 23 Jun 2025 14:32:31 +0000
-Received: by hermes--production-ir2-858bd4ff7b-mfhj2 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 20f339637d035b8a2786252bbbd04535;
-          Mon, 23 Jun 2025 14:32:26 +0000 (UTC)
-Message-ID: <6c934fec-b9cd-41ae-b351-79d9a5dfe23c@yahoo.com>
-Date: Mon, 23 Jun 2025 16:32:24 +0200
-MIME-Version: 1.0
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=gDQrkfA1;
+ spf=pass (domain: cherry.de, ip: 52.101.66.42, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qehoLnq+NgVzxEfJGBIO/fqzCQwRdJKvvNul0749t2SkJVa4YaNJoK9QlFy8nbpvhRN13dVMDq8/CY1kZ6YHUOrXGPlhsSDGw2nAvrFDSbcJUxFOZJs+GRKlsMhnsTT+uVSt7/SGPA31qxKe7lfSZ+8XolpUTCSlLXu/AXJIsyXgAVBJIRHEn2CX8Psaf0x4hUditdXfrnSwzFjneyQXQg5oxdCHhT14YPoymknjyvlHQFIJgCkT77csjo+WNhgB3FtjKefmNtVE456q5YV/bOtLcXPOVHtusdOhAlyF6p/PZIc7E5CFIq6ZpVh8kisym6oJQM1tzWC+eprAE9/Y8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xaBCdDw5E/m6SsXfqZQIrzk3KcDiE5SEClgKrKADSJw=;
+ b=KIw7qO/AH1cwPAxRmw0orUP8hpqvdG0DygUrllczpmbxAcj2oeyNCv7nTPzcB5/cSDnUk1C6voJODDrB7K17UVP9fgj1hvAUod3EuMvZTuOVLN3SJQ3elwUHLTLEnUa15UBj4tDzw1L59MO5HJY9aIuOKgZZwJczbbZVSvg1cxC5yAPgVhDX7iN9OmtX0mlrzZX/d1SuaC6msO6oSNVsdSSCNO9lpqepLJk6D3oRaqnUn2+OBb34S6kJSOPphAAjdtNXbHiyRm8Z/JOt9/hkDp7Mo4hwiSQVpxcum3cOnmf3tH2U+2vyLNEv9B7Sx2eojM0o1MzErEj0uQU/vG+hjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xaBCdDw5E/m6SsXfqZQIrzk3KcDiE5SEClgKrKADSJw=;
+ b=gDQrkfA1WomOOtiTnTRguH3lW69nchdPq/gZF2k/biEZfBK436GyP8FELEzEgDgPbYZqQ+PO2Tc73cRQZHL0NdmR9oF16wWbH0qln4ChB5J3czbu8ZrG6IyLVtaexVOsWNO3dfZWMn7VV34OAsZ+Ni+bF2VxD+/qCPz+ZRkRWyI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by PA2PR04MB10085.eurprd04.prod.outlook.com (2603:10a6:102:3ff::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Mon, 23 Jun
+ 2025 14:38:39 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1%6]) with mapi id 15.20.8857.026; Mon, 23 Jun 2025
+ 14:38:39 +0000
+Message-ID: <3a86eb2b-a2ab-40ab-b00f-66d29823ed65@cherry.de>
+Date: Mon, 23 Jun 2025 16:38:38 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] host_dmesg_logger: dmesg diff on BuildStarted and
- BuildCompleted
-To: Randy MacLeod <randy.macleod@windriver.com>,
- openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20250610153125.4858-1-gavrosc.ref@yahoo.com>
- <20250610153125.4858-1-gavrosc@yahoo.com>
- <549629c6-7d49-40aa-bae3-0e725534bef4@windriver.com>
+Subject: Re: [OE-core] [PATCH] json-c: Don't build unneeded apps to unblock
+ builds with CMake 4+
+To: Moritz.Haase@bmw.de, openembedded-core@lists.openembedded.org
+References: <20250623091203.2859711-1-Moritz.Haase@bmw.de>
 Content-Language: en-US
-From: Christos Gavros <gavrosc@yahoo.com>
-In-Reply-To: <549629c6-7d49-40aa-bae3-0e725534bef4@windriver.com>
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20250623091203.2859711-1-Moritz.Haase@bmw.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.24027 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0351.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f4::14) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|PA2PR04MB10085:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9ab685e-b658-4287-1dd7-08ddb263a4e0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?cndHaUtqNkU0NWllZkZuaUZMNkRoaFp2S0dULyt1NTlwa3pkQTI0MUMvbW9o?=
+ =?utf-8?B?NXgwSkJHdlZhTW5lYUR6TXMyaFArRW1vRS8yK2lPSC9WTWwwVDZQRm1hYklo?=
+ =?utf-8?B?MFo2OVg0bzltL21FRkt4M0NqOWp6RmdjSzdORGMvOXZxSHNITFkwbWl0bG1G?=
+ =?utf-8?B?UVpMeHhrdGFEbXFXWVVqZk9VMi83VXZ2R2ZyNm5QNDdYbkxjLzV1RG5mVlk2?=
+ =?utf-8?B?MTRKRGV5Mko5b1JRV3lNKzVRWjU2ZUVubmV6L0VBUHRmS1lRWndsQXBVREVq?=
+ =?utf-8?B?MVRlRUZaREdWd3NEUlQyTGJWMXYrR1g4UVIvVEo2VUs5eXhPY21zT1l6MDVS?=
+ =?utf-8?B?dS9qQ2ZqbkJpVzU1V2szYk9RSEplRGQyTEpjMlJFOWRMdlh6RXpBZi93ZjM2?=
+ =?utf-8?B?aEZxL0o4U2JyQysrVTIzL0hMY2pvQW9TekxoUFcyR3lqVGk2dUM4bGxwTVR3?=
+ =?utf-8?B?SDBuVmg0aTFjQ1RaWUdWUnIrdVM0cXhvb2FMSHZ0b0pBbm9CMjVBSDRjSlBM?=
+ =?utf-8?B?akdUK1dtSzJnWkFLSG9Wb3NTRHBRMWZFUSt6QkUwTVVHazBjK2VOMk40RGRX?=
+ =?utf-8?B?RmF0N2RPcjZiRUJhMGlzYWppb1krSWNSK3I5MUkvMjNUVElsMWcxVW02WmRp?=
+ =?utf-8?B?bkxCMFg5aFlWdjRybDFMNElqWUpKbUNEVlB0TEJUTWVvN0VpWFJuVkpUTmZ2?=
+ =?utf-8?B?YytpbWYybHE4M2JPc3p2OEN2endtOCt4L3gydnFCTjM1SWVWNUZjOGJuQnNT?=
+ =?utf-8?B?bzlhVzVYSkdEVGx1TGpUUHV1VGx5ZGRrTTdRYzJHaFBhSDQ0OWFzekloSjFF?=
+ =?utf-8?B?N3QwMEZVU0ZaYWY0NTdkL1ZDTjcyb3ljL3pLQTUrUU5uNDlxOVdraE4vS2tI?=
+ =?utf-8?B?NjBrWkNNeHJKM0hyTVFsM1YveWFwVUU2RFVyVEE0T2x4NzRKSitialJOVWpL?=
+ =?utf-8?B?ZVlGa1pKWFJ0UjhLYXl3V2RQRG1jMklJbC8wd0szUVVUWWpkR1V3YWRGaFhl?=
+ =?utf-8?B?cVpzaUZwakg3dHROQkxpUDk3bU5BWVNrWlVGL21iRTJpei9DZVpNY0dTdnFT?=
+ =?utf-8?B?VnNub2tRSXhRT2hzOWNOdGZ4eFRqQ2luVlVobFEvOGlpMnFTZXpaSjBwMFo1?=
+ =?utf-8?B?TmZMUUFmd1FWQ011MEJXLzM3YlVjWDlKV29FZXpkOE9sWFFWQ2tHWGxPSjFp?=
+ =?utf-8?B?bC8xUTErZitWQmJRc0dSekxldUx0Nkw2RFVBRTVwL2ZxMGJQTUpBK3hMc25H?=
+ =?utf-8?B?b0lPbXFoSHJUNk1LY1M1N2xNK2FWOCtpUGhDV0JwQzRmaGF0akxBWXNINC9x?=
+ =?utf-8?B?N294MUdnQmJkaUcxSVR0MktkeEdpS0M2clFYWVJXV1lOaTBWRGpIU1JVamZI?=
+ =?utf-8?B?aGdpbjYrTEJkbXBuWlJtSnFpaUhTYnByQmdPTlB2eHRvb1RCTWpJRlZLNWFB?=
+ =?utf-8?B?SXZqQUxCeDJUQVVkUjJuVXcza0V3eDNZczlGSlNVYmU4QkVVYncvc25PRzdz?=
+ =?utf-8?B?ZUxsUVBoZG0xcnV5dk5MRXF4UlNJaDBQOFRORE1jV29Mek5zdGRFdW05aHcx?=
+ =?utf-8?B?VXhFaVJGQVZKNnM3K0NybW5zMHpVOStOaGd4UzdDNktsTFIwU1BSZXd2REZQ?=
+ =?utf-8?B?ay9FVTRQTEZZSjlDWExBNSs4WWt2TDIwNURWV2RqZlMwK1JMNThIQzRBRThC?=
+ =?utf-8?B?NWFwRFp1MXgvSityQkd5S0FYcjZqNmRKQVJoMXd5MUpzMng3Yjl4ZVhZVUlU?=
+ =?utf-8?B?Y25rVXU0Tm1SaWtJY3JzZmpWa0pqNTBvNi9RZ2hIV0FHWlZibCtPRmVzMTB6?=
+ =?utf-8?B?dTIzZldEUi83T1JvZTJ6WlFFekV2SE0xNk1RN1d4dG51Znc2a2k3UjNraWVo?=
+ =?utf-8?B?QnJITTRSVFpab1BkSmkxMnRwc0hYVnJmSXlTclp3ZnlNVlE1THptVktodDBH?=
+ =?utf-8?Q?L++ZRcqglTk=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?c09nVDNuMnJVWndQTmE4RnVlVHpTWVJvd3pXQURWajU3aUt3QWpQaFQ5Ulhq?=
+ =?utf-8?B?MzNybjgranVrVjIwVTUrenk0emxMazRvSzNrVkF0ZzJFdDFrSmR6Z005dU1I?=
+ =?utf-8?B?UjloVDFMMkVDb2ZVOWZGUmZ5TDN4SmlmY29Va1orcnBQK3BZeG45amJ0NkQz?=
+ =?utf-8?B?ZUpzNS9NQkZRVGRqRUtjYW9MSE52UTI0enBZUU5STnovWHp5WUlPK1dTNTV1?=
+ =?utf-8?B?ZXhlUWcxRU9EL2VXNjA5TEJ1dEtuWkFheGZtenBDTVJ2eEtYTkQwQjhBQmxH?=
+ =?utf-8?B?U2MrQkh1TG5JQ2dnQkI5ekFyTXpFVVFCR3R1Ty9zUGVCN1prbHZodGo5M2hh?=
+ =?utf-8?B?VXc4Q1VLaENsY203eWUrbDZjcS9idUw5NHFEcDloUnNqRW9HUTN0bUN3VGZO?=
+ =?utf-8?B?dElMTEVQd3IrUUNQV01YSnVhSzZGbC9za2srR2FCelpSOW9Zd0pKR21nTFdr?=
+ =?utf-8?B?WVVGUFEvRVpRMTBUNllPN2YzMk1DVC9jYkRnV3daUTZ3RjMwbG0vdGMrRDc4?=
+ =?utf-8?B?aUttejVSZ2dKaGY5cWFHQWdWYk9KK213aDk0d2dEYmN3cCtRcUc2STNvWHV3?=
+ =?utf-8?B?TTZMNVpvZmJpcUJQckF4RHArOGlpdEhVZkFDRFp1cXUyRm9zaG1DWmVLMFZh?=
+ =?utf-8?B?S0Q5ZkdSWWJxTURPRUtYNWtmVmNrQzVVNTZ6SXlxaGxaeXgzTG5HNXpKUXBh?=
+ =?utf-8?B?QWJJemI0S0hjakFIZDg0d1MvQk5pR2lISWRGU09US3A3N3lISk1YVFF2Nnlp?=
+ =?utf-8?B?WloyZXdCTEZ6VkFQNm94ZkhuMnh0SElvZW5OeWpDK3hCRjluOHJMR1Fqa0Jj?=
+ =?utf-8?B?UjhBWWplLzV4bldRdVo5OE5sOXk2eCtrbVhtUWRKVUQxdDNNRFZaNnE5SXJv?=
+ =?utf-8?B?MTNnZVhheG5TcElsanNvZGFDNVRyME1FZWdoUUthZDZaMWs2SHdVMDlETjJs?=
+ =?utf-8?B?MHIvMi8xTHNjRE11QnNNNFVsbWZ5UnF2UFFwNVg0YjBVV3VMNU9QUGlOcjBU?=
+ =?utf-8?B?cGY1b2VyNC93QURQbEJTVmwvOXMva0VlZDREM29nVkJpNGFQSTFiZUgwWXR1?=
+ =?utf-8?B?dnM1bjU2YVpnWkNwWVhaWUdJY1FQdEIwK1Y0bFNOWkY1VnRacTkvQzJrRlF1?=
+ =?utf-8?B?eVdPTTdnamZySXVXNEpLYmdJdTMvdjlkL3FSUzFzbEgyc0pHRkx1cExITzl6?=
+ =?utf-8?B?cWFlcjlnVFNDdjkzam41YTRzY0pUQVluRE1UVWsvQytFaTdjVGRSSXZmby9F?=
+ =?utf-8?B?UkZuRHh1d1VCOTdRc3BrN3o3WG5kU0ZhTXg5NWIzam5zZDlaVE5iUmNjam1u?=
+ =?utf-8?B?OERzVnNRT0tKMTQ1Sm5EZjdaQVRhU3lYdlR6M1d2dXQ1M1RLYkJjRlhFUXUr?=
+ =?utf-8?B?UUMrNnlUOXMvTlNTb2FEOHQ2SlFBTUUyRG9RTUZLcFVSalQvZEhpYUdZT3pL?=
+ =?utf-8?B?YjhsQXZpSHZZRHhxN3FMUTM5YWtPQXdjVEJzVmlqNGhabTl4U21RWmVFRWly?=
+ =?utf-8?B?aTlvTjYxMncvTDd0K21rWVNha3RDeFNLdWZuc0RvWVh3dmE2amplVHVqSG9W?=
+ =?utf-8?B?eHFTWHBFeTEwa1Vkejg5ZFNkamhXMlFLazk3c0JRazFncW45QU51S0FWNG96?=
+ =?utf-8?B?QjF3Z3R4MW9NbjFyZldzcU5hSFB0aXV4S09UNmFsNktNL1JuYm82WGxHVkRP?=
+ =?utf-8?B?U1JDby9yM2lIcldrVVBwUEkzUkh0Z2EzbnZEaWtEak9rcUNXRlc4U3pwVGtL?=
+ =?utf-8?B?UnZCK2o0Q2VRK0JCOHV3d09YMUtaUjlGZVllcHFIZTlYWnM5cXQzcnBBVk1o?=
+ =?utf-8?B?S1pjSVIvSGoreEZvZmgwbUZ4ZWovbE9IZEY3Z3Q0YTFlOXRYaXlwK0tNSHdN?=
+ =?utf-8?B?ZWZqbTV3M0RCUjRCLzlPMm13dTJMV2lOYXM2bGNVNHAwd0pySi95SWFTUVF1?=
+ =?utf-8?B?N1dkbUF1bVM0SUdXakFWc2ZkMmQ5b3hFTzJtd3VIajdtZVBaZ2xSWFdsZ1h5?=
+ =?utf-8?B?TlcrVHNjRkFvazhrTjc0dXlQaERuL2x6Q05XZHdxV25tQklUcVlEb3VPZWFB?=
+ =?utf-8?B?T1pKQmdTODlOTzlLdmwwbWFJTkppc3docTBLdHNDQnQ2LzZaVDJSbmlYeE53?=
+ =?utf-8?B?QUdUOGJyZ3JVYzdJaUVaTFVQZjJOc3BpN2pVTEcvNFVQeFdrR1FtZFRHZERE?=
+ =?utf-8?B?OUE9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9ab685e-b658-4287-1dd7-08ddb263a4e0
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2025 14:38:39.5026
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J2KchkXuFx9Mq0Ayk1R4KiQL58GcO84WYykodWAgV328S4m8LviwsN1bb/q/1stBsLVuo3+1+3/X/VRQwKbp/+DB7iGu5UfPYRoNIIgr8E8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10085
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Jun 2025 14:32:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219214
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Jun 2025 14:38:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219215
 
+Hi Moritz,
 
-On 2025-06-18 21:40, Randy MacLeod wrote:
-> On 2025-06-10 11:31 a.m., Christos Gavros wrote:
->> This class is used to capture the host dmesg output
->> when BuildStarted and BuildCompleted. Then computes
->> a diff and prints the result.
->
-> I'd like to see a few words about when this is expected to be useful
-> and what the drawbacks are.
->
-> In the bug Alex said:
->
->    For debugging purposes, it would be nice to record the host dmesg 
-> at the start of bitbake and the end of the build to be able to do a diff.
->    This would probably uncover interesting failures that are currently 
-> hidden/ignored by the underlying build system.
->    We know there are gcc/ld segfaults and sometime qemu segfaults.
->
-> The obvious downside (to most people) is that it will capture 
-> unrelated dmesg output should
-> the build be running on a shared machine and that some distro limit 
-> dmesg usage to root/sudo.
->
-i will extend the description of the class and send v2.
+Random pass-by comment below.
 
+On 6/23/25 11:12 AM, Moritz Haase via lists.openembedded.org wrote:
+> Disable build of the apps, as we don't seem to package them (upstream says they
+> aren't ready, see [0]). They are the only part of the code that doesn't build
+> yet with CMake 4+. One alternative would be to apply [1], but the PR hasn't been
+> merged yet by upstream, so we keep it simple.
+> 
+> [0]: https://github.com/json-c/json-c/blob/7cee5237dc6c0831e3f9dc490394eaea44636861/apps/CMakeLists.txt#L119-L121
+> [1]: https://github.com/json-c/json-c/pull/888
+> ---
+>   meta/recipes-devtools/json-c/json-c_0.18.bb | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/json-c/json-c_0.18.bb b/meta/recipes-devtools/json-c/json-c_0.18.bb
+> index 2fd1897ba8..ece320d66c 100644
+> --- a/meta/recipes-devtools/json-c/json-c_0.18.bb
+> +++ b/meta/recipes-devtools/json-c/json-c_0.18.bb
+> @@ -19,8 +19,11 @@ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
+>   
+>   RPROVIDES:${PN} = "libjson"
+>   
+> -# Required for ICECC builds
+> -EXTRA_OECMAKE = "-DDISABLE_WERROR=ON"
+> +# - '-Werror' must be disabled for ICECC builds
 
->
-> Also please mention usage:
->
-> To enable dmesg logging add the following to your local.conf:
->
-> INHERIT += "host_dmesg_logger"
->
->
-i will extend the description of the class and send v2.
->
-> Now that I type that, it's really a host_dmesg_diff_logger but maybe 
-> we don't care.
->
-I kept the name that Richard suggested in the mail.
+Maybe we can get rid of that now that icecc isn't part of OE-Core 
+anymore, c.f. ba4fd5229893 ("classes/recipes-devtools: Drop icecc from 
+OE-Core")?
 
+If that's the case, then a separate commit would be most welcome so we 
+don't do two things at the same time.
 
->
-> I didn't actually try it yet ... but LGTM other than the comments 
-> above and some whitespace issue
-> mentioned below.
->
-> Thanks for the patch Christos!
->
-I will fix them in v2
-
-
->
-> ../Randy
->
->
->> Fixes [YOCTO #15557]
->>
->> CC: Yoann Congal<yoann.congal@smile.fr>
->> CC: Randy MacLeod<randy.macleod@windriver.com>
->> CC: Alexandre Belloni<alexandre.belloni@bootlin.com>
->> Signed-off-by: Christos Gavros<gavrosc@yahoo.com>
->> ---
->>   meta/classes-global/host_dmesg_logger.bbclass | 86 +++++++++++++++++++
->>   1 file changed, 86 insertions(+)
->>   create mode 100644 meta/classes-global/host_dmesg_logger.bbclass
->>
->> diff --git a/meta/classes-global/host_dmesg_logger.bbclass b/meta/classes-global/host_dmesg_logger.bbclass
->> new file mode 100644
->> index 0000000000..0caf5f0612
->> --- /dev/null
->> +++ b/meta/classes-global/host_dmesg_logger.bbclass
->> @@ -0,0 +1,86 @@
->> +#
->> +# Copyright OpenEmbedded Contributors
->> +#
->> +# SPDX-License-Identifier: MIT
->> +#
->> +
->> +# This class captures the host's dmesg output at the start and completion of a build.
->> +# It stores these outputs in a variable and upon build completion, computes a diff between
->> +# the two logs to detect any changes that occurred during the build process. It prints the diff
->> +# using bb.warn(). The user needs to have privileges to run dmesg.
->> +
->> +def append_log(msg, d):
->> +    """
->> +    Appends a log message to variable '_dmesg_log'
->> +    """
->> +    current_log = d.getVar('_dmesg_log') or ''
->> +    current_log += msg + '\n'
->> +    d.setVar('_dmesg_log', current_log)
->> +
->> +def capture_dmesg():
->> +    """
->> +    Returns the current output of dmesg command
->> +    """
->> +    import subprocess
->> +
->> +    try:
->> +        result = subprocess.run(['dmesg'], capture_output=True, text=True, check=False)
->> +        if result.returncode != 0:
->> +            return f"Error running dmesg: {result.stderr.strip()}"
->> +        return result.stdout
->> +    except Exception as e:
->> +        return f"Exception running dmesg: {str(e)}"
->> +
->> +
->> +addhandler hostdmesglogger_eventhandler
->> +python hostdmesglogger_eventhandler() {
->> +    import difflib
->> +
->> +    start_marker = "=== BuildStarted dmesg ==="
->> +    end_marker = "=== BuildCompleted dmesg ==="
->> +    diff_marker = "=== dmesg diff ==="
->> +
->> +    # execute dmesg when BuildStarted event is fired
->> +    if isinstance(e, bb.event.BuildStarted):
->> +        dmesg_output = capture_dmesg()
->> +        if dmesg_output.startswith("Error running dmesg:") or dmesg_output.startswith("Exception running dmesg:"):
->> +            bb.warn(dmesg_output)
->> +        else:
->> +            append_log(start_marker, d)
->> +            append_log(dmesg_output, d)
->> +
->> +    # execute dmesg when BuildCompleted event is fired
->> +    if isinstance(e, bb.event.BuildCompleted):
->> +        dmesg_output = capture_dmesg()
->> +        if dmesg_output.startswith("Error running dmesg:") or dmesg_output.startswith("Exception running dmesg:"):
->> +            bb.warn(dmesg_output)
->> +        else:
->> +            append_log(end_marker, d)
->> +            append_log(dmesg_output, d)
->> +
->> +        content = d.getVar('_dmesg_log') or ''
->> +        if start_marker in content and end_marker in content:
->> +            start_dmesg = content.split(start_marker)[1].split(end_marker)[0]
->> +            end_dmesg = content.split(end_marker)[1]
->> +
->> +            start_lines = start_dmesg.strip().splitlines()
->> +            end_lines = end_dmesg.strip().splitlines()
->> +
->> +            # generating diff between BuildStarted and BuildCompleted dmesg outputs
->> +            diff = list(difflib.unified_diff(
->> +                start_lines, end_lines,
->> +                fromfile='dmesg_start',
->> +                tofile='dmesg_end',
->> +                lineterm=''
-> Add spaces around "=" ?
->> +            ))
->> +
->> +            append_log(diff_marker, d)
->> +            if diff:
->> +                for line in diff:
->> +                    bb.warn(line)
->> +            else:
->> +                bb.warn("No differences in dmesg output.")
->> +        else:
->> +            bb.warn("Could not find both dmesg sections for diff.")
->> +}
->> +hostdmesglogger_eventhandler[eventmask] = "bb.event.BuildStarted bb.event.BuildCompleted"
->
->
-> -- 
-> # Randy MacLeod
-> # Wind River Linux
+Cheers,
+Quentin
 
