@@ -2,97 +2,133 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7285DC77B7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72897C7EE30
 	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 12:14:48 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.3071.1750750586039975668
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by mx.groups.io with SMTP id smtpd.web11.198.1750734075450729591
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Jun 2025 00:36:26 -0700
+ Mon, 23 Jun 2025 20:01:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sifive.com header.s=google header.b=X7Zgqgqs;
- spf=pass (domain: sifive.com, ip: 209.85.214.169, mailfrom: jimmy.ho@sifive.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-234fcadde3eso69218295ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 00:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1750750585; x=1751355385; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/lRrFvPPyOSCHS/QbcKFs+wLx41aWzJCIPvRWhtv4eM=;
-        b=X7ZgqgqsDIkzseNMmMZE+TTjwPIERi2rGu5GGLOg/FGzaksKfl0CSjLDrrcfYHfBMl
-         ug062W3s/eMN1HwwHeWmeyZfZq27wiC34nH2SnyJ00mAqIBUrbNmwyexBMiDuSBtzKpj
-         kTargL5M0lY/A+KIIB/nrzaqQyC9RziFrdiUP8X3woTt42JY7fAVbcbiQpvUCg6PqBIj
-         7YuYLOdRvQDq3WyZOWVyfFeIBSaciy5ngSL7C+lowR3WjhnMMeOD9h7msa1cy3xF7ch5
-         pBnYURcGo/bRn28Rv3+1/65gYxkBjk+8DvTFyT4pLw6dFfXbik7dJL4YSy+aam4y8neV
-         VoCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750750585; x=1751355385;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/lRrFvPPyOSCHS/QbcKFs+wLx41aWzJCIPvRWhtv4eM=;
-        b=cgs1MV4rvP8eOoTPkmtAYV395q8o3aRMJQHhtf/28/AmJOtGMpaJU2FIWAycO86hbe
-         GVtaFH8h8qVpRGnbNOu+M2r/bZ/hjGuTDpCHuPiRp1isCHvSb+RRVl8buJ8kSDI29K0E
-         ufgnccxHPMDwAEzOTesCD8yzT52cz4unwbSHn9MJrf/RXUlixB54OIk0IxDtnHdfbQYG
-         PWeant1K7KNNQwirhCfYRhCasNMtz+SoCSy9J+zAdcZS56/1WanE0JyW8EjKi1gTEFGC
-         +GQxG7sdbKesO5PQ6115xyTj/bAFKmnMmb6eUski0WXDMYy49w5BiPVunPgVeGHvYjuC
-         dZNg==
-X-Gm-Message-State: AOJu0Yxnm6nYGTF+nYN/xOkfhbwriHP+JsU9EF4qaYbIr3kcZQkm1RNq
-	9R8TSIU/ASrUHgpFJygKrWv3bJtzAvdmLPdVoacQBga9b0eqNwUrjhJQXmTptlvhLsPWKbee9Tu
-	V7/dH3nuhJZe8nMU6G8UDqGrvD/q8lkHAKHVu+HT65ASsJHzmoQQTEGRs20w/zWb/Q5v3kV92hM
-	FgKxB5hJTFCawQ4A+R4b77tSFZLNr4RTQLox8mn7RA4NQhF74V4Dyq+6Kk7VUlKVhl
-X-Gm-Gg: ASbGncshEuTiae99EGjvLbjTkKg4FRbbewVQAg/KUf6G83OfBNw7vumLxRru04jd2BS
-	X437qLGuDJU/MzQZYURndJVUGusoMUVSnJOm9bXaw/5AwoqdWZCuRlbO5akpQ1ZrxOBRnOnhWSX
-	WgjSJb2h++YTS48CJSB5zthMxLuMf6iNS/yPc5hGHcOPhcKNTzVM0jCFHGYUQwkc6XrQMZrapTy
-	TyrhysiXeZwUeVyjMFfCq8T4hD13+XyVTYA8oLZqDrhzYBelfItq/P5h4EqsAmAsarOzEk72JE4
-	/MYVSr03J4OmMzDY4C6udZRlG5RFamcNNCrXg6vW22JEDuV9HWPO6kTUCCcrlBeveGeUThvFT03
-	73fXqfE1TmA==
-X-Google-Smtp-Source: AGHT+IH9H7pNPSK1IAC6wDElrrCfc/3FZ7u7cL6FPDFL3dcPivxVMZ1XOUEpWElRDO8bHhO92q2dKw==
-X-Received: by 2002:a17:902:ce0c:b0:235:15f5:cc30 with SMTP id d9443c01a7336-237d97d1abamr281372015ad.16.1750750584840;
-        Tue, 24 Jun 2025 00:36:24 -0700 (PDT)
-Received: from hsinchu01.internal.sifive.com ([210.176.154.34])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23809dd42b4sm5041825ad.53.2025.06.24.00.36.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 00:36:24 -0700 (PDT)
-From: Jimmy Ho <jimmy.ho@sifive.com>
+ dkim=pass header.i=@intel.com header.s=Intel header.b=Sm+Ftq0v;
+ spf=pass (domain: intel.com, ip: 192.198.163.10, mailfrom: preeti.sachan@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750734076; x=1782270076;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JyroI3xiHGzbk0f05JB0orhS6cxZMRsQzcZOa9sQ9QA=;
+  b=Sm+Ftq0vovguT2XjLXFVwDcPiEU58smAZZmkW0UcyWMhD0HYQ/G0ynzP
+   nh/brpbj/2OC/1xLb9KN7GFjxytYThjWuBUhSlUEpDYq8jZohQF2GAdTg
+   hhGngVC+2DrBKiL+MktUpHrmEGEALYf3VMgvd3y9FUROH47nU1XQIzqSt
+   yNq+Bavagr8ixf2WeD3OoltsnuQUWp0YMR0PAD73P+br77w4zOUjONp7G
+   cfW4QBRggYnxQ7/mTZ5B5UC8TFgDzZos38ff553l+MobU+flL2R+2tl+8
+   aYcGqRJAWxPC/kdIvVE+uXa4bt1UzT3+3UYg4MPta4o6phWVxyLiriP5U
+   A==;
+X-CSE-ConnectionGUID: yB/n9ApjS0myp8yg23FbxQ==
+X-CSE-MsgGUID: K+DZ+c+4Q4u8sMhTulIVow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="64319925"
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="64319925"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 20:01:15 -0700
+X-CSE-ConnectionGUID: GnEUjq0bRDGFsH4lQZT5Yw==
+X-CSE-MsgGUID: 5rGJjXhkSia6jQS4razpVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="156160482"
+Received: from ubuntu-22174.iind.intel.com ([10.49.1.8])
+  by orviesa003.jf.intel.com with ESMTP; 23 Jun 2025 20:01:13 -0700
+From: preeti.sachan@intel.com
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Antonin Godard <antonin.godard@bootlin.com>,
-	Jimmy Ho <jimmy.ho@sifive.com>
-Subject: [PATCH v2] nfsrootfs: disable warning message if bootargs root parameter have not been defined
-Date: Tue, 24 Jun 2025 15:36:20 +0800
-Message-ID: <20250624073620.2689-1-jimmy.ho@sifive.com>
-X-Mailer: git-send-email 2.48.1
+Subject: [scarthgap][PATCH] ltp: backport patch to fix compilation error for x86_64
+Date: Tue, 24 Jun 2025 08:31:49 +0530
+Message-Id: <20250624030149.2779188-1-preeti.sachan@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 12:14:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219260
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219258
 
-we have case that don't define root in bootargs,
-if [ ${bootparam_root} != "/dev/nfs" ] will output warning "/init.d/85-nfsrootfs: line 4: [: !=: unary operator expected"
-let variable expension result become string to solve this problem
+From: Preeti Sachan <preeti.sachan@intel.com>
 
-Signed-off-by: Jimmy Ho <jimmy.ho@sifive.com>
+When the input compiler enables AVX, stack realignment requirements
+causes gcc to fail to omit %rbp use, due to which the test fails to
+clobber %rbp in inline asm.  Disable AVX to build the test on x86_64 so
+that the test continues working.
+
+Fix compilation with gcc v13.4+. Cherry picked from oe-core, master branch.
+
+Signed-off-by: Preeti Sachan <preeti.sachan@intel.com>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...cve-2015-3290-Disable-AVX-for-x86_64.patch | 42 +++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20240129.bb     |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-index e67ee4c25d..30555aef55 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-@@ -1,7 +1,7 @@
- #!/bin/sh
+diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch b/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
+new file mode 100644
+index 0000000000..c6fae88eb9
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
+@@ -0,0 +1,42 @@
++From 28d823a63ee29f5d72c2aba781a06a7e2651cadc Mon Sep 17 00:00:00 2001
++From: Siddhesh Poyarekar <siddhesh@gotplt.org>
++Date: Mon, 7 Apr 2025 06:24:47 -0400
++Subject: [PATCH] cve-2015-3290: Disable AVX for x86_64
++
++When the input compiler enables AVX, stack realignment requirements
++causes gcc to fail to omit %rbp use, due to which the test fails to
++clobber %rbp in inline asm.  Disable AVX to build the test on x86_64 so
++that the test continues working.
++
++Link: https://lore.kernel.org/ltp/20250407102448.2605506-2-siddhesh@gotplt.org/
++
++Upstream-Status: Backport [https://github.com/linux-test-project/ltp/commit/28d823a63ee29f5d72c2aba781a06a7e2651cadc]
++
++Reviewed-by: Martin Doucha <mdoucha@suse.cz>
++Reviewed-by: Petr Vorel <pvorel@suse.cz>
++Signed-off-by: Siddhesh Poyarekar <siddhesh@gotplt.org>
++
++---
++ testcases/cve/Makefile | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/testcases/cve/Makefile b/testcases/cve/Makefile
++index 01b9b9ccb..98c38e908 100644
++--- a/testcases/cve/Makefile
+++++ b/testcases/cve/Makefile
++@@ -22,6 +22,12 @@ ifneq (,$(filter $(HOST_CPU),x86 x86_64))
++ meltdown: CFLAGS += -msse2
++ endif
++ 
+++# The test needs to clobber %rbp, which requires frame pointer omission.  Also
+++# for x86_64, disable AVX since that could sometimes require a stack
+++# realignment, which gets in the way of frame pointer omission.
++ cve-2015-3290:	CFLAGS += -pthread -fomit-frame-pointer
+++ifeq ($(HOST_CPU),x86_64)
+++cve-2015-3290: CFLAGS += -mno-avx
+++endif
++ 
++ include $(top_srcdir)/include/mk/generic_leaf_target.mk
++-- 
++2.37.3
++
+diff --git a/meta/recipes-extended/ltp/ltp_20240129.bb b/meta/recipes-extended/ltp/ltp_20240129.bb
+index f8e6d3987e..18c6439283 100644
+--- a/meta/recipes-extended/ltp/ltp_20240129.bb
++++ b/meta/recipes-extended/ltp/ltp_20240129.bb
+@@ -30,6 +30,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=ht
+            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
+            file://0001-scenario_groups-default-remove-connectors.patch \
+            file://0001-sched_stress-Use-time_t-instead-of-long-for-type.patch \
++           file://0001-cve-2015-3290-Disable-AVX-for-x86_64.patch \
+            "
  
- nfsrootfs_enabled() {
--	if [ ${bootparam_root} != "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]; then
-+	if [ "${bootparam_root}" != "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]; then
- 		return 1
- 	fi
- 	return 0
+ S = "${WORKDIR}/git"
 -- 
-2.39.3
+2.34.1
 
 
