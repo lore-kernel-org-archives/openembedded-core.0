@@ -1,102 +1,100 @@
-Return-Path: <dixitparmar19@gmail.com>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D31C71157
-	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 06:38:06 +0000 (UTC)
-Subject: Re: [PATCH v3] meta/meta-selftest: add selftest-hello-mod recipe
-To: openembedded-core@lists.openembedded.org
-From: "Dixit Parmar" <dixitparmar19@gmail.com>
-X-Originating-Location: IN (1.7.171.2)
-X-Originating-Platform: Windows Chrome 137
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Mon, 23 Jun 2025 23:37:57 -0700
-References: <A36DC5A7-62C8-4208-B5AF-72F16019A6D0@arm.com>
-In-Reply-To: <A36DC5A7-62C8-4208-B5AF-72F16019A6D0@arm.com>
-Message-ID: <4249.1750747077194924898@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="UWO9ZDxSuGH2tDBkFqI4"
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46092C77B7C
+	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 06:54:46 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.2723.1750748076279070865
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 23 Jun 2025 23:54:36 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Yh/eMDK2;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: antonin.godard@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F1C7B4432F;
+	Tue, 24 Jun 2025 06:54:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1750748074;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=969m4FSudbljZZgSylgTO5IwhFnIdXU0jA6uFW4PKZQ=;
+	b=Yh/eMDK2QSJpM7hzTEjzYI7IO5RqOFozq9TYo7ip90rmJ+QfM/OvjBGW5yC1gS9z46012h
+	kPH349wVQ1kgn5cvbpegXVZIjpHhNFonD8shU4uO9YdbHMsdJZUrdB5c7TWpPyq5O4xJ9i
+	iDIad+/IHT5wwDysKrVCD48o0S6i+EZQeOOrRKLbmbam65RgYhferpfHgBhy791pKkVVOx
+	15HZcHNtvhE+k+lxl0iPnTu+rXIIR/gicqj0A2johPtDUgFF607ofAFnh/jpzAKE5PaKB9
+	kTSARiN0kJcsE40te22UFzuoXQFa7OuNU9Z5Ve6PxOclb8rZyKtZMpq7oDGDzA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 24 Jun 2025 08:54:32 +0200
+Message-Id: <DAUKE93SMD74.1LTP35J1VY8CP@bootlin.com>
+To: "Jimmy Ho" <jimmy.ho@sifive.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] nfsrootfs: disable warning message if bootargs root
+ parameter have not been defined
+Cc: "Alexander Kanavin" <alex.kanavin@gmail.com>
+From: "Antonin Godard" <antonin.godard@bootlin.com>
+References: <20250624001421.16384-1-jimmy.ho@sifive.com>
+In-Reply-To: <20250624001421.16384-1-jimmy.ho@sifive.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdduledvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffvufevhfhfjgesthhqredttddtjeenucfhrhhomhepfdetnhhtohhnihhnucfiohgurghrugdfuceorghnthhonhhinhdrghhouggrrhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehtdeuhfdugfegfeejueekieettdekveffudetueffledtvdeftdejhedugfelfeenucffohhmrghinhephihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfegtkedumegvsggrjeemudgskegsmegrhegtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfegtkedumegvsggrjeemudgskegsmegrhegtledphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghnthhonhhinhdrghhouggrrhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefpdhrtghpthhtohepjhhimhhmhidrhhhosehsihhfihhvvgdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhop
+ hgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopegrlhgvgidrkhgrnhgrvhhinhesghhmrghilhdrtghomh
+X-GND-Sasl: antonin.godard@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 06:38:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219228
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 06:54:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219229
 
---UWO9ZDxSuGH2tDBkFqI4
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Mon, Jun 23, 2025 at 10:20 PM, Ross Burton wrote:
+On Tue Jun 24, 2025 at 2:14 AM CEST, Jimmy Ho wrote:
+> we have case that don't define root in bootargs,
+> if [ ${bootparam_root} !=3D "/dev/nfs" ] will output warning "/init.d/85-=
+nfsrootfs: line 4: [: !=3D: unary operator expected"
+> let variable expension result become string to solve this problem
+>
+> Signed-off-by: Jimmy Ho <jimmy.ho@sifive.com>
+> Reviewed-by: Antonin Godard <antonin.godard@bootlin.com>
 
->=20
-> On 21 Jun 2025, at 08:31, Dixit Parmar via lists.openembedded.org
-> <dixitparmar19=3Dgmail.com@lists.openembedded.org> wrote:
->=20
->> Kernel module specific oe test cases requires a test kernel
->> module package to work with. Added selftest-hello-mod
->> derived from meta-skeleton/recipes-kernel/hello-mod.
->=20
-> Is there meant to be an actual test case to follow this up?
+Please don't include Reviewed-by if the person has not explicitely given th=
+eir
+Reviewed-by in response to the previous version of the patch.
 
-Yes, it's here https://lists.openembedded.org/g/openembedded-core/message/2=
-18013 - please review this too ;)
+> ---
+>  meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootf=
+s b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+> index e67ee4c25d..30555aef55 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+> @@ -1,7 +1,7 @@
+>  #!/bin/sh
+> =20
+>  nfsrootfs_enabled() {
+> -	if [ ${bootparam_root} !=3D "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]=
+; then
+> +	if [ "${bootparam_root}" !=3D "/dev/nfs" ] || [ -z ${bootparam_nfsroot}=
+ ]; then
+>  		return 1
+>  	fi
+>  	return 0
 
->=20
-> There=E2=80=99s already a kernel module in oeqa under
-> meta/lib/oeqa/runtime/files/hellomod.c, I=E2=80=99ve previously tried add=
-ing more
-> test cases around them (for SDKs not selftest though):
->=20
-> https://git.yoctoproject.org/poky-contrib/log/?h=3Dross/module
->=20
-> Maybe instead of duplicating the kernel module more we move the source an=
-d
-> Makefile into meta/lib/oeqa/files/kmodule/ and then the tests can easily
-> use them, and the recipe could set SRC_URI to
-> ${COREBASE}/lib/oeqa/files/kmodule/hellomod.c.
+Please make sure to include vX (version number) in the patch subject when
+sending a new version of the patch.
 
-I created a new recipe with the corresponding source files with the idea of=
- having an independent self-test package for hello-mod. This is included in=
- the meta-selftest so it can be used for other kernel module-related test c=
-ases in the future. I can modify it to point to the source and Makefile out=
-side of the package if you recommend, though.
+See https://docs.yoctoproject.org/contributor-guide/submit-changes.html.
 
->=20
-> Cheers,
-> Ross
+Antonin
 
---UWO9ZDxSuGH2tDBkFqI4
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+--=20
+Antonin Godard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-<div>On Mon, Jun 23, 2025 at 10:20 PM, Ross Burton wrote:</div>
-<div>
-<blockquote>On 21 Jun 2025, at 08:31, Dixit Parmar via lists.openembedded.o=
-rg &lt;dixitparmar19=3Dgmail.com@lists.openembedded.org&gt; wrote:<br />
-<blockquote>Kernel module specific oe test cases requires a test kernel<br =
-/>module package to work with. Added selftest-hello-mod<br />derived from m=
-eta-skeleton/recipes-kernel/hello-mod.</blockquote>
-Is there meant to be an actual test case to follow this up?</blockquote>
-Yes, it's here <a href=3D"https://lists.openembedded.org/g/openembedded-cor=
-e/message/218013" target=3D"_blank" rel=3D"noopener">https://lists.openembe=
-dded.org/g/openembedded-core/message/218013</a> - please review this too ;)=
-<br />
-<blockquote>There&rsquo;s already a kernel module in oeqa under meta/lib/oe=
-qa/runtime/files/hellomod.c, I&rsquo;ve previously tried adding more test c=
-ases around them (for SDKs not selftest though):<br /><br /><a href=3D"http=
-s://git.yoctoproject.org/poky-contrib/log/?h=3Dross/module" target=3D"_blan=
-k" rel=3D"noopener">https://git.yoctoproject.org/poky-contrib/log/?h=3Dross=
-/module</a><br /><br />Maybe instead of duplicating the kernel module more =
-we move the source and Makefile into meta/lib/oeqa/files/kmodule/ and then =
-the tests can easily use them, and the recipe could set SRC_URI to ${COREBA=
-SE}/lib/oeqa/files/kmodule/hellomod.c.</blockquote>
-I created a new recipe with the corresponding source files with the idea of=
- having an independent self-test package for hello-mod. This is included in=
- the meta-selftest so it can be used for other kernel module-related test c=
-ases in the future. I can modify it to point to the source and Makefile out=
-side of the package if you recommend, though.<br />
-<blockquote>Cheers,<br />Ross</blockquote>
-</div>
-
---UWO9ZDxSuGH2tDBkFqI4--
 
