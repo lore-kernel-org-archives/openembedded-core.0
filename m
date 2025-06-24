@@ -1,151 +1,101 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98036C77B7C
-	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 21:51:05 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.27])
- by mx.groups.io with SMTP id smtpd.web10.925.1750801861967663063
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3436C77B7C
+	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 22:27:25 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.1690.1750804037567368932
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Jun 2025 14:51:02 -0700
+ Tue, 24 Jun 2025 15:27:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=QK7D23f3;
- spf=pass (domain: axis.com, ip: 52.101.84.27, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qJQ/4AidYNdWPpnK1nqZ8tg/EPEGuawNSv+sHnBDhs1Kp2Cad6c9MXKrWfagCsItuQeA6cAjwfQRcKNw635q3jVks4yU4NiOmAv2wgZwjNYXKSq0ZC43oD5rpMrsWg88g1qEo4LENbbyVRQsTlFPiG0EQk+DOzlHRl0AwqqpsOAwslmEpRmx8fgW77G9EqYIYeJlO+RM3XLnlVd9R5RYZx8O4MNP4PLR10HEb3AzDF7lKUsSecBRKloiGZUmnMCg/7cs2gANuNB6QbfQ5FWEivavXhfYaINvN+3szWrs0McSLVIIcbjkBWuMNRbh38N0uJbdo6IACOYC57qDzTeZaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3jt4K95o/zRz93Xn66cCAc+PR+3Prmv0i7JNAnr7xak=;
- b=aszjDpl/9u5QkMMGFw/BWLDSnad+Dig88Mx7AmnyAO7Bpab0odK1Tljq6YDW7sbRCmXDVsMpk+3hQqcfVVtUacKNkAh/I67MemodG5P1LocEnXwAdmbDCXaUQFYLI61chmCskCXB6vBnn+NoaVL1ZAX1Q0aHl/hm6vKHdmfi7KXpB4hINMM0U/6z/qildnfE9tglUUDT0J7EA0SthjFmzfI99VYMQ53wRDvbcccJ8XNl8zxTYrfqT3ngVisiPayEXGzjPjJxndZxt0W9vZJdWqAPFyEpzDPnuff7oOPCgYZxW07fStWOD38vflhROpcTEpMHPEmQ3o3A+ucCyE6G6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3jt4K95o/zRz93Xn66cCAc+PR+3Prmv0i7JNAnr7xak=;
- b=QK7D23f3aR0HNEGHgih/7Dt/XWQ+tGe8ggt6V69QitT5KytN/+R2Y9qkOYiGAEjWEh1l+aQXYXWHYdebdTEZcOMjK6ATwUuAxdm/9bqZOc3PFTTEjFUL+OWZO0wgExwcgCtyLIxIEVAFl0t5BhAJq5vvS+JIoDodeUZcambrDg8=
-Received: from AS4P191CA0036.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:657::18)
- by AS8PR02MB6743.eurprd02.prod.outlook.com (2603:10a6:20b:251::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.29; Tue, 24 Jun
- 2025 21:50:57 +0000
-Received: from AM4PEPF00027A66.eurprd04.prod.outlook.com
- (2603:10a6:20b:657:cafe::66) by AS4P191CA0036.outlook.office365.com
- (2603:10a6:20b:657::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8857.30 via Frontend Transport; Tue,
- 24 Jun 2025 21:50:57 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AM4PEPF00027A66.mail.protection.outlook.com (10.167.16.91) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8880.14 via Frontend Transport; Tue, 24 Jun 2025 21:50:57 +0000
-Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 24 Jun
- 2025 23:50:56 +0200
-Received: from se-mail01w.axis.com (10.20.40.7) by SE-MAILARCH01W.axis.com
- (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Tue, 24 Jun
- 2025 23:50:56 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Tue, 24 Jun 2025 23:50:56 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id B121E376E
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 23:50:56 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id A93421294F7; Tue, 24 Jun 2025 23:50:56 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] glibc: Use :append to add to CC
-Date: Tue, 24 Jun 2025 23:50:53 +0200
-Message-ID: <20250624215053.3162975-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R9sXkfJY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a51481a598so3020713f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 15:27:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1750804036; x=1751408836; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=724TqlMs8Z+uG3NQ4tbogzUAK8yPc37v7oZ5FjgyomA=;
+        b=R9sXkfJY6XJpQtA1avCm/Afvv7pDl5HCm83cDVq90jT5zQHqvRj/SrEDLVw5Bj6bht
+         8/iqtc4keHm5mgtk7Mbulhk6MrbxgoWdqIo9juu6f3P36Mv0sRlIORdg/IEwxUvWC2lE
+         R58BqtH9TEz6d08hEKDJ/l6/VVOzZ4HjOSH70=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750804036; x=1751408836;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=724TqlMs8Z+uG3NQ4tbogzUAK8yPc37v7oZ5FjgyomA=;
+        b=FtHl/oaJkldN/GokcTvFe9kDE5iHeKI5Vd1Flj80gBRMIdqrX38Xuw5RKC1zuY5Pka
+         YO+lAdYpZSR9p+CYN0g1o5hLkOLoJy9/o65BCKyu5N/xuC9bPN3mImq3uIm3L4uGSo1J
+         RBDcXhJfKZ+KDD4cQujNLKw7J117W6T9AjfcsT1Kl3+g9ABwH9ZzhvMFTHq7P7wvavpU
+         t2KnUacMAhZOuljg5sgxbLz7sq0Pw/9ezyMan1LU5A/2PTcvGdetoR9R1FhUPxbTzbUL
+         9jIaXK3jBKHToonFnPlnN0xXjJc4HcU9O1wpxfaUsjurpF+hTljvOooKl1iducfn4L8J
+         gLEA==
+X-Forwarded-Encrypted: i=1; AJvYcCVezxip8MGVZgEDjzyfKphum/eZXclw3ZsZ0AY1AJI+TZ8KlwcBNot/TsxMVHNKFIuGYxCTbFgevmln9H8PruAhLg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxc4rB85Rjoq2V27tK+4NXEu4OmUxSV+5wJ+iJHx/iDV1RnuVIY
+	zeYR4E7FsYRM13KkS5ay2B8oocXiYEPail9Nv1jJwlIftX5u89HOkryFNOEP4Cs5xuw=
+X-Gm-Gg: ASbGncvxyPEqwoVduCjVlUUJjHo7f3Q8fFXcDYT2ZcKztaAzkvp+t/z4uPpvjzUKcXV
+	FNo7z0tFiLvoU1qW652RfORGWGuX3tfKFD9rc8fh8rsHcNLLPNYeNTf1jhNQsPiAGwgWmL7/EmB
+	DmTBiK9zPBHAIHRwgJPorKlrG2581NCZrjdz8vc58m02MTFqVOL3dbygWKxXhcfRoELfJU3FtRH
+	lLqPuEifQ9+9iCi7jHFQULSEY4+OCjTPUZI6v/Cy8H7mHTYEZ7L9zCCMEJle5aCAwtJaD9S2Elm
+	bTyE1xlGfmNuh/ZspIYtanVhc1P8OUBWllVFqKzM4VoLtMj4gTZqdVX+qTls8gtIkDq14J0vre/
+	z8jADUPgVTuC4v7QzMNCvlu4nQV5SSRBLcU1XCauwzBvJItkwpfo=
+X-Google-Smtp-Source: AGHT+IF7L1OHB91sZK7n3pLS2fmXumPQwWMRhU0ZPrgFrcZJ5n6xkWeB6hxgKhMIi34bjyTMEeIxlg==
+X-Received: by 2002:a05:6000:200e:b0:3a4:ed1e:405b with SMTP id ffacd0b85a97d-3a6ed67514cmr282593f8f.46.1750804035807;
+        Tue, 24 Jun 2025 15:27:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2382:c379:cbb0:17a7? ([2001:8b0:aba:5f3c:2382:c379:cbb0:17a7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e80f264esm2908802f8f.47.2025.06.24.15.27.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 15:27:15 -0700 (PDT)
+Message-ID: <66ad34980bea73369408af8719d9a1ecb464baba.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] glibc: Use :append to add to CC
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: peter.kjellerstedt@axis.com, openembedded-core@lists.openembedded.org
+Date: Tue, 24 Jun 2025 23:27:14 +0100
+In-Reply-To: <20250624215053.3162975-1-pkj@axis.com>
+References: <20250624215053.3162975-1-pkj@axis.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00027A66:EE_|AS8PR02MB6743:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbf9e656-ba96-4f9a-93c0-08ddb3693378
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?z12k3UJXYy0KTlIgZQM6KnJOeYhVqyjjVk1Q+LkxC+XfF03u5Ep1QANzNB1Q?=
- =?us-ascii?Q?81LI7OD8J4Q17xZLkPRxoJBwYPCwgYwYlYrbkErdUw2hyJbKIsH72s+QMtQM?=
- =?us-ascii?Q?N0LA/cwFh4Jee/pQbEiQ10Z+vSeFBSoVd/nqT2KRQV5jNtr7zKpv+npYtp3y?=
- =?us-ascii?Q?HAr3Prhw6F0Q9n036HwvxyWfwRRciMZg3sZOsVmktmWIDlsxj1B0jEZZ4+wP?=
- =?us-ascii?Q?VsmHULzyAoQQ85tejIFGJ+Ml3qqQS8yEuYuDhoiASaKkuWgYNMBX5C/Av6qU?=
- =?us-ascii?Q?V9o66RCOWUI1gFEUqguztx9IPIz3C06ud6GnJq8K93nQ+dAMcbLGzypHZc8O?=
- =?us-ascii?Q?WX+g3fdU1CGfh1x2Sdy/tub0XxLf5wH7e3BvWTJp1PgeJAhvWZeIWREWYD4f?=
- =?us-ascii?Q?M4pcIwPoyd5eN8Z9Y/j8+WixBVE54HkeKxMumL3u8zrtfd8Z6U+myhzNZdTa?=
- =?us-ascii?Q?Cp2Ypj2xE5REBgoJjzRJ1UpLjiivLIRAOOV+bX5s+WF/yIHI7EslfkSEvu34?=
- =?us-ascii?Q?M/Hob57i2Dbwd8mcg7ZZFcXaGPpn6jWANkBm5R7GT6z6oDbrEEAE1o+i9gxG?=
- =?us-ascii?Q?a23iWlK3Eqx6fCUDYLMR87l/1GO27Aac19kY2lfONocuH8IunLq+ZWylcbf1?=
- =?us-ascii?Q?t8F129cKshWZcKPXhy9wzoWNlzfVTutKu9QbZrp32YG/5FJ4/OOo9j4gjejc?=
- =?us-ascii?Q?BIEpgFpHK7i1l1hv7vc6iacoU8+m/QNIXMJCXTC+fZ8IvzUmGdh5ZdZwM9qZ?=
- =?us-ascii?Q?QeTjzA6LJaSPeTc+IzEMXcsyuoKhYF7f93vUQ8Tnxltkz+CpPRYKp79U2X9u?=
- =?us-ascii?Q?5us5wyKYM8fhvZK7y5Z9vte4LZjGTwr2YGNyD2DAa8FV2iWVf72BqEz69ywk?=
- =?us-ascii?Q?qrlmwKbsY+wOGVsGVUD0phjPfNjhKhmFRNihdj1T3szTWwr3bFfHsNrIhkO5?=
- =?us-ascii?Q?pcqN2ckYyodw5lEVbAzjujlWweWTihfeayE+LLGgmOnIVrtdorALnnVUi1Zu?=
- =?us-ascii?Q?UxhIBoAQajyZ1tko+Kj7Hk6F2dYH3d3DroJQ2MhQ6sXwJ3i3QaNXY56WoJe1?=
- =?us-ascii?Q?CncbQuSAM00BBmx6nzYWS13jTSoCfKBUYAeD8EKvHvWFK/cDy8nbyHdYETYH?=
- =?us-ascii?Q?lKB3YCINRFNpkvIbpAlFHxNqrjFMxCalgeaMj7T58v4IQB8BH7cyW8ZxJaWm?=
- =?us-ascii?Q?FVra+UceIC+CgcQDCZPvnSXnxPttGxxhtFFgiegYSptnnm1iOudKqkdxulwu?=
- =?us-ascii?Q?L7TbqooQ3ialGLHmwFEkt0nRkIUh5omAttGe1KsJOY2j5t8ZlJSdSQBW/5l8?=
- =?us-ascii?Q?CGAB6dYvbVxB5X1HAEgd/vD+sTpOK/QJbzXxhm9OySWEeP5UG4n3Vn4mZAQb?=
- =?us-ascii?Q?z9JApczMPK215W5aLJaEwvWcITymglLmCxzWt2EeJUmpzHIuMkolIj73HIgy?=
- =?us-ascii?Q?Yr9c6AWxUFYaRYXQ3SsSoYFiwhOmYexYVCqxpLUGVDNwFMg80Y8VEbZejZuz?=
- =?us-ascii?Q?lB/hWNof2BXCv4Yjcyq2GSB+anO9Ihupj/B+?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2025 21:50:57.2537
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbf9e656-ba96-4f9a-93c0-08ddb3693378
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00027A66.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB6743
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 21:51:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219285
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 22:27:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219286
 
-Due to the recent changes to how the toolchain variables are initialized
-via inherit_defer, it is no longer possible to add to CC using the +=3D
-operator. Instead, CC:append needs to be used.
+On Tue, 2025-06-24 at 23:50 +0200, Peter Kjellerstedt via
+lists.openembedded.org wrote:
+> Due to the recent changes to how the toolchain variables are
+> initialized
+> via inherit_defer, it is no longer possible to add to CC using the +=3D
+> operator. Instead, CC:append needs to be used.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+> =C2=A0meta/recipes-core/glibc/glibc_2.41.bb | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-
+> core/glibc/glibc_2.41.bb
+> index 7771fac041..2ef738f5b4 100644
+> --- a/meta/recipes-core/glibc/glibc_2.41.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.41.bb
+> @@ -111,7 +111,7 @@ do_configure () {
+> =C2=A0}
+> =C2=A0
+> =C2=A0LDFLAGS +=3D "-fuse-ld=3Dbfd"
+> -CC +=3D "-fuse-ld=3Dbfd"
+> +CC:append =3D " -fuse-ld=3Dbfd"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-core/glibc/glibc_2.41.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-core/glib=
-c/glibc_2.41.bb
-index 7771fac041..2ef738f5b4 100644
---- a/meta/recipes-core/glibc/glibc_2.41.bb
-+++ b/meta/recipes-core/glibc/glibc_2.41.bb
-@@ -111,7 +111,7 @@ do_configure () {
- }
-=20
- LDFLAGS +=3D "-fuse-ld=3Dbfd"
--CC +=3D "-fuse-ld=3Dbfd"
-+CC:append =3D " -fuse-ld=3Dbfd"
-=20
- do_compile () {
- 	base_do_compile
+Given my hatred of using append, is it not possible to put this in
+CFLAGS?
+
+Cheers,
+
+RIchard
 
