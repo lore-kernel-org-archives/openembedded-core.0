@@ -1,110 +1,102 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F29B3C77B7F
-	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 23:14:25 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.2785.1750806856850815808
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F1C1C77B7F
+	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 23:33:36 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.3099.1750808015062381392
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Jun 2025 16:14:16 -0700
+ Tue, 24 Jun 2025 16:33:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=I/a/NHqQ;
- spf=pass (domain: konsulko.com, ip: 209.85.216.50, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-313bb9b2f5bso1218810a91.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 16:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1750806856; x=1751411656; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tF8SdsUYFgAFQvHfbikMT2UYoZ/8nDlBxfyBYX6K+OQ=;
-        b=I/a/NHqQ2c3BAo6mtbRK0Cr8smnVjwtD7MRE+Ca+HXnrZ3ryt7ne9L41wKOXsHCYhd
-         PYDDbw+Wki43Qpx5wclrK8bjGilr87MTkE5JhVW6ALCwzOPCKx4q/u9brokgzruBaEOk
-         hrzQTkuT8QqFOXhXvDGMPkzfmMtfyf+2Eo5FY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750806856; x=1751411656;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tF8SdsUYFgAFQvHfbikMT2UYoZ/8nDlBxfyBYX6K+OQ=;
-        b=tqkKLcoRzScO59DYY76aDZa/RKoR0boTG+3gC3cPw+i0B2HeuNDmBmJiv8w+gpTLlL
-         nUu5G+qwyeIYyg9KEsirmemgDCAHnKP65uR4+N3I/N65Oquj+r0gbCLsPrVMqUbJmzNN
-         GTfaMwZHUKuSky3SyIgWR6k5fKhNFTtharR5Hp8lHGQeY7TIENjScg+AOLut9n/kJEDr
-         ysHcDuA55PKUMsJ4IB3xescwzl7FUvlVTO/iveMbCuZv5y/YOzSaoI9BInuM3lIl+sGS
-         Anips98lUF+c8tqb0LTsMvkBC9NGaQVtWqLCDZkgK78VJhM9Mkf6gRM+hyRXjF1hEVAj
-         oorA==
-X-Gm-Message-State: AOJu0YymprbpMbAb4YgexerMA5UWQJQDCzi5rVHOCKMvscH37lyzN8ya
-	KHd2xXQcLJaSN59w503hxjsSuHytxTbaFR8TxYkSmkfd+bs+rhKcgzQbU0HjAH1Jbm+MnFEt+50
-	RgFwuP/o=
-X-Gm-Gg: ASbGncs2KR+haIjVic9PWVoM74/Mps2bvXYDuk1LVGDeJuQ4/TlXgpMFk/6vORQo0ND
-	hVHH22uvfXuvlbYHma7CFphg/hgIX3vkxiW7K3N4zXyH7zkegKl9UL6+2XPpHlMuL/PSjt3iU1g
-	nl6tDFKTOr15FJtHSgFltTfEo45i9vzsbHokW5MLPTfy+G2tZc6U1zKFh5Yp3/QoECyvnNzyer0
-	1clDKqjhztCpn4dn7aquFnMUoTrmTlryEPLDoXDdI8c8YQswh1chKxDsB8L4ClLyJCt6bEcxhkv
-	zZs0PPqTda7UwWBI5kbS7yFpzEC0uwluP0EzZu36oqMyuP7INg9W//XR3v+YKI41HTcVIVQVjiG
-	LU6950oq8zNTP2vAamKqsjtk85Q==
-X-Google-Smtp-Source: AGHT+IHQVIL9gyvMz6H9JdvvqnmSSKuH0oJAEOxrnKWEafSd9UwHp4HsoIyrZULK1XKuCIouvpnQCA==
-X-Received: by 2002:a17:90b:278a:b0:313:176b:3d4b with SMTP id 98e67ed59e1d1-315f267140fmr936810a91.22.1750806855814;
-        Tue, 24 Jun 2025 16:14:15 -0700 (PDT)
-Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-315f53d94b1sm171196a91.33.2025.06.24.16.14.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 16:14:15 -0700 (PDT)
-From: tim.orling@konsulko.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] python3-pytest-subtests: upgrade 0.14.1 -> 0.14.2
-Date: Tue, 24 Jun 2025 16:13:56 -0700
-Message-ID: <7230cb10625c66e533763cd6d7fbcdc5d2c81be7.1750806216.git.tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1750806216.git.tim.orling@konsulko.com>
-References: <cover.1750806216.git.tim.orling@konsulko.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=xSjpZoDc;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DCYT2O3d;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010197a44a2d32-011f6798-ad84-4b48-bc13-344a531c1deb-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1750808014; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=gZ0Tn8v6MW16Wqkb8AVJWlbQOd6I1jJr0lWpcKPSKrQ=;
+	b=xSjpZoDcCkR4lb/osh8de8xHL2tBNMo2wQQaDvLAJCN4MNhqU4QiQGY8CszmBRxg
+	qeNIDLxTIMFAbJZ5gaRnXMvoBKDFAzRDiBUXpbCx5t7e001B0OWoTU5LlhbTmtCl2cV
+	2mWw67bYXItx8Rgvs9baS2nGvpi7R5Jt/cUeNXZ4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1750808014;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=gZ0Tn8v6MW16Wqkb8AVJWlbQOd6I1jJr0lWpcKPSKrQ=;
+	b=DCYT2O3dPNk7zlxxPnW+8K0F92DykgnsfZUl7KyBGDjT1RP/fmx5cisI9yWP108A
+	yC4tI6+UI6AtZRFzobAftnPcrexKPt3fbzwQkcizc0FSTTOBiOEpo0GA2h1mXtTqmnd
+	Mp9P8uGNwyfHf5kCmKAj0c8wdleo5Z13uoYDQlcs=
+From: patchtest@automation.yoctoproject.org
+To: tim.orling@konsulko.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 2/6] python3-maturin: upgrade 1.8.6 -> 1.8.7
+In-Reply-To: 
+ <4eb0c9f6944fee1716cae0889f94a29ffefe7a15.1750806216.git.tim.orling@konsulko.com>
+References: 
+ <4eb0c9f6944fee1716cae0889f94a29ffefe7a15.1750806216.git.tim.orling@konsulko.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010197a44a2d32-011f6798-ad84-4b48-bc13-344a531c1deb-000000@us-west-2.amazonses.com>
+Date: Tue, 24 Jun 2025 23:33:34 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.06.24-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 23:14:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219295
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 23:33:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219296
 
-From: Tim Orling <tim.orling@konsulko.com>
+--NextPart
+Content-Type: text/plain
 
-Highlights from commit logs:
-* Bump pypa/gh-action-pypi-publish from 1.12.2 to 1.12.3 (#177)
-* Bump hynek/build-and-inspect-python-package from 2.10 to 2.11 (#178)
-* Consistently use raw strings for line-matching regexes (#180)
-* Ensure advertised pytest 7.4 compatibility (#182)
-* Bump pypa/gh-action-pypi-publish from 1.12.3 to 1.12.4 (#185)
-* Bump hynek/build-and-inspect-python-package from 2.11 to 2.12 (#186)
-* Print output "dots" for successful unittest subtests (#164) (#190)
-* Improve reporting in case of xfail (#194)
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Comparing changes from 0.14.1 -> 0.14.2:
-https://github.com/pytest-dev/pytest-subtests/compare/v0.14.1...v0.14.2
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...est-subtests_0.14.1.bb => python3-pytest-subtests_0.14.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytest-subtests_0.14.1.bb => python3-pytest-subtests_0.14.2.bb} (88%)
+Testing patch /home/patchtest/share/mboxes/2-6-python3-maturin-upgrade-1.8.6---1.8.7.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pytest-subtests_0.14.1.bb b/meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-pytest-subtests_0.14.1.bb
-rename to meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
-index 56cec25b868..58212bfb1cf 100644
---- a/meta/recipes-devtools/python/python3-pytest-subtests_0.14.1.bb
-+++ b/meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
-@@ -7,7 +7,7 @@ BUGTRACKER = "https://github.com/pytest-dev/pytest-subtests/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=242b4e17fa287dcf7aef372f6bc3dcb1"
- 
--SRC_URI[sha256sum] = "350c00adc36c3aff676a66135c81aed9e2182e15f6c3ec8721366918bbbf7580"
-+SRC_URI[sha256sum] = "7154a8665fd528ee70a76d00216a44d139dc3c9c83521a0f779f7b0ad4f800de"
- 
- PYPI_PACKAGE = "pytest_subtests"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
--- 
-2.43.0
+FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
