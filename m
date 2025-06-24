@@ -1,123 +1,134 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <preeti.sachan@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A38AFC77B7C
-	for <webhook@archiver.kernel.org>; Mon, 23 Jun 2025 22:54:11 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.8328.1750719243680762175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51313C77B7C
+	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 03:26:55 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by mx.groups.io with SMTP id smtpd.web10.460.1750735612445672321
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Jun 2025 15:54:04 -0700
+ Mon, 23 Jun 2025 20:26:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QbZBXG1k;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so47912295e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Jun 2025 15:54:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1750719242; x=1751324042; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SjoS9DVK87CBB+xLo+bkBDgs9MS3AphsXzG/gqRO+eY=;
-        b=QbZBXG1khecI5cx+dcWhTwf81a0txK/LgqX2NxcgOJzfkWsNglzfV2wMq9Fxb1LDic
-         nnhfc9Ek39okvpH0LHR/2kw89lVSQueX12170Pp4hl8fS7wHrc5PoqBPBXVxkZb9oyvu
-         gKy7CiNfWe+Af0Uc2P+4km42EmfLR1sHQqv9g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750719242; x=1751324042;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SjoS9DVK87CBB+xLo+bkBDgs9MS3AphsXzG/gqRO+eY=;
-        b=vuTUZra8q+90i3WJmfFJgGgOlUVCL3SXuVg0RrQWGZNfgH5TPX6jzUaLiLcIDmcLwQ
-         dyuYenwtwbxThNkC9xSfsY8cyHBie39EQw7IXlIrviVostPja+aNplUc+t9gb1y5D4RN
-         QpisrDwknenMmmpsOqOsQ2ECUcgq2bxjlRDLdem6zBLFozAIh89EkOnuYx6OMIA6sbop
-         ZceYn6nHPepkjAsJ2pMIwGvYJEU25xoyQ2iVG20ur6xNqs3yFBYeQyXxDDLOiyxuxxJV
-         wV0AoK6t1zQini7TCMDV9dMEy9/SjK7D6rNZDFbFrk6CGAx4bHzVNw/QOIxTbP+/cWvt
-         6EeA==
-X-Forwarded-Encrypted: i=1; AJvYcCUlwfW+hD+4W9S2UaLoVc2SnqRTkEblTg1+n7odeDrH1OjDhe+gx9gdD/H5/bCVTqcVNRYnduKMkIYXk32GtzFUMw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywva83Tl/xIJf6AME4RucnMwzMcQe5ss0vuffXo7C/uYeVtqRoB
-	yS/R6QU3wE4ySLzeJ87v9dlJ0zyX6DAIK4qtICIsDyLuBG6Pcz/3CMt5ySYRGcnkWX0=
-X-Gm-Gg: ASbGnctOG0ty8ZKCaFkEP/2O7BJlCnWaVXdSniYaYSLgEo7O2GtNoQGhaQZVbV4w3u4
-	ercqcj0fnIW1pBS/vRHAW7pwQ+J9zcSkkGPfSIIF4jg/i4HBAR2Qzk7/Ff2I0OkEaSDItbVsjVz
-	0jagTiy+G/xewnvWN2qTNPwIECZSFcGMwM7aQ5VEszWZiDKCyd5AP9zc5TjauDqDmQ6Wu1AieGN
-	TNf683QcKQv5RIygbnQnWVPHrlP8aRyanHcyqAGLs0xMuOuMyoAhMRhU4+FMDDjKxVJJKT3rImV
-	ZGLT/mqddSCnArXCVkjw+xoWofkkemjUhmobpS8CDnuN1pN2fbAJ6vVfsVmG70Mr0STBUZj05FL
-	e1hTHtRlG2yDn2CD8JLsEp143PSRilOgUzA7z9aEsdfK6qKVo0HU=
-X-Google-Smtp-Source: AGHT+IE2mL6/ggRdSEwdmXuCFL2wC183x3yjvI8lniLPO3w6nwmk3QdqL/wv5evWfuTpXr/l9BDRbg==
-X-Received: by 2002:a05:600c:3513:b0:450:cde3:f266 with SMTP id 5b1f17b1804b1-453659cb94bmr120282915e9.22.1750719241779;
-        Mon, 23 Jun 2025 15:54:01 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8bf4:3d1b:6949:400a? ([2001:8b0:aba:5f3c:8bf4:3d1b:6949:400a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646cb692sm124610905e9.2.2025.06.23.15.54.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 15:54:01 -0700 (PDT)
-Message-ID: <fc222f5e73157930877983d4c7865c4051536e41.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] dnf: upgrade 4.22.0 -> 4.23.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Moritz.Haase@bmw.de, openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jun 2025 23:54:00 +0100
-In-Reply-To: <20250623095808.2953467-1-Moritz.Haase@bmw.de>
-References: <20250623095808.2953467-1-Moritz.Haase@bmw.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=pass header.i=@intel.com header.s=Intel header.b=D92QRIVE;
+ spf=pass (domain: intel.com, ip: 192.198.163.16, mailfrom: preeti.sachan@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750735613; x=1782271613;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JyroI3xiHGzbk0f05JB0orhS6cxZMRsQzcZOa9sQ9QA=;
+  b=D92QRIVExBZtqZ4vKwqj/sBsVzHJwQt6s0XgOq6hWXpJW5sXMvB3Cujx
+   aXXBAPrx5h5fwonFXtnQTheACsHbV522BwjJsp1vPK7PKeSDmYztrCV//
+   zGEKJdWgwdznZDVVY2KmlCSQwAnKSyVKiiZojl/MuS1++FLikEe9BOPLo
+   W9KOTL7wTrURYWofWpWTY6iC1t0GmRheGtq5QyOTXCJSzWypvIa8ydVbb
+   /Ap4pvZ7+EGh3bsrRCs+vWBVp5if0zJ1dGegAICnKVFjFgHfHj87pBrG5
+   xdCIPGATD8TtCsOUeyGdvRmgCuk5XDh0dVM6VW71pJwTI9wZ45BJP04I5
+   A==;
+X-CSE-ConnectionGUID: HNpHlFH7Rr6YiADalxEGgQ==
+X-CSE-MsgGUID: kz4IycVXSUCh5cWr9+P81g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="40575272"
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="40575272"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 20:26:52 -0700
+X-CSE-ConnectionGUID: hX2m3c7bQ66UmFFh7twiVQ==
+X-CSE-MsgGUID: N3yVg+7VS0m0qH5y+jAPdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="175390352"
+Received: from ubuntu-22174.iind.intel.com ([10.49.1.8])
+  by fmviesa002.fm.intel.com with ESMTP; 23 Jun 2025 20:26:51 -0700
+From: preeti.sachan@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [scarthgap][PATCH] ltp: backport patch to fix compilation error for x86_64
+Date: Tue, 24 Jun 2025 08:57:27 +0530
+Message-Id: <20250624032727.2780093-1-preeti.sachan@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Jun 2025 22:54:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219224
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 03:26:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219225
 
-On Mon, 2025-06-23 at 11:58 +0200, Moritz Haase via lists.openembedded.org =
-wrote:
-> New version includes support to build against CMake 4+, see [0].
->=20
-> Release notes are available at [1].
->=20
-> [0]: https://github.com/rpm-software-management/dnf/pull/2217
-> [1]: https://github.com/rpm-software-management/dnf/releases/tag/4.23.0
->=20
-> Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-> ---
-> changes in v2:
-> - Add missing 'Signed-off-by' footer
->=20
-> ---
-> =C2=A0meta/recipes-devtools/dnf/{dnf_4.22.0.bb =3D> dnf_4.23.0.bb} | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> =C2=A0rename meta/recipes-devtools/dnf/{dnf_4.22.0.bb =3D> dnf_4.23.0.bb}=
- (98%)
+From: Preeti Sachan <preeti.sachan@intel.com>
 
-This works in many cases but this did show up:
+When the input compiler enables AVX, stack realignment requirements
+causes gcc to fail to omit %rbp use, due to which the test fails to
+clobber %rbp in inline asm.  Disable AVX to build the test on x86_64 so
+that the test continues working.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/1951
+Fix compilation with gcc v13.4+. Cherry picked from oe-core, master branch.
 
-Traceback (most recent call last):
-  File "/usr/bin/dnf", line 56, in <module>
-    from dnf.cli import main
-  File "/usr/lib/python3.13/site-packages/dnf/__init__.py", line 30, in <mo=
-dule>
-    import dnf.base
-  File "/usr/lib/python3.13/site-packages/dnf/base.py", line 32, in <module=
->
-    from dnf.comps import CompsQuery
-  File "/usr/lib/python3.13/site-packages/dnf/comps.py", line 27, in <modul=
-e>
-    from dnf.exceptions import CompsError
-  File "/usr/lib/python3.13/site-packages/dnf/exceptions.py", line 22, in <=
-module>
-    import dnf.util
-  File "/usr/lib/python3.13/site-packages/dnf/util.py", line 28, in <module=
->
-    import ctypes
-ModuleNotFoundError: No module named 'ctypes'
+Signed-off-by: Preeti Sachan <preeti.sachan@intel.com>
+---
+ ...cve-2015-3290-Disable-AVX-for-x86_64.patch | 42 +++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20240129.bb     |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
 
-As well as:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/1745
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/1874
+diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch b/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
+new file mode 100644
+index 0000000000..c6fae88eb9
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
+@@ -0,0 +1,42 @@
++From 28d823a63ee29f5d72c2aba781a06a7e2651cadc Mon Sep 17 00:00:00 2001
++From: Siddhesh Poyarekar <siddhesh@gotplt.org>
++Date: Mon, 7 Apr 2025 06:24:47 -0400
++Subject: [PATCH] cve-2015-3290: Disable AVX for x86_64
++
++When the input compiler enables AVX, stack realignment requirements
++causes gcc to fail to omit %rbp use, due to which the test fails to
++clobber %rbp in inline asm.  Disable AVX to build the test on x86_64 so
++that the test continues working.
++
++Link: https://lore.kernel.org/ltp/20250407102448.2605506-2-siddhesh@gotplt.org/
++
++Upstream-Status: Backport [https://github.com/linux-test-project/ltp/commit/28d823a63ee29f5d72c2aba781a06a7e2651cadc]
++
++Reviewed-by: Martin Doucha <mdoucha@suse.cz>
++Reviewed-by: Petr Vorel <pvorel@suse.cz>
++Signed-off-by: Siddhesh Poyarekar <siddhesh@gotplt.org>
++
++---
++ testcases/cve/Makefile | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/testcases/cve/Makefile b/testcases/cve/Makefile
++index 01b9b9ccb..98c38e908 100644
++--- a/testcases/cve/Makefile
+++++ b/testcases/cve/Makefile
++@@ -22,6 +22,12 @@ ifneq (,$(filter $(HOST_CPU),x86 x86_64))
++ meltdown: CFLAGS += -msse2
++ endif
++ 
+++# The test needs to clobber %rbp, which requires frame pointer omission.  Also
+++# for x86_64, disable AVX since that could sometimes require a stack
+++# realignment, which gets in the way of frame pointer omission.
++ cve-2015-3290:	CFLAGS += -pthread -fomit-frame-pointer
+++ifeq ($(HOST_CPU),x86_64)
+++cve-2015-3290: CFLAGS += -mno-avx
+++endif
++ 
++ include $(top_srcdir)/include/mk/generic_leaf_target.mk
++-- 
++2.37.3
++
+diff --git a/meta/recipes-extended/ltp/ltp_20240129.bb b/meta/recipes-extended/ltp/ltp_20240129.bb
+index f8e6d3987e..18c6439283 100644
+--- a/meta/recipes-extended/ltp/ltp_20240129.bb
++++ b/meta/recipes-extended/ltp/ltp_20240129.bb
+@@ -30,6 +30,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=ht
+            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
+            file://0001-scenario_groups-default-remove-connectors.patch \
+            file://0001-sched_stress-Use-time_t-instead-of-long-for-type.patch \
++           file://0001-cve-2015-3290-Disable-AVX-for-x86_64.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.34.1
 
-Not sure what the pattern is...
-
-Cheers,
-
-Richard
 
