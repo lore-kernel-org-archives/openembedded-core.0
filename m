@@ -2,116 +2,97 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A5E5C7EE32
-	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 12:14:38 +0000 (UTC)
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
- by mx.groups.io with SMTP id smtpd.web10.14704.1750666505517760216
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7285DC77B7C
+	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 12:14:48 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.3071.1750750586039975668
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Jun 2025 01:15:06 -0700
+ Tue, 24 Jun 2025 00:36:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: signature did not verify: crypto/rsa: verification error" header.i=stefano.babic@swupdate.org header.s=s1-ionos header.b=mXX2UbOC;
- spf=pass (domain: swupdate.org, ip: 212.227.126.130, mailfrom: stefano.babic@swupdate.org)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swupdate.org;
-	s=s1-ionos; t=1750666504; x=1751271304;
-	i=stefano.babic@swupdate.org;
-	bh=6GLnXMSfUHYfOE03LIsrrcrqQ6le3zDjPPMatrw4W80=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=mXX2UbOCZqes006uMrwxm2ZYnPEk9yKNc5djJWnbO3dX9O3oojgu6Q3LADH4oglP
-	 8xWPt54/oI3Q6LPmxgFMNs+01X10ntn4oxWa+JA3Z6t3gYumUWW2Dk0aaPjrq3bpy
-	 jGh/NDD8DVfDfrw6Oap5uY3Qg6HCx8xbQLjjviF8I4q6tIrM2bOWQLSDpPhK/lIuj
-	 +LxFtfxZ5noop6OI2H5kc6Z5dc6SchC7L4T+10yOZoR7hOP43UFfXgtDaD8d39WiO
-	 2srF/lw1pJp3qLPBYa1KYUeF2hzzLpoFKxIrPesPgYO1Z44UvqWKIuBVUv71wJH9E
-	 jiByCyvHH4CIIyp3mw==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [192.168.178.49] ([88.217.136.221]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1Mth79-1ukaPw3aM3-00vym9; Mon, 23 Jun 2025 10:15:03 +0200
-Message-ID: <fe628bb5-608e-43dc-b973-ab521c1ef051@swupdate.org>
-Date: Mon, 23 Jun 2025 10:15:02 +0200
+ dkim=pass header.i=@sifive.com header.s=google header.b=X7Zgqgqs;
+ spf=pass (domain: sifive.com, ip: 209.85.214.169, mailfrom: jimmy.ho@sifive.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-234fcadde3eso69218295ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 00:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1750750585; x=1751355385; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/lRrFvPPyOSCHS/QbcKFs+wLx41aWzJCIPvRWhtv4eM=;
+        b=X7ZgqgqsDIkzseNMmMZE+TTjwPIERi2rGu5GGLOg/FGzaksKfl0CSjLDrrcfYHfBMl
+         ug062W3s/eMN1HwwHeWmeyZfZq27wiC34nH2SnyJ00mAqIBUrbNmwyexBMiDuSBtzKpj
+         kTargL5M0lY/A+KIIB/nrzaqQyC9RziFrdiUP8X3woTt42JY7fAVbcbiQpvUCg6PqBIj
+         7YuYLOdRvQDq3WyZOWVyfFeIBSaciy5ngSL7C+lowR3WjhnMMeOD9h7msa1cy3xF7ch5
+         pBnYURcGo/bRn28Rv3+1/65gYxkBjk+8DvTFyT4pLw6dFfXbik7dJL4YSy+aam4y8neV
+         VoCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750750585; x=1751355385;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/lRrFvPPyOSCHS/QbcKFs+wLx41aWzJCIPvRWhtv4eM=;
+        b=cgs1MV4rvP8eOoTPkmtAYV395q8o3aRMJQHhtf/28/AmJOtGMpaJU2FIWAycO86hbe
+         GVtaFH8h8qVpRGnbNOu+M2r/bZ/hjGuTDpCHuPiRp1isCHvSb+RRVl8buJ8kSDI29K0E
+         ufgnccxHPMDwAEzOTesCD8yzT52cz4unwbSHn9MJrf/RXUlixB54OIk0IxDtnHdfbQYG
+         PWeant1K7KNNQwirhCfYRhCasNMtz+SoCSy9J+zAdcZS56/1WanE0JyW8EjKi1gTEFGC
+         +GQxG7sdbKesO5PQ6115xyTj/bAFKmnMmb6eUski0WXDMYy49w5BiPVunPgVeGHvYjuC
+         dZNg==
+X-Gm-Message-State: AOJu0Yxnm6nYGTF+nYN/xOkfhbwriHP+JsU9EF4qaYbIr3kcZQkm1RNq
+	9R8TSIU/ASrUHgpFJygKrWv3bJtzAvdmLPdVoacQBga9b0eqNwUrjhJQXmTptlvhLsPWKbee9Tu
+	V7/dH3nuhJZe8nMU6G8UDqGrvD/q8lkHAKHVu+HT65ASsJHzmoQQTEGRs20w/zWb/Q5v3kV92hM
+	FgKxB5hJTFCawQ4A+R4b77tSFZLNr4RTQLox8mn7RA4NQhF74V4Dyq+6Kk7VUlKVhl
+X-Gm-Gg: ASbGncshEuTiae99EGjvLbjTkKg4FRbbewVQAg/KUf6G83OfBNw7vumLxRru04jd2BS
+	X437qLGuDJU/MzQZYURndJVUGusoMUVSnJOm9bXaw/5AwoqdWZCuRlbO5akpQ1ZrxOBRnOnhWSX
+	WgjSJb2h++YTS48CJSB5zthMxLuMf6iNS/yPc5hGHcOPhcKNTzVM0jCFHGYUQwkc6XrQMZrapTy
+	TyrhysiXeZwUeVyjMFfCq8T4hD13+XyVTYA8oLZqDrhzYBelfItq/P5h4EqsAmAsarOzEk72JE4
+	/MYVSr03J4OmMzDY4C6udZRlG5RFamcNNCrXg6vW22JEDuV9HWPO6kTUCCcrlBeveGeUThvFT03
+	73fXqfE1TmA==
+X-Google-Smtp-Source: AGHT+IH9H7pNPSK1IAC6wDElrrCfc/3FZ7u7cL6FPDFL3dcPivxVMZ1XOUEpWElRDO8bHhO92q2dKw==
+X-Received: by 2002:a17:902:ce0c:b0:235:15f5:cc30 with SMTP id d9443c01a7336-237d97d1abamr281372015ad.16.1750750584840;
+        Tue, 24 Jun 2025 00:36:24 -0700 (PDT)
+Received: from hsinchu01.internal.sifive.com ([210.176.154.34])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23809dd42b4sm5041825ad.53.2025.06.24.00.36.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 00:36:24 -0700 (PDT)
+From: Jimmy Ho <jimmy.ho@sifive.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Antonin Godard <antonin.godard@bootlin.com>,
+	Jimmy Ho <jimmy.ho@sifive.com>
+Subject: [PATCH v2] nfsrootfs: disable warning message if bootargs root parameter have not been defined
+Date: Tue, 24 Jun 2025 15:36:20 +0800
+Message-ID: <20250624073620.2689-1-jimmy.ho@sifive.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] libubootenv: do not drop debug symbols
-To: AdrianF <adrian.freihofer@siemens.com>,
- openembedded-core@lists.openembedded.org
-References: <20250623073553.844037-1-adrian.freihofer@siemens.com>
- <20250623073553.844037-3-adrian.freihofer@siemens.com>
-From: Stefano Babic <stefano.babic@swupdate.org>
-In-Reply-To: <20250623073553.844037-3-adrian.freihofer@siemens.com>
-X-Provags-ID: V03:K1:CEWNTdWGDp9ESfBUb2glOlWXbJvfNzZ3PzAY+lnKI2B25lEqLgx
- 8S2uDEI/OEEUeCz2JFxa2BGIXSn+oN39yXImYxPRO+JzhxLkv7nvvo4xv710L7MVycWVRca
- BirCRHKU0Rb/BkSaXBdU+xqVSmFjv2wCCF/s1k1jyb+62SIgNHZ6cxmkzYsivkopw3fUfGD
- ZK3LX3QDuuz7j63fZQFmw==
-UI-OutboundReport: notjunk:1;M01:P0:b4EYHJ1rMf4=;tqtoZoc9a8B4F8fkDA0uo0bhifl
- gRJj0MQZSj9sU5JhZWlmZ+7QIWOxkTS3XgnSbIinUXbqLvCWDsZES6OtRON8LOGofVNm9rzxA
- X6iKhPhT4ZmVtmBfIz1fPvSDbxCw45XdmIAz6GU9GmF6uQkHlfzOhW9qUwBrjzPuN+tgLrcYE
- zCB++w9Ek+MkLWWMRb8Y7lLT/IvjEik/TZ5MUmSbbGtPEFyu13bV/wRWp8XOc7LjyImMcCTNk
- g3f0fEoURQwu2/m7RMc21scjybTak4UEY5XowvPvhmIrxWsD1ZfRxmDJQb75ZQMi9Wk+U1vnG
- fSBj+xXc4Gqgw9hxTZ8bKzulgQflo4iVzZQwnsUAyxs1g5oFRFWxjAmvcxl5j75oM3bs75awU
- uHs8+BiamD0G+XC3GTSzVgSSGsO2nK2VCjmrcLqpm+uruW2oDYUvYLHzVyxnC3B/wSKmm8Mlp
- cnDO3bxpv1/2QG6br6WEFfaFblKcQvqixhdLn9kXI567Zlq+bvVa9HgHYzpeBkulb1OviSBII
- /EL+B8iPbXT5X65grRmrxk2Pjxn0Zr1agARLt0QVICoB70JhPEkAzdRRdjPiyAYnEX6s8ju/t
- wjjjZdeH5UzMJuvq2YbXw0QDfgl/YTdxlIwRYuxOyFtXLuAUGWjW066wHZ270JT8tSKvz9JZW
- yP1d22UIRtZEvkzltsldOeBoeGMygknUbQhQUTtt4VthYNOj9qivdWCGDU4SMP62Uk7n6vpht
- awbSfD/tq7NU4E6UgF1gWEaWlWsnZVyYqUSbeXEhDMKF79jqGqSbTcaFl+7uERsnYe3a+On5j
- 3OtYPhbhUUWTJXuig9wqGaVPDQjEvHpGYX7kyTOctQ78d0Phecd/p3mwKVLZGHZb54VLjhMxs
- JEym/sWRGeVs9QEQNx1G8ARQWkrH0l3YcnbYv0ElLo8e1U3FryN8L8s6EIQoGqDMn1PW6mGyU
- 1BS3PXcvci+kvl1GKoKgQVJ70TgSw18sNLIFUgx3n81sKBZxDCHeOEEHGuFfDQOPQCHO+uDOw
- F/6OJ7JukhvWWOG8MHwWmMNSXEP/yApty70jnmg5MxvnRQzRWtQqZ4PqxSxyKHBZBQ/SOyQi0
- IyUrTJodAuWlz+zuMEYqpAQx6WV72TpRW0oL1gu1f3wdfrmbXUBqunt+0F6WJEQqjxDRHW6l7
- woLhzGqx1nwNokILWQ5wZXPK9dT3CNFvuDR6CdwXDeo3arX2iYDDPCRgdekKoBs8JL1Gc7rje
- ZK6QCX2SHpCq2Qupq6/6Sluz+Ty3GYWy59Nl/jzdABEORzPENylI6SDLHkIe7vMvGmRieru85
- 0FkyNW8Has5MKUXg48dYLjgOkdqgqdkTYFVzAp6fe3/5O5qESPJPTi61XxOsJ73vM1YbV75Ly
- brsNq3hjklvF0s6/aV/tFEYHrsbadYnuJdoqz58jJh5s47kU4zkgHVrjBu
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 12:14:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219254
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 12:14:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219260
 
-Hi Adrian,
+we have case that don't define root in bootargs,
+if [ ${bootparam_root} != "/dev/nfs" ] will output warning "/init.d/85-nfsrootfs: line 4: [: !=: unary operator expected"
+let variable expension result become string to solve this problem
 
-On 6/23/25 09:35, AdrianF wrote:
-> From: Adrian Freihofer <adrian.freihofer@siemens.com>
->=20
-> Usually the debug symbols are split into a libubootenv-dbg package.
-> Dropping them already at compile time is not needed and causes problems
-> when debugging libubootenv.
->=20
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->   meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb | 2 --
->   1 file changed, 2 deletions(-)
->=20
-> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb b/meta/recipes=
--bsp/u-boot/libubootenv_0.3.6.bb
-> index a193872b83b..4da9c44c921 100644
-> --- a/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb
-> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb
-> @@ -15,8 +15,6 @@ SRCREV =3D "5507339628b5caf244e1ff9d58cb3fa534b16beb"
->  =20
->   inherit cmake lib_package
->  =20
-> -EXTRA_OECMAKE =3D "-DCMAKE_BUILD_TYPE=3DRelease"
-> -
->   DEPENDS =3D "zlib libyaml"
->   PROVIDES +=3D "u-boot-fw-utils"
->   RPROVIDES:${PN}-bin +=3D "u-boot-fw-utils"
+Signed-off-by: Jimmy Ho <jimmy.ho@sifive.com>
+---
+ meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I fear this is not enough because it has a side effect. MAKE_BUILD_TYPE=20
-is set here not to drop the debug files, but to avoid debug output.=20
-Cmake sets automatically NDEBUG if CMAKE_BUILD_TYPE=3DRelease, and this is=
-=20
-the goal of the EXTRA_OECMAKE because NDEBUG is used in code. The change=
-=20
-here will break user's scripts.
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+index e67ee4c25d..30555aef55 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ 
+ nfsrootfs_enabled() {
+-	if [ ${bootparam_root} != "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]; then
++	if [ "${bootparam_root}" != "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]; then
+ 		return 1
+ 	fi
+ 	return 0
+-- 
+2.39.3
 
-Regards,
-Stefano
 
