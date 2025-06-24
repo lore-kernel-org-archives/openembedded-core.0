@@ -2,47 +2,47 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72897C7EE30
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A600C77B7F
 	for <webhook@archiver.kernel.org>; Tue, 24 Jun 2025 12:14:48 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by mx.groups.io with SMTP id smtpd.web11.198.1750734075450729591
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by mx.groups.io with SMTP id smtpd.web10.262.1750734529582836957
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Jun 2025 20:01:15 -0700
+ Mon, 23 Jun 2025 20:08:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Sm+Ftq0v;
- spf=pass (domain: intel.com, ip: 192.198.163.10, mailfrom: preeti.sachan@intel.com)
+ dkim=pass header.i=@intel.com header.s=Intel header.b=lzyqihuj;
+ spf=pass (domain: intel.com, ip: 192.198.163.7, mailfrom: preeti.sachan@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750734076; x=1782270076;
+  t=1750734530; x=1782270530;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
   bh=JyroI3xiHGzbk0f05JB0orhS6cxZMRsQzcZOa9sQ9QA=;
-  b=Sm+Ftq0vovguT2XjLXFVwDcPiEU58smAZZmkW0UcyWMhD0HYQ/G0ynzP
-   nh/brpbj/2OC/1xLb9KN7GFjxytYThjWuBUhSlUEpDYq8jZohQF2GAdTg
-   hhGngVC+2DrBKiL+MktUpHrmEGEALYf3VMgvd3y9FUROH47nU1XQIzqSt
-   yNq+Bavagr8ixf2WeD3OoltsnuQUWp0YMR0PAD73P+br77w4zOUjONp7G
-   cfW4QBRggYnxQ7/mTZ5B5UC8TFgDzZos38ff553l+MobU+flL2R+2tl+8
-   aYcGqRJAWxPC/kdIvVE+uXa4bt1UzT3+3UYg4MPta4o6phWVxyLiriP5U
-   A==;
-X-CSE-ConnectionGUID: yB/n9ApjS0myp8yg23FbxQ==
-X-CSE-MsgGUID: K+DZ+c+4Q4u8sMhTulIVow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="64319925"
+  b=lzyqihujBjO98fH+HmbmSn7mJPbNEl/9XqU56HKAHxrfJwn0oG8ubtEB
+   KE8s5gOufEh05zTEATPARnNlhRTUcBX0E4VJUypMjQdSvLtkOEMtM/Gv4
+   DxCfNq/t++i9Ckr/CIST+Y87bB8NcQcVdg4s3JTnhBCG8dbxKnEcStc0G
+   rgMFOKGtjYBaj58T+lbrqzw/MZWp98HZwS7eu325EDPYeWzfZBhl7MdYc
+   OJEUg0llvmeuxr3Sss221hoy4wQV0lvIeTqqjT/1hvfOHQCL6nu7gT4y5
+   bTK6woNE3p+9vI/U7JeupK2coZLtLGtgYQgSfN+7qguFa7UCC/kruhYnD
+   w==;
+X-CSE-ConnectionGUID: SDGFmdovSKOKEu4zAmYjOw==
+X-CSE-MsgGUID: ojmjRzb6R2Wu2GSXb61i+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="78376145"
 X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="64319925"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 20:01:15 -0700
-X-CSE-ConnectionGUID: GnEUjq0bRDGFsH4lQZT5Yw==
-X-CSE-MsgGUID: 5rGJjXhkSia6jQS4razpVw==
+   d="scan'208";a="78376145"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 20:08:49 -0700
+X-CSE-ConnectionGUID: PBmodDUZTqizIv5qAT4wbw==
+X-CSE-MsgGUID: l2PCmG4RRf6mIf+hr89mLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="156160482"
+   d="scan'208";a="156353939"
 Received: from ubuntu-22174.iind.intel.com ([10.49.1.8])
-  by orviesa003.jf.intel.com with ESMTP; 23 Jun 2025 20:01:13 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 Jun 2025 20:08:48 -0700
 From: preeti.sachan@intel.com
 To: openembedded-core@lists.openembedded.org
 Subject: [scarthgap][PATCH] ltp: backport patch to fix compilation error for x86_64
-Date: Tue, 24 Jun 2025 08:31:49 +0530
-Message-Id: <20250624030149.2779188-1-preeti.sachan@intel.com>
+Date: Tue, 24 Jun 2025 08:39:23 +0530
+Message-Id: <20250624030923.2779799-1-preeti.sachan@intel.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,7 +50,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 24 Jun 2025 12:14:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219258
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219259
 
 From: Preeti Sachan <preeti.sachan@intel.com>
 
