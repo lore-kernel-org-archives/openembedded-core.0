@@ -2,8 +2,8 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A512C7115C
-	for <webhook@archiver.kernel.org>; Wed, 25 Jun 2025 10:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6336AC7115C
+	for <webhook@archiver.kernel.org>; Wed, 25 Jun 2025 10:29:49 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
  by mx.groups.io with SMTP id smtpd.web11.12251.1750847305040598975
  for <openembedded-core@lists.openembedded.org>;
@@ -37,7 +37,7 @@ Received: from PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc%6]) with mapi id 15.20.8857.025; Wed, 25 Jun 2025
  10:28:21 +0000
 Message-ID: <aef3eb78-670f-4cd8-833b-d86cf3030e47@windriver.com>
-Date: Wed, 25 Jun 2025 15:58:13 +0530
+Date: Wed, 25 Jun 2025 03:29:43 -0700
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/3] rust: Upgrade 1.86.0 -> 1.87.0
 To: Randy MacLeod <randy.macleod@windriver.com>,
@@ -46,10 +46,8 @@ Cc: Sundeep.Kokkonda@windriver.com
 References: <20250624091403.2469860-1-Yash.Shinde@windriver.com>
  <20250624091403.2469860-2-Yash.Shinde@windriver.com>
  <a2aa5a51-61fb-4fa6-a061-205d456b0be3@windriver.com>
-Content-Language: en-US
-From: Yash Shinde <Yash.Shinde@windriver.com>
+From: "Yash Shinde" <Yash.Shinde@windriver.com>
 In-Reply-To: <a2aa5a51-61fb-4fa6-a061-205d456b0be3@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 X-ClientProxiedBy: MA1PR01CA0169.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:a01:d::21) To PH7PR11MB7593.namprd11.prod.outlook.com
  (2603:10b6:510:27f::9)
@@ -162,13 +160,17 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowprio
  priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
  definitions=main-2506250078
-Content-Transfer-Encoding: quoted-printable
 X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 55P5U9OQ008046
+X-Old-Date: Wed, 25 Jun 2025 15:58:13 +0530
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 10:28:29 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 10:29:49 -0000
 X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219315
+Message-ID: <20250625102943.hIjIiAl5DvT0ngOirTeJlqpaxHCyTnY7C5iUCxrBTQg@z>
 
 
 On 24-06-2025 22:17, Randy MacLeod wrote:
@@ -193,15 +195,15 @@ The aarch64 llvm data-layout was updated to to allow using 32-bit=20
 signed/unsigned pointers
 when building 64-bit targets using 270, 271 and 272 address spaces.
 
-https://github.com/rust-lang/rust/commit/e9853961452b56997cc127b51308879b=
-9cd09482
-https://github.com/llvm/llvm-project/commit/c9f27275c1330a325661bdf14fb3b=
-c444a5e3648
+https://github.com/rust-lang/rust/commit/e9853961452b56997cc127b51308879b9c=
+d09482
+https://github.com/llvm/llvm-project/commit/c9f27275c1330a325661bdf14fb3bc4=
+44a5e3648
 
 >> * Rebase existing patches with v1.87.0.
 >>
->> * Two tests from the `ui` and `codegen` modules now fail only on riscv=
-64.
+>> * Two tests from the `ui` and `codegen` modules now fail only on riscv64=
+.
 >>    Enable them on arm32/64 and x86-32/64 targets, while restricting
 >>    them on riscv64 via `only-<target_arch>` tags.
 > Nice! Can you mention the overall testsuite status briefly in the v2=20
@@ -242,11 +244,9 @@ https://lists.openembedded.org/g/openembedded-core/message/219310
 > pointed out above.
 >
 >
-> Can you also comment on the build time and FS footprint changes if any =
-?
+> Can you also comment on the build time and FS footprint changes if any ?
 >
-The build time and filesystem usage remain similar to the previous versio=
-n.
+The build time and filesystem usage remain similar to the previous version.
 
 
 Regards,
@@ -265,8 +265,7 @@ Yash.
 >>   ...teps-tool.rs-switch-off-lto-for-rust.patch |  30 ++--
 >>   ...crease-timeout-in-process-sigpipe-ru.patch |   4 +-
 >>   ...d-statically-in-rustc_driver-feature.patch |  11 +-
->>   .../rust/files/rust-oe-selftest.patch         | 147 ++++++++++------=
---
+>>   .../rust/files/rust-oe-selftest.patch         | 147 ++++++++++--------
 >>   .../rust/files/triagebot.patch                |  32 ++++
 >>   ...ibstd-rs_1.86.0.bb =3D> libstd-rs_1.87.0.bb} |   0
 >>   ....86.0.bb =3D> rust-cross-canadian_1.87.0.bb} |   0
@@ -275,757 +274,16 @@ Yash.
 >>   meta/recipes-devtools/rust/rust-source.inc    |   3 +-
 >>   .../rust/{rust_1.86.0.bb =3D> rust_1.87.0.bb}   |   4 +-
 >>   14 files changed, 186 insertions(+), 131 deletions(-)
->>   rename meta/recipes-devtools/rust/{cargo_1.86.0.bb =3D> cargo_1.87.0=
-.bb} (100%)
+>>   rename meta/recipes-devtools/rust/{cargo_1.86.0.bb =3D> cargo_1.87.0.b=
+b} (100%)
 >>   create mode 100644 meta/recipes-devtools/rust/files/triagebot.patch
->>   rename meta/recipes-devtools/rust/{libstd-rs_1.86.0.bb =3D> libstd-r=
-s_1.87.0.bb} (100%)
->>   rename meta/recipes-devtools/rust/{rust-cross-canadian_1.86.0.bb =3D=
-> rust-cross-canadian_1.87.0.bb} (100%)
->>   rename meta/recipes-devtools/rust/{rust-llvm_1.86.0.bb =3D> rust-llv=
-m_1.87.0.bb} (96%)
->>   rename meta/recipes-devtools/rust/{rust_1.86.0.bb =3D> rust_1.87.0.b=
-b} (99%)
+>>   rename meta/recipes-devtools/rust/{libstd-rs_1.86.0.bb =3D> libstd-rs_=
+1.87.0.bb} (100%)
+>>   rename meta/recipes-devtools/rust/{rust-cross-canadian_1.86.0.bb =3D> =
+rust-cross-canadian_1.87.0.bb} (100%)
+>>   rename meta/recipes-devtools/rust/{rust-llvm_1.86.0.bb =3D> rust-llvm_=
+1.87.0.bb} (96%)
+>>   rename meta/recipes-devtools/rust/{rust_1.86.0.bb =3D> rust_1.87.0.bb}=
+ (99%)
 >>
->> diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/cla=
-sses-recipe/rust-target-config.bbclass
->> index 906a5083d7..cac6e90a9e 100644
->> --- a/meta/classes-recipe/rust-target-config.bbclass
->> +++ b/meta/classes-recipe/rust-target-config.bbclass
->> @@ -171,7 +171,7 @@ MAX_ATOMIC_WIDTH[armv7-eabi] =3D "64"
->>   FEATURES[armv7-eabi] =3D "+v7,+vfp2,+thumb2"
->>  =20
->>   ## aarch64-unknown-linux-{gnu, musl}
->> -DATA_LAYOUT[aarch64] =3D "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32=
-:64-S128-Fn32"
->> +DATA_LAYOUT[aarch64] =3D "e-m:e-p270:32:32-p271:32:32-p272:64:64-i8:8=
-:32-i16:16:32-i64:64-i128:128-n32:64-S128-Fn32"
->>   TARGET_ENDIAN[aarch64] =3D "little"
->>   TARGET_POINTER_WIDTH[aarch64] =3D "64"
->>   TARGET_C_INT_WIDTH[aarch64] =3D "32"
->> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/d=
-istro/include/tcmode-default.inc
->> index e943ca77d1..c506bb3ad5 100644
->> --- a/meta/conf/distro/include/tcmode-default.inc
->> +++ b/meta/conf/distro/include/tcmode-default.inc
->> @@ -12,7 +12,7 @@ PREFERRED_PROVIDER_virtual/gettext ??=3D "gettext"
->>   GCCVERSION ?=3D "15.%"
->>   SDKGCCVERSION ?=3D "${GCCVERSION}"
->>   GLIBCVERSION ?=3D "2.41%"
->> -RUSTVERSION ?=3D "1.86.0%"
->> +RUSTVERSION ?=3D "1.87.0%"
->>  =20
->>   PREFERRED_VERSION_gcc ?=3D "${GCCVERSION}"
->>   PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?=3D "${GCCVERSION}"
->> diff --git a/meta/recipes-devtools/rust/cargo_1.86.0.bb b/meta/recipes=
--devtools/rust/cargo_1.87.0.bb
->> similarity index 100%
->> rename from meta/recipes-devtools/rust/cargo_1.86.0.bb
->> rename to meta/recipes-devtools/rust/cargo_1.87.0.bb
->> diff --git a/meta/recipes-devtools/rust/files/0001-src-core-build_step=
-s-tool.rs-switch-off-lto-for-rust.patch b/meta/recipes-devtools/rust/file=
-s/0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch
->> index 5e0f5912a1..a7da69dce3 100644
->> --- a/meta/recipes-devtools/rust/files/0001-src-core-build_steps-tool.=
-rs-switch-off-lto-for-rust.patch
->> +++ b/meta/recipes-devtools/rust/files/0001-src-core-build_steps-tool.=
-rs-switch-off-lto-for-rust.patch
->> @@ -24,9 +24,9 @@ diff --git a/src/bootstrap/src/core/build_steps/tool=
-.rs b/src/bootstrap/src/core
->>   index 087df2f8a..00790affb 100644
->>   --- a/src/bootstrap/src/core/build_steps/tool.rs
->>   +++ b/src/bootstrap/src/core/build_steps/tool.rs
->> -@@ -1,14 +1,11 @@
->> - use std::path::PathBuf;
->> - use std::{env, fs};
->> +@@ -15,14 +15,12 @@
->> + #[cfg(feature =3D "tracing")] + use tracing::instrument; -use=20
->> crate::core::build_steps::compile::is_lto_stage; use=20
->> crate::core::build_steps::toolstate::ToolState; @@ -36,18 +36,20 @@=20
->> index 087df2f8a..00790affb 100644 - Builder, Cargo as CargoCommand,=20
->> RunConfig, ShouldRun, Step, cargo_profile_var, -}; -use=20
->> crate::core::config::{DebuginfoLevel, RustcLto, TargetSelection}; ++=20
->> +use crate::core::builder::{Builder, Cargo as CargoCommand,=20
->> RunConfig, ShouldRun, Step}; +use=20
->> crate::core::config::{DebuginfoLevel, TargetSelection}; use=20
->> crate::utils::channel::GitInfo; use=20
->> crate::utils::exec::{BootstrapCommand, command}; use=20
->> crate::utils::helpers::{add_dylib_path, exe, t}; -@@ -658,19 +655,7=20
->> @@ - SourceType::InTree, - features.as_slice(), +@@ -148,20 +146,7 @@=20
->> + &self.extra_features, ); -- -- // rustdoc is performance sensitive,=20
->> so apply LTO to it. -- if is_lto_stage(&build_compiler) { + +- if=20
->> path.ends_with("/rustdoc") &&
->> +-            // rustdoc is performance sensitive, so apply LTO to it.
->> +-            is_lto_stage(&self.compiler)
->> +-        {
->>   -            let lto =3D match builder.config.rust_lto {
->>   -                RustcLto::Off =3D> Some("off"),
->>   -                RustcLto::Thin =3D> Some("thin"), @@ -60,14 +62,14 =
-@@ index 087df2f8a..00790affb 100644 - } +=20
->> cargo.rustflag("-Clto=3Doff");
->>   =20
->> -         let _guard =3D builder.msg_tool(
->> -             Kind::Build,
->> +         if !self.allow_features.is_empty() {
->> +             cargo.allow_features(self.allow_features);
->>   diff --git a/src/bootstrap/src/core/builder/mod.rs b/src/bootstrap/s=
-rc/core/builder/mod.rs
->>   --- a/src/bootstrap/src/core/builder/mod.rs
->>   +++ b/src/bootstrap/src/core/builder/mod.rs
->> -@@ -11,7 +11,7 @@
->> -
->> - use clap::ValueEnum;
->> +@@ -13,7 +13,7 @@
->> + #[cfg(feature =3D "tracing")]
->> + use tracing::instrument;
->>   =20
->>   -pub use self::cargo::{Cargo, cargo_profile_var};
->>   +pub use self::cargo::Cargo;
->> diff --git a/meta/recipes-devtools/rust/files/oeqa-selftest-Increase-t=
-imeout-in-process-sigpipe-ru.patch b/meta/recipes-devtools/rust/files/oeq=
-a-selftest-Increase-timeout-in-process-sigpipe-ru.patch
->> index bb27ca35ff..5bd1abffb4 100644
->> --- a/meta/recipes-devtools/rust/files/oeqa-selftest-Increase-timeout-=
-in-process-sigpipe-ru.patch
->> +++ b/meta/recipes-devtools/rust/files/oeqa-selftest-Increase-timeout-=
-in-process-sigpipe-ru.patch
->> @@ -22,10 +22,10 @@ index 11f363d62..c12d66016 100644
->>   +++ b/tests/ui/process/process-sigpipe.rs
->>   @@ -23,7 +23,7 @@ use std::thread;
->>    fn main() {
->> -     // Just in case `yes` doesn't check for EPIPE...
->> +     // Just in case `yes` or `while-echo` doesn't check for EPIPE...
->>        thread::spawn(|| {
->>   -        thread::sleep_ms(5000);
->>   +        thread::sleep_ms(50000);
->>            process::exit(1);
->>        });
->> -     let output =3D process::Command::new("sh")
->> +     // QNX Neutrino does not have `yes`. Therefore, use `while-echo`=
- for `nto`
->> diff --git a/meta/recipes-devtools/rust/files/revert-link-std-statical=
-ly-in-rustc_driver-feature.patch b/meta/recipes-devtools/rust/files/rever=
-t-link-std-statically-in-rustc_driver-feature.patch
->> index 20a49d46dc..9bbbce0182 100644
->> --- a/meta/recipes-devtools/rust/files/revert-link-std-statically-in-r=
-ustc_driver-feature.patch
->> +++ b/meta/recipes-devtools/rust/files/revert-link-std-statically-in-r=
-ustc_driver-feature.patch
->> @@ -200,11 +200,10 @@ diff --git a/src/bootstrap/src/core/build_steps/=
-compile.rs b/src/bootstrap/src/c
->>   index 27bbc8bd8f..a6fc4df2eb 100644
->>   --- a/src/bootstrap/src/core/build_steps/compile.rs
->>   +++ b/src/bootstrap/src/core/build_steps/compile.rs
->> -@@ -1940,24 +1940,8 @@ impl Step for Assemble {
->> -         let src_libdir =3D builder.sysroot_target_libdir(build_compi=
-ler, host);
->> +@@ -2158,23 +2158,7 @@
->>            for f in builder.read_dir(&src_libdir) {
->>                let filename =3D f.file_name().into_string().unwrap();
->> --
->> +
->>   -            let is_proc_macro =3D proc_macros.contains(&filename);
->>   -            let is_dylib_or_debug =3D is_dylib(&f.path()) || is_deb=
-ug_info(&filename);
->>   -
->> @@ -214,8 +213,7 @@ index 27bbc8bd8f..a6fc4df2eb 100644
->>   -            let can_be_rustc_dynamic_dep =3D if builder
->>   -                .link_std_into_rustc_driver(target_compiler.host)
->>   -                && !target_compiler.host.is_windows()
->> -+            if (is_dylib(Path::new(&filename)) || is_debug_info(&fil=
-ename)) && !proc_macros.contains(&filename)
->> -             {
->> +-            {
->>   -                let is_std =3D filename.starts_with("std-") || file=
-name.starts_with("libstd-");
->>   -                !is_std
->>   -            } else {
->> @@ -223,6 +221,7 @@ index 27bbc8bd8f..a6fc4df2eb 100644
->>   -            };
->>   -
->>   -            if is_dylib_or_debug && can_be_rustc_dynamic_dep && !is=
-_proc_macro {
->> -                 builder.copy_link(&f.path(), &rustc_libdir.join(&fil=
-ename));
->> ++            if (is_dylib(Path::new(&filename)) || is_debug_info(&fil=
-ename)) && !proc_macros.contains(&filename) {
->> +                 builder.copy_link(&f.path(), &rustc_libdir.join(&fil=
-ename), FileType::Regular);
->>                }
->>            }
->> diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b=
-/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
->> index 49d85072cb..b7ef806e65 100644
->> --- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
->> +++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
->> @@ -47,61 +47,85 @@ diff --git a/library/std/tests/sync/rwlock.rs b/li=
-brary/std/tests/sync/rwlock.rs
->>   index 1a9d3d3f12f..0a9cfc48806 100644
->>   --- a/library/std/tests/sync/rwlock.rs
->>   +++ b/library/std/tests/sync/rwlock.rs
->> -@@ -47,6 +47,7 @@ fn frob() {
->> - }
->> -
->> +@@ -74,6 +74,7 @@
->> +
->>    #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->>   +#[ignore]
->>    fn test_rw_arc_poison_wr() {
->>        let arc =3D Arc::new(RwLock::new(1));
->>        let arc2 =3D arc.clone();
->> -@@ -72,6 +73,7 @@ fn test_rw_arc_poison_mapped_w_r() {
->> - }
->> -
->> +@@ -87,6 +88,7 @@
->> +
->> + #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->> ++#[ignore]
->> + fn test_rw_arc_poison_mapped_w_r() {
->> +     let arc =3D Arc::new(RwLock::new(1));
->> +     let arc2 =3D arc.clone();
->> +@@ -101,6 +103,7 @@
->> +
->>    #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->>   +#[ignore]
->>    fn test_rw_arc_poison_ww() {
->>        let arc =3D Arc::new(RwLock::new(1));
->>        assert!(!arc.is_poisoned());
->> -@@ -100,6 +102,7 @@ fn test_rw_arc_poison_mapped_w_w() {
->> +@@ -115,6 +118,7 @@
->>    }
->> -
->> +
->> + #[test]
->> ++#[ignore]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->> + fn test_rw_arc_poison_mapped_w_w() {
->> +     let arc =3D Arc::new(RwLock::new(1));
->> +@@ -131,6 +135,7 @@
->> +
->>    #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->>   +#[ignore]
->>    fn test_rw_arc_no_poison_rr() {
->>        let arc =3D Arc::new(RwLock::new(1));
->>        let arc2 =3D arc.clone();
->> -@@ -127,6 +130,7 @@ fn test_rw_arc_no_poison_mapped_r_r() {
->> - }
->> -
->> +@@ -160,6 +165,7 @@
->> +
->>    #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->>   +#[ignore]
->>    fn test_rw_arc_no_poison_rw() {
->>        let arc =3D Arc::new(RwLock::new(1));
->>        let arc2 =3D arc.clone();
->> -@@ -192,6 +196,7 @@ fn test_rw_arc() {
->> - }
->> -
->> +@@ -227,6 +233,7 @@
->> +
->>    #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->>   +#[ignore]
->>    fn test_rw_arc_access_in_unwind() {
->>        let arc =3D Arc::new(RwLock::new(1));
->>        let arc2 =3D arc.clone();
->> -@@ -275,6 +280,7 @@ fn drop(&mut self) {
->> - }
->> -
->> +@@ -326,6 +333,7 @@
->> +
->>    #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->>   +#[ignore]
->>    fn test_into_inner_poison() {
->>        let m =3D new_poisoned_rwlock(NonCopy(10));
->> -
->> -@@ -299,6 +305,7 @@ fn test_get_mut() {
->> - }
->> -
->> +
->> +@@ -362,6 +370,7 @@
->> +
->>    #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->>   +#[ignore]
->>    fn test_get_mut_poison() {
->>        let mut m =3D new_poisoned_rwlock(NonCopy(10));
->> +
->> +@@ -567,6 +576,7 @@
->> +
->> + #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->> ++#[ignore]
->> + fn panic_while_mapping_write_unlocked_poison() {
->> +     let lock =3D RwLock::new(());
->>  =20
->>   diff --git a/library/test/src/tests.rs b/library/test/src/tests.rs
->>   --- a/library/test/src/tests.rs
->> @@ -117,52 +141,22 @@ diff --git a/library/test/src/tests.rs b/library=
-/test/src/tests.rs
->>   diff --git a/library/std/tests/sync/mutex.rs b/library/std/tests/syn=
-c/mutex.rs
->>   --- a/library/std/tests/sync/mutex.rs
->>   +++ b/library/std/tests/sync/mutex.rs
->> -@@ -193,6 +193,7 @@
->> - }
->> -
->> +@@ -312,6 +312,7 @@
->> +
->>    #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->>   +#[ignore]
->>    fn test_mutex_arc_poison_mapped() {
->>        let arc =3D Arc::new(Mutex::new(1));
->>        assert!(!arc.is_poisoned());
->> -diff --git a/library/std/tests/sync/mutex.rs b/library/std/tests/sync=
-/mutex.rs
->> ---- a/library/std/tests/sync/mutex.rs
->> -+++ b/library/std/tests/sync/mutex.rs
->> -@@ -272,6 +272,7 @@
->> - }
->> -
->> +@@ -391,6 +392,7 @@
->> +
->>    #[test]
->> + #[cfg_attr(not(panic =3D "unwind"), ignore =3D "test requires unwind=
-ing support")]
->>   +#[ignore]
->>    fn panic_while_mapping_unlocked_poison() {
->>        let lock =3D Mutex::new(());
->>  =20
->> -diff --git a/library/std/src/sync/rwlock/tests.rs b/library/std/tests=
-/sync/rwlock.rs
->> ---- a/library/std/tests/sync/rwlock.rs
->> -+++ b/library/std/tests/sync/rwlock.rs
->> -@@ -59,6 +59,7 @@ fn test_rw_arc_poison_wr() {
->> - }
->> -
->> - #[test]
->> -+#[ignore]
->> - fn test_rw_arc_poison_mapped_w_r() {
->> -     let arc =3D Arc::new(RwLock::new(1));
->> -     let arc2 =3D arc.clone();
->> -@@ -86,6 +87,7 @@ fn test_rw_arc_poison_ww() {
->> - }
->> -
->> - #[test]
->> -+#[ignore]
->> - fn test_rw_arc_poison_mapped_w_w() {
->> -     let arc =3D Arc::new(RwLock::new(1));
->> -     let arc2 =3D arc.clone();
->> -@@ -431,6 +433,7 @@ fn panic_while_mapping_read_unlocked_no_poison() =
-{
->> - }
->> -
->> - #[test]
->> -+#[ignore]
->> - fn panic_while_mapping_write_unlocked_poison() {
->> -     let lock =3D RwLock::new(());
->> -
->>   diff --git a/library/coretests/benches/num/int_log/mod.rs b/library/=
-coretests/benches/num/int_log/mod.rs
->>   index 3807cd5d76c..018c5c04456 100644
->>   --- a/library/coretests/benches/num/int_log/mod.rs
->> @@ -199,10 +193,10 @@ index 9d4f52a092..d425e5f7b7 100644
->>    fn thread_current_in_dtor() {
->>        // Go through one round of TLS destruction first.
->>        struct Defer;
->> -diff --git a/library/alloc/tests/sort/tests.rs b/library/alloc/tests/=
-sort/tests.rs
->> +diff --git a/library/alloctests/tests/sort/tests.rs b/library/allocte=
-sts/tests/sort/tests.rs
->>   index 14e6013f96..b670f27ab4 100644
->> ---- a/library/alloc/tests/sort/tests.rs
->> -+++ b/library/alloc/tests/sort/tests.rs
->> +--- a/library/alloctests/tests/sort/tests.rs
->> ++++ b/library/alloctests/tests/sort/tests.rs
->>   @@ -915,12 +915,14 @@ gen_sort_test_fns_with_default_patterns_3_ty!(
->>    macro_rules! instantiate_sort_test_inner {
->>        ($sort_impl:ty, miri_yes, $test_fn_name:ident) =3D> {
->> @@ -234,10 +228,10 @@ diff --git a/tests/assembly/dwarf-mixed-versions=
--lto.rs b/tests/assembly/dwarf-m
->>   index 5b8e5ff4f4a..e558fbd7bd7 100644
->>   --- a/tests/assembly/dwarf-mixed-versions-lto.rs
->>   +++ b/tests/assembly/dwarf-mixed-versions-lto.rs
->> -@@ -1,6 +1,11 @@
->> - // This test ensures that if LTO occurs between crates with differen=
-t DWARF versions, we
->> +@@ -2,6 +2,11 @@
->>    // will choose the highest DWARF version for the final binary. This=
- matches Clang's behavior.
->> -
->> + // Note: `.2byte` directive is used on MIPS.
->> +
->>   +//@ only-x86
->>   +//@ only-x86_64
->>   +//@ only-arm
->> @@ -259,3 +253,30 @@ index 0e712bc3a4e..93965d990d0 100644
->>    //@ revisions: OPT2 OPT3
->>    //@[OPT2] compile-flags: -Copt-level=3D2
->>    //@[OPT3] compile-flags: -C opt-level=3D3
->> +diff --git a/tests/codegen/uninhabited-transparent-return-abi.rs b/te=
-sts/codegen/uninhabited-transparent-return-abi.rs
->> +index face1577c3f..d69e5e34a7b 100644
->> +--- a/tests/codegen/uninhabited-transparent-return-abi.rs
->> ++++ b/tests/codegen/uninhabited-transparent-return-abi.rs
->> +@@ -1,4 +1,8 @@
->> + //@ compile-flags: -Copt-level=3D3
->> ++//@ only-x86
->> ++//@ only-x86_64
->> ++//@ only-arm
->> ++//@ only-aarch64
->> +
->> + // Seehttps://github.com/rust-lang/rust/issues/135802
->> +
->> +diff --git a/tests/ui/abi/rust-cold-works-with-rustic-args.rs b/tests=
-/ui/abi/rust-cold-works-with-rustic-args.rs
->> +index 57027364699..3faa7ea035e 100644
->> +--- a/tests/ui/abi/rust-cold-works-with-rustic-args.rs
->> ++++ b/tests/ui/abi/rust-cold-works-with-rustic-args.rs
->> +@@ -1,5 +1,9 @@
->> + //@build-pass
->> + //@compile-flags: -Clink-dead-code=3Dtrue --crate-type lib
->> ++//@ only-x86
->> ++//@ only-x86_64
->> ++//@ only-arm
->> ++//@ only-aarch64
->> + // We used to not handle all "rustic" ABIs in a (relatively) uniform=
- way,
->> + // so we failed to fix up arguments for actually passing through the=
- ABI...
->> + #![feature(rust_cold_cc)]
->> diff --git a/meta/recipes-devtools/rust/files/triagebot.patch b/meta/r=
-ecipes-devtools/rust/files/triagebot.patch
->> new file mode 100644
->> index 0000000000..715664d081
->> --- /dev/null
->> +++ b/meta/recipes-devtools/rust/files/triagebot.patch
->> @@ -0,0 +1,32 @@
->> +Skip tidy triagebot linkcheck if triagebot.toml doesn't exist
->> +
->> +Distribution tarballs won't include triagebot.toml, which
->> +causes tidy checks to fail with the following error:
->> +
->> +   tidy error: triagebot.toml file not found
->> +   some tidy checks failed
->> +
->> +Drop the triagebot.toml check which is mostly to catch broken
->> +path filters *within* `triagebot.toml` and not enforce
->> +the existence of it.
->> +
->> +Upstream-Status: Backport [https://github.com/rust-lang/rust/pull/142=
-666/commits]
->> +
->> +Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
->> +---
->> +diff --git a/src/tools/tidy/src/triagebot.rs b/src/tools/tidy/src/tri=
-agebot.rs
->> +--- a/src/tools/tidy/src/triagebot.rs
->> ++++ b/src/tools/tidy/src/triagebot.rs
->> +@@ -6,8 +6,11 @@
->> +
->> + pub fn check(path: &Path, bad: &mut bool) {
->> +     let triagebot_path =3D path.join("triagebot.toml");
->> ++
->> ++    // This check is mostly to catch broken path filters *within* `t=
-riagebot.toml`, and not enforce
->> ++    // the existence of `triagebot.toml` itself (which is more obvio=
-us), as distribution tarballs
->> ++    // will not include non-essential bits like `triagebot.toml`.
->> +     if !triagebot_path.exists() {
->> +-        tidy_error!(bad, "triagebot.toml file not found");
->> +         return;
->> +     }
->> +
->> diff --git a/meta/recipes-devtools/rust/libstd-rs_1.86.0.bb b/meta/rec=
-ipes-devtools/rust/libstd-rs_1.87.0.bb
->> similarity index 100%
->> rename from meta/recipes-devtools/rust/libstd-rs_1.86.0.bb
->> rename to meta/recipes-devtools/rust/libstd-rs_1.87.0.bb
->> diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.86.0.bb =
-b/meta/recipes-devtools/rust/rust-cross-canadian_1.87.0.bb
->> similarity index 100%
->> rename from meta/recipes-devtools/rust/rust-cross-canadian_1.86.0.bb
->> rename to meta/recipes-devtools/rust/rust-cross-canadian_1.87.0.bb
->> diff --git a/meta/recipes-devtools/rust/rust-llvm_1.86.0.bb b/meta/rec=
-ipes-devtools/rust/rust-llvm_1.87.0.bb
->> similarity index 96%
->> rename from meta/recipes-devtools/rust/rust-llvm_1.86.0.bb
->> rename to meta/recipes-devtools/rust/rust-llvm_1.87.0.bb
->> index 327e8e6b69..d70aa350ab 100644
->> --- a/meta/recipes-devtools/rust/rust-llvm_1.86.0.bb
->> +++ b/meta/recipes-devtools/rust/rust-llvm_1.87.0.bb
->> @@ -2,9 +2,9 @@ SUMMARY =3D "LLVM compiler framework (packaged with ru=
-st)"
->>   LICENSE ?=3D "Apache-2.0-with-LLVM-exception"
->>   HOMEPAGE =3D"http://www.rust-lang.org"
->>  =20
->> -# check src/llvm-project/cmake/Modules/LLVMVersion.cmake for llvm ver=
-sion in use
->> +# check src/llvm-project/llvm/CMakeLists.txt for llvm version in use
->>   #
->> -LLVM_RELEASE =3D "19.1.7"
->> +LLVM_RELEASE =3D "20.1.1"
->>  =20
->>   require rust-source.inc
->>  =20
->> diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recip=
-es-devtools/rust/rust-snapshot.inc
->> index 445390fcaf..87b39a2cc2 100644
->> --- a/meta/recipes-devtools/rust/rust-snapshot.inc
->> +++ b/meta/recipes-devtools/rust/rust-snapshot.inc
->> @@ -4,56 +4,56 @@
->>   ## The exact (previous) version that has been used is specified in t=
-he source tarball.
->>   ## The version is replicated here.
->>  =20
->> -SNAPSHOT_VERSION =3D "1.85.0"
->> +SNAPSHOT_VERSION =3D "1.86.0"
->>  =20
->> -SRC_URI[rustc-snapshot-aarch64.sha256sum] =3D "e742b768f67303010b002b=
-515f6613c639e69ffcc78cd0857d6fe7989e9880f6"
->> -SRC_URI[rust-std-snapshot-aarch64.sha256sum] =3D "8af1d793f7820e9ad0e=
-e23247a9123542c3ea23f8857a018651c7788af9bc5b7"
->> -SRC_URI[cargo-snapshot-aarch64.sha256sum] =3D "cdebe48b066d512d664c13=
-441e8fae2d0f67106c2080aa44289d98b24192b8bc"
->> -SRC_URI[clippy-snapshot-aarch64.sha256sum] =3D "f3b8e769021a6bcee8174=
-ac49a60c367effb6d97af0f2a6c44dc9ea39ff2bda9"
->> +SRC_URI[rustc-snapshot-aarch64.sha256sum] =3D "ccece9e59546d2e6ff3fc3=
-b8f4b033aab21631c271eefbe814b3cbace6628c6e"
->> +SRC_URI[rust-std-snapshot-aarch64.sha256sum] =3D "176129577a5d560bbd9=
-4bcd2d24c0228bb495b73219df02556b4e4b4f0815bf7"
->> +SRC_URI[cargo-snapshot-aarch64.sha256sum] =3D "37156542b702e8b4ffd1c5=
-c75017632582343e93ca378285cdc92196c85c77e3"
->> +SRC_URI[clippy-snapshot-aarch64.sha256sum] =3D "e70edcf560e6b50861618=
-d7045d2b38cae9e2a555f489062570e2e7041563f42"
->>  =20
->> -SRC_URI[rustc-snapshot-i686.sha256sum] =3D "c5a5751f3cfa027b53fee83d0=
-1dec8e555f3622b6993335aed12b1747aa9543c"
->> -SRC_URI[rust-std-snapshot-i686.sha256sum] =3D "401571adfe1223d83ed041=
-e5a8c54c1f3afb3010d1d5b0c1fd79e7da1ab0a0de"
->> -SRC_URI[cargo-snapshot-i686.sha256sum] =3D "3832027242911ab96fd861285=
-87fc563596a5b10e8e38a073facf61c1ac9668f"
->> -SRC_URI[clippy-snapshot-i686.sha256sum] =3D "74ed13a67c6ea0452c0d9e86=
-97c6cfdd8280f983b207187ac93c287f72b65066"
->> +SRC_URI[rustc-snapshot-i686.sha256sum] =3D "976f4604d949d722738a9fe95=
-313035226571128396e942b0fc678180be487b0"
->> +SRC_URI[rust-std-snapshot-i686.sha256sum] =3D "ce9f0fa4b0760730e26bf3=
-15cebe099f0b883436e095c5fc4b94ba20bd9f121a"
->> +SRC_URI[cargo-snapshot-i686.sha256sum] =3D "24f20bdc1bb14f4ffbdc2f540=
-488bebc3340437418725c3162215ae03cdad480"
->> +SRC_URI[clippy-snapshot-i686.sha256sum] =3D "6788449fa0eceebe4ea8c797=
-bbaf27495dad152087b3085d58dc05cacab0617a"
->>  =20
->> -SRC_URI[rustc-snapshot-loongarch64.sha256sum] =3D "d43d2119ff25d879b2=
-d280d3e5a03fcd21c57a32d479ad5626500c32432f18c9"
->> -SRC_URI[rust-std-snapshot-loongarch64.sha256sum] =3D "2d05f5e13e7cb3e=
-e6b0ca0dcd13a231a28eeb0faa4d15257a35cf7284149cd6a"
->> -SRC_URI[cargo-snapshot-loongarch64.sha256sum] =3D "9aa447eefcd3ba2f9d=
-bab77596c8669849899ab243543fc8f1914089707081ac"
->> -SRC_URI[clippy-snapshot-loongarch64.sha256sum] =3D "d437b39465343a71f=
-f475a65acb6c03bc0f800861f293f48accf1fa170458432"
->> +SRC_URI[rustc-snapshot-loongarch64.sha256sum] =3D "970089ad61f8ca8201=
-7b59444aee483c1fc005e3f7a6af63cd5f146df8287cce"
->> +SRC_URI[rust-std-snapshot-loongarch64.sha256sum] =3D "2f528377f57fbf8=
-1da35e2f08ec7ba50daddabebdce2cc86b6ec909fee157a33"
->> +SRC_URI[cargo-snapshot-loongarch64.sha256sum] =3D "c3b8ab03b64c824f2e=
-a25db578b5760d44302be3fd1e4a78404c98cba39301f4"
->> +SRC_URI[clippy-snapshot-loongarch64.sha256sum] =3D "1ab711423497a1d02=
-408a240da28ad366450574dd7f528ffaee80d1d5ed10550"
->>  =20
->> -SRC_URI[rustc-snapshot-powerpc.sha256sum] =3D "fbe7154abc641d6cacfdc6=
-239ed4701fc7a09b5046c6d1bd209b59e7f2b2d0f0"
->> -SRC_URI[rust-std-snapshot-powerpc.sha256sum] =3D "ab2d5ac7cd295adaa4d=
-959e8abbf42b372292c95d1a9f18aad64951ad6e2ab2b"
->> -SRC_URI[cargo-snapshot-powerpc.sha256sum] =3D "e67c30a72f969c51ad1990=
-84b3ce0cdc573a4e21f732b2cc39dafbcb9807a5ce"
->> -SRC_URI[clippy-snapshot-powerpc.sha256sum] =3D "497104d49803598cd3801=
-749ac86cb26c88a2bd9c3a8c7bdc18fdf487f4650c0"
->> +SRC_URI[rustc-snapshot-powerpc.sha256sum] =3D "21ea61181ba7daa04f61be=
-c6a295ad76ce34bfbd74ad1d679c4548977bd82eb9"
->> +SRC_URI[rust-std-snapshot-powerpc.sha256sum] =3D "e5ed58a861619bcc89f=
-c3f969174c84fd6ed8a26b5d4b196f06efb868653c1c1"
->> +SRC_URI[cargo-snapshot-powerpc.sha256sum] =3D "fd832c269af81dd1ee9f38=
-31991fccdc2c7312e9a9069908510eefe7c313d144"
->> +SRC_URI[clippy-snapshot-powerpc.sha256sum] =3D "c94578d31e4145a4169ab=
-5761537a2a0133818278fb62ee76251ef8ef45228c8"
->>  =20
->> -SRC_URI[rustc-snapshot-powerpc64.sha256sum] =3D "f8e38291ba4241bc28e9=
-c118d7a449ce3601abdeb2076f2f618858679fb3b929"
->> -SRC_URI[rust-std-snapshot-powerpc64.sha256sum] =3D "e9ff89e759125ad27=
-86ad2f6c40e820095720ea00fba66819d15fba79489430a"
->> -SRC_URI[cargo-snapshot-powerpc64.sha256sum] =3D "73cf850f6715acbf0029=
-c7e5d4694825f61bd4e193e6413e65a78bcb13df97b7"
->> -SRC_URI[clippy-snapshot-powerpc64.sha256sum] =3D "29b63f23cd9af95846a=
-246c9cc8349e514c3fb92ec0c840a38155e252d6cc668"
->> +SRC_URI[rustc-snapshot-powerpc64.sha256sum] =3D "a54bbe16e6a405f137a0=
-dc51fd570140c80077ba769d29d885a60e74cb3196bb"
->> +SRC_URI[rust-std-snapshot-powerpc64.sha256sum] =3D "06538b41a9351c449=
-d215498d4ec2f072f728bd18df8fac7ef8534a0d0f34e27"
->> +SRC_URI[cargo-snapshot-powerpc64.sha256sum] =3D "4d398cd8da17d1a5f267=
-34b39cb17e791b243ac3570f8da2e5e5580a9dfad578"
->> +SRC_URI[clippy-snapshot-powerpc64.sha256sum] =3D "0abf31a8cb2762a7a81=
-dbee8a5798e43e11a83326711ce00ad16c5587bcf5e49"
->>  =20
->> -SRC_URI[rustc-snapshot-powerpc64le.sha256sum] =3D "371e40f9d6d82aecb0=
-56f70f82868d98ddc1c20510aa7d388442ac8d2d86a6ca"
->> -SRC_URI[rust-std-snapshot-powerpc64le.sha256sum] =3D "d0cfda4e18623d1=
-7922eb367e44ac9549ab3d5fe1c0bdbe0c2c95754255fa705"
->> -SRC_URI[cargo-snapshot-powerpc64le.sha256sum] =3D "e1469f4249a7e21f87=
-2af487dcd1bd10ce388b5b3679bdab0cb0965e1e30fe47"
->> -SRC_URI[clippy-snapshot-powerpc64le.sha256sum] =3D "d8c590bc2e6fc7580=
-0e41516427f5095ba0e15d7633167689499fcf6523dc61a"
->> +SRC_URI[rustc-snapshot-powerpc64le.sha256sum] =3D "7585a20b02b7dd497e=
-393a2e7552a0c6aabb51556fcf7507c6f7ffde530f8c88"
->> +SRC_URI[rust-std-snapshot-powerpc64le.sha256sum] =3D "fcf940c0553a04c=
-b9bd85cce524729c2f54b000b554fee95c7aa218d608b7e3d"
->> +SRC_URI[cargo-snapshot-powerpc64le.sha256sum] =3D "8fefd2317023716a01=
-8986c4a62558a7b543ccf34e4e6d1104afc66edcae1c9c"
->> +SRC_URI[clippy-snapshot-powerpc64le.sha256sum] =3D "8cc65649396ccad73=
-cecd17b972ab8d4c34837136cf374425be63d697b541469"
->>  =20
->> -SRC_URI[rustc-snapshot-riscv64gc.sha256sum] =3D "2da33044f17a8bc49a14=
-78dc1eb2536df491a44d6e6bb0ec7c86f46877d44e98"
->> -SRC_URI[rust-std-snapshot-riscv64gc.sha256sum] =3D "0f5ecfe54859bbe71=
-5821f982b1a5396784fdf55605d00ece05d3e57a965ed16"
->> -SRC_URI[cargo-snapshot-riscv64gc.sha256sum] =3D "c9f28b519799fc2d8089=
-865e30fad04bb5339604d13725365fcd7ad7ee6c1489"
->> -SRC_URI[clippy-snapshot-riscv64gc.sha256sum] =3D "9d21bc180196bccdb30=
-1e7e03034d3fd0df14b0c6520da0317bba7b1ce385fe8"
->> +SRC_URI[rustc-snapshot-riscv64gc.sha256sum] =3D "4d1106b576221182f844=
-12f3377a5148eab6950d20e45e4274cd8b58df46f26b"
->> +SRC_URI[rust-std-snapshot-riscv64gc.sha256sum] =3D "b28b9c2f183521a20=
-4f2899610253c11c86ee4aa903fe66d8410dfaa22c926e6"
->> +SRC_URI[cargo-snapshot-riscv64gc.sha256sum] =3D "7825556908e10a48320c=
-fb2d812851271d7cf549977173e028a0dd23af9d7eac"
->> +SRC_URI[clippy-snapshot-riscv64gc.sha256sum] =3D "c39c53a82fdaaa97413=
-728a4f3f9feb5b31bdf3e3e563c64651bd01713e79166"
->>  =20
->> -SRC_URI[rustc-snapshot-s390x.sha256sum] =3D "308361737ed522aa77dd8b4e=
-a91b5db244113ada5fa234d3ed008b526d07e2e8"
->> -SRC_URI[rust-std-snapshot-s390x.sha256sum] =3D "d25053fbee1a0cb899bac=
-8c8e4968aa35f9c3637e486cb5bb2c79ad43a78f3e7"
->> -SRC_URI[cargo-snapshot-s390x.sha256sum] =3D "7e1defd60095c91ded161219=
-4f811ec5f2fc2e83bb914d35594d01fa3c54049d"
->> -SRC_URI[clippy-snapshot-s390x.sha256sum] =3D "9780d8c4cfef9d05460b3e5=
-40aad142391b2e3994accf8cfc8afb87fefac6cf0"
->> +SRC_URI[rustc-snapshot-s390x.sha256sum] =3D "18caf22fbfc4d26c80b39b4c=
-6b1cd5fb42dba3e32d5d3600c22eae6f688d7f4c"
->> +SRC_URI[rust-std-snapshot-s390x.sha256sum] =3D "3919f6962d0aefdd2cd75=
-d8dba749ed826936065b64c9a8d54d1d85c2685fd66"
->> +SRC_URI[cargo-snapshot-s390x.sha256sum] =3D "1c6eb1be254574881a611a3b=
-8904cdcfe43c79a285875673e59c890dcd5766c2"
->> +SRC_URI[clippy-snapshot-s390x.sha256sum] =3D "c87183b52ddb4085ddf2524=
-a775fd255d5fd11ad2fdd6424574f08750a8cf378"
->>  =20
->> -SRC_URI[rustc-snapshot-x86_64.sha256sum] =3D "7436f13797475082cd87aa6=
-5547449e01659d6a810b4cd5f8aedc48bb9f89dfb"
->> -SRC_URI[rust-std-snapshot-x86_64.sha256sum] =3D "285e105d25ebdf501341=
-238d4c0594ecdda50ec9078f45095f793a736b1f1ac2"
->> -SRC_URI[cargo-snapshot-x86_64.sha256sum] =3D "0aff33b57b0e0b102d762a2=
-b53042846c1ca346cff4b7bd96b5c03c9e8e51d81"
->> -SRC_URI[clippy-snapshot-x86_64.sha256sum] =3D "0dc3ca1708a6c9eed05d08=
-02364377572b79ff079815b7bcbe8e3991f77c4117"
->> +SRC_URI[rustc-snapshot-x86_64.sha256sum] =3D "4438b809ce4a083af31ed17=
-aeeedcc8fc60ccffc0625bef1926620751b6989d7"
->> +SRC_URI[rust-std-snapshot-x86_64.sha256sum] =3D "67be7184ea388d8ce0fe=
-af7fdea46f1775cfc2970930264343b3089898501d37"
->> +SRC_URI[cargo-snapshot-x86_64.sha256sum] =3D "c5c1590f7e9246ad9f4f97c=
-fe26ffa92707b52a769726596a9ef81565ebd908b"
->> +SRC_URI[clippy-snapshot-x86_64.sha256sum] =3D "02aaff2c1407d2da8dba19=
-aa4970dd873e311902b120a66cbcdbe51eb8836edf"
->>  =20
->> -SRC_URI[rust-std-snapshot-i586.sha256sum] =3D "3cb7318da10876de140765=
-49d79410a8441923a92d62b616d8c105f5f5cd831b"
->> +SRC_URI[rust-std-snapshot-i586.sha256sum] =3D "f0bddc6dba7d719b8ba131=
-bcd634a8379e00fc825a51c0f17abf424c9cb5c052"
->>  =20
->> -SRC_URI[rust-std-snapshot-sparc64.sha256sum] =3D "65cd47af46a5b74e61f=
-f6ae4cce8a979ee8670a57b8aa61e732828d1da073f73"
->> +SRC_URI[rust-std-snapshot-sparc64.sha256sum] =3D "722238ae13e6e101d1b=
-698d2b3a7915d59bb7f485b594e8d833cce8b9460383b"
->>  =20
->>   SRC_URI +=3D " \
->>       ${RUST_DIST_SERVER}/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=3Drust=
--std-snapshot-${RUST_BUILD_ARCH};subdir=3Drust-snapshot-components \
->> diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes=
--devtools/rust/rust-source.inc
->> index 30b159a84f..ed15d9c763 100644
->> --- a/meta/recipes-devtools/rust/rust-source.inc
->> +++ b/meta/recipes-devtools/rust/rust-source.inc
->> @@ -9,8 +9,9 @@ SRC_URI +=3D"https://static.rust-lang.org/dist/rustc-$=
-{RUST_VERSION}-src.tar.xz;n=20
->> file://revert-link-std-statically-in-rustc_driver-feature.patch;patchd=
-ir=3D${RUSTSRC}=20
->> \=20
->> file://0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch;pa=
-tchdir=3D${RUSTSRC}=20
->> \=20
->> file://0001-Disable-libunwind-cross-architecture-unwinding.patch;patch=
-dir=3D${RUSTSRC}=20
->> \ + file://triagebot.patch;patchdir=3D${RUSTSRC} \ "
->> -SRC_URI[rust.sha256sum] =3D "d939eada065dc827a9d4dbb55bd48533ad14c16e=
-7f0a42e70147029c82a7707b"
->> +SRC_URI[rust.sha256sum] =3D "8623b8651893e8c6aebfa45b6a90645a4f652f7b=
-18189a0992a90d11ac2631f4"
->>  =20
->>   RUSTSRC =3D "${UNPACKDIR}/rustc-${RUST_VERSION}-src"
->>  =20
->> diff --git a/meta/recipes-devtools/rust/rust_1.86.0.bb b/meta/recipes-=
-devtools/rust/rust_1.87.0.bb
->> similarity index 99%
->> rename from meta/recipes-devtools/rust/rust_1.86.0.bb
->> rename to meta/recipes-devtools/rust/rust_1.87.0.bb
->> index b13ec116be..5d804c7398 100644
->> --- a/meta/recipes-devtools/rust/rust_1.86.0.bb
->> +++ b/meta/recipes-devtools/rust/rust_1.87.0.bb
->> @@ -266,7 +266,7 @@ rust_do_install:class-nativesdk() {
->>  =20
->>       install -d ${D}${bindir}
->>       for i in cargo-clippy clippy-driver rustfmt; do
->> -        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/rele=
-ase/$i ${D}${bindir}
->> +        cp build/${RUST_BUILD_SYS}/stage1-tools/${RUST_HOST_SYS}/rele=
-ase/$i ${D}${bindir}
->>           patchelf --set-rpath "\$ORIGIN/../lib" ${D}${bindir}/$i
->>       done
->>  =20
->> @@ -301,7 +301,7 @@ rust_do_install:class-target() {
->>  =20
->>       install -d ${D}${bindir}
->>       for i in ${EXTRA_TOOLS}; do
->> -        cp build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/rele=
-ase/$i ${D}${bindir}
->> +        cp build/${RUST_BUILD_SYS}/stage1-tools/${RUST_HOST_SYS}/rele=
-ase/$i ${D}${bindir}
->>           patchelf --set-rpath "\$ORIGIN/../lib" ${D}${bindir}/$i
->>       done
->>  =20
->
->
-> --=20
-> # Randy MacLeod
-> # Wind River Linux
-
---=20
-Regards,
-Yash Shinde
-
 
