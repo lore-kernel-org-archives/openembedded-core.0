@@ -1,94 +1,100 @@
-Return-Path: <mhalstead@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F4D8C7EE2A
-	for <webhook@archiver.kernel.org>; Wed, 25 Jun 2025 18:24:32 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.23306.1750875868190726049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A036C7EE2A
+	for <webhook@archiver.kernel.org>; Wed, 25 Jun 2025 18:31:22 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.23526.1750876281776417311
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jun 2025 11:24:28 -0700
+ Wed, 25 Jun 2025 11:31:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A/CjAyJ2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.216.43, mailfrom: mhalstead@linuxfoundation.org)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-313a188174fso1259657a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 11:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1750875866; x=1751480666; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0FwAQ/a+A/vArjAsxTBS+9iXqh6ObvMdZHjS3jjuv/c=;
-        b=A/CjAyJ29VBoTloyBu7L9bjkmQReXxxml1dFW2rfESyzF29OjvGV9LMQ8hO+Q8GVc0
-         VSWoXo8cVHgWRnQyA7R0rZA/OwKFec3UKevMjZbkaLrGGoAAaReUvnQaqMQDz8kbHLnu
-         KdSq82vzt/MotjlFaMUCoVBKzHQLMK74JtX1Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750875866; x=1751480666;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0FwAQ/a+A/vArjAsxTBS+9iXqh6ObvMdZHjS3jjuv/c=;
-        b=oDQXzdmJG5CBwsAs1DKXG2tr+9LgwaAtjxdRjEyfDYnSbuejyJk4HZGlvCzm6Zk35g
-         mmnSZmWb0K87Jq+9QzKammCP/X+CQET0wr85g8KxkNL8lhxQCQi77mDvd3LecFRp4kRA
-         qBZzB8FLBGw1pCikcJgAm01hgO1i3Wdt+qVvKKiuPMX/oIRDuL+vKy8UkXyXdwkbqJaD
-         monz6ZYt3pEZxleAUX97O/9wbi/Q3G+cjq4CENVUlUYiRzqlVkhEbdbVUblGcSnldfld
-         b8c1gFZrRfiUfHneDUfXwRpPykBKH5J/JaSQ4es8hQhzlcIzuECeMQAEC4nUeAeCoAJJ
-         8Faw==
-X-Gm-Message-State: AOJu0YyagSjRMAb5B9Jdh3h0uFc7iuC9qIfcVzOV860pdlgcy0hpq3IO
-	AE0aDtcVxkFbP1ZCXIEyKRts51Q9mM146HFNwSG9qIo3Sppd2NC6rZi5LrViApKbbxmfGcNk48P
-	7j5jj
-X-Gm-Gg: ASbGncugu35dU8tsQvim2tZ4eJlbBBqwKuveXMtZAwm8Ylp3lWeeVM1a9ZUDHRPd5CV
-	yRlDCoyUGhzhrQbTgrKmJxK0dCzOMcqzkrxLV7tl2Z2/1GXQBNToKf/U+JgvB1v9ySOLdif8Z6u
-	XL+prJa7XKGNoi7YciVOKNiH+EHb46tL+c+K3K+GfpzAjyf71JHu1w9D3lI5gWpMXdGDtgISiZe
-	eruGyqXvvLI871GfOAWsvRQ+9csw4pifJm7uVCYaGDmagek+virnZ75CxAT0r+ZTU7bSudyTlrg
-	Y4vu6S6nlIUYbCIQ3LJmLkp/K1/w9NFEkFL2KiNtA6lU1Y8BmawzaqV8TGVIlwmaYQGfljJ4A4B
-	aJjE6IA==
-X-Google-Smtp-Source: AGHT+IENTfpeScZ1QD8ma9X5S4GDfHwdXrgaZjEawUq+hQ6D7NayxdqnZ2+v9TDdl2c9gbiCWxqI8Q==
-X-Received: by 2002:a17:90b:1848:b0:311:abba:53b6 with SMTP id 98e67ed59e1d1-316d6a0db93mr762802a91.14.1750875866108;
-        Wed, 25 Jun 2025 11:24:26 -0700 (PDT)
-Received: from yoctolap.chateau ([97.115.154.179])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d83c5f0bsm138325425ad.56.2025.06.25.11.24.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 11:24:25 -0700 (PDT)
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	Michael Halstead <mhalstead@linuxfoundation.org>
-Subject: [OE-core][PATCH] yocto-uninative: Update to 4.8 for GCC 15.1
-Date: Wed, 25 Jun 2025 11:24:04 -0700
-Message-ID: <20250625182404.42964-1-mhalstead@linuxfoundation.org>
-X-Mailer: git-send-email 2.49.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nYA9bDtB;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=GZB+IAwd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010197a85bd7d4-c95c83ed-0aea-4e2e-8821-b81489831da7-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1750876281; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Ez/DzhXUSQyntu7qzMmu8x2dHELsQzuk3A9G5T7IzaA=;
+	b=nYA9bDtB4FdQu58aoEFo5Jn8646TRDdCry82JYOvDZTj1Bz9f4X5F7Vwq0A64oXZ
+	O2ueWRrbk5EucycbTysRBSTMgGKRBUfTF6cY9TRB7Tb3vhD2gC4X/PErSOpsi2/8CYS
+	6XPeiKK9OoAxElZmSEN/AMVO4Ja5PNbn3GkswN4s=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1750876281;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Ez/DzhXUSQyntu7qzMmu8x2dHELsQzuk3A9G5T7IzaA=;
+	b=GZB+IAwdo/oiMLu+ehwaKMCjDuF8NIvrQR5vIgOxeYEL4VXZwDoXSx7aWKrsS0zE
+	4fKtFDSj0trinsLrpGjkNwI5FozD6QDL7LaIJMlOcxwbbR8EM+yggwi5lmnpVs0mdp7
+	JsLt/tIzxTjJoCyLV6qPxoMIFThi3boRQ1prDvJA=
+From: patchtest@automation.yoctoproject.org
+To: Michael Halstead <mhalstead@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH] yocto-uninative: Update to 4.8 for GCC 15.1
+In-Reply-To: <20250625182404.42964-1-mhalstead@linuxfoundation.org>
+References: <20250625182404.42964-1-mhalstead@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010197a85bd7d4-c95c83ed-0aea-4e2e-8821-b81489831da7-000000@us-west-2.amazonses.com>
+Date: Wed, 25 Jun 2025 18:31:20 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.06.25-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 18:24:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219328
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 18:31:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219329
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Testing patch /home/patchtest/share/mboxes/yocto-uninative-Update-to-4.8-for-GCC-15.1.patch
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 3d0f1fdccd..dabd604e8e 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -7,9 +7,9 @@
- #
- 
- UNINATIVE_MAXGLIBCVERSION = "2.41"
--UNINATIVE_VERSION = "4.7"
-+UNINATIVE_VERSION = "4.8"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "ac440e4fc80665c79f9718c665c6e28d771e51609c088c3c97ba3ad5cfed197a"
--UNINATIVE_CHECKSUM[i686] ?= "c5efa31450f3bbd63ea961d4e7c747ae41317937d429f65e1d5cf2050338e27a"
--UNINATIVE_CHECKSUM[x86_64] ?= "5800d4e9a129d1be09cf548918d25f74e91a7c1193ae5239d5b0c9246c486d2c"
-+UNINATIVE_CHECKSUM[aarch64] ?= "0d75ae3cc6e8245be40f55d48612285248ad331896ca3f4c772ed2fb34239fcf"
-+UNINATIVE_CHECKSUM[i686] ?= "2cbfd7ad3e1362538764999dd4962eb2511211867ae17a327b65631f64f38e31"
-+UNINATIVE_CHECKSUM[x86_64] ?= "6d5e28258176c52b9eecf882d4553033fa700902e60ba80d4b7ce0edacbe41d6"
--- 
-2.49.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
