@@ -1,90 +1,126 @@
-Return-Path: <Jinfeng.Wang.CN@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CE6C77B7C
-	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 01:57:58 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.1737.1750903070387460149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44BCCC77B7F
+	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 04:30:10 +0000 (UTC)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+ by mx.groups.io with SMTP id smtpd.web10.960.1750912209761445080
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jun 2025 18:57:50 -0700
+ Wed, 25 Jun 2025 21:30:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=82724b0e40=jinfeng.wang.cn@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55Q1Q2tw004504
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 18:57:50 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47dr14vy0y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 18:57:49 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 25 Jun 2025 18:57:46 -0700
-Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.57 via Frontend Transport; Wed, 25 Jun 2025 18:57:45 -0700
-From: <jinfeng.wang.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <jinfeng.wang.cn@windriver.com>
-Subject: [PATCH] mtools: upgrade 4.0.48 -> 4.0.49
-Date: Thu, 26 Jun 2025 09:57:45 +0800
-Message-ID: <20250626015745.1124284-1-jinfeng.wang.cn@windriver.com>
-X-Mailer: git-send-email 2.39.4
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JmsEHopn;
+ spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-708d90aa8f9so6321837b3.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 21:30:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750912209; x=1751517009; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pj39S656OE6JaWjhZvUQwBDj6R3xqtLzNqFJy5iCY4U=;
+        b=JmsEHopnXKd9gkOLf4SAsm6uvnnYyVctiwaPh+QKs69a2BSkUcq/XdmARfxKcGQ6eK
+         MciIOUKMoKKqp5awPTI6ie6of8Ui20sifPdjYDVcSrh24Vyzece6KHwl+kAuEaOe+Rir
+         BR8vAmCvO4QqHB7meEU/LzIpt6U1IBBFxh3J+nResdjzlN6VG3YWLd/MNjEOf/+0aZmW
+         z9ztR+G3UFThBzvJNDCtGyOCVKvLdWAWyPh1eO3XsCNw6Hb4SPf7ZWHkZJeDpjXBRSnR
+         OxfFtbqZ5lQE1AqUjl5SWpCj+b59LWzlUtAZ2C0778GP6blzquvBoG87AnkZWTuq1O4T
+         vaOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750912209; x=1751517009;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pj39S656OE6JaWjhZvUQwBDj6R3xqtLzNqFJy5iCY4U=;
+        b=CsOF7ywjrKz1WSEhVd61DDnMosouiIjvHBm1vX0F+Xpibf3CGpYgDb7YsHYnsRy7/Z
+         XrYnbfC9ohEpV8irV7BPNiMrqjogYtSEaR1i8XK3dGf1obiLbt7ZQHniNa6WIzm0esBT
+         /kGREkgoyBWf6WyOcGokJYAj9QuozjUtgeZaGIWb74Wo5ioVIi1hHbKt1O4ChPsD08Tm
+         gOollOlMWXTuLLZcfgGlm465PrOh+3iI8wtRzNf638ShUTrvDeTGuw3Pm2tcny89UHt1
+         7Rm6geABDwOdzYFwwIMs8TpwPBmx6Ly1xOzmXbIQqCnVhOubwkEi1DVIeZr+uLZPZ5Dn
+         K+ng==
+X-Forwarded-Encrypted: i=1; AJvYcCU5DBFy7GezeJLoxUbovJ34GkalN1jGzJPYiy8uO5i3QU8aj7LH4mr90AM9PbcdPZyhIbc+EMCkkxdgoaiNE2QXmg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YznKbLM5QzRNDZd0KztsGBeS4spKrICqeXIcOEPJNJ2y/qF4/eM
+	aD4frgjZI7JxBpKg+L5UKa3iCmiB+mWUPo9YHZxaW4OwEbpsx2DULsVP4Oaqr2Bb+jrxa6Z5hsS
+	rnzMubLXlndRTmIQQ0Ddi5JML4Sr3tPg=
+X-Gm-Gg: ASbGncvhOdMxp7E6iNdhiVywKN6TFdlv4c/bXB4DUG+CQhX7G27MSKTL314a6cNcCXw
+	1RqFZE9ns4lSJh5wCwOIhrSrNRl7JhfIm7IR6QAb9rNegLuNuA7XIs+XRoBg1g04dHOn696jdYa
+	neXUoedTr39GUlLHV3C0yXoM3flsZZioeDQkCMpU0XCyc=
+X-Google-Smtp-Source: AGHT+IFU5FmasLNlA7v1T9zC0GZtbX8UU3adZJHY93x9/kOL7tnxMYgA0UO98jIkQO+9ZiMy5P01CVjLLKxjK/6jMDo=
+X-Received: by 2002:a05:690c:7107:b0:712:cc11:af0 with SMTP id
+ 00721157ae682-71406b6be9bmr77582727b3.0.1750912208803; Wed, 25 Jun 2025
+ 21:30:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: M55FNMJC2FgU2azobqPjasaIYQwpwPPr
-X-Proofpoint-GUID: M55FNMJC2FgU2azobqPjasaIYQwpwPPr
-X-Authority-Analysis: v=2.4 cv=XYKJzJ55 c=1 sm=1 tr=0 ts=685ca91d cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=6IFa9wvqVegA:10 a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8 a=_6HNBx9gwFrwLxd684kA:9 a=qJXtpl8PtDUA:10
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI2MDAxNCBTYWx0ZWRfX0VWBwcVGN7AB mb97QlDDYPYtII8Ben2xf4dlJ1zwUy525x1tuIM2KT49gIAn5mKrdcCUzJ+ixhaSnc9Iz06BwYl 9YoeDqlG1D36IJ5Fm8kW6w/rgqjOt3yzWM0wW4U1GOTlQcgs2NHRRb3VIOlY++9HqmAFLsNmNzp
- LPXJJcupnOWql8gO75WKj6yzLK5U/vwkoJcHfkWn6hqPsFZL4/QPFAy7AiWFruhsNJsJBojmSPB A/H8vq/yvAq+Z1Fe0/JRLB3m1+rFy73I28/uxXg+hB2CRO3am8UaD49UYDL4TcVmppvO+mlgFgS txdL5Y3LfXJUUOJVwgOHt6ntiBpnpTtCVqesfgA5kXy2LoVxzwUFvD7iabXgDPRUcc5bWl+Q/Hd
- VpB9k+hNiEmV2p9PF7Du6yqyeCYtxk3vS2Qy9TvLuesBxYYAmWCFdCEcuCiDb63++Xa4nNl7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-26_01,2025-06-25_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 mlxscore=0 impostorscore=0 phishscore=0 mlxlogscore=832
- malwarescore=0 suspectscore=0 clxscore=1011 adultscore=0 bulkscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2506260014
+References: <20250624215053.3162975-1-pkj@axis.com> <66ad34980bea73369408af8719d9a1ecb464baba.camel@linuxfoundation.org>
+ <DB5PR02MB10213421A4CCDB7F61E5C5822EF78A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB10213421A4CCDB7F61E5C5822EF78A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 25 Jun 2025 22:29:42 -0600
+X-Gm-Features: Ac12FXzGb4EVg9wSAzvPbSLLkEqj7ExE-Gsde5Nk7G_EBTIyIaYfd75BsW6lvsM
+Message-ID: <CAMKF1srT+nRMw9MT=gpZK4tbi9-QBMf8F=4_DoE8C1=VXhZTRQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Use :append to add to CC
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 01:57:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219335
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 04:30:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219336
 
-From: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+On Tue, Jun 24, 2025 at 4:43=E2=80=AFPM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Sent: den 25 juni 2025 00:27
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-core=
+@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH] glibc: Use :append to add to CC
+> >
+> > On Tue, 2025-06-24 at 23:50 +0200, Peter Kjellerstedt via lists.openemb=
+edded.org wrote:
+> > > Due to the recent changes to how the toolchain variables are
+> > > initialized
+> > > via inherit_defer, it is no longer possible to add to CC using the +=
+=3D
+> > > operator. Instead, CC:append needs to be used.
+> > >
+> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > ---
+> > >  meta/recipes-core/glibc/glibc_2.41.bb | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-
+> > > core/glibc/glibc_2.41.bb
+> > > index 7771fac041..2ef738f5b4 100644
+> > > --- a/meta/recipes-core/glibc/glibc_2.41.bb
+> > > +++ b/meta/recipes-core/glibc/glibc_2.41.bb
+> > > @@ -111,7 +111,7 @@ do_configure () {
+> > >  }
+> > >
+> > >  LDFLAGS +=3D "-fuse-ld=3Dbfd"
+> > > -CC +=3D "-fuse-ld=3Dbfd"
+> > > +CC:append =3D " -fuse-ld=3Dbfd"
+> >
+> > Given my hatred of using append, is it not possible to put this in
+> > CFLAGS?
+> >
+> > Cheers,
+> >
+> > Richard
+>
+> Given the commit message by Khem when that line was added (see commit
+> 63248d2cbd7a15aec5b864d0058fe919eb17c46c), I did not want to risk it
+> by changing it. However, that commit also mentions build failures if
+> the option is not passed via CC, and since we have not seen any build
+> failures, maybe this is not needed at all? But I will leave that for
+> Khem to answer as I have no idea.
 
-New version includes check for overlong file names, see [1].
+I think it is still needed when building glibc for distros that use
+lld as default system linker
 
-[1] https://lists.gnu.org/archive/html/info-mtools/2025-06/msg00005.html
-
-Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
----
- .../mtools/{mtools_4.0.48.bb => mtools_4.0.49.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/mtools/{mtools_4.0.48.bb => mtools_4.0.49.bb} (93%)
-
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.48.bb b/meta/recipes-devtools/mtools/mtools_4.0.49.bb
-similarity index 93%
-rename from meta/recipes-devtools/mtools/mtools_4.0.48.bb
-rename to meta/recipes-devtools/mtools/mtools_4.0.49.bb
-index 646735f3b3..294b2f37b2 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.48.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.49.bb
-@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--SRC_URI[sha256sum] = "03c29aac8735dd7154a989fbc29eaf2b506121ae1c3a35cd0bf2a02e94d271a9"
-+SRC_URI[sha256sum] = "6fe5193583d6e7c59da75e63d7234f76c0b07caf33b103894f46f66a871ffc9f"
- 
- SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://mtools-makeinfo.patch \
--- 
-2.39.4
-
+>
+> //Peter
+>
 
