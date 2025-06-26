@@ -1,126 +1,77 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44BCCC77B7F
-	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 04:30:10 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.web10.960.1750912209761445080
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76783C7115B
+	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 05:14:00 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web11.1449.1750914836834386446
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jun 2025 21:30:09 -0700
+ Wed, 25 Jun 2025 22:13:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JmsEHopn;
- spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-708d90aa8f9so6321837b3.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 21:30:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NGl+KkOF;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6fada2dd785so9436736d6.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 22:13:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750912209; x=1751517009; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pj39S656OE6JaWjhZvUQwBDj6R3xqtLzNqFJy5iCY4U=;
-        b=JmsEHopnXKd9gkOLf4SAsm6uvnnYyVctiwaPh+QKs69a2BSkUcq/XdmARfxKcGQ6eK
-         MciIOUKMoKKqp5awPTI6ie6of8Ui20sifPdjYDVcSrh24Vyzece6KHwl+kAuEaOe+Rir
-         BR8vAmCvO4QqHB7meEU/LzIpt6U1IBBFxh3J+nResdjzlN6VG3YWLd/MNjEOf/+0aZmW
-         z9ztR+G3UFThBzvJNDCtGyOCVKvLdWAWyPh1eO3XsCNw6Hb4SPf7ZWHkZJeDpjXBRSnR
-         OxfFtbqZ5lQE1AqUjl5SWpCj+b59LWzlUtAZ2C0778GP6blzquvBoG87AnkZWTuq1O4T
-         vaOQ==
+        d=gmail.com; s=20230601; t=1750914836; x=1751519636; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SZggoKJLE/bZGOhR0zkUPBELvN7ktEUEGYg8kG+TYvA=;
+        b=NGl+KkOFH1RtEPItZyCxRZWqVZXgddM3myTs9i/EkLqiyVCotayQ77oPXBifjIZJpI
+         wXpder51/XZOz91Yhx8meLS6k0qe8dNc9IKXbko3cEcjJK1PqfBZsoFP99vrkSE9SubE
+         kRUV/SzqZrpWNCJpWqLERHH9+I2t/13bi1QoZeUQOwwtGA2JylAXurYi465k/CJRbfuE
+         N+jwh8pHG27QEkG1jtM1u67vf/k2RcbmgBoCuN6XfI0LaBK0nHVFglxESAXoxBt+wjHW
+         R+ki037bNdOyhFJ1buMU7wxgSAk0hlgSasWRb5iRv3mMs2xdD011G7wZHk3gR2/KteC2
+         gj7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750912209; x=1751517009;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pj39S656OE6JaWjhZvUQwBDj6R3xqtLzNqFJy5iCY4U=;
-        b=CsOF7ywjrKz1WSEhVd61DDnMosouiIjvHBm1vX0F+Xpibf3CGpYgDb7YsHYnsRy7/Z
-         XrYnbfC9ohEpV8irV7BPNiMrqjogYtSEaR1i8XK3dGf1obiLbt7ZQHniNa6WIzm0esBT
-         /kGREkgoyBWf6WyOcGokJYAj9QuozjUtgeZaGIWb74Wo5ioVIi1hHbKt1O4ChPsD08Tm
-         gOollOlMWXTuLLZcfgGlm465PrOh+3iI8wtRzNf638ShUTrvDeTGuw3Pm2tcny89UHt1
-         7Rm6geABDwOdzYFwwIMs8TpwPBmx6Ly1xOzmXbIQqCnVhOubwkEi1DVIeZr+uLZPZ5Dn
-         K+ng==
-X-Forwarded-Encrypted: i=1; AJvYcCU5DBFy7GezeJLoxUbovJ34GkalN1jGzJPYiy8uO5i3QU8aj7LH4mr90AM9PbcdPZyhIbc+EMCkkxdgoaiNE2QXmg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YznKbLM5QzRNDZd0KztsGBeS4spKrICqeXIcOEPJNJ2y/qF4/eM
-	aD4frgjZI7JxBpKg+L5UKa3iCmiB+mWUPo9YHZxaW4OwEbpsx2DULsVP4Oaqr2Bb+jrxa6Z5hsS
-	rnzMubLXlndRTmIQQ0Ddi5JML4Sr3tPg=
-X-Gm-Gg: ASbGncvhOdMxp7E6iNdhiVywKN6TFdlv4c/bXB4DUG+CQhX7G27MSKTL314a6cNcCXw
-	1RqFZE9ns4lSJh5wCwOIhrSrNRl7JhfIm7IR6QAb9rNegLuNuA7XIs+XRoBg1g04dHOn696jdYa
-	neXUoedTr39GUlLHV3C0yXoM3flsZZioeDQkCMpU0XCyc=
-X-Google-Smtp-Source: AGHT+IFU5FmasLNlA7v1T9zC0GZtbX8UU3adZJHY93x9/kOL7tnxMYgA0UO98jIkQO+9ZiMy5P01CVjLLKxjK/6jMDo=
-X-Received: by 2002:a05:690c:7107:b0:712:cc11:af0 with SMTP id
- 00721157ae682-71406b6be9bmr77582727b3.0.1750912208803; Wed, 25 Jun 2025
- 21:30:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750914836; x=1751519636;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SZggoKJLE/bZGOhR0zkUPBELvN7ktEUEGYg8kG+TYvA=;
+        b=utb0OE6z4UK+gIVGLFsC+7f5F7tXbQcca9XTULHyBWdsr6aYfW9JyjTf4TaJf8BORZ
+         XOKryRoRGnNI+QRy+ujsSM0g2dP9BYwqdmh1U4oXsQaC/xzoH2xVpTqvo3tHrWTKPocB
+         x/5WnA5UC/EqSZhgkLN0THwPJTQsKtDv+nEYMh9IOnaQa6O6mVvCRU3xXGL/UeljtkRR
+         4O0PEbTCqFgRr6YBTmd5pKGqQyBu98wL7UFjWj0glZnInp85D9G/qJpfcH4YCGV0VF9o
+         RuDJAjZw0EkowycbPnBqZTbulcjEj4LL3VXeiA9MIICAxABeAWzQ02LCHtMV+mFTGF9n
+         7duw==
+X-Gm-Message-State: AOJu0YyimYaJguKiFuQIIxRpP0WCsJSRmnd49Rxcp6uEwj5zULB0lRRF
+	m5YYaAa9OX/rOplEKx5bsEajDBRXShlsPiNT/FYwHjVNPLKOEu9qA1InLQY8E+349u1ZMhflRz9
+	KqHxqovx0zzc8yWF1Ae7SraTd0g8dCHo=
+X-Gm-Gg: ASbGncujbL+AuYWcewdO07ZuZQOg2OndfUwbAnh3cb2uDIViz6j8BMrUjpWixk6FoHa
+	fO5JK9BzljAPlcw/gKGkQZcZoQKas/A/P5meAL8e2rfK2Lqqu15gi+JkD6GeDAp8EHhpJ1A9sBC
+	RnPSsNS5dzYiK1mTv3Q41z2/Q2bH/VmUfGI56Vyb/2bvpz9uyqdBrvakIR5tpji4EKrKhu+tG5u
+	bl67w==
+X-Google-Smtp-Source: AGHT+IH4Sc9kIcT3HSuiFM2vMERs3nSA15htmBR0Nd91+1KA64e1i5ZWDzySUtwgdMGZZgJejVQBX7roRGXBDNanwnM=
+X-Received: by 2002:a05:6214:5b83:b0:6fd:151:a58b with SMTP id
+ 6a1803df08f44-6fd5ef45623mr111120926d6.18.1750914835754; Wed, 25 Jun 2025
+ 22:13:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250624215053.3162975-1-pkj@axis.com> <66ad34980bea73369408af8719d9a1ecb464baba.camel@linuxfoundation.org>
- <DB5PR02MB10213421A4CCDB7F61E5C5822EF78A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB10213421A4CCDB7F61E5C5822EF78A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 25 Jun 2025 22:29:42 -0600
-X-Gm-Features: Ac12FXzGb4EVg9wSAzvPbSLLkEqj7ExE-Gsde5Nk7G_EBTIyIaYfd75BsW6lvsM
-Message-ID: <CAMKF1srT+nRMw9MT=gpZK4tbi9-QBMf8F=4_DoE8C1=VXhZTRQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: Use :append to add to CC
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20250626002130.791664-1-Randy.MacLeod@windriver.com>
+In-Reply-To: <20250626002130.791664-1-Randy.MacLeod@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 26 Jun 2025 07:13:44 +0200
+X-Gm-Features: Ac12FXx59WjHJ1YjochMFJMzK434pvNE530E-ceOXvwqInZVDfXKHUS01Src6HM
+Message-ID: <CANNYZj_YaUGy9ZXN+MpH-X2v0ZORT2eonYAnDVxxpkKmbyUGXA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ninja: upgrade 1.12.1 -> 1.13.0
+To: randy.macleod@windriver.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 04:30:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219336
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 05:14:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219337
 
-On Tue, Jun 24, 2025 at 4:43=E2=80=AFPM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
+On Thu, 26 Jun 2025 at 02:21, Randy MacLeod via lists.openembedded.org
+<randy.macleod=windriver.com@lists.openembedded.org> wrote:
+> -SRCREV = "2daa09ba270b0a43e1929d29b073348aa985dfaa"
+> +SRCREV = "b4d51f6ed5bed09dd2b70324df0d9cb4ecad2638"
 >
-> > -----Original Message-----
-> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Sent: den 25 juni 2025 00:27
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-core=
-@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH] glibc: Use :append to add to CC
-> >
-> > On Tue, 2025-06-24 at 23:50 +0200, Peter Kjellerstedt via lists.openemb=
-edded.org wrote:
-> > > Due to the recent changes to how the toolchain variables are
-> > > initialized
-> > > via inherit_defer, it is no longer possible to add to CC using the +=
-=3D
-> > > operator. Instead, CC:append needs to be used.
-> > >
-> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > ---
-> > >  meta/recipes-core/glibc/glibc_2.41.bb | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-
-> > > core/glibc/glibc_2.41.bb
-> > > index 7771fac041..2ef738f5b4 100644
-> > > --- a/meta/recipes-core/glibc/glibc_2.41.bb
-> > > +++ b/meta/recipes-core/glibc/glibc_2.41.bb
-> > > @@ -111,7 +111,7 @@ do_configure () {
-> > >  }
-> > >
-> > >  LDFLAGS +=3D "-fuse-ld=3Dbfd"
-> > > -CC +=3D "-fuse-ld=3Dbfd"
-> > > +CC:append =3D " -fuse-ld=3Dbfd"
-> >
-> > Given my hatred of using append, is it not possible to put this in
-> > CFLAGS?
-> >
-> > Cheers,
-> >
-> > Richard
->
-> Given the commit message by Khem when that line was added (see commit
-> 63248d2cbd7a15aec5b864d0058fe919eb17c46c), I did not want to risk it
-> by changing it. However, that commit also mentions build failures if
-> the option is not passed via CC, and since we have not seen any build
-> failures, maybe this is not needed at all? But I will leave that for
-> Khem to answer as I have no idea.
+>  SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release;protocol=https"
 
-I think it is still needed when building glibc for distros that use
-lld as default system linker
+tag=... should be added here at the same time.
 
->
-> //Peter
->
+Alex
 
