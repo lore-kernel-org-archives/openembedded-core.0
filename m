@@ -1,90 +1,91 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0123DC7EE33
-	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 10:25:52 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.4931.1750933551313683664
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05CA2C7EE32
+	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 10:27:52 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.5064.1750933670495302119
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jun 2025 03:25:51 -0700
+ Thu, 26 Jun 2025 03:27:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qrr83HlL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a510432236so617139f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 03:25:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1750933549; x=1751538349; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1t0wDtYguBjHXN3GYTRH8NlpwtBWJw9p63YTFWrc5Yo=;
-        b=Qrr83HlL6fGCgxmjgYuW9cKPe/9pX5ejMpCWgQrJ3wqQ7cgDXNYk30UUhNV8IGxM1o
-         BSe5WtYkxMNnb5hkOwz573ng4U6xw4a+o7eMRJFrbmj7l+Mr8ieEwzsskIDxNHwdGSNa
-         /J2kiQEv4AVkTHe101DkOgZlAD3vdLbHt1r+0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750933549; x=1751538349;
-        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1t0wDtYguBjHXN3GYTRH8NlpwtBWJw9p63YTFWrc5Yo=;
-        b=uBUgy6lk5rfnvqdiIZ/fkRVqEJn+3TiY4tyZCieXD2L4Bz7Jp9BjqXhmcZD+ec/c3F
-         bteV4TyTymcWAxQTO7FNhMqUMnRIQ1sQLZztxj9pPsdqFPUcNgC7H7bpIa14fkeg2jcf
-         nNKTZ2+Tp0KVoatP7l+fmKI3geaHVWUq9nYj5vC8ZVq2P5bgySG4BZjkV59gQoc3wJQs
-         H8htwVmi9l9oiZiX8Xw9vw7B//gv8K0a+twITT5z36mA3PMSjuXDo3GY0Ya1fC9rdq8y
-         gFgvzuVRIUmBxExX0A/Y0b17SjWAMn+hj6DFJi1wvPK9+XuxECdudFqtkLQepLLpaU8s
-         b7aA==
-X-Gm-Message-State: AOJu0YwlkKjysCJojF91oFO66FW2P6ncSbEiBTsPpuDH4OKWSQPuoRhs
-	W+NcdlfWu/MmtiMMYN3gVIdOCQnqpK1ldhDh/acvPSnLYjb7/AZ9YUneqGmfl5dMD/rArx3cITH
-	ZPvt8
-X-Gm-Gg: ASbGncv7/Rx1KzlNmgH6Lhx1odt1MOOMBRuNAJzixkXIvlU4yQkF1IfLnTuMCw/B8lU
-	qIKs4DBbtGSl+M9sr+DcUjuWldHGoXeANfQMW+XP35kNcmiNbiHnzwSdwJUDphMUG7w1XpLyPQt
-	Hk2d6aSciha3FKEvKEJpk3ZxVTF99egup4RCpaHwP4ZmNXE4g+G5/CI14SGWqD9saOkPBBBtlnF
-	KRyYtmENIy4d4Rw5loKAuDEunCeOU/nWcY1Ev8C5MYj0Rti/ayvqlCGHsLRCUWfiz2uQAX/GjCh
-	akLp1tnTV75R/pzqiRfHFf8zaO8LtkJBIDwXfEt+yptVy8yiVbrN4Ae2wT8FkOU9dylG3fi+JVB
-	+hFVKU6dkC32yFnnG09Mf9XlRpSogA6aFHIvcqL8K62LoODyxuVd8kvdvOAYZ5Q==
-X-Google-Smtp-Source: AGHT+IGZ1IEpfppW4wSyyzaTkX9hgABMkHfeF1d9YfDq/OOAzCzEhThVwQ29j4zlYkNOhG/xhjRC7A==
-X-Received: by 2002:a05:6000:1446:b0:3a1:fcd6:1e6b with SMTP id ffacd0b85a97d-3a6ed65b46emr5119436f8f.57.1750933549326;
-        Thu, 26 Jun 2025 03:25:49 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3006:882d:8520:75c1? ([2001:8b0:aba:5f3c:3006:882d:8520:75c1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e811568dsm7149646f8f.99.2025.06.26.03.25.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 03:25:48 -0700 (PDT)
-Message-ID: <c78307592bee5e95421fb1973522e6258ec417ad.camel@linuxfoundation.org>
-Subject: runqemu compressed image support - request for help
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Cc: Ross Burton <ross.burton@arm.com>
-Date: Thu, 26 Jun 2025 11:25:47 +0100
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8272b03fd5=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55Q4g2n3021073
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 10:27:49 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47dkqandku-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 10:27:49 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Thu, 26 Jun 2025 03:27:43 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH 1/1] python3-urllib3: upgrade 2.4.0 -> 2.5.0
+Date: Thu, 26 Jun 2025 15:57:18 +0530
+Message-ID: <20250626102718.899782-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: G4mvibUrxFvxWCyMUn3LbVfUH2aAwhjL
+X-Proofpoint-GUID: G4mvibUrxFvxWCyMUn3LbVfUH2aAwhjL
+X-Authority-Analysis: v=2.4 cv=N/IpF39B c=1 sm=1 tr=0 ts=685d20a5 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=6IFa9wvqVegA:10 a=UXIAUNObAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=GMWyAk8KPcgo7jehR0EA:9
+ a=ME3_zjTLkYgA:10 a=a1s67YnXd6TbAZZNj1wK:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI2MDA4NyBTYWx0ZWRfX6uJk6uNaOY74 7Wd3WoWXSLlssQwEnippOFoGtr7njmTxhTTqx57JT6MpRe89LPNLWRvq+XGpAMZMOvvKMg2WbjO BI8ERYF5zU19D5ggYg82hdl1XfPpESO/6WLT9jpJPf6x765/hKUy2hbeQJY/YYCJEtEzBwuAXQc
+ 3FXiIRqd47f3dhygattQkaN6BIeyIqlsAjKZI1CSe+etLtQ7wUG0AV979VF3f6wxwhVFNqYDhin ze6Y6OEh5UbU+RnV0YAm8GnZITRg65JfU64s6LyGWCDMG6Yyh3wm5EmRrD+BNBrp+5Z7aFGVbn9 0hDRCpo2CxJjq5u1ifqB8w+8Wc+7h74g9G64cB+Y7qm8n3noyTOlJE1pJKxRW/3jgBSAoh6pcYG
+ /KcmBj4A3pgFQ7br//62hE4zNXrH7cpSfxNl3utkm+GNy+O3Lw0EPoINPl9GckkGNJfcs+A6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-26_05,2025-06-25_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 mlxlogscore=999 malwarescore=0 priorityscore=1501 spamscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2506260087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 10:25:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219345
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 10:27:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219346
 
-We've had a dilemma for a while. The qemu classes set IMAGE_FSTYPES +=3D
-"ext4" and then use that to boot the images, which makes a lot of
-sense. When the project comes to make a release, we really want to
-compress these, so "ext4.zst" would be nicer. The problem is qemu
-doesn't support those.
+From: Yogita Urade <yogita.urade@windriver.com>
 
-I was reminded of this after Ross sent a patch recently adding
-"wic.zst" to the list of formats we generate, alongside the preexisting
-"wic".
+Includes fix for CVE-2025-50181 and CVE-2025-50182
 
-I'd love to simplify our release process and make all of this a bit
-more seamless and efficient. One solution would be to add support to
-runqemu (and assume snapshot mode for compressed files).
+Changelog:
+https://urllib3.readthedocs.io/en/stable/changelog.html#id1
+https://github.com/urllib3/urllib3/blob/main/CHANGES.rst#250-2025-06-18
 
-Is this something someone might like to help with?
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../{python3-urllib3_2.4.0.bb => python3-urllib3_2.5.0.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-urllib3_2.4.0.bb => python3-urllib3_2.5.0.bb} (87%)
 
-It would then simplify our long overdue cleaup of our published release
-artefacts.
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.4.0.bb b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-urllib3_2.4.0.bb
+rename to meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
+index 7a4bffc05e..a4f3995730 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.4.0.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/urllib3/urllib3"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
+ 
+-SRC_URI[sha256sum] = "414bc6535b787febd7567804cc015fee39daab8ad86268f1310a9250697de466"
++SRC_URI[sha256sum] = "3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbff92760"
+ 
+ inherit pypi python_hatchling
+ 
+-- 
+2.40.0
 
-Cheers,
-
-Richard
 
