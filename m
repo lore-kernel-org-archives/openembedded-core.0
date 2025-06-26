@@ -1,263 +1,388 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5675BC7EE32
-	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 11:37:32 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.22])
- by mx.groups.io with SMTP id smtpd.web10.5990.1750937847441836952
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C575C7EE30
+	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 11:55:32 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.6214.1750938922980564237
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jun 2025 04:37:27 -0700
+ Thu, 26 Jun 2025 04:55:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector1 header.b=WfvmZAzb;
- spf=pass (domain: ericsson.com, ip: 52.101.66.22, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OvEPwY0gRxVQ7F2SKGnyaXTJPijz2qw/Ol6uaq3YCVN9e3vP7vjpWIlctiqdD1IuZ5UUKJPLmFgmvZXA8rmr7HJL3qO3RcbZjg1dBCS+AfF8s9YUdwITYy+nIORR5pwNI+sciqkyMeVLbZRPJyzl5FF2S5EgJCIdsiwXwfUbBf9EXAi5++Wdn7AGhfnFYLesmIi7989lzQTDotboA00PZwNPUM6Hx4JJV/GSrGQdaxWx7BLAlb5cOV2FY/vVRwc48cy8J0CS/VmEKbFS+oEYTqwxzvdjBa9O/XxWZQflMpYV9clEIxNisidkGkt/QUN6r92MdyTFQo0vLOjl8FHuOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VeTZAKZ4qlH1Av2G6mEaQQjYYqENbRQ0AZBkdczeV1g=;
- b=WHTXUe3HzOSSS4R1P+JXNmeJIh5tzOYaArEuAkQPLVIr2GwX9AzsJP1L7bHwld1D6JPplG8c4Y6R69tPUtmt8kwKBhYrHPlGbE/mMb6Do89XYVJb83B246RAF1PLYFzGwN/7D2ZoEjBahs7PbPx9iZHoTDCNm+NbqI3oHP4OErUCehMMtX6X/VRV3Nvk/rRXPNxYjRVXZcWAP8xHxN6rwScGE7ukaPZtxDS3YLGnKIR2cqzQTtLM6jUPwxihXn48VwESqxfgE/koYYhhQo3BFnXYRgO8ypjOJf5q0eoDsOR/YDYnzZW2PT8SvFua9WJ75uRNQ9cbTfqlBwuDL1vyuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VeTZAKZ4qlH1Av2G6mEaQQjYYqENbRQ0AZBkdczeV1g=;
- b=WfvmZAzbvs62qH9xTBKugPqjd84iMwK9nOz9Yu19kR3IG94GnWg2Oltj2z7L/19CWjHF98SsPdmExM1F2u6HyT4mb4WH+8u/4Tyr/7Z/X53IHSziVTeUlXy8t9qePZBs/CzmswchcQxk7CXV2PsWwp8kXusTxebEXmQKLOlHG1bXcKOTZgnpK0BLHVYOl1MZI2ln00kzkapkYmbB4aSZMAgyKKC/fdGMCLjaN49/O4mqvwg6MVX198GVcGqI3xDSHIvouwnPu6YGsB4HGeE1ra2PQ5eMo2LcRUimf6P3ZVF8ZjLo7NRsQmwFoMgtjGV3nwRHK+HbypfBbujlDGk5PA==
-Received: from PR3PR07MB6666.eurprd07.prod.outlook.com (2603:10a6:102:61::16)
- by PAWPR07MB9806.eurprd07.prod.outlook.com (2603:10a6:102:380::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Thu, 26 Jun
- 2025 11:37:23 +0000
-Received: from PR3PR07MB6666.eurprd07.prod.outlook.com
- ([fe80::548a:adf1:280d:283b]) by PR3PR07MB6666.eurprd07.prod.outlook.com
- ([fe80::548a:adf1:280d:283b%4]) with mapi id 15.20.8857.026; Thu, 26 Jun 2025
- 11:37:23 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: Steve Sakoman <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Mathieu Dubois-Briand
-	<mathieu.dubois-briand@bootlin.com>, Yocto TSC <tsc@lists.yoctoproject.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: RE: [OE-core] [scarthgap][PATCH 1/2] package: export debugsources in
- PKGDESTWORK as json
-Thread-Topic: [OE-core] [scarthgap][PATCH 1/2] package: export debugsources in
- PKGDESTWORK as json
-Thread-Index: AQHb4PbW2NffJtzwFESr9CHHwmXEZ7QKml2AgAawnQCAAr5YgIABI7VA
-Date: Thu, 26 Jun 2025 11:37:23 +0000
-Message-ID: 
- <PR3PR07MB6666A8DEC30CCDC671270A678A7AA@PR3PR07MB6666.eurprd07.prod.outlook.com>
-References: <20250619084736.1940747-1-daniel.turull@ericsson.com>
- <CAOSpxdaq52nk4PmHEjnm3P2yc4EPh+A_JEAgewbLHeQJtgMotg@mail.gmail.com>
- <a041e18e26dc44c399aa86b6c8ecef15eb3dcbaa.camel@linuxfoundation.org>
- <CAOSpxdayvq2SLFEcONDG_QFvS6ma29u-oBgHO-3aWDJQczmZ2A@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdayvq2SLFEcONDG_QFvS6ma29u-oBgHO-3aWDJQczmZ2A@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PR3PR07MB6666:EE_|PAWPR07MB9806:EE_
-x-ms-office365-filtering-correlation-id: 4dbd7860-d822-4214-6e22-08ddb4a5d1b5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?RTV0ZmN1M2F1VWxsU256MjBDRlU5alltemQ2M3hrYjV0S1Roa0x0L3lydmly?=
- =?utf-8?B?K1BFY1IxL2dVR0hmRE5FNkt1VUs0MFJHWHdDLzZoY0w2TXNWL0RNNGZuRFRt?=
- =?utf-8?B?VFcyRnVkRUcwbFZodFZUTm1YcWNSbEpZSHRReVdJVDNLZ1VNNkFzSXVPRDBC?=
- =?utf-8?B?bFo5ZWxmaG5mZUlHSUpKTjcrYmtMNHMxckZqYUhiM2dZc0ZWOURmQnFxdzhq?=
- =?utf-8?B?U2F5OFRoRUg1a0tTaUNMNmlzS2tHTVordWZHcmQ2dXpZTFVnVXJvQ0c3dHJj?=
- =?utf-8?B?alJOSnpaVEpUcFZHczErYjM4eDdRYi9TV2hvZ2V1ZFdoY0E1L2VibTcwTEhV?=
- =?utf-8?B?bnA2bjh2bVFaWnR4cGxCV3hWWE1VLzc0U2FPQ2poV0lVSUE3WmZCcHNIa284?=
- =?utf-8?B?V2lEYU9KbHdCbHo3Z3VyOFRNazh5VmU4OStNMS9qQXYrNElHNmNOd1I0ZEhw?=
- =?utf-8?B?VFBZdDErQkJWYXVuZHYvdFVmRjUzd0RoVytaQjJRcHA1dktLT215MXd1WGFZ?=
- =?utf-8?B?MUV0WlRFdE5WeDhWM05WYlNybUM1YWM2azhWeGo4SmFPWXFIY295eHU2WEFP?=
- =?utf-8?B?dW1KSGdzNGk1WmI3ZkJCVmNrTXVrcmFGZmp3dVN3NE5ZdnVCMkVNSzZ0TVFn?=
- =?utf-8?B?WTZTRGFYcWRoQzhTV0pmOW53QmtJVXk0V01xdTFwMys3cTUrSXJPK2NST2Ns?=
- =?utf-8?B?QituR201YUJza0crNmtyeWZaT2dldEc0U2lYVFhsTittQnRoMW5rUG5FUU04?=
- =?utf-8?B?cUNEb3puK0toY0g5VzB1T2dzaWJYODdWNUJCMXJ1ZTl3djd3bG16dmpBVTEw?=
- =?utf-8?B?QXVHN3lUZDA5SE9FSHNlcXNHYmJIRTI0aFl3SGFIZ0tkSlc4S29sOUtCRmtz?=
- =?utf-8?B?OTI3djg1U0RJWVpHYndjRWxLSmxtNDBIWlFJU1lBYURUMXFFaW4wU25MQUVJ?=
- =?utf-8?B?dS9tY3pvclZxUlJ2cWNRZmJ2UWEycGlKY3JLWnJGcGMvMG4xdGJ3Z2RJVElo?=
- =?utf-8?B?OWRKUmdqdnNXK1lwb2U0a2tnc2Q1ckY4dGpNZjRyYXRCU0JGRkJjL0pRU1F0?=
- =?utf-8?B?ak1XZVN0dGlyTzBYVkhJT0ZIWHFGWlg3VktNdCtPUlVEMkx3OFBBMzlEYjhN?=
- =?utf-8?B?anJEbEw4Sy9sQjNsSkNLSFVEQXlXbXVEajE5Rm1jSXVvbnJCRFkzTTRjRzBr?=
- =?utf-8?B?M1RUNG5ncGN3bVZVbVo3aHF3UksyUU5OYzgzNFpZNzdYeTV4MTBBdm40SjZx?=
- =?utf-8?B?Y1F3b2NWV3FRTjUwZDAwM0U1SG1JbVhZMWNDYUNscm9weThzU2hsTHRFcG5K?=
- =?utf-8?B?STVxbXhUQUZ3YzQwc0Z6R3l2NkltY3NWdm9ZbHpXTFdob0RFQmNBd2p2dFRR?=
- =?utf-8?B?d2prS0o1eDJ1MlFSUGQxWHlCbXZiYjN4dVVwaGdKK1BHUUQ1THQyaldtbWpi?=
- =?utf-8?B?V3ZkbjNoOFl5OG9oYnR5N2ZoT3A1ejJ0WFpPWmFmVkNPanRSSitTNnNaY2pV?=
- =?utf-8?B?Mk1xRWZDL1VYeHNrbDZTNllnbmNrVnNSWTVDTEFGdGk2Z3M5WUNjQTk5V3BO?=
- =?utf-8?B?UDJ6VjNxc1dtN1VSWHpYWHFvUEZxUGJTa3ZzOWd2cTVVQ01GdVVKMjJHS2xK?=
- =?utf-8?B?bVZ6ejZTY21QQTBZQ1pqY3dWcnpKajg5QmU1NkY4alV6cThvUEN1OXAyQ2V2?=
- =?utf-8?B?NitGUkh5N0FyNlM1UTVRQVUxVlNHWS93TStMS1gwclltVEZ6WFhoWHpVd0hB?=
- =?utf-8?B?cVQweG02bGVQN3dRanhycW5wWTZRMjF2VEgzRCtxTklJeUxkRUNPWmQrVnVQ?=
- =?utf-8?B?UE54VDFCQThNN2hDL0M5NHQyamxwRjNrUlIvRTlnKzUzNStaQ1UvNlhJUVYw?=
- =?utf-8?B?ZWdscjk3cjRMZlZMYWNEVFdPZ1dEOWx3MEVCaGh6S0duOHlaZ01heDM3bTBP?=
- =?utf-8?Q?ePIbWA45hwE=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR3PR07MB6666.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?M3ZUNlR4NEY3WGxwRXlKUjJSUm9TZFAzaERjTWFxaWVETnR3bTZiR00vKzhW?=
- =?utf-8?B?MWo0aWFDMStCNUIzcXhIWUd0YmNiZ0tZZUJBUGxGMXRJSWFTSzIya09LeExQ?=
- =?utf-8?B?WGpqQkhJOWkwVE10QTc1RkRtTHRNdHlhTEtVVkplNHVxVXJlVlA4VlU1dmlM?=
- =?utf-8?B?M1M0dWZaMzFKSG8yMkpvM3I2VCtMWGxOaVk4L3NSenhwMlQvME5DYWFVb0Zj?=
- =?utf-8?B?c3FFSFZ2WmJXN0dwSmFuY3dPRTJCTnNnbmkyYTVEUUJNdmtFclpxcVpwRjEx?=
- =?utf-8?B?MG9vdS92blhob3RzenhCejBQQVJSalRhcTN0am1vaThGRlJma0d1L1g0NXpx?=
- =?utf-8?B?bU5LSGVqTEhKVnRRdmk5UFFQc0FTcnRleFdJWjVvWjQxWS85UzAra0k0eEJp?=
- =?utf-8?B?bldlYlU2OXRyTUxVNlNrVGxCelUwdHVUM212VjlCQVF1UmVod1VMaW9WYkp5?=
- =?utf-8?B?c3Y0ejkwUmxpUFdrWVU5bzREL241MS9QRUxxZDY0T29xQjFiMVR4YWlBUWNa?=
- =?utf-8?B?OTZtaEpEWHBxeURaaGh1bE1sanluVmowRWhWckllcVJnVnBFZHpTTUhWdnpv?=
- =?utf-8?B?bEtFMDJMVzNkWnhuanVDUlJ4OFVpWHluY1ZmeTRGSVhVRm9XRjlsbHZ0YjNB?=
- =?utf-8?B?d0dKK2FSNExZTElpZHgxNUpsUDVjNGhtc0M1U3VjS0Y0VHpEelFMOTJVb2k1?=
- =?utf-8?B?dS9iTVBLTHU1L2dWTStjMkhRM3lUNHhNeWRMM203SVNvRVk0dVVCeUdUMmYv?=
- =?utf-8?B?WDZ6MVY2ZXVERVQySXFmMkh2UGphbDRXVDVJWXpqc0ZBZWlFN3RORGlacmVV?=
- =?utf-8?B?TmFEL29PbDdaeTVLREFUUjlIM3doK1RTRXFFYWRReC93ZHpHa1FkVXNSZGtG?=
- =?utf-8?B?ZXN6b042TTVCV3VvYS9udDl1cUVoNFJhcVJGZkNRSXB1WXVBNjYzYUJsbFlD?=
- =?utf-8?B?UEV2bnNYZ0RRZVBMVkZDdmdWS29Na3BwNmVyOGFpOG41YVNLc1NmVnloQXJx?=
- =?utf-8?B?NHpTSUNOUi9QT2NJNzdNNlJLOVJsSjZVSjNMRXBpVHh1ZjhmS0lEQm1Ia21k?=
- =?utf-8?B?Y0NiaUlCUXFyS3N0Y2ZMTEx0Z2hpSjM1Tmd6N2VFQVlOSnhSWHZUdXNoNjkr?=
- =?utf-8?B?RUduaEZvbkFmRTk3TmhnRXNoWW5UbkF4N2hLYlVvb3J3dUZzN0Z3QjhieHp1?=
- =?utf-8?B?L1dZLzhob0lMRndqcFF2MzRDSGNWQ0NiQ1FQNUk2NURuZkRaTURMVDZ2REQ2?=
- =?utf-8?B?U0FaTy9wZDF0UWtTOTdXSjN1VnA5elFDaFdDbUc1K1RjdlhjcG0wUmlJa1Jm?=
- =?utf-8?B?MFQwYjNPUmFsQ2gzaXRwMkQ0dEY1a0hIclN1QjBOdHJQYlIyOVA5SThiOVBJ?=
- =?utf-8?B?dEQyZFN6TmxJejIxa0hEQU12MXY5QkhDQlhwUGo4a2M4VEJUMlVwaVRrYmMv?=
- =?utf-8?B?V1RlR1p6elNyd1RQbTdnTE55ZlBwcVVWY3FlK3JPWHBwRFY0SSsyTWN1d1kv?=
- =?utf-8?B?VU1iWXFieno0NDl0UVlGdFFpMWcxUHRiSlpSOTdpTlB4Ym03UkNwa0dmc2Nj?=
- =?utf-8?B?OUZqeU5HcDFOWjdzSXhoTjNpR2VIY0hTdHZrajBrRU95NC9JOW1aYm53ZEFG?=
- =?utf-8?B?aWt5aDdLTGVBVkhXMVRwNlZrUWVJYW56Z0FTQnNlMnowNU9xMyt1Um81TWFF?=
- =?utf-8?B?THp4Y1VzYThrY3N4Y3lTbDFIL1l2cUJRMWtPNDc1N29JWVBYMWJseUVvRWlL?=
- =?utf-8?B?dHhlVHI1VzNTQjZMWkxTNnVHZmZCYjN5NFdjeDBMa3lWeWF0d2cweXZjOU92?=
- =?utf-8?B?RllYRlpDNTlvWC9jakpTMXNHVU4wNkRWelNiL2J6ZWJPY3MwQmZubUd1cFVk?=
- =?utf-8?B?VnN5dG91L1d1TStFbFZ5VzBKS2JmMlBxeEFwbC9CdFZNM2F6UGd2MnQzS1gv?=
- =?utf-8?B?cGJEelI3TzliTHRwekZOWlNremcvdnl3c1FROENmbEtUd1dEZVRXaTAzOTdn?=
- =?utf-8?B?N3lZc2FMY0E4SjhGalRNZ2NLN3lhSi9zdWxEYTlLeG1JckRhcnFhNEM1d2Qw?=
- =?utf-8?B?Z2xWYUwyTEpRQjZTZjAxUlBEaXN4UEo1UDc5SE5pUEhIUlVqSlBOc2xDa3or?=
- =?utf-8?Q?5qeXq4vst+NA01VnYB1jtnn7O?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8272b03fd5=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55Q54jMH021319
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 11:55:22 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47dkqanfxj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 11:55:21 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Thu, 26 Jun 2025 04:55:16 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][walnascar][PATCH 1/2] python3-urllib3: fix CVE-2025-50181
+Date: Thu, 26 Jun 2025 17:24:58 +0530
+Message-ID: <20250626115459.686159-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PR3PR07MB6666.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4dbd7860-d822-4214-6e22-08ddb4a5d1b5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2025 11:37:23.6857
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3cVSgwZzC+Y7kOS1A9fXXhoHmXrTbP8q7ndaZpHpiP8SElNPXwYqtDNUAjKiyY+QF9cMLCTz5/vpeqLnHrnJjJvSmdHzEWK94rmdzDhmAbo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR07MB9806
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: ZXytA8zEBVmyEu_6cNU9fIBaAMuAJAGW
+X-Proofpoint-GUID: ZXytA8zEBVmyEu_6cNU9fIBaAMuAJAGW
+X-Authority-Analysis: v=2.4 cv=N/IpF39B c=1 sm=1 tr=0 ts=685d3529 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=6IFa9wvqVegA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
+ a=PGACxGb0oCUiWzFi3T4A:9 a=s5zKW874KtQA:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI2MDA5OSBTYWx0ZWRfX8RpBABTGLyB+ LvDO9+d8pC5rc0gaGxC43qA5+Oz0u/p7C7JtC/3wNSXSaYpMgVBF+v+58qLIzZPK/jRyHvGAAEv /jBRO7dEjc56MiEqRxVuiUxMS3ie3i46Z2vDPU7OMj0bgvABwEm/Ooyhc7eWutK+GtOmVoAD+CN
+ aklc2cTjtvOnQfSGhtL7U2LJywm0y8eWhqBYpdnMQzM4Yt9BMIcEEDjba4/iAl7XVgGvvLOCQS0 gXYntoBHrjXy61lIR+cUXCpc5dveMsMyvcYryZY0bFn/MhojnCKyEhhLKxJ1lUC7mlqvIcWh9A9 66f1f7dk4up1mmd12bP0cywH7xCauBETBIDW3pe3kPmnG7SSqY6UOfg2Y39Jj+zPJIqJi+M2UIn
+ VfrTXzojqtkXKwyiL90ISAyvci5IM7brwxqCgeyM4z75SK4TaX3nr2Bd6AlWly+oOw6IiIzX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-26_05,2025-06-26_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 mlxlogscore=999 malwarescore=0 priorityscore=1501 spamscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2506260099
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 11:37:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219349
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 11:55:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219350
 
-SGkgU3RldmUsDQpJIGxvb2tlZCBhdCB0aGUgbG9nIGFuZCBpdCBpcyBhIGJpdCBzdHJhbmdlLiBU
-aGUgZmFpbHVyZSBpbiB0aGUgbG9nIHNlZW1zIHRvIGJlIHJlbGF0ZWQgdG8gc3N0YXRlLiBGcm9t
-IHdoYXQgSSBzZWUgaW4gdGhlIGxvZyBzc3RhdGV0ZXN0cy5TU3RhdGVQcmludGRpZmYudGVzdF9n
-Y2NfcnVudGltZV92c19nY2Nfc291cmNlICBpcyBmYWlsaW5nIGJ1dCBteSBwYXRjaCBpcyBub3Qg
-dG91Y2hpbmcgZ2NjIG5laXRoZXIgc3N0YXRlLiBJdCBpcyBvbmx5IGNyZWF0aW5nIGEgbmV3IHpz
-dGQgZmlsZSB3aXRoIGV4aXN0aW5nIGRhdGEgaW4gZG9fcGFja2FnZS4NCg0KMjAyNS0wNi0yNCAy
-MjozMjo0Miw3NjQgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBzc3RhdGV0ZXN0cy5TU3RhdGVQcmlu
-dGRpZmYudGVzdF9nY2NfcnVudGltZV92c19nY2Nfc291cmNlIChzdWJ1bml0LlJlbW90ZWRUZXN0
-Q2FzZSkNCjIwMjUtMDYtMjQgMjI6MzI6NDIsNzY0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gIC4u
-LiBGQUlMDQoNCiAgRmlsZSAiL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0
-LWRlYmlhbi9idWlsZC9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3NzdGF0ZXRlc3RzLnB5
-IiwgbGluZSA4ODQsIGluIHRlc3RfZ2NjX3J1bnRpbWVfdnNfZ2NjX3NvdXJjZQ0KICAgIHNlbGYu
-cnVuX3Rlc3RfcHJpbnRkaWZmX2NoYW5nZXJlY2lwZSgiZ2NjLXJ1bnRpbWUiLCAiZ2NjLXNvdXJj
-ZSIsICItYyBkb19wcmVjb25maWd1cmUge30iLmZvcm1hdChnY2Nfc291cmNlX3BuKSwNCiAgRmls
-ZSAiL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0LWRlYmlhbi9idWlsZC9t
-ZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3NzdGF0ZXRlc3RzLnB5IiwgbGluZSA4MTgsIGlu
-IHJ1bl90ZXN0X3ByaW50ZGlmZl9jaGFuZ2VyZWNpcGUNCiAgICByZXN1bHRfc2FtZXRtcCA9IGJp
-dGJha2UoIi1TIHByaW50ZGlmZiB7fSIuZm9ybWF0KHRhcmdldCkpDQogICAgICAgICAgICAgICAg
-ICAgICBeXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXg0KICBGaWxlICIv
-c3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtZGViaWFuL2J1aWxkL21ldGEv
-bGliL29lcWEvdXRpbHMvY29tbWFuZHMucHkiLCBsaW5lIDIzNCwgaW4gYml0YmFrZQ0KICAgIHJl
-dHVybiBydW5DbWQoY21kLCBpZ25vcmVfc3RhdHVzLCB0aW1lb3V0LCBvdXRwdXRfbG9nPW91dHB1
-dF9sb2csICoqb3B0aW9ucykNCiAgICAgICAgICAgXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5e
-Xl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eDQogIEZpbGUgIi9zcnYv
-cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1kZWJpYW4vYnVpbGQvbWV0YS9saWIv
-b2VxYS91dGlscy9jb21tYW5kcy5weSIsIGxpbmUgMjEyLCBpbiBydW5DbWQNCiAgICByYWlzZSBB
-c3NlcnRpb25FcnJvcigiQ29tbWFuZCAnJXMnIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVz
-ICVkOlxuJXMiICUgKGNvbW1hbmQsIHJlc3VsdC5zdGF0dXMsIGV4Y19vdXRwdXQpKQ0KQXNzZXJ0
-aW9uRXJyb3I6IENvbW1hbmQgJ2JpdGJha2UgIC1TIHByaW50ZGlmZiBnY2MtcnVudGltZScgcmV0
-dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMToNCg0KDQpXaGVuIEkgcnVuIHRoZSBzYW1lIGZh
-aWxpbmcgdGVzdCBpbiBteSBsb2NhbCBtYWNoaW5lLCBpdCBwYXNzZXMuDQpvZS1zZWxmdGVzdCAt
-ciBzc3RhdGV0ZXN0cy5TU3RhdGVQcmludGRpZmYudGVzdF9nY2NfcnVudGltZV92c19nY2Nfc291
-cmNlIC1qIDIwIC1UIG1hY2hpbmUgLVQgdG9vbGNoYWluLXVzZXIgLVQgdG9vbGNoYWluLXN5c3Rl
-bQ0KDQoyMDI1LTA2LTI2IDA5OjQ0OjM1LDExOSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIEFkZGlu
-ZyBsYXllciBsaWJyYXJpZXM6DQoyMDI1LTA2LTI2IDA5OjQ0OjM1LDExOSAtIG9lLXNlbGZ0ZXN0
-IC0gSU5GTyAtICAvbG9jYWwveC95b2N0by1zY2FydGhnYXAvbWV0YS15b2N0by9tZXRhLXBva3kv
-bGliDQoyMDI1LTA2LTI2IDA5OjQ0OjM1LDExOSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtICAvbG9j
-YWwveC95b2N0by1zY2FydGhnYXAvbWV0YS9saWINCjIwMjUtMDYtMjYgMDk6NDQ6MzUsMTIwIC0g
-b2Utc2VsZnRlc3QgLSBJTkZPIC0gIC9yZXBvL3gveW9jdG8tc2NhcnRoZ2FwL21ldGEteW9jdG8v
-bWV0YS15b2N0by1ic3AvbGliDQoyMDI1LTA2LTI2IDA5OjQ0OjM1LDEyMCAtIG9lLXNlbGZ0ZXN0
-IC0gSU5GTyAtICAvcmVwby94L3lvY3RvLXNjYXJ0aGdhcC9vcGVuZW1iZWRkZWQtY29yZS9tZXRh
-LXNrZWxldG9uL2xpYg0KMjAyNS0wNi0yNiAwOTo0NDozNSwxMjAgLSBvZS1zZWxmdGVzdCAtIElO
-Rk8gLSAgL2xvY2FsL3gveW9jdG8tc2NhcnRoZ2FwL29wZW5lbWJlZGRlZC1jb3JlL21ldGEtc2Vs
-ZnRlc3QvbGliDQoyMDI1LTA2LTI2IDA5OjQ0OjM1LDEyMSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
-IENoZWNraW5nIGJhc2UgY29uZmlndXJhdGlvbiBpcyB2YWxpZC9wYXJzYWJsZQ0KTk9URTogU3Rh
-cnRpbmcgYml0YmFrZSBzZXJ2ZXIuLi4NCjIwMjUtMDYtMjYgMDk6NDY6MDUsMjcwIC0gb2Utc2Vs
-ZnRlc3QgLSBJTkZPIC0gc3N0YXRldGVzdHMuU1N0YXRlUHJpbnRkaWZmLnRlc3RfZ2NjX3J1bnRp
-bWVfdnNfZ2NjX3NvdXJjZSAoc3VidW5pdC5SZW1vdGVkVGVzdENhc2UpDQoyMDI1LTA2LTI2IDA5
-OjQ2OjA1LDI3MSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtICAuLi4gb2sNCjIwMjUtMDYtMjYgMDk6
-NDY6MDUsMjcxIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gMDogMS8xIDEvMSAoODkuMTlzKSAoMCBm
-YWlsZWQpIChzc3RhdGV0ZXN0cy5TU3RhdGVQcmludGRpZmYudGVzdF9nY2NfcnVudGltZV92c19n
-Y2Nfc291cmNlKQ0KMjAyNS0wNi0yNiAwOTo0NjoxNCwzMDMgLSBvZS1zZWxmdGVzdCAtIElORk8g
-LSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tDQoyMDI1LTA2LTI2IDA5OjQ2OjE0LDMwMyAtIG9lLXNlbGZ0ZXN0IC0g
-SU5GTyAtIFJhbiAxIHRlc3QgaW4gOTguNDE1cw0KMjAyNS0wNi0yNiAwOTo0NjoxNCwzMDMgLSBv
-ZS1zZWxmdGVzdCAtIElORk8gLSBPSw0KMjAyNS0wNi0yNiAwOTo0NjoxOCw0NjQgLSBvZS1zZWxm
-dGVzdCAtIElORk8gLSBSRVNVTFRTOg0KMjAyNS0wNi0yNiAwOTo0NjoxOCw0NjQgLSBvZS1zZWxm
-dGVzdCAtIElORk8gLSBSRVNVTFRTIC0gc3N0YXRldGVzdHMuU1N0YXRlUHJpbnRkaWZmLnRlc3Rf
-Z2NjX3J1bnRpbWVfdnNfZ2NjX3NvdXJjZTogUEFTU0VEICg4OS4yMHMpDQoyMDI1LTA2LTI2IDA5
-OjQ2OjE4LDQ2NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFNVTU1BUlk6DQoyMDI1LTA2LTI2IDA5
-OjQ2OjE4LDQ2NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIG9lLXNlbGZ0ZXN0ICgpIC0gUmFuIDEg
-dGVzdCBpbiA5OC40MThzDQoyMDI1LTA2LTI2IDA5OjQ2OjE4LDQ2NiAtIG9lLXNlbGZ0ZXN0IC0g
-SU5GTyAtIG9lLXNlbGZ0ZXN0IC0gT0sgLSBBbGwgcmVxdWlyZWQgdGVzdHMgcGFzc2VkIChzdWNj
-ZXNzZXM9MSwgc2tpcHBlZD0wLCBmYWlsdXJlcz0wLCBlcnJvcnM9MCkNCg0KSXMgaXQgcG9zc2li
-bGUgdGhhdCB3YXMgYSB0ZW1wb3JhbGx5IGdsaXRjaCBpbiB0aGUgQ0ksIG9yIHJlbGF0ZWQgdG8g
-dGhlIGxhdGVzdCB1cGRhdGUgdG8gZ2NjIDEzLjQ/DQpCZXN0IHJlZ2FyZHMsDQpEYW5pZWwNCg0K
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBTdGV2ZSBTYWtvbWFuIDxzdGV2
-ZUBzYWtvbWFuLmNvbT4NCj4gU2VudDogV2VkbmVzZGF5LCAyNSBKdW5lIDIwMjUgMTc6MjcNCj4g
-VG86IERhbmllbCBUdXJ1bGwgPGRhbmllbC50dXJ1bGxAZXJpY3Nzb24uY29tPg0KPiBDYzogb3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgTWF0aGlldSBEdWJvaXMtQnJp
-YW5kDQo+IDxtYXRoaWV1LmR1Ym9pcy1icmlhbmRAYm9vdGxpbi5jb20+OyBZb2N0byBUU0MgPHRz
-Y0BsaXN0cy55b2N0b3Byb2plY3Qub3JnPjsNCj4gUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVy
-ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW3NjYXJ0
-aGdhcF1bUEFUQ0ggMS8yXSBwYWNrYWdlOiBleHBvcnQgZGVidWdzb3VyY2VzIGluDQo+IFBLR0RF
-U1RXT1JLIGFzIGpzb24NCj4NCj4gT24gTW9uLCBKdW4gMjMsIDIwMjUgYXQgMjozM+KAr1BNIFJp
-Y2hhcmQgUHVyZGllDQo+IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPiB3cm90
-ZToNCj4gPg0KPiA+IE9uIFRodSwgMjAyNS0wNi0xOSBhdCAwODoyMyAtMDcwMCwgU3RldmUgU2Fr
-b21hbiB3cm90ZToNCj4gPiA+IFNpbmNlIHRoaXMgaXMgYSBmZWF0dXJlIGFkZGl0aW9uIHRoZSBU
-U0Mgd2lsbCBuZWVkIHRvIGFwcHJvdmUgaXQNCj4gPiA+IGJlZm9yZSBJIGNhbiB0YWtlIHRoaXMg
-YmFja3BvcnQuDQo+ID4gPg0KPiA+ID4gSSd2ZSBjb3BpZWQgdGhlIFRTQyBzbyB0aGV5IGNhbiBh
-ZGQgdGhpcyB0byB0aGUgYWdlbmRhIGZvciB0aGVpcg0KPiA+ID4gbmV4dCBtZWV0aW5nLg0KPiA+
-DQo+ID4gVGhlIFRTQyBkaXNjdXNzZWQgdGhpcyB0b2RheS4gVGhlIGNoYW5nZSBhZGRzIGEgc2lu
-Z2xlIGRhdGEgZmlsZSB0bw0KPiA+IHBhY2thZ2VkYXRhIGJhc2VkIG9uIGV4aXN0aW5nIGluZm9y
-bWF0aW9uIHdlIGFscmVhZHkgY2FsY3VsYXRlIGR1cmluZw0KPiA+IHRoZSBidWlsZCBzbyB0aGUg
-cG90ZW50aWFsIHJpc2sgYW5kIGltcGFjdCBvbiBleGlzdGluZyB1c2VycyBpcyBsb3cuDQo+ID4N
-Cj4gPiBXaGlsc3QgdGhpcyBpcyBhIGZlYXR1cmUgY2hhbmdlLCB0aGUgdXNlcyBmb3Igc2VjdXJp
-dHkgYW5kIGhhbmRsaW5nDQo+ID4gQ1ZFcyBhcmUgZXh0cmVtZWx5IHVzZWZ1bCBzbyBvbiBiYWxh
-bmNlIHRoZSBUU0MgdGhpbmtzIHRoaXMgY2FuIGJlDQo+ID4gbWVyZ2VkLg0KPg0KPiBVbmZvcnR1
-bmF0ZWx5IHRoaXMgcGF0Y2ggaXMgY2F1c2luZyBvZS1zZWxmdGVzdCBmYWlsdXJlcyBvbiB0aGUg
-YXV0b2J1aWxkZXIsIGhlcmUncyBhDQo+IHNhbXBsZSBsb2c6DQo+DQo+IGh0dHBzOi8vZXJyb3Jz
-LnlvY3QvDQo+IG9wcm9qZWN0Lm9yZyUyRkVycm9ycyUyRkRldGFpbHMlMkY4NjIzODglMkYmZGF0
-YT0wNSU3QzAyJTdDZGFuaWVsLnR1cnUNCj4gbGwlNDBlcmljc3Nvbi5jb20lN0NkZWZhOWU2ZGVl
-MmU0ZDdiMTc5MzA4ZGRiM2ZjYzlmZCU3QzkyZTg0Y2ViZmJmZDQNCj4gN2FiYmU1MjA4MGM2Yjg3
-OTUzZiU3QzAlN0MwJTdDNjM4ODY0NjIwNDcyOTg5NTY0JTdDVW5rbm93biU3Q1QNCj4gV0ZwYkda
-c2IzZDhleUpGYlhCMGVVMWhjR2tpT25SeWRXVXNJbFlpT2lJd0xqQXVNREF3TUNJc0lsQWlPaUpY
-YVc0DQo+IHpNaUlzSWtGT0lqb2lUV0ZwYkNJc0lsZFVJam95ZlElM0QlM0QlN0MwJTdDJTdDJTdD
-JnNkYXRhPXlmbG9KeHFRbDhyDQo+IHFxQlN3dUZaZGxrNjJQZkF4MFJEJTJCeWZJTFZmbVRnSTgl
-M0QmcmVzZXJ2ZWQ9MA0KPg0KPiBUaGlzIHdpbGwgbmVlZCB0byBiZSBhZGRyZXNzZWQgYmVmb3Jl
-IEkgY2FuIG1lcmdlLg0KPg0KPiBUaGFua3MsDQo+DQo+IFN0ZXZlDQo=
+From: Yogita Urade <yogita.urade@windriver.com>
+
+urllib3 is a user-friendly HTTP client library for Python. Prior to
+2.5.0, it is possible to disable redirects for all requests by
+instantiating a PoolManager and specifying retries in a way that
+disable redirects. By default, requests and botocore users are not
+affected. An application attempting to mitigate SSRF or open redirect
+vulnerabilities by disabling redirects at the PoolManager level will
+remain vulnerable. This issue has been patched in version 2.5.0.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-50181
+
+Upstream patch:
+https://github.com/urllib3/urllib3/commit/f05b1329126d5be6de501f9d1e3e36738bc08857
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../python3-urllib3/CVE-2025-50181.patch      | 283 ++++++++++++++++++
+ .../python/python3-urllib3_2.3.0.bb           |   4 +
+ 2 files changed, 287 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-50181.patch
+
+diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2025-50181.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-50181.patch
+new file mode 100644
+index 0000000000..a8cea0a020
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-50181.patch
+@@ -0,0 +1,283 @@
++From f05b1329126d5be6de501f9d1e3e36738bc08857 Mon Sep 17 00:00:00 2001
++From: Illia Volochii <illia.volochii@gmail.com>
++Date: Wed, 18 Jun 2025 16:25:01 +0300
++Subject: [PATCH] Merge commit from fork
++
++* Apply Quentin's suggestion
++
++Co-authored-by: Quentin Pradet <quentin.pradet@gmail.com>
++
++* Add tests for disabled redirects in the pool manager
++
++* Add a possible fix for the issue with not raised `MaxRetryError`
++
++* Make urllib3 handle redirects instead of JS when JSPI is used
++
++* Fix info in the new comment
++
++* State that redirects with XHR are not controlled by urllib3
++
++* Remove excessive params from new test requests
++
++* Add tests reaching max non-0 redirects
++
++* Test redirects with Emscripten
++
++* Fix `test_merge_pool_kwargs`
++
++* Add a changelog entry
++
++* Parametrize tests
++
++* Drop a fix for Emscripten
++
++* Apply Seth's suggestion to docs
++
++Co-authored-by: Seth Michael Larson <sethmichaellarson@gmail.com>
++
++* Use a minor release instead of the patch one
++
++---------
++
++Co-authored-by: Quentin Pradet <quentin.pradet@gmail.com>
++Co-authored-by: Seth Michael Larson <sethmichaellarson@gmail.com>
++
++CVE: CVE-2025-50181
++Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/f05b1329126d5be6de501f9d1e3e36738bc08857]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ docs/reference/contrib/emscripten.rst      |   2 +-
++ dummyserver/app.py                         |   1 +
++ src/urllib3/poolmanager.py                 |  18 +++-
++ test/contrib/emscripten/test_emscripten.py |  16 ++++
++ test/test_poolmanager.py                   |   5 +-
++ test/with_dummyserver/test_poolmanager.py  | 101 +++++++++++++++++++++
++ 6 files changed, 139 insertions(+), 4 deletions(-)
++
++diff --git a/docs/reference/contrib/emscripten.rst b/docs/reference/contrib/emscripten.rst
++index 99fb20f..a8f1cda 100644
++--- a/docs/reference/contrib/emscripten.rst
+++++ b/docs/reference/contrib/emscripten.rst
++@@ -65,7 +65,7 @@ Features which are usable with Emscripten support are:
++ * Timeouts
++ * Retries
++ * Streaming (with Web Workers and Cross-Origin Isolation)
++-* Redirects
+++* Redirects (determined by browser/runtime, not restrictable with urllib3)
++ * Decompressing response bodies
++
++ Features which don't work with Emscripten:
++diff --git a/dummyserver/app.py b/dummyserver/app.py
++index 97b1b23..0eeb93f 100644
++--- a/dummyserver/app.py
+++++ b/dummyserver/app.py
++@@ -227,6 +227,7 @@ async def encodingrequest() -> ResponseReturnValue:
++
++
++ @hypercorn_app.route("/redirect", methods=["GET", "POST", "PUT"])
+++@pyodide_testing_app.route("/redirect", methods=["GET", "POST", "PUT"])
++ async def redirect() -> ResponseReturnValue:
++     "Perform a redirect to ``target``"
++     values = await request.values
++diff --git a/src/urllib3/poolmanager.py b/src/urllib3/poolmanager.py
++index 085d1db..5763fea 100644
++--- a/src/urllib3/poolmanager.py
+++++ b/src/urllib3/poolmanager.py
++@@ -203,6 +203,22 @@ class PoolManager(RequestMethods):
++         **connection_pool_kw: typing.Any,
++     ) -> None:
++         super().__init__(headers)
+++        if "retries" in connection_pool_kw:
+++            retries = connection_pool_kw["retries"]
+++            if not isinstance(retries, Retry):
+++                # When Retry is initialized, raise_on_redirect is based
+++                # on a redirect boolean value.
+++                # But requests made via a pool manager always set
+++                # redirect to False, and raise_on_redirect always ends
+++                # up being False consequently.
+++                # Here we fix the issue by setting raise_on_redirect to
+++                # a value needed by the pool manager without considering
+++                # the redirect boolean.
+++                raise_on_redirect = retries is not False
+++                retries = Retry.from_int(retries, redirect=False)
+++                retries.raise_on_redirect = raise_on_redirect
+++                connection_pool_kw = connection_pool_kw.copy()
+++                connection_pool_kw["retries"] = retries
++         self.connection_pool_kw = connection_pool_kw
++
++         self.pools: RecentlyUsedContainer[PoolKey, HTTPConnectionPool]
++@@ -456,7 +472,7 @@ class PoolManager(RequestMethods):
++             kw["body"] = None
++             kw["headers"] = HTTPHeaderDict(kw["headers"])._prepare_for_method_change()
++
++-        retries = kw.get("retries")
+++        retries = kw.get("retries", response.retries)
++         if not isinstance(retries, Retry):
++             retries = Retry.from_int(retries, redirect=redirect)
++
++diff --git a/test/contrib/emscripten/test_emscripten.py b/test/contrib/emscripten/test_emscripten.py
++index 9317a09..5eaa674 100644
++--- a/test/contrib/emscripten/test_emscripten.py
+++++ b/test/contrib/emscripten/test_emscripten.py
++@@ -944,6 +944,22 @@ def test_retries(
++     pyodide_test(selenium_coverage, testserver_http.http_host, find_unused_port())
++
++
+++def test_redirects(
+++    selenium_coverage: typing.Any, testserver_http: PyodideServerInfo
+++) -> None:
+++    @run_in_pyodide  # type: ignore[misc]
+++    def pyodide_test(selenium_coverage: typing.Any, host: str, port: int) -> None:
+++        from urllib3 import request
+++
+++        redirect_url = f"http://{host}:{port}/redirect"
+++        response = request("GET", redirect_url)
+++        assert response.status == 200
+++
+++    pyodide_test(
+++        selenium_coverage, testserver_http.http_host, testserver_http.http_port
+++    )
+++
+++
++ def test_insecure_requests_warning(
++     selenium_coverage: typing.Any, testserver_http: PyodideServerInfo
++ ) -> None:
++diff --git a/test/test_poolmanager.py b/test/test_poolmanager.py
++index ab5f203..b481a19 100644
++--- a/test/test_poolmanager.py
+++++ b/test/test_poolmanager.py
++@@ -379,9 +379,10 @@ class TestPoolManager:
++
++     def test_merge_pool_kwargs(self) -> None:
++         """Assert _merge_pool_kwargs works in the happy case"""
++-        p = PoolManager(retries=100)
+++        retries = retry.Retry(total=100)
+++        p = PoolManager(retries=retries)
++         merged = p._merge_pool_kwargs({"new_key": "value"})
++-        assert {"retries": 100, "new_key": "value"} == merged
+++        assert {"retries": retries, "new_key": "value"} == merged
++
++     def test_merge_pool_kwargs_none(self) -> None:
++         """Assert false-y values to _merge_pool_kwargs result in defaults"""
++diff --git a/test/with_dummyserver/test_poolmanager.py b/test/with_dummyserver/test_poolmanager.py
++index af77241..7f163ab 100644
++--- a/test/with_dummyserver/test_poolmanager.py
+++++ b/test/with_dummyserver/test_poolmanager.py
++@@ -84,6 +84,89 @@ class TestPoolManager(HypercornDummyServerTestCase):
++             assert r.status == 200
++             assert r.data == b"Dummy server!"
++
+++    @pytest.mark.parametrize(
+++        "retries",
+++        (0, Retry(total=0), Retry(redirect=0), Retry(total=0, redirect=0)),
+++    )
+++    def test_redirects_disabled_for_pool_manager_with_0(
+++        self, retries: typing.Literal[0] | Retry
+++    ) -> None:
+++        """
+++        Check handling redirects when retries is set to 0 on the pool
+++        manager.
+++        """
+++        with PoolManager(retries=retries) as http:
+++            with pytest.raises(MaxRetryError):
+++                http.request("GET", f"{self.base_url}/redirect")
+++
+++            # Setting redirect=True should not change the behavior.
+++            with pytest.raises(MaxRetryError):
+++                http.request("GET", f"{self.base_url}/redirect", redirect=True)
+++
+++            # Setting redirect=False should not make it follow the redirect,
+++            # but MaxRetryError should not be raised.
+++            response = http.request("GET", f"{self.base_url}/redirect", redirect=False)
+++            assert response.status == 303
+++
+++    @pytest.mark.parametrize(
+++        "retries",
+++        (
+++            False,
+++            Retry(total=False),
+++            Retry(redirect=False),
+++            Retry(total=False, redirect=False),
+++        ),
+++    )
+++    def test_redirects_disabled_for_pool_manager_with_false(
+++        self, retries: typing.Literal[False] | Retry
+++    ) -> None:
+++        """
+++        Check that setting retries set to False on the pool manager disables
+++        raising MaxRetryError and redirect=True does not change the
+++        behavior.
+++        """
+++        with PoolManager(retries=retries) as http:
+++            response = http.request("GET", f"{self.base_url}/redirect")
+++            assert response.status == 303
+++
+++            response = http.request("GET", f"{self.base_url}/redirect", redirect=True)
+++            assert response.status == 303
+++
+++            response = http.request("GET", f"{self.base_url}/redirect", redirect=False)
+++            assert response.status == 303
+++
+++    def test_redirects_disabled_for_individual_request(self) -> None:
+++        """
+++        Check handling redirects when they are meant to be disabled
+++        on the request level.
+++        """
+++        with PoolManager() as http:
+++            # Check when redirect is not passed.
+++            with pytest.raises(MaxRetryError):
+++                http.request("GET", f"{self.base_url}/redirect", retries=0)
+++            response = http.request("GET", f"{self.base_url}/redirect", retries=False)
+++            assert response.status == 303
+++
+++            # Check when redirect=True.
+++            with pytest.raises(MaxRetryError):
+++                http.request(
+++                    "GET", f"{self.base_url}/redirect", retries=0, redirect=True
+++                )
+++            response = http.request(
+++                "GET", f"{self.base_url}/redirect", retries=False, redirect=True
+++            )
+++            assert response.status == 303
+++
+++            # Check when redirect=False.
+++            response = http.request(
+++                "GET", f"{self.base_url}/redirect", retries=0, redirect=False
+++            )
+++            assert response.status == 303
+++            response = http.request(
+++                "GET", f"{self.base_url}/redirect", retries=False, redirect=False
+++            )
+++            assert response.status == 303
+++
++     def test_cross_host_redirect(self) -> None:
++         with PoolManager() as http:
++             cross_host_location = f"{self.base_url_alt}/echo?a=b"
++@@ -138,6 +221,24 @@ class TestPoolManager(HypercornDummyServerTestCase):
++             pool = http.connection_from_host(self.host, self.port)
++             assert pool.num_connections == 1
++
+++        # Check when retries are configured for the pool manager.
+++        with PoolManager(retries=1) as http:
+++            with pytest.raises(MaxRetryError):
+++                http.request(
+++                    "GET",
+++                    f"{self.base_url}/redirect",
+++                    fields={"target": f"/redirect?target={self.base_url}/"},
+++                )
+++
+++            # Here we allow more retries for the request.
+++            response = http.request(
+++                "GET",
+++                f"{self.base_url}/redirect",
+++                fields={"target": f"/redirect?target={self.base_url}/"},
+++                retries=2,
+++            )
+++            assert response.status == 200
+++
++     def test_redirect_cross_host_remove_headers(self) -> None:
++         with PoolManager() as http:
++             r = http.request(
++--
++2.40.0
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.3.0.bb b/meta/recipes-devtools/python/python3-urllib3_2.3.0.bb
+index fe913e6b73..218a226431 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.3.0.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.3.0.bb
+@@ -7,6 +7,10 @@ SRC_URI[sha256sum] = "f8c5449b3cf0861679ce7e0503c7b44b5ec981bec0d1d3795a07f1ba96
+ 
+ inherit pypi python_hatchling
+ 
++SRC_URI += " \
++    file://CVE-2025-50181.patch \
++"
++
+ DEPENDS += " \
+     python3-hatch-vcs-native \
+ "
+-- 
+2.40.0
+
 
