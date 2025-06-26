@@ -1,113 +1,155 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 625F1C7EE30
-	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 15:16:23 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.10582.1750950977361387414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92869C7EE30
+	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 15:27:03 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.11045.1750951618181617873
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jun 2025 08:16:17 -0700
+ Thu, 26 Jun 2025 08:26:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nPPR/TS7;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: antonin.godard@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 91A3243A25;
-	Thu, 26 Jun 2025 15:16:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1750950975;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0ShHVbtlZB68NHS/JRnOciXAzlxmOXczR/unovLPENA=;
-	b=nPPR/TS7+tWzPvUPvGbcGZckTS/Q+tur2mJmn5lmv5PK78FnDPznIIyQ+e9I+xDswlXqlU
-	gDvUY+p87S6LYhFCHoD11mLsktiL6E1IK/ujmcgXfTgJkES8SSQtP6xgVPmG0alGLrQ3Sv
-	GD/Rr0yC2DBozv3+8foQpprftpK/LP/puLDNf/ddv0oKrrr0n44oZah8vG+o4wbMUUYkwc
-	wQs6kGXdxc6lhW42KnMyBZyS1KaUsxlqsZuE1mYfjlJpSr3DNbfaRFyG+n1bBlj4gyjXCk
-	hB0e+4G366UVmHTvNimNXe+DQek10dVyLMj6rwWA8YIhEcc3Dm+enS2Yo1Mcgw==
-From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Thu, 26 Jun 2025 17:15:43 +0200
-Subject: [PATCH 1/3] python3-sphinx-argparse: add recipe
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250626-buildtools-docs-additions-v1-1-f0a80b001998@bootlin.com>
-References: <20250626-buildtools-docs-additions-v1-0-f0a80b001998@bootlin.com>
-In-Reply-To: <20250626-buildtools-docs-additions-v1-0-f0a80b001998@bootlin.com>
+ dkim=pass header.i=@konsulko.com header.s=google header.b=AeaXmUR/;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.182, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-748da522e79so718857b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 08:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1750951617; x=1751556417; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MV4pQVEgHXuy+tvXG0RrENvaz2Ep1Se8DeMGAc2KTFM=;
+        b=AeaXmUR/uidr82IEFyyxeXmLfWwC79dOQ023lxd4L8EM7H3YD/3EqPRWBYOewDsUKs
+         Trj7dG8vlfN7zcktPXiCjgmXFduyczKfTRpi3tOmCLNbq1Tv+xwKEbiZmzTy4+9oJ1HP
+         fkkB6stiDUkiafYCgybb4nPA/fgegpGOPBEmA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750951617; x=1751556417;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MV4pQVEgHXuy+tvXG0RrENvaz2Ep1Se8DeMGAc2KTFM=;
+        b=G9WJlAnDU+vN/+VImFJ7avNQYg6UCB3iInDSsr3+g8fRP3U0ajsyYX2BKWhJFGQTSx
+         zNJ1P8Z9TnzN5CAcKfSL0LX8u+gy5NxzBCkjdUhHbfCUU374hwpQZvNuA70a5rT+yPbf
+         yVo3byMm1itUeJT/FAOOT+yppPdJIxZuoD025okVje+3GxpHrMrvjrGezg7wE8K61v0u
+         utqyQNvBGKcoUBplrdcQSCOVRRTvyrowaELLshL+EKASmfgVSJthfmSHirZ+q/ZP8WXm
+         6W1a+DoxCkx+flXNeE/ym+V7K2yZvxIPr3gBP44HoS/yI5yzHSA4/tnIZyawtffVyh/r
+         H5BA==
+X-Gm-Message-State: AOJu0YylgBPYbnmFg2Z+3J/EeXD4NIvG1eNL0mCPrIDySE1YEdAOrKLn
+	9RL8vhHXFQr2ZBHyErVTNclUTGfZE7bEa1kt2JfiKxndMYsLy55FxLaXlgVirAtFfyor83/G5HK
+	ACvN/QNY=
+X-Gm-Gg: ASbGncs+kJl8WnozKzcAeyTndqjezou09P753Ls95toSlqbIufnhrCMmYn8GjDBUHId
+	mNZKzek//AQ6AFPsfbTsWc0ktF+GuSZLHUJyAHUnifZ/2M8Yw0T/NG1DhuVrTYjlep2pp9+Dyd7
+	0EqNiG4BgIIotY2vGMSm0G8pWl/jOYwCgA3FLD6l77ed2LJ2zhm73gEYegWZjtx9ICo+Ux0gejM
+	gMeDD/dVkDt14CN2g7NgzFgsN2jIPRNgmJnF3jnefku0ZGT+rz+dWlyHYh7aMuYI3Wh3HYc57lw
+	GEAPvTaItZ71CeXnbw2wrV5037IfNV6hjTNqr5BKxZ8TxjDekxT9WejkBxwuQzeZFogkGZpmxoI
+	0Y063/3tMfu74m5d9xiSHuuMV3HqkeLao22LD
+X-Google-Smtp-Source: AGHT+IEsHZPSP4G2A6y8auEJwXBIu0bIePEW25B0Ej6e8DQk223CrBUk2iDdt7tw7AgGIJ6AfGJ9Kw==
+X-Received: by 2002:a05:6a00:1393:b0:740:596b:4a7f with SMTP id d2e1a72fcca58-74ad458fe52mr9526510b3a.16.1750951616990;
+        Thu, 26 Jun 2025 08:26:56 -0700 (PDT)
+Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-749c8872d68sm7319581b3a.170.2025.06.26.08.26.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 08:26:56 -0700 (PDT)
+From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
-Cc: Antonin Godard <antonin.godard@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2305;
- i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=dXxXew0xlKRPqqEAFMb9sH1SQ6A1SMn+TUNpOq7vbFw=;
- b=owEBbQKS/ZANAwAIAdGAQUApo6g2AcsmYgBoXWQ+xHXJGD+SFNzw5r2TuHqsj12wAGCrV5Ml6
- VelR7VixHmJAjMEAAEIAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCaF1kPgAKCRDRgEFAKaOo
- NqCOD/9DPDgVIlHmAgwqzsTpeB2Zj5H0AeE5jChDTkpG5++MsLxWQCM8oYWiSxg5dqu6gbQo9qv
- h/oSdclGCwQgoj70+9r0QAOE562sAnc4x0kSXI76g4AREzV1lg2L7sNFpdP8PZzhaN8CKXmtxUy
- wavSH64oUZECfHnL1dJ56r0tnq1VjjWbKAJQe1XtInUh4oLyO3fECw2Nrskv0/W9n3s1smys6EQ
- um4NW2aGGb79Apc/o1cF50F8lXulVYI6FbNgVxMvUcPmEr6J3sRWPtZjHVIVVD/Ht3188r2fzqS
- t0qxIp+H4huN0TgAmgdNvuXf5iVAobJztqgfOXkhQabqzKPZoG6eowFMF77n9QXbbnvRZDOXK7x
- WwLHcA7pZ23l/jOl8egJAbL4osiWOeAKQ5+Q8wgCVyMCa6MsYuBQ24GiOGRvM13w+rZUuRfVGwh
- kdj1WYFvG7dW2oy8tleUFIzIYau1E4j4uZJCb1NC48YyKEovA7lSkA//l2P5QDpeDg/puKrzAJJ
- ic3lrj591rdkZgX0MgLMVJLDg9eEgJ5TDTx6RTM6IHdLC/zGhjw3fhKxWbsR1OvsoUZYhLhbZIj
- mwU2LuwGn9OFK2K172QBqWHalu6UQlbMpfZ5gV+EUI6nKbKQV3GIGQd/63zeT83VVA+/xwQ5eZP
- 9X7eviu4ejZADyA==
-X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
- fpr=8648725188DD401BB9A0D3FFD180414029A3A836
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomheptehnthhonhhinhcuifhouggrrhguuceorghnthhonhhinhdrghhouggrrhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedvfeeuhffghfeuueevffetteffleevfffhudffkeeuvdekgfdufeejgfehhffhudenucffohhmrghinheprhgvrgguthhhvgguohgtshdrihhonecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfegtkedumegvsggrjeemudgskegsmegrhegtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfegtkedumegvsggrjeemudgskegsmegrhegtledphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomheprghnthhonhhinhdrghhouggrrhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheprghnthhonhhinhdrghhouggrrhgusegsohhothhlihhnrdgtohhm
-X-GND-Sasl: antonin.godard@bootlin.com
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH 1/6 v2] python3-wheel: upgrade 0.45.1 -> 0.46.1; add ptest
+Date: Thu, 26 Jun 2025 08:25:12 -0700
+Message-ID: <20250626152649.3103465-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <8028bc471f02bc3d688ab422120db7504a38a121.1750806216.git.tim.orling@konsulko.com>
+References: <8028bc471f02bc3d688ab422120db7504a38a121.1750806216.git.tim.orling@konsulko.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 15:16:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219360
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 15:27:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219363
 
-This Sphinx extension can be used to autogenerate documentation for any
-python module returning an argument parser from argparse. It can used in
-places of the documentation where the --help output is currently
-hardcoded, and generate formatted documentation instead.
+From: Tim Orling <tim.orling@konsulko.com>
 
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+* Add python3-packaging to RDEPENDS
+* Enable ptest:
+  - Add to ptest-packagelists.inc PTESTS_FAST
+  - inherit ptest-python-pytest
+  - Add python3-setuptools to ptest RDEPENDS
+  - One test is skipped, but it requires the "full" python3-flit,
+    not just python3-flit-core.
+
+Comparing changes since 0.45.1:
+https://github.com/pypa/wheel/compare/0.45.1...0.46.1
+
+Release notes [1]:
+
+0.46.1 (2025-04-08)
+* Temporarily restored the wheel.macosx_libfile module (#659)
+
+0.46.0 (2025-04-03)
+* Dropped support for Python 3.8
+* Removed the bdist_wheel setuptools command implementation and entry
+  point. The wheel.bdist_wheel module is now just an alias to
+  setuptools.command.bdist_wheel, emitting a deprecation warning on import.
+* Removed vendored packaging in favor of a run-time dependency on it
+* Made the wheel.metadata module private (with a deprecation warning if
+  it’s imported
+* Made the wheel.cli package private (no deprecation warning)
+* Fixed an exception when calling the convert command with an empty
+  description field
+
+[1] https://wheel.readthedocs.io/en/stable/news.html
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/conf/distro/include/maintainers.inc                    |  1 +
- .../python/python3-sphinx-argparse_0.5.2.bb                 | 13 +++++++++++++
- 2 files changed, 14 insertions(+)
+Changes in v2:
+  * Add missing RDEPENDS
+  * Enable ptest
+  * 52 tests pass, 1 skip. Seems to take less than 1 second with kvm
+    for core-image-ptest-python3-wheel on qemux86_64.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index d94fb693e3..c20fd6b27b 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -718,6 +718,7 @@ RECIPE_MAINTAINER:pn-python3-snowballstemmer = "Tim Orling <tim.orling@konsulko.
- RECIPE_MAINTAINER:pn-python3-sortedcontainers = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-spdx-tools = "Marta Rybczynska <marta.rybczynska@ygreky.com>"
- RECIPE_MAINTAINER:pn-python3-sphinx = "Trevor Gamblin <tgamblin@baylibre.com>"
-+RECIPE_MAINTAINER:pn-python3-sphinx-argparse = "Antonin Godard <antonin.godard@bootlin.com>"
- RECIPE_MAINTAINER:pn-python3-sphinx-rtd-theme = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-sphinxcontrib-applehelp = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-sphinxcontrib-devhelp = "Tim Orling <tim.orling@konsulko.com>"
-diff --git a/meta/recipes-devtools/python/python3-sphinx-argparse_0.5.2.bb b/meta/recipes-devtools/python/python3-sphinx-argparse_0.5.2.bb
-new file mode 100644
-index 0000000000..554fb3eb51
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-sphinx-argparse_0.5.2.bb
-@@ -0,0 +1,13 @@
-+SUMMARY = "A sphinx extension that automatically documents argparse commands and options"
-+HOMEPAGE = "https://sphinx-argparse.readthedocs.io/"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENCE.rst;md5=5c1cd8f13774629fee215681e66a1056"
-+
-+SRC_URI[sha256sum] = "e5352f8fa894b6fb6fda0498ba28a9f8d435971ef4bbc1a6c9c6414e7644f032"
-+
-+PYPI_PACKAGE = "sphinx_argparse"
-+UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
-+
-+inherit pypi python_flit_core
-+
-+BBCLASSEXTEND = "native nativesdk"
+ meta/conf/distro/include/ptest-packagelists.inc          | 1 +
+ .../{python3-wheel_0.45.1.bb => python3-wheel_0.46.1.bb} | 9 +++++++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-wheel_0.45.1.bb => python3-wheel_0.46.1.bb} (61%)
 
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index e06731ece73..42672e9780c 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -78,6 +78,7 @@ PTESTS_FAST = "\
+     python3-uritools \
+     python3-wcwidth \
+     python3-webcolors \
++	python3-wheel \
+     qemu \
+     quilt \
+     rpm-sequoia \
+diff --git a/meta/recipes-devtools/python/python3-wheel_0.45.1.bb b/meta/recipes-devtools/python/python3-wheel_0.46.1.bb
+similarity index 61%
+rename from meta/recipes-devtools/python/python3-wheel_0.45.1.bb
+rename to meta/recipes-devtools/python/python3-wheel_0.46.1.bb
+index 8274e83747e..058af2f0e75 100644
+--- a/meta/recipes-devtools/python/python3-wheel_0.45.1.bb
++++ b/meta/recipes-devtools/python/python3-wheel_0.46.1.bb
+@@ -4,9 +4,14 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7ffb0db04527cfe380e4f2726bd05ebf"
+ 
+-SRC_URI[sha256sum] = "661e1abd9198507b1409a20c02106d9670b2576e916d58f520316666abca6729"
++SRC_URI[sha256sum] = "fd477efb5da0f7df1d3c76c73c14394002c844451bd63229d8570f376f5e6a38"
+ 
+-inherit python_flit_core pypi
++inherit python_flit_core pypi ptest-python-pytest
++
++RDEPENDS:${PN} += "python3-packaging"
++
++# One test is skipped but requires the "full" python3-flit, not just python3-flit-core
++RDEPENDS:${PN}-ptest += "python3-setuptools"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
-2.49.0
+2.43.0
 
 
