@@ -1,208 +1,155 @@
-Return-Path: <roland.kovacs@est.tech>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46BDDC7115B
-	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 08:00:41 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.5])
- by mx.groups.io with SMTP id smtpd.web10.3293.1750924840140716131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDBF6C7EE32
+	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 10:06:41 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.4700.1750932391688113982
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jun 2025 01:00:40 -0700
+ Thu, 26 Jun 2025 03:06:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=fIeIO3eX;
- spf=pass (domain: est.tech, ip: 40.107.130.5, mailfrom: roland.kovacs@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=motwJFwXf4sQh9vSjiGIfb+lRUErYz9iwXr4h8o7bmhTrP9rZEIPFjdwFqxY2R5SV+6zj4D5SyuB1jkmIRuhI8G8gl6aK7n8HyJEjSLAgGrI7VZ8AK+DTHLpMmPTRHeLVdrIilvZ4RPqtlp8bEIKwQvSpFfS7DNSJeBlb47kMWOLt/xbVfazpNG99tCif8k7dcUj5vYteHhFMAM3ziRyrYQlYBO+CLKyPzuK0E9xZgN2jsN0cmBilJLdoNhRgeYdyPENt1NcNNWnyUMGEkUByorCLNcR6O7ChzKeuHcd0hvLqlDQ9AEFcGsnpY6AaAKzJHqrPEdqmZe3lejecrBdTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U3NvzgxEmRy33O3A6XWreAeEOyOsV2ZogAoO0K/8OhQ=;
- b=e7UOcaqxpD3DzPGOZz8OurLb7lMtHDqDf3KYFOEFe/N/TeaSzBPq0RyotJrNRxEkmzMBcUzd4VK4vPlUrKK7hkoW8VTNUFUVBBPaqvV6lTm+3o0c954DXoLpLzvg+tlqDV3Qujc70mSMQSlJYwlDAjaUsVlBOnM10qurMTB/p6uDSviq2lhnZxmlZowag8jlCQ1M4tOAiVnyb+vWv1I+jlun59uoRKDcinf6pzXdzlIjaCVYnfyeI15IY+m5OyeQo8EjEIk40jWw+BuoJNvZWcUBLWOVVCJjdhuHoYXbX+fFyyXazglJrWQfcb8Cy+pJIRvWqTdskkdtRH5d7XpszA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U3NvzgxEmRy33O3A6XWreAeEOyOsV2ZogAoO0K/8OhQ=;
- b=fIeIO3eXLIxqbN969khFLzWoc3bqMzYod/EfM2ok3G0oyUykXvbImgj3cZ97f4NTgnaGmMF6zfAlE0jAPgkeIg2dhFykZZZnuuIzYKHob6L41nmT00ZK0pRXWAPnkfliIJ497o+DRmbmHJ3SnRMkF3t9fDHZbc/UmzXziSEFD2FobWc4QkxjaUgQRJ7uypn3PH+GAPevKnBbr+iuiGfnqb1UVccVf60Z2sBcnhBmGFSDI5Y7WBBXO4a6gNjmcX+gT3lTrlbrm2SJtewNFBmwsa0OLMa/thYr+hc98NjwQFUDIcvhYSTobhEPcoVKnsJx6wjTalzBcI6fHZ2UxYHgeA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM7P189MB0725.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:111::20)
- by PR3P189MB1033.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:29::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.30; Thu, 26 Jun
- 2025 08:00:34 +0000
-Received: from AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- ([fe80::5f39:2db5:a647:ac07]) by AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- ([fe80::5f39:2db5:a647:ac07%6]) with mapi id 15.20.8857.026; Thu, 26 Jun 2025
- 08:00:33 +0000
-From: roland.kovacs@est.tech
-To: openembedded-core@lists.openembedded.org
-CC: Roland Kovacs <roland.kovacs@est.tech>
-Subject: [scarthgap][PATCH] gnupg: update 2.4.5 -> 2.4.8
-Date: Thu, 26 Jun 2025 10:00:11 +0200
-Message-ID: <20250626080010.1401332-2-roland.kovacs@est.tech>
-X-Mailer: git-send-email 2.50.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S9eXMMwg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a4e742dc97so1292556f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 03:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1750932390; x=1751537190; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=b/zo02LGbwaLHbcME7UXj9Pf0Dk/ElUkIIZjYboywUw=;
+        b=S9eXMMwg3v7ofH02vLwMT8QTNhV5JMzTmsA1hLdh9eneM3uxSahesPTsNHAiPle3hM
+         QIEA0/tdk75yYFozvpjvNF38hHODCWbEW0wmkYXVJN+kGKzB9cZ+/FbL8DeV4I88ATcR
+         QfyQSY+BfD/v3gqKt0diW4mdwQRVmdZv7v0Mw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750932390; x=1751537190;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=b/zo02LGbwaLHbcME7UXj9Pf0Dk/ElUkIIZjYboywUw=;
+        b=FhbFz+8HQEoB96ex3CV9XOLykPhU7Hs+rEh/armZqMJsxXv7YnNu6D93qEcWJSPR3L
+         TVQm+zzps7t5ROKdl/BXu7RTUJpVhNxXpr4YP6x0fBph8/lHuPBLfZsrgehnPAx9Ex5N
+         CHaGkHb1qNcJHBUAFanAtpGqgcNWPINhD8Yhu+/GGOfrJSKQSOU6nJjjkFw4rh7D8uwx
+         guRcZsNn0yXWTh64dcgAFiIWP4CBZ9xYIWTi9z0HVmfEGUCxoRtHLk3oOuf080OndAip
+         yQZKFJzHDH2kTkxxPtwfK+oC09U2hxqmv9lYy7HpSPIOGRZhRpkwlNUmkiF11AIakzBE
+         aiyg==
+X-Gm-Message-State: AOJu0YzVSXxSdpLQveg8ELkexX2XMtM37dQS6VwonyezggDvGYIOrJzc
+	iAWmC6aFaoWpMKHqhAb3niMT418n+IDwedyRhBUpY5+j9f0Di1REHj3rSRrQZwZzzhM=
+X-Gm-Gg: ASbGncuyt0jumbanNu4J1dRVkiRC8BG9Ax+vIejtr2oddG1cwkZGP0jd2S9APeogWVs
+	IhEVtrT1c71N2A6VgCqw0RqKYeQkp8vQLj1HiB3s/Mu4STBs/8hT0lOxc8+2RTDFY3+tfMyjTrC
+	tHBCTdNFNQpLhehtqfbQAkCA18FeI8F8NNP7En2gr1kBKgS42K0l0wpqr1f16tIF8iWsmO0s5dF
+	i5w7izGAzmYdJMIqMbXJyLj+qful9C6RzT6Q2KotiBr42G/Pwz7p6d0wsFXLdOK0RnFyaF/Wgxm
+	xueP7/O1FOOphfqW6JSJg2BM9K3karDjV8ivk8FdXu1MyBG+nie1nCLB+1TzZpUH2TWx7+UuTdn
+	03YwhsCN/AVDuIjKTUAoATOSV926bGBD6FeJJwFlcDdBfhWVzKpaMaNZ0Uj+YNQ==
+X-Google-Smtp-Source: AGHT+IELU3qqOgky1eH+5jr5EduAWjF9wRg/cOTHooRAdaF92es9JygdU+tpGD7cWXu0YBBGDf4LAQ==
+X-Received: by 2002:a05:6000:200e:b0:3a5:7991:fd3 with SMTP id ffacd0b85a97d-3a6f310df1emr2334241f8f.11.1750932389834;
+        Thu, 26 Jun 2025 03:06:29 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3006:882d:8520:75c1? ([2001:8b0:aba:5f3c:3006:882d:8520:75c1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e805d342sm6917282f8f.21.2025.06.26.03.06.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 03:06:28 -0700 (PDT)
+Message-ID: <f2e0550f251683ed085ac7abaadbaa2f9aea04a2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] sstate.bbclass: apply proper umask when
+ fetching from SSTATE_MIRROR
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Rasmus Villemoes <ravi@prevas.dk>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jun 2025 11:06:27 +0100
+In-Reply-To: <87tt43xaev.fsf@prevas.dk>
+References: <20250606093905.2715221-1-ravi@prevas.dk>
+		<0088740e272e5c9a1181de3f258c7ace3f7f3e17.camel@linuxfoundation.org>
+		<87ikkuzuf6.fsf@prevas.dk>
+		<5be4f30a9368b56993590b8ebe5d6d5120b7c15e.camel@linuxfoundation.org>
+	 <87tt43xaev.fsf@prevas.dk>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU7P191CA0013.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:10:54e::17) To AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:111::20)
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7P189MB0725:EE_|PR3P189MB1033:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3854f3ec-9336-48bc-dc73-08ddb4878704
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?SDWRATSO8dV/ReP8oRZrioSrG/UKlTPGGm7fV6il0iqWkXZeRDQBZfrfYbrr?=
- =?us-ascii?Q?pBqXzj+rjF5OFCWZiVdkGGzhiYvk2PdeuI3NufbVREjI17M/36qFrsVfRL70?=
- =?us-ascii?Q?5YOZkRaQiaeDu82jm/z23wBS1Xn0n6u5botxrjKJDbBja8fddESJ4O1vqSKB?=
- =?us-ascii?Q?ZlHoSWTVRXJnueztS7B6/fXNxd6vPHYO0dcaiX+waqO/Lq1ltcCdGKBLzt9h?=
- =?us-ascii?Q?IWO3jbzC6CepIzkrdyoEiOPVfBPqA5trQdx8iZOoyNwlHUsF5JdUs8ejCBHI?=
- =?us-ascii?Q?eeKpaZ/R7hdJzZ5k8RLWWXUToRx8sUVUKz4Bo7ljypjW9+pPqsV29jRMv31+?=
- =?us-ascii?Q?xhYIRjI7ak7JMIxGXoLmLO9C66PwRiTKfJmRmDb2GW1SAo5vkM5yACZpmAzj?=
- =?us-ascii?Q?fNUMMJrRLoMWSEmEaU2ptaPMnYxNWLtFgVbCJGJ90j3ENAr9uqFgREJjNiO+?=
- =?us-ascii?Q?EaqYUAfWcPUJNsEPrGP5OSyX8LkEA+POEWLqz2ILWb6WAQX1mcGE7aH7IL0l?=
- =?us-ascii?Q?hZVuXoyqhXJmo691t9GP+jCdYa4kxpWs6wt3lUdcCCFCZZUL0A4aVv93MHSm?=
- =?us-ascii?Q?G6DxV2N99rFjww759oYXGn8VFB8zOqsNEw8yDbWx34+yEWuskyIZls+ZB5ZQ?=
- =?us-ascii?Q?lxTwsSVWd16XWr7v809ZMCVA02nESH7zHixgDD2XCkymSGLjjz63UTXKvBaL?=
- =?us-ascii?Q?EKt+lIrQ2LxVos9dC8zB7ydMMn5FevDSrt8x9QZmOfretN2FZR5No3Mo5PMf?=
- =?us-ascii?Q?cm1UsfhivDpzvgRlQSG9beP0wdrhoLD8sGX/gsKn5zMWNC2bab5F0yOs4B//?=
- =?us-ascii?Q?SKkhjBk8F0gYUg+TbW1t4XpBYX6Yi5h0fx8iZgeSCcFjw94NdOSz3wZlW4Gq?=
- =?us-ascii?Q?mIkyowAKLD7Vzp7etGGiGO3sFYW1DpkVGrX2R35YCb8xMzSZdcWfdg8pouIT?=
- =?us-ascii?Q?EJyD6HazPuv7fejOKEGMbWBhLKvui5M2FsGAx4ta4SUiuVAy4lgBt6Orf+Nn?=
- =?us-ascii?Q?zGWh9jcpAmFo2qwdWLpMctF+awDsXDzI60NVR7TvpubMntkdTbUnUGagYveS?=
- =?us-ascii?Q?uJo6EvsKUXMbzU4x1XyfPbIgVC38GS6EoFcqcTGBgYN2mB1XvF56V5OblflQ?=
- =?us-ascii?Q?zQgPPnI1gVbymwi3cD98drwpq0XQpfffZ7cjaR90BeubK4wh1+N7CS4oKqxD?=
- =?us-ascii?Q?6F0oxOwfbBzA1EGUzq647gy+TrRXy1KG88thIdx2xhShDEmKPmh7ZhsVGnJB?=
- =?us-ascii?Q?RWDr7dVTrUqDDCuugkc738odeK4z1n5Azo6wlJiisuE52oRowR1vsUTpoMEO?=
- =?us-ascii?Q?HEF0SYenmIn4UjmSvL3dC6mdj7eOpPMOyesc5Dgr2fXobpaQ3bHlGpZiSSID?=
- =?us-ascii?Q?SN3JW2g=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7P189MB0725.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?hBuYb8enW7Nimn1s9vwKqu6GIQj32TbRtiIdS3b+gR8qDWnba/4VTRC0nlCH?=
- =?us-ascii?Q?5YH4f22ZzyR4Qxdf+kTSJAkA2sDhicT337koU+UOk8VhdpxdVXYKaLgnxJFA?=
- =?us-ascii?Q?fTxzeOkPubCqBIXTnA2543l5UvGrhgzEoL3Q7tQB/hMps22rMKy+51QU0Diq?=
- =?us-ascii?Q?FMCnIvC7FTpljFIlFw3G0T5PuCQ70IKR3SDph5e3eb2dZ6BZNh3fH/pbcFQ1?=
- =?us-ascii?Q?fguHPSDkuTVr6oHgM5Kq0sWlfh2HxXoW4JZ6caCQ+Xow6F2JOch94i8ZVeaI?=
- =?us-ascii?Q?ZJK8jUOd2A6Q730ftElfEmWONgo6baMmAO7rFINnn+Ex3FkzzzHBQIMSonVq?=
- =?us-ascii?Q?/4iUQkBpjI78Wan+H8GE/Ozz2RzA29YPWN/6Cs4q1A4hHTKp21mne+vNNKfm?=
- =?us-ascii?Q?WsTGkY6MzRmgtRqFvAlDuEyJuPOCGbyV2My5dXKtzZ5ANzJppeIaW0VfsEo9?=
- =?us-ascii?Q?W7kUxwcQKKs9wXdWVW4tCzmSCv0YBcqJ2O/JFQzwXPtIjk3l/Fs/gqBCQjrJ?=
- =?us-ascii?Q?7aUhvHegwAq/9CWgExeFqXBbW5hzpGWVT+KpnjZ1ErXxVNZ6NbzrJaihgS1n?=
- =?us-ascii?Q?tH8WDEiYw3Dt5NnVxyzl5oRcsFt9yr0tt7GkeG3gPpa7bCgN+fTHpIonSe6O?=
- =?us-ascii?Q?uNx1QlCGaPJS/XZHv25prOu134EK6AsviHDSc701TkcQBP2LLMJp+MiI+vxr?=
- =?us-ascii?Q?NPcBkNCc34BJXaqG8G6MYKK0R/7GlybFnzUpMs/1GYA6bwROqjCldFGHRVCH?=
- =?us-ascii?Q?fNMS7c529pv3CqsNxgz0uPavx4tpwa46UKpaXcsqax71Ky7v7XFQU1YfatJt?=
- =?us-ascii?Q?JfvmfAublDakNiFGV0KSd6WxlldylvkBx8doH5z/TbvMD60hy5yb0R5ZdK9H?=
- =?us-ascii?Q?UMSm/kudvO8oEWRdEkaW2eiuYZ1rUj8t8geqEQCDu6b6GikA2yRTpHf3U/KX?=
- =?us-ascii?Q?X1gwHuYZKSfQj+guWn9Owqdg/EgCqFaka1k3ZmNkJWUkTJQHmdyZUSZAjnFB?=
- =?us-ascii?Q?rH9NiQoyKNE0gn9qPnRyYdcjl57hMHPK3zR/lE2cpHmoFxR5gPSu5g/ng0AW?=
- =?us-ascii?Q?mu5ulUxdfZpa8PzjlL8Djr95hNwStXuzHf7UUreaCwtp8QvLFveUHcjgV3UD?=
- =?us-ascii?Q?Hm1O07WbeRMixIB0ddi7RbOOW54AEGpzMxvcQgEEo2pkZ58xy5iUCpmIwDQe?=
- =?us-ascii?Q?amkURO+/vgXdkNFbPKJ636nArP1p5E9Z/WSRy4+0UJ0/GE1CsShuXaA1QWvw?=
- =?us-ascii?Q?o4G1q5GCGJ69jyjUdWcSk690UW8RR4kB7PuzRZvkCGUiCc1nthX51nO3Ku8F?=
- =?us-ascii?Q?TabPc6sdG9C+HNs2YHmyWZzZY6b1j/HXUmYN9XPnS7YD5R3p9mUcI+eZv5kX?=
- =?us-ascii?Q?OwNjeTvxrub/qJD+uVly3Wrf8RuCX/6l1mQinxkvr+Sd9IUvMK2G8TWVcj6c?=
- =?us-ascii?Q?FOnPDcBJnaKCfFnCiFOvl5u8LyW2UZ8zbO01wadM+NMa22BWbahrtlg0ktkY?=
- =?us-ascii?Q?7RzS/W/JUbVGeZjlCjAXgXVTC0WXTidu3zkmdU2dgu767TyNDZjtcmayA9iM?=
- =?us-ascii?Q?7EqcRwjtPVjVHdsfGbCJePQq32Xe5XBGIn1KS8MZ?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3854f3ec-9336-48bc-dc73-08ddb4878704
-X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2025 08:00:33.7576
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rqK3u5hs2Hif6fp3C02WaPnwUoojidKAJ5wlhSt0RuAUu8UshP6vtfifszCRUW/M5prKnz+smMcvWdiTDdAy1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB1033
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 08:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219340
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 10:06:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219341
 
-From: Roland Kovacs <roland.kovacs@est.tech>
+On Thu, 2025-06-26 at 08:51 +0200, Rasmus Villemoes wrote:
+> On Wed, Jun 25 2025, Richard Purdie <richard.purdie@linuxfoundation.org> =
+wrote:
+>=20
+> > On Tue, 2025-06-17 at 09:41 +0200, Rasmus Villemoes wrote:
+> > > On Sun, Jun 15 2025, "Richard Purdie via lists.openembedded.org" <ric=
+hard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+> > >=20
+> > > > On Fri, 2025-06-06 at 11:39 +0200, Rasmus Villemoes wrote:
+> > > > > From: Rasmus Villemoes <ravi@prevas.dk>
+> > > > >=20
+> > > > > Currently, files and directories created under ${SSTATE_DIR} when
+> > > > > fetching from an sstate mirror are not created with group write,
+> > > > > unlike when the sstate artifacts are generated locally. That's
+> > > > > inconsistent, and problematic when the local sstate dir is shared
+> > > > > among multiple users.
+> > > > >=20
+> > > > > Wrap the fetching in a bb.utils.umask() context manager, and for =
+simplicity
+> > > > > move the mkdir of SSTATE_DIR inside that.
+> > > > >=20
+> > >=20
+> > > > I appreciate this sounds crazy but this is causing some kind of
+> > > > regression being reported in our automated testing. Specifically,
+> > > > running:
+> > > >=20
+> > > > oe-selftest -r sstatetests.SStateCreation -j 1
+> > > >=20
+> > > > fails for me locally with this applied, as it does here in CI:
+> > > >=20
+> > > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/=
+1767
+> > > >=20
+> > > > Worryingly, if I run:
+> > > >=20
+> > > > oeselftest -r sstatetests.SStateCreation.test_sstate_creation_distr=
+o_specific_pass -j 1
+> > > >=20
+> > > > i.e. a specific failing test, that fails even without the patch
+> > > > applied, and it shouldn't so there is something odd going on here e=
+ven
+> > > > before the patch.
+> > > >=20
+> > > > We're going to have to get to the bottom of this before I can merge=
+ the
+> > > > patch.
+> > >=20
+> >=20
+> > I finally got to the bottom of the issues. NATIVELSBSTRING handling was
+> > causing weirdness when running the tests which was than masking other
+> > problems. Once I fixed that, I could unravel the problem with badperms,
+> > which was just broken as you mentioned. In the end I cleaned up the
+> > umask handling there using bb.utils.umask and combined some of the test
+> > cases for clarity too. I've sent a couple of patches.
+> >=20
+> > This should mean your patch can now merge as it is correct IMO and the
+> > tests were just broken/breaking.
+>=20
+> Thanks for taking the time to work through this. I was hoping the needed
+> fixups were small enough (or localized enough) that my patch, along with
+> those fixups, could be eligible for walnascar. What's your take on that?
 
-This release includes fix for CVE-2025-30258.
-Support for --enable-gpg-is-gpg2 config option has been partially removed i=
-n
-version 2.4.6.
+A quick poll of a few developers on the review call as we discussed
+these changes suggested it would be a candidate to backport.
 
-Changelog:
- https://dev.gnupg.org/T7428
+> I got into this because we currently have to set BB_DEFAULT_UMASK =3D
+> "002" to get the sstate dir perms right on our shared build
+> infrastructure, but it turns out that that cure is worse than the
+> disease as I wrote here:
+> https://lore.kernel.org/openembedded-core/87wm9r1wcx.fsf@prevas.dk/
 
-CVE: CVE-2025-30258
+I have been meaning to look at that a bit. We haven't really supported
+changing the overall default umask as the potential for unintended
+changes is significant. It could probably be made to work but someone
+would need to put a lot of development work in.
 
-Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
----
- .../gnupg/{gnupg_2.4.5.bb =3D> gnupg_2.4.8.bb}          | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.4.5.bb =3D> gnupg_2.4.8.bb} (91=
-%)
+Cheers,
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.4.5.bb b/meta/recipes-suppo=
-rt/gnupg/gnupg_2.4.8.bb
-similarity index 91%
-rename from meta/recipes-support/gnupg/gnupg_2.4.5.bb
-rename to meta/recipes-support/gnupg/gnupg_2.4.8.bb
-index 97b5d8856c..9c5de263c5 100644
---- a/meta/recipes-support/gnupg/gnupg_2.4.5.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.4.8.bb
-@@ -23,7 +23,7 @@ SRC_URI:append:class-native =3D " file://0001-configure.a=
-c-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk =3D " file://relocate.patch"
-=20
--SRC_URI[sha256sum] =3D "f68f7d75d06cb1635c336d34d844af97436c3f64ea14bcb7c8=
-69782f96f44277"
-+SRC_URI[sha256sum] =3D "b58c80d79b04d3243ff49c1c3fc6b5f83138eb3784689563bc=
-dd060595318616"
-=20
- EXTRA_OECONF =3D "--disable-ldap \
- 		--disable-ccid-driver \
-@@ -31,7 +31,6 @@ EXTRA_OECONF =3D "--disable-ldap \
- 		--with-bzip2=3D${STAGING_LIBDIR}/.. \
- 		--with-readline=3D${STAGING_LIBDIR}/.. \
- 		--with-mailprog=3D${sbindir}/sendmail \
--		--enable-gpg-is-gpg2 \
- 		--disable-tests \
-                "
- # yat2m can be found from recipe-sysroot-native non-deterministically with=
- different versioning otherwise
-@@ -41,7 +40,6 @@ CACHED_CONFIGUREVARS +=3D "ac_cv_path_YAT2M=3D./yat2m"
- PACKAGES =3D+ "${PN}-gpg"
- FILES:${PN}-gpg =3D " \
- 	${bindir}/gpg \
--	${bindir}/gpg2 \
- 	${bindir}/gpg-agent \
- "
-=20
-@@ -61,11 +59,6 @@ do_configure:prepend () {
- 	rm -f ${S}/m4/libgcrypt.m4
- }
-=20
--do_install:append() {
--	ln -sf gpg2 ${D}${bindir}/gpg
--	ln -sf gpgv2 ${D}${bindir}/gpgv
--}
--
- do_install:append:class-native() {
- 	create_wrappers ${STAGING_BINDIR_NATIVE}
- }
-@@ -75,7 +68,7 @@ do_install:append:class-nativesdk() {
- }
-=20
- create_wrappers() {
--	for i in gpg2 gpgconf gpg-agent gpg-connect-agent; do
-+	for i in gpg gpgconf gpg-agent gpg-connect-agent; do
- 		create_wrapper ${D}${bindir}/$i GNUPG_BINDIR=3D$1
- 	done
- }
+Richard
+
 
