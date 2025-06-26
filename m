@@ -1,93 +1,109 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94FA7C77B7C
-	for <webhook@archiver.kernel.org>; Wed, 25 Jun 2025 22:29:24 +0000 (UTC)
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
- by mx.groups.io with SMTP id smtpd.web11.28926.1750890561905373838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0157DC77B7C
+	for <webhook@archiver.kernel.org>; Thu, 26 Jun 2025 00:21:37 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.150.1750897294467879381
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jun 2025 15:29:22 -0700
+ Wed, 25 Jun 2025 17:21:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L8CdblCE;
- spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-3da73df6c4eso3012755ab.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 15:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750890560; x=1751495360; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=v7A71g5QP76e4r+Vcslr8SXe2FBBnXf9bz5G/0FzuyE=;
-        b=L8CdblCEZV4inJX1owdZWONVWNDGHcYkQmbwbKKcVi+CnzmD9TdcVVy6NuL6wYeQzs
-         YeBHG9AVA1RUOBxQQhOdIsVj2zMW/NXNzwwhwk/oiXaPrAMV+/n3siiI9z1nV5Ihrs8b
-         My+aT6rf5e+o9QJsDnSlkRflRgP+2f/qFOVnwE0XKxtV3YDd/h2ZlCPbW5MpsF94sj7e
-         tk8WmJapEAawjJmB0/YsiaGN4ggAJlYaaGaYiH8m5Gk3GiqyuNKOMUI4JSYywpc3gl9i
-         +cwHkTb0HhMYPCsi5VFZdDsA+rzAqiiJHOvXPOjs/qkvgVO4lw+DHaNVwWD+tXmAJyA/
-         4VKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750890560; x=1751495360;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v7A71g5QP76e4r+Vcslr8SXe2FBBnXf9bz5G/0FzuyE=;
-        b=bwx/Ttmd39O1bLL3+mLXUvYgfRbbQGjI182fNySVmXxt8E7PFJed3wmTEw1MiP1IHw
-         tttdPrHuQMH/dseExnyVOkW5czRELA5fty+qrykQRxV2zuFfw/CjFt2TBI7/sgLlMUtf
-         P1M4I93SR/yPBPH0msXzQt0NKMhd6SkeGfGGs4EVdL0AlA864xiwC2J7CF+YSBBQyrGy
-         2X5g+oHHBMHLvBHf3S/g1QUGoz3p2uEQEaQ8KURJwG5qCe6yvN38nRo2Yu1emPOgej0B
-         egTVxgWSEG1Xw8pzyvXjgwPLbIbEUFozCHHef9J5EjGkpmip/e5Nhp8p9ws/GgPqwBTU
-         EVSA==
-X-Gm-Message-State: AOJu0Yz1XH8XqV2et2C2kgSlReptYNLW5uyItMhoCharXSEZg2tWXh1I
-	WIlWXq6kBEUKaSsusS37z9YOxoYIZ2oz8QpNZo+dQgoNNBGX1j038WVGJMGLjA==
-X-Gm-Gg: ASbGncue6Za056jCnsU452IsQIVuszEAOyV6nySSHzK/zbigCEQ8pO1FSBQPnmJrnO7
-	XV6OFc5urDMsIlY0hN8YeiDTy3yLHD4kBvFo/wP+i1iMbK/YbPuBNSvwBCi/LYCig7M8Sdkcw7r
-	LKIV+HJBAZDFUhfFJ99ktZqJMQZcWWA4EBSJpnt20KOYGm7kyXqm2/RAELJZeB8EUXjJQUmCSwu
-	Gi9Siog4MSd8irbWNeQtmKrGPkobtF5iZuItJaT+tk6GpSPdpuMjbFPGJF/cEpWj+MH9ncE9YlX
-	pSsZNpiX8T2OVannz9cXVlgQsCY94bjsCs4H9GCw0dnp9Cmj+feBuq/uKw==
-X-Google-Smtp-Source: AGHT+IHEy/wcuvmPfhHgxrRQJ7k3UcyLf+iqbUjw8O3yz/5bvDUVmq3ycFw8ATASnTj+CYNYVDTpAA==
-X-Received: by 2002:a05:6e02:b49:b0:3dd:f813:64c5 with SMTP id e9e14a558f8ab-3df3e1135c2mr24106505ab.22.1750890560496;
-        Wed, 25 Jun 2025 15:29:20 -0700 (PDT)
-Received: from talyn.. ([208.115.91.139])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5019e0cbab7sm2920816173.137.2025.06.25.15.29.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 15:29:19 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] spdx30_tasks: Change recipe license to declared
-Date: Wed, 25 Jun 2025 16:29:16 -0600
-Message-ID: <20250625222916.11663-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.49.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=827273cba7=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55Q0CtT4017147
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 00:21:33 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47dkqamyxu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 00:21:33 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 25 Jun 2025 17:21:29 -0700
+Received: from pop-os.wrs.com (172.25.44.2) by ala-exchng01.corp.ad.wrs.com
+ (147.11.82.252) with Microsoft SMTP Server id 15.1.2507.57 via Frontend
+ Transport; Wed, 25 Jun 2025 17:21:29 -0700
+From: <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] ninja: upgrade 1.12.1 -> 1.13.0
+Date: Wed, 25 Jun 2025 20:21:30 -0400
+Message-ID: <20250626002130.791664-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: QRflGEF4AghULeKHIL0O5jznVCamqxQr
+X-Proofpoint-GUID: QRflGEF4AghULeKHIL0O5jznVCamqxQr
+X-Authority-Analysis: v=2.4 cv=N/IpF39B c=1 sm=1 tr=0 ts=685c928d cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=6IFa9wvqVegA:10 a=NEAV23lmAAAA:8 a=jtyxVqDdAAAA:8 a=t7CeM3EgAAAA:8 a=56ISNOgbCuLTLkxgNFAA:9 a=D0qpmhatDSoHz4RXNCtZ:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI2MDAwMSBTYWx0ZWRfXzfBFtyjuxow1 m6Q0H7QsGZ3cryxDMUYJKtWamlchGr/q4ihD0YXCdahk3GzJeN60bexW7aPAeOn0pX9Ih6WCu3J uWxoJbI7Cxn67Vhi6nPJqqX/MsH+H/Dn1DjXdSftOzGeuMvjC80kJs0+hAm97QowJ+xt6+sPX5T
+ 7pD2UKR7H2GXBPNEO1etwDf67+SoUZ/a5wt7jbvy07932g95oBxca1DQxu9+6IdRgghq51kQ3/e UUMuZTxdZvrxyfY75VAr+DurgiIQKsbplizoST2Gz5ijvlgiRfIEbhGo9wH7/yDiBv3akB3fueg svQO1EY51HCZuISYasfnv6shF4W3YdAoJimx2Whg8TSgjVztQVShhysfYxqvtSx4cgk/uSnWbkm
+ m0YBSZehctq0/1EelM8FK8k+KqHYEm6mSsr3hwTb9xRLRoJGj9WKJnHXrKcJRBm+VVqsowTp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-25_08,2025-06-25_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 mlxlogscore=999 malwarescore=0 priorityscore=1501 spamscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2506260001
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Jun 2025 22:29:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219333
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jun 2025 00:21:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219334
 
-Per discussion with the SPDX licensing group, recipe LICENSE statements
-classify as a declared license, not a concluded license.
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Changelog:
+==========
+ - Ninja now automatically joins a GNU Make jobserver as a client
+   (version 4.4 on non-Windows systems required for "fifo" style) #1139
+ - Print exit code of failed subcommands #1507
+ - ninja -t compdb accepts a target #1544
+ - Support for ANSI (color) escape codes in NINJA_STATUS #713
+
+See:
+   https://github.com/ninja-build/ninja/milestone/8?closed=1
+for a complete list of changes.
+
+Also line-wrap the DESCRIPTION.
+
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
- meta/lib/oe/spdx30_tasks.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../ninja/{ninja_1.12.1.bb => ninja_1.13.0.bb}            | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/ninja/{ninja_1.12.1.bb => ninja_1.13.0.bb} (74%)
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index beeafc2bb7c..5d9f3168d97 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -552,7 +552,7 @@ def create_spdx(d):
-     )
-     build_objset.new_relationship(
-         source_files,
--        oe.spdx30.RelationshipType.hasConcludedLicense,
-+        oe.spdx30.RelationshipType.hasDeclaredLicense,
-         [oe.sbom30.get_element_link_id(recipe_spdx_license)],
-     )
+diff --git a/meta/recipes-devtools/ninja/ninja_1.12.1.bb b/meta/recipes-devtools/ninja/ninja_1.13.0.bb
+similarity index 74%
+rename from meta/recipes-devtools/ninja/ninja_1.12.1.bb
+rename to meta/recipes-devtools/ninja/ninja_1.13.0.bb
+index 5aff82edec..70d665c251 100644
+--- a/meta/recipes-devtools/ninja/ninja_1.12.1.bb
++++ b/meta/recipes-devtools/ninja/ninja_1.13.0.bb
+@@ -1,12 +1,16 @@
+ SUMMARY = "Ninja is a small build system with a focus on speed."
+ HOMEPAGE = "https://ninja-build.org/"
+-DESCRIPTION = "Ninja is a small build system with a focus on speed. It differs from other build systems in two major respects: it is designed to have its input files generated by a higher-level build system, and it is designed to run builds as fast as possible."
++DESCRIPTION = "Ninja is a small build system with a focus on speed. \
++It differs from other build systems in two major respects: \
++it is designed to have its input files generated by a higher-level build system, \
++and it is designed to run builds as fast as possible."
++
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
  
+ DEPENDS = "re2c-native ninja-native"
+ 
+-SRCREV = "2daa09ba270b0a43e1929d29b073348aa985dfaa"
++SRCREV = "b4d51f6ed5bed09dd2b70324df0d9cb4ecad2638"
+ 
+ SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release;protocol=https"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
 -- 
-2.49.0
+2.34.1
 
 
