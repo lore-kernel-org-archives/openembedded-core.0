@@ -1,100 +1,106 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC6B7C7EE31
-	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 06:48:34 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.7607.1751006911713824642
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18782C77B7F
+	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 07:19:15 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.7939.1751008747122973696
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jun 2025 23:48:31 -0700
+ Fri, 27 Jun 2025 00:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=E7C02L48;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dxUDjt73;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010197b0251728-30108345-3c41-4375-b99a-d8eac6beaf28-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751006910; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=7xbScfWcXpvI4U3FXcZcXQyU1rJ3UA9leIhjvsN/ASk=;
-	b=E7C02L484QSOdPgTzkCIHA6IbA/HHbNuF7EtdtsThcE+FUjZfxVrHRKRkT1GsLa9
-	WDPAsDMS9U/PII5YG8ksulNEPgjhBeCITnDxKixs5Jnj2WWJmcg0dmRs2UMJZ5DZTTq
-	scHtorAZ12kAsz1DNkGo6nks8JF66PNix/IWggLU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751006910;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=7xbScfWcXpvI4U3FXcZcXQyU1rJ3UA9leIhjvsN/ASk=;
-	b=dxUDjt73am04hl2FHLcrCXmLFHV+gTyZ/x3KP8a4DMmUD3cMpZ6Yw+ki1uCo8g/+
-	Skg6GLWPNuS1+AyBhw9vIHhg8kf5IDaiwOpomr5Q4pD56E94Cpdd8ltCAAaCjwTafxr
-	d9RyIwtKOT3dv/jZMJrfTgv2Ztzdh/1NMSq/bmMs=
-From: patchtest@automation.yoctoproject.org
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 6/6] oeqa parselogs: add parselogs-ignores-genericarm64.txt
-In-Reply-To: <20250627063004.781560-6-mikko.rapeli@linaro.org>
-References: <20250627063004.781560-6-mikko.rapeli@linaro.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010197b0251728-30108345-3c41-4375-b99a-d8eac6beaf28-000000@us-west-2.amazonses.com>
-Date: Fri, 27 Jun 2025 06:48:30 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.27-54.240.27.29
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AOaePj4Z;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-74264d1832eso2491904b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 00:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751008746; x=1751613546; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JPQd3MPFW/cWWdPu/Wx7iQ0Nw4mToCKb/fU1CWmHo+s=;
+        b=AOaePj4Z64frpP64xbsSOt4uakOKD4VYtgxgV+Q9Quxv8fOCNTtHkN82f1fbv1VOWc
+         peJqVd4D7GjZkkO0d39HZ+Eg6J+C1yq1b7RpZbu1Iakd5cf8mmZUz7uuZ5gh5IJqDISC
+         0G0KgAtdrWerQKYoid1L5eXEBV5WvICNjfweg6QcQTPFivtL3WKdcyjbvgIDsKcr0Hch
+         rc64S98MSynk6zNuuHKrkmNO5asIubDEeUim8olEOS3VMaHzS/cy5dBqZlGPCER6Bskc
+         u+dkLOJP6yZI1prS4cwFMtkWus0R5plrp1NXbSBoyxs/3y1UMFkvARSu/746PvbpUVlg
+         Zyeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751008746; x=1751613546;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JPQd3MPFW/cWWdPu/Wx7iQ0Nw4mToCKb/fU1CWmHo+s=;
+        b=myiXGSJS05xX/zPRQyhFCzlaNZl/dhwvGpyD1sjkBy8LREPGW3v4ozlzV62fJBNeLy
+         DclUmUVxDPwGJGxpm4f8dhfs9hh6P9ztcf1K/nM/2uX4KnySv+t3HSujT2XjLPzxTX7n
+         KoUGRspwcRNEXBklrYR/Ia1NjM7u6fgyt40h7+sNKoCY7Z3jKFBHenQrbvFNLv8GTnOH
+         s11dNXgb0UqY1heZfrQYsj5dNu575oIczzrvtHqcViTzix+UdZGvf5GIbY71O/rB12yF
+         XWPG61+h8rBnXYl0ajs4RIa+lB/E3XWT0l6pfQjJZlEL0tt9xX7qV37rxLP89PEiPuiA
+         H3lA==
+X-Gm-Message-State: AOJu0YwxuYVvR1w7KWZZPv9auRmbM1w5Z6FlyOYTPN4Ex6wb8EY2yNBX
+	8vSRVe0abYcqWtMZuz1zEyuvik3qRQA9NpGYHNyOZ9PKc/zc0+Bvw+o31f6dPER+
+X-Gm-Gg: ASbGncuvlZ9xK938fC4SU6b6WZWJMf1dRr4rMRbacKVmzMmNxLFUFyxT+Etx+H2aWnj
+	ZOPZz73THD/v+6ZcGf/8gzrePosJL5BHNBdNZHpjQxn+sRboqr4uISDRwmSdkCkGgg7tK4VQWCJ
+	a5uLJXpf1tWXcZzG8ahlvD3wyTC03MgLfUuayYORPx1pCbWojjuvWRVQaUku2t5+uuPr48E4oLT
+	crV2RRKCDdJrcx8aF4kCuR1fVzy7tShY7Ljvhar1OKbKxJ4Y+4IS3Y6jm78K4HiCdDWEnSp/Bg/
+	XX0kGq8UpwgqOjXzQkRMU2ogZtmsH1pLbxbNhmqc0mC4d3Xuc6SZTA==
+X-Google-Smtp-Source: AGHT+IEEz7eNTlPvobSnEDML6yURTBOTs8eYngIYC955UVXje6sX4uuWN1j7QqG4aPEl45EWveyRug==
+X-Received: by 2002:a05:6a00:130a:b0:742:da7c:3f30 with SMTP id d2e1a72fcca58-74af6f4cf7cmr3075089b3a.19.1751008746125;
+        Fri, 27 Jun 2025 00:19:06 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::aa8c])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b34e300ab8dsm937552a12.8.2025.06.27.00.19.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 00:19:05 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] systemd: Refresh patch to remove patch fuzz on musl
+Date: Fri, 27 Jun 2025 00:19:03 -0700
+Message-ID: <20250627071903.1943193-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 06:48:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219383
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 07:19:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219384
 
---NextPart
-Content-Type: text/plain
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/6-6-oeqa-parselogs-add-parselogs-ignores-genericarm64.txt.patch
+ ...g_syscall.h-Define-MIPS-ABI-defines-for-musl.patch | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch b/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
+index f0aa3a0bd8b..1443c5082b2 100644
+--- a/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
++++ b/meta/recipes-core/systemd/systemd/0015-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
+@@ -15,8 +15,6 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  src/shared/base-filesystem.c | 1 +
+  2 files changed, 7 insertions(+)
+ 
+-diff --git a/src/basic/missing_syscall.h b/src/basic/missing_syscall.h
+-index e2cd8b4e35..f2fe489de7 100644
+ --- a/src/basic/missing_syscall.h
+ +++ b/src/basic/missing_syscall.h
+ @@ -20,6 +20,12 @@
+@@ -32,8 +30,6 @@ index e2cd8b4e35..f2fe489de7 100644
+  #include "macro.h"
+  #include "missing_keyctl.h"
+  #include "missing_sched.h"
+-diff --git a/src/shared/base-filesystem.c b/src/shared/base-filesystem.c
+-index 389c77eee0..e3627c4603 100644
+ --- a/src/shared/base-filesystem.c
+ +++ b/src/shared/base-filesystem.c
+ @@ -20,6 +20,7 @@
+@@ -42,8 +38,5 @@ index 389c77eee0..e3627c4603 100644
+  #include "user-util.h"
+ +#include "missing_syscall.h"
+  
+- typedef struct BaseFilesystem {
+-         const char *dir;      /* directory or symlink to create */
+--- 
+-2.34.1
+-
++ typedef enum BaseFilesystemFlags {
++         BASE_FILESYSTEM_IGNORE_ON_FAILURE = 1 << 0,
 
