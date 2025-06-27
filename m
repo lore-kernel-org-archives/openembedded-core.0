@@ -2,89 +2,125 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C39C7EE2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C20C83000
 	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 21:24:32 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.1814.1751059471371404078
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.1813.1751059470834238772
  for <openembedded-core@lists.openembedded.org>;
  Fri, 27 Jun 2025 14:24:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a/50csvd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-451d6ade159so1947725e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 14:24:31 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XWUDi5oC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45310223677so2223285e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 14:24:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google; t=1751059469; x=1751664269; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vSjQULQRe7I455VPFCtgWb1yNgEQrZc1PMmOrcuUoU8=;
-        b=a/50csvdqN7hru7W9Ndt+rI0BbKrH449KgarotIPO/dRGb2r7K0WIZk9U8qm+VFxvb
-         bPbXHl+WJVHXUFrJGr2tPoSl6P4Xn8E9l1LWg+wj1TLkNXZ5Xd+3t/7q/jWMt3zYu9PU
-         6nxmFpH0Pc3KFgqwITv5icR6Eb4w4nOpS5OAE=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s+RXsOs1c2FLqNGA30AQgjgNZHTKI7aIhD1YsVTNkPU=;
+        b=XWUDi5oC1wZxHdtTAj015QJgQFh3gYG54Fel7a/iE4y5HTP9mhDYk5xnoGVKsbRb8G
+         kfwcVIYhNlKjgV8YGhbZZmQ+8fulDVVCmE/gUzmCyW350yITw3UDBHDdHRBt+nbdkWAl
+         rcGFOjx5uSvV5suggsjayOA5F2Y5y4sFdlbgw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1751059469; x=1751664269;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vSjQULQRe7I455VPFCtgWb1yNgEQrZc1PMmOrcuUoU8=;
-        b=K+3k4TWztCgbVaAENkp4n7p/wOhYfolfU5ZfQaACFkLC5IFg5CeUaTYaBQc8w76LDU
-         /eXw5T2NeMcYyIH9Lu/IqxfVNy+oTMiNHSLEe/wQ2N5lJ6+sE6K2TijGEMjUiDCZ45L8
-         36hQpgsIQthFwKWrfZ72AXxNmfAJQ3Eu21CgMgResfXZ0aqEWzKdSxxQYzvyAn728J4K
-         kDy0HmCXD+ktQ06XneKWK+tcJgH9uXqM7PqvRj+VDV/AahZiDjPxukL7NpWtTpBKMOPG
-         LqhZxfrM5Z8YC57wqVm4yuZJt7JXY69fy+89nUW5SE37OzbCySlOp/BlTYB1LNulXljI
-         fLXQ==
-X-Gm-Message-State: AOJu0Yxu8zd07qPvMC26aApDPbYVEvnA9+enUMRlTNmWHo2fWNM98GF9
-	1Mh+/uOtr8r8VNRMxbpAIbL/gRnvNfa2QC0hYstcKaouk8ocC6IsO+e58RUBsjcREu81l0XL0ed
-	xCuu2
-X-Gm-Gg: ASbGncuI8eZyGIL22/FZ/A0Acym5lSWqyTYcSZx1SZlmpP2SovQSgYkriu89naEye2T
-	zyErRbHo5SU2wcU4Pcv3IU8tu+SSckqbDAEb8PmQgTgShaWFELO0iMZmj12HOOmGrx9E6n8IzFq
-	gKYwfrmB/P7KD/YPowkAHWHUIBTpXYJpMao7Bu9TzS8c6itlfwqw+MvVM4umGb6w2Xu5D/tVMw8
-	GVzkMdCaBG4d8wauB1bIHAz4r7lV9mBt6MxK3/ANm7STU/aG2ETzwt3PUvnmNGSC+zV5w32FEXG
-	Zz0tp0qghPCILSc+dPjpizvKwbaGaWX3dZxWpT71gH2/PphHxoV0444EDPmWVNmS3DnHrmQEiVn
-	KJ8oBkABU9dFoY4s=
-X-Google-Smtp-Source: AGHT+IHZ0DGfZOLiHCjIkPRDzfVRP+ozMilV3Uz2O08AQv4ZpwovWYpmH0YcDn+1NIup2dgQ+Z16Cg==
-X-Received: by 2002:a05:600c:4f4f:b0:43c:f70a:2af0 with SMTP id 5b1f17b1804b1-453917ee4e0mr43911085e9.16.1751059469300;
-        Fri, 27 Jun 2025 14:24:29 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s+RXsOs1c2FLqNGA30AQgjgNZHTKI7aIhD1YsVTNkPU=;
+        b=UicOHvG9/FzXDoYrJIRiqBxbpy+ZArfhU1Jl5WgCclS2paeE8m5lrA3J4hd0HjNxV+
+         e+mjCN4nZXI5rmhMeW2lmkJfkepqer8A22CjExgHJbhAI6Gc5MIRw0shL5DmDLYaQScM
+         LjHfPj51tDPuw3u5PS1R8U6phQ1Ble7Bk6EL8smmbo6gHgeGnE6REr6FKgKGbb0JtUgk
+         ABs3F8GKOWf+GWGyFb5bUowJt2Lv/a+wf0cFgilbDurWVVw2liqv3nnqQ9qXiteUG4Aw
+         GHKPX/ZFoWo0tNqBTN6pJgDT20jz/aWZuCG93jnbxugzN/OMLWjgG+WAB8j2z7OUPJUo
+         PnIQ==
+X-Gm-Message-State: AOJu0YyabXa4jyODyL22Erl3OJC9Mg34ygHlbVf3BmpZdv+QhjyPtS8R
+	Hf+ZikoX8snT+hRJEMDyqsfw06qrEXF7g3TUeDM8YT2gAsgY2hf3BuXPE8VcCLWc9G42tOWNII4
+	nzOEf
+X-Gm-Gg: ASbGnctVWpp+qQBAvvlhAY/75eX8NVxE20rC2GacSj2mAPA87axBGasofoKkC96DA2k
+	tX3VPHpeSLoe8gmA0TrzYLcjk5K2SXTqjHQYDKixRjYCepBiuQSQ9qJisD9YAjWehwFuCm077pW
+	AehmbEiCxPvMM7Tg/KbDhxEOcKJgi4TtqlZ/2TObcvGi9He4DPLCSLrg9TyKsUGeLabpAMCkJHl
+	OLIOJMil9kwI29ei9WfxsSwVPD0XIvSxcvZZ9z/Yuzt3QecjrF+zapEaMSnkBIvXJJybTIxfOlc
+	YK4XE6tTa/hyLS+c9sxRc0ZdYJd7DH6YzKhWd17qHNGX1gWIDuB6XdpoDAcrQgQdvRneGTtmPNV
+	SN/CGGKpCuxcjF+c=
+X-Google-Smtp-Source: AGHT+IGW1DT7YhF2Szqr4/haBLciOJrFY2Ay3KVLkTqsKbBpUw26VPJbi6uJ7biBfiCVlXhx17bvdA==
+X-Received: by 2002:a05:600c:c4ac:b0:43c:f895:cb4e with SMTP id 5b1f17b1804b1-4538ee7dcb1mr61584725e9.17.1751059468271;
+        Fri, 27 Jun 2025 14:24:28 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9b1d:fac1:a77f:a658])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a3a6716sm61505305e9.11.2025.06.27.14.24.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a3a6716sm61505305e9.11.2025.06.27.14.24.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 14:24:28 -0700 (PDT)
+        Fri, 27 Jun 2025 14:24:26 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] base: Use DEFAULT_SHARED_UMASK for do_fetch
-Date: Fri, 27 Jun 2025 22:24:23 +0100
-Message-ID: <20250627212423.3315152-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/2] bitbake.conf/sstate: Introduce DEFAULT_SHARED_UMASK to standarise shared area umask
+Date: Fri, 27 Jun 2025 22:24:22 +0100
+Message-ID: <20250627212423.3315152-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250627212423.3315152-1-richard.purdie@linuxfoundation.org>
-References: <20250627212423.3315152-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 21:24:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219434
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219433
 
-The intent has always been to share DL_DIR, so set the umask accordingly
-to the new DEFAULT_SHARED_UMASK variable and match expectations.
+Currently, the "shared" directory permissions of sstate are hardcoded. Since
+multiple areas of the code reference this, separate it out to a variable to
+allow the behaviour to be configurable. Initially this applies to SSTATE_DIR.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-global/base.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-global/sstate.bbclass | 12 +++++++-----
+ meta/conf/bitbake.conf             |  2 ++
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index b86f50e2839..77bdbd03dcb 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -154,6 +154,7 @@ do_fetch[file-checksums] = "${@bb.fetch.get_checksum_file_list(d)}"
- do_fetch[file-checksums] += " ${@get_lic_checksum_file_list(d)}"
- do_fetch[prefuncs] += "fetcher_hashes_dummyfunc"
- do_fetch[network] = "1"
-+do_fetch[umask] = "${DEFAULT_SHARED_UMASK}"
- python base_do_fetch() {
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
+index 2968cc4c2e7..7578aad24ea 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -745,7 +745,7 @@ def pstaging_fetch(sstatefetch, d):
+     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
+         uris += ['file://{0}.sig;downloadfilename={0}.sig'.format(sstatefetch)]
  
-     src_uri = (d.getVar('SRC_URI') or "").split()
+-    with bb.utils.umask(0o002):
++    with bb.utils.umask(bb.utils.to_filemode(d.getVar("DEFAULT_SHARED_UMASK"))):
+         bb.utils.mkdirhier(dldir)
+ 
+         for srcuri in uris:
+@@ -776,9 +776,10 @@ sstate_task_prefunc[dirs] = "${WORKDIR}"
+ python sstate_task_postfunc () {
+     shared_state = sstate_state_fromvars(d)
+ 
+-    omask = os.umask(0o002)
+-    if omask != 0o002:
+-       bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
++    shared_umask = bb.utils.to_filemode(d.getVar("DEFAULT_SHARED_UMASK"))
++    omask = os.umask(shared_umask)
++    if omask != shared_umask:
++       bb.note("Using umask %0o (not %0o) for sstate packaging" % (shared_umask, omask))
+     sstate_package(shared_state, d)
+     os.umask(omask)
+ 
+@@ -843,7 +844,8 @@ python sstate_create_and_sign_package () {
+ 
+     # Create the required sstate directory if it is not present.
+     if not sstate_pkg.parent.is_dir():
+-        with bb.utils.umask(0o002):
++        shared_umask = bb.utils.to_filemode(d.getVar("DEFAULT_SHARED_UMASK"))
++        with bb.utils.umask(shared_umask):
+             bb.utils.mkdirhier(str(sstate_pkg.parent))
+ 
+     if sign_pkg:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a3300fc1727..22473bfe23a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -944,6 +944,8 @@ TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH').replace("_", "-")}"
+ 
+ # Set a default umask to use for tasks for determinism
+ BB_DEFAULT_UMASK ??= "022"
++# The umask to use for shared files (e.g. DL_DIR and SSTATE_DIR)
++DEFAULT_SHARED_UMASK ??= "002"
+ 
+ # Complete output from bitbake
+ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
 
