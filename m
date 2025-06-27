@@ -1,316 +1,84 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B978C83010
-	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 13:49:07 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.14156.1751032138294810782
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5353DC7EE31
+	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 14:39:28 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web11.15457.1751035163289501208
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Jun 2025 06:48:58 -0700
+ Fri, 27 Jun 2025 07:39:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ADD701A00
-	for <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 06:48:40 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8E24C3F66E
-	for <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 06:48:57 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 7/9] recipetool/create_go: proxy module fetching to go-mod-update-modules
-Date: Fri, 27 Jun 2025 14:48:48 +0100
-Message-ID: <20250627134850.152269-7-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250627134850.152269-1-ross.burton@arm.com>
-References: <20250627134850.152269-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fUNNEVhg;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6fb01566184so19714526d6.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 07:39:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751035162; x=1751639962; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sbi2Zhwyw7INlXcNFO+iQwDkBrATMYFvJYheoF9B8O0=;
+        b=fUNNEVhg+gHTOsgRuEDFGh3az6yQI8GZBSriWBJdlxANcDL2sdUrx6XFpGafrEuplW
+         P4S98J9MRx1bPu9mBFg2Rq9AY2ViAF5UhFK5TVqSeiQ6V7CSeizfq26t1ob33pfPgCB5
+         TqYqPhv/j9CxZ5xJpMooqLysCxvGvNsjAE5D97XHSwXJwwnfitIUhU2haQvtzIZwPinz
+         lpreFE00OxpfNjaDkH6QmXMfLfJIfS+am+T2y/q3TWCBuV09/Yk3OsdNduPGFqIM9fS+
+         J0XJDEqUzrTeFDRqoyApf/jcB2juRCcM+VvTbU2gZuDqqtsigPiF9P3eqgU1le4GDkue
+         EnKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751035162; x=1751639962;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sbi2Zhwyw7INlXcNFO+iQwDkBrATMYFvJYheoF9B8O0=;
+        b=min90G0PeihFv8rktV5iGdcCl0VVXsNYPu+92wXcvqJnMYLpKu2AhoGWXWKChXZ0lc
+         /JF9g+xQjpEYjxNl2wJ081h23i+zPlN4qEhth0nrw52WwVbkoP54Qd9iaKlxRcfuH5KK
+         +RZ8NI0wd2Y2MUMYwYm6SXhpy8MGZSnxX2vjN27mFWSCSXhuLvvH4SszYFSIXEvsMfcy
+         XnAOg8hnAIP2s8cWxsQmDGyahWKf+3yuBlBJp5oCp7Du4hxT2oXfwOcoxjpwkL2SEGd6
+         OpQoiw+/xeJMsL0ixRUxBoxuNstIAdmiPbtv53krCx8KsA4rNr4jtzD7S8M+yabSntrv
+         HcTQ==
+X-Gm-Message-State: AOJu0YybxASolxR3m8DY7VJ7C0q0jNEaR6f3C9Re8R8UKNwKNGhQDvQB
+	ekzysRRAVHeIW7wPXpXtVgsuaptq/L2HHOVLD4WrEv7lt1KJoRX4mLjjkF7uN97Y05ttCWU1c9m
+	Ny0/Mvlv7lokuFLoTjKkP2ljNSaADwHJsYBBq
+X-Gm-Gg: ASbGnctyRxykRAEu5R5Zz1f1AeqGhy44F+ZnNJspDYSUPq7RSZdnSMUdaWm9W/kPtS/
+	sNRB8kkfLw5EddcvTH4DRItPxfY0LdmCEAxwSXoTGzcBQFTOfHPxynEYpCbjvhRPDxu6PKSBm2L
+	srAf16V9q3s0G7fc9g0OFW7Nui8IhMryvrYq26KfYOmpR7nr1HzyziB+/mZRkZjM5WrZIMKDdQf
+	f7iLsSHt1ojSsu4
+X-Google-Smtp-Source: AGHT+IHetO5E4qS2jo0MQyC8FPq9hY/RPmFpLkCK2ppFPLowOeygSQVyaMk5iaDSlndPWoMifbenx4zy/faGWxnGd4c=
+X-Received: by 2002:a05:6214:1d03:b0:6f4:c824:9d4a with SMTP id
+ 6a1803df08f44-70002625b60mr53118376d6.13.1751035162026; Fri, 27 Jun 2025
+ 07:39:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <2857400a-49a9-3050-a092-bd38969b6eb4@crashcourse.ca>
+In-Reply-To: <2857400a-49a9-3050-a092-bd38969b6eb4@crashcourse.ca>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 27 Jun 2025 16:39:10 +0200
+X-Gm-Features: Ac12FXwL6yjhZBELU9ufoD-3MW8Kv1bUnjYQcNxzfxnB6Djyn8xo5l3LCh90hG4
+Message-ID: <CANNYZj9ABvvEZDAHwPCTpwyv+GomWhasey-2TB7t_pgGeeOziA@mail.gmail.com>
+Subject: Re: [OE-core] should local.conf.sample include qemuriscv* machine
+ conf files?
+To: rpjday@crashcourse.ca
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 13:49:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219419
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 14:39:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219422
 
-Now that the go-mod-update-modules class exists, this Go handler can
-create a stub recipe and then proxy the module handling to the class.
+On Fri, 27 Jun 2025 at 15:31, Robert P. J. Day via
+lists.openembedded.org <rpjday=crashcourse.ca@lists.openembedded.org>
+wrote:
+>   i forget if i've asked this before, but should OE's
+> local.conf.sample be extended to include all of the machines defined
+> by the OE-core layer? particularly the two qemuriscv*.conf entries?
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../go-mod-update-modules.bbclass             |   4 +-
- scripts/lib/recipetool/create_go.py           | 152 +++++-------------
- 2 files changed, 38 insertions(+), 118 deletions(-)
+TBH what we should move towards is an empty local.conf.sample, as
+things it does include are all over the place and at the same time
+don't cover many important tweaks.
 
-diff --git a/meta/classes-recipe/go-mod-update-modules.bbclass b/meta/cla=
-sses-recipe/go-mod-update-modules.bbclass
-index 6ef7ab553b0..5fccd0bb0d9 100644
---- a/meta/classes-recipe/go-mod-update-modules.bbclass
-+++ b/meta/classes-recipe/go-mod-update-modules.bbclass
-@@ -48,7 +48,7 @@ python do_update_modules() {
-=20
-         env =3D dict(os.environ, GOMODCACHE=3Dmod_cache_dir)
-=20
--        source =3D d.expand("${WORKDIR}/${GO_SRCURI_DESTSUFFIX}")
-+        source =3D d.expand("${UNPACKDIR}/${GO_SRCURI_DESTSUFFIX}")
-         output =3D subprocess.check_output(("go", "mod", "edit", "-json"=
-), cwd=3Dsource, env=3Denv, text=3DTrue)
-         go_mod =3D json.loads(output)
-=20
-@@ -78,7 +78,7 @@ python do_update_modules() {
-=20
-             mod_dir =3D mod['Dir']
-=20
--            if mod_dir.startswith(s_dir):
-+            if not mod_dir.startswith(mod_cache_dir):
-                 continue
-=20
-             path =3D os.path.relpath(mod_dir, mod_cache_dir)
-diff --git a/scripts/lib/recipetool/create_go.py b/scripts/lib/recipetool=
-/create_go.py
-index 3e9fc857842..4b1fa39d13a 100644
---- a/scripts/lib/recipetool/create_go.py
-+++ b/scripts/lib/recipetool/create_go.py
-@@ -11,17 +11,15 @@
-=20
-=20
- from recipetool.create import RecipeHandler, handle_license_vars
--from recipetool.create import find_licenses
-=20
- import bb.utils
- import json
- import logging
- import os
- import re
-+import subprocess
- import sys
- import tempfile
--import urllib.parse
--import urllib.request
-=20
-=20
- logger =3D logging.getLogger('recipetool')
-@@ -66,97 +64,6 @@ class GoRecipeHandler(RecipeHandler):
-=20
-         return bindir
-=20
--    @staticmethod
--    def __unescape_path(path):
--        """Unescape capital letters using exclamation points."""
--        return re.sub(r'!([a-z])', lambda m: m.group(1).upper(), path)
--
--    @staticmethod
--    def __fold_uri(uri):
--        """Fold URI for sorting shorter module paths before longer."""
--        return uri.replace(';', ' ').replace('/', '!')
--
--    @staticmethod
--    def __go_run_cmd(cmd, cwd, d):
--        env =3D dict(os.environ, PATH=3Dd.getVar('PATH'), GOMODCACHE=3Dd=
-.getVar('GOMODCACHE'))
--        return bb.process.run(cmd, env=3Denv, shell=3DTrue, cwd=3Dcwd)
--
--    def __go_mod(self, go_mod, srctree, localfilesdir, extravalues, d):
--        moddir =3D d.getVar('GOMODCACHE')
--
--        # List main packages and their dependencies with the go list com=
-mand.
--        stdout, _ =3D self.__go_run_cmd(f"go list -json=3DDir,Module -de=
-ps {go_mod['Module']['Path']}/...", srctree, d)
--        pkgs =3D json.loads('[' + stdout.replace('}\n{', '},\n{') + ']')
--
--        # Collect licenses for the dependencies.
--        licenses =3D set()
--        lic_files_chksum =3D []
--        lic_files =3D {}
--        for pkg in pkgs:
--            # TODO: If the package is in a subdirectory with its own lic=
-ense
--            # files then report those istead of the license files found =
-in the
--            # module root directory.
--            mod =3D pkg.get('Module', None)
--            if not mod or mod.get('Main', False):
--                continue
--            path =3D os.path.relpath(mod['Dir'], moddir)
--            for lic in find_licenses(mod['Dir'], d):
--                lic_files[os.path.join(path, lic[1])] =3D (lic[0], lic[2=
-])
--
--        for lic_file in lic_files:
--            licenses.add(lic_files[lic_file][0])
--            lic_files_chksum.append(
--                f'file://pkg/mod/{lic_file};md5=3D{lic_files[lic_file][1=
-]}')
--
--        # Collect the module cache files downloaded by the go list comma=
-nd as
--        # the go list command knows best what the go list command needs =
-and it
--        # needs more files in the module cache than the go install comma=
-nd as
--        # it doesn't do the dependency pruning mentioned in the Go modul=
-e
--        # reference, https://go.dev/ref/mod, for go 1.17 or higher.
--        src_uris =3D []
--        downloaddir =3D os.path.join(moddir, 'cache', 'download')
--        for dirpath, _, filenames in os.walk(downloaddir):
--            path, base =3D os.path.split(os.path.relpath(dirpath, downlo=
-addir))
--            if base !=3D '@v':
--                continue
--            path =3D self.__unescape_path(path)
--            zipver =3D None
--            for name in filenames:
--                ver, ext =3D os.path.splitext(name)
--                if ext =3D=3D '.zip':
--                    chksum =3D bb.utils.sha256_file(os.path.join(dirpath=
-, name))
--                    src_uris.append(f'gomod://{path};version=3D{ver};sha=
-256sum=3D{chksum}')
--                    zipver =3D ver
--                    break
--            for name in filenames:
--                ver, ext =3D os.path.splitext(name)
--                if ext =3D=3D '.mod' and ver !=3D zipver:
--                    chksum =3D bb.utils.sha256_file(os.path.join(dirpath=
-, name))
--                    src_uris.append(f'gomod://{path};version=3D{ver};mod=
-=3D1;sha256sum=3D{chksum}')
--
--        self.__go_run_cmd("go clean -modcache", srctree, d)
--
--        licenses_basename =3D "{pn}-licenses.inc"
--        licenses_filename =3D os.path.join(localfilesdir, licenses_basen=
-ame)
--        with open(licenses_filename, "w") as f:
--            f.write(f'GO_MOD_LICENSES =3D "{" & ".join(sorted(licenses))=
-}"\n\n')
--            f.write('LIC_FILES_CHKSUM +=3D "\\\n')
--            for lic in sorted(lic_files_chksum, key=3Dself.__fold_uri):
--                f.write('    ' + lic + ' \\\n')
--            f.write('"\n')
--
--        extravalues['extrafiles'][f"../{licenses_basename}"] =3D license=
-s_filename
--
--        go_mods_basename =3D "{pn}-go-mods.inc"
--        go_mods_filename =3D os.path.join(localfilesdir, go_mods_basenam=
-e)
--        with open(go_mods_filename, "w") as f:
--            f.write('SRC_URI +=3D "\\\n')
--            for uri in sorted(src_uris, key=3Dself.__fold_uri):
--                f.write('    ' + uri + ' \\\n')
--            f.write('"\n')
--
--        extravalues['extrafiles'][f"../{go_mods_basename}"] =3D go_mods_=
-filename
--
-     def process(self, srctree, classes, lines_before,
-                 lines_after, handled, extravalues):
-=20
-@@ -167,37 +74,52 @@ class GoRecipeHandler(RecipeHandler):
-         if not files:
-             return False
-=20
--        d =3D bb.data.createCopy(tinfoil.config_data)
-         go_bindir =3D self.__ensure_go()
-         if not go_bindir:
-             sys.exit(14)
-=20
--        d.prependVar('PATH', '%s:' % go_bindir)
-         handled.append('buildsystem')
-         classes.append("go-mod")
-=20
--        tmp_mod_dir =3D tempfile.mkdtemp(prefix=3D'go-mod-')
--        d.setVar('GOMODCACHE', tmp_mod_dir)
-+        # Use go-mod-update-modules to set the full SRC_URI and LICENSE
-+        classes.append("go-mod-update-modules")
-+        extravalues["run_tasks"] =3D "update_modules"
-=20
--        stdout, _ =3D self.__go_run_cmd("go mod edit -json", srctree, d)
--        go_mod =3D json.loads(stdout)
--        go_import =3D re.sub(r'/v([0-9]+)$', '', go_mod['Module']['Path'=
-])
-+        with tempfile.TemporaryDirectory(prefix=3D"go-mod-") as tmp_mod_=
-dir:
-+            env =3D dict(os.environ)
-+            env["PATH"] +=3D f":{go_bindir}"
-+            env['GOMODCACHE'] =3D tmp_mod_dir
-=20
--        localfilesdir =3D tempfile.mkdtemp(prefix=3D'recipetool-go-')
--        extravalues.setdefault('extrafiles', {})
-+            stdout =3D subprocess.check_output(["go", "mod", "edit", "-j=
-son"], cwd=3Dsrctree, env=3Denv, text=3DTrue)
-+            go_mod =3D json.loads(stdout)
-+            go_import =3D re.sub(r'/v([0-9]+)$', '', go_mod['Module']['P=
-ath'])
-=20
--        # Write the ${BPN}-licenses.inc and ${BPN}-go-mods.inc files
--        self.__go_mod(go_mod, srctree, localfilesdir, extravalues, d)
-+            localfilesdir =3D tempfile.mkdtemp(prefix=3D'recipetool-go-'=
-)
-+            extravalues.setdefault('extrafiles', {})
-=20
--        # Do generic license handling
--        handle_license_vars(srctree, lines_before, handled, extravalues,=
- d)
--        self.__rewrite_lic_vars(lines_before)
-+            # Write the stub ${BPN}-licenses.inc and ${BPN}-go-mods.inc =
-files
-+            basename =3D "{pn}-licenses.inc"
-+            filename =3D os.path.join(localfilesdir, basename)
-+            with open(filename, "w") as f:
-+                f.write("# FROM RECIPETOOL\n")
-+            extravalues['extrafiles'][f"../{basename}"] =3D filename
-=20
--        self.__rewrite_src_uri(lines_before)
-+            basename =3D "{pn}-go-mods.inc"
-+            filename =3D os.path.join(localfilesdir, basename)
-+            with open(filename, "w") as f:
-+                f.write("# FROM RECIPETOOL\n")
-+            extravalues['extrafiles'][f"../{basename}"] =3D filename
-=20
--        lines_before.append('require ${BPN}-licenses.inc')
--        lines_before.append('require ${BPN}-go-mods.inc')
--        lines_before.append(f'GO_IMPORT =3D "{go_import}"')
-+            # Do generic license handling
-+            d =3D bb.data.createCopy(tinfoil.config_data)
-+            handle_license_vars(srctree, lines_before, handled, extraval=
-ues, d)
-+            self.__rewrite_lic_vars(lines_before)
-+
-+            self.__rewrite_src_uri(lines_before)
-+
-+            lines_before.append('require ${BPN}-licenses.inc')
-+            lines_before.append('require ${BPN}-go-mods.inc')
-+            lines_before.append(f'GO_IMPORT =3D "{go_import}"')
-=20
-     def __update_lines_before(self, updated, newlines, lines_before):
-         if updated:
-@@ -210,10 +132,8 @@ class GoRecipeHandler(RecipeHandler):
-         return updated
-=20
-     def __rewrite_lic_vars(self, lines_before):
--
-         def varfunc(varname, origvalue, op, newlines):
--            if varname =3D=3D 'LICENSE':
--                return ' & '.join((origvalue, '${GO_MOD_LICENSES}')), No=
-ne, -1, True
-+            import urllib.parse
-             if varname =3D=3D 'LIC_FILES_CHKSUM':
-                 new_licenses =3D []
-                 licenses =3D origvalue.split('\\')
-@@ -235,7 +155,7 @@ class GoRecipeHandler(RecipeHandler):
-             return origvalue, None, 0, True
-=20
-         updated, newlines =3D bb.utils.edit_metadata(
--            lines_before, ['LICENSE', 'LIC_FILES_CHKSUM'], varfunc)
-+            lines_before, ['LIC_FILES_CHKSUM'], varfunc)
-         return self.__update_lines_before(updated, newlines, lines_befor=
-e)
-=20
-     def __rewrite_src_uri(self, lines_before):
---=20
-2.43.0
+But for now, yes it should have risc-v, and mips/ppc should be
+dropped. Basically it should match what is getting tested on the
+autobuilder, rather than what is available in oe-core.
 
+Alex
 
