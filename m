@@ -1,70 +1,112 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80EF5C77B7F
-	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 16:07:03 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web11.156.1751040418452360006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B025C77B7F
+	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 16:14:43 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.329.1751040880598733462
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Jun 2025 09:06:58 -0700
+ Fri, 27 Jun 2025 09:14:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=bXESTrHh;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6FDbrXh6CtGucsnhZUu2x6+bMLjlOa3WNzSJJg8ZVKM=; b=bXESTrHhYlGd2vMCSTvajw38Of
-	vfz34LESmpwTMnF8aI+cBP74zWpae4xFlTcUbrDDWNuZzlASVE+OdhLsNUTBDGHmKOjxss1cy8VKn
-	JDb3nxFXDNBWXZiChudNb+PFH3wMbg6S6YYIHPj4O30xmsvK4G3NvQ6xhea5JhogXJJW2IKtCmGUq
-	TsWYmaG1/3L4i+PBVtUXJ6mz3uhqlrYy7hYIrKJhvvhxO6jmey/WcLfrCTg00/QoqljCZ82sd7F6q
-	FHJwLmuTgZVzHNK/vM/Bg4g0J24GBzPDC309wwH9F/s/ct5UI8j+0+eVy4oNUexppA5FNkw5TSwng
-	yKSbSHEA==;
-Received: from pool-174-115-41-146.cpe.net.cable.rogers.com ([174.115.41.146]:56126 helo=asus)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1uVBbL-00000008zb7-37uA;
-	Fri, 27 Jun 2025 12:06:57 -0400
-Date: Fri, 27 Jun 2025 12:06:52 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OQ3vEpT6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4537fdec39fso373305e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 09:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1751040879; x=1751645679; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oz2mY32vVIBv5hFPWK+COrp3MnA7gb/7C89gT3MJX9g=;
+        b=OQ3vEpT6qp/0uakaeU8HwrNdt3VBXnV860O/kZLngXM7rlelSic/vYyR1LIhJc6PVA
+         9UAcOoriWKF7XL3i7MpzRmfMCS4tdEJBj79Q/InNYy8YMiQmkZbLhYv143dfC/Ae0pxg
+         0T2cTQvhgw4HpEL2SOIjXw+Isrs5VHdAYAyKU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751040879; x=1751645679;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oz2mY32vVIBv5hFPWK+COrp3MnA7gb/7C89gT3MJX9g=;
+        b=VZEnlt85rmwv5E3gd2ag1sES/H1pyQQXyF1QrI3+HWKdyN3VYR2D5lil7AjfUWq75n
+         fYoTCjCXIjU/Zto+zOTV+QyZwZOrKhqoS/DTz4svp1t1BUE+PYoGHODiCzYho1Q+C24O
+         dLt2u3SlfsoPMVlBUkS0wFpRVyD2CN34Qf35aTygdY5fjpvHh6oMYBxYEO6QMEUxfxOy
+         Bs/5NX0gQPHLgQHS8b5932H+RT6Ws8jeaR1ASMGl4WVhFnlaG0bymujOWgsnn9gxf53P
+         xx6Q2XIoFuMye+yAd58TD/560opA+gISXPZceEMHGgMKmQvOrXmvga4cNIADfskYIxnq
+         +rZA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTEw1cRD7eJBEBW+wnLVGGrN7uzFN1KLCpQAzE8itRJX9jF7NlrGnWSNM1h9Lq4Ws7vdRGaD/G++4DrS/l4sEm8w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz8tBJpbX+/JIbarLi/DYlH7e2eACzCtdguqxkDpMj+DwKLhETR
+	mpN/r49nktaHLk0C8JPRbtXCncZn/vjgrvHJhDGImigBSs228X2rXUb76+DspRTztOwQzAKAp5g
+	7LCzv
+X-Gm-Gg: ASbGnctQSvJKotMYs7WNlXEd3MQ8QK9l8S5We644PGmTkYRB0fEPGESgTkYvt3k7Euj
+	MDHfImx7sVJ+20VwalU4RI9Ca1zDgMoqg5x3YsUrT/rEsfs6qbHdCzZiwARYjLGzf5Mu59M4T7N
+	mlekdee2jzwNSbPccxTJ7dP8drMeoa/ru/kzRUozJKg8oMf4d1AahjWLkxR+dxuMcJMWPhhPDbE
+	97LYZA2WSOgfeSEd7HNTRTjib9MBdWrBSyxw24OlW3/Cg5APSUKPHPqJJuL8MAR3vxq9Rfh/74z
+	pg/WBszaHpGQDdveZwTNP3doRZTNIBcz2U9aXSThJYzRT7I+58mbs+P2Zg1KwJ0dK7hvBGZyhfY
+	hNLxjgGHwTWw49SJtM4Orlqm7sfMZyXauOIwTEg3xCEf5ir4qRW0=
+X-Google-Smtp-Source: AGHT+IH96GlqyRkQF9Tp2i19ddyb00R70U/WfXK2047QWPrwcGABmw7XRm+LMSZ7+WBTf+F2sM6tmQ==
+X-Received: by 2002:a05:600c:c0c3:20b0:450:cd50:3c64 with SMTP id 5b1f17b1804b1-4538eea1cf7mr29878765e9.31.1751040878881;
+        Fri, 27 Jun 2025 09:14:38 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cb92:f366:d434:96d6? ([2001:8b0:aba:5f3c:cb92:f366:d434:96d6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538f2fec5fsm29073625e9.40.2025.06.27.09.14.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 09:14:38 -0700 (PDT)
+Message-ID: <a21bbb6439ae16c362cc967e9daa5d9effa84431.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] local.conf.sample: drop MIPS/PPC, add RISC-V
  entries
-In-Reply-To: <CANNYZj_E1G8BimqHf7mJe+exq4bmkrj1V91-kTw_0EAtjFLOyQ@mail.gmail.com>
-Message-ID: <ca06e2a5-a372-0bb1-91c8-2d4b846d2abf@crashcourse.ca>
-References: <35468b8f-96e3-ce30-2365-9d72342407f1@crashcourse.ca> <CANNYZj_E1G8BimqHf7mJe+exq4bmkrj1V91-kTw_0EAtjFLOyQ@mail.gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: rpjday@crashcourse.ca, OE Core mailing list
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Jun 2025 17:14:36 +0100
+In-Reply-To: <35468b8f-96e3-ce30-2365-9d72342407f1@crashcourse.ca>
+References: <35468b8f-96e3-ce30-2365-9d72342407f1@crashcourse.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 16:07:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219428
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 16:14:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219429
 
-On Fri, 27 Jun 2025, Alexander Kanavin wrote:
+On Fri, 2025-06-27 at 11:50 -0400, Robert P. J. Day via
+lists.openembedded.org wrote:
+>=20
+> 1) Drop MIPS and PPC lines since we should refer to only those arches
+> =C2=A0=C2=A0 tested by the autobuilder.
+> 2) Add entries for both 32-bit and 64-bit RISC-V machines.
+>=20
+> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+>=20
+> ---
+>=20
+> diff --git a/meta/conf/templates/default/local.conf.sample
+> b/meta/conf/templates/default/local.conf.sample
+> index 3a9706c1d5..749bab9883 100644
+> --- a/meta/conf/templates/default/local.conf.sample
+> +++ b/meta/conf/templates/default/local.conf.sample
+> @@ -21,11 +21,10 @@
+> =C2=A0#
+> =C2=A0#MACHINE ?=3D "qemuarm"
+> =C2=A0#MACHINE ?=3D "qemuarm64"
+> -#MACHINE ?=3D "qemumips"
+> -#MACHINE ?=3D "qemumips64"
+> -#MACHINE ?=3D "qemuppc"
+> =C2=A0#MACHINE ?=3D "qemux86"
+> =C2=A0#MACHINE ?=3D "qemux86-64"
+> +#MACHINE ?=3D "qemuriscv32"
+> +#MACHINE ?=3D "qemuriscv64"
+> =C2=A0#
+> =C2=A0# This sets the default machine to be qemux86-64 if no other machin=
+e
+> is selected:
+> =C2=A0MACHINE ??=3D "qemux86-64"
 
-> A similar fix is needed for meta-yocto:
-> https://git.yoctoproject.org/meta-yocto/tree/meta-poky/conf/templates/default/local.conf.sample
->
-> Alex
+Please only add qemuriscv64, the 32 bit version is in a different state
+to the 64 bit one (as documented in the support matrix).
 
-  will do, but i will now embarrass myself by admitting that i did not
-even know that that layer existed.
+Cheers,
 
-rday
+Richard
 
