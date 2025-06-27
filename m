@@ -2,47 +2,49 @@ Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B35E2C77B7F
-	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 12:06:56 +0000 (UTC)
-Received: from esa1.hc324-48.eu.iphmx.com (esa1.hc324-48.eu.iphmx.com [207.54.68.119])
- by mx.groups.io with SMTP id smtpd.web10.12010.1751026014421691239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9818DC7EE31
+	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 12:07:06 +0000 (UTC)
+Received: from esa9.hc324-48.eu.iphmx.com (esa9.hc324-48.eu.iphmx.com [207.54.69.27])
+ by mx.groups.io with SMTP id smtpd.web11.11903.1751026020421771842
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Jun 2025 05:06:55 -0700
+ Fri, 27 Jun 2025 05:07:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=PixOQ4NF;
- spf=pass (domain: bmw.de, ip: 207.54.68.119, mailfrom: prvs=2668831fb=moritz.haase@bmw.de)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=L75ifGNe;
+ spf=pass (domain: bmw.de, ip: 207.54.69.27, mailfrom: prvs=2668831fb=moritz.haase@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1751026014; x=1782562014;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2Ly/2PHgCQ8QRb4BnDhdEXio2LjueMmH8JvUITpujU0=;
-  b=PixOQ4NFrTmzmJzPE8MMRQHFEx3htarf1R0u4LDZjqDvdhaU7KV75CWX
-   oxS1lbMXKr16AA4W6eZPejpHU1GDPGb+Hz7DFubP5RUxWKYZCDkr+8ndm
-   i7Wbn/vB+tMbASyXk1LVqen9XBiLHXmsThxmWPFvywkim1KFh+nzkYjpR
+  t=1751026023; x=1782562023;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=c8IzYQhCVVMX7UvORlJ+q/LcjxoPvfmRifbvTO9cvac=;
+  b=L75ifGNe/EHPu0Qf55+6OOFNl/0GDbnmiPSsPLwKo3hoVp0L8PJQRCHg
+   WdvJzIuKUWyzqsiz/X1e9peYMPGNnxDXwG2ZMgG3mBmE/Xwy7kv1tYDf4
+   pQ2xEgaSvmRyWblb16jzHQZOahl8fbePR8KsEmSQkb0Nnbix/40oVkFFa
    4=;
-X-CSE-ConnectionGUID: 6vvCe9PySYatv0C4gmDgJQ==
-X-CSE-MsgGUID: DY0YBQQvRvSWj5NyTekAPQ==
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
- esa1.hc324-48.eu.iphmx.com with ESMTP/TLS; 27 Jun 2025 14:06:52 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw5.muc with ESMTP/TLS;
- 27 Jun 2025 14:06:52 +0200
+X-CSE-ConnectionGUID: tBeRikbWR7++zmRy27mOeQ==
+X-CSE-MsgGUID: K7PFDhknQm+a42oD8mWWmQ==
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+ esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 27 Jun 2025 14:07:02 +0200
+Received: from esabb4.muc ([160.50.100.33])  by esagw1.muc with ESMTP/TLS;
+ 27 Jun 2025 14:07:03 +0200
 Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
- by esabb2.muc with ESMTP/TLS; 27 Jun 2025 14:06:52 +0200
+ by esabb4.muc with ESMTP/TLS; 27 Jun 2025 14:07:03 +0200
 Received: from q1054628.de-cci.bmwgroup.net (10.30.85.211) by
  smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
- Server (version=TLS; Fri, 27 Jun 2025 14:06:51 +0200
-X-CSE-ConnectionGUID: 72DFsIkESLSV8ps2sRgOmg==
-X-CSE-MsgGUID: KM/ohrHsTcqJ/Wp0l/YG1A==
-X-CSE-ConnectionGUID: CEHQo7jQSkyEschGsnl5fQ==
-X-CSE-MsgGUID: pUeljn3rT3qNkfYQ0Ty2gg==
+ Server (version=TLS; Fri, 27 Jun 2025 14:07:02 +0200
+X-CSE-ConnectionGUID: fkWeT0OWTpOkxpRT/fvzoA==
+X-CSE-MsgGUID: HsBdxZ7ITZ2D1OwkYWXtZQ==
+X-CSE-ConnectionGUID: jgXdDoGmTLu0oOhdrr28Uw==
+X-CSE-MsgGUID: hn04zABxRN+CFLp4SKY/XQ==
 From: Moritz Haase <Moritz.Haase@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>, <alex.kanavin@gmail.com>
-Subject: [PATCH 0/4] cmake: Major version bump to 4.0.3
-Date: Fri, 27 Jun 2025 14:06:29 +0200
-Message-ID: <20250627120633.4084140-1-Moritz.Haase@bmw.de>
+CC: Moritz Haase <Moritz.Haase@bmw.de>
+Subject: [PATCH 2/4] cmake: Update license checksums
+Date: Fri, 27 Jun 2025 14:06:31 +0200
+Message-ID: <20250627120633.4084140-3-Moritz.Haase@bmw.de>
 X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250627120633.4084140-1-Moritz.Haase@bmw.de>
+References: <20250627120633.4084140-1-Moritz.Haase@bmw.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -51,58 +53,52 @@ X-ClientProxiedBy: smucmp15e.europe.bmw.corp (2a03:1e80:a15:58f::1:61) To
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 12:06:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219394
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 12:07:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219396
 
-This patch series bumps CMake to 4.0.3, the most current of the 4.x releases.
-That bump allows us to drop all of the upstreamable patches for CMake itself
-that we currently carry, which was the motivation for the update as suggested by
-Alex Kanavin in [0].
+The main license file has been renamed from Copyright.txt to LICENSE.rst in [0].
+References to the file have been updated, causing changes to the licensing
+header in 'cmake.h' (see [1]).
 
-Following the preparatory merge of [1] and [2], there are only two components
-that require patches to build with the new CMake version. For both createrepo-c
-and libcomps, those patches have already been merged upstream, but there have
-been no subsequent releases yet. Thus, backports of the patches are included.
+Additionally, the '1996 - 2024' copyright statement in (cm)curl's COPYING was
+updated to '1996 - 2025' in [2].
 
-[0]: https://lists.openembedded.org/g/openembedded-core/message/219113
-[1]: https://git.openembedded.org/openembedded-core/commit/?id=c3efca7495889f3682225af8c9e01ceb094b1bb7
-[2]: https://git.openembedded.org/openembedded-core/commit/?id=cb5234acdab200bd43b89416d8d7e9df91af58cc
+[0]: https://gitlab.kitware.com/cmake/cmake/-/commit/2d42a5444f859891b6598c76ea5d51510013565e
+[1]: https://gitlab.kitware.com/cmake/cmake/-/commit/de273b2e115974a012a6204ffee046dc9ce77586
+[2]: https://gitlab.kitware.com/cmake/cmake/-/commit/48b13baebc7f99442c3b872f202efd2fb92d6d7f
 
-CC: alex.kanavin@gmail.com
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
+---
+ meta/recipes-devtools/cmake/cmake-native_4.0.3.bb | 2 +-
+ meta/recipes-devtools/cmake/cmake.inc             | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Moritz Haase (4):
-  cmake: upgrade 3.31.6 -> 4.0.3
-  cmake: Update license checksums
-  libcomps: Backport patch to support builds with CMake 4+
-  createrepo-c: Backport patches to support builds with CMake 4+
-
- ...native_3.31.6.bb => cmake-native_4.0.3.bb} |   6 +-
- meta/recipes-devtools/cmake/cmake.inc         |   8 +-
- ...mpilerABI-Strip-pipe-from-compile-fl.patch |  63 -----
- ...xt2fs-ext2_fs.h-by-cmake-s-internal.patch} |   4 +-
- ...ng-undocumented-type-for-CURLOPT_NET.patch |  30 ---
- ...trary-characters-in-test-names-of-CT.patch | 202 ----------------
- ...-CMakeLists.txt-disable-USE_NGHTTP2.patch} |   6 +-
- .../cmake/{cmake_3.31.6.bb => cmake_4.0.3.bb} |   1 -
- .../0001-Fix-libname-of-Libs.private.patch    |  21 ++
- ...ED_TARGET-for-3rd-party-dependencies.patch | 225 ++++++++++++++++++
- ...-imported-targets-of-turned-off-depe.patch |  52 ++++
- ...ds-without-Doxygen-being-present-wit.patch |  49 ++++
- .../createrepo-c/createrepo-c_1.2.1.bb        |   4 +
- ...libcomps-Support-builds-with-CMake-4.patch | 131 ++++++++++
- .../libcomps/libcomps_0.1.21.bb               |   1 +
- 15 files changed, 494 insertions(+), 309 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.31.6.bb => cmake-native_4.0.3.bb} (90%)
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
- rename meta/recipes-devtools/cmake/cmake/{0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch => 0001-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal.patch} (90%)
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-cmCurl-Avoid-using-undocumented-type-for-CURLOPT_NET.patch
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
- rename meta/recipes-devtools/cmake/cmake/{0001-CMakeLists.txt-disable-USE_NGHTTP2.patch => 0002-CMakeLists.txt-disable-USE_NGHTTP2.patch} (83%)
- rename meta/recipes-devtools/cmake/{cmake_3.31.6.bb => cmake_4.0.3.bb} (96%)
- create mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0001-Fix-libname-of-Libs.private.patch
- create mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0002-Use-IMPORTED_TARGET-for-3rd-party-dependencies.patch
- create mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0003-Don-t-try-to-use-imported-targets-of-turned-off-depe.patch
- create mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0004-cmake-Allow-builds-without-Doxygen-being-present-wit.patch
- create mode 100644 meta/recipes-devtools/libcomps/libcomps/0001-libcomps-Support-builds-with-CMake-4.patch
-
+diff --git a/meta/recipes-devtools/cmake/cmake-native_4.0.3.bb b/meta/recipes-devtools/cmake/cmake-native_4.0.3.bb
+index 6b392f1370..7b90bff52f 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_4.0.3.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_4.0.3.bb
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM:append = " \
+     file://Utilities/cmexpat/COPYING;md5=7b3b078238d0901d3b339289117cb7fb \
+     file://Utilities/cmlibrhash/COPYING;md5=a8c2a557a5c53b1c12cddbee98c099af \
+     file://Utilities/cmlibuv/LICENSE;md5=ad93ca1fffe931537fcf64f6fcce084d \
+-    file://Utilities/cmcurl/COPYING;md5=eed2e5088e1ac619c9a1c747da291d75 \
++    file://Utilities/cmcurl/COPYING;md5=72f4e9890e99e68d77b7e40703d789b8 \
+ "
+ 
+ B = "${WORKDIR}/build"
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 312c2b04f7..a15dfd3bb4 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -10,8 +10,8 @@ HOMEPAGE = "http://www.cmake.org/"
+ BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
+ SECTION = "console/utils"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://Copyright.txt;md5=718f05155941b33862726348d3cd46ce \
+-                    file://Source/cmake.h;beginline=1;endline=2;md5=a5f70e1fef8614734eae0d62b4f5891b \
++LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=0cafc0f3b6b28f3d5ecb5d1a68c36471 \
++                    file://Source/cmake.h;beginline=1;endline=2;md5=4ba59ac0e953e1a713eea8c55b1d531b \
+                     "
+ 
+ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
