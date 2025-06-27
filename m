@@ -1,101 +1,183 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4150FC7EE31
-	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 08:02:35 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.8217.1751011352205394484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 300C9C77B7F
+	for <webhook@archiver.kernel.org>; Fri, 27 Jun 2025 10:15:16 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.10282.1751019315158695201
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Jun 2025 01:02:32 -0700
+ Fri, 27 Jun 2025 03:15:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=yOAssxmx;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ocKwanFH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010197b068daa4-fe6b4808-ca73-4de3-9494-69f7257825e5-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751011351; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=15hHvXN29TZyst3DHg4Xpo13X/F82iP5+UaQwfpEr28=;
-	b=yOAssxmxliYcSQn9EGa4BdkS9SHaRR6j1XxTzPQg+OvW8XkhYfrdaOmIUa89uTlL
-	9A7/Xj5xUOIpOiQJsv4CmU6zOzSNat61RkPdZzNxokMU8oK28vYXcQvYUNMPN+lgrto
-	DvaTPLpR3XkA+69lCwsPhVVz0NTrrlUh4tv7CPI8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751011351;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=15hHvXN29TZyst3DHg4Xpo13X/F82iP5+UaQwfpEr28=;
-	b=ocKwanFH8a34Gfl9oZcQtn+1Z34oBXq2r3GPTOPVunvWn+dgu/6NL8YPnh4ZKL3h
-	YpRxArX8T4yPHO+1PP+w9+cxgZ9w74te0Dc1ZkLwuAow5S04oGDORS1Z0A2YDMYyocw
-	Kw8d3S8+QxOHk+ry3lfZWaQ+bRf8XMD+ikV5FCjA=
-From: patchtest@automation.yoctoproject.org
-To: falk bauer <f.bauer@igi-systems.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] psplash: Do not mount PSPLASH_FIFO_DIR if the env variable is
- empty
-In-Reply-To: <9iJV.1751010708138628343.0XBD@lists.openembedded.org>
-References: <9iJV.1751010708138628343.0XBD@lists.openembedded.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010197b068daa4-fe6b4808-ca73-4de3-9494-69f7257825e5-000000@us-west-2.amazonses.com>
-Date: Fri, 27 Jun 2025 08:02:31 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.27-54.240.27.23
+ dkim=pass header.i=@smile.fr header.s=google header.b=ou5QBBcX;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a6e2d85705so1161396f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 03:15:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1751019313; x=1751624113; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RQT0Lh3AXYlh+atrFPUQsB5j4ThSzw+thlZhF0+Noh4=;
+        b=ou5QBBcX8w7Wc2ZH5RrQMZgVnp80/93M6jzEOT7YhQsXzI4zDg+f913PcxC+wq227W
+         jwsNw1xoTaD+sv5tx6lfPzXPxQMmMthrpCB7nqPn97z8SJyIlBS9cp05V43P4cAi/A9d
+         wHARv6z6qg6NYJ9fEQASlTCygj74Mn+uRw96U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751019313; x=1751624113;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RQT0Lh3AXYlh+atrFPUQsB5j4ThSzw+thlZhF0+Noh4=;
+        b=FGd8klm+DKZCXcCPTHQYtSgYXLE5uEvipfrvFr2Jpv/DVvGXrJP5aN8k2hnyHZImBS
+         V6jI9b8TVw3znhdfqx7YyUb7oZv6sq2IOoMdw7FGSSBl0QodmHPdScETCVS/AnRUwbtv
+         lPrXOAsLouso3aIAw6J+PyVVaJ2VIw5L+xDFj2K/jCXYCMEUDURHXVrHrnzvJE2wXAnr
+         uOG7Kvc8R+wJ88VzWYEflzso3uF/Rl4s+gdEVIiXlIeasjjTaXmmAB0eYpCtl0qaDrZ6
+         AAbtWxhwsglnBtUJteQLcmKfQCqBSn+jC2fneXXQM2V6Q+PhnJ1NKBpcgRWRh25lAPFl
+         h0jg==
+X-Gm-Message-State: AOJu0Yw8gUpUOVWLxK/qlWvO0x7TRWJaK8yrDiLCi3N/AnHd2qscHuTj
+	PXcftwMYGunN8YTGnQSoC3+R0ooAN3ggiVnYgy6258pM1YIU4VzfYYiDCpCe5x3pB/lJYUL3GyX
+	q6hSYC21jKFDqFYIrIihN1YsHLzd3v+id+6ByMr7Vmg==
+X-Gm-Gg: ASbGnctuYKbpP6FwMmYSWv+UhrYxEdtpDjHhHD7y3cUq5PwPJC/s/4wspdoq9BAmqhz
+	3c3M9S3Q3IF2zba5XHNTyD7gmz7gw9kI/nV63WCQ5Iw+WAiFPXOhzxjAJOtbGANaWLr+oq62CIl
+	pcrDbvFyitmfqlxhZzkndY8rE8QzYTMLBC3jXILLygHEBGsPWEPg78t35VHdyq+E3JLDVMfQJG8
+	16sQA==
+X-Google-Smtp-Source: AGHT+IHAdCiIzgpnYmkP0rriC3qUFAES0zAw4djVdRHpKyxe55eGqVtmOfhbZMC9yLJoWnqPqet/V+FM4uBzdDGz0yc=
+X-Received: by 2002:a05:6000:2b0d:b0:3a4:dfc2:2a3e with SMTP id
+ ffacd0b85a97d-3a90038b75bmr1962158f8f.39.1751019313487; Fri, 27 Jun 2025
+ 03:15:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <c78307592bee5e95421fb1973522e6258ec417ad.camel@linuxfoundation.org>
+In-Reply-To: <c78307592bee5e95421fb1973522e6258ec417ad.camel@linuxfoundation.org>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Fri, 27 Jun 2025 12:14:47 +0200
+X-Gm-Features: Ac12FXy5FGZK383o0pjhTrwnnx7NvaacbtoHpq454dlAlY1TnElPuFGVSMFCc8k
+Message-ID: <CAMSfU+5oWnozk3ZXyWCv61k-VNkL-3UWhK2TGzUZ_95FZTZbVA@mail.gmail.com>
+Subject: Re: [OE-core] runqemu compressed image support - request for help
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Ross Burton <ross.burton@arm.com>
+Content-Type: multipart/alternative; boundary="0000000000002cfc1b06388af40c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 08:02:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219391
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Jun 2025 10:15:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219392
 
---NextPart
-Content-Type: text/plain
+--0000000000002cfc1b06388af40c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello,
 
----
-Testing patch /home/patchtest/share/mboxes/psplash-Do-not-mount-PSPLASH_FIFO_DIR-if-the-env-variable-is-empty.patch
+Le jeu. 26 juin 2025 =C3=A0 12:25, Richard Purdie via lists.openembedded.or=
+g
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> a =C3=A9crit =
+:
 
-FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
+> We've had a dilemma for a while. The qemu classes set IMAGE_FSTYPES +=3D
+> "ext4" and then use that to boot the images, which makes a lot of
+> sense. When the project comes to make a release, we really want to
+> compress these, so "ext4.zst" would be nicer. The problem is qemu
+> doesn't support those.
+>
+> I was reminded of this after Ross sent a patch recently adding
+> "wic.zst" to the list of formats we generate, alongside the preexisting
+> "wic".
+>
+> I'd love to simplify our release process and make all of this a bit
+> more seamless and efficient. One solution would be to add support to
+> runqemu (and assume snapshot mode for compressed files).
+>
+> Is this something someone might like to help with?
+>
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+We will look at this one :)
 
-SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: Parse error Hunk diff line expected: esac
-SKIP: test Signed-off-by presence: Parse error Hunk diff line expected: esac
-SKIP: test Upstream-Status presence: Parse error Hunk diff line expected: esac
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Regards,
 
----
+It would then simplify our long overdue cleaup of our published release
+> artefacts.
+>
+> Cheers,
+>
+> Richard
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#219345):
+> https://lists.openembedded.org/g/openembedded-core/message/219345
+> Mute This Topic: https://lists.openembedded.org/mt/113840901/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+--=20
+Yoann Congal
+Smile ECS
 
---NextPart
+--0000000000002cfc1b06388af40c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><div></div><div>Hello,</div></div><br><di=
+v class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gma=
+il_attr">Le=C2=A0jeu. 26 juin 2025 =C3=A0=C2=A012:25, Richard Purdie via <a=
+ href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;rich=
+ard.purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.openembedded.org">=
+linuxfoundation.org@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">We&#39;ve had a dile=
+mma for a while. The qemu classes set IMAGE_FSTYPES +=3D<br>
+&quot;ext4&quot; and then use that to boot the images, which makes a lot of=
+<br>
+sense. When the project comes to make a release, we really want to<br>
+compress these, so &quot;ext4.zst&quot; would be nicer. The problem is qemu=
+<br>
+doesn&#39;t support those.<br>
+<br>
+I was reminded of this after Ross sent a patch recently adding<br>
+&quot;wic.zst&quot; to the list of formats we generate, alongside the preex=
+isting<br>
+&quot;wic&quot;.<br>
+<br>
+I&#39;d love to simplify our release process and make all of this a bit<br>
+more seamless and efficient. One solution would be to add support to<br>
+runqemu (and assume snapshot mode for compressed files).<br>
+<br>
+Is this something someone might like to help with?<br></blockquote><br><div=
+>We will look at this one :)</div><div><br></div><div>Regards,</div><div><b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+It would then simplify our long overdue cleaup of our published release<br>
+artefacts.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#219345): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/219345" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/219345</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113840901/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/113840901/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
 
---NextPart--
+--0000000000002cfc1b06388af40c--
 
