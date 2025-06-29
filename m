@@ -1,68 +1,89 @@
-Return-Path: <philip@balister.org>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 128A5C7EE30
-	for <webhook@archiver.kernel.org>; Sun, 29 Jun 2025 18:55:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D95C7EE39
+	for <webhook@archiver.kernel.org>; Sun, 29 Jun 2025 23:06:04 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.6257.1751109677521669062
+ by mx.groups.io with SMTP id smtpd.web11.26959.1751238359762188115
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Jun 2025 04:21:17 -0700
+ Sun, 29 Jun 2025 16:05:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=IG/RaLCd;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=UQEhfeUu;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
 Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55SAp4Zu008696
-	for <openembedded-core@lists.openembedded.org>; Sat, 28 Jun 2025 11:21:17 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55TLueIE028382
+	for <openembedded-core@lists.openembedded.org>; Sun, 29 Jun 2025 23:05:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=ysgAVikXSNt9fmQbmdJm7b
-	cZhDfYmPlG0pBJzWe1qlk=; b=IG/RaLCdLS1cucYdf3RG/K4GkbAlTNvtmHBizM
-	dpc/gHncebWMAcHJA7XZim1+fVRxti/64huZ5IviYeHxdnVwKtxIxAax+NG2UCb2
-	M/PpbiAND4xkOG6B4m9kHGhAsN1Xy4GvNV1LgqtVp3Ze9K7HMzxVsQG9LIIP9aFL
-	058kcRuRoBUGPslim8s4j8xwH+LeeJmyrIti+/hRa+BC29a1hWwoLQGD521LCz6F
-	VxbknP1TFKVslK0jbWBn0yN9lOt6aY+IvCyJ5/uzCi5RHnQCP+dU6YSd+VkB3kmH
-	VBotqiv5G7LPEdlBj9LOO1lmhK1yT//z0aUnJ6GWNy95r76w==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8m60hpg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sat, 28 Jun 2025 11:21:16 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55SBLGbS001408
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sat, 28 Jun 2025 11:21:16 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Sat, 28 Jun 2025 04:21:14 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2 1/2] linux-firmware: upgrade 20250509 -> 20250613
-Date: Sat, 28 Jun 2025 16:50:58 +0530
-Message-ID: <20250628112058.404079-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=bKmvnXRHF3BHtZxfq2cqDfNq
+	CDub4I+mb53x6VSAcjM=; b=UQEhfeUuH/vlemWUxQvKObAAFUZsy0kQIF6gQDUO
+	rGWHxfgf3vsM0cTgGkgQ+7jBQ4Y6aGhqy2FgVn3dgKcA9OxBuw2hrW5FoelnDwH2
+	m6adXAwba06w2YaXZ9F+J1VFGAMQQ2Zhvbly/aHS0P9Yidczt9k7t7HnaN8msIhl
+	FbEsIZytTg6sINrlhVESJ/xEUZH2u7bgAibPqiZMJRDN9ycrWzNlcomOSj7qYbHu
+	PkZyiVCBpqwu2Cj1csuxMnUK2E4Bmh7N2mmi5Bo5ONoiMA6G6CbQYE92zm00hCIj
+	+3Vx+Uy5t+uHKJKMuzQgTAxxP3zdZkd4RgR+e6LFCV0RJA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8m62t48-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 29 Jun 2025 23:05:58 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6facf4cf5e1so34657136d6.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Jun 2025 16:05:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751238357; x=1751843157;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bKmvnXRHF3BHtZxfq2cqDfNqCDub4I+mb53x6VSAcjM=;
+        b=He+XC0T8GdQMCe7FOgi/fDvdcOQvbrBphiG6uoli28qgvFxE5reiNCR8U6FRvZg1/D
+         aGoMtNii7fbnfBv43kcvG+f6XTgmriE092sb7+TWC4/VRUGeaH9bMmWDpBb6VZ3tWXCP
+         TvhRxcdfi6pESF546Mo4g8pBtsjjanm9fTFpWKNrVqlBlTMplWTEmTcGv1J+vJI5wp8M
+         gFsKcJ3f/1kAkftLQuKe/nDfS1cPsXgi4vgsG3BsTqct3F37/CWCcxdgNHcRBqaVUFQq
+         4BGxj+OICtvarzad2nVtBvxx8chHe8wj0XWYx8PamyV/TqsVFZ0uM3/gGPlNaMgw97Kt
+         0NRQ==
+X-Gm-Message-State: AOJu0YxwKMPIoOQOJI2NKN+kIN07DtEdX/FhZVP6YWj8jBkVya3SiXeq
+	caP9QWX4NJlb7eUHwQOE5ud83kz0Ng5qA85tpUvVLbfpJ7+HVsH2rXWR3UeARnerWwbqOErA5tu
+	twwyCq9+YFEhiWw2KW+/4bKsGnc4iVWQ3+zNRVNZULVJayxoAdqTfYTGeGWqKOhU+FJZqBMTUWo
+	ffUFwaxXI=
+X-Gm-Gg: ASbGncsQE9XxaRGXE9FDAi8A/cnVNP5elgO77p9n7ki5EIABhATNSGMg82+BymQJyiv
+	uO5BYp3eV9M7nPDIxFYE2U83dXFJgXNxbtdr30t3EtkC/Bzy6hUJ5KkVncBCSlbtOROOyR4xNtR
+	d621ftO04b6DB76R370+XpzGnaWjO1LTsbWHToBcLzz/pFnz5PezfYXxcrINpINMpfaqpSp0VZy
+	kj9RGg1CtSsTGQDeQlg4dAyT1XRpvy4LjT6bwAG34WF9xoRTz6F/a9isWHshPqD1F8SjjniVJTM
+	Pkis/6cJWv5dVhgxUEKru1LWCLibNvRp3xUM+892wChm7vDF4YO5p6dCodkO9+yU4t1aQQrctzf
+	yCMwt3TfHFA5XuqTlu3JYwCnO6DTXQzWaobg=
+X-Received: by 2002:a05:6214:2e85:b0:700:bdbd:397 with SMTP id 6a1803df08f44-700bdbd039cmr100770636d6.13.1751238357526;
+        Sun, 29 Jun 2025 16:05:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFvMagUNEPcTUhDR5elyUm7UePaMWa6+VTMr+wH2o3/kikhifiVYaata5ieVzjKRKqu+Kd5bA==
+X-Received: by 2002:a05:6214:2e85:b0:700:bdbd:397 with SMTP id 6a1803df08f44-700bdbd039cmr100770406d6.13.1751238357086;
+        Sun, 29 Jun 2025 16:05:57 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2e27c4fsm11155961fa.41.2025.06.29.16.05.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Jun 2025 16:05:55 -0700 (PDT)
+Date: Mon, 30 Jun 2025 02:05:53 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 2/2] linux-firmware: add missing license
+Message-ID: <uressxdmv5rawqv4k2y5neh2slymzvrsefrxip5p7tflyfcqpi@g72iqzkwvi3h>
+References: <20250628112123.404103-1-vpuar@qti.qualcomm.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI4MDA5MyBTYWx0ZWRfX/0QUac5KP5tv
- l5ICnmMTa+AtQ/pKDquFmQeBH6OZac/BSybayDTXMl7VxyFRbYRLVL4YctcIo71VHILTtosbqee
- 3E3lzWDlTKeLxOcCPdFeVBoUOeOsg0eqtUvCZJzQN1YoSUlPIttoZSJXxHfkcT3gUAqBur/6E0n
- f6/T07EeDxr69VDVaTfglS2Iblcn+L0Y5k6VlfdScfqADKzaFOckBTs4WElplS2k9dbk2RDj2KP
- HXh7W+jYnhvjibVZeU/wpr9mwXWyWpEkBe+DsGZeHC9lWWX3uaU0z3Pt9mSlHLG4n2a3MYBUmHp
- Uk5iLbomdq6ifeV+wyzi8KvMU/6x/wWKoM7H/a60+QssOujye8j7SfrcF83b9h2bN8kYOo/aFV/
- vq6Jnx+DKsYaipoCY/YHk81bpDjNPkWW9U5tKCQ9nE+MmKEhkONUUR58bzeKYaQgZPddt5kl
-X-Authority-Analysis: v=2.4 cv=Fq0F/3rq c=1 sm=1 tr=0 ts=685fd02c cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
- a=qtA3iuvjaZh4sjnKcnsA:9
-X-Proofpoint-GUID: _5XuigBTB61Jn-Sv4FE9Pk0JDrpVq46e
-X-Proofpoint-ORIG-GUID: _5XuigBTB61Jn-Sv4FE9Pk0JDrpVq46e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250628112123.404103-1-vpuar@qti.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI5MDE5NiBTYWx0ZWRfX59+UDd0kqblB
+ x9GLRfYhXaIk6MPgdO0KMY+zIIYuGZiZhYodTx2J5PYAyUQdMwCbyvr+MW93m86Qd3bGfBn5DOu
+ 1Ebo5t7d0r4YKjctTU72s6g9tH7X8deQRwJPB9rcTHQsEnTw+T72Uzbjni9e7jlJwkcbbjr0n2N
+ ksgTzC7AvAC3wWXI10oO1yPQ6OyvWuB3n0nDb8D6qqpoW4wOVBnNQ1247IwBFY54eymdC9l7mPf
+ Ospz5En65WsxiButi00A0RqQrmo8L1SqKtU4APQoubJw2la1TZ51QVXOVGZJ53woHJo1K8YtRHj
+ IxYDM9IJLYcZRel01lCNxINiyaC1olRad5mArnKEIMmd+oButTZddYKw4xTdU80GcF4v0/fKjDz
+ WCJfSlE9FNMyv7N5Z6Dcp1WfHuTwld8oKDQ2qTYUE+9TnaksEJ0vCjw6BT8F2x/g9z1Yec2r
+X-Authority-Analysis: v=2.4 cv=Fq0F/3rq c=1 sm=1 tr=0 ts=6861c6d7 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=gaQuA3MTgQeEB2SpCccA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-GUID: VVJJLpiXFM-gXj8zjFe488yXmRbrxZPH
+X-Proofpoint-ORIG-GUID: VVJJLpiXFM-gXj8zjFe488yXmRbrxZPH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-06-27_05,2025-06-27_01,2025-03-28_01
@@ -71,173 +92,33 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  mlxlogscore=999 impostorscore=0 bulkscore=0 malwarescore=0 spamscore=0
  priorityscore=1501 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506280093
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ engine=8.19.0-2505280000 definitions=main-2506290196
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 Jun 2025 18:55:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219451
+ <openembedded-core@lists.openembedded.org>; Sun, 29 Jun 2025 23:06:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219454
 
-Adding QUPv3 firmware for QCM6490 and QCS8300 platforms.
+On Sat, Jun 28, 2025 at 04:51:23PM +0530, Vivek Puar wrote:
+> Some license were part of the linux-firmware but were
+> not added to the recipe, so adding those missing
+> license
 
-Add package ${PN}-qcom-sc8280xp-lenovo-x13s-vpu for Lenovo X13s
-laptop.
+- Please fix wrapping of the commit message. It should be around 72-75
+  chars per line
+- Please reorder the patches. Fixes should come before actual changes
+- Please use a single `git send-email` invocation in order to make your
+  patches threaded.
 
-License-Update: additional files
+> 
+> Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  .../linux-firmware/linux-firmware_20250613.bb | 64 +++++++++++++++++++
+>  1 file changed, 64 insertions(+)
+> 
 
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- ...20250509.bb => linux-firmware_20250613.bb} | 27 +++++++++++++------
- 1 file changed, 19 insertions(+), 8 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250509.bb => linux-firmware_20250613.bb} (98%)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250509.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250613.bb
-similarity index 98%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250509.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250613.bb
-index ea75271af8..e26c6221e0 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250509.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250613.bb
-@@ -97,7 +97,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
-                     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
-                     file://LICENSE.cirrus;md5=662ea2c1a8888f7d79ed7f27c27472e1 \
--                    file://LICENCE.cnm;md5=93b67e6bac7f8fec22b96b8ad0a1a9d0 \
-+                    file://LICENCE.cnm;md5=df3992006621b797e36de43f36336e36 \
-                     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
-                     file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
-                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-@@ -160,7 +160,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "d85e2f182f489a235400712cbfdb017a"
-+WHENCE_CHKSUM  = "131efa2b2bab317f52b081719225dd64"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -250,7 +250,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "f2c60d66f226a28130cb5643e6e544d3229673460e127c91ba03f1080cbd703e"
-+SRC_URI[sha256sum] = "d40743337ca8bf9d2587e220ab30dec6a07b52cc5cb4a4ff8d92be14391a7fde"
- 
- inherit allarch
- 
-@@ -478,11 +478,11 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
-              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
-              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
--             ${PN}-qcom-qcm6490-adreno \
--             ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute ${PN}-qcom-qcm6490-ipa ${PN}-qcom-qcm6490-wifi \
-+             ${PN}-qcom-qcm6490-adreno ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute \
-+             ${PN}-qcom-qcm6490-ipa ${PN}-qcom-qcm6490-wifi ${PN}-qcom-qcm6490-qupv3fw \
-              ${PN}-qcom-qcs615-adreno \
-              ${PN}-qcom-qcs8300-adreno ${PN}-qcom-qcs8300-audio ${PN}-qcom-qcs8300-compute \
--             ${PN}-qcom-qcs8300-generalpurpose \
-+             ${PN}-qcom-qcs8300-generalpurpose ${PN}-qcom-qcs8300-qupv3fw \
-              ${PN}-qcom-qrb4210-adreno \
-              ${PN}-qcom-qrb4210-audio ${PN}-qcom-qrb4210-compute ${PN}-qcom-qrb4210-modem \
-              ${PN}-qcom-sa8775p-adreno ${PN}-qcom-sa8775p-audio ${PN}-qcom-sa8775p-compute \
-@@ -492,6 +492,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-adreno \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-compute \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-sensors \
-+             ${PN}-qcom-sc8280xp-lenovo-x13s-vpu \
-              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
-              ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
-              ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
-@@ -1816,11 +1817,13 @@ LICENSE:${PN}-qcom-qcm6490-audio = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm6490-compute  = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm6490-ipa  = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcm6490-wifi  = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qcm6490-qupv3fw = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcs615-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcs8300-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-qcs8300-audio = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-qcs8300-compute = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-qcs8300-generalpurpose = "Firmware-qcom-2"
-+LICENSE:${PN}-qcom-qcs8300-qupv3fw = "Firmware-qcom"
- LICENSE:${PN}-qcom-qrb4210-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-qrb4210-audio = "Firmware-qcom"
- LICENSE:${PN}-qcom-qrb4210-compute  = "Firmware-qcom"
-@@ -1830,11 +1833,12 @@ LICENSE:${PN}-qcom-sa8775p-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sa8775p-audio = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-sa8775p-compute = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-sa8775p-generalpurpose = "Firmware-qcom-2"
--LICENSE:${PN}-qcom-sa8775p-qupv3fw = "Firmware-qcom-2"
-+LICENSE:${PN}-qcom-sa8775p-qupv3fw = "Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "Firmware-qcom & Firmware-linaro"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "Firmware-qcom"
-+LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-audio = "Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-compute = "Firmware-qcom"
-@@ -1899,11 +1903,13 @@ FILES:${PN}-qcom-qcm6490-audio = "${nonarch_base_libdir}/firmware/qcom/qc[ms]649
- FILES:${PN}-qcom-qcm6490-compute = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/cdsp*.*"
- FILES:${PN}-qcom-qcm6490-ipa = "${nonarch_base_libdir}/firmware/qcom/qcm6490/ipa_fws.mbn"
- FILES:${PN}-qcom-qcm6490-wifi = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/wpss.mbn*"
-+FILES:${PN}-qcom-qcm6490-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qcm6490/qupv3fw.elf*"
- FILES:${PN}-qcom-qcs615-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs615/a612_zap.mbn*"
- FILES:${PN}-qcom-qcs8300-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs8300/a623_zap.mbn*"
- FILES:${PN}-qcom-qcs8300-audio = "${nonarch_base_libdir}/firmware/qcom/qcs8300/adsp*.*"
- FILES:${PN}-qcom-qcs8300-compute = "${nonarch_base_libdir}/firmware/qcom/qcs8300/cdsp*.*"
- FILES:${PN}-qcom-qcs8300-generalpurpose = "${nonarch_base_libdir}/firmware/qcom/qcs8300/gpdsp*.*"
-+FILES:${PN}-qcom-qcs8300-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qcs8300/qupv3fw.elf*"
- FILES:${PN}-qcom-qrb4210-adreno = "${nonarch_base_libdir}/firmware/qcom/qrb4210/a610_zap.mbn*"
- FILES:${PN}-qcom-qrb4210-audio = "${nonarch_base_libdir}/firmware/qcom/qrb4210/adsp*.*"
- FILES:${PN}-qcom-qrb4210-compute = "${nonarch_base_libdir}/firmware/qcom/qrb4210/cdsp*.*"
-@@ -1919,6 +1925,7 @@ FILES:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${nonarch_base_libdir}/firmware/q
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn*"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*cdsp*.*"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*slpi*.*"
-+FILES:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcvss8280.mbn*"
- FILES:${PN}-qcom-sdm845-adreno = "${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
- FILES:${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
- FILES:${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
-@@ -1980,11 +1987,13 @@ RPROVIDES:${PN}-qcom-qcm6490-compute = "${PN}-qcom-qcs6490-compute"
- RDEPENDS:${PN}-qcom-qcm6490-ipa = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm6490-wifi = "${PN}-qcom-license"
- RPROVIDES:${PN}-qcom-qcm6490-wifi = "${PN}-qcom-qcs6490-wifi"
-+RDEPENDS:${PN}-qcom-qcm6490-qupv3fw = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcs615-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcs8300-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcs8300-audio = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-qcs8300-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-qcs8300-generalpurpose = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-qcs8300-qupv3fw = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qrb4210-compute = "${PN}-qcom-license"
-@@ -1996,11 +2005,12 @@ RDEPENDS:${PN}-qcom-sa8775p-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sa8775p-audio = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-sa8775p-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-sa8775p-generalpurpose = "${PN}-qcom-2-license"
--RDEPENDS:${PN}-qcom-sa8775p-qupv3fw = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-sa8775p-qupv3fw = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-license ${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
-@@ -2026,6 +2036,7 @@ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-sc8280xp-lenovo-
- RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
- RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
- RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
-+RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
- 
- LICENSE:${PN}-liquidui = "Firmware-cavium_liquidio"
- FILES:${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
 -- 
-2.34.1
-
+With best wishes
+Dmitry
 
