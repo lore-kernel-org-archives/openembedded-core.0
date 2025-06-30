@@ -1,535 +1,135 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <ceggers@arri.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 584AAC8302D
-	for <webhook@archiver.kernel.org>; Mon, 30 Jun 2025 10:42:09 +0000 (UTC)
-Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
- by mx.groups.io with SMTP id smtpd.web11.36455.1751280122221361954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79517C8302D
+	for <webhook@archiver.kernel.org>; Mon, 30 Jun 2025 10:44:29 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.42])
+ by mx.groups.io with SMTP id smtpd.web10.36506.1751280260699060784
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Jun 2025 03:42:02 -0700
+ Mon, 30 Jun 2025 03:44:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=nPciSXAH;
- spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=269d563bb=moritz.haase@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1751280122; x=1782816122;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yLvDRNyPPbBo57YDvgTtyjZVfHr5w4x+tFrhsv+i5bQ=;
-  b=nPciSXAHVgewkV2IfJIgLdPVgmCd6Rhj0FDWLdQNT5/2ol9txMcr2xTY
-   equSVXgJTHv70su1Mrv4sTr3ZIgKkGAwqOTMrObBalv/Wp+g8c+w44RJK
-   /DTi56RCQDKrYeQhVPnUpVX2+SrHngByl/t42+bfkX0Kd4tyt8r1xKfG6
-   g=;
-X-CSE-ConnectionGUID: CHBVA8W1SciOKDZAf+xjjA==
-X-CSE-MsgGUID: K0FHv+k8TsGb3PRDxLtGeA==
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 30 Jun 2025 12:42:00 +0200
-Received: from esabb1.muc ([160.50.100.31])  by esagw1.muc with ESMTP/TLS;
- 30 Jun 2025 12:42:00 +0200
-Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
- by esabb1.muc with ESMTP/TLS; 30 Jun 2025 12:42:00 +0200
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.209) by
- smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
- Server (version=TLS; Mon, 30 Jun 2025 12:42:00 +0200
-X-CSE-ConnectionGUID: F+5TiLMMQB6hsYHQ+7FxHw==
-X-CSE-MsgGUID: llQhAML6SEeLaJy824IcxA==
-X-CSE-ConnectionGUID: wPmV1iGkQJOX5crE2Y5JQg==
-X-CSE-MsgGUID: KcfuTS39QwGq6rtrGPKCKw==
-From: Moritz Haase <Moritz.Haase@bmw.de>
+ dkim=pass header.i=@arri.de header.s=selector1 header.b=sjv9YDpH;
+ spf=pass (domain: arri.de, ip: 52.101.66.42, mailfrom: ceggers@arri.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=c26m3ZBPwY1r2WfUKG8dbyTArhlj6GcPVREryOzKqeXHEVRa2hjEazGfj+Rz326vrT++o1D58MQsbYL6uSwOCzETUsi3qWDLa0FajiJhzWIvittdAahGzaBV4GJMiWb/P5Yb/w8QTx0Z4qkJLeVyyhjDpgL3bzuNqw3haG2p8kccRQ0w4aZkcqhpQW7dvL+Zl3DcRqYw7hiEILwDvpVb8DZ3P5AgAS5L5icseaNskx0FvFMzphrKwwpmyQQU/rT+cCw36UI9J1wZrZKd3gh0J2pi5a+A9hcEYE02bhBUZ2KUDLPD6VOvr69APiutch1m0Qv4zQY1II7iE+N18jrh+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9NC+WKpIAEw+amJTwUvKt4ZqHX1A/lhbIB81+jMG6Uw=;
+ b=cdgxnO5wuFwJ9F/XfHEvXZ/OZtfQmsISyfae+p22sLXWJOrR+xfsVndUORJOqxf6odTpDfHTiAzwdkKOXojLa98KbJaoa51EeSSwi65bhYa7LR5/Xd98pzmjbCuudLWjbWI/9N+bg5A6Q1fF4d0RamR+z0eYnorZd547j+ACWGJr4FUwsll55Nbzs9AcGX8lzXApSne9KWrtAnKNBUm8fI4kg4FYFlSev37cnnbTVyLNJdOmoW6BM1OE/ldHETfRwkbj1Ov+zBvEw+yChoWo87vhhmT6+kNnfKEOMp2O/BsTNY/Vi9T82+cuOBX+BsAIDDQze8m6gOPsuoHfRLbwAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 217.111.95.7) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arri.de;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=arri.de;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arri.de; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9NC+WKpIAEw+amJTwUvKt4ZqHX1A/lhbIB81+jMG6Uw=;
+ b=sjv9YDpHyekUb4c5hvvz7/MFYQfttAnJn3l3wLpQwELrGqVI/vwFywbFGPDVx7ZWdwtLvkEszp22AFNAlpwWJWGybz5ktOtefBFsFxJb4BwuM3ZNmVZ7JCoL/osJU7zP/IjxB7KtkkImCH8NCIC/S3bxC0v4hapjQbnEfeI3Tyk=
+Received: from DU6P191CA0005.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:540::18)
+ by PAXPR03MB7546.eurprd03.prod.outlook.com (2603:10a6:102:1d9::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.25; Mon, 30 Jun
+ 2025 10:44:14 +0000
+Received: from DB1PEPF000509E9.eurprd03.prod.outlook.com
+ (2603:10a6:10:540:cafe::18) by DU6P191CA0005.outlook.office365.com
+ (2603:10a6:10:540::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8880.31 via Frontend Transport; Mon,
+ 30 Jun 2025 10:44:14 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 217.111.95.7)
+ smtp.mailfrom=arri.de; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=arri.de;
+Received-SPF: Fail (protection.outlook.com: domain of arri.de does not
+ designate 217.111.95.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=217.111.95.7; helo=mta.arri.de;
+Received: from mta.arri.de (217.111.95.7) by
+ DB1PEPF000509E9.mail.protection.outlook.com (10.167.242.59) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8901.15 via Frontend Transport; Mon, 30 Jun 2025 10:44:13 +0000
+Received: from n9w6sw14.localnet (10.30.5.30) by mta.arri.de (10.10.18.5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.38; Mon, 30 Jun
+ 2025 12:44:12 +0200
+From: Christian Eggers <ceggers@arri.de>
 To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>, <alex.kanavin@gmail.com>
-Subject: [PATCH v2 3/3] cmake: upgrade 3.31.6 -> 4.0.3
-Date: Mon, 30 Jun 2025 12:41:04 +0200
-Message-ID: <20250630104104.4093207-4-Moritz.Haase@bmw.de>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250630104104.4093207-1-Moritz.Haase@bmw.de>
-References: <20250630104104.4093207-1-Moritz.Haase@bmw.de>
+CC: <gudni.m.g@gmail.com>
+Subject: Re: [OE-core] [PATCH] bluez5: add PACKAGECONFIG for MCP
+Date: Mon, 30 Jun 2025 12:44:12 +0200
+Message-ID: <2183206.9o76ZdvQCi@n9w6sw14>
+Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+In-Reply-To: <25560.1751195650814567466@lists.openembedded.org>
+References: <20250627072643.16692-1-ceggers@arri.de>
+ <25560.1751195650814567466@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: smucmp15a.europe.bmw.corp (2a03:1e80:a15:58f::1:68) To
- smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Originating-IP: [10.30.5.30]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509E9:EE_|PAXPR03MB7546:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d9d77e9-6695-498e-16c2-08ddb7c30db0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?iso-8859-1?Q?cbIRaRg7jseIcnzbsrusvXxvaVPs2DhHcweb6Qa7gt69Cj0866ZJ0G3i7k?=
+ =?iso-8859-1?Q?ebsOulWtwONghWKpyM4vOyhRVUT+cA7ajzuHAl6dqRB02GpnMhJFNqMA71?=
+ =?iso-8859-1?Q?KtZiScHleElWetfOKN1RZ8guIaMwTBU7FzOI7K5e1CVuZGJ+wO583QGqop?=
+ =?iso-8859-1?Q?Q4WWDUYTiiKmnDZkj6HcDZbjY8i7cTsQbVqghpABcHZk2CDTHTKHWRagnT?=
+ =?iso-8859-1?Q?+RGDkm6r2zTtxB/+jbwIFRSMibUF6zUosWyS7nMfnqcy+HXA1ZUOrRADII?=
+ =?iso-8859-1?Q?Y6gpRB2MK9i2oZ9SEpG2hvjUr2co19zOPy2sM+k16YXwqmm4qOe0Tpvt3Y?=
+ =?iso-8859-1?Q?fXCX/CrP9gS+mxayg9sNkK1yeslJY+LWSLPTeu1p/Jsg6PCc6YwA2p4Uuj?=
+ =?iso-8859-1?Q?P30XC6i+a8kcJKvdTgwXYdwZEaxQXrmpNehGNoiz9SanDoEJXLkQNaGnBM?=
+ =?iso-8859-1?Q?Z78Pl5paxe2ZI7FzHZHgfvyznYHw7s16cg91Tb82PH+0igfIbTf3IAxi1w?=
+ =?iso-8859-1?Q?D1vDyE0ld4jgc+enVfxoyMWvqYa74n78Z3VNvlhhT+TrRjzJQBM6RpPoUs?=
+ =?iso-8859-1?Q?QzSwmAdFcS6CgEUiKIoMHZkkarkMa7anttZN1LY+yAkOxEUAYz325uw4PZ?=
+ =?iso-8859-1?Q?zTfHEtcbzF9GCCvW13rw5T5h6Z/8nnlTTMNKaNqtOss4WeNpTXeEnk9NjY?=
+ =?iso-8859-1?Q?vulCvW2VmNO8uVf4kDOEE6iEKArkhoC3ZCT3Vuj19A3xm0gXOCSVQkRnRJ?=
+ =?iso-8859-1?Q?DRO2JFHf1s66/igtYcRsa+5UbXSxtVk6MLMxTyUJsJb19C5LMNYLNg73MN?=
+ =?iso-8859-1?Q?BBr8bMt57w8fuG2y6HLgp0pbjpsRmg47mhCx2kW15jhiB1G0F9QFIPJlx8?=
+ =?iso-8859-1?Q?UkE/4xwzGzN5bqiV96XYh5j05c0k6Ka+FwxGWg1VDP7cBuyOQ8KHDwcvdz?=
+ =?iso-8859-1?Q?EH1766AcEbsz1mCjwau0FV5VIUHso/ASTig/b9d5gTqu2EfrMR4/sChnpz?=
+ =?iso-8859-1?Q?Hoe1AARfnK/80IH60w7QON4WwEKwrxqGEIAb9D72l/IyP/95FR9aqEdS1J?=
+ =?iso-8859-1?Q?uL7dKbWoG6gPfR9wdtLOaYwHBJ/bas8ddhYgupQ6xZyjgkaWPRtlS+ndGH?=
+ =?iso-8859-1?Q?E5g2n5IleSAlmKvSZUK1ll8YytPeLuZer6UtzTc6S8DSonkfVenfjdybC4?=
+ =?iso-8859-1?Q?jYrumUZyNRIzyb5QSIG/E2vKREJ05SOLCkKWd77ox1pHONzBvnepq6QR4J?=
+ =?iso-8859-1?Q?0EajGq2/94ad0tn1kQ5m0/Kzp9Fm7ZvP83ywg3vz8vDlbLrJjWFy0XsMJd?=
+ =?iso-8859-1?Q?4/vr1MbyGlBtXFkFq7ek6A7WXqEhURDqY7VhxV4e1Q2/yTI5ezwTDuLSY4?=
+ =?iso-8859-1?Q?6MVgQ+j6YZEHN7nGZqF4iRU1OybsYW+F5e57wlK/RbTCpTnNGF5z2tdi2u?=
+ =?iso-8859-1?Q?7ys51sE68t4t7w/YncKxageU4Ne79Nsj5nYwIMg9z2VQSMDOx0W84qtfll?=
+ =?iso-8859-1?Q?hZyX9c55ooL4Ul45rjEKfnofrCyn4eBWhKoUoYrfIpUcOAn0fc89NVQ9cp?=
+ =?iso-8859-1?Q?RjoG4kzyq72D339yWLBekl9TsgKs?=
+X-Forefront-Antispam-Report: 
+	CIP:217.111.95.7;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta.arri.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arri.de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 10:44:13.1051
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d9d77e9-6695-498e-16c2-08ddb7c30db0
+X-MS-Exchange-CrossTenant-Id: e6a73a5a-614d-4c51-b3e3-53b660a9433a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e6a73a5a-614d-4c51-b3e3-53b660a9433a;Ip=[217.111.95.7];Helo=[mta.arri.de]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509E9.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR03MB7546
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 10:42:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219506
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 10:44:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219507
 
-This is the first major release bump for CMake since 3.0 was released in 2014.
-Compatibility with versions of CMake older than 3.5 has been removed. Full
-release notes are available at [0].
+On Sunday, 29 June 2025, 13:14:10 CEST, Gu=F0ni M=E1r Gilbert via lists.ope=
+nembedded.org wrote:
+> This is already included in the file so this patch is only duplicating th=
+e code.
+>=20
+Uups. It's already some time ago I prepared this patch. Somehow I overlooke=
+d this during
+rebasing ...
 
-Obsolete patches have been removed and the few remaining ones have been
-refreshed. We can now build cmake without patches, only cmake-native requires
-two that are not suitable for upstreaming.
+Sorry for the noise.
 
-The main license file has been renamed from Copyright.txt to LICENSE.rst in [1].
-References to the file have been updated, causing changes to the licensing
-header in 'cmake.h' (see [2]).
 
-Additionally, the '1996 - 2024' copyright statement in (cm)curl's COPYING was
-updated to '1996 - 2025' in [3].
 
-[0]: https://cmake.org/cmake/help/v4.0/release/4.0.html
-[1]: https://gitlab.kitware.com/cmake/cmake/-/commit/2d42a5444f859891b6598c76ea5d51510013565e
-[2]: https://gitlab.kitware.com/cmake/cmake/-/commit/de273b2e115974a012a6204ffee046dc9ce77586
-[3]: https://gitlab.kitware.com/cmake/cmake/-/commit/48b13baebc7f99442c3b872f202efd2fb92d6d7f
-
-License-Update: License file renamed; copyright years updated
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-CC: alex.kanavin@gmail.com
----
-changes in v2:
-- Squashed license update into this commit to keep bisectability
-- Fixed patchtest findings
-
----
-
- ...native_3.31.6.bb => cmake-native_4.0.3.bb} |   6 +-
- meta/recipes-devtools/cmake/cmake.inc         |   8 +-
- ...mpilerABI-Strip-pipe-from-compile-fl.patch |  63 ------
- ...xt2fs-ext2_fs.h-by-cmake-s-internal.patch} |   4 +-
- ...ng-undocumented-type-for-CURLOPT_NET.patch |  30 ---
- ...trary-characters-in-test-names-of-CT.patch | 202 ------------------
- ...-CMakeLists.txt-disable-USE_NGHTTP2.patch} |   6 +-
- .../cmake/{cmake_3.31.6.bb => cmake_4.0.3.bb} |   1 -
- 8 files changed, 11 insertions(+), 309 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.31.6.bb => cmake-native_4.0.3.bb} (90%)
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
- rename meta/recipes-devtools/cmake/cmake/{0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch => 0001-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal.patch} (90%)
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-cmCurl-Avoid-using-undocumented-type-for-CURLOPT_NET.patch
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
- rename meta/recipes-devtools/cmake/cmake/{0001-CMakeLists.txt-disable-USE_NGHTTP2.patch => 0002-CMakeLists.txt-disable-USE_NGHTTP2.patch} (83%)
- rename meta/recipes-devtools/cmake/{cmake_3.31.6.bb => cmake_4.0.3.bb} (96%)
-
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.31.6.bb b/meta/recipes-devtools/cmake/cmake-native_4.0.3.bb
-similarity index 90%
-rename from meta/recipes-devtools/cmake/cmake-native_3.31.6.bb
-rename to meta/recipes-devtools/cmake/cmake-native_4.0.3.bb
-index b940abb3fd..7b90bff52f 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.31.6.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_4.0.3.bb
-@@ -5,8 +5,8 @@ DEPENDS += "bzip2-replacement-native xz-native zlib-native ncurses-native zstd-n
- 
- SRC_URI += "file://OEToolchainConfig.cmake \
-             file://environment.d-cmake.sh \
--            file://0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch \
--            file://0001-CMakeLists.txt-disable-USE_NGHTTP2.patch \
-+            file://0001-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal.patch \
-+            file://0002-CMakeLists.txt-disable-USE_NGHTTP2.patch \
-             "
- 
- LICENSE:append = " & BSD-1-Clause & MIT & BSD-2-Clause & curl"
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM:append = " \
-     file://Utilities/cmexpat/COPYING;md5=7b3b078238d0901d3b339289117cb7fb \
-     file://Utilities/cmlibrhash/COPYING;md5=a8c2a557a5c53b1c12cddbee98c099af \
-     file://Utilities/cmlibuv/LICENSE;md5=ad93ca1fffe931537fcf64f6fcce084d \
--    file://Utilities/cmcurl/COPYING;md5=eed2e5088e1ac619c9a1c747da291d75 \
-+    file://Utilities/cmcurl/COPYING;md5=72f4e9890e99e68d77b7e40703d789b8 \
- "
- 
- B = "${WORKDIR}/build"
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 9b1898f22f..a15dfd3bb4 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -10,18 +10,16 @@ HOMEPAGE = "http://www.cmake.org/"
- BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
- SECTION = "console/utils"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://Copyright.txt;md5=718f05155941b33862726348d3cd46ce \
--                    file://Source/cmake.h;beginline=1;endline=2;md5=a5f70e1fef8614734eae0d62b4f5891b \
-+LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=0cafc0f3b6b28f3d5ecb5d1a68c36471 \
-+                    file://Source/cmake.h;beginline=1;endline=2;md5=4ba59ac0e953e1a713eea8c55b1d531b \
-                     "
- 
- CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- 
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
--           file://0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch \
--           file://0001-cmCurl-Avoid-using-undocumented-type-for-CURLOPT_NET.patch \
-            "
- 
--SRC_URI[sha256sum] = "653427f0f5014750aafff22727fb2aa60c6c732ca91808cfb78ce22ddd9e55f0"
-+SRC_URI[sha256sum] = "8d3537b7b7732660ea247398f166be892fe6131d63cc291944b45b91279f3ffb"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
-deleted file mode 100644
-index 3895c7e03b..0000000000
---- a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
-+++ /dev/null
-@@ -1,63 +0,0 @@
--From e4061151ac13bc727512d961a80faca3ceb22b5a Mon Sep 17 00:00:00 2001
--From: Philip Lorenz <philip.lorenz@bmw.de>
--Date: Mon, 3 Jun 2024 13:19:24 +0200
--Subject: [PATCH] CMakeDetermineCompilerABI: Strip -pipe from compile flags
--
--When `-pipe` is enabled, GCC passes data between its different
--executables using pipes instead of temporary files. This leads to issues
--when cmake attempts to infer compiler internals via the `-v` parameter
--as each executable will print to `stderr` in parallel.
--
--For example we have observed the following outputs in our builds which
--sporadically lead to build failures as system include directories were
--not detected reliably:
--
--Parsed CXX implicit include dir info from above output: rv=done
--  found start of include info
--  found start of implicit include info
--    add: [.../usr/bin/x86_64-poky-linux/../../lib/x86_64-poky-linux/gcc/x86_64-poky-linux/11.4.0/include]
--    add: [.../usr/bin/x86_64-poky-linux/../../lib/x86_64-poky-linux/gcc/x86_64-poky-linux/11.4.0/include-fixed]
--    add: [.../usr/include/c++/11.4.0]
--    add: [.../usr/include/c++/11.4.0/x86_64-poky-linux]
--    add: [.../usr/include/c++/11.4.0/backward]
--    add: [.../usr/lib/x86_64-poky-linux/11.4.0/include]
--    add: [...GNU assembler version 2.38 (x86_64-poky-linux) using BFD version (GNU Binutils) 2.38.20220708]
--    add: [/usr/include]
--  end of search list found
--
--Fix this issue by stripping the `-pipe` parameter from the compilation
--flag when determining the toolchain configuration.
--
--Upstream-Status: Backport [3.32.0, 71be059f3f32b6791427893a48ba4815a19e2e78]
--Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
-----
-- Modules/CMakeDetermineCompilerABI.cmake | 9 ++++++++-
-- 1 file changed, 8 insertions(+), 1 deletion(-)
--
--diff --git a/Modules/CMakeDetermineCompilerABI.cmake b/Modules/CMakeDetermineCompilerABI.cmake
--index 4a75e25a..806f0b71 100644
----- a/Modules/CMakeDetermineCompilerABI.cmake
--+++ b/Modules/CMakeDetermineCompilerABI.cmake
--@@ -52,14 +52,21 @@ function(CMAKE_DETERMINE_COMPILER_ABI lang src)
-- 
--     __TestCompiler_setTryCompileTargetType()
-- 
---    # Avoid failing ABI detection on warnings.
--+    # Avoid failing ABI detection caused by non-functionally relevant
--+    # compiler arguments
--     if(CMAKE_TRY_COMPILE_CONFIGURATION)
--       string(TOUPPER "${CMAKE_TRY_COMPILE_CONFIGURATION}" _tc_config)
--     else()
--       set(_tc_config "DEBUG")
--     endif()
--     foreach(v CMAKE_${lang}_FLAGS CMAKE_${lang}_FLAGS_${_tc_config})
--+      # Avoid failing ABI detection on warnings.
--       string(REGEX REPLACE "(^| )-Werror([= ][^-][^ ]*)?( |$)" " " ${v} "${${v}}")
--+      # Avoid passing of "-pipe" when determining the compiler internals. With
--+      # "-pipe" GCC will use pipes to pass data between the involved
--+      # executables.  This may lead to issues when their stderr output (which
--+      # contains the relevant compiler internals) becomes interweaved.
--+      string(REGEX REPLACE "(^| )-pipe( |$)" " " ${v} "${${v}}")
--     endforeach()
-- 
--     # Save the current LC_ALL, LC_MESSAGES, and LANG environment variables
-diff --git a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch b/meta/recipes-devtools/cmake/cmake/0001-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal.patch
-similarity index 90%
-rename from meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
-rename to meta/recipes-devtools/cmake/cmake/0001-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal.patch
-index 7559c52932..f31dce5644 100644
---- a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0001-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal.patch
-@@ -1,4 +1,4 @@
--From 8effa783e47e2b574be90733c38b27701e06e929 Mon Sep 17 00:00:00 2001
-+From cf8210696ebbaff14612d845bc98fac447c0e6f5 Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
- Date: Thu, 5 Jul 2018 10:28:04 -0300
- Subject: [PATCH] Disable use of ext2fs/ext2_fs.h by cmake's internal
-@@ -18,7 +18,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-  1 file changed, 2 insertions(+), 6 deletions(-)
- 
- diff --git a/Utilities/cmlibarchive/CMakeLists.txt b/Utilities/cmlibarchive/CMakeLists.txt
--index 4e4b49c1..50e9a733 100644
-+index 04d986b6ea7d8dc0bd7e909d4e7b4e73c9e35437..014fe78063f7d30c9a4970b7cf3aeeaeb36bcdbc 100644
- --- a/Utilities/cmlibarchive/CMakeLists.txt
- +++ b/Utilities/cmlibarchive/CMakeLists.txt
- @@ -745,12 +745,8 @@ LA_CHECK_INCLUDE_FILE("copyfile.h" HAVE_COPYFILE_H)
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-cmCurl-Avoid-using-undocumented-type-for-CURLOPT_NET.patch b/meta/recipes-devtools/cmake/cmake/0001-cmCurl-Avoid-using-undocumented-type-for-CURLOPT_NET.patch
-deleted file mode 100644
-index c719c1fdfb..0000000000
---- a/meta/recipes-devtools/cmake/cmake/0001-cmCurl-Avoid-using-undocumented-type-for-CURLOPT_NET.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From c608975f4490f67872926f2601e5c37f2e570307 Mon Sep 17 00:00:00 2001
--From: Wang Mingyu <wangmy@fujitsu.com>
--Date: Wed, 9 Apr 2025 01:40:46 +0000
--Subject: [PATCH] cmCurl: Avoid using undocumented type for CURLOPT_NETRC
-- values
--
--Fix: nativesdk-cmake/3.31.6/cmake-3.31.6/Source/cmCurl.cxx:178:26: error: invalid conversion from 'long int' to 'CURL_NETRC_OPTION' [-fpermissive]
--Upstream-Status: Backport [https://gitlab.kitware.com/cmake/cmake/-/merge_requests/10449/diffs?commit_id=1b0c92a3a1b782ff3e1c4499b6ab8db614d45bcd]
--
--Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-----
-- Source/cmCurl.cxx | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Source/cmCurl.cxx b/Source/cmCurl.cxx
--index b9133ed7..0cf8a71a 100644
----- a/Source/cmCurl.cxx
--+++ b/Source/cmCurl.cxx
--@@ -170,7 +170,7 @@ std::string cmCurlSetNETRCOption(::CURL* curl, const std::string& netrc_level,
--                                  const std::string& netrc_file)
-- {
--   std::string e;
---  CURL_NETRC_OPTION curl_netrc_level = CURL_NETRC_LAST;
--+  long curl_netrc_level = CURL_NETRC_LAST;
--   ::CURLcode res;
-- 
--   if (!netrc_level.empty()) {
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch b/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
-deleted file mode 100644
-index 31f6148cac..0000000000
---- a/meta/recipes-devtools/cmake/cmake/0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch
-+++ /dev/null
-@@ -1,202 +0,0 @@
--From c7e8b03324883760a2d6fab86ae034beb82af651 Mon Sep 17 00:00:00 2001
--From: John Drouhard <john@drouhard.dev>
--Date: Thu, 9 Jan 2025 20:34:42 -0600
--Subject: [PATCH] ctest: Allow arbitrary characters in test names of
-- CTestCostData.txt
--
--This changes the way lines in CTestCostData.txt are parsed to allow for
--spaces in the test name.
--
--It does so by looking for space characters from the end; and once two
--have been found, assumes everything from the beginning up to that
--second-to-last-space is the test name.
--
--Additionally, parsing the file should be much more efficient since there
--is no string or vector heap allocation per line. The std::string used by
--the parse function to convert the int and float should be within most
--standard libraries' small string optimization.
--
--Fixes: #26594
--
--Upstream-Status: Backport [4.0.0, 040da7d83216ace59710407e8ce35d5fd38e1340]
--Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-----
-- Source/CTest/cmCTestMultiProcessHandler.cxx | 77 +++++++++++++++------
-- Source/CTest/cmCTestMultiProcessHandler.h   |  3 +-
-- Tests/CTestTestScheduler/CMakeLists.txt     |  4 +-
-- 3 files changed, 61 insertions(+), 23 deletions(-)
--
--diff --git a/Source/CTest/cmCTestMultiProcessHandler.cxx b/Source/CTest/cmCTestMultiProcessHandler.cxx
--index 84ea32b84d40025ec333a90d30c42eeaf7adc9ef..231e7b5f39b1d8aa75f4e59a890a099b53fcdaac 100644
----- a/Source/CTest/cmCTestMultiProcessHandler.cxx
--+++ b/Source/CTest/cmCTestMultiProcessHandler.cxx
--@@ -20,6 +20,7 @@
-- 
-- #include <cm/memory>
-- #include <cm/optional>
--+#include <cm/string_view>
-- #include <cmext/algorithm>
-- 
-- #include <cm3p/json/value.h>
--@@ -52,6 +53,48 @@ constexpr unsigned long kParallelLevelMinimum = 2u;
-- // Under a job server, parallelism is effectively limited
-- // only by available job server tokens.
-- constexpr unsigned long kParallelLevelUnbounded = 0x10000u;
--+
--+struct CostEntry
--+{
--+  cm::string_view name;
--+  int prevRuns;
--+  float cost;
--+};
--+
--+cm::optional<CostEntry> splitCostLine(cm::string_view line)
--+{
--+  std::string part;
--+  cm::string_view::size_type pos1 = line.size();
--+  cm::string_view::size_type pos2 = line.find_last_of(' ', pos1);
--+  auto findNext = [line, &part, &pos1, &pos2]() -> bool {
--+    if (pos2 != cm::string_view::npos) {
--+      cm::string_view sub = line.substr(pos2 + 1, pos1 - pos2 - 1);
--+      part.assign(sub.begin(), sub.end());
--+      pos1 = pos2;
--+      if (pos1 > 0) {
--+        pos2 = line.find_last_of(' ', pos1 - 1);
--+      }
--+      return true;
--+    }
--+    return false;
--+  };
--+
--+  // parse the cost
--+  if (!findNext()) {
--+    return cm::nullopt;
--+  }
--+  float cost = static_cast<float>(atof(part.c_str()));
--+
--+  // parse the previous runs
--+  if (!findNext()) {
--+    return cm::nullopt;
--+  }
--+  int prev = atoi(part.c_str());
--+
--+  // from start to the last found space is the name
--+  return CostEntry{ line.substr(0, pos1), prev, cost };
--+}
--+
-- }
-- 
-- namespace cmsys {
--@@ -797,24 +840,21 @@ void cmCTestMultiProcessHandler::UpdateCostData()
--       if (line == "---") {
--         break;
--       }
---      std::vector<std::string> parts = cmSystemTools::SplitString(line, ' ');
--       // Format: <name> <previous_runs> <avg_cost>
---      if (parts.size() < 3) {
--+      cm::optional<CostEntry> entry = splitCostLine(line);
--+      if (!entry) {
--         break;
--       }
-- 
---      std::string name = parts[0];
---      int prev = atoi(parts[1].c_str());
---      float cost = static_cast<float>(atof(parts[2].c_str()));
---
---      int index = this->SearchByName(name);
--+      int index = this->SearchByName(entry->name);
--       if (index == -1) {
--         // This test is not in memory. We just rewrite the entry
---        fout << name << " " << prev << " " << cost << "\n";
--+        fout << entry->name << " " << entry->prevRuns << " " << entry->cost
--+             << "\n";
--       } else {
--         // Update with our new average cost
---        fout << name << " " << this->Properties[index]->PreviousRuns << " "
---             << this->Properties[index]->Cost << "\n";
--+        fout << entry->name << " " << this->Properties[index]->PreviousRuns
--+             << " " << this->Properties[index]->Cost << "\n";
--         temp.erase(index);
--       }
--     }
--@@ -850,28 +890,25 @@ void cmCTestMultiProcessHandler::ReadCostData()
--         break;
--       }
-- 
---      std::vector<std::string> parts = cmSystemTools::SplitString(line, ' ');
--+      // Format: <name> <previous_runs> <avg_cost>
--+      cm::optional<CostEntry> entry = splitCostLine(line);
-- 
--       // Probably an older version of the file, will be fixed next run
---      if (parts.size() < 3) {
--+      if (!entry) {
--         fin.close();
--         return;
--       }
-- 
---      std::string name = parts[0];
---      int prev = atoi(parts[1].c_str());
---      float cost = static_cast<float>(atof(parts[2].c_str()));
---
---      int index = this->SearchByName(name);
--+      int index = this->SearchByName(entry->name);
--       if (index == -1) {
--         continue;
--       }
-- 
---      this->Properties[index]->PreviousRuns = prev;
--+      this->Properties[index]->PreviousRuns = entry->prevRuns;
--       // When not running in parallel mode, don't use cost data
--       if (this->GetParallelLevel() > 1 && this->Properties[index] &&
--           this->Properties[index]->Cost == 0) {
---        this->Properties[index]->Cost = cost;
--+        this->Properties[index]->Cost = entry->cost;
--       }
--     }
--     // Next part of the file is the failed tests
--@@ -884,7 +921,7 @@ void cmCTestMultiProcessHandler::ReadCostData()
--   }
-- }
-- 
---int cmCTestMultiProcessHandler::SearchByName(std::string const& name)
--+int cmCTestMultiProcessHandler::SearchByName(cm::string_view name)
-- {
--   int index = -1;
-- 
--diff --git a/Source/CTest/cmCTestMultiProcessHandler.h b/Source/CTest/cmCTestMultiProcessHandler.h
--index fd6c17f2fac06949c20f3792dd3eae442b15850b..811be613c3387240c0181f8372b24cf09219621f 100644
----- a/Source/CTest/cmCTestMultiProcessHandler.h
--+++ b/Source/CTest/cmCTestMultiProcessHandler.h
--@@ -13,6 +13,7 @@
-- #include <vector>
-- 
-- #include <cm/optional>
--+#include <cm/string_view>
-- 
-- #include "cmCTest.h"
-- #include "cmCTestResourceAllocator.h"
--@@ -110,7 +111,7 @@ protected:
--   void UpdateCostData();
--   void ReadCostData();
--   // Return index of a test based on its name
---  int SearchByName(std::string const& name);
--+  int SearchByName(cm::string_view name);
-- 
--   void CreateTestCostList();
-- 
--diff --git a/Tests/CTestTestScheduler/CMakeLists.txt b/Tests/CTestTestScheduler/CMakeLists.txt
--index 6f8cb4dbc0de35984540e1868788e0a02124e819..daf6ce2b23d8c048334ae1047759130b246dccef 100644
----- a/Tests/CTestTestScheduler/CMakeLists.txt
--+++ b/Tests/CTestTestScheduler/CMakeLists.txt
--@@ -1,9 +1,9 @@
---cmake_minimum_required(VERSION 3.10)
--+cmake_minimum_required(VERSION 3.19)
-- project (CTestTestScheduler)
-- include (CTest)
-- 
-- add_executable (Sleep sleep.c)
-- 
-- foreach (time RANGE 1 4)
---  add_test (TestSleep${time} Sleep ${time})
--+  add_test ("TestSleep ${time}" Sleep ${time})
-- endforeach ()
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch b/meta/recipes-devtools/cmake/cmake/0002-CMakeLists.txt-disable-USE_NGHTTP2.patch
-similarity index 83%
-rename from meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
-rename to meta/recipes-devtools/cmake/cmake/0002-CMakeLists.txt-disable-USE_NGHTTP2.patch
-index ab78fa26ba..158eea2c3e 100644
---- a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0002-CMakeLists.txt-disable-USE_NGHTTP2.patch
-@@ -1,4 +1,4 @@
--From 061253f390ada0661b30cf8856fa8d8d40a7355d Mon Sep 17 00:00:00 2001
-+From e0a1996a85dcb43d69d3c7daecab4da74599e5ba Mon Sep 17 00:00:00 2001
- From: Changqing Li <changqing.li@windriver.com>
- Date: Wed, 28 Dec 2022 17:51:27 +0800
- Subject: [PATCH] CMakeLists.txt: disable USE_NGHTTP2
-@@ -22,10 +22,10 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Utilities/cmcurl/CMakeLists.txt b/Utilities/cmcurl/CMakeLists.txt
--index ef6c269e..ecaac497 100644
-+index 75b510205984894ffa11461e7aa04d3c479709b4..83463042d82d9c7f17932753f47c47b12aeec85b 100644
- --- a/Utilities/cmcurl/CMakeLists.txt
- +++ b/Utilities/cmcurl/CMakeLists.txt
--@@ -99,7 +99,7 @@ set(USE_ECH OFF)
-+@@ -105,7 +105,7 @@ set(USE_ECH OFF)
-  set(USE_HTTPSRR OFF)
-  set(USE_LIBIDN2 ON)
-  set(USE_LIBRTMP OFF)
-diff --git a/meta/recipes-devtools/cmake/cmake_3.31.6.bb b/meta/recipes-devtools/cmake/cmake_4.0.3.bb
-similarity index 96%
-rename from meta/recipes-devtools/cmake/cmake_3.31.6.bb
-rename to meta/recipes-devtools/cmake/cmake_4.0.3.bb
-index 2d343d6f52..7d8b8cac65 100644
---- a/meta/recipes-devtools/cmake/cmake_3.31.6.bb
-+++ b/meta/recipes-devtools/cmake/cmake_4.0.3.bb
-@@ -5,7 +5,6 @@ inherit cmake bash-completion
- DEPENDS += "curl expat zlib libarchive xz ncurses bzip2"
- 
- SRC_URI:append:class-nativesdk = " \
--    file://0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch \
-     file://OEToolchainConfig.cmake \
-     file://SDKToolchainConfig.cmake.template \
-     file://cmake-setup.py \
 
