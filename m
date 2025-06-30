@@ -2,97 +2,78 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84BF8C8302D
-	for <webhook@archiver.kernel.org>; Mon, 30 Jun 2025 10:59:49 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.36772.1751281179198159323
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 920AFC7EE39
+	for <webhook@archiver.kernel.org>; Mon, 30 Jun 2025 11:05:59 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web11.36834.1751281552042611392
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Jun 2025 03:59:39 -0700
+ Mon, 30 Jun 2025 04:05:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BRYA+bW8;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4538bc52a8dso26755875e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 03:59:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UYuP6uuy;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6fafd3cc8f9so32554806d6.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 04:05:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751281177; x=1751885977; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4EBw0WSKNMqLwFq9myRtTLb+tfDgmCDk0DNwXsd03Zg=;
-        b=BRYA+bW889nbN5UbXmy8ZAAJDBRPftj0Dj1YWoNfB/e5WL3AG5zlL/vnBevsqTHRy9
-         5vXAxPS09aPpEZ0bA2WxVDEpTYi6ZcBaeSxfjqaApzAvpEgb2sCgZb7LfZ6KU80tDB2+
-         ICJd0E28sZAZb3hygjeswHWGxX/vvPdk0jz0zAz46ivj19wNpVu5J4Yi5e8VeRPKMzYC
-         izoyyciYidyLjTJx/BD+4ywUVUe3UL9y+ugdtAivQsNMe8HiW1vFtcjVrJEFpWx9JMxl
-         1a685UpQtrli6tB+h2GnNohIxxOAoLlo3erlXbkdnRUdS3B3ATRLSWgHGVo+JUY5Y1xd
-         9oFQ==
+        d=gmail.com; s=20230601; t=1751281551; x=1751886351; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=23XDkQSJSOZnh3Le0aOhyLBZvefUum4A/e6W9Ig07w4=;
+        b=UYuP6uuyNOfSqYowQ8c27l1OgmcuqgVn8WTkXI55IL6B/QiPAgW4oVj4zXGSOV2ZKw
+         e2E7UF5DKHvb0R/b7P9Yr0Bm9WjPcR9iOBxjBUG7BQDIWGnM/KnTcsmCXJ80dkD8EsH8
+         RFwLoAWdTtjWczGjR3mFERi88iY8YilSndXgBggOwXWrR708HgzeA3kV07MO9tGKUvtK
+         HLtLDPGWK+h+U9aUGnEhtAnCPF+poZ2x976V9s6UjtrwZEckVyzZLc+idr6FNX+q97Fd
+         tX78OxZOGAT/guwGgP2kume52xGXPMnIMo5/8boeZtiiS4X7HQZcs/Jq/sOkEOzCavgx
+         Lxjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751281177; x=1751885977;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1751281551; x=1751886351;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4EBw0WSKNMqLwFq9myRtTLb+tfDgmCDk0DNwXsd03Zg=;
-        b=t8vIb29mYilFCHQQXrz9G07GDN2C4FJMCWheubxVEOBswJpnUTpxL89aCkQD/2QC3k
-         9RiZqmbcWtOLO5LFJ1vf5RtvM122Uk0MEQY9bvDaFaKt8unW3nlbmTIxSDSOGgEj/nvv
-         OXWVqkenHq1FlGWIQplDmhV7MtsTsfxe0FjRvadITPlA8cohkXqakTifeoUpPNleSnor
-         2yr54ud0Kx93nFaxhApgsxPWhAC/MZwtEmntJoQnycefrP2f9SZMT+fbOlElPWuKPgow
-         cKrZIw7yMvfsTCl3NWdJ5HbiAsD0ALGTiQs6MU97D//ePf7f/ERlQ51jch/GUnHVll5g
-         smBA==
-X-Gm-Message-State: AOJu0YzKtjsvwBkOfVDEWYgopz8cLwI+yjUZ5kPluOt9xqsXMjjxgsdM
-	vwF4ZDUnDwlKyh60isHOdNRIWgFlyRXbDF0FnRHUjQnKblzpSWTXtPno0Xb84Q==
-X-Gm-Gg: ASbGncsRP33rU4ai+DbxjwRcHVIxV200YGC06SwzBjXWhfPAYbdQBJ0JbYlJjPuFlPU
-	UtlsxBVpiMh8rpDyqFIPB5B68dKkiY5rd+niTIpeSWPfD5rQoMn52VUTZhJxiD4rMBGfB/9ekgF
-	0cpl+rvnH3PkwUGDH0OvnzBfLSnUqKxyTE0TJTHON0Dw2gHP0tAbLXSrG1jrm0C1Jk9iXHoNWOD
-	eHhfdNwT5Ls13cqmMVl2Zh727NjtOCGzjtR4PEG8Iq2yMgxRb3g+InYTuICmnz/s0DlX1xv9ENb
-	IKtZ1gkIRoyhPAr4e9FsfaliQHxBa32AnjzAwDF/h6aikA7YUUI+voIStYHkVtCx8+EM0NOcyrL
-	JXRGTBmZCEtwuT94BCt+0Kag=
-X-Google-Smtp-Source: AGHT+IERO9IOdct+SJBZVWgAigFnR6C0+XvlZ7AzW1NTSDop+Cgysn6cPtNpulk1TGgAujno5MBqmw==
-X-Received: by 2002:a05:600c:828f:b0:450:d00d:588b with SMTP id 5b1f17b1804b1-45392bc88damr112415655e9.9.1751281177293;
-        Mon, 30 Jun 2025 03:59:37 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e59659sm10088323f8f.77.2025.06.30.03.59.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 03:59:36 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] libarchive: correct upstream version check
-Date: Mon, 30 Jun 2025 12:59:34 +0200
-Message-Id: <20250630105934.3119995-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        bh=23XDkQSJSOZnh3Le0aOhyLBZvefUum4A/e6W9Ig07w4=;
+        b=idDxi7TszgdgaL+lhvj94i5D30MEFlBqPlpujlzLxDxvs29W+57BQo52x1WjELXUwF
+         3qAd44sgIelKBMMTIPo48eBMneJdu/n5xwYi3grccayqw/qkC/6eSlS0twGUAjOSf+Do
+         GfDT5qbYgEJJLTsvvw1Oz1pdlg6551ZnAmq9dkpRgH8VPoAH7PU+S9tTmgqcyl3Rpdyv
+         BME2JTycJc/QT0RIaTDqzmSo9bQ2QlSQnxRWyiZDqtcXScN8nkI/4qoFN9ef4rzSOOuq
+         S95FrZMRlVpKJsormCdKvT88jtHcXQkeccv4h4lgCGKxDI5OXGsY5oG5fxFsoJjgcDIi
+         Q69w==
+X-Forwarded-Encrypted: i=1; AJvYcCVRRMfpIXxbh3MpOVpxWzeONhfG4K3bTQEWTjgt5UidrrMbJhmkud1e238fuwTVjVMaiqVJD1p4UCdo7dHMM+h2LA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwfWMXYCWL1yFID4h1TbbRzpbEBfHG9GXmzHNPFWXigP34jnEjS
+	YgvBMt/dagrU1z/znTbKFa9SlcQuCt47WSSzkNkp3Z98Ev64XgB1FYcl2ilHJ6bPnm2RMogffSt
+	AcITaUAKXUBBWY1MwEzEb68U3zdMgyfw=
+X-Gm-Gg: ASbGncukNx6SmvsaOktB+euj03xz9Id3eMqzIQjZ5gIQyfF7eHzsKTVJjgd7rHlk40Y
+	tI+eeTesxGPzi9oQDwY9IHec92mluZ2RdzglnAIbMTeoOGsRzCYyTjXY/NQijLlqqMO2o/llRC0
+	IsR+PQcuLxS5BicoEf+uEHSdTifnXFc0sSdt+r5x1bNIJ5bf9FgktWo62TM1fv3cBiSIPZErCHU
+	+DkjjJglhiNHWfw
+X-Google-Smtp-Source: AGHT+IEbVxG+8JF9cZoYUgBtSZEG2+ZN96VM6qlsHGzhv2eInubWjS2CZLAvHBskwIRdmz7FIQrdRyFxE+lc2JuKih4=
+X-Received: by 2002:a05:6214:d6c:b0:6fb:5fbd:ba70 with SMTP id
+ 6a1803df08f44-700032be559mr141887946d6.43.1751281550600; Mon, 30 Jun 2025
+ 04:05:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250630104104.4093207-1-Moritz.Haase@bmw.de> <20250630104104.4093207-4-Moritz.Haase@bmw.de>
+ <CAMSfU+7WhC+=fKu8kGOSiqH2cnRqisJy90ZBMcUB27NYiCPesg@mail.gmail.com>
+In-Reply-To: <CAMSfU+7WhC+=fKu8kGOSiqH2cnRqisJy90ZBMcUB27NYiCPesg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 30 Jun 2025 13:05:36 +0200
+X-Gm-Features: Ac12FXxD0jSrOSXWLxpJWMURZvhUcw_RO0NtLZlUxz6II70posjsqij2Orr6Zfs
+Message-ID: <CANNYZj99OZz_zK=vhei1N5rwbrU3QsCTWM963NpUx6t_O6uTsA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 3/3] cmake: upgrade 3.31.6 -> 4.0.3
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: Moritz.Haase@bmw.de, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 10:59:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219509
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 11:05:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219510
 
-From: Alexander Kanavin <alex@linutronix.de>
+On Mon, 30 Jun 2025 at 12:51, Yoann Congal <yoann.congal@smile.fr> wrote:
+> Out of curiosity (because we will soon find out), do we know how much of meta-openembedded does "Compatibility with versions of CMake older than 3.5 has been removed" break?
 
-The directory index is missing the latest release:
-https://www.libarchive.org/downloads/
+I do not think this is a fair question, and it is asked too soon
+indeed. It implies that the submitter should set up an (extremely
+heavy) world build with all of meta-oe, and possibly makes them
+obliged to fix the fallout. Neither is expected from Moritz, just to
+be clear.
 
-Ticket (which I do not believe will be quickly fixed, considering
-other similar open tickets):
-https://github.com/libarchive/libarchive/issues/2693
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/recipes-extended/libarchive/libarchive_3.8.1.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.1.bb b/meta/recipes-extended/libarchive/libarchive_3.8.1.bb
-index 472b5820f0a..69520b1bad1 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.8.1.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.8.1.bb
-@@ -30,6 +30,7 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
- EXTRA_OECONF += "--enable-largefile --without-iconv"
- 
- SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz"
-+UPSTREAM_CHECK_URI = "https://www.libarchive.org/"
- 
- SRC_URI[sha256sum] = "bde832a5e3344dc723cfe9cc37f8e54bde04565bfe6f136bc1bd31ab352e9fab"
- 
--- 
-2.39.5
-
+Alex
 
