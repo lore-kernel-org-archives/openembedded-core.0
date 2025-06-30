@@ -1,79 +1,126 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 920AFC7EE39
-	for <webhook@archiver.kernel.org>; Mon, 30 Jun 2025 11:05:59 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web11.36834.1751281552042611392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3537C7EE39
+	for <webhook@archiver.kernel.org>; Mon, 30 Jun 2025 11:19:09 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.37226.1751282342271068558
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Jun 2025 04:05:52 -0700
+ Mon, 30 Jun 2025 04:19:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UYuP6uuy;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6fafd3cc8f9so32554806d6.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 04:05:51 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GXuAAsNn;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a4f72cba73so3380924f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 04:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751281551; x=1751886351; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=23XDkQSJSOZnh3Le0aOhyLBZvefUum4A/e6W9Ig07w4=;
-        b=UYuP6uuyNOfSqYowQ8c27l1OgmcuqgVn8WTkXI55IL6B/QiPAgW4oVj4zXGSOV2ZKw
-         e2E7UF5DKHvb0R/b7P9Yr0Bm9WjPcR9iOBxjBUG7BQDIWGnM/KnTcsmCXJ80dkD8EsH8
-         RFwLoAWdTtjWczGjR3mFERi88iY8YilSndXgBggOwXWrR708HgzeA3kV07MO9tGKUvtK
-         HLtLDPGWK+h+U9aUGnEhtAnCPF+poZ2x976V9s6UjtrwZEckVyzZLc+idr6FNX+q97Fd
-         tX78OxZOGAT/guwGgP2kume52xGXPMnIMo5/8boeZtiiS4X7HQZcs/Jq/sOkEOzCavgx
-         Lxjw==
+        d=linuxfoundation.org; s=google; t=1751282340; x=1751887140; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HJfyUGOjueNrI3by0/bxrpPrOCThVYbQuYcWgSBOKT0=;
+        b=GXuAAsNnLay+LZvc366T4wChr1boInMSv7jJJyd82yMc05IkUuNHRVwXx12LpamFaR
+         BhqTcIaIf8tUHAQuLyyGKhJlp3eBVAqwFtDpZ05n2s5wbzqdsO18rO042s6Vy3JQz7So
+         Qg5DsqSRPetvm2+7Qo19XCdq+QF72bBrodkSc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751281551; x=1751886351;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=23XDkQSJSOZnh3Le0aOhyLBZvefUum4A/e6W9Ig07w4=;
-        b=idDxi7TszgdgaL+lhvj94i5D30MEFlBqPlpujlzLxDxvs29W+57BQo52x1WjELXUwF
-         3qAd44sgIelKBMMTIPo48eBMneJdu/n5xwYi3grccayqw/qkC/6eSlS0twGUAjOSf+Do
-         GfDT5qbYgEJJLTsvvw1Oz1pdlg6551ZnAmq9dkpRgH8VPoAH7PU+S9tTmgqcyl3Rpdyv
-         BME2JTycJc/QT0RIaTDqzmSo9bQ2QlSQnxRWyiZDqtcXScN8nkI/4qoFN9ef4rzSOOuq
-         S95FrZMRlVpKJsormCdKvT88jtHcXQkeccv4h4lgCGKxDI5OXGsY5oG5fxFsoJjgcDIi
-         Q69w==
-X-Forwarded-Encrypted: i=1; AJvYcCVRRMfpIXxbh3MpOVpxWzeONhfG4K3bTQEWTjgt5UidrrMbJhmkud1e238fuwTVjVMaiqVJD1p4UCdo7dHMM+h2LA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwfWMXYCWL1yFID4h1TbbRzpbEBfHG9GXmzHNPFWXigP34jnEjS
-	YgvBMt/dagrU1z/znTbKFa9SlcQuCt47WSSzkNkp3Z98Ev64XgB1FYcl2ilHJ6bPnm2RMogffSt
-	AcITaUAKXUBBWY1MwEzEb68U3zdMgyfw=
-X-Gm-Gg: ASbGncukNx6SmvsaOktB+euj03xz9Id3eMqzIQjZ5gIQyfF7eHzsKTVJjgd7rHlk40Y
-	tI+eeTesxGPzi9oQDwY9IHec92mluZ2RdzglnAIbMTeoOGsRzCYyTjXY/NQijLlqqMO2o/llRC0
-	IsR+PQcuLxS5BicoEf+uEHSdTifnXFc0sSdt+r5x1bNIJ5bf9FgktWo62TM1fv3cBiSIPZErCHU
-	+DkjjJglhiNHWfw
-X-Google-Smtp-Source: AGHT+IEbVxG+8JF9cZoYUgBtSZEG2+ZN96VM6qlsHGzhv2eInubWjS2CZLAvHBskwIRdmz7FIQrdRyFxE+lc2JuKih4=
-X-Received: by 2002:a05:6214:d6c:b0:6fb:5fbd:ba70 with SMTP id
- 6a1803df08f44-700032be559mr141887946d6.43.1751281550600; Mon, 30 Jun 2025
- 04:05:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751282340; x=1751887140;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HJfyUGOjueNrI3by0/bxrpPrOCThVYbQuYcWgSBOKT0=;
+        b=o9mUhiuafjb6ArAT4g/rJidgYejYPPLBeuSfHJGkQbZyhMILxxBd9e3TgR6ND4Ipr/
+         XuMK3IMUg0KsYnHIiPVuEg9XJXzgQQB44wNmgzvNnZGdjcLxEfarrW8CcevCydb1+9IQ
+         j1mkZRDyz9Jfw/whgCFrVUMKda8dwUQRHswfaVCZRL/jNLlCHxc2M0igSrQFFF/wNdnf
+         LULTo+IiP90S2amt7koswhLfRbpgx8ADUEYsC2q0tENED1S3894A3m7ByduPkAb+WUCl
+         wJDHb8A40pu3NWL58mtpkrYEKv5KxIQpO2estFvDXl+8tA+FXy5NK/HdE83JYJvX8eA3
+         nPkg==
+X-Gm-Message-State: AOJu0YzDzKC7HvwVMpMVuNZApig6R6LyO1mMAzIIviPNWnz8vPSr8ZZD
+	+2Tr7qrHPK+1yf3EjH2TPk5N5sWV39mQNVIH4CWWFxWCbH1kbMPOfj9RhgtkqpT7kJ4Qk0KdaJe
+	tWRCX
+X-Gm-Gg: ASbGnctT2xGIfwLvTuxPT48c7wEhbkvP312kX6Re4VMWmyWeyFapN7ZhxWNgf4weHPV
+	dyoLyxIdQpO85uCVPWTIbOpAIe4tVSisu43AL24t+hvKtpiQjtnJAXdYlVgWqwwuw68HAJv7zvj
+	P4ezEbFm6UEX2JRPoKJH/2h+g5/LzgDm/vn3gL2Yi1UXmZ6jHC5mdX/9TAjvwj+TYKYjdBnJ9n1
+	EayUsCDwGY5VWvfBOS4NUdt7Pnkdb8Se3ofUD/JOhruvfhXvakmJ0KsVRFehTzgoUE8+ZeWyz7Y
+	ZhlFXUMXYsoOkMJ/752XP/UVHF36j8oBBoDjcIa5Y5s4+syLooDx2cvUyKHq6wjYaa6FV823MsJ
+	DxtHdA2s0LsDTbtayEo6LCVwj4w==
+X-Google-Smtp-Source: AGHT+IEuhdhR+b0OAnTfyzG20yT3DLrPG+8o7LvGAHwIxsV2DYdDa+bX2Krno2WzyXox7mS5vCPfbQ==
+X-Received: by 2002:a05:6000:18a3:b0:3a4:edf5:8a41 with SMTP id ffacd0b85a97d-3a6f30fc2b2mr14893160f8f.4.1751282339414;
+        Mon, 30 Jun 2025 04:18:59 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ea45:3640:e90f:2224])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a423abbsm134811505e9.39.2025.06.30.04.18.58
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jun 2025 04:18:58 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 1/2] bitbake.conf/sstate: Introduce OE_SHARED_UMASK to standarise shared area umask
+Date: Mon, 30 Jun 2025 12:18:56 +0100
+Message-ID: <20250630111857.3425139-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-References: <20250630104104.4093207-1-Moritz.Haase@bmw.de> <20250630104104.4093207-4-Moritz.Haase@bmw.de>
- <CAMSfU+7WhC+=fKu8kGOSiqH2cnRqisJy90ZBMcUB27NYiCPesg@mail.gmail.com>
-In-Reply-To: <CAMSfU+7WhC+=fKu8kGOSiqH2cnRqisJy90ZBMcUB27NYiCPesg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 30 Jun 2025 13:05:36 +0200
-X-Gm-Features: Ac12FXxD0jSrOSXWLxpJWMURZvhUcw_RO0NtLZlUxz6II70posjsqij2Orr6Zfs
-Message-ID: <CANNYZj99OZz_zK=vhei1N5rwbrU3QsCTWM963NpUx6t_O6uTsA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 3/3] cmake: upgrade 3.31.6 -> 4.0.3
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: Moritz.Haase@bmw.de, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 11:05:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219510
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 11:19:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219511
 
-On Mon, 30 Jun 2025 at 12:51, Yoann Congal <yoann.congal@smile.fr> wrote:
-> Out of curiosity (because we will soon find out), do we know how much of meta-openembedded does "Compatibility with versions of CMake older than 3.5 has been removed" break?
+Currently, the "shared" directory permissions of sstate are hardcoded. Since
+multiple areas of the code reference this, separate it out to a variable to
+allow the behaviour to be configurable. Initially this applies to SSTATE_DIR.
 
-I do not think this is a fair question, and it is asked too soon
-indeed. It implies that the submitter should set up an (extremely
-heavy) world build with all of meta-oe, and possibly makes them
-obliged to fix the fallout. Neither is expected from Moritz, just to
-be clear.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-global/sstate.bbclass | 12 +++++++-----
+ meta/conf/bitbake.conf             |  2 ++
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-Alex
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
+index 2968cc4c2e7..53bc2e3940c 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -745,7 +745,7 @@ def pstaging_fetch(sstatefetch, d):
+     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
+         uris += ['file://{0}.sig;downloadfilename={0}.sig'.format(sstatefetch)]
+ 
+-    with bb.utils.umask(0o002):
++    with bb.utils.umask(bb.utils.to_filemode(d.getVar("OE_SHARED_UMASK"))):
+         bb.utils.mkdirhier(dldir)
+ 
+         for srcuri in uris:
+@@ -776,9 +776,10 @@ sstate_task_prefunc[dirs] = "${WORKDIR}"
+ python sstate_task_postfunc () {
+     shared_state = sstate_state_fromvars(d)
+ 
+-    omask = os.umask(0o002)
+-    if omask != 0o002:
+-       bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
++    shared_umask = bb.utils.to_filemode(d.getVar("OE_SHARED_UMASK"))
++    omask = os.umask(shared_umask)
++    if omask != shared_umask:
++       bb.note("Using umask %0o (not %0o) for sstate packaging" % (shared_umask, omask))
+     sstate_package(shared_state, d)
+     os.umask(omask)
+ 
+@@ -843,7 +844,8 @@ python sstate_create_and_sign_package () {
+ 
+     # Create the required sstate directory if it is not present.
+     if not sstate_pkg.parent.is_dir():
+-        with bb.utils.umask(0o002):
++        shared_umask = bb.utils.to_filemode(d.getVar("OE_SHARED_UMASK"))
++        with bb.utils.umask(shared_umask):
+             bb.utils.mkdirhier(str(sstate_pkg.parent))
+ 
+     if sign_pkg:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a3300fc1727..b1f8ac5b117 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -944,6 +944,8 @@ TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH').replace("_", "-")}"
+ 
+ # Set a default umask to use for tasks for determinism
+ BB_DEFAULT_UMASK ??= "022"
++# The umask to use for shared files (e.g. DL_DIR and SSTATE_DIR)
++OE_SHARED_UMASK ??= "002"
+ 
+ # Complete output from bitbake
+ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
 
