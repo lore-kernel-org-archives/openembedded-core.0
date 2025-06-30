@@ -1,100 +1,246 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <vpuar@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30839C83029
-	for <webhook@archiver.kernel.org>; Mon, 30 Jun 2025 18:16:12 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.48096.1751307363927157915
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD9F6C8303B
+	for <webhook@archiver.kernel.org>; Mon, 30 Jun 2025 19:48:32 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.50015.1751312907514655706
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Jun 2025 11:16:04 -0700
+ Mon, 30 Jun 2025 12:48:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YcXTrfFK;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DBl4SV5j;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010197c20da2ac-d5fe60fb-6907-42cc-9e88-f9392de97ee4-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751307363; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=SqYGlHPE1Xgq/Dhe0Dyz2raZkBO0NHer1QYzlJpZFNM=;
-	b=YcXTrfFKrAhh7yg7ikZRa01MZFQcVzVCMmEyKhiXk9wCbyT9w3i6NOv1sU784+zB
-	QwJVBLJ8CVj6wrHAKvc1XD9eg6tpDRV4BzmPLFU2S/j/ys2XlXQWiGf5RsZmO5n4W6J
-	Vs2jrNUuCIY9gLYTgTedpi/3dNOz4wWp7K9hao0s=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751307363;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=SqYGlHPE1Xgq/Dhe0Dyz2raZkBO0NHer1QYzlJpZFNM=;
-	b=DBl4SV5j0aFioWc6eABTuziy5ndSo2e61VIsmay7FGO8aVjK1XVo/37wQ9TNVDR5
-	qrpa1pyveBaBMJncE5jyRlmti4D1nxTOXrYFmm7e1n6v8cUaeTf/ZAwnQmPSoVg9gd6
-	5ZQ6+X9/XUVxDFjZLj8RwyoJVvxu8Su6o0/C5bWk=
-From: patchtest@automation.yoctoproject.org
-To: Wen Yang <wen.yang@linux.dev>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-oe][PATCH] pstack: add recipe
-In-Reply-To: <20250630172224.18568-1-wen.yang@linux.dev>
-References: <20250630172224.18568-1-wen.yang@linux.dev>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010197c20da2ac-d5fe60fb-6907-42cc-9e88-f9392de97ee4-000000@us-west-2.amazonses.com>
-Date: Mon, 30 Jun 2025 18:16:02 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.06.30-54.240.27.29
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=gV0ByWGj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: vpuar@qti.qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55UG2QM4024794
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 19:48:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2RGkyaltfy29rqOSRF6z5sUU8TdEdmXBzKNqfE/ejkM=; b=gV0ByWGj1s+AuvF9
+	qEiCIe7stP+tLBjgsokUajkAdIzfGTDrYkIWUK2VzW+Z03ta26pvag7tsDk9TVgP
+	e04eES+uiUXXsi2+Rdz//11bzaugByhHX4rbHU25Y27v4y74RlPzQFhVnELnNfmT
+	R4IN1bSCAxMqbcaC/NI4DEBY+DcDLoU/Eke/qNTOBgjGYyPrxz2bjuazwoDyVOFl
+	ZjRgAvctEMvtedB2tjLROMBWWpV2dY7oxS9oYAFkH649ZRD1lrieTfvu8FEhTGBd
+	BXDdvqu9dsJxvC4RbX1t76IaqtetzS92HykM+vRz+TjeBs/+fUPi02u12aW7L2Te
+	0p6wAg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8s9dxvh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 19:48:26 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55UJmPh3021941
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 19:48:25 GMT
+Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Mon, 30 Jun 2025 12:48:23 -0700
+From: Vivek Puar <vpuar@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Vivek Puar <vpuar@qti.qualcomm.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v4 2/3] linux-firmware: upgrade 20250509 -> 20250613
+Date: Tue, 1 Jul 2025 01:18:02 +0530
+Message-ID: <20250630194803.2279528-2-vpuar@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250630194803.2279528-1-vpuar@qti.qualcomm.com>
+References: <20250630194803.2279528-1-vpuar@qti.qualcomm.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=H/Pbw/Yi c=1 sm=1 tr=0 ts=6862ea0a cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=kjsC_edz3OLAKbXsposA:9
+X-Proofpoint-ORIG-GUID: KyXQV4NpF_XLb-1tiVVVEdjno8rJJOA3
+X-Proofpoint-GUID: KyXQV4NpF_XLb-1tiVVVEdjno8rJJOA3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjMwMDE2MiBTYWx0ZWRfX/hDfMUpYf+NI
+ /6gzE4y1ygG/Vg2Tubj54chPpAJ7nOAHKePLbYvoM35S/fiLDYADuql88vY3Y4xKfUiPnz5kNSL
+ ziZGVjALUMcdqNJH6zhxinkazo7QIK6QVzfz5O2m+PA7f6gPQo95ZZhfUFxknaRZ/esewS0Acuh
+ 0w89yt9b3awsAJx/QWOOjWxaXyNzqnVArgnknUpttUOGdlg6BRmWGEdKpOkfkfXmdeiTvT4fD5c
+ 1SywiPT8HHfhq6tsdiObgoYZ7bgemVTrDqAn8OYE8DgMtuHEYPk79ACKJsiHD3iSrVt54x/rJSB
+ J47ftxUkRlL8X75Ba+g5pvNldbSGgljhyoemp7xK4hvmnwdc+TQvHRbKTMLPlfwzcZDhI7oa6eY
+ vUmdOka2LRcU3Xb7ny8ZZrHTWfvWHQwsvWiXzO22M3A6b7Gsrz15kve71u4DQYlWg15VftR4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-30_04,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 suspectscore=0 mlxlogscore=999
+ priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0 spamscore=0
+ adultscore=0 bulkscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506300162
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 18:16:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219536
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Jun 2025 19:48:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219538
 
---NextPart
-Content-Type: text/plain
+Adding QUPv3 firmware for QCM6490 and QCS8300 platforms.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Add package ${PN}-qcom-sc8280xp-lenovo-x13s-vpu for Lenovo X13s
+laptop.
 
+License-Update: additional files
+
+Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/meta-oe-pstack-add-recipe.patch
+ ...20250509.bb => linux-firmware_20250613.bb} | 27 +++++++++++++------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250509.bb => linux-firmware_20250613.bb} (98%)
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-tests-fix-the-issue-of-cross-compilation-failure.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250509.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250613.bb
+similarity index 98%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250509.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250613.bb
+index d3ba239e4c..80d1be0eca 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250509.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250613.bb
+@@ -121,7 +121,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
+                     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
+                     file://LICENSE.cirrus;md5=662ea2c1a8888f7d79ed7f27c27472e1 \
+-                    file://LICENCE.cnm;md5=93b67e6bac7f8fec22b96b8ad0a1a9d0 \
++                    file://LICENCE.cnm;md5=df3992006621b797e36de43f36336e36 \
+                     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
+                     file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
+                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
+@@ -192,7 +192,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "d85e2f182f489a235400712cbfdb017a"
++WHENCE_CHKSUM  = "131efa2b2bab317f52b081719225dd64"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -298,7 +298,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ 
+-SRC_URI[sha256sum] = "f2c60d66f226a28130cb5643e6e544d3229673460e127c91ba03f1080cbd703e"
++SRC_URI[sha256sum] = "d40743337ca8bf9d2587e220ab30dec6a07b52cc5cb4a4ff8d92be14391a7fde"
+ 
+ inherit allarch
+ 
+@@ -526,11 +526,11 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
+              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
+              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
+-             ${PN}-qcom-qcm6490-adreno \
+-             ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute ${PN}-qcom-qcm6490-ipa ${PN}-qcom-qcm6490-wifi \
++             ${PN}-qcom-qcm6490-adreno ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute \
++             ${PN}-qcom-qcm6490-ipa ${PN}-qcom-qcm6490-wifi ${PN}-qcom-qcm6490-qupv3fw \
+              ${PN}-qcom-qcs615-adreno \
+              ${PN}-qcom-qcs8300-adreno ${PN}-qcom-qcs8300-audio ${PN}-qcom-qcs8300-compute \
+-             ${PN}-qcom-qcs8300-generalpurpose \
++             ${PN}-qcom-qcs8300-generalpurpose ${PN}-qcom-qcs8300-qupv3fw \
+              ${PN}-qcom-qrb4210-adreno \
+              ${PN}-qcom-qrb4210-audio ${PN}-qcom-qrb4210-compute ${PN}-qcom-qrb4210-modem \
+              ${PN}-qcom-sa8775p-adreno ${PN}-qcom-sa8775p-audio ${PN}-qcom-sa8775p-compute \
+@@ -540,6 +540,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-sc8280xp-lenovo-x13s-adreno \
+              ${PN}-qcom-sc8280xp-lenovo-x13s-compute \
+              ${PN}-qcom-sc8280xp-lenovo-x13s-sensors \
++             ${PN}-qcom-sc8280xp-lenovo-x13s-vpu \
+              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
+              ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
+              ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
+@@ -1864,11 +1865,13 @@ LICENSE:${PN}-qcom-qcm6490-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcm6490-compute  = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcm6490-ipa  = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcm6490-wifi  = "Firmware-qcom"
++LICENSE:${PN}-qcom-qcm6490-qupv3fw = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs615-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs8300-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs8300-audio = "Firmware-qcom-2"
+ LICENSE:${PN}-qcom-qcs8300-compute = "Firmware-qcom-2"
+ LICENSE:${PN}-qcom-qcs8300-generalpurpose = "Firmware-qcom-2"
++LICENSE:${PN}-qcom-qcs8300-qupv3fw = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qrb4210-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qrb4210-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qrb4210-compute  = "Firmware-qcom"
+@@ -1878,11 +1881,12 @@ LICENSE:${PN}-qcom-sa8775p-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sa8775p-audio = "Firmware-qcom-2"
+ LICENSE:${PN}-qcom-sa8775p-compute = "Firmware-qcom-2"
+ LICENSE:${PN}-qcom-sa8775p-generalpurpose = "Firmware-qcom-2"
+-LICENSE:${PN}-qcom-sa8775p-qupv3fw = "Firmware-qcom-2"
++LICENSE:${PN}-qcom-sa8775p-qupv3fw = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "Firmware-qcom & Firmware-linaro"
+ LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "Firmware-qcom"
++LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdm845-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdm845-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdm845-compute = "Firmware-qcom"
+@@ -1947,11 +1951,13 @@ FILES:${PN}-qcom-qcm6490-audio = "${nonarch_base_libdir}/firmware/qcom/qc[ms]649
+ FILES:${PN}-qcom-qcm6490-compute = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/cdsp*.*"
+ FILES:${PN}-qcom-qcm6490-ipa = "${nonarch_base_libdir}/firmware/qcom/qcm6490/ipa_fws.mbn"
+ FILES:${PN}-qcom-qcm6490-wifi = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/wpss.mbn*"
++FILES:${PN}-qcom-qcm6490-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qcm6490/qupv3fw.elf*"
+ FILES:${PN}-qcom-qcs615-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs615/a612_zap.mbn*"
+ FILES:${PN}-qcom-qcs8300-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs8300/a623_zap.mbn*"
+ FILES:${PN}-qcom-qcs8300-audio = "${nonarch_base_libdir}/firmware/qcom/qcs8300/adsp*.*"
+ FILES:${PN}-qcom-qcs8300-compute = "${nonarch_base_libdir}/firmware/qcom/qcs8300/cdsp*.*"
+ FILES:${PN}-qcom-qcs8300-generalpurpose = "${nonarch_base_libdir}/firmware/qcom/qcs8300/gpdsp*.*"
++FILES:${PN}-qcom-qcs8300-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qcs8300/qupv3fw.elf*"
+ FILES:${PN}-qcom-qrb4210-adreno = "${nonarch_base_libdir}/firmware/qcom/qrb4210/a610_zap.mbn*"
+ FILES:${PN}-qcom-qrb4210-audio = "${nonarch_base_libdir}/firmware/qcom/qrb4210/adsp*.*"
+ FILES:${PN}-qcom-qrb4210-compute = "${nonarch_base_libdir}/firmware/qcom/qrb4210/cdsp*.*"
+@@ -1967,6 +1973,7 @@ FILES:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${nonarch_base_libdir}/firmware/q
+ FILES:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn*"
+ FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*cdsp*.*"
+ FILES:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*slpi*.*"
++FILES:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcvss8280.mbn*"
+ FILES:${PN}-qcom-sdm845-adreno = "${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
+ FILES:${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
+ FILES:${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
+@@ -2028,11 +2035,13 @@ RPROVIDES:${PN}-qcom-qcm6490-compute = "${PN}-qcom-qcs6490-compute"
+ RDEPENDS:${PN}-qcom-qcm6490-ipa = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcm6490-wifi = "${PN}-qcom-license"
+ RPROVIDES:${PN}-qcom-qcm6490-wifi = "${PN}-qcom-qcs6490-wifi"
++RDEPENDS:${PN}-qcom-qcm6490-qupv3fw = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs615-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs8300-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs8300-audio = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-qcs8300-compute = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-qcs8300-generalpurpose = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-qcs8300-qupv3fw = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qrb4210-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qrb4210-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qrb4210-compute = "${PN}-qcom-license"
+@@ -2044,11 +2053,12 @@ RDEPENDS:${PN}-qcom-sa8775p-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sa8775p-audio = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-sa8775p-compute = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-sa8775p-generalpurpose = "${PN}-qcom-2-license"
+-RDEPENDS:${PN}-qcom-sa8775p-qupv3fw = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-sa8775p-qupv3fw = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
+@@ -2074,6 +2084,7 @@ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-sc8280xp-lenovo-
+ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
+ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
+ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
++RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
+ 
+ LICENSE:${PN}-liquidui = "Firmware-cavium_liquidio"
+ FILES:${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
+-- 
+2.34.1
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
