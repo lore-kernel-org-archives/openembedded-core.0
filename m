@@ -1,162 +1,143 @@
-Return-Path: <thomas.perrot@bootlin.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A34C83038
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 14:45:04 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.12643.1751381103231305830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39FFBC7EE30
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 15:38:31 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.258.1751384303635992871
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 07:45:03 -0700
+ Tue, 01 Jul 2025 08:38:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=NmXmqeIL;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: thomas.perrot@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2D20143860;
-	Tue,  1 Jul 2025 14:45:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1751381101;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=XOFqICXMSpv0sQx+LgsQqH5bg6rZtPiB/DV+Dxq2Svk=;
-	b=NmXmqeILGXiww5H8av22l9ffk4TzKLQzu4e8YTuiGnujlcTv6yT3dAKqJ8vJRfqqvrpTGg
-	7jm5rOKUgeTCXxlCLIy2/c6AFm/14xms1PtwO/wdlm10zq/qAWkQWh9ZaDuBTfG57Pb6Is
-	r4m+PUN80oZLOUWw9hh4zea7vACIzmvUQEHSXUMQQb/4o+dp7Y4er83XDG0+M56guW+R0w
-	Dt37smcyLXt7+pPMC4dlVlagA7aETEe3DjSqXigR5g1U150gQs3VT5hEg5VujCl52tkSYF
-	H4bZOIMB9MsTtt/YFwm4P6Iuq8d5ZCI191o1FcReAu4S6NIWijdpUS7ZaTlnHw==
-From: thomas.perrot@bootlin.com
-To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	Thomas Perrot <thomas.perrot@bootlin.com>
-Subject: [OE-core][PATCH] opensbi: bump to 1.7
-Date: Tue,  1 Jul 2025 16:42:50 +0200
-Message-ID: <20250701144250.231485-1-thomas.perrot@bootlin.com>
-X-Mailer: git-send-email 2.50.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9277eaff6f=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5610maab014398
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jul 2025 15:38:22 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47j7c9b5vf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 15:38:22 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Tue, 1 Jul 2025 08:38:19 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][walnascar][PATCH 1/3] webkitgtk: Fix build break on non-arm/non-x86 systems
+Date: Tue, 1 Jul 2025 21:07:55 +0530
+Message-ID: <20250701153757.2798866-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddugeejlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepthhhohhmrghsrdhpvghrrhhothessghoohhtlhhinhdrtghomhenucggtffrrghtthgvrhhnpedvueethfejueevleetiefffedvgeejtddtiedvieffieetjeekhfdvvdevkeetueenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppeekvddrieeirddvheegrdegjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeekvddrieeirddvheegrdegjedphhgvlhhopeigphhsudefqdduudeihehgjedpmhgrihhlfhhrohhmpehthhhomhgrshdrphgvrhhrohhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghrrhhothessghoohhtlhhinhdrtghomh
-X-GND-Sasl: thomas.perrot@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: HQqfV1pV68G5VbuwO5SlSRmja7mpXLjw
+X-Proofpoint-GUID: HQqfV1pV68G5VbuwO5SlSRmja7mpXLjw
+X-Authority-Analysis: v=2.4 cv=M5xNKzws c=1 sm=1 tr=0 ts=686400ee cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=Q1sTgoEvAAAA:8 a=NEAV23lmAAAA:8 a=LXCGm8LIAAAA:8
+ a=pGLkceISAAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=QqVrQa3FhnsI7-jUj8UA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=FkGh3qDytyf094M0uOEt:22 a=NxI9r9ql2kHpUT0AVVEO:22 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDEwNCBTYWx0ZWRfX9iCTiXTf7//2 MY2hehsZOtc5yYdH61alk4oYkapMSPfuBYwGogjq/IAulH7jSZrIYEGxYSQIe65Po2nxfsa0pRs N6xsjokDsn4Qq/94AuMwQV2o9d37uCJAJ+jZF4rkxDWVzSxlREsVzzYre6cJ6uG5iT319bGKG9R
+ 2L/NCwjGvuiJr0Y9d6CiYQ3nXhB3jgkBaBrlhZZlyi8fsPW2+LkEl/PiQInjfhYpTVzzw+4ZgPU Z1TY6e4htf7p5lIova3Fk2Fj9qLJ7oV8/d/MEOLgVVR2oHOcY96yDfVVmCeF5Pp28O2/UYt+TmS XG/LOO0YX/9yu/5pt81++pkoMbDq3UY2U5xs6opTSiVmIot3wiJOxfMc5PHeLYJJjdHvz2UCcsn
+ szAyIFJUyOoMK8mTCnVq68eiXg5IaOSNMTmUOeK61VJbQl7nui8WqWPJDHr6yj0ApieW2njd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=787 suspectscore=0 mlxscore=0
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2507010104
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5610maab014398
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 14:45:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219584
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 15:38:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219585
 
-From: Thomas Perrot <thomas.perrot@bootlin.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-This release has:
-- New parameter in top-level Makefile for reproducible builds
-- Added MIPS P8700 platform support
-- Allow arbitrary path in LLVM parameter of top-level Makefile
-- Improved SBI v3.0 extensions to match frozen specification
--  Emulate AMO instructions when Zaamo is not available
-- Stop the harts waiting for HSM start from supervisor software
-- Improved generic platform overrides to use common fdt_driver helpers
-- Improved SBI MPXY framework to use per-domain data
-- Added support for control transfer records (CTR) ISA extension
-- Use LR and SC when Zaamo ISA extension is not available
-- Added PXA UART support
-- Added support for double-trap ISA extensions
-- Optimized hartid and scratch lookup
-- Added unit tests for bitwise operations
-- Added unit tests for SBI ecall functionality
-- Constify various FDT driver definitions
-- Added MPXY RPMI mailbox driver for System MSI service group
-- Improved RPMI drivers to match frozen specifications
-- Initialize miscellaneous early drivers in one pass
-- Use fdt_driver helpers for irqchip driver framework
-- Allow adding SSE events dynamically at boot-time
-- Simple singly linked list implementation
+Fixes
+/webkitgtk-2.48.1/Source/WebCore/platform/audio/DenormalDisabler.cpp:94:4=
+7:
+   =E2=86=AA error: expected ';' after default
+   |    94 | DenormalDisabler::DenormalDisabler() =3D default
+   |       |                                               ^
+   |       |                                               ;
 
-Overall, this release adds more ISA extensions and does many device driver
-improvements.
+(From OE-Core rev: 3325e4e7fc82861abf7505ed4f7926dacab96b30)
 
-Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
- ...lag-for-reprodubility-compiler-flags.patch | 49 -------------------
- .../{opensbi_1.6.bb => opensbi_1.7.bb}        |  6 +--
- 2 files changed, 2 insertions(+), 53 deletions(-)
- delete mode 100644 meta/recipes-bsp/opensbi/opensbi/0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch
- rename meta/recipes-bsp/opensbi/{opensbi_1.6.bb => opensbi_1.7.bb} (93%)
+ .../webkitgtk/fix-ftbfs-non-arm-non-x86.patch | 31 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.48.1.bb  |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-=
+non-x86.patch
 
-diff --git a/meta/recipes-bsp/opensbi/opensbi/0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch b/meta/recipes-bsp/opensbi/opensbi/0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch
-deleted file mode 100644
-index e650476f50ff..000000000000
---- a/meta/recipes-bsp/opensbi/opensbi/0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From f4c440219f42d74bd3d6688132ea876f3f51e601 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 14 May 2025 19:50:24 -0700
--Subject: [PATCH] Makefile: Add flag for reprodubility compiler flags
--
--Provides mechanism to remove absolute paths from binaries using
---ffile-prefix-map
--
--It will help distros (e.g. yocto based ones ) which want to ship
--the .elf files but need to scrub absolute paths in objects
--
--Upstream-Status: Submitted [https://lists.infradead.org/pipermail/opensbi/2025-May/008458.html]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- Makefile | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--diff --git a/Makefile b/Makefile
--index e90836c7..22d4ecff 100644
----- a/Makefile
--+++ b/Makefile
--@@ -174,6 +174,11 @@ else
-- USE_LD_FLAG	=	-fuse-ld=bfd
-- endif
-- 
--+REPRODUCIBLE ?= n
--+ifeq ($(REPRODUCIBLE),y)
--+REPRODUCIBLE_FLAGS		+=	-ffile-prefix-map=$(src_dir)=
--+endif
--+
-- # Check whether the linker supports creating PIEs
-- OPENSBI_LD_PIE := $(shell $(CC) $(CLANG_TARGET) $(RELAX_FLAG) $(USE_LD_FLAG) -fPIE -nostdlib -Wl,-pie -x c /dev/null -o /dev/null >/dev/null 2>&1 && echo y || echo n)
-- 
--@@ -362,6 +367,7 @@ GENFLAGS	+=	$(firmware-genflags-y)
-- 
-- CFLAGS		=	-g -Wall -Werror -ffreestanding -nostdlib -fno-stack-protector -fno-strict-aliasing -ffunction-sections -fdata-sections
-- CFLAGS		+=	-fno-omit-frame-pointer -fno-optimize-sibling-calls
--+CFLAGS		+=	$(REPRODUCIBLE_FLAGS)
-- # Optionally supported flags
-- ifeq ($(CC_SUPPORT_VECTOR),y)
-- CFLAGS		+=	-DOPENSBI_CC_SUPPORT_VECTOR
--@@ -387,6 +393,7 @@ CPPFLAGS	+=	$(firmware-cppflags-y)
-- ASFLAGS		=	-g -Wall -nostdlib
-- ASFLAGS		+=	-fno-omit-frame-pointer -fno-optimize-sibling-calls
-- ASFLAGS		+=	-fPIE
--+ASFLAGS		+=	$(REPRODUCIBLE_FLAGS)
-- # Optionally supported flags
-- ifeq ($(CC_SUPPORT_SAVE_RESTORE),y)
-- ASFLAGS		+=	-mno-save-restore
-diff --git a/meta/recipes-bsp/opensbi/opensbi_1.6.bb b/meta/recipes-bsp/opensbi/opensbi_1.7.bb
-similarity index 93%
-rename from meta/recipes-bsp/opensbi/opensbi_1.6.bb
-rename to meta/recipes-bsp/opensbi/opensbi_1.7.bb
-index 308ac43ac85d..a460062e9398 100644
---- a/meta/recipes-bsp/opensbi/opensbi_1.6.bb
-+++ b/meta/recipes-bsp/opensbi/opensbi_1.7.bb
-@@ -8,10 +8,8 @@ require opensbi-payloads.inc
- 
- inherit deploy
- 
--SRCREV = "bd613dd92113f683052acfb23d9dc8ba60029e0a"
--SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https \
--           file://0001-Makefile-Add-flag-for-reprodubility-compiler-flags.patch \
--"
-+SRCREV = "a32a91069119e7a5aa31e6bc51d5e00860be3d80"
-+SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https"
- 
- TARGET_DBGSRC_DIR = "/share/opensbi/*/generic/firmware/"
- 
--- 
-2.50.0
+diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86=
+.patch b/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.pat=
+ch
+new file mode 100644
+index 0000000000..2381acb1b0
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-non-arm-non-x86.patch
+@@ -0,0 +1,31 @@
++From 8bee9eb95ae24c6a410f9cd614976f4653d020d9 Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Wed, 2 Apr 2025 15:01:55 -0500
++Subject: [PATCH] REGRESSION(290945.129@webkitglib/2.48): Broke non-x86,
++ non-ARM builds https://bugs.webkit.org/show_bug.cgi?id=3D287662
++
++Unreviewed stable branch build fix.
++
++* Source/WebCore/platform/audio/DenormalDisabler.cpp:
++
++Canonical link: https://commits.webkit.org/290945.155@webkitglib/2.48
++
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/8bee9=
+eb95ae24c6a410f9cd614976f4653d020d9]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Source/WebCore/platform/audio/DenormalDisabler.cpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Source/WebCore/platform/audio/DenormalDisabler.cpp b/Source=
+/WebCore/platform/audio/DenormalDisabler.cpp
++index 35715e663ce7e..44ba08a33d5d9 100644
++--- a/Source/WebCore/platform/audio/DenormalDisabler.cpp
+++++ b/Source/WebCore/platform/audio/DenormalDisabler.cpp
++@@ -91,7 +91,7 @@ DenormalDisabler::~DenormalDisabler()
++     }
++ }
++ #else
++-DenormalDisabler::DenormalDisabler() =3D default
+++DenormalDisabler::DenormalDisabler() =3D default;
++ DenormalDisabler::~DenormalDisabler() =3D default;
++ #endif
++=20
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb b/meta/recipes-=
+sato/webkit/webkitgtk_2.48.1.bb
+index 58d0a11202..5b9846a6d6 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+@@ -18,6 +18,7 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}-=
+${PV}.tar.xz \
+            file://sys_futex.patch \
+            file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-s=
+how.patch \
+            file://fix-ftbfs-riscv64.patch \
++           file://fix-ftbfs-non-arm-non-x86.patch \
+            "
+ SRC_URI[sha256sum] =3D "98efdf21c4cdca0fe0b73ab5a8cb52093b5aa52d9b1b016a=
+93f71dbfa1eb258f"
+=20
+--=20
+2.40.0
 
 
