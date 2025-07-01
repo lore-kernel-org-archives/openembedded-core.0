@@ -1,146 +1,110 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <anibal@limonsoftware.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6196C7EE30
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 21:56:18 +0000 (UTC)
-Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
- by mx.groups.io with SMTP id smtpd.web11.9271.1751406977868528386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04CA7C7EE30
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 22:11:49 +0000 (UTC)
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+ by mx.groups.io with SMTP id smtpd.web11.9666.1751407899835615186
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 14:56:18 -0700
+ Tue, 01 Jul 2025 15:11:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
-Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
-	by mailout04.t-online.de (Postfix) with SMTP id 7066CE55E
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Jul 2025 23:56:07 +0200 (CEST)
-Received: from [192.168.178.20] ([84.154.169.229]) by fwd72.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1uWixR-2JUEFc0; Tue, 1 Jul 2025 23:56:05 +0200
-Date: Tue, 01 Jul 2025 23:56:00 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCHv4] tcl: fix tclConfig.sh after UNPACKDIR change
+ dkim=pass header.i=@limonsoftware-com.20230601.gappssmtp.com header.s=20230601 header.b=Dm55oOZm;
+ spf=pass (domain: limonsoftware.com, ip: 209.85.210.54, mailfrom: anibal@limonsoftware.com)
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-735a8be4ea9so770915a34.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 15:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=limonsoftware-com.20230601.gappssmtp.com; s=20230601; t=1751407899; x=1752012699; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=M/Ckhjml0OumRiz9V08QEX8aq0CGz5kTKAsYu8wWatg=;
+        b=Dm55oOZmge0KvMyq2V0dYZTnokxQiEZlwl/LWs63VTNysGmtr7zUu949Eip6pwO109
+         EqzqusEv93es+b5bjSZDiD9Ahy3ZYfU2zPZaX1uygiYw/oMBgrMSAo3GA8f/H9pudX/T
+         eF9dAJsuDlQwpR1PwoZFvVpZV+PcC7nfhtIpL09GUOLfNMTIJMslybBBL1eRm620y4Cr
+         ee/MnmYOI1kVm+Q7vcvb+Ijo9OKEBGpQtIDGSa4XUI73HYDV0QL5+bnVC42tQasmfXj0
+         +RxtcER0TjXY6AJ+7wgJEC5/S7Q+pgeYnP7+i+IkD69GsnCglVsDZPWQ7/Lg9gMaCyWe
+         4rvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751407899; x=1752012699;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M/Ckhjml0OumRiz9V08QEX8aq0CGz5kTKAsYu8wWatg=;
+        b=MC+HT43nqeD4Z4YPfzAQn9ftn1bn3HhWo3e51kkkbJ9av3K2HIsgt7NPEgc5RgdnHq
+         KPjOd0EUFihKUYqFvHwJEU1UMIr2rgua45Gj/lNDz6hyDWM6SsuQIOumP3yDccHS86q2
+         cGuzF279Cn8GagWRcMXIzwxth5D9Ugs1nWtfa3BfqE1EIgLrO286s48ssm5WEB1Du/rT
+         ZPz370qUE47aMqspopbSufud/er3K+1gkivJWZSkbYugmG69gqjijP810Mp32P+Yu4HJ
+         zW/eIUpC1n9SiKs2GtlXn5VDKon7LrjctzAxDaoQs019IeYcQ7ACbHRIDEDJKtB6WxnI
+         4ceQ==
+X-Gm-Message-State: AOJu0Yzwuw8xpjhQIPK1OVPM94xXU7kbLim2aII8jNQaElov0RVkYHHh
+	PMDcq3Lgr0A6QikyDnigiEU8afzuhxdTjd7yJ0QVE8cwNRiMMowioMnhrKPlskQik78EVtyrb0B
+	JFDrA7DciBA==
+X-Gm-Gg: ASbGncvRce2z0CkkwLEauhbL24oL+6xcc9xz8JDb+mStk5D1ETJh4oCcYo7tnTdPrtZ
+	4lafPtKzWg1jRrMEqTCJv04gyepKzmyC03CYf3YcYT0U5/9jwVjrpn/hTdJvQeuheEsAg5sfud7
+	L4CDO7bxKWBRTQdktUVr85DUqxt6LSsybE9h30aZ6g1qMnEfhACXZw3yR2qme9YQ+OcGJBum99U
+	bKGf+PXyMCyIGvAdBHLlAWeWs/gLmWoTOCvpf44p7YkM0k6BuHfJhXfKAgkrL98uGjwta8fAdPO
+	Jz2Q306/YevbeQTthhVbg8t5b5WWJYndm3jZBDvAcnZOJFHX/qP6lpNtS2ybnLxy66Y9F9yHIlH
+	o
+X-Google-Smtp-Source: AGHT+IEfYRw6hGp0P+WPio9ItuPOF0SsU67eTOHtbnbeJ2KIUfhvH+i2kvbKeGdIyesFgVo5ECFRBg==
+X-Received: by 2002:a05:6830:6489:b0:72b:8c4b:8ef2 with SMTP id 46e09a7af769-73b4cd3db9dmr490417a34.24.1751407898688;
+        Tue, 01 Jul 2025 15:11:38 -0700 (PDT)
+Received: from ls.ts.net ([189.172.102.32])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73afaec27aasm2275689a34.0.2025.07.01.15.11.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jul 2025 15:11:38 -0700 (PDT)
+From: Anibal Limon <anibal@limonsoftware.com>
 To: openembedded-core@lists.openembedded.org
-Message-Id: <C9QQYS.9N0CDQP1HCZR2@t-online.de>
-In-Reply-To: <184E3F4A84F5C74E.30429@lists.openembedded.org>
-References: <184E3F4A84F5C74E.30429@lists.openembedded.org>
-X-Mailer: geary/46.0
+Cc: alhe@linux.microsoft.com,
+	johannes.schneider@leica-geosystems.com,
+	Anibal Limon <anibal@limonsoftware.com>
+Subject: [PATCH] recipes-core: initrdscripts overlayroot allow boot partition
+Date: Tue,  1 Jul 2025 22:11:35 +0000
+Message-Id: <20250701221135.966025-1-anibal@limonsoftware.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-U2FGifQa6xTwGs7fygSX"
-X-TOI-EXPURGATEID: 150726::1751406965-1BFF5538-69DE399B/0/0 CLEAN NORMAL
-X-TOI-MSGID: 1a6daf76-43c9-4e52-b18f-4bf5a40d321c
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 21:56:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219734
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 22:11:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219735
 
---=-U2FGifQa6xTwGs7fygSX
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Test if /boot is previously mounted on the OLDROOT and move it
+into NEWROOT (ro).
 
-v4: mention what the second sed command does
-
-On Tue, Jul 1 2025 at 23:54:34 +02:00:00, Markus Volk via 
-lists.openembedded.org <f_l_k=t-online.de@lists.openembedded.org> wrote:
-> Adapt the  sed command that edits TCL_SRC_DIR in tclConfig.sh
-> This is needed so that tk in meta-oe is capable of reading
-> the required header file
-> 
-> Remove buildpath from TCL_BUILD_STUB_LIB_PATH in tclConfig.sh
-> 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>
-> ---
->  meta/recipes-devtools/tcltk/tcl_9.0.1.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb 
-> b/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
-> index 70aa9b606c..765dc64e4d 100644
-> --- a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
-> +++ b/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
-> @@ -51,7 +51,7 @@ do_install() {
->  	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
->  	ln -sf tclsh9.0 ${D}${bindir}/tclsh${VER}
->  	sed -i "s;-L${B};-L${STAGING_LIBDIR};g" tclConfig.sh
-> -	sed -i "s;'${WORKDIR};'${STAGING_INCDIR};g" tclConfig.sh
-> +	sed -i "s;'${UNPACKDIR};'${STAGING_INCDIR};g" tclConfig.sh
->  	install -d ${D}${bindir_crossscripts}
->  	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
->  	install -m 0755 tclConfig.sh ${D}${libdir}
-> @@ -105,6 +105,7 @@ tcl_package_preprocess() {
->  	       -e "s;-L${STAGING_LIBDIR};-L${libdir};g" \
->  	       -e "s;${STAGING_INCDIR};${includedir};g" \
->  	       -e "s;--sysroot=${RECIPE_SYSROOT};;g" \
-> +	       -e "s;${B};${libdir};g" ${PKGD}${libdir}/tclConfig.sh \
->  	       ${PKGD}${libdir}/tclConfig.sh
-> 
->  	rm -f ${PKGD}${bindir_crossscripts}/tclConfig.sh
-> --
-> 2.49.0
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#219733): 
-> <https://lists.openembedded.org/g/openembedded-core/message/219733>
-> Mute This Topic: <https://lists.openembedded.org/mt/113937966/3618223>
-> Group Owner: openembedded-core+owner@lists.openembedded.org 
-> <mailto:openembedded-core+owner@lists.openembedded.org>
-> Unsubscribe: 
-> <https://lists.openembedded.org/g/openembedded-core/unsub> 
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
---=-U2FGifQa6xTwGs7fygSX
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto"><div>v4: mention what the second sed command does</div></div><div id="geary-quote" dir="auto"><br>On Tue, Jul 1 2025 at 23:54:34 +02:00:00, Markus Volk via lists.openembedded.org &lt;f_l_k=t-online.de@lists.openembedded.org&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Adapt the  sed command that edits TCL_SRC_DIR in tclConfig.sh
-This is needed so that tk in meta-oe is capable of reading
-the required header file
-
-Remove buildpath from TCL_BUILD_STUB_LIB_PATH in tclConfig.sh
-
-Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
+Signed-off-by: Anibal Limon <anibal@limonsoftware.com>
 ---
- meta/recipes-devtools/tcltk/tcl_9.0.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../initrdscripts/initramfs-framework/overlayroot        | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb b/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
-index 70aa9b606c..765dc64e4d 100644
---- a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
-@@ -51,7 +51,7 @@ do_install() {
- 	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
- 	ln -sf tclsh9.0 ${D}${bindir}/tclsh${VER}
- 	sed -i "s;-L${B};-L${STAGING_LIBDIR};g" tclConfig.sh
--	sed -i "s;'${WORKDIR};'${STAGING_INCDIR};g" tclConfig.sh
-+	sed -i "s;'${UNPACKDIR};'${STAGING_INCDIR};g" tclConfig.sh
- 	install -d ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${libdir}
-@@ -105,6 +105,7 @@ tcl_package_preprocess() {
- 	       -e "s;-L${STAGING_LIBDIR};-L${libdir};g" \
- 	       -e "s;${STAGING_INCDIR};${includedir};g" \
- 	       -e "s;--sysroot=${RECIPE_SYSROOT};;g" \
-+	       -e "s;${B};${libdir};g" ${PKGD}${libdir}/tclConfig.sh \
- 	       ${PKGD}${libdir}/tclConfig.sh
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot b/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
+index 0d41432878..db164d9846 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
+@@ -38,10 +38,10 @@
+ PATH=/sbin:/bin:/usr/sbin:/usr/bin
  
- 	rm -f ${PKGD}${bindir_crossscripts}/tclConfig.sh
-<div>-- 
-</div>2.49.0
-
-</div><div class="plaintext" style="white-space: break-spaces;">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#219733): <a href="https://lists.openembedded.org/g/openembedded-core/message/219733">https://lists.openembedded.org/g/openembedded-core/message/219733</a>
-Mute This Topic: <a href="https://lists.openembedded.org/mt/113937966/3618223">https://lists.openembedded.org/mt/113937966/3618223</a>
-Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</div></blockquote></div>
---=-U2FGifQa6xTwGs7fygSX--
+ # We get OLDROOT from the rootfs module
+-OLDROOT="/rootfs"
++OLDROOT="${ROOTFS_DIR}"
+ 
+-NEWROOT="${RWMOUNT}/root"
+ RWMOUNT="/overlay"
++NEWROOT="${RWMOUNT}/root"
+ ROMOUNT="${RWMOUNT}/rofs"
+ UPPER_DIR="${RWMOUNT}/upper"
+ WORK_DIR="${RWMOUNT}/work"
+@@ -115,4 +115,9 @@ mount -n --move /proc ${NEWROOT}/proc
+ mount -n --move /sys ${NEWROOT}/sys
+ mount -n --move /dev ${NEWROOT}/dev
+ 
++# Mount/move boot if is already mounted
++if mountpoint -q ${OLDROOT}/boot; then
++    mount -n --move ${OLDROOT}/boot ${NEWROOT}/boot
++fi
++
+ exec chroot ${NEWROOT}/ ${bootparam_init:-/sbin/init} || exit_gracefully "Couldn't chroot into overlay"
+-- 
+2.39.5
 
 
