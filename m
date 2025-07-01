@@ -1,163 +1,106 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 948D1C83038
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 20:54:48 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.7942.1751403285499654903
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D0D1C8303F
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 20:57:08 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.8017.1751403426315269658
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 13:54:45 -0700
+ Tue, 01 Jul 2025 13:57:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by localhost.localdomain (8.18.1/8.18.1/Debian-2) with ESMTP id 561Ksi76145483
-	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jul 2025 15:54:44 -0500
-Received: from [192.168.2.98] ([192.168.2.98])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 561Ksh8D014562
-	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jul 2025 15:54:44 -0500
-Message-ID: <fd35ebd5-26da-434a-8258-22c7122264b2@kernel.crashing.org>
-Date: Tue, 1 Jul 2025 15:54:43 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] libucontext: use hard/soft float
-Content-Language: en-US
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=giuSFWuu;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-23649faf69fso33551395ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 13:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751403425; x=1752008225; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TdXxI1PzvtCbloJr31Z+42X2RFFS02EnDFVgioTJXwA=;
+        b=giuSFWuuKiz6AeK+lASn+J7Jxz7AFRPrmU2625y+1Vp63hFexUMNB0lxJgKmoMo/s5
+         YhUrxyvkOoRrm65QQtWueg695e/4Nk7VRfAldYwHVtHrj70J8ADQYTiMD7JFHhnbtrq8
+         o2Fi5dQzOWp37YMurkIvki7/kwPNlBtjQnOFxQtKxWB7tPm92gCJRbYE3qBIEY43CQhR
+         5ZIgmLMaQlPkOep5O4RATabCJL3hYErbA2EYkWx/OGJUQChd/NpCKBgbMEdJhQmiOVak
+         bsCj+waWUyUcBIbe1MW637oaBlaFy+m5L2/SATT6q/e0uaV5bArykon7tamjMAj+dSNZ
+         E/Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751403425; x=1752008225;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TdXxI1PzvtCbloJr31Z+42X2RFFS02EnDFVgioTJXwA=;
+        b=gT8nuTAHjnOVAd/vVXa7L1AVOGXJGfBOLnRtNARSE0pvvDhahPJ/hBDESuFRXdBRqi
+         LGchZvrkg/N6H5mPlFdFLNxYvTfLJqQ8RMd0DuD/enFTNTmRJ126LVUwqb/BjN+FtCrO
+         UUdkfgiNBNL9p/DPlYw2IlqhZGLQdlvrfuUHoGFglk9DC0ecppP+zUMiSs+Vg+KFH+wl
+         WlHzc48/8SoJmRgqRHeTu24bqCPoswPb+CmxPaQahDlkClET3acwPZt67rjdK0GXW9NA
+         kBmELvO31Gfld/kJaEYHzT9JQVyu322E+SsDpoC1WYQOV/DLFdSQkB3+YSAvs72T9Wfw
+         RVxQ==
+X-Gm-Message-State: AOJu0YxnP23HIufq/vKWTNGmw3PDpgSI3LW1+FMoaQmvl/Jrnmf1M3rN
+	8a4wSJ6djLloYc3mi42/Yx412rsYK1Zj71kWrWTy21nH4JYRqF6wGujlxNw7uYh3
+X-Gm-Gg: ASbGncsTj+5Khowe05DWAboZ2J9Sst29AhQQM2F8eBGQFIKMK2HEZjgMF2dQHwp04PZ
+	orObqfkJ+QNfIUXD6zknjCpWRJscMD9Ih1WLu68uIh1o0CSRH66GXixiApbKG/WKeMQF0Su/ZAS
+	81nYgMKE44h+gIwqkgCQevyVowWuQsiECYh6jksB9r1rskFaUpPuWMTfX4RpTizOh5TlPoOO+ll
+	PoGwR2ykbJZQjxFCByzYv3s0EwxQB/IN0Ela8FbLorHA6pEQUYx/+PsuesfFnfEwSBQ4BpeU1O0
+	j/mH8CqsvSKUDSCVPG+L/4JH1ethCcj8C9TBFPa+3KsTzxDxNogzXc5a8I3SHkF7
+X-Google-Smtp-Source: AGHT+IGYJBL9GnJI3hqRD51bniSSqVWD1Vs8MCwDdMiVbbYgP5AqAR8vM5VPPXjwqzmB36cNBEYkgg==
+X-Received: by 2002:a17:902:ef10:b0:234:d431:ec6e with SMTP id d9443c01a7336-23c6e48b6b0mr2531665ad.3.1751403425367;
+        Tue, 01 Jul 2025 13:57:05 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::aa8c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb3c7028sm111549705ad.222.2025.07.01.13.57.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jul 2025 13:57:04 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <20250630144814.255656-1-jdmason@kudzu.us>
- <5f3c3690-ae0f-4faf-8e6b-4e0c7b2d8eb6@kernel.crashing.org>
- <CAPoiz9yNoyxxGCzJU4bo7h1XYFjqNFeh1iX15CnLdkZz3025HQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <CAPoiz9yNoyxxGCzJU4bo7h1XYFjqNFeh1iX15CnLdkZz3025HQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by localhost.localdomain id 561Ksi76145483
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2 2/3] base.bbclass: Deferred inherit native toolchain class
+Date: Tue,  1 Jul 2025 13:57:00 -0700
+Message-ID: <20250701205701.3322308-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250701205701.3322308-1-raj.khem@gmail.com>
+References: <20250701205701.3322308-1-raj.khem@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 20:54:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219720
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 20:57:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219722
 
+use TOOLCHAIN_NATIVE variable for selecting native compiler
 
+Default it to PREFERRED_TOOLCHAIN_NATIVE, a recipe which wants
+to enforce a toolchain can do so with
 
-On 7/1/25 8:24 AM, Jon Mason wrote:
-> On Mon, Jun 30, 2025 at 12:32=E2=80=AFPM Mark Hatle
-> <mark.hatle@kernel.crashing.org> wrote:
->>
->>
->>
->> On 6/30/25 9:48 AM, Jon Mason wrote:
->>> From: Jon Mason <jon.mason@arm.com>
->>>
->>> When building for qemuarm-secureboot in meta-arn with musl and clang,
->>> the following compile error is seen:
->>> - | ../sources/libucontext-1.3.2/arch/arm/swapcontext.S:23:11: error:=
- unknown token in expression
->>> - |  ldr r4, =3D#0x56465001
->>> - |           ^
->>>
->>> This is happening because 1.3 added ifdefs for assembly code for both
->>> hard and soft float, and bcause neither is being defined, it is takin=
-g
->>> this path with the issue.
->>>
->>> Since we can tell if soft or hard float is being used via the TARGET_=
-FPU
->>> variable, use that and set the relevant makefile flag.
->>>
->>> Signed-off-by: Jon Mason <jon.mason@arm.com>
->>> ---
->>>    meta/recipes-core/musl/libucontext_1.3.2.bb | 3 +++
->>>    1 file changed, 3 insertions(+)
->>>
->>> diff --git a/meta/recipes-core/musl/libucontext_1.3.2.bb b/meta/recip=
-es-core/musl/libucontext_1.3.2.bb
->>> index 2362cba5c8a2..92001bbe7bb5 100644
->>> --- a/meta/recipes-core/musl/libucontext_1.3.2.bb
->>> +++ b/meta/recipes-core/musl/libucontext_1.3.2.bb
->>> @@ -48,3 +48,6 @@ def map_kernel_arch(a, d):
->>>
->>>    EXTRA_OEMESON =3D "-Dcpu=3D${@map_kernel_arch(d.getVar('TARGET_ARC=
-H'), d)}"
->>>    inherit meson
->>> +
->>> +TARGET_CPPFLAGS:arm +=3D "${@bb.utils.contains('TARGET_FPU', 'hard',=
- '-DFORCE_HARD_FLOAT', '', d)}"
->>> +TARGET_CPPFLAGS:arm +=3D "${@bb.utils.contains('TARGET_FPU', 'soft',=
- '-DFORCE_SOFT_FLOAT', '', d)}"
->>
->> The above doesn't +=3D to TARGET_CPPFLAGS, it _replaces_ TARGET_CPPFLA=
-GS.
->>
->> This is probably not what you want.
->>
->> What I've done in the past is:
->>
->> ARM_TARGET_CPPFLAGS =3D ""
->> ARM_TARGET_CPPFLAGS:append:arm =3D "${@bb.utils.contains('TARGET_FPU',=
- 'hard', '-
->> DFORCE_HARD_FLOAT', '', d)}"
->> ARM_TARGET_CPPFLAGS:append:arm =3D "${@bb.utils.contains('TARGET_FPU',=
- 'soft', '
->> -DFORCE_SOFT_FLOAT', '', d)}"
->>
->> TARGET_CPPFLAGS .=3D "${ARM_TARGET_CPPFLAGS}"
->=20
-> Thanks for the insight Mark, I will happily steal your changes and
-> throw it as a v2 :)
->=20
-> Is there a place I can look (documentation or code) that will help me
-> understand why this is necessary?
+for cross toolchains ( e.g. target, nativesdk )
 
-Theoretically the bitbake documentation covers the operator and override =
-rules..=20
-but essentially operators all run, and then a second+ pass is made to rem=
-ove=20
-overrides.
+TOOLCHAIN = "gcc"
 
-(:append is an operator, not an override)
+For native
 
-So it's not exactly intuitive unless you've worked with it a lot, and eve=
-n then=20
-it's easy to make mistakes in these odd cases!
+TOOLCHAIN_NATIVE = "gcc"
 
-But what happens is:
+This helps build native recipe with clang as native compiler.
 
-VARIABLE:override +=3D "foo"
-VARIABLE:override +=3D "bar"
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes-global/base.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Evaluation will attempt to add a space and foo to 'VARIABLE:override', fo=
-llowed=20
-by a space and bar.  Resulting in ' foo bar'
-
-Then override processing causes 'VARIABLE:override' replaces 'VARIABLE' w=
-hen the=20
-override is present resulting in:
-
-VARIABLE =3D ' foo bar'
-
-I've recently seen CoPilot suggest exactly this to users.  And it USUALLY=
- works,=20
-but it's chance vs design.
-
---Mark
-
-> Thanks,
-> Jon
->=20
->>>
->>>
->>>
->>>
->>>
->>>
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#219569): https://lists.openembedded.org/g/openemb=
-edded-core/message/219569
->>> Mute This Topic: https://lists.openembedded.org/mt/113909237/3616948
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
- [mark.hatle@kernel.crashing.org]
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>
+diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
+index ac145d9fd64..6be1f5c2df2 100644
+--- a/meta/classes-global/base.bbclass
++++ b/meta/classes-global/base.bbclass
+@@ -30,8 +30,9 @@ PREFERRED_TOOLCHAIN:class-crosssdk = "${PREFERRED_TOOLCHAIN_SDK}"
+ PREFERRED_TOOLCHAIN:class-nativesdk = "${PREFERRED_TOOLCHAIN_SDK}"
+ 
+ TOOLCHAIN ??= "${PREFERRED_TOOLCHAIN}"
++TOOLCHAIN_NATIVE ??= "${PREFERRED_TOOLCHAIN_NATIVE}"
+ 
+-inherit toolchain/gcc-native
++inherit_defer toolchain/${TOOLCHAIN_NATIVE}-native
+ inherit_defer toolchain/${TOOLCHAIN}
+ 
+ def lsb_distro_identifier(d):
 
