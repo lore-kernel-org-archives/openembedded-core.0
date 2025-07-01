@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5267C83F2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C53ACC83F2D
 	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 16:20:23 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.1426.1751386807841302544
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.1417.1751386815398132227
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 09:20:16 -0700
+ Tue, 01 Jul 2025 09:20:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Q+HLvb1V;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=f+KURval;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010197c6c9fe6a-d404c753-d3fd-465f-befd-d978beafaeb7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZdRFvKEp;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=JG0mukGk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010197c6ca16c5-36aeb6b8-da12-40d3-80bb-479f92b4d75a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751386816;
+	t=1751386822;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Bh6lLSiRzyQfyNxAfwSGm4ReCKhH3LXWBkHTbK502+U=;
-	b=Q+HLvb1VUzmpSrmHN/y6/AFwZpd0B+PrOuMehTQLy4CEzkAUmmAIO+JBQAO/wcg8
-	pGzBD69L5M8qsrpAMLY/zxrr2J7CVcsSH9asbjmUsH5MAKm0KwEOD8Tupmg8rdXssi8
-	1nuC3A/DOtTO1ZC3FqTJKpMlsjwosJ/DmhaBLXWU=
+	bh=onQO3DpoXqE3CajXawWAo1FMSS4XNLeDuJNFhbHwL8U=;
+	b=ZdRFvKEpOzdZqvzcLMbm6faAIAAN95HdYSMdcGG4HlSssByIv4tBc9a7gjbyz6+x
+	piBKQROjbFiAEH9NMhtAxW33AFtN8Swu8Q2OLIABTCQ4FDMXe+3V7dpPxJGAbpJcI/7
+	n6SD3lnfdTD3j0sJm0zOaQ+tYsGuEi/JMYuwx0kE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386816;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386822;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Bh6lLSiRzyQfyNxAfwSGm4ReCKhH3LXWBkHTbK502+U=;
-	b=f+KURvalGPBFfy9QDq44HpoMV2lRKgh+QBD11M0/xeba1wcsXaF2t6gfxFF2Z1qF
-	QYmhKPO0ctLAHUmSu+qT4qXwRn9MSn6mNyUjY2ftCRfg9CfxZFn4OiaImcpVZ+GURPH
-	stlfKz0NnUtENvGlnh3u4HcsSFgXoEUEGvKZzCh4=
-Content-Type: multipart/mixed; boundary="===============8471468141696091304=="
+	bh=onQO3DpoXqE3CajXawWAo1FMSS4XNLeDuJNFhbHwL8U=;
+	b=JG0mukGka30Xf9tf5iw7NHHwqhBKLSfdoTc95e2knKo9KdMwy3W1sBNub9pjLMJj
+	cF3AEm2RiSZ7qXtDZVWSueGDa1rPJ2Mp7q75yeFlm5J6Ssho6bF+12qo4gIEfKKs00u
+	BBZ3rCxKfBHuzZUIsRSc9l+o2J8TI9XnSY/qEuuQ=
+Content-Type: multipart/mixed; boundary="===============5957502671945943061=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pdm: upgrading to 2.25.4 SUCCEEDED
-Message-ID: <01010197c6c9fe6a-d404c753-d3fd-465f-befd-d978beafaeb7-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Jul 2025 16:20:16 +0000
+Subject: [AUH] screen: upgrading to 5.0.1 SUCCEEDED
+Message-ID: <01010197c6ca16c5-36aeb6b8-da12-40d3-80bb-479f92b4d75a-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Jul 2025 16:20:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.01-54.240.27.192
+X-SES-Outgoing: 2025.07.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 16:20:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219642
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219662
 
---===============8471468141696091304==
+--===============5957502671945943061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pdm* to *2.25.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *screen* to *5.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pdm-upgrade-2.25.1-2.25.4.patch
+    - apply the patch: git am 0001-screen-upgrade-5.0.0-5.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,101 +72,102 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3f667c3a56ffb6a30b3c5ddc47b25ce2b15f42e2 Mon Sep 17 00:00:00 2001
+From 083f444c5e158fbb8e95b04e41f2f1602403b5ff Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Jul 2025 09:50:34 +0000
-Subject: [PATCH] python3-pdm: upgrade 2.25.1 -> 2.25.4
+Date: Tue, 1 Jul 2025 11:22:12 +0000
+Subject: [PATCH] screen: upgrade 5.0.0 -> 5.0.1
 
 ---
- .../python/{python3-pdm_2.25.1.bb => python3-pdm_2.25.4.bb}     | 2 +-
+ .../screen/{screen_5.0.0.bb => screen_5.0.1.bb}                 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pdm_2.25.1.bb => python3-pdm_2.25.4.bb} (82%)
+ rename meta/recipes-extended/screen/{screen_5.0.0.bb => screen_5.0.1.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python/python3-pdm_2.25.1.bb b/meta/recipes-devtools/python/python3-pdm_2.25.4.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-pdm_2.25.1.bb
-rename to meta/recipes-devtools/python/python3-pdm_2.25.4.bb
-index d9331ba72c..1e25e18974 100644
---- a/meta/recipes-devtools/python/python3-pdm_2.25.1.bb
-+++ b/meta/recipes-devtools/python/python3-pdm_2.25.4.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
+diff --git a/meta/recipes-extended/screen/screen_5.0.0.bb b/meta/recipes-extended/screen/screen_5.0.1.bb
+similarity index 95%
+rename from meta/recipes-extended/screen/screen_5.0.0.bb
+rename to meta/recipes-extended/screen/screen_5.0.1.bb
+index fec5663fc2..69f4098519 100644
+--- a/meta/recipes-extended/screen/screen_5.0.0.bb
++++ b/meta/recipes-extended/screen/screen_5.0.1.bb
+@@ -20,7 +20,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'file://screen.pam', '', d)} \
+            "
  
--SRC_URI[sha256sum] = "3145251f37a3f94fa211ade992e7db7792da4c3e8e3eeeb1993d952adebe0b96"
-+SRC_URI[sha256sum] = "bd655d789429928d6e27ff6693c19c82bc81aa75ba51d7b1c6102d039c8f211c"
+-SRC_URI[sha256sum] = "f04a39d00a0e5c7c86a55338808903082ad5df4d73df1a2fd3425976aed94971"
++SRC_URI[sha256sum] = "2dae36f4db379ffcd14b691596ba6ec18ac3a9e22bc47ac239789ab58409869d"
  
- inherit pypi python_setuptools_build_meta
+ inherit autotools-brokensep texinfo
  
 -- 
 2.47.1
 
 
---===============8471468141696091304==
+--===============5957502671945943061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.13/site-packages/pdm-2.25.1.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.25.4.dist-info
+packages/core2-64-poky-linux/screen/screen: FILELIST: removed "/usr/bin/screen-5.0.0", added "/usr/bin/screen-5.0.1"
 
---===============8471468141696091304==
+--===============5957502671945943061==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pdm-upgrade-2.25.1-2.25.4.patch"
+ filename="0001-screen-upgrade-5.0.0-5.0.1.patch"
 
-RnJvbSAzZjY2N2MzYTU2ZmZiNmEzMGIzYzVkZGM0N2IyNWNlMmIxNWY0MmUyIE1vbiBTZXAgMTcg
+RnJvbSAwODNmNDQ0YzVlMTU4ZmJiOGU5NWIwNGU0MWYyZjE2MDI0MDNiNWZmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAwOTo1MDozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcGRtOiB1cGdyYWRlIDIuMjUuMSAtPiAyLjI1LjQKCi0tLQogLi4uL3B5dGhvbi97cHl0
-aG9uMy1wZG1fMi4yNS4xLmJiID0+IHB5dGhvbjMtcGRtXzIuMjUuNC5iYn0gICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1wZG1fMi4yNS4xLmJiID0+IHB5dGhv
-bjMtcGRtXzIuMjUuNC5iYn0gKDgyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1wZG1fMi4yNS40LmJiCnNpbWlsYXJpdHkgaW5kZXggODIlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wZG1fMi4yNS4xLmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuNC5i
-YgppbmRleCBkOTMzMWJhNzJjLi4xZTI1ZTE4OTc0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuNC5iYgpAQCAtNCw3ICs0LDcgQEAgTElD
-RU5TRSA9ICJNSVQiCiBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIKIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTJlYjMxYTJjYzFhNzU4YzM0YjQ5OWYyODdkZDA0ZWYyIgog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzE0NTI1MWYzN2EzZjk0ZmEyMTFhZGU5OTJlN2RiNzc5
-MmRhNGMzZThlM2VlZWIxOTkzZDk1MmFkZWJlMGI5NiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJi
-ZDY1NWQ3ODk0Mjk5MjhkNmUyN2ZmNjY5M2MxOWM4MmJjODFhYTc1YmE1MWQ3YjFjNjEwMmQwMzlj
-OGYyMTFjIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YQogCi0t
-IAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxMToyMjoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNj
+cmVlbjogdXBncmFkZSA1LjAuMCAtPiA1LjAuMQoKLS0tCiAuLi4vc2NyZWVuL3tzY3JlZW5fNS4w
+LjAuYmIgPT4gc2NyZWVuXzUuMC4xLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtZXh0ZW5kZWQvc2NyZWVuL3tzY3JlZW5fNS4wLjAuYmIgPT4gc2NyZWVuXzUuMC4xLmJifSAo
+OTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zY3JlZW4vc2NyZWVuXzUu
+MC4wLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NjcmVlbi9zY3JlZW5fNS4wLjEuYmIKc2lt
+aWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NjcmVl
+bi9zY3JlZW5fNS4wLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zY3JlZW4v
+c2NyZWVuXzUuMC4xLmJiCmluZGV4IGZlYzU2NjNmYzIuLjY5ZjQwOTg1MTkgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1leHRlbmRlZC9zY3JlZW4vc2NyZWVuXzUuMC4wLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1leHRlbmRlZC9zY3JlZW4vc2NyZWVuXzUuMC4xLmJiCkBAIC0yMCw3ICsyMCw3IEBA
+IFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9SfS9zY3JlZW4vc2NyZWVuLSR7UFZ9LnRhci5neiBcCiAg
+ICAgICAgICAgICR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAncGFtJywg
+J2ZpbGU6Ly9zY3JlZW4ucGFtJywgJycsIGQpfSBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImYwNGEzOWQwMGEwZTVjN2M4NmE1NTMzODgwODkwMzA4MmFkNWRmNGQ3M2Rm
+MWEyZmQzNDI1OTc2YWVkOTQ5NzEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMmRhZTM2ZjRkYjM3
+OWZmY2QxNGI2OTE1OTZiYTZlYzE4YWMzYTllMjJiYzQ3YWMyMzk3ODlhYjU4NDA5ODY5ZCIKIAog
+aW5oZXJpdCBhdXRvdG9vbHMtYnJva2Vuc2VwIHRleGluZm8KIAotLSAKMi40Ny4xCgo=
 
---===============8471468141696091304==
+--===============5957502671945943061==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pdm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.25.1.tar.gz;downloadfilename=pdm-2.25.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.25.4.tar.gz;downloadfilename=pdm-2.25.4.tar.gz"
-packages/core2-64-poky-linux/python3-pdm: PV changed from "2.25.1" to "2.25.4"
-packages/core2-64-poky-linux/python3-pdm: PKGV changed from 2.25.1 [default] to 2.25.4 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dbg: PV changed from "2.25.1" to "2.25.4"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dbg: PKGV changed from 2.25.1 [default] to 2.25.4 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dev: PV changed from "2.25.1" to "2.25.4"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dev: PKGV changed from 2.25.1 [default] to 2.25.4 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-doc: PV changed from "2.25.1" to "2.25.4"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-doc: PKGV changed from 2.25.1 [default] to 2.25.4 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-locale: PV changed from "2.25.1" to "2.25.4"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-locale: PKGV changed from 2.25.1 [default] to 2.25.4 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-src: PV changed from "2.25.1" to "2.25.4"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-src: PKGV changed from 2.25.1 [default] to 2.25.4 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-staticdev: PV changed from "2.25.1" to "2.25.4"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-staticdev: PKGV changed from 2.25.1 [default] to 2.25.4 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: PV changed from "2.25.1" to "2.25.4"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: PKGV changed from 2.25.1 [default] to 2.25.4 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: PKGSIZE changed from 2232098 to 2239953 (+0%)
-Changes to packages/core2-64-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.13/site-packages/pdm-2.25.1.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.25.4.dist-info
+packages/core2-64-poky-linux/screen: PKGV changed from 5.0.0 [default] to 5.0.1 [default]
+packages/core2-64-poky-linux/screen: PV changed from "5.0.0" to "5.0.1"
+packages/core2-64-poky-linux/screen: SRC_URI changed from "https://ftpmirror.gnu.org/gnu/screen/screen-5.0.0.tar.gz file://screen.pam" to "https://ftpmirror.gnu.org/gnu/screen/screen-5.0.1.tar.gz file://screen.pam"
+packages/core2-64-poky-linux/screen/screen-dbg: PKGV changed from 5.0.0 [default] to 5.0.1 [default]
+packages/core2-64-poky-linux/screen/screen-dbg: PV changed from "5.0.0" to "5.0.1"
+packages/core2-64-poky-linux/screen/screen-dbg: PKGSIZE changed from 1352688 to 1354776 (+0%)
+packages/core2-64-poky-linux/screen/screen-dbg: FILELIST: removed "/usr/bin/.debug/screen-5.0.0", added "/usr/bin/.debug/screen-5.0.1"
+packages/core2-64-poky-linux/screen/screen-dev: PKGV changed from 5.0.0 [default] to 5.0.1 [default]
+packages/core2-64-poky-linux/screen/screen-dev: PV changed from "5.0.0" to "5.0.1"
+packages/core2-64-poky-linux/screen/screen-doc: PKGV changed from 5.0.0 [default] to 5.0.1 [default]
+packages/core2-64-poky-linux/screen/screen-doc: PV changed from "5.0.0" to "5.0.1"
+packages/core2-64-poky-linux/screen/screen-doc: PKGSIZE changed from 165722 to 165922 (+0%)
+packages/core2-64-poky-linux/screen/screen-locale: PKGV changed from 5.0.0 [default] to 5.0.1 [default]
+packages/core2-64-poky-linux/screen/screen-locale: PV changed from "5.0.0" to "5.0.1"
+packages/core2-64-poky-linux/screen/screen-src: PKGV changed from 5.0.0 [default] to 5.0.1 [default]
+packages/core2-64-poky-linux/screen/screen-src: PV changed from "5.0.0" to "5.0.1"
+packages/core2-64-poky-linux/screen/screen-src: PKGSIZE changed from 942487 to 944647 (+0%)
+packages/core2-64-poky-linux/screen/screen-staticdev: PKGV changed from 5.0.0 [default] to 5.0.1 [default]
+packages/core2-64-poky-linux/screen/screen-staticdev: PV changed from "5.0.0" to "5.0.1"
+packages/core2-64-poky-linux/screen/screen: PKGV changed from 5.0.0 [default] to 5.0.1 [default]
+packages/core2-64-poky-linux/screen/screen: PV changed from "5.0.0" to "5.0.1"
+packages/core2-64-poky-linux/screen/screen: PKGSIZE changed from 744708 to 744740 (+0%)
+packages/core2-64-poky-linux/screen/screen: FILELIST: removed "/usr/bin/screen-5.0.0", added "/usr/bin/screen-5.0.1"
 
---===============8471468141696091304==--
+--===============5957502671945943061==--
 
