@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12459C83F01
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 13:38:34 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.11124.1751377107661706440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F090C7EE30
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 13:38:44 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web11.11127.1751377114034275183
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 06:38:27 -0700
+ Tue, 01 Jul 2025 06:38:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bj3cIbQQ;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b31e0ead80eso4875692a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 06:38:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SfivIVwC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b34a6d0c9a3so3461425a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 06:38:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751377107; x=1751981907; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751377113; x=1751981913; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NNo8mG56HC1PqZA7wxAt5Ip3D9KcaPcuT83sFaR0XiA=;
-        b=bj3cIbQQV1XPzKOM6RL4XDf7oHlRj0Mx7wMX8LbPvaistYxUxsGsXHhGulHsyyQUHT
-         HYvuGrlKkxCu9MrxcGbfCTdgARfgAu5QR9g4Y7VlKmvit4iQZ+glBYsuXKQ/ohSssJkx
-         dxzCjR4LXc/cXctdCzPt1PJMH3U3WIPhoPHJ429IATby+3+AP6SRVsSZ/S9/6LYL6PoY
-         rz7OKjakRdzNxoqqvPRlNdjMl5K3Fj2ECRIOXA0bb31qyeugdu/dc6QNukq8uspC9Omb
-         M5PUCNtTESoqjfwKNI3sFMJ88FGqW8lwvCT9Jjvq+Qziz6yiAzAr3loJ0gUURtVzlaVD
-         6lEg==
+        bh=Mupj3C9bC19b0P2nW2FLaFSUtBy0dQSnQyakieAEsWY=;
+        b=SfivIVwCeYXlj3fpTuFr1w3cNIgcDb5UH6zrqAfeXIVMOeEJPda7WVNpkHsJMyP4Th
+         kghIqtxWH99CT8zbYbLgA34ew6pOcBd3Xvu1KDJ2bl5Dh39Wfak4huZiT8jlCxCDQwAf
+         aAbq/wSRqvg7MsTRv4t6mFh9ti/jziyO94G93l3T17wXLTcAJ8cptiuCCvXlyMOQUN0B
+         NGZHV8fqWPqvuucxB1nlnQfZwu5dQCMmUxJ+zw7/uNcjYvbEc5U/HBp39Q3KUyDZDwAY
+         iar0G6xgGdmx3b7fdG0UfhMZNI0XDsz31zz03y1Q5+k8456szv/AFP/+o2DwXZvOFNOk
+         rulg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751377107; x=1751981907;
+        d=1e100.net; s=20230601; t=1751377113; x=1751981913;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NNo8mG56HC1PqZA7wxAt5Ip3D9KcaPcuT83sFaR0XiA=;
-        b=XDDax9BJWwMRciN4HWx06hgDLTwZDijz9UL0npyzZ9SExkExDuBhGFZ/7n0E2R+D4x
-         /9eO3oZSUKyucRaec5PEK00tmIj6vC1N+oG0ZBqfx5w5F+9nxHM6lNchAfeww2EQlX43
-         uLS2ezevldEqQQt8Mj9GRlLITWFgh4qpJ1kt0aMzvQmTizKHwS/6EqA6oY2OseAfKBAN
-         Syx0qVihSrwJs6kBup0KwAkoiRRuvszpBixonduYPx+3xnSh2LI6JS/Fq1ayNyCMwKsf
-         EY6VGlpg72xZlQY+XOmAJM7hfhRcNhoRlcdO/nKvsLxVflzlpOXqetnycQ0ViFeLtHNy
-         uyXQ==
-X-Gm-Message-State: AOJu0YxZjBsidw64Fit/RtUThNxe80TZ1Ke0bkZAjNP2JPbX+lsDHPg2
-	OKdBFNP8euv1wt5Lxw1rkOLUv3r8J2MjKBDHWyAYQD06vSpJcPdV7y/xcLpRbFm5pMy0sDygOfi
-	/oDfV
-X-Gm-Gg: ASbGncsRd6S1bdOMZTwlUWpATuakJ3kaA7Seh3qgRusm5+xJsqIj+CrFGzRrPb05w5v
-	uG9efjoCrgx1ulbyuo7kr6LUMIjTZVeAd7jU+E9UR09yKpXu54E/0vS+MtdWrVhAAwtd833PAno
-	r5Czl0sNYtSvzdaet3KqOvC/oFmk7oYFr7V+A2/LakRB/vPPa1lwbc+0lXkMZxP/SMfof+58HXh
-	e8jf4xuJYXWAF8wQM+BlkID6ijgi310RsKkhBsz/cUZaixI/PfKD4z6YHp7NvYsz4O/Laplgytk
-	agJ0wdHxr3hkmOtBiBrVvlBQJsGmDiQ2rgG7nuEXHoUmfZbaF2NNCw==
-X-Google-Smtp-Source: AGHT+IFgJElc9Wz4zm2x4slxe6X7ojCbxS9AzQUeFTlFcExBvfE6iRtqnDN0TcaNA/6Ea5frB4UOAA==
-X-Received: by 2002:a17:90b:2f8f:b0:311:a54d:8492 with SMTP id 98e67ed59e1d1-318c910de41mr24920581a91.6.1751377106700;
-        Tue, 01 Jul 2025 06:38:26 -0700 (PDT)
+        bh=Mupj3C9bC19b0P2nW2FLaFSUtBy0dQSnQyakieAEsWY=;
+        b=VQX80ef+c4Xfg/3Ifcvnq0F910oUoJjbAhE1gYSh2kcXmJ3pZCFizIL9M0RwbRj7+q
+         JDNvCwtdPOkc+s4UgoHbTAOMKyuKGJTqoSxO1+KDINad50A2Wces9HN5b64px8yWm6+x
+         4et7qxdHssgurJEs47Qw9aRy+t/lGjlevzZ4Ggyyfir8PMZktAXKjxSCR8yycWs3yjb1
+         N5GNVw2FMdFYtqhx3cLkp2SX+bggtEQNIWxBr7URD+YZCs5mc6R7+lVLh6m3wX7gZk4u
+         Q38A/TOz1ABUsufu4UqbiYSowx8s67VthDMZw9k7CDDUkbY0lhu4ZdssmTVwXa8WRzyQ
+         P0GQ==
+X-Gm-Message-State: AOJu0YxHMKJI8jPVTD9f9Bgnx6g1ZP0agVDr/ZO6sB14hqDDsxMc6XNe
+	zJbh2P0K/Hnq0QBNg5wlBlA5deUprGPoygMuXsL+VHyvtXQ/6+Dr7CC+OBXPuV/QZr+dUncagVR
+	nUbpP
+X-Gm-Gg: ASbGncug9GlMIv/tkVIq8Y/DPMdR0yevyWyVfKPR8lgXhdCfRoXWWJL6CbuM8hm9yeD
+	NOjO/tjyobTXg/9Z5h9yUFskilX3b9qN5sFZlRibVS0EOlSbYf66ywSDSIsa06WzvzA1LucqVJV
+	PZc24p/bPTu39c+lPSKOQf7kuONvaLJR8nsxlgc15WEME3ZZ6nTuVwJs6II051HgKVKq8RmnaAx
+	7bOqK7ibKy5FELJcibxhx/+E4Fj7QpYB5Uaw+I6Hw/WTMOHTm120TGIjFHcK/JZPgHOqxAD/2NA
+	/hm1nZL71tisA/ULhtDJ4MIGCn3ryXiqUZER80rlBRVfQxfFGHkpCA==
+X-Google-Smtp-Source: AGHT+IHtyKpe/4sAw7ZFXzuNmpq53flQdtDAs9+pDXYNop24F2fdXnNJCN/FsPaxcMsLkWUglH9iVw==
+X-Received: by 2002:a17:90b:2ccf:b0:312:ea46:3e66 with SMTP id 98e67ed59e1d1-318c9243c60mr22967167a91.21.1751377113116;
+        Tue, 01 Jul 2025 06:38:33 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:34f8:320a:2e39:118e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-318c152331fsm11466117a91.44.2025.07.01.06.38.26
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-318c152331fsm11466117a91.44.2025.07.01.06.38.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 06:38:26 -0700 (PDT)
+        Tue, 01 Jul 2025 06:38:32 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 07/11] xwayland: Add missing libtirpc dependency
-Date: Tue,  1 Jul 2025 06:38:05 -0700
-Message-ID: <cfc49bbb21bade1d6c5ea96759dabf0dac25f79b.1751376952.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 11/11] tcf-agent: correct the SRC_URI
+Date: Tue,  1 Jul 2025 06:38:09 -0700
+Message-ID: <f359677709aba80735a38578475a34e1b83d321c.1751376952.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1751376952.git.steve@sakoman.com>
 References: <cover.1751376952.git.steve@sakoman.com>
@@ -66,33 +66,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 13:38:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219578
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 13:38:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219582
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Guocai He <guocai.he.cn@windriver.com>
 
-This was being pulled in through python by accident. It no longer needs
-it but exposes this missing dependency.
+The SRC_URI is changed to git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/xwayland/xwayland_24.1.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.6.bb b/meta/recipes-graphics/xwayland/xwayland_24.1.6.bb
-index 0774c1bbf5..c0b5dee4c0 100644
---- a/meta/recipes-graphics/xwayland/xwayland_24.1.6.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_24.1.6.bb
-@@ -17,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
- inherit meson features_check pkgconfig
- REQUIRED_DISTRO_FEATURES = "x11 opengl"
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index e1ac0a29a7..cd5a00fcbc 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Target Communication Framework for the Eclipse IDE"
+-HOMEPAGE = "http://wiki.eclipse.org/TCF"
++HOMEPAGE = "https://gitlab.eclipse.org/eclipse/tcf/"
+ DESCRIPTION = "TCF is a vendor-neutral, lightweight, extensible network protocol mainly for communicating with embedded systems (targets)."
+ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
  
--DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy libxcvt"
-+DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy libxcvt libtirpc"
+@@ -10,7 +10,7 @@ SRCREV = "1f11747e83ebf4f53e8d17f430136f92ec378709"
+ PV = "1.8.0+git"
  
- OPENGL_PKGCONFIGS = "glx glamor dri3"
- PACKAGECONFIG ??= "${XORG_CRYPTO} ${XWAYLAND_EI} \
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+-SRC_URI = "git://git.eclipse.org/r/tcf/org.eclipse.tcf.agent.git;protocol=https;branch=master \
++SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=master \
+            file://ldflags.patch \
+            file://tcf-agent.init \
+            file://tcf-agent.service \
 -- 
 2.43.0
 
