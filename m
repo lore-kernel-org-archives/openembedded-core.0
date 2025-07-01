@@ -1,110 +1,363 @@
-Return-Path: <anibal@limonsoftware.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04CA7C7EE30
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 22:11:49 +0000 (UTC)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.web11.9666.1751407899835615186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43550C83038
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 22:56:49 +0000 (UTC)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+ by mx.groups.io with SMTP id smtpd.web11.10600.1751410602489665769
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 15:11:39 -0700
+ Tue, 01 Jul 2025 15:56:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@limonsoftware-com.20230601.gappssmtp.com header.s=20230601 header.b=Dm55oOZm;
- spf=pass (domain: limonsoftware.com, ip: 209.85.210.54, mailfrom: anibal@limonsoftware.com)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-735a8be4ea9so770915a34.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 15:11:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=B60Lufx1;
+ spf=pass (domain: gmail.com, ip: 209.85.222.41, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-86fea8329cdso3070295241.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 15:56:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=limonsoftware-com.20230601.gappssmtp.com; s=20230601; t=1751407899; x=1752012699; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=M/Ckhjml0OumRiz9V08QEX8aq0CGz5kTKAsYu8wWatg=;
-        b=Dm55oOZmge0KvMyq2V0dYZTnokxQiEZlwl/LWs63VTNysGmtr7zUu949Eip6pwO109
-         EqzqusEv93es+b5bjSZDiD9Ahy3ZYfU2zPZaX1uygiYw/oMBgrMSAo3GA8f/H9pudX/T
-         eF9dAJsuDlQwpR1PwoZFvVpZV+PcC7nfhtIpL09GUOLfNMTIJMslybBBL1eRm620y4Cr
-         ee/MnmYOI1kVm+Q7vcvb+Ijo9OKEBGpQtIDGSa4XUI73HYDV0QL5+bnVC42tQasmfXj0
-         +RxtcER0TjXY6AJ+7wgJEC5/S7Q+pgeYnP7+i+IkD69GsnCglVsDZPWQ7/Lg9gMaCyWe
-         4rvA==
+        d=gmail.com; s=20230601; t=1751410601; x=1752015401; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sbefn7N4iHrY4SmfOxSdiL63vzuILQTZ+UrJlGXdK7E=;
+        b=B60Lufx126VUzVrt0CVnX6dCqTfQ3Ulu0WDRXyn6pom8K2OQEADzgbyFyEH0xP027D
+         Iu0oh36IG3pBc+3WuYYCzdFnrUaLSKDcCjtsmnIIFbIddohHkTJReKgtKC+ujiWX8PS9
+         CG6QpqUYivfwZm/7Mk8N4i9WQ8TbuOuXzymw45uU4uk/jmJDIHWidp7WHakua/RudKfA
+         XybXTVOarwI+3zq09Ag7xSkgNTtMNUm1e7O0NzAyHY6IWTG6ZEVOTr/l6/FMdabfPEno
+         PaGb0oLTN0ypdu/F9pAoFQVTtbKnN6g8yqeWGNTOFAI0DQRfpb6sjGMJYUOi4+YlB7yp
+         m04A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751407899; x=1752012699;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1751410601; x=1752015401;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M/Ckhjml0OumRiz9V08QEX8aq0CGz5kTKAsYu8wWatg=;
-        b=MC+HT43nqeD4Z4YPfzAQn9ftn1bn3HhWo3e51kkkbJ9av3K2HIsgt7NPEgc5RgdnHq
-         KPjOd0EUFihKUYqFvHwJEU1UMIr2rgua45Gj/lNDz6hyDWM6SsuQIOumP3yDccHS86q2
-         cGuzF279Cn8GagWRcMXIzwxth5D9Ugs1nWtfa3BfqE1EIgLrO286s48ssm5WEB1Du/rT
-         ZPz370qUE47aMqspopbSufud/er3K+1gkivJWZSkbYugmG69gqjijP810Mp32P+Yu4HJ
-         zW/eIUpC1n9SiKs2GtlXn5VDKon7LrjctzAxDaoQs019IeYcQ7ACbHRIDEDJKtB6WxnI
-         4ceQ==
-X-Gm-Message-State: AOJu0Yzwuw8xpjhQIPK1OVPM94xXU7kbLim2aII8jNQaElov0RVkYHHh
-	PMDcq3Lgr0A6QikyDnigiEU8afzuhxdTjd7yJ0QVE8cwNRiMMowioMnhrKPlskQik78EVtyrb0B
-	JFDrA7DciBA==
-X-Gm-Gg: ASbGncvRce2z0CkkwLEauhbL24oL+6xcc9xz8JDb+mStk5D1ETJh4oCcYo7tnTdPrtZ
-	4lafPtKzWg1jRrMEqTCJv04gyepKzmyC03CYf3YcYT0U5/9jwVjrpn/hTdJvQeuheEsAg5sfud7
-	L4CDO7bxKWBRTQdktUVr85DUqxt6LSsybE9h30aZ6g1qMnEfhACXZw3yR2qme9YQ+OcGJBum99U
-	bKGf+PXyMCyIGvAdBHLlAWeWs/gLmWoTOCvpf44p7YkM0k6BuHfJhXfKAgkrL98uGjwta8fAdPO
-	Jz2Q306/YevbeQTthhVbg8t5b5WWJYndm3jZBDvAcnZOJFHX/qP6lpNtS2ybnLxy66Y9F9yHIlH
-	o
-X-Google-Smtp-Source: AGHT+IEfYRw6hGp0P+WPio9ItuPOF0SsU67eTOHtbnbeJ2KIUfhvH+i2kvbKeGdIyesFgVo5ECFRBg==
-X-Received: by 2002:a05:6830:6489:b0:72b:8c4b:8ef2 with SMTP id 46e09a7af769-73b4cd3db9dmr490417a34.24.1751407898688;
-        Tue, 01 Jul 2025 15:11:38 -0700 (PDT)
-Received: from ls.ts.net ([189.172.102.32])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73afaec27aasm2275689a34.0.2025.07.01.15.11.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 15:11:38 -0700 (PDT)
-From: Anibal Limon <anibal@limonsoftware.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alhe@linux.microsoft.com,
-	johannes.schneider@leica-geosystems.com,
-	Anibal Limon <anibal@limonsoftware.com>
-Subject: [PATCH] recipes-core: initrdscripts overlayroot allow boot partition
-Date: Tue,  1 Jul 2025 22:11:35 +0000
-Message-Id: <20250701221135.966025-1-anibal@limonsoftware.com>
-X-Mailer: git-send-email 2.39.5
+        bh=Sbefn7N4iHrY4SmfOxSdiL63vzuILQTZ+UrJlGXdK7E=;
+        b=f1w01OZNrvbIm6Q0yvLoJ2PMGa7u7L+rRjBsRhcl5+IDY1nlsmkUAt00DnNY1MIzmE
+         0ECcgL4G8b/X3x9couTLbpV92llIwKCcq6w1Fe2nDhlsaCAm+Dm0dFR1aGbiqI5dTBah
+         ki9twDp2cLNWirRJsQyhUYOiVsyolWSqZWQUmueTVd9y3v8ddcgoZxTwm9DpXc0MOM6J
+         Cw6xRfnDVtjmPVUtqoa1Nj08gceJRpmZTlGHTP0lRAkoBcBmLLV1Zur+d5VS4Zfc2xe7
+         4uHifErmk2Jk+CcXZk3O+yRAR0gIEq/vIMveqdA46a6O0K0SGevnBoyltggxYCmuSY4z
+         SpIQ==
+X-Gm-Message-State: AOJu0YwqTgcKY8pUMgsphPlTl+L7vD2LCFiaiIAsR9wuYIPoEIozRb7B
+	2pz0VfXyDNSs0+nJkRK5BTNoM+fv6wcCSd+q/O4GDmUEkCCpQ0eNU2oiD+IWPVIUaKuXSZ5syXy
+	OclHVAroCg5uTwVKGaUz6ZU5lBCWMogI=
+X-Gm-Gg: ASbGncvY9cPQEwt8QLGfunH2ClDnV/gJ8X2KNn8RL2KyA/9kGpx0yJcqhCsUASh4DQf
+	CJ6vczyRJwq4sep6J0w+xvFwLLorc5Zl1Fer/QTFx8ya3u7F53ed21LIVT6HHBh+aw6g10/Oe2X
+	YAO7yk7SJimAAeYJzzqVxK/hxEOWd4w0EHF69hiRCrfFviHF1Xf8QUJIg=
+X-Google-Smtp-Source: AGHT+IExi44dgeEpaQEZ1VAVjct18/Qiy7LtfxJlKn68w9yxy+IAuFGMO+5Ls/Bb5xmR8TStu37eQQO6E2W34JsMTRw=
+X-Received: by 2002:a05:6102:6d1:b0:4e9:8f71:bd4f with SMTP id
+ ada2fe7eead31-4f160f18c62mr278920137.3.1751410601281; Tue, 01 Jul 2025
+ 15:56:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250701180410.33055-1-JPEWhacker@gmail.com>
+In-Reply-To: <20250701180410.33055-1-JPEWhacker@gmail.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Tue, 1 Jul 2025 23:56:30 +0100
+X-Gm-Features: Ac12FXyQYURT3AGt7bcxNIqqfOusGDVNqzFPEO8KkjKK3swYyvVycu2-DbhYvZ0
+Message-ID: <CANPvuRkmkZUaWXYLmZzTzzxUTbTPsWSq=A38OjA6ELm_g_WcWQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] spdx30: Allow VEX Justification to be configurable
+To: JPEWhacker@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000bece200638e60ec2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 22:11:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219735
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 22:56:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219736
 
-Test if /boot is previously mounted on the OLDROOT and move it
-into NEWROOT (ro).
+--000000000000bece200638e60ec2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Anibal Limon <anibal@limonsoftware.com>
----
- .../initrdscripts/initramfs-framework/overlayroot        | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Joshua Watt via lists.openembedded.org <JPEWhacker=3D
+gmail.com@lists.openembedded.org> escreveu (ter=C3=A7a, 1/07/2025 =C3=A0(s)=
+ 19:04):
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot b/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
-index 0d41432878..db164d9846 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
-@@ -38,10 +38,10 @@
- PATH=/sbin:/bin:/usr/sbin:/usr/bin
- 
- # We get OLDROOT from the rootfs module
--OLDROOT="/rootfs"
-+OLDROOT="${ROOTFS_DIR}"
- 
--NEWROOT="${RWMOUNT}/root"
- RWMOUNT="/overlay"
-+NEWROOT="${RWMOUNT}/root"
- ROMOUNT="${RWMOUNT}/rofs"
- UPPER_DIR="${RWMOUNT}/upper"
- WORK_DIR="${RWMOUNT}/work"
-@@ -115,4 +115,9 @@ mount -n --move /proc ${NEWROOT}/proc
- mount -n --move /sys ${NEWROOT}/sys
- mount -n --move /dev ${NEWROOT}/dev
- 
-+# Mount/move boot if is already mounted
-+if mountpoint -q ${OLDROOT}/boot; then
-+    mount -n --move ${OLDROOT}/boot ${NEWROOT}/boot
-+fi
-+
- exec chroot ${NEWROOT}/ ${bootparam_init:-/sbin/init} || exit_gracefully "Couldn't chroot into overlay"
--- 
-2.39.5
+> Instead of hard coding the VEX justifications for "Ignored" CVE status,
+> add a map that configures what justification should be used for each
+> status.
+>
+> This allows other justifications to be easily added, and also ensures
+> that status fields added externally (by downstream) can set an
+> appropriate justification if necessary.
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/conf/cve-check-map.conf |  4 ++++
+>  meta/lib/oe/spdx30_tasks.py  | 33 ++++++++++++++++-----------------
+>  2 files changed, 20 insertions(+), 17 deletions(-)
+>
+> diff --git a/meta/conf/cve-check-map.conf b/meta/conf/cve-check-map.conf
+> index ac956379d19..0563bcaf94b 100644
+> --- a/meta/conf/cve-check-map.conf
+> +++ b/meta/conf/cve-check-map.conf
+> @@ -28,8 +28,12 @@ CVE_CHECK_STATUSMAP[cpe-incorrect] =3D "Ignored"
+>  CVE_CHECK_STATUSMAP[disputed] =3D "Ignored"
+>  # use when vulnerability depends on build or runtime configuration which
+> is not used
+>  CVE_CHECK_STATUSMAP[not-applicable-config] =3D "Ignored"
+> +CVE_CHECK_VEX_JUSTIFICATION[not-applicable-config] =3D
+> "vulnerableCodeNotPresent"
+> +
+>  # use when vulnerability affects other platform (e.g. Windows or Debian)
+>  CVE_CHECK_STATUSMAP[not-applicable-platform] =3D "Ignored"
+> +CVE_CHECK_VEX_JUSTIFICATION[not-applicable-config] =3D
+> "vulnerableCodeNotPresent"
+>
 
+Looks like this one should be not-applicable-platform instead of
+not-applicable-config.
+
+Jose
+
+
+> +
+>  # use when upstream acknowledged the vulnerability but does not plan to
+> fix it
+>  CVE_CHECK_STATUSMAP[upstream-wontfix] =3D "Ignored"
+>
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index 5d9f3168d97..c352dab1520 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -724,24 +724,23 @@ def create_spdx(d):
+>                              impact_statement=3Ddescription,
+>                          )
+>
+> -                        if detail in (
+> -                            "ignored",
+> -                            "cpe-incorrect",
+> -                            "disputed",
+> -                            "upstream-wontfix",
+> -                        ):
+> -                            # VEX doesn't have justifications for this
+> -                            pass
+> -                        elif detail in (
+> -                            "not-applicable-config",
+> -                            "not-applicable-platform",
+> -                        ):
+> -                            for v in spdx_vex:
+> -                                v.security_justificationType =3D (
+> -
+> oe.spdx30.security_VexJustificationType.vulnerableCodeNotPresent
+> +                        vex_just_type =3D d.getVarFlag(
+> +                            "CVE_CHECK_VEX_JUSTIFICATION", detail
+> +                        )
+> +                        if vex_just_type:
+> +                            if (
+> +                                vex_just_type
+> +                                not in
+> oe.spdx30.security_VexJustificationType.NAMED_INDIVIDUALS
+> +                            ):
+> +                                bb.fatal(
+> +                                    f"Unknown vex justification
+> '{vex_just_type}', detail '{detail}', for ignored {cve}"
+>                                  )
+> -                        else:
+> -                            bb.fatal(f"Unknown detail '{detail}' for
+> ignored {cve}")
+> +
+> +                            for v in spdx_vex:
+> +                                v.security_justificationType =3D
+> oe.spdx30.security_VexJustificationType.NAMED_INDIVIDUALS[
+> +                                    vex_just_type
+> +                                ]
+> +
+>                      elif status =3D=3D "Unknown":
+>                          bb.note(f"Skipping {cve} with status 'Unknown'")
+>                      else:
+> --
+> 2.49.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#219713):
+> https://lists.openembedded.org/g/openembedded-core/message/219713
+> Mute This Topic: https://lists.openembedded.org/mt/113933828/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000bece200638e60ec2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Joshua Watt via=
+ <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;J=
+PEWhacker=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@l=
+ists.openembedded.org</a>&gt; escreveu (ter=C3=A7a, 1/07/2025 =C3=A0(s) 19:=
+04):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Instead of =
+hard coding the VEX justifications for &quot;Ignored&quot; CVE status,<br>
+add a map that configures what justification should be used for each<br>
+status.<br>
+<br>
+This allows other justifications to be easily added, and also ensures<br>
+that status fields added externally (by downstream) can set an<br>
+appropriate justification if necessary.<br>
+<br>
+Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" targ=
+et=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/cve-check-map.conf |=C2=A0 4 ++++<br>
+=C2=A0meta/lib/oe/spdx30_tasks.py=C2=A0 | 33 ++++++++++++++++--------------=
+---<br>
+=C2=A02 files changed, 20 insertions(+), 17 deletions(-)<br>
+<br>
+diff --git a/meta/conf/cve-check-map.conf b/meta/conf/cve-check-map.conf<br=
+>
+index ac956379d19..0563bcaf94b 100644<br>
+--- a/meta/conf/cve-check-map.conf<br>
++++ b/meta/conf/cve-check-map.conf<br>
+@@ -28,8 +28,12 @@ CVE_CHECK_STATUSMAP[cpe-incorrect] =3D &quot;Ignored&quo=
+t;<br>
+=C2=A0CVE_CHECK_STATUSMAP[disputed] =3D &quot;Ignored&quot;<br>
+=C2=A0# use when vulnerability depends on build or runtime configuration wh=
+ich is not used<br>
+=C2=A0CVE_CHECK_STATUSMAP[not-applicable-config] =3D &quot;Ignored&quot;<br=
+>
++CVE_CHECK_VEX_JUSTIFICATION[not-applicable-config] =3D &quot;vulnerableCod=
+eNotPresent&quot;<br>
++<br>
+=C2=A0# use when vulnerability affects other platform (e.g. Windows or Debi=
+an)<br>
+=C2=A0CVE_CHECK_STATUSMAP[not-applicable-platform] =3D &quot;Ignored&quot;<=
+br>
++CVE_CHECK_VEX_JUSTIFICATION[not-applicable-config] =3D &quot;vulnerableCod=
+eNotPresent&quot;<br></blockquote><div><br></div><div>Looks like this one s=
+hould=C2=A0be not-applicable-platform instead=C2=A0of not-applicable-config=
+.<br><br>Jose</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++<br>
+=C2=A0# use when upstream acknowledged the vulnerability but does not plan =
+to fix it<br>
+=C2=A0CVE_CHECK_STATUSMAP[upstream-wontfix] =3D &quot;Ignored&quot;<br>
+<br>
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py<br>
+index 5d9f3168d97..c352dab1520 100644<br>
+--- a/meta/lib/oe/spdx30_tasks.py<br>
++++ b/meta/lib/oe/spdx30_tasks.py<br>
+@@ -724,24 +724,23 @@ def create_spdx(d):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0impact_statement=3Ddescription,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0)<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if detail in (<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot;ignored&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cpe-incorrect&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot;disputed&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot;upstream-wontfix&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 # VEX doesn&#39;t have justifications for this<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 elif detail in (<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot;not-applicable-config&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot;not-applicable-platform&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 for v in spdx_vex:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v.security_justificationType =3D (<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.spdx30.security_Vex=
+JustificationType.vulnerableCodeNotPresent<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 vex_just_type =3D d.getVarFlag(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot;CVE_CHECK_VEX_JUSTIFICATION&quot;, detail<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 )<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if vex_just_type:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 if (<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vex_just_type<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 not in oe.spdx30.security_VexJustifi=
+cationType.NAMED_INDIVIDUALS<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f&quot;Unknown vex jus=
+tification &#39;{vex_just_type}&#39;, detail &#39;{detail}&#39;, for ignore=
+d {cve}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 else:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(f&quot;Unknown detail &#39;{detail}&#39; =
+for ignored {cve}&quot;)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 for v in spdx_vex:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v.security_justificationType =3D oe.=
+spdx30.security_VexJustificationType.NAMED_INDIVIDUALS[<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vex_just_type<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ]<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0elif status =3D=3D &quot;Unknown&quot;:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0bb.note(f&quot;Skipping {cve} with status &#39;Unknown&#39=
+;&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0else:<br>
+-- <br>
+2.49.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#219713): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/219713" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/219713</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/113933828/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/113933828/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
+div></div></div>
+
+--000000000000bece200638e60ec2--
 
