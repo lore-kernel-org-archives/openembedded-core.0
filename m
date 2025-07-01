@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC33DC83F05
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 16:20:11 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.1413.1751386808187201249
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C9BC83F0B
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 16:20:12 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.1411.1751386807592846792
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 09:20:08 -0700
+ Tue, 01 Jul 2025 09:20:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=1qNwEdU+;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Km6uLqeB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010197c6c9dac3-838c6212-1bbe-499a-a10f-6d68b15cd2ba-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RSAXI0LI;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Ve1zr70L;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010197c6c9e8e7-53095219-4fbc-4eef-b000-ca29d63592a8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751386807;
+	t=1751386810;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xKzNf1uc++gPSjKWpMwDrQpfa/Ak8MjZoUDJC6Vd8mg=;
-	b=1qNwEdU+FAeVQFMdGaklY+QhByGc8Hpinhe99t+RUTqysGprJyXMdahcYw41RmzB
-	K1IltNEM/xSWXilEXahkBWjXDREModxm2hm9beTG/FTVlyYCiGF7/F2gaLWKgQy6wEq
-	Yso75vNZDfBK95p4W+nHTkmVCldJonckvcZvXYKI=
+	bh=owbf7XnS16teySMM7MU1KvBuZJq7QaURLq6XZu9OIsc=;
+	b=RSAXI0LIE43cB+R3BExnNpqJvdrGb5/Jtj4xj3VAcLEMx2INbjhaXeCHVlbuNNDO
+	3i0B7kTCYM6HBdqG5TXtErAQSEoE0eOinclmkTsb0o8jTL0bBEwdfhKCNkjqxhUKH2D
+	fGH1/Rg1xxIgauZTBMT/vErwToIxhqWQoJ5XGqi4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386807;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386810;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xKzNf1uc++gPSjKWpMwDrQpfa/Ak8MjZoUDJC6Vd8mg=;
-	b=Km6uLqeBKEn061T9cobQslJt5o14YX7kYjiWeJTKNESyEo7OTrWPBJDWvA6GzYTr
-	ic+eQviOXyVQIbEjiEn7tvSavhcKSihjX+OrvOl5kPkUtB66d6ki1MPxMYvBAfzWtuH
-	hD9LIDov0BAVGW7oiFzPEVKzAJIt7oT4y13XPeOk=
-Content-Type: multipart/mixed; boundary="===============1182085232204619629=="
+	bh=owbf7XnS16teySMM7MU1KvBuZJq7QaURLq6XZu9OIsc=;
+	b=Ve1zr70LIs8bC0QEdZA+L9/r2caAhLn5y/gURga+u+8fnbAWt6tQ7Vuk3rijIG/K
+	KjLcrHo5XthWWI6vtXu6uxJVeXP3d/3HDWcVfElIPQhuHbNXYeDQfub3P3ilVik2M+Q
+	ThQZ3jKYEtlZODdLrdCZoWgiWknG5CLcfz9GZBEc=
+Content-Type: multipart/mixed; boundary="===============4309680293294671266=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Zang Ruochen <zangruochen@loongson.cn>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ell: upgrading to 0.78 SUCCEEDED
-Message-ID: <01010197c6c9dac3-838c6212-1bbe-499a-a10f-6d68b15cd2ba-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Jul 2025 16:20:06 +0000
+Subject: [AUH] git: upgrading to 2.50.0 FAILED
+Message-ID: <01010197c6c9e8e7-53095219-4fbc-4eef-b000-ca29d63592a8-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Jul 2025 16:20:10 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.01-54.240.27.31
+X-SES-Outgoing: 2025.07.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 16:20:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219616
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219626
 
---===============1182085232204619629==
+--===============4309680293294671266==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,104 +51,104 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ell* to *0.78* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *git* to *2.50.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-ell-upgrade-0.76-0.78.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe git failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1917 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-7fb29fc20ee0c4c980e38d1b1f82556f2a254599"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:7fb29fc20ee0c4c980e38d1b1f82556f2a254599"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 23 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 938 .bb files complete (0 cached, 938 parsed). 1918 targets, 42 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-7fb29fc20ee0c4c980e38d1b1f82556f2a254599"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:7fb29fc20ee0c4c980e38d1b1f82556f2a254599"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  13% |#####                               | ETA:  0:00:00
+Adding changed files:  27% |##########                          | ETA:  0:00:00
+Adding changed files:  41% |###############                     | ETA:  0:00:00
+Adding changed files:  55% |####################                | ETA:  0:00:00
+Adding changed files:  69% |#########################           | ETA:  0:00:00
+Adding changed files:  83% |##############################      | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/software/scm/git/git-2.50.0.tar.gz;name=tarball...
+INFO: Rebasing devtool onto 614f61fbc6a79907aef0519ea0570e62c1d62470
+WARNING: Command 'git rebase 614f61fbc6a79907aef0519ea0570e62c1d62470' failed:
+Auto-merging generate-configlist.sh
+CONFLICT (content): Merge conflict in generate-configlist.sh
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-nativesdk onto 614f61fbc6a79907aef0519ea0570e62c1d62470
+WARNING: Command 'git rebase 614f61fbc6a79907aef0519ea0570e62c1d62470' failed:
+Auto-merging generate-configlist.sh
+CONFLICT (content): Merge conflict in generate-configlist.sh
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since recipe inherits autotools-brokensep
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/git
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/git/git_2.50.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 9e4bb4231d6a5e0b03ed958e6456e8aa052a27fe Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Jul 2025 07:44:07 +0000
-Subject: [PATCH] ell: upgrade 0.76 -> 0.78
-
----
- meta/recipes-core/ell/{ell_0.76.bb => ell_0.78.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ell/{ell_0.76.bb => ell_0.78.bb} (88%)
-
-diff --git a/meta/recipes-core/ell/ell_0.76.bb b/meta/recipes-core/ell/ell_0.78.bb
-similarity index 88%
-rename from meta/recipes-core/ell/ell_0.76.bb
-rename to meta/recipes-core/ell/ell_0.78.bb
-index fcc56e02f7..ad16426bad 100644
---- a/meta/recipes-core/ell/ell_0.76.bb
-+++ b/meta/recipes-core/ell/ell_0.78.bb
-@@ -15,4 +15,4 @@ DEPENDS = "dbus"
- inherit autotools pkgconfig
- 
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "a0bf2b5a78450c0c167e3f65c18452ffe4c0f179d48c2a3661e6afaca8017ef9"
-+SRC_URI[sha256sum] = "28ee1a586b4891c96e68667a424684e64ad35120f345e89d6705bd4023d2d40a"
--- 
-2.47.1
-
-
---===============1182085232204619629==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ell-upgrade-0.76-0.78.patch"
-
-RnJvbSA5ZTRiYjQyMzFkNmE1ZTBiMDNlZDk1OGU2NDU2ZThhYTA1MmEyN2ZlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAwNzo0NDowNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVs
-bDogdXBncmFkZSAwLjc2IC0+IDAuNzgKCi0tLQogbWV0YS9yZWNpcGVzLWNvcmUvZWxsL3tlbGxf
-MC43Ni5iYiA9PiBlbGxfMC43OC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29yZS9lbGwve2VsbF8w
-Ljc2LmJiID0+IGVsbF8wLjc4LmJifSAoODglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
-b3JlL2VsbC9lbGxfMC43Ni5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2VsbC9lbGxfMC43OC5iYgpz
-aW1pbGFyaXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9lbGwvZWxs
-XzAuNzYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2VsbC9lbGxfMC43OC5iYgppbmRl
-eCBmY2M1NmUwMmY3Li5hZDE2NDI2YmFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9l
-bGwvZWxsXzAuNzYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZWxsL2VsbF8wLjc4LmJiCkBA
-IC0xNSw0ICsxNSw0IEBAIERFUEVORFMgPSAiZGJ1cyIKIGluaGVyaXQgYXV0b3Rvb2xzIHBrZ2Nv
-bmZpZwogCiBTUkNfVVJJID0gImh0dHBzOi8vbWlycm9ycy5lZGdlLmtlcm5lbC5vcmcvcHViL2xp
-bnV4L2xpYnMvJHtCUE59LyR7QlBOfS0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiYTBiZjJiNWE3ODQ1MGMwYzE2N2UzZjY1YzE4NDUyZmZlNGMwZjE3OWQ0OGMyYTM2NjFlNmFm
-YWNhODAxN2VmOSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyOGVlMWE1ODZiNDg5MWM5NmU2ODY2
-N2E0MjQ2ODRlNjRhZDM1MTIwZjM0NWU4OWQ2NzA1YmQ0MDIzZDJkNDBhIgotLSAKMi40Ny4xCgo=
-
---===============1182085232204619629==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/ell/ell-dbg: PKGSIZE changed from 1772256 to 1774264 (+0%)
-packages/core2-64-poky-linux/ell/ell-dbg: PKGV changed from 0.76 [default] to 0.78 [default]
-packages/core2-64-poky-linux/ell/ell-dbg: PV changed from "0.76" to "0.78"
-packages/core2-64-poky-linux/ell/ell-dev: PKGSIZE changed from 129808 to 130261 (+0%)
-packages/core2-64-poky-linux/ell/ell-dev: PKGV changed from 0.76 [default] to 0.78 [default]
-packages/core2-64-poky-linux/ell/ell-dev: PV changed from "0.76" to "0.78"
-packages/core2-64-poky-linux/ell/ell-doc: PKGV changed from 0.76 [default] to 0.78 [default]
-packages/core2-64-poky-linux/ell/ell-doc: PV changed from "0.76" to "0.78"
-packages/core2-64-poky-linux/ell/ell-locale: PKGV changed from 0.76 [default] to 0.78 [default]
-packages/core2-64-poky-linux/ell/ell-locale: PV changed from "0.76" to "0.78"
-packages/core2-64-poky-linux/ell/ell-src: PKGV changed from 0.76 [default] to 0.78 [default]
-packages/core2-64-poky-linux/ell/ell-src: PV changed from "0.76" to "0.78"
-packages/core2-64-poky-linux/ell/ell-staticdev: PKGV changed from 0.76 [default] to 0.78 [default]
-packages/core2-64-poky-linux/ell/ell-staticdev: PV changed from "0.76" to "0.78"
-packages/core2-64-poky-linux/ell/ell: PKGV changed from 0.76 [default] to 0.78 [default]
-packages/core2-64-poky-linux/ell/ell: PV changed from "0.76" to "0.78"
-packages/core2-64-poky-linux/ell: SRC_URI changed from "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.76.tar.xz" to "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.78.tar.xz"
-packages/core2-64-poky-linux/ell: PKGV changed from 0.76 [default] to 0.78 [default]
-packages/core2-64-poky-linux/ell: PV changed from "0.76" to "0.78"
-
---===============1182085232204619629==--
+--===============4309680293294671266==--
 
