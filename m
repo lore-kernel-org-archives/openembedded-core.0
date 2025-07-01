@@ -2,85 +2,103 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 514F8C7EE30
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 07:52:01 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.4810.1751356313321365591
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50F60C83038
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 07:57:31 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.4882.1751356649971560018
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 00:51:53 -0700
+ Tue, 01 Jul 2025 00:57:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZWS5p03U;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a4e742dc97so3941196f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 00:51:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Yq4h199l;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4538a2fc7ffso34637475e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 00:57:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1751356311; x=1751961111; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fuFLyUQiTiqLp1LoESllz/iWL74GVngvoDF10QOiFtY=;
-        b=ZWS5p03U3Np5U0jlvo01k2adY8dGOkflH49yLGBCuxXKPPgehAMi0FjuCuTD5qWlyj
-         DeZIxwFAAci0podS/F4Y3jJOiHN/6ikbYSnb5X+rDU50kdebJYpHCGOp8CDnZelOeYl3
-         CVuhytrjlqPX9+jDxTBj6v3jgxWLt5XbbXmTQ=
+        d=linuxfoundation.org; s=google; t=1751356648; x=1751961448; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DIyjqSXYmUHOmi2IUKDMcJq6P5gv7NBAl5+UFRLpDfo=;
+        b=Yq4h199llAH1PLNvS7Vc5YHzv5edRe39Eyc9YelO4SirIUpfFDE4fAGBsZKvxXiYLm
+         oIQoIGBY3TzHuSyLvlXzhf/5K5UfXVNlsu8BEzNrTUizgtJxf6BCasGEPq6X8zFoiY2Q
+         Yt+21B75P1o8+86Tf8/f/WYfpY96j6BYX4pqM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751356311; x=1751961111;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fuFLyUQiTiqLp1LoESllz/iWL74GVngvoDF10QOiFtY=;
-        b=MRQPP2WGwX+BiIO0MwDArRuT6OgR3zsAy6swl4Vf4zWZXfS/Ao8PiNeRTpE6JGaOsO
-         uSeS7KaAoB2i4gV3efcEkzzm1XWJWhjMnKqMsq5+SlnMczfmxfv8YDmj8/QHLZAWyJ9K
-         e1JpbCgmOIQsBWrHlmIs3Krz3oe0ex6UA+ruPqXYrcB31YVtrZU1obBDTrSG5q0ctn8v
-         FMODanKWbBl3GPuxQ1o96xBgtw2SK7OT6deF7W7kujNmkZQM9aISEGFm1ByadMRh7QG5
-         HmbRLS1cUwGEKdVI4ByDbw93q4UJzq2KeHji2/FQOn87r2OVEbwacd9WGIyci0pESdDi
-         pdNg==
-X-Gm-Message-State: AOJu0YxBs0j2X0KapwJOtjyg4YWqoRIZjB9QsFOePw0UDWazjPiEMh7h
-	mwntHrHcg07MVAMDUTfUNxZ88Ca1rtXO6zKgIcpOYRjK/hiz6/bPCjXQA1MkNIELE89AxRLpT5B
-	1n8Cs
-X-Gm-Gg: ASbGncvQwXbsvtsetQusBl++SHYe81MfxYpXBjxDnX1ihDrN6l3qo8cKdWtCyBO/wR1
-	3DOr4lg4Z50/XeJugXqgz7ACBgtziKIaWLJRXqUn0spmyJu7WCPh9P0xUMupU2ijcvuAqiaF1xr
-	tCj6g7CkTEdwgDKWkv4ALbS2kZ7LdxZO3Qc2v2HO+0oAoqJrvCxE57Y+INfpDE5XbrmOJUK3NG4
-	BlCO55tXGhF1MRpk0rvIN0gKaRBkUziMHL0wtpWSwO/yfpuHX+R7ThMWzEqeHMTVpRbU4VaVvHN
-	GtmhCES1lKgsoqLoiUZJXLJLXxA0/8e/BxvPaCRyxxZ95TtriRHvMKsaFJ/sIzB6wcAMlVdr+i5
-	TPLGtTtoiIOztjac=
-X-Google-Smtp-Source: AGHT+IHjBjLHMr6HrNy/maCCovtHAPXHDqaqdKLK+gh+SmhV7Hr4FKfSQ+2oowN0CldsxcaCoDgp1w==
-X-Received: by 2002:a05:6000:2712:b0:3a9:16f4:7a38 with SMTP id ffacd0b85a97d-3af0e2ced06mr1331029f8f.2.1751356310139;
-        Tue, 01 Jul 2025 00:51:50 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:62fa:d15d:397d:870e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3aba76e40c0sm8281825f8f.59.2025.07.01.00.51.48
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1751356648; x=1751961448;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DIyjqSXYmUHOmi2IUKDMcJq6P5gv7NBAl5+UFRLpDfo=;
+        b=hmgWZbwsYzPBmNJgUsRyqrQ6HyJesZJVLSzpHhZOFG2gzl3V9UfUT0wAq42dpx+yxE
+         bt3GJAu1n4a5hrjk3rsIHdKjEs5TF5Cmsga5WQ9nCA9TfBdNzEHxkdhux+nIIQdGYu/I
+         6IxOHPx/hRnHeg79ClUD0z4hxuugPr3045UdjAJ8yCplLS/rFKFlPP3YbrLAnF8VEEH2
+         pJf/oWFjDh/PfBWD5ikfO91+Xnbo6CZ3AwGnSobheMOdTaDxeNy/R2idVvbIxMCvNQSF
+         1dQaFVSJeMyNdGMXgce1JLRIt4pZXu/woM+pyxWD3pRXEePF7MSxKzL2aiIzhnAwEe+d
+         oL9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUl3XVN4O/txFnYsOCPYHdE4CrG9TpeR5HfaQFH/7SDn43PpQRIasUiLD1a4u9VdC6pmwd3QQOSKkgY+GMDfytWtw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzoNHVjlhwHMnEx6eXzUHVOLKUDsU9z60Fph15JfVWopO2fo2Dr
+	TqrIdQIcIj5sK+GOlFq/+KciVY2tDhIQvz8xAMR3t6ucl1YpkPPpe6ihO+keHgttJt/9Z2rGwgl
+	gwPQD
+X-Gm-Gg: ASbGncuL9gnTSYDwrwQhnk1pzdmy/QfkTWFJZgbyGWJ76w/Hd5U7+Zn645vPcJR3AXH
+	DDobyE4oYQPF4n6rxn0dog61ofWkVT9XjNzeB3jhNRrOMWYSLCuNkhDZ4glTKMyt1/+BUBL+PI8
+	zSS7EqCpq8GTftn+DaafJNgs3KtERTUT4VrLaqbQ636X2FC/n21gxs04EeCuC15iphsdXevVWhG
+	dRfgrl3KbddYfWpvhbwBDo91zHMTplxoLMzNaTdDklUsfrTNUYUz21rbAN+ly/fMWqk3jzPGqMD
+	gYOX+KkjC8I03SVkKte3HqVoNsM7ZgxGJVPoAQSow3zgB18qzSOdltNJFQiEDvghigfeXXoVij/
+	9VD13HFJho69B5CaS1qLJG8iQkDUgkG+jr9hNxV4iqJdS4E8bu8A=
+X-Google-Smtp-Source: AGHT+IFp6Rw5GOivxZqFk8R4F+HiRw32U/dBz6RQfLHLiSTs+a36nL3j8d0CmSXQmTRtW47rt2yUuQ==
+X-Received: by 2002:a05:600c:c0c8:b0:43c:ed33:a500 with SMTP id 5b1f17b1804b1-453a79673d4mr17064235e9.10.1751356648229;
+        Tue, 01 Jul 2025 00:57:28 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:62fa:d15d:397d:870e? ([2001:8b0:aba:5f3c:62fa:d15d:397d:870e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a3a5b7fsm160685585e9.10.2025.07.01.00.57.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 00:51:49 -0700 (PDT)
+        Tue, 01 Jul 2025 00:57:27 -0700 (PDT)
+Message-ID: <a2b09f595589a62cb5dd4207d1d2b7f40afcfe2a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] host_dmesg_logger: dmesg diff on
+ BuildStarted and BuildCompleted
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sanity: Require minimum of bitbake 2.15.1
-Date: Tue,  1 Jul 2025 08:51:48 +0100
-Message-ID: <20250701075148.3492302-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+To: gavrosc@yahoo.com, openembedded-core@lists.openembedded.org
+Date: Tue, 01 Jul 2025 08:57:26 +0100
+In-Reply-To: <5366.1751353915332372979@lists.openembedded.org>
+References: <9005.1750830639523931156@lists.openembedded.org>
+	 <5366.1751353915332372979@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 07:52:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219553
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 07:57:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219554
 
-This is needed for tinfoil and umask helper function changes.
+On Tue, 2025-07-01 at 00:11 -0700, Christos Gavros via lists.openembedded.o=
+rg wrote:
+> I have collected all warnings from both builds in the attached file "Bug1=
+5557_Patch2_AB_Results.ods".
+> =C2=A0
+> I tried to assign the log-level in each warning. They should be correct b=
+ut i couldnt confirm 100%.
+> =C2=A0
+> - Are we interested in anything other than the "seg fault" and "Code:" me=
+ssages?
+> - Should we filter out everything else except these messages(seg faults) =
+from the file
+> =C2=A0 or should we instead use levels(KERN_ERR, KERN_CRIT, KERN_ALERT, K=
+ERN_EMERG) for next patch?=C2=A0
+> =C2=A0
+> * Also the operation is not permitted to: qemuarm64-ptest, qemux86-64-ltp=
+, qemuarm-alt=C2=A0
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/sanity.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think it is probably fine/simpler to ignore the KERN_INFO level
+pieces of information.
 
-diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
-index 3692007e96d..474816797aa 100644
---- a/meta/conf/sanity.conf
-+++ b/meta/conf/sanity.conf
-@@ -3,7 +3,7 @@
- # See sanity.bbclass
- #
- # Expert users can confirm their sanity with "touch conf/sanity.conf"
--BB_MIN_VERSION = "2.15.0"
-+BB_MIN_VERSION = "2.15.1"
- 
- SANITY_ABIFILE = "${TMPDIR}/abi_version"
- 
+For KERN_WARNING, my personal gut feeling is that we should filter out
+the things we know aren't important, leaving anything else to show up.
+This means if something unexpected happens, we should have a log of it,
+even if we don't know that it will be. That is slightly more complex
+but I strongly suspect we will need to filter in this code in the
+future anyway so we may as well have the capability from the start.
+
+Cheers,
+
+Richard
 
