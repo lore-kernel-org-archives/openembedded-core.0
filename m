@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E90E4C83F10
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB324C83F15
 	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 16:20:34 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.1429.1751386808085277878
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.1411.1751386807592846792
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 09:20:26 -0700
+ Tue, 01 Jul 2025 09:20:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=X/OovaQi;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Y+DyH8Ru;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010197c6ca266a-05c716a3-37b0-4fb3-970a-a43151d69136-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=alquoZdE;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=la4ZFOps;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010197c6ca3fea-506f61d1-3880-417a-8fed-6ea22c1bf7eb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751386826;
+	t=1751386833;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9U38Ke+UXO7NQyxxSrrBisVoi9xP0vGRDD26A9yGj5c=;
-	b=X/OovaQiqBo61rKRpv3eeglIu7oSmA5Uz+A9mpIFZX5FsJmFRSK1lnl5R/Og+/9w
-	Jdz95lwSt0n9qy0HHhOX3Fq7Dc07Yw/RZj9JNfRN8l8scWT37Rb7qoid1elwh55TFXF
-	h0pQwD0LyRzIZm0FCtrwEOY1UO9JT1+vRslYOp3g=
+	bh=UIOrVK4+YhYx7b0bC7QiLxIQufeKLcdVZS621gws5/g=;
+	b=alquoZdEiXV7MKlyebd1yA+eQpftiL05B1+9DMYTDoI7hLdJPO6Qo7gf2UNoCAYo
+	jdS0RsbKBrjtf9xfBrT0CW8hX/QsZiyUnReBelXWrfblZziblM0D8YBt/shJ2L341Ao
+	nEIwdm0nt9Tgj0QYvXjA6sz/C714eNvO3g7wzlYI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386826;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386833;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9U38Ke+UXO7NQyxxSrrBisVoi9xP0vGRDD26A9yGj5c=;
-	b=Y+DyH8Ruk3V9SvQGi/74QpzyXpuPu/DLfkDVG+EQ0NbgyiOEZWkHHtPQh2IfuBec
-	PS15yUlRIfmjOUnQ10qT1+bo2XjPuBUvAlAVXOdiOFldmTO7sF0MwfB5PaXwZfY9HSH
-	xt9zVT1EioC97a/zvy0ungL6Hwr7rRZyElwe81pU=
-Content-Type: multipart/mixed; boundary="===============0963698334223393494=="
+	bh=UIOrVK4+YhYx7b0bC7QiLxIQufeKLcdVZS621gws5/g=;
+	b=la4ZFOpsCAoYtb9rgo8qQz7FWK8m2u0EA/nEo1k5e4I0NYJiiQFjPvVFSfNrsqa2
+	QOxTL7L3NtdZlQ+VVgqkaPlv0bMsCrH5Q2UX8OLvz6tYSb/mbnuE/pLvTH4JCYTDMDc
+	In0nby4gNXPJ7qO1JaWkYF1ClGL8mGCFY+VZbDTE=
+Content-Type: multipart/mixed; boundary="===============8086481375278147677=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 25.1.4 SUCCEEDED
-Message-ID: <01010197c6ca266a-05c716a3-37b0-4fb3-970a-a43151d69136-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Jul 2025 16:20:26 +0000
+Subject: [AUH] enchant2: upgrading to 2.8.10 SUCCEEDED
+Message-ID: <01010197c6ca3fea-506f61d1-3880-417a-8fed-6ea22c1bf7eb-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Jul 2025 16:20:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.01-54.240.27.33
+X-SES-Outgoing: 2025.07.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 16:20:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219678
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219703
 
---===============0963698334223393494==
+--===============8086481375278147677==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mesa* to *25.1.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *enchant2* to *2.8.10* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mesa-upgrade-25.1.3-25.1.4.patch
+    - apply the patch: git am 0001-enchant2-upgrade-2.8.6-2.8.10.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,154 +72,78 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7da21c40d06fc30640120002f47e58cee2b00c00 Mon Sep 17 00:00:00 2001
+From 9bfee8d3f625b2334c1225d16ce85a10de99285d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Jul 2025 13:23:59 +0000
-Subject: [PATCH] mesa: upgrade 25.1.3 -> 25.1.4
+Date: Tue, 1 Jul 2025 15:48:58 +0000
+Subject: [PATCH] enchant2: upgrade 2.8.6 -> 2.8.10
 
 ---
- .../0001-dont-build-clover-frontend.patch     | 14 +++++++----
- ...on-t-encode-build-path-into-binaries.patch | 23 +++++++++----------
- ...sdetects-64bit-atomics-on-mips-clang.patch |  2 +-
- meta/recipes-graphics/mesa/mesa.inc           |  4 ++--
- 4 files changed, 24 insertions(+), 19 deletions(-)
+ .../enchant/{enchant2_2.8.6.bb => enchant2_2.8.10.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/enchant/{enchant2_2.8.6.bb => enchant2_2.8.10.bb} (91%)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-dont-build-clover-frontend.patch b/meta/recipes-graphics/mesa/files/0001-dont-build-clover-frontend.patch
-index 5f45f94fea..8f6609a4f8 100644
---- a/meta/recipes-graphics/mesa/files/0001-dont-build-clover-frontend.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-dont-build-clover-frontend.patch
-@@ -1,5 +1,6 @@
-+From deeb21e8fdda2eae5d787554172b84493fcf2b0f Mon Sep 17 00:00:00 2001
- From: Markus Volk <f_l_k@t-online.de>
--Date: Sun, 19 Mai 2025 15:34:46 +0100
-+Date: Sat, 19 Jul 2025 15:34:46 +0000
- Subject: [PATCH] dont build clover frontend
+diff --git a/meta/recipes-support/enchant/enchant2_2.8.6.bb b/meta/recipes-support/enchant/enchant2_2.8.10.bb
+similarity index 91%
+rename from meta/recipes-support/enchant/enchant2_2.8.6.bb
+rename to meta/recipes-support/enchant/enchant2_2.8.10.bb
+index 2696fc0f81..e2965e9e10 100644
+--- a/meta/recipes-support/enchant/enchant2_2.8.6.bb
++++ b/meta/recipes-support/enchant/enchant2_2.8.10.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 groff-native"
+ inherit autotools pkgconfig github-releases
  
- The clover frontend is deprecated and is always built with opencl, even if
-@@ -7,10 +8,15 @@ using rusticl. Additionally it adds a reproducibility issue.
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "c4cd0889d8aff8248fc3913de5a83907013962f0e1895030a3836468cd40af5b"
++SRC_URI[sha256sum] = "6db791265ace652c63a6d24f376f4c562b742284d70d3ccb9e1ce8be45b288c9"
  
- Upstream-Status: Inappropriate [oe-specific]
- Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+---
-+ src/gallium/meson.build | 6 +-----
-+ 1 file changed, 1 insertion(+), 5 deletions(-)
- 
----- a/src/gallium/meson.build	2025-05-07 18:35:10.000000000 +0200
--+++ b/src/gallium/meson.build	2025-05-18 17:05:23.677694272 +0200
--@@ -195,15 +195,11 @@
-+diff --git a/src/gallium/meson.build b/src/gallium/meson.build
-+index 4d06365..3e2bb8e 100644
-+--- a/src/gallium/meson.build
-++++ b/src/gallium/meson.build
-+@@ -195,15 +195,11 @@ if with_gallium_d3d12
-  else
-    driver_d3d12 = declare_dependency()
-  endif
-diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-index 953a724dc0..8f98e22d6f 100644
---- a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-@@ -1,4 +1,4 @@
--From 027ac36756cc75eea9ed4fee135a351af30b35fd Mon Sep 17 00:00:00 2001
-+From 593cf17bf4e217106b6821b5a1128fa6f0300836 Mon Sep 17 00:00:00 2001
- From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
- Date: Tue, 16 Jul 2024 12:32:47 +0300
- Subject: [PATCH] freedreno: don't encode build path into binaries
-@@ -13,13 +13,14 @@ it manually when running the tests.
- Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30206]
- Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
- ---
-- src/freedreno/afuc/meson.build   | 4 ++++
-- src/freedreno/decode/meson.build | 4 +++-
-- src/freedreno/meson.build        | 2 +-
-- 3 files changed, 8 insertions(+), 2 deletions(-)
-+ src/freedreno/afuc/meson.build        | 4 ++++
-+ src/freedreno/decode/meson.build      | 4 +++-
-+ src/freedreno/meson.build             | 2 +-
-+ src/freedreno/registers/gen_header.py | 7 ++++---
-+ 4 files changed, 12 insertions(+), 5 deletions(-)
- 
- diff --git a/src/freedreno/afuc/meson.build b/src/freedreno/afuc/meson.build
--index bb7cebf5a748..351cc31ef2de 100644
-+index bb7cebf..351cc31 100644
- --- a/src/freedreno/afuc/meson.build
- +++ b/src/freedreno/afuc/meson.build
- @@ -56,10 +56,12 @@ if with_tests
-@@ -50,7 +51,7 @@ index bb7cebf5a748..351cc31ef2de 100644
-      )
-      test('afuc-disasm',
- diff --git a/src/freedreno/decode/meson.build b/src/freedreno/decode/meson.build
--index 469eeb4eb597..dfa1c12d0d9f 100644
-+index 469eeb4..915ba11 100644
- --- a/src/freedreno/decode/meson.build
- +++ b/src/freedreno/decode/meson.build
- @@ -194,6 +194,7 @@ if dep_lua.found() and dep_libarchive.found()
-@@ -72,7 +73,7 @@ index 469eeb4eb597..dfa1c12d0d9f 100644
-  
-      test('crashdec-' + name,
- diff --git a/src/freedreno/meson.build b/src/freedreno/meson.build
--index 98e49b8fcf0e..145e72597eb9 100644
-+index 29e1bc4..afb7426 100644
- --- a/src/freedreno/meson.build
- +++ b/src/freedreno/meson.build
- @@ -6,7 +6,7 @@ inc_freedreno_rnn = include_directories('rnn')
-@@ -85,9 +86,10 @@ index 98e49b8fcf0e..145e72597eb9 100644
-  dep_libarchive = dependency('libarchive', allow_fallback: true, required: false)
-  dep_libxml2 = dependency('libxml-2.0', allow_fallback: true, required: false)
- diff --git a/src/freedreno/registers/gen_header.py b/src/freedreno/registers/gen_header.py
-+index e1cfb5f..4e3db12 100644
- --- a/src/freedreno/registers/gen_header.py
- +++ b/src/freedreno/registers/gen_header.py
--@@ -885,13 +885,14 @@ The rules-ng-ng source files this header
-+@@ -889,13 +889,14 @@ The rules-ng-ng source files this header was generated from are:
-  """)
-  	maxlen = 0
-  	for filepath in p.xml_files:
-@@ -105,6 +107,3 @@ diff --git a/src/freedreno/registers/gen_header.py b/src/freedreno/registers/gen
-  	if p.copyright_year:
-  		current_year = str(datetime.date.today().year)
-  		print()
-----
--2.39.2
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-index baa98a0d46..645899058c 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-@@ -1,4 +1,4 @@
--From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
-+From 936811abc31a8b8476be77cd86cfe1307643f996 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 13 Jan 2020 15:23:47 -0800
- Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 6b42a238cc..3d9e9ec91f 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,8 +20,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-dont-build-clover-frontend.patch \
- "
- 
--SRC_URI[sha256sum] = "ffcb6cadb5fd356d56008e6308641dfe4b2929f30139f6585436ca6e3cddba7f"
--PV = "25.1.3"
-+SRC_URI[sha256sum] = "164872a5e792408aa72fecd52b7be6409724c4ad81700798675a7d801d976704"
-+PV = "25.1.4"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ GITHUB_BASE_URI = "https://github.com/rrthomas/enchant/releases"
  
 -- 
 2.47.1
 
 
---===============0963698334223393494==
+--===============8086481375278147677==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-enchant2-upgrade-2.8.6-2.8.10.patch"
+
+RnJvbSA5YmZlZThkM2Y2MjViMjMzNGMxMjI1ZDE2Y2U4NWExMGRlOTkyODVkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxNTo0ODo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVu
+Y2hhbnQyOiB1cGdyYWRlIDIuOC42IC0+IDIuOC4xMAoKLS0tCiAuLi4vZW5jaGFudC97ZW5jaGFu
+dDJfMi44LjYuYmIgPT4gZW5jaGFudDJfMi44LjEwLmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9lbmNoYW50L3tlbmNoYW50Ml8yLjguNi5iYiA9PiBlbmNoYW50Ml8yLjgu
+MTAuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZW5jaGFudC9l
+bmNoYW50Ml8yLjguNi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2VuY2hhbnQvZW5jaGFudDJf
+Mi44LjEwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L2VuY2hhbnQvZW5jaGFudDJfMi44LjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L2VuY2hhbnQvZW5jaGFudDJfMi44LjEwLmJiCmluZGV4IDI2OTZmYzBmODEuLmUyOTY1
+ZTllMTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2VuY2hhbnQvZW5jaGFudDJf
+Mi44LjYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZW5jaGFudC9lbmNoYW50Ml8yLjgu
+MTAuYmIKQEAgLTEyLDcgKzEyLDcgQEAgREVQRU5EUyA9ICJnbGliLTIuMCBncm9mZi1uYXRpdmUi
+CiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgZ2l0aHViLXJlbGVhc2VzCiAKIFNSQ19VUkkg
+PSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS9lbmNoYW50LSR7UFZ9LnRhci5n
+eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjNGNkMDg4OWQ4YWZmODI0OGZjMzkxM2RlNWE4Mzkw
+NzAxMzk2MmYwZTE4OTUwMzBhMzgzNjQ2OGNkNDBhZjViIgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
+IjZkYjc5MTI2NWFjZTY1MmM2M2E2ZDI0ZjM3NmY0YzU2MmI3NDIyODRkNzBkM2NjYjllMWNlOGJl
+NDViMjg4YzkiCiAKIEdJVEhVQl9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vcnJ0aG9t
+YXMvZW5jaGFudC9yZWxlYXNlcyIKIAotLSAKMi40Ny4xCgo=
+
+--===============8086481375278147677==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-25.1.3.so", added "/usr/lib/libgallium-25.1.4.so"
-Changes to packages/core2-64-poky-linux/mesa (sysroot):
-  /usr/lib/libgallium-25.1.3.so moved to /usr/lib/libgallium-25.1.4.so
+packages/core2-64-poky-linux/enchant2/enchant2: FILELIST: removed "/usr/lib/libenchant-2.so.2.8.6", added "/usr/lib/libenchant-2.so.2.8.10"
+Changes to packages/core2-64-poky-linux/enchant2 (sysroot):
+  /usr/lib/libenchant-2.so.2 changed symlink target from libenchant-2.so.2.8.6 to libenchant-2.so.2.8.10
+  /usr/lib/libenchant-2.so changed symlink target from libenchant-2.so.2.8.6 to libenchant-2.so.2.8.10
+  /usr/lib/libenchant-2.so.2.8.10 was added
+  /usr/lib/libenchant-2.so.2.8.6 was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1817,205 +1741,41 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/mesa-native (sysroot):
-  /usr/lib/libgallium-25.1.3.so moved to /usr/lib/libgallium-25.1.4.so
 
---===============0963698334223393494==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-mesa-upgrade-25.1.3-25.1.4.patch"
-
-RnJvbSA3ZGEyMWM0MGQwNmZjMzA2NDAxMjAwMDJmNDdlNThjZWUyYjAwYzAwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxMzoyMzo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
-c2E6IHVwZ3JhZGUgMjUuMS4zIC0+IDI1LjEuNAoKLS0tCiAuLi4vMDAwMS1kb250LWJ1aWxkLWNs
-b3Zlci1mcm9udGVuZC5wYXRjaCAgICAgfCAxNCArKysrKysrLS0tLQogLi4ub24tdC1lbmNvZGUt
-YnVpbGQtcGF0aC1pbnRvLWJpbmFyaWVzLnBhdGNoIHwgMjMgKysrKysrKysrLS0tLS0tLS0tLQog
-Li4uc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoIHwgIDIgKy0KIG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jICAgICAgICAgICB8ICA0ICsrLS0KIDQg
-ZmlsZXMgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMTkgZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1kb250LWJ1aWxkLWNs
-b3Zlci1mcm9udGVuZC5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAw
-MDEtZG9udC1idWlsZC1jbG92ZXItZnJvbnRlbmQucGF0Y2gKaW5kZXggNWY0NWY5NGZlYS4uOGY2
-NjA5YTRmOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAw
-MS1kb250LWJ1aWxkLWNsb3Zlci1mcm9udGVuZC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3MvbWVzYS9maWxlcy8wMDAxLWRvbnQtYnVpbGQtY2xvdmVyLWZyb250ZW5kLnBhdGNoCkBA
-IC0xLDUgKzEsNiBAQAorRnJvbSBkZWViMjFlOGZkZGEyZWFlNWQ3ODc1NTQxNzJiODQ0OTNmY2Yy
-YjBmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWFya3VzIFZvbGsgPGZfbF9rQHQt
-b25saW5lLmRlPgotRGF0ZTogU3VuLCAxOSBNYWkgMjAyNSAxNTozNDo0NiArMDEwMAorRGF0ZTog
-U2F0LCAxOSBKdWwgMjAyNSAxNTozNDo0NiArMDAwMAogU3ViamVjdDogW1BBVENIXSBkb250IGJ1
-aWxkIGNsb3ZlciBmcm9udGVuZAogCiBUaGUgY2xvdmVyIGZyb250ZW5kIGlzIGRlcHJlY2F0ZWQg
-YW5kIGlzIGFsd2F5cyBidWlsdCB3aXRoIG9wZW5jbCwgZXZlbiBpZgpAQCAtNywxMCArOCwxNSBA
-QCB1c2luZyBydXN0aWNsLiBBZGRpdGlvbmFsbHkgaXQgYWRkcyBhIHJlcHJvZHVjaWJpbGl0eSBp
-c3N1ZS4KIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtvZS1zcGVjaWZpY10KIFNp
-Z25lZC1vZmYtYnk6IE1hcmt1cyBWb2xrIDxmX2xfa0B0LW9ubGluZS5kZT4KKy0tLQorIHNyYy9n
-YWxsaXVtL21lc29uLmJ1aWxkIHwgNiArLS0tLS0KKyAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDUgZGVsZXRpb25zKC0pCiAKLS0tLSBhL3NyYy9nYWxsaXVtL21lc29uLmJ1aWxkCTIw
-MjUtMDUtMDcgMTg6MzU6MTAuMDAwMDAwMDAwICswMjAwCi0rKysgYi9zcmMvZ2FsbGl1bS9tZXNv
-bi5idWlsZAkyMDI1LTA1LTE4IDE3OjA1OjIzLjY3NzY5NDI3MiArMDIwMAotQEAgLTE5NSwxNSAr
-MTk1LDExIEBACitkaWZmIC0tZ2l0IGEvc3JjL2dhbGxpdW0vbWVzb24uYnVpbGQgYi9zcmMvZ2Fs
-bGl1bS9tZXNvbi5idWlsZAoraW5kZXggNGQwNjM2NS4uM2UyYmI4ZSAxMDA2NDQKKy0tLSBhL3Ny
-Yy9nYWxsaXVtL21lc29uLmJ1aWxkCisrKysgYi9zcmMvZ2FsbGl1bS9tZXNvbi5idWlsZAorQEAg
-LTE5NSwxNSArMTk1LDExIEBAIGlmIHdpdGhfZ2FsbGl1bV9kM2QxMgogIGVsc2UKICAgIGRyaXZl
-cl9kM2QxMiA9IGRlY2xhcmVfZGVwZW5kZW5jeSgpCiAgZW5kaWYKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZnJlZWRyZW5vLWRvbi10LWVuY29kZS1i
-dWlsZC1wYXRoLWludG8tYmluYXJpZXMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVz
-YS9maWxlcy8wMDAxLWZyZWVkcmVuby1kb24tdC1lbmNvZGUtYnVpbGQtcGF0aC1pbnRvLWJpbmFy
-aWVzLnBhdGNoCmluZGV4IDk1M2E3MjRkYzAuLjhmOThlMjJkNmYgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZnJlZWRyZW5vLWRvbi10LWVuY29kZS1i
-dWlsZC1wYXRoLWludG8tYmluYXJpZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L21lc2EvZmlsZXMvMDAwMS1mcmVlZHJlbm8tZG9uLXQtZW5jb2RlLWJ1aWxkLXBhdGgtaW50by1i
-aW5hcmllcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDI3YWMzNjc1NmNjNzVlZWE5ZWQ0
-ZmVlMTM1YTM1MWFmMzBiMzVmZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNTkzY2Yx
-N2JmNGUyMTcxMDZiNjgyMWI1YTExMjhmYTZmMDMwMDgzNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKIEZyb206IERtaXRyeSBCYXJ5c2hrb3YgPGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9yZz4K
-IERhdGU6IFR1ZSwgMTYgSnVsIDIwMjQgMTI6MzI6NDcgKzAzMDAKIFN1YmplY3Q6IFtQQVRDSF0g
-ZnJlZWRyZW5vOiBkb24ndCBlbmNvZGUgYnVpbGQgcGF0aCBpbnRvIGJpbmFyaWVzCkBAIC0xMywx
-MyArMTMsMTQgQEAgaXQgbWFudWFsbHkgd2hlbiBydW5uaW5nIHRoZSB0ZXN0cy4KIFVwc3RyZWFt
-LVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9t
-ZXNhLy0vbWVyZ2VfcmVxdWVzdHMvMzAyMDZdCiBTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgQmFyeXNo
-a292IDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmc+CiAtLS0KLSBzcmMvZnJlZWRyZW5vL2Fm
-dWMvbWVzb24uYnVpbGQgICB8IDQgKysrKwotIHNyYy9mcmVlZHJlbm8vZGVjb2RlL21lc29uLmJ1
-aWxkIHwgNCArKystCi0gc3JjL2ZyZWVkcmVuby9tZXNvbi5idWlsZCAgICAgICAgfCAyICstCi0g
-MyBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCisgc3JjL2Zy
-ZWVkcmVuby9hZnVjL21lc29uLmJ1aWxkICAgICAgICB8IDQgKysrKworIHNyYy9mcmVlZHJlbm8v
-ZGVjb2RlL21lc29uLmJ1aWxkICAgICAgfCA0ICsrKy0KKyBzcmMvZnJlZWRyZW5vL21lc29uLmJ1
-aWxkICAgICAgICAgICAgIHwgMiArLQorIHNyYy9mcmVlZHJlbm8vcmVnaXN0ZXJzL2dlbl9oZWFk
-ZXIucHkgfCA3ICsrKystLS0KKyA0IGZpbGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDUg
-ZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9zcmMvZnJlZWRyZW5vL2FmdWMvbWVzb24uYnVp
-bGQgYi9zcmMvZnJlZWRyZW5vL2FmdWMvbWVzb24uYnVpbGQKLWluZGV4IGJiN2NlYmY1YTc0OC4u
-MzUxY2MzMWVmMmRlIDEwMDY0NAoraW5kZXggYmI3Y2ViZi4uMzUxY2MzMSAxMDA2NDQKIC0tLSBh
-L3NyYy9mcmVlZHJlbm8vYWZ1Yy9tZXNvbi5idWlsZAogKysrIGIvc3JjL2ZyZWVkcmVuby9hZnVj
-L21lc29uLmJ1aWxkCiBAQCAtNTYsMTAgKzU2LDEyIEBAIGlmIHdpdGhfdGVzdHMKQEAgLTUwLDcg
-KzUxLDcgQEAgaW5kZXggYmI3Y2ViZjVhNzQ4Li4zNTFjYzMxZWYyZGUgMTAwNjQ0CiAgICAgICkK
-ICAgICAgdGVzdCgnYWZ1Yy1kaXNhc20nLAogZGlmZiAtLWdpdCBhL3NyYy9mcmVlZHJlbm8vZGVj
-b2RlL21lc29uLmJ1aWxkIGIvc3JjL2ZyZWVkcmVuby9kZWNvZGUvbWVzb24uYnVpbGQKLWluZGV4
-IDQ2OWVlYjRlYjU5Ny4uZGZhMWMxMmQwZDlmIDEwMDY0NAoraW5kZXggNDY5ZWViNC4uOTE1YmEx
-MSAxMDA2NDQKIC0tLSBhL3NyYy9mcmVlZHJlbm8vZGVjb2RlL21lc29uLmJ1aWxkCiArKysgYi9z
-cmMvZnJlZWRyZW5vL2RlY29kZS9tZXNvbi5idWlsZAogQEAgLTE5NCw2ICsxOTQsNyBAQCBpZiBk
-ZXBfbHVhLmZvdW5kKCkgYW5kIGRlcF9saWJhcmNoaXZlLmZvdW5kKCkKQEAgLTcyLDcgKzczLDcg
-QEAgaW5kZXggNDY5ZWViNGViNTk3Li5kZmExYzEyZDBkOWYgMTAwNjQ0CiAgCiAgICAgIHRlc3Qo
-J2NyYXNoZGVjLScgKyBuYW1lLAogZGlmZiAtLWdpdCBhL3NyYy9mcmVlZHJlbm8vbWVzb24uYnVp
-bGQgYi9zcmMvZnJlZWRyZW5vL21lc29uLmJ1aWxkCi1pbmRleCA5OGU0OWI4ZmNmMGUuLjE0NWU3
-MjU5N2ViOSAxMDA2NDQKK2luZGV4IDI5ZTFiYzQuLmFmYjc0MjYgMTAwNjQ0CiAtLS0gYS9zcmMv
-ZnJlZWRyZW5vL21lc29uLmJ1aWxkCiArKysgYi9zcmMvZnJlZWRyZW5vL21lc29uLmJ1aWxkCiBA
-QCAtNiw3ICs2LDcgQEAgaW5jX2ZyZWVkcmVub19ybm4gPSBpbmNsdWRlX2RpcmVjdG9yaWVzKCdy
-bm4nKQpAQCAtODUsOSArODYsMTAgQEAgaW5kZXggOThlNDliOGZjZjBlLi4xNDVlNzI1OTdlYjkg
-MTAwNjQ0CiAgZGVwX2xpYmFyY2hpdmUgPSBkZXBlbmRlbmN5KCdsaWJhcmNoaXZlJywgYWxsb3df
-ZmFsbGJhY2s6IHRydWUsIHJlcXVpcmVkOiBmYWxzZSkKICBkZXBfbGlieG1sMiA9IGRlcGVuZGVu
-Y3koJ2xpYnhtbC0yLjAnLCBhbGxvd19mYWxsYmFjazogdHJ1ZSwgcmVxdWlyZWQ6IGZhbHNlKQog
-ZGlmZiAtLWdpdCBhL3NyYy9mcmVlZHJlbm8vcmVnaXN0ZXJzL2dlbl9oZWFkZXIucHkgYi9zcmMv
-ZnJlZWRyZW5vL3JlZ2lzdGVycy9nZW5faGVhZGVyLnB5CitpbmRleCBlMWNmYjVmLi40ZTNkYjEy
-IDEwMDY0NAogLS0tIGEvc3JjL2ZyZWVkcmVuby9yZWdpc3RlcnMvZ2VuX2hlYWRlci5weQogKysr
-IGIvc3JjL2ZyZWVkcmVuby9yZWdpc3RlcnMvZ2VuX2hlYWRlci5weQotQEAgLTg4NSwxMyArODg1
-LDE0IEBAIFRoZSBydWxlcy1uZy1uZyBzb3VyY2UgZmlsZXMgdGhpcyBoZWFkZXIKK0BAIC04ODks
-MTMgKzg4OSwxNCBAQCBUaGUgcnVsZXMtbmctbmcgc291cmNlIGZpbGVzIHRoaXMgaGVhZGVyIHdh
-cyBnZW5lcmF0ZWQgZnJvbSBhcmU6CiAgIiIiKQogIAltYXhsZW4gPSAwCiAgCWZvciBmaWxlcGF0
-aCBpbiBwLnhtbF9maWxlczoKQEAgLTEwNSw2ICsxMDcsMyBAQCBkaWZmIC0tZ2l0IGEvc3JjL2Zy
-ZWVkcmVuby9yZWdpc3RlcnMvZ2VuX2hlYWRlci5weSBiL3NyYy9mcmVlZHJlbm8vcmVnaXN0ZXJz
-L2dlbgogIAlpZiBwLmNvcHlyaWdodF95ZWFyOgogIAkJY3VycmVudF95ZWFyID0gc3RyKGRhdGV0
-aW1lLmRhdGUudG9kYXkoKS55ZWFyKQogIAkJcHJpbnQoKQotLS0tCi0yLjM5LjIKLQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRl
-Y3RzLTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1p
-cHMtY2xhbmcucGF0Y2gKaW5kZXggYmFhOThhMGQ0Ni4uNjQ1ODk5MDU4YyAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3RzLTY0
-Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBz
-LWNsYW5nLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMmNjMjE4MDBmZTI5ZjU2NmFkZDUy
-NWU2M2Y2MTljMDUzNmQ2ZTdiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5MzY4MTFh
-YmMzMWE4Yjg0NzZiZTc3Y2Q4NmNmZTEzMDc2NDNmOTk2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IE1vbiwgMTMgSmFu
-IDIwMjAgMTU6MjM6NDcgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gbWVzb24gbWlzZGV0ZWN0cyA2
-NGJpdCBhdG9taWNzIG9uIG1pcHMvY2xhbmcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9tZXNhL21lc2EuaW5jIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMK
-aW5kZXggNmI0MmEyMzhjYy4uM2Q5ZTllYzkxZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL21lc2EvbWVzYS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVz
-YS5pbmMKQEAgLTIwLDggKzIwLDggQEAgU1JDX1VSSSA9ICJodHRwczovL2FyY2hpdmUubWVzYTNk
-Lm9yZy9tZXNhLSR7UFZ9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWRvbnQtYnVp
-bGQtY2xvdmVyLWZyb250ZW5kLnBhdGNoIFwKICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImZm
-Y2I2Y2FkYjVmZDM1NmQ1NjAwOGU2MzA4NjQxZGZlNGIyOTI5ZjMwMTM5ZjY1ODU0MzZjYTZlM2Nk
-ZGJhN2YiCi1QViA9ICIyNS4xLjMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTY0ODcyYTVlNzky
-NDA4YWE3MmZlY2Q1MmI3YmU2NDA5NzI0YzRhZDgxNzAwNzk4Njc1YTdkODAxZDk3NjcwNCIKK1BW
-ID0gIjI1LjEuNCIKIAogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAibWVzYS0oP1A8cHZl
-cj5cZCsoXC5cZCspKykiCiAKLS0gCjIuNDcuMQoK
-
---===============0963698334223393494==
+--===============8086481375278147677==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/mesa: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://archive.mesa3d.org/mesa-25.1.3.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-dont-build-clover-frontend.patch" to "https://archive.mesa3d.org/mesa-25.1.4.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-dont-build-clover-frontend.patch"
-packages/core2-64-poky-linux/mesa: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libgallium: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-25.1.3.so", added "/usr/lib/libgallium-25.1.4.so"
-packages/core2-64-poky-linux/mesa/libgallium: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libgallium: PKGSIZE changed from 41019496 to 41023592 (+0%)
-packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libgbm: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libglapi: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/libteflon: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/libteflon: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-dbg: FILELIST: removed "/usr/lib/.debug/libgallium-25.1.3.so", added "/usr/lib/.debug/libgallium-25.1.4.so"
-packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 474632968 to 474638728 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 185367 to 185739 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-src: PKGSIZE changed from 149813071 to 149813105 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "25.1.3" to "25.1.4"
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 45404701 to 45408797 (+0%)
-packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 25.1.3 [default] to 25.1.4 [default]
-packages/core2-64-poky-linux/mesa/mesa: PV changed from "25.1.3" to "25.1.4"
-Changes to packages/core2-64-poky-linux/mesa (sysroot):
-  /usr/lib/libgallium-25.1.3.so moved to /usr/lib/libgallium-25.1.4.so
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PV changed from "2.8.6" to "2.8.10"
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: FILELIST: removed "/usr/lib/.debug/libenchant-2.so.2.8.6", added "/usr/lib/.debug/libenchant-2.so.2.8.10"
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGSIZE changed from 450080 to 443688 (-1%)
+packages/core2-64-poky-linux/enchant2/enchant2-dbg: PKGV changed from 2.8.6 [default] to 2.8.10 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-dev: PV changed from "2.8.6" to "2.8.10"
+packages/core2-64-poky-linux/enchant2/enchant2-dev: PKGSIZE changed from 20635 to 20718 (+0%)
+packages/core2-64-poky-linux/enchant2/enchant2-dev: PKGV changed from 2.8.6 [default] to 2.8.10 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-doc: PV changed from "2.8.6" to "2.8.10"
+packages/core2-64-poky-linux/enchant2/enchant2-doc: PKGV changed from 2.8.6 [default] to 2.8.10 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-locale: PV changed from "2.8.6" to "2.8.10"
+packages/core2-64-poky-linux/enchant2/enchant2-locale: PKGV changed from 2.8.6 [default] to 2.8.10 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-src: PV changed from "2.8.6" to "2.8.10"
+packages/core2-64-poky-linux/enchant2/enchant2-src: PKGSIZE changed from 469190 to 460930 (-2%)
+packages/core2-64-poky-linux/enchant2/enchant2-src: PKGV changed from 2.8.6 [default] to 2.8.10 [default]
+packages/core2-64-poky-linux/enchant2/enchant2-staticdev: PV changed from "2.8.6" to "2.8.10"
+packages/core2-64-poky-linux/enchant2/enchant2-staticdev: PKGV changed from 2.8.6 [default] to 2.8.10 [default]
+packages/core2-64-poky-linux/enchant2/enchant2: PV changed from "2.8.6" to "2.8.10"
+packages/core2-64-poky-linux/enchant2/enchant2: FILELIST: removed "/usr/lib/libenchant-2.so.2.8.6", added "/usr/lib/libenchant-2.so.2.8.10"
+packages/core2-64-poky-linux/enchant2/enchant2: PKGSIZE changed from 135618 to 135619 (+0%)
+packages/core2-64-poky-linux/enchant2/enchant2: PKGV changed from 2.8.6 [default] to 2.8.10 [default]
+packages/core2-64-poky-linux/enchant2: PV changed from "2.8.6" to "2.8.10"
+packages/core2-64-poky-linux/enchant2: SRC_URI changed from "https://github.com/rrthomas/enchant/releases/download/v2.8.6/enchant-2.8.6.tar.gz" to "https://github.com/rrthomas/enchant/releases/download/v2.8.10/enchant-2.8.10.tar.gz"
+packages/core2-64-poky-linux/enchant2: PKGV changed from 2.8.6 [default] to 2.8.10 [default]
+Changes to packages/core2-64-poky-linux/enchant2 (sysroot):
+  /usr/lib/libenchant-2.so.2 changed symlink target from libenchant-2.so.2.8.6 to libenchant-2.so.2.8.10
+  /usr/lib/libenchant-2.so changed symlink target from libenchant-2.so.2.8.6 to libenchant-2.so.2.8.10
+  /usr/lib/libenchant-2.so.2.8.10 was added
+  /usr/lib/libenchant-2.so.2.8.6 was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3613,8 +3373,6 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/mesa-native (sysroot):
-  /usr/lib/libgallium-25.1.3.so moved to /usr/lib/libgallium-25.1.4.so
 
---===============0963698334223393494==--
+--===============8086481375278147677==--
 
