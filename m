@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 472EDC83F14
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35792C83F17
 	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 16:20:35 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.1430.1751386808115691791
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.1429.1751386808085277878
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 09:20:32 -0700
+ Tue, 01 Jul 2025 09:20:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=C0ajO1MA;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BkCugrgf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010197c6ca3bc9-3d58d2b8-86d3-467f-851d-377a94cd27bf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Qpt7yz/R;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Jdamss+U;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010197c6ca39d6-059297cd-dcbb-4eb7-ae3c-81c6ba75b855-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751386832;
+	t=1751386831;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ngqDN7ybCR4zWCSPejJHScGFlqsjDiFQRxRsRJa81D0=;
-	b=C0ajO1MAMkRUqGOakZdRpdQOLnw+dyYw0+WvJ+D+roMP+GnVs2n5oNlcSqvHn4He
-	GddtKGSUQ2iwL+J476v3vcCtLzgrKo9h7pfPGJZKhPm/IOBynQBn8ahukJ4pKmFQPFn
-	+wpbySm/arxTUIIzXX8ekY2duMu4ZV+GYPlApGMQ=
+	bh=lQ5q2yax788KSHM6D71G0hwmaidQQVp5lC7yUhUv+E0=;
+	b=Qpt7yz/Ryc32jbxQsvQaksxldpkQsP3Xf6kfiaE7I5OKNSP25DfBmJhiURn4ScZC
+	BEHBQbZ3TdVz19fZ3jeaHIoMd+JYIQby3KA67gMKCwncXX4vtwGXBdi2f/GVUvHvcv3
+	RJDmQmykqGXmDHadESiZbwtAJlLjQhaw+vPOS8CI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386832;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386831;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ngqDN7ybCR4zWCSPejJHScGFlqsjDiFQRxRsRJa81D0=;
-	b=BkCugrgfJO477fkOkJrCP/P5w40y5pO0oltjHvqB8+w3z2AnVaBXXZAn2wUYX1XP
-	1v5kiub2401ub6l+HFtO14riX1Wdcw2VFOIzTWqgmUOeR8k8FO5LQEHmlNWZQM8icg2
-	BtWpS1lIVyRDIybzsgv/CsZ6jRYJKQRE6F63lFVA=
-Content-Type: multipart/mixed; boundary="===============2720680815127316181=="
+	bh=lQ5q2yax788KSHM6D71G0hwmaidQQVp5lC7yUhUv+E0=;
+	b=Jdamss+UZD8tJcK1TQ7/p5kdePsplKvTDAcpoIsGeYvRdsfaIwm5uV+ca4Ul0jvO
+	4z0m/My5ogZCNRQOe+euYBmIs/jU5rARy9bEZAnYZ+ReEkr1TBSrrbAJWtwsJ7zMUsY
+	E9P6VDDsBf8Wz8X7nur3Qim70lYqD55giE+U5LZw=
+Content-Type: multipart/mixed; boundary="===============4386578909158968777=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libpng: upgrading to 1.6.49 SUCCEEDED
-Message-ID: <01010197c6ca3bc9-3d58d2b8-86d3-467f-851d-377a94cd27bf-000000@us-west-2.amazonses.com>
+Subject: [AUH] libogg: upgrading to 1.3.6 SUCCEEDED
+Message-ID: <01010197c6ca39d6-059297cd-dcbb-4eb7-ae3c-81c6ba75b855-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Jul 2025 16:20:31 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.01-54.240.27.45
+X-SES-Outgoing: 2025.07.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 16:20:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219695
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219694
 
---===============2720680815127316181==
+--===============4386578909158968777==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libpng* to *1.6.49* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libogg* to *1.3.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libpng-upgrade-1.6.48-1.6.49.patch
+    - apply the patch: git am 0001-libogg-upgrade-1.3.5-1.3.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,47 +72,75 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a9bc8f59028b9105ef4cc63196c1cf2bec7c172d Mon Sep 17 00:00:00 2001
+From 2ba5bdef3bfd6177dabae91916f9c848ab0dbeda Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Jul 2025 15:30:00 +0000
-Subject: [PATCH] libpng: upgrade 1.6.48 -> 1.6.49
+Date: Tue, 1 Jul 2025 15:27:06 +0000
+Subject: [PATCH] libogg: upgrade 1.3.5 -> 1.3.6
 
 ---
- .../libpng/{libpng_1.6.48.bb => libpng_1.6.49.bb}               | 2 +-
+ .../libogg/{libogg_1.3.5.bb => libogg_1.3.6.bb}                 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.48.bb => libpng_1.6.49.bb} (97%)
+ rename meta/recipes-multimedia/libogg/{libogg_1.3.5.bb => libogg_1.3.6.bb} (87%)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.48.bb b/meta/recipes-multimedia/libpng/libpng_1.6.49.bb
-similarity index 97%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.48.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.49.bb
-index e603df1edd..c4af30be80 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.48.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.49.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
-            file://run-ptest \
- "
+diff --git a/meta/recipes-multimedia/libogg/libogg_1.3.5.bb b/meta/recipes-multimedia/libogg/libogg_1.3.6.bb
+similarity index 87%
+rename from meta/recipes-multimedia/libogg/libogg_1.3.5.bb
+rename to meta/recipes-multimedia/libogg/libogg_1.3.6.bb
+index 402d700aa1..4810f156f2 100644
+--- a/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
++++ b/meta/recipes-multimedia/libogg/libogg_1.3.6.bb
+@@ -11,6 +11,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=db1b7a668b2a6f47b2af88fb008ad555 \
  
--SRC_URI[sha256sum] = "46fd06ff37db1db64c0dc288d78a3f5efd23ad9ac41561193f983e20937ece03"
-+SRC_URI[sha256sum] = "43182aa48e39d64b1ab4ec6b71ab3e910b67eed3a0fff3777cf8cf40d6ef7024"
+ SRC_URI = "http://downloads.xiph.org/releases/ogg/${BP}.tar.xz"
  
- MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
+-SRC_URI[sha256sum] = "c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705"
++SRC_URI[sha256sum] = "5c8253428e181840cd20d41f3ca16557a9cc04bad4a3d04cce84808677fa1061"
  
+ inherit autotools pkgconfig
 -- 
 2.47.1
 
 
---===============2720680815127316181==
+--===============4386578909158968777==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libogg-upgrade-1.3.5-1.3.6.patch"
+
+RnJvbSAyYmE1YmRlZjNiZmQ2MTc3ZGFiYWU5MTkxNmY5Yzg0OGFiMGRiZWRhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxNToyNzowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+Ym9nZzogdXBncmFkZSAxLjMuNSAtPiAxLjMuNgoKLS0tCiAuLi4vbGlib2dnL3tsaWJvZ2dfMS4z
+LjUuYmIgPT4gbGlib2dnXzEuMy42LmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtbXVsdGltZWRpYS9saWJvZ2cve2xpYm9nZ18xLjMuNS5iYiA9PiBsaWJvZ2dfMS4zLjYuYmJ9
+ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlib2dnL2xpYm9n
+Z18xLjMuNS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYm9nZy9saWJvZ2dfMS4zLjYu
+YmIKc2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvbGlib2dnL2xpYm9nZ18xLjMuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvbGlib2dnL2xpYm9nZ18xLjMuNi5iYgppbmRleCA0MDJkNzAwYWExLi40ODEwZjE1NmYyIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJvZ2cvbGlib2dnXzEuMy41LmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYm9nZy9saWJvZ2dfMS4zLjYuYmIKQEAg
+LTExLDYgKzExLDYgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9ZGIx
+YjdhNjY4YjJhNmY0N2IyYWY4OGZiMDA4YWQ1NTUgXAogCiBTUkNfVVJJID0gImh0dHA6Ly9kb3du
+bG9hZHMueGlwaC5vcmcvcmVsZWFzZXMvb2dnLyR7QlB9LnRhci54eiIKIAotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImM0ZDkxYmUzNmZjOGU1NGRlYWU3NTc1MjQxZTAzZjQyMTFlYjEwMmFmYjNmYzA3
+NzVmYmJjMWI3NDAwMTY3MDUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWM4MjUzNDI4ZTE4MTg0
+MGNkMjBkNDFmM2NhMTY1NTdhOWNjMDRiYWQ0YTNkMDRjY2U4NDgwODY3N2ZhMTA2MSIKIAogaW5o
+ZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnCi0tIAoyLjQ3LjEKCg==
+
+--===============4386578909158968777==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.48.0", added "/usr/lib/libpng16.so.16.49.0"
-Changes to packages/core2-64-poky-linux/libpng (sysroot):
-  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.49.0
-  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.49.0
-  /usr/lib/libpng16.so.16.48.0 moved to /usr/lib/libpng16.so.16.49.0
+packages/core2-64-poky-linux/libogg/libogg: FILELIST: removed "/usr/lib/libogg.so.0.8.5", added "/usr/lib/libogg.so.0.8.6"
+Changes to packages/core2-64-poky-linux/libogg (sysroot):
+  /usr/lib/libogg.so.0 changed symlink target from libogg.so.0.8.5 to libogg.so.0.8.6
+  /usr/lib/libogg.so changed symlink target from libogg.so.0.8.5 to libogg.so.0.8.6
+  /usr/lib/libogg.so.0.8.5 moved to /usr/lib/libogg.so.0.8.6
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2036,42 +2064,38 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============2720680815127316181==
+--===============4386578909158968777==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libpng: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng: SRC_URI changed from "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.48.tar.xz file://run-ptest" to "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.49.tar.xz file://run-ptest"
-packages/core2-64-poky-linux/libpng: PV changed from "1.6.48" to "1.6.49"
-packages/core2-64-poky-linux/libpng/libpng-dbg: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng/libpng-dbg: FILELIST: removed "/usr/lib/.debug/libpng16.so.16.48.0", added "/usr/lib/.debug/libpng16.so.16.49.0"
-packages/core2-64-poky-linux/libpng/libpng-dbg: PV changed from "1.6.48" to "1.6.49"
-packages/core2-64-poky-linux/libpng/libpng-dev: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng/libpng-dev: PV changed from "1.6.48" to "1.6.49"
-packages/core2-64-poky-linux/libpng/libpng-dev: PKGSIZE changed from 179434 to 179522 (+0%)
-packages/core2-64-poky-linux/libpng/libpng-doc: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng/libpng-doc: PV changed from "1.6.48" to "1.6.49"
-packages/core2-64-poky-linux/libpng/libpng-doc: PKGSIZE changed from 268408 to 268401 (-0%)
-packages/core2-64-poky-linux/libpng/libpng-locale: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng/libpng-locale: PV changed from "1.6.48" to "1.6.49"
-packages/core2-64-poky-linux/libpng/libpng-ptest: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng/libpng-ptest: PV changed from "1.6.48" to "1.6.49"
-packages/core2-64-poky-linux/libpng/libpng-ptest: PKGSIZE changed from 2427063 to 2440499 (+1%)
-packages/core2-64-poky-linux/libpng/libpng-src: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng/libpng-src: PV changed from "1.6.48" to "1.6.49"
-packages/core2-64-poky-linux/libpng/libpng-staticdev: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng/libpng-staticdev: PV changed from "1.6.48" to "1.6.49"
-packages/core2-64-poky-linux/libpng/libpng-tools: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng/libpng-tools: PV changed from "1.6.48" to "1.6.49"
-packages/core2-64-poky-linux/libpng/libpng: PKGV changed from 1.6.48 [default] to 1.6.49 [default]
-packages/core2-64-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.48.0", added "/usr/lib/libpng16.so.16.49.0"
-packages/core2-64-poky-linux/libpng/libpng: PV changed from "1.6.48" to "1.6.49"
-Changes to packages/core2-64-poky-linux/libpng (sysroot):
-  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.49.0
-  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.49.0
-  /usr/lib/libpng16.so.16.48.0 moved to /usr/lib/libpng16.so.16.49.0
+packages/core2-64-poky-linux/libogg: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
+packages/core2-64-poky-linux/libogg: SRC_URI changed from "http://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.xz" to "http://downloads.xiph.org/releases/ogg/libogg-1.3.6.tar.xz"
+packages/core2-64-poky-linux/libogg: PV changed from "1.3.5" to "1.3.6"
+packages/core2-64-poky-linux/libogg/libogg-dbg: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
+packages/core2-64-poky-linux/libogg/libogg-dbg: FILELIST: removed "/usr/lib/.debug/libogg.so.0.8.5", added "/usr/lib/.debug/libogg.so.0.8.6"
+packages/core2-64-poky-linux/libogg/libogg-dbg: PKGSIZE changed from 44632 to 46448 (+4%)
+packages/core2-64-poky-linux/libogg/libogg-dbg: PV changed from "1.3.5" to "1.3.6"
+packages/core2-64-poky-linux/libogg/libogg-dev: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
+packages/core2-64-poky-linux/libogg/libogg-dev: PKGSIZE changed from 17914 to 18002 (+0%)
+packages/core2-64-poky-linux/libogg/libogg-dev: PV changed from "1.3.5" to "1.3.6"
+packages/core2-64-poky-linux/libogg/libogg-doc: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
+packages/core2-64-poky-linux/libogg/libogg-doc: PKGSIZE changed from 391999 to 392145 (+0%)
+packages/core2-64-poky-linux/libogg/libogg-doc: PV changed from "1.3.5" to "1.3.6"
+packages/core2-64-poky-linux/libogg/libogg-locale: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
+packages/core2-64-poky-linux/libogg/libogg-locale: PV changed from "1.3.5" to "1.3.6"
+packages/core2-64-poky-linux/libogg/libogg-src: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
+packages/core2-64-poky-linux/libogg/libogg-src: PV changed from "1.3.5" to "1.3.6"
+packages/core2-64-poky-linux/libogg/libogg-staticdev: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
+packages/core2-64-poky-linux/libogg/libogg-staticdev: PV changed from "1.3.5" to "1.3.6"
+packages/core2-64-poky-linux/libogg/libogg: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
+packages/core2-64-poky-linux/libogg/libogg: FILELIST: removed "/usr/lib/libogg.so.0.8.5", added "/usr/lib/libogg.so.0.8.6"
+packages/core2-64-poky-linux/libogg/libogg: PV changed from "1.3.5" to "1.3.6"
+Changes to packages/core2-64-poky-linux/libogg (sysroot):
+  /usr/lib/libogg.so.0 changed symlink target from libogg.so.0.8.5 to libogg.so.0.8.6
+  /usr/lib/libogg.so changed symlink target from libogg.so.0.8.5 to libogg.so.0.8.6
+  /usr/lib/libogg.so.0.8.5 moved to /usr/lib/libogg.so.0.8.6
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3995,36 +4019,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============2720680815127316181==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libpng-upgrade-1.6.48-1.6.49.patch"
-
-RnJvbSBhOWJjOGY1OTAyOGI5MTA1ZWY0Y2M2MzE5NmMxY2YyYmVjN2MxNzJkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxNTozMDowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnBuZzogdXBncmFkZSAxLjYuNDggLT4gMS42LjQ5CgotLS0KIC4uLi9saWJwbmcve2xpYnBuZ18x
-LjYuNDguYmIgPT4gbGlicG5nXzEuNi40OS5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1tdWx0aW1lZGlhL2xpYnBuZy97bGlicG5nXzEuNi40OC5iYiA9PiBsaWJwbmdfMS42LjQ5
-LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9s
-aWJwbmdfMS42LjQ4LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlicG5nL2xpYnBuZ18x
-LjYuNDkuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvbGlicG5nL2xpYnBuZ18xLjYuNDguYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1t
-dWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42LjQ5LmJiCmluZGV4IGU2MDNkZjFlZGQuLmM0YWYz
-MGJlODAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdf
-MS42LjQ4LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42
-LjQ5LmJiCkBAIC0xNCw3ICsxNCw3IEBAIFNSQ19VUkkgPSAiJHtTT1VSQ0VGT1JHRV9NSVJST1J9
-LyR7QlBOfS8ke0JQTn0ke0xJQlZ9LyR7QlB9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly9y
-dW4tcHRlc3QgXAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDZmZDA2ZmYzN2RiMWRiNjRj
-MGRjMjg4ZDc4YTNmNWVmZDIzYWQ5YWM0MTU2MTE5M2Y5ODNlMjA5MzdlY2UwMyIKK1NSQ19VUklb
-c2hhMjU2c3VtXSA9ICI0MzE4MmFhNDhlMzlkNjRiMWFiNGVjNmI3MWFiM2U5MTBiNjdlZWQzYTBm
-ZmYzNzc3Y2Y4Y2Y0MGQ2ZWY3MDI0IgogCiBNSVJST1JTICs9ICIke1NPVVJDRUZPUkdFX01JUlJP
-Un0vcHJvamVjdC8ke0JQTn0vJHtCUE59JHtMSUJWfS8gJHtTT1VSQ0VGT1JHRV9NSVJST1J9L3By
-b2plY3QvJHtCUE59LyR7QlBOfSR7TElCVn0vb2xkZXItcmVsZWFzZXMvIgogCi0tIAoyLjQ3LjEK
-Cg==
-
---===============2720680815127316181==--
+--===============4386578909158968777==--
 
