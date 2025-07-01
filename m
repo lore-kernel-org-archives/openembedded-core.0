@@ -1,140 +1,100 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F32C83038
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 21:29:18 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.8725.1751405357783705122
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAE0CC7EE30
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 21:33:18 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.8880.1751405591173834657
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 14:29:18 -0700
+ Tue, 01 Jul 2025 14:33:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IALRyU/Z;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a536ecbf6fso3572262f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 14:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1751405356; x=1752010156; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7yTZvk14siFMY0sm1dzFkatJxyOenLPTTSvYBFo+a40=;
-        b=IALRyU/Zb1S6FxYmQytRvFqoW55+bdh31JDxaFuQELEyLMDXfSSL7rH9NKIdnyofVG
-         ugYdU1XhjOV//Yoabxbf491VbwOfn0LoXbhOyeorS9neZAYsS9DcDcykSK9x1YuUyZxi
-         VaZkMrTyrpAE2tUXaXkejFo0wYhJ3aaXwicrU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751405356; x=1752010156;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7yTZvk14siFMY0sm1dzFkatJxyOenLPTTSvYBFo+a40=;
-        b=b0kZ9xfur8/a7JMmwTN1vYAT19/xUomgZosYdfduMi/37thjXK6xUpVsF1e8xun0o8
-         kuSlg9y776tjAY/7l5KD386afTbBauwMX2Vh+AxukjIgSAhmv0gNlk/nDLTR3YNx26Xz
-         q+tW/9YE4lv02Yxruc7+h3T6FBe/rpNoiahLheRSRmjZzcIuVrna6b0/W3sBYCSL236C
-         yCTlZ0E4VOKACCrFg3t6SaFoDqqKnxSlmiPjEvYV58ljuGWekJhenx+5vGCahp7LdIrl
-         tJkLhroxARhNxwI1XyEEy7k7pzsgIKRSJL8HCOLs0CP79stcowktO1bNlCU0yVkxFc4i
-         9www==
-X-Gm-Message-State: AOJu0YxO93osz98oqr63n8toBS1wUJPYw8LR4n222hMuB/0wBsC0izsz
-	GKQhl3p+YUqK6vOmIT0GnWjMTzLnYhwEtJZoq8lg9YPQgFuLVJyQMUJF/cE7wDoHXLcZxRvrBH5
-	YX8Aa
-X-Gm-Gg: ASbGnctLKEfpBt22QOQraD/xd8LqgcAYlxRQmhIU4XbVcqiGHAc5J/JF1zOepYWlyfo
-	BVdKOkoiXOCCF+nGHZjyjCu8dMlZbagQdje47YNWfdXUU7o0rnqwvtpwkxHAvMcpg3zWE/yPpQR
-	N/2jzUHBnOZRDLckbvNFk6VTKPgc7TJx6vgTnFV/LLT23isHWd7c9N06Dh/VCWHrEvnSXOvAUMv
-	+gMbFRhNn9dPUgLUi3d56LFkiv0L1BJa0E+5Lf76jve12F90kbk0UQMTaPQXTDRSjExyg/nG4vu
-	kbMnmSewQF838ttY0qMhHPruIIg3eKiSKkqYTh3tZQp9nl/3cOJKFSA76TYnfS5cxiMA7L1JxKJ
-	aDqI3Gc9fpat7YuU=
-X-Google-Smtp-Source: AGHT+IGmimvmks46jgcR4StTV/+lqy9dnw1BtdAtEPN9Q3/FjeoXitZ709Yxe0gBsbrZUH4uzuEvVA==
-X-Received: by 2002:a5d:5f81:0:b0:3a4:c2e4:11b with SMTP id ffacd0b85a97d-3b20095cf64mr32330f8f.51.1751405355480;
-        Tue, 01 Jul 2025 14:29:15 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:62fa:d15d:397d:870e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453823c3a96sm207267725e9.35.2025.07.01.14.29.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 14:29:14 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sanity/utils: Directly use gcc, not BUILD_CC
-Date: Tue,  1 Jul 2025 22:29:13 +0100
-Message-ID: <20250701212913.3556177-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=yWZBCAoa;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=joNPsSX3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010197c7e8779a-dc5df93d-8c62-4a02-8046-4919ca737a10-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1751405590; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Ox3najyW0QZhuzy6TPvsfAEucOxfPGQ8iEERtCQ3oUQ=;
+	b=yWZBCAoaszbsr5zbb+IOHZdn7ZBF9d9SddIn1Ar2yzoKtovBz+9KEdCU2FkZ8fbR
+	M5IikFilmPH5p/Ql7I4KCfxDhKxoMjLXj8y9I2Ypc6tAlno72JTktzQu5MVlxlbCgiK
+	VZsNUeOd40QC4Wefzb+/XSBNLe1IDkkyzqu9XeM0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751405590;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Ox3najyW0QZhuzy6TPvsfAEucOxfPGQ8iEERtCQ3oUQ=;
+	b=joNPsSX3Q6YBDc/QzsocI4OudU4u41XUnRweKj5QSz7Oxyt5rV7oITJdqA73DdH5
+	KP2oMrbebbuw7tr9ZhyoFQsOOTYH4azJAeckMQUNrOAhuk8k+bvKej5/qInBqPo/Yus
+	A4lcyByjSPvznhKnHsqhvXvOSEgnkQZT9qO2mFbY=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v3 3/4] Remove oe.utils.host_gcc_version utility
+In-Reply-To: <20250701211843.3960784-3-raj.khem@gmail.com>
+References: <20250701211843.3960784-3-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010197c7e8779a-dc5df93d-8c62-4a02-8046-4919ca737a10-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Jul 2025 21:33:10 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 21:29:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219729
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 21:33:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219730
 
-The test/helper is written assuming gcc, so just call that and stop
-accessing BUILD_CC which may be set to clang.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/classes-global/sanity.bbclass |  9 +++------
- meta/lib/oe/utils.py               | 17 ++++++-----------
- 2 files changed, 9 insertions(+), 17 deletions(-)
+Testing patch /home/patchtest/share/mboxes/v3-3-4-Remove-oe.utils.host_gcc_version-utility.patch
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index d1452967fc1..3c103d3bfb3 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -514,12 +514,9 @@ def check_userns():
- # built buildtools-extended-tarball)
- #
- def check_gcc_version(sanity_data):
--    import subprocess
--    
--    build_cc, version = oe.utils.get_host_compiler_version(sanity_data)
--    if build_cc.strip() == "gcc":
--        if bb.utils.vercmp_string_op(version, "8.0", "<"):
--            return "Your version of gcc is older than 8.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
-+    version = oe.utils.get_host_gcc_version(sanity_data)
-+    if bb.utils.vercmp_string_op(version, "8.0", "<"):
-+        return "Your version of gcc is older than 8.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
-     return None
- 
- # Tar version 1.24 and onwards handle overwriting symlinks correctly
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 0378071b5ca..779c5e593f4 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -415,34 +415,29 @@ def format_pkg_list(pkg_dict, ret_format=None, pkgdata_dir=None):
-     return output_str
- 
- 
--# Helper function to get the host compiler version
--# Do not assume the compiler is gcc
--def get_host_compiler_version(d, taskcontextonly=False):
-+# Helper function to get the host gcc version
-+def get_host_gcc_version(d, taskcontextonly=False):
-     import re, subprocess
- 
-     if taskcontextonly and d.getVar('BB_WORKERCONTEXT') != '1':
-         return
- 
--    compiler = d.getVar("BUILD_CC")
--    # Get rid of ccache since it is not present when parsing.
--    if compiler.startswith('ccache '):
--        compiler = compiler[7:]
-     try:
-         env = os.environ.copy()
-         # datastore PATH does not contain session PATH as set by environment-setup-...
-         # this breaks the install-buildtools use-case
-         # env["PATH"] = d.getVar("PATH")
--        output = subprocess.check_output("%s --version" % compiler, \
-+        output = subprocess.check_output("gcc --version", \
-                     shell=True, env=env, stderr=subprocess.STDOUT).decode("utf-8")
-     except subprocess.CalledProcessError as e:
--        bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
-+        bb.fatal("Error running gcc --version: %s" % (e.output.decode("utf-8")))
- 
-     match = re.match(r".* (\d+\.\d+)\.\d+.*", output.split('\n')[0])
-     if not match:
--        bb.fatal("Can't get compiler version from %s --version output" % compiler)
-+        bb.fatal("Can't get compiler version from gcc --version output")
- 
-     version = match.group(1)
--    return compiler, version
-+    return version
- 
- @bb.parse.vardepsexclude("DEFAULTTUNE_MULTILIB_ORIGINAL", "OVERRIDES")
- def get_multilib_datastore(variant, d):
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
