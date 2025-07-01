@@ -1,135 +1,163 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1F3C83038
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 20:33:38 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.7355.1751402013748416145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 948D1C83038
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 20:54:48 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web11.7942.1751403285499654903
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 13:33:33 -0700
+ Tue, 01 Jul 2025 13:54:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PVEl0/Zz;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-234fcadde3eso48393485ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 13:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751402013; x=1752006813; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xf0djZ8fnws1tUh3WBBy2n58McpfWSVq5kH77dl5YxU=;
-        b=PVEl0/ZzXdzJxnecKQugXcY1R/wGvc7fdN/hkOibU2wzTkHGzSQ+9csXYk5dt49Pfj
-         mmpoZt+no6xsBVTxcALUA83Giqehdp4IswMLXleUABAOaHYIs2yWl9YgX8JhojBzqSTM
-         W+h6r+gKfMRwgBJ3d8fvb6CjRyyojm1bsuxwo424+1eqB9xdgDVP9Q8BpaqHxH0dlsi6
-         E+gQRTht7wOpar7OUuZcG+cdQt2d7bapd/kYtzu5/JBJIirTcGeuxAFP8djgWPvWx6Wn
-         CcZxgddT8AXvaSHYcLnFCB/2hupmWRUc9RR3qDuh0Gsy5ECvyumITA0XttgBVztspVW8
-         9EDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751402013; x=1752006813;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xf0djZ8fnws1tUh3WBBy2n58McpfWSVq5kH77dl5YxU=;
-        b=Wyc6EVuurjW2pRQ7J2fWbYhLnzWoYDf/GKLKyqWsIdTiEPbJ08gFCvHlhDNseJGOeP
-         Ro8IUW/w6+pKTNUXDa8NDtgPyy7+QenSwPWfNntf0a5y3bjRsu4gOAHSTvLiAymN38bA
-         0fvR7NHMOvtRmT6bIFIoNxZbMIL55DXb8bu290KcgWw2e4QkDQrvF96QJ7Abt6C57a2A
-         /xkPo/WtxJxqo62qEeOr45nOksXACllch/yhRY6MqNUeTymH1oXEn79TuPb6obtputUw
-         kp7Wd9RpWsPxBcFoQUNGmfCpFobpbm657m2cf7l7A4fbd1EV5kRqSilm4Zodyupc/it7
-         27vQ==
-X-Gm-Message-State: AOJu0YxM/bHmJuP65i1UMqo9zL8IgGyf7hHZa481Q2z+Dc73yHAQCrlU
-	exc0ziBz4/iWTwN0WeUjKSu4gffdHgWDCaDM4FhBjWPFTrKUou+7hxUpAj8PUemQ
-X-Gm-Gg: ASbGncsIBfd9cL2Gjhl+pIR3ahHW9FOHrMCijtVbim8zREgikwhsKeCD/KfOZl8WcR+
-	Zm1q8zyeSGknhVpt8iYWoac9Yj1IaFqt9vZPrFlMHS8VMIM5jPkU6NrHgcEq7wzaLusmsJjzr6J
-	ko/5HFCdv4GnwEgLMDtXoicaGcDil0/ge+1OqzSebRElbxp0kRUu/olkW/98iK2yppx7DiC1Rux
-	5Dtqp8gHJCMvR5oPXFosKjft3FUHrxvG/U+9V/MMpjh7mAS+rABwRwemciOiAcccv3EJCmXiwHA
-	d1AyHdyQb11GOPY7gU1a1sPI1rIPguWpbq6Mhyp1aJZZZE+TU5vL9Q==
-X-Google-Smtp-Source: AGHT+IFNnM+vYmLivqF52Tvpg5gC1pVCIE3kRmacbi54D+DAGzmdsSTTgqwd2CgAusIqcsb2np+RjA==
-X-Received: by 2002:a17:902:e54b:b0:235:a9b:21e7 with SMTP id d9443c01a7336-23c6e5de61amr1116825ad.48.1751402012642;
-        Tue, 01 Jul 2025 13:33:32 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::aa8c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39b934sm111557255ad.92.2025.07.01.13.33.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 13:33:32 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] clang: Upgrade to 20.1.7
-Date: Tue,  1 Jul 2025 13:33:29 -0700
-Message-ID: <20250701203329.2906008-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.0
+ dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
+	by localhost.localdomain (8.18.1/8.18.1/Debian-2) with ESMTP id 561Ksi76145483
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jul 2025 15:54:44 -0500
+Received: from [192.168.2.98] ([192.168.2.98])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 561Ksh8D014562
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jul 2025 15:54:44 -0500
+Message-ID: <fd35ebd5-26da-434a-8258-22c7122264b2@kernel.crashing.org>
+Date: Tue, 1 Jul 2025 15:54:43 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] libucontext: use hard/soft float
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+References: <20250630144814.255656-1-jdmason@kudzu.us>
+ <5f3c3690-ae0f-4faf-8e6b-4e0c7b2d8eb6@kernel.crashing.org>
+ <CAPoiz9yNoyxxGCzJU4bo7h1XYFjqNFeh1iX15CnLdkZz3025HQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <CAPoiz9yNoyxxGCzJU4bo7h1XYFjqNFeh1iX15CnLdkZz3025HQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by localhost.localdomain id 561Ksi76145483
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 20:33:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219719
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 20:54:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219720
 
-Brings following fixes
 
-* 6146a88f6049 [LoongArch] Fix '-mno-lsx' option not disabling LASX feature (#143821)
-* 9ba132be8eea [clan-reply] Backport PTU error recovery to 20.x
-* 199e02a36433 Disable clangd/test/module_dependencies.test on Windows
-* 02aec86e4d0d [clangd] [Modules] Fix to correctly handle module dependencies (#142828)
-* c4f257cb74b5 [llvm-rc] Allow ALT on non-virtkey accelerators (#143374)
-* 6fa0cdf3720b release/20.x: [clang] Don't evaluate the initializer of constexpr-unknown parameters. (#142498)
-* 337beb73abfe [libc++] Add _LIBCPP_NO_UNIQUE_ADDRESS to flat_{,multi}map::value_compare (#137594)
-* b8e10ca59b6a [libc++] Fix check for _LIBCPP_HAS_NO_WIDE_CHARACTERS in features.py (#131675)
-* 2da24c36c7df [libcxx] Provide locale conversions to tests through lit substitution (#105651)
-* 253e9321c8b6 [release/20.x] Update release notes for SystemZ changes (#140060)
-* acf86c5c4dbe [CVP] Keep `ReachableCaseCount` in sync with range of condition (#142302)
-* 2481e590eec7 [AArch64][SME] Fix accessing the emergency spill slot with hazard padding (#142190)
-* 22a3e6b19409 release/20.x: [AArch64] Handle XAR with v1i64 operand types (#141754)
-* e5dd4f129454 [clangd] Guard against trivial FunctionProtoTypeLoc when creating inlay hints (#143087)
-* f6532710ace8 [clang-format] Correctly annotate token-pasted function decl names (#142337)
-* e0586e278f96 [RelLookupTableConverter] Drop unnamed_addr to avoid generating GOTPCREL relocations (#142304)
-* 7759bb57c243 (origin/users/mizvekov/GH139019) [clang] Serialization: support hashing null template arguments
-* 7cf14539b644 Bump version to 20.1.7
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/maintainers.inc     | 2 +-
- meta/recipes-devtools/clang/common-clang.inc | 2 +-
- meta/recipes-devtools/clang/common.inc       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+On 7/1/25 8:24 AM, Jon Mason wrote:
+> On Mon, Jun 30, 2025 at 12:32=E2=80=AFPM Mark Hatle
+> <mark.hatle@kernel.crashing.org> wrote:
+>>
+>>
+>>
+>> On 6/30/25 9:48 AM, Jon Mason wrote:
+>>> From: Jon Mason <jon.mason@arm.com>
+>>>
+>>> When building for qemuarm-secureboot in meta-arn with musl and clang,
+>>> the following compile error is seen:
+>>> - | ../sources/libucontext-1.3.2/arch/arm/swapcontext.S:23:11: error:=
+ unknown token in expression
+>>> - |  ldr r4, =3D#0x56465001
+>>> - |           ^
+>>>
+>>> This is happening because 1.3 added ifdefs for assembly code for both
+>>> hard and soft float, and bcause neither is being defined, it is takin=
+g
+>>> this path with the issue.
+>>>
+>>> Since we can tell if soft or hard float is being used via the TARGET_=
+FPU
+>>> variable, use that and set the relevant makefile flag.
+>>>
+>>> Signed-off-by: Jon Mason <jon.mason@arm.com>
+>>> ---
+>>>    meta/recipes-core/musl/libucontext_1.3.2.bb | 3 +++
+>>>    1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/meta/recipes-core/musl/libucontext_1.3.2.bb b/meta/recip=
+es-core/musl/libucontext_1.3.2.bb
+>>> index 2362cba5c8a2..92001bbe7bb5 100644
+>>> --- a/meta/recipes-core/musl/libucontext_1.3.2.bb
+>>> +++ b/meta/recipes-core/musl/libucontext_1.3.2.bb
+>>> @@ -48,3 +48,6 @@ def map_kernel_arch(a, d):
+>>>
+>>>    EXTRA_OEMESON =3D "-Dcpu=3D${@map_kernel_arch(d.getVar('TARGET_ARC=
+H'), d)}"
+>>>    inherit meson
+>>> +
+>>> +TARGET_CPPFLAGS:arm +=3D "${@bb.utils.contains('TARGET_FPU', 'hard',=
+ '-DFORCE_HARD_FLOAT', '', d)}"
+>>> +TARGET_CPPFLAGS:arm +=3D "${@bb.utils.contains('TARGET_FPU', 'soft',=
+ '-DFORCE_SOFT_FLOAT', '', d)}"
+>>
+>> The above doesn't +=3D to TARGET_CPPFLAGS, it _replaces_ TARGET_CPPFLA=
+GS.
+>>
+>> This is probably not what you want.
+>>
+>> What I've done in the past is:
+>>
+>> ARM_TARGET_CPPFLAGS =3D ""
+>> ARM_TARGET_CPPFLAGS:append:arm =3D "${@bb.utils.contains('TARGET_FPU',=
+ 'hard', '-
+>> DFORCE_HARD_FLOAT', '', d)}"
+>> ARM_TARGET_CPPFLAGS:append:arm =3D "${@bb.utils.contains('TARGET_FPU',=
+ 'soft', '
+>> -DFORCE_SOFT_FLOAT', '', d)}"
+>>
+>> TARGET_CPPFLAGS .=3D "${ARM_TARGET_CPPFLAGS}"
+>=20
+> Thanks for the insight Mark, I will happily steal your changes and
+> throw it as a v2 :)
+>=20
+> Is there a place I can look (documentation or code) that will help me
+> understand why this is necessary?
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4d51219c94a..60f04da6089 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -479,7 +479,7 @@ RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-dev = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
--RECIPE_MAINTAINER:pn-llvm-project-source-20.1.6 = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-llvm-project-source-20.1.7 = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-lrzsz = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-index 15e6610b9b2..cbea6b4d75a 100644
---- a/meta/recipes-devtools/clang/common-clang.inc
-+++ b/meta/recipes-devtools/clang/common-clang.inc
-@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
- 
- MAJOR_VER = "20"
- MINOR_VER = "1"
--PATCH_VER = "6"
-+PATCH_VER = "7"
- # could be 'rcX' or 'git' or empty ( for release )
- VER_SUFFIX = ""
- 
-diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-index 0684e648ccc..37d37ec1975 100644
---- a/meta/recipes-devtools/clang/common.inc
-+++ b/meta/recipes-devtools/clang/common.inc
-@@ -17,7 +17,7 @@ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}/llvm-proje
- UPSTREAM_CHECK_URI = "${LLVM_HTTP}/llvm-project/releases/"
- UPSTREAM_CHECK_REGEX = "releases/tag/llvmorg-?(?P<pver>\d+(\.\d+)+)"
- SOURCEDIR ?= "llvm-project-${PV}.src"
--SRC_URI[sha256sum] = "5c70549d524284c184fe9fbff862c3d2d7a61b787570611b5a30e5cc345f145e"
-+SRC_URI[sha256sum] = "cd8fd55d97ad3e360b1d5aaf98388d1f70dfffb7df36beee478be3b839ff9008"
- 
- SRC_URI = "\
-     ${BASEURI} \
+Theoretically the bitbake documentation covers the operator and override =
+rules..=20
+but essentially operators all run, and then a second+ pass is made to rem=
+ove=20
+overrides.
+
+(:append is an operator, not an override)
+
+So it's not exactly intuitive unless you've worked with it a lot, and eve=
+n then=20
+it's easy to make mistakes in these odd cases!
+
+But what happens is:
+
+VARIABLE:override +=3D "foo"
+VARIABLE:override +=3D "bar"
+
+Evaluation will attempt to add a space and foo to 'VARIABLE:override', fo=
+llowed=20
+by a space and bar.  Resulting in ' foo bar'
+
+Then override processing causes 'VARIABLE:override' replaces 'VARIABLE' w=
+hen the=20
+override is present resulting in:
+
+VARIABLE =3D ' foo bar'
+
+I've recently seen CoPilot suggest exactly this to users.  And it USUALLY=
+ works,=20
+but it's chance vs design.
+
+--Mark
+
+> Thanks,
+> Jon
+>=20
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#219569): https://lists.openembedded.org/g/openemb=
+edded-core/message/219569
+>>> Mute This Topic: https://lists.openembedded.org/mt/113909237/3616948
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [mark.hatle@kernel.crashing.org]
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>>
 
