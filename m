@@ -2,107 +2,96 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1720CC7EE30
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 19:06:38 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.5485.1751396797100296455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFB4FC7EE30
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 19:06:47 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.5487.1751396798457952869
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 12:06:37 -0700
+ Tue, 01 Jul 2025 12:06:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=E8YFspwt;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-23636167b30so33799195ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 12:06:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=COCbggPp;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2363616a1a6so31165415ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 12:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751396796; x=1752001596; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UpmFxL75X8/uVd/bKt4scZ2OoIS/RttY+ftFM5SFVus=;
-        b=E8YFspwtSIr26xl0fIrzktr7YV3I1rfMyONK9eGu53/z0mpUmZ+u1YzO+WrdcTWvgv
-         QqyDG+lPemWxAmyNmJMUkfKE38iSFkgqymshNd0gupRGpKGQRFWV/RYhd8/EVQDLV3dh
-         T8Cz9SXBdt5uF0B5DtmCLTcAF43OXkgoJbyZ3jgpDzwo+noYZ3ilHzjVYxofwPzyFzTh
-         n82HPpytk4jajMV04ImVwvluyrdnIHp2cMUrmRLPcLko7ToetlMoh+CX/4D7Ahhv034n
-         7T3phT1XWVpxmNWT1gqUoQsHpxkUYt4JwW5o2bL3pspNvQD/0XX+RbF51HLfGBH5/k+4
-         bQ8g==
+        d=gmail.com; s=20230601; t=1751396798; x=1752001598; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3hTQjamZ/9esRxWHzdn7oZsBHFHZ7ySE99WwNtjy2Oo=;
+        b=COCbggPpxnmwUyr16NSLsdyLr40CGfqGGYlf3MAjJIcduaacx+yFLdjxXBN5YTjVq6
+         7MvTU+WOQGi6jG7GPI0Vx41KWIQu5grGKpC2A4+BZLDrhzaRgvy9xOrGhyZ6BR8WI0El
+         Cy7+xrljSsmaFSPWNlU6GRWx92UjtAIbhkJSsn++lqYDG4wycX+nRPCctveKf7WOmdM5
+         9TcR+c4P6fuqYtcn/BGt3URXKWRJoZEwlCVJzEorKd446N+92GteVA78NT/zUa5Z9lvG
+         Gj59+Au7UYVr+RzQNequsLhT8Zc52YHSkc4DFlRFriSg/ZPrrE3PUYdPfOwhFllCwY5Y
+         E2fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751396796; x=1752001596;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UpmFxL75X8/uVd/bKt4scZ2OoIS/RttY+ftFM5SFVus=;
-        b=cBsNnpEAjKnZlERLTPUrsKm18IUnhz9+BM32OcB3jHiVYSFCcTJgElpCzujHMq2zp+
-         xEauIEto1FcOf9b9qUhcsIvePcv5tvuCDkPW0ry4Z7E2RcpEinoY+dtI30AQWZHP66/V
-         0zD/OGExSto9j/85eaZ1ZurYJ9JhaBVdTYjCuGXPrg5KrRQYtO6hlr7AnF25g2rY/2LT
-         doorpLccCNMbCx7SjMzADv52i20CMzLgd2TMEZaxUcoBq5LRLpd7WUQRgyXD3uvr+LEt
-         6LHfOEUVlQMlUHSdfG/Nvb9NI/MKZGu0cj0XoeVCpmXj4r73oCzs5sb+DU5xcK33ghv9
-         0ogQ==
-X-Gm-Message-State: AOJu0Yz4VK1DRpZBuGeGkcez0BMD3PYIh1WuFR+vVXno0Q4ow4FYrNqq
-	5zMneGJCgfNSmeVo6Xdcic6CoCJVdAPTwQuYcocZu0Jqc039kkXO4m3/fve8m7FQ
-X-Gm-Gg: ASbGnctIUBZgNL07odVV0F2GDEfYb+Oa5prze3To9bcpa6fTaD79dDdCIAp9o1pXZJP
-	MlyzXEhIW3qBrbaoZQWXD6O8M47SbMiZo/xQGBmtHAOj13RkuobH9uqTBnheUz4hro5PLiIoSVu
-	d/VwzXmx8P8vF035as/FF7w4latSbqC0IyYR/VhzhH/i6/YWT9pbzZGjy3uehbbHAUTepow3gJV
-	6YEnTCEfvmsXOt2duTFC8ues30CbCmRr6T1u7iiGrOrFTMKu3wEJBsNkQS9w/VPSBD2igI2uxOM
-	qxNL3awNV4nDPQUfQSgSHFaMy61Le5ruEcr6Xl5c27cDscTdpA14qA==
-X-Google-Smtp-Source: AGHT+IHlNCKWGfUaDtIZAb93vDevqPqjCf54+7ZcINv6VZbURGks+7V6VpZ9WWhz1AOHPOsch6mH8A==
-X-Received: by 2002:a17:902:ec83:b0:235:1171:6d1d with SMTP id d9443c01a7336-23ac38178fbmr276738675ad.9.1751396796059;
-        Tue, 01 Jul 2025 12:06:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751396798; x=1752001598;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3hTQjamZ/9esRxWHzdn7oZsBHFHZ7ySE99WwNtjy2Oo=;
+        b=tD6M+QjWxzjtF3QyYlvZtpU74iEzfIpWaX3SUv5VhwdnFFkcsTXARGj9nuFOm0Xk2A
+         OcsG3iqwbgDvgbX6dVTjiAeVvynE5T8HJIRhyiaZUGOFuexfYF9nmOYXtsSnDuthGWe3
+         JrjjZneli5c8dfiUa16KDwQv7tJjETmYzVlql2vM/qWmfZvLEIHMROPg9VzLaaHH+G4l
+         4EXYSf06s0Lb+mQZvfBlzrdQlF8ceFfbtQe2RRL9PQRWCifOZnUdHJMF5/xJfCmBDfY0
+         uLwd/n1ra0AYsTVw3zJrgBHxefEiUbeY2ddZJrMo8xMzgpSWQNw7W3FQzBI7qDIV1y5Y
+         OWlQ==
+X-Gm-Message-State: AOJu0YxOPLR0lWkueC9cIavvPJ7jWwKhfiTris84pRSwJv+wJrlZ8eQ/
+	0KzBJ+vqf/X9XeUQ9kCR9W3Ns5qRNPvUgLpUK90GpujZRap9s0M/AgB0qVaRFAMw
+X-Gm-Gg: ASbGnctD8mT/7a9VDoIe7+FJTkiBonU3Xr9hloDiNwFvQi096pjodesGdiS5ayxJw5X
+	7fiBk0fCoJfkd4bV1B8Ps7a8dVCYidDeJGhdmoFaiyNlzBURkcwk5OgjpDHMxWfRzt7X0ScxLBG
+	Mxnegu1kLYfqeaH5siNSEYIfr2W8h/2x5DRBMdbJANz16bAO36oFJ5OClEiu7/ge6Q58v+lSmkB
+	lUiC10QZFW8njliutIJzkTHVpSbx2FHZNBYTS+doQQgYuJ/ZNwFOmpl2P2o04s7Ce7q7hnltgH7
+	jvVP4IPwFSCSu9++i5e25jEMVcvDqHZrxD8dhdQP+jdttwXgUEZeAg==
+X-Google-Smtp-Source: AGHT+IExnUfrZZB9utoZHIs7wOkdk84VDIlUw7s0e81nvfmuE11ei8em4fCiSIQ006Dt+GXiu8Ch9w==
+X-Received: by 2002:a17:902:fc44:b0:234:8c52:1f9b with SMTP id d9443c01a7336-23ac4686520mr317899225ad.43.1751396797495;
+        Tue, 01 Jul 2025 12:06:37 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::aa8c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39b97dsm119286665ad.121.2025.07.01.12.06.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39b97dsm119286665ad.121.2025.07.01.12.06.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 12:06:35 -0700 (PDT)
+        Tue, 01 Jul 2025 12:06:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] clang-native: Add class to use clang as native compiler
-Date: Tue,  1 Jul 2025 12:06:32 -0700
-Message-ID: <20250701190633.2324784-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] base.bbclass: Deferred inherit native toolchain class
+Date: Tue,  1 Jul 2025 12:06:33 -0700
+Message-ID: <20250701190633.2324784-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250701190633.2324784-1-raj.khem@gmail.com>
+References: <20250701190633.2324784-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 19:06:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219715
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 19:06:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219716
 
-Some recipes demand full clang/llvm builds e.g. chromium we need to use
-clang as native toolchain. This class collects all needed bits to enable
-OE built clang to provide the clang native toolchain
+This helps build native recipe with clang as native compiler.
+when PREFERRED_TOOLCHAIN_NATIVE = "clang", otherwise it will
+inherit gcc-native, this is a bit redundant when gcc native
+is used, ideally we should defer_inherit it always but there
+is some code in classes assuming gcc as native compiler e.g.
 
-Setting
-
-PREFERRED_TOOLCHAIN_NATIVE = "clang"
-
-in recipe will chose clang for native toolchain
+oe.utils.host_gcc_version function expects BUILD_CC early during
+parsing.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/toolchain/clang-native.bbclass | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
- create mode 100644 meta/classes/toolchain/clang-native.bbclass
+ meta/classes-global/base.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/toolchain/clang-native.bbclass b/meta/classes/toolchain/clang-native.bbclass
-new file mode 100644
-index 00000000000..adb22883806
---- /dev/null
-+++ b/meta/classes/toolchain/clang-native.bbclass
-@@ -0,0 +1,18 @@
-+BUILD_CC = "${CCACHE}${BUILD_PREFIX}clang ${BUILD_CC_ARCH}"
-+BUILD_CXX = "${CCACHE}${BUILD_PREFIX}clang++ ${BUILD_CC_ARCH}"
-+BUILD_FC = "${BUILD_PREFIX}gfortran ${BUILD_CC_ARCH}"
-+BUILD_CPP = "${BUILD_PREFIX}clang ${BUILD_CC_ARCH} -E"
-+BUILD_LD = "${BUILD_PREFIX}ld ${BUILD_LD_ARCH}"
-+BUILD_CCLD = "${BUILD_PREFIX}clang ${BUILD_CC_ARCH}"
-+BUILD_AR = "${BUILD_PREFIX}llvm-ar"
-+BUILD_AS = "${BUILD_PREFIX}as ${BUILD_AS_ARCH}"
-+BUILD_RANLIB = "${BUILD_PREFIX}llvm-ranlib -D"
-+BUILD_STRIP = "${BUILD_PREFIX}llvm-strip"
-+BUILD_OBJCOPY = "${BUILD_PREFIX}llvm-objcopy"
-+BUILD_OBJDUMP = "${BUILD_PREFIX}llvm-objdump"
-+BUILD_NM = "${BUILD_PREFIX}llvm-nm"
-+BUILD_READELF = "${BUILD_PREFIX}llvm-readelf"
-+
-+DEPENDS += " clang-native compiler-rt-native libcxx-native"
-+
-+LDFLAGS += " --rtlib=libgcc --unwindlib=libgcc"
+diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
+index ac145d9fd64..1fa09b6a16b 100644
+--- a/meta/classes-global/base.bbclass
++++ b/meta/classes-global/base.bbclass
+@@ -32,6 +32,7 @@ PREFERRED_TOOLCHAIN:class-nativesdk = "${PREFERRED_TOOLCHAIN_SDK}"
+ TOOLCHAIN ??= "${PREFERRED_TOOLCHAIN}"
+ 
+ inherit toolchain/gcc-native
++inherit_defer toolchain/${PREFERRED_TOOLCHAIN_NATIVE}-native
+ inherit_defer toolchain/${TOOLCHAIN}
+ 
+ def lsb_distro_identifier(d):
 
