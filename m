@@ -1,231 +1,149 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 847FBC83038
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 12:45:03 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web11.9839.1751373897821261309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA74C83038
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 13:24:33 +0000 (UTC)
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web10.10575.1751376268869983239
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 05:44:57 -0700
+ Tue, 01 Jul 2025 06:24:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=e0Zjz8/h;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6fadd3ad18eso55679096d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 05:44:57 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=IFK2MF+j;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.161.47, mailfrom: jdmason@kudzu.us)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-610db3f3f90so2651065eaf.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 06:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751373897; x=1751978697; darn=lists.openembedded.org;
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1751376268; x=1751981068; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eChUWuBcfLzuWzpt7N2Xy0XwfVsV977MDlkl5idfQq0=;
-        b=e0Zjz8/hOJ0kkgQnjZFi0EErGACDnVH35+OMJq+qNOSvDx3DsAa9L3esEf2TtznlY8
-         4trmH0cJ90sBy+M9f7itgpJee59S5BrwvjAdDVYgT5axAi4exEGNnS2lF+5WQqE+HX2j
-         L+o+AbNgNfCOz7ZK5bFCzzY2JCjVREUvulXw/lnn47RRyMGQz3oUZChdafbklAXpUtyY
-         VDaDQKp3sUUgROIaxJrvqs1Fm55Bxc+zt6HqlQ6UjD/vCFHWn1MrNFGzE1NpiVwV2lev
-         Yp57CK80Ukzq/OYd5fnT+gRtg4UJDkyS3ZhFf7aODAWugAUbT5nERM7KGW0kDIGYE2/O
-         8m0A==
+        bh=mDr05dFb/+8Fx/UH+MUUY7Z2N13F4fBv49dQvgMxK2s=;
+        b=IFK2MF+jy+it37r2ZBY2mxKxjrTxqHDtwkhMAOuwIQysjFtoo0xC/zIZHz1fF3cvB3
+         sfE3LWwRekbfzLCaL8jGag2kCtBq5+oYGTvsrKVdS3G16mhkxt3c73dZs84Jxb8NSt4I
+         GHiecdecgX7ZWUhD5/KzveDr+zoprJH9ojYM9eBgGgAipBQuMojST4F2PoVe0Tcr0MOi
+         nw1SOXU7zTYHW2+HN0d/sYMlDcHHldN8NEGT/bfQqiA6dYNMo9AboQEhQHNML7jMOZT9
+         8J5oukR6jjuebmzA5cGfxQQ/v+8jJbfXAW7zqxbcq0c2iZ5ddLITnPeVWRykCqzUkvXI
+         Jyqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751373897; x=1751978697;
+        d=1e100.net; s=20230601; t=1751376268; x=1751981068;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eChUWuBcfLzuWzpt7N2Xy0XwfVsV977MDlkl5idfQq0=;
-        b=kThROP4GOpuiNQbK3ne5GZMlsh7ljmnGv7XGpGurxYGEOxNFADsCWzkjFFY7r6UNGg
-         9TcrHz+7mG+3ImPDYshNrUpubgG9QFSSH9GqCsP/+mudLrmWUdwMLnyevI5CLGum7GJy
-         VjW7+k9wNVI3CWgG9iwZCGy21nrvvLkvs2MTL1RqlAb2EhCpI/vvHWHzBHibmOIxGhGp
-         lP+XuBkbIEszc2WyUVQQ7+m7AMSfGLjq34fg289w23Cn7elSfZZMARw229rLN05Q24DQ
-         jLCAetGiroVdouJOIcXIXc8Qyk0Uom+VUVMZpfv2XD4NAsPmyLuMAholOG59tXFQwcvP
-         S0aQ==
-X-Gm-Message-State: AOJu0YzYyf3iHC26Gq19JOq56aplUe6gxQbOB6DXYWy2AGOhngX6xPg0
-	Z6tBIRVd8NVvq7Pyh3Gm9iXjp1vnqM+cIbR4QQMpqATGlhmlwg1x/xpn47h+RW2MbkSRlHpKILd
-	D5CBSuZ8WmJRTOeB1DFFr2V7KIQ34W7bZf1ol
-X-Gm-Gg: ASbGncuNdaqbITV7gBasfIQpFJTVukzOblYNdgfwYTF4bQI1NR/5UryZEIWr9Xiyf9q
-	sxoUxcbTG9t/j36KPo0wOSbqCNjhFiHALC8p5WzBirBbQgBuaStKIW9EXspf2EmhR/R/rzJWVL1
-	/7kTa1RP1tjhWU+EkfIBApp+ccsMidxynC6B6aoqSIqBcIvnAcRtzyUvWHaPVE5RuINZtIPYBSm
-	AaqYw==
-X-Google-Smtp-Source: AGHT+IGTctroYLJcRpUH1GDJo0hIiNd1nZE9mKY+PjBp+sp3RMEdzCfKUJL9a3uSMDf6kYIUinltF9Cd+Sa151Gmj3k=
-X-Received: by 2002:a05:6214:1d2b:b0:6fd:ace:4cf3 with SMTP id
- 6a1803df08f44-700037a88e9mr261754536d6.35.1751373896536; Tue, 01 Jul 2025
- 05:44:56 -0700 (PDT)
+        bh=mDr05dFb/+8Fx/UH+MUUY7Z2N13F4fBv49dQvgMxK2s=;
+        b=Zq2j62rj3ZtzPPOGZBjGPBhzMBnkQVq23EPqEhRkfziNSuIJrxj/2S3V3LsJr5weXm
+         5UonI3pLAzhG0HoR+xuXZ5l13lwWrP0wthUG03w12GMICeBuuFavoZtKqeHdJM0OCUu8
+         XCD0RGdNc2X4BxvxCtMs726jWOyM6MtRWHVstAeP6wcnqqYZQNxFmDsmmFKV3YLZBF6d
+         49Nct4kFkot3kTdj8185qa0E3gTIl8+ziRRHonQS+Jlt+xD2NuQQPrWzMbLl+b8mnJP/
+         hS2TacYWSDh7yrnV23kPW0kX+iDarus8sxLezxdDkHEd2nR1TzqTn38uyel59tXafWiv
+         BRyg==
+X-Gm-Message-State: AOJu0YzRU6lIKGrX6IdD+1EigItDtZS79n5bZGdEAbiQN/e6uXJAeBUE
+	p5oTS4ydVx37MTiWVjhiksmAEnyfnPr10cEXxDqayCYQcG0yCvqRSQAld5W8yp5hjRtgQluWEU4
+	IFEbiUckTupS2ZkMAXoAzyK0haLIXolkufbRRMWBmwW4Fxd5eMag=
+X-Gm-Gg: ASbGncvdSfiDU9ZP/BjMbKbqQtt1StNUHeRB2+3oqmLkRr3RZKvotBJSaKVBM/AkSmG
+	/mr0Me6nKnn0lhLKzMLTQSpEArQ8BSR+cR+ly77InRCHpe+hsR0znMRGNGjwH16ynL6cnDlQA18
+	/dWPOiXuBrwytUaaiR2SVBfW46rAp5Awy8OFZqtNFoKbc=
+X-Google-Smtp-Source: AGHT+IFOacnAlKY667Fr+y23dpH2W+0zf7aYnI2jt83JC5nPL6MZsocTkapDcm/kR4ywEgZuGxxE0N8/qIt8e+NcOcg=
+X-Received: by 2002:a05:6820:994:b0:611:aabf:2b7d with SMTP id
+ 006d021491bc7-611b91b8ba5mr13385827eaf.7.1751376267939; Tue, 01 Jul 2025
+ 06:24:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <184E1CE45E458024.6792@lists.openembedded.org> <184E1D11132770D1.6792@lists.openembedded.org>
- <Z00QYS.ZUYPSA3HVF4P3@t-online.de>
-In-Reply-To: <Z00QYS.ZUYPSA3HVF4P3@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 1 Jul 2025 14:44:45 +0200
-X-Gm-Features: Ac12FXzS14AiaDGBpDUCHv7TELmLnxu50-WMhVmIwarBnebigjOQ8Cqb74St2BE
-Message-ID: <CANNYZj-emZYc0iBL=67gh4g8B55d1hCYrhQnRcKftsGGucPU9Q@mail.gmail.com>
-Subject: Re: [oe-core][PATCHv2] tcl: fix tclConfig.sh after UNPACKDIR change
-To: f_l_k@t-online.de
+References: <20250630144814.255656-1-jdmason@kudzu.us> <5f3c3690-ae0f-4faf-8e6b-4e0c7b2d8eb6@kernel.crashing.org>
+In-Reply-To: <5f3c3690-ae0f-4faf-8e6b-4e0c7b2d8eb6@kernel.crashing.org>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Tue, 1 Jul 2025 09:24:15 -0400
+X-Gm-Features: Ac12FXzN4XiXYW5W3xwA8YdG0U4vEKSI6ZAQat7daszScTZ3X6x2vhhPPLRXfNg
+Message-ID: <CAPoiz9yNoyxxGCzJU4bo7h1XYFjqNFeh1iX15CnLdkZz3025HQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libucontext: use hard/soft float
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 12:45:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219568
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 13:24:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219569
 
-I think it's possible to have a different header in sysroots and in
-target packaging. Look for usage of SYSROOT_PREPROCESS_FUNCS in meta/.
+On Mon, Jun 30, 2025 at 12:32=E2=80=AFPM Mark Hatle
+<mark.hatle@kernel.crashing.org> wrote:
+>
+>
+>
+> On 6/30/25 9:48 AM, Jon Mason wrote:
+> > From: Jon Mason <jon.mason@arm.com>
+> >
+> > When building for qemuarm-secureboot in meta-arn with musl and clang,
+> > the following compile error is seen:
+> > - | ../sources/libucontext-1.3.2/arch/arm/swapcontext.S:23:11: error: u=
+nknown token in expression
+> > - |  ldr r4, =3D#0x56465001
+> > - |           ^
+> >
+> > This is happening because 1.3 added ifdefs for assembly code for both
+> > hard and soft float, and bcause neither is being defined, it is taking
+> > this path with the issue.
+> >
+> > Since we can tell if soft or hard float is being used via the TARGET_FP=
+U
+> > variable, use that and set the relevant makefile flag.
+> >
+> > Signed-off-by: Jon Mason <jon.mason@arm.com>
+> > ---
+> >   meta/recipes-core/musl/libucontext_1.3.2.bb | 3 +++
+> >   1 file changed, 3 insertions(+)
+> >
+> > diff --git a/meta/recipes-core/musl/libucontext_1.3.2.bb b/meta/recipes=
+-core/musl/libucontext_1.3.2.bb
+> > index 2362cba5c8a2..92001bbe7bb5 100644
+> > --- a/meta/recipes-core/musl/libucontext_1.3.2.bb
+> > +++ b/meta/recipes-core/musl/libucontext_1.3.2.bb
+> > @@ -48,3 +48,6 @@ def map_kernel_arch(a, d):
+> >
+> >   EXTRA_OEMESON =3D "-Dcpu=3D${@map_kernel_arch(d.getVar('TARGET_ARCH')=
+, d)}"
+> >   inherit meson
+> > +
+> > +TARGET_CPPFLAGS:arm +=3D "${@bb.utils.contains('TARGET_FPU', 'hard', '=
+-DFORCE_HARD_FLOAT', '', d)}"
+> > +TARGET_CPPFLAGS:arm +=3D "${@bb.utils.contains('TARGET_FPU', 'soft', '=
+-DFORCE_SOFT_FLOAT', '', d)}"
+>
+> The above doesn't +=3D to TARGET_CPPFLAGS, it _replaces_ TARGET_CPPFLAGS.
+>
+> This is probably not what you want.
+>
+> What I've done in the past is:
+>
+> ARM_TARGET_CPPFLAGS =3D ""
+> ARM_TARGET_CPPFLAGS:append:arm =3D "${@bb.utils.contains('TARGET_FPU', 'h=
+ard', '-
+> DFORCE_HARD_FLOAT', '', d)}"
+> ARM_TARGET_CPPFLAGS:append:arm =3D "${@bb.utils.contains('TARGET_FPU', 's=
+oft', '
+> -DFORCE_SOFT_FLOAT', '', d)}"
+>
+> TARGET_CPPFLAGS .=3D "${ARM_TARGET_CPPFLAGS}"
 
-Alex
+Thanks for the insight Mark, I will happily steal your changes and
+throw it as a v2 :)
 
-On Tue, 1 Jul 2025 at 14:29, Markus Volk via lists.openembedded.org
-<f_l_k=3Dt-online.de@lists.openembedded.org> wrote:
->
-> oops. That doesn't work either. Sorry for the confusion
->
-> The problem I'm having:
->
-> After applying v1 of this patch, the following command is successful
->
-> bitbake -c cleansstate tcl tk && bitbake tk
->
-> So I thought the problem was fixed. But after I created an image with thi=
-s change, it showed the following
-> , which can be fixed by v2 of this patch, but v2 breaks the tk build agai=
-n
-> ERROR: tcl-9.0. 1-r0 do_package_qa: QA problem: file /usr/lib/tclConfig.s=
-h in package tcl-dev contains reference to TMPDIR [buildpaths]
-> ERROR: tcl-9.0.1-r0 do_package_qa: Fatal QA errors found, task fails.
-> ERROR: Log file of error saved in: /home/flk/poky/build-raspi/tmp/work/co=
-rtexa72-poky-linux/tcl/9.0.1/temp/log.do_package_qa.415042
-> ERROR: Task (/home/flk/poky/meta/recipes-devtools/tcltk/tcl_9.0.1.bb:do_p=
-ackage_qa) failed with exit code '1'
->
-> My conclusion is that we can't get things working properly with tclConfig=
-.sh (without adding a buildpath error)
-> I wonder if it would be better to omit the version in tcl includedir so t=
-hat it would no longer change dynamically. e.g:
->
->
-> From c2e5e1e4cb9fb1107db4632c4428607931a1b3b9 Mon Sep 17 00:00:00 2001
-> From: Markus Volk <f_l_k@t-online.de>
-> Date: Mon, 30 Jun 2025 22:03:17 +0200
-> Subject: [PATCH] tcl: dont use version in includedir
->
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  .../tcltk/tcl/0004-tcl-update-the-header-location.patch | 8 ++++----
->  meta/recipes-devtools/tcltk/tcl_9.0.1.bb | 6 +++---
->  2 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-l=
-ocation.patch b/meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-=
-location.patch
-> index 50a4a27256..1bcdfb3c22 100644
-> --- a/meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-location=
-.patch
-> +++ b/meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-location=
-.patch
-> @@ -34,7 +34,7 @@ index b5f9ab7..fbc87a2 100644
->
->   # Directory in which to install the include file tcl.h:
->  -INCLUDE_INSTALL_DIR =3D $(INSTALL_ROOT)$(includedir)
-> -+INCLUDE_INSTALL_DIR =3D $(INSTALL_ROOT)$(includedir)/tcl$(VERSION)
-> ++INCLUDE_INSTALL_DIR =3D $(INSTALL_ROOT)$(includedir)/tcl
->
->   # Path to the private tcl header dir:
->   PRIVATE_INCLUDE_DIR =3D @PRIVATE_INCLUDE_DIR@
-> @@ -47,7 +47,7 @@ index 43ec7e4..19524d1 100644
->
->   test -z "$TCL_LIBRARY" && TCL_LIBRARY=3D'$(libdir)/tcl$(VERSION)'
->  -PRIVATE_INCLUDE_DIR=3D'$(includedir)'
-> -+PRIVATE_INCLUDE_DIR=3D'$(includedir)/tcl$(VERSION)'
-> ++PRIVATE_INCLUDE_DIR=3D'$(includedir)/tcl'
->   HTML_DIR=3D'$(DISTDIR)/html'
->
->   # Note: in the following variable, it's important to use the absolute
-> @@ -56,7 +56,7 @@ index 43ec7e4..19524d1 100644
->
->   # Install time header dir can be set via --includedir
->  -eval "TCL_INCLUDE_SPEC=3D\"-I${includedir}\""
-> -+eval "TCL_INCLUDE_SPEC=3D\"-I${includedir}/tcl${VERSION}\""
-> ++eval "TCL_INCLUDE_SPEC=3D\"-I${includedir}/tcl\""
->
->   #----------------------------------------------------------------------=
---
->   # tclConfig.sh refers to this by a different name
-> @@ -69,7 +69,7 @@ index 9c6da82..8aa5ae8 100644
->   exec_prefix=3D@exec_prefix@
->   libdir=3D@libdir@
->  -includedir=3D@includedir@
-> -+includedir=3D@includedir@/tcl@PACKAGE_VERSION@
-> ++includedir=3D@includedir@/tcl
->   libfile=3D@TCL_LIB_FILE@
->
->   Name: Tool Command Language
-> diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb b/meta/recipes-devt=
-ools/tcltk/tcl_9.0.1.bb
-> index 70aa9b606c..bafea067ed 100644
-> --- a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
-> +++ b/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
-> @@ -51,13 +51,13 @@ do_install() {
->   ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
->   ln -sf tclsh9.0 ${D}${bindir}/tclsh${VER}
->   sed -i "s;-L${B};-L${STAGING_LIBDIR};g" tclConfig.sh
-> - sed -i "s;'${WORKDIR};'${STAGING_INCDIR};g" tclConfig.sh
-> + sed -i "s;'${WORKDIR};'${STAGING_INCDIR}/tcl;g" tclConfig.sh
->   install -d ${D}${bindir_crossscripts}
->   install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
->   install -m 0755 tclConfig.sh ${D}${libdir}
->   for dir in compat generic unix; do
-> - install -d ${D}${includedir}/${BPN}${VER}/$dir
-> - install -m 0644 ${S}/$dir/*.h ${D}${includedir}/${BPN}${VER}/$dir/
-> + install -d ${D}${includedir}/${BPN}/$dir
-> + install -m 0644 ${S}/$dir/*.h ${D}${includedir}/${BPN}/$dir/
->   done
->  }
->
-> --
-> 2.49.0
->
->
-> I have seen that debian also installs headers in /usr/include/tcl and we =
-could then set includedir in tk.bb
-> like this without having to deal with dynamically changing directory:
->
-> EXTRA_OEMAKE +=3D "TCLDIR=3D${STAGING_INCDIR}/tcl"
->
-> As this is invasive, I wanted to ask whether there are any objections and=
- whether this would be a possible solution at all?
->
->
->
-> On Tue, Jul 1 2025 at 13:27:34 +02:00:00, Markus Volk via lists.openembed=
-ded.org <f_l_k=3Dt-online.de@lists.openembedded.org> wrote:
->
-> add the sed command as a new line. Editing ${WORKDIR} is still required
->
-> On Tue, Jul 1 2025 at 13:24:15 +02:00:00, Markus Volk via lists.openembed=
-ded.org <f_l_k=3Dt-online.de@lists.openembedded.org> wrote:
->
-> Add a sed command that edits tclConfig.sh. This is needed so that tk in m=
-eta-oe is capable of reading the required header file Signed-off-by: Markus=
- Volk <f_l_k@t-online.de> --- meta/recipes-devtools/tcltk/tcl_9.0.1.bb | 1 =
-+ 1 file changed, 1 insertion(+) diff --git a/meta/recipes-devtools/tcltk/t=
-cl_9.0.1.bb b/meta/recipes-devtools/tcltk/tcl_9.0.1.bb index 70aa9b606c..15=
-f03b6c9e 100644 --- a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb +++ b/meta/r=
-ecipes-devtools/tcltk/tcl_9.0.1.bb @@ -52,6 +52,7 @@ do_install() { ln -sf =
-tclsh9.0 ${D}${bindir}/tclsh${VER} sed -i "s;-L${B};-L${STAGING_LIBDIR};g" =
-tclConfig.sh sed -i "s;'${WORKDIR};'${STAGING_INCDIR};g" tclConfig.sh + sed=
- -i "s;'${UNPACKDIR};'${STAGING_INCDIR};g" tclConfig.sh install -d ${D}${bi=
-ndir_crossscripts} install -m 0755 tclConfig.sh ${D}${bindir_crossscripts} =
-install -m 0755 tclConfig.sh ${D}${libdir}
-> --
-> 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#219567): https://lists.openembedded.org/g/openembedde=
-d-core/message/219567
-> Mute This Topic: https://lists.openembedded.org/mt/113925455/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Is there a place I can look (documentation or code) that will help me
+understand why this is necessary?
+
+Thanks,
+Jon
+
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#219524): https://lists.openembedded.org/g/openembed=
+ded-core/message/219524
+> > Mute This Topic: https://lists.openembedded.org/mt/113909237/3616948
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+mark.hatle@kernel.crashing.org]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
