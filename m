@@ -2,148 +2,104 @@ Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA74C83038
-	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 13:24:33 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web10.10575.1751376268869983239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B893AC7EE30
+	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 13:27:33 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web10.10642.1751376449709495054
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 06:24:29 -0700
+ Tue, 01 Jul 2025 06:27:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=IFK2MF+j;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.161.47, mailfrom: jdmason@kudzu.us)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-610db3f3f90so2651065eaf.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 06:24:28 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=2f99eDpX;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.169, mailfrom: jdmason@kudzu.us)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4a818fdab84so39049721cf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 06:27:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1751376268; x=1751981068; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mDr05dFb/+8Fx/UH+MUUY7Z2N13F4fBv49dQvgMxK2s=;
-        b=IFK2MF+jy+it37r2ZBY2mxKxjrTxqHDtwkhMAOuwIQysjFtoo0xC/zIZHz1fF3cvB3
-         sfE3LWwRekbfzLCaL8jGag2kCtBq5+oYGTvsrKVdS3G16mhkxt3c73dZs84Jxb8NSt4I
-         GHiecdecgX7ZWUhD5/KzveDr+zoprJH9ojYM9eBgGgAipBQuMojST4F2PoVe0Tcr0MOi
-         nw1SOXU7zTYHW2+HN0d/sYMlDcHHldN8NEGT/bfQqiA6dYNMo9AboQEhQHNML7jMOZT9
-         8J5oukR6jjuebmzA5cGfxQQ/v+8jJbfXAW7zqxbcq0c2iZ5ddLITnPeVWRykCqzUkvXI
-         Jyqg==
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1751376448; x=1751981248; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KT8oAgdWJJGu/4iETWmUG8Rsb9QIAtAiLkn+MKuIv4Q=;
+        b=2f99eDpXVdQyHAvwFQb6cAnjSWyZ5OqZ/0RAXfjLOrQwN0BNaBbMs9bR40XiZVy0zm
+         Xq8RAmzt7AJTNFb3qwyN3HrYbzzilWXCPk8nLry3N7V3OjLBzTDE6XsBTk6D1O/VW3mA
+         rJMA2ETCbxKQi4nB+J/N+0gwMUS9XGbvYjY25bUXT2d5yMNmQeKHNQ20yG8Tc4pqxRnB
+         aECqf9OlDeJ8jCMRTSAR/v+MRTzz07lFZoa7Yuvhit8YwL5ezVB/W3nx9X8qt7m2+44m
+         cY8HHvzLR+sfhs9WkpmB8P401PVM6lrCLXKPqpLOX5yHEZNJYdNz0RfFVw4t8VVFXTfH
+         ZsLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751376268; x=1751981068;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mDr05dFb/+8Fx/UH+MUUY7Z2N13F4fBv49dQvgMxK2s=;
-        b=Zq2j62rj3ZtzPPOGZBjGPBhzMBnkQVq23EPqEhRkfziNSuIJrxj/2S3V3LsJr5weXm
-         5UonI3pLAzhG0HoR+xuXZ5l13lwWrP0wthUG03w12GMICeBuuFavoZtKqeHdJM0OCUu8
-         XCD0RGdNc2X4BxvxCtMs726jWOyM6MtRWHVstAeP6wcnqqYZQNxFmDsmmFKV3YLZBF6d
-         49Nct4kFkot3kTdj8185qa0E3gTIl8+ziRRHonQS+Jlt+xD2NuQQPrWzMbLl+b8mnJP/
-         hS2TacYWSDh7yrnV23kPW0kX+iDarus8sxLezxdDkHEd2nR1TzqTn38uyel59tXafWiv
-         BRyg==
-X-Gm-Message-State: AOJu0YzRU6lIKGrX6IdD+1EigItDtZS79n5bZGdEAbiQN/e6uXJAeBUE
-	p5oTS4ydVx37MTiWVjhiksmAEnyfnPr10cEXxDqayCYQcG0yCvqRSQAld5W8yp5hjRtgQluWEU4
-	IFEbiUckTupS2ZkMAXoAzyK0haLIXolkufbRRMWBmwW4Fxd5eMag=
-X-Gm-Gg: ASbGncvdSfiDU9ZP/BjMbKbqQtt1StNUHeRB2+3oqmLkRr3RZKvotBJSaKVBM/AkSmG
-	/mr0Me6nKnn0lhLKzMLTQSpEArQ8BSR+cR+ly77InRCHpe+hsR0znMRGNGjwH16ynL6cnDlQA18
-	/dWPOiXuBrwytUaaiR2SVBfW46rAp5Awy8OFZqtNFoKbc=
-X-Google-Smtp-Source: AGHT+IFOacnAlKY667Fr+y23dpH2W+0zf7aYnI2jt83JC5nPL6MZsocTkapDcm/kR4ywEgZuGxxE0N8/qIt8e+NcOcg=
-X-Received: by 2002:a05:6820:994:b0:611:aabf:2b7d with SMTP id
- 006d021491bc7-611b91b8ba5mr13385827eaf.7.1751376267939; Tue, 01 Jul 2025
- 06:24:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250630144814.255656-1-jdmason@kudzu.us> <5f3c3690-ae0f-4faf-8e6b-4e0c7b2d8eb6@kernel.crashing.org>
-In-Reply-To: <5f3c3690-ae0f-4faf-8e6b-4e0c7b2d8eb6@kernel.crashing.org>
+        d=1e100.net; s=20230601; t=1751376448; x=1751981248;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KT8oAgdWJJGu/4iETWmUG8Rsb9QIAtAiLkn+MKuIv4Q=;
+        b=Z3bc9CwexLMza6Pq4oJ24RPxwamhL5Jj+xKi8zey1qXwmEdvVRR6R5KGurZwptHU2d
+         tNFsjpvIb/VYl5/RGCyxIXuAr2QRZk9KsUg9rIJGd7s6yxd8Y/AVn10GbgYRaPQFcNzw
+         3Y2hgWxaExKqfj9jR+MN++bfKhIdUUDCKv5ZyA6xe9Xcsl1Ei8fQcEYWOgKxRNo372M+
+         mCYDQtLoKuH55XN0DctQTpzHqEzbQ1tAdDMyUfJA8hkaFGixgHNdFYYr3jX5AqWH6ldX
+         sSx6N5STcghFsouPBkLgauQH2fp3hSvFhpEZ+I7CRPMSPwerj9VoH/ZGj5J4u9acEgG2
+         G31g==
+X-Gm-Message-State: AOJu0YykM4pdTNq2J0JnHOYXhv4bT0h68PolFLudUwus4rvetaoTA/LK
+	Ykkz+l4SWMN3ZWH1qtW/+DNwdB+J0JexY7i+62er2s3JoTrcQa+oojJvZSLSEVpK3YMsi6Ejjtz
+	GvUo=
+X-Gm-Gg: ASbGncvZCy2u++qF7wvAk7ZQVUu3/AJ+7u6/Vgc5DSigHBk3WGRgsU1nQOmSxks2s4W
+	SgG0YxV6kzRpF1lSs2ceOavoTa9INb9LZHb/5rlLc2WhhivbV9SypUFnMsGA9SxEzVEh0rFdu4i
+	7Iez7Ua8Ou++WLLeNEVixKwAnQ4a3/ffQ7zjEf99A14OAJpgNHd/YyrxPvdr4huocyZdfufkKI1
+	OlZ3kyxkQAIKT45b5m99AAGRusg+C/tKHMMB4EhPsqTYmuAmKhXgB4pwgfT6T3oDGjXyg+e36RG
+	Ysd7LtZ2J/VJ+P+oKMzb7moRwMypThcrzAi5AcMv8RXRZAX9B/gcfQ==
+X-Google-Smtp-Source: AGHT+IHL11ayaNsiNUDwF7DBw+KRNAiFH/QwmSfz0CesgsXhnX2q8u112Pl6qzNHWs5A33ehUDUjLw==
+X-Received: by 2002:a05:6214:3015:b0:6e8:ddf6:d11e with SMTP id 6a1803df08f44-70002247794mr264223656d6.21.1751376447941;
+        Tue, 01 Jul 2025 06:27:27 -0700 (PDT)
+Received: from localhost ([136.56.27.188])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ff154872c6sm81642046d6.80.2025.07.01.06.27.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jul 2025 06:27:27 -0700 (PDT)
 From: Jon Mason <jdmason@kudzu.us>
-Date: Tue, 1 Jul 2025 09:24:15 -0400
-X-Gm-Features: Ac12FXzN4XiXYW5W3xwA8YdG0U4vEKSI6ZAQat7daszScTZ3X6x2vhhPPLRXfNg
-Message-ID: <CAPoiz9yNoyxxGCzJU4bo7h1XYFjqNFeh1iX15CnLdkZz3025HQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libucontext: use hard/soft float
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] libucontext: use hard/soft float
+Date: Tue,  1 Jul 2025 09:27:23 -0400
+Message-Id: <20250701132723.3214755-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 13:24:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219569
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 13:27:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219570
 
-On Mon, Jun 30, 2025 at 12:32=E2=80=AFPM Mark Hatle
-<mark.hatle@kernel.crashing.org> wrote:
->
->
->
-> On 6/30/25 9:48 AM, Jon Mason wrote:
-> > From: Jon Mason <jon.mason@arm.com>
-> >
-> > When building for qemuarm-secureboot in meta-arn with musl and clang,
-> > the following compile error is seen:
-> > - | ../sources/libucontext-1.3.2/arch/arm/swapcontext.S:23:11: error: u=
-nknown token in expression
-> > - |  ldr r4, =3D#0x56465001
-> > - |           ^
-> >
-> > This is happening because 1.3 added ifdefs for assembly code for both
-> > hard and soft float, and bcause neither is being defined, it is taking
-> > this path with the issue.
-> >
-> > Since we can tell if soft or hard float is being used via the TARGET_FP=
-U
-> > variable, use that and set the relevant makefile flag.
-> >
-> > Signed-off-by: Jon Mason <jon.mason@arm.com>
-> > ---
-> >   meta/recipes-core/musl/libucontext_1.3.2.bb | 3 +++
-> >   1 file changed, 3 insertions(+)
-> >
-> > diff --git a/meta/recipes-core/musl/libucontext_1.3.2.bb b/meta/recipes=
--core/musl/libucontext_1.3.2.bb
-> > index 2362cba5c8a2..92001bbe7bb5 100644
-> > --- a/meta/recipes-core/musl/libucontext_1.3.2.bb
-> > +++ b/meta/recipes-core/musl/libucontext_1.3.2.bb
-> > @@ -48,3 +48,6 @@ def map_kernel_arch(a, d):
-> >
-> >   EXTRA_OEMESON =3D "-Dcpu=3D${@map_kernel_arch(d.getVar('TARGET_ARCH')=
-, d)}"
-> >   inherit meson
-> > +
-> > +TARGET_CPPFLAGS:arm +=3D "${@bb.utils.contains('TARGET_FPU', 'hard', '=
--DFORCE_HARD_FLOAT', '', d)}"
-> > +TARGET_CPPFLAGS:arm +=3D "${@bb.utils.contains('TARGET_FPU', 'soft', '=
--DFORCE_SOFT_FLOAT', '', d)}"
->
-> The above doesn't +=3D to TARGET_CPPFLAGS, it _replaces_ TARGET_CPPFLAGS.
->
-> This is probably not what you want.
->
-> What I've done in the past is:
->
-> ARM_TARGET_CPPFLAGS =3D ""
-> ARM_TARGET_CPPFLAGS:append:arm =3D "${@bb.utils.contains('TARGET_FPU', 'h=
-ard', '-
-> DFORCE_HARD_FLOAT', '', d)}"
-> ARM_TARGET_CPPFLAGS:append:arm =3D "${@bb.utils.contains('TARGET_FPU', 's=
-oft', '
-> -DFORCE_SOFT_FLOAT', '', d)}"
->
-> TARGET_CPPFLAGS .=3D "${ARM_TARGET_CPPFLAGS}"
+From: Jon Mason <jon.mason@arm.com>
 
-Thanks for the insight Mark, I will happily steal your changes and
-throw it as a v2 :)
+When building for qemuarm-secureboot in meta-arn with musl and clang,
+the following compile error is seen:
+- | ../sources/libucontext-1.3.2/arch/arm/swapcontext.S:23:11: error: unknown token in expression
+- |  ldr r4, =#0x56465001
+- |           ^
 
-Is there a place I can look (documentation or code) that will help me
-understand why this is necessary?
+This is happening because 1.3 added ifdefs for assembly code for both
+hard and soft float, and bcause neither is being defined, it is taking
+this path with the issue.
 
-Thanks,
-Jon
+Since we can tell if soft or hard float is being used via the TARGET_FPU
+variable, use that and set the relevant makefile flag.
 
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#219524): https://lists.openembedded.org/g/openembed=
-ded-core/message/219524
-> > Mute This Topic: https://lists.openembedded.org/mt/113909237/3616948
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-mark.hatle@kernel.crashing.org]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+Signed-off-by: Jon Mason <jon.mason@arm.com>
+---
+ meta/recipes-core/musl/libucontext_1.3.2.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-core/musl/libucontext_1.3.2.bb b/meta/recipes-core/musl/libucontext_1.3.2.bb
+index 2362cba5c8a2..1d14a527a850 100644
+--- a/meta/recipes-core/musl/libucontext_1.3.2.bb
++++ b/meta/recipes-core/musl/libucontext_1.3.2.bb
+@@ -48,3 +48,9 @@ def map_kernel_arch(a, d):
+ 
+ EXTRA_OEMESON = "-Dcpu=${@map_kernel_arch(d.getVar('TARGET_ARCH'), d)}"
+ inherit meson
++
++ARM_TARGET_CPPFLAGS = ""
++ARM_TARGET_CPPFLAGS:append:arm = "${@bb.utils.contains('TARGET_FPU', 'hard', '-DFORCE_HARD_FLOAT', '', d)}"
++ARM_TARGET_CPPFLAGS:append:arm = "${@bb.utils.contains('TARGET_FPU', 'soft', '-DFORCE_SOFT_FLOAT', '', d)}"
++
++TARGET_CPPFLAGS .= "${ARM_TARGET_CPPFLAGS}"
+-- 
+2.39.5
+
 
