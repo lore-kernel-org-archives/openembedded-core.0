@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C571C87FCB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 787E1C87FCD
 	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 16:20:36 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.1420.1751386805057472888
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.1435.1751386810851649396
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 09:20:28 -0700
+ Tue, 01 Jul 2025 09:20:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=b0d4/SPv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=fBTfFonn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010197c6ca2b99-6fdf42c4-7eaf-463f-8b42-886e7abe5630-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZOMOvKZa;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=IJqCEfe1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010197c6ca20a3-77d9b4c9-24d2-4a28-b0c7-c19bfcacef2a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751386827;
+	t=1751386825;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+YJE06gaVQ9xrzSRYDRX9hNCcZcNal275Ks+SKOaAN0=;
-	b=b0d4/SPvG1osMh1dUkfwHpnutkfLx3ZAaf1S/BSdSm/HtVAx9THeiSIq0AL4sIW9
-	DnrhFJ1QSd0FhbqHIS18g00rSbzXtDFqH5p5ujvXZB66q+mcjyDq7btWijdrtuGhSJy
-	TMfO9EOaSqIfNElLOQiXqZ2v2zx/rFj9Svkfw6bc=
+	bh=9iz4JI1MYkfz6DUF6csZg+9LF+ZZTPqa99lC6jq+zJg=;
+	b=ZOMOvKZaQra5L8sVQknPG+hTLpZ27b+rdjlMebx+RCkMz8rkDkkzOeJndA5pNpPH
+	A10rjqMbNdE5VHtfLRXxESZs5Y2839D24ILfw6TYrJFCGewvsgOMeLprZQjRGbyNlr2
+	JZbEUQLcfkVXITqmENiNztVZu2X8ykPRW0XBbSro=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386827;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386825;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+YJE06gaVQ9xrzSRYDRX9hNCcZcNal275Ks+SKOaAN0=;
-	b=fBTfFonnTGkEyDJNlPZ8ymmUAV4ZWnTd5g2ZSZd4H0IkrThL2RYCeyzqip1/lwDI
-	EhHjCnllXiy8cypDCrDljdUjkyvrN1tdNWdsACTtmQ1SBxmBCkcAfzOgDxnhCEv8SXf
-	hC5fn8HE4BBlTNiRBJ+a09Xe3JGdpTLBrxB+cSzY=
-Content-Type: multipart/mixed; boundary="===============2145941318178674576=="
+	bh=9iz4JI1MYkfz6DUF6csZg+9LF+ZZTPqa99lC6jq+zJg=;
+	b=IJqCEfe1U7/fUvlZZHt9e+bfffnl23mM3QPKFVdvlN6fc5pPW1mEHThcQOPKAhj+
+	5fmSeGfykWU+mD71XvmK4Z0b2KTKPOjNb8XB0JBpiOjFxlU8WszS6AQL+egLRrLXij6
+	n7dOK4kXv0/aYKOgt8owMoglmci8Q1BoJKWNgY7E=
+Content-Type: multipart/mixed; boundary="===============8459321998564297320=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: 
+	=?utf-8?q?Simone_Wei=C3=9F_=3Csimone=2Ep=2Eweiss=40posteo=2Ecom=3E?=@yoctoproject.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-llvm-translator: upgrading to 20.1.4 SUCCEEDED
-Message-ID: <01010197c6ca2b99-6fdf42c4-7eaf-463f-8b42-886e7abe5630-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Jul 2025 16:20:27 +0000
+Subject: [AUH] libadwaita: upgrading to 1.7.5 SUCCEEDED
+Message-ID: <01010197c6ca20a3-77d9b4c9-24d2-4a28-b0c7-c19bfcacef2a-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Jul 2025 16:20:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.01-54.240.27.33
+X-SES-Outgoing: 2025.07.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 16:20:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219682
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219673
 
---===============2145941318178674576==
+--===============8459321998564297320==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *spirv-llvm-translator* to *20.1.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libadwaita* to *1.7.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-llvm-translator-upgrade-20.1.2-20.1.4.patch
+    - apply the patch: git am 0001-libadwaita-upgrade-1.7.4-1.7.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,82 +73,42 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 94b6ea50e2a7fd12024299f9527d633054353030 Mon Sep 17 00:00:00 2001
+From 797752138b0349d86e1620a92b4a5202b52c43e7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Jul 2025 14:35:47 +0000
-Subject: [PATCH] spirv-llvm-translator: upgrade 20.1.2 -> 20.1.4
+Date: Tue, 1 Jul 2025 13:03:47 +0000
+Subject: [PATCH] libadwaita: upgrade 1.7.4 -> 1.7.5
 
 ---
- ...llvm-translator_20.1.2.bb => spirv-llvm-translator_20.1.4.bb} | 1 +
- 1 file changed, 1 insertion(+)
- rename meta/recipes-graphics/spir/{spirv-llvm-translator_20.1.2.bb => spirv-llvm-translator_20.1.4.bb} (96%)
+ .../libadwaita/{libadwaita_1.7.4.bb => libadwaita_1.7.5.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/libadwaita/{libadwaita_1.7.4.bb => libadwaita_1.7.5.bb} (88%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-similarity index 96%
-rename from meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb
-rename to meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-index 4952e8ba4f..497ad72ed0 100644
---- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb
-+++ b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
+diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.7.4.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb
+similarity index 88%
+rename from meta/recipes-gnome/libadwaita/libadwaita_1.7.4.bb
+rename to meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb
+index e2bfb0984e..e8a8d21f02 100644
+--- a/meta/recipes-gnome/libadwaita/libadwaita_1.7.4.bb
++++ b/meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb
+@@ -11,7 +11,7 @@ DEPENDS = " \
  
- # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
- SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
-+SRCREV = "74843f2186bb63b6802758222084da17fcbe603c"
- SRC_URI = " \
-     git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;name=spirv;branch=${SPIRV_BRANCH} \
- "
+ inherit gnomebase gobject-introspection gi-docgen vala features_check
+ 
+-SRC_URI[archive.sha256sum] = "a012bef97ac0d726b969b18099f75fc5eee9e92c012af9672b827350d53ae970"
++SRC_URI[archive.sha256sum] = "c2c1813c967d45c0f49e907f8c26e66f68fe49dec6436e2d3349350ac9efbd2e"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES = "opengl"
 -- 
 2.47.1
 
 
---===============2145941318178674576==
+--===============8459321998564297320==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86_64-linux/clang-cross-x86_64 (sysroot):
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-clang was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-clang++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-clang-tidy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.lld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-cov was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-profdata was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-strip was added
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-clang was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-clang++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-clang-tidy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.lld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-cov was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-profdata was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-strip was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1746,101 +1707,160 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============2145941318178674576==
+--===============8459321998564297320==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-spirv-llvm-translator-upgrade-20.1.2-20.1.4.patch"
+ filename="0001-libadwaita-upgrade-1.7.4-1.7.5.patch"
 
-RnJvbSA5NGI2ZWE1MGUyYTdmZDEyMDI0Mjk5Zjk1MjdkNjMzMDU0MzUzMDMwIE1vbiBTZXAgMTcg
+RnJvbSA3OTc3NTIxMzhiMDM0OWQ4NmUxNjIwYTkyYjRhNTIwMmI1MmM0M2U3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxNDozNTo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
-aXJ2LWxsdm0tdHJhbnNsYXRvcjogdXBncmFkZSAyMC4xLjIgLT4gMjAuMS40CgotLS0KIC4uLmxs
-dm0tdHJhbnNsYXRvcl8yMC4xLjIuYmIgPT4gc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIwLjEuNC5i
-Yn0gfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9zcGlyL3tzcGlydi1sbHZtLXRyYW5zbGF0b3JfMjAuMS4yLmJiID0+IHNw
-aXJ2LWxsdm0tdHJhbnNsYXRvcl8yMC4xLjQuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIwLjEuMi5iYiBiL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRvcl8yMC4xLjQuYmIK
-c2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Nw
-aXIvc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIwLjEuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL3NwaXIvc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIwLjEuNC5iYgppbmRleCA0OTUy
-ZThiYTRmLi40OTdhZDcyZWQwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bp
-ci9zcGlydi1sbHZtLXRyYW5zbGF0b3JfMjAuMS4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRvcl8yMC4xLjQuYmIKQEAgLTYsNiArNiw3IEBA
-IExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UuVFhUO21kNT00N2UzMTFhYTljYWVk
-ZDFiM2FiZjA5OGJkNzgxNGQxZCIKIAogIyBwYXR0ZXJuOiBsbHZtX2JyYW5jaF8yMDAsIGN1cnJl
-bnRseSB0aGVyZSBhcmUgbm8gbWlub3IgcmVsZWFzZXMsIHNvLCBubyBsbHZtX2JyYW5jaF8yMDEK
-IFNQSVJWX0JSQU5DSCA9ICJsbHZtX3JlbGVhc2VfJHtAb2UudXRpbHMudHJpbV92ZXJzaW9uKCck
-e1BWfScsIDEpLnJlcGxhY2UoJy4nLCAnJyl9MCIKK1NSQ1JFViA9ICI3NDg0M2YyMTg2YmI2M2I2
-ODAyNzU4MjIyMDg0ZGExN2ZjYmU2MDNjIgogU1JDX1VSSSA9ICIgXAogICAgIGdpdDovL2dpdGh1
-Yi5jb20vS2hyb25vc0dyb3VwL1NQSVJWLUxMVk0tVHJhbnNsYXRvcjtwcm90b2NvbD1odHRwcztu
-YW1lPXNwaXJ2O2JyYW5jaD0ke1NQSVJWX0JSQU5DSH0gXAogIgotLSAKMi40Ny4xCgo=
+CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxMzowMzo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmFkd2FpdGE6IHVwZ3JhZGUgMS43LjQgLT4gMS43LjUKCi0tLQogLi4uL2xpYmFkd2FpdGEve2xp
+YmFkd2FpdGFfMS43LjQuYmIgPT4gbGliYWR3YWl0YV8xLjcuNS5iYn0gICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWdub21lL2xpYmFkd2FpdGEve2xpYmFkd2FpdGFfMS43LjQuYmIgPT4gbGliYWR3YWl0
+YV8xLjcuNS5iYn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGliYWR3
+YWl0YS9saWJhZHdhaXRhXzEuNy40LmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYmFkd2FpdGEv
+bGliYWR3YWl0YV8xLjcuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZ25vbWUvbGliYWR3YWl0YS9saWJhZHdhaXRhXzEuNy40LmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtZ25vbWUvbGliYWR3YWl0YS9saWJhZHdhaXRhXzEuNy41LmJiCmluZGV4IGUy
+YmZiMDk4NGUuLmU4YThkMjFmMDIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJh
+ZHdhaXRhL2xpYmFkd2FpdGFfMS43LjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYmFk
+d2FpdGEvbGliYWR3YWl0YV8xLjcuNS5iYgpAQCAtMTEsNyArMTEsNyBAQCBERVBFTkRTID0gIiBc
+CiAKIGluaGVyaXQgZ25vbWViYXNlIGdvYmplY3QtaW50cm9zcGVjdGlvbiBnaS1kb2NnZW4gdmFs
+YSBmZWF0dXJlc19jaGVjawogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJhMDEyYmVm
+OTdhYzBkNzI2Yjk2OWIxODA5OWY3NWZjNWVlZTllOTJjMDEyYWY5NjcyYjgyNzM1MGQ1M2FlOTcw
+IgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYzJjMTgxM2M5NjdkNDVjMGY0OWU5MDdm
+OGMyNmU2NmY2OGZlNDlkZWM2NDM2ZTJkMzM0OTM1MGFjOWVmYmQyZSIKIAogQU5ZX09GX0RJU1RS
+T19GRUFUVVJFUyA9ICIke0dUSzNESVNUUk9GRUFUVVJFU30iCiBSRVFVSVJFRF9ESVNUUk9fRkVB
+VFVSRVMgPSAib3BlbmdsIgotLSAKMi40Ny4xCgo=
 
---===============2145941318178674576==
+--===============8459321998564297320==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/spirv-llvm-translator: PKGV changed from 20.1.2 [default] to 20.1.4 [default]
-packages/core2-64-poky-linux/spirv-llvm-translator: PV changed from "20.1.2" to "20.1.4"
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PKGV changed from 20.1.2 [default] to 20.1.4 [default]
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PV changed from "20.1.2" to "20.1.4"
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PKGV changed from 20.1.2 [default] to 20.1.4 [default]
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PV changed from "20.1.2" to "20.1.4"
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PKGV changed from 20.1.2 [default] to 20.1.4 [default]
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PV changed from "20.1.2" to "20.1.4"
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PKGV changed from 20.1.2 [default] to 20.1.4 [default]
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PV changed from "20.1.2" to "20.1.4"
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PKGV changed from 20.1.2 [default] to 20.1.4 [default]
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PV changed from "20.1.2" to "20.1.4"
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PKGV changed from 20.1.2 [default] to 20.1.4 [default]
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PV changed from "20.1.2" to "20.1.4"
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PKGV changed from 20.1.2 [default] to 20.1.4 [default]
-packages/core2-64-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PV changed from "20.1.2" to "20.1.4"
-Changes to packages/x86_64-linux/clang-cross-x86_64 (sysroot):
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-clang was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-clang++ was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-clang-tidy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.lld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-cov was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-profdata was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-llvm-strip was added
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-clang was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-clang++ was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-clang-tidy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.lld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-cov was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-profdata was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-llvm-strip was removed
+packages/core2-64-poky-linux/libadwaita: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita: SRC_URI changed from "https://download.gnome.org/sources//libadwaita/1.7/libadwaita-1.7.4.tar.xz;name=archive" to "https://download.gnome.org/sources//libadwaita/1.7/libadwaita-1.7.5.tar.xz;name=archive"
+packages/core2-64-poky-linux/libadwaita/libadwaita-dbg: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-dbg: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-dbg: PKGSIZE changed from 4730432 to 4729624 (-0%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-dev: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-dev: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-doc: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-doc: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ab: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ab: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-be: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-be: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-bg: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-bg: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ca: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ca: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-cs: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-cs: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-da: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-da: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-de: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-de: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-el: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-el: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-en-gb: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-en-gb: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eo: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eo: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-es: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-es: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eu: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eu: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fa: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fa: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fi: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fi: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fil: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fil: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fr: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fr: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fur: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fur: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-gl: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-gl: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-he: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-he: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hi: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hi: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hr: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hr: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hu: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hu: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-id: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-id: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-it: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-it: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ja: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ja: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ka: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ka: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kab: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kab: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kk: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kk: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ko: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ko: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lt: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lt: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lv: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lv: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nb: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nb: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ne: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ne: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nl: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nl: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-oc: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-oc: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pa: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pa: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pl: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pl: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt-br: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt-br: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ro: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ro: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ru: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ru: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sk: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sk: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sl: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sl: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sr: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sr: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sv: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sv: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-th: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-th: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-tr: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-tr: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-uk: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-uk: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-vi: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-vi: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-cn: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-cn: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-tw: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-tw: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-src: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-src: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita: PV changed from "1.7.4" to "1.7.5"
+packages/core2-64-poky-linux/libadwaita/libadwaita: PKGV changed from 1.7.4 [default] to 1.7.5 [default]
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3439,5 +3459,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============2145941318178674576==--
+--===============8459321998564297320==--
 
