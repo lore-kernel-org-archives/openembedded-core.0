@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35792C83F17
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA3BDC83F1A
 	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 16:20:35 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
  by mx.groups.io with SMTP id smtpd.web10.1429.1751386808085277878
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Jul 2025 09:20:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Qpt7yz/R;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Jdamss+U;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010197c6ca39d6-059297cd-dcbb-4eb7-ae3c-81c6ba75b855-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GAMuYpth;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=anvsQRcF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010197c6ca38bd-ee3c1a9f-1cdc-44b0-8f27-8ec110a0dffb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1751386831;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lQ5q2yax788KSHM6D71G0hwmaidQQVp5lC7yUhUv+E0=;
-	b=Qpt7yz/Ryc32jbxQsvQaksxldpkQsP3Xf6kfiaE7I5OKNSP25DfBmJhiURn4ScZC
-	BEHBQbZ3TdVz19fZ3jeaHIoMd+JYIQby3KA67gMKCwncXX4vtwGXBdi2f/GVUvHvcv3
-	RJDmQmykqGXmDHadESiZbwtAJlLjQhaw+vPOS8CI=
+	bh=EuwFBfJwKvS/3FO743QisapTjrWgAeun5MOJEQ9gl8I=;
+	b=GAMuYpthIMpPBEjXV5670Cr6qwi9mp/JoxALuQcUJXfpQ964lM6no4SYzGB7yht0
+	hkUc6VGUvCXJMN0k6wSfBPJLcheIefJJsG1KkwX+cKr271uK3ho26wbhz1xZaWy0nXD
+	lAgRcl0JRRpHwhXjDb+J5a/a37mXGtUqdFBLiYHQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386831;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lQ5q2yax788KSHM6D71G0hwmaidQQVp5lC7yUhUv+E0=;
-	b=Jdamss+UZD8tJcK1TQ7/p5kdePsplKvTDAcpoIsGeYvRdsfaIwm5uV+ca4Ul0jvO
-	4z0m/My5ogZCNRQOe+euYBmIs/jU5rARy9bEZAnYZ+ReEkr1TBSrrbAJWtwsJ7zMUsY
-	E9P6VDDsBf8Wz8X7nur3Qim70lYqD55giE+U5LZw=
-Content-Type: multipart/mixed; boundary="===============4386578909158968777=="
+	bh=EuwFBfJwKvS/3FO743QisapTjrWgAeun5MOJEQ9gl8I=;
+	b=anvsQRcFnILu4VlWp8j8hF5bkZjCZFGGYcbL3eWbl/EU1PkCKYEtUP/06Imk0mOM
+	05gnsI8sdUkplKkAx6IeY/X5H5cgqBIWU3rPKcUXrCdfmtep8U9vdMCdgHJDARUqdMb
+	fGtZTIf8qvIdbOYeTNAOvTjAWdJ1ainmrK217zJk=
+Content-Type: multipart/mixed; boundary="===============1611076999693094147=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libogg: upgrading to 1.3.6 SUCCEEDED
-Message-ID: <01010197c6ca39d6-059297cd-dcbb-4eb7-ae3c-81c6ba75b855-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0: upgrading to 1.26.3 SUCCEEDED
+Message-ID: <01010197c6ca38bd-ee3c1a9f-1cdc-44b0-8f27-8ec110a0dffb-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Jul 2025 16:20:31 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.07.01-54.240.27.33
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 16:20:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219694
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219693
 
---===============4386578909158968777==
+--===============1611076999693094147==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libogg* to *1.3.6* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0* to *1.26.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libogg-upgrade-1.3.5-1.3.6.patch
+    - apply the patch: git am 0001-gstreamer1.0-upgrade-1.26.2-1.26.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,75 +72,108 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2ba5bdef3bfd6177dabae91916f9c848ab0dbeda Mon Sep 17 00:00:00 2001
+From c7b9723d4147cb689f81a45328ed30540c1ffa2b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Jul 2025 15:27:06 +0000
-Subject: [PATCH] libogg: upgrade 1.3.5 -> 1.3.6
+Date: Tue, 1 Jul 2025 15:24:24 +0000
+Subject: [PATCH] gstreamer1.0: upgrade 1.26.2 -> 1.26.3
 
 ---
- .../libogg/{libogg_1.3.5.bb => libogg_1.3.6.bb}                 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/libogg/{libogg_1.3.5.bb => libogg_1.3.6.bb} (87%)
+ .../0001-tests-respect-the-idententaion-used-in-meson.patch   | 2 +-
+ .../0002-tests-add-support-for-install-the-tests.patch        | 4 ++--
+ .../0003-tests-use-a-dictionaries-for-environment.patch       | 2 +-
+ ...4-tests-add-helper-script-to-run-the-installed_tests.patch | 2 +-
+ .../{gstreamer1.0_1.26.2.bb => gstreamer1.0_1.26.3.bb}        | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.2.bb => gstreamer1.0_1.26.3.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/libogg/libogg_1.3.5.bb b/meta/recipes-multimedia/libogg/libogg_1.3.6.bb
-similarity index 87%
-rename from meta/recipes-multimedia/libogg/libogg_1.3.5.bb
-rename to meta/recipes-multimedia/libogg/libogg_1.3.6.bb
-index 402d700aa1..4810f156f2 100644
---- a/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
-+++ b/meta/recipes-multimedia/libogg/libogg_1.3.6.bb
-@@ -11,6 +11,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=db1b7a668b2a6f47b2af88fb008ad555 \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+index 5db93c5be1..f4bc00c5ba 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+@@ -1,4 +1,4 @@
+-From cb49c5433f343aa9ae6c0656d2e835365330922b Mon Sep 17 00:00:00 2001
++From a51664ed22841276b55413e756306301ed07678d Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: respect the idententaion used in meson
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+index ba8e410669..7826cfdbaf 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+@@ -1,4 +1,4 @@
+-From bfb530d2f0761f28c2645e2c45de5147b0528e4d Mon Sep 17 00:00:00 2001
++From b2945451ee7365d725884e873fe7c1ec116988c4 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: add support for install the tests
+@@ -19,7 +19,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+  create mode 100644 tests/check/template.test.in
  
- SRC_URI = "http://downloads.xiph.org/releases/ogg/${BP}.tar.xz"
+ diff --git a/meson.build b/meson.build
+-index ba50005..09c7212 100644
++index c87caf5..b63834f 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -664,6 +664,10 @@ if bashcomp_dep.found()
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+index 79e494a22a..2b9747a250 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+@@ -1,4 +1,4 @@
+-From d24110809da4588354ad3df4ae99556e8c62838a Mon Sep 17 00:00:00 2001
++From c07c60c872f9dadd65ce744a404ddb4f625e2495 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 24 Apr 2021 10:34:47 +0100
+ Subject: [PATCH] tests: use a dictionaries for environment
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+index 4b1aad2616..2c2b733ceb 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+@@ -1,4 +1,4 @@
+-From 3b9ae399b57cfb6e332fac6a90997a3abd33c819 Mon Sep 17 00:00:00 2001
++From 504e0a372a26209d58e0d339b1d0182d51020fa6 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 2 May 2021 01:58:01 +0100
+ Subject: [PATCH] tests: add helper script to run the installed_tests
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.3.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.3.bb
+index a921e39144..9de76944fb 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.3.bb
+@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0003-tests-use-a-dictionaries-for-environment.patch \
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
+            "
+-SRC_URI[sha256sum] = "f75334a3dff497c240844304a60015145792ecc3b6b213ac19841ccbd6fdf0ad"
++SRC_URI[sha256sum] = "dc661603221293dccc740862425eb54fbbed60fb29d08c801d440a6a3ff82680"
  
--SRC_URI[sha256sum] = "c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705"
-+SRC_URI[sha256sum] = "5c8253428e181840cd20d41f3ca16557a9cc04bad4a3d04cce84808677fa1061"
- 
- inherit autotools pkgconfig
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
 -- 
 2.47.1
 
 
---===============4386578909158968777==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libogg-upgrade-1.3.5-1.3.6.patch"
-
-RnJvbSAyYmE1YmRlZjNiZmQ2MTc3ZGFiYWU5MTkxNmY5Yzg0OGFiMGRiZWRhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxNToyNzowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-Ym9nZzogdXBncmFkZSAxLjMuNSAtPiAxLjMuNgoKLS0tCiAuLi4vbGlib2dnL3tsaWJvZ2dfMS4z
-LjUuYmIgPT4gbGlib2dnXzEuMy42LmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9saWJvZ2cve2xpYm9nZ18xLjMuNS5iYiA9PiBsaWJvZ2dfMS4zLjYuYmJ9
-ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlib2dnL2xpYm9n
-Z18xLjMuNS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYm9nZy9saWJvZ2dfMS4zLjYu
-YmIKc2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVk
-aWEvbGlib2dnL2xpYm9nZ18xLjMuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVk
-aWEvbGlib2dnL2xpYm9nZ18xLjMuNi5iYgppbmRleCA0MDJkNzAwYWExLi40ODEwZjE1NmYyIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJvZ2cvbGlib2dnXzEuMy41LmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYm9nZy9saWJvZ2dfMS4zLjYuYmIKQEAg
-LTExLDYgKzExLDYgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9ZGIx
-YjdhNjY4YjJhNmY0N2IyYWY4OGZiMDA4YWQ1NTUgXAogCiBTUkNfVVJJID0gImh0dHA6Ly9kb3du
-bG9hZHMueGlwaC5vcmcvcmVsZWFzZXMvb2dnLyR7QlB9LnRhci54eiIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gImM0ZDkxYmUzNmZjOGU1NGRlYWU3NTc1MjQxZTAzZjQyMTFlYjEwMmFmYjNmYzA3
-NzVmYmJjMWI3NDAwMTY3MDUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWM4MjUzNDI4ZTE4MTg0
-MGNkMjBkNDFmM2NhMTY1NTdhOWNjMDRiYWQ0YTNkMDRjY2U4NDgwODY3N2ZhMTA2MSIKIAogaW5o
-ZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnCi0tIAoyLjQ3LjEKCg==
-
---===============4386578909158968777==
+--===============1611076999693094147==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libogg/libogg: FILELIST: removed "/usr/lib/libogg.so.0.8.5", added "/usr/lib/libogg.so.0.8.6"
-Changes to packages/core2-64-poky-linux/libogg (sysroot):
-  /usr/lib/libogg.so.0 changed symlink target from libogg.so.0.8.5 to libogg.so.0.8.6
-  /usr/lib/libogg.so changed symlink target from libogg.so.0.8.5 to libogg.so.0.8.6
-  /usr/lib/libogg.so.0.8.5 moved to /usr/lib/libogg.so.0.8.6
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstreamer-1.0.so.0.2602.0 /usr/lib/libgstcontroller-1.0.so.0.2602.0 /usr/lib/libgstnet-1.0.so.0.2602.0 /usr/lib/libgstcheck-1.0.so.0.2602.0 /usr/lib/libgstbase-1.0.so.0.2602.0", added "/usr/lib/libgstcontroller-1.0.so.0.2603.0 /usr/lib/libgstnet-1.0.so.0.2603.0 /usr/lib/libgstreamer-1.0.so.0.2603.0 /usr/lib/libgstcheck-1.0.so.0.2603.0 /usr/lib/libgstbase-1.0.so.0.2603.0"
+Changes to packages/core2-64-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2602.0 to libgstbase-1.0.so.0.2603.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2602.0 to libgstcheck-1.0.so.0.2603.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2602.0 to libgstcontroller-1.0.so.0.2603.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2602.0 to libgstnet-1.0.so.0.2603.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2602.0 to libgstreamer-1.0.so.0.2603.0
+  /usr/lib/libgstbase-1.0.so.0.2602.0 moved to /usr/lib/libgstbase-1.0.so.0.2603.0
+  /usr/lib/libgstcheck-1.0.so.0.2602.0 moved to /usr/lib/libgstcheck-1.0.so.0.2603.0
+  /usr/lib/libgstcontroller-1.0.so.0.2602.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2603.0
+  /usr/lib/libgstnet-1.0.so.0.2602.0 moved to /usr/lib/libgstnet-1.0.so.0.2603.0
+  /usr/lib/libgstreamer-1.0.so.0.2602.0 moved to /usr/lib/libgstreamer-1.0.so.0.2603.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2602.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2603.0-gdb.py
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2064,38 +2097,234 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============4386578909158968777==
+--===============1611076999693094147==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-upgrade-1.26.2-1.26.3.patch"
+
+RnJvbSBjN2I5NzIzZDQxNDdjYjY4OWY4MWE0NTMyOGVkMzA1NDBjMWZmYTJiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxNToyNDoyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMDogdXBncmFkZSAxLjI2LjIgLT4gMS4yNi4zCgotLS0KIC4uLi8wMDAxLXRlc3Rz
+LXJlc3BlY3QtdGhlLWlkZW50ZW50YWlvbi11c2VkLWluLW1lc29uLnBhdGNoICAgfCAyICstCiAu
+Li4vMDAwMi10ZXN0cy1hZGQtc3VwcG9ydC1mb3ItaW5zdGFsbC10aGUtdGVzdHMucGF0Y2ggICAg
+ICAgIHwgNCArKy0tCiAuLi4vMDAwMy10ZXN0cy11c2UtYS1kaWN0aW9uYXJpZXMtZm9yLWVudmly
+b25tZW50LnBhdGNoICAgICAgIHwgMiArLQogLi4uNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10
+by1ydW4tdGhlLWluc3RhbGxlZF90ZXN0cy5wYXRjaCB8IDIgKy0KIC4uLi97Z3N0cmVhbWVyMS4w
+XzEuMjYuMi5iYiA9PiBnc3RyZWFtZXIxLjBfMS4yNi4zLmJifSAgICAgICAgfCAyICstCiA1IGZp
+bGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMF8xLjI2LjIuYmIgPT4g
+Z3N0cmVhbWVyMS4wXzEuMjYuMy5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDEtdGVzdHMtcmVzcGVjdC10aGUt
+aWRlbnRlbnRhaW9uLXVzZWQtaW4tbWVzb24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRp
+YS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDEtdGVzdHMtcmVzcGVjdC10aGUtaWRlbnRlbnRh
+aW9uLXVzZWQtaW4tbWVzb24ucGF0Y2gKaW5kZXggNWRiOTNjNWJlMS4uZjRiYzAwYzViYSAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8w
+MDAxLXRlc3RzLXJlc3BlY3QtdGhlLWlkZW50ZW50YWlvbi11c2VkLWluLW1lc29uLnBhdGNoCisr
+KyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMS10
+ZXN0cy1yZXNwZWN0LXRoZS1pZGVudGVudGFpb24tdXNlZC1pbi1tZXNvbi5wYXRjaApAQCAtMSw0
+ICsxLDQgQEAKLUZyb20gY2I0OWM1NDMzZjM0M2FhOWFlNmMwNjU2ZDJlODM1MzY1MzMwOTIyYiBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTUxNjY0ZWQyMjg0MTI3NmI1NTQxM2U3NTYz
+MDYzMDFlZDA3Njc4ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEpvc2UgUXVhcmVz
+bWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogRGF0ZTogU3VuLCAxMSBBcHIgMjAyMSAxOTo0
+ODoxMyArMDEwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0czogcmVzcGVjdCB0aGUgaWRlbnRlbnRh
+aW9uIHVzZWQgaW4gbWVzb24KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dz
+dHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMi10ZXN0cy1hZGQtc3VwcG9ydC1mb3ItaW5zdGFsbC10
+aGUtdGVzdHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
+bWVyMS4wLzAwMDItdGVzdHMtYWRkLXN1cHBvcnQtZm9yLWluc3RhbGwtdGhlLXRlc3RzLnBhdGNo
+CmluZGV4IGJhOGU0MTA2NjkuLjc4MjZjZmRiYWYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1t
+dWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMi10ZXN0cy1hZGQtc3VwcG9ydC1m
+b3ItaW5zdGFsbC10aGUtdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
+Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAyLXRlc3RzLWFkZC1zdXBwb3J0LWZvci1pbnN0YWxs
+LXRoZS10ZXN0cy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYmZiNTMwZDJmMDc2MWYyOGMy
+NjQ1ZTJjNDVkZTUxNDdiMDUyOGU0ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYjI5
+NDU0NTFlZTczNjVkNzI1ODg0ZTg3M2ZlN2MxZWMxMTY5ODhjNCBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogRGF0
+ZTogU3VuLCAxMSBBcHIgMjAyMSAxOTo0ODoxMyArMDEwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0
+czogYWRkIHN1cHBvcnQgZm9yIGluc3RhbGwgdGhlIHRlc3RzCkBAIC0xOSw3ICsxOSw3IEBAIFNp
+Z25lZC1vZmYtYnk6IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9jaGVjay90ZW1wbGF0ZS50ZXN0LmluCiAKIGRpZmYgLS1n
+aXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRleCBiYTUwMDA1Li4wOWM3MjEyIDEw
+MDY0NAoraW5kZXggYzg3Y2FmNS4uYjYzODM0ZiAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiAr
+KysgYi9tZXNvbi5idWlsZAogQEAgLTY2NCw2ICs2NjQsMTAgQEAgaWYgYmFzaGNvbXBfZGVwLmZv
+dW5kKCkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
+ZWFtZXIxLjAvMDAwMy10ZXN0cy11c2UtYS1kaWN0aW9uYXJpZXMtZm9yLWVudmlyb25tZW50LnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAz
+LXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1lbnQucGF0Y2gKaW5kZXggNzll
+NDk0YTIyYS4uMmI5NzQ3YTI1MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
+Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1mb3It
+ZW52aXJvbm1lbnQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1l
+bnQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQyNDExMDgwOWRhNDU4ODM1NGFkM2RmNGFl
+OTk1NTZlOGM2MjgzOGEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGMwN2M2MGM4NzJm
+OWRhZGQ2NWNlNzQ0YTQwNGRkYjRmNjI1ZTI0OTUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KIERhdGU6IFNhdCwg
+MjQgQXByIDIwMjEgMTA6MzQ6NDcgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IHVzZSBh
+IGRpY3Rpb25hcmllcyBmb3IgZW52aXJvbm1lbnQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1t
+dWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwNC10ZXN0cy1hZGQtaGVscGVyLXNj
+cmlwdC10by1ydW4tdGhlLWluc3RhbGxlZF90ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0
+aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlw
+dC10by1ydW4tdGhlLWluc3RhbGxlZF90ZXN0cy5wYXRjaAppbmRleCA0YjFhYWQyNjE2Li4yYzJi
+NzMzY2ViIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+cmVhbWVyMS4wLzAwMDQtdGVzdHMtYWRkLWhlbHBlci1zY3JpcHQtdG8tcnVuLXRoZS1pbnN0YWxs
+ZWRfdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dz
+dHJlYW1lcjEuMC8wMDA0LXRlc3RzLWFkZC1oZWxwZXItc2NyaXB0LXRvLXJ1bi10aGUtaW5zdGFs
+bGVkX3Rlc3RzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAzYjlhZTM5OWI1N2NmYjZlMzMy
+ZmFjNmE5MDk5N2EzYWJkMzNjODE5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1MDRl
+MGEzNzJhMjYyMDlkNThlMGQzMzliMWQwMTgyZDUxMDIwZmE2IE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiBEYXRl
+OiBTdW4sIDIgTWF5IDIwMjEgMDE6NTg6MDEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6
+IGFkZCBoZWxwZXIgc2NyaXB0IHRvIHJ1biB0aGUgaW5zdGFsbGVkX3Rlc3RzCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjYuMi5i
+YiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yNi4z
+LmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1l
+ZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yNi4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjYuMy5iYgppbmRleCBhOTIx
+ZTM5MTQ0Li45ZGU3Njk0NGZiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
+c3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjYuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGlt
+ZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjYuMy5iYgpAQCAtMjIsNyArMjIsNyBAQCBT
+UkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0cmVhbWVy
+L2dzdHJlYW1lci0ke1BWfS50YXIueAogICAgICAgICAgICBmaWxlOi8vMDAwMy10ZXN0cy11c2Ut
+YS1kaWN0aW9uYXJpZXMtZm9yLWVudmlyb25tZW50LnBhdGNoIFwKICAgICAgICAgICAgZmlsZTov
+LzAwMDQtdGVzdHMtYWRkLWhlbHBlci1zY3JpcHQtdG8tcnVuLXRoZS1pbnN0YWxsZWRfdGVzdHMu
+cGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjc1MzM0YTNkZmY0
+OTdjMjQwODQ0MzA0YTYwMDE1MTQ1NzkyZWNjM2I2YjIxM2FjMTk4NDFjY2JkNmZkZjBhZCIKK1NS
+Q19VUklbc2hhMjU2c3VtXSA9ICJkYzY2MTYwMzIyMTI5M2RjY2M3NDA4NjI0MjVlYjU0ZmJiZWQ2
+MGZiMjlkMDhjODAxZDQ0MGE2YTNmZjgyNjgwIgogCiBQQUNLQUdFQ09ORklHID8/PSAiJHtAYmIu
+dXRpbHMuY29udGFpbnMoJ1BURVNUX0VOQUJMRUQnLCAnMScsICd0ZXN0cycsICcnLCBkKX0gXAog
+ICAgICAgICAgICAgICAgICAgIGNoZWNrIFwKLS0gCjIuNDcuMQoK
+
+--===============1611076999693094147==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libogg: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
-packages/core2-64-poky-linux/libogg: SRC_URI changed from "http://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.xz" to "http://downloads.xiph.org/releases/ogg/libogg-1.3.6.tar.xz"
-packages/core2-64-poky-linux/libogg: PV changed from "1.3.5" to "1.3.6"
-packages/core2-64-poky-linux/libogg/libogg-dbg: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
-packages/core2-64-poky-linux/libogg/libogg-dbg: FILELIST: removed "/usr/lib/.debug/libogg.so.0.8.5", added "/usr/lib/.debug/libogg.so.0.8.6"
-packages/core2-64-poky-linux/libogg/libogg-dbg: PKGSIZE changed from 44632 to 46448 (+4%)
-packages/core2-64-poky-linux/libogg/libogg-dbg: PV changed from "1.3.5" to "1.3.6"
-packages/core2-64-poky-linux/libogg/libogg-dev: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
-packages/core2-64-poky-linux/libogg/libogg-dev: PKGSIZE changed from 17914 to 18002 (+0%)
-packages/core2-64-poky-linux/libogg/libogg-dev: PV changed from "1.3.5" to "1.3.6"
-packages/core2-64-poky-linux/libogg/libogg-doc: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
-packages/core2-64-poky-linux/libogg/libogg-doc: PKGSIZE changed from 391999 to 392145 (+0%)
-packages/core2-64-poky-linux/libogg/libogg-doc: PV changed from "1.3.5" to "1.3.6"
-packages/core2-64-poky-linux/libogg/libogg-locale: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
-packages/core2-64-poky-linux/libogg/libogg-locale: PV changed from "1.3.5" to "1.3.6"
-packages/core2-64-poky-linux/libogg/libogg-src: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
-packages/core2-64-poky-linux/libogg/libogg-src: PV changed from "1.3.5" to "1.3.6"
-packages/core2-64-poky-linux/libogg/libogg-staticdev: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
-packages/core2-64-poky-linux/libogg/libogg-staticdev: PV changed from "1.3.5" to "1.3.6"
-packages/core2-64-poky-linux/libogg/libogg: PKGV changed from 1.3.5 [default] to 1.3.6 [default]
-packages/core2-64-poky-linux/libogg/libogg: FILELIST: removed "/usr/lib/libogg.so.0.8.5", added "/usr/lib/libogg.so.0.8.6"
-packages/core2-64-poky-linux/libogg/libogg: PV changed from "1.3.5" to "1.3.6"
-Changes to packages/core2-64-poky-linux/libogg (sysroot):
-  /usr/lib/libogg.so.0 changed symlink target from libogg.so.0.8.5 to libogg.so.0.8.6
-  /usr/lib/libogg.so changed symlink target from libogg.so.0.8.5 to libogg.so.0.8.6
-  /usr/lib/libogg.so.0.8.5 moved to /usr/lib/libogg.so.0.8.6
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGSIZE changed from 17572639 to 17573551 (+0%)
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dbg: FILELIST: removed "/usr/lib/.debug/libgstcontroller-1.0.so.0.2602.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2602.0 /usr/lib/.debug/libgstreamer-1.0.so.0.2602.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2602.0-gdb.py /usr/lib/.debug/libgstnet-1.0.so.0.2602.0 /usr/lib/.debug/libgstbase-1.0.so.0.2602.0", added "/usr/lib/.debug/libgstcontroller-1.0.so.0.2603.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2603.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2603.0-gdb.py /usr/lib/.debug/libgstreamer-1.0.so.0.2603.0 /usr/lib/.debug/libgstnet-1.0.so.0.2603.0 /usr/lib/.debug/libgstbase-1.0.so.0.2603.0"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dev: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-doc: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-doc: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGSIZE changed from 4165645 to 4165357 (-0%)
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-src: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstnet-1.0.so.0.2602.0 /usr/lib/libgstcontroller-1.0.so.0.2602.0 /usr/lib/libgstcheck-1.0.so.0.2602.0 /usr/lib/libgstbase-1.0.so.0.2602.0 /usr/lib/libgstreamer-1.0.so.0.2602.0", added "/usr/lib/libgstreamer-1.0.so.0.2603.0 /usr/lib/libgstbase-1.0.so.0.2603.0 /usr/lib/libgstnet-1.0.so.0.2603.0 /usr/lib/libgstcheck-1.0.so.0.2603.0 /usr/lib/libgstcontroller-1.0.so.0.2603.0"
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0: PV changed from "1.26.2" to "1.26.3"
+packages/core2-64-poky-linux/gstreamer1.0: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.26.2.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch" to "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.26.3.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch"
+packages/core2-64-poky-linux/gstreamer1.0: PKGV changed from 1.26.2 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/gstreamer1.0: PV changed from "1.26.2" to "1.26.3"
+Changes to packages/core2-64-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2602.0 to libgstbase-1.0.so.0.2603.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2602.0 to libgstcheck-1.0.so.0.2603.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2602.0 to libgstcontroller-1.0.so.0.2603.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2602.0 to libgstnet-1.0.so.0.2603.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2602.0 to libgstreamer-1.0.so.0.2603.0
+  /usr/lib/libgstbase-1.0.so.0.2602.0 moved to /usr/lib/libgstbase-1.0.so.0.2603.0
+  /usr/lib/libgstcheck-1.0.so.0.2602.0 moved to /usr/lib/libgstcheck-1.0.so.0.2603.0
+  /usr/lib/libgstcontroller-1.0.so.0.2602.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2603.0
+  /usr/lib/libgstnet-1.0.so.0.2602.0 moved to /usr/lib/libgstnet-1.0.so.0.2603.0
+  /usr/lib/libgstreamer-1.0.so.0.2602.0 moved to /usr/lib/libgstreamer-1.0.so.0.2603.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2602.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2603.0-gdb.py
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4019,5 +4248,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============4386578909158968777==--
+--===============1611076999693094147==--
 
