@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADDEC83F1C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 854E6C83F0F
 	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 16:20:23 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.1439.1751386811559340935
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.1403.1751386801499103242
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 09:20:17 -0700
+ Tue, 01 Jul 2025 09:20:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=zPxjtAxu;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FEOPUHeD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010197c6ca029a-aed325a1-0964-49dc-b30e-100d8500d27e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dNoB4rqd;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=IBdOenfe;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010197c6ca0d5e-a81ff6f5-574b-43f2-98b2-c180d19af98a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751386817;
+	t=1751386820;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=r9bmeFaalpmd0iE80AgMPVfyGdzIeHNYuj8JVc6t3pk=;
-	b=zPxjtAxuMkT5Npm88XokiAuy/6182cyG7IZskmtZZDFGURxyjXEbM/6nz5PUmmzg
-	2yixL/1wVsyURxZNqwPI8rUuTAny3ijzCczzr2Uj0xX0iGfC9FkQBy7LURcSWbiPfHW
-	B2NJ6X0Bv6BieIJc6zRIamSz0dKMTy7Y5S5AFwDM=
+	bh=OIJuuaWSFZNDOuRHCuwUt7MUyUwUlhwaHt/ZOgjY5u4=;
+	b=dNoB4rqd0oQ/3YM1xD6vDCQARzSA0dUMxTG0wl29wJsP/w6t2O/xVuoZB1ED/O8R
+	iDLsMs8sbrNdYNSIdIhgk+iES4L45ex76nUvgHIQsxSkSdxRVjHRNITDc6rZMXU1vAX
+	AcM7Ug6wUoTukP7W53mzticwj0YN+Cv/I+2kbsHE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386817;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386820;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=r9bmeFaalpmd0iE80AgMPVfyGdzIeHNYuj8JVc6t3pk=;
-	b=FEOPUHeDNAZ+z3r0qdrGAMqMgauh6zAVsAMJXO5bdAe4VF7xfu2VgYFhSU0e0B23
-	0ggLsKcvScXxkSy2a2nbg6Abu//+JNDNCIAzxHXxRfvO4v4ZXCSGt+FIomwUwSp8zWm
-	ALgTyJEGJ1VQVGdKTOB4NyfUOZKxIiJ9rbKZz3AI=
-Content-Type: multipart/mixed; boundary="===============7464382893515937681=="
+	bh=OIJuuaWSFZNDOuRHCuwUt7MUyUwUlhwaHt/ZOgjY5u4=;
+	b=IBdOenfee9+7shoSV+P86KUPKUR7SBO3FolHTgqETWDqXNxl+GQWEYoiSIMkpd01
+	jrdugYWGPOlGx63IcWiTfkXA8ZLTwI70C7pRIahMdx2g/NkyFznPa4Gr4N3kwFTMJ8t
+	w1yJbEFGDln+a62jGnzLp6Mo5yFbxRSirS0Y7mhE=
+Content-Type: multipart/mixed; boundary="===============4325504005619393774=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] repo: upgrading to 2.56 SUCCEEDED
-Message-ID: <01010197c6ca029a-aed325a1-0964-49dc-b30e-100d8500d27e-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Jul 2025 16:20:17 +0000
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] lsof: upgrading to 4.99.5 SUCCEEDED
+Message-ID: <01010197c6ca0d5e-a81ff6f5-574b-43f2-98b2-c180d19af98a-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Jul 2025 16:20:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.01-54.240.27.191
+X-SES-Outgoing: 2025.07.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 16:20:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219649
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219659
 
---===============7464382893515937681==
+--===============4325504005619393774==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *repo* to *2.56* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *lsof* to *4.99.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-repo-upgrade-2.55.2-2.56.patch
+    - apply the patch: git am 0001-lsof-upgrade-4.99.4-4.99.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,88 +72,111 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From fa315773f69804c99ecd01c0e73a6fefe17a62c8 Mon Sep 17 00:00:00 2001
+From 8c7dd416ca09368226e67164bb708cccdea093fd Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Jul 2025 10:14:44 +0000
-Subject: [PATCH] repo: upgrade 2.55.2 -> 2.56
+Date: Tue, 1 Jul 2025 10:48:44 +0000
+Subject: [PATCH] lsof: upgrade 4.99.4 -> 4.99.5
 
 ---
- meta/recipes-devtools/repo/{repo_2.55.2.bb => repo_2.56.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/repo/{repo_2.55.2.bb => repo_2.56.bb} (94%)
+ meta/recipes-extended/lsof/files/remove-host-information.patch | 2 +-
+ meta/recipes-extended/lsof/{lsof_4.99.4.bb => lsof_4.99.5.bb}  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/lsof/{lsof_4.99.4.bb => lsof_4.99.5.bb} (93%)
 
-diff --git a/meta/recipes-devtools/repo/repo_2.55.2.bb b/meta/recipes-devtools/repo/repo_2.56.bb
-similarity index 94%
-rename from meta/recipes-devtools/repo/repo_2.55.2.bb
-rename to meta/recipes-devtools/repo/repo_2.56.bb
-index 882f3e6312..efdb9bd0c9 100644
---- a/meta/recipes-devtools/repo/repo_2.55.2.bb
-+++ b/meta/recipes-devtools/repo/repo_2.56.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-extended/lsof/files/remove-host-information.patch b/meta/recipes-extended/lsof/files/remove-host-information.patch
+index 1f2b4afa69..c502cd1ec7 100644
+--- a/meta/recipes-extended/lsof/files/remove-host-information.patch
++++ b/meta/recipes-extended/lsof/files/remove-host-information.patch
+@@ -1,4 +1,4 @@
+-From 4f05492ac07a7bbaf06dd8265b9cba329e1b53e9 Mon Sep 17 00:00:00 2001
++From 473aa274a31048005d128d299fda85fbb8d2d013 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Wed, 30 Aug 2017 15:05:16 +0800
+ Subject: [PATCH] lsof: remove host information from version.h
+diff --git a/meta/recipes-extended/lsof/lsof_4.99.4.bb b/meta/recipes-extended/lsof/lsof_4.99.5.bb
+similarity index 93%
+rename from meta/recipes-extended/lsof/lsof_4.99.4.bb
+rename to meta/recipes-extended/lsof/lsof_4.99.5.bb
+index b977fc4897..727e99b66f 100644
+--- a/meta/recipes-extended/lsof/lsof_4.99.4.bb
++++ b/meta/recipes-extended/lsof/lsof_4.99.5.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a48ac97a8550eff12395a2c0d6151510"
  
- SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v${PV} \
-            "
--SRCREV = "b262d0e4619c406a2708856ed312091d21c5bf39"
-+SRCREV = "99b5a17f2c951fe5979100c36e7e1dbb4c61b36c"
+ SRC_URI = "git://github.com/lsof-org/lsof;branch=master;protocol=https \
+            file://remove-host-information.patch"
+-SRCREV = "bbf320ce586a848f880bca7b758d50ae4c712624"
++SRCREV = "ed0fef9a134b64c9398075185534a76714c91179"
  
- MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
- 
+ inherit update-alternatives autotools pkgconfig manpages
+ PACKAGECONFIG[manpages] = ""
 -- 
 2.47.1
 
 
---===============7464382893515937681==
+--===============4325504005619393774==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-repo-upgrade-2.55.2-2.56.patch"
+ filename="0001-lsof-upgrade-4.99.4-4.99.5.patch"
 
-RnJvbSBmYTMxNTc3M2Y2OTgwNGM5OWVjZDAxYzBlNzNhNmZlZmUxN2E2MmM4IE1vbiBTZXAgMTcg
+RnJvbSA4YzdkZDQxNmNhMDkzNjgyMjZlNjcxNjRiYjcwOGNjY2RlYTA5M2ZkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxMDoxNDo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
-cG86IHVwZ3JhZGUgMi41NS4yIC0+IDIuNTYKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Jl
-cG8ve3JlcG9fMi41NS4yLmJiID0+IHJlcG9fMi41Ni5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcmVwby97cmVwb18yLjU1LjIuYmIgPT4gcmVwb18yLjU2LmJifSAoOTQlKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi41NS4yLmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjU2LmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi41NS4yLmJiCnJlbmFt
-ZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNTYuYmIKaW5kZXggODgyZjNl
-NjMxMi4uZWZkYjliZDBjOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8v
-cmVwb18yLjU1LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjU2
-LmJiCkBAIC0xMSw3ICsxMSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7
-bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3IgogCiBTUkNfVVJJID0gImdpdDov
-L2dlcnJpdC5nb29nbGVzb3VyY2UuY29tL2dpdC1yZXBvLmdpdDtwcm90b2NvbD1odHRwczticmFu
-Y2g9bWFpbjt0YWc9diR7UFZ9IFwKICAgICAgICAgICAgIgotU1JDUkVWID0gImIyNjJkMGU0NjE5
-YzQwNmEyNzA4ODU2ZWQzMTIwOTFkMjFjNWJmMzkiCitTUkNSRVYgPSAiOTliNWExN2YyYzk1MWZl
-NTk3OTEwMGMzNmU3ZTFkYmI0YzYxYjM2YyIKIAogTUlSUk9SUyArPSAiZ2l0Oi8vZ2Vycml0Lmdv
-b2dsZXNvdXJjZS5jb20vZ2l0LXJlcG8uZ2l0IGdpdDovL2dpdGh1Yi5jb20vR2Vycml0Q29kZVJl
-dmlldy9naXQtcmVwby5naXQiCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxMDo0ODo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxz
+b2Y6IHVwZ3JhZGUgNC45OS40IC0+IDQuOTkuNQoKLS0tCiBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
+bHNvZi9maWxlcy9yZW1vdmUtaG9zdC1pbmZvcm1hdGlvbi5wYXRjaCB8IDIgKy0KIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC9sc29mL3tsc29mXzQuOTkuNC5iYiA9PiBsc29mXzQuOTkuNS5iYn0gIHwg
+MiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xzb2Yve2xzb2ZfNC45OS40LmJiID0+IGxzb2Zf
+NC45OS41LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9sc29m
+L2ZpbGVzL3JlbW92ZS1ob3N0LWluZm9ybWF0aW9uLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL2xzb2YvZmlsZXMvcmVtb3ZlLWhvc3QtaW5mb3JtYXRpb24ucGF0Y2gKaW5kZXggMWYyYjRh
+ZmE2OS4uYzUwMmNkMWVjNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xzb2Yv
+ZmlsZXMvcmVtb3ZlLWhvc3QtaW5mb3JtYXRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL2xzb2YvZmlsZXMvcmVtb3ZlLWhvc3QtaW5mb3JtYXRpb24ucGF0Y2gKQEAgLTEsNCAr
+MSw0IEBACi1Gcm9tIDRmMDU0OTJhYzA3YTdiYmFmMDZkZDgyNjViOWNiYTMyOWUxYjUzZTkgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDQ3M2FhMjc0YTMxMDQ4MDA1ZDEyOGQyOTlmZGE4
+NWZiYjhkMmQwMTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSb3NzIEJ1cnRvbiA8
+cm9zcy5idXJ0b25AYXJtLmNvbT4KIERhdGU6IFdlZCwgMzAgQXVnIDIwMTcgMTU6MDU6MTYgKzA4
+MDAKIFN1YmplY3Q6IFtQQVRDSF0gbHNvZjogcmVtb3ZlIGhvc3QgaW5mb3JtYXRpb24gZnJvbSB2
+ZXJzaW9uLmgKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9sc29mL2xzb2ZfNC45
+OS40LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xzb2YvbHNvZl80Ljk5LjUuYmIKc2ltaWxh
+cml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xzb2YvbHNv
+Zl80Ljk5LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9sc29mL2xzb2ZfNC45
+OS41LmJiCmluZGV4IGI5NzdmYzQ4OTcuLjcyN2U5OWI2NmYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1leHRlbmRlZC9sc29mL2xzb2ZfNC45OS40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRl
+bmRlZC9sc29mL2xzb2ZfNC45OS41LmJiCkBAIC04LDcgKzgsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9DT1BZSU5HO21kNT1hNDhhYzk3YTg1NTBlZmYxMjM5NWEyYzBkNjE1MTUxMCIK
+IAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2xzb2Ytb3JnL2xzb2Y7YnJhbmNoPW1hc3Rl
+cjtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly9yZW1vdmUtaG9zdC1pbmZvcm1h
+dGlvbi5wYXRjaCIKLVNSQ1JFViA9ICJiYmYzMjBjZTU4NmE4NDhmODgwYmNhN2I3NThkNTBhZTRj
+NzEyNjI0IgorU1JDUkVWID0gImVkMGZlZjlhMTM0YjY0YzkzOTgwNzUxODU1MzRhNzY3MTRjOTEx
+NzkiCiAKIGluaGVyaXQgdXBkYXRlLWFsdGVybmF0aXZlcyBhdXRvdG9vbHMgcGtnY29uZmlnIG1h
+bnBhZ2VzCiBQQUNLQUdFQ09ORklHW21hbnBhZ2VzXSA9ICIiCi0tIAoyLjQ3LjEKCg==
 
---===============7464382893515937681==
+--===============4325504005619393774==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/repo: SRC_URI changed from "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.55.2" to "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.56"
-packages/core2-64-poky-linux/repo: PKGV changed from 2.55.2 [default] to 2.56 [default]
-packages/core2-64-poky-linux/repo: PV changed from "2.55.2" to "2.56"
-packages/core2-64-poky-linux/repo/repo-dbg: PKGV changed from 2.55.2 [default] to 2.56 [default]
-packages/core2-64-poky-linux/repo/repo-dbg: PV changed from "2.55.2" to "2.56"
-packages/core2-64-poky-linux/repo/repo-dev: PKGV changed from 2.55.2 [default] to 2.56 [default]
-packages/core2-64-poky-linux/repo/repo-dev: PV changed from "2.55.2" to "2.56"
-packages/core2-64-poky-linux/repo/repo-doc: PKGV changed from 2.55.2 [default] to 2.56 [default]
-packages/core2-64-poky-linux/repo/repo-doc: PV changed from "2.55.2" to "2.56"
-packages/core2-64-poky-linux/repo/repo-locale: PKGV changed from 2.55.2 [default] to 2.56 [default]
-packages/core2-64-poky-linux/repo/repo-locale: PV changed from "2.55.2" to "2.56"
-packages/core2-64-poky-linux/repo/repo-src: PKGV changed from 2.55.2 [default] to 2.56 [default]
-packages/core2-64-poky-linux/repo/repo-src: PV changed from "2.55.2" to "2.56"
-packages/core2-64-poky-linux/repo/repo-staticdev: PKGV changed from 2.55.2 [default] to 2.56 [default]
-packages/core2-64-poky-linux/repo/repo-staticdev: PV changed from "2.55.2" to "2.56"
-packages/core2-64-poky-linux/repo/repo: PKGV changed from 2.55.2 [default] to 2.56 [default]
-packages/core2-64-poky-linux/repo/repo: PV changed from "2.55.2" to "2.56"
+packages/core2-64-poky-linux/lsof: PV changed from "4.99.4" to "4.99.5"
+packages/core2-64-poky-linux/lsof: PKGV changed from 4.99.4 [default] to 4.99.5 [default]
+packages/core2-64-poky-linux/lsof/lsof-dbg: PV changed from "4.99.4" to "4.99.5"
+packages/core2-64-poky-linux/lsof/lsof-dbg: PKGSIZE changed from 1135632 to 1136200 (+0%)
+packages/core2-64-poky-linux/lsof/lsof-dbg: PKGV changed from 4.99.4 [default] to 4.99.5 [default]
+packages/core2-64-poky-linux/lsof/lsof-dev: PV changed from "4.99.4" to "4.99.5"
+packages/core2-64-poky-linux/lsof/lsof-dev: PKGV changed from 4.99.4 [default] to 4.99.5 [default]
+packages/core2-64-poky-linux/lsof/lsof-doc: PV changed from "4.99.4" to "4.99.5"
+packages/core2-64-poky-linux/lsof/lsof-doc: PKGV changed from 4.99.4 [default] to 4.99.5 [default]
+packages/core2-64-poky-linux/lsof/lsof-locale: PV changed from "4.99.4" to "4.99.5"
+packages/core2-64-poky-linux/lsof/lsof-locale: PKGV changed from 4.99.4 [default] to 4.99.5 [default]
+packages/core2-64-poky-linux/lsof/lsof-src: PV changed from "4.99.4" to "4.99.5"
+packages/core2-64-poky-linux/lsof/lsof-src: PKGV changed from 4.99.4 [default] to 4.99.5 [default]
+packages/core2-64-poky-linux/lsof/lsof-staticdev: PV changed from "4.99.4" to "4.99.5"
+packages/core2-64-poky-linux/lsof/lsof-staticdev: PKGV changed from 4.99.4 [default] to 4.99.5 [default]
+packages/core2-64-poky-linux/lsof/lsof: PV changed from "4.99.4" to "4.99.5"
+packages/core2-64-poky-linux/lsof/lsof: PKGV changed from 4.99.4 [default] to 4.99.5 [default]
 
---===============7464382893515937681==--
+--===============4325504005619393774==--
 
