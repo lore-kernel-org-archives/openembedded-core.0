@@ -2,50 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C4DC83F35
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ADD3C83F3B
 	for <webhook@archiver.kernel.org>; Tue,  1 Jul 2025 16:20:24 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
  by mx.groups.io with SMTP id smtpd.web10.1442.1751386813695290371
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 09:20:19 -0700
+ Tue, 01 Jul 2025 09:20:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QFIG2Myv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VhaA3RlJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010197c6ca0932-2e6fe12e-1305-4042-bb84-fca8789aa5af-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IkyUxkv3;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DZ7Uidlz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010197c6c9f2e3-1f201db4-442c-4793-a7dc-f74684043ab0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751386819;
+	t=1751386813;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=arxWBeBuTqwPHdT38/AV9hsoYOMcyCbf1J14yTnpgeE=;
-	b=QFIG2MyvqEt4D5dL5kRH1L3e1/UmhQ+OJ1Sx6zW6Y6YxnaNaH4WaVKTmORKuchPq
-	xisw7jVEPrnjVGxN6ykpxI3TgMgEbuTbnR4jZbiaTWWMLx2gQulvU9IWFYL9NV0PVXE
-	Uglir1+D6eE8EZ3/5d6FtNLx9X0imMLj4eqcXN60=
+	bh=maqJ/3Pj82EuyXqZ/5OFwcKJrK20IZbQqX0K6XDKClk=;
+	b=IkyUxkv3WM1kbYK78bsgaXZXY1BDGqQNjWFUkj0tTtjlU44jW++sHi8mOuFPB2Wg
+	AVmILrsEtnrY4EqgCbsZHFtK7oqihC9CRMQfzg6wi7AQdtFCv1pBtHryTMrSWPEmYbo
+	htbY720RdiUtsBoUdaI5ieeY35PzP7kxhNy/gep8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386819;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751386813;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=arxWBeBuTqwPHdT38/AV9hsoYOMcyCbf1J14yTnpgeE=;
-	b=VhaA3RlJH3n/NkYWQYcDhwSgv1J+URE7c8yAXRtpkF2ydlckeWWNuenaQiyCZwCi
-	jB5PqThhbfivwjkt7xrbYNcU/XtGmqpxoWaA5R1ugf7zttPxoKq1BMI7tYo0+RdoqvN
-	aLZ8ET0xUTpZZo7HR3ly3y0zERHv94QPs0s2pdYs=
-Content-Type: multipart/mixed; boundary="===============2161203141604928272=="
+	bh=maqJ/3Pj82EuyXqZ/5OFwcKJrK20IZbQqX0K6XDKClk=;
+	b=DZ7Uidlz7q57D4HfK3ZDGO7bbAhZ9h4kl+VtvUPFh4Oik2b7b/ZbTN7FCiQqe7hQ
+	/RWFyQy/spvVwm5i8PFZaEebAXt/2WfSh1pzmUbXH37hkTmb/5KOn7cDCgWlvQPCx5J
+	xP9mlqkqOXxxAyLwVwsLCokReY2/efTaET/2fQSE=
+Content-Type: multipart/mixed; boundary="===============1919856481755131846=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: 
-	=?utf-8?b?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aSA8emJvc3pvckBnbWFpbC5jb20+?=@yoctoproject.org
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rpm-sequoia-crypto-policy: upgrading to
- 9496ef7ee47499895cee097f111c94200e033729 FAILED
-Message-ID: <01010197c6ca0932-2e6fe12e-1305-4042-bb84-fca8789aa5af-000000@us-west-2.amazonses.com>
-Date: Tue, 1 Jul 2025 16:20:18 +0000
+Subject: [AUH] pseudo: upgrading to 1.9.2 FAILED
+Message-ID: <01010197c6c9f2e3-1f201db4-442c-4793-a7dc-f74684043ab0-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Jul 2025 16:20:13 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.07.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 16:20:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219651
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219635
 
---===============2161203141604928272==
+--===============1919856481755131846==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -53,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *rpm-sequoia-crypto-policy* to *9496ef7ee47499895cee097f111c94200e033729* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *pseudo* to *1.9.2* has Failed(do_compile).
 
 Detailed error information:
 
@@ -62,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-rpm-sequoia-crypto-policy-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-pseudo-upgrade-1.9.0-1.9.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -80,33 +78,108 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 12047ed3d52b6db0c17110a13b3f36581e0ba53e Mon Sep 17 00:00:00 2001
+From 66fd69cbe846e80868c95ad0b280608e90e967af Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Jul 2025 10:16:43 +0000
-Subject: [PATCH] rpm-sequoia-crypto-policy: upgrade to latest revision
+Date: Tue, 1 Jul 2025 08:46:37 +0000
+Subject: [PATCH] pseudo: upgrade 1.9.0 -> 1.9.2
 
 ---
- .../rpm-sequoia/rpm-sequoia-crypto-policy_git.bb                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../pseudo/files/older-glibc-symbols.patch    | 57 -------------------
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  5 +-
+ 2 files changed, 3 insertions(+), 59 deletions(-)
+ delete mode 100644 meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
 
-diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
-index 658b9ab36a..04f2fbc495 100644
---- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
-+++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
-@@ -13,7 +13,7 @@ SRC_URI = " \
-     file://0001-libreswan-Allow-skipping-test_config-for-old-ipsec.patch \
- "
+diff --git a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+deleted file mode 100644
+index f42b32b8d9..0000000000
+--- a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-If we link against a newer glibc 2.34 and then try and our LD_PRELOAD is run against a
+-binary on a host with an older libc, we see symbol errors since in glibc 2.34, pthread 
+-and dl are merged into libc itself.
+-
+-We need to use the older form of linking so use glibc binaries from an older release
+-to force this. We only use minimal symbols from these anyway.
+-
+-pthread_atfork is problematic, particularly on arm so use the internal glibc routine
+-it maps too. This was always present in the main libc from 2.3.2 onwards.
+-
+-Yes this is horrible. Better solutions welcome.
+-
+-There is more info in the bug: [YOCTO #14521]
+-
+-Upstream-Status: Inappropriate [this patch is native and nativesdk]
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Tweak library search order, make prebuilt lib ahead of recipe lib
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- Makefile.in       | 2 +-
+- pseudo_wrappers.c | 5 ++++-
+- 2 files changed, 5 insertions(+), 2 deletions(-)
+-
+-diff --git a/Makefile.in b/Makefile.in
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -120,7 +120,7 @@ $(PSEUDODB): pseudodb.o $(SHOBJS) $(DBOBJS) pseudo_ipc.o | $(BIN)
+- libpseudo: $(LIBPSEUDO)
+- 
+- $(LIBPSEUDO): $(WRAPOBJS) pseudo_client.o pseudo_client_scanf.o pseudo_ipc.o $(SHOBJS) | $(LIB)
+--	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
+-+	$(CC) $(CFLAGS)  -Lprebuilt/$(shell uname -m)-linux/lib/ $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
+- 		pseudo_client.o pseudo_client_scanf.o pseudo_ipc.o \
+- 		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) $(CLIENT_LDFLAGS)
+- 
+-diff --git a/pseudo_wrappers.c b/pseudo_wrappers.c
+---- a/pseudo_wrappers.c
+-+++ b/pseudo_wrappers.c
+-@@ -100,10 +100,13 @@ static void libpseudo_atfork_child(void)
+- 	pseudo_mutex_holder = 0;
+- }
+- 
+-+extern void *__dso_handle;
+-+extern int __register_atfork (void (*) (void), void (*) (void), void (*) (void), void *);
+-+
+- static void
+- _libpseudo_init(void) {
+- 	if (!_libpseudo_initted)
+--		pthread_atfork(NULL, NULL, libpseudo_atfork_child);
+-+		__register_atfork (NULL, NULL, libpseudo_atfork_child, &__dso_handle == NULL ? NULL : __dso_handle);
+- 
+- 	pseudo_getlock();
+- 	pseudo_antimagic();
+--- 
+-2.27.0
+-
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 385b6f34d9..099a602978 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -3,6 +3,7 @@ require pseudo.inc
+ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
+            file://fallback-passwd \
+            file://fallback-group \
++           http://downloads.yoctoproject.org/mirror/sources/pseudo-prebuilt-2.33.tar.xz;subdir=${BB_GIT_DEFAULT_DESTSUFFIX}/prebuilt;name=prebuilt \
+            "
+ SRC_URI:append:class-native = " \
+     http://downloads.yoctoproject.org/mirror/sources/pseudo-prebuilt-2.33.tar.xz;subdir=${BB_GIT_DEFAULT_DESTSUFFIX}/prebuilt;name=prebuilt \
+@@ -12,8 +13,8 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
--SRCREV = "032b418a6db842f0eab330eb5909e4604e888728"
-+SRCREV = "9496ef7ee47499895cee097f111c94200e033729"
- UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "2c43381180f9cfef4c0a8bb0c1658a86c3fcc876"
+-PV = "1.9.0+git"
++SRCREV = "bab7f05f4d1f293eede039c2468b0011e5c188c2"
++PV = "1.9.2"
  
- do_compile () {
+ # largefile and 64bit time_t support adds these macros via compiler flags globally
+ # remove them for pseudo since pseudo intercepts some of the functions which will be
 -- 
 2.47.1
 
 
---===============2161203141604928272==
+--===============1919856481755131846==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -114,96 +187,107 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1917 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 937 .bb files complete (936 cached, 1 parsed). 1917 targets, 42 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+Loaded 1918 entries from dependency cache.
+Parsing recipes...
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb: Unable to get checksum for nativesdk-pseudo SRC_URI entry older-glibc-symbols.patch: file could not be found
+The following paths were searched:
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo-1.9.2/poky/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo/poky/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/files/poky/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo-1.9.2/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo-1.9.2/x86-64/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo/x86-64/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/files/x86-64/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo-1.9.2/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo/older-glibc-symbols.patch
+/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
+ERROR: Parsing halted due to errors, see error messages above
 
-Build Configuration:
-BB_VERSION           = "2.15.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-8b29d4835271495a6e1be573826888df4ca8a108"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:8b29d4835271495a6e1be573826888df4ca8a108"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 70 Local 59 Mirrors 0 Missed 11 Current 168 (84% match, 95% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 238 of 238 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb:do_recipe_qa_setscene)
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 721 of 740 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb:do_fetch)
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_fetch: Started
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_fetch: Succeeded
-NOTE: Running task 722 of 740 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb:do_unpack)
-NOTE: Running task 723 of 740 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_unpack: Started
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_unpack: Succeeded
-NOTE: Running task 724 of 740 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb:do_patch)
-NOTE: Running task 725 of 740 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb:do_collect_spdx_deps)
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_patch: Started
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_collect_spdx_deps: Started
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe rpm-sequoia-crypto-policy-git-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 725 tasks of which 720 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250701101628.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250701101628.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/rpm-sequoia-crypto-policy/git/temp/log.do_patch.315020
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: rpm-sequoia-crypto-policy-git-r0 do_patch: Applying patch '0001-libreswan-Allow-skipping-test_config-for-old-ipsec.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/rpm-sequoia-crypto-policy/git/sources/rpm-sequoia-crypto-policy-git'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/rpm-sequoia-crypto-policy/git/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-libreswan-Allow-skipping-test_config-for-old-ipsec.patch
-patching file python/policygenerators/libreswan.py
-Hunk #1 FAILED at 227.
-1 out of 1 hunk FAILED -- rejects in file python/policygenerators/libreswan.py
-Patch 0001-libreswan-Allow-skipping-test_config-for-old-ipsec.patch can be reverse-applied
-
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/rpm-sequoia-crypto-policy/git/temp/log.do_patch.315020
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb:do_patch) failed with exit code '1'
-
---===============2161203141604928272==
+--===============1919856481755131846==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-rpm-sequoia-crypto-policy-upgrade-to-latest-revision.patch"
+ filename="0001-pseudo-upgrade-1.9.0-1.9.2.patch"
 
-RnJvbSAxMjA0N2VkM2Q1MmI2ZGIwYzE3MTEwYTEzYjNmMzY1ODFlMGJhNTNlIE1vbiBTZXAgMTcg
+RnJvbSA2NmZkNjljYmU4NDZlODA4NjhjOTVhZDBiMjgwNjA4ZTkwZTk2N2FmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAxMDoxNjo0MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJw
-bS1zZXF1b2lhLWNyeXB0by1wb2xpY3k6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0K
-IC4uLi9ycG0tc2VxdW9pYS9ycG0tc2VxdW9pYS1jcnlwdG8tcG9saWN5X2dpdC5iYiAgICAgICAg
-ICAgICAgICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ycG0tc2VxdW9pYS9ycG0t
-c2VxdW9pYS1jcnlwdG8tcG9saWN5X2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ycG0t
-c2VxdW9pYS9ycG0tc2VxdW9pYS1jcnlwdG8tcG9saWN5X2dpdC5iYgppbmRleCA2NThiOWFiMzZh
-Li4wNGYyZmJjNDk1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnBtLXNlcXVv
-aWEvcnBtLXNlcXVvaWEtY3J5cHRvLXBvbGljeV9naXQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3JwbS1zZXF1b2lhL3JwbS1zZXF1b2lhLWNyeXB0by1wb2xpY3lfZ2l0LmJiCkBAIC0x
-Myw3ICsxMyw3IEBAIFNSQ19VUkkgPSAiIFwKICAgICBmaWxlOi8vMDAwMS1saWJyZXN3YW4tQWxs
-b3ctc2tpcHBpbmctdGVzdF9jb25maWctZm9yLW9sZC1pcHNlYy5wYXRjaCBcCiAiCiAKLVNSQ1JF
-ViA9ICIwMzJiNDE4YTZkYjg0MmYwZWFiMzMwZWI1OTA5ZTQ2MDRlODg4NzI4IgorU1JDUkVWID0g
-Ijk0OTZlZjdlZTQ3NDk5ODk1Y2VlMDk3ZjExMWM5NDIwMGUwMzM3MjkiCiBVUFNUUkVBTV9DSEVD
-S19DT01NSVRTID0gIjEiCiAKIGRvX2NvbXBpbGUgKCkgewotLSAKMi40Ny4xCgo=
+CkRhdGU6IFR1ZSwgMSBKdWwgMjAyNSAwODo0NjozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBz
+ZXVkbzogdXBncmFkZSAxLjkuMCAtPiAxLjkuMgoKLS0tCiAuLi4vcHNldWRvL2ZpbGVzL29sZGVy
+LWdsaWJjLXN5bWJvbHMucGF0Y2ggICAgfCA1NyAtLS0tLS0tLS0tLS0tLS0tLS0tCiBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHNldWRvL3BzZXVkb19naXQuYmIgICAgfCAgNSArLQogMiBmaWxlcyBj
+aGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDU5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAw
+NjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9wc2V1ZG8vZmlsZXMvb2xkZXItZ2xpYmMtc3ltYm9s
+cy5wYXRjaAoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wc2V1ZG8vZmlsZXMv
+b2xkZXItZ2xpYmMtc3ltYm9scy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wc2V1ZG8v
+ZmlsZXMvb2xkZXItZ2xpYmMtc3ltYm9scy5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQK
+aW5kZXggZjQyYjMyYjhkOS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHNldWRvL2ZpbGVzL29sZGVyLWdsaWJjLXN5bWJvbHMucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAt
+MSw1NyArMCwwIEBACi1JZiB3ZSBsaW5rIGFnYWluc3QgYSBuZXdlciBnbGliYyAyLjM0IGFuZCB0
+aGVuIHRyeSBhbmQgb3VyIExEX1BSRUxPQUQgaXMgcnVuIGFnYWluc3QgYQotYmluYXJ5IG9uIGEg
+aG9zdCB3aXRoIGFuIG9sZGVyIGxpYmMsIHdlIHNlZSBzeW1ib2wgZXJyb3JzIHNpbmNlIGluIGds
+aWJjIDIuMzQsIHB0aHJlYWQgCi1hbmQgZGwgYXJlIG1lcmdlZCBpbnRvIGxpYmMgaXRzZWxmLgot
+Ci1XZSBuZWVkIHRvIHVzZSB0aGUgb2xkZXIgZm9ybSBvZiBsaW5raW5nIHNvIHVzZSBnbGliYyBi
+aW5hcmllcyBmcm9tIGFuIG9sZGVyIHJlbGVhc2UKLXRvIGZvcmNlIHRoaXMuIFdlIG9ubHkgdXNl
+IG1pbmltYWwgc3ltYm9scyBmcm9tIHRoZXNlIGFueXdheS4KLQotcHRocmVhZF9hdGZvcmsgaXMg
+cHJvYmxlbWF0aWMsIHBhcnRpY3VsYXJseSBvbiBhcm0gc28gdXNlIHRoZSBpbnRlcm5hbCBnbGli
+YyByb3V0aW5lCi1pdCBtYXBzIHRvby4gVGhpcyB3YXMgYWx3YXlzIHByZXNlbnQgaW4gdGhlIG1h
+aW4gbGliYyBmcm9tIDIuMy4yIG9ud2FyZHMuCi0KLVllcyB0aGlzIGlzIGhvcnJpYmxlLiBCZXR0
+ZXIgc29sdXRpb25zIHdlbGNvbWUuCi0KLVRoZXJlIGlzIG1vcmUgaW5mbyBpbiB0aGUgYnVnOiBb
+WU9DVE8gIzE0NTIxXQotCi1VcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW3RoaXMgcGF0
+Y2ggaXMgbmF0aXZlIGFuZCBuYXRpdmVzZGtdCi1TaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIFB1cmRp
+ZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KLQotVHdlYWsgbGlicmFyeSBz
+ZWFyY2ggb3JkZXIsIG1ha2UgcHJlYnVpbHQgbGliIGFoZWFkIG9mIHJlY2lwZSBsaWIKLVNpZ25l
+ZC1vZmYtYnk6IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KLS0tLQotIE1h
+a2VmaWxlLmluICAgICAgIHwgMiArLQotIHBzZXVkb193cmFwcGVycy5jIHwgNSArKysrLQotIDIg
+ZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQotCi1kaWZmIC0t
+Z2l0IGEvTWFrZWZpbGUuaW4gYi9NYWtlZmlsZS5pbgotLS0tIGEvTWFrZWZpbGUuaW4KLSsrKyBi
+L01ha2VmaWxlLmluCi1AQCAtMTIwLDcgKzEyMCw3IEBAICQoUFNFVURPREIpOiBwc2V1ZG9kYi5v
+ICQoU0hPQkpTKSAkKERCT0JKUykgcHNldWRvX2lwYy5vIHwgJChCSU4pCi0gbGlicHNldWRvOiAk
+KExJQlBTRVVETykKLSAKLSAkKExJQlBTRVVETyk6ICQoV1JBUE9CSlMpIHBzZXVkb19jbGllbnQu
+byBwc2V1ZG9fY2xpZW50X3NjYW5mLm8gcHNldWRvX2lwYy5vICQoU0hPQkpTKSB8ICQoTElCKQot
+LQkkKENDKSAkKENGTEFHUykgJChDRkxBR1NfUFNFVURPKSAtc2hhcmVkIC1vICQoTElCUFNFVURP
+KSBcCi0rCSQoQ0MpICQoQ0ZMQUdTKSAgLUxwcmVidWlsdC8kKHNoZWxsIHVuYW1lIC1tKS1saW51
+eC9saWIvICQoQ0ZMQUdTX1BTRVVETykgLXNoYXJlZCAtbyAkKExJQlBTRVVETykgXAotIAkJcHNl
+dWRvX2NsaWVudC5vIHBzZXVkb19jbGllbnRfc2NhbmYubyBwc2V1ZG9faXBjLm8gXAotIAkJJChX
+UkFQT0JKUykgJChTSE9CSlMpICQoTERGTEFHUykgJChDTElFTlRfTERGTEFHUykKLSAKLWRpZmYg
+LS1naXQgYS9wc2V1ZG9fd3JhcHBlcnMuYyBiL3BzZXVkb193cmFwcGVycy5jCi0tLS0gYS9wc2V1
+ZG9fd3JhcHBlcnMuYwotKysrIGIvcHNldWRvX3dyYXBwZXJzLmMKLUBAIC0xMDAsMTAgKzEwMCwx
+MyBAQCBzdGF0aWMgdm9pZCBsaWJwc2V1ZG9fYXRmb3JrX2NoaWxkKHZvaWQpCi0gCXBzZXVkb19t
+dXRleF9ob2xkZXIgPSAwOwotIH0KLSAKLStleHRlcm4gdm9pZCAqX19kc29faGFuZGxlOwotK2V4
+dGVybiBpbnQgX19yZWdpc3Rlcl9hdGZvcmsgKHZvaWQgKCopICh2b2lkKSwgdm9pZCAoKikgKHZv
+aWQpLCB2b2lkICgqKSAodm9pZCksIHZvaWQgKik7Ci0rCi0gc3RhdGljIHZvaWQKLSBfbGlicHNl
+dWRvX2luaXQodm9pZCkgewotIAlpZiAoIV9saWJwc2V1ZG9faW5pdHRlZCkKLS0JCXB0aHJlYWRf
+YXRmb3JrKE5VTEwsIE5VTEwsIGxpYnBzZXVkb19hdGZvcmtfY2hpbGQpOwotKwkJX19yZWdpc3Rl
+cl9hdGZvcmsgKE5VTEwsIE5VTEwsIGxpYnBzZXVkb19hdGZvcmtfY2hpbGQsICZfX2Rzb19oYW5k
+bGUgPT0gTlVMTCA/IE5VTEwgOiBfX2Rzb19oYW5kbGUpOwotIAotIAlwc2V1ZG9fZ2V0bG9jaygp
+OwotIAlwc2V1ZG9fYW50aW1hZ2ljKCk7Ci0tLSAKLTIuMjcuMAotCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHNldWRvL3BzZXVkb19naXQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHNldWRvL3BzZXVkb19naXQuYmIKaW5kZXggMzg1YjZmMzRkOS4uMDk5YTYwMjk3OCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BzZXVkby9wc2V1ZG9fZ2l0LmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wc2V1ZG8vcHNldWRvX2dpdC5iYgpAQCAtMyw2ICsz
+LDcgQEAgcmVxdWlyZSBwc2V1ZG8uaW5jCiBTUkNfVVJJID0gImdpdDovL2dpdC55b2N0b3Byb2pl
+Y3Qub3JnL3BzZXVkbzticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzIFwKICAgICAgICAgICAg
+ZmlsZTovL2ZhbGxiYWNrLXBhc3N3ZCBcCiAgICAgICAgICAgIGZpbGU6Ly9mYWxsYmFjay1ncm91
+cCBcCisgICAgICAgICAgIGh0dHA6Ly9kb3dubG9hZHMueW9jdG9wcm9qZWN0Lm9yZy9taXJyb3Iv
+c291cmNlcy9wc2V1ZG8tcHJlYnVpbHQtMi4zMy50YXIueHo7c3ViZGlyPSR7QkJfR0lUX0RFRkFV
+TFRfREVTVFNVRkZJWH0vcHJlYnVpbHQ7bmFtZT1wcmVidWlsdCBcCiAgICAgICAgICAgICIKIFNS
+Q19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgXAogICAgIGh0dHA6Ly9kb3dubG9hZHMueW9j
+dG9wcm9qZWN0Lm9yZy9taXJyb3Ivc291cmNlcy9wc2V1ZG8tcHJlYnVpbHQtMi4zMy50YXIueHo7
+c3ViZGlyPSR7QkJfR0lUX0RFRkFVTFRfREVTVFNVRkZJWH0vcHJlYnVpbHQ7bmFtZT1wcmVidWls
+dCBcCkBAIC0xMiw4ICsxMyw4IEBAIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIg
+XAogICAgIGZpbGU6Ly9vbGRlci1nbGliYy1zeW1ib2xzLnBhdGNoIgogU1JDX1VSSVtwcmVidWls
+dC5zaGEyNTZzdW1dID0gImVkOWY0NTY4NTZlOWQ4NjM1OWYxNjlmNDZhNzBhZDdiZTQxOTBkNjA0
+MDI4MmI4NGM4ZDk3Yjk5MDcyNDg1YWEiCiAKLVNSQ1JFViA9ICIyYzQzMzgxMTgwZjljZmVmNGMw
+YThiYjBjMTY1OGE4NmMzZmNjODc2IgotUFYgPSAiMS45LjArZ2l0IgorU1JDUkVWID0gImJhYjdm
+MDVmNGQxZjI5M2VlZGUwMzljMjQ2OGIwMDExZTVjMTg4YzIiCitQViA9ICIxLjkuMiIKIAogIyBs
+YXJnZWZpbGUgYW5kIDY0Yml0IHRpbWVfdCBzdXBwb3J0IGFkZHMgdGhlc2UgbWFjcm9zIHZpYSBj
+b21waWxlciBmbGFncyBnbG9iYWxseQogIyByZW1vdmUgdGhlbSBmb3IgcHNldWRvIHNpbmNlIHBz
+ZXVkbyBpbnRlcmNlcHRzIHNvbWUgb2YgdGhlIGZ1bmN0aW9ucyB3aGljaCB3aWxsIGJlCi0tIAoy
+LjQ3LjEKCg==
 
---===============2161203141604928272==--
+--===============1919856481755131846==--
 
