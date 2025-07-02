@@ -1,108 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 006A7C83F05
-	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 05:32:32 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.16674.1751434347803395171
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C1AC83038
+	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 05:48:52 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.16943.1751435323184895904
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 22:32:27 -0700
+ Tue, 01 Jul 2025 22:48:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hvp0TyX8;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-234bfe37cccso77663645ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 22:32:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751434347; x=1752039147; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0E8k7MUW5DLV2e+UwVZb4eOkEsYVEyQ3UiSk6gs6Bmw=;
-        b=hvp0TyX8fPvqI0/9Nmpp9vhqIdynyvQfD9sxnNBLRcG/RP/J/AyuN0WVcJakmSBzdy
-         surjie9HFVix/sfYo2ZeWKpetP+NUnOWjGImogcsHSh0DWqvoWJX54YTWri0auXFUcht
-         fcIJqOLSiE4/KeratRTQcadtOWe9TPUOMT6BGXrfNzCdKA9LHjLJVxw0lJApSAg/RAyh
-         pssBhss7ODX/gYxEadJ32wCes2xxLkQsDP93AiM48Ikc87vUQ5aCfv/WFz4LAmjRGQtg
-         2q3byHt/Yrkhq4Mc3DWfsMfOZDFcetB0U5o9gq+Drua/cBsOsZtNWMRPebdSvFLV3aYy
-         8rjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751434347; x=1752039147;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0E8k7MUW5DLV2e+UwVZb4eOkEsYVEyQ3UiSk6gs6Bmw=;
-        b=Q3c3G+6Kl6pqaoHbVegjqC/WwIVZVymAycUJKGIoScvmtQvv2ajXTYtC18d7KZw4Fj
-         Joj4re7XZ4aJJk5lqv36KimCqA5JzOvZFIqZl00+kZtoiRO/nvo2xCUm5Z2QHvMu7jfN
-         CQpmiPhK350JDTygiAgv/8oLpW3j4mBdWtgLWCuWDU8LSivhYFOjTHq6tKn805vsD4fC
-         IT6L0R8Frx9S3M3kyBZ0Z4QGk8RAgRFx7Md9BdqJBHMXvYRjQ1ckZmW2OO/dUAHSW1DJ
-         Tuea7MFij/zwcYtiw96TGcI51vQNc8OcK/jvBIm4d6klkspC+QdBMlKJSTa9Bm11Xn5h
-         //RA==
-X-Gm-Message-State: AOJu0YwSIuZnvBtE7W5rHcAl77/gLAtU8YXIkj8K2aY0XJCBQUnQyEcb
-	8QKRfWv1+yEa6ESGJMCpJuO1H3UdNdbmopedi/Pt5eEbwinBKOeGbM4hIftj8LKR
-X-Gm-Gg: ASbGncvytC4/DVVaZaZPASyAPllXjJviUL8mHXwpv7mT5quoIF7PYvub9LmpGpkpycE
-	fJuhqDtB5sFlpfhv7O3zYVco/HWFEc02RHBz7v8h/tU1z415YUa48Ew8cM84LR+OyvE/w6IEkkr
-	aw2Ho9JZwO9iWV7HmHWYzgBG7/FGzThSP077XIZDGQr8uTvlWowwiAQ93cLbkvcbDto7x5LEcJj
-	BJJrIRlLFog/e2I9f5dfhHzRYeBZ+ZvSmr+MC1v54RrnstnII1IukeWSP5Kcw0xVgi4YjhCYT2v
-	XOmh8jPmlVhc2UsSZEFI0u142xi0XFzVYX5cW5q83RSH7pFbavlJqg==
-X-Google-Smtp-Source: AGHT+IEkPvJV8L87pI5uCd8lc5uBFKFGio6bLCHkONaagTilE7otuhNIKxo/ozpW81cta6nQaPQ32A==
-X-Received: by 2002:a17:903:19c5:b0:234:8a4a:adb4 with SMTP id d9443c01a7336-23c6e583883mr25445375ad.21.1751434346897;
-        Tue, 01 Jul 2025 22:32:26 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::aa8c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb2e2423sm120125985ad.37.2025.07.01.22.32.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 22:32:26 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v5 5/5] sanity/utils: Directly use gcc instead of BUILD_CC in host_gcc_version
-Date: Tue,  1 Jul 2025 22:32:20 -0700
-Message-ID: <20250702053220.4104358-5-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250702053220.4104358-1-raj.khem@gmail.com>
-References: <20250702053220.4104358-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=3u7FtAfz;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F5jfSsR9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010197c9ae2323-33d4ece2-b077-4373-973f-42cb220d8b50-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1751435322; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=tSmnyRAJ2CX6RsNHWcOW4FNozQpSPje1yBwA6Ahn2lM=;
+	b=3u7FtAfzwemAfS/vY/faCwJlt/zCCAmStWIijNixmH4u1tdpWnEBmNQV8/8ykJrY
+	dse2s6cYuwGHe69kK2UhoqAiCdW76NOTjmkYoPYLJ858znoxv5wonT8eVQXm+0YTgM/
+	d59+ClbuUEntvnP/Rg+P0sZpKVcMw7mF1Zx2CZWw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751435322;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=tSmnyRAJ2CX6RsNHWcOW4FNozQpSPje1yBwA6Ahn2lM=;
+	b=F5jfSsR9dQ2ZfkfgG1AThy46NWgCxxaBIf38sdxYo0bgzMYMEHLfGQmO4uvkCIhK
+	5IqJ4FE/UTLHl07TAgYJGGgAJ+5G1opYYg84X9kHrsuuoE9cQ5PIFMD+H4lZ0eSWEjt
+	TfrvHowFCQpdbLaPXzSSC4ZozzuIGAQDcV1IHtnA=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v5 4/5] sanity/utils: Directly use gcc, not BUILD_CC
+In-Reply-To: <20250702053220.4104358-4-raj.khem@gmail.com>
+References: <20250702053220.4104358-4-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010197c9ae2323-33d4ece2-b077-4373-973f-42cb220d8b50-000000@us-west-2.amazonses.com>
+Date: Wed, 2 Jul 2025 05:48:42 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.02-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 05:32:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219778
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 05:48:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219779
 
-This assumes GCC compiler, so feed it one, BUILD_CC might point to
-clang as well in that case it fails.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/lib/oe/utils.py | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Testing patch /home/patchtest/share/mboxes/v5-4-5-sanity-utils-Directly-use-gcc-not-BUILD_CC.patch
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 27d304ec72d..d31f8c3db36 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -446,21 +446,17 @@ def host_gcc_version(d, taskcontextonly=False):
-     if taskcontextonly and d.getVar('BB_WORKERCONTEXT') != '1':
-         return
- 
--    compiler = d.getVar("BUILD_CC")
--    # Get rid of ccache since it is not present when parsing.
--    if compiler.startswith('ccache '):
--        compiler = compiler[7:]
-     try:
-         env = os.environ.copy()
-         env["PATH"] = d.getVar("PATH")
--        output = subprocess.check_output("%s --version" % compiler, \
-+        output = subprocess.check_output("gcc --version", \
-                     shell=True, env=env, stderr=subprocess.STDOUT).decode("utf-8")
-     except subprocess.CalledProcessError as e:
--        bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
-+        bb.fatal("Error running gcc --version: %s" % (e.output.decode("utf-8")))
- 
-     match = re.match(r".* (\d+\.\d+)\.\d+.*", output.split('\n')[0])
-     if not match:
--        bb.fatal("Can't get compiler version from %s --version output" % compiler)
-+        bb.fatal("Can't get compiler version from gcc --version output")
- 
-     version = match.group(1)
-     return "-%s" % version if version in ("4.8", "4.9") else ""
+FAIL: test max line length: Patch line too long (current length 210, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
