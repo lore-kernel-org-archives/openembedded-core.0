@@ -2,144 +2,115 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CFAEC83013
-	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 10:37:23 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.20541.1751452642325738491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA42CC83013
+	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 10:44:33 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.20644.1751453060922861235
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jul 2025 03:37:22 -0700
+ Wed, 02 Jul 2025 03:44:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VSHDKZW9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-451d3f72391so44781165e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 03:37:22 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hs8t4Sbd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a365a6804eso3572443f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 03:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1751452641; x=1752057441; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QlJ7JgC/W/55b50ca6auxHXSxGvWL1fYKYSl9Fp/QZs=;
-        b=VSHDKZW9gnowo2xEdS0ELnwwQgTmP5LnZvFRkjb+zVHqPVBDMyOjs/6KdHONg77l6P
-         waFSA1RQmkgILlzHuFWZrpbI3PHgDioG3Iqqd8OF9+EfvwRsnLlxT5kzgJr8rUnkINqi
-         SHwtPtDEoq7JA0oO834lw8iyBPz5Uq12ygbYE=
+        d=linuxfoundation.org; s=google; t=1751453059; x=1752057859; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F/xdUk6pk2v5A0bKDxSFHqTX+xenZ6ycxI/WZ7m7yjU=;
+        b=Hs8t4SbdwxfFdGgoM0ZEnz/+gfVQoXMCOUNRFCgexZXGJBkahKSPL7AtYJoAYMAQ2r
+         Me+LrfzpPgEGWKx9heRSk0D5YRutbYlFT2vyr1BCZULx0fxE5yukT0KL7kNKRQe5+5LO
+         Xhb/GB9A+q1u0qJt2ir+VHqno/W/3mCOTd8po=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751452641; x=1752057441;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QlJ7JgC/W/55b50ca6auxHXSxGvWL1fYKYSl9Fp/QZs=;
-        b=IdRHLICUwk6mF3FF6Mcsv6p0eUpHet3XqxUVbSbuC6+G3FsKXBhZQ3ZVkApx4TVy5B
-         yVnHWd3ggg6YPiDucriFUNuZ/Tr7UcqbQeKQFh0olP8MN6cbNmCUWyJfOuSStfmRWgqH
-         6swJaRFpdNAqQeYDZgODIlmI1yHCCqNzFlVdZVyXhI4rxJCA8+vJI9sGK1QQGbw1cer9
-         CKpw/YTG+ItHRfbg6f7DuQ4b2a7Gc+xBiQUs+wdO4p4uJCOCefRWtcgkCi/Jd5dkzsJ9
-         L7t4r6MlZhYAEpn7+YGlRq8G34Q8uqFjZLsvnUdwnDhW0LrxCPRIU6JnCc81mNULqbY1
-         LpRA==
-X-Forwarded-Encrypted: i=1; AJvYcCUlKQw1bXZLFkvX+UwgDfIHTNmTWMhpd2kz+kuiNBM0whXOViU3sYXFFtYzG7ik6x0AWiNwg9bVElp6Nao6eynjjQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywj4ndNA0wk3hV+XC1RE183Sc8Dc6HNUd4QlwzLC63y462KDjyf
-	OvFHc46/8lsCFGi7ZagK9i7m+5iTfNeuEkNonQwaDt4ZWnMAyqTzKvjzH+1l1ZFb2bM=
-X-Gm-Gg: ASbGncsiE16PS8BJvexJUxlURCfdLwA6HwedghqcmhReeyBYo0+oQhBv1j4aHHVl5Yu
-	CqoEnHJnfS6V1XI1BuA2rWPLNb8K0gus3EGbSfH30lPN/uzP8+R9IUI1imc3jFxU/FOTDZmc1DM
-	FqYibUVfoHeI0eO/NmvOfF9C2M4n7QYYXfhMukH5iOWvBDc8QZfLDarrOHLFx0Ox5/e87zSB8+L
-	HnXDY2tzk7O56gzdc/Eak81qt73YMKb9j1ODRnNzwvlz2huhvONd3bMDx8WfTqL6fP+DESbZY0x
-	yq1HH3Ishh0oGQGOFSIyhI7gMofeflpPFmM9B5anO0Bcmug1WpCr9Xb/m6SMo0X3rEeBdI7Vghp
-	qnn+LWE8bedIE/1xBvExnnbCucW1qVfqq2Av9XvXe5BrtWC2xSSQ=
-X-Google-Smtp-Source: AGHT+IF6PbX+mfNzebK4ERLrQkxNa7TdeQu/v0Ws7/03p1fPfOFfooLhVKOhbBZ+Y32rO1cPWr2u+Q==
-X-Received: by 2002:a05:600c:3584:b0:453:8bc7:5e53 with SMTP id 5b1f17b1804b1-454a3b2ccfemr24024985e9.0.1751452639969;
-        Wed, 02 Jul 2025 03:37:19 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:acf3:9ed8:45ec:fd86? ([2001:8b0:aba:5f3c:acf3:9ed8:45ec:fd86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538233bd14sm228073695e9.2.2025.07.02.03.37.18
+        d=1e100.net; s=20230601; t=1751453059; x=1752057859;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F/xdUk6pk2v5A0bKDxSFHqTX+xenZ6ycxI/WZ7m7yjU=;
+        b=P72QbE+LBI4V9Ja2fWa4nsXOh41mYEbmz2i8bfN9brPzHF3uUPJU3hRjTTSxoj5ej5
+         1EycxKEKnbc6FKNA1fB/ltwVgWYDPOKziIbeN1O5uqrpTDciVAWSOGZNMmWz8w/qT7cX
+         1yFdujkLSH7vLbyByzD4sQp8lkHYzPRVTzHc9E4PNr2xo4gUNVpxLBjHmDTT17KeDBQE
+         rBtzqrfBCeJ11k9ziVU+kOzXlR/Dqe0np9CyFn4mvet8suIn5MySoXjvonwG88FpNKVx
+         JV+x68DxHUmfZwaoUTLypk6o811n6v8u46k92yEkeISfbE+bhq93QPHSjKK3TUz6+xlb
+         bckA==
+X-Gm-Message-State: AOJu0YwTPNRpUCB0Bope8yd+SHGp2rnOm1lJwGtvmkiVdbKkAheSAZ+o
+	KKm3xOrd6k8NbRt4APRQLymxLpROW3n7xHKiIY/GOHPUi2PX37aCJUnakgyQOX+ojDm4IgQHea5
+	Y4K8o
+X-Gm-Gg: ASbGncs6XkbOVnacByO6Rj9ttHhDIzvrRLMutkVPrOYelEmIrfcQJtHnnjQjehANth2
+	HqkoCMZh/k/YFwSSor76zkZpOXGmkVls7Eudzn7lck3KG9E9IHTeu63P5Kkgr5We9c/Tzt0unSF
+	gC9VppPGBeOM3M1Pvm6TCT/2XyPbubjysWstzYIYdru9wqt6yt+jTZCMw8qkWVPBSBM0+PqxZzH
+	rbEOmvlA2Dx+hiqXMdVOivVSiqfQETWG/ELsYptXTFCkcTmAkvBhSxl7H3kHG+rPOCakJqfwmYG
+	Y6E8S3hhkcdDTyqbYYew3VstLoxUY+3zBep/grWqZztPOKleLYtVktGZkWQ4mN45U6ZfHcs1UJj
+	hSDKXFRiuGcEFNOY=
+X-Google-Smtp-Source: AGHT+IGuvoK5RgzLqQ/IaA5/oN7Vs7U8BXWDgXOVKnWHlYMf1ehF459kwUTCJ2R3OjQ6AeShO4fPRw==
+X-Received: by 2002:a05:6000:491a:b0:3a4:dd02:f724 with SMTP id ffacd0b85a97d-3b20048ccc4mr1692748f8f.43.1751453058597;
+        Wed, 02 Jul 2025 03:44:18 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:acf3:9ed8:45ec:fd86])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e595d1sm15886414f8f.71.2025.07.02.03.44.17
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 03:37:19 -0700 (PDT)
-Message-ID: <ba9c7714964d297d5d01a4096bea739f8f16d62c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v5 5/5] sanity/utils: Directly use gcc instead
- of BUILD_CC in host_gcc_version
+        Wed, 02 Jul 2025 03:44:17 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: antonin.godard@bootlin.com, raj.khem@gmail.com, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 02 Jul 2025 11:37:18 +0100
-In-Reply-To: <DB1I2N3JADAI.3AFKK4PYIHWQW@bootlin.com>
-References: <20250702053220.4104358-1-raj.khem@gmail.com>
-	 <20250702053220.4104358-5-raj.khem@gmail.com>
-	 <DB1I2N3JADAI.3AFKK4PYIHWQW@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] sanity: Reference gcc/g++ directly
+Date: Wed,  2 Jul 2025 11:44:16 +0100
+Message-ID: <20250702104416.3600982-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 10:37:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219818
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 10:44:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219819
 
-On Wed, 2025-07-02 at 12:33 +0200, Antonin Godard via
-lists.openembedded.org wrote:
-> On Wed Jul 2, 2025 at 7:32 AM CEST, Khem Raj via
-> lists.openembedded.org wrote:
-> > This assumes GCC compiler, so feed it one, BUILD_CC might point to
-> > clang as well in that case it fails.
-> >=20
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > =C2=A0meta/lib/oe/utils.py | 10 +++-------
-> > =C2=A01 file changed, 3 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-> > index 27d304ec72d..d31f8c3db36 100644
-> > --- a/meta/lib/oe/utils.py
-> > +++ b/meta/lib/oe/utils.py
-> > @@ -446,21 +446,17 @@ def host_gcc_version(d,
-> > taskcontextonly=3DFalse):
-> > =C2=A0=C2=A0=C2=A0=C2=A0 if taskcontextonly and d.getVar('BB_WORKERCONT=
-EXT') !=3D '1':
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return
-> > =C2=A0
-> > -=C2=A0=C2=A0=C2=A0 compiler =3D d.getVar("BUILD_CC")
-> > -=C2=A0=C2=A0=C2=A0 # Get rid of ccache since it is not present when pa=
-rsing.
-> > -=C2=A0=C2=A0=C2=A0 if compiler.startswith('ccache '):
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compiler =3D compiler[7:]
-> > =C2=A0=C2=A0=C2=A0=C2=A0 try:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env =3D os.environ.cop=
-y()
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env["PATH"] =3D d.getV=
-ar("PATH")
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 output =3D subprocess.check=
-_output("%s --version" %
-> > compiler, \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 output =3D subprocess.check=
-_output("gcc --version", \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 shell=3DTrue, env=3Denv=
-,
-> > stderr=3Dsubprocess.STDOUT).decode("utf-8")
-> > =C2=A0=C2=A0=C2=A0=C2=A0 except subprocess.CalledProcessError as e:
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal("Error running %s =
---version: %s" % (compiler,
-> > e.output.decode("utf-8")))
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal("Error running gcc=
- --version: %s" %
-> > (e.output.decode("utf-8")))
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0 match =3D re.match(r".* (\d+\.\d+)\.\d+.*",
-> > output.split('\n')[0])
-> > =C2=A0=C2=A0=C2=A0=C2=A0 if not match:
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal("Can't get compile=
-r version from %s --version
-> > output" % compiler)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal("Can't get compile=
-r version from gcc --version
-> > output")
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0 version =3D match.group(1)
-> > =C2=A0=C2=A0=C2=A0=C2=A0 return "-%s" % version if version in ("4.8", "=
-4.9") else ""
->=20
-> I can't apply this patch locally, isn't redundant with patch 4/5?
+BUILD_CC and BUILD_CXX can be overridden on a per recipe context now so
+these tests don't make sense in this form any more. They assume gcc/g++
+so lets just use those directly.
 
-For the sanity gcc/c++ ones, go with what is in master-next as that
-appears to be building ok at this point.
+This fixes things to work with toolchain selection for the native
+case.
 
-Cheers.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-global/sanity.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Richard
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 3c103d3bfb3..1044ed9cc69 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -606,7 +606,7 @@ def drop_v14_cross_builds(d):
+ 
+ def check_cpp_toolchain_flag(d, flag, error_message=None):
+     """
+-    Checks if the C++ toolchain support the given flag
++    Checks if the g++ compiler supports the given flag
+     """
+     import shlex
+     import subprocess
+@@ -619,7 +619,7 @@ def check_cpp_toolchain_flag(d, flag, error_message=None):
+     }
+     """
+ 
+-    cmd = shlex.split(d.getVar("BUILD_CXX")) + ["-x", "c++","-", "-o", "/dev/null", flag]
++    cmd = ["g++", "-x", "c++","-", "-o", "/dev/null", flag]
+     try:
+         subprocess.run(cmd, input=cpp_code, capture_output=True, text=True, check=True)
+         return None
+@@ -697,11 +697,11 @@ def check_sanity_version_change(status, d):
+     if not check_app_exists("${MAKE}", d):
+         missing = missing + "GNU make,"
+ 
+-    if not check_app_exists('${BUILD_CC}', d):
+-        missing = missing + "C Compiler (%s)," % d.getVar("BUILD_CC")
++    if not check_app_exists('gcc', d):
++        missing = missing + "C Compiler (gcc),"
+ 
+-    if not check_app_exists('${BUILD_CXX}', d):
+-        missing = missing + "C++ Compiler (%s)," % d.getVar("BUILD_CXX")
++    if not check_app_exists('g++', d):
++        missing = missing + "C++ Compiler (g++),"
+ 
+     required_utilities = d.getVar('SANITY_REQUIRED_UTILITIES')
+ 
 
