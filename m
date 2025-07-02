@@ -1,604 +1,176 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AF21C83F04
-	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 01:56:00 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.13684.1751421356718990502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73DEBC7EE30
+	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 02:01:00 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.13813.1751421655731980074
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 18:55:56 -0700
+ Tue, 01 Jul 2025 19:00:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YneMnz5I;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-235d6de331fso50154795ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 18:55:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751421356; x=1752026156; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nLHX7QsjEYrCC/TW+FrCqJ6dzQaEn4LCTb+VjAFcM0k=;
-        b=YneMnz5IHJjtMTE0PO+/yCvH+ll2lMr9pQRnkaB2BIOaNAsY9/a82WP2SESjtPia8B
-         srhM5dOAJEtagGu0yxNyw4s+Buudx9UmGIkcTu7ak1fBcEyQmXrvZ+2swyrLjdwUjw0m
-         PzMrVBEG6Tpupoi78VZus7pd48nSj/Ip8F01pDi04OQobBfbEJWPK3cnGpVTxPTrsD+M
-         VLcUf0HZO3tWhw+WYQvvvmgg9m31LaEE27uwO88uaNa+atlRHsSOzFcdcEg8kluk9UfM
-         tC5/cE07ZXWkGY2eeWEMMiNbO0z+JBCYICS0KAnu/8J7p00DW6Gd7I92CHyS9EErSYYf
-         gGpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751421356; x=1752026156;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nLHX7QsjEYrCC/TW+FrCqJ6dzQaEn4LCTb+VjAFcM0k=;
-        b=qEW8A/jOi5/VxYHnTOBnlDihiqmvoX4rUQ3WVD/oRPEnNQy4KSBu0LUNfLhawe6jOI
-         I7wZcrJpzvpJiiJcT6qS0EwR9Czk1VfdU/i6mJFEZxQ1kV5nTRKTimFclpbcDQyEN2qb
-         G/oNZmY4E59diaVyZQfXPuJ/UtH7FMRGth1A48c6aADQc6vSoh/tsHfjc5jIvFRi45Ri
-         csx87M4V4MwAeogAsz92BDjSES9fabSMX3HxwwpBMGrGLvAjlB/jVa+bC2Vg07yD7Z41
-         dDNVH/3b/UIEmMltCV0sJCUctM7CAWbWRwMVpWExrwtvzjgeUV/a6qcZtNohku2zm5uV
-         bBlw==
-X-Gm-Message-State: AOJu0YyyGInSGUNtCqil+u39BKx1dWxn2gG8vAXlMZhAmFrNHOGSZ0lz
-	kFk++p/5nbQrAflZq7n6nZkOf90hssSivIUXmr3gm0M7RajOxtFdE4J3PV2S8DXg
-X-Gm-Gg: ASbGncsD3JiGdfHC3yqL1bsU/K5vDPg0xXyyPZG1RLTUH+65EICwQcVXNoNVg5eeHQD
-	gYEw5Z2amP3QOQwVysveEOBcJ+MU4GLmR0Kmw5cbOA7RDruVV/W9y5WeDbQWXQI8qA6Z3l6kI/t
-	Wl40NNjidl/XhlSLs1gKs77kcc8Kge6ttSH0lQkh/vFPbaz67eHkS+O3QnFqQKfD62mgH/GwVtS
-	eqEQmiTf9P8olx3hQ8ZlKvB003+WNNIDUhOTqMDCc4W+xCrO3kBP8ASZEWKEuTvdEfOWIlWn8rO
-	Iq/qwoQ7gNQtqkOS8aNmZEzqfowZf72UkU72FFzddOEl96/PR8g49A==
-X-Google-Smtp-Source: AGHT+IEQzq58r+WFxb9jaTYKjRux2FmXnn7LqyucUtb6h9DRw5v8FBBOuD2TrekyCNCIq7TLO+dTpg==
-X-Received: by 2002:a17:902:d54f:b0:234:8ec1:4aec with SMTP id d9443c01a7336-23c6e48d546mr13758075ad.6.1751421355493;
-        Tue, 01 Jul 2025 18:55:55 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::aa8c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb2e25c6sm114404595ad.6.2025.07.01.18.55.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 18:55:54 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=92788b4251=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5621ZZ6v026880
+	for <openembedded-core@lists.openembedded.org>; Wed, 2 Jul 2025 02:00:54 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10on2073.outbound.protection.outlook.com [40.107.94.73])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47j7c9brvm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 02:00:54 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LW0dnjIRnTO7iKsroRiyX0I4wfxUYfxWxAvyPBK7T2NjszT523A3ECT7BaHHidUpMOuEYNvaaHFA9No6f27ACzo8erpgw/vctUSaZow+RHGVGYMDdhFtIsJw7TjQln+E+Y7ZNOEB1QyCUnTm9POO7kFG5VllZO5JuVQE9EKxCsWf1l71jnvl8InW5XAIR9jCHQGBTpMlNbXfcmLHVEKcNzKVEKdTLe9Vh9pb7yhjWR6N9JYZHgJ46iK5PIUmYuabWodVW2ALYA13/PSoSc3VbD+5yRpbVbRdVXyIQ69NqFZbgSKe/3qgZEy3acncOXPoEC1jJyNDRRXuZn23CFdqsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uNUcsqXyMxXnzkR8xxb6dsCSbHiLwLrBtbT1WJOIof0=;
+ b=nLIONOHOfTP/XEzAiLpH6mgeqq4zuNt7YyFGG24UguQVqiTkv6PspmR5/FLifnJN6ydpZOXObemUA2Xdamv/7Du4Z4Fr2pPEtHTJO9Mrj6l97g1WmQLrXq3K0ddinaB/tFJg85sXBqRd0+ibT9QSYhBfJrhjAA7/gzp1ePx3XQFN07zebTrn2KE1sUV+Zs3WrVUWhhRDFeo9RLCRPZcSc2b6LLEpIFh8is229ilt/7cRbZxQWyrw8flFtvIVJBEYVL2wI0TsSmhePcREYRKGuo4iDpRJvqzJ0Efm+0YRET9Pt8dAHFkWNH/oxU6s5e2uqLkVvSZyR2Qh8ulXGC79qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by DS7PR11MB6104.namprd11.prod.outlook.com (2603:10b6:8:9f::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8901.20; Wed, 2 Jul 2025 02:00:49 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
+ 02:00:49 +0000
+From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v4 3/4] Remove oe.utils.host_gcc_version utility
-Date: Tue,  1 Jul 2025 18:55:50 -0700
-Message-ID: <20250702015551.1453616-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250702015551.1453616-1-raj.khem@gmail.com>
-References: <20250702015551.1453616-1-raj.khem@gmail.com>
-MIME-Version: 1.0
+Subject: [OE-core][PATCH] pciutils: upgrade from 3.13.0 to 3.14.0
+Date: Wed,  2 Jul 2025 10:00:32 +0800
+Message-Id: <20250702020032.2692513-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SL2P216CA0152.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:35::11) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|DS7PR11MB6104:EE_
+X-MS-Office365-Filtering-Correlation-Id: 74ebf5b5-4855-47b8-2042-08ddb90c4389
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?4E42wp2iglcUAcyZicyvOUBSuTuAyh9BLccmnDueVHrjBcg1qPas/0RxcBrx?=
+ =?us-ascii?Q?tN42Mb6Axs9F9BqhyBw/vJgv6/fDJv5AqGLZClxn8PUGKcYUszk9uQAA/RDq?=
+ =?us-ascii?Q?Zgi0URttuj8zyOST5yHF4V3ZM9+aKd3J8KBeROl2x5L2V7Tyz/uot7fZqe30?=
+ =?us-ascii?Q?F4jO1WfdJtiiYTmHhaNjHkRYT8Qd9KXMYP5dnjNOhjtXkE1ayL6HY486N7c2?=
+ =?us-ascii?Q?eFP7lvCRxa+Og6c4pyZJ6epqkEv2e2QEfR4JYPjkNyE2vAV8KsIBHlzZLC5P?=
+ =?us-ascii?Q?hqXzTl8CkIx/9kHMTnPzY/5wAEmjyYz536mwzvD9detKOf8wC3QlePeW7VEM?=
+ =?us-ascii?Q?h2673z9EQ2bE+faC23Qz8FkvarE60rL+6yCoCkldCuJdAoe2TXo7c2ntbfHx?=
+ =?us-ascii?Q?wLqtvfjMD8C5qSHv8HRiwdQAfA2dr6PzO/wX7AVWiPypwRlPoIJa1+hnM03F?=
+ =?us-ascii?Q?oGDLzDKmxbGjAZnro/hFxjLwVKcS1ibNSKGIaW9LhNxN6aCA7nRI6zP+5k3w?=
+ =?us-ascii?Q?9SjF3BYuPP9qrQ+n3JvfPXiWO4Vv7EhV4A5QlV0omPh/4Iwe7PYIJLYdmu0I?=
+ =?us-ascii?Q?eXbJbpDdxRDNPCOPfxS+u9Y0DacF/8NF1gy3Z1pCYmxRpYdT+GFPCScFXv6d?=
+ =?us-ascii?Q?T9qZYfZHMkTYErPx77ooc3BAFaSfZfGf918wNGv4flp1HqozfW9zhSoKPOU0?=
+ =?us-ascii?Q?Hm1v5tzQWDiLjLUx6fccYhffQmWvxGdPBE0mu6SMxS1pONF6RdkR1T4skZMZ?=
+ =?us-ascii?Q?oNO6dyfIS8or0qOCGOuYZzP16QGnBldHQLcdSw/+Z7oYc0ttlzq7uOVkWfia?=
+ =?us-ascii?Q?cXQjugmK7V73UPFQjVN/OfXUhIJX6d0rFCCf4IZH1OzFb0XOhM+gXCFILyGa?=
+ =?us-ascii?Q?iBgt+Ynl4cl2xxWvj6g+yjknf0DpHgHiOm6ZkdcudmDzl9AMGTDm1MaoZKhI?=
+ =?us-ascii?Q?0JspJmUm2L/ompEO4ZNQmSi2Ql1WzfBjdmx/VxT21mU4dd9F3Fjmwv92cBnH?=
+ =?us-ascii?Q?jCuPtG+CfMdRj2lEMMOFpB86zjC+0KBuXtKeqliXoNr/rJaHYJbiHjRv+5lr?=
+ =?us-ascii?Q?Gw4AsP8e6Cqo0OJ5jICxDnlycxDgoQVJTCkYDRf+aGyyIlt49wwuqhv67Zii?=
+ =?us-ascii?Q?ZHfVT822hjUnOuJaT6aDn2lvJlwr4d6vCzWbzqMGYrP5cMd708a5Pr4xdK3Z?=
+ =?us-ascii?Q?libOwxJydt/WyYfJ3SGCmj4VUNac5ndpxW/05+aP0O5/SpsGKNziOToMBrQ9?=
+ =?us-ascii?Q?ks9HfF4ia93wuLiPKq28SRFYp1hOpGB4Wbym85ei3QuaMMgjveN53nWScwy0?=
+ =?us-ascii?Q?tgvMw7NmimDuvVx2uNhGk7Z57QrMDzaWjG2ndO+g+i1DtSFuNjj0yaIohn0P?=
+ =?us-ascii?Q?XJNjUEEQ2S52cYVX4Z1bYU1kaFCRzzRho3qB10KRK15rg9CsNyP3Q8ste2Lg?=
+ =?us-ascii?Q?4CLZm511VYNQGi8vED8dJgv9CLOB4kRmPcIwRVgVchGfjr5RQdwy7A=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?LpZ/6ratpjuzVd9m4YutPmT5EECLunSJPfHYBpMtg1QacEbZrVEgqvdDiNwK?=
+ =?us-ascii?Q?CAs+W2xo3JGvzF8CHuh/bYPDyqWwLOeo2l5/YKokd381ulw20oNutT0naF5k?=
+ =?us-ascii?Q?rBySpA2rI0vyVIJUj7ckU9eiC1m5FZrowS/q81T5PITjhpK2D5g43VQt3/Lv?=
+ =?us-ascii?Q?zwXuGdDeA+j6LN+Sy2DBGqucPWUnjBVE2FYIgap0WfnSxZNid/SUQuOWizof?=
+ =?us-ascii?Q?Wm/vipSS99etDfVuCPly/F6kblnIA9S+5LzuAhXeYxSMHNdtVNsA54DIaHUN?=
+ =?us-ascii?Q?KA+/8wkzpFg9idgznAq6EtLA0sQ7qMJaI9wwPpb9EdyTd0hvLW5JRpkULSsY?=
+ =?us-ascii?Q?S8XWC/y4OD5oQqmOJJzl656zWjFvZ2lPcHQvDCKR+flMD33JVNPFq1QhIe/C?=
+ =?us-ascii?Q?kBXcv/dU8vHwxXnOjUGWc/qDlt8Syr2rCMS+jIyLZhBl35/Xtn2LGUyjVv1R?=
+ =?us-ascii?Q?huSlcwdAZTC52KuS+MOmfRdN9VpTGtOaMakKWUmfFyr6L51xyzAS6YGXxRVs?=
+ =?us-ascii?Q?hqbyeg3CaF5fFleCgNHS5e8EpjMLZl+GVjBmvgx9XydNSP1/SwCKjci/nlR0?=
+ =?us-ascii?Q?O/Bh84SM76V5XgCSOR3OOje7FDC9fW7kGKzdBAF8XBoboQB/gOsU0Dku3oKN?=
+ =?us-ascii?Q?dnnPj82HS4GERn4mBZl30Ug1obhsif1pSdXM9JFnHgBXWcGma8JhaUpzPvF7?=
+ =?us-ascii?Q?jmMwwn3Ld/t1F/+K53JKr9KyQkxlAnov2FA+T+Z+MMmJycHgolaCozI6ECoJ?=
+ =?us-ascii?Q?mz2CpKIQSxfRAPh5lyvxuleWF2lzmbOq+r4hbQGr8NEqql2+mLKSNda8Unrf?=
+ =?us-ascii?Q?5PkvT0f3mYd3PMurPenIpU2uJkoOJ0J5U6Mq5ZXEg3sKvBmI292zpRY7G/Np?=
+ =?us-ascii?Q?pK7QPaggr1igOvCFu9A5oirheWw5PTpSBDWGesLL2f7Ir96WiWRBOKn1V86A?=
+ =?us-ascii?Q?qE3x1POUJAW/r3Fts7uWj49Hq9Zcg2SO3Y6+7WYvwlddUsgIyy488Z/BOHrr?=
+ =?us-ascii?Q?WySHDI8SQHVjBDqVbp6ft1mbzfSdCUr2XKY6uPKEwjM2bpnvU/mLFHhvm9iw?=
+ =?us-ascii?Q?mry/zM0yx0n2VIT0GC8b1QS0mpW2cW25Z2ygfPSqB0YRJaFTCc7FjkdrYady?=
+ =?us-ascii?Q?ER+3Sry0gh+bEvTaJpXUGzo66HA+bCdAqmJTEQunnVKKoNVuVZlBJfqawCoa?=
+ =?us-ascii?Q?HiFEHmju/NmH/rE4Y0AkW9XphPmck207raVmq4I2mDNG6HadDoFrk5LEstSZ?=
+ =?us-ascii?Q?Z286cxusSyzPWOZs6UXMY4+urC/PcPWEMtpaNy0W3hZ5wIb66yzzJ3LmadDh?=
+ =?us-ascii?Q?2GqrkfvITg6+vH388ZT5fW2/AS3/ClUiJc76dXEFRx3bWGardcU4S23/E3np?=
+ =?us-ascii?Q?shgBxyuM3j9yDW+YOGCt3rLFocOK+nXss7/Jro1q+w8tKscCSLbCHlx5XUsn?=
+ =?us-ascii?Q?JtoWkm8qbYHY8qFgoCniwgesDPuqsl/2nllozQTVkFqohnsO/TYGJDL+mpC6?=
+ =?us-ascii?Q?UbfQdsI8XhWWd9byzFyX8QEvTYi3UIqNvjw3V1icKeZDWQy7HVVQ/ZeGoO+3?=
+ =?us-ascii?Q?P0q+uaPgSVSer66+jim56ZAXFD4nHvMAwlsDuZpV?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74ebf5b5-4855-47b8-2042-08ddb90c4389
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 02:00:49.5583
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AiC/6Qb6GRA1ZX/ssd1al8x0tXTHlvmE2xE6KINpavDqYMMyNENKhSSGWvvac7nAW85koF6fTChmWuCVebGe8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6104
+X-Proofpoint-ORIG-GUID: Nr8dYB_hRGWZJYsvz7l__tFr-_d3WWXa
+X-Proofpoint-GUID: Nr8dYB_hRGWZJYsvz7l__tFr-_d3WWXa
+X-Authority-Analysis: v=2.4 cv=M5xNKzws c=1 sm=1 tr=0 ts=686492d6 cx=c_pps a=Fhjxo9ZRswNOFApSmHy3bA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10 a=t7CeM3EgAAAA:8 a=U7Q1EUjIjnvBkeP6tQUA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAyMDAxNiBTYWx0ZWRfX/0kF0xj57apX gSgHQzE4jqQNxyxz0AsriaWwksvxoOgTf/kxtN4XuB9jk56KcJPf+yI4SjpDVg5cTVr0CrTzOn6 QSUDdbnOdDHfewldA/pZouPnOdP2p7nEBBrK/vm/DA6WTNP26w1ftO/lhX3trxVKjjR8DNZAaUJ
+ kGDzdErjU9h9HuXcZIXhqKYcCLzRQeTPq9GSYXBXfBy572ZUt72m8nNW6F/TLRBI2pq7Q5l9FBF s9Gu8tTvv/knQEG7iSZMDTqYkz2bIXSPmWc1f3RX+3OQfGf+PmYyFt3VUDY4nLOUSM5aXtKhYbD prjDX7gRlECUPxeKAvpgx1SY9iM8xdnNGTrVomxyluC9CG/moSPM3XtJpTPCaQTa04jHwhUzK/n
+ AYDc6iZlMzlVuO/PiDWpDckF91XX8RY0fmn6NMR19kFbvypGd8Uv4/yGyzOmaqm6ZCEceOeJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=713 suspectscore=0 mlxscore=0
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2507020016
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 01:56:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219749
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 02:01:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219751
 
-This was used for the uninative gcc 4.8 and 4.9 incompatibility w.r.t
-runtime ABI, none of supported distros we use today use that old gcc
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Oldest we have is gcc 7.5.0 on opensuse 15.5 hosts
+Upgrade pciutils from 3.13.0 to 3.14.0.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes-global/uninative.bbclass         |   2 +-
- meta/classes-recipe/populate_sdk_base.bbclass |   1 -
- meta/classes-recipe/populate_sdk_ext.bbclass  |   3 +-
- meta/files/toolchain-shar-extract.sh          |   8 -
- meta/lib/oe/utils.py                          | 147 +++++++++++-------
- 5 files changed, 90 insertions(+), 71 deletions(-)
+ .../pciutils/{pciutils_3.13.0.bb => pciutils_3.14.0.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/pciutils/{pciutils_3.13.0.bb => pciutils_3.14.0.bb} (95%)
 
-diff --git a/meta/classes-global/uninative.bbclass b/meta/classes-global/uninative.bbclass
-index 75e0c19704d..c246a1ecd6c 100644
---- a/meta/classes-global/uninative.bbclass
-+++ b/meta/classes-global/uninative.bbclass
-@@ -142,7 +142,7 @@ def enable_uninative(d):
-     loader = d.getVar("UNINATIVE_LOADER")
-     if os.path.exists(loader):
-         bb.debug(2, "Enabling uninative")
--        d.setVar("NATIVELSBSTRING", "universal%s" % oe.utils.host_gcc_version(d))
-+        d.setVar("NATIVELSBSTRING", "universal")
-         d.appendVar("SSTATEPOSTUNPACKFUNCS", " uninative_changeinterp")
-         d.appendVarFlag("SSTATEPOSTUNPACKFUNCS", "vardepvalueexclude", "| uninative_changeinterp")
-         d.appendVar("BUILD_LDFLAGS", " -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=${UNINATIVE_LOADER} -pthread")
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index 8ef4b2be777..e6685cde97b 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -373,7 +373,6 @@ EOF
- 		-e 's#@SDK_VERSION@#${SDK_VERSION}#g' \
- 		-e '/@SDK_PRE_INSTALL_COMMAND@/d' \
- 		-e '/@SDK_POST_INSTALL_COMMAND@/d' \
--		-e 's#@SDK_GCC_VER@#${@oe.utils.host_gcc_version(d, taskcontextonly=True)}#g' \
- 		-e 's#@SDK_ARCHIVE_TYPE@#${SDK_ARCHIVE_TYPE}#g' \
- 		${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.13.0.bb b/meta/recipes-bsp/pciutils/pciutils_3.14.0.bb
+similarity index 95%
+rename from meta/recipes-bsp/pciutils/pciutils_3.13.0.bb
+rename to meta/recipes-bsp/pciutils/pciutils_3.14.0.bb
+index 6478722838..a267ea34b7 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.13.0.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.14.0.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ DEPENDS = "make-native"
  
-diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
-index 2d7d661d259..eb4e16c57cb 100644
---- a/meta/classes-recipe/populate_sdk_ext.bbclass
-+++ b/meta/classes-recipe/populate_sdk_ext.bbclass
-@@ -491,8 +491,7 @@ def prepare_locked_cache(d, baseoutpath, derivative, conf_initpath):
-     sstate_out = baseoutpath + '/sstate-cache'
-     bb.utils.remove(sstate_out, True)
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "77f11f78298502634d1af50308f15a5788629f6cf45cba376f5009aea4cb4926"
++SRC_URI[sha256sum] = "e7713409882813991d2269d125e40dad1f54a019a52b78b3962941c1d4a6f86f"
  
--    # uninative.bbclass sets NATIVELSBSTRING to 'universal%s' % oe.utils.host_gcc_version(d)
--    fixedlsbstring = "universal%s" % oe.utils.host_gcc_version(d) if bb.data.inherits_class('uninative', d) else ""
-+    fixedlsbstring = "universal" if bb.data.inherits_class('uninative', d) else ""
+ inherit multilib_header pkgconfig update-alternatives
  
-     sdk_include_toolchain = (d.getVar('SDK_INCLUDE_TOOLCHAIN') == '1')
-     sdk_ext_type = d.getVar('SDK_EXT_TYPE')
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 06934e5a9ab..e2c617958a9 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -31,9 +31,6 @@ tweakpath /sbin
- INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
- SDK_ARCH=$(echo @SDK_ARCH@ | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
- 
--INST_GCC_VER=$(gcc --version 2>/dev/null | sed -ne 's/.* \([0-9]\+\.[0-9]\+\)\.[0-9]\+.*/\1/p')
--SDK_GCC_VER='@SDK_GCC_VER@'
--
- verlte () {
- 	[  "$1" = "`printf "$1\n$2" | sort -V | head -n1`" ]
- }
-@@ -145,11 +142,6 @@ fi
- # SDK_EXTENSIBLE is exposed from the SDK_PRE_INSTALL_COMMAND above
- if [ "$SDK_EXTENSIBLE" = "1" ]; then
- 	DEFAULT_INSTALL_DIR="@SDKEXTPATH@"
--	if [ "$INST_GCC_VER" = '4.8' -a "$SDK_GCC_VER" = '4.9' ] || [ "$INST_GCC_VER" = '4.8' -a "$SDK_GCC_VER" = '' ] || \
--		[ "$INST_GCC_VER" = '4.9' -a "$SDK_GCC_VER" = '' ]; then
--		echo "Error: Incompatible SDK installer! Your host gcc version is $INST_GCC_VER and this SDK was built by gcc higher version."
--		exit 1
--	fi
- fi
- 
- if [ "$target_sdk_dir" = "" ]; then
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index a11db5f3cd9..ac127659632 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -11,42 +11,49 @@ import errno
- 
- import bb.parse
- 
-+
- def read_file(filename):
-     try:
--        f = open( filename, "r" )
-+        f = open(filename, "r")
-     except IOError as reason:
--        return "" # WARNING: can't raise an error now because of the new RDEPENDS handling. This is a bit ugly. :M:
-+        return ""  # WARNING: can't raise an error now because of the new RDEPENDS handling. This is a bit ugly. :M:
-     else:
-         data = f.read().strip()
-         f.close()
-         return data
-     return None
- 
--def ifelse(condition, iftrue = True, iffalse = False):
-+
-+def ifelse(condition, iftrue=True, iffalse=False):
-     if condition:
-         return iftrue
-     else:
-         return iffalse
- 
-+
- def conditional(variable, checkvalue, truevalue, falsevalue, d):
-     if d.getVar(variable) == checkvalue:
-         return truevalue
-     else:
-         return falsevalue
- 
-+
- def vartrue(var, iftrue, iffalse, d):
-     import oe.types
-+
-     if oe.types.boolean(d.getVar(var)):
-         return iftrue
-     else:
-         return iffalse
- 
-+
- def less_or_equal(variable, checkvalue, truevalue, falsevalue, d):
-     if float(d.getVar(variable)) <= float(checkvalue):
-         return truevalue
-     else:
-         return falsevalue
- 
-+
- def version_less_or_equal(variable, checkvalue, truevalue, falsevalue, d):
-     result = bb.utils.vercmp_string(d.getVar(variable), checkvalue)
-     if result <= 0:
-@@ -54,6 +61,7 @@ def version_less_or_equal(variable, checkvalue, truevalue, falsevalue, d):
-     else:
-         return falsevalue
- 
-+
- def both_contain(variable1, variable2, checkvalue, d):
-     val1 = d.getVar(variable1)
-     val2 = d.getVar(variable2)
-@@ -68,6 +76,7 @@ def both_contain(variable1, variable2, checkvalue, d):
-     else:
-         return ""
- 
-+
- def set_intersect(variable1, variable2, d):
-     """
-     Expand both variables, interpret them as lists of strings, and return the
-@@ -83,36 +92,44 @@ def set_intersect(variable1, variable2, d):
-     val2 = set(d.getVar(variable2).split())
-     return " ".join(val1 & val2)
- 
-+
- def prune_suffix(var, suffixes, d):
-     # See if var ends with any of the suffixes listed and
-     # remove it if found
-     for suffix in suffixes:
-         if suffix and var.endswith(suffix):
--            var = var[:-len(suffix)]
-+            var = var[: -len(suffix)]
- 
-     prefix = d.getVar("MLPREFIX")
-     if prefix and var.startswith(prefix):
--        var = var[len(prefix):]
-+        var = var[len(prefix) :]
- 
-     return var
- 
-+
- def str_filter(f, str, d):
-     from re import match
-+
-     return " ".join([x for x in str.split() if match(f, x, 0)])
- 
-+
- def str_filter_out(f, str, d):
-     from re import match
-+
-     return " ".join([x for x in str.split() if not match(f, x, 0)])
- 
-+
- def build_depends_string(depends, task):
-     """Append a taskname to a string of dependencies as used by the [depends] flag"""
-     return " ".join(dep + ":" + task for dep in depends.split())
- 
-+
- def inherits(d, *classes):
-     """Return True if the metadata inherits any of the specified classes"""
-     return any(bb.data.inherits_class(cls, d) for cls in classes)
- 
--def features_backfill(var,d):
-+
-+def features_backfill(var, d):
-     # This construct allows the addition of new features to variable specified
-     # as var
-     # Example for var = "DISTRO_FEATURES"
-@@ -122,8 +139,8 @@ def features_backfill(var,d):
-     # Distributions wanting to elide a value in DISTRO_FEATURES_BACKFILL should
-     # add the feature to DISTRO_FEATURES_BACKFILL_CONSIDERED
-     features = (d.getVar(var) or "").split()
--    backfill = (d.getVar(var+"_BACKFILL") or "").split()
--    considered = (d.getVar(var+"_BACKFILL_CONSIDERED") or "").split()
-+    backfill = (d.getVar(var + "_BACKFILL") or "").split()
-+    considered = (d.getVar(var + "_BACKFILL_CONSIDERED") or "").split()
- 
-     addfeatures = []
-     for feature in backfill:
-@@ -133,6 +150,7 @@ def features_backfill(var,d):
-     if addfeatures:
-         d.appendVar(var, " " + " ".join(addfeatures))
- 
-+
- def all_distro_features(d, features, truevalue="1", falsevalue=""):
-     """
-     Returns truevalue if *all* given features are set in DISTRO_FEATURES,
-@@ -153,6 +171,7 @@ def all_distro_features(d, features, truevalue="1", falsevalue=""):
-     """
-     return bb.utils.contains("DISTRO_FEATURES", features, truevalue, falsevalue, d)
- 
-+
- def any_distro_features(d, features, truevalue="1", falsevalue=""):
-     """
-     Returns truevalue if at least *one* of the given features is set in DISTRO_FEATURES,
-@@ -174,6 +193,7 @@ def any_distro_features(d, features, truevalue="1", falsevalue=""):
-     """
-     return bb.utils.contains_any("DISTRO_FEATURES", features, truevalue, falsevalue, d)
- 
-+
- def parallel_make(d, makeinst=False):
-     """
-     Return the integer value for the number of parallel threads to use when
-@@ -183,22 +203,23 @@ def parallel_make(d, makeinst=False):
-     e.g. if PARALLEL_MAKE = "-j 10", this will return 10 as an integer.
-     """
-     if makeinst:
--        pm = (d.getVar('PARALLEL_MAKEINST') or '').split()
-+        pm = (d.getVar("PARALLEL_MAKEINST") or "").split()
-     else:
--        pm = (d.getVar('PARALLEL_MAKE') or '').split()
-+        pm = (d.getVar("PARALLEL_MAKE") or "").split()
-     # look for '-j' and throw other options (e.g. '-l') away
-     while pm:
-         opt = pm.pop(0)
--        if opt == '-j':
-+        if opt == "-j":
-             v = pm.pop(0)
--        elif opt.startswith('-j'):
-+        elif opt.startswith("-j"):
-             v = opt[2:].strip()
-         else:
-             continue
- 
-         return int(v)
- 
--    return ''
-+    return ""
-+
- 
- def parallel_make_argument(d, fmt, limit=None, makeinst=False):
-     """
-@@ -218,23 +239,28 @@ def parallel_make_argument(d, fmt, limit=None, makeinst=False):
-         if limit:
-             v = min(limit, v)
-         return fmt % v
--    return ''
-+    return ""
-+
- 
- def packages_filter_out_system(d):
-     """
-     Return a list of packages from PACKAGES with the "system" packages such as
-     PN-dbg PN-doc PN-locale-eb-gb removed.
-     """
--    pn = d.getVar('PN')
--    pkgfilter = [pn + suffix for suffix in ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev', '-src')]
-+    pn = d.getVar("PN")
-+    pkgfilter = [
-+        pn + suffix
-+        for suffix in ("", "-dbg", "-dev", "-doc", "-locale", "-staticdev", "-src")
-+    ]
-     localepkg = pn + "-locale-"
-     pkgs = []
- 
--    for pkg in d.getVar('PACKAGES').split():
-+    for pkg in d.getVar("PACKAGES").split():
-         if pkg not in pkgfilter and localepkg not in pkg:
-             pkgs.append(pkg)
-     return pkgs
- 
-+
- def getstatusoutput(cmd):
-     return subprocess.getstatusoutput(cmd)
- 
-@@ -253,10 +279,12 @@ def trim_version(version, num_parts=2):
-     trimmed = ".".join(parts[:num_parts])
-     return trimmed
- 
-+
- def cpu_count(at_least=1, at_most=64):
-     cpus = len(os.sched_getaffinity(0))
-     return max(min(cpus, at_most), at_least)
- 
-+
- def execute_pre_post_process(d, cmds):
-     if cmds is None:
-         return
-@@ -267,14 +295,17 @@ def execute_pre_post_process(d, cmds):
-         bb.note("Executing %s ..." % cmd)
-         bb.build.exec_func(cmd, d)
- 
-+
- @bb.parse.vardepsexclude("BB_NUMBER_THREADS")
- def get_bb_number_threads(d):
-     return int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
- 
-+
- def multiprocess_launch(target, items, d, extraargs=None):
-     max_process = get_bb_number_threads(d)
-     return multiprocess_launch_mp(target, items, max_process, extraargs)
- 
-+
- # For each item in items, call the function 'target' with item as the first
- # argument, extraargs as the other arguments and handle any exceptions in the
- # parent thread
-@@ -344,7 +375,7 @@ def multiprocess_launch_mp(target, items, max_process, extraargs=None):
-         p.join()
-     if errors:
-         msg = ""
--        for (e, tb) in errors:
-+        for e, tb in errors:
-             if isinstance(e, subprocess.CalledProcessError) and e.output:
-                 msg = msg + str(e) + "\n"
-                 msg = msg + "Subprocess output:"
-@@ -354,24 +385,27 @@ def multiprocess_launch_mp(target, items, max_process, extraargs=None):
-         bb.fatal("Fatal errors occurred in subprocesses:\n%s" % msg)
-     return results
- 
-+
- def squashspaces(string):
-     import re
-+
-     return re.sub(r"\s+", " ", string).strip()
- 
-+
- def rprovides_map(pkgdata_dir, pkg_dict):
-     # Map file -> pkg provider
-     rprov_map = {}
- 
-     for pkg in pkg_dict:
--        path_to_pkgfile = os.path.join(pkgdata_dir, 'runtime-reverse', pkg)
-+        path_to_pkgfile = os.path.join(pkgdata_dir, "runtime-reverse", pkg)
-         if not os.path.isfile(path_to_pkgfile):
-             continue
-         with open(path_to_pkgfile) as f:
-             for line in f:
--                if line.startswith('RPROVIDES') or line.startswith('FILERPROVIDES'):
-+                if line.startswith("RPROVIDES") or line.startswith("FILERPROVIDES"):
-                     # List all components provided by pkg.
-                     # Exclude version strings, i.e. those starting with (
--                    provides = [x for x in line.split()[1:] if not x.startswith('(')]
-+                    provides = [x for x in line.split()[1:] if not x.startswith("(")]
-                     for prov in provides:
-                         if prov in rprov_map:
-                             rprov_map[prov].append(pkg)
-@@ -380,6 +414,7 @@ def rprovides_map(pkgdata_dir, pkg_dict):
- 
-     return rprov_map
- 
-+
- def format_pkg_list(pkg_dict, ret_format=None, pkgdata_dir=None):
-     output = []
- 
-@@ -388,10 +423,14 @@ def format_pkg_list(pkg_dict, ret_format=None, pkgdata_dir=None):
-             output.append("%s %s" % (pkg, pkg_dict[pkg]["arch"]))
-     elif ret_format == "file":
-         for pkg in sorted(pkg_dict):
--            output.append("%s %s %s" % (pkg, pkg_dict[pkg]["filename"], pkg_dict[pkg]["arch"]))
-+            output.append(
-+                "%s %s %s" % (pkg, pkg_dict[pkg]["filename"], pkg_dict[pkg]["arch"])
-+            )
-     elif ret_format == "ver":
-         for pkg in sorted(pkg_dict):
--            output.append("%s %s %s" % (pkg, pkg_dict[pkg]["arch"], pkg_dict[pkg]["ver"]))
-+            output.append(
-+                "%s %s %s" % (pkg, pkg_dict[pkg]["arch"], pkg_dict[pkg]["ver"])
-+            )
-     elif ret_format == "deps":
-         rprov_map = rprovides_map(pkgdata_dir, pkg_dict)
-         for pkg in sorted(pkg_dict):
-@@ -399,18 +438,20 @@ def format_pkg_list(pkg_dict, ret_format=None, pkgdata_dir=None):
-                 if dep in rprov_map:
-                     # There could be multiple providers within the image
-                     for pkg_provider in rprov_map[dep]:
--                        output.append("%s|%s * %s [RPROVIDES]" % (pkg, pkg_provider, dep))
-+                        output.append(
-+                            "%s|%s * %s [RPROVIDES]" % (pkg, pkg_provider, dep)
-+                        )
-                 else:
-                     output.append("%s|%s" % (pkg, dep))
-     else:
-         for pkg in sorted(pkg_dict):
-             output.append(pkg)
- 
--    output_str = '\n'.join(output)
-+    output_str = "\n".join(output)
- 
-     if output_str:
-         # make sure last line is newline terminated
--        output_str += '\n'
-+        output_str += "\n"
- 
-     return output_str
- 
-@@ -420,24 +461,27 @@ def format_pkg_list(pkg_dict, ret_format=None, pkgdata_dir=None):
- def get_host_compiler_version(d, taskcontextonly=False):
-     import re, subprocess
- 
--    if taskcontextonly and d.getVar('BB_WORKERCONTEXT') != '1':
-+    if taskcontextonly and d.getVar("BB_WORKERCONTEXT") != "1":
-         return
- 
-     compiler = d.getVar("BUILD_CC")
-     # Get rid of ccache since it is not present when parsing.
--    if compiler.startswith('ccache '):
-+    if compiler.startswith("ccache "):
-         compiler = compiler[7:]
-     try:
-         env = os.environ.copy()
-         # datastore PATH does not contain session PATH as set by environment-setup-...
-         # this breaks the install-buildtools use-case
-         # env["PATH"] = d.getVar("PATH")
--        output = subprocess.check_output("%s --version" % compiler, \
--                    shell=True, env=env, stderr=subprocess.STDOUT).decode("utf-8")
-+        output = subprocess.check_output(
-+            "%s --version" % compiler, shell=True, env=env, stderr=subprocess.STDOUT
-+        ).decode("utf-8")
-     except subprocess.CalledProcessError as e:
--        bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
-+        bb.fatal(
-+            "Error running %s --version: %s" % (compiler, e.output.decode("utf-8"))
-+        )
- 
--    match = re.match(r".* (\d+\.\d+)\.\d+.*", output.split('\n')[0])
-+    match = re.match(r".* (\d+\.\d+)\.\d+.*", output.split("\n")[0])
-     if not match:
-         bb.fatal("Can't get compiler version from %s --version output" % compiler)
- 
-@@ -445,36 +489,13 @@ def get_host_compiler_version(d, taskcontextonly=False):
-     return compiler, version
- 
- 
--def host_gcc_version(d, taskcontextonly=False):
--    import re, subprocess
--
--    if taskcontextonly and d.getVar('BB_WORKERCONTEXT') != '1':
--        return
--
--    compiler = d.getVar("BUILD_CC")
--    # Get rid of ccache since it is not present when parsing.
--    if compiler.startswith('ccache '):
--        compiler = compiler[7:]
--    try:
--        env = os.environ.copy()
--        env["PATH"] = d.getVar("PATH")
--        output = subprocess.check_output("%s --version" % compiler, \
--                    shell=True, env=env, stderr=subprocess.STDOUT).decode("utf-8")
--    except subprocess.CalledProcessError as e:
--        bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
--
--    match = re.match(r".* (\d+\.\d+)\.\d+.*", output.split('\n')[0])
--    if not match:
--        bb.fatal("Can't get compiler version from %s --version output" % compiler)
--
--    version = match.group(1)
--    return "-%s" % version if version in ("4.8", "4.9") else ""
--
- @bb.parse.vardepsexclude("DEFAULTTUNE_MULTILIB_ORIGINAL", "OVERRIDES")
- def get_multilib_datastore(variant, d):
-     localdata = bb.data.createCopy(d)
-     if variant:
--        overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
-+        overrides = (
-+            localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
-+        )
-         localdata.setVar("OVERRIDES", overrides)
-         localdata.setVar("MLPREFIX", variant + "-")
-     else:
-@@ -482,25 +503,32 @@ def get_multilib_datastore(variant, d):
-         if origdefault:
-             localdata.setVar("DEFAULTTUNE", origdefault)
-         overrides = localdata.getVar("OVERRIDES", False).split(":")
--        overrides = ":".join([x for x in overrides if not x.startswith("virtclass-multilib-")])
-+        overrides = ":".join(
-+            [x for x in overrides if not x.startswith("virtclass-multilib-")]
-+        )
-         localdata.setVar("OVERRIDES", overrides)
-         localdata.setVar("MLPREFIX", "")
-     return localdata
- 
-+
- def sh_quote(string):
-     import shlex
-+
-     return shlex.quote(string)
- 
-+
- def directory_size(root, blocksize=4096):
-     """
-     Calculate the size of the directory, taking into account hard links,
-     rounding up every size to multiples of the blocksize.
-     """
-+
-     def roundup(size):
-         """
-         Round the size up to the nearest multiple of the block size.
-         """
-         import math
-+
-         return math.ceil(size / blocksize) * blocksize
- 
-     def getsize(filename):
-@@ -522,6 +550,7 @@ def directory_size(root, blocksize=4096):
-         total += roundup(getsize(root))
-     return total
- 
-+
- # Update the mtime of a file, skip if permission/read-only issues
- def touch(filename):
-     try:
+-- 
+2.34.1
+
 
