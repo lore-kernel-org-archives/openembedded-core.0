@@ -2,61 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5C7BC83013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9259C8303C
 	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 05:32:31 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.16673.1751434344480813134
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.16694.1751434345576669036
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 22:32:24 -0700
+ Tue, 01 Jul 2025 22:32:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NUDB401M;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23636167b30so37363805ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 22:32:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=E+T+/oV3;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-235a3dd4f0dso40085695ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 22:32:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751434344; x=1752039144; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1751434345; x=1752039145; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TdXxI1PzvtCbloJr31Z+42X2RFFS02EnDFVgioTJXwA=;
-        b=NUDB401MxDsSCl3I3Wlo/dnl3FogM9JbO16LtZ0/yg2yPzWPEhlNV/JAaLm6g6q8PE
-         1tigcTEXe4U9rPNaQQ1bCpnmpknzQ1Xi8zPzRgk57GENZN1Ebz2i/ITHvnZi5+6ZZMT/
-         0t4kCmZ8xdm4UP5gSfzO4FRl3ME8dt1EAj0sdBvvpP+7weun5hMIMRV7svJ/p6/dxKaL
-         ajem/x9MDyCwx/IagPYLJ3RAlkYX0eW84D5d4A1eZrpSB1ntnxvup0hjhIfgfhONugKc
-         fGsH003MwGIFh7nJJSAKrcThzedEDCET26EY7mnKJBEMaSC5riQ+FUyOlaM8uL4QUX/h
-         ZITw==
+        bh=P4De4DZCX7CI8/PjQHYBc9xmmIfZwJI41VJFne5PB+M=;
+        b=E+T+/oV3MpzqUtIPkD/rWu5nufYdERYAIvsGP/LB6ihc1cXm2j09WGhwKhd48ZVVvO
+         BS2xYkYoiGGTi7RtZwR7k+hUINPlmVl2cZQQq9U1Zmy/YIuRkuo1h80apNIGB8pgXfKW
+         b4578y3trrFuMvi3NmhAm0WY+FrtueIdBBjH8IZCIPq6TxwbEyxtjsIYpaT6m7ZHQ0uS
+         GeVtDkIZckFfwvaDtvvlDP4CwXS2wsv9/uOXdrRtXeDTNo1nOqj4cU/Ml+Lk1+XinYxQ
+         l4djJmQpgx0WgxEhnrXVHu+dKn1jEVp3sUt2YoNz2FRED9eCgr6Obeu9Bw9cW14RDT+A
+         RpKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751434344; x=1752039144;
+        d=1e100.net; s=20230601; t=1751434345; x=1752039145;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TdXxI1PzvtCbloJr31Z+42X2RFFS02EnDFVgioTJXwA=;
-        b=Iiioh5dQYHk3W16iT9u1EaPjiQdUeOVNJT2CxB/BzkJxyM0B4GvihBG1nK7lu0nE2z
-         g5ha3AHaVLymZ0CMjz3oGBRsAhSAgGb2nwNxmD+nsUBrynpPFGSF/y9j2GYfiAnLhc1p
-         6OdAcszX+wvlXZ3XrOYqukl992XIZB8LgRQDlnmekIyMPIcSHMVdP+gAnrLoJE/3xqNe
-         d6ofqklMGeHdX/5iTLUmt+jHnwJFZT/ZgThfGK5+9DMlY+REOvLXoc8CL+hWWOmVmz5V
-         yNKfyz2lCI9gbLCw1eWeQ7YZg2AX9YU+6KR7PDWkJYOn/ihx1AfGVB79sQ9YyzZD6tCF
-         +PMg==
-X-Gm-Message-State: AOJu0YxnIyvoxrbQNQVD2Sdq2CgaMc8ksOrvMtf7jf/Wk4FNbtRP62x8
-	pW7MAnFOEmf6Tuo+1VS5/SnksvrwFnYc5NeHLeoWMuymTuYHCgkDxaCvjCXy8pSi
-X-Gm-Gg: ASbGncunfQRv5HAcRmdVJGyJKQMYEz1vUQAYTBE5pxl2gCJHo0qgEE1St/a+MdHrcOu
-	aKwk+RjRjwT5/mKrUpyZ2c5c5RFaH5PZ1QMaHwgXXg/smEAh0QLUVgfGhq73pxl2uZRCIqeN466
-	mwjc3RaNwSV3N4xrsDOy35s30yB4ZJwfQ+9tDidqxMkD4rZIzPa/MItcRTVrVaXUuIGx/Nnti6G
-	LGcsohf10shnhtDUneB01ysdc6fGpNnby4ENBc6RAo+yQoRVzKAhI37DTLFX63USHnRgswbQYh5
-	5tyl4V8JOm1jqNac+okJ7cd9kINKlKBeVCPkOlp07SRbFaXCGYt4EA==
-X-Google-Smtp-Source: AGHT+IEbJlVh6LXgCMUe9upYR7r4ibGpomoL7xeAr4GlSk0lOJtil+fPzWt1BNbXHN/1x7IS+lBN+g==
-X-Received: by 2002:a17:902:e787:b0:235:6f7:b918 with SMTP id d9443c01a7336-23c6e55206emr22683505ad.28.1751434343581;
-        Tue, 01 Jul 2025 22:32:23 -0700 (PDT)
+        bh=P4De4DZCX7CI8/PjQHYBc9xmmIfZwJI41VJFne5PB+M=;
+        b=k1eBlvWrm7WTlscnb6Vo4YKAZd02Mt1I7LItKkvAAMpOUGtRUF8KcTJqgG8xlpYVT1
+         agA0bvvoyDK0kD4+tBrP7Wi8mZDI4i9g4BJsqBBnshzQGnxf213UkNcmiO9k2BDrwDXG
+         Vg2JLcbWsVcwYaluj/KtfO6Qr0XR95RViYP9MY3XyIW1UbfY0BpemT9aY7f/IGS4IGAs
+         u195b3v6WRkRxJ+AwwO29jaoR242wRf8GcKcF6RkzuG5iflv4tDCwcXuvUEqyE77Vqgd
+         hhGIhFawDTC5Fw7l97xChqG2UbJehOKnJsr/YTSP+aD14U8wrqH6SXKROtM1/PC6bFUT
+         DIxA==
+X-Gm-Message-State: AOJu0Ywck0C7jtX4OwvGQLvtKRRkimKCGHtUIJCC8oqy9PmTfCu2W2pJ
+	ZZBtgRGpDIVgZ+az/NgXBJxVjD6EzHTa9FaxhMf+w36geBFOpN784W81cjcDFtcZ
+X-Gm-Gg: ASbGncvV/2J2SVEnlduW/3SPevzNXKIGD8P9VxEuma8iKGU7E/1+jYifTPWtDi1YEUE
+	sAFlzDPY7Y6qSWfpbjIArNNOhGH4Fl484/Ookipz3YzHeThZeGZB6oKwEGoPI5WUQ9EkiHoB00E
+	VK8qYM871G3WnGZH4wWxZNpIBieQ9QiRtmwgrI0fkcdIIb0FIqQpjkntiuDLBEd9LCMELBuZDBU
+	hV3s1Q+AtV/SxgMgm09GBFQr8NXsPL2bBpeXdo9C7IIbO9LN1cn0snpj/WtvlWLnb93DOglymWo
+	HsOMSgYMyrSPPHP1sU6qe9PK2/lzVFxTfdZKnk8/pSImRA5aXU422A==
+X-Google-Smtp-Source: AGHT+IH9ntDdq7QN16jLuKFQZchDZq2+NIP8nt8cT6bnuLnQYtLWU1k+ZYcI0SFa2gudjro0w18A5Q==
+X-Received: by 2002:a17:902:d592:b0:220:ea90:191e with SMTP id d9443c01a7336-23c6e4d3362mr19914665ad.4.1751434344633;
+        Tue, 01 Jul 2025 22:32:24 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::aa8c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb2e2423sm120125985ad.37.2025.07.01.22.32.22
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb2e2423sm120125985ad.37.2025.07.01.22.32.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 22:32:22 -0700 (PDT)
+        Tue, 01 Jul 2025 22:32:24 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v5 2/5] base.bbclass: Deferred inherit native toolchain class
-Date: Tue,  1 Jul 2025 22:32:17 -0700
-Message-ID: <20250702053220.4104358-2-raj.khem@gmail.com>
+Subject: [PATCH v5 3/5] compiler-rt,libcxx: Use clang for native versions as well
+Date: Tue,  1 Jul 2025 22:32:18 -0700
+Message-ID: <20250702053220.4104358-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250702053220.4104358-1-raj.khem@gmail.com>
 References: <20250702053220.4104358-1-raj.khem@gmail.com>
@@ -66,41 +66,67 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 05:32:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219775
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219776
 
-use TOOLCHAIN_NATIVE variable for selecting native compiler
-
-Default it to PREFERRED_TOOLCHAIN_NATIVE, a recipe which wants
-to enforce a toolchain can do so with
-
-for cross toolchains ( e.g. target, nativesdk )
-
-TOOLCHAIN = "gcc"
-
-For native
-
-TOOLCHAIN_NATIVE = "gcc"
-
-This helps build native recipe with clang as native compiler.
+Set TOOLCHAIN_NATIVE for using clang
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes-global/base.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb | 1 +
+ meta/recipes-devtools/clang/compiler-rt_git.bb            | 2 ++
+ meta/recipes-devtools/clang/libcxx_git.bb                 | 2 ++
+ 3 files changed, 5 insertions(+)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index ac145d9fd64..6be1f5c2df2 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -30,8 +30,9 @@ PREFERRED_TOOLCHAIN:class-crosssdk = "${PREFERRED_TOOLCHAIN_SDK}"
- PREFERRED_TOOLCHAIN:class-nativesdk = "${PREFERRED_TOOLCHAIN_SDK}"
+diff --git a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+index 47438014b23..087a7663023 100644
+--- a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
++++ b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+@@ -37,6 +37,7 @@ CFLAGS += "${COMPILER_RT}"
+ CXXFLAGS += "${COMPILER_RT} ${LIBCPLUSPLUS}"
  
- TOOLCHAIN ??= "${PREFERRED_TOOLCHAIN}"
-+TOOLCHAIN_NATIVE ??= "${PREFERRED_TOOLCHAIN_NATIVE}"
+ TOOLCHAIN = "clang"
++TOOLCHAIN_NATIVE = "clang"
  
--inherit toolchain/gcc-native
-+inherit_defer toolchain/${TOOLCHAIN_NATIVE}-native
- inherit_defer toolchain/${TOOLCHAIN}
+ DEPENDS += "ninja-native virtual/crypt compiler-rt"
+ DEPENDS:append:class-native = " clang-native libxcrypt-native libcxx-native"
+diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
+index ff6cc29bf32..c7bf38c33d2 100644
+--- a/meta/recipes-devtools/clang/compiler-rt_git.bb
++++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
+@@ -29,6 +29,7 @@ DEPENDS += "ninja-native libgcc"
+ DEPENDS:append:class-target = " virtual/cross-c++ clang-cross-${TARGET_ARCH} virtual/${MLPREFIX}libc gcc-runtime"
+ DEPENDS:append:class-nativesdk = " virtual/cross-c++ clang-native clang-crosssdk-${SDK_SYS} nativesdk-gcc-runtime"
+ DEPENDS:append:class-native = " clang-native"
++DEPENDS:remove:class-native = "libcxx-native compiler-rt-native"
  
- def lsb_distro_identifier(d):
+ # Trick clang.bbclass into not creating circular dependencies
+ UNWINDLIB:class-nativesdk = "--unwindlib=libgcc"
+@@ -58,6 +59,7 @@ LDFLAGS += "${COMPILER_RT} ${UNWINDLIB}"
+ CXXFLAGS += "${LIBCPLUSPLUS}"
+ 
+ TOOLCHAIN = "clang"
++TOOLCHAIN_NATIVE = "clang"
+ 
+ def get_compiler_rt_arch(bb, d):
+     if bb.utils.contains('TUNE_FEATURES', 'armv5 thumb dsp', True, False, d):
+diff --git a/meta/recipes-devtools/clang/libcxx_git.bb b/meta/recipes-devtools/clang/libcxx_git.bb
+index f5bf17f30ae..d355fc3a0f8 100644
+--- a/meta/recipes-devtools/clang/libcxx_git.bb
++++ b/meta/recipes-devtools/clang/libcxx_git.bb
+@@ -25,6 +25,7 @@ DEPENDS += "ninja-native"
+ DEPENDS:append:class-target = " virtual/cross-c++ clang-cross-${TARGET_ARCH} virtual/${MLPREFIX}libc virtual/${MLPREFIX}compilerlibs"
+ DEPENDS:append:class-nativesdk = " virtual/cross-c++ clang-crosssdk-${SDK_SYS} nativesdk-compiler-rt"
+ DEPENDS:append:class-native = " clang-native compiler-rt-native"
++DEPENDS:remove:class-native = "libcxx-native"
+ 
+ COMPILER_RT ?= "${@bb.utils.contains("PACKAGECONFIG", "compiler-rt", "-rtlib=compiler-rt", "-rtlib=libgcc", d)}"
+ UNWINDLIB ?= "${@bb.utils.contains("PACKAGECONFIG", "unwind", "-unwindlib=none", "-unwindlib=libgcc", d)}"
+@@ -55,6 +56,7 @@ LDFLAGS += "${COMPILER_RT} ${UNWINDLIB} ${LIBCPLUSPLUS}"
+ CXXFLAGS += "${LIBCPLUSPLUS}"
+ 
+ TOOLCHAIN = "clang"
++TOOLCHAIN_NATIVE = "clang"
+ 
+ OECMAKE_SOURCEPATH = "${S}/llvm"
+ EXTRA_OECMAKE += "\
 
