@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88CFBC83F09
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 749A4C83F04
 	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 14:25:45 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.25258.1751466340046525481
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.25143.1751466337019482750
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jul 2025 07:25:40 -0700
+ Wed, 02 Jul 2025 07:25:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dZ6m/zc8;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b34a78bb6e7so3392536a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 07:25:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SP+t1KgQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-315cd33fa79so4655237a91.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 07:25:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751466339; x=1752071139; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751466336; x=1752071136; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GFLitUiX8TRnyEE0mFqT3Wp1j/yMzeOHIs/CIxKXlt8=;
-        b=dZ6m/zc8X5/aV8DOSy2z63BvvPgB12S+ywO5BAgWq5o2e0x8LlekwoWAJuYCzpEhT0
-         VwiQH1OaLr5KShge69/XO1nJDb1fxsMXFRvrxUKJjyt+ivUHpBkBKKarDgPoBYRJKLtd
-         zmk5gRX5HiDmqcwjICnR/OzJiZr8ZO1Poellc8uZ21DKK9Q0vTyDmpiRx/KiljBSzsYT
-         FxAz29TVDpeGuGHCcZDaL2/m1e+jJO4GpdiiLucAzKzfJAEXCDSoWFHrjlAymm9Y6ZSY
-         cP00mqhRQAfrrZrxKLUopkt6P4iupvyppZC9waK/6oFeeQTmY9vw19euxTgaHPL8S29e
-         dTPw==
+        bh=rmS5HMVYWkDjLmd9S/DEkxMeUQR4iJJ/lBx8Kt6R6AY=;
+        b=SP+t1KgQ5FIdrNdBaWN2nKX2d+Ce/5/7bJ349IvUZGB6rfxqq/GmKqUmxLQlB4Jqs2
+         foIY7KNpZ7vamo5VHP1bTJtUSBFOKTjcsrMbEESIkdFis4Mez/aPwIX3r0JG/EZl+Kcc
+         5wzWxOrMPv97wiPR/VnFoolIjMOL5eR3yPxM2liHt4zhMaLb+0gw1UdhR/CInLPdcayJ
+         qAzUfeQcer8Sq/JVolowV6WMDKu2WI5HM6rz+QvFbZvkM/m9ONqRarQWPFHH730k20bF
+         3OASmN5yb3JYAvWH7Raq/K42hI+s8p4lqSUf01pj9DaeEQPU1x8mlSNznfKY216DL1wX
+         CdEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751466339; x=1752071139;
+        d=1e100.net; s=20230601; t=1751466336; x=1752071136;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GFLitUiX8TRnyEE0mFqT3Wp1j/yMzeOHIs/CIxKXlt8=;
-        b=s7SfPJlWxVK4WIuzScq50TOVRZqmLnOyK3QkUHcQK620nTgtTX8R4C5haioJrjUKIK
-         ybHNr5Je0MBCXVPqlsTbSd/RUYlaVgIW5ir1sebtlhCHR210X3q1owA0ZYqm5xDMHWBq
-         d4JT9w05ZutNFzzPq1qqr6UOHgCPuoU74QQJhjVMb+eJP0GX2s8GIPatOm4cVV5Hz9RP
-         ATrtn6SP4/cxDF9gwNGu3D1o3OF2/bTxz+MQblqERWfXpHtCegn9p+0nCIcn+a2ta8tX
-         rlzU0OBDnV0Akx+2E5tt2/UJPuLYJRRgJtwHb6DKpObLRLeXPUSRmhHKWR3eaGmrSISJ
-         i34Q==
-X-Gm-Message-State: AOJu0YxjIktQCBOH43KzQUHloghmvAoxTKhPMp/hsL2/Toiquzg8p+5J
-	ciIZgoyS6eztxv6HDGAMfi0x/QO5zIdWQVkcA0YoFhr4D2PQimkJvJVqNZlZoNcBvHTQ+oV4qbh
-	Q+SqY
-X-Gm-Gg: ASbGnct7fvm47uvEV66md8sQBxotpSvkyoi4n3UUxvRO3hj0hZ/QUK+58vb+W69Vxqw
-	S9wFa2RIyZHy7uAeMkSEr4AnIZRu0zeKeCXuDb0qrkONt1KYugUaTE+Y0SafiysUOqtip9Jm1By
-	8jcnf523Y8J+KrSfyy7ePBDCl32xpqjY/r3cHtPIx1KpV4MFIEm+repJ2wnLU1/jtvu2otsvTsb
-	aSdE6G6rC+wD3M6v1jOc5oCPjHiUToNvk7n/8t8s6XuGhkSyL/ARju3aXxgNsHVv1bBj4x484L4
-	FV8ViZ9Pu84Lv/jl/sOw0XTmAvUROvYmrIICAkYb7HJF5OBXrd8MbQ==
-X-Google-Smtp-Source: AGHT+IHm15karWLnb7rdpPynMmTULaG6Vj5+YbtIU+7inQGsrgRE/VD59M5oeo25Fu8TuygItWjvIQ==
-X-Received: by 2002:a17:90b:54d0:b0:311:fde5:c4be with SMTP id 98e67ed59e1d1-31a90c352d5mr4752233a91.35.1751466339045;
-        Wed, 02 Jul 2025 07:25:39 -0700 (PDT)
+        bh=rmS5HMVYWkDjLmd9S/DEkxMeUQR4iJJ/lBx8Kt6R6AY=;
+        b=KXMTbBO2VnpAlHvNtm83f9mwMn4xo5v5xg1kQhkz8xy0Sz61LzZakyyP5BPvhQ90u4
+         MsXSy2StF0K1XY8q6TLHYMoTJmU2c5SckT3Oq5izNOSCoGOID8uG1R9i4uGEqghfLF9h
+         TzlWs/s+KXNAAZ91oe5MFegTdMRMskefaUaFrbKvRAh1whyI7XQWnEln05E3tBc5QD4s
+         G7PDvxa7VxOkWm76YafVADlWV1A0voErf/lW4S81nQblGMvu4iLYVyFJPEhhd7/KVM32
+         6HDDa2UIfKWJgAazCFDdwI9WY7UqXnIKRZAN3DILDLMUqWS/VYPaDiL8VE658YnkBti1
+         ALfQ==
+X-Gm-Message-State: AOJu0YxqPUzKtOvKwro24sfDsZcyzYYJAngICg0v64wO3bw6G3ZRdW9p
+	LrOV/Xi2cHJYzXXg+saqrZRFInmn5mE5qeq26+z9h05WSAWPZ9jNkqejPNPmPzHGP+MnhoGPJWH
+	AUmir
+X-Gm-Gg: ASbGnctXtmgNk8OLSUuWDnK7lbbbayq13MMqwXTK0qu7J67KyImMQGcIYP+goJwMusS
+	a6b+34VD0dny2Z1M/ESWXs/Iz0AnlJrWP0lkZz5vbFkOfDOTqIVdN8kPoE8Mg2kzQxU7mAuFUyQ
+	PciW7DPx1QsvOYZZiAEc0dFK5E27gRkaYCtzVkchSNnrPmtDfdTRhXAaFDQEEB1mVYzftImebGv
+	SDu9JfxSdWC7iWlSfceTb26CWPc/8oOGgJ9Vl76xd0h7o2Y1vObnMh2BrmI6Zt/WaQrGg24VQas
+	jdKZuTYNDhOZqzW58V0FtKcHx0f3E7q0XNDVhAacLRHFjLx+3E+/Tg==
+X-Google-Smtp-Source: AGHT+IGA2GlCrvkVqv/ii7miATWDqiDQYoqQUVChxPF4awFxrkKiOiIsjp7Q1RNN+UwT8QTfBfUwUg==
+X-Received: by 2002:a17:90b:3d47:b0:311:baa0:89ca with SMTP id 98e67ed59e1d1-31a90c304b9mr4164788a91.34.1751466336031;
+        Wed, 02 Jul 2025 07:25:36 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:acee:7642:9516:37b7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-318c15232c9sm14871637a91.45.2025.07.02.07.25.38
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-318c15232c9sm14871637a91.45.2025.07.02.07.25.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 07:25:38 -0700 (PDT)
+        Wed, 02 Jul 2025 07:25:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 7/9] spdx: add option to include only compiled sources
-Date: Wed,  2 Jul 2025 07:25:21 -0700
-Message-ID: <5396e9b81e88ac2b1141c7f5dd7a7e6ba4fc73f9.1751466215.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 5/9] ltp: backport patch to fix compilation error for x86_64
+Date: Wed,  2 Jul 2025 07:25:19 -0700
+Message-ID: <2ba2e0020b5e461473b19c3362d3fad184bd1f5a.1751466215.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1751466215.git.steve@sakoman.com>
 References: <cover.1751466215.git.steve@sakoman.com>
@@ -67,122 +67,85 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 14:25:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219840
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219838
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+From: Preeti Sachan <preeti.sachan@intel.com>
 
-When SPDX_INCLUDE_COMPILED_SOURCES is enabled, only include the
-source code files that are used during compilation.
+When the input compiler enables AVX, stack realignment requirements
+causes gcc to fail to omit %rbp use, due to which the test fails to
+clobber %rbp in inline asm.  Disable AVX to build the test on x86_64 so
+that the test continues working.
 
-It uses debugsource information generated during do_package.
+Fix compilation with gcc v13.4+. Cherry picked from oe-core, master branch.
 
-This enables an external tool to use the SPDX information to disregard
-vulnerabilities that are not compiled.
-
-As example, when used with the default config with linux-yocto, the spdx size is
-reduced from 156MB to 61MB.
-
-Tested with bitbake world on oe-core.
-
-(From OE-Core rev: c6a2f1fca76fae4c3ea471a0c63d0b453beea968)
-Adapted to existing files for create-spdx-2.2
-
-CC: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-CC: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+Signed-off-by: Preeti Sachan <preeti.sachan@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/create-spdx-2.2.bbclass | 12 ++++++++
- meta/lib/oe/spdx.py                  | 42 ++++++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+ ...cve-2015-3290-Disable-AVX-for-x86_64.patch | 42 +++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20240129.bb     |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index ade1a04be3..1fc11ad7ac 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -100,6 +100,9 @@ python() {
-         # Transform the license array to a dictionary
-         data["licenses"] = {l["licenseId"]: l for l in data["licenses"]}
-         d.setVar("SPDX_LICENSE_DATA", data)
+diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch b/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
+new file mode 100644
+index 0000000000..c6fae88eb9
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
+@@ -0,0 +1,42 @@
++From 28d823a63ee29f5d72c2aba781a06a7e2651cadc Mon Sep 17 00:00:00 2001
++From: Siddhesh Poyarekar <siddhesh@gotplt.org>
++Date: Mon, 7 Apr 2025 06:24:47 -0400
++Subject: [PATCH] cve-2015-3290: Disable AVX for x86_64
 +
-+    if d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1":
-+        d.setVar("SPDX_INCLUDE_SOURCES", "1")
- }
++When the input compiler enables AVX, stack realignment requirements
++causes gcc to fail to omit %rbp use, due to which the test fails to
++clobber %rbp in inline asm.  Disable AVX to build the test on x86_64 so
++that the test continues working.
++
++Link: https://lore.kernel.org/ltp/20250407102448.2605506-2-siddhesh@gotplt.org/
++
++Upstream-Status: Backport [https://github.com/linux-test-project/ltp/commit/28d823a63ee29f5d72c2aba781a06a7e2651cadc]
++
++Reviewed-by: Martin Doucha <mdoucha@suse.cz>
++Reviewed-by: Petr Vorel <pvorel@suse.cz>
++Signed-off-by: Siddhesh Poyarekar <siddhesh@gotplt.org>
++
++---
++ testcases/cve/Makefile | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/testcases/cve/Makefile b/testcases/cve/Makefile
++index 01b9b9ccb..98c38e908 100644
++--- a/testcases/cve/Makefile
+++++ b/testcases/cve/Makefile
++@@ -22,6 +22,12 @@ ifneq (,$(filter $(HOST_CPU),x86 x86_64))
++ meltdown: CFLAGS += -msse2
++ endif
++ 
+++# The test needs to clobber %rbp, which requires frame pointer omission.  Also
+++# for x86_64, disable AVX since that could sometimes require a stack
+++# realignment, which gets in the way of frame pointer omission.
++ cve-2015-3290:	CFLAGS += -pthread -fomit-frame-pointer
+++ifeq ($(HOST_CPU),x86_64)
+++cve-2015-3290: CFLAGS += -mno-avx
+++endif
++ 
++ include $(top_srcdir)/include/mk/generic_leaf_target.mk
++-- 
++2.37.3
++
+diff --git a/meta/recipes-extended/ltp/ltp_20240129.bb b/meta/recipes-extended/ltp/ltp_20240129.bb
+index f8e6d3987e..18c6439283 100644
+--- a/meta/recipes-extended/ltp/ltp_20240129.bb
++++ b/meta/recipes-extended/ltp/ltp_20240129.bb
+@@ -30,6 +30,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=ht
+            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
+            file://0001-scenario_groups-default-remove-connectors.patch \
+            file://0001-sched_stress-Use-time_t-instead-of-long-for-type.patch \
++           file://0001-cve-2015-3290-Disable-AVX-for-x86_64.patch \
+            "
  
- def convert_license_to_spdx(lic, document, d, existing={}):
-@@ -215,6 +218,11 @@ def add_package_files(d, doc, spdx_pkg, topdir, get_spdxid, get_types, *, archiv
-     spdx_files = []
- 
-     file_counter = 1
-+
-+    check_compiled_sources = d.getVar("SPDX_INCLUDE_COMPILED_SOURCES") == "1"
-+    if check_compiled_sources:
-+        compiled_sources, types = oe.spdx.get_compiled_sources(d)
-+        bb.debug(1, f"Total compiled files: {len(compiled_sources)}")
-     for subdir, dirs, files in os.walk(topdir):
-         dirs[:] = [d for d in dirs if d not in ignore_dirs]
-         if subdir == str(topdir):
-@@ -225,6 +233,10 @@ def add_package_files(d, doc, spdx_pkg, topdir, get_spdxid, get_types, *, archiv
-             filename = str(filepath.relative_to(topdir))
- 
-             if not filepath.is_symlink() and filepath.is_file():
-+                # Check if file is compiled
-+                if check_compiled_sources:
-+                     if not oe.spdx.is_compiled_source(filename, compiled_sources, types):
-+                          continue
-                 spdx_file = oe.spdx.SPDXFile()
-                 spdx_file.SPDXID = get_spdxid(file_counter)
-                 for t in get_types(filepath):
-diff --git a/meta/lib/oe/spdx.py b/meta/lib/oe/spdx.py
-index 7aaf2af5ed..92dcd2da05 100644
---- a/meta/lib/oe/spdx.py
-+++ b/meta/lib/oe/spdx.py
-@@ -355,3 +355,45 @@ class SPDXDocument(SPDXObject):
-             if r.spdxDocument == namespace:
-                 return r
-         return None
-+
-+def is_compiled_source (filename, compiled_sources, types):
-+    """
-+    Check if the file is a compiled file
-+    """
-+    import os
-+    # If we don't have compiled source, we assume all are compiled.
-+    if not compiled_sources:
-+        return True
-+
-+    # We return always true if the file type is not in the list of compiled files.
-+    # Some files in the source directory are not compiled, for example, Makefiles,
-+    # but also python .py file. We need to include them in the SPDX.
-+    basename = os.path.basename(filename)
-+    ext = basename.partition(".")[2]
-+    if ext not in types:
-+        return True
-+    # Check that the file is in the list
-+    return filename in compiled_sources
-+
-+def get_compiled_sources(d):
-+    """
-+    Get list of compiled sources from debug information and normalize the paths
-+    """
-+    import itertools
-+    import oe.package
-+    source_info = oe.package.read_debugsources_info(d)
-+    if not source_info:
-+        bb.debug(1, "Do not have debugsources.list. Skipping")
-+        return [], []
-+
-+    # Sources are not split now in SPDX, so we aggregate them
-+    sources = set(itertools.chain.from_iterable(source_info.values()))
-+    # Check extensions of files
-+    types = set()
-+    for src in sources:
-+        basename = os.path.basename(src)
-+        ext = basename.partition(".")[2]
-+        if ext not in types and ext:
-+            types.add(ext)
-+    bb.debug(1, f"Num of sources: {len(sources)} and types: {len(types)} {str(types)}")
-+    return sources, types
+ S = "${WORKDIR}/git"
 -- 
 2.43.0
 
