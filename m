@@ -2,46 +2,46 @@ Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D91CEC7EE30
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6D41C83038
 	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 08:32:42 +0000 (UTC)
 Received: from esa9.hc324-48.eu.iphmx.com (esa9.hc324-48.eu.iphmx.com [207.54.69.27])
  by mx.groups.io with SMTP id smtpd.web10.18737.1751445152854157627
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jul 2025 01:32:34 -0700
+ Wed, 02 Jul 2025 01:32:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=aWwcErma;
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=An/3P8Lz;
  spf=pass (domain: bmw.de, ip: 207.54.69.27, mailfrom: prvs=27128fcf3=moritz.haase@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1751445153; x=1782981153;
+  t=1751445152; x=1782981152;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=nS6k5dVUt4ToGuMr5XjLLfq2JU7rEQQynwBvlk5cYgc=;
-  b=aWwcErma1sifUWik7JYE8BjhzGtE5KTCeyJgDdhPfSjQOmODuMFaTTLT
-   5uanBq14Eh6N6E4BSLivpZ52NQzH46ZCw/IQ4tCtevYij4Sv0Oh3uSyk1
-   NqdNqk37Y6IXCFkhZQWNUNDkKVzf4/TdVHCwQj0ZhhTkra4IsqOavVs5Y
+  bh=Au3KgjqhuogtkEdaikbNJb/+kOY4jEaTi8XoFyZe1XY=;
+  b=An/3P8Lz4lSRThtF1g+yplXNo8KYlVIwkxO+a8qnwBHtvKAUrp+A4B7f
+   Vp2AwMk8PpisFbkLrIqsaUCFFhR44nY1FjOJTOu7hnBp9jHnZ2rYSmYNi
+   2BHhDyPinemOcqi4afuBCWKEoXhXJff2AuIiBRB77dM/QJtFfmPMp1ic0
    U=;
 X-CSE-ConnectionGUID: cloe3WKiShelNDaPHN35sg==
-X-CSE-MsgGUID: x29WdvtASH6gXxl/z89ZUA==
+X-CSE-MsgGUID: dhkFvZ/sQZKBLGvgXBmAOw==
 Received: from 160.46.252.38.spf.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
- esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 02 Jul 2025 10:32:33 +0200
+ esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 02 Jul 2025 10:32:30 +0200
 Received: from esabb1.muc ([160.50.100.31])  by esagw2.muc with ESMTP/TLS;
- 02 Jul 2025 10:32:33 +0200
+ 02 Jul 2025 10:32:30 +0200
 Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
- by esabb1.muc with ESMTP/TLS; 02 Jul 2025 10:32:27 +0200
+ by esabb1.muc with ESMTP/TLS; 02 Jul 2025 10:32:24 +0200
 Received: from q1054628.de-cci.bmwgroup.net (10.30.85.204) by
  smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
- Server (version=TLS; Wed, 2 Jul 2025 10:32:27 +0200
-X-CSE-ConnectionGUID: 1636mHwHRx+v14U7RrRKRw==
-X-CSE-MsgGUID: jAqdhch1QM6jfY/C5fV1Yw==
-X-CSE-ConnectionGUID: sEnjXZMvQYGRfUIJewUUpg==
-X-CSE-MsgGUID: GYPjFPo0TOG7O5DZsIt+Dw==
+ Server (version=TLS; Wed, 2 Jul 2025 10:32:24 +0200
+X-CSE-ConnectionGUID: kQjhgjfJRI++Pgk08Eoi2A==
+X-CSE-MsgGUID: gy1TjhP5Q8KuWD617kSLyw==
+X-CSE-ConnectionGUID: WNxreukjQ4eUEEKgX07JTg==
+X-CSE-MsgGUID: eHE+6mOCSUCq+H++6fe0zw==
 From: Moritz Haase <Moritz.Haase@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
 CC: Moritz Haase <Moritz.Haase@bmw.de>
-Subject: [PATCH v3 4/7] libubootenv: Backport patch to support builds with CMake 4+
-Date: Wed, 2 Jul 2025 10:31:45 +0200
-Message-ID: <20250702083148.3035805-5-Moritz.Haase@bmw.de>
+Subject: [PATCH v3 3/7] apt: Backport patch to support builds with CMake 4+
+Date: Wed, 2 Jul 2025 10:31:44 +0200
+Message-ID: <20250702083148.3035805-4-Moritz.Haase@bmw.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250702083148.3035805-1-Moritz.Haase@bmw.de>
 References: <20250702083148.3035805-1-Moritz.Haase@bmw.de>
@@ -54,12 +54,11 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 08:32:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219806
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219805
 
-Commit [0] has been merged upstream, but there hasn't been a release containing it
-yet.
-
-[0]: https://github.com/sbabic/libubootenv/commit/cd12d9dd2bea8e4580f458df77229477fc55ba70
+There have been a number of upstream releases that ship this patch already, but
+given that the most recent ones are considered experimental, I opted to backport
+instead.
 
 Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 ---
@@ -68,81 +67,74 @@ changes in v3:
 - Commit added to series
 
 ---
+ ...mum_required-to-3.13-to-avoid-warnin.patch | 47 +++++++++++++++++++
+ meta/recipes-devtools/apt/apt_2.6.1.bb        |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch
 
- ...Update-cmake_minimum_required-to-3.5.patch | 50 +++++++++++++++++++
- meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb  |  4 +-
- 2 files changed, 53 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/libubootenv/0001-Update-cmake_minimum_required-to-3.5.patch
-
-diff --git a/meta/recipes-bsp/u-boot/libubootenv/0001-Update-cmake_minimum_required-to-3.5.patch b/meta/recipes-bsp/u-boot/libubootenv/0001-Update-cmake_minimum_required-to-3.5.patch
+diff --git a/meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch b/meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch
 new file mode 100644
-index 0000000000..ee174ca59e
+index 0000000000..c3a5ded494
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/libubootenv/0001-Update-cmake_minimum_required-to-3.5.patch
-@@ -0,0 +1,50 @@
-+From cd12d9dd2bea8e4580f458df77229477fc55ba70 Mon Sep 17 00:00:00 2001
-+From: James Hilliard <james.hilliard1@gmail.com>
-+Date: Wed, 14 May 2025 14:17:40 -0600
-+Subject: [PATCH] Update cmake_minimum_required to 3.5
++++ b/meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch
+@@ -0,0 +1,47 @@
++From dc7a8b3050a2a43f49515a03ae19713dfced75dc Mon Sep 17 00:00:00 2001
++From: David Kalnischkies <david@kalnischkies.de>
++Date: Sat, 18 Nov 2023 13:10:05 +0000
++Subject: [PATCH] Raise cmake_minimum_required to 3.13 to avoid warnings
 +
-+This supports compilation with cmake-4.0.0.
++CMake Deprecation Warning at CMakeLists.txt:6 (cmake_minimum_required):
++  Compatibility with CMake < 3.5 will be removed from a future version of
++  CMake.
 +
-+Fixes:
-+CMake Error at CMakeLists.txt:5 (cmake_minimum_required):
-+  Compatibility with CMake < 3.5 has been removed from CMake.
++  Update the VERSION argument <min> value or use a ...<max> suffix to tell
++  CMake that the project does not need compatibility with older versions.
 +
-+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-+  to tell CMake that the project requires at least <min> but has been updated
-+  to work with policies introduced by <max> or earlier.
++Picking 3.13 here is a semi-random choice to avoid raising the requirement
++too much needlessly while also hopefully avoiding needing to raise it
++soon again based on the referenced mail.
 +
-+  Or, add -DCMAKE_POLICY_VERSION_MINIMUM=3.5 to try configuring anyway.
++While we are at it, lets also fix the other spewed warning:
 +
-+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-+Upstream-Status: Backport [cd12d9dd2bea8e4580f458df77229477fc55ba70]
++CMake Warning (dev) at CMakeLists.txt:5 (project):
++  cmake_minimum_required() should be called prior to this top-level project()
++  call.  Please see the cmake-commands(7) manual for usage documentation of
++  both commands.
++
++References: https://lists.debian.org/msgid-search/20230617162957.6pklb6632zf4nijc@mail.gaussglocke.de
++
++Upstream-Status: Backport [https://salsa.debian.org/apt-team/apt/-/commit/dc7a8b3050a2a43f49515a03ae19713dfced75dc]
++Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 +---
-+ CMakeLists.txt     | 2 +-
-+ src/CMakeLists.txt | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
++ CMakeLists.txt | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
 +diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 796d7bc..0a11730 100644
++index 62182cddf..dae12e7c3 100644
 +--- a/CMakeLists.txt
 ++++ b/CMakeLists.txt
-+@@ -2,7 +2,7 @@
-+ #
-+ # SPDX-License-Identifier:     LGPL-2.1-or-later
++@@ -2,8 +2,8 @@
++ # Licensed under the same terms as APT; i.e. GPL 2 or later.
 +
-+-cmake_minimum_required (VERSION 2.6)
-++cmake_minimum_required (VERSION 3.5)
-+ project (libubootenv C)
++ # set minimum version
+++cmake_minimum_required(VERSION 3.13)
++ project(apt)
++-cmake_minimum_required(VERSION 3.4.0)
++ # Generic header locations
++ include_directories(${PROJECT_BINARY_DIR}/include)
 +
-+ # The version number.
-+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-+index c56d0c7..3370232 100644
-+--- a/src/CMakeLists.txt
-++++ b/src/CMakeLists.txt
-+@@ -1,7 +1,7 @@
-+ # SPDX-FileCopyrightText: 2019-2021 Stefano Babic <stefano.babic@swupdate.org>
-+ #
-+ # SPDX-License-Identifier:     LGPL-2.1-or-later
-+-cmake_minimum_required (VERSION 2.6)
-++cmake_minimum_required (VERSION 3.5)
-+ # Sources and private headers
-+ SET(libubootenv_SOURCES
-+   uboot_env.c
-diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb
-index 35678e2361..b63b8ff87d 100644
---- a/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb
-+++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb
-@@ -10,7 +10,9 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://LICENSES/LGPL-2.1-or-later.txt;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
++--
++GitLab
+diff --git a/meta/recipes-devtools/apt/apt_2.6.1.bb b/meta/recipes-devtools/apt/apt_2.6.1.bb
+index d605d950dd..50ac2ea812 100644
+--- a/meta/recipes-devtools/apt/apt_2.6.1.bb
++++ b/meta/recipes-devtools/apt/apt_2.6.1.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
+            file://0001-aptwebserver.cc-Include-array.patch \
+            file://0001-Remove-using-std-binary_function.patch \
+            file://0001-strutl-Add-missing-include-cstdint-gcc-15.patch \
++           file://0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch \
+            "
 
--SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https;branch=master"
-+SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https;branch=master \
-+           file://0001-Update-cmake_minimum_required-to-3.5.patch \
-+           "
- SRCREV = "5507339628b5caf244e1ff9d58cb3fa534b16beb"
-
- inherit cmake lib_package
+ SRC_URI:append:class-native = " \
 
