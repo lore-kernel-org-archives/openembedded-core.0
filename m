@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4B98C83038
-	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 03:12:30 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.15023.1751425948546144519
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D38E7C83038
+	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 03:12:40 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.15053.1751425951593506182
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 20:12:28 -0700
+ Tue, 01 Jul 2025 20:12:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=t7T7n0Rw;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-742c7a52e97so6327838b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 20:12:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=A0knVPuc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-747fc77bb2aso3774115b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 20:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751425948; x=1752030748; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751425951; x=1752030751; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0sE+QHyOn/81eB7j269LjqD2GWyIAz2xdma1FvKprIk=;
-        b=t7T7n0RwlG4jYgy6S6b4e+qVV9wtGEkTsuYvuWWV56cwshf1lv0JxZEFE7NowPr/Kg
-         ROaEKbYsyLcb2v48bIun9G4bYXY6mgqDgREp8fFRSiYjG6JEn2DuvBAzGgf0Lq3sJWgg
-         bjRYgw6yb8wABU6PIFyp//ZwxPZ5hQV9RPz6943ArfBeA5p7H+QzisiMyvwcJismCZpj
-         kljknSXbacdFosuwgyX/F8NEUqxhicGSc0ei9wnO/+dH3cuxS5BvaSC6IgbclBkXBRdg
-         FtD6FvWZS3bMUq8o6lR688U6Imuess6pySzoVicQvI1pucvQy8ijI0rddJs0FFlGfCtM
-         4Hog==
+        bh=zNSWUnXJ3xOYZVEXX4gRy3F6yggtIF8qgenuDpR3kvM=;
+        b=A0knVPuchi2fd80j3fc2mL8SGiyq8hjkxuXuj1avrfal6Kw4OMLyaNgX1AuojVj3Xb
+         9hU3LDJnWWaO6e6Y/hQ/2QRHuH3MLqDioihghBbilj/OEoDvlM3FhghobAeU8eoFs2OJ
+         zrrMQWEOzSWGFNGHK/su3VqZfb2NPTPru1senrTeSDxpHziOhyDqGLgShRhpEkdCp/KO
+         atPNLnLQ50Vou6SynAbliQOd84AmYTckBit3Gz2y5k226NARleYmj0AOC19Vnc34xcuI
+         WjP9KQm0I5lvI2pNEuNXzdYwcImBr3o4NmJpQ2PIKQbHmRM3QV3fe0bLRmwD+roPmcUJ
+         LyAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751425948; x=1752030748;
+        d=1e100.net; s=20230601; t=1751425951; x=1752030751;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0sE+QHyOn/81eB7j269LjqD2GWyIAz2xdma1FvKprIk=;
-        b=I996mmofWihQEDZzaUAZ2zIt9cKWXE7zvz3pffTbvvUNPsVjUZ066k6rqWZd0hwIm0
-         Tb5e2/i/EMhOwLT1m9+1RD+bj5ueDefVUPY5QbLlnlhl3w/BJGcxsetBjy1tEmYWHeK0
-         kffJEXKKOy0YYQGl+OgToExZQpiOmk/IkFqMRPlAfrmMzqMfgX89VwO4lu4fRT8zhBof
-         ZrGtiUx+iMo8V++XUx49/aIXbSaSU9Z3qAU627GpohG3851s0kQqoxUg2Qzr1nqUeoPm
-         POxyQOVktaQYplWsItW8PVoDhfRVFf9oVArwEiNzbGhx/DH2W36sI7t6wbA5uB4whRZX
-         UawA==
-X-Gm-Message-State: AOJu0YzuLE2+BqwvRbVLFqTKC1MBNVj61KeMgIDDZHmL8HHRDEZMlEe7
-	lcLEIpVecE4T+ZUtTyIDZehrhnYmSwLb7YX+JPK61WdOJK+6gmTNTsPaYO+ldA2aQZUWa9Dxmi/
-	VLXCm
-X-Gm-Gg: ASbGncvbnuRSTO7NTt632wMsBdkbeTcyaKhNW3YFxaUVyE3EjfEaCp2Cj9Enw371ddf
-	6gJXNvUktag6EsUTrwLLg7cRWePt5kXJdSWNY3B2uu2ShMXb0yJD8kMknL9VhMJ8g8oesUNJbPO
-	PS5q//fYW5jIyl6YJNTZEZfWDIbC+yRO3sHKCOM/BK7oDNqS0nJlq1dOtGdh5J7d1EX6MQcJnRa
-	AOqkgJtoDFREkywUlnTSYRx6VeJ3IyJmHwCnBWWpRyegPGxIiHmaYBMFlJ1OZ2P63S1gVvAOiAO
-	FLrbZa5MN+ytwGLPzuVGoSAkh97FM0btbQWl0+ks26ir37ftrCdnYw==
-X-Google-Smtp-Source: AGHT+IEyM9T2wNOsgKQ3935lSy0i5Dcba5YAwbBB7jecGQEpeSMVt7hDEpy7l+5RFMdQOoMJbaFqSA==
-X-Received: by 2002:a05:6a00:8c6:b0:740:6f69:8d94 with SMTP id d2e1a72fcca58-74b50c71fd9mr1848595b3a.0.1751425947773;
-        Tue, 01 Jul 2025 20:12:27 -0700 (PDT)
+        bh=zNSWUnXJ3xOYZVEXX4gRy3F6yggtIF8qgenuDpR3kvM=;
+        b=Or1N1LWZDnx+FMZeAhfxEm2I8/r6fzcN0+jQtPMHGAAjZ4gMfW6OKD6Lm+2O5v5Owe
+         MOJPM85FrrsZmvYVE+F0pd4ct9X8N7xwbmqBkmvPFCXQ/fZ1DBEjwnh/r7i4Joml/SjH
+         YxD25lbBDdXxCY5Eo1H8ujTXU79poQCioI14zPr7IuS0hKyoOjtT1dU5HeGqGHOwbUxN
+         htlSlTMLdkvW7CUJIo5FxnrLMVM7lPfLiTt9f7cMQgIG9rLAJw/UanVWiS6qcQlkmerr
+         zMklnZ6CKZae++eYSL6172uuHIoGSVRcNjiwBjYD1U5fVFclwVv0vstLJ5v0TEemThMb
+         cCZw==
+X-Gm-Message-State: AOJu0YxhElZy3fzpM1L7Ve9wgyGLaGRgZ2osUX11tojx5M7t7bSDJ3D7
+	xgTD6Kyh8hxfpyshnmn1di2udyPWBqHP7EYYbx3ChqypQrydWw/uf50oLpyDP4QAvpejeiROOLo
+	3Mo6y
+X-Gm-Gg: ASbGncvsuBnWuHTcSlPDxT3Es/bGRW+o7SPgyKYB0z8+EceB66Ec+3dCc3G61DTEoC/
+	cs2899UgdXSv29WG9cN0ArtUQ+bLaLqCmWz1YcqQwbg40k7KjTaQxxVJq+AkZ5Vkvu2nlGHdm7/
+	HfNDtn1YthEhIiyc9Ikej1/dIzCLn0i1cgRP5QpAOW2nVqEptcUDh8iViuejGj5QJ4X0C3VpUaJ
+	D26I3xN1gXV6NBMKHlxBt7kCDfZtauRGVXg7NGeG5yLHS0MjR4i8NAGP74La18BKcrP6fk2iCRR
+	4R8Etnje2F6EGi1hZX1JLnUYAvcZrfgInw7OF/P1wsaB63Eq5fRsrA==
+X-Google-Smtp-Source: AGHT+IHFfBsM48wlJ38n5nw4HF6aFKDtIjHjYeOe+7QXOtZBB2OaWycqo9yHedioS9nqPFpo3Z3YtA==
+X-Received: by 2002:a05:6a00:c94:b0:742:4545:2d2b with SMTP id d2e1a72fcca58-74b50e5cd3dmr1792312b3a.3.1751425950839;
+        Tue, 01 Jul 2025 20:12:30 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:34f8:320a:2e39:118e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af58069a9sm13633241b3a.174.2025.07.01.20.12.27
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af58069a9sm13633241b3a.174.2025.07.01.20.12.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 20:12:27 -0700 (PDT)
+        Tue, 01 Jul 2025 20:12:30 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 04/19] cve-exclusions: correct cve status for 5 entries
-Date: Tue,  1 Jul 2025 20:11:49 -0700
-Message-ID: <cf239892614c0b00feacef6b6e38283832239ad6.1751425749.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 06/19] linux/cve-exclusion: correct fixed-version calculation
+Date: Tue,  1 Jul 2025 20:11:51 -0700
+Message-ID: <4e2c441b64675933cc5f684d0e19cdc18ceaab18.1751425749.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1751425749.git.steve@sakoman.com>
 References: <cover.1751425749.git.steve@sakoman.com>
@@ -66,53 +66,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 03:12:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219757
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 03:12:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219760
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-In commit 8a7af09feb the CVE_STATUS was copy from the old data
-for 6.6 kernel, which had backport information.
-Correcting status to when the fix was introduced and adding
-references to the fixes.
+Current code takes the first version found as "fixed-version".
+That is not correct as it is almost always only the oldest backport.
+Fix it by unconditionally shift the assigmnet of variable "fixed" so
+that we take last instead of first version.
 
-Fixes: 8a7af09febc28477094de0999ab6321d910811b2
-Reported-by: Peter Marko <Peter.Marko@siemens.com>
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+Cc: daniel.turull@ericsson.com
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fc3e32bc4cf79ddce0eb9fa409656de4dc0e00ea)
+(cherry picked from commit 68f8e58a249c8adef18e63f0841e8bfea16f354e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux/cve-exclusion.inc | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ meta/recipes-kernel/linux/generate-cve-exclusions.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-kernel/linux/cve-exclusion.inc
-index 5f96a81bdd..f1b7db44b6 100644
---- a/meta/recipes-kernel/linux/cve-exclusion.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-@@ -141,12 +141,17 @@ CVE_STATUS[CVE-2023-4155] = "fixed-version: Fixed from version 6.5rc6"
+diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/recipes-kernel/linux/generate-cve-exclusions.py
+index 82fb4264e3..5c85c0db88 100755
+--- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
++++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
+@@ -67,10 +67,9 @@ def get_fixed_versions(cve_info, base_version):
  
- CVE_STATUS[CVE-2023-6176] = "fixed-version: Fixed from version 6.6rc2"
+                 if not first_affected:
+                     first_affected = v
+-                    fixed = less_than
++                fixed = less_than
+                 if base_version < v and v < next_version:
+                     first_affected = v
+-                    fixed = less_than
+                     fixed_backport = less_than
  
--CVE_STATUS[CVE-2023-6270] = "cpe-stable-backport: Backported in 6.6.23"
-+# Fix https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=f98364e926626c678fb4b9004b75cacf92ff0662
-+CVE_STATUS[CVE-2023-6270] = "fixed-version: Fixed from 6.9"
- 
--CVE_STATUS[CVE-2023-6610] = "cpe-stable-backport: Backported in 6.6.13"
-+# Fix https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=567320c46a60a3c39b69aa1df802d753817a3f86
-+CVE_STATUS[CVE-2023-6610] = "fixed-version: Fixed from 6.7rc7"
- 
--CVE_STATUS[CVE-2023-6679] = "fixed-version: only affects 6.7rc1 onwards"
-+#Fix https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=65c95f78917ea6fa7ff189a2c19879c4fe161873
-+CVE_STATUS[CVE-2023-6679] = "fixed-version: Fixed from 6.7rc6"
- 
--CVE_STATUS[CVE-2023-7042] = "cpe-stable-backport: Backported in 6.6.23"
-+#Fix https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=ad25ee36f00172f7d53242dc77c69fff7ced0755
-+CVE_STATUS[CVE-2023-7042] = "fixed-version: Fixed from 6.9rc1"
- 
--CVE_STATUS[CVE-2024-0193] = "cpe-stable-backport: Backported in 6.6.10"
-+#Fix https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=7315dc1e122c85ffdfc8defffbb8f8b616c2eb1a
-+CVE_STATUS[CVE-2024-0193] = "fixed-version: Fixed from 6.7"
+     return first_affected, fixed, fixed_backport
 -- 
 2.43.0
 
