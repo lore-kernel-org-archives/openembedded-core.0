@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA16BC83F04
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E823CC83F07
 	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 03:12:40 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.15027.1751425956024567388
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.15028.1751425959743602126
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 20:12:36 -0700
+ Tue, 01 Jul 2025 20:12:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hs13Ve1l;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-73972a54919so3813043b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 20:12:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Vp04r5h6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-748e63d4b05so2625000b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 20:12:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751425955; x=1752030755; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751425959; x=1752030759; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TUMZBNJR3atkrNpzC41juF7UfLgIrL2frcer7Lj/L5k=;
-        b=hs13Ve1l69smpzTw8teklWc5ZQWgHonLR7CgUMWi4IvdwkISRs+d4NCfX1Dd+sMhTY
-         D4Pugt4njCfjYn7lETkem+Kvz9E3aVr8N1O8MJSiYkduMTBB4j+BbVAbal53WdL3gkxT
-         /yShV2Uz9zAL+gdc+S9bo0vdg88VJuTogH0KYaSNkdNUQD4YsMAm8ohX8fLc3g5mGXKJ
-         Cso7l8DkILYc7ZaH7xjgNom4CAS5HAgWm7Yfpt/Oos3V2qAAXcgAb4L2qNM2G/QOHi+R
-         YtbwWZ+XOWyBjzYTu1HHQWE0uoqKcQsbkl++cOnphKwqUGfNL33tpQXX7eCdMXZ8s+Tu
-         kz8g==
+        bh=nhJo1FnU+O7zeTMkCOhnleY30045WzmsQ7UCybBeGsY=;
+        b=Vp04r5h6XRoqToHDN6sGGRN1aVMZUntsd0q+2g/Ji4uJCF65y8vKPle+2ViSA/iG1p
+         tXG4QvOKbWZzt+xhVv11K8sqTRe4ZJxyU26wIuVVj0AAwyKBhqJHDzv17h8+CMKTJBfI
+         frsmiw6a6UZjQNJxZkcLXGpio0RxVEhMc5s4m03PucE1GX0qqRBP29EqQxN18TWsDU3F
+         Ky9mToSaOXraqULlnWh7CYAU5k5vYrR0KKLDRZnkaIACfFBzWPbEG7/VLGQdxVGF1ING
+         KKmST/inVr/vUAmpARnVa+0uzX1sHx7tqOxhecilnfzfUgRm7JVEg+3ksexQAICTyTRo
+         mkDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751425955; x=1752030755;
+        d=1e100.net; s=20230601; t=1751425959; x=1752030759;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TUMZBNJR3atkrNpzC41juF7UfLgIrL2frcer7Lj/L5k=;
-        b=u+lvQi8SxDzakCmdoTHEf9A0hQ/FnRvJiD46nFkkatGSuqX/hMairRCV/ajvtmMG2O
-         GPL1gatl6pFYCvHLxSw+ctvD1uga8BGDaGafVDow5as7r6Yt8SaZOrVpWyx50vgaa18P
-         BtiHb+1893c5nERhtekg4jE9nrXwhWD60oqs4P0B/jXiEdXfbQgjNzVoUAbGFNMoF9Mf
-         u2QoieIa4iLKAYDlUQLMN8rLTdyMFN3nNVyAHudO9Kn1c3e253iGl/IwCkieBYzwS6p0
-         pwJ4ejI0hUhHgAvLfnFFHOskIdljAOe08QPPkoiXrKPEaWPBcPf6o7xlUsKkpatPGTad
-         WnJA==
-X-Gm-Message-State: AOJu0YyDZN99OvIAepqBK99gfaue71SKWoVQmWN9u54JSxK9oRwQZNPe
-	mh8bPpEcBjIi9gH//4de2o0K4IeVihzHer+5f4oh2SgQysVOIqQbiS1qJtmidnoy/DbDf4cVUcM
-	UfFt7
-X-Gm-Gg: ASbGncsIOrndzumuVp0vy/v8Ua6vLEjPBptBBw5u8ces7q2trsCrA6394A7BTiP9q2R
-	MvlNm0IlN6egpctfdbu3zfT6PFLAjBtnpgDj9N3iCKKRZyhT3YknLdk8Jx/zGzhIQhtN7eL5yJM
-	ftd8EDEACLeLJgc+pXyRJe5h/WxIjPlPXHgethN7nVdfFqZCCOPjxaY+Ky6uNVF0x3UzpUZgIIb
-	auUykaAEn2WrJ9tJ8UvwpKZhTceQG20wG/ieHHa+QHF6OU/H2ercxH/IEvcPElF7fCfeBQ6l2p1
-	YjOQ2goxVD/310KhZUDbfMcNUHedvnMuD3kDnl7411CJ+NGl7u8SqA==
-X-Google-Smtp-Source: AGHT+IECMjnH6QhgV8cwP13VsFBT2k8min894R0OEZr3fBl4y6ByVTfPtnod2vDcOZCQc4iHU0zibw==
-X-Received: by 2002:a05:6a00:a04:b0:732:2923:b70f with SMTP id d2e1a72fcca58-74b50f29ff3mr1440804b3a.11.1751425955003;
-        Tue, 01 Jul 2025 20:12:35 -0700 (PDT)
+        bh=nhJo1FnU+O7zeTMkCOhnleY30045WzmsQ7UCybBeGsY=;
+        b=k5sLj9cTkztA/UXZCUBR+7y1+hlm1dzIvlrBDEjJL1CIHsIx3KlZvopRI92M+aGRJn
+         vuw/roROPXUjJBElS5jIu1wh6mHCrUXKWl+QQyJbeeWcY7KikSHjJliQBoePwfJQ9NNU
+         ILod3czl4mDh0vDG0nLLs62XB5SURqhDR6o8seeayAn6K9YvbyAuSgJMIgZfeE8K7ko4
+         ZbfplnQLHnsVYb8acz27nIhfM3RT0nqZfKLUK2i+5oO2NzT/dM28V0OABSnNtkONMjcM
+         MCnVAIJHNvqrSDKFMnLAqxSdXSCksoOGlUcWTLxMgMVC68kMHfPyRoAKncVFi5xEYvFu
+         J6CQ==
+X-Gm-Message-State: AOJu0Yz+pafDxf32sgWqPweZ2GrvAfjztUQhMfDCZgMP35o/iJdCZbTS
+	qiFipZ2/9UEP4VY1xFBRvJ0gZjXq20pcnqoAi3lwM//6pCEME6McQnHoBAtJmba4DBG+Yn7GZS/
+	6Zypi
+X-Gm-Gg: ASbGncsYqiNccG/TUxWnPrihfpZb6KiIjQPqdTMEGSl6iDweNb4G1WHHIRL0a1Waxc7
+	9YXRxmyIwa9ihn2Fru4LkDVkKsdXGHyQPRuaEbzYEKDPvomFzOaTrqme5UHS+1Pl4k7KKL/OJF0
+	MxKL+IEhXpmlXWb3woWGZV7V6UCs2U7p041HfRgHfW1jp7g+7p5jV8HdkXnW4LXMbHsu5OUBRRc
+	GZrmuK8LkyXbVIP89H0Ce6KZ9odjmJS8eIsdxt5+wK9dE60/JqDC0eB8ydz8xCRWJDdj9fv5mGD
+	1/v6CaTqTbZMsomKTBehWURoLZrj8ZGxK0Sob2J5NgE4+3uGWZWoBQ==
+X-Google-Smtp-Source: AGHT+IHB9aSm3hYOvMQkPKL7nfRKcgTen5XUe028IponS46Ywv7zxATDHGEO/33lSg1inQDCHa2aIw==
+X-Received: by 2002:a05:6a00:3cd6:b0:742:ae7e:7da8 with SMTP id d2e1a72fcca58-74b510402e8mr1899603b3a.8.1751425958938;
+        Tue, 01 Jul 2025 20:12:38 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:34f8:320a:2e39:118e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af58069a9sm13633241b3a.174.2025.07.01.20.12.34
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af58069a9sm13633241b3a.174.2025.07.01.20.12.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 20:12:34 -0700 (PDT)
+        Tue, 01 Jul 2025 20:12:38 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 08/19] linux/cve-exclusion: do not shift first_affected
-Date: Tue,  1 Jul 2025 20:11:53 -0700
-Message-ID: <1cbb0103bbf5f567ceeb01abb48869d29f74be1d.1751425749.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 10/19] linux: add CVE_STATUS for a chrome* bug
+Date: Tue,  1 Jul 2025 20:11:55 -0700
+Message-ID: <8c39f6fa4454147e22d5e386046ed9b1076d7a95.1751425749.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1751425749.git.steve@sakoman.com>
 References: <cover.1751425749.git.steve@sakoman.com>
@@ -67,36 +67,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 03:12:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219762
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219764
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
 
-Stop shifting first_affected if backport is indicated. This does not
-have effect on generated list, but makes the logic cleaner as it will
-not shift it to "first affected on our branch" and also make it behave
-like in defaultStatus==affected case.
+This is not a linux-yocto CVE yet it shows up in the reports as:
+   linux-yocto-custom CVE-2023-3079  0.0  8.8  Unpatched  https://nvd.nist.gov/vuln/detail/CVE-2023-3079
 
-Cc: daniel.turull@ericsson.com
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit dc1ecb69389dd79354084757ba6b9af0781afcc0)
+For reference, the CPE says:
+  Affects cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*
+So affects all Linux systems,
+  Running on/with cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*
+
+[ YOCTO #15780 ]
+
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit 22ef4d2d116afb9d603a05fb107dd9da0e74558b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux/generate-cve-exclusions.py | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-kernel/linux/cve-exclusion.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-index 5c85c0db88..302ec8ebc9 100755
---- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
-+++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-@@ -69,7 +69,6 @@ def get_fixed_versions(cve_info, base_version):
-                     first_affected = v
-                 fixed = less_than
-                 if base_version < v and v < next_version:
--                    first_affected = v
-                     fixed_backport = less_than
+diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-kernel/linux/cve-exclusion.inc
+index f1b7db44b6..80c76433ef 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion.inc
+@@ -133,6 +133,8 @@ CVE_STATUS[CVE-2023-1076] = "fixed-version: Fixed from version 6.3rc1"
  
-     return first_affected, fixed, fixed_backport
+ CVE_STATUS[CVE-2023-2898] = "fixed-version: Fixed from version 6.5rc1"
+ 
++CVE_STATUS[CVE-2023-3079] = "not-applicable-config: Issue only affects chromium, which is not in linux-yocto"
++
+ CVE_STATUS[CVE-2023-3772] = "fixed-version: Fixed from version 6.5rc7"
+ 
+ CVE_STATUS[CVE-2023-3773] = "fixed-version: Fixed from version 6.5rc7"
 -- 
 2.43.0
 
