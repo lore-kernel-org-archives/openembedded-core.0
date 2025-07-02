@@ -2,22 +2,22 @@ Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FE49C83F04
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E70C8303C
 	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 21:44:31 +0000 (UTC)
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.8361.1751492667147071152
+ by mx.groups.io with SMTP id smtpd.web11.8320.1751492667544702654
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Jul 2025 14:44:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from kernel.crashing.org.net (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 562LiP2u015441
+	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 562LiP2x015441
 	for <openembedded-core@lists.openembedded.org>; Wed, 2 Jul 2025 16:44:26 -0500
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 3/6] kernel.bbclass: State riscv required tune_features for Linux
-Date: Wed,  2 Jul 2025 16:44:21 -0500
-Message-Id: <1751492664-12569-4-git-send-email-mark.hatle@kernel.crashing.org>
+Subject: [PATCH v3 6/6] qemuriscv: Dynamically configure qemu CPU
+Date: Wed,  2 Jul 2025 16:44:24 -0500
+Message-Id: <1751492664-12569-7-git-send-email-mark.hatle@kernel.crashing.org>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1751492664-12569-1-git-send-email-mark.hatle@kernel.crashing.org>
 References: <1751492664-12569-1-git-send-email-mark.hatle@kernel.crashing.org>
@@ -25,45 +25,71 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 21:44:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219853
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219859
 
 From: Mark Hatle <mark.hatle@amd.com>
 
-Required:
-   rv32ima_zicsr_zifencei
-   rv64ima_zicsr_zifencei
+Use TUNE_FEATURES to dynamically configure the QEMU emulated CPU for the
+options selected by the DEFAULTTUNE.
 
-See the arch/riscv/Makefile:
+Note: OpenSBI currently requires 'c' (compressed instructions) or it will
+not work.
 
-riscv-march-$(CONFIG_ARCH_RV32I)	:= rv32ima
-riscv-march-$(CONFIG_ARCH_RV64I)	:= rv64ima
-riscv-march-$(CONFIG_TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI) := $(riscv-march-y)_zicsr_zifencei
+Change the base device configuration to use a different variable to select
+the emulate devices.  This will allow a user to override or append the
+QB_OPT_APPEND without the riscv32 override getting in the way.
 
 Signed-off-by: Mark Hatle <mark.hatle@amd.com>
 ---
- meta/classes-recipe/kernel.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/conf/machine/include/riscv/qemuriscv.inc | 31 +++++++++++++++++--
+ 1 file changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 2d9943c8a0..eb03424dfc 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -4,10 +4,14 @@
- # SPDX-License-Identifier: MIT
- #
- 
--inherit linux-kernel-base kernel-module-split
-+inherit linux-kernel-base kernel-module-split features_check
- 
- COMPATIBLE_HOST = ".*-linux"
- 
-+# Linux has a minimum ISA requires on riscv, see arch/riscv/Makefile
-+REQUIRED_TUNE_FEATURES:riscv32 = "rv 32 i m a zicsr zifencei"
-+REQUIRED_TUNE_FEATURES:riscv64 = "rv 64 i m a zicsr zifencei"
+diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
+index 65cbfd66ee..91a84cdd39 100644
+--- a/meta/conf/machine/include/riscv/qemuriscv.inc
++++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+@@ -27,7 +27,6 @@ UBOOT_ENTRYPOINT:riscv64 = "0x80200000"
+ # qemuboot options
+ QB_SMP ?= "-smp 4"
+ QB_KERNEL_CMDLINE_APPEND = "earlycon=sbi"
+-QB_CPU:riscv64 ?= "-cpu rva22s64"
+ QB_MACHINE = "-machine virt"
+ QB_DEFAULT_BIOS = "fw_jump.elf"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+@@ -36,5 +35,31 @@ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio
+ QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+ QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1,nodelay=on -device virtconsole,chardev=virtcon"
+ QB_GRAPHICS = "-device bochs-display"
+-QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
+-QB_OPT_APPEND:riscv32 = "-device virtio-tablet-pci -device virtio-keyboard-pci"
++QB_OPT_APPEND = "${RV_QEMU_ISA} ${RV_QEMU_DEVICES}"
 +
- KERNEL_PACKAGE_NAME ??= "kernel"
- KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
- 
++RV_QEMU_DEVICES = "-device qemu-xhci -device usb-tablet -device usb-kbd"
++RV_QEMU_DEVICES:riscv32 = "-device virtio-tablet-pci -device virtio-keyboard-pci"
++
++RV_QEMU_ISA = "-cpu "
++# Choose rv32 or rv64
++RV_QEMU_ISA .= "${@bb.utils.contains("TUNE_FEATURES", "rv 32", "rv32", "", d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains("TUNE_FEATURES", "rv 64", "rv64", "", d)}"
++# Disable all of the default extensions we don't support
++RV_QEMU_ISA .= ",zihintntl=false,zihintpause=false,zawrs=false,zfa=false,svadu=false,zicntr=false,zihpm=false"
++RV_QEMU_ISA .= ",zicboz=false,zicbop=false,zmmul=false,sstc=false,h=false"
++# Dynamically enable the extensions based on TUNE_FEATURES
++RV_QEMU_ISA .= "${@bb.utils.contains    ("TUNE_FEATURES", "m",         ",m=true",        ",m=false",        d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains    ("TUNE_FEATURES", "a",         ",a=true",        ",a=false",        d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains_any("TUNE_FEATURES", "f d",       ",f=true",        ",f=false",        d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains    ("TUNE_FEATURES", "d",         ",d=true",        ",d=false",        d)}"
++# OpenSBI fails to boot without 'c'
++#RV_QEMU_ISA .= "${@bb.utils.contains    ("TUNE_FEATURES", "c",         ",c=true",        ",c=false",        d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains    ("TUNE_FEATURES", "v",         ",v=true",        ",v=false",        d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains    ("TUNE_FEATURES", "zicbom",    ",zicbom=true",   ",zicbom=false",   d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains_any("TUNE_FEATURES", "zicsr f d", ",zicsr=true",    ",zicsr=false",    d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains    ("TUNE_FEATURES", "zifencei",  ",zifencei=true", ",zifencei=false", d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains_any("TUNE_FEATURES", "b zba",     ",zba=true",      ",zba=false",      d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains_any("TUNE_FEATURES", "b zbb",     ",zbb=true",      ",zbb=false",      d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains    ("TUNE_FEATURES", "zbc",       ",zbc=true",      ",zbc=false",      d)}"
++RV_QEMU_ISA .= "${@bb.utils.contains_any("TUNE_FEATURES", "b zbs",     ",zbs=true",      ",zbs=false",      d)}"
++
 -- 
 2.34.1
 
