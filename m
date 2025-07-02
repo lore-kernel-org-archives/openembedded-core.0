@@ -1,100 +1,120 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86DF9C8303D
-	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 02:18:50 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.14153.1751422725531714325
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1C64C8303D
+	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 02:44:20 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.14601.1751424251818847740
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Jul 2025 19:18:45 -0700
+ Tue, 01 Jul 2025 19:44:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=0ihFO+Y2;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=E3ccq9nz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010197c8ede83d-34b4298f-5fcb-4ae0-a3e1-39848f40f17d-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751422724; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=pAG4CFMUB7ndZXjtbN8xvzarLag0drb/PbKR/k9bi3M=;
-	b=0ihFO+Y2OUecWN21mKJW/RSuQ1wj9zH5goF2vl+qTPBRCCsem/Q73C9qUpDqwt+s
-	v+8osTbwsyG7vjCQiQSo1Kp+mDdxftLmBiC7uXaaZucfVe2V3kkManSyFtuwgvPAEeX
-	QdlnfxzV+BBh9T9VlPiYCjPVlbusDFjC2/MXV+5U=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751422724;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=pAG4CFMUB7ndZXjtbN8xvzarLag0drb/PbKR/k9bi3M=;
-	b=E3ccq9nzOJ+4Lx+Mt4yf7SGNibxJ6SuJAH7ZYaY6HgNVNV4rhKAKq7FMTvvul1Uh
-	x4x7HgZtHocdVd7vuUUHUpmMN6EcbvwZukz/4VnQ37OMskeojeT1bei08dtyk9NE+eS
-	a/Tp/AB9DE+3tCCufkSOvBVLXE92MmR1MRDfhzXI=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v4 3/4] Remove oe.utils.host_gcc_version utility
-In-Reply-To: <20250702015551.1453616-3-raj.khem@gmail.com>
-References: <20250702015551.1453616-3-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010197c8ede83d-34b4298f-5fcb-4ae0-a3e1-39848f40f17d-000000@us-west-2.amazonses.com>
-Date: Wed, 2 Jul 2025 02:18:44 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.02-54.240.27.45
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9278afadd9=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5620U2Gj013490
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Jul 2025 19:44:11 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47jfwm3jky-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 01 Jul 2025 19:44:11 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Tue, 1 Jul 2025 19:44:10 -0700
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Tue, 1 Jul 2025 19:44:09 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH V2 1/2] kernelsrc.bbclass/perf: clean up package version while using kernel source
+Date: Wed, 2 Jul 2025 10:44:08 +0800
+Message-ID: <20250702024408.1567464-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <aGSOEsGsdU+84kJn@gmail.com>
+References: <aGSOEsGsdU+84kJn@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=LPRmQIW9 c=1 sm=1 tr=0 ts=68649cfb cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=Wb1JkmetP80A:10 a=t7CeM3EgAAAA:8 a=ebKT7KSLUzKIW0Oku2YA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: AM4rHSBU2TPOtJ5PFS8b4Cq3n8m2r7r1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAyMDAyMiBTYWx0ZWRfX7S4z3NMPjh6E ZzfMGlz5pAKNZv2rbKgUCQs/vfOyLb7hEbqS7lNbTw3PFIzDiLq71+RZVGLxupYOLzpzNnaSmT+ cL20vMd9E/KUinwILGysQ00YXIwMeG7YmoI5CrSGC6Wk3bu+q1kbT4DVEu2VnZ+Yn0FGIsjJDCL
+ xthHIcPEi4e7Wlm2p1YOwgdrshyB+uvmx0YfEQzJ47tqRlUQHnFdEzwOEO2tEfqsfw54QdfvTkZ h0kDWCd9gQBqCoZiLdsoAr1tPKsqD2I4jgDbfcXf649YdZBOGzze9JsuHt5wObucd75nfFna7Xr +uTv3TUV9YFHDlwvwgm6auayA82N9aMkfGgHp1DiVfCUDqetB0TdTys+ga+bjUgXqA34H5YoFgF
+ AM3KDs9ugfOWkGZd8HarrYPYw/EvLPm8qDVro7XEg6SHB9sZgcMPKuZOqPUQWN19Q/i7sfwl
+X-Proofpoint-ORIG-GUID: AM4rHSBU2TPOtJ5PFS8b4Cq3n8m2r7r1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=999
+ phishscore=0 impostorscore=0 bulkscore=0 spamscore=0 suspectscore=0
+ mlxscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2507020022
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 02:18:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219752
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 02:44:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219753
 
---NextPart
-Content-Type: text/plain
+If recipe inherits bbclass kernelsrc to use kernel sources,
+the recipe should explicitly set ${KERNEL_VERSION} to ${PKGV}
+in task do_package, otherwise package version (${PV} is usually
+default 1.0) is not consistent with kernel source.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+For example, there are 5 recipes in meta-openembedded to inherit
+kernelsrc, but 4 recipes explicitly set PKGV.
 
+meta-openembedded$ grep -e "setVar(.*PKGV.*KERNEL_VERSION" -e kernelsrc -rn *
+meta-oe/recipes-kernel/intel-speed-select/intel-speed-select.bb:9:inherit kernelsrc
+meta-oe/recipes-kernel/bpftool/bpftool.bb:8:inherit bash-completion kernelsrc kernel-arch
+meta-oe/recipes-kernel/bpftool/bpftool.bb:44:    d.setVar('PKGV', d.getVar("KERNEL_VERSION").split("-")[0])
+meta-oe/recipes-kernel/cpupower/cpupower.bb:8:inherit kernelsrc kernel-arch bash-completion
+meta-oe/recipes-kernel/cpupower/cpupower.bb:32:    d.setVar('PKGV', d.getVar("KERNEL_VERSION").split("-")[0])
+meta-oe/recipes-kernel/turbostat/turbostat.bb:98:    d.setVar('PKGV', d.getVar("KERNEL_VERSION").split("-")[0])
+meta-oe/recipes-kernel/usbip-tools/usbip-tools.bb:25:inherit kernelsrc autotools-brokensep
+meta-oe/recipes-kernel/usbip-tools/usbip-tools.bb:68:    d.setVar('PKGV', d.getVar("KERNEL_VERSION").split("-")[0])
+meta-oe/recipes-kernel/spidev-test/spidev-test.bb:7:inherit bash-completion kernelsrc kernel-arch
+meta-oe/recipes-kernel/spidev-test/spidev-test.bb:26:    d.setVar('PKGV', d.getVar("KERNEL_VERSION").split("-")[0])
+
+This commit clean up the setting of PKGV, move it to kernelsrc.bbclass
+for common use, the recipe (such as intel-speed-select) that inherited
+kernelsrc will not be required to explicitly set ${PKGV} with
+${KERNEL_VERSION}
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v4-3-4-Remove-oe.utils.host_gcc_version-utility.patch
+ meta/classes-recipe/kernelsrc.bbclass | 4 ++++
+ meta/recipes-kernel/perf/perf.bb      | 4 ----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+diff --git a/meta/classes-recipe/kernelsrc.bbclass b/meta/classes-recipe/kernelsrc.bbclass
+index ecb02dc9edc..93361842989 100644
+--- a/meta/classes-recipe/kernelsrc.bbclass
++++ b/meta/classes-recipe/kernelsrc.bbclass
+@@ -15,3 +15,7 @@ LOCAL_VERSION = "${@get_kernellocalversion_file("${STAGING_KERNEL_BUILDDIR}")}"
+ 
+ inherit linux-kernel-base
+ 
++# The final packages get the kernel version instead of the default 1.0
++python do_package:prepend() {
++    d.setVar('PKGV', d.getVar("KERNEL_VERSION").split("-")[0])
++}
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 157aca4d791..4f29bd5bbc3 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -385,10 +385,6 @@ do_configure:prepend () {
+     done
+ }
+ 
+-python do_package:prepend() {
+-    d.setVar('PKGV', d.getVar("KERNEL_VERSION").split("-")[0])
+-}
+-
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
+-- 
+2.34.1
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
