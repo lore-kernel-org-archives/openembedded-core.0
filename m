@@ -2,133 +2,149 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64E38C77B7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D631C83F07
 	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 14:25:35 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web11.25251.1751466329514593955
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web11.25253.1751466332353358278
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jul 2025 07:25:29 -0700
+ Wed, 02 Jul 2025 07:25:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=d8uKSRaL;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b34ab678931so5769599a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 07:25:29 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YUSd1QaE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3134c67a173so4210363a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 07:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751466328; x=1752071128; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=y3djKzKi9RtOjzmFIpD9o6j2bbBqvsosVqS09tztwFw=;
-        b=d8uKSRaL3f9mti0+pZ/Gp0MUcJmW6d9i0tgOmNlKsZly5wb5+p+hZKEtHempgzgYts
-         kq0Vunv3S0nGa1Y8PWUHcoTRyx1Kw4senyWHGtZN63yd34IsDweGMpY7Ujm+9ir+Obeh
-         LV8dIiydYaD1LPo7P193SCowagK8g4kWG0Ijmk6UAkcsdaGGfLh9gbe/4yYjtroRuzF1
-         pVDXZ6rURTupL/zb76rG2FGeuzrI3lI6SnQqpAt+GdN2Rdtwa5eTnpQFChzIWDs+72Jj
-         wT3dJ0oj2vZgC7swzqXC81HvB6ypR8dxwU9qU6yS2YcL8jHxV4E3iHeLHz/VgxGvyVdj
-         wkRw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751466331; x=1752071131; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Frmi6foTxI3OhbIanExunZWMzlMPBT4wBZgDIKw73gI=;
+        b=YUSd1QaEdihIksQd6CN5uIbJ9x2tel0kpdevaywoXCA+9pXkNdC/X/BiANQPBQUnzL
+         OQvspWuI/xcv6sJXrhdiMliW/rF29SE2YIT9CxyWiHIP77efi/ii48YWbT00bKV6g2HP
+         sER7Q5rnHwf+Lve7kpPtVnix/7ceQMC6XKQ1bq9JndnLHeAVGAU4uapmRjB0te7Da3FR
+         AdywtTNZqXgf3laTv7RZavocRSXbqakjgyIlybwJ1AOcHW6tEXvGUzZ14026ek0gOje3
+         n96enLQXmD+CaETgdFcUx6GVBY28iO0QEXmsLkvS+fEOWojsejsIas3fHd5h7sKc9xMM
+         9CLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751466328; x=1752071128;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y3djKzKi9RtOjzmFIpD9o6j2bbBqvsosVqS09tztwFw=;
-        b=fAKIQGbtl+8OBLz+21w0FJRt0xOemQQUf4chGeAKzPoDgNo7UUUOzmv2ymvHiXdvul
-         bxbyRUAU7FgjO0XAiqpkrQ1YJ79UjmFAPerj9DYiFtlLupPQ5BNKYMWXRobcBrzyIzZQ
-         A8iGhxuJyZ3QT9lYR/5TTZ+PyoOcQEHJZ6H/0cXmGae6MJ756rH0RS9ZAWQkE9jghEQf
-         qz/W3rR2UYbKpJ6dOJzzLFzvvXw9ITVhRWSGvCqmsDP8OSQYG2lGEtOZ93qmKM3UPMw6
-         0Gc8vFappycY4y/wrifHa/eXjiCyoxxjW7gBInV1i3jNQhRsKLDqSuCOpaAsfXkeFOBF
-         fTmw==
-X-Gm-Message-State: AOJu0YxiioKXfE0tnya08NvqpxFWAlgpePwLlmpfLHvWSv6/b5T5ZY3U
-	ModLkkIMujtZA029qFsDEtwSUeLqEPRadK1dxjYmK38ps5aGDXK2b1GPemETUdhhwXCiTp7ikYe
-	G+P6O
-X-Gm-Gg: ASbGncvFqBZm0nK010qgjD4Iej0XWevLCSut/aaWfQyy6W/E+TZ1fhmpzGJ57pg8g4Q
-	djkC8oOrIsCBft84aE6eRHDv0BPr4zRVeNaB4VtWnbJCcpgZlOKfFfOtRhrIVp5fC0uE1dvdQW1
-	qqAUj05zSyJqX6BZm1xIyXMCCGz/4pwlX32V08Wb4IpUNa358qz3EBA30GVmQ//2pVw9MWNZqmY
-	ykGq8im4F4P7kcOf8JTJH4JATVxP06JeR8De22Z+5grn90M3sS6rSmd1w7Nu7V216u/2W7G8OHu
-	H7L6YkIZPKWMfjK77vxkagw4nZ6/va6i0dapnAFnWXwParIvorSxYA==
-X-Google-Smtp-Source: AGHT+IE7MVy2U+/jk5Nvi7vw245BxgwkNKU9txwMaElgjLv+Ieus9UT6GiPS0nlISehTlIuFocOFAg==
-X-Received: by 2002:a17:90b:17cc:b0:311:eb85:96f0 with SMTP id 98e67ed59e1d1-31a90bea999mr4698730a91.29.1751466328242;
-        Wed, 02 Jul 2025 07:25:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751466331; x=1752071131;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Frmi6foTxI3OhbIanExunZWMzlMPBT4wBZgDIKw73gI=;
+        b=eiNoXXKVjg4bwCBi+XZtb7T8S8V+xnYWqJYxr5+qhnK4Vy7ehl0vsX1vQI02cU+HvM
+         LOngaDFp7vuxS6tEXzuqQDrnlxXHRraFwteByphXxodPV1h4Cl9Ti4nwYdaZ0atr9ctO
+         3Fn4UM4yaW72BVfDftEE8oRqSjtCeaAeTIKTmaetAQLPSPbLks2yCJ++f5E5t42nQEPa
+         txu1WcchRfb71JtoNKzSemZJZb4l5ZCOvWNoY4m4vgDdcp77FlSRyHpReqO4WLgBk9Z0
+         xtBGFuj3v1WJ91sTKsspDmZJBrANdctx0OhMJ2acaADVJ3WQYokYk07Ao6g2wbz2mKZO
+         7LcQ==
+X-Gm-Message-State: AOJu0YzrQLU1cq02cABpb6do+rgYd688mL5pZL5T8r01AIKWK+IzsLv8
+	qSHeDb1XvhOE+JukPtXOXuArMcUKCVNP2l30zCe9AwbUL/CtP/06e9q2orgsjwt+5tyCdmD+mjv
+	+emwU
+X-Gm-Gg: ASbGncuzmf2RUATmsSM6D+H4BOcaLhJkj2BnNITXUFEG59mv/KrtG7+o9E7qgD38Evq
+	nAaEwIvpAtRDr1/Y0FgMIMZ0Pc46XgJIBGTuJx7VQs+ZBupOvrsS5hr+HHgji+QnoOBMzuQxHWA
+	kVdQMKfyuvoMx0W3tVlZ6rGxqUUpN/9T7/BLPskWtx3i3jIgIvyn6sG0VPio0WDZM4ZfedkDUR4
+	wMNZ8t1tteuIt+BLMnEUvc2lrAissO0+opA2WBUgMB0Fn2lbuHA3RAVENIzNWmxzOhOF+ZafRnf
+	Z3Q4T9MScE3rLxhyOqYl7bWLLaR48JmKxJtQvpjB7sYwsIf07VkHdA==
+X-Google-Smtp-Source: AGHT+IEfVQD/HEdrX2LFMGHN3hvBHdbFpM42yTWRXZtuoRV7nWvBalzMINztS4CSQME5Ol3aw01RkA==
+X-Received: by 2002:a17:90b:17d0:b0:312:1d2d:18df with SMTP id 98e67ed59e1d1-31a90befbe0mr3525645a91.23.1751466331438;
+        Wed, 02 Jul 2025 07:25:31 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:acee:7642:9516:37b7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-318c15232c9sm14871637a91.45.2025.07.02.07.25.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-318c15232c9sm14871637a91.45.2025.07.02.07.25.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 07:25:27 -0700 (PDT)
+        Wed, 02 Jul 2025 07:25:31 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 0/9] Patch review
-Date: Wed,  2 Jul 2025 07:25:14 -0700
-Message-ID: <cover.1751466215.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 2/9] libarchive: fix CVE-2025-5914
+Date: Wed,  2 Jul 2025 07:25:16 -0700
+Message-ID: <d85d5181af0d3941169447ae20a01f950ed3ae04.1751466215.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1751466215.git.steve@sakoman.com>
+References: <cover.1751466215.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 14:25:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219833
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219835
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Friday, July 4
+From: Colin Pinnell McAllister <colin.mcallister@garmin.com>
 
-Passed a-full on autobuilder:
+Adds patch to backport fix for CVE-2025-5914.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1923
-
-The following changes since commit cfa97a50e06fb0fcc7cbc0ada54ce7ad5ba29ebe:
-
-  cmake: Correctly handle cost data of tests with arbitrary chars in name (2025-06-20 12:41:51 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Colin Pinnell McAllister (1):
-  libarchive: fix CVE-2025-5914
-
-Daniel Turull (2):
-  package: export debugsources in PKGDESTWORK as json
-  spdx: add option to include only compiled sources
-
-Guocai He (1):
-  tcf-agent: correct the SRC_URI
-
-Praveen Kumar (1):
-  go: fix CVE-2025-4673
-
-Preeti Sachan (1):
-  ltp: backport patch to fix compilation error for x86_64
-
-Roland Kovacs (1):
-  gnupg: update 2.4.5 -> 2.4.8
-
-Ryan Eatmon (1):
-  uboot: Allow for customizing installed/deployed file names
-
-Victor Giraud (1):
-  busybox: fix CVE-2022-48174
-
- meta/classes-recipe/uboot-config.bbclass      | 15 ++--
- meta/classes/create-spdx-2.2.bbclass          | 12 +++
- meta/conf/bitbake.conf                        |  2 +
- meta/lib/oe/package.py                        | 46 +++++++++++
- meta/lib/oe/spdx.py                           | 42 ++++++++++
- meta/recipes-bsp/u-boot/u-boot.inc            | 80 +++++++++----------
- .../busybox/busybox/CVE-2022-48174.patch      | 80 +++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |  1 +
- meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
- .../go/go/CVE-2025-4673.patch                 | 68 ++++++++++++++++
- .../tcf-agent/tcf-agent_git.bb                |  4 +-
- .../libarchive/libarchive/CVE-2025-5914.patch | 46 +++++++++++
+Signed-off-by: Colin Pinnell McAllister <colin.mcallister@garmin.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libarchive/libarchive/CVE-2025-5914.patch | 46 +++++++++++++++++++
  .../libarchive/libarchive_3.7.9.bb            |  1 +
- ...cve-2015-3290-Disable-AVX-for-x86_64.patch | 42 ++++++++++
- meta/recipes-extended/ltp/ltp_20240129.bb     |  1 +
- .../gnupg/{gnupg_2.4.5.bb => gnupg_2.4.8.bb}  | 11 +--
- 16 files changed, 396 insertions(+), 56 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2022-48174.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-4673.patch
+ 2 files changed, 47 insertions(+)
  create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5914.patch
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
- rename meta/recipes-support/gnupg/{gnupg_2.4.5.bb => gnupg_2.4.8.bb} (91%)
 
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5914.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5914.patch
+new file mode 100644
+index 0000000000..4d95dba209
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5914.patch
+@@ -0,0 +1,46 @@
++From 72a83b2885c31254687702e3a8429e3e0523221c Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <stoeckmann@users.noreply.github.com>
++Date: Sun, 11 May 2025 02:17:19 +0200
++Subject: [PATCH] rar: Fix double free with over 4 billion nodes (#2598)
++
++If a system is capable of handling 4 billion nodes in memory, a double
++free could occur because of an unsigned integer overflow leading to a
++realloc call with size argument of 0. Eventually, the client will
++release that memory again, triggering a double free.
++
++Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
++
++CVE: CVE-2025-5914
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/09685126fcec664e2b8ca595e1fc371bd494d209]
++Signed-off-by: Colin Pinnell McAllister <colin.mcallister@garmin.com>
++---
++ libarchive/archive_read_support_format_rar.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index 9d155c66..9eb3c848 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -335,8 +335,8 @@ struct rar
++   int found_first_header;
++   char has_endarc_header;
++   struct data_block_offsets *dbo;
++-  unsigned int cursor;
++-  unsigned int nodes;
+++  size_t cursor;
+++  size_t nodes;
++   char filename_must_match;
++ 
++   /* LZSS members */
++@@ -1186,7 +1186,7 @@ archive_read_format_rar_seek_data(struct archive_read *a, int64_t offset,
++     int whence)
++ {
++   int64_t client_offset, ret;
++-  unsigned int i;
+++  size_t i;
++   struct rar *rar = (struct rar *)(a->format->data);
++ 
++   if (rar->compression_method == COMPRESS_METHOD_STORE)
++-- 
++2.49.0
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+index 4dd6794bb1..5bbdb86e07 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+@@ -31,6 +31,7 @@ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://configurehack.patch \
++		   file://CVE-2025-5914.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
 -- 
 2.43.0
 
