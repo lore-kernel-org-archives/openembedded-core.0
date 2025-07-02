@@ -1,93 +1,151 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63EB0C77B7C
-	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 16:42:38 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web11.1046.1751474543598974422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 835EDC77B7C
+	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 16:43:48 +0000 (UTC)
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+ by mx.groups.io with SMTP id smtpd.web10.1011.1751474622575959845
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jul 2025 09:42:28 -0700
+ Wed, 02 Jul 2025 09:43:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=1984.ea087b header.b=JbDVzfeT;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id ECF87240027
-	for <openembedded-core@lists.openembedded.org>; Wed,  2 Jul 2025 18:42:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.com;
-	s=1984.ea087b; t=1751474541;
-	bh=yGHeGKmWeurdh7MWXTNWYLlFcm15XecvtM0fstVJX9g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=JbDVzfeTY4/bnrSPSkVFIaYNLYfNp0q0yd1rlrfrxTJNahi4vO7ckpkcDAxoSqNy6
-	 Mn7bWjpg1878MjnY3euHgO7lSyX/NqEvRBgJi+O0TfKJBX+7tb4jlCNvyqvr1rtUxl
-	 y57Y7lzRQDwSedMMM7CKh7MKxGZzEzp7ixgGX0Jd4ylWHpk8IafAz8YVveEPECXHu9
-	 8GaqaNchRGmho8jpaY+Z4IFxKRwTgUsFeLRPIXyOkTmuhawb2LojzuiVbIvfNgGSYa
-	 4AIB7UfKHs+huYeBSRqWWQypsW2INU3fZlU8+C67rJO2wUTanGkaGiU1rHBVDfZZs1
-	 RHkI6UeTwDG+FJ5TwxxMIto6Z97xHmMWy8qvBcQghpeu1lkdychpXHn1qRjraJaRBU
-	 NsBrzEHWXS7bittw9ZU7rkW+ni7PkWzmyMrlaAtbdczMqYvzP+Shzq0G91KacATHoE
-	 PDuUq6AWro6kcwqEGeOjmIbOCEHF8fnLLs0YmAuoq8hwDhubYMt
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4bXQfg59wbz9rxL;
-	Wed,  2 Jul 2025 18:42:19 +0200 (CEST)
-From: simone.p.weiss@posteo.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GOcZZrSn;
+ spf=pass (domain: gmail.com, ip: 209.85.166.177, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3df2f20f4bbso22691275ab.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 09:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751474621; x=1752079421; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=38FoJRwTdLE+l4xcry5EH9xJ4fO9h3ZAZ/rQ5hL9Cgc=;
+        b=GOcZZrSnwTcBXRzNp4NkC/RWntx7y89BVoszEi0EmzBA2BSGOCvfXzZIaP4buKjla2
+         63krbxBld/gq0H6wEXmxv/H63q6sENvY8yFrX6KKVYKOUhTawxBV6hCVRbYggn4B0kVx
+         HKUGO84UHPiYGvmkf24Fi/YeCOH08rGiYpzPsvcHbKZzSqFXZ1VJWkiaACc1qgeD924j
+         sHKsJpLatLWrWmy0B+8s0z+CbxKz1W7bXdQAwa5C77zPMF8gqgSjAIcijZsaItRWHqQ6
+         9vAEompGYxJPVvIs04fLo/nHLCnI0CHwcrW1aVSfYnlPQvIahlmrjvQ3HofubcRl8fp2
+         A1aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751474621; x=1752079421;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=38FoJRwTdLE+l4xcry5EH9xJ4fO9h3ZAZ/rQ5hL9Cgc=;
+        b=rFBDZt3eMOvfMNtcIfaTpuZQ6sdNLNTOir1NZQCEyzK7xrhcRNJHeW3VYsC5wr5RVu
+         6zF+gccYB7yJab/A1NIlkGJVBGqVYJtwMSNnqUmBCUih3U0LLNK7gvoZusCX87MeMChw
+         ydxm1BBXCDwnlb3fIHCf5vklJzt2PX/l6z4WG99EDPrD4kLTYwzU6ktxYFPsTvnED0O1
+         +68gS88Eihgw8dG5zmN8PUeLUW74aDi/Ph0VoR1Zmi1z1VVOh3WE7szLUsa7YWFNf+r+
+         /n1Pdad2OcTNUt3CYyZps9At7Cp5YIOS8CC8OyNyNwLYqSv4SdknMtql3tKvnM+IQnsg
+         ADuA==
+X-Gm-Message-State: AOJu0YyQ+BnXGau3ZAvWG4D2mJvs9CqhW77l1zBEq9APgfPJQ5skusGq
+	wke95UtFsnnRFqSJOy/+R4oZ5qWCx0WtmLNkEo65ACxYsC0AG0F8I6MMCr8BPQ==
+X-Gm-Gg: ASbGncuA7N4/5vFejTGyObRKQw86NuYc+2GF8uRs4tz1+F9nqLCdoW35Ot06De2QKh2
+	9T+uosXlXgLYV14Pz84TJ0mciv97ivoFOa5XRX+GEb8KGj7hqKMFkPpEeU6pRstZTL/eaF9XZ7v
+	6Ip365lTJC/BsZfeUfS66n2pH20yPpLwb1cU0F3Kn8ZYml+Aa42UUrPMqTyGpiIEwXrbkkZwnoU
+	y+6lpmgYz28oqZ2g8INgbFhNmEBnuJnlNlATWWODZ0Iz5kUM4u3nWvGjHHsn4UURB1rxxBY6tc2
+	vAIZ+Fvcd5LClnhIi1pjGCoXMAWDCwIUa3majOlTZKapSu+VfsIFtth9evaE
+X-Google-Smtp-Source: AGHT+IGGWAgkAvBPmjrq6+0GtlFTn3uqDgkTS0neOvCLusb+a2p9NfpoLBhUPYGoPul7GxuSW24PdQ==
+X-Received: by 2002:a05:6e02:339a:b0:3dd:d995:30ec with SMTP id e9e14a558f8ab-3e05c314492mr3396995ab.12.1751474621125;
+        Wed, 02 Jul 2025 09:43:41 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::6df4])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-50204860059sm3091056173.12.2025.07.02.09.43.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jul 2025 09:43:40 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
-Subject: [PATCH] libadwaita: upgrade 1.7.4 -> 1.7.5
-Date: Wed,  2 Jul 2025 16:42:12 +0000
-Message-Id: <20250702164212.11123-1-simone.p.weiss@posteo.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v2] spdx30: Allow VEX Justification to be configurable
+Date: Wed,  2 Jul 2025 10:43:28 -0600
+Message-ID: <20250702164328.472426-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250701180410.33055-1-JPEWhacker@gmail.com>
+References: <20250701180410.33055-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 16:42:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219850
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 16:43:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219851
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+Instead of hard coding the VEX justifications for "Ignored" CVE status,
+add a map that configures what justification should be used for each
+status.
 
-Changelog:
-- AdwAboutDialog/AdwAboutWindow
-  - Fix a leak
-- AdwAvatar
-  - Fix custom image size with GTK 4.19.2
-- AdwStyleManager
-  - Fix loading font names when debug variables are set
-- AdwTabOverview
-  - Update window radius
-- AdwToastOverlay
-  - Fix a critical when showing a toast while hiding it
-- Tests
-  - Fix a leak
+This allows other justifications to be easily added, and also ensures
+that status fields added externally (by downstream) can set an
+appropriate justification if necessary.
 
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../libadwaita/{libadwaita_1.7.4.bb =3D> libadwaita_1.7.5.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.7.4.bb =3D> libadwait=
-a_1.7.5.bb} (88%)
+ meta/conf/cve-check-map.conf |  4 ++++
+ meta/lib/oe/spdx30_tasks.py  | 33 ++++++++++++++++-----------------
+ 2 files changed, 20 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.7.4.bb b/meta/rec=
-ipes-gnome/libadwaita/libadwaita_1.7.5.bb
-similarity index 88%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.7.4.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb
-index e2bfb0984e..e8a8d21f02 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.7.4.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb
-@@ -11,7 +11,7 @@ DEPENDS =3D " \
-=20
- inherit gnomebase gobject-introspection gi-docgen vala features_check
-=20
--SRC_URI[archive.sha256sum] =3D "a012bef97ac0d726b969b18099f75fc5eee9e92c=
-012af9672b827350d53ae970"
-+SRC_URI[archive.sha256sum] =3D "c2c1813c967d45c0f49e907f8c26e66f68fe49de=
-c6436e2d3349350ac9efbd2e"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES =3D "opengl"
---=20
-2.39.5
+diff --git a/meta/conf/cve-check-map.conf b/meta/conf/cve-check-map.conf
+index ac956379d19..fc49fe0a500 100644
+--- a/meta/conf/cve-check-map.conf
++++ b/meta/conf/cve-check-map.conf
+@@ -28,8 +28,12 @@ CVE_CHECK_STATUSMAP[cpe-incorrect] = "Ignored"
+ CVE_CHECK_STATUSMAP[disputed] = "Ignored"
+ # use when vulnerability depends on build or runtime configuration which is not used
+ CVE_CHECK_STATUSMAP[not-applicable-config] = "Ignored"
++CVE_CHECK_VEX_JUSTIFICATION[not-applicable-config] = "vulnerableCodeNotPresent"
++
+ # use when vulnerability affects other platform (e.g. Windows or Debian)
+ CVE_CHECK_STATUSMAP[not-applicable-platform] = "Ignored"
++CVE_CHECK_VEX_JUSTIFICATION[not-applicable-platform] = "vulnerableCodeNotPresent"
++
+ # use when upstream acknowledged the vulnerability but does not plan to fix it
+ CVE_CHECK_STATUSMAP[upstream-wontfix] = "Ignored"
+ 
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 5d9f3168d97..c352dab1520 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -724,24 +724,23 @@ def create_spdx(d):
+                             impact_statement=description,
+                         )
+ 
+-                        if detail in (
+-                            "ignored",
+-                            "cpe-incorrect",
+-                            "disputed",
+-                            "upstream-wontfix",
+-                        ):
+-                            # VEX doesn't have justifications for this
+-                            pass
+-                        elif detail in (
+-                            "not-applicable-config",
+-                            "not-applicable-platform",
+-                        ):
+-                            for v in spdx_vex:
+-                                v.security_justificationType = (
+-                                    oe.spdx30.security_VexJustificationType.vulnerableCodeNotPresent
++                        vex_just_type = d.getVarFlag(
++                            "CVE_CHECK_VEX_JUSTIFICATION", detail
++                        )
++                        if vex_just_type:
++                            if (
++                                vex_just_type
++                                not in oe.spdx30.security_VexJustificationType.NAMED_INDIVIDUALS
++                            ):
++                                bb.fatal(
++                                    f"Unknown vex justification '{vex_just_type}', detail '{detail}', for ignored {cve}"
+                                 )
+-                        else:
+-                            bb.fatal(f"Unknown detail '{detail}' for ignored {cve}")
++
++                            for v in spdx_vex:
++                                v.security_justificationType = oe.spdx30.security_VexJustificationType.NAMED_INDIVIDUALS[
++                                    vex_just_type
++                                ]
++
+                     elif status == "Unknown":
+                         bb.note(f"Skipping {cve} with status 'Unknown'")
+                     else:
+-- 
+2.49.0
 
 
