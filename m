@@ -1,149 +1,100 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D63AC83F04
-	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 12:33:04 +0000 (UTC)
-Received: from esa12.hc324-48.eu.iphmx.com (esa12.hc324-48.eu.iphmx.com [207.54.72.34])
- by mx.groups.io with SMTP id smtpd.web10.22452.1751459583790779536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD368C8303F
+	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 12:49:14 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.22769.1751460549629798903
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jul 2025 05:33:04 -0700
+ Wed, 02 Jul 2025 05:49:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=nKjSlPXp;
- spf=pass (domain: bmw.de, ip: 207.54.72.34, mailfrom: prvs=27128fcf3=moritz.haase@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1751459583; x=1782995583;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=eZvMv5puaaYl8DvDY/YqIsL55yir8c6R0RYFfiIySHE=;
-  b=nKjSlPXpWffFak8C2gSq1dpnnm9yOqOsWcjo8hCGjd3XsCsgQGBQA/z2
-   9EGBHOwhrcVHGRFxR91dUDYXSRHibANiwwrGyDqi6YyrGzXEppjXTgwcN
-   5R6pZ4LiAkB8BOJIvP/meNJAshHBdmVB4HQC+1n3wdxapWVyQwmcL7gs1
-   4=;
-X-CSE-ConnectionGUID: mFvKvkiIRo6JM0pyM75GkA==
-X-CSE-MsgGUID: 3mpoyLWkSNm4Y2h4bRg9kw==
-Received: from 160.46.252.35.spf.bmwgroup.com.bmwgroup.com (HELO esagw3.muc)
- ([160.46.252.35]) by esa12.hc324-48.eu.iphmx.com with ESMTP/TLS;
- 02 Jul 2025 14:32:58 +0200
-Received: from esabb1.muc ([160.50.100.31])  by esagw3.muc with ESMTP/TLS;
- 02 Jul 2025 14:32:58 +0200
-Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
- by esabb1.muc with ESMTP/TLS; 02 Jul 2025 14:30:38 +0200
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.203) by
- smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
- Server (version=TLS; Wed, 2 Jul 2025 14:30:38 +0200
-X-CSE-ConnectionGUID: +o26GxirSjKmCtYl/X882g==
-X-CSE-MsgGUID: ji0nV0eSQeSB5i9Wck+Pgg==
-X-CSE-ConnectionGUID: BbdZ7lb8TI6nwNM1lQjEQg==
-X-CSE-MsgGUID: mbzlJEe8TNmlnCVCrPlTpQ==
-From: Moritz Haase <Moritz.Haase@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>
-Subject: [PATCH v4 4/7] libubootenv: Backport patch to support builds with CMake 4+
-Date: Wed, 2 Jul 2025 14:30:02 +0200
-Message-ID: <20250702123005.1233743-5-Moritz.Haase@bmw.de>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250702123005.1233743-1-Moritz.Haase@bmw.de>
-References: <20250702123005.1233743-1-Moritz.Haase@bmw.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SMUCMP12B.europe.bmw.corp (2a03:1e80:a15:58f::1:28) To
- smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aREAzFzU;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=UZ/xwk7f;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010197cb2f1014-3cf5ca59-07b7-412e-a26b-0b5c5ae9fb39-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1751460548; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=UwapZ+fGeUwRf2qARLIpfXK5rRLN1J38mv4+Ridbkzs=;
+	b=aREAzFzUuJu0bYJ6mSNkZvCQquk4BWgHwqDIAY9ELCnnUP84+oDM0/aYgWZYXSxC
+	m/rGJAvMxTns5vgKRNRyFViB1vzBuBRSWKoNnpnzPWO2T87tRYBVfkExER16dLnENuT
+	0b8EEwU/ooFiUcHSzErYtCSYewQ47F1WqntB5hcU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751460548;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=UwapZ+fGeUwRf2qARLIpfXK5rRLN1J38mv4+Ridbkzs=;
+	b=UZ/xwk7ffYT7p3va2NGeNpTl5reeHFkbxNoq2Oe+vQIg5xFs3bPNqSSTSEQf0SWt
+	gb0sp5PRGAtefh323kPEO2SaXF2s2Mh2LnLu0aZmEyJKlaLHVfowVrWrvAW8UbWFO2F
+	RNP2Bb1H2OtHGiBEJWbp4TbZ/+Xh6iTkbjrJJUgY=
+From: patchtest@automation.yoctoproject.org
+To: Moritz Haase <Moritz.Haase@bmw.de>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v4 7/7] cmake: upgrade 3.31.6 -> 4.0.3
+In-Reply-To: <20250702123005.1233743-8-Moritz.Haase@bmw.de>
+References: <20250702123005.1233743-8-Moritz.Haase@bmw.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010197cb2f1014-3cf5ca59-07b7-412e-a26b-0b5c5ae9fb39-000000@us-west-2.amazonses.com>
+Date: Wed, 2 Jul 2025 12:49:08 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 12:33:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219828
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 12:49:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219830
 
-Commit [0] has been merged upstream, but there hasn't been a release containing it
-yet.
+--NextPart
+Content-Type: text/plain
 
-[0]: https://github.com/sbabic/libubootenv/commit/cd12d9dd2bea8e4580f458df77229477fc55ba70
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 ---
-changes in v4:
-- Fix patch formatting
+Testing patch /home/patchtest/share/mboxes/v4-7-7-cmake-upgrade-3.31.6---4.0.3.patch
 
-changes in v3:
-- Commit added to series
+FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
 ---
- ...Update-cmake_minimum_required-to-3.5.patch | 50 +++++++++++++++++++
- meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb  |  4 +-
- 2 files changed, 53 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/libubootenv/0001-Update-cmake_minimum_required-to-3.5.patch
 
-diff --git a/meta/recipes-bsp/u-boot/libubootenv/0001-Update-cmake_minimum_required-to-3.5.patch b/meta/recipes-bsp/u-boot/libubootenv/0001-Update-cmake_minimum_required-to-3.5.patch
-new file mode 100644
-index 0000000000..ee174ca59e
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/libubootenv/0001-Update-cmake_minimum_required-to-3.5.patch
-@@ -0,0 +1,50 @@
-+From cd12d9dd2bea8e4580f458df77229477fc55ba70 Mon Sep 17 00:00:00 2001
-+From: James Hilliard <james.hilliard1@gmail.com>
-+Date: Wed, 14 May 2025 14:17:40 -0600
-+Subject: [PATCH] Update cmake_minimum_required to 3.5
-+
-+This supports compilation with cmake-4.0.0.
-+
-+Fixes:
-+CMake Error at CMakeLists.txt:5 (cmake_minimum_required):
-+  Compatibility with CMake < 3.5 has been removed from CMake.
-+
-+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-+  to tell CMake that the project requires at least <min> but has been updated
-+  to work with policies introduced by <max> or earlier.
-+
-+  Or, add -DCMAKE_POLICY_VERSION_MINIMUM=3.5 to try configuring anyway.
-+
-+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-+Upstream-Status: Backport [cd12d9dd2bea8e4580f458df77229477fc55ba70]
-+---
-+ CMakeLists.txt     | 2 +-
-+ src/CMakeLists.txt | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 796d7bc..0a11730 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -2,7 +2,7 @@
-+ #
-+ # SPDX-License-Identifier:     LGPL-2.1-or-later
-+
-+-cmake_minimum_required (VERSION 2.6)
-++cmake_minimum_required (VERSION 3.5)
-+ project (libubootenv C)
-+
-+ # The version number.
-+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-+index c56d0c7..3370232 100644
-+--- a/src/CMakeLists.txt
-++++ b/src/CMakeLists.txt
-+@@ -1,7 +1,7 @@
-+ # SPDX-FileCopyrightText: 2019-2021 Stefano Babic <stefano.babic@swupdate.org>
-+ #
-+ # SPDX-License-Identifier:     LGPL-2.1-or-later
-+-cmake_minimum_required (VERSION 2.6)
-++cmake_minimum_required (VERSION 3.5)
-+ # Sources and private headers
-+ SET(libubootenv_SOURCES
-+   uboot_env.c
-diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb
-index 35678e2361..b63b8ff87d 100644
---- a/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb
-+++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.6.bb
-@@ -10,7 +10,9 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://LICENSES/LGPL-2.1-or-later.txt;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
- 
--SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https;branch=master"
-+SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https;branch=master \
-+           file://0001-Update-cmake_minimum_required-to-3.5.patch \
-+           "
- SRCREV = "5507339628b5caf244e1ff9d58cb3fa534b16beb"
- 
- inherit cmake lib_package
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
