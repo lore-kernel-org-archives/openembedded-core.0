@@ -2,63 +2,63 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E92FC7EE30
-	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 07:25:42 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.18000.1751441139822013403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E59EC83013
+	for <webhook@archiver.kernel.org>; Wed,  2 Jul 2025 07:25:52 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.17946.1751441144841727924
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Jul 2025 00:25:40 -0700
+ Wed, 02 Jul 2025 00:25:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=z3CdaIGE;
- spf=pass (domain: linaro.org, ip: 209.85.208.181, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-32b43cce9efso33379691fa.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 00:25:39 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=Q6kMZbEi;
+ spf=pass (domain: linaro.org, ip: 209.85.208.172, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-32ce1b2188dso47550661fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 00:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751441138; x=1752045938; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1751441143; x=1752045943; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UNG3Ac3P2BHd/fGDmW5fVDRaHT09pFE9RNLrpCEtV6Y=;
-        b=z3CdaIGEs6LfonFMIY369up7J9kxe3nQQPrT02+NRVJ2PW7Rt1VHM2u3j8FjZKxaXa
-         vsZKNFTjBS/UsSE3SMkv3rcYNWixPh2nfhlipXl7Cf11ThayNGLhJ0SqS8foWI/o5mC0
-         ALzgttNWNmfq0OQpMCQ0miCZtZQlIX8VHIY8eqD8s1GDUiaeoqZ+ca9eWQZ0O+rbFnls
-         RVCv6U7d/S494WWxYVhJRIgXjPGXXya4MEDVNW0ceyebKkU18gCto2Oqv3nZUpQXzQhL
-         w2lR/szuyRJDDe5JwVtucRsqGpztIhsonsWRpGRCjB/oHrQT4yYAhGDOyOPOWL4eecVS
-         2flw==
+        bh=qXfpXT9vFjV4Ijv0D8UWy+lop4TnY9hd5VtpLJWVxXo=;
+        b=Q6kMZbEidVLhksYPrjWhyCvRwg4i2zBZmVjQUO3A3krQ+n3Pcdy16VCFZ4aIqIa/Pp
+         xvPqCcp7eK/v86y02FEZ59kcxVnKWa5hwHcAIm+M/efbqd90+97ljq0Xem54dr7ZaXel
+         Quj5GWUj0vpa406JnFEK8aEWOPvcRB2uOOdAwZs+7K02pdhKV2O8PVB5wtU/A6jg0VkH
+         0kk31YMRO05cYjM7AFxwuCGdGORRTKzrH9/wMK1tCw3sSbxiJjVR+TMlYHDwmLtMtEEf
+         AvhBBhJsS/2cuncoheU4cDXV9rqzjUsVmdZQsFEgtUxBaU3nhEA1Hp9+zS2nqI/iyn5+
+         qf2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751441138; x=1752045938;
+        d=1e100.net; s=20230601; t=1751441143; x=1752045943;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UNG3Ac3P2BHd/fGDmW5fVDRaHT09pFE9RNLrpCEtV6Y=;
-        b=SwmGV1L7NiZXO9txdPzOQbE8WqXwbRBUMWEV2O3UmfdDEIannFqxXg9SEln/V4vnyf
-         bliOAkqh8bizOmiwmbfilY6+id6uHZxA5N/pzfGm8Yk0ITDNCu3+mVPouUHRZq0jp5A5
-         09YRaJketUq67dxvKRgF9OCfMwXQgRpuVuV5M0t9CLzPYo1U0cklJpTNP35G5Ddqr7i/
-         XEbndppgORbxdp/GkD03S9JkoqlXpLkdd6b+P2baPHib9XGUcIfwO3HWHNiSiQ7tKpw4
-         wnjEY5I6pDlPLddnC1TxWPJ6zELCj7bpNjb4eVG52Wggmntr0e7+kA9DXLg3eaP3SR8q
-         xcMQ==
-X-Gm-Message-State: AOJu0YxCSTa9uokgclBf2eUToX35oM4ZDQTMVsCKQPaY7mouvlvcewJo
-	VBxJoD7pAcaSn2g39lYXpjDFc5tU3867IQek93hhkGT0HSPVdojsCZwHZO1uqEqJE2rsd+iu7p3
-	YjECd
-X-Gm-Gg: ASbGncupC/kY8euor7gQwcIC8Fu71/dGPOiFKREVoFh3A2BqdnHyGR+U8qr+SiqQf0J
-	vMa8U7PPl3Vh52w9NuiwheNfMHbUBBrgbi3YqxmBGU+RoOmS9eTkj6nGDcl3/5cSC4OGSZnyaFM
-	+GBL7c+Tsj6v75NSYxHPv7FZ7Xdsf9I7b5sAy/5NaBC7uCNMXitg7NPYk2gqeiubp38NnnwLg3M
-	x5TYbjuS+jxYRjJYmT3vyt+w8R8HaD0v/9d9DRf4+aoIB76djDY3x/YbYHlFRyhbJKQ16OnGgIv
-	Ve67H1z4xFKRekXIZyZsVyo3HmHpglCjd/G2oI4WgX34ymPWNaRSx4JryN2vxPuxkDbgWf+QBI8
-	SoO8muVyzY1v/DLz65lxKXBCX19GxpNAGVrxwtD57eHf1mqVpkQ==
-X-Google-Smtp-Source: AGHT+IFJCUqGOT3gZ16pH7T8D27cgwcbXAKkt9+5QaUmstYYO1+TLoBiHay69k+P0vj916lLNCIKtA==
-X-Received: by 2002:a05:651c:227:b0:32a:7750:a0e1 with SMTP id 38308e7fff4ca-32e00059a40mr5751101fa.26.1751441137863;
-        Wed, 02 Jul 2025 00:25:37 -0700 (PDT)
+        bh=qXfpXT9vFjV4Ijv0D8UWy+lop4TnY9hd5VtpLJWVxXo=;
+        b=jAWTXQjTZKTXe5i1T/pAKavYUaQsJ4QTA7ZiH9g8qX6BN0yGtVfBg/4XX4F5M4lsXB
+         yMaFea0oiy9jvxEmWc5p6pS6vgF/2Scmpg6Sbu5E20dSvViTfRu/P63IbfdQcbnoo2In
+         Cscla0SuEu30jrintJlx0gM/UJ4Pi3iO+XTuKYbmISU7V3JdoV6LFGO01SB/CM3T6pGd
+         asaT7YiWr8zu1KwH+ldBk0hSVq8NScEOoGjHixwP5CvZbsmhaFw2Dsq5mlKIlhIdk77A
+         SK0Q2bQW2IIbm/vjlJ8PCs0daqqrZprOJmk0pJCrR5qi3aF1uhKbDAsyItccsp4iNybV
+         syKw==
+X-Gm-Message-State: AOJu0YwEdjcQB8c00A6lD0FIxY025V/0RkfeOWmhhQRsKeRYGcLZZFsK
+	CZqmrlZTEjk+s7k7fqxW7jwrcwCNexm1zEKwd8N8xL7f27ukynYFo3JwY+EdEbb58hd6ZhEl5Bd
+	N+dXz
+X-Gm-Gg: ASbGncsQ0Ydja6wjJlMSyXq5ifOty+8f7CnYfEJ4ZxZAS6hg1aFp7lk7UtgugjAz2YW
+	LTe8zDDrYzEpO3XCS6Ito4OM9ebN8OaUjE1Nqp7VJsZvdLfwVnEyf5E/kQLWpxyQBZOZCHmOjTn
+	WGxp1Q3Kz87PhYHUoMnIa8OOaYMYsc9EN/H8wE5IvAbP6WaBDd0W9K7cMCxIQJZ4x7veM8jUGI5
+	XWP93eL7S6YSQnfxXMEyQGFsX3LmiSxHSCheWJ6z947RBVD2GVlvgzKNNYfbbN++kYNuuFMwRBX
+	+vlzsGXjomTibz3wAx0Za87NP/DYbBGxBTAWNSRVeNZXw3y1DItgvS1DMW2Ttc0k0VMXZYSjFzq
+	CkeVqcaFhRxl62yvQMB7QGGWIH3LfssfrI7kqvOw=
+X-Google-Smtp-Source: AGHT+IFLLkpyANlnYA29cxBaX3wfCI+AyVGhJ82hDDN4uIn6qK4irN1W7XIjyMbw1M9+CqGMBhTCWw==
+X-Received: by 2002:a2e:9e8b:0:b0:32a:6aa0:217b with SMTP id 38308e7fff4ca-32e0002e1famr5441071fa.25.1751441142949;
+        Wed, 02 Jul 2025 00:25:42 -0700 (PDT)
 Received: from localhost.localdomain (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2f0c7d7sm18781181fa.102.2025.07.02.00.25.37
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32cd2f0c7d7sm18781181fa.102.2025.07.02.00.25.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 00:25:37 -0700 (PDT)
+        Wed, 02 Jul 2025 00:25:42 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v3 3/5] testexport.bbclass oe-test: capture all tests and data from all layers
-Date: Wed,  2 Jul 2025 10:25:14 +0300
-Message-ID: <20250702072516.1075450-3-mikko.rapeli@linaro.org>
+Subject: [PATCH v3 4/5] testexport.bbclass: use image suffix in testexport tar ball name
+Date: Wed,  2 Jul 2025 10:25:15 +0300
+Message-ID: <20250702072516.1075450-4-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250702072516.1075450-1-mikko.rapeli@linaro.org>
 References: <20250702072516.1075450-1-mikko.rapeli@linaro.org>
@@ -67,134 +67,49 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 07:25:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219791
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Jul 2025 07:25:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219792
 
-testexport.bbclass only copied files from core layer to
-the testexport.tar.gz to run tests. Then it filtered
-out tests and files which were not specified in
-TEST_SUITES variable.
+testexport.tar.gz is image specific. Thus add same image name
+suffix to the tar ball name. For example genericarm64 machine
+core-image-minimal image tar ball changes name from
+testexport.tar.gz to testexport-core-image-minimal-genericarm64.tar.gz
 
-Remove filtering of files to include parselogs.py
-test data files which are machine and/or layer specific.
-TEST_SUITES variable is now read from build time exported
-data store when running tests so there is no need to remove
-files from exported tests in testexport.bbclass.
-
-Adapt oe-test script to find "lib" directories from
-the new structure with layer specific paths which are
-used to find tests and test data files.
+This way testexport from multiple images can exists in the same
+directory.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/classes-recipe/testexport.bbclass | 43 +++++++++++++-------------
- scripts/oe-test                        | 12 ++++---
- 2 files changed, 30 insertions(+), 25 deletions(-)
+ meta/classes-recipe/testexport.bbclass | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/testexport.bbclass
-index cc4088c71a13..843d777e3bb9 100644
+index 843d777e3bb9..3005fc0dfa52 100644
 --- a/meta/classes-recipe/testexport.bbclass
 +++ b/meta/classes-recipe/testexport.bbclass
-@@ -85,6 +85,7 @@ def copy_needed_files(d, tc):
+@@ -136,8 +136,12 @@ def copy_needed_files(d, tc):
+             if dir == '__pycache__':
+                 shutil.rmtree(os.path.join(subdir, dir))
  
-     export_path = d.getVar('TEST_EXPORT_DIR')
-     corebase_path = d.getVar('COREBASE')
-+    bblayers = d.getVar('BBLAYERS').split()
- 
-     # Clean everything before starting
-     oe.path.remove(export_path)
-@@ -92,17 +93,11 @@ def copy_needed_files(d, tc):
- 
-     # The source of files to copy are relative to 'COREBASE' directory
-     # The destination is relative to 'TEST_EXPORT_DIR'
--    # Because we are squashing the libraries, we need to remove
--    # the layer/script directory
--    files_to_copy = [ os.path.join('meta', 'lib', 'oeqa', 'core'),
--                      os.path.join('meta', 'lib', 'oeqa', 'runtime'),
--                      os.path.join('meta', 'lib', 'oeqa', 'files'),
--                      os.path.join('meta', 'lib', 'oeqa', 'utils'),
--                      os.path.join('scripts', 'oe-test'),
-+    # core files/dirs first
-+    core_files_to_copy = [ os.path.join('scripts', 'oe-test'),
-                       os.path.join('scripts', 'lib', 'argparse_oe.py'),
-                       os.path.join('scripts', 'lib', 'scriptutils.py'), ]
--
--    for f in files_to_copy:
-+    for f in core_files_to_copy:
-         src = os.path.join(corebase_path, f)
-         dst = os.path.join(export_path, f.split('/', 1)[-1])
-         if os.path.isdir(src):
-@@ -110,18 +105,21 @@ def copy_needed_files(d, tc):
-         else:
-             shutil.copy2(src, dst)
- 
--    # Remove cases and just copy the ones specified
--    cases_path = os.path.join(export_path, 'lib', 'oeqa', 'runtime', 'cases')
--    oe.path.remove(cases_path)
--    bb.utils.mkdirhier(cases_path)
--    test_paths = get_runtime_paths(d)
--    test_modules = d.getVar('TEST_SUITES').split()
--    tc.loadTests(test_paths, modules=test_modules)
--    for f in getSuiteCasesFiles(tc.suites):
--        shutil.copy2(f, cases_path)
--        json_file = _get_json_file(f)
--        if json_file:
--            shutil.copy2(json_file, cases_path)
-+    # layer specific files/dirs
-+    layer_files_to_copy = [ os.path.join('lib', 'oeqa', 'core'),
-+                      os.path.join('lib', 'oeqa', 'runtime'),
-+                      os.path.join('lib', 'oeqa', 'files'),
-+                      os.path.join('lib', 'oeqa', 'utils'),]
-+    for layer in bblayers:
-+        meta = os.path.basename(layer)
-+        for f in layer_files_to_copy:
-+            src = os.path.join(layer, f)
-+            dst = os.path.join(export_path, meta, f)
-+            if os.path.exists(src):
-+                if os.path.isdir(src):
-+                    oe.path.copytree(src, dst)
-+                else:
-+                    shutil.copy2(src, dst)
- 
-     # Copy test data
-     image_name = ("%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'),
-@@ -142,6 +140,9 @@ def copy_needed_files(d, tc):
-     testexport_create_tarball(d, "testexport.tar.gz", d.getVar("TEST_EXPORT_DIR"))
++    image_basename = d.getVar('IMAGE_BASENAME')
++    image_machine_suffix = d.getVar('IMAGE_MACHINE_SUFFIX')
++
+     # Create tar file for common parts of testexport
+-    testexport_create_tarball(d, "testexport.tar.gz", d.getVar("TEST_EXPORT_DIR"))
++    testexport_create_tarball(d, "testexport-%s%s.tar.gz" %
++        (image_basename, image_machine_suffix), d.getVar("TEST_EXPORT_DIR"))
  
      # Copy packages needed for runtime testing
-+    test_paths = get_runtime_paths(d)
-+    test_modules = d.getVar('TEST_SUITES').split()
-+    tc.loadTests(test_paths, modules=test_modules)
-     package_extraction(d, tc.suites)
-     test_pkg_dir = d.getVar("TEST_NEEDED_PACKAGES_DIR")
-     if os.path.isdir(test_pkg_dir) and os.listdir(test_pkg_dir):
-diff --git a/scripts/oe-test b/scripts/oe-test
-index 55985b0b2453..efb83c3e7809 100755
---- a/scripts/oe-test
-+++ b/scripts/oe-test
-@@ -7,14 +7,18 @@
- # SPDX-License-Identifier: MIT
- #
+     test_paths = get_runtime_paths(d)
+@@ -149,7 +153,7 @@ def copy_needed_files(d, tc):
+         export_pkg_dir = os.path.join(d.getVar("TEST_EXPORT_DIR"), "packages")
+         oe.path.copytree(test_pkg_dir, export_pkg_dir)
+         # Create tar file for packages needed by the DUT
+-        testexport_create_tarball(d, "testexport_packages_%s.tar.gz" % d.getVar("MACHINE"), export_pkg_dir)
++        testexport_create_tarball(d, "testexport_packages%s.tar.gz" % image_machine_suffix, export_pkg_dir)
  
--import os
--import sys
- import argparse
-+import glob
- import logging
-+import os
-+import sys
- 
- scripts_path = os.path.dirname(os.path.realpath(__file__))
--lib_path = scripts_path + '/lib'
--sys.path = sys.path + [lib_path]
-+lib_path = os.path.join(scripts_path, 'lib')
-+sys.path.append(lib_path)
-+meta_lib_paths = glob.glob(scripts_path + '/*/lib', root_dir=scripts_path, recursive=True)
-+for p in meta_lib_paths:
-+    sys.path.append(p)
- import argparse_oe
- import scriptutils
- 
+     # Copy SDK
+     if d.getVar("TEST_EXPORT_SDK_ENABLED") == "1":
 -- 
 2.43.0
 
