@@ -2,27 +2,27 @@ Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E084C83F04
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BFEC83F07
 	for <webhook@archiver.kernel.org>; Thu,  3 Jul 2025 13:28:26 +0000 (UTC)
 Received: from esa12.hc324-48.eu.iphmx.com (esa12.hc324-48.eu.iphmx.com [207.54.72.34])
  by mx.groups.io with SMTP id smtpd.web11.22526.1751549297623019367
  for <openembedded-core@lists.openembedded.org>;
  Thu, 03 Jul 2025 06:28:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=NBY8JgpY;
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=aGlZ1Dbk;
  spf=pass (domain: bmw.de, ip: 207.54.72.34, mailfrom: prvs=2724bd385=moritz.haase@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1751549299; x=1783085299;
+  t=1751549298; x=1783085298;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=FUSW2JIvTujg5IsEWRDfXarj51tis4cy78fvf3Nx2BU=;
-  b=NBY8JgpYIKqfPF1nJSDSOfmqQSYnK6yW2CWvOYAQ7ok6g+0azrj1gEQe
-   mjEwizQYzoMLoU8gZLJAcvCuJZJvOw4NlwucVKjymsATy/ByrX868SJ2Q
-   LekWroQ9j7cjTgBKONptDTSesm8ioOfnptIfuzwur658MZDfXMOEjJ21C
-   E=;
+  bh=PpBbZDYOwXlIk/OHcTJctil2T5kZn6Pri3kLUKGIEpA=;
+  b=aGlZ1DbkUDOWAMih/sHr2V4tmiodrP/xRgvXM/4NlhkOjmNko6SIsb7Y
+   L4P0OA85AaMNcWhutUFx/PRVYBJcpzS0xPxrBTP8MPrkdfK1ynWKMmJKR
+   QmMO49bzeV/dGdpwPSAbA2rgDySoAXOMYyu7SHQb8w318nPcX8p4IxOrA
+   I=;
 X-CSE-ConnectionGUID: QCn0MXIJRW6ECqRtcF42QA==
-X-CSE-MsgGUID: p1AFnEAHSrurxWCiRMwtmw==
+X-CSE-MsgGUID: GVUMaQ1IRg2vqxUwh7YmCQ==
 Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
  esa12.hc324-48.eu.iphmx.com with ESMTP/TLS; 03 Jul 2025 15:28:16 +0200
 Received: from esabb1.muc ([160.50.100.31])  by esagw1.muc with ESMTP/TLS;
@@ -32,16 +32,16 @@ Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.1
 Received: from q1054628.de-cci.bmwgroup.net (10.30.85.209) by
  smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
  Server (version=TLS; Thu, 3 Jul 2025 15:27:42 +0200
-X-CSE-ConnectionGUID: URv/PWd9RP+T76SpJV3CfQ==
-X-CSE-MsgGUID: EJn+5+naThWwVZ7MsewAfQ==
-X-CSE-ConnectionGUID: 80Tgr7CFRwWNR5AxwEOIJg==
-X-CSE-MsgGUID: 5VBWeG2XQcmUkHZd4ci/8w==
+X-CSE-ConnectionGUID: du4vH3nLTjCRFn6odCD8Zg==
+X-CSE-MsgGUID: 0H7mI+zRSP6l6P51nPHy9g==
+X-CSE-ConnectionGUID: N0njMoSBReSDPsy38unZyg==
+X-CSE-MsgGUID: gUyvKgzcQmSS5b9pqWeAcQ==
 From: Moritz Haase <Moritz.Haase@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
 CC: Moritz Haase <Moritz.Haase@bmw.de>
-Subject: [PATCH v5] musl-locales: Add patch to support builds with CMake 4+
-Date: Thu, 3 Jul 2025 15:27:18 +0200
-Message-ID: <20250703132720.3378569-6-Moritz.Haase@bmw.de>
+Subject: [PATCH v5 3/7] apt: Backport patch to support builds with CMake 4+
+Date: Thu, 3 Jul 2025 15:27:16 +0200
+Message-ID: <20250703132720.3378569-4-Moritz.Haase@bmw.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250703132720.3378569-1-Moritz.Haase@bmw.de>
 References: <20250703132720.3378569-1-Moritz.Haase@bmw.de>
@@ -54,16 +54,16 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 13:28:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219887
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219886
 
-PR [0] has been filed upstream, but isn't merged yet.
-
-[0]: https://git.adelielinux.org/adelie/musl-locales/-/merge_requests/10
+There have been a number of upstream releases that ship this patch already, but
+given that the most recent ones are considered experimental, I opted to backport
+instead.
 
 Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 ---
 changes in v5:
-- Updated patch based on upstream feedback
+- None
 
 changes in v4:
 - Fix patch formatting
@@ -71,76 +71,74 @@ changes in v4:
 changes in v3:
 - Commit added to series
 ---
- ...01-cmake-Support-builds-with-CMake-4.patch | 46 +++++++++++++++++++
- meta/recipes-core/musl/musl-locales_git.bb    |  4 +-
- 2 files changed, 49 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/musl/musl-locales/0001-cmake-Support-builds-with-CMake-4.patch
+ ...mum_required-to-3.13-to-avoid-warnin.patch | 47 +++++++++++++++++++
+ meta/recipes-devtools/apt/apt_2.6.1.bb        |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch
 
-diff --git a/meta/recipes-core/musl/musl-locales/0001-cmake-Support-builds-with-CMake-4.patch b/meta/recipes-core/musl/musl-locales/0001-cmake-Support-builds-with-CMake-4.patch
+diff --git a/meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch b/meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch
 new file mode 100644
-index 0000000000..d4d36eb522
+index 0000000000..c3a5ded494
 --- /dev/null
-+++ b/meta/recipes-core/musl/musl-locales/0001-cmake-Support-builds-with-CMake-4.patch
-@@ -0,0 +1,46 @@
-+From 89a314b03d0b2e600bb503a1e3d75faa655d65e0 Mon Sep 17 00:00:00 2001
-+From: Moritz Haase <Moritz.Haase@bmw.de>
-+Date: Wed, 2 Jul 2025 08:37:21 +0200
-+Subject: [PATCH] cmake: Support builds with CMake 4+
++++ b/meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch
+@@ -0,0 +1,47 @@
++From dc7a8b3050a2a43f49515a03ae19713dfced75dc Mon Sep 17 00:00:00 2001
++From: David Kalnischkies <david@kalnischkies.de>
++Date: Sat, 18 Nov 2023 13:10:05 +0000
++Subject: [PATCH] Raise cmake_minimum_required to 3.13 to avoid warnings
 +
-+CMake 4 has removed support for compatibility with CMake < 3.5 and thus builds
-+fail with:
++CMake Deprecation Warning at CMakeLists.txt:6 (cmake_minimum_required):
++  Compatibility with CMake < 3.5 will be removed from a future version of
++  CMake.
 +
-+    CMake Error at CMakeLists.txt:2 (cmake_minimum_required):
-+      Compatibility with CMake < 3.5 has been removed from CMake.
++  Update the VERSION argument <min> value or use a ...<max> suffix to tell
++  CMake that the project does not need compatibility with older versions.
 +
-+      Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-+      to tell CMake that the project requires at least <min> but has been
-+      updated to work with policies introduced by <max> or earlier.
++Picking 3.13 here is a semi-random choice to avoid raising the requirement
++too much needlessly while also hopefully avoiding needing to raise it
++soon again based on the referenced mail.
 +
-+      Or, add -DCMAKE_POLICY_VERSION_MINIMUM=3.5 to try configuring anyway.
++While we are at it, lets also fix the other spewed warning:
 +
-+To ensure builds with older CMake versions are still possible, use the suggested
-+'<min>...<max>' syntax instead of simply bumping '<min>'. To avoid a deprecation
-+warning by CMake 3.31+, 3.10 was chosen as '<max>' instead of 3.5.
++CMake Warning (dev) at CMakeLists.txt:5 (project):
++  cmake_minimum_required() should be called prior to this top-level project()
++  call.  Please see the cmake-commands(7) manual for usage documentation of
++  both commands.
 +
-+While at it, move the 'cmake_minimum_required()' call before 'project()' to fix:
++References: https://lists.debian.org/msgid-search/20230617162957.6pklb6632zf4nijc@mail.gaussglocke.de
 +
-+    CMake Warning (dev) at CMakeLists.txt:2 (project):
-+
-+      cmake_minimum_required() should be called prior to this top-level
-+      project() call.  Please see the cmake-commands(7) manual for usage
-+      documentation of both commands.
-+
++Upstream-Status: Backport [https://salsa.debian.org/apt-team/apt/-/commit/dc7a8b3050a2a43f49515a03ae19713dfced75dc]
 +Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-+Upstream-Status: Submitted [https://git.adelielinux.org/adelie/musl-locales/-/merge_requests/10]
 +---
 + CMakeLists.txt | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
 +diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index c8ac5c4..5744761 100644
++index 62182cddf..dae12e7c3 100644
 +--- a/CMakeLists.txt
 ++++ b/CMakeLists.txt
-+@@ -1,5 +1,5 @@
-++cmake_minimum_required(VERSION 2.8...3.10)
-+ project(locales C)
-+-cmake_minimum_required(VERSION 2.8)
-+ 
-+ option(LOCALE_PROFILE "Install profile file setting the MUSL_LOCPATH environment variable" ON)
-+ 
-diff --git a/meta/recipes-core/musl/musl-locales_git.bb b/meta/recipes-core/musl/musl-locales_git.bb
-index c8510596cf..3573a32062 100644
---- a/meta/recipes-core/musl/musl-locales_git.bb
-+++ b/meta/recipes-core/musl/musl-locales_git.bb
-@@ -7,7 +7,9 @@ LICENSE = "MIT & LGPL-3.0-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=cf5713fba707073020b1db2acaa73e78 \
-                     file://LICENSE.MIT;md5=a4f1c6864a83ddf4b754cdab7d593523"
++@@ -2,8 +2,8 @@
++ # Licensed under the same terms as APT; i.e. GPL 2 or later.
++
++ # set minimum version
+++cmake_minimum_required(VERSION 3.13)
++ project(apt)
++-cmake_minimum_required(VERSION 3.4.0)
++ # Generic header locations
++ include_directories(${PROJECT_BINARY_DIR}/include)
++
++--
++GitLab
+diff --git a/meta/recipes-devtools/apt/apt_2.6.1.bb b/meta/recipes-devtools/apt/apt_2.6.1.bb
+index d605d950dd..50ac2ea812 100644
+--- a/meta/recipes-devtools/apt/apt_2.6.1.bb
++++ b/meta/recipes-devtools/apt/apt_2.6.1.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
+            file://0001-aptwebserver.cc-Include-array.patch \
+            file://0001-Remove-using-std-binary_function.patch \
+            file://0001-strutl-Add-missing-include-cstdint-gcc-15.patch \
++           file://0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch \
+            "
  
--SRC_URI = "git://git.adelielinux.org/adelie/musl-locales;protocol=https;branch=main"
-+SRC_URI = "git://git.adelielinux.org/adelie/musl-locales;protocol=https;branch=main \
-+           file://0001-cmake-Support-builds-with-CMake-4.patch \
-+           "
- 
- PV = "1.0+git"
- SRCREV = "5663f5bfd30bf9e1e0ba3fc5fe2da6725969f30e"
+ SRC_URI:append:class-native = " \
 
