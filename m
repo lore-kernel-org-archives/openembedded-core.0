@@ -1,113 +1,114 @@
-Return-Path: <louis.rannou@non.se.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18003C77B7C
-	for <webhook@archiver.kernel.org>; Thu,  3 Jul 2025 12:14:46 +0000 (UTC)
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by mx.groups.io with SMTP id smtpd.web11.20983.1751544881359308967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B2DC77B7C
+	for <webhook@archiver.kernel.org>; Thu,  3 Jul 2025 12:48:36 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.21701.1751546912226478321
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jul 2025 05:14:41 -0700
+ Thu, 03 Jul 2025 05:48:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=fkpVNfwv;
- spf=pass (domain: kernel.org, ip: 172.105.4.254, mailfrom: devnull+louis.rannou.non.se.com@kernel.org)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 39E5561142;
-	Thu,  3 Jul 2025 12:14:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D586AC4CEF5;
-	Thu,  3 Jul 2025 12:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751544879;
-	bh=mtAoTDeEKpjes3ZqDLojD/oiAQJmDUJqfOQHOZvaEew=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=fkpVNfwv8jYYi0OYyacO250px/udHTvnT8qQf1g3c0v+ufxJ+kmBkem4v+p20zyLj
-	 deV98vQ91j0nmdXLdsEQiX6VcTYT2b2wdZn5sLOT0nEhUZr4ZTAndr8pDBgHXhsv4Q
-	 v/Fzq3dFM0m9QlCYrQU3Awm0tnDk6o+Q3CrS0sm3hG2zyrRiq50byUVsX/XsUXYJSD
-	 ozfCMrR4NtYTOskWGvWstBk9+xKLtNIYvCX/wu+cLQV8iWgHCppv0eUDrsjuap+YOg
-	 IcUFtqtRVEw0YSgxX0+d8IgRVYi4tikeS/UtR36KAy0mSb4FgfzrcQxqIv/emRrPWm
-	 lBrlPMZjXl/Jw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0A31C83F03;
-	Thu,  3 Jul 2025 12:14:39 +0000 (UTC)
-From: Louis Rannou via B4 Relay <devnull+louis.rannou.non.se.com@kernel.org>
-Date: Thu, 03 Jul 2025 14:14:36 +0200
-Subject: [PATCH] openssh: limit read access to sshd_config
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bDrCYdkY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a6cdc27438so4740105f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 05:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1751546910; x=1752151710; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7v+lBEE0RDPbaFfaUst83Zslwv3XiQIHFg7iIxPxOMs=;
+        b=bDrCYdkYzBbz5y0U9a2RXPkpjsqm+I84xBq+I7MoQ4zpxUxh4rkW6RfxDQ2xQOt22/
+         LRW1Ta+LXiOXgtOn1PiWzOzWjUWcvP+lHmSmwGK7SZUPQ7Xsynm0I483s6tU+yTs0lse
+         VECc8HjPoOlWfaQgczu265D3WucUyZ7EivoCI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751546910; x=1752151710;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7v+lBEE0RDPbaFfaUst83Zslwv3XiQIHFg7iIxPxOMs=;
+        b=RY+a1mFVCvHDc8mB1zremIxr7bckTLNHSzdPOpgsf2+x7GRnU/1gjrEZywIqvcB5kE
+         xhsTotng8rZpzQ9+miERz952Q5mE5jnLzNX6E9MHjGiT6Zk+/05X4/qpOOcOOWntmNZG
+         KGc7YPiEjZWViXI5YIEP2tBzJZoD/xqDnUDHAzeU/THTPkFuB7WKwJsT1AmekxEZOrnu
+         DKyZOe3XdaIyF6uqJsVOtcm4DZ3E3sW66DqhZus0etzumsdvnaOS5cT6qVacvKbe8Aq+
+         dDNZ8rKoy5jJUktgPUksMF5yrGVkLlNTcr6GUyXIC7d3amYDmiAzVsd6m1mkmhx0mzDG
+         G2bQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWiwsAoodFUHmQ0RWgN8sli0aIfZC+qsa1fhyU8VThdDbubQScDrWDyy5VZgnLjDwkMH+vxtQeTzjqq/lmthzXDhQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzr34lu34qP/L8/g77dtE58Ap4jGtH5cFGwEuIvSETdiL/JuriF
+	PZNHhVorawo7+oAD4Rhlkh8hIRN5zj+BYBCsJa/aeuQEcmYq/baAXOIlrSLKRtiAyS0=
+X-Gm-Gg: ASbGncu2yF7P9TMtuydr8zOvNnCg/B38pb4RDsnlaCu+rNMvRam7UNHmJn/8tpjcuhb
+	m8Cvc2LrPMBjNU+8DxkXjtiCe3qMxzN/JOTdJAxv4BpOjfJkn4FuarlM/JOlBNHmiziFA9gkl+m
+	2BzivRSC+YPVu9N/LgWpEJU+Ve35icCwZMtsnz//uRAd9bQDgeC5kgTr9dgDAYldHhIr4PgRgvY
+	yRAyEDhpSLXbvMFOB5lrYL+oJz2OYnoIsytEOa3aUchZtVTEGyaSZRn4CVkHA/WCGjb7eFP4/3O
+	R4G7Xoc4lGKZFzjsOsGLd5fMM5IXYnZXKLqhOWuBCloSX6wywvJ6Xc4WpM/j20uf7DBYtlzSTOY
+	eHrx/QrXB8DwL9n1Y1CqAKIUnceLK7X25gKKijKCY4tnrID8A43o=
+X-Google-Smtp-Source: AGHT+IEC8ZUcAxeX03NwNzzNYgQW0t3k203Dr+dGMlgf/gFJE3uzS3zbWLf9qJOuldU5ZClUKw3txg==
+X-Received: by 2002:a5d:5f8f:0:b0:3a5:5fa4:a3f7 with SMTP id ffacd0b85a97d-3b201e84d87mr5056195f8f.58.1751546910442;
+        Thu, 03 Jul 2025 05:48:30 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e9f6:56ec:1d33:85c3? ([2001:8b0:aba:5f3c:e9f6:56ec:1d33:85c3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7fa8aasm18356045f8f.27.2025.07.03.05.48.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jul 2025 05:48:29 -0700 (PDT)
+Message-ID: <873ee72d2286c43d56fae9b6de218c9c4a472bd5.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] bitbake.conf: Add relative path from B to S
+ to DEBUG_PREFIX_MAP
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: michalwsieron@gmail.com, openembedded-core@lists.openembedded.org
+Date: Thu, 03 Jul 2025 13:48:28 +0100
+In-Reply-To: <20250701112317.1204143-1-michalwsieron@gmail.com>
+References: <20250701112317.1204143-1-michalwsieron@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250703-sshd_perm-v1-1-f92e5fbb18c7@non.se.com>
-X-B4-Tracking: v=1; b=H4sIACt0ZmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDcwNj3eLijJT4gtSiXF0z42QLEwPzNEszozQloPqCotS0zAqwWdGxtbU
- ATVsoOFsAAAA=
-To: openembedded-core@lists.openembedded.org
-Cc: pascal.eberhard@se.com, Louis Rannou <louis.rannou@non.se.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751544878; l=1954;
- i=louis.rannou@non.se.com; s=20250630; h=from:subject:message-id;
- bh=MWC55oMq0pjTiIOMWdI0f51vNbs/kU196thLmSduxzk=;
- b=moAZvwR50+72UCDA3DbXm/eCJbbdO4jxGYDNA29Ok6ql7i0mHM4a/9xvWktnwhbQWcwc6t1zO
- 9kKSvR6Ls03CCCr8vwVKcLrKzKZWL9Ev167Xmkaah2FxNP8n0r9+J+0
-X-Developer-Key: i=louis.rannou@non.se.com; a=ed25519;
- pk=WWYN5/DFKqyCKdv6oTYNuq0gROqwZVfNfw2OMI3tUlc=
-X-Endpoint-Received: by B4 Relay for louis.rannou@non.se.com/20250630 with
- auth_id=446
-X-Original-From: Louis Rannou <louis.rannou@non.se.com>
-Reply-To: louis.rannou@non.se.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 12:14:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219877
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 12:48:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219878
 
-From: Louis Rannou <louis.rannou@non.se.com>
-
-Enhance security by limiting read access for /etc/sshd_config to user root as it
-may reveal unsecure configurations.
-
-Reading access is limited in the install append as the default value 0644 is
-hardcoded in the openssh makefile and is not configurable. Therefore the
-permissions are modified in the install append.
-
-Signed-off-by: Louis Rannou <louis.rannou@non.se.com>
----
- meta/recipes-connectivity/openssh/openssh_10.0p1.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.0p1.bb b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
-index a044aec063..2f446b5540 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
-@@ -102,7 +102,7 @@ CACHED_CONFIGUREVARS += "ac_cv_header_maillock_h=no"
- 
- do_configure:prepend () {
- 	export LD="${CC}"
--	install -m 0644 ${UNPACKDIR}/sshd_config ${B}/
-+	install -m 0600 ${UNPACKDIR}/sshd_config ${B}/
- 	install -m 0644 ${UNPACKDIR}/ssh_config ${B}/
- }
- 
-@@ -153,9 +153,12 @@ do_install:append () {
- 	install -m 644 ${UNPACKDIR}/volatiles.99_sshd ${D}/${sysconfdir}/default/volatiles/99_sshd
- 	install -m 0755 ${S}/contrib/ssh-copy-id ${D}${bindir}
- 
-+	# Limit sshd_config access to the owner (default is 0644)
-+	chmod 0600 ${D}${sysconfdir}/ssh/sshd_config
-+
- 	# Create config files for read-only rootfs
- 	install -d ${D}${sysconfdir}/ssh
--	install -m 644 ${D}${sysconfdir}/ssh/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
-+	install -m 0600 ${D}${sysconfdir}/ssh/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
- 
- 	install -d ${D}${systemd_system_unitdir}
- 	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','true','false',d)}; then
-
----
-base-commit: 77a93e8cf1da4231341c56f64f9d4d474f9f2bb7
-change-id: 20250703-sshd_perm-63c8407f962f
-
-Best regards,
--- 
-Louis Rannou <louis.rannou@non.se.com>
+On Tue, 2025-07-01 at 04:23 -0700, Michal Sieron via lists.openembedded.org=
+ wrote:
+> Basically since forever, meson uses relative paths when generating
+> ninja rules [1]. This breaks prefix mapping that bitbake sets up in
+> DEBUG_PREFIX_MAP. As a result practicaly no files are added to the -src
+> packages built with meson.
+>=20
+> We could add it with :append in meson.bbclass, but then it's not really
+> possible to override it (DEBUG_PREFIX_MAP is defined with `?=3D` probably
+> for a reason).
+>=20
+> [1]: https://github.com/mesonbuild/meson/commit/8d1641d6a42e0a5f6db03bc38=
+d252d3712195929
+>=20
+> Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
+> ---
+> =C2=A0meta/conf/bitbake.conf | 1 +
+> =C2=A01 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index b1f8ac5b11..0ecbc8c71f 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -656,6 +656,7 @@ TARGET_DBGSRC_DIR ?=3D "/usr/src/debug/${PN}/${PV}"
+> =C2=A0DEBUG_PREFIX_MAP ?=3D "\
+> =C2=A0 -ffile-prefix-map=3D${S}=3D${TARGET_DBGSRC_DIR} \
+> =C2=A0 -ffile-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} \
+> + -ffile-prefix-map=3D${@os.path.relpath(S, B)}=3D${TARGET_DBGSRC_DIR} \
+> =C2=A0 -ffile-prefix-map=3D${STAGING_DIR_HOST}=3D \
+> =C2=A0 -ffile-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
+> =C2=A0"
 
 
+This worries me a bit since going from memory when we originally
+implemented this, the use of relative paths shouldn't matter, gcc and
+other users of file-prefix-map should canonicalise paths before making
+comparisons. If it doesn't do that, there are so many combinations, it
+doesn't make sense. As such, I think the bug is elsewhere and we
+shouldn't apply this patch but root cause it...
+
+Cheers,
+
+Richard
 
