@@ -2,111 +2,95 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDEE2C8303C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCEE4C83030
 	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 20:17:18 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.2993.1751909451155222062
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by mx.groups.io with SMTP id smtpd.web10.22669.1751549327406498586
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jul 2025 10:30:51 -0700
+ Thu, 03 Jul 2025 06:28:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=jYYOkUXl;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.218.50, mailfrom: dario.binacchi@amarulasolutions.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ae360b6249fso616600066b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 10:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1751909449; x=1752514249; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gxQIivG6J19KneVHpbhl+VZWpG0Rr4zn04pcHwlqEbM=;
-        b=jYYOkUXl+FlwNylqiZJnX/jGVcDfE3N4yfPNOSRrbKUXNJy+6KbX7mVA2R5wf7DMYf
-         XcCWgvoer9MCHSmkV4DM/uIa3A8qOVFmc/sZtLaR0k4hk4k4c50PZ7XNhKYS1UdiGcyY
-         f4/o/ZwXFsgHUIzmc4bcMD+5ToZAgg6VkWRYU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751909449; x=1752514249;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gxQIivG6J19KneVHpbhl+VZWpG0Rr4zn04pcHwlqEbM=;
-        b=kSlTG4lekFFvplSBKYg3V8mP6nTANmtO9x1DOzl0cqhNIltr0xTIB/e4oUPL+YkKwg
-         Y9vCI1IFjQvsR2j+s+1qstpUBzhbDGDcJ0QlYQWZJgcxo1SDRFwIFe6eQhfE6P/V+Iv3
-         2sx6SBYkoPj1Zue1IKeGVewAPQRIc46/LEeYzdlBixQx8v2EFxDAysFNe9AteKQbnoO2
-         9jtAmwMjGjUiX6LdBT0OmCWq0QRQa7BkVBKrjg8qhI6bY2ahJnKgZbsgO8VdwpJzQzem
-         BzWI3/VelA0OlShHyj+xZKDjr3UQgBoyie4j5BilJquCfQE6k9Izk2MTw0qsa9YL3mgp
-         JOVA==
-X-Gm-Message-State: AOJu0YzPBUKSLP3LelsQQ6YYn11Dt/UooDdT9VnTJWwwP+p34YkUT4N3
-	+isCjwxoMRy/i8tCzs61ULk5hHOjczJawJruHwgLzs0/L9cAmWVBcS5RXqYFDIrC9tmZ0KE+mA6
-	9gUui
-X-Gm-Gg: ASbGncuGAgLsyhH3/XAMYcXduhN+c3bc9P7G24Bj6ynnxUa9ne7vTCPK60IV4CIG7uy
-	Ygbza7Aw3r3ycM6zXTbbPNrcoIOFTJH7SgbvjJi5n8n8V9Wa/QvNsSPdIb6RKrKJQzugSsBgTDo
-	x6xJy8CzasztZN75XCSTfNRoDf09EnmZdF8CjBTK4LL242DGLG/uFLk0Z4Q16EtHdM0qOru1xCE
-	wxOuS29zp/f7gwJbZRZZFBw/eOmhCOKVaWBos/Q6rbqz5BRjqPkLFasJ0Yqk50z5E40jHCSTi54
-	VB4QRVUMORPzTrHKKWfsU6m7j+AkbkETSciSdQGxFk7uYhT2Ws1qSInLdHYGq/MJxUVL2eAgHfo
-	JXlGlcmIpNwGiJs3ACV91N8JC3ZE=
-X-Google-Smtp-Source: AGHT+IHqwop2Txxk0yf42PHqsPKQGFyBhiuegCcty4DV3Sgmw6N5IT9dLYZRq0Brz2uZL3Smd7S/Ew==
-X-Received: by 2002:a05:6000:41c5:b0:3a5:1222:ac64 with SMTP id ffacd0b85a97d-3b49aa74044mr7207393f8f.38.1751908954758;
-        Mon, 07 Jul 2025 10:22:34 -0700 (PDT)
-Received: from dario-ThinkPad-T14s-Gen-2i.. ([2.196.43.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b470caa1a2sm10644852f8f.42.2025.07.07.10.22.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 10:22:34 -0700 (PDT)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: openembedded-core@lists.openembedded.org
-Cc: linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Subject: [PATCH v2 1/1] mmc-utils: upgrade to 1.0
-Date: Mon,  7 Jul 2025 19:22:27 +0200
-Message-ID: <20250707172227.369205-1-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=hYCZPyqM;
+ spf=pass (domain: kernel.org, ip: 139.178.84.217, mailfrom: devnull+benjamin.missey.non.se.com@kernel.org)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id B5A215C5128;
+	Thu,  3 Jul 2025 13:22:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 64DADC4CEF0;
+	Thu,  3 Jul 2025 13:22:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751548930;
+	bh=HxA5i8JUrtT9umVDtNoc3FLViDihhHwLRPPdR0nomkQ=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=hYCZPyqMabenjhYNEOF8MwsHvhqEdrTW2Zi5sHE3pZCuT2oB8/wKKPGPd42h5a8At
+	 TPUk80dCQIPpFEd7FY3lni5MYLE45m9+H3fllPeN5MMcpQVUruPyQ3NyFmOwPnsf9b
+	 ew7CI/gYiL5mu1Me/eWRL5uVjHF1A45O9I7bm7jm+wFSJw4KBIwux94ckokKCSHue3
+	 ktdysHt0IR8kgbmCRFJZiethWVKbcrYQjBH58C57FSCpW18iWcYrfAzBzUWf+H6wzX
+	 v436lKRNaxFjjmwOlb0PM+DKP0s2aYkl5oX4zxldmjxX29uqfhpDk98nmCUiD8zdpv
+	 poA7ND8FwWveA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5484FC83F03;
+	Thu,  3 Jul 2025 13:22:10 +0000 (UTC)
+From: Benjamin Missey via B4 Relay <devnull+benjamin.missey.non.se.com@kernel.org>
+Date: Thu, 03 Jul 2025 15:21:55 +0200
+Subject: [PATCH] kernel-fit-image: fix symbolic link fit-image.its
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <20250703-fix_typo_kernel_fit_image_bbclass-v1-1-2f1857f1466b@non.se.com>
+X-B4-Tracking: v=1; b=H4sIAPKDZmgC/x2NzQrCMBAGX6Xs2UBsDP68ipQlTb/UxZqWbBGl9
+ N0NHucwMxspikDp1mxU8BaVOVc4HhqKj5BHGBkqU2tbb8/WmSQfXr/LzE+UjImTrCyvMIL7Pk5
+ B1USHIZ2uwbuLp9pZCqr0f9y7ff8Bw5pDjXMAAAA=
+To: openembedded-core@lists.openembedded.org
+Cc: pascal.eberhard@se.com, Benjamin Missey <benjamin.missey@non.se.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751548929; l=1205;
+ i=benjamin.missey@non.se.com; s=20250620; h=from:subject:message-id;
+ bh=VZXY6XMGgfZM2Ki6yfw6FoZm+iOjyCZSwwTwDNidL6c=;
+ b=lR9ROplyeyuepZysfNXHF90cQD8mz5cvVcKGgh9RXEUAaYPEFiW5Ue4EUos6czDTDdGlwLEqT
+ 1urRAMmg9pKCMCb0Mv78Hy1hitPoyopMWLJ1mXP2ZzjPvnzJYdmjyFW
+X-Developer-Key: i=benjamin.missey@non.se.com; a=ed25519;
+ pk=HehU6MOmKShwMy0xbM2FC7HuoJnsSlKtZKWSTRRy1Do=
+X-Endpoint-Received: by B4 Relay for benjamin.missey@non.se.com/20250620
+ with auth_id=437
+X-Original-From: Benjamin Missey <benjamin.missey@non.se.com>
+Reply-To: benjamin.missey@non.se.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 20:17:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219996
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219995
 
-This is the first tagged version of the package.
+From: Benjamin Missey <benjamin.missey@non.se.com>
 
-Change log since last version bump:
+Bad symbolic link is used for kernel-fit-image. fit-image-its used
+instead of fit-image.its.
+Fix bad typo.
 
-  d8a8358a7207 mmc-utils: Pass key_mac buffer to rpmb_get_key()
-  a23ad7875b89 mmc-utils: Start to use the generic print_usage function
-  e769d44ecb77 mmc-utils: Introduce a generic print_usage function
-  6586fa5535dc mmc-utils: Simplify and streamline print_help function
-  ec75d4b3b671 mmc-utils: Remove unused adv_help member from struct Command
+Signed-off-by: Benjamin Missey <benjamin.missey@non.se.com>
+---
+ meta/classes-recipe/kernel-fit-image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index 39845997ed..fd4c6a30fe 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -173,7 +173,7 @@ do_deploy() {
+     fi
+ 
+     if [ -n "${INITRAMFS_IMAGE}" ]; then
+-        ln -snf fit-image-its "$deploy_dir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
++        ln -snf fit-image.its "$deploy_dir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_NAME}.its"
+         if [ -n "${KERNEL_FIT_LINK_NAME}" ]; then
+             ln -snf fit-image.its "$deploy_dir/fitImage-its-${INITRAMFS_IMAGE_NAME}-${KERNEL_FIT_LINK_NAME}"
+         fi
 
 ---
+base-commit: d1c39b29f21719b349072c51a761fa19770a49ea
+change-id: 20250703-fix_typo_kernel_fit_image_bbclass-c3edf49a5385
 
-Changes v1 -> v2:
- - Add tag=v${PV} to SRC_URI
- - Drop UPSTREAM_CHECK_COMMITS
-
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index f3944aebf035..5b6a5f377732 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -5,12 +5,11 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
- 
- SRCBRANCH ?= "master"
--SRCREV = "c515ea2e1cebfbf9d81aa6a5c1bf67a79d2a7e58"
-+SRCREV = "d8a8358a7207bd81d0c38dca2cf27a48bf411341"
- 
--PV = "0.1+git"
-+PV = "1.0"
- 
--SRC_URI = "git://git.kernel.org/pub/scm/utils/mmc/mmc-utils.git;branch=${SRCBRANCH};protocol=https"
--UPSTREAM_CHECK_COMMITS = "1"
-+SRC_URI = "git://git.kernel.org/pub/scm/utils/mmc/mmc-utils.git;branch=${SRCBRANCH};protocol=https;tag=v${PV}"
- 
- DEPENDS = "python3-sphinx-native"
- EXTRA_OEMAKE = "C="
+Best regards,
 -- 
-2.43.0
+Benjamin Missey <benjamin.missey@non.se.com>
+
 
 
