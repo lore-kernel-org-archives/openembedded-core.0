@@ -1,249 +1,261 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E90D1C83030
-	for <webhook@archiver.kernel.org>; Thu,  3 Jul 2025 20:14:04 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.web10.14.1751573643139830692
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C9AC83030
+	for <webhook@archiver.kernel.org>; Thu,  3 Jul 2025 23:02:43 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web10.703.1751583755915543831
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jul 2025 13:14:03 -0700
+ Thu, 03 Jul 2025 16:02:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qIBc8vcz;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.173, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-712be7e034cso1932587b3.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 13:14:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ncgTtouZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-712be7e034cso2959687b3.0;
+        Thu, 03 Jul 2025 16:02:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751573642; x=1752178442; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1751583755; x=1752188555; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vQ/Tana5kXdtvFZHultbCYhmnT+gdsZXlkpVYzqApiI=;
-        b=qIBc8vczElDjjsHB+7yRon0XsmW2E6bcIwq9Rd7OC31ZbR0LEdwArlNCuGWMX2MuTm
-         xAICJ63yViktF1SoVDikd2MMhWSh2WKyQfhi6nLQmkci84f8FkdXUc9F9Nfah/IHkGwk
-         Kf4glmpT2t1Qm4z81qj4/OxLuiXopAmJl3yQmzhwXJSsm8yFDJEl8jX1O+G7tpqOAWXZ
-         /8ZckoF+8Gd8wpSnGZHW8AsTMwFm8vWCDYTk9m3F5K2KlVOjjSiyCJraotsEHN2eEbwi
-         t6mVD+MHRk9bD6tjPnh9T/KoJ7TvXFM0SDvahrrTSppA/waHWSz8jUCrR6p340N2J28X
-         sigg==
+        bh=AuR1i4rIocxnpU0liKTHa+MW+T0XH7gZSCKU5cgd/kc=;
+        b=ncgTtouZtxqWBM5XLXqVVzUxOVphzRLnd9P9g2lk/Rtkwh+Hwa8eSWk+Sm3yKuoCmL
+         D62VfKmG2WJ5ff3yGpwbNGoozVxYgP8fdptWTAm9O9ujNT83p7cTUQ5eF/TzP8Apipw2
+         N8inI2e9qupapCS2HA1PoEyiU8B/b7JGp7kKIJ84USGHPx1tGeKqlBu//YEF+xp90vKP
+         rulG6kA1KAcFOvHhRs3w22t7X/5P5K7jws4mLqMf8EsK5iuJq845bgHjmTnkmhI5pA7s
+         4yCSgML1KTHpSy/3T6A3XghC1099UE6amaMpzdbFKpXL12wpb+MqaMQF6/8IC9iHyRKA
+         WVTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751573642; x=1752178442;
+        d=1e100.net; s=20230601; t=1751583755; x=1752188555;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vQ/Tana5kXdtvFZHultbCYhmnT+gdsZXlkpVYzqApiI=;
-        b=al2oLl5TsNKUoyvj+HlL75KsErNqfFQrWqFfZqGmcjFzslzIDWL+lNGFFhrLMEOzFJ
-         j2e3pCtYoVDAcnAsyJZF5wfQlb9iWbdeP3eEWqUcf1MyBdVyjy+KSyYuNje78sLa2eKG
-         KesL3Xdgyjs1GYx3HvuaspOrc63ZRpiyHoXVFDg7LpVHe+0Xt3Idb9Tgx8q+yv/EGsYu
-         KSjbK8PPz5S9M6jCachUC8bBPw9fp0yUh1M89wO4ZMPUgR5zo2HV7GAkhI7NNEeAzl66
-         w729ouVw66sNU/hLFBEKbsZsUOWCAYLpwGyqFGgUj2Ocn7Qte6HDppdkNhE0ZNNdRrGv
-         Ao1A==
-X-Gm-Message-State: AOJu0YwCjOvChJWRQJ3RYBvrH7ZosZyvdnTlPMnne612AktgpRHUpcSq
-	lXqDd6gh12uK+JZ4FFa7lcGOrSbxnAtVgEvM9fp/pYEk3wycLq26O9UvwiPq8RLBWhXgC39X0rD
-	N4FcLS8/kMm3s6mIIMAKm2lgyXOhbpQ6wTWX8eSACKH+PI2spjoRPans=
-X-Gm-Gg: ASbGncsPcbNNrecbuIee3Wfja2pRm7YgxHenbE9muWH1ZZyaZqFEbusIk63VbGInlpJ
-	RCgTXbFmLe2TJzv7Ko8N7eMWjwl3+N7q5EzVZZob2ywof9p6RAFw1Rs+aoNA/w70A3KnivkgSCM
-	D1Y3QV8jbejBKklIA96ZI++uc1YWAcot5AbglOmXsixZSwODl6AApXOZ5FsS4dMM9xYUOnnpHYx
-	+M=
-X-Google-Smtp-Source: AGHT+IE+IxevkNsLG81cIj5V3jwejCMiDbWRRfuhBlboefiWqpy+HEFc/pGy9PX7BA2P3iYvAoTZqwhlQy7ert3nlZ8=
-X-Received: by 2002:a05:690c:6b84:b0:710:ead5:8a95 with SMTP id
- 00721157ae682-71658ffeb41mr75686207b3.14.1751573641884; Thu, 03 Jul 2025
- 13:14:01 -0700 (PDT)
+        bh=AuR1i4rIocxnpU0liKTHa+MW+T0XH7gZSCKU5cgd/kc=;
+        b=WkVOrbWfLPgu17uk/Ku79CC3yYuYHj4yMuR9m1nLR9hM6+ZXxIZZtk6OAyBxCM0vEO
+         FxDEhdaS3zxA9Qfpz/H+zJgH5hxjFV3aAN39cOuzMadTsf8OGsmuMcfSFwWjPN2+KNZZ
+         UOV3EJXpuNYmRsUPqysyBUNy/pkY0GP7MfcjX4fFRtushv37esnxHUd1RAGeiStL7CM5
+         RfL3lVsBuwX98AWh9Zgmg6SVYP8F3J7taf2lVyI6q75gu01tpLE9fbsyAr6v6bQavPMP
+         bZM5Pu4oDtfhq29Nglqs66lU5zQRtvu9R8vTFtVoR/LqpWgLzEyXTn+JpBzug3XeKBKh
+         WohA==
+X-Forwarded-Encrypted: i=1; AJvYcCVI9iKAmZH8yXhpyTXaPGekey/s8omZuMBRil+lFwZjcJXJ8ZpS/D1nwejr9EUyMqdliY8+1q651Smz2eIoIeJ9KPk=@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwTjrK9xncxr9BebE06et1dE8pqEI92JE+IWfiWEYhN4GkFgp7i
+	lqiS2KFliI3BX7Yz1pdvNnoaTWoquMtr7DwJpJIqSuYXqgw2CUOIQuC8mGA3nZbURgrT24tdLxP
+	HEqDpp6NZjcYxU7E/kagFfR/yFn9+5xRTvdxNreA=
+X-Gm-Gg: ASbGnctaVAOCHIdLtz6er4c0D+A4Tn6nxK6XZ/naqd/jNxtG9STwLA8B8QS13ZHXFz/
+	BjL319tswqA6rFTOibXIG47JEjguJ9whd9Ts7aHvCZCeWHFNI2PP4PpW2kJCFCPIcm8WPb3vFrq
+	ylL28YZeZzSg5s6tdg/RaQ0ux81mwS66Ap/OX7sURPd6l67BImYK1Q
+X-Google-Smtp-Source: AGHT+IEAWcK1qqxmbbpjUxcWWLvMHYioptjT3u8mCchO34UOLFGsOlq3wzxgJ+PyFO5ArHaTB6qk6OOvOWrw4Bnx99I=
+X-Received: by 2002:a05:690c:3610:b0:714:232:df38 with SMTP id
+ 00721157ae682-71668e1a244mr5297177b3.25.1751583754559; Thu, 03 Jul 2025
+ 16:02:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250701041625.1956085-1-Qi.Chen@windriver.com>
-In-Reply-To: <20250701041625.1956085-1-Qi.Chen@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 3 Jul 2025 13:13:51 -0700
-X-Gm-Features: Ac12FXxXkU1tfi2ocqaw39Wh9gjbgJKsmPfzFakU8UvF_4nelDJQt5T0G10K4aU
-Message-ID: <CAOSpxdbKMCSAywKgsTm04Kk_FRThJCZNLo20ojhABheVizeKHw@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH V2] coreutils: fix CVE-2025-5278
-To: Qi.Chen@windriver.com
-Cc: openembedded-core@lists.openembedded.org
+References: <20250630172224.18568-1-wen.yang@linux.dev>
+In-Reply-To: <20250630172224.18568-1-wen.yang@linux.dev>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 3 Jul 2025 16:02:08 -0700
+X-Gm-Features: Ac12FXypoFsMZ1193wvCPEEPy1Ac3lKpif3XDUKy8Uc7miF52q8AhLt-BJvZ8uI
+Message-ID: <CAMKF1spCrejyVWU0Te5TiReBKVgkQj7_QKtA-zOAPyPy0aRDBA@mail.gmail.com>
+Subject: Re: [oe] [meta-oe][PATCH] pstack: add recipe
+To: wen.yang@linux.dev
+Cc: openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 20:14:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219893
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 23:02:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219894
 
-Unfortunately this patch results in a failed ptest:
+It fails to build with clang -
+https://errors.yoctoproject.org/Errors/Details/868022/
 
-AssertionError: Failed ptests:
-{'coreutils': ['tests/misc/sort-field-limit.sh']}
-
-Steve
-
-On Mon, Jun 30, 2025 at 9:16=E2=80=AFPM Chen Qi via lists.openembedded.org
-<Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
+On Mon, Jun 30, 2025 at 10:40=E2=80=AFAM Wen Yang via lists.openembedded.or=
+g
+<wen.yang=3Dlinux.dev@lists.openembedded.org> wrote:
 >
-> From: Chen Qi <Qi.Chen@windriver.com>
+> This recipe provides pstack for C/C++, Go, Rust, and Python.
 >
-> Backport patch to fix CVE-2025-5278.
-> The patch is adjusted to fit 9.0 version.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Wen Yang <wen.yang@linux.dev>
 > ---
->  .../coreutils/coreutils/CVE-2025-5278.patch   | 113 ++++++++++++++++++
->  meta/recipes-core/coreutils/coreutils_9.0.bb  |   1 +
->  2 files changed, 114 insertions(+)
->  create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2025-5278.p=
-atch
+>  ...e-issue-of-cross-compilation-failure.patch | 28 +++++++++++++
+>  meta-oe/recipes-devtools/pstack/pstack.inc    | 39 +++++++++++++++++++
+>  .../recipes-devtools/pstack/pstack_2.10.bb    | 33 ++++++++++++++++
+>  meta-oe/recipes-devtools/pstack/pstack_git.bb |  8 ++++
+>  4 files changed, 108 insertions(+)
+>  create mode 100644 meta-oe/recipes-devtools/pstack/files/0001-tests-fix-=
+the-issue-of-cross-compilation-failure.patch
+>  create mode 100644 meta-oe/recipes-devtools/pstack/pstack.inc
+>  create mode 100644 meta-oe/recipes-devtools/pstack/pstack_2.10.bb
+>  create mode 100644 meta-oe/recipes-devtools/pstack/pstack_git.bb
 >
-> diff --git a/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch b/=
-meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
+> diff --git a/meta-oe/recipes-devtools/pstack/files/0001-tests-fix-the-iss=
+ue-of-cross-compilation-failure.patch b/meta-oe/recipes-devtools/pstack/fil=
+es/0001-tests-fix-the-issue-of-cross-compilation-failure.patch
 > new file mode 100644
-> index 0000000000..34434a65fa
+> index 0000000000..2b54750e7a
 > --- /dev/null
-> +++ b/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
-> @@ -0,0 +1,113 @@
-> +From 84a061ea3d1fad42188493c4e5d8396aff4a0f67 Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?P=3DC3=3DA1draig=3D20Brady?=3D <P@draigBrady.com>
-> +Date: Tue, 20 May 2025 16:03:44 +0100
-> +Subject: [PATCH] sort: fix buffer under-read (CWE-127)
+> +++ b/meta-oe/recipes-devtools/pstack/files/0001-tests-fix-the-issue-of-c=
+ross-compilation-failure.patch
+> @@ -0,0 +1,28 @@
+> +From a8c3996d3f8d9b8f3a2888b7062c1139263c5aba Mon Sep 17 00:00:00 2001
+> +From: Wen Yang <yellowriver2010@hotmail.com>
+> +Date: Mon, 23 Jun 2025 02:06:53 +0800
+> +Subject: [PATCH] tests: fix the issue of cross compilation failure
 > +
-> +* src/sort.c (begfield): Check pointer adjustment
-> +to avoid Out-of-range pointer offset (CWE-823).
-> +(limfield): Likewise.
-> +* tests/sort/sort-field-limit.sh: Add a new test,
-> +which triggers with ASAN or Valgrind.
-> +* tests/local.mk: Reference the new test.
-> +* NEWS: Mention bug fix introduced in v7.2 (2009).
-> +Fixes https://bugs.gnu.org/78507
+> +By replacing objcopy with MAKE_OBJCOPY, pstack could support both
+> +native and cross compilation.
 > +
-> +CVE: CVE-2025-5278
-> +
-> +Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/coreut=
-ils.git/commit/?id=3D8c9602e3a145e9596dc1a63c6ed67865814b6633]
-> +[Adjusted for 9.0 version]
-> +
-> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> +Upstream-Status: Backport [https://github.com/peadar/pstack/pull/38]
 > +---
-> + src/sort.c                     | 12 ++++++++++--
-> + tests/local.mk                 |  1 +
-> + tests/misc/sort-field-limit.sh | 35 ++++++++++++++++++++++++++++++++++
-> + 3 files changed, 46 insertions(+), 2 deletions(-)
-> + create mode 100755 tests/misc/sort-field-limit.sh
+> + tests/CMakeLists.txt | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
 > +
-> +diff --git a/src/sort.c b/src/sort.c
-> +index 5f4c817de..07b96d34b 100644
-> +--- a/src/sort.c
-> ++++ b/src/sort.c
-> +@@ -1642,7 +1642,11 @@ begfield (struct line const *line, struct keyfiel=
-d const *key)
-> +       ++ptr;
+> +diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+> +index 71a62a7..bf11a04 100644
+> +--- a/tests/CMakeLists.txt
+> ++++ b/tests/CMakeLists.txt
+> +@@ -38,7 +38,7 @@ SET_TARGET_PROPERTIES(noreturn PROPERTIES COMPILE_FLAG=
+S "-O2 -g")
 > +
-> +   /* Advance PTR by SCHAR (if possible), but no further than LIM.  */
-> +-  ptr =3D MIN (lim, ptr + schar);
-> ++  size_t remaining_bytes =3D lim - ptr;
-> ++  if (schar < remaining_bytes)
-> ++    ptr +=3D schar;
-> ++  else
-> ++    ptr =3D lim;
+> + add_custom_command(
+> +    OUTPUT basic-no-unwind-gen
+> +-   COMMAND objcopy --strip-debug --remove-section .eh_frame basic basic=
+-no-unwind
+> ++   COMMAND ${CMAKE_OBJCOPY} --strip-debug --remove-section .eh_frame ba=
+sic basic-no-unwind
+> +    VERBATIM )
 > +
-> +   return ptr;
-> + }
-> +@@ -1743,7 +1747,11 @@ limfield (struct line const *line, struct keyfiel=
-d const *key)
-> +           ++ptr;
-> +
-> +       /* Advance PTR by ECHAR (if possible), but no further than LIM.  =
-*/
-> +-      ptr =3D MIN (lim, ptr + echar);
-> ++      size_t remaining_bytes =3D lim - ptr;
-> ++      if (echar < remaining_bytes)
-> ++        ptr +=3D echar;
-> ++      else
-> ++        ptr =3D lim;
-> +     }
-> +
-> +   return ptr;
-> +diff --git a/tests/local.mk b/tests/local.mk
-> +index 228d0e368..ced85c44c 100644
-> +--- a/tests/local.mk
-> ++++ b/tests/local.mk
-> +@@ -373,6 +373,7 @@ all_tests =3D                                       =
- \
-> +   tests/misc/sort-debug-keys.sh                       \
-> +   tests/misc/sort-debug-warn.sh                       \
-> +   tests/misc/sort-discrim.sh                  \
-> ++  tests/misc/sort-field-limit.sh              \
-> +   tests/misc/sort-files0-from.pl              \
-> +   tests/misc/sort-float.sh                    \
-> +   tests/misc/sort-h-thousands-sep.sh          \
-> +diff --git a/tests/misc/sort-field-limit.sh b/tests/misc/sort-field-limi=
-t.sh
-> +new file mode 100755
-> +index 000000000..52d8e1d17
-> +--- /dev/null
-> ++++ b/tests/misc/sort-field-limit.sh
-> +@@ -0,0 +1,35 @@
-> ++#!/bin/sh
-> ++# From 7.2-9.7, this would trigger an out of bounds mem read
-> ++
-> ++# Copyright (C) 2025 Free Software Foundation, Inc.
-> ++
-> ++# This program is free software: you can redistribute it and/or modify
-> ++# it under the terms of the GNU General Public License as published by
-> ++# the Free Software Foundation, either version 3 of the License, or
-> ++# (at your option) any later version.
-> ++
-> ++# This program is distributed in the hope that it will be useful,
-> ++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> ++# GNU General Public License for more details.
-> ++
-> ++# You should have received a copy of the GNU General Public License
-> ++# along with this program.  If not, see <https://www.gnu.org/licenses/>=
-.
-> ++
-> ++. "${srcdir=3D.}/tests/init.sh"; path_prepend_ ./src
-> ++print_ver_ sort
-> ++getlimits_
-> ++
-> ++# This issue triggers with valgrind or ASAN
-> ++valgrind --error-exitcode=3D1 sort --version 2>/dev/null &&
-> ++  VALGRIND=3D'valgrind --error-exitcode=3D1'
-> ++
-> ++{ printf '%s\n' aa bb; } > in || framework_failure_
-> ++
-> ++_POSIX2_VERSION=3D200809 $VALGRIND sort +0.${SIZE_MAX}R in > out || fai=
-l=3D1
-> ++compare in out || fail=3D1
-> ++
-> ++_POSIX2_VERSION=3D200809 $VALGRIND sort +1 -1.${SIZE_MAX}R in > out || =
-fail=3D1
-> ++compare in out || fail=3D1
-> ++
-> ++Exit $fail
+> + add_custom_target(basic-no-unwind ALL DEPENDS basic basic-no-unwind-gen=
+)
 > +--
-> +2.34.1
+> +2.25.1
+> diff --git a/meta-oe/recipes-devtools/pstack/pstack.inc b/meta-oe/recipes=
+-devtools/pstack/pstack.inc
+> new file mode 100644
+> index 0000000000..9831a74d1a
+> --- /dev/null
+> +++ b/meta-oe/recipes-devtools/pstack/pstack.inc
+> @@ -0,0 +1,39 @@
+> +SUMMARY =3D "A utility to print stack traces of running processes"
+> +DESCRIPTION =3D "A from-scratch implementation of pstack using DWARF deb=
+ugging and unwind information. \
+> +Works for C/C++, Go, Rust, and Python. A traditional pstack command can =
+generally print a backtrace \
+> +of each thread in a running program, and sometimes from a core file. Thi=
+s version of pstack uses its \
+> +own self contained ELF and DWARF parsing library, libdwelf to parse the =
+DWARF debug and unwind \
+> +information, to get a stack trace."
+> +HOMEPAGE =3D "https://github.com/peadar/pstack"
+> +SECTION =3D "devel"
+> +LICENSE =3D "BSD-2-Clause"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D671019a96ba80415b696240ed2ca5=
+e80"
 > +
-> diff --git a/meta/recipes-core/coreutils/coreutils_9.0.bb b/meta/recipes-=
-core/coreutils/coreutils_9.0.bb
-> index 1cce9192ec..7c975708f4 100644
-> --- a/meta/recipes-core/coreutils/coreutils_9.0.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_9.0.bb
-> @@ -19,6 +19,7 @@ SRC_URI =3D "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
->             file://0001-uname-report-processor-and-hardware-correctly.pat=
-ch \
->             file://0001-local.mk-fix-cross-compiling-problem.patch \
->             file://e8b56ebd536e82b15542a00c888109471936bfda.patch \
-> +           file://CVE-2025-5278.patch \
->             file://run-ptest \
->             file://0001-split-do-not-shrink-hold-buffer.patch \
->             "
+> +inherit cmake
+> +
+> +S =3D "${UNPACKDIR}/${BPN}-${PV}"
+> +DEPENDS +=3D "zlib xz libunwind elfutils"
+> +
+> +RDEPENDS:${PN} +=3D "elfutils"
+> +
+> +do_install() {
+> +    install -d ${D}${bindir}
+> +    install -m 0755 ${B}/pstack ${D}${bindir}/pstack
+> +
+> +    install -d ${D}${libdir}
+> +    install -m 0755 ${B}/libprocman.so.${PV} ${D}${libdir}/libprocman.so=
+.${PV}
+> +    ln -sf libprocman.so.${PV} ${D}${libdir}/libprocman.so
+> +    install -m 0755 ${B}/libdwelf.so.${PV}  ${D}${libdir}/libdwelf.so.${=
+PV}
+> +    ln -sf libdwelf.so.${PV}  ${D}${libdir}/libdwelf.so
+> +}
+> +
+> +PACKAGES =3D "${PN}"
+> +FILES:${PN} =3D "${bindir}/pstack"
+> +FILES:${PN} +=3D "${libdir}/libprocman.so.${PV}"
+> +FILES:${PN} +=3D "${libdir}/libdwelf.so.${PV}"
+> +
+> +PACKAGES +=3D "${PN}-dbg"
+> +FILES:${PN}-dbg +=3D "${base_bindir}/.debug ${base_sbindir}/.debug ${bin=
+dir}/.debug ${sbindir}/.debug"
+> +
+> +PACKAGES +=3D "${PN}-dev"
+> +FILES:${PN}-dev +=3D "${base_libdir}/*.so"
+> diff --git a/meta-oe/recipes-devtools/pstack/pstack_2.10.bb b/meta-oe/rec=
+ipes-devtools/pstack/pstack_2.10.bb
+> new file mode 100644
+> index 0000000000..cebc13d36c
+> --- /dev/null
+> +++ b/meta-oe/recipes-devtools/pstack/pstack_2.10.bb
+> @@ -0,0 +1,33 @@
+> +SUMMARY =3D "A from-scratch implementation of pstack using DWARF debuggi=
+ng \
+> +and unwind information. Works for C/C++, Go, Rust, and Python."
+> +
+> +HOMEPAGE =3D "https://github.com/peadar/pstack"
+> +SECTION =3D "devel/pstack"
+> +
+> +LICENSE =3D "BSD-2-Clause"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dea061f8731d5e6a5761dfad951ef5=
+f5f"
+> +
+> +DEPENDS =3D "tcl virtual/libx11 libxt zip-native"
+> +
+> +SRC_URI =3D "git://github.com/peadar/pstack;branch=3Dmaster;tag=3Dv${PV}=
+;protocol=3Dhttps"
+> +SRCREV =3D "a310df637d74917a1d3570c540bf3aef899d7e63"
+> +
+> +S =3D "${WORKDIR}/${BPN}${PV}"
+> +
+> +PACKAGES =3D+ "${PN}-lib"
+> +
+> +SOLIBS =3D ".so"
+> +FILES_SOLIBSDEV =3D ""
+> +
+> +# isn't getting picked up by shlibs code
+> +RDEPENDS:${PN} +=3D "tk-lib"
+> +RDEPENDS:${PN}:class-native =3D ""
+> +
+> +BBCLASSEXTEND =3D "native nativesdk"
+> +
+> +inherit binconfig
+> +
+> +SYSROOT_DIRS +=3D "${bindir_crossscripts}"
+> +
+> +# Fix some paths that might be used by Tcl extensions
+> +BINCONFIG_GLOB =3D "*Config.sh"
+> diff --git a/meta-oe/recipes-devtools/pstack/pstack_git.bb b/meta-oe/reci=
+pes-devtools/pstack/pstack_git.bb
+> new file mode 100644
+> index 0000000000..cc6721f9e3
+> --- /dev/null
+> +++ b/meta-oe/recipes-devtools/pstack/pstack_git.bb
+> @@ -0,0 +1,8 @@
+> +require pstack.inc
+> +
+> +SRCREV =3D "1e1734be3adb6d9c81b57c5cc3d0c8fbc43bdee3"
+> +PV =3D "2.11"
+> +
+> +SRC_URI =3D "git://github.com/peadar/pstack.git;branch=3Dmaster;protocol=
+=3Dhttps \
+> +           file://0001-tests-fix-the-issue-of-cross-compilation-failure.=
+patch \
+> +          "
 > --
-> 2.34.1
+> 2.25.1
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#219544): https://lists.openembedded.org/g/openembedde=
-d-core/message/219544
-> Mute This Topic: https://lists.openembedded.org/mt/113922209/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
+> View/Reply Online (#118182): https://lists.openembedded.org/g/openembedde=
+d-devel/message/118182
+> Mute This Topic: https://lists.openembedded.org/mt/113912625/1997914
+> Group Owner: openembedded-devel+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-devel/unsub [r=
+aj.khem@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
