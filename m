@@ -1,227 +1,220 @@
-Return-Path: <Yash.Shinde@windriver.com>
+Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 166FDC77B7C
-	for <webhook@archiver.kernel.org>; Thu,  3 Jul 2025 09:15:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED02C83F04
+	for <webhook@archiver.kernel.org>; Thu,  3 Jul 2025 10:16:15 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.18200.1751534113063197934
+ by mx.groups.io with SMTP id smtpd.web11.18985.1751537774484668955
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jul 2025 02:15:13 -0700
+ Thu, 03 Jul 2025 03:16:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9279021825=yash.shinde@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5634lZe1020361
-	for <openembedded-core@lists.openembedded.org>; Thu, 3 Jul 2025 09:15:12 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11on2084.outbound.protection.outlook.com [40.107.236.84])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47j7c9dayb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 09:15:11 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x4itstBnCQU23LInuwZPVVCInHhCyo5zA7/mppgCkmQ0Vq3N6AdnOrB29TdA5+Na4kiLEuX6K2R1da6DEiUJPjdB8OVCJ9Qne5XvnaugMe2UQmFJ6DYbcvMxOy/kAALsGJxWtwZP1DwXqIBVF+scrQbj5ePKrM58JBZ217lEl+63jTsOUMs1Zr9YDZj47el0dZyyQcH3poZnglSdgiNroz+Ioj10oZ436xw/7q5/wdx0U8KQmBg2oCPbZ/wjaXq1d5LLXNraicpOblTx4ZqR0VtPVNqsz5GAyJhEs10nmIWiKYU5CrTDuTZoKvgWIV50KScv4F0qDjwebkotamXTfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=28pxYJ/OujPKPjwCnnJRWMwkkYf0RV1yXSXhiO+b0jU=;
- b=LTdnA5I4l8pRvM5xXW/+mBZIS+/O7uwGceOQ7/HPn8ce3xLGV2MdXAHbmHHh7lTUt/XlOYPtXYD7D3W5d2GPiZ2kMz5cbqCZIT7NkCj+QH6tDcsr3GKRhswREEPoAFMTRy7XYk74GNI+WzGtwueLVe+MP5nxQlyz1g63S1Dabtt2D2p8UP/l05TV//lM4Pud95YgeIUwaetdnxWtDLkWTea9zZVQZEOniGubpor54Sc2zfRpV81/nIFuBrWMN05i/9trOw+imqXuVQ3UJNxOnBcwB2LbFSSVmSRSGSFU8Z3m84YQxgAB0aWENPV/MNuy99TtTqa67Kw/h7wVGdExOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
- by SA1PR11MB8594.namprd11.prod.outlook.com (2603:10b6:806:3b1::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Thu, 3 Jul
- 2025 09:15:09 +0000
-Received: from PH7PR11MB7593.namprd11.prod.outlook.com
- ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
- ([fe80::2688:e731:421b:5ebc%6]) with mapi id 15.20.8857.025; Thu, 3 Jul 2025
- 09:15:09 +0000
-From: Yash.Shinde@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
-        Yash.Shinde@windriver.com
-Subject: [PATCH] rpm-sequoia: Use DEBUG_BUILD to determine build directory
-Date: Thu,  3 Jul 2025 02:14:28 -0700
-Message-ID: <20250703091428.43247-1-Yash.Shinde@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Type: text/plain; charset=utf-8
-X-ClientProxiedBy: BYAPR11CA0057.namprd11.prod.outlook.com
- (2603:10b6:a03:80::34) To PH7PR11MB7593.namprd11.prod.outlook.com
- (2603:10b6:510:27f::9)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9279406b92=divya.chellam@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5634G3BF026147
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Jul 2025 10:16:13 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47j5m1dfnf-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 10:16:13 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Thu, 3 Jul 2025 03:16:13 -0700
+From: dchellam <divya.chellam@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][walnascar][PATCH 2/4] libarchive: fix CVE-2025-5916
+Date: Thu, 3 Jul 2025 15:45:40 +0530
+Message-ID: <20250703101542.886225-2-divya.chellam@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20250703101542.886225-1-divya.chellam@windriver.com>
+References: <20250703101542.886225-1-divya.chellam@windriver.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|SA1PR11MB8594:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62b0db11-bd99-4228-abdd-08ddba121bbc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?dS8wM0lUZFA5Qmp6a3A3eElVWkZWbXMyZ2IxSHp0V0FWUC8vL2htUm5PRHhn?=
- =?utf-8?B?WC93YWYxc0QyQVlva3VBUVpUWldtT3gwR3lyUHRrRVdUNzg2b0pmZkZNa0Nm?=
- =?utf-8?B?RitYVVFrZHlCbjFVN0JkdkV3NCtub2pZNWhnN1NBQndGaUcxNEVRQzVCSFJt?=
- =?utf-8?B?S2h5RTZNd3JGTFUrTFJoQmg4MGJQVXZhV25HZWNsR0gyZ0huYUlUbHBMQXdz?=
- =?utf-8?B?T1F5NnpQWDBzU0pJOE5Xb0NnMUhWQTRuVk1QL2VuMzJpWGEyWmlKVGRaNmpp?=
- =?utf-8?B?eHZ1N1VYaHNwdjhvTE9PdlFIYURvSjdEY2NXOXQrSE10c3VEY2ZQZUFDU3NN?=
- =?utf-8?B?UnF1QkhoZ3VVMDlMZEdWd3NLR21VbEdyNUVLMmVCWnVJc1g1UVhnbWVublhF?=
- =?utf-8?B?QlZHT0t5VHIxaG9zcHhtakhSYmhJdVJxNGhzRW9raE5ncXludHoySjB2NWxa?=
- =?utf-8?B?VkJXYmZSY0RsMHdObjVlR0Z2VDdPQTlqUnhsSUNiamVrY3FFaTZ4bFJaMnBO?=
- =?utf-8?B?bytMcE5uclU0V3ZIVmZrQTd6ZmRNVEcxYXFoanZCMG4rUlgyenZyWFllUGpG?=
- =?utf-8?B?SWdoaXlvSll5MG1YYzVNaytTUndhOVY4NVZMa3dHd1ZsWDZnclkyTmI1cXhl?=
- =?utf-8?B?OGFpTW5qaUJrWHU1cyt2akt0RnBoZFJSamxUb2hpK0Q2bjJZNW1RWXVsSzc3?=
- =?utf-8?B?ODlSa2xlK0hyUDFkdm1ZcUhEN2UyMk9kUGJ6QUYwY2xuWmJyTGZINjN0N0JN?=
- =?utf-8?B?YnZBdGo0OC8zdDFtcmxGaXk1TExmeTJ6ZGdnRWtlcXpVcURHQXVreDQxWHh0?=
- =?utf-8?B?ZDRvNC9ycWpsem4xSmVYSVJYQ0FtZkdGZmVxd0FoYnB3NjhnekdKNGxZUjdm?=
- =?utf-8?B?N3k2RmxheGtHNDFYMkNLaGx6RDFiVnZZaG9WWWlnTktkcU5qZTZPRGNCblFZ?=
- =?utf-8?B?K0h0Y3p4aTl0dHJkSFkycUdZS2h0NUVBOE8rSWhQa2FCZ3BBMVNObHZFMDRo?=
- =?utf-8?B?RldCMHQ5dVJvZzRkL3ZPT0VGUHYyUmpMRVhmOWpJb2RiV0ExYUtza3QvRXBG?=
- =?utf-8?B?MHhjeGlRQUsyVW1DQ01oUElzOUczY3ViazBvUUZ2SGVwczc4a2VGN0doRW05?=
- =?utf-8?B?RnU1TlJQQnV4ZklCcUM0M3dXTGVmbWlveUpCUEI1WnMzWWZOWnFuZGJheFVr?=
- =?utf-8?B?YnE1WnhVM2NXbkRtMWxWQ090ZFBtUTV4bmZlL2lWWDVxaUc4bG5pRmZuMGJ0?=
- =?utf-8?B?Z0txa014TDQvbFg3bjZrcWhTcEd4bTh0YndEbnEzNFNjV1hjT0FyZUFXTy85?=
- =?utf-8?B?Y3ozZFc3K1h0aUtvRGpuVW9rNEdrb3FpWGh6dURQWGZId29SYW0xNkc4UW4z?=
- =?utf-8?B?aW9iTDU3b2wwQm9CYTBuNE9xUHRQYkI0OVBnMkFSS1JlWVhhQWVUcXF6QlQy?=
- =?utf-8?B?R3BRL1VVNXVRWDl3RzZSZjJSNFFnTEpHSGtONUsvYllXcFBVN21UVmEra1F0?=
- =?utf-8?B?RXEveUVqZ0dOdXRmL1JTNWhncUtFMUc1NWI5aEpsbXlPaXJyQURWSVNoV2FK?=
- =?utf-8?B?UVc1REFhSXMxU3lQWmY0N1g1aEdFWGJSYzY0anI5eGFoUkpXV1lPbWpBQkRt?=
- =?utf-8?B?eS9VbTF6NW5zd0xud24vcktkbXFFc3d4QXBRcFlmRkQ2ajV3bkhLOGRNdjk1?=
- =?utf-8?B?UjAwdnQ3eHRnbEhnZ1JTRmU2aVl0UEw4bndFOTdWR283SGZUMENDT3prYklS?=
- =?utf-8?B?dnJzVlQwNzhLOVp0dXBXU09JTE05NmN0UVZOUDZNV1N0UFlZK2lHbmlmaEJ1?=
- =?utf-8?B?T2xaTXp1R0FNV0QvNkZ0ektmWXd2VzNRS1N4ZDMxRm5KVCs1akN5aWwvT1lR?=
- =?utf-8?B?T2ovS256TzkxbGlaWm81OW5jSDZOclJLcEhzckkrUHlCODljMjhZZnZYVlVC?=
- =?utf-8?B?U3FPRXBoZTFqa2JjQ1RoYXBvcDJKWXk4WTExVzRoWkxBYjFpZEFQRm53cUZ3?=
- =?utf-8?B?WURYTHNKK3FBPT0=?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?VVBGcUhROUt1NUxQN1pzV01vbEx2TUJ0bG93am55VGdGWkEzcURoKzJNSG9Z?=
- =?utf-8?B?UDVjQ1RTOWI4eGM1ZGNKMmFpT3VZV29LUk52dEhOYmV6OTNJNDlLZHNLZndp?=
- =?utf-8?B?TUJQa3RCUy9Cc2FTUDNQWHEyVHM4a0lCWmZuRHBrT1RSaFA0eDBrcFJPd0ZB?=
- =?utf-8?B?ZlFqaE01eFRnZ3NjaXRJQncyL0k1bFlPQVRnTW5HRmVzdVJ6SkkzZy9IeTBx?=
- =?utf-8?B?TjNPVEV4aGZNdWJXT0hFbUdkdlhpN1c5TEw2U3hwNEJqRU5BbSsrem1QSG1o?=
- =?utf-8?B?WnM2eTV3MmV5UnlMa1pSMXhJM2ltY2w1cjVMYVR6eUJOWWRTSk00MmVJdFlo?=
- =?utf-8?B?SWRDRUVJRXhueFNtdVBTYXBSRzZhMzc0VzFYYlVzdXVaWHlLalZ3TE45UjlO?=
- =?utf-8?B?N0wxVmVMVXE2K2tSbjJhblZDUlpWWWpkMEluYkI1WStSMkt0TVF4RHFyT1JT?=
- =?utf-8?B?bG9yZEJyRFFGaWtVenNHWXhvR2NwV2lkN1pMVFRkZS9tMHhmTUdmTmpNdkow?=
- =?utf-8?B?TStYMFdDWDcvOUZoVklwYWY2d052eGtNZ3dITnllOUU1SXZYZEdFZTRjOEg0?=
- =?utf-8?B?OWhrQ0hIWjRrWjY0eGNjR0pZUnVxRXdWbXc4ZjZOak1LVUFyS293R0FaMjE4?=
- =?utf-8?B?NnBhU2VjVVRzMnB2TEc0eEFVd05sVTJzZGhRMkUvTFVWYmtYdHZPd3VwK0Zh?=
- =?utf-8?B?V3lDZHhNSlNqK0lYaHZ5NzJsKzd0L3ZROHZvM01HU1lsYTRZNnVvc2tYbXlx?=
- =?utf-8?B?Y0VLemFBZGRGUm9TSHBWWTB5b2dZRkRmb1g0WE5lK1Z3N01lL3RlSktIRVo2?=
- =?utf-8?B?OWVmalZpT3V5Z1Rrb0ZiZ2VTMDA0OGoxUTZpdmxvWWlFUU9GREFiRU8rSSsv?=
- =?utf-8?B?ZlJQSmoyWmhNeHlEUTBvMEFtb3F0WWRhQ1BmMnExTVNXWHJ5QVFmNGJvYjhv?=
- =?utf-8?B?dUxkTWNyS2hZdVN2OGpFRDI2bFc4MTE1cUkzeHE0aVNOY1RDOGF3eFRwQWlj?=
- =?utf-8?B?M2tFV1RZRTlrL3BIWWw2ZzhXTEFpM1ZiemkvbEFYNlZ0Z2tQWUlwcE9vQmFN?=
- =?utf-8?B?M2plT1ZLODVkQjU2bnh1aGFYeFNjandyRzd6MTZpTE5CY1loZ05IYU54OTdD?=
- =?utf-8?B?ZFFSYlNIdmE0QXN6eFdsWE96VzZUM0hSMFVxVGxBbGRScVBjTlE3ZmNEVlNv?=
- =?utf-8?B?RGZyREwwN040K0dTRkpmd1RRVmwxTGwzUVNGK3N4ajlaWXRQWmZTZDlnVEtS?=
- =?utf-8?B?NEU4bEh2Yzlqakt2VGdlc2ttbFJudFhZRWxCSURGVHJlQ2Z1RWl5OXZiY2VN?=
- =?utf-8?B?ZXlyU0tldmRRM0c5c0h3RVRBZFoxay80N2w0cUJZQTI2ajB0c2JTZDd4WUgv?=
- =?utf-8?B?NWpuSWFBVXh0c2oxOHVGbkhXSzB2bUk3UFFFcldJSDNXOUJkM3R4SjN2K216?=
- =?utf-8?B?SW5XdlE1UE5pTmhRL0NCTjkyaHJHZGhveTY4Rk4rVEJpMlREalhEVDFWTlp0?=
- =?utf-8?B?TEk4djQ0SllmaGxvRGVQdVUyY1RoNklZUG1zaHdWZ21ZN2FNWEdERnZQNVdV?=
- =?utf-8?B?VnBXMWFTaENkdll1S3p3bVJjcmw5WmFvd0Zwb1NwME5XVnB6R0NFOHR4eERp?=
- =?utf-8?B?dzdSOFFxUnJvYUNsdjhQRkVhdm8vTnJRaTk5R1FIVEl1cFZabzhsS1ZtVTFn?=
- =?utf-8?B?VVVjaVNSdjZOeEdVcDBwck1WdmNHcHNqczk5aytzaERhQTY2WldnczZ4b2Yr?=
- =?utf-8?B?cVlBeUtaZW50ZXhzMERhbjQydTByQjdqTUxacGFyeGwxbUtsbGxTSTREU3kz?=
- =?utf-8?B?VlZPMTBGYzdXT0pVUm5Ga0MxdmhQd3ZPTXNjMEVVelRSVlFkUnNLUU5XcHV0?=
- =?utf-8?B?dXZTcEQxMHNjVW5mZ3F3aHgvbkpFN0FNeE9yWnc1eFErbS80U0NmeExWaUps?=
- =?utf-8?B?UGg2WG9wSkl2aGhpUWF4VmdJYnI0YjRqUEF6SHB5WWwveWJXTWMwTUlsZk1r?=
- =?utf-8?B?empIS1F2YlRwek84OENlUkxibzBpeFZSTDNHN0dWQ2l5cUpYSGNjaG9oVXNn?=
- =?utf-8?B?Tm9za1QzeURib3NlenN3dUZ1WnVjVldaRFRtWXlXM2MvdEZDV3AzR1VPSXg4?=
- =?utf-8?B?cTJ6dGx2aFZMalpXTkNQRE9YNy9ZeEowaE16b2YxbFI0OUwvdjYxZkdsRnNU?=
- =?utf-8?B?Q2c9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62b0db11-bd99-4228-abdd-08ddba121bbc
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2025 09:15:09.5183
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sfZLo8BK7AmYXGMA2BwxLXNoPlfSYNtPCUkFMIO5ZM8JS/eRWUvqjb9e1qHo8DWb2e98lg2nrqeW2F6Jfopo40ZO5SBdFlK78A0rnZLAhvs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8594
-X-Proofpoint-ORIG-GUID: YQRPomfMjUhVvqj0vgD3VnHbYTwXMi7M
-X-Proofpoint-GUID: YQRPomfMjUhVvqj0vgD3VnHbYTwXMi7M
-X-Authority-Analysis: v=2.4 cv=M5xNKzws c=1 sm=1 tr=0 ts=68664a1f cx=c_pps a=6jVCcZjlZU7jxA9Q8dw4rQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=t7CeM3EgAAAA:8 a=k52h-3HaRRgvT7H0U1QA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDA3NCBTYWx0ZWRfX2ViSOaNzAHAS MAZdmKxHrBV8fayVzRw5WKmL6OB5S1sVNoExVAq8R6R1USINxh8R5euFSXpHlxna7/OVo0ajbsL 0NoZw1WW7a5DZFDP30q9/CnU7GlqAyGQLYuhzoDaSiCjxoOZyThsW1jXY0lCsspuRG8EcmqnKXk
- dDNdsGsbtebDkUDLzSWWl1RZxsAt/HZP0AQ9yFJR36qbc5gtv5ZCLb73BCgKu9llSrNVsIycgG+ 5QilRc1v/NzOyw2BX5wwSlXMKVCXQPO1L+m2q6r+PwxrbdGBOz+fXzvKvICjyE7Rmm6P/34Mqfi NmL/s9/Xg0L2x0c9+JHjfOVCjbBZucBs+415UDRO3WJRd/OdUsMfaZfoatG4ehbr7yBCeOWsFQ0
- Fhok0lcea2n9wB6ipUeI4O1B2jDaJOpoz3cCGt2mFnfC0WdrR7HlfPM8wnpOlfPpSFOLJHou
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDA4NCBTYWx0ZWRfX9MYP5y7IY8X4 LHEJbDW3NreTkCM/shi0xIYpveHZUnA+djGdhQdKxitkm0aicX+1pAGHCxeHoCMidlYiiNiiB6G 45PFP7dC70PHh+ny7QNQoog0FHcaTQGhjV8HK0ILOubsqbA/6C26Tz1+4arxDhqwNDcBB0Xama4
+ qvQ8W4Zb8eNyIYiI8V5h0OoqEIzqTFrhSl1kiLcXyiABirZmwc3mKijvnwmbd0EmqoIGAU42X40 NFU/j7R2DqwESuXxRXGL4p3A7NnjnzefPHrG4oL25Ee2uDCX2mn1uKsrlbJKaDd8SiLLJBfuwNh ub57bXF9k7EJdR2K+CvmDytEz4o6WqnurYWURcLtTXzbQiQLRtl//Z1w6Q4oqcSPx4CLBbPme4/
+ SnIJM7ooCOsaGOsnNz8E5QN7l1uFru6zXGWgHOW8E3OF6X5R49LFLp9V0jFo0cf6Og7Pfq/U
+X-Authority-Analysis: v=2.4 cv=IOsCChvG c=1 sm=1 tr=0 ts=6866586d cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=Wb1JkmetP80A:10 a=xNf9USuDAAAA:8 a=NEAV23lmAAAA:8 a=3uWsZ661AAAA:8 a=t7CeM3EgAAAA:8 a=tyuvAb6jAAAA:8
+ a=xHY9R6j5MRcVh41WBagA:9 a=fYNom5PXsM5enKJDCoVv:22 a=FdTzh2GWekK77mhwV6Dw:22 a=vMd6T1JfvD_20K6YSfI9:22
+X-Proofpoint-GUID: -wVDuevlCZqJmPkkwHcvP9fy7CMyUkWH
+X-Proofpoint-ORIG-GUID: -wVDuevlCZqJmPkkwHcvP9fy7CMyUkWH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-03_02,2025-07-02_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- malwarescore=0 impostorscore=0 mlxlogscore=887 suspectscore=0 mlxscore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2505280000
- definitions=main-2507030074
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5634lZe1020361
+ definitions=2025-07-03_03,2025-07-02_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
+ priorityscore=1501 adultscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
+ mlxlogscore=999 malwarescore=0 suspectscore=0 impostorscore=0 bulkscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2505280000
+ definitions=main-2507030084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 09:15:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219863
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 10:16:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219865
 
-From: Yash Shinde <Yash.Shinde@windriver.com>
+From: Divya Chellam <divya.chellam@windriver.com>
 
-Debug builds fail with a panic in build.rs when attempting
-to create rpm-sequoia.pc in a non-existent target/debug directory:
+A vulnerability has been identified in the libarchive library. This flaw
+involves an integer overflow that can be triggered when processing a Web
+Archive (WARC) file that claims to have more than INT64_MAX - 4 content
+bytes. An attacker could craft a malicious WARC archive to induce this
+overflow, potentially leading to unpredictable program behavior, memory
+corruption, or a denial-of-service condition within applications that
+process such archives using libarchive.
 
-process didn't exit successfully: `TOPDIR/tmp/work/core2-32-wrs-linux/rpm=
--sequoia/1.7.0/build/target/debug/build/rpm-sequoia-d2609670a855c0b5/buil=
-d-script-build` (exit status: 101)
-=E2=80=94 stderr
-thread 'main' panicked at build.rs:125:36:
-Creating "TOPDIR/tmp/work/core2-32-wrs-linux/rpm-sequoia/1.7.0/sources-un=
-pack/git/target/debug/rpm-sequoia.pc" (CARGO_TARGET_DIR: None): Os
-{ code: 2, kind: NotFound, message: "No such file or directory" }
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2025-5916
 
-This was caused by the build and install logic assuming a fixed release d=
-irectory
-in rpm-sequoia recipe.
+Upstream-patch:
+https://github.com/libarchive/libarchive/commit/ef093729521fcf73fa4007d5ae77adfe4df42403
 
-Update build and install steps to use the ${BUILD_DIR} variable,
-which is set based on the value of DEBUG_BUILD from cargo.bbclass.
-(rpm-sequoia inherits cargo)
-This ensures paths used for rpm-sequoia.pc generation and installation
-are valid in both debug and release configurations.
-
-Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 ---
- meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../libarchive/libarchive/CVE-2025-5916.patch | 116 ++++++++++++++++++
+ .../libarchive/libarchive_3.7.9.bb            |   1 +
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5916.patch
 
-diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb b/met=
-a/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb
-index 17d5a747ff..46f9ee8548 100644
---- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb
-+++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.7.0.bb
-@@ -26,7 +26,7 @@ CARGO_INSTALL_LIBRARIES =3D "1"
- do_compile:prepend () {
- 	# rpm-sequoia.pc is generated in the source directory
- 	# but the target directory does not exist there.
--	mkdir -p ${S}/target/release
-+	mkdir -p ${S}/target/${BUILD_DIR}
-=20
- 	# From rpm-sequoia's README.md:
- 	#
-@@ -58,7 +58,7 @@ do_install:append () {
-=20
- 	# rpm-sequoia does not install its pkgconfig file. Do it manually.
- 	mkdir -p ${D}${libdir}/pkgconfig
--	install -m644 ${S}/target/release/rpm-sequoia.pc ${D}${libdir}/pkgconfi=
-g
-+	install -m644 ${S}/target/${BUILD_DIR}/rpm-sequoia.pc ${D}${libdir}/pkg=
-config
- }
-=20
- do_install_ptest:append () {
---=20
-2.49.0
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5916.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5916.patch
+new file mode 100644
+index 0000000000..a1dfc7b286
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5916.patch
+@@ -0,0 +1,116 @@
++From ef093729521fcf73fa4007d5ae77adfe4df42403 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <stoeckmann@users.noreply.github.com>
++Date: Mon, 7 Apr 2025 00:24:13 +0200
++Subject: [PATCH] warc: Prevent signed integer overflow (#2568)
++
++If a warc archive claims to have more than INT64_MAX - 4 content bytes,
++the inevitable failure to skip all these bytes could lead to parsing
++data which should be ignored instead.
++
++The test case contains a conversation entry with that many bytes and if
++the entry is not properly skipped, the warc implementation would read
++the conversation data as a new file entry.
++
++Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
++
++CVE: CVE-2025-5916
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/ef093729521fcf73fa4007d5ae77adfe4df42403]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ Makefile.am                                   |  1 +
++ libarchive/archive_read_support_format_warc.c |  7 ++++--
++ libarchive/test/test_read_format_warc.c       | 24 +++++++++++++++++++
++ .../test_read_format_warc_incomplete.warc.uu  | 10 ++++++++
++ 4 files changed, 40 insertions(+), 2 deletions(-)
++ create mode 100644 libarchive/test/test_read_format_warc_incomplete.warc.uu
++
++diff --git a/Makefile.am b/Makefile.am
++index 9f3a6d1..7627ec5 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -964,6 +964,7 @@ libarchive_test_EXTRA_DIST=\
++ 	libarchive/test/test_read_format_ustar_filename_eucjp.tar.Z.uu \
++ 	libarchive/test/test_read_format_ustar_filename_koi8r.tar.Z.uu \
++ 	libarchive/test/test_read_format_warc.warc.uu \
+++	libarchive/test/test_read_format_warc_incomplete.warc.uu \
++ 	libarchive/test/test_read_format_xar_doublelink.xar.uu \
++ 	libarchive/test/test_read_format_xar_duplicate_filename_node.xar.uu \
++ 	libarchive/test/test_read_format_zip.zip.uu \
++diff --git a/libarchive/archive_read_support_format_warc.c b/libarchive/archive_read_support_format_warc.c
++index fcec5bc..696f959 100644
++--- a/libarchive/archive_read_support_format_warc.c
+++++ b/libarchive/archive_read_support_format_warc.c
++@@ -386,7 +386,8 @@ start_over:
++ 	case LAST_WT:
++ 	default:
++ 		/* consume the content and start over */
++-		_warc_skip(a);
+++		if (_warc_skip(a) < 0)
+++			return (ARCHIVE_FATAL);
++ 		goto start_over;
++ 	}
++ 	return (ARCHIVE_OK);
++@@ -439,7 +440,9 @@ _warc_skip(struct archive_read *a)
++ {
++ 	struct warc_s *w = a->format->data;
++ 
++-	__archive_read_consume(a, w->cntlen + 4U/*\r\n\r\n separator*/);
+++	if (__archive_read_consume(a, w->cntlen) < 0 ||
+++	    __archive_read_consume(a, 4U/*\r\n\r\n separator*/) < 0)
+++		return (ARCHIVE_FATAL);
++ 	w->cntlen = 0U;
++ 	w->cntoff = 0U;
++ 	return (ARCHIVE_OK);
++diff --git a/libarchive/test/test_read_format_warc.c b/libarchive/test/test_read_format_warc.c
++index 91e6dc6..745aabf 100644
++--- a/libarchive/test/test_read_format_warc.c
+++++ b/libarchive/test/test_read_format_warc.c
++@@ -78,3 +78,27 @@ DEFINE_TEST(test_read_format_warc)
++ 	assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
++ 	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
++ }
+++
+++DEFINE_TEST(test_read_format_warc_incomplete)
+++{
+++	const char reffile[] = "test_read_format_warc_incomplete.warc";
+++	struct archive_entry *ae;
+++	struct archive *a;
+++
+++	extract_reference_file(reffile);
+++	assert((a = archive_read_new()) != NULL);
+++	assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
+++	assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
+++	assertEqualIntA(a, ARCHIVE_OK,
+++	    archive_read_open_filename(a, reffile, 10240));
+++
+++	/* Entry cannot be parsed */
+++	assertEqualIntA(a, ARCHIVE_FATAL, archive_read_next_header(a, &ae));
+++
+++	/* Verify archive format. */
+++	assertEqualIntA(a, ARCHIVE_FILTER_NONE, archive_filter_code(a, 0));
+++
+++	/* Verify closing and resource freeing */
+++	assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
+++	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
+++}
++diff --git a/libarchive/test/test_read_format_warc_incomplete.warc.uu b/libarchive/test/test_read_format_warc_incomplete.warc.uu
++new file mode 100644
++index 0000000..b91b97e
++--- /dev/null
+++++ b/libarchive/test/test_read_format_warc_incomplete.warc.uu
++@@ -0,0 +1,10 @@
+++begin 644 test_read_format_warc_incomplete.warc
+++M5T%20R\Q+C`-"E=!4D,M5'EP93H@8V]N=F5R<VEO;@T*5T%20RU$871E.B`R
+++M,#(U+3`S+3,P5#$U.C`P.C0P6@T*0V]N=&5N="U,96YG=&@Z(#DR,C,S-S(P
+++M,S8X-30W-S4X,#<-"@T*5T%20R\Q+C`-"E=!4D,M5'EP93H@<F5S;W5R8V4-
+++M"E=!4D,M5&%R9V5T+55223H@9FEL93HO+W)E861M92YT>'0-"E=!4D,M1&%T
+++M93H@,C`R-2TP,RTS,%0Q-3HP,#HT,%H-"D-O;G1E;G0M5'EP93H@=&5X="]P
+++M;&%I;@T*0V]N=&5N="U,96YG=&@Z(#,X#0H-"E1H92!R96%D;64N='AT('-H
+++4;W5L9"!N;W0@8F4@=FES:6)L90H`
+++`
+++end
++-- 
++2.40.0
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+index c091508799..1015de3fce 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+@@ -32,6 +32,7 @@ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://CVE-2025-5914.patch \
+            file://CVE-2025-5915.patch \
++           file://CVE-2025-5916.patch \
+            "
+ 
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+-- 
+2.40.0
 
 
