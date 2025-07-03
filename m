@@ -1,119 +1,131 @@
-Return-Path: <michalwsieron@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD0FC83F03
-	for <webhook@archiver.kernel.org>; Thu,  3 Jul 2025 15:15:27 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web10.25405.1751555723468696544
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9649AC83F03
+	for <webhook@archiver.kernel.org>; Thu,  3 Jul 2025 17:04:27 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.28266.1751562259459222363
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Jul 2025 08:15:23 -0700
+ Thu, 03 Jul 2025 10:04:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=X8Hfv0Tg;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: michalwsieron@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-60c3aafae23so2462414a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 08:15:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IkQVdAt7;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6facc3b9559so2040856d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 10:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751555722; x=1752160522; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1751562258; x=1752167058; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qC2mmqP0ZfQVrQZnP+zTprwCUA2hDA+7Mn+1SkggfJg=;
-        b=X8Hfv0Tgejs8uZAeVIvt1z/gPPiOETaqgfSaFGhP9a3n6G9xQMBz1x3Yxnq1JyWkBm
-         4oQaL9ZwLmdGFOXboBs4xrCN/DqKRca3s7i3VkwlJocpMQ3jLVj27RK2kegNw9HHReVg
-         k7MUj898T/E3WvtixyfhGF6ZGus6vLWknmSLPOYSP/djJ61gzV1IuIq2SXzx5bK6r1fe
-         ytVox+Ya+gbyEzhdmoeWtcQm5Kf0IeOlRA10W+q9oe1oYUitB9T6tyYlax4lTu0YDo1u
-         WgWYhC6SKLEMW+IZkj/8MujfOP7eN7/qsl2VYYNyJjvkdm1OApsoaYS+JE6kybtxLwRn
-         bO7Q==
+        bh=RaDSCSL602+gaUgN3cGG6W/YKwajigHMrXmfWFaXcpA=;
+        b=IkQVdAt7UT3XkPT4viXksBY/zYtuFuBMjOON2FIzL4QhEsXZeAsGDlXzr+sWlzC8CO
+         tyjC6XEeBlWcE/SlXMQw2hNUyUT9JlhoNdbfpAFkc7nuQtq+cD8PgWRnWe23RC2kHJ9h
+         NStc2XR4QovWIC5PZ4E9ggCQpqYpoLhbpPydr5EK/TJpI17EClkeTsWuCquO981LT4tQ
+         v+oFDUlLAp23WJGrZliAzAHgwoZT0fsdJ2xZeKWrRSt9SUkvE4n3fiIeKeQLLDezF5xO
+         j6rYenU7tSs+IWBTmhG/ubmYtNaphp+fu8r1UXhmFbYECDkJjUYCN/OiHITkV66tSf//
+         +Vkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751555722; x=1752160522;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1751562258; x=1752167058;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qC2mmqP0ZfQVrQZnP+zTprwCUA2hDA+7Mn+1SkggfJg=;
-        b=EwGpC9iCMnvq2MlcM9HglBT9oMIr+2gTn66Pq+yWUN8Enn6C3p/6PGnsT/JZLBjww8
-         8Hf/TMg4ZQxlot0Vs4DzLGJETixTysb5QLRuiyFJIwibDaQeCP0lSYbKlYP2KmTKzfS7
-         LIx1CA9X1T5RUqoyE8ImMT5YIFcU2MLhrycZL4X4OpywOiuUlz3ylxQUW2m+ACG49gMu
-         vxGgoHWKdpqJd9zPG5BeqP95PFbRzB3vKR39ay2Wflgz8FWi4L3hwr7prUOmN/+0smql
-         YN65G/oOjIYWl1NM+kjEjokWfuEDpoaWz8ZiSJlEExoGa0z5fo5AkFwpzK6Cxnf7LdUU
-         JuQw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmHvCT7DOJwlgiV9c9Y3cumDT3ojn475j/wWkDuYvRFKxS92qBMmOEDCuV4/jEGfu5/eukqRpmbez0Z4Z/BS2A6A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz2Kj111HGsb74EOli3ygDQZETj6WnALVFz330SMcCSNzSDl1gw
-	9mKaiiIHNtE6KhMHzvccy07J+w6GGqhs/ioNGs9aPiQstYMMzGOrOGDh
-X-Gm-Gg: ASbGncuzqX49C2DHiPIbPpf2xrXh4hkXA671clxgWsJUnTrD+8VMX2ZMIi6cBcuLLxC
-	ic8RJ213FjWLbxGVBxUYEr4Pz/6XXfuj5r7KBuc9o57S4JH0lT4RY6dUs5t3NNRD/V2z33XCc8R
-	7+xG+lvPuw36bpua0gAkb/qZGak607QOe3VS8fSUviISYjJdqoAHgNILYKe/HXYvvhDvbl+lDkq
-	DAcvc7FjLbYXHhw5yqzL2ftBfnhBIQ8SyjC+fMBTFSzB85o9DFqou/m88NeqAQEpHHFh3kIH1y6
-	f3GRMQ5oPTgmbiUeKBbUWi7oyl1G6dKDKCNw9HKyBm3rIazBx9GbcqyoUrb3
-X-Google-Smtp-Source: AGHT+IFzQmdBu0u7Hw/fwG3Ma0Mxu/9F2PO671ZjGp2zHGSvxznLDbO0jK8BZn9PDczXd46GotmNEQ==
-X-Received: by 2002:a17:907:6d0b:b0:ad8:91e4:a92b with SMTP id a640c23a62f3a-ae3dd5f1f11mr323693166b.30.1751555721473;
-        Thu, 03 Jul 2025 08:15:21 -0700 (PDT)
-Received: from elitebook ([93.159.20.3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae353c6bcd7sm1245431666b.121.2025.07.03.08.15.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 08:15:21 -0700 (PDT)
-From: Michal Sieron <michalwsieron@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: michalwsieron@gmail.com,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf: Add relative path from B to S to
- DEBUG_PREFIX_MAP
-Date: Thu,  3 Jul 2025 17:14:51 +0200
-Message-ID: <20250703151450.196797-2-michalwsieron@gmail.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <873ee72d2286c43d56fae9b6de218c9c4a472bd5.camel@linuxfoundation.org>
-References: <873ee72d2286c43d56fae9b6de218c9c4a472bd5.camel@linuxfoundation.org>
+        bh=RaDSCSL602+gaUgN3cGG6W/YKwajigHMrXmfWFaXcpA=;
+        b=uphdw4Tbq6kjitO4lm0OIU+ggLoxCnUkl+YFHXW3wTbmR53iRFbrCS9PxuBxskRBwI
+         Tijgcyob8rTwY763KD8cnzT8LWcKyL//x1oCXTUu5lIQVym8V8y25KXXlCMVYcHKJPO9
+         PgkvkVvWTNCQWjLOcQQn6ihXGVU+5zZEVTQau0Nhy0jWHbICwYXp/UdmE2uKjligc/Lv
+         sprNL8gWmCva+q2MZW9ZickNciEKNcWZKerfUy4+DZVxzmjJ3fj3RR/CTGb96E2kxHzc
+         pJsKJlrHJhtrS3L/5lQIicCshcWL3NvqKE8ajSXozfpiUFtXShotPtyHMznANS2XfqOL
+         oNeA==
+X-Forwarded-Encrypted: i=1; AJvYcCVUo5zEIPLM23NgoIYrpt2TAbnM/xM37qaVSMnAcRB+YG+DWXVILewJ+d2hQaCLC4DEZ0+hyomwCIImsiCAT83d2w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwfHXj8nvoOHTDdciYjlcy7okg7Q8vV0c4wyev4Jxb/0upLDba+
+	BofrU9CDItTdtrEjZusToBPaTv8Ul9TJ8CGMOx+WgkUYkR6gpzgA5gvHfowaX0wXWICx1vjyEsp
+	Et30K5bvEVUZDik4TplxHhfvh4q9iOdU=
+X-Gm-Gg: ASbGnct9PFWTbBa8gLqK3byj+mjsnfkpPlcN9OiJ1qioAeLX3opoLOoKFGnHAPN88jq
+	oGNsBGVEPzhA1umrFF+xSXy8Ssv9DAi8b7D2Jm3CBW1UP6C5DAbRf68Yvl3/9FXs2SfXydwhXIv
+	QOvwJWJVKnIkPuFHBmyW+63b8k8odZiO40YXNhb5N/Wer0R1cLgYfx+k8sYmoU/GFJzNomJaNHx
+	b8RFRrMCwFa9WM3
+X-Google-Smtp-Source: AGHT+IEGGS6TGMPtiCqAJ90tRJa0oKR7R3+PRJtYEPLHvwx9zR1iOK+pQtZnI+rbwUoiEF0Fjnl7rOBYuKT8RCh0pcc=
+X-Received: by 2002:a05:6214:1d2b:b0:6fa:c67f:5e66 with SMTP id
+ 6a1803df08f44-702bc949556mr65236466d6.39.1751562258379; Thu, 03 Jul 2025
+ 10:04:18 -0700 (PDT)
 MIME-Version: 1.0
+References: <DM8PR11MB5653BDE89A4EFB219A90C7E3EF43A@DM8PR11MB5653.namprd11.prod.outlook.com>
+In-Reply-To: <DM8PR11MB5653BDE89A4EFB219A90C7E3EF43A@DM8PR11MB5653.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 3 Jul 2025 19:04:03 +0200
+X-Gm-Features: Ac12FXweNOAjNd79LdZWsrRzaYivyZlyqXTRZdM93s6Gqc2Mv_0CCm6QOQZz-yc
+Message-ID: <CANNYZj9UyaxakeB-CS7YZB+VRNsLkSz7vmv2Z78R6dMi26j=3w@mail.gmail.com>
+Subject: Re: [OE-core] GCC Patch removal - 0008-libtool.patch
+To: Harish.Sadineni@windriver.com
+Cc: Khem Raj <raj.khem@gmail.com>, 
+	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, 
+	"MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 15:15:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219890
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Jul 2025 17:04:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219891
 
-> This worries me a bit since going from memory when we originally=0D
-> implemented this, the use of relative paths shouldn't matter, gcc and=0D
-> other users of file-prefix-map should canonicalise paths before making=0D
-> comparisons. If it doesn't do that, there are so many combinations, it=0D
-> doesn't make sense. As such, I think the bug is elsewhere and we=0D
-> shouldn't apply this patch but root cause it...=0D
-=0D
-I did a test build outside of Yocto to make sure I am not imagining=0D
-things.=0D
-=0D
-meson.build:=0D
-    project('hello', 'c')=0D
-=0D
-    map_to =3D '/usr/src/debug/hello/1.0'=0D
-=0D
-    executable('hello', 'hello.c', c_args: [=0D
-      '-fmacro-prefix-map=3D' + meson.project_source_root() + '=3D' + map_t=
-o,=0D
-      '-fdebug-prefix-map=3D' + meson.project_source_root() + '=3D' + map_t=
-o,=0D
-      '-ffile-prefix-map=3D'  + meson.project_source_root() + '=3D' + map_t=
-o,=0D
-      '-fmacro-prefix-map=3D' + meson.project_build_root()  + '=3D' + map_t=
-o,=0D
-      '-fdebug-prefix-map=3D' + meson.project_build_root()  + '=3D' + map_t=
-o,=0D
-      '-ffile-prefix-map=3D'  + meson.project_build_root()  + '=3D' + map_t=
-o,=0D
-    ])=0D
-=0D
-hello.c:=0D
-    #include <stdio.h>=0D
-=0D
-    int main() {=0D
-        printf("Hello, world!\n");=0D
-        return 0;=0D
-    }=0D
-=0D
-Running dwarfsrcfiles on it I get:=0D
-    $ dwarfsrcfiles build/hello=0D
-    /usr/src/debug/hello/1.0/../hello.c=0D
-        /usr/src/debug/hello/1.0/../hello.c=0D
-=0D
-Best regards,=0D
-Michal=0D
+This was written by RP very long time ago, Khem's metadata was added
+on version update or otherwise later.
+
+Generally removing unnecessary (or poorly explained) patches is welcome.
+
+You can send a patch to oe-core that does so, and if it passes a-full
+test, then that will be considered in patch review.
+
+Alex
+
+
+On Thu, 3 Jul 2025 at 13:38, Sadineni, Harish via
+lists.openembedded.org
+<Harish.Sadineni=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> Hi Khem,
+>
+> This gcc patch https://git.openembedded.org/openembedded-core/tree/meta/r=
+ecipes-devtools/gcc/gcc/0008-libtool.patch?h=3Dmaster modifies the libdir f=
+rom "/usr/lib/../lib" to "/usr/lib" in the libstdc++.la file.
+>
+> We removed this patch and rebuilt GCC using bitbake. We did not encounter=
+ any build or runtime issues. We tested building gcc, gcc-runtime, and core=
+-image-minimal. After booting the image, we also tested libtool and a simpl=
+e C program with the following commands:
+>
+> $libtool --tag=3DCC --mode=3Dcompile x86_64-poky-linux-gcc -c hello.c
+> libtool: compile:  x86_64-poky-linux-gcc -c hello.c  -fPIC -DPIC -o .libs=
+/hello.o
+>
+> $libtool --tag=3DCC --mode=3Dlink x86_64-poky-linux-gcc  -o hello hello.l=
+o
+> libtool: link: x86_64-poky-linux-gcc -o hello .libs/hello.o
+>
+> $x86_64-poky-linux-gcc hello.c -o hello
+>
+> All tools and the generated binaries are running fine. So, we believe thi=
+s patch is no longer needed with the latest GCC sources.
+> However, in the commit message, it is mentioned:
+> "it shouldn't be passing this into libtool in the first place but for now=
+ this resolves the nastiest problems this causes."
+>
+> Do we need any other tests to perform or is it okay to drop this patch?
+>
+> Thanks,
+> Harish
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#219875): https://lists.openembedded.org/g/openembedde=
+d-core/message/219875
+> Mute This Topic: https://lists.openembedded.org/mt/113964150/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
