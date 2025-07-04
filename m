@@ -2,152 +2,195 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6188C83F09
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6124C83F03
 	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 15:29:18 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.14820.1751642953780092103
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.14815.1751642948963643198
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jul 2025 08:29:13 -0700
+ Fri, 04 Jul 2025 08:29:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=j30d6hyE;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-747c2cc3419so951847b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:29:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bU0tVvGw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-74801bc6dc5so884201b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:29:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751642953; x=1752247753; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751642948; x=1752247748; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wXfBT4cvnKP7+K+zVEZ+FosN8fS8yv1NB8As+3UT9NQ=;
-        b=j30d6hyEXEEyexg3eK5KmETBnzvqegZ2Fdz6vL26R+UrdtiC/Q3fI8FmymGqeVa/GZ
-         5fd1GGo2tEI6oYgHJyusey2VOeIwgl/HVlNG/1DgKiP5ZgmFC80rNbH5yfkk4LjgD5ia
-         1MDppVIbq672QZOkWXPWAa+YUkA69fKHPCOa4N0tQjq06C5a52UrG5nAPufS7t/szQ+d
-         pbDIxyF8eK1L3rGU77GxBHl/dn2JMQZnXwR3/nXZ4O7PfS/3DO3pwj0MtCYM1rU4A/dJ
-         6K60okDbGd/Qr4LgTbVdVjvtSphZxrlHDkkl6PuDE5/1x6DEnS9evSqN/CGGjQYlvy/G
-         qURg==
+        bh=MumNgmGaBXZtO/aVbVPmXug4hfst4F85syJONZUdz/k=;
+        b=bU0tVvGwGszDB9Io0qKy75q0cw4W7TcXofG/KBaqIZYRTLzj+rfM8fjtJ0RiQosvMA
+         edwpxlhaNlwQRmn+TBIjLahPvcUCf0kLNYeuWi/+RKA4/gWMEXejOEYu/D2enCrWWHwD
+         SxWY55wRZ8hm1fzWDGx8ayrFKz92yZlYXcTnfpjngcjAGBsak/2L/OndhBhdy56EYz7q
+         dLHVFHkOnt9qcZIyF1T07u2iol7oTxVsGV/+P9g+aQ7s1nVsOrPOuw4wkWkHLmJx3lhT
+         JomyBJz1/tWrFH7tfSicjwWzZPSwkeW5YgF8wqkfZhpIPDbmgrto7FvUWs8CxA71yQct
+         uv9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751642953; x=1752247753;
+        d=1e100.net; s=20230601; t=1751642948; x=1752247748;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wXfBT4cvnKP7+K+zVEZ+FosN8fS8yv1NB8As+3UT9NQ=;
-        b=ux5N0ATTFJQNHpdct11Pv6I0xyF4N02zd9ZZIo9I1wLdrVgOJho37RDiMbPzVV4W3N
-         3kf0MoOwlukHDFh0bpx29jvUuYda5UcAj6OS6toFolqcnwstCYievURphDVgd/Pm0uPn
-         8E2KUOXEh9Skn3vNH4NwCnWSciqni316X0Xc+E/pWsMvM0Gy9GOujlx2ZasoK1ByL7WD
-         10yCQMx3ebid58KpEBWx0eWPD5bLrNXrmmceCBpESiyzqtwaSNPZuHfLf9Lds3ssifiS
-         rySP6ZXlhF+dBWqCUK6Lob4o0JruAsZcFmHo+5x1EHjgo3xGBu3njuyh/di+NDYRokvL
-         VdKg==
-X-Gm-Message-State: AOJu0YzpDyuJIUyzKfqMxynAVOe/IsWCyQw47N1ZuEpE24/Rype32Q4f
-	kCym06ctfWW25+zBShePCtsIIEtdYCszYJ4zl5rbdYhm5tVyBB41EobUj0P6GzF4hHxWhVrB48y
-	PL+eV
-X-Gm-Gg: ASbGnct8wPFXSDMZ5MW2mvj5GD8sv6Ad/QRB8jJnP+J8nNjlTzQXFP/c5WdG8Zsj+VC
-	eOZDYizaodwhN91YMt2TJGqZL41+yzAid2N+rQt2Hexp2iy/ttNzf3mBTSHgSF9BeSyxKzOAT9i
-	1FGbqkg2jsTyjqQ4btEhAiQ3lY671xLCbcYJMSeOsCiCFx1Jg0Tcy8bejNB0mneluWq1cToIPrw
-	pIW18sSMc+3DFjP/KJs53NbPYbKp7+AvrZQgvSQV9OLNuMaSISAa9xoNVXymD8Ab8t0G0qNuOTN
-	/oEvV4C6h5z/MqmuZtYMqiiLne7e1FLk6lSzwR22nA7+obnHtbNLEA==
-X-Google-Smtp-Source: AGHT+IHK/MTvLW1C9hWRejp4LWia8wjStRht3xLt2NLbQCEy66iFFjiEw8JNmfXGu79SYapK1ciu2w==
-X-Received: by 2002:a05:6a00:4fc1:b0:748:e150:ac5c with SMTP id d2e1a72fcca58-74ce6d7ba84mr4359310b3a.23.1751642952920;
-        Fri, 04 Jul 2025 08:29:12 -0700 (PDT)
+        bh=MumNgmGaBXZtO/aVbVPmXug4hfst4F85syJONZUdz/k=;
+        b=lTAhdVy1mBVWM6qX1EtkuiZY2z0za+OoEB0QPhK2GPyS/qDP2BuP3vWMmjMngtLXFV
+         hiJ6Pt5qGxUYzVhVPGqKy83X9HVxSQ5tGvOAE9+00GDhVkG+3G8/iRBwtLt6nbhtabjL
+         Vgffo2Ohk66GQZr9pfTDeO4ruggAeH5ZUrPXn2AdC7YGXn8fabIyN6xFWyeE/Ty+hAr6
+         YGtcJ6cpczS3vZC6P82sBtQvoHogFN5ZgY/JUB06A8DbBaPGfzjQEycsa/ppk8kVk5sI
+         2jIiInqpFtFhb9d8dJ0uO4BE+gEvACUnqgtOcXkjguH8Pp6EPk2h0gv4bwXLQbi5aVuL
+         SWAQ==
+X-Gm-Message-State: AOJu0Yx6w1etHzBDyf066ur6CUViSj2y/4R0fK+cugRlWpYAMXC5PHPA
+	78Nb0KVUusG5vz1TlHrpNvjeaxWrWkQ8jXOAfFWTzwGHLrdlM0GWpn6dSH3kUJlhY/QHc1S86EK
+	pC2tP
+X-Gm-Gg: ASbGnctORlb5bHVLE1OGeOw9ccqy/xjl4+2MMT6TFRmWYuAMTyyaM+GPYKeg7BAVTDV
+	V3TVF5nDVilabeDhy0UmVL8VU0ch0FXVLNF6KJjKamnuOMkh5il/m2BFyZUuFi6nyzf8lUWzM/M
+	l+xJu9CrZqN5MWI7XxXrbVn2c9RMZo48vC8y4kaDUVHQzqfaL+MGBrSTom02tXGFltifT80qv4c
+	KGJ42FMtMeLlL6f32Om5lrB+i+KkZqgbd2KrjBFUQq2pRqZsVLqbacNQ5Gkj8dLKvUzbq4dlM38
+	IPWO4MF188r3IiR65hpE+x2Y5NwW5C3fscJXnvPnIRPJzg045xmqDw==
+X-Google-Smtp-Source: AGHT+IEcIITWCIKQJI3QPoFjJFc8qUAcdQDgdGr4Mchro9LMwMvOUyXAwQfgkm4vKx+gHwT4sN5ICw==
+X-Received: by 2002:a05:6a20:d492:b0:1f3:31fe:c1da with SMTP id adf61e73a8af0-225af054ca1mr4382649637.11.1751642948039;
+        Fri, 04 Jul 2025 08:29:08 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:d985:cb7d:ae84:68cc])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42a1ca0sm2424232b3a.138.2025.07.04.08.29.12
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42a1ca0sm2424232b3a.138.2025.07.04.08.29.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 08:29:12 -0700 (PDT)
+        Fri, 04 Jul 2025 08:29:07 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 7/9] xwayland: fix CVE-2025-49178
-Date: Fri,  4 Jul 2025 08:28:53 -0700
-Message-ID: <9ab0fb0deebd4abb22dbfc6b40fe962cb3388fbd.1751641924.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/9] xwayland: fix CVE-2025-49175
+Date: Fri,  4 Jul 2025 08:28:50 -0700
+Message-ID: <2c8e82f860792e7fb99c78c512be57ce74774a34.1751641924.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1751641924.git.steve@sakoman.com>
 References: <cover.1751641924.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 15:29:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219946
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219943
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-A flaw was found in the X server's request handling. Non-zero 'bytes to ignore'
-in a client's request can cause the server to skip processing another client's
-request, potentially leading to a denial of service.
+A flaw was found in the X Rendering extension's handling of animated cursors.
+If a client provides no cursors, the server assumes at least one is present,
+leading to an out-of-bounds read and potential crash.
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xwayland/xwayland/CVE-2025-49178.patch    | 50 +++++++++++++++++++
+ .../xwayland/xwayland/CVE-2025-49175.patch    | 92 +++++++++++++++++++
  .../xwayland/xwayland_22.1.8.bb               |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49178.patch
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49175.patch
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49178.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49178.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49175.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49175.patch
 new file mode 100644
-index 0000000000..5ef2fea1c9
+index 0000000000..bfb37fcea0
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49178.patch
-@@ -0,0 +1,50 @@
-+From d55c54cecb5e83eaa2d56bed5cc4461f9ba318c2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49175.patch
+@@ -0,0 +1,92 @@
++From 0885e0b26225c90534642fe911632ec0779eebee Sep 17 00:00:00 2001
 +From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Mon, 28 Apr 2025 10:46:03 +0200
-+Subject: [PATCH] os: Account for bytes to ignore when sharing input buffer
++Date: Fri, 28 Mar 2025 09:43:52 +0100
++Subject: [PATCH] render: Avoid 0 or less animated cursors
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+When reading requests from the clients, the input buffer might be shared
-+and used between different clients.
++Animated cursors use a series of cursors that the client can set.
 +
-+If a given client sends a full request with non-zero bytes to ignore,
-+the bytes to ignore may still be non-zero even though the request is
-+full, in which case the buffer could be shared with another client who's
-+request will not be processed because of those bytes to ignore, leading
-+to a possible hang of the other client request.
++By default, the Xserver assumes at least one cursor is specified
++while a client may actually pass no cursor at all.
 +
-+To avoid the issue, make sure we have zero bytes to ignore left in the
-+input request when sharing the input buffer with another client.
++That causes an out-of-bound read creating the animated cursor and a
++crash of the Xserver:
 +
-+CVE-2025-49178
++ | Invalid read of size 8
++ |    at 0x5323F4: AnimCursorCreate (animcur.c:325)
++ |    by 0x52D4C5: ProcRenderCreateAnimCursor (render.c:1817)
++ |    by 0x52DC80: ProcRenderDispatch (render.c:1999)
++ |    by 0x4A1E9D: Dispatch (dispatch.c:560)
++ |    by 0x4B0169: dix_main (main.c:284)
++ |    by 0x4287F5: main (stubmain.c:34)
++ |  Address 0x59aa010 is 0 bytes after a block of size 0 alloc'd
++ |    at 0x48468D3: reallocarray (vg_replace_malloc.c:1803)
++ |    by 0x52D3DA: ProcRenderCreateAnimCursor (render.c:1802)
++ |    by 0x52DC80: ProcRenderDispatch (render.c:1999)
++ |    by 0x4A1E9D: Dispatch (dispatch.c:560)
++ |    by 0x4B0169: dix_main (main.c:284)
++ |    by 0x4287F5: main (stubmain.c:34)
++ |
++ | Invalid read of size 2
++ |    at 0x5323F7: AnimCursorCreate (animcur.c:325)
++ |    by 0x52D4C5: ProcRenderCreateAnimCursor (render.c:1817)
++ |    by 0x52DC80: ProcRenderDispatch (render.c:1999)
++ |    by 0x4A1E9D: Dispatch (dispatch.c:560)
++ |    by 0x4B0169: dix_main (main.c:284)
++ |    by 0x4287F5: main (stubmain.c:34)
++ |  Address 0x8 is not stack'd, malloc'd or (recently) free'd
++
++To avoid the issue, check the number of cursors specified and return a
++BadValue error in both the proc handler (early) and the animated cursor
++creation (as this is a public function) if there is 0 or less cursor.
++
++CVE-2025-49175
 +
 +This issue was discovered by Nils Emmerich <nemmerich@ernw.de> and
 +reported by Julian Suleder via ERNW Vulnerability Disclosure.
 +
 +Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
++Reviewed-by: José Expósito <jexposit@redhat.com>
 +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2024>
 +
-+CVE: CVE-2025-49178
++CVE: CVE-2025-49175
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/d55c54cecb5e83eaa2d56bed5cc4461f9ba318c2]
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/0885e0b26225c90534642fe911632ec0779eebee]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ os/io.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ render/animcur.c | 3 +++
++ render/render.c  | 2 ++
++ 2 files changed, 5 insertions(+)
 +
-+diff --git a/os/io.c b/os/io.c
-+index 67465f9..f92a40e 100644
-+--- a/os/io.c
-++++ b/os/io.c
-+@@ -444,7 +444,7 @@ ReadRequestFromClient(ClientPtr client)
-+      */
++diff --git a/render/animcur.c b/render/animcur.c
++index ef27bda..77942d8 100644
++--- a/render/animcur.c
+++++ b/render/animcur.c
++@@ -304,6 +304,9 @@ AnimCursorCreate(CursorPtr *cursors, CARD32 *deltas, int ncursor,
++     int rc = BadAlloc, i;
++     AnimCurPtr ac;
 +
-+     gotnow -= needed;
-+-    if (!gotnow)
-++    if (!gotnow && !oci->ignoreBytes)
-+         AvailableInput = oc;
-+     if (move_header) {
-+         if (client->req_len < bytes_to_int32(sizeof(xBigReq) - sizeof(xReq))) {
+++    if (ncursor <= 0)
+++        return BadValue;
+++
++     for (i = 0; i < screenInfo.numScreens; i++)
++         if (!GetAnimCurScreen(screenInfo.screens[i]))
++             return BadImplementation;
++diff --git a/render/render.c b/render/render.c
++index 5bc2a20..a8c2da0 100644
++--- a/render/render.c
+++++ b/render/render.c
++@@ -1795,6 +1795,8 @@ ProcRenderCreateAnimCursor(ClientPtr client)
++     ncursor =
++         (client->req_len -
++          (bytes_to_int32(sizeof(xRenderCreateAnimCursorReq)))) >> 1;
+++    if (ncursor <= 0)
+++        return BadValue;
++     cursors = xallocarray(ncursor, sizeof(CursorPtr) + sizeof(CARD32));
++     if (!cursors)
++         return BadAlloc;
 +--
 +2.40.0
 diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-index fefc0d4e3a..caca8ab0f6 100644
+index 8b1fc85aab..55d381f868 100644
 --- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
 +++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-@@ -47,6 +47,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
-            file://CVE-2025-49176-0001.patch \
-            file://CVE-2025-49176-0002.patch \
-            file://CVE-2025-49177.patch \
-+           file://CVE-2025-49178.patch \
+@@ -43,6 +43,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2025-26601-3.patch \
+            file://CVE-2025-26601-4.patch \
+            file://CVE-2022-49737.patch \
++           file://CVE-2025-49175.patch \
  "
  SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
  
