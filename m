@@ -2,130 +2,330 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E5C5C8303D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF8BC83F0B
 	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 15:10:48 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.14485.1751641841696869228
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.14488.1751641846045543905
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jul 2025 08:10:41 -0700
+ Fri, 04 Jul 2025 08:10:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZWgUpHb2;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-749248d06faso890022b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:10:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hpBQmC3g;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-74931666cbcso924491b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751641841; x=1752246641; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t9LQYCPKWWURL6Vgv95UUJrhenxD/j8EEt9szI+0toc=;
-        b=ZWgUpHb2qBd8DIk2Ap7vTB2rGyXCIJl73MYtLJ6uaxmf5WMJHsHTH8zjeKiOM3V441
-         V1HOtehcKmYqbN2XoYdA7GWNYRXSxtCjuYBFgPGjI4EOq+y0F+GzqM57ms4J3c6+kLZK
-         hFNflDb86wmkIpnchOnpfc8Dibpi9s9Sqx5QD571nPSBSdK6x06VVNTK1YaJ6ENwIaDk
-         tcLPhaA9ZUgk4sniPkccTYAW+QrqIeeEY0dMd1HOz3PUJqSYXtLH01GpiLiTSq8TQM+Z
-         93i6jwN4kPjQ7jzxf4cUMkTBlsegAkPGfolRSkCVTNc3cG/c9FaVPPyF0FBfASYPZ245
-         Sojg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751641845; x=1752246645; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xPWSWXZcFMJ9WtW6+vK+0dl5jIP3NNXfqA6qzvIJrQg=;
+        b=hpBQmC3gvs/LCw5b297hwn6bk5q4h3UGHIJ5nBEIr7dco5AcGkAcpH3Qhy5lccfxuL
+         l35nkGehWXwi+Bid9Ju7kfYPybrWwRY8jRxGKtLjVPvsERwuHmJqlbcX+K5xnFbkkwJD
+         MROitGtk6v4xksSS4esZU2f+jKbuckx9H8tWbbYzR9Htw6Hoh3/Cysw0vgpGKkg/W6U8
+         S3jyBAJLY5iP8ubvWpc1OOFFipgfr7cAzpPTWwSGeFjmyf3+AW+cKza3aUTyyIGYcAjg
+         HaWgA48pf7DJ1nRB/I7QAm2xciKlWTiy39jhJM653EBTCXb3qrs4yn1koX74utWc/Ttl
+         +ujQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751641841; x=1752246641;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t9LQYCPKWWURL6Vgv95UUJrhenxD/j8EEt9szI+0toc=;
-        b=mo5XUFxzvY78l8hmJBIjZ+Cen+4dj2O9taR5OlnYzfSi17tgAI4SWIjwETdiVowDjp
-         pzIQ/nKhlCMZJU8kOn4lDlc0B+bNNsa5d8aeAhwqRpbF5TPYb5tNn9qIGh1ctRf18F1K
-         Lb+9mGCdbOLNN3hfSgKRArBWV2vM0iZJDm5waX0fjb4brtJnzgHt0mmTMih2uX2u97+u
-         KGYxXTCjib6CV8fnHK5kZ+mKCWGZEd4aFrq8aoJpECworozDvmvRtl7BYmQR70si6ho0
-         5+Gltha3DziNAelWYf8WwjcUeR1siTGcUWtwc7PArYsTASQpBp1+5PYLNMIZPzrTnWIo
-         mV1Q==
-X-Gm-Message-State: AOJu0Yw6BExjrB3+ckBHagrBQSbIJ+TItebcSqmBxxZjcwgy92k0mp8e
-	87PjxFU3P1DTpj3eukSQG7aWhsw1mBJ5QQW3cfODWJF78YTuqvdePebg4UwfQb/dooPs2PeqXNF
-	tw7io
-X-Gm-Gg: ASbGncsaX/5dY0nSkSns+9gqWfxs6ZutTwEgf3912jgJtwYAidzMR3T+od1Re3jxmkS
-	RiPhXCL+sGJT1xHIBJfibcgKckyqDlyx6DiX1K55bCaMoH+oJOXAJTVUHOF9EIedWvw707fuonz
-	CXii5X1Yq0I7hj5Y8Rk3NGYfOU4CNgutMjaVp8f302CdjCd0Ys08Cny29cc94wkwLJgaVNcrIRU
-	kSH1dw4HghMg0Ial0BRMaVrIy9i3q+GhuogSyHjWpmO2IZ5PkscbOJLm+j7NSAhUoTak9KVi6bi
-	azGR4J7qK8aryLlNElUrKbP/p0S/sZDqZ2mPNDmrpzr3fxlGdhNCPg==
-X-Google-Smtp-Source: AGHT+IFtMM0L0DKAL6Qzwlh2wFpFPUr9K5m7M/3LPFEEN7Z2ofdghneJ6IidE1YjMk79Ct8qje8gSw==
-X-Received: by 2002:a05:6a00:3c94:b0:748:ff39:a0ed with SMTP id d2e1a72fcca58-74ce6a25428mr4597742b3a.20.1751641840642;
-        Fri, 04 Jul 2025 08:10:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751641845; x=1752246645;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xPWSWXZcFMJ9WtW6+vK+0dl5jIP3NNXfqA6qzvIJrQg=;
+        b=LB/qUYqMT6AAS7bqP8U1whtaVDgi7PItUhYs65kQayfNBp3hKSOKcp/FPxDxAevnEy
+         JestVI7DU+upaGU6WuRsdhyYj9XDHvERqbtsLhHBR/lPIhU2336GDR1TdO0fENM/UcbE
+         /ubOMTTzU6L6FM3FVLSyuW2qEs/GpFGm6zz3EAcQ0r6ZPuppluEjjzX57MPecdgBTgXk
+         fkFbXBfCkHwWHtAvXk/XWeVIZZ1Pxvtt6FzCbdMs6KSA8WBJoCiEUh+eYqKOUKK1vC77
+         odTnDZRiVTV2hjQVbm6XajdnUfNxx7Kg6aHNIowqukgyDogysg4COUGYH/fpm+jbRfuO
+         Xliw==
+X-Gm-Message-State: AOJu0YxaCgfzvP26BIsq7G33+B+f7VgtxmJ2AiXNNXuPmmbWNCwzUsBc
+	4vCeXfKy5wbZv8kiTE4dKPsqabi5xMvH7XkavDzvJrR7hwO7Kw0tckqlWC/YGax7cOJB79yToHU
+	Ill3+
+X-Gm-Gg: ASbGncvApHgN4txVkpXdxxs7fHsnSXFVhvt3apSKVVBYKPo/slwhGFD6BtJNuPwH7kR
+	TpWhyPEZbSWQj/ngPlU0GzJGvCReQLpYtiI4T6syuoxMutCd0pV0XWdU5kJ7XMgksBa0Xwl6paV
+	mXKByeAb4YKXbB0MUuCNF0kvvCgK8A40jVR9A8P54VLEs9v5uc0AktbbgZWpaaayOpvT3Z+xv9t
+	Y/8Lh6f9/4bAVYKUOvcijiRuW/NV/sz75yBp1dpwdOnI/rMc3AKKsCg+1TGBtDzeBb2eHsJK0Pi
+	6PcP/wiD/H2caUvJTUPqjjVV/C2ktjYo8SS2g6bKgKRdY+QMyQ2wiw==
+X-Google-Smtp-Source: AGHT+IFB/xBKipzS4JgRo6x6pcfuoH6yfqYQBFpPzIDjz4Bfwlli+z/DXO2o2K4Ah+jTcjGF76UCEw==
+X-Received: by 2002:a05:6a00:22c7:b0:748:f1ba:9aff with SMTP id d2e1a72fcca58-74ce68e4dbbmr3714519b3a.5.1751641845098;
+        Fri, 04 Jul 2025 08:10:45 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:d985:cb7d:ae84:68cc])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce417e869sm2159592b3a.82.2025.07.04.08.10.40
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce417e869sm2159592b3a.82.2025.07.04.08.10.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 08:10:40 -0700 (PDT)
+        Fri, 04 Jul 2025 08:10:44 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/11] Patch review
-Date: Fri,  4 Jul 2025 08:10:23 -0700
-Message-ID: <cover.1751641631.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/11] libarchive: fix CVE-2025-5915
+Date: Fri,  4 Jul 2025 08:10:25 -0700
+Message-ID: <99fdc86ad57db4d8829a33033918cf78419977af.1751641631.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1751641631.git.steve@sakoman.com>
+References: <cover.1751641631.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 15:10:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219926
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219928
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Tuesday, July 8
+From: Divya Chellam <divya.chellam@windriver.com>
 
-Passed a-full on autobuilder:
+A vulnerability has been identified in the libarchive library. This flaw can lead to a heap b
+uffer over-read due to the size of a filter block potentially exceeding the Lempel-Ziv-Storer
+-Schieber (LZSS) window. This means the library may attempt to read beyond the allocated memo
+ry buffer, which can result in unpredictable program behavior, crashes (denial of service), o
+r the disclosure of sensitive information from adjacent memory regions.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1948
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2025-5915
 
-The following changes since commit 175cd54fd57266d7dea07121861a4f15be00a882:
+Upstream-patches:
+https://github.com/libarchive/libarchive/commit/a612bf62f86a6faa47bd57c52b94849f0a404d8c
 
-  tcf-agent: correct the SRC_URI (2025-07-03 09:01:28 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Archana Polampalli (6):
-  xwayland: fix CVE-2025-49175
-  xwayland: fix CVE-2025-49176
-  xwayland: fix CVE-2025-49177
-  xwayland: fix CVE-2025-49178
-  xwayland: fix CVE-2025-49179
-  xwayland: fix CVE-2025-49180
-
-Divya Chellam (5):
-  libarchive: fix CVE-2025-5914
-  libarchive: fix CVE-2025-5915
-  libarchive: fix CVE-2025-5916
-  libarchive: fix CVE-2025-5917
-  libarchive: fix CVE-2025-5918
-
- .../libarchive/libarchive/CVE-2025-5914.patch |  48 +++
- .../libarchive/libarchive/CVE-2025-5915.patch | 217 ++++++++++++
- .../libarchive/libarchive/CVE-2025-5916.patch | 116 +++++++
- .../libarchive/libarchive/CVE-2025-5917.patch |  54 +++
- .../libarchive/CVE-2025-5918-0001.patch       | 326 ++++++++++++++++++
- .../libarchive/CVE-2025-5918-0002.patch       | 222 ++++++++++++
- .../libarchive/libarchive_3.7.9.bb            |   6 +
- .../xwayland/xwayland/CVE-2025-49175.patch    |  92 +++++
- .../xwayland/CVE-2025-49176-0001.patch        |  93 +++++
- .../xwayland/CVE-2025-49176-0002.patch        |  38 ++
- .../xwayland/xwayland/CVE-2025-49177.patch    |  55 +++
- .../xwayland/xwayland/CVE-2025-49178.patch    |  50 +++
- .../xwayland/xwayland/CVE-2025-49179.patch    |  69 ++++
- .../xwayland/xwayland/CVE-2025-49180.patch    |  45 +++
- .../xwayland/xwayland_23.2.5.bb               |   7 +
- 15 files changed, 1438 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5914.patch
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libarchive/libarchive/CVE-2025-5915.patch | 217 ++++++++++++++++++
+ .../libarchive/libarchive_3.7.9.bb            |   1 +
+ 2 files changed, 218 insertions(+)
  create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5915.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5916.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-0001.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-0002.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49175.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0001.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0002.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49177.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49178.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49179.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49180.patch
 
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5915.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5915.patch
+new file mode 100644
+index 0000000000..3c911ce9d9
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5915.patch
+@@ -0,0 +1,217 @@
++From a612bf62f86a6faa47bd57c52b94849f0a404d8c Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <stoeckmann@users.noreply.github.com>
++Date: Sun, 11 May 2025 19:00:11 +0200
++Subject: [PATCH] rar: Fix heap-buffer-overflow (#2599)
++
++A filter block size must not be larger than the lzss window, which is
++defined
++by dictionary size, which in turn can be derived from unpacked file
++size.
++
++While at it, improve error messages and fix lzss window wrap around
++logic.
++
++Fixes https://github.com/libarchive/libarchive/issues/2565
++
++---------
++
++Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
++Co-authored-by: Tim Kientzle <kientzle@acm.org>
++
++CVE: CVE-2025-5915
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/a612bf62f86a6faa47bd57c52b94849f0a404d8c]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ Makefile.am                                   |  2 +
++ libarchive/archive_read_support_format_rar.c  | 17 ++++---
++ libarchive/test/CMakeLists.txt                |  1 +
++ .../test/test_read_format_rar_overflow.c      | 48 +++++++++++++++++++
++ .../test/test_read_format_rar_overflow.rar.uu | 11 +++++
++ 5 files changed, 72 insertions(+), 7 deletions(-)
++ create mode 100644 libarchive/test/test_read_format_rar_overflow.c
++ create mode 100644 libarchive/test/test_read_format_rar_overflow.rar.uu
++
++diff --git a/Makefile.am b/Makefile.am
++index 4fafc41..9f3a6d1 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -519,6 +519,7 @@ libarchive_test_SOURCES= \
++ 	libarchive/test/test_read_format_rar_encryption_header.c \
++ 	libarchive/test/test_read_format_rar_filter.c \
++ 	libarchive/test/test_read_format_rar_invalid1.c \
+++	libarchive/test/test_read_format_rar_overflow.c \
++ 	libarchive/test/test_read_format_rar5.c \
++ 	libarchive/test/test_read_format_raw.c \
++ 	libarchive/test/test_read_format_tar.c \
++@@ -889,6 +890,7 @@ libarchive_test_EXTRA_DIST=\
++ 	libarchive/test/test_read_format_rar_multivolume.part0003.rar.uu \
++ 	libarchive/test/test_read_format_rar_multivolume.part0004.rar.uu \
++ 	libarchive/test/test_read_format_rar_noeof.rar.uu \
+++	libarchive/test/test_read_format_rar_overflow.rar.uu \
++ 	libarchive/test/test_read_format_rar_ppmd_lzss_conversion.rar.uu \
++ 	libarchive/test/test_read_format_rar_ppmd_use_after_free.rar.uu \
++ 	libarchive/test/test_read_format_rar_ppmd_use_after_free2.rar.uu \
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index 9eb3c84..88eab62 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -451,7 +451,7 @@ static int read_filter(struct archive_read *, int64_t *);
++ static int rar_decode_byte(struct archive_read*, uint8_t *);
++ static int execute_filter(struct archive_read*, struct rar_filter *,
++                           struct rar_virtual_machine *, size_t);
++-static int copy_from_lzss_window(struct archive_read *, void *, int64_t, int);
+++static int copy_from_lzss_window(struct archive_read *, uint8_t *, int64_t, int);
++ static inline void vm_write_32(struct rar_virtual_machine*, size_t, uint32_t);
++ static inline uint32_t vm_read_32(struct rar_virtual_machine*, size_t);
++ 
++@@ -2929,7 +2929,7 @@ expand(struct archive_read *a, int64_t *end)
++     }
++ 
++     if ((symbol = read_next_symbol(a, &rar->maincode)) < 0)
++-      return (ARCHIVE_FATAL);
+++      goto bad_data;
++ 
++     if (symbol < 256)
++     {
++@@ -2956,14 +2956,14 @@ expand(struct archive_read *a, int64_t *end)
++       else
++       {
++         if (parse_codes(a) != ARCHIVE_OK)
++-          return (ARCHIVE_FATAL);
+++          goto bad_data;
++         continue;
++       }
++     }
++     else if(symbol==257)
++     {
++       if (!read_filter(a, end))
++-          return (ARCHIVE_FATAL);
+++          goto bad_data;
++       continue;
++     }
++     else if(symbol==258)
++@@ -3048,7 +3048,7 @@ expand(struct archive_read *a, int64_t *end)
++           {
++             if ((lowoffsetsymbol =
++               read_next_symbol(a, &rar->lowoffsetcode)) < 0)
++-              return (ARCHIVE_FATAL);
+++              goto bad_data;
++             if(lowoffsetsymbol == 16)
++             {
++               rar->numlowoffsetrepeats = 15;
++@@ -3096,7 +3096,7 @@ bad_data:
++ }
++ 
++ static int
++-copy_from_lzss_window(struct archive_read *a, void *buffer,
+++copy_from_lzss_window(struct archive_read *a, uint8_t *buffer,
++                       int64_t startpos, int length)
++ {
++   int windowoffs, firstpart;
++@@ -3111,7 +3111,7 @@ copy_from_lzss_window(struct archive_read *a, void *buffer,
++   }
++   if (firstpart < length) {
++     memcpy(buffer, &rar->lzss.window[windowoffs], firstpart);
++-    memcpy(buffer, &rar->lzss.window[0], length - firstpart);
+++    memcpy(buffer + firstpart, &rar->lzss.window[0], length - firstpart);
++   } else {
++     memcpy(buffer, &rar->lzss.window[windowoffs], length);
++   }
++@@ -3266,6 +3266,9 @@ parse_filter(struct archive_read *a, const uint8_t *bytes, uint16_t length, uint
++   else
++     blocklength = prog ? prog->oldfilterlength : 0;
++ 
+++  if (blocklength > rar->dictionary_size)
+++    return 0;
+++
++   registers[3] = PROGRAM_SYSTEM_GLOBAL_ADDRESS;
++   registers[4] = blocklength;
++   registers[5] = prog ? prog->usagecount : 0;
++diff --git a/libarchive/test/CMakeLists.txt b/libarchive/test/CMakeLists.txt
++index 5d7a5d2..59c5f5d 100644
++--- a/libarchive/test/CMakeLists.txt
+++++ b/libarchive/test/CMakeLists.txt
++@@ -163,6 +163,7 @@ IF(ENABLE_TEST)
++     test_read_format_rar_encryption_partially.c
++     test_read_format_rar_invalid1.c
++     test_read_format_rar_filter.c
+++    test_read_format_rar_overflow.c
++     test_read_format_rar5.c
++     test_read_format_raw.c
++     test_read_format_tar.c
++diff --git a/libarchive/test/test_read_format_rar_overflow.c b/libarchive/test/test_read_format_rar_overflow.c
++new file mode 100644
++index 0000000..b39ed6b
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar_overflow.c
++@@ -0,0 +1,48 @@
+++/*-
+++ * Copyright (c) 2003-2025 Tim Kientzle
+++ * All rights reserved.
+++ *
+++ * Redistribution and use in source and binary forms, with or without
+++ * modification, are permitted provided that the following conditions
+++ * are met:
+++ * 1. Redistributions of source code must retain the above copyright
+++ *    notice, this list of conditions and the following disclaimer.
+++ * 2. Redistributions in binary form must reproduce the above copyright
+++ *    notice, this list of conditions and the following disclaimer in the
+++ *    documentation and/or other materials provided with the distribution.
+++ *
+++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
+++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT,
+++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+++ */
+++#include "test.h"
+++
+++DEFINE_TEST(test_read_format_rar_overflow)
+++{
+++    struct archive *a;
+++    struct archive_entry *ae;
+++    const char reffile[] = "test_read_format_rar_overflow.rar";
+++    const void *buff;
+++    size_t size;
+++    int64_t offset;
+++
+++    extract_reference_file(reffile);
+++    assert((a = archive_read_new()) != NULL);
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, reffile, 1024));
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_next_header(a, &ae));
+++    assertEqualInt(48, archive_entry_size(ae));
+++    /* The next call should reproduce Issue #2565 */
+++    assertEqualIntA(a, ARCHIVE_FATAL, archive_read_data_block(a, &buff, &size, &offset));
+++
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
+++    assertEqualInt(ARCHIVE_OK, archive_read_free(a));
+++}
++diff --git a/libarchive/test/test_read_format_rar_overflow.rar.uu b/libarchive/test/test_read_format_rar_overflow.rar.uu
++new file mode 100644
++index 0000000..48fd3fd
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar_overflow.rar.uu
++@@ -0,0 +1,11 @@
+++begin 644 test_read_format_rar_overflow.rar
+++M4F%R(1H'`,($=```(0`@`0``,`````(````````````S`0``````,`"_B%_:
+++MZ?^[:7``?S!!,`@P,KB@,T@RN33)MTEB@5Z3<`DP`K35`.0P63@P<,Q&0?#,
+++MA##,,",S,(@P,#,@##`&,#":(3`!,#"(`9HPS,,S13`P,#`P,*`PHPS,,S1A
+++M,!,!,#","9H@S12D#$PP!C`P`*'F03":,,T8H`@\,/DPJS!/,"30,#`3N%LP
+++MCQ6:S3"!,#LP22<-,$5%B"5B$S!)(&*>G#+@!`E`%0ODC])62=DO,)BYJX'P
+++M=/LPZ3!!008?%S`P,#`P,#`P,#`P,#`P,#`P,#`P2$PP,#`P03!(,#`P,#`&
+++M,`7),#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P
+++-,#`P,#`P,#`P,#`P,```
+++`
+++end
++-- 
++2.40.0
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+index c26a14e32e..42c91e641e 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+@@ -32,6 +32,7 @@ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://configurehack.patch \
+            file://CVE-2025-5914.patch \
++           file://CVE-2025-5915.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
 -- 
 2.43.0
 
