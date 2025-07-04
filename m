@@ -1,153 +1,152 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EF68C83F03
-	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 08:47:46 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.8190.1751618858571166347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 566EDC83F03
+	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 08:49:46 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web10.8116.1751618975293143472
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jul 2025 01:47:38 -0700
+ Fri, 04 Jul 2025 01:49:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=BbnvYaJ4;
- spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-748e81d37a7so528542b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 01:47:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LD4laMZw;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6fd0a91ae98so5269236d6.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 01:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1751618858; x=1752223658; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IQIM4g+Y+GSIGMmvSh3I1djOXeSvdeB1rCjzgB6kC3k=;
-        b=BbnvYaJ4DSKFj5LdhTGkFbSKyIby5oqCjpOKG3yupXweckxzh5gubLruRQQQgSx1Gi
-         ovVtDP0wWUQDeX0DhL42VfskPmEPWoozdsfQPUu4U6Sz4+mvlFWK0UOW41EYiLdy5inC
-         pmf8tLIvQ7fScXGJDdC8z4rmODkeF+BOJQRcs=
+        d=gmail.com; s=20230601; t=1751618974; x=1752223774; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sVZ3dJ8pRT2c5mZWGrFYWpngEUAIZ3lkwfiY91FEj8w=;
+        b=LD4laMZwhubmjrkKFnq2nYBfFdSQaAG4TQCVWy9ZkIaxdyYFJuUxffUArKfSqZcx4H
+         UlGo0kGlfmzZTUffCEFTUeRNpnmcXOnCOUp8+IqStbp4WOHKh+nt7I1MF244tngFLOfL
+         df2GvIrtorb8P20NgM+MH7XGmJLP2b4AXupZr/S/P/EfZxcVeWLbB1lpGn3L2+EPFFG1
+         D+zvsqlC6cgA2Yo6lnd+gbfnhYo83xkmANeYtU7GaB1XCDUxYElZZX5pXP4+Fw4VvbGI
+         6hVLgFwz2mYgjqKCYyO6qEdxw/gDNENesi4ZeZLObmgqruX6xPtV9WHnCwg2+1r7MmBL
+         EfSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751618858; x=1752223658;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1751618974; x=1752223774;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IQIM4g+Y+GSIGMmvSh3I1djOXeSvdeB1rCjzgB6kC3k=;
-        b=EsKsgjpbcHWccY7KzxvkFZ1Yx5ymnvrUF1Mha44uBo2SKcxW48bQgfuR1GrrDZ2XXH
-         IUlxnBT/DQjGg+rK5EH2HN2VDthVkh6qWmTA5bi1vy+iT1JwyThVdS5CturYS9TJrAbS
-         8yBPrmQSTMeccYW//HVkq5GbZ6wODwcE0dQH/qw5i1FMOPZ3lHU4AkLfQF6XxJxUZ3tI
-         FD2yi2yPliYbIiCxEz3QqsK02LQfBdB2wydD50Pq2ecyKsrbJI6MRG/v2xapfliVAtfW
-         dJj1AoeTJoSrGEIXdvdCGruQWaiJAcfrAXbgkbOgVKZajBSEq4hgRARHpdX8xrXTZn4M
-         dBTA==
-X-Gm-Message-State: AOJu0YySx2ELBAHrVuR3il7oDYWqehh2MzphbJDTf3jLH+KCOFMC9gv6
-	q6dqCM7EAyJuJc8oFS150lq8/Yl+jNexlK62MiEQzQsGeVSqwLShKAWFlh3vkZi8FVhxtR1a0Z9
-	FWHO4
-X-Gm-Gg: ASbGncsxZJ9cYpoIQQVfNQ1krMhZidxdbes505r7+Kr/0Pf8XiSqDeumH8z9qgRyv4m
-	j+AJ+Q7N38vSYWsQscVxYUFG+1yDQ+Uay8hf5DbXU12VBwr8kKEF22wJYqjA5Z6O7Ha7K/+nlPA
-	UcF8LbIMkiyenTwAxA30o8ctCnPtTwsI2C2Y6tF8Z1PVXRzHYnDJSvUAzIpu0Vb1A8I0xnxPZY4
-	EJH7Xjk9si2YvSyNl2k1+4tEy7CiElOrk0wf2run3jFWOtYUDZtS+sPvdxOoCz1fqu6CuQE7KGq
-	p0UwMVfAbN2kz3dF61LIhDiFJmMTuS1Nx52Knd9pFjzbP1eNGxF/ZB5pCOZ0mO7xAPyMzCnkupk
-	=
-X-Google-Smtp-Source: AGHT+IEfPdfgpNiN3h7/tyAxTB8NfCj/qywtH8zVoszkXgkjPYKcJ8i4XD6+Ce5hDuzsWSAuZw7nOA==
-X-Received: by 2002:a05:6a20:a127:b0:1f5:9098:e42e with SMTP id adf61e73a8af0-225be6e3f30mr3370454637.7.1751618857687;
-        Fri, 04 Jul 2025 01:47:37 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([43.249.234.176])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b38ee60c55csm1584341a12.43.2025.07.04.01.47.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 01:47:37 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] libxml2: fix CVE-2025-6021
-Date: Fri,  4 Jul 2025 14:16:21 +0530
-Message-ID: <20250704084621.593762-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.49.0
+        bh=sVZ3dJ8pRT2c5mZWGrFYWpngEUAIZ3lkwfiY91FEj8w=;
+        b=hFhlJL7STU2hvn10ZRuZ4l1mQR/hhyQ+TsM9GnJGralTcWPh4u9F3750D5suJOONKu
+         zsSphS3VB3Dx0cbOhHLMVTJd5XFBOyQjWRuHzsLUZlWLDT6EHcGOUgMEn2SmZUj/eRBc
+         mloGvtc5gQD/M017mXmDfAT3LJPn0s2L9n1lGO+ehvonNcWLKb4HP2XWFumLVVQipmBP
+         ep8yiPYfF/+yi8NmL6XAnLGi7q4V1558fqKbX1iJPgHgB7bP/DVSj0W/KANowhgDAsph
+         nw3GrMyXeRhLSFcXxjM/++rSohcX9ptWe+ubrzXYsQSbGDBzmfBr/+Ahk/YpdvwXqZl+
+         s9Eg==
+X-Gm-Message-State: AOJu0YxfLNiCZc/shUdKeZFi4qsjYYpIsWsgNXwz61pV/3/mKGm+jTxD
+	WN0P7/aFKHsPNeJyqifxFYulTWKilecsm+j50KgUZmsSJpsh64WT6P6R+6z6Vp22h5Xiy+GKfS6
+	xt/5vWkyqNfcd2ySLechKFEDf0aJ3xTU=
+X-Gm-Gg: ASbGncvbvLRCusnnlCYJFRuuALUL+aTfqkzdsu9rjFAuwKRz0FBT+hbJoQsxMmHoZO6
+	1xZAU+GG+UMWiAKUzfvULTtOi57l5eSK0RZbfBlic9WTS8Pymb4Yw6db6eyL/QKJEqdBK5VYhrH
+	IXarTPmkLzYBwEHXmkIa3sNR6Rv+ZwU75kVoLhWsPGc7ivLuC94BUNLEEZ5r75ASZ4Bcukqv0oQ
+	mSjNw==
+X-Google-Smtp-Source: AGHT+IG2IrS/oZ8PFZJ4v9ci/2dPxbG8x4PHtGmi4/Y1ka4v3z13oU7DI27O0pWNaWwioDm8YX/vjYh5qbMH48BFowA=
+X-Received: by 2002:a05:6214:5d90:b0:6fb:107:f618 with SMTP id
+ 6a1803df08f44-702c8ce6e7emr12489106d6.40.1751618974173; Fri, 04 Jul 2025
+ 01:49:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250704053856.2446627-1-yamane07ynct@gmail.com>
+In-Reply-To: <20250704053856.2446627-1-yamane07ynct@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 4 Jul 2025 10:49:22 +0200
+X-Gm-Features: Ac12FXxoIzOTLqr1NNCzp4u1vWZmcqMPPWe2pBqkM2Y5yembm07sxAcn8IAzFng
+Message-ID: <CANNYZj80ZOUN4F6L6ypWRJFC0OX_6GYqkDEYyq3KV5nCXgaYag@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] icu: Add ptest support
+To: yamane07ynct@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:47:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219903
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:49:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219904
 
-Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libxml2/-/commit/acbbeef9f5dcdcc901c5f3fa14d583ef8cfd22f0
+On Fri, 4 Jul 2025 at 07:40, Daisuke Yamane via lists.openembedded.org
+<yamane07ynct=gmail.com@lists.openembedded.org> wrote:
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../libxml/libxml2/CVE-2025-6021.patch        | 56 +++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
+> Add icu-ptest to PTERSTS_SLOW because it takes more than 30s to complete
+> on qemuarm64.
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
-new file mode 100644
-index 0000000000..9ec58e33c2
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
-@@ -0,0 +1,56 @@
-+From acbbeef9f5dcdcc901c5f3fa14d583ef8cfd22f0 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Tue, 27 May 2025 12:53:17 +0200
-+Subject: [PATCH] tree: Fix integer overflow in xmlBuildQName
-+
-+This issue affects memory safety.
-+
-+Fixes #926.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/acbbeef9f5dcdcc901c5f3fa14d583ef8cfd22f0]
-+CVE: CVE-2025-6021
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ tree.c | 12 +++++++++---
-+ 1 file changed, 9 insertions(+), 3 deletions(-)
-+
-+diff --git a/tree.c b/tree.c
-+index 6e04dfb..cdf863c 100644
-+--- a/tree.c
-++++ b/tree.c
-+@@ -50,6 +50,10 @@
-+ #include "buf.h"
-+ #include "save.h"
-+ 
-++#ifndef SIZE_MAX
-++#define SIZE_MAX ((size_t) -1)
-++#endif
-++
-+ int __xmlRegisterCallbacks = 0;
-+ 
-+ /************************************************************************
-+@@ -222,16 +226,18 @@ xmlGetParameterEntityFromDtd(const xmlDtd *dtd, const xmlChar *name) {
-+ xmlChar *
-+ xmlBuildQName(const xmlChar *ncname, const xmlChar *prefix,
-+ 	      xmlChar *memory, int len) {
-+-    int lenn, lenp;
-++    size_t lenn, lenp;
-+     xmlChar *ret;
-+ 
-+-    if (ncname == NULL) return(NULL);
-++    if ((ncname == NULL) || (len < 0)) return(NULL);
-+     if (prefix == NULL) return((xmlChar *) ncname);
-+ 
-+     lenn = strlen((char *) ncname);
-+     lenp = strlen((char *) prefix);
-++    if (lenn >= SIZE_MAX - lenp - 1)
-++        return(NULL);
-+ 
-+-    if ((memory == NULL) || (len < lenn + lenp + 2)) {
-++    if ((memory == NULL) || ((size_t) len < lenn + lenp + 2)) {
-+ 	ret = (xmlChar *) xmlMallocAtomic(lenn + lenp + 2);
-+ 	if (ret == NULL) {
-+ 	    xmlTreeErrMemory("building QName");
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index bd6dd88dee..45424e59ff 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -39,6 +39,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
-            file://CVE-2025-24928.patch \
-            file://CVE-2025-32414.patch \
-            file://CVE-2025-32415.patch \
-+           file://CVE-2025-6021.patch \
-            "
- 
- SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
--- 
-2.49.0
+Was this on an arm64 host with kvm enabled in via runqemu option?
+Otherwise the measurement isn't correct, as it goes through software
+emulation and is a lot slower than the actual CI execution.
 
+If your host is x86_64, then you need to build for qemux86_64, and run
+that with kvm.
+
+> +#!/bin/sh
+> +
+> +TESTS="intltest iotest cintltst"
+> +TMP="$(mktemp -d)"
+> +STATUS_R="${TMP}/status.$$"
+> +TOPDIR=$(dirname "$(realpath $0)")
+> +for t in ${TESTS}; do
+> +       cd ${TOPDIR}/test/$t
+> +       ./$t -E${STATUS_R}.$t || (echo "FAIL: $t"; touch ${STATUS_R}.$t; cp ${STATUS_R}.$t ${STATUS_R}.$t.FAIL)
+> +       [ ! -f ${STATUS_R}.$t.FAIL ] && touch ${STATUS_R}.$t.PASS && echo "PASS: $t"
+> +       echo "----------------------------------------"
+> +       if [ -s "${STATUS_R}.$t.FAIL" ];then
+> +               echo "-------------"
+> +               echo "| ***     FAILING TEST SUMMARY FOR:              $t"
+> +               cat ${STATUS_R}.$t.FAIL
+> +               echo "| *** END FAILING TEST SUMMARY FOR:              $t"
+> +       fi
+> +done
+> +
+> +goods=""
+> +bads=""
+> +for t in ${TESTS}; do
+> +       if [ -f "${STATUS_R}.$t.FAIL" ];then
+> +               bads="${bads} $t"
+> +       elif [ -f "${STATUS_R}.$t.PASS" ];then
+> +               goods="${goods} $t"
+> +       else
+> +               echo "*** subtest did not complete - $t"
+> +               bads="${bads} $t"
+> +       fi
+> +done
+> +echo "ALL TESTS SUMMARY:"
+> +if [ ! "x${bads}" = "x" ];then
+> +       echo "ok: ${goods}"
+> +       echo "===== ERRS: ${bads}"
+> +       exit 1
+> +else
+> +       echo "All tests OK: ${goods}"
+> +fi
+
+This is a direct copy-paste of the icu Makefile:
+https://github.com/unicode-org/icu/blob/main/icu4c/source/test/Makefile.in
+
+I don't think it's necessary to make it this complicated (and
+potentially have to keep it in sync with the Makefile), we can perhaps
+just run the tests, and see what they print; if PASS/FAIL isn't there,
+then the script can add that.
+
+> +do_install_ptest() {
+> +    install -d ${D}${PTEST_PATH}/test
+> +    install -d ${D}${PTEST_PATH}/data
+> +    cp -r ${S}/test/testdata ${D}/${PTEST_PATH}/test
+> +    cp -r ${S}/data/unidata ${D}/${PTEST_PATH}/data/
+> +    cp -r ${S}/data/sprep ${D}/${PTEST_PATH}/data/
+> +    cp -r ${S}/../testdata ${D}/${PTEST_PATH}/
+> +    cp -r ${B}/test/testdata/out ${D}/${PTEST_PATH}/test/testdata
+> +
+> +    list="intltest iotest cintltst"
+> +    for i in $list; do
+> +        install -d ${D}${PTEST_PATH}/test/${i}/
+> +        install -m 755 ${B}/test/${i}/${i} ${D}/${PTEST_PATH}/test/${i}/
+> +    done
+> +}
+
+The same Makefile linked above has a rule for installing the tests.
+Can that be used instead? Maybe it also installs some way to run them?
+
+In any case, do not hardcode the particular test names; that changes
+over time, and it's better to have some dynamic way of installing
+(e.g. by file name pattern or executable bit).
+
+Alex
 
