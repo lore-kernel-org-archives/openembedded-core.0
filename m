@@ -1,342 +1,238 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EF1CC83F03
-	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 11:02:07 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.10103.1751626920145368345
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90343C83F03
+	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 12:17:07 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.141])
+ by mx.groups.io with SMTP id smtpd.web11.11174.1751631420508641056
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jul 2025 04:02:00 -0700
+ Fri, 04 Jul 2025 05:17:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=i+id7EQ0;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ae0b6532345so344760766b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 04:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751626918; x=1752231718; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=B7Tt0V7+1i8paIuqkbNGWouMnOrs6f+91lI6LdYmxJs=;
-        b=i+id7EQ0rE0YHrqhBED+jWUfq+OuY0G8Os+kFAXJsOYURy5Lo56gy281Z7ml/1QFC9
-         cClwpeS2lW1LDYa6nWx6EruUsb4fEYdAtye1Xi0FbwFnUgpnu3sdiZT9MxWKFzuTX1NJ
-         kkim9K7evTVdKeS3Qf4Vb9EnyNiyeMvq32eQehUiePf5qs56+oyex6sssl0NHA0eZuhD
-         cN0jFOLd+a5Q0Y8ptXcDptHc4EbiTpgdF/OE8lxdGqcNCgONQjQmJyAa48N5+Bk+2fmV
-         d5u+fHLqCpg51l5rjwR0ZSslgPAEFaPyaT1fCBICHVSdUhSwzfFUt7uXm0O4L27cZ3gq
-         Sx9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751626918; x=1752231718;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B7Tt0V7+1i8paIuqkbNGWouMnOrs6f+91lI6LdYmxJs=;
-        b=v/lswqBgIgSLXDYWkPjQyaeAiRJn5kD4zS13k+uD4E2oYKk6+ysYwtUhZFI/X6z3fw
-         bti4jkrzJqIEFDsZjvJQuEFS2uBDWCfg0FqxM6gutwBSJfEUT5TzB/Pm4OFFt2S9vXrO
-         IEdr1rHDXRk1h5I1Md2h0fS7yVVcsjuwr29+rjwjPYp8cD5vA2Dm9C/zFrpsuHngcLMU
-         YeMEJR46OwGFnto3n5r4DdO4yItElO/dxCo9KWIpGmzOG+a/OEXIbWKaU0ch8FcutDyU
-         KNQ/dMp1ATw5dHqXbWeWQ90L679ELQCvmILoCfvhE6ifnilypnRg81POHC1pPQCLvWeE
-         criA==
-X-Forwarded-Encrypted: i=1; AJvYcCXsjMtFuEuq7jkRwUh8evB0ZrV6SNlmlTYppiGiTajCbC6vZTKb5kw2U0zYStdjzpgYleqWGZxDkVfk6gW310hXOA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzUI5gTBA3CNTASk8C92wGbHcEJtXdmqSPCcy0HgCRHnl5ybqcJ
-	tOiKAXCKo195xb25IVo6i2uNhmNiMqbfLsg8E69j46HLtqCI6Efmw671jRvtZw==
-X-Gm-Gg: ASbGncv6cljOOePFHkcGb2SvcEYgZcBNWr6Qsk/NUPK8zD4q/vI/FPHHi3PhUYReDWx
-	aPeLfkJAzgewX1y/m/9IgNJ8IbvvFc6vluTU1FBhxp6hBfQR6iM8btvlt2VzJaPCyyuzu3BiW8D
-	AM6/q9w8bz4JpYlAYayYmwhFvwucaraBBAtS6M+wuapQMTjkpxxtxGUN5V9DKxA3BZ6W8B21arI
-	3R6S73VPF70fqOWDOgD7iTDgpbf+ffYJ/7Efm6WCfsWmmJDnSMWezSPnSo6BdOmRoxpWG/ZSts8
-	Uz+Ww5hVmFft+LNSjVUNKbWbnDKzzv2H8BKXE0RLlvVtdLFT4iinM4Xh0/kHZUDqBfteYQ==
-X-Google-Smtp-Source: AGHT+IFUdeKS6IQ8D4PKcWoMIk+WRmnNM6rXIedpUuhU8yti0ZPm2FtxGMg1/10SJd2mh8xLAKzICQ==
-X-Received: by 2002:a17:907:9404:b0:add:f68c:5200 with SMTP id a640c23a62f3a-ae3f9bb4b95mr275565066b.6.1751626917313;
-        Fri, 04 Jul 2025 04:01:57 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f6ac5d69sm152485466b.76.2025.07.04.04.01.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Jul 2025 04:01:56 -0700 (PDT)
-Message-ID: <a1bc90f8-44f7-4343-a52a-b9bba9607da6@gmail.com>
-Date: Fri, 4 Jul 2025 13:01:56 +0200
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=5X67R2LP;
+ spf=pass (domain: navimatix.de, ip: 40.107.162.141, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bnBFwwa6e1TOkS55r6l4naUAm0oXZ8P4/YKtJE4TO3ITrbZ4PgOMyfSLFC803VyyAXTaMVNozfjjAqlbN0obtDMLK8g1pD5mC8EpouY8fs7rhB+2i+At3XbZnljgcevrEizkbvHfPpmRKMgmgWx5u1EmKRz6EDmLczV+8I5RjR57R8xlyxk/tNYfOF88dYoX9Z3+dnXR7WRsTB3/6Fy150V4d/yMVxAjKSw5gXlWH734sebb/5H2MmqkxbHpiOtVeLZTpDHr+VBQC1asvrljT4ESpjhX26KpQg0K5GmJ1aCsTqUkPeRE1G4ot9httDHf5+kSf0RQZt5Ko+gNfWFDdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ojbCTceTdQEtHAIkWums9ByjtjS53wDHv9Ah1Doqsfg=;
+ b=EhWx8TAApsDP3pK5zcjEGlYupHb5IjldE9HuC9BcbfhEXHvVZcJBee1OIBsQ4/elfP5yLu4RuMyEHFj8M3SiLCH28OhUJLvvtxsEBecuXOz0xwGCHYOdl6ovFgYrl40ZXv7ToZ5777EebWXGG0k3FSETas+lfFQAEF2I8B3xWb8WRQx5MVaVnEQgE6aSteeuGMzek119QMTE4CBGGwAuNK9Rc4clLf5+Ia8yACAcEtXNvAUqGODUBB5e0iMlVpsbjqmss+BFxkOHAXybhUusczKz/yc1/X5D8VJbwhct1Yf59Mnp0FxPpd68szCgDZSQIsiS+Jh1juK7dMNHA6ghCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ojbCTceTdQEtHAIkWums9ByjtjS53wDHv9Ah1Doqsfg=;
+ b=5X67R2LP7Pf0NvmZwps6A8RRN90ADeEBIqkWZCg79kREcZmd/KxDvDzAhBtDxZ5XplNcm+M8v01nsgPGFYlmvoNKX8lYk1AOyGJbd1QbLxrS1DvO/sQyuNd+YgLpyJ7S24CS58X5vfPGWKYctei9y8/PgN5m7m5R8ZKcXgLYlI0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from PA4PR01MB7726.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:cb::18) by GV2PPF717C52CB5.eurprd01.prod.exchangelabs.com
+ (2603:10a6:158:401::599) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.36; Fri, 4 Jul
+ 2025 12:16:54 +0000
+Received: from PA4PR01MB7726.eurprd01.prod.exchangelabs.com
+ ([fe80::412e:7f2b:cbfe:3d07]) by PA4PR01MB7726.eurprd01.prod.exchangelabs.com
+ ([fe80::412e:7f2b:cbfe:3d07%5]) with mapi id 15.20.8901.018; Fri, 4 Jul 2025
+ 12:16:53 +0000
+Date: Fri, 4 Jul 2025 14:16:52 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org, s.zhmylev@yadro.com, 
+	alexandre.belloni@bootlin.com, richard.purdie@linuxfoundation.org, joerg.sommer@navimatix.de
+CC: Sergei Zhmylev <s.zhmylev@yadro.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [kirkstone][PATCH] classes: Move package RDEPENDS processing out of
+ debian.bbclass
+Message-ID: <4f53825c14f9940ea8d379dcd35a5ae02bcb92e2.1751631411.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.48.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR4P281CA0030.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c9::7) To PA4PR01MB7726.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:cb::18)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][scarthgap][PATCH 2/2] python3-urllib3: fix
- CVE-2025-50182
-To: Yogita.Urade@windriver.com, openembedded-core@lists.openembedded.org
-References: <20250704103539.265785-1-yogita.urade@windriver.com>
- <20250704103539.265785-2-yogita.urade@windriver.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <20250704103539.265785-2-yogita.urade@windriver.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR01MB7726:EE_|GV2PPF717C52CB5:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0524e0df-238c-4d47-64bb-08ddbaf4a98e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?4IDSjYg4OTV4jtVLG8L6lSDCO4hlEicKzO7pWFjyb1MA/lsx3I+fGteuv/A5?=
+ =?us-ascii?Q?DpTrj53GCDA8fhuW7G68OmgUHdx6AEevQ056D6dB/GNXRad6sffhbxeJ7ZdE?=
+ =?us-ascii?Q?vAzAmYLcY/i62TTfhqACu8OGvkV1wIX3PChsqQ7Lf1DM/YO1s731LiSphVzq?=
+ =?us-ascii?Q?HD9w5h1g9bAbVfDyknddAWwr3INJMptplPpdom2+ftPHcWV13U3/bkyjCGms?=
+ =?us-ascii?Q?JZ2GrhxENEbYMDYnnmfpk2qIe8v/TSlTUvt1c4CRgrCMp/RlqVSPpriNVGlQ?=
+ =?us-ascii?Q?GSRuSqwe+fD5bNmCPxBg4BM1HnVL6fDBb3M8+pBzz0N++GYtqJxQq+6Hq35Y?=
+ =?us-ascii?Q?gQC84KL/gPbNiI08wH7MWTDBfh4EA3HAAnL38S3A0mUwZ1mlX5rd3ig99Pe0?=
+ =?us-ascii?Q?RVedfpfUfBT5ZNYcNda8Ww9a4dC7x4EZ9do5zmtJJqORQoJDNSPggg/Thsja?=
+ =?us-ascii?Q?/Sgi/MY6nWQfosOjrW6sUK3Mnj9jI9n2jSI2E2nZH4W1+m4rhaFNYHQH0xxA?=
+ =?us-ascii?Q?pT//eieFgUlNzULnGpkP8Jhsvn5ii1NojQD397G7YVyKrhAMI6hiX9UYWqqv?=
+ =?us-ascii?Q?3vgjZkoU5oclahKkNep6XIG+dpVMnCBIyzRLVWq7YcaMZYEgxBq8J18CLqVG?=
+ =?us-ascii?Q?JtzJRP94ZenKyKG2VFxOe+cTyeNGs6wrp6Undg7XE2LbuU1q9rQVXwW/V/T0?=
+ =?us-ascii?Q?twEB2BjJTfc2raeosgGk5kz7z9qmCFy6wY2Jo9c0A6Si9AXNrGIcLp9uiR23?=
+ =?us-ascii?Q?P+L+Tp20mHohI+ucXSRGrh+0hhibiHdDBtxZ0KTW3lDdGwzjGql85xeU4JH7?=
+ =?us-ascii?Q?5kNRUO3ltD/++dAaGt+mXcDZ0ODCnKqscqgSf3jBwYz4IJSw1g8EETl1m9To?=
+ =?us-ascii?Q?yRThkkiwjomriIC7pdBThg0MOgkTz3IUBq/+RrByqoBevNhoUDhXolsiQzvp?=
+ =?us-ascii?Q?X/dcbtPOThsKEX8fYZdtY6Dda4zayFiSWynhjo/C6n2ux6VQcBLPT8YkG8xx?=
+ =?us-ascii?Q?YNfrg8AKrOMCi6nR+Zniuu4FmklEL7jwlf2ciSOjXQ1CIt2ZUqA4S5vJ3BXl?=
+ =?us-ascii?Q?Bwxfcb2n5p5jLftnpNHsLp4RV3wcqAb5D7/DSWt7U4PUTkWV22VX/xawqv5x?=
+ =?us-ascii?Q?DgNo3a34wvGq/+NQy0pFTdcDpvVT8pb/x+twsE9Gu2VOQned9hKpD6iwxhxS?=
+ =?us-ascii?Q?wha3Yu0GeBnqLHUPYzM4lg9OnP06D9JrEIMGBFmeUNYiPBKhSuOXmjINhGTI?=
+ =?us-ascii?Q?8rDwKuNO3kZ29t0uYUzMrTCb9lDEa8sflejOH2GA2dqDsYUGMJY/nWz6zUUz?=
+ =?us-ascii?Q?nw561gKPWxIKy1i2LWpJTEjHtJs/2eRjrAwT+EOaVJZpsznVGwrJk3Pkxles?=
+ =?us-ascii?Q?yorzkml8mW/Vpd0qeH8aMmK6SWl+AZddFPewMp12x2PQDLgCqNvPa4M/OPwE?=
+ =?us-ascii?Q?fC3U/9xHQNA=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR01MB7726.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Lja+/agVKCoJQe155M/5cZHsF1xMg+jwfhYjiUJR5AZLUeWWjR2t4RIazxWu?=
+ =?us-ascii?Q?uOo/bEyhoosY0dF3yq6LymPLN70FvhEwZTNg0uC6mSaNvxMXgRbA85WpNgPt?=
+ =?us-ascii?Q?s+XpIZMn1zW1TsBvYtWhttHUc4TsmJM8D3QtOIWxowdvNUdQypfwFRh0LPxI?=
+ =?us-ascii?Q?SHMG7WnUa8yKLZT2lZ6ieyMPOd+6u8ZTo9MWJy8BVZve/50QyhsacYGrDQMk?=
+ =?us-ascii?Q?MJ6y5xLzIlwL+wOrBBpShQLJ3ClU01Vh1bqMcryrQbTkwBrXRhBetu3So62U?=
+ =?us-ascii?Q?T6T8A1JSklA1pb8nrtFHI4tJUqVoiKN0ERT0vOBD4+PLK6qj/4Zq+Z94F13+?=
+ =?us-ascii?Q?IdXi7k5mUOFhUN7fiYJQMz+ZMy7iziPklLoJAtxpszexCksNAFQ0yu+52qci?=
+ =?us-ascii?Q?EyUeGkV0tRULfOGPE71U+4Zv+rGjzv4b/ryJ+K7df7GAO5aCqkQkUBtVXFqU?=
+ =?us-ascii?Q?nfzAXC9yGQ5u8b1wImvAQuPIF/NbZnzwc6OPpH5S2mVz1Rkbgbjid0rdQwJu?=
+ =?us-ascii?Q?xw5O5nLtz2RqJaTSm3pqJ+sS95C15iGal9tUFUjplJDFSBvGI48rAWekJRse?=
+ =?us-ascii?Q?gyF7sC7TTuik00fSAFzi03DieUc+/oAev/rsEuo2xXL3tjmxSSuRumGFPiJr?=
+ =?us-ascii?Q?JZvdqJQ2GbRIZRguBw6s44EoWRaVHS/Sa/gnJC8Y/ISNjbLyLeSIFSZ8HkCD?=
+ =?us-ascii?Q?NizquXyTG4CEoX5e27KC6x8N19hPrOuQBUoXoUjXBLU4DV7zWXap/k3YEMue?=
+ =?us-ascii?Q?6F4NCZg/gbFHbK8cCWEu2bIyCi1WhweFYw79GZVG90bFcrZ0mVEsATCxXE+P?=
+ =?us-ascii?Q?BCQq6gRhXnrmsJB3f0adL56OT+AuYwLRyhedTr2FiD+wUJqsq/XGCcze7Cjy?=
+ =?us-ascii?Q?Sb9R/Tbvseatw93xKVFhDp5DVVNIb+v3kUbavAgGGFOD/7WZH5DmhnaN4Fm7?=
+ =?us-ascii?Q?OZyU+YfQSeuZzm24tIO5ygNM/etkxwi+NVjudou45lCcuXlsn7VD+ythm1J8?=
+ =?us-ascii?Q?zXOaojAw4HtN3nZtYLPYvukP10K7U2+uJjBkIE7Kf7iDQJNpuPD420IsGmzH?=
+ =?us-ascii?Q?n+xHQgqp1+VJET2ynXxm6WoRQWet8WENF71Y+Tz7o/yfYokzDGVU/+eSrApo?=
+ =?us-ascii?Q?rL+TqLyoi2uXvQXzuT+nOgaLcJUFdU789wugOZ2rVXErF3RCeLWany1wNWqd?=
+ =?us-ascii?Q?IQ7IA48znLH8zJo8rBVHIfP7VGN79auAyQGOVEc1BewI7beFthQbPIrJk0Gk?=
+ =?us-ascii?Q?MI5YSz7TU0HLYWRqLQx6qktMmucjalPrGC4dmhe++ltz9+d/Wzw5XJWvnk/G?=
+ =?us-ascii?Q?0cp6Q++/OZDRIKU1t4ZqBvAfKvV8AWemyZSTmhqcTqdSAvR/LmfqjzdwVaO2?=
+ =?us-ascii?Q?C4WAS6fzdb5g2x7OM5ItKwgJTYbFR9nuUf9sFXoFkevOdpBCkLvTB/ZlS1RO?=
+ =?us-ascii?Q?lgXP3L1FdYrvNOpNc+PbcrtL8HNqkv2ZhxmFY/tPJ/6/eTjHyOoDKsnv+hTx?=
+ =?us-ascii?Q?PEU5j46yni6eOsKYyLrSi07x71PNiI2FtbZuAnETIajIX6d1WnfWltdSKxgu?=
+ =?us-ascii?Q?MB7gy6N12IXUzXl4ykHB0/akRRRoQAtRwVV+yidURocYGvCkhYerL7ztsYZ7?=
+ =?us-ascii?Q?NQ=3D=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0524e0df-238c-4d47-64bb-08ddbaf4a98e
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR01MB7726.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2025 12:16:53.7358
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sxMwCl4Y7SA3Mpg0ZJCb6aSnPfE3XXcOEeHhMVDQec9nrbcH66csoTaMd/URMmRmL53jfIOjxs3IIO/hEqbKO1K0bzwdgcruMhepwJXArzw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PPF717C52CB5
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 11:02:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219917
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 12:17:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219918
 
-I think this patch isn't correct, and I believe there is a typo in the
-CVE upstream description also.
+From: Sergei Zhmylev <s.zhmylev@yadro.com>
 
-1. Regarding the patch: The vulnerable method, send_jspi_request() does
-not exist in the Scarthgap version. This patch basically introduces the
-vulnerable new feature (which wasn't there initially) before fixing it.
-2. Regarding the CVE: I think the first vulnerable version is actually
-2.3.0, and the vulnerability was actually introduced with this[1] commit.
+INHERIT_DIRSTO by default includes debian.bbclass which in turn properly
+establishes dependencies between package management tasks and build
+process. Debian class also unconditionally renames several packages in a
+Debian way. In order to allow disabling of such renaming rules, the logic
+of RDEPENDS handling is moved to a package.bbclass.
+This commit also solves the SDK building issue without debian.bbclass.
 
-I am only ~80% sure about the 2nd comment, about 2.2.2 being not
-vulnerable. In case this version is actually vulnerable, then I think
-the fix should be somewhere in the middle of _StreamingFetcher.send()
-method of the same file (which is only a guess after a bit of eyeballing).
+(From OE-Core rev: 8313a4201cde39c444aa6fbe82e46a767fc31f6b)
 
-[1]:
-https://github.com/urllib3/urllib3/commit/8b2474d32b57f096a815ab52f9b54a843d68c140
+Signed-off-by: Sergei Zhmylev <s.zhmylev@yadro.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 251a5c88f6bcf347d637b39b8a86e8a083774986)
+Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+---
+ meta/classes/debian.bbclass  | 18 +++---------------
+ meta/classes/package.bbclass | 21 ++++++++++++++++++++-
+ 2 files changed, 23 insertions(+), 16 deletions(-)
 
-
-On 7/4/25 12:35, Urade, Yogita via lists.openembedded.org wrote:
-> From: Yogita Urade <yogita.urade@windriver.com>
->
-> urllib3 is a user-friendly HTTP client library for Python. Prior to
-> 2.5.0, urllib3 does not control redirects in browsers and Node.js.
-> urllib3 supports being used in a Pyodide runtime utilizing the
-> JavaScript Fetch API or falling back on XMLHttpRequest. This means
-> Python libraries can be used to make HTTP requests from a browser or
-> Node.js. Additionally, urllib3 provides a mechanism to control redirects,
-> but the retries and redirect parameters are ignored with Pyodide; the
-> runtime itself determines redirect behavior. This issue has been
-> patched in version 2.5.0.
->
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2025-50182
->
-> Upstream patch:
-> https://github.com/urllib3/urllib3/commit/7eb4a2aafe49a279c29b6d1f0ed0f42e9736194f
->
-> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> ---
->  .../python3-urllib3/CVE-2025-50182.patch      | 195 ++++++++++++++++++
->  .../python/python3-urllib3_2.2.2.bb           |   1 +
->  2 files changed, 196 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-50182.patch
->
-> diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2025-50182.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-50182.patch
-> new file mode 100644
-> index 0000000000..d99e83a619
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-50182.patch
-> @@ -0,0 +1,195 @@
-> +From 7eb4a2aafe49a279c29b6d1f0ed0f42e9736194f Mon Sep 17 00:00:00 2001
-> +From: Illia Volochii <illia.volochii@gmail.com>
-> +Date: Wed, 18 Jun 2025 16:30:35 +0300
-> +Subject: [PATCH] Merge commit from fork
-> +
-> +Changes:
-> +- Take only send_jspi_request API from commit
-> +https://github.com/urllib3/urllib3/commit/8b2474d32b57f096a815ab52f9b54a843d68c140
-> +
-> +CVE: CVE-2025-50182
-> +Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/7eb4a2aafe49a279c29b6d1f0ed0f42e9736194f]
-> +
-> +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> +---
-> + docs/reference/contrib/emscripten.rst      |  2 +-
-> + src/urllib3/contrib/emscripten/fetch.py    | 93 ++++++++++++++++++++++
-> + test/contrib/emscripten/test_emscripten.py | 46 +++++++++++
-> + 3 files changed, 140 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/docs/reference/contrib/emscripten.rst b/docs/reference/contrib/emscripten.rst
-> +index c88e422..3ff9cdd 100644
-> +--- a/docs/reference/contrib/emscripten.rst
-> ++++ b/docs/reference/contrib/emscripten.rst
-> +@@ -68,7 +68,7 @@ Features which are usable with Emscripten support are:
-> + * Timeouts
-> + * Retries
-> + * Streaming (with Web Workers and Cross-Origin Isolation)
-> +-* Redirects (determined by browser/runtime, not restrictable with urllib3)
-> ++* Redirects (urllib3 controls redirects in Node.js but not in browsers where behavior is determined by runtime)
-> + * Decompressing response bodies
-> +
-> + Features which don't work with Emscripten:
-> +diff --git a/src/urllib3/contrib/emscripten/fetch.py b/src/urllib3/contrib/emscripten/fetch.py
-> +index 8d197ea..539df99 100644
-> +--- a/src/urllib3/contrib/emscripten/fetch.py
-> ++++ b/src/urllib3/contrib/emscripten/fetch.py
-> +@@ -403,6 +403,99 @@ def send_request(request: EmscriptenRequest) -> EmscriptenResponse:
-> +             raise _RequestError(err.message, request=request)
-> +
-> +
-> ++def send_jspi_request(
-> ++    request: EmscriptenRequest, streaming: bool
-> ++) -> EmscriptenResponse:
-> ++    """
-> ++    Send a request using WebAssembly JavaScript Promise Integration
-> ++    to wrap the asynchronous JavaScript fetch api (experimental).
-> ++
-> ++    :param request:
-> ++        Request to send
-> ++
-> ++    :param streaming:
-> ++        Whether to stream the response
-> ++
-> ++    :return: The response object
-> ++    :rtype: EmscriptenResponse
-> ++    """
-> ++    timeout = request.timeout
-> ++    js_abort_controller = js.AbortController.new()
-> ++    headers = {k: v for k, v in request.headers.items() if k not in HEADERS_TO_IGNORE}
-> ++    req_body = request.body
-> ++    fetch_data = {
-> ++        "headers": headers,
-> ++        "body": to_js(req_body),
-> ++        "method": request.method,
-> ++        "signal": js_abort_controller.signal,
-> ++    }
-> ++    # Node.js returns the whole response (unlike opaqueredirect in browsers),
-> ++    # so urllib3 can set `redirect: manual` to control redirects itself.
-> ++    # https://stackoverflow.com/a/78524615
-> ++    if _is_node_js():
-> ++        fetch_data["redirect"] = "manual"
-> ++    # Call JavaScript fetch (async api, returns a promise)
-> ++    fetcher_promise_js = js.fetch(request.url, _obj_from_dict(fetch_data))
-> ++    # Now suspend WebAssembly until we resolve that promise
-> ++    # or time out.
-> ++    response_js = _run_sync_with_timeout(
-> ++        fetcher_promise_js,
-> ++        timeout,
-> ++        js_abort_controller,
-> ++        request=request,
-> ++        response=None,
-> ++    )
-> ++    headers = {}
-> ++    header_iter = response_js.headers.entries()
-> ++    while True:
-> ++        iter_value_js = header_iter.next()
-> ++        if getattr(iter_value_js, "done", False):
-> ++            break
-> ++        else:
-> ++            headers[str(iter_value_js.value[0])] = str(iter_value_js.value[1])
-> ++    status_code = response_js.status
-> ++    body: bytes | io.RawIOBase = b""
-> ++
-> ++    response = EmscriptenResponse(
-> ++        status_code=status_code, headers=headers, body=b"", request=request
-> ++    )
-> ++    if streaming:
-> ++        # get via inputstream
-> ++        if response_js.body is not None:
-> ++            # get a reader from the fetch response
-> ++            body_stream_js = response_js.body.getReader()
-> ++            body = _JSPIReadStream(
-> ++                body_stream_js, timeout, request, response, js_abort_controller
-> ++            )
-> ++    else:
-> ++        # get directly via arraybuffer
-> ++        # n.b. this is another async JavaScript call.
-> ++        body = _run_sync_with_timeout(
-> ++            response_js.arrayBuffer(),
-> ++            timeout,
-> ++            js_abort_controller,
-> ++            request=request,
-> ++            response=response,
-> ++        ).to_py()
-> ++    response.body = body
-> ++    return response
-> ++
-> ++
-> ++def _is_node_js() -> bool:
-> ++    """
-> ++    Check if we are in Node.js.
-> ++
-> ++    :return: True if we are in Node.js.
-> ++    :rtype: bool
-> ++    """
-> ++    return (
-> ++        hasattr(js, "process")
-> ++        and hasattr(js.process, "release")
-> ++        # According to the Node.js documentation, the release name is always "node".
-> ++        and js.process.release.name == "node"
-> ++    )
-> ++
-> ++
-> + def streaming_ready() -> bool | None:
-> +     if _fetcher:
-> +         return _fetcher.streaming_ready
-> +diff --git a/test/contrib/emscripten/test_emscripten.py b/test/contrib/emscripten/test_emscripten.py
-> +index 0e107fa..d94eda5 100644
-> +--- a/test/contrib/emscripten/test_emscripten.py
-> ++++ b/test/contrib/emscripten/test_emscripten.py
-> +@@ -965,6 +965,52 @@ def test_redirects(
-> +     )
-> +
-> +
-> ++@pytest.mark.with_jspi
-> ++def test_disabled_redirects(
-> ++    selenium_coverage: typing.Any, testserver_http: PyodideServerInfo
-> ++) -> None:
-> ++    """
-> ++    Test that urllib3 can control redirects in Node.js.
-> ++    """
-> ++
-> ++    @run_in_pyodide  # type: ignore[misc]
-> ++    def pyodide_test(selenium_coverage: typing.Any, host: str, port: int) -> None:
-> ++        import pytest
-> ++
-> ++        from urllib3 import PoolManager, request
-> ++        from urllib3.contrib.emscripten.fetch import _is_node_js
-> ++        from urllib3.exceptions import MaxRetryError
-> ++
-> ++        if not _is_node_js():
-> ++            pytest.skip("urllib3 does not control redirects in browsers.")
-> ++
-> ++        redirect_url = f"http://{host}:{port}/redirect"
-> ++
-> ++        with PoolManager(retries=0) as http:
-> ++            with pytest.raises(MaxRetryError):
-> ++                http.request("GET", redirect_url)
-> ++
-> ++            response = http.request("GET", redirect_url, redirect=False)
-> ++            assert response.status == 303
-> ++
-> ++        with PoolManager(retries=False) as http:
-> ++            response = http.request("GET", redirect_url)
-> ++            assert response.status == 303
-> ++
-> ++        with pytest.raises(MaxRetryError):
-> ++            request("GET", redirect_url, retries=0)
-> ++
-> ++        response = request("GET", redirect_url, redirect=False)
-> ++        assert response.status == 303
-> ++
-> ++        response = request("GET", redirect_url, retries=0, redirect=False)
-> ++        assert response.status == 303
-> ++
-> ++    pyodide_test(
-> ++        selenium_coverage, testserver_http.http_host, testserver_http.http_port
-> ++    )
-> ++
-> ++
-> + @install_urllib3_wheel()
-> + def test_insecure_requests_warning(
-> +     selenium_coverage: typing.Any, testserver_http: PyodideServerInfo
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-> index bdb1c7ca8d..beb57010ac 100644
-> --- a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-> +++ b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-> @@ -9,6 +9,7 @@ inherit pypi python_hatchling
->  
->  SRC_URI += " \
->      file://CVE-2025-50181.patch \
-> +    file://CVE-2025-50182.patch \
->  "
->  
->  RDEPENDS:${PN} += "\
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#219915): https://lists.openembedded.org/g/openembedded-core/message/219915
-> Mute This Topic: https://lists.openembedded.org/mt/113981495/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
+index 8367be9f37..ade0e6dd8c 100644
+--- a/meta/classes/debian.bbclass
++++ b/meta/classes/debian.bbclass
+@@ -8,26 +8,14 @@
+ #
+ # Better expressed as ensure all RDEPENDS package before we package
+ # This means we can't have circular RDEPENDS/RRECOMMENDS
++#
++# Logic of processing dependencies moved to a package.bbclass to
++# allow removing inheritance on debian.bbclass
+=20
+ AUTO_LIBNAME_PKGS =3D "${PACKAGES}"
+=20
+ inherit package
+=20
+-DEBIANRDEP =3D "do_packagedata"
+-do_package_write_ipk[deptask] =3D "${DEBIANRDEP}"
+-do_package_write_deb[deptask] =3D "${DEBIANRDEP}"
+-do_package_write_tar[deptask] =3D "${DEBIANRDEP}"
+-do_package_write_rpm[deptask] =3D "${DEBIANRDEP}"
+-do_package_write_ipk[rdeptask] =3D "${DEBIANRDEP}"
+-do_package_write_deb[rdeptask] =3D "${DEBIANRDEP}"
+-do_package_write_tar[rdeptask] =3D "${DEBIANRDEP}"
+-do_package_write_rpm[rdeptask] =3D "${DEBIANRDEP}"
+-
+-python () {
+-    if not d.getVar("PACKAGES"):
+-        d.setVar("DEBIANRDEP", "")
+-}
+-
+ python debian_package_name_hook () {
+     import glob, copy, stat, errno, re, pathlib, subprocess
+=20
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index e6ba79346c..5cc3c779c0 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -54,7 +54,6 @@ ALL_MULTILIB_PACKAGE_ARCHS =3D "${@all_multilib_tune_valu=
+es(d, 'PACKAGE_ARCHS')}"
+ # dwarfsrcfiles is used to determine the list of debug source files
+ PACKAGE_DEPENDS +=3D "rpm-native dwarfsrcfiles-native"
+=20
+-
+ # If your postinstall can execute at rootfs creation time rather than on
+ # target but depends on a native/cross tool in order to execute, you need =
+to
+ # list that tool in PACKAGE_WRITE_DEPS. Target package dependencies belong
+@@ -2547,6 +2546,26 @@ python do_packagedata_setscene () {
+ }
+ addtask do_packagedata_setscene
+=20
++# This part ensures all the runtime packages built by the time
++# dynamic renaming occures, if any.
++# This part moved here from debian.bbclass (see for reference) in
++# order to allow disabling default inheritance on debian package renaming.
++
++PKGRDEP =3D "do_packagedata"
++do_package_write_ipk[deptask] =3D "${PKGRDEP}"
++do_package_write_deb[deptask] =3D "${PKGRDEP}"
++do_package_write_tar[deptask] =3D "${PKGRDEP}"
++do_package_write_rpm[deptask] =3D "${PKGRDEP}"
++do_package_write_ipk[rdeptask] =3D "${PKGRDEP}"
++do_package_write_deb[rdeptask] =3D "${PKGRDEP}"
++do_package_write_tar[rdeptask] =3D "${PKGRDEP}"
++do_package_write_rpm[rdeptask] =3D "${PKGRDEP}"
++
++python () {
++    if not d.getVar("PACKAGES"):
++        d.setVar("PKGRDEP", "")
++}
++
+ #
+ # Helper functions for the package writing classes
+ #
+--=20
+2.48.1
 
 
