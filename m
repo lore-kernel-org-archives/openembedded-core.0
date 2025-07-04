@@ -2,166 +2,245 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84AB5C83F09
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A77C8303D
 	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 15:10:58 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.14491.1751641849072603487
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.14493.1751641853519380292
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jul 2025 08:10:49 -0700
+ Fri, 04 Jul 2025 08:10:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JFHmIG1V;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-74b56b1d301so686556b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:10:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LvkX05p9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-74b50c71b0aso626793b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:10:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751641848; x=1752246648; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751641853; x=1752246653; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=feCF0EKDFluTJOxE8/vdasHeWqV7bZ0rtN0hkvbl848=;
-        b=JFHmIG1VACQcpzHfxhQVNpqZssH/KQwFdsLNnq0L0miE0Zeue+2WCffVBZ6H+C32O8
-         RwboLs6MT80XS3/9HbzxL3nvfW1nA4yj0q0i68YcOlTOav4qfLOFcT1nSs2mCmKKS4yO
-         LPjY83ApFrR7VucnFRBob8YVvWY/h+buLWE0Y4ECT0dWXk8BYaJYxGEHYKwKFP3EiJrx
-         Aa/ddbkS1pLUUIoDEYsXtFxkm4pmV+P7e05t99P2u+7yVmm6jSw0kYKUOWu4Al9MKO38
-         8yvL8YrCrdZsvisnfzF5odLwZV5OfEWJjGZzgW54Dg0x4ZxFIJWSGcapSHtlEX5sVAB5
-         7TkQ==
+        bh=bvJiY2dZo3pNiujZpKtOlAnOocLspC8eh6GM0lveI1k=;
+        b=LvkX05p9pczJ2rxRmXbdwLDqfThI0U1EOhK11K0wJZlYd6fDmWelUSELbYV1/kJlTJ
+         uUOEtA/31grnuI0lIsbNNoEmEQ6RnmEvtaGwwggidj7OXBI7YJGUQ3KbQur9UoQashCt
+         b+IO5XZmD02Xm6zv4iHpCUEtzXJLU5/hBlMD2wC4LGKyoxsFW9HQavqmNAtNdrrC2EEz
+         DlPm1CNBm7ssP4u30jZC/ZZIf3k5jgMv7zjIverDsHKSs9l0OHZUiiW+doQm0gLwpvxu
+         KK3DhE43n4p7uNnZpw3gbxpbXAS9A9zFuqwj5Wr++QzlsKNnYYJwNPs46heHJLHzZ4Z2
+         KdkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751641848; x=1752246648;
+        d=1e100.net; s=20230601; t=1751641853; x=1752246653;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=feCF0EKDFluTJOxE8/vdasHeWqV7bZ0rtN0hkvbl848=;
-        b=QG4lDmlUHXgRpRH9l4yyVKoSRZn8OHQCbNvcu8TIqGud8EgQOIfGRqbuAV40YO/fXY
-         ySBgYCpSv6s+9OuO4KYiol5Dm31W5JLsQdbkXHAIs0J227ooJB8n/JYjYDuu4b5iBSiV
-         fvIUc5j55xJunqZ5NRh/VQSXm9iFY4xyH55atnJfOHCbcJLnxvjE4HHfncLZwg2GhHrL
-         BIPASUygpYI77r7avt4zcVIs/iRwuihQ8BRMo0173oYMV+0XYfNu/buUjZeu7A6r/CG0
-         BLdPy5YNCCHKnvIVoDYD4UKNTQQv3zv6JhKqDf8BfT808CcXg+qSr8fhhVMXFDksEbbR
-         VBGQ==
-X-Gm-Message-State: AOJu0YxgRuihjJ93lWIrQ/FeFJbnxevbM/37xlPgAIHl0bQbSdTDRsuO
-	bWj+4GFDyMuoEc+QSE9wIzW+hl1/wAmvuWla7B4LW4/rDh/44K9SwTjwxQgWl9OKRk9d0DiuYi0
-	EpVFF
-X-Gm-Gg: ASbGnctBC6ML9GKYYYxu4+UPBUuudwYnnStGikmnAB4dXRtH/T5VAXzRh90itX6Kodx
-	HWaLDwK5FJQAW29pGZTgJoqjGAER5i0J6k339qdZq9j3k7WZIKdu2MHwWcRUKLeG3I7aUos50od
-	iUP6i2yWPL4QlgZssXSCmYbBXYh9djuVWtAYNilhyreAXlwYEkF9rrP3Nr53ANbeOlwSfxQc2Iz
-	6oojSGZY+zFByZb1WnB73iuciBHa2NjVQH6MP6Xvx8UDZ3OfuJ/I+c5rXcr2dZIoOzapsVFKB8r
-	+TxSibZlw6nMDwxFVAzbNGGvpbnw4iUU2bzv4sSNl4mGyeqXOUUo9Q==
-X-Google-Smtp-Source: AGHT+IG9sM5iaNg9sEk8NjZ5wjCpRXrsgJ9J5gb0tDT0M0OAlsqlLxvTmf0kiB6hs1c9qaCX9K2BWg==
-X-Received: by 2002:aa7:88c7:0:b0:742:a91d:b2f6 with SMTP id d2e1a72fcca58-74ce8aa58bfmr3498725b3a.13.1751641848082;
-        Fri, 04 Jul 2025 08:10:48 -0700 (PDT)
+        bh=bvJiY2dZo3pNiujZpKtOlAnOocLspC8eh6GM0lveI1k=;
+        b=MgvslhI8S59IrzMrZbNEfvp0pUWabUASENeLvoE3/JPu0bVycPEu8Eil9/XfcsBjPS
+         BDafUby5s06RntjTnnGgm3rzUxArold3rvmRHzctYcWe3Hr4UON2KEgc/98GcUDi9WNn
+         RTQV0mXJZjAGicatD43KicfRV9/jhS0H7mvHfdjR2VZj9KypU6rHNptlTN9WnonKEMa/
+         yiIqqFwRyv1gBnOuZNy4CjeqFAum4I3XSoERBQhsYmlVVeePpG86TE3FWQwJ7UYf2tSA
+         KyFLkV79UahZdKb0vmsxFtjUFkh0h7hsEGFL7SdGASfiomWlVZYnjGXEnL6wPGv7aCh2
+         toog==
+X-Gm-Message-State: AOJu0Yyb8dtrLtqvxZGzHt7Ea7S2mRd1LqsJHaP5djWPIbaluJd0r36A
+	WFMgCEUJm4nu3mKWXJJ5/2AG4gOW8vT8k5KiKhIduKSBTgXJp+WdpMlv2XL7apaPugenrofc1xP
+	DCVjf
+X-Gm-Gg: ASbGncsPOMCx1nzaoMo3xLVQTs7/wjBSzQqjojfoY2/qP47+PevsikvKyjle4Mfm4z1
+	NGmdcRrjHhOJreOlk2zmkIs37sm/ETOgQDzRmiufh54q5GZwIUx0HmCeOfVJ3GBZ8/t6EzvR3Ih
+	LZLpEa55i44e6EolX3tP5ST03nYO4708+UsPntQJ+O/eQLpiRmgdP2RHmDucbvZ8qOpT4bSVRJu
+	b5BIHKC1SORHIozij4RBfLhd6iJtN5RYeWm1HWves8Qbblh/txVP26huae4d3LhS5f/eycg67Yc
+	UKMsFJm3bZg4EzrEvTJ/iO4cEU0yxD85UkocHQJFsjWRl5SHnPWquA==
+X-Google-Smtp-Source: AGHT+IHoD+eH32kInKwLuzILS8BmoxH0dDQ5dqvDyCiBk+Wda7nazrYh7mrD66XWdK+gPg1MIuXQqA==
+X-Received: by 2002:a05:6a00:391d:b0:748:f854:b765 with SMTP id d2e1a72fcca58-74ce88249c1mr3736731b3a.4.1751641852704;
+        Fri, 04 Jul 2025 08:10:52 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:d985:cb7d:ae84:68cc])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce417e869sm2159592b3a.82.2025.07.04.08.10.47
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce417e869sm2159592b3a.82.2025.07.04.08.10.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 08:10:47 -0700 (PDT)
+        Fri, 04 Jul 2025 08:10:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/11] libarchive: fix CVE-2025-5917
-Date: Fri,  4 Jul 2025 08:10:27 -0700
-Message-ID: <2b6832b05bab414df1da7c74a0c6a5e5a9d75b29.1751641631.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 07/11] xwayland: fix CVE-2025-49176
+Date: Fri,  4 Jul 2025 08:10:30 -0700
+Message-ID: <0a2c5179e1f08ccd0fcaccb6f95c892ebafac8a8.1751641631.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1751641631.git.steve@sakoman.com>
 References: <cover.1751641631.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 15:10:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219930
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219933
 
-From: Divya Chellam <divya.chellam@windriver.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-A vulnerability has been identified in the libarchive library. This flaw involves an 'off-by-
-one' miscalculation when handling prefixes and suffixes for file names. This can lead to a 1-
-byte write overflow. While seemingly small, such an overflow can corrupt adjacent memory, lea
-ding to unpredictable program behavior, crashes, or in specific circumstances, could be lever
-aged as a building block for more sophisticated exploitation.
+A flaw was found in the Big Requests extension. The request length is multiplied
+by 4 before checking against the maximum allowed size, potentially causing an
+integer overflow and bypassing the size check.
 
-Reference:
-https://security-tracker.debian.org/tracker/CVE-2025-5917
-
-Upstream-patch:
-https://github.com/libarchive/libarchive/commit/7c02cde37a63580cd1859183fbbd2cf04a89be85
-
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libarchive/libarchive/CVE-2025-5917.patch | 54 +++++++++++++++++++
- .../libarchive/libarchive_3.7.9.bb            |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch
+ .../xwayland/CVE-2025-49176-0001.patch        | 93 +++++++++++++++++++
+ .../xwayland/CVE-2025-49176-0002.patch        | 38 ++++++++
+ .../xwayland/xwayland_23.2.5.bb               |  2 +
+ 3 files changed, 133 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0001.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0002.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0001.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0001.patch
 new file mode 100644
-index 0000000000..28f7b6023a
+index 0000000000..fd3b1d936b
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch
-@@ -0,0 +1,54 @@
-+From 7c02cde37a63580cd1859183fbbd2cf04a89be85 Mon Sep 17 00:00:00 2001
-+From: Brian Campbell <Brian.Campbell@ed.ac.uk>
-+Date: Sat, 26 Apr 2025 05:11:19 +0100
-+Subject: [PATCH] Fix overflow in build_ustar_entry (#2588)
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0001.patch
+@@ -0,0 +1,93 @@
++From 03731b326a80b582e48d939fe62cb1e2b10400d9 Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Mon, 7 Apr 2025 16:13:34 +0200
++Subject: [PATCH] os: Do not overflow the integer size with BigRequest
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+The calculations for the suffix and prefix can increment the endpoint
-+for a trailing slash. Hence the limits used should be one lower than the
-+maximum number of bytes.
++The BigRequest extension allows requests larger than the 16-bit length
++limit.
 +
-+Without this patch, when this happens for both the prefix and the
-+suffix, we end up with 156 + 100 bytes, and the write of the null at the
-+end will overflow the 256 byte buffer. This can be reproduced by running
-+```
-+mkdir -p foo/bar
-+bsdtar cvf test.tar foo////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////bar
-+```
-+when bsdtar is compiled with Address Sanitiser, although I originally
-+noticed this by accident with a genuine filename on a CHERI capability
-+system, which faults immediately on the buffer overflow.
++It uses integers for the request length and checks for the size not to
++exceed the maxBigRequestSize limit, but does so after translating the
++length to integer by multiplying the given size in bytes by 4.
 +
-+CVE: CVE-2025-5917
++In doing so, it might overflow the integer size limit before actually
++checking for the overflow, defeating the purpose of the test.
 +
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/7c02cde37a63580cd1859183fbbd2cf04a89be85]
++To avoid the issue, make sure to check that the request size does not
++overflow the maxBigRequestSize limit prior to any conversion.
 +
-+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++The caller Dispatch() function however expects the return value to be in
++bytes, so we cannot just return the converted value in case of error, as
++that would also overflow the integer size.
++
++To preserve the existing API, we use a negative value for the X11 error
++code BadLength as the function only return positive values, 0 or -1 and
++update the caller Dispatch() function to take that case into account to
++return the error code to the offending client.
++
++CVE-2025-49176
++
++This issue was discovered by Nils Emmerich <nemmerich@ernw.de> and
++reported by Julian Suleder via ERNW Vulnerability Disclosure.
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2024>
++
++CVE: CVE-2025-49176
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/03731b326a80b582e48d939fe62cb1e2b10400d9]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ libarchive/archive_write_set_format_pax.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ dix/dispatch.c | 9 +++++----
++ os/io.c        | 4 ++++
++ 2 files changed, 9 insertions(+), 4 deletions(-)
 +
-+diff --git a/libarchive/archive_write_set_format_pax.c b/libarchive/archive_write_set_format_pax.c
-+index 6e35f70..b2ba959 100644
-+--- a/libarchive/archive_write_set_format_pax.c
-++++ b/libarchive/archive_write_set_format_pax.c
-+@@ -1571,7 +1571,7 @@ build_ustar_entry_name(char *dest, const char *src, size_t src_length,
-+ 	const char *filename, *filename_end;
-+ 	char *p;
-+ 	int need_slash = 0; /* Was there a trailing slash? */
-+-	size_t suffix_length = 99;
-++	size_t suffix_length = 98; /* 99 - 1 for trailing slash */
-+ 	size_t insert_length;
-+ 
-+ 	/* Length of additional dir element to be added. */
-+@@ -1623,7 +1623,7 @@ build_ustar_entry_name(char *dest, const char *src, size_t src_length,
-+ 	/* Step 2: Locate the "prefix" section of the dirname, including
-+ 	 * trailing '/'. */
-+ 	prefix = src;
-+-	prefix_end = prefix + 155;
-++	prefix_end = prefix + 154 /* 155 - 1 for trailing / */;
-+ 	if (prefix_end > filename)
-+ 		prefix_end = filename;
-+ 	while (prefix_end > prefix && *prefix_end != '/')
-+-- 
++diff --git a/dix/dispatch.c b/dix/dispatch.c
++index 9e98d54..20473f1 100644
++--- a/dix/dispatch.c
+++++ b/dix/dispatch.c
++@@ -513,9 +513,10 @@ Dispatch(void)
++
++                 /* now, finally, deal with client requests */
++                 result = ReadRequestFromClient(client);
++-                if (result <= 0) {
++-                    if (result < 0)
++-                        CloseDownClient(client);
+++                if (result == 0)
+++                    break;
+++                else if (result == -1) {
+++                    CloseDownClient(client);
++                     break;
++                 }
++
++@@ -536,7 +537,7 @@ Dispatch(void)
++                                           client->index,
++                                           client->requestBuffer);
++ #endif
++-                if (result > (maxBigRequestSize << 2))
+++                if (result < 0 || result > (maxBigRequestSize << 2))
++                     result = BadLength;
++                 else {
++                     result = XaceHookDispatch(client, client->majorOp);
++diff --git a/os/io.c b/os/io.c
++index 841a0ee..aeece86 100644
++--- a/os/io.c
+++++ b/os/io.c
++@@ -296,6 +296,10 @@ ReadRequestFromClient(ClientPtr client)
++                 needed = get_big_req_len(request, client);
++         }
++         client->req_len = needed;
+++        if (needed > MAXINT >> 2) {
+++            /* Check for potential integer overflow */
+++            return -(BadLength);
+++        }
++         needed <<= 2;           /* needed is in bytes now */
++     }
++     if (gotnow < needed) {
++--
 +2.40.0
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0002.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0002.patch
+new file mode 100644
+index 0000000000..6d7df79111
+--- /dev/null
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0002.patch
+@@ -0,0 +1,38 @@
++From 4fc4d76b2c7aaed61ed2653f997783a3714c4fe1 Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Wed, 18 Jun 2025 08:39:02 +0200
++Subject: [PATCH] os: Check for integer overflow on BigRequest length
 +
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-index 250a3c016f..bb8609dd09 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://CVE-2025-5914.patch \
-            file://CVE-2025-5915.patch \
-            file://CVE-2025-5916.patch \
-+           file://CVE-2025-5917.patch \
-            "
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
++Check for another possible integer overflow once we get a complete xReq
++with BigRequest.
++
++Related to CVE-2025-49176
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Suggested-by: Peter Harris <pharris2@rocketsoftware.com>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2028>
++
++CVE: CVE-2025-49176
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/4fc4d76b2c7aaed61ed2653f997783a3714c4fe1]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ os/io.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/os/io.c b/os/io.c
++index aeece86..67465f9 100644
++--- a/os/io.c
+++++ b/os/io.c
++@@ -395,6 +395,8 @@ ReadRequestFromClient(ClientPtr client)
++                     needed = get_big_req_len(request, client);
++             }
++             client->req_len = needed;
+++            if (needed > MAXINT >> 2)
+++                return -(BadLength);
++             needed <<= 2;
++         }
++         if (gotnow < needed) {
++--
++2.40.0
+diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+index b9b4aa1a6a..72396dcd40 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+@@ -25,6 +25,8 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2025-26601-3.patch \
+            file://CVE-2025-26601-4.patch \
+            file://CVE-2025-49175.patch \
++           file://CVE-2025-49176-0001.patch \
++           file://CVE-2025-49176-0002.patch \
+ "
+ SRC_URI[sha256sum] = "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f526a625ff9f4bd90"
  
 -- 
 2.43.0
