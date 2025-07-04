@@ -2,271 +2,184 @@ Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 734CFC83F03
-	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 17:18:58 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.119])
- by mx.groups.io with SMTP id smtpd.web11.1217.1751649531343068910
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 666BFC83F03
+	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 17:30:38 +0000 (UTC)
+Received: from AS8PR03CU001.outbound.protection.outlook.com (AS8PR03CU001.outbound.protection.outlook.com [52.101.71.85])
+ by mx.groups.io with SMTP id smtpd.web10.1428.1751650236100935136
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jul 2025 10:18:52 -0700
+ Fri, 04 Jul 2025 10:30:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@navimatix.de header.s=selector1 header.b=QQdHT4uQ;
- spf=pass (domain: navimatix.de, ip: 52.101.65.119, mailfrom: joerg.sommer@navimatix.de)
+ dkim=pass header.i=@navimatix.de header.s=selector1 header.b=cnhNW3kr;
+ spf=pass (domain: navimatix.de, ip: 52.101.71.85, mailfrom: joerg.sommer@navimatix.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WzsBYfomIgnNEZHCUA3nMx1Lwyn5I3zbkb/mMax3H6iJXnImhEK9j2Fpty+XymO7Vqc1mJzx6EyVHIn9FHadNj3IN+G39Z4OpuqwOzRxliqNnTJoE6bLAVW4WnUQUU0rOPSYIXzwvSzm34G0TcNrHNKqeLTwoS3ikgE5jQxeE7COh+nRJDB2cwzA+flLPLGeaGaaZ/2ijohM9X+87DmN/DsPU9GTE9JXK3PAWuxzYDXIiHFEZQqbmCeOPfgNzcESAsuQ7ezT7Qs1PHSJb5krzZhFDNJTJ/0R5FwtP9yDskqqEpyok4U4KVLA9LsPJfclwSA+HSqnQX8zpyfawYct+Q==
+ b=lt3WiueUSmlyJZ9dj+BPBMxCPv5RZde4/497w1NgPnEBp0sdTqTpohQ9UElefGG/g85G1ozup80eJQH6Vb3PYhmT1T1OWqv9oJdd5cS8wrhJhbBxlDMy5/+v1ONSEdk2OW+5JXACcPRXZshuTwsSma9wNAUxqRzBIxT2uMGkuxMN6EMHDIBmhQlRU8sYpgUN5e0go3+LyVu10rU/BzSe1B+CaU5D0WPIKivyEF6QRc62wNmHUnjUoXfZxbsqbzp4ekKxps0T/pxOjxjMYPpIihfe/cvqaGr5wm/TEIaKB2Wu02TB0zVyBxZhYfgnEdHOBfucDMS6ZMewAsKwMk8NoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cgf/YSt+oZ0fMKLCdY3R7KFlEjdj6TA5fwCAjcLSsVs=;
- b=boBau2e18KKvQ3KSm62U9BdHgX1N5vv/Numu8I1+l42iPWRTXo3LScdtmLDzDsqKVSMXZau1z6F7SXJWWiJDW6XrimOx8+W66wpWdEqGeHTZ5xnflaUoOlGhPckdpgpho7wlLvlTyrV72Sknw31g2UAgKaaiXXZRWKJy8KdEzd3Uu+P5xouOmvMteaCPOWRkj/JbatjK93GdG7dpsRnaD8fUX74yJ5M2BAW3jH680c+bnOfYU9ctAXIdGBfFcum5O7F0HwhQCh9e95Dg+d3sqF3DnVfWHQioObd1tLlHEqDmo0uHhmynu6XXiX0tIKQbs2q8VAUEFy+KKOFby3Sf/w==
+ bh=qEp55u+XEFm9q9ddY/5bXwgF864tCd30pL5ylic/5ow=;
+ b=kNmn53dId5xe3w0yfjkdg9zR2aP6kw7FoltMEbqJP8uAL+YGqc3nG5raabmNg4fNVx7T213EBo0Q7gmS0LkeeleqGPuFQLocQgSNRZc2SFvJFSKpZfh6XAeuS8XziwNQm4o4x9VsM920raBavTwR6/mk/aFjOjKu5KFaFWNSh+VfEB+HMLieGItNDpPvckggXfHa4mkOWyk57Bznc9VVkP5bZawnDc/aKKyMW98iAis0zi7ppPBHqgnvwbp44vy/HTnRYTjejbtC6QRl64aZR/1B9+rTkt7vh9tJkLITubY0rJtHP6PN6vNMQx2eHk9OkaI6lRG6OzvHp5LI7Jvcyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
  dkim=pass header.d=navimatix.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cgf/YSt+oZ0fMKLCdY3R7KFlEjdj6TA5fwCAjcLSsVs=;
- b=QQdHT4uQtx3h6LWVD4gZWay0N7yL1GPeTueelWJrn54HDmBrbQNIz7TA9REUZrYP8mFzA3IqDRwl2zXaUgjGc7E29VXG26LHpab2BV5kv9NZH76IXT1tU7Xl7LlrVE1IM4EhJGZ0cgA2OybHG5KxoFA7puWGCEQlAUoCqveb/44=
+ bh=qEp55u+XEFm9q9ddY/5bXwgF864tCd30pL5ylic/5ow=;
+ b=cnhNW3krH0MTcUL1sbOF53gTmOilt+wGOaqHYm83WyfLcJ6Gu/lXgmUB1IiTDHBViJ//9U9l0tg7Qffs8aTOmO0lb9uJ9cHGtUmz3BPjp+isWU9GHOYDnqPCaVnXJfvt9cB6HLOUEMmzjafeDR4cWuC+AWhWe7VaSb5meR087Dw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=navimatix.de;
 Received: from PA4PR01MB7726.eurprd01.prod.exchangelabs.com
- (2603:10a6:102:cb::18) by DU0PR01MB9047.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:35a::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.22; Fri, 4 Jul
- 2025 17:18:47 +0000
+ (2603:10a6:102:cb::18) by DB9PR01MB7225.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:211::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.13; Fri, 4 Jul
+ 2025 17:30:32 +0000
 Received: from PA4PR01MB7726.eurprd01.prod.exchangelabs.com
  ([fe80::412e:7f2b:cbfe:3d07]) by PA4PR01MB7726.eurprd01.prod.exchangelabs.com
  ([fe80::412e:7f2b:cbfe:3d07%5]) with mapi id 15.20.8901.018; Fri, 4 Jul 2025
- 17:18:47 +0000
-Date: Fri, 4 Jul 2025 19:18:45 +0200
+ 17:30:32 +0000
+Date: Fri, 4 Jul 2025 19:30:30 +0200
 From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org, s.zhmylev@yadro.com, 
 	alexandre.belloni@bootlin.com
-Subject: Re: [kirkstone][PATCH] classes: Move package RDEPENDS processing out
- of debian.bbclass
-Message-ID: <svuo7jc42bsg7uf5c2xwerb4zto6sgfdu6ecfwajfltn5sjaow@njyiye2vfbln>
-References: <4f53825c14f9940ea8d379dcd35a5ae02bcb92e2.1751631411.git.joerg.sommer@navimatix.de>
- <6f97d5b509d2d2319ad93f46658b3f0ea93288ec.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [kirkstone][PATCH] classes: Move package RDEPENDS
+ processing out of debian.bbclass
+Message-ID: <w4icfeh4dq7e5xxhaoynlixc6gbuy5fo7i5ktahkwqzb37tea6@hfymdlytlxk4>
+References: <184F0B7F5F23DACA.27863@lists.openembedded.org>
+ <4ibw4a2a3ipn7q4zi7ccr6lll7hiim4jixqw5kius5jkt6m7ul@qypqeob6esee>
+ <f75a5489f7a188dc8a03d68d971f208dcfc538e0.camel@linuxfoundation.org>
 Content-Type: multipart/signed; micalg=sha256;
-	protocol="application/pkcs7-signature"; boundary="v6m6ik2rvnmjvui2"
+	protocol="application/pkcs7-signature"; boundary="ztsmf4ktlczbvsyf"
 Content-Disposition: inline
-In-Reply-To: <6f97d5b509d2d2319ad93f46658b3f0ea93288ec.camel@linuxfoundation.org>
-X-ClientProxiedBy: FR4P281CA0225.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e4::17) To PA4PR01MB7726.eurprd01.prod.exchangelabs.com
+In-Reply-To: <f75a5489f7a188dc8a03d68d971f208dcfc538e0.camel@linuxfoundation.org>
+X-ClientProxiedBy: FR4P281CA0427.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:d1::8) To PA4PR01MB7726.eurprd01.prod.exchangelabs.com
  (2603:10a6:102:cb::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR01MB7726:EE_|DU0PR01MB9047:EE_
-X-MS-Office365-Filtering-Correlation-Id: 002879ae-fcf1-4fff-ca82-08ddbb1ed5fa
+X-MS-TrafficTypeDiagnostic: PA4PR01MB7726:EE_|DB9PR01MB7225:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1278af03-9cea-4295-12d1-08ddbb207a58
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info: 
-	=?iso-8859-1?Q?rl8XV4zSQgKD4PHzXT/Xlm0BMQYRjzuJSF8z2hvSZCrWh0Ysb3BWFZvMTQ?=
- =?iso-8859-1?Q?JUdO5dhyJ+PB6CAl39zly+ZYJHjOBbg8wjubcje4iPSwxp+PBXrWNKmMCt?=
- =?iso-8859-1?Q?Jk7xBkZZHd1f83Lr0tRi6Zf9BbzlS6IJklvKMvSeybHe2uSQbCmQOg/bxS?=
- =?iso-8859-1?Q?Z6p2hxf/acWvUQZT5R7mYslTz9omxKAZrzY0f5DznUu37fyusbJKOzXk4A?=
- =?iso-8859-1?Q?qNaJUeqNYlF2nBB74VuK8mj1XFBId+UAE/GYE/67CElmSDA+JCXsYsTZPb?=
- =?iso-8859-1?Q?cnMVJvjxBxlzGpybJ0RqicA5+y6x3+TAi0FDn8q5Jk8Vf8YvdRQyyPGqhX?=
- =?iso-8859-1?Q?XoOmsPNJJ/TZGdjTb9lfF+xpNJa1KCm4tX8AH5aN0/irmrfnCKilL07h4f?=
- =?iso-8859-1?Q?uCMChdLfjHy/leas9j62CD/7lyvd+he1XyqSK6OVqBZ8ZdGWhYJQx0lYzR?=
- =?iso-8859-1?Q?v7dma7RxxitnnNybvvIhWpFySps2cP4J4Pbbv5U29ji+IlGc5e+YGEhwU+?=
- =?iso-8859-1?Q?T4gYzeHIgG5A3dO6ViaeH4ofYtRsgHC6ywrK27GQxOFRPsrZ+ISixSvc9z?=
- =?iso-8859-1?Q?KPhUF7oPIrMfR1e0ACYsrR+lexOLVOd99ZedIRz0KXD2cY6fP0cxxbRQL7?=
- =?iso-8859-1?Q?BCJ8HLcdm8616UIL7r8H4EYPI1ytJjEVJk0iLEQi4vF25KfgveGYhQY27n?=
- =?iso-8859-1?Q?xCeQsdyAamB5rad1ZT6GYrzCwgrGbxTcLOridFxc0FlDGz306/g7rLX9XF?=
- =?iso-8859-1?Q?VG0JlvNaPo/1X5Zwfjh1BDOypug9JN0BP4ZVurAjqzPfzaWD9drwV3kDYw?=
- =?iso-8859-1?Q?kG7EciOmtqSWgszopG33g0kyNh+2kU7KFKcjGtIBo7JrHK7/KShwiHyteq?=
- =?iso-8859-1?Q?rqC926RbMlqE2HkI1o+OZBKUDxu+9Z/X8EG1Fvlu2iJ/3yUiWUoj0kCmRS?=
- =?iso-8859-1?Q?jHF5zQLhhQ6YLObjspCB6AK+VfLqU47rXpu8SPuEBaeuoiXcGL5nOD0R6F?=
- =?iso-8859-1?Q?45/dmAmJE3gN24dwGS6sLa/m3xXTMSMhDUOn7YKGi0CkmO2y3++eo38cHE?=
- =?iso-8859-1?Q?YGMQvVSaUwk8ExoWkOVZLFTZ7BFR9O5HMYz+8YXTu+afsi4Bl0SjFw/WYU?=
- =?iso-8859-1?Q?CvRq/nYzaZjuK1r1T4GD4TmPz7cWo4rzId2MA/tRTzV/UZ06odgff90mfi?=
- =?iso-8859-1?Q?vLyat+DvdQqx1qzBc3GXxHlDOx6zuj/hZ+xa5sq9S6FUS6VVgh9SecHWiy?=
- =?iso-8859-1?Q?M109uprUQ8MZZVLOa1bh0uWIoVKZPJA1SWcvoxnq8hEABE0uDCUZTC6TpI?=
- =?iso-8859-1?Q?XIVHHtjttYlNxOkxL3mnKELl5A7NsUGKR4YjqhKdLHb351HoT5mCa2jF0w?=
- =?iso-8859-1?Q?ZqeVN9Q+QjHvQs66SgAU37QNXcrq1BQZ8shLp5C4m1X9XKSORQmRo=3D?=
+	=?iso-8859-1?Q?L4J37v8sRyX1Uwg7jZtW5P8x/u6EeZbvCzk/Qsd0+0G+znBBWKANMEZ5Cf?=
+ =?iso-8859-1?Q?TBs+tU8KyAwo0dLvyn4rJppwxFhCeZ6NL7nmFzoV3hQgU8xKxDJ5/Q1GJ9?=
+ =?iso-8859-1?Q?jfO2K5LYdBrM//WM6JcfWtCs5yoHQ4I656SCKBO+2K0JTMDBexwkmVG1FT?=
+ =?iso-8859-1?Q?ueSGjacMh0ScF/GBTc3kqrxiJzEeiRGNC0O4ZQ7SdE9aVHr35zyvfw6J4O?=
+ =?iso-8859-1?Q?I8OVSL73FC3GdwVlOXyWNJexxA/vcZ11pc17WhgX1yG62iBdEGGdgi15BW?=
+ =?iso-8859-1?Q?Xtl34Ct/l4wcRdzoIaaW8bke9xYy42BFMNip+9WheCPUziud6LcqyEQ813?=
+ =?iso-8859-1?Q?ifsyHt2uQXmB7/y+fd30TQKDvgrwoU2H2Rhhlok+1XWoinbL0V/m06/+/e?=
+ =?iso-8859-1?Q?Cy3XjqnD5b42g5EwWHPfj9UoMZcmPVQhxKFd0Sy9sPc7H3jiKly5EzWl6F?=
+ =?iso-8859-1?Q?5fLXwVZkfh9Nv9AZ3tVcD/4z+eGU3HtBESDwXKnKty22P2tRlqYelMQqIV?=
+ =?iso-8859-1?Q?B7q3m84O5bDNRfiKKumZb7wE70MBg/4v8FGBohLrrygbpD621GeCPjBfXe?=
+ =?iso-8859-1?Q?wI4Ufrkh3d8yMlkmPNIW73V7z0z0/6yVCAaLoU25O0snTr4+4jS8deVB4h?=
+ =?iso-8859-1?Q?QsA15jrv2Jx4EjTcQWphHNdtqZcucPWr1Rfxj1vR4sEqoSOP0fuySXjn18?=
+ =?iso-8859-1?Q?7tgl/k2DAdxa4I3xQf0DmvGojjl0tpY21ZVDw68WHqIX8fM1srGluaoSJC?=
+ =?iso-8859-1?Q?44JFmRLMucf5kv/DCkDWe2CCv1KAbylT8Qk/WEP5aoF7YbnChTnjq/Bled?=
+ =?iso-8859-1?Q?Wyudc5aAdx/Lx8FwF3XI/KjCBeIgK0tKxISpPL5UMcDiXKI2JhnpZZbBdi?=
+ =?iso-8859-1?Q?Czw/59Tm8rQ8yWVCX0eO04iN3sIEp0Pcf2/rf4OKgmaqGvUVeGtNdFke/L?=
+ =?iso-8859-1?Q?FR8bZ1VZATc+9tiZMx5KKeHWtTGz0U1jE+2tgU5u6DA6soVFvCrEgKTk/0?=
+ =?iso-8859-1?Q?ZD/oXJ4vMnWqSrie9AWg7YXTAFt6Vtm+vFy4Tj0iCQIzFeJHsrdS64i0nV?=
+ =?iso-8859-1?Q?RXDeS3fZUGOOxbCE76Q7f5KZAZIFjBwBQtjimpWjGgiNdm/+fvn1QHuHMU?=
+ =?iso-8859-1?Q?d2x18EPo3mtXgxfqbRi+ao+GIIwH+ytSPaVLREHuBugFbeZ47NgPStvk/m?=
+ =?iso-8859-1?Q?pyVysQQYz0Kxdxh6SKgF8X8fGmOzWsJigo00o5YQ3x167dhXg+jEBj+AaB?=
+ =?iso-8859-1?Q?ijdeViWtxZrL3eo11loqa+SoC/QMU5AXG8auO8kbpkkl/nJLOHXr19PEKV?=
+ =?iso-8859-1?Q?BK2kiMiMg2MthSDQeDPXCpV4foZ1eaTos1sAYaipX7T2XhMvhFQdTQW4zu?=
+ =?iso-8859-1?Q?hVmeMj9oVGPXfxrdujf4ymhTsRVwpUdXvyTHAfumWMEPuWzxbW27s=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR01MB7726.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR01MB7726.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?iso-8859-1?Q?BhhsYABGYWwsJsqujicXuhmu/9dqRnzD8FVGH78ZrQZAqfAmRro+hU1Crw?=
- =?iso-8859-1?Q?IwnjjfsAG8NZGRolA8ETcSvD6X3gx96MJHG/RkmIJNfmynZ5a4t3qkE3WD?=
- =?iso-8859-1?Q?NY9VFDWbr954d2ZK3yGv1J6Z6uJ5P2zurrNeCYcFZhh1O7OWOtH4cunobG?=
- =?iso-8859-1?Q?c2EDy4waCDMQivhXW2ebq8A3FFxW/J8CqNO52TKOXmlDPm4yzDx+F77fCx?=
- =?iso-8859-1?Q?t01sbfRXmF3KtxsLdK77auohVjiNinXApjt6gafcHwLjaDAo4Xgzinhbns?=
- =?iso-8859-1?Q?DwiBgK2+p0Nn1CmfXOHg9a5gHUjOA4SM2+CN/WMs9i0gc3skqo04JqNtCX?=
- =?iso-8859-1?Q?zULu63XbU2p8PJkR1B6lUuKqJRwZTlnAtv/mRRFV37XzpnDnG0GwWeV//n?=
- =?iso-8859-1?Q?jLabQl+L51paZhrz4zyNjH+uHEYq45wEjCs1jWbAIkoE06ptWiFOOaQT8P?=
- =?iso-8859-1?Q?bSMKDbqvaPCvR2oW7XqpP7Buu8ctXnXSrf3Dugyi0zuAhuoS4lCI4K2yry?=
- =?iso-8859-1?Q?AGsZQP0q7E4OfEK9kdu2M70KgdOjSIZCuOsXheIK9mk78hKkGhGkQuxfjM?=
- =?iso-8859-1?Q?70oQIJgU1A2SnZRe97gACv/oArXoWvbUVdKMiy0xaFVzV4vyagRpWC9Xi8?=
- =?iso-8859-1?Q?/IQ32zIufHBgia49Iw7tSsaIr9CroG3ZHnKejPYhUdEQsp6/mJyvJpC+mC?=
- =?iso-8859-1?Q?rTkTmw0Ng9ZbD9Io6wxHmqWQxD6P38w89dVM+r8hFvoTtgfIVePsc6cEKd?=
- =?iso-8859-1?Q?UNwi4Rn81p0AJq5LmH0HD9EYoazODDkVdTvu4Dbj5ikORKa7a5JfAEejyt?=
- =?iso-8859-1?Q?bqM03cgBxCFEP/WKmzC2BByaeHl5z0LY2ngHwrxttucQllyXe0d8/XW9MD?=
- =?iso-8859-1?Q?vFqf8Qz2IzXvHOuRRMTcJCqKH9DGACbMhIXxWE3S7vLBHs7pNqww2O2Bur?=
- =?iso-8859-1?Q?/e7HYcEcvCuTcKR8HOhX68PeuoURvDy0CW6IKr38vlqpFtzn6vFuG6SHb/?=
- =?iso-8859-1?Q?YQq0voIqacR+uI+o0h7VPdT67EwuTHRrtb7g9xzw7ScrxwGw8DtNYL4sef?=
- =?iso-8859-1?Q?JpNotE9e+rRj0/hW174JhIrMPdjdUOHvx2youAXNFi+eGk7xac7fZJMVOw?=
- =?iso-8859-1?Q?H1S9BeuxDSYaINuGSEIhpAbqUI1YbLYrYb9u5RULn+7uhN1b7ykNnJlBem?=
- =?iso-8859-1?Q?vzcjfOvwpYygHTiGPlgK2Jv73Yb3DH/5v+kQRTjuVsLVpOZaTV8KAf4PfW?=
- =?iso-8859-1?Q?7htQXJK6q5hGGUPzA+q7r1wN80HgFx8R/rNwrRWFN/UUcD/C1BQrxrruYD?=
- =?iso-8859-1?Q?Eeufto6+2Wr4S3a83k2ldf1Vkly1lG2M6VdjxeIeY9LH72gxY6OTZme5aJ?=
- =?iso-8859-1?Q?NDa4yaWaJav8L1F7uqCRq3nDTfpfIf6T1ojAZcO0mrN1ccfUoI1NO7IJuE?=
- =?iso-8859-1?Q?UPhuYPAvxpraNehLchDIr4JvdNER+S3bfqaD4D1YthQqB6YRbFSc5/G2LW?=
- =?iso-8859-1?Q?tO3KjILKrPyjNIYCRNSZ4ddgw/RNPAZ7kXDQ60v7pGvfqaED+MdGWvw0gY?=
- =?iso-8859-1?Q?y3P44yXaTy/xZ2AoWuEIi0oNKQ3UAjHVpmHCJpdacWLTTON39KMqEqFNzo?=
- =?iso-8859-1?Q?0oN4TdvvVXhe4FTWRMKFcOPbPDkUIyHABB10iiUQk0xVbMvy2NuWG3iA?=
+	=?iso-8859-1?Q?RdwExzibmUi7YUL2mO+j4rKBb4JsKLLK/oXcXQL+FpTi2gl+If30Got5r7?=
+ =?iso-8859-1?Q?rzd9+LeY/FpfpS5k7a65ajcvfqD7u5lNtLuNErquG94OhZv16J0HB7Xu7Q?=
+ =?iso-8859-1?Q?X2B6ZUp18Ag/6YdY564odaP7PGqQGkjiqgj03PBC3dD7mim/uM8PQi8SJL?=
+ =?iso-8859-1?Q?YAybc6r96wS3asbdKChdQi8iaRYmX2PSZ+iw3y5KtI/e8P9EyRIbCjSn8o?=
+ =?iso-8859-1?Q?TLz9axUv9Z1+OT3jQyE8ttJPanAogO8f2rEp59g9phmoaU+8eaDGA4ynON?=
+ =?iso-8859-1?Q?/e8TxxjJcoQs/i+cM1lkXJTW8KugS7POq5Yah0u7YOuKYvDA34lLmz9lKT?=
+ =?iso-8859-1?Q?YgvNBpTxm1V0Jr+HLYYIKVBnmNzh6+VqWsnJ2/v6Ksu55Uui91a7QTelxB?=
+ =?iso-8859-1?Q?n9oyTsg177ODgagDfEQAhb+I+KX/gNoN4UGVXD5jT+GxCjjdevd706IC/I?=
+ =?iso-8859-1?Q?BkKBbkz/gYewEH3qcXmAEIZtQinzAnOuQkPKkY7fMnnTY1ivbSqn0l95n0?=
+ =?iso-8859-1?Q?sdp5t68e1Dn81yDGCcfvZ7m0do0kMyJBKuY2MtWBO6cmzswsolGCcDD0Xu?=
+ =?iso-8859-1?Q?dppcsPY0R8oLkR67x0b/a8VvBMWThUG8eg4VIyug6lLQfZnCIsSGomPnLG?=
+ =?iso-8859-1?Q?hLRG1XHe3T+bTht9ebLYYt+4e4AzhIqCk+b8YJ0MyG7NsT47sMIABciQwD?=
+ =?iso-8859-1?Q?nNKjYuEV/IvvG9qkFoITeTb/Y1tstBZcKh3zcayFa/Cv5nR0OSe8W/bCDB?=
+ =?iso-8859-1?Q?qUjnBYqNL+davmKCOLjmL4bJhB0lPdEGtKQoX1FK7EhFRx1kinTTl4kgBG?=
+ =?iso-8859-1?Q?MYly/W+7HKKTd24g2HIWC1BpQLCpiFTcjohZy6vx4bvrpX84XWe90KN//b?=
+ =?iso-8859-1?Q?U//DsHtZMcorFGLSQQEnOLciSFKyuCD0L0XMOdME0wBVU6PneTYpNQuk8D?=
+ =?iso-8859-1?Q?/yFFQkwDAA3XlwH5/6qTsfu+zT8sNUCjejhQgk9sSSdnsPh9SvDl8VEWHI?=
+ =?iso-8859-1?Q?7VG79eBaXjT85MH89GYRliUl6rNL6PENcgu83CpNkK9UTMTbojG4NIlzDU?=
+ =?iso-8859-1?Q?CFTqXiCxt4jOoiMpW8OQpuRHwmLIeBxNPWL0Eg8PObeNyL7KvNa6P7xkak?=
+ =?iso-8859-1?Q?5jN2ORM3Ugoulj/orzzJMyS6qw/PZYbDJ4Ebba+HmcX6vNQdxpes0BPYPw?=
+ =?iso-8859-1?Q?T4No4TGiY7k6NgY3HgVE7/S/a+W+n6lTaT58p0RjNYTV1wWg+kS1b0/KMi?=
+ =?iso-8859-1?Q?AdQXT/EHOpbxTeoUK238PHfJQjIwV0OhK4NT+UcIxxtBHDzSbrwGyTF3oq?=
+ =?iso-8859-1?Q?38/hOiQvfwJuz09awsTz0Lg50622jf7h4eb5yGXmExHWGeKWj7S8yndoRg?=
+ =?iso-8859-1?Q?p39Jv1bLQJCOMeWTTtLh6oImd3B6u/Sur1ThmkTnVA027gHmrYCt5zQBsq?=
+ =?iso-8859-1?Q?W/cKWFlsd/8Ul8Ol2Xw1L3DAvuzDaaDQXZSz4DUTuk1BjBsFwxCryp0hGC?=
+ =?iso-8859-1?Q?qvRjblbiq8DXLwtjA3tQltuHo3vSpJdx0E8GUdZbncFvwbyuk4KUqQ+0zr?=
+ =?iso-8859-1?Q?3dRTZC8C4LQQM2c1NUteZ1HgkWuNigA220zdKO1j6M8jvGYwbehMoURJbR?=
+ =?iso-8859-1?Q?JHJt53dcAASb4bOqIXLoHFwaND3TsBbidn6ABdmi5rzcgbU3InoNFPzQ?=
  =?iso-8859-1?Q?=3D=3D?=
 X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 002879ae-fcf1-4fff-ca82-08ddbb1ed5fa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1278af03-9cea-4295-12d1-08ddbb207a58
 X-MS-Exchange-CrossTenant-AuthSource: PA4PR01MB7726.eurprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2025 17:18:47.3182
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2025 17:30:32.4102
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3mdDNrcvlxP84Z07flLORN1cm209ayLmIrRYUXiZtfbpZP9VHg3WokQTa3mAoyP0lAGm2lM+4C8nZpRQ1fuQtZoRDXPzdx1zbK5p9bylqPk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR01MB9047
+X-MS-Exchange-CrossTenant-UserPrincipalName: AUnw9BDXLZpOWOUMtma5UWYyNGojn+5H/VtWa8TABsuqRNTZEJaXAQnv0PnYPWbmVz05TYYXptsm0MDDoP1uzyNaYz3HqG3YjO4EskFtFyc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR01MB7225
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 17:18:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219950
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 17:30:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219951
 
---v6m6ik2rvnmjvui2
+--ztsmf4ktlczbvsyf
 Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [kirkstone][PATCH] classes: Move package RDEPENDS processing out
- of debian.bbclass
+Subject: Re: [OE-core] [kirkstone][PATCH] classes: Move package RDEPENDS
+ processing out of debian.bbclass
 MIME-Version: 1.0
 
-Richard Purdie schrieb am Fr 04. Jul, 14:38 (+0100):
-> On Fri, 2025-07-04 at 14:16 +0200, J=F6rg Sommer wrote:
-> > From: Sergei Zhmylev <s.zhmylev@yadro.com>
+Richard Purdie schrieb am Fr 04. Jul, 14:39 (+0100):
+> On Fri, 2025-07-04 at 14:25 +0200, J=F6rg Sommer wrote:
+> > J=F6rg Sommer via lists.openembedded.org schrieb am Fr 04. Jul, 14:16 (=
++0200):
+> > > From: Sergei Zhmylev <s.zhmylev@yadro.com>
+> > >=20
+> > > INHERIT_DIRSTO by default includes debian.bbclass which in turn prope=
+rly
+> > > establishes dependencies between package management tasks and build
+> > > process. Debian class also unconditionally renames several packages i=
+n a
+> > > Debian way. In order to allow disabling of such renaming rules, the l=
+ogic
+> > > of RDEPENDS handling is moved to a package.bbclass.
+> > > This commit also solves the SDK building issue without debian.bbclass.
 > >=20
-> > INHERIT_DIRSTO by default includes debian.bbclass which in turn properly
-> > establishes dependencies between package management tasks and build
-> > process. Debian class also unconditionally renames several packages in a
-> > Debian way. In order to allow disabling of such renaming rules, the log=
-ic
-> > of RDEPENDS handling is moved to a package.bbclass.
-> > This commit also solves the SDK building issue without debian.bbclass.
+> > Is this code in master still required or can it be removed?
 > >=20
-> > (From OE-Core rev: 8313a4201cde39c444aa6fbe82e46a767fc31f6b)
-> >=20
-> > Signed-off-by: Sergei Zhmylev <s.zhmylev@yadro.com>
-> > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > (cherry picked from commit 251a5c88f6bcf347d637b39b8a86e8a083774986)
-> > Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
-> > ---
-> > =A0meta/classes/debian.bbclass=A0 | 18 +++---------------
-> > =A0meta/classes/package.bbclass | 21 ++++++++++++++++++++-
-> > =A02 files changed, 23 insertions(+), 16 deletions(-)
-> >=20
-> > diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
-> > index 8367be9f37..ade0e6dd8c 100644
-> > --- a/meta/classes/debian.bbclass
-> > +++ b/meta/classes/debian.bbclass
-> > @@ -8,26 +8,14 @@
-> > =A0#
-> > =A0# Better expressed as ensure all RDEPENDS package before we package
-> > =A0# This means we can't have circular RDEPENDS/RRECOMMENDS
-> > +#
-> > +# Logic of processing dependencies moved to a package.bbclass to
-> > +# allow removing inheritance on debian.bbclass
-> > =A0
-> > =A0AUTO_LIBNAME_PKGS =3D "${PACKAGES}"
-> > =A0
-> > =A0inherit package
-> > =A0
-> > -DEBIANRDEP =3D "do_packagedata"
-> > -do_package_write_ipk[deptask] =3D "${DEBIANRDEP}"
-> > -do_package_write_deb[deptask] =3D "${DEBIANRDEP}"
-> > -do_package_write_tar[deptask] =3D "${DEBIANRDEP}"
-> > -do_package_write_rpm[deptask] =3D "${DEBIANRDEP}"
-> > -do_package_write_ipk[rdeptask] =3D "${DEBIANRDEP}"
-> > -do_package_write_deb[rdeptask] =3D "${DEBIANRDEP}"
-> > -do_package_write_tar[rdeptask] =3D "${DEBIANRDEP}"
-> > -do_package_write_rpm[rdeptask] =3D "${DEBIANRDEP}"
-> > -
-> > -python () {
-> > -=A0=A0=A0 if not d.getVar("PACKAGES"):
-> > -=A0=A0=A0=A0=A0=A0=A0 d.setVar("DEBIANRDEP", "")
-> > -}
-> > -
-> > =A0python debian_package_name_hook () {
-> > =A0=A0=A0=A0 import glob, copy, stat, errno, re, pathlib, subprocess
-> > =A0
-> > diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> > index e6ba79346c..5cc3c779c0 100644
-> > --- a/meta/classes/package.bbclass
-> > +++ b/meta/classes/package.bbclass
-> > @@ -54,7 +54,6 @@ ALL_MULTILIB_PACKAGE_ARCHS =3D "${@all_multilib_tune_=
-values(d, 'PACKAGE_ARCHS')}"
-> > =A0# dwarfsrcfiles is used to determine the list of debug source files
-> > =A0PACKAGE_DEPENDS +=3D "rpm-native dwarfsrcfiles-native"
-> > =A0
-> > -
-> > =A0# If your postinstall can execute at rootfs creation time rather tha=
-n on
-> > =A0# target but depends on a native/cross tool in order to execute, you=
- need to
-> > =A0# list that tool in PACKAGE_WRITE_DEPS. Target package dependencies =
-belong
-> > @@ -2547,6 +2546,26 @@ python do_packagedata_setscene () {
-> > =A0}
-> > =A0addtask do_packagedata_setscene
-> > =A0
-> > +# This part ensures all the runtime packages built by the time
-> > +# dynamic renaming occures, if any.
-> > +# This part moved here from debian.bbclass (see for reference) in
-> > +# order to allow disabling default inheritance on debian package renam=
-ing.
-> > +
-> > +PKGRDEP =3D "do_packagedata"
-> > +do_package_write_ipk[deptask] =3D "${PKGRDEP}"
-> > +do_package_write_deb[deptask] =3D "${PKGRDEP}"
-> > +do_package_write_tar[deptask] =3D "${PKGRDEP}"
-> > +do_package_write_rpm[deptask] =3D "${PKGRDEP}"
-> > +do_package_write_ipk[rdeptask] =3D "${PKGRDEP}"
-> > +do_package_write_deb[rdeptask] =3D "${PKGRDEP}"
-> > +do_package_write_tar[rdeptask] =3D "${PKGRDEP}"
-> > +do_package_write_rpm[rdeptask] =3D "${PKGRDEP}"
-> > +
-> > +python () {
-> > +=A0=A0=A0 if not d.getVar("PACKAGES"):
-> > +=A0=A0=A0=A0=A0=A0=A0 d.setVar("PKGRDEP", "")
-> > +}
-> > +
-> > =A0#
-> > =A0# Helper functions for the package writing classes
-> > =A0#
+> > ```
+> > bitbake/lib/bb/tests/runqueue-tests/classes/base.bbclass:100:DEBIANRDEP=
+ =3D "do_packagedata"
+> > bitbake/lib/bb/tests/runqueue-tests/classes/base.bbclass:101:oo_package=
+_write_ipk[rdeptask] =3D "${DEBIANRDEP}"
+> > bitbake/lib/bb/tests/runqueue-tests/classes/base.bbclass:102:do_package=
+_write_rpm[rdeptask] =3D "${DEBIANRDEP}"
+> > ```
 >=20
-> This was followed quickly by:
->=20
-> https://git.yoctoproject.org/poky/commit/?id=3Db177f377285746364354ab26d9=
-5b9f2f09f08dcf
->=20
-> which means this change wasn't well tested in isolation during developmen=
-t.
+> That is in a bitbake test, specifically testing certani kinds of
+> dependency so wouldn't we still need that? What makes you think it
+> should be removed?
 
-Okay. I didn't saw this. A backport of this one would also be required.
-
-> I'd guess you're trying to avoid debian.bbclass in kirkstone, I have to
-> wonder why now though as if we were going to change behaviour like this
-> in kirkstone, wouldn't we have done it long before now?
-
-Yes, I'm trying to avoid the debian renaming, but dropping debian.bbclass
-causes the SDK build to fail.
-
-I can pick the relevant lines from this change into our project patches, but
-I thought it might help someone else having the fixes in kirkstone. As far
-as I've tried the master branch works fine without debian.bbclass.
+It uses the variable name of the code before
+251a5c88f6bcf347d637b39b8a86e8a083774986 and I suspected that it solved
+something similar as this commit. But I might be wrong. You know the code
+much better than me.
 
 
 Regards, J=F6rg
@@ -279,7 +192,7 @@ Tatzendpromenade 2       F: 03641 - 526 306
 Gesch=E4ftsf=FChrer: Steffen Sp=E4the, Jan Rommeley
 Registergericht: Amtsgericht Jena, HRB 501480
 
---v6m6ik2rvnmjvui2
+--ztsmf4ktlczbvsyf
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -369,14 +282,14 @@ rDCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UE
 BxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdv
 IFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAPzh908c
 7MYmJwWouN4Q9n4wDQYJYIZIAWUDBAIBBQCggaAwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEH
-ATAcBgkqhkiG9w0BCQUxDxcNMjUwNzA0MTcxODQ0WjAvBgkqhkiG9w0BCQQxIgQglAvvBSKf
-8EJNn9gVYRjSnT17CzJJK/uzTyBdVnUZKnQwNQYJKoZIhvcNAQkPMSgwJjALBglghkgBZQME
-ASowCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBAQUABIIBAHPLdwvTWmR8
-5Fl3zQXfudUbalyn/cPEBnKId4TH9sQeprcVOLePLNN7U88/GReOuahiGn9h3GRMngEIs8Mz
-A7WHN5uLc7A9aAkRVhTlJTXDPQFf3y0CLyQzSA24aO2zLUv+t3QbEWzrlPoGbnAf89wjvbmm
-O9X5WWXsL1ey2dvvSHlP8kpLhWSCJtYeuXLQBL2Q0pW15PUY+aEP7EiGdDPo2RK3VTOsCt0D
-2kz1r26/XpgggVD4HUZHadXTX1pDw8BVT/yBd824smnouTiVT+a6xr3Mukh4i/IPfbcLrdWI
-+IHTdkiwHWM6vGV/JIMOyunPxkajvTCNfaXI9hMdjk8=
+ATAcBgkqhkiG9w0BCQUxDxcNMjUwNzA0MTczMDI5WjAvBgkqhkiG9w0BCQQxIgQgOyNndq4/
+jqojuNg+GsHi7m1a1XBwJsT1zSEiXxXKgfYwNQYJKoZIhvcNAQkPMSgwJjALBglghkgBZQME
+ASowCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBAQUABIIBAKtrKH1BTjX+
++0Tqiof2JgVd2XhNno1C0i2/gOIuteZWbYhB1mmq2ycU/Mk64FtqZGBHvDKJLe4S5GxCQHw+
+FjIYFPHGFRr152O7Wsvs/aUJzKqZjXzd2a2ttXElDNDHh0Stawr47WPrz1ELo8905hGn4+g5
+Omw8r6rSFzut60cvV6Et/Kpcs4iE2vZT/YzAYhkYntfuZtfno9MLvAQ45h26Zk0hg/4T7+Hn
+k61lArp92jA2zX/tjv4iHHhZVCkWEkLt2rxbk+Lb+VHMSOl4Q2tRMfHRbAPVNC9jFqVmpe5C
+phM6/P1jqJMViRxYySZQHYYEf90bA4a/VDLqIvRvyvo=
 
---v6m6ik2rvnmjvui2--
+--ztsmf4ktlczbvsyf--
 
