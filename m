@@ -1,106 +1,136 @@
-Return-Path: <michalwsieron@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0952C8303D
-	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 15:12:18 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.14517.1751641933605295684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C14E4C83F09
+	for <webhook@archiver.kernel.org>; Fri,  4 Jul 2025 15:29:08 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.14852.1751642942686192126
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Jul 2025 08:12:13 -0700
+ Fri, 04 Jul 2025 08:29:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ms01lCxr;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: michalwsieron@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-605b9488c28so1699137a12.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:12:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oiK1zoVY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-749248d06faso900050b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 08:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751641932; x=1752246732; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lVKdrbu1nzTCImNs5KLyYrksVMBlCJC6OULv35MS1+U=;
-        b=ms01lCxrCd5ox21HL5QnIBaS9iwBZGMl3fIxpCtrvFR9A8yCxrmiBX4U4ebl/RAzEm
-         51yp68WpATAqPm8VvwV/T9nRx35aQk15tQpua8jl13enQ1ykyWf5w7Ighde5Ff1NQxdN
-         4Zv4mxcVtP4Owpbp1XZ3yS5cFfwTF5mLs00bURljRehZkVr2ybUZSd7QUdQBTJCFdk+j
-         VwIocChbD7aLDTT5fxjrl9IJkoHe8NMEf2+3q58oIk0PuPSVgU4k0xd+Zn0pEDfRc9vE
-         ktN5K9R6ywpSg+E7zPfuv++j6+eBSE2+m/rraE5aeVmEI/aWMtFBCDP78dB5jcRLaNKe
-         wGWw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1751642942; x=1752247742; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hzhg5rZ0z7kGfAfzWJpG3EX6o3dLAZ+JNKLsAvxmP8s=;
+        b=oiK1zoVYnSs/xU7frJClDDVMYC0YnOXTgZ9h+DOO6NSvmUl3yAwqipKplJJ9K8LrFR
+         1MiBCWyapkk092FZNxx2sHjcVNyZ9Dng6Wnv4/Lnmr4dsDORwX8vNFEpDo2dVC9E5Pjq
+         hwnyjeJvcic0bNuI+1VSqt2D8+SfSpyu+56iHZQwhCpscFfGe5h3KTqHusbmZA6uSGMS
+         15iC4FLYiYxY92i7lFYNIjQVErz4BTG1A5DEH05YlEgYa+TrR1OyPxLKBT+BorYd51Rd
+         Uewf/LssCdW6fL33WGuxJBf/SjP99R5TTupR6b8NUCPquOx+Rnf2vhNPVrEvInlMlFW2
+         8lMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751641932; x=1752246732;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lVKdrbu1nzTCImNs5KLyYrksVMBlCJC6OULv35MS1+U=;
-        b=tdBpp+iInSWQfSU0DRMqqTmHnPUCzXRZG29FShv9Daeg+luK3LaKeJgxKzPQ7/Spei
-         PfjGkuWm4JfKAkX967L0K4/WcyJZN71sZdQXLbQYQS261EalyMnRREd8krI7XIYNU6Fu
-         sE/v/STSVmOAwp6g5fIOMaevDWmdn0QATSP1hbwvNBcbXcDfMShmjrXPUYvwFKGeh2+0
-         eE0HEom7YUIRbZ4GqJPaH5azgqncQIAdjB+6XYaMVD3Ciy7qHvh0xrnYKOy+yqIPszJW
-         1bhq+rkmKEcYwsSIvrqoqxtgPaPOtZUJsw2XKg4NKniNiCA4expfUY02xat/e48plmKA
-         A3gg==
-X-Forwarded-Encrypted: i=1; AJvYcCXC0DQBOOVbjnssb6Yv5oK09u4NNL+YCeS7zjWtO6iXx2ArsJCMEz0/3pyu7+E5lrof0P5idWurVJCJVvz2T9GD/Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyqFuTp0YzerR3aKTo76fIn/nARp/DUQ6+j/7Lu36e8xhfatGaU
-	yJwmRt0XQAoHOKVtQd26eNl5qeMDOA3Vwswn8RrZppI9OkYJSAXytn2o
-X-Gm-Gg: ASbGncsd3nSMUmoYeb4OVq+RN2dQs3Y2Gj8jDaIcbfBZb4JQE703Y9cnHItzorAGes7
-	4COaRr94eBnWBgTye9GQ6ipfjsG7hRAslXXebQMMwLr0c5sPjnVHUL2zjntX+GCTHhk9GVjDo2f
-	RfGOGdcToFZ/jNoNI51CVgh0g2XBa/0Kd+Os3AppozX4iLQaZEoXckn0iGOZ3WPzK3I4jKahIQA
-	NSga2l+2RX5wicev69SHZptl41UcyBJjxPzY2w4OgmcK6HOZjQvJFF+S3cKGZi4Y5vq+s4jITVS
-	uv+jgWs5L4lha9nZZ6P5KqCIONhv7azJd9XC01b5dKNr3z/VUvk4COCg9lkH
-X-Google-Smtp-Source: AGHT+IHmsMB1GCWE7rTfuKRdnoS2KOyIOa6/LqoxBkp7B3gKWPZfwy+33ete+Tp3o6+hILGlnmLAlg==
-X-Received: by 2002:a50:8ad8:0:b0:606:a99d:91d4 with SMTP id 4fb4d7f45d1cf-60fd34a22f5mr2269851a12.27.1751641931653;
-        Fri, 04 Jul 2025 08:12:11 -0700 (PDT)
-Received: from elitebook ([93.159.20.3])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fcb8c63f9sm1443404a12.72.2025.07.04.08.12.10
+        d=1e100.net; s=20230601; t=1751642942; x=1752247742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hzhg5rZ0z7kGfAfzWJpG3EX6o3dLAZ+JNKLsAvxmP8s=;
+        b=Xacu6qaAyLEZZMjgXawoXsZIlKlSNEK0V3u/FPwJyXmq8S3rJrMKchVY2lqpqzyUwf
+         GxE7/jztC/S1bYZOtxLmwWcz9oTQk7VXb0X0yDi8JH761KXtx3CqM+L+avfhmmEfuNm0
+         CpRVF7WuuUlPXav+gHJyVd3ylKYJ8WHD3R5A2mQ0/gBtBOao/9Hfkqm09774DembyE8K
+         xaMmXViFKc98z1eViObqLWFQIYhOCM/2LI04IMMOZg/lauHilU36wB1n5HfWxKxIwptt
+         j0ReBGlrea/DspqSh2Qb//0mC9hus5JXgylba1RbupAmlklL144vwxm26gTPnycf+Yab
+         dsPg==
+X-Gm-Message-State: AOJu0Yz1NzEJHjvfxyKipuTXTY2wHD4WYQEaRvjdGDxcDy+QVFN6/1JR
+	sA3Mt32DcvR95XUnadAymLTAF335sY7tOUHALt3jMvdZdGm8YqCpXW1c+ib/mSCV+6hiIEIcTGF
+	zOgIx
+X-Gm-Gg: ASbGnctzutyqaSBLi7qgDMa0pmPq9ZRAYkfli3C0UuOv2ikffywym0zzwY9C/yfDlkO
+	OenJT6c7DBkKpe+PPZ2fEK77hTpoHt02HsSEpTgZciKj93LvfU3u/yQBrFL9IzJcT7rnrFwHl6N
+	PmgMCsD9zDa3+mNH8rHImZ1Jnf4bISKOW53v6BPXF38TZN+68zewdpWAjZjLVSRFOs/BY0NYqNO
+	hMRXWgDYq5FxcB1XvllgxCD1FkL1963m526DKhmL2wyn2bVaEH/Kjx5X2xfBUHIBJ49NeEp/bKF
+	jkJQrXFZ6/VHSMWrt7V0KGvZFlC1KujOrdZS3yFwSFyk47ImcbPGjg==
+X-Google-Smtp-Source: AGHT+IFwT9iiULsVG/t0fE3rbvAkrAF7rdieCgcK7J3OVKXL7RmzAfPZ3AX3tuLnzpUELYq0vKA/WQ==
+X-Received: by 2002:a05:6a00:10c4:b0:746:26fe:8cdf with SMTP id d2e1a72fcca58-74ce68f9a22mr3795632b3a.7.1751642941639;
+        Fri, 04 Jul 2025 08:29:01 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:d985:cb7d:ae84:68cc])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce42a1ca0sm2424232b3a.138.2025.07.04.08.29.01
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 08:12:11 -0700 (PDT)
-From: Michal Sieron <michalwsieron@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: michalwsieron@gmail.com,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf: Add relative path from B to S to
-Date: Fri,  4 Jul 2025 17:11:54 +0200
-Message-ID: <20250704151153.286734-2-michalwsieron@gmail.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <0c9426e4e7ff18ddbad4845e13f9a289e1ee9191.camel@linuxfoundation.org>
-References: <0c9426e4e7ff18ddbad4845e13f9a289e1ee9191.camel@linuxfoundation.org>
+        Fri, 04 Jul 2025 08:29:01 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/9] Patch review
+Date: Fri,  4 Jul 2025 08:28:46 -0700
+Message-ID: <cover.1751641924.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 15:12:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219938
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Jul 2025 15:29:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219939
 
-> It gets even more strange as if you swap the build_root() to be before=0D
-> the source_root() parameters, you see:=0D
-> =0D
-> /usr/src/debug/hello/1.0/build/../hello.c=0D
-> 	/usr/src/debug/hello/1.0/build/../hello.c=0D
-> =0D
-> which is actually correct. You are supposed to order them from most=0D
-> specific to least specific. That doesn't change the fact the output=0D
-> from the other way around isn't correct.=0D
-> =0D
-> I still maintain this is a bug in gcc's handling of the prefix-maps.=0D
-=0D
-Welp, I used the same ordering as in bitbake.conf...=0D
-=0D
-Anyway, using now smaller set of flags=0D
-    '-ffile-prefix-map=3D'  + meson.project_build_root()  + '=3D' + map_to,=
-=0D
-    '-ffile-prefix-map=3D'  + meson.project_source_root()  + '=3D' + map_to=
-,=0D
-I tried doing the same, but now with clang:=0D
-build_root() first: /usr/src/debug/hello/1.0/../hello.c=0D
-source_root() first: /usr/src/debug/hello/1.0/build/../hello.c=0D
-=0D
-So I don't think your comment about this being a bug in gcc is correct.=0D
-Unless the same bug is present in clang.=0D
-=0D
-I can't do the check in Yocto at the moment, but if you say the=0D
-[...]/build/../hello.c variant is correct and Yocto would correctly=0D
-populate -src package, then I would say that's the answer?=0D
-That is, to change the order of those two flags in the bitbake.conf.=0D
-=0D
-Best regards,=0D
-Michal=0D
+Please review this set of changes for kirkstone and have comments back by
+end of day Tuesday, July 8
+
+Passed a-full on autobuilder:
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1949
+
+The following changes since commit 75e54301c5076eb0454aee33c870adf078f563fd:
+
+  build-appliance-image: Update to kirkstone head revision (2025-06-27 08:10:04 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Archana Polampalli (6):
+  xwayland: fix CVE-2025-49175
+  xwayland: fix CVE-2025-49176
+  xwayland: fix CVE-2025-49177
+  xwayland: fix CVE-2025-49178
+  xwayland: fix CVE-2025-49178
+  xwayland: fix CVE-2025-49180
+
+Chen Qi (1):
+  systemd: backport patches to fix CVE-2025-4598
+
+Colin Pinnell McAllister (1):
+  libarchive: Fix CVE-2025-5914
+
+Yogita Urade (1):
+  python3-urllib3: fix CVE-2025-50181
+
+ .../systemd/systemd/CVE-2025-4598-0001.patch  |  92 ++++++++
+ .../systemd/systemd/CVE-2025-4598-0002.patch  | 106 +++++++++
+ .../systemd/systemd/CVE-2025-4598-0003.patch  | 144 ++++++++++++
+ .../systemd/systemd/CVE-2025-4598-0004.patch  |  36 +++
+ meta/recipes-core/systemd/systemd_250.14.bb   |   4 +
+ .../python3-urllib3/CVE-2025-50181.patch      | 214 ++++++++++++++++++
+ .../python/python3-urllib3_1.26.18.bb         |   4 +
+ .../libarchive/libarchive/CVE-2025-5914.patch |  46 ++++
+ .../libarchive/libarchive_3.6.2.bb            |   1 +
+ .../xwayland/xwayland/CVE-2025-49175.patch    |  92 ++++++++
+ .../xwayland/CVE-2025-49176-0001.patch        |  93 ++++++++
+ .../xwayland/CVE-2025-49176-0002.patch        |  38 ++++
+ .../xwayland/xwayland/CVE-2025-49177.patch    |  55 +++++
+ .../xwayland/xwayland/CVE-2025-49178.patch    |  50 ++++
+ .../xwayland/xwayland/CVE-2025-49179.patch    |  69 ++++++
+ .../xwayland/xwayland/CVE-2025-49180.patch    |  45 ++++
+ .../xwayland/xwayland_22.1.8.bb               |   7 +
+ 17 files changed, 1096 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2025-4598-0001.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2025-4598-0002.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2025-4598-0003.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2025-4598-0004.patch
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-50181.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5914.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49175.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0001.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49176-0002.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49177.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49178.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49179.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-49180.patch
+
+-- 
+2.43.0
+
 
