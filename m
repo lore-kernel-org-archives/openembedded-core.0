@@ -2,63 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 293C2C83030
-	for <webhook@archiver.kernel.org>; Sat,  5 Jul 2025 16:08:05 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.20176.1751731681114405177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A2EEC8303C
+	for <webhook@archiver.kernel.org>; Sat,  5 Jul 2025 16:37:45 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web11.20885.1751733463913315105
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Jul 2025 09:08:01 -0700
+ Sat, 05 Jul 2025 09:37:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OWM5Wucb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a575a988f9so1057460f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Jul 2025 09:08:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LR/FEEu1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6097b404f58so2630188a12.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Jul 2025 09:37:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1751731679; x=1752336479; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1751733462; x=1752338262; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AONNhPXQgWesaUBLxBw+M14Q1s4bX8VQapKMfE7WY0M=;
-        b=OWM5WucbgjFB06UOXIINgW0Jyiu14Wm+w/nuy1tjfPSDpZWUI4R2+T5DvlZDesnfm3
-         Np3OvkRMz4G9kEi9Nj9txSxTQQjKSnsaBoPDY94HR3BQamE+62Xj5F2xqwdRdbHyAKqr
-         C180dBqrTcZa7Vsrb00/k7wdsO1Cy5aN0YoXU=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2M9tvvii2zG9uPCoUtRhF3tm9xA1kvujR4D25GmpJCA=;
+        b=LR/FEEu1a0REPfvm/2ON8Vw9D2lh+wrj2MgT+NyO/DljWPI8Ut5tgo7GGXzVuSWcFt
+         nxgxpRSi4/sRG2d53xQTggftH4MYVZYTuix4kM1CvLonLhrL1pEWLWN71sNnIe3nkjhO
+         D4gM/7wuglLfOm59Gfe1jGNpvdYVCVWjuK7ak=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751731679; x=1752336479;
+        d=1e100.net; s=20230601; t=1751733462; x=1752338262;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AONNhPXQgWesaUBLxBw+M14Q1s4bX8VQapKMfE7WY0M=;
-        b=JVwZyzR5yVhfqOE+XfNp5uxKw/8AYSDLhJ+lbgOrH2pIKAaTN75hMItyDePNcg0OUM
-         4iR5a99F4zJxSOX5zsXj0Ri+OAo5JjA3OatmWCg8MxJTAHmlNwJl5g9d+ZmmgDzwOC2O
-         2gj/l9t9IN4wxryo4weAoT9IYfWTAVgsKyKN3Fq3p8pwg4B7u5Yw5xRfwn8T/uJjRUI6
-         BhcbX4nHxAISMaFCRqdgIwXNNIRB42i66JucP/i9paRoVUVzn/wBov7OnKBVu02tyjFq
-         muFPvZ5S3Z7DMNL+HtShfmqdOVtJ30GKXVLpq8euZTTL5hE8/aepYrFPgOgw+2Rz24bx
-         Gdlg==
-X-Forwarded-Encrypted: i=1; AJvYcCXOzJWWcZMYRsoU2CYYRfyU4zlk1tyL1jmyI9MXbd5+qKiwgDKVHgXSDXMtm+yWU5grNgh10PQdvW50KQkpO1ID1w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy/zL4wxs+qngbs/t6Rc9QXR1f12mzl41V8/9HUuUo4S2eqIeNk
-	3Q+95AzAV/ck2UKDp1oAqaa4Y79iUCX3b4tJ71B8u/2veFcFJRc6Gj/RsArxpB+7wv4=
-X-Gm-Gg: ASbGncvqut9RV6FVAhCMwKkxF3ipGXbDchoeCVTuTmlWAUZLC1ck86PT0NbKJ3j8a/l
-	rlfK0fJNPo3OSmpcqfgMKV0nUQGF+LKLPAqUxqoYgjT93zqrD+Ud92G4u2TDoTm4zG+KkXHOmqt
-	Vzj5MpdlsRkaKi1dd3bZN7BSqdY4ekznO+Dva7c9UQMxglk23bndi20zgC6N8i7w6rwMuYvJyTJ
-	jp5rZCSK8Q+BXyaYEs2okPT+PXbhCWWNrjSxzcSDNRwBiYEm185XfKivsHavKWXO4TtKYrVrIQ1
-	64Bs7KXpoVwGBbaQ9feLl7EPRZCKgSn2WEH2CzlK91UBug+dmfwzoMIwIXPZzOFUqNLRK1i3P2C
-	/Oy6JkVMPuprJZMLzt9rSm4jgXgyOZRVD0I3gi8E+3eyV6AYV3gHRBj7P9b3hNg==
-X-Google-Smtp-Source: AGHT+IHK6n8J9IcWrMndxwztNTUOSs5WB4tThbrIr5fypsiec11RAzEpmld1P+FNLzHm19fSaju6bA==
-X-Received: by 2002:a5d:5e8c:0:b0:3a5:8cc2:a4a1 with SMTP id ffacd0b85a97d-3b49aa7dc52mr2326287f8f.39.1751731679562;
-        Sat, 05 Jul 2025 09:07:59 -0700 (PDT)
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2M9tvvii2zG9uPCoUtRhF3tm9xA1kvujR4D25GmpJCA=;
+        b=qDvsLxNsaXRg6cYMkY90ieF5g03DGF3zdh741byxONF8wKu5P5RY4EVPMQcTMXy5eN
+         B4rbAy9rNw/RjQ86Gx2PwWmpJoQw5VfMRNSJVsGlXk4/5qCp6Iz2xCBFMH0AFfy1QDxV
+         u51mRQy8MMalRr6Xrg3Zc3AbmD7oTArvEzsLo/IZomM7HpE8+hfv10uz65Zx8TWnDc20
+         Pt0dyc9FfMHvqDDvx/Go7PMdN4ZFfw9fAXXTN40w5mNH0as70SCgcMAwff9vSNoLt0GL
+         EPhRwqXPbXv018xNiNQk9GZVFdXlcdSng1PLXfo6jAsx+egUezvz2MmpB7IKytK6abdu
+         oUPg==
+X-Gm-Message-State: AOJu0YzQ3uj5PvZ7ztxTQeH/+2wbHiM2LruWdFihwtfbyJIJBX9mYbWy
+	+eLBobKSAI9TrIcdqn2NAfDVIdS3UZCZTcQIf2N0R5APfeWpkHL/WLJa3kwu9YJNuGs=
+X-Gm-Gg: ASbGncu0ohQhIw9dTrTvYFtZAdpJbeJ3qfskbPIAhGvN/Ib7Yf0cW+LBmE1KRB9PE7K
+	BAgmqJI/I4eucB4BJvYhl1+4mms6Bfo/5I6spPHGQ0orIO+sU+xG37JlStuTbSmfM60tt+aK9uO
+	vOiW56j1WoTGcazbD3BSTRvtBZQxLx3Ln6H6iD37hQQd0Pbez9rI20KmvsSAOzFPWSFp81eTT2G
+	4bbZKBRA+eNi4QNYJ6YjFzpztNzgEC9HD1XzBgjfLeQk7XyBz8SbFiMq3Q0yW3oxvT9U8D8BrGB
+	5wP/IJrqae7LwPDQAv9nyJH1iY0c6kgN63IAdHDOrDQ+mFo5ChqIpFf5+y+FtMYAXZKo1dNIgSU
+	uB7ZWKWeX1v1VkxVwOx0wPzptBk2Bsg/WQdyKlnIjvE1LO1SUmiI=
+X-Google-Smtp-Source: AGHT+IHaWT6dUFrMISVLZitfxHLSviiM+Gc0uwgkXJSzxEMtD2t0XAswZ0IzK2xJgRbTXoCVYM2y5Q==
+X-Received: by 2002:a50:d783:0:b0:60c:6a48:8047 with SMTP id 4fb4d7f45d1cf-60ff388875dmr1884828a12.11.1751733462075;
+        Sat, 05 Jul 2025 09:37:42 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:44e5:6183:e700:8e38? ([2001:8b0:aba:5f3c:44e5:6183:e700:8e38])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454a9bced0esm86675675e9.22.2025.07.05.09.07.58
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fca695d66sm2796400a12.17.2025.07.05.09.37.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Jul 2025 09:07:58 -0700 (PDT)
-Message-ID: <c8c8d7d7c90d6b8113ce7b292bda403053bb267c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 3/5] testexport.bbclass oe-test: capture
- all tests and data from all layers
+        Sat, 05 Jul 2025 09:37:41 -0700 (PDT)
+Message-ID: <e70ecfb105bdd7f1f7a8dbf6737e4363088a749f.camel@linuxfoundation.org>
+Subject: Re: [PATCH] bitbake.conf: Add relative path from B to S to
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Date: Sat, 05 Jul 2025 17:07:57 +0100
-In-Reply-To: <20250702072516.1075450-3-mikko.rapeli@linaro.org>
-References: <20250702072516.1075450-1-mikko.rapeli@linaro.org>
-	 <20250702072516.1075450-3-mikko.rapeli@linaro.org>
+To: Michal Sieron <michalwsieron@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, raj.khem@gmail.com
+Date: Sat, 05 Jul 2025 17:37:39 +0100
+In-Reply-To: <20250705144126.36056-1-michalwsieron@gmail.com>
+References: 
+	<ad0656d62bfd203a2f0c984d15e683ea3ca01f46.camel@linuxfoundation.org>
+	 <20250705144126.36056-1-michalwsieron@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.0-1 
@@ -66,37 +66,52 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Jul 2025 16:08:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219955
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Jul 2025 16:37:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219956
 
-On Wed, 2025-07-02 at 10:25 +0300, Mikko Rapeli via
-lists.openembedded.org wrote:
+On Sat, 2025-07-05 at 16:41 +0200, Michal Sieron wrote:
+> > in that we removed -fcanon-prefix-map thinking it worked and it
+> > clearly
+> > doesn't.
+> >=20
+> > We *need* that option and it will need to be put back, probably gcc
+> > specific. Copying Khem.
 >=20
-> -import os
-> -import sys
-> =C2=A0import argparse
-> +import glob
-> =C2=A0import logging
-> +import os
-> +import sys
-> =C2=A0
-> =C2=A0scripts_path =3D os.path.dirname(os.path.realpath(__file__))
-> -lib_path =3D scripts_path + '/lib'
-> -sys.path =3D sys.path + [lib_path]
-> +lib_path =3D os.path.join(scripts_path, 'lib')
-> +sys.path.append(lib_path)
-> +meta_lib_paths =3D glob.glob(scripts_path + '/*/lib',
-> root_dir=3Dscripts_path, recursive=3DTrue)
-> +for p in meta_lib_paths:
-> +=C2=A0=C2=A0=C2=A0 sys.path.append(p)
-> =C2=A0import argparse_oe
-> =C2=A0import scriptutils
-> =C2=A0
+> But then what do we do about clang, which behaves the same way and
+> doesn't support -fcanon-prefix-map? There is also Kirkstone, which is
+> still on gcc 11 (that option was introduced in gcc 13).
+
+We ran into this issue and convinced gcc it needed a patch. I suspect
+kirkstone has that patch. The patch was merged by gcc 13 so we no
+longer had to carry it.
+
+I suspect someone needs to add this support to clang as I suspect there
+isn't another way to handl relative paths.
+
+> I also went and adjusted the 'reproduction' example a little bit to
+> be more similar to Yocto setup. I put the meson.build and hello.c
+> files in a 'git' directory. Then from parent of 'git' directory I am
+> calling meson with absolute paths to source and build dirs (again to
+> mirror how Yocto works).
 >=20
+> Now regardless of the order of prefix-map flags I get the same
+> output:
+> =C2=A0=C2=A0=C2=A0 $ dwarfsrcfiles build/hello
+> =C2=A0=C2=A0=C2=A0 /usr/src/debug/hello/1.0/../git/hello.c
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /usr/src/debug/hello/1.0/../gi=
+t/hello.c
+> which reminded me that this is the actual reason I first saw this as
+> a bug couple weeks ago. After all, Yocto won't create a 'git'
+> directory in the -src package.
+>=20
+> With -fcanon-prefix-map it's a little better:
+> =C2=A0=C2=A0=C2=A0 $ dwarfsrcfiles build/hello
+> =C2=A0=C2=A0=C2=A0 /usr/src/debug/hello/1.0//usr/src/debug/hello/1.0/hell=
+o.c
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /usr/src/debug/hello/1.0/hello=
+.c
 
-This assumes python 3.10 which we can't quite do yet:
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/1850
+That does look a bit more like what I'd have expected.
 
 Cheers,
 
