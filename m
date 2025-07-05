@@ -1,250 +1,193 @@
-Return-Path: <gavrosc@yahoo.com>
+Return-Path: <yamane07ynct@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4BCBC8303C
-	for <webhook@archiver.kernel.org>; Sat,  5 Jul 2025 17:57:55 +0000 (UTC)
-Received: from sonic306-2.consmr.mail.bf2.yahoo.com (sonic306-2.consmr.mail.bf2.yahoo.com [74.6.132.41])
- by mx.groups.io with SMTP id smtpd.web11.22271.1751738270287481061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF8BFC83030
+	for <webhook@archiver.kernel.org>; Sat,  5 Jul 2025 18:50:55 +0000 (UTC)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+ by mx.groups.io with SMTP id smtpd.web10.23092.1751741451475881750
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Jul 2025 10:57:50 -0700
+ Sat, 05 Jul 2025 11:50:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yahoo.com header.s=s2048 header.b=boSiSEyL;
- spf=neutral (domain: yahoo.com, ip: 74.6.132.41, mailfrom: gavrosc@yahoo.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1751738269; bh=AcgYiALuTRI+1+0cQIW2QbJS1KRK301DH3XKT+Go+r4=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=boSiSEyLqxZnxRfbtPFAw2FY9qmsCAhCIKRL/ZMtTdf4ooC13iUKbTgpPz8IaE5p0S+qU5HIM/q9uy17d8+EcZ0CNaZddLSD/aQTd3EsuFjSBrkb+grjo3xuIBfcxEbqBCbhFqzUWGWPfP91W4GE7qImhICrZoffcuPHYsISsjpFbviF3Q8DMRdHzNYvY9tabUU8JyUxeiyUhrkH+/n6Jx+1e8FVW8gqZDXc/QnW8v5YnMctBpde780k2Xpa1AWiR89A+Gdxd6a9ithow/+UBmUg+qKrCo2DTFYYrdAZZ/hq/t3lbcen865iFwZHEFlaUUa1O8Tnp31dOoggyTUwkA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1751738269; bh=a3e7mxh5t8s7oYkKuWDAxRBuTVqxpilJDryzf9nJ9yz=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=ex1GcyySa1kCks2bivqZqPS0IlzUWLOBBZ4FRJQNrV/CSnsbk9/aI6f/ekOG2MnooFI2aWd5XQPC81kPteWoJyV/oSZTOM6E4MPFLuSm3X2Hm0XoX6eVV0skAmfb+AazYC/X137T0XIAQnMEXUZjieoMAq9juj5C6ouO/MilS7BBRJ+PU61zS9pOH2vxR1Tkw27C+N+LAX6ucPYhlZ2PlgV73k0KFugyc9Ie5nuSQjypA5j4a0DqWJ7q8cqQBfQi+/O9HzohuvYxscd7rMU+qr3DnQZFtuYMnCxs+HQsH+utTwLyYer0/bXaLi85I+DTm0AwZw6BoDlhzB7REV2syw==
-X-YMail-OSG: C_P7pDwVM1ld0PPtjpQJKt5h.SGl3cwf6duAYgJQ.45f178Ih0PN5mQiy1TvZJB
- MYsVCsKBPkq5dNkgnJnCEajWjasBVBDsZ9gQkN59YPVbnbrHCQTkJ_WWyOQDJ44j85Ca0x2LmcPa
- w7nxHSJB1fR_1pCcqIH4qEu2IVVGQAvJBg2VR0ewgxaoNjHfR0V.S8QKVR70u0onU32WVYzCiL8A
- DfrfT.yFODSA82PbrKqI7fncCYRMe.bDUD0Lz1VpkwCb6eiAh56NqDMhdI13hSXW8WWesrWNLE9r
- h46jGfmSzjpvFaVhnbea5.br7tMvxaiwxN4dxYgQTM1MjVTGQI2wsqNbZ3VTX_MAHV42bZwSGLLF
- uW7CGlIyC6XfKA19yNj9U9yk5ct9WuaXrIxGtml_GaZLZhsDvvsObjHQRDBwkoMyWg5HhJdxpllw
- jA9gp1SOqSdI.WcF1LKRdgFJ_1.6._plmgdIQN72DgBpyY3T6v_KqoJHMbmkwkr76LW8tPFk5gVA
- i_R25OxPH3FJyhidU6bWtnafHKBXYgZqJueq5CqjcBy.VXr8tjHcRsCk5Vx4FDCkS9egYA9ORiD4
- z3F4bY.4.RQ4ErQrUha7A7q..yoHDKlddXF0FYzUPZdXAt1s0XdRhYFJjfMB45s2U0ZvkszZ6pNL
- MiXZKvurCWHMjJBIWS0JlmqhumoHxqX.J.g1N7PCJEEHLWKDA2MPBPA6YuDFM9Jdh.mXaH9B2cf4
- 7QhqnWCVC3oQUq6ERidTrw7.WdqcMpfGkErayTBPXVS8Ggab0uQaLZee.qmw._AnA.HtMe5Vwa5D
- 6P.FxHjMLsILkaYPjBHBtT2QBpFpEx9MzfQ6O41Kd_Da2nDM9d8Hcf75EMVaLd0p2SeLEe0i3HVa
- oo4tJAGNmGBCYdcTP_po_nh0mbr0ut2CCYeETgEblNDl5x8mLflchxJ1nmA8unWlKn2flE7SCJsA
- ScNbu10hF2SsE4yQ7bW.uUzjjk6oa2PBz3hl3qtVNKWGeI.qoehuzL2u5QZXW3Xfa_3ODzt7Z6AG
- 2ru89Oo1_9aLiN83wvkCOKmjqLC1cxwQ76f5mDQPCWnHsXYwxPqdf.R.j5bY6HBTyxboF9fr2dXr
- aQ4kDJ2DPEXl2EG3mdDGsblZOQDLmHqsnf17iiwybh08TPqrOHeUDsNym8T31RNObXW6rh3EuGul
- wUWncfpSd5lvMgvSMtoz8O.EJZnIIQlNJVaWw89oc8cMtP6R8IGpRB8xpZ0o_.9jmh4bRagylgQ5
- DXAQNfIEE4WLhJI_pn2Ai7IOhCGbokysFzGxo_g_aD7AMsFmR0Aa_P_tnVVzmtOODhM5m7DKNemr
- ID0bBKpyGP7FhAr7QALCZipSY0NhZFs.JvosT9uPosyS3hnvUbxYPodcKgFw5jnensiZCaBtSSyz
- 7MEzsG8rcP42t_suZ5xxWIcCPZz.o1PLv0GlkhQRFukCFwuahC66Qii8OQdHFnU6DfTrQWJtjGDm
- mYsRpkg4DJYIyjCh9vpmObyUSm5y2NZpaOeXbirDfUp5qS6aFKb4UVNfSqA7Xpqw_Wk2C5yBLcFt
- 38tmEz7wKiWNTQrj9OXd2tyLBtlglMx92wseF0TOGacJylcby0.3fZb6Ek6O7WhCX.fVHzFsiCq_
- 10HI7x8fizLiPa8PkYkiday8jWYEXeAHNAEoQ0cOH3kO_3M_99J3mJMVq._KXyJ_ECa_g3Wvm4MM
- eDk3B1Ky85W1rYntvk7l7_Jm37aoMDRptmbpWP0SMxaKjBA7iS8Upcz4S97A59vw44p_cE2utIHb
- .akXWiatNCo33UJVU6vayrU_g4M9JNTOgW1TT3r8AkC2n7BEhmaEnh5lYFzNitMKgO021xR.ZUKN
- hSHz74al7aKDq8mvzZbANRQyGt1bBt3WMjEHuM14iNsgdldjpFkuMPHE0WWKKdStMDnO6YzAeGnk
- J7L1rs439WJr06hlSLFPbJ3du7j0eNJUkx1f4Cs9gEunyZlSSSJofiOYpji4XbG9qkBIPllEJ1Sk
- WEAdoFotLWuamwJoJA38zv62iEl_SwSLTunAo4Y.o6Bs6ffOyqLdgwrl1XdvXwli0rfzqxkhYGao
- gnpUVXa5__bliEPSnH1kofqEoVbyXXGkxr2M2NmLB9dsmL5fQAqvn0c.NZQWMmWtuuVaBHx9O6bF
- XRll6tTwuFh01zhKQIBcqDV5SD5_q3vf.z9cMSwsuH5qt3IqyN93YVAQzSKf_SDDyRWy9j1rFiBn
- Mgw9ak3Re5wDAnng2705m3HxoMGav0JfLeSlzzwfuSLkwYyvusH6j3pANXIVyhJo-
-X-Sonic-MF: <gavrosc@yahoo.com>
-X-Sonic-ID: 725f7a6e-a323-4e7f-9cd5-837c4c7ffc95
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Sat, 5 Jul 2025 17:57:49 +0000
-Received: by hermes--production-ir2-858bd4ff7b-rsjdf (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID b7137552bf604dbb3e5253eb81a7ad03;
-          Sat, 05 Jul 2025 17:57:44 +0000 (UTC)
-From: Christos Gavros <gavrosc@yahoo.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Christos Gavros <gavrosc@yahoo.com>,
-	Yoann Congal <yoann.congal@smile.fr>,
-	Randy MacLeod <randy.macleod@windriver.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH v3] host_dmesg_logger: dmesg diff on BuildStarted and BuildCompleted
-Date: Sat,  5 Jul 2025 19:57:07 +0200
-Message-Id: <20250705175707.394405-1-gavrosc@yahoo.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SQfoZYnh;
+ spf=pass (domain: gmail.com, ip: 209.85.219.177, mailfrom: yamane07ynct@gmail.com)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e812fc35985so1519048276.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Jul 2025 11:50:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751741450; x=1752346250; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DO7Uh7v2yPt85G6pGeJzm0XcgacKiXxTx1swiVTfj28=;
+        b=SQfoZYnhd0lqljhkb/M4W/L56lplC/XqtSUd3FfGVIi0sPXVJL0I9Lyf4T/C3Htf55
+         4QXF7jMFciJvoLIs10u+oV5013F1ycYyPJMlf4VEyKZ2E1j403av9BXoiIdFs+tav75+
+         iFSiMpbh4U6z04clQZPPvB0ZlxGt+W+ISWnAJvjrF9ca0PtoaD6sgfdQzg+DWmTG+tyv
+         uxAGUCbG5qsla5D/hjNWfycJlH9Q5n3FEWeYy2n4aiFtkV4GwaaQFJgPcQgzsiBG+1Zf
+         gLxtxoDpdRWjGIHNVZjyrQjd5nto2F5L6W5a2oAPkd684E5rPRDHRys10fOIAk97rFZG
+         sehg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751741450; x=1752346250;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DO7Uh7v2yPt85G6pGeJzm0XcgacKiXxTx1swiVTfj28=;
+        b=rc6ATuSBbgCxdzIvAWFJN6N3dyQNP1ppsK02SmisMemljdYqCmUZvH+NfNXwqDh8dO
+         tcx9vIR0N0J2ePFu54WnxCm+lFmUJnTlKAUKZHd4Ymbd/ezejSuB4NZzeyK4m6++Y8Aa
+         dsxnkaRHvZWv+rqYYOpE9BmTwAph3j7lJL80vKvtpSubEAetfFOASbkKmtkiAWcZFFJ7
+         43N+b1xjNQ5IF7Ztmc2vuXhNffJBf2yKfcARhYEVP6ingXJ8hj1l1mIduxS76UF78gc8
+         hCaTdj6QBdeSM2iK+hB6vSG9tYWeGarXExpu/DkGwQdr41pVCCAEcYUTkyTpCzX46bp0
+         gCdg==
+X-Gm-Message-State: AOJu0YwcVWlQasZq5X97eg6WaGIUNKf7XFXlnlBwMgjVRPv8bcoJy08b
+	xZzfKzQ7D/gmoe7HJBgqS063XbXeSYoqiwOkIMEqizRLjYOWuDAMppECAiYfp18ScajOCQ3t48D
+	G4qNnM8hPu1TBIAk645ymeiHhuPNwkLA=
+X-Gm-Gg: ASbGnct81gxIvK9y8+vpsoseTdq5Cpv3u2Fsj8bsKEWGaP8iQF1AmZ3FkG8CnCtRdGT
+	Mg9/aleyj8dR0isoVf4YoOFeDaq1YjBhBvae3L4TcuC1ljeHVi9PspUSj/mvxIyaUXcHGWqc+aL
+	Z15/KC64RrlcPvY/TBoYwe4nAy2LfX+QdwUui8SwQuzQ==
+X-Google-Smtp-Source: AGHT+IFoDBVQdjKH+oGnJ3/9bZHtv9jS7zeon3xxyl6r6N7VzhG7P2rKcPeD0JKyaby8WVWEqHD1yxOO3ML6rKeX7Hw=
+X-Received: by 2002:a05:690c:610d:b0:712:e22d:a235 with SMTP id
+ 00721157ae682-7176ccaaa35mr39828267b3.17.1751741450317; Sat, 05 Jul 2025
+ 11:50:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20250705175707.394405-1-gavrosc.ref@yahoo.com>
+References: <20250704053856.2446627-1-yamane07ynct@gmail.com> <CANNYZj80ZOUN4F6L6ypWRJFC0OX_6GYqkDEYyq3KV5nCXgaYag@mail.gmail.com>
+In-Reply-To: <CANNYZj80ZOUN4F6L6ypWRJFC0OX_6GYqkDEYyq3KV5nCXgaYag@mail.gmail.com>
+From: Daisuke Yamane <yamane07ynct@gmail.com>
+Date: Sun, 6 Jul 2025 03:50:14 +0900
+X-Gm-Features: Ac12FXxoZZf5ISbwiJl7E7Bw_MdAwzIlNQ9YFWSBnkYLTZtdADIuv4Cu30YbbZ4
+Message-ID: <CAHZ3=rrQfxdOo7sVz-P+-Fegi_i1VhvL=pVVrs7dHAi7K4cUdg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] icu: Add ptest support
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Jul 2025 17:57:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219957
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Jul 2025 18:50:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219958
 
-This class is used to capture the host dmesg output
-when BuildStarted and BuildCompleted. Filters are applied
-to these messages.Then computes a diff and prints the result.
-Fixes [YOCTO #15557]
+2025=E5=B9=B47=E6=9C=884=E6=97=A5(=E9=87=91) 17:49 Alexander Kanavin <alex.=
+kanavin@gmail.com>:
+>
+> On Fri, 4 Jul 2025 at 07:40, Daisuke Yamane via lists.openembedded.org
+> <yamane07ynct=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> > Add icu-ptest to PTERSTS_SLOW because it takes more than 30s to complet=
+e
+> > on qemuarm64.
+>
+> Was this on an arm64 host with kvm enabled in via runqemu option?
+> Otherwise the measurement isn't correct, as it goes through software
+> emulation and is a lot slower than the actual CI execution.
+>
+> If your host is x86_64, then you need to build for qemux86_64, and run
+> that with kvm.
 
-CC: Yoann Congal <yoann.congal@smile.fr>
-CC: Randy MacLeod <randy.macleod@windriver.com>
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Christos Gavros <gavrosc@yahoo.com>
----
-v2->v3
-* remove message 'No differences in dmesg output'
-* show message's log level
-* capture messages from notice level and above
-* include messages which contain keywords from list keywords_include_messages
-* exclude messages which contain keywords from list keywords_exclude_messages
-* the description is extended
----
- meta/classes-global/host_dmesg_logger.bbclass | 148 ++++++++++++++++++
- 1 file changed, 148 insertions(+)
- create mode 100644 meta/classes-global/host_dmesg_logger.bbclass
+Enabling KVM on qemux86_64 and running ptest, the intltest test was
+intrrupted due to oom-killer.
+(I'm not sure why, but it seems that qemuarm64 didn't trigger the oom-kille=
+r.)
 
-diff --git a/meta/classes-global/host_dmesg_logger.bbclass b/meta/classes-global/host_dmesg_logger.bbclass
-new file mode 100644
-index 0000000000..a7c8e04c63
---- /dev/null
-+++ b/meta/classes-global/host_dmesg_logger.bbclass
-@@ -0,0 +1,148 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+# This class captures the host's dmesg output at the start and completion of a build.
-+# It captures messages with log level "notice (5)" and above. Messages that contain
-+# keywords from "keywords_include_messages" list are captured regardless of the log level.
-+# It excludes messages that contain keywords from "keywords_exclude_messages" list regardless
-+# of the log level.
-+# It stores these outputs in a variable and upon build completion, computes a diff between
-+# the two logs to detect any changes that occurred during the build process. It prints the diff
-+# using bb.warn().
-+# This class is intended to expose failures (e.g. segmentation faults) that 
-+# are hidden or ignored by the host build system. However, it may also capture
-+# irrelevant or unimportant messages.
-+# The user needs to have privileges to run dmesg otherwise the operation is not allowed
-+# and a warning is generated.
-+# To enable dmesg logging, add the following to your local.conf:
-+# INHERIT += "host_dmesg_logger"
-+
-+def append_log(msg, d):
-+    """
-+    Appends a log message to variable '_dmesg_log'
-+    """
-+    current_log = d.getVar('_dmesg_log') or ''
-+    current_log += msg + '\n'
-+    d.setVar('_dmesg_log', current_log)
-+
-+def capture_dmesg():
-+    """
-+    Returns the current output of dmesg command
-+    """
-+    import subprocess
-+    import re
-+
-+    log_level_map = {
-+        "emerg": 0,
-+        "alert": 1,
-+        "crit": 2,
-+        "err": 3,
-+        "warning": 4,
-+        "notice": 5,
-+        "info": 6,
-+        "debug": 7
-+    }
-+
-+    # keywords of messages which will be exclude in diff regardless of log level
-+    keywords_include_messages = [
-+        "over core_pipe_limit",
-+    ]
-+
-+    # keywords of messages which will be exclude in diff regardless of log level
-+    keywords_exclude_messages = [
-+        "keywords_to_exclude",
-+    ]
-+
-+    try:
-+        result = subprocess.run(['dmesg', '-T', '-x'], capture_output=True, text=True, check=False)
-+        if result.returncode != 0:
-+            return f"Error running dmesg: {result.stderr.strip()}"
-+        filtered_lines = []
-+        for line in result.stdout.splitlines():
-+            line_lower = line.lower()
-+            match = re.search(r":(emerg|alert|crit|err|warning|notice|info|debug)", line_lower)
-+            if match:
-+                level_name = match.group(1).lower()
-+            else:
-+                level_name = None
-+
-+            # include messages which belong in the required level (notice -5)
-+            if level_name is not None and level_name in log_level_map and log_level_map[level_name] <= 5:
-+                log_level_ok = True
-+            else:
-+                log_level_ok = False
-+
-+            # include messages that contain keywords of "keywords_include_messages" list
-+            include_message = False
-+            for keyword in keywords_include_messages:
-+                if keyword.lower() in line_lower:
-+                    include_message = True
-+                    break
-+
-+            # exclude messages that contain keywords of "keywords_exclude_messages" list
-+            exclude_message = False
-+            for keyword in keywords_exclude_messages:
-+                if keyword.lower() in line_lower:
-+                    exclude_message = True
-+                    break
-+
-+            if (log_level_ok or include_message) and not exclude_message:
-+                filtered_lines.append(line)
-+
-+        return "\n".join(filtered_lines) if filtered_lines else "No relevant dmesg messages."
-+    except Exception as e:
-+        return f"Exception running dmesg: {str(e)}"
-+
-+addhandler hostdmesglogger_eventhandler
-+python hostdmesglogger_eventhandler() {
-+    import difflib
-+
-+    start_marker = "=== BuildStarted dmesg ==="
-+    end_marker = "=== BuildCompleted dmesg ==="
-+    diff_marker = "=== dmesg diff ==="
-+
-+    # execute dmesg when BuildStarted event is fired
-+    if isinstance(e, bb.event.BuildStarted):
-+        dmesg_output = capture_dmesg()
-+        if dmesg_output.startswith("Error running dmesg:") or dmesg_output.startswith("Exception running dmesg:"):
-+            bb.warn(dmesg_output)
-+        else:
-+            append_log(start_marker, d)
-+            append_log(dmesg_output, d)
-+
-+    # execute dmesg when BuildCompleted event is fired
-+    if isinstance(e, bb.event.BuildCompleted):
-+        dmesg_output = capture_dmesg()
-+        if dmesg_output.startswith("Error running dmesg:") or dmesg_output.startswith("Exception running dmesg:"):
-+            bb.warn(dmesg_output)
-+        else:
-+            append_log(end_marker, d)
-+            append_log(dmesg_output, d)
-+
-+        content = d.getVar('_dmesg_log') or ''
-+        if start_marker in content and end_marker in content:
-+            start_dmesg = content.split(start_marker)[1].split(end_marker)[0]
-+            end_dmesg = content.split(end_marker)[1]
-+
-+            start_lines = start_dmesg.strip().splitlines()
-+            end_lines = end_dmesg.strip().splitlines()
-+
-+            # generating diff between BuildStarted and BuildCompleted dmesg outputs
-+            diff = list(difflib.unified_diff(
-+                start_lines, end_lines,
-+                fromfile = 'dmesg_start',
-+                tofile = 'dmesg_end',
-+                lineterm = ''
-+            ))
-+
-+            append_log(diff_marker, d)
-+            if diff:
-+                for line in diff:
-+                    bb.warn(line)
-+        else:
-+            bb.warn("Could not find both dmesg sections for diff.")
-+}
-+hostdmesglogger_eventhandler[eventmask] = "bb.event.BuildStarted bb.event.BuildCompleted"
--- 
-2.34.1
+|          TestBug22584 {
+| [   30.217322] intltest invoked oom-killer:
+| gfp_mask=3D0x140cca(GFP_HIGHUSER_MOVABLE|__GFP_COMP), order=3D0,
+| oom_score_adj=3D0
+| [   30.217717] CPU: 2 UID: 0 PID: 278 Comm: intltest Not tainted
+| 6.12.31-yocto-standard #1
+| [   30.217719] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009),
+| BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
 
+Increasing the memory for qemux86_64 from 256MB to 512MB caused the
+test to pass in 28 seconds.
+In this case, should I add icu to PTESTS_PROBLEMS, or add a patch to
+skip tests that fail and add icu to PTEST_FAST?
+
+>
+> > +#!/bin/sh
+> > +
+> > +TESTS=3D"intltest iotest cintltst"
+> > +TMP=3D"$(mktemp -d)"
+> > +STATUS_R=3D"${TMP}/status.$$"
+> > +TOPDIR=3D$(dirname "$(realpath $0)")
+> > +for t in ${TESTS}; do
+> > +       cd ${TOPDIR}/test/$t
+> > +       ./$t -E${STATUS_R}.$t || (echo "FAIL: $t"; touch ${STATUS_R}.$t=
+; cp ${STATUS_R}.$t ${STATUS_R}.$t.FAIL)
+> > +       [ ! -f ${STATUS_R}.$t.FAIL ] && touch ${STATUS_R}.$t.PASS && ec=
+ho "PASS: $t"
+> > +       echo "----------------------------------------"
+> > +       if [ -s "${STATUS_R}.$t.FAIL" ];then
+> > +               echo "-------------"
+> > +               echo "| ***     FAILING TEST SUMMARY FOR:              =
+$t"
+> > +               cat ${STATUS_R}.$t.FAIL
+> > +               echo "| *** END FAILING TEST SUMMARY FOR:              =
+$t"
+> > +       fi
+> > +done
+> > +
+> > +goods=3D""
+> > +bads=3D""
+> > +for t in ${TESTS}; do
+> > +       if [ -f "${STATUS_R}.$t.FAIL" ];then
+> > +               bads=3D"${bads} $t"
+> > +       elif [ -f "${STATUS_R}.$t.PASS" ];then
+> > +               goods=3D"${goods} $t"
+> > +       else
+> > +               echo "*** subtest did not complete - $t"
+> > +               bads=3D"${bads} $t"
+> > +       fi
+> > +done
+> > +echo "ALL TESTS SUMMARY:"
+> > +if [ ! "x${bads}" =3D "x" ];then
+> > +       echo "ok: ${goods}"
+> > +       echo "=3D=3D=3D=3D=3D ERRS: ${bads}"
+> > +       exit 1
+> > +else
+> > +       echo "All tests OK: ${goods}"
+> > +fi
+>
+> This is a direct copy-paste of the icu Makefile:
+> https://github.com/unicode-org/icu/blob/main/icu4c/source/test/Makefile.i=
+n
+>
+> I don't think it's necessary to make it this complicated (and
+> potentially have to keep it in sync with the Makefile), we can perhaps
+> just run the tests, and see what they print; if PASS/FAIL isn't there,
+> then the script can add that.
+
+Got it. In v2, I'll simplify the script so that it just confirms the result=
+s.
+
+>
+> > +do_install_ptest() {
+> > +    install -d ${D}${PTEST_PATH}/test
+> > +    install -d ${D}${PTEST_PATH}/data
+> > +    cp -r ${S}/test/testdata ${D}/${PTEST_PATH}/test
+> > +    cp -r ${S}/data/unidata ${D}/${PTEST_PATH}/data/
+> > +    cp -r ${S}/data/sprep ${D}/${PTEST_PATH}/data/
+> > +    cp -r ${S}/../testdata ${D}/${PTEST_PATH}/
+> > +    cp -r ${B}/test/testdata/out ${D}/${PTEST_PATH}/test/testdata
+> > +
+> > +    list=3D"intltest iotest cintltst"
+> > +    for i in $list; do
+> > +        install -d ${D}${PTEST_PATH}/test/${i}/
+> > +        install -m 755 ${B}/test/${i}/${i} ${D}/${PTEST_PATH}/test/${i=
+}/
+> > +    done
+> > +}
+>
+> The same Makefile linked above has a rule for installing the tests.
+> Can that be used instead? Maybe it also installs some way to run them?
+>
+> In any case, do not hardcode the particular test names; that changes
+> over time, and it's better to have some dynamic way of installing
+> (e.g. by file name pattern or executable bit).
+
+Indeed, there is an install rule in Makefile.in, but since no
+installation process is actually implemented, it cannot be used.
+In v2, I will detect executable binaries in the test directory and install =
+them.
+
+>
+> Alex
 
