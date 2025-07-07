@@ -1,100 +1,114 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64855C83F07
-	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 06:46:06 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.53833.1751870764383881331
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 775CDC8303C
+	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 07:02:46 +0000 (UTC)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+ by mx.groups.io with SMTP id smtpd.web11.54017.1751871761934851539
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Jul 2025 23:46:04 -0700
+ Mon, 07 Jul 2025 00:02:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MSEu/UMB;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=kgGlxIx2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010197e3a26fa0-f4d98447-ed1d-41c3-bfc9-5672be7d7c7c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751870763; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=mMzDwZrLmimvxXRv8aQrR6vToJLSa6wFxBilNIalcqA=;
-	b=MSEu/UMBVA74Rth9eld9b7838N84sWtkgHPBMR5cP7YwRDEZKLZbeqmrULg1p87b
-	QKL4Y6JzcUJHSCFU0zSfB51YDkY3bN3biiCm1HfvblGr4szYofIX5LTUpv8zrKRw0Ft
-	21u9pYHybbdydumIwnq3ZPIxejWJnEiuARsD/N08=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751870763;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=mMzDwZrLmimvxXRv8aQrR6vToJLSa6wFxBilNIalcqA=;
-	b=kgGlxIx2kMpoPeFi5jsBqfTnn+BzHvFRMkuk5IoJ69MNgNItPtYTte5a8QV7uorE
-	lcqBYHapiELVRSooev9sPMKSQSRV7fHRbQArw578rJ33bdsj5CBWmr0ZM1j2NpqqVAb
-	c0N8erHstuGyOHeXvxGJfg6m+xxN92i9r6gqhVV0=
-From: patchtest@automation.yoctoproject.org
-To: guocai.he.cn@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][master][PATCH] wayland: correct the SRC_URIs
-In-Reply-To: <20250707062838.2764845-1-guocai.he.cn@windriver.com>
-References: <20250707062838.2764845-1-guocai.he.cn@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010197e3a26fa0-f4d98447-ed1d-41c3-bfc9-5672be7d7c7c-000000@us-west-2.amazonses.com>
-Date: Mon, 7 Jul 2025 06:46:02 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.07-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AOE4ShJ/;
+ spf=pass (domain: gmail.com, ip: 209.85.221.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5344894a85aso881471e0c.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 00:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751871761; x=1752476561; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WqXwZHV4o49joztUD0ULXVCcLoNUFZvAYQLiSwlu1o8=;
+        b=AOE4ShJ/YS5/7/gTeHnqrRN50c4dxAsowaQCKYgzHvnYk/GZ18llWMqUocSev0Q0za
+         eJClCdEZHjN6DCyD0VcVaVsfqwW2AE9NmjkoFcWB2rP3lP4xEaFnKW8pd4xrihUTZMLy
+         8KUEVR6SLiqc9kIMOH5ghejEh0VqaKAmlnNUbXN/cDy3ECrtGTfyh07BpIqQgq3KaTTZ
+         kocuAi5/EmLg+TMHh60/PisG2sRHSr0gWDVaRfcUegyTrrzX95q7MOIz7BUYdz6Df6rG
+         dBmFsmeQ9qhXYpS9a/y19iRsSf4FpPBaRcjVjiFp2RadprqdYZl8hDrp1H2Lqut04Kw4
+         D22w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751871761; x=1752476561;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WqXwZHV4o49joztUD0ULXVCcLoNUFZvAYQLiSwlu1o8=;
+        b=aOBg9ULD1C0yjfd9/Iyg7cAj5nr8nDQI8iBzXN/SgN4eBOeLvZC3GSRzyzUNo2jpZa
+         c5AspVr7evjYStl/NZLSqxnHjNKSIt8D5oym6N6H6CFd7g7TjH26gX8731yiPn5W1P5l
+         H9Wnwmk/LWNgH3QGdyhmiz0cj4qcwFppAq9pZcL0dc4yqaUOLAHuRjGpMYPq4iYDQTLk
+         BlL/P0QLjFOn3HuonG0Bm/ZMq+HPXoUVFadCsDoAemXDx9b1k0F4d35y6ZdaHNDR8LLq
+         vsMq4K+aAwWZvg6WNQ/25++JdQG/ij0JDd08tS/D8y1u+RFdEjgNtO1lruXovklOLv17
+         mOoA==
+X-Gm-Message-State: AOJu0YwHX+eOjAjXmHhQqmXAGRSaKo5lv8lJgx+QC5JeLDU0FZ45dzLm
+	y//V/FQm9HS+8W09zQbrrUgg9i+0oE/03f+6LMmdZBJlz11r+h7pXcAnxfL2qfbxMf0jSNln0zv
+	O7jeqSuEm66dkOu8rTOJRuEkw9PoLF2c=
+X-Gm-Gg: ASbGncuMBV7HPnILTtOD7FS5ywSLPFUvOElAQzK38eUmDiTWHEUOplyMOsfYT5SqF2T
+	f7rRt67B67FC6SKMBm6H4UT0mBhwsKuZ1O8Ludc11Uh6WItvhxx7PPk3fiaqL9zdqJ7eeAS09Zv
+	2UlioZAivvoSvwJfnuTd0xb6jOGxy8s40Rr31EQG7F+5p2p/856o4+a2wlRg==
+X-Google-Smtp-Source: AGHT+IEzzMpruHj91WcHF9LrYcpOaJ1FWMTh1hRYSw31SB1nsJIlP0NsZ35VMAlbUwqbsTjSlM3p3YZ7fnHUWafBKOw=
+X-Received: by 2002:a05:6102:1609:b0:4e7:3efd:ac76 with SMTP id
+ ada2fe7eead31-4f3059f6095mr3908567137.8.1751871760826; Mon, 07 Jul 2025
+ 00:02:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAK5yBb_mX+D24LjOozpm=m_Y=5AhHSX=5OtNdbNHWg99mcuFNw@mail.gmail.com>
+In-Reply-To: <CAK5yBb_mX+D24LjOozpm=m_Y=5AhHSX=5OtNdbNHWg99mcuFNw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 7 Jul 2025 09:02:29 +0200
+X-Gm-Features: Ac12FXxPGDXl86yn9pk3D72Gs7YK2WNO5lubdc7V6dvI1yAIp5ESWGGc5aK7HCY
+Message-ID: <CANNYZj9R79Um9BvKmZmOrCZLnVaDk3cfO1KHM8bu54mu3F-68Q@mail.gmail.com>
+Subject: Re: [OE-core] Yocto Project Status 1 July. 2025 (WW26)
+To: Yocto-mailing-list <yocto@lists.yoctoproject.org>
+Cc: ",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 06:46:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219976
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 07:02:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219977
 
---NextPart
-Content-Type: text/plain
+On Tue, 1 Jul 2025 at 16:44, Stephen Jolley via lists.openembedded.org
+<sjolley.yp.pm=gmail.com@lists.openembedded.org> wrote:
+> For M2, the following changes have been mentioned as possibilities:
+>
+> bitbake-setup
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This was discussed on the call; the next step would be to start using
+it on the autobuilder. That would significantly boost the credibility
+of the project, and validate it in a real, mission-critical setting :)
 
----
-Testing patch /home/patchtest/share/mboxes/master-wayland-correct-the-SRC_URIs.patch
+Before that can happen, the tool still needs additional functionality:
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+- nested bitbake configurations, that would be an equivalent of
+'templates' in autobuilder's config.json. E.g. a top level base config
+that sets autobuilder-specific fragments for all builds, then an
+intemediate config that sets what images and other targets get build,
+then final configs that set target machines.
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+- ability to override git repo locations/revisions from the command
+line. E.g. the config file sets master branches for all repos, but one
+wants to build master-next.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+- ability to select a subset of bitbake configurations for
+initialization/update. An autobuilder config would specify dozens of
+configurations, but any particular worker machine would only work on
+one of them. There is no need to initialize every bitbake config, and
+it would only add delays and clutter.
 
----
+Once all of this in place, config.json could be gradually transitioned
+to defer to bitbake-setup:
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+       "qemux86-64" : {
+            "BBSETUP" : "qemux86-64",
+        },
 
---NextPart
+and the code would run that with appropriate build-specific
+parameters. Config.json also has custom local.conf tweaks all over the
+place which would need to be reviewed and converted to fragments.
+There's also nomenclature for targets
+(BBTARGETS/SANITYTARGETS/EXTRACMDS), multi-step builds, and possibly
+other things I haven't yet stumbled into, and that all needs to be
+carried over to bitbake-setup without loss of functionality.
 
+I'll get to it after the holiday, e.g. at the end of July or so.
 
---NextPart--
+Thanks,
+Alex
 
