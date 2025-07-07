@@ -1,101 +1,83 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <Pascal.Weisser.ext@karlstorz.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB7CC83F07
-	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 08:47:16 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.55306.1751878029025141967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D25DEC8303C
+	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 08:55:46 +0000 (UTC)
+Received: from mx07-0040c702.pphosted.com (mx07-0040c702.pphosted.com [205.220.184.135])
+ by mx.groups.io with SMTP id smtpd.web10.55417.1751878540119225617
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jul 2025 01:47:09 -0700
+ Mon, 07 Jul 2025 01:55:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=w5KpQers;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=hcIp6hED;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010197e4114b52-891a2c9f-4a3c-4290-b61e-6f2dbd0df98a-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1751878028; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=gh/0hsLPeBUahjQce1ONTdmKOBYGrvbxsMvRGmUqtjw=;
-	b=w5KpQersiYDkVO6qrtTUDuhmDYezQw4i9+1ZBSw/pziRrWhKaOfjIZnoXtX4fjEj
-	N56sVTUHnhI0NyxKK6n3A2KFZysbngPk6IP3yTpXmdTVoFcOfq7Mlfim6kkTY3a0U7i
-	UpH3SnGbksdAvdHMQfxKikWWj4NkAIa3Eg265xuE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1751878028;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=gh/0hsLPeBUahjQce1ONTdmKOBYGrvbxsMvRGmUqtjw=;
-	b=hcIp6hED7M9TZJmeaRUpHETh8E9CXKtH/F4SmBr46VCH0rsY/lC3/c6IZPHK0fW8
-	EBwIylk2zAuU1aKYB9fr2dU9XEGgwQReGkv/KBWYDZYDiQksc43tsvPo/8f8CmG4mR7
-	RWW2eeRUOx17MR9ZNu5vXgR5+ZvQys54biZy41nk=
-From: patchtest@automation.yoctoproject.org
-To: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/1] systemd: add rdepends on libnss-resolve to nss-resolve
- PACKAGECONFIG
-In-Reply-To: <20250707082850.600964-2-pascal.weisser.ext@karlstorz.com>
-References: <20250707082850.600964-2-pascal.weisser.ext@karlstorz.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010197e4114b52-891a2c9f-4a3c-4290-b61e-6f2dbd0df98a-000000@us-west-2.amazonses.com>
-Date: Mon, 7 Jul 2025 08:47:08 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.07-54.240.27.31
+ dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=HKxTi99o;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: karlstorz.com, ip: 205.220.184.135, mailfrom: pascal.weisser.ext@karlstorz.com)
+Received: from pps.filterd (m0267679.ppops.net [127.0.0.1])
+	by mx07-0040c702.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5677Z1o2013656
+	for <openembedded-core@lists.openembedded.org>; Mon, 7 Jul 2025 08:55:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=S-DKIM-20210427; bh=9/YmS
+	W7vInFGgVGAfSZTGBB93UTrA+J8Sv1BhVt+YZ8=; b=HKxTi99ojJg8JxsH8nmeQ
+	sQyWp4N+OYrbNcWiFmse0Srziq2z+y8ClmMWa48ZI4fADL8B3sARUoTsoA1qcqed
+	NKvVfZvcgUBqTvnCk/J2EQlHd5W8O2uZB+ISJ5OvsHgLR8fBfNBKg2zLp0qDkUU+
+	ohEDzrZ/04jVG8EEtGTUnsGFzyjfzaezwCtKuZFH6AAtRBuLcxg6XbFRXykRyI0X
+	numhLnD/T83iUxL6RhL1j/BRLQkNFw005SLPHYZ9yUxBbxNDizk1Sa20PbSSzoR4
+	QdCypNeHejhfrXF2/gAPsb9sIxmjnwS0uYM/4nllIPKbKZ0+rH/9RgVJXHedPmrl
+	Q==
+Received: from tut-ex23-pv.kstg.corp (62-134-76-232.business.static.de.bt.net [62.134.76.232])
+	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 47r9ynr7bn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 08:55:38 +0000 (GMT)
+Received: from TUT-EX21-PV.KSTG.corp (10.0.10.225) by TUT-EX23-PV.KSTG.corp
+ (10.0.10.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.27; Mon, 7 Jul
+ 2025 10:55:37 +0200
+Received: from TUT-EX23-PV.KSTG.corp (10.0.10.227) by TUT-EX21-PV.KSTG.corp
+ (10.0.10.225) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.27; Mon, 7 Jul
+ 2025 10:55:37 +0200
+Received: from tutn-bpfb5m3.fritz.box (10.0.10.41) by
+ InternalSMTPRelay.KSTG.corp (10.0.10.227) with Microsoft SMTP Server id
+ 15.2.1544.27 via Frontend Transport; Mon, 7 Jul 2025 10:55:37 +0200
+From: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+Subject: [PATCH v2 0/1] systemd: add rdepends on libnss-resolve to nss-resolve PACKAGECONFIG
+Date: Mon, 7 Jul 2025 10:55:29 +0200
+Message-ID: <20250707085530.614280-1-pascal.weisser.ext@karlstorz.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=PZT/hjhd c=1 sm=1 tr=0 ts=686b8b8a cx=c_pps
+ a=OToaj9FDvIz41JSycRbD4A==:117 a=OToaj9FDvIz41JSycRbD4A==:17
+ a=Wb1JkmetP80A:10 a=5shIuoPJFnzS0fhVv8wA:9
+X-Proofpoint-GUID: dBfo6lJN2Vgrvv9200y9TG3_wkX_No5R
+X-Proofpoint-ORIG-GUID: dBfo6lJN2Vgrvv9200y9TG3_wkX_No5R
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA3MDA1MCBTYWx0ZWRfXyfVzm/B2Vl9k
+ +qM9BELEt7vNcp91u2tWTApLncL9rxoGGwQL5E/C4VmtjXwuaVGLyVCNIq/vgtiYGx2RwTInag2
+ PgHN98FFgcg1rfnuUhRQ3lKbfXnm+e6T26CSwtu0y9kBuY5QuqwPDHy2vG3ajsAWRYC1JglLn/l
+ t4gdoaBc2GUyAC0qZ6UZwyQ3qAvjd2GrSlvHAAkodcCLI1p2Her4o+fP4yOx/dFA5goU5A5H+qI
+ dy8s9P3zlEXLhS/uy8UwADLcVNAz69uRhmF0EC/5Cnl5Fyn9h3fkb6di5PDVxuU/gIV6tsnlY7m
+ K9nnO+8w5nKeo8tp+sHz7NUWq1w2GgbP463/h/QhFYfumjoN3Vx5RH23TeXoKybStaOFjvx7/oF
+ ICqd2ZRPt4y+Uq2MMgeX6EpKcFy61fopp3nRcUNitN/3xWTWZnzW0GlrUgufFzzR/7ioOqek
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-07_01,2025-07-07_01,2025-03-28_01
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 08:47:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219985
-
---NextPart
-Content-Type: text/plain
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/1-1-systemd-add-rdepends-on-libnss-resolve-to-nss-resolve-PACKAGECONFIG.patch
-
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 08:55:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219986
 
 
---NextPart--
+Weisser, Pascal (1):
+  systemd: add rdepends on libnss-resolve to nss-resolve PACKAGECONFIG
+
+ meta/recipes-core/systemd/systemd_257.6.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.49.0
+
 
