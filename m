@@ -2,43 +2,43 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA693C83F07
-	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 08:33:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE70CC83F07
+	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 08:33:56 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.55704.1751877194999228867
+ by mx.groups.io with SMTP id smtpd.web11.55710.1751877233273023334
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jul 2025 01:33:15 -0700
+ Mon, 07 Jul 2025 01:33:53 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9283af41ed=changqing.li@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5676ZKrK027431
-	for <openembedded-core@lists.openembedded.org>; Mon, 7 Jul 2025 01:33:14 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5675d518008265
+	for <openembedded-core@lists.openembedded.org>; Mon, 7 Jul 2025 01:33:53 -0700
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47q3jn16k1-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47q3jn16m5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 01:33:14 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 01:33:52 -0700 (PDT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Mon, 7 Jul 2025 01:33:19 -0700
+ 15.1.2507.57; Mon, 7 Jul 2025 01:33:58 -0700
 Received: from pek-lpg-core6.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.57 via Frontend Transport; Mon, 7 Jul 2025 01:33:18 -0700
+ 15.1.2507.57 via Frontend Transport; Mon, 7 Jul 2025 01:33:57 -0700
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [walnascar][PATCH] icu: fix CVE-2025-5222.patch
-Date: Mon, 7 Jul 2025 16:33:18 +0800
-Message-ID: <20250707083318.4024114-1-changqing.li@windriver.com>
+Subject: [scarthgap][PATCH] icu: fix CVE-2025-5222.patch
+Date: Mon, 7 Jul 2025 16:33:56 +0800
+Message-ID: <20250707083356.4024757-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: fUV3q5UaexJPbzmKPiswzq44Ih0wvQDi
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA3MDA0OCBTYWx0ZWRfXwobJoRUKFDvN qXIeZ46NZTPTZkFPuYD5cES8lUXtWbUTAQ0U4SKUeCsCC68Hg4tksg5QJwMCjS8Z6E+Usonv8gR axA+Fr32Q4gWgC+XX/L+qTeob7rosh3WK4nlxTWyn4oTcQqDaHECLhEDf6TdiRn1HQBFAcquk1s
- dQUB5rtG5NTo+OPWaNH609qUh9gEi3EVbAE1ShJTWou4IDsMxhyflV7xzusQO9oEZ3XTHYZe5qC OyiidbJoQhmbQWJngLKb7gJgeEcFdnZvSAEY5keoqMduCZ+LHaL+HgSzo6kTMKJTYb3hTmMHSB7 HkJ1h+1HgFkKP8POEa3fqta78Aod18wJYC0uyVJ0Qu0Zzd/ud4JZyft3DWZicIFy25+6+vMEMZq
- kTZz3aBeUUMZ87j6AwaL7o3B4BzT6AIjoSoIEhKg2aNynLXB9I/hkHkIqVU2qq0Yiq5aEXfo
-X-Proofpoint-ORIG-GUID: fUV3q5UaexJPbzmKPiswzq44Ih0wvQDi
-X-Authority-Analysis: v=2.4 cv=fv3cZE4f c=1 sm=1 tr=0 ts=686b864a cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=Wb1JkmetP80A:10 a=PYnjg3YJAAAA:8 a=SBGlVgBqAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=cm27Pg_UAAAA:8
+X-Proofpoint-GUID: 3DeFN_vklkMGLIS8cTVAG2P38aJwbX45
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA3MDA0OCBTYWx0ZWRfX0UYN41wgCogS lWIyif+3UDS5iU/OW2/PTlQzCP3r4vd0JqgpQzwwmdc8Y0e7dm8arLRUpaQmDQyxO2w7wMs+b54 N6qqu49uI9xWUtzKj1K1gKNqH9DQHmsDPHEw3/PI6qQVJlfLXtI6W6cYmWSfZJiHP+2FJLNmrLZ
+ Wq2WYgiGg/wi3+kvnj4M3JEbyXcJFCRLS38idm2I5MtNn6wCLS8P8PY54NNbEN1ifxhDKbRWih+ UC0C/Kl9Stj7S9VYMGZwTscgRr5AEM4Hk06YOkIItpMUyZrLw5ooprz24TJjIJai1Yam5Qf3Eom koq3P27S6UEels/qBHwfQm4yEf54XlYh+xvexk9Ld92WS0CbSSUz7OV1ChkQiaRXZNiNKM3IvI3
+ xEkGuMLAGYGXMlPEyNm3C0T/lyNyA7CP2x+mPZgRwcsx8/NRwR48pE7AzvzrerxDZL57AOEU
+X-Proofpoint-ORIG-GUID: 3DeFN_vklkMGLIS8cTVAG2P38aJwbX45
+X-Authority-Analysis: v=2.4 cv=fv3cZE4f c=1 sm=1 tr=0 ts=686b8670 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=Wb1JkmetP80A:10 a=PYnjg3YJAAAA:8 a=SBGlVgBqAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=cm27Pg_UAAAA:8
  a=U52jcThjaRTn087B9wsA:9 a=Ip4rIPIxglOjsMiGO2Hr:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
@@ -52,8 +52,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowprio
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 08:33:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219983
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 08:33:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/219984
 
 From: Changqing Li <changqing.li@windriver.com>
 
@@ -71,7 +71,7 @@ https://github.com/unicode-org/icu/commit/2c667e31cfd0b6bb1923627a932fd3453a5bac
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
  .../icu/icu/CVE-2025-5222.patch               | 166 ++++++++++++++++++
- meta/recipes-support/icu/icu_76-1.bb          |   1 +
+ meta/recipes-support/icu/icu_74-2.bb          |   1 +
  2 files changed, 167 insertions(+)
  create mode 100644 meta/recipes-support/icu/icu/CVE-2025-5222.patch
 
@@ -247,13 +247,13 @@ index 0000000000..276d9e4f90
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-support/icu/icu_76-1.bb b/meta/recipes-support/icu/icu_76-1.bb
-index f11e72d356..24470ec330 100644
---- a/meta/recipes-support/icu/icu_76-1.bb
-+++ b/meta/recipes-support/icu/icu_76-1.bb
-@@ -119,6 +119,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
-            ${DATA_SRC_URI};name=data \
+diff --git a/meta/recipes-support/icu/icu_74-2.bb b/meta/recipes-support/icu/icu_74-2.bb
+index 3a4e197308..83753a18e5 100644
+--- a/meta/recipes-support/icu/icu_74-2.bb
++++ b/meta/recipes-support/icu/icu_74-2.bb
+@@ -121,6 +121,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
             file://filter.json \
+            file://fix-install-manx.patch \
             file://0001-icu-Added-armeb-support.patch \
 +           file://CVE-2025-5222.patch \
             "
