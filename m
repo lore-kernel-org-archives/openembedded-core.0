@@ -2,154 +2,94 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9A5C71130
-	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 20:51:19 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.3237.1751921471146150712
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56112C83030
+	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 21:33:49 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.4052.1751924025139761079
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jul 2025 13:51:11 -0700
+ Mon, 07 Jul 2025 14:33:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W8GmMYcx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4537fdec39fso10698635e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 13:51:10 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZrQcrZSk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-450cb2ddd46so18840755e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 14:33:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1751921469; x=1752526269; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r0WBothNz3IxYkWiFrOc78PD6DZ3P+HmMpkk93JYJPA=;
-        b=W8GmMYcxoRmnEvLFe4hCgP16SHgVqTs+Y7oOYnJUIqPfuxPXMk+Z+S77N7nk7G7vSE
-         VJXy1Y/bSWLLbkTNQt5r00rBVaLOmiD0nBEADcrd8sY7dZHDu7HCoqFqgRT7uKN2JLm2
-         S0qsdL2L7ToSSLu7riBAKrKFSuekx1TYVBFwI=
+        d=linuxfoundation.org; s=google; t=1751924023; x=1752528823; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YBqpvRLgZ3rXGWqUnVLfQAYk94J1duc1Dg/5skc/O4Q=;
+        b=ZrQcrZSkzhVwW+AV4+xDTdqMoK1+2hG1v+izdgmq7VwhWi29os2BhmJWWPR33lj6yi
+         cGOn2guuYDM6D4PGc8+c7qT3o/8fWxwBYxrGggJj1+f+PUkgWWEpprQTVHERTYpWEJys
+         vV758JLI3rvXo/u3NjHAdG/3cbU+IuH3S5Eqs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751921469; x=1752526269;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=r0WBothNz3IxYkWiFrOc78PD6DZ3P+HmMpkk93JYJPA=;
-        b=TPJ3yoJwx80XwrgQh53Pz+zfJYGoe0l9cwu507FrbDtwpqWgC1xVRkbfJCV/1nzIPI
-         7gCTtpkd+8KeGlP62enXgm3q6uLYGRFqueEmk1keanP+2kbmPWqiJK65wf4oxVQZi0Y9
-         cKA8UlKCi+8kdFj05Kqu/3oL/nPcNdP0qpSc3FwHmqb5MkpQYwbv2xmuVwdGAkG17VJe
-         FMbItFFL2RSfMTFa6ONWMVEW2y7BKkFzQNeLHh40g/qcN2gy2NsUN66mp5eVTpbue5Jd
-         exPb3kNr0fPbTaztA9o7pxRu36vzp4+mtnyvtLQPqQ7mmNmIQx1QoMQIF67aY5O/0asU
-         C6mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV3wR055pUjqQAuxnL8sdLC/suX6Bk7lm32jiNOoA/FU2eMrvJi780afsNQPA5wl06hDU2etzptTcA3x9tRzpsvQA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw1IdHc4pJHbs3MfTTi441D2Y5qYIOvvJKpfMF6I1kidWhDz5YZ
-	9gNun3ejQhCU5tQWLQpBrGrntvzvGruBXQmXzUjOO3w1DWGJBXxwlYtRQn3zJhKc5NA=
-X-Gm-Gg: ASbGncsc+Qk+KU1Qu+cAQLLzjGj8ANgSShenQwLBPGgidZfSda60WCGI7t+CarYEHKR
-	LADUNCYDbCKTOhudbDFIg8R7eGOM8Z/JO1y29yRL9GSwoX5TJlVKfS1E/fsAfjbyu0HqiuMk1EP
-	7SJ3UMsx8gv1TNs/onl6S+Q9vsGR6tNs2PwW/qE0UgGN1UGqH/0j+hblts6gT7BdkPq7y9f4L+G
-	OVANl7Fk6qW7JUNfpL1ZXPaG1nRND5SsJrGX6iAA9DwfyLSk7Hw78ZdInkuifsmcvBGZj17QtUF
-	TxNSvqOGyZlgihkmBuDeMU0MBN+ORsmC24k3C4xrXj+bYNlxVMdjXupFPBidok8DovYCFRam3y5
-	X5tT+kxjYc1cheg7c7RiXWh4/hmsX/xxiJ89ES5GDmYt3UqX0AorxMtoejIlZOw==
-X-Google-Smtp-Source: AGHT+IFNETKKAdRkzs6yYhzQk95WQteltSn9GCmy8PM/O5s3rK0PTQJjH8hO4gY7q/PJY5GQlU5Hjg==
-X-Received: by 2002:a05:600c:1549:b0:43c:f6c6:578c with SMTP id 5b1f17b1804b1-454b3122455mr149088345e9.15.1751921469529;
-        Mon, 07 Jul 2025 13:51:09 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f30e:ae60:b271:f9d2? ([2001:8b0:aba:5f3c:f30e:ae60:b271:f9d2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454cd49e738sm2055175e9.32.2025.07.07.13.51.08
+        d=1e100.net; s=20230601; t=1751924023; x=1752528823;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YBqpvRLgZ3rXGWqUnVLfQAYk94J1duc1Dg/5skc/O4Q=;
+        b=JnXvKvQ9LZ99/im/0ZIhJNNORAqDU9lAGf1k/AgSN/DVeD3cPtPbFabxzZoWRT39EL
+         9gbVOijQ55f8AFrAf7NGoJaFhy3YQGX28chT4iICqCSp+0uaDCAW7hoL0F+Z4qMNYwY/
+         PT55VAKI6cCyxwjMPD6NueZtM/+MbEOG4T29f7S+wzVDctIQCk+1HGQf4oKcwIHoWXCb
+         HjS8V3kOa98g9nCGeFi9wA2I7LiiNIwUSz+t5K26jpn8qcU76ZKOxPTzmMmBt+/7RwMR
+         5TvNx/fQgIDMeS8F/WPUBNnUPmG9vCRKPgJbDpEycSjcRRR9Akj3FEflnq/Wp3xRha7y
+         3Agg==
+X-Gm-Message-State: AOJu0YyqCxRNAGzY8G70xj4w54pfgSBrhqYiU+2btedg+O+vY7td5gso
+	XrNj5Vd38swgPhR7aHynN50HLBwObMq9nWZCE+CROqd9uJtql76faXfd0bi42CSt/E853hhu9wP
+	IwP8Q
+X-Gm-Gg: ASbGncsznOAoRrS9n16Kh5fH2jPKidmCX/FPV8bma+MLbBv6kyG/qrbm7IvM/s92sdC
+	MsjrdnBvcCaY1rhC7bbmUshUg9wPxWZKiREhRlpEebPsk3Sds+f23ljufDZ1MLLrQMsKmClHWA9
+	LPucjsnVO5yZozeDjTCE/MMQVQ3YI8rwy5768by6QsJNH/8qv0ZzNyg+CtrtpWluRAMh5FGeieQ
+	xMbrdjRZwk36o4YrtlCGG5yDjVi2EIi3hxTgVEP2IPfCVNbEuL+qDCpBvJHEnyZhdpLiMFAQDpk
+	wXO7QVqWmEzz/xcRWWkK2XgL9PNeC3KWe2VHYZqGy4rIMrlehy17wfmWV13lRkItSzJNj8QUbhP
+	f5wZC2Isg1n4fl7M=
+X-Google-Smtp-Source: AGHT+IFmLBteoVTjj6nxrOwiPh+4QTRDOmEDEXAbHakueQ23FqQMGMOnsCo+wEneDb4kt2vlOgigCA==
+X-Received: by 2002:a05:600c:3b9b:b0:442:dc75:5625 with SMTP id 5b1f17b1804b1-454cd4b4a28mr2811235e9.5.1751924022707;
+        Mon, 07 Jul 2025 14:33:42 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f30e:ae60:b271:f9d2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454cd43c638sm3007175e9.8.2025.07.07.14.33.41
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 13:51:08 -0700 (PDT)
-Message-ID: <f8cd8b24019bd823472cf407268024bfbe8c029c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bitbake.conf: fix pseudo for devtool
- deploy-target --strip
+        Mon, 07 Jul 2025 14:33:42 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: adrian.freihofer@siemens.com, openembedded-core@lists.openembedded.org
-Date: Mon, 07 Jul 2025 21:51:06 +0100
-In-Reply-To: <20250707204255.2789178-1-adrian.freihofer@siemens.com>
-References: <20250707204255.2789178-1-adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] toolchain/clang-native: Work around native compiles for some gcc configs
+Date: Mon,  7 Jul 2025 22:33:41 +0100
+Message-ID: <20250707213341.4102515-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 20:51:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220001
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 21:33:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220002
 
-On Mon, 2025-07-07 at 22:42 +0200, Adrian Freihofer via lists.openembedded.=
-org wrote:
-> From: Adrian Freihofer <adrian.freihofer@siemens.com>
->=20
-> Without this fix:
->=20
-> devtool deploy-target cmake-example qemu1 --strip
-> ...
-> cp: failed to preserve ownership for '.../cmake-example/1.0/devtool-deplo=
-y-target-stripped/usr/lib/libcmake-example-lib.so.1.0.0': Operation not per=
-mitted
-> cp: failed to preserve ownership for ...cmake-example/1.0/devtool-deploy-=
-target-stripped/usr/lib/libcmake-example-lib.so.1: Operation not permitted
-> cp: failed to preserve ownership for ...cmake-example/1.0/devtool-deploy-=
-target-stripped/usr/lib/libcmake-example-lib.so: Operation not permitted
-> cp: failed to preserve ownership for '.../cmake-example/1.0/devtool-deplo=
-y-target-stripped/usr/lib': Operation not permitted
-> cp: failed to preserve ownership for '.../cmake-example/1.0/devtool-deplo=
-y-target-stripped/usr/bin/cmake-example': Operation not permitted
-> cp: failed to preserve ownership for '.../cmake-example/1.0/devtool-deplo=
-y-target-stripped/usr/bin/test-cmake-example': Operation not permitted
-> cp: failed to preserve ownership for '.../cmake-example/1.0/devtool-deplo=
-y-target-stripped/usr/bin': Operation not permitted
-> cp: failed to preserve ownership for '.../cmake-example/1.0/devtool-deplo=
-y-target-stripped/usr': Operation not permitted
-> cp: failed to preserve ownership for '.../cmake-example/1.0/devtool-deplo=
-y-target-stripped': Operation not permitted
-> tar: ./usr/lib/libcmake-example-lib.so.1.0.0: time stamp 2025-07-06 16:46=
-:06 is 0.527890738 s in the future
-> tar: ./usr/lib/libcmake-example-lib.so.1: time stamp 2025-07-06 16:46:06 =
-is 0.527462566 s in the future
-> tar: ./usr/lib/libcmake-example-lib.so: time stamp 2025-07-06 16:46:06 is=
- 0.526732779 s in the future
-> tar: ./usr/lib: time stamp 2025-07-06 16:46:06 is 0.526415655 s in the fu=
-ture
-> tar: ./usr/bin/cmake-example: time stamp 2025-07-06 16:46:06 is 0.5256872=
-1 s in the future
-> tar: ./usr/bin/test-cmake-example: time stamp 2025-07-06 16:46:06 is 0.52=
-5054415 s in the future
-> tar: ./usr/bin: time stamp 2025-07-06 16:46:06 is 0.524821739 s in the fu=
-ture
-> INFO: Successfully deployed .../cmake-example/1.0/devtool-deploy-target-s=
-tripped
->=20
-> With this fix:
->=20
-> devtool deploy-target cmake-example qemu1 --strip
-> ...
-> INFO: Successfully deployed .../cmake-example/1.0/devtool-deploy-target-s=
-tripped
->=20
-> This is most probably related to the commit:
-> =C2=A0 2502da81709f25de499277b28d33c915638c45f6
-> =C2=A0 bitbake.conf/pseudo: Switch from exclusion list to inclusion list
->=20
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
-> =C2=A0meta/conf/bitbake.conf | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index b1f8ac5b117..bd186ffeecc 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -745,7 +745,7 @@ SRC_URI =3D ""
-> =C2=A0PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
-> =C2=A0PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
-> =C2=A0PSEUDO_SYSROOT =3D "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
-> -PSEUDO_INCLUDE_PATHS =3D "/proc,${WORKDIR}/image,${WORKDIR}/package,${WO=
-RKDIR}/rootfs,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-pa=
-ckage/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo"
-> +PSEUDO_INCLUDE_PATHS =3D "/proc,${WORKDIR}/image,${WORKDIR}/package,${WO=
-RKDIR}/rootfs,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-pa=
-ckage/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo,${WORKDIR}/devtool-deplo=
-y-target-stripped"
-> =C2=A0
-> =C2=A0export PSEUDO_DISABLED =3D "1"
-> =C2=A0#export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
+Some systems can have mixed development headers, such as pieces of both gcc 13
+and 14 which can cause build failures, particularly if libgcc and libstdc++ for
+gcc 13 are present but only libgcc for gcc 14 and not libstdc++ when the gcc
+version is gcc 13.
 
-This is hinting we should add a devtool test covering this!
+This patch forces clang to use the full toolchain rather than any partial incomplete
+version. It is only necessary in the native case and should also be applicable to
+compiler-rt in due source, hence making it an inc file.
 
-Cheers,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/toolchain/clang-native.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Richard
+diff --git a/meta/classes/toolchain/clang-native.bbclass b/meta/classes/toolchain/clang-native.bbclass
+index 4de491a1cb5..c8b20ff8c40 100644
+--- a/meta/classes/toolchain/clang-native.bbclass
++++ b/meta/classes/toolchain/clang-native.bbclass
+@@ -16,3 +16,10 @@ BUILD_READELF = "${BUILD_PREFIX}llvm-readelf"
+ DEPENDS += "clang-native libcxx-native compiler-rt-native"
+ 
+ LDFLAGS += " --rtlib=libgcc --unwindlib=libgcc"
++
++# Some systems can have mixed gcc development headers, such as pieces of both gcc 13
++# and 14 which can cause build failures, particularly if libgcc and libstdc++ for
++# gcc 13 are present but only libgcc for gcc 14 and not libstdc++ when the gcc
++# version is gcc 13. Force the gcc install that matches gcc itself
++BUILD_CFLAGS:append:class-native = " --gcc-install-dir=$(dirname $(gcc -print-libgcc-file-name))"
++BUILD_CXXFLAGS:append:class-native = " --gcc-install-dir=$(dirname $(gcc -print-libgcc-file-name))"
 
