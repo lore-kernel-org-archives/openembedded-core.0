@@ -1,102 +1,188 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CFA6C8303C
-	for <webhook@archiver.kernel.org>; Tue,  8 Jul 2025 06:38:42 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.12707.1751956696582893725
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82835C83F0F
+	for <webhook@archiver.kernel.org>; Tue,  8 Jul 2025 07:36:02 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.13313.1751960158252544338
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jul 2025 23:38:16 -0700
+ Tue, 08 Jul 2025 00:35:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=APC1Sj0u;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-234f17910d8so35333865ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 23:38:16 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bmjS9muX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a503d9ef59so3013650f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 00:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751956696; x=1752561496; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J4Lgx3KZb06DfCQ//jyzPowmIRZgC13YmMF8G7FIpMA=;
-        b=APC1Sj0udNr1r3U+V0ruk6DB5CpPpBctGQrepqJ68Lhm56jQUSmTX+rhTi1B/xPYyP
-         c6wYrZ/xR6SbwlEsIAnUJ0Lv26bakzoe2NCQgNOuUzGeDbuYxho0Fs1WumH1AWyAIx/j
-         qFOdaBhRjg16ZJfS9SQp/OfL8lGOtY9bBQtl36T3Lt5B+7I7UvdYeb4MVh1CUR4UssfX
-         lqNIpUzTb4fNiXQ542//YA2rK98lhX9L4vRYyohZz6tiwuKRa+I0D8vQ7FCZsTYaLPYB
-         eIayKQ0pPsBck0BRKSqUHsAtCm5tB+HHX+injdxsNq8vs+6kAzFPrxSspJF77TCHg1yH
-         0w8g==
+        d=linuxfoundation.org; s=google; t=1751960156; x=1752564956; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hc5v2qVnAuLXiJ7ciENEf2jMOu+QnGqRkfoT9XKyhW8=;
+        b=bmjS9muXPxjWsjNcASSXWZl+HTzgIrJEnpc3R0xNAluLiPVNfh93abJpwUGWs1BR4w
+         lH4iKwUXUvAbOsBfbj6YJ3h+B3BMHDn9DoSgmQYf7c6MrKLminNm5fRCshNWH54L869m
+         IOslauia5qX+vmD1Ib1wKOwPLqnGbNVqSWAwg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751956696; x=1752561496;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J4Lgx3KZb06DfCQ//jyzPowmIRZgC13YmMF8G7FIpMA=;
-        b=qjpXAGhgGRPVDsbnBOj963/5So8yHsaSr9fkpxbykpYtL4yECsGllXIP2BsrEEtRsN
-         YSGOowEsnHuYjW2ey6fBhhioyqza5rKeM6UuEhBGCI9Fl+cDC43tqWXoQXYEsi6+gPOc
-         digkuUinj2CqU3Wpyz9AK/qekdQOBsYey07oso+R+IUXE6ofoZ0MtqHvbbN8Jf0rRt/K
-         b9kGwcJVrnyW7KXm6Xhm5qjqpgAwf0gIFqZqvlkGTVtILMn2XRKrlpAvpUSFh2zAryff
-         cBHqWlMsGLe2gC08VOkPNGA/MlyH7CnLv8RrQ3TcuROc8n4AZB7L1mXhH5I5S76O6L/T
-         MzXg==
-X-Gm-Message-State: AOJu0YwQpUJNyaKbRF7qsfIAWHisDikZvEdl7ZMazY3oC9SWMFhlBxka
-	8CYo/UTE2sAxlrMS9Lg7GaOggkEd2z+Dj3EA5g1+tlttWaMYyV+R+tUrpYpoTJWW
-X-Gm-Gg: ASbGncsxRAsy0CrJVXPsYmWdpwGlX0YMVklQD0tXAC448346hx6/t3lRUGMURhkqHxD
-	e9Z5ZBvvFUAXRGQZOIiiE9DryfS8NhHHWslBGMrMTw6/Jmq6S2Ir1rhtTcP1NNDnHASmuIlr6ko
-	tlX7PSLxKXMV1FUIKnerbU5Ci/tzdgEVsN5rd4uyp/GUVbm3AQxk8cORGVRg2pwijBOv5MT7tMM
-	O/wFXot8EUhKgSkf6J3oFEHvHSfcthOFjimjyUOFolZBskTmJffm9H4kdQ+1b6Wfw+UQ6N8DgRR
-	PgvjxOTDqFSkELxFUjy/SpudToQOUyfw0oH+LNtrqNw7F4JvLHTwQ3g4Ju45tPk4
-X-Google-Smtp-Source: AGHT+IEGu3Up4mFrU0TM+ETG6/gnae4SsWg1ybZqjYIedgxZXj3yyw8fTKRpbst48awgXeCpAcy0yQ==
-X-Received: by 2002:a17:902:cecf:b0:234:909b:3da9 with SMTP id d9443c01a7336-23dd0afac11mr29439685ad.27.1751956695569;
-        Mon, 07 Jul 2025 23:38:15 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::1c1d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8457e9e1sm107839795ad.175.2025.07.07.23.38.14
+        d=1e100.net; s=20230601; t=1751960156; x=1752564956;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hc5v2qVnAuLXiJ7ciENEf2jMOu+QnGqRkfoT9XKyhW8=;
+        b=kxVkTWYLM+on+Lfq7fN1e92L8YCSijpofSkt8pncrk9LpX7Mv3ynKh0gUxyLNQmKcY
+         6LzhugmRlmQPBlBxzYHt3dWFoABF1Zyi0fSmygHaCbeqzYM8KYKmYwFE/WvbNEziiUZN
+         gPI1uNM2EqgJYwbpXQAwxKuTcJfrdyIV617yVZdzCmIbXEqxoZ+wfItX+3VFOQA8oYb3
+         h4woKIgnvO0/agxdliHAf1NJUj10cI1b+UcRhGASWR4rcLKqnYfnEFJNBD4gAjtSh/Ut
+         LnIoP/546aQqDDQMoVdEMaNQh5UnhSYRV/WGVYyf32Xgl1J5ln8PXZKA/OXQjnTyUIn7
+         NA4g==
+X-Gm-Message-State: AOJu0Yx3929GMgTduQ+e7k0WRA5vYBmB3bpVqZeaaB1erQd49Q+gU5GG
+	qK8Wabts6XKZRFLtff01m9XA8ds73LgeCVjIQ1+T+mKNoAe7rNCM01WkU2DBPbvJnIjO3S0h/pA
+	zP4cu
+X-Gm-Gg: ASbGncudT+T7tauqzTIjoaAhyX3WD+RM+h8YvLfzuCTf2OG3SLqHwZWNE8hWjPoepVZ
+	Nmh9MRA/6SWHTKzpL2B7rnfjuqsGrO1Exmci6mUNcPOPf/JvWGR2ilMWVgckb5LUENKk9K8ZVz6
+	VYQ7QvwjTCr9nFLEI3FCgSWAmvbmZrD7YFnG8eHwqbAJpxTkcwnBKhx0ioeR5SR4m29ytcObt4D
+	Y5ywNMaLzFbL7EFdyJxYtZvjghD/wE/qBIkl6jTjhngaj28SOd+NpfRKv2MiY3VyVrsAuN717rH
+	+gMufD64fOg5PAxFTf6aDtI8ZHZcWup3V7zrWi9E8XQBGUNQAsIVDbsRfBhVWaFwWkmAOlfz6A/
+	IhNJD6MGDbEUv8n/+zCAu0nmeQzlw8BqpeMwSIaVJGIyjDvV3TyQ=
+X-Google-Smtp-Source: AGHT+IEWkWpamdyAyiMueMWlvSg8okHpKBCoodPQ2KCSa6H3l+9ga6GHJmBpY5i9IVqh71vrr0og3w==
+X-Received: by 2002:a05:6000:41e4:b0:3a4:d6ed:8e00 with SMTP id ffacd0b85a97d-3b4970315b3mr11449298f8f.33.1751960156006;
+        Tue, 08 Jul 2025 00:35:56 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8fe5:d709:6d45:bcaf? ([2001:8b0:aba:5f3c:8fe5:d709:6d45:bcaf])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454cd3d2661sm13814565e9.19.2025.07.08.00.35.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 23:38:15 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Tue, 08 Jul 2025 00:35:55 -0700 (PDT)
+Message-ID: <3e3befd518eeab35a32de9c6e73474e5aa50e899.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] toolchain/clang-native: Work around native
+ compiles for some gcc configs
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/3] spirv-llvm-translator: upgrade 20.1.2 -> 20.1.4
-Date: Mon,  7 Jul 2025 23:38:09 -0700
-Message-ID: <20250708063810.1921024-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250708063810.1921024-1-raj.khem@gmail.com>
-References: <20250708063810.1921024-1-raj.khem@gmail.com>
+Date: Tue, 08 Jul 2025 08:35:54 +0100
+In-Reply-To: <1850159E80660154.13503@lists.openembedded.org>
+References: <1850159E80660154.13503@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 06:38:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220011
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 07:36:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220013
 
-Details of changes
-https://github.com/KhronosGroup/SPIRV-LLVM-Translator/compare/v20.1.2...v20.1.4
+On Mon, 2025-07-07 at 22:33 +0100, Richard Purdie via lists.openembedded.or=
+g wrote:
+> Some systems can have mixed development headers, such as pieces of both g=
+cc 13
+> and 14 which can cause build failures, particularly if libgcc and libstdc=
+++ for
+> gcc 13 are present but only libgcc for gcc 14 and not libstdc++ when the =
+gcc
+> version is gcc 13.
+>=20
+> This patch forces clang to use the full toolchain rather than any partial=
+ incomplete
+> version. It is only necessary in the native case and should also be appli=
+cable to
+> compiler-rt in due source, hence making it an inc file.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> =C2=A0meta/classes/toolchain/clang-native.bbclass | 7 +++++++
+> =C2=A01 file changed, 7 insertions(+)
+>=20
+> diff --git a/meta/classes/toolchain/clang-native.bbclass b/meta/classes/t=
+oolchain/clang-native.bbclass
+> index 4de491a1cb5..c8b20ff8c40 100644
+> --- a/meta/classes/toolchain/clang-native.bbclass
+> +++ b/meta/classes/toolchain/clang-native.bbclass
+> @@ -16,3 +16,10 @@ BUILD_READELF =3D "${BUILD_PREFIX}llvm-readelf"
+> =C2=A0DEPENDS +=3D "clang-native libcxx-native compiler-rt-native"
+> =C2=A0
+> =C2=A0LDFLAGS +=3D " --rtlib=3Dlibgcc --unwindlib=3Dlibgcc"
+> +
+> +# Some systems can have mixed gcc development headers, such as pieces of=
+ both gcc 13
+> +# and 14 which can cause build failures, particularly if libgcc and libs=
+tdc++ for
+> +# gcc 13 are present but only libgcc for gcc 14 and not libstdc++ when t=
+he gcc
+> +# version is gcc 13. Force the gcc install that matches gcc itself
+> +BUILD_CFLAGS:append:class-native =3D " --gcc-install-dir=3D$(dirname $(g=
+cc -print-libgcc-file-name))"
+> +BUILD_CXXFLAGS:append:class-native =3D " --gcc-install-dir=3D$(dirname $=
+(gcc -print-libgcc-file-name))"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...-translator_20.1.2.bb => spirv-llvm-translator_20.1.4.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/spir/{spirv-llvm-translator_20.1.2.bb => spirv-llvm-translator_20.1.4.bb} (92%)
+Sadly on a system with buildtools tarball this doesn't work.
 
-diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-similarity index 92%
-rename from meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb
-rename to meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-index 4952e8ba4ff..14e4bb74ace 100644
---- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb
-+++ b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-@@ -6,12 +6,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
- 
- # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
- SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
-+SRCREV = "74843f2186bb63b6802758222084da17fcbe603c"
- SRC_URI = " \
--    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;name=spirv;branch=${SPIRV_BRANCH} \
-+    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
- "
- 
--SRCREV_spirv = "6dd8f2a1681a27f16c53d932d2765920f312aeb2"
--
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
- 
- DEPENDS = "clang spirv-tools spirv-headers"
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/2052
+
+
+ && /srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/t=
+mp/work/x86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/usr/bin/cla=
+ng -isystem/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproduc=
+ibleA/tmp/work/x86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/usr/=
+include -O2 -pipe  --gcc-install-dir=3D/srv/pokybuild/yocto-worker/reproduc=
+ible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-poky=
+sdk-linux/14.2.0/../../../../lib/x86_64-pokysdk-linux/14.2.0   -isystem/srv=
+/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/work/=
+x86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/usr/include -L/srv/=
+pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/work/x=
+86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/usr/lib             =
+            -L/srv/pokybuild/yocto-worker/reproducible/build/build-st/repro=
+ducibleA/tmp/work/x86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/l=
+ib                         -Wl,--enable-new-dtags                         -=
+Wl,-rpath-link,/srv/pokybuild/yocto-worker/reproducible/build/build-st/repr=
+oducibleA/tmp/work/x86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/=
+usr/lib                         -Wl,-rpath-link,/srv/pokybuild/yocto-worker=
+/reproducible/build/build-st/reproducibleA/tmp/work/x86_64-linux/libcxx-nat=
+ive/20.1.7/recipe-sysroot-native/lib                         -Wl,-rpath,/sr=
+v/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/work=
+/x86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/usr/lib           =
+              -Wl,-rpath,/srv/pokybuild/yocto-worker/reproducible/build/bui=
+ld-st/reproducibleA/tmp/work/x86_64-linux/libcxx-native/20.1.7/recipe-sysro=
+ot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -=
+Wl,--dynamic-linker=3D/srv/pokybuild/yocto-worker/reproducible/build/build-=
+st/reproducibleA/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so=
+.2 -pthread -rtlib=3Dlibgcc -unwindlib=3Dlibgcc -stdlib=3Dlibstdc++  --rtli=
+b=3Dlibgcc --unwindlib=3Dlibgcc -unwindlib=3Dlibgcc -L/srv/pokybuild/yocto-=
+worker/reproducible/build/build-st/reproducibleA/tmp/work/x86_64-linux/libc=
+xx-native/20.1.7/recipe-sysroot-native/usr/lib                         -L/s=
+rv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/wor=
+k/x86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/lib              =
+           -Wl,--enable-new-dtags                         -Wl,-rpath-link,/=
+srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/wo=
+rk/x86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/usr/lib         =
+                -Wl,-rpath-link,/srv/pokybuild/yocto-worker/reproducible/bu=
+ild/build-st/reproducibleA/tmp/work/x86_64-linux/libcxx-native/20.1.7/recip=
+e-sysroot-native/lib                         -Wl,-rpath,/srv/pokybuild/yoct=
+o-worker/reproducible/build/build-st/reproducibleA/tmp/work/x86_64-linux/li=
+bcxx-native/20.1.7/recipe-sysroot-native/usr/lib                         -W=
+l,-rpath,/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducib=
+leA/tmp/work/x86_64-linux/libcxx-native/20.1.7/recipe-sysroot-native/lib   =
+                      -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-lin=
+ker=3D/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA=
+/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -pthread -rtl=
+ib=3Dlibgcc -unwindlib=3Dlibgcc -stdlib=3Dlibstdc++  --rtlib=3Dlibgcc --unw=
+indlib=3Dlibgcc -unwindlib=3Dlibgcc CMakeFiles/cmTC_14598.dir/testCCompiler=
+.c.o -o cmTC_14598   && :
+|     /srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA=
+/tmp/hosttools/ld: cannot find -lgcc_s: No such file or directory
+|     clang: error: linker command failed with exit code 1 (use -v to see i=
+nvocation)
+
+
+which is because in this case, libgcc_s is in ~/yocto-worker/reproducible/b=
+uild/buildtools/sysroots/x86_64-pokysdk-linux/lib
+
+but gcc is saying:
+
+~/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/=
+usr/lib/x86_64-pokysdk-linux/14.2.0
+
+which is where the .a files are.
+
+Cheers,
+
+Richard
+
 
