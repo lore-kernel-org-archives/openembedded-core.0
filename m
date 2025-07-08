@@ -2,154 +2,75 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BADAFC83F09
-	for <webhook@archiver.kernel.org>; Tue,  8 Jul 2025 14:52:34 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web11.21035.1751986352235900035
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8259C8303C
+	for <webhook@archiver.kernel.org>; Tue,  8 Jul 2025 14:55:14 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.web11.21104.1751986506868380957
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Jul 2025 07:52:32 -0700
+ Tue, 08 Jul 2025 07:55:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SQTXR9Rh;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6fada2dd785so66608256d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 07:52:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QEFF+U0o;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4a44e94f0b0so56994161cf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 07:55:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751986351; x=1752591151; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1751986506; x=1752591306; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ox2Kc6ib7YlmF/JxwEFCvWJQiyiin5DCKcYmM37U/3Q=;
-        b=SQTXR9Rh3nQAOaDh+ObuKN3rfdskgg4nTRQRgLOi1V0/aqXvBd1Je+2E5IUJ6HV4sX
-         P6bB64fxG8/6Bd63ofZUkhNKMAPf0DzB7HzGUn/YOFinpjxGABQRRtVmmkKX85+Oo5TD
-         e4QFpsCd15NNplPCADFA49osWZYOMGe+MGOQeKrO/8nlASGbdtsTBrRn8HB27/8Q+EtW
-         RcFMh8ElRwwkm1Dx9kY9mnzcOKBL0FKJ1IOFqIC9rqvr8WuBHDrWiBye+eULeXJ9rn8g
-         /vbaJhnhJ2cOpBDH4w06C0OMN+wuJmUlNZJhHg6lk8+cTwbRYh/itszH98bn2THr3JbY
-         qx/g==
+        bh=c9EOMIa7qpg+jdGV0WLS2fXSQLckfFjIuc6JC5a08mA=;
+        b=QEFF+U0o7hrRYpLhzPxYnkXV+GNvNcaJGPVNcgpkVBzlqySAo+k2SgpuLH62u5KOXP
+         wI47ZUDUIMw/0s0XmpVbLCbfukoAMdn/6oAOwANJ3vztR367yPMR5rpcyyabrIQ7eHRb
+         wrbPmw/jhQdWmxi8gBPYoKrummHZgu6nZvdX8M7E70VOvOk33zF4tQpS8GBS7Gl+Zo/W
+         XSXHaLXFiblILV9CY5K0zoIe3SNt/Kd/+jpPh0hk21T9LvWNCsu0ojq2CviKk41VA1Op
+         UJ/6czsuZ+O6ZKq+tL3w+JM/qX2voKbtXWT7tDk10/z/6dcW4iJRCzUxkm0KWWp/N/qM
+         BHCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751986351; x=1752591151;
+        d=1e100.net; s=20230601; t=1751986506; x=1752591306;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ox2Kc6ib7YlmF/JxwEFCvWJQiyiin5DCKcYmM37U/3Q=;
-        b=C++Q9Ic889MPLniwVJoLA5zlB3TFYBK4z4fTsVtNHWdaVYBcE+nP1hMMJwZkiNc85T
-         Wu7YxhAKSG5aCaMZSVGl4ZsoDEkCByvM4fOVfhgkdTjofortJQPMH0KQOfJnIgyoGCU0
-         8LJCXHTsQTmuIjGJKk0v8RkwkAWG0bBDXN07VRpHkgM6eUNWS6c6YaSkMlLsGE9+kW/z
-         A6grD//AljSm8h55FlRtKgCbWZ7ZkTYzAS4V1qeu17MDThOdM8XFPrbNLHyDQcmwQrhV
-         DM3vtrISmHdWxV/jIA2WE34IIXfO/DII5d/S9yW/S8p64JBKISQsuvPKTRgs26FmB+F8
-         SNdA==
-X-Gm-Message-State: AOJu0Yw/P7jFHkZDz6sJxA6YL6gF197ebNYn5zvAdK9ug6tceJ6OPfeS
-	bHh0i54IrRoDeS5L4mNBjPy6t7Dvo0zFB5QHXDiwOYmOLSYaZD02vOgw3P1G8pM6EY8bPmLVlv9
-	Rm7/RICaFcYo08+mSwwexBw40eleGDzFLM8pP/pk=
-X-Gm-Gg: ASbGncviApoA/4rj44YzO/Sod7hJeE3ySpLfe+bure5poxnJVwTqUpoO7EH6Tx4lAZD
-	+OG2r+lmHaFIdhDXePBOkA9yan0T1oCRnyq0vbVaEQAAwuzC7j00AbYGqxGBAMymIkxKxX6jIPQ
-	CqXl6cbM0QzyKlT1iXqM+ynJ+qw750JRf/Qqlgk2GLHJmT
-X-Google-Smtp-Source: AGHT+IGgAh1RfQOzLbkx1u5FkhPGFTKlLQAamOuQKtcuwL1lBHxjucOQTQHxF4Jl1hcBPacM4AlfHb++M/8Ki8xI0V4=
-X-Received: by 2002:a05:6214:c4b:b0:6fa:ab49:4482 with SMTP id
- 6a1803df08f44-702c6d7af45mr254142286d6.35.1751986351025; Tue, 08 Jul 2025
- 07:52:31 -0700 (PDT)
+        bh=c9EOMIa7qpg+jdGV0WLS2fXSQLckfFjIuc6JC5a08mA=;
+        b=ZnyJVgmpQL6y7DnT8+RUeFQt1DKDpCCKajPYiFSJHxcLxkuIXZ6mxfJr0t6sF94Cw5
+         r2ID9Jo6/O4MB3Yz2/uELm9wqaLthfHqJJOVfdzHe4V5HJOkF01pEEaxRXfUqmQ4YUcg
+         BG19/A4z97AVW1b5Q4cgIlzJ73dXtnogK1kscrZ2i+e9b0KJzyK9VttSfmXfCXATUeQt
+         mhVaOq0FsSn138pSL/ssPhIu5N1Rg43yEji+Y86JJtzt5TLmZFujEeqqyh5ICpCDExZv
+         KlSjiiryddIfC0rNd/t+2Osu+bmB+QnBHiu4A2VPq4/DqP2kVOycTohjoDLLlolvGpUN
+         xfLQ==
+X-Gm-Message-State: AOJu0Yyn9O6a6uPVMzgDFvKeXazMfgij99Zqy8exT1uR61IOaG7I6e1V
+	FfB5m+6AfrryAEg4THRgv5YVPM3tg9C7y50h3I9x7tBTuDLKeXM1ndo3FEUjAYRKGkLuwc5QM1w
+	T8QIwwF/LSZ4IW5QBjzBl480WuZCXh1s=
+X-Gm-Gg: ASbGncsMD8A96drza3PMFvF1F1eMdPfLqI2uQYNsTvs3Fum/puO7jY6ZalkQ4lxecY0
+	Y3TRGUFzuES54o7lLnAR3yyzT/FU1Qk1kt4QDBhRYMC1aBBO8d00afwxXEXVHOI52PzxUvy38yQ
+	YHuw8No+hPe1cp8gyR2Zqk04gnzyQcf/CNmB9cJD0HKF+H
+X-Google-Smtp-Source: AGHT+IEMj4CIZl9vzellqnI4WcwnxvO0NIkaxhrPkf+gP/tXY0cA4DNdKa/BQargDiYkTTiO+EqAFGlEsPa0twbQSAQ=
+X-Received: by 2002:ac8:57c4:0:b0:4a5:a96d:604c with SMTP id
+ d75a77b69052e-4a9ccddf12cmr56736301cf.39.1751986505782; Tue, 08 Jul 2025
+ 07:55:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250707071049.3286224-1-guocai.he.cn@windriver.com>
-In-Reply-To: <20250707071049.3286224-1-guocai.he.cn@windriver.com>
+References: <20250707082850.600964-1-pascal.weisser.ext@karlstorz.com> <20250707082850.600964-2-pascal.weisser.ext@karlstorz.com>
+In-Reply-To: <20250707082850.600964-2-pascal.weisser.ext@karlstorz.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 8 Jul 2025 16:52:23 +0200
-X-Gm-Features: Ac12FXzCcFc_xo9F83Owu0aOX5TH9Kx3KPOAtvxis8VyMKPzjeFljcepsjDpGSU
-Message-ID: <CANNYZj8V-z=UHTP+25Au6esPkAriLTsTE5OSGGY1_oz-+W2-Gg@mail.gmail.com>
-Subject: Re: [oe-core][master][PATCH V2] wayland: correct the SRC_URIs
-To: guocai.he.cn@windriver.com
+Date: Tue, 8 Jul 2025 16:54:57 +0200
+X-Gm-Features: Ac12FXxDxizAokM7md1mADyg3WOJX8fxIIC-xNofKxbrkOBoN93furl3Z1gMJw4
+Message-ID: <CANNYZj8wcNOU1MDsV15MhCcgwC5YJypRsb-mM2=o+v0VDLGSBw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] systemd: add rdepends on libnss-resolve to
+ nss-resolve PACKAGECONFIG
+To: Pascal.Weisser.ext@karlstorz.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 14:52:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220045
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 14:55:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220046
 
-Not true. All three have .xz tarballs available at the usual locations:
+On Mon, 7 Jul 2025 at 10:29, Weisser, Pascal.ext via
+lists.openembedded.org
+<Pascal.Weisser.ext=karlstorz.com@lists.openembedded.org> wrote:
+> -PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=enabled,-Dnss-resolve=disabled"
+> +PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=enabled,-Dnss-resolve=disabled,,libnss-resolve"
 
-https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/
-https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/
-https://gitlab.freedesktop.org/wayland/wayland/-/releases/
-
-What is the problem you are observing?
+Why RDEPENDS, and not DEPENDS? This needs an explanation in the commit message.
 
 Alex
-
-On Mon, 7 Jul 2025 at 09:11, guocai he via lists.openembedded.org
-<guocai.he.cn=windriver.com@lists.openembedded.org> wrote:
->
-> From: Guocai He <guocai.he.cn@windriver.com>
->
-> For wayland, wayland-utils and wayland-protocals, not only
-> the SRC_URIs are updated, but also the tar.xz are no longer
-> available. We have replaced them with the tar.bz2 barballs.
->
-> Signed-off-by: Guocai He <guocai.he.cn@windriver.com>
-> ---
-> V2:
-> Add the info of Signed-off-by
-> ---
->  meta/recipes-graphics/wayland/wayland-protocols_1.45.bb | 4 ++--
->  meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb    | 4 ++--
->  meta/recipes-graphics/wayland/wayland_1.23.1.bb         | 4 ++--
->  3 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.45.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.45.bb
-> index d98ccf964f..31b7de3a1f 100644
-> --- a/meta/recipes-graphics/wayland/wayland-protocols_1.45.bb
-> +++ b/meta/recipes-graphics/wayland/wayland-protocols_1.45.bb
-> @@ -9,8 +9,8 @@ LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
->                      file://stable/presentation-time/presentation-time.xml;endline=26;md5=4646cd7d9edc9fa55db941f2d3a7dc53"
->
-> -SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${PV}/downloads/wayland-protocols-${PV}.tar.xz"
-> -SRC_URI[sha256sum] = "4d2b2a9e3e099d017dc8107bf1c334d27bb87d9e4aff19a0c8d856d17cd41ef0"
-> +SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/archive/${PV}/wayland-protocols-${PV}.tar.bz2"
-> +SRC_URI[sha256sum] = "b73315c26d6c3374c19c2dff7e491f019d8597dc4dcd4473d9181f676f15f48f"
->
->  UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/tags"
->  UPSTREAM_CHECK_REGEX = "releases/(?P<pver>.+)"
-> diff --git a/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb b/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
-> index 59d414a0a6..8e4b92969c 100644
-> --- a/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
-> +++ b/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
-> @@ -9,8 +9,8 @@ LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=548a66038a77415e1df51118625e832f \
->                     "
->
-> -SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz"
-> -SRC_URI[sha256sum] = "d9278c22554586881802540751bcc42569262bf80cd9ac9b0fd12ff4bd09a9e4"
-> +SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-utils/-/archive/${PV}/${BPN}-${PV}.tar.bz2"
-> +SRC_URI[sha256sum] = "f38c6a4ca2113cf716ca687a4cd8e24a11cbeeb04759678b7bb2da7d16335d18"
->
->  UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland-utils/-/tags"
->  UPSTREAM_CHECK_REGEX = "releases/(?P<pver>.+)"
-> diff --git a/meta/recipes-graphics/wayland/wayland_1.23.1.bb b/meta/recipes-graphics/wayland/wayland_1.23.1.bb
-> index 3a5d91be04..1b29f7762e 100644
-> --- a/meta/recipes-graphics/wayland/wayland_1.23.1.bb
-> +++ b/meta/recipes-graphics/wayland/wayland_1.23.1.bb
-> @@ -12,11 +12,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b31d8f53b6aaf2b4985d7dd7810a70d1 \
->
->  DEPENDS = "expat libffi wayland-native"
->
-> -SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
-> +SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/archive/${PV}/${BPN}-${PV}.tar.bz2 \
->             file://run-ptest \
->             file://0001-build-Fix-strndup-detection-on-MinGW.patch \
->             "
-> -SRC_URI[sha256sum] = "864fb2a8399e2d0ec39d56e9d9b753c093775beadc6022ce81f441929a81e5ed"
-> +SRC_URI[sha256sum] = "4afcf2942a39d8276d06dcefc89dfaf029222994778fd4c49aa68a702ebf698f"
->
->  UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/tags"
->  UPSTREAM_CHECK_REGEX = "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#219978): https://lists.openembedded.org/g/openembedded-core/message/219978
-> Mute This Topic: https://lists.openembedded.org/mt/114024117/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
