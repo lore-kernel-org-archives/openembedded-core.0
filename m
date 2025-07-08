@@ -2,97 +2,101 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A8CC83F0D
-	for <webhook@archiver.kernel.org>; Tue,  8 Jul 2025 06:38:22 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.12706.1751956694980992330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CFA6C8303C
+	for <webhook@archiver.kernel.org>; Tue,  8 Jul 2025 06:38:42 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.12707.1751956696582893725
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jul 2025 23:38:15 -0700
+ Mon, 07 Jul 2025 23:38:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gMxGkWG7;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-234fcadde3eso58457525ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 23:38:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=APC1Sj0u;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-234f17910d8so35333865ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 23:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751956694; x=1752561494; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3oO/oZg/LDkiTDr7e+aQ3dVE65wKSwQvWK9HO/VB5Nc=;
-        b=gMxGkWG7a5Gd3LMTGfP4h0SDhw6wzyscYOZfUB6xAJxmorfzZPHH4B1kLhtKS0MrPk
-         eli6994QxYh2Cs/fXj3QaxbJ2RS/OyLjhWTvi+qHQvh6ZvmMUgSZ8i5VRJ/svS2PhvNW
-         eQCgMFsCjPvGDnI5Hb/po/ol4cndFglRM7VF1bCjuM85Dz8FYN12gCTkH6iCwserVhLm
-         k2jNtxsPUSvDy/NvLGJ9fFmDod3v5GnHer+RCPRqfUP6kW0rOaX4DAFgBJtC7dW6vW2O
-         wPtvjxVzgj9M2w4LpHWEobpNiu/zwC+3ZP4uPZRlbDNoXqLUwJTyLngqdLHDATlUFjr1
-         vK3w==
+        d=gmail.com; s=20230601; t=1751956696; x=1752561496; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J4Lgx3KZb06DfCQ//jyzPowmIRZgC13YmMF8G7FIpMA=;
+        b=APC1Sj0udNr1r3U+V0ruk6DB5CpPpBctGQrepqJ68Lhm56jQUSmTX+rhTi1B/xPYyP
+         c6wYrZ/xR6SbwlEsIAnUJ0Lv26bakzoe2NCQgNOuUzGeDbuYxho0Fs1WumH1AWyAIx/j
+         qFOdaBhRjg16ZJfS9SQp/OfL8lGOtY9bBQtl36T3Lt5B+7I7UvdYeb4MVh1CUR4UssfX
+         lqNIpUzTb4fNiXQ542//YA2rK98lhX9L4vRYyohZz6tiwuKRa+I0D8vQ7FCZsTYaLPYB
+         eIayKQ0pPsBck0BRKSqUHsAtCm5tB+HHX+injdxsNq8vs+6kAzFPrxSspJF77TCHg1yH
+         0w8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751956694; x=1752561494;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3oO/oZg/LDkiTDr7e+aQ3dVE65wKSwQvWK9HO/VB5Nc=;
-        b=E3VBVRFnaQuGW4VrWJ5T4ihiigbTsQ+aTjdmhL0GuJbnAmytFxAiIIJGs0a6s369dl
-         uIO2Yfv8CsNTcB0azlOsB5znjWmEuguoCwmCljcn1sUEnxdba365QjzGQQ5+5vUEZtvP
-         4dj81S33y4qc1dLrvGXJWKUJ/g1gV9mWrU5c3nauP2zxaUj9EUj2XucCHJCn+1PlEcik
-         ghMAEehg+CYoDar8E+Emp1TQrKloD5a/6oHc19QvS0WL6pnkyHt5Ct4liI1Fo4XXyz0U
-         4QFlCOI/Ed1HS9+UvYs2hDZExXwXSwo+jBVGYL1+fSS6twAukRFj1VLDbOiyl8amRi8w
-         uG4A==
-X-Gm-Message-State: AOJu0YxSiPBJUR1P3XGQRajiPuhE1O1OUmD6vLryH9eDnStVS5vZJD9g
-	4Zxgn1pxr5geKOEViA8bZMB4QD3WvVJWgLs+en1R74V98fX2AX/kr+fgnFchCbTh
-X-Gm-Gg: ASbGncsA2Y5fHE1ECQAw9+R+AWr0BHdJWM11UJTRHZNejGbCpGGC3bxsXupqI2hXkPD
-	epxB9VJc+/j9pMbZ6eSC7vy2zrkLUHu1hiFK9vZiTBbNgwfII0k9xoS+4LikHOEpn3jhJt/3uSI
-	9S1zoVCruJfTyu1w2F/omaoxPi55x5sbdO7428Wujvafx732H7lKM13RPWOk4sZzfbFGZ2LcDy8
-	NE6TFfEcvjvL4vE+nf+EZJyN8sXx9bp5GLKyrN9AmP2j43BkBtL1W4CbKVhgGJyM5tugRkQaWPz
-	cxmDK5H2LO4OJAd1f3/2TalLjY9Wx0rrRHvYTbNOAonYxcfv6GKQxw==
-X-Google-Smtp-Source: AGHT+IERngsh3toj96+wnemar+IWwY9ZYUO5SJatoGP/BuedgFKQc4uY6dgi/ZLIvWoijIyhlrUnng==
-X-Received: by 2002:a17:902:d58d:b0:234:d292:be83 with SMTP id d9443c01a7336-23c8746ffe3mr263244535ad.10.1751956693995;
-        Mon, 07 Jul 2025 23:38:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751956696; x=1752561496;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J4Lgx3KZb06DfCQ//jyzPowmIRZgC13YmMF8G7FIpMA=;
+        b=qjpXAGhgGRPVDsbnBOj963/5So8yHsaSr9fkpxbykpYtL4yECsGllXIP2BsrEEtRsN
+         YSGOowEsnHuYjW2ey6fBhhioyqza5rKeM6UuEhBGCI9Fl+cDC43tqWXoQXYEsi6+gPOc
+         digkuUinj2CqU3Wpyz9AK/qekdQOBsYey07oso+R+IUXE6ofoZ0MtqHvbbN8Jf0rRt/K
+         b9kGwcJVrnyW7KXm6Xhm5qjqpgAwf0gIFqZqvlkGTVtILMn2XRKrlpAvpUSFh2zAryff
+         cBHqWlMsGLe2gC08VOkPNGA/MlyH7CnLv8RrQ3TcuROc8n4AZB7L1mXhH5I5S76O6L/T
+         MzXg==
+X-Gm-Message-State: AOJu0YwQpUJNyaKbRF7qsfIAWHisDikZvEdl7ZMazY3oC9SWMFhlBxka
+	8CYo/UTE2sAxlrMS9Lg7GaOggkEd2z+Dj3EA5g1+tlttWaMYyV+R+tUrpYpoTJWW
+X-Gm-Gg: ASbGncsxRAsy0CrJVXPsYmWdpwGlX0YMVklQD0tXAC448346hx6/t3lRUGMURhkqHxD
+	e9Z5ZBvvFUAXRGQZOIiiE9DryfS8NhHHWslBGMrMTw6/Jmq6S2Ir1rhtTcP1NNDnHASmuIlr6ko
+	tlX7PSLxKXMV1FUIKnerbU5Ci/tzdgEVsN5rd4uyp/GUVbm3AQxk8cORGVRg2pwijBOv5MT7tMM
+	O/wFXot8EUhKgSkf6J3oFEHvHSfcthOFjimjyUOFolZBskTmJffm9H4kdQ+1b6Wfw+UQ6N8DgRR
+	PgvjxOTDqFSkELxFUjy/SpudToQOUyfw0oH+LNtrqNw7F4JvLHTwQ3g4Ju45tPk4
+X-Google-Smtp-Source: AGHT+IEGu3Up4mFrU0TM+ETG6/gnae4SsWg1ybZqjYIedgxZXj3yyw8fTKRpbst48awgXeCpAcy0yQ==
+X-Received: by 2002:a17:902:cecf:b0:234:909b:3da9 with SMTP id d9443c01a7336-23dd0afac11mr29439685ad.27.1751956695569;
+        Mon, 07 Jul 2025 23:38:15 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::1c1d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8457e9e1sm107839795ad.175.2025.07.07.23.38.13
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8457e9e1sm107839795ad.175.2025.07.07.23.38.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 23:38:13 -0700 (PDT)
+        Mon, 07 Jul 2025 23:38:15 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] re2c: upgrade to 4.3
-Date: Mon,  7 Jul 2025 23:38:08 -0700
-Message-ID: <20250708063810.1921024-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] spirv-llvm-translator: upgrade 20.1.2 -> 20.1.4
+Date: Mon,  7 Jul 2025 23:38:09 -0700
+Message-ID: <20250708063810.1921024-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250708063810.1921024-1-raj.khem@gmail.com>
+References: <20250708063810.1921024-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 06:38:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220010
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 06:38:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220011
 
-It introduces new features, improvements, and bug fixes, including
-- a new code generation model using recursive functions
-- new block types
-- improved compile-time performance
-
-It also adds a new warning, -Wdeprecated-eof-rule, and improves
-the handling of the end-of-input rule
+Details of changes
+https://github.com/KhronosGroup/SPIRV-LLVM-Translator/compare/v20.1.2...v20.1.4
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/re2c/{re2c_4.2.bb => re2c_4.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/re2c/{re2c_4.2.bb => re2c_4.3.bb} (90%)
+ ...-translator_20.1.2.bb => spirv-llvm-translator_20.1.4.bb} | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/spir/{spirv-llvm-translator_20.1.2.bb => spirv-llvm-translator_20.1.4.bb} (92%)
 
-diff --git a/meta/recipes-support/re2c/re2c_4.2.bb b/meta/recipes-support/re2c/re2c_4.3.bb
-similarity index 90%
-rename from meta/recipes-support/re2c/re2c_4.2.bb
-rename to meta/recipes-support/re2c/re2c_4.3.bb
-index 06960806035..eafdf930781 100644
---- a/meta/recipes-support/re2c/re2c_4.2.bb
-+++ b/meta/recipes-support/re2c/re2c_4.3.bb
-@@ -7,7 +7,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
+diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+similarity index 92%
+rename from meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb
+rename to meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+index 4952e8ba4ff..14e4bb74ace 100644
+--- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb
++++ b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+@@ -6,12 +6,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "c9dc2b24f340d135a07a1ac63ff53f7f8f74997fed5a4e9132a64050dbc3da1f"
-+SRC_URI[sha256sum] = "51e88d6d6b6ab03eb7970276aca7e0db4f8e29c958b84b561d2fdcb8351c7150"
- GITHUB_BASE_URI = "https://github.com/skvadrik/re2c/releases"
+ # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
+ SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
++SRCREV = "74843f2186bb63b6802758222084da17fcbe603c"
+ SRC_URI = " \
+-    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;name=spirv;branch=${SPIRV_BRANCH} \
++    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
+ "
  
- BBCLASSEXTEND = "native nativesdk"
+-SRCREV_spirv = "6dd8f2a1681a27f16c53d932d2765920f312aeb2"
+-
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+ 
+ DEPENDS = "clang spirv-tools spirv-headers"
 
