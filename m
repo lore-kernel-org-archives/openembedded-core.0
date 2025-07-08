@@ -1,135 +1,104 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB871C83030
-	for <webhook@archiver.kernel.org>; Mon,  7 Jul 2025 23:14:29 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.6170.1751930063722104801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82487C83030
+	for <webhook@archiver.kernel.org>; Tue,  8 Jul 2025 01:30:20 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web10.8795.1751938217190280600
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Jul 2025 16:14:24 -0700
+ Mon, 07 Jul 2025 18:30:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MxH8ymVL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a588da60dfso2481683f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 16:14:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=g2k6GA/g;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: festevam@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4a589b7dd5fso64362151cf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 18:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1751930062; x=1752534862; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ps+hFb1a+GazKj1jZnIjDaKepxZy5Fgx7O1C/42ODzQ=;
-        b=MxH8ymVLfetWBYMkoyvVI3ERbmTJGVIQblkK4y893wxgkEzZl8SySHPEzxZ9mXWPh5
-         B2qi7/XiMqT6bYa1QPp3tf/9c+2LLo/B+NdTXOBtiFG4R0dVsXvf+BT3chiOV/lRptJn
-         cioYZ+7D/PiDQkFdL9zbfmIqsz3xJ6smFokGk=
+        d=gmail.com; s=20230601; t=1751938216; x=1752543016; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BoV3IXxfwo7q1uvdPuAZZ5g17cgEjUtZ7u2hMRvSPs8=;
+        b=g2k6GA/gHXNWmh2xYcY5ip6CibIQbooOL2c0TyizuH6IhOrhlIRilP6ryZTL4ge4Aq
+         6Sf0IYlH9yNo0/iTtPYEP3BK7o69L+TTLtPDQULTGu5MeZt7CW8jBnw2j+JR4/gLC1vo
+         XznZZJfNHWOPmUZnKRj0tCmEedpuJIv4gx6/pJkWx0raJJRpSIOc4YNNr6hmSEIBTEtf
+         +GLCcgaIcSbS7+O61LMehPYmHIt6H4ulNozJxkdQ+dAa/ArvO/DCs4LOOQPaxgFx6f76
+         UJvBtRfXmRuaTxWmAd0Mq2xNilt6ByPoYDCkhIFw4HGJGL9z7BkKKwUJi46asxCaXIS6
+         uqvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751930062; x=1752534862;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ps+hFb1a+GazKj1jZnIjDaKepxZy5Fgx7O1C/42ODzQ=;
-        b=kvvFo8+8IH1uEob8pV/VA5RC/FefyWcNNwVGlwGb8hczcrYxVyHICbKCqb900DSX52
-         4DcDHRtXsu+aqg0Z3C1S0fW+U0+lKG7Y4t1VgFkYEqplCGbVGQzqXSf1XvFykoarBcet
-         uIhPqmWXdnTn0bddHYlcbfpRuTmxj4IO4Ajz5LtvkLEHfXjtdhYbHZE/6N7yzG6x4N1K
-         SvO0GbeVQjFMt5AC9Tk9jHF54q2qxLWcCOAZ5CvVkAn0vnzxcFjfkjfhbKgmT4Hk2osX
-         t702MgExTizoxtwY56tfnQfwJALVYPoz/uvhJiKDntrBOPqy0jeZIpTCDVh6ThWiwCZy
-         zfyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUrnPWuNHiK4YR9B6GLhHR3S3rxcIoz6mC9GPUuqTuoE6Cn4MuWcNIQEACnr+Tl57yta6UhC6g1i8AMX//71JX//Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxz9X1RWG4fDVWFkn10kdAcGbUJE/keM5JIBP3Ig3ghEuwNyZjI
-	rgvrGsOKOkXWVjk07u69GF4ZJazLmdzQt1lAtH3SVJ4x/GSkgdfwZvmDGAq+jMeiPik=
-X-Gm-Gg: ASbGnctF2azrBSZkPBIMHp8z6d54X5fwtxPTwGXGkRy3urZIVtTNklNEgAgBiBGmG9/
-	GCwapntWZQ2g1aQSnIJaDvdkPgBr0KAmSe6ktghWEHMX+OJ/62r9oqT8ivGdPKWjFmR2h/CAWFc
-	QQQvnYXY/0wkXG5Q/+YO7l/pJJ/4zZMP0las5Hdm1R4QeWZh5447Wv5EjHMSyQ3DjaaeloOLf4i
-	53N+YMVFS2o3cQUYDg4HMbQ8lSIKAiUHc05fOTHnLzSHPoE/jYSawvxPQLol7zIEeLEYv0Op8kg
-	FPIaBHh+fwn/R+nLVs4kJeTUgudYDG6Z9rRvcH1CKEgVZ4/YZgvnqGSv/kPdD02kNg1UAp/45XU
-	fvpnw0zuTh69Bg9UdiisapsMx9YJb/g0m2JwpszK3kCIhK3R9kQg=
-X-Google-Smtp-Source: AGHT+IHVwyWPbdus+my5MUeBqEl3y9lNXE91wGKqHB+tKFEcyG+HxLP31LgsLvCvY3TPlQ6p13kt4Q==
-X-Received: by 2002:a5d:5f8b:0:b0:3a4:e193:e707 with SMTP id ffacd0b85a97d-3b4964e52c0mr11306344f8f.41.1751930062076;
-        Mon, 07 Jul 2025 16:14:22 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f30e:ae60:b271:f9d2? ([2001:8b0:aba:5f3c:f30e:ae60:b271:f9d2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b4709c6b2dsm11200730f8f.40.2025.07.07.16.14.18
+        d=1e100.net; s=20230601; t=1751938216; x=1752543016;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BoV3IXxfwo7q1uvdPuAZZ5g17cgEjUtZ7u2hMRvSPs8=;
+        b=j5VX3cmPSDb+2mcZ4Deo5EU9xHLoBQwKWHsSzXpgOlXYg2UyrNO9Q0/Nynu0QXkkFc
+         F1G/0TcuetJBYLun2iu0FmUxNumnBQZwCO2jTbpiPcq04A2MF5vR5G4I9dIS06xCTCa9
+         KqhxERfFca4vB/ST6+IAi7THn0O8Fq3W9Lc5kVLkQnVW71MPI0SeIAt9L7hTAdwUnxRP
+         yuGngLALCInKcGuMGQxhy0uxIgO0dfHgw6hDgd5HIQXW9T9rV9+vtMzSd9+KBpVPQ3cW
+         cVfWWR3F9RKVjwDLXnnVBaEy5xPZbRW+/8rz2E9X3B3Odls9zZhuxml6eUArXKu8A4Ri
+         +gbQ==
+X-Gm-Message-State: AOJu0YzCDZMmcTp15mnGpctcB2dO+DUBkfWxg9kLUxtxoKqQZZUHVuEO
+	cODU9yrCZAYlEg4Oqof9YUomv3qRRRAm/+YiplqGVpmKdeH/HXGd3dzoSPZWHg==
+X-Gm-Gg: ASbGncvxfHEnI7qCG9AOWf++SNoJl2yfBZCM6A2A0VG3JHMTb3wYahnYeeSLcSNdDXN
+	Q2iNKpKLJ/7QdjvJTRMziDgKHxceyANQ5LgirlBWLQ4RE5m/4cm6upIXFS+KLAbm5Gz2YEbUWyz
+	K1ZT/HQymlIVoEslp4lVm3iLKES+KUoI9Jbvq/Fe6qfO5STUhbxPeYqxZtRD36h9viNz9zTQynJ
+	jNmPAmNOm8Ke9iYwBxAurneZeRHyUoGWGkTq7KNmaFKbT7l3xmt0nafXBRAF1WXlFosBW9k0hNs
+	tjv8bt3Vf0P8eLdpcxXavcJUvwZAA4fadZ2XxoVBj+cUgHkOdEsgcvV2uphT2OCweHxyqkyu5XI
+	/tFKlJoo6xrs=
+X-Google-Smtp-Source: AGHT+IEWdfK6c0dWZ+S812CSDM/gleMjyYf7l0bJUgmrHsKMHa1FjqSvKd0chCrnwzhNW+nk2v/kZQ==
+X-Received: by 2002:a05:622a:341:b0:4a6:f6e6:7693 with SMTP id d75a77b69052e-4a9cc6647a0mr25555261cf.6.1751938215647;
+        Mon, 07 Jul 2025 18:30:15 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:8a01:260c:ba46:4226])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a994a0bfc5sm72949861cf.34.2025.07.07.18.30.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 16:14:20 -0700 (PDT)
-Message-ID: <b19964795c1fc2baa3151374a13e4f6232a80938.camel@linuxfoundation.org>
-Subject: Re: [OE-core] GCC Patch removal - 0008-libtool.patch
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Harish.Sadineni@windriver.com, Khem Raj <raj.khem@gmail.com>
-Cc: "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, "MacLeod, Randy"
-	 <Randy.MacLeod@windriver.com>, Patches and discussions about the oe-core
- layer <openembedded-core@lists.openembedded.org>
-Date: Tue, 08 Jul 2025 00:14:18 +0100
-In-Reply-To: <DM8PR11MB5653BDE89A4EFB219A90C7E3EF43A@DM8PR11MB5653.namprd11.prod.outlook.com>
-References: 
-	<DM8PR11MB5653BDE89A4EFB219A90C7E3EF43A@DM8PR11MB5653.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Mon, 07 Jul 2025 18:30:15 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] u-boot: upgrade 2025.04 -> 2025.07
+Date: Mon,  7 Jul 2025 22:29:59 -0300
+Message-Id: <20250708012959.77522-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Jul 2025 23:14:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220003
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 01:30:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220004
 
-Hi,
+Upgrade to U-Boot 2025.07.
 
-On Thu, 2025-07-03 at 11:38 +0000, Sadineni, Harish via lists.openembedded.=
-org wrote:
-> This gcc patch
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools=
-/gcc/gcc/0008-libtool.patch?h=3Dmaster
-> =C2=A0modifies thelibdir=C2=A0from "/usr/lib/../lib" to "/usr/lib" in the
-> libstdc++.la file.
->=20
->=20
-> We removed this patch and rebuilt GCC using bitbake. We did not
-> encounter any build or runtime issues. We tested building gcc, gcc-
-> runtime, and core-image-minimal. After booting the image, we also
-> tested libtool and a simple C program with the following commands:
->=20
-> $libtool --tag=3DCC --mode=3Dcompile x86_64-poky-linux-gcc -c hello.c
-> libtool: compile:=C2=A0 x86_64-poky-linux-gcc -c hello.c=C2=A0 -fPIC -DPI=
-C -o
-> .libs/hello.o
->=20
-> $libtool --tag=3DCC --mode=3Dlink x86_64-poky-linux-gcc=C2=A0 -o hello
-> hello.lo
-> libtool: link: x86_64-poky-linux-gcc -o hello .libs/hello.o
->=20
-> $x86_64-poky-linux-gcc hello.c -o hello
->=20
-> All tools and the generated binaries are running fine. So, we believe
-> this patch is no longer needed with the latest GCC sources.
-> However, in the commit message, it is mentioned:
-> "it shouldn't be passing this into libtool in the first place but for
-> now this resolves the nastiest problems this causes."
->=20
-> Do we need any other tests to perform or is it okay to drop this
-> patch?
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2 +-
+ .../u-boot/{u-boot-tools_2025.04.bb => u-boot-tools_2025.07.bb} | 0
+ .../recipes-bsp/u-boot/{u-boot_2025.04.bb => u-boot_2025.07.bb} | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2025.04.bb => u-boot-tools_2025.07.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2025.04.bb => u-boot_2025.07.bb} (100%)
 
-I dug into this a bit more. gcc-runtime's do_compile log clearly shows
--rpath=3D/usr/lib/../lib being added on the libtool commands.
-
-This does make it to the libstdc++.la file:
-
-tmp/work/core2-64-poky-linux/gcc-runtime/15.1.0/gcc-15.1.0/build.x86_64-pok=
-y-linux.x86_64-poky-linux/x86_64-poky-linux/libstdc++-v3/src/libstdc++.la
-
-which says:
-
-# Directory that this library needs to be installed in:
-libdir=3D'/usr/lib/../lib'
-
-
-The only reason this isn't an issue now is that we delete all the .la
-files rather than include/use them.
-
-I'm therefore a bit torn on this, the base issue is still there as that
-rpath is "wrong".
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index 617f5a60bb88..d087525edfea 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -12,7 +12,7 @@ PE = "1"
+ 
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "34820924edbc4ec7803eb89d9852f4b870fa760a"
++SRCREV = "e37de002fac3895e8d0b60ae2015e17bb33e2b5b"
+ 
+ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV}"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2025.07.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2025.07.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2025.04.bb b/meta/recipes-bsp/u-boot/u-boot_2025.07.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2025.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2025.07.bb
+-- 
+2.34.1
 
 
