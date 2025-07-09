@@ -1,90 +1,159 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17C2BC83F09
-	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 11:01:54 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.12732.1752058905565497459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5DCC83F09
+	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 13:01:24 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.15191.1752066082337764167
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Jul 2025 04:01:45 -0700
+ Wed, 09 Jul 2025 06:01:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BdUHUMB0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-450cfb79177so30483185e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 04:01:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aNUZSg6i;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so779982b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 06:01:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1752058903; x=1752663703; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=R1DA+SJ+ZOhetCPfmXK1ZGZtWr7SipK41p65Zhy4AuU=;
-        b=BdUHUMB0icLTCRKFhz/BW2oygoqNrhMXPweOpGdhFLOpOyN4LIi8h9Nb4yh7QoTGDZ
-         pbE7kL2izn+K6D1dqwqto89g9dgCt77ZLVMx/FOfIVAN1O675kJxwdi9pw7kHhTzxteA
-         OKOXTrBupjif+A/UjD92Xijc+UR2m/hheqHJU=
+        d=gmail.com; s=20230601; t=1752066082; x=1752670882; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UY9zXr0xAYNhCXjkn0A4MuH+jqepXM45TrIUjeehrkw=;
+        b=aNUZSg6i+uyjJfSRuG1iyBnUUpOJmqEjT+CGbzLip6ZliQBgtQZ6gQKZP+Q9mOkLWe
+         Jt6K9rWOazSAXf6IfePhZCDLefwfgBli4fLKe4qKSLxzkHwvHeIHPKiqBWRGXP/UYG5t
+         zikO80AffXnauCzs9BONaI9NsXdfXWybE7D9Mrjk7MGlake6KzTErIKzzzjpsQi1/EFX
+         WYL/RxuMtec1gCfJVyPj5Y3T9H9B11SrcndjlH/B8O+KGBursBJNV+I3ZcbRncjf1c6M
+         +LhtoIdGFKuz7azXu0Ip5LeZcEpY+t0qQn4VgLz5YyKF6qS8mRtFrbVyVP8UqKloedeS
+         Bd0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752058903; x=1752663703;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R1DA+SJ+ZOhetCPfmXK1ZGZtWr7SipK41p65Zhy4AuU=;
-        b=Tsr0VdKNsEKJmUCkuBohbyjxrWIEu0Xjago7ds+cJ0h5Hq3K3KfWz3BEtNtiAzGGNJ
-         Rq2zuYIYo95oIkl2FO5krjAqdFa3dE3qFA/suf0pLVWd1wt+moeDkwXMmEI/112Cw9Yf
-         UvK3/vwMJ1ivLpqT4AicYp6ID2eDDkNmdbA9FdWeqcHBKPSkAEgkBYCUlc0yAOxZyXIH
-         nh7FlIkF4RZkKl9TQOxCmmrr0JBlM6X2v1v5PrWboLiXtehS5o1EzUTE5LR0lhY1wKK3
-         SfzPotAt5xx7PE1A/PU6YBe3OttoQVAUA8hUO3Vf0CNM5nn662Rd/6KQFlYlXNcMU4Jx
-         LLUg==
-X-Gm-Message-State: AOJu0Yx8Ud4/cVgXnEDFH8rS5NpWbhvgxOswsXhbmKT3lhiXyFxv5Kho
-	1y8evw5Kk3FV4ouUIg9MJEIfk14D+auuBPudBTmT+fTZ2Yw4cqlc+Ic9d7Gg31vCTZFnqEXRGzB
-	yr+WM
-X-Gm-Gg: ASbGncsKgT1TW2vH4Gcm7ntQsjF9Bac1svw79BoJk2l2qBbMwlZPsLZL2FYL70bjNa/
-	FfnWG10ZyuH+vAfojZ03w29rh0nafxgj4fc9V1LmPmrJXZWGJAZYk4N502lM5iqBNzJ2GAOLVy0
-	uApUirTuRzziw9pdLdBiwQp8htUk9enyT07iswWZFllyQKAy6lZkopi2r/wOLULSRtFrz8R+2xR
-	y0FEQgrTdSM2TXRBRJjG9bK7zCMhESHTOTSJo/6BtHN4aAU+QFkVIXsfBfrc21WZ8T3tz3xM7Tw
-	h4O8rwK92N5j6ukudhcng63xktytK5/rKaEOxU0+g+a3xKMXqnOM3ioR7kkMhE7/wutmfCUI2Qf
-	237tksjs2y02mDDxBV81AhKBtExyc0FWOCdlX39JwnKSAD1tx
-X-Google-Smtp-Source: AGHT+IHxLvvePS3I5VEgqfYm+/yCmtjcH0LEmhQqxPMnhsTOtxEn0A/oCxaZOIdPfZwu8qS/MYeNbw==
-X-Received: by 2002:a05:600c:1911:b0:43c:f513:958a with SMTP id 5b1f17b1804b1-454d5325f32mr20394925e9.13.1752058902891;
-        Wed, 09 Jul 2025 04:01:42 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8726:2b2e:9de:f840? ([2001:8b0:aba:5f3c:8726:2b2e:9de:f840])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454d5032e9esm19301725e9.3.2025.07.09.04.01.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jul 2025 04:01:42 -0700 (PDT)
-Message-ID: <710d2fadb83228574f9cbb9b907b702ea7229d42.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] toolchain/clang-native: Work around native
- compiles for some gcc configs
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 09 Jul 2025 12:01:41 +0100
-In-Reply-To: <18503A99873E3107.27764@lists.openembedded.org>
-References: <1850159E80660154.13503@lists.openembedded.org>
-		 <1850367B6A0FF7B9.27764@lists.openembedded.org>
-	 <18503A99873E3107.27764@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        d=1e100.net; s=20230601; t=1752066082; x=1752670882;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UY9zXr0xAYNhCXjkn0A4MuH+jqepXM45TrIUjeehrkw=;
+        b=OmB2Ap26ICK5Q0BUOhgZyWq4nI0biju4SXaZh1YbMqUMEViaktzcizap3Me6espbko
+         mJnizFuZzxWpU+h6B2ovFeU1AbxKTzwM0a3fpLV6XsvWsH+16miFrSKlZmohqPWqbCUz
+         YtIOD3hnkJdxOoh0e+7wJrO/r45H6zQA7MMWitIJnkVWHjGUOlXh9w/RBGiOp5f6FGHy
+         vPZju6LgZm61g6MzUzNlxR0KGXI4S24AyXmTwfA9khnKmvJMoBtenqDAzfRpAKRP1fS5
+         FR52+Bz6QUY4Kx0c7+rA4lVp+OpR6rQ6HtZBtvQGThXgN6erQQclEAKlFht5J8xLdCbZ
+         qF+g==
+X-Gm-Message-State: AOJu0Yyf5vbRpM9DPffzLRfETPqrXRI5N2sv3gLPtjjAfzUGrwfIkllN
+	N0dw76NdGN8X4FfZGZNO649i5Nm3vzNUEzQ0b/y+BxM3OlFQ0BOI86SH9v5bXhE+5sGi+SZNSlS
+	SRdfTKHyW939AGICOHEGcnwYCg2InHVE=
+X-Gm-Gg: ASbGncumyuyKEOdiXsMMH/6BkKbf9xrr+QxY3M9RQbvAFAVs5FWpdjAhTkvzATFyBR6
+	etDNpYk7b/4w8bee4gVtlMhMl5h1XAL+HCsb2W1IJEh1WVB9MMA26beus1TH5dyN2/RUqugtTrA
+	weVSrNLEODKH0SMR5T6RLoy9s1MXoVqeF1n8NbcmJ2TW+4
+X-Google-Smtp-Source: AGHT+IE6qeBQUZsbXeWpEiWXy9eAisQk6eA/8p8TyN1oBBCpMQa/gFAKo6qSjaOJuJ7LwmhCfgwsCs0jBgDKDWWx9wU=
+X-Received: by 2002:a05:6a20:3947:b0:220:3a2:e0c6 with SMTP id
+ adf61e73a8af0-22b5f49b152mr11987129637.6.1752066081061; Wed, 09 Jul 2025
+ 06:01:21 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1751985223.git.bruce.ashfield@gmail.com> <196cdceb3c5f14f1d3b0a58ef9c7020e3a39049b.camel@linuxfoundation.org>
+In-Reply-To: <196cdceb3c5f14f1d3b0a58ef9c7020e3a39049b.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 9 Jul 2025 09:01:08 -0400
+X-Gm-Features: Ac12FXx8EId3j1IiJduHgNDbYCul9BK0A-ZeF8C8zWAfS233CGaIbGvxxTsqXDI
+Message-ID: <CADkTA4NA0KpJrOJLwSiYuhQMz+PUd6_A7Xvmm9tRexo=qKGgFQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] kernel-yocto: consolidated pull request
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000006283b606397eac29"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 11:01:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220087
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 13:01:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220088
 
-On Tue, 2025-07-08 at 09:51 +0100, Richard Purdie via lists.openembedded.or=
-g wrote:
-> BUILD_CFLAGS:append:class-native =3D " --gcc-install-dir=3D$(dirname
-> $(gcc -print-file-name=3Dlibgcc_s.so))"
-> BUILD_CXXFLAGS:append:class-native =3D " --gcc-install-dir=3D$(dirname
-> $(gcc -print-file-name=3Dlibstdc++.so))"
->=20
-> but that doesn't work either.
+--0000000000006283b606397eac29
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-For the achieves, we added detection for the broken host config to
-sanity.bbclass, then changed our infrastucture to avoid that config
-since it is straightforward to do so.
+On Wed, Jul 9, 2025 at 3:58=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Cheers,
+> On Tue, 2025-07-08 at 10:36 -0400, bruce.ashfield@gmail.com wrote:
+> > I'm clearing the kernel queue now that I'm back at the office.
+> >
+> > Following this will be libc-header updates and a bump to the new
+> > release/reference kernel version (v6.15 ... or possibly v6.16)
+> > depending
+> > on the timing of the upstream release.
+>
+> Thanks, I tested these and things seem ok so they've merged.
+>
+> You asked about updating the CVE list, we do need to do that. I looked
+> up the commands and those appear to be:
+>
+> git clone https://github.com/CVEProject/cvelistV5
+> meta/recipes-kernel/linux/generate-cve-exclusions.py
+> /my/checkout/cvelistV5/ 6.12.36 >
+> meta/recipes-kernel/linux/cve-exclusion_6.12.inc
+>
+>
+Excellent.
 
-Richard
+I'll roll that into my update script.
+
+Bruce
+
+
+
+> Cheers,
+>
+> Richard
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--0000000000006283b606397eac29
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 9, 2025 at 3:58=
+=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfounda=
+tion.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On Tue, 2025-07-08 at 10:36 -04=
+00, <a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ash=
+field@gmail.com</a> wrote:<br>
+&gt; I&#39;m clearing the kernel queue now that I&#39;m back at the office.=
+<br>
+&gt; <br>
+&gt; Following this will be libc-header updates and a bump to the new<br>
+&gt; release/reference kernel version (v6.15 ... or possibly v6.16)<br>
+&gt; depending<br>
+&gt; on the timing of the upstream release.<br>
+<br>
+Thanks, I tested these and things seem ok so they&#39;ve merged.<br>
+<br>
+You asked about updating the CVE list, we do need to do that. I looked<br>
+up the commands and those appear to be:<br>
+<br>
+git clone <a href=3D"https://github.com/CVEProject/cvelistV5" rel=3D"norefe=
+rrer" target=3D"_blank">https://github.com/CVEProject/cvelistV5</a><br>
+meta/recipes-kernel/linux/generate-cve-exclusions.py /my/checkout/cvelistV5=
+/ 6.12.36 &gt; meta/recipes-kernel/linux/cve-exclusion_6.12.inc<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">Excellent.</div><div class=3D"gmail_default" style=3D"font=
+-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:smal=
+l">I&#39;ll roll that into my update script.</div><div class=3D"gmail_defau=
+lt" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
+=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--0000000000006283b606397eac29--
 
