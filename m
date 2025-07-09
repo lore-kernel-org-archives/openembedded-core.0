@@ -1,106 +1,143 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B628C83F09
-	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 14:54:25 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.17757.1752072859142986132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B8BCC83F14
+	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 15:19:25 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.18413.1752074360536142218
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Jul 2025 07:54:19 -0700
+ Wed, 09 Jul 2025 08:19:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 569EsHei430823
-	for <openembedded-core@lists.openembedded.org>; Wed, 9 Jul 2025 09:54:18 -0500
-Received: from [192.168.2.97] ([192.168.2.97])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 569EsHkc001260
-	for <openembedded-core@lists.openembedded.org>; Wed, 9 Jul 2025 09:54:17 -0500
-Message-ID: <a23f5658-d4a8-4ad1-8eb5-924a36d04bad@kernel.crashing.org>
-Date: Wed, 9 Jul 2025 09:54:17 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v3 6/6] qemuriscv: Dynamically configure qemu
- CPU
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mPNIjbA/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-315b0050bb5so84904a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 08:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752074360; x=1752679160; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uli1WAa4kS3BmE4aobdIOmqENMCbxD7Ad7zBX8dHlvY=;
+        b=mPNIjbA/nlBqF0uY11C74oVOQStyGb86Alruw2qm6MCIlYBal1hrP2yRJytuRHPLvh
+         O7ISieoyHKTyRmh/rmgcgcdMB3a+lca8gOy7N0speviPkj3NZAr6oz9Ugi5MLaR/DCix
+         rxAGgGhZ4Dbhg2b+KKA1DXGUHm9supGJRBuqzfcLeQ28pgDY9VrRhgq/pR+y5Rxc+92g
+         vpbJfhSIIG3xKh+dcd3WVu1e7d9gyYOJjypjjEFUwqPxKYFLHLHzxdk5fa0ftaWjtjjO
+         mCj2KS+FyMOqU+ASxAAb7cIw/ED7Mfkhmf+ZlA9Us3Ak418sda0ftmmkI84uTYsE+5Js
+         Zumg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752074360; x=1752679160;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uli1WAa4kS3BmE4aobdIOmqENMCbxD7Ad7zBX8dHlvY=;
+        b=rf/YCELRruX4Bz/kUqFabNKiI+SnnW18ckYDJ89xUEF/HwbivQU3/Ve43LsP7rAqyI
+         61khzXJnxAn1iItiaX5shjyWlUpt60XlfgP/u61v24ttgyTTfrb/K31PLWlaciXv9lJO
+         mcc0QTmMlHNpj5bzOOQPNJxnQvycNZNxbd7RUP6gMFPYzdKU4Pdph1ETmDTRmTfv4MUU
+         8z3m+nY7W3l5MsCAlfmbLVuMy1uDGntoog97AxcsUTKJ9FbiQ2pqLAfuPsxQ/JEJPPCm
+         asRwtOXrSsZlwKs90rA54wHj7bhXYA+gFThPjYKIi2IWyiaC2kqK5M2cQRGPcAZDOPnu
+         v97w==
+X-Gm-Message-State: AOJu0Ywd8qCAaQIdBLOVgCn5JYvR/yRCPRWWBfrCdxOGNV5ko99dtLTS
+	DGzNG4SSumbZ7aBcjPgx94yY+7uGBk8KAa+Ov2MJ9gcOQTlb5Ich0g7u/m2Xuc//pvNBWNT6wVb
+	Qln3f
+X-Gm-Gg: ASbGncueRjDyAigUeu9BtRuoBtDr6Y0cvftrlXFsgOCDTYM8YYBfEsia98mitdJez6w
+	8y3bC9Qx3HQI2ZgSscVxcysF+B+s3FTCPv1q8R2ChgHrvvcNaRs1WE28eMU2p8J6fX9E16H6Y7y
+	RqSui3RKa8s8yXDvVpAn3neBkXrTqdMdkHH25N8oGb0SWVrlui/H5UI3ifNx0mUGgyfHmsQrznM
+	fl0fKH3sKZ0UNEeBWPhYbLY8AXr5tawv1Lv1YYxLK0ldc0aYdiLeKDj/gmy2IQ5kMIx0fTnlDTR
+	SWwTPlRw2Q+Ul3QH1M13PprNAjsDayulx6vdz3tI2Hv+SPy+opdRz9EX9hmbrCg7
+X-Google-Smtp-Source: AGHT+IFvZWociJazetFKKCp3VZinclfh7JYPGqUBoO6+q9JUp/qZ3HoEohVVfH7T9R+qZIltgNvW7A==
+X-Received: by 2002:a17:90b:3805:b0:311:d3a5:572a with SMTP id 98e67ed59e1d1-31c2fcee8b9mr5241493a91.8.1752074359349;
+        Wed, 09 Jul 2025 08:19:19 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:a6e1:d218:3fcc:fd7d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c3019e934sm2340536a91.33.2025.07.09.08.19.18
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jul 2025 08:19:18 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-References: <1751492664-12569-1-git-send-email-mark.hatle@kernel.crashing.org>
- <1751492664-12569-7-git-send-email-mark.hatle@kernel.crashing.org>
- <84caeee4b92dad27f67c745c63aaafbf9abb6c1b.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <84caeee4b92dad27f67c745c63aaafbf9abb6c1b.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 569EsHei430823
+Subject: [OE-core][kirkstone 00/11] Patch review
+Date: Wed,  9 Jul 2025 08:19:03 -0700
+Message-ID: <cover.1752073806.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 14:54:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220090
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 15:19:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220091
 
-I will investigate.
+Please review this set of changes for kirkstone and have comments bach by
+end of day Friday, July 11
 
-I suspect SOME of this may be test cases with hard coded riscv assembly i=
-n them=20
-using extensions that we've not enabled.
+Passed a-full on autobuilder:
 
-The configuration listed in the logs for the kernel are:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1983
 
-rv64imafdc
+The following changes since commit 78055e8b6a9ea5063658886c5b5d22821d689fc5:
 
-  '[    0.000000] riscv: base ISA extensions acdfim\n'
-  '[    0.000000] riscv: ELF capabilities acdfim\n'
+  xwayland: fix CVE-2025-49180 (2025-07-05 06:12:53 -0700)
 
-The 'v' (vector) extension is intentionally not enabled to match the soft=
-ware=20
-configuration, but some tests may be trying to use it.
+are available in the Git repository at:
 
-I'll walk through this and attempt to get this identified for real.
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
---Mark
+Bruce Ashfield (1):
+  linux-yocto/5.15: update to v5.15.186
 
-On 7/9/25 4:17 AM, Richard Purdie via lists.openembedded.org wrote:
-> On Wed, 2025-07-02 at 16:44 -0500, Mark Hatle via lists.openembedded.or=
-g wrote:
->> From: Mark Hatle <mark.hatle@amd.com>
->>
->> Use TUNE_FEATURES to dynamically configure the QEMU emulated CPU for t=
-he
->> options selected by the DEFAULTTUNE.
->>
->> Note: OpenSBI currently requires 'c' (compressed instructions) or it w=
-ill
->> not work.
->>
->> Change the base device configuration to use a different variable to se=
-lect
->> the emulate devices.=C2=A0 This will allow a user to override or appen=
-d the
->> QB_OPT_APPEND without the riscv32 override getting in the way.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
->> ---
->>  =C2=A0meta/conf/machine/include/riscv/qemuriscv.inc | 31 ++++++++++++=
-+++++--
->>  =C2=A01 file changed, 28 insertions(+), 3 deletions(-)
->>
->=20
-> FWIW I narrowed down the ptest failures to this patch.
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220084): https://lists.openembedded.org/g/openembed=
-ded-core/message/220084
-> Mute This Topic: https://lists.openembedded.org/mt/113956553/3616948
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-mark.hatle@kernel.crashing.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Changqing Li (3):
+  libsoup-2.4: refresh CVE-2025-4969.patch
+  libsoup-2.4: fix CVE-2025-4945
+  libsoup: fix CVE-2025-4945
+
+Chen Qi (1):
+  coreutils: fix CVE-2025-5278
+
+Divya Chellam (3):
+  libarchive: fix CVE-2025-5915
+  libarchive: fix CVE-2025-5916
+  libarchive: fix CVE-2025-5917
+
+Hitendra Prajapati (1):
+  libxml2: fix CVE-2025-6021
+
+Yogita Urade (2):
+  curl: fix CVE-2024-11053
+  curl: fix CVE-2025-0167
+
+ .../coreutils/coreutils/CVE-2025-5278.patch   | 113 +++
+ meta/recipes-core/coreutils/coreutils_9.0.bb  |   1 +
+ .../libxml/libxml2/CVE-2025-6021.patch        |  56 ++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
+ .../libarchive/libarchive/CVE-2025-5915.patch | 217 +++++
+ .../libarchive/libarchive/CVE-2025-5916.patch | 116 +++
+ .../libarchive/libarchive/CVE-2025-5917.patch |  54 ++
+ .../libarchive/libarchive_3.6.2.bb            |   3 +
+ .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +-
+ .../curl/curl/CVE-2024-11053-0001.patch       | 340 ++++++++
+ .../curl/curl/CVE-2024-11053-0002.patch       | 746 ++++++++++++++++++
+ .../curl/curl/CVE-2025-0167.patch             | 175 ++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   3 +
+ .../libsoup/libsoup-2.4/CVE-2025-4945.patch   | 117 +++
+ .../libsoup/libsoup-2.4/CVE-2025-4969.patch   |  54 +-
+ .../libsoup/libsoup-2.4_2.74.2.bb             |   1 +
+ .../libsoup/libsoup/CVE-2025-4945.patch       | 118 +++
+ meta/recipes-support/libsoup/libsoup_3.0.7.bb |   1 +
+ 20 files changed, 2093 insertions(+), 61 deletions(-)
+ create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5915.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5916.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2024-11053-0001.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2024-11053-0002.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-0167.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4945.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-4945.patch
+
+-- 
+2.43.0
+
 
