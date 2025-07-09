@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C0C0C83F0F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C089C83F0A
 	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 15:19:35 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.18419.1752074365265137169
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.18576.1752074366733455559
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Jul 2025 08:19:25 -0700
+ Wed, 09 Jul 2025 08:19:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0O/1cJcg;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-315cd33fa79so61057a91.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 08:19:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=m4y03CEO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23c8f179e1bso379695ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 08:19:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752074364; x=1752679164; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752074366; x=1752679166; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0NfiUGgjFCLjSW2ysKVHYiOZJsNfXeA3HQhosmrULZo=;
-        b=0O/1cJcgdNO/DWdNCw11+PoAdmngj8qxvkPAiSg1EScEmc0AGP9KzimuvewzSoLAeW
-         pEOIghFUJAdpwCus5Esau5pbepgIIOj6xW525mesguFGZNkWHYzIVMwd8W2Hi+rjY1gP
-         NU4kyUIH2u0XT6w7qTov0ncENeVoE3NMLk27X/tcl19r78PYUNihoss0wWujrOyh2VTb
-         ocsMOOy1BWVtLnFpW4a9fY3THATB74PvVfBWLgQ8ZaWIRIcfTt+TuGU9tDaIHN3ro9Jp
-         fi+r0rDAbUGqd4pxyK3ONtSX/o3c8NwsV2ZY1haiCvz7fN2pgHohaGRi7MkBLKm2py2c
-         1DHw==
+        bh=kdBzgWbisVkh6H5X/hWSlf3yKJGXEWhQ/5M6ADGdXpc=;
+        b=m4y03CEOlEfZrQD8enplP6WmTG2k9Ua81R+3hPXGNBI3upvaY/zrV9seM8Q2cJOJli
+         Q1tc0FatKXq36GPMUCcvb8JWY9a9H3zJ1tIxwl5OI2kZwGmuq4I4odPywA5xpbe1D6vI
+         h2n2YqedgCmhP/khcRrxg2wqLXfQ171xr3sziA561jX/vTgUmHd9NjVasgDHwtY7v2cb
+         m5S8i7MAh7sXdB0vCyMuGSOxdgUuyRkUvdZliCMh4KbGB0NGBXRTZ1iiBsLhLwHp+nd+
+         L9Sr9D2+lMk+jjx2ETfGxeiofgrMIwK2mYzZpd6j0MI/01erDGbWgvaY9UPxX8ope65Y
+         rsrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752074364; x=1752679164;
+        d=1e100.net; s=20230601; t=1752074366; x=1752679166;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0NfiUGgjFCLjSW2ysKVHYiOZJsNfXeA3HQhosmrULZo=;
-        b=iGIrvWIPhbbCY5WWRVThDYiVgeORhcQGQqNzg9dWFyMxWV6rOgiJ6sHRm9QS7SXelD
-         OLs4Cl/0PoeFiuu5gfrVTo2p/Wa0IryOM5DNhXFho0k/zI0MPwNgzjgb3MskoLvxdggr
-         kev5QI9yA8b7x8SC4ndTyr29M57fNYgGKDUCOAWJJoiuXNnTGXKCfueknudr4MNfS7oF
-         fW5bdLk7dRU+DySCEYAJX9Rae+ttKi9H3apcu+9aCq0NBm2IaBIMeyP1cOTclCNOmO8T
-         EylyNpaLqvxNdnNm1W60zaDtQq8K+uvCZXC9X0kw8VLeE6z04guWqffa7yu9fDszKDjT
-         ucNA==
-X-Gm-Message-State: AOJu0Yx5appBDjBs0GRUH5GuASfaTN08QigRGIUZAtG10uV48a73xcY+
-	z7JwpYJEdbKQZk+sLeMzoCMI5kv9BZXRwJvv3AvC4KkIp+5TI06tJH5KtXzBloIniz4NWB701Hd
-	AtdHz
-X-Gm-Gg: ASbGncs8JFL8CMZ3vjcAg49gp1RT65BHCj2EKv0AgA1mWvGnq6budsQFA96Uq8fRyy1
-	pfyGzcAziiQfPl0kwd3CEzu7qG1WvwryBsXRSNAX+0nORpQOIt+JH4YSxLPtrtVX6MyfMqPf8ek
-	Dbeq7Ks1sh/xFIlT8txhDBuzi6k7HutGS4vZM9463Ufs+wYvG7IthaT2HXE2G/vN6SaiWysEjT9
-	Y4ANgy07dT7syINJ3RY6O+y+2xRBtHUEQczOtmGAoFQg1NmYAo1aKyP6K46f34AieZjSYMEsNwX
-	03n1rp7V13mZK3fKlCLqbCJrp185e6uyWn3GCrFIs/JM1bq0JfKSJw==
-X-Google-Smtp-Source: AGHT+IFtgRYGMU4Zy9m0j7A7J+00/+ZIcmD099mblAEN5vIpYG2TSsYO89gPbYg/DZJ61z62NWWnvA==
-X-Received: by 2002:a17:90b:3c87:b0:30e:5c7f:5d26 with SMTP id 98e67ed59e1d1-31c2fdd15d0mr5531450a91.24.1752074364184;
-        Wed, 09 Jul 2025 08:19:24 -0700 (PDT)
+        bh=kdBzgWbisVkh6H5X/hWSlf3yKJGXEWhQ/5M6ADGdXpc=;
+        b=OLBz0Atu/hDhBweWOcJBcl7McVESoZ5S/q9ieeeTugyzoWt4p1LOMrpnoJ6jlvMTG3
+         Op7jTR7JITTEJGKFsIiJe8QTO+lpvgH/r9m9thS37EiyMkwXIUXxQU1PR27sq/Ul4sB+
+         MwFC0d5DQ1fFbn2+eIdAD1gjp49jxutGxs2WQ/u5UYCaHfc05XWHhmZ2rVEccHQjjwUH
+         AB0R33Vo5hT10KB2aL8XaunYUodWnfPNNlvfOrj/0UVSlBA3/G+OfoupJ6p2sEhEEWK/
+         rdP3KXiuD5psgqYeKNSKGgA7bOThUXz0n8z4rhZHMh/l2gJRXGih5Je0xNWjUU92UpXN
+         yXeQ==
+X-Gm-Message-State: AOJu0YzIGc+9hQiZ+FdWkhRhqJrUvtmq7wQbWaLuj8ndEF9N6OzQhzlc
+	RerJw+aiVL5zCi3983FpJ9h1sx3Ab5pEoNbY1+/tmu6FcfVGmlb+eIWSn28unuEcYZqGfxTReLE
+	uN9Kv
+X-Gm-Gg: ASbGnctXG0aXNcWXCt4nrmAYdP8bnV/TGQKM4hzNyKMIjeYk/GzrS5tc6Gz8dNStkp8
+	3gdF8lflYvpatE2CmwCwrgtWmLBwAx263U1RlPq4E1Z7/tjhUzqfmMI/rEYs/pKYSfrBH4fVhxg
+	udHydIP8H0L5BqPbclnEG7dVs1uWZpJOrdCZYKkXJJPUGf3blhTpLF7cBPTWUqEB7CNQ6PXnwG6
+	KCx/weiaYHChoVp8tnMc9G3gHcqSYBaFp6nW08Id2MuJVNkxMdtf3bwGXaeaDf3yWKbuW2skeV6
+	IDlXXR+9+uH32MIrrcIGwsTGaL+8tfnPrq50l6ozlGW5zPOGycFxQtPaLaNMKpx1
+X-Google-Smtp-Source: AGHT+IH5QXtrEcmqkp1q+PRSZW4qNK3o/fUEjX9oCu4gwSdlLSknly5aSMYo338qwQUYeiemchmCtA==
+X-Received: by 2002:a17:903:2f87:b0:235:e96b:191c with SMTP id d9443c01a7336-23ddb34fa56mr53711705ad.29.1752074365914;
+        Wed, 09 Jul 2025 08:19:25 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:a6e1:d218:3fcc:fd7d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c3019e934sm2340536a91.33.2025.07.09.08.19.23
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c3019e934sm2340536a91.33.2025.07.09.08.19.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jul 2025 08:19:23 -0700 (PDT)
+        Wed, 09 Jul 2025 08:19:25 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/11] coreutils: fix CVE-2025-5278
-Date: Wed,  9 Jul 2025 08:19:06 -0700
-Message-ID: <4e55668ef07d99d8c1141c2f4270f43f5b280159.1752073806.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 04/11] libsoup-2.4: fix CVE-2025-4945
+Date: Wed,  9 Jul 2025 08:19:07 -0700
+Message-ID: <2169742d4b88f9072501819b5842efbed04939f2.1752073806.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752073806.git.steve@sakoman.com>
 References: <cover.1752073806.git.steve@sakoman.com>
@@ -67,152 +67,156 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 15:19:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220094
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220095
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Backport patch to fix CVE-2025-5278.
-The patch is adjusted to fit 9.0 version.
+Refer:
+https://gitlab.gnome.org/GNOME/libsoup/-/issues/448
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../coreutils/coreutils/CVE-2025-5278.patch   | 113 ++++++++++++++++++
- meta/recipes-core/coreutils/coreutils_9.0.bb  |   1 +
- 2 files changed, 114 insertions(+)
- create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
+ .../libsoup/libsoup-2.4/CVE-2025-4945.patch   | 117 ++++++++++++++++++
+ .../libsoup/libsoup-2.4_2.74.2.bb             |   1 +
+ 2 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4945.patch
 
-diff --git a/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch b/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4945.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4945.patch
 new file mode 100644
-index 0000000000..34434a65fa
+index 0000000000..c9fbdbacc8
 --- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
-@@ -0,0 +1,113 @@
-+From 84a061ea3d1fad42188493c4e5d8396aff4a0f67 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
-+Date: Tue, 20 May 2025 16:03:44 +0100
-+Subject: [PATCH] sort: fix buffer under-read (CWE-127)
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2025-4945.patch
+@@ -0,0 +1,117 @@
++From 3844026f74a41dd9ccab955899e005995293d246 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Tue, 8 Jul 2025 14:58:30 +0800
++Subject: [PATCH] soup-date-utils: Add value checks for date/time parsing
 +
-+* src/sort.c (begfield): Check pointer adjustment
-+to avoid Out-of-range pointer offset (CWE-823).
-+(limfield): Likewise.
-+* tests/sort/sort-field-limit.sh: Add a new test,
-+which triggers with ASAN or Valgrind.
-+* tests/local.mk: Reference the new test.
-+* NEWS: Mention bug fix introduced in v7.2 (2009).
-+Fixes https://bugs.gnu.org/78507
++Reject date/time when it does not represent a valid value.
 +
-+CVE: CVE-2025-5278
++Closes #448
 +
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/coreutils.git/commit/?id=8c9602e3a145e9596dc1a63c6ed67865814b6633]
-+[Adjusted for 9.0 version]
++CVE: CVE-2025-4945
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/8988379984e33dcc7d3aa58551db13e48755959f]
 +
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ src/sort.c                     | 12 ++++++++++--
-+ tests/local.mk                 |  1 +
-+ tests/misc/sort-field-limit.sh | 35 ++++++++++++++++++++++++++++++++++
-+ 3 files changed, 46 insertions(+), 2 deletions(-)
-+ create mode 100755 tests/misc/sort-field-limit.sh
++ libsoup/soup-date.c  | 21 +++++++++++++++------
++ tests/cookies-test.c | 10 ++++++++++
++ 2 files changed, 25 insertions(+), 6 deletions(-)
 +
-+diff --git a/src/sort.c b/src/sort.c
-+index 5f4c817de..07b96d34b 100644
-+--- a/src/sort.c
-++++ b/src/sort.c
-+@@ -1642,7 +1642,11 @@ begfield (struct line const *line, struct keyfield const *key)
-+       ++ptr;
-+ 
-+   /* Advance PTR by SCHAR (if possible), but no further than LIM.  */
-+-  ptr = MIN (lim, ptr + schar);
-++  size_t remaining_bytes = lim - ptr;
-++  if (schar < remaining_bytes)
-++    ptr += schar;
-++  else
-++    ptr = lim;
-+ 
-+   return ptr;
++diff --git a/libsoup/soup-date.c b/libsoup/soup-date.c
++index 9602d1f..4c114c1 100644
++--- a/libsoup/soup-date.c
+++++ b/libsoup/soup-date.c
++@@ -284,7 +284,7 @@ parse_day (SoupDate *date, const char **date_string)
++ 	while (*end == ' ' || *end == '-')
++ 		end++;
++ 	*date_string = end;
++-	return TRUE;
+++	return date->day >= 1 && date->day <= 31;
 + }
-+@@ -1743,7 +1747,11 @@ limfield (struct line const *line, struct keyfield const *key)
-+           ++ptr;
 + 
-+       /* Advance PTR by ECHAR (if possible), but no further than LIM.  */
-+-      ptr = MIN (lim, ptr + echar);
-++      size_t remaining_bytes = lim - ptr;
-++      if (echar < remaining_bytes)
-++        ptr += echar;
-++      else
-++        ptr = lim;
-+     }
++ static inline gboolean
++@@ -324,7 +324,7 @@ parse_year (SoupDate *date, const char **date_string)
++ 	while (*end == ' ' || *end == '-')
++ 		end++;
++ 	*date_string = end;
++-	return TRUE;
+++	return date->year > 0 && date->year < 9999;
++ }
 + 
-+   return ptr;
-+diff --git a/tests/local.mk b/tests/local.mk
-+index 228d0e368..ced85c44c 100644
-+--- a/tests/local.mk
-++++ b/tests/local.mk
-+@@ -373,6 +373,7 @@ all_tests =					\
-+   tests/misc/sort-debug-keys.sh			\
-+   tests/misc/sort-debug-warn.sh			\
-+   tests/misc/sort-discrim.sh			\
-++  tests/misc/sort-field-limit.sh		\
-+   tests/misc/sort-files0-from.pl		\
-+   tests/misc/sort-float.sh			\
-+   tests/misc/sort-h-thousands-sep.sh		\
-+diff --git a/tests/misc/sort-field-limit.sh b/tests/misc/sort-field-limit.sh
-+new file mode 100755
-+index 000000000..52d8e1d17
-+--- /dev/null
-++++ b/tests/misc/sort-field-limit.sh
-+@@ -0,0 +1,35 @@
-++#!/bin/sh
-++# From 7.2-9.7, this would trigger an out of bounds mem read
++ static inline gboolean
++@@ -348,7 +348,7 @@ parse_time (SoupDate *date, const char **date_string)
++ 	while (*p == ' ')
++ 		p++;
++ 	*date_string = p;
++-	return TRUE;
+++	return  date->hour >= 0 && date->hour < 24 && date->minute >= 0 && date->minute < 60 && date->second >= 0 && date->second < 60;
++ }
++ 
++ static inline gboolean
++@@ -361,8 +361,15 @@ parse_timezone (SoupDate *date, const char **date_string)
++ 		gulong val;
++ 		int sign = (**date_string == '+') ? -1 : 1;
++ 		val = strtoul (*date_string + 1, (char **)date_string, 10);
+++		if (val > 9999)
+++			return FALSE;
++ 		if (**date_string == ':')
++-			val = 60 * val + strtoul (*date_string + 1, (char **)date_string, 10);
+++		{
+++			gulong val2 = strtoul (*date_string + 1, (char **)date_string, 10);
+++			if (val > 99 || val2 > 99)
+++				return FALSE;
+++			val = 60 * val + val2;
+++		}
++ 		else
++ 			val =  60 * (val / 100) + (val % 100);
++ 		date->offset = sign * val;
++@@ -407,7 +414,8 @@ parse_textual_date (SoupDate *date, const char *date_string)
++ 		if (!parse_month (date, &date_string) ||
++ 		    !parse_day (date, &date_string) ||
++ 		    !parse_time (date, &date_string) ||
++-		    !parse_year (date, &date_string))
+++		    !parse_year (date, &date_string) ||
+++		    !g_date_valid_dmy(date->day, date->month, date->year))
++ 			return FALSE;
++ 
++ 		/* There shouldn't be a timezone, but check anyway */
++@@ -419,7 +427,8 @@ parse_textual_date (SoupDate *date, const char *date_string)
++ 		if (!parse_day (date, &date_string) ||
++ 		    !parse_month (date, &date_string) ||
++ 		    !parse_year (date, &date_string) ||
++-		    !parse_time (date, &date_string))
+++		    !parse_time (date, &date_string) ||
+++		    !g_date_valid_dmy(date->day, date->month, date->year))
++ 			return FALSE;
++ 
++ 		/* This time there *should* be a timezone, but we
++diff --git a/tests/cookies-test.c b/tests/cookies-test.c
++index 2e2a54f..6035a86 100644
++--- a/tests/cookies-test.c
+++++ b/tests/cookies-test.c
++@@ -413,6 +413,15 @@ do_remove_feature_test (void)
++ 	soup_uri_free (uri);
++ }
++ 
+++static void
+++do_cookies_parsing_int32_overflow (void)
+++{
+++	SoupCookie *cookie = soup_cookie_parse ("Age=1;expires=3Mar9    999:9:9+ 999999999-age=main=gne=", NULL);
+++	g_assert_nonnull (cookie);
+++	g_assert_null (soup_cookie_get_expires (cookie));
+++	soup_cookie_free (cookie);
+++}
 ++
-++# Copyright (C) 2025 Free Software Foundation, Inc.
-++
-++# This program is free software: you can redistribute it and/or modify
-++# it under the terms of the GNU General Public License as published by
-++# the Free Software Foundation, either version 3 of the License, or
-++# (at your option) any later version.
-++
-++# This program is distributed in the hope that it will be useful,
-++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++# GNU General Public License for more details.
-++
-++# You should have received a copy of the GNU General Public License
-++# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-++
-++. "${srcdir=.}/tests/init.sh"; path_prepend_ ./src
-++print_ver_ sort
-++getlimits_
-++
-++# This issue triggers with valgrind or ASAN
-++valgrind --error-exitcode=1 sort --version 2>/dev/null &&
-++  VALGRIND='valgrind --error-exitcode=1'
-++
-++{ printf '%s\n' aa bb; } > in || framework_failure_
-++
-++_POSIX2_VERSION=200809 $VALGRIND sort +0.${SIZE_MAX}R in > out || fail=1
-++compare in out || fail=1
-++
-++_POSIX2_VERSION=200809 $VALGRIND sort +1 -1.${SIZE_MAX}R in > out || fail=1
-++compare in out || fail=1
-++
-++Exit $fail
++ int
++ main (int argc, char **argv)
++ {
++@@ -434,6 +443,7 @@ main (int argc, char **argv)
++ 	g_test_add_func ("/cookies/accept-policy-subdomains", do_cookies_subdomain_policy_test);
++ 	g_test_add_func ("/cookies/parsing", do_cookies_parsing_test);
++ 	g_test_add_func ("/cookies/parsing/no-path-null-origin", do_cookies_parsing_nopath_nullorigin);
+++	g_test_add_func ("/cookies/parsing/int32-overflow", do_cookies_parsing_int32_overflow);
++ 	g_test_add_func ("/cookies/get-cookies/empty-host", do_get_cookies_empty_host_test);
++ 	g_test_add_func ("/cookies/remove-feature", do_remove_feature_test);
++ 	g_test_add_func ("/cookies/secure-cookies", do_cookies_strict_secure_test);
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-core/coreutils/coreutils_9.0.bb b/meta/recipes-core/coreutils/coreutils_9.0.bb
-index 1cce9192ec..7c975708f4 100644
---- a/meta/recipes-core/coreutils/coreutils_9.0.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.0.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://0001-uname-report-processor-and-hardware-correctly.patch \
-            file://0001-local.mk-fix-cross-compiling-problem.patch \
-            file://e8b56ebd536e82b15542a00c888109471936bfda.patch \
-+           file://CVE-2025-5278.patch \
-            file://run-ptest \
-            file://0001-split-do-not-shrink-hold-buffer.patch \
-            "
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+index 686e3b6720..0cc90a17cc 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+@@ -42,6 +42,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-46421.patch \
+            file://CVE-2025-4948.patch \
+            file://CVE-2025-4476.patch \
++           file://CVE-2025-4945.patch \
+           "
+ SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
+ 
 -- 
 2.43.0
 
