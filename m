@@ -1,100 +1,139 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E854C83F03
-	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 08:16:03 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.10566.1752048959414268452
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 346C8C83F09
+	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 08:21:43 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web11.10653.1752049298128639291
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Jul 2025 01:15:59 -0700
+ Wed, 09 Jul 2025 01:21:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=uueOLkPj;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=cW4uCvPV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010197ee417bb2-93bfff8b-b159-4e80-9c81-306c461b4eae-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1752048958; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ofuXg0WAcqu7TX0A/HJRH4RFfoqcFkrRgleEm8hP8+E=;
-	b=uueOLkPjXyE2FkUFS3T2S9HOjJP6IPQ/lAYJ8sjErvCE4JDd/0LHb9VIy15Ykkau
-	PWOkBM2IsWg5+oy3ZUOsYqv+gcfFwCeipTMb/KLUJTOqQg6tqPSLorseyuK7aRBA73h
-	jpfv/8l/l45kHNgUOYvQQPP7TqyQX2BZSd3om4is=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752048958;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ofuXg0WAcqu7TX0A/HJRH4RFfoqcFkrRgleEm8hP8+E=;
-	b=cW4uCvPVcWp+dj/8wPbv4USEnteFeNbzVo3fKL03tT3PNw0tEBacglLl9ODsliF2
-	dyF3VXyx365ks+XjFEVK3uz5ca+bjxzDeu9xW5LEgIxZ27ukhuUV3MDPeSZwb4Ltp93
-	W0NXGWr+oMJSUpMXc9VdTaLigUYxu4i8muKErbKg=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] linux-yocto-6.12: Update CVE list for 6.12.36
-In-Reply-To: <20250709075942.826751-1-richard.purdie@linuxfoundation.org>
-References: <20250709075942.826751-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010197ee417bb2-93bfff8b-b159-4e80-9c81-306c461b4eae-000000@us-west-2.amazonses.com>
-Date: Wed, 9 Jul 2025 08:15:58 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.09-54.240.27.192
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=NsvroMZP;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 01B8342E79;
+	Wed,  9 Jul 2025 08:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1752049295;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PbghBc26UcAMMIyY1+jbKakaxfUGG+nt/w8QGvktuwM=;
+	b=NsvroMZPYhXptg8EL44i18Minq8b+/5CVXbHUI3vrkE4m6Rose7xHGiMOXEZBdcEW5z/2s
+	ywsb5G3recxWF9pWG1XzLplrLgPxtAkXnzA05/ibNNC0sLHjwC1e2M3k0eHRf79s3fLEwh
+	S9moygEUuYEHvPLNZW4LklDrboWCTo0crfTI1GVTqquwUTIUBnXDws4QkzkyVd3ckvkaGb
+	DWgDqlqMD0eGCVHG1fJmfl3v1bFZ3uDyNJv0GHrqsf0SAAWNEPvkEOdKYFS8+e3xxiMhdl
+	1FkqwFm7Bx7b1VP4gGNZ6safvA9ft7m8tKbT0VKN4qghws6NRTJ67sjOzdXvIA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 09 Jul 2025 10:21:34 +0200
+Message-Id: <DB7DN2I98ZYX.3V9C86PS14M9B@bootlin.com>
+Cc: <openembedded-core@lists.openembedded.org>, "Quentin Schulz"
+ <quentin.schulz@cherry.de>, <adrian.freihofer@siemens.com>, "Marek Vasut"
+ <marek.vasut@mailbox.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Tom Rini" <trini@konsulko.com>, "Fabio Estevam" <festevam@gmail.com>
+Subject: Re: [OE-core] [PATCH] u-boot: upgrade 2025.04 -> 2025.07
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250708012959.77522-1-festevam@gmail.com>
+ <DB6OGLNWBEVN.2V2F24LHIZ4C4@bootlin.com>
+ <CAOMZO5BJBc0E0EfejEPmVdGBZiQrrvRWsHhy0Bxgi+jx6WiYRQ@mail.gmail.com>
+ <20250708175732.GU6424@bill-the-cat>
+In-Reply-To: <20250708175732.GU6424@bill-the-cat>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefjedtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkfevhffvuffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepheehveeggfdvgefhgfehieetvddvfedtleehheffvdetteekheegtedutdfhvdehnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemvgdtrgemrgeiieemfedukedtmegttdgsvgemsgelrgekmegvheelvdemiegrfehfnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvtdgrmegrieeimeefudektdemtgdtsggvmegslegrkeemvgehledvmeeirgeffhdphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepiedprhgtphhtthhopehtrhhinhhisehkohhnshhulhhkohdrt
+ ghomhdprhgtphhtthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehquhgvnhhtihhnrdhstghhuhhliiestghhvghrrhihrdguvgdprhgtphhtthhopegrughrihgrnhdrfhhrvghihhhofhgvrhesshhivghmvghnshdrtghomhdprhgtphhtthhopehmrghrvghkrdhvrghsuhhtsehmrghilhgsohigrdhorhhg
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 08:16:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220081
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 08:21:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220082
 
---NextPart
-Content-Type: text/plain
+On Tue Jul 8, 2025 at 7:57 PM CEST, Tom Rini wrote:
+> On Tue, Jul 08, 2025 at 02:04:15PM -0300, Fabio Estevam wrote:
+>> Hi Mathieu,
+>>=20
+>> On Tue, Jul 8, 2025 at 9:37=E2=80=AFAM Mathieu Dubois-Briand
+>> <mathieu.dubois-briand@bootlin.com> wrote:
+>> >
+>> > On Tue Jul 8, 2025 at 3:29 AM CEST, Fabio Estevam via lists.openembedd=
+ed.org wrote:
+>> > > Upgrade to U-Boot 2025.07.
+>> > >
+>> > > Signed-off-by: Fabio Estevam <festevam@gmail.com>
+>> > > ---
+>> >
+>> > Hi Fabio,
+>> >
+>> > Thanks for your patch.
+>> >
+>> > It looks like this is breaking selftests on the autobuilder:
+>> >
+>> > 2025-07-08 07:43:52,116 - oe-selftest - INFO - fitimage.UBootFitImageT=
+ests.test_sign_cascaded_uboot_fit_image (subunit.RemotedTestCase)
+>> > 2025-07-08 07:43:52,118 - oe-selftest - INFO -  ... FAIL
+>> > ...
+>> > ERROR: u-boot-1_2025.07-r0 do_compile: oe_runmake failed
+>> > ...
+>> > | arm-poky-linux-gnueabi-ld.bfd: cannot find arch/arm/lib/lib.a: No su=
+ch file or directory
+>> >
+>> >
+>> > Both on debian and armhost:
+>> >
+>> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/192=
+3
+>> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/207=
+7
+>> >
+>> > Can you have a look at these failures please?
+>>=20
+>> Thanks for the report.
+>>=20
+>> I am adding some folks on CC in case they have some ideas.
+>
+> Interesting. How can we trigger that outside of the autobuilder?
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi,
 
----
-Testing patch /home/patchtest/share/mboxes/linux-yocto-6.12-Update-CVE-list-for-6.12.36.patch
+It's not so easy to reproduce, as it looks like it is somehow linked
+with the host environment: this have been failing on debian workers but
+not on the fedora ones.
+So basic instructions are below, but this was not enough to reproduce it
+in the ubuntu 24.4 docker I've been using so far.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+git clone git://git.yoctoproject.org/poky-ci-archive -b autobuilder.yoctopr=
+oject.org/valkyrie/a-full-1972
+cd poky-ci-archive
+. oe-init-build-env
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+Add following lines in conf/local.conf (I bet only the last one is
+really needed, but let's try to be as close as possible as the
+autobuilder configuration):
+MACHINE =3D "qemux86-64"
+DISTRO =3D "poky"
+SDKMACHINE =3D "x86_64"
+PACKAGE_CLASSES =3D "package_rpm"
+RPM_GPG_SIGN_CHUNK =3D '1'
+IMAGE_INSTALL:append =3D ' ssh-pregen-hostkeys'
+SANITY_TESTED_DISTROS =3D ''
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Add poky-ci-archive/meta-selftest in conf/bblayers.conf.
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+And finally, run the tests:
+oe-selftest -r fitimage.UBootFitImageTests.test_sign_cascaded_uboot_fit_ima=
+ge
+oe-selftest -r fitimage.UBootFitImageTests.test_sign_standalone_uboot_atf_t=
+ee_fit_image
 
 
---NextPart--
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
