@@ -2,62 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04FF4C83F09
-	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 07:43:03 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.9956.1752046980434856884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E719AC83F03
+	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 07:58:52 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.10284.1752047922969268275
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Jul 2025 00:43:00 -0700
+ Wed, 09 Jul 2025 00:58:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UrP+bzCD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-450ce3a2dd5so49479185e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 00:42:59 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Cr5jEV60;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-451dbe494d6so60097135e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 00:58:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1752046978; x=1752651778; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1752047921; x=1752652721; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LvxuI2FwfgAweFLo/eQX4E/7TeGP+pAYx8+HzMbnjxY=;
-        b=UrP+bzCDBb5Rnw0gEeQ+OUHafdraNbMI3NS6q94oxUrlPcii+l8IMpqMJBZMfXc63y
-         Hk1VBTXHuPdKuOJTrHCbFfkpyuy4subMN62z+ewWwguZD6q1NfUbQejOqZ0nhReKdF34
-         FFV/D3qQCudON1xqaKq9XvtkqXTqR+Hbw7Ob0=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=pgTVACs51dSHlC6q61SZ+he0cXqs7QuztMqaJmA51fI=;
+        b=Cr5jEV60RyJWGGx7AJg3uQ542nVkti0+UB0gMH9sZMsp2kYz7AgPf38Ny0+f4teos8
+         nVvCaRZB/RhW8pGW74mo/sQv5oukOHeLuLQaAjusojMMouG1VErUIqfHJ0ZQez7cQU7g
+         fOfV1rWwNlDTf8ylw9jwfZGA2p9zB32Hm5+Gw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752046978; x=1752651778;
+        d=1e100.net; s=20230601; t=1752047921; x=1752652721;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LvxuI2FwfgAweFLo/eQX4E/7TeGP+pAYx8+HzMbnjxY=;
-        b=Yx0iJkiU2Py1I+chtLKzsmS4fqFIXRx4Opx310koxbYQ66kbBVFmgaAO920W9WEj3S
-         N9gGRoM0a48N/HcE40H7qKynIF4D/Epy+mAr04IFxk657KVLOBXU3kAF6bRuCATkA/Gf
-         z09OZjWuqARVvGIHS8xxkMKFdG9dqADr7Ej/AVTN4EElrJU2/DtKUNaVP+81pvOyN4NM
-         iuHzpAHJm/8r8eYIT/n6xzozFuG0crBzhY99Y3t6BRVJVPT/sb1PcArAZ5QO165bPK6j
-         GJjYIYNz1VX/CZ/1CkJaI9hjuuoX0ymogSCzInkUKce8aiWzic2w0EQRR6SUR7KbMhnn
-         WChA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvz2017H451fW1+SsQqEq5kRI68U5ckxjzuNh4dAB61EHigMf7plKfkORStWKNsuJYx1+wv/exwQ3hBcMnGx70cA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzkZbMU4SM/XVjYddH1Uy0PcFRem7zG25E55HfQ4o2NawkjpBG8
-	5jfvQynGLZXQX4EhM6375Ckl38UR04iYXrV63dgwi/o/l91LGyNq0hlrp7MW+c+/Avg=
-X-Gm-Gg: ASbGncvmA1zLPa2xr9v2dQ28/QDJmQwprRC0UByXVGBisXeMjrHSqHx9jJBNu69b1zg
-	+UfRz1YxUcq/NAnOImeo1yuzPrQR+ttke+wOi7xtQG3CziZC3qsG1VuZ3ELEz2pthJMj/QmdGxJ
-	52c06GnyBjtVcvXSueAxtyyvjh9VRekcw1KXvydC62vlowIVNveQ3bJOBCLg6ZYsaVbThPXZlM8
-	131Bh79Jf89RW8zW0rGJUhWjJ4QT3VdFnD8GJUZ25l6UEDLSTVsep37InCC3+AxLY5jXd1qq4Tw
-	Mm3o8jaTEBR3JTOd7RJr6QqiJYqva38zt0+lpkfP7MHZZN68OW+xO3ni4tmfgjv/tQ3IwC11vfp
-	1scBTcGeanCrKzSQkIcnMrff9i402/d1qWY2CC3jl4UHwUeli+csjFK666ew=
-X-Google-Smtp-Source: AGHT+IHxgByXSXbp9CLhb7n5GaR6fteHinm2BKtt6JZXHhKaBrp8qjnzyZygmI6I0F2ysfROHQpkTg==
-X-Received: by 2002:a05:600c:138e:b0:43d:878c:7c40 with SMTP id 5b1f17b1804b1-454d53118cfmr15022945e9.10.1752046978271;
-        Wed, 09 Jul 2025 00:42:58 -0700 (PDT)
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pgTVACs51dSHlC6q61SZ+he0cXqs7QuztMqaJmA51fI=;
+        b=j8t31TRilRQ21dMdWInYrgWY7q07+5zIR/DlKxF0vWWItZxONXuWVFgNzO7mPLeYC6
+         37+GKhrSNFy3eGI/hqGGxHDtbLTslFj5uaidNp7UneAxAJBUtFxXKnKk//uC6l1u1fq0
+         1L8xQk6WRhjjMEbPrDkgZxJCnlLY/My+ak22W+ykwOb6V3TnCPN87mEJ6Fq+tM4eCdm9
+         Gn6a3cJUTxx3OPvapUJs8SoVlrqi1hZoWRGE4k4nAOT8/pqm4gOMqARolYmhc4gtLKXV
+         2U085s3E/nlX2MkEKRMVgl+tJeJNIamd7caz9JQROy4qMjVT32snRcHQlgQrBT2gzM1j
+         6h4w==
+X-Gm-Message-State: AOJu0YzzEp1l77jSrUQeoUecaFcoxzCb6foc6aPB+SZD6HZn9gaSICs0
+	yVfu2ldKtYGbtOyub+90lgrI1ODLpLGbTZJN65e3RjOX9oqcMC0MWamDagVPkTWENSg=
+X-Gm-Gg: ASbGncsVIffSs7p79Z25H+mBkXbCj8Pl+LuMdjoXKaL4+N4agSe7IJNw/3TISFvPZ2v
+	H3ghZU9MKhudNTXr2IYzoqgnkL/FKMkBu5K3DKo0N7Wso+x0NNtuDye7W5RgFnyM9abu8VeSQsS
+	Kk/fNPwIFsMe1q4sgjsRzAb9OXJyKu/H2j/g237IPUoaEBISmnVyZFs3gh6Zf/Vr8b9w+tlqbiQ
+	etQGYNa9F9le2+gFLI86nptUEdSkJKtHPECVMuiKh9KfdnTOKd6xBZJ6A5tzlbyx2Iov9qGtRZx
+	nBBj2T1mqCjkw/lAiAzewAUOiS97D5arXtzYRSKgmVghY93r/1iWObCKQ7NkKFX7TMnFBFz/Q2K
+	e4BLkv/CnuXcPhgeoKu+GofWo1Oikj09w3TGOMK0YeV0XOuVxPSunQ2H+5QQ=
+X-Google-Smtp-Source: AGHT+IHulON9rU/S7dDBz5/D4OPgpdifZyZTxsredX3k7rh7utguddVwKn0VwoznA2QFANTnxf4EXA==
+X-Received: by 2002:a05:600c:4fd1:b0:439:643a:c8d5 with SMTP id 5b1f17b1804b1-454d5246294mr12869135e9.0.1752047920905;
+        Wed, 09 Jul 2025 00:58:40 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:8726:2b2e:9de:f840? ([2001:8b0:aba:5f3c:8726:2b2e:9de:f840])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454d511bd6dsm13372825e9.38.2025.07.09.00.42.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454d5061a91sm14065555e9.17.2025.07.09.00.58.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jul 2025 00:42:57 -0700 (PDT)
-Message-ID: <34c254bbc44e6940138e9c49f9f58980dfe99aa2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 0/6] ISA based RISC-V tune implementation
+        Wed, 09 Jul 2025 00:58:40 -0700 (PDT)
+Message-ID: <196cdceb3c5f14f1d3b0a58ef9c7020e3a39049b.camel@linuxfoundation.org>
+Subject: Re: [PATCH 0/6] kernel-yocto: consolidated pull request
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mark.hatle@kernel.crashing.org, openembedded-core@lists.openembedded.org
-Date: Wed, 09 Jul 2025 08:42:56 +0100
-In-Reply-To: <1751492664-12569-1-git-send-email-mark.hatle@kernel.crashing.org>
-References: 
-	<1751492664-12569-1-git-send-email-mark.hatle@kernel.crashing.org>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 09 Jul 2025 08:58:39 +0100
+In-Reply-To: <cover.1751985223.git.bruce.ashfield@gmail.com>
+References: <cover.1751985223.git.bruce.ashfield@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.0-1 
@@ -65,57 +64,25 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 07:43:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220078
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 07:58:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220079
 
-Hi Mark,
+On Tue, 2025-07-08 at 10:36 -0400, bruce.ashfield@gmail.com wrote:
+> I'm clearing the kernel queue now that I'm back at the office.
+>=20
+> Following this will be libc-header updates and a bump to the new
+> release/reference kernel version (v6.15 ... or possibly v6.16)
+> depending
+> on the timing of the upstream release.
 
-On Wed, 2025-07-02 at 16:44 -0500, Mark Hatle via lists.openembedded.org wr=
-ote:
-> From: Mark Hatle <mark.hatle@amd.com>
->=20
-> The following implements the risc-v processor tune based on the ISA appro=
-ach
-> as documented in the oe-architecture post:
->=20
-> https://lists.openembedded.org/g/openembedded-architecture/message/2155
->=20
-> This set also attempts to make u-boot and kernel configurations dynamic
-> based on the TUNE_FEATURES.
->=20
-> For the linux-yocto, I suspect that the config fragments should be
-> sent to the kmeta (kernel-cache), but I'd like a review from Bruce and
-> others before I do this.
->=20
-> Additionally, this enables a new (optional) features_check for TUNE_FEATU=
-RES.
->=20
-> I've found numerous items in the system have certain RISC-V ISA expectati=
-ons
-> that may need to be addressed over time, however the obvious one is the
-> Linux kernel requires ima_zicsr_zifencei.=C2=A0 Since it has it's own -ma=
-rch=3D
-> setting this will ensure the processor defintion will be compatible.
->=20
-> Also dynamically configure the QEMU cpu based on the tune_features.=C2=A0=
- This
-> is nice to ensure that what we're actually building should be able to run
-> on real hardware.=C2=A0 However, it does highlight some of the (extension=
-)
-> limitations in the current design.=C2=A0 (limitations as in extension not=
- yet
-> enabled.)
->=20
-> Note: OpenSBI _requires_ the 'c' extension or it will not execute.=C2=A0 =
-I
-> suspect this can be fixed, but it's beyond my capabilities at this time.
+Thanks, I tested these and things seem ok so they've merged.
 
-I've narrowed it down to something in these patches which causes these
-ptest failures on qemuriscv64:
+You asked about updating the CVE list, we do need to do that. I looked
+up the commands and those appear to be:
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/187
-
-We need to track down and fix those regressions before this can merge.
+git clone https://github.com/CVEProject/cvelistV5
+meta/recipes-kernel/linux/generate-cve-exclusions.py /my/checkout/cvelistV5=
+/ 6.12.36 > meta/recipes-kernel/linux/cve-exclusion_6.12.inc
 
 Cheers,
 
