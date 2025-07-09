@@ -1,283 +1,101 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8199DC83F03
-	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 09:06:03 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web10.11114.1752051955608273051
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90DE6C83F0A
+	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 09:17:23 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.11246.1752052642912480033
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Jul 2025 02:05:55 -0700
+ Wed, 09 Jul 2025 02:17:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=hhVNjvvv;
- spf=pass (domain: mvista.com, ip: 209.85.214.180, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2363616a1a6so50464305ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 02:05:55 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b8uwNKco;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a6e2d85705so2619873f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 02:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1752051955; x=1752656755; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GWxTbb3Ao+yHPL3PBvz6feqEfoRx8fsFCxy2UmWeYhQ=;
-        b=hhVNjvvvWPbnNLp3tOyPeNgNNG7foa51DwsszZk4Gg5w0LrAAeUz+kiOzoeAKuOVQi
-         2ryI6roZHdc9A0H7g3lFKtOyic7tN4suFtkIEKyEQHH8Qf8QZnjkUms2MEIGolWP8Gmu
-         OyV8ueMRIkrsIs3Yf9ewjsR0FPREP8WY30rFo=
+        d=linuxfoundation.org; s=google; t=1752052641; x=1752657441; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AlPYohcvwTwxD9nl8cW/ZCLYDMFcCVlOeRa0z/bVAZE=;
+        b=b8uwNKcoN4HutMJtHoMyVwJ9Ux6lCHkGH7s/SEHTM/gHCOIbh3CHWczuip0wTh49cC
+         ss8v84ghzJo/oIe9zF9V+Ue2MK5d/nrvytfI5MmoXBCf0RfLq2oxugRuPJUWazNawY07
+         ducWTxwfOYqxcNuoj4d9SgdAGOue5tBn7Ul3M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752051955; x=1752656755;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GWxTbb3Ao+yHPL3PBvz6feqEfoRx8fsFCxy2UmWeYhQ=;
-        b=msRqq1L+i8sw1S6Nlm8OSFM5EzJLKE0qMGjeuOpltVSChGU7NSPSwJmM46+RROE9LC
-         2owhpXmc7Y/NKVjtOjPZxJeDe7csBBw/9FCW4lfEiQiBQcciTcLUdYYJJMcui9aLNk3E
-         WyecSCl1RNelNVDEBMOTXIj62+VHENtYRA+zVFT0cO1qQ0AVVH25v9nheaJgfSMn33pe
-         xoc1tlFiVTxEzy8iFgvJ9KiBkyS5K2nrAc3IlIawS1xlfmjRbZR74jFw0tEWb95IpaAS
-         FxoowcAQdU+skBSx67S/5kpKlYwvzr/5Sagi6SgaN18Rz0jmzIHVn1vsFxIoSM/LpVL3
-         hp0Q==
-X-Gm-Message-State: AOJu0Yz/bto3G4rKgf9TQ7u5ynAi+bylLohunaaF/sCDRWVAGa6TgE56
-	NUr7VNCI8NKYZfqgro1P4eT+RcQPuKcg76QvTkjAlYaSK54BV9EhgPdIo/J3Xy5YOSTvODxZj3N
-	DaQ/N
-X-Gm-Gg: ASbGnct0NHXD80v/m8nIUqr5QifMUgNZgcmTzRmZ2eC9oSuFPHo86phUXhRpnqy+1gV
-	MoBvFq2JvbsqtW8nS3HPqlzB+Rs7SRT68thvdhAUKLPUHJCKzl8ZJMKLkqpvrzF3ir0zH1QS8vT
-	pdu/87ZzqTXKaA5zLFw9Y9BXCeLwnL05sDOejEMnc0qraBUepH0OfGkHdRRCuQiabM3OSsJVWLD
-	Tk42Woo0aBsp/OBOGxYVjIKFTWs5SGkBTt8kRhcF/A3XayeEuyJlgS3EVcgeIfOI/g/sBeGWCdT
-	SiS2X+HHo4c0fG4M3YINkNtaj9U81r2mBF3U6N7MD/JbfNpAiWAhGtzqL5hb1d3agXuYfc3RvUf
-	/
-X-Google-Smtp-Source: AGHT+IFzUmx2ievBWiZXTOMqNt1naMBreX495f0lLPwAnVMLU4zdy9paLc3CnRYUlwPeVM/JI6FwOg==
-X-Received: by 2002:a17:903:1206:b0:23c:7b65:9b08 with SMTP id d9443c01a7336-23ddb1991a1mr29611435ad.1.1752051954711;
-        Wed, 09 Jul 2025 02:05:54 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([150.129.170.130])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c8434f0cdsm131843795ad.77.2025.07.09.02.05.51
+        d=1e100.net; s=20230601; t=1752052641; x=1752657441;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AlPYohcvwTwxD9nl8cW/ZCLYDMFcCVlOeRa0z/bVAZE=;
+        b=UCs+5fiq0AoLDXB063J5ptNtuTkJJldfKSfR1jI7hiIegwMw8n8ae5xP1vx1L7fEFY
+         dOJs06h5iY2QHnE+xXGom+BZlNK1LVEmC1FoSqVJTEf22jX2sep9iUEEjLK6MzVXd7WR
+         YClyaCgSkeC1oeAf18xrf6mmkmz/M/Vd0OEriNrRbPn3NTwn3SIBcHXuqEbpHnErIVE+
+         CC5Tfjc4ch0N7fZF7CFrne9CJ7WhQCgT6e1Zqr8jDqUFy11VBfm9DAnE/RBsVQx4zWMx
+         H+tOLhsHpPjPstB7MVJA4isNkxYQozriwT01N5Ok5E2c0A/65PtI5mJaO5xeom2d2+1m
+         rzqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXnkK26sWsvkxJ2Fs2lvbNnJzheiGQ7NsiN3RVnH8QH/mc7IavX2/oQ/gBi9vCC45yxzUppPomrln8mQ1lKOvEFCw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzZt/SrZBL5ZWZ/LXRtwu/HCvMKpYaHqLd5bN+khcg+yMv2jDSE
+	0ZwrMEvfy6LazZYtu/Apb49B91dl8mhuUStSfgqOt61v2FxRxEEj5zitoS+2XMfReik=
+X-Gm-Gg: ASbGnctdisNrbGSA92Dl2tBJYpzGZ/U0R2WvgUrDBBLYVln7arrcvlPJ09zlv+pQsMC
+	FAz2Mayh1RlJoUAgWLvFr8fZcVJ4ZOz2Jo3eD537f7uFcmkX1QmsEDVdj3Z6xLDGEIMKEEG4PRf
+	k76+9lhL+nOGRTxnEWGy3fNZmdPa3KnJkst/ogRjMjBVS/26aaQtuODl9ARSWf+THUfSDIicBPQ
+	HsfXzDBR+33roBhZUIrPdwjUlWLl2lP2ohAqQk5Wemkh0TzLJRwWqQ0YpLZpYQOV/8AcEty/8xl
+	wPcA+cFsBUiDPf8WzOtzoAquRMkXf6X41Wn/NH76QJjOmcGBFXA7N6y/RYdUwDA1mukNseEC1o1
+	HtyIBzO+AIxkPzZWkhIJFq/xCsZjX2v02s4xmJhTaUkEHU54X
+X-Google-Smtp-Source: AGHT+IFW9fUbc7PZhiVuYGtUOIG++VnsqLPUmUgTRKrQQltbtyKwXAdzsKUtiaGDTARnV5f3uOpLjQ==
+X-Received: by 2002:a05:6000:2909:b0:3b4:9b82:d43f with SMTP id ffacd0b85a97d-3b5e44e93e3mr1388455f8f.16.1752052641269;
+        Wed, 09 Jul 2025 02:17:21 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8726:2b2e:9de:f840? ([2001:8b0:aba:5f3c:8726:2b2e:9de:f840])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47225a2dcsm15210128f8f.71.2025.07.09.02.17.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jul 2025 02:05:54 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] libxml2: fix CVE-2025-49794 & CVE-2025-49796
-Date: Wed,  9 Jul 2025 14:35:35 +0530
-Message-ID: <20250709090535.55848-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.49.0
+        Wed, 09 Jul 2025 02:17:20 -0700 (PDT)
+Message-ID: <84caeee4b92dad27f67c745c63aaafbf9abb6c1b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 6/6] qemuriscv: Dynamically configure qemu
+ CPU
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mark.hatle@kernel.crashing.org, openembedded-core@lists.openembedded.org
+Date: Wed, 09 Jul 2025 10:17:19 +0100
+In-Reply-To: <1751492664-12569-7-git-send-email-mark.hatle@kernel.crashing.org>
+References: 
+	<1751492664-12569-1-git-send-email-mark.hatle@kernel.crashing.org>
+	 <1751492664-12569-7-git-send-email-mark.hatle@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 09:06:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220083
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 09:17:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220084
 
-Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libxml2/-/commit/71e1e8af5ee46dad1b57bb96cfbf1c3ad21fbd7b
+On Wed, 2025-07-02 at 16:44 -0500, Mark Hatle via lists.openembedded.org wr=
+ote:
+> From: Mark Hatle <mark.hatle@amd.com>
+>=20
+> Use TUNE_FEATURES to dynamically configure the QEMU emulated CPU for the
+> options selected by the DEFAULTTUNE.
+>=20
+> Note: OpenSBI currently requires 'c' (compressed instructions) or it will
+> not work.
+>=20
+> Change the base device configuration to use a different variable to selec=
+t
+> the emulate devices.=C2=A0 This will allow a user to override or append t=
+he
+> QB_OPT_APPEND without the riscv32 override getting in the way.
+>=20
+> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+> ---
+> =C2=A0meta/conf/machine/include/riscv/qemuriscv.inc | 31 ++++++++++++++++=
++--
+> =C2=A01 file changed, 28 insertions(+), 3 deletions(-)
+>=20
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../CVE-2025-49794-CVE-2025-49796.patch       | 186 ++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.12.10.bb   |   1 +
- 2 files changed, 187 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-49794-CVE-2025-49796.patch
+FWIW I narrowed down the ptest failures to this patch.
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-49794-CVE-2025-49796.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-49794-CVE-2025-49796.patch
-new file mode 100644
-index 0000000000..881cac7f03
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2025-49794-CVE-2025-49796.patch
-@@ -0,0 +1,186 @@
-+From 71e1e8af5ee46dad1b57bb96cfbf1c3ad21fbd7b Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Fri, 4 Jul 2025 14:28:26 +0200
-+Subject: [PATCH] schematron: Fix memory safety issues in
-+ xmlSchematronReportOutput
-+
-+Fix use-after-free (CVE-2025-49794) and type confusion (CVE-2025-49796)
-+in xmlSchematronReportOutput.
-+
-+Fixes #931.
-+Fixes #933.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/71e1e8af5ee46dad1b57bb96cfbf1c3ad21fbd7b]
-+CVE: CVE-2025-49794 CVE-2025-49796
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ result/schematron/cve-2025-49794_0.err |  2 ++
-+ result/schematron/cve-2025-49796_0.err |  2 ++
-+ schematron.c                           | 49 ++++++++++++++------------
-+ test/schematron/cve-2025-49794.sct     | 10 ++++++
-+ test/schematron/cve-2025-49794_0.xml   |  6 ++++
-+ test/schematron/cve-2025-49796.sct     |  9 +++++
-+ test/schematron/cve-2025-49796_0.xml   |  3 ++
-+ 7 files changed, 58 insertions(+), 23 deletions(-)
-+ create mode 100644 result/schematron/cve-2025-49794_0.err
-+ create mode 100644 result/schematron/cve-2025-49796_0.err
-+ create mode 100644 test/schematron/cve-2025-49794.sct
-+ create mode 100644 test/schematron/cve-2025-49794_0.xml
-+ create mode 100644 test/schematron/cve-2025-49796.sct
-+ create mode 100644 test/schematron/cve-2025-49796_0.xml
-+
-+diff --git a/result/schematron/cve-2025-49794_0.err b/result/schematron/cve-2025-49794_0.err
-+new file mode 100644
-+index 0000000..5775231
-+--- /dev/null
-++++ b/result/schematron/cve-2025-49794_0.err
-+@@ -0,0 +1,2 @@
-++./test/schematron/cve-2025-49794_0.xml:2: element boo0: schematron error : /librar0/boo0 line 2:  
-++./test/schematron/cve-2025-49794_0.xml fails to validate
-+diff --git a/result/schematron/cve-2025-49796_0.err b/result/schematron/cve-2025-49796_0.err
-+new file mode 100644
-+index 0000000..bf875ee
-+--- /dev/null
-++++ b/result/schematron/cve-2025-49796_0.err
-+@@ -0,0 +1,2 @@
-++./test/schematron/cve-2025-49796_0.xml:2: element boo0: schematron error : /librar0/boo0 line 2:  
-++./test/schematron/cve-2025-49796_0.xml fails to validate
-+diff --git a/schematron.c b/schematron.c
-+index a825920..411a515 100644
-+--- a/schematron.c
-++++ b/schematron.c
-+@@ -1389,27 +1389,15 @@ exit:
-+  *                                                                      *
-+  ************************************************************************/
-+ 
-+-static xmlNodePtr
-++static xmlXPathObjectPtr
-+ xmlSchematronGetNode(xmlSchematronValidCtxtPtr ctxt,
-+                      xmlNodePtr cur, const xmlChar *xpath) {
-+-    xmlNodePtr node = NULL;
-+-    xmlXPathObjectPtr ret;
-+-
-+     if ((ctxt == NULL) || (cur == NULL) || (xpath == NULL))
-+         return(NULL);
-+ 
-+     ctxt->xctxt->doc = cur->doc;
-+     ctxt->xctxt->node = cur;
-+-    ret = xmlXPathEval(xpath, ctxt->xctxt);
-+-    if (ret == NULL)
-+-        return(NULL);
-+-
-+-    if ((ret->type == XPATH_NODESET) &&
-+-        (ret->nodesetval != NULL) && (ret->nodesetval->nodeNr > 0))
-+-        node = ret->nodesetval->nodeTab[0];
-+-
-+-    xmlXPathFreeObject(ret);
-+-    return(node);
-++    return(xmlXPathEval(xpath, ctxt->xctxt));
-+ }
-+ 
-+ /**
-+@@ -1455,25 +1443,40 @@ xmlSchematronFormatReport(xmlSchematronValidCtxtPtr ctxt,
-+             (child->type == XML_CDATA_SECTION_NODE))
-+             ret = xmlStrcat(ret, child->content);
-+         else if (IS_SCHEMATRON(child, "name")) {
-++            xmlXPathObject *obj = NULL;
-+             xmlChar *path;
-+ 
-+             path = xmlGetNoNsProp(child, BAD_CAST "path");
-+ 
-+             node = cur;
-+             if (path != NULL) {
-+-                node = xmlSchematronGetNode(ctxt, cur, path);
-+-                if (node == NULL)
-+-                    node = cur;
-++                obj = xmlSchematronGetNode(ctxt, cur, path);
-++                if ((obj != NULL) &&
-++                    (obj->type == XPATH_NODESET) &&
-++                    (obj->nodesetval != NULL) &&
-++                    (obj->nodesetval->nodeNr > 0))
-++                    node = obj->nodesetval->nodeTab[0];
-+                 xmlFree(path);
-+             }
-+ 
-+-            if ((node->ns == NULL) || (node->ns->prefix == NULL))
-+-                ret = xmlStrcat(ret, node->name);
-+-            else {
-+-                ret = xmlStrcat(ret, node->ns->prefix);
-+-                ret = xmlStrcat(ret, BAD_CAST ":");
-+-                ret = xmlStrcat(ret, node->name);
-++            switch (node->type) {
-++                case XML_ELEMENT_NODE:
-++                case XML_ATTRIBUTE_NODE:
-++                    if ((node->ns == NULL) || (node->ns->prefix == NULL))
-++                        ret = xmlStrcat(ret, node->name);
-++                    else {
-++                        ret = xmlStrcat(ret, node->ns->prefix);
-++                        ret = xmlStrcat(ret, BAD_CAST ":");
-++                        ret = xmlStrcat(ret, node->name);
-++                    }
-++                    break;
-++
-++                /* TODO: handle other node types */
-++                default:
-++                    break;
-+             }
-++
-++            xmlXPathFreeObject(obj);
-+         } else if (IS_SCHEMATRON(child, "value-of")) {
-+             xmlChar *select;
-+             xmlXPathObjectPtr eval;
-+diff --git a/test/schematron/cve-2025-49794.sct b/test/schematron/cve-2025-49794.sct
-+new file mode 100644
-+index 0000000..7fc9ee3
-+--- /dev/null
-++++ b/test/schematron/cve-2025-49794.sct
-+@@ -0,0 +1,10 @@
-++<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
-++    <sch:pattern id="">
-++        <sch:rule context="boo0">
-++            <sch:report test="not(0)">
-++                <sch:name path="&#9;e|namespace::*|e"/>
-++            </sch:report>
-++            <sch:report test="0"></sch:report>
-++        </sch:rule>
-++    </sch:pattern>
-++</sch:schema>
-+diff --git a/test/schematron/cve-2025-49794_0.xml b/test/schematron/cve-2025-49794_0.xml
-+new file mode 100644
-+index 0000000..debc64b
-+--- /dev/null
-++++ b/test/schematron/cve-2025-49794_0.xml
-+@@ -0,0 +1,6 @@
-++<librar0>
-++    <boo0 t="">
-++        <author></author>
-++    </boo0>
-++    <ins></ins>
-++</librar0>
-+diff --git a/test/schematron/cve-2025-49796.sct b/test/schematron/cve-2025-49796.sct
-+new file mode 100644
-+index 0000000..e9702d7
-+--- /dev/null
-++++ b/test/schematron/cve-2025-49796.sct
-+@@ -0,0 +1,9 @@
-++<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
-++    <sch:pattern id="">
-++        <sch:rule context="boo0">
-++            <sch:report test="not(0)">
-++                <sch:name path="/"/>
-++            </sch:report>
-++        </sch:rule>
-++    </sch:pattern>
-++</sch:schema>
-+diff --git a/test/schematron/cve-2025-49796_0.xml b/test/schematron/cve-2025-49796_0.xml
-+new file mode 100644
-+index 0000000..be33c4e
-+--- /dev/null
-++++ b/test/schematron/cve-2025-49796_0.xml
-+@@ -0,0 +1,3 @@
-++<librar0>
-++    <boo0/>
-++</librar0>
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.12.10.bb b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-index 1ecac70b4c..488ace62e5 100644
---- a/meta/recipes-core/libxml/libxml2_2.12.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-@@ -21,6 +21,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://CVE-2025-32414.patch \
-            file://CVE-2025-32415.patch \
-            file://CVE-2025-6021.patch \
-+           file://CVE-2025-49794-CVE-2025-49796.patch \
-            "
- 
- SRC_URI[archive.sha256sum] = "c3d8c0c34aa39098f66576fe51969db12a5100b956233dc56506f7a8679be995"
--- 
-2.49.0
+Cheers,
 
+Richard
 
