@@ -2,62 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53573C83F10
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53537C83F09
 	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 02:51:51 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.5571.1752029502725602895
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.5569.1752029501204638758
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Jul 2025 19:51:42 -0700
+ Tue, 08 Jul 2025 19:51:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ComOdXkg;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-23aeac7d77aso46007365ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 19:51:42 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OKRYZHbp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-23636167afeso50950965ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 19:51:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752029502; x=1752634302; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752029500; x=1752634300; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=j/8z0lQNhANEV07f5Mr95fpF75Hy8azbo0F1u4bdfzM=;
-        b=ComOdXkgkmJnZB3cGitINZOG6R1CeRkHToBgOsuLdYZYcFFEkxV3sMaqysthOWT366
-         MsDs2WTz+YIhBOsrxHdE4Ze8iua4Ljtzdpjs0ZYCHBrmVj7V+JHiICwrwd0MpGjrtxpp
-         MbAyl883dLTUu74uSbmZg5JYUICwFpmmiTyVF7qryn6YeTrphHORNE7GBxZh8Tv7tL+H
-         x/hEdkDAl4pPuzvvtzPI+j5aHDQoFOWpgViCw1+w2Iahi6QbUd6kyVBMYsOiFR2mQRzV
-         OtB6WPRz4xi2JcNlS2mK8x06ghU8jbhWZ3vE9h3zJ/bcOIJbsSfwXKrGDdZkexA5pllH
-         ewCg==
+        bh=Qnu1ASSsskY1dpCUwsXGvrauLOXQpsDPxW6pTR10w+Y=;
+        b=OKRYZHbpDeSgp2M5EFJBFjpTPMkARPc/Ij4UYBnCTUHaf+Gkhc2ffjGDT8GNrIkrp9
+         Rq769mT4WPJ8Ln/0YArjXvVxvzf5jFpbFW4TjioFuZa3gXRwt52dwBJvPh45sqQZyThk
+         TDF9+kyYSsa+A9EhlUJWVGafBQUoZ52akdKlGNQBJvIYsK7jYnYnqvvpE+zywSXA3EOr
+         ifoH1V7m4zaDHcptqGhfuE7Ar9Gcgrbyuk5wBcnCceDfl2wt7biii8r0wa610Grg5JZ/
+         2o0W2Bqp3NJFrmZtblst7haCcqs8s6pU8mkZ++BV7voYuS2snQI/mhCrcKv0F0jCojvo
+         WzDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752029502; x=1752634302;
+        d=1e100.net; s=20230601; t=1752029500; x=1752634300;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j/8z0lQNhANEV07f5Mr95fpF75Hy8azbo0F1u4bdfzM=;
-        b=wUNUelh41Ss3xJV3wY3TBbYqWpWNWyTmzREnAHhdO5kriXZGMaT3epQTChnCUn+1IF
-         aj4t2fvE+om0GE5+cRcbJPGHh8G6nrw1qZT2EJDIluQU1bFZNoeqxdymwN//ST4YxlTe
-         pIffp45ZEzrmLaVuvAN5YgFWgvJG9YWQ/0tX1IbMZk4Xh/xzc9gzTkWe622n82uKjXU8
-         fhbIOMk3xZGkQJMy5nBWYRL3EsxqcFMFaTm9pBc8U2ZJU912f1T3yVqpxnvRXOlPXsn/
-         yhrn/mIZSlcVy8tPnzEBKh4bnSbF4E1PsOG1ce9vE0nKDooSe59HG7NtoTm0abvYnjU1
-         I88Q==
-X-Gm-Message-State: AOJu0Yxb28bgodO6uif9/8nSz/LoVudoiXV9ETXqJmSwIWzg/TNKxRwO
-	y8+6IUmddhDO6eA0nK81cg1P4sNnngjfDTuMxnUaR+o2wT8o8u/KUqLkRCC0nz2EYkgB6fn8Os6
-	g9ga4
-X-Gm-Gg: ASbGnctChBKB/bA9aMDjFsQea6jqPgRAaSYAwWRWqC/WbgXDmYehVrBfYCKwdUq/qe8
-	L4+JvWZ2Ary65nbwgrWtSen4hc9n5w+hfVYJqShogD6JQ3K20rAMqWZuwaPE+zzBcrJwY5ICG6z
-	+lPr2WBjIjfzfO8f5cbxsS5wSu5PgIIxZHTkDwchZTXnOTAlIcxg59AM+/EKCVhUhgSj8VrzvUb
-	F3uz/VAr73Au1NUus5TV0L321IDpYo1SwmCyxNsgqtJUkcmWAYR9G3UMU+4sk7pn9/jYyKLedtl
-	V1anLI/0VwMNAVj5fD8SZ4Ri/XJCj4/iJT1cKC/gqGq1mqWc9Zu4mw==
-X-Google-Smtp-Source: AGHT+IFN2jpHd6E0YoQyq45ARfm7jcr0pdCZYLodVyQkS4q9U+RsJVKRcijOUcRjUUZpmEDS4gRCHw==
-X-Received: by 2002:a17:903:b8c:b0:235:f3b0:ae81 with SMTP id d9443c01a7336-23ddb2e6362mr13164155ad.27.1752029501838;
-        Tue, 08 Jul 2025 19:51:41 -0700 (PDT)
+        bh=Qnu1ASSsskY1dpCUwsXGvrauLOXQpsDPxW6pTR10w+Y=;
+        b=qtdZxEJGVKLClpHw0bzP25BHs1AeeafGVyFmNnmSRXTVpmTjF7zD2of8oIiqapVthN
+         HK2Hgmy5rPdyihWEKFP/EwHf6jC8BfNmA6XYfVctosk4PgsHL4d7erKaGzZJ3M6CGy5D
+         RRm4dMFKx+nUfk812wYtd3yMC5i7ku4ngmJ8bWCjksPVC6T3k15so/ch599iTR6kKuxA
+         V9xuaE2mMqveBk3uyXyodc9kslpSqosmLJsKUS/uzyl5XQND7ZqQX0PIBKlvEw/bvWyW
+         QrBFY3AfPTuh+snkY9MiKxRPW+0PRA/thHzf7IcsvH86/4EgMAUbWwEJzEBrLJHKhzcE
+         aR3Q==
+X-Gm-Message-State: AOJu0Yxl++MYBxh9lkiTr/4zKekw0kI8DJThj5BPY2u1qeA3SquOmWG+
+	xrcRV13Gpmu8sdP0a2G03OC6wtNIJcwp9uJ5/4USjaTvhY+ZtprugzId1aoBP5IupH8sJ3atWML
+	2zejN
+X-Gm-Gg: ASbGncsTbY1Z2Sqfo9dqh8TimXfazhH3fbveIWf+9KGokEgy/LgjhoCjzpayx7k3E/y
+	NXQdVZZejXG+SWwGM8/woVmSNz4Bf2C66O32D8+GnmBZFzg1F1rhDkuYPVjo9ioGmkEkUIjl0N3
+	VTw+/EomQ/S/EaNdp09sPZJb0gwvDfjrfjlFs/wB+CD8cGOa2YO375jyysxJJhzvVy7KIGnt/99
+	mP588vHaE5NBN31Uif0fE0rac+l58fDlJKpAhG5iC3ipAaWMB+3mXDJpfyTBerdZR1O+rWx/bnH
+	z9PtbO977+XL/rXnl1m7ETRNJAlS4kl3x4nNd5LECKTqOVSNsQMpWQ==
+X-Google-Smtp-Source: AGHT+IGJTcuxC63p4ZiiAzx6RSdxNmRxgaDs6mESdANMg16ncWIPlIY0o9e6xk58mg+LSjZ9K/pmRQ==
+X-Received: by 2002:a17:902:e88a:b0:234:9375:e081 with SMTP id d9443c01a7336-23ddb305b33mr13750815ad.42.1752029500396;
+        Tue, 08 Jul 2025 19:51:40 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:a6e1:d218:3fcc:fd7d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c845922b5sm121979075ad.199.2025.07.08.19.51.41
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23c845922b5sm121979075ad.199.2025.07.08.19.51.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 19:51:41 -0700 (PDT)
+        Tue, 08 Jul 2025 19:51:40 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/12] sudo: Fix CVE-2025-32462
-Date: Tue,  8 Jul 2025 19:51:18 -0700
-Message-ID: <d01f888a5ec43fdc8e7bd496ae9317c0fa28da9b.1752029282.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 06/12] libsoup: fix CVE-2025-4945
+Date: Tue,  8 Jul 2025 19:51:17 -0700
+Message-ID: <6455484a26edc69be806c1356314c018d1940294.1752029282.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752029282.git.steve@sakoman.com>
 References: <cover.1752029282.git.steve@sakoman.com>
@@ -67,80 +67,157 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 02:51:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220064
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220063
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Upstream-Status: Backport from https://github.com/sudo-project/sudo/commit/d530367828e3713d09489872743eb92d31fb11ff
+Refer:
+https://gitlab.gnome.org/GNOME/libsoup/-/issues/448
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../sudo/files/CVE-2025-32462.patch           | 42 +++++++++++++++++++
- meta/recipes-extended/sudo/sudo_1.9.15p5.bb   |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2025-32462.patch
+ .../libsoup/libsoup-3.4.4/CVE-2025-4945.patch | 118 ++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |   1 +
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4945.patch
 
-diff --git a/meta/recipes-extended/sudo/files/CVE-2025-32462.patch b/meta/recipes-extended/sudo/files/CVE-2025-32462.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4945.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4945.patch
 new file mode 100644
-index 0000000000..04610d40fd
+index 0000000000..cf34dcd231
 --- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2025-32462.patch
-@@ -0,0 +1,42 @@
-+From d530367828e3713d09489872743eb92d31fb11ff Mon Sep 17 00:00:00 2001
-+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
-+Date: Tue, 1 Apr 2025 09:24:51 -0600
-+Subject: [PATCH] Only allow a remote host to be specified when listing
-+ privileges.
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-4945.patch
+@@ -0,0 +1,118 @@
++From f168bc7d6dbf04915cd7bf6bfe962bd23f63ec3b Mon Sep 17 00:00:00 2001
++From: Milan Crha <mcrha@redhat.com>
++Date: Thu, 15 May 2025 07:59:14 +0200
++Subject: [PATCH] soup-date-utils: Add value checks for date/time parsing
 +
-+This fixes a bug where a user with sudoers privileges on a different
-+host could execute a command on the local host, even if the sudoers
-+file would not otherwise allow this.  CVE-2025-32462
++Reject date/time when it does not represent a valid value.
 +
-+Reported by Rich Mirch @ Stratascale Cyber Research Unit (CRU).
++Closes https://gitlab.gnome.org/GNOME/libsoup/-/issues/448
 +
-+Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/d530367828e3713d09489872743eb92d31fb11ff]
-+CVE: CVE-2025-32462
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++CVE: CVE-2025-4945
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/8988379984e33dcc7d3aa58551db13e48755959f]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ plugins/sudoers/sudoers.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
++ libsoup/soup-date-utils.c | 23 +++++++++++++++--------
++ tests/cookies-test.c      | 10 ++++++++++
++ 2 files changed, 25 insertions(+), 8 deletions(-)
 +
-+diff --git a/plugins/sudoers/sudoers.c b/plugins/sudoers/sudoers.c
-+index 70a0c1a528..ad2fa2f61c 100644
-+--- a/plugins/sudoers/sudoers.c
-++++ b/plugins/sudoers/sudoers.c
-+@@ -350,6 +350,18 @@ sudoers_check_common(struct sudoers_context *ctx, int pwflag)
-+     time_t now;
-+     debug_decl(sudoers_check_common, SUDOERS_DEBUG_PLUGIN);
++diff --git a/libsoup/soup-date-utils.c b/libsoup/soup-date-utils.c
++index fd785f5..34ca995 100644
++--- a/libsoup/soup-date-utils.c
+++++ b/libsoup/soup-date-utils.c
++@@ -129,7 +129,7 @@ parse_day (int *day, const char **date_string)
++ 	while (*end == ' ' || *end == '-')
++ 		end++;
++ 	*date_string = end;
++-	return TRUE;
+++	return *day >= 1 && *day <= 31;
++ }
 + 
-++    /* The user may only specify a host for "sudo -l". */
-++    if (!ISSET(ctx->mode, MODE_LIST|MODE_CHECK)) {
-++	if (strcmp(ctx->runas.host, ctx->user.host) != 0) {
-++	    log_warningx(ctx, SLOG_NO_STDERR|SLOG_AUDIT,
-++		N_("user not allowed to set remote host for command"));
-++	    sudo_warnx("%s",
-++		U_("a remote host may only be specified when listing privileges."));
-++	    ret = false;
-++	    goto done;
-++	}
-++    }
++ static inline gboolean
++@@ -169,7 +169,7 @@ parse_year (int *year, const char **date_string)
++ 	while (*end == ' ' || *end == '-')
++ 		end++;
++ 	*date_string = end;
++-	return TRUE;
+++	return *year > 0 && *year < 9999;
++ }
++ 
++ static inline gboolean
++@@ -193,7 +193,7 @@ parse_time (int *hour, int *minute, int *second, const char **date_string)
++ 	while (*p == ' ')
++ 		p++;
++ 	*date_string = p;
++-	return TRUE;
+++	return *hour >= 0 && *hour < 24 && *minute >= 0 && *minute < 60 && *second >= 0 && *second < 60;
++ }
++ 
++ static inline gboolean
++@@ -209,9 +209,14 @@ parse_timezone (GTimeZone **timezone, const char **date_string)
++ 		gulong val;
++ 		int sign = (**date_string == '+') ? 1 : -1;
++ 		val = strtoul (*date_string + 1, (char **)date_string, 10);
++-		if (**date_string == ':')
++-			val = 60 * val + strtoul (*date_string + 1, (char **)date_string, 10);
++-		else
+++		if (val > 9999)
+++			return FALSE;
+++		if (**date_string == ':') {
+++			gulong val2 = strtoul (*date_string + 1, (char **)date_string, 10);
+++			if (val > 99 || val2 > 99)
+++				return FALSE;
+++			val = 60 * val + val2;
+++		} else
++ 			val =  60 * (val / 100) + (val % 100);
++ 		offset_minutes = sign * val;
++                 utc = (sign == -1) && !val;
++@@ -264,7 +269,8 @@ parse_textual_date (const char *date_string)
++ 		if (!parse_month (&month, &date_string) ||
++ 		    !parse_day (&day, &date_string) ||
++ 		    !parse_time (&hour, &minute, &second, &date_string) ||
++-		    !parse_year (&year, &date_string))
+++		    !parse_year (&year, &date_string) ||
+++		    !g_date_valid_dmy (day, month, year))
++ 			return NULL;
++ 
++ 		/* There shouldn't be a timezone, but check anyway */
++@@ -276,7 +282,8 @@ parse_textual_date (const char *date_string)
++ 		if (!parse_day (&day, &date_string) ||
++ 		    !parse_month (&month, &date_string) ||
++ 		    !parse_year (&year, &date_string) ||
++-		    !parse_time (&hour, &minute, &second, &date_string))
+++		    !parse_time (&hour, &minute, &second, &date_string) ||
+++		    !g_date_valid_dmy (day, month, year))
++ 			return NULL;
++ 
++ 		/* This time there *should* be a timezone, but we
++diff --git a/tests/cookies-test.c b/tests/cookies-test.c
++index cafa26e..ccf7a4c 100644
++--- a/tests/cookies-test.c
+++++ b/tests/cookies-test.c
++@@ -434,6 +434,15 @@ do_cookies_parsing_nopath_nullorigin (void)
++ 	soup_cookie_free (cookie);
++ }
++ 
+++static void
+++do_cookies_parsing_int32_overflow (void)
+++{
+++	SoupCookie *cookie = soup_cookie_parse ("Age=1;expires=3Mar9    999:9:9+ 999999999-age=main=gne=", NULL);
+++	g_assert_nonnull (cookie);
+++	g_assert_null (soup_cookie_get_expires (cookie));
+++	soup_cookie_free (cookie);
+++}
 ++
-+     /* If given the -P option, set the "preserve_groups" flag. */
-+     if (ISSET(ctx->mode, MODE_PRESERVE_GROUPS))
-+ 	def_preserve_groups = true;
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.15p5.bb b/meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-index 8e542015ad..30860eb75e 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-@@ -3,6 +3,7 @@ require sudo.inc
- SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
-+           file://CVE-2025-32462.patch \
-            "
++ static void
++ do_cookies_equal_nullpath (void)
++ {
++@@ -655,6 +664,7 @@ main (int argc, char **argv)
++ 	g_test_add_func ("/cookies/accept-policy-subdomains", do_cookies_subdomain_policy_test);
++ 	g_test_add_func ("/cookies/parsing", do_cookies_parsing_test);
++ 	g_test_add_func ("/cookies/parsing/no-path-null-origin", do_cookies_parsing_nopath_nullorigin);
+++	g_test_add_func ("/cookies/parsing/int32-overflow", do_cookies_parsing_int32_overflow);
++ 	g_test_add_func ("/cookies/parsing/equal-nullpath", do_cookies_equal_nullpath);
++ 	g_test_add_func ("/cookies/parsing/control-characters", do_cookies_parsing_control_characters);
++ 	g_test_add_func ("/cookies/get-cookies/empty-host", do_get_cookies_empty_host_test);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+index 37319f007f..f64d0d6745 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+@@ -44,6 +44,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-46421.patch \
+            file://CVE-2025-4948.patch \
+            file://CVE-2025-2784.patch \
++           file://CVE-2025-4945.patch \
+ "
+ SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
  
- PAM_SRC_URI = "file://sudo.pam"
 -- 
 2.43.0
 
