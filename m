@@ -1,140 +1,139 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EE9DC83F09
-	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 04:33:12 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.7115.1752035584923964204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19656C83F09
+	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 04:38:32 +0000 (UTC)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+ by mx.groups.io with SMTP id smtpd.web11.7210.1752035902919812749
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Jul 2025 21:33:05 -0700
+ Tue, 08 Jul 2025 21:38:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=bkSwuAL/;
- spf=pass (domain: mvista.com, ip: 209.85.216.53, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-31332cff2d5so4697136a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 21:33:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=g03/sm75;
+ spf=pass (domain: gmail.com, ip: 209.85.219.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e7569ccf04cso4174438276.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Jul 2025 21:38:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1752035584; x=1752640384; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qrR95z60QfV5YZkGjw5B7csuwWmY62gefHSMtpw7wMo=;
-        b=bkSwuAL/1xwOaldC6NqvvYZeWSYfZ04KOnLDvgwL7x5lgvdiuK/TvJVPFVbA4QQa5e
-         xCnSOq7HFmFF0J+YLgANTnD7OLXnFRKI4dg4JNu/yvYomRGPsLIrYMt8ilwF0/Oxdn39
-         wY37Cy1QpliADLV50KwCSDq7MDc7ouTpg7cWU=
+        d=gmail.com; s=20230601; t=1752035902; x=1752640702; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H8/o51bSSY3pmVEp5JggJ/bZZkoUNp5Atr9Bn7D/1ZU=;
+        b=g03/sm755Saa7kgz4KgLTdKKwLZE474TEn2yO2wedP8WBV7T9YNXp28j8W4WU4Goqm
+         SGyltCodN7CKCOgsP686kKQtTvQ/xN3F4DrvCDurvtfDz3vjo3eocOcdMXl/isaYfnk4
+         e5tLpHCVio2Gz1VD9p/cw9V5H2/bLGsDRGmfinh/9N9NFaU0sfnO2MCMmDyZACrKfdh7
+         dgg344e2tpmm39cDbYUC4Cba22QYLVgsfXrm8HVEF0jlBHlsOPZrvgwEHrCu0s5iuFN4
+         82oh3LE3FCkPqV2MQnNbaS6gcHbnOMXCqI4ZkHWwtdrBUMmbqXxgYnNmx0k/vsS/CNo/
+         as7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752035584; x=1752640384;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qrR95z60QfV5YZkGjw5B7csuwWmY62gefHSMtpw7wMo=;
-        b=f4lahwMaweJgumw4KeMNsvjhOqQ+9z/2E79YNczITzQtxevox8gedv186x1dB1hl81
-         9C3OAu7KCHCuz7HBYZAa3w+vCI1mJqdLfq13pcTX/uug9okZSB7dKP86HM6e2jNm4UWI
-         nLaho61fohPBeSbxfrVH52r+quby0mX2ncy/nQwYtfTbE+AUNv0k7HRdso2tbKhzyQXS
-         0hz2pURO9N0Tt1x0h5SMdq3A28KHvnAxlUFl6vTWyhKb30K4tYUaPxn/wt7KaIRqpZDr
-         xQbsMyYndveMLKyL4Lvw6jIxdOmTYFJfmjhDYz5S/7R4SLDj5RZAV5u+UY8Kbaaa789p
-         GUpQ==
-X-Gm-Message-State: AOJu0YwqL4jEGjJl+Q/1OVR/yf4YGgEUlDfh4LZL7iaop7La3GJfPk8v
-	NQVCBxddNSyoDtyg6uNzD9xS/y66ggOsKzwO/fyXlYPbbrRiZTT6UkAZbeZnZaiIRH4ZOonHVl8
-	kON8jAPo=
-X-Gm-Gg: ASbGnct3Nf5UVeXlUsy8pK5AKaxc//TcuJlfeGAjVCyX2raBkLdKfWy0PXs/ZDrc581
-	K/mZ8M+cKZE+MT2OZI2e9b6OXCjsgykrMUcDI8WuZAUdHb5elUgImyIaYaiqnJ/dUTc7oJLApoP
-	VDvJP3yP510U1PdSD4Y8qeI5EqX00cNOfpHoWQb9i9nSQpF2t8W3F2PfImB1Sf3JxDtFZ4nZ/IK
-	JJ3Rc08Q4bXbaDzdZRNw+EYhdiqk9BigJb8ueCUlAeoyKFakBCo5VfG+jY3QjqIReF3Vz8tI0N3
-	QomuKUa2x03UOMtp54VIQi5IKsgu36XUBcd6/jTjpM65oV7JoxrE+jApoRhVVlmQOFSQUQUk
-X-Google-Smtp-Source: AGHT+IFge04uRncsDyBchgVh+ZpjWy7NLBLJkFOZBcb2BNS1h75c8IKAM1/xFLYSGdomiJDZltDh6g==
-X-Received: by 2002:a17:90b:4b84:b0:311:f99e:7f4e with SMTP id 98e67ed59e1d1-31c2fdc3ed8mr1989914a91.16.1752035583706;
-        Tue, 08 Jul 2025 21:33:03 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([49.207.233.78])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c3017c660sm761373a91.28.2025.07.08.21.33.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jul 2025 21:33:03 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] sudo: Fix CVE-2025-32462
-Date: Wed,  9 Jul 2025 10:02:52 +0530
-Message-Id: <20250709043252.1056767-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1752035902; x=1752640702;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=H8/o51bSSY3pmVEp5JggJ/bZZkoUNp5Atr9Bn7D/1ZU=;
+        b=NoCbNuPlQy5m3yNxagc9EbtWfMKgThXWvE4V8nYHIy6/p9vaF8qXxyYkBjOJfvrOCx
+         je0XezOfT7vtshoGlqvgthdYqFhhKm5bYJiDDtdaeiRsd2h9Pxr9ghTKPdFiH40Dh/Zq
+         gD2UzvJh9vVCgoLiz7f89FctnGEpePaAuQ7qYPFexRcgKwMljqjkM5Pc5suyFFiNVkD7
+         dVe73vCgE6SXwgHyWCw5iwL9XPnDWtNJZDofG9CSSuTIJmY8IOdk9RbQv26RHo/mkDim
+         yc8kH8MQR/yQiCbdBdU//kKdaVdlq2jmNXQyX8wjeQxYUVIzAGOnWq8qZpqeDIaAfGL1
+         KVrg==
+X-Gm-Message-State: AOJu0Yw16K8600r9+S8qnRoMnZxUSw2c756LacjXXURyIHpKRPUL8VCa
+	wImCkVyzkHvjHuqy2tJ3a4f5QABMCf/sLKo40nw88giQq/4EKD30JPnzH4uOZapHgfeYjRg1l+r
+	g0EGmip4Y8+4dpiPXKLqwpoDjRbbFJWOKsBUp
+X-Gm-Gg: ASbGncs3a1N0gW9ReUg86dcx344aEoxcV3jbt+3P0rXjn/uwcPvFbOHTxTqYSIIwnlw
+	8GzXGfSXk0/sGugv7XuZT5aWt8AIOs++8B99KS9I/OpIYMZqHx6zKK2mITbb0Dv8lAX3o9k417Q
+	yZrjGfyk5avmo1/wlH6JaF0SO7cTOi5H1WECMLT6PjFJY=
+X-Google-Smtp-Source: AGHT+IG322L21KDo5vyX2zE6sYU/zw0VsPsxwkXJiQLNP6XYf32//r0n3qZ6slXyBpjce4SiUXNpw7CnF/qxhSn2obQ=
+X-Received: by 2002:a05:690c:6310:b0:710:e6b0:1688 with SMTP id
+ 00721157ae682-717b16a9207mr19032337b3.14.1752035901805; Tue, 08 Jul 2025
+ 21:38:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250708221814.791307-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20250708221814.791307-1-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 Jul 2025 21:37:55 -0700
+X-Gm-Features: Ac12FXzq8EKi8UC4Lo2YC0glVcg40HWASt1J4Mcu8bdcDjUPWKDKy7uIHMm7sT0
+Message-ID: <CAMKF1sqqB3=1rfK96b2DJcM8Hqt5v=mwcih5da7D_dFGDrutbA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sanity: Add sanity test for 'bad' gcc installs
+ on ubuntu 24.04
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 04:33:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220072
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 04:38:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220073
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+On Tue, Jul 8, 2025 at 3:18=E2=80=AFPM Richard Purdie via
+lists.openembedded.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>
+> Installing emacs on Ubuntu 24.04 pulls in emacs-gtk which leads to libgcc=
+-14-dev
+> despite gcc being 13. This breaks libcxx-native and compiler-rt-native bu=
+ilds.
+> We've tried various ways of addressing this buit they don't work. Instead=
+, detect
+> this situation and tell the user to either install or remove a package.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes-global/sanity.bbclass | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/san=
+ity.bbclass
+> index 1044ed9cc69..d875a022db0 100644
+> --- a/meta/classes-global/sanity.bbclass
+> +++ b/meta/classes-global/sanity.bbclass
+> @@ -672,6 +672,8 @@ def check_sanity_sstate_dir_change(sstate_dir, data):
+>      return testmsg
+>
+>  def check_sanity_version_change(status, d):
+> +    import glob
+> +
+>      # Sanity checks to be done when SANITY_VERSION or NATIVELSBSTRING ch=
+anges
+>      # In other words, these tests run once in a given build directory an=
+d then
+>      # never again until the sanity version or host distribution id/versi=
+on changes.
+> @@ -703,6 +705,11 @@ def check_sanity_version_change(status, d):
+>      if not check_app_exists('g++', d):
+>          missing =3D missing + "C++ Compiler (g++),"
+>
+> +    # installing emacs on Ubuntu 24.04 pulls in emacs-gtk -> libgcc-14-d=
+ev despite gcc being 13
+> +    # this breaks libcxx-native and compiler-rt-native builds so tell th=
+e user to fix things
+> +    if glob.glob("/usr/lib/gcc/*/14/libgcc_s.so") and not glob.glob("/us=
+r/lib/gcc/*/14/libstdc++.so"):
+> +        status.addresult('libgcc-14-dev is installed and not libstdc++-1=
+4-dev which will break clang native compiles. Please remove one or install =
+the other.')
+> +
 
-Upstream-Status: Backport from https://github.com/sudo-project/sudo/commit/d530367828e3713d09489872743eb92d31fb11ff
+TBH this is good to bring to notice of such installations, since this
+situation happens with special installations
+and not with standard vanilla systems, it might be good for users to
+know these caveats. Good that you found
+out a package installed on top of  vanilla ubuntu 24.04 which can
+cause this situation.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../sudo/files/CVE-2025-32462.patch           | 42 +++++++++++++++++++
- meta/recipes-extended/sudo/sudo_1.9.15p2.bb   |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2025-32462.patch
-
-diff --git a/meta/recipes-extended/sudo/files/CVE-2025-32462.patch b/meta/recipes-extended/sudo/files/CVE-2025-32462.patch
-new file mode 100644
-index 0000000000..04610d40fd
---- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2025-32462.patch
-@@ -0,0 +1,42 @@
-+From d530367828e3713d09489872743eb92d31fb11ff Mon Sep 17 00:00:00 2001
-+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
-+Date: Tue, 1 Apr 2025 09:24:51 -0600
-+Subject: [PATCH] Only allow a remote host to be specified when listing
-+ privileges.
-+
-+This fixes a bug where a user with sudoers privileges on a different
-+host could execute a command on the local host, even if the sudoers
-+file would not otherwise allow this.  CVE-2025-32462
-+
-+Reported by Rich Mirch @ Stratascale Cyber Research Unit (CRU).
-+
-+Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/d530367828e3713d09489872743eb92d31fb11ff]
-+CVE: CVE-2025-32462
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ plugins/sudoers/sudoers.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+diff --git a/plugins/sudoers/sudoers.c b/plugins/sudoers/sudoers.c
-+index 70a0c1a528..ad2fa2f61c 100644
-+--- a/plugins/sudoers/sudoers.c
-++++ b/plugins/sudoers/sudoers.c
-+@@ -350,6 +350,18 @@ sudoers_check_common(struct sudoers_context *ctx, int pwflag)
-+     time_t now;
-+     debug_decl(sudoers_check_common, SUDOERS_DEBUG_PLUGIN);
-+ 
-++    /* The user may only specify a host for "sudo -l". */
-++    if (!ISSET(ctx->mode, MODE_LIST|MODE_CHECK)) {
-++	if (strcmp(ctx->runas.host, ctx->user.host) != 0) {
-++	    log_warningx(ctx, SLOG_NO_STDERR|SLOG_AUDIT,
-++		N_("user not allowed to set remote host for command"));
-++	    sudo_warnx("%s",
-++		U_("a remote host may only be specified when listing privileges."));
-++	    ret = false;
-++	    goto done;
-++	}
-++    }
-++
-+     /* If given the -P option, set the "preserve_groups" flag. */
-+     if (ISSET(ctx->mode, MODE_PRESERVE_GROUPS))
-+ 	def_preserve_groups = true;
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.15p2.bb b/meta/recipes-extended/sudo/sudo_1.9.15p2.bb
-index 431dfba3c2..4d2a228e7b 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.15p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.15p2.bb
-@@ -3,6 +3,7 @@ require sudo.inc
- SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
-+           file://CVE-2025-32462.patch \
-            "
- 
- PAM_SRC_URI = "file://sudo.pam"
--- 
-2.25.1
-
+>      required_utilities =3D d.getVar('SANITY_REQUIRED_UTILITIES')
+>
+>      for util in required_utilities.split():
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#220053): https://lists.openembedded.org/g/openembedde=
+d-core/message/220053
+> Mute This Topic: https://lists.openembedded.org/mt/114055527/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
