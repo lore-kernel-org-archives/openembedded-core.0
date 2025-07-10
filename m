@@ -1,129 +1,124 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A348C83F17
-	for <webhook@archiver.kernel.org>; Thu, 10 Jul 2025 15:49:54 +0000 (UTC)
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web11.12287.1752162591401501817
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E632C83F1B
+	for <webhook@archiver.kernel.org>; Thu, 10 Jul 2025 17:41:10 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.web11.1197.1752169260233401676
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jul 2025 08:49:51 -0700
+ Thu, 10 Jul 2025 10:41:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=rDdQ+36Y;
- spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: reatmon@ti.com)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56AFnooC1200995;
-	Thu, 10 Jul 2025 10:49:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1752162590;
-	bh=GyEo6bC08RgcS6b8tNoUMIza4EX+Ig7N4dk8BYkzTco=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=rDdQ+36YDR48rkO/9ol8mOip0TT5UUYghN+AaNezb5uVqK/oJfMFaE9CFurr89PND
-	 62Eb62Ll1NomjG2GWkxnCgZvd7lJ2NKuhnaJiKFs76L6yksOkyn3XtFyNexjluFyTN
-	 Ic+5cFbH09QRwjksHpQV1rVWK2dUsSaiWCZtApPU=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56AFnoUV303414
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 10 Jul 2025 10:49:50 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 10
- Jul 2025 10:49:50 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Thu, 10 Jul 2025 10:49:50 -0500
-Received: from [128.247.81.69] (dtmxl9433pnr.dhcp.ti.com [128.247.81.69])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56AFnokX1608682;
-	Thu, 10 Jul 2025 10:49:50 -0500
-Message-ID: <7dc7cab6-5f3d-4864-91f3-04fa54088036@ti.com>
-Date: Thu, 10 Jul 2025 10:49:50 -0500
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bLPQ/n3J;
+ spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-70e77831d68so13737607b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 10:41:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752169259; x=1752774059; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JUoHRsInCsAVszs4itQaSkweJoFx4nJzb6jXiQ+aJxk=;
+        b=bLPQ/n3JCEWhg3irZynjkakL1pk2GKUGw5fQp9fQoAt/FiWOD1f8uTxn7wMpoFoJkC
+         TAtqdiQm3hFko7iT0nvG6cnzcO5QffdRiI9UM2sln07Ft5q1sWOQxsy2CBCyxeYfDCts
+         OMhSQsi6w4tMEswsQh+ZcoHWJ+KeXxqLPoZZTgsnpnNOl9Qbwv7u5HVMbV/UNYhIOX90
+         Ja3OuNSWvoBn/pQContOJIvTdZr5Muqnn5QnXRDi8UH91V5uF0FeIA29Qe3CbiKFSQzq
+         0/CCmjzB2xqSxdDrLLyTzQgO5Nnlq9XT3Crodj7HYYJPAi7vDKvCHiisgiPfGWXMN7uQ
+         GI8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752169259; x=1752774059;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JUoHRsInCsAVszs4itQaSkweJoFx4nJzb6jXiQ+aJxk=;
+        b=YMOlpoBiyYI7rGEpN11lIolHpL7gE/uEg8VsJsmvqouTPXGjez/2sij7eIT/CRuabS
+         orVTvTKGmk76oLJzugMd8MZFFU7oASWtnMLZRgj9xmQB4RqHoppn9NJspBJ7EBQkeI2I
+         ndf00UVXd1NT2AxVQ4rZtPvlZoBu2QTsyLIahmiTv4oAULauI/juF1mTmzWx6heKsi7O
+         izJ4GKuZdKrcl2LoH7jkFEF2dG6tk6EFYqzMyCcGFESESEyxdlE5mhXL4SP9pJb1W+PT
+         KnXXIgnYJX7q9vTIE6NLGwMeqYrRsue+Qkh/CiOZKCMbrOlUwS13ej0D1ZMv20vvDKvJ
+         AK0g==
+X-Gm-Message-State: AOJu0YxvQKMKZ/4UlD7MmI4Tdkwkhwme7Cbo6IjmuhaGSi9cD86Sh7ll
+	TgdJ76GYTHjQ4d7pfq+kQ5AdJ3GDWD7kiP90fQTOzfjzES3tJpBQvLgSXToVZ3gwxi3r2nJPQYF
+	2jh4rSA93937poxncQCGa/j40iKTus8r/74dLnTM=
+X-Gm-Gg: ASbGncuzucAbI8SauPiJeZzTco2pZ9boccL8x1T7NBYJQ3roYSVJfHog+OztohF/WKt
+	hR5qKH1b3ZXq+oW9NVOV6gM2tZRn4ModzxshcL1mjx8x3pc1tsz0su1/AeXLRYYxex5pBVFGf/F
+	TfABzOUUX22ZRvABP72pB7bqcOWg8pYqVCg/dtT8B/v9tVUVDoSxc4YfqqLaB9SVTybVETFkHBg
+	e0lBiA=
+X-Google-Smtp-Source: AGHT+IH0i/853SgJFKMKahaJ2nZh2pvdZl7kZceQ0Cj84Gme6sR7eQcX/lSPdg/eNFWp0qdNoguvwDosX0rmbEerPNg=
+X-Received: by 2002:a05:690c:c9e:b0:70f:83ef:ddff with SMTP id
+ 00721157ae682-717d5ded60emr7458397b3.30.1752169259225; Thu, 10 Jul 2025
+ 10:40:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 2/3] spirv-llvm-translator: upgrade 20.1.2 ->
- 20.1.4
-To: <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20250708063810.1921024-1-raj.khem@gmail.com>
- <20250708063810.1921024-2-raj.khem@gmail.com>
-Content-Language: en-US
-From: Ryan Eatmon <reatmon@ti.com>
-In-Reply-To: <20250708063810.1921024-2-raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <DB3PR09MB62022D923A65D95B35ADAF69EA4EA@DB3PR09MB6202.eurprd09.prod.outlook.com>
+ <8340.1751980391085408362@lists.openembedded.org> <DB3PR09MB6202D15953E63F9683D3A14EEA48A@DB3PR09MB6202.eurprd09.prod.outlook.com>
+In-Reply-To: <DB3PR09MB6202D15953E63F9683D3A14EEA48A@DB3PR09MB6202.eurprd09.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 10 Jul 2025 10:40:31 -0700
+X-Gm-Features: Ac12FXyYtY_FxHnUoYTAWiomP9K4K5s64vEMu5cJpFapsKOoVr-U2W-CkAvM8ig
+Message-ID: <CAMKF1spsAzE8MKQeemmi2Gs5PTSB4-KfdkRNo8P7KAUhbF1Znw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5 0/7] cmake: Major version bump to 4.0.3
+To: "Haase Moritz, JD-62" <Moritz.Haase@bmw.de>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"alperyasinak1@gmail.com" <alperyasinak1@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 15:49:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220126
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 17:41:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220127
+
+On Wed, Jul 9, 2025 at 11:34=E2=80=AFPM Haase Moritz, JD-62 <Moritz.Haase@b=
+mw.de> wrote:
+>
+> Hi,
+>
+> > I also considered the idea of temporarily using
+> > -DCMAKE_POLICY_VERSION_MINIMUM=3D3.5 to quickly work around the CMake 4=
+ issues
+> > across multiple recipes. Then, I thought that directly upgrading recipe=
+s where
+> > the upstream version could be updated was more sustainable solution. I
+> > believed this would resolve many compatibility issues by relying on ups=
+tream
+> > fixes and encourage the community to use the latest versions.
+> >
+> > [...]
+>
+> I totally agree. Updating should be the preferred approach, followed by p=
+atching
+> and the policy workaround.
+>
+> > Before our conversation I made a few things and sent them to meta-opene=
+mbedded
+> > and Khem accepted them to master-next, but I still had the feeling that=
+ maybe
+> > something better could be done.
+>
+> Awesome, thanks!
+>
+> > As I said, I have the feeling that it can be done better, so I will wai=
+t for
+> > your answers before I do anything.
+>
+> How about splitting the remaining build failures in half (after sorting t=
+hem
+> alphabetically by recipe name?). Would start working on the *second* half=
+ then.
+> In case of dependency issues we can sync here.
+>
+> @Khem: Would you mind sharing a link to the failures of the latest 'maste=
+r-next'
+> build?
+>
+
+Alper has sent a set of fixes which lowered the volume quite a bit,
+Thanks a lot Alper !. it's down to 52 now.
+here is latest qemuarm run
+
+https://errors.yoctoproject.org/Errors/Build/211141/?limit=3D100
 
 
-I'm getting an error building with this patch:
-
-
-ERROR: Bitbake Fetcher Error: FetchError('Fetch command export 
-PSEUDO_DISABLED=1; <snip>; export PATH="<snip>"; export 
-HOME="/home/yoctouser"; git -c gc.autoDetach=false -c core.pager=cat -c 
-safe.bareRepository=all -c clone.defaultRemoteName=origin rev-list -n 1 
-v20.1.4 failed with exit code 128, output:\nfatal: ambiguous argument 
-\'v20.1.4\': unknown revision or path not in the working tree.\nUse 
-\'--\' to separate paths from revisions, like this:\n\'git <command> 
-[<revision>...] -- [<file>...]\'\n', None)
-
-
-I "fixed" it by clearing out the central shared downloads cache for this 
-git repo and forcing bitbake to refetch the repo from github.
-
-Heads up if anyone runs into this.
-
-
-
-On 7/8/2025 1:38 AM, Khem Raj via lists.openembedded.org wrote:
-> Details of changes
-> https://github.com/KhronosGroup/SPIRV-LLVM-Translator/compare/v20.1.2...v20.1.4
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   ...-translator_20.1.2.bb => spirv-llvm-translator_20.1.4.bb} | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
->   rename meta/recipes-graphics/spir/{spirv-llvm-translator_20.1.2.bb => spirv-llvm-translator_20.1.4.bb} (92%)
-> 
-> diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> similarity index 92%
-> rename from meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb
-> rename to meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> index 4952e8ba4ff..14e4bb74ace 100644
-> --- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.2.bb
-> +++ b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> @@ -6,12 +6,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
->   
->   # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
->   SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
-> +SRCREV = "74843f2186bb63b6802758222084da17fcbe603c"
->   SRC_URI = " \
-> -    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;name=spirv;branch=${SPIRV_BRANCH} \
-> +    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
->   "
->   
-> -SRCREV_spirv = "6dd8f2a1681a27f16c53d932d2765920f312aeb2"
-> -
->   UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
->   
->   DEPENDS = "clang spirv-tools spirv-headers"
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220011): https://lists.openembedded.org/g/openembedded-core/message/220011
-> Mute This Topic: https://lists.openembedded.org/mt/114042510/6551054
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [reatmon@ti.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
--- 
-Ryan Eatmon                reatmon@ti.com
------------------------------------------
-Texas Instruments, Inc.  -  LCPD  -  MGTS
+> Moritz
+>
 
