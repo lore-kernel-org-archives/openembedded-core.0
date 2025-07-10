@@ -1,153 +1,153 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F234C83F1D
-	for <webhook@archiver.kernel.org>; Thu, 10 Jul 2025 09:48:42 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.4784.1752140914480998687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 284E0C83F17
+	for <webhook@archiver.kernel.org>; Thu, 10 Jul 2025 11:17:13 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.6451.1752146231573196316
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jul 2025 02:48:34 -0700
+ Thu, 10 Jul 2025 04:17:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=92867733c1=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56A6lG9t004020
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 02:48:34 -0700
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=92865b89b7=divya.chellam@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56A4e2wm004435
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 11:17:10 GMT
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47q3jn4y0f-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47pu19n68a-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 02:48:33 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 11:17:10 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Thu, 10 Jul 2025 02:48:03 -0700
-Received: from pek-lpg-core5.wrs.com (128.224.153.45) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.57 via Frontend Transport; Thu, 10 Jul 2025 02:48:02 -0700
-From: <jiaying.song.cn@windriver.com>
+ 15.1.2507.57; Thu, 10 Jul 2025 04:16:38 -0700
+From: dchellam <divya.chellam@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <changqing.li@windriver.com>
-Subject: [PATCH v2] ruby-ptest : some ptest fixes
-Date: Thu, 10 Jul 2025 17:48:31 +0800
-Message-ID: <20250710094831.3148214-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][walnascar][PATCH 1/1] libpam: upgrade 1.7.0 -> 1.7.1
+Date: Thu, 10 Jul 2025 16:46:43 +0530
+Message-ID: <20250710111643.751741-1-divya.chellam@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: a5iJ5YhtPwytI_xXmFxz1JB4YZge_-Nf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA4MDE5OCBTYWx0ZWRfX9ucsDBs+w8KP hqnZhbpWnmzMd1J8+Zs2kJ8RxV/JYVUMqI/LVq8mL9wCqSTQwH6jwQcIv8y71pOesrqUGjMBWxs uG7bq1TPrDjtpotawA+Z/5ZK16hMBzIvRbDHoi7h+H9IU9C3V52TMzoZVGiro3pbPsRqzdf4RbP
- XuS/CS7AgBmmN/Qjf9rjnKV1rKWp4/VRcfKwS+b/4/WV9GrM8bfP7GflcR6O5c6qQL6cY+OSFdH lTgirPQlR4/Db+PKfKBgjIF7jMJ5LuIonBfXMu7u1OgI9W2Ge0qZI0MgypxTurL3niLHbSJxqy3 gdPjHhsRfRprxrgLm1Nn8cRsRT6pa35ocdQQXWMGwqExxKt8HuW9KrKupkuM6wWhn5cBoZ1RrcC qSJ7HYFQ
-X-Proofpoint-ORIG-GUID: a5iJ5YhtPwytI_xXmFxz1JB4YZge_-Nf
-X-Authority-Analysis: v=2.4 cv=fv3cZE4f c=1 sm=1 tr=0 ts=686f8c71 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=Wb1JkmetP80A:10 a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=w2PP7KgtAAAA:8 a=t7CeM3EgAAAA:8 a=_DOG5VusZh96CSHd3rEA:9
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=CDB6uwv3NW-08_pL9N3q:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: VNIOoHg0aOXY5xjnieJe9v04D6BWbfuy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA4MDE5OCBTYWx0ZWRfX4ARXlqOa4155 Gj3oDjRkH71MEHDZSbniILrn5A0ek4MC3kDl0H6REgZpM6Cp4z4tcUaozsPsF+lpNG14RWKiah7 Dzu3LsMvHO3h3WSqwePp0AlptsC/QXTZM9r6O8dgHM5WhSGJ3tnLwGizMuIMTRUG2Cz31/zOuk1
+ NwSJym1dStrdJW1NcE5P5tLQ9l248rCUbAXFFCZXEXVqn5Z3chPvcl/C0tCB34182gdsXfTmhSl Pd4TCA4CoU9qWsfQXsS745GWZQpjBGiRlBnHN+IjyAuT/MhQkRB2ePLgc9sdVzydqbJ0w5944OU Oo1r47jxQAn/DPHlzw6vD27oKoQIEeyNcUSktswcxPeO7AwvmhJ9uk4QJ6xTeH6EtTKfMA0awh9 fPY86+aF
+X-Authority-Analysis: v=2.4 cv=ZrntK87G c=1 sm=1 tr=0 ts=686fa136 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=Wb1JkmetP80A:10 a=NEAV23lmAAAA:8 a=omOdbC7AAAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8
+ a=qLfApxUun8_J0lj9rIQA:9 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: VNIOoHg0aOXY5xjnieJe9v04D6BWbfuy
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-10_01,2025-07-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 clxscore=1015 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ definitions=2025-07-10_02,2025-07-09_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 clxscore=1015 adultscore=0
+ phishscore=0 suspectscore=0 classifier=typeunknown authscore=0 authtc=
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
  engine=8.21.0-2505280000 definitions=main-2507080198
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 09:48:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220116
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 11:17:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220117
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-- Skip the test_rm_r_no_permissions test under the root user, as
-  deletion always succeeds.
-- Filter out tests under the -ext- directory in run-ptest. Due to the
-  commit [1],the packaging of .so test files under the .ext directory
-  was removed. As a result, adjust the test filtering rules to avoid
-  test failures caused by missing files.
-- Add installation of rdoc.rb and did_you_mean.rb files in
-  do_install_ptest to ensure complete test dependencies.
+0001-meson.build-correct-check-for-existence-of-two-prepr.patch
+removed since it's included in 1.7.1
 
-[1]
-https://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/ruby?id=4d4485442830bb52b152f0419f4ff9f1d581d46a
+Changelog:
+===============
+* pam_access: do not resolve ttys or display variables as hostnames.
+* pam_access: added "nodns" option to disallow resolving of tokens as hostnames
+  (CVE-2024-10963).
+* pam_limits: added support for rttime (RLIMIT_RTTIME).
+* pam_namespace: fixed potential privilege escalation (CVE-2025-6020).
+* meson: added support of elogind as a logind provider.
+* Multiple minor bug fixes, build fixes, portability fixes,
+  documentation improvements, and translation updates.
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+(From OE-Core rev: 5e77c48e074a20e58a233ab5ed6d8ef09bbd55c8)
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 ---
- ..._rm_r_no_permissions-test-under-root.patch | 32 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby/run-ptest     |  2 +-
- meta/recipes-devtools/ruby/ruby_3.4.4.bb      |  3 ++
- 3 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
+ ...ect-check-for-existence-of-two-prepr.patch | 40 -------------------
+ .../pam/{libpam_1.7.0.bb => libpam_1.7.1.bb}  |  3 +-
+ 2 files changed, 1 insertion(+), 42 deletions(-)
+ delete mode 100644 meta/recipes-extended/pam/libpam/0001-meson.build-correct-check-for-existence-of-two-prepr.patch
+ rename meta/recipes-extended/pam/{libpam_1.7.0.bb => libpam_1.7.1.bb} (97%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch b/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
-new file mode 100644
-index 0000000000..e3574f1a81
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
-@@ -0,0 +1,32 @@
-+From 9c4748aae4f69390a36875aa27d70c3c632ae944 Mon Sep 17 00:00:00 2001
-+From: Jiaying Song <jiaying.song.cn@windriver.com>
-+Date: Mon, 7 Jul 2025 15:05:57 +0800
-+Subject: [PATCH] Skip test_rm_r_no_permissions test under root
-+
-+Skip test_rm_r_no_permissions test under root user and Windows environments since deletion always succeeds.
-+
-+Upstream-Status: Submitted [https://github.com/ruby/ruby/pull/13828/commits/c510b5ac475e6d3eef935725d21910861816b7a9]
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ test/fileutils/test_fileutils.rb | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/test/fileutils/test_fileutils.rb b/test/fileutils/test_fileutils.rb
-+index d2096a0..80e3368 100644
-+--- a/test/fileutils/test_fileutils.rb
-++++ b/test/fileutils/test_fileutils.rb
-+@@ -768,8 +768,8 @@ class TestFileUtils < Test::Unit::TestCase
-+ 
-+   def test_rm_r_no_permissions
-+     check_singleton :rm_rf
-+-
-+-    return if /mswin|mingw/ =~ RUBY_PLATFORM
-++    
-++    return if Process.uid == 0 || /mswin|mingw/ =~ RUBY_PLATFORM
-+ 
-+     mkdir 'tmpdatadir'
-+     touch 'tmpdatadir/tmpdata'
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/ruby/ruby/run-ptest b/meta/recipes-devtools/ruby/ruby/run-ptest
-index de7c415aba..17404e3509 100644
---- a/meta/recipes-devtools/ruby/ruby/run-ptest
-+++ b/meta/recipes-devtools/ruby/ruby/run-ptest
-@@ -1,6 +1,6 @@
- #!/bin/sh
- 
--test_fullname=`find test -name test_*.rb` 
-+test_fullname=$(find test -name test_*.rb | grep -v '/-ext-/')
-  
- for i in ${test_fullname}; do 
- 	ruby ./test/runner.rb ${i}  2>&1 > /dev/null
-diff --git a/meta/recipes-devtools/ruby/ruby_3.4.4.bb b/meta/recipes-devtools/ruby/ruby_3.4.4.bb
-index 39e86fdd28..c532403339 100644
---- a/meta/recipes-devtools/ruby/ruby_3.4.4.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.4.4.bb
-@@ -27,6 +27,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
-            file://0006-Make-gemspecs-reproducible.patch \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-+           file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch \
+diff --git a/meta/recipes-extended/pam/libpam/0001-meson.build-correct-check-for-existence-of-two-prepr.patch b/meta/recipes-extended/pam/libpam/0001-meson.build-correct-check-for-existence-of-two-prepr.patch
+deleted file mode 100644
+index ef087ffc06..0000000000
+--- a/meta/recipes-extended/pam/libpam/0001-meson.build-correct-check-for-existence-of-two-prepr.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 9b5182d4781bcd6fb37a4030faf325965fde3e93 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Thu, 28 Nov 2024 20:32:17 +0100
+-Subject: [PATCH] meson: correct check for existence of two preprocessor
+- defines
+-
+-sizeof is meant for *types*, and in case of cross compiling
+-the test program produced by it has incorrect syntax
+-  __NR_keyctl something;
+-and will always fail to compile.
+-
+-* meson.build: Use cc.get_define() instead of cc.sizeof() to check for
+-preprocessor symbols.
+-
+-Co-authored-by: Dmitry V. Levin <ldv@strace.io>
+-Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/pull/861]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- meson.build | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/meson.build b/meson.build
+-index f6a7dafe9..307fed0aa 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -198,12 +198,12 @@ foreach ident: check_functions
+-   endif
+- endforeach
+- 
+--enable_pam_keyinit = cc.sizeof('__NR_keyctl', prefix: '#include <sys/syscall.h>') > 0
+-+enable_pam_keyinit = cc.get_define('__NR_keyctl', prefix: '#include <sys/syscall.h>') != ''
+- 
+- if get_option('mailspool') != ''
+-   cdata.set_quoted('PAM_PATH_MAILDIR', get_option('mailspool'))
+- else
+--  have = cc.sizeof('_PATH_MAILDIR', prefix: '#include <paths.h>') > 0
+-+  have = cc.get_define('_PATH_MAILDIR', prefix: '#include <paths.h>') != ''
+-   cdata.set('PAM_PATH_MAILDIR', have ? '_PATH_MAILDIR' : '"/var/spool/mail"')
+- endif
+- 
+diff --git a/meta/recipes-extended/pam/libpam_1.7.0.bb b/meta/recipes-extended/pam/libpam_1.7.1.bb
+similarity index 97%
+rename from meta/recipes-extended/pam/libpam_1.7.0.bb
+rename to meta/recipes-extended/pam/libpam_1.7.1.bb
+index 4abc52bd93..68857c5138 100644
+--- a/meta/recipes-extended/pam/libpam_1.7.0.bb
++++ b/meta/recipes-extended/pam/libpam_1.7.1.bb
+@@ -22,10 +22,9 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-PAM-${PV}.tar.xz \
+            file://pam.d/other \
+            file://run-ptest \
+            file://pam-volatiles.conf \
+-           file://0001-meson.build-correct-check-for-existence-of-two-prepr.patch \
             "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
-@@ -104,6 +105,8 @@ do_install_ptest () {
-     cp -r ${S}/tool/lib ${D}${PTEST_PATH}/tool/
-     mkdir -p ${D}${PTEST_PATH}/lib
-     cp -r ${S}/lib/did_you_mean ${S}/lib/rdoc ${D}${PTEST_PATH}/lib
-+    cp ${D}${libdir}/ruby/${SHRT_VER}.0/rdoc.rb ${D}${PTEST_PATH}/lib
-+    cp ${D}${libdir}/ruby/${SHRT_VER}.0/did_you_mean.rb ${D}${PTEST_PATH}/lib    
+-SRC_URI[sha256sum] = "57dcd7a6b966ecd5bbd95e1d11173734691e16b68692fa59661cdae9b13b1697"
++SRC_URI[sha256sum] = "21dbcec6e01dd578f14789eac9024a18941e6f2702a05cf91b28c232eeb26ab0"
  
-     # install test-binaries
-     # These .so files have sporadic reproducibility fails as seen here:
+ DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
+ 
 -- 
-2.34.1
+2.40.0
 
 
