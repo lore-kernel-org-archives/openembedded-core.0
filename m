@@ -1,289 +1,224 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <mark.jonas@de.bosch.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8848C83F17
-	for <webhook@archiver.kernel.org>; Thu, 10 Jul 2025 13:02:23 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.8269.1752152539475705299
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34681C83F17
+	for <webhook@archiver.kernel.org>; Thu, 10 Jul 2025 14:21:04 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.54])
+ by mx.groups.io with SMTP id smtpd.web10.10039.1752157260580626187
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jul 2025 06:02:19 -0700
+ Thu, 10 Jul 2025 07:21:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Swx2QLcC;
- spf=pass (domain: linaro.org, ip: 209.85.208.172, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-32b31afa781so7231131fa.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 06:02:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752152538; x=1752757338; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UyzO7n5h1rhKqOmyAcNlFMI/00/sgOcYcafgRdkcURI=;
-        b=Swx2QLcCnYuvxY6PV5cFm5F75W2ZO35cUs8AkYwaF31JfRbDByV49Ax/B7nR9WZ7LH
-         cXB+X9vDRbuH7Dd7Uc0JxY4Wi6WqqZVAM6Sn2+UuBTLUnWfP/xrYAea0vc0oDQq9HOw/
-         UmCXyu+NXcEK0Deft1mU89DaN0JYaztDY9U4+WEvQCbEes0o+DWWuEEpN5PB3ulHCOHs
-         /3LZAAVlAZ4E/K7OiaDSKYKoJLsCev2+sXBmRW8hqWCauG6WTruqbh3BZYaAzuXBPP1M
-         WFtDsdxDmOQ7B759yCNcrvN6404nXzUlkY18j/x4IBhEka8hTfXmsI/8RK4GlB7cmFYn
-         3kDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752152538; x=1752757338;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UyzO7n5h1rhKqOmyAcNlFMI/00/sgOcYcafgRdkcURI=;
-        b=VMaa+kUC7vgBG57byP07rb3g+TgM7HQv0qbgix2pmUni6hWjtQsqWMLVZi0Ws5r6Zw
-         R7fcOHdxFXWnt/C+enQRzyeEZxjjdTURRX/srrOjzX6kDIe2i+KUTIMhxfYrHyYLAKBb
-         eA7RIZA3YzeiY+6D3COtan6qGNlpkqwHbZdHm01n5rSAYA/gtHYBZMSNhFxB5YnulLaa
-         x3cAjEOXt+fNQelOi0TCi3h6VeVHyQsFgDdFy7rKmp0BnHTX4vxlpLQcN8I/1q0Z8f16
-         9pdhcY5A0H7iPTBPY5OuyCz+R1YNmy0ODO8XS40WEjT2YSLpLCPHrrSjczGCcW+9Uy/9
-         FTmg==
-X-Forwarded-Encrypted: i=1; AJvYcCVeMoO6kiIeJjiJBn1Du9SL81gY5n7gKJzR2y3eR77Z8fEcnYhI3BrpSUjQwiVMy3UDJeL9xBxAKf8F54ADviD3Bg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy9mMKrtgceNPguplBORdHyTUa4yhizj0zbu62LbKU3vqJyDu0s
-	XWD3I83PwizvneGDC5UNLLLOfQhhbvFoT+lOJ4Qq/KcC2Tm49YElNX+Ai8hTuZOzAr0=
-X-Gm-Gg: ASbGnctNxVO5VXhqYOA4cJC7v203ThRPF/GjDon+fhRWBS/DQ7Ep7a4zBabbzEhHauI
-	InV1DBCL8LwISs7/Yk9hSLHOB+It+bfSIw3n6l0gYQOD4vnbrgvXa31WitBngFzU1+Fj5aJWzou
-	G9m8INj06NEWbDCrekGFthqnCK1YZOGTevbe3I8FO+wWJJiMBUWSGZ8q9dY40GSs/MqhIFxuWmi
-	C0UIPy2cFeilylV3twOyo2ikwYbHa27QzlUZ0gNqF/PVq3C08nTSsOHBa06bx8Zmavw5hdJhRr5
-	drVJG1dE9S8uRycggNjVsxtJUKn6VGZqXJpaqi6fCACTTJdL8+clamfMVDSu/hBVHAq8OFCmBGj
-	zzBkkqkyYkNqzpcMAHp4=
-X-Google-Smtp-Source: AGHT+IGOYEs5xBSXiLkWtgS6MvHCpt+Ce0ZgZwmHL2bVp1d+ilhDzovnsZ3UtH2To8nyh0XfJQsWFg==
-X-Received: by 2002:a05:651c:4119:b0:32b:72c8:9a5e with SMTP id 38308e7fff4ca-32f5002088cmr7741411fa.3.1752152537103;
-        Thu, 10 Jul 2025 06:02:17 -0700 (PDT)
-Received: from nuoska (87-100-218-141.bb.dnainternet.fi. [87.100.218.141])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32fab91a64csm2664551fa.111.2025.07.10.06.02.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 06:02:16 -0700 (PDT)
-Date: Thu, 10 Jul 2025 16:02:14 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: trini@konsulko.com
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	openembedded-core@lists.openembedded.org,
-	Quentin Schulz <quentin.schulz@cherry.de>,
-	adrian.freihofer@siemens.com, Marek Vasut <marek.vasut@mailbox.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Subject: Re: [OE-core] [PATCH] u-boot: upgrade 2025.04 -> 2025.07
-Message-ID: <aG-51oSyAsEeiAHd@nuoska>
-References: <20250708012959.77522-1-festevam@gmail.com>
- <DB6OGLNWBEVN.2V2F24LHIZ4C4@bootlin.com>
- <CAOMZO5BJBc0E0EfejEPmVdGBZiQrrvRWsHhy0Bxgi+jx6WiYRQ@mail.gmail.com>
- <20250708175732.GU6424@bill-the-cat>
- <DB7DN2I98ZYX.3V9C86PS14M9B@bootlin.com>
- <20250709142932.GW6424@bill-the-cat>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@de.bosch.com header.s=selector2 header.b=CC06LT06;
+ spf=pass (domain: de.bosch.com, ip: 52.101.84.54, mailfrom: mark.jonas@de.bosch.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ahadff5YsX/YCWGZx5najeFFQgZkB+T+nS44aDbRy6bql+w2Ts3Z5Dwyfo+Fx5wePhmznDWkNVAlXC74aiSlZSQTnG1ekZXQxO5REdmjCrkRr0csowMWA19UlCB5GhtZY3bVvV/7UhXa0gzopQMyKRdLnDizsWtUaVrq9EA4toIItT+JCtHuPf8FvcXGvOXNYkYXV6DW8KkZ07kL2PGrmIRc4OzZp7boHJuvpQSd0CSLIv3IVHLO0w8+YQKesICMtOZte7ay0jzCL0eiaIp6sitw/DCngVP40DtCRam9sng/bi/H5ff7ZMou6DngSt48EobcLBda335mPGJIxRGaNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VSXJkeV7yjYpD11QsRoJ6mwQU8IbZ0xMIJpAUMwpA4Y=;
+ b=lykYRa2plLBjP6i1aI61AyQuBEohN+zrPUhwDWH3QOAw98HiwQAWVApWdqy3Z3e0Hd9BquGTHix+bKSTX2zH80ShbEwFY6dOXuBvSy2N9IhmBrzEeWOWdxRua0Gjbf84a7T7/kA+5rZbIx9ATKT65JbXM9uLNaRdtjKDtxm4IhBvVar+7ZvUL1y2zdCblTJ64Qxq7PKx1Bv7uhiM9Fsd0+3CH20fYs9Wovpz380QnPcQkzeAnlC+UsJ3jXWxmNlwUDDfYkhArVFqlMH61poZ1lzqiQ2rB9s6sxmoj9+Vd5oh+JlLSKv4l1Ij1GGfQZxvpfZDwWROAJwoxS6qgjzoMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.206) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=de.bosch.com; dmarc=pass (p=reject sp=none pct=100) action=none
+ header.from=de.bosch.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=de.bosch.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VSXJkeV7yjYpD11QsRoJ6mwQU8IbZ0xMIJpAUMwpA4Y=;
+ b=CC06LT064ETthUCGQZp++DjScCDp9CFF1UDSYCKSdQhNsk/kC+rNAzlJNOpiP1i9yJW9Fi64MaP+aOsa55VZytBneKjOpkIkQg0LSAD2O+JQI7Y8qZWCyD8knZSU21oQC1DHHtMguLw46gbuOMOcV9Fyw0AcUq2axdX0AZEKWJYikxCVYu+G7mvMb4mji0+5OotZdCBMJaHlX2m6fWFw3BfQreITOK7t9sb5TieBMI0b6mzEx9v7KLvq2VWtAu/LdBVNBHOmocCNro3ps0OgbFCoSkIAHyIpzAQXZMjViiVlXG5nXAMw+U0Yf2N6FfaLtQewRsnPk39VNZ1UthoBVA==
+Received: from CWLP123CA0018.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:56::30)
+ by PAXPR10MB5278.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:28f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.29; Thu, 10 Jul
+ 2025 14:20:56 +0000
+Received: from AM1PEPF000252DB.eurprd07.prod.outlook.com
+ (2603:10a6:401:56:cafe::e) by CWLP123CA0018.outlook.office365.com
+ (2603:10a6:401:56::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.22 via Frontend Transport; Thu,
+ 10 Jul 2025 14:20:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.206)
+ smtp.mailfrom=de.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=de.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of de.bosch.com designates
+ 139.15.153.206 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.206; helo=eop.bosch-org.com; pr=C
+Received: from eop.bosch-org.com (139.15.153.206) by
+ AM1PEPF000252DB.mail.protection.outlook.com (10.167.16.53) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8922.22 via Frontend Transport; Thu, 10 Jul 2025 14:20:55 +0000
+Received: from FE-EXCAS2001.de.bosch.com (10.139.217.200) by eop.bosch-org.com
+ (139.15.153.206) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.26; Thu, 10 Jul
+ 2025 16:20:55 +0200
+Received: from RNGMBX3003.de.bosch.com (10.124.11.208) by
+ FE-EXCAS2001.de.bosch.com (10.139.217.200) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.57; Thu, 10 Jul 2025 16:20:55 +0200
+Received: from GRB-C-0009M.ot.de.bosch.com (10.143.161.227) by
+ smtp.app.bosch.com (10.124.11.208) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 10 Jul 2025 16:20:54 +0200
+From: <mark.jonas@de.bosch.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <jpewhacker@gmail.com>, <raj.khem@gmail.com>, Ricardo Simoes
+	<ricardo.simoes@pt.bosch.com>, Mark Jonas <mark.jonas@de.bosch.com>
+Subject: [PATCH] dosfstools: Add ptests
+Date: Thu, 10 Jul 2025 16:20:15 +0200
+Message-ID: <20250710142015.174053-1-mark.jonas@de.bosch.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250709142932.GW6424@bill-the-cat>
+Content-Type: text/plain
+X-Originating-IP: [10.143.161.227]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM1PEPF000252DB:EE_|PAXPR10MB5278:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a0fc555-3579-4c8c-2c39-08ddbfbcfbdd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?x/rD3dfyzML1gOJYXa6gbRnakPoMYBya9YXetQyz0i9EcfFMu1jMG37osENR?=
+ =?us-ascii?Q?GULRM/LMWtNEfCdSAXnkwkwQa6NdkcqXDqq3vNMR9GuRRX5nuk/vNiF3trM9?=
+ =?us-ascii?Q?NlMGtqXPKyhLD6tUfvL7pSplrxRthF3WDlwBIxj+DBhKV4zQ3Omu8h+7OWIk?=
+ =?us-ascii?Q?hDTFJzmchUoZ/7eSEcaPFaP1KGmjUnuJ/GZp9OtknUjNh5dNWpZlEz7S2xdb?=
+ =?us-ascii?Q?H/iZ8SaCTh6qDI+HutBmh0zjEV3/F8iEuoWXg3KvvAykR5bJZ1oihV83xLAw?=
+ =?us-ascii?Q?F5E48pZwRRy+03Aqt+S7BpdZ+9dximEOiKQcK6o2lYyhE+zzV1Tm36sQUg8R?=
+ =?us-ascii?Q?q1KhJvqnThJvptDtLb1kO9mwBJvAjH/I9NhoGrC6f3mtpBSggx4Oz/0heIs5?=
+ =?us-ascii?Q?A/2EvWhLDLgUESbRqp4NBSGz/xB9Bi1xSw82uf+C6iQGPTYSmjkhI1xGPWjp?=
+ =?us-ascii?Q?MdC/imalCK4JGFvzjN6/WwBUwHWkdkWCxn3yvTDWJvlVx1jWNDUHUni/MmeM?=
+ =?us-ascii?Q?wStFEw62FFhguEVfzEUfwiTl7qGh2WIQgd8tkytF4Ry7lkRMX9wRgaUBiZhJ?=
+ =?us-ascii?Q?ghLAPTdc/KtX83uk44jCQteUIBYk8zhno8EmhbIdtRNX7uwexaWAqdqhfcgY?=
+ =?us-ascii?Q?9+mEddr+/HCkq0so+jiTa9lKy3KaIyylX+z+taSOEB4peoezvmmyJ9xcYn2V?=
+ =?us-ascii?Q?HRxhUWsSIh8vyEpMMKNoBwSELW0di6yh7kVzzz2yfdeh1r8w1r+yG0ZJ3cXx?=
+ =?us-ascii?Q?X6pP1qTUaRMI0VL7dfbVX+BFlnFqUjweZ4pbsV23AjLaYHUyc99IcHxBUgNF?=
+ =?us-ascii?Q?XqSITdGaGDCvwJjuCV5QZpC5+NCgXrYLoNSv1ijEGuxryV1UDf2BS73FcUcu?=
+ =?us-ascii?Q?R2nW1csS4ocQgVblo3W+XLq4J2vJjvkv9t4/byvRYJFDHcGJFGJ6woh2uMgt?=
+ =?us-ascii?Q?1S33MM5gxyweiIaxdpiGc3Sdwi07DJPdBHUVdLOrl+Vd/U4jIRDm4jny3SA+?=
+ =?us-ascii?Q?E3RYObAXadbXCV4bY4w9wNIbVq8a3hg/muVjJ1z15rvFf/QOSx7wVuATaq21?=
+ =?us-ascii?Q?Yej7U2OKE6nm9Jnl1fwzuAwpyJgv607u1nnpq5Bq4pT9SDDlAfFeRg3zcPkp?=
+ =?us-ascii?Q?QMKWC2BuvIKg9ziiakn1pq7XiYVaHRLiMt33SLWAz8PrfiMK8g45ZBsZYIIT?=
+ =?us-ascii?Q?LeCj+QUZ28Cb64Ql5thDU7qdrH9+HZInGDh8s2vb/3n8Kp2l45VUNbVNUnWR?=
+ =?us-ascii?Q?S1E3UXXfkVkNqoTcFJNEet/23wgdKZL7Q63gSLa5nwvfV+FmRX9YnIElBx0j?=
+ =?us-ascii?Q?uJgH0P90godfBRtB1AcU2lPksdVAw4p4RAO3ZeDhed9iGVz7onsC3cN1n6Ts?=
+ =?us-ascii?Q?5+SWW/nAwucqVoArkNFw3gtXM9URlwW9pRPnjPBIARkzQGLZIZhOZRqWkdbW?=
+ =?us-ascii?Q?LBGwSD9Ec94PQ0mzne159SaO/r46+Hoj0p2pekWNapyQRlBY2N6ueo8FTDHh?=
+ =?us-ascii?Q?fTqffwxjX1cIg6llHrJS4QncWxlJg+XnuDyp?=
+X-Forefront-Antispam-Report: 
+	CIP:139.15.153.206;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: de.bosch.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 14:20:55.6092
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a0fc555-3579-4c8c-2c39-08ddbfbcfbdd
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.206];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM1PEPF000252DB.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR10MB5278
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 13:02:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220120
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 14:21:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220121
 
-Hi,
+From: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
 
-Adding Ilias,
+Signed-off-by: Ricardo Simoes <ricardo.simoes@pt.bosch.com>
+Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
+---
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../dosfstools/dosfstools_4.2.bb              | 30 ++++++++++++++++++-
+ .../dosfstools/files/run-ptest                |  5 ++++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/dosfstools/files/run-ptest
 
-On Wed, Jul 09, 2025 at 08:29:32AM -0600, Tom Rini via lists.openembedded.o=
-rg wrote:
-> On Wed, Jul 09, 2025 at 10:21:34AM +0200, Mathieu Dubois-Briand wrote:
-> > On Tue Jul 8, 2025 at 7:57 PM CEST, Tom Rini wrote:
-> > > On Tue, Jul 08, 2025 at 02:04:15PM -0300, Fabio Estevam wrote:
-> > >> Hi Mathieu,
-> > >>=20
-> > >> On Tue, Jul 8, 2025 at 9:37=E2=80=AFAM Mathieu Dubois-Briand
-> > >> <mathieu.dubois-briand@bootlin.com> wrote:
-> > >> >
-> > >> > On Tue Jul 8, 2025 at 3:29 AM CEST, Fabio Estevam via lists.openem=
-bedded.org wrote:
-> > >> > > Upgrade to U-Boot 2025.07.
-> > >> > >
-> > >> > > Signed-off-by: Fabio Estevam <festevam@gmail.com>
-> > >> > > ---
-> > >> >
-> > >> > Hi Fabio,
-> > >> >
-> > >> > Thanks for your patch.
-> > >> >
-> > >> > It looks like this is breaking selftests on the autobuilder:
-> > >> >
-> > >> > 2025-07-08 07:43:52,116 - oe-selftest - INFO - fitimage.UBootFitIm=
-ageTests.test_sign_cascaded_uboot_fit_image (subunit.RemotedTestCase)
-> > >> > 2025-07-08 07:43:52,118 - oe-selftest - INFO -  ... FAIL
-> > >> > ...
-> > >> > ERROR: u-boot-1_2025.07-r0 do_compile: oe_runmake failed
-> > >> > ...
-> > >> > | arm-poky-linux-gnueabi-ld.bfd: cannot find arch/arm/lib/lib.a: N=
-o such file or directory
-> > >> >
-> > >> >
-> > >> > Both on debian and armhost:
-> > >> >
-> > >> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds=
-/1923
-> > >> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds=
-/2077
-> > >> >
-> > >> > Can you have a look at these failures please?
-> > >>=20
-> > >> Thanks for the report.
-> > >>=20
-> > >> I am adding some folks on CC in case they have some ideas.
-> > >
-> > > Interesting. How can we trigger that outside of the autobuilder?
-> >=20
-> > Hi,
-> >=20
-> > It's not so easy to reproduce, as it looks like it is somehow linked
-> > with the host environment: this have been failing on debian workers but
-> > not on the fedora ones.
-> > So basic instructions are below, but this was not enough to reproduce it
-> > in the ubuntu 24.4 docker I've been using so far.
-> >=20
-> > git clone git://git.yoctoproject.org/poky-ci-archive -b autobuilder.yoc=
-toproject.org/valkyrie/a-full-1972
-> > cd poky-ci-archive
-> > . oe-init-build-env
-> >=20
-> > Add following lines in conf/local.conf (I bet only the last one is
-> > really needed, but let's try to be as close as possible as the
-> > autobuilder configuration):
-> > MACHINE =3D "qemux86-64"
-> > DISTRO =3D "poky"
-> > SDKMACHINE =3D "x86_64"
-> > PACKAGE_CLASSES =3D "package_rpm"
-> > RPM_GPG_SIGN_CHUNK =3D '1'
-> > IMAGE_INSTALL:append =3D ' ssh-pregen-hostkeys'
-> > SANITY_TESTED_DISTROS =3D ''
-> >=20
-> > Add poky-ci-archive/meta-selftest in conf/bblayers.conf.
-> >=20
-> > And finally, run the tests:
-> > oe-selftest -r fitimage.UBootFitImageTests.test_sign_cascaded_uboot_fit=
-_image
-> > oe-selftest -r fitimage.UBootFitImageTests.test_sign_standalone_uboot_a=
-tf_tee_fit_image
->=20
-> Yeah, looking at the logs it's not even Debian, it's Ubuntu 22.04, which
-> is what we use for our CI too. I guess I would suggest bisect'ing with
-> the autobuilder until finding out what commit breaks and then someone
-> from the U-Boot side of things can chime in.
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index 4253c7b062..46c8945eb4 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -99,6 +99,7 @@ PTESTS_SLOW =3D "\
+     coreutils \
+     curl \
+     dbus \
++    dosfstools \
+     e2fsprogs \
+     elfutils \
+     gettext \
+diff --git a/meta/recipes-devtools/dosfstools/dosfstools_4.2.bb b/meta/reci=
+pes-devtools/dosfstools/dosfstools_4.2.bb
+index 86fb68f664..a7ba279f3a 100644
+--- a/meta/recipes-devtools/dosfstools/dosfstools_4.2.bb
++++ b/meta/recipes-devtools/dosfstools/dosfstools_4.2.bb
+@@ -10,18 +10,46 @@ LICENSE =3D "GPL-3.0-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae50=
+4"
+=20
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
++           file://run-ptest \
+            file://source-date-epoch.patch \
+            file://0001-fsck.fat-Adhere-to-the-fsck-exit-codes.patch \
+            file://0002-manpages-Document-fsck.fat-new-exit-codes.patch \
+            "
+ SRC_URI[sha256sum] =3D "64926eebf90092dca21b14259a5301b7b98e7b1943e8a201c7=
+d726084809b527"
+=20
+-inherit autotools gettext pkgconfig update-alternatives github-releases
++inherit autotools gettext pkgconfig ptest update-alternatives github-relea=
+ses
+=20
+ EXTRA_OECONF =3D "--enable-compat-symlinks --without-iconv"
+=20
+ CFLAGS +=3D "-D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=3D64"
+=20
++do_install_ptest () {
++    mkdir -p ${D}${PTEST_PATH}/tests
++    install -m 0744 ${S}/tests/* ${D}${PTEST_PATH}/tests/
++    install -m 0744 ${S}/test-driver ${D}${PTEST_PATH}/tests/
++
++    mkdir -p ${D}${PTEST_PATH}/src
++    ln -sf /sbin/mkfs.fat ${D}${PTEST_PATH}/src/mkfs.fat
++    ln -sf /sbin/fsck.fat ${D}${PTEST_PATH}/src/fsck.fat
++    ln -sf /sbin/fatlabel ${D}${PTEST_PATH}/src/fatlabel
++
++    # dosfstools tests depends on variables defined in the tests/Makefile.
++    # To run the tests, we need to modify the following:
++    # - srcdir: used to find the test scripts for each dosfstools tools
++    # - top_srcdir: used to find the test-driver script
++    # - Makefile: originally used to recreate build rules when needed. The=
+y're not needed here
++    #             because we only want to run the tests.
++    # - XXD_FOUND: Always satisfied by RDEPENDS of ptest package
++    sed \
++        -e 's/^srcdir =3D ..*/srcdir =3D \./'         \
++        -e 's/^top_srcdir =3D ..*/top_srcdir =3D \./' \
++        -e 's/^Makefile: ..*/Makefile: /'         \
++        -e 's/XXD_FOUND=3D/XXD_FOUND=3Dyes/'          \
++        ${B}/tests/Makefile > ${D}${PTEST_PATH}/tests/Makefile
++}
++
++RDEPENDS:${PN}-ptest +=3D "make xxd gawk"
++
+ BBCLASSEXTEND =3D "native nativesdk"
+=20
+ ALTERNATIVE_PRIORITY =3D "100"
+diff --git a/meta/recipes-devtools/dosfstools/files/run-ptest b/meta/recipe=
+s-devtools/dosfstools/files/run-ptest
+new file mode 100644
+index 0000000000..4f6e349a23
+--- /dev/null
++++ b/meta/recipes-devtools/dosfstools/files/run-ptest
+@@ -0,0 +1,5 @@
++#!/bin/sh
++
++cd tests
++
++make check
+--=20
+2.34.1
 
-I've tried to reproduce this on x86_64 Ubuntu 22.04 build machine
-targeting qemuarm and arm64 Ubuntu 24.04 build machine targeting
-beaglebone. No luck so far. In my builds, lib.a has always been
-created in before any other linking steps happens. I presume this is a
-race condition where linking step of lib/efi_loader/testapp_efi.so
-does not actually have a dependency to the lib.a creating linking step.
-
-I'm not familiar enough with u-boot/Kconfig build setups to see where this
-dependency should be added.
-
-=46rom do_compile log in passing case:
-
-set -e; mkdir -p include/generated/;    (echo \#define PLAIN_VERSION \"2025=
-=2E07\"; echo \#define U_BOOT_VERSION \"U-Boot \" PLAIN_VERSION; echo \#def=
-ine U_BOOT_VERSION_NUM 2025; echo \#define U_BOOT_VERSION_NUM_PATCH $(echo =
-07 | sed -e "s/^0*//"); echo \#define HOST_ARCH 0x00a7; echo \#define CC_VE=
-RSION_STRING \"$(LC_ALL=3DC arm-poky-linux-gnueabi-gcc  --sysroot=3D/home/m=
-cfrisk/src/base/repo/poky/build_beaglebone/tmp/work/beaglebone_yocto-poky-l=
-inux-gnueabi/u-boot/2025.07/recipe-sysroot  -ffile-prefix-map=3D/home/mcfri=
-sk/src/base/repo/poky/build_beaglebone/tmp/work/beaglebone_yocto-poky-linux=
--gnueabi/u-boot/2025.07/sources/u-boot-2025.07=3D/usr/src/debug/u-boot/2025=
-=2E07  -ffile-prefix-map=3D/home/mcfrisk/src/base/repo/poky/build_beaglebon=
-e/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-boot/2025.07/build=3D/usr/=
-src/debug/u-boot/2025.07  -ffile-prefix-map=3D/home/mcfrisk/src/base/repo/p=
-oky/build_beaglebone/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-boot/20=
-25.07/recipe-sysroot=3D  -ffile-prefix-map=3D/home/mcfrisk/src/base/repo/po=
-ky/build_beaglebone/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-boot/202=
-5.07/recipe-sysroot-native=3D  --version | head -n 1)\"; echo \#define LD_V=
-ERSION_STRING \"$(LC_ALL=3DC arm-poky-linux-gnueabi-ld.bfd --version | head=
- -n 1)\"; ) < include/config/uboot.release > include/generated/version_auto=
-generated.h.tmp; if [ -r include/generated/version_autogenerated.h ] && cmp=
- -s include/generated/version_autogenerated.h include/generated/version_aut=
-ogenerated.h.tmp; then rm -f include/generated/version_autogenerated.h.tmp;=
- else : '  UPD     include/generated/version_autogenerated.h'; mv -f includ=
-e/generated/version_autogenerated.h.tmp include/generated/version_autogener=
-ated.h; fi
-=2E..
-  rm -f arch/arm/lib/lib.a; arm-poky-linux-gnueabi-ar cDPrsT arch/arm/lib/l=
-ib.a arch/arm/lib/ashldi3.o arch/arm/lib/ashrdi3.o arch/arm/lib/div0.o arch=
-/arm/lib/div64.o arch/arm/lib/lib1funcs.o arch/arm/lib/lshrdi3.o arch/arm/l=
-ib/muldi3.o arch/arm/lib/uldivmod.o
-=2E..
-  arm-poky-linux-gnueabi-ld.bfd -nostdlib -zexecstack -znocombreloc -znorel=
-ro --no-warn-rwx-segments -L /home/mcfrisk/src/base/repo/poky/build_beagleb=
-one/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-boot/2025.07/sources/u-b=
-oot-2025.07 -T arch/arm/lib/elf_arm_efi.lds -shared -Bsymbolic -s lib/efi_l=
-oader/testapp.o lib/efi_loader/efi_crt0.o lib/efi_loader/efi_reloc.o lib/ef=
-i_loader/efi_freestanding.o arch/arm/lib/lib.a -o lib/efi_loader/testapp_ef=
-i.so
-
-Looks like testapp_efi.so linking step is the first one using
-arm-poky-linux-gnueabi-ld.bfd.
-
-Failing case:
-
-https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/2914600/raw_inline
-
-| set -e; mkdir -p include/generated/; 	(echo \#define PLAIN_VERSION \"2025=
-=2E07\"; echo \#define U_BOOT_VERSION \"U-Boot \" PLAIN_VERSION; echo \#def=
-ine U_BOOT_VERSION_NUM 2025; echo \#define U_BOOT_VERSION_NUM_PATCH $(echo =
-07 | sed -e "s/^0*//"); echo \#define HOST_ARCH 0x00a7; echo \#define CC_VE=
-RSION_STRING \"$(LC_ALL=3DC arm-poky-linux-gnueabi-gcc  --sysroot=3D/srv/po=
-kybuild/yocto-worker/oe-selftest-armhost/build/build-st-3119200/tmp/work/be=
-aglebone_yocto-poky-linux-gnueabi/u-boot/2025.07/recipe-sysroot  -ffile-pre=
-fix-map=3D/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-31=
-19200/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-boot/2025.07/sources/u=
--boot-2025.07=3D/usr/src/debug/u-boot/2025.07  -ffile-prefix-map=3D/srv/pok=
-ybuild/yocto-worker/oe-selftest-armhost/build/build-st-3119200/tmp/work/bea=
-glebone_yocto-poky-linux-gnueabi/u-boot/2025.07/build=3D/usr/src/debug/u-bo=
-ot/2025.07  -ffile-prefix-map=3D/srv/pokybuild/yocto-worker/oe-selftest-arm=
-host/build/build-st-3119200/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-=
-boot/2025.07/recipe-sysroot=3D  -ffile-prefix-map=3D/srv/pokybuild/yocto-wo=
-rker/oe-selftest-armhost/build/build-st-3119200/tmp/work/beaglebone_yocto-p=
-oky-linux-gnueabi/u-boot/2025.07/recipe-sysroot-native=3D  --version | head=
- -n 1)\"; echo \#define LD_VERSION_STRING \"$(LC_ALL=3DC arm-poky-linux-gnu=
-eabi-ld.bfd --version | head -n 1)\"; ) < include/config/uboot.release > in=
-clude/generated/version_autogenerated.h.tmp; if [ -r include/generated/vers=
-ion_autogenerated.h ] && cmp -s include/generated/version_autogenerated.h i=
-nclude/generated/version_autogenerated.h.tmp; then rm -f include/generated/=
-version_autogenerated.h.tmp; else : '  UPD     include/generated/version_au=
-togenerated.h'; mv -f include/generated/version_autogenerated.h.tmp include=
-/generated/version_autogenerated.h; fi
-=2E..
-|    rm -f lib/efi_loader/built-in.o; arm-poky-linux-gnueabi-ar cDPrsT lib/=
-efi_loader/built-in.o lib/efi_loader/efi_bootmgr.o lib/efi_loader/efi_bootb=
-in.o lib/efi_loader/efi_boottime.o lib/efi_loader/efi_helper.o lib/efi_load=
-er/efi_console.o lib/efi_loader/efi_device_path.o lib/efi_loader/efi_device=
-_path_to_text.o lib/efi_loader/efi_device_path_utilities.o lib/efi_loader/e=
-fi_dt_fixup.o lib/efi_loader/efi_fdt.o lib/efi_loader/efi_file.o lib/efi_lo=
-ader/efi_hii.o lib/efi_loader/efi_hii_config.o lib/efi_loader/efi_image_loa=
-der.o lib/efi_loader/efi_load_options.o lib/efi_loader/efi_memory.o lib/efi=
-_loader/efi_root_node.o lib/efi_loader/efi_runtime.o lib/efi_loader/efi_set=
-up.o lib/efi_loader/efi_string.o lib/efi_loader/efi_unicode_collation.o lib=
-/efi_loader/efi_var_common.o lib/efi_loader/efi_var_mem.o lib/efi_loader/ef=
-i_variable.o lib/efi_loader/efi_var_file.o lib/efi_loader/efi_watchdog.o li=
-b/efi_loader/efi_disk.o lib/efi_loader/efi_net.o lib/efi_loader/efi_smbios.=
-o lib/efi_loader/efi_load_initrd.o lib/efi_loader/efi_conformance.o
-|   arm-poky-linux-gnueabi-ld.bfd -nostdlib -zexecstack -znocombreloc -znor=
-elro --no-warn-rwx-segments -L /srv/pokybuild/yocto-worker/oe-selftest-armh=
-ost/build/build-st-3119200/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-b=
-oot/2025.07/sources/u-boot-2025.07 -T arch/arm/lib/elf_arm_efi.lds -shared =
--Bsymbolic -s lib/efi_loader/helloworld.o lib/efi_loader/efi_crt0.o lib/efi=
-_loader/efi_reloc.o lib/efi_loader/efi_freestanding.o arch/arm/lib/lib.a -o=
- lib/efi_loader/helloworld_efi.so
-| arm-poky-linux-gnueabi-ld.bfd: cannot find arch/arm/lib/lib.a: No such fi=
-le or directory
-| make[3]: *** [scripts/Makefile.lib:512: lib/efi_loader/helloworld_efi.so]=
- Error 1
-
-In this failing log, nothing created lib.a before lib/efi_loader/helloworld=
-_efi.so
-link step started.
-
-Cheers,
-
--Mikko
 
