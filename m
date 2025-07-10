@@ -1,214 +1,84 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F9EC83F0A
-	for <webhook@archiver.kernel.org>; Wed,  9 Jul 2025 21:23:27 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.8334.1752096200273644038
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A77FC83F09
+	for <webhook@archiver.kernel.org>; Thu, 10 Jul 2025 05:44:01 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.1598.1752126237660463463
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Jul 2025 14:23:20 -0700
+ Wed, 09 Jul 2025 22:43:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 569LNHmZ446283;
-	Wed, 9 Jul 2025 16:23:18 -0500
-Received: from [192.168.2.97] ([192.168.2.97])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 569LNHqh011997;
-	Wed, 9 Jul 2025 16:23:17 -0500
-Message-ID: <dec95982-288f-43a8-91dd-47d60174de67@kernel.crashing.org>
-Date: Wed, 9 Jul 2025 16:23:16 -0500
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9286887760=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56A5KDRc004197
+	for <openembedded-core@lists.openembedded.org>; Wed, 9 Jul 2025 22:43:57 -0700
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47q3jn4rkt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 22:43:57 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Wed, 9 Jul 2025 22:43:26 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Wed, 9 Jul 2025 22:43:25 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][Walnascar][PATCH  1/1] openssl: upgrade 3.4.1 -> 3.4.2
+Date: Thu, 10 Jul 2025 11:13:47 +0530
+Message-ID: <20250710054347.3347260-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v3 6/6] qemuriscv: Dynamically configure qemu
- CPU
-Content-Language: en-US
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-References: <1751492664-12569-1-git-send-email-mark.hatle@kernel.crashing.org>
- <1751492664-12569-7-git-send-email-mark.hatle@kernel.crashing.org>
- <84caeee4b92dad27f67c745c63aaafbf9abb6c1b.camel@linuxfoundation.org>
- <a23f5658-d4a8-4ad1-8eb5-924a36d04bad@kernel.crashing.org>
- <368a2856-e12a-45dc-940b-cfa269a4bc13@gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <368a2856-e12a-45dc-940b-cfa269a4bc13@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 569LNHmZ446283
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 5QDFHQZ9SxXoMQRYsxKwTFWo1glVXD13
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA4MDE5OCBTYWx0ZWRfX9QvAeTCWhRo6 jjGG0C6ia7H9mCdanXRYx+FFI//aQnLOll55CTWPENVsgwsYenPuPVobGTIgFvGRBbv+fueSP0W W2xGws+Wkl0PzPipXq8G3NgeqNLhVJrTn/ySdAK4FCtjfLNYshnBwl59QIEqcoD58xOSKf6yn9i
+ 4gVkPjpmliKfAM6iaQiQH5LmAlc2/L0FuDvPLZbFo7ymvuuIeUqZOynxUi1wG+/NzljHbIESjt0 NLXyaDdt20IRTwyostF4u1QKcLxOJ9Q/+DPzH2TGOP9tus8YTWuO9a9syum4Sl+hdOqMUsuwAhh RE/VLkkwlPRVcKULeYkbxLDC/+XKipd9xfnrM6NWz50jXmfsXIufN87ZSH9aD/TXgatdX6kWHug V3bjy1uA
+X-Proofpoint-ORIG-GUID: 5QDFHQZ9SxXoMQRYsxKwTFWo1glVXD13
+X-Authority-Analysis: v=2.4 cv=fv3cZE4f c=1 sm=1 tr=0 ts=686f531d cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=Wb1JkmetP80A:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=E6anlXapLMw7mTuY2RIA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-09_05,2025-07-09_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 suspectscore=0 clxscore=1015 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2505280000 definitions=main-2507080198
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Jul 2025 21:23:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220111
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 05:44:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220112
 
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
+https://github.com/openssl/openssl/blob/openssl-3.4.2/NEWS.md
 
-On 7/9/25 11:23 AM, Khem Raj wrote:
->=20
->=20
-> On 7/9/25 7:54 AM, Mark Hatle via lists.openembedded.org wrote:
->> I will investigate.
->>
->> I suspect SOME of this may be test cases with hard coded riscv assembl=
-y
->> in them using extensions that we've not enabled.
->>
->> The configuration listed in the logs for the kernel are:
->>
->> rv64imafdc
->>
->>   =C2=A0'[=C2=A0=C2=A0=C2=A0 0.000000] riscv: base ISA extensions acdf=
-im\n'
->>   =C2=A0'[=C2=A0=C2=A0=C2=A0 0.000000] riscv: ELF capabilities acdfim\=
-n'
->>
->> The 'v' (vector) extension is intentionally not enabled to match the
->> software configuration, but some tests may be trying to use it.
->>
->> I'll walk through this and attempt to get this identified for real.
->=20
->=20
-> We should be enabling the rvb23 (rv64gcv) profile as default for qemu, =
-since
-> that is the baseline for a RISCV profile that OE will be used as base
-> infrastructure and we should target that commonly, perhaps changing
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ .../openssl/{openssl_3.4.1.bb => openssl_3.4.2.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.4.1.bb => openssl_3.4.2.bb} (99%)
 
-I disagree that the 'baseline' should be rv64gcv.  Because this is a vari=
-able=20
-ISA, we need the baseline to be something reasonably common across multip=
-le=20
-vendors.  (Note, I didn't say all vendors).  rv64gc seems to be common fr=
-om the=20
-research I did, the 'v' is also available, but not as widely available on=
-=20
-non-workstation oriented chips.
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.4.1.bb b/meta/recipes-connectivity/openssl/openssl_3.4.2.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.4.1.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.4.2.bb
+index 8da64aea6a..2998e37e75 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.4.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.4.2.bb
+@@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "002a2d6b30b58bf4bea46c43bdd96365aaf8daa6c428782aa4feee06da197df3"
++SRC_URI[sha256sum] = "17b02459fc28be415470cccaae7434f3496cac1306b86b52c83886580e82834c"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+-- 
+2.40.0
 
-> default tune for qemuriscv64 to consider that would be a good thing. I
-> know there is
-> a value in constructing the ISA+extension set that qemu emulates based
-> on tune selection and whatever rv64gcv devolves down in terms of
-> extensions.
-
-BEFORE my work, the tune was "riscv64".  (I maintained this after as well=
-)
-
-https://git.yoctoproject.org/poky/tree/meta/conf/machine/include/riscv/ar=
-ch-riscv.inc?h=3Dwalnascar
-
-https://git.yoctoproject.org/poky/tree/meta/conf/machine/include/riscv/tu=
-ne-riscv.inc?h=3Dwalnascar
-
-This mapped to rv64gc (NO V), so that is what I implemented.  How did I=20
-determine it was rv64gc and not rv64gcv?  I queried the compiler to see w=
-hat the=20
-default options were since the ISA was not defined anywhere.
-
-If we want to move to rv64gcv, then that can be adjusted in:
-
-https://git.yoctoproject.org/poky/tree/meta/conf/machine/include/riscv/tu=
-ne-riscv.inc
-
-Just change the 'riscv64' configuration to add the 'v'.
-
-I don't really care what our default is as long as someone defined it and=
- tests=20
-it.  BUT I do care that NOT using our default WILL continue to work.
-
-Just moving to rv64gcv unconditionally isn't right.  Not all riscv cores =
-have=20
-vector units, or even the compressed extension, let along f/d floating po=
-int.=20
-So we have to be flexible or there is no purpose to this work.
-
-
-I believe it's key for the RISC-V sponsors who will end up owning this wo=
-rk to=20
-speak up.  I can say what I know, you can say when you know -- but ultima=
-tely=20
-I'm only going to be doing this work until it meets my needs and then I'm=
- going=20
-to step back while other people implement what they need.  (I'm not going=
- to=20
-abandon it, but I need the work _now_, so I had to step in to implement i=
-t.)
-
-What we do NOT have to be is platform that runs portable code with Ubuntu=
-/Red=20
-Hat and others.
-
-For _MY_ purposes, _MY_ chips do not have a vector unit, my rv32 do not h=
-ave=20
-double precision floating point (only single).  Additional the following =
-items=20
-are all user selectable:
-
-rv32i vs rv32e (e is not compatible with Linux, but is with baremetal!)
-rv64i
-
-m - optional
-a - optional
-f - optional
-d - only available with rv64i
-c - optional (not recommended)
-(as well as some z extensions)
-
-Linux REQUIRES rv<size>ima
-
-It does not require fdc (or v) as well as the z extensions (except for zi=
-csr and=20
-zifencei).
-
---Mark
-
-
->>
->> --Mark
->>
->> On 7/9/25 4:17 AM, Richard Purdie via lists.openembedded.org wrote:
->>> On Wed, 2025-07-02 at 16:44 -0500, Mark Hatle via
->>> lists.openembedded.org wrote:
->>>> From: Mark Hatle <mark.hatle@amd.com>
->>>>
->>>> Use TUNE_FEATURES to dynamically configure the QEMU emulated CPU for=
- the
->>>> options selected by the DEFAULTTUNE.
->>>>
->>>> Note: OpenSBI currently requires 'c' (compressed instructions) or it
->>>> will
->>>> not work.
->>>>
->>>> Change the base device configuration to use a different variable to
->>>> select
->>>> the emulate devices.=C2=A0 This will allow a user to override or app=
-end the
->>>> QB_OPT_APPEND without the riscv32 override getting in the way.
->>>>
->>>> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
->>>> ---
->>>>  =C2=A0=C2=A0meta/conf/machine/include/riscv/qemuriscv.inc | 31 ++++=
-+++++++++++++--
->>>>  =C2=A0=C2=A01 file changed, 28 insertions(+), 3 deletions(-)
->>>>
->>>
->>> FWIW I narrowed down the ptest failures to this patch.
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>>
->>>
->>>
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#220090): https://lists.openembedded.org/g/openembe=
-dded-core/message/220090
->> Mute This Topic: https://lists.openembedded.org/mt/113956553/1997914
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[raj.khem@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
 
