@@ -1,193 +1,117 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <michalwsieron@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A073C83F1B
-	for <webhook@archiver.kernel.org>; Fri, 11 Jul 2025 16:35:39 +0000 (UTC)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
- by mx.groups.io with SMTP id smtpd.web10.18385.1752251734770876491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F21C83F1A
+	for <webhook@archiver.kernel.org>; Fri, 11 Jul 2025 16:39:09 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web10.18452.1752251943432889105
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Jul 2025 09:35:34 -0700
+ Fri, 11 Jul 2025 09:39:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QKV3uS3F;
- spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2da3c572a0bso2109548fac.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 09:35:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mv04cr9c;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: michalwsieron@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-60c5b8ee2d9so5014315a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 09:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752251734; x=1752856534; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=++WZ+/IKL2Esg8/KuQEj1rQPAcpS0WxTTDvmF7oLSLU=;
-        b=QKV3uS3FvO15pI+p9CXv84OBpI1QZDwcMHkSYsGeRpzIx9QOFtP9dPPXlY/gn/hWyt
-         sy/VdJOiX+jA/AucC9OI+w5G+kJJYnSkcML+BePyO3+Ar9YFmnc2YCQZPKNPdDYsmFL5
-         sjP+6N1iuae20PJPlxnoHB2CNjLCP9ZJcMP1JlWbS4WcYX9UNI42zb15Ep1cxRuGjLeF
-         lLWa1H7cZJy/4kyjWjLkW3KA+M04kFdn3VWJzTjUBTTV0KNeorkpB5i98cDP3yQID6YN
-         5I1RJ1Kc5isvGRDZ2FbhfmCaSmJwXs/6rg2/o2h9mmM5z+9byg8+RWvPaATeJbC5K3v4
-         V+OQ==
+        d=gmail.com; s=20230601; t=1752251942; x=1752856742; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=B0UYjtuakVZsoVGR0HqggGStpnDKvnRooHxNrjI63zY=;
+        b=Mv04cr9cHr++ZNGw0MJIZJTzfR9fqbsBHwXKhrzdh95ECc6wB/FhhkO0PfP2zqRR+U
+         8WMu1LTpPpV28Gb+oehBt6MiiUKb+DyBRp7HSd/Ui4AmCxvA7J6K4NCXaoqsihVKLVi1
+         p9WpCylrJ3fJnJeCF3kjeLVckvd71dikXP7XQL4AaHwwLXRUHJgLsSOKZNQYzTwNg8DN
+         kOHo3dQooxouXROKRvKX48FSznzBv2cQw14wAd5f3DSIzhkGpBWf3MeIJK3gG1sOotod
+         uYxzQxKrNh79BGI8gYPKexmq4/VhNx0cJumspjtTClTFfczxSA2LPMNRU/9Q/BpQMCOJ
+         cDqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752251734; x=1752856534;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=++WZ+/IKL2Esg8/KuQEj1rQPAcpS0WxTTDvmF7oLSLU=;
-        b=nVoqdxphAGFkzYlueOH0wTVPGbA4cyolxG7llC4/UkDf4jy16+7l+sRNrwLpDKD3Xb
-         HEaApgYMpcBEEHcH2WcJbraJLLwN0LxgmcrQhmLBSYX0uRSnUqgUGJnbYLjHiVwwXGA6
-         kv8w0JL00RxQDVJB7BL9th/u1yDwx+tz+pJAtkrIR8EDfBjs1HKvMS6mdj7ukOLoH2Qo
-         KIlD5nLhMXgSLauLZFvJnnIOEDLmLC9u9a5SPWu38Oo1ghifKk8rDjHrYNRsvaN3kNBK
-         GTAA9NvUvbLG4w9Kmup/a7QWgkYM0fLkY8gnjhcrd0HlkWVSnkMnlYBX8cVDaB/U63tp
-         OMrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWtp4YyRuB5rnT0wBnY9Hkr5isBafypG1k5w4/FUS1xYkC69JvsHDdo51K156ae4YO8dhjoN7I32m8K485101rCDA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxrqsfBxPXa9SPeD6F+3oJr0rbxghPUdZZ6/pddRQt5GnyVYHbE
-	pfrQSiyIgwbtZfjrcXnfoYH5+NXLQX2udNL80h/jkxlxpRgmFXRRHa9o
-X-Gm-Gg: ASbGncsaxkeRH37b5DjaurV/KMGXPmf/yZqxSRI3kAfyYJsOhoEe4w12gpFmyA+JodZ
-	K0XXGax72BB9fowdiwAuw6FjYWzC6AHKgBpjOeXkr5NFUvDGUpsJAFazRI4wetCEqzXsfm4sXYs
-	GXUqW4Zqlj2cqhB5k6dn7glHR9rAqRmy4916jX70r8S0aZ7SgMrF+cdwJQowG4x/iIUkJNEINOl
-	7mV6VfCo+Dq3+nO/QFjm1h8HMLFqGgbM6T4jYJkvbAQe3MsCGlCHOT5ZBhUKjs+fwT60Feij2ta
-	UOjBZfYz+PNE/ACyWJB/MKJiftvr9QzmlhT69oHL/BPkcNGQLqwQBwSJ7YDx8lngZLBtLE0Ro/q
-	H4h+4BDVPxftD+W35vzHpCD475YCcdJKrFP6++HKzW3W7Su42JO7Hi/b3O5nKEAlVbru2s6khwF
-	4A7/5+0ZCcSw==
-X-Google-Smtp-Source: AGHT+IHwdxYLtWOE2mGvhaFlcJFcc27OWEo40gJJFrs3WXEoHlHM30ZL7BXGvcEsyNMu1DQa4mhiXA==
-X-Received: by 2002:a05:6870:2dc3:b0:29e:559b:d694 with SMTP id 586e51a60fabf-2ff2698a63emr3048619fac.32.1752251733780;
-        Fri, 11 Jul 2025 09:35:33 -0700 (PDT)
-Received: from ?IPV6:2601:646:8201:fd20:f056:4b03:1ef9:9958? ([2601:646:8201:fd20:f056:4b03:1ef9:9958])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff116d22easm776354fac.33.2025.07.11.09.35.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Jul 2025 09:35:33 -0700 (PDT)
-Message-ID: <a2c24138-767f-479e-986f-75bfe50f6707@gmail.com>
-Date: Fri, 11 Jul 2025 09:35:32 -0700
+        d=1e100.net; s=20230601; t=1752251942; x=1752856742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B0UYjtuakVZsoVGR0HqggGStpnDKvnRooHxNrjI63zY=;
+        b=IIq1rycH8pG19cbKCtenheX6uz6d69zdiHk/XkXPK2Dz16WyrK5fb7z+OWMeBs3K/P
+         PoE0Y3lmCnEjOTGNy6yocnlQhDm9kJiU3hXTJYAqkmUtEx+f+uT5osxBYzo0GMmbZgFY
+         vHeo8VelIz3NrBlAvGSzghhihCz4+KkRrUT/s22VxjHh3OETQACk1l9J9rVeC97G/hH9
+         ev5G2jBbFoyMsjUfzkPbjOKTCBok+CgXbhvGR4j/DFD48zVbMKo8iXC2d2vs1/uOr6Vd
+         YVmtjg14BrevR22RCC6qPiwS9J8fDua9lOz+jtIV+FfRJnBmJD5vdIrJkKunmoX+YsC8
+         yuEw==
+X-Gm-Message-State: AOJu0Yzr1r+GybdYxvpmSFJCCdFxwQOcXeqZJqeP/1GiY6OAKiJsIEGb
+	WNmb8Iw3yx33uXfs7JklcMd3fzWt7QHhaku3PSWBlbwBe6wWbUsGjSbT6v1KpCcb
+X-Gm-Gg: ASbGncvsBLF1BDm+7aoBOJ7ZMy6vbGV+jpPrxM4GFZLDP5e5ryR2LCLMzSGVo4WOsWU
+	l8yVdPEfPnNsn/ZUhoZs2ryNp69asduHf7nWtvr4bjRpRrZJUFbKm1UXlD/E47GkpSaKroecmoY
+	1agEiAQyEfFBsChzWB2kT1bc0A7ntX4fxBqW0GIauy3D9ifb1ZnWCNoP3d5pyYuEAGg9J3p+4/2
+	VL/CZB8mV0QYI0DuXWHag+oi6lM21dt630BumkRFLuZ+h07qLE7lo9pHUdqD18+TZDuCu/CSTAh
+	7p0cDycdmt+akVK/TgCEw6svdJmZcP3nwbOc4D9iqzvM5dbifnUF7G7G2Fl1mkpieMyZZV737LQ
+	/+9wAxy2dpmSGolgibJ2R
+X-Google-Smtp-Source: AGHT+IFKFVP37D/RIhh48FjOPVpoQ6DlR/ICXyQ+KkkVYDrMs/eRYHwdGg6G6tUSTbiV779NORSh7Q==
+X-Received: by 2002:a05:6402:518c:b0:604:a19a:d84b with SMTP id 4fb4d7f45d1cf-611ecaa1297mr3069808a12.5.1752251941435;
+        Fri, 11 Jul 2025 09:39:01 -0700 (PDT)
+Received: from elitebook ([93.159.20.3])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-611c9794876sm2375082a12.71.2025.07.11.09.39.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jul 2025 09:39:00 -0700 (PDT)
+From: Michal Sieron <michalwsieron@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Michal Sieron <michalwsieron@gmail.com>
+Subject: [PATCH] bitbake.conf: Remove PR glob part from STAMPCLEAN
+Date: Fri, 11 Jul 2025 18:38:49 +0200
+Message-ID: <20250711163848.111907-2-michalwsieron@gmail.com>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 2/3] llvm-tblgen-native: add new recipe
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-References: <20250711155136.2172651-1-ross.burton@arm.com>
- <20250711155136.2172651-2-ross.burton@arm.com>
-Content-Language: en-US
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20250711155136.2172651-2-ross.burton@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 16:35:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220160
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 16:39:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220161
 
+It's hard for me to explain what exactly are the consequences of the
+STAMP value and STAMPCLEAN glob being mismatched. The issue is present
+since the PR part was removed from the STAMP variable in
+OE-Core rev: cc83e45484656a6b577ff84817131735023daad4.
 
+I will at least show an example use case that I found was broken due
+to this:
+1. Have recipes foo_A.bb and foo_B.bb
+2. Build foo-native with PREFERRED_VERSION_foo-native = "A"
+3. ${COMPONENTS_DIR}/x86_64-linux/foo-native has version A
+4. Build foo-native with PREFERRED_VERSION_foo-native = "B"
+5. ${COMPONENTS_DIR}/x86_64-linux/foo-native has version B
+6. Build foo-native with PREFERRED_VERSION_foo-native = "A"
+7. ${COMPONENTS_DIR}/x86_64-linux/foo-native still has version B
 
-On 7/11/25 8:51 AM, Ross Burton via lists.openembedded.org wrote:
-> Building the LLVM projects often means using the TableGen tools
-> (llvm-tblgen etc).
-> 
-> We currently build them as part of clang-native, but I am teasing the
-> clang recipe into its component parts and having to build llvm-native
-> or lldb-native simply for one tool isn't ideal.
-> 
-> Instead, add a native recipe that simply builds the tablegen binaries
-> for llvm, clang, and lldb
-> ---
->   meta/conf/distro/include/maintainers.inc      |  1 +
->   meta/recipes-devtools/clang/clang_git.bb      | 10 +++----
->   .../clang/llvm-tblgen-native_git.bb           | 27 +++++++++++++++++++
->   3 files changed, 32 insertions(+), 6 deletions(-)
->   create mode 100644 meta/recipes-devtools/clang/llvm-tblgen-native_git.bb
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 60f04da6089..331c438fd67 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -480,6 +480,7 @@ RECIPE_MAINTAINER:pn-linux-yocto-dev = "Bruce Ashfield <bruce.ashfield@gmail.com
->   RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>"
->   RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
->   RECIPE_MAINTAINER:pn-llvm-project-source-20.1.7 = "Khem Raj <raj.khem@gmail.com>"
-> +RECIPE_MAINTAINER:pn-llvm-tblgen-native = "Khem Raj <raj.khem@gmail.com>"
->   RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
->   RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
->   RECIPE_MAINTAINER:pn-lrzsz = "Anuj Mittal <anuj.mittal@intel.com>"
-> diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
-> index 2b5d3a27524..0f1b950cc63 100644
-> --- a/meta/recipes-devtools/clang/clang_git.bb
-> +++ b/meta/recipes-devtools/clang/clang_git.bb
-> @@ -207,7 +207,7 @@ EXTRA_OECMAKE:append:class-target = "\
->                     -DLLDB_PYTHON_EXT_SUFFIX=${SOLIBSDEV} \
->   "
->   
-> -DEPENDS = "binutils zlib zstd libffi libxml2 libxml2-native ninja-native swig-native spirv-tools-native"
-> +DEPENDS = "binutils zlib zstd libffi libxml2 libxml2-native ninja-native swig-native spirv-tools-native llvm-tblgen-native"
->   DEPENDS:append:class-nativesdk = " clang-crosssdk-${SDK_SYS} virtual/nativesdk-cross-binutils nativesdk-python3"
->   DEPENDS:append:class-target = " clang-cross-${TARGET_ARCH} python3 ${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compiler-rt libcxx', '', d)} spirv-llvm-translator-native"
->   
-> @@ -276,18 +276,16 @@ do_install:append:class-native () {
->           install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clangd-indexer ${D}${bindir}/clangd-indexer
->       fi
->       install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clang-tidy-confusable-chars-gen ${D}${bindir}/clang-tidy-confusable-chars-gen
-> -    install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clang-tblgen ${D}${bindir}/clang-tblgen
-> -    install -Dm 0755 ${B}${BINPATHPREFIX}/bin/lldb-tblgen ${D}${bindir}/lldb-tblgen
-> -    install -Dm 0755 ${B}${BINPATHPREFIX}/bin/llvm-min-tblgen ${D}${bindir}/llvm-min-tblgen
+In my case the PREFERRED_VERSION comes from different machines.
+The issue showed itself when a bar-native compiled against foo-native
+version A was pulled from sstate-cache and foo-native in version B was
+kept in ${COMPONENTS_DIR} after previous build for a different machine.
 
-they are not installed but They are still being built internally I 
-suppose ? in that case I wonder if it can use the binaries from 
-llvm-tblgen-native during build and we can disable them from build in 
-clang-native explicitly, should save some more time
+Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
+---
 
->       install -Dm 0755 ${B}${BINPATHPREFIX}/bin/prepare_builtins ${D}${bindir}/prepare_builtins
->   
->       for f in `find ${D}${bindir} -executable -type f -not -type l`; do
->           test -n "`file -b $f|grep -i ELF`" && ${STRIP} $f
->           echo "stripped $f"
->       done
-> -    ln -sf clang-tblgen ${D}${bindir}/clang-tblgen${PV}
-> -    ln -sf llvm-tblgen ${D}${bindir}/llvm-tblgen${PV}
->       ln -sf llvm-config ${D}${bindir}/llvm-config${PV}
-> +
-> +    # These are provided by llvm-tblgen-native
-> +    rm ${D}${bindir}/*-tblgen
->   }
->   
->   do_install:append:class-nativesdk () {
-> diff --git a/meta/recipes-devtools/clang/llvm-tblgen-native_git.bb b/meta/recipes-devtools/clang/llvm-tblgen-native_git.bb
-> new file mode 100644
-> index 00000000000..be04c1aa4d1
-> --- /dev/null
-> +++ b/meta/recipes-devtools/clang/llvm-tblgen-native_git.bb
-> @@ -0,0 +1,27 @@
-> +SUMMARY = "LLVM TableGen binaries, for the build host"
-> +SECTION = "devel"
-> +
-> +# Building the LLVM projects often means using the TableGen tools (llvm-tblgen,
-> +# etc). We could build these as part of llvm-native, but there are cases where
-> +# this would be overkill. For example, building a target LLDB needs native
-> +# tablegen binaries and a target libllvm so having to build a complete native
-> +# llvm is not needed.
-> +
-> +require common-clang.inc
-> +require common-source.inc
-> +
-> +inherit cmake pkgconfig native
-> +
-> +OECMAKE_SOURCEPATH = "${S}/llvm"
-> +
-> +EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS='llvm;clang;lldb'"
-> +
-> +BINARIES = "llvm-min-tblgen llvm-tblgen clang-tblgen lldb-tblgen"
-> +
-> +OECMAKE_TARGET_COMPILE = "${BINARIES}"
-> +
-> +do_install() {
-> +    for f in ${BINARIES}; do
-> +        install -D ${B}/bin/$f ${D}${bindir}/$f
-> +    done
-> +}
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220146): https://lists.openembedded.org/g/openembedded-core/message/220146
-> Mute This Topic: https://lists.openembedded.org/mt/114102602/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+I am not sure if there are any consequences that come with the
+STAMPCLEAN not having `-` in the last part. Maybe too much stuff can be
+removed? I am also not sure why STAMPCLEAN can't be generated from the
+value of STAMP. This way such error wouldn't even happen. Is there any
+situation where you might want STAMP and STAMPCLEAN mismatched?
+
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 3a97fa1ac0..4d232a62e6 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -404,7 +404,7 @@ LOG_DIR = "${TMPDIR}/log"
+ 
+ STAMPS_DIR ?= "${TMPDIR}/stamps"
+ STAMP = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
+-STAMPCLEAN = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/*-*"
++STAMPCLEAN = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/*"
+ BASE_WORKDIR ?= "${TMPDIR}/work"
+ WORKDIR = "${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
+ UNPACKDIR ??= "${WORKDIR}/sources"
+-- 
+2.50.0
 
 
