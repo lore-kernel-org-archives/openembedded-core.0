@@ -1,80 +1,84 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0D6CC83F1B
-	for <webhook@archiver.kernel.org>; Fri, 11 Jul 2025 17:42:39 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web10.19819.1752255757545933313
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE32CC83F1B
+	for <webhook@archiver.kernel.org>; Fri, 11 Jul 2025 18:10:09 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.20450.1752257402908344137
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Jul 2025 10:42:37 -0700
+ Fri, 11 Jul 2025 11:10:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=S5WHiK3g;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6face367320so22779696d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 10:42:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=M56QoxhF;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-74b56b1d301so1526892b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 11:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752255756; x=1752860556; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3IXJPGC/CNcqsMehsMHk5A7GzNzZqq2a7rpourML2xw=;
-        b=S5WHiK3gnvpgsxIUjWT2xlcKAXZl6eCNHPnPNB+hp5SWRlCDsGsJJeb6Rk4cmNIKRt
-         Ra1NCRNZShkxSLnwxCoZN1/MwrGd34M5UGFoAloYWJxujUBBDyEAcK+ZJiJIuy6vYhke
-         sJtyxgUzrR2mwWFoePrm3VHkPSwAvDNxCcG7wnxZYVhDSfhzSzgyNk+jLZqNykZIz9MY
-         F2uavXWx1/Cy4D13i/cDLZ/gXp4GmTv78JvvpCWiSeL/ev2crAdMHrpdDAdX2mRVZKgX
-         zovyq/UlGfO+3LcE0KPURAZCr84qpSvRTFguA2FXjTUN7pTjfIxE09cVMVBi0xyNVl2+
-         r2hA==
+        d=gmail.com; s=20230601; t=1752257402; x=1752862202; darn=lists.openembedded.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=W/yijG8H2rHC/uZoeQOsRG2LXYx0x0wBc9FKgwvTaAE=;
+        b=M56QoxhFixLpKVo6Lyh3sDc1tnxLRkGjLCEVes4HauEvaq7iv4izm+m+P83mVkLJpN
+         K/AJcGBqPr5Mftt3gAnccsnnAPp+TtNP1Eoab5Ys5H4mgJEDIRS0ovtvhp/oqk9Exc8/
+         WgxvL6bEuo3vg3hIMSOKTIY3FbhAtID8vWBPjOJBmolcF8FMx7FggOE0hzxC+W3vSR8P
+         QIJeme2iCUthFjoWJga7ser/O0vRiKfYLnKehc3OUxxsaNzjY8iZ5zLUMYeqVoUpbChr
+         1GSL6NuJe16KDxZKCCQi7ZZJvu41kQp3WFKm9me3WZeeCmqxFZTQPqqTCHHBpraWwOYs
+         KkQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752255756; x=1752860556;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3IXJPGC/CNcqsMehsMHk5A7GzNzZqq2a7rpourML2xw=;
-        b=Vbf+jAlP+XSR/55l2dFyAEpIP+eV9BlN7hUqOZ7kfC3MOcM4kcfMjDOmJTgSl9NFww
-         YFr4NISVkRm4Sos8MgUbbpD04rHTfhdh47ArrxkvJ2aS3MDVr3RvxJ11D+joe36RLba+
-         GOyl7T7rsY3CWPI36zWZaU/mv81JY3j7dN2XDWkueOLdqHrDzN+7MurzV/o63WCsPiWR
-         JrTMomEweygmoOPbAnR1lagUxstyPD04Jb9IyNgxOWwbYC3Z5b6fuaENw68G0gag7hI9
-         jo4bLXtBRZrx8SqNrsHbOdiOQB+GOuUyrPE119CSGJB5s6BSm6S7veL49/qw/ektNw63
-         GOOQ==
-X-Gm-Message-State: AOJu0YztX0HTc1oM4xJrcsJ4q6jDUvPjpuCipuA+0RMGvKsuDGxDQDyG
-	shHw24zfGINAVOrqqkx5p921SBZzFUud0XRbDLdE9WCzvYM0B9T1w8ABFZGXcZEx9CVF6vBZbp2
-	V+16QMOxhLRojZtTdNqTIy6jU9t4EUtNu4w==
-X-Gm-Gg: ASbGncscTDFttFdMhsiFKuq+wy1cr24GQ80SrSkXKkgm/7DhFhDv8Un4v+svxGkESTr
-	g79QFimBBtLbu/NDgfZJ8R4QIAQhEx86vEBo3FzRkRHZ9sh0bmgYidF0axC3oEw03lK/KSfuPxJ
-	O+z4T+Jd1V994oCD6oQVQ5m0dpCNHBki9xqfEb2f6gVrIhxFv8BQu4BUWx+6VNmj/vXCFMxxSdo
-	J2IFEmnG0tQdJcRYGdfq3CqhDjwPejHbjhxbyA=
-X-Google-Smtp-Source: AGHT+IH8GYhj3Aig1ve3lqWCc82gpHCeLFd4cyGCeA46jOiIsgVDWXoS/E2GQq9igwHbf210fnEqRRBugipLcdlHL40=
-X-Received: by 2002:a05:6214:3107:b0:6fd:7520:da87 with SMTP id
- 6a1803df08f44-704a389f455mr77707066d6.25.1752255756237; Fri, 11 Jul 2025
- 10:42:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752257402; x=1752862202;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W/yijG8H2rHC/uZoeQOsRG2LXYx0x0wBc9FKgwvTaAE=;
+        b=T+2KHl/r0Q7mLAScBvu6l0gi/U+NlL6m2BOZcgeM93vMTPD48KGlTTgfPDksB29nLu
+         67Zsqxiadaaxrvw05ygogjsWfD2Q/ZeVFQQspfBC/d4iSr5OYvcLcFPQgY7uJrcrZk/F
+         tLwLZt8Wh0us7Un7Ye+DOax7+c1naXTGQkogEd/X/gg9XiEAK/g0Mt3k3Sjh4arE6cyw
+         vxuvNr3eAqFz2AU/l7lOaSY0bDBTL38pDttsXyQ42PWiLUkOD3IFvXothQi1/XCRyG6W
+         Qceuz+YrZSINwBYG9r3NqinP0gRm1N9YruYjhNWLi29pRk+UgPhNQ49/xLp7ssuF4XqF
+         49cQ==
+X-Gm-Message-State: AOJu0YyovTMg0ddxsSRBpUO/yjq11qqD2nlh3fkfRUOd3W+sRP4KACBw
+	THD91A87HJm+IXHI81uUKjDqJ0unYlBeexrEawMkrAkpceJvIu0PL70RN0sPoA==
+X-Gm-Gg: ASbGncu8b7UO7jBZ4VMSCqSG3ZhrnR9f/l0SQULxvK6Sg8Rc8QtrqMyoN8pc7ZPtwiW
+	XLuwMkWlCJvfvFlf8gCHnF1J/8TEwbBCezrr0oREN2n51oq/I5eky6NsiBxUx80mpw88J48JWSc
+	1xqlvGVCQPqogFOmYMKM3MT/HhSY3ePZLKojjgcQuMsw1XYc5NN1ZaOlEu+uqpjktvJy6jVcfma
+	aReF3LjZrJEiwRLxUODpiOquo9fyQyHjX/aflv7DGEvkTmjHVspSr8IKn0+dOZ22O1eFZG/t5KD
+	0mFPkOmUPzgb4ERHS7EqiR56KyZZLBodBbv0M5soyS/58r81zDZReMthZtj/Uqh+kOFBdWakv1E
+	Z4hXjuvTR/AAWvZApmOE=
+X-Google-Smtp-Source: AGHT+IH70yivkstM+qA2QZD7PiBQZ2CK7LmPcCL2Ok+1QuDU0faCkq0vs3BYfNkOwId2M1LKynvY1w==
+X-Received: by 2002:a05:6a20:d80f:b0:215:f6ab:cf77 with SMTP id adf61e73a8af0-231367684b9mr6457672637.23.1752257401847;
+        Fri, 11 Jul 2025 11:10:01 -0700 (PDT)
+Received: from hiagonb ([2804:1b3:a7c1:459e:e3dd:d2e:b1ee:b9ec])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9dd59f1sm5473758b3a.3.2025.07.11.11.10.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jul 2025 11:10:01 -0700 (PDT)
+Date: Fri, 11 Jul 2025 15:09:58 -0300
+From: Hiago De Franco <hiagofranco@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Chen Qi <Qi.Chen@windriver.com>
+Subject: Circular dependency error on util-linux fstrim service
+Message-ID: <20250711180958.tbmriqtce25kxd2q@hiagonb>
 MIME-Version: 1.0
-References: <CANNYZj9mqhhwvr145RCzR5NULK48_SmphXyiprLFbK9dOGnyhw@mail.gmail.com>
- <15249.1752159730747726200@lists.openembedded.org>
-In-Reply-To: <15249.1752159730747726200@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 11 Jul 2025 19:42:23 +0200
-X-Gm-Features: Ac12FXz-oVb24MEcE2I4L-JsHf-42j7zJpuFAfiBHWAob61wAk6NL9N9890Wt5g
-Message-ID: <CANNYZj9EJBJoFQ=MzCWYPM-etwcjkbh1eGEmpS003tt_YreMsw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] package: disable renamed dependency error if
- allarch is overridden
-To: ohnatiuk@cisco.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 17:42:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220165
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 18:10:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220166
 
-On Thu, 10 Jul 2025 at 17:02, Oleksandr Hnatiuk via
-lists.openembedded.org <ohnatiuk=cisco.com@lists.openembedded.org>
-wrote:
-> Could you please clarify - which additional information is required in the commit message so that I can resubmit it?
-> Alternatively, it is OK by me if you amend the commit how you see fit and pass it along.
-> How should we proceed?
+Hello all,
 
-I guess you should first try to do what RP suggests rather than
-resubmit the original patch?
+Currently there is a circular dependecy error on util-linux recipe if we
+try to use fstrim.service and fstrim.timer. These files depend on
+libsystemd, therefore when you enable the systemd PACKAGECONFIG of
+util-linux the recipe breaks because systemd is also dependent on
+util-linux.
 
-Alex
+I was wondering if we should create an util-linux-libuuid recipe
+equivalent for fstrim as well (util-linux-fstrim_<version>.bb ?), so we
+can get rid of this error. I am not sure if this is the correct
+approach, do anybody has any reccomendations? I will be happy to send a
+patch to fix this issue.
+
+Best Regards,
+Hiago.
 
