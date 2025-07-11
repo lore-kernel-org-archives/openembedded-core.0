@@ -1,99 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B92ABC83F22
-	for <webhook@archiver.kernel.org>; Fri, 11 Jul 2025 06:42:45 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.7720.1752216157174191124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1A52C8303C
+	for <webhook@archiver.kernel.org>; Fri, 11 Jul 2025 07:01:35 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.8010.1752217286611291991
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jul 2025 23:42:37 -0700
+ Fri, 11 Jul 2025 00:01:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HrPn3xfb;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23aeac7d77aso16229735ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 23:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752216156; x=1752820956; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fab4HnC4epEZKCd58vdOzY2RKKdcO+7ugvmKAoNwZf8=;
-        b=HrPn3xfb05pxAr5rr5PaLANt7VbjsraOvkQA3ENJFMmLvam4P+5D1R9FZZn61REVDv
-         HuyWm4cN7KSR7Pw1GtUOF1nZtukCyQxNOpRnzidsHwqkz2zEJjuKMvPkCLJeyJwVFSbJ
-         dAeSDFu/JeWYRG7NMPJkVTqpCAsG/eDV8eb1O1xto2gwHxy8/bvtajpNM6nQvGPWcTkW
-         HFqSVlhjwqAT1zLQPrDf4Qqvt7Oasj/HXz0hXpq6971+yi3A/RYc9fGYNPGcZVrLzUP+
-         lkB/FiyjqP5uSeWIz3xr9+/SwwnloEPDpfZbX3F+aLvPy4h9UOh4yPOAhSdTloCH3Gcp
-         +KxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752216156; x=1752820956;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Fab4HnC4epEZKCd58vdOzY2RKKdcO+7ugvmKAoNwZf8=;
-        b=NLh6EvLZ2gy9lEexs2clJHo3j2PFZAR0VYn86eublzma+0p4yfXc9AhuAy+cN4kKk0
-         nmPGgSQQ+oqKVDwOaIZCMclVwU9yFAzebNsXaXKEQhkwEBvbwtIqZQhDTjUFbSsOM9YU
-         R5xN3Tfx0spxLksaDSkEL7udZPKtpjwRjHDJAHDfY5B2fQJGhjqeuBzD1NjHMBlhpMXl
-         v9dfixvF5bn60k7Rj3X1qSCCwJeHCNdZDjmXdNaAXKhheSCZr7Nn2FATLsITpGgX65E6
-         BT8l81yRvG8wjSwVhnZ2vUCvopYjXOtd30cvgiKHALE0r7ZO21CsOniyGgNKIRg+6F/K
-         8Yvw==
-X-Gm-Message-State: AOJu0YxWCZljPsa6RZT0BlpTaFLiIJr3pGm3YmrRh2fKk/vyWN1+NNik
-	NodlqSlnCC0QRM/pNbiYh6rv4KFgYOFgA0Xcnz05ZCZh8nSokO6RDDtu5Z+N6Ion
-X-Gm-Gg: ASbGncvRYj5H8dSkW0eQTSTv1+4lrRNyN5LvwQuq2hK1blhQDM4+INMaX9yCShVk4x6
-	pQuy0Qe7llCpj8JUBqR6PBJYSDIWLBKLQEyDwLnGZxfFbhWDnl6zi4cG9JRn5b2Q9ArT3ObBpGt
-	QGwEyhNxe06hqw8b+J7qoe0Cd73r50DOJnl4RIywuHMHKVanSvHz94A72rdQbQEyuPpQPepnLVZ
-	0JF2qxNEMbLmf99DR6aAdlZdsrWpHVKXiAbg5x/UoXomYtHL6exXBzoF5Ib6XVLJDJYms0MlNMx
-	BUoPJb4m8SdyJV4NxuoNCWRnMC+AEtxrKWLHOvXfLCp/TAnf9Bi3iJpQj/RksUbsNuCBZ8oIoJt
-	akfTbjeP8Ilrjkg==
-X-Google-Smtp-Source: AGHT+IEYUGOx0rSXCu75gSMuqqz+mFfYwLVw3CIihRmU+S//UOqfh+wxukn0aGlNUkFCBdpJU+LoSQ==
-X-Received: by 2002:a17:902:ea0d:b0:223:653e:eb09 with SMTP id d9443c01a7336-23df07daed6mr17146925ad.7.1752216156117;
-        Thu, 10 Jul 2025 23:42:36 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::1c1d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4350bb0sm44626115ad.205.2025.07.10.23.42.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 23:42:35 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] compiler-rt: Use clang for native compile as well
-Date: Thu, 10 Jul 2025 23:42:32 -0700
-Message-ID: <20250711064233.590809-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=rCxyWcyV;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=pRpYboUu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010197f849f40a-3d3757b1-000c-4208-96d7-367ba37937b3-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1752217285; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=v0fiW2GjToYpjBs90o2ClLzvK+VXj0Jg0VyVrg+ubW4=;
+	b=rCxyWcyVdSyXzLHHL5jx92NH1GBmnCoD8BsKIQjPqVnrx+Xha2yDuTIPe3NvzyWR
+	7BHEpqz7oPxhz+/Yfw6IIurDHyW8tvUaxtftyZDz40z82YddbeQdA0dNJUCQF1HAUFx
+	efPptVUzASI0YShM0yWEAFd4CLpZtSIqpmsZ+RSs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752217285;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=v0fiW2GjToYpjBs90o2ClLzvK+VXj0Jg0VyVrg+ubW4=;
+	b=pRpYboUuDUhQteXz2R685upvNiIjXjy8gHg7SqbR0uhmt/4GwCPO/Xxq2XJKMSxT
+	HcKWwIEwMc0A3SDPKW2u3GDf3HS8tzT6EGAB3QScBJhOW2/kfYSxrgSqieUDiz+4icQ
+	olM1KMb+XwLOIXnym8ShI+YP+p5UzHk/yOu1Cypg=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/2] compiler-rt: Use clang for native compile as well
+In-Reply-To: <20250711064233.590809-1-raj.khem@gmail.com>
+References: <20250711064233.590809-1-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010197f849f40a-3d3757b1-000c-4208-96d7-367ba37937b3-000000@us-west-2.amazonses.com>
+Date: Fri, 11 Jul 2025 07:01:25 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.11-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 06:42:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220135
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 07:01:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220137
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-devtools/clang/compiler-rt_git.bb | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Testing patch /home/patchtest/share/mboxes/1-2-compiler-rt-Use-clang-for-native-compile-as-well.patch
 
-diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
-index 342a7b0e95e..4da85f29378 100644
---- a/meta/recipes-devtools/clang/compiler-rt_git.bb
-+++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
-@@ -35,9 +35,9 @@ DEPENDS:remove:class-native = "libcxx-native compiler-rt-native"
- UNWINDLIB:class-nativesdk = "--unwindlib=libgcc"
- COMPILER_RT:class-nativesdk = "-rtlib=libgcc"
- LIBCPLUSPLUS:class-nativesdk = "-stdlib=libstdc++"
--UNWINDLIB:class-native = ""
--COMPILER_RT:class-native = ""
--LIBCPLUSPLUS:class-native = ""
-+UNWINDLIB:class-native = "--unwindlib=libgcc"
-+COMPILER_RT:class-native = "-rtlib=libgcc"
-+LIBCPLUSPLUS:class-native = "-stdlib=libstdc++"
- UNWINDLIB:class-target = "--unwindlib=libgcc"
- COMPILER_RT:class-target = "-rtlib=libgcc"
- LIBCPLUSPLUS:class-target = "-stdlib=libstdc++"
-@@ -57,6 +57,7 @@ LDFLAGS += "${COMPILER_RT} ${UNWINDLIB}"
- CXXFLAGS += "${LIBCPLUSPLUS}"
- 
- TOOLCHAIN = "clang"
-+TOOLCHAIN_NATIVE = "clang"
- 
- def get_compiler_rt_arch(bb, d):
-     if bb.utils.contains('TUNE_FEATURES', 'armv5 thumb dsp', True, False, d):
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
