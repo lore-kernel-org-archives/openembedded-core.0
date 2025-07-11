@@ -1,315 +1,235 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A511BC83F17
-	for <webhook@archiver.kernel.org>; Fri, 11 Jul 2025 02:52:54 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.5125.1752202367415053604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B86F3C8303C
+	for <webhook@archiver.kernel.org>; Fri, 11 Jul 2025 06:42:45 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.7826.1752216158527624194
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jul 2025 19:52:47 -0700
+ Thu, 10 Jul 2025 23:42:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HgHkJF1s;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b3507b63c6fso1928102a12.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 19:52:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MmIJtzmM;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2363616a1a6so15173985ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 23:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752202367; x=1752807167; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fCIBVXlEfE05Ab2rBXi4PyZap6iooiWdKHyMKiIbM9c=;
-        b=HgHkJF1sR3i+fc2J0okFTlhjpkuqMgZNBUywqWVYmeqkXiTVr9Jb7ddFNMe6HocwyA
-         xWSbAt869q/ZOC1mJeJpwsQQA3A0vaHzrxbUJ0uGksiRFvxm77r8W9R85Ht+LC5O1Wrv
-         onLdtxL/6DBw1pA/wiWs4p8ZyyBWBOlqIGc6tWqhz+cvbTCfaFYvN4gzK6tWIeUybDbA
-         bY1O8Lm716EDZPaP45CBTupxoh8sijqyh5HO4agZ9ZCO0qzAYREWm+K8jQOFUI3Zn+H6
-         xf0/JGb3LXixNg/SgA/h86v0T1jEQGLLz3wic6RpsbAB+aZVTmMIrvFShquMciqPFXvz
-         a69Q==
+        d=gmail.com; s=20230601; t=1752216158; x=1752820958; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kMjdAewE5JtTbF40SB7hlOBLOu2zYV88/6mRAln5HaQ=;
+        b=MmIJtzmM7zw11xOEMOcc1FCWhyYcTaw6jrKxg5ySvKce/mO1vHzwhoVF0TolFmqIdI
+         Q/9w7rVnyMEmi9iGvRuE+dZ9m1c8fxhbNS3W9dLdHEUyO4zH8njmsMTglr5FLBEgvgq7
+         3pf64UUZ4d6TBMIBTvA39CcD/+89uFxkULSGfCEGO+c5ZSw9s9H0TvilM6Bd2At+IYu1
+         TJMfmmNrl0I0jB8DMhs44t9E+jT5abM6bpoFdG6ZyiBjBSJ9/fVQsKmAT0xAjvrAa+Jx
+         MaIdRiIiNtQ7qgsKox5PuG5avd0Q7UGyGw2qE+RUYejoi+XtxkKFC4eM3cfWz3Q90wNL
+         4wKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752202367; x=1752807167;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fCIBVXlEfE05Ab2rBXi4PyZap6iooiWdKHyMKiIbM9c=;
-        b=DdzeYMphlZUbRy9ks2u4Qj3vi9RvdhlPrq60E26ErIpKEz6MPkIhN2yw+eHDpWVU3X
-         /NTwchoPaZoE0nFEhr3rMsbDXZYMiseuHb1kXlOE6yUQMEIA9+23hcVR3dZ4EyKrU8t1
-         wOyPS8Ds4ikkSxuED/N3ZaUnrtYwxRpW0lFRdvAfUjuUcQQ3taiGKy4rzscDcp0SMOU5
-         UgvXakdFxERtnMrHrhBtLPaNVaA6ljyPGQcHFSfsdgwrcOOvhViJIJDFwHF8CVtLBcMz
-         4MVAJO9yGVITodMK5WNHPfK3jpvv6sf5cZszt5BRXcgKv7Y7rY2fd8gdKzU99qqmqWA4
-         aZ7w==
-X-Forwarded-Encrypted: i=1; AJvYcCU0vmz20qCWefrpvbMQRUxFCkBWKaDIipbRLoaa2alv9Kk64Zpb0FgpB3SEhP2JaivlSKE5+kzD0AfxA5ZyuoblSA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxcD3s2nYse2hJ5bSyvS6hEWmI3KhPeudll0E0yO8juDwTTqABg
-	WQy0ZycK3EbtkjDE0zr6TVZVzAiKE7D6DNBzflASFVC28o31tuy7MeGhr8Sbos4Ja9ooVOlp/t8
-	gs4v9GQHHaO2da4opINfwJEQYP82wnH0=
-X-Gm-Gg: ASbGnct2a4RnrmFgVdKJtKWjmUq9Rm4tZoqGdRpT6oxTEQJa3TEKuRu7uVLbJqrft1q
-	CQU89EknVrIMSg2p6aR1h8prF4KiBzxoAaLIho+BMxO+oTAcnEhCMHOvnRNEUnLzAbJ+z1gSiEw
-	E5vmkyqcjl9+OUPjtCbdgEwhVK0kQTx+URfwcacafOtNXXiJclkrJVeSG3ODPKax1zYBahyeUJR
-	FwFkNp+
-X-Google-Smtp-Source: AGHT+IE3PYlAzPhqHNY6OvKCIRHkgoU+z31ou7gqSjwRlc0eyRQFF/3DQHk1BlTSQCwrvW3tdg7y/F26ebHfosmSjS8=
-X-Received: by 2002:a17:90b:558f:b0:312:639:a064 with SMTP id
- 98e67ed59e1d1-31c4f5af641mr1333499a91.28.1752202366688; Thu, 10 Jul 2025
- 19:52:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752216158; x=1752820958;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kMjdAewE5JtTbF40SB7hlOBLOu2zYV88/6mRAln5HaQ=;
+        b=mggv90CunFEjzRUfPx4JuvNsNltgKiXNoI8gdqllTt9pBUr5xjFOlpaPswPbkGeOnM
+         JZkiXaPb34rrRcsXMlaS/a84f+ddTeQOdWEMYEPCUwGGIMYiKFu7wLjG/VRwplKR6VkG
+         1ZbEAIGOvjHgwHoojPPqHq3kdsEH4Ie6DTIz75it41NBWJaE4yvGJNoJDQ1sAV5mrlac
+         FiQ0i2Bbx+t+Wnvfx3hsnSTLaIyTTgMRGLt61yaisA9M40FeyE0gftjq5572zGBSx6ga
+         2drI4l+AJkzqKJisHL2djpNUGtFXhT0mWexxRrfXzE3m2dMZ4yaNFeNQKqdAYZi7MG9/
+         9UxA==
+X-Gm-Message-State: AOJu0YySog25z0bppNCHJ5DMcsODmakUDoMoMOYGq3FpBjDwL0wBhRSu
+	2sLuevSMg+arFVYhzCaxzhkZE+8cL6pzXBIVheRXgE7FKf/qbvQEcQxUoBfpLv9w
+X-Gm-Gg: ASbGncs3nEcfh9oEwxmFm92nntb//9KL8i1+lgAAXbggWSl66FaiCwe/wZNXdFFTD0U
+	28v6F9NZqU2yErEiPTKQt4EdEGilV6Z4dU8t+tVKirEL4PoEgnGPMBn8qnG4Fz98VLvrTNOvjuV
+	EN5Iqh7JECFsmBjnLmr0TVpU/kDyzH4IknuRR/+/U10kot4gzEWcNtgoC43leFlgcaXiIMIByDq
+	inDVQPjmtYi315aXRWPEhN7p069phu8zEMcUn0CXLwn2ZJ6tZxw+NIaOrkBl8yxZKni1B0eHRVh
+	Q1B9kDQLDHKWYGOWfSQMCjKBl8oWeRh5aJQpEzYIThx05CcFtXB+LNCNM1VSqzRPwg3wJdvjtkb
+	nFGfvOtubsPPPEg==
+X-Google-Smtp-Source: AGHT+IF5r/VatL0vh0XXASkidzrfJhP5pihYa61pq9PQmLT/1lZfcAgrC8ImXYnpBNVf2jud8blx5A==
+X-Received: by 2002:a17:902:c403:b0:235:e942:cb9e with SMTP id d9443c01a7336-23dee1ae47dmr22904715ad.9.1752216157388;
+        Thu, 10 Jul 2025 23:42:37 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::1c1d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4350bb0sm44626115ad.205.2025.07.10.23.42.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 23:42:36 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] compiler-rt: Fix install location for native builds
+Date: Thu, 10 Jul 2025 23:42:33 -0700
+Message-ID: <20250711064233.590809-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250711064233.590809-1-raj.khem@gmail.com>
+References: <20250711064233.590809-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-References: <20250710153542.1196388-1-bruce.ashfield@gmail.com> <CAMKF1sq4XaRE35UKcpNzR-xwNU7avT9scPru6Lnw6Vs7Q2vqFg@mail.gmail.com>
-In-Reply-To: <CAMKF1sq4XaRE35UKcpNzR-xwNU7avT9scPru6Lnw6Vs7Q2vqFg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 10 Jul 2025 22:52:34 -0400
-X-Gm-Features: Ac12FXzSrNZ_i8tL5h4ceunLn_Bhl1aDXqSuSX_Hwd4iPMT9kY1DTsmnPiGfzg4
-Message-ID: <CADkTA4PGQbhhTjqP9eSTW17q+u3Kdr0ftv0-qicm_ss_w25xXA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libc-headers: update to v6.15
-To: Khem Raj <raj.khem@gmail.com>
-Cc: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000a421ac06399e67c8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 02:52:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220134
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 06:42:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220136
 
---000000000000a421ac06399e67c8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Currently, clang when used for native builds and uses --rtlib=compiler-rt
+does not find the LLVM runtime because its installed in different
+directory than where compiler expects it to be. As a result, build fails
+for packages using clang in both capacity ( native and cross )
+e.g. qtwebengine
 
-On Thu, Jul 10, 2025 at 6:24=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
-:
+Make the build work across native sanitizers as well.
 
->
->
-> On Thu, Jul 10, 2025 at 8:35=E2=80=AFAM Bruce Ashfield via lists.openembe=
-dded.org
-> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
->
->> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>
->> kernel 6.15+ will be our next reference point, so we bump the libc
->> headers to match.
->>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->> ---
->>
->> Richard,
->>
->> I'll be following this with our new reference kernel in the next
->> few days. But I was able to build all arches with glibc and muslc
->> with this bump.
->>
->> I didn't see any fallout from packages that normally have to be
->> tweaked when I bump tht headers.
->>
->> If we are lucky, this is a seamless update (one of the few), but
->> either way, it needs some wider AB testing.
->>
->> If I go to 6.16 for the release / reference kernel, I'll bump once
->> more, but again, either way it is good to have some valid points
->> along the way to our final libc-headers version.
->>
->
-> Ideally this should go with or after the kernel switch
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../clang/compiler-rt-sanitizers_git.bb       | 15 +++++---
+ .../recipes-devtools/clang/compiler-rt_git.bb | 38 +++++++++++--------
+ 2 files changed, 32 insertions(+), 21 deletions(-)
 
-Ideally, maybe, but there's no reason to hold to that, there are some
-really rare
-issues this could cause, but none that we've ever seen in practice. As we
-all know, we have many instances of our headers being newer than kernels
-in our releases.
-
-We've done this several times in the past decade, and it makes less of a
-"big
-bang" of both userspace and kernel debugging at once. We won't ship like
-this, since the next reference will likely be 6.16
-
-Either way, I'll leave it up to Richard.
-
-Bruce
-
-
-
->
->
->> Bruce
->>
->>  .../{linux-libc-headers_6.12.bb =3D> linux-libc-headers_6.15.bb}  | 2 +=
+diff --git a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+index 087a7663023..198942ec359 100644
+--- a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
++++ b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
+@@ -55,8 +55,11 @@ CXXFLAGS:append:libc-musl = " -D_LARGEFILE64_SOURCE"
+ OECMAKE_TARGET_COMPILE = "compiler-rt"
+ OECMAKE_TARGET_INSTALL = "install-compiler-rt install-compiler-rt-headers"
+ OECMAKE_SOURCEPATH = "${S}/llvm"
++
++INSTALL_VER ?= "${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}"
++INSTALL_VER:class-native = "${@oe.utils.trim_version("${PV}", 1)}"
++
+ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+-                  -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
+                   -DCOMPILER_RT_STANDALONE_BUILD=ON \
+                   -DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON \
+                   -DCOMPILER_RT_BUILD_BUILTINS=OFF \
+@@ -71,11 +74,13 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+                   -DLLVM_ENABLE_RUNTIMES='compiler-rt' \
+                   -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
+                   -DLLVM_APPEND_VC_REV=OFF \
++                  -DCOMPILER_RT_INSTALL_PATH=${nonarch_libdir}/clang/${INSTALL_VER} \
+                   -S ${S}/runtimes \
+ "
+ 
+ EXTRA_OECMAKE:append:class-native = "\
+                -DCOMPILER_RT_USE_BUILTINS_LIBRARY=OFF \
++               -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=ON \
+ "
+ 
+ EXTRA_OECMAKE:append:class-target = "\
+@@ -85,6 +90,7 @@ EXTRA_OECMAKE:append:class-target = "\
+                -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
+                -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
+                -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
++               -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
+ "
+ 
+ EXTRA_OECMAKE:append:class-nativesdk = "\
+@@ -95,24 +101,23 @@ EXTRA_OECMAKE:append:class-nativesdk = "\
+                -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
+                -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
+                -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
++               -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
+ "
+ 
+ EXTRA_OECMAKE:append:libc-musl = " -DLIBCXX_HAS_MUSL_LIBC=ON "
+ 
+ do_install:append () {
+-    mkdir -p ${D}${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib
+-    mv ${D}${nonarch_libdir}/linux ${D}${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib
+     # Already shipped with compile-rt Orc support
+     rm -rf ${D}${nonarch_libdir}/clang/${MAJOR_VER}/lib/linux/liborc_rt-*.a
+     rm -rf ${D}${nonarch_libdir}/clang/${MAJOR_VER}/include/orc/
+ }
+ 
+ FILES_SOLIBSDEV = ""
+-FILES:${PN} += "${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER} \
++FILES:${PN} += "${nonarch_libdir}/clang/${INSTALL_VER} \
+ 				${nonarch_libdir}/clang/${MAJOR_VER}/lib/linux/lib*${SOLIBSDEV} \
+                 ${nonarch_libdir}/clang/${MAJOR_VER}/*.txt \
+                 ${nonarch_libdir}/clang/${MAJOR_VER}/share/*.txt"
+-FILES:${PN}-staticdev += "${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/*.a"
++FILES:${PN}-staticdev += "${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/*.a"
+ FILES:${PN}-dev += "${datadir} ${nonarch_libdir}/clang/${MAJOR_VER}/lib/linux/*.syms \
+                     ${nonarch_libdir}/clang/${MAJOR_VER}/include \
+                     ${nonarch_libdir}/clang/${MAJOR_VER}/lib/linux/clang_rt.crt*.o \
+diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
+index 4da85f29378..c88000d33b0 100644
+--- a/meta/recipes-devtools/clang/compiler-rt_git.bb
++++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
+@@ -71,8 +71,11 @@ def get_compiler_rt_arch(bb, d):
+ OECMAKE_TARGET_COMPILE = "compiler-rt"
+ OECMAKE_TARGET_INSTALL = "install-compiler-rt install-compiler-rt-headers"
+ OECMAKE_SOURCEPATH = "${S}/llvm"
++
++INSTALL_VER ?= "${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}"
++INSTALL_VER:class-native = "${@oe.utils.trim_version("${PV}", 1)}"
++
+ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+-                  -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
+                   -DCOMPILER_RT_STANDALONE_BUILD=ON \
+                   -DCOMPILER_RT_INCLUDE_TESTS=OFF \
+                   -DCOMPILER_RT_BUILD_XRAY=OFF \
+@@ -83,9 +86,12 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+                   -DLLVM_ENABLE_RUNTIMES='compiler-rt' \
+                   -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
+                   -DLLVM_APPEND_VC_REV=OFF \
++                  -DCOMPILER_RT_INSTALL_PATH=${nonarch_libdir}/clang/${INSTALL_VER} \
+                   -S ${S}/runtimes \
+ "
 -
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>  rename meta/recipes-kernel/linux-libc-headers/{
->> linux-libc-headers_6.12.bb =3D> linux-libc-headers_6.15.bb} (80%)
->>
->> diff --git a/meta/recipes-kernel/linux-libc-headers/
->> linux-libc-headers_6.12.bb b/meta/recipes-kernel/linux-libc-headers/
->> linux-libc-headers_6.15.bb
->> similarity index 80%
->> rename from meta/recipes-kernel/linux-libc-headers/
->> linux-libc-headers_6.12.bb
->> rename to meta/recipes-kernel/linux-libc-headers/
->> linux-libc-headers_6.15.bb
->> index dd6add38de..70d2fd80ee 100644
->> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb
->> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb
->> @@ -8,5 +8,5 @@ SRC_URI:append:libc-musl =3D "\
->>
->>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd=
-7e46"
->>
->> -SRC_URI[sha256sum] =3D
->> "b1a2562be56e42afb3f8489d4c2a7ac472ac23098f1ef1c1e40da601f54625eb"
->> +SRC_URI[sha256sum] =3D
->> "7586962547803be7ecc4056efc927fb25214548722bd28171172f3599abb9764"
->>
->> --
->> 2.39.2
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#220125):
->> https://lists.openembedded.org/g/openembedded-core/message/220125
->> Mute This Topic: https://lists.openembedded.org/mt/114084659/1997914
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> raj.khem@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000a421ac06399e67c8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 10, 2025 at 6:24=
-=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gma=
-il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
-lass=3D"gmail_attr">On Thu, Jul 10, 2025 at 8:35=E2=80=AFAM Bruce Ashfield =
-via <a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.opene=
-mbedded.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.open=
-embedded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bruce=
- Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank"=
->bruce.ashfield@gmail.com</a>&gt;<br>
-<br>
-kernel 6.15+ will be our next reference point, so we bump the libc<br>
-headers to match.<br>
-<br>
-Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.co=
-m" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
----<br>
-<br>
-Richard,<br>
-<br>
-I&#39;ll be following this with our new reference kernel in the next<br>
-few days. But I was able to build all arches with glibc and muslc<br>
-with this bump.<br>
-<br>
-I didn&#39;t see any fallout from packages that normally have to be<br>
-tweaked when I bump tht headers.<br>
-<br>
-If we are lucky, this is a seamless update (one of the few), but<br>
-either way, it needs some wider AB testing.<br>
-<br>
-If I go to 6.16 for the release / reference kernel, I&#39;ll bump once<br>
-more, but again, either way it is good to have some valid points<br>
-along the way to our final libc-headers version.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ideally this sho=
-uld go with or after the kernel switch</div></div></div></blockquote><div><=
-br></div><div><div class=3D"gmail_default" style=3D"font-size:small">Ideall=
-y, maybe, but there&#39;s no reason to hold to that, there are some really =
-rare</div><div class=3D"gmail_default" style=3D"font-size:small">issues thi=
-s could cause, but none that we&#39;ve ever seen in practice. As we</div><d=
-iv class=3D"gmail_default" style=3D"font-size:small">all know, we have many=
- instances of our headers being newer than kernels</div><div class=3D"gmail=
-_default" style=3D"font-size:small">in our releases.</div><div class=3D"gma=
-il_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default=
-" style=3D"font-size:small">We&#39;ve done this several times in the past d=
-ecade, and it makes less of a &quot;big</div><div class=3D"gmail_default" s=
-tyle=3D"font-size:small">bang&quot; of both userspace=C2=A0and kernel debug=
-ging at once. We won&#39;t ship like</div><div class=3D"gmail_default" styl=
-e=3D"font-size:small">this, since the next reference will likely be 6.16</d=
-iv><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cl=
-ass=3D"gmail_default" style=3D"font-size:small">Either way, I&#39;ll leave =
-it up to Richard.</div><div class=3D"gmail_default" style=3D"font-size:smal=
-l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</=
-div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><div><div class=3D"gmail_quote"><div dir=3D"auto"><br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex"><br>
-Bruce<br>
-<br>
-=C2=A0.../{<a href=3D"http://linux-libc-headers_6.12.bb" rel=3D"noreferrer"=
- target=3D"_blank">linux-libc-headers_6.12.bb</a> =3D&gt; <a href=3D"http:/=
-/linux-libc-headers_6.15.bb" rel=3D"noreferrer" target=3D"_blank">linux-lib=
-c-headers_6.15.bb</a>}=C2=A0 | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-kernel/linux-libc-headers/{<a href=3D"http://linu=
-x-libc-headers_6.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-hea=
-ders_6.12.bb</a> =3D&gt; <a href=3D"http://linux-libc-headers_6.15.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-libc-headers_6.15.bb</a>} (80%)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux=
--libc-headers_6.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-head=
-ers_6.12.bb</a> b/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://=
-linux-libc-headers_6.15.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc=
--headers_6.15.bb</a><br>
-similarity index 80%<br>
-rename from meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-=
-libc-headers_6.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-heade=
-rs_6.12.bb</a><br>
-rename to meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-li=
-bc-headers_6.15.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-headers=
-_6.15.bb</a><br>
-index dd6add38de..70d2fd80ee 100644<br>
---- a/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-libc-h=
-eaders_6.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-headers_6.1=
-2.bb</a><br>
-+++ b/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-libc-h=
-eaders_6.15.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-headers_6.1=
-5.bb</a><br>
-@@ -8,5 +8,5 @@ SRC_URI:append:libc-musl =3D &quot;\<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6bc538ed5bd9a7fc93980=
-86aedcd7e46&quot;<br>
-<br>
--SRC_URI[sha256sum] =3D &quot;b1a2562be56e42afb3f8489d4c2a7ac472ac23098f1ef=
-1c1e40da601f54625eb&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;7586962547803be7ecc4056efc927fb25214548722bd2=
-8171172f3599abb9764&quot;<br>
-<br>
--- <br>
-2.39.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#220125): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/220125" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/220125</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/114084659/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/114084659/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---000000000000a421ac06399e67c8--
++EXTRA_OECMAKE:append:class-native = "\
++               -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=ON \
++"
+ EXTRA_OECMAKE:append:class-target = "\
+                -DCMAKE_RANLIB=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ranlib \
+                -DCMAKE_AR=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ar \
+@@ -93,6 +99,7 @@ EXTRA_OECMAKE:append:class-target = "\
+                -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
+                -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
+                -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
++               -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
+ "
+ 
+ EXTRA_OECMAKE:append:class-nativesdk = "\
+@@ -103,29 +110,28 @@ EXTRA_OECMAKE:append:class-nativesdk = "\
+                -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
+                -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
+                -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON \
++               -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
+ "
+ 
+ do_install:append () {
+-    mkdir -p ${D}${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib
+-    mv ${D}${nonarch_libdir}/linux ${D}${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib
+     if [ "${HF}" = "hf" ]; then
+-        mv -f ${D}${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/libclang_rt.builtins-arm.a \
+-              ${D}${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/libclang_rt.builtins-armhf.a
+-        mv -f ${D}${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/liborc_rt-arm.a \
+-              ${D}${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/liborc_rt-armhf.a
++        mv -f ${D}${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/libclang_rt.builtins-arm.a \
++              ${D}${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/libclang_rt.builtins-armhf.a
++        mv -f ${D}${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/liborc_rt-arm.a \
++              ${D}${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/liborc_rt-armhf.a
+     fi
+ }
+ 
+ FILES_SOLIBSDEV = ""
+ 
+-FILES:${PN} += "${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/lib*${SOLIBSDEV} \
+-                ${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/*.txt \
+-                ${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/share/*.txt"
+-FILES:${PN}-staticdev += "${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/*.a"
+-FILES:${PN}-dev += "${datadir} ${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/*.syms \
+-                    ${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/include \
+-                    ${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/clang_rt.crt*.o \
+-                    ${nonarch_libdir}/clang/${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}/lib/linux/libclang_rt.asan-preinit*.a"
++FILES:${PN} += "${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/lib*${SOLIBSDEV} \
++                ${nonarch_libdir}/clang/${INSTALL_VER}/*.txt \
++                ${nonarch_libdir}/clang/${INSTALL_VER}/share/*.txt"
++FILES:${PN}-staticdev += "${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/*.a"
++FILES:${PN}-dev += "${datadir} ${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/*.syms \
++                    ${nonarch_libdir}/clang/${INSTALL_VER}/include \
++                    ${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/clang_rt.crt*.o \
++                    ${nonarch_libdir}/clang/${INSTALL_VER}/lib/linux/libclang_rt.asan-preinit*.a"
+ 
+ INSANE_SKIP:${PN} = "dev-so libdir"
+ INSANE_SKIP:${PN}-dbg = "libdir"
 
