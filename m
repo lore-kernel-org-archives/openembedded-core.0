@@ -2,253 +2,149 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5099CC83F1A
-	for <webhook@archiver.kernel.org>; Thu, 10 Jul 2025 22:24:13 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.web11.207.1752186251412706477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79D42C83F17
+	for <webhook@archiver.kernel.org>; Fri, 11 Jul 2025 02:10:34 +0000 (UTC)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+ by mx.groups.io with SMTP id smtpd.web11.4574.1752199831070393475
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Jul 2025 15:24:11 -0700
+ Thu, 10 Jul 2025 19:10:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bbXTXVon;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-711d4689084so16164247b3.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 15:24:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UW8GJ61h;
+ spf=pass (domain: gmail.com, ip: 209.85.128.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-70e302191a3so15843557b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 19:10:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752186250; x=1752791050; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iMKFuHgyQMlVccoWoSxoBs73AjkqK2u5oW70j1EDJ44=;
-        b=bbXTXVonYeTTxVhUb1Mhiy1zE67Ofss0je/UWKh5Vyo0tZ4thQ9d7nYiQMBvy+2qA0
-         wLjvqyk5OjZIUCrZLNAPVhXq/IdMoegrGmpLxk2drNLgCwDmZFfde+sdDcgS3vq/Y/0A
-         eYFrLWRI4vuBR9AHmfXOqJhiCg919hFY29zL3JK2r89p2L/Ehw362dkEhBQ7gL48J8Ct
-         b4Yaj4uOm83uzH/v578lYFcY4HckMiYaKDtd044jx0Z/vkk89l9LQAEwT5j88vJJ2HI2
-         G239lYYt2vG5ouOiFsQGssyGOBRenVeitGMIwldJTPYclzzpOtKmjzBJu8UUMf9549lF
-         lmmw==
+        d=gmail.com; s=20230601; t=1752199830; x=1752804630; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zjujb4Um726oqKI+8F0u6Y3m3dfKliEDgQ5Bn6ihFMk=;
+        b=UW8GJ61hoavabvMxxy3WncIG13psobYQIiU0XC0VkfjaoctFdf6gKQHoRkYPL0JVps
+         i5dePUZhZPvycmbqRW/KN2XHEmH5lDBnHaRhAwGlnISXPKhzfTVbik7gmDP4N+PDY7Ma
+         uHSCyx9zTEV9i6yZi9LS/4rEeyRy5iOub7KgfPZB8cGklO7X473wFxQ1MeV0kZjn5cys
+         /399R/6heGwWmZq28bLxSgL0kycRS31u+OAxh/PY0cEBxmUG+0v19nC00iJbxoAHnHSK
+         XgN1YSDeYVy10pxkWqZNkmSYRJcDrE9kvxkynhKAzs+ewRM6rYm/pvontoFpyIuzBTPI
+         Spvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752186250; x=1752791050;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iMKFuHgyQMlVccoWoSxoBs73AjkqK2u5oW70j1EDJ44=;
-        b=p1Zv7VDrRl5w5aDE1Pn1+t7SkMOTJvkDzGxOHVUORci+0S7q16KKvmMlokJIp1K+tq
-         0KFvEU9NJwz//ucPX40fl3UakiDsty2R9I/Ey1npDU/BhZmLKPdn6CVE9CO/38lVBfkF
-         wpW6Wq9aYTxFh+BD1zJN0o6x5paEixfC5wkH4cF0g5e/Zozl4GFUAAgVhB7cJrRGZHpU
-         Nvwd90C3XTwP/HvscoyD9Ga4pd6AtTzzOibmesfPqHwNJiaUGT8x7/NEzTQehZxiUwUt
-         0BDz4RLaMGOK+tmtOyuyGF2kRpNnFEQ1Xst9/wxEfcXNLK/+qzPtEgvAP1/DTBN7+bfe
-         SUSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmNS3HshXkVy17r9RX5x0qVgqeZBSxaQ9foFgeXrHX+cF9fOmDn02nOFzJgd1cdG1S9JBFRQMUdBWiZQCWMUrzCw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyL6Rhf6lSUcKs3DXhEFnzxjKz+lirBzNt6/L9B17iDxgs4CAmf
-	jqRpEgYBTtrOg0X9m2iAuUbIvn1K6FA/RUbDjT/XNqvmbMGFGoQUTzPM5bFRp9WxTGCDds53iPl
-	L/WIyqEqFXJC6ry0yQxSvhT2EiaRSCI0=
-X-Gm-Gg: ASbGncvAVAbdklBV5dvfzesF0l1APkaPlGcJc/P8Tu0o8a/dd6hTLa1PFNpyrStsUXT
-	TjweY8fxXQKaewDLJ/X2mvaUC6dvO//8FBtP5mXtyuSdbfgChl5PtSGCifouaGKysqryrUHrZem
-	rVs9bJKsUIYzD6ELRz9ZFcI00eQXnF4AzO2/U1SqRZ2cV1lnz8sXllbyAIxGNmYbahXjpI96owf
-	3MTDYshMlZZ0CcBDK0tZW/bU9USshkUFLiES1q0
-X-Google-Smtp-Source: AGHT+IG/lQb9dShpWuGpBi3ZH0FZ8RAbVskY1mfavFWWYoHf66pOKzBExFO7JMCV4+ZLnlPFXuBD4IYsTcLSwiVzag4=
-X-Received: by 2002:a05:690c:6502:b0:717:7d22:8efb with SMTP id
- 00721157ae682-717d59340dfmr23164017b3.0.1752186250339; Thu, 10 Jul 2025
- 15:24:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752199830; x=1752804630;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zjujb4Um726oqKI+8F0u6Y3m3dfKliEDgQ5Bn6ihFMk=;
+        b=YfxUT8ykgoL4VAWhfcxixQq/8Fa1uCz15fFtsr7uOhnquYhozAoaXf4CwzfX84gNRT
+         kxwztqKSWIuS34j4HJ+nFt9ZrKxi1ywKtwwCoFwBRFB3KEKCAc7XS5I9ZBgyL2z8p96s
+         KjQ5IgKEzVH8dYSG7rsk0L0HUcr1jrokdcZ26lyMeAuSYqWYnFsQ1/rrq3PGzvScABlw
+         k1MyJATv/oBS9T2xrP6uFp42ARqjVtUBCd2FhyKbPqQVSvmHG0GZpHrFfndGoP2ecnGX
+         7hovC7awGGpXdXZlIlcabtop8y/cIH+LSbC+TJRiHTahkZeKnX4L4o9sE7xDewz9+6qK
+         Cmyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVmDrUgAGnCmLy72J9PexpTYI+QbIwflwJiGsrgGdLhuSe2EhN6yBv1LmG8WGiN6NcW/B2zO3SSDH9xaOwethsyXQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyQjvULCTu+GB0Fk+EM0AcaXlomyz52B5VUIhR7510HlwvviTqy
+	kfBpNIAzkhicc8OGmC0CUkPHnTjj5kVdZNfVrkr0EbjKV6bKZkiYLYBp49SspZQO5N9SdQi4xH3
+	e+MuGfHxp2Yq6JyNX8XXlm++eJrfen9A=
+X-Gm-Gg: ASbGncsU37BxQago4pKfvkpHjQ7B4xNFKaTizvA1PMvdSrBzfmVU/3N0kEzXg+H9Dai
+	yNDud3YVnlT88P115MFUrxJHjkp8RG7m5XIdvOqYx19ZFhtVcDLAV9GaIwZ1k/KheLA9khTnyn+
+	a1gjqn2JWwqhIR74LfcHqou4QXhSvpZtSCbda8XRO5BebpUuB5/QYfMGdrjfHaj/fl+PEOfcRgu
+	GNdgb4=
+X-Google-Smtp-Source: AGHT+IGHKTHaU1QqyjeXUI6FjKQa0JbE8T0DLYlQm2XYnX3jbr225uK4fk6GA08ogk1HPc5dvRjM7VK6qeaa79iNS7Q=
+X-Received: by 2002:a05:690c:46c5:b0:70e:26ef:95eb with SMTP id
+ 00721157ae682-717dac30cd2mr9288357b3.5.1752199829988; Thu, 10 Jul 2025
+ 19:10:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250710153542.1196388-1-bruce.ashfield@gmail.com>
-In-Reply-To: <20250710153542.1196388-1-bruce.ashfield@gmail.com>
+References: <DB3PR09MB62022D923A65D95B35ADAF69EA4EA@DB3PR09MB6202.eurprd09.prod.outlook.com>
+ <8340.1751980391085408362@lists.openembedded.org> <DB3PR09MB6202D15953E63F9683D3A14EEA48A@DB3PR09MB6202.eurprd09.prod.outlook.com>
+ <CAMKF1spsAzE8MKQeemmi2Gs5PTSB4-KfdkRNo8P7KAUhbF1Znw@mail.gmail.com> <CAGpma=4Kr8D_R7Sn3mQNc5Eg-06DwK2fAmuunXZyESemFx1+VQ@mail.gmail.com>
+In-Reply-To: <CAGpma=4Kr8D_R7Sn3mQNc5Eg-06DwK2fAmuunXZyESemFx1+VQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 10 Jul 2025 15:23:58 -0700
-X-Gm-Features: Ac12FXxVH83j7x-OB7r_p-4jAoAJwm6ZNRq1ezy75wd0oJYm2QBdjr99NUtkZNE
-Message-ID: <CAMKF1sq4XaRE35UKcpNzR-xwNU7avT9scPru6Lnw6Vs7Q2vqFg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libc-headers: update to v6.15
-To: bruce.ashfield@gmail.com
-Cc: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000008286606399aa7c6"
+Date: Thu, 10 Jul 2025 19:10:03 -0700
+X-Gm-Features: Ac12FXxocCl5_kCSZgRgnPlRHTtU6Ok8HLDpM9PzqU7KWxhQwuLcxhFHjujpRxg
+Message-ID: <CAMKF1sqm+88C1s0M7p4YQAFzFfY_6SZPjh+CvpvD87JkHb4bGg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5 0/7] cmake: Major version bump to 4.0.3
+To: Alper Ak <alperyasinak1@gmail.com>
+Cc: "Haase Moritz, JD-62" <Moritz.Haase@bmw.de>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>, f_l_k@t-online.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Jul 2025 22:24:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220132
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 02:10:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220133
 
---00000000000008286606399aa7c6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+41 more to go - https://errors.yoctoproject.org/Errors/Build/211165/?limit=
+=3D50
 
-On Thu, Jul 10, 2025 at 8:35=E2=80=AFAM Bruce Ashfield via lists.openembedd=
-ed.org
-<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Thu, Jul 10, 2025 at 12:10=E2=80=AFPM Alper Ak <alperyasinak1@gmail.com>=
+ wrote:
 >
-> kernel 6.15+ will be our next reference point, so we bump the libc
-> headers to match.
+> Hello everyone,
 >
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
+> It looks like Markus is also sending fixes to meta-openembedded
+> regarding the CMake 4+ compatibility issue, so I have added him to cc
+> as well.
 >
-> Richard,
+> I collected the errors from Khem=E2=80=99s latest qemuarm run into a
+> spreadsheet and added checkboxes. You can tick off the ones you have
+> fixed, so we can avoid conflicts and waste of time.
 >
-> I'll be following this with our new reference kernel in the next
-> few days. But I was able to build all arches with glibc and muslc
-> with this bump.
+> https://docs.google.com/spreadsheets/d/1X8LN9x4xhqqzuAiTdE27pJdabS1P9ijeu=
+UGAL6oQyzo/edit?usp=3Dsharing
 >
-> I didn't see any fallout from packages that normally have to be
-> tweaked when I bump tht headers.
->
-> If we are lucky, this is a seamless update (one of the few), but
-> either way, it needs some wider AB testing.
->
-> If I go to 6.16 for the release / reference kernel, I'll bump once
-> more, but again, either way it is good to have some valid points
-> along the way to our final libc-headers version.
->
-
-Ideally this should go with or after the kernel switch
-
-
-> Bruce
->
->  .../{linux-libc-headers_6.12.bb =3D> linux-libc-headers_6.15.bb}  | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_6.12.b=
-b
-> =3D> linux-libc-headers_6.15.bb} (80%)
->
-> diff --git a/meta/recipes-kernel/linux-libc-headers/
-> linux-libc-headers_6.12.bb b/meta/recipes-kernel/linux-libc-headers/
-> linux-libc-headers_6.15.bb
-> similarity index 80%
-> rename from meta/recipes-kernel/linux-libc-headers/
-> linux-libc-headers_6.12.bb
-> rename to meta/recipes-kernel/linux-libc-headers/
-> linux-libc-headers_6.15.bb
-> index dd6add38de..70d2fd80ee 100644
-> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.12.bb
-> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb
-> @@ -8,5 +8,5 @@ SRC_URI:append:libc-musl =3D "\
->
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7=
-e46"
->
-> -SRC_URI[sha256sum] =3D
-> "b1a2562be56e42afb3f8489d4c2a7ac472ac23098f1ef1c1e40da601f54625eb"
-> +SRC_URI[sha256sum] =3D
-> "7586962547803be7ecc4056efc927fb25214548722bd28171172f3599abb9764"
->
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220125):
-> https://lists.openembedded.org/g/openembedded-core/message/220125
-> Mute This Topic: https://lists.openembedded.org/mt/114084659/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---00000000000008286606399aa7c6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 10, 2025 at 8:35=E2=80=AFAM=
- Bruce Ashfield via <a href=3D"http://lists.openembedded.org">lists.openemb=
-edded.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.openem=
-bedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.a=
-shfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-<br>
-kernel 6.15+ will be our next reference point, so we bump the libc<br>
-headers to match.<br>
-<br>
-Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.co=
-m" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
----<br>
-<br>
-Richard,<br>
-<br>
-I&#39;ll be following this with our new reference kernel in the next<br>
-few days. But I was able to build all arches with glibc and muslc<br>
-with this bump.<br>
-<br>
-I didn&#39;t see any fallout from packages that normally have to be<br>
-tweaked when I bump tht headers.<br>
-<br>
-If we are lucky, this is a seamless update (one of the few), but<br>
-either way, it needs some wider AB testing.<br>
-<br>
-If I go to 6.16 for the release / reference kernel, I&#39;ll bump once<br>
-more, but again, either way it is good to have some valid points<br>
-along the way to our final libc-headers version.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ideally this sho=
-uld go with or after the kernel switch</div><div dir=3D"auto"><br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex"><br>
-Bruce<br>
-<br>
-=C2=A0.../{<a href=3D"http://linux-libc-headers_6.12.bb" rel=3D"noreferrer"=
- target=3D"_blank">linux-libc-headers_6.12.bb</a> =3D&gt; <a href=3D"http:/=
-/linux-libc-headers_6.15.bb" rel=3D"noreferrer" target=3D"_blank">linux-lib=
-c-headers_6.15.bb</a>}=C2=A0 | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-kernel/linux-libc-headers/{<a href=3D"http://linu=
-x-libc-headers_6.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-hea=
-ders_6.12.bb</a> =3D&gt; <a href=3D"http://linux-libc-headers_6.15.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-libc-headers_6.15.bb</a>} (80%)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux=
--libc-headers_6.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-head=
-ers_6.12.bb</a> b/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://=
-linux-libc-headers_6.15.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc=
--headers_6.15.bb</a><br>
-similarity index 80%<br>
-rename from meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-=
-libc-headers_6.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-heade=
-rs_6.12.bb</a><br>
-rename to meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-li=
-bc-headers_6.15.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-headers=
-_6.15.bb</a><br>
-index dd6add38de..70d2fd80ee 100644<br>
---- a/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-libc-h=
-eaders_6.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-headers_6.1=
-2.bb</a><br>
-+++ b/meta/recipes-kernel/linux-libc-headers/<a href=3D"http://linux-libc-h=
-eaders_6.15.bb" rel=3D"noreferrer" target=3D"_blank">linux-libc-headers_6.1=
-5.bb</a><br>
-@@ -8,5 +8,5 @@ SRC_URI:append:libc-musl =3D &quot;\<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6bc538ed5bd9a7fc93980=
-86aedcd7e46&quot;<br>
-<br>
--SRC_URI[sha256sum] =3D &quot;b1a2562be56e42afb3f8489d4c2a7ac472ac23098f1ef=
-1c1e40da601f54625eb&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;7586962547803be7ecc4056efc927fb25214548722bd2=
-8171172f3599abb9764&quot;<br>
-<br>
--- <br>
-2.39.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#220125): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/220125" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/220125</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/114084659/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/114084659/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000008286606399aa7c6--
+> Khem Raj <raj.khem@gmail.com>, 10 Tem 2025 Per, 20:40 tarihinde =C5=9Funu=
+ yazd=C4=B1:
+> >
+> > On Wed, Jul 9, 2025 at 11:34=E2=80=AFPM Haase Moritz, JD-62 <Moritz.Haa=
+se@bmw.de> wrote:
+> > >
+> > > Hi,
+> > >
+> > > > I also considered the idea of temporarily using
+> > > > -DCMAKE_POLICY_VERSION_MINIMUM=3D3.5 to quickly work around the CMa=
+ke 4 issues
+> > > > across multiple recipes. Then, I thought that directly upgrading re=
+cipes where
+> > > > the upstream version could be updated was more sustainable solution=
+. I
+> > > > believed this would resolve many compatibility issues by relying on=
+ upstream
+> > > > fixes and encourage the community to use the latest versions.
+> > > >
+> > > > [...]
+> > >
+> > > I totally agree. Updating should be the preferred approach, followed =
+by patching
+> > > and the policy workaround.
+> > >
+> > > > Before our conversation I made a few things and sent them to meta-o=
+penembedded
+> > > > and Khem accepted them to master-next, but I still had the feeling =
+that maybe
+> > > > something better could be done.
+> > >
+> > > Awesome, thanks!
+> > >
+> > > > As I said, I have the feeling that it can be done better, so I will=
+ wait for
+> > > > your answers before I do anything.
+> > >
+> > > How about splitting the remaining build failures in half (after sorti=
+ng them
+> > > alphabetically by recipe name?). Would start working on the *second* =
+half then.
+> > > In case of dependency issues we can sync here.
+> > >
+> > > @Khem: Would you mind sharing a link to the failures of the latest 'm=
+aster-next'
+> > > build?
+> > >
+> >
+> > Alper has sent a set of fixes which lowered the volume quite a bit,
+> > Thanks a lot Alper !. it's down to 52 now.
+> > here is latest qemuarm run
+> >
+> > https://errors.yoctoproject.org/Errors/Build/211141/?limit=3D100
+> >
+> >
+> > > Moritz
+> > >
 
