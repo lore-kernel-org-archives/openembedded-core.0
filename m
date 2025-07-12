@@ -1,216 +1,147 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D81C83F1D
-	for <webhook@archiver.kernel.org>; Sat, 12 Jul 2025 16:09:27 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.39169.1752336557997938917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E836C83F10
+	for <webhook@archiver.kernel.org>; Sat, 12 Jul 2025 16:23:17 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.web10.39724.1752337388293159512
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Jul 2025 09:09:18 -0700
+ Sat, 12 Jul 2025 09:23:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZJXChjg+;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250712160915aa421f1e464b301c0d-bjkc3r@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250712160915aa421f1e464b301c0d
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 12 Jul 2025 18:09:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=cfo5jU36v6azjvsBlKdDF0QLlu/IsNMmpjNmzqf+v4s=;
- b=ZJXChjg+L5rdYy3JSA3EJXzLqBbPO4mnS1hv0zNm4r6ZpG1d/YVYsF8I22u8vFIkvIrGo+
- uVJFlwgJ3Y7Qj/glgCRRo8an9FjGA+yzK2vsnx4oDaeyoZZFp7KvNPGmUKcPtpPRjj3Psuiw
- Un8zRraRn58Lnu4iL90PuXX+Qb89OEZeXhbXcPAdfk8529dwbluLhn11zpA7vUFMc7HL/ylS
- xIvX+ooWn2Vwo6Lpjz1nCFjA1r9TZh9xiT+um581tbf+ViIvuOl0IsPWOUMzFas69W+C6AR8
- vY5Fnd9wI6neD8SU7+i0V17vHODfykYkbsO+LpmKphlroQ4XFMAkRzkA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] busybox: apply patch for CVE-2023-39810
-Date: Sat, 12 Jul 2025 18:08:27 +0200
-Message-Id: <20250712160827.484424-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cBDsNB2z;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-708d90aa8f9so28501277b3.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 09:23:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752337387; x=1752942187; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TC2O4ApmPlH7xmwmmyAA1K5Tn3sXTZ4gu8Jp98CvVEY=;
+        b=cBDsNB2zWubZEqAWF3N08UBLKGl/Jpl67Q9bJm/RB+niKEjQQJ/HdGN2b3oUsYnDF6
+         90zT6DS03ri5REmEJ6v1ZCr+liq+KdgdrOybXykwWjH/4P8eHrQuG5hlopjDrMMR9YJw
+         iq9zHAVlXbTqFvCTJeXj+AbC6BM9WnPwSViDgzASzqT2mhlLP+apZJkejzts/zIqGuNQ
+         Vr4V4KfLyszaxyI1AIrT4McREqF9Dklr38pGeIVa/FQOsRTRl9GZPErBpbHsiT9iUg9O
+         Lwog2IHY+uaMbWAaleY6N2fDyN0FhmOFgRRESf4pumQiKVqTlJf0gnGQ1vgMx2asRh8Q
+         /qOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752337387; x=1752942187;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TC2O4ApmPlH7xmwmmyAA1K5Tn3sXTZ4gu8Jp98CvVEY=;
+        b=Gls7xQ78dhGC9ORZ6rRDSqqdOrHNRhBg+xiTqoocRc8MB2emVybl7NIkS4RlqjOvQI
+         VTbneqTEQOlCmRoew9zLf5BU1i6OhCNTIi38zKV/KcAxIKJpmy8WsY2LGJi8WvDh3MEO
+         QGzbIz2Hvq8bMt5yPgTAiRgIRCUJ3/j3sojeMPvcrzA8kQ9RgwHnpoX9MjIOYprfB7qR
+         UotF8BgLY7NNtlUc5f8i024Tb4So+cyXb1Oi9Yt0MKdZiCeTTDC4fmO6mr71ZbG2txo6
+         8vVyFE7GCBqCUZuXTmrxECgR95rNhGhv9KBLFWhJM7GikE0d0dIcnn2/Uy6XL05Lg6IZ
+         SNVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVhV1Hc5CgJk4ffRVo0CHz2bHIt60nj/UL+BZWMXQJORn4Nfg7pbtu9j7N7RT65L73LaFvcksgPcnw1J70vW4+59A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxQqvAqqi85VYLbPw69NmmCUd3tRJAj2mHwOygvHC+A2PtZvB4I
+	8Ldl0FWSyGycwlvLOIZa81YnD54bEWOhnE7di1lNpPEGf7I99ZD3Il1odt7GHmaQ/LxdRqnAn4y
+	iPLRzvQbv1RvZacCNdHpYSr+fPXon2F8=
+X-Gm-Gg: ASbGncvTvhHrcbNofkT20nMmUSVfcorMXILC+/LBkqSxL1MVsE5F6YgvBTifvOgJ9op
+	5V5tqkMeseKzISn5RVNpfy5loFg5RD+zJN43Qo7z8rFMZv2uK3OHQ5xHwhseIqcuRBPtc4eTxlw
+	Mw/oRHiANXoZg1eT5OqnbypO+cHz/8xLZjMSWEg8NnsEjK6M0wc4R+Esl8vU1Z7hQ/20WCbnXN+
+	NZIz6o=
+X-Google-Smtp-Source: AGHT+IEYVkJfjqbUjmYp6XoF01eKIDdXH0R5g0FzF72PwQNrIbV3tnLM/YUaLajQYrHsDA/qAjQOUYK1aCMREORAz4E=
+X-Received: by 2002:a05:690c:350f:b0:710:f2a1:fa6 with SMTP id
+ 00721157ae682-717d5df0fdfmr115266387b3.29.1752337387305; Sat, 12 Jul 2025
+ 09:23:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <DB3PR09MB62022D923A65D95B35ADAF69EA4EA@DB3PR09MB6202.eurprd09.prod.outlook.com>
+ <8340.1751980391085408362@lists.openembedded.org> <DB3PR09MB6202D15953E63F9683D3A14EEA48A@DB3PR09MB6202.eurprd09.prod.outlook.com>
+ <CAMKF1spsAzE8MKQeemmi2Gs5PTSB4-KfdkRNo8P7KAUhbF1Znw@mail.gmail.com>
+ <CAGpma=4Kr8D_R7Sn3mQNc5Eg-06DwK2fAmuunXZyESemFx1+VQ@mail.gmail.com>
+ <CAMKF1sqm+88C1s0M7p4YQAFzFfY_6SZPjh+CvpvD87JkHb4bGg@mail.gmail.com> <DB3PR09MB620227B14CC05C925B253B93EA4BA@DB3PR09MB6202.eurprd09.prod.outlook.com>
+In-Reply-To: <DB3PR09MB620227B14CC05C925B253B93EA4BA@DB3PR09MB6202.eurprd09.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 12 Jul 2025 09:22:41 -0700
+X-Gm-Features: Ac12FXzgAvmCH-a2GVwjTV5PA6uIQ74LSdTPpoyUyu4jhjcpesoWbO6_XKNCyhU
+Message-ID: <CAMKF1soMZMsFrKyW5TYNY1Eu+0XUHmRDyPQyTWjGEncpUxXs+g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5 0/7] cmake: Major version bump to 4.0.3
+To: "Haase Moritz, JD-62" <Moritz.Haase@bmw.de>
+Cc: Alper Ak <alperyasinak1@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>, "f_l_k@t-online.de" <f_l_k@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 16:09:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220194
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 16:23:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220195
 
-From: Peter Marko <peter.marko@siemens.com>
+Somehow errors.yp.org is not responsing so my latest build errors are
+not being reported, we are left with 28 failures
 
-Backport patch referencing this CVE.
+Summary: 26 tasks failed:
+  meta-openembedded/meta-oe/recipes-dbs/leveldb/leveldb_1.23.bb:do_configur=
+e
+  meta-openembedded/meta-oe/recipes-connectivity/obex/openobex_1.7.2.bb:do_=
+configure
+  meta-openembedded/meta-oe/recipes-navigation/proj/proj_9.3.1.bb:do_config=
+ure
+  meta-openembedded/meta-oe/recipes-graphics/libvncserver/libvncserver_0.9.=
+14.bb:do_configure
+  meta-openembedded/meta-oe/recipes-extended/wxwidgets/wxwidgets_3.2.6.bb:d=
+o_configure
+  meta-openembedded/meta-oe/recipes-devtools/libubox/libubox_git.bb:do_conf=
+igure
+  meta-openembedded/meta-oe/recipes-support/freerdp/freerdp_2.11.7.bb:do_co=
+nfigure
+  meta-openembedded/meta-oe/recipes-dbs/soci/soci_4.0.3.bb:do_configure
+  meta-openembedded/meta-multimedia/recipes-dvb/oscam/oscam_1.20.bb:do_conf=
+igure
+  meta-openembedded/meta-xfce/recipes-panel-plugins/whiskermenu/xfce4-whisk=
+ermenu-plugin_2.7.1.bb:do_configure
+  meta-openembedded/meta-multimedia/recipes-multimedia/musicbrainz/libmusic=
+brainz_git.bb:do_compile
+  virtual:native:meta-openembedded/meta-oe/recipes-connectivity/obex/openob=
+ex_1.7.2.bb:do_configure
+  meta-openembedded/meta-xfce/recipes-apps/catfish/catfish_4.18.0.bb:do_con=
+figure
+  virtual:native:meta-openembedded/meta-oe/recipes-navigation/proj/proj_9.3=
+.1.bb:do_configure
+  meta-openembedded/meta-networking/recipes-connectivity/civetweb/civetweb_=
+1.16.bb:do_configure
+  meta-openembedded/meta-oe/recipes-connectivity/zeromq/czmq_4.2.1.bb:do_co=
+nfigure
+  virtual:native:meta-openembedded/meta-oe/recipes-extended/wxwidgets/wxwid=
+gets_3.2.6.bb:do_configure
+  meta-openembedded/meta-oe/recipes-extended/minifi-cpp/minifi-cpp_0.99.1.b=
+b:do_configure
+  meta-openembedded/meta-oe/recipes-extended/openwsman/openwsman_2.7.2.bb:d=
+o_configure
+  meta-openembedded/meta-networking/recipes-connectivity/openthread/ot-br-p=
+osix_git.bb:do_configure
+  meta-openembedded/meta-networking/recipes-connectivity/openthread/ot-daem=
+on_git.bb:do_configure
+  meta-openembedded/meta-oe/recipes-graphics/vk-gl-cts/opengl-es-cts_3.2.12=
+.0.bb:do_configure
+  meta-openembedded/meta-networking/recipes-connectivity/nanomsg/nngpp_git.=
+bb:do_configure
+  meta-openembedded/meta-oe/recipes-connectivity/gattlib/gattlib_git.bb:do_=
+configure
+  meta-openembedded/meta-oe/recipes-connectivity/transmission/transmission_=
+4.0.6.bb:do_compile
+  meta-openembedded/meta-oe/recipes-support/opencv/opencv_4.11.0.bb:do_comp=
+ile
 
-Note that the hardening is not activated by default, it adds defconfig
-option to enable it.
-Since it introduces a breaking change, it shouldn't be enabled in LTS
-release by default.
-This patch makes busybox cpio equivalent in this release to what is
-currently in master and in kirkstone.
-Also note that gnu cpio also does not have this hardening, but the CVE
-is created only against busybox.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../busybox/busybox/CVE-2023-39810.patch      | 136 ++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |   1 +
- 2 files changed, 137 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
-
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2023-39810.patch b/meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
-new file mode 100644
-index 0000000000..821ab3508f
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
-@@ -0,0 +1,136 @@
-+From 9a8796436b9b0641e13480811902ea2ac57881d3 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Wed, 2 Oct 2024 10:12:05 +0200
-+Subject: [PATCH] archival: disallow path traversals (CVE-2023-39810)
-+
-+Create new configure option for archival/libarchive based extractions to
-+disallow path traversals.
-+As this is a paranoid option and might introduce backward
-+incompatibility, default it to no.
-+
-+Fixes: CVE-2023-39810
-+
-+Based on the patch by Peter Kaestle <peter.kaestle@nokia.com>
-+
-+function                                             old     new   delta
-+data_extract_all                                     921     945     +24
-+strip_unsafe_prefix                                  101     102      +1
-+------------------------------------------------------------------------------
-+(add/remove: 0/0 grow/shrink: 2/0 up/down: 25/0)               Total: 25 bytes
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+CVE: CVE-2023-39810
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=9a8796436b9b0641e13480811902ea2ac57881d3]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ archival/Config.src                        | 11 +++++++++++
-+ archival/libarchive/data_extract_all.c     |  8 ++++++++
-+ archival/libarchive/unsafe_prefix.c        |  6 +++++-
-+ scripts/kconfig/lxdialog/check-lxdialog.sh |  2 +-
-+ testsuite/cpio.tests                       | 23 ++++++++++++++++++++++
-+ 5 files changed, 48 insertions(+), 2 deletions(-)
-+
-+diff --git a/archival/Config.src b/archival/Config.src
-+index 6f4f30c43..cbcd7217c 100644
-+--- a/archival/Config.src
-++++ b/archival/Config.src
-+@@ -35,4 +35,15 @@ config FEATURE_LZMA_FAST
-+ 	This option reduces decompression time by about 25% at the cost of
-+ 	a 1K bigger binary.
-+ 
-++config FEATURE_PATH_TRAVERSAL_PROTECTION
-++	bool "Prevent extraction of filenames with /../ path component"
-++	default n
-++	help
-++	busybox tar and unzip remove "PREFIX/../" (if it exists)
-++	from extracted names.
-++	This option enables this behavior for all other unpacking applets,
-++	such as cpio, ar, rpm.
-++	GNU cpio 2.15 has NO such sanity check.
-++# try other archivers and document their behavior?
-++
-+ endmenu
-+diff --git a/archival/libarchive/data_extract_all.c b/archival/libarchive/data_extract_all.c
-+index 049c2c156..8a69711c1 100644
-+--- a/archival/libarchive/data_extract_all.c
-++++ b/archival/libarchive/data_extract_all.c
-+@@ -65,6 +65,14 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
-+ 		} while (--n != 0);
-+ 	}
-+ #endif
-++#if ENABLE_FEATURE_PATH_TRAVERSAL_PROTECTION
-++	/* Strip leading "/" and up to last "/../" path component */
-++	dst_name = (char *)strip_unsafe_prefix(dst_name);
-++#endif
-++// ^^^ This may be a problem if some applets do need to extract absolute names.
-++// (Probably will need to invent ARCHIVE_ALLOW_UNSAFE_NAME flag).
-++// You might think that rpm needs it, but in my tests rpm's internal cpio
-++// archive has names like "./usr/bin/FOO", not "/usr/bin/FOO".
-+ 
-+ 	if (archive_handle->ah_flags & ARCHIVE_CREATE_LEADING_DIRS) {
-+ 		char *slash = strrchr(dst_name, '/');
-+diff --git a/archival/libarchive/unsafe_prefix.c b/archival/libarchive/unsafe_prefix.c
-+index 33e487bf9..667081195 100644
-+--- a/archival/libarchive/unsafe_prefix.c
-++++ b/archival/libarchive/unsafe_prefix.c
-+@@ -14,7 +14,11 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *str)
-+ 			cp++;
-+ 			continue;
-+ 		}
-+-		if (is_prefixed_with(cp, "/../"+1)) {
-++		/* We are called lots of times.
-++		 * is_prefixed_with(cp, "../") is slower than open-coding it,
-++		 * with minimal code growth (~few bytes).
-++		 */
-++		if (cp[0] == '.' && cp[1] == '.' && cp[2] == '/') {
-+ 			cp += 3;
-+ 			continue;
-+ 		}
-+diff --git a/scripts/kconfig/lxdialog/check-lxdialog.sh b/scripts/kconfig/lxdialog/check-lxdialog.sh
-+index 5075ebf2d..910ca1f7c 100755
-+--- a/scripts/kconfig/lxdialog/check-lxdialog.sh
-++++ b/scripts/kconfig/lxdialog/check-lxdialog.sh
-+@@ -55,7 +55,7 @@ trap "rm -f $tmp" 0 1 2 3 15
-+ check() {
-+         $cc -x c - -o $tmp 2>/dev/null <<'EOF'
-+ #include CURSES_LOC
-+-main() {}
-++int main() { return 0; }
-+ EOF
-+ 	if [ $? != 0 ]; then
-+ 	    echo " *** Unable to find the ncurses libraries or the"       1>&2
-+diff --git a/testsuite/cpio.tests b/testsuite/cpio.tests
-+index 85e746589..a4462c53e 100755
-+--- a/testsuite/cpio.tests
-++++ b/testsuite/cpio.tests
-+@@ -154,6 +154,29 @@ testing "cpio -R with extract" \
-+ " "" ""
-+ SKIP=
-+ 
-++# Create an archive containing a file with "../dont_write" filename.
-++# See that it will not be allowed to unpack.
-++# NB: GNU cpio 2.15 DOES NOT do such checks.
-++optional FEATURE_PATH_TRAVERSAL_PROTECTION
-++rm -rf cpio.testdir
-++mkdir -p cpio.testdir/prepare/inner
-++echo "file outside of destination was written" > cpio.testdir/prepare/dont_write
-++echo "data" > cpio.testdir/prepare/inner/to_extract
-++mkdir -p cpio.testdir/extract
-++testing "cpio extract file outside of destination" "\
-++(cd cpio.testdir/prepare/inner && echo -e '../dont_write\nto_extract' | cpio -o -H newc) | (cd cpio.testdir/extract && cpio -vi 2>&1)
-++echo \$?
-++ls cpio.testdir/dont_write 2>&1" \
-++"\
-++cpio: removing leading '../' from member names
-++../dont_write
-++to_extract
-++1 blocks
-++0
-++ls: cpio.testdir/dont_write: No such file or directory
-++" "" ""
-++SKIP=
-++
-+ # Clean up
-+ rm -rf cpio.testdir cpio.testdir2 2>/dev/null
-+ 
-diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
-index 69e9555766..069544cc8a 100644
---- a/meta/recipes-core/busybox/busybox_1.36.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
-@@ -58,6 +58,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-awk.c-fix-CVE-2023-42366-bug-15874.patch \
-            file://0001-cut-Fix-s-flag-to-omit-blank-lines.patch \
-            file://CVE-2022-48174.patch \
-+           file://CVE-2023-39810.patch \
-            "
- SRC_URI:append:libc-musl = " file://musl.cfg "
- # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
+On Fri, Jul 11, 2025 at 3:25=E2=80=AFAM Haase Moritz, JD-62 <Moritz.Haase@b=
+mw.de> wrote:
+>
+> Hi,
+>
+> awesome, we are closing the gap :) I just sent another 10 patches to the =
+mailing
+> list via [0]. Hope to get some more done today, will keep the shared spre=
+adsheet
+> (very good idea BTW) updated.
+>
+> [0]: https://lists.openembedded.org/g/openembedded-devel/topic/meta_oe_pa=
+tch_00_10/114097827
+>
+> Moritz
 
