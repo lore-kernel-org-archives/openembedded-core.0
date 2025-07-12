@@ -1,274 +1,171 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3FD8C83F1B
-	for <webhook@archiver.kernel.org>; Sat, 12 Jul 2025 00:06:21 +0000 (UTC)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web11.27223.1752278772183772788
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 775E4C83F1B
+	for <webhook@archiver.kernel.org>; Sat, 12 Jul 2025 01:56:32 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.28786.1752285389377574425
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Jul 2025 17:06:12 -0700
+ Fri, 11 Jul 2025 18:56:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XNIldDE/;
- spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e85e06a7f63so2305725276.1;
-        Fri, 11 Jul 2025 17:06:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mtKHUYxJ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23649faf69fso21269935ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Jul 2025 18:56:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752278771; x=1752883571; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vLSLHvgOzYH4ScffwjzyzgzS92rl8wHcH6OYgdsEy4Q=;
-        b=XNIldDE/1WKbBJFcyYfYeq6vhoiJX8HvswM9jU7uIGJVuoRhRjo/e9Q7txo10DKTXG
-         L6lGkpNXpEsda/76VC29imgkY2xqfEwGy1mkyV+5FA2+7/8lduX8OFDv7TvhIXEd6+8W
-         Lh+9eU6mg4Y2xz/P/vmrfmA+JCogP9Jm2Pdr1DFKwJmv44tddW/u/dz7F9jpMFVfi9Fw
-         ee17P2Ff6JMesYdVEk1FJVQjU0ugCAtHWRf9GqVYlH+auqMElhSwBP3Ac62Rt1G93WeU
-         p+9R4kLubaIRDcLKlZYZMqA12SEneB2EjGtUoZBngJWhBr02XVomiQGlgGw4uT30aOuk
-         Yn0A==
+        d=gmail.com; s=20230601; t=1752285388; x=1752890188; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=233JiaaPLpSfyKv3ZyK+7tL7SdH2zvfq7/+pFKBy7Dk=;
+        b=mtKHUYxJM0ZsJKtz5Sjy6Tfk0WqNr8pfc8dREJuUc8qh9Mtnpht88KUXMjr2Fkg+w/
+         1/mGExDffsQPqZkWTs1j1t5Ovl6xBMjdwecoq4KNGjIeWv6lypYLJ7Oo77/3C/ymRiy6
+         dRPqXBKts7t80kY7SYTYzvsjnM4xt//LN4BdixN+VqMjDFkncFas1icBq+vru7paHl7l
+         YPgK70/fzQN6UNJ+3HEu0A3/j768kJy53qmpAwPHZsOuJN93IzaxUY4VjjrPuhl1+vSw
+         5mhMVG97A1LYPBW6T5HiWPmvgpgEtrXAolqI+551hqyP7/I/z5qMUrGCr8R4WqzP7sLd
+         UphQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752278771; x=1752883571;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vLSLHvgOzYH4ScffwjzyzgzS92rl8wHcH6OYgdsEy4Q=;
-        b=gBAdPpYCZjj5lkNzztf7YBd5qie7lcG0qha9hij1Bww+CIqSFU1aIQNC9CLSShe+Af
-         qfw8DgTITwn4TU+goSOFd69fBBrEYeZ/GQBf9wMjMWzUGU0BAYQtVtg/pzWSh1N/qUVG
-         +jLWkFEdShNO+uSBV6yBUGYmmFPn5Fk5sQkM7J9Cbs7vljpQ71Q4/wJQD6qxAPWcPbnM
-         5q5z+Ui/RhDxnSQxJGdwNb6HWZU9cmE4v6C//O0rQff2cyW8EKj0vD6MYFWLuqJr44HJ
-         +OMNT2ncUcTcxz3v3lIEPXnCfoanGvZSZIwfhisftzNpn19JjADc4OzxqDCrScYKpeuR
-         an1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUcUXcfvWw9LAoagpmYxEbUaH0pdASSBTrJmVLC4ZoUVWOUQE1hDKaMLcRE/vnA3E3D2Bhq3wh/0+yr+QaH74mDBQ==@lists.openembedded.org, AJvYcCXu5rF+/NsbIh1SDjVs40jlG0TmKD2S2Bhyddofj/O/wKg/954IwN0All32YbhaTQtxAjdFDvF9kfw4c5lNwp9GE/u3@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwYgt98NBRwefOFWwTU/EQxEVTTcxA2FvizZHmuGMbATwxit97H
-	1FSaZb8HfkSXxuhNJkiXXOytr4N4qLJyplQCGFxwznIUMYlfGGnpzQafsB7Uk6wovXwHPi1lMJs
-	otYE1c4CDkd2T+YfMOI26+0+Lq7pqlVW2JWcw
-X-Gm-Gg: ASbGnctkdfa5UUwheNrkeR5q2BMq13fyUcSLRJH8JOObZnuYrmjuMVREdU90VeKHCeM
-	LfQR2A/WrVzc2LHImqzwUVyd2zlgggPpBFjv9Bq3ZYpBWkWu2HhclLIzdFRT67G2nPhuCLiTFO+
-	0Aa7OAopzfoI4dk2xC+wXAJymQm7VXyU+PYyFm618loD5KxNamByJIu+ZB3jo7kie9ZzGitf3Wt
-	RFSH2k=
-X-Google-Smtp-Source: AGHT+IE8e6e4qdQeIijBPsdGdp5xMfCIdgiSuCRIMyjZYdaw42zvsqtT0peHVntJlA2r6i17GvPLbWTdjjdkLpNzqbg=
-X-Received: by 2002:a05:690c:a6d0:b0:70e:2cf0:f66a with SMTP id
- 00721157ae682-717d5b8175amr62299247b3.6.1752278771117; Fri, 11 Jul 2025
- 17:06:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752285388; x=1752890188;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=233JiaaPLpSfyKv3ZyK+7tL7SdH2zvfq7/+pFKBy7Dk=;
+        b=NnJ4ABSsfW6w/VLAw+YcyUbIth7UhEbAnhbQQ1RZDD2GlyjkCkQ7aDeo7sZvtd/34I
+         JjNxNTmFGxzl7xNL/V8Md5AWHM/+j8kCV+z3BqWgz9pgt0E7rdm45WjKEGrRaT4NnimV
+         EevGzit8imjYX+RckMqjZVGgwrIkECYBX1vRaH/KeRgCLBYmChG555d7veqXvuC8ULlp
+         8VEm/63us6nFrXWFFLcoA9Pcicw2Jww3w/UWDoIA3BrglitnKv5R1Nx1eRd7rmUNDleZ
+         NXkxXmHWKjzwutQRrSRbbt3AyDiA84gg4m+t7A6an3C2aMRSfVKiPhb9aYXesALR5umh
+         B4Zg==
+X-Gm-Message-State: AOJu0YzlZvVDZqyhvONEhGJ4+8Y9WpozYgNh+rsK0A8ZkGUvw70Q9bta
+	iPJ6cslaTILUo3cbEMD+6rybNrZ3n2R8HPrRBWFwjV7GOGA1Bra+7sis6Zm6AQ==
+X-Gm-Gg: ASbGncv/rWIJQLQ0vpxsNtCs6mnhBHgFNQVE+Brv8JDarb3JvOI3UJrSRCYblrpS25Y
+	m/vRd/4hXNRTY2XLVd9vJBP3u80dGVf+SJPj7JOdeyF0sq+U54yXyl0z0gSim3jFIBpKGTQwWkb
+	mgUqIBFraIhHsPF1UcaruzjpQAGsZU9gItSqFUgcJIpXRS0bs3Owg5HB/STwc7juhr1zZPHjSER
+	/qRD9Fsu5szVS82BPn70TnpgYUS/bCqD2/1IFyJ1GdpqD07/G+laqnFdNgZP4DgultVvTDY5LSI
+	IBY757oJGdn3PH5Dr+FOsLReaZsmMXFiTPRFZWv2/x+745+7w6/ePH7WeGCDgS+dM7dNXSYV58M
+	n+vdAuS7MgFZEbhcWdXrUwtYaRjEp/Xus8BtyfA==
+X-Google-Smtp-Source: AGHT+IFoy+197XRf4efu1XvNNp0a75qsf8NvzzkxgM9WSU9XzB6bKI3zzdOc2G91Jo6Zg6ym9rtqCQ==
+X-Received: by 2002:a17:902:fc4b:b0:22d:b243:2fee with SMTP id d9443c01a7336-23dee1e6ffemr66983225ad.13.1752285388341;
+        Fri, 11 Jul 2025 18:56:28 -0700 (PDT)
+Received: from localhost.localdomain ([2804:1b3:a7c1:459e:e3dd:d2e:b1ee:b9ec])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4365b10sm54982835ad.240.2025.07.11.18.56.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jul 2025 18:56:27 -0700 (PDT)
+From: Hiago De Franco <hiagofranco@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Denys Dmytriyenko <denis@denix.org>,
+	Hiago De Franco <hiago.franco@toradex.com>
+Subject: [PATCH] mtd-utils: add optional systemd service for ubihealthd
+Date: Fri, 11 Jul 2025 22:56:04 -0300
+Message-Id: <20250712015604.148635-1-hiagofranco@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <20250630172224.18568-1-wen.yang@linux.dev> <CA+chaQe2goaCtC6dN2dDf7SG9RpHZA_A5DTVeycB46SC4rQ5Dw@mail.gmail.com>
-In-Reply-To: <CA+chaQe2goaCtC6dN2dDf7SG9RpHZA_A5DTVeycB46SC4rQ5Dw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 11 Jul 2025 17:05:44 -0700
-X-Gm-Features: Ac12FXz22TzxdD8GMnWgMSGH7bcoYicF68hsIzos8TcwJtsw7oo8j_0JzHOMAuQ
-Message-ID: <CAMKF1so679WfQewA2+Cg2M=TbtXCk-0yQFzJK0opRkXMDbNh6w@mail.gmail.com>
-Subject: Re: [OE-core] [oe] [meta-oe][PATCH] pstack: add recipe
-To: martin.jansa@gmail.com
-Cc: wen.yang@linux.dev, openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 00:06:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220171
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 01:56:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220172
 
-On Fri, Jul 11, 2025 at 1:20=E2=80=AFPM Martin Jansa via
-lists.openembedded.org <martin.jansa=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> libxt and libx11 are available only with x11 in DISTRO_FEATURES, this
-> should declare the REQUIRED_DISTRO_FEATURES as well.
->
-> Will send a fix later.
->
+From: Hiago De Franco <hiago.franco@toradex.com>
 
-Thanks
+Add support for deploying a ubihealthd.service systemd unit through a
+new 'ubihealthd-service' PACKAGECONFIG option.
 
-> On Mon, Jun 30, 2025 at 7:40=E2=80=AFPM Wen Yang via lists.openembedded.o=
-rg
-> <wen.yang=3Dlinux.dev@lists.openembedded.org> wrote:
-> >
-> > This recipe provides pstack for C/C++, Go, Rust, and Python.
-> >
-> > Signed-off-by: Wen Yang <wen.yang@linux.dev>
-> > ---
-> >  ...e-issue-of-cross-compilation-failure.patch | 28 +++++++++++++
-> >  meta-oe/recipes-devtools/pstack/pstack.inc    | 39 +++++++++++++++++++
-> >  .../recipes-devtools/pstack/pstack_2.10.bb    | 33 ++++++++++++++++
-> >  meta-oe/recipes-devtools/pstack/pstack_git.bb |  8 ++++
-> >  4 files changed, 108 insertions(+)
-> >  create mode 100644 meta-oe/recipes-devtools/pstack/files/0001-tests-fi=
-x-the-issue-of-cross-compilation-failure.patch
-> >  create mode 100644 meta-oe/recipes-devtools/pstack/pstack.inc
-> >  create mode 100644 meta-oe/recipes-devtools/pstack/pstack_2.10.bb
-> >  create mode 100644 meta-oe/recipes-devtools/pstack/pstack_git.bb
-> >
-> > diff --git a/meta-oe/recipes-devtools/pstack/files/0001-tests-fix-the-i=
-ssue-of-cross-compilation-failure.patch b/meta-oe/recipes-devtools/pstack/f=
-iles/0001-tests-fix-the-issue-of-cross-compilation-failure.patch
-> > new file mode 100644
-> > index 0000000000..2b54750e7a
-> > --- /dev/null
-> > +++ b/meta-oe/recipes-devtools/pstack/files/0001-tests-fix-the-issue-of=
--cross-compilation-failure.patch
-> > @@ -0,0 +1,28 @@
-> > +From a8c3996d3f8d9b8f3a2888b7062c1139263c5aba Mon Sep 17 00:00:00 2001
-> > +From: Wen Yang <yellowriver2010@hotmail.com>
-> > +Date: Mon, 23 Jun 2025 02:06:53 +0800
-> > +Subject: [PATCH] tests: fix the issue of cross compilation failure
-> > +
-> > +By replacing objcopy with MAKE_OBJCOPY, pstack could support both
-> > +native and cross compilation.
-> > +
-> > +Upstream-Status: Backport [https://github.com/peadar/pstack/pull/38]
-> > +---
-> > + tests/CMakeLists.txt | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
-> > +index 71a62a7..bf11a04 100644
-> > +--- a/tests/CMakeLists.txt
-> > ++++ b/tests/CMakeLists.txt
-> > +@@ -38,7 +38,7 @@ SET_TARGET_PROPERTIES(noreturn PROPERTIES COMPILE_FL=
-AGS "-O2 -g")
-> > +
-> > + add_custom_command(
-> > +    OUTPUT basic-no-unwind-gen
-> > +-   COMMAND objcopy --strip-debug --remove-section .eh_frame basic bas=
-ic-no-unwind
-> > ++   COMMAND ${CMAKE_OBJCOPY} --strip-debug --remove-section .eh_frame =
-basic basic-no-unwind
-> > +    VERBATIM )
-> > +
-> > + add_custom_target(basic-no-unwind ALL DEPENDS basic basic-no-unwind-g=
-en)
-> > +--
-> > +2.25.1
-> > diff --git a/meta-oe/recipes-devtools/pstack/pstack.inc b/meta-oe/recip=
-es-devtools/pstack/pstack.inc
-> > new file mode 100644
-> > index 0000000000..9831a74d1a
-> > --- /dev/null
-> > +++ b/meta-oe/recipes-devtools/pstack/pstack.inc
-> > @@ -0,0 +1,39 @@
-> > +SUMMARY =3D "A utility to print stack traces of running processes"
-> > +DESCRIPTION =3D "A from-scratch implementation of pstack using DWARF d=
-ebugging and unwind information. \
-> > +Works for C/C++, Go, Rust, and Python. A traditional pstack command ca=
-n generally print a backtrace \
-> > +of each thread in a running program, and sometimes from a core file. T=
-his version of pstack uses its \
-> > +own self contained ELF and DWARF parsing library, libdwelf to parse th=
-e DWARF debug and unwind \
-> > +information, to get a stack trace."
-> > +HOMEPAGE =3D "https://github.com/peadar/pstack"
-> > +SECTION =3D "devel"
-> > +LICENSE =3D "BSD-2-Clause"
-> > +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D671019a96ba80415b696240ed2c=
-a5e80"
-> > +
-> > +inherit cmake
-> > +
-> > +S =3D "${UNPACKDIR}/${BPN}-${PV}"
-> > +DEPENDS +=3D "zlib xz libunwind elfutils"
-> > +
-> > +RDEPENDS:${PN} +=3D "elfutils"
-> > +
-> > +do_install() {
-> > +    install -d ${D}${bindir}
-> > +    install -m 0755 ${B}/pstack ${D}${bindir}/pstack
-> > +
-> > +    install -d ${D}${libdir}
-> > +    install -m 0755 ${B}/libprocman.so.${PV} ${D}${libdir}/libprocman.=
-so.${PV}
-> > +    ln -sf libprocman.so.${PV} ${D}${libdir}/libprocman.so
-> > +    install -m 0755 ${B}/libdwelf.so.${PV}  ${D}${libdir}/libdwelf.so.=
-${PV}
-> > +    ln -sf libdwelf.so.${PV}  ${D}${libdir}/libdwelf.so
-> > +}
-> > +
-> > +PACKAGES =3D "${PN}"
-> > +FILES:${PN} =3D "${bindir}/pstack"
-> > +FILES:${PN} +=3D "${libdir}/libprocman.so.${PV}"
-> > +FILES:${PN} +=3D "${libdir}/libdwelf.so.${PV}"
-> > +
-> > +PACKAGES +=3D "${PN}-dbg"
-> > +FILES:${PN}-dbg +=3D "${base_bindir}/.debug ${base_sbindir}/.debug ${b=
-indir}/.debug ${sbindir}/.debug"
-> > +
-> > +PACKAGES +=3D "${PN}-dev"
-> > +FILES:${PN}-dev +=3D "${base_libdir}/*.so"
-> > diff --git a/meta-oe/recipes-devtools/pstack/pstack_2.10.bb b/meta-oe/r=
-ecipes-devtools/pstack/pstack_2.10.bb
-> > new file mode 100644
-> > index 0000000000..cebc13d36c
-> > --- /dev/null
-> > +++ b/meta-oe/recipes-devtools/pstack/pstack_2.10.bb
-> > @@ -0,0 +1,33 @@
-> > +SUMMARY =3D "A from-scratch implementation of pstack using DWARF debug=
-ging \
-> > +and unwind information. Works for C/C++, Go, Rust, and Python."
-> > +
-> > +HOMEPAGE =3D "https://github.com/peadar/pstack"
-> > +SECTION =3D "devel/pstack"
-> > +
-> > +LICENSE =3D "BSD-2-Clause"
-> > +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dea061f8731d5e6a5761dfad951e=
-f5f5f"
-> > +
-> > +DEPENDS =3D "tcl virtual/libx11 libxt zip-native"
-> > +
-> > +SRC_URI =3D "git://github.com/peadar/pstack;branch=3Dmaster;tag=3Dv${P=
-V};protocol=3Dhttps"
-> > +SRCREV =3D "a310df637d74917a1d3570c540bf3aef899d7e63"
-> > +
-> > +S =3D "${WORKDIR}/${BPN}${PV}"
-> > +
-> > +PACKAGES =3D+ "${PN}-lib"
-> > +
-> > +SOLIBS =3D ".so"
-> > +FILES_SOLIBSDEV =3D ""
-> > +
-> > +# isn't getting picked up by shlibs code
-> > +RDEPENDS:${PN} +=3D "tk-lib"
-> > +RDEPENDS:${PN}:class-native =3D ""
-> > +
-> > +BBCLASSEXTEND =3D "native nativesdk"
-> > +
-> > +inherit binconfig
-> > +
-> > +SYSROOT_DIRS +=3D "${bindir_crossscripts}"
-> > +
-> > +# Fix some paths that might be used by Tcl extensions
-> > +BINCONFIG_GLOB =3D "*Config.sh"
-> > diff --git a/meta-oe/recipes-devtools/pstack/pstack_git.bb b/meta-oe/re=
-cipes-devtools/pstack/pstack_git.bb
-> > new file mode 100644
-> > index 0000000000..cc6721f9e3
-> > --- /dev/null
-> > +++ b/meta-oe/recipes-devtools/pstack/pstack_git.bb
-> > @@ -0,0 +1,8 @@
-> > +require pstack.inc
-> > +
-> > +SRCREV =3D "1e1734be3adb6d9c81b57c5cc3d0c8fbc43bdee3"
-> > +PV =3D "2.11"
-> > +
-> > +SRC_URI =3D "git://github.com/peadar/pstack.git;branch=3Dmaster;protoc=
-ol=3Dhttps \
-> > +           file://0001-tests-fix-the-issue-of-cross-compilation-failur=
-e.patch \
-> > +          "
-> > --
-> > 2.25.1
-> >
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220167): https://lists.openembedded.org/g/openembedde=
-d-core/message/220167
-> Mute This Topic: https://lists.openembedded.org/mt/114107395/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+This change allows systems using systemd to easily enable and manage the
+UBI health monitoring daemon as a background service.
+
+Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
+---
+ .../mtd/files/ubihealthd.service              | 10 +++++++++
+ meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb  | 21 ++++++++++++++++---
+ 2 files changed, 28 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/mtd/files/ubihealthd.service
+
+diff --git a/meta/recipes-devtools/mtd/files/ubihealthd.service b/meta/recipes-devtools/mtd/files/ubihealthd.service
+new file mode 100644
+index 000000000000..74b8df655b5c
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/files/ubihealthd.service
+@@ -0,0 +1,10 @@
++[Unit]
++Description=UBI health daemon
++After=multi-user.target
++
++[Service]
++Type=forking
++ExecStart=@SBINDIR@/ubihealthd
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb b/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
+index 47f0b01abe0f..d99a1d5c7b70 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
+ 
+-inherit autotools pkgconfig update-alternatives
++inherit autotools pkgconfig systemd update-alternatives
+ 
+ DEPENDS = "zlib e2fsprogs util-linux"
+ RDEPENDS:mtd-utils-tests += "bash"
+@@ -17,7 +17,8 @@ SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master \
+            file://0002-ubifs-utils-journal-Include-sys-stat.h.patch \
+            file://0003-ubifs-utils-link-libmissing.a-in-case-execinfo.h-isn.patch \
+            file://0004-ubifs-utils-extract_files-Include-linux-limits.h.patch \
+-           file://0001-Improve-check-for-GCC-compiler-version.patch"
++           file://0001-Improve-check-for-GCC-compiler-version.patch \
++           file://ubihealthd.service"
+ 
+ # xattr support creates an additional compile-time dependency on acl because
+ # the sys/acl.h header is needed. libacl is not needed and thus enabling xattr
+@@ -29,6 +30,7 @@ PACKAGECONFIG[crypto] = "--with-crypto,--without-crypto,openssl"
+ PACKAGECONFIG[jffs] = "--with-jffs,--without-jffs"
+ PACKAGECONFIG[ubifs] = "--with-ubifs,--without-ubifs"
+ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
++PACKAGECONFIG[ubihealthd-service] = ",,systemd"
+ 
+ CPPFLAGS:append:riscv64  = " -pthread -D_REENTRANT"
+ 
+@@ -54,6 +56,9 @@ ALTERNATIVE_LINK_NAME[flash_lock] = "${sbindir}/flash_lock"
+ ALTERNATIVE_LINK_NAME[flash_unlock] = "${sbindir}/flash_unlock"
+ ALTERNATIVE_LINK_NAME[flashcp] = "${sbindir}/flashcp"
+ 
++SYSTEMD_SERVICE:${PN} = "ubihealthd.service"
++SYSTEMD_AUTO_ENABLE = "disable"
++
+ do_install () {
+ 	oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} INCLUDEDIR=${includedir}
+ 	install -d ${D}${includedir}/mtd
+@@ -64,6 +69,12 @@ do_install () {
+ 	install -m 0644 ${S}/include/libubigen.h ${D}${includedir}
+ 	oe_libinstall -a libubi ${D}${libdir}/
+ 	oe_libinstall -a libmtd ${D}${libdir}/
++
++	if ${@bb.utils.contains('PACKAGECONFIG', 'ubihealthd-service', 'true', 'false', d)}; then
++		install -d ${D}${systemd_system_unitdir}
++		install -m 0644 ${UNPACKDIR}/ubihealthd.service ${D}${systemd_system_unitdir}
++		sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/ubihealthd.service
++	fi
+ }
+ 
+ PACKAGES =+ "mtd-utils-misc mtd-utils-tests"
+@@ -71,7 +82,11 @@ PACKAGES =+ "${@bb.utils.contains("PACKAGECONFIG", "jffs", "mtd-utils-jffs2", ""
+ PACKAGES =+ "${@bb.utils.contains("PACKAGECONFIG", "ubifs", "mtd-utils-ubifs", "", d)}"
+ 
+ FILES:mtd-utils-jffs2 = "${sbindir}/mkfs.jffs2 ${sbindir}/jffs2dump ${sbindir}/jffs2reader ${sbindir}/sumtool"
+-FILES:mtd-utils-ubifs = "${sbindir}/mkfs.ubifs ${sbindir}/ubi*"
++FILES:mtd-utils-ubifs = "\
++    ${sbindir}/mkfs.ubifs \
++    ${sbindir}/ubi* \
++    ${@bb.utils.contains('PACKAGECONFIG', 'ubihealthd-service', '${systemd_system_unitdir}/ubihealthd.service', '', d)} \
++    "
+ FILES:mtd-utils-misc = "${sbindir}/nftl* ${sbindir}/ftl* ${sbindir}/rfd* ${sbindir}/doc* ${sbindir}/serve_image ${sbindir}/recv_image"
+ FILES:mtd-utils-tests = "${libexecdir}/mtd-utils/*"
+ 
+-- 
+2.39.5
+
 
