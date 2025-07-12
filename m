@@ -1,112 +1,124 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1487C83F25
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D03BAC83F24
 	for <webhook@archiver.kernel.org>; Sat, 12 Jul 2025 12:51:55 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.35635.1752324707725453629
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web11.35389.1752324706031578795
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Jul 2025 05:51:48 -0700
+ Sat, 12 Jul 2025 05:51:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=NZ1/jZxz;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-2025071212514502b9c865805f5a0b7d-m_qtq7@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2025071212514502b9c865805f5a0b7d
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=i70FMr6O;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2025071212514158378a8ea203284f16-t_cvi5@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2025071212514158378a8ea203284f16
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 12 Jul 2025 14:51:45 +0200
+        Sat, 12 Jul 2025 14:51:42 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=6e7GLhUtRfNda/yIovVxwHUuJeRdg240weAZEHFPhy4=;
- b=NZ1/jZxzEQoqj5wYRIF0LhRtiE0RNK59p9WJOPPYADnBa+yllvkJ6MkCB6wUvv/UrKH3j7
- ZVNFjgxOlL4jcZirtx2jujcKE7uDKg57/26V6craBJ//yQwNY3cAsIvYsDlEJflx2HHgVBph
- pWSKhSVIaIrTvpSiCu6IVrLlT7Z0xQY9Irilgh18OxlMiuNYnqnbszkIASnw0utYPLHUN1Ay
- Bg+TKRfec093SA6Uta6Sg+T+OYeiEfLvtqzp7yJcsJxrxKYKw3PUqB+DGdUFJdaurCf1FfC/
- DKjr/X/WFLNND8zZuFCuLEQ4gq/IiAupR41TQLltR/Xl4KHq1Ov9j59Q==;
-From: AdrianF <adrian.freihofer@siemens.com>
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=JWaO0NqYwzUTNwJZbZe7sLe1ifVPQHLUh6ccKmwZp4E=;
+ b=i70FMr6O9FWaXLwBxYwN9MhGpTJSjSt3VEJCk78YBWhpgEhBrMoaawVt517Sbi0Prx4Sw0
+ OUcfydzaNl4eHuQ890H4MgPQ6gb5twN+aam3nNQpQGuOrSThTSYtp3zrG+zscYmJTCskDklK
+ g0y5JLgA4HwnLjfMibUQWYMk2DzDhpQ9ufLmxl3/xmISc9e4dQiqgFsdwHVhPOMV+rH/w2QY
+ ZCbniRsQcrulmoPQFOdL05VvCzgMpxJ8ZqqEnScSJGfC3JY5fFtrguQpE4gncBHaXq2Nnjzg
+ 3jzsT1n2uy/M9xplypPgWzuteBorx3JzAPYun1omqNa4gF6zElR6JGvA==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 2/2] oeqa/utils/command: simplify tap detection
-Date: Sat, 12 Jul 2025 14:50:43 +0200
-Message-ID: <20250712125103.3404739-3-adrian.freihofer@siemens.com>
-In-Reply-To: <20250712125103.3404739-1-adrian.freihofer@siemens.com>
-References: <20250712125103.3404739-1-adrian.freihofer@siemens.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [meta-oe][walnascar][PATCH 1/2] spdlog: patch CVE-2025-6140
+Date: Sat, 12 Jul 2025 14:50:53 +0200
+Message-Id: <20250712125054.3281625-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 12:51:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220179
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220176
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Simplify the code by removing the fallback to ifconfig if the ip command
-is not available. ip commands are nowadays available on all host
-machines. The transition from ifconfig to ip has taken place long time
-ago e.g. for the runqemu-gen-tapdevs script.
+Pick commit [1] mentioned in [2] as listed in [3].
 
-This also fixes the detection of tap devices if the tap devices are not
-named tap0, tap1, etc. but have a different name, e.g. foo0, foo1 which
-is the case if the OE_TAP_NAME environment variable is set.
+[1] https://github.com/gabime/spdlog/commit/10320184df1eb4638e253a34b1eb44ce78954094
+[2] https://github.com/gabime/spdlog/issues/3360
+[3] https://nvd.nist.gov/vuln/detail/CVE-2025-6140
 
-Some examples:
-
-$ ip tuntap show mode tap
-$ sudo ./scripts/runqemu-gen-tapdevs 1000 2
-Creating 2 tap devices for GID: 1000...
-Creating tap0
-Creating tap1
-...
-$ ip tuntap show mode tap
-tap0: tap persist group 1000
-tap1: tap persist group 1000
-$ sudo ./scripts/runqemu-gen-tapdevs 1000 0
-Note: Destroying pre-existing tap interface tap0...
-Note: Destroying pre-existing tap interface tap1...
-$ ip tuntap show mode tap
-$ sudo OE_TAP_NAME=foo ./scripts/runqemu-gen-tapdevs 1000 2
-Creating 2 tap devices for GID: 1000...
-Creating foo0
-Creating foo1
-...
-$ ip tuntap show mode tap
-foo0: tap persist group 1000
-foo1: tap persist group 1000
-$ sudo OE_TAP_NAME=foo ./scripts/runqemu-gen-tapdevs 1000 0
-Note: Destroying pre-existing tap interface foo0...
-Note: Destroying pre-existing tap interface foo1...
-$ ip tuntap show mode tap
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/lib/oeqa/utils/commands.py | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ .../spdlog/spdlog/CVE-2025-6140.patch         | 46 +++++++++++++++++++
+ .../recipes-support/spdlog/spdlog_1.15.0.bb   |  4 +-
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 meta-oe/recipes-support/spdlog/spdlog/CVE-2025-6140.patch
 
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index e049e1ee682..91542209685 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -405,13 +405,11 @@ def runqemu_check_taps():
-     """Check if tap devices for runqemu are available"""
-     if not os.path.exists('/etc/runqemu-nosudo'):
-         return False
--    result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show', ignore_status=True)
-+    result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show mode tap', ignore_status=True)
-     if result.status != 0:
--        result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ifconfig -a', ignore_status=True)
--        if result.status != 0:
--            return False
-+        return False
-     for line in result.output.splitlines():
--        if line.startswith('tap'):
-+        if 'tap' in line:
-             break
-     else:
-         return False
--- 
-2.49.0
-
+diff --git a/meta-oe/recipes-support/spdlog/spdlog/CVE-2025-6140.patch b/meta-oe/recipes-support/spdlog/spdlog/CVE-2025-6140.patch
+new file mode 100644
+index 0000000000..af135adee2
+--- /dev/null
++++ b/meta-oe/recipes-support/spdlog/spdlog/CVE-2025-6140.patch
+@@ -0,0 +1,46 @@
++From 10320184df1eb4638e253a34b1eb44ce78954094 Mon Sep 17 00:00:00 2001
++From: Gabi Melman <gmelman1@gmail.com>
++Date: Mon, 17 Mar 2025 15:46:31 +0200
++Subject: [PATCH] Fixed issue #3360 (#3361)
++
++CVE: CVE-2025-6140
++Upstream-Status: Backport [https://github.com/gabime/spdlog/commit/10320184df1eb4638e253a34b1eb44ce78954094]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ include/spdlog/pattern_formatter-inl.h | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
++
++diff --git a/include/spdlog/pattern_formatter-inl.h b/include/spdlog/pattern_formatter-inl.h
++index b53d8051..fd408ed5 100644
++--- a/include/spdlog/pattern_formatter-inl.h
+++++ b/include/spdlog/pattern_formatter-inl.h
++@@ -70,6 +70,9 @@ public:
++             pad_it(remaining_pad_);
++         } else if (padinfo_.truncate_) {
++             long new_size = static_cast<long>(dest_.size()) + remaining_pad_;
+++            if (new_size < 0) {
+++                new_size = 0;
+++            }
++             dest_.resize(static_cast<size_t>(new_size));
++         }
++     }
++@@ -264,7 +267,7 @@ public:
++         : flag_formatter(padinfo) {}
++ 
++     void format(const details::log_msg &, const std::tm &tm_time, memory_buf_t &dest) override {
++-        const size_t field_size = 10;
+++        const size_t field_size = 8;
++         ScopedPadder p(field_size, padinfo_, dest);
++ 
++         fmt_helper::pad2(tm_time.tm_mon + 1, dest);
++@@ -926,9 +929,8 @@ private:
++     memory_buf_t cached_datetime_;
++ 
++ #ifndef SPDLOG_NO_TLS
++-    mdc_formatter<null_scoped_padder> mdc_formatter_{padding_info{}};
+++    mdc_formatter<null_scoped_padder> mdc_formatter_{padding_info {}};
++ #endif
++-
++ };
++ 
++ }  // namespace details
+diff --git a/meta-oe/recipes-support/spdlog/spdlog_1.15.0.bb b/meta-oe/recipes-support/spdlog/spdlog_1.15.0.bb
+index 963de54f73..dbe0e4c2aa 100644
+--- a/meta-oe/recipes-support/spdlog/spdlog_1.15.0.bb
++++ b/meta-oe/recipes-support/spdlog/spdlog_1.15.0.bb
+@@ -5,7 +5,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=9573510928429ad0cbe5ba4de77546e9"
+ 
+ PV .= "+git"
+ SRCREV = "96a8f6250cbf4e8c76387c614f666710a2fa9bad"
+-SRC_URI = "git://github.com/gabime/spdlog.git;protocol=https;branch=v1.x"
++SRC_URI = "git://github.com/gabime/spdlog.git;protocol=https;branch=v1.x \
++    file://CVE-2025-6140.patch \
++"
+ 
+ DEPENDS += "fmt"
+ 
 
