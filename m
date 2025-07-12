@@ -2,285 +2,215 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB35C83F10
-	for <webhook@archiver.kernel.org>; Sat, 12 Jul 2025 14:25:16 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.59])
- by mx.groups.io with SMTP id smtpd.web10.37169.1752330315024257682
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 023A1C83F10
+	for <webhook@archiver.kernel.org>; Sat, 12 Jul 2025 16:07:57 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.web11.39142.1752336470284249396
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Jul 2025 07:25:15 -0700
+ Sat, 12 Jul 2025 09:07:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=Fznkc3Dn;
- spf=pass (domain: siemens.com, ip: 40.107.130.59, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qu3Bpzu0XIFjTWhSApJpTc7xUeoCXHsy0vPr/jYEHFGdytYc+U2DvPwu6Mn0AkL2rZxFjZIsZAHCfp0e9mQiIrBDlkYq7DCLd9DKm891xSU/jgZgn62Xakfxuh6CySV0/RKzHXpCqW9MIrj7ESs/2kyJOT+FDm/8yauxLWL4Ttl+CDcAYX9pkD7W6/E+1VLx2KuGGwgzDWTTiLG7c5RGEhsXY516NWw9hRO1Ax0xDcvJMO2ZGx3bA9brjcdKNPk94XYCsB6WaqzodBIvTvWCP8iH28wZKGHgKy3rT5JoivMruGNxoqNLk4rykc7/xV5rf8O8QnhAhdUpAcuxDb8wMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D18c+RY5VL03SiYIJWtTpK9tQsEh0N7vqFlIe3uDTYc=;
- b=JyPB36Py5SzP4eo1/EA86CkQvORgdygdxhqC38hwHX86EvqYbq7qqyGscGAc8z1mdtQWorLq3AVbfnpKt2ByvmzlJSwnLX4A0mLGYe6tc/+A+T//FNa/bRzav1Y0wFArsnviCPkSfC6HUohZQDKaQ0z5vatBAccf1rKyznzfDi/Zc7tBDDCrEog4G56hFB/vMVcwzgNPZv7/PgJz0cFQ55JmQL1b6LAY2EVOQDm3V2JII9R9LXB3N1Ldp3uzJeUDrPS6YosOuCFcSkoSAIUr2hmNTbNld6/xI6eqb2egJvG8Q81awjqLYvs7uM8cxw2x384NzAP3VlezP07ryyfQxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D18c+RY5VL03SiYIJWtTpK9tQsEh0N7vqFlIe3uDTYc=;
- b=Fznkc3Dn8R8JGTQiG+krj2qJc/YUhpUPvuLt+Icp4NPsBdoDZku43OkxXcb8t9KaeIL2vxK9evDMqCZ/h4ZkzbclbNsugmKsUz+uX6z7MvynqJztcCw3mIFqlsYdwHFTpLHpqQ9BaoRINC1N0i9my5ClsuEg8RSOzJFqro8SZfLa8fpLWhN+2TsrTsPHq8Ganfxyfp+yo8rJdoBZzjsOdmvcpYYCzP2YL/QRXniILbFhIqqimEObOYZHeqXP/e73LYPWwkY2hRDVQdKjQ508OTA/oUklXmM5D3jQrqYAUL1t8y1Of/CK4XkuXAZYf+7EYMytElUg/2FE4HdvPVZHcw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by DU0PR10MB5702.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:315::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Sat, 12 Jul
- 2025 14:25:11 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.8901.024; Sat, 12 Jul 2025
- 14:25:11 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "gudni.m.g@gmail.com" <gudni.m.g@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] sqlite3: upgrade 3.48.0 -> 3.50.2
-Thread-Topic: [OE-core] [PATCH] sqlite3: upgrade 3.48.0 -> 3.50.2
-Thread-Index: AQHb8zZREI1ivBFi3UehS4AuBGSEqrQuh3SAgAABajA=
-Date: Sat, 12 Jul 2025 14:25:11 +0000
-Message-ID: 
- <AS1PR10MB5697C5226761702F5C7B4E68FD4AA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250712140638.3099109-1-gudni.m.g@gmail.com>
- <24850.1752329523627965940@lists.openembedded.org>
-In-Reply-To: <24850.1752329523627965940@lists.openembedded.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=fb56519b-0bc9-45d5-bb9c-a862e7e821ee;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-07-12T14:17:06Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DU0PR10MB5702:EE_
-x-ms-office365-filtering-correlation-id: 94e1ddff-c536-4571-7bb1-08ddc14fe918
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700018|8096899003|13003099007;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?RmNXa3FRay9uY2ZJM1ovV0djUWN1eWZXN2ZaeFNiVE9VUXFGTWdHSFZvaHQ2?=
- =?utf-8?B?VDJiMWFudTNveGZwaVJERXhIZCtJY2ZsRjlVdGgrYUNibm8zWDBrMGR1bjM1?=
- =?utf-8?B?UDgxaVZWdVB1Q2pNUlpkbjJPeVNVYXo1c1dlcTMxeUZmRDhqUFdCWFdZdktJ?=
- =?utf-8?B?aUlvN3daYllUaStxQ1NoVjJleXFzOWZlMjl3YU8wUG1OSVptMmlKMXRSdGIz?=
- =?utf-8?B?eEVoeW03NnRPaXRva2ZvVUE1S2Z1S2lXMkk5RVdzVkpCWjlSSURjY0c1ZXRJ?=
- =?utf-8?B?ZDhZYWlsL3JNY01oaVNJQjY5K21xUUIzM3AvUzlEV0JmY01DSWdrRlp3Nnd4?=
- =?utf-8?B?QzVUV0NtekhDVnJRVDBYWjliQmNSM2IzQ2dUdlZneUYzNGRROXlmTHlhYnJT?=
- =?utf-8?B?LzVWUFdCRTZrWFVlaEdqMmRTdGplTGhKQUg1cGFRa2NHekxKU0FxQVlNNHNM?=
- =?utf-8?B?ZCt2dGtNcFhLQVJwRmNNOVpFQ3Y1UzJiUm4xaTRHVnlkTXZjdnRpUGFCRDhY?=
- =?utf-8?B?MXhBVlJIcDROcUE0aXVXNWMvYWV3cWltaVlZWld6NG5hMHdQRUdmQVZMMS9J?=
- =?utf-8?B?eVNGZ0tMOVVCNUsrVzI2T3NxWFpFYnhFdGZ2UjB3cDh3UjVETTVmdHJid2lO?=
- =?utf-8?B?Rk1mYzdqUEx2dTM5R09VVTBYZW9tZEtYZXN5VmczUGVRVmJvWjJQKy9ETnVh?=
- =?utf-8?B?RzFpTzRLTER1a0xNanJzbXBFb1pvQ0swaFFIaFp0TGNpOHV0anVMRzVMLzNq?=
- =?utf-8?B?ZjlGVEpWQ0FwSHprUGh5Z3F2ZE9LOCtuTG1BMi85QUZtYWliWHJpRlRiV1I4?=
- =?utf-8?B?S1VYbHRNY2xib3BjWWVOMFUyczY0Z1RqQnk5WVA4RVUzWHhaUTFxaXRpSXNh?=
- =?utf-8?B?ZWN2REsxWGRrUHNIaDgwSk9kVEdoa3FYcmR1cTdtUzZnRDRIM0t5cXJCT1Zj?=
- =?utf-8?B?Yjh2WHp5c1lNMEhqeUtQcW1kM1dQV3hjVVJ4R2hzZXBuQnhGZUNGMTF1SkZX?=
- =?utf-8?B?d05UMy8xSSswS0FRWFM3SVdlNFZtaHFhOEpEQW5ORkN1aTJwam1mNytJeHVq?=
- =?utf-8?B?Qm5ZTnp3Y0NiZUZqbnhhMXB2K092UjVLK2VOYXBxcEZMZGRiZlVtNi8yVkFV?=
- =?utf-8?B?ODdLcVdiQlppeFFJRnFwdnc2R2l2aEl6Q0VTYUpjcVo4dlpCUUJFTVZ3OTla?=
- =?utf-8?B?WGRWckd3TDdaY09OVldhTVlnMEVmeGZaNkR1MUU5M1RpOUZkcDUzUWhKYkRF?=
- =?utf-8?B?djgydHIrcWlpb1Q0eEdEajBDRnpYYUF3R2xvaGdqRWFzaURNN1d4dXFFeUJC?=
- =?utf-8?B?ZFJ4T1A5WjRUc1l1MnIzQ1YzSmJ6WGwwSGZoV0VibG9SUVBwWlc4b1QrMG5T?=
- =?utf-8?B?cEp2cUJZd0ZINUN3Q2ttZGRwMllyUS9wOHJUL0VhREdPaGtRMDRYT3dxeS9y?=
- =?utf-8?B?Qy9TNW5SVVpKMmYrdjR2MWNYREpiNTBIOVVBc1dJellDYVM3dXdyRUQxckxm?=
- =?utf-8?B?NkJkd3o1Z29MVjU2Q2NPSXlITUpqWGZ1SVJaanpjOWRHWnRqWmREZXFtTUgr?=
- =?utf-8?B?Yyt2cTNyZGtQajB2MWtFL1BvSFNEQXYrb0tOODcydlluTnM5Q01kUXU1R0I2?=
- =?utf-8?B?K3BnQmlVNDErQnNsT3JLbU82UXRwRVhTNnZYZGIxQ1Q3bGpQMXZVRUdTNitz?=
- =?utf-8?B?eDZ3RUtyLzBIbWFsaFZUMXpsUElLVWxGRU9HM0xCQW95VlVZU01EakpMeDZo?=
- =?utf-8?B?UThmSlllN2w1Ym9tNnQyTStMVUJlK0JiZHB4Y1lSWDZsUy9yQUVEMlY0dGd2?=
- =?utf-8?B?bHJoeWNiQktZclltWnRNc21kMnQ2Z2QvVlRvbWNTUnNpTW9LdEIxbmZUZzM2?=
- =?utf-8?B?dVkvd29WUE5Jc1JyeFNvMVczTnU4K29MTHZMUk8vdjZRVHZRZzAwVzJHY2d2?=
- =?utf-8?Q?jr4iYlmqqEc=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018)(8096899003)(13003099007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?RlpJY3ZiL21OdUNRSk01MHluUVRwVzhmaHhzMDkvNjRkdVZhd21MQTVVYWNQ?=
- =?utf-8?B?b2RsZjBkY3hKc2NlSjF3c2hQTHM0Z2Y1dnJlRUpJbWhWdmNKcG1GUTVhU2NS?=
- =?utf-8?B?aHhCS3poSHVDdzliQU9vRUF0VWpTUWE4UnpHbEtWeXo4blZicVN6ZHQzV2FJ?=
- =?utf-8?B?U3F1d3VyVnM3RU54K0lhWlExVkhkdUMydWFPNS9HZkYvdXdsWmRXR0dReFIw?=
- =?utf-8?B?Ri9Ma0YzcTlKS1YxWmJWM1kycS9NRjlVSUVVMTM0Q1AyWEhCa0M3V1lLWEJN?=
- =?utf-8?B?V2UrcUV6TWlWV0RtQjNpVDlTdWRBODJUbHZxRlVTRTVrTy9NeUdyWVQvdEFp?=
- =?utf-8?B?YkdVOEt6K0ptbTRjdzhhRWxoczB5MFRqanlWcE9NU0I2STE0V0tTc0VDak5O?=
- =?utf-8?B?bXVZTlVIak1uTjFzcXUxcUFiZTBrdVZGc0FXcFgwbjhqbGFFY3Y1eCtXWXVL?=
- =?utf-8?B?djdvV0ZId2NQRGVMMzZmTUlPdkdJL2pEaUZvTmpYYlkvakRKME5wUmlzcGpN?=
- =?utf-8?B?REIyYkcwWVA0TGJSZSt3YVk1UkkwbmpCZHExeENMR3JobVpYblZEaE1Ha3k5?=
- =?utf-8?B?VTBXWHFmWHR4NTdLZmxDSkVIR2ZrYXQ3dXpTa2ZnQkJIL3dKdk1GcGhBMWpO?=
- =?utf-8?B?OEgyelRsRmZUTUlZYWVsU3lraVRKWlZlN1R4a0FKaGI0RE9DemhNOXlmYTF3?=
- =?utf-8?B?Y21sM0svWU5Ea2I1K2V2N0U2K0ZmNDVsQklld2VqVjYzZXJDUnZXbm1vcFdr?=
- =?utf-8?B?YzFYbE1WamYwbzYyQklaVlRPTTE3NzQ0TGdYVjNGYzJTdDdVeXBRajBDa0VE?=
- =?utf-8?B?ZWJBWUhMQkpJZFBwdTdpRm5kRnB2MUp6Rzhpdy9LSEgrTVFKbngzRUlueFZm?=
- =?utf-8?B?RWxDRWh4RnQva0x3ckdibXpzMkNPL1J2a2Q5azlIc2pxUVF2V1NVTzZ0SGhj?=
- =?utf-8?B?Z2l5clh0MlU4VUoyb2UyZEw0bGM0Y1d1YXlwTXk3N3JZZ3hZYmMxaGNhOFZT?=
- =?utf-8?B?L2F2MWhkTExQdUlBNURDdGVWYlhhLzdJY0hSS2RHeXcvemZidDBMVFRUZGlV?=
- =?utf-8?B?QWVJQzlLZVlUcStNMzVaVUc1cDVCUFpjT0cvdGhlNmE0ZmJWSkRlR0RSOEEw?=
- =?utf-8?B?V3g0cXp0TWxHZ1VlRHdCMFJwZUFMUGFPWUFNcEF5VzFSVUplQ1lBZHppa0ds?=
- =?utf-8?B?NStBVFRtZTIvWDBYdnZMMWFlTnowbzBZSkFXNHFzalRsWERKSlFXQ3pRNmQr?=
- =?utf-8?B?OUgyZkQzTUdBNC9vK3pnMm1MenAxQVA4YW44N1ZCOE93N3lWbXBkNmhIVElk?=
- =?utf-8?B?bEp0S1VDSVlMd2IwUEJCVXFIZmcvaUhmNE9JTkpleEJkNGh5NW0vbWtDeUlk?=
- =?utf-8?B?cENPK1VTNHFMSTg4czMvbHdGVGpWdjIyRVNsTUZhc1hLUHN2czFqMzBzUWt6?=
- =?utf-8?B?TkRBeFA5M0g3ejhsUGNTQmRoYnlsdnVCSSt2emdVR00wT0RZSHNhNjkvR29Y?=
- =?utf-8?B?cjZEakxGQUpxSk9qazYwak9TSnBNeXlDMTFML25KN2pPYUJVTzVxNFovZWpa?=
- =?utf-8?B?d25OZ1EzVnVOZ2lpdTFuWHhqMjd0clJEN3Rubk5qOHgvdDhORU41V0drTVdm?=
- =?utf-8?B?ZnVvN2hNZm1SZzRGNTNxS0FkVDZlZWpkcXZrOFZwSHJKTlJUeko0NXNkMHdj?=
- =?utf-8?B?RmZUMCtxc3MxRlp0RkxrOE45MzRRY2tFT2ZOU29Gd1lnbzBOeWxIb29VN3d6?=
- =?utf-8?B?OVZmZVRlTFJVQVlBOWYzWFRHeXY2TVlIcUw0cDBYTmRraUNzaEtNWDk3b3Jl?=
- =?utf-8?B?ZG9NYndENTlZUTBTN3dwK3dFZnQ0ZWNLOEZrNmQwWW1LdkpHLzIrR3hRK29K?=
- =?utf-8?B?K2laeXhCaFd4VXVHbXd4ditGc2dWSVJ2R1pIV1JBbCtaNVpQSE9VYWJVcVZz?=
- =?utf-8?B?em5GMUQ0Q1loY3ViN2lHZ0MwWlI4VGlKTzVZK2YwTXNGM1REMmlNY3REOVFI?=
- =?utf-8?B?TUdRZTVZUjJERnd3ek02dlZBSzMyZklWNXdzSmhFSFhXUVhWd1lsRCtQSTRm?=
- =?utf-8?B?dkRjVkR3Zmt3WUVHYTI4ZmtneDRWaEJSYUpkcUQ1ZEloVE44eDFNZ2tGRndx?=
- =?utf-8?Q?lBpitnjaj525vlmdX0OSmjk1H?=
-Content-Type: multipart/alternative;
-	boundary="_000_AS1PR10MB5697C5226761702F5C7B4E68FD4AAAS1PR10MB5697EURP_"
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=aQP946nE;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20250712160745ff7ae4c83ab620c466-9ydwcg@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20250712160745ff7ae4c83ab620c466
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 12 Jul 2025 18:07:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=3Ydx4ipSoqW4XIH/siZ54etsMkXyjbkt61/eaACdDe8=;
+ b=aQP946nElM1SU24iaxT5cdw2669g69ihVFE0AuUiqBdO2J5o6tQDBqzyfnAiKrKZVjYN4G
+ a/kHpoOjf51HWy/nZfzb4Z6Dk11AtWXJrm+oaKUC+mGtej8RXsjkUBlx5iiRNhMMET4cmj6n
+ Ot34lu350UcTmZAtKS9sNTg5hAUUBz2/4W+jeJkB5pfIhb71K40l+5DnyE81t+QHPg9z8Tc/
+ oJlt7vLDsV0oiiVkn0lwbdDioFwH2qr3iBhKaQGnMDHdQt5Kvmv0feNLw8mzwIAV4NEHWxyZ
+ 6ZvBWvjwhBJat5T+ZoOVjoLeoHU41CZh4ZK1xdFgmqC+OmMXk/xWRL8g==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][walnascar][PATCH] busybox: apply patch for CVE-2023-39810
+Date: Sat, 12 Jul 2025 18:06:56 +0200
+Message-Id: <20250712160656.484167-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94e1ddff-c536-4571-7bb1-08ddc14fe918
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jul 2025 14:25:11.3414
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VdgWY8dtRUtmyAphkzF5So63VU2RRm77n5dyGFlBhZvfi8lFlkRuxx+c+xZeqXUydREvNzQf1dUt7pPSHAzsjA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5702
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 14:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220192
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 16:07:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220193
 
---_000_AS1PR10MB5697C5226761702F5C7B4E68FD4AAAS1PR10MB5697EURP_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Peter Marko <peter.marko@siemens.com>
 
-SSBkb27igJl0IHRoaW5rIGl04oCZcyB3b3J0aCB0byBzZW5kIHRoZSBzYW1lIHBhdGNoIGFnYWlu
-Lg0KSXQgZGlkIG5vdCBmYWlsIG9uIG5vcm1hbCBhdXRvYnVpbGRlciBidWlsZHMgd2hpY2ggYnVp
-bGQgaW1hZ2VzIGFuZCB0ZXN0aW1hZ2VzLg0KQWxzbyBteSBwcml2YXRlIGJ1aWxkcyB3ZXJlIGZp
-bmUgYmVmb3JlIEkgc2VudCBteSBwYXRjaGVzLg0KDQpUaGUgcHJvYmxlbSBpcyBpbiBvZS1zZWxm
-dGVzdCBydW4gb24gYXV0b2J1aWxkZXIsIHdoZXJlIHRoZSBjb25kaXRpb25zIGFyZSBkaWZmZXJl
-bnQuDQpPZS1zZWxmdGVzdCBpcyBhIGh1Z2UgYmVhc3QgKHRha2luZyBtb3JlIHRoYW4gYSBkYXkg
-b24gcmVndWxhciBtYWNoaW5lcykgYW5kIEFCIGNvbmZpZyBpcyBoYXJkIHRvIGRlY29kZS4NCkni
-gJlsbCBldmVudHVhbGx5IGJ1aWxkIGl0IG15c2VsZiBhcyBwYXJ0IG9mIHBwYy0zMiBzdXBwb3J0
-LCBidXQgSeKAmW0gbm90IHNvIGZhciB5ZXQuDQoNClBldGVyDQoNCkZyb206IG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBHdcOwbmkgTcOhciBHaWxiZXJ0IHZpYSBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnDQpTZW50OiBTYXR1cmRheSwgSnVseSAxMiwgMjAyNSAxNjoxMg0K
-VG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJl
-OiBbT0UtY29yZV0gW1BBVENIXSBzcWxpdGUzOiB1cGdyYWRlIDMuNDguMCAtPiAzLjUwLjINCg0K
-UHJldmlvdXMgZGlzY3Vzc2lvbiB0aHJlYWQ6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zy9nL29wZW5lbWJlZGRlZC1jb3JlL3RvcGljLzExMzg2NjUxMg0KDQpJIGJ1aWx0IHRvZGF5IGNv
-cmUtaW1hZ2UtbWluaW1hbCBvbiBsYXRlc3QgbWFzdGVyIChHaXQgSEVBRCBmb3IgcmVmZXJlbmNl
-OiBodHRwczovL2dpdC5vcGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlL2NvbW1pdC8/
-aWQ9Y2Y4OWExMjFmOTNlNDA0NDg1OTgzYjkyYWJjODhhNDZhN2YyNDg5MCkgYW5kIGFsc28gdXBn
-cmFkZWQgU1FMaXRlIGZyb20gMy41MC4xIHRvIDMuNTAuMiBmb3IgYnVnIGZpeGVzLg0KDQpTbyBm
-YXIgSSBoYXZlbid0IGJlZW4gYWJsZSB0byByZXByb2R1Y2UgdGhlIGlzc3VlIHdpdGggcHNldWRv
-IEkgc2F3IHdpdGggU1FMaXRlIDMuNTAuMSwgYW5kIEkgd29uZGVyIGlmIHRoZSBhdXRvYnVpbGRl
-ci90ZXN0IHN5c3RlbSB3aWxsIGNhdGNoIGFueSBpc3N1ZXM/DQo=
+Backport patch referencing this CVE.
 
---_000_AS1PR10MB5697C5226761702F5C7B4E68FD4AAAS1PR10MB5697EURP_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Note that the hardening is not activated by default, it adds defconfig
+option to enable it.
+Since it introduces a breaking change, it shouldn't be enabled in LTS
+release by default.
+This patch makes busybox cpio equivalent in this release to what is
+currently in master and in kirkstone.
+Also note that gnu cpio also does not have this hardening, but the CVE
+is created only against busybox.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpBcHRvczt9DQovKiBTdHlsZSBEZWZpbml0
-aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJn
-aW46MGluOw0KCWZvbnQtc2l6ZToxMi4wcHQ7DQoJZm9udC1mYW1pbHk6IkFwdG9zIixzYW5zLXNl
-cmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5
-Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWls
-U3R5bGUxOQ0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToi
-QXJpYWwiLHNhbnMtc2VyaWY7DQoJY29sb3I6d2luZG93dGV4dDsNCglmb250LXdlaWdodDpub3Jt
-YWw7DQoJZm9udC1zdHlsZTpub3JtYWw7DQoJdGV4dC1kZWNvcmF0aW9uOm5vbmUgbm9uZTt9DQou
-TXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTt9DQpAcGFnZSBXb3Jk
-U2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGlu
-IDEuMGluO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
-dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVk
-aXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28g
-OV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJl
-ZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9o
-ZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0eWxl
-PSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+SSBkb27igJl0IHRoaW5rIGl04oCZcyB3
-b3J0aCB0byBzZW5kIHRoZSBzYW1lIHBhdGNoIGFnYWluLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPkl0IGRpZCBub3QgZmFpbCBvbiBu
-b3JtYWwgYXV0b2J1aWxkZXIgYnVpbGRzIHdoaWNoIGJ1aWxkIGltYWdlcyBhbmQgdGVzdGltYWdl
-cy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
-ZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNl
-cmlmIj5BbHNvIG15IHByaXZhdGUgYnVpbGRzIHdlcmUgZmluZSBiZWZvcmUgSSBzZW50IG15IHBh
-dGNoZXMuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fu
-cy1zZXJpZiI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwm
-cXVvdDssc2Fucy1zZXJpZiI+VGhlIHByb2JsZW0gaXMgaW4gb2Utc2VsZnRlc3QgcnVuIG9uIGF1
-dG9idWlsZGVyLCB3aGVyZSB0aGUgY29uZGl0aW9ucyBhcmUgZGlmZmVyZW50LjxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPk9lLXNlbGZ0
-ZXN0IGlzIGEgaHVnZSBiZWFzdCAodGFraW5nIG1vcmUgdGhhbiBhIGRheSBvbiByZWd1bGFyIG1h
-Y2hpbmVzKSBhbmQgQUIgY29uZmlnIGlzIGhhcmQgdG8gZGVjb2RlLjxvOnA+PC9vOnA+PC9zcGFu
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0
-O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPknigJlsbCBldmVudHVh
-bGx5IGJ1aWxkIGl0IG15c2VsZiBhcyBwYXJ0IG9mIHBwYy0zMiBzdXBwb3J0LCBidXQgSeKAmW0g
-bm90IHNvIGZhciB5ZXQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwm
-cXVvdDssc2Fucy1zZXJpZiI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+UGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZh
-bWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
-bj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEu
-NXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRl
-cjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAw
-aW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8
-L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
-O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcm
-Z3Q7DQo8Yj5PbiBCZWhhbGYgT2YgPC9iPkd1w7BuaSBNw6FyIEdpbGJlcnQgdmlhIGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc8YnI+DQo8Yj5TZW50OjwvYj4gU2F0dXJkYXksIEp1bHkgMTIsIDIwMjUg
-MTY6MTI8YnI+DQo8Yj5Ubzo8L2I+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmc8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHNxbGl0ZTM6
-IHVwZ3JhZGUgMy40OC4wIC0mZ3Q7IDMuNTAuMjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2
-Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5QcmV2aW91cyBkaXNjdXNzaW9uIHRocmVhZDogPGEg
-aHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUv
-dG9waWMvMTEzODY2NTEyIiB0YXJnZXQ9Il9ibGFuayI+DQpodHRwczovL2xpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS90b3BpYy8xMTM4NjY1MTI8L2E+PG86cD48L286
-cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDs8bzpwPjwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkkgYnVpbHQgdG9k
-YXkgPGVtPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtBcHRvcyZxdW90OyxzYW5zLXNl
-cmlmIj5jb3JlLWltYWdlLW1pbmltYWw8L3NwYW4+PC9lbT4gb24gbGF0ZXN0IG1hc3RlciAoR2l0
-IEhFQUQgZm9yIHJlZmVyZW5jZToNCjxhIGhyZWY9Imh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5v
-cmcvb3BlbmVtYmVkZGVkLWNvcmUvY29tbWl0Lz9pZD1jZjg5YTEyMWY5M2U0MDQ0ODU5ODNiOTJh
-YmM4OGE0NmE3ZjI0ODkwKSIgdGFyZ2V0PSJfYmxhbmsiPg0KaHR0cHM6Ly9naXQub3BlbmVtYmVk
-ZGVkLm9yZy9vcGVuZW1iZWRkZWQtY29yZS9jb21taXQvP2lkPWNmODlhMTIxZjkzZTQwNDQ4NTk4
-M2I5MmFiYzg4YTQ2YTdmMjQ4OTApPC9hPiBhbmQgYWxzbyB1cGdyYWRlZCBTUUxpdGUgZnJvbSAz
-LjUwLjEgdG8gMy41MC4yIGZvciBidWcgZml4ZXMuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlNvIGZhciBJIGhhdmVuJ3QgYmVlbiBhYmxlIHRv
-IHJlcHJvZHVjZSB0aGUgaXNzdWUgd2l0aCBwc2V1ZG8gSSBzYXcgd2l0aCBTUUxpdGUgMy41MC4x
-LCBhbmQgSSB3b25kZXIgaWYgdGhlIGF1dG9idWlsZGVyL3Rlc3Qgc3lzdGVtIHdpbGwgY2F0Y2gg
-YW55IGlzc3Vlcz88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9k
-eT4NCjwvaHRtbD4NCg==
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../busybox/busybox/CVE-2023-39810.patch      | 136 ++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.37.0.bb   |   1 +
+ 2 files changed, 137 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
 
---_000_AS1PR10MB5697C5226761702F5C7B4E68FD4AAAS1PR10MB5697EURP_--
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2023-39810.patch b/meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
+new file mode 100644
+index 0000000000..821ab3508f
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
+@@ -0,0 +1,136 @@
++From 9a8796436b9b0641e13480811902ea2ac57881d3 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Wed, 2 Oct 2024 10:12:05 +0200
++Subject: [PATCH] archival: disallow path traversals (CVE-2023-39810)
++
++Create new configure option for archival/libarchive based extractions to
++disallow path traversals.
++As this is a paranoid option and might introduce backward
++incompatibility, default it to no.
++
++Fixes: CVE-2023-39810
++
++Based on the patch by Peter Kaestle <peter.kaestle@nokia.com>
++
++function                                             old     new   delta
++data_extract_all                                     921     945     +24
++strip_unsafe_prefix                                  101     102      +1
++------------------------------------------------------------------------------
++(add/remove: 0/0 grow/shrink: 2/0 up/down: 25/0)               Total: 25 bytes
++
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++CVE: CVE-2023-39810
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=9a8796436b9b0641e13480811902ea2ac57881d3]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ archival/Config.src                        | 11 +++++++++++
++ archival/libarchive/data_extract_all.c     |  8 ++++++++
++ archival/libarchive/unsafe_prefix.c        |  6 +++++-
++ scripts/kconfig/lxdialog/check-lxdialog.sh |  2 +-
++ testsuite/cpio.tests                       | 23 ++++++++++++++++++++++
++ 5 files changed, 48 insertions(+), 2 deletions(-)
++
++diff --git a/archival/Config.src b/archival/Config.src
++index 6f4f30c43..cbcd7217c 100644
++--- a/archival/Config.src
+++++ b/archival/Config.src
++@@ -35,4 +35,15 @@ config FEATURE_LZMA_FAST
++ 	This option reduces decompression time by about 25% at the cost of
++ 	a 1K bigger binary.
++ 
+++config FEATURE_PATH_TRAVERSAL_PROTECTION
+++	bool "Prevent extraction of filenames with /../ path component"
+++	default n
+++	help
+++	busybox tar and unzip remove "PREFIX/../" (if it exists)
+++	from extracted names.
+++	This option enables this behavior for all other unpacking applets,
+++	such as cpio, ar, rpm.
+++	GNU cpio 2.15 has NO such sanity check.
+++# try other archivers and document their behavior?
+++
++ endmenu
++diff --git a/archival/libarchive/data_extract_all.c b/archival/libarchive/data_extract_all.c
++index 049c2c156..8a69711c1 100644
++--- a/archival/libarchive/data_extract_all.c
+++++ b/archival/libarchive/data_extract_all.c
++@@ -65,6 +65,14 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
++ 		} while (--n != 0);
++ 	}
++ #endif
+++#if ENABLE_FEATURE_PATH_TRAVERSAL_PROTECTION
+++	/* Strip leading "/" and up to last "/../" path component */
+++	dst_name = (char *)strip_unsafe_prefix(dst_name);
+++#endif
+++// ^^^ This may be a problem if some applets do need to extract absolute names.
+++// (Probably will need to invent ARCHIVE_ALLOW_UNSAFE_NAME flag).
+++// You might think that rpm needs it, but in my tests rpm's internal cpio
+++// archive has names like "./usr/bin/FOO", not "/usr/bin/FOO".
++ 
++ 	if (archive_handle->ah_flags & ARCHIVE_CREATE_LEADING_DIRS) {
++ 		char *slash = strrchr(dst_name, '/');
++diff --git a/archival/libarchive/unsafe_prefix.c b/archival/libarchive/unsafe_prefix.c
++index 33e487bf9..667081195 100644
++--- a/archival/libarchive/unsafe_prefix.c
+++++ b/archival/libarchive/unsafe_prefix.c
++@@ -14,7 +14,11 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *str)
++ 			cp++;
++ 			continue;
++ 		}
++-		if (is_prefixed_with(cp, "/../"+1)) {
+++		/* We are called lots of times.
+++		 * is_prefixed_with(cp, "../") is slower than open-coding it,
+++		 * with minimal code growth (~few bytes).
+++		 */
+++		if (cp[0] == '.' && cp[1] == '.' && cp[2] == '/') {
++ 			cp += 3;
++ 			continue;
++ 		}
++diff --git a/scripts/kconfig/lxdialog/check-lxdialog.sh b/scripts/kconfig/lxdialog/check-lxdialog.sh
++index 5075ebf2d..910ca1f7c 100755
++--- a/scripts/kconfig/lxdialog/check-lxdialog.sh
+++++ b/scripts/kconfig/lxdialog/check-lxdialog.sh
++@@ -55,7 +55,7 @@ trap "rm -f $tmp" 0 1 2 3 15
++ check() {
++         $cc -x c - -o $tmp 2>/dev/null <<'EOF'
++ #include CURSES_LOC
++-main() {}
+++int main() { return 0; }
++ EOF
++ 	if [ $? != 0 ]; then
++ 	    echo " *** Unable to find the ncurses libraries or the"       1>&2
++diff --git a/testsuite/cpio.tests b/testsuite/cpio.tests
++index 85e746589..a4462c53e 100755
++--- a/testsuite/cpio.tests
+++++ b/testsuite/cpio.tests
++@@ -154,6 +154,29 @@ testing "cpio -R with extract" \
++ " "" ""
++ SKIP=
++ 
+++# Create an archive containing a file with "../dont_write" filename.
+++# See that it will not be allowed to unpack.
+++# NB: GNU cpio 2.15 DOES NOT do such checks.
+++optional FEATURE_PATH_TRAVERSAL_PROTECTION
+++rm -rf cpio.testdir
+++mkdir -p cpio.testdir/prepare/inner
+++echo "file outside of destination was written" > cpio.testdir/prepare/dont_write
+++echo "data" > cpio.testdir/prepare/inner/to_extract
+++mkdir -p cpio.testdir/extract
+++testing "cpio extract file outside of destination" "\
+++(cd cpio.testdir/prepare/inner && echo -e '../dont_write\nto_extract' | cpio -o -H newc) | (cd cpio.testdir/extract && cpio -vi 2>&1)
+++echo \$?
+++ls cpio.testdir/dont_write 2>&1" \
+++"\
+++cpio: removing leading '../' from member names
+++../dont_write
+++to_extract
+++1 blocks
+++0
+++ls: cpio.testdir/dont_write: No such file or directory
+++" "" ""
+++SKIP=
+++
++ # Clean up
++ rm -rf cpio.testdir cpio.testdir2 2>/dev/null
++ 
+diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
+index c3131eb453..92c7c65a3e 100644
+--- a/meta/recipes-core/busybox/busybox_1.37.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -53,6 +53,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-syslogd-fix-wrong-OPT_locallog-flag-detection.patch \
+            file://0002-start-stop-daemon-fix-tests.patch \
+            file://0003-start-stop-false.patch \
++           file://CVE-2023-39810.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg"
+ SRC_URI:append:x86-64 = " file://sha_accel.cfg"
 
