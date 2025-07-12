@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 023A1C83F10
-	for <webhook@archiver.kernel.org>; Sat, 12 Jul 2025 16:07:57 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web11.39142.1752336470284249396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D81C83F1D
+	for <webhook@archiver.kernel.org>; Sat, 12 Jul 2025 16:09:27 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.39169.1752336557997938917
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Jul 2025 09:07:51 -0700
+ Sat, 12 Jul 2025 09:09:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=aQP946nE;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20250712160745ff7ae4c83ab620c466-9ydwcg@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20250712160745ff7ae4c83ab620c466
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZJXChjg+;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250712160915aa421f1e464b301c0d-bjkc3r@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250712160915aa421f1e464b301c0d
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 12 Jul 2025 18:07:45 +0200
+        Sat, 12 Jul 2025 18:09:15 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=3Ydx4ipSoqW4XIH/siZ54etsMkXyjbkt61/eaACdDe8=;
- b=aQP946nElM1SU24iaxT5cdw2669g69ihVFE0AuUiqBdO2J5o6tQDBqzyfnAiKrKZVjYN4G
- a/kHpoOjf51HWy/nZfzb4Z6Dk11AtWXJrm+oaKUC+mGtej8RXsjkUBlx5iiRNhMMET4cmj6n
- Ot34lu350UcTmZAtKS9sNTg5hAUUBz2/4W+jeJkB5pfIhb71K40l+5DnyE81t+QHPg9z8Tc/
- oJlt7vLDsV0oiiVkn0lwbdDioFwH2qr3iBhKaQGnMDHdQt5Kvmv0feNLw8mzwIAV4NEHWxyZ
- 6ZvBWvjwhBJat5T+ZoOVjoLeoHU41CZh4ZK1xdFgmqC+OmMXk/xWRL8g==;
+ bh=cfo5jU36v6azjvsBlKdDF0QLlu/IsNMmpjNmzqf+v4s=;
+ b=ZJXChjg+L5rdYy3JSA3EJXzLqBbPO4mnS1hv0zNm4r6ZpG1d/YVYsF8I22u8vFIkvIrGo+
+ uVJFlwgJ3Y7Qj/glgCRRo8an9FjGA+yzK2vsnx4oDaeyoZZFp7KvNPGmUKcPtpPRjj3Psuiw
+ Un8zRraRn58Lnu4iL90PuXX+Qb89OEZeXhbXcPAdfk8529dwbluLhn11zpA7vUFMc7HL/ylS
+ xIvX+ooWn2Vwo6Lpjz1nCFjA1r9TZh9xiT+um581tbf+ViIvuOl0IsPWOUMzFas69W+C6AR8
+ vY5Fnd9wI6neD8SU7+i0V17vHODfykYkbsO+LpmKphlroQ4XFMAkRzkA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][walnascar][PATCH] busybox: apply patch for CVE-2023-39810
-Date: Sat, 12 Jul 2025 18:06:56 +0200
-Message-Id: <20250712160656.484167-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] busybox: apply patch for CVE-2023-39810
+Date: Sat, 12 Jul 2025 18:08:27 +0200
+Message-Id: <20250712160827.484424-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 16:07:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220193
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Jul 2025 16:09:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220194
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -55,7 +55,7 @@ is created only against busybox.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../busybox/busybox/CVE-2023-39810.patch      | 136 ++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.37.0.bb   |   1 +
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |   1 +
  2 files changed, 137 insertions(+)
  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
 
@@ -201,16 +201,16 @@ index 0000000000..821ab3508f
 + # Clean up
 + rm -rf cpio.testdir cpio.testdir2 2>/dev/null
 + 
-diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
-index c3131eb453..92c7c65a3e 100644
---- a/meta/recipes-core/busybox/busybox_1.37.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
-@@ -53,6 +53,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-syslogd-fix-wrong-OPT_locallog-flag-detection.patch \
-            file://0002-start-stop-daemon-fix-tests.patch \
-            file://0003-start-stop-false.patch \
+diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
+index 69e9555766..069544cc8a 100644
+--- a/meta/recipes-core/busybox/busybox_1.36.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
+@@ -58,6 +58,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-awk.c-fix-CVE-2023-42366-bug-15874.patch \
+            file://0001-cut-Fix-s-flag-to-omit-blank-lines.patch \
+            file://CVE-2022-48174.patch \
 +           file://CVE-2023-39810.patch \
             "
- SRC_URI:append:libc-musl = " file://musl.cfg"
- SRC_URI:append:x86-64 = " file://sha_accel.cfg"
+ SRC_URI:append:libc-musl = " file://musl.cfg "
+ # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
 
