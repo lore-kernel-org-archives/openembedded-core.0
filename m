@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D7BC83F1D
-	for <webhook@archiver.kernel.org>; Sun, 13 Jul 2025 22:01:36 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.65634.1752444090038252631
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB8DEC83F1D
+	for <webhook@archiver.kernel.org>; Sun, 13 Jul 2025 22:01:45 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.65625.1752444099260428388
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Jul 2025 15:01:31 -0700
+ Sun, 13 Jul 2025 15:01:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=dEusP+di;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2025071322012567594bffa81b0eaa78-q1dk2k@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2025071322012567594bffa81b0eaa78
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=H8ZAj4xl;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20250713220136f56a9e3fda4ea7abb0-kntyou@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250713220136f56a9e3fda4ea7abb0
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 14 Jul 2025 00:01:26 +0200
+        Mon, 14 Jul 2025 00:01:37 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=BRSidB3zA7DMMxr6fYBBkn11JrT6Lqg5PS/LTQseVeA=;
- b=dEusP+diVd6X3hqkwafR001KWq8c7tPbkO+eldFHHBqyD3RyLKVbGJpAxcAKliz8WkAY2T
- R/JmZMjZCmLQDw4g1ARo+oozZC8e4R2Xb769nsLfcT+S1Wt3FEHxnkzH9DxqfmqtT2daZBjr
- iWNAkr4NhZhfTJmuL/hJOejVs0nhhyWdoMrPLZcN8W/6bpd5ngB6x40XLNY+ryV+XHlpHhjb
- ueXfyh/Qcu88McCct7maVRao+PkH5+MogbxKHOtHBVo+2BJo6Qm3AxEEYslO0nmNs2W8wSwg
- xpfehEq7zMIAa9IgNTdL975R8ORJCfS7uKs8JRbl0hHgaktJmmFvOU+w==;
+ bh=k0hD4gsfPpgiqsZtoMn01Sy5Tt6hCYlEkRip1JZz4IE=;
+ b=H8ZAj4xlD+sVRAMoWEEf+3RxFefITK979s/+RJRTl1OKDgFh4lwTRH5HXyIJ0iZ1DuxFUx
+ PDyIRqLWEKSGlSnRDt6U98ZIWBpk9sXOix8FLTqMKKEsh7Xz7z3+aM7JbuKQuvMObOEzxE32
+ KcDU2RY9qa0HlCsYo/3/K1oGm1pK9m832hGugNQl6XhQe2KkzQ6V/ecAKK/DXKZJfwOZ5Dc8
+ P17G7qvL/C7oA1i/Lx2BXZHtZuFoFP2sdqwFridi/BpHX+QixVgrp2azBteMLa97aGRZ1oBw
+ mQlhqYEvwqwbSzMTGiU4GdCgM2kLeqLzBz7PzS3luiCQOlT/p0zPJrYw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][walnascar][PATCH] iputils: patch CVE-2025-48964
-Date: Mon, 14 Jul 2025 00:00:38 +0200
-Message-Id: <20250713220038.540905-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] iputils: patch CVE-2025-48964
+Date: Mon, 14 Jul 2025 00:00:49 +0200
+Message-Id: <20250713220049.540961-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Jul 2025 22:01:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220206
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Jul 2025 22:01:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220207
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -46,13 +46,13 @@ Pick commit referencing this CVE.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../iputils/iputils/CVE-2025-48964.patch      | 99 +++++++++++++++++++
- .../iputils/iputils_20240905.bb               |  1 +
+ .../iputils/iputils_20211215.bb               |  1 +
  2 files changed, 100 insertions(+)
  create mode 100644 meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch
 
 diff --git a/meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch b/meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch
 new file mode 100644
-index 0000000000..1144ce4e4a
+index 00000000000..e6fc67bce09
 --- /dev/null
 +++ b/meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch
 @@ -0,0 +1,99 @@
@@ -106,7 +106,7 @@ index 0000000000..1144ce4e4a
 +index 4dce538..bc1fab2 100644
 +--- a/ping/ping.h
 ++++ b/ping/ping.h
-+@@ -194,7 +194,7 @@ struct ping_rts {
++@@ -180,7 +180,7 @@ struct ping_rts {
 + 	long tmax;			/* maximum round trip time */
 + 	double tsum;			/* sum of all times, for doing average */
 + 	double tsum2;
@@ -119,7 +119,7 @@ index 0000000000..1144ce4e4a
 +index 2a3e556..fad5228 100644
 +--- a/ping/ping_common.c
 ++++ b/ping/ping_common.c
-+@@ -281,7 +281,7 @@ int __schedule_exit(int next)
++@@ -273,7 +273,7 @@ int __schedule_exit(int next)
 + 
 + static inline void update_interval(struct ping_rts *rts)
 + {
@@ -127,8 +127,8 @@ index 0000000000..1144ce4e4a
 ++	int est = rts->rtt ? (int)(rts->rtt / 8) : rts->interval * 1000;
 + 
 + 	rts->interval = (est + rts->rtt_addend + 500) / 1000;
-+ 	if (rts->uid && rts->interval < MIN_USER_INTERVAL_MS)
-+@@ -788,7 +788,7 @@ restamp:
++ 	if (rts->uid && rts->interval < MINUSERINTERVAL)
++@@ -768,7 +768,7 @@ restamp:
 + 			if (triptime > rts->tmax)
 + 				rts->tmax = triptime;
 + 			if (!rts->rtt)
@@ -137,7 +137,7 @@ index 0000000000..1144ce4e4a
 + 			else
 + 				rts->rtt += triptime - rts->rtt / 8;
 + 			if (rts->opt_adaptive)
-+@@ -960,7 +960,7 @@ int finish(struct ping_rts *rts)
++@@ -935,7 +935,7 @@ int finish(struct ping_rts *rts)
 + 		int ipg = (1000000 * (long long)tv.tv_sec + tv.tv_nsec / 1000) / (rts->ntransmitted - 1);
 + 
 + 		printf(_("%sipg/ewma %d.%03d/%d.%03d ms"),
@@ -146,7 +146,7 @@ index 0000000000..1144ce4e4a
 + 	}
 + 	putchar('\n');
 + 	return (!rts->nreceived || (rts->deadline && rts->nreceived < rts->npackets));
-+@@ -985,7 +985,7 @@ void status(struct ping_rts *rts)
++@@ -960,7 +960,7 @@ void status(struct ping_rts *rts)
 + 		fprintf(stderr, _(", min/avg/ewma/max = %ld.%03ld/%lu.%03ld/%d.%03d/%ld.%03ld ms"),
 + 			(long)rts->tmin / 1000, (long)rts->tmin % 1000,
 + 			tavg / 1000, tavg % 1000,
@@ -155,16 +155,16 @@ index 0000000000..1144ce4e4a
 + 	}
 + 	fprintf(stderr, "\n");
 + }
-diff --git a/meta/recipes-extended/iputils/iputils_20240905.bb b/meta/recipes-extended/iputils/iputils_20240905.bb
-index 64d58a91c2..96b9671dbd 100644
---- a/meta/recipes-extended/iputils/iputils_20240905.bb
-+++ b/meta/recipes-extended/iputils/iputils_20240905.bb
-@@ -12,6 +12,7 @@ DEPENDS = "gnutls"
- 
+diff --git a/meta/recipes-extended/iputils/iputils_20211215.bb b/meta/recipes-extended/iputils/iputils_20211215.bb
+index 03dc97dcc83..97fff6fe3ae 100644
+--- a/meta/recipes-extended/iputils/iputils_20211215.bb
++++ b/meta/recipes-extended/iputils/iputils_20211215.bb
+@@ -13,6 +13,7 @@ DEPENDS = "gnutls"
  SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https \
+            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
             file://CVE-2025-47268.patch \
 +           file://CVE-2025-48964.patch \
-           "
- SRCREV = "10b50784aae3fb75c96cdf9b1668916b49557dd5"
+            "
+ SRCREV = "1d1e7c43210d8af316a41cb2c53d612a4c16f34d"
  
 
