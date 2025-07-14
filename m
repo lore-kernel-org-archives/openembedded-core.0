@@ -1,112 +1,115 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5A4C83F17
-	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 18:09:44 +0000 (UTC)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
- by mx.groups.io with SMTP id smtpd.web10.85097.1752516580878427254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D0CFC83F1A
+	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 22:06:09 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.398.1752530766558208865
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jul 2025 11:09:41 -0700
+ Mon, 14 Jul 2025 15:06:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DHR8cKuu;
- spf=pass (domain: gmail.com, ip: 209.85.219.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e8275f110c6so3356103276.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 11:09:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hz2IIGqc;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-237311f5a54so41357575ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 15:06:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752516580; x=1753121380; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7ieDYuDvv6mLx88SuSfS2CblU/Q3dh3P6DMyCykiGts=;
-        b=DHR8cKuu3avQ8lEc5n4z4/QRCDSauXPYppeM1CC7m7zViT8ZTZUEtXTat+nYsNhojf
-         l6qVZVkGvG8ukY3XUuxPz6+Vhm15ITpzJz4F766lnmyv1tSvS78hbrkp6PbzFYgtzK+x
-         AAcKoux0XDBt8uHOd8l9pirntae+nHW02UhnQnqoL0rutNliGNZrL1SeK8nrK/eEsbT/
-         F1smS/FW/glOIJcTjQxCLSRc1de6rDUJaTnFUYWH42TFkc9uWKTaq0FvondZgwPWoQsA
-         5N/UxliLz8KA/RG9YZYIElBJFGJKpWK703GSb25MVrEXFoqI4fgITrcGd6Ns5pHAiZer
-         EU8Q==
+        d=gmail.com; s=20230601; t=1752530766; x=1753135566; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vG7WWmOmwJM4WbpV7Aql/kgA9PmnhCMFY+llSWBLN5I=;
+        b=Hz2IIGqct/6WPI6NjoxddJMDXQdhAWjBhoiFL/GZoLJcbjktFwhBzdHDQZyMOXZrVg
+         hB37vcUpcsoNHpn38eba0ueC7o9dumSIvF0irk8M+BIBfXD22+RIv3O4HgjRskTY6GKB
+         /71fSB4tLgsOBSs1xPBw/mp9GSR46QQFZPcA1IODozLVZWF8W2LDCBNooPVA6MJTgedQ
+         fnsaOODopAyLUh9C7fA7gYZn+5KXoC2Q+tcCmIghkfyNOGQp5Z1UTJQE/QOfK5AMFEKM
+         8t0arT4mKOxqSAY4gkDCvyHn+gfPqQt3Uh68W7cmJzVs6Y7A7yYrw01ad0XwulHQFW/y
+         3FxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752516580; x=1753121380;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7ieDYuDvv6mLx88SuSfS2CblU/Q3dh3P6DMyCykiGts=;
-        b=L+sMoI9AQPk0gLSZfXDhHQ5GRZqNZfwMph9cqLvbIh/qQgkq+I8pgCsQYDNH/Uea/h
-         TMHO5x2eKmCKJD8as7gbKyCV0SVfxySeSvzEWMnLnopTimQVwWhs+912j0FhFwcFyZHg
-         Hd5+2gyjYLIdD4ZUwjmU83fcI65be/9k2mKtmd8IGlHe99wrZ4bLgIoCd79RVgeO7ev9
-         PTwBAlT9ypGfnMsSkJd5RHdSu2qB+DkPg89iTdhSrvHkgSZr4fMQBOQ29WloXstoEMgz
-         W1vbdIOxSrNvaNgOUkxdlFpkX+RBPPfN7zSwBTF7GjNEqb1XI0T60D+7uZwx2wEwWLCY
-         zaZA==
-X-Gm-Message-State: AOJu0YxsCknBkQr7TGkcBXSjaoA10+mSmMWuJdeOA7yOVmNsWNnA5FO4
-	7z6uKxzjtmlLXrv877ZRkV06+WBbbHKARwcwIycS+x8qSfQ8RZHTe0iip9XSTGF/dtJcvAar2wL
-	6+QiKlP8kPuonsVsln05o6oxaGi15uZU=
-X-Gm-Gg: ASbGncvUx4W/HPVuRar7bpUZz9UC46r7BA2K5zzYV5pQfdAOKc3c47CIqGi/WSoiNjn
-	xhlzt4X4bIAyMaULoEXlF1v6zGgz1b73x7nEHw9sNSMl6rd+3pko0zJSws+1+Yyv85nwwjVZIH8
-	NbfRCCJBX2Fd8oxm2Nfb6FuL2bj+y6wAU8lRVu4MrRVHnnXWRVXdznRxRzUAHRPYcmnqz1Pouil
-	Dhc/dY6cq0kp6q+WHBN5FiwiT1NgYwi+LQ=
-X-Google-Smtp-Source: AGHT+IGpEzc92FGeH3F4zRvwuoqlZleWO2x8FgCYlyMfOvMBb6mwja5TKtm2h/EpY3RUHumH9q6ziglltuozgIDa4nw=
-X-Received: by 2002:a05:690c:6e06:b0:70c:90af:154 with SMTP id
- 00721157ae682-717d5dac9d1mr244754247b3.20.1752516579490; Mon, 14 Jul 2025
- 11:09:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752530766; x=1753135566;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vG7WWmOmwJM4WbpV7Aql/kgA9PmnhCMFY+llSWBLN5I=;
+        b=Mw6oWePGErZ2bmvUKaz8dtE50Zlh8tbZK6WIfbMNh08KYL+u+6j4sHZABQ1GLvpQFJ
+         RVQHUQCzAyBBz7NhO9eM3TmaIk3qLBOzm5guSy+fkrxnEy2RJ+7Lvy3QhWLWULeegAOC
+         HQLlK/gbeg4sfH3/B/cIiIrwx8K7MsyQQrQQ0P1gNb2vhvCGT+o6O7Q0TPiqwoP6+JKc
+         m13vqDBwnNYQtHz1B9Nx+ODxmAHilvl5mDjwvr/qdZ/CM/gbcTlBbfLjtE8duWnlg+Ph
+         Oj+W5RGV4h1413mYDBXJK8K4vosJxOMgbsulcbaJSzr0cnMhwyyPIW5g2Rpnke0Jf8YO
+         PlUQ==
+X-Gm-Message-State: AOJu0YwZAWEMG9HsrsIl+89b/TEIb7gvr1UCpsFPJV3dKAS3y1KfC9j7
+	DUO3eBWYHEoHOHpjboLvZkvhxduI+etIzzzKPafNf8Wj/3ia3yv87Sal
+X-Gm-Gg: ASbGncu8v+jwZLKRXTB22sCp/W0fs7nkegCN/nvzEXlBTlZ65cfuey5KSjDx8zE9YDU
+	sNV0uRMBOrd6hF3QDx5SGQG05Cb/x4HatRDwsD2E9j6kUWpBlIdckD84AP6MWJ/58FhGwgrWMNT
+	gUkbFxc8aGJN7Pbjvm+L/AePgFd5Xw8YZxvypxbKF7xMjtSUB2ieF4Nrr+h2AWEwEwjhRddRDPR
+	REAW17I+ZE+bxYxvLV+dA7UHBl7r1GpqtGyfn6u/+TPPmCk/VVs4/af6Q+UdumBAa08P26NarVb
+	Dk6mKosdUtH1YArLcCIVzEOj2kK43t0aFEn0/0xIt6nRX51uhVUOT7H1zDmRPT/MxiZkJ7qBHcI
+	3T6V7fqvmAZvBZ8860qQ=
+X-Google-Smtp-Source: AGHT+IHzyxvuS2GIiShIha55tcTfxFwgyj6QJrEr5UW3PNMI1RmxFVeoY7Q4VMnisuqflUcMnxuKqQ==
+X-Received: by 2002:a17:902:e78d:b0:234:a139:1215 with SMTP id d9443c01a7336-23dee28fa46mr213866375ad.35.1752530765644;
+        Mon, 14 Jul 2025 15:06:05 -0700 (PDT)
+Received: from hiagonb ([2804:1b3:a7c1:459e:e3dd:d2e:b1ee:b9ec])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de42ad9d9sm102951175ad.67.2025.07.14.15.06.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 15:06:05 -0700 (PDT)
+Date: Mon, 14 Jul 2025 19:06:01 -0300
+From: Hiago De Franco <hiagofranco@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Chen Qi <Qi.Chen@windriver.com>
+Subject: Re: [OE-core] Circular dependency error on util-linux fstrim service
+Message-ID: <20250714220601.oirb4vfnbdaqkazf@hiagonb>
+References: <20250711180958.tbmriqtce25kxd2q@hiagonb>
+ <CANNYZj_uadTj_Z77A8SvdH71CxTzptieMCU450nJ_-6w-C8yCg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20250714120225.1113086-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20250714120225.1113086-1-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 14 Jul 2025 11:09:12 -0700
-X-Gm-Features: Ac12FXx4b-WcM3me-Jh3fmYsE3aEyZK2LVjh_pB0A9x5uGhbdZ7dLGEY9rozhRI
-Message-ID: <CAMKF1sr8Anofw06MMwbVW0fJt6dG4WATOyFhOKud5hF1VWyXjA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: Add flags to CFLAGS instead of CC
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj_uadTj_Z77A8SvdH71CxTzptieMCU450nJ_-6w-C8yCg@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 18:09:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220260
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 22:06:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220261
 
-On Mon, Jul 14, 2025 at 5:02=E2=80=AFAM Richard Purdie via
-lists.openembedded.org
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
->
-> Recent changes mean toolchain variables are initialized via inherit_defer=
-.
-> It is therefore no longer possible to add to CC using the +=3D operator.
-> Instead, add to CFLAGS.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-core/glibc/glibc_2.41.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-core/gl=
-ibc/glibc_2.41.bb
-> index 7771fac0412..0852bb4bdbe 100644
-> --- a/meta/recipes-core/glibc/glibc_2.41.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.41.bb
-> @@ -111,7 +111,7 @@ do_configure () {
->  }
->
->  LDFLAGS +=3D "-fuse-ld=3Dbfd"
-> -CC +=3D "-fuse-ld=3Dbfd"
-> +CFLAGS +=3D "-fuse-ld=3Dbfd"
+On Mon, Jul 14, 2025 at 04:28:34PM +0200, Alexander Kanavin wrote:
+> On Fri, 11 Jul 2025 at 20:10, Hiago De Franco via
+> lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org>
+> wrote:
+> > Currently there is a circular dependecy error on util-linux recipe if we
+> > try to use fstrim.service and fstrim.timer. These files depend on
+> > libsystemd, therefore when you enable the systemd PACKAGECONFIG of
+> > util-linux the recipe breaks because systemd is also dependent on
+> > util-linux.
+> >
+> > I was wondering if we should create an util-linux-libuuid recipe
+> > equivalent for fstrim as well (util-linux-fstrim_<version>.bb ?), so we
+> > can get rid of this error. I am not sure if this is the correct
+> > approach, do anybody has any reccomendations? I will be happy to send a
+> > patch to fix this issue.
+> 
+> With a circular dependency it helps to ask the question (and consider
+> solutions) in both directions:
+> - why is A depending on B?
+> - why is B depending on A?
+> 
+> In this case, why is systemd listing *target* util-linux in DEPENDS,
+> which is build time? I quickly ran an experiment, and dropped that,
+> and systemd still builds ok. So you could investigate further
+> (particularly verify that installed systemd artefacts do not change,
+> e.g. there is no hidden floating dependency on util-linux) and propose
+> a patch.
+> 
+> Alex
 
-This works ok when ld-is-lld is used as DISTRO_FEATURES so I am good with i=
-t.
+Thanks for your information Alex. I believe we can get rid of util-linux
+dependecy in systemd by creating some PACKAGECONFIGs. I have a patch
+which I am testing, but unfortunately it requires a backport from
+systemd [1] to make the libmount PACKAGECONFIG possible.
 
->
->  do_compile () {
->         base_do_compile
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220225): https://lists.openembedded.org/g/openembedde=
-d-core/message/220225
-> Mute This Topic: https://lists.openembedded.org/mt/114145812/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+I will keep testing and will try to propose something tomorrow.
+
+[1] https://github.com/systemd/systemd/commit/d1ee3889cf8e8a9edc82e41d306155fb4c531c8f
+
+Best Regards,
+
+Hiago.
 
