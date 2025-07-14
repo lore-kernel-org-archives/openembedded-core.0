@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 601C0C83F21
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73DCFC83F27
 	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 16:23:23 +0000 (UTC)
 Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.82432.1752510202706656046
+ by mx.groups.io with SMTP id smtpd.web10.82427.1752510199785379757
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jul 2025 09:23:22 -0700
+ Mon, 14 Jul 2025 09:23:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RkJkeObx;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SmBdgexo;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-74b50c71b0aso2556878b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 09:23:22 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-75001b1bd76so1421945b3a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 09:23:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752510202; x=1753115002; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752510199; x=1753114999; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dh0wuGI5NUKKrmrAzPmbZozhlrWw5uNX3w8kAvL4rzA=;
-        b=RkJkeObxESZtGFKCYjFuzjAZEqMR+2SSwGQLrYjXAiheaxsmjQ0K663q4m6HRsCMWs
-         AeM1/9oXdxKagjg3bFwLScCrXiMBH8GLIYMZjl03wEjk5/4gyuN8fME2qQP5n28AJLxJ
-         2svgikJBHh5CHxjV0GI/hDMI5Xda75YtYT/f8B71P73K5shKTOefH4FJHlxquEbDqC6k
-         6cYCVJYjOTJ2duicpIUAldz4CK1w8psGAS2I0teI6LS+f8QaV8n1eLaFdtpx3qSZ982F
-         4QAyBiKPjsueVejaEg50M4WHx90M63owa9NAdQkARln3x5O4tyKlXbGhkAb8GNvtI8X+
-         Sh6Q==
+        bh=H1AZanmgzG13lq/JhW0DuaLLmOHKDOQvek16d4dDtqI=;
+        b=SmBdgexo7IOSb1HPUEcQs1/4MIQNuKp2TlMjr2izDD3yadaheIW41XsPYwqlAfLqp8
+         di+89rekNtDK6GHhyH+y8wj3j1IzRjjHDgz0qn5XFoF8d15s9SMHtX5TgJSaUBALJoMe
+         xRpkwdAes1OVo0XQs6mM8drFZDMJy5EsNcozj6Q/5oUze3F6bYHTvtKIlDXQXbiZ8WCB
+         GCJP/9AcM5amih7XrLAursP4xUfOmj5bZ2UPAjw1iWdEnKY0vTvJNkhriqGHqyFGMwQx
+         tLZTryoZYn8qvRcdhRQtJ3glKclrYKofb146Kx5SO6V5aY915Ng+fG4wfetqNpAeetr0
+         Ewdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752510202; x=1753115002;
+        d=1e100.net; s=20230601; t=1752510199; x=1753114999;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dh0wuGI5NUKKrmrAzPmbZozhlrWw5uNX3w8kAvL4rzA=;
-        b=Sxwy3gBT2NOPRTiAR1k7PoVLGFSEty++mDR4Saylc5mVLDOg0NyUk5GCE0aE1ufGXx
-         yz7wfECdw88qcCLpt4y1OHM4THVuwH+jkxrx+To1GBokYP0mnT4FGA6RnHHaeZ5/E+kp
-         /uIZa/3pNWH7tubaEYfO49rQd+vyM/3SLds2WbMPKqMyIOKuy/TjcdwPrUdGYZ1sVKBO
-         NzJDsA3QXwGRL42+ialdOmwkxCZWF99pm/Kpgl0Kzyz9f3kmgRgw9PeVFUciWs32D/pV
-         YCydUyVsr/ngQ7EHXk/205uNIVzzSCRp7pxiTucxrpyxGOoQBdAIc+8dCxzZa63Zx+MO
-         YxkQ==
-X-Gm-Message-State: AOJu0YwsRMuq8U/CVxDJFcsqO2NkmsBra3ekC7k8ioBiUm+T3kv6Ufmx
-	pNG2SB7eA8WEj73TeshWSKaKvtFvajGtFEfN49df8Klknrfp6diaGXljGtYzckiMHRhyeZNlkch
-	/RYOt
-X-Gm-Gg: ASbGnct4eHbLLFUI+cZi5sqR4HNR08GGwZAOzUwBwAfN/uoJ75xR//SX30hPPWO+gTC
-	CHXUJNQf9AGKd3V9FkHv0uM7hWxLRX7YPC02kHZUBIFyQSh+L+NZFU6uEkdA1wXu8fY01eRKyFP
-	6aS0/7l6Dl1z2CtJ8jLGLhcrKTW9AVJc/YoQ37vRehuWdoobdip9c+VqVG5UqgFTe43lb5TCTTX
-	pVvCMXuAveTnj2QQRvT/XKJSaLKv+JXO2ODjiCIkp9naZL7xZJoMlJVhXf2pZHTi0IrJLc0wnrr
-	StdMwtEWbRYvcMPLmU3TE8j+bl+KQsemz0MaXFv+5mPYG/QTO4EvLR6wIve0ep0js66cHRsVPnR
-	mi0jAZwaS0fyR
-X-Google-Smtp-Source: AGHT+IHdH84RkhcSczd4+fF/3EEf5W+gihgPyT2dAW2ElCNw4fbpc3cWcQ9SBw+gJkDTbjlvVaGrdw==
-X-Received: by 2002:a05:6a00:a94:b0:739:50c0:b3fe with SMTP id d2e1a72fcca58-74ee07b6f50mr23336907b3a.8.1752510201677;
-        Mon, 14 Jul 2025 09:23:21 -0700 (PDT)
+        bh=H1AZanmgzG13lq/JhW0DuaLLmOHKDOQvek16d4dDtqI=;
+        b=KPHy+W2bcyfFPDukmFcA2Y66Av96AnPZqOenJhzD/37Lk0Euq3btalIoreKBDPfJwT
+         zCyH1YS4GNQr0PdT8us1w0DZOneuLRfmxJadrp1CvLtUjXWLTAcoqezbOtI4CPJ3C+4h
+         ZEb5zJFouMlMsimzl00IdH6+OzcuMwBLRYbKg6rjrwL/eKJbJ+XEGG+thckOjRjBuRPD
+         uihZHzHjaGeDxJwQjQXePnmgqqRICOijOcA85LqBJW7QUqGcH5J36qvnhMF6IEBLoSPl
+         7wi2DqPu7Ig53iqd4wmqA6i9oUM1ERGkfta8D9ZlBSEjPj9VMoS2brUWr67iG5jsc3LA
+         zBbA==
+X-Gm-Message-State: AOJu0YxCvUUCtNU+FYd0GT7Jw/sf4OZKTNVTZL/WuxnhJNxnLnqkL6Gh
+	mdQcA+PnqRJ4uT9rLHWoNDFTG0AP+U33z0x5HhYT/kJMSB/S0+WyyWRtDxhem0g8DxUcV74K9AW
+	1O0lF
+X-Gm-Gg: ASbGncvaVWBqPXDARUm4wZ805WzWJFh/zxbrImDZMwDbpHowxe5/4unknrJq/EYcOmk
+	ApNI/8sC04QWcietuBxlTEOpyYeYp5VEkh9Iy+NwXnbzQ9a4tjCZt950ftMcZDA7odU9WVtQUdL
+	plwIsLVzqzfSbpslgadd4yzSBHqeMYjgHfKP8s5AYRJRX9rzXgjKsY0nMNkVHT3aLTcGPu5DBdl
+	CO/LOmYre3sl3tmqX3ikdweKE5WTwLJfAX0uf8e/jUVTW5S7m5fIw4XV2HXNSNcbS4UIPzNzRQ1
+	5oBsBN8st1sziEgVsWHg/iw7RQHCvHKfQXMA/VCmeu91Yu/wzeMMlCYsWepKdY6KQdGAAn0tXdc
+	1922c6dcB1xK21OWJWF3MkdM=
+X-Google-Smtp-Source: AGHT+IG3rkb22Xcy7IhjxpJ1V484TBP4Rgx0gFOWcqW5u3IB6WHQsTfN5zBMk4A4ZQqc0BKrc0GndA==
+X-Received: by 2002:a05:6a00:9286:b0:748:e8c7:5a38 with SMTP id d2e1a72fcca58-74ee32377a9mr18125296b3a.23.1752510198831;
+        Mon, 14 Jul 2025 09:23:18 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:4aa7:6b72:b465:3a4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9dd5e8fsm10456053b3a.29.2025.07.14.09.23.21
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9dd5e8fsm10456053b3a.29.2025.07.14.09.23.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 09:23:21 -0700 (PDT)
+        Mon, 14 Jul 2025 09:23:18 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 04/15] libsoup: fix CVE-2025-4945
-Date: Mon, 14 Jul 2025 09:22:58 -0700
-Message-ID: <db607024fdf95a03d7e08d728a6fdb6537835eee.1752509862.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 02/15] libarchive: fix CVE-2025-5915
+Date: Mon, 14 Jul 2025 09:22:56 -0700
+Message-ID: <0787eb4ed528cde09ed8f27f070cc6875548f056.1752509862.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752509862.git.steve@sakoman.com>
 References: <cover.1752509862.git.steve@sakoman.com>
@@ -68,156 +68,270 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 16:23:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220242
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220240
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Divya Chellam <divya.chellam@windriver.com>
 
-Refer:
-https://gitlab.gnome.org/GNOME/libsoup/-/issues/448
+A vulnerability has been identified in the libarchive library. This flaw can lead to a heap b
+uffer over-read due to the size of a filter block potentially exceeding the Lempel-Ziv-Storer
+-Schieber (LZSS) window. This means the library may attempt to read beyond the allocated memo
+ry buffer, which can result in unpredictable program behavior, crashes (denial of service), o
+r the disclosure of sensitive information from adjacent memory regions.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Adjusted indentation in the recipe file.
+
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2025-5915
+
+Upstream-patches:
+https://github.com/libarchive/libarchive/commit/a612bf62f86a6faa47bd57c52b94849f0a404d8c
+
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup/libsoup/CVE-2025-4945.patch       | 118 ++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.6.5.bb |   1 +
- 2 files changed, 119 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-4945.patch
+ .../libarchive/libarchive/CVE-2025-5915.patch | 217 ++++++++++++++++++
+ .../libarchive/libarchive_3.7.9.bb            |   5 +-
+ 2 files changed, 220 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5915.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2025-4945.patch b/meta/recipes-support/libsoup/libsoup/CVE-2025-4945.patch
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5915.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5915.patch
 new file mode 100644
-index 0000000000..22a8908f23
+index 0000000000..3c911ce9d9
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2025-4945.patch
-@@ -0,0 +1,118 @@
-+From f0ee9d522f302d7d199e3e61fa8cd45eae7b248f Mon Sep 17 00:00:00 2001
-+From: Milan Crha <mcrha@redhat.com>
-+Date: Thu, 15 May 2025 07:59:14 +0200
-+Subject: [PATCH] soup-date-utils: Add value checks for date/time parsing
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5915.patch
+@@ -0,0 +1,217 @@
++From a612bf62f86a6faa47bd57c52b94849f0a404d8c Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <stoeckmann@users.noreply.github.com>
++Date: Sun, 11 May 2025 19:00:11 +0200
++Subject: [PATCH] rar: Fix heap-buffer-overflow (#2599)
 +
-+Reject date/time when it does not represent a valid value.
++A filter block size must not be larger than the lzss window, which is
++defined
++by dictionary size, which in turn can be derived from unpacked file
++size.
 +
-+Closes https://gitlab.gnome.org/GNOME/libsoup/-/issues/448
++While at it, improve error messages and fix lzss window wrap around
++logic.
 +
-+CVE: CVE-2025-4945
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/8988379984e33dcc7d3aa58551db13e48755959f]
++Fixes https://github.com/libarchive/libarchive/issues/2565
 +
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---------
++
++Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
++Co-authored-by: Tim Kientzle <kientzle@acm.org>
++
++CVE: CVE-2025-5915
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/a612bf62f86a6faa47bd57c52b94849f0a404d8c]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 +---
-+ libsoup/soup-date-utils.c | 23 +++++++++++++++--------
-+ tests/cookies-test.c      | 10 ++++++++++
-+ 2 files changed, 25 insertions(+), 8 deletions(-)
++ Makefile.am                                   |  2 +
++ libarchive/archive_read_support_format_rar.c  | 17 ++++---
++ libarchive/test/CMakeLists.txt                |  1 +
++ .../test/test_read_format_rar_overflow.c      | 48 +++++++++++++++++++
++ .../test/test_read_format_rar_overflow.rar.uu | 11 +++++
++ 5 files changed, 72 insertions(+), 7 deletions(-)
++ create mode 100644 libarchive/test/test_read_format_rar_overflow.c
++ create mode 100644 libarchive/test/test_read_format_rar_overflow.rar.uu
 +
-+diff --git a/libsoup/soup-date-utils.c b/libsoup/soup-date-utils.c
-+index fd785f5..34ca995 100644
-+--- a/libsoup/soup-date-utils.c
-++++ b/libsoup/soup-date-utils.c
-+@@ -129,7 +129,7 @@ parse_day (int *day, const char **date_string)
-+ 	while (*end == ' ' || *end == '-')
-+ 		end++;
-+ 	*date_string = end;
-+-	return TRUE;
-++	return *day >= 1 && *day <= 31;
++diff --git a/Makefile.am b/Makefile.am
++index 4fafc41..9f3a6d1 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -519,6 +519,7 @@ libarchive_test_SOURCES= \
++ 	libarchive/test/test_read_format_rar_encryption_header.c \
++ 	libarchive/test/test_read_format_rar_filter.c \
++ 	libarchive/test/test_read_format_rar_invalid1.c \
+++	libarchive/test/test_read_format_rar_overflow.c \
++ 	libarchive/test/test_read_format_rar5.c \
++ 	libarchive/test/test_read_format_raw.c \
++ 	libarchive/test/test_read_format_tar.c \
++@@ -889,6 +890,7 @@ libarchive_test_EXTRA_DIST=\
++ 	libarchive/test/test_read_format_rar_multivolume.part0003.rar.uu \
++ 	libarchive/test/test_read_format_rar_multivolume.part0004.rar.uu \
++ 	libarchive/test/test_read_format_rar_noeof.rar.uu \
+++	libarchive/test/test_read_format_rar_overflow.rar.uu \
++ 	libarchive/test/test_read_format_rar_ppmd_lzss_conversion.rar.uu \
++ 	libarchive/test/test_read_format_rar_ppmd_use_after_free.rar.uu \
++ 	libarchive/test/test_read_format_rar_ppmd_use_after_free2.rar.uu \
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index 9eb3c84..88eab62 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -451,7 +451,7 @@ static int read_filter(struct archive_read *, int64_t *);
++ static int rar_decode_byte(struct archive_read*, uint8_t *);
++ static int execute_filter(struct archive_read*, struct rar_filter *,
++                           struct rar_virtual_machine *, size_t);
++-static int copy_from_lzss_window(struct archive_read *, void *, int64_t, int);
+++static int copy_from_lzss_window(struct archive_read *, uint8_t *, int64_t, int);
++ static inline void vm_write_32(struct rar_virtual_machine*, size_t, uint32_t);
++ static inline uint32_t vm_read_32(struct rar_virtual_machine*, size_t);
++ 
++@@ -2929,7 +2929,7 @@ expand(struct archive_read *a, int64_t *end)
++     }
++ 
++     if ((symbol = read_next_symbol(a, &rar->maincode)) < 0)
++-      return (ARCHIVE_FATAL);
+++      goto bad_data;
++ 
++     if (symbol < 256)
++     {
++@@ -2956,14 +2956,14 @@ expand(struct archive_read *a, int64_t *end)
++       else
++       {
++         if (parse_codes(a) != ARCHIVE_OK)
++-          return (ARCHIVE_FATAL);
+++          goto bad_data;
++         continue;
++       }
++     }
++     else if(symbol==257)
++     {
++       if (!read_filter(a, end))
++-          return (ARCHIVE_FATAL);
+++          goto bad_data;
++       continue;
++     }
++     else if(symbol==258)
++@@ -3048,7 +3048,7 @@ expand(struct archive_read *a, int64_t *end)
++           {
++             if ((lowoffsetsymbol =
++               read_next_symbol(a, &rar->lowoffsetcode)) < 0)
++-              return (ARCHIVE_FATAL);
+++              goto bad_data;
++             if(lowoffsetsymbol == 16)
++             {
++               rar->numlowoffsetrepeats = 15;
++@@ -3096,7 +3096,7 @@ bad_data:
 + }
 + 
-+ static inline gboolean
-+@@ -169,7 +169,7 @@ parse_year (int *year, const char **date_string)
-+ 	while (*end == ' ' || *end == '-')
-+ 		end++;
-+ 	*date_string = end;
-+-	return TRUE;
-++	return *year > 0 && *year < 9999;
-+ }
-+ 
-+ static inline gboolean
-+@@ -193,7 +193,7 @@ parse_time (int *hour, int *minute, int *second, const char **date_string)
-+ 	while (*p == ' ')
-+ 		p++;
-+ 	*date_string = p;
-+-	return TRUE;
-++	return *hour >= 0 && *hour < 24 && *minute >= 0 && *minute < 60 && *second >= 0 && *second < 60;
-+ }
-+ 
-+ static inline gboolean
-+@@ -209,9 +209,14 @@ parse_timezone (GTimeZone **timezone, const char **date_string)
-+ 		gulong val;
-+ 		int sign = (**date_string == '+') ? 1 : -1;
-+ 		val = strtoul (*date_string + 1, (char **)date_string, 10);
-+-		if (**date_string == ':')
-+-			val = 60 * val + strtoul (*date_string + 1, (char **)date_string, 10);
-+-		else
-++		if (val > 9999)
-++			return FALSE;
-++		if (**date_string == ':') {
-++			gulong val2 = strtoul (*date_string + 1, (char **)date_string, 10);
-++			if (val > 99 || val2 > 99)
-++				return FALSE;
-++			val = 60 * val + val2;
-++		} else
-+ 			val =  60 * (val / 100) + (val % 100);
-+ 		offset_minutes = sign * val;
-+                 utc = (sign == -1) && !val;
-+@@ -264,7 +269,8 @@ parse_textual_date (const char *date_string)
-+ 		if (!parse_month (&month, &date_string) ||
-+ 		    !parse_day (&day, &date_string) ||
-+ 		    !parse_time (&hour, &minute, &second, &date_string) ||
-+-		    !parse_year (&year, &date_string))
-++		    !parse_year (&year, &date_string) ||
-++		    !g_date_valid_dmy (day, month, year))
-+ 			return NULL;
-+ 
-+ 		/* There shouldn't be a timezone, but check anyway */
-+@@ -276,7 +282,8 @@ parse_textual_date (const char *date_string)
-+ 		if (!parse_day (&day, &date_string) ||
-+ 		    !parse_month (&month, &date_string) ||
-+ 		    !parse_year (&year, &date_string) ||
-+-		    !parse_time (&hour, &minute, &second, &date_string))
-++		    !parse_time (&hour, &minute, &second, &date_string) ||
-++		    !g_date_valid_dmy (day, month, year))
-+ 			return NULL;
-+ 
-+ 		/* This time there *should* be a timezone, but we
-+diff --git a/tests/cookies-test.c b/tests/cookies-test.c
-+index 1d2d456..ff809a4 100644
-+--- a/tests/cookies-test.c
-++++ b/tests/cookies-test.c
-+@@ -460,6 +460,15 @@ do_cookies_parsing_max_age_long_overflow (void)
-+ 	soup_cookie_free (cookie);
-+ }
-+ 
-++static void
-++do_cookies_parsing_int32_overflow (void)
-++{
-++	SoupCookie *cookie = soup_cookie_parse ("Age=1;expires=3Mar9    999:9:9+ 999999999-age=main=gne=", NULL);
-++	g_assert_nonnull (cookie);
-++	g_assert_null (soup_cookie_get_expires (cookie));
-++	soup_cookie_free (cookie);
-++}
-++
-+ static void
-+ do_cookies_equal_nullpath (void)
++ static int
++-copy_from_lzss_window(struct archive_read *a, void *buffer,
+++copy_from_lzss_window(struct archive_read *a, uint8_t *buffer,
++                       int64_t startpos, int length)
 + {
-+@@ -718,6 +727,7 @@ main (int argc, char **argv)
-+ 	g_test_add_func ("/cookies/parsing/no-path-null-origin", do_cookies_parsing_nopath_nullorigin);
-+ 	g_test_add_func ("/cookies/parsing/max-age-int32-overflow", do_cookies_parsing_max_age_int32_overflow);
-+ 	g_test_add_func ("/cookies/parsing/max-age-long-overflow", do_cookies_parsing_max_age_long_overflow);
-++	g_test_add_func ("/cookies/parsing/int32-overflow", do_cookies_parsing_int32_overflow);
-+ 	g_test_add_func ("/cookies/parsing/equal-nullpath", do_cookies_equal_nullpath);
-+ 	g_test_add_func ("/cookies/parsing/control-characters", do_cookies_parsing_control_characters);
-+         g_test_add_func ("/cookies/parsing/name-value-max-size", do_cookies_parsing_name_value_max_size);
++   int windowoffs, firstpart;
++@@ -3111,7 +3111,7 @@ copy_from_lzss_window(struct archive_read *a, void *buffer,
++   }
++   if (firstpart < length) {
++     memcpy(buffer, &rar->lzss.window[windowoffs], firstpart);
++-    memcpy(buffer, &rar->lzss.window[0], length - firstpart);
+++    memcpy(buffer + firstpart, &rar->lzss.window[0], length - firstpart);
++   } else {
++     memcpy(buffer, &rar->lzss.window[windowoffs], length);
++   }
++@@ -3266,6 +3266,9 @@ parse_filter(struct archive_read *a, const uint8_t *bytes, uint16_t length, uint
++   else
++     blocklength = prog ? prog->oldfilterlength : 0;
++ 
+++  if (blocklength > rar->dictionary_size)
+++    return 0;
+++
++   registers[3] = PROGRAM_SYSTEM_GLOBAL_ADDRESS;
++   registers[4] = blocklength;
++   registers[5] = prog ? prog->usagecount : 0;
++diff --git a/libarchive/test/CMakeLists.txt b/libarchive/test/CMakeLists.txt
++index 5d7a5d2..59c5f5d 100644
++--- a/libarchive/test/CMakeLists.txt
+++++ b/libarchive/test/CMakeLists.txt
++@@ -163,6 +163,7 @@ IF(ENABLE_TEST)
++     test_read_format_rar_encryption_partially.c
++     test_read_format_rar_invalid1.c
++     test_read_format_rar_filter.c
+++    test_read_format_rar_overflow.c
++     test_read_format_rar5.c
++     test_read_format_raw.c
++     test_read_format_tar.c
++diff --git a/libarchive/test/test_read_format_rar_overflow.c b/libarchive/test/test_read_format_rar_overflow.c
++new file mode 100644
++index 0000000..b39ed6b
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar_overflow.c
++@@ -0,0 +1,48 @@
+++/*-
+++ * Copyright (c) 2003-2025 Tim Kientzle
+++ * All rights reserved.
+++ *
+++ * Redistribution and use in source and binary forms, with or without
+++ * modification, are permitted provided that the following conditions
+++ * are met:
+++ * 1. Redistributions of source code must retain the above copyright
+++ *    notice, this list of conditions and the following disclaimer.
+++ * 2. Redistributions in binary form must reproduce the above copyright
+++ *    notice, this list of conditions and the following disclaimer in the
+++ *    documentation and/or other materials provided with the distribution.
+++ *
+++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
+++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT,
+++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+++ */
+++#include "test.h"
+++
+++DEFINE_TEST(test_read_format_rar_overflow)
+++{
+++    struct archive *a;
+++    struct archive_entry *ae;
+++    const char reffile[] = "test_read_format_rar_overflow.rar";
+++    const void *buff;
+++    size_t size;
+++    int64_t offset;
+++
+++    extract_reference_file(reffile);
+++    assert((a = archive_read_new()) != NULL);
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, reffile, 1024));
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_next_header(a, &ae));
+++    assertEqualInt(48, archive_entry_size(ae));
+++    /* The next call should reproduce Issue #2565 */
+++    assertEqualIntA(a, ARCHIVE_FATAL, archive_read_data_block(a, &buff, &size, &offset));
+++
+++    assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
+++    assertEqualInt(ARCHIVE_OK, archive_read_free(a));
+++}
++diff --git a/libarchive/test/test_read_format_rar_overflow.rar.uu b/libarchive/test/test_read_format_rar_overflow.rar.uu
++new file mode 100644
++index 0000000..48fd3fd
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar_overflow.rar.uu
++@@ -0,0 +1,11 @@
+++begin 644 test_read_format_rar_overflow.rar
+++M4F%R(1H'`,($=```(0`@`0``,`````(````````````S`0``````,`"_B%_:
+++MZ?^[:7``?S!!,`@P,KB@,T@RN33)MTEB@5Z3<`DP`K35`.0P63@P<,Q&0?#,
+++MA##,,",S,(@P,#,@##`&,#":(3`!,#"(`9HPS,,S13`P,#`P,*`PHPS,,S1A
+++M,!,!,#","9H@S12D#$PP!C`P`*'F03":,,T8H`@\,/DPJS!/,"30,#`3N%LP
+++MCQ6:S3"!,#LP22<-,$5%B"5B$S!)(&*>G#+@!`E`%0ODC])62=DO,)BYJX'P
+++M=/LPZ3!!008?%S`P,#`P,#`P,#`P,#`P,#`P,#`P2$PP,#`P03!(,#`P,#`&
+++M,`7),#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P,#`P
+++-,#`P,#`P,#`P,#`P,```
+++`
+++end
 +-- 
-+2.34.1
++2.40.0
 +
-diff --git a/meta/recipes-support/libsoup/libsoup_3.6.5.bb b/meta/recipes-support/libsoup/libsoup_3.6.5.bb
-index 457a30ec70..acd84af934 100644
---- a/meta/recipes-support/libsoup/libsoup_3.6.5.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.6.5.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32908-2.patch \
-            file://CVE-2025-4948.patch \
-            file://CVE-2025-4969.patch \
-+           file://CVE-2025-4945.patch \
- "
- SRC_URI[sha256sum] = "6891765aac3e949017945c3eaebd8cc8216df772456dc9f460976fbdb7ada234"
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+index 1fa61c3218..c091508799 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+@@ -30,8 +30,9 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ 
+ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+-		   file://CVE-2025-5914.patch \
+-		   "
++           file://CVE-2025-5914.patch \
++           file://CVE-2025-5915.patch \
++           "
+ 
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
 -- 
 2.43.0
