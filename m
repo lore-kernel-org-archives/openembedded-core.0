@@ -1,204 +1,192 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9337C83F17
-	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 17:00:13 +0000 (UTC)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
- by mx.groups.io with SMTP id smtpd.web11.83300.1752512407765105030
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07201C83F1A
+	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 17:08:54 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.83585.1752512931428704401
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jul 2025 10:00:07 -0700
+ Mon, 14 Jul 2025 10:08:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mhcCURpi;
- spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e8b3cc05665so3510888276.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 10:00:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IMCoWVa/;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ae3b336e936so905256666b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 10:08:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752512407; x=1753117207; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1VLI05yX8eSvcjhUMufrKOlysAT5KgdzIY4pfVf6Tbo=;
-        b=mhcCURpi+kAJufqVATUOyRqsXcmwI7oSlumht7ES31gINquuu2QDSYglNuNe/f28Do
-         /IIJB7VvVWGl0/9Y1wmzDb4dKposYG7W+pjkIQHETVjb3E5368Wme+D1+Ji9UeZn0WFj
-         SOx0C50E6obbh4YYGaSFERtG/yitywpkyqOIMxjrF+zrsDDZwxJRhyZ9qvjuFGgjl3H/
-         GBctwXXLuq4LeM/cKIcywsM08rDqRRyCl+dEdxuD3xoI5cq9M+Dm9Ok+kEsJ8rKZXg8+
-         mVGK5YktdbzNd9FDdNpwkhpbIj5necKLw8iHrIl4vWFKW5+nNx+IJUytK4ww0Vh/Iu3H
-         Hh8g==
+        d=gmail.com; s=20230601; t=1752512930; x=1753117730; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0Mn4rJgebGFv1efUJYz4dFBjg/R7bcE27LkL28jaQKw=;
+        b=IMCoWVa/E34eBXng2/xC7F79i05kEq+iwC6vUuV68W/MCTyqMcB/OWnBCAgZwuXZzl
+         PINOw3TragC+OMe44Z8A/ssqzXZrqVQEUVuGQkv1qa8G7c0VKDYGD3cEd4VDW6fozar7
+         LWh+anXv7l7cG3Tg1eupTFsXxEaAmdA0N207pTS5ma3wZShvg8lWkJK87DiVSwH0EB+c
+         P8Ee1hAn+ZAQUb3ZnRlxCostjHtr6rK7/AIhZWo+l5Gel3ApfPC23U0H4guAgvWyHog0
+         JBwazSF4iLOMRU2W/yAlnZxRs264v63/Qo9thvQLShYpD20RI287kDpWsUa9dCym7RJU
+         fRmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752512407; x=1753117207;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1VLI05yX8eSvcjhUMufrKOlysAT5KgdzIY4pfVf6Tbo=;
-        b=j3N+PrpDyLITWKKl0OKyDz+gLXk75E8uBzEKnDQ99N4zeehJzbdFHbYATmfqZyTJ/b
-         tkW0Wj2u6rP+npr9Ch2kEv1ogoQQkD/TmdSXKY2HJ+/R+OhnqqV9mJSfa0pvMRMYSFgL
-         MNsQM/L6a18TUrIZVZQt055UGDWqp0lbYsFydrAuq2ieVbHMpjMIsdtt3ZRNRMwJ4aMp
-         bDPJ+TKYhtuOWMMvPoK3LHNnEO6B0x8Z4RhYyk3mvicQ5YidzArKT002phQSPR/mWmh4
-         6KmbRL9eqUdZpsXdED9Umee/6XHJCYBI3du5Viu1lLDpLpUukKjv6ru53mieDx6EvzrA
-         eh1A==
-X-Gm-Message-State: AOJu0Yz9zPkTlerR2Xffih80cpV4MnoeJf9ghe59oYeWASQQGkn19ROQ
-	ufUTm/pd/h0MWnK5WjNwfMtfZsx37WigYxYHW/2O5fv4x0253eMC5Hucx8o/kG4tqU0LAGcUn6K
-	4aDC7uP9PVj1ZMRVd2UKc9JnbRUp36GyhjGfXeH4=
-X-Gm-Gg: ASbGncvCl8gubmPF2d1c/d4fgUYZb2u/7keQJax8HxtXaPPcNZVqFA0KYDyiAMZiaMI
-	GBONf1z0IcpyldepL249fYhC6y+DxokNxR0tN6VGYfDgiiIXQpGvplW58G7lItZGlJHub2Lx2ia
-	KJLfKoupeaqTx60/8ClfKp4KxuEKfkohPsDkvjdzgLDTP1QyepwmNjofTF4RjAwxptHIqQLdjkH
-	WH0Ppyg3Vi2MkW02gqLPdWo2Sx4xDeEcmaR
-X-Google-Smtp-Source: AGHT+IECwYGFRPN62JDoi74wp8EQGPI6IYuTPpjxHuDKqKm1a8pSijjluLRQ9GoxYZ+1vePWV1VYOJMAQY+QB0qCMoA=
-X-Received: by 2002:a05:690c:18:b0:70a:2675:70b3 with SMTP id
- 00721157ae682-717d5dac165mr200928497b3.17.1752512405931; Mon, 14 Jul 2025
- 10:00:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752512930; x=1753117730;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Mn4rJgebGFv1efUJYz4dFBjg/R7bcE27LkL28jaQKw=;
+        b=q5dV3pbf1I7eHY6GiZEtrTx5VjImOfSlTsOugMqKRBHdJDyf7b5np64P+mab83nlMn
+         9ctVkebh+ZEaGHAXCOLdXNBtsTsff0xbWM3rmfUsAQ8vvTQ6LFkbZfKo/B3OHByx9mXB
+         yECINvOzMw/H7EsOgvY2xxQtyei+vVer5dcntKYhveFwLkpkNtLswNVQn59dO2IL4v5O
+         j8zNpHLHA5aU4QpTOm99hQLQaOJY5rjTdofkTCFiesOLJ5L3NJQ9AUpQqSCUwqsvhzcl
+         05V+On6hovBGx6WinDQWefMXDpCRIxGDMvqx1UbxW3RFn9cjh7+3Ea2tuX2MueYYnAGI
+         O3lQ==
+X-Gm-Message-State: AOJu0Yz4k2M0sNe1bro5LJWhWOyFy53MRRVORtFn1FBT8viXuVxsV7Fs
+	o+SlqTiZ5JDYitEmYYyQPFXGJ6g+3hUeYTsFTC8P7Y9zilruadxKm/ei
+X-Gm-Gg: ASbGnctEmiNqk4Vj6dLC1eNW4Yvn1AZtQrsu7qvumXhA9b1kP6ZkU+G1j6wH/HrOB82
+	kSOO1OokD9qiloyu8Yfi0L7bCmtQGhIW268hcIUJUbMegq9cWxD0EgRb6/bKy193PYJ8ztVgJbj
+	JHec05cPHdAgPu+sqkVlzIr833y6n75dmZ3IOwMZdxsYS9S4A6hQwDmIq8iR9HoYbekvNe08KRA
+	kG6GJ8dj19hfbz5NeYFpRUI0BAJEN6Nq6e2UgunsfbqC8r7ujsvddStVbHNq6SdCBkCL7da6OWk
+	bG/yEcVkmQQZLC3MmX5rc2ziO2WFUWVpYywsEVtpSRmFcIiSrsO67Dgj78BbjxETSVhHtBdxp2F
+	fRUYpcDxu0bIwOcNuIjcOawQ+E/S+sA==
+X-Google-Smtp-Source: AGHT+IEP/rz+TbJi9J4/8KiVAusSzcjjLvqePLIZwMuFgyJHVtfFHvxAU5/to+zXvaTozslVzxZ7Yw==
+X-Received: by 2002:a17:906:730c:b0:ae1:f1e0:8730 with SMTP id a640c23a62f3a-ae6fcc7a6b8mr1385611566b.57.1752512929337;
+        Mon, 14 Jul 2025 10:08:49 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e826456fsm862841466b.96.2025.07.14.10.08.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Jul 2025 10:08:48 -0700 (PDT)
+Message-ID: <5d963c9a-e838-4e30-92e9-a148c8c435e8@gmail.com>
+Date: Mon, 14 Jul 2025 19:08:48 +0200
 MIME-Version: 1.0
-References: <20250506201127.4188369-1-raj.khem@gmail.com> <bbda64ad-2bee-4679-9e07-5b1a82a6aac5@gmail.com>
-In-Reply-To: <bbda64ad-2bee-4679-9e07-5b1a82a6aac5@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 14 Jul 2025 09:59:39 -0700
-X-Gm-Features: Ac12FXw34dHdQuF4pyEcu3kfuHRn92uScQisbE7pe5awUuhj136SaKY0oHDG9Cs
-Message-ID: <CAMKF1spFQiiGvi3q5Om4J9pNu1Efufk3=Dv_1AN6YrxZWfPBCA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH v2] compiler-rt: Always use clang for compiler
-To: Gyorgy Sarvari <skandigraun@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20250506201127.4188369-1-raj.khem@gmail.com>
+ <bbda64ad-2bee-4679-9e07-5b1a82a6aac5@gmail.com>
+ <CAMKF1spFQiiGvi3q5Om4J9pNu1Efufk3=Dv_1AN6YrxZWfPBCA@mail.gmail.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <CAMKF1spFQiiGvi3q5Om4J9pNu1Efufk3=Dv_1AN6YrxZWfPBCA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 17:00:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220254
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 17:08:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220255
 
-On Mon, Jul 14, 2025 at 8:03=E2=80=AFAM Gyorgy Sarvari <skandigraun@gmail.c=
-om> wrote:
+On 7/14/25 18:59, Khem Raj wrote:
+> On Mon, Jul 14, 2025 at 8:03 AM Gyorgy Sarvari <skandigraun@gmail.com> wrote:
+>> I realize that this is a fairly old commit... anyway.
+>>
+>> During the weekend I decided to update a personal project of mine to the
+>> tip of master, but after performing the main required changes, I faced
+>> compiler-rt build failures, complaining about unrecognized -mcpu
+>> argument during the compiler sanity check in do_configure[1].
+>> Bisecting oe-core points to this commit. The project I'm using uses
+>> -mcpu=cortex-a72.cortex-a53+crc+crypto (DEFAULTTUNE =
+>> "cortexa72-cortexa53-crypto"), which is not accepted after this change.
+>>
+>> Is this a user error, and I'm supposed to change something after this
+>> revision, or is this a regression?
+> clang has differences in syntax for big.LITTLE arm systems sadly. In meta-clang
+> we have a fix for this
+> https://github.com/kraj/meta-clang/blob/master/classes/clang-legacy.bbclass#L25-L38
 >
-> I realize that this is a fairly old commit... anyway.
->
-> During the weekend I decided to update a personal project of mine to the
-> tip of master, but after performing the main required changes, I faced
-> compiler-rt build failures, complaining about unrecognized -mcpu
-> argument during the compiler sanity check in do_configure[1].
-> Bisecting oe-core points to this commit. The project I'm using uses
-> -mcpu=3Dcortex-a72.cortex-a53+crc+crypto (DEFAULTTUNE =3D
-> "cortexa72-cortexa53-crypto"), which is not accepted after this change.
->
-> Is this a user error, and I'm supposed to change something after this
-> revision, or is this a regression?
+> We need to do something similar in either clang bbclass or in recipes
+> using toolchain-clang
+> override.
 
-clang has differences in syntax for big.LITTLE arm systems sadly. In meta-c=
-lang
-we have a fix for this
-https://github.com/kraj/meta-clang/blob/master/classes/clang-legacy.bbclass=
-#L25-L38
+Thanks a lot. Will run some tests in the coming days, and if I don't
+find any issues locally, will try to submit a patch (I think it would
+make sense to put it in clang.bbclass, most likely others would stumble
+upon this too over time)
 
-We need to do something similar in either clang bbclass or in recipes
-using toolchain-clang
-override.
+>> Thanks
+>>
+>> [1]:
+>> https://gist.github.com/OldManYellsAtCloud/1e0a931a815a054a35cf61792e529b70
+>>
+>> On 5/6/25 22:11, Khem Raj via lists.openembedded.org wrote:
+>>> This makes it build for all architectures e.g. riscv/mips/ppc etc.
+>>>
+>>> Using clang-native to build all variants of recipe makes it easier to
+>>> handle compiling with various distros choosing different runtimes
+>>>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>> v2: Fix builds when using clang as default system compiler
+>>>
+>>>  .../recipes-devtools/clang/compiler-rt_git.bb | 29 ++++++++++++-------
+>>>  1 file changed, 18 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
+>>> index 93928541273..a0f9c769a06 100644
+>>> --- a/meta/recipes-devtools/clang/compiler-rt_git.bb
+>>> +++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
+>>> @@ -32,15 +32,15 @@ DEPENDS:append:class-nativesdk = " virtual/cross-c++ clang-native clang-crosssdk
+>>>  DEPENDS:append:class-native = " clang-native"
+>>>
+>>>  # Trick clang.bbclass into not creating circular dependencies
+>>> -UNWINDLIB:class-nativesdk:toolchain-clang = "--unwindlib=libgcc"
+>>> -COMPILER_RT:class-nativesdk:toolchain-clang = "-rtlib=libgcc --unwindlib=libgcc"
+>>> -LIBCPLUSPLUS:class-nativesdk:toolchain-clang = "-stdlib=libstdc++"
+>>> -UNWINDLIB:class-native:toolchain-clang = "--unwindlib=libgcc"
+>>> -COMPILER_RT:class-native:toolchain-clang = "-rtlib=libgcc --unwindlib=libgcc"
+>>> -LIBCPLUSPLUS:class-native:toolchain-clang = "-stdlib=libstdc++"
+>>> -UNWINDLIB:class-target:toolchain-clang = "--unwindlib=libgcc"
+>>> -COMPILER_RT:class-target:toolchain-clang = "-rtlib=libgcc --unwindlib=libgcc"
+>>> -LIBCPLUSPLUS:class-target:toolchain-clang = "-stdlib=libstdc++"
+>>> +UNWINDLIB:class-nativesdk = "--unwindlib=libgcc"
+>>> +COMPILER_RT:class-nativesdk = "-rtlib=libgcc"
+>>> +LIBCPLUSPLUS:class-nativesdk = "-stdlib=libstdc++"
+>>> +UNWINDLIB:class-native = "--unwindlib=libgcc"
+>>> +COMPILER_RT:class-native = "-rtlib=libgcc"
+>>> +LIBCPLUSPLUS:class-native = "-stdlib=libstdc++"
+>>> +UNWINDLIB:class-target = "--unwindlib=libgcc"
+>>> +COMPILER_RT:class-target = "-rtlib=libgcc"
+>>> +LIBCPLUSPLUS:class-target = "-stdlib=libstdc++"
+>>>
+>>>  PACKAGECONFIG ??= ""
+>>>  PACKAGECONFIG[crt] = "-DCOMPILER_RT_BUILD_CRT:BOOL=ON,-DCOMPILER_RT_BUILD_CRT:BOOL=OFF"
+>>> @@ -52,6 +52,13 @@ HF = ""
+>>>  HF:class-target = "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', 'hf', '', d)}"
+>>>  HF[vardepvalue] = "${HF}"
+>>>
+>>> +CC = "${CCACHE}${HOST_PREFIX}clang ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+>>> +CXX = "${CCACHE}${HOST_PREFIX}clang++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+>>> +BUILD_CC = "${CCACHE}clang ${BUILD_CC_ARCH}"
+>>> +BUILD_CXX = "${CCACHE}clang++ ${BUILD_CC_ARCH}"
+>>> +LDFLAGS += "${COMPILER_RT} ${UNWINDLIB}"
+>>> +CXXFLAGS += "${LIBCPLUSPLUS}"
+>>> +
+>>>  OECMAKE_TARGET_COMPILE = "compiler-rt"
+>>>  OECMAKE_TARGET_INSTALL = "install-compiler-rt install-compiler-rt-headers"
+>>>  OECMAKE_SOURCEPATH = "${S}/llvm"
+>>> @@ -72,7 +79,7 @@ EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+>>>
+>>>  EXTRA_OECMAKE:append:class-native = "\
+>>>                    -DCOMPILER_RT_DEFAULT_TARGET_ARCH=${HOST_ARCH} \
+>>> -                  -DCMAKE_C_COMPILER_TARGET=${HOST_ARCH} \
+>>> +                  -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
+>>>  "
+>>>
+>>>  EXTRA_OECMAKE:append:class-target = "\
+>>> @@ -89,7 +96,7 @@ EXTRA_OECMAKE:append:class-nativesdk = "\
+>>>                 -DCMAKE_NM=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
+>>>                 -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
+>>>                 -DCLANG_TABLEGEN=${STAGING_BINDIR_NATIVE}/clang-tblgen \
+>>> -               -DCMAKE_C_COMPILER_TARGET=${HOST_ARCH}${HOST_VENDOR}-${HOST_OS}${HF} \
+>>> +               -DCMAKE_C_COMPILER_TARGET=${HOST_SYS} \
+>>>  "
+>>>  EXTRA_OECMAKE:append:powerpc = " -DCOMPILER_RT_DEFAULT_TARGET_ARCH=powerpc "
+>>>
+>>>
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#216082): https://lists.openembedded.org/g/openembedded-core/message/216082
+>>> Mute This Topic: https://lists.openembedded.org/mt/112656561/6084445
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>
 
->
-> Thanks
->
-> [1]:
-> https://gist.github.com/OldManYellsAtCloud/1e0a931a815a054a35cf61792e529b=
-70
->
-> On 5/6/25 22:11, Khem Raj via lists.openembedded.org wrote:
-> > This makes it build for all architectures e.g. riscv/mips/ppc etc.
-> >
-> > Using clang-native to build all variants of recipe makes it easier to
-> > handle compiling with various distros choosing different runtimes
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > v2: Fix builds when using clang as default system compiler
-> >
-> >  .../recipes-devtools/clang/compiler-rt_git.bb | 29 ++++++++++++-------
-> >  1 file changed, 18 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/reci=
-pes-devtools/clang/compiler-rt_git.bb
-> > index 93928541273..a0f9c769a06 100644
-> > --- a/meta/recipes-devtools/clang/compiler-rt_git.bb
-> > +++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
-> > @@ -32,15 +32,15 @@ DEPENDS:append:class-nativesdk =3D " virtual/cross-=
-c++ clang-native clang-crosssdk
-> >  DEPENDS:append:class-native =3D " clang-native"
-> >
-> >  # Trick clang.bbclass into not creating circular dependencies
-> > -UNWINDLIB:class-nativesdk:toolchain-clang =3D "--unwindlib=3Dlibgcc"
-> > -COMPILER_RT:class-nativesdk:toolchain-clang =3D "-rtlib=3Dlibgcc --unw=
-indlib=3Dlibgcc"
-> > -LIBCPLUSPLUS:class-nativesdk:toolchain-clang =3D "-stdlib=3Dlibstdc++"
-> > -UNWINDLIB:class-native:toolchain-clang =3D "--unwindlib=3Dlibgcc"
-> > -COMPILER_RT:class-native:toolchain-clang =3D "-rtlib=3Dlibgcc --unwind=
-lib=3Dlibgcc"
-> > -LIBCPLUSPLUS:class-native:toolchain-clang =3D "-stdlib=3Dlibstdc++"
-> > -UNWINDLIB:class-target:toolchain-clang =3D "--unwindlib=3Dlibgcc"
-> > -COMPILER_RT:class-target:toolchain-clang =3D "-rtlib=3Dlibgcc --unwind=
-lib=3Dlibgcc"
-> > -LIBCPLUSPLUS:class-target:toolchain-clang =3D "-stdlib=3Dlibstdc++"
-> > +UNWINDLIB:class-nativesdk =3D "--unwindlib=3Dlibgcc"
-> > +COMPILER_RT:class-nativesdk =3D "-rtlib=3Dlibgcc"
-> > +LIBCPLUSPLUS:class-nativesdk =3D "-stdlib=3Dlibstdc++"
-> > +UNWINDLIB:class-native =3D "--unwindlib=3Dlibgcc"
-> > +COMPILER_RT:class-native =3D "-rtlib=3Dlibgcc"
-> > +LIBCPLUSPLUS:class-native =3D "-stdlib=3Dlibstdc++"
-> > +UNWINDLIB:class-target =3D "--unwindlib=3Dlibgcc"
-> > +COMPILER_RT:class-target =3D "-rtlib=3Dlibgcc"
-> > +LIBCPLUSPLUS:class-target =3D "-stdlib=3Dlibstdc++"
-> >
-> >  PACKAGECONFIG ??=3D ""
-> >  PACKAGECONFIG[crt] =3D "-DCOMPILER_RT_BUILD_CRT:BOOL=3DON,-DCOMPILER_R=
-T_BUILD_CRT:BOOL=3DOFF"
-> > @@ -52,6 +52,13 @@ HF =3D ""
-> >  HF:class-target =3D "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard=
-', 'hf', '', d)}"
-> >  HF[vardepvalue] =3D "${HF}"
-> >
-> > +CC =3D "${CCACHE}${HOST_PREFIX}clang ${HOST_CC_ARCH}${TOOLCHAIN_OPTION=
-S}"
-> > +CXX =3D "${CCACHE}${HOST_PREFIX}clang++ ${HOST_CC_ARCH}${TOOLCHAIN_OPT=
-IONS}"
-> > +BUILD_CC =3D "${CCACHE}clang ${BUILD_CC_ARCH}"
-> > +BUILD_CXX =3D "${CCACHE}clang++ ${BUILD_CC_ARCH}"
-> > +LDFLAGS +=3D "${COMPILER_RT} ${UNWINDLIB}"
-> > +CXXFLAGS +=3D "${LIBCPLUSPLUS}"
-> > +
-> >  OECMAKE_TARGET_COMPILE =3D "compiler-rt"
-> >  OECMAKE_TARGET_INSTALL =3D "install-compiler-rt install-compiler-rt-he=
-aders"
-> >  OECMAKE_SOURCEPATH =3D "${S}/llvm"
-> > @@ -72,7 +79,7 @@ EXTRA_OECMAKE +=3D "-DCMAKE_BUILD_TYPE=3DRelWithDebIn=
-fo \
-> >
-> >  EXTRA_OECMAKE:append:class-native =3D "\
-> >                    -DCOMPILER_RT_DEFAULT_TARGET_ARCH=3D${HOST_ARCH} \
-> > -                  -DCMAKE_C_COMPILER_TARGET=3D${HOST_ARCH} \
-> > +                  -DCMAKE_C_COMPILER_TARGET=3D${HOST_SYS} \
-> >  "
-> >
-> >  EXTRA_OECMAKE:append:class-target =3D "\
-> > @@ -89,7 +96,7 @@ EXTRA_OECMAKE:append:class-nativesdk =3D "\
-> >                 -DCMAKE_NM=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFI=
-X}llvm-nm \
-> >                 -DLLVM_TABLEGEN=3D${STAGING_BINDIR_NATIVE}/llvm-tblgen =
-\
-> >                 -DCLANG_TABLEGEN=3D${STAGING_BINDIR_NATIVE}/clang-tblge=
-n \
-> > -               -DCMAKE_C_COMPILER_TARGET=3D${HOST_ARCH}${HOST_VENDOR}-=
-${HOST_OS}${HF} \
-> > +               -DCMAKE_C_COMPILER_TARGET=3D${HOST_SYS} \
-> >  "
-> >  EXTRA_OECMAKE:append:powerpc =3D " -DCOMPILER_RT_DEFAULT_TARGET_ARCH=
-=3Dpowerpc "
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#216082): https://lists.openembedded.org/g/openembed=
-ded-core/message/216082
-> > Mute This Topic: https://lists.openembedded.org/mt/112656561/6084445
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-skandigraun@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
 
