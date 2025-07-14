@@ -2,87 +2,94 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B745DC83F1A
-	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 14:12:22 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.79113.1752502338280390360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB03C83F1A
+	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 14:28:52 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web11.79373.1752503326537239596
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jul 2025 07:12:18 -0700
+ Mon, 14 Jul 2025 07:28:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jYxXtBVJ;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6facba680a1so53164876d6.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 07:12:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hSwL5uHW;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6faf66905adso26376886d6.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 07:28:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752502337; x=1753107137; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1752503325; x=1753108125; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mBScH/Jw8DedOXMqPhJCfZ7CM+U8TxK3BzyJbXW+5oA=;
-        b=jYxXtBVJjPv3IhzpfcmOHkcux6XBOULVe9Z3JNXhGvXUS9fLxbOT3wzQHW/wBFXR9J
-         k1nDc25hHiw5ou+WdIBXVERYlaQdt4BQzW+9fwWhBuirW7xGhKcUmEOklC0n427nRJ2e
-         VZH0d+yvaOA6Be+0r96YKx7b2WfUCaiKjNaMU/c3PBNxwVqrxDt3AJRTV2BmwblybLDj
-         MTobuLEx/93DKMJLsiD8NsFy80VfVfJsOthDTwVBzXC/dYscoP3NU5a/GLkexqOJURZh
-         BgyFuZpwZARjsLx/JngWz8j8jeoKwrrShNWCxUI6oE81tVifJ2Ieg8BqNor7lJYx93Ng
-         vusw==
+        bh=6w4RAkpNkaUd/3UoaK9e7XoYIwyOTILOMLw6jij3dHw=;
+        b=hSwL5uHWQVjzqikvvNudPIOGs6WHpUIFXBMq1nEeSEjOX/nLo63AZ0Z+2beVcd6GQb
+         ZCnNBfr7zJyZxun/f3vTmmdBsXl9pmk6F7K20uGoY21k/l6IVGl6cF0Sx7ixccD2j9Eo
+         8cdEIlXzlCUEjC4lIiNwxAWAqxH7a+CMXBdlg/ovms7HST4KrZ5Tni0ww9enTOZ84xJa
+         wUQYOk+ukiDR0ErJ9w91BybmNqJUu0dbraX3A/dY0QtkV2f3L9k7p4WITdkEOUs5+Sg4
+         slwKRGO+4jZ7thRae1McR+jkBTzjcdMze9MXCGkxiRizCBhr2Y4lAWCCwF8yVNirDbEH
+         2qoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752502337; x=1753107137;
+        d=1e100.net; s=20230601; t=1752503325; x=1753108125;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mBScH/Jw8DedOXMqPhJCfZ7CM+U8TxK3BzyJbXW+5oA=;
-        b=EEqUIOst7JUnrRKzz/XvVpj+iN+cqcHvXoU7wIvlilUnzbBiwTp2wZlrJxA5+k7/GF
-         aXSc280eLmeMxdcSp8p104gHVezaIdpUaXKTrv87cQqvO3NWjI+3+q4NwRhEvzjFiM5q
-         Clj8DdGzlpCku9bYZjLWG3k4aMdTpK3LqOLWYEZ0Cgyab/agPnSADo2VuaNUVXK7Dpc5
-         PqEdtYodcQuflJ33OKYRDzw2uR0YCrT8LVEdCxDpzHL8xiFSC/D1vhqQKgIg28YyQAPz
-         bcwNcvOvG79cLxBT+Kf7MQAri+S3AV+D7p4vWcG6OVdjNBMkbSeUplfs470dVTGDXDzQ
-         EdQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1TlAo1ze0PBnYOMWWSy9DuhZePY7jJUAnEo8qnrfcq+6PusTgqUPKtIstup5t4oa9Jll1UbP19pXc4rSukc1VVg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxr8aCDxzLVVw215VuA4G2eh7AdlqURVGeMcsgxTE/1xhp1Pfyb
-	3DS37wWp7d8zj7umRpAxx8qbcAJp6KCyDWwcGB3aZ2fuYW2tf4eWWL7lyuooxgrVbmuCruuS7OM
-	DEE9I4JkVdARpJ3+f0XaxncdT31f1s2g=
-X-Gm-Gg: ASbGncuNv/pH2nV5iJrQ2d3HkIt1yrCxonT3kIdrBPX4OksghnM4roQ2HTEpwdEeqnN
-	lyKbFyPmaK05U98bE5Sr3BYmNGalDpo/I13EuhxYdnZMo0BU0GS+AMaj1zJ189YlodwIxSw/7NE
-	lbR4IkWPY5WYMPS47ChnwwWFyzW8qrMClS48/CxgpLXGwtuvQ2zv6apuIIgtA0nZH4au2pxcJKi
-	0Z0sBViYD77t6ro3KdBlD4seupfGOcicYonoTjw
-X-Google-Smtp-Source: AGHT+IHZvkhDf8nAf5Dqxbm9bphZnmFXyb6cPWGm3GEj/vkXCHWoXZrliMXBGbFnqfWwQ/fvIueJRLlqLQcf5pQ9wuk=
-X-Received: by 2002:a05:6214:230c:b0:702:da0c:61d with SMTP id
- 6a1803df08f44-704a421dab2mr247235176d6.25.1752502336758; Mon, 14 Jul 2025
- 07:12:16 -0700 (PDT)
+        bh=6w4RAkpNkaUd/3UoaK9e7XoYIwyOTILOMLw6jij3dHw=;
+        b=O/+Ujm7QhQr0sXGl3q7Tkgeq1KwhKCy/TSgTt3qFetIq/UK+xunukTVNoqXrFfTcfF
+         SkdhXGT1pMqfP3lNCH6FQad5BYgLKDQy0o98t3IoAR81G3YdAoMy1W5R3k5EvIQNhS8e
+         O18y0XiMAFG2vHiYombnfMFoLpwPVbw2D6gvZy9h7e+WmagiIbBmINRG7XiKToQp/rlv
+         4s0tNUfGup7kp4d7HKidB87qhdSVgG5uN2Mbbz8NVHUvqmDlxuTKqUNpVeyfOHTQLNcO
+         UMYK8UrLioH+NvSpeq8NCWPA8v9hd2MGfhmUzdrKfCs0U/5OGZ02OiiKLkaJK7d2faTq
+         Wc8g==
+X-Gm-Message-State: AOJu0YwU+QiGGMyQ8hFujQ6sdnX/8cmfWH0KyTrvakQdolOGxDit7wht
+	/jPbZCWcSmlSJMmOd5dmov5GlyZEC+A0iPVtYC4uiKWuG55tY0y/v+v+sdPYR/QxTvkpHM+UvbY
+	dizRCgpJU7kT6d1jD79IsbnZpfbhv/sU=
+X-Gm-Gg: ASbGncvjE7+pXzY87YAgl3cZa2ZvLudF9dVP9zHu8oB856/tN0mBAdBLiDOlUAnaKoI
+	K2oH+QEe3IMR3xSHo2weeo9txEevaKrq+cfvVN6YpC3GxCVn9P7JM2Q5Ag5iZ5D2ebou1miSiTk
+	ZCywbkJHHreqHRIMx5XzWYGzvZPkleV7OtbJ2sbOmCrTfnu+x31ZUEljqeJKcApT2noFTKs81ga
+	VH31sojCAQTbaLxjMFglzqWXTqYYx/Ap8epSGvt
+X-Google-Smtp-Source: AGHT+IG3dh60O+ETyK0vmq5K+6yQ6W5t64p3jnEMbiSU4Qd9TgfheVPH0JxOJ2LBOhGLE/RxWI66HKfhuGTAd9p2GiQ=
+X-Received: by 2002:ad4:5ded:0:b0:6fa:fbb4:6404 with SMTP id
+ 6a1803df08f44-704a403d024mr204492466d6.5.1752503325336; Mon, 14 Jul 2025
+ 07:28:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250712125103.3404739-1-adrian.freihofer@siemens.com> <1852209495D5ACFD.19151@lists.openembedded.org>
-In-Reply-To: <1852209495D5ACFD.19151@lists.openembedded.org>
+References: <20250711180958.tbmriqtce25kxd2q@hiagonb>
+In-Reply-To: <20250711180958.tbmriqtce25kxd2q@hiagonb>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 14 Jul 2025 16:12:05 +0200
-X-Gm-Features: Ac12FXys6EJAJHcMPdZ7xB9OlPYlsFQDa2-UM3hknQ1IzoQA_P7KF_2crEqNfRs
-Message-ID: <CANNYZj89y-wwa1jtFU5w2AayYsoGGFi_wQz_tZKxNF2u2o8EyA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 0/2] oe-selftest: devtool: split tap
- detection into function
-To: alex.kanavin@gmail.com
-Cc: adrian.freihofer@siemens.com, openembedded-core@lists.openembedded.org
+Date: Mon, 14 Jul 2025 16:28:34 +0200
+X-Gm-Features: Ac12FXyO_3HPwnsxM4RLumWg-4_pkZumAwi2l_QUwKk21UTO6dsVM5H7EfN_FWs
+Message-ID: <CANNYZj_uadTj_Z77A8SvdH71CxTzptieMCU450nJ_-6w-C8yCg@mail.gmail.com>
+Subject: Re: [OE-core] Circular dependency error on util-linux fstrim service
+To: hiagofranco@gmail.com
+Cc: openembedded-core@lists.openembedded.org, Chen Qi <Qi.Chen@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 14:12:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220233
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 14:28:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220234
 
-On Mon, 14 Jul 2025 at 15:17, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+On Fri, 11 Jul 2025 at 20:10, Hiago De Franco via
+lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org>
 wrote:
-> > - Dropped the part which removed the test for the /etc/runqemu-nosudo
-> >   file. This was discussed controversially in the patch review meeting.
-> >   The file is kind of an API and is used in multiple scripts, not only
-> >   by oe-selftest.
+> Currently there is a circular dependecy error on util-linux recipe if we
+> try to use fstrim.service and fstrim.timer. These files depend on
+> libsystemd, therefore when you enable the systemd PACKAGECONFIG of
+> util-linux the recipe breaks because systemd is also dependent on
+> util-linux.
 >
-> I'd like to see that argument. runqemu-nosudo is not used in 'multiple
-> scripts', it's used in one other places (runqemu) to determine whether
-> runqemu should attempt creating the devices.
->
-> Please bring it back, this check does get in the way, and isn't used
-> anywhere else.
+> I was wondering if we should create an util-linux-libuuid recipe
+> equivalent for fstrim as well (util-linux-fstrim_<version>.bb ?), so we
+> can get rid of this error. I am not sure if this is the correct
+> approach, do anybody has any reccomendations? I will be happy to send a
+> patch to fix this issue.
 
-But I guess it should be turned into a separate patch, so it can be
-discussed on its own merit, and not as a bundle with other changes.
+With a circular dependency it helps to ask the question (and consider
+solutions) in both directions:
+- why is A depending on B?
+- why is B depending on A?
+
+In this case, why is systemd listing *target* util-linux in DEPENDS,
+which is build time? I quickly ran an experiment, and dropped that,
+and systemd still builds ok. So you could investigate further
+(particularly verify that installed systemd artefacts do not change,
+e.g. there is no hidden floating dependency on util-linux) and propose
+a patch.
 
 Alex
 
