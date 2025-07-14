@@ -1,476 +1,441 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41F51C83F1D
-	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 02:09:17 +0000 (UTC)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web11.69397.1752458950111049919
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2B85C83F1B
+	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 04:22:47 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.71202.1752466966336156543
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Jul 2025 19:09:10 -0700
+ Sun, 13 Jul 2025 21:22:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=aMUk5ZbL;
- spf=pass (domain: underview.tech, ip: 209.85.160.176, mailfrom: vince@underview.tech)
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4ab554fd8fbso14550841cf.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Jul 2025 19:09:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1752458949; x=1753063749; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=85+l5ZFyAcYRtNyzSn+ZrPiHvnl3oT0mlimeu7lGLjs=;
-        b=aMUk5ZbLkIXjpGTnlSV7CDvNgEZvU+pjyFaO4HVUDL4LYFzZ8LNDPKFyrN0bTruR8I
-         x5DhvEgPVOkGcuE26SDGIlHw7eGwVq3i5zQ/PkICEI6p7Yi2LqsbkUHlwN2IPcd6BVez
-         jJbwrWkwJOfM9D83urkK239pueTWqAvhZtFfrglAHqS5lSAPGaG2f7IjinP15h64GOpV
-         ngnNg2MJJfCFVtMqcLfQ7HmvCLTxZhAsB0Ux6leTwYwB+wXt6db09dK0l5NuBudq4vDV
-         4e1NlUmgBe0fDbOHmhHuDGhG0CoWalLHwgm8mHK5oUroNcdJAlMzO7maGantBjkvNr3g
-         M9YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752458949; x=1753063749;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=85+l5ZFyAcYRtNyzSn+ZrPiHvnl3oT0mlimeu7lGLjs=;
-        b=nyb2hyTOYwGSXy2IzhyfyQzVfZNoCGgWmOmuOcFl0RubFqboRdBoNUvMyOZAOnngd1
-         6Ppx43TyKOQotPOL27v0vB8KZ+0MEgR9aeVFs5wJ74Znra6IUaMg/y8tKRkeTTUNCzlJ
-         pV5FBqP/VZRZYt/283zKdfzL0IED83DgLbgoBvjO5AM9gZjTDNpsBQD/Ms9vHXh9MItO
-         U749wre5976LX9jrKrSPR63U4MXIu+LEcbnqVCSqhjZY6UlvAhMo9OFMZyQNp0HSao0r
-         TwjfHnWRNjCA0VPoUgMWMv/PHcSUMrXra2FYjzqbc7yoWvJLKHZPQAfBTIeDocXZnaGT
-         f1HQ==
-X-Gm-Message-State: AOJu0YxIlIp3QhJ107jUKG2yCJK3doym9UxV56c0EmbRkwVnLLF18D7U
-	d+QaQdKRteQdCMAf0JgtxhwEZhQhn1nYCFc/coxA8Ev3R1TcyCtu1mJoajKpSjM1FJTkX0O6o3b
-	94mNY
-X-Gm-Gg: ASbGnctq4WsMDLsMt6ADrz9A+4QlIIyyzYR75whpG6l0ZzTBfcaFomJ5YgiLWBPq1io
-	sZAGO3LXmgmvdEroDwAbraXzbYPD3xVQUQ0VP8wthPiaA2DULTkzAGmOah+KvWxRRFKOkbT55jC
-	2VrTF0k9dWz34qTWONYhTuKzijZZFxaQP6603Ec7jQCGZI3QI0ncT1RxTBnkBoDidxsreUEaC2E
-	OiV6ei/gc0Z7GLkCILgJBLMVN8F089UgSkzSc2D1dHuxIuYkFA81oo52msxH9IaF539zh670dqA
-	IILEbFeN71aoZJccdexmoBxJaKHLnT9kGW4gBFX3wsIKEqSKrORWKKvxdXhSiF2868ExMTvA7af
-	+nq3klondCU4=
-X-Google-Smtp-Source: AGHT+IEoRDVQrtxYgMaimqfipO2o2+bCqApcqdnizMSMambQe26EuD/AeC4m0QnMA9Ci4x+dMEZKfA==
-X-Received: by 2002:a05:622a:4a88:b0:4ab:6011:fbc4 with SMTP id d75a77b69052e-4ab60120e64mr79242591cf.22.1752458948457;
-        Sun, 13 Jul 2025 19:09:08 -0700 (PDT)
-Received: from vince-server.. ([2601:406:4d01:1820::b05c])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a9ede76d33sm44919091cf.51.2025.07.13.19.09.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jul 2025 19:09:08 -0700 (PDT)
-From: Vincent Davis Jr <vince@underview.tech>
-To: openembedded-core@lists.openembedded.org
-Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH] grub_install: add new wics plugin
-Date: Sun, 13 Jul 2025 22:09:00 -0400
-Message-ID: <20250714020900.1240597-1-vince@underview.tech>
-X-Mailer: git-send-email 2.43.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9290ac3eb4=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56E3eIts643960
+	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jul 2025 21:22:46 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47uk031fk3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 13 Jul 2025 21:22:45 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 56E4MjpB713932;
+	Sun, 13 Jul 2025 21:22:45 -0700
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02on2075.outbound.protection.outlook.com [40.107.95.75])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47uk031fk2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 13 Jul 2025 21:22:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y0v8WOe1KFNCw2ziHu7oq+/i1LtqNzknMCb0LBSt8kOLhBEOlEADTwSnHoa+AxFMPrEGoDks9Vot6DYGUGkTR1gGji6zhxru18Oeu+AFvvhlvnAZqLvpR8DdFHy8gb+AZOb2X7bGhyMJ18EKxfagXv01Zfvkqdo5gzao16M61K8mgtCA5JsvpEl8olXmmq52Uifsrf0xbumCfEySfAjsh5ScqJArf03NgdvnAX4ATvUPC+ekoeUDDPDVlTV6+MbU3o6X0vtWPM6fmHWXEsN3fjTR49hpPZaYMudkKD3p+GRxA3mndKzrKXxEnAVkbJmcyc3yuIaC7bp8dnXbsK06HQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NTgn2GATnyKFUnL+XRWZAbC1ztHSIpTARjP16bNy0g0=;
+ b=iBbQNZnBvyayl5II8ErwyadF6Dc8cQ3En6lUngG06v8IQ9NJdEWa7yDqAsS7EtTg4FIiFmc67ZC2zXQbFWhrm06qFEm0HWo+n3FYdqqU8fZMGZMB+59/z8C9BvtSD4PpXUTHJAnB8rtAgN/oMVwIFvMmU2saqrYC+nyTmwuEWF9QzA3S6wZHUBIz1X4HUhKQrd6ZCkfIzVHARRWsI5JSYABkglrhOa98a6m9+J8Pye1aXvfmL6wflXuS0DwgSDzIWOTGqWqCp6nOmf8O6K7ugX11Irlipv6QnQfLTm4eeDALKhXRQDY1NAeNpCA+ptZIBfRCyuoIKfPGmTQf8v29XA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by MN0PR11MB6182.namprd11.prod.outlook.com (2603:10b6:208:3c6::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Mon, 14 Jul
+ 2025 04:22:42 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::a7e3:721d:9cec:6093%6]) with mapi id 15.20.8922.028; Mon, 14 Jul 2025
+ 04:22:42 +0000
+Message-ID: <72278f39-bc88-49a1-8708-6a745411d65f@windriver.com>
+Date: Mon, 14 Jul 2025 12:22:37 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][kirkstone][PATCH V2] coreutils: fix CVE-2025-5278
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20250701041625.1956085-1-Qi.Chen@windriver.com>
+ <CAOSpxdbKMCSAywKgsTm04Kk_FRThJCZNLo20ojhABheVizeKHw@mail.gmail.com>
+ <8a2f75f8-d38a-47b0-b038-927e2f47df8b@windriver.com>
+ <5b56a9da-502e-4f65-8285-4e39991b2762@windriver.com>
+ <18501200A5792418.27764@lists.openembedded.org>
+ <CAOSpxdaPEMGsQ1QeDd6gO0sSNP-hxZwT8sL0-MrgcNuW_jVpNg@mail.gmail.com>
+ <CAOSpxdZBTaE4mdNq65Rxyas2c0ARCPYn7mBz2+pOssh7BsBZwg@mail.gmail.com>
+Content-Language: en-US
+From: ChenQi <Qi.Chen@windriver.com>
+In-Reply-To: <CAOSpxdZBTaE4mdNq65Rxyas2c0ARCPYn7mBz2+pOssh7BsBZwg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: SL2P216CA0230.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:18::16) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|MN0PR11MB6182:EE_
+X-MS-Office365-Filtering-Correlation-Id: a19ad59a-dcb9-4297-8ab8-08ddc28e1341
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|4022899009|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?UllJS1JPV3RibWJQS3Y2Ukkxckh6dFZGYlR5Z0RhNjBKRXI0dk1kMlRVWXo3?=
+ =?utf-8?B?YmlEekpxMWxNaVFsT1J3KzJaOFBRUXpRa1M2bWhIVGszbnU3ajBMQmRwVTlF?=
+ =?utf-8?B?RGptejVHb2RZRUt4UHgxbUlUMEVqb0ZxdDJhR2ZkZ3hhdWVsVks2SUdIY3BL?=
+ =?utf-8?B?enZoenVObnpOcHlJbitDTi9FUjdMYjhMbzloUk1kbGVWQkxjdEMvT3E1Nmsv?=
+ =?utf-8?B?ZUtVQzF4TUhTYUVTZEExbCtrRzZGR2xzajBNMDNqYXZGZkJCU0cyWW5hd251?=
+ =?utf-8?B?UTE3aTVEVjNuQWFNaVNtc2gyd3pUL3BNOVJHeThLK3ZQNWwwVXlrT0VWQVY0?=
+ =?utf-8?B?Sll5bHhqeURleW54MG9rNVZ4WldyNTMvRVk2WUZtVldyZGp6TGZoanlUWmRY?=
+ =?utf-8?B?NGhTeXIxbXNoRTNjdnh1ZVFISFVRK3hzb3p1aVJ3WWFCMHdMVElZVEhFNXBZ?=
+ =?utf-8?B?QUtlVGlFOXZGR2N5Sk1KQVRGQTV3WVhjYVpwb3VGUGVyaGU1N0pPcG11OTR1?=
+ =?utf-8?B?cG1zalpPeXlkWWo0YzNSTWozbmE2Z3dZQzgxQnBoZ3pnWmtCcVNaQTNhd1pC?=
+ =?utf-8?B?UTA3SkgzVWRWUW9xTjVzUUh1V0VBN3IxbXcvRWVMNnNuQWk1UEJrWmwzbnJB?=
+ =?utf-8?B?N0didDRnQlUya0dKMUg0NTRpR29JNDlFZzVkZThWRmxkOWlKS0JvNEdSOXNK?=
+ =?utf-8?B?c1FYVlhBNW52cEJsN2RhOVFmOWdxZjdXV3cyRkkyVzFHVzBJMUJKdVZQVmtG?=
+ =?utf-8?B?dXVmWmRzTTJJNy9Bc1VmNzcwMjlnVXVpNnpOb0NNUzdYS3htSjlKRmYzbTdK?=
+ =?utf-8?B?dUhVNnc2R2daVGUyNm9pcTV1SnBQaGZSOGhaMlNhYitIWlZkTi9SakNpMWhD?=
+ =?utf-8?B?MTJIOEpqT3RlS3pOcmhYRk9WVUE3K29PQUhSemZKWWlXUEx6ZWZGSTBYWFdx?=
+ =?utf-8?B?djRhRy9BdjlJWHdrTk93TDhkaENXVzJkYnd6a0dvWUpUMWkrYzBQUVp4QTNJ?=
+ =?utf-8?B?VGdnTzJTNVVvUi84WDNhSEcxZWJTeGhYcGkzZ1MvQmUzb3JaQjBnWk53L254?=
+ =?utf-8?B?RWtOd3pUSkxxbE5DTEVsTWU2N2FlWk5xQ2dWRm9MVHBHajNib1laWGRqWjBL?=
+ =?utf-8?B?ZmxmNUhDVUtrVUR1cFBpVExXMjdOSnQwWkVkMHpJdFo5WkRycnlrRUxFVVBt?=
+ =?utf-8?B?SWVrbHRVcUpEZkdsVnVkTkFSdStPYVlWaFdIYml2Z3YvdXBSbUE1WW42alQr?=
+ =?utf-8?B?Zk9jR1JlSkRpMERGZHVkaGlOWlRGaDNUUW1mZmZGb0g0WnE4SEZWVmVoSEEv?=
+ =?utf-8?B?UzhUMDdSUDNFNGtJMlpaUlE3a3dKcDkweFVuWG5oUTArNC9JWHFRY1dnYlVv?=
+ =?utf-8?B?ZHlHbGFMQU9uQTMzWk15MUJMOUJhUlErUDBPRkVqeVIwMnNjZ2lzWHppSmRD?=
+ =?utf-8?B?RUN5YitKV0QzNDVTczdSczFIYlZSMCtsRUNDUGluVnhxYld2Z0xGTGx4ZGM0?=
+ =?utf-8?B?Sm5EZVczTFluN2F3ZmwwYWw1Q21BUitWdkQ3b2t2RFFjb2RrUXN0b0dvYTkw?=
+ =?utf-8?B?VDF3czREbzdacTJBQy8rckVmSThxbXJTTkN0aldOWWNUblkzS1hwWkNqQ1h6?=
+ =?utf-8?B?OU0ycG11TW1Od2tIcnNGdmVsSTdpUjY0TDhxcWRiQytBVkRNSkZtenVDTnlK?=
+ =?utf-8?B?VGJ3ZVgweGlibFBXNVVrTDUxNGwwcU9ZZ3A5NXAvY0Z1V2RPZWRKa21ETUpG?=
+ =?utf-8?B?c2RQVVhrb0RFbTJlVUcrb2llUjUyS0NHTGloZjBlWEJDQUIyenpNZGFQOTdl?=
+ =?utf-8?Q?vbcOTgFRZJI89PthJ9K4S+aX1n1pRDtcl0pNw=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(4022899009)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?NlN6MFF5dzdUOHQxTFpjaXB1cW5GOWR6eWMrMlh4QWs1SU16c1g2WFN3QkZz?=
+ =?utf-8?B?OWVDYkMwR2ViNnlRU2s3KzJyRWpzQ3A0bE5LT3dXV1ZpMm5WS3YzNHZPUHk3?=
+ =?utf-8?B?U1RuaXVrVlRZV09qbkhFNmF3bTM5Rm56cEJoZDVEa2RaemQwLzJTaVhQZjZC?=
+ =?utf-8?B?ZHZxS2FlZDdKdTV4UHlEZUlxMWdJdWh4RlpzdTMvMzJSZUd3blRiV3YzdXZu?=
+ =?utf-8?B?QkFSSUNwNmwrSDhwMkxNMDBMdlpZM1V5MHQrMitqYXVRRDcvVmp5WVJFdVFX?=
+ =?utf-8?B?U0VYWnhBbityWEl2amk2bVlGTUdkL0J2NjV2dGpoaHFIZVFKUDdubTI4M2xZ?=
+ =?utf-8?B?eUNrSnBGZ1IxSlFGYy9QbXBWQUZtckxOdUVKNHJxaXJKSkF0ZitHdHcxVVlh?=
+ =?utf-8?B?Q3RDK0s4NUwwbHRnZ1FzZndibjZ6emxTaGUrVzY5M1pZYWF2NlY5RExNZUpy?=
+ =?utf-8?B?b1hRVEJOMFJPLzkwZVNodkNjcmdmdDArTUpha0p5d0hwNHZlb0N5M2FzZWhW?=
+ =?utf-8?B?cHpvS2tNdm5zM1cyZWJUQjRiQ3ZoT3BhdU5EVWh1TlhTUExXODNwWFp3NFpO?=
+ =?utf-8?B?cDd6SFhJanZTR1Z1ZVJoSXp1T1R3RUdYMEl3Qk5JZ0tXbm5ZV1N1MkoyL2c3?=
+ =?utf-8?B?YUVZWDloM1Ztb2R3Vi9XYTdtUmVNVDhsUjRjWU93QUpKODZIRnM2S1N6dmdL?=
+ =?utf-8?B?dDVBUkMwd1AzV0svd3QvZWVzL2VLckFmbUxMWmp6dHZVdTB2cmlWemNSenJr?=
+ =?utf-8?B?d1V1cE4xaGNXTlZxZkk2MHcrZlZtMjNGM1RUa3l3Z2NaRS9IK2hKV3BCcWE3?=
+ =?utf-8?B?bkRSSnFWTDNKMGJ0dk5jSW5hUXJUMG02Y2Z1QnMrb1Y4NEVqZnUwOVQvdDRO?=
+ =?utf-8?B?dHNGenlUWisyQjZ4WWhLUlhNOFkvVXZrYXd1SHZOQWNUUjZ3Y0JrRHBvSDZJ?=
+ =?utf-8?B?bTRDb2IzRk1ZOFNnRFJUYjlpNmMvTEMrUUdMZzVaVHJpOVJpcjhJc2hnV3Qz?=
+ =?utf-8?B?bHRuSEVQVGcxM2ljZVMzTlYyOG5kTld6U1hCb3FUK0paR2JpVm1sU3V4elRE?=
+ =?utf-8?B?YlJoK1RvMUs3S3FmREdaYlMxZmVEdmJyOTZMMHJOREUweHpjUnIxWmFHeGFa?=
+ =?utf-8?B?TEFpT05GeW1mRXdkOUtkOHB0TDhONTcvNHJiOTJ2NlJEbm12OGMxRjZDVXNE?=
+ =?utf-8?B?VGVoQTdGQ2ZiQ0k4cjh0cHE1VkttZDF0VVB1MGFiYUg0TEN1bGpCSUdwZkFl?=
+ =?utf-8?B?eFRUc01RVlh1Mko3OTVaWGlPeUJPL2NLTGNpNGVsOGFGcGtBOUpBS3E5UkEr?=
+ =?utf-8?B?SU56NE43bENpS3Q1SHVpZjFCUk1HeFBPcWZzbXlkM3k5WjM3dG1EWU5vbFFu?=
+ =?utf-8?B?bGhOSlBhNUpSWmpKMmd2c0c4bTRRMGJaNTFUQk5MZW00d1R5NHhRMzdCY3Jk?=
+ =?utf-8?B?M05MTGl2NmZ3c281ZXlOVnVLZURmVldjdXdidGV2dks0VHlPSE9yekFQNlFx?=
+ =?utf-8?B?MmdJVUdaM3NLK3ZvWW04aDdCUlZXMmQ1Yy9xdFN2MkFmUE1JZGVxMWNZTFVL?=
+ =?utf-8?B?c2FSU05RREgxZ2Q3NDN5ZWN4S0JHRUFBVWpqZDhFbVg1R2xIa2ZwVS9nOEpF?=
+ =?utf-8?B?eU5lMWdwVVhKNlJMcXJSRlRJc09TQjFsOFNoN3JtaGdCZmtFSlk1VkREQlE3?=
+ =?utf-8?B?OGFaaUhaL2xnNndYV0xabWhIZEhwM0NpRXVOVzdtWjBocTNFaU1McXZqbWx2?=
+ =?utf-8?B?eGQ1K1FGRzhSSENsS1phdElZQktlTnRReXFOOW0xcUdaakxBdFVHK1NCTU9v?=
+ =?utf-8?B?a0toNWRvbWF6SGhkMnpiM2REcFpuL0RkVEM1Z0xTdW0yNk9rSzVvNDVnUm9q?=
+ =?utf-8?B?RUdHenVuZUswQzljakxpVTBGdDN5SHlYTDdnSUlkRG9ZSWVaZUU2TFovemlR?=
+ =?utf-8?B?WUdXbWxNL3dCc1l6TlVuUnBPSmZBYlNwSitpTTBOQW51NTFKZDFKVU10YmlO?=
+ =?utf-8?B?cUxDaVFsZjlyYWFScFN4V01nV0xTeWhuSDN5ZXlPc3pxd3dWQXZPR3UyT1Fv?=
+ =?utf-8?B?eGdCbnM4OE5KcEZVYU12dytlbVJxSDVWUEJuMUZvR1pCSmk1VEFPb2pmcHZh?=
+ =?utf-8?Q?D+V87LpViIdYd4nKVGky1fgru?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a19ad59a-dcb9-4297-8ab8-08ddc28e1341
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 04:22:42.1467
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eG05gGdCiJvcYAVBkwADJsDQKZgAcRt3BTrmxtUSlSu/RYFLSeY3aJ1NYUihEWcrIF4rFVzVRxIkeo3VlN+eew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6182
+X-Authority-Analysis: v=2.4 cv=RrjFLDmK c=1 sm=1 tr=0 ts=68748615 cx=c_pps
+ a=KmO1X4Vcdr8zANSlnBBh0w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=iGHA9ds3AAAA:8 a=mDV3o1hIAAAA:8 a=Q4-j1AaZAAAA:8
+ a=_enOPnqeAAAA:8 a=t7CeM3EgAAAA:8 a=BCVRRYYnAAAA:8 a=idVUoI06nNIUZakXrwIA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=XAbD3I9PDrnSMThV5XoS:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=Yfo1nd69h7ycsZ8reatu:22
+X-Proofpoint-ORIG-GUID: kgXtXcWCtmzJ_CT4d6XiFy7fQNCYtNUb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzEyMDA1MyBTYWx0ZWRfX73rpOTcQNrE+
+ moNvDqB0Wk+vBEaGmf6yTz5nsA2Y5ahSKjwaDG65RuDAjHsK67Wi0HsJm+xD45hEuFfOOIKr1Ym
+ xnw/mmetW234QTGt4RRBUFpYI46PNft9xNqeQRVqDheXR3n48rEomXZi/q+jv7syAyCCk2YOkSE
+ BtMFBNXT56hwCB06wDWdKGTC7gtsqpUPXUmhod3jZf3Mc8Rag7ITN9j4TzZ29z3qB9Yj6JcaU0p
+ YaQ++ExBLdpbxy300Ic/1jNAyuFipoZUz2jYbZmjFWxwYrropdvPTdoK3m9BQJ2u+AkEt+D048h
+ IkpCU+VhJn6zmRmp/XqeU0m1YBr8pEjgETA1sNjYRf5Gh083FXmEwOL0CTQrVvRGT3hcnb0G54v
+ cPGue9dg
+X-Proofpoint-GUID: YtZyTgqV0NfIY_Wp7Aiy5rX7tYAZzUNF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_01,2025-07-09_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 phishscore=0 adultscore=0 impostorscore=0
+ clxscore=1015 spamscore=0 bulkscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2506270000 definitions=main-2507120053
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 56E3eIts643960
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 02:09:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220209
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 04:22:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220210
 
-Plugin supports installing grub for both
-GPT and MBR based partition table formats.
+I finally reproduced the issue. It's about valgrind. The test case could=20
+run with/without valgrind. With valgrind installed on target, valgrind=20
+is reporting error for coretuils's sort with/without this patch. I think=20
+valgrind in kirkstone might have some problem. I'll disable valgrind in=20
+the test case.
 
-Signed-off-by: Vincent Davis Jr <vince@underview.tech>
----
- .../lib/wic/plugins/source/grub_install.py    | 388 ++++++++++++++++++
- 1 file changed, 388 insertions(+)
- create mode 100644 scripts/lib/wic/plugins/source/grub_install.py
+Regards,
+Qi
 
-diff --git a/scripts/lib/wic/plugins/source/grub_install.py b/scripts/lib/wic/plugins/source/grub_install.py
-new file mode 100644
-index 0000000000..85233217f0
---- /dev/null
-+++ b/scripts/lib/wic/plugins/source/grub_install.py
-@@ -0,0 +1,388 @@
-+#
-+# Copyright 2025, Underview
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# DESCRIPTION
-+# This implements the 'grub_install' source plugin class for 'wic'
-+# Searches for most files in deploy directory of a given MACHINE.
-+#
-+# AUTHORS
-+# Vincent Davis Jr <vince (at] underview.tech>
-+
-+import glob
-+import logging
-+import sys
-+import os
-+import re
-+import shutil
-+
-+from wic import WicError
-+from wic.engine import get_custom_config
-+from wic.partition import Partition
-+from wic.pluginbase import SourcePlugin
-+from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var
-+
-+logger = logging.getLogger('wic')
-+handler = logging.StreamHandler(stream=sys.stdout)
-+logger.addHandler(handler)
-+logger.setLevel(logging.DEBUG)
-+
-+class GrubInstall(SourcePlugin):
-+
-+    """
-+    Create a bootable wic image with grub as the bootloader.
-+
-+    This plugin populates the output wic image with necessary grub boot
-+    files, installs boot.img and core.img. Enables caller to boot off
-+    of either legacy bios or UEFI firmware or both with the disk partition
-+    table format being either GPT or MBR based.
-+
-+    ****************** Wic Plugin Depends/Vars ******************
-+    do_image_wic[depends] += "\
-+        grub-native:do_populate_sysroot \
-+        grub:do_populate_sysroot \
-+        grub-efi:do_populate_sysroot \
-+        "
-+
-+    # Optional variables
-+    GRUB_PREFIX_PATH = '/boot/grub2'
-+    GRUB_MKIMAGE_FORMAT_PC = 'i386-pc'
-+    GRUB_MKIMAGE_FORMAT_EFI = 'x86_64-efi'
-+    GRUB_CONFIG_PATH = "${DEPLOY_DIR_IMAGE}/grub.cfg"
-+    GRUB_MODULES_EFI = "all"
-+
-+    WICVARS:append = "\
-+        GRUB_CONFIG_PATH \
-+        GRUB_PREFIX_PATH \
-+        GRUB_MODULES_EFI \
-+        GRUB_MKIMAGE_FORMAT_PC \
-+        GRUB_MKIMAGE_FORMAT_EFI \
-+        "
-+    ****************** Wic Plugin Depends/Vars ******************
-+
-+
-+    ********************** Example kickstart Legacy Bios Boot **********************
-+    part bios_boot  --label bios_boot  --fstype ext4 --offset 1024 --fixed-size 78M
-+                    --source grub_install --sourceparams="boot_type=bios"
-+
-+    part roots --label rootfs --fstype ext4 --source rootfs
-+    bootloader --ptable msdos --source grub_install
-+    ********************** Example kickstart Legacy Bios Boot **********************
-+
-+
-+    ************************* Example kickstart UEFI Boot *************************
-+    part uefi_boot --label uefi_boot --fstype vfat --offset 1024 --fixed-size 78M
-+                   --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B
-+                   --source grub_install --sourceparams="boot_type=uefi"
-+
-+    part roots --label rootfs --fstype ext4 --source rootfs
-+    bootloader --ptable gpt --source grub_install
-+    ************************* Example kickstart UEFI Boot *************************
-+
-+
-+    *********** Example kickstart Hybrid Legacy Bios Or Newer UEFI Boot ***********
-+    part bios_boot  --label bios_boot --fstype none --offset 1024 --fixed-size 1M
-+                    --part-type 21686148-6449-6E6F-744E-656564454649
-+                    --source grub_install --sourceparams="boot_type=hybrid-bios"
-+
-+    part efi_system --label efi_system --fstype vfat --fixed-size 48M
-+                    --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B
-+                    --source grub_install --sourceparams="boot_type=hybrid-uefi"
-+
-+    part grub_data  --label grub_data --fstype ext4 --fixed-size 78M
-+                    --part-type 0FC63DAF-8483-4772-8E79-3D69D8477DE4
-+                    --source grub_install --sourceparams="boot_type=modules"
-+
-+    part roots      --label rootfs --fstype ext4 --source rootfs
-+                    --part-type 0FC63DAF-8483-4772-8E79-3D69D8477DE4
-+
-+    bootloader --ptable gpt --source grub_install
-+    *********** Example kickstart Hybrid Legacy Bios Or Newer UEFI Boot ***********
-+    """
-+
-+    name = 'grub_install'
-+
-+    grub_cfg = ''
-+    boot_type = ''
-+    grub_formats = []
-+    grub_format_pc = ''
-+    grub_format_efi = ''
-+    staging_libdir = ''
-+    grub_prefix_path = ''
-+
-+    @staticmethod
-+    def gen_embed_grub_cfg(kernel_dir, grub_prefix_path):
-+        """
-+        Create grub config that'll later be embedded
-+        into core.img. So, that core.img knows where
-+        to search for grub.cfg.
-+        """
-+
-+        embed_cfg_str = 'search.file %s/grub.cfg root\n' % (grub_prefix_path)
-+        embed_cfg_str += 'set prefix=($root)%s\n' % (grub_prefix_path)
-+        embed_cfg_str += 'configfile ($root)%s/grub.cfg\n' % (grub_prefix_path)
-+        with open('%s/embed.cfg' % (kernel_dir), 'w+') as f:
-+            f.write(embed_cfg_str)
-+
-+    @classmethod
-+    def gen_core_img_pc(cls, kernel_dir, native_sysroot,
-+                        mkimage_format, grub_prefix_path):
-+        """
-+        Generate core.img or grub stage 1.5
-+        """
-+
-+        builtin_modules = 'boot linux ext2 fat serial part_msdos part_gpt \
-+        normal multiboot probe biosdisk msdospart configfile search loadenv test'
-+
-+        if not mkimage_format:
-+            mkimage_format = 'i386-pc'
-+
-+        core_img = '%s/grub-bios-core.img' % (kernel_dir)
-+        grub_mods_path = '%s/grub/%s' % (cls.staging_libdir, mkimage_format)
-+
-+        grub_mkimage = 'grub-mkimage \
-+        --prefix=%s \
-+        --format=%s \
-+        --config=%s/embed.cfg \
-+        --directory=%s \
-+        --output=%s %s' % \
-+        (grub_prefix_path, mkimage_format, kernel_dir,
-+         grub_mods_path, core_img, builtin_modules)
-+
-+        exec_native_cmd(grub_mkimage, native_sysroot)
-+
-+        cls.grub_format_pc = mkimage_format
-+        Partition.core_img = core_img
-+        cls.grub_formats.append(mkimage_format)
-+
-+    @classmethod
-+    def gen_core_img_efi(cls, kernel_dir, native_sysroot, mkimage_format,
-+                         grub_prefix_path, grub_modules_efi):
-+        """
-+        Generate core.img or grub UEFI application
-+        that contains the embedded grub config.
-+
-+        This is subject to change as OE-core grub-efi
-+        recipes generates core.img. May be able to
-+        leverage that work in the future.
-+        """
-+
-+        builtin_modules = 'boot linux ext2 fat serial part_msdos part_gpt \
-+        normal multiboot probe efi_gop iso9660 configfile search loadenv test'
-+
-+        if not mkimage_format:
-+            mkimage_format = 'x86_64-efi'
-+
-+        core_img = '%s/grub-efi-boot.efi' % (kernel_dir)
-+        grub_mods_path = '%s/grub/%s' % (cls.staging_libdir, mkimage_format)
-+
-+        if grub_modules_efi:
-+            if grub_modules_efi == 'all':
-+                builtin_modules = ''
-+                files = glob.glob('%s/*.mod' % (grub_mods_path))
-+                for file in files:
-+                    builtin_modules += '%s ' % os.path.basename(file).removesuffix('.mod')
-+            else:
-+                builtin_modules = grub_modules_efi
-+
-+        logger.debug('builtin_modules = %s' % (builtin_modules))
-+
-+        grub_mkimage = 'grub-mkimage \
-+        --prefix=%s \
-+        --format=%s \
-+        --config=%s/embed.cfg \
-+        --directory=%s \
-+        --output=%s %s' % \
-+        (grub_prefix_path, mkimage_format, kernel_dir,
-+         grub_mods_path, core_img, builtin_modules)
-+
-+        exec_native_cmd(grub_mkimage, native_sysroot)
-+
-+        cls.grub_format_efi = mkimage_format
-+        cls.grub_formats.append(mkimage_format)
-+
-+    @classmethod
-+    def do_configure_partition(cls, part, source_params, creator, cr_workdir,
-+                               oe_builddir, bootimg_dir, kernel_dir,
-+                               native_sysroot):
-+        """
-+        Called before do_prepare_partition(), creates loader-specific config
-+        """
-+
-+        boot_types = ['bios', 'uefi', 'hybrid-bios', 'hybrid-uefi', 'modules']
-+
-+        boot_type = source_params['boot_type']
-+
-+        cls.staging_libdir = get_bitbake_var('STAGING_LIBDIR')
-+
-+        # Optional variables
-+        grub_cfg = get_bitbake_var('GRUB_CONFIG_PATH')
-+        grub_modules_efi = get_bitbake_var('GRUB_MODULES_EFI')
-+        grub_prefix_path = get_bitbake_var('GRUB_PREFIX_PATH')
-+        mkimage_format_pc = get_bitbake_var('GRUB_MKIMAGE_FORMAT_PC')
-+        mkimage_format_efi = get_bitbake_var('GRUB_MKIMAGE_FORMAT_EFI')
-+
-+        if not grub_cfg:
-+            grub_cfg = creator.ks.bootloader.configfile
-+        if not grub_prefix_path:
-+            grub_prefix_path = '/boot/grub'
-+
-+        if not source_params['boot_type'] in boot_types:
-+            raise WicError("grub_install requires a boot_type per partition.\n" \
-+                           "Examples: %s" % (boot_types))
-+
-+        # Grub config copied in do_prepare_partition()
-+        if not os.path.isfile(grub_cfg):
-+            raise WicError("grub_install requires a grub config\n" \
-+                           "Examples:\nset GRUB_CONFIG_PATH\n" \
-+                           "bootloader --configfile in wks file")
-+
-+        cls.boot_type = boot_type
-+        cls.grub_cfg = grub_cfg
-+        cls.grub_prefix_path = grub_prefix_path
-+
-+        cls.gen_embed_grub_cfg(kernel_dir, grub_prefix_path)
-+        cls.gen_core_img_pc(kernel_dir, native_sysroot,
-+                            mkimage_format_pc, grub_prefix_path)
-+        cls.gen_core_img_efi(kernel_dir, native_sysroot,
-+                             mkimage_format_pc, grub_prefix_path,
-+                             grub_modules_efi)
-+
-+    @classmethod
-+    def install_grub_cfg(cls, wdir):
-+        boot_types = ['uefi', 'bios', 'modules']
-+
-+        if cls.boot_type in boot_types:
-+            install_dir = '%s/%s' % (wdir, cls.grub_prefix_path)
-+            os.makedirs(install_dir, exist_ok=True)
-+            shutil.copy2(cls.grub_cfg, install_dir, follow_symlinks=True)
-+
-+    @classmethod
-+    def handle_install_grub_mods(cls, wdir, grub_format):
-+        copy_types = [ '*.mod', '*.o', '*.lst' ]
-+
-+        install_dir = '%s/%s/%s' % (wdir, cls.grub_prefix_path, grub_format)
-+        os.makedirs(install_dir, exist_ok=True)
-+
-+        for ctype in copy_types:
-+            files = glob.glob('%s/grub/%s/%s' % \
-+                (cls.staging_libdir, grub_format, ctype))
-+            for file in files:
-+                shutil.copy2(file, install_dir, follow_symlinks=True)
-+
-+    @classmethod
-+    def install_grub_modules(cls, wdir):
-+        boot_types = ['bios', 'uefi']
-+
-+        if cls.boot_type == 'modules':
-+            for grub_format in cls.grub_formats:
-+                cls.handle_install_grub_mods(wdir, grub_format)
-+        elif cls.boot_type == 'bios':
-+            cls.handle_install_grub_mods(wdir, cls.grub_format_pc)
-+        elif cls.boot_type == 'uefi':
-+            cls.handle_install_grub_mods(wdir, cls.grub_format_efi)
-+
-+    @classmethod
-+    def install_core_img_efi(cls, kernel_dir, wdir):
-+        boot_types = ['uefi', 'hybrid-uefi']
-+
-+        format_types = {
-+            'x86_64-efi' : 'BOOTX64.EFI',
-+            'ia64-efi'   : 'BOOTIA64.EFI',
-+            'arm-efi'    : 'BOOTARM.EFI',
-+            'arm64-efi'  : 'BOOTAA64.EFI',
-+        }
-+
-+        if not cls.grub_format_efi in format_types:
-+            raise WicError('Unsupported GRUB_MKIMAGE_FORMAT_EFI selected.')
-+
-+        if cls.boot_type in boot_types:
-+            install_dir = '%s/EFI/BOOT' % (wdir)
-+            grub_efi_app = '%s/grub-efi-boot.efi' % (kernel_dir)
-+            install_file = '%s/%s' % (install_dir, format_types[cls.grub_format_efi])
-+
-+            os.makedirs(install_dir, exist_ok=True)
-+            shutil.copy2(grub_efi_app, install_file, follow_symlinks=True)
-+
-+    @classmethod
-+    def do_prepare_partition(cls, part, source_params, creator, cr_workdir,
-+                             oe_builddir, bootimg_dir, kernel_dir,
-+                             rootfs_dir, native_sysroot):
-+        """
-+        Called to do the actual content population for a partition i.e. it
-+        'prepares' the partition to be incorporated into the image.
-+        """
-+
-+        wdir = "%s/wdir" % cr_workdir
-+        if os.path.exists(wdir):
-+            shutil.rmtree(wdir)
-+
-+        cls.install_grub_cfg(wdir)
-+        cls.install_grub_modules(wdir)
-+        cls.install_core_img_efi(kernel_dir, wdir)
-+
-+        logger.debug('Prepare partition using rootfs in %s', wdir)
-+        part.prepare_rootfs(cr_workdir, oe_builddir, wdir,
-+                            native_sysroot, False)
-+
-+    @classmethod
-+    def do_install_boot_img(cls, native_sysroot, wic_image):
-+        hybrid_boot_types = ['hybrid-bios', 'modules']
-+        boot_types = ['bios', 'hybrid-bios', 'modules']
-+        grub_path = '%s/grub/%s' % (cls.staging_libdir, cls.grub_format_pc)
-+        boot_img = '%s/boot.img' % (grub_path)
-+
-+        if cls.boot_type in boot_types:
-+            dd_cmd = 'dd if=%s of=%s conv=notrunc bs=1 seek=0 count=440' % (boot_img, wic_image)
-+            exec_native_cmd(dd_cmd, native_sysroot)
-+
-+        # Replicates what grub-install does to core.img
-+        # when GPT based partition table format is leveraged.
-+        if cls.boot_type in hybrid_boot_types:
-+            dd_cmd = "echo -ne '\\x00\\x08' | dd of=%s conv=notrunc bs=1 count=2 seek=92" % (wic_image)
-+            exec_native_cmd(dd_cmd, native_sysroot)
-+
-+            dd_cmd = "echo -ne '\\x90\\x90' | dd of=%s conv=notrunc bs=1 count=2 seek=102" % (wic_image)
-+            exec_native_cmd(dd_cmd, native_sysroot)
-+
-+    @classmethod
-+    def do_install_core_img(cls, kernel_dir, native_sysroot, wic_image):
-+        core_img = '%s/grub-bios-core.img' % (kernel_dir)
-+
-+        if cls.boot_type == 'bios':
-+            dd_cmd = 'dd if=%s of=%s conv=notrunc bs=1 seek=512' % (core_img, wic_image)
-+            exec_native_cmd(dd_cmd, native_sysroot)
-+
-+    @classmethod
-+    def do_install_disk(cls, disk, disk_name, creator, cr_workdir, oe_builddir,
-+                        bootimg_dir, kernel_dir, native_sysroot):
-+        """
-+        Called after all partitions have been prepared and assembled into a
-+        disk image.  In this case, we insert/modify the MBR using isohybrid
-+        utility for booting via BIOS from disk storage devices.
-+        """
-+
-+        wic_image = creator._full_path(cr_workdir, disk_name, "direct")
-+        cls.do_install_boot_img(native_sysroot, wic_image)
-+        cls.do_install_core_img(kernel_dir, native_sysroot, wic_image)
-+
-+# As this change is specific to the 'grub_install'
-+# wics plugin no need to modify partition.py
-+def install_core_img_pc(self, rootfs, cr_workdir, oe_builddir,
-+                        rootfs_dir, native_sysroot, pseudo):
-+    if not os.path.isfile(self.core_img):
-+        raise WicError("core.img not built %s" % (self.core_img))
-+
-+    shutil.copy2(self.core_img, rootfs, follow_symlinks=True)
-+
-+    # Replicates what grub-install does to core.img
-+    # when GPT based partition table format is leveraged.
-+    dd_cmd = "echo -ne '\\x01\\x08' | dd of=%s conv=notrunc bs=1 count=2 seek=500" % (rootfs)
-+    exec_native_cmd(dd_cmd, native_sysroot)
-+
-+    dd_cmd = "echo -ne '\\x2f\\x02' | dd of=%s conv=notrunc bs=1 count=2 seek=508" % (rootfs)
-+    exec_native_cmd(dd_cmd, native_sysroot)
-+
-+Partition.core_img = ''
-+Partition.prepare_rootfs_none = install_core_img_pc
--- 
-2.43.0
+On 7/8/25 10:55, Steve Sakoman wrote:
+> Here are the logs for the arm64 and x86-64 ptest runs with the failure:
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/1852=
+/steps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/1855=
+/steps/12/logs/stdio
+>
+> There should be enough info there to allow you to try to reproduce the =
+issue.
+>
+> Steve
+>
+> On Mon, Jul 7, 2025 at 7:31=E2=80=AFPM Steve Sakoman <steve@sakoman.com=
+> wrote:
+>> On Mon, Jul 7, 2025 at 1:27=E2=80=AFPM Steve Sakoman via
+>> lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
+>> wrote:
+>>> On Sun, Jul 6, 2025 at 7:03=E2=80=AFPM ChenQi <Qi.Chen@windriver.com>=
+ wrote:
+>>>> I could not reproduce this issue. I tried qemux86-64, qemuarm and qe=
+muarm64.
+>>>> Could you please help check how to reproduce this issue?
+>>> I put the patch back into my test queue, let's see what happens:
+>>>
+>>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/19=
+69
+>> Unfortunately the ptest is still failing :-(
+>>
+>> Steve
+>>
+>>>> On 7/4/25 11:12, Chen Qi via lists.openembedded.org wrote:
+>>>>> On 7/4/25 04:13, Steve Sakoman wrote:
+>>>>>> Unfortunately this patch results in a failed ptest:
+>>>>>>
+>>>>>> AssertionError: Failed ptests:
+>>>>>> {'coreutils': ['tests/misc/sort-field-limit.sh']}
+>>>>>>
+>>>>>> Steve
+>>>>> Interesting. I did run ptest before I sent out patch.
+>>>>>
+>>>>> Let me check what's going on here.
+>>>>>
+>>>>> Regards,
+>>>>> Qi
+>>>>>
+>>>>>> On Mon, Jun 30, 2025 at 9:16=E2=80=AFPM Chen Qi via lists.openembe=
+dded.org
+>>>>>> <Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
+>>>>>>> From: Chen Qi <Qi.Chen@windriver.com>
+>>>>>>>
+>>>>>>> Backport patch to fix CVE-2025-5278.
+>>>>>>> The patch is adjusted to fit 9.0 version.
+>>>>>>>
+>>>>>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>>>>>> ---
+>>>>>>>    .../coreutils/coreutils/CVE-2025-5278.patch   | 113
+>>>>>>> ++++++++++++++++++
+>>>>>>>    meta/recipes-core/coreutils/coreutils_9.0.bb  |   1 +
+>>>>>>>    2 files changed, 114 insertions(+)
+>>>>>>>    create mode 100644
+>>>>>>> meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
+>>>>>>>
+>>>>>>> diff --git
+>>>>>>> a/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
+>>>>>>> b/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
+>>>>>>> new file mode 100644
+>>>>>>> index 0000000000..34434a65fa
+>>>>>>> --- /dev/null
+>>>>>>> +++ b/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
+>>>>>>> @@ -0,0 +1,113 @@
+>>>>>>> +From 84a061ea3d1fad42188493c4e5d8396aff4a0f67 Mon Sep 17 00:00:0=
+0 2001
+>>>>>>> +From: =3D?UTF-8?q?P=3DC3=3DA1draig=3D20Brady?=3D <P@draigBrady.c=
+om>
+>>>>>>> +Date: Tue, 20 May 2025 16:03:44 +0100
+>>>>>>> +Subject: [PATCH] sort: fix buffer under-read (CWE-127)
+>>>>>>> +
+>>>>>>> +* src/sort.c (begfield): Check pointer adjustment
+>>>>>>> +to avoid Out-of-range pointer offset (CWE-823).
+>>>>>>> +(limfield): Likewise.
+>>>>>>> +* tests/sort/sort-field-limit.sh: Add a new test,
+>>>>>>> +which triggers with ASAN or Valgrind.
+>>>>>>> +* tests/local.mk: Reference the new test.
+>>>>>>> +* NEWS: Mention bug fix introduced in v7.2 (2009).
+>>>>>>> +Fixes https://bugs.gnu.org/78507
+>>>>>>> +
+>>>>>>> +CVE: CVE-2025-5278
+>>>>>>> +
+>>>>>>> +Upstream-Status: Backport
+>>>>>>> [https://cgit.git.savannah.gnu.org/cgit/coreutils.git/commit/?id=3D=
+8c9602e3a145e9596dc1a63c6ed67865814b6633]
+>>>>>>> +[Adjusted for 9.0 version]
+>>>>>>> +
+>>>>>>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>>>>>> +---
+>>>>>>> + src/sort.c                     | 12 ++++++++++--
+>>>>>>> + tests/local.mk                 |  1 +
+>>>>>>> + tests/misc/sort-field-limit.sh | 35
+>>>>>>> ++++++++++++++++++++++++++++++++++
+>>>>>>> + 3 files changed, 46 insertions(+), 2 deletions(-)
+>>>>>>> + create mode 100755 tests/misc/sort-field-limit.sh
+>>>>>>> +
+>>>>>>> +diff --git a/src/sort.c b/src/sort.c
+>>>>>>> +index 5f4c817de..07b96d34b 100644
+>>>>>>> +--- a/src/sort.c
+>>>>>>> ++++ b/src/sort.c
+>>>>>>> +@@ -1642,7 +1642,11 @@ begfield (struct line const *line, struct
+>>>>>>> keyfield const *key)
+>>>>>>> +       ++ptr;
+>>>>>>> +
+>>>>>>> +   /* Advance PTR by SCHAR (if possible), but no further than LI=
+M.  */
+>>>>>>> +-  ptr =3D MIN (lim, ptr + schar);
+>>>>>>> ++  size_t remaining_bytes =3D lim - ptr;
+>>>>>>> ++  if (schar < remaining_bytes)
+>>>>>>> ++    ptr +=3D schar;
+>>>>>>> ++  else
+>>>>>>> ++    ptr =3D lim;
+>>>>>>> +
+>>>>>>> +   return ptr;
+>>>>>>> + }
+>>>>>>> +@@ -1743,7 +1747,11 @@ limfield (struct line const *line, struct
+>>>>>>> keyfield const *key)
+>>>>>>> +           ++ptr;
+>>>>>>> +
+>>>>>>> +       /* Advance PTR by ECHAR (if possible), but no further tha=
+n
+>>>>>>> LIM.  */
+>>>>>>> +-      ptr =3D MIN (lim, ptr + echar);
+>>>>>>> ++      size_t remaining_bytes =3D lim - ptr;
+>>>>>>> ++      if (echar < remaining_bytes)
+>>>>>>> ++        ptr +=3D echar;
+>>>>>>> ++      else
+>>>>>>> ++        ptr =3D lim;
+>>>>>>> +     }
+>>>>>>> +
+>>>>>>> +   return ptr;
+>>>>>>> +diff --git a/tests/local.mk b/tests/local.mk
+>>>>>>> +index 228d0e368..ced85c44c 100644
+>>>>>>> +--- a/tests/local.mk
+>>>>>>> ++++ b/tests/local.mk
+>>>>>>> +@@ -373,6 +373,7 @@ all_tests
+>>>>>>> =3D                                        \
+>>>>>>> +   tests/misc/sort-debug-keys.sh                       \
+>>>>>>> +   tests/misc/sort-debug-warn.sh                       \
+>>>>>>> +   tests/misc/sort-discrim.sh                  \
+>>>>>>> ++  tests/misc/sort-field-limit.sh              \
+>>>>>>> +   tests/misc/sort-files0-from.pl              \
+>>>>>>> +   tests/misc/sort-float.sh                    \
+>>>>>>> +   tests/misc/sort-h-thousands-sep.sh          \
+>>>>>>> +diff --git a/tests/misc/sort-field-limit.sh
+>>>>>>> b/tests/misc/sort-field-limit.sh
+>>>>>>> +new file mode 100755
+>>>>>>> +index 000000000..52d8e1d17
+>>>>>>> +--- /dev/null
+>>>>>>> ++++ b/tests/misc/sort-field-limit.sh
+>>>>>>> +@@ -0,0 +1,35 @@
+>>>>>>> ++#!/bin/sh
+>>>>>>> ++# From 7.2-9.7, this would trigger an out of bounds mem read
+>>>>>>> ++
+>>>>>>> ++# Copyright (C) 2025 Free Software Foundation, Inc.
+>>>>>>> ++
+>>>>>>> ++# This program is free software: you can redistribute it and/or
+>>>>>>> modify
+>>>>>>> ++# it under the terms of the GNU General Public License as
+>>>>>>> published by
+>>>>>>> ++# the Free Software Foundation, either version 3 of the License=
+, or
+>>>>>>> ++# (at your option) any later version.
+>>>>>>> ++
+>>>>>>> ++# This program is distributed in the hope that it will be usefu=
+l,
+>>>>>>> ++# but WITHOUT ANY WARRANTY; without even the implied warranty o=
+f
+>>>>>>> ++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>>>>>>> ++# GNU General Public License for more details.
+>>>>>>> ++
+>>>>>>> ++# You should have received a copy of the GNU General Public Lic=
+ense
+>>>>>>> ++# along with this program.  If not, see
+>>>>>>> <https://www.gnu.org/licenses/>.
+>>>>>>> ++
+>>>>>>> ++. "${srcdir=3D.}/tests/init.sh"; path_prepend_ ./src
+>>>>>>> ++print_ver_ sort
+>>>>>>> ++getlimits_
+>>>>>>> ++
+>>>>>>> ++# This issue triggers with valgrind or ASAN
+>>>>>>> ++valgrind --error-exitcode=3D1 sort --version 2>/dev/null &&
+>>>>>>> ++  VALGRIND=3D'valgrind --error-exitcode=3D1'
+>>>>>>> ++
+>>>>>>> ++{ printf '%s\n' aa bb; } > in || framework_failure_
+>>>>>>> ++
+>>>>>>> ++_POSIX2_VERSION=3D200809 $VALGRIND sort +0.${SIZE_MAX}R in > ou=
+t ||
+>>>>>>> fail=3D1
+>>>>>>> ++compare in out || fail=3D1
+>>>>>>> ++
+>>>>>>> ++_POSIX2_VERSION=3D200809 $VALGRIND sort +1 -1.${SIZE_MAX}R in >=
+ out
+>>>>>>> || fail=3D1
+>>>>>>> ++compare in out || fail=3D1
+>>>>>>> ++
+>>>>>>> ++Exit $fail
+>>>>>>> +--
+>>>>>>> +2.34.1
+>>>>>>> +
+>>>>>>> diff --git a/meta/recipes-core/coreutils/coreutils_9.0.bb
+>>>>>>> b/meta/recipes-core/coreutils/coreutils_9.0.bb
+>>>>>>> index 1cce9192ec..7c975708f4 100644
+>>>>>>> --- a/meta/recipes-core/coreutils/coreutils_9.0.bb
+>>>>>>> +++ b/meta/recipes-core/coreutils/coreutils_9.0.bb
+>>>>>>> @@ -19,6 +19,7 @@ SRC_URI =3D "${GNU_MIRROR}/coreutils/${BP}.tar.=
+xz \
+>>>>>>> file://0001-uname-report-processor-and-hardware-correctly.patch \
+>>>>>>> file://0001-local.mk-fix-cross-compiling-problem.patch \
+>>>>>>> file://e8b56ebd536e82b15542a00c888109471936bfda.patch \
+>>>>>>> +           file://CVE-2025-5278.patch \
+>>>>>>>               file://run-ptest \
+>>>>>>>               file://0001-split-do-not-shrink-hold-buffer.patch \
+>>>>>>>               "
+>>>>>>> --
+>>>>>>> 2.34.1
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#219997): https://lists.openembedded.org/g/openemb=
+edded-core/message/219997
+>>> Mute This Topic: https://lists.openembedded.org/mt/113922209/3620601
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [steve@sakoman.com]
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>>
 
 
