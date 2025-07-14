@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE27C83F1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 601C0C83F21
 	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 16:23:23 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.82423.1752510198361288467
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.82432.1752510202706656046
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jul 2025 09:23:18 -0700
+ Mon, 14 Jul 2025 09:23:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tidvBHeq;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-742c3d06de3so4911467b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 09:23:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RkJkeObx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-74b50c71b0aso2556878b3a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 09:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752510197; x=1753114997; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752510202; x=1753115002; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BqTMffA6VXTd+AyTkFDnnVtr3ujR6Q646wlvs6bXNhA=;
-        b=tidvBHeqG7iS1vDHW2I8OaL402p1ZYpGjA60wVjykk1F5Dkj6v/ohblGGjKzj60gtk
-         S+z0V9SGL+/NfVLJThfALVkRHRyncYwP8ZuF0bve/bxjbIbIKXODPAh2/Jzzr6EDx/4W
-         4IYx972MJSmdN0SeNgPbKdKpuzMQmEuIwGlEM6DcOslO90hU/2LijTm3CEw2gZIrDZnH
-         cx5sK45/Ul3fi4gYoc/OttchdnCbvAi2RJ7uo3K79myeze1OlNMMTQmfOfv6mRE5WqFt
-         NyJVjGKUXTO4MNgGAdJpGPvyripzNYcHcl/Z5NV8eotWUjprfQnkpeUCAk7LRwwRp1//
-         i90A==
+        bh=dh0wuGI5NUKKrmrAzPmbZozhlrWw5uNX3w8kAvL4rzA=;
+        b=RkJkeObxESZtGFKCYjFuzjAZEqMR+2SSwGQLrYjXAiheaxsmjQ0K663q4m6HRsCMWs
+         AeM1/9oXdxKagjg3bFwLScCrXiMBH8GLIYMZjl03wEjk5/4gyuN8fME2qQP5n28AJLxJ
+         2svgikJBHh5CHxjV0GI/hDMI5Xda75YtYT/f8B71P73K5shKTOefH4FJHlxquEbDqC6k
+         6cYCVJYjOTJ2duicpIUAldz4CK1w8psGAS2I0teI6LS+f8QaV8n1eLaFdtpx3qSZ982F
+         4QAyBiKPjsueVejaEg50M4WHx90M63owa9NAdQkARln3x5O4tyKlXbGhkAb8GNvtI8X+
+         Sh6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752510197; x=1753114997;
+        d=1e100.net; s=20230601; t=1752510202; x=1753115002;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BqTMffA6VXTd+AyTkFDnnVtr3ujR6Q646wlvs6bXNhA=;
-        b=SwgWLl2zgD+wHEdFu4lWRW0NWVteVMdU62uCHbx05RYAdzcz/8DAlyp2JlUGbPtVoz
-         I/6BvDkLrMs4S2EkeXkJJozT2cmp7/refgd5MYCToCtcSnMlcdE9EyHzF0tycThI3oyB
-         jOO62qFPVnGD6mrb5O0d/CVZBJ/cEBg1oqG+LOVz8HLqF+7Ccd4883EXL7hjKlqs2l0K
-         sRoqeviJ4GP87YPadb5tSe41Xrib9wxJObhgLapqiIhBMVSP2hLOTJO8hDHQJ/74uPxl
-         InX/5jt/E9jSBIPhNrIyuXLdisb549S7iPajPBDyMdHcCxVSyCsEtSdZebmKyuQnHo3B
-         rOiQ==
-X-Gm-Message-State: AOJu0YzfDqGC2T5VZxpgLt7sCYj7Jm9wYMjB5JyfiaKv3Vjb5POalFev
-	8T6UH3SFbWQgldFme4CYNR/gjEoeaF8bSMvE4kVaFRaXLZbbAOET0CtItc6qpPL+NerPb8I5vwv
-	69jbr
-X-Gm-Gg: ASbGncsGyW+CpSzK776PXTzMFeM5RzucXF3UyZfMTzZmbbfKHSEc+rZLb4CwNG5Vs7x
-	K51l+GTfQVEAUbm4TNJVazZxrRiaNw0RnY3R6P7e4VqNOYAH/LGLnBX7Y9hzoxQ9iSNvXjI3XSW
-	eZxz8d1Il2VqtTZrXR9YfPoTYvFka6sQdHtODVnGXxs12hTWXYTWxfoz62wzFnCBK2iRk5BPbub
-	k3hBNpDfox11nulPsFm+fH3u/SqF+PTGh+QscZsPL7SfMmCepxPM99lU6TVd9k+ZzFuaW4Ry1Us
-	Gywwzki2VHlnf5Akd9Dl52IlMeR8wPS+D0ep9Dh1q1EqxZOfMLzW36XAZ0+9NLWDRqJNVf/5kt9
-	+yf+iIfymPzcj
-X-Google-Smtp-Source: AGHT+IHiloSNtELZ2tOzncmbuAB9TRWOpQkmcvRgg3FIROj72baHe86Obe6l2LZVfs+mfW2g0Gbw1g==
-X-Received: by 2002:a05:6a00:178c:b0:748:2f4e:ab4e with SMTP id d2e1a72fcca58-74ee284c884mr19687703b3a.11.1752510197386;
-        Mon, 14 Jul 2025 09:23:17 -0700 (PDT)
+        bh=dh0wuGI5NUKKrmrAzPmbZozhlrWw5uNX3w8kAvL4rzA=;
+        b=Sxwy3gBT2NOPRTiAR1k7PoVLGFSEty++mDR4Saylc5mVLDOg0NyUk5GCE0aE1ufGXx
+         yz7wfECdw88qcCLpt4y1OHM4THVuwH+jkxrx+To1GBokYP0mnT4FGA6RnHHaeZ5/E+kp
+         /uIZa/3pNWH7tubaEYfO49rQd+vyM/3SLds2WbMPKqMyIOKuy/TjcdwPrUdGYZ1sVKBO
+         NzJDsA3QXwGRL42+ialdOmwkxCZWF99pm/Kpgl0Kzyz9f3kmgRgw9PeVFUciWs32D/pV
+         YCydUyVsr/ngQ7EHXk/205uNIVzzSCRp7pxiTucxrpyxGOoQBdAIc+8dCxzZa63Zx+MO
+         YxkQ==
+X-Gm-Message-State: AOJu0YwsRMuq8U/CVxDJFcsqO2NkmsBra3ekC7k8ioBiUm+T3kv6Ufmx
+	pNG2SB7eA8WEj73TeshWSKaKvtFvajGtFEfN49df8Klknrfp6diaGXljGtYzckiMHRhyeZNlkch
+	/RYOt
+X-Gm-Gg: ASbGnct4eHbLLFUI+cZi5sqR4HNR08GGwZAOzUwBwAfN/uoJ75xR//SX30hPPWO+gTC
+	CHXUJNQf9AGKd3V9FkHv0uM7hWxLRX7YPC02kHZUBIFyQSh+L+NZFU6uEkdA1wXu8fY01eRKyFP
+	6aS0/7l6Dl1z2CtJ8jLGLhcrKTW9AVJc/YoQ37vRehuWdoobdip9c+VqVG5UqgFTe43lb5TCTTX
+	pVvCMXuAveTnj2QQRvT/XKJSaLKv+JXO2ODjiCIkp9naZL7xZJoMlJVhXf2pZHTi0IrJLc0wnrr
+	StdMwtEWbRYvcMPLmU3TE8j+bl+KQsemz0MaXFv+5mPYG/QTO4EvLR6wIve0ep0js66cHRsVPnR
+	mi0jAZwaS0fyR
+X-Google-Smtp-Source: AGHT+IHdH84RkhcSczd4+fF/3EEf5W+gihgPyT2dAW2ElCNw4fbpc3cWcQ9SBw+gJkDTbjlvVaGrdw==
+X-Received: by 2002:a05:6a00:a94:b0:739:50c0:b3fe with SMTP id d2e1a72fcca58-74ee07b6f50mr23336907b3a.8.1752510201677;
+        Mon, 14 Jul 2025 09:23:21 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:4aa7:6b72:b465:3a4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9dd5e8fsm10456053b3a.29.2025.07.14.09.23.16
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9dd5e8fsm10456053b3a.29.2025.07.14.09.23.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 09:23:17 -0700 (PDT)
+        Mon, 14 Jul 2025 09:23:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 01/15] icu: fix CVE-2025-5222
-Date: Mon, 14 Jul 2025 09:22:55 -0700
-Message-ID: <674a3780bb76f4c8adf92d4f91cc9146d32787aa.1752509862.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 04/15] libsoup: fix CVE-2025-4945
+Date: Mon, 14 Jul 2025 09:22:58 -0700
+Message-ID: <db607024fdf95a03d7e08d728a6fdb6537835eee.1752509862.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752509862.git.steve@sakoman.com>
 References: <cover.1752509862.git.steve@sakoman.com>
@@ -68,213 +68,157 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 16:23:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220239
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220242
 
 From: Changqing Li <changqing.li@windriver.com>
 
-CVE-2025-5222:
-A stack buffer overflow was found in Internationl components for unicode
-(ICU ). While running the genrb binary, the 'subtag' struct overflowed
-at the SRBRoot::addTag function. This issue may lead to memory
-corruption and local arbitrary code execution.
-
 Refer:
-https://nvd.nist.gov/vuln/detail/CVE-2025-5222
-https://unicode-org.atlassian.net/browse/ICU-22957
-https://github.com/unicode-org/icu/commit/2c667e31cfd0b6bb1923627a932fd3453a5bac77
+https://gitlab.gnome.org/GNOME/libsoup/-/issues/448
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../icu/icu/CVE-2025-5222.patch               | 166 ++++++++++++++++++
- meta/recipes-support/icu/icu_76-1.bb          |   1 +
- 2 files changed, 167 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu/CVE-2025-5222.patch
+ .../libsoup/libsoup/CVE-2025-4945.patch       | 118 ++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.6.5.bb |   1 +
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-4945.patch
 
-diff --git a/meta/recipes-support/icu/icu/CVE-2025-5222.patch b/meta/recipes-support/icu/icu/CVE-2025-5222.patch
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2025-4945.patch b/meta/recipes-support/libsoup/libsoup/CVE-2025-4945.patch
 new file mode 100644
-index 0000000000..276d9e4f90
+index 0000000000..22a8908f23
 --- /dev/null
-+++ b/meta/recipes-support/icu/icu/CVE-2025-5222.patch
-@@ -0,0 +1,166 @@
-+From b5fd1ccf1068140ca9333878f2172a0947986ca8 Mon Sep 17 00:00:00 2001
-+From: Frank Tang <ftang@chromium.org>
-+Date: Wed, 22 Jan 2025 11:50:59 -0800
-+Subject: [PATCH] ICU-22973 Fix buffer overflow by using CharString
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2025-4945.patch
+@@ -0,0 +1,118 @@
++From f0ee9d522f302d7d199e3e61fa8cd45eae7b248f Mon Sep 17 00:00:00 2001
++From: Milan Crha <mcrha@redhat.com>
++Date: Thu, 15 May 2025 07:59:14 +0200
++Subject: [PATCH] soup-date-utils: Add value checks for date/time parsing
 +
-+CVE: CVE-2025-5222
-+Upstream-Status: Backport [https://github.com/unicode-org/icu/commit/2c667e31cfd0b6bb1923627a932fd3453a5bac77]
++Reject date/time when it does not represent a valid value.
++
++Closes https://gitlab.gnome.org/GNOME/libsoup/-/issues/448
++
++CVE: CVE-2025-4945
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/8988379984e33dcc7d3aa58551db13e48755959f]
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ tools/genrb/parse.cpp | 49 +++++++++++++++++++++---------------
-+ 1 file changed, 29 insertions(+), 20 deletions(-)
++ libsoup/soup-date-utils.c | 23 +++++++++++++++--------
++ tests/cookies-test.c      | 10 ++++++++++
++ 2 files changed, 25 insertions(+), 8 deletions(-)
 +
-+diff --git a/tools/genrb/parse.cpp b/tools/genrb/parse.cpp
-+index f487241..eb85d51 100644
-+--- a/tools/genrb/parse.cpp
-++++ b/tools/genrb/parse.cpp
-+@@ -1153,7 +1153,7 @@ addCollation(ParseState* state, TableResource  *result, const char *collationTyp
-+     struct UString    *tokenValue;
-+     struct UString     comment;
-+     enum   ETokenType  token;
-+-    char               subtag[1024];
-++    CharString         subtag;
-+     UnicodeString      rules;
-+     UBool              haveRules = false;
-+     UVersionInfo       version;
-+@@ -1189,15 +1189,15 @@ addCollation(ParseState* state, TableResource  *result, const char *collationTyp
-+             return nullptr;
-+         }
++diff --git a/libsoup/soup-date-utils.c b/libsoup/soup-date-utils.c
++index fd785f5..34ca995 100644
++--- a/libsoup/soup-date-utils.c
+++++ b/libsoup/soup-date-utils.c
++@@ -129,7 +129,7 @@ parse_day (int *day, const char **date_string)
++ 	while (*end == ' ' || *end == '-')
++ 		end++;
++ 	*date_string = end;
++-	return TRUE;
+++	return *day >= 1 && *day <= 31;
++ }
 + 
-+-        u_UCharsToChars(tokenValue->fChars, subtag, u_strlen(tokenValue->fChars) + 1);
-+-
-++        subtag.clear();
-++        subtag.appendInvariantChars(tokenValue->fChars, u_strlen(tokenValue->fChars), *status);
-+         if (U_FAILURE(*status))
-+         {
-+             res_close(result);
-+             return nullptr;
-+         }
++ static inline gboolean
++@@ -169,7 +169,7 @@ parse_year (int *year, const char **date_string)
++ 	while (*end == ' ' || *end == '-')
++ 		end++;
++ 	*date_string = end;
++-	return TRUE;
+++	return *year > 0 && *year < 9999;
++ }
 + 
-+-        member = parseResource(state, subtag, nullptr, status);
-++        member = parseResource(state, subtag.data(), nullptr, status);
++ static inline gboolean
++@@ -193,7 +193,7 @@ parse_time (int *hour, int *minute, int *second, const char **date_string)
++ 	while (*p == ' ')
++ 		p++;
++ 	*date_string = p;
++-	return TRUE;
+++	return *hour >= 0 && *hour < 24 && *minute >= 0 && *minute < 60 && *second >= 0 && *second < 60;
++ }
 + 
-+         if (U_FAILURE(*status))
-+         {
-+@@ -1208,7 +1208,7 @@ addCollation(ParseState* state, TableResource  *result, const char *collationTyp
-+         {
-+             // Ignore the parsed resources, continue parsing.
-+         }
-+-        else if (uprv_strcmp(subtag, "Version") == 0 && member->isString())
-++        else if (uprv_strcmp(subtag.data(), "Version") == 0 && member->isString())
-+         {
-+             StringResource *sr = static_cast<StringResource *>(member);
-+             char     ver[40];
-+@@ -1225,11 +1225,11 @@ addCollation(ParseState* state, TableResource  *result, const char *collationTyp
-+             result->add(member, line, *status);
-+             member = nullptr;
-+         }
-+-        else if(uprv_strcmp(subtag, "%%CollationBin")==0)
-++        else if(uprv_strcmp(subtag.data(), "%%CollationBin")==0)
-+         {
-+             /* discard duplicate %%CollationBin if any*/
-+         }
-+-        else if (uprv_strcmp(subtag, "Sequence") == 0 && member->isString())
-++        else if (uprv_strcmp(subtag.data(), "Sequence") == 0 && member->isString())
-+         {
-+             StringResource *sr = static_cast<StringResource *>(member);
-+             rules = sr->fString;
-+@@ -1395,7 +1395,7 @@ parseCollationElements(ParseState* state, char *tag, uint32_t startline, UBool n
-+     struct UString    *tokenValue;
-+     struct UString     comment;
-+     enum   ETokenType  token;
-+-    char               subtag[1024], typeKeyword[1024];
-++    CharString         subtag, typeKeyword;
-+     uint32_t           line;
++ static inline gboolean
++@@ -209,9 +209,14 @@ parse_timezone (GTimeZone **timezone, const char **date_string)
++ 		gulong val;
++ 		int sign = (**date_string == '+') ? 1 : -1;
++ 		val = strtoul (*date_string + 1, (char **)date_string, 10);
++-		if (**date_string == ':')
++-			val = 60 * val + strtoul (*date_string + 1, (char **)date_string, 10);
++-		else
+++		if (val > 9999)
+++			return FALSE;
+++		if (**date_string == ':') {
+++			gulong val2 = strtoul (*date_string + 1, (char **)date_string, 10);
+++			if (val > 99 || val2 > 99)
+++				return FALSE;
+++			val = 60 * val + val2;
+++		} else
++ 			val =  60 * (val / 100) + (val % 100);
++ 		offset_minutes = sign * val;
++                 utc = (sign == -1) && !val;
++@@ -264,7 +269,8 @@ parse_textual_date (const char *date_string)
++ 		if (!parse_month (&month, &date_string) ||
++ 		    !parse_day (&day, &date_string) ||
++ 		    !parse_time (&hour, &minute, &second, &date_string) ||
++-		    !parse_year (&year, &date_string))
+++		    !parse_year (&year, &date_string) ||
+++		    !g_date_valid_dmy (day, month, year))
++ 			return NULL;
 + 
-+     result = table_open(state->bundle, tag, nullptr, status);
-+@@ -1437,7 +1437,8 @@ parseCollationElements(ParseState* state, char *tag, uint32_t startline, UBool n
-+                 return nullptr;
-+             }
++ 		/* There shouldn't be a timezone, but check anyway */
++@@ -276,7 +282,8 @@ parse_textual_date (const char *date_string)
++ 		if (!parse_day (&day, &date_string) ||
++ 		    !parse_month (&month, &date_string) ||
++ 		    !parse_year (&year, &date_string) ||
++-		    !parse_time (&hour, &minute, &second, &date_string))
+++		    !parse_time (&hour, &minute, &second, &date_string) ||
+++		    !g_date_valid_dmy (day, month, year))
++ 			return NULL;
 + 
-+-            u_UCharsToChars(tokenValue->fChars, subtag, u_strlen(tokenValue->fChars) + 1);
-++            subtag.clear();
-++            subtag.appendInvariantChars(tokenValue->fChars, u_strlen(tokenValue->fChars), *status);
++ 		/* This time there *should* be a timezone, but we
++diff --git a/tests/cookies-test.c b/tests/cookies-test.c
++index 1d2d456..ff809a4 100644
++--- a/tests/cookies-test.c
+++++ b/tests/cookies-test.c
++@@ -460,6 +460,15 @@ do_cookies_parsing_max_age_long_overflow (void)
++ 	soup_cookie_free (cookie);
++ }
 + 
-+             if (U_FAILURE(*status))
-+             {
-+@@ -1445,9 +1446,9 @@ parseCollationElements(ParseState* state, char *tag, uint32_t startline, UBool n
-+                 return nullptr;
-+             }
-+ 
-+-            if (uprv_strcmp(subtag, "default") == 0)
-++            if (uprv_strcmp(subtag.data(), "default") == 0)
-+             {
-+-                member = parseResource(state, subtag, nullptr, status);
-++                member = parseResource(state, subtag.data(), nullptr, status);
-+ 
-+                 if (U_FAILURE(*status))
-+                 {
-+@@ -1466,22 +1467,29 @@ parseCollationElements(ParseState* state, char *tag, uint32_t startline, UBool n
-+                 if(token == TOK_OPEN_BRACE) {
-+                     token = getToken(state, &tokenValue, &comment, &line, status);
-+                     TableResource *collationRes;
-+-                    if (keepCollationType(subtag)) {
-+-                        collationRes = table_open(state->bundle, subtag, nullptr, status);
-++                    if (keepCollationType(subtag.data())) {
-++                        collationRes = table_open(state->bundle, subtag.data(), nullptr, status);
-+                     } else {
-+                         collationRes = nullptr;
-+                     }
-+                     // need to parse the collation data regardless
-+-                    collationRes = addCollation(state, collationRes, subtag, startline, status);
-++                    collationRes = addCollation(state, collationRes, subtag.data(), startline, status);
-+                     if (collationRes != nullptr) {
-+                         result->add(collationRes, startline, *status);
-+                     }
-+                 } else if(token == TOK_COLON) { /* right now, we'll just try to see if we have aliases */
-+                     /* we could have a table too */
-+                     token = peekToken(state, 1, &tokenValue, &line, &comment, status);
-+-                    u_UCharsToChars(tokenValue->fChars, typeKeyword, u_strlen(tokenValue->fChars) + 1);
-+-                    if(uprv_strcmp(typeKeyword, "alias") == 0) {
-+-                        member = parseResource(state, subtag, nullptr, status);
-++                    typeKeyword.clear();
-++                    typeKeyword.appendInvariantChars(tokenValue->fChars, u_strlen(tokenValue->fChars), *status);
-++                    if (U_FAILURE(*status))
-++                    {
-++                        res_close(result);
-++                        return nullptr;
-++                    }
+++static void
+++do_cookies_parsing_int32_overflow (void)
+++{
+++	SoupCookie *cookie = soup_cookie_parse ("Age=1;expires=3Mar9    999:9:9+ 999999999-age=main=gne=", NULL);
+++	g_assert_nonnull (cookie);
+++	g_assert_null (soup_cookie_get_expires (cookie));
+++	soup_cookie_free (cookie);
+++}
 ++
-++                    if(uprv_strcmp(typeKeyword.data(), "alias") == 0) {
-++                        member = parseResource(state, subtag.data(), nullptr, status);
-+                         if (U_FAILURE(*status))
-+                         {
-+                             res_close(result);
-+@@ -1523,7 +1531,7 @@ realParseTable(ParseState* state, TableResource *table, char *tag, uint32_t star
-+     struct UString    *tokenValue=nullptr;
-+     struct UString    comment;
-+     enum   ETokenType token;
-+-    char              subtag[1024];
-++    CharString        subtag;
-+     uint32_t          line;
-+     UBool             readToken = false;
-+ 
-+@@ -1562,7 +1570,8 @@ realParseTable(ParseState* state, TableResource *table, char *tag, uint32_t star
-+         }
-+ 
-+         if(uprv_isInvariantUString(tokenValue->fChars, -1)) {
-+-            u_UCharsToChars(tokenValue->fChars, subtag, u_strlen(tokenValue->fChars) + 1);
-++            subtag.clear();
-++            subtag.appendInvariantChars(tokenValue->fChars, u_strlen(tokenValue->fChars), *status);
-+         } else {
-+             *status = U_INVALID_FORMAT_ERROR;
-+             error(line, "invariant characters required for table keys");
-+@@ -1575,7 +1584,7 @@ realParseTable(ParseState* state, TableResource *table, char *tag, uint32_t star
-+             return nullptr;
-+         }
-+ 
-+-        member = parseResource(state, subtag, &comment, status);
-++        member = parseResource(state, subtag.data(), &comment, status);
-+ 
-+         if (member == nullptr || U_FAILURE(*status))
-+         {
++ static void
++ do_cookies_equal_nullpath (void)
++ {
++@@ -718,6 +727,7 @@ main (int argc, char **argv)
++ 	g_test_add_func ("/cookies/parsing/no-path-null-origin", do_cookies_parsing_nopath_nullorigin);
++ 	g_test_add_func ("/cookies/parsing/max-age-int32-overflow", do_cookies_parsing_max_age_int32_overflow);
++ 	g_test_add_func ("/cookies/parsing/max-age-long-overflow", do_cookies_parsing_max_age_long_overflow);
+++	g_test_add_func ("/cookies/parsing/int32-overflow", do_cookies_parsing_int32_overflow);
++ 	g_test_add_func ("/cookies/parsing/equal-nullpath", do_cookies_equal_nullpath);
++ 	g_test_add_func ("/cookies/parsing/control-characters", do_cookies_parsing_control_characters);
++         g_test_add_func ("/cookies/parsing/name-value-max-size", do_cookies_parsing_name_value_max_size);
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-support/icu/icu_76-1.bb b/meta/recipes-support/icu/icu_76-1.bb
-index f11e72d356..24470ec330 100644
---- a/meta/recipes-support/icu/icu_76-1.bb
-+++ b/meta/recipes-support/icu/icu_76-1.bb
-@@ -119,6 +119,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
-            ${DATA_SRC_URI};name=data \
-            file://filter.json \
-            file://0001-icu-Added-armeb-support.patch \
-+           file://CVE-2025-5222.patch \
-            "
+diff --git a/meta/recipes-support/libsoup/libsoup_3.6.5.bb b/meta/recipes-support/libsoup/libsoup_3.6.5.bb
+index 457a30ec70..acd84af934 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.6.5.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.6.5.bb
+@@ -20,6 +20,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-32908-2.patch \
+            file://CVE-2025-4948.patch \
+            file://CVE-2025-4969.patch \
++           file://CVE-2025-4945.patch \
+ "
+ SRC_URI[sha256sum] = "6891765aac3e949017945c3eaebd8cc8216df772456dc9f460976fbdb7ada234"
  
- SRC_URI:append:class-target = "\
 -- 
 2.43.0
 
