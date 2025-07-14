@@ -1,244 +1,304 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 398C8C83F1B
-	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 10:24:21 +0000 (UTC)
-Received: from AS8PR03CU001.outbound.protection.outlook.com (AS8PR03CU001.outbound.protection.outlook.com [52.101.71.2])
- by mx.groups.io with SMTP id smtpd.web11.75004.1752488659662656805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3803EC83F1B
+	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 10:27:41 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.75052.1752488856807973182
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jul 2025 03:24:20 -0700
+ Mon, 14 Jul 2025 03:27:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=sYHwRZ/s;
- spf=pass (domain: siemens.com, ip: 52.101.71.2, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xC56RpBcSHrwAljdldpE1UrIJBmAuF1r3fpFEyiNQkOdhSH3lT2E89xVgf7Gt+usPx6BkjuldpqNYncmzO5h3RsPqX6r0AD7iiz3U8REfjUNn/OKbZDh5w47EKl4CcLUOxEKUwoiqxaX55bSGTpZ62m7ll2fFi3BdMti2355cdHXIhcoGg+mHwjVQ5gCuKUmOKTr61KLHFVKNQSfbp17+Zl8XXZSh174H5cSelzHfii0TxmnntAvpnS2z+2hmjfXKmT16wWzUZYre74gAKb5z9kTMu4LIC8uEzlAc3GkQknMMhlTyWTOCCq3Olx0Diq8D4uMTjy3ykSQSo0ypWaFgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Ymp5Y9+M71L05N7EXkRYvDfE5MmNnmnV/TY5XewxnE=;
- b=OPXY9LLXL1rujqP7xSgvlZ0CFPoC8jMdRq+ONUH2AC8ruOY4EMkgF4MDBhZXl+Mm0C/raNLQD8xkcVHp/pVAYBfAPgBRqepdvV5/IkqQ8zdcnA/bNDmHyBeon1g8vSrHTYO4skzPByuvu3lwPJamG86WodwsKKO4V0diWp2TetWrNKPQsHoF2fOThS6of+UMt55VfzXFkh97i3U3i+VtoeXCfMM1POp8BoWMFRrJCcICVBf3ZLm3oC9GEpA6lD7HYQqBnH/Hc09DWDmpItRQ4E/pVHJGIDPF/TinsA0yBAl2cAZra9GveYj54CEABnhTQq2RReK+blIWO5mbQd5q9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Ymp5Y9+M71L05N7EXkRYvDfE5MmNnmnV/TY5XewxnE=;
- b=sYHwRZ/s7Qx6p7PSZfZTvcnzcReD+f6HuUvQPlWnL9CYXBh+SQbHZYyePzI42Ai7T1fpULFIb4Eo8b3KU1PpzXKi2a6MlgMl7viQsR8Hqd9DB5fBu+tvGbqZjkIec324FQ0zEVgvcTIJYSZPVKNkUIBvcC0feH26RpT5gDqKtaylh473g5EKKCAZ8VureTSfX2CoTPUkAI2PO7jp/qa+ajuVvYrb9ovlFuEL6Wt0I2tYYZw6L7DUrCnQx1dBRrKoi1Ch+tb3/EoDoobXFhLOwfLqYn+52Zo1sj6S1oxHpG8il5BzXpeg9J3sODkX4Nji3YMQv59SXaMCZyM+efJ3NQ==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by PAVPR10MB7258.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:31a::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Mon, 14 Jul
- 2025 10:24:16 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.8901.024; Mon, 14 Jul 2025
- 10:24:16 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "hiagofranco@gmail.com" <hiagofranco@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Denys Dmytriyenko <denis@denix.org>, Hiago De Franco
-	<hiago.franco@toradex.com>
-Subject: RE: [OE-core] [PATCH] mtd-utils: add optional systemd service for
- ubihealthd
-Thread-Topic: [OE-core] [PATCH] mtd-utils: add optional systemd service for
- ubihealthd
-Thread-Index: AQHb8tA79G+R3ePQDE23lsf+vgIEzLQxa/Eg
-Date: Mon, 14 Jul 2025 10:24:15 +0000
-Message-ID: 
- <AS1PR10MB56977B0B73EDD7AC5361A17FFD54A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250712015604.148635-1-hiagofranco@gmail.com>
-In-Reply-To: <20250712015604.148635-1-hiagofranco@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=dcc7bb23-8b30-4a90-9939-7a0ce43b0a05;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-07-14T10:19:30Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PAVPR10MB7258:EE_
-x-ms-office365-filtering-correlation-id: a95ec1ce-aa0e-4fc4-6ccb-08ddc2c095da
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?OeIoqL63wpIDG4Tuu3H5whHG7u4eXdL7oZhgIYWpWMPHb4xeHvbQti1iC4v6?=
- =?us-ascii?Q?TW9cxo4ozZ4UinRq3YGhwxAauXF+iVCB4do+JJ1sCquO1BIdMactSA8mFTiR?=
- =?us-ascii?Q?bTCOvZc5AgGPZXtd1LjAJY/O0anBtnBAXjpHClPDz01ILF/kMQWStqEs2iA/?=
- =?us-ascii?Q?qfdRdCkdLdFbPSCquCJjKbAalwapunF+celYeLUd4cZwc2a9BsUgnDoIDPUc?=
- =?us-ascii?Q?+fcdtvWcWn/SvItu4f6h1gE7WR2F672ECV9HG11APBg1NLCJ/S54rAJE4yiF?=
- =?us-ascii?Q?geifjHGdY49x/AAINdGuYxDFFCb3/drsv33kfttSZZhk4yQ4DYeNe4xQespn?=
- =?us-ascii?Q?8zrJ1WhuLyQE5OGUsWVDFQTWeegI/UOBAIS2s1rFKwiI9R3LxiRZEN0BcAPu?=
- =?us-ascii?Q?AUn8zK0WMITdYL5PVRCqRR+j9CftUzEHYY1yYehA4+4zzBMDUInSd4r/D79b?=
- =?us-ascii?Q?xZTd6D1/GjKyElOOyLfgpEeNV41+Z6hR6OAwe6Sy6zSXrhwlzMWl+V7gg73q?=
- =?us-ascii?Q?4Bc5lOwxrRuJXIFAUqglQAFKiercK7jR9D32i4+yGvrBhij9nnRNFCSq+fYR?=
- =?us-ascii?Q?/UlFoP4XB/8W8F3rYLD3qK256I8wkNeC6Un38K1f10VbibA1Z2H+FUp/JxYq?=
- =?us-ascii?Q?kJ95z85hg0vuZKwxUXNRLQ/IAXHGSEAeTJH2WHoy6q+LOVgNR3yJGC0umsOa?=
- =?us-ascii?Q?skQWbbqGRjC+85N3wApaSBenQ9jeS5wWHvV2uuGktdVkQ6+Dh4Uwhe0aPs49?=
- =?us-ascii?Q?AkAPpXSe8HBNVrLNqaumvywmaM/jv6c5xeKgffVEQ7TlZu38yCOPeZGpPjVS?=
- =?us-ascii?Q?LZL4AzODJ5b7ugZGqJ8BDKbZoZ8ieD5bYQE4plfTo69QcxD7h0uagqnNUoc6?=
- =?us-ascii?Q?+0/TbRNwmTXrlV3gabhzBLfTOqzYMLjLFZX5OTwUMtLJt/5mzb8qxaJyV8AV?=
- =?us-ascii?Q?MZ9e4D94RxaykKVXpC9F1wM7q8Y6Fj1nrOH2qnZEkN516bwQL921FewJ/Sm1?=
- =?us-ascii?Q?Oi94TDIq1AMDwIV0IexgDR+fizm5jDLxU3Kh2E3Q9IHfvnHBezbdtN3bHr9q?=
- =?us-ascii?Q?r+RbS+BtLkmBzq1iuxOkwBVs1Z63/j8DBF6v4U3sCyCqfGVKYD3FyD98VgnI?=
- =?us-ascii?Q?ym8cWJ0xG15ihdz4baKWYRQKki7fD4Zp7fBzLPasnLI3yoWC5LI8gyhkqMhx?=
- =?us-ascii?Q?MfG1Cle0BvVUS53d6fWqEqQYoIzpD5OudW0Z4IPhqYX8NSQvsflC6ku8xpBx?=
- =?us-ascii?Q?RVzk9BwPuvz5W58mPu39rsRKYQRVvAVADG1qccFeOQ1zAab1qkYK90G7Iu5b?=
- =?us-ascii?Q?bzfXOs9I/wNFiINBNuvl2ZAHf5twNNa+FStyKMPfSbWSDq4xUA4peKCpdxob?=
- =?us-ascii?Q?R3ruugslxflxUTqqciBElIMPTiGA6W0IaFgYVxCJu8IB01jgiJrND0FoqyH+?=
- =?us-ascii?Q?ODKXBuJSYq//VD1/FxUgzULxSyp2yUCJpUVztBVrlZx5aJg4blXMGw=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?y4Y9cAi1k0WrWPjufMGy8PjuUjAJtlkQVzeUlTaCQWCUfZIPVD4wZU3Vhjpx?=
- =?us-ascii?Q?YSA2+Urwy5C8BZZLd7hcovLjtXxVpOR9jqVmGU2FrN06CiQJzeXif1+6t7Ll?=
- =?us-ascii?Q?gvLdD/uRxyYlvHldxkSR65arxNKEa674+Id3qQE5SLn0/tmMCff6BHbhs+4p?=
- =?us-ascii?Q?3GTuqsHIcHNhqbbbscgrkiSfpVC8wWatrCBVxKP3LJtj0YQd4tHLjwvr4uc1?=
- =?us-ascii?Q?Z7nkxOTMxRjPAVmC+NOFWY4qExwxUOB7bojohcXmcL2cdrqyNKfq0BIXXqi0?=
- =?us-ascii?Q?D0/PPbns+NtwLR3tCP5EEP6f9icu0lTcvsZOIyuViQBlisTw/QDgq2n5iTmv?=
- =?us-ascii?Q?npwIqT5NjpQSMicQTgnu7tAQGylMtHS/HguGhOgyg9ag/lPTzunkHJHJIn9J?=
- =?us-ascii?Q?FJ2kdDpBg0YmTDW28xbEEXPNf9TgaSABKFCkXEUC+fEt1UpYbaLzWus3julw?=
- =?us-ascii?Q?vvUjRXyvU0fkRVo5s+IpJOh2yMlZhCWV+ZdXycGC+KXIWcslDPCfMKUuJQxV?=
- =?us-ascii?Q?eLNP/uDKXb9pcYf4JjDDHz9uKEklGZxskDz00X/V0rz2zdpR5qs8bq6r72lp?=
- =?us-ascii?Q?KZ7ILcgE7xoxc573HrIhVO3p041uwGyaYnVrF/zSOT/JDqA+XhkviQ3hSrWe?=
- =?us-ascii?Q?yUGmGYaXN1E8FCYNxVactqM9ak0t31q0JfAuQrUt+55kEg92MG5LiBBMl05Q?=
- =?us-ascii?Q?5Oqeckx/PTe5YJvLUtU4DG2nn2pSPrcnAhEo0w6uVj6J30Qt8EGheibvEhaK?=
- =?us-ascii?Q?OMsUo3BeG8Wgjp1I10pf0KZSanGRUdw0gRrsLzrDfsASsnQ0ZGMv4PDcSApU?=
- =?us-ascii?Q?WdPWXZCRBEXu+8/kUGO7B4iMspSK8cZbSspgfNqhWzbkD20eweZdEqwsmzMC?=
- =?us-ascii?Q?WFoVqjl1fN9XfFlirgPvKJvxWRK2303Okj8QWJKp69tZN6ZvjdPRi4b4hiFX?=
- =?us-ascii?Q?kSTb8aO0y4oGWGueFOz1ubq5vEf4KazUPs4/6FTas9yYGgPso6LUlCTWKHG7?=
- =?us-ascii?Q?Z0xg38sjsrhcwqVSIbVcG4o8eIBC7dy8MRPJWQGafndpiUWkaonUMDsJQJBi?=
- =?us-ascii?Q?/2WG6cQJvSGKrKYvFmZ6x44BpFpDUyfnVHtqE6GbR5P5WT4t09DRkRuoGJ1q?=
- =?us-ascii?Q?+6gJ6VE4YdbjnzHZZqpvjwEOiiZuEYKnqybUEqfHG2n/A+bQ0AmcvvG/k9OK?=
- =?us-ascii?Q?RK8WkJlsShqYqmh5wEEiMaIWlVScflhLqav8SrTzaBvM+0VKKTqmL9qsfPim?=
- =?us-ascii?Q?i+7FwF0cswj0V1rVVEqBXVtmpuhJx3lmaFeT/fvjsttxIc58+iOwE32Dkcm4?=
- =?us-ascii?Q?3CCwPTssoKXXwcSmxc6NxFM+7xwyT6xGwJh1At/agtp7YugRJOmcQAPUPfBs?=
- =?us-ascii?Q?md7ZQL6D8Xf/K06ILSFdQz2G4lTMyK/11MVCOoEyYYGICOsKEjTEZ2it8IQu?=
- =?us-ascii?Q?i9EIWfCipMe3N/hit9N4FU5peToinQJQGsT2+1gi/tgaFwjHsuD+ZCwUYI1k?=
- =?us-ascii?Q?nhGkGa/dCYsYmMBT1zQl4kEnW2K9KJtSovpw/70s4XRHsgY/ph76q/Ew+s09?=
- =?us-ascii?Q?RqEEepun4dl9wQOlsi3XQWQp+bWkw4AvIoZYt49L?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=92904be4b3=divya.chellam@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56E3j3tZ638922
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 10:27:36 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47uf2v9wu6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 10:27:35 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Mon, 14 Jul 2025 03:27:33 -0700
+From: dchellam <divya.chellam@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][walnascar][PATCH v2 2/2] libxml2: Fix CVE-2025-49794 & CVE-2025-49796
+Date: Mon, 14 Jul 2025 15:57:11 +0530
+Message-ID: <20250714102711.1547097-1-divya.chellam@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: a95ec1ce-aa0e-4fc4-6ccb-08ddc2c095da
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2025 10:24:15.9498
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SICFdxUHB4KYhQtSHbxN1syys8785BSPbu7xGv+Vzmi1OzOzY6HZsI9O+iE6eh1X8Hauz0AgaQr/hxDxIcpNsA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR10MB7258
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: priireEOJjUJi876QL5QLBSwYOZUKMfC
+X-Authority-Analysis: v=2.4 cv=TYqWtQQh c=1 sm=1 tr=0 ts=6874db97 cx=c_pps
+ a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17
+ a=HCiNrPZc1L8A:10 a=Wb1JkmetP80A:10 a=xNf9USuDAAAA:8 a=GHR8O2WEAAAA:20
+ a=zICZd1jsAAAA:8 a=SSmOFEACAAAA:8 a=t7CeM3EgAAAA:8 a=NHc5LkatjnJYCporiG4A:9
+ a=m9p5bXcFLgAA:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: priireEOJjUJi876QL5QLBSwYOZUKMfC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzEyMDAxOSBTYWx0ZWRfX9PcexIROYV/u
+ 92WftD1oWl8/ews0sKNAzz1lHZtg6GehhySVXg9OoU3lSsCQ6WRehrNU+Xsajxty/BT2s7zByeL
+ HDLOBxr85ttVcYAhof+BvqU+0pTTu+GwK61jisZyem8SLxx2Iut9PEofUSj+mILR8YbGw1R9Mfe
+ XRX4SFmZIuOsOaYbGIfXFBa/OwkppSIBBlxGuJebDIds4urmyz8vs0qh0XKAzc899CE7onYlWYb
+ JfMId+9QuzqYFJwPxNn9UQ/7rGYodYs1BSQFRR5Ajp71dImynkTu+xB8k4XbtxYYc30PQ4SdBDj
+ Hfv5GuL+LlocPFMV1JlwsD3/P+RiZJqJ5YNP7WRUnr9/kfRNju8yhUS1vio/ZgGbAo/JXClz9mS
+ 8GsUK1AD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_01,2025-07-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ clxscore=1015 adultscore=0 suspectscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2506270000 definitions=main-2507120019
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 10:24:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220222
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 10:27:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220223
 
+From: Divya Chellam <divya.chellam@windriver.com>
 
+A use-after-free vulnerability was found in libxml2. This issue
+occurs when parsing XPath elements under certain circumstances
+when the XML schematron has the <sch:name path="..."/> schema
+elements. This flaw allows a malicious actor to craft a malicious
+XML document used as input for libxml, resulting in the program's
+crash using libxml or other possible undefined behaviors.
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Hiago De Franco via
-> lists.openembedded.org
-> Sent: Saturday, July 12, 2025 3:56
-> To: openembedded-core@lists.openembedded.org
-> Cc: Denys Dmytriyenko <denis@denix.org>; Hiago De Franco
-> <hiago.franco@toradex.com>
-> Subject: [OE-core] [PATCH] mtd-utils: add optional systemd service for ub=
-ihealthd
->=20
-> From: Hiago De Franco <hiago.franco@toradex.com>
->=20
-> Add support for deploying a ubihealthd.service systemd unit through a
-> new 'ubihealthd-service' PACKAGECONFIG option.
->=20
-> This change allows systems using systemd to easily enable and manage the
-> UBI health monitoring daemon as a background service.
->=20
-> Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
-> ---
->  .../mtd/files/ubihealthd.service              | 10 +++++++++
->  meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb  | 21 ++++++++++++++++---
->  2 files changed, 28 insertions(+), 3 deletions(-)
->  create mode 100644 meta/recipes-devtools/mtd/files/ubihealthd.service
->=20
-> diff --git a/meta/recipes-devtools/mtd/files/ubihealthd.service b/meta/re=
-cipes-
-> devtools/mtd/files/ubihealthd.service
-> new file mode 100644
-> index 000000000000..74b8df655b5c
-> --- /dev/null
-> +++ b/meta/recipes-devtools/mtd/files/ubihealthd.service
-> @@ -0,0 +1,10 @@
-> +[Unit]
-> +Description=3DUBI health daemon
-> +After=3Dmulti-user.target
-> +
-> +[Service]
-> +Type=3Dforking
-> +ExecStart=3D@SBINDIR@/ubihealthd
-> +
-> +[Install]
-> +WantedBy=3Dmulti-user.target
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb b/meta/recipes-
-> devtools/mtd/mtd-utils_2.3.0.bb
-> index 47f0b01abe0f..d99a1d5c7b70 100644
-> --- a/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
-> +++ b/meta/recipes-devtools/mtd/mtd-utils_2.3.0.bb
-> @@ -6,7 +6,7 @@ LICENSE =3D "GPL-2.0-or-later"
->  LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c317bb3 \
->=20
-> file://include/common.h;beginline=3D1;endline=3D17;md5=3Dba05b07912a44ea2=
-bf81ce409
-> 380049c"
->=20
-> -inherit autotools pkgconfig update-alternatives
-> +inherit autotools pkgconfig systemd update-alternatives
->=20
->  DEPENDS =3D "zlib e2fsprogs util-linux"
->  RDEPENDS:mtd-utils-tests +=3D "bash"
-> @@ -17,7 +17,8 @@ SRC_URI =3D "git://git.infradead.org/mtd-
-> utils.git;branch=3Dmaster \
->             file://0002-ubifs-utils-journal-Include-sys-stat.h.patch \
->             file://0003-ubifs-utils-link-libmissing.a-in-case-execinfo.h-=
-isn.patch \
->             file://0004-ubifs-utils-extract_files-Include-linux-limits.h.=
-patch \
-> -           file://0001-Improve-check-for-GCC-compiler-version.patch"
-> +           file://0001-Improve-check-for-GCC-compiler-version.patch \
-> +           file://ubihealthd.service"
->=20
->  # xattr support creates an additional compile-time dependency on acl bec=
-ause
->  # the sys/acl.h header is needed. libacl is not needed and thus enabling=
- xattr
-> @@ -29,6 +30,7 @@ PACKAGECONFIG[crypto] =3D "--with-crypto,--without-
-> crypto,openssl"
->  PACKAGECONFIG[jffs] =3D "--with-jffs,--without-jffs"
->  PACKAGECONFIG[ubifs] =3D "--with-ubifs,--without-ubifs"
->  PACKAGECONFIG[zstd] =3D "--with-zstd,--without-zstd,zstd"
-> +PACKAGECONFIG[ubihealthd-service] =3D ",,systemd"
+A vulnerability was found in libxml2. Processing certain sch:name
+elements from the input XML file can trigger a memory corruption
+issue. This flaw allows an attacker to craft a malicious XML input
+file that can lead libxml to crash, resulting in a denial of service
+or other possible undefined behavior due to sensitive data being
+corrupted in memory.
 
-This seems to be wrong:
-1. depending on systemd is allowed only with REQUIRED_DISTRO_FEATURES =3D "=
-systemd"
-2. the recipe build does not depend on systemd
+References:
+https://security-tracker.debian.org/tracker/CVE-2025-49794
+https://security-tracker.debian.org/tracker/CVE-2025-49796
 
-I believe that you can just leave out the systemd from this line and it sho=
-uld be fine.
-Systemd bbclass will make sure that the service is installed/excluded based=
- on distro.
+Upstream-patch:
+https://gitlab.gnome.org/GNOME/libxml2/-/commit/71e1e8af5ee46dad1b57bb96cfbf1c3ad21fbd7b
 
-Peter=20
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+---
+ .../CVE-2025-49794_CVE-2025-49796.patch       | 189 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.13.8.bb    |   1 +
+ 2 files changed, 190 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-49794_CVE-2025-49796.patch
+
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-49794_CVE-2025-49796.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-49794_CVE-2025-49796.patch
+new file mode 100644
+index 0000000000..77b04f7147
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2025-49794_CVE-2025-49796.patch
+@@ -0,0 +1,189 @@
++From 71e1e8af5ee46dad1b57bb96cfbf1c3ad21fbd7b Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Fri, 4 Jul 2025 14:28:26 +0200
++Subject: [PATCH] schematron: Fix memory safety issues in
++ xmlSchematronReportOutput
++
++Fix use-after-free (CVE-2025-49794) and type confusion (CVE-2025-49796)
++in xmlSchematronReportOutput.
++
++Fixes #931.
++Fixes #933.
++---
++
++CVE: CVE-2025-49794 CVE-2025-49796
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/71e1e8af5ee46dad1b57bb96cfbf1c3ad21fbd7b]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ result/schematron/cve-2025-49794_0.err |  2 ++
++ result/schematron/cve-2025-49796_0.err |  2 ++
++ schematron.c                           | 49 ++++++++++++++------------
++ test/schematron/cve-2025-49794.sct     | 10 ++++++
++ test/schematron/cve-2025-49794_0.xml   |  6 ++++
++ test/schematron/cve-2025-49796.sct     |  9 +++++
++ test/schematron/cve-2025-49796_0.xml   |  3 ++
++ 7 files changed, 58 insertions(+), 23 deletions(-)
++ create mode 100644 result/schematron/cve-2025-49794_0.err
++ create mode 100644 result/schematron/cve-2025-49796_0.err
++ create mode 100644 test/schematron/cve-2025-49794.sct
++ create mode 100644 test/schematron/cve-2025-49794_0.xml
++ create mode 100644 test/schematron/cve-2025-49796.sct
++ create mode 100644 test/schematron/cve-2025-49796_0.xml
++
++diff --git a/result/schematron/cve-2025-49794_0.err b/result/schematron/cve-2025-49794_0.err
++new file mode 100644
++index 0000000..5775231
++--- /dev/null
+++++ b/result/schematron/cve-2025-49794_0.err
++@@ -0,0 +1,2 @@
+++./test/schematron/cve-2025-49794_0.xml:2: element boo0: schematron error : /librar0/boo0 line 2:  
+++./test/schematron/cve-2025-49794_0.xml fails to validate
++diff --git a/result/schematron/cve-2025-49796_0.err b/result/schematron/cve-2025-49796_0.err
++new file mode 100644
++index 0000000..bf875ee
++--- /dev/null
+++++ b/result/schematron/cve-2025-49796_0.err
++@@ -0,0 +1,2 @@
+++./test/schematron/cve-2025-49796_0.xml:2: element boo0: schematron error : /librar0/boo0 line 2:  
+++./test/schematron/cve-2025-49796_0.xml fails to validate
++diff --git a/schematron.c b/schematron.c
++index 1de25de..426300c 100644
++--- a/schematron.c
+++++ b/schematron.c
++@@ -1414,27 +1414,15 @@ exit:
++  *                                                                      *
++  ************************************************************************/
++ 
++-static xmlNodePtr
+++static xmlXPathObjectPtr
++ xmlSchematronGetNode(xmlSchematronValidCtxtPtr ctxt,
++                      xmlNodePtr cur, const xmlChar *xpath) {
++-    xmlNodePtr node = NULL;
++-    xmlXPathObjectPtr ret;
++-
++     if ((ctxt == NULL) || (cur == NULL) || (xpath == NULL))
++         return(NULL);
++ 
++     ctxt->xctxt->doc = cur->doc;
++     ctxt->xctxt->node = cur;
++-    ret = xmlXPathEval(xpath, ctxt->xctxt);
++-    if (ret == NULL)
++-        return(NULL);
++-
++-    if ((ret->type == XPATH_NODESET) &&
++-        (ret->nodesetval != NULL) && (ret->nodesetval->nodeNr > 0))
++-        node = ret->nodesetval->nodeTab[0];
++-
++-    xmlXPathFreeObject(ret);
++-    return(node);
+++    return(xmlXPathEval(xpath, ctxt->xctxt));
++ }
++ 
++ /**
++@@ -1480,25 +1468,40 @@ xmlSchematronFormatReport(xmlSchematronValidCtxtPtr ctxt,
++             (child->type == XML_CDATA_SECTION_NODE))
++             ret = xmlStrcat(ret, child->content);
++         else if (IS_SCHEMATRON(child, "name")) {
+++            xmlXPathObject *obj = NULL;
++             xmlChar *path;
++ 
++             path = xmlGetNoNsProp(child, BAD_CAST "path");
++ 
++             node = cur;
++             if (path != NULL) {
++-                node = xmlSchematronGetNode(ctxt, cur, path);
++-                if (node == NULL)
++-                    node = cur;
+++                obj = xmlSchematronGetNode(ctxt, cur, path);
+++                if ((obj != NULL) &&
+++                    (obj->type == XPATH_NODESET) &&
+++                    (obj->nodesetval != NULL) &&
+++                    (obj->nodesetval->nodeNr > 0))
+++                    node = obj->nodesetval->nodeTab[0];
++                 xmlFree(path);
++             }
++ 
++-            if ((node->ns == NULL) || (node->ns->prefix == NULL))
++-                ret = xmlStrcat(ret, node->name);
++-            else {
++-                ret = xmlStrcat(ret, node->ns->prefix);
++-                ret = xmlStrcat(ret, BAD_CAST ":");
++-                ret = xmlStrcat(ret, node->name);
+++            switch (node->type) {
+++                case XML_ELEMENT_NODE:
+++                case XML_ATTRIBUTE_NODE:
+++                    if ((node->ns == NULL) || (node->ns->prefix == NULL))
+++                        ret = xmlStrcat(ret, node->name);
+++                    else {
+++                        ret = xmlStrcat(ret, node->ns->prefix);
+++                        ret = xmlStrcat(ret, BAD_CAST ":");
+++                        ret = xmlStrcat(ret, node->name);
+++                    }
+++                    break;
+++
+++                /* TODO: handle other node types */
+++                default:
+++                    break;
++             }
+++
+++            xmlXPathFreeObject(obj);
++         } else if (IS_SCHEMATRON(child, "value-of")) {
++             xmlChar *select;
++             xmlXPathObjectPtr eval;
++diff --git a/test/schematron/cve-2025-49794.sct b/test/schematron/cve-2025-49794.sct
++new file mode 100644
++index 0000000..7fc9ee3
++--- /dev/null
+++++ b/test/schematron/cve-2025-49794.sct
++@@ -0,0 +1,10 @@
+++<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+++    <sch:pattern id="">
+++        <sch:rule context="boo0">
+++            <sch:report test="not(0)">
+++                <sch:name path="&#9;e|namespace::*|e"/>
+++            </sch:report>
+++            <sch:report test="0"></sch:report>
+++        </sch:rule>
+++    </sch:pattern>
+++</sch:schema>
++diff --git a/test/schematron/cve-2025-49794_0.xml b/test/schematron/cve-2025-49794_0.xml
++new file mode 100644
++index 0000000..debc64b
++--- /dev/null
+++++ b/test/schematron/cve-2025-49794_0.xml
++@@ -0,0 +1,6 @@
+++<librar0>
+++    <boo0 t="">
+++        <author></author>
+++    </boo0>
+++    <ins></ins>
+++</librar0>
++diff --git a/test/schematron/cve-2025-49796.sct b/test/schematron/cve-2025-49796.sct
++new file mode 100644
++index 0000000..e9702d7
++--- /dev/null
+++++ b/test/schematron/cve-2025-49796.sct
++@@ -0,0 +1,9 @@
+++<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+++    <sch:pattern id="">
+++        <sch:rule context="boo0">
+++            <sch:report test="not(0)">
+++                <sch:name path="/"/>
+++            </sch:report>
+++        </sch:rule>
+++    </sch:pattern>
+++</sch:schema>
++diff --git a/test/schematron/cve-2025-49796_0.xml b/test/schematron/cve-2025-49796_0.xml
++new file mode 100644
++index 0000000..be33c4e
++--- /dev/null
+++++ b/test/schematron/cve-2025-49796_0.xml
++@@ -0,0 +1,3 @@
+++<librar0>
+++    <boo0/>
+++</librar0>
++-- 
++2.40.0
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.13.8.bb b/meta/recipes-core/libxml/libxml2_2.13.8.bb
+index ea7aa9c41d..3d6ecf5458 100644
+--- a/meta/recipes-core/libxml/libxml2_2.13.8.bb
++++ b/meta/recipes-core/libxml/libxml2_2.13.8.bb
+@@ -18,6 +18,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://run-ptest \
+            file://install-tests.patch \
+            file://CVE-2025-6021.patch \
++           file://CVE-2025-49794_CVE-2025-49796.patch \
+            "
+ 
+ SRC_URI[archive.sha256sum] = "277294cb33119ab71b2bc81f2f445e9bc9435b893ad15bb2cd2b0e859a0ee84a"
+-- 
+2.40.0
+
 
