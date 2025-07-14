@@ -1,155 +1,204 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA6F4C83F21
-	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 16:23:43 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.82448.1752510222628554522
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9337C83F17
+	for <webhook@archiver.kernel.org>; Mon, 14 Jul 2025 17:00:13 +0000 (UTC)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web11.83300.1752512407765105030
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jul 2025 09:23:42 -0700
+ Mon, 14 Jul 2025 10:00:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BCovqVDG;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-742c3d06de3so4911959b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 09:23:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mhcCURpi;
+ spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e8b3cc05665so3510888276.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 10:00:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752510222; x=1753115022; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sxfqMHjES7Xzm3ye8cVgSpM/lhpHuEBquWTwJrDmJRw=;
-        b=BCovqVDG2kQAmJPLR4fVOBS11kEE/cfYrCVbD5+JWIcHVzakbiDiUH/H9VefWjeNuO
-         RbnlwWglhYwjxUfhZVVZ0AnTw5TW9AyA6S8XT2ktvEy5XaldjuTJH7RHQ/ymrnmGs6UA
-         dvRwi1OYEmjQauP9ywvFsLIJ77+hZ+Z0KpUkUz2ib6esluIpSJyIxUYys5esRrwp9cvO
-         5WdilTREosYdC/kmKDl4f/PM5WD3oxkRZe7UW9/RpndfRnrI1yPbMZboOwRrNWk2/55H
-         +4fJFO6KEAtPD2sreGNl6Ixw/wXiDXD2kucm7gxe8UbLvjFFb+w/VF+S7YyRjbE0JdQ9
-         1e9A==
+        d=gmail.com; s=20230601; t=1752512407; x=1753117207; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1VLI05yX8eSvcjhUMufrKOlysAT5KgdzIY4pfVf6Tbo=;
+        b=mhcCURpi+kAJufqVATUOyRqsXcmwI7oSlumht7ES31gINquuu2QDSYglNuNe/f28Do
+         /IIJB7VvVWGl0/9Y1wmzDb4dKposYG7W+pjkIQHETVjb3E5368Wme+D1+Ji9UeZn0WFj
+         SOx0C50E6obbh4YYGaSFERtG/yitywpkyqOIMxjrF+zrsDDZwxJRhyZ9qvjuFGgjl3H/
+         GBctwXXLuq4LeM/cKIcywsM08rDqRRyCl+dEdxuD3xoI5cq9M+Dm9Ok+kEsJ8rKZXg8+
+         mVGK5YktdbzNd9FDdNpwkhpbIj5necKLw8iHrIl4vWFKW5+nNx+IJUytK4ww0Vh/Iu3H
+         Hh8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752510222; x=1753115022;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1752512407; x=1753117207;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sxfqMHjES7Xzm3ye8cVgSpM/lhpHuEBquWTwJrDmJRw=;
-        b=H1ErcF8hiJbWMnBa2/59HiWW/bNaVmYY8iI5Jv3dxAPCWPxGTPsW589T/lzF/xyvSL
-         HwyEuO1ohI/GOvIwZLyKuEVKgw/rNhGGNbbXtknSDrGoWKEb1ORaVt/oyor44yeOxccj
-         ajh34Fc0zOSJZTUlJla/tuNNAq1fBKmDJsvcKe5EPUD5InwqndCDY1UO0sEzFQnNhZsj
-         CjJWVT/z5EwVa3y5nXZ1LetdbIvx6KdyKl3RzX5ABt4gCqIZ3oe/BgWJKXM+VmFO8PNv
-         PhGfVEBcD9BVkoBkuJsVW+8/MYkVQrcCfQ96NYNMQXMSFl+3a3meViLJWUgrhkaJoMYj
-         NJiw==
-X-Gm-Message-State: AOJu0Yz/3G5LgO2rlCQ2Zi0lKqSvF9mEEFm/bmmyyW0XlvGGHvhvc4dQ
-	UbwGjq52DxPIhjzUZ66vVwFoYgcj2ruv6pyz29t7JAOTAsaXNtCTau827t9fieBA8czFhH9XiAD
-	pyF8w
-X-Gm-Gg: ASbGncuoCYp97EVpYf/VFapjFp+BXa4t6BIWugoBmw9Dlc/YjS6QVVXb5XNu1vNKPvY
-	dizWyDbb8drQf1NfUd2AF7OMeG3tf4+K2OrYiY5J6B/zNs9wEVHzUwR91t/B5fiUgtZHHGRHmEj
-	BZtGiTxlwg0C9dJYUdWutdx9ldgIwEkhIk4TPkN739zSec67pEkZdROQnFnlzw3SPDjKPtYmbWm
-	DlB3G8gYNF4hgq8/yzmlHBj2SH8Byk2HfP+g7dzWa88btTW//pwMmizdW6L2KZ22sfuDOKMOtb2
-	uHoYBq7ZgnSLNacLIzi4ZF4vIpdcPQpt7/4y9PKlNGqxG4GX+/lsUO9EB3S3To//dKjv6ndIQGH
-	TRE1U6FsjrIhhu+HAG44KVco=
-X-Google-Smtp-Source: AGHT+IH4ppqbUnoTTXUIx1RQgPydaka3yW2txb0onCLqwLan4yrsx4i/OEMfIEvr9ypXTbr3t6mYQw==
-X-Received: by 2002:a05:6a21:33a8:b0:236:355d:5f23 with SMTP id adf61e73a8af0-236355d6353mr1630121637.39.1752510221634;
-        Mon, 14 Jul 2025 09:23:41 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:4aa7:6b72:b465:3a4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9dd5e8fsm10456053b3a.29.2025.07.14.09.23.40
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 09:23:41 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 15/15] ltp: backport patch to fix compilation error for Skylake -march=x86-64-v3
-Date: Mon, 14 Jul 2025 09:23:09 -0700
-Message-ID: <4225c9abbc68e1a29a54927a9c8e1fe12208e5b4.1752509862.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1752509862.git.steve@sakoman.com>
-References: <cover.1752509862.git.steve@sakoman.com>
+        bh=1VLI05yX8eSvcjhUMufrKOlysAT5KgdzIY4pfVf6Tbo=;
+        b=j3N+PrpDyLITWKKl0OKyDz+gLXk75E8uBzEKnDQ99N4zeehJzbdFHbYATmfqZyTJ/b
+         tkW0Wj2u6rP+npr9Ch2kEv1ogoQQkD/TmdSXKY2HJ+/R+OhnqqV9mJSfa0pvMRMYSFgL
+         MNsQM/L6a18TUrIZVZQt055UGDWqp0lbYsFydrAuq2ieVbHMpjMIsdtt3ZRNRMwJ4aMp
+         bDPJ+TKYhtuOWMMvPoK3LHNnEO6B0x8Z4RhYyk3mvicQ5YidzArKT002phQSPR/mWmh4
+         6KmbRL9eqUdZpsXdED9Umee/6XHJCYBI3du5Viu1lLDpLpUukKjv6ru53mieDx6EvzrA
+         eh1A==
+X-Gm-Message-State: AOJu0Yz9zPkTlerR2Xffih80cpV4MnoeJf9ghe59oYeWASQQGkn19ROQ
+	ufUTm/pd/h0MWnK5WjNwfMtfZsx37WigYxYHW/2O5fv4x0253eMC5Hucx8o/kG4tqU0LAGcUn6K
+	4aDC7uP9PVj1ZMRVd2UKc9JnbRUp36GyhjGfXeH4=
+X-Gm-Gg: ASbGncvCl8gubmPF2d1c/d4fgUYZb2u/7keQJax8HxtXaPPcNZVqFA0KYDyiAMZiaMI
+	GBONf1z0IcpyldepL249fYhC6y+DxokNxR0tN6VGYfDgiiIXQpGvplW58G7lItZGlJHub2Lx2ia
+	KJLfKoupeaqTx60/8ClfKp4KxuEKfkohPsDkvjdzgLDTP1QyepwmNjofTF4RjAwxptHIqQLdjkH
+	WH0Ppyg3Vi2MkW02gqLPdWo2Sx4xDeEcmaR
+X-Google-Smtp-Source: AGHT+IECwYGFRPN62JDoi74wp8EQGPI6IYuTPpjxHuDKqKm1a8pSijjluLRQ9GoxYZ+1vePWV1VYOJMAQY+QB0qCMoA=
+X-Received: by 2002:a05:690c:18:b0:70a:2675:70b3 with SMTP id
+ 00721157ae682-717d5dac165mr200928497b3.17.1752512405931; Mon, 14 Jul 2025
+ 10:00:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250506201127.4188369-1-raj.khem@gmail.com> <bbda64ad-2bee-4679-9e07-5b1a82a6aac5@gmail.com>
+In-Reply-To: <bbda64ad-2bee-4679-9e07-5b1a82a6aac5@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 14 Jul 2025 09:59:39 -0700
+X-Gm-Features: Ac12FXw34dHdQuF4pyEcu3kfuHRn92uScQisbE7pe5awUuhj136SaKY0oHDG9Cs
+Message-ID: <CAMKF1spFQiiGvi3q5Om4J9pNu1Efufk3=Dv_1AN6YrxZWfPBCA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] compiler-rt: Always use clang for compiler
+To: Gyorgy Sarvari <skandigraun@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 16:23:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220253
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Jul 2025 17:00:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220254
 
-From: Yogesh Tyagi <yogesh.tyagi@intel.com>
+On Mon, Jul 14, 2025 at 8:03=E2=80=AFAM Gyorgy Sarvari <skandigraun@gmail.c=
+om> wrote:
+>
+> I realize that this is a fairly old commit... anyway.
+>
+> During the weekend I decided to update a personal project of mine to the
+> tip of master, but after performing the main required changes, I faced
+> compiler-rt build failures, complaining about unrecognized -mcpu
+> argument during the compiler sanity check in do_configure[1].
+> Bisecting oe-core points to this commit. The project I'm using uses
+> -mcpu=3Dcortex-a72.cortex-a53+crc+crypto (DEFAULTTUNE =3D
+> "cortexa72-cortexa53-crypto"), which is not accepted after this change.
+>
+> Is this a user error, and I'm supposed to change something after this
+> revision, or is this a regression?
 
-When the input compiler enables AVX, stack realignment requirements
-causes gcc to fail to omit %rbp use, due to which the test fails to
-clobber %rbp in inline asm.  Disable AVX to build the test on x86_64 so
-that the test continues working.
+clang has differences in syntax for big.LITTLE arm systems sadly. In meta-c=
+lang
+we have a fix for this
+https://github.com/kraj/meta-clang/blob/master/classes/clang-legacy.bbclass=
+#L25-L38
 
-(From OE-Core rev: bbd3e7886e2ec5ab3578d618b28d007a80d917aa)
+We need to do something similar in either clang bbclass or in recipes
+using toolchain-clang
+override.
 
-Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...cve-2015-3290-Disable-AVX-for-x86_64.patch | 42 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20250130.bb     |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch b/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
-new file mode 100644
-index 0000000000..c6fae88eb9
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-cve-2015-3290-Disable-AVX-for-x86_64.patch
-@@ -0,0 +1,42 @@
-+From 28d823a63ee29f5d72c2aba781a06a7e2651cadc Mon Sep 17 00:00:00 2001
-+From: Siddhesh Poyarekar <siddhesh@gotplt.org>
-+Date: Mon, 7 Apr 2025 06:24:47 -0400
-+Subject: [PATCH] cve-2015-3290: Disable AVX for x86_64
-+
-+When the input compiler enables AVX, stack realignment requirements
-+causes gcc to fail to omit %rbp use, due to which the test fails to
-+clobber %rbp in inline asm.  Disable AVX to build the test on x86_64 so
-+that the test continues working.
-+
-+Link: https://lore.kernel.org/ltp/20250407102448.2605506-2-siddhesh@gotplt.org/
-+
-+Upstream-Status: Backport [https://github.com/linux-test-project/ltp/commit/28d823a63ee29f5d72c2aba781a06a7e2651cadc]
-+
-+Reviewed-by: Martin Doucha <mdoucha@suse.cz>
-+Reviewed-by: Petr Vorel <pvorel@suse.cz>
-+Signed-off-by: Siddhesh Poyarekar <siddhesh@gotplt.org>
-+
-+---
-+ testcases/cve/Makefile | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/testcases/cve/Makefile b/testcases/cve/Makefile
-+index 01b9b9ccb..98c38e908 100644
-+--- a/testcases/cve/Makefile
-++++ b/testcases/cve/Makefile
-+@@ -22,6 +22,12 @@ ifneq (,$(filter $(HOST_CPU),x86 x86_64))
-+ meltdown: CFLAGS += -msse2
-+ endif
-+ 
-++# The test needs to clobber %rbp, which requires frame pointer omission.  Also
-++# for x86_64, disable AVX since that could sometimes require a stack
-++# realignment, which gets in the way of frame pointer omission.
-+ cve-2015-3290:	CFLAGS += -pthread -fomit-frame-pointer
-++ifeq ($(HOST_CPU),x86_64)
-++cve-2015-3290: CFLAGS += -mno-avx
-++endif
-+ 
-+ include $(top_srcdir)/include/mk/generic_leaf_target.mk
-+-- 
-+2.37.3
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20250130.bb b/meta/recipes-extended/ltp/ltp_20250130.bb
-index 690224e6d7..f9521acbc6 100644
---- a/meta/recipes-extended/ltp/ltp_20250130.bb
-+++ b/meta/recipes-extended/ltp/ltp_20250130.bb
-@@ -30,6 +30,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=ht
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-            file://0001-Add-__clear_cache-declaration-for-clang.patch \
-            file://0001-kernel-kvm-don-t-hardcode-objcopy.patch \
-+           file://0001-cve-2015-3290-Disable-AVX-for-x86_64.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.43.0
-
+>
+> Thanks
+>
+> [1]:
+> https://gist.github.com/OldManYellsAtCloud/1e0a931a815a054a35cf61792e529b=
+70
+>
+> On 5/6/25 22:11, Khem Raj via lists.openembedded.org wrote:
+> > This makes it build for all architectures e.g. riscv/mips/ppc etc.
+> >
+> > Using clang-native to build all variants of recipe makes it easier to
+> > handle compiling with various distros choosing different runtimes
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > v2: Fix builds when using clang as default system compiler
+> >
+> >  .../recipes-devtools/clang/compiler-rt_git.bb | 29 ++++++++++++-------
+> >  1 file changed, 18 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/reci=
+pes-devtools/clang/compiler-rt_git.bb
+> > index 93928541273..a0f9c769a06 100644
+> > --- a/meta/recipes-devtools/clang/compiler-rt_git.bb
+> > +++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
+> > @@ -32,15 +32,15 @@ DEPENDS:append:class-nativesdk =3D " virtual/cross-=
+c++ clang-native clang-crosssdk
+> >  DEPENDS:append:class-native =3D " clang-native"
+> >
+> >  # Trick clang.bbclass into not creating circular dependencies
+> > -UNWINDLIB:class-nativesdk:toolchain-clang =3D "--unwindlib=3Dlibgcc"
+> > -COMPILER_RT:class-nativesdk:toolchain-clang =3D "-rtlib=3Dlibgcc --unw=
+indlib=3Dlibgcc"
+> > -LIBCPLUSPLUS:class-nativesdk:toolchain-clang =3D "-stdlib=3Dlibstdc++"
+> > -UNWINDLIB:class-native:toolchain-clang =3D "--unwindlib=3Dlibgcc"
+> > -COMPILER_RT:class-native:toolchain-clang =3D "-rtlib=3Dlibgcc --unwind=
+lib=3Dlibgcc"
+> > -LIBCPLUSPLUS:class-native:toolchain-clang =3D "-stdlib=3Dlibstdc++"
+> > -UNWINDLIB:class-target:toolchain-clang =3D "--unwindlib=3Dlibgcc"
+> > -COMPILER_RT:class-target:toolchain-clang =3D "-rtlib=3Dlibgcc --unwind=
+lib=3Dlibgcc"
+> > -LIBCPLUSPLUS:class-target:toolchain-clang =3D "-stdlib=3Dlibstdc++"
+> > +UNWINDLIB:class-nativesdk =3D "--unwindlib=3Dlibgcc"
+> > +COMPILER_RT:class-nativesdk =3D "-rtlib=3Dlibgcc"
+> > +LIBCPLUSPLUS:class-nativesdk =3D "-stdlib=3Dlibstdc++"
+> > +UNWINDLIB:class-native =3D "--unwindlib=3Dlibgcc"
+> > +COMPILER_RT:class-native =3D "-rtlib=3Dlibgcc"
+> > +LIBCPLUSPLUS:class-native =3D "-stdlib=3Dlibstdc++"
+> > +UNWINDLIB:class-target =3D "--unwindlib=3Dlibgcc"
+> > +COMPILER_RT:class-target =3D "-rtlib=3Dlibgcc"
+> > +LIBCPLUSPLUS:class-target =3D "-stdlib=3Dlibstdc++"
+> >
+> >  PACKAGECONFIG ??=3D ""
+> >  PACKAGECONFIG[crt] =3D "-DCOMPILER_RT_BUILD_CRT:BOOL=3DON,-DCOMPILER_R=
+T_BUILD_CRT:BOOL=3DOFF"
+> > @@ -52,6 +52,13 @@ HF =3D ""
+> >  HF:class-target =3D "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard=
+', 'hf', '', d)}"
+> >  HF[vardepvalue] =3D "${HF}"
+> >
+> > +CC =3D "${CCACHE}${HOST_PREFIX}clang ${HOST_CC_ARCH}${TOOLCHAIN_OPTION=
+S}"
+> > +CXX =3D "${CCACHE}${HOST_PREFIX}clang++ ${HOST_CC_ARCH}${TOOLCHAIN_OPT=
+IONS}"
+> > +BUILD_CC =3D "${CCACHE}clang ${BUILD_CC_ARCH}"
+> > +BUILD_CXX =3D "${CCACHE}clang++ ${BUILD_CC_ARCH}"
+> > +LDFLAGS +=3D "${COMPILER_RT} ${UNWINDLIB}"
+> > +CXXFLAGS +=3D "${LIBCPLUSPLUS}"
+> > +
+> >  OECMAKE_TARGET_COMPILE =3D "compiler-rt"
+> >  OECMAKE_TARGET_INSTALL =3D "install-compiler-rt install-compiler-rt-he=
+aders"
+> >  OECMAKE_SOURCEPATH =3D "${S}/llvm"
+> > @@ -72,7 +79,7 @@ EXTRA_OECMAKE +=3D "-DCMAKE_BUILD_TYPE=3DRelWithDebIn=
+fo \
+> >
+> >  EXTRA_OECMAKE:append:class-native =3D "\
+> >                    -DCOMPILER_RT_DEFAULT_TARGET_ARCH=3D${HOST_ARCH} \
+> > -                  -DCMAKE_C_COMPILER_TARGET=3D${HOST_ARCH} \
+> > +                  -DCMAKE_C_COMPILER_TARGET=3D${HOST_SYS} \
+> >  "
+> >
+> >  EXTRA_OECMAKE:append:class-target =3D "\
+> > @@ -89,7 +96,7 @@ EXTRA_OECMAKE:append:class-nativesdk =3D "\
+> >                 -DCMAKE_NM=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFI=
+X}llvm-nm \
+> >                 -DLLVM_TABLEGEN=3D${STAGING_BINDIR_NATIVE}/llvm-tblgen =
+\
+> >                 -DCLANG_TABLEGEN=3D${STAGING_BINDIR_NATIVE}/clang-tblge=
+n \
+> > -               -DCMAKE_C_COMPILER_TARGET=3D${HOST_ARCH}${HOST_VENDOR}-=
+${HOST_OS}${HF} \
+> > +               -DCMAKE_C_COMPILER_TARGET=3D${HOST_SYS} \
+> >  "
+> >  EXTRA_OECMAKE:append:powerpc =3D " -DCOMPILER_RT_DEFAULT_TARGET_ARCH=
+=3Dpowerpc "
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#216082): https://lists.openembedded.org/g/openembed=
+ded-core/message/216082
+> > Mute This Topic: https://lists.openembedded.org/mt/112656561/6084445
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+skandigraun@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
 
