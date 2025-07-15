@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACAECA0ECF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0124CA0ECB
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:55:51 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.12169.1752594936216481472
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.12494.1752594941910664380
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 08:55:42 -0700
+ Tue, 15 Jul 2025 08:55:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fNlfyq1A;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=iKNjZ/Zr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101980ecc86ba-bc83ea31-77f6-4ffe-a73b-2a2cdfb5cb41-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Z1lpms6C;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=XEm7BbMV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101980ecc8566-e11d942f-c867-4646-a6dd-d34e23af5efa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1752594941;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lvUs5Q6Nfbl2YekrtZHVNBYzVUIL2qWWi62SZ+PQHQI=;
-	b=fNlfyq1AfmWINY5bw/uB8MMTnGYHMWQBdMmtbfmlcYOOqFETM7xZ8bWMaaHORefC
-	Q+ScRnDBhIWbvG1eEH5c0poOMNGgALRt4lb3QiJ/pU6tYJPVisJ6SXf600DTGeg+cSB
-	pkzkJL11oY5hSLp1nxrfkSuxUR9O/7+tJ3L2gF8E=
+	bh=HW7N106n8yzMrYJQMDcXaLDjndxnCsUGm0ooMTkrPEE=;
+	b=Z1lpms6C8tMmH6Gxsj5vQrjQaqMpbL+eSy2dkCJ5mh+qOde6xPe6ZMwzRd+IcpA1
+	8zERqnVzSdrI4PZltiJypF0S10sfbWWfqA+e0THw/YoXY6d2+53il7tV4PA/z/x5u8r
+	OVjMe2H6GR7mydnM8bLLY1Z1gaeBcn3E8R7QA3k8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594941;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lvUs5Q6Nfbl2YekrtZHVNBYzVUIL2qWWi62SZ+PQHQI=;
-	b=iKNjZ/ZrE/uoAZJ3nBNzSYfiHY0aY9x03AeHEMGlKKJL0t4Nplkl6i8tzkSdVzBP
-	SooutDLcV8BvtI5QGlRXFPE3oh+WJ+Sdfbvagiqjg6oKB7klf2lh8NrznkzZTYFeEld
-	HCXnVO7CvC31cDpXnYSrzoEexOIoiFLJEYkE7DmE=
-Content-Type: multipart/mixed; boundary="===============4088594214063691401=="
+	bh=HW7N106n8yzMrYJQMDcXaLDjndxnCsUGm0ooMTkrPEE=;
+	b=XEm7BbMVoBv/n2vF+m7n4uClXFhZq8qYHUqK8Hadc97q7T0vDU08ZBlL15g1aEgD
+	VBG11lO91+Yhg/nEeGILoP5o9YOzRyLIR4HnmgMj/39XTyZhTdFpruZyi6iA8Wc33S7
+	+tuIo1GpG6E3t81I6/dGn/XBIdP7OWYvF4L3Nyzk=
+Content-Type: multipart/mixed; boundary="===============5102477135630011950=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pdm-backend: upgrading to 2.4.5 SUCCEEDED
-Message-ID: <010101980ecc86ba-bc83ea31-77f6-4ffe-a73b-2a2cdfb5cb41-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-hatch-vcs: upgrading to 0.5.0 SUCCEEDED
+Message-ID: <010101980ecc8566-e11d942f-c867-4646-a6dd-d34e23af5efa-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Jul 2025 15:55:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.15-54.240.27.191
+X-SES-Outgoing: 2025.07.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:55:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220346
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220345
 
---===============4088594214063691401==
+--===============5102477135630011950==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pdm-backend* to *2.4.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-hatch-vcs* to *0.5.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pdm-backend-upgrade-2.4.4-2.4.5.patch
+    - apply the patch: git am 0001-python3-hatch-vcs-upgrade-0.4.0-0.5.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,102 +72,100 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e01ded6df1b80a0b9299cad6efdf3e0accd97bfc Mon Sep 17 00:00:00 2001
+From cef687b325c8cf95682351ea6db559e0fa6d9d84 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 10:10:16 +0000
-Subject: [PATCH] python3-pdm-backend: upgrade 2.4.4 -> 2.4.5
+Date: Tue, 15 Jul 2025 09:59:51 +0000
+Subject: [PATCH] python3-hatch-vcs: upgrade 0.4.0 -> 0.5.0
 
 ---
- ...ython3-pdm-backend_2.4.4.bb => python3-pdm-backend_2.4.5.bb} | 2 +-
+ .../{python3-hatch-vcs_0.4.0.bb => python3-hatch-vcs_0.5.0.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pdm-backend_2.4.4.bb => python3-pdm-backend_2.4.5.bb} (82%)
+ rename meta/recipes-devtools/python/{python3-hatch-vcs_0.4.0.bb => python3-hatch-vcs_0.5.0.bb} (79%)
 
-diff --git a/meta/recipes-devtools/python/python3-pdm-backend_2.4.4.bb b/meta/recipes-devtools/python/python3-pdm-backend_2.4.5.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-pdm-backend_2.4.4.bb
-rename to meta/recipes-devtools/python/python3-pdm-backend_2.4.5.bb
-index 71275f3ee8..e0fe16bd71 100644
---- a/meta/recipes-devtools/python/python3-pdm-backend_2.4.4.bb
-+++ b/meta/recipes-devtools/python/python3-pdm-backend_2.4.5.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=4a564297b3c5b629a528b92fd8ff61ea"
+diff --git a/meta/recipes-devtools/python/python3-hatch-vcs_0.4.0.bb b/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-hatch-vcs_0.4.0.bb
+rename to meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb
+index ac70295f45..011e28eb81 100644
+--- a/meta/recipes-devtools/python/python3-hatch-vcs_0.4.0.bb
++++ b/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb
+@@ -8,6 +8,6 @@ inherit pypi python_hatchling
+ PYPI_PACKAGE = "hatch_vcs"
+ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
  
--SRC_URI[sha256sum] = "f72551eeb319f74ca25856c24fb4026684eeb0dddd9df68482901ab0dc481258"
-+SRC_URI[sha256sum] = "56c019c440308adad5d057c08cbb777e65f43b991a3b0920749781258972fe5b"
+-SRC_URI[sha256sum] = "093810748fe01db0d451fabcf2c1ac2688caefd232d4ede967090b1c1b07d9f7"
++SRC_URI[sha256sum] = "0395fa126940340215090c344a2bf4e2a77bcbe7daab16f41b37b98c95809ff9"
  
- inherit pypi python_setuptools_build_meta
- 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.47.1
 
 
---===============4088594214063691401==
+--===============5102477135630011950==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pdm-backend: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/python3-pdm-backend: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/python3-pdm-backend: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm_backend/pdm_backend-2.4.4.tar.gz;downloadfilename=pdm_backend-2.4.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm_backend/pdm_backend-2.4.5.tar.gz;downloadfilename=pdm_backend-2.4.5.tar.gz"
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-dbg: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-dbg: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-dev: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-dev: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-doc: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-doc: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-locale: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-locale: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-src: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-src: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-staticdev: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend-staticdev: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend: PKGSIZE changed from 757509 to 757534 (+0%)
-packages/core2-64-poky-linux/python3-pdm-backend/python3-pdm-backend: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-Changes to packages/core2-64-poky-linux/python3-pdm-backend (sysroot):
-  /usr/lib/python3.13/site-packages/pdm_backend-2.4.4.dist-info moved to /usr/lib/python3.13/site-packages/pdm_backend-2.4.5.dist-info
+packages/core2-64-poky-linux/python3-hatch-vcs: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hatch_vcs/hatch_vcs-0.4.0.tar.gz;downloadfilename=hatch_vcs-0.4.0.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hatch_vcs/hatch_vcs-0.5.0.tar.gz;downloadfilename=hatch_vcs-0.5.0.tar.gz"
+packages/core2-64-poky-linux/python3-hatch-vcs: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dbg: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dbg: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dev: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dev: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-doc: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-doc: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-locale: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-locale: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-src: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-src: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-staticdev: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-staticdev: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs: PV changed from "0.4.0" to "0.5.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs: PKGV changed from 0.4.0 [default] to 0.5.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs: PKGSIZE changed from 26221 to 26637 (+2%)
+Changes to packages/core2-64-poky-linux/python3-hatch-vcs (sysroot):
+  /usr/lib/python3.13/site-packages/hatch_vcs-0.4.0.dist-info moved to /usr/lib/python3.13/site-packages/hatch_vcs-0.5.0.dist-info
 
---===============4088594214063691401==
+--===============5102477135630011950==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-pdm-backend (sysroot):
-  /usr/lib/python3.13/site-packages/pdm_backend-2.4.4.dist-info moved to /usr/lib/python3.13/site-packages/pdm_backend-2.4.5.dist-info
+Changes to packages/core2-64-poky-linux/python3-hatch-vcs (sysroot):
+  /usr/lib/python3.13/site-packages/hatch_vcs-0.4.0.dist-info moved to /usr/lib/python3.13/site-packages/hatch_vcs-0.5.0.dist-info
 
---===============4088594214063691401==
+--===============5102477135630011950==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pdm-backend-upgrade-2.4.4-2.4.5.patch"
+ filename="0001-python3-hatch-vcs-upgrade-0.4.0-0.5.0.patch"
 
-RnJvbSBlMDFkZWQ2ZGYxYjgwYTBiOTI5OWNhZDZlZmRmM2UwYWNjZDk3YmZjIE1vbiBTZXAgMTcg
+RnJvbSBjZWY2ODdiMzI1YzhjZjk1NjgyMzUxZWE2ZGI1NTllMGZhNmQ5ZDg0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTA6MTA6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBkbS1iYWNrZW5kOiB1cGdyYWRlIDIuNC40IC0+IDIuNC41CgotLS0KIC4uLnl0aG9u
-My1wZG0tYmFja2VuZF8yLjQuNC5iYiA9PiBweXRob24zLXBkbS1iYWNrZW5kXzIuNC41LmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcGRtLWJhY2tlbmRfMi40
-LjQuYmIgPT4gcHl0aG9uMy1wZG0tYmFja2VuZF8yLjQuNS5iYn0gKDgyJSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtLWJhY2tlbmRfMi40LjQu
-YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtLWJhY2tlbmRfMi40
-LjUuYmIKc2ltaWxhcml0eSBpbmRleCA4MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXBkbS1iYWNrZW5kXzIuNC40LmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtLWJhY2tlbmRfMi40LjUuYmIKaW5kZXgg
-NzEyNzVmM2VlOC4uZTBmZTE2YmQ3MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXBkbS1iYWNrZW5kXzIuNC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1wZG0tYmFja2VuZF8yLjQuNS5iYgpAQCAtNCw3ICs0LDcg
-QEAgTElDRU5TRSA9ICJNSVQiCiBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIKIExJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTRhNTY0Mjk3YjNjNWI2MjlhNTI4YjkyZmQ4ZmY2
-MWVhIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjcyNTUxZWViMzE5Zjc0Y2EyNTg1NmMyNGZi
-NDAyNjY4NGVlYjBkZGRkOWRmNjg0ODI5MDFhYjBkYzQ4MTI1OCIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI1NmMwMTljNDQwMzA4YWRhZDVkMDU3YzA4Y2JiNzc3ZTY1ZjQzYjk5MWEzYjA5MjA3NDk3
-ODEyNTg5NzJmZTViIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0
-YQogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMDk6NTk6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWhhdGNoLXZjczogdXBncmFkZSAwLjQuMCAtPiAwLjUuMAoKLS0tCiAuLi4ve3B5dGhv
+bjMtaGF0Y2gtdmNzXzAuNC4wLmJiID0+IHB5dGhvbjMtaGF0Y2gtdmNzXzAuNS4wLmJifSAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWhhdGNoLXZjc18wLjQuMC5i
+YiA9PiBweXRob24zLWhhdGNoLXZjc18wLjUuMC5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2gtdmNzXzAuNC4wLmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWhhdGNoLXZjc18wLjUuMC5iYgpzaW1p
+bGFyaXR5IGluZGV4IDc5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtaGF0Y2gtdmNzXzAuNC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2gtdmNzXzAuNS4wLmJiCmluZGV4IGFjNzAyOTVmNDUuLjAx
+MWUyOGViODEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1oYXRjaC12Y3NfMC40LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLWhhdGNoLXZjc18wLjUuMC5iYgpAQCAtOCw2ICs4LDYgQEAgaW5oZXJpdCBweXBpIHB5
+dGhvbl9oYXRjaGxpbmcKIFBZUElfUEFDS0FHRSA9ICJoYXRjaF92Y3MiCiBVUFNUUkVBTV9DSEVD
+S19QWVBJX1BBQ0tBR0UgPSAiJHtQWVBJX1BBQ0tBR0V9IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiMDkzODEwNzQ4ZmUwMWRiMGQ0NTFmYWJjZjJjMWFjMjY4OGNhZWZkMjMyZDRlZGU5NjcwOTBi
+MWMxYjA3ZDlmNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwMzk1ZmExMjY5NDAzNDAyMTUwOTBj
+MzQ0YTJiZjRlMmE3N2JjYmU3ZGFhYjE2ZjQxYjM3Yjk4Yzk1ODA5ZmY5IgogCiBCQkNMQVNTRVhU
+RU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCi0tIAoyLjQ3LjEKCg==
 
---===============4088594214063691401==--
+--===============5102477135630011950==--
 
