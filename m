@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8E19C87FCC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5787C87FD2
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:56:02 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.12482.1752594935884226447
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.12484.1752594936053273342
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 08:55:56 -0700
+ Tue, 15 Jul 2025 08:55:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ABU7nTV8;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=eX/NFxj0;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101980eccbc92-c1661567-b8bd-40ea-ad9c-d22ab5d74569-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dbembvs+;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jD2L/tzQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101980eccb5a0-53929d42-a3a2-4e32-b665-475223ab8242-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1752594955;
+	t=1752594953;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+xubqDAiRMDkQ7Vk/gHXA2etiCehLL6GvM0H3m9e+SY=;
-	b=ABU7nTV8Fh4yPx0ATwOEvccya3CVjq2WPQbEenzFPuanmiwFpC0ScXRHAbIudXc/
-	ZePo3QKS31S3QW1Hkh/J5zn5M1cE422QkUr67oh9YH/5gVoOUHN32RGA3LRoUx8cWNd
-	BcAC0m4bwCJcebqIJcHgbCNYkyI4pRw99QjkNpH0=
+	bh=B+xtgike264tcjCeSvdUbX8m6sRwS6+vQ/67ryES/qA=;
+	b=dbembvs+tBUQEiisR1R74vagi8RoBM/5XuO0CnrKM39ImrdYpJGUFOx2Amr/+nCQ
+	XUn2CaKdHHY7hCpPjKxgUZaNbQxwxhL8I+wUb6ck5ivEMRn33+udQWusgxdDYJUdU6Z
+	k6uvfeLNjxMI0J4gD+JXq+xN6Q7eTrDKIbSNqj/Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594955;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594953;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+xubqDAiRMDkQ7Vk/gHXA2etiCehLL6GvM0H3m9e+SY=;
-	b=eX/NFxj0VAJOh1bi20ios/lsPrJK4Vkzq4S/+SFP4pb8C6u8wD+om7J+Hkdt3Eoi
-	dFmHEhHJMF8/wkmoCuaVp2J9XTNAy3+k09wlk+1sxLTq+QAD7Mt+K08T35xzZcxOk7g
-	a0FkGOnzLQZrVSCaBnLw4Y6H1/MNzpIeaBqy07/8=
-Content-Type: multipart/mixed; boundary="===============4115682602811793169=="
+	bh=B+xtgike264tcjCeSvdUbX8m6sRwS6+vQ/67ryES/qA=;
+	b=jD2L/tzQ1ndOKLfzN6TMEu3Je5BNP4ghdj/lVWtK+PzEAZk7yQiTi7bwcpAGkYBb
+	45ynOQ8Y4m4M1RMWXyROEggYV5y0oHjvZkMQFKgf27iFVsgPQoELehq6xKJuzyLPlTw
+	6A9Cp1xgM3W8iEv8cpi+Hw6PW2Fki5xmFKQLCumc=
+Content-Type: multipart/mixed; boundary="===============3195909952812516380=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: 
-	=?utf-8?q?Simone_Wei=C3=9F_=3Csimone=2Ep=2Eweiss=40posteo=2Enet=3E?=@yoctoproject.org
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnutls: upgrading to 3.8.10 SUCCEEDED
-Message-ID: <010101980eccbc92-c1661567-b8bd-40ea-ad9c-d22ab5d74569-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Jul 2025 15:55:55 +0000
+Subject: [AUH] libpng: upgrading to 1.6.50 SUCCEEDED
+Message-ID: <010101980eccb5a0-53929d42-a3a2-4e32-b665-475223ab8242-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Jul 2025 15:55:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.15-54.240.27.23
+X-SES-Outgoing: 2025.07.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:56:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220398
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220388
 
---===============4115682602811793169==
+--===============3195909952812516380==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gnutls* to *3.8.10* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libpng* to *1.6.50* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gnutls-upgrade-3.8.9-3.8.10.patch
+    - apply the patch: git am 0001-libpng-upgrade-1.6.48-1.6.50.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,294 +72,104 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6d120ca30dd7867e7b321908c7c43a7a6126e2f4 Mon Sep 17 00:00:00 2001
+From 1d9e45a993c68c598130305aecdfa725a829a3ce Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 15:20:32 +0000
-Subject: [PATCH] gnutls: upgrade 3.8.9 -> 3.8.10
+Date: Tue, 15 Jul 2025 14:34:08 +0000
+Subject: [PATCH] libpng: upgrade 1.6.48 -> 1.6.50
 
 ---
- ....hmac-file-should-be-excuted-in-target-envi.patch |  6 +++---
- .../gnutls/gnutls/Add-ptest-support.patch            | 12 ++++++------
- meta/recipes-support/gnutls/gnutls/arm_eabi.patch    |  2 +-
- .../gnutls/{gnutls_3.8.9.bb => gnutls_3.8.10.bb}     |  2 +-
- 4 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.8.9.bb => gnutls_3.8.10.bb} (97%)
+ .../libpng/{libpng_1.6.48.bb => libpng_1.6.50.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.48.bb => libpng_1.6.50.bb} (97%)
 
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-index 2dccea7859..fd623b7883 100644
---- a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-+++ b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-@@ -1,4 +1,4 @@
--From c4f6cb380471b5e5478ae6f7f8c5604a6a64ec1c Mon Sep 17 00:00:00 2001
-+From 1bab9373f3a1a7b056c034a294965cedca58cb3a Mon Sep 17 00:00:00 2001
- From: Lei Maohui <leimaohui@fujitsu.com>
- Date: Mon, 23 May 2022 10:44:43 +0900
- Subject: [PATCH] Creating .hmac file should be excuted in target environment,
-@@ -11,10 +11,10 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-  1 file changed, 1 insertion(+), 2 deletions(-)
- 
- diff --git a/lib/Makefile.am b/lib/Makefile.am
--index a50d311..193ea19 100644
-+index b28c623..1561139 100644
- --- a/lib/Makefile.am
- +++ b/lib/Makefile.am
--@@ -272,8 +272,7 @@ hmac_file = .libs/.$(gnutls_so).hmac
-+@@ -265,8 +265,7 @@ hmac_file = .libs/.$(gnutls_so).hmac
-  
-  all-local: $(hmac_file)
-  
-diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-index 339d3d2f9e..210766cc17 100644
---- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-+++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-@@ -1,4 +1,4 @@
--From 6abc86acecff5a30173eb78a971ec5b65f77e1de Mon Sep 17 00:00:00 2001
-+From 1b6242dfcdef9506d5d39701974feed62af1a4ee Mon Sep 17 00:00:00 2001
- From: Ravineet Singh <ravineet.a.singh@est.tech>
- Date: Tue, 10 Jan 2023 16:11:10 +0100
- Subject: [PATCH] gnutls: add ptest support
-@@ -12,7 +12,7 @@ Signed-off-by: Ravineet Singh <ravineet.a.singh@est.tech>
-  3 files changed, 11 insertions(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index 843193f..816b09f 100644
-+index b59b9e1..835ca91 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -194,6 +194,9 @@ dist-hook:
-@@ -26,10 +26,10 @@ index 843193f..816b09f 100644
-  
-  include $(top_srcdir)/cligen/cligen.mk
- diff --git a/configure.ac b/configure.ac
--index 1744813..efb9e34 100644
-+index 5ad2c1a..63e8921 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1491,6 +1491,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-+@@ -1436,6 +1436,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-  
-  AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" = "yes")
-  
-@@ -39,10 +39,10 @@ index 1744813..efb9e34 100644
-  
-  hw_features=
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 189d068..8430b05 100644
-+index 9e5c7de..c8de449 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -678,6 +678,12 @@ SH_LOG_COMPILER = $(SHELL)
-+@@ -703,6 +703,12 @@ SH_LOG_COMPILER = $(SHELL)
-  AM_VALGRINDFLAGS = --suppressions=$(srcdir)/suppressions.valgrind
-  LOG_COMPILER = $(LOG_VALGRIND)
-  
-diff --git a/meta/recipes-support/gnutls/gnutls/arm_eabi.patch b/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
-index d493448aab..bc8fd30e08 100644
---- a/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
-+++ b/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
-@@ -1,4 +1,4 @@
--From 46b3079095c5ceb0dc742785853bbaf288f325c6 Mon Sep 17 00:00:00 2001
-+From 258b061f8a86537b2bed86bff3f4556d48547def Mon Sep 17 00:00:00 2001
- From: Joe Slater <jslater@windriver.com>
- Date: Wed, 25 Jan 2017 13:52:59 -0800
- Subject: [PATCH] gnutls: account for ARM_EABI
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.9.bb b/meta/recipes-support/gnutls/gnutls_3.8.10.bb
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.48.bb b/meta/recipes-multimedia/libpng/libpng_1.6.50.bb
 similarity index 97%
-rename from meta/recipes-support/gnutls/gnutls_3.8.9.bb
-rename to meta/recipes-support/gnutls/gnutls_3.8.10.bb
-index f2b7ac7bb8..600f23683e 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.9.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.10.bb
-@@ -25,7 +25,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://Add-ptest-support.patch \
-            "
+rename from meta/recipes-multimedia/libpng/libpng_1.6.48.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.50.bb
+index e603df1edd..aa2dc99f10 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.48.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.50.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
+            file://run-ptest \
+ "
  
--SRC_URI[sha256sum] = "69e113d802d1670c4d5ac1b99040b1f2d5c7c05daec5003813c049b5184820ed"
-+SRC_URI[sha256sum] = "db7fab7cce791e7727ebbef2334301c821d79a550ec55c9ef096b610b03eb6b7"
+-SRC_URI[sha256sum] = "46fd06ff37db1db64c0dc288d78a3f5efd23ad9ac41561193f983e20937ece03"
++SRC_URI[sha256sum] = "4df396518620a7aa3651443e87d1b2862e4e88cad135a8b93423e01706232307"
  
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
+ MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
  
 -- 
 2.47.1
 
 
---===============4115682602811793169==
+--===============3195909952812516380==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gnutls-upgrade-3.8.9-3.8.10.patch"
+ filename="0001-libpng-upgrade-1.6.48-1.6.50.patch"
 
-RnJvbSA2ZDEyMGNhMzBkZDc4NjdlN2IzMjE5MDhjN2M0M2E3YTYxMjZlMmY0IE1vbiBTZXAgMTcg
+RnJvbSAxZDllNDVhOTkzYzY4YzU5ODEzMDMwNWFlY2RmYTcyNWE4MjlhM2NlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTU6MjA6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bnV0bHM6IHVwZ3JhZGUgMy44LjkgLT4gMy44LjEwCgotLS0KIC4uLi5obWFjLWZpbGUtc2hvdWxk
-LWJlLWV4Y3V0ZWQtaW4tdGFyZ2V0LWVudmkucGF0Y2ggfCAgNiArKystLS0KIC4uLi9nbnV0bHMv
-Z251dGxzL0FkZC1wdGVzdC1zdXBwb3J0LnBhdGNoICAgICAgICAgICAgfCAxMiArKysrKystLS0t
-LS0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHMvYXJtX2VhYmkucGF0Y2ggICAg
-fCAgMiArLQogLi4uL2dudXRscy97Z251dGxzXzMuOC45LmJiID0+IGdudXRsc18zLjguMTAuYmJ9
-ICAgICB8ICAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDExIGRlbGV0
-aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy97Z251dGxzXzMuOC45
-LmJiID0+IGdudXRsc18zLjguMTAuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvZ251dGxzL2dudXRscy8wMDAxLUNyZWF0aW5nLS5obWFjLWZpbGUtc2hvdWxkLWJl
-LWV4Y3V0ZWQtaW4tdGFyZ2V0LWVudmkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnV0
-bHMvZ251dGxzLzAwMDEtQ3JlYXRpbmctLmhtYWMtZmlsZS1zaG91bGQtYmUtZXhjdXRlZC1pbi10
-YXJnZXQtZW52aS5wYXRjaAppbmRleCAyZGNjZWE3ODU5Li5mZDYyM2I3ODgzIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnV0bHMvZ251dGxzLzAwMDEtQ3JlYXRpbmctLmhtYWMt
-ZmlsZS1zaG91bGQtYmUtZXhjdXRlZC1pbi10YXJnZXQtZW52aS5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9nbnV0bHMvZ251dGxzLzAwMDEtQ3JlYXRpbmctLmhtYWMtZmlsZS1zaG91
-bGQtYmUtZXhjdXRlZC1pbi10YXJnZXQtZW52aS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-YzRmNmNiMzgwNDcxYjVlNTQ3OGFlNmY3ZjhjNTYwNGE2YTY0ZWMxYyBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gMWJhYjkzNzNmM2ExYTdiMDU2YzAzNGEyOTQ5NjVjZWRjYTU4Y2IzYSBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IExlaSBNYW9odWkgPGxlaW1hb2h1aUBmdWpp
-dHN1LmNvbT4KIERhdGU6IE1vbiwgMjMgTWF5IDIwMjIgMTA6NDQ6NDMgKzA5MDAKIFN1YmplY3Q6
-IFtQQVRDSF0gQ3JlYXRpbmcgLmhtYWMgZmlsZSBzaG91bGQgYmUgZXhjdXRlZCBpbiB0YXJnZXQg
-ZW52aXJvbm1lbnQsCkBAIC0xMSwxMCArMTEsMTAgQEAgU2lnbmVkLW9mZi1ieTogTGVpIE1hb2h1
-aSA8bGVpbWFvaHVpQGZ1aml0c3UuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL2xpYi9NYWtlZmlsZS5hbSBiL2xpYi9N
-YWtlZmlsZS5hbQotaW5kZXggYTUwZDMxMS4uMTkzZWExOSAxMDA2NDQKK2luZGV4IGIyOGM2MjMu
-LjE1NjExMzkgMTAwNjQ0CiAtLS0gYS9saWIvTWFrZWZpbGUuYW0KICsrKyBiL2xpYi9NYWtlZmls
-ZS5hbQotQEAgLTI3Miw4ICsyNzIsNyBAQCBobWFjX2ZpbGUgPSAubGlicy8uJChnbnV0bHNfc28p
-LmhtYWMKK0BAIC0yNjUsOCArMjY1LDcgQEAgaG1hY19maWxlID0gLmxpYnMvLiQoZ251dGxzX3Nv
-KS5obWFjCiAgCiAgYWxsLWxvY2FsOiAkKGhtYWNfZmlsZSkKICAKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHMvQWRkLXB0ZXN0LXN1cHBvcnQucGF0Y2ggYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnV0bHMvZ251dGxzL0FkZC1wdGVzdC1zdXBwb3J0LnBhdGNo
-CmluZGV4IDMzOWQzZDJmOWUuLjIxMDc2NmNjMTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2dudXRscy9nbnV0bHMvQWRkLXB0ZXN0LXN1cHBvcnQucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvZ251dGxzL2dudXRscy9BZGQtcHRlc3Qtc3VwcG9ydC5wYXRjaApAQCAt
-MSw0ICsxLDQgQEAKLUZyb20gNmFiYzg2YWNlY2ZmNWEzMDE3M2ViNzhhOTcxZWM1YjY1Zjc3ZTFk
-ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMWI2MjQyZGZjZGVmOTUwNmQ1ZDM5NzAx
-OTc0ZmVlZDYyYWYxYTRlZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJhdmluZWV0
-IFNpbmdoIDxyYXZpbmVldC5hLnNpbmdoQGVzdC50ZWNoPgogRGF0ZTogVHVlLCAxMCBKYW4gMjAy
-MyAxNjoxMToxMCArMDEwMAogU3ViamVjdDogW1BBVENIXSBnbnV0bHM6IGFkZCBwdGVzdCBzdXBw
-b3J0CkBAIC0xMiw3ICsxMiw3IEBAIFNpZ25lZC1vZmYtYnk6IFJhdmluZWV0IFNpbmdoIDxyYXZp
-bmVldC5hLnNpbmdoQGVzdC50ZWNoPgogIDMgZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygr
-KQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUuYW0gYi9NYWtlZmlsZS5hbQotaW5kZXggODQzMTkz
-Zi4uODE2YjA5ZiAxMDA2NDQKK2luZGV4IGI1OWI5ZTEuLjgzNWNhOTEgMTAwNjQ0CiAtLS0gYS9N
-YWtlZmlsZS5hbQogKysrIGIvTWFrZWZpbGUuYW0KIEBAIC0xOTQsNiArMTk0LDkgQEAgZGlzdC1o
-b29rOgpAQCAtMjYsMTAgKzI2LDEwIEBAIGluZGV4IDg0MzE5M2YuLjgxNmIwOWYgMTAwNjQ0CiAg
-CiAgaW5jbHVkZSAkKHRvcF9zcmNkaXIpL2NsaWdlbi9jbGlnZW4ubWsKIGRpZmYgLS1naXQgYS9j
-b25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDE3NDQ4MTMuLmVmYjllMzQgMTAwNjQ0
-CitpbmRleCA1YWQyYzFhLi42M2U4OTIxIDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysg
-Yi9jb25maWd1cmUuYWMKLUBAIC0xNDkxLDYgKzE0OTEsOCBAQCBBQ19TVUJTVChMSUJHTlVUTFNf
-Q0ZMQUdTKQorQEAgLTE0MzYsNiArMTQzNiw4IEBAIEFDX1NVQlNUKExJQkdOVVRMU19DRkxBR1Mp
-CiAgCiAgQU1fQ09ORElUSU9OQUwoTkVFRFNfTElCUlQsIHRlc3QgIiRnbnV0bHNfbmVlZHNfbGli
-cnQiID0gInllcyIpCiAgCkBAIC0zOSwxMCArMzksMTAgQEAgaW5kZXggMTc0NDgxMy4uZWZiOWUz
-NCAxMDA2NDQKICAKICBod19mZWF0dXJlcz0KIGRpZmYgLS1naXQgYS90ZXN0cy9NYWtlZmlsZS5h
-bSBiL3Rlc3RzL01ha2VmaWxlLmFtCi1pbmRleCAxODlkMDY4Li44NDMwYjA1IDEwMDY0NAoraW5k
-ZXggOWU1YzdkZS4uYzhkZTQ0OSAxMDA2NDQKIC0tLSBhL3Rlc3RzL01ha2VmaWxlLmFtCiArKysg
-Yi90ZXN0cy9NYWtlZmlsZS5hbQotQEAgLTY3OCw2ICs2NzgsMTIgQEAgU0hfTE9HX0NPTVBJTEVS
-ID0gJChTSEVMTCkKK0BAIC03MDMsNiArNzAzLDEyIEBAIFNIX0xPR19DT01QSUxFUiA9ICQoU0hF
-TEwpCiAgQU1fVkFMR1JJTkRGTEFHUyA9IC0tc3VwcHJlc3Npb25zPSQoc3JjZGlyKS9zdXBwcmVz
-c2lvbnMudmFsZ3JpbmQKICBMT0dfQ09NUElMRVIgPSAkKExPR19WQUxHUklORCkKICAKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHMvYXJtX2VhYmkucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnV0bHMvZ251dGxzL2FybV9lYWJpLnBhdGNoCmluZGV4
-IGQ0OTM0NDhhYWIuLmJjOGZkMzBlMDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2dudXRscy9nbnV0bHMvYXJtX2VhYmkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-Z251dGxzL2dudXRscy9hcm1fZWFiaS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDZiMzA3
-OTA5NWM1Y2ViMGRjNzQyNzg1ODUzYmJhZjI4OGYzMjVjNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gMjU4YjA2MWY4YTg2NTM3YjJiZWQ4NmJmZjNmNDU1NmQ0ODU0N2RlZiBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEpvZSBTbGF0ZXIgPGpzbGF0ZXJAd2luZHJpdmVyLmNv
-bT4KIERhdGU6IFdlZCwgMjUgSmFuIDIwMTcgMTM6NTI6NTkgLTA4MDAKIFN1YmplY3Q6IFtQQVRD
-SF0gZ251dGxzOiBhY2NvdW50IGZvciBBUk1fRUFCSQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvZ251dGxzL2dudXRsc18zLjguOS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2du
-dXRscy9nbnV0bHNfMy44LjEwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHNfMy44LjkuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHNfMy44LjEwLmJiCmluZGV4IGYyYjdhYzdiYjgu
-LjYwMGYyMzY4M2UgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0
-bHNfMy44LjkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251dGxzL2dudXRsc18zLjgu
-MTAuYmIKQEAgLTI1LDcgKzI1LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL3d3dy5nbnVwZy5vcmcv
-ZnRwL2djcnlwdC9nbnV0bHMvdiR7U0hSVF9WRVJ9L2dudXRscy0ke1BWfS50YXIKICAgICAgICAg
-ICAgZmlsZTovL0FkZC1wdGVzdC1zdXBwb3J0LnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiNjllMTEzZDgwMmQxNjcwYzRkNWFjMWI5OTA0MGIxZjJkNWM3YzA1
-ZGFlYzUwMDM4MTNjMDQ5YjUxODQ4MjBlZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkYjdmYWI3
-Y2NlNzkxZTc3MjdlYmJlZjIzMzQzMDFjODIxZDc5YTU1MGVjNTVjOWVmMDk2YjYxMGIwM2ViNmI3
-IgogCiBpbmhlcml0IGF1dG90b29scyB0ZXhpbmZvIHBrZ2NvbmZpZyBnZXR0ZXh0IGxpYl9wYWNr
-YWdlIGd0ay1kb2MgcHRlc3QKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTQ6MzQ6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJwbmc6IHVwZ3JhZGUgMS42LjQ4IC0+IDEuNi41MAoKLS0tCiAuLi4vbGlicG5nL3tsaWJwbmdf
+MS42LjQ4LmJiID0+IGxpYnBuZ18xLjYuNTAuYmJ9ICAgICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9saWJwbmcve2xpYnBuZ18xLjYuNDguYmIgPT4gbGlicG5nXzEuNi41
+MC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcv
+bGlicG5nXzEuNi40OC5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdf
+MS42LjUwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1t
+dWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42LjQ4LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9saWJwbmcvbGlicG5nXzEuNi41MC5iYgppbmRleCBlNjAzZGYxZWRkLi5hYTJk
+Yzk5ZjEwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvbGlicG5n
+XzEuNi40OC5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvbGlicG5nXzEu
+Ni41MC5iYgpAQCAtMTQsNyArMTQsNyBAQCBTUkNfVVJJID0gIiR7U09VUkNFRk9SR0VfTUlSUk9S
+fS8ke0JQTn0vJHtCUE59JHtMSUJWfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8v
+cnVuLXB0ZXN0IFwKICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQ2ZmQwNmZmMzdkYjFkYjY0
+YzBkYzI4OGQ3OGEzZjVlZmQyM2FkOWFjNDE1NjExOTNmOTgzZTIwOTM3ZWNlMDMiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiNGRmMzk2NTE4NjIwYTdhYTM2NTE0NDNlODdkMWIyODYyZTRlODhjYWQx
+MzVhOGI5MzQyM2UwMTcwNjIzMjMwNyIKIAogTUlSUk9SUyArPSAiJHtTT1VSQ0VGT1JHRV9NSVJS
+T1J9L3Byb2plY3QvJHtCUE59LyR7QlBOfSR7TElCVn0vICR7U09VUkNFRk9SR0VfTUlSUk9SfS9w
+cm9qZWN0LyR7QlBOfS8ke0JQTn0ke0xJQlZ9L29sZGVyLXJlbGVhc2VzLyIKIAotLSAKMi40Ny4x
+Cgo=
 
---===============4115682602811793169==
+--===============3195909952812516380==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gnutls/gnutls-bin: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-bin: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-dane: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-dane: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-dbg: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-dbg: FILELIST: removed "/usr/lib/.debug/libgnutls.so.30.40.3", added "/usr/lib/gnutls/ptest/tests/.debug/pkcs11-provider-sig /usr/lib/.debug/libgnutls.so.30.40.4 /usr/lib/gnutls/ptest/tests/.debug/hello_retry_request_psk /usr/lib/gnutls/ptest/tests/.debug/pkcs11-provider-pk /usr/lib/gnutls/ptest/tests/.debug/compress-cert-conf /usr/lib/gnutls/ptest/tests/.debug/pkcs11-provider-cipher /usr/lib/gnutls/ptest/tests/.debug/pkcs11-provider-hmac"
-packages/core2-64-poky-linux/gnutls/gnutls-dbg: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-dbg: PKGSIZE changed from 35134952 to 35699304 (+2%)
-packages/core2-64-poky-linux/gnutls/gnutls-dev: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-dev: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-dev: PKGSIZE changed from 509257 to 509468 (+0%)
-packages/core2-64-poky-linux/gnutls/gnutls-doc: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-doc: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-doc: PKGSIZE changed from 4390541 to 4396629 (+0%)
-packages/core2-64-poky-linux/gnutls/gnutls-fips: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-fips: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-cs: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-cs: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-de: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-de: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-eo: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-eo: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-es: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-es: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-fi: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-fi: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-fr: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-fr: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-it: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-it: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-ka: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-ka: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-ms: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-ms: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-nl: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-nl: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-pl: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-pl: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-pt-br: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-pt-br: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-ro: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-ro: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-sr: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-sr: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-sv: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-sv: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-uk: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-uk: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-vi: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-vi: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-zh-cn: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-locale-zh-cn: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-locale-zh-cn: PKGSIZE changed from 22411 to 31046 (+39%)
-packages/core2-64-poky-linux/gnutls/gnutls-openssl: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-openssl: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-openssl: PKGSIZE changed from 71683 to 63491 (-11%)
-packages/core2-64-poky-linux/gnutls/gnutls-ptest: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-ptest: FILELIST: added "/usr/lib/gnutls/ptest/tests/pkcs11-provider-cipher /usr/lib/gnutls/ptest/tests/pkcs11-provider-hmac /usr/lib/gnutls/ptest/tests/compress-cert-conf /usr/lib/gnutls/ptest/tests/hello_retry_request_psk /usr/lib/gnutls/ptest/tests/pkcs11-provider-sig /usr/lib/gnutls/ptest/tests/pkcs11-provider-pk"
-packages/core2-64-poky-linux/gnutls/gnutls-ptest: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-ptest: PKGSIZE changed from 30438805 to 40700085 (+34%)
-packages/core2-64-poky-linux/gnutls/gnutls-src: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-src: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-src: PKGSIZE changed from 1121636 to 1121638 (+0%)
-packages/core2-64-poky-linux/gnutls/gnutls-staticdev: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-staticdev: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls-xx: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls-xx: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls/gnutls: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls/gnutls: FILELIST: removed "/usr/lib/libgnutls.so.30.40.3", added "/usr/lib/libgnutls.so.30.40.4"
-packages/core2-64-poky-linux/gnutls/gnutls: PV changed from "3.8.9" to "3.8.10"
-packages/core2-64-poky-linux/gnutls: PKGV changed from 3.8.9 [default] to 3.8.10 [default]
-packages/core2-64-poky-linux/gnutls: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.9.tar.xz file://arm_eabi.patch file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch file://run-ptest file://Add-ptest-support.patch" to "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.10.tar.xz file://arm_eabi.patch file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch file://run-ptest file://Add-ptest-support.patch"
-packages/core2-64-poky-linux/gnutls: PV changed from "3.8.9" to "3.8.10"
-Changes to packages/core2-64-poky-linux/gnutls (sysroot):
-  /usr/lib/libgnutls.so.30 changed symlink target from libgnutls.so.30.40.3 to libgnutls.so.30.40.4
-  /usr/lib/libgnutls.so changed symlink target from libgnutls.so.30.40.3 to libgnutls.so.30.40.4
-  /usr/lib/libgnutls.so.30.40.3 moved to /usr/lib/libgnutls.so.30.40.4
+packages/core2-64-poky-linux/libpng: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng: PV changed from "1.6.48" to "1.6.50"
+packages/core2-64-poky-linux/libpng: SRC_URI changed from "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.48.tar.xz file://run-ptest" to "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.50.tar.xz file://run-ptest"
+packages/core2-64-poky-linux/libpng/libpng-dbg: FILELIST: removed "/usr/lib/.debug/libpng16.so.16.48.0", added "/usr/lib/.debug/libpng16.so.16.50.0"
+packages/core2-64-poky-linux/libpng/libpng-dbg: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng/libpng-dbg: PV changed from "1.6.48" to "1.6.50"
+packages/core2-64-poky-linux/libpng/libpng-dbg: PKGSIZE changed from 1435328 to 1435232 (-0%)
+packages/core2-64-poky-linux/libpng/libpng-dev: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng/libpng-dev: PV changed from "1.6.48" to "1.6.50"
+packages/core2-64-poky-linux/libpng/libpng-dev: PKGSIZE changed from 179434 to 179522 (+0%)
+packages/core2-64-poky-linux/libpng/libpng-doc: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng/libpng-doc: PV changed from "1.6.48" to "1.6.50"
+packages/core2-64-poky-linux/libpng/libpng-doc: PKGSIZE changed from 268408 to 268852 (+0%)
+packages/core2-64-poky-linux/libpng/libpng-locale: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng/libpng-locale: PV changed from "1.6.48" to "1.6.50"
+packages/core2-64-poky-linux/libpng/libpng-ptest: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng/libpng-ptest: PV changed from "1.6.48" to "1.6.50"
+packages/core2-64-poky-linux/libpng/libpng-ptest: PKGSIZE changed from 2427063 to 2440396 (+1%)
+packages/core2-64-poky-linux/libpng/libpng-src: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng/libpng-src: PV changed from "1.6.48" to "1.6.50"
+packages/core2-64-poky-linux/libpng/libpng-staticdev: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng/libpng-staticdev: PV changed from "1.6.48" to "1.6.50"
+packages/core2-64-poky-linux/libpng/libpng-tools: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng/libpng-tools: PV changed from "1.6.48" to "1.6.50"
+packages/core2-64-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.48.0", added "/usr/lib/libpng16.so.16.50.0"
+packages/core2-64-poky-linux/libpng/libpng: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
+packages/core2-64-poky-linux/libpng/libpng: PV changed from "1.6.48" to "1.6.50"
+Changes to packages/core2-64-poky-linux/libpng (sysroot):
+  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.50.0
+  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.50.0
+  /usr/lib/libpng16.so.16.48.0 moved to /usr/lib/libpng16.so.16.50.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2283,26 +2092,18 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/gnutls-native (sysroot):
-  /usr/lib/libgnutls.so.30 changed symlink target from libgnutls.so.30.40.3 to libgnutls.so.30.40.4
-  /usr/lib/libgnutls.so changed symlink target from libgnutls.so.30.40.3 to libgnutls.so.30.40.4
-  /usr/lib/libgnutls.so.30.40.3 moved to /usr/lib/libgnutls.so.30.40.4
 
---===============4115682602811793169==
+--===============3195909952812516380==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/gnutls/gnutls-locale-zh-cn: PKGSIZE changed from 22411 to 31046 (+39%)
-packages/core2-64-poky-linux/gnutls/gnutls-openssl: PKGSIZE changed from 71683 to 63491 (-11%)
-packages/core2-64-poky-linux/gnutls/gnutls-ptest: PKGSIZE changed from 30438805 to 40700085 (+34%)
-packages/core2-64-poky-linux/gnutls/gnutls-ptest: FILELIST: added "/usr/lib/gnutls/ptest/tests/compress-cert-conf /usr/lib/gnutls/ptest/tests/pkcs11-provider-cipher /usr/lib/gnutls/ptest/tests/pkcs11-provider-pk /usr/lib/gnutls/ptest/tests/hello_retry_request_psk /usr/lib/gnutls/ptest/tests/pkcs11-provider-sig /usr/lib/gnutls/ptest/tests/pkcs11-provider-hmac"
-packages/core2-64-poky-linux/gnutls/gnutls: FILELIST: removed "/usr/lib/libgnutls.so.30.40.3", added "/usr/lib/libgnutls.so.30.40.4"
-Changes to packages/core2-64-poky-linux/gnutls (sysroot):
-  /usr/lib/libgnutls.so.30 changed symlink target from libgnutls.so.30.40.3 to libgnutls.so.30.40.4
-  /usr/lib/libgnutls.so changed symlink target from libgnutls.so.30.40.3 to libgnutls.so.30.40.4
-  /usr/lib/libgnutls.so.30.40.3 moved to /usr/lib/libgnutls.so.30.40.4
+packages/core2-64-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.48.0", added "/usr/lib/libpng16.so.16.50.0"
+Changes to packages/core2-64-poky-linux/libpng (sysroot):
+  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.50.0
+  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.50.0
+  /usr/lib/libpng16.so.16.48.0 moved to /usr/lib/libpng16.so.16.50.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4225,10 +4026,6 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/gnutls-native (sysroot):
-  /usr/lib/libgnutls.so.30 changed symlink target from libgnutls.so.30.40.3 to libgnutls.so.30.40.4
-  /usr/lib/libgnutls.so changed symlink target from libgnutls.so.30.40.3 to libgnutls.so.30.40.4
-  /usr/lib/libgnutls.so.30.40.3 moved to /usr/lib/libgnutls.so.30.40.4
 
---===============4115682602811793169==--
+--===============3195909952812516380==--
 
