@@ -1,248 +1,155 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <vpuar@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F7EC83F17
-	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 02:26:20 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by mx.groups.io with SMTP id smtpd.web11.5358.1752546375271774614
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB88FC83F1D
+	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 05:16:54 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.713.1752556613731639953
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Jul 2025 19:26:15 -0700
+ Mon, 14 Jul 2025 22:16:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Wq6Qvyrj;
- spf=pass (domain: intel.com, ip: 198.175.65.13, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752546375; x=1784082375;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=54Qts9eDGY4w5wy3M91cjzbKuBeO3S0KsYJE43QV6eE=;
-  b=Wq6QvyrjZ58+kkgt/ykARcZSkNWb7L8FRgvKc1ITf//oK9fNx+PLIcGA
-   w5KVuwr+GKKUH8ov7abAg/YuH1+lgyZ15qrsQDsOALt6m0ElCmcW5km71
-   XQD79CttyQXI4MRrOJV+DPcqPFMsmn9CB3SLRKa2R5NsH6AyAGngRW7eL
-   owoqRZSNJFxvTPas4Pgtc4saBPr3C5gGjjwXdFn3nQOB1Vq+eI/dsc4q2
-   TC5VZdk6I0y0AFVGg9AGYPV2uheyS9ewWp9Yl7KjWmbxLRkMVorJmMUkZ
-   P/Au+URL6bh/MLB9vOpPE1woZIS5ETv/w9+Yw5YkX4+b2qFoLVTNq0JcT
-   w==;
-X-CSE-ConnectionGUID: WNqIaHzPTQmPKxWjQMZVDQ==
-X-CSE-MsgGUID: mGf3BOKwS5SOg+CFdQec5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65820815"
-X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="65820815"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 19:26:12 -0700
-X-CSE-ConnectionGUID: YFbDz4VHSjKd6cndKm67xg==
-X-CSE-MsgGUID: B1RNgZcSSJCzDB8zRDrV3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="156509405"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 19:26:12 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=kKFB6F/C;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: vpuar@qti.qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56F3kTu6004484
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 05:16:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=J+Rof9D+f2KlO/+Dpz7nL2
+	GswBuumeUFlMoGN0flB+I=; b=kKFB6F/CsIqDDJGyvITkB81T0pQrPic3TNcgyi
+	Fpo0VaDDZYqjIiovwLGfaFczhrl8d2fMrRscSq8Wb0ozIGyfKJdia8R3Qq5g9Sa9
+	HtmlFwPnWDXvlfuCYlqibcXvAG7iWqFe4kQAVMzyC45RhBO09ltr3MMIiwP2wPPI
+	dFMikIKX9sVy4WLl5wvQcueYcrO5C2w/cEtRsv6WxT5J9fOsL5PXNdxNJuL8AFrg
+	shCXMrscjbGkM0AnL1u8+V14FqDzMl5z7iUD7hbs6cqzqXy+g3HcJ/0ylPdy72lR
+	G2UJC4Bj3/wiJZw+QxA5VPmeWAQkH+i4X/ppGef4qERWEhRg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wfca0652-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 05:16:52 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56F5Gppb024748
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 05:16:51 GMT
+Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Mon, 14 Jul 2025 19:26:11 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Mon, 14 Jul 2025 19:26:11 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.88) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Mon, 14 Jul 2025 19:26:11 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V9/5SZ/gCsN72N1INs2M+HAlDx1wwpyzHB4frXCQDmXESWzDcUDfPmRf4tPFIGvmj8x9j8SaWoyVYO0Ibyne3AtZqf186KfxymSWa9Wx8JXDKYam8LbtBnC54EZ+hXWWB50g2S3xIZEbYXPAhlx6ZkfWWhuG8TUQ2DYEaIi4mQ6disvn0tuCQO+ZjtWpGIH0X8UWeAiegELYZdwq8uJkhwUwPQjfPibpSehqi9KRIsSSSusz56FYvN2OzY8AP6ODorjw6VnZAhyA7MLQRqaYer5smmj+ri03qlkYC8cmBKzp59CbYfDVu+GMEd6ahhOn7CCFFW8MAy2FhFAiejqjDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yEixC4QhXK6IW/7orak4pSyuVc6BK51Xrd1DICGDk0U=;
- b=OMpzwjZnhe8O1QRJ2maR2E2NgIy6IFbNqzt0qNoA/NvtxourqsxsBCOw/VwwuUmpIUnZ0BBjoWBJ5OvL7STOqDR8KC8EQPDMEoKgWVNmqpXe1HJi+V/sFfDfWASM41yQjPpPiXwBFklMVyzUjiVbAkypL1ur8NWpS6bVC6uERpk1nNIknzbdCMxKQk8JjW3JE5b9XMmmuQ+YldElPQrdafxs+4h836mllYtgiq+HCmyPpna5uJHZBc+R2vxxR3D9gIMwXQnCuH8byka1mwE7pRShHeq73zJr33LXkbf7NI39iMNGQS3Nxr+Q9y3mKBp+J8RF5ffocFXxal0f39syBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
- by LV3PR11MB8695.namprd11.prod.outlook.com (2603:10b6:408:211::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.35; Tue, 15 Jul
- 2025 02:26:09 +0000
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a%3]) with mapi id 15.20.8922.028; Tue, 15 Jul 2025
- 02:26:09 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-5.2.2.rc2)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-5.2.2.rc2)
-Thread-Index: AQHb7SBP7IijA97F2kCg8BSGDOK5orQyhEnw
-Date: Tue, 15 Jul 2025 02:26:08 +0000
-Message-ID: <DM4PR11MB77600CC67B5F9E04FE00922EA157A@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: <01010197d713ba6f-e2642c15-ef64-4874-b369-deb0cd1af702-000000@us-west-2.amazonses.com>
-In-Reply-To: <01010197d713ba6f-e2642c15-ef64-4874-b369-deb0cd1af702-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|LV3PR11MB8695:EE_
-x-ms-office365-filtering-correlation-id: e5f9ff79-ceef-46aa-a174-08ddc346f574
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|4022899009|13003099007|7053199007|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?ndU76qU156Sr+4yUMG8KScf6/uLom0CbhBJUoQmaXzu6eKZAEy98Q8qLydtM?=
- =?us-ascii?Q?rReZWcSQEEPUCjFznWIQeZkZf7oMGFAuf3ZyKXyIGhW4k8PGg6fUd5HRmuq6?=
- =?us-ascii?Q?ljTmDwfyU5tdcDBiP2gUXaaJSigeCVGN7ySHivFybzowKc3faFcZcyNh5PiB?=
- =?us-ascii?Q?vKA258ZrUgHBQ/W8esf98SBVnzrQ13bZ0vPl5knYWYCJblFESov/d4hLyle6?=
- =?us-ascii?Q?ZAuU1BvgyS4lPpOSPP3AYJgT/yDKPlyn1uHts1z2+OjC7lPPOWf1rrxI8xWl?=
- =?us-ascii?Q?8XM108XQPbnziAfuqsW0ufPHSwow6w7VPnZYZWrWpGsFzSrsopk5O+LQdLmk?=
- =?us-ascii?Q?DTFPxTzgVPIQ+cTRB/ggvliMOauRpD7dXjR7NqSzWEHFHjH7HwUDi3b39/A8?=
- =?us-ascii?Q?bN+/zKrNOam2rKYgxWid3uVV4erf7JHfQltU2ZPmPd5xdMqqlQ1pSYr38n79?=
- =?us-ascii?Q?g3EQ+aHs09KLhoHIX2CfmZSDkllD2ejsMRS+UDXDXQLPLT+1Q4hQcyD5YIFi?=
- =?us-ascii?Q?jgvp3GI8Qw+RWv8SBxphxMFc79PqXK5grLZat4kFiF8P3aYK3PyKbFSdyz5n?=
- =?us-ascii?Q?I2rHPnLI2mQRwOVmtsZ49sp+LIUuAn8vR0oSt6EXYRgub2uLXAjHDwWBqDx0?=
- =?us-ascii?Q?QHDyjSb3+Aj1eH9f/EJAY6ZygBdY0+OGp+kFlISpAuEtRrtSpLsEljjPhzzy?=
- =?us-ascii?Q?9wLMk9sjyT91pw9MyDylcvoOM8NmXD/vTk9WJMQfWPXPS7QSmXoFzuLJWdBk?=
- =?us-ascii?Q?5h9XRAN8hPBfaXSIQGG50n75OKjcG6RHNRINF7RjtvYM2lDslJqqmtuQTLqx?=
- =?us-ascii?Q?eImhwDRLq+7n0HW2/yZzbx1TvTFexlM3bILsUxtDecXCVO6hBq4AHoLHmpHo?=
- =?us-ascii?Q?VHKil3gJoqPCx0GHxq9V0YFW0YwCcRdUJZ2mCBRi/B0hYgpoUb2q0iYsIW3S?=
- =?us-ascii?Q?GFMwzN1vy1VLCRYB1BPKvlcc1VJKzjhgMED0MhUX7+1mdBTjvx+JWCjfx8z5?=
- =?us-ascii?Q?UatFgGeDzvYNePOMKnyii7olgGb77moQv7gaJ2cX0a583nFh4yyX1sx8gNiO?=
- =?us-ascii?Q?4I+txx2dFiGA/LogWlTNABmdhHP+3uGnXXzMOXOcn3a8VN+IthMnITVs/STh?=
- =?us-ascii?Q?16LnB6kXykej8fo+HAchiCFlu/qOLaqKNEl5qmu145Ybr7oomqxQ2yOoZEH3?=
- =?us-ascii?Q?RrvDs2GtpDspBwclzPubb4Dvb0QiPNLAH71hmeRGJrLvGvIGQrT/+AjTCQ0s?=
- =?us-ascii?Q?t7cyjeHGmiFDfH5Lnu1vDrlEJgqFevfaLaCpwQenHBpAWq2plrG1JZhLK2Pm?=
- =?us-ascii?Q?09SKBFH6576/ZZTV+h7CmI2c3A5YyXKZDYJwsTPwuJ5a0AyOF5yrboxQ9DOZ?=
- =?us-ascii?Q?PmHA6684n0TiDqAwm/ZhjynyzGvzDyp+GPveY3AbJN3LP6PNi/unBgS3zooq?=
- =?us-ascii?Q?hOkCJg6sBcE=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(4022899009)(13003099007)(7053199007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?A8rVHr6F9mLc3GGtG0JeATX9CDQ4lXKfrVUY0clfPVfexNXywntKUhi/4Fzs?=
- =?us-ascii?Q?q6OfOiUzqvgpT0bXLnN31/7IdpHdbCO/h5svKhd29+uxOe9gB3iy5ANsdRpm?=
- =?us-ascii?Q?Txdp4HVklk09wI+iUo898BNZbNPuFL6oY8K8Pcd+gJeUwDB2+KnBDp0pYBgX?=
- =?us-ascii?Q?rtaFndipGdUDgrk0zA4j7x8DrwMiauB6HqOk/bM4aVgnT1rikTk+Xuuapi+a?=
- =?us-ascii?Q?ZJRlJCCKP48qvEfL9jnOTBe4Fp80H/lMb+fr0BwQd+NWWmpQKp40O9LrEOHr?=
- =?us-ascii?Q?rBNV1VfPg4Egu4crFMr2oN7RHOiGrmDG5Js0/IsWoSswhhduRwgUZ8BVvjTG?=
- =?us-ascii?Q?HqHFKaTqBOi+il8ldqNvMFFplYAns3QqlA544dW7Bda5KoU3ZvS3Jz0mkuVw?=
- =?us-ascii?Q?SpAyLoKjcj5cA/jOIzKg5Bw+7Vme3Vz0PY/otu7yDCk81augo/8PnNBXUctG?=
- =?us-ascii?Q?+SSyG3MSo/IbexIxWlXunNOuMZsMGC+T+MP+ZCFCZyS3WzdK8a0NURISiTsw?=
- =?us-ascii?Q?fuy+InglPaIaw3o5CwaktkaCZvoLyf+0yZzNBipbQ1JGHaahBRXp5RrjIJMJ?=
- =?us-ascii?Q?iK4xU0MkAMxWb42w0StqYusi2JEFPkWTV+OeCBc/Xcn/Atq6NorzvIIrfGzz?=
- =?us-ascii?Q?bbyH6HOBpNzgIfddshbboy5NtivkUYmlmdghzbOkOhCWtwJ/z9LWiW2xkbwR?=
- =?us-ascii?Q?DFdqfLDvXttlRxLqVraj82E4qgAo3VIA5YJlFGcdVy2hboIBkTc5BBo5DhkF?=
- =?us-ascii?Q?IM+WjzcKQEYA+TdNo8HMnQpig6RBNE1DEs8LX1Gv8OJyGMhnZpDHuhLuaUY6?=
- =?us-ascii?Q?j+eQ5y9AQkrDkQObhBFWxnqlcrZmNp0isUwtF3hvMO7thAem2M4S+VVeN4uc?=
- =?us-ascii?Q?EHGqae14K1v7Nq6c5P3udxcxmIZ+tHaLOKj/nqSqQKCDFNF7MiXlvXwJBoQw?=
- =?us-ascii?Q?cshjY7aUSdxcpxLK+wgZfdJriDJ4ADnJumxxW3ntWfeaTeKZYCvQ7WlxkB6G?=
- =?us-ascii?Q?1JyTMYlknDI6p1PrS2XSWd0EcXA0t7STl999GmA8dIKwUC8a5dkMAhhHrop3?=
- =?us-ascii?Q?SQI1v1UBMMEtq7uAgUbRrXzv4kZ3uVDI3sWZEvxGA3Xzfv74QeppvrhnRbjY?=
- =?us-ascii?Q?MJOfHGyrhMmvJU7jMlct4IhSdB2noWfyBKy0gLusmX6mZG1nQAgZuKOABiEU?=
- =?us-ascii?Q?x4aO9Ipyo/adFNng8AIkllHq/Q6r9RssEzobSycqten/ekZBz9xFRjVOh9tI?=
- =?us-ascii?Q?8yayIJmlkY98mcMnbwS01jpTEzCqmTB5CC4hyQInTVOxzV+zx4U2oV4d8cxe?=
- =?us-ascii?Q?Sqpfcz4Da19cAZJFzpT2Zujj9e+ZO0ntdUJh/FKQIJJit5y2vBIHZ8OFY15v?=
- =?us-ascii?Q?7/HqlX1ufa2S9p3v1mw9pPM79soodYXv4oL8upskQISswgjdR4SHU3fBWAZe?=
- =?us-ascii?Q?DK6sqP4nvrDoFbGOszCJ4yV88fy7Ew0qd9hdiuCvHaDc7KRuMh5SFeFWNYz3?=
- =?us-ascii?Q?p8Y3fuPsh5TtsALVGdC1PDsrJuGfQICsYLAeuDEiBhIezXMLM3z/P9mPZBU4?=
- =?us-ascii?Q?kp21aEDKClWJRo6X06zyyAdNunBAQvH/ohRN9Uoi?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 15.2.1748.10; Mon, 14 Jul 2025 22:16:49 -0700
+From: Vivek Puar <vpuar@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Vivek Puar <vpuar@qti.qualcomm.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH] linux-firmware: upgrade 20250627 -> 20250708
+Date: Tue, 15 Jul 2025 10:46:35 +0530
+Message-ID: <20250715051635.1277668-1-vpuar@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5f9ff79-ceef-46aa-a174-08ddc346f574
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2025 02:26:08.9479
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9tjKBGgCnu9gqKCYK/C1iQxuJ5HgxSM7H/AxfkLaz9QMZ2WQlkMegv4tO5y0UD3lQUI4Sme1JVhCivspi9oJxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8695
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDA0NiBTYWx0ZWRfX4NVEHp6tTY3h
+ 8IsWBjsQizdaGPSztGThApQgj0qXuJwOyvWlFSAteZcBMlHD+fiLrIUkLSsdLhPR5Yt5weiISwm
+ AEpEuFdqYVpTvDACYevMH9C3Zo9cd7E9itF4cvOCVk9MLRSf9UPT3BJ+9jwcy/v53uCHLWHWmv3
+ ZJjleZ43P8WgpgA2pkwBkIVKkMPmLMRK7APW0bauZ2JyMv4f6WndH7Bni2UAOeiRvB1471ROyTe
+ +zdIhVCZfcU8oGPX8JcEa5FUj5raaJz2BA3lzMw18ewIz2pq+CpCeEYxDFKh3Mu/wNYk8PzzcQe
+ LtdJYfYeovLorlQk7peOu96J2lKIey9cPwDYhGJTJ9Vq7icPFvDBHaDMusmuSY34oignXoEc3EB
+ 54QFhDGwPqHws9S0FI1KkLakeRq5Re7llHhoq5aENoX6ZieKk4M36R4rCIChx+vjd2cgD74W
+X-Proofpoint-GUID: by2AJN5lPrz-SklCBtrSx9e7MARVEqt9
+X-Authority-Analysis: v=2.4 cv=SeX3duRu c=1 sm=1 tr=0 ts=6875e444 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=rp2wF-6IHRqh8VDX1iQA:9
+X-Proofpoint-ORIG-GUID: by2AJN5lPrz-SklCBtrSx9e7MARVEqt9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_03,2025-07-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ lowpriorityscore=0 mlxlogscore=999 impostorscore=0 clxscore=1015 adultscore=0
+ suspectscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507150046
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 02:26:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220263
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 05:16:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220264
 
-Hi All,
+Add package ${PN}-qcom-sdx61-foxconn-firehose for sdx61 Foxconn vendor
+firmware
 
-QA for yocto-5.2.2.rc2 is completed. This is the full report for this relea=
-se: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
-=20
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
-=20
-No new issue found.=20
-=20
-Thanks,
-Jing Hui
+License-Update: additional files
 
+Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ ...ux-firmware_20250627.bb => linux-firmware_20250708.bb} | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250627.bb => linux-firmware_20250708.bb} (99%)
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User via
-> lists.yoctoproject.org
-> Sent: Saturday, July 5, 2025 4:15 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r build
-> (yocto-5.2.2.rc2)
->=20
->=20
->     A build flagged for QA (yocto-5.2.2.rc2) was completed on the autobui=
-lder
-> and is available at:
->=20
->=20
->         https://valkyrie.yocto.io/pub/releases/yocto-5.2.2.rc2
->=20
->=20
->     Build URL:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/1955
->=20
->     Build hash information:
->=20
->     bitbake: 74c28e14a9b5e2ff908a03f93c189efa6f56b0ca
-> meta-agl: a6202084bbc77708ff599060a0e2f6afb3c15498
-> meta-arm: c63ce2117ed9ad720c61a1e2df5d381ca1ac54a2
-> meta-aws: 77bbf7b16d5982d711b3188ada49deea391352c4
-> meta-clang: b3e5449f0156884d18c17efff99654cde8251411
-> meta-intel: 5640f6592c984f4832ff5f2ed1a35a607e5d21c5
-> meta-mingw: edce693e1b8fabd84651aa6c0888aafbcf238577
-> meta-openembedded: 3c6844219a69d9ca8cb0f1579114efe9a9e2a646
-> meta-virtualization: d20e589758ac40a846a8cd22f3b646ef48d02647
-> oecore: c855be07828c9cff3aa7ddfa04eb0c4df28658e4
-> poky: 41038342a471b4a8884548568ad147a1704253a3
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#567): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/567
-> Mute This Topic: https://lists.yoctoproject.org/mt/113989219/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/13581802/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250627.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250708.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250627.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250708.bb
+index 4bdb36ea67..fd7fa09d61 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250627.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250708.bb
+@@ -212,7 +212,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "3b864f69afb6609b4558a074bb428348"
++WHENCE_CHKSUM  = "ac8541e9e1a952358f245afd478ce317"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -328,7 +328,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ 
+-SRC_URI[sha256sum] = "edefb1d2a538367abf9558802fee3cd135ebb19a4a5890c8eefb3416a92a6b89"
++SRC_URI[sha256sum] = "6f3efee7f600c201f9b2d675889a4ccdb8cfe56e0d283641796ed10e64c72047"
+ 
+ inherit allarch
+ 
+@@ -573,6 +573,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-sc8280xp-lenovo-x13s-vpu \
+              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
+              ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
++             ${PN}-qcom-sdx61-foxconn-firehose \
+              ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
+              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
+              ${PN}-qcom-sm8550-audio-tplg \
+@@ -1924,6 +1925,7 @@ LICENSE:${PN}-qcom-sdm845-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdm845-compute = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdm845-modem = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "Firmware-qcom"
++LICENSE:${PN}-qcom-sdx61-foxconn-firehose = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-compute = "Firmware-qcom"
+@@ -2014,6 +2016,7 @@ FILES:${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/c
+ FILES:${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn* ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn* ${nonarch_base_libdir}/firmware/qcom/sdm845/notice.txt_wlanmdsp* \
+                                  ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/wlanmdsp.mbn* ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp"
+ FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${nonarch_base_libdir}/firmware/qcom/sdm845/Thundercomm/db845c/slpi*.*"
++FILES:${PN}-qcom-sdx61-foxconn-firehose = "${nonarch_base_libdir}/firmware/qcom/sdx61/foxconn/prog_firehose_lite.elf*"
+ FILES:${PN}-qcom-sm8250-adreno = "${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
+ FILES:${PN}-qcom-sm8250-audio = "${nonarch_base_libdir}/firmware/qcom/sm8250/adsp*.*"
+ FILES:${PN}-qcom-sm8250-compute = "${nonarch_base_libdir}/firmware/qcom/sm8250/cdsp*.*"
+@@ -2100,6 +2103,7 @@ RDEPENDS:${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-sdx61-foxconn-firehose = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-compute = "${PN}-qcom-license"
+-- 
+2.34.1
 
 
