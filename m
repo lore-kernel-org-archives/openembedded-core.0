@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB2CCA0ED7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A094CA0EDD
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:56:03 +0000 (UTC)
 Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.12494.1752594941910664380
+ by mx.groups.io with SMTP id smtpd.web11.12182.1752594945194591375
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 08:55:56 -0700
+ Tue, 15 Jul 2025 08:55:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=L/Ma/Kpv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Ygn1Euy3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101980eccbdff-4f5a79b9-ab09-43fc-a5c7-419f5daad5e8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KsWBr42y;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BPoXttzO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101980eccbcc7-08d07b9f-05af-4d4a-ad7a-bde7dc295435-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1752594955;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lj1lgzt+eIm8hfADofhVsRQ3qJblv32Fd2wSDp4KqyE=;
-	b=L/Ma/Kpv+zImTWVsdxAjtwj+rAw5J1xgG2lJ9jqchZ9GFqkTA7e+9UsotuaPMt5g
-	f3JtnI2pxr2NQZAfleil3czdHEAYsAQTjl8fCUAUIyHOATcGiDmS2N2r9rFWEy8IAbJ
-	ngE4dt7G/cvFqjF7pLgG7U1GzVbsITRR9E/ptPEA=
+	bh=V9eC5XUYctbbiMTAXWCF93wM5W1tNtkLlZYl+yW/j2A=;
+	b=KsWBr42yooA5SewySCO3bDfgt00JC4a7emO/+h0abwPFC8b5dsqwZxR14pfgX7+p
+	P9TaptQOcu4uGynU7Vygwu4b0Wn8WuYIvR653gcOp7as7jAhVymPPx+tG5qkNls6gDm
+	k20gpbMk6bK+RKQrGDqWBLDQ0E3KhFRA7AHUXiyI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594955;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lj1lgzt+eIm8hfADofhVsRQ3qJblv32Fd2wSDp4KqyE=;
-	b=Ygn1Euy3J6Me+ghns11Fh791aP1MIYyaNxA4BBoKLaPWC9nMRqewDxP2ZfhyVQXE
-	/jp3FgGCSRITMJzubNucnthu9+KsPTAM3MayTc/YddA+tbSypmOpz6NWFNWCg1fsy25
-	eKGjJHdhL4lugnpbLLypR606Su3RukCVgFdczXTg=
-Content-Type: multipart/mixed; boundary="===============5075034695763770416=="
+	bh=V9eC5XUYctbbiMTAXWCF93wM5W1tNtkLlZYl+yW/j2A=;
+	b=BPoXttzOJEqmgnMG468ZPnarFeS4cTNN4PU1ZsqCrBsX9+JxKch9PrFBNv7QqZeS
+	QvqA2JhRp7Lp0AeDHIxRBoBMCpeHYR5UjzXlCni3+C7Y8hS/9J6cHEOazPVnPRNZZ1y
+	vHH82RtdTE8b9WJHjatzbs2t6Ei1uPL+6vMQWtFw=
+Content-Type: multipart/mixed; boundary="===============1471447505737955364=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] libgit2: upgrading to 1.9.1 FAILED
-Message-ID: <010101980eccbdff-4f5a79b9-ab09-43fc-a5c7-419f5daad5e8-000000@us-west-2.amazonses.com>
+To: Hiago De Franco <hiago.franco@toradex.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] hwdata: upgrading to 0.397 SUCCEEDED
+Message-ID: <010101980eccbcc7-08d07b9f-05af-4d4a-ad7a-bde7dc295435-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Jul 2025 15:55:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.07.15-54.240.27.23
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:56:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220399
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220397
 
---===============5075034695763770416==
+--===============1471447505737955364==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libgit2* to *1.9.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *hwdata* to *0.397* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libgit2-upgrade-1.9.0-1.9.1.patch
+    - apply the patch: git am 0001-hwdata-upgrade-0.396-0.397.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,149 +72,88 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From afa5217d340f50bac2cb3e67e808ad014f30f332 Mon Sep 17 00:00:00 2001
+From 201a5a0d5d8f5952424a95a20fa0e66d45ec1dd7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 15:27:30 +0000
-Subject: [PATCH] libgit2: upgrade 1.9.0 -> 1.9.1
+Date: Tue, 15 Jul 2025 15:25:04 +0000
+Subject: [PATCH] hwdata: upgrade 0.396 -> 0.397
 
 ---
- .../libgit2/{libgit2_1.9.0.bb => libgit2_1.9.1.bb}            | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libgit2/{libgit2_1.9.0.bb => libgit2_1.9.1.bb} (83%)
+ .../recipes-support/hwdata/{hwdata_0.396.bb => hwdata_0.397.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/hwdata/{hwdata_0.396.bb => hwdata_0.397.bb} (93%)
 
-diff --git a/meta/recipes-support/libgit2/libgit2_1.9.0.bb b/meta/recipes-support/libgit2/libgit2_1.9.1.bb
-similarity index 83%
-rename from meta/recipes-support/libgit2/libgit2_1.9.0.bb
-rename to meta/recipes-support/libgit2/libgit2_1.9.1.bb
-index 66ec62f17a..e2b51769ca 100644
---- a/meta/recipes-support/libgit2/libgit2_1.9.0.bb
-+++ b/meta/recipes-support/libgit2/libgit2_1.9.1.bb
-@@ -5,10 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8eacfdc17c8f4d219e131a073973b97d"
+diff --git a/meta/recipes-support/hwdata/hwdata_0.396.bb b/meta/recipes-support/hwdata/hwdata_0.397.bb
+similarity index 93%
+rename from meta/recipes-support/hwdata/hwdata_0.396.bb
+rename to meta/recipes-support/hwdata/hwdata_0.397.bb
+index bf6dd9889e..bd985c2a14 100644
+--- a/meta/recipes-support/hwdata/hwdata_0.396.bb
++++ b/meta/recipes-support/hwdata/hwdata_0.397.bb
+@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0-or-later | X11"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1556547711e8246992b999edd9445a57"
  
- DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
+ SRC_URI = "git://github.com/vcrhonek/${BPN}.git;branch=master;protocol=https;tag=v${PV}"
+-SRCREV = "736513dfc1d44c5fb48bead62af7e91c4e1d1dd2"
++SRCREV = "e4423c783ca7db5c9d6d4881985272849f4892cf"
  
--SRC_URI = "git://github.com/libgit2/libgit2.git;branch=main;protocol=https \
-+SRC_URI = "git://github.com/libgit2/libgit2.git;branch=maint/v1.9;protocol=https \
-            file://0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch \
-            "
--SRCREV = "338e6fb681369ff0537719095e22ce9dc602dbf0"
-+SRCREV = "0060d9cf5666f015b1067129bd874c6cc4c9c7ac"
- 
- inherit cmake
+ inherit allarch
  
 -- 
 2.47.1
 
 
---===============5075034695763770416==
+--===============1471447505737955364==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1929 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 941 .bb files complete (940 cached, 1 parsed). 1928 targets, 42 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/all-poky-linux/hwdata/hwdata-dbg: PKGV changed from 0.396 [default] to 0.397 [default]
+packages/all-poky-linux/hwdata/hwdata-dbg: PV changed from "0.396" to "0.397"
+packages/all-poky-linux/hwdata/hwdata-dev: PKGV changed from 0.396 [default] to 0.397 [default]
+packages/all-poky-linux/hwdata/hwdata-dev: PV changed from "0.396" to "0.397"
+packages/all-poky-linux/hwdata/hwdata-doc: PKGV changed from 0.396 [default] to 0.397 [default]
+packages/all-poky-linux/hwdata/hwdata-doc: PV changed from "0.396" to "0.397"
+packages/all-poky-linux/hwdata/hwdata-locale: PKGV changed from 0.396 [default] to 0.397 [default]
+packages/all-poky-linux/hwdata/hwdata-locale: PV changed from "0.396" to "0.397"
+packages/all-poky-linux/hwdata/hwdata-src: PKGV changed from 0.396 [default] to 0.397 [default]
+packages/all-poky-linux/hwdata/hwdata-src: PV changed from "0.396" to "0.397"
+packages/all-poky-linux/hwdata/hwdata-staticdev: PKGV changed from 0.396 [default] to 0.397 [default]
+packages/all-poky-linux/hwdata/hwdata-staticdev: PV changed from "0.396" to "0.397"
+packages/all-poky-linux/hwdata/hwdata: PKGSIZE changed from 9971277 to 10005374 (+0%)
+packages/all-poky-linux/hwdata/hwdata: PKGV changed from 0.396 [default] to 0.397 [default]
+packages/all-poky-linux/hwdata/hwdata: PV changed from "0.396" to "0.397"
+packages/all-poky-linux/hwdata: PKGV changed from 0.396 [default] to 0.397 [default]
+packages/all-poky-linux/hwdata: PV changed from "0.396" to "0.397"
+packages/all-poky-linux/hwdata: SRC_URI changed from "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.396" to "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.397"
 
-Build Configuration:
-BB_VERSION           = "2.15.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-49ec934d6ade4fa42e371892056a1a1c8da56f0e"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:49ec934d6ade4fa42e371892056a1a1c8da56f0e"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 125 Local 113 Mirrors 0 Missed 12 Current 328 (90% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1195 of 1322 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgit2/libgit2_1.9.1.bb:do_recipe_qa)
-NOTE: recipe libgit2-1.9.1-r0: task do_recipe_qa: Started
-NOTE: recipe libgit2-1.9.1-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgit2/libgit2_1.9.1.bb:do_recipe_qa unihash changed to b89ab93220c4e4339a8cc99d60973ebaa1156d6799868733e52230a4a8fc06ee
-NOTE: Setscene tasks completed
-NOTE: Running task 1302 of 1322 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgit2/libgit2_1.9.1.bb:do_fetch)
-NOTE: recipe libgit2-1.9.1-r0: task do_fetch: Started
-NOTE: recipe libgit2-1.9.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1303 of 1322 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgit2/libgit2_1.9.1.bb:do_unpack)
-NOTE: Running task 1304 of 1322 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgit2/libgit2_1.9.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgit2-1.9.1-r0: task do_unpack: Started
-NOTE: recipe libgit2-1.9.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libgit2-1.9.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libgit2-1.9.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1305 of 1322 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgit2/libgit2_1.9.1.bb:do_patch)
-NOTE: Running task 1306 of 1322 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgit2/libgit2_1.9.1.bb:do_collect_spdx_deps)
-NOTE: recipe libgit2-1.9.1-r0: task do_patch: Started
-NOTE: recipe libgit2-1.9.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libgit2-1.9.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libgit2-1.9.1-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1306 tasks of which 1300 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715152710.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715152710.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgit2/libgit2_1.9.1.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libgit2/1.9.1/temp/log.do_patch.370863
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: libgit2-1.9.1-r0 do_patch: Applying patch '0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libgit2/1.9.1/sources/libgit2-1.9.1'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libgit2/1.9.1/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch
-patching file src/libgit2/CMakeLists.txt
-Hunk #1 FAILED at 119.
-1 out of 1 hunk FAILED -- rejects in file src/libgit2/CMakeLists.txt
-Patch 0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch can be reverse-applied
-
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libgit2/1.9.1/temp/log.do_patch.370863
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgit2/libgit2_1.9.1.bb:do_patch) failed with exit code '1'
-
---===============5075034695763770416==
+--===============1471447505737955364==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libgit2-upgrade-1.9.0-1.9.1.patch"
+ filename="0001-hwdata-upgrade-0.396-0.397.patch"
 
-RnJvbSBhZmE1MjE3ZDM0MGY1MGJhYzJjYjNlNjdlODA4YWQwMTRmMzBmMzMyIE1vbiBTZXAgMTcg
+RnJvbSAyMDFhNWEwZDVkOGY1OTUyNDI0YTk1YTIwZmEwZTY2ZDQ1ZWMxZGQ3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTU6Mjc6MzAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJnaXQyOiB1cGdyYWRlIDEuOS4wIC0+IDEuOS4xCgotLS0KIC4uLi9saWJnaXQyL3tsaWJnaXQy
-XzEuOS4wLmJiID0+IGxpYmdpdDJfMS45LjEuYmJ9ICAgICAgICAgICAgfCA0ICsrLS0KIDEgZmls
-ZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvbGliZ2l0Mi97bGliZ2l0Ml8xLjkuMC5iYiA9PiBsaWJnaXQyXzEuOS4x
-LmJifSAoODMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdpdDIvbGli
-Z2l0Ml8xLjkuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdpdDIvbGliZ2l0Ml8xLjku
-MS5iYgpzaW1pbGFyaXR5IGluZGV4IDgzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9saWJnaXQyL2xpYmdpdDJfMS45LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0
-L2xpYmdpdDIvbGliZ2l0Ml8xLjkuMS5iYgppbmRleCA2NmVjNjJmMTdhLi5lMmI1MTc2OWNhIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJnaXQyL2xpYmdpdDJfMS45LjAuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2l0Mi9saWJnaXQyXzEuOS4xLmJiCkBAIC01
-LDEwICs1LDEwIEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PThlYWNm
-ZGMxN2M4ZjRkMjE5ZTEzMWEwNzM5NzNiOTdkIgogCiBERVBFTkRTID0gImN1cmwgb3BlbnNzbCB6
-bGliIGxpYnNzaDIgbGliZ2NyeXB0IGxpYnBjcmUyIgogCi1TUkNfVVJJID0gImdpdDovL2dpdGh1
-Yi5jb20vbGliZ2l0Mi9saWJnaXQyLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyBcCitT
-UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vbGliZ2l0Mi9saWJnaXQyLmdpdDticmFuY2g9bWFp
-bnQvdjEuOTtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXNyYy1saWJn
-aXQyLUNNYWtlTGlzdHMudHh0LWluc3RhbGwtY21ha2UtZmlsZXMtaW50by0ucGF0Y2ggXAogICAg
-ICAgICAgICAiCi1TUkNSRVYgPSAiMzM4ZTZmYjY4MTM2OWZmMDUzNzcxOTA5NWUyMmNlOWRjNjAy
-ZGJmMCIKK1NSQ1JFViA9ICIwMDYwZDljZjU2NjZmMDE1YjEwNjcxMjliZDg3NGM2Y2M0YzljN2Fj
-IgogCiBpbmhlcml0IGNtYWtlCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTU6MjU6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
+d2RhdGE6IHVwZ3JhZGUgMC4zOTYgLT4gMC4zOTcKCi0tLQogLi4uL3JlY2lwZXMtc3VwcG9ydC9o
+d2RhdGEve2h3ZGF0YV8wLjM5Ni5iYiA9PiBod2RhdGFfMC4zOTcuYmJ9IHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvaHdkYXRhL3tod2RhdGFfMC4zOTYuYmIgPT4gaHdkYXRhXzAuMzk3LmJifSAo
+OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2RhdGFfMC4z
+OTYuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuMzk3LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9o
+d2RhdGFfMC4zOTYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2Rh
+dGFfMC4zOTcuYmIKaW5kZXggYmY2ZGQ5ODg5ZS4uYmQ5ODVjMmExNCAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvaHdkYXRhL2h3ZGF0YV8wLjM5Ni5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuMzk3LmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNF
+ID0gIkdQTC0yLjAtb3ItbGF0ZXIgfCBYMTEiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
+SUNFTlNFO21kNT0xNTU2NTQ3NzExZTgyNDY5OTJiOTk5ZWRkOTQ0NWE1NyIKIAogU1JDX1VSSSA9
+ICJnaXQ6Ly9naXRodWIuY29tL3ZjcmhvbmVrLyR7QlBOfS5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90
+b2NvbD1odHRwczt0YWc9diR7UFZ9IgotU1JDUkVWID0gIjczNjUxM2RmYzFkNDRjNWZiNDhiZWFk
+NjJhZjdlOTFjNGUxZDFkZDIiCitTUkNSRVYgPSAiZTQ0MjNjNzgzY2E3ZGI1YzlkNmQ0ODgxOTg1
+MjcyODQ5ZjQ4OTJjZiIKIAogaW5oZXJpdCBhbGxhcmNoCiAKLS0gCjIuNDcuMQoK
 
---===============5075034695763770416==--
+--===============1471447505737955364==--
 
