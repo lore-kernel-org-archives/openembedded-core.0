@@ -1,64 +1,61 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE448C83F17
-	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 10:19:26 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web10.5055.1752574757100960623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 605C8C83F22
+	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 11:52:47 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.6330.1752580358983386330
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 03:19:17 -0700
+ Tue, 15 Jul 2025 04:52:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=hI20kDl0;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=eX3/OuZUE5TW+3eOOEJnrdztoFUczJ35yeUokZQiob4=; b=hI20kDl0vvoN9D9ME0XUe7BAUV
-	rcfrORbsehKtyAqJbEP6Ds0WcvUfa7/JTGSrNS/4LLYDHFoJnIMBzr2F6zL/tUJ16mce8skFGxCtC
-	C5eFo96uciuLE+z6seQU451mK8TF9cyOZte9hSInLX8CJ8zHhTKn1dxG3BMGuxoNIQf3YhQ/9ICf+
-	3oCOh++7+ihcCpjesFkUL/cKfau+fHqo40R7yCeaGJpdghhq1ebYPDkJcOMk1LtWj49tf53r/BZXG
-	jUrarXDuCaGpGXpxzTdYBFmO2/Qjs5GMS5zFG7zAMkKkS/Nflkjb+IbckQ84uvG8OGjNesYluXVCk
-	xY5xbdXw==;
-Received: from pool-174-114-102-5.cpe.net.cable.rogers.com ([174.114.102.5]:38078 helo=asus)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1ubckj-0000000FinP-3T7W
-	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jul 2025 06:19:15 -0400
-Date: Tue, 15 Jul 2025 06:19:10 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: do image recipes need a LICENSE setting?
-Message-ID: <b80cf9f8-38f9-dece-15b9-27cc64f3824e@crashcourse.ca>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7CC7512FC
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 04:52:29 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CD2E83F694
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 04:52:37 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] clang: remove clang-lldb-python package
+Date: Tue, 15 Jul 2025 12:52:33 +0100
+Message-ID: <20250715115233.1244511-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 10:19:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220292
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 11:52:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220293
 
+v1 of the lldb patchset was accidentally merged, which didn't remove
+this package from the clang recipe.
 
-  was perusing some of the OE image recipes, and noticed several:
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/clang/clang_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  LICENSE = "MIT"
+diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devt=
+ools/clang/clang_git.bb
+index be56b169c29..1daac48edaf 100644
+--- a/meta/recipes-devtools/clang/clang_git.bb
++++ b/meta/recipes-devtools/clang/clang_git.bb
+@@ -298,7 +298,7 @@ PROVIDES:append:class-native =3D " llvm-native libclc=
+-native"
+ PROVIDES:append:class-target =3D " llvm libclc"
+ PROVIDES:append:class-nativesdk =3D " nativesdk-llvm nativesdk-libclc"
+=20
+-PACKAGES =3D+ "${PN}-libllvm ${PN}-lldb-python ${PN}-libclang-python ${P=
+N}-libclang-cpp ${PN}-tidy ${PN}-format ${PN}-tools ${PN}-clc \
++PACKAGES =3D+ "${PN}-libllvm ${PN}-libclang-python ${PN}-libclang-cpp ${=
+PN}-tidy ${PN}-format ${PN}-tools ${PN}-clc \
+              libclang llvm-linker-tools"
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.43.0
 
-i thought image recipes did not need LICENSE values.
-
-rday
 
