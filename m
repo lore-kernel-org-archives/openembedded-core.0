@@ -1,64 +1,100 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C2EC83F22
-	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 14:44:18 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web11.10226.1752590650575307234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46406C83F2D
+	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 14:46:08 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.10565.1752590760971736396
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 07:44:10 -0700
+ Tue, 15 Jul 2025 07:46:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 56FEi91M800720
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 09:44:09 -0500
-Received: from [192.168.2.97] ([192.168.2.97])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 56FEi9vk027357
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 09:44:09 -0500
-Message-ID: <509352f6-fd61-4ece-bf43-723a0746520b@kernel.crashing.org>
-Date: Tue, 15 Jul 2025 09:44:09 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] do image recipes need a LICENSE setting?
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <b80cf9f8-38f9-dece-15b9-27cc64f3824e@crashcourse.ca>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <b80cf9f8-38f9-dece-15b9-27cc64f3824e@crashcourse.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=W5a6Gq6X;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=KGFmqAtb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101980e8cb7f0-8d267cc6-442e-46ce-874f-43586c1e4b1a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1752590760; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=LaquCMXo12OaketRngxGKGy2FmQMRN9Aa5BN55lRGVw=;
+	b=W5a6Gq6XILPUEbP9VuPeQ22KvKWII43D59Z5ZQPNPg6h4nvfdM48WqQh1ZAIww7f
+	tFytgVeoOhb2Shq2SOpEQG67ikX0hGLoLdIc7jnk816JfO/4lOAaF90M9Al7tE0bKm7
+	DZrhW8e5xAeouiXyLPrf+yNACR4yjqAnRn4Xxn60=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752590760;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=LaquCMXo12OaketRngxGKGy2FmQMRN9Aa5BN55lRGVw=;
+	b=KGFmqAtbiJ20R7YJ7aHCYbb9UMDRZQSYx880LgOfad2814mbpVRuRVMuxC7N+/I1
+	H2vlU+Ajmvd0umdpjnxtwaiRuDEBztsESLiVF4RLKg/Hti03+JtguZB3WpW1SE9hKuP
+	XcyN4ibfjBuiObFiXiWyTDhMQFnMgRUbcrSw29wo=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] libclc: split out of clang
+In-Reply-To: <20250715143139.1829393-1-ross.burton@arm.com>
+References: <20250715143139.1829393-1-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101980e8cb7f0-8d267cc6-442e-46ce-874f-43586c1e4b1a-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Jul 2025 14:45:59 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 14:44:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220300
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 14:46:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220301
 
-All recipes require a license.  No exceptions.
+--NextPart
+Content-Type: text/plain
 
-The license is the 'source code' license of the recipe, if there is no source 
-code, it's pretty typical to set it to MIT as that is the license of most layers.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
---Mark
+---
+Testing patch /home/patchtest/share/mboxes/libclc-split-out-of-clang.patch
 
-On 7/15/25 5:19 AM, Robert P. J. Day wrote:
-> 
->    was perusing some of the OE image recipes, and noticed several:
-> 
->    LICENSE = "MIT"
-> 
-> i thought image recipes did not need LICENSE values.
-> 
-> rday
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220292): https://lists.openembedded.org/g/openembedded-core/message/220292
-> Mute This Topic: https://lists.openembedded.org/mt/114164121/3616948
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
