@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41AA8CA0EC2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB0BCA0EC3
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:55:51 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.12496.1752594944169949021
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.12482.1752594935884226447
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 08:55:44 -0700
+ Tue, 15 Jul 2025 08:55:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=crvNLsQa;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AsDlxtyr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101980ecc8ea9-f79eaf97-5c46-4415-870d-57d4f71b3805-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dlnvvc/M;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jfitbvsL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101980ecc8413-83f5a83b-28fc-46ad-b1e8-031351023d4c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1752594943;
+	t=1752594941;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=DdXo/5P3SrVEoZzkwv82j9IV7pUuIZIecUlm2RqjIDI=;
-	b=crvNLsQaedCHwFzlvMCwY2WRNMVwkRbBxVYnADCgFpuSflUvOHZipAvymQJChCRM
-	cX5YhyD6cSh10ZYBDmuUvMgeVpo8/bkEC8zCwfD/XMkSZXMDlloaG/m5rUGuURHSosg
-	bkgPSbo1HB1IjsWbCI6BdYyAx3n7OvRboqd4qjp0=
+	bh=Ip1kBjdS4NeiKkiOMUgigM5oQ8teOTx7N/lD8a7KrqE=;
+	b=dlnvvc/MVcAFDpl0EmLtY5k45jlJ/CXz3Cno795jEe4JuTsonLLyKNASxShcOazc
+	uD7tguQ75hPnTO+ZmrLqfGjIZ2n4waKrbPVmsN2VX0Z876VDZK94GNc6N2E+OpdjuIU
+	GP5efMqyt3iNJ/6zqMBl2jb/Wg6fUO7Rzzx7pTvU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594943;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594941;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=DdXo/5P3SrVEoZzkwv82j9IV7pUuIZIecUlm2RqjIDI=;
-	b=AsDlxtyrDW4z+Yae1wHA5XpcQiJkXG2tFiVhEObwWy+xa69m7Jr3CvtWk6YGT0y8
-	wzfaRQg/VNcO/tGpD+cg8Ox0kgjGhpvqlIlMC8TE2gHWzWDBB5E1MpkmZ5+3MStQSGp
-	QTAQM6MVjDPbQoPbZ9BJ6KCsgFVy05dbixBMNlu8=
-Content-Type: multipart/mixed; boundary="===============2216521592450757933=="
+	bh=Ip1kBjdS4NeiKkiOMUgigM5oQ8teOTx7N/lD8a7KrqE=;
+	b=jfitbvsLcyNAAJnLM7ObZNS44WxAICwtoBIydEZeA+y+TnPcn+ntKOy777QKolfB
+	qXLnJ3Q6k+0hFjQdqm0Tk1ZdDeVCm0piuIi3GiWnPLcNxvDPCk+4u8as3N4cywmNqh9
+	0HPprKNVZTZEodnii6SF44FZDpkD+v874Wd/XMfI=
+Content-Type: multipart/mixed; boundary="===============0857027578532981094=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-unittest-automake-output: upgrading to 0.3 FAILED
-Message-ID: <010101980ecc8ea9-f79eaf97-5c46-4415-870d-57d4f71b3805-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Jul 2025 15:55:43 +0000
+Subject: [AUH] python3-click: upgrading to 8.2.1 SUCCEEDED
+Message-ID: <010101980ecc8413-83f5a83b-28fc-46ad-b1e8-031351023d4c-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Jul 2025 15:55:40 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.15-54.240.27.193
+X-SES-Outgoing: 2025.07.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:55:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220352
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220342
 
---===============2216521592450757933==
+--===============0857027578532981094==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-unittest-automake-output* to *0.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-click* to *8.2.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch
+    - apply the patch: git am 0001-python3-click-upgrade-8.1.8-8.2.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,163 +72,106 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a37e69b6a7027a8eee4ac4558140a0bd865a82ac Mon Sep 17 00:00:00 2001
+From e1d13d98259d90300343299e1e056a6dcfba1825 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 10:20:12 +0000
-Subject: [PATCH] python3-unittest-automake-output: upgrade 0.2 -> 0.3
+Date: Tue, 15 Jul 2025 09:57:32 +0000
+Subject: [PATCH] python3-click: upgrade 8.1.8 -> 8.2.1
 
 ---
- ...ke-output_0.2.bb => python3-unittest-automake-output_0.3.bb} | 2 +-
+ .../python/{python3-click_8.1.8.bb => python3-click_8.2.1.bb}   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-unittest-automake-output_0.2.bb => python3-unittest-automake-output_0.3.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-click_8.1.8.bb => python3-click_8.2.1.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
+diff --git a/meta/recipes-devtools/python/python3-click_8.1.8.bb b/meta/recipes-devtools/python/python3-click_8.2.1.bb
 similarity index 90%
-rename from meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
-rename to meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
-index 216fea2b93..4054385935 100644
---- a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
-+++ b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f6f16008d9fb7349f06609329f1ab93b"
- SRC_URI = "git://gitlab.com/rossburton/python-unittest-automake-output;protocol=https;branch=main \
-            file://0001-Update-__version__-to-match-the-tag-version.patch"
+rename from meta/recipes-devtools/python/python3-click_8.1.8.bb
+rename to meta/recipes-devtools/python/python3-click_8.2.1.bb
+index 7be3d73546..05be963309 100644
+--- a/meta/recipes-devtools/python/python3-click_8.1.8.bb
++++ b/meta/recipes-devtools/python/python3-click_8.2.1.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "http://click.pocoo.org/"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1fa98232fd645608937a0fdc82e999b8"
  
--SRCREV = "aebdfb188e368c690ea55cf6c9c9ffa1a52def65"
-+SRCREV = "3376ff9bc319f8338849b7b9f63b9325d7b7663a"
+-SRC_URI[sha256sum] = "ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a"
++SRC_URI[sha256sum] = "27c491cc05d968d271d5a1db13e3b5a184636d9d930f148c50b038f0d0646202"
  
- inherit python_flit_core
+ inherit pypi python_flit_core ptest-python-pytest
  
 -- 
 2.47.1
 
 
---===============2216521592450757933==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1930 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 941 .bb files complete (940 cached, 1 parsed). 1928 targets, 42 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-4f2740fc293f3f51d0d5e019c86f4234887384da"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:4f2740fc293f3f51d0d5e019c86f4234887384da"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 282 Local 269 Mirrors 0 Missed 13 Current 356 (95% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 492 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.5.bb:do_create_spdx_setscene)
-NOTE: Running task 477 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_recipe_qa)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa: Started
-NOTE: recipe python3-3.13.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.13.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 595 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_recipe_qa unihash changed to 573a6c127ee07a7bebbb024c4092fa9abb0087cc1eb8ac4575ecba853349bfe7
-NOTE: Running task 584 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_fetch)
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 607 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Succeeded
-NOTE: Running task 587 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_unpack)
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 617 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Started
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 630 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1227 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 636 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1671 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1807 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_collect_spdx_deps)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1811 tasks of which 1805 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715101959.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715101959.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.683701
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-unittest-automake-output-0.3-r0 do_patch: Applying patch '0001-Update-__version__-to-match-the-tag-version.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/sources/python3-unittest-automake-output-0.3'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-Update-__version__-to-match-the-tag-version.patch
-patching file src/putao/__init__.py
-Hunk #1 FAILED at 5.
-1 out of 1 hunk FAILED -- rejects in file src/putao/__init__.py
-Patch 0001-Update-__version__-to-match-the-tag-version.patch does not apply (enforce with -f)
-
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.683701
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch) failed with exit code '1'
-
---===============2216521592450757933==
+--===============0857027578532981094==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch"
+ filename="0001-python3-click-upgrade-8.1.8-8.2.1.patch"
 
-RnJvbSBhMzdlNjliNmE3MDI3YThlZWU0YWM0NTU4MTQwYTBiZDg2NWE4MmFjIE1vbiBTZXAgMTcg
+RnJvbSBlMWQxM2Q5ODI1OWQ5MDMwMDM0MzI5OWUxZTA1NmE2ZGNmYmExODI1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTA6MjA6MTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dDogdXBncmFkZSAwLjIgLT4gMC4zCgotLS0K
-IC4uLmtlLW91dHB1dF8wLjIuYmIgPT4gcHl0aG9uMy11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXRf
-MC4zLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdW5pdHRl
-c3QtYXV0b21ha2Utb3V0cHV0XzAuMi5iYiA9PiBweXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
-dHB1dF8wLjMuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjIuYmIgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMy5i
-YgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMi5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
-dHB1dF8wLjMuYmIKaW5kZXggMjE2ZmVhMmI5My4uNDA1NDM4NTkzNSAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1
-dF8wLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0
-ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjMuYmIKQEAgLTYsNyArNiw3IEBAIExJQ19GSUxFU19DSEtT
-VU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWY2ZjE2MDA4ZDlmYjczNDlmMDY2MDkzMjlmMWFiOTNi
-IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuY29tL3Jvc3NidXJ0b24vcHl0aG9uLXVuaXR0ZXN0
-LWF1dG9tYWtlLW91dHB1dDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiBcCiAgICAgICAgICAg
-IGZpbGU6Ly8wMDAxLVVwZGF0ZS1fX3ZlcnNpb25fXy10by1tYXRjaC10aGUtdGFnLXZlcnNpb24u
-cGF0Y2giCiAKLVNSQ1JFViA9ICJhZWJkZmIxODhlMzY4YzY5MGVhNTVjZjZjOWM5ZmZhMWE1MmRl
-ZjY1IgorU1JDUkVWID0gIjMzNzZmZjliYzMxOWY4MzM4ODQ5YjdiOWY2M2I5MzI1ZDdiNzY2M2Ei
-CiAKIGluaGVyaXQgcHl0aG9uX2ZsaXRfY29yZQogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMDk6NTc6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNsaWNrOiB1cGdyYWRlIDguMS44IC0+IDguMi4xCgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtY2xpY2tfOC4xLjguYmIgPT4gcHl0aG9uMy1jbGlja184LjIuMS5iYn0gICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY2xpY2tfOC4xLjguYmIgPT4gcHl0
+aG9uMy1jbGlja184LjIuMS5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tfOC4xLjguYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tfOC4yLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5MCUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNsaWNrXzguMS44
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tf
+OC4yLjEuYmIKaW5kZXggN2JlM2Q3MzU0Ni4uMDViZTk2MzMwOSAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNsaWNrXzguMS44LmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jbGlja184LjIuMS5iYgpAQCAtOCw3ICs4
+LDcgQEAgSE9NRVBBR0UgPSAiaHR0cDovL2NsaWNrLnBvY29vLm9yZy8iCiBMSUNFTlNFID0gIkJT
+RC0zLUNsYXVzZSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT0x
+ZmE5ODIzMmZkNjQ1NjA4OTM3YTBmZGM4MmU5OTliOCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0g
+ImVkNTNjOWQ4OTkwZDgzYzJhMjdkZWFlNjhlNGVlMzM3NDczZjYzMzBjMDQwYTMxZDQyMjVjOTU3
+NGQxNjA5NmEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjdjNDkxY2MwNWQ5NjhkMjcxZDVhMWRi
+MTNlM2I1YTE4NDYzNmQ5ZDkzMGYxNDhjNTBiMDM4ZjBkMDY0NjIwMiIKIAogaW5oZXJpdCBweXBp
+IHB5dGhvbl9mbGl0X2NvcmUgcHRlc3QtcHl0aG9uLXB5dGVzdAogCi0tIAoyLjQ3LjEKCg==
 
---===============2216521592450757933==--
+--===============0857027578532981094==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-click: PV changed from "8.1.8" to "8.2.1"
+packages/core2-64-poky-linux/python3-click: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/click/click-8.1.8.tar.gz;downloadfilename=click-8.1.8.tar.gz" to "https://files.pythonhosted.org/packages/source/c/click/click-8.2.1.tar.gz;downloadfilename=click-8.2.1.tar.gz"
+packages/core2-64-poky-linux/python3-click: PKGV changed from 8.1.8 [default] to 8.2.1 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-dbg: PV changed from "8.1.8" to "8.2.1"
+packages/core2-64-poky-linux/python3-click/python3-click-dbg: PKGV changed from 8.1.8 [default] to 8.2.1 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-dev: PV changed from "8.1.8" to "8.2.1"
+packages/core2-64-poky-linux/python3-click/python3-click-dev: PKGV changed from 8.1.8 [default] to 8.2.1 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-doc: PV changed from "8.1.8" to "8.2.1"
+packages/core2-64-poky-linux/python3-click/python3-click-doc: PKGV changed from 8.1.8 [default] to 8.2.1 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-locale: PV changed from "8.1.8" to "8.2.1"
+packages/core2-64-poky-linux/python3-click/python3-click-locale: PKGV changed from 8.1.8 [default] to 8.2.1 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: PV changed from "8.1.8" to "8.2.1"
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: PKGSIZE changed from 389066 to 418448 (+8%)
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: FILELIST: removed "/usr/lib/python3-click/ptest/docs/testing.rst /usr/lib/python3-click/ptest/docs/upgrading.rst /usr/lib/python3-click/ptest/docs/options.rst", added "/usr/lib/python3-click/ptest/docs/testing.md /usr/lib/python3-click/ptest/tests/typing/typing_progressbar.py /usr/lib/python3-click/ptest/docs/option-decorators.rst /usr/lib/python3-click/ptest/docs/commands-and-groups.rst /usr/lib/python3-click/ptest/docs/options.md /usr/lib/python3-click/ptest/docs/click-concepts.rst /usr/lib/python3-click/ptest/docs/faqs.md /usr/lib/python3-click/ptest/docs/entry-points.rst /usr/lib/python3-click/ptest/docs/parameter-types.rst /usr/lib/python3-click/ptest/docs/extending-click.rst"
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: PKGV changed from 8.1.8 [default] to 8.2.1 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-src: PV changed from "8.1.8" to "8.2.1"
+packages/core2-64-poky-linux/python3-click/python3-click-src: PKGV changed from 8.1.8 [default] to 8.2.1 [default]
+packages/core2-64-poky-linux/python3-click/python3-click-staticdev: PV changed from "8.1.8" to "8.2.1"
+packages/core2-64-poky-linux/python3-click/python3-click-staticdev: PKGV changed from 8.1.8 [default] to 8.2.1 [default]
+packages/core2-64-poky-linux/python3-click/python3-click: PV changed from "8.1.8" to "8.2.1"
+packages/core2-64-poky-linux/python3-click/python3-click: PKGSIZE changed from 799194 to 801292 (+0%)
+packages/core2-64-poky-linux/python3-click/python3-click: PKGV changed from 8.1.8 [default] to 8.2.1 [default]
+Changes to packages/core2-64-poky-linux/python3-click (sysroot):
+  /usr/lib/python3.13/site-packages/click-8.1.8.dist-info moved to /usr/lib/python3.13/site-packages/click-8.2.1.dist-info
+
+--===============0857027578532981094==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/python3-click/python3-click-ptest: FILELIST: removed "/usr/lib/python3-click/ptest/docs/options.rst /usr/lib/python3-click/ptest/docs/testing.rst /usr/lib/python3-click/ptest/docs/upgrading.rst", added "/usr/lib/python3-click/ptest/docs/faqs.md /usr/lib/python3-click/ptest/docs/entry-points.rst /usr/lib/python3-click/ptest/docs/extending-click.rst /usr/lib/python3-click/ptest/docs/options.md /usr/lib/python3-click/ptest/tests/typing/typing_progressbar.py /usr/lib/python3-click/ptest/docs/commands-and-groups.rst /usr/lib/python3-click/ptest/docs/option-decorators.rst /usr/lib/python3-click/ptest/docs/parameter-types.rst /usr/lib/python3-click/ptest/docs/click-concepts.rst /usr/lib/python3-click/ptest/docs/testing.md"
+Changes to packages/core2-64-poky-linux/python3-click (sysroot):
+  /usr/lib/python3.13/site-packages/click-8.1.8.dist-info moved to /usr/lib/python3.13/site-packages/click-8.2.1.dist-info
+
+--===============0857027578532981094==--
 
