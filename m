@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5787C87FD2
-	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:56:02 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.12484.1752594936053273342
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55FA2CA0ED9
+	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:56:03 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.12488.1752594938645097521
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Jul 2025 08:55:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dbembvs+;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jD2L/tzQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101980eccb5a0-53929d42-a3a2-4e32-b665-475223ab8242-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vihghgK6;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=EGX06udJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101980eccb7a9-f67c25cc-c8fb-4a81-995f-9906430cf9e9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1752594953;
+	t=1752594954;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=B+xtgike264tcjCeSvdUbX8m6sRwS6+vQ/67ryES/qA=;
-	b=dbembvs+tBUQEiisR1R74vagi8RoBM/5XuO0CnrKM39ImrdYpJGUFOx2Amr/+nCQ
-	XUn2CaKdHHY7hCpPjKxgUZaNbQxwxhL8I+wUb6ck5ivEMRn33+udQWusgxdDYJUdU6Z
-	k6uvfeLNjxMI0J4gD+JXq+xN6Q7eTrDKIbSNqj/Y=
+	bh=MVKLmbAHanOqqoHMkvHFb3ca3wuboGY7JXLPTFC97Ik=;
+	b=vihghgK6cf+kaf1KsKrZ/5yZ028/TggwIo2fvcgMhVgaGrhz3aNyC56FndKfMNLm
+	CoY6bPVgKh536Ct8Lm/D6LfxLlEYLTbNHi3sFfJiHbsloq6m6v2QozqBHgKvijQicCo
+	ek00+8FHv4BAwupqGW4Oo3e2M1DJyHvDv8/nM92E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594953;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594954;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=B+xtgike264tcjCeSvdUbX8m6sRwS6+vQ/67ryES/qA=;
-	b=jD2L/tzQ1ndOKLfzN6TMEu3Je5BNP4ghdj/lVWtK+PzEAZk7yQiTi7bwcpAGkYBb
-	45ynOQ8Y4m4M1RMWXyROEggYV5y0oHjvZkMQFKgf27iFVsgPQoELehq6xKJuzyLPlTw
-	6A9Cp1xgM3W8iEv8cpi+Hw6PW2Fki5xmFKQLCumc=
-Content-Type: multipart/mixed; boundary="===============3195909952812516380=="
+	bh=MVKLmbAHanOqqoHMkvHFb3ca3wuboGY7JXLPTFC97Ik=;
+	b=EGX06udJN2CeHzGycmvqDi08Ote15gs4QDDjDVwq23rDUjtmsePaWi+KdTdxwsxt
+	EA17ggd0GB4noxXxmq9gnvgPdbHL0PEqnyUAjHM+OcAhsZFeaICDhuduMZzp6ki4mZ1
+	wp8Y2BAgtpfODluRAL+cbhBIaIL6lrw2pkUAd3O4=
+Content-Type: multipart/mixed; boundary="===============0611808084373598975=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libpng: upgrading to 1.6.50 SUCCEEDED
-Message-ID: <010101980eccb5a0-53929d42-a3a2-4e32-b665-475223ab8242-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Jul 2025 15:55:53 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] libwebp: upgrading to 1.6.0 SUCCEEDED
+Message-ID: <010101980eccb7a9-f67c25cc-c8fb-4a81-995f-9906430cf9e9-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Jul 2025 15:55:54 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.15-54.240.27.29
+X-SES-Outgoing: 2025.07.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:56:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220388
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:56:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220392
 
---===============3195909952812516380==
+--===============0611808084373598975==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libpng* to *1.6.50* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libwebp* to *1.6.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libpng-upgrade-1.6.48-1.6.50.patch
+    - apply the patch: git am 0001-libwebp-upgrade-1.5.0-1.6.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,104 +72,115 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1d9e45a993c68c598130305aecdfa725a829a3ce Mon Sep 17 00:00:00 2001
+From 643efef0b390d92cf2fbb606d5ada38ca0559e20 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 14:34:08 +0000
-Subject: [PATCH] libpng: upgrade 1.6.48 -> 1.6.50
+Date: Tue, 15 Jul 2025 14:36:52 +0000
+Subject: [PATCH] libwebp: upgrade 1.5.0 -> 1.6.0
 
 ---
- .../libpng/{libpng_1.6.48.bb => libpng_1.6.50.bb}               | 2 +-
+ .../webp/{libwebp_1.5.0.bb => libwebp_1.6.0.bb}                 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.48.bb => libpng_1.6.50.bb} (97%)
+ rename meta/recipes-multimedia/webp/{libwebp_1.5.0.bb => libwebp_1.6.0.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.48.bb b/meta/recipes-multimedia/libpng/libpng_1.6.50.bb
-similarity index 97%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.48.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.50.bb
-index e603df1edd..aa2dc99f10 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.48.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.50.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
-            file://run-ptest \
- "
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.5.0.bb b/meta/recipes-multimedia/webp/libwebp_1.6.0.bb
+similarity index 96%
+rename from meta/recipes-multimedia/webp/libwebp_1.5.0.bb
+rename to meta/recipes-multimedia/webp/libwebp_1.6.0.bb
+index 39fe947eea..0ba90c406a 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.5.0.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.6.0.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
  
--SRC_URI[sha256sum] = "46fd06ff37db1db64c0dc288d78a3f5efd23ad9ac41561193f983e20937ece03"
-+SRC_URI[sha256sum] = "4df396518620a7aa3651443e87d1b2862e4e88cad135a8b93423e01706232307"
+ SRC_URI = "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/${BP}.tar.gz"
+-SRC_URI[sha256sum] = "7d6fab70cf844bf6769077bd5d7a74893f8ffd4dfb42861745750c63c2a5c92c"
++SRC_URI[sha256sum] = "e4ab7009bf0629fd11982d4c2aa83964cf244cffba7347ecd39019a9e38c4564"
  
- MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
  
 -- 
 2.47.1
 
 
---===============3195909952812516380==
+--===============0611808084373598975==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libpng-upgrade-1.6.48-1.6.50.patch"
+ filename="0001-libwebp-upgrade-1.5.0-1.6.0.patch"
 
-RnJvbSAxZDllNDVhOTkzYzY4YzU5ODEzMDMwNWFlY2RmYTcyNWE4MjlhM2NlIE1vbiBTZXAgMTcg
+RnJvbSA2NDNlZmVmMGIzOTBkOTJjZjJmYmI2MDZkNWFkYTM4Y2EwNTU5ZTIwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTQ6MzQ6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJwbmc6IHVwZ3JhZGUgMS42LjQ4IC0+IDEuNi41MAoKLS0tCiAuLi4vbGlicG5nL3tsaWJwbmdf
-MS42LjQ4LmJiID0+IGxpYnBuZ18xLjYuNTAuYmJ9ICAgICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9saWJwbmcve2xpYnBuZ18xLjYuNDguYmIgPT4gbGlicG5nXzEuNi41
-MC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcv
-bGlicG5nXzEuNi40OC5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdf
-MS42LjUwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1t
-dWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42LjQ4LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9saWJwbmcvbGlicG5nXzEuNi41MC5iYgppbmRleCBlNjAzZGYxZWRkLi5hYTJk
-Yzk5ZjEwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvbGlicG5n
-XzEuNi40OC5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvbGlicG5nXzEu
-Ni41MC5iYgpAQCAtMTQsNyArMTQsNyBAQCBTUkNfVVJJID0gIiR7U09VUkNFRk9SR0VfTUlSUk9S
-fS8ke0JQTn0vJHtCUE59JHtMSUJWfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8v
-cnVuLXB0ZXN0IFwKICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQ2ZmQwNmZmMzdkYjFkYjY0
-YzBkYzI4OGQ3OGEzZjVlZmQyM2FkOWFjNDE1NjExOTNmOTgzZTIwOTM3ZWNlMDMiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiNGRmMzk2NTE4NjIwYTdhYTM2NTE0NDNlODdkMWIyODYyZTRlODhjYWQx
-MzVhOGI5MzQyM2UwMTcwNjIzMjMwNyIKIAogTUlSUk9SUyArPSAiJHtTT1VSQ0VGT1JHRV9NSVJS
-T1J9L3Byb2plY3QvJHtCUE59LyR7QlBOfSR7TElCVn0vICR7U09VUkNFRk9SR0VfTUlSUk9SfS9w
-cm9qZWN0LyR7QlBOfS8ke0JQTn0ke0xJQlZ9L29sZGVyLXJlbGVhc2VzLyIKIAotLSAKMi40Ny4x
-Cgo=
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTQ6MzY6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ3ZWJwOiB1cGdyYWRlIDEuNS4wIC0+IDEuNi4wCgotLS0KIC4uLi93ZWJwL3tsaWJ3ZWJwXzEu
+NS4wLmJiID0+IGxpYndlYnBfMS42LjAuYmJ9ICAgICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1tdWx0aW1lZGlhL3dlYnAve2xpYndlYnBfMS41LjAuYmIgPT4gbGlid2VicF8xLjYuMC5i
+Yn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndl
+YnBfMS41LjAuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndlYnBfMS42LjAu
+YmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvd2VicC9saWJ3ZWJwXzEuNS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRp
+YS93ZWJwL2xpYndlYnBfMS42LjAuYmIKaW5kZXggMzlmZTk0N2VlYS4uMGJhOTBjNDA2YSAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvd2VicC9saWJ3ZWJwXzEuNS4wLmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL3dlYnAvbGlid2VicF8xLjYuMC5iYgpAQCAtMTQs
+NyArMTQsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT02ZThkZWU5
+MzJjMjZmMmRhYjUwM2FiZjcwYzk2ZDhiYiBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9Q
+QVRFTlRTO21kNT1jNjkyNmQwY2IwN2QyOTZmODg2YWI2ZTBjYzVhODViNyIKIAogU1JDX1VSSSA9
+ICJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZG93bmxvYWRzLndlYm1wcm9qZWN0Lm9y
+Zy9yZWxlYXNlcy93ZWJwLyR7QlB9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3ZDZm
+YWI3MGNmODQ0YmY2NzY5MDc3YmQ1ZDdhNzQ4OTNmOGZmZDRkZmI0Mjg2MTc0NTc1MGM2M2MyYTVj
+OTJjIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImU0YWI3MDA5YmYwNjI5ZmQxMTk4MmQ0YzJhYTgz
+OTY0Y2YyNDRjZmZiYTczNDdlY2QzOTAxOWE5ZTM4YzQ1NjQiCiAKIFVQU1RSRUFNX0NIRUNLX1VS
+SSA9ICJodHRwOi8vZG93bmxvYWRzLndlYm1wcm9qZWN0Lm9yZy9yZWxlYXNlcy93ZWJwL2luZGV4
+Lmh0bWwiCiAKLS0gCjIuNDcuMQoK
 
---===============3195909952812516380==
+--===============0611808084373598975==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libpng: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng: PV changed from "1.6.48" to "1.6.50"
-packages/core2-64-poky-linux/libpng: SRC_URI changed from "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.48.tar.xz file://run-ptest" to "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.50.tar.xz file://run-ptest"
-packages/core2-64-poky-linux/libpng/libpng-dbg: FILELIST: removed "/usr/lib/.debug/libpng16.so.16.48.0", added "/usr/lib/.debug/libpng16.so.16.50.0"
-packages/core2-64-poky-linux/libpng/libpng-dbg: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng/libpng-dbg: PV changed from "1.6.48" to "1.6.50"
-packages/core2-64-poky-linux/libpng/libpng-dbg: PKGSIZE changed from 1435328 to 1435232 (-0%)
-packages/core2-64-poky-linux/libpng/libpng-dev: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng/libpng-dev: PV changed from "1.6.48" to "1.6.50"
-packages/core2-64-poky-linux/libpng/libpng-dev: PKGSIZE changed from 179434 to 179522 (+0%)
-packages/core2-64-poky-linux/libpng/libpng-doc: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng/libpng-doc: PV changed from "1.6.48" to "1.6.50"
-packages/core2-64-poky-linux/libpng/libpng-doc: PKGSIZE changed from 268408 to 268852 (+0%)
-packages/core2-64-poky-linux/libpng/libpng-locale: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng/libpng-locale: PV changed from "1.6.48" to "1.6.50"
-packages/core2-64-poky-linux/libpng/libpng-ptest: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng/libpng-ptest: PV changed from "1.6.48" to "1.6.50"
-packages/core2-64-poky-linux/libpng/libpng-ptest: PKGSIZE changed from 2427063 to 2440396 (+1%)
-packages/core2-64-poky-linux/libpng/libpng-src: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng/libpng-src: PV changed from "1.6.48" to "1.6.50"
-packages/core2-64-poky-linux/libpng/libpng-staticdev: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng/libpng-staticdev: PV changed from "1.6.48" to "1.6.50"
-packages/core2-64-poky-linux/libpng/libpng-tools: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng/libpng-tools: PV changed from "1.6.48" to "1.6.50"
-packages/core2-64-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.48.0", added "/usr/lib/libpng16.so.16.50.0"
-packages/core2-64-poky-linux/libpng/libpng: PKGV changed from 1.6.48 [default] to 1.6.50 [default]
-packages/core2-64-poky-linux/libpng/libpng: PV changed from "1.6.48" to "1.6.50"
-Changes to packages/core2-64-poky-linux/libpng (sysroot):
-  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.50.0
-  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.50.0
-  /usr/lib/libpng16.so.16.48.0 moved to /usr/lib/libpng16.so.16.50.0
+packages/core2-64-poky-linux/libwebp: SRC_URI changed from "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.5.0.tar.gz" to "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.6.0.tar.gz"
+packages/core2-64-poky-linux/libwebp: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp: PV changed from "1.5.0" to "1.6.0"
+packages/core2-64-poky-linux/libwebp/libwebp-bin: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp/libwebp-bin: PV changed from "1.5.0" to "1.6.0"
+packages/core2-64-poky-linux/libwebp/libwebp-dbg: FILELIST: removed "/usr/lib/.debug/libwebpmux.so.3.1.1 /usr/lib/.debug/libwebpdemux.so.2.0.16 /usr/lib/.debug/libsharpyuv.so.0.1.1 /usr/lib/.debug/libwebp.so.7.1.10", added "/usr/lib/.debug/libwebpmux.so.3.1.2 /usr/lib/.debug/libwebpdemux.so.2.0.17 /usr/lib/.debug/libsharpyuv.so.0.1.2 /usr/lib/.debug/libwebp.so.7.2.0"
+packages/core2-64-poky-linux/libwebp/libwebp-dbg: PKGSIZE changed from 3755976 to 3755544 (-0%)
+packages/core2-64-poky-linux/libwebp/libwebp-dbg: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp/libwebp-dbg: PV changed from "1.5.0" to "1.6.0"
+packages/core2-64-poky-linux/libwebp/libwebp-dev: PKGSIZE changed from 111718 to 112186 (+0%)
+packages/core2-64-poky-linux/libwebp/libwebp-dev: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp/libwebp-dev: PV changed from "1.5.0" to "1.6.0"
+packages/core2-64-poky-linux/libwebp/libwebp-doc: PKGSIZE changed from 32518 to 32940 (+1%)
+packages/core2-64-poky-linux/libwebp/libwebp-doc: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp/libwebp-doc: PV changed from "1.5.0" to "1.6.0"
+packages/core2-64-poky-linux/libwebp/libwebp-gif2webp: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp/libwebp-gif2webp: PV changed from "1.5.0" to "1.6.0"
+packages/core2-64-poky-linux/libwebp/libwebp-locale: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp/libwebp-locale: PV changed from "1.5.0" to "1.6.0"
+packages/core2-64-poky-linux/libwebp/libwebp-src: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp/libwebp-src: PV changed from "1.5.0" to "1.6.0"
+packages/core2-64-poky-linux/libwebp/libwebp-staticdev: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp/libwebp-staticdev: PV changed from "1.5.0" to "1.6.0"
+packages/core2-64-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libsharpyuv.so.0.1.1 /usr/lib/libwebpdemux.so.2.0.16 /usr/lib/libwebp.so.7.1.10 /usr/lib/libwebpmux.so.3.1.1", added "/usr/lib/libsharpyuv.so.0.1.2 /usr/lib/libwebpdemux.so.2.0.17 /usr/lib/libwebpmux.so.3.1.2 /usr/lib/libwebp.so.7.2.0"
+packages/core2-64-poky-linux/libwebp/libwebp: PKGSIZE changed from 618526 to 618525 (-0%)
+packages/core2-64-poky-linux/libwebp/libwebp: PKGV changed from 1.5.0 [default] to 1.6.0 [default]
+packages/core2-64-poky-linux/libwebp/libwebp: PV changed from "1.5.0" to "1.6.0"
+Changes to packages/core2-64-poky-linux/libwebp (sysroot):
+  /usr/lib/libsharpyuv.so.0 changed symlink target from libsharpyuv.so.0.1.1 to libsharpyuv.so.0.1.2
+  /usr/lib/libsharpyuv.so changed symlink target from libsharpyuv.so.0.1.1 to libsharpyuv.so.0.1.2
+  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.16 to libwebpdemux.so.2.0.17
+  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.16 to libwebpdemux.so.2.0.17
+  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.1.1 to libwebpmux.so.3.1.2
+  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.1.1 to libwebpmux.so.3.1.2
+  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.10 to libwebp.so.7.2.0
+  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.10 to libwebp.so.7.2.0
+  /usr/lib/libsharpyuv.so.0.1.1 moved to /usr/lib/libsharpyuv.so.0.1.2
+  /usr/lib/libwebpdemux.so.2.0.16 moved to /usr/lib/libwebpdemux.so.2.0.17
+  /usr/lib/libwebpmux.so.3.1.1 moved to /usr/lib/libwebpmux.so.3.1.2
+  /usr/lib/libwebp.so.7.2.0 was added
+  /usr/lib/libwebp.so.7.1.10 was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2093,17 +2104,27 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============3195909952812516380==
+--===============0611808084373598975==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.48.0", added "/usr/lib/libpng16.so.16.50.0"
-Changes to packages/core2-64-poky-linux/libpng (sysroot):
-  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.50.0
-  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.48.0 to libpng16.so.16.50.0
-  /usr/lib/libpng16.so.16.48.0 moved to /usr/lib/libpng16.so.16.50.0
+packages/core2-64-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libwebpdemux.so.2.0.16 /usr/lib/libwebp.so.7.1.10 /usr/lib/libsharpyuv.so.0.1.1 /usr/lib/libwebpmux.so.3.1.1", added "/usr/lib/libsharpyuv.so.0.1.2 /usr/lib/libwebp.so.7.2.0 /usr/lib/libwebpdemux.so.2.0.17 /usr/lib/libwebpmux.so.3.1.2"
+Changes to packages/core2-64-poky-linux/libwebp (sysroot):
+  /usr/lib/libsharpyuv.so.0 changed symlink target from libsharpyuv.so.0.1.1 to libsharpyuv.so.0.1.2
+  /usr/lib/libsharpyuv.so changed symlink target from libsharpyuv.so.0.1.1 to libsharpyuv.so.0.1.2
+  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.16 to libwebpdemux.so.2.0.17
+  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.16 to libwebpdemux.so.2.0.17
+  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.1.1 to libwebpmux.so.3.1.2
+  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.1.1 to libwebpmux.so.3.1.2
+  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.10 to libwebp.so.7.2.0
+  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.10 to libwebp.so.7.2.0
+  /usr/lib/libsharpyuv.so.0.1.1 moved to /usr/lib/libsharpyuv.so.0.1.2
+  /usr/lib/libwebpdemux.so.2.0.16 moved to /usr/lib/libwebpdemux.so.2.0.17
+  /usr/lib/libwebpmux.so.3.1.1 moved to /usr/lib/libwebpmux.so.3.1.2
+  /usr/lib/libwebp.so.7.2.0 was added
+  /usr/lib/libwebp.so.7.1.10 was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4027,5 +4048,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
 
---===============3195909952812516380==--
+--===============0611808084373598975==--
 
