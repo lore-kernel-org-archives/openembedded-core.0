@@ -2,56 +2,56 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45C09C83F2D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38C2AC83F1D
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 08:08:46 +0000 (UTC)
-Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
- by mx.groups.io with SMTP id smtpd.web10.2990.1752566910760890102
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.web10.2992.1752566917092300246
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Jul 2025 01:08:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Ng0vrYfV;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=ZTecaIU8;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1752566918; x=1784102918;
+  t=1752566917; x=1784102917;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=TwBf1kyNRHll3ybRo8rH2VvYsZOrwP+pOTJ3IAdkHsM=;
-  b=Ng0vrYfVxqS0B7uLgOmoR2fSLUVeD4FxLd50tMA5i2XEMTQLVjZygcah
-   jmKu8BFWnj3jjtGwHL2nBcf4jA2lqWzqWvOpqYFFGVG1QYqoRdXCH+3hs
-   a09bH5MXNPQaIugvDYO2K8MiEI/zYyKgFLbt2xZXx+jOFVqYWf5vMPloc
-   Qq96BahZzpioAAljaJ+xtepp8kRiC6SoDvEfcAKE6WXkkrs7Iy60MwS+o
-   wx3WTns+6mFYmll7G9f2c9XIG/ahMpYjZ9pZ+L6Cbo2brwIeit35YXlmD
-   i34ZGyHbc0u7tMBAPC4eXqaeCgDcAPjmlr4arTtt9bAwNGKVK8e/ESHHs
-   w==;
-X-CSE-ConnectionGUID: cgNdCK42SRqOZUcojpvStQ==
-X-CSE-MsgGUID: Pv0l0pikSQ+Gtj0nM9S4vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="185255753"
+  bh=m3AiScHCC8wY1d0BRMsCJKKyFsM4kqnP3Ke7pZR6Hz0=;
+  b=ZTecaIU8S1YTn4U50zlEXvIdbhfpWopeAk5MZ3v7itc4bkXQuWvRzGYb
+   1TRb0pgL5f8ERlVMZEE2mXBHW5c3YIAnKmYM5SiMEKkn77uFoMTa63OUo
+   kIEQ/hl1WcyQeKuAvJ+F0JSUewpuoEandn6Pr+H7EN5K8pD9JqRoABgHP
+   hu7995DLxymBW+n3EL5MrMMhSN0IYVpqUA2se1wHSbQdvUCzMx5EriGB+
+   YvChsaD/dW3k6Rj1j5aU0/CJIfML9r/ay1YVVyUP41P1HcUkkg5k7O4no
+   oKqu4Pjv5uJftmvd9pDT9YoFZZeGiQwcDTh6gKaQRxZZt5ULNTdZsUC9m
+   A==;
+X-CSE-ConnectionGUID: f5M2ATsqQp6HRcBnJ4OXVQ==
+X-CSE-MsgGUID: HXNof+zhQQq4vo2BgJd3fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="206892993"
 X-IronPort-AV: E=Sophos;i="6.16,313,1744038000"; 
-   d="scan'208";a="185255753"
-Received: from unknown (HELO az2uksmgr1.o.css.fujitsu.com) ([52.151.125.128])
-  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 17:08:37 +0900
-Received: from az2uksmgm3.o.css.fujitsu.com (unknown [10.151.22.200])
+   d="scan'208";a="206892993"
+Received: from unknown (HELO az2nlsmgr1.o.css.fujitsu.com) ([51.138.80.169])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 17:08:36 +0900
+Received: from az2nlsmgm4.fujitsu.com (unknown [10.150.26.204])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2uksmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id 84A8B1C0213C
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 08:08:37 +0000 (UTC)
+	by az2nlsmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id 98EA11C00084
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 08:08:36 +0000 (UTC)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by az2uksmgm3.o.css.fujitsu.com (Postfix) with ESMTPS id DD89CC00891
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 08:08:36 +0000 (UTC)
+	by az2nlsmgm4.fujitsu.com (Postfix) with ESMTPS id EB87810000F9
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 08:08:35 +0000 (UTC)
 Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.161.187])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 4C2C51A0078;
-	Tue, 15 Jul 2025 16:08:33 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 65A411A0074;
+	Tue, 15 Jul 2025 16:08:32 +0800 (CST)
 From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 18/19] u-boot: upgrade 2025.04 -> 2025.07
-Date: Tue, 15 Jul 2025 16:08:18 +0800
-Message-ID: <20250715080819.622-18-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 17/19] tcl: upgrade 9.0.1 -> 9.0.2
+Date: Tue, 15 Jul 2025 16:08:17 +0800
+Message-ID: <20250715080819.622-17-wangmy@fujitsu.com>
 X-Mailer: git-send-email 2.49.0.windows.1
 In-Reply-To: <20250715080819.622-1-wangmy@fujitsu.com>
 References: <20250715080819.622-1-wangmy@fujitsu.com>
@@ -61,40 +61,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 08:08:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220287
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220286
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2 +-
- .../u-boot/{u-boot-tools_2025.04.bb => u-boot-tools_2025.07.bb} | 0
- .../recipes-bsp/u-boot/{u-boot_2025.04.bb => u-boot_2025.07.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-bsp/u-boot/{u-boot-tools_2025.04.bb => u-boot-tools_2025.07.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2025.04.bb => u-boot_2025.07.bb} (100%)
+ meta/recipes-devtools/tcltk/{tcl_9.0.1.bb => tcl_9.0.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/tcltk/{tcl_9.0.1.bb => tcl_9.0.2.bb} (97%)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 8600d4bab6..2734b318d7 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -12,7 +12,7 @@ PE = "1"
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb b/meta/recipes-devtools/tcltk/tcl_9.0.2.bb
+similarity index 97%
+rename from meta/recipes-devtools/tcltk/tcl_9.0.1.bb
+rename to meta/recipes-devtools/tcltk/tcl_9.0.2.bb
+index 765dc64e4d..87773c7717 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.0.1.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.0.2.bb
+@@ -23,7 +23,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl-core${PV}-src.tar.gz \
+            file://0004-tcl-update-the-header-location.patch \
+            file://0005-tcl-fix-race-in-interp.test.patch \
+            "
+-SRC_URI[sha256sum] = "488fcb6c875a1762e9e8478319b20fbad9a31de475f056aeed94cc54b44cf221"
++SRC_URI[sha256sum] = "b563649181dfe12f970673c427c59208074fd7c91a20132d6cadf5d82d3371be"
  
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "34820924edbc4ec7803eb89d9852f4b870fa760a"
-+SRCREV = "e37de002fac3895e8d0b60ae2015e17bb33e2b5b"
- 
- SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV}"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2025.07.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb
-rename to meta/recipes-bsp/u-boot/u-boot-tools_2025.07.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2025.04.bb b/meta/recipes-bsp/u-boot/u-boot_2025.07.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2025.04.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2025.07.bb
+ UPSTREAM_CHECK_URI = "https://www.tcl.tk/software/tcltk/download.html"
+ UPSTREAM_CHECK_REGEX = "tcl(?P<pver>\d+(\.\d+)+)-src"
 -- 
 2.43.0
 
