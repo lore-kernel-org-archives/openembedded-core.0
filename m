@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F85C87FDB
-	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:55:51 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.12488.1752594938645097521
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 516B7CA0ED6
+	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:56:03 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.12159.1752594929585824869
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 08:55:49 -0700
+ Tue, 15 Jul 2025 08:55:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=a9kE6i2S;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=GTR30Xzp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101980ecca0fa-2a36e85b-78a6-4435-b74a-82c6dc1de28f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=mnggt6JV;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=crCDd/IF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101980eccad54-8356872d-c761-40a7-af6e-ec7fa0d0841e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1752594948;
+	t=1752594951;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=aGmJ5iYxsdQrlOT+EIav8V+oLroJBi1cT8DquD+n6IM=;
-	b=a9kE6i2Sm3ey+ZgV45CZ4jVeD1oKsD66D3/A2TxviQ2LJNIWnnQsSoTAfcc/juoO
-	Xl2wv+X2J55sglQaARa57d1zS29o5YqNCKI3/TMVCrwC+kl/WdXCBZS9kRQnc9A8jSt
-	MSlBroxX5WiOT99pzL/hfMQeKc6BN3XfvXo/EnbI=
+	bh=O8LpSKooonUR0pMzFpImCfNko1E9inggcZlC6MkrDO0=;
+	b=mnggt6JVDRnCvZx8M8XpiQOP57QO+XggRDpe58qc9IGIW60LQDWhjjkHbzywKpjQ
+	SYiLGvi1LjlZXfIlOwBctPcHaqmVHHHxGK2AnSHP4Nck8VLvmWhq9Pesmci9vEg1Aem
+	5PQWl74V5sg/VzZ4EH0T0N2pI4nRtxZl5bDYf5UU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594948;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594951;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=aGmJ5iYxsdQrlOT+EIav8V+oLroJBi1cT8DquD+n6IM=;
-	b=GTR30Xzpeqe+bPGsSC+KRy69yXQu/3wzY2DMS5EUfU3/p/Ju09q+Xo90tGYZ/PB0
-	0viKkucB7YuTxtL1jJkhb6g06wdVZqfexOMssjW4mw9hhcwS4pD89iarVV5OZ6VuuLp
-	mCXsllT9plbgp/b02CDQrBSYc7A/3UMu/ZQGiw6w=
-Content-Type: multipart/mixed; boundary="===============3852014364399364397=="
+	bh=O8LpSKooonUR0pMzFpImCfNko1E9inggcZlC6MkrDO0=;
+	b=crCDd/IFsBiC6GAmkBG/EQkGFfkaHFZYrMQmSpzpkcdWRj95G5/tUELWOGN8BOmh
+	cDkdgPVHgvk35sKdHR5lRk4Q3IJiWkPhB7HD0LU4tmrGVwgLLzi9LXs4VJnVjTLvltp
+	6wDIoMfL/OnmujHxiAYceoPiV5QB4riwHftTbq4I=
+Content-Type: multipart/mixed; boundary="===============4235916683763982982=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] stress-ng: upgrading to 0.19.02 SUCCEEDED
-Message-ID: <010101980ecca0fa-2a36e85b-78a6-4435-b74a-82c6dc1de28f-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Jul 2025 15:55:48 +0000
+Subject: [AUH] mesa: upgrading to 25.1.5 SUCCEEDED
+Message-ID: <010101980eccad54-8356872d-c761-40a7-af6e-ec7fa0d0841e-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Jul 2025 15:55:51 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.15-54.240.27.191
+X-SES-Outgoing: 2025.07.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:55:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220369
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:56:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220381
 
---===============3852014364399364397==
+--===============4235916683763982982==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *stress-ng* to *0.19.02* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *mesa* to *25.1.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-stress-ng-upgrade-0.18.12-0.19.02.patch
+    - apply the patch: git am 0001-mesa-upgrade-25.1.4-25.1.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,466 +72,215 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f8299fbcd1685ecfbf11ac2ddf398ac80f7e5bc8 Mon Sep 17 00:00:00 2001
+From 699b5a0b2374849c7b81da71603ccb7812dbaaae Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 11:26:41 +0000
-Subject: [PATCH] stress-ng: upgrade 0.18.12 -> 0.19.02
+Date: Tue, 15 Jul 2025 13:36:46 +0000
+Subject: [PATCH] mesa: upgrade 25.1.4 -> 25.1.5
 
 ---
- .../stress-ng/{stress-ng_0.18.12.bb => stress-ng_0.19.02.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.18.12.bb => stress-ng_0.19.02.bb} (94%)
+ .../0001-dont-build-clover-frontend.patch     | 14 +++++++----
+ ...on-t-encode-build-path-into-binaries.patch | 23 +++++++++----------
+ ...sdetects-64bit-atomics-on-mips-clang.patch |  2 +-
+ meta/recipes-graphics/mesa/mesa.inc           |  4 ++--
+ 4 files changed, 24 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb b/meta/recipes-extended/stress-ng/stress-ng_0.19.02.bb
-similarity index 94%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.19.02.bb
-index 85a0d6a709..c36db61c3b 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.19.02.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-graphics/mesa/files/0001-dont-build-clover-frontend.patch b/meta/recipes-graphics/mesa/files/0001-dont-build-clover-frontend.patch
+index 5f45f94fea..2ee3144fff 100644
+--- a/meta/recipes-graphics/mesa/files/0001-dont-build-clover-frontend.patch
++++ b/meta/recipes-graphics/mesa/files/0001-dont-build-clover-frontend.patch
+@@ -1,5 +1,6 @@
++From 0c9b07d135a3d6880db72b580cd3275028e61f1c Mon Sep 17 00:00:00 2001
+ From: Markus Volk <f_l_k@t-online.de>
+-Date: Sun, 19 Mai 2025 15:34:46 +0100
++Date: Sat, 19 Jul 2025 15:34:46 +0000
+ Subject: [PATCH] dont build clover frontend
  
- SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V${PV} \
-            "
--SRCREV = "d4eef982dc98fe915aa82303c0a24070d0a51b00"
-+SRCREV = "8d5399b282225f758606cd2b522382f65d947a8d"
+ The clover frontend is deprecated and is always built with opencl, even if
+@@ -7,10 +8,15 @@ using rusticl. Additionally it adds a reproducibility issue.
  
- DEPENDS = "coreutils-native libbsd"
+ Upstream-Status: Inappropriate [oe-specific]
+ Signed-off-by: Markus Volk <f_l_k@t-online.de>
++---
++ src/gallium/meson.build | 6 +-----
++ 1 file changed, 1 insertion(+), 5 deletions(-)
+ 
+---- a/src/gallium/meson.build	2025-05-07 18:35:10.000000000 +0200
+-+++ b/src/gallium/meson.build	2025-05-18 17:05:23.677694272 +0200
+-@@ -195,15 +195,11 @@
++diff --git a/src/gallium/meson.build b/src/gallium/meson.build
++index 4d06365..3e2bb8e 100644
++--- a/src/gallium/meson.build
+++++ b/src/gallium/meson.build
++@@ -195,15 +195,11 @@ if with_gallium_d3d12
+  else
+    driver_d3d12 = declare_dependency()
+  endif
+diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
+index 953a724dc0..bc5ee6438b 100644
+--- a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
++++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
+@@ -1,4 +1,4 @@
+-From 027ac36756cc75eea9ed4fee135a351af30b35fd Mon Sep 17 00:00:00 2001
++From 944b099ed6bb77010a2bce3dcb6811eeab388612 Mon Sep 17 00:00:00 2001
+ From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ Date: Tue, 16 Jul 2024 12:32:47 +0300
+ Subject: [PATCH] freedreno: don't encode build path into binaries
+@@ -13,13 +13,14 @@ it manually when running the tests.
+ Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/30206]
+ Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ ---
+- src/freedreno/afuc/meson.build   | 4 ++++
+- src/freedreno/decode/meson.build | 4 +++-
+- src/freedreno/meson.build        | 2 +-
+- 3 files changed, 8 insertions(+), 2 deletions(-)
++ src/freedreno/afuc/meson.build        | 4 ++++
++ src/freedreno/decode/meson.build      | 4 +++-
++ src/freedreno/meson.build             | 2 +-
++ src/freedreno/registers/gen_header.py | 7 ++++---
++ 4 files changed, 12 insertions(+), 5 deletions(-)
+ 
+ diff --git a/src/freedreno/afuc/meson.build b/src/freedreno/afuc/meson.build
+-index bb7cebf5a748..351cc31ef2de 100644
++index bb7cebf..351cc31 100644
+ --- a/src/freedreno/afuc/meson.build
+ +++ b/src/freedreno/afuc/meson.build
+ @@ -56,10 +56,12 @@ if with_tests
+@@ -50,7 +51,7 @@ index bb7cebf5a748..351cc31ef2de 100644
+      )
+      test('afuc-disasm',
+ diff --git a/src/freedreno/decode/meson.build b/src/freedreno/decode/meson.build
+-index 469eeb4eb597..dfa1c12d0d9f 100644
++index 469eeb4..915ba11 100644
+ --- a/src/freedreno/decode/meson.build
+ +++ b/src/freedreno/decode/meson.build
+ @@ -194,6 +194,7 @@ if dep_lua.found() and dep_libarchive.found()
+@@ -72,7 +73,7 @@ index 469eeb4eb597..dfa1c12d0d9f 100644
+  
+      test('crashdec-' + name,
+ diff --git a/src/freedreno/meson.build b/src/freedreno/meson.build
+-index 98e49b8fcf0e..145e72597eb9 100644
++index 29e1bc4..afb7426 100644
+ --- a/src/freedreno/meson.build
+ +++ b/src/freedreno/meson.build
+ @@ -6,7 +6,7 @@ inc_freedreno_rnn = include_directories('rnn')
+@@ -85,9 +86,10 @@ index 98e49b8fcf0e..145e72597eb9 100644
+  dep_libarchive = dependency('libarchive', allow_fallback: true, required: false)
+  dep_libxml2 = dependency('libxml-2.0', allow_fallback: true, required: false)
+ diff --git a/src/freedreno/registers/gen_header.py b/src/freedreno/registers/gen_header.py
++index e1cfb5f..4e3db12 100644
+ --- a/src/freedreno/registers/gen_header.py
+ +++ b/src/freedreno/registers/gen_header.py
+-@@ -885,13 +885,14 @@ The rules-ng-ng source files this header
++@@ -889,13 +889,14 @@ The rules-ng-ng source files this header was generated from are:
+  """)
+  	maxlen = 0
+  	for filepath in p.xml_files:
+@@ -105,6 +107,3 @@ diff --git a/src/freedreno/registers/gen_header.py b/src/freedreno/registers/gen
+  	if p.copyright_year:
+  		current_year = str(datetime.date.today().year)
+  		print()
+----
+-2.39.2
+-
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+index baa98a0d46..2a3151114d 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+@@ -1,4 +1,4 @@
+-From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
++From 3bcfe55a5e99c8085d40652e826fe97169c95b7c Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Jan 2020 15:23:47 -0800
+ Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 3d9e9ec91f..47b95728e0 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -20,8 +20,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-dont-build-clover-frontend.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "164872a5e792408aa72fecd52b7be6409724c4ad81700798675a7d801d976704"
+-PV = "25.1.4"
++SRC_URI[sha256sum] = "3c4f6b10ff6ee950d0ec6ea733cc6e6d34c569454e3d39a9b276de9115a3b363"
++PV = "25.1.5"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
  
 -- 
 2.47.1
 
 
---===============3852014364399364397==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-stress-ng-upgrade-0.18.12-0.19.02.patch"
-
-RnJvbSBmODI5OWZiY2QxNjg1ZWNmYmYxMWFjMmRkZjM5OGFjODBmN2U1YmM4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTE6MjY6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-dHJlc3Mtbmc6IHVwZ3JhZGUgMC4xOC4xMiAtPiAwLjE5LjAyCgotLS0KIC4uLi9zdHJlc3Mtbmcv
-e3N0cmVzcy1uZ18wLjE4LjEyLmJiID0+IHN0cmVzcy1uZ18wLjE5LjAyLmJifSAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcve3N0cmVzcy1uZ18wLjE4LjEyLmJiID0+IHN0
-cmVzcy1uZ18wLjE5LjAyLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRl
-bmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTguMTIuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE5LjAyLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTgu
-MTIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5n
-XzAuMTkuMDIuYmIKaW5kZXggODVhMGQ2YTcwOS4uYzM2ZGI2MWMzYiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xOC4xMi5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE5LjAyLmJiCkBAIC03
-LDcgKzcsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1iMjM0ZWU0
-ZDY5ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29t
-L0NvbGluSWFuS2luZy9zdHJlc3MtbmcuZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXI7
-dGFnPVYke1BWfSBcCiAgICAgICAgICAgICIKLVNSQ1JFViA9ICJkNGVlZjk4MmRjOThmZTkxNWFh
-ODIzMDNjMGEyNDA3MGQwYTUxYjAwIgorU1JDUkVWID0gIjhkNTM5OWIyODIyMjVmNzU4NjA2Y2Qy
-YjUyMjM4MmY2NWQ5NDdhOGQiCiAKIERFUEVORFMgPSAiY29yZXV0aWxzLW5hdGl2ZSBsaWJic2Qi
-CiAKLS0gCjIuNDcuMQoK
-
---===============3852014364399364397==
+--===============4235916683763982982==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/stress-ng: PV changed from "0.18.12" to "0.19.02"
-packages/core2-64-poky-linux/stress-ng: PKGV changed from 0.18.12 [default] to 0.19.02 [default]
-packages/core2-64-poky-linux/stress-ng: SRC_URI changed from "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V0.18.12" to "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V0.19.02"
-packages/core2-64-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.18.12" to "0.19.02"
-packages/core2-64-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.18.12 [default] to 0.19.02 [default]
-packages/core2-64-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.18.12" to "0.19.02"
-packages/core2-64-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.18.12 [default] to 0.19.02 [default]
-packages/core2-64-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 29942584 to 31420424 (+5%)
-packages/core2-64-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.18.12" to "0.19.02"
-packages/core2-64-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.18.12 [default] to 0.19.02 [default]
-packages/core2-64-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.18.12" to "0.19.02"
-packages/core2-64-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.18.12 [default] to 0.19.02 [default]
-packages/core2-64-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 95133 to 96341 (+1%)
-packages/core2-64-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.18.12" to "0.19.02"
-packages/core2-64-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.18.12 [default] to 0.19.02 [default]
-packages/core2-64-poky-linux/stress-ng/stress-ng-src: PV changed from "0.18.12" to "0.19.02"
-packages/core2-64-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.18.12 [default] to 0.19.02 [default]
-packages/core2-64-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 6020944 to 6192857 (+3%)
-packages/core2-64-poky-linux/stress-ng/stress-ng-src: FILELIST: removed "/usr/src/debug/stress-ng/0.18.12/stress-physpage.c /usr/src/debug/stress-ng/0.18.12/stress-physmmap.c /usr/src/debug/stress-ng/0.18.12/stress-chattr.c /usr/src/debug/stress-ng/0.18.12/stress-eventfd.c /usr/src/debug/stress-ng/0.18.12/stress-timer.c /usr/src/debug/stress-ng/0.18.12/stress-misaligned.c /usr/src/debug/stress-ng/0.18.12/stress-ptrace.c /usr/src/debug/stress-ng/0.18.12/stress-secretmem.c /usr/src/debug/stress-ng/0.18.12/stress-signal.c /usr/src/debug/stress-ng/0.18.12/core-mmap.h /usr/src/debug/stress-ng/0.18.12/core-thrash.c /usr/src/debug/stress-ng/0.18.12/core-mmap.c /usr/src/debug/stress-ng/0.18.12/core-thrash.h /usr/src/debug/stress-ng/0.18.12/stress-access.c /usr/src/debug/stress-ng/0.18.12/core-bitops.h /usr/src/debug/stress-ng/0.18.12/stress-spinmem.c /usr/src/debug/stress-ng/0.18.12/stress-rlimit.c /usr/src/debug/stress-ng/0.18.12/stress-clock.c /usr/src/debug/stress-ng/0.18.12/stress-bitops
- .c /usr/src/debug/stress-ng/0.18.12/core-processes.h /usr/src/debug/stress-ng/0.18.12/core-processes.c /usr/src/debug/stress-ng/0.18.12/stress-shm.c /usr/src/debug/stress-ng/0.18.12/stress-msyncmany.c /usr/src/debug/stress-ng/0.18.12/stress-readahead.c /usr/src/debug/stress-ng/0.18.12/stress-icmp-flood.c /usr/src/debug/stress-ng/0.18.12/stress-efivar.c /usr/src/debug/stress-ng/0.18.12/stress-exec.c /usr/src/debug/stress-ng/0.18.12/stress-ng.c /usr/src/debug/stress-ng/0.18.12/core-clocksource.c /usr/src/debug/stress-ng/0.18.12/core-job.h /usr/src/debug/stress-ng/0.18.12/stress-bitonicsort.c /usr/src/debug/stress-ng/0.18.12/core-job.c /usr/src/debug/stress-ng/0.18.12/core-clocksource.h /usr/src/debug/stress-ng/0.18.12/stress-tsearch.c /usr/src/debug/stress-ng/0.18.12/stress-cpu-sched.c /usr/src/debug/stress-ng/0.18.12/stress-chroot.c /usr/src/debug/stress-ng/0.18.12/stress-ng.h /usr/src/debug/stress-ng/0.18.12/stress-veccmp.c /usr/src/debug/stress-ng/0.18.12/stress-dev.c /usr/src/debu
- g/stress-ng/0.18.12/core-ignite-cpu.c /usr/src/debug/stress-ng/0.18.12/stress-vdso.c /usr/src/debug/stress-ng/0.18.12/core-ignite-cpu.h /usr/src/debug/stress-ng/0.18.12/stress-l1cache.c /usr/src/debug/stress-ng/0.18.12/stress-zero.c /usr/src/debug/stress-ng/0.18.12/stress-monte-carlo.c /usr/src/debug/stress-ng/0.18.12/stress-fp-error.c /usr/src/debug/stress-ng/0.18.12/stress-open.c /usr/src/debug/stress-ng/0.18.12/stress-pci.c /usr/src/debug/stress-ng/0.18.12/stress-sigq.c /usr/src/debug/stress-ng/0.18.12/stress-ring-pipe.c /usr/src/debug/stress-ng/0.18.12/core-madvise.c /usr/src/debug/stress-ng/0.18.12/stress-pagemove.c /usr/src/debug/stress-ng/0.18.12/stress-pageswap.c /usr/src/debug/stress-ng/0.18.12/stress-pipeherd.c /usr/src/debug/stress-ng/0.18.12/stress-rawsock.c /usr/src/debug/stress-ng/0.18.12/core-madvise.h /usr/src/debug/stress-ng/0.18.12/stress-randlist.c /usr/src/debug/stress-ng/0.18.12/stress-umask.c /usr/src/debug/stress-ng/0.18.12/stress-insertionsort.c /usr/src/debu
- g/stress-ng/0.18.12/stress-vm-rw.c /usr/src/debug/stress-ng/0.18.12/stress-utime.c /usr/src/debug/stress-ng/0.18.12/core-mincore.c /usr/src/debug/stress-ng/0.18.12/stress-sleep.c /usr/src/debug/stress-ng/0.18.12/core-asm-x86.h /usr/src/debug/stress-ng/0.18.12/core-mincore.h /usr/src/debug/stress-ng/0.18.12/stress-judy.c /usr/src/debug/stress-ng/0.18.12/stress-memfd.c /usr/src/debug/stress-ng/0.18.12/core-resources.h /usr/src/debug/stress-ng/0.18.12/stress-spawn.c /usr/src/debug/stress-ng/0.18.12/core-resources.c /usr/src/debug/stress-ng/0.18.12/stress-vma.c /usr/src/debug/stress-ng/0.18.12/core-perf.c /usr/src/debug/stress-ng/0.18.12/core-vmstat.c /usr/src/debug/stress-ng/0.18.12/stress-nice.c /usr/src/debug/stress-ng/0.18.12/core-perf.h /usr/src/debug/stress-ng/0.18.12/core-vmstat.h /usr/src/debug/stress-ng/0.18.12/core-builtin.h /usr/src/debug/stress-ng/0.18.12/core-affinity.h /usr/src/debug/stress-ng/0.18.12/stress-stream.c /usr/src/debug/stress-ng/0.18.12/core-affinity.c /usr/sr
- c/debug/stress-ng/0.18.12/stress-fma.c /usr/src/debug/stress-ng/0.18.12/stress-plugin.c /usr/src/debug/stress-ng/0.18.12/stress-userfaultfd.c /usr/src/debug/stress-ng/0.18.12/stress-cpu-online.c /usr/src/debug/stress-ng/0.18.12/stress-fstat.c /usr/src/debug/stress-ng/0.18.12/stress-sigpending.c /usr/src/debug/stress-ng/0.18.12/stress-malloc.c /usr/src/debug/stress-ng/0.18.12/stress-sem-sysv.c /usr/src/debug/stress-ng/0.18.12/stress-sendfile.c /usr/src/debug/stress-ng/0.18.12/core-sort.c /usr/src/debug/stress-ng/0.18.12/core-mlock.c /usr/src/debug/stress-ng/0.18.12/core-limit.c /usr/src/debug/stress-ng/0.18.12/core-sort.h /usr/src/debug/stress-ng/0.18.12/stress-futex.c /usr/src/debug/stress-ng/0.18.12/core-limit.h /usr/src/debug/stress-ng/0.18.12/core-mlock.h /usr/src/debug/stress-ng/0.18.12/stress-binderfs.c /usr/src/debug/stress-ng/0.18.12/stress-pidfd.c /usr/src/debug/stress-ng/0.18.12/stress-cgroup.c /usr/src/debug/stress-ng/0.18.12/stress-hsearch.c /usr/src/debug/stress-ng/0.18.
- 12/stress-inode-flags.c /usr/src/debug/stress-ng/0.18.12/stress-netlink-proc.c /usr/src/debug/stress-ng/0.18.12/stress-stack.c /usr/src/debug/stress-ng/0.18.12/stress-syscall.c /usr/src/debug/stress-ng/0.18.12/stress-yield.c /usr/src/debug/stress-ng/0.18.12/stress-landlock.c /usr/src/debug/stress-ng/0.18.12/stress-set.c /usr/src/debug/stress-ng/0.18.12/stress-ping-sock.c /usr/src/debug/stress-ng/0.18.12/stress-personality.c /usr/src/debug/stress-ng/0.18.12/stress-fcntl.c /usr/src/debug/stress-ng/0.18.12/core-asm-generic.h /usr/src/debug/stress-ng/0.18.12/stress-dccp.c /usr/src/debug/stress-ng/0.18.12/stress-statmount.c /usr/src/debug/stress-ng/0.18.12/stress-fanotify.c /usr/src/debug/stress-ng/0.18.12/stress-filename.c /usr/src/debug/stress-ng/0.18.12/stress-pty.c /usr/src/debug/stress-ng/0.18.12/stress-forkheavy.c /usr/src/debug/stress-ng/0.18.12/stress-clone.c /usr/src/debug/stress-ng/0.18.12/stress-rawdev.c /usr/src/debug/stress-ng/0.18.12/stress-kill.c /usr/src/debug/stress-ng/0
- .18.12/stress-prefetch.c /usr/src/debug/stress-ng/0.18.12/stress-prio-inv.c /usr/src/debug/stress-ng/0.18.12/stress-eigen.c /usr/src/debug/stress-ng/0.18.12/stress-chown.c /usr/src/debug/stress-ng/0.18.12/stress-far-branch.c /usr/src/debug/stress-ng/0.18.12/stress-vecmath.c /usr/src/debug/stress-ng/0.18.12/stress-mmapfixed.c /usr/src/debug/stress-ng/0.18.12/core-setting.c /usr/src/debug/stress-ng/0.18.12/stress-vecshuf.c /usr/src/debug/stress-ng/0.18.12/stress-vecwide.c /usr/src/debug/stress-ng/0.18.12/stress-vm-addr.c /usr/src/debug/stress-ng/0.18.12/stress-vm-segv.c /usr/src/debug/stress-ng/0.18.12/core-setting.h /usr/src/debug/stress-ng/0.18.12/core-hash.h /usr/src/debug/stress-ng/0.18.12/stress-dentry.c /usr/src/debug/stress-ng/0.18.12/stress-env.c /usr/src/debug/stress-ng/0.18.12/core-hash.c /usr/src/debug/stress-ng/0.18.12/stress-factor.c /usr/src/debug/stress-ng/0.18.12/stress-get.c /usr/src/debug/stress-ng/0.18.12/stress-sigbus.c /usr/src/debug/stress-ng/0.18.12/stress-hdd.c
-  /usr/src/debug/stress-ng/0.18.12/stress-dup.c /usr/src/debug/stress-ng/0.18.12/stress-sigsuspend.c /usr/src/debug/stress-ng/0.18.12/stress-zlib.c /usr/src/debug/stress-ng/0.18.12/stress-splice.c /usr/src/debug/stress-ng/0.18.12/core-module.h /usr/src/debug/stress-ng/0.18.12/stress-cyclic.c /usr/src/debug/stress-ng/0.18.12/stress-mseal.c /usr/src/debug/stress-ng/0.18.12/stress-regs.c /usr/src/debug/stress-ng/0.18.12/core-module.c /usr/src/debug/stress-ng/0.18.12/stress-chdir.c /usr/src/debug/stress-ng/0.18.12/stress-munmap.c /usr/src/debug/stress-ng/0.18.12/stress-branch.c /usr/src/debug/stress-ng/0.18.12/stress-rotate.c /usr/src/debug/stress-ng/0.18.12/stress-sock.c /usr/src/debug/stress-ng/0.18.12/stress-pthread.c /usr/src/debug/stress-ng/0.18.12/core-pthread.h /usr/src/debug/stress-ng/0.18.12/stress-timerfd.c /usr/src/debug/stress-ng/0.18.12/stress-lockf.c /usr/src/debug/stress-ng/0.18.12/stress-lease.c /usr/src/debug/stress-ng/0.18.12/stress-loadavg.c /usr/src/debug/stress-ng/0.
- 18.12/core-out-of-memory.h /usr/src/debug/stress-ng/0.18.12/stress-lockbus.c /usr/src/debug/stress-ng/0.18.12/stress-lockmix.c /usr/src/debug/stress-ng/0.18.12/stress-lockofd.c /usr/src/debug/stress-ng/0.18.12/stress-dynlib.c /usr/src/debug/stress-ng/0.18.12/core-out-of-memory.c /usr/src/debug/stress-ng/0.18.12/stress-logmath.c /usr/src/debug/stress-ng/0.18.12/stress-longjmp.c /usr/src/debug/stress-ng/0.18.12/stress-qsort.c /usr/src/debug/stress-ng/0.18.12/stress-netlink-task.c /usr/src/debug/stress-ng/0.18.12/stress-dev-shm.c /usr/src/debug/stress-ng/0.18.12/stress-easy-opcode.c /usr/src/debug/stress-ng/0.18.12/core-opts.c /usr/src/debug/stress-ng/0.18.12/core-opts.h /usr/src/debug/stress-ng/0.18.12/stress-msg.c /usr/src/debug/stress-ng/0.18.12/stress-memrate.c /usr/src/debug/stress-ng/0.18.12/stress-metamix.c /usr/src/debug/stress-ng/0.18.12/stress-led.c /usr/src/debug/stress-ng/0.18.12/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.18.12/stress-rtc.c /usr/src/debug/stress-ng/0.18
- .12/stress-x86syscall.c /usr/src/debug/stress-ng/0.18.12/stress-aiol.c /usr/src/debug/stress-ng/0.18.12/stress-workload.c /usr/src/debug/stress-ng/0.18.12/core-parse-opts.c /usr/src/debug/stress-ng/0.18.12/stress-sparsematrix.c /usr/src/debug/stress-ng/0.18.12/core-parse-opts.h /usr/src/debug/stress-ng/0.18.12/stress-cacheline.c /usr/src/debug/stress-ng/0.18.12/stress-oom-pipe.c /usr/src/debug/stress-ng/0.18.12/stress-ioport.c /usr/src/debug/stress-ng/0.18.12/stress-memthrash.c /usr/src/debug/stress-ng/0.18.12/stress-goto.c /usr/src/debug/stress-ng/0.18.12/stress-io-uring.c /usr/src/debug/stress-ng/0.18.12/stress-bsearch.c /usr/src/debug/stress-ng/0.18.12/stress-fibsearch.c /usr/src/debug/stress-ng/0.18.12/stress-schedpolicy.c /usr/src/debug/stress-ng/0.18.12/stress-fd-fork.c /usr/src/debug/stress-ng/0.18.12/stress-fd-race.c /usr/src/debug/stress-ng/0.18.12/stress-seccomp.c /usr/src/debug/stress-ng/0.18.12/stress-session.c /usr/src/debug/stress-ng/0.18.12/stress-fpunch.c /usr/src/de
- bug/stress-ng/0.18.12/stress-sockfd.c /usr/src/debug/stress-ng/0.18.12/stress-exit-group.c /usr/src/debug/stress-ng/0.18.12/stress-idle-page.c /usr/src/debug/stress-ng/0.18.12/stress-mergesort.c /usr/src/debug/stress-ng/0.18.12/stress-fsize.c /usr/src/debug/stress-ng/0.18.12/stress-jpeg.c /usr/src/debug/stress-ng/0.18.12/stress-affinity.c /usr/src/debug/stress-ng/0.18.12/core-thermal-zone.h /usr/src/debug/stress-ng/0.18.12/stress-msync.c /usr/src/debug/stress-ng/0.18.12/stress-zombie.c /usr/src/debug/stress-ng/0.18.12/stress-opcode.c /usr/src/debug/stress-ng/0.18.12/core-thermal-zone.c /usr/src/debug/stress-ng/0.18.12/stress-mlockmany.c /usr/src/debug/stress-ng/0.18.12/stress-dir.c /usr/src/debug/stress-ng/0.18.12/core-net.c /usr/src/debug/stress-ng/0.18.12/stress-tmpfs.c /usr/src/debug/stress-ng/0.18.12/stress-sockdiag.c /usr/src/debug/stress-ng/0.18.12/core-net.h /usr/src/debug/stress-ng/0.18.12/core-put.h /usr/src/debug/stress-ng/0.18.12/stress-sem.c /usr/src/debug/stress-ng/0.18
- .12/stress-sockmany.c /usr/src/debug/stress-ng/0.18.12/stress-sockpair.c /usr/src/debug/stress-ng/0.18.12/stress-iomix.c /usr/src/debug/stress-ng/0.18.12/stress-klog.c /usr/src/debug/stress-ng/0.18.12/stress-module.c /usr/src/debug/stress-ng/0.18.12/stress-fiemap.c /usr/src/debug/stress-ng/0.18.12/stress-seek.c /usr/src/debug/stress-ng/0.18.12/stress-daemon.c /usr/src/debug/stress-ng/0.18.12/stress-mmap.c /usr/src/debug/stress-ng/0.18.12/stress-swap.c /usr/src/debug/stress-ng/0.18.12/stress-mtx.c /usr/src/debug/stress-ng/0.18.12/stress-alarm.c /usr/src/debug/stress-ng/0.18.12/stress-sigrt.c /usr/src/debug/stress-ng/0.18.12/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.18.12/stress-mknod.c /usr/src/debug/stress-ng/0.18.12/stress-wcs.c /usr/src/debug/stress-ng/0.18.12/stress-urandom.c /usr/src/debug/stress-ng/0.18.12/core-smart.c /usr/src/debug/stress-ng/0.18.12/stress-x86cpuid.c /usr/src/debug/stress-ng/0.18.12/core-smart.h /usr/src/debug/stress-ng/0.18.12/stress-race-sched.c /us
- r/src/debug/stress-ng/0.18.12/stress-flock.c /usr/src/debug/stress-ng/0.18.12/stress-sigfd.c /usr/src/debug/stress-ng/0.18.12/stress-list.c /usr/src/debug/stress-ng/0.18.12/stress-membarrier.c /usr/src/debug/stress-ng/0.18.12/stress-rmap.c /usr/src/debug/stress-ng/0.18.12/core-cpu.c /usr/src/debug/stress-ng/0.18.12/core-cpu.h /usr/src/debug/stress-ng/0.18.12/stress-tsc.c /usr/src/debug/stress-ng/0.18.12/stress-lsm.c /usr/src/debug/stress-ng/0.18.12/stress-rawpkt.c /usr/src/debug/stress-ng/0.18.12/stress-sigvtalrm.c /usr/src/debug/stress-ng/0.18.12/stress-sigill.c /usr/src/debug/stress-ng/0.18.12/stress-icache.c /usr/src/debug/stress-ng/0.18.12/stress-fallocate.c /usr/src/debug/stress-ng/0.18.12/stress-dfp.c /usr/src/debug/stress-ng/0.18.12/stress-loop.c /usr/src/debug/stress-ng/0.18.12/stress-reboot.c /usr/src/debug/stress-ng/0.18.12/stress-sync-file.c /usr/src/debug/stress-ng/0.18.12/stress-mcontend.c /usr/src/debug/stress-ng/0.18.12/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.18.
- 12/core-nt-store.h /usr/src/debug/stress-ng/0.18.12/stress-vnni.c /usr/src/debug/stress-ng/0.18.12/core-try-open.c /usr/src/debug/stress-ng/0.18.12/stress-waitcpu.c /usr/src/debug/stress-ng/0.18.12/core-try-open.h /usr/src/debug/stress-ng/0.18.12/stress-smi.c /usr/src/debug/stress-ng/0.18.12/stress-pipe.c /usr/src/debug/stress-ng/0.18.12/core-interrupts.h /usr/src/debug/stress-ng/0.18.12/stress-min-nanosleep.c /usr/src/debug/stress-ng/0.18.12/stress-pseek.c /usr/src/debug/stress-ng/0.18.12/core-interrupts.c /usr/src/debug/stress-ng/0.18.12/stress-getdent.c /usr/src/debug/stress-ng/0.18.12/stress-shm-sysv.c /usr/src/debug/stress-ng/0.18.12/core-config-check.c /usr/src/debug/stress-ng/0.18.12/core-killpid.h /usr/src/debug/stress-ng/0.18.12/core-killpid.c /usr/src/debug/stress-ng/0.18.12/core-config-check.h /usr/src/debug/stress-ng/0.18.12/stress-ioprio.c /usr/src/debug/stress-ng/0.18.12/stress-vforkmany.c /usr/src/debug/stress-ng/0.18.12/stress-bind-mount.c /usr/src/debug/stress-ng/0.
- 18.12/stress-switch.c /usr/src/debug/stress-ng/0.18.12/core-sched.c /usr/src/debug/stress-ng/0.18.12/core-sched.h /usr/src/debug/stress-ng/0.18.12/stress-radixsort.c /usr/src/debug/stress-ng/0.18.12/stress-handle.c /usr/src/debug/stress-ng/0.18.12/stress-vm-splice.c /usr/src/debug/stress-ng/0.18.12/stress-fork.c /usr/src/debug/stress-ng/0.18.12/stress-heapsort.c /usr/src/debug/stress-ng/0.18.12/stress-mutex.c /usr/src/debug/stress-ng/0.18.12/core-helper.c /usr/src/debug/stress-ng/0.18.12/core-helper.h /usr/src/debug/stress-ng/0.18.12/stress-pkey.c /usr/src/debug/stress-ng/0.18.12/stress-bubblesort.c /usr/src/debug/stress-ng/0.18.12/core-cpu-cache.h /usr/src/debug/stress-ng/0.18.12/core-cpu-cache.c /usr/src/debug/stress-ng/0.18.12/stress-flipflop.c /usr/src/debug/stress-ng/0.18.12/stress-inotify.c /usr/src/debug/stress-ng/0.18.12/stress-intmath.c /usr/src/debug/stress-ng/0.18.12/stress-matrix.c /usr/src/debug/stress-ng/0.18.12/stress-kcmp.c /usr/src/debug/stress-ng/0.18.12/stress-pet
- erson.c /usr/src/debug/stress-ng/0.18.12/stress-gpu.c /usr/src/debug/stress-ng/0.18.12/stress-resched.c /usr/src/debug/stress-ng/0.18.12/stress-watchdog.c /usr/src/debug/stress-ng/0.18.12/stress-cachehammer.c /usr/src/debug/stress-ng/0.18.12/stress-copy-file.c /usr/src/debug/stress-ng/0.18.12/core-cpuidle.c /usr/src/debug/stress-ng/0.18.12/core-mwc.c /usr/src/debug/stress-ng/0.18.12/core-cpuidle.h /usr/src/debug/stress-ng/0.18.12/stress-enosys.c /usr/src/debug/stress-ng/0.18.12/core-mwc.h /usr/src/debug/stress-ng/0.18.12/stress-key.c /usr/src/debug/stress-ng/0.18.12/stress-mprotect.c /usr/src/debug/stress-ng/0.18.12/stress-nop.c /usr/src/debug/stress-ng/0.18.12/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.18.12/stress-kvm.c /usr/src/debug/stress-ng/0.18.12/stress-vecfp.c /usr/src/debug/stress-ng/0.18.12/stress-bigheap.c /usr/src/debug/stress-ng/0.18.12/stress-sysfs.c /usr/src/debug/stress-ng/0.18.12/stress-netdev.c /usr/src/debug/stress-ng/0.18.12/stress-resources.c /usr/src/debug/
- stress-ng/0.18.12/stress-fractal.c /usr/src/debug/stress-ng/0.18.12/stress-xattr.c /usr/src/debug/stress-ng/0.18.12/stress-time-warp.c /usr/src/debug/stress-ng/0.18.12/stress-procfs.c /usr/src/debug/stress-ng/0.18.12/stress-quota.c /usr/src/debug/stress-ng/0.18.12/stress-rename.c /usr/src/debug/stress-ng/0.18.12/core-log.c /usr/src/debug/stress-ng/0.18.12/stress-mremap.c /usr/src/debug/stress-ng/0.18.12/core-log.h /usr/src/debug/stress-ng/0.18.12/stress-apparmor.c /usr/src/debug/stress-ng/0.18.12/stress-tree.c /usr/src/debug/stress-ng/0.18.12/stress-context.c /usr/src/debug/stress-ng/0.18.12/stress-unlink.c /usr/src/debug/stress-ng/0.18.12/stress-file-ioctl.c /usr/src/debug/stress-ng/0.18.12/stress-acl.c /usr/src/debug/stress-ng/0.18.12/stress-syncload.c /usr/src/debug/stress-ng/0.18.12/stress-sysinval.c /usr/src/debug/stress-ng/0.18.12/stress-besselmath.c /usr/src/debug/stress-ng/0.18.12/stress-cache.c /usr/src/debug/stress-ng/0.18.12/stress-regex.c /usr/src/debug/stress-ng/0.18.12
- /stress-rseq.c /usr/src/debug/stress-ng/0.18.12/stress-cpu.c /usr/src/debug/stress-ng/0.18.12/stress-vm.c /usr/src/debug/stress-ng/0.18.12/stress-sigfpe.c /usr/src/debug/stress-ng/0.18.12/core-io-priority.h /usr/src/debug/stress-ng/0.18.12/stress-hrtimers.c /usr/src/debug/stress-ng/0.18.12/core-io-priority.c /usr/src/debug/stress-ng/0.18.12/stress-umount.c /usr/src/debug/stress-ng/0.18.12/stress-dnotify.c /usr/src/debug/stress-ng/0.18.12/stress-nanosleep.c /usr/src/debug/stress-ng/0.18.12/stress-shellsort.c /usr/src/debug/stress-ng/0.18.12/stress-funccall.c /usr/src/debug/stress-ng/0.18.12/stress-atomic.c /usr/src/debug/stress-ng/0.18.12/stress-locka.c /usr/src/debug/stress-ng/0.18.12/stress-stackmmap.c /usr/src/debug/stress-ng/0.18.12/stress-remap.c /usr/src/debug/stress-ng/0.18.12/stress-touch.c /usr/src/debug/stress-ng/0.18.12/stress-sctp.c /usr/src/debug/stress-ng/0.18.12/stress-expmath.c /usr/src/debug/stress-ng/0.18.12/stress-udp-flood.c /usr/src/debug/stress-ng/0.18.12/core-s
- him.h /usr/src/debug/stress-ng/0.18.12/stress-verity.c /usr/src/debug/stress-ng/0.18.12/core-shared-heap.c /usr/src/debug/stress-ng/0.18.12/stress-matrix-3d.c /usr/src/debug/stress-ng/0.18.12/core-shim.c /usr/src/debug/stress-ng/0.18.12/stress-llc-affinity.c /usr/src/debug/stress-ng/0.18.12/core-shared-heap.h /usr/src/debug/stress-ng/0.18.12/stress-uprobe.c /usr/src/debug/stress-ng/0.18.12/core-asm-ret.h /usr/src/debug/stress-ng/0.18.12/stress-hyperbolic.c /usr/src/debug/stress-ng/0.18.12/stress-wait.c /usr/src/debug/stress-ng/0.18.12/core-asm-ret.c /usr/src/debug/stress-ng/0.18.12/stress-sockabuse.c /usr/src/debug/stress-ng/0.18.12/stress-mmapaddr.c /usr/src/debug/stress-ng/0.18.12/stress-mmapfork.c /usr/src/debug/stress-ng/0.18.12/stress-mmaphuge.c /usr/src/debug/stress-ng/0.18.12/stress-mmapmany.c /usr/src/debug/stress-ng/0.18.12/stress-softlockup.c /usr/src/debug/stress-ng/0.18.12/stress-crypt.c /usr/src/debug/stress-ng/0.18.12/stress-hash.c /usr/src/debug/stress-ng/0.18.12/stre
- ss-funcret.c /usr/src/debug/stress-ng/0.18.12/stress-mmapfiles.c /usr/src/debug/stress-ng/0.18.12/stress-mpfr.c /usr/src/debug/stress-ng/0.18.12/stress-fifo.c /usr/src/debug/stress-ng/0.18.12/core-mounts.h /usr/src/debug/stress-ng/0.18.12/core-rapl.c /usr/src/debug/stress-ng/0.18.12/core-mounts.c /usr/src/debug/stress-ng/0.18.12/core-rapl.h /usr/src/debug/stress-ng/0.18.12/stress-bad-altstack.c /usr/src/debug/stress-ng/0.18.12/stress-poll.c /usr/src/debug/stress-ng/0.18.12/core-numa.h /usr/src/debug/stress-ng/0.18.12/stress-udp.c /usr/src/debug/stress-ng/0.18.12/core-numa.c /usr/src/debug/stress-ng/0.18.12/stress-ptr-chase.c /usr/src/debug/stress-ng/0.18.12/stress-fault.c /usr/src/debug/stress-ng/0.18.12/stress-aio.c /usr/src/debug/stress-ng/0.18.12/core-time.c /usr/src/debug/stress-ng/0.18.12/stress-prctl.c /usr/src/debug/stress-ng/0.18.12/core-time.h /usr/src/debug/stress-ng/0.18.12/stress-lsearch.c /usr/src/debug/stress-ng/0.18.12/stress-epoll.c /usr/src/debug/stress-ng/0.18.12/s
- tress-cap.c /usr/src/debug/stress-ng/0.18.12/core-ftrace.c /usr/src/debug/stress-ng/0.18.12/stress-close.c /usr/src/debug/stress-ng/0.18.12/stress-dirdeep.c /usr/src/debug/stress-ng/0.18.12/stress-dirmany.c /usr/src/debug/stress-ng/0.18.12/stress-priv-instr.c /usr/src/debug/stress-ng/0.18.12/core-ftrace.h /usr/src/debug/stress-ng/0.18.12/stress-af-alg.c /usr/src/debug/stress-ng/0.18.12/stress-numa.c /usr/src/debug/stress-ng/0.18.12/stress-mmaptorture.c /usr/src/debug/stress-ng/0.18.12/stress-madvise.c /usr/src/debug/stress-ng/0.18.12/stress-mincore.c /usr/src/debug/stress-ng/0.18.12/stress-link.c /usr/src/debug/stress-ng/0.18.12/stress-flushcache.c /usr/src/debug/stress-ng/0.18.12/core-lock.c /usr/src/debug/stress-ng/0.18.12/stress-ramfs.c /usr/src/debug/stress-ng/0.18.12/stress-tun.c /usr/src/debug/stress-ng/0.18.12/core-lock.h /usr/src/debug/stress-ng/0.18.12/stress-rdrand.c /usr/src/debug/stress-ng/0.18.12/stress-sighup.c /usr/src/debug/stress-ng/0.18.12/stress-seal.c /usr/src/de
- bug/stress-ng/0.18.12/stress-io.c /usr/src/debug/stress-ng/0.18.12/stress-memcpy.c /usr/src/debug/stress-ng/0.18.12/stress-sysinfo.c /usr/src/debug/stress-ng/0.18.12/stress-fp.c /usr/src/debug/stress-ng/0.18.12/stress-sigabrt.c /usr/src/debug/stress-ng/0.18.12/stress-sigchld.c /usr/src/debug/stress-ng/0.18.12/stress-signest.c /usr/src/debug/stress-ng/0.18.12/stress-sigpipe.c /usr/src/debug/stress-ng/0.18.12/stress-sigsegv.c /usr/src/debug/stress-ng/0.18.12/stress-sigtrap.c /usr/src/debug/stress-ng/0.18.12/stress-sigxcpu.c /usr/src/debug/stress-ng/0.18.12/stress-sigxfsz.c /usr/src/debug/stress-ng/0.18.12/stress-trig.c /usr/src/debug/stress-ng/0.18.12/stress-tee.c /usr/src/debug/stress-ng/0.18.12/stress-chmod.c /usr/src/debug/stress-ng/0.18.12/stress-revio.c /usr/src/debug/stress-ng/0.18.12/stress-sigurg.c /usr/src/debug/stress-ng/0.18.12/stress-usersyscall.c /usr/src/debug/stress-ng/0.18.12/stress-sigio.c /usr/src/debug/stress-ng/0.18.12/stress-schedmix.c /usr/src/debug/stress-ng/0.1
- 8.12/stress-skiplist.c /usr/src/debug/stress-ng/0.18.12/stress-powmath.c /usr/src/debug/stress-ng/0.18.12/core-klog.h /usr/src/debug/stress-ng/0.18.12/stress-memhotplug.c /usr/src/debug/stress-ng/0.18.12/stress-str.c /usr/src/debug/stress-ng/0.18.12/core-klog.c /usr/src/debug/stress-ng/0.18.12/stress-mlock.c /usr/src/debug/stress-ng/0.18.12/stress-brk.c /usr/src/debug/stress-ng/0.18.12/stress-null.c /usr/src/debug/stress-ng/0.18.12/stress-getrandom.c /usr/src/debug/stress-ng/0.18.12/stress-dekker.c /usr/src/debug/stress-ng/0.18.12/stress-rawudp.c /usr/src/debug/stress-ng/0.18.12/stress-mq.c /usr/src/debug/stress-ng/0.18.12/core-config.c /usr/src/debug/stress-ng/0.18.12/stress-full.c /usr/src/debug/stress-ng/0.18.12/stress-itimer.c /usr/src/debug/stress-ng/0.18.12/stress-prime.c /usr/src/debug/stress-ng/0.18.12/stress-unshare.c", added "/usr/src/debug/stress-ng/0.19.02/stress-physpage.c /usr/src/debug/stress-ng/0.19.02/stress-physmmap.c /usr/src/debug/stress-ng/0.19.02/stress-chattr.
- c /usr/src/debug/stress-ng/0.19.02/stress-eventfd.c /usr/src/debug/stress-ng/0.19.02/stress-timer.c /usr/src/debug/stress-ng/0.19.02/stress-misaligned.c /usr/src/debug/stress-ng/0.19.02/stress-ptrace.c /usr/src/debug/stress-ng/0.19.02/stress-secretmem.c /usr/src/debug/stress-ng/0.19.02/stress-signal.c /usr/src/debug/stress-ng/0.19.02/core-mmap.h /usr/src/debug/stress-ng/0.19.02/core-thrash.c /usr/src/debug/stress-ng/0.19.02/core-mmap.c /usr/src/debug/stress-ng/0.19.02/core-thrash.h /usr/src/debug/stress-ng/0.19.02/stress-access.c /usr/src/debug/stress-ng/0.19.02/core-bitops.h /usr/src/debug/stress-ng/0.19.02/stress-spinmem.c /usr/src/debug/stress-ng/0.19.02/stress-rlimit.c /usr/src/debug/stress-ng/0.19.02/stress-clock.c /usr/src/debug/stress-ng/0.19.02/stress-bitops.c /usr/src/debug/stress-ng/0.19.02/core-processes.h /usr/src/debug/stress-ng/0.19.02/core-processes.c /usr/src/debug/stress-ng/0.19.02/core-sync.c /usr/src/debug/stress-ng/0.19.02/stress-shm.c /usr/src/debug/stress-ng/0.
- 19.02/stress-msyncmany.c /usr/src/debug/stress-ng/0.19.02/stress-readahead.c /usr/src/debug/stress-ng/0.19.02/core-sync.h /usr/src/debug/stress-ng/0.19.02/stress-icmp-flood.c /usr/src/debug/stress-ng/0.19.02/stress-efivar.c /usr/src/debug/stress-ng/0.19.02/stress-exec.c /usr/src/debug/stress-ng/0.19.02/stress-ng.c /usr/src/debug/stress-ng/0.19.02/core-clocksource.c /usr/src/debug/stress-ng/0.19.02/core-job.h /usr/src/debug/stress-ng/0.19.02/stress-bitonicsort.c /usr/src/debug/stress-ng/0.19.02/core-job.c /usr/src/debug/stress-ng/0.19.02/core-clocksource.h /usr/src/debug/stress-ng/0.19.02/stress-tsearch.c /usr/src/debug/stress-ng/0.19.02/stress-cpu-sched.c /usr/src/debug/stress-ng/0.19.02/stress-chroot.c /usr/src/debug/stress-ng/0.19.02/stress-ng.h /usr/src/debug/stress-ng/0.19.02/stress-veccmp.c /usr/src/debug/stress-ng/0.19.02/stress-dev.c /usr/src/debug/stress-ng/0.19.02/core-ignite-cpu.c /usr/src/debug/stress-ng/0.19.02/stress-vdso.c /usr/src/debug/stress-ng/0.19.02/core-ignite-c
- pu.h /usr/src/debug/stress-ng/0.19.02/stress-l1cache.c /usr/src/debug/stress-ng/0.19.02/stress-zero.c /usr/src/debug/stress-ng/0.19.02/stress-monte-carlo.c /usr/src/debug/stress-ng/0.19.02/stress-fp-error.c /usr/src/debug/stress-ng/0.19.02/stress-open.c /usr/src/debug/stress-ng/0.19.02/stress-pci.c /usr/src/debug/stress-ng/0.19.02/stress-sigq.c /usr/src/debug/stress-ng/0.19.02/stress-ring-pipe.c /usr/src/debug/stress-ng/0.19.02/core-madvise.c /usr/src/debug/stress-ng/0.19.02/stress-pagemove.c /usr/src/debug/stress-ng/0.19.02/stress-pageswap.c /usr/src/debug/stress-ng/0.19.02/stress-pipeherd.c /usr/src/debug/stress-ng/0.19.02/stress-rawsock.c /usr/src/debug/stress-ng/0.19.02/core-madvise.h /usr/src/debug/stress-ng/0.19.02/stress-randlist.c /usr/src/debug/stress-ng/0.19.02/stress-umask.c /usr/src/debug/stress-ng/0.19.02/stress-insertionsort.c /usr/src/debug/stress-ng/0.19.02/stress-vm-rw.c /usr/src/debug/stress-ng/0.19.02/stress-utime.c /usr/src/debug/stress-ng/0.19.02/core-mincore.c 
- /usr/src/debug/stress-ng/0.19.02/stress-sleep.c /usr/src/debug/stress-ng/0.19.02/core-asm-x86.h /usr/src/debug/stress-ng/0.19.02/core-mincore.h /usr/src/debug/stress-ng/0.19.02/stress-judy.c /usr/src/debug/stress-ng/0.19.02/stress-memfd.c /usr/src/debug/stress-ng/0.19.02/core-resources.h /usr/src/debug/stress-ng/0.19.02/stress-spawn.c /usr/src/debug/stress-ng/0.19.02/core-resources.c /usr/src/debug/stress-ng/0.19.02/stress-vma.c /usr/src/debug/stress-ng/0.19.02/core-perf.c /usr/src/debug/stress-ng/0.19.02/core-vmstat.c /usr/src/debug/stress-ng/0.19.02/stress-nice.c /usr/src/debug/stress-ng/0.19.02/core-perf.h /usr/src/debug/stress-ng/0.19.02/core-vmstat.h /usr/src/debug/stress-ng/0.19.02/core-affinity.h /usr/src/debug/stress-ng/0.19.02/stress-stream.c /usr/src/debug/stress-ng/0.19.02/core-affinity.c /usr/src/debug/stress-ng/0.19.02/stress-fma.c /usr/src/debug/stress-ng/0.19.02/stress-plugin.c /usr/src/debug/stress-ng/0.19.02/stress-userfaultfd.c /usr/src/debug/stress-ng/0.19.02/stre
- ss-cpu-online.c /usr/src/debug/stress-ng/0.19.02/stress-fstat.c /usr/src/debug/stress-ng/0.19.02/stress-sigpending.c /usr/src/debug/stress-ng/0.19.02/stress-malloc.c /usr/src/debug/stress-ng/0.19.02/stress-sem-sysv.c /usr/src/debug/stress-ng/0.19.02/stress-sendfile.c /usr/src/debug/stress-ng/0.19.02/core-sort.c /usr/src/debug/stress-ng/0.19.02/core-mlock.c /usr/src/debug/stress-ng/0.19.02/core-limit.c /usr/src/debug/stress-ng/0.19.02/core-sort.h /usr/src/debug/stress-ng/0.19.02/stress-futex.c /usr/src/debug/stress-ng/0.19.02/core-limit.h /usr/src/debug/stress-ng/0.19.02/core-mlock.h /usr/src/debug/stress-ng/0.19.02/stress-binderfs.c /usr/src/debug/stress-ng/0.19.02/stress-pidfd.c /usr/src/debug/stress-ng/0.19.02/stress-cgroup.c /usr/src/debug/stress-ng/0.19.02/stress-hsearch.c /usr/src/debug/stress-ng/0.19.02/stress-inode-flags.c /usr/src/debug/stress-ng/0.19.02/stress-netlink-proc.c /usr/src/debug/stress-ng/0.19.02/stress-stack.c /usr/src/debug/stress-ng/0.19.02/stress-syscall.c /u
- sr/src/debug/stress-ng/0.19.02/stress-yield.c /usr/src/debug/stress-ng/0.19.02/stress-landlock.c /usr/src/debug/stress-ng/0.19.02/stress-set.c /usr/src/debug/stress-ng/0.19.02/stress-ping-sock.c /usr/src/debug/stress-ng/0.19.02/stress-personality.c /usr/src/debug/stress-ng/0.19.02/stress-fcntl.c /usr/src/debug/stress-ng/0.19.02/core-asm-generic.h /usr/src/debug/stress-ng/0.19.02/stress-dccp.c /usr/src/debug/stress-ng/0.19.02/stress-statmount.c /usr/src/debug/stress-ng/0.19.02/stress-fanotify.c /usr/src/debug/stress-ng/0.19.02/stress-filename.c /usr/src/debug/stress-ng/0.19.02/stress-filerace.c /usr/src/debug/stress-ng/0.19.02/stress-pty.c /usr/src/debug/stress-ng/0.19.02/stress-forkheavy.c /usr/src/debug/stress-ng/0.19.02/stress-clone.c /usr/src/debug/stress-ng/0.19.02/stress-rawdev.c /usr/src/debug/stress-ng/0.19.02/stress-kill.c /usr/src/debug/stress-ng/0.19.02/stress-prefetch.c /usr/src/debug/stress-ng/0.19.02/stress-prio-inv.c /usr/src/debug/stress-ng/0.19.02/stress-eigen.c /usr
- /src/debug/stress-ng/0.19.02/stress-chown.c /usr/src/debug/stress-ng/0.19.02/stress-far-branch.c /usr/src/debug/stress-ng/0.19.02/stress-vecmath.c /usr/src/debug/stress-ng/0.19.02/stress-mmapfixed.c /usr/src/debug/stress-ng/0.19.02/core-setting.c /usr/src/debug/stress-ng/0.19.02/stress-vecshuf.c /usr/src/debug/stress-ng/0.19.02/stress-vecwide.c /usr/src/debug/stress-ng/0.19.02/stress-vm-addr.c /usr/src/debug/stress-ng/0.19.02/stress-vm-segv.c /usr/src/debug/stress-ng/0.19.02/core-setting.h /usr/src/debug/stress-ng/0.19.02/core-hash.h /usr/src/debug/stress-ng/0.19.02/stress-dentry.c /usr/src/debug/stress-ng/0.19.02/stress-env.c /usr/src/debug/stress-ng/0.19.02/core-hash.c /usr/src/debug/stress-ng/0.19.02/stress-factor.c /usr/src/debug/stress-ng/0.19.02/stress-get.c /usr/src/debug/stress-ng/0.19.02/stress-sigbus.c /usr/src/debug/stress-ng/0.19.02/stress-hdd.c /usr/src/debug/stress-ng/0.19.02/stress-dup.c /usr/src/debug/stress-ng/0.19.02/stress-sigsuspend.c /usr/src/debug/stress-ng/0.1
- 9.02/stress-zlib.c /usr/src/debug/stress-ng/0.19.02/stress-splice.c /usr/src/debug/stress-ng/0.19.02/core-module.h /usr/src/debug/stress-ng/0.19.02/stress-cyclic.c /usr/src/debug/stress-ng/0.19.02/stress-mseal.c /usr/src/debug/stress-ng/0.19.02/stress-regs.c /usr/src/debug/stress-ng/0.19.02/core-module.c /usr/src/debug/stress-ng/0.19.02/stress-chdir.c /usr/src/debug/stress-ng/0.19.02/stress-munmap.c /usr/src/debug/stress-ng/0.19.02/stress-branch.c /usr/src/debug/stress-ng/0.19.02/stress-rotate.c /usr/src/debug/stress-ng/0.19.02/stress-sock.c /usr/src/debug/stress-ng/0.19.02/stress-pthread.c /usr/src/debug/stress-ng/0.19.02/core-pthread.h /usr/src/debug/stress-ng/0.19.02/stress-timerfd.c /usr/src/debug/stress-ng/0.19.02/stress-lockf.c /usr/src/debug/stress-ng/0.19.02/stress-lease.c /usr/src/debug/stress-ng/0.19.02/stress-loadavg.c /usr/src/debug/stress-ng/0.19.02/core-out-of-memory.h /usr/src/debug/stress-ng/0.19.02/stress-lockbus.c /usr/src/debug/stress-ng/0.19.02/stress-lockmix.c /
- usr/src/debug/stress-ng/0.19.02/stress-lockofd.c /usr/src/debug/stress-ng/0.19.02/stress-dynlib.c /usr/src/debug/stress-ng/0.19.02/core-out-of-memory.c /usr/src/debug/stress-ng/0.19.02/stress-logmath.c /usr/src/debug/stress-ng/0.19.02/stress-longjmp.c /usr/src/debug/stress-ng/0.19.02/stress-qsort.c /usr/src/debug/stress-ng/0.19.02/stress-netlink-task.c /usr/src/debug/stress-ng/0.19.02/stress-dev-shm.c /usr/src/debug/stress-ng/0.19.02/stress-easy-opcode.c /usr/src/debug/stress-ng/0.19.02/core-opts.c /usr/src/debug/stress-ng/0.19.02/core-opts.h /usr/src/debug/stress-ng/0.19.02/stress-msg.c /usr/src/debug/stress-ng/0.19.02/stress-memrate.c /usr/src/debug/stress-ng/0.19.02/stress-metamix.c /usr/src/debug/stress-ng/0.19.02/stress-mmapcow.c /usr/src/debug/stress-ng/0.19.02/stress-led.c /usr/src/debug/stress-ng/0.19.02/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.19.02/stress-rtc.c /usr/src/debug/stress-ng/0.19.02/stress-x86syscall.c /usr/src/debug/stress-ng/0.19.02/stress-aiol.c /usr/sr
- c/debug/stress-ng/0.19.02/stress-workload.c /usr/src/debug/stress-ng/0.19.02/core-parse-opts.c /usr/src/debug/stress-ng/0.19.02/stress-sparsematrix.c /usr/src/debug/stress-ng/0.19.02/core-parse-opts.h /usr/src/debug/stress-ng/0.19.02/stress-cacheline.c /usr/src/debug/stress-ng/0.19.02/stress-oom-pipe.c /usr/src/debug/stress-ng/0.19.02/stress-ioport.c /usr/src/debug/stress-ng/0.19.02/stress-memthrash.c /usr/src/debug/stress-ng/0.19.02/stress-goto.c /usr/src/debug/stress-ng/0.19.02/stress-io-uring.c /usr/src/debug/stress-ng/0.19.02/stress-bsearch.c /usr/src/debug/stress-ng/0.19.02/stress-fibsearch.c /usr/src/debug/stress-ng/0.19.02/stress-schedpolicy.c /usr/src/debug/stress-ng/0.19.02/stress-fd-fork.c /usr/src/debug/stress-ng/0.19.02/stress-fd-race.c /usr/src/debug/stress-ng/0.19.02/stress-seccomp.c /usr/src/debug/stress-ng/0.19.02/stress-session.c /usr/src/debug/stress-ng/0.19.02/stress-fpunch.c /usr/src/debug/stress-ng/0.19.02/stress-sockfd.c /usr/src/debug/stress-ng/0.19.02/stress-
- exit-group.c /usr/src/debug/stress-ng/0.19.02/stress-idle-page.c /usr/src/debug/stress-ng/0.19.02/stress-mergesort.c /usr/src/debug/stress-ng/0.19.02/stress-fsize.c /usr/src/debug/stress-ng/0.19.02/stress-jpeg.c /usr/src/debug/stress-ng/0.19.02/stress-affinity.c /usr/src/debug/stress-ng/0.19.02/core-thermal-zone.h /usr/src/debug/stress-ng/0.19.02/stress-msync.c /usr/src/debug/stress-ng/0.19.02/stress-zombie.c /usr/src/debug/stress-ng/0.19.02/stress-opcode.c /usr/src/debug/stress-ng/0.19.02/core-arch.c /usr/src/debug/stress-ng/0.19.02/core-thermal-zone.c /usr/src/debug/stress-ng/0.19.02/stress-mlockmany.c /usr/src/debug/stress-ng/0.19.02/stress-dir.c /usr/src/debug/stress-ng/0.19.02/core-net.c /usr/src/debug/stress-ng/0.19.02/stress-tmpfs.c /usr/src/debug/stress-ng/0.19.02/stress-sockdiag.c /usr/src/debug/stress-ng/0.19.02/core-net.h /usr/src/debug/stress-ng/0.19.02/core-put.h /usr/src/debug/stress-ng/0.19.02/stress-sem.c /usr/src/debug/stress-ng/0.19.02/stress-sockmany.c /usr/src/de
- bug/stress-ng/0.19.02/stress-sockpair.c /usr/src/debug/stress-ng/0.19.02/stress-iomix.c /usr/src/debug/stress-ng/0.19.02/stress-klog.c /usr/src/debug/stress-ng/0.19.02/stress-module.c /usr/src/debug/stress-ng/0.19.02/stress-fiemap.c /usr/src/debug/stress-ng/0.19.02/stress-seek.c /usr/src/debug/stress-ng/0.19.02/stress-daemon.c /usr/src/debug/stress-ng/0.19.02/stress-mmap.c /usr/src/debug/stress-ng/0.19.02/stress-swap.c /usr/src/debug/stress-ng/0.19.02/stress-mtx.c /usr/src/debug/stress-ng/0.19.02/stress-alarm.c /usr/src/debug/stress-ng/0.19.02/stress-sigrt.c /usr/src/debug/stress-ng/0.19.02/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.19.02/stress-mknod.c /usr/src/debug/stress-ng/0.19.02/stress-wcs.c /usr/src/debug/stress-ng/0.19.02/stress-urandom.c /usr/src/debug/stress-ng/0.19.02/core-smart.c /usr/src/debug/stress-ng/0.19.02/stress-x86cpuid.c /usr/src/debug/stress-ng/0.19.02/core-smart.h /usr/src/debug/stress-ng/0.19.02/stress-race-sched.c /usr/src/debug/stress-ng/0.19.02/str
- ess-flock.c /usr/src/debug/stress-ng/0.19.02/stress-sigfd.c /usr/src/debug/stress-ng/0.19.02/stress-list.c /usr/src/debug/stress-ng/0.19.02/stress-membarrier.c /usr/src/debug/stress-ng/0.19.02/stress-rmap.c /usr/src/debug/stress-ng/0.19.02/core-cpu.c /usr/src/debug/stress-ng/0.19.02/core-cpu.h /usr/src/debug/stress-ng/0.19.02/stress-tsc.c /usr/src/debug/stress-ng/0.19.02/stress-lsm.c /usr/src/debug/stress-ng/0.19.02/stress-rawpkt.c /usr/src/debug/stress-ng/0.19.02/stress-sigvtalrm.c /usr/src/debug/stress-ng/0.19.02/stress-sigill.c /usr/src/debug/stress-ng/0.19.02/stress-icache.c /usr/src/debug/stress-ng/0.19.02/stress-fallocate.c /usr/src/debug/stress-ng/0.19.02/stress-dfp.c /usr/src/debug/stress-ng/0.19.02/stress-loop.c /usr/src/debug/stress-ng/0.19.02/stress-reboot.c /usr/src/debug/stress-ng/0.19.02/stress-sync-file.c /usr/src/debug/stress-ng/0.19.02/stress-mcontend.c /usr/src/debug/stress-ng/0.19.02/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.19.02/core-nt-store.h /usr/src/debug
- /stress-ng/0.19.02/stress-vnni.c /usr/src/debug/stress-ng/0.19.02/core-try-open.c /usr/src/debug/stress-ng/0.19.02/stress-waitcpu.c /usr/src/debug/stress-ng/0.19.02/core-try-open.h /usr/src/debug/stress-ng/0.19.02/stress-smi.c /usr/src/debug/stress-ng/0.19.02/stress-pipe.c /usr/src/debug/stress-ng/0.19.02/core-interrupts.h /usr/src/debug/stress-ng/0.19.02/stress-min-nanosleep.c /usr/src/debug/stress-ng/0.19.02/stress-pseek.c /usr/src/debug/stress-ng/0.19.02/core-interrupts.c /usr/src/debug/stress-ng/0.19.02/stress-getdent.c /usr/src/debug/stress-ng/0.19.02/stress-shm-sysv.c /usr/src/debug/stress-ng/0.19.02/core-config-check.c /usr/src/debug/stress-ng/0.19.02/core-killpid.h /usr/src/debug/stress-ng/0.19.02/core-killpid.c /usr/src/debug/stress-ng/0.19.02/core-config-check.h /usr/src/debug/stress-ng/0.19.02/stress-ioprio.c /usr/src/debug/stress-ng/0.19.02/stress-vforkmany.c /usr/src/debug/stress-ng/0.19.02/stress-bind-mount.c /usr/src/debug/stress-ng/0.19.02/stress-switch.c /usr/src/de
- bug/stress-ng/0.19.02/core-sched.c /usr/src/debug/stress-ng/0.19.02/core-sched.h /usr/src/debug/stress-ng/0.19.02/stress-radixsort.c /usr/src/debug/stress-ng/0.19.02/stress-handle.c /usr/src/debug/stress-ng/0.19.02/stress-vm-splice.c /usr/src/debug/stress-ng/0.19.02/stress-fork.c /usr/src/debug/stress-ng/0.19.02/stress-heapsort.c /usr/src/debug/stress-ng/0.19.02/stress-mutex.c /usr/src/debug/stress-ng/0.19.02/core-helper.c /usr/src/debug/stress-ng/0.19.02/core-helper.h /usr/src/debug/stress-ng/0.19.02/stress-pkey.c /usr/src/debug/stress-ng/0.19.02/stress-bubblesort.c /usr/src/debug/stress-ng/0.19.02/core-cpu-cache.h /usr/src/debug/stress-ng/0.19.02/core-cpu-cache.c /usr/src/debug/stress-ng/0.19.02/stress-fd-abuse.c /usr/src/debug/stress-ng/0.19.02/stress-flipflop.c /usr/src/debug/stress-ng/0.19.02/stress-inotify.c /usr/src/debug/stress-ng/0.19.02/stress-intmath.c /usr/src/debug/stress-ng/0.19.02/stress-matrix.c /usr/src/debug/stress-ng/0.19.02/stress-kcmp.c /usr/src/debug/stress-ng/
- 0.19.02/stress-peterson.c /usr/src/debug/stress-ng/0.19.02/stress-gpu.c /usr/src/debug/stress-ng/0.19.02/stress-resched.c /usr/src/debug/stress-ng/0.19.02/stress-watchdog.c /usr/src/debug/stress-ng/0.19.02/stress-cachehammer.c /usr/src/debug/stress-ng/0.19.02/stress-copy-file.c /usr/src/debug/stress-ng/0.19.02/core-cpuidle.c /usr/src/debug/stress-ng/0.19.02/core-mwc.c /usr/src/debug/stress-ng/0.19.02/core-cpuidle.h /usr/src/debug/stress-ng/0.19.02/stress-enosys.c /usr/src/debug/stress-ng/0.19.02/core-mwc.h /usr/src/debug/stress-ng/0.19.02/stress-key.c /usr/src/debug/stress-ng/0.19.02/stress-mprotect.c /usr/src/debug/stress-ng/0.19.02/stress-nop.c /usr/src/debug/stress-ng/0.19.02/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.19.02/stress-kvm.c /usr/src/debug/stress-ng/0.19.02/stress-vecfp.c /usr/src/debug/stress-ng/0.19.02/stress-bigheap.c /usr/src/debug/stress-ng/0.19.02/stress-sysfs.c /usr/src/debug/stress-ng/0.19.02/stress-netdev.c /usr/src/debug/stress-ng/0.19.02/stress-resources
- .c /usr/src/debug/stress-ng/0.19.02/stress-fractal.c /usr/src/debug/stress-ng/0.19.02/stress-xattr.c /usr/src/debug/stress-ng/0.19.02/stress-time-warp.c /usr/src/debug/stress-ng/0.19.02/stress-procfs.c /usr/src/debug/stress-ng/0.19.02/stress-quota.c /usr/src/debug/stress-ng/0.19.02/stress-rename.c /usr/src/debug/stress-ng/0.19.02/core-log.c /usr/src/debug/stress-ng/0.19.02/stress-mremap.c /usr/src/debug/stress-ng/0.19.02/core-log.h /usr/src/debug/stress-ng/0.19.02/stress-apparmor.c /usr/src/debug/stress-ng/0.19.02/stress-tree.c /usr/src/debug/stress-ng/0.19.02/stress-context.c /usr/src/debug/stress-ng/0.19.02/stress-unlink.c /usr/src/debug/stress-ng/0.19.02/stress-file-ioctl.c /usr/src/debug/stress-ng/0.19.02/stress-acl.c /usr/src/debug/stress-ng/0.19.02/stress-syncload.c /usr/src/debug/stress-ng/0.19.02/stress-sysinval.c /usr/src/debug/stress-ng/0.19.02/stress-besselmath.c /usr/src/debug/stress-ng/0.19.02/stress-cache.c /usr/src/debug/stress-ng/0.19.02/stress-regex.c /usr/src/debug
- /stress-ng/0.19.02/stress-rseq.c /usr/src/debug/stress-ng/0.19.02/stress-cpu.c /usr/src/debug/stress-ng/0.19.02/stress-vm.c /usr/src/debug/stress-ng/0.19.02/stress-sigfpe.c /usr/src/debug/stress-ng/0.19.02/core-io-priority.h /usr/src/debug/stress-ng/0.19.02/stress-hrtimers.c /usr/src/debug/stress-ng/0.19.02/core-io-priority.c /usr/src/debug/stress-ng/0.19.02/stress-umount.c /usr/src/debug/stress-ng/0.19.02/stress-dnotify.c /usr/src/debug/stress-ng/0.19.02/stress-nanosleep.c /usr/src/debug/stress-ng/0.19.02/stress-shellsort.c /usr/src/debug/stress-ng/0.19.02/stress-funccall.c /usr/src/debug/stress-ng/0.19.02/stress-atomic.c /usr/src/debug/stress-ng/0.19.02/stress-locka.c /usr/src/debug/stress-ng/0.19.02/stress-stackmmap.c /usr/src/debug/stress-ng/0.19.02/stress-remap.c /usr/src/debug/stress-ng/0.19.02/stress-touch.c /usr/src/debug/stress-ng/0.19.02/stress-sctp.c /usr/src/debug/stress-ng/0.19.02/stress-expmath.c /usr/src/debug/stress-ng/0.19.02/stress-udp-flood.c /usr/src/debug/stress
- -ng/0.19.02/core-shim.h /usr/src/debug/stress-ng/0.19.02/stress-verity.c /usr/src/debug/stress-ng/0.19.02/core-shared-heap.c /usr/src/debug/stress-ng/0.19.02/stress-matrix-3d.c /usr/src/debug/stress-ng/0.19.02/core-shim.c /usr/src/debug/stress-ng/0.19.02/stress-llc-affinity.c /usr/src/debug/stress-ng/0.19.02/core-shared-heap.h /usr/src/debug/stress-ng/0.19.02/stress-uprobe.c /usr/src/debug/stress-ng/0.19.02/core-asm-ret.h /usr/src/debug/stress-ng/0.19.02/stress-hyperbolic.c /usr/src/debug/stress-ng/0.19.02/stress-wait.c /usr/src/debug/stress-ng/0.19.02/core-asm-ret.c /usr/src/debug/stress-ng/0.19.02/stress-sockabuse.c /usr/src/debug/stress-ng/0.19.02/stress-mmapaddr.c /usr/src/debug/stress-ng/0.19.02/stress-mmapfork.c /usr/src/debug/stress-ng/0.19.02/stress-mmaphuge.c /usr/src/debug/stress-ng/0.19.02/stress-mmapmany.c /usr/src/debug/stress-ng/0.19.02/stress-softlockup.c /usr/src/debug/stress-ng/0.19.02/stress-crypt.c /usr/src/debug/stress-ng/0.19.02/stress-hash.c /usr/src/debug/stre
- ss-ng/0.19.02/stress-funcret.c /usr/src/debug/stress-ng/0.19.02/stress-mmapfiles.c /usr/src/debug/stress-ng/0.19.02/stress-mpfr.c /usr/src/debug/stress-ng/0.19.02/stress-fifo.c /usr/src/debug/stress-ng/0.19.02/core-mounts.h /usr/src/debug/stress-ng/0.19.02/core-rapl.c /usr/src/debug/stress-ng/0.19.02/core-mounts.c /usr/src/debug/stress-ng/0.19.02/core-rapl.h /usr/src/debug/stress-ng/0.19.02/stress-bad-altstack.c /usr/src/debug/stress-ng/0.19.02/stress-poll.c /usr/src/debug/stress-ng/0.19.02/core-numa.h /usr/src/debug/stress-ng/0.19.02/stress-udp.c /usr/src/debug/stress-ng/0.19.02/core-numa.c /usr/src/debug/stress-ng/0.19.02/stress-ptr-chase.c /usr/src/debug/stress-ng/0.19.02/stress-fault.c /usr/src/debug/stress-ng/0.19.02/stress-aio.c /usr/src/debug/stress-ng/0.19.02/core-time.c /usr/src/debug/stress-ng/0.19.02/stress-prctl.c /usr/src/debug/stress-ng/0.19.02/core-time.h /usr/src/debug/stress-ng/0.19.02/stress-lsearch.c /usr/src/debug/stress-ng/0.19.02/stress-epoll.c /usr/src/debug/s
- tress-ng/0.19.02/stress-cap.c /usr/src/debug/stress-ng/0.19.02/core-ftrace.c /usr/src/debug/stress-ng/0.19.02/stress-close.c /usr/src/debug/stress-ng/0.19.02/stress-dirdeep.c /usr/src/debug/stress-ng/0.19.02/stress-dirmany.c /usr/src/debug/stress-ng/0.19.02/stress-priv-instr.c /usr/src/debug/stress-ng/0.19.02/core-ftrace.h /usr/src/debug/stress-ng/0.19.02/stress-af-alg.c /usr/src/debug/stress-ng/0.19.02/stress-numa.c /usr/src/debug/stress-ng/0.19.02/stress-mmaptorture.c /usr/src/debug/stress-ng/0.19.02/stress-madvise.c /usr/src/debug/stress-ng/0.19.02/stress-mincore.c /usr/src/debug/stress-ng/0.19.02/stress-link.c /usr/src/debug/stress-ng/0.19.02/stress-flushcache.c /usr/src/debug/stress-ng/0.19.02/core-lock.c /usr/src/debug/stress-ng/0.19.02/stress-ramfs.c /usr/src/debug/stress-ng/0.19.02/stress-tun.c /usr/src/debug/stress-ng/0.19.02/core-lock.h /usr/src/debug/stress-ng/0.19.02/stress-rdrand.c /usr/src/debug/stress-ng/0.19.02/stress-sighup.c /usr/src/debug/stress-ng/0.19.02/stress-
- seal.c /usr/src/debug/stress-ng/0.19.02/stress-io.c /usr/src/debug/stress-ng/0.19.02/stress-memcpy.c /usr/src/debug/stress-ng/0.19.02/stress-sysinfo.c /usr/src/debug/stress-ng/0.19.02/stress-fp.c /usr/src/debug/stress-ng/0.19.02/stress-sigabrt.c /usr/src/debug/stress-ng/0.19.02/stress-sigchld.c /usr/src/debug/stress-ng/0.19.02/stress-signest.c /usr/src/debug/stress-ng/0.19.02/stress-sigpipe.c /usr/src/debug/stress-ng/0.19.02/stress-sigsegv.c /usr/src/debug/stress-ng/0.19.02/stress-sigtrap.c /usr/src/debug/stress-ng/0.19.02/stress-sigxcpu.c /usr/src/debug/stress-ng/0.19.02/stress-sigxfsz.c /usr/src/debug/stress-ng/0.19.02/stress-trig.c /usr/src/debug/stress-ng/0.19.02/stress-tee.c /usr/src/debug/stress-ng/0.19.02/stress-chmod.c /usr/src/debug/stress-ng/0.19.02/stress-revio.c /usr/src/debug/stress-ng/0.19.02/stress-sigurg.c /usr/src/debug/stress-ng/0.19.02/stress-usersyscall.c /usr/src/debug/stress-ng/0.19.02/stress-sigio.c /usr/src/debug/stress-ng/0.19.02/stress-schedmix.c /usr/src/d
- ebug/stress-ng/0.19.02/stress-skiplist.c /usr/src/debug/stress-ng/0.19.02/stress-powmath.c /usr/src/debug/stress-ng/0.19.02/core-klog.h /usr/src/debug/stress-ng/0.19.02/stress-memhotplug.c /usr/src/debug/stress-ng/0.19.02/stress-str.c /usr/src/debug/stress-ng/0.19.02/core-klog.c /usr/src/debug/stress-ng/0.19.02/stress-mlock.c /usr/src/debug/stress-ng/0.19.02/stress-brk.c /usr/src/debug/stress-ng/0.19.02/stress-null.c /usr/src/debug/stress-ng/0.19.02/stress-getrandom.c /usr/src/debug/stress-ng/0.19.02/stress-dekker.c /usr/src/debug/stress-ng/0.19.02/stress-rawudp.c /usr/src/debug/stress-ng/0.19.02/stress-mq.c /usr/src/debug/stress-ng/0.19.02/core-config.c /usr/src/debug/stress-ng/0.19.02/stress-full.c /usr/src/debug/stress-ng/0.19.02/stress-itimer.c /usr/src/debug/stress-ng/0.19.02/stress-prime.c /usr/src/debug/stress-ng/0.19.02/stress-unshare.c"
-packages/core2-64-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.18.12" to "0.19.02"
-packages/core2-64-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.18.12 [default] to 0.19.02 [default]
-packages/core2-64-poky-linux/stress-ng/stress-ng: PV changed from "0.18.12" to "0.19.02"
-packages/core2-64-poky-linux/stress-ng/stress-ng: PKGV changed from 0.18.12 [default] to 0.19.02 [default]
-packages/core2-64-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 14680976 to 15661744 (+7%)
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/mesa: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://archive.mesa3d.org/mesa-25.1.4.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-dont-build-clover-frontend.patch" to "https://archive.mesa3d.org/mesa-25.1.5.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-dont-build-clover-frontend.patch"
+packages/core2-64-poky-linux/mesa: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libgallium: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-25.1.4.so", added "/usr/lib/libgallium-25.1.5.so"
+packages/core2-64-poky-linux/mesa/libgallium: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libgbm: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libglapi: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/libteflon: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/libteflon: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-dbg: FILELIST: removed "/usr/lib/.debug/libgallium-25.1.4.so", added "/usr/lib/.debug/libgallium-25.1.5.so"
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 474638864 to 474648152 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+packages/core2-64-poky-linux/mesa/mesa: PV changed from "25.1.4" to "25.1.5"
+packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 25.1.4 [default] to 25.1.5 [default]
+Changes to packages/core2-64-poky-linux/mesa (sysroot):
+  /usr/lib/libgallium-25.1.4.so moved to /usr/lib/libgallium-25.1.5.so
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -2129,338 +1878,140 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/mesa-native (sysroot):
+  /usr/lib/libgallium-25.1.4.so moved to /usr/lib/libgallium-25.1.5.so
 
---===============3852014364399364397==
+--===============4235916683763982982==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mesa-upgrade-25.1.4-25.1.5.patch"
+
+RnJvbSA2OTliNWEwYjIzNzQ4NDljN2I4MWRhNzE2MDNjY2I3ODEyZGJhYWFlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTM6MzY6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+ZXNhOiB1cGdyYWRlIDI1LjEuNCAtPiAyNS4xLjUKCi0tLQogLi4uLzAwMDEtZG9udC1idWlsZC1j
+bG92ZXItZnJvbnRlbmQucGF0Y2ggICAgIHwgMTQgKysrKysrKy0tLS0KIC4uLm9uLXQtZW5jb2Rl
+LWJ1aWxkLXBhdGgtaW50by1iaW5hcmllcy5wYXRjaCB8IDIzICsrKysrKysrKy0tLS0tLS0tLS0K
+IC4uLnNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaCB8ICAyICstCiBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYyAgICAgICAgICAgfCAgNCArKy0tCiA0
+IGZpbGVzIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9ucygtKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZG9udC1idWlsZC1j
+bG92ZXItZnJvbnRlbmQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8w
+MDAxLWRvbnQtYnVpbGQtY2xvdmVyLWZyb250ZW5kLnBhdGNoCmluZGV4IDVmNDVmOTRmZWEuLjJl
+ZTMxNDRmZmYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAw
+MDEtZG9udC1idWlsZC1jbG92ZXItZnJvbnRlbmQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdy
+YXBoaWNzL21lc2EvZmlsZXMvMDAwMS1kb250LWJ1aWxkLWNsb3Zlci1mcm9udGVuZC5wYXRjaApA
+QCAtMSw1ICsxLDYgQEAKK0Zyb20gMGM5YjA3ZDEzNWEzZDY4ODBkYjcyYjU4MGNkMzI3NTAyOGU2
+MWYxYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IE1hcmt1cyBWb2xrIDxmX2xfa0B0
+LW9ubGluZS5kZT4KLURhdGU6IFN1biwgMTkgTWFpIDIwMjUgMTU6MzQ6NDYgKzAxMDAKK0RhdGU6
+IFNhdCwgMTkgSnVsIDIwMjUgMTU6MzQ6NDYgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZG9udCBi
+dWlsZCBjbG92ZXIgZnJvbnRlbmQKIAogVGhlIGNsb3ZlciBmcm9udGVuZCBpcyBkZXByZWNhdGVk
+IGFuZCBpcyBhbHdheXMgYnVpbHQgd2l0aCBvcGVuY2wsIGV2ZW4gaWYKQEAgLTcsMTAgKzgsMTUg
+QEAgdXNpbmcgcnVzdGljbC4gQWRkaXRpb25hbGx5IGl0IGFkZHMgYSByZXByb2R1Y2liaWxpdHkg
+aXNzdWUuCiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbb2Utc3BlY2lmaWNdCiBT
+aWduZWQtb2ZmLWJ5OiBNYXJrdXMgVm9sayA8Zl9sX2tAdC1vbmxpbmUuZGU+CistLS0KKyBzcmMv
+Z2FsbGl1bS9tZXNvbi5idWlsZCB8IDYgKy0tLS0tCisgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspLCA1IGRlbGV0aW9ucygtKQogCi0tLS0gYS9zcmMvZ2FsbGl1bS9tZXNvbi5idWlsZAky
+MDI1LTA1LTA3IDE4OjM1OjEwLjAwMDAwMDAwMCArMDIwMAotKysrIGIvc3JjL2dhbGxpdW0vbWVz
+b24uYnVpbGQJMjAyNS0wNS0xOCAxNzowNToyMy42Nzc2OTQyNzIgKzAyMDAKLUBAIC0xOTUsMTUg
+KzE5NSwxMSBAQAorZGlmZiAtLWdpdCBhL3NyYy9nYWxsaXVtL21lc29uLmJ1aWxkIGIvc3JjL2dh
+bGxpdW0vbWVzb24uYnVpbGQKK2luZGV4IDRkMDYzNjUuLjNlMmJiOGUgMTAwNjQ0CistLS0gYS9z
+cmMvZ2FsbGl1bS9tZXNvbi5idWlsZAorKysrIGIvc3JjL2dhbGxpdW0vbWVzb24uYnVpbGQKK0BA
+IC0xOTUsMTUgKzE5NSwxMSBAQCBpZiB3aXRoX2dhbGxpdW1fZDNkMTIKICBlbHNlCiAgICBkcml2
+ZXJfZDNkMTIgPSBkZWNsYXJlX2RlcGVuZGVuY3koKQogIGVuZGlmCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWZyZWVkcmVuby1kb24tdC1lbmNvZGUt
+YnVpbGQtcGF0aC1pbnRvLWJpbmFyaWVzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21l
+c2EvZmlsZXMvMDAwMS1mcmVlZHJlbm8tZG9uLXQtZW5jb2RlLWJ1aWxkLXBhdGgtaW50by1iaW5h
+cmllcy5wYXRjaAppbmRleCA5NTNhNzI0ZGMwLi5iYzVlZTY0MzhiIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWZyZWVkcmVuby1kb24tdC1lbmNvZGUt
+YnVpbGQtcGF0aC1pbnRvLWJpbmFyaWVzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9tZXNhL2ZpbGVzLzAwMDEtZnJlZWRyZW5vLWRvbi10LWVuY29kZS1idWlsZC1wYXRoLWludG8t
+YmluYXJpZXMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDAyN2FjMzY3NTZjYzc1ZWVhOWVk
+NGZlZTEzNWEzNTFhZjMwYjM1ZmQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDk0NGIw
+OTllZDZiYjc3MDEwYTJiY2UzZGNiNjgxMWVlYWIzODg2MTIgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCiBGcm9tOiBEbWl0cnkgQmFyeXNoa292IDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmc+
+CiBEYXRlOiBUdWUsIDE2IEp1bCAyMDI0IDEyOjMyOjQ3ICswMzAwCiBTdWJqZWN0OiBbUEFUQ0hd
+IGZyZWVkcmVubzogZG9uJ3QgZW5jb2RlIGJ1aWxkIHBhdGggaW50byBiaW5hcmllcwpAQCAtMTMs
+MTMgKzEzLDE0IEBAIGl0IG1hbnVhbGx5IHdoZW4gcnVubmluZyB0aGUgdGVzdHMuCiBVcHN0cmVh
+bS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL21lc2Ev
+bWVzYS8tL21lcmdlX3JlcXVlc3RzLzMwMjA2XQogU2lnbmVkLW9mZi1ieTogRG1pdHJ5IEJhcnlz
+aGtvdiA8ZG1pdHJ5LmJhcnlzaGtvdkBsaW5hcm8ub3JnPgogLS0tCi0gc3JjL2ZyZWVkcmVuby9h
+ZnVjL21lc29uLmJ1aWxkICAgfCA0ICsrKysKLSBzcmMvZnJlZWRyZW5vL2RlY29kZS9tZXNvbi5i
+dWlsZCB8IDQgKysrLQotIHNyYy9mcmVlZHJlbm8vbWVzb24uYnVpbGQgICAgICAgIHwgMiArLQot
+IDMgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQorIHNyYy9m
+cmVlZHJlbm8vYWZ1Yy9tZXNvbi5idWlsZCAgICAgICAgfCA0ICsrKysKKyBzcmMvZnJlZWRyZW5v
+L2RlY29kZS9tZXNvbi5idWlsZCAgICAgIHwgNCArKystCisgc3JjL2ZyZWVkcmVuby9tZXNvbi5i
+dWlsZCAgICAgICAgICAgICB8IDIgKy0KKyBzcmMvZnJlZWRyZW5vL3JlZ2lzdGVycy9nZW5faGVh
+ZGVyLnB5IHwgNyArKysrLS0tCisgNCBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspLCA1
+IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL2ZyZWVkcmVuby9hZnVjL21lc29uLmJ1
+aWxkIGIvc3JjL2ZyZWVkcmVuby9hZnVjL21lc29uLmJ1aWxkCi1pbmRleCBiYjdjZWJmNWE3NDgu
+LjM1MWNjMzFlZjJkZSAxMDA2NDQKK2luZGV4IGJiN2NlYmYuLjM1MWNjMzEgMTAwNjQ0CiAtLS0g
+YS9zcmMvZnJlZWRyZW5vL2FmdWMvbWVzb24uYnVpbGQKICsrKyBiL3NyYy9mcmVlZHJlbm8vYWZ1
+Yy9tZXNvbi5idWlsZAogQEAgLTU2LDEwICs1NiwxMiBAQCBpZiB3aXRoX3Rlc3RzCkBAIC01MCw3
+ICs1MSw3IEBAIGluZGV4IGJiN2NlYmY1YTc0OC4uMzUxY2MzMWVmMmRlIDEwMDY0NAogICAgICAp
+CiAgICAgIHRlc3QoJ2FmdWMtZGlzYXNtJywKIGRpZmYgLS1naXQgYS9zcmMvZnJlZWRyZW5vL2Rl
+Y29kZS9tZXNvbi5idWlsZCBiL3NyYy9mcmVlZHJlbm8vZGVjb2RlL21lc29uLmJ1aWxkCi1pbmRl
+eCA0NjllZWI0ZWI1OTcuLmRmYTFjMTJkMGQ5ZiAxMDA2NDQKK2luZGV4IDQ2OWVlYjQuLjkxNWJh
+MTEgMTAwNjQ0CiAtLS0gYS9zcmMvZnJlZWRyZW5vL2RlY29kZS9tZXNvbi5idWlsZAogKysrIGIv
+c3JjL2ZyZWVkcmVuby9kZWNvZGUvbWVzb24uYnVpbGQKIEBAIC0xOTQsNiArMTk0LDcgQEAgaWYg
+ZGVwX2x1YS5mb3VuZCgpIGFuZCBkZXBfbGliYXJjaGl2ZS5mb3VuZCgpCkBAIC03Miw3ICs3Myw3
+IEBAIGluZGV4IDQ2OWVlYjRlYjU5Ny4uZGZhMWMxMmQwZDlmIDEwMDY0NAogIAogICAgICB0ZXN0
+KCdjcmFzaGRlYy0nICsgbmFtZSwKIGRpZmYgLS1naXQgYS9zcmMvZnJlZWRyZW5vL21lc29uLmJ1
+aWxkIGIvc3JjL2ZyZWVkcmVuby9tZXNvbi5idWlsZAotaW5kZXggOThlNDliOGZjZjBlLi4xNDVl
+NzI1OTdlYjkgMTAwNjQ0CitpbmRleCAyOWUxYmM0Li5hZmI3NDI2IDEwMDY0NAogLS0tIGEvc3Jj
+L2ZyZWVkcmVuby9tZXNvbi5idWlsZAogKysrIGIvc3JjL2ZyZWVkcmVuby9tZXNvbi5idWlsZAog
+QEAgLTYsNyArNiw3IEBAIGluY19mcmVlZHJlbm9fcm5uID0gaW5jbHVkZV9kaXJlY3Rvcmllcygn
+cm5uJykKQEAgLTg1LDkgKzg2LDEwIEBAIGluZGV4IDk4ZTQ5YjhmY2YwZS4uMTQ1ZTcyNTk3ZWI5
+IDEwMDY0NAogIGRlcF9saWJhcmNoaXZlID0gZGVwZW5kZW5jeSgnbGliYXJjaGl2ZScsIGFsbG93
+X2ZhbGxiYWNrOiB0cnVlLCByZXF1aXJlZDogZmFsc2UpCiAgZGVwX2xpYnhtbDIgPSBkZXBlbmRl
+bmN5KCdsaWJ4bWwtMi4wJywgYWxsb3dfZmFsbGJhY2s6IHRydWUsIHJlcXVpcmVkOiBmYWxzZSkK
+IGRpZmYgLS1naXQgYS9zcmMvZnJlZWRyZW5vL3JlZ2lzdGVycy9nZW5faGVhZGVyLnB5IGIvc3Jj
+L2ZyZWVkcmVuby9yZWdpc3RlcnMvZ2VuX2hlYWRlci5weQoraW5kZXggZTFjZmI1Zi4uNGUzZGIx
+MiAxMDA2NDQKIC0tLSBhL3NyYy9mcmVlZHJlbm8vcmVnaXN0ZXJzL2dlbl9oZWFkZXIucHkKICsr
+KyBiL3NyYy9mcmVlZHJlbm8vcmVnaXN0ZXJzL2dlbl9oZWFkZXIucHkKLUBAIC04ODUsMTMgKzg4
+NSwxNCBAQCBUaGUgcnVsZXMtbmctbmcgc291cmNlIGZpbGVzIHRoaXMgaGVhZGVyCitAQCAtODg5
+LDEzICs4ODksMTQgQEAgVGhlIHJ1bGVzLW5nLW5nIHNvdXJjZSBmaWxlcyB0aGlzIGhlYWRlciB3
+YXMgZ2VuZXJhdGVkIGZyb20gYXJlOgogICIiIikKICAJbWF4bGVuID0gMAogIAlmb3IgZmlsZXBh
+dGggaW4gcC54bWxfZmlsZXM6CkBAIC0xMDUsNiArMTA3LDMgQEAgZGlmZiAtLWdpdCBhL3NyYy9m
+cmVlZHJlbm8vcmVnaXN0ZXJzL2dlbl9oZWFkZXIucHkgYi9zcmMvZnJlZWRyZW5vL3JlZ2lzdGVy
+cy9nZW4KICAJaWYgcC5jb3B5cmlnaHRfeWVhcjoKICAJCWN1cnJlbnRfeWVhciA9IHN0cihkYXRl
+dGltZS5kYXRlLnRvZGF5KCkueWVhcikKICAJCXByaW50KCkKLS0tLQotMi4zOS4yCi0KZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24tbWlzZGV0
+ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1t
+aXBzLWNsYW5nLnBhdGNoCmluZGV4IGJhYTk4YTBkNDYuLjJhMzE1MTExNGQgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24tbWlzZGV0ZWN0cy02
+NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24tbWlw
+cy1jbGFuZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDJjYzIxODAwZmUyOWY1NjZhZGQ1
+MjVlNjNmNjE5YzA1MzZkNmU3YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gM2JjZmU1
+NWE1ZTk5YzgwODVkNDA2NTJlODI2ZmU5NzE2OWM5NWI3YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBNb24sIDEzIEph
+biAyMDIwIDE1OjIzOjQ3IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29uIG1pc2RldGVjdHMg
+NjRiaXQgYXRvbWljcyBvbiBtaXBzL2NsYW5nCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvbWVzYS9tZXNhLmluYyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5j
+CmluZGV4IDNkOWU5ZWM5MWYuLjQ3Yjk1NzI4ZTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1n
+cmFwaGljcy9tZXNhL21lc2EuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21l
+c2EuaW5jCkBAIC0yMCw4ICsyMCw4IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9hcmNoaXZlLm1lc2Ez
+ZC5vcmcvbWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1kb250LWJ1
+aWxkLWNsb3Zlci1mcm9udGVuZC5wYXRjaCBcCiAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIx
+NjQ4NzJhNWU3OTI0MDhhYTcyZmVjZDUyYjdiZTY0MDk3MjRjNGFkODE3MDA3OTg2NzVhN2Q4MDFk
+OTc2NzA0IgotUFYgPSAiMjUuMS40IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNjNGY2YjEwZmY2
+ZWU5NTBkMGVjNmVhNzMzY2M2ZTZkMzRjNTY5NDU0ZTNkMzlhOWIyNzZkZTkxMTVhM2IzNjMiCitQ
+ViA9ICIyNS4xLjUiCiAKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIm1lc2EtKD9QPHB2
+ZXI+XGQrKFwuXGQrKSspIgogCi0tIAoyLjQ3LjEKCg==
+
+--===============4235916683763982982==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+packages/core2-64-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-25.1.4.so", added "/usr/lib/libgallium-25.1.5.so"
+Changes to packages/core2-64-poky-linux/mesa (sysroot):
+  /usr/lib/libgallium-25.1.4.so moved to /usr/lib/libgallium-25.1.5.so
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -4058,6 +3609,8 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.1.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/mesa-native (sysroot):
+  /usr/lib/libgallium-25.1.4.so moved to /usr/lib/libgallium-25.1.5.so
 
---===============3852014364399364397==--
+--===============4235916683763982982==--
 
