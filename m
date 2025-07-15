@@ -1,94 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCBBEC83F27
-	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 21:09:50 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.6192.1752613784726592653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D32B1C83F2D
+	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 21:17:40 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.6473.1752614254264491583
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 14:09:44 -0700
+ Tue, 15 Jul 2025 14:17:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ej1PUMag;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-748e63d4b05so3570384b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 14:09:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752613784; x=1753218584; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+MLoZceKMiCMEUF3zSx3e+kD6cEOL6hK2ZZsJpwaDU0=;
-        b=ej1PUMagTP8q64dX4dXzZguhTrDfh2jQwR26Oes/ciB9HkZXrWvfQDKyIyviWGl5XW
-         /j5dN++r0maxIQxVZaL3lBYvz4fw31I0SZdVInPJcBIuPb5OBzRtSJ98Q8/gekpPNY01
-         vsqyAfrScNUM/T5tmKl3SjdZz5S1L3iY03J05EMPkOBPBH9hFdBPyJjHiDmRAhxxBPxV
-         FBuvfBD1a7ILUYL62zlZXcjPucFYJaJ5+oyimwG2Tz6M+2GqaZVztdnXQVzlB1kIr4N+
-         QWE2ytsnjkgWi/StKB6NebBBCt8vjYHEG7dUQZAWBy4zJ10PqXmfZmIwToUNQAaSILUt
-         L4Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752613784; x=1753218584;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+MLoZceKMiCMEUF3zSx3e+kD6cEOL6hK2ZZsJpwaDU0=;
-        b=cE+lgDzB6Fk6Zy0rn7Dr1cun9RSpV7chA3HunrQKGgFkxjvyu+5k5F8lnAe7sEy/yi
-         XHsKGC8eifc2LqBi08IRWBPA/UhmPYFX4robi/OJh5SjCAIyLWXuOKfg/3FMuNoz58fR
-         GqW1pLGjbkMIcH0raPOZrsLzVY/vV3In0D7ymQ4tPNU+odl1wy9h339rJP7snCrUlI4I
-         0iC7xJhdO1dD8WjTvbWxbC3bNoSntDw8SiTXUxSJ2eRQLEsxyZnK0nsXo1b6/MIQ43sO
-         krDPW3VPv0oxGp0qvXm6/5/RMJTxYOcWZjFKASa03JRf8ozUaOL5E50O6FN8uGn95Bux
-         lJRg==
-X-Gm-Message-State: AOJu0Yzwbk72m2Dkcyh5ndZCjP5cEwpN39us3tOAU5WVes6cMV54Do6K
-	MgaPinI7v6Ppz/3fwTXyS6XWkxtpmfGkccyXSB6C/xzDaXLrV4Cv6B05XRZLDOug
-X-Gm-Gg: ASbGncsyWV7XjX4rVbNVCavid69XHEavs/dD9K5p0pZLOzmS5x9crcd1O9qSTMvIi0g
-	wVf9kuNMmG8Yy2NPlO48n1rBRAqkY0T0Icdtj/MpcmB0Wzg7RJ0vGpT3igKmkIDEt2BIiOTzPSu
-	EM8+x756+iOqKowPUSdxHr2zZwvkF1Lf54WyC45gASVjxNDUlhtUTYf3DcqMPyDcOjUamJe799y
-	UWcmTQhuBaI4SisXFubIuTPdJ3PMtsqcV4g0g9JWVmoH/95t9JqtRCerdipx/ZG7eIJ65e1w/YI
-	Xwe21Z7AAod02axA6i8qDdfk4DvsZKqz+6m1OF40IImr4iej87g/Gk+Vhkt9VzqZnRF4UzB6r6Z
-	FUyLLYM0uPSzB/w==
-X-Google-Smtp-Source: AGHT+IFDGEokjxnDj9hn9JsmxPzIMDiOCX4zMr68n2erxUHpCbbFZSrXD4aW7PucAxVNtAiPHEKF4g==
-X-Received: by 2002:a05:6a00:2e27:b0:748:3a1a:ba72 with SMTP id d2e1a72fcca58-7572427e405mr71682b3a.20.1752613783642;
-        Tue, 15 Jul 2025 14:09:43 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::a8d6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9f4b3b5sm12745770b3a.123.2025.07.15.14.09.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 14:09:42 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/4] ninja: upgrade 1.13.0 -> 1.13.1
-Date: Tue, 15 Jul 2025 14:09:38 -0700
-Message-ID: <20250715210939.3226204-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250715210939.3226204-1-raj.khem@gmail.com>
-References: <20250715210939.3226204-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=pL8hcB8V;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=lLY89tnq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101980ff333a5-b7898dc1-8a83-46b1-95f3-365259b12d9c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1752614253; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=l3eIOVE8lToTPbDO+d9igIIcUJfl+ZKJwsnhTy0QOb4=;
+	b=pL8hcB8V3KWj13CRIPzDCpMzi/rJfq2SJvpQ6qGCLjcyMYD2pLn1H21VmAKWD46v
+	M2C1UEiP5S2/216iExzPov2rHWWbrjHidzdIEjmHc2fsan+W6r7r9RZRgguJUovMP8F
+	otcs6p5HpWXrbOXBJpIOGj6DcegeKXe5NONQSN2c=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752614253;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=l3eIOVE8lToTPbDO+d9igIIcUJfl+ZKJwsnhTy0QOb4=;
+	b=lLY89tnq6CReKVLhSmCGnWo+tzEhn0Vr1mATHqRJbBlHval4MfYGgHK0VngCYR37
+	Nz2WNQXayaDy0WEgFFyPQxDuk2ZvsVifStzsTYWe4yu+M0o9xHbyc4duCOZgG3XirM3
+	OKDiVIVZr6QNwUbqfvx0Ah70cf6luLNoxu+PNkM0=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/4] ninja: upgrade 1.13.0 -> 1.13.1
+In-Reply-To: <20250715210939.3226204-3-raj.khem@gmail.com>
+References: <20250715210939.3226204-3-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101980ff333a5-b7898dc1-8a83-46b1-95f3-365259b12d9c-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Jul 2025 21:17:33 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 21:09:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220428
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 21:17:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220431
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../recipes-devtools/ninja/{ninja_1.13.0.bb => ninja_1.13.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/ninja/{ninja_1.13.0.bb => ninja_1.13.1.bb} (94%)
+Testing patch /home/patchtest/share/mboxes/3-4-ninja-upgrade-1.13.0---1.13.1.patch
 
-diff --git a/meta/recipes-devtools/ninja/ninja_1.13.0.bb b/meta/recipes-devtools/ninja/ninja_1.13.1.bb
-similarity index 94%
-rename from meta/recipes-devtools/ninja/ninja_1.13.0.bb
-rename to meta/recipes-devtools/ninja/ninja_1.13.1.bb
-index a5fa8f1c9e4..dcaa889c047 100644
---- a/meta/recipes-devtools/ninja/ninja_1.13.0.bb
-+++ b/meta/recipes-devtools/ninja/ninja_1.13.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
- 
- DEPENDS = "re2c-native ninja-native"
- 
--SRCREV = "b4d51f6ed5bed09dd2b70324df0d9cb4ecad2638"
-+SRCREV = "79feac0f3e3bc9da9effc586cd5fea41e7550051"
- 
- SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release;protocol=https;tag=v${PV}"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
