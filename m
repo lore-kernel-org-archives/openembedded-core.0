@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C572CC87FD1
-	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:55:39 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.12159.1752594929585824869
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C823CC87FD9
+	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:55:50 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.12183.1752594945313212933
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 08:55:39 -0700
+ Tue, 15 Jul 2025 08:55:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=tVqRWLjN;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=TkmML9cR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101980ecc7ac8-6a803fdc-02dd-4062-ab51-35c14f901d8d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=X7i8Q1rz;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=h1RJptKT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101980ecc92b2-49a919a3-63a9-4a89-8262-10245f17be49-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1752594938;
+	t=1752594944;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5nEhks7pBzDz+oa3pqVj+Re0N9RO0J8M2kw8ac8mijQ=;
-	b=tVqRWLjNohzQRk6U/46sTVuJbIdVM2bnBVXh/Yy/hYwgxzr7wh5Zl3wx0Edjl0mX
-	kz08XgCCbrDVBhp/WVM2AsprO/93dmdqRkBMxPEZ9NdTckpt2xIsderVCSFZMj0VXT5
-	3nTtBZpTVMyW5ArMpZ45IamicUmJ4ae4ukC7UF0o=
+	bh=3sFIgpXfp/FP6Uqg93LT8M4P+8TRY4ZeuRjKJFC4ASU=;
+	b=X7i8Q1rzk1qU0N8sv38z3k7kZzkBCwuWNicw17cOUBfmoQEBAIOphVwG8FE7GbEt
+	G/KoRXNv4Hk/hCzW5T/KqCX+m2Ya5JXidHXsZH6/H8EOrLfpNgU7C2ui14G9QfSnlg/
+	J6gsI2HJXYMZHYD9oX0LFPfCuO0cr+vmr21zhaPg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594938;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594944;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5nEhks7pBzDz+oa3pqVj+Re0N9RO0J8M2kw8ac8mijQ=;
-	b=TkmML9cRJmSCcp8cS9ZuyIFaVLpWQbqT9U9GfnQc3nVfNSKEDvr6mGIgQLxDcSXx
-	hmvsDxly6nZuZHwKU+rIiXXvaKF7tQxH59jGd9K4PfwSbJAXs1sd9qXPUwU9S5jpK2D
-	6RVSfK0YvYNle5WZM6nk4II1ByHp5bhpw06lT3AM=
-Content-Type: multipart/mixed; boundary="===============3397608796333611275=="
+	bh=3sFIgpXfp/FP6Uqg93LT8M4P+8TRY4ZeuRjKJFC4ASU=;
+	b=h1RJptKTPy6A3NR9gBxDzJG9/krgJfwdh6/Slz5l2E04VH/uJu+ConHFXPrLuwgV
+	bbc5tLmmQyM5ZrHoPGC0YtHuqvR2WiiRL2vmdu1NLid9IeBQLbDwzCml2U17cmAECXo
+	eemaEPs09i1g4A2MCnr2wmfCuXW17rYbXP+3Yf/k=
+Content-Type: multipart/mixed; boundary="===============6323160863791725994=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] lua: upgrading to 5.4.8 FAILED
-Message-ID: <010101980ecc7ac8-6a803fdc-02dd-4062-ab51-35c14f901d8d-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Jul 2025 15:55:38 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] tcf-agent: upgrading to 1.9.0 FAILED
+Message-ID: <010101980ecc92b2-49a919a3-63a9-4a89-8262-10245f17be49-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Jul 2025 15:55:44 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.15-54.240.27.193
+X-SES-Outgoing: 2025.07.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:55:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220336
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:55:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220358
 
---===============3397608796333611275==
+--===============6323160863791725994==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *lua* to *5.4.8* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *tcf-agent* to *1.9.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-lua-upgrade-5.4.7-5.4.8.patch
+    - apply the patch: git am 0001-tcf-agent-upgrade-1.8.0-1.9.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,115 +78,141 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2a6bdf3a93d4d3a2528409a89cfe6f58cad1a134 Mon Sep 17 00:00:00 2001
+From ec70b24358edc08703d18eb030e9402a9ddb8f83 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 09:39:47 +0000
-Subject: [PATCH] lua: upgrade 5.4.7 -> 5.4.8
+Date: Tue, 15 Jul 2025 10:34:55 +0000
+Subject: [PATCH] tcf-agent: upgrade 1.8.0 -> 1.9.0
 
 ---
- .../lua/{lua_5.4.7.bb => lua_5.4.8.bb}        | 23 +++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/lua/{lua_5.4.7.bb => lua_5.4.8.bb} (76%)
+ .../tcf-agent/tcf-agent/ldflags.patch         | 22 +++++++++----------
+ ...{tcf-agent_1.8.0.bb => tcf-agent_1.9.0.bb} |  2 +-
+ 2 files changed, 11 insertions(+), 13 deletions(-)
+ rename meta/recipes-devtools/tcf-agent/{tcf-agent_1.8.0.bb => tcf-agent_1.9.0.bb} (98%)
 
-diff --git a/meta/recipes-devtools/lua/lua_5.4.7.bb b/meta/recipes-devtools/lua/lua_5.4.8.bb
-similarity index 76%
-rename from meta/recipes-devtools/lua/lua_5.4.7.bb
-rename to meta/recipes-devtools/lua/lua_5.4.8.bb
-index 6e414a0805..93b60f85d7 100644
---- a/meta/recipes-devtools/lua/lua_5.4.7.bb
-+++ b/meta/recipes-devtools/lua/lua_5.4.8.bb
-@@ -1,7 +1,26 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- doc/readme.html
-+# +++ doc/readme.html
-+# @@ -1,4 +1,4 @@
-+# -Copyright &copy; 1994&ndash;2024 Lua.org, PUC-Rio.
-+# +Copyright &copy; 1994&ndash;2025 Lua.org, PUC-Rio.
-+#  
-+#  <P>
-+#  Permission is hereby granted, free of charge, to any person obtaining a copy
-+# 
-+#
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+index d701e8dec0..3fa292a95e 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+@@ -1,29 +1,27 @@
++From b241201ebeffec2f7c6282f9e3f1198661002175 Mon Sep 17 00:00:00 2001
++From: Abdur Rehman <abdur_rehman@mentor.com>
++Date: Wed, 26 Aug 2015 19:18:11 +0500
++Subject: [PATCH] tcf-agent: obey LDFLAGS
 +
- SUMMARY = "Lua is a powerful light-weight programming language designed \
- for extending applications."
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=305;endline=326;md5=344ad98880a7ee9ff6e1498a519a7c76"
-+LIC_FILES_CHKSUM = "file://doc/readme.html;beginline=305;endline=326;md5=0e573c143cb6491b41cf02cfbcb8c267"
- HOMEPAGE = "http://www.lua.org/"
+ We need LDFLAGS to be respected otherwise there are QA warnings as the right
+ flags don't get used.
  
- SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
-@@ -12,7 +31,7 @@ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
- # if no test suite matches PV release of Lua exactly, download the suite for the closest Lua release.
- PV_testsuites = "${PV}"
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
  
--SRC_URI[tarballsrc.sha256sum] = "9fbf5e28ef86c69858f6d3d34eccc32e911c1a28b4120ff3e84aaa70cfbf1e30"
-+SRC_URI[tarballsrc.sha256sum] = "4f18ddae154e793e46eeab727c59ef1c0c0c2b744e7b94219710d76f530629ae"
- SRC_URI[tarballtest.sha256sum] = "8a4898ffe4c7613c8009327a0722db7a41ef861d526c77c5b46114e59ebf811e"
+-From d92af0483c20365fd0af740d0baef8870b4aa374 Mon Sep 17 00:00:00 2001
+-From: Abdur Rehman <abdur_rehman@mentor.com>
+-Date: Wed, 26 Aug 2015 19:18:11 +0500
+-Subject: [PATCH] tcf-agent: obey LDFLAGS
+-
+ Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
  
- inherit pkgconfig binconfig ptest
+ Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
+ 
+ Signed-off-by: Mark hatle <mark.hatle@amd.com>
+-
+-
+ ---
+- Makefile.inc |    2 +-
++ agent/Makefile.inc | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-Index: agent/Makefile.inc
+-===================================================================
+---- agent.orig/Makefile.inc
+-+++ agent/Makefile.inc
++diff --git a/agent/Makefile.inc b/agent/Makefile.inc
++index 76b88618..6dce28f5 100644
++--- a/agent/Makefile.inc
+++++ b/agent/Makefile.inc
+ @@ -111,7 +111,7 @@ NO_LINK_F   ?= -c
+  # Linker definition and flags
+  
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb
+rename to meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+index f008c0c6de..e0a215fa26 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
+ LICENSE = "EPL-1.0 | BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+ 
+-SRCREV = "1f11747e83ebf4f53e8d17f430136f92ec378709"
++SRCREV = "9076423f959d53aafa4000d6bb8bf2a1485971b9"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=master \
 -- 
 2.47.1
 
 
---===============3397608796333611275==
+--===============6323160863791725994==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-lua-upgrade-5.4.7-5.4.8.patch"
+Content-Disposition: attachment;
+ filename="0001-tcf-agent-upgrade-1.8.0-1.9.0.patch"
 
-RnJvbSAyYTZiZGYzYTkzZDRkM2EyNTI4NDA5YTg5Y2ZlNmY1OGNhZDFhMTM0IE1vbiBTZXAgMTcg
+RnJvbSBlYzcwYjI0MzU4ZWRjMDg3MDNkMThlYjAzMGU5NDAyYTlkZGI4ZjgzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMDk6Mzk6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-dWE6IHVwZ3JhZGUgNS40LjcgLT4gNS40LjgKCi0tLQogLi4uL2x1YS97bHVhXzUuNC43LmJiID0+
-IGx1YV81LjQuOC5iYn0gICAgICAgIHwgMjMgKysrKysrKysrKysrKysrKystLQogMSBmaWxlIGNo
-YW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2x1YS97bHVhXzUuNC43LmJiID0+IGx1YV81LjQuOC5iYn0gKDc2JSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuNy5iYiBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC44LmJiCnNpbWlsYXJpdHkgaW5kZXggNzYlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9sdWEvbHVhXzUuNC43LmJiCnJlbmFtZSB0
-byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuOC5iYgppbmRleCA2ZTQxNGEwODA1
-Li45M2I2MGY4NWQ3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81
-LjQuNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbHVhL2x1YV81LjQuOC5iYgpAQCAt
-MSw3ICsxLDI2IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBi
-ZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhl
-IGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMg
-UGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUg
-dGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6
-JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRh
-dGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gZG9jL3JlYWRtZS5odG1sCisjICsr
-KyBkb2MvcmVhZG1lLmh0bWwKKyMgQEAgLTEsNCArMSw0IEBACisjIC1Db3B5cmlnaHQgJmNvcHk7
-IDE5OTQmbmRhc2g7MjAyNCBMdWEub3JnLCBQVUMtUmlvLgorIyArQ29weXJpZ2h0ICZjb3B5OyAx
-OTk0Jm5kYXNoOzIwMjUgTHVhLm9yZywgUFVDLVJpby4KKyMgIAorIyAgPFA+CisjICBQZXJtaXNz
-aW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRh
-aW5pbmcgYSBjb3B5CisjIAorIworCiBTVU1NQVJZID0gIkx1YSBpcyBhIHBvd2VyZnVsIGxpZ2h0
-LXdlaWdodCBwcm9ncmFtbWluZyBsYW5ndWFnZSBkZXNpZ25lZCBcCiBmb3IgZXh0ZW5kaW5nIGFw
-cGxpY2F0aW9ucy4iCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
-L2RvYy9yZWFkbWUuaHRtbDtiZWdpbmxpbmU9MzA1O2VuZGxpbmU9MzI2O21kNT0zNDRhZDk4ODgw
-YTdlZTlmZjZlMTQ5OGE1MTlhN2M3NiIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL2RvYy9y
-ZWFkbWUuaHRtbDtiZWdpbmxpbmU9MzA1O2VuZGxpbmU9MzI2O21kNT0wZTU3M2MxNDNjYjY0OTFi
-NDFjZjAyY2ZiY2I4YzI2NyIKIEhPTUVQQUdFID0gImh0dHA6Ly93d3cubHVhLm9yZy8iCiAKIFNS
-Q19VUkkgPSAiaHR0cDovL3d3dy5sdWEub3JnL2Z0cC9sdWEtJHtQVn0udGFyLmd6O25hbWU9dGFy
-YmFsbHNyYyBcCkBAIC0xMiw3ICszMSw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5sdWEub3Jn
-L2Z0cC9sdWEtJHtQVn0udGFyLmd6O25hbWU9dGFyYmFsbHNyYyBcCiAjIGlmIG5vIHRlc3Qgc3Vp
-dGUgbWF0Y2hlcyBQViByZWxlYXNlIG9mIEx1YSBleGFjdGx5LCBkb3dubG9hZCB0aGUgc3VpdGUg
-Zm9yIHRoZSBjbG9zZXN0IEx1YSByZWxlYXNlLgogUFZfdGVzdHN1aXRlcyA9ICIke1BWfSIKIAot
-U1JDX1VSSVt0YXJiYWxsc3JjLnNoYTI1NnN1bV0gPSAiOWZiZjVlMjhlZjg2YzY5ODU4ZjZkM2Qz
-NGVjY2MzMmU5MTFjMWEyOGI0MTIwZmYzZTg0YWFhNzBjZmJmMWUzMCIKK1NSQ19VUklbdGFyYmFs
-bHNyYy5zaGEyNTZzdW1dID0gIjRmMThkZGFlMTU0ZTc5M2U0NmVlYWI3MjdjNTllZjFjMGMwYzJi
-NzQ0ZTdiOTQyMTk3MTBkNzZmNTMwNjI5YWUiCiBTUkNfVVJJW3RhcmJhbGx0ZXN0LnNoYTI1NnN1
-bV0gPSAiOGE0ODk4ZmZlNGM3NjEzYzgwMDkzMjdhMDcyMmRiN2E0MWVmODYxZDUyNmM3N2M1YjQ2
-MTE0ZTU5ZWJmODExZSIKIAogaW5oZXJpdCBwa2djb25maWcgYmluY29uZmlnIHB0ZXN0Ci0tIAoy
-LjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTA6MzQ6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
+Y2YtYWdlbnQ6IHVwZ3JhZGUgMS44LjAgLT4gMS45LjAKCi0tLQogLi4uL3RjZi1hZ2VudC90Y2Yt
+YWdlbnQvbGRmbGFncy5wYXRjaCAgICAgICAgIHwgMjIgKysrKysrKysrLS0tLS0tLS0tLQogLi4u
+e3RjZi1hZ2VudF8xLjguMC5iYiA9PiB0Y2YtYWdlbnRfMS45LjAuYmJ9IHwgIDIgKy0KIDIgZmls
+ZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC97dGNmLWFnZW50XzEuOC4wLmJiID0+IHRjZi1h
+Z2VudF8xLjkuMC5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+dGNmLWFnZW50L3RjZi1hZ2VudC9sZGZsYWdzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3RjZi1hZ2VudC90Y2YtYWdlbnQvbGRmbGFncy5wYXRjaAppbmRleCBkNzAxZThkZWMwLi4zZmEy
+OTJhOTVlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1h
+Z2VudC9sZGZsYWdzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2YtYWdlbnQv
+dGNmLWFnZW50L2xkZmxhZ3MucGF0Y2gKQEAgLTEsMjkgKzEsMjcgQEAKK0Zyb20gYjI0MTIwMWVi
+ZWZmZWMyZjdjNjI4MmY5ZTNmMTE5ODY2MTAwMjE3NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb206IEFiZHVyIFJlaG1hbiA8YWJkdXJfcmVobWFuQG1lbnRvci5jb20+CitEYXRlOiBXZWQs
+IDI2IEF1ZyAyMDE1IDE5OjE4OjExICswNTAwCitTdWJqZWN0OiBbUEFUQ0hdIHRjZi1hZ2VudDog
+b2JleSBMREZMQUdTCisKIFdlIG5lZWQgTERGTEFHUyB0byBiZSByZXNwZWN0ZWQgb3RoZXJ3aXNl
+IHRoZXJlIGFyZSBRQSB3YXJuaW5ncyBhcyB0aGUgcmlnaHQKIGZsYWdzIGRvbid0IGdldCB1c2Vk
+LgogCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW29lLWNvcmUgc3BlY2lmaWNdCiBT
+aWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KIAotRnJvbSBk
+OTJhZjA0ODNjMjAzNjVmZDBhZjc0MGQwYmFlZjg4NzBiNGFhMzc0IE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQotRnJvbTogQWJkdXIgUmVobWFuIDxhYmR1cl9yZWhtYW5AbWVudG9yLmNvbT4KLURh
+dGU6IFdlZCwgMjYgQXVnIDIwMTUgMTk6MTg6MTEgKzA1MDAKLVN1YmplY3Q6IFtQQVRDSF0gdGNm
+LWFnZW50OiBvYmV5IExERkxBR1MKLQogU2lnbmVkLW9mZi1ieTogQWJkdXIgUmVobWFuIDxhYmR1
+cl9yZWhtYW5AbWVudG9yLmNvbT4KIAogUmViYXNlZCB0byA0YTJjNGJhYWNjYmM4YzI5Y2UwMjk3
+NzA1ZGU5YTRlMDk2ZDU3Y2U1IHZlcnNpb24KIAogU2lnbmVkLW9mZi1ieTogTWFyayBoYXRsZSA8
+bWFyay5oYXRsZUBhbWQuY29tPgotCi0KIC0tLQotIE1ha2VmaWxlLmluYyB8ICAgIDIgKy0KKyBh
+Z2VudC9NYWtlZmlsZS5pbmMgfCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
+LCAxIGRlbGV0aW9uKC0pCiAKLUluZGV4OiBhZ2VudC9NYWtlZmlsZS5pbmMKLT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
+LS0tLSBhZ2VudC5vcmlnL01ha2VmaWxlLmluYwotKysrIGFnZW50L01ha2VmaWxlLmluYworZGlm
+ZiAtLWdpdCBhL2FnZW50L01ha2VmaWxlLmluYyBiL2FnZW50L01ha2VmaWxlLmluYworaW5kZXgg
+NzZiODg2MTguLjZkY2UyOGY1IDEwMDY0NAorLS0tIGEvYWdlbnQvTWFrZWZpbGUuaW5jCisrKysg
+Yi9hZ2VudC9NYWtlZmlsZS5pbmMKIEBAIC0xMTEsNyArMTExLDcgQEAgTk9fTElOS19GICAgPz0g
+LWMKICAjIExpbmtlciBkZWZpbml0aW9uIGFuZCBmbGFncwogIApkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnRfMS44LjAuYmIgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2VudF8xLjkuMC5iYgpzaW1pbGFyaXR5IGluZGV4
+IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2Vu
+dF8xLjguMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2Yt
+YWdlbnRfMS45LjAuYmIKaW5kZXggZjAwOGMwYzZkZS4uZTBhMjE1ZmEyNiAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnRfMS44LjAuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnRfMS45LjAuYmIKQEAgLTYs
+NyArNiw3IEBAIEJVR1RSQUNLRVIgPSAiaHR0cHM6Ly9idWdzLmVjbGlwc2Uub3JnL2J1Z3MvIgog
+TElDRU5TRSA9ICJFUEwtMS4wIHwgQlNELTMtQ2xhdXNlIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vZWRsLXYxMC5odG1sO21kNT01MjJhMzkwYTgzZGMxODY1MTNmMDUwMDU0M2FkMzY3OSIK
+IAotU1JDUkVWID0gIjFmMTE3NDdlODNlYmY0ZjUzZThkMTdmNDMwMTM2ZjkyZWMzNzg3MDkiCitT
+UkNSRVYgPSAiOTA3NjQyM2Y5NTlkNTNhYWZhNDAwMGQ2YmI4YmYyYTE0ODU5NzFiOSIKIAogVVBT
+VFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+KFxkKyhcLlxkKykrKSkiCiBTUkNf
+VVJJID0gImdpdDovL2dpdGxhYi5lY2xpcHNlLm9yZy9lY2xpcHNlL3RjZi90Y2YuYWdlbnQuZ2l0
+O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXIgXAotLSAKMi40Ny4xCgo=
 
---===============3397608796333611275==
+--===============6323160863791725994==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -194,7 +220,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1930 entries from dependency cache.
+Loaded 1928 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 941 .bb files complete (940 cached, 1 parsed). 1928 targets, 42 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-64 sysroot...done.
@@ -208,325 +234,89 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-d3c648679dc4a7d88eee3e2dba1b0e72f8280d63"
+DISTRO_VERSION       = "5.2.99+snapshot-c5029064dc1fa4ec38dac473725adf1229067be8"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:d3c648679dc4a7d88eee3e2dba1b0e72f8280d63"
+workspace            = "tmp-auh-upgrades:c5029064dc1fa4ec38dac473725adf1229067be8"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 164 Local 97 Mirrors 0 Missed 67 Current 286 (59% match, 85% complete)
-Removing 1 stale sstate objects for arch x86_64...done.
-Removing 16 stale sstate objects for arch qemux86_64...done.
-Removing 11 stale sstate objects for arch core2-64...done.
+Sstate summary: Wanted 188 Local 175 Mirrors 0 Missed 13 Current 348 (93% match, 97% complete)
+done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 366 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 369 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 376 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 381 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 389 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 392 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_15.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 393 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 394 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_create_spdx_setscene)
-NOTE: Running task 421 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_recipe_qa)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-passwd-3.6.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgcc-initial-15.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_create_spdx_setscene: Started
-NOTE: recipe readline-8.2.13-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe lua-5.4.8-r0: task do_recipe_qa: Started
-NOTE: recipe psmisc-23.7-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 443 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_fetch)
-NOTE: recipe readline-8.2.13-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 444 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_fetch)
-NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libgcc-initial-15.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 445 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_fetch)
-NOTE: Running setscene task 399 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 400 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe base-passwd-3.6.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 401 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 412 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 416 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 417 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 418 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_fetch: Started
-NOTE: Running setscene task 421 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.38.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 426 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_15.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 428 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 430 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_stash_locale_setscene)
-NOTE: Running setscene task 433 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_fetch: Succeeded
-NOTE: recipe readline-8.2.13-r0: task do_fetch: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_fetch: Started
-NOTE: recipe psmisc-23.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe readline-8.2.13-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.8-r0: task do_recipe_qa: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_recipe_qa unihash changed to fda3db38d259b1a6565cb73c54437a3638b93c7461134dae5040aab8e5971e32
-NOTE: recipe base-passwd-3.6.7-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxcrypt-4.4.38-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgcc-15.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libpam-1.7.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe linux-libc-headers-6.15-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe psmisc-23.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glibc-2.41+git-r0: task do_stash_locale_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxcrypt-4.4.38-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libgcc-15.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.15-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 426 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_recipe_qa_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 430 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 438 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 439 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_fetch: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-passwd-3.6.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 622 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb:do_fetch)
-NOTE: recipe base-passwd-3.6.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe glibc-2.41+git-r0: task do_stash_locale_setscene: Succeeded
-NOTE: Running setscene task 443 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 444 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_15.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.15-r0: task do_fetch: Started
-NOTE: recipe shadow-4.18.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 445 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe linux-libc-headers-6.15-r0: task do_fetch: Succeeded
-NOTE: Running task 730 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb:do_unpack)
-NOTE: Running task 731 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libgcc-initial-15.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running noexec task 786 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_15.1.bb:do_fetch)
-NOTE: Running task 787 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_recipe_qa)
-NOTE: recipe glibc-2.41+git-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe linux-libc-headers-6.15-r0: task do_unpack: Started
-NOTE: recipe shadow-4.18.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe linux-libc-headers-6.15-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe shadow-4.18.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 446 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_recipe_qa_setscene)
-NOTE: Running noexec task 893 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_fetch)
-NOTE: recipe glibc-2.41+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 896 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_fetch)
-NOTE: Running task 897 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_fetch)
-NOTE: Running task 898 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_unpack)
-NOTE: recipe libgcc-initial-15.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 903 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.38.bb:do_fetch)
-NOTE: recipe linux-libc-headers-6.15-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lua-native-5.4.8-r0: task do_recipe_qa: Started
-NOTE: Running setscene task 447 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_15.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 449 of 450 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_gcc_stash_builddir_setscene)
-NOTE: Running task 911 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_fetch)
-NOTE: Running task 912 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.1.bb:do_fetch)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_fetch: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_unpack: Started
-NOTE: recipe shadow-4.18.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxcrypt-4.4.38-r0: task do_fetch: Started
-NOTE: recipe libgcc-initial-15.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 957 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.1.bb:do_write_config)
-NOTE: recipe glibc-2.41+git-r0: task do_fetch: Started
-NOTE: Running task 958 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_fetch)
-NOTE: Running task 963 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_unpack)
-NOTE: Running task 964 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_unpack)
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_gcc_stash_builddir_setscene: Started
-NOTE: Running task 968 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_fetch)
-NOTE: recipe attr-2.5.2-r0: task do_fetch: Started
-NOTE: recipe lua-native-5.4.8-r0: task do_recipe_qa: Succeeded
-NOTE: recipe shadow-4.18.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcc-initial-15.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glibc-2.41+git-r0: task do_fetch: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_fetch: Started
-NOTE: recipe attr-2.5.2-r0: task do_fetch: Succeeded
-NOTE: Task virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_recipe_qa unihash changed to c75f51ad52f623f0cb8a6fada251ed145be817d6f6c554b44e148895464f0c6b
-NOTE: recipe libpam-1.7.1-r0: task do_fetch: Succeeded
-NOTE: recipe lua-5.4.8-r0: task do_fetch: Started
-NOTE: recipe base-passwd-3.6.7-r0: task do_fetch: Started
-NOTE: recipe ncurses-6.5-r0: task do_unpack: Started
-NOTE: recipe libpam-1.7.1-r0: task do_write_config: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_unpack: Succeeded
-NOTE: recipe readline-8.2.13-r0: task do_unpack: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_fetch: Succeeded
-NOTE: recipe base-passwd-3.6.7-r0: task do_fetch: Succeeded
-NOTE: recipe libxcrypt-4.4.38-r0: task do_fetch: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_write_config: Succeeded
-NOTE: recipe readline-8.2.13-r0: task do_unpack: Succeeded
-WARNING: lua-5.4.8-r0 do_fetch: Checksum failure encountered with download of http://www.lua.org/tests/lua-5.4.8-tests.tar.gz;name=tarballtest - will attempt other sources if available
-NOTE: recipe ncurses-6.5-r0: task do_unpack: Succeeded
-NOTE: Running task 971 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_unpack)
-NOTE: Running task 972 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_fetch)
-NOTE: Running task 974 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_unpack)
-NOTE: Running task 976 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.38.bb:do_unpack)
-NOTE: Running task 977 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_unpack)
-NOTE: Running task 978 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.1.bb:do_unpack)
-NOTE: Running task 979 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_patch)
-NOTE: Running task 980 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_patch)
-NOTE: Running task 981 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_unpack)
-NOTE: Running task 1001 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_fetch)
-NOTE: Running task 1008 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_fetch)
-NOTE: Running task 1009 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_fetch)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_unpack: Started
-NOTE: recipe libxcrypt-4.4.38-r0: task do_unpack: Started
-NOTE: recipe attr-2.5.2-r0: task do_unpack: Started
-NOTE: recipe readline-8.2.13-r0: task do_patch: Started
-NOTE: recipe base-passwd-3.6.7-r0: task do_unpack: Started
-NOTE: recipe ncurses-6.5-r0: task do_patch: Started
-NOTE: recipe glibc-2.41+git-r0: task do_unpack: Started
-NOTE: recipe libpam-1.7.1-r0: task do_unpack: Started
-NOTE: recipe lua-native-5.4.8-r0: task do_fetch: Started
-NOTE: Running task 1034 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: recipe lua-native-5.4.8-r0: task do_fetch: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_fetch: Started
-NOTE: Running task 1035 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_unpack)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_fetch: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_unpack: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_fetch: Started
-NOTE: Running task 1036 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1037 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_patch)
-NOTE: recipe shadow-4.18.0-r0: task do_fetch: Started
-NOTE: recipe shadow-4.18.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1038 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe attr-2.5.2-r0: task do_patch: Started
-NOTE: recipe base-passwd-3.6.7-r0: task do_unpack: Succeeded
-NOTE: recipe lua-native-5.4.8-r0: task do_unpack: Started
-NOTE: recipe lua-native-5.4.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1039 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_patch)
-NOTE: recipe shadow-4.18.0-r0: task do_unpack: Started
-NOTE: recipe lua-native-5.4.8-r0: task do_unpack: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1040 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_patch)
-NOTE: recipe libpam-1.7.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1041 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_unpack)
-NOTE: recipe readline-8.2.13-r0: task do_patch: Succeeded
-NOTE: Running task 1042 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.1.bb:do_patch)
-NOTE: Running task 1044 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_unpack)
-NOTE: recipe lua-native-5.4.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1046 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_fetch)
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.7-r0: task do_patch: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_unpack: Started
 NOTE: Setscene tasks completed
-NOTE: recipe shadow-sysroot-4.6-r0: task do_unpack: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_patch: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_unpack: Started
-NOTE: recipe libpam-1.7.1-r0: task do_patch: Started
-NOTE: recipe lua-native-5.4.8-r0: task do_patch: Started
-NOTE: Running task 1082 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_collect_spdx_deps)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_unpack: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_fetch: Started
-NOTE: recipe ncurses-6.5-r0: task do_patch: Succeeded
-NOTE: Running task 1085 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_patch)
-NOTE: recipe libxcrypt-4.4.38-r0: task do_unpack: Succeeded
-NOTE: recipe lua-native-5.4.8-r0: task do_patch: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_patch: Succeeded
-NOTE: Running task 1087 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxcrypt/libxcrypt_4.4.38.bb:do_patch)
-NOTE: Running task 1088 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r0: task do_collect_spdx_deps: Started
-NOTE: recipe base-files-3.0.14-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_patch: Started
-NOTE: recipe libxcrypt-4.4.38-r0: task do_patch: Started
-NOTE: recipe lua-native-5.4.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe psmisc-23.7-r0: task do_fetch: Succeeded
-NOTE: Running task 1090 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxcrypt-4.4.38-r0: task do_patch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 43a5eed45be5f03da4b85c3553d0f54d484743ea1bf86e066be2f808a536e5e1
-NOTE: recipe opkg-utils-0.7.0-r0: task do_patch: Succeeded
+NOTE: Running task 1239 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_recipe_qa)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_recipe_qa: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_recipe_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_recipe_qa unihash changed to 87f68c1084e655072422f00adea44856d331e9ae7ccbf232ba8d62191e218d5c
 NOTE: Setscene tasks completed
-NOTE: recipe psmisc-23.7-r0: task do_unpack: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1093 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_patch)
-NOTE: recipe base-passwd-3.6.7-r0: task do_patch: Succeeded
-NOTE: recipe lua-native-5.4.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_deploy_source_date_epoch unihash changed to 05f9d89cf58b5b3f9c6c576623c279e2ecf8dd9c625dfdb77a163dc7fd2e31d7
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_patch: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_patch: Succeeded
-NOTE: recipe shadow-4.18.0-r0: task do_unpack: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_unpack: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1095 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_configure)
-NOTE: Running task 1096 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_patch)
-NOTE: Running task 1098 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_patch)
-NOTE: recipe shadow-4.18.0-r0: task do_patch: Started
-NOTE: recipe psmisc-23.7-r0: task do_patch: Started
-NOTE: recipe lua-native-5.4.8-r0: task do_configure: Started
-NOTE: recipe psmisc-23.7-r0: task do_patch: Succeeded
-NOTE: recipe lua-native-5.4.8-r0: task do_configure: Succeeded
-NOTE: Running task 1100 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_compile)
-NOTE: recipe shadow-4.18.0-r0: task do_patch: Succeeded
-NOTE: recipe lua-native-5.4.8-r0: task do_compile: Started
-NOTE: recipe glibc-2.41+git-r0: task do_unpack: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1102 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_patch)
-NOTE: recipe glibc-2.41+git-r0: task do_patch: Started
-NOTE: recipe lua-native-5.4.8-r0: task do_compile: Succeeded
-NOTE: Running task 1103 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_install)
-NOTE: recipe lua-native-5.4.8-r0: task do_install: Started
-NOTE: recipe lua-native-5.4.8-r0: task do_install: Succeeded
-NOTE: Running task 1104 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_populate_sysroot)
-NOTE: recipe lua-native-5.4.8-r0: task do_populate_sysroot: Started
-NOTE: recipe glibc-2.41+git-r0: task do_patch: Succeeded
-NOTE: recipe lua-native-5.4.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1106 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rpm-native-1_4.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rpm-native-1_4.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1107 of 1303 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm/rpm_4.20.1.bb:do_configure)
-NOTE: recipe rpm-native-1_4.20.1-r0: task do_configure: Started
-NOTE: recipe linux-libc-headers-6.15-r0: task do_unpack: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1108 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb:do_patch)
-NOTE: Running task 1109 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb:do_collect_spdx_deps)
-NOTE: recipe linux-libc-headers-6.15-r0: task do_patch: Started
-NOTE: recipe linux-libc-headers-6.15-r0: task do_collect_spdx_deps: Started
-NOTE: recipe linux-libc-headers-6.15-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe linux-libc-headers-6.15-r0: task do_patch: Succeeded
-NOTE: Running noexec task 1111 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb:do_configure)
-NOTE: Running noexec task 1112 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb:do_compile)
-NOTE: Running task 1113 of 1303 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.15.bb:do_install)
-NOTE: recipe linux-libc-headers-6.15-r0: task do_install: Started
-NOTE: recipe lua-5.4.8-r0: task do_fetch: Failed
-NOTE: recipe linux-libc-headers-6.15-r0: task do_install: Succeeded
-NOTE: recipe rpm-native-1_4.20.1-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 1113 tasks of which 1049 didn't need to be rerun and 1 failed.
+NOTE: Running task 1525 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_fetch)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_fetch: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1526 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_unpack)
+NOTE: Running task 1527 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_unpack: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_unpack: Succeeded
+NOTE: recipe tcf-agent-1.9.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1528 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_patch)
+NOTE: Running task 1529 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_collect_spdx_deps)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_patch: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe tcf-agent-1.9.0-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1529 tasks of which 1523 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715093929.txt
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715103442.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715093929.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715103442.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/lua/5.4.8/temp/log.do_fetch.4069561
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: lua-5.4.8-r0 do_fetch: Fetcher failure for URL: 'http://www.lua.org/tests/lua-5.4.8-tests.tar.gz;name=tarballtest'. Checksum mismatch!
-File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/lua-5.4.8-tests.tar.gz.tmp' has sha256 checksum '9581d5a7c39ffbf29b8ccde2709083c380f7bbddbd968dcb15712d2f2e33f4e5' when '8a4898ffe4c7613c8009327a0722db7a41ef861d526c77c5b46114e59ebf811e' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[tarballtest.sha256sum] = "9581d5a7c39ffbf29b8ccde2709083c380f7bbddbd968dcb15712d2f2e33f4e5"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: lua-5.4.8-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.lua.org/tests/lua-5.4.8-tests.tar.gz;name=tarballtest')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/lua/5.4.8/temp/log.do_fetch.4069561
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/lua/lua_5.4.8.bb:do_fetch) failed with exit code '1'
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/temp/log.do_patch.811229
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: tcf-agent-1.9.0-r0 do_patch: Applying patch 'ldflags.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/sources/tcf-agent-1.9.0/agent'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/recipe-sysroot-native/etc/quiltrc push', 0, "stdout: Applying patch ldflags.patch
+can't find file to patch at input line 25
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|From b241201ebeffec2f7c6282f9e3f1198661002175 Mon Sep 17 00:00:00 2001
+|From: Abdur Rehman <abdur_rehman@mentor.com>
+|Date: Wed, 26 Aug 2015 19:18:11 +0500
+|Subject: [PATCH] tcf-agent: obey LDFLAGS
+|
+|We need LDFLAGS to be respected otherwise there are QA warnings as the right
+|flags don't get used.
+|
+|Upstream-Status: Inappropriate [oe-core specific]
+|Signed-off-by: Ross Burton <ross.burton@arm.com>
+|
+|Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
+|
+|Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
+|
+|Signed-off-by: Mark hatle <mark.hatle@amd.com>
+|---
+| agent/Makefile.inc | 2 +-
+| 1 file changed, 1 insertion(+), 1 deletion(-)
+|
+|diff --git a/agent/Makefile.inc b/agent/Makefile.inc
+|index 76b88618..6dce28f5 100644
+|--- a/agent/Makefile.inc
+|+++ b/agent/Makefile.inc
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+Patch ldflags.patch does not apply (enforce with -f)
 
---===============3397608796333611275==--
+stderr: ")
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/temp/log.do_patch.811229
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_patch) failed with exit code '1'
+
+--===============6323160863791725994==--
 
