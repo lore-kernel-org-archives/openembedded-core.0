@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6904EC83F3A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 677BFC83F38
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 20:36:40 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.5346.1752611797864167209
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.5345.1752611796427289478
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 13:36:37 -0700
+ Tue, 15 Jul 2025 13:36:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qP7YfBME;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-235e1d710d8so74671485ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 13:36:37 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=k/AfMRHO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-235ea292956so55745445ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 13:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752611797; x=1753216597; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752611796; x=1753216596; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9J+VXXu0ftmgTRlfpE8L6bPXqXomwv9lBlOcDAGfYzo=;
-        b=qP7YfBMEF7g1W/GI6JvxhPsCjYfHkBTgl/YGsnQAzkiIoJbh1kfIdf1+OjNXv57DkC
-         SemjueMCgpQaqlcRhLtX7FTUFrnyPw+/FZAJ5VQHtS+DvOSh6wGwJsyNy5bgQCb0GVDh
-         6YTsng1s2HoEue2Zovopxe0BIUmexTvMuV+S/FaW2tAg0WH2J7fMMhvwzICm0kenPK4T
-         +tVue3f0x2LX4xoCfYzq6ib3ev9PHs5q50EV6Nk91u/P1FOS9vNLBek7RJp2jlM9WLBZ
-         Qj8yTCqTD4PR96YU7BiChXfNE5H3gtmINEpTpGSRckL6wIDcwC9zb4clXZfIjrzgBi7U
-         iwxQ==
+        bh=EkFbEyhgn7PbVY69p+vJ887vvayx1PPJHLrow7clPT4=;
+        b=k/AfMRHOKxoDQfBiYejn7i144Ub/culU0xms/xfRYKtiVdbwXTO21VB0BR7619JFUu
+         VK1K3PBeeiWknxUVHlnALesDRszcuSTftBVgvWFgQAmw6qmQv2FdJ6Gb9gbI/iIUeWRF
+         udtwywTXYxqR/hMRowX8UO/kYtUUsArM6kY7Uwdh6X9w51bo3KAi16MXJucTvm511FOe
+         XNOZyhmlPpuzNvaRU/HNmvL/Id/ibd+oYkuC3rbeMtr2uBucYLw7ronEKbhwwTwFysbV
+         DmIsm/dBn/nkcxGKAudEZNG/xQPuX1tWvedSZMoaEOiCd+K9fcKB5AI0FHqkpCUwreN+
+         1W/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752611797; x=1753216597;
+        d=1e100.net; s=20230601; t=1752611796; x=1753216596;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9J+VXXu0ftmgTRlfpE8L6bPXqXomwv9lBlOcDAGfYzo=;
-        b=n29FZjJvcH7d9LNiafQvIJdocpMlix7sxbeR3j6dVH2YcHT7Uur2YvBUu74s95GfRN
-         OQuUsI3YnmMDA9GZZRL0K4C/OYwvh98f73/ZIZNhskPdUQ704N0h0KXjI3V92B7Mm11s
-         GA7AKSUGpky6k5ZZ0ok78Y+UKgv3VrFybloW9tGM1/J0ebvmO/gy62A83F12Vi2vPgJG
-         NchCurHL5CEQTLqMHXQFWFv3pBvwBT2dzFVaknO5UbM3kyn9wzqvDSBHs14eN1IfhWx6
-         kme9GqcZoi7bq1l1FKKYWmuYSRs+hDO+dJQ//bSm2FJI5dihCewXUIOUGgBVoDa4h0Fo
-         xLgw==
-X-Gm-Message-State: AOJu0Yxa3GVldTHivyYv05qtwxCg5DX1YlNcDWxfZ1vKdJZ1/9v9hn9d
-	usVlxjhPHRg9VdlitsGUAPYKaKY1Q6u4kax49ePt8rphvpiyQbny8UJS+whNk5Sy4QSB3Fq1toI
-	WzS9F
-X-Gm-Gg: ASbGncswIhkBsfVHmiGlo5SgfeV1dvXfNPvSB+qOZMekFUesFRshWOW8lRABR74QeZJ
-	JdEW0+R8kZ+rlTrWQGznoLOZeNz2cZ8W8bWad1LyMJcH4OKX8NV6n8lwisorbkA/4WVzoqoFO/y
-	P85t7YnSZnJOJebvZLkCkSyWHGKFRAuuuy9IremWhvrnVK/4gGj5RMKJYjvxcXwD7bKxf4Rfo4D
-	KOpah5oJTsfDj8vBot/PqAsz1DzKdMbwbNMFg6yWz7c4kxPw+mxLwjUjSHLlKBweXNnVsc9mnnN
-	hvUviTff4Ib9Evv1uAG/k/ea8goyz0Uf5LxUrrfgE65hk5TVerAKAp062JClrQBFs1sn0Kicn0A
-	7mRJZ5uR22GKkMg==
-X-Google-Smtp-Source: AGHT+IHT1/65InWI3MpEKEpHvs4pksNdUr6Z5FIBDrkhSqV5+uZ8AzUmF4Nh7bTvVaZRtHipqW5ssA==
-X-Received: by 2002:a17:902:f786:b0:236:6f43:7051 with SMTP id d9443c01a7336-23e24eeb3damr5283115ad.23.1752611797008;
-        Tue, 15 Jul 2025 13:36:37 -0700 (PDT)
+        bh=EkFbEyhgn7PbVY69p+vJ887vvayx1PPJHLrow7clPT4=;
+        b=xJRzz4Gh1uSI3SOgXsnlmTmEGIwQsxjQGNIpgmtBne3Nyn4lw7OlxLu6JMnHqVIibN
+         ULclWCaVFrmOqCOu7dpyKnZt/CZfjh7UQ0NUK7uYEl4P7T/lstmid8scjrOyvWT8ICv2
+         LeZhZD93kAFQ6jtwDL85sohzCyrwk30begtb+JRPmksfrpHNKDVYueFbEdtEcyFQaS0i
+         cz/n6+tx3xvr/eS/Cl4JNwhF3no4OAKWoqYLuR3lVhmqICZmWLwvQIAuOwcDL7y9TOVX
+         YsQoa1J6Cp4FTS/Z4VlXFHUoYr+eMCuiFvdU0P3U4WbPsFvKx59DADbBEaywocSCGtvl
+         IUqg==
+X-Gm-Message-State: AOJu0YyiMOoCUA6WgclVGzF5rgcu11YbdLKiPC0e6i9+hPIjDU44ANxt
+	wGdHtArJwvEa5Ocva8MuAtytaRtDG774mZCZgUKSaaXXtQJ4vhhjfkMHox+XOnLbV6v5g2N/xfM
+	p4KGD
+X-Gm-Gg: ASbGncvl/6vfIe4xCs6B9w3KlA/EVwpJaEeYofApH1qpi2Ux+t5hSS/sg0bLOL3tpX/
+	RiYTWcmVyjU+FJYtrGKyno7MpKD++On5VuvsuJH8a3TnmzzbujcO4yvfBrV+KsLIi9LIeLZ096+
+	LLNiB0+0W43w+qt+UsOIFj82MP51yi9wo/CutSleaEguKQUwz7/r1KC1k1Yzgs+xnE0ZAIwRi4m
+	jI4fgKe18+tRk3ArHA0SSvh8JJnqX4H9jFTQPbjmZKOgJgLG/IJR3wKYjiCNS+N0KuitNZ368Ap
+	HVre+VzTcdQmDRmj8xVittGF3ZM1eypL1JqaFr/qyKUq1jYcDEOJuggNBucMMDnTEsQFyYiaaxB
+	Lb5kdIq1kPh3RfQ==
+X-Google-Smtp-Source: AGHT+IHZ+dcU/1Zr3azkiotA1FPEwW9hiXqQHJadzIrJ64eibqUxGWkugCIrdpEbR4Qjj4CtTt8nDQ==
+X-Received: by 2002:a17:902:f60a:b0:234:aa98:7d41 with SMTP id d9443c01a7336-23e257608famr1532835ad.42.1752611795553;
+        Tue, 15 Jul 2025 13:36:35 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5c42:3781:50b6:b9d7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de43637f2sm115585595ad.241.2025.07.15.13.36.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de43637f2sm115585595ad.241.2025.07.15.13.36.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 13:36:36 -0700 (PDT)
+        Tue, 15 Jul 2025 13:36:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/16] ghostscript: ignore CVE-2025-46646
-Date: Tue, 15 Jul 2025 13:36:10 -0700
-Message-ID: <a3e02ed74db2c234b7c3718b4d6b5332468de226.1752611671.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/16] ofono: fix CVE-2023-4235
+Date: Tue, 15 Jul 2025 13:36:09 -0700
+Message-ID: <3a3519324ec390044ff9f97c0f32027782699124.1752611671.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752611671.git.steve@sakoman.com>
 References: <cover.1752611671.git.steve@sakoman.com>
@@ -68,35 +68,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 20:36:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220418
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220417
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-The code patched by [1] which fixes this CVE is not available in 9.55.0.
-Also Debian says in [2] that even 10.0.0 is not yet affected.
+A flaw was found in ofono, an Open Source Telephony on Linux. A stack overflow bug
+is triggered within the decode_deliver_report() function during the SMS decoding.
+It is assumed that the attack scenario is accessible from a compromised modem,
+a malicious base station, or just SMS. There is a bound check for this memcpy
+length in decode_submit(), but it was forgotten in decode_deliver_report().
 
-[1] https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=f14ea81e6c3d2f51593f23cdf13c4679a18f1a3f
-[2] https://security-tracker.debian.org/tracker/CVE-2025-46646
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../ofono/ofono/CVE-2023-4235.patch           | 37 +++++++++++++++++++
+ meta/recipes-connectivity/ofono/ofono_1.34.bb |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2023-4235.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-index 3b50ac1409..4d696159e0 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-@@ -28,6 +28,8 @@ CVE_CHECK_IGNORE += "CVE-2023-38560 CVE-2024-46954"
- CVE_CHECK_IGNORE += "CVE-2024-29507 CVE-2025-27833"
- # Only impacts codepaths relevant for Windows builds
- CVE_CHECK_IGNORE += "CVE-2025-27837"
-+# Vulnerable code was introduced later, so 9.55.0 is not affected yet
-+CVE_CHECK_IGNORE += "CVE-2025-46646"
+diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2023-4235.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4235.patch
+new file mode 100644
+index 0000000000..ce03bbd274
+--- /dev/null
++++ b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4235.patch
+@@ -0,0 +1,37 @@
++From 02aa0f9bad3d9e47a152fc045d0f51874d901d7e Mon Sep 17 00:00:00 2001
++From: "Sicelo A. Mhlongo" <absicsz@gmail.com>
++Date: Wed, 4 Dec 2024 10:18:51 +0200
++Subject: [PATCH] smsutil: check deliver reports fit in buffer
++
++Fixes CVE-2023-4235
++
++CVE: CVE-2023-4235
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=02aa0f9bad3d9e47a152fc045d0f51874d901d7e]
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ src/smsutil.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/src/smsutil.c b/src/smsutil.c
++index 484bfd0b..ac89f16c 100644
++--- a/src/smsutil.c
+++++ b/src/smsutil.c
++@@ -1240,10 +1240,16 @@ static gboolean decode_deliver_report(const unsigned char *pdu, int len,
++			return FALSE;
++
++		if (out->type == SMS_TYPE_DELIVER_REPORT_ERROR) {
+++			if (expected > (int) sizeof(out->deliver_err_report.ud))
+++				return FALSE;
+++
++			out->deliver_err_report.udl = udl;
++			memcpy(out->deliver_err_report.ud,
++					pdu + offset, expected);
++		} else {
+++			if (expected > (int) sizeof(out->deliver_ack_report.ud))
+++				return FALSE;
+++
++			out->deliver_ack_report.udl = udl;
++			memcpy(out->deliver_ack_report.ud,
++					pdu + offset, expected);
++--
++2.30.2
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.34.bb b/meta/recipes-connectivity/ofono/ofono_1.34.bb
+index 8a298bfade..a3edf4ab5d 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.34.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.34.bb
+@@ -27,6 +27,7 @@ SRC_URI = "\
+     file://CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch \
+     file://CVE-2024-7537.patch \
+     file://CVE-2023-4232.patch \
++    file://CVE-2023-4235.patch \
+ "
+ SRC_URI[sha256sum] = "c0b96d3013447ec2bcb74579bef90e4e59c68dbfa4b9c6fbce5d12401a43aac7"
  
- def gs_verdir(v):
-     return "".join(v.split("."))
 -- 
 2.43.0
 
