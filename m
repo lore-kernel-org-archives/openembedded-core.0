@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D62CA0EC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41AA8CA0EC2
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:55:51 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.12483.1752594935998325326
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.12496.1752594944169949021
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 08:55:43 -0700
+ Tue, 15 Jul 2025 08:55:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vGm7o4HZ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bCVmI6zo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101980ecc8de8-a366a573-9c6e-4cb7-afec-64386888d1d0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=crvNLsQa;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AsDlxtyr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101980ecc8ea9-f79eaf97-5c46-4415-870d-57d4f71b3805-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1752594943;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mjUjFWDX9ZB0BJhngalSmrzdfcyq5U1PF3Cz2NwiIlk=;
-	b=vGm7o4HZ1mA7XoYVznRqjyHI4bQXTqEt0kiumm3lBKxqto6bIG7BlPVKsmOdd8qD
-	oxtzN5FmNWN5UpLX7nYdH7Ei2SNxsA4fBnhv4mTlyZYsqV8CAIA2YaYN0GH6T/uB+u9
-	fyX+JE7rOt9loXkVY49ernwZAWSel7/avwJS8GYg=
+	bh=DdXo/5P3SrVEoZzkwv82j9IV7pUuIZIecUlm2RqjIDI=;
+	b=crvNLsQaedCHwFzlvMCwY2WRNMVwkRbBxVYnADCgFpuSflUvOHZipAvymQJChCRM
+	cX5YhyD6cSh10ZYBDmuUvMgeVpo8/bkEC8zCwfD/XMkSZXMDlloaG/m5rUGuURHSosg
+	bkgPSbo1HB1IjsWbCI6BdYyAx3n7OvRboqd4qjp0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594943;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mjUjFWDX9ZB0BJhngalSmrzdfcyq5U1PF3Cz2NwiIlk=;
-	b=bCVmI6zobBITITWqHWXc7f+tHjPSZF0aUo7fKlddXwLZY5R8zE2UZLjy6A00GZFo
-	2QRO4+No+IVdo8aJzHzQ36JbtNAJtkZOumIrLoGBcE/wRnuerdCFj5U23jX6Hvl5ges
-	I581FribChUFpSuciORSpXWZPUxHkBdAMS2TAaeg=
-Content-Type: multipart/mixed; boundary="===============4418913965191185692=="
+	bh=DdXo/5P3SrVEoZzkwv82j9IV7pUuIZIecUlm2RqjIDI=;
+	b=AsDlxtyrDW4z+Yae1wHA5XpcQiJkXG2tFiVhEObwWy+xa69m7Jr3CvtWk6YGT0y8
+	wzfaRQg/VNcO/tGpD+cg8Ox0kgjGhpvqlIlMC8TE2gHWzWDBB5E1MpkmZ5+3MStQSGp
+	QTAQM6MVjDPbQoPbZ9BJ6KCsgFVy05dbixBMNlu8=
+Content-Type: multipart/mixed; boundary="===============2216521592450757933=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-typing-extensions: upgrading to 4.14.1 SUCCEEDED
-Message-ID: <010101980ecc8de8-a366a573-9c6e-4cb7-afec-64386888d1d0-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-unittest-automake-output: upgrading to 0.3 FAILED
+Message-ID: <010101980ecc8ea9-f79eaf97-5c46-4415-870d-57d4f71b3805-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Jul 2025 15:55:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.15-54.240.27.33
+X-SES-Outgoing: 2025.07.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:55:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220351
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220352
 
---===============4418913965191185692==
+--===============2216521592450757933==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-typing-extensions* to *4.14.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-unittest-automake-output* to *0.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-typing-extensions-upgrade-4.14.0-4.14.1.patch
+    - apply the patch: git am 0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,103 +78,163 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5d12909fca188758594cbb02c1d7ffd2b1d5bc75 Mon Sep 17 00:00:00 2001
+From a37e69b6a7027a8eee4ac4558140a0bd865a82ac Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 10:18:46 +0000
-Subject: [PATCH] python3-typing-extensions: upgrade 4.14.0 -> 4.14.1
+Date: Tue, 15 Jul 2025 10:20:12 +0000
+Subject: [PATCH] python3-unittest-automake-output: upgrade 0.2 -> 0.3
 
 ---
- ...extensions_4.14.0.bb => python3-typing-extensions_4.14.1.bb} | 2 +-
+ ...ke-output_0.2.bb => python3-unittest-automake-output_0.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-typing-extensions_4.14.0.bb => python3-typing-extensions_4.14.1.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-unittest-automake-output_0.2.bb => python3-unittest-automake-output_0.3.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.14.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.14.1.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-typing-extensions_4.14.0.bb
-rename to meta/recipes-devtools/python/python3-typing-extensions_4.14.1.bb
-index 1c03aacc10..32edb656db 100644
---- a/meta/recipes-devtools/python/python3-typing-extensions_4.14.0.bb
-+++ b/meta/recipes-devtools/python/python3-typing-extensions_4.14.1.bb
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
- PYPI_PACKAGE = "typing_extensions"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+diff --git a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
+rename to meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
+index 216fea2b93..4054385935 100644
+--- a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
++++ b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f6f16008d9fb7349f06609329f1ab93b"
+ SRC_URI = "git://gitlab.com/rossburton/python-unittest-automake-output;protocol=https;branch=main \
+            file://0001-Update-__version__-to-match-the-tag-version.patch"
  
--SRC_URI[sha256sum] = "8676b788e32f02ab42d9e7c61324048ae4c6d844a399eebace3d4979d75ceef4"
-+SRC_URI[sha256sum] = "38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36"
+-SRCREV = "aebdfb188e368c690ea55cf6c9c9ffa1a52def65"
++SRCREV = "3376ff9bc319f8338849b7b9f63b9325d7b7663a"
  
- inherit pypi python_flit_core
+ inherit python_flit_core
  
 -- 
 2.47.1
 
 
---===============4418913965191185692==
+--===============2216521592450757933==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1930 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 941 .bb files complete (940 cached, 1 parsed). 1928 targets, 42 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-4f2740fc293f3f51d0d5e019c86f4234887384da"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:4f2740fc293f3f51d0d5e019c86f4234887384da"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 282 Local 269 Mirrors 0 Missed 13 Current 356 (95% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 492 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.5.bb:do_create_spdx_setscene)
+NOTE: Running task 477 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_recipe_qa)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-3.13.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.13.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 595 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_create_spdx_setscene)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_recipe_qa unihash changed to 573a6c127ee07a7bebbb024c4092fa9abb0087cc1eb8ac4575ecba853349bfe7
+NOTE: Running task 584 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_fetch)
+NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Started
+NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 607 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Succeeded
+NOTE: Running task 587 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_unpack)
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 617 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_create_spdx_setscene)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Started
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 630 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1227 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Started
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 636 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.44.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.44-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1671 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1807 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1811 tasks of which 1805 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715101959.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715101959.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.683701
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-unittest-automake-output-0.3-r0 do_patch: Applying patch '0001-Update-__version__-to-match-the-tag-version.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/sources/python3-unittest-automake-output-0.3'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-Update-__version__-to-match-the-tag-version.patch
+patching file src/putao/__init__.py
+Hunk #1 FAILED at 5.
+1 out of 1 hunk FAILED -- rejects in file src/putao/__init__.py
+Patch 0001-Update-__version__-to-match-the-tag-version.patch does not apply (enforce with -f)
+
+stderr: ')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.683701
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch) failed with exit code '1'
+
+--===============2216521592450757933==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-typing-extensions-upgrade-4.14.0-4.14.1.patch"
+ filename="0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch"
 
-RnJvbSA1ZDEyOTA5ZmNhMTg4NzU4NTk0Y2JiMDJjMWQ3ZmZkMmIxZDViYzc1IE1vbiBTZXAgMTcg
+RnJvbSBhMzdlNjliNmE3MDI3YThlZWU0YWM0NTU4MTQwYTBiZDg2NWE4MmFjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTA6MTg6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXR5cGluZy1leHRlbnNpb25zOiB1cGdyYWRlIDQuMTQuMCAtPiA0LjE0LjEKCi0tLQog
-Li4uZXh0ZW5zaW9uc180LjE0LjAuYmIgPT4gcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjE0
-LjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy10eXBpbmct
-ZXh0ZW5zaW9uc180LjE0LjAuYmIgPT4gcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjE0LjEu
-YmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXR5cGluZy1leHRlbnNpb25zXzQuMTQuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjE0LjEuYmIKc2ltaWxhcml0eSBpbmRl
-eCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXR5
-cGluZy1leHRlbnNpb25zXzQuMTQuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTQuMS5iYgppbmRleCAxYzAzYWFj
-YzEwLi4zMmVkYjY1NmRiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC4xNC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjE0LjEuYmIKQEAgLTE2
-LDcgKzE2LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZmNmNmIy
-NDljMjY0MTU0MDIxOWE3MjdmMzVkOGQyYzIiCiBQWVBJX1BBQ0tBR0UgPSAidHlwaW5nX2V4dGVu
-c2lvbnMiCiBVUFNUUkVBTV9DSEVDS19QWVBJX1BBQ0tBR0UgPSAiJHtQWVBJX1BBQ0tBR0V9Igog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODY3NmI3ODhlMzJmMDJhYjQyZDllN2M2MTMyNDA0OGFl
-NGM2ZDg0NGEzOTllZWJhY2UzZDQ5NzlkNzVjZWVmNCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIz
-OGIzOWY0YWVlYWI2NDg4NGNlOWY3NGM5NDI2M2VmNzhmM2MyMjQ2N2M4NzI0MDA1NDgzMTU0YzI2
-NjQ4ZDM2IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2ZsaXRfY29yZQogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTA6MjA6MTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dDogdXBncmFkZSAwLjIgLT4gMC4zCgotLS0K
+IC4uLmtlLW91dHB1dF8wLjIuYmIgPT4gcHl0aG9uMy11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXRf
+MC4zLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdW5pdHRl
+c3QtYXV0b21ha2Utb3V0cHV0XzAuMi5iYiA9PiBweXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
+dHB1dF8wLjMuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjIuYmIgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMy5i
+YgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMi5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
+dHB1dF8wLjMuYmIKaW5kZXggMjE2ZmVhMmI5My4uNDA1NDM4NTkzNSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1
+dF8wLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0
+ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjMuYmIKQEAgLTYsNyArNiw3IEBAIExJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWY2ZjE2MDA4ZDlmYjczNDlmMDY2MDkzMjlmMWFiOTNi
+IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuY29tL3Jvc3NidXJ0b24vcHl0aG9uLXVuaXR0ZXN0
+LWF1dG9tYWtlLW91dHB1dDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiBcCiAgICAgICAgICAg
+IGZpbGU6Ly8wMDAxLVVwZGF0ZS1fX3ZlcnNpb25fXy10by1tYXRjaC10aGUtdGFnLXZlcnNpb24u
+cGF0Y2giCiAKLVNSQ1JFViA9ICJhZWJkZmIxODhlMzY4YzY5MGVhNTVjZjZjOWM5ZmZhMWE1MmRl
+ZjY1IgorU1JDUkVWID0gIjMzNzZmZjliYzMxOWY4MzM4ODQ5YjdiOWY2M2I5MzI1ZDdiNzY2M2Ei
+CiAKIGluaGVyaXQgcHl0aG9uX2ZsaXRfY29yZQogCi0tIAoyLjQ3LjEKCg==
 
---===============4418913965191185692==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-typing-extensions: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.14.0.tar.gz;downloadfilename=typing_extensions-4.14.0.tar.gz" to "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.14.1.tar.gz;downloadfilename=typing_extensions-4.14.1.tar.gz"
-packages/core2-64-poky-linux/python3-typing-extensions: PV changed from "4.14.0" to "4.14.1"
-packages/core2-64-poky-linux/python3-typing-extensions: PKGV changed from 4.14.0 [default] to 4.14.1 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PV changed from "4.14.0" to "4.14.1"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PKGV changed from 4.14.0 [default] to 4.14.1 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PV changed from "4.14.0" to "4.14.1"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PKGV changed from 4.14.0 [default] to 4.14.1 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PV changed from "4.14.0" to "4.14.1"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PKGV changed from 4.14.0 [default] to 4.14.1 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PV changed from "4.14.0" to "4.14.1"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PKGV changed from 4.14.0 [default] to 4.14.1 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PV changed from "4.14.0" to "4.14.1"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PKGV changed from 4.14.0 [default] to 4.14.1 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PV changed from "4.14.0" to "4.14.1"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PKGV changed from 4.14.0 [default] to 4.14.1 [default]
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PV changed from "4.14.0" to "4.14.1"
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGSIZE changed from 335543 to 335807 (+0%)
-packages/core2-64-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGV changed from 4.14.0 [default] to 4.14.1 [default]
-Changes to packages/core2-64-poky-linux/python3-typing-extensions (sysroot):
-  /usr/lib/python3.13/site-packages/typing_extensions-4.14.0.dist-info moved to /usr/lib/python3.13/site-packages/typing_extensions-4.14.1.dist-info
-
---===============4418913965191185692==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-typing-extensions (sysroot):
-  /usr/lib/python3.13/site-packages/typing_extensions-4.14.0.dist-info moved to /usr/lib/python3.13/site-packages/typing_extensions-4.14.1.dist-info
-
---===============4418913965191185692==--
+--===============2216521592450757933==--
 
