@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D102C83F17
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E02CC83F34
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 20:36:40 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.5350.1752611799860761301
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.5489.1752611786346301956
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 13:36:39 -0700
+ Tue, 15 Jul 2025 13:36:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0bmnlQIn;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2353a2bc210so59690575ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 13:36:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FNVaKKRW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-23dc5bcf49eso72634245ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 13:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752611799; x=1753216599; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752611785; x=1753216585; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QuTCIPuwEjoOy/O8RU9MCwN6D60LMo/PXpBACgjBMkY=;
-        b=0bmnlQIndUz8uPP3xU9hue4nJ/fT6C+K5xSI/p/as+s9X0DzgVkuZzAd6xzbJd7riz
-         XqiMzoqvdPLQ+q45lzG+Q8bjxdD/q5V5GLnJ1AF7TvrRcMq0WICwywX7o4gRZISDBzdr
-         KoGpXC97Ixdzopusdx2V4EhAnp9u2fLmxsq+Z/mCXz5sQ6SCbrRzRHo/WhVXCLj+nSps
-         hfFjgBElZTx6NC6LfFZftByNthvuFcXSx7BpO/iRyu7MvLvdmVp4fGMCzCRKL5raFA8Q
-         oTnWmK8w7chNZbhrdC3HLJWsMoe77vYAYUu9bUDE9Md5dhFKObLY007ddx+6eUx5DdCp
-         1VaA==
+        bh=tDeYio8MvAyXkPMkOXDROXhSV8W6yRqoVpUbpGH+xMA=;
+        b=FNVaKKRWC5ZXBQe9fKfjhlTjIUFWLXAXMBSggg6YJdQegL13fRa6oyqR1k4Vf7/J/m
+         19hahMx8JrE/1BuhTsKlNV/kFCW0GAHniQ1VuTENUXET5l5BVYXh4xCYLbtPZX3hUKhQ
+         4vF5KwW79frEYb20u3DrOJFEWAJaQt2gZEsdnOvUkvxv0E8ZVJCr4P9eNJyq9RTqn7rZ
+         YIpGQmzGtkKpDt/EeKaw8ADpyo8ZOR4WI37P0oo/HIbw8pzsV2FhzOD3e4N31uPXFEG+
+         z4HY4veJ9eVPeHg0mpqQfG8xhCCx51gOkeVuWJdpZo+opIBhXpZA4i8gO0ZWa1947Gvi
+         nL0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752611799; x=1753216599;
+        d=1e100.net; s=20230601; t=1752611785; x=1753216585;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QuTCIPuwEjoOy/O8RU9MCwN6D60LMo/PXpBACgjBMkY=;
-        b=rH/OGzbkULMFJdU4eSJiixAPw8kQ1sufZaPe5djWyNLMvmqgI4WePDp1G+gzdoMWRe
-         MpzITx9F05mIrTotw+FuVDqEYd3yE81SCLfQTZzu84O6W3JTFJWeB5BNm7lz5RCD5cSa
-         Jrc1CZ/1ytTrJ2j8HufwwyizsSagPyU5b/+aWIpC7B27QkZeJEHaOEYQUBgGzf4qQSnQ
-         6IcGh3gqF1qUcvsRfp7ktdzLvmBwhGvGPfg8UddH0nwQ+7FfDIH6J1uDN6qG8rELxk7F
-         aIOXEbrlMyFS/TrNUD5h8T62RboslNU/QrH3o8ejR8tZbD6XmzlVcj8JlgzB9Nn3Dfz+
-         nDbA==
-X-Gm-Message-State: AOJu0YyW0/CJCosa05xeJg2zWOBFLuqomwT4Ect/25Mtoazd6vFDQVTi
-	9HzuJxlYMHGyFVhbyEgYwx2cB6Ig3y+kV8Xq5l+x0ZLO0To+XMAn2xbprl1lnHSrszVgf1NucYd
-	Sp9cO
-X-Gm-Gg: ASbGncug1rWVHFeYZ05V06+fwQGv54tu9YUOCDxNyhINOF13E/Zd1UMpc16L/BgLYKc
-	6yFvZ4A6IY95L+DUr7V/0PhQSOJ2oTwTZpfcykAntaNTsaMYZX6BSfWlPLjZuUYzhJulOoWNiOu
-	bV4yHwpHbvf24qCMTYZPA+drC2R6WGiRx0A9sfdNnzgKng441SP7zK1rNR6EegA1lTMFVt9Tm/A
-	iOusZCFCrQf5BK8PllWOhIA51IZSQgBnhZ+34Q0q1aDQcEMgbM2+AvTEXZhNk5t003RGPdBsNUW
-	tzJyEHSdZI0g+v8MKzue5g8MnBuzVrZEblNdi1vCYDluJjqlOcQlNAi+M4pSPX2IXqJPdCfOqEL
-	xS+mSqBpXsrMY+g==
-X-Google-Smtp-Source: AGHT+IHt/a5MzzvMJyQxunbU/Re2sQCU07iV+GBzwOH9kBbp3rhetJSqs04I8G0Ly/o8gLD112U4Yg==
-X-Received: by 2002:a17:903:2446:b0:234:aa9a:9e0f with SMTP id d9443c01a7336-23e256d1bb6mr1795165ad.23.1752611798940;
-        Tue, 15 Jul 2025 13:36:38 -0700 (PDT)
+        bh=tDeYio8MvAyXkPMkOXDROXhSV8W6yRqoVpUbpGH+xMA=;
+        b=wjhYl3E24vIhgcaReow7ClnR+CglYgOkb8c/vEBtxgRFUuJVhwdqH+oxLTxPb+SJpw
+         UWtdjSyWSO9dxwpvxrGayrZTFxRqLtE6l3/a0jp1kJTvGMR0yYQPr++7i6cJoO9aGL1k
+         dwAO33DQLgenIZQk3s6JzEiJjUcbWLR+3F0+gGdYkRR9BPNtIqqoN6Uu9HrMnv23im4O
+         6xLT8yIoqKwK4fV3X7/oBeEsaxNtgPYlIy3jUReIbQEXQiljJbKVL8FPtVUdW5Ri3mHY
+         3laHlUUnZUoDhhcm8sLRfpvknE1k6D5pqeq2UmryX5s/UhtgNDn2kTEdCz2pM2wEIZyD
+         y+8g==
+X-Gm-Message-State: AOJu0YxNNoniDUY5vmtGodCFyTftQpb3uRzPWyR6uU4KX8bhOcgdaZny
+	Y6Raut/mQgUZzEO4P2O3Thx25S7i6WjNgfea6z9Sx/zvY9WEjir07POZsEa47RbbP2/GBNNt1WC
+	Dm1SW
+X-Gm-Gg: ASbGnct12fH50VycD3B5ckZNN+5UYu5kHHKazq6Fqc8V4W2Rb1u+Xjj2+gliX7OH/JU
+	o0u7JYjH2bc1JE9CDY1djas7Qv3RcJO7kJbhXVmakPx9a7R0+kfkiSrei2leMSUP9owBfrZ7xJX
+	K1KMA/PCSasabTUilOZzAT9y006+A6EKN1SMitnslBqzBuvCaptr2rS+yfHwX40mDvvghMLeq9J
+	gNnVOoSw6pcY/DHLIMdLrro18L86i6shjY8vAId7jy2rHFxx7qxChV5qCmbdtyPI10MtX1EIsMR
+	/yc8VNsEUkv8OgEAONUY4kGS0dUwPMb5Q/bZ9+bN01EygRBe7z2CBAv/hA57JbKvzViFa8q/tX1
+	s980evUTVUBFuCw==
+X-Google-Smtp-Source: AGHT+IGIqepX65IKevSxdigBIM0uwDFBPt3aST0I2O9CyxA1tvKg7kK+6p23W/He5ZyZDP5mtgttgQ==
+X-Received: by 2002:a17:903:3c6c:b0:236:8db5:7e50 with SMTP id d9443c01a7336-23e24ec0c69mr4885955ad.9.1752611785407;
+        Tue, 15 Jul 2025 13:36:25 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5c42:3781:50b6:b9d7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de43637f2sm115585595ad.241.2025.07.15.13.36.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de43637f2sm115585595ad.241.2025.07.15.13.36.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 13:36:38 -0700 (PDT)
+        Tue, 15 Jul 2025 13:36:25 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/16] iputils: patch CVE-2025-48964
-Date: Tue, 15 Jul 2025 13:36:11 -0700
-Message-ID: <49ccf7b56a0598f84dcac2532c462aa2c285f66c.1752611671.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/16] Revert "coreutils: fix CVE-2025-5278"
+Date: Tue, 15 Jul 2025 13:36:02 -0700
+Message-ID: <19502d089cbbdbbed9f53b85e01d86117388d6bf.1752611671.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752611671.git.steve@sakoman.com>
 References: <cover.1752611671.git.steve@sakoman.com>
@@ -68,137 +68,148 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 20:36:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220419
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220410
 
-From: Peter Marko <peter.marko@siemens.com>
+Failing ptest with valgrind on target
 
-Pick commit referencing this CVE.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+This reverts commit 4e55668ef07d99d8c1141c2f4270f43f5b280159.
 ---
- .../iputils/iputils/CVE-2025-48964.patch      | 99 +++++++++++++++++++
- .../iputils/iputils_20211215.bb               |  1 +
- 2 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch
+ .../coreutils/coreutils/CVE-2025-5278.patch   | 113 ------------------
+ meta/recipes-core/coreutils/coreutils_9.0.bb  |   1 -
+ 2 files changed, 114 deletions(-)
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
 
-diff --git a/meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch b/meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch
-new file mode 100644
-index 0000000000..e6fc67bce0
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch
-@@ -0,0 +1,99 @@
-+From afa36390394a6e0cceba03b52b59b6d41710608c Mon Sep 17 00:00:00 2001
-+From: Cyril Hrubis <metan@ucw.cz>
-+Date: Fri, 16 May 2025 17:57:10 +0200
-+Subject: [PATCH] ping: Fix moving average rtt calculation
-+
-+The rts->rtt counts an exponential weight moving average in a fixed
-+point, that means that even if we limit the triptime to fit into a 32bit
-+number the average will overflow because because fixed point needs eight
-+more bits.
-+
-+We also have to limit the triptime to 32bit number because otherwise the
-+moving average may stil overflow if we manage to produce a large enough
-+triptime.
-+
-+Fixes: CVE-2025-48964
-+Fixes: https://bugzilla.suse.com/show_bug.cgi?id=1243772
-+Closes: https://github.com/iputils/iputils-ghsa-25fr-jw29-74f9/pull/1
-+Reported-by: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
-+Reviewed-by: Petr Vorel <pvorel@suse.cz>
-+Tested-by: Petr Vorel <pvorel@suse.cz>
-+Reviewed-by: Michal Kubecek <mkubecek@suse.cz>
-+Reviewed-by: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
-+Signed-off-by: Cyril Hrubis <metan@ucw.cz>
-+
-+CVE: CVE-2025-48964
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/afa36390394a6e0cceba03b52b59b6d41710608c]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ iputils_common.h   | 2 +-
-+ ping/ping.h        | 2 +-
-+ ping/ping_common.c | 8 ++++----
-+ 3 files changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/iputils_common.h b/iputils_common.h
-+index 829a749..1296905 100644
-+--- a/iputils_common.h
-++++ b/iputils_common.h
-+@@ -11,7 +11,7 @@
-+ 					 __typeof__(&arr[0]))])) * 0)
-+ 
-+ /* 1000001 = 1000000 tv_sec + 1 tv_usec */
-+-#define TV_SEC_MAX_VAL (LONG_MAX/1000001)
-++#define TV_SEC_MAX_VAL (INT32_MAX/1000001)
-+ 
-+ #ifdef __GNUC__
-+ # define iputils_attribute_format(t, n, m) __attribute__((__format__ (t, n, m)))
-+diff --git a/ping/ping.h b/ping/ping.h
-+index 4dce538..bc1fab2 100644
-+--- a/ping/ping.h
-++++ b/ping/ping.h
-+@@ -180,7 +180,7 @@ struct ping_rts {
-+ 	long tmax;			/* maximum round trip time */
-+ 	double tsum;			/* sum of all times, for doing average */
-+ 	double tsum2;
-+-	int rtt;
-++	uint64_t rtt;                   /* Exponential weight moving average calculated in fixed point */
-+ 	int rtt_addend;
-+ 	uint16_t acked;
-+ 	int pipesize;
-+diff --git a/ping/ping_common.c b/ping/ping_common.c
-+index 2a3e556..fad5228 100644
-+--- a/ping/ping_common.c
-++++ b/ping/ping_common.c
-+@@ -273,7 +273,7 @@ int __schedule_exit(int next)
-+ 
-+ static inline void update_interval(struct ping_rts *rts)
-+ {
-+-	int est = rts->rtt ? rts->rtt / 8 : rts->interval * 1000;
-++	int est = rts->rtt ? (int)(rts->rtt / 8) : rts->interval * 1000;
-+ 
-+ 	rts->interval = (est + rts->rtt_addend + 500) / 1000;
-+ 	if (rts->uid && rts->interval < MINUSERINTERVAL)
-+@@ -768,7 +768,7 @@ restamp:
-+ 			if (triptime > rts->tmax)
-+ 				rts->tmax = triptime;
-+ 			if (!rts->rtt)
-+-				rts->rtt = triptime * 8;
-++				rts->rtt = ((uint64_t)triptime) * 8;
-+ 			else
-+ 				rts->rtt += triptime - rts->rtt / 8;
-+ 			if (rts->opt_adaptive)
-+@@ -935,7 +935,7 @@ int finish(struct ping_rts *rts)
-+ 		int ipg = (1000000 * (long long)tv.tv_sec + tv.tv_nsec / 1000) / (rts->ntransmitted - 1);
-+ 
-+ 		printf(_("%sipg/ewma %d.%03d/%d.%03d ms"),
-+-		       comma, ipg / 1000, ipg % 1000, rts->rtt / 8000, (rts->rtt / 8) % 1000);
-++		       comma, ipg / 1000, ipg % 1000, (int)(rts->rtt / 8000), (int)((rts->rtt / 8) % 1000));
-+ 	}
-+ 	putchar('\n');
-+ 	return (!rts->nreceived || (rts->deadline && rts->nreceived < rts->npackets));
-+@@ -960,7 +960,7 @@ void status(struct ping_rts *rts)
-+ 		fprintf(stderr, _(", min/avg/ewma/max = %ld.%03ld/%lu.%03ld/%d.%03d/%ld.%03ld ms"),
-+ 			(long)rts->tmin / 1000, (long)rts->tmin % 1000,
-+ 			tavg / 1000, tavg % 1000,
-+-			rts->rtt / 8000, (rts->rtt / 8) % 1000, (long)rts->tmax / 1000, (long)rts->tmax % 1000);
-++			(int)(rts->rtt / 8000), (int)((rts->rtt / 8) % 1000), (long)rts->tmax / 1000, (long)rts->tmax % 1000);
-+ 	}
-+ 	fprintf(stderr, "\n");
-+ }
-diff --git a/meta/recipes-extended/iputils/iputils_20211215.bb b/meta/recipes-extended/iputils/iputils_20211215.bb
-index 03dc97dcc8..97fff6fe3a 100644
---- a/meta/recipes-extended/iputils/iputils_20211215.bb
-+++ b/meta/recipes-extended/iputils/iputils_20211215.bb
-@@ -13,6 +13,7 @@ DEPENDS = "gnutls"
- SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https \
-            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-            file://CVE-2025-47268.patch \
-+           file://CVE-2025-48964.patch \
+diff --git a/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch b/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
+deleted file mode 100644
+index 34434a65fa..0000000000
+--- a/meta/recipes-core/coreutils/coreutils/CVE-2025-5278.patch
++++ /dev/null
+@@ -1,113 +0,0 @@
+-From 84a061ea3d1fad42188493c4e5d8396aff4a0f67 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
+-Date: Tue, 20 May 2025 16:03:44 +0100
+-Subject: [PATCH] sort: fix buffer under-read (CWE-127)
+-
+-* src/sort.c (begfield): Check pointer adjustment
+-to avoid Out-of-range pointer offset (CWE-823).
+-(limfield): Likewise.
+-* tests/sort/sort-field-limit.sh: Add a new test,
+-which triggers with ASAN or Valgrind.
+-* tests/local.mk: Reference the new test.
+-* NEWS: Mention bug fix introduced in v7.2 (2009).
+-Fixes https://bugs.gnu.org/78507
+-
+-CVE: CVE-2025-5278
+-
+-Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/coreutils.git/commit/?id=8c9602e3a145e9596dc1a63c6ed67865814b6633]
+-[Adjusted for 9.0 version]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- src/sort.c                     | 12 ++++++++++--
+- tests/local.mk                 |  1 +
+- tests/misc/sort-field-limit.sh | 35 ++++++++++++++++++++++++++++++++++
+- 3 files changed, 46 insertions(+), 2 deletions(-)
+- create mode 100755 tests/misc/sort-field-limit.sh
+-
+-diff --git a/src/sort.c b/src/sort.c
+-index 5f4c817de..07b96d34b 100644
+---- a/src/sort.c
+-+++ b/src/sort.c
+-@@ -1642,7 +1642,11 @@ begfield (struct line const *line, struct keyfield const *key)
+-       ++ptr;
+- 
+-   /* Advance PTR by SCHAR (if possible), but no further than LIM.  */
+--  ptr = MIN (lim, ptr + schar);
+-+  size_t remaining_bytes = lim - ptr;
+-+  if (schar < remaining_bytes)
+-+    ptr += schar;
+-+  else
+-+    ptr = lim;
+- 
+-   return ptr;
+- }
+-@@ -1743,7 +1747,11 @@ limfield (struct line const *line, struct keyfield const *key)
+-           ++ptr;
+- 
+-       /* Advance PTR by ECHAR (if possible), but no further than LIM.  */
+--      ptr = MIN (lim, ptr + echar);
+-+      size_t remaining_bytes = lim - ptr;
+-+      if (echar < remaining_bytes)
+-+        ptr += echar;
+-+      else
+-+        ptr = lim;
+-     }
+- 
+-   return ptr;
+-diff --git a/tests/local.mk b/tests/local.mk
+-index 228d0e368..ced85c44c 100644
+---- a/tests/local.mk
+-+++ b/tests/local.mk
+-@@ -373,6 +373,7 @@ all_tests =					\
+-   tests/misc/sort-debug-keys.sh			\
+-   tests/misc/sort-debug-warn.sh			\
+-   tests/misc/sort-discrim.sh			\
+-+  tests/misc/sort-field-limit.sh		\
+-   tests/misc/sort-files0-from.pl		\
+-   tests/misc/sort-float.sh			\
+-   tests/misc/sort-h-thousands-sep.sh		\
+-diff --git a/tests/misc/sort-field-limit.sh b/tests/misc/sort-field-limit.sh
+-new file mode 100755
+-index 000000000..52d8e1d17
+---- /dev/null
+-+++ b/tests/misc/sort-field-limit.sh
+-@@ -0,0 +1,35 @@
+-+#!/bin/sh
+-+# From 7.2-9.7, this would trigger an out of bounds mem read
+-+
+-+# Copyright (C) 2025 Free Software Foundation, Inc.
+-+
+-+# This program is free software: you can redistribute it and/or modify
+-+# it under the terms of the GNU General Public License as published by
+-+# the Free Software Foundation, either version 3 of the License, or
+-+# (at your option) any later version.
+-+
+-+# This program is distributed in the hope that it will be useful,
+-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-+# GNU General Public License for more details.
+-+
+-+# You should have received a copy of the GNU General Public License
+-+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-+
+-+. "${srcdir=.}/tests/init.sh"; path_prepend_ ./src
+-+print_ver_ sort
+-+getlimits_
+-+
+-+# This issue triggers with valgrind or ASAN
+-+valgrind --error-exitcode=1 sort --version 2>/dev/null &&
+-+  VALGRIND='valgrind --error-exitcode=1'
+-+
+-+{ printf '%s\n' aa bb; } > in || framework_failure_
+-+
+-+_POSIX2_VERSION=200809 $VALGRIND sort +0.${SIZE_MAX}R in > out || fail=1
+-+compare in out || fail=1
+-+
+-+_POSIX2_VERSION=200809 $VALGRIND sort +1 -1.${SIZE_MAX}R in > out || fail=1
+-+compare in out || fail=1
+-+
+-+Exit $fail
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-core/coreutils/coreutils_9.0.bb b/meta/recipes-core/coreutils/coreutils_9.0.bb
+index 7c975708f4..1cce9192ec 100644
+--- a/meta/recipes-core/coreutils/coreutils_9.0.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.0.bb
+@@ -19,7 +19,6 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://0001-uname-report-processor-and-hardware-correctly.patch \
+            file://0001-local.mk-fix-cross-compiling-problem.patch \
+            file://e8b56ebd536e82b15542a00c888109471936bfda.patch \
+-           file://CVE-2025-5278.patch \
+            file://run-ptest \
+            file://0001-split-do-not-shrink-hold-buffer.patch \
             "
- SRCREV = "1d1e7c43210d8af316a41cb2c53d612a4c16f34d"
- 
 -- 
 2.43.0
 
