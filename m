@@ -2,38 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFCC9C83F36
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5FEEC83F34
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:55:38 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.12481.1752594935495008197
+ by mx.groups.io with SMTP id smtpd.web11.12166.1752594935368478277
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Jul 2025 08:55:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=L8ekA+H6;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=tYZNkNt7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101980ecc6c68-dee2ae30-edb0-4468-98ca-470f9b126391-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=wm5IHSTx;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=py/2gizO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101980ecc6b16-d8695ca9-2ed8-457b-9f6a-3e9a36d3bb95-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1752594935;
+	t=1752594934;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5/Z14rq4NtwVqvO5memh9VE28bc6rGevoU/QPARjUJU=;
-	b=L8ekA+H6rREtzbxyZtEEZzWJcjooS4aidSTCmt+ZqrqmvhWJfK1ecwcFuPSiZFdj
-	jqQ+t1vM4aYQQYU33mjmg2ue37DBbg+Dozz+FEiqmGbS6LqhvoTEJXlk1Guuw58+uu9
-	Gjo4+BvencvRG3DyLUFGY8fZ38rrJUYveZop23XE=
+	bh=oGE3StSYXYFSAIUMrcHm1+xlEqJySzO1s/sR4ajY4VY=;
+	b=wm5IHSTxVlDJ/azOiZ7no2kHisjMhOswoAw79+Us4oEC9MbSIZAU+RRCgOHngY4J
+	wFsOodU0siZSftdR6scbPKN4ZfGwgt1q3/YO4vmEfs4FSKy6kTqqj4iHojMmRu2umbL
+	j8q2onVDFLrE9yR5T+c7C7RhOfbDoblIcq0Ra/EM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594935;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594934;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5/Z14rq4NtwVqvO5memh9VE28bc6rGevoU/QPARjUJU=;
-	b=tYZNkNt7hzux9GHWOGe7zJJWtWzSDHq+JX48Vt7Df5geAA+qvc1zO7T6hKlcguuf
-	QxDpbiwKotBSeMY1hVWzbZvoqKvLRwkzWCl4iVdHn0UeMJZE93nGHQrpxQUiJeYM8iA
-	K83eqO5bfsOBbst+xTOdfoaMdMru+OdHvMGB3mAk=
-Content-Type: multipart/mixed; boundary="===============9131572389727923306=="
+	bh=oGE3StSYXYFSAIUMrcHm1+xlEqJySzO1s/sR4ajY4VY=;
+	b=py/2gizOzqsx54PWz72tR1YgJ4VHqZvFIACQLgH5UoRoxXmnoRZHCdVVZ0RQ1JSs
+	MUiR2uJpJoIGfz6ThOsNFx7P+Ras1jSfHP+xqraa1UasT4U8TSwfX4+d00PFqQlrk/4
+	KX+D+uw2cSeaGNmf3nYdvTe8Jf2KrgrNta2tsEQ8=
+Content-Type: multipart/mixed; boundary="===============3617416524637252927=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] kea: upgrading to 3.0.0 FAILED
-Message-ID: <010101980ecc6c68-dee2ae30-edb0-4468-98ca-470f9b126391-000000@us-west-2.amazonses.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] lttng-ust,lttng-modules,lttng-tools: upgrading to
+ 2.14.0,2.14.0,2.14.0 FAILED
+Message-ID: <010101980ecc6b16-d8695ca9-2ed8-457b-9f6a-3e9a36d3bb95-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Jul 2025 15:55:34 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.07.15-54.240.27.30
@@ -41,96 +44,106 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:55:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220318
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220317
 
---===============9131572389727923306==
-Content-Type: text/plain; charset="us-ascii"
+--===============3617416524637252927==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpsdHRuZy11c3QsbHR0bmctbW9kdWxlcyxsdHRuZy10b29scyogdG8gKjIuMTQuMCwyLjE0
+LjAsMi4xNC4wKiBoYXMgRmFpbGVkIChkZXZ0b29sIGVycm9yKS4KCkRldGFpbGVkIGVycm9yIGlu
+Zm9ybWF0aW9uOgoKUnVubmluZyAnZGV2dG9vbCB1cGdyYWRlJyBmb3IgcmVjaXBlIGx0dG5nLW1v
+ZHVsZXMgZmFpbGVkLgpOT1RFOiBSZWNvbm5lY3RpbmcgdG8gYml0YmFrZSBzZXJ2ZXIuLi4KTG9h
+ZGluZyBjYWNoZS4uLmRvbmUuCkxvYWRlZCAxOTI4IGVudHJpZXMgZnJvbSBkZXBlbmRlbmN5IGNh
+Y2hlLgpQYXJzaW5nIHJlY2lwZXMuLi5kb25lLgpQYXJzaW5nIG9mIDk0MiAuYmIgZmlsZXMgY29t
+cGxldGUgKDk0MSBjYWNoZWQsIDEgcGFyc2VkKS4gMTkyOSB0YXJnZXRzLCA0MiBza2lwcGVkLCAw
+IG1hc2tlZCwgMCBlcnJvcnMuClJlbW92aW5nIDEgcmVjaXBlcyBmcm9tIHRoZSBjb3JlMi02NCBz
+eXNyb290Li4uZG9uZS4KTk9URTogUmVzb2x2aW5nIGFueSBtaXNzaW5nIHRhc2sgcXVldWUgZGVw
+ZW5kZW5jaWVzCgpCdWlsZCBDb25maWd1cmF0aW9uOgpCQl9WRVJTSU9OICAgICAgICAgICA9ICIy
+LjE1LjEiCkJVSUxEX1NZUyAgICAgICAgICAgID0gIng4Nl82NC1saW51eCIKTkFUSVZFTFNCU1RS
+SU5HICAgICAgPSAidW5pdmVyc2FsIgpUQVJHRVRfU1lTICAgICAgICAgICA9ICJ4ODZfNjQtcG9r
+eS1saW51eCIKTUFDSElORSAgICAgICAgICAgICAgPSAicWVtdXg4Ni02NCIKRElTVFJPICAgICAg
+ICAgICAgICAgPSAicG9reSIKRElTVFJPX1ZFUlNJT04gICAgICAgPSAiNS4yLjk5K3NuYXBzaG90
+LWRkZDY5YzYwZTZlZjA2ZGE5NGFjNzVkYzFhOWJjMjgxOWZmZTE4MjYiClRVTkVfRkVBVFVSRVMg
+ICAgICAgID0gIm02NCBjb3JlMiIKVEFSR0VUX0ZQVSAgICAgICAgICAgPSAiIgptZXRhICAgICAg
+ICAgICAgICAgICAKbWV0YS1wb2t5ICAgICAgICAgICAgCm1ldGEteW9jdG8tYnNwICAgICAgIAp3
+b3Jrc3BhY2UgICAgICAgICAgICA9ICJ0bXAtYXVoLXVwZ3JhZGVzOmRkZDY5YzYwZTZlZjA2ZGE5
+NGFjNzVkYzFhOWJjMjgxOWZmZTE4MjYiCgpJbml0aWFsaXNpbmcgdGFza3MuLi5OT1RFOiBUaGUg
+L3Byb2MvcHJlc3N1cmUgZmlsZXMgY2FuJ3QgYmUgcmVhZC4gQ29udGludWluZyBidWlsZCB3aXRo
+b3V0IG1vbml0b3JpbmcgcHJlc3N1cmUKU3N0YXRlIHN1bW1hcnk6IFdhbnRlZCAxMCBMb2NhbCAx
+MCBNaXJyb3JzIDAgTWlzc2VkIDAgQ3VycmVudCAyMCAoMTAwJSBtYXRjaCwgMTAwJSBjb21wbGV0
+ZSkKZG9uZS4KTk9URTogRXhlY3V0aW5nIFRhc2tzCk5PVEU6IFRhc2tzIFN1bW1hcnk6IEF0dGVt
+cHRlZCAxMDMgdGFza3Mgb2Ygd2hpY2ggMTAwIGRpZG4ndCBuZWVkIHRvIGJlIHJlcnVuIGFuZCBh
+bGwgc3VjY2VlZGVkLgpOT1RFOiBXcml0aW5nIGJ1aWxkaGlzdG9yeQpOT1RFOiBXcml0aW5nIGJ1
+aWxkaGlzdG9yeSB0b29rOiAyIHNlY29uZHMKTG9hZGluZyBjYWNoZS4uLmRvbmUuCkxvYWRlZCAw
+IGVudHJpZXMgZnJvbSBkZXBlbmRlbmN5IGNhY2hlLgpQYXJzaW5nIHJlY2lwZXMuLi5kb25lLgpQ
+YXJzaW5nIG9mIDk0MyAuYmIgZmlsZXMgY29tcGxldGUgKDAgY2FjaGVkLCA5NDMgcGFyc2VkKS4g
+MTkzMCB0YXJnZXRzLCA0MiBza2lwcGVkLCAwIG1hc2tlZCwgMCBlcnJvcnMuCk5PVEU6IFJlc29s
+dmluZyBhbnkgbWlzc2luZyB0YXNrIHF1ZXVlIGRlcGVuZGVuY2llcwoKQnVpbGQgQ29uZmlndXJh
+dGlvbjoKQkJfVkVSU0lPTiAgICAgICAgICAgPSAiMi4xNS4xIgpCVUlMRF9TWVMgICAgICAgICAg
+ICA9ICJ4ODZfNjQtbGludXgiCk5BVElWRUxTQlNUUklORyAgICAgID0gInVuaXZlcnNhbCIKVEFS
+R0VUX1NZUyAgICAgICAgICAgPSAieDg2XzY0LXBva3ktbGludXgiCk1BQ0hJTkUgICAgICAgICAg
+ICAgID0gInFlbXV4ODYtNjQiCkRJU1RSTyAgICAgICAgICAgICAgID0gInBva3kiCkRJU1RST19W
+RVJTSU9OICAgICAgID0gIjUuMi45OStzbmFwc2hvdC1kZGQ2OWM2MGU2ZWYwNmRhOTRhYzc1ZGMx
+YTliYzI4MTlmZmUxODI2IgpUVU5FX0ZFQVRVUkVTICAgICAgICA9ICJtNjQgY29yZTIiClRBUkdF
+VF9GUFUgICAgICAgICAgID0gIiIKbWV0YSAgICAgICAgICAgICAgICAgCm1ldGEtcG9reSAgICAg
+ICAgICAgIAptZXRhLXlvY3RvLWJzcCAgICAgICAKd29ya3NwYWNlICAgICAgICAgICAgPSAidG1w
+LWF1aC11cGdyYWRlczpkZGQ2OWM2MGU2ZWYwNmRhOTRhYzc1ZGMxYTliYzI4MTlmZmUxODI2IgoK
+SW5pdGlhbGlzaW5nIHRhc2tzLi4uTk9URTogVGhlIC9wcm9jL3ByZXNzdXJlIGZpbGVzIGNhbid0
+IGJlIHJlYWQuIENvbnRpbnVpbmcgYnVpbGQgd2l0aG91dCBtb25pdG9yaW5nIHByZXNzdXJlClNz
+dGF0ZSBzdW1tYXJ5OiBXYW50ZWQgMSBMb2NhbCAwIE1pcnJvcnMgMCBNaXNzZWQgMSBDdXJyZW50
+IDAgKDAlIG1hdGNoLCAwJSBjb21wbGV0ZSkKZG9uZS4KTk9URTogRXhlY3V0aW5nIFRhc2tzCk5P
+VEU6IFRhc2tzIFN1bW1hcnk6IEF0dGVtcHRlZCAzIHRhc2tzIG9mIHdoaWNoIDAgZGlkbid0IG5l
+ZWQgdG8gYmUgcmVydW4gYW5kIGFsbCBzdWNjZWVkZWQuCk5PVEU6IFdyaXRpbmcgYnVpbGRoaXN0
+b3J5Ck5PVEU6IFdyaXRpbmcgYnVpbGRoaXN0b3J5IHRvb2s6IDIgc2Vjb25kcwpERUJVRyA1IFtF
+cnJubyAyNV0gSW5hcHByb3ByaWF0ZSBpb2N0bCBmb3IgZGV2aWNlCkFkZGluZyBjaGFuZ2VkIGZp
+bGVzOiAgIDAlIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgRVRBOiAgLS06
+LS06LS0NQWRkaW5nIGNoYW5nZWQgZmlsZXM6ICAgMCUgfCAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfCBFVEE6ICAtLTotLTotLQ1BZGRpbmcgY2hhbmdlZCBmaWxlczogIDMwJSB8
+IyMjIyMjIyMjIyMgICAgICAgICAgICAgICAgICAgICAgICAgfCBFVEE6ICAwOjAwOjAwDUFkZGlu
+ZyBjaGFuZ2VkIGZpbGVzOiAgNjElIHwjIyMjIyMjIyMjIyMjIyMjIyMjIyMjICAgICAgICAgICAg
+ICB8IEVUQTogIDA6MDA6MDANQWRkaW5nIGNoYW5nZWQgZmlsZXM6ICA5MSUgfCMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyAgIHwgRVRBOiAgMDowMDowMA1BZGRpbmcgY2hhbmdlZCBm
+aWxlczogMTAwJSB8IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjfCBUaW1lOiAw
+OjAwOjAwDQpDbG9uaW5nIGludG8gYmFyZSByZXBvc2l0b3J5ICcvc3J2L3Bva3lidWlsZC95b2N0
+by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL2Rvd25sb2Fkcy9naXQyL2dpdC5sdHRuZy5vcmcubHR0
+bmctbW9kdWxlcycuLi4KZmF0YWw6IGh0dHBzOi8vZ2l0Lmx0dG5nLm9yZy9sdHRuZy1tb2R1bGVz
+L2luZm8vcmVmcyBub3QgdmFsaWQ6IGNvdWxkIG5vdCBkZXRlcm1pbmUgaGFzaCBhbGdvcml0aG07
+IGlzIHRoaXMgYSBnaXQgcmVwb3NpdG9yeT8KV0FSTklORzogRmFpbGVkIHRvIGZldGNoIFVSTCBn
+aXQ6Ly9naXQubHR0bmcub3JnL2x0dG5nLW1vZHVsZXM7YnJhbmNoPXN0YWJsZS0yLjEzO3Byb3Rv
+Y29sPWh0dHBzLCBhdHRlbXB0aW5nIE1JUlJPUlMgaWYgYXZhaWxhYmxlCi0tMjAyNS0wNy0xNSAw
+Nzo1Njo0OC0tICBodHRwOi8vZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmcvbWlycm9yL3NvdXJj
+ZXMvZ2l0Ml9naXQubHR0bmcub3JnLmx0dG5nLW1vZHVsZXMudGFyLmd6ClJlc29sdmluZyBkb3du
+bG9hZHMueW9jdG9wcm9qZWN0Lm9yZy4uLiBmZDAxOjE3MjoxNjo6MjAwCkNvbm5lY3RpbmcgdG8g
+ZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmd8ZmQwMToxNzI6MTY6OjIwMHw6ODAuLi4gY29ubmVj
+dGVkLgpIVFRQIHJlcXVlc3Qgc2VudCwgYXdhaXRpbmcgcmVzcG9uc2UuLi4gMjAwIE9LCkxlbmd0
+aDogNDQyNTU2MyAoNC4yTSkgW2FwcGxpY2F0aW9uL29jdGV0LXN0cmVhbV0KU2F2aW5nIHRvOiDi
+gJgvc3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL2Rvd25sb2Fkcy9n
+aXQyX2dpdC5sdHRuZy5vcmcubHR0bmctbW9kdWxlcy50YXIuZ3oudG1w4oCZCgoKMjAyNS0wNy0x
+NSAwNzo1Njo0OCAoMTg5IE1CL3MpIC0g4oCYL3Nydi9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1
+aC9idWlsZC9idWlsZC9kb3dubG9hZHMvZ2l0Ml9naXQubHR0bmcub3JnLmx0dG5nLW1vZHVsZXMu
+dGFyLmd6LnRtcOKAmSBzYXZlZCBbNDQyNTU2My80NDI1NTYzXQoKSU5GTzogRXh0cmFjdGluZyBj
+dXJyZW50IHZlcnNpb24gc291cmNlLi4uCklORk86IEV4dHJhY3RpbmcgdXBncmFkZWQgdmVyc2lv
+biBzb3VyY2UuLi4KSU5GTzogRmV0Y2hpbmcgaHR0cHM6Ly9sdHRuZy5vcmcvZmlsZXMvbHR0bmct
+bW9kdWxlcy9sdHRuZy1tb2R1bGVzLTIuMTQuMC50YXIuYnoyLi4uCklORk86IFJlYmFzaW5nIGRl
+dnRvb2wgb250byBhZjcwMTliN2UxMTc1YWMxNjZiYzlkY2Q2ZDZkNjlkYjNjOGI5YTFiCldBUk5J
+Tkc6IENvbW1hbmQgJ2dpdCByZWJhc2UgYWY3MDE5YjdlMTE3NWFjMTY2YmM5ZGNkNmQ2ZDY5ZGIz
+YzhiOWExYicgZmFpbGVkOgpBdXRvLW1lcmdpbmcgc3JjL0tidWlsZApDT05GTElDVCAoY29udGVu
+dCk6IE1lcmdlIGNvbmZsaWN0IGluIHNyYy9LYnVpbGQKCllvdSB3aWxsIG5lZWQgdG8gcmVzb2x2
+ZSBjb25mbGljdHMgaW4gb3JkZXIgdG8gY29tcGxldGUgdGhlIHVwZ3JhZGUuCklORk86IFVzaW5n
+IHNvdXJjZSB0cmVlIGFzIGJ1aWxkIGRpcmVjdG9yeSBzaW5jZSB0aGF0IHdvdWxkIGJlIHRoZSBk
+ZWZhdWx0IGZvciB0aGlzIHJlY2lwZQpJTkZPOiBVcGdyYWRlZCBzb3VyY2UgZXh0cmFjdGVkIHRv
+IC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvd29ya3NwYWNlL3Nv
+dXJjZXMvbHR0bmctbW9kdWxlcwpJTkZPOiBOZXcgcmVjaXBlIGlzIC9zcnYvcG9reWJ1aWxkL3lv
+Y3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvd29ya3NwYWNlL3JlY2lwZXMvbHR0bmctbW9kdWxl
+cy9sdHRuZy1tb2R1bGVzXzIuMTQuMC5iYgoKCgpQbGVhc2UgcmV2aWV3IHRoZSBhdHRhY2hlZCBm
+aWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRlIGZhaWx1cmVzLgpB
+bnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3ppbGxhLnlvY3RvcHJv
+amVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVwZGF0ZSUyMEhhbmRs
+ZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcg==
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *kea* to *3.0.0* has Failed (devtool error).
-
-Detailed error information:
-
-The following devtool command failed:  upgrade kea -V 3.0.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1928 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-98873eccfff280db8f55469d86485d14ec6107fe"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:98873eccfff280db8f55469d86485d14ec6107fe"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 942 .bb files complete (0 cached, 942 parsed). 1929 targets, 42 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-98873eccfff280db8f55469d86485d14ec6107fe"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:98873eccfff280db8f55469d86485d14ec6107fe"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL http://ftp.isc.org/isc/kea/3.0.0/kea-3.0.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715081657.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715081657.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching http://ftp.isc.org/isc/kea/3.0.0/kea-3.0.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-dr6iphmt/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-dr6iphmt/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-dr6iphmt/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-dr6iphmt/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
- cipetool-dr6iphmt/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-dr6iphmt/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget --tries=2 --timeout=100 --output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/kea-3.0.0.tar.gz.tmp --continue --directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads 'http://ftp.isc.org/isc/kea/3.0.0/kea-3.0.0.tar.gz' --progress=dot --verbose failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://ftp.isc.org/isc/kea/3.0.0/kea-3.0.0.tar.gz')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-dr6iphmt/work/temp/log.do_fetch.2460411
-ERROR: Failed to fetch URL http://ftp.isc.org/isc/kea/3.0.0/kea-3.0.0.tar.gz
-
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============9131572389727923306==--
+--===============3617416524637252927==--
 
