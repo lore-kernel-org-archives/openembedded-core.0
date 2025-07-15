@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F01FC83F3D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F0EAC83F3A
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:55:39 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.12482.1752594935884226447
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.12483.1752594935998325326
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 08:55:35 -0700
+ Tue, 15 Jul 2025 08:55:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=I6D+kL+v;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OJs3ithh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101980ecc6d4f-0c6384e8-38cb-49d5-b275-e5a853b9f13f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=qB75CJAO;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=tNerRVvi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101980ecc6e22-ffdc619f-d6e4-4f51-8f13-1cb1b4f97e72-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1752594935;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=UuSBbAcDCXR9DaUaeuu3OyX9pZ3nyW+mqb3nB5RjVu4=;
-	b=I6D+kL+vcrq8xVzyqN6QdF0cvQJ2qFC86h0+B179k932W78Dp1JPixJVPU8KEP92
-	OYx94HkJzApqaq51OMz/vKAclOGedNPQtnDzOicZ/mkhhnVt8fEaz0pLS90OfsaiCVs
-	vpafaehKvYd8Jcsf60kT9CUyevJshwidpz9aAvxc=
+	bh=Tbye16jBeIyMISW5Jklz18gn4at5327YCigCPVmDRR4=;
+	b=qB75CJAO59tmGQyCJbsOjNX/3nHUAYOu+2QLeRhFzaLXNfoFU8/7V+N4HIftRSTa
+	yPqrwyuD8koSYWTDye9pMxHH3wVZvRCxHMYvJJn5mvNHwRd8MLvut6TDlOZeTLe29Sq
+	bWGOBZACEEliPJfQpYN1Nht3SxeJP1AmHh+0b5L0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594935;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=UuSBbAcDCXR9DaUaeuu3OyX9pZ3nyW+mqb3nB5RjVu4=;
-	b=OJs3ithhC5ac/eNfulG2Cmfjj42RxBlIUAgWymy0ZS+GzZ+doaQWrJbFL2BdXaoA
-	lfCaT1xF7Anx6lsfr7cPttIO37aB7jy+iawWZuHVB5XXH46UZJBQl1fgItn+T0W5Fyx
-	BJfOFfulte2hu8+jWIq+qrtnId2gb5CaGcCFs+dw=
-Content-Type: multipart/mixed; boundary="===============7298944049129428262=="
+	bh=Tbye16jBeIyMISW5Jklz18gn4at5327YCigCPVmDRR4=;
+	b=tNerRVviEzJhvQyMV+wirvQAscLRMkNUsTFS1MByex8AtBCMPl7RtPDpPxDgJVDI
+	79NbdkCnZ7NUuJUqv2LelXNFLqSI2/3inU2TxPOkcPp8uXT+3xUOajK305563krZ+F9
+	6Dg0f68WWXOZ3t614qdqdytW+eksLOJXjujnxr1w=
+Content-Type: multipart/mixed; boundary="===============3407563136265449550=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] rt-tests,hwlatdetect: upgrading to 2.9,2.9 SUCCEEDED
-Message-ID: <010101980ecc6d4f-0c6384e8-38cb-49d5-b275-e5a853b9f13f-000000@us-west-2.amazonses.com>
+Subject: [AUH] openssh: upgrading to 10.0p2 FAILED
+Message-ID: <010101980ecc6e22-ffdc619f-d6e4-4f51-8f13-1cb1b4f97e72-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Jul 2025 15:55:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.15-54.240.27.23
+X-SES-Outgoing: 2025.07.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:55:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220322
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220323
 
---===============7298944049129428262==
+--===============3407563136265449550==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *rt-tests,hwlatdetect* to *2.9,2.9* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *openssh* to *10.0p2* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-rt-tests-hwlatdetect-upgrade-2.8-2.9-2.8-2.9.patch
+    - apply the patch: git am 0001-openssh-upgrade-10.0p1-10.0p2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,295 +78,229 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 377c51ed0c288582d248bd4680481e5b7646d813 Mon Sep 17 00:00:00 2001
+From f200618dba3f1d6e016c91a3fbf30592ba866cac Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 08:01:21 +0000
-Subject: [PATCH] rt-tests,hwlatdetect: upgrade 2.8 -> 2.9,2.8 -> 2.9
+Date: Tue, 15 Jul 2025 08:19:33 +0000
+Subject: [PATCH] openssh: upgrade 10.0p1 -> 10.0p2
 
 ---
- ...Allow-for-CC-and-AR-to-be-overridden.patch |  9 ++--
- ...ed_attr-Do-not-define-for-glibc-2.41.patch | 44 -------------------
- meta/recipes-rt/rt-tests/rt-tests.inc         |  4 +-
- meta/recipes-rt/rt-tests/rt-tests_git.bb      |  8 ++--
- 4 files changed, 10 insertions(+), 55 deletions(-)
- delete mode 100644 meta/recipes-rt/rt-tests/files/0001-sched_attr-Do-not-define-for-glibc-2.41.patch
+ ...1-regress-banner.sh-log-input-and-output-files-on-erro.patch | 2 +-
+ ...1-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch | 2 +-
+ .../openssh/{openssh_10.0p1.bb => openssh_10.0p2.bb}            | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh_10.0p1.bb => openssh_10.0p2.bb} (100%)
 
-diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
-index fface76731..afd6be40c6 100644
---- a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
-+++ b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+index f424288e37..f246940331 100644
+--- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
++++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
 @@ -1,4 +1,4 @@
--From 7cf4cf097895bd4c3f3d3a6f783c766b3173cf1a Mon Sep 17 00:00:00 2001
-+From d3000d5e451374f58b2b5649f7387761c7e640ef Mon Sep 17 00:00:00 2001
- From: Randy Witt <randy.e.witt@intel.com>
- Date: Fri, 16 Oct 2020 16:54:30 -0700
- Subject: [PATCH] Makefile: Allow for CC and AR to be overridden
-@@ -9,16 +9,17 @@ commit 7763cf316d7896fa05b816a46998f0827ab6e6eb.
- Signed-off-by: Randy Witt <randy.e.witt@intel.com>
- 
- Upstream-Status: Inappropriate [other]
--
- ---
-  Makefile | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/Makefile b/Makefile
--index 223a839..a735584 100644
-+index e3d02cd..be3d48e 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -2,6 +2,6 @@
-+@@ -2,8 +2,8 @@
-+ include feature/test-feature.mak
-+ 
-  VERSION = 2.8
- -CC = $(CROSS_COMPILE)gcc
- -AR = $(CROSS_COMPILE)ar
-diff --git a/meta/recipes-rt/rt-tests/files/0001-sched_attr-Do-not-define-for-glibc-2.41.patch b/meta/recipes-rt/rt-tests/files/0001-sched_attr-Do-not-define-for-glibc-2.41.patch
-deleted file mode 100644
-index 915f8baa61..0000000000
---- a/meta/recipes-rt/rt-tests/files/0001-sched_attr-Do-not-define-for-glibc-2.41.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From e1f5f9379a68471c9f5fb0859e87dd84001b0b6f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 28 Jan 2025 15:03:59 -0800
--Subject: [PATCH] sched_attr: Do not define for glibc >= 2.41
--
--glibc 2.41+ has added [1] definitions for sched_setattr and sched_getattr functions
--and struct sched_attr. Therefore, it needs to be checked for here as well before
--defining sched_attr
--
--Define sched_attr conditionally on SCHED_ATTR_SIZE_VER0
--
--Fixes builds with glibc/trunk
--
--[1] https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=21571ca0d70302909cf72707b2a7736cf12190a0;hp=298bc488fdc047da37482f4003023cb9adef78f8
--
--Upstream-Status: Submitted [https://lore.kernel.org/linux-rt-users/20250128230838.2311298-1-raj.khem@gmail.com/T/#u]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Cc: Clark Williams <williams@redhat.com>
--Cc: John Kacur <jkacur@redhat.com>
--Cc: rt-users <linux-rt-users@vger.kernel.org>
-----
-- src/include/rt-sched.h | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/src/include/rt-sched.h b/src/include/rt-sched.h
--index 80171c7..9cf0e3a 100644
----- a/src/include/rt-sched.h
--+++ b/src/include/rt-sched.h
--@@ -42,6 +42,8 @@
-- #define __NR_sched_getattr		275
-- #endif
-- 
--+/* sched_attr is not defined in glibc < 2.41 */
--+#ifndef SCHED_ATTR_SIZE_VER0
-- struct sched_attr {
-- 	uint32_t size;
-- 	uint32_t sched_policy;
--@@ -68,4 +70,6 @@ int sched_getattr(pid_t pid,
-- 		  unsigned int size,
-- 		  unsigned int flags);
-- 
--+#endif /* SCHED_ATTR_SIZE_VER0 */
--+
-- #endif /* __RT_SCHED_H__ */
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index a2e8558c4c..f6a2969202 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,5 +1,5 @@
--SRCREV = "f5b910a90b6f5ab0ef6df392e009ffe1429d53af"
--PV = "2.8"
-+SRCREV = "9166c3f0bb9c5d3e31dc80aff165a5073b5ac5be"
-+PV = "2.9"
- PE = "1"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=main;protocol=https"
-diff --git a/meta/recipes-rt/rt-tests/rt-tests_git.bb b/meta/recipes-rt/rt-tests/rt-tests_git.bb
-index 5fa980dbdf..1565b8b451 100644
---- a/meta/recipes-rt/rt-tests/rt-tests_git.bb
-+++ b/meta/recipes-rt/rt-tests/rt-tests_git.bb
-@@ -9,11 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- require rt-tests.inc
- inherit ptest
- 
--SRC_URI += " \
--            file://run-ptest \
--            file://rt_bmark.py \
--            file://0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch \
--            file://0001-sched_attr-Do-not-define-for-glibc-2.41.patch \
-+SRC_URI += "file://run-ptest \
-+           file://rt_bmark.py \
-+           file://0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch \
-            "
- 
- # rt-tests needs PI mutex support in libc
+-From 5cc897fe2effe549e1e280c2f606bce8b532b61e Mon Sep 17 00:00:00 2001
++From 514ca62b7cf2ae69d1f10be41ac5d9f8875ff097 Mon Sep 17 00:00:00 2001
+ From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ Date: Mon, 11 Sep 2023 09:55:21 +0100
+ Subject: [PATCH] regress/banner.sh: log input and output files on error
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
+index 360b62af34..da0a2cf606 100644
+--- a/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
++++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
+@@ -1,4 +1,4 @@
+-From 9dcccafe44ea17e972e7cddea205bbe9fe71d8d6 Mon Sep 17 00:00:00 2001
++From 7c0144246424a9b3a62d486a1dd1ae003f04a01f Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <jose.quaresma@foundries.io>
+ Date: Mon, 15 Jul 2024 18:43:08 +0100
+ Subject: [PATCH] regress/test-exec: use the absolute path in the SSH env
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.0p1.bb b/meta/recipes-connectivity/openssh/openssh_10.0p2.bb
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh_10.0p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_10.0p2.bb
 -- 
 2.47.1
 
 
---===============7298944049129428262==
+--===============3407563136265449550==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
+Loaded 1929 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 941 .bb files complete (0 cached, 941 parsed). 1929 targets, 50 skipped, 0 masked, 0 errors.
-Removing 81 recipes from the core2-64 sysroot...done.
-Removing 112 recipes from the qemux86_64 sysroot...done.
+Parsing of 941 .bb files complete (940 cached, 1 parsed). 1928 targets, 42 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
+Build Configuration:
+BB_VERSION           = "2.15.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-98873eccfff280db8f55469d86485d14ec6107fe"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:98873eccfff280db8f55469d86485d14ec6107fe"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 197 Local 185 Mirrors 0 Missed 12 Current 406 (93% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1159 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_recipe_qa)
+NOTE: recipe openssh-10.0p2-r0: task do_recipe_qa: Started
+NOTE: recipe openssh-10.0p2-r0: task do_recipe_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_recipe_qa unihash changed to b09c20e3ab2d0f7e4eda4e5ffa73e0c5fb9e20f74a77441b189987769b1fbd77
+NOTE: Setscene tasks completed
+NOTE: Running task 1672 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_fetch)
+NOTE: recipe openssh-10.0p2-r0: task do_fetch: Started
+NOTE: recipe openssh-10.0p2-r0: task do_fetch: Succeeded
+NOTE: Running task 1673 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_unpack)
+NOTE: Running task 1674 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe openssh-10.0p2-r0: task do_unpack: Started
+NOTE: recipe openssh-10.0p2-r0: task do_prepare_recipe_sysroot: Started
+WARNING: openssh-10.0p2-r0 do_unpack: openssh: the directory ${UNPACKDIR}/${BP} (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/openssh/10.0p2/sources/openssh-10.0p2) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: recipe openssh-10.0p2-r0: task do_unpack: Succeeded
+NOTE: Running task 1675 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_patch)
+NOTE: Running task 1676 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_collect_spdx_deps)
+NOTE: recipe openssh-10.0p2-r0: task do_patch: Started
+NOTE: recipe openssh-10.0p2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe openssh-10.0p2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe openssh-10.0p2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe openssh-10.0p2-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1676 tasks of which 1670 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715081920.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715081920.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/openssh/10.0p2/temp/log.do_patch.2524301
+Summary: There was 1 WARNING message.
 Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'rt-tests'
-rt-tests was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
+ERROR: openssh-10.0p2-r0 do_patch: Applying patch '0001-regress-banner.sh-log-input-and-output-files-on-erro.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/openssh/10.0p2/sources/openssh-10.0p2'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/openssh/10.0p2/recipe-sysroot-native/etc/quiltrc push', 0, "stdout: Applying patch 0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+can't find file to patch at input line 49
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|From 514ca62b7cf2ae69d1f10be41ac5d9f8875ff097 Mon Sep 17 00:00:00 2001
+|From: Mikko Rapeli <mikko.rapeli@linaro.org>
+|Date: Mon, 11 Sep 2023 09:55:21 +0100
+|Subject: [PATCH] regress/banner.sh: log input and output files on error
+|
+|Some test environments like yocto with qemu are seeing these
+|tests failing. There may be additional error messages in the
+|stderr of ssh cloent command. busybox cmp shows this error when
+|first input file has less new line characters then second
+|input file:
+|
+|cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
+|
+|Logging the full banner.out will show what other error messages
+|are captured in addition of the expected banner.
+|
+|Full log of a failing banner test runs is:
+|
+|run test banner.sh ...
+|test banner: missing banner file
+|test banner: size 0
+|cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
+|banner size 0 mismatch
+|test banner: size 10
+|test banner: size 100
+|cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
+|banner size 100 mismatch
+|test banner: size 1000
+|test banner: size 10000
+|test banner: size 100000
+|test banner: suppress banner (-q)
+|FAIL:  banner
+|return value: 1
+|
+|See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
+|
+|Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/437]
+|
+|Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+|Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+|---
+| regress/banner.sh | 4 +++-
+| 1 file changed, 3 insertions(+), 1 deletion(-)
+|
+|diff --git a/regress/banner.sh b/regress/banner.sh
+|index a84feb5..de84957 100644
+|--- a/regress/banner.sh
+|+++ b/regress/banner.sh
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+Patch 0001-regress-banner.sh-log-input-and-output-files-on-erro.patch does not apply (enforce with -f)
 
---===============7298944049129428262==
+stderr: ")
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/openssh/10.0p2/temp/log.do_patch.2524301
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_patch) failed with exit code '1'
+
+--===============3407563136265449550==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-rt-tests-hwlatdetect-upgrade-2.8-2.9-2.8-2.9.patch"
+ filename="0001-openssh-upgrade-10.0p1-10.0p2.patch"
 
-RnJvbSAzNzdjNTFlZDBjMjg4NTgyZDI0OGJkNDY4MDQ4MWU1Yjc2NDZkODEzIE1vbiBTZXAgMTcg
+RnJvbSBmMjAwNjE4ZGJhM2YxZDZlMDE2YzkxYTNmYmYzMDU5MmJhODY2Y2FjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMDg6MDE6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBy
-dC10ZXN0cyxod2xhdGRldGVjdDogdXBncmFkZSAyLjggLT4gMi45LDIuOCAtPiAyLjkKCi0tLQog
-Li4uQWxsb3ctZm9yLUNDLWFuZC1BUi10by1iZS1vdmVycmlkZGVuLnBhdGNoIHwgIDkgKystLQog
-Li4uZWRfYXR0ci1Eby1ub3QtZGVmaW5lLWZvci1nbGliYy0yLjQxLnBhdGNoIHwgNDQgLS0tLS0t
-LS0tLS0tLS0tLS0tLQogbWV0YS9yZWNpcGVzLXJ0L3J0LXRlc3RzL3J0LXRlc3RzLmluYyAgICAg
-ICAgIHwgIDQgKy0KIG1ldGEvcmVjaXBlcy1ydC9ydC10ZXN0cy9ydC10ZXN0c19naXQuYmIgICAg
-ICB8ICA4ICsrLS0KIDQgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgNTUgZGVsZXRp
-b25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLXJ0L3J0LXRlc3RzL2ZpbGVz
-LzAwMDEtc2NoZWRfYXR0ci1Eby1ub3QtZGVmaW5lLWZvci1nbGliYy0yLjQxLnBhdGNoCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXJ0L3J0LXRlc3RzL2ZpbGVzLzAwMDEtTWFrZWZpbGUtQWxs
-b3ctZm9yLUNDLWFuZC1BUi10by1iZS1vdmVycmlkZGVuLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXJ0
-L3J0LXRlc3RzL2ZpbGVzLzAwMDEtTWFrZWZpbGUtQWxsb3ctZm9yLUNDLWFuZC1BUi10by1iZS1v
-dmVycmlkZGVuLnBhdGNoCmluZGV4IGZmYWNlNzY3MzEuLmFmZDZiZTQwYzYgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1ydC9ydC10ZXN0cy9maWxlcy8wMDAxLU1ha2VmaWxlLUFsbG93LWZvci1D
-Qy1hbmQtQVItdG8tYmUtb3ZlcnJpZGRlbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtcnQvcnQt
-dGVzdHMvZmlsZXMvMDAwMS1NYWtlZmlsZS1BbGxvdy1mb3ItQ0MtYW5kLUFSLXRvLWJlLW92ZXJy
-aWRkZW4ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDdjZjRjZjA5Nzg5NWJkNGMzZjNkM2E2
-Zjc4M2M3NjZiMzE3M2NmMWEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGQzMDAwZDVl
-NDUxMzc0ZjU4YjJiNTY0OWY3Mzg3NzYxYzdlNjQwZWYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBSYW5keSBXaXR0IDxyYW5keS5lLndpdHRAaW50ZWwuY29tPgogRGF0ZTogRnJpLCAx
-NiBPY3QgMjAyMCAxNjo1NDozMCAtMDcwMAogU3ViamVjdDogW1BBVENIXSBNYWtlZmlsZTogQWxs
-b3cgZm9yIENDIGFuZCBBUiB0byBiZSBvdmVycmlkZGVuCkBAIC05LDE2ICs5LDE3IEBAIGNvbW1p
-dCA3NzYzY2YzMTZkNzg5NmZhMDViODE2YTQ2OTk4ZjA4MjdhYjZlNmViLgogU2lnbmVkLW9mZi1i
-eTogUmFuZHkgV2l0dCA8cmFuZHkuZS53aXR0QGludGVsLmNvbT4KIAogVXBzdHJlYW0tU3RhdHVz
-OiBJbmFwcHJvcHJpYXRlIFtvdGhlcl0KLQogLS0tCiAgTWFrZWZpbGUgfCA0ICsrLS0KICAxIGZp
-bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0
-IGEvTWFrZWZpbGUgYi9NYWtlZmlsZQotaW5kZXggMjIzYTgzOS4uYTczNTU4NCAxMDA2NDQKK2lu
-ZGV4IGUzZDAyY2QuLmJlM2Q0OGUgMTAwNjQ0CiAtLS0gYS9NYWtlZmlsZQogKysrIGIvTWFrZWZp
-bGUKLUBAIC0yLDYgKzIsNiBAQAorQEAgLTIsOCArMiw4IEBACisgaW5jbHVkZSBmZWF0dXJlL3Rl
-c3QtZmVhdHVyZS5tYWsKKyAKICBWRVJTSU9OID0gMi44CiAtQ0MgPSAkKENST1NTX0NPTVBJTEUp
-Z2NjCiAtQVIgPSAkKENST1NTX0NPTVBJTEUpYXIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1y
-dC9ydC10ZXN0cy9maWxlcy8wMDAxLXNjaGVkX2F0dHItRG8tbm90LWRlZmluZS1mb3ItZ2xpYmMt
-Mi40MS5wYXRjaCBiL21ldGEvcmVjaXBlcy1ydC9ydC10ZXN0cy9maWxlcy8wMDAxLXNjaGVkX2F0
-dHItRG8tbm90LWRlZmluZS1mb3ItZ2xpYmMtMi40MS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAx
-MDA2NDQKaW5kZXggOTE1ZjhiYWE2MS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtcnQv
-cnQtdGVzdHMvZmlsZXMvMDAwMS1zY2hlZF9hdHRyLURvLW5vdC1kZWZpbmUtZm9yLWdsaWJjLTIu
-NDEucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw0NCArMCwwIEBACi1Gcm9tIGUxZjVmOTM3OWE2
-ODQ3MWM5ZjVmYjA4NTllODdkZDg0MDAxYjBiNmYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1G
-cm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotRGF0ZTogVHVlLCAyOCBKYW4gMjAy
-NSAxNTowMzo1OSAtMDgwMAotU3ViamVjdDogW1BBVENIXSBzY2hlZF9hdHRyOiBEbyBub3QgZGVm
-aW5lIGZvciBnbGliYyA+PSAyLjQxCi0KLWdsaWJjIDIuNDErIGhhcyBhZGRlZCBbMV0gZGVmaW5p
-dGlvbnMgZm9yIHNjaGVkX3NldGF0dHIgYW5kIHNjaGVkX2dldGF0dHIgZnVuY3Rpb25zCi1hbmQg
-c3RydWN0IHNjaGVkX2F0dHIuIFRoZXJlZm9yZSwgaXQgbmVlZHMgdG8gYmUgY2hlY2tlZCBmb3Ig
-aGVyZSBhcyB3ZWxsIGJlZm9yZQotZGVmaW5pbmcgc2NoZWRfYXR0cgotCi1EZWZpbmUgc2NoZWRf
-YXR0ciBjb25kaXRpb25hbGx5IG9uIFNDSEVEX0FUVFJfU0laRV9WRVIwCi0KLUZpeGVzIGJ1aWxk
-cyB3aXRoIGdsaWJjL3RydW5rCi0KLVsxXSBodHRwczovL3NvdXJjZXdhcmUub3JnL2dpdC8/cD1n
-bGliYy5naXQ7YT1jb21taXRkaWZmO2g9MjE1NzFjYTBkNzAzMDI5MDljZjcyNzA3YjJhNzczNmNm
-MTIxOTBhMDtocD0yOThiYzQ4OGZkYzA0N2RhMzc0ODJmNDAwMzAyM2NiOWFkZWY3OGY4Ci0KLVVw
-c3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1y
-dC11c2Vycy8yMDI1MDEyODIzMDgzOC4yMzExMjk4LTEtcmFqLmtoZW1AZ21haWwuY29tL1QvI3Vd
-Ci1TaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotQ2M6IENsYXJr
-IFdpbGxpYW1zIDx3aWxsaWFtc0ByZWRoYXQuY29tPgotQ2M6IEpvaG4gS2FjdXIgPGprYWN1ckBy
-ZWRoYXQuY29tPgotQ2M6IHJ0LXVzZXJzIDxsaW51eC1ydC11c2Vyc0B2Z2VyLmtlcm5lbC5vcmc+
-Ci0tLS0KLSBzcmMvaW5jbHVkZS9ydC1zY2hlZC5oIHwgNCArKysrCi0gMSBmaWxlIGNoYW5nZWQs
-IDQgaW5zZXJ0aW9ucygrKQotCi1kaWZmIC0tZ2l0IGEvc3JjL2luY2x1ZGUvcnQtc2NoZWQuaCBi
-L3NyYy9pbmNsdWRlL3J0LXNjaGVkLmgKLWluZGV4IDgwMTcxYzcuLjljZjBlM2EgMTAwNjQ0Ci0t
-LS0gYS9zcmMvaW5jbHVkZS9ydC1zY2hlZC5oCi0rKysgYi9zcmMvaW5jbHVkZS9ydC1zY2hlZC5o
-Ci1AQCAtNDIsNiArNDIsOCBAQAotICNkZWZpbmUgX19OUl9zY2hlZF9nZXRhdHRyCQkyNzUKLSAj
-ZW5kaWYKLSAKLSsvKiBzY2hlZF9hdHRyIGlzIG5vdCBkZWZpbmVkIGluIGdsaWJjIDwgMi40MSAq
-LwotKyNpZm5kZWYgU0NIRURfQVRUUl9TSVpFX1ZFUjAKLSBzdHJ1Y3Qgc2NoZWRfYXR0ciB7Ci0g
-CXVpbnQzMl90IHNpemU7Ci0gCXVpbnQzMl90IHNjaGVkX3BvbGljeTsKLUBAIC02OCw0ICs3MCw2
-IEBAIGludCBzY2hlZF9nZXRhdHRyKHBpZF90IHBpZCwKLSAJCSAgdW5zaWduZWQgaW50IHNpemUs
-Ci0gCQkgIHVuc2lnbmVkIGludCBmbGFncyk7Ci0gCi0rI2VuZGlmIC8qIFNDSEVEX0FUVFJfU0la
-RV9WRVIwICovCi0rCi0gI2VuZGlmIC8qIF9fUlRfU0NIRURfSF9fICovCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtcnQvcnQtdGVzdHMvcnQtdGVzdHMuaW5jIGIvbWV0YS9yZWNpcGVzLXJ0L3J0
-LXRlc3RzL3J0LXRlc3RzLmluYwppbmRleCBhMmU4NTU4YzRjLi5mNmEyOTY5MjAyIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtcnQvcnQtdGVzdHMvcnQtdGVzdHMuaW5jCisrKyBiL21ldGEvcmVj
-aXBlcy1ydC9ydC10ZXN0cy9ydC10ZXN0cy5pbmMKQEAgLTEsNSArMSw1IEBACi1TUkNSRVYgPSAi
-ZjViOTEwYTkwYjZmNWFiMGVmNmRmMzkyZTAwOWZmZTE0MjlkNTNhZiIKLVBWID0gIjIuOCIKK1NS
-Q1JFViA9ICI5MTY2YzNmMGJiOWM1ZDNlMzFkYzgwYWZmMTY1YTUwNzNiNWFjNWJlIgorUFYgPSAi
-Mi45IgogUEUgPSAiMSIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2Nt
-L3V0aWxzL3J0LXRlc3RzL3J0LXRlc3RzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ydC9ydC10ZXN0cy9ydC10ZXN0c19naXQuYmIgYi9t
-ZXRhL3JlY2lwZXMtcnQvcnQtdGVzdHMvcnQtdGVzdHNfZ2l0LmJiCmluZGV4IDVmYTk4MGRiZGYu
-LjE1NjViOGI0NTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ydC9ydC10ZXN0cy9ydC10ZXN0
-c19naXQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXJ0L3J0LXRlc3RzL3J0LXRlc3RzX2dpdC5iYgpA
-QCAtOSwxMSArOSw5IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTc1
-MTQxOTI2MGFhOTU0NDk5ZjdhYmFhYmFhODgyYmJlIgogcmVxdWlyZSBydC10ZXN0cy5pbmMKIGlu
-aGVyaXQgcHRlc3QKIAotU1JDX1VSSSArPSAiIFwKLSAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRl
-c3QgXAotICAgICAgICAgICAgZmlsZTovL3J0X2JtYXJrLnB5IFwKLSAgICAgICAgICAgIGZpbGU6
-Ly8wMDAxLU1ha2VmaWxlLUFsbG93LWZvci1DQy1hbmQtQVItdG8tYmUtb3ZlcnJpZGRlbi5wYXRj
-aCBcCi0gICAgICAgICAgICBmaWxlOi8vMDAwMS1zY2hlZF9hdHRyLURvLW5vdC1kZWZpbmUtZm9y
-LWdsaWJjLTIuNDEucGF0Y2ggXAorU1JDX1VSSSArPSAiZmlsZTovL3J1bi1wdGVzdCBcCisgICAg
-ICAgICAgIGZpbGU6Ly9ydF9ibWFyay5weSBcCisgICAgICAgICAgIGZpbGU6Ly8wMDAxLU1ha2Vm
-aWxlLUFsbG93LWZvci1DQy1hbmQtQVItdG8tYmUtb3ZlcnJpZGRlbi5wYXRjaCBcCiAgICAgICAg
-ICAgICIKIAogIyBydC10ZXN0cyBuZWVkcyBQSSBtdXRleCBzdXBwb3J0IGluIGxpYmMKLS0gCjIu
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMDg6MTk6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
+cGVuc3NoOiB1cGdyYWRlIDEwLjBwMSAtPiAxMC4wcDIKCi0tLQogLi4uMS1yZWdyZXNzLWJhbm5l
+ci5zaC1sb2ctaW5wdXQtYW5kLW91dHB1dC1maWxlcy1vbi1lcnJvLnBhdGNoIHwgMiArLQogLi4u
+MS1yZWdyZXNzLXRlc3QtZXhlYy11c2UtdGhlLWFic29sdXRlLXBhdGgtaW4tdGhlLVNTSC1lLnBh
+dGNoIHwgMiArLQogLi4uL29wZW5zc2gve29wZW5zc2hfMTAuMHAxLmJiID0+IG9wZW5zc2hfMTAu
+MHAyLmJifSAgICAgICAgICAgIHwgMAogMyBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyks
+IDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3No
+L3tvcGVuc3NoXzEwLjBwMS5iYiA9PiBvcGVuc3NoXzEwLjBwMi5iYn0gKDEwMCUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1yZWdy
+ZXNzLWJhbm5lci5zaC1sb2ctaW5wdXQtYW5kLW91dHB1dC1maWxlcy1vbi1lcnJvLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1yZWdyZXNzLWJh
+bm5lci5zaC1sb2ctaW5wdXQtYW5kLW91dHB1dC1maWxlcy1vbi1lcnJvLnBhdGNoCmluZGV4IGY0
+MjQyODhlMzcuLmYyNDY5NDAzMzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gtbG9nLWlucHV0LWFuZC1v
+dXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
+L29wZW5zc2gvb3BlbnNzaC8wMDAxLXJlZ3Jlc3MtYmFubmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0
+cHV0LWZpbGVzLW9uLWVycm8ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDVjYzg5N2ZlMmVm
+ZmU1NDllMWUyODBjMmY2MDZiY2U4YjUzMmI2MWUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
+cm9tIDUxNGNhNjJiN2NmMmFlNjlkMWYxMGJlNDFhYzVkOWY4ODc1ZmYwOTcgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCiBGcm9tOiBNaWtrbyBSYXBlbGkgPG1pa2tvLnJhcGVsaUBsaW5hcm8ub3Jn
+PgogRGF0ZTogTW9uLCAxMSBTZXAgMjAyMyAwOTo1NToyMSArMDEwMAogU3ViamVjdDogW1BBVENI
+XSByZWdyZXNzL2Jhbm5lci5zaDogbG9nIGlucHV0IGFuZCBvdXRwdXQgZmlsZXMgb24gZXJyb3IK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAw
+MDEtcmVncmVzcy10ZXN0LWV4ZWMtdXNlLXRoZS1hYnNvbHV0ZS1wYXRoLWluLXRoZS1TU0gtZS5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVn
+cmVzcy10ZXN0LWV4ZWMtdXNlLXRoZS1hYnNvbHV0ZS1wYXRoLWluLXRoZS1TU0gtZS5wYXRjaApp
+bmRleCAzNjBiNjJhZjM0Li5kYTBhMmNmNjA2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC8wMDAxLXJlZ3Jlc3MtdGVzdC1leGVjLXVzZS10aGUt
+YWJzb2x1dGUtcGF0aC1pbi10aGUtU1NILWUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1yZWdyZXNzLXRlc3QtZXhlYy11c2UtdGhlLWFi
+c29sdXRlLXBhdGgtaW4tdGhlLVNTSC1lLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5ZGNj
+Y2FmZTQ0ZWExN2U5NzJlN2NkZGVhMjA1YmJlOWZlNzFkOGQ2IE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSA3YzAxNDQyNDY0MjRhOWIzYTYyZDQ4NmExZGQxYWUwMDNmMDRhMDFmIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSm9zZSBRdWFyZXNtYSA8am9zZS5xdWFyZXNtYUBm
+b3VuZHJpZXMuaW8+CiBEYXRlOiBNb24sIDE1IEp1bCAyMDI0IDE4OjQzOjA4ICswMTAwCiBTdWJq
+ZWN0OiBbUEFUQ0hdIHJlZ3Jlc3MvdGVzdC1leGVjOiB1c2UgdGhlIGFic29sdXRlIHBhdGggaW4g
+dGhlIFNTSCBlbnYKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNz
+aC9vcGVuc3NoXzEwLjBwMS5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9v
+cGVuc3NoXzEwLjBwMi5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfMTAuMHAxLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF8xMC4wcDIuYmIKLS0gCjIu
 NDcuMQoK
 
---===============7298944049129428262==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-dbg: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-dbg: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-dev: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-dev: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-doc: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-doc: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-locale: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-locale: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-src: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-src: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-staticdev: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-staticdev: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect: PKGSIZE changed from 17229 to 17443 (+1%)
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/hwlatdetect: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/hwlatdetect: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/rt-tests: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/rt-tests: SRC_URI changed from "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=main;protocol=https file://run-ptest file://rt_bmark.py file://0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch file://0001-sched_attr-Do-not-define-for-glibc-2.41.patch" to "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=main;protocol=https file://run-ptest file://rt_bmark.py file://0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch"
-packages/core2-64-poky-linux/rt-tests: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/rt-tests/rt-tests-dbg: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/rt-tests/rt-tests-dbg: PKGSIZE changed from 1394728 to 1395480 (+0%)
-packages/core2-64-poky-linux/rt-tests/rt-tests-dbg: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/rt-tests/rt-tests-dev: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/rt-tests/rt-tests-dev: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/rt-tests/rt-tests-doc: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/rt-tests/rt-tests-doc: PKGSIZE changed from 45637 to 45788 (+0%)
-packages/core2-64-poky-linux/rt-tests/rt-tests-doc: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/rt-tests/rt-tests-locale: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/rt-tests/rt-tests-locale: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/rt-tests/rt-tests-ptest: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/rt-tests/rt-tests-ptest: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/rt-tests/rt-tests-src: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/rt-tests/rt-tests-src: PKGSIZE changed from 382468 to 381959 (-0%)
-packages/core2-64-poky-linux/rt-tests/rt-tests-src: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/rt-tests/rt-tests-staticdev: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/rt-tests/rt-tests-staticdev: PV changed from "2.8" to "2.9"
-packages/core2-64-poky-linux/rt-tests/rt-tests: PKGV changed from 2.8 [default] to 2.9 [default]
-packages/core2-64-poky-linux/rt-tests/rt-tests: PV changed from "2.8" to "2.9"
-
---===============7298944049129428262==--
+--===============3407563136265449550==--
 
