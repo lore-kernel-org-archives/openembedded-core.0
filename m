@@ -2,145 +2,164 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 677BFC83F38
-	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 20:36:40 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.5345.1752611796427289478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 627B9C83F2D
+	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 20:36:50 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.5500.1752611801284996552
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 13:36:36 -0700
+ Tue, 15 Jul 2025 13:36:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=k/AfMRHO;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-235ea292956so55745445ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 13:36:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZeSihVjQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-234fcadde3eso73266195ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 13:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752611796; x=1753216596; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752611800; x=1753216600; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EkFbEyhgn7PbVY69p+vJ887vvayx1PPJHLrow7clPT4=;
-        b=k/AfMRHOKxoDQfBiYejn7i144Ub/culU0xms/xfRYKtiVdbwXTO21VB0BR7619JFUu
-         VK1K3PBeeiWknxUVHlnALesDRszcuSTftBVgvWFgQAmw6qmQv2FdJ6Gb9gbI/iIUeWRF
-         udtwywTXYxqR/hMRowX8UO/kYtUUsArM6kY7Uwdh6X9w51bo3KAi16MXJucTvm511FOe
-         XNOZyhmlPpuzNvaRU/HNmvL/Id/ibd+oYkuC3rbeMtr2uBucYLw7ronEKbhwwTwFysbV
-         DmIsm/dBn/nkcxGKAudEZNG/xQPuX1tWvedSZMoaEOiCd+K9fcKB5AI0FHqkpCUwreN+
-         1W/A==
+        bh=i8qaytqthQITPkUR/BdVbU4+lJsWGCnwZRiBaXAH958=;
+        b=ZeSihVjQjiUDeoZdZx5Q4q8BcQRbCIziVG4hT78Rvfj9W8LQYTLrofVKjukf3UXCyU
+         mn2OHXAEcTltsyl23z32KKTIb2OmUejMIZGW79Do4SRgVTcmKcoCFVJlcLrZLoDraqO8
+         RC5N9j+zeg4xloF5r9f10XE/F9JQUalzSMj/XT/M/zPwdN/O0fT4xjltttdmuYkkYMB8
+         8TrF9x9d7tgYelU814jk7OU3M+ZbxUKOoyby+FGbyvLZicQZT6mfNRq79JIQS6Myo3Tu
+         0g9RMuxRBAxR/a7WUvU9S+kK41eUYCXXKob46Tw6ElXmrbIthNeHEO14yRp6664OemuB
+         EG+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752611796; x=1753216596;
+        d=1e100.net; s=20230601; t=1752611800; x=1753216600;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EkFbEyhgn7PbVY69p+vJ887vvayx1PPJHLrow7clPT4=;
-        b=xJRzz4Gh1uSI3SOgXsnlmTmEGIwQsxjQGNIpgmtBne3Nyn4lw7OlxLu6JMnHqVIibN
-         ULclWCaVFrmOqCOu7dpyKnZt/CZfjh7UQ0NUK7uYEl4P7T/lstmid8scjrOyvWT8ICv2
-         LeZhZD93kAFQ6jtwDL85sohzCyrwk30begtb+JRPmksfrpHNKDVYueFbEdtEcyFQaS0i
-         cz/n6+tx3xvr/eS/Cl4JNwhF3no4OAKWoqYLuR3lVhmqICZmWLwvQIAuOwcDL7y9TOVX
-         YsQoa1J6Cp4FTS/Z4VlXFHUoYr+eMCuiFvdU0P3U4WbPsFvKx59DADbBEaywocSCGtvl
-         IUqg==
-X-Gm-Message-State: AOJu0YyiMOoCUA6WgclVGzF5rgcu11YbdLKiPC0e6i9+hPIjDU44ANxt
-	wGdHtArJwvEa5Ocva8MuAtytaRtDG774mZCZgUKSaaXXtQJ4vhhjfkMHox+XOnLbV6v5g2N/xfM
-	p4KGD
-X-Gm-Gg: ASbGncvl/6vfIe4xCs6B9w3KlA/EVwpJaEeYofApH1qpi2Ux+t5hSS/sg0bLOL3tpX/
-	RiYTWcmVyjU+FJYtrGKyno7MpKD++On5VuvsuJH8a3TnmzzbujcO4yvfBrV+KsLIi9LIeLZ096+
-	LLNiB0+0W43w+qt+UsOIFj82MP51yi9wo/CutSleaEguKQUwz7/r1KC1k1Yzgs+xnE0ZAIwRi4m
-	jI4fgKe18+tRk3ArHA0SSvh8JJnqX4H9jFTQPbjmZKOgJgLG/IJR3wKYjiCNS+N0KuitNZ368Ap
-	HVre+VzTcdQmDRmj8xVittGF3ZM1eypL1JqaFr/qyKUq1jYcDEOJuggNBucMMDnTEsQFyYiaaxB
-	Lb5kdIq1kPh3RfQ==
-X-Google-Smtp-Source: AGHT+IHZ+dcU/1Zr3azkiotA1FPEwW9hiXqQHJadzIrJ64eibqUxGWkugCIrdpEbR4Qjj4CtTt8nDQ==
-X-Received: by 2002:a17:902:f60a:b0:234:aa98:7d41 with SMTP id d9443c01a7336-23e257608famr1532835ad.42.1752611795553;
-        Tue, 15 Jul 2025 13:36:35 -0700 (PDT)
+        bh=i8qaytqthQITPkUR/BdVbU4+lJsWGCnwZRiBaXAH958=;
+        b=O1TbnzcrE0BkOMLAyOGOAp+qk10/n0bqUEdnhd05frqSomCmB+e0n5fOipVTpHHq4h
+         2DPOQmlkxOyvZjBac/qfx0XH/IfFyQiJpMvd3ez7H+2VcYR6AxxXxUqWxXoNxOzL3Twf
+         bbGNTkJKnyiocD0ukbUM3Y7L8q0C6n32IuEmxKyW+UwrBPXPQOPBcLxp+sjzzgeu7n4l
+         +GLzfhOFozuPkmHbCEdAIiz+aG84j3wgrxOyMWi2pAlKhpUaC//i70IrrxiAbd24Twc5
+         1dmQacWeESvzp1hxUZAbHx+iCs40ytWIC0Q+hw6geSYVLac8+eAmQRKkCXiC0rLixStd
+         ef7Q==
+X-Gm-Message-State: AOJu0YzcDoiQ2WT/CK4HeVFzKCxbfbPvCqxqumhip2qAx3EuajiWpiad
+	EBiuLZv2Trenec9KgI6zPb1ENoYkj8TLH1igoNfX375my9MyQFlSHZvPswwDlN5QDqZnowYRyQk
+	a9MaH
+X-Gm-Gg: ASbGncvtfLD1L6AoqNPAxLOkQQb+dcynrFDN5rH5ohk3d/USrHSn1IftAlQlvd4WTGn
+	qdEFBKqdD87FyqHskXYEkYbHCGinrYHBIiOI1meePcYzg4Fxc0nrThTtPX3e/s3cPpnQSnqkzr+
+	lRyNNrzD44W9SI6nbzolE60TezLktdc4n8IQBWQgVsqjsghF/fWkF2KE8DPSffzMD45Gimi/TqR
+	eL5Y68Z9kAZkmIFMlKhd8keepY4K5V2x6qCpNHvOqU0YT3CtmDw/umwox7l6z2wPpRSOkeUByZg
+	hwxkUQvW08ChoAmhhRfOLz0klQ8ixhdU5Yry1p9mewpUS8AkSWaiXmMq9XjzITwhtyKrBOnHyVA
+	fMvC3+eXIqtb8RA==
+X-Google-Smtp-Source: AGHT+IGMcy+FoPVKegMM+VH3gnfSHwKShR82TphcjJ7QlAVJpP5AR+3qgPe7pmVBFGtZJb0O03RH8g==
+X-Received: by 2002:a17:902:ec8f:b0:23c:8f12:3f90 with SMTP id d9443c01a7336-23e25765f62mr1474635ad.41.1752611800540;
+        Tue, 15 Jul 2025 13:36:40 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5c42:3781:50b6:b9d7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de43637f2sm115585595ad.241.2025.07.15.13.36.34
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de43637f2sm115585595ad.241.2025.07.15.13.36.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 13:36:35 -0700 (PDT)
+        Tue, 15 Jul 2025 13:36:40 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 08/16] ofono: fix CVE-2023-4235
-Date: Tue, 15 Jul 2025 13:36:09 -0700
-Message-ID: <3a3519324ec390044ff9f97c0f32027782699124.1752611671.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 11/16] gdk-pixbuf: fix CVE-2025-7345
+Date: Tue, 15 Jul 2025 13:36:12 -0700
+Message-ID: <1803f965e4990be3fbdcd52544f0080e9c83800d.1752611671.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752611671.git.steve@sakoman.com>
 References: <cover.1752611671.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 20:36:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220417
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 20:36:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220420
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-A flaw was found in ofono, an Open Source Telephony on Linux. A stack overflow bug
-is triggered within the decode_deliver_report() function during the SMS decoding.
-It is assumed that the attack scenario is accessible from a compromised modem,
-a malicious base station, or just SMS. There is a bound check for this memcpy
-length in decode_submit(), but it was forgotten in decode_deliver_report().
+A flaw exists in gdk‑pixbuf within the gdk_pixbuf__jpeg_image_load_increment function
+(io-jpeg.c) and in glib’s g_base64_encode_step (glib/gbase64.c). When processing
+maliciously crafted JPEG images, a heap buffer overflow can occur during Base64 encoding,
+allowing out-of-bounds reads from heap memory, potentially causing application crashes or
+arbitrary code execution.
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ofono/ofono/CVE-2023-4235.patch           | 37 +++++++++++++++++++
- meta/recipes-connectivity/ofono/ofono_1.34.bb |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/CVE-2023-4235.patch
+ .../gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch | 55 +++++++++++++++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.42.10.bb          |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch
 
-diff --git a/meta/recipes-connectivity/ofono/ofono/CVE-2023-4235.patch b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4235.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch
 new file mode 100644
-index 0000000000..ce03bbd274
+index 0000000000..a8f23d3501
 --- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono/CVE-2023-4235.patch
-@@ -0,0 +1,37 @@
-+From 02aa0f9bad3d9e47a152fc045d0f51874d901d7e Mon Sep 17 00:00:00 2001
-+From: "Sicelo A. Mhlongo" <absicsz@gmail.com>
-+Date: Wed, 4 Dec 2024 10:18:51 +0200
-+Subject: [PATCH] smsutil: check deliver reports fit in buffer
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch
+@@ -0,0 +1,55 @@
++From 4af78023ce7d3b5e3cec422a59bb4f48fa4f5886 Mon Sep 17 00:00:00 2001
++From: Matthias Clasen <mclasen@redhat.com>
++Date: Fri, 11 Jul 2025 11:02:05 -0400
++Subject: [PATCH] jpeg: Be more careful with chunked icc data
 +
-+Fixes CVE-2023-4235
++We we inadvertendly trusting the sequence numbers not to lie.
++If they do we would report a larger data size than we actually
++allocated, leading to out of bounds memory access in base64
++encoding later on.
 +
-+CVE: CVE-2023-4235
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=02aa0f9bad3d9e47a152fc045d0f51874d901d7e]
++This has been assigned CVE-2025-7345.
++
++Fixes: #249
++
++CVE: CVE-2025-7345
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/4af78023ce7d3b5e3cec422a59bb4f48fa4f5886]
++
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ src/smsutil.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ gdk-pixbuf/io-jpeg.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/smsutil.c b/src/smsutil.c
-+index 484bfd0b..ac89f16c 100644
-+--- a/src/smsutil.c
-++++ b/src/smsutil.c
-+@@ -1240,10 +1240,16 @@ static gboolean decode_deliver_report(const unsigned char *pdu, int len,
-+			return FALSE;
++diff --git a/gdk-pixbuf/io-jpeg.c b/gdk-pixbuf/io-jpeg.c
++index 3841fc0..9ee1d21 100644
++--- a/gdk-pixbuf/io-jpeg.c
+++++ b/gdk-pixbuf/io-jpeg.c
++@@ -356,6 +356,7 @@ jpeg_parse_exif_app2_segment (JpegExifContext *context, jpeg_saved_marker_ptr ma
++		context->icc_profile = g_new (gchar, chunk_size);
++		/* copy the segment data to the profile space */
++		memcpy (context->icc_profile, marker->data + 14, chunk_size);
+++                ret = TRUE;
++		goto out;
++	}
 +
-+		if (out->type == SMS_TYPE_DELIVER_REPORT_ERROR) {
-++			if (expected > (int) sizeof(out->deliver_err_report.ud))
-++				return FALSE;
-++
-+			out->deliver_err_report.udl = udl;
-+			memcpy(out->deliver_err_report.ud,
-+					pdu + offset, expected);
-+		} else {
-++			if (expected > (int) sizeof(out->deliver_ack_report.ud))
-++				return FALSE;
-++
-+			out->deliver_ack_report.udl = udl;
-+			memcpy(out->deliver_ack_report.ud,
-+					pdu + offset, expected);
++@@ -377,12 +378,15 @@ jpeg_parse_exif_app2_segment (JpegExifContext *context, jpeg_saved_marker_ptr ma
++	/* copy the segment data to the profile space */
++	memcpy (context->icc_profile + offset, marker->data + 14, chunk_size);
++
++-	/* it's now this big plus the new data we've just copied */
++-	context->icc_profile_size += chunk_size;
+++        context->icc_profile_size = MAX (context->icc_profile_size, offset + chunk_size);
++
++	/* success */
++	ret = TRUE;
++ out:
+++        if (!ret) {
+++                g_free (context->icc_profile);
+++                context->icc_profile = NULL;
+++        }
++	return ret;
++ }
++
 +--
-+2.30.2
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.34.bb b/meta/recipes-connectivity/ofono/ofono_1.34.bb
-index 8a298bfade..a3edf4ab5d 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.34.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.34.bb
-@@ -27,6 +27,7 @@ SRC_URI = "\
-     file://CVE-2024-7540_CVE-2024-7541_CVE-2024-7542.patch \
-     file://CVE-2024-7537.patch \
-     file://CVE-2023-4232.patch \
-+    file://CVE-2023-4235.patch \
- "
- SRC_URI[sha256sum] = "c0b96d3013447ec2bcb74579bef90e4e59c68dbfa4b9c6fbce5d12401a43aac7"
++2.40.0
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+index cca89a9059..471d72d8dd 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+@@ -20,6 +20,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            file://fatal-loader.patch \
+            file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch \
++           file://CVE-2025-7345.patch \
+            "
  
+ SRC_URI[sha256sum] = "ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b"
 -- 
 2.43.0
 
