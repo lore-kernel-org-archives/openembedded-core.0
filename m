@@ -1,104 +1,216 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F8E2C83F21
-	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 14:14:38 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.9524.1752588871560518110
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB0AC83F17
+	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 14:31:48 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.10201.1752589903623446248
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 07:14:32 -0700
+ Tue, 15 Jul 2025 07:31:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Yrye8t5W;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AF6FF43987;
-	Tue, 15 Jul 2025 14:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1752588868;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SUDcAmlhAfOW6VPFh1aqSel4wrHxxyXQlxKMT3NK8CM=;
-	b=Yrye8t5W8zfoly8kvJeuoZbxQdC4iVvu8Z4Z31PW9vMODk/rp6JNskxTd3Eeb+t/0ugotc
-	yBLUzZeh/Ec0qQuWdDi0TQC2k2T5Hdbg/C6U7X9ZYJ88oc4ETU+KsFpiLmturogdrUZAQJ
-	7Nk6EmN2EfKiofjOR9QKrpRqBsKVGs++cmceTLWK6FMLCH7KtStEZwzwAIToberBp28oaQ
-	Ci/tVXQONT+afloySgE1ne7VQj8ERU2whAJNWnPw+9JbQUa4iWE2WZ82/jB4U+lDYedlwm
-	sqdPYTRZanhEsjC90/OYZ8cBx3tg3Zd3DlOA2PyNfQQRvw6+5hfvltsgafud+w==
-Mime-Version: 1.0
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7275712FC
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 07:31:34 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BDF383F694
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 07:31:42 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libclc: split out of clang
+Date: Tue, 15 Jul 2025 15:31:38 +0100
+Message-ID: <20250715143139.1829393-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 15 Jul 2025 16:14:27 +0200
-Message-Id: <DBCOWIPUT0N8.ZG0EWT6KR0Y@bootlin.com>
-Subject: Re: [OE-core] [PATCH 06/19] hwlatdetect: upgrade 2.8 -> 2.9
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250715080819.622-1-wangmy@fujitsu.com>
- <20250715080819.622-6-wangmy@fujitsu.com>
-In-Reply-To: <20250715080819.622-6-wangmy@fujitsu.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehhedtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpegggfgtfffkuffhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepfedukeejieelhfduiefhhfefheegueduvdelteevgedvlefhledvtefhtefgleehnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdpkhgvrhhnvghlrdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepfigrnhhgmhihsehfuhhjihhtshhurdgtohhmpdhrtghpt
- hhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 14:14:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220297
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 14:31:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220298
 
-On Tue Jul 15, 2025 at 10:08 AM CEST, wangmy via lists.openembedded.org wro=
-te:
-> From: Wang Mingyu <wangmy@fujitsu.com>
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  meta/recipes-rt/rt-tests/rt-tests.inc | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-t=
-ests/rt-tests.inc
-> index a2e8558c4c..2042768d5a 100644
-> --- a/meta/recipes-rt/rt-tests/rt-tests.inc
-> +++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-> @@ -1,6 +1,6 @@
-> -SRCREV =3D "f5b910a90b6f5ab0ef6df392e009ffe1429d53af"
-> -PV =3D "2.8"
-> +SRCREV =3D "9166c3f0bb9c5d3e31dc80aff165a5073b5ac5be"
-> +PV =3D "2.9"
->  PE =3D "1"
-> =20
-> -SRC_URI =3D "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;br=
-anch=3Dmain;protocol=3Dhttps"
-> +SRC_URI =3D "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;br=
-anch=3Dmain;protocol=3Dhttps;tag=3Dv${PV}"
-> =20
+Split the libclc subproject out of the clang recipe and into a dedicated
+libclc recipe.
 
-Hi Wang,
+Verified that nothing is dropped by adding clang and libclc to an image
+and verifying that the file list is the same before and after this
+change.
 
-Thanks for the recipe update.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/conf/distro/include/maintainers.inc  |  1 +
+ meta/recipes-devtools/clang/clang_git.bb  | 17 +++----
+ meta/recipes-devtools/clang/libclc_git.bb | 54 +++++++++++++++++++++++
+ 3 files changed, 61 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-devtools/clang/libclc_git.bb
 
-It looks like there is some issue when applying the
-0001-sched_attr-Do-not-define-for-glibc-2.41.patch patch after this
-update:
-
-ERROR: lib32-rt-tests-1_2.9-r0 do_patch: Applying patch '0001-sched_attr-Do=
--not-define-for-glibc-2.41.patch' on target directory '/srv/pokybuild/yocto=
--worker/qemux86-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-rt-t=
-ests/2.9/sources/rt-tests-2.9'
-...
-Hunk #1 FAILED at 42.
-Hunk #2 succeeded at 72 with fuzz 2 (offset 4 lines).
-1 out of 2 hunks FAILED -- rejects in file src/include/rt-sched.h
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/2025
-
-Can you fix this build issue please?
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index f49d7317ee9..67f392161c4 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -328,6 +328,7 @@ RECIPE_MAINTAINER:pn-libcap-ng =3D "Yi Zhao <yi.zhao@=
+windriver.com>"
+ RECIPE_MAINTAINER:pn-libcap-ng-python =3D "Yi Zhao <yi.zhao@windriver.co=
+m>"
+ RECIPE_MAINTAINER:pn-libcgroup =3D "Unassigned <unassigned@yoctoproject.=
+org>"
+ RECIPE_MAINTAINER:pn-libcheck =3D "Yi Zhao <yi.zhao@windriver.com>"
++RECIPE_MAINTAINER:pn-libclc =3D "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-libcomps =3D "Unassigned <unassigned@yoctoproject.o=
+rg>"
+ RECIPE_MAINTAINER:pn-libconvert-asn1-perl =3D "Tim Orling <tim.orling@ko=
+nsulko.com>"
+ RECIPE_MAINTAINER:pn-libcxx =3D "Khem Raj <raj.khem@gmail.com>"
+diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devt=
+ools/clang/clang_git.bb
+index 1daac48edaf..4cbe22f4546 100644
+--- a/meta/recipes-devtools/clang/clang_git.bb
++++ b/meta/recipes-devtools/clang/clang_git.bb
+@@ -130,7 +130,7 @@ HF[vardepvalue] =3D "${HF}"
+=20
+ # Ensure that LLVM_PROJECTS does not contain compiler runtime components=
+ e.g. libcxx etc
+ # they are enabled via LLVM_ENABLE_RUNTIMES
+-LLVM_PROJECTS ?=3D "clang;clang-tools-extra;libclc;lld"
++LLVM_PROJECTS ?=3D "clang;clang-tools-extra;lld"
+=20
+ # linux hosts (.so) on Windows .pyd
+ SOLIBSDEV:mingw32 =3D ".pyd"
+@@ -191,7 +191,7 @@ EXTRA_OECMAKE:append:class-target =3D "\
+=20
+ DEPENDS =3D "binutils zlib zstd libffi libxml2 libxml2-native ninja-nati=
+ve swig-native spirv-tools-native llvm-tblgen-native"
+ DEPENDS:append:class-nativesdk =3D " clang-crosssdk-${SDK_SYS} virtual/n=
+ativesdk-cross-binutils nativesdk-python3"
+-DEPENDS:append:class-target =3D " clang-cross-${TARGET_ARCH} python3 ${@=
+bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compiler-rt libcxx', '', d)}=
+ spirv-llvm-translator-native"
++DEPENDS:append:class-target =3D " clang-cross-${TARGET_ARCH} python3 ${@=
+bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compiler-rt libcxx', '', d)}=
+"
+=20
+ RRECOMMENDS:${PN} =3D "binutils"
+ RRECOMMENDS:${PN}:append:class-target =3D "${@bb.utils.contains('TC_CXX_=
+RUNTIME', 'llvm', ' libcxx-dev', '', d)}"
+@@ -258,7 +258,6 @@ do_install:append:class-native () {
+         install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clangd-indexer ${D}${b=
+indir}/clangd-indexer
+     fi
+     install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clang-tidy-confusable-char=
+s-gen ${D}${bindir}/clang-tidy-confusable-chars-gen
+-    install -Dm 0755 ${B}${BINPATHPREFIX}/bin/prepare_builtins ${D}${bin=
+dir}/prepare_builtins
+=20
+     for f in `find ${D}${bindir} -executable -type f -not -type l`; do
+         test -n "`file -b $f|grep -i ELF`" && ${STRIP} $f
+@@ -294,11 +293,11 @@ do_install:append:class-nativesdk () {
+     fi
+ }
+=20
+-PROVIDES:append:class-native =3D " llvm-native libclc-native"
+-PROVIDES:append:class-target =3D " llvm libclc"
+-PROVIDES:append:class-nativesdk =3D " nativesdk-llvm nativesdk-libclc"
++PROVIDES:append:class-native =3D " llvm-native"
++PROVIDES:append:class-target =3D " llvm"
++PROVIDES:append:class-nativesdk =3D " nativesdk-llvm"
+=20
+-PACKAGES =3D+ "${PN}-libllvm ${PN}-libclang-python ${PN}-libclang-cpp ${=
+PN}-tidy ${PN}-format ${PN}-tools ${PN}-clc \
++PACKAGES =3D+ "${PN}-libllvm ${PN}-libclang-python ${PN}-libclang-cpp ${=
+PN}-tidy ${PN}-format ${PN}-tools \
+              libclang llvm-linker-tools"
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+@@ -315,8 +314,6 @@ RDEPENDS:${PN}-tools +=3D "\
+   perl-module-term-ansicolor \
+ "
+=20
+-RPROVIDES:${PN}-clc =3D "${MLPREFIX}libclc"
+-
+ RRECOMMENDS:${PN}-tidy +=3D "${PN}-tools"
+=20
+ FILES:llvm-linker-tools =3D "${libdir}/LLVMgold* ${libdir}/libLTO.so.* $=
+{libdir}/LLVMPolly*"
+@@ -383,8 +380,6 @@ FILES:${PN} +=3D "\
+   ${nonarch_libdir}/${BPN}/*/include/ \
+ "
+=20
+-FILES:${PN}-clc +=3D "${datadir}/clc"
+-
+ FILES:${PN}-libllvm =3D+ "\
+   ${libdir}/libLLVM.so.${MAJOR_VER}.${MINOR_VER} \
+   ${libdir}/libLLVM-${MAJOR_VER}.so \
+diff --git a/meta/recipes-devtools/clang/libclc_git.bb b/meta/recipes-dev=
+tools/clang/libclc_git.bb
+new file mode 100644
+index 00000000000..da849ba6ce8
+--- /dev/null
++++ b/meta/recipes-devtools/clang/libclc_git.bb
+@@ -0,0 +1,54 @@
++SUMMARY =3D "Implementation of the library requirements of the OpenCL C =
+programming language."
++HOMEPAGE =3D "https://libclc.llvm.org"
++SECTION =3D "devel"
++
++require common-clang.inc
++require common-source.inc
++
++LIC_FILES_CHKSUM =3D "file://libclc/LICENSE.TXT;md5=3D7cc795f6cbb2d801d8=
+4336b83c8017db"
++
++inherit cmake pkgconfig
++
++TOOLCHAIN =3D "clang"
++
++# The clang dependency is actually just target LLVM
++DEPENDS +=3D "clang spirv-llvm-translator-native"
++
++OECMAKE_SOURCEPATH =3D "${S}/libclc"
++
++# Semicolon-separated list of targets to build
++LIBCLC_TARGETS ?=3D "all"
++
++EXTRA_OECMAKE =3D "\
++    -DLLVM_DIR=3D${STAGING_LIBDIR}/cmake/llvm/ \
++    -DLIBCLC_TARGETS_TO_BUILD=3D${LIBCLC_TARGETS} \
++"
++
++# Until the target LLVMConfig.cmake points to the correct native directo=
+ry for
++# the binaries, we need to specify their location manually.
++EXTRA_OECMAKE:append:class-target =3D "\
++    -DLLVM_TOOL_clang=3D${STAGING_BINDIR_TOOLCHAIN}/${HOST_PREFIX}clang =
+\
++    -DLLVM_TOOL_llvm-as=3D${STAGING_BINDIR_TOOLCHAIN}/${HOST_PREFIX}llvm=
+-as \
++    -DLLVM_TOOL_llvm-link=3D${STAGING_BINDIR_NATIVE}/llvm-link \
++    -DLLVM_TOOL_opt=3D${STAGING_BINDIR_NATIVE}/opt \
++"
++
++# Need to build a native prepare_builtins binary in target builds. The e=
+asiest
++# way to do this is with a second native cmake build tree.
++PATH .=3D ":${B}/native"
++
++do_build_prepare_builtins() {
++    cmake -G Ninja \
++        -S ${OECMAKE_SOURCEPATH} -B ${B}/native/ \
++        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=3D${WORKDIR}/toolchain-native.cm=
+ake \
++        -DLIBCLC_TARGETS_TO_BUILD=3D
++    cmake --build ${B}/native --target prepare_builtins
++}
++do_build_prepare_builtins:class-native() {
++    :
++}
++addtask build_prepare_builtins after do_configure before do_compile
++
++FILES:${PN} +=3D "${datadir}/clc"
++
++BBCLASSEXTEND =3D "native nativesdk"
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
 
 
