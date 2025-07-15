@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C823CC87FD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E733BC83F3D
 	for <webhook@archiver.kernel.org>; Tue, 15 Jul 2025 15:55:50 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.12183.1752594945313212933
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.12494.1752594941910664380
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Jul 2025 08:55:45 -0700
+ Tue, 15 Jul 2025 08:55:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=X7i8Q1rz;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=h1RJptKT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101980ecc92b2-49a919a3-63a9-4a89-8262-10245f17be49-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=pf13X+RS;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=UZLZi163;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101980ecc902a-b066dc93-60f7-43ef-88a1-74fea78b2d24-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1752594944;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3sFIgpXfp/FP6Uqg93LT8M4P+8TRY4ZeuRjKJFC4ASU=;
-	b=X7i8Q1rzk1qU0N8sv38z3k7kZzkBCwuWNicw17cOUBfmoQEBAIOphVwG8FE7GbEt
-	G/KoRXNv4Hk/hCzW5T/KqCX+m2Ya5JXidHXsZH6/H8EOrLfpNgU7C2ui14G9QfSnlg/
-	J6gsI2HJXYMZHYD9oX0LFPfCuO0cr+vmr21zhaPg=
+	bh=jnVJBZ7Nh9k6r6ZIoAapw382lMGa5V702+IQZhsmiUc=;
+	b=pf13X+RSY1U5M+jeSyJkZhyuNqSOrXSuSejSorEHEldLtNaV5ENkQjX78u147wOU
+	d/O5zGzrOxGu3UkYmTl5rsTkmP9+s8eqJOToBofZTiJgQdBqCoKBg/rVnEFyk/GRjE0
+	AvEySTLPXOzPRSqgbwE/PeanDxgR2Ftpgq/lQ3NI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1752594944;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3sFIgpXfp/FP6Uqg93LT8M4P+8TRY4ZeuRjKJFC4ASU=;
-	b=h1RJptKTPy6A3NR9gBxDzJG9/krgJfwdh6/Slz5l2E04VH/uJu+ConHFXPrLuwgV
-	bbc5tLmmQyM5ZrHoPGC0YtHuqvR2WiiRL2vmdu1NLid9IeBQLbDwzCml2U17cmAECXo
-	eemaEPs09i1g4A2MCnr2wmfCuXW17rYbXP+3Yf/k=
-Content-Type: multipart/mixed; boundary="===============6323160863791725994=="
+	bh=jnVJBZ7Nh9k6r6ZIoAapw382lMGa5V702+IQZhsmiUc=;
+	b=UZLZi163itFnfQnFssJgeJhLRD29mcCkQ7UsboViQ2PH1G6cBK0YPlsv08usJhEB
+	R0AkhszdmaeYrLnQ+npcFEIIeQF19xIDx7k4/SmSAWxNyBLHAH0A//mRKfol6V3CGi5
+	WzGhUHdIjRowpHrcIQYtU/hW7bR5YXmqJJpY+k+g=
+Content-Type: multipart/mixed; boundary="===============4700930945063757349=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] tcf-agent: upgrading to 1.9.0 FAILED
-Message-ID: <010101980ecc92b2-49a919a3-63a9-4a89-8262-10245f17be49-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-zipp: upgrading to 3.23.0 FAILED
+Message-ID: <010101980ecc902a-b066dc93-60f7-43ef-88a1-74fea78b2d24-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Jul 2025 15:55:44 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.15-54.240.27.30
+X-SES-Outgoing: 2025.07.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Jul 2025 15:55:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220358
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220354
 
---===============6323160863791725994==
+--===============4700930945063757349==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *tcf-agent* to *1.9.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *python3-zipp* to *3.23.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-tcf-agent-upgrade-1.8.0-1.9.0.patch
+    - apply the patch: git am 0001-python3-zipp-upgrade-3.21.0-3.23.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,141 +78,87 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ec70b24358edc08703d18eb030e9402a9ddb8f83 Mon Sep 17 00:00:00 2001
+From 80b884883ae730091264767451560eae71e5466b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Jul 2025 10:34:55 +0000
-Subject: [PATCH] tcf-agent: upgrade 1.8.0 -> 1.9.0
+Date: Tue, 15 Jul 2025 10:21:53 +0000
+Subject: [PATCH] python3-zipp: upgrade 3.21.0 -> 3.23.0
 
 ---
- .../tcf-agent/tcf-agent/ldflags.patch         | 22 +++++++++----------
- ...{tcf-agent_1.8.0.bb => tcf-agent_1.9.0.bb} |  2 +-
- 2 files changed, 11 insertions(+), 13 deletions(-)
- rename meta/recipes-devtools/tcf-agent/{tcf-agent_1.8.0.bb => tcf-agent_1.9.0.bb} (98%)
+ ...-zipp_3.21.0.bb => python3-zipp_3.23.0.bb} | 51 ++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-zipp_3.21.0.bb => python3-zipp_3.23.0.bb} (10%)
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
-index d701e8dec0..3fa292a95e 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
-@@ -1,29 +1,27 @@
-+From b241201ebeffec2f7c6282f9e3f1198661002175 Mon Sep 17 00:00:00 2001
-+From: Abdur Rehman <abdur_rehman@mentor.com>
-+Date: Wed, 26 Aug 2015 19:18:11 +0500
-+Subject: [PATCH] tcf-agent: obey LDFLAGS
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.21.0.bb b/meta/recipes-devtools/python/python3-zipp_3.23.0.bb
+similarity index 10%
+rename from meta/recipes-devtools/python/python3-zipp_3.21.0.bb
+rename to meta/recipes-devtools/python/python3-zipp_3.23.0.bb
+index 135a1ae533..10ce36680b 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.21.0.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.23.0.bb
+@@ -1,9 +1,56 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,17 +1,18 @@
++# -Permission is hereby granted, free of charge, to any person obtaining a copy
++# -of this software and associated documentation files (the "Software"), to
++# -deal in the Software without restriction, including without limitation the
++# -rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
++# -sell copies of the Software, and to permit persons to whom the Software is
++# -furnished to do so, subject to the following conditions:
++# +MIT License
++#  
++# -The above copyright notice and this permission notice shall be included in
++# -all copies or substantial portions of the Software.
++# +Copyright (c) 2025 <copyright holders>
++#  
++# -THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# -IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# -FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++# -AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++# -LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++# -FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
++# -IN THE SOFTWARE.
++# +Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
++# +associated documentation files (the "Software"), to deal in the Software without restriction, including
++# +without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++# +copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
++# +following conditions:
++# +
++# +The above copyright notice and this permission notice shall be included in all copies or substantial
++# +portions of the Software.
++# +
++# +THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
++# +LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
++# +EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
++# +IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++# +USE OR OTHER DEALINGS IN THE SOFTWARE.
++# 
++#
 +
- We need LDFLAGS to be respected otherwise there are QA warnings as the right
- flags don't get used.
+ SUMMARY = "Backport of pathlib-compatible object wrapper for zip files"
+ HOMEPAGE = "https://github.com/jaraco/zipp"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1aeae65f25a15b1e46d4381f2f094e0a"
  
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
+-SRC_URI[sha256sum] = "2c9958f6430a2040341a52eb608ed6dd93ef4392e02ffe219417c1b28b5dd1f4"
++SRC_URI[sha256sum] = "a07157588a12518c9d4034df3fbbee09c814741a33ff63c05fa29d26a2404166"
  
--From d92af0483c20365fd0af740d0baef8870b4aa374 Mon Sep 17 00:00:00 2001
--From: Abdur Rehman <abdur_rehman@mentor.com>
--Date: Wed, 26 Aug 2015 19:18:11 +0500
--Subject: [PATCH] tcf-agent: obey LDFLAGS
--
- Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
+ DEPENDS += "python3-setuptools-scm-native"
  
- Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
- 
- Signed-off-by: Mark hatle <mark.hatle@amd.com>
--
--
- ---
-- Makefile.inc |    2 +-
-+ agent/Makefile.inc | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--Index: agent/Makefile.inc
--===================================================================
----- agent.orig/Makefile.inc
--+++ agent/Makefile.inc
-+diff --git a/agent/Makefile.inc b/agent/Makefile.inc
-+index 76b88618..6dce28f5 100644
-+--- a/agent/Makefile.inc
-++++ b/agent/Makefile.inc
- @@ -111,7 +111,7 @@ NO_LINK_F   ?= -c
-  # Linker definition and flags
-  
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb
-rename to meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
-index f008c0c6de..e0a215fa26 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
- LICENSE = "EPL-1.0 | BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
- 
--SRCREV = "1f11747e83ebf4f53e8d17f430136f92ec378709"
-+SRCREV = "9076423f959d53aafa4000d6bb8bf2a1485971b9"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=master \
 -- 
 2.47.1
 
 
---===============6323160863791725994==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-tcf-agent-upgrade-1.8.0-1.9.0.patch"
-
-RnJvbSBlYzcwYjI0MzU4ZWRjMDg3MDNkMThlYjAzMGU5NDAyYTlkZGI4ZjgzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTA6MzQ6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
-Y2YtYWdlbnQ6IHVwZ3JhZGUgMS44LjAgLT4gMS45LjAKCi0tLQogLi4uL3RjZi1hZ2VudC90Y2Yt
-YWdlbnQvbGRmbGFncy5wYXRjaCAgICAgICAgIHwgMjIgKysrKysrKysrLS0tLS0tLS0tLQogLi4u
-e3RjZi1hZ2VudF8xLjguMC5iYiA9PiB0Y2YtYWdlbnRfMS45LjAuYmJ9IHwgIDIgKy0KIDIgZmls
-ZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC97dGNmLWFnZW50XzEuOC4wLmJiID0+IHRjZi1h
-Z2VudF8xLjkuMC5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-dGNmLWFnZW50L3RjZi1hZ2VudC9sZGZsYWdzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3RjZi1hZ2VudC90Y2YtYWdlbnQvbGRmbGFncy5wYXRjaAppbmRleCBkNzAxZThkZWMwLi4zZmEy
-OTJhOTVlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1h
-Z2VudC9sZGZsYWdzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2YtYWdlbnQv
-dGNmLWFnZW50L2xkZmxhZ3MucGF0Y2gKQEAgLTEsMjkgKzEsMjcgQEAKK0Zyb20gYjI0MTIwMWVi
-ZWZmZWMyZjdjNjI4MmY5ZTNmMTE5ODY2MTAwMjE3NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb206IEFiZHVyIFJlaG1hbiA8YWJkdXJfcmVobWFuQG1lbnRvci5jb20+CitEYXRlOiBXZWQs
-IDI2IEF1ZyAyMDE1IDE5OjE4OjExICswNTAwCitTdWJqZWN0OiBbUEFUQ0hdIHRjZi1hZ2VudDog
-b2JleSBMREZMQUdTCisKIFdlIG5lZWQgTERGTEFHUyB0byBiZSByZXNwZWN0ZWQgb3RoZXJ3aXNl
-IHRoZXJlIGFyZSBRQSB3YXJuaW5ncyBhcyB0aGUgcmlnaHQKIGZsYWdzIGRvbid0IGdldCB1c2Vk
-LgogCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW29lLWNvcmUgc3BlY2lmaWNdCiBT
-aWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KIAotRnJvbSBk
-OTJhZjA0ODNjMjAzNjVmZDBhZjc0MGQwYmFlZjg4NzBiNGFhMzc0IE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQotRnJvbTogQWJkdXIgUmVobWFuIDxhYmR1cl9yZWhtYW5AbWVudG9yLmNvbT4KLURh
-dGU6IFdlZCwgMjYgQXVnIDIwMTUgMTk6MTg6MTEgKzA1MDAKLVN1YmplY3Q6IFtQQVRDSF0gdGNm
-LWFnZW50OiBvYmV5IExERkxBR1MKLQogU2lnbmVkLW9mZi1ieTogQWJkdXIgUmVobWFuIDxhYmR1
-cl9yZWhtYW5AbWVudG9yLmNvbT4KIAogUmViYXNlZCB0byA0YTJjNGJhYWNjYmM4YzI5Y2UwMjk3
-NzA1ZGU5YTRlMDk2ZDU3Y2U1IHZlcnNpb24KIAogU2lnbmVkLW9mZi1ieTogTWFyayBoYXRsZSA8
-bWFyay5oYXRsZUBhbWQuY29tPgotCi0KIC0tLQotIE1ha2VmaWxlLmluYyB8ICAgIDIgKy0KKyBh
-Z2VudC9NYWtlZmlsZS5pbmMgfCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pCiAKLUluZGV4OiBhZ2VudC9NYWtlZmlsZS5pbmMKLT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
-LS0tLSBhZ2VudC5vcmlnL01ha2VmaWxlLmluYwotKysrIGFnZW50L01ha2VmaWxlLmluYworZGlm
-ZiAtLWdpdCBhL2FnZW50L01ha2VmaWxlLmluYyBiL2FnZW50L01ha2VmaWxlLmluYworaW5kZXgg
-NzZiODg2MTguLjZkY2UyOGY1IDEwMDY0NAorLS0tIGEvYWdlbnQvTWFrZWZpbGUuaW5jCisrKysg
-Yi9hZ2VudC9NYWtlZmlsZS5pbmMKIEBAIC0xMTEsNyArMTExLDcgQEAgTk9fTElOS19GICAgPz0g
-LWMKICAjIExpbmtlciBkZWZpbml0aW9uIGFuZCBmbGFncwogIApkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnRfMS44LjAuYmIgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2VudF8xLjkuMC5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2Vu
-dF8xLjguMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2Yt
-YWdlbnRfMS45LjAuYmIKaW5kZXggZjAwOGMwYzZkZS4uZTBhMjE1ZmEyNiAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnRfMS44LjAuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnRfMS45LjAuYmIKQEAgLTYs
-NyArNiw3IEBAIEJVR1RSQUNLRVIgPSAiaHR0cHM6Ly9idWdzLmVjbGlwc2Uub3JnL2J1Z3MvIgog
-TElDRU5TRSA9ICJFUEwtMS4wIHwgQlNELTMtQ2xhdXNlIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vZWRsLXYxMC5odG1sO21kNT01MjJhMzkwYTgzZGMxODY1MTNmMDUwMDU0M2FkMzY3OSIK
-IAotU1JDUkVWID0gIjFmMTE3NDdlODNlYmY0ZjUzZThkMTdmNDMwMTM2ZjkyZWMzNzg3MDkiCitT
-UkNSRVYgPSAiOTA3NjQyM2Y5NTlkNTNhYWZhNDAwMGQ2YmI4YmYyYTE0ODU5NzFiOSIKIAogVVBT
-VFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+KFxkKyhcLlxkKykrKSkiCiBTUkNf
-VVJJID0gImdpdDovL2dpdGxhYi5lY2xpcHNlLm9yZy9lY2xpcHNlL3RjZi90Y2YuYWdlbnQuZ2l0
-O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXIgXAotLSAKMi40Ny4xCgo=
-
---===============6323160863791725994==
+--===============4700930945063757349==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -220,7 +166,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1928 entries from dependency cache.
+Loaded 1930 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 941 .bb files complete (940 cached, 1 parsed). 1928 targets, 42 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-64 sysroot...done.
@@ -234,89 +180,168 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-c5029064dc1fa4ec38dac473725adf1229067be8"
+DISTRO_VERSION       = "5.2.99+snapshot-a7907a5ac9f9a8d33a5e7f27b5e61772ea3f93f8"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:c5029064dc1fa4ec38dac473725adf1229067be8"
+workspace            = "tmp-auh-upgrades:a7907a5ac9f9a8d33a5e7f27b5e61772ea3f93f8"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 188 Local 175 Mirrors 0 Missed 13 Current 348 (93% match, 97% complete)
+Sstate summary: Wanted 278 Local 265 Mirrors 0 Missed 13 Current 375 (95% match, 98% complete)
 done.
 NOTE: Executing Tasks
 NOTE: Setscene tasks completed
-NOTE: Running task 1239 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_recipe_qa)
-NOTE: recipe tcf-agent-1.9.0-r0: task do_recipe_qa: Started
-NOTE: recipe tcf-agent-1.9.0-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_recipe_qa unihash changed to 87f68c1084e655072422f00adea44856d331e9ae7ccbf232ba8d62191e218d5c
+NOTE: Running task 1465 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_recipe_qa)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_recipe_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_recipe_qa unihash changed to 8f7125287f2b02cb42335c658341c384ba7828ed06c212e30d018daa7100503e
 NOTE: Setscene tasks completed
-NOTE: Running task 1525 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_fetch)
-NOTE: recipe tcf-agent-1.9.0-r0: task do_fetch: Started
-NOTE: recipe tcf-agent-1.9.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1526 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_unpack)
-NOTE: Running task 1527 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe tcf-agent-1.9.0-r0: task do_unpack: Started
-NOTE: recipe tcf-agent-1.9.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe tcf-agent-1.9.0-r0: task do_unpack: Succeeded
-NOTE: recipe tcf-agent-1.9.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1528 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_patch)
-NOTE: Running task 1529 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_collect_spdx_deps)
-NOTE: recipe tcf-agent-1.9.0-r0: task do_patch: Started
-NOTE: recipe tcf-agent-1.9.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe tcf-agent-1.9.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe tcf-agent-1.9.0-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1529 tasks of which 1523 didn't need to be rerun and 1 failed.
+NOTE: Running task 1841 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_fetch)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_fetch: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1854 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_unpack)
+NOTE: Running task 1855 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_unpack: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1856 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_patch)
+NOTE: Running task 1857 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_collect_spdx_deps)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_patch: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-zipp-3.23.0-r0: task do_patch: Succeeded
+NOTE: Running task 1858 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1859 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_populate_lic)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_populate_lic unihash changed to 2df370c6352ff32e3d15ffc5e51aa3336863ee57965f7bf4ba0fb955ef50335b
+NOTE: recipe python3-zipp-3.23.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_deploy_source_date_epoch unihash changed to b4c6e94594f4e205199ed2bd0b8c199cef20b8a7bd3dacd52a412cf3bff9805d
+NOTE: Setscene tasks completed
+NOTE: Running task 1860 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_configure)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_configure: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_configure: Succeeded
+NOTE: Running task 1861 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_compile)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| running egg_info
+| writing zipp.egg-info/PKG-INFO
+| writing dependency_links to zipp.egg-info/dependency_links.txt
+| writing requirements to zipp.egg-info/requires.txt
+| writing top-level names to zipp.egg-info/top_level.txt
+| ERROR setuptools_scm._file_finders.git listing git files failed - pretending there aren't any
+| reading manifest file 'zipp.egg-info/SOURCES.txt'
+| adding license file 'LICENSE'
+| writing manifest file 'zipp.egg-info/SOURCES.txt'
+| 
+| ERROR Missing dependencies:
+| 	coherent.licensed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.690013:158 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/sources/zipp-3.23.0'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.690013, line 158
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.690013, line 153
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.690013, line 169
+NOTE: recipe python3-zipp-3.23.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1861 tasks of which 1851 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715103442.txt
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715102138.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715103442.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250715102138.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/temp/log.do_patch.811229
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/log.do_compile.690013
 Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: tcf-agent-1.9.0-r0 do_patch: Applying patch 'ldflags.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/sources/tcf-agent-1.9.0/agent'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/recipe-sysroot-native/etc/quiltrc push', 0, "stdout: Applying patch ldflags.patch
-can't find file to patch at input line 25
-Perhaps you used the wrong -p or --strip option?
-The text leading up to this was:
---------------------------
-|From b241201ebeffec2f7c6282f9e3f1198661002175 Mon Sep 17 00:00:00 2001
-|From: Abdur Rehman <abdur_rehman@mentor.com>
-|Date: Wed, 26 Aug 2015 19:18:11 +0500
-|Subject: [PATCH] tcf-agent: obey LDFLAGS
-|
-|We need LDFLAGS to be respected otherwise there are QA warnings as the right
-|flags don't get used.
-|
-|Upstream-Status: Inappropriate [oe-core specific]
-|Signed-off-by: Ross Burton <ross.burton@arm.com>
-|
-|Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
-|
-|Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
-|
-|Signed-off-by: Mark hatle <mark.hatle@amd.com>
-|---
-| agent/Makefile.inc | 2 +-
-| 1 file changed, 1 insertion(+), 1 deletion(-)
-|
-|diff --git a/agent/Makefile.inc b/agent/Makefile.inc
-|index 76b88618..6dce28f5 100644
-|--- a/agent/Makefile.inc
-|+++ b/agent/Makefile.inc
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-Patch ldflags.patch does not apply (enforce with -f)
+ERROR: python3-zipp-3.23.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.690013' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/log.do_compile.690013
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_compile) failed with exit code '1'
 
-stderr: ")
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/temp/log.do_patch.811229
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_patch) failed with exit code '1'
+--===============4700930945063757349==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-zipp-upgrade-3.21.0-3.23.0.patch"
 
---===============6323160863791725994==--
+RnJvbSA4MGI4ODQ4ODNhZTczMDA5MTI2NDc2NzQ1MTU2MGVhZTcxZTU0NjZiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgSnVsIDIwMjUgMTA6MjE6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXppcHA6IHVwZ3JhZGUgMy4yMS4wIC0+IDMuMjMuMAoKLS0tCiAuLi4temlwcF8zLjIx
+LjAuYmIgPT4gcHl0aG9uMy16aXBwXzMuMjMuMC5iYn0gfCA1MSArKysrKysrKysrKysrKysrKyst
+CiAxIGZpbGUgY2hhbmdlZCwgNDkgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXppcHBfMy4yMS4wLmJiID0+
+IHB5dGhvbjMtemlwcF8zLjIzLjAuYmJ9ICgxMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4yMS4wLmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4yMy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggMTAl
+CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMu
+MjEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXpp
+cHBfMy4yMy4wLmJiCmluZGV4IDEzNWExYWU1MzMuLjEwY2UzNjY4MGIgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMjEuMC5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjIzLjAuYmIKQEAgLTEs
+OSArMSw1NiBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVl
+biB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBk
+aWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBs
+ZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRo
+ZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicg
+dGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRl
+ZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UK
+KyMgQEAgLTEsMTcgKzEsMTggQEAKKyMgLVBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZy
+ZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhIGNvcHkKKyMgLW9mIHRoaXMg
+c29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2Fy
+ZSIpLCB0bworIyAtZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5j
+bHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbiB0aGUKKyMgLXJpZ2h0cyB0byB1c2UsIGNvcHksIG1v
+ZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1YmxpY2Vuc2UsIGFuZC9vcgorIyAt
+c2VsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hv
+bSB0aGUgU29mdHdhcmUgaXMKKyMgLWZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVjdCB0byB0aGUg
+Zm9sbG93aW5nIGNvbmRpdGlvbnM6CisjICtNSVQgTGljZW5zZQorIyAgCisjIC1UaGUgYWJvdmUg
+Y29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBzaGFsbCBiZSBpbmNs
+dWRlZCBpbgorIyAtYWxsIGNvcGllcyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucyBvZiB0aGUgU29m
+dHdhcmUuCisjICtDb3B5cmlnaHQgKGMpIDIwMjUgPGNvcHlyaWdodCBob2xkZXJzPgorIyAgCisj
+IC1USEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBB
+TlkgS0lORCwgRVhQUkVTUyBPUgorIyAtSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRF
+RCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCisjIC1GSVRORVNTIEZPUiBB
+IFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VNRU5ULiBJTiBOTyBFVkVOVCBTSEFM
+TCBUSEUKKyMgLUFVVEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMgQkUgTElBQkxFIEZPUiBBTlkg
+Q0xBSU0sIERBTUFHRVMgT1IgT1RIRVIKKyMgLUxJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJ
+T04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HCisjIC1GUk9NLCBPVVQg
+T0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVS
+IERFQUxJTkdTCisjIC1JTiBUSEUgU09GVFdBUkUuCisjICtQZXJtaXNzaW9uIGlzIGhlcmVieSBn
+cmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYSBjb3B5IG9m
+IHRoaXMgc29mdHdhcmUgYW5kCisjICthc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRo
+ZSAiU29mdHdhcmUiKSwgdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlv
+biwgaW5jbHVkaW5nCisjICt3aXRob3V0IGxpbWl0YXRpb24gdGhlIHJpZ2h0cyB0byB1c2UsIGNv
+cHksIG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1YmxpY2Vuc2UsIGFuZC9v
+ciBzZWxsCisjICtjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMg
+dG8gd2hvbSB0aGUgU29mdHdhcmUgaXMgZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRo
+ZQorIyArZm9sbG93aW5nIGNvbmRpdGlvbnM6CisjICsKKyMgK1RoZSBhYm92ZSBjb3B5cmlnaHQg
+bm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIHNoYWxsIGJlIGluY2x1ZGVkIGluIGFs
+bCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwKKyMgK3BvcnRpb25zIG9mIHRoZSBTb2Z0d2FyZS4KKyMg
+KworIyArVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkg
+T0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IgSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QKKyMgK0xJ
+TUlURUQgVE8gVEhFIFdBUlJBTlRJRVMgT0YgTUVSQ0hBTlRBQklMSVRZLCBGSVRORVNTIEZPUiBB
+IFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VNRU5ULiBJTiBOTworIyArRVZFTlQg
+U0hBTEwgVEhFIEFVVEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMgQkUgTElBQkxFIEZPUiBBTlkg
+Q0xBSU0sIERBTUFHRVMgT1IgT1RIRVIgTElBQklMSVRZLCBXSEVUSEVSCisjICtJTiBBTiBBQ1RJ
+T04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sIE9VVCBPRiBP
+UiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRQorIyArVVNFIE9SIE9USEVS
+IERFQUxJTkdTIElOIFRIRSBTT0ZUV0FSRS4KKyMgCisjCisKIFNVTU1BUlkgPSAiQmFja3BvcnQg
+b2YgcGF0aGxpYi1jb21wYXRpYmxlIG9iamVjdCB3cmFwcGVyIGZvciB6aXAgZmlsZXMiCiBIT01F
+UEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vamFyYWNvL3ppcHAiCiBMSUNFTlNFID0gIk1JVCIK
+LUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTE0MTY0M2UxMWM0ODg5ODE1
+MGRhYTgzODAyZGJjNjVmIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9
+MWFlYWU2NWYyNWExNWIxZTQ2ZDQzODFmMmYwOTRlMGEiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICIyYzk5NThmNjQzMGEyMDQwMzQxYTUyZWI2MDhlZDZkZDkzZWY0MzkyZTAyZmZlMjE5NDE3YzFi
+MjhiNWRkMWY0IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImEwNzE1NzU4OGExMjUxOGM5ZDQwMzRk
+ZjNmYmJlZTA5YzgxNDc0MWEzM2ZmNjNjMDVmYTI5ZDI2YTI0MDQxNjYiCiAKIERFUEVORFMgKz0g
+InB5dGhvbjMtc2V0dXB0b29scy1zY20tbmF0aXZlIgogCi0tIAoyLjQ3LjEKCg==
+
+--===============4700930945063757349==--
 
