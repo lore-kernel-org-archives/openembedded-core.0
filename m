@@ -1,203 +1,160 @@
-Return-Path: <kamel.bouhara@bootlin.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C7C0C83F27
-	for <webhook@archiver.kernel.org>; Wed, 16 Jul 2025 14:30:36 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.23588.1752676228339650724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2CD2C83F27
+	for <webhook@archiver.kernel.org>; Wed, 16 Jul 2025 14:47:56 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.24174.1752677274164773772
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 07:30:28 -0700
+ Wed, 16 Jul 2025 07:47:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=c5yWuKY4;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: kamel.bouhara@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9C3F642E77;
-	Wed, 16 Jul 2025 14:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1752676226;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kf3ub9SZOULon4ldvBOu5cfxVFvOTpg4zZVXMmEOu4g=;
-	b=c5yWuKY44f43qorU+fYfohaKDvgB8isOw9hnzrKMikTTkmo6xk/eZMb9r4qbkkYM1EWuEH
-	rWPoP5aKeeKBLnpqTyRB0TyB0ys6+aSnnUQ4lOAtOMOEz7hcMaK9c78GnOp6Fm9KTk9bCs
-	d8merxDiXnfluGJBJWNPeoiGMU5RyP+aFCC3r5DZDV4hmT66SudAeKYr/ISq5z5iYFP1Rf
-	zeD4uH1b7MKKprlS++ijRGnOKKLD98vBJRJaklMzXEu6Ps6ITvUH2MT1NSfuH2hP5To/MB
-	Qv9aIM/0snZaPD/KLjswpS0vOojhQSNRkSACJgGUAGEjdFhIu8DN5vV27O7xxw==
-Date: Wed, 16 Jul 2025 16:30:24 +0200
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: bruce.ashfield@gmail.com
-Cc: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org,
-	JPEWhacker@gmail.com, thomas.petazzoni@bootlin.com,
-	mathieu.dubois-briand@bootlin.com, antonin.godard@bootlin.com
-Subject: Re: [OE-core] [PATCH 1/1] spdx3: Add optional kernel configuration
- export to build_parameter for virtual/kernel
-Message-ID: <20250716143024.GA504568@tpx1.home>
-References: <20250716090517.481832-1-kamel.bouhara@bootlin.com>
- <20250716090517.481832-2-kamel.bouhara@bootlin.com>
- <aHdwpmxe3-5x1P1e@nuoska>
- <20250716113437.GA491407@tpx1.home>
- <CADkTA4PYcTMOeYyRpDRt8wefnkQEcQkXqustRrS-gczfnig7MQ@mail.gmail.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=gc70NNvI;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56GDFLnt008209
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 14:47:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=s4fGUVGwkOqLk0+Gp3aXeLnrLd8i/fQyHFr
+	HmO1aG8U=; b=gc70NNvIPpm36CJx/aUi4haFRaCOtCe3H0subRYkeqfCDR41UnW
+	0IntETmSCFJZyC2Ox/Hh8oiEzbz86hOKPmimh9J108IHPM0fnlap/rqz/iLjROMB
+	klfYZER2fwp97FPoo754euoYvU/mieOeK7/MMjJHpHEgz529pePvIpinsVNxfI5W
+	AuTwS5NXghSz8c+IOXjllLy3AvGg7wQ65pySYSBLr7YThwyCQaOn/E7w8R5XTUqE
+	kqa3mFGknOozUWCJdSUcE9KllkOP0x6EzAGWKZqirJ9EdMPzxNdL1D1EmrzUlYza
+	K1viLKV7Oud/u5BiAIiUaoSVV2tLXvNMKqA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wnh5vhbm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 14:47:53 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5cd0f8961so1245606885a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 07:47:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752677272; x=1753282072;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s4fGUVGwkOqLk0+Gp3aXeLnrLd8i/fQyHFrHmO1aG8U=;
+        b=GEDh4ObHPsSRpn5NFm5OK8Vhxeb9OHLS3xGRuFDxjiJkz58Rd6mrwpmafEovF8sxig
+         9gfdx3hXHv6fNdGn+lnh68sV+WBBf8JvAHVY68+Dsy6L6pAYSm7FJ/drjeAdHx/cTiHg
+         bybjDcTYsjhhDODKLFyiHijxnVq9Nb9mgy5po74J0AMO9c1HVmOA2iQceT69j177AVZQ
+         9c/fzeM7gIopJYbObNwLhHRKxNVKs2NSZMKqoabfwOIU2J7cuDtKK8BI6zsUPTX1qgcb
+         kHGSbpKOAEJObXAi/1mCXKtxl+0BmcZsDoMuLtMVhxAR8b3+j92lPUEsFi7LT4GKpB2B
+         E9GA==
+X-Gm-Message-State: AOJu0YxUwZPU0FFtjAcir7EhXO7xpTHi6oEDrHMcF2mOTpgoGzC56rAL
+	oXxsrdymqvAnivpHo21OsSCyn2oxpJ1G7bwyzW/6+IEScvg25b7U9KBuykSZVbAH6hAtnefuJ4K
+	/jFclXUjAMVtYFREJ42PL654veipnkxwg7/uvO5ep49dc3hHRWGt3f3gHgeiKveUIAlRH8fTR4G
+	4TMEb3NzTD1K1jezA=
+X-Gm-Gg: ASbGncvXRrZLk3oSqcOm7P2tMfK5pbSH/LdDTNA70X2blEC4jqSTzlNfDbWZ9i+sS3U
+	o91uvUco6QmAUBeO3g2RebINaBIBu3v4JlTrOFPTtMD7BoiJd3sHh8BWKZo8p3LqPTFtjd+9Xdw
+	njEE2y6jdtgR17OjPoZ73gra8LmU4CBmwqju9oTHX8k2h8xMjeA0n37pI+XViSyfGiyIQdSLJLb
+	b8Mpmv5jeDnG8RNJvYGdHEQqFQqrxTpRVTYMsO5wNZq/8Xsl+9uifpTK18mXSou5QBjv+kosCvt
+	PgOLSWZbpKCfipK70VblxKvk0FOLkcADPIoeF94ArGQBkGzmHua/+y7rPN2OK0adGAMifxH3X3V
+	8pCjbjXY8zIPm7bDQPN08yYI/G9exfpZHn4pNkwZOmU+MQVuL4K4N
+X-Received: by 2002:a05:620a:2b8a:b0:7e3:2ee5:71b4 with SMTP id af79cd13be357-7e343350d76mr424406785a.8.1752677271661;
+        Wed, 16 Jul 2025 07:47:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHldpTH+VdrLbH2IUjWhzgJJxPOINJvrQC/HWgog94p0tbceX82noM7i2DEdqj8nLG7RbnCrA==
+X-Received: by 2002:a05:620a:2b8a:b0:7e3:2ee5:71b4 with SMTP id af79cd13be357-7e343350d76mr424400685a.8.1752677270941;
+        Wed, 16 Jul 2025 07:47:50 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32fab916bebsm20755231fa.105.2025.07.16.07.47.50
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 07:47:50 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] spirv-llvm-translator: drop tag from the SRC_URI
+Date: Wed, 16 Jul 2025 17:47:49 +0300
+Message-Id: <20250716144749.1880959-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADkTA4PYcTMOeYyRpDRt8wefnkQEcQkXqustRrS-gczfnig7MQ@mail.gmail.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehjeelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepmfgrmhgvlhcuuehouhhhrghrrgcuoehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeffueegvedujedufedtheegveekieehuedtueffffdvgeefueegleegkefgtedvkeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppeekkedrudeitddrvddvvddrvddvleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeekkedrudeitddrvddvvddrvddvledphhgvlhhopehtphiguddrhhhomhgvpdhmrghilhhfrhhomhepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepjedprhgtphhtthhopegsrhhutggvrdgrshhhfhhivghlugesghhmrghilhdrtghomhdprhgtphhtthhopehmihhkkhhordhrrghpvghliheslhhinhgrrhhordhorhhgpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheplffrgfghhhgrtghkvghrsehgm
- hgrihhlrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdprhgtphhtthhopegrnhhtohhnihhnrdhgohgurghrugessghoohhtlhhinhdrtghomh
-X-GND-Sasl: kamel.bouhara@bootlin.com
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=dKimmPZb c=1 sm=1 tr=0 ts=6877bb99 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=EUspDBNiAAAA:8 a=NEAV23lmAAAA:8 a=Fac8mkbmCVA-2DE_Y2kA:9
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: BxeQc13LFSUEzti78tIC8Io0X_Ci7PF1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE2MDEzMyBTYWx0ZWRfXxstmIM43ZLno
+ raR7SWC08yFsi7r10wITNV5UdBUP0wNU17n+RjJ8JyVEKrMdyIJFid0u7xs3mB9qngLbzmvUdfs
+ dfz1A+dD6F4z6uOQTW2ktmXNptLZMnifINKp/Aihx1ozetvZmYdJbp9G4iafraYgYAluqPzpEEa
+ DE57PdQC7SSmwYKD5N7ZSKQsTPo9ziM3DKxt/xtRvqv6xvf+Yz3wZff+5M66olAZkdl+gIJ429x
+ x2ec/P+Ec3Fu1AeehEpcDuYjnEuEBWCqtUsOw/lUs5/gY/pnIHtw8ts/qJX0PJmYEmdkjncF+fA
+ ELbj66w57cw8R24Ye7APx6blWmAOLsVeWrqYlbBS5WIXhnAaoKt/LqvLbrDTFIEMcsceoAebqzq
+ oViu4OWpiBVHVgWDNoBCyD8WcfzYjDQD9ueiGbQvV5wig50mEhZyKisJrI5oNX/TKPqcTiFf
+X-Proofpoint-ORIG-GUID: BxeQc13LFSUEzti78tIC8Io0X_Ci7PF1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-16_02,2025-07-16_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 mlxlogscore=999 mlxscore=0 spamscore=0
+ adultscore=0 impostorscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
+ phishscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507160133
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 14:30:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220463
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 14:47:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220464
 
-On Wed, Jul 16, 2025 at 09:30:11AM -0400, Bruce Ashfield via lists.openembedded.org wrote:
->    On Wed, Jul 16, 2025 at 7:34 AM Kamel Bouhara via
->    [1]lists.openembedded.org
->    <kamel.bouhara=[2]bootlin.com@lists.openembedded.org> wrote:
->
->      On Wed, Jul 16, 2025 at 12:28:06PM +0300, Mikko Rapeli via
->      [3]lists.openembedded.org wrote:
->      > Hi,
->      >
->      Hi Mikko,
->      > On Wed, Jul 16, 2025 at 11:05:17AM +0200, Kamel Bouhara via
->      [4]lists.openembedded.org wrote:
->      > > Enhances SPDX Document by extracting kernel build-time
->      configuration settings from '${B}/.config'.
->      > >
->      > > Each CONFIG_* line is parsed and exported as a DictionaryEntry
->      in the build_Build.build_parameter
->      > > section of the SPDX document. This provides better visibility
->      into kernel build behavior and
->      > > configuration, in alignment with the SPDX3 metadata model.
->      > >
->      > > The feature is gated by a new tunable variable:
->      > >
->      > >     SPDX_INCLUDE_KERNEL_CONFIG (default: "1")
->      > >
->      > > Setting this to "0" disables exporting the kernel configuration,
->      which may be useful to improve
->      > > performance or reduce the size of generated SPDX documents.
->      > >
->      > > Example:
->      > >
->      > >     CONFIG_FOO=y  →  { key: "CONFIG_FOO", value: "y" }
->      > >
->      > > This complements existing metadata export features and enables a
->      more complete audit trail of how
->      > > the kernel is built within a given build.
->      >
->      > Why is the kernel so special? All other SW components have build
->      time configs too.
->      >
->      > For information harvesting, a lot of data can be extracted from
->      the build system
->      > but to me it's important that the build system and tools benefit
->      the users
->      > who actually do maintenance and development work. They need to be
->      able to see
->      > what patches get applied, what they fix, what configs are used
->      etc. Extracting
->      > all possible info into some IT management tooling which never
->      directly feeds
->      > back to the build system or developers to actually improve the CVE
->      patch status,
->      > enable security features and updates and fixes for real bugs, is
->      not very useful.
->      >
->      You're absolutely right to question the special handling of the
->      kernel.
->      In this case, the choice was intentional: the kernel’s .config is
->      well-structured,
->      easy to locate, and critical to the system's security and behavior.
->      It's also a central component of the BSP, making it a strong
->      candidate for initial
->      integration when experimenting with build-time metadata capture in
->      SPDX.
->      That said, I fully agree, many other software components also have
->      meaningful
->      build-time configuration (e.g., PACKAGECONFIG, EXTRA_OECONF, cmake
->      flags), and the
->      longer-term goal is to extend support to those as well.
->      Starting with the kernel gives us a good foundation to validate the
->      approach.
->      Importantly, the patch makes this metadata inclusion optional and
->      configurable.
->      It introduces a variable to let users control the granularity of
->      what gets
->      included in the SPDX document. That means teams can choose to
->      include or exclude
->      details like kernel configuration based on their policy, use case,
->      or audit needs.
->      About usefulness to developers, I agree this info only brings value
->      if it
->      integrates back into yocto developers workflows. That’s exactly the
->      direction
->      I’m aiming for, for example, we’ve added support in our SBOM diff
->      tool to compare
->      kernel configuration between builds by parsing CONFIG_* entries.
->      This mostly lets teams audit config changes over time and detect if
->      a
->      some security-hardening option was unintentionally disabled.
->
+It seems under some circumstances the tag in SRC_URI can prevent the
+recipe from being unpacked correctly. Drop it in order to let bitbake
+handle the recipe correctly.
 
->    I have the same concerns and opinion on this as Mikko
->    As long as this doesn't add overhead, or becomes mandatory, my
->    objections can
->    be ignored.
->    But generally speaking, I'm opposed to jamming everything into SPDX and
->    using
->    it as a tool for what you are describing above. There are already
->    existing tools that
->    are focused and better at comparing configurations of packages (and the
->    kernel).
->    Turning SPDX into some kind of one-stop-shop and everything-in-one
->    place tool
->    is something I'd object strongly to.  (I do realize you are talking
->    about using some
->    sort of other tool reading the SPDX data, but my objection is just the
->    same if it
->    becomes an absolutely massive monolithic data source).
->    Bruce
->
+2025-07-16T02:15:12.1679756Z 2025-07-16 02:15:12 - ERROR    - ERROR: spirv-=
+llvm-translator-native-20.1.4-r0 do_unpack: Bitbake Fetcher Error: FetchErr=
+or('Fetch command export PSEUDO_DISABLED=3D1; export GIT_PROXY_COMMAND=3D"o=
+e-git-proxy"; export NO_PROXY=3D"*"; export PATH=3D"/work/oe-core/scripts/n=
+ative-intercept:/work/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/wo=
+rk/build/tmp/work/x86_64-linux/spirv-llvm-translator-native/20.1.4/recipe-s=
+ysroot-native/usr/bin/python3-native:/work/oe-core/scripts:/work/build/tmp/=
+work/x86_64-linux/spirv-llvm-translator-native/20.1.4/recipe-sysroot-native=
+/usr/bin/x86_64-linux:/work/build/tmp/work/x86_64-linux/spirv-llvm-translat=
+or-native/20.1.4/recipe-sysroot-native/usr/bin:/work/build/tmp/work/x86_64-=
+linux/spirv-llvm-translator-native/20.1.4/recipe-sysroot-native/usr/sbin:/w=
+ork/build/tmp/work/x86_64-linux/spirv-llvm-translator-native/20.1.4/recipe-=
+sysroot-native/usr/bin:/work/build/tmp/work/x86_64-linux/spirv-llvm-transla=
+tor-native/20.1.4/recipe-sysroot-native/sbin:/work/build/tmp/work/x86_64-li=
+nux/spirv-llvm-translator-native/20.1.4/recipe-sysroot-native/bin:/work/bit=
+bake/bin:/work/build/tmp/hosttools"; export HOME=3D"/tmp/tmppvfb2ln5"; git =
+-c gc.autoDetach=3Dfalse -c core.pager=3Dcat -c safe.bareRepository=3Dall -=
+c clone.defaultRemoteName=3Dorigin rev-list -n 1 v20.1.4 failed with exit c=
+ode 128, output:\nfatal: ambiguous argument \'v20.1.4\': unknown revision o=
+r path not in the working tree.\nUse \'--\' to separate paths from revision=
+s, like this:\n\'git <command> [<revision>...] -- [<file>...]\'\n', None)
+2025-07-16T02:15:12.1686736Z 2025-07-16 02:15:12 - ERROR    - ERROR: Logfil=
+e of failure stored in: /work/build/tmp/work/x86_64-linux/spirv-llvm-transl=
+ator-native/20.1.4/temp/log.do_unpack.75654
+2025-07-16T02:15:12.1687492Z 2025-07-16 02:15:12 - INFO     - NOTE: recipe =
+spirv-llvm-translator-native-20.1.4-r0: task do_unpack: Failed
+2025-07-16T02:15:12.1748425Z 2025-07-16 02:15:12 - ERROR    - ERROR: Task (=
+virtual:native:/work/build/../oe-core/meta/recipes-graphics/spir/spirv-llvm=
+-translator_20.1.4.bb:do_unpack) failed
 
-Hi Bruce,
+Fixes: e3890983dbf4 ("spirv-llvm-translator: upgrade 20.1.2 -> 20.1.4")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for the feedback.
+diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb b/m=
+eta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+index 14e4bb74ace4..e6c6cbd69d27 100644
+--- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
++++ b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.TXT;md5=3D47e311aa9cae=
+dd1b3abf098bd7814d1d"
+ SPIRV_BRANCH =3D "llvm_release_${@oe.utils.trim_version('${PV}', 1).replac=
+e('.', '')}0"
+ SRCREV =3D "74843f2186bb63b6802758222084da17fcbe603c"
+ SRC_URI =3D " \
+-    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=3Dhttps;t=
+ag=3Dv${PV};branch=3D${SPIRV_BRANCH} \
++    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=3Dhttps;b=
+ranch=3D${SPIRV_BRANCH} \
+ "
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
+--=20
+2.39.5
 
-Just to clarify, the goal here isn't to turn SPDX into a one-stop-shop or to
-overload it with every piece of build metadata. The intent is to capture a minimal
-and focused subset of build-time parameters
-(like kernel .config, PACKAGECONFIG, etc.) where:
-
-    - The structure is already well-defined
-    - The data is relevant for security or compliance
-    - And the cost of extraction is very low
-
-This is fully gated behind an opt-in variable (and could default to disabled).
-The idea is not to replace existing tools but rather to provide a structured,
-portable format for key metadata, especially in SBOM-driven environments where SPDX
-is already part of the process.
-
-In my use case, this metadata is consumed by a targeted diff tool; not treating
-SPDX as the end-goal, but more like a transport format. This approach lets us
-reuse existing SPDX outputs without interfering with or duplicating the role of
-more purpose-built tools.
-
-So I hear you: this shouldn't become bloated, mandatory. The goal is simply to make
-sure when people do need to trace how something was built, especially in CI or
-audit contexts, they have a consistent hook, and it can be disabled entirely if
-not useful.
-
-Cheers,
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
 
