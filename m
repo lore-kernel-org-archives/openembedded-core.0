@@ -1,418 +1,333 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E774C83F1B
-	for <webhook@archiver.kernel.org>; Wed, 16 Jul 2025 13:49:06 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web11.22530.1752673741400788205
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB4DC83F1B
+	for <webhook@archiver.kernel.org>; Wed, 16 Jul 2025 13:54:26 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.62])
+ by mx.groups.io with SMTP id smtpd.web11.22651.1752674062965233862
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 06:49:01 -0700
+ Wed, 16 Jul 2025 06:54:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=B+cSDL3D;
- spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7e32c5a174cso255931185a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 06:49:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752673740; x=1753278540; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cw4oWFqbrF6aMio/s6wpR/qSk1JfplnAysEV9C5KSY8=;
-        b=B+cSDL3DX+aHsY/16X/vF+wSVA0h8y4qmHntKyttGNINxTThC7vMkqUvS2L0IM+2zT
-         Hi/8CZ+LtawblUaEkZLdFjKoeLPPuBwGJgO85POFkNDPX5dJJUn7CJtcF8TqwzL0MWe9
-         rkecwVrIDG74G0qpoboV8vrUvp4Ovf2TAGhLtR8fUBAUoR3asodif8Iyjcbhm8VLvZp+
-         naPqji9lhXdWmZqcg9OFXIjChJAc6PRW4NPMz4AuYFOdl6HJW1e+KhvUreTTvWwdQO+I
-         3Q5Hkqp72cWL/UDmlA/tbwzBFYVQad0MM0LKBwrH7knK7osdbhYv2AHwWYfZKj5ogTxm
-         Qb2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752673740; x=1753278540;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cw4oWFqbrF6aMio/s6wpR/qSk1JfplnAysEV9C5KSY8=;
-        b=dTumjPN1hVbxvBLPqIgTgMxmOvlfNQs7Tk+mcl1hHipJ249bPz7Kmi9LueEbMH6rTk
-         yZa636X8A30QGL8YTHc/QJTsdBEFAzijIYFKWtf0tGbtqLsVyu8FQx6wUJ5ZFH7EBOMk
-         OsUzrcrjkMJWreBO3ccsgvNJjwlVDc9ttwDFAsKmL/pjjjDXp38rKtCuNft43EDIU8oI
-         Rxlyv+orW3PQKCZOyyKpPfjOMMah/ErbxL+ciT9MwchT9YKjsFoW6GpBfL+jTRc4B/6R
-         6jEIwCKww2IJkjY2Yjqc7sSi9nwgergTNZr9A1AngnpztZQ7qKBRiZXlD7Zeyg0sPpfU
-         VEhA==
-X-Gm-Message-State: AOJu0YxCqb3OFtfr6bNH5C8mlpSbF7eqdaHgDeQnC7cjPGf9iyh8BCSt
-	Gy9qSC+F/4y3uEY29aCIEMU8mfvP65jCkevHVZhJkAGc1tT2m5TjE8J2UixRRdfW
-X-Gm-Gg: ASbGncsqgIGzYBq5czM32pE2UzGAbLyNXmyjE5ktWQU4qBY6Yyrmfx6HjZfivCnLBd9
-	2UNGrK1QcK37BSfH5BHJo0fCbPfFpkOiQUKIrN4Co0lItzI+V4qyuXto1CG55KdZnc2g3spJCcd
-	n4KdsvB36xh7CVbY2O+khjFVnp9nHrpMIdsY1Xpvu0MR1H0XEZDKXMSL1fsg8p2VGa6tvVvb1my
-	6fNNC132IUmDhA5kLvfJLikezpH8oeUA/J7FwMdaAjQPY5OnKKyWYccBEttQV5Mdy9TUw94rl+z
-	vgx1ihGnYZSMtbHfgcmkENoriCplhIqWLXneyLwNyYh08ZbyUALl286eRFviDjm0/o64Au5MLJv
-	m78HkpBPG/18PWgfZBjIRfUVG8y9E/xtpUMLSXaSqeaUQvSTKpXTgH18OvbAGw3c687/mFPtEVO
-	p99lNmd23oWuPJdq0gO/MvvDo=
-X-Google-Smtp-Source: AGHT+IGc8ChvRXly9i+uzORuAHPjq6JoDlIk6mdyWhIKr4btovq4w3soBgRRqwC0J4SE4kl6sZBSzg==
-X-Received: by 2002:a05:620a:2a14:b0:7d7:32ac:3381 with SMTP id af79cd13be357-7e342a5edb3mr465458385a.1.1752673739503;
-        Wed, 16 Jul 2025 06:48:59 -0700 (PDT)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e3443d830bsm84245085a.25.2025.07.16.06.48.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 06:48:58 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] linux-yocto/6.12: update to v6.12.38
-Date: Wed, 16 Jul 2025 09:48:52 -0400
-Message-Id: <9566f4a781deb023a14a85749d9d63d116d505a9.1752673419.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1752673419.git.bruce.ashfield@gmail.com>
-References: <cover.1752673419.git.bruce.ashfield@gmail.com>
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=CgZsWuyZ;
+ spf=pass (domain: siemens.com, ip: 52.101.65.62, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wdVvAskDdMygNrDiOsOMT4om0BUWnCn7U1fAssHvxmp6YITge0SQ0bYEyGB0JrrII3/8+RNS6IBdpKYI6YDnmiZuDxvrg9CvSWYJby1ClbnVPROh4BJWameEzHR3jgg8pqyiMnUsazgb6fw417Rer7bL4XQOZJJCjgFyFUeGpeHcc4mc44D3iTWaQbGK/JlJQKRweSYGY4FGkQUQpmVUx21On0o8hRnJd7Un39zj9xH2PmpKoAENiuj24hRop6PgxOiD7b/Rbzk6/F+9V/4toU8Xv14UljDBcvq3XAg6h10l/VrpcAyBqMOBOCo00QnAcTFdEA9iBNCh/nXVMkU4VA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gYL6BssyJhRzw8dJBlKX0b+7K+bEhzLszpOUH+aW8Vc=;
+ b=MykmNHi0zOO2h0L3QzMJ8g1I88/V6Ke2KVIzuYACx/ox36HVLlpauGcDTy82ZBAMmMfne9bxfN/WiH4IK+hsIatf38smDxbBvx47Tl8LUsF95ZMdGGfuBcL7vTkRJT7xnUfH4K01lSRtqAVYFok1Sgo0cFmAWku71GaPGJcGehWfal6LUL+SrcWrNGCRz3PpUir+yXjZcCL2+EOrB3Vc2IVi36zbbW3uwfejLbhiZqXnGQUNxujtEFvTjnQ8eOCg4iaJOTXC6ZPP1nk/sdPHABvkTY1av3acL328urxxivgp7KEuj07CdfqA2chQgdh+KpMpEByX/5HOaNEIexMFug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gYL6BssyJhRzw8dJBlKX0b+7K+bEhzLszpOUH+aW8Vc=;
+ b=CgZsWuyZx7eWzcgPQqqnvRjHqV0PyIHCDOXC9g+s3a2KWirampbxPsZJib3sgpvGrSP5YV/BdA0Ibh46dJes73Wkf/OfCR6QVU6JOMextTel9nw8KUT04quSkjjYpOh6dI1lpSZdIzA4y4Rqg3AS10pexz/apeQvENwVb7aUIEKWzQEP+GVQVzz1WKmqsYO92WDHb07E+DOaOH82FGPpsoTMVOAyt7tq0dW4mx9OyvikstlxP7KWgFyr68l/8eLzx19+wfRVErm8uhmufJ6hkCao61Da1Yk7Ot7b4VV9ScNmoCOR1jg+0o5YXey2adr9bn6kg4LL03gewWHnPUtXBg==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by PA3PR10MB9271.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:4ae::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.33; Wed, 16 Jul
+ 2025 13:54:20 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.8901.024; Wed, 16 Jul 2025
+ 13:54:20 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "ross.burton@arm.com" <ross.burton@arm.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 08/23] oeqa/sdk: add helpers to check for and
+ install packages
+Thread-Topic: [OE-core] [PATCH 08/23] oeqa/sdk: add helpers to check for and
+ install packages
+Thread-Index: AQHbwYfcTu4nt2aojkCYFO9m3WWvf7Q1KqxA
+Date: Wed, 16 Jul 2025 13:54:20 +0000
+Message-ID: 
+ <AS1PR10MB5697CDCCFB1F944F706B775BFD56A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20250510084400.269726-1-ross.burton@arm.com>
+ <20250510084400.269726-8-ross.burton@arm.com>
+In-Reply-To: <20250510084400.269726-8-ross.burton@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=4f735346-8fcd-41b9-8380-f092e9b65944;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-07-16T13:38:09Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PA3PR10MB9271:EE_
+x-ms-office365-filtering-correlation-id: 861814fc-71f9-45e4-85cf-08ddc470436d
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?eOnCaztMK0ze1w/mP34MNd1PfIWYW6ued/asV06nkXfwBezOrq1REW5vYso9?=
+ =?us-ascii?Q?td8E67/U/RsWOBMXfN/p1mwF4cIbewf9PU6PJKrD9zPIWtflIp6DmM7csIkx?=
+ =?us-ascii?Q?TprEVFgf0eoHhQPkrjr5/R4i7zPyxy6G2rQ2wUxRn1mTHx1/XiQ8qt3/1uuG?=
+ =?us-ascii?Q?fnUWs0zqVHJvyDtrETaJUBdeR4vYll4K8pThnBBqAXtmH6X4NxeF9fSjN0H+?=
+ =?us-ascii?Q?BivVUntKiyreokUmvFI6IzvguyowC0RTmwFeCvT3yDigtv2cL0g4ikJc+Bx4?=
+ =?us-ascii?Q?puA4GDSA3+M3OiqCktoWEdhQ1Ls/f+6/OahVZgwAt7Na419KEbt1qA35lBui?=
+ =?us-ascii?Q?sxxC+KgFUGvyHMc8csY4YRSbQIE4a70z4n1JgWCYRooCOjC9sGU5llbkNOBL?=
+ =?us-ascii?Q?T04jFPdUnkbiFBQz3ViauU0SeRgiU/pF+7SODX73U2oyezSakyMSwegL88D6?=
+ =?us-ascii?Q?QIdf0dO6u1bZ+0Ulk0qM9PJEBSLsW88RsSrUjKXHDngLzFDyJAfGbGkeAuWb?=
+ =?us-ascii?Q?WNYaJcmLtuWqXdLBvCj6ARfxHqYkGypyUFioUjeVxC8nelj8U6CDQ5pBVhHr?=
+ =?us-ascii?Q?feIX/IB9d7vhid90h10isdH1yaUtYLt9yWgCdIfUptGbA5SGSL60ClwbPvma?=
+ =?us-ascii?Q?nsjeDq2rPiCx762gfiZ6BbLIxaQ6c1W2o+KydWZ3C7H1ZtdcGdThaFLsxV/X?=
+ =?us-ascii?Q?KrvsyxpWFcuJNxnJskKMkGoBTpG95+7wtXlFDO3g8xFvj/7POtkbB7Qlr581?=
+ =?us-ascii?Q?E7raN4cSwjeYun938zFEbXkk/ddZuavdX7EoVqHJR5SSy90UShXlogz0omxV?=
+ =?us-ascii?Q?78iYQKyNtqgpkzTxtpj93A7rafiuyj0SThC+8ttAtarpAUokgta2C+LGKPIU?=
+ =?us-ascii?Q?dI22Qt0XqwQZMYF9t0EyK3EBhmD3ud7aa5EUald7z1Icof8YUmK1JOO+TJNS?=
+ =?us-ascii?Q?ilsd0nf4fk7jfMYuQscfWwlhvIBBd6Gvw1qYOuHG5w2mJVGUa7lH+jypWF/X?=
+ =?us-ascii?Q?8drlpceF8T3xkkZhQdI7Rh+lhGEZqSVfUWJCYMFI04ANTrbruVuqr9YoB1WL?=
+ =?us-ascii?Q?XzdnBqxNHgrNYZZGoLNUDZMrGb8zJGs1NbcSXPgToqEfhuuz16HpCeMtAyat?=
+ =?us-ascii?Q?NAS56zqpDIfAfnnrvCzKTNJlOB4hUzTIUpjNjAU+sKRzQ6B38mHP4PcZCDmX?=
+ =?us-ascii?Q?Zp3oIcWaNvylkp8fbQa/rWGgjtyENA5LVqK9sDoqXcnjpW9KFrs0+HRUAmy8?=
+ =?us-ascii?Q?wm6qb74D0LTt/ZYOh/K8faZj8D3pGuu0Ixou99tN7e6jYeBPD2jYxN0D1t+5?=
+ =?us-ascii?Q?mek/W/5Eh8BmANgoK0OQxrGxH0UvunN7ggyLZhrJVtxJMQMPUDixTU8TVhRg?=
+ =?us-ascii?Q?iNU7ipG4IC0aru5LOlf69NEeMEypoxa8vNxhqfaDTvYXpPYwq2My0A8+UEmG?=
+ =?us-ascii?Q?NjW41AmAFhU=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?AjNPrYo7ibdqr7bOM3IpvMmCE1+ImeiVIxZT9aAafAZnJCosHk2TbdS3IUn/?=
+ =?us-ascii?Q?rWuVIRSxO3+LOHAmtEcrzY9TLFXfBQ3Sb3kZ40Oq9Hg1MZR4LD42tolK89DA?=
+ =?us-ascii?Q?C+ygrfMLLrsJ0riNEhYSrkRL0WP4AG10yU+AQf2P2mBGWkSJS43cb0TqOq3H?=
+ =?us-ascii?Q?QvQk+05OHIVjR4RluY1Ep+SZNQ26G7wB84dLuVpNJrJLbZLksb3beHtBwNpe?=
+ =?us-ascii?Q?klyt737dnlTMC6OrDiRKUOoltF6B76he4RkgIE0pbfyw202v+7NG7TcSGkD6?=
+ =?us-ascii?Q?zy0YnQt/R0bqMBzIB5ObRWEqcZ0qJeRTUvTEGgfwyj2tHyarHx+3qSbLQccf?=
+ =?us-ascii?Q?v578xCgkT1dm4KTCMihoR+c6xaHECa4pe6Jp2X35d/ROfsV9C8P//yNQDGbV?=
+ =?us-ascii?Q?B6PYOHr7z+DZ1NVHshDCwTYFjr+/GYLARgialSFYDliwauxnrF1R6gPuV5t4?=
+ =?us-ascii?Q?fMmaxX0SAmd1xBLzSdpmb79EZacLrbUFvKYBMVLSaYoPSYivNk7MOsMAfoSb?=
+ =?us-ascii?Q?W2G4iQIvedtWavE4CqMDyA/WfORk6VfDlto2+WHJgaelDRiHIbG53mI4qSIb?=
+ =?us-ascii?Q?zYVfH3gcrB0nCQPrQ7ESHvf/7Z/GoSGsWgnEaHRqBg6fkNDLQPbRIjmW9ksI?=
+ =?us-ascii?Q?wfGr8ACYUXZ6qzyqTQ0feZ/mJ7TpRp/QiQoUCi3ZqLr+Pt7FN3kjNjJYniFv?=
+ =?us-ascii?Q?PT9ajKx9j/O6/RrQWZPYEX/M1HOak0W4bLeg2y/l6eUkU409aYoUmjk5rxAJ?=
+ =?us-ascii?Q?oC5lEWswmrp/I0kyJhVqXWIeWWUnrwqJRirTUQ/Z/GDkQUtpLmBjbkC8v5GJ?=
+ =?us-ascii?Q?U3ZxDA5o0f7ZpXvynEdyy6NLceY5kIIkXGa637z13CahR0uU6GEBnYmUgCE/?=
+ =?us-ascii?Q?Ts8HC7UqEV7E0NX+5AuSIyQXAatgjgoIM8bR7bykPrAaNxR+yge3sSXavKVc?=
+ =?us-ascii?Q?tN4lGYfEWv4+IDSjzGKsoMBLclTvozgnqobd0L+9UjnLEJcK8H7tlb4aUWgR?=
+ =?us-ascii?Q?sO63I7T8V86koq3G6bbzEVVJLcC3Dk5rITk145IGIhBxrL7hXD7wYz3ZUiRn?=
+ =?us-ascii?Q?6pzC4BVzV3/PSxqmcga9PVzz9WF9SiJ1OvUNxKEJ6/ozSYgtdC3Uj/kHQZrk?=
+ =?us-ascii?Q?CwIwyusFbNubuHjZqYin8v2Oe6Q4AYRM8gDz/KzSIEBdCn6mH+NwS/HBfOQW?=
+ =?us-ascii?Q?aBgW5GEO/L7lgPWGq58N60Bwk1Y8GMqc5gfjorgLrSc98ZR1/OsY9PzeXyMJ?=
+ =?us-ascii?Q?ZgtbRKn9I6SZgToFiyHEs8ZKD8iXDRMSMZqEND+B8Grd144q4mxOdrNgLIpV?=
+ =?us-ascii?Q?nQ8Z85A7+jinZLbb6GpujFZrdFz9IOVCgadySjRNVzISuFUuCeoStANTBkiO?=
+ =?us-ascii?Q?F1k4GJ47HkURieZ6Vkua+R0CqasMiCQiNGi9LWGXMsYgAXTC5tHJQHLYsdcK?=
+ =?us-ascii?Q?mpk/gT3Y/uTgua+bC37GG3+sWYGo3f+QpCIiwNbZI3OAIQ+exVYVlV1fda1S?=
+ =?us-ascii?Q?vEh/DmFfOqLI+9WCik4QxB/QgiFfOH1lrvp/PBhGxKHc+/GctLKUvq3a0J1D?=
+ =?us-ascii?Q?tpn5SckyRKWp1JA5IUDDHi0UKoykkWcV0ZXdDDBZ?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 861814fc-71f9-45e4-85cf-08ddc470436d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2025 13:54:20.2706
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ok5bg4fCuOTmvkPw80+AXk+3gnOV3S5fHA7G+Co19lJ8i2NH+X8Ko9JV01SXcKUqEKLXViQJ0e0n1lMbrgP+oQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA3PR10MB9271
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 13:49:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220458
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 13:54:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220460
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Hi Ross,
 
-Updating linux-yocto/6.12 to the latest korg -stable release that comprises
-the following commits:
+I have a problem when running oe-selftest after this commit.
+When I updated past this commit and commit which uses it:
+https://git.openembedded.org/openembedded-core/commit/?id=3D11277efd0576855=
+58a744e98082b5709e849dd2a
 
-    259f4977409c Linux 6.12.38
-    faac2abe895d x86/CPU/AMD: Properly check the TSA microcode
-    fbad404f04d7 Linux 6.12.37
-    0029b3c1320b x86/process: Move the buffer clearing before MONITOR
-    331cfdd27429 x86/microcode/AMD: Add TSA microcode SHAs
-    d5d66e31fd9a KVM: SVM: Advertise TSA CPUID bits to guests
-    7a0395f6607a x86/bugs: Add a Transient Scheduler Attacks mitigation
-    0720e436e594 x86/bugs: Rename MDS machinery to something more generic
-    4c443046d8c9 mm: userfaultfd: fix race of userfaultfd_move and swap cache
-    ead91de35d9c mm/vmalloc: fix data race in show_numa_info()
-    679bf9a0ccb8 powerpc/kernel: Fix ppc_save_regs inclusion in build
-    c782f98eef14 usb: typec: displayport: Fix potential deadlock
-    f65ad436e4bc platform/x86: think-lmi: Fix sysfs group cleanup
-    5805edbea588 platform/x86: think-lmi: Fix kobject cleanup
-    b11397bf9ade platform/x86: think-lmi: Create ksets consecutively
-    f5fe094f35a3 riscv: cpu_ops_sbi: Use static array for boot_data
-    d8ca2036f30d powercap: intel_rapl: Do not change CLAMPING bit if ENABLE bit cannot be changed
-    53892dc68693 iommu/rockchip: prevent iommus dead loop when two masters share one IOMMU
-    5f28563f0c68 optee: ffa: fix sleep in atomic context
-    ccdc472b4df6 Logitech C-270 even more broken
-    4c37963d67fb i2c/designware: Fix an initialization issue
-    c745744a8231 dma-buf: fix timeout handling in dma_resv_wait_timeout v2
-    631f9de9a7f4 cifs: all initializations for tcon should happen in tcon_info_alloc
-    7b02e09fc0ba smb: client: fix readdir returning wrong type with POSIX extensions
-    7cb875016032 usb: acpi: fix device link removal
-    c68a27bbebbd usb: chipidea: udc: disconnect/reconnect from host when do suspend/resume
-    3b1407caac17 usb: dwc3: Abort suspend on soft disconnect failure
-    27199ab79079 usb: cdnsp: Fix issue with CV Bad Descriptor test
-    b68e355a6132 usb: cdnsp: do not disable slot for disabled slot
-    46f758928156 Input: iqs7222 - explicitly define number of external channels
-    dbdd2a232019 Input: xpad - support Acer NGR 200 Controller
-    195597e0beb3 xhci: Disable stream for xHC controller with XHCI_BROKEN_STREAMS
-    8bfd11dae3fb xhci: dbc: Flush queued requests before stopping dbc
-    9f3b2e497deb xhci: dbctty: disable ECHO flag by default
-    fbebc2254af8 usb: xhci: quirk for data loss in ISOC transfers
-    9f7589318928 Revert "usb: xhci: Implement xhci_handshake_check_state() helper"
-    8caccd2eac33 usb: xhci: Skip xhci_reset in xhci_resume if xhci is being removed
-    1a81dfc9d10a NFSv4/flexfiles: Fix handling of NFS level errors in I/O
-    5e110e867941 drm/xe: Allow dropping kunit dependency as built-in
-    994b0bc2a0e8 drm/xe/bmg: Update Wa_22019338487
-    beb89ada5715 IB/mlx5: Fix potential deadlock in MR deregistration
-    f6588557023e RDMA/mlx5: Fix cache entry update on dereg error
-    f94c422157f3 fs: export anon_inode_make_secure_inode() and fix secretmem LSM bypass
-    cdd9862252a0 module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper
-    e036efbe5822 add a string-to-qstr constructor
-    42c5a4b47d4a rcu: Return early if callback is not specified
-    c40b207cafd0 mtd: spinand: fix memory leak of ECC engine conf
-    18ff4ed6a33a ACPICA: Refuse to evaluate a method if arguments are missing
-    327997afbb5e wifi: ath6kl: remove WARN on bad firmware input
-    1b1026563999 wifi: mac80211: drop invalid source address OCB frames
-    3e554f115374 aoe: defer rexmit timer downdev work to workqueue
-    7296c938df24 scsi: target: Fix NULL pointer dereference in core_scsi3_decode_spec_i_port()
-    3d546c8b1070 regulator: fan53555: add enable_time support and soft-start times
-    2ec1cc322a01 ASoC: amd: yc: update quirk data for HP Victus
-    39e36a744ec3 powerpc: Fix struct termio related ioctl macros
-    19bd7597858d genirq/irq_sim: Initialize work context pointers properly
-    c584b9b62c0c platform/x86/amd/pmc: Add PCSpecialist Lafite Pro V 14M to 8042 quirks list
-    f8155ee19ddc ASoC: amd: yc: Add quirk for MSI Bravo 17 D7VF internal mic
-    c24c06bd14f2 ata: pata_cs5536: fix build on 32-bit UML
-    3ce57d493dd8 ata: libata-acpi: Do not assume 40 wire cable if no devices are enabled
-    f42b8e575395 ALSA: sb: Force to disable DMAs once when DMA mode is changed
-    c5e0af68c899 ALSA: sb: Don't allow changing the DMA mode during operations
-    3f6ce8433a90 drm/msm: Fix another leak in the submit error path
-    0eaa495b3d57 drm/msm: Fix a fence leak in submit error path
-    c0527f7534c0 scsi: lpfc: Restore clearing of NLP_UNREG_INP in ndlp->nlp_flag
-    790ce73721ab sched_ext: Make scx_group_set_weight() always update tg->scx.weight
-    7ccaa5fa5d25 drm/amdgpu/mes: add missing locking in helper functions
-    238a218d422e arm64: dts: qcom: x1e80100-crd: mark l12b and l15b always-on
-    646442758910 drm/amd/display: Add more checks for DSC / HUBP ONO guarantees
-    81ebb8d755d9 drm/amdgpu: add kicker fws loading for gfx11/smu13/psp13
-    710deaff6aeb drm/i915/dp_mst: Work around Thunderbolt sink disconnect after SINK_COUNT_ESI read
-    b47a1f9323c2 drm/amdgpu: VCN v5_0_1 to prevent FW checking RB during DPG pause
-    4f77d8f8a93e drm/simpledrm: Do not upcast in release helpers
-    acf9ab15ec97 selinux: change security_compute_sid to return the ssid or tsid on match
-    6d0b588614c4 drm/xe/guc: Explicitly exit CT safe mode on unwind
-    ff6482fb4589 drm/xe/guc: Dead CT helper
-    e595433c6399 drm/xe: Replace double space with single space after comma
-    0dadcd17e212 drm/xe: move DPT l2 flush to a more sensible place
-    1883a83695fe drm/xe: Allow bo mapping on multiple ggtts
-    ce1ef3b64ef7 drm/xe: add interface to request physical alignment for buffer objects
-    98e5c71e7e74 drm/xe: Move DSB l2 flush to a more sensible place
-    e5f01b2b6771 drm/xe: Fix DSB buffer coherency
-    61628111e74f mfd: exynos-lpass: Fix another error handling path in exynos_lpass_probe()
-    e0fefe9bc07e netfs: Fix oops in write-retry from mis-resetting the subreq iterator
-    c2a952fb41cc remoteproc: k3-r5: Refactor sequential core power up/down operations
-    b14a64c1a97f remoteproc: k3-r5: Use devm_rproc_add() helper
-    0ea3572c15ad remoteproc: k3-r5: Use devm_ioremap_wc() helper
-    e392148f7fa0 remoteproc: k3-r5: Use devm_kcalloc() helper
-    f802fb717dfd remoteproc: k3-r5: Add devm action to release reserved memory
-    5eec92eb4fe7 remoteproc: k3: Call of_node_put(rmem_np) only once in three functions
-    5b6eb04c0552 ubsan: integer-overflow: depend on BROKEN to keep this out of CI
-    f3a472b91408 arm64: dts: qcom: sm8650: add the missing l2 cache node
-    5a867d09f533 arm64: dts: renesas: white-hawk-single: Improve Ethernet TSN description
-    7f0e93324122 arm64: dts: renesas: Factor out White Hawk Single board support
-    b9baad894b27 arm64: dts: renesas: Use interrupts-extended for Ethernet PHYs
-    d8b92a122aed arm64: dts: qcom: sm8650: Fix domain-idle-state for CPU2
-    67b3bb57fa17 arm64: dts: qcom: sm8650: change labels to lower-case
-    4265682c29c9 bpf: Do not include stack ptr register in precision backtracking bookkeeping
-    c5474a7b04cc bpf: use common instruction history across all states
-    be1e0287ac78 hisi_acc_vfio_pci: bugfix the problem of uninstalling driver
-    bac4641756c2 hisi_acc_vfio_pci: bugfix cache write-back issue
-    ea405fb41449 scsi: lpfc: Avoid potential ndlp use-after-free in dev_loss_tmo_callbk
-    6857cbf0e4b3 scsi: lpfc: Change lpfc_nodelist nlp_flag member into a bitmask
-    ae082dbcef5b scsi: lpfc: Remove NLP_RELEASE_RPI flag from nodelist structure
-    8912b139a8d4 f2fs: zone: fix to calculate first_zoned_segno correctly
-    ffbbe11577b7 f2fs: zone: introduce first_zoned_segno in f2fs_sb_info
-    58330262213a f2fs: decrease spare area for pinned files for zoned devices
-    81fdecac3f2c iommu: ipmmu-vmsa: avoid Wformat-security warning
-    7d151bf9bd2b RDMA/rxe: Fix "trying to register non-static key in rxe_qp_do_cleanup" bug
-    7e48e3ddf9e3 wifi: ath12k: fix wrong handling of CCMP256 and GCMP ciphers
-    3fffbb8d33de wifi: ath12k: Handle error cases during extended skb allocation
-    316060297e20 wifi: ath12k: fix skb_ext_desc leak in ath12k_dp_tx() error path
-    b77a5ecb3d3b bonding: Mark active offloaded xfrm_states
-    b24c3c5b421e ACPI: thermal: Execute _SCP before reading trip points
-    0c44a4095803 ACPI: thermal: Fix stale comment regarding trip points
-    da45b381aafa ASoC: tas2764: Reinit cache on part reset
-    d1f8358c5d35 ASoC: tas2764: Extend driver to SN012776
-    9468bcd92d64 gfs2: Don't start unnecessary transactions during log flush
-    519aed5bdab7 gfs2: Move gfs2_trans_add_databufs
-    a2562bdd35e9 sched/fair: Fixup wake_up_sync() vs DELAYED_DEQUEUE
-    3edcabcfc253 sched/fair: Add new cfs_rq.h_nr_runnable
-    0cc4721a7182 sched/fair: Rename h_nr_running into h_nr_queued
-    2dc82f0d781b btrfs: fix wrong start offset for delalloc space release during mmap write
-    5ff2ed0f0aca btrfs: prepare btrfs_page_mkwrite() for large folios
-    cde7f9407884 gfs2: deallocate inodes in gfs2_create_inode
-    8e753fc3d5fb gfs2: Move GIF_ALLOC_FAILED check out of gfs2_ea_dealloc
-    24ae2de15bda gfs2: Move gfs2_dinode_dealloc
-    4f66983aeb02 gfs2: Replace GIF_DEFER_DELETE with GLF_DEFER_DELETE
-    7df46e6f8847 gfs2: Add GLF_PENDING_REPLY flag
-    fbb2d296d4ad gfs2: Decode missing glock flags in tracepoints
-    9649fec0f9c2 gfs2: Prevent inode creation race
-    af2ce45c2824 gfs2: Rename dinode_demise to evict_behavior
-    862ca0b49f1a gfs2: Rename GIF_{DEFERRED -> DEFER}_DELETE
-    170af4314e4d gfs2: Initialize gl_no_formal_ino earlier
-    33b65fcec79e kunit: qemu_configs: Disable faulting tests on 32-bit SPARC
-    b70cda91569a kunit: qemu_configs: sparc: Explicitly enable CONFIG_SPARC32=y
-    a55f301e607c kunit: qemu_configs: sparc: use Zilog console
-    8a039506c032 crypto: zynqmp-sha - Add locking
-    d78f79a2c1ff spinlock: extend guard with spinlock_bh variants
-    9a0b8ef2a91b crypto: iaa - Do not clobber req->base.data
-    e23ac0026624 crypto: iaa - Remove dst_null support
-    3f4adfc58700 arm64: dts: rockchip: fix internal USB hub instability on RK3399 Puma
-    2ba9db22d72a smb: client: fix race condition in negotiate timeout by using more precise timing
-    4db893a9bf9e amd-xgbe: do not double read link status
-    a553afd91f55 net/sched: Always pass notifications when child class becomes empty
-    56aebaaa3adc nui: Fix dma_mapping_error() check
-    446ac00b86be rose: fix dangling neighbour pointers in rose_rt_device_down()
-    16858ab7fd61 enic: fix incorrect MTU comparison in enic_change_mtu()
-    6074bff08ac2 amd-xgbe: align CL37 AN sequence as per databook
-    f358d949cea2 lib: test_objagg: Set error message in check_expect_hints_stats()
-    50c86c094533 netfs: Fix i_size updating
-    9b55b7bdb0bb smb: client: set missing retry flag in cifs_writev_callback()
-    590eb2574929 smb: client: set missing retry flag in cifs_readv_callback()
-    cd8c8c20de3b smb: client: set missing retry flag in smb2_writev_callback()
-    3eb39038dca3 igc: disable L1.2 PCI-E link substate to avoid performance issue
-    9a36715cd6bc idpf: convert control queue mutex to a spinlock
-    018ff57fd79c idpf: return 0 size for RSS key if not supported
-    6a17e0d27fbe drm/i915/gsc: mei interrupt top half should be in irq disabled context
-    5a7ae7bebdc4 drm/i915/gt: Fix timeline left held on VMA alloc error
-    510a6095d754 net: usb: lan78xx: fix WARN in __netif_napi_del_locked on disconnect
-    3f6932ef2537 smb: client: fix warning when reconnecting channel
-    6a5348dbd745 drm/bridge: aux-hpd-bridge: fix assignment of the of_node
-    800a6bde38f9 platform/mellanox: mlxreg-lc: Fix logic error in power state check
-    206e2dca0ee5 platform/x86: dell-wmi-sysman: Fix class device unregistration
-    8d6b2f704f6e platform/x86: dell-sysman: Directly use firmware_attributes_class
-    48edcece52e0 platform/x86: think-lmi: Fix class device unregistration
-    1cef9e9e0090 platform/x86: think-lmi: Directly use firmware_attributes_class
-    b36faa83285f platform/x86: firmware_attributes_class: Simplify API
-    b5c180ec1fbc platform/x86: firmware_attributes_class: Move include linux/device/class.h
-    1958bccfa47a platform/x86: hp-bioscfg: Fix class device unregistration
-    0386a68f959a platform/x86: hp-bioscfg: Directly use firmware_attributes_class
-    5df3b870bc38 platform/x86: dell-wmi-sysman: Fix WMI data block retrieval in sysfs callbacks
-    431e58d56fcb nvmet: fix memory leak of bio integrity
-    f0fee863a7cb nvme: Fix incorrect cdw15 value in passthru error logging
-    9d4064787d8d drm/i915/selftests: Change mock_request() to return error pointers
-    3832ddc2fae8 spi: spi-fsl-dspi: Clear completion counter before initiating transfer
-    0a38b1836894 drm/exynos: fimd: Guard display clock control with runtime PM calls
-    dbd187e8c18c dpaa2-eth: fix xdp_rxq_info leak
-    91a6b86d5845 ethernet: atl1: Add missing DMA mapping error checks and count errors
-    735ac80fa913 btrfs: use btrfs_record_snapshot_destroy() during rmdir
-    bfd5c9e83d89 btrfs: propagate last_unlink_trans earlier when doing a rmdir
-    1728fef7ca37 btrfs: record new subvolume in parent dir earlier to avoid dir logging races
-    d6d806004605 btrfs: fix inode lookup error handling during log replay
-    401d098f92ea btrfs: fix invalid inode pointer dereferences during log replay
-    0502d1127436 btrfs: return a btrfs_inode from read_one_inode()
-    56e9882ba22f btrfs: return a btrfs_inode from btrfs_iget_logging()
-    7ac790dc2ba0 btrfs: fix iteration of extrefs during log replay
-    e4c3176acecf btrfs: fix missing error handling when searching for inode refs during log replay
-    381c1c121979 Bluetooth: Prevent unintended pause by checking if advertising is active
-    b611a5bf44e2 platform/mellanox: nvsw-sn2201: Fix bus number in adapter error message
-    4bbdb8dd35b4 platform/mellanox: mlxbf-pmc: Fix duplicate event ID for CACHE_DATA1
-    bd69049f981d RDMA/mlx5: Fix vport loopback for MPV device
-    3d8d401d3333 RDMA/mlx5: Fix CC counters query for MPV
-    a33a0c15b762 RDMA/mlx5: Fix HW counters query for non-representor devices
-    e4ff9dedeb56 scsi: ufs: core: Fix spelling of a sysfs attribute name
-    b1abc5ab47d6 scsi: sd: Fix VPD page 0xb7 length check
-    218ae6bfe253 scsi: qla4xxx: Fix missing DMA mapping error in qla4xxx_alloc_pdu()
-    350dae778b63 scsi: qla2xxx: Fix DMA mapping test in qla24xx_get_port_database()
-    864a54c1243e NFSv4/pNFS: Fix a race to wake on NFS_LAYOUT_DRAIN
-    3c94212b57be nfs: Clean up /proc/net/rpc/nfs when nfs_fs_proc_net_init() fails.
-    93fccfa71c66 RDMA/mlx5: Initialize obj_event->obj_sub_list before xa_insert
-    9d2ef890e499 RDMA/mlx5: Fix unsafe xarray access in implicit ODP handling
-    f5fe78cfcba1 platform/mellanox: mlxbf-tmfifo: fix vring_desc.len assignment
-    896e0d9337b5 arm64: dts: apple: t8103: Fix PCIe BCM4377 nodename
-    31405510a48d firmware: arm_ffa: Replace mutex with rwlock to avoid sleep in atomic context
-    2c07fd0eada8 firmware: arm_ffa: Move memory allocation outside the mutex locking
-    076fa20b4f57 firmware: arm_ffa: Fix memory leak by freeing notifier callback node
-    9ff95ed0371a drm/v3d: Disable interrupts before resetting the GPU
-    ca40e57b22a0 mtk-sd: reset host->mrq on prepare_data() error
-    3419bc6a7b65 mtk-sd: Prevent memory corruption from DMA map failure
-    cfbdcabab2fb mtk-sd: Fix a pagefault in dma_unmap_sg() for not prepared data
-    5581e694d3a1 usb: typec: altmodes/displayport: do not index invalid pin_assignments
-    ea20568895c1 Input: cs40l50-vibra - fix potential NULL dereference in cs40l50_upload_owt()
-    e4d19e5d71b2 regulator: gpio: Fix the out-of-bounds access to drvdata::gpiods
-    dae12bc688b8 iommufd/selftest: Fix iommufd_dirty_tracking with large hugepage sizes
-    a99f80c88a97 Bluetooth: MGMT: mesh_send: check instances prior disabling advertising
-    44bb1e13b454 Bluetooth: MGMT: set_mesh: update LE scan interval and window
-    3672fe9d1ed6 Bluetooth: hci_sync: revert some mesh modifications
-    0698a2eb7d89 Bluetooth: HCI: Set extended advertising data synchronously
-    50345c93698e mmc: core: sd: Apply BROKEN_SD_DISCARD quirk earlier
-    ec9be081c577 Revert "mmc: sdhci: Disable SD card clock before changing parameters"
-    cf7235914dc4 mmc: sdhci: Add a helper function for dump register in dynamic debug mode
-    9546118ba789 net: libwx: fix the incorrect display of the queue number
-    75705b44e0b9 vsock/vmci: Clear the vmci transport packet properly when initializing it
-    e036b72d6a16 net: txgbe: request MISC IRQ in ndo_open
-    a54280b0eb99 s390/pci: Do not try re-enabling load/store if device is disabled
-    2640c230aac4 s390/pci: Fix stale function handles in error handling
-    bc68bc356334 virtio-net: ensure the received length does not exceed allocated size
-    892f6ed9a4a3 virtio-net: xsk: rx: fix the frame's length check
-    bd6c1932ac9c rtc: cmos: use spin_lock_irqsave in cmos_interrupt
-    ee61aec8529e rtc: pcf2127: fix SPI command byte for PCF2131
-    669e6c723b32 rtc: pcf2127: add missing semicolon after statement
+I get following failure (on Debian12 VM):
+=3D=3D=3D
+Traceback (most recent call last):
+  File "/home/projects/builds/poky-build/poky/meta/lib/oeqa/core/case.py", =
+line 54, in _oeSetUp
+    self.setUpMethod()
+  File "/home/projects/builds/poky-build/poky/meta/lib/oeqa/sdk/cases/matur=
+in.py", line 35, in setUp
+    self.ensure_host_package("python3-maturin")
+  File "/home/projects/builds/poky-build/poky/meta/lib/oeqa/sdk/case.py", l=
+ine 47, in ensure_host_package
+    self._run('devtool sdk-install %s' % recipe)
+  File "/home/projects/builds/poky-build/poky/meta/lib/oeqa/sdk/case.py", l=
+ine 17, in _run
+    return subprocess.check_output(". %s > /dev/null; %s;" % \
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, check=3DTrue,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+oeqa.utils.subprocesstweak.OETestCalledProcessError: <exception str() faile=
+d>
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- .../linux/linux-yocto-rt_6.12.bb              |  6 ++--
- .../linux/linux-yocto-tiny_6.12.bb            |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.12.bb | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+Stdout:
+Trying to install python3-maturin-native...
+=3D=3D=3D
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-index baa13c866e..42ad0cbef0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "6f409db4f0082642197240f39b8a58850c8eb884"
--SRCREV_meta ?= "f8cd1607519efd135e4037c84b6e42684b12c5a8"
-+SRCREV_machine ?= "2aa940a9e5701e5b4107d0250da79a52e01da34a"
-+SRCREV_meta ?= "5db57044962c6155c4e82f06d87e90dfe49a59e6"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.12;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.12.36"
-+LINUX_VERSION ?= "6.12.38"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-index ec2136f035..452e3f0eb2 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.12.inc
- 
--LINUX_VERSION ?= "6.12.36"
-+LINUX_VERSION ?= "6.12.38"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "5633e9a98a153afa6b2051b116faef6c5e855bd8"
--SRCREV_meta ?= "f8cd1607519efd135e4037c84b6e42684b12c5a8"
-+SRCREV_machine ?= "fa4b881d24f752a559d8e1f75ed08895ef20b14d"
-+SRCREV_meta ?= "5db57044962c6155c4e82f06d87e90dfe49a59e6"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-index 205c8a3ed5..b9ae0954fa 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86.104 ?= "v6.12/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.12/standard/base"
- KBRANCH:qemumips64 ?= "v6.12/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "511b6848cd392ee9bbc841794a5e905f4db31689"
--SRCREV_machine:qemuarm64 ?= "5633e9a98a153afa6b2051b116faef6c5e855bd8"
--SRCREV_machine:qemuloongarch64 ?= "5633e9a98a153afa6b2051b116faef6c5e855bd8"
--SRCREV_machine:qemumips ?= "afbfb2216d4f16a231b834922a937641864c8931"
--SRCREV_machine:qemuppc ?= "5633e9a98a153afa6b2051b116faef6c5e855bd8"
--SRCREV_machine:qemuriscv64 ?= "5633e9a98a153afa6b2051b116faef6c5e855bd8"
--SRCREV_machine:qemuriscv32 ?= "5633e9a98a153afa6b2051b116faef6c5e855bd8"
--SRCREV_machine:qemux86 ?= "5633e9a98a153afa6b2051b116faef6c5e855bd8"
--SRCREV_machine:qemux86-64 ?= "5633e9a98a153afa6b2051b116faef6c5e855bd8"
--SRCREV_machine:qemumips64 ?= "707ad7179119ed07e5911b61b08b7b11d2c9a352"
--SRCREV_machine ?= "5633e9a98a153afa6b2051b116faef6c5e855bd8"
--SRCREV_meta ?= "f8cd1607519efd135e4037c84b6e42684b12c5a8"
-+SRCREV_machine:qemuarm ?= "c2755158bc029faf978e980235471b0f0e864814"
-+SRCREV_machine:qemuarm64 ?= "fa4b881d24f752a559d8e1f75ed08895ef20b14d"
-+SRCREV_machine:qemuloongarch64 ?= "fa4b881d24f752a559d8e1f75ed08895ef20b14d"
-+SRCREV_machine:qemumips ?= "facf6694c9bdcaa9efb2d46a2c6e8e30fc72cdd3"
-+SRCREV_machine:qemuppc ?= "fa4b881d24f752a559d8e1f75ed08895ef20b14d"
-+SRCREV_machine:qemuriscv64 ?= "fa4b881d24f752a559d8e1f75ed08895ef20b14d"
-+SRCREV_machine:qemuriscv32 ?= "fa4b881d24f752a559d8e1f75ed08895ef20b14d"
-+SRCREV_machine:qemux86 ?= "fa4b881d24f752a559d8e1f75ed08895ef20b14d"
-+SRCREV_machine:qemux86-64 ?= "fa4b881d24f752a559d8e1f75ed08895ef20b14d"
-+SRCREV_machine:qemumips64 ?= "4ef2a68a188df7f561f5e297c4a3bab7e79e426f"
-+SRCREV_machine ?= "fa4b881d24f752a559d8e1f75ed08895ef20b14d"
-+SRCREV_meta ?= "5db57044962c6155c4e82f06d87e90dfe49a59e6"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "df64e51d4ab83244b6a4eb11eb41f89403611e24"
-+SRCREV_machine:class-devupstream ?= "259f4977409c87a980fa2227b7c76a2fe3fb8c2f"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.12/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.12;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.12.36"
-+LINUX_VERSION ?= "6.12.38"
- 
- PV = "${LINUX_VERSION}+git"
- 
--- 
-2.39.2
+See below for comment in code which I see as problematic.
+
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Ross Burton via
+> lists.openembedded.org
+> Sent: Saturday, May 10, 2025 10:44
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 08/23] oeqa/sdk: add helpers to check for and i=
+nstall
+> packages
+>=20
+> The existing tests simply look at the manifest to determine if a test
+> should be ran or not based on dependencies. Whilst this works for
+> Traditional SDKs, it fails for Extensible SDKs if they've been built in
+> minimal mode, where the manifest will be empty.  However, minimal eSDKs
+> might well have available sstate to install the missing dependencies.
+>=20
+> Add a pair of helper functions to ensure that a package is available, or
+> skip the test.  This handles nativesdk- vs -native (SDK vs eSDK) and
+> will try to sdk-install missing dependencies into an eSDK if they're not
+> already installed.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/lib/oeqa/sdk/case.py | 58
+> +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 58 insertions(+)
+>=20
+> diff --git a/meta/lib/oeqa/sdk/case.py b/meta/lib/oeqa/sdk/case.py
+> index 46a3789f572..1fd3b3b5695 100644
+> --- a/meta/lib/oeqa/sdk/case.py
+> +++ b/meta/lib/oeqa/sdk/case.py
+> @@ -7,8 +7,10 @@
+>  import os
+>  import subprocess
+>  import shutil
+> +import unittest
+>=20
+>  from oeqa.core.case import OETestCase
+> +from oeqa.sdkext.context import OESDKExtTestContext
+>=20
+>  class OESDKTestCase(OETestCase):
+>      def _run(self, cmd):
+> @@ -16,6 +18,62 @@ class OESDKTestCase(OETestCase):
+>                  (self.tc.sdk_env, cmd), shell=3DTrue, executable=3D"/bin=
+/bash",
+>                  stderr=3Dsubprocess.STDOUT, universal_newlines=3DTrue)
+>=20
+> +    def ensure_host_package(self, *packages, recipe=3DNone):
+> +        """
+> +        Check that the host variation of one of the packages listed is a=
+vailable
+> +        in the SDK (nativesdk-foo for SDK, foo-native for eSDK). The pac=
+kage is
+> +        a list for the case where debian-renaming may have occured, and =
+the
+> +        manifest could contain 'foo' or 'libfoo'.
+> +
+> +        If testing an eSDK and the package is not found, then try to ins=
+tall the
+> +        specified recipe to install it from sstate.
+> +        """
+> +
+> +        # In a SDK the manifest is correct. In an eSDK the manifest may =
+be
+> +        # correct (type=3Dfull) or not include packages that exist in ss=
+tate but
+> +        # not installed yet (minimal) so we should try to install the re=
+cipe.
+> +        for package in packages:
+> +            if isinstance(self.tc, OESDKExtTestContext):
+> +                package =3D package + "-native"
+> +            else:
+> +                package =3D "nativesdk-" + package
+> +
+> +            if self.tc.hasHostPackage(package):
+> +                break
+> +        else:
+> +            if isinstance(self.tc, OESDKExtTestContext):
+> +                recipe =3D (recipe or packages[0]) + "-native"
+> +                print("Trying to install %s..." % recipe)
+> +                self._run('devtool sdk-install %s' % recipe)
+
+
+The comment above says "try to install", however there is no check for fail=
+ure and skipping the test in such case.
+Before using this code the testscases were skipped unconditionally and didn=
+'t try to install anything.
+Here it looks like it should always fail if the package is not part of sdk =
+(and python3-maturin is not part of minimal/sato sdk images on autobuilder)=
+.
+
+I'm struggling to understand how this passes autobuilder tests green and my=
+ pribate builds are red.
+Autobuilder logs show that the maturin tests were skipped and python3-matur=
+in is never built.
+Do you have a hint for me how this code can skip the recipe?
+
+I was thinking about installing it on my host, but python3-maturin is only =
+available from Debian 13 (which is not released yet).
+
+Would it be fine if I submit a patch doing try/except around this line?
+Or am I just missing something vital to understand the code and failure?
+
+> +            else:
+> +                raise unittest.SkipTest("Test %s needs one of %s" % (sel=
+f.id(), ",
+> ".join(packages)))
+> +
+> +    def ensure_target_package(self, *packages, multilib=3DFalse, recipe=
+=3DNone):
+> +        """
+> +        Check that at least one of the packages listed is available in t=
+he SDK,
+> +        adding the multilib prefix if required. The target package is a =
+list for
+> +        the case where debian-renaming may have occured, and the manifes=
+t could
+> +        contain 'foo' or 'libfoo'.
+> +
+> +        If testing an eSDK and the package is not found, then try to ins=
+tall the
+> +        specified recipe to install it from sstate.
+> +        """
+> +
+> +        # In a SDK the manifest is correct. In an eSDK the manifest may =
+be
+> +        # correct (type=3Dfull) or not include packages that exist in ss=
+tate but
+> +        # not installed yet (minimal) so we should try to install the re=
+cipe.
+> +        for package in packages:
+> +            if self.tc.hasTargetPackage(package, multilib=3Dmultilib):
+> +                break
+> +        else:
+> +            if isinstance(self.tc, OESDKExtTestContext):
+> +                recipe =3D recipe or packages[0]
+> +                print("Trying to install %s..." % recipe)
+> +                self._run('devtool sdk-install %s' % recipe)
+> +            else:
+> +                raise unittest.SkipTest("Test %s needs one of %s" % (sel=
+f.id(), ",
+> ".join(packages)))
+> +
+> +
+>      def fetch(self, workdir, dl_dir, url, archive=3DNone):
+>          if not archive:
+>              from urllib.parse import urlparse
+> --
+> 2.43.0
 
 
