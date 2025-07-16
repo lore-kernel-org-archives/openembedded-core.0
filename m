@@ -2,136 +2,156 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D54A8C87FCC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C68ADC87FC9
 	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:19:31 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.12344.1752807915365024846
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.18899.1752662265126311813
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jul 2025 20:05:15 -0700
+ Wed, 16 Jul 2025 03:37:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Jb+EltMK;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: miaoqing.pan@oss.qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56HMdb8F026790
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 03:05:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=JnGmStD5Z+kui6nprvmPN/YHQa1vZWP3BOS
-	9LU+0qmo=; b=Jb+EltMKuUQIFrhuSc9e7wGRgAQ1Gb1nqKNa16S4e+CoAzTZTIr
-	uKgLCncUsOjtfqYl1doRkgBOKyifxYT/tzFfxnA0EZ5XV9odjy9KT5iLiKST9ce0
-	GQCHDRBsYbnFxysCncOcjdFbvAxzE919BTmhYRcHu7YNpkMl/XXXz4p+fkSahN1l
-	pR2hAlfybX8XVfXWmu3MRFbn2uLGKzC/i3/OV5qHywazcrwvJ+PHfUcRc7ItW6Rm
-	XvL1aVatTfkpfQNiFz5dn9bNxeZ62j47+L+jK8SWm6wpQdxkxfBtbGh/AL1AmXGd
-	kF0/10Vv30RJj/UHRnnvB64c4z46sRToPBg==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47xbsqe4aq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 03:05:14 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-754f57d3259so2298669b3a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 20:05:14 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=PpMVbPLe;
+ spf=pass (domain: linaro.org, ip: 209.85.221.41, mailfrom: krzysztof.kozlowski@linaro.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3b60565d5f4so302402f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 03:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752662263; x=1753267063; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=6XnqCTUVDxXqLw605VpQiOmmAr4VEm5DLMnQo1CAZWc=;
+        b=PpMVbPLedXSlhJ0wrI8cMndBoAj3HlmRgPuldb9z6IFSbS2mgcC2zZOc/nawR+7Xw8
+         /Y3LmjUgNVOJS1DYFnXfzMafEPkxaJP5x0+Yv3d4mr2HjoxEXPD+PMYK6On8sNLIqJNa
+         jZyAGZzi0kNV5nx0K361za2xUTPujXUTc0bTycp/yeYjx13+YbTj7Rzrj3Tpv0qGJ8Sb
+         bi3rjGogVguvmPbe41njtFhSitz2NOicTxa4Nuhhhcpvh3/TDWIyUhxshx/SpR6ILgXu
+         +sok7ZcsrH9EzZqsr01cK7N+PfuTXV4HiGWuoE9mNYtKWW8K3nOenJUNbwWlD5aZmntl
+         N7UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752807913; x=1753412713;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1752662263; x=1753267063;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JnGmStD5Z+kui6nprvmPN/YHQa1vZWP3BOS9LU+0qmo=;
-        b=gSiXwGdXi1KYIXhayvzW++gy27co+x1JiHpDTSITbWvItPEhXFmNsWLVXb9jvoa4Dp
-         pasQz+JDVxhX5TiqcDTSN0srySSLat3fY51hgZYQSCx2UcBtqO7hWWXEjajQ7wWLgFAj
-         i5ea5QOfqJVwuwxRv40I2j+h/PVMAteC8lfp39/PeDoYLFsNJA/sQQsda9a9ajV1ZPDq
-         8YNtzNOR6oquAWSpfK1T7GG0nWEwiI8Kkt+F5y2sYLImMIJqubQ2QD0v2vXPY+3OVzeg
-         lpi7HapbD+friEq3knE6srWQzhwcylfLhXHyaZUguSVokGtIH9Q1K03EWMg+ME8v6cbK
-         G49w==
-X-Gm-Message-State: AOJu0Ywk4EQ4+HXq4r0HdEq/gIFvgzaO6mqoMxSexjbZ0BPfKDagTXNN
-	GP19xrGOjL9hW+b/iYasFpWe+eZo/5On1HeDPDyzAAEQisC1yTkD/rwVhMsqUu0w8vn1U2PNTNz
-	XzG9AWgDudADnC7Kse0Q72mYXQHaIbyWohdSRrFAyced2uPCzeJgzkyHIYGWriHJ6iKEs2hscrO
-	PjZggt6l+Qezi7M6Ca2Q==
-X-Gm-Gg: ASbGnctbPUD6GZ4oynzgZXY+uqOIxv92QzB1EX3jdv9l100gqSQOCDFhphTxbEEmbs9
-	1Kkrh4KbR1vcLWHXRs2ERgaHGW1lSxzOjIAfftRJmz9gi7M8sXbziIffLFuOYdwiThfuiHMwgJl
-	vAHtdJH5HVapDtj2JPUypyH+wIHoz+oTXWOHf9Uw5cC4OntFFfdKN/FQaeWJXg/U2o+BZK3tgVX
-	pHhZazJWLCihyp0Gfy3TmcetkEO3GqADZ41o1j8y1DcYw1D+L5qB9QSCgw3MU7nCyXnUxkflhEh
-	6K7NzTuOlztS+HRgMQijZD17bwO6OOMIqWqvHbwEjbFPX3oBaxqnqkMcVZHxNLuAiJeNLbYxxOQ
-	CrY3kbrZ8iC4r52ffrLnUDdQ=
-X-Received: by 2002:a05:6a00:8c3:b0:74e:ac15:10ff with SMTP id d2e1a72fcca58-75848d0d2damr7722173b3a.4.1752807912465;
-        Thu, 17 Jul 2025 20:05:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHodC/QydeZp54GFwhT+yhEFRe7X+Tj1ALU2vpIpd7SqJYZBrXCYVcBfraG4uJaMtt8x66MIA==
-X-Received: by 2002:a05:6a00:8c3:b0:74e:ac15:10ff with SMTP id d2e1a72fcca58-75848d0d2damr7722133b3a.4.1752807911973;
-        Thu, 17 Jul 2025 20:05:11 -0700 (PDT)
-Received: from Z2-SFF-G9-MQ.ap.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cbc6bf14sm262195b3a.158.2025.07.17.20.05.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 20:05:11 -0700 (PDT)
-From: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
-Subject: [PATCH v2] wpa-supplicant: enable 802.11be, MBO, OWE, and SuiteB support
-Date: Fri, 18 Jul 2025 11:04:52 +0800
-Message-Id: <20250718030452.3459203-1-miaoqing.pan@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+        bh=6XnqCTUVDxXqLw605VpQiOmmAr4VEm5DLMnQo1CAZWc=;
+        b=cZm/aaAoeVVrCfW82JAkZEW1Gi6p4GPxensYqmbCsdaWar3OIujHVVsUNYI+K7fwPa
+         HGYPh4lVLBe4HE5ceZ6NQUnzrUmHf3kdAZx0BQ6CL7GiFay86Cchhd/6ulf7MBgXI40N
+         tKAmZsbVJJihRreEC6HGSRGKEYMujMwtM8atr0HgZ11lS0qg6nWd4VVgEN9y0WPolQX+
+         f5Fle/gmhvwdbAtr1nfwyy4A7WgRmCGQX6UYenyVEEjpMxKXCQf9ocWVVwGkHGM8bZFc
+         IxohizTrfVFdhj7JNyZ7c7s7pUNfSNIcerc/pLZg/xn2zRW9wjsUf83QqWI6f417TV0R
+         P+hw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7YMpuVSqo/c5SzBhhta2X687A2KhIVavmaKxlBIUwEhZluCzVvujJ8JGDUvlruGaisNsjn2WxNL9g7RCeDr/sIQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzuaa3OhFleVhiIoVkf4Etl/ldHrW5KJqYbZwtPG7tk1tGtqEtL
+	1JmwPRp73VF5OSyUrkmozrwo8ak4/EFwGsLMzJOnKwqrhtRJsXN3xxmamHnidRDqo9220sW+Z4b
+	hl9z0
+X-Gm-Gg: ASbGncsWZs1k45lUsmYrtG9qEWnynWtdvDN2jc103XvmQihHzxaXozW6cA61yQC8lRh
+	dgVVKRfDdn66LLjN2+iWRjZIiunKsaQn48Wtk30H9DlD+rN+jDMYGMkR1wyXapuGJEWSCLQLkHf
+	VGdSTlsSRUHyMtWSWw0FjaOMC6F3g8cP3uWMdVjy1UYdhV6H1KJuvC4kOLmPGxoh0fXji1s5qEb
+	wc50MxGKAg0GepM46U1rj5aaO7f/hJXDAqWPo5mg/LERtf/Pxs8Brqfn35JpTwJFe8+Um65nCt+
+	xlyKGqkC3Si/IB2+Ntr2sWG0buWIBDXNZ1htd3uVZZx5EMbC3dac02BoqC3/V9ye2oWSIbkxRw0
+	ArUZOGRsus9IHbTGFGp9xOjlsfdfD+S5xkiF/4q0nyg==
+X-Google-Smtp-Source: AGHT+IEWEOxnRmsY7CW6qzxqOxUEAfhDQBThVtGYsxYdHnrMvbBgNTYPuxWQrQr9DcPA8NVplhCfqg==
+X-Received: by 2002:a05:6000:40dc:b0:3a5:3369:52f3 with SMTP id ffacd0b85a97d-3b60dd4a834mr810416f8f.3.1752661822704;
+        Wed, 16 Jul 2025 03:30:22 -0700 (PDT)
+Received: from [192.168.1.110] ([178.197.222.89])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8bd15bfsm17790152f8f.19.2025.07.16.03.30.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Jul 2025 03:30:22 -0700 (PDT)
+Message-ID: <8698f842-a464-47b8-8c47-97cda016e227@linaro.org>
+Date: Wed, 16 Jul 2025 12:30:20 +0200
 MIME-Version: 1.0
-X-Authority-Analysis: v=2.4 cv=ad1hnQot c=1 sm=1 tr=0 ts=6879b9ea cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=DOyQDXDkBrU8gSCrB9UA:9
- a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-ORIG-GUID: m9MCu3IXcvVnAzQuUuuTIedMkJ_ElJ4W
-X-Proofpoint-GUID: m9MCu3IXcvVnAzQuUuuTIedMkJ_ElJ4W
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDAyMyBTYWx0ZWRfX3G5xTaP/lxP/
- wErxzNzuyfWzfpkdLtZD3aCsOeHOTLh4EMS1OlVsG8hv+HIcDuAW1vgzPyFwN6hxL9cdtRxfI4M
- U+ybOmF0KqTPjJdQnM4g4d3qoBtgAZg52erh//I6SGw6OrWRFS2Y6e9QgX436o7sC3DusKs00/V
- +0xAgWktp1FJn2dAUzL2nWHKKJ0Y/dOb6B4gcJ4NyY3e4Rsuyn7CeqsZMJiPmF6BAoE7ELsh9cU
- DQSmvU+fNYLghxeR4NqvRILoEkAADp2KU+IDzAG2AJv8VWhorFeQMp3wxRKlX7uCIjuq6Z2TtXM
- oYyQr+V4Mv77lLlIsZX01QvV/3rO570K4VXRnzHGkf203499NgRgHN+bK1qTxRtqYmhxmnIQ63V
- QGyV3JOPQEjdIDNJ4xyOuFf/DuvoNQJFnbh8si55kgDX7DXB6oavDkb98VnYKM3cw/FV+DBi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-18_01,2025-07-17_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 spamscore=0
- malwarescore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507180023
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6.12 2/2] arm64: defconfig: enable Maxim TCPCI driver
+To: Macpaul Lin <macpaul.lin@mediatek.com>,
+ openembedded-core@lists.openembedded.org, patches@lists.linux.dev,
+ stable@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sasha Levin <sashal@kernel.org>,
+ =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org
+Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Macpaul Lin <macpaul@gmail.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Conor Dooley <conor.dooley@microchip.com>, Arnd Bergmann <arnd@arndb.de>
+References: <20250716102854.4012956-1-macpaul.lin@mediatek.com>
+ <20250716102854.4012956-2-macpaul.lin@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <20250716102854.4012956-2-macpaul.lin@mediatek.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:19:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221064
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221062
 
-wpa_supplicant has supported IEEE 802.11be (Wi-Fi 7) for over three
-years. With growing market demand for Wi-Fi 7, it is now an
-appropriate time to enable IEEE 802.11be Extremely High Throughput
-(EHT) support - mainly for AP mode.
+On 16/07/2025 12:28, Macpaul Lin wrote:
+> From: André Draszik <andre.draszik@linaro.org>
+> 
+> [ Upstream commit d2ca319822e071423ab883bc8493053320b8e52c ]
+> 
+> Enable the Maxim max33359 as this is used by the gs101-oriole (Google
+> Pixel 6) board.
+> 
+> Reviewed-by: Peter Griffin <peter.griffin@linaro.org>
+> Signed-off-by: André Draszik <andre.draszik@linaro.org>
+> Link: https://lore.kernel.org/r/20241203-gs101-phy-lanes-orientation-dts-v2-1-1412783a6b01@linaro.org
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Link: https://lore.kernel.org/r/20241231131742.134329-1-krzysztof.kozlowski@linaro.org
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
 
-This patch also enables the following features in defconfig:
-Opportunistic Wireless Encryption (OWE)
-Suite B and Suite B 192
-Multi Band Operation (MBO)
+No, that's not a fix.
 
-Signed-off-by: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
----
-v2: update prefix and commit message.
----
- .../wpa-supplicant/wpa-supplicant_2.11.bb                   | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
-index 6dc76494f7..440d3a5c94 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
-@@ -37,6 +37,12 @@ do_configure () {
- 	${MAKE} -C wpa_supplicant clean
- 	sed -e '/^CONFIG_TLS=/d' <wpa_supplicant/defconfig >wpa_supplicant/.config
- 
-+	sed -i -e 's/^#\(CONFIG_IEEE80211BE=y\)/\1/' \
-+	       -e 's/^#\(CONFIG_MBO=y\)/\1/' \
-+	       -e 's/^#\(CONFIG_OWE=y\)/\1/' \
-+	       -e 's/^#\(CONFIG_SUITEB=y\)/\1/' \
-+	       -e 's/^#\(CONFIG_SUITEB192=y\)/\1/' wpa_supplicant/.config
-+
- 	if ${@ bb.utils.contains('PACKAGECONFIG', 'openssl', 'true', 'false', d) }; then
- 		echo 'CONFIG_TLS=openssl' >>wpa_supplicant/.config
- 	elif ${@ bb.utils.contains('PACKAGECONFIG', 'gnutls', 'true', 'false', d) }; then
--- 
-2.34.1
-
+Best regards,
+Krzysztof
 
