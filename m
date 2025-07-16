@@ -1,100 +1,203 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83639C83F22
-	for <webhook@archiver.kernel.org>; Wed, 16 Jul 2025 14:10:56 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.23284.1752675050812497629
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C7C0C83F27
+	for <webhook@archiver.kernel.org>; Wed, 16 Jul 2025 14:30:36 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.23588.1752676228339650724
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 07:10:50 -0700
+ Wed, 16 Jul 2025 07:30:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=929279f93c=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56G76PIK2063573
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 07:10:50 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47wdvdsysv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 07:10:50 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Wed, 16 Jul 2025 07:10:49 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.57 via Frontend Transport; Wed, 16 Jul 2025 07:10:48 -0700
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][master][walnascar][PATCH  1/1] gnutls: upgrade 3.8.9 -> 3.8.10
-Date: Wed, 16 Jul 2025 19:40:44 +0530
-Message-ID: <20250716141044.1733137-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=c5yWuKY4;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: kamel.bouhara@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9C3F642E77;
+	Wed, 16 Jul 2025 14:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1752676226;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kf3ub9SZOULon4ldvBOu5cfxVFvOTpg4zZVXMmEOu4g=;
+	b=c5yWuKY44f43qorU+fYfohaKDvgB8isOw9hnzrKMikTTkmo6xk/eZMb9r4qbkkYM1EWuEH
+	rWPoP5aKeeKBLnpqTyRB0TyB0ys6+aSnnUQ4lOAtOMOEz7hcMaK9c78GnOp6Fm9KTk9bCs
+	d8merxDiXnfluGJBJWNPeoiGMU5RyP+aFCC3r5DZDV4hmT66SudAeKYr/ISq5z5iYFP1Rf
+	zeD4uH1b7MKKprlS++ijRGnOKKLD98vBJRJaklMzXEu6Ps6ITvUH2MT1NSfuH2hP5To/MB
+	Qv9aIM/0snZaPD/KLjswpS0vOojhQSNRkSACJgGUAGEjdFhIu8DN5vV27O7xxw==
+Date: Wed, 16 Jul 2025 16:30:24 +0200
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+To: bruce.ashfield@gmail.com
+Cc: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org,
+	JPEWhacker@gmail.com, thomas.petazzoni@bootlin.com,
+	mathieu.dubois-briand@bootlin.com, antonin.godard@bootlin.com
+Subject: Re: [OE-core] [PATCH 1/1] spdx3: Add optional kernel configuration
+ export to build_parameter for virtual/kernel
+Message-ID: <20250716143024.GA504568@tpx1.home>
+References: <20250716090517.481832-1-kamel.bouhara@bootlin.com>
+ <20250716090517.481832-2-kamel.bouhara@bootlin.com>
+ <aHdwpmxe3-5x1P1e@nuoska>
+ <20250716113437.GA491407@tpx1.home>
+ <CADkTA4PYcTMOeYyRpDRt8wefnkQEcQkXqustRrS-gczfnig7MQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: IyrINT_SgWFqqQ-1qCO6zizuDbl-51d9
-X-Authority-Analysis: v=2.4 cv=JbC8rVKV c=1 sm=1 tr=0 ts=6877b2ea cx=c_pps
- a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17
- a=_gujzhlsYxkA:10 a=Wb1JkmetP80A:10 a=GwUem0DFAAAA:8 a=t7CeM3EgAAAA:8
- a=btUJG6xmG7mrEtYodUsA:9 a=VO3SqhUBEN0A:10 a=r0dl5i_q2XGqDZkti5dn:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: IyrINT_SgWFqqQ-1qCO6zizuDbl-51d9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDAxNyBTYWx0ZWRfX41atLpZqe7Ch
- ENrz8rj7hhvvAJq18lxxNOAVvDBMBUnfHEPNhw8BPoxCNP8ZMNcksD7sHZKb6ayiV70TZmdoFfb
- 6eqS8ik6zKjsLdQqK1utJ8GpfNy8jQmJqKVcvYKRJt8VGuA/9AfitOlSZaKzUGn8ANpAjaxLiiB
- 6y5BaM8iWTNdiR/f+FCcO1HUkvrVzDIK99tOOtX1mrEuJTXM44kzOmVqLntaqGoNXlEcIOCVHH+
- W+nOKKpst6ThotudnYOevELQ4++l1C7qKoXpztVhhiEKzYQS8TUuQ+VhNN+1Z+6Fet8M0smbrMk
- nUNdxOw/K+FdC4B81qrbWJ09akCXTfqJY3yG02EhGZqRgt/2jZz/ROgv+EW2YRsx+uxV7PIQROA
- p50l2aOq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-16_02,2025-07-16_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 bulkscore=0 spamscore=0 priorityscore=1501
- phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2506270000 definitions=main-2507150017
+In-Reply-To: <CADkTA4PYcTMOeYyRpDRt8wefnkQEcQkXqustRrS-gczfnig7MQ@mail.gmail.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehjeelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepmfgrmhgvlhcuuehouhhhrghrrgcuoehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeffueegvedujedufedtheegveekieehuedtueffffdvgeefueegleegkefgtedvkeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppeekkedrudeitddrvddvvddrvddvleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeekkedrudeitddrvddvvddrvddvledphhgvlhhopehtphiguddrhhhomhgvpdhmrghilhhfrhhomhepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepjedprhgtphhtthhopegsrhhutggvrdgrshhhfhhivghlugesghhmrghilhdrtghomhdprhgtphhtthhopehmihhkkhhordhrrghpvghliheslhhinhgrrhhordhorhhgpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheplffrgfghhhgrtghkvghrsehgm
+ hgrihhlrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdprhgtphhtthhopegrnhhtohhnihhnrdhgohgurghrugessghoohhtlhhinhdrtghomh
+X-GND-Sasl: kamel.bouhara@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 14:10:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220462
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 14:30:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220463
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+On Wed, Jul 16, 2025 at 09:30:11AM -0400, Bruce Ashfield via lists.openembedded.org wrote:
+>    On Wed, Jul 16, 2025 at 7:34 AM Kamel Bouhara via
+>    [1]lists.openembedded.org
+>    <kamel.bouhara=[2]bootlin.com@lists.openembedded.org> wrote:
+>
+>      On Wed, Jul 16, 2025 at 12:28:06PM +0300, Mikko Rapeli via
+>      [3]lists.openembedded.org wrote:
+>      > Hi,
+>      >
+>      Hi Mikko,
+>      > On Wed, Jul 16, 2025 at 11:05:17AM +0200, Kamel Bouhara via
+>      [4]lists.openembedded.org wrote:
+>      > > Enhances SPDX Document by extracting kernel build-time
+>      configuration settings from '${B}/.config'.
+>      > >
+>      > > Each CONFIG_* line is parsed and exported as a DictionaryEntry
+>      in the build_Build.build_parameter
+>      > > section of the SPDX document. This provides better visibility
+>      into kernel build behavior and
+>      > > configuration, in alignment with the SPDX3 metadata model.
+>      > >
+>      > > The feature is gated by a new tunable variable:
+>      > >
+>      > >     SPDX_INCLUDE_KERNEL_CONFIG (default: "1")
+>      > >
+>      > > Setting this to "0" disables exporting the kernel configuration,
+>      which may be useful to improve
+>      > > performance or reduce the size of generated SPDX documents.
+>      > >
+>      > > Example:
+>      > >
+>      > >     CONFIG_FOO=y  →  { key: "CONFIG_FOO", value: "y" }
+>      > >
+>      > > This complements existing metadata export features and enables a
+>      more complete audit trail of how
+>      > > the kernel is built within a given build.
+>      >
+>      > Why is the kernel so special? All other SW components have build
+>      time configs too.
+>      >
+>      > For information harvesting, a lot of data can be extracted from
+>      the build system
+>      > but to me it's important that the build system and tools benefit
+>      the users
+>      > who actually do maintenance and development work. They need to be
+>      able to see
+>      > what patches get applied, what they fix, what configs are used
+>      etc. Extracting
+>      > all possible info into some IT management tooling which never
+>      directly feeds
+>      > back to the build system or developers to actually improve the CVE
+>      patch status,
+>      > enable security features and updates and fixes for real bugs, is
+>      not very useful.
+>      >
+>      You're absolutely right to question the special handling of the
+>      kernel.
+>      In this case, the choice was intentional: the kernel’s .config is
+>      well-structured,
+>      easy to locate, and critical to the system's security and behavior.
+>      It's also a central component of the BSP, making it a strong
+>      candidate for initial
+>      integration when experimenting with build-time metadata capture in
+>      SPDX.
+>      That said, I fully agree, many other software components also have
+>      meaningful
+>      build-time configuration (e.g., PACKAGECONFIG, EXTRA_OECONF, cmake
+>      flags), and the
+>      longer-term goal is to extend support to those as well.
+>      Starting with the kernel gives us a good foundation to validate the
+>      approach.
+>      Importantly, the patch makes this metadata inclusion optional and
+>      configurable.
+>      It introduces a variable to let users control the granularity of
+>      what gets
+>      included in the SPDX document. That means teams can choose to
+>      include or exclude
+>      details like kernel configuration based on their policy, use case,
+>      or audit needs.
+>      About usefulness to developers, I agree this info only brings value
+>      if it
+>      integrates back into yocto developers workflows. That’s exactly the
+>      direction
+>      I’m aiming for, for example, we’ve added support in our SBOM diff
+>      tool to compare
+>      kernel configuration between builds by parsing CONFIG_* entries.
+>      This mostly lets teams audit config changes over time and detect if
+>      a
+>      some security-hardening option was unintentionally disabled.
+>
 
-Changelog:
-https://lists.gnupg.org/pipermail/gnutls-help/2025-July/004883.html
+>    I have the same concerns and opinion on this as Mikko
+>    As long as this doesn't add overhead, or becomes mandatory, my
+>    objections can
+>    be ignored.
+>    But generally speaking, I'm opposed to jamming everything into SPDX and
+>    using
+>    it as a tool for what you are describing above. There are already
+>    existing tools that
+>    are focused and better at comparing configurations of packages (and the
+>    kernel).
+>    Turning SPDX into some kind of one-stop-shop and everything-in-one
+>    place tool
+>    is something I'd object strongly to.  (I do realize you are talking
+>    about using some
+>    sort of other tool reading the SPDX data, but my objection is just the
+>    same if it
+>    becomes an absolutely massive monolithic data source).
+>    Bruce
+>
 
-Includes security fix for:
-CVE-2025-6395
-CVE-2025-32989
-CVE-2025-32988
-CVE-2025-32990
+Hi Bruce,
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- .../gnutls/{gnutls_3.8.9.bb => gnutls_3.8.10.bb}                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/gnutls/{gnutls_3.8.9.bb => gnutls_3.8.10.bb} (97%)
+Thanks for the feedback.
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.9.bb b/meta/recipes-support/gnutls/gnutls_3.8.10.bb
-similarity index 97%
-rename from meta/recipes-support/gnutls/gnutls_3.8.9.bb
-rename to meta/recipes-support/gnutls/gnutls_3.8.10.bb
-index f2b7ac7bb8..600f23683e 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.9.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.10.bb
-@@ -25,7 +25,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://Add-ptest-support.patch \
-            "
- 
--SRC_URI[sha256sum] = "69e113d802d1670c4d5ac1b99040b1f2d5c7c05daec5003813c049b5184820ed"
-+SRC_URI[sha256sum] = "db7fab7cce791e7727ebbef2334301c821d79a550ec55c9ef096b610b03eb6b7"
- 
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
- 
--- 
-2.40.0
+Just to clarify, the goal here isn't to turn SPDX into a one-stop-shop or to
+overload it with every piece of build metadata. The intent is to capture a minimal
+and focused subset of build-time parameters
+(like kernel .config, PACKAGECONFIG, etc.) where:
 
+    - The structure is already well-defined
+    - The data is relevant for security or compliance
+    - And the cost of extraction is very low
+
+This is fully gated behind an opt-in variable (and could default to disabled).
+The idea is not to replace existing tools but rather to provide a structured,
+portable format for key metadata, especially in SBOM-driven environments where SPDX
+is already part of the process.
+
+In my use case, this metadata is consumed by a targeted diff tool; not treating
+SPDX as the end-goal, but more like a transport format. This approach lets us
+reuse existing SPDX outputs without interfering with or duplicating the role of
+more purpose-built tools.
+
+So I hear you: this shouldn't become bloated, mandatory. The goal is simply to make
+sure when people do need to trace how something was built, especially in CI or
+audit contexts, they have a consistent hook, and it can be disabled entirely if
+not useful.
+
+Cheers,
+
+--
+Kamel Bouhara, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
