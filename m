@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B93C83F27
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B59C83F22
 	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 02:59:31 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.40273.1752721168657879616
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.40268.1752721162254868931
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 19:59:28 -0700
+ Wed, 16 Jul 2025 19:59:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gSDtm/I1;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-31393526d0dso450394a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:59:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Pvpk6gUp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-23c8a505177so3882035ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:59:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752721168; x=1753325968; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752721161; x=1753325961; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3Bs0tLdg35vY313ByYwTjqILVDveKfqKQ0PlzAaPBVE=;
-        b=gSDtm/I1mTcGj2LMQqxHKBMDPXxlK45+d8qUzOqBDWfh7uUeRYHoaeZkSD1uG6Nzoc
-         oK2vHhz8cYF8ols9d9xGF2XvJxboqRy6W4kuXdhOfPRVku1sYhGQL1snm2IK0y/ZQism
-         lOBhrE7OmpyB+SD7fTujIzdrEJuLMv58eZaXUzWYHGingZ0EkEnU8J1izBYRB/g/i5nr
-         WTOh6+j9+OKmmjE9G/lIUH9GqGmHhBPq1H/tXVq9nBeKSMYlJkF0ROpd7o09hOjHgGjm
-         +J0u5pUtOYrjLNqe1SXzdcw2xlq2VbgdEg57zVMhN3Bnf4rdV9o1SQsuzGi5cEF6GdOB
-         J21A==
+        bh=vewiFWydFc0l/pDGPw7gRpv2YkWoIl9H5nJXutMbvwc=;
+        b=Pvpk6gUpCD7x9MXeCJ0KJ2lQ+v4AI8zilyrEg80gIhMvLKsij9xlK+lCswoUvXFi5v
+         CjOwWsMbVa4u+1HjLVWXlWt+xUU8il/RVLwonZzYlvuM/s6GIfRpAj1zJcbUX4bhbjfL
+         XrLzWA4rpM1FJ6uZKHyL1rTRLoAsZwEZXYzWP5vJKyL5Zr2aq1TN+wTRJBDaORrUBydq
+         1/CWrs907uRVEbasSr60YCHGcovvOJ4Cqh+WgpUEzy2w4VdvJeRoAqtBvd5WOuMPEYPA
+         u6U7dRAy+Eh/AQbgGjT83KLRafGuBJp6Hgm6MSq2y5AtShEHemfe1TAwJYhs6CBrA+QS
+         zQUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752721168; x=1753325968;
+        d=1e100.net; s=20230601; t=1752721161; x=1753325961;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3Bs0tLdg35vY313ByYwTjqILVDveKfqKQ0PlzAaPBVE=;
-        b=ZR+d5hjCe3er3i8M/ELMTeio56dOtVUAy6YNRFdaN73zStDbLzOndKsS4X2rQ/PmOU
-         D3smGnBhDcCodPWUPfc6wXg3EawTRaYrssCW6aCrsEnaEdBPgYmH9G/Z6F9U7KrRt3Rs
-         2eTIqB7apXM3YQo2+OHJig+NLNCZyYwajewXABg4HMV+RSwaYM9oDI8HHRaNZBIY7hLz
-         Xn9Rc9LKJAkEs4eTX0qW68ykuDQRHqPrTU0S932D08b4rkNS1bE+f/BrV7670g34QrRG
-         e4HRO6PZP5pyd85tcOWOOYQZomh9CNNsMDDA8ZM65HWtYN7vKHQLsAPyyKjXmbrmt3K/
-         K0FA==
-X-Gm-Message-State: AOJu0YyvcGnaMjf9dmPvy0Na8IWfCLPy8oEO3j0WGXkf98CNIYIKUmbN
-	q3VhUrX5Z470uF+OT7VlFA2yD7f8tOWEi8EfBJ58H/PczXaLjNob+Ta15wNTYUtL1ihLIr+cDSI
-	YkcXJ
-X-Gm-Gg: ASbGnct8bo1NqSb0o8akTt0kuL0jr5WOZYrV1dA0ewweJr/2xo00tL5bMOffWXXecSQ
-	o63lm19rvKYDN7hXkdNek4XpZq+/tXvhkzKMRBkY8wHAN/iQLcUBGWumadrWag/GYDcbGHmsT/I
-	9QoDkFmxSR6L+8mCk8vARXGg5IoV626hX2uyFpum0XvjdDAnSX7bIq8yRkPVeU5ruCO1FXQiIYO
-	RubdZe0oIGxRmM0/svZjHPoP5RjX3QSjaBPFPJzvNWkyAeCRcLz8MWFAw/MZ407lMAQWKLuwOOK
-	pEm7HRwnUmLIheKmZJC7cmQmH0nHhJ1q3ZCIf/+dkpEcptkIyM3Pq97zWjjWNA6sHVzHRm67IRS
-	5tgr3xcEgvixFGw==
-X-Google-Smtp-Source: AGHT+IGQqmoJKKIaQTWziFeOjAzEOwQj6UrdMtbiAM5Y3gQluTmqFeI6FyVUgylauY1Q83BL54fy7Q==
-X-Received: by 2002:a17:90a:e7d1:b0:312:e9bd:5d37 with SMTP id 98e67ed59e1d1-31c9e6e2dabmr7854967a91.6.1752721167887;
-        Wed, 16 Jul 2025 19:59:27 -0700 (PDT)
+        bh=vewiFWydFc0l/pDGPw7gRpv2YkWoIl9H5nJXutMbvwc=;
+        b=jUDhB6bbMCkgn9/UXdnpqK9DvSWalD9fDrA8QtiCBhHWyHXBJagfD+LuPnscq7bu3/
+         ABjijMoWVqKZ9AjwfDMRJXK7ne5FPwPpK8ui/VMT//kX3LpmpnbBnTB6wZPFakh8WRRm
+         nlW6t9XjKp4gqvNhcF+FAJ25JkpmPA/PPjo6Pj72iYREIRIHC2bHzdGzfHuqoq5Ssc0l
+         ZgIvlqc8PPH3112/sOvajvU9Wr9SyvOW8HCugCu3EO/CsVRu+onYLh21GGkkFNXvQdP+
+         1E1boga+n6maXhTdc5WSPf5pX3AbyP4K70li66g2dK92BNTmZkJvyDGbIK1gMdWTUwQx
+         /UiQ==
+X-Gm-Message-State: AOJu0Ywtk/lAMAernrh8Gvr7LPqvDkYh5qGrnFePkr2PXarQDU8mzryM
+	SrS9gGsyyw2t0H1Skzw1JgmNyzkkRTlFJ5lI1AIfC3ZaVs2BkDeKDrY/K//JNy0X7BFzwpeB6ve
+	p2lrq
+X-Gm-Gg: ASbGncslvvZpcH7R1lzC8KZALVmB2roYJyhITopGoSj6TrkS/WhcOlrBIm8eHSuZtvu
+	mgDWUT4BUyBZ8f9CfLyPCi1jd0SKMF5u9Nwp8EYRE4weOCh9UHOLOr2O01vCEbbaeRWrQ7MvkUS
+	Nw5DY8n5XJy51JKvQeQ0U+LuGmWsvdYCk0dSk/y7ycV+9As0U4y6FogB5KE5kTMm4CDyRFyoIOt
+	UEZDXKcoV5Osi1RLb/UxwJO4cMF5UfstHwf7+WxawL1psTkS2n2H7Hw+w2NjhpaKU2X2/uj6TgO
+	vX104KQ+ceQ+zCjl6t9lBh7nEooBduvnYzCwW5wDjDSltoKQFhhYrSaXbhXxp3VFVM75OJxbWdp
+	dlidzxWKsB0i6yfMz+wgsC151
+X-Google-Smtp-Source: AGHT+IEhoI1FsVFBU0Y43zbgz1pWo/cKrBsjJMZDUNVzz9LC8qe459XCnN3b2fVOsG+S3vpN0pGYog==
+X-Received: by 2002:a17:902:e54a:b0:234:8a4a:adad with SMTP id d9443c01a7336-23e24f44a17mr76901175ad.26.1752721161406;
+        Wed, 16 Jul 2025 19:59:21 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3bfc:8fec:7e35:e96a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f29e313sm2204547a91.35.2025.07.16.19.59.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f29e313sm2204547a91.35.2025.07.16.19.59.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 19:59:27 -0700 (PDT)
+        Wed, 16 Jul 2025 19:59:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/12] oe-debuginfod: add option for data storage
-Date: Wed, 16 Jul 2025 19:59:00 -0700
-Message-ID: <24c0ab18045920bb5c1e965c0ea6d176fd6de234.1752721028.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 08/12] sudo: upgrade 1.9.15p5 -> 1.9.17p1
+Date: Wed, 16 Jul 2025 19:58:56 -0700
+Message-ID: <b04af6db102c97f3d4338dbcfdcab927b5194a69.1752721028.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752721028.git.steve@sakoman.com>
 References: <cover.1752721028.git.steve@sakoman.com>
@@ -68,59 +68,154 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 02:59:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220512
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220508
 
-From: Joe Slater <joe.slater@windriver.com>
+From: Praveen Kumar <praveen.kumar@windriver.com>
 
-Storing the data files under $HOME can be unreliable if debuginfod
-is used for several projects, especially if $HOME is shared
-between machines.  We provide an option to save files under the
-project directory.  The default behavior is unchanged.
+Changelog:
+===========
+* Fixed CVE-2025-32462.  Sudo's -h (--host) option could be specified
+   when running a command or editing a file.  This could enable a
+   local privilege escalation attack if the sudoers file allows the
+   user to run commands on a different host.
 
-(From OE-Core rev: e1e0cf82f559077e2a51447baf137086202c0c4a)
+* Fixed CVE-2025-32463.  An attacker can leverage sudo's -R
+  (--chroot) option to run arbitrary commands as root, even if
+  they are not listed in the sudoers file.  The chroot support has
+  been deprecated an will be removed entirely in a future release.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+License-Update: Copyright updated to 2025
+
+0001-sudo.conf.in-fix-conflict-with-multilib.patch refreshed for 1.9.17
+
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/oe-debuginfod | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ ...o.conf.in-fix-conflict-with-multilib.patch |  7 ++-
+ meta/recipes-extended/sudo/sudo.inc           |  2 +-
+ .../{sudo_1.9.15p5.bb => sudo_1.9.17p1.bb}    | 54 ++++++++++++++++++-
+ 3 files changed, 57 insertions(+), 6 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.15p5.bb => sudo_1.9.17p1.bb} (52%)
 
-diff --git a/scripts/oe-debuginfod b/scripts/oe-debuginfod
-index b525310225..60e51addfd 100755
---- a/scripts/oe-debuginfod
-+++ b/scripts/oe-debuginfod
-@@ -15,14 +15,29 @@ scriptpath.add_bitbake_lib_path()
+diff --git a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
+index 041c717e00..1989c5abd7 100644
+--- a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
++++ b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
+@@ -1,4 +1,4 @@
+-From 6e835350b7413210c410d3578cfab804186b7a4f Mon Sep 17 00:00:00 2001
++From 8c69192754ba73dd6e3273728a21aa73988f4bfb Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Tue, 17 Nov 2020 11:13:40 +0800
+ Subject: [PATCH] sudo.conf.in: fix conflict with multilib
+@@ -15,13 +15,12 @@ Update the comments in sudo.conf.in to avoid the conflict.
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
  
- import bb.tinfoil
- import subprocess
-+import argparse
+ Upstream-Status: Inappropriate [OE configuration specific]
+-
+ ---
+  examples/sudo.conf.in | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
  
- if __name__ == "__main__":
-+    p = argparse.ArgumentParser()
-+    p.add_argument("-d", action='store_true', \
-+                         help="store debuginfod files in project sub-directory")
+ diff --git a/examples/sudo.conf.in b/examples/sudo.conf.in
+-index 2187457..0908d24 100644
++index bdd676c..094341c 100644
+ --- a/examples/sudo.conf.in
+ +++ b/examples/sudo.conf.in
+ @@ -4,7 +4,7 @@
+@@ -53,7 +52,7 @@ index 2187457..0908d24 100644
+  # Sudo plugin directory:
+ @@ -74,7 +74,7 @@
+  # The default directory to use when searching for plugins that are
+- # specified without a fully qualified path name.
++ # specified without a fully-qualified path name.
+  #
+ -#Path plugin_dir @plugindir@
+ +#Path plugin_dir $plugindir
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index feb1cf35a7..a23de1fcf7 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
+-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=5100e20d35f9015f9eef6bdb27ba194f \
++LIC_FILES_CHKSUM = "file://LICENSE.md;md5=2841c822e587db145364ca95e9be2ffa \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.15p5.bb b/meta/recipes-extended/sudo/sudo_1.9.17p1.bb
+similarity index 52%
+rename from meta/recipes-extended/sudo/sudo_1.9.15p5.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.17p1.bb
+index 8e542015ad..c5d57da9f0 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.15p5.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.17p1.bb
+@@ -1,3 +1,55 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.md
++# +++ LICENSE.md
++# @@ -1,6 +1,6 @@
++#  Sudo is distributed under the following license:
++#
++# -    Copyright (c) 1994-1996, 1998-2023
++# +    Copyright (c) 1994-1996, 1998-2025
++#          Todd C. Miller <Todd.Miller@sudo.ws>
++#
++#      Permission to use, copy, modify, and distribute this software for any
++# @@ -247,9 +247,9 @@
++#
++#  The file arc4random.c bears the following license:
++#
++# -    Copyright (c) 1996, David Mazieres <dm@uun.org>
++# -    Copyright (c) 2008, Damien Miller <djm@openbsd.org>
++# -    Copyright (c) 2013, Markus Friedl <markus@openbsd.org>
++# +    Copyright (c) 1996, David Mazieres <dm@uun.org>
++# +    Copyright (c) 2008, Damien Miller <djm@openbsd.org>
++# +    Copyright (c) 2013, Markus Friedl <markus@openbsd.org>
++#      Copyright (c) 2014, Theo de Raadt <deraadt@openbsd.org>
++#
++#      Permission to use, copy, modify, and distribute this software for any
++# @@ -282,7 +282,7 @@
++#
++#  The file getentropy.c bears the following license:
++#
++# -    Copyright (c) 2014 Theo de Raadt <deraadt@openbsd.org>
++# +    Copyright (c) 2014 Theo de Raadt <deraadt@openbsd.org>
++#      Copyright (c) 2014 Bob Beck <beck@obtuse.com>
++#
++#      Permission to use, copy, modify, and distribute this software for any
++# @@ -299,7 +299,7 @@
++#
++#  The embedded copy of zlib bears the following license:
++#
++# -    Copyright (C) 1995-2022 Jean-loup Gailly and Mark Adler
++# +    Copyright (C) 1995-2024 Jean-loup Gailly and Mark Adler
++#
++#      This software is provided 'as-is', without any express or implied
++#      warranty.  In no event will the authors be held liable for any damages
++#
++#
 +
-+    args = p.parse_args()
-+
-     with bb.tinfoil.Tinfoil() as tinfoil:
-         tinfoil.prepare(config_only=True)
-         package_classes_var = "DEPLOY_DIR_" + tinfoil.config_data.getVar("PACKAGE_CLASSES").split()[0].replace("package_", "").upper()
-         feed_dir = tinfoil.config_data.getVar(package_classes_var, expand=True)
+ require sudo.inc
  
-+    opts = [ '--verbose', '-R', '-U', feed_dir ]
-+
-+    if args.d:
-+        fdir = os.path.join(os.getcwd(), 'oedid-files')
-+        os.makedirs(fdir, exist_ok=True)
-+        opts += [ '-d', os.path.join(fdir, 'did.sqlite') ]
-+
-     subprocess.call(['bitbake', '-c', 'addto_recipe_sysroot', 'elfutils-native'])
+ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+@@ -7,7 +59,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
--    subprocess.call(['oe-run-native', 'elfutils-native', 'debuginfod', '--verbose', '-R', '-U', feed_dir])
-+    subprocess.call(['oe-run-native', 'elfutils-native', 'debuginfod'] + opts)
-+    # we should not get here
-     print("\nTo use the debuginfod server please ensure that this variable PACKAGECONFIG:pn-elfutils-native = \"debuginfod libdebuginfod\" is set in the local.conf")
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[sha256sum] = "558d10b9a1991fb3b9fa7fa7b07ec4405b7aefb5b3cb0b0871dbc81e3a88e558"
++SRC_URI[sha256sum] = "ff607ea717072197738a78f778692cd6df9a7e3e404565f51de063ca27455d32"
+ 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.43.0
 
