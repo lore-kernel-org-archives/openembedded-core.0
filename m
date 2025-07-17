@@ -2,171 +2,94 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 953E4C83F1A
-	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 16:42:55 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web10.115.1752770572921855474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95EB2C83F1A
+	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 16:43:45 +0000 (UTC)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+ by mx.groups.io with SMTP id smtpd.web11.146.1752770619021043550
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jul 2025 09:42:53 -0700
+ Thu, 17 Jul 2025 09:43:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ihGPzh1q;
- spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7183dae66b0so11656007b3.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 09:42:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QAWx2bzW;
+ spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e8d157c946eso924119276.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 09:43:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752770572; x=1753375372; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1752770618; x=1753375418; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L6/GnqFqwpExZb5U5J4Tu5qzCGcrER7VcnUg+/+2ctU=;
-        b=ihGPzh1qOmzd2QI9oLZpPTjREEEkO2Ew/s2TNlUyjFt2h9aDbmGEF//m8+XLDHC/EC
-         fdvsByD1XbTO+giqouD0tKHMSkwMIG6WOcGAao9oWdqE+Z26aA1MrsfFSopB3/5y/jlV
-         WiqQD5QSoDtd4oXl1epnbT+98BxA63WbSMSDVEdtRFpyoj0+DLASd2ZS3M2h5SyreHWe
-         lJNuP803Uhp4F+R5gg+naZ4RS42szNMtWCozDdVzXg/WpL187r6KIjP5GCjm05scGk24
-         WMkaiLa0mazMfHxu7d362wUuPBw+ZGNkEAh1JOKlCB6kmELBAILgom6057jr3feiO+HB
-         yySg==
+        bh=wWZjF9h0Z919/8AyLpFPZI0NWlixKhGxCEw+TddAIhU=;
+        b=QAWx2bzWRufbFjKz+D4KpcIfSq58Igq8jZNnEQFVOXrjfJZVS9rzC27DLViXZ6nX4A
+         eGGtMVuzhdZIPfnkfdFzS7U00rP1Po+c49w47G+mC2mid8Hy+I/Pn6RZCZ/k8ZuGaSpL
+         7qzJuecLBrOUT+AbD/DYKHyjZni7Ir1mbddRDjaYSKGNtjFwxNKPezLP/7ix+o3fGox4
+         fBMAWa24gZlEleR7jZOOsC9WJ+JRi9i5p2Oz6H8L8lcqnztMPMybCYTGECM/9Bpm4Wf+
+         iVjxsbkxye+XBEa7CbZE9Dbty3qRcgblUPHIOzpzGFbdfSdQPorToaLSVCQeETUs8yvm
+         prIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752770572; x=1753375372;
+        d=1e100.net; s=20230601; t=1752770618; x=1753375418;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=L6/GnqFqwpExZb5U5J4Tu5qzCGcrER7VcnUg+/+2ctU=;
-        b=ey+Kx75bMS8xuNFBSoK+egatHQC2UTVrBvLdwIL5QoNZhPMpkZOf/NBe1Hvoh1B4w5
-         pj67O5cEud3Fm2r5JzMbPXTOHVlW4sPgkap/Z71odqiZbmVXoYC9UGTME1PW9487LBYx
-         k7hGVoSjGjJ9l7bfA580VGXRz30ISg6IufwJnHtr+4D555P1CB2d8P6OyhKk79H/uaX9
-         XOiBvjpukSgSAbEWn49eoixIGzpjVxxjdDJRZacbStI5j96MG8bKbed6qmfvkEWGKWYw
-         cYjEp3Qec1w2y6Ba86MngGTtNzYC8LRaWQ5oEULsMLaL0i9MjI6oLrK3TkaGZwnl8f7k
-         kb9g==
-X-Gm-Message-State: AOJu0YwVcYqyl+GLKR1J+MFvj7vJhiCdznDVkPQ32G44WKlks4gVxIpY
-	aSzLyGMxWlRuKyQqMept73o9nTcHqjvag/ZmUme2NLK+Dp71pve35RlC19ahNZoj0VuN6pZpykx
-	2iT/iAn2rxFEguqWFgvbseLwm1Ncq3hE=
-X-Gm-Gg: ASbGnctYWszM95Ieu7YyYsPjplLoaUI84S22csodR//Ql9sMgbV4gVS5NpcLOlVySjS
-	wUD+xPAPuS31iSWzzDGIEgdaCD/Ox0beXxP/NEFoBzdFu6mvczV6IlQxkUqL+CzW9ynu3h05mED
-	ankPNdKKlQm/UasQ6WZuOtAMl+cmXudIJRkbfW5w8PL8n6TM/1f+UkFtXVcAEHMBw9TRsM+r8pi
-	LJJEQ==
-X-Google-Smtp-Source: AGHT+IGY9sc0CpvWaxWYI16r7HfR6tJLKlTdHMmyNgd8Q5AUXqD9+NVgDlCkFwyTzlCqAfiNwSdyWXHnDwSZLvIwqpQ=
-X-Received: by 2002:a05:690c:6181:b0:718:38be:b3e4 with SMTP id
- 00721157ae682-71838bebb4bmr95005067b3.40.1752770571629; Thu, 17 Jul 2025
- 09:42:51 -0700 (PDT)
+        bh=wWZjF9h0Z919/8AyLpFPZI0NWlixKhGxCEw+TddAIhU=;
+        b=h8Z1GEFOCcZm3QL/ns6sTIJOIaCyDvgKC6eVt5Zef5wPzypH5n109LKRZbDwrvy7lx
+         N+vah4nNjwNlF99f2CfC0Qgp2uVdm99B7DUt59m1bWfFnonvc6VTv6m+IwUsk17xl7tV
+         TI6U3vZXtDTDtMfnU8KVDh3HCPyDh5mD9VjrNRLLcDag5Hzf4Rjd7XEaYU6YNlx9P0wf
+         aGZKFHOBMUJIJTbEHM1Xf2/I8G9D07SdL64UQ259kGBZqHNCAN99idztQYAK6PLLy+PZ
+         PSSCR1eLXeRCm/U1DW4sulv1z0Fm3JG6tq/cT1QQt2jtHI4uO5KorA7cvED3lmx98hA+
+         9XxA==
+X-Gm-Message-State: AOJu0YwyBwXYo2iHKJtfLP4llxmHJQl7Ivj/6BfQljjjJL2jKCxzPkwy
+	/vQUqDrfHByVf1t3K+ERt0uCSRXA9PIS6ijLxtKVbWCXCEL83r3KK66BoWjqBZorn/pN+YyqS9U
+	F8lJ8JGCVHXSwa2WZFVvzT+t2V05oAtw=
+X-Gm-Gg: ASbGnct9N83SRQM5+7/rDlIAN0tJU6AmyNrJhPA1rOdSn+kg7ijkp3LXJBj/2wIOS8W
+	05FODCc4PIeRAW+7vVtQMGU/HfiQ0y84Z477UuuD8oEXFEUOJj61X7L9ei09ifYYTR9ApTUyaob
+	idKLfxUNLBPCHVo+aBH7GwARqbzRpjRNph4wsCjLMS4HS11jOSik5wGMsCylSsuJT7/ntvzo3AY
+	lKF4g==
+X-Google-Smtp-Source: AGHT+IEoA3cfzUZQ30SZJS7/trEEmf3xZ3MutJTf/w8o9u8Md6zZzBKY3IZihfGUw6OylQ6miNDl5f1mjMb9c10Wf10=
+X-Received: by 2002:a05:690c:6f82:b0:718:38bd:bee4 with SMTP id
+ 00721157ae682-71838bdcffdmr91346207b3.40.1752770617943; Thu, 17 Jul 2025
+ 09:43:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250717120210.3061934-1-Yash.Shinde@windriver.com>
-In-Reply-To: <20250717120210.3061934-1-Yash.Shinde@windriver.com>
+References: <20250716123047.1322878-1-ross.burton@arm.com> <CAMKF1srjH=+jMcY4BqMToXWF_Q0DfPcnWynuqVBPK5h5H8azJg@mail.gmail.com>
+ <FF19A1C4-1D84-46F9-917E-90F7C2078E87@arm.com>
+In-Reply-To: <FF19A1C4-1D84-46F9-917E-90F7C2078E87@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 17 Jul 2025 09:42:25 -0700
-X-Gm-Features: Ac12FXyZHfebJF24AnJCPaX2FuhwMaN1a92J-3Q2yYQWc6aS4d-kxgpF_z6YwZ0
-Message-ID: <CAMKF1sr0FnUFiuhm4Abw-8J3hi9r2dUiYj9f9fArNFjw5anYiw@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] binutils: Fix CVE-2025-7546
-To: Yash.Shinde@windriver.com
-Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com, 
-	Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
+Date: Thu, 17 Jul 2025 09:43:11 -0700
+X-Gm-Features: Ac12FXxG37Fs9R_V4W4w41NzWxGesqUDtD8Ndt2chuKXymZzUATd16O4Fkioyrc
+Message-ID: <CAMKF1sq0y+JU3eNpdDUQ97SLwwHs8dB6D9m0cY9XsgQ-i6uWng@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] clang: remove obsolete 'terminfo' PACKAGECONFIG
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 16:42:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220551
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 16:43:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220552
 
-LGTM
+On Thu, Jul 17, 2025 at 5:13=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+rote:
+>
+> On 17 Jul 2025, at 02:32, Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > On Wed, Jul 16, 2025 at 5:30=E2=80=AFAM Ross Burton via lists.openembed=
+ded.org
+> > <ross.burton=3Darm.com@lists.openembedded.org> wrote:
+> >>
+> >> Neither LLVM_ENABLE_TERMINFO or COMPILER_RT_TERMINFO_LIB are used in t=
+he
+> >> current CMakeLists.
+> >
+> > It has transformed overtime, so removal is perhaps fine. although this
+> > has transformed into lldb cmake detecting it for the build
+> > so it might be doing the job due to ncurses being in deps which now it
+> > gone. TUI with lldb might be disabled
+>
+> I don=E2=80=99t believe this is an issue, as you say lldb depends on libe=
+dit which depends on ncurses, so the dependency is still there.
+>
 
-On Thu, Jul 17, 2025 at 5:02=E2=80=AFAM Yash Shinde via lists.openembedded.=
-org
-<Yash.Shinde=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Yash Shinde <Yash.Shinde@windriver.com>
->
-> Report corrupted group section instead of trying to recover.
->
-> CVE: CVE-2025-7546
-> Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinu=
-tils-gdb.git;h=3D41461010eb7c79fee7a9d5f6209accdaac66cc6b]
-> PR  33050 [https://sourceware.org/bugzilla/show_bug.cgi?id=3D33050]
->
-> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-> ---
->  .../binutils/binutils-2.38.inc                |  1 +
->  .../binutils/0043-CVE-2025-7546.patch         | 44 +++++++++++++++++++
->  2 files changed, 45 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/0043-CVE-2025=
--7546.patch
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/reci=
-pes-devtools/binutils/binutils-2.38.inc
-> index f1c29015bc..70176c791c 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-> @@ -78,5 +78,6 @@ SRC_URI =3D "\
->       file://0040-CVE-2025-1182.patch \
->       file://0041-CVE-2025-5244.patch \
->       file://0042-CVE-2025-5245.patch \
-> +     file://0043-CVE-2025-7546.patch \
->  "
->  S  =3D "${WORKDIR}/git"
-> diff --git a/meta/recipes-devtools/binutils/binutils/0043-CVE-2025-7546.p=
-atch b/meta/recipes-devtools/binutils/binutils/0043-CVE-2025-7546.patch
-> new file mode 100644
-> index 0000000000..da4dc3fb39
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/0043-CVE-2025-7546.patch
-> @@ -0,0 +1,44 @@
-> +From 41461010eb7c79fee7a9d5f6209accdaac66cc6b Mon Sep 17 00:00:00 2001
-> +From: "H.J. Lu" <hjl.tools@gmail.com>
-> +Date: Sat, 21 Jun 2025 06:52:00 +0800
-> +Subject: [PATCH] elf: Report corrupted group section
-> +
-> +Report corrupted group section instead of trying to recover.
-> +
-> +       PR binutils/33050
-> +       * elf.c (bfd_elf_set_group_contents): Report corrupted group
-> +       section.
-> +
-> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbin=
-utils-gdb.git;h=3D41461010eb7c79fee7a9d5f6209accdaac66cc6b]
-> +CVE: CVE-2025-7546
-> +
-> +Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-> +Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-> +---
-> + bfd/elf.c | 23 ++++++++++-------------
-> + 1 file changed, 10 insertions(+), 13 deletions(-)
-> +
-> +diff --git a/bfd/elf.c b/bfd/elf.c
-> +index 14ce15c7254..ee894eb05f2 100644
-> +--- a/bfd/elf.c
-> ++++ b/bfd/elf.c
-> +@@ -3611,8 +3611,18 @@
-> +       break;
-> +     }
-> +
-> ++  /* We should always get here with loc =3D=3D sec->contents + 4.  Retu=
-rn
-> ++     an error for bogus SHT_GROUP sections.  */
-> +   loc -=3D 4;
-> +-  BFD_ASSERT (loc =3D=3D sec->contents);
-> ++  if (loc !=3D sec->contents)
-> ++    {
-> ++     /* xgettext:c-format */
-> ++      _bfd_error_handler (_("%pB: corrupted group section: `%pA'"),
-> ++                         abfd, sec);
-> ++      bfd_set_error (bfd_error_bad_value);
-> ++      *failedptr =3D true;
-> ++      return;
-> ++    }
-> +
-> +   H_PUT_32 (abfd, sec->flags & SEC_LINK_ONCE ? GRP_COMDAT : 0, loc);
-> + }
-> --
-> 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220535): https://lists.openembedded.org/g/openembedde=
-d-core/message/220535
-> Mute This Topic: https://lists.openembedded.org/mt/114201610/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+OK, that is good then
+
+> Ross
 
