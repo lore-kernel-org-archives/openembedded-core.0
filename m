@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E494C83F1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A6CC83F34
 	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 02:56:01 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.40206.1752720958709177977
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web11.40455.1752720953554209426
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 19:55:58 -0700
+ Wed, 16 Jul 2025 19:55:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=T2yTYcKY;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-312e747d2d8so1143121a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:55:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PCidTTnM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b31d489a76dso380098a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:55:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752720958; x=1753325758; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752720953; x=1753325753; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6syUaQuyzTaWcwvLYzCpGg1KmKN7nGdhKdQqoyw/LLk=;
-        b=T2yTYcKYdadEQ/zgKpg4+HVCgHQY2glS8xFYEi0Py6kgi76hjYNALma71LsBI9rIOb
-         pF8slAVTMsj8uBL4IpGe3igHSwDRkfqG3NioreQk+SvLrRgQGwALGAKebR8mU15DBq3f
-         HUlK9A9E4ovgBx6w3StpAXTvH9W0ETC4X+2R+76MIXvMubbUQzWRThjMVDd5FmmnTqjz
-         +A1/siKIbrLGSnXDHvyBcUV1jnsNIILs9N1pptboRML9DJ8E9CvU/qFjb8ME/zhrHD14
-         1IkPZzUxdQAd9MosOOy+NSVMSmexkNcoReJpoMaPiVCkSgb6PdivtbXXZBOvzh+s082/
-         O6eA==
+        bh=TtS41Au2G7ZoFdyJpu6LiFRoSQSvMV7x2WznWVjXGbI=;
+        b=PCidTTnM55R5/wjdidtfqaBH+oYsxQTYHvRttYyn9eXm114+Z2SiWT5V352t9gHaJB
+         85etD6FlH0mpwujhsNpjcKa2Igw5nVDEe4oeTESEPkLvlYinypbOJHQccliWypj1wwta
+         AXtohXUdjNG13RD0Zl/HY625eGaRdTck/LwJoby+ANSTYuf4hIHBlusDn9l8sYsoebuB
+         i9iLKrcinI0/ZqiJuzsB0rZS20icWmfhrthPnjBSPnj6olyBlrbAajx2I2khpkWsTYrJ
+         Ki5/Rh3IxJe05VYU3j0VwFAq/+RwRLm6bqpZPcNDyb0ULT433Ms1OlBylRFeaOAGdYf/
+         fcJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752720958; x=1753325758;
+        d=1e100.net; s=20230601; t=1752720953; x=1753325753;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6syUaQuyzTaWcwvLYzCpGg1KmKN7nGdhKdQqoyw/LLk=;
-        b=EXZoe/Fg0SQ1H3z9c4wFmfMTxUUgVBj6oLZdur5mfknPTuhtBnm2TkjPH82iPUmslk
-         Lrp4a9jukV//S0CJTqbmd3pIaxw5i4EkRrrWgpRn6X6fpjwsyGCiQS8D4Y0d0a3qu2nQ
-         mFy7sI5xbIZBHE3HfYFuMxQUFRRKjLzWG2vZqOvVhjkEO4O5S0gjnJr1B45v7E1b3ixY
-         OProuFUPbZbQ1A+u8idaeOflPbcGJG5IUb145r5vWqNjyBeC3gdUwXaBIcpiMrtKAMDr
-         pArlq/havITQhxwINRuQ+CS+GVb6FWLChLXuDPIWDbYoHWOahoK7VwP5cdCsA5GYN0L+
-         V9sA==
-X-Gm-Message-State: AOJu0Yww5v5E3GzxK922+mGASOIEC3Y7gk1XIDsgRMfg5tONbBq02n1D
-	DJuTEZ5pvYnW2/mOox+z/Dqw0ABkHRgm8wOEa8A0/33z2u8ko0q5s/LFl5r75f2mCjbwHbuxC6Z
-	uqYu4
-X-Gm-Gg: ASbGncsOWwQgUA1HrETD948IOTDSfDV0oBokAWCw1DKWy1wbDRD7Fi4AkoWFBfCPbQc
-	XE1yBX40E5qKapcIUqaPNe2Sa9N5NsA+ci7cosf34/yLpLQOCIiZHYTtW+P1HDESkmgga2Fjoh+
-	huc/rGcqpcCsRm4YMqhjtPOkJ88RcB7fQRteES7HOJMjejkSzb9kkblD4rRyD74beKrMjVjfj79
-	W+RhPUipYY3iJ5i/zGp/QrRjGykAJK2JdV4X2JidNVOKY79CZMmPQylEKRdZ7o8wHSZ8gdkCyLK
-	L79FjqSwusK99yoV5m2zrz+ikgBC58908qKWyGJXrwhgvMbapGgsKe5Nojh60IyZOhVRuso4tH1
-	ktq7clNgSX1H5Sw==
-X-Google-Smtp-Source: AGHT+IGyEHdRl2atcqgKfwFR+/zh1PRBS8mLNVHUFPLlmKOsqpzVFBjN7AsWVp12M3bGHpT+Fuoc5w==
-X-Received: by 2002:a17:90b:2f06:b0:311:83d3:fd9c with SMTP id 98e67ed59e1d1-31cae8786c9mr2579909a91.0.1752720957860;
-        Wed, 16 Jul 2025 19:55:57 -0700 (PDT)
+        bh=TtS41Au2G7ZoFdyJpu6LiFRoSQSvMV7x2WznWVjXGbI=;
+        b=MudIfEpw7+pJEeuZ0xPN9JuBj2ohiUdssD75yNc6yboTjA1MwhkbOT/S1S33GE78Ih
+         Ke7MGKKw3AzNgCGLLr7UXOXuqHDf66hnN59ZS7E4gduh6K5OajN/3fNv3r5czMgli3J3
+         tDEKerYKlV4xIXU3FY7tDFcvXOIqmc5Rq7d6vZPK1q8G58u5IdoGI287wDO4RK9/iQru
+         vnptYbAg0gmZxcDDsDQER7sCpJawcWxn60MVGuZzh610ePZwRAKc51GBTEhAdxTVrML/
+         4jkQ2zVUFqP55ouHcoZOBkBzPPRWkbEhDNJoA8khh6tyMR6uPbN1boudrpXIfhzwB71m
+         Vrkg==
+X-Gm-Message-State: AOJu0Yw7imju/eHRMsaiuSzj6ooRa0+h2MxfSzJf5Kh9Noc1YZOL1Qdc
+	SnDmmbQYxiDOX3qKn1nFDa7t7foKcN0ifUji+7D1W1UHzWzu/zvm5p2Ad84ygraShvHybuETiOk
+	sPWrO
+X-Gm-Gg: ASbGncvRevzrU7xnFv3rUOsCYhrve2f3ULn7xKSOQJIfuCBgLkT/YST61FbQIVuOT8E
+	Nbu816FCvFFDW7K1cnqd9wDGp/PclzDwfxz/2/oF8ec1jQLqkFidg4OsGLjg7r7ulxfGBDSjOzi
+	tXyJAJaGmf23Ru8XBh2FVZvG5JEDc1KlWQ88Zkltr/WLNB7seISeJkBdOhFLT138PgOARyBQdxI
+	VSo2YbH/G/xyZELWbK0oaM0PPbMfb+aV+qituzKGfCLNiJzqHPuF2xYSuLQC7SJXq+y2Z2qRJ8Y
+	zIFbdf6DqQQIdt9y+bmZUxG/VrXVqmZSQPc3vwCBgzfEgSLusEFPdO1l4LsH/nISr6C0c+i533F
+	f30utjRcSvn2DAQ==
+X-Google-Smtp-Source: AGHT+IGL9YvneNHuzBpIiXxhSDpGZ4CKhHr6UMWPM9nTzPSOqz0+ct/NZbNVzWYUbMA61FWzjo0PSQ==
+X-Received: by 2002:a17:903:b90:b0:237:ec18:ead7 with SMTP id d9443c01a7336-23e2572fbd9mr90219795ad.24.1752720952572;
+        Wed, 16 Jul 2025 19:55:52 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3bfc:8fec:7e35:e96a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f288173sm2333256a91.25.2025.07.16.19.55.56
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f288173sm2333256a91.25.2025.07.16.19.55.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 19:55:57 -0700 (PDT)
+        Wed, 16 Jul 2025 19:55:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 10/13] binutils: Fix CVE-2025-7545
-Date: Wed, 16 Jul 2025 19:55:33 -0700
-Message-ID: <9730ddc98bd961d4e2b5b79fa60a2dde1d2a3301.1752720827.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 07/13] libxml2: fix CVE-2025-49795
+Date: Wed, 16 Jul 2025 19:55:30 -0700
+Message-ID: <9f17e0911eeb49e007de8ee3e50d9f3f38e08a26.1752720827.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752720827.git.steve@sakoman.com>
 References: <cover.1752720827.git.steve@sakoman.com>
@@ -68,81 +68,123 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 02:56:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220496
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220493
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+From: Divya Chellam <divya.chellam@windriver.com>
 
-objcopy: Don't extend the output section size
-Since the output section contents are copied from the input, don't
-extend the output section size beyond the input section size.
+A NULL pointer dereference vulnerability was found in libxml2 when
+processing XPath XML expressions. This flaw allows an attacker to
+craft a malicious XML input to libxml2, leading to a denial of service.
 
-Backport a patch from upstream to fix CVE-2025-7545
-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=08c3cbe5926e4d355b5cb70bbec2b1eeb40c2944]
+Pick commit from 2.13 branch
 
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2025-49795
+
+Upstream-patch:
+https://gitlab.gnome.org/GNOME/libxml2/-/commit/62048278a4c5fdf14d287dfb400005c0a0caa69f
+
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.44.inc                |  1 +
- .../binutils/0019-CVE-2025-7545.patch         | 39 +++++++++++++++++++
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0019-CVE-2025-7545.patch
+ .../libxml/libxml2/CVE-2025-49795.patch       | 75 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.13.8.bb    |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-49795.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.44.inc b/meta/recipes-devtools/binutils/binutils-2.44.inc
-index 0f0befe30e..8a26fe76f1 100644
---- a/meta/recipes-devtools/binutils/binutils-2.44.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.44.inc
-@@ -43,5 +43,6 @@ SRC_URI = "\
-      file://0016-CVE-2025-5244.patch \
-      file://0016-CVE-2025-3198.patch \
-      file://0018-CVE-2025-5245.patch \
-+     file://0019-CVE-2025-7545.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-7545.patch b/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-7545.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-49795.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-49795.patch
 new file mode 100644
-index 0000000000..062d6721b6
+index 0000000000..11f543cb9b
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-7545.patch
-@@ -0,0 +1,39 @@
-+From: "H.J. Lu" <hjl.tools@gmail.com>
-+Date: Sat, 21 Jun 2025 06:36:56 +0800
++++ b/meta/recipes-core/libxml/libxml2/CVE-2025-49795.patch
+@@ -0,0 +1,75 @@
++From 62048278a4c5fdf14d287dfb400005c0a0caa69f Mon Sep 17 00:00:00 2001
++From: Michael Mann <mmann78@netscape.net>
++Date: Sat, 21 Jun 2025 12:11:30 -0400
++Subject: [PATCH] [CVE-2025-49795] schematron: Fix null pointer dereference
++ leading to DoS
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h08c3cbe5926e4d355b5cb70bbec2b1eeb40c2944]
-+CVE: CVE-2025-7545
++Fixes #932
 +
-+Since the output section contents are copied from the input, don't
-+extend the output section size beyond the input section size.
++CVE: CVE-2025-49795
 +
-+	PR binutils/33049
-+	* objcopy.c (copy_section): Don't extend the output section
-+	size beyond the input section size.
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/62048278a4c5fdf14d287dfb400005c0a0caa69f]
 +
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ result/schematron/zvon16_0.err | 3 +++
++ schematron.c                   | 5 +++++
++ test/schematron/zvon16.sct     | 7 +++++++
++ test/schematron/zvon16_0.xml   | 5 +++++
++ 4 files changed, 20 insertions(+)
++ create mode 100644 result/schematron/zvon16_0.err
++ create mode 100644 test/schematron/zvon16.sct
++ create mode 100644 test/schematron/zvon16_0.xml
 +
-+diff --git a/binutils/objcopy.c b/binutils/objcopy.c
-+index e2e6bd7e..3cbb3977 100644
-+--- a/binutils/objcopy.c
-++++ b/binutils/objcopy.c
-+@@ -4634,6 +4634,7 @@ copy_section (bfd *ibfd, sec_ptr isection, bfd *obfd)
-+ 	  char *to = (char *) memhunk;
-+ 	  char *end = (char *) memhunk + size;
-+ 	  int i;
-++	  bfd_size_type memhunk_size = size;
++diff --git a/result/schematron/zvon16_0.err b/result/schematron/zvon16_0.err
++new file mode 100644
++index 0000000..3d05240
++--- /dev/null
+++++ b/result/schematron/zvon16_0.err
++@@ -0,0 +1,3 @@
+++XPath error : Unregistered function
+++./test/schematron/zvon16_0.xml:2: element book: schematron error : /library/book line 2: Book 
+++./test/schematron/zvon16_0.xml fails to validate
++diff --git a/schematron.c b/schematron.c
++index 426300c..6e2ceeb 100644
++--- a/schematron.c
+++++ b/schematron.c
++@@ -1509,6 +1509,11 @@ xmlSchematronFormatReport(xmlSchematronValidCtxtPtr ctxt,
++             select = xmlGetNoNsProp(child, BAD_CAST "select");
++             comp = xmlXPathCtxtCompile(ctxt->xctxt, select);
++             eval = xmlXPathCompiledEval(comp, ctxt->xctxt);
+++            if (eval == NULL) {
+++                xmlXPathFreeCompExpr(comp);
+++                xmlFree(select);
+++                return ret;
+++            }
 + 
-+ 	  /* If the section address is not exactly divisible by the interleave,
-+ 	     then we must bias the from address.  If the copy_byte is less than
-+@@ -4653,6 +4654,11 @@ copy_section (bfd *ibfd, sec_ptr isection, bfd *obfd)
-+ 	      }
-+ 
-+ 	  size = (size + interleave - 1 - copy_byte) / interleave * copy_width;
-++
-++          /* Don't extend the output section size.  */
-++          if (size > memhunk_size)
-++            size = memhunk_size;
-++	  
-+ 	  osection->lma /= interleave;
-+ 	  if (copy_byte < extra)
-+ 	    osection->lma++;
++             switch (eval->type) {
++             case XPATH_NODESET: {
++diff --git a/test/schematron/zvon16.sct b/test/schematron/zvon16.sct
++new file mode 100644
++index 0000000..f03848a
++--- /dev/null
+++++ b/test/schematron/zvon16.sct
++@@ -0,0 +1,7 @@
+++<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+++	<sch:pattern id="TestPattern">
+++		<sch:rule context="book">
+++			<sch:report test="not(@available)">Book <sch:value-of select="falae()"/> test</sch:report>
+++		</sch:rule>
+++	</sch:pattern>
+++</sch:schema>
++diff --git a/test/schematron/zvon16_0.xml b/test/schematron/zvon16_0.xml
++new file mode 100644
++index 0000000..551e2d6
++--- /dev/null
+++++ b/test/schematron/zvon16_0.xml
++@@ -0,0 +1,5 @@
+++<library>
+++	<book title="Test Book" id="bk101">
+++		<author>Test Author</author>
+++	</book>
+++</library>
++-- 
++2.40.0
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.13.8.bb b/meta/recipes-core/libxml/libxml2_2.13.8.bb
+index 3d6ecf5458..fd042c311d 100644
+--- a/meta/recipes-core/libxml/libxml2_2.13.8.bb
++++ b/meta/recipes-core/libxml/libxml2_2.13.8.bb
+@@ -19,6 +19,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://install-tests.patch \
+            file://CVE-2025-6021.patch \
+            file://CVE-2025-49794_CVE-2025-49796.patch \
++           file://CVE-2025-49795.patch \
+            "
+ 
+ SRC_URI[archive.sha256sum] = "277294cb33119ab71b2bc81f2f445e9bc9435b893ad15bb2cd2b0e859a0ee84a"
 -- 
 2.43.0
 
