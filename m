@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D54C83F1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82CA1C83F34
 	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 02:59:31 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.40269.1752721163569890356
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.40270.1752721165736698640
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 19:59:23 -0700
+ Wed, 16 Jul 2025 19:59:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=klGHj/O9;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-235ef62066eso5698905ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:59:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1LIsAej6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-313a001d781so485659a91.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:59:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752721163; x=1753325963; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752721165; x=1753325965; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GBAMtl8afungTtZMJrBJllHIwMSmPtThm+3Ip58SP08=;
-        b=klGHj/O9BpdoVCCYQ8ShOYiYA4DTJZ/rerrIfBwetf4YsvG0DpKcZ71RGLQxP007AU
-         rPfipkLhOVO2RdeBqqctsV36vcLYIPj0ITAiX+wPz18Ph8XjPOUxY2fUC40oRSZXDipr
-         TCsRAZZsAwkTwHV9osfJTrMuIsFeGQZKLH0ZKsD7QQyNjS5JV4xjkAVmDYzcEx69gWnr
-         JkJgsvpbLEYTGT2uOQuVoOyRuh7pM5BIFEBPbUcje9G+RQ2wwQoT/HmS5rlv39bGpQyP
-         ASPMCatoHwuaKbrFTtguFkJ5NOas8MfVJXYrUMTFykHwg1IM3re2uC76M/dBdT1cCBjI
-         ifTA==
+        bh=w9IodKLqpRkrJg/ZNb3m3p+uAwc1Cndhf8UZgrXzPog=;
+        b=1LIsAej6YdNT4eMEmw9J7BoWi94k6QZjEj3qFxNU+oiB5LGI6eVCKuNPZx40Fa1OeX
+         MuJjNaPsyMwjvsXEU7vwWMphSOpg8G6n+ODtEHmdyz4WPy2FuQ4YRlwy4gt8TiF0yqPc
+         9j4BpYArv67z40pUeXfSp0Bw280Vxl5/zuW2OiSP8L/G844hf/cO3uhJGyFkKriXUqVc
+         svL5aLdXm53Wid7Y7SPC6bQbr6ZsJfHZarRaIPKnSzD8oNLKiuVll+QFCjeY9S8pf+jn
+         YlWkfBBlbQFt4YtEU/DZeR9IPSo8163HHffc+KlHF9zjgFe2a1yyc2MKqNA59VCUN9+l
+         jhlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752721163; x=1753325963;
+        d=1e100.net; s=20230601; t=1752721165; x=1753325965;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GBAMtl8afungTtZMJrBJllHIwMSmPtThm+3Ip58SP08=;
-        b=UmDfh41tOJxemwRV1qxXAjGKndMeOParAyKUEabS0G7YyjSKEdvLu8qL5P3U3mxjln
-         02A0nENKGoakuaKq3y8up/t0Ei4jRCXCrwHrdMdBFoI+aA/i7Bwhy8aln1rRWw1lIkoi
-         vdJe3/+qPvwn9jo/g7oEyruqoMRXlKUZZlE4+z2QwjR/lGgODUobM5lThhPdnR3D6gR6
-         9sDLDv0rIQ3FD+JHlxi85kjB8/zS2T7zj9MmL3VJnk7sEb2ysmUkF6Casx4HzD/7hp7c
-         ZNSIBe+arXnEM4QrIrS3zDJ7eKEoTfYszE0UsILX2uioMv1dv7THus8LgI6kSxcBOdMw
-         UivA==
-X-Gm-Message-State: AOJu0YwQ0tLzc2M525EfGINbXjYGxCpaGebCkg67sJbyX9sr8Gga9dFV
-	64kQl0b2B0teNU8RSpAkIlYyhQ0pJRF3JmxemXMX5Gt/o75gLbo871q8bIDYhAl2D9Zvz0w+sBa
-	JOMgU
-X-Gm-Gg: ASbGncvpSCDPDc02rN/xMMkWuKbUY1fQ3XUYhOiJ5SiI7GLeSo41dPkoKGWc9f5y2oo
-	JnPB4JQDalCZbQlLaAyPA6mJ0vOVY6jOuZgpDzeGsUooJtyGpzyNQtfQwXBglxVo9QmTFai2u5g
-	plCNIqJZn+1YmKLS1Zv6is1iMaLWRLWHU1GvBi2OVLv9jPV6Al6xCN8Oc8EA2j1bzFJ1wrwXxfi
-	PlfVXj9sUb7up390zQqMFelOZ/aM7eJl3NyIKhb3nFyM0uLRCJJe8c4xRw0aLwFFGAB/e0zScmg
-	VMH0K6D3XG/EqVMZjrITA7RXhZEr4eCdXEcsWQ7v+euctx4klB43A3blHPr4CBuvvkLxaUxs6lE
-	Hxpra4LAzpq14Pg==
-X-Google-Smtp-Source: AGHT+IGwp/xGisGQfkFSfqSQzxfQaTTr+AL7p4ePcX3HhRicXwaT7viMWjKFK9wTgOaOjwH8EIWb0w==
-X-Received: by 2002:a17:902:f642:b0:234:a139:1217 with SMTP id d9443c01a7336-23e302a2b4cmr16084125ad.18.1752721162772;
-        Wed, 16 Jul 2025 19:59:22 -0700 (PDT)
+        bh=w9IodKLqpRkrJg/ZNb3m3p+uAwc1Cndhf8UZgrXzPog=;
+        b=VAmf5Ec1ZKUJVJrfa2GuMt+Lw51qV8H/wKuJlqJp8KW6on0W9kTsnHAp24Tr2ek3zv
+         4lWp9Eo0QHMh9T9OMlsArenA8s70/uZetYG1Ju9Bmh/qqnYqPBhNC6CW7oIJywtFNc6l
+         yc0bfwHrR03L5xUS0vsbrl9frDI6oCViPugS3aIrTSRuhiTHpIozR9idM8veoYLznUq+
+         W2oWRPVCRlFZizEx05QBDaii1bmtjOC3HLqq3QYE+t/iQ+eM3ANn2au0uPLto5QU4YDM
+         /4ZTR58IsaPh3Q0mohdV6DQMuI4ApT6EJE6pzDtPQMiynVv1U+RAKiT8ULFVzhq6YJ+j
+         Eujw==
+X-Gm-Message-State: AOJu0Yz7eyro74L0YqFqXr4S4/57oRStiSspPObPc8XiyhsHYj0JElns
+	xwTRKjsT/yLQLk/1k4SAENGmHOl9yBtGj3+wjqNOaow94S+Lp3UOqo0vCG64ftSDgXp9zcuUSby
+	zZXL7
+X-Gm-Gg: ASbGncttebjeysFyIQqnIJFLbzV1fAGmf9hcsIT0gsnqw3l1bDnqzqnycg1mIJ/U8MS
+	Bhxg3rotfwaBz8G2pKZM3f2EGDmNrJv1rZzKjvO1Tc+YZYwVkL8/P8fwOr0Ga46VjaryFMNzxBq
+	8sNvoJ9cuXwERSfLJFRcCBSGSMqudlEvuGQ7UMbvVHyWYNzzFrk+5MNBUJx7RddmtiDmYCY+HZK
+	ygBPCszuPuPAEyezswRM4czTjkeYG6iVaoVTl4WsFsnfV5ZzD1Q2dmM6IS8RE7l+wJTIOme7DxH
+	ZsdBnjxnIImflNje2DyBo4hhathFvmT9JOlY9kZiJasr26x/MSJ70EulPE/SHH7EU+52bo59JzV
+	SnxY4K3VeAy3vFQ==
+X-Google-Smtp-Source: AGHT+IH21nVzGywXPhIY5H8mtPX4WmKVqyDELbcH+Tz6OsRmAbJlWdUaNaM5PjJNvG7emgA3pF70tQ==
+X-Received: by 2002:a17:90b:4985:b0:313:2e69:8002 with SMTP id 98e67ed59e1d1-31c9f42eb2dmr7004591a91.20.1752721164648;
+        Wed, 16 Jul 2025 19:59:24 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3bfc:8fec:7e35:e96a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f29e313sm2204547a91.35.2025.07.16.19.59.22
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f29e313sm2204547a91.35.2025.07.16.19.59.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 19:59:22 -0700 (PDT)
+        Wed, 16 Jul 2025 19:59:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 09/12] binutils: stable 2.42 branch updates
-Date: Wed, 16 Jul 2025 19:58:57 -0700
-Message-ID: <412def8923a89f3c385eae25901bed0c07859029.1752721028.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 10/12] kea: set correct permissions for /var/run/kea
+Date: Wed, 16 Jul 2025 19:58:58 -0700
+Message-ID: <5b709e2c165bf46f4f35e1783ab7ec54fabd2ec3.1752721028.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752721028.git.steve@sakoman.com>
 References: <cover.1752721028.git.steve@sakoman.com>
@@ -68,42 +68,66 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 02:59:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220509
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220510
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+From: Yi Zhao <yi.zhao@windriver.com>
 
-Below commit on binutils-2.42 stable branch are updated.
+Set the permissions of /var/run/kea to 750 to fix kea server startup
+error:
 
-x86: Check MODRM for call and jmp in binutils older than 2.45
+ERROR [kea-dhcp4.dhcp4/445.140718820303936] DHCP4_INIT_FAIL failed to
+initialize Kea server: configuration error using file
+'/etc/kea/kea-dhcp4.conf': 'socket-name' is invalid: socket
+path:/var/run/kea does not exist or does not have permssions = 750
 
-Test Results:
-                                 Before  After  Diff
-No. of expected passes            302     302    0
-No. of unexpected failures        2       2      0
-No. of untested testcases         1       1      0
-No. of unsupported tests          7       7      0
+This permission check was introduced by commit[1] in kea 2.4.2.
 
-Testing was done and there were no regressions found
+[1] https://gitlab.isc.org/isc-projects/kea/-/commit/f7061c4e9711f395fbc940b0cf0ddbde87e0fc13
 
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/binutils/binutils-2.42.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service | 1 +
+ meta/recipes-connectivity/kea/files/kea-dhcp4.service     | 1 +
+ meta/recipes-connectivity/kea/files/kea-dhcp6.service     | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index ea018a48a3..9471e6accd 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -21,7 +21,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
- CVE_STATUS[CVE-2023-25584] = "cpe-incorrect: Applies only for version 2.40 and earlier"
- CVE_STATUS[CVE-2025-1180] = "patched: fixed by patch for CVE-2025-1176" 
+diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
+index f6059d73cb..aec6446f0e 100644
+--- a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
++++ b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
+@@ -6,6 +6,7 @@ After=time-sync.target
  
--SRCREV ?= "6558f9f5f0ccc107a083ae7fbf106ebcb5efa817"
-+SRCREV ?= "f9488b0d92b591bdf3ff8cce485cb0e1b3727cc0"
- BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=https"
- SRC_URI = "\
-      ${BINUTILS_GIT_URI} \
+ [Service]
+ ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
++ExecStartPre=@BASE_BINDIR@/chmod 750 @LOCALSTATEDIR@/run/kea/
+ ExecStart=@SBINDIR@/kea-dhcp-ddns -c @SYSCONFDIR@/kea/kea-dhcp-ddns.conf
+ 
+ [Install]
+diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp4.service b/meta/recipes-connectivity/kea/files/kea-dhcp4.service
+index b851ea71c5..a2ed4edb59 100644
+--- a/meta/recipes-connectivity/kea/files/kea-dhcp4.service
++++ b/meta/recipes-connectivity/kea/files/kea-dhcp4.service
+@@ -6,6 +6,7 @@ After=time-sync.target
+ 
+ [Service]
+ ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
++ExecStartPre=@BASE_BINDIR@/chmod 750 @LOCALSTATEDIR@/run/kea/
+ ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/lib/kea
+ ExecStart=@SBINDIR@/kea-dhcp4 -c @SYSCONFDIR@/kea/kea-dhcp4.conf
+ 
+diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp6.service b/meta/recipes-connectivity/kea/files/kea-dhcp6.service
+index 0f9f0ef8d9..ed6e017d0c 100644
+--- a/meta/recipes-connectivity/kea/files/kea-dhcp6.service
++++ b/meta/recipes-connectivity/kea/files/kea-dhcp6.service
+@@ -6,6 +6,7 @@ After=time-sync.target
+ 
+ [Service]
+ ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
++ExecStartPre=@BASE_BINDIR@/chmod 750 @LOCALSTATEDIR@/run/kea/
+ ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/lib/kea
+ ExecStart=@SBINDIR@/kea-dhcp6 -c @SYSCONFDIR@/kea/kea-dhcp6.conf
+ 
 -- 
 2.43.0
 
