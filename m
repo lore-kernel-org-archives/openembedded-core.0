@@ -2,164 +2,115 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51E59C83F22
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E872C83F34
 	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 02:59:21 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.40267.1752721157746558470
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.40265.1752721152888300277
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 19:59:17 -0700
+ Wed, 16 Jul 2025 19:59:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zi3ynz9U;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-23694cec0feso4297395ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:59:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ga7yOcn8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-234c5b57557so3863875ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:59:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752721157; x=1753325957; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752721152; x=1753325952; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VDTFvkWyNUI9byYvrzbP2iE5ipXQhV03/8lF437mwo4=;
-        b=zi3ynz9UDxgXdIk/DG+a4U3Hg3SzaxHq5qnJ1qTOuME7PcLKClTafmYEo96dq7o5mm
-         AFeBc98Izoq740W4SmdR+bX1/VpC3kUaKUMhFMAmQlTjlbMiycN/qvIvwLqZkdKEMjjB
-         eXmymW/7Leq7azwA3CkTTJAtz/4Bsfkn1j0qFQgz++KnOE1H6ujVBD7wgDNeP81dkM4R
-         FTxXHSr4c7r2f6370y9uKF1Cd79ncj0Fe6RVpac2fzjEMc8vtcTeMBJExMo3iqgy4u3v
-         BIEznhZYR2JLZ/1vZVNqT1L2/Y2vZa48c8UeRCsSc62yt+9s5jmdND+BxTENcVZD7enB
-         UuYQ==
+        bh=tTPLk5n5EB58ugzVcCBOhg0ueuX60io1ftZwLH041/c=;
+        b=ga7yOcn8Ngrh3MoOjxfzv8WJ08bayFDxtCAFVGXjO8l2sNhVXxEnb0louqPvATrVAS
+         +2GMmgxshFoJzmdZrwW3TVVe6nYCJsWfQEFzFptwA+w9GB2sItElTCEG0IKs8fSEpVW9
+         PHjRcIjxLbrCmnJy0zvGr3ZChNZ9ccWRJDZ/3KZphWucNLF8UboNYxh5GSc42ocmJ0Z9
+         62onf+h8GRUoanSJW8grgpECpPVMQ3C0ffw0R56q0kkOL1Hv/hbItuvzxRn/7N9blIJE
+         FBIGdH47LAyTC4A6qHMPpz22q0TvcV4ok9X3Pu2JukLc2pXeZbt7p7MHlf9IPAnclnor
+         jrnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752721157; x=1753325957;
+        d=1e100.net; s=20230601; t=1752721152; x=1753325952;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VDTFvkWyNUI9byYvrzbP2iE5ipXQhV03/8lF437mwo4=;
-        b=Mn2lxdtywVqm7XGQIxuuISoBgbGXh/Z5uDTFil7LAbfmcBvSE69b/7/y+8NvJscbKU
-         84ntkWehDCUW2iQnNKWledHIfygw/WrbRZZf8wOCBVeA/jhePODi+/uAud28OiR4yGUH
-         QF1nc9PKiIMS2dA/v2or3XuCdzN5rFZ9Bv9iCyGhAPfkm0rJZJ0hPsLvWfBXhaZ9R0Qz
-         vpdP2bVH4/BTUzPtiTPgAKHwTv3VpQZiZe5RFQt2l6TDDNMowQKs7hOirWCvkgieRD2o
-         3W9T+hqa4Yo1SSlThf7WroxjJ2Bq6fEmnCZL+DL0pQcxRB+NUz6hHgUXeoNacnEjV90/
-         1Fqw==
-X-Gm-Message-State: AOJu0Ywx4c452yEgwQSfvbF2l7GbznTbwJBPCQfbSUXHy7v1X0GodoDR
-	ty4HetJD9bhjlDhBjkQvrDOLr3ujT54M/qqxEHdT6HLM3099DjGNLgQkSlTVD0+hU6ZLTFiqB4G
-	qtYKW
-X-Gm-Gg: ASbGncs257iOJiay56U02GSeWwlk4B9jjAZ4cVehEetegS1ibySpM1jti+25tIlAUoA
-	g1FqFCYYkVN2Wv7nsIKEhz+8wTmFybVhItevJJewnG2jioMZFL0Uiq4IjXtKJvmifsypR16c3IZ
-	bx35gSvOwe92OVqB71IGlqGk38528vl9HJNHs0IJcTkHIFS3VRlRyYUqhEAsEOPxgSvYtOAyZtL
-	O1DgezKuUaCoIIre2HpXw7vyiqTuDgfrg+Xrm6PAiUqmkyLv//B8VXh5UGG0R/NtTzYQSRs3S48
-	muW1Z1uvJf52IYZSD++vPZXWi0dYA3eOV+BCAU6Swa9mFTQCM5QcobgydJWeKG39olOx8KvO9vY
-	IJZIG6megG/2GXA==
-X-Google-Smtp-Source: AGHT+IE9BCZ8lqJo8ZpuJ0fISKpN6fEF/BUKuCcxIEGha66Bd2Yu7mGzMAIMXUZwfSeiw/I0AHuzXA==
-X-Received: by 2002:a17:903:41c3:b0:235:eb8d:7fff with SMTP id d9443c01a7336-23e24f4aab3mr75742245ad.28.1752721156910;
-        Wed, 16 Jul 2025 19:59:16 -0700 (PDT)
+        bh=tTPLk5n5EB58ugzVcCBOhg0ueuX60io1ftZwLH041/c=;
+        b=IbB54WxtSj4Xkbbt8shxYB7t6u7eZkOz5uaAYQstKQDGkakHuEaASnrVXUpInHCAS9
+         ygZ3U3MtyIWtlit3qrKn/pwOts6DWSPOV9pa9juIGvrPyXeZnbb/owE6zlzRST5ieV9r
+         NQ58w/ByPCl5cEZ+4UcAwN86NgfEoOPXbIfvlhqQXec7AcDERofrcr/J2LKI8Xjjxv8F
+         y8tMWjTJfnT4+Hu1BXYF4gk0R9culQmp0fxsTFIneSTrxUOyd7GLRrY4RqwCbnLxfBZV
+         /48UgO2dMx0hJAUepknef9k0e/Pk90/NVcpE9N+9B9nlipzBVpmYxfW2NpYqE+/t/y9S
+         oGrg==
+X-Gm-Message-State: AOJu0Yz56y+0d7PgcdOO6oltX6eCyJlGo1QMjtYz8P+jVmXDUW5Uin8e
+	G7PioJSKvjaf2Z1BKlfDzA4gWvfXlYkBN4PApMgfCyqJQN11NWWlxJcKwDYP7wdBVoTanynjDQF
+	ZWoKu
+X-Gm-Gg: ASbGncupNsH6TPguL093lxA+EJeU/ewDGYkwmaZLxUgBhLDa8XpVcnIjVAqFdnOiAmT
+	upy17W6uE8aRA61u1GzwwQopABzWIiwUW5a1ePObh0Mn07mRjX3EIVDzG7gTxVYsMIrkOMsFKAm
+	H3HL0+m/ZCXSMWo0oCYu6QWLLe6K2bdZjx/67ak8+JdcYqrYwzIRxALTgzuCQcxEYIG8MkQw7TY
+	LBb8aJpjjMtFnExX/UpKF1U9FaIudlV3mIJ7H84NtU3RZPJzQK+mnQAGYw8gCOR+IkHMSpuTLW8
+	ymvakBV+At+cBA3XpkBgegcl7h+OHNnEQCxP50pXBzPhjBBVhUpQJU8k9nEG3Y4GuQw5LYGZ4TS
+	/xC5S0jqlqm+0HQ==
+X-Google-Smtp-Source: AGHT+IH5R69ZG5d8mtj181zB0iyRmWISeqvptm8onG/jCrJFbxYDk6PGjoZT/p5PFNhM9wX35w+d1A==
+X-Received: by 2002:a17:903:228d:b0:235:ed02:288b with SMTP id d9443c01a7336-23e25730152mr74482335ad.30.1752721152067;
+        Wed, 16 Jul 2025 19:59:12 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3bfc:8fec:7e35:e96a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f29e313sm2204547a91.35.2025.07.16.19.59.15
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f29e313sm2204547a91.35.2025.07.16.19.59.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 19:59:16 -0700 (PDT)
+        Wed, 16 Jul 2025 19:59:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/12] gdk-pixbuf: fix CVE-2025-7345
-Date: Wed, 16 Jul 2025 19:58:53 -0700
-Message-ID: <78a52a7feb995b4ab4f4df6b16feaac60f6ad59b.1752721028.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/12] python3: update CVE product
+Date: Wed, 16 Jul 2025 19:58:50 -0700
+Message-ID: <72369cd66f78a371608c3fff205e0e96c248f2b3.1752721028.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752721028.git.steve@sakoman.com>
 References: <cover.1752721028.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 02:59:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220505
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220502
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-A flaw exists in gdk‑pixbuf within the gdk_pixbuf__jpeg_image_load_increment function
-(io-jpeg.c) and in glib’s g_base64_encode_step (glib/gbase64.c). When processing
-maliciously crafted JPEG images, a heap buffer overflow can occur during Base64 encoding,
-allowing out-of-bounds reads from heap memory, potentially causing application crashes or
-arbitrary code execution.
+There are two "new" CVEs reported for python3, their CPEs are:
+* CVE-2020-1171: cpe:2.3:a:microsoft:python:*:*:*:*:*:visual_studio_code:*:* (< 2020.5.0)
+* CVE-2020-1192: cpe:2.3:a:microsoft:python:*:*:*:*:*:visual_studio_code:*:* (< 2020.5.0)
+These are for "Visual Studio Code Python extension".
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Solve this by addding CVE vendor to python CVE product to avoid
+confusion with Microsoft as vendor.
+
+Examining CVE DB for historical python entries shows:
+sqlite> select vendor, product, count(*) from products where product = 'python' or product = 'cpython'
+   ...> or product like 'python%3' group by vendor, product;
+microsoft|python|2
+python|python|1054
+python_software_foundation|python|2
+
+Note that this already shows that cpython product is not used, so
+CVE-2023-33595 mentioned in 62598e1138f21a16d8b1cdd1cfe902aeed854c5c
+was updated.
+But let's keep it for future in case new CVE starts with that again.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch | 55 +++++++++++++++++++
- .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch
+ meta/recipes-devtools/python/python3_3.12.11.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch
-new file mode 100644
-index 0000000000..a8f23d3501
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch
-@@ -0,0 +1,55 @@
-+From 4af78023ce7d3b5e3cec422a59bb4f48fa4f5886 Mon Sep 17 00:00:00 2001
-+From: Matthias Clasen <mclasen@redhat.com>
-+Date: Fri, 11 Jul 2025 11:02:05 -0400
-+Subject: [PATCH] jpeg: Be more careful with chunked icc data
-+
-+We we inadvertendly trusting the sequence numbers not to lie.
-+If they do we would report a larger data size than we actually
-+allocated, leading to out of bounds memory access in base64
-+encoding later on.
-+
-+This has been assigned CVE-2025-7345.
-+
-+Fixes: #249
-+
-+CVE: CVE-2025-7345
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/4af78023ce7d3b5e3cec422a59bb4f48fa4f5886]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ gdk-pixbuf/io-jpeg.c | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/gdk-pixbuf/io-jpeg.c b/gdk-pixbuf/io-jpeg.c
-+index 3841fc0..9ee1d21 100644
-+--- a/gdk-pixbuf/io-jpeg.c
-++++ b/gdk-pixbuf/io-jpeg.c
-+@@ -356,6 +356,7 @@ jpeg_parse_exif_app2_segment (JpegExifContext *context, jpeg_saved_marker_ptr ma
-+		context->icc_profile = g_new (gchar, chunk_size);
-+		/* copy the segment data to the profile space */
-+		memcpy (context->icc_profile, marker->data + 14, chunk_size);
-++                ret = TRUE;
-+		goto out;
-+	}
-+
-+@@ -377,12 +378,15 @@ jpeg_parse_exif_app2_segment (JpegExifContext *context, jpeg_saved_marker_ptr ma
-+	/* copy the segment data to the profile space */
-+	memcpy (context->icc_profile + offset, marker->data + 14, chunk_size);
-+
-+-	/* it's now this big plus the new data we've just copied */
-+-	context->icc_profile_size += chunk_size;
-++        context->icc_profile_size = MAX (context->icc_profile_size, offset + chunk_size);
-+
-+	/* success */
-+	ret = TRUE;
-+ out:
-++        if (!ret) {
-++                g_free (context->icc_profile);
-++                context->icc_profile = NULL;
-++        }
-+	return ret;
-+ }
-+
-+--
-+2.40.0
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-index 9f825a68ef..ff1c7a1fb2 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
-            file://fatal-loader.patch \
-            file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch \
-+           file://CVE-2025-7345.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3_3.12.11.bb b/meta/recipes-devtools/python/python3_3.12.11.bb
+index 706dabb5cd..84c4f74158 100644
+--- a/meta/recipes-devtools/python/python3_3.12.11.bb
++++ b/meta/recipes-devtools/python/python3_3.12.11.bb
+@@ -45,7 +45,7 @@ SRC_URI[sha256sum] = "c30bb24b7f1e9a19b11b55a546434f74e739bb4c271a3e3a80ff4380d4
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
  
- SRC_URI[sha256sum] = "b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7"
+-CVE_PRODUCT = "python cpython"
++CVE_PRODUCT = "python:python python_software_foundation:python cpython"
+ 
+ CVE_STATUS[CVE-2007-4559] = "disputed: Upstream consider this expected behaviour"
+ CVE_STATUS[CVE-2019-18348] = "not-applicable-config: This is not exploitable when glibc has CVE-2016-10739 fixed"
 -- 
 2.43.0
 
