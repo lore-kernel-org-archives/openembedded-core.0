@@ -2,171 +2,247 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C443FC83F22
-	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 01:40:20 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.web11.39084.1752716418165225752
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0AC3C83F1B
+	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 01:42:00 +0000 (UTC)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+ by mx.groups.io with SMTP id smtpd.web11.39106.1752716516334723844
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 18:40:18 -0700
+ Wed, 16 Jul 2025 18:41:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Arj8cas+;
- spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-71841a48502so3337127b3.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 18:40:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KPr5arWN;
+ spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e8bacc192e0so474704276.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 18:41:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752716417; x=1753321217; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1752716515; x=1753321315; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TyJOXdw/mAPgZzHrWZBkUX41Zis6f78QP0ryict3xRY=;
-        b=Arj8cas+L6NIvUO8orbJyayd9fb2RNdzNVtCW5Fm2u2SrP1pkObS/2UO/R/LFu+FmM
-         lPLJnzAOVjugSoiUsAZtvAmqs6LiIxuCsxKTX5CAM/ZnzfFRl/AZsPppIqr6dWcA03Qj
-         hqc/2NW8F/e7rD94NWsjcB2LjVkgYXOLqyF6J2R8TD+hhqWwyoGOkhMo1aTfq1PtG+Hn
-         2zKy+HgHWpGve8rKvMDDKXyo8wUEGpE8B7A9vcehBVKFJaIOsI2FM4RcdXnoVZQr/sEc
-         VSQB2AfHQ06mY0XqQIvNDLCPrRBjsl5eqbUjzjjoEP5KaU+mKUesGxHNtFE424cEL038
-         xVOw==
+        bh=OO3XPsGXXPy4lnyrZzVNjBa8TEWXL5qqqIwJPYA5jvc=;
+        b=KPr5arWN3u2g0UMxST/V5jaF4PNbNMmD3LOzjNVo6HW9rPxnRgdGsegCpfHe6yot7n
+         3D8tRDgmST/dxti73UWLSrZ4jn6Z5kxs5PsRnBCNff8zO38CFtC4cG0GBfHCkH5F/AEl
+         uxletkQIfUQFtjkPkn2kUqboNEoN5lOmriKrSOJXFi7n7Rv+3W1W5i5jsp2PlYmAM/iH
+         ENx0Hqe3UR11h+D9q1t39wtSfu0QgG7Urt0qPL84kGbXJZ/myva9Qh2DWkD512aQDeWr
+         NUikfEo6ZlhpW2qS9d4re0ffuMXShTEZlaGfw9njlJZvwNkImRgWw511f/qNgdzO4ovw
+         LinA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752716417; x=1753321217;
+        d=1e100.net; s=20230601; t=1752716515; x=1753321315;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TyJOXdw/mAPgZzHrWZBkUX41Zis6f78QP0ryict3xRY=;
-        b=hLJh9/Wmpm1aQTMMnJJpZS7a3DJ2AxKyMTonUSOM3dyOBTsfeopIySkGDYVH8fjvm5
-         Shh65KOr+XcvUED6Trb6UKxGmhUfTh1+OxAZhobliBjsc+BvvYvfOrv3VWtPtfjKOzKi
-         VjTXWdnRtFk767mquu41hNlosfI+VO/V9B3l1IFkGrjbBWCwFxAn+7wSfzYtZZ6tf3uI
-         B6nMdJM74XT9ggP1/Ldkazej9upjlnisufYhSQMeK6O9vdYxfDtQ0wn/BHTwQPL4GaOj
-         J2kE99UIfXwiZCPq8B5s2vRoIvpuMOhDabRFyHQLs/9XLg9exhTmlbzNtmy40LhxV3uS
-         KIDw==
-X-Forwarded-Encrypted: i=1; AJvYcCUC75YPEIjjx3UJiPkQZo2gdHt7JQH+s4Q9zVGn8HUnu+gcIqLo/fzRqfowTXYgcVkapapeJW+kbrUCiTMoiFQn/A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy2ekIQyDj2dJsUYcZaqhezP337f/lRAwq7Zj3lJ/5NLaDUkkKt
-	MyFp/fKsq+RFTxCXXFDoOHRqVZ9mkA82iVat5hiR4smBaeeJIh8uDG2HnuODtl24ezAjKqPM8kO
-	B7QcvdTN532EWvjwucPGiLV/AyxBGWS0=
-X-Gm-Gg: ASbGncuH0FXs3ieh4ux+g5H1L7zCrF18dn5B9u2pCqGpdENAGG3UB1ilJowzh1blvu9
-	UFK6upebXEMGQEnj3MqG4SMg80w2Z09tBs+oQbSzjKCYeoy2M6xLu8hV67b+ys6YAu+xEAE659s
-	gbezE04u091GMyERSkpHp+6Hm7yS8ZIQXI0+h8X8iIHh5wS5HoUeAMrq2uPNHTIxZDoGU4HPeLo
-	TAJ/A==
-X-Google-Smtp-Source: AGHT+IGfO3UtYnhs7cSUq/Z/TX46Yo5tEAt5L1ebmG7I7ysOKaPzjaSJG40ULHL2DVOX+nnv+3ORETSChJpjOoMh5Ak=
-X-Received: by 2002:a05:690c:7206:b0:70c:d322:8587 with SMTP id
- 00721157ae682-71836ca9a62mr65874657b3.6.1752716417049; Wed, 16 Jul 2025
- 18:40:17 -0700 (PDT)
+        bh=OO3XPsGXXPy4lnyrZzVNjBa8TEWXL5qqqIwJPYA5jvc=;
+        b=HYVsWL+prERHPcFFsqPusTV9UT98wGmti4nR5dTPKPRktHIm8snsvBTXBWChXgq6y2
+         66wDEWnZZULxLyUswFjnXMEdhVsPyLxSOTC04BvK6wZt2kFYPtPMOi0tKIJEu78bnDox
+         dgsAnOmbiGNSlUuNfRbkvmv1+0TzYBTPrMlVuNiu8B+tLG8lUChH5+E/MXQsC3OLb5XK
+         JOB9tsHd2ivnwPp9SLEi94XO/vDxIEwccrNQ4rt5Zgt1fNOiWawt18gKQ3H+Jh4TsDWE
+         Q1ljcaHRb+LccBHEQhhJHRpvgtzQUycvoCXuU1rD3Y28B/0oMjkotM6pau8+G7F/1MnZ
+         bD5Q==
+X-Gm-Message-State: AOJu0Yzqno13I5XXg+pkxF9W3f8T5jksBtqdyeNof+ogNuMPEAAkuP0i
+	NAkiqIKmMqz5SKgWWQwoaSzWcTWpyxkA+XmoMQb8IWWm1BIU33NZpHIiuglbEH9/e8JcElqVUq7
+	vF/h13dUH8ZfZxsMFOZ0/5rjwiS5xEKwg7PXv
+X-Gm-Gg: ASbGncsXQ7KTEu2hwOB/BspWOOmZ4D8x+eFRa2AmFO5yjKH2cPVDEWctaSEOjfjiA5Q
+	1C75eOq6PDgKuvhyofIQei183RXMf1MNSy+M5PJ8Eq6aM4e8riyW7KlGI1nAm3/prXVpN0Ldhrw
+	iCN4C3v3dREuLzAUVBWDFFjG55JeZyOS2XldX30LwNF2eR1eKq8KWpN5zozx2KO412aeCfcgzYc
+	5CPcA==
+X-Google-Smtp-Source: AGHT+IGG0UH6MfStTi0fnbtPHLownl8TewECa1IZ7PGqLKx1WwljklqA3p8Twy3qaSSOaTts1JUoYcMZ9lkm2HPJ7Tc=
+X-Received: by 2002:a05:690c:3747:b0:717:af29:865f with SMTP id
+ 00721157ae682-7183747155cmr77158257b3.28.1752716515141; Wed, 16 Jul 2025
+ 18:41:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250716145707.2271609-1-skandigraun@gmail.com> <a514a643-5ca6-419e-845a-e62beabb198f@cherry.de>
-In-Reply-To: <a514a643-5ca6-419e-845a-e62beabb198f@cherry.de>
+References: <20250716184002.2334552-1-skandigraun@gmail.com>
+In-Reply-To: <20250716184002.2334552-1-skandigraun@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 16 Jul 2025 18:39:50 -0700
-X-Gm-Features: Ac12FXy5Erfmsdb_K9qX7l2WpsjXpiPMcv3Mq2IOe4HitjRwAjchaO6rszKClSQ
-Message-ID: <CAMKF1spBcJetnA0VkAc3vPRVn6=svwP1WaJ+AQO8eYJ=YtBXfQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] toolchain/clang: handle big.LITTLE Arm SoCs
-To: quentin.schulz@cherry.de
-Cc: skandigraun@gmail.com, openembedded-core@lists.openembedded.org
+Date: Wed, 16 Jul 2025 18:41:29 -0700
+X-Gm-Features: Ac12FXxXQT34WsRG1mpuS8oq5y2N1hUvx6LPjbxNDJ2exMopNZwBuDQHGNKnDdI
+Message-ID: <CAMKF1spbYdVnLySweefLdwPB05rAbkHmgG4Q+OyGRw=X-=1NTw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] tunes: set valid clang tune for big.LITTLE
+ Arm SoCs
+To: skandigraun@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 01:40:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220482
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 01:42:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220483
 
-On Wed, Jul 16, 2025 at 8:10=E2=80=AFAM Quentin Schulz via
-lists.openembedded.org
-<quentin.schulz=3Dcherry.de@lists.openembedded.org> wrote:
+On Wed, Jul 16, 2025 at 11:40=E2=80=AFAM Gyorgy Sarvari via
+lists.openembedded.org <skandigraun=3Dgmail.com@lists.openembedded.org>
+wrote:
 >
-> Hi Gyorgy,
+> clang doesn't have Arm big.LITTLE specific tune options - when such an op=
+tion is used,
+> the compilation fails with an error like this:
 >
-> On 7/16/25 4:57 PM, Gyorgy Sarvari via lists.openembedded.org wrote:
-> > clang doesn't have Arm big.LITTLE specific tune options - when they are=
- used,
-> > the compilation fails with an error like this:
-> >
-> > aarch64-poky-linux-clang: error: unsupported argument 'cortex-a72.corte=
-x-a53+crc+crypto' to option '-mcpu=3D'
-> >
-> > To avoid this, in case a big.LITTLE SoC is the target, select the tune =
-corresponding
-> > to the LITTLE core.
-> >
-> > This has been lifted from meta-clang, extended with cortexa73-cortexa35=
- which
-> > was missing.
-> >
-> > Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-> > ---
-> >   meta/classes/toolchain/clang.bbclass | 16 ++++++++++++++++
-> >   1 file changed, 16 insertions(+)
-> >
-> > diff --git a/meta/classes/toolchain/clang.bbclass b/meta/classes/toolch=
-ain/clang.bbclass
-> > index d7b8a3657c..b0e284be84 100644
-> > --- a/meta/classes/toolchain/clang.bbclass
-> > +++ b/meta/classes/toolchain/clang.bbclass
-> > @@ -34,4 +34,20 @@ TUNE_CCARGS +=3D "${@bb.utils.contains("DISTRO_FEATU=
-RES", "usrmerge", " --dyld-pre
-> >   LDFLAGS:append:class-nativesdk:x86-64 =3D " -Wl,-dynamic-linker,${bas=
-e_libdir}/ld-linux-x86-64.so.2"
-> >   LDFLAGS:append:class-nativesdk:aarch64 =3D " -Wl,-dynamic-linker,${ba=
-se_libdir}/ld-linux-aarch64.so.1"
-> >
-> > +# clang doesn't support big.LITTLE tunes, choose always the tune for t=
-he LITTLE cores
-> > +TUNE_CCARGS:remove =3D "\
-> > +    -mcpu=3Dcortex-a57.cortex-a53${TUNE_CCARGS_MARCH_OPTS} \
-> > +    -mcpu=3Dcortex-a72.cortex-a53${TUNE_CCARGS_MARCH_OPTS} \
-> > +    -mcpu=3Dcortex-a15.cortex-a7${TUNE_CCARGS_MARCH_OPTS} \
-> > +    -mcpu=3Dcortex-a17.cortex-a7${TUNE_CCARGS_MARCH_OPTS} \
-> > +    -mcpu=3Dcortex-a72.cortex-a35${TUNE_CCARGS_MARCH_OPTS} \
-> > +    -mcpu=3Dcortex-a73.cortex-a35${TUNE_CCARGS_MARCH_OPTS} \
-> > +    -mcpu=3Dcortex-a73.cortex-a53${TUNE_CCARGS_MARCH_OPTS} \
-> > +    -mcpu=3Dcortex-a75.cortex-a55${TUNE_CCARGS_MARCH_OPTS} \
-> > +    -mcpu=3Dcortex-a76.cortex-a55${TUNE_CCARGS_MARCH_OPTS}"
-> > +TUNE_CCARGS:append =3D "${@bb.utils.contains_any("TUNE_FEATURES", "cor=
-texa72-cortexa53 cortexa57-cortexa53 cortexa73-cortexa53", " -mcpu=3Dcortex=
--a53${TUNE_CCARGS_MARCH_OPTS}", "", d)}"
-> > +TUNE_CCARGS:append =3D "${@bb.utils.contains_any("TUNE_FEATURES", "cor=
-texa15-cortexa7 cortexa17-cortexa7", " -mcpu=3Dcortex-a7${TUNE_CCARGS_MARCH=
-_OPTS}", "", d)}"
-> > +TUNE_CCARGS:append =3D "${@bb.utils.contains_any("TUNE_FEATURES", "cor=
-texa72-cortexa35 cortexa73-cortexa35", " -mcpu=3Dcortex-a35${TUNE_CCARGS_MA=
-RCH_OPTS}", "", d)}"
-> > +TUNE_CCARGS:append =3D "${@bb.utils.contains_any("TUNE_FEATURES", "cor=
-texa75-cortexa55 cortexa76-cortexa55", " -mcpu=3Dcortex-a55${TUNE_CCARGS_MA=
-RCH_OPTS}", "", d)}"
-> > +
+> aarch64-poky-linux-clang: error: unsupported argument 'cortex-a72.cortex-=
+a53+crc+crypto' to option '-mcpu=3D'
 >
-> Wouldn't it be better to have this in the tune conf file directly? I'm a
-> bit worried we'll have more big.LITTLE flavors in the future and because
-> this is in a separate file it'll be out of date.
+> To avoid this, in case a big.LITTLE SoC is the target and the toolchain i=
+s clang, select
+> the tune corresponding to the LITTLE core.
 >
-> We should be able to do that by simply using the toolchain-clang or
-> toolchain-gcc override wherever appropriate?
->
-> E.g.
->
-> MCPU =3D "cortexa73-cortexa35"
-> # clang doesn't have Arm big.LITTLE specific tune options, so select the
-> tune corresponding to the LITTLE core.
-> MCPU:toolchain-clang =3D "cortexa35"
->
-> TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES",
-> "cortexa73-cortexa35", " -mcpu=3D${MCPU}", "", d)}"
->
-> [... and other replacements in
-> meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc]
->
-> (NOT TESTED) something like that?
->
-> What do you think?
 
-Agreed. Having it in tune files is definitely easier to maintain
+Looks good to me.
 
+> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+> ---
 >
-> Cheers,
-> Quentin
+> v1: https://lists.openembedded.org/g/openembedded-core/message/220467
+> v2: Instead of manipulating these arguments in one place, in clang.bbclas=
+s,
+>     make these changes in the affected machine configs.
+>
+>  .../include/arm/armv8-2a/tune-cortexa75-cortexa55.inc       | 6 +++++-
+>  .../include/arm/armv8-2a/tune-cortexa76-cortexa55.inc       | 6 +++++-
+>  .../machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc | 6 +++++-
+>  .../machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc | 6 +++++-
+>  .../machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc | 6 +++++-
+>  .../machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc | 6 +++++-
+>  6 files changed, 30 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortex=
+a55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.i=
+nc
+> index e18b2cb6e0..6b9b541f9a 100644
+> --- a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
+> +++ b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa75-cortexa55.inc
+> @@ -5,7 +5,11 @@ DEFAULTTUNE                                        ?=3D =
+"cortexa75-cortexa55"
+>
+>  TUNEVALID[cortexa75-cortexa55] =3D "Enable big.LITTLE Cortex-A75.Cortex-=
+A55 specific processor optimizations"
+>  MACHINEOVERRIDES =3D. "${@bb.utils.contains("TUNE_FEATURES", "cortexa75-=
+cortexa55", "cortexa75-cortexa55:", "", d)}"
+> -TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa75-corte=
+xa55", " -mcpu=3Dcortex-a75.cortex-a55", "", d)}"
+> +
+> +CPU_TUNE_ARG =3D "cortex-a75.cortex-a55"
+> +# clang doesn't support big.LITTLE tunes, select the LITTLE tune
+> +CPU_TUNE_ARG:toolchain-clang =3D "cortex-a55"
+> +TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa75-corte=
+xa55", " -mcpu=3D${CPU_TUNE_ARG}", "", d)}"
+>
+>  require conf/machine/include/arm/arch-armv8-2a.inc
+>
+> diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortex=
+a55.inc b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.i=
+nc
+> index 7daf9d91a8..8195782cd9 100644
+> --- a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
+> +++ b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa76-cortexa55.inc
+> @@ -5,7 +5,11 @@ DEFAULTTUNE                                        ?=3D =
+"cortexa76-cortexa55"
+>
+>  TUNEVALID[cortexa76-cortexa55] =3D "Enable big.LITTLE Cortex-A76.Cortex-=
+A55 specific processor optimizations"
+>  MACHINEOVERRIDES =3D. "${@bb.utils.contains("TUNE_FEATURES", "cortexa76-=
+cortexa55", "cortexa76-cortexa55:", "", d)}"
+> -TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa76-corte=
+xa55", " -mcpu=3Dcortex-a76.cortex-a55", "", d)}"
+> +
+> +CPU_TUNE_ARG =3D "cortex-a76.cortex-a55"
+> +# clang doesn't support big.LITTLE tunes, select the LITTLE tune
+> +CPU_TUNE_ARG:toolchain-clang =3D "cortex-a55"
+> +TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa76-corte=
+xa55", " -mcpu=3D${CPU_TUNE_ARG}", "", d)}"
+>
+>  require conf/machine/include/arm/arch-armv8-2a.inc
+>
+> diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa5=
+3.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
+> index 052d1173c9..ee86c1c84b 100644
+> --- a/meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
+> +++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
+> @@ -1,7 +1,11 @@
+>  DEFAULTTUNE ?=3D "cortexa57-cortexa53"
+>
+>  TUNEVALID[cortexa57-cortexa53] =3D "Enable big.LITTLE Cortex-A57.Cortex-=
+A53 specific processor optimizations"
+> -TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa57-corte=
+xa53", " -mcpu=3Dcortex-a57.cortex-a53", "", d)}"
+> +
+> +CPU_TUNE_ARG =3D "cortex-a57.cortex-a53"
+> +# clang doesn't support big.LITTLE tunes, select the LITTLE tune
+> +CPU_TUNE_ARG:toolchain-clang =3D "cortex-a53"
+> +TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa57-corte=
+xa53", " -mcpu=3D${CPU_TUNE_ARG}", "", d)}"
+>  MACHINEOVERRIDES =3D. "${@bb.utils.contains("TUNE_FEATURES", "cortexa57-=
+cortexa53", "cortexa57-cortexa53:", "", d)}"
+>
+>  require conf/machine/include/arm/arch-armv8a.inc
+> diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa5=
+3.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc
+> index ff188aec5f..ba92161b9f 100644
+> --- a/meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc
+> +++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa72-cortexa53.inc
+> @@ -1,7 +1,11 @@
+>  DEFAULTTUNE ?=3D "cortexa72-cortexa53"
+>
+>  TUNEVALID[cortexa72-cortexa53] =3D "Enable big.LITTLE Cortex-A72.Cortex-=
+A53 specific processor optimizations"
+> -TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-corte=
+xa53", " -mcpu=3Dcortex-a72.cortex-a53", "", d)}"
+> +
+> +CPU_TUNE_ARG =3D "cortex-a72.cortex-a53"
+> +# clang doesn't support big.LITTLE tunes, select the LITTLE tune
+> +CPU_TUNE_ARG:toolchain-clang =3D "cortex-a53"
+> +TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-corte=
+xa53", " -mcpu=3D${CPU_TUNE_ARG}", "", d)}"
+>  MACHINEOVERRIDES =3D. "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-=
+cortexa53", "cortexa72-cortexa53:", "", d)}"
+>
+>  require conf/machine/include/arm/arch-armv8a.inc
+> diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa3=
+5.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
+> index 4f4f25f511..370882f299 100644
+> --- a/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
+> +++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa35.inc
+> @@ -5,7 +5,11 @@ DEFAULTTUNE ?=3D "cortexa73-cortexa35"
+>
+>  TUNEVALID[cortexa73-cortexa35] =3D "Enable big.LITTLE Cortex-A73.Cortex-=
+A35 specific processor optimizations"
+>  MACHINEOVERRIDES =3D. "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-=
+cortexa35", "cortexa73-cortexa35:", "", d)}"
+> -TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-corte=
+xa35", " -mcpu=3Dcortex-a73.cortex-a35", "", d)}"
+> +
+> +CPU_TUNE_ARG =3D "cortex-a73.cortex-a35"
+> +# clang doesn't support big.LITTLE tunes, select the LITTLE tune
+> +CPU_TUNE_ARG:toolchain-clang =3D "cortex-a35"
+> +TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-corte=
+xa35", " -mcpu=3D${CPU_TUNE_ARG}", "", d)}"
+>
+>  require conf/machine/include/arm/arch-armv8a.inc
+>
+> diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa5=
+3.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
+> index 1d152ed83b..388df5fb66 100644
+> --- a/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
+> +++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
+> @@ -2,7 +2,11 @@ DEFAULTTUNE ?=3D "cortexa73-cortexa53"
+>
+>  TUNEVALID[cortexa73-cortexa53] =3D "Enable big.LITTLE Cortex-A73.Cortex-=
+A53 specific processor optimizations"
+>  MACHINEOVERRIDES =3D. "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-=
+cortexa53", "cortexa73-cortexa53:", "", d)}"
+> -TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-corte=
+xa53", " -mcpu=3Dcortex-a73.cortex-a53", "", d)}"
+> +
+> +CPU_TUNE_ARG =3D "cortex-a73.cortex-a53"
+> +# clang doesn't support big.LITTLE tunes, select the LITTLE tune
+> +CPU_TUNE_ARG:toolchain-clang =3D "cortex-a53"
+> +TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-corte=
+xa53", " -mcpu=3D${CPU_TUNE_ARG}", "", d)}"
+>
+>  require conf/machine/include/arm/arch-armv8a.inc
+>
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#220469): https://lists.openembedded.org/g/openembedde=
-d-core/message/220469
-> Mute This Topic: https://lists.openembedded.org/mt/114186273/1997914
+> View/Reply Online (#220473): https://lists.openembedded.org/g/openembedde=
+d-core/message/220473
+> Mute This Topic: https://lists.openembedded.org/mt/114190363/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
 j.khem@gmail.com]
