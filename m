@@ -1,229 +1,103 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E28CC83F1A
-	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 09:56:24 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web10.44723.1752746183411985943
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30F36C83F1A
+	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 10:07:24 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.45520.1752746837455671871
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jul 2025 02:56:23 -0700
+ Thu, 17 Jul 2025 03:07:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LKHwefmW;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6fabb948e5aso8557056d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 02:56:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XxzGp3Bi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a4e742dc97so972384f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 03:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752746182; x=1753350982; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=D3QgfZt9hhiZOxRWADOUHXWAoHN0z/IPvH7/q9yPkmQ=;
-        b=LKHwefmWxXjST8VOxxwmQVpKia3wXqogf6KN2EBFwI+OaOjhn3h96+P3tZs2XLdrpJ
-         cUzY6ryG1pKEgUiKIhdWNrod9RlRuNkA1A28YgmYyFDwN0epDMLGOQmXuHQhDdXhodsB
-         Ur+NKzBxOykfVqXgYMn2B1Ogs1ilDaCJd72T2KHgovZFlckcPb3clCqXOf/kvoE7iD2m
-         qfPX0oNTN87fLEt5OjCwxlpVt47uZI+1FNMFWHdKh3+STjuK1Gfj2O9WzqUzeTqHi5xs
-         oWBl1pG3J9DOP7wS2V5pWhvWmlXHjdFbKz/sPF3dIBSndxoiM3CPq2X291si576K1jT4
-         ahyA==
+        d=linuxfoundation.org; s=google; t=1752746836; x=1753351636; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FCxT2d4TCsxGYItBVxCG0YLM2JF1d7UsFWf+eHh7K6k=;
+        b=XxzGp3Bir4HvgTFTJkYIBfSHuZHkGRQmaMIrISPW/JiT6FHRHlpGfyCsXSkVefhuNE
+         OdSX9HjUrjYW73py22VZZT/u9tzTtvZ1p+mbOk/AfO5gMxt7XkpEfqwypHLai5yjwnjc
+         do7a4nUY0VlziS/f5oP6gVgBFqEjbN/GyhCI8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752746182; x=1753350982;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D3QgfZt9hhiZOxRWADOUHXWAoHN0z/IPvH7/q9yPkmQ=;
-        b=d2kCcPiWGCAqyYPasTmJUTbUmDUhd5ZeHwvID04iQoXn61tHZZZoardvWHT9yXlD0i
-         CZokbD0j++SS5c2ZCLn/gdFJBw6dhSGlisJZiotGCmnWZjeceDifVh6GmmDSu+8hL88J
-         Gjqd0ERdiUQjlKXs3aGFeAZVzYyM9XoAM8T6cEhoOY2M19kT9EnDQPnDEcXPmxg7lh6R
-         qkU7p9AzYtUyblzBbIrKn/yLuJXNQC6kviHRGe/OSl1diBPIFCQvXa7TejOAaIC54tj+
-         hESBoNla3CFpJ1N+iDP0hgAJlxykqzynWI4Zb45PYTLaUAhDgmDFkfwEN9XREM+xJOoe
-         xl5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWTb7prOV0Rfp1VMdAWIrDyQqeOSSqz9bR5SUvHCmRryHdcIA9GaxQm7ndenmzCw4TtMqN9DgKLQdouXHpQiJv+EQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwdV+SaMjOYUsn0R8rirRloqwCj5YXOQZVc8ddrdimp2niV3VSG
-	+IBRFRJZEfbt3cv0Ol07mU/hVkzl5tlo0GHDQqzr3Jy6wMhdBniZWGS0L/EpIC2NeoBVvO72oym
-	Q2FoUXOx6cwDNEGfcP6ZsGxjJvQvu3dk=
-X-Gm-Gg: ASbGncvtcNJ6i1VNJXsv1jp7Sr3BRpA0JCwe71yS2DOBPk5XlWmbyO9HxQM/kAcEz8T
-	4bYicaGKD9JdZRkjnYEcgX29VhfoGGlGnJw+cR3j/lUTGZWXleLyOTX5tQyJbhjOAfVhAOEtq7j
-	BPDJnnt5w4uZrJruPA69AF+5jko20juPgJjDAsX9RFYpsYWNgU1NMSI0hqXHKXPETQSTk0EdX7+
-	HI+
-X-Google-Smtp-Source: AGHT+IGUsD2RvNb+/kSXvxLqcD1Xh46YEZ8wi3sUEIDaui2ZEhbqRDnaYgGpt3LyUm5I/Nqu6cePN+Kw8a3PswSrGPk=
-X-Received: by 2002:a05:6214:4498:b0:704:f103:4e52 with SMTP id
- 6a1803df08f44-704f6ae2111mr111736076d6.23.1752746182102; Thu, 17 Jul 2025
- 02:56:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250716232931.127811-1-hiagofranco@gmail.com>
- <20250716232931.127811-2-hiagofranco@gmail.com> <1853013D626CB3EF.8991@lists.openembedded.org>
-In-Reply-To: <1853013D626CB3EF.8991@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 17 Jul 2025 11:56:10 +0200
-X-Gm-Features: Ac12FXwC8PcpdZQxxhiWp4GTWRznnmbJNWR7jI_xwQx4scCNyxFLRjuQaN1hFxw
-Message-ID: <CANNYZj8ea7jCLUjeu9oUz6itjS2M3fvxPHf6J_ZJTs2CpEjRFA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] systemd: drop build dependency on util-linux
-To: alex.kanavin@gmail.com
-Cc: Hiago De Franco <hiagofranco@gmail.com>, openembedded-core@lists.openembedded.org, 
-	Chen Qi <Qi.Chen@windriver.com>, Hiago De Franco <hiago.franco@toradex.com>
+        d=1e100.net; s=20230601; t=1752746836; x=1753351636;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FCxT2d4TCsxGYItBVxCG0YLM2JF1d7UsFWf+eHh7K6k=;
+        b=VZrhOPWdVU6OdngCZ1EZ2yVVkblA7cFbVt7bU/gL1DsYnTjTzqcB+rUoJ7xVyMvFTe
+         Ru6J9dQlNaxvdmjbDY1YUt58rb1T5WQzoFTfymYIpPm3loRhE0WI9kWihnQ/wFAkWVLW
+         +9yV+a8vwiVs8tz1k+SKjwXceK9MFxn42/Sf5Hn0k0iEEvUU02/tlxL2VB6QWZ/VvWCR
+         D5E7I6FLSHgAD7X6zm+UhGqyZfV6+5b15K1mSFZ/NB4UVTWDdzonu1TXBEmA+LRC1NBn
+         Ww+Dk1tlpSKx2BuuYXB/AYFBiTYPRyGKwNnfQQijvESwOQ6Fs7l7DM3deNXtpHdDRCag
+         Q6uA==
+X-Gm-Message-State: AOJu0YyIfL+Bjr3Ocy0w+oMnM826hJiBHyRBeUFghE9woy255PDBpuCr
+	fRK6Zh8grhY/4PkWwvyfKStSDMv1mo7DZdPPYBcs2feDjaDxjAkGh3bzU+o6o+t4uFo=
+X-Gm-Gg: ASbGncvKwIglc0EaEp4lrDbS4tJMqSIfD/uDAfYoAhwDFrIv5oLS4gryCgeENfXn8gM
+	OtrgYS5neiQ2/XqXvGMsOUd+8d8qiCs9csDztRGSl9BAD07kVz1aVNlq78DwqQz6a7wRFEYQR6Y
+	Phlu3ZB0XiMNHzurOxzsTM8Ws1bY2PAua5WxJJkRSy9cIS/x+h089C7m5409qaSHvCAzz9u0ZJy
+	gn6A2Y1IfMJeXls3xpgN+dqsC+n0Ry2W0tP2nWI4V30Nki1EyvyKNKPwAzhOycDKkw7V2Cu1Q4D
+	qva9o8K2PnUmaPiCiG3y1P4srL1M+s3+kUSXTfv/Uog/SLKZBkIvpb4TefC1WNHiP9zNCpSI+wL
+	rmKbNxqTpSSSZhpDp6/RD5e6cGO7C5F4UZnuyLd4knJzBtsOLEMZfCD+4NyPqu9pnaL6v7T7iFS
+	33fTLK6TomQjMNlbTB3uW5Lg==
+X-Google-Smtp-Source: AGHT+IFxBRYo/Kg6/ZwrXb8HyRjNaV18eUpX60LHFhKXMcVLw9XKmRuDlXfg888J2LW93wkod9YZ0g==
+X-Received: by 2002:a05:6000:2383:b0:3a6:d95e:f37c with SMTP id ffacd0b85a97d-3b613aa23admr2351819f8f.2.1752746835706;
+        Thu, 17 Jul 2025 03:07:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c05c:a45d:32ee:c317? ([2001:8b0:aba:5f3c:c05c:a45d:32ee:c317])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e0d785sm20680774f8f.59.2025.07.17.03.07.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jul 2025 03:07:14 -0700 (PDT)
+Message-ID: <59d1a220de6c0c8d8c5a5f364f5e248935d915e1.camel@linuxfoundation.org>
+Subject: Re: [PATCH 0/4] kernel-yocto: -dev and -stable updates
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Jul 2025 11:07:14 +0100
+In-Reply-To: <cover.1752673419.git.bruce.ashfield@gmail.com>
+References: <cover.1752673419.git.bruce.ashfield@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 09:56:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220529
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 10:07:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220530
 
-Ah nevermind. The dependency was already there, it's just converted
-from floating to explicit?
+On Wed, 2025-07-16 at 09:48 -0400, bruce.ashfield@gmail.com wrote:
+> Here's the next set of kernel updates.
+>=20
+> Some things of note:
+>=20
+> =C2=A0 - 6.16 is my target refernce kernel for the upcoming release, and =
+as it
+> =C2=A0=C2=A0=C2=A0 turned out, it took a bit longer to do some porting of=
+ features to the
+> =C2=A0=C2=A0=C2=A0 new base, but everything looks now. Even the -rt branc=
+hes are updated
+> =C2=A0=C2=A0=C2=A0 with the latest. So some extra soak time on this -dev =
+kernel is a good
+> =C2=A0=C2=A0=C2=A0 thing
 
-Alex
+Sounds good to me.
 
-On Thu, 17 Jul 2025 at 11:54, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> I don't understand. The backported patch adds a meson option, but not
-> any uses of it. Why is it needed?
->
-> Alex
->
-> On Thu, 17 Jul 2025 at 01:29, Hiago De Franco <hiagofranco@gmail.com> wrote:
-> >
-> > From: Hiago De Franco <hiago.franco@toradex.com>
-> >
-> > The libmount dependency was made optional on systemd upstream [2]. By
-> > backporting this upstream change, we can drop util-linux as a build
-> > dependency for systemd, making it only as a runtime dependency.
-> >
-> > This is important to fix a circular dependency between util-linux and
-> > systemd when util-linux is built with the systemd PACKAGECONFIG enabled.
-> > Without this change, each recipe depends on the other, triggering the
-> > circular dependency error.
-> >
-> > [1] https://github.com/systemd/systemd/blob/main/README#L216
-> > [2] https://github.com/systemd/systemd/commit/d1ee3889cf8e8a9edc82e41d306155fb4c531c8f
-> >
-> > Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
-> > ---
-> >  .../0001-meson-Add-libmount-feature.patch     | 58 +++++++++++++++++++
-> >  meta/recipes-core/systemd/systemd_257.6.bb    |  7 ++-
-> >  2 files changed, 63 insertions(+), 2 deletions(-)
-> >  create mode 100644 meta/recipes-core/systemd/systemd/0001-meson-Add-libmount-feature.patch
-> >
-> > diff --git a/meta/recipes-core/systemd/systemd/0001-meson-Add-libmount-feature.patch b/meta/recipes-core/systemd/systemd/0001-meson-Add-libmount-feature.patch
-> > new file mode 100644
-> > index 000000000000..b04acd6fef08
-> > --- /dev/null
-> > +++ b/meta/recipes-core/systemd/systemd/0001-meson-Add-libmount-feature.patch
-> > @@ -0,0 +1,58 @@
-> > +From 821c809e1e1e449f5a2fe591d6aae1343b141b6c Mon Sep 17 00:00:00 2001
-> > +From: Daan De Meyer <daan.j.demeyer@gmail.com>
-> > +Date: Thu, 5 Jun 2025 11:05:08 +0200
-> > +Subject: [PATCH] meson: Add libmount feature
-> > +
-> > +Let's reduce the dependencies required to build just libsystemd by
-> > +making libmount optional. The meson disabler feature makes this quite
-> > +trivial.
-> > +
-> > +Upstream-Status: Backport [d1ee3889cf8e8a9edc82e41d306155fb4c531c8f]
-> > +Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
-> > +---
-> > + meson.build       | 4 +++-
-> > + meson_options.txt | 2 ++
-> > + tools/oss-fuzz.sh | 2 +-
-> > + 3 files changed, 6 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/meson.build b/meson.build
-> > +index 957e00ecad..594fadbb37 100644
-> > +--- a/meson.build
-> > ++++ b/meson.build
-> > +@@ -1179,7 +1179,9 @@ else
-> > + endif
-> > +
-> > + libmount = dependency('mount',
-> > +-                      version : fuzzer_build ? '>= 0' : '>= 2.30')
-> > ++                      version : fuzzer_build ? '>= 0' : '>= 2.30',
-> > ++                      disabler : true,
-> > ++                      required : get_option('libmount'))
-> > +
-> > + libfdisk = dependency('fdisk',
-> > +                       version : '>= 2.32',
-> > +diff --git a/meson_options.txt b/meson_options.txt
-> > +index f30b3f5238..f292732d62 100644
-> > +--- a/meson_options.txt
-> > ++++ b/meson_options.txt
-> > +@@ -471,6 +471,8 @@ option('dbus', type : 'feature', deprecated : { 'true' : 'enabled', 'false' : 'd
-> > +        description : 'libdbus support (for tests only)')
-> > + option('libarchive', type : 'feature',
-> > +        description : 'libarchive support')
-> > ++option('libmount', type : 'feature',
-> > ++       description : 'libmount support')
-> > +
-> > + option('bootloader', type : 'feature', deprecated : { 'true' : 'enabled', 'false' : 'disabled' },
-> > +        description : 'sd-boot/stub and userspace tools')
-> > +diff --git a/tools/oss-fuzz.sh b/tools/oss-fuzz.sh
-> > +index df3d39eba6..b7a70207df 100755
-> > +--- a/tools/oss-fuzz.sh
-> > ++++ b/tools/oss-fuzz.sh
-> > +@@ -32,7 +32,7 @@ meson_args=("-Db_lundef=false")
-> > + if [ -z "$FUZZING_ENGINE" ]; then
-> > +     meson_args+=("-Dllvm-fuzz=true")
-> > + else
-> > +-    meson_args+=("-Doss-fuzz=true" "--auto-features=disabled")
-> > ++    meson_args+=("-Doss-fuzz=true" "--auto-features=disabled" "-Dlibmount=enabled")
-> > +
-> > +     apt-get update
-> > +     apt-get install -y gperf m4 gettext python3-pip \
-> > diff --git a/meta/recipes-core/systemd/systemd_257.6.bb b/meta/recipes-core/systemd/systemd_257.6.bb
-> > index 9092d02c5109..d73c0cfe0d8b 100644
-> > --- a/meta/recipes-core/systemd/systemd_257.6.bb
-> > +++ b/meta/recipes-core/systemd/systemd_257.6.bb
-> > @@ -4,7 +4,7 @@ PROVIDES = "udev"
-> >
-> >  PE = "1"
-> >
-> > -DEPENDS = "gperf-native libcap util-linux python3-jinja2-native"
-> > +DEPENDS = "gperf-native libcap python3-jinja2-native"
-> >
-> >  SECTION = "base/shell"
-> >
-> > @@ -29,6 +29,7 @@ SRC_URI += " \
-> >             file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-> >             file://0002-implment-systemd-sysv-install-for-OE.patch \
-> >             file://0001-Do-not-create-var-log-README.patch \
-> > +           file://0001-meson-Add-libmount-feature.patch \
-> >             "
-> >
-> >  # patches needed by musl
-> > @@ -81,6 +82,7 @@ PACKAGECONFIG ??= " \
-> >      idn \
-> >      ima \
-> >      kmod \
-> > +    libmount \
-> >      localed \
-> >      logind \
-> >      machined \
-> > @@ -172,6 +174,7 @@ PACKAGECONFIG[kmod] = "-Dkmod=enabled,-Dkmod=disabled,kmod,libkmod"
-> >  PACKAGECONFIG[ldconfig] = "-Dldconfig=true,-Dldconfig=false,,ldconfig"
-> >  PACKAGECONFIG[libidn] = "-Dlibidn=enabled,-Dlibidn=disabled,libidn,,libidn"
-> >  PACKAGECONFIG[libidn2] = "-Dlibidn2=enabled,-Dlibidn2=disabled,libidn2,,libidn2"
-> > +PACKAGECONFIG[libmount] = "-Dlibmount=enabled,-Dlibmount=disabled,util-linux,util-linux-mount util-linux-umount"
-> >  # Link udev shared with systemd helper library.
-> >  # If enabled the udev package depends on the systemd package (which has the needed shared library).
-> >  PACKAGECONFIG[link-udev-shared] = "-Dlink-udev-shared=true,-Dlink-udev-shared=false"
-> > @@ -742,7 +745,7 @@ FILES:${PN} = " ${base_bindir}/* \
-> >
-> >  FILES:${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
-> >
-> > -RDEPENDS:${PN} += "kmod ${VIRTUAL-RUNTIME_dbus} util-linux-mount util-linux-umount udev (= ${EXTENDPKGV}) systemd-udev-rules util-linux-agetty util-linux-fsck util-linux-swaponoff util-linux-mkswap"
-> > +RDEPENDS:${PN} += "kmod ${VIRTUAL-RUNTIME_dbus} udev (= ${EXTENDPKGV}) systemd-udev-rules util-linux-agetty util-linux-fsck util-linux-swaponoff util-linux-mkswap"
-> >  RDEPENDS:${PN} += "systemd-serialgetty"
-> >  RDEPENDS:${PN} += "volatile-binds"
-> >
-> > --
-> > 2.39.5
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220528): https://lists.openembedded.org/g/openembedded-core/message/220528
-> Mute This Topic: https://lists.openembedded.org/mt/114194829/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+>=20
+> =C2=A0 - I've also updated my release process to update the CVE tracking =
+for the
+> =C2=A0=C2=A0=C2=A0 kernel, and you can see that commit here. If something=
+ is wrong, let
+> =C2=A0=C2=A0=C2=A0 me know and I'll fix how I'm doing it.
+
+The name of the repo changed in the comment but I don't think it
+matters and I'm happy to see the update, thanks!
+
+I tested them on the autobuilder overnight and merged this morning.
+
+Cheers,
+
+Richard
 
