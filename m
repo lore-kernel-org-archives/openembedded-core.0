@@ -2,290 +2,164 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47170C83F27
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51E59C83F22
 	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 02:59:21 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.40264.1752721151659324894
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.40267.1752721157746558470
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 19:59:11 -0700
+ Wed, 16 Jul 2025 19:59:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2wvsoq0m;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3138e64b42aso623777a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:59:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zi3ynz9U;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-23694cec0feso4297395ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:59:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752721151; x=1753325951; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752721157; x=1753325957; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qtlSzuJKk6hf5m16PH23LSRguAGBLjRCyq6+MnEou2U=;
-        b=2wvsoq0mMrgz9gvbzhFI3lOQxdkx4H4OeF5Q871uEBJe2L74TnyX5fRdIWdo8MbNiS
-         ZLggk4zlkrayNA0z+TDJFLluIMY0dzn0epIVqdCbA3jZJQ/X4/T5UpF6ByskQxwV/fJt
-         kbLW9uPZWcX2NcrwvNZJRUCrX7aU1jBMpJk29WO54icTKh7XMCyQ/T/WPVMbxEhHXUna
-         2cJA2yeiofBrTkYdqmBf0QuO0J1NpCIlL9Yb1dABB9ZsuAhw9qMuC4v+C+tXOxMCumkI
-         7HQX1HJW4W37G5V6nnDflSgA7Gnb+L/W7Vo3q9T4BQFwrckQ9oxz+zVk3BxJNTw9D3sr
-         d/UQ==
+        bh=VDTFvkWyNUI9byYvrzbP2iE5ipXQhV03/8lF437mwo4=;
+        b=zi3ynz9UDxgXdIk/DG+a4U3Hg3SzaxHq5qnJ1qTOuME7PcLKClTafmYEo96dq7o5mm
+         AFeBc98Izoq740W4SmdR+bX1/VpC3kUaKUMhFMAmQlTjlbMiycN/qvIvwLqZkdKEMjjB
+         eXmymW/7Leq7azwA3CkTTJAtz/4Bsfkn1j0qFQgz++KnOE1H6ujVBD7wgDNeP81dkM4R
+         FTxXHSr4c7r2f6370y9uKF1Cd79ncj0Fe6RVpac2fzjEMc8vtcTeMBJExMo3iqgy4u3v
+         BIEznhZYR2JLZ/1vZVNqT1L2/Y2vZa48c8UeRCsSc62yt+9s5jmdND+BxTENcVZD7enB
+         UuYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752721151; x=1753325951;
+        d=1e100.net; s=20230601; t=1752721157; x=1753325957;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qtlSzuJKk6hf5m16PH23LSRguAGBLjRCyq6+MnEou2U=;
-        b=KJ/Lb10Qa3euLIaBlegcwrx0JJcrDX+HPq4JcqZciB9Kg9vTY6cxmMI7NFH9dPTfvL
-         1OvHY4ar/4EyLL6HDcVP9OGeCZBZSSvOX2QZpEHOzI2c+LRcgftyx6crQNlKiK8rlGNi
-         g9nrTH7hI/LM2Lh5SXCHj2H0p+aMeAL87HOCnmmxEjloH+0EYK3KWqSAFV2GUR+xyau8
-         0VRkRQOCvlXmyDRFNeNFaV4ruKfiEBZ60C6SJ8uQqyrSooq+M/KYbX2I0P+IXvmOT7TR
-         3iDz3Zhj6xRC0hMe4oaXewfa3sGc9tsnpuhsSyygtUAL58q/JcDBOFjnzqRG5SyK2rK+
-         Yipg==
-X-Gm-Message-State: AOJu0Yx6451tIRBOIXX+b9YZOf6Inn7p9Fpo7NqE7TgCh8KblhKGl3XQ
-	ULUUHGOZupU4/eod6R+DcWhk/UsBwFCqrArTF2gGJ1l2ZBIJ1XAG4/oj04cS4RFWJD+mBfWlYfA
-	hHT1F
-X-Gm-Gg: ASbGncvR88ZZOd1uUtNOenTWv7FIML0xCKrbPweeiS94a8bQhGgVb4QFOzQJU69Ynjn
-	XAB4e1L3EH/pk7ZQwUzSRKh+2V2+ix06Wrv6AhriqdaKLm0DfVJnMVJoJQRElx3VbRdxdrkF/X+
-	Skn3f83jU1U3cE9FeajiS3QldZ4FNIhgqg05Gv0sH+HlTsgJ+QD+ktN6JSm+ax+CugBQ3gq9Z5G
-	9f4vm4ZlAQGYQfAKI7r2RKxvrB2AAdY7AIcQGR5iy2Iva7EMaskvaIIOq/zwUDwM+aBe8xeXoMv
-	zxyJ/5pzPppiCom6Z4OiTSRtAkwPLzQZmDyYt8fyYFHZcKqa92J37k5UG57OHlsG0HJIH9UCWPY
-	HABlnQmL83Ush2g==
-X-Google-Smtp-Source: AGHT+IHbxfq2iLe80N8qAeLo+4zVCHVNF93b/NRsi0wtR87/NpUlzZ+3zLHmEyoSiyVFYofqdWjgbw==
-X-Received: by 2002:a17:90b:3f08:b0:313:176b:3d4b with SMTP id 98e67ed59e1d1-31caf8db637mr1520008a91.22.1752721150579;
-        Wed, 16 Jul 2025 19:59:10 -0700 (PDT)
+        bh=VDTFvkWyNUI9byYvrzbP2iE5ipXQhV03/8lF437mwo4=;
+        b=Mn2lxdtywVqm7XGQIxuuISoBgbGXh/Z5uDTFil7LAbfmcBvSE69b/7/y+8NvJscbKU
+         84ntkWehDCUW2iQnNKWledHIfygw/WrbRZZf8wOCBVeA/jhePODi+/uAud28OiR4yGUH
+         QF1nc9PKiIMS2dA/v2or3XuCdzN5rFZ9Bv9iCyGhAPfkm0rJZJ0hPsLvWfBXhaZ9R0Qz
+         vpdP2bVH4/BTUzPtiTPgAKHwTv3VpQZiZe5RFQt2l6TDDNMowQKs7hOirWCvkgieRD2o
+         3W9T+hqa4Yo1SSlThf7WroxjJ2Bq6fEmnCZL+DL0pQcxRB+NUz6hHgUXeoNacnEjV90/
+         1Fqw==
+X-Gm-Message-State: AOJu0Ywx4c452yEgwQSfvbF2l7GbznTbwJBPCQfbSUXHy7v1X0GodoDR
+	ty4HetJD9bhjlDhBjkQvrDOLr3ujT54M/qqxEHdT6HLM3099DjGNLgQkSlTVD0+hU6ZLTFiqB4G
+	qtYKW
+X-Gm-Gg: ASbGncs257iOJiay56U02GSeWwlk4B9jjAZ4cVehEetegS1ibySpM1jti+25tIlAUoA
+	g1FqFCYYkVN2Wv7nsIKEhz+8wTmFybVhItevJJewnG2jioMZFL0Uiq4IjXtKJvmifsypR16c3IZ
+	bx35gSvOwe92OVqB71IGlqGk38528vl9HJNHs0IJcTkHIFS3VRlRyYUqhEAsEOPxgSvYtOAyZtL
+	O1DgezKuUaCoIIre2HpXw7vyiqTuDgfrg+Xrm6PAiUqmkyLv//B8VXh5UGG0R/NtTzYQSRs3S48
+	muW1Z1uvJf52IYZSD++vPZXWi0dYA3eOV+BCAU6Swa9mFTQCM5QcobgydJWeKG39olOx8KvO9vY
+	IJZIG6megG/2GXA==
+X-Google-Smtp-Source: AGHT+IE9BCZ8lqJo8ZpuJ0fISKpN6fEF/BUKuCcxIEGha66Bd2Yu7mGzMAIMXUZwfSeiw/I0AHuzXA==
+X-Received: by 2002:a17:903:41c3:b0:235:eb8d:7fff with SMTP id d9443c01a7336-23e24f4aab3mr75742245ad.28.1752721156910;
+        Wed, 16 Jul 2025 19:59:16 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3bfc:8fec:7e35:e96a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f29e313sm2204547a91.35.2025.07.16.19.59.09
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f29e313sm2204547a91.35.2025.07.16.19.59.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 19:59:10 -0700 (PDT)
+        Wed, 16 Jul 2025 19:59:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 01/12] libxml2: fix CVE-2025-49794 & CVE-2025-49796
-Date: Wed, 16 Jul 2025 19:58:49 -0700
-Message-ID: <bb20ddc599314161f3bcd6d5479e81478ceaaa3a.1752721028.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 05/12] gdk-pixbuf: fix CVE-2025-7345
+Date: Wed, 16 Jul 2025 19:58:53 -0700
+Message-ID: <78a52a7feb995b4ab4f4df6b16feaac60f6ad59b.1752721028.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752721028.git.steve@sakoman.com>
 References: <cover.1752721028.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 02:59:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220501
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220505
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libxml2/-/commit/71e1e8af5ee46dad1b57bb96cfbf1c3ad21fbd7b
+A flaw exists in gdk‑pixbuf within the gdk_pixbuf__jpeg_image_load_increment function
+(io-jpeg.c) and in glib’s g_base64_encode_step (glib/gbase64.c). When processing
+maliciously crafted JPEG images, a heap buffer overflow can occur during Base64 encoding,
+allowing out-of-bounds reads from heap memory, potentially causing application crashes or
+arbitrary code execution.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../CVE-2025-49794-CVE-2025-49796.patch       | 186 ++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.12.10.bb   |   1 +
- 2 files changed, 187 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-49794-CVE-2025-49796.patch
+ .../gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch | 55 +++++++++++++++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.42.12.bb          |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-49794-CVE-2025-49796.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-49794-CVE-2025-49796.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch
 new file mode 100644
-index 0000000000..881cac7f03
+index 0000000000..a8f23d3501
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2025-49794-CVE-2025-49796.patch
-@@ -0,0 +1,186 @@
-+From 71e1e8af5ee46dad1b57bb96cfbf1c3ad21fbd7b Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Fri, 4 Jul 2025 14:28:26 +0200
-+Subject: [PATCH] schematron: Fix memory safety issues in
-+ xmlSchematronReportOutput
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2025-7345.patch
+@@ -0,0 +1,55 @@
++From 4af78023ce7d3b5e3cec422a59bb4f48fa4f5886 Mon Sep 17 00:00:00 2001
++From: Matthias Clasen <mclasen@redhat.com>
++Date: Fri, 11 Jul 2025 11:02:05 -0400
++Subject: [PATCH] jpeg: Be more careful with chunked icc data
 +
-+Fix use-after-free (CVE-2025-49794) and type confusion (CVE-2025-49796)
-+in xmlSchematronReportOutput.
++We we inadvertendly trusting the sequence numbers not to lie.
++If they do we would report a larger data size than we actually
++allocated, leading to out of bounds memory access in base64
++encoding later on.
 +
-+Fixes #931.
-+Fixes #933.
++This has been assigned CVE-2025-7345.
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/71e1e8af5ee46dad1b57bb96cfbf1c3ad21fbd7b]
-+CVE: CVE-2025-49794 CVE-2025-49796
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Fixes: #249
++
++CVE: CVE-2025-7345
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/4af78023ce7d3b5e3cec422a59bb4f48fa4f5886]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ result/schematron/cve-2025-49794_0.err |  2 ++
-+ result/schematron/cve-2025-49796_0.err |  2 ++
-+ schematron.c                           | 49 ++++++++++++++------------
-+ test/schematron/cve-2025-49794.sct     | 10 ++++++
-+ test/schematron/cve-2025-49794_0.xml   |  6 ++++
-+ test/schematron/cve-2025-49796.sct     |  9 +++++
-+ test/schematron/cve-2025-49796_0.xml   |  3 ++
-+ 7 files changed, 58 insertions(+), 23 deletions(-)
-+ create mode 100644 result/schematron/cve-2025-49794_0.err
-+ create mode 100644 result/schematron/cve-2025-49796_0.err
-+ create mode 100644 test/schematron/cve-2025-49794.sct
-+ create mode 100644 test/schematron/cve-2025-49794_0.xml
-+ create mode 100644 test/schematron/cve-2025-49796.sct
-+ create mode 100644 test/schematron/cve-2025-49796_0.xml
++ gdk-pixbuf/io-jpeg.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
 +
-+diff --git a/result/schematron/cve-2025-49794_0.err b/result/schematron/cve-2025-49794_0.err
-+new file mode 100644
-+index 0000000..5775231
-+--- /dev/null
-++++ b/result/schematron/cve-2025-49794_0.err
-+@@ -0,0 +1,2 @@
-++./test/schematron/cve-2025-49794_0.xml:2: element boo0: schematron error : /librar0/boo0 line 2:  
-++./test/schematron/cve-2025-49794_0.xml fails to validate
-+diff --git a/result/schematron/cve-2025-49796_0.err b/result/schematron/cve-2025-49796_0.err
-+new file mode 100644
-+index 0000000..bf875ee
-+--- /dev/null
-++++ b/result/schematron/cve-2025-49796_0.err
-+@@ -0,0 +1,2 @@
-++./test/schematron/cve-2025-49796_0.xml:2: element boo0: schematron error : /librar0/boo0 line 2:  
-++./test/schematron/cve-2025-49796_0.xml fails to validate
-+diff --git a/schematron.c b/schematron.c
-+index a825920..411a515 100644
-+--- a/schematron.c
-++++ b/schematron.c
-+@@ -1389,27 +1389,15 @@ exit:
-+  *                                                                      *
-+  ************************************************************************/
-+ 
-+-static xmlNodePtr
-++static xmlXPathObjectPtr
-+ xmlSchematronGetNode(xmlSchematronValidCtxtPtr ctxt,
-+                      xmlNodePtr cur, const xmlChar *xpath) {
-+-    xmlNodePtr node = NULL;
-+-    xmlXPathObjectPtr ret;
-+-
-+     if ((ctxt == NULL) || (cur == NULL) || (xpath == NULL))
-+         return(NULL);
-+ 
-+     ctxt->xctxt->doc = cur->doc;
-+     ctxt->xctxt->node = cur;
-+-    ret = xmlXPathEval(xpath, ctxt->xctxt);
-+-    if (ret == NULL)
-+-        return(NULL);
-+-
-+-    if ((ret->type == XPATH_NODESET) &&
-+-        (ret->nodesetval != NULL) && (ret->nodesetval->nodeNr > 0))
-+-        node = ret->nodesetval->nodeTab[0];
-+-
-+-    xmlXPathFreeObject(ret);
-+-    return(node);
-++    return(xmlXPathEval(xpath, ctxt->xctxt));
++diff --git a/gdk-pixbuf/io-jpeg.c b/gdk-pixbuf/io-jpeg.c
++index 3841fc0..9ee1d21 100644
++--- a/gdk-pixbuf/io-jpeg.c
+++++ b/gdk-pixbuf/io-jpeg.c
++@@ -356,6 +356,7 @@ jpeg_parse_exif_app2_segment (JpegExifContext *context, jpeg_saved_marker_ptr ma
++		context->icc_profile = g_new (gchar, chunk_size);
++		/* copy the segment data to the profile space */
++		memcpy (context->icc_profile, marker->data + 14, chunk_size);
+++                ret = TRUE;
++		goto out;
++	}
++
++@@ -377,12 +378,15 @@ jpeg_parse_exif_app2_segment (JpegExifContext *context, jpeg_saved_marker_ptr ma
++	/* copy the segment data to the profile space */
++	memcpy (context->icc_profile + offset, marker->data + 14, chunk_size);
++
++-	/* it's now this big plus the new data we've just copied */
++-	context->icc_profile_size += chunk_size;
+++        context->icc_profile_size = MAX (context->icc_profile_size, offset + chunk_size);
++
++	/* success */
++	ret = TRUE;
++ out:
+++        if (!ret) {
+++                g_free (context->icc_profile);
+++                context->icc_profile = NULL;
+++        }
++	return ret;
 + }
-+ 
-+ /**
-+@@ -1455,25 +1443,40 @@ xmlSchematronFormatReport(xmlSchematronValidCtxtPtr ctxt,
-+             (child->type == XML_CDATA_SECTION_NODE))
-+             ret = xmlStrcat(ret, child->content);
-+         else if (IS_SCHEMATRON(child, "name")) {
-++            xmlXPathObject *obj = NULL;
-+             xmlChar *path;
-+ 
-+             path = xmlGetNoNsProp(child, BAD_CAST "path");
-+ 
-+             node = cur;
-+             if (path != NULL) {
-+-                node = xmlSchematronGetNode(ctxt, cur, path);
-+-                if (node == NULL)
-+-                    node = cur;
-++                obj = xmlSchematronGetNode(ctxt, cur, path);
-++                if ((obj != NULL) &&
-++                    (obj->type == XPATH_NODESET) &&
-++                    (obj->nodesetval != NULL) &&
-++                    (obj->nodesetval->nodeNr > 0))
-++                    node = obj->nodesetval->nodeTab[0];
-+                 xmlFree(path);
-+             }
-+ 
-+-            if ((node->ns == NULL) || (node->ns->prefix == NULL))
-+-                ret = xmlStrcat(ret, node->name);
-+-            else {
-+-                ret = xmlStrcat(ret, node->ns->prefix);
-+-                ret = xmlStrcat(ret, BAD_CAST ":");
-+-                ret = xmlStrcat(ret, node->name);
-++            switch (node->type) {
-++                case XML_ELEMENT_NODE:
-++                case XML_ATTRIBUTE_NODE:
-++                    if ((node->ns == NULL) || (node->ns->prefix == NULL))
-++                        ret = xmlStrcat(ret, node->name);
-++                    else {
-++                        ret = xmlStrcat(ret, node->ns->prefix);
-++                        ret = xmlStrcat(ret, BAD_CAST ":");
-++                        ret = xmlStrcat(ret, node->name);
-++                    }
-++                    break;
-++
-++                /* TODO: handle other node types */
-++                default:
-++                    break;
-+             }
-++
-++            xmlXPathFreeObject(obj);
-+         } else if (IS_SCHEMATRON(child, "value-of")) {
-+             xmlChar *select;
-+             xmlXPathObjectPtr eval;
-+diff --git a/test/schematron/cve-2025-49794.sct b/test/schematron/cve-2025-49794.sct
-+new file mode 100644
-+index 0000000..7fc9ee3
-+--- /dev/null
-++++ b/test/schematron/cve-2025-49794.sct
-+@@ -0,0 +1,10 @@
-++<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
-++    <sch:pattern id="">
-++        <sch:rule context="boo0">
-++            <sch:report test="not(0)">
-++                <sch:name path="&#9;e|namespace::*|e"/>
-++            </sch:report>
-++            <sch:report test="0"></sch:report>
-++        </sch:rule>
-++    </sch:pattern>
-++</sch:schema>
-+diff --git a/test/schematron/cve-2025-49794_0.xml b/test/schematron/cve-2025-49794_0.xml
-+new file mode 100644
-+index 0000000..debc64b
-+--- /dev/null
-++++ b/test/schematron/cve-2025-49794_0.xml
-+@@ -0,0 +1,6 @@
-++<librar0>
-++    <boo0 t="">
-++        <author></author>
-++    </boo0>
-++    <ins></ins>
-++</librar0>
-+diff --git a/test/schematron/cve-2025-49796.sct b/test/schematron/cve-2025-49796.sct
-+new file mode 100644
-+index 0000000..e9702d7
-+--- /dev/null
-++++ b/test/schematron/cve-2025-49796.sct
-+@@ -0,0 +1,9 @@
-++<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
-++    <sch:pattern id="">
-++        <sch:rule context="boo0">
-++            <sch:report test="not(0)">
-++                <sch:name path="/"/>
-++            </sch:report>
-++        </sch:rule>
-++    </sch:pattern>
-++</sch:schema>
-+diff --git a/test/schematron/cve-2025-49796_0.xml b/test/schematron/cve-2025-49796_0.xml
-+new file mode 100644
-+index 0000000..be33c4e
-+--- /dev/null
-++++ b/test/schematron/cve-2025-49796_0.xml
-+@@ -0,0 +1,3 @@
-++<librar0>
-++    <boo0/>
-++</librar0>
-+-- 
-+2.49.0
 +
-diff --git a/meta/recipes-core/libxml/libxml2_2.12.10.bb b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-index 1ecac70b4c..488ace62e5 100644
---- a/meta/recipes-core/libxml/libxml2_2.12.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-@@ -21,6 +21,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://CVE-2025-32414.patch \
-            file://CVE-2025-32415.patch \
-            file://CVE-2025-6021.patch \
-+           file://CVE-2025-49794-CVE-2025-49796.patch \
++--
++2.40.0
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+index 9f825a68ef..ff1c7a1fb2 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+@@ -20,6 +20,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            file://fatal-loader.patch \
+            file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch \
++           file://CVE-2025-7345.patch \
             "
  
- SRC_URI[archive.sha256sum] = "c3d8c0c34aa39098f66576fe51969db12a5100b956233dc56506f7a8679be995"
+ SRC_URI[sha256sum] = "b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7"
 -- 
 2.43.0
 
