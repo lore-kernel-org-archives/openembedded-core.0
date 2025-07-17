@@ -1,121 +1,126 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8841C83F1A
-	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 16:52:25 +0000 (UTC)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web10.343.1752771143858664459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1132C83F38
+	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 16:58:15 +0000 (UTC)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+ by mx.groups.io with SMTP id smtpd.web11.543.1752771492393993367
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jul 2025 09:52:23 -0700
+ Thu, 17 Jul 2025 09:58:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LRHqG3Jk;
- spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e897c8ca777so1173915276.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 09:52:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DIo0gdEv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.172, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e8bd171826cso1164619276.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 09:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752771143; x=1753375943; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752771491; x=1753376291; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jyKh2siqfliXF+Oh+tG2Yguo1SoyxDDGnEhcrm+NiWk=;
-        b=LRHqG3JkBDJgvQPLpe9U3gVIJ9GCpwhkZLg/pGPlIVCHI6oPiNqC1/9murzYE90wyS
-         w17ESH8OCvTM91BDKtwNCL//uMEkwp4NCqbJrpg0weyessCvHveeMDXqt7Jh3LbzrSmQ
-         OT4ibXtwV6/fp7cCh8+T8bBSemeyHJtRp6dvviOfWSFBuUI1ZDMeXNnMFdF4r8JhX4XH
-         Z9dS+1ZwceBW1GAuVVMbxkMvh4t8YmyESpKnY10pnC2OmSyE6YCsCv0u5ipsBn3uazvA
-         CacZDS+cpN2MvWukFZEAeUCCogHa8zn5ClQtk91X0sPettIe2Z6PjYjBRuZ5LAkk22gO
-         vPOQ==
+        bh=6BB2/ZYBH2j95f+IFvqlGPjuPCYQx+kOJLM4gtT2p1o=;
+        b=DIo0gdEvEuXNWbT0N3YHtSe6Jpiy89qUvcEqSdQS0cdBdBofZmJCy57QRxmFyi2cR4
+         9yMpr2l+3VLVMshOVbBfArX3UkVNcr/dzDZMJIi1F/QK94XR7A0sKpxt+5IjowmVWtWD
+         8eminfpy2hHwkwBqFQ7NnXdt247MeE9FGTLIpXt3ui8LDj+VHMNnprjkgi9uy/G3TCxU
+         Nlqvvtkv4lZxP71X4vkOWDkRNkNxCwrdnvaUPkh8XX1qJSFtuRZshN1I+5J8xYVV1lrN
+         Wnd4vL0KgaFCqPTAVmQvAVyriCyAnk5OGhb092tZfwf9NUVtY0sHbvBnuZD4n/vIkU+R
+         GIvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752771143; x=1753375943;
+        d=1e100.net; s=20230601; t=1752771491; x=1753376291;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jyKh2siqfliXF+Oh+tG2Yguo1SoyxDDGnEhcrm+NiWk=;
-        b=dXG1EEQ88RwmNLdk0UU/C4+actNW4rdJyQYP2F+IlziruulPi/kz5oR1gP77ORaFEZ
-         Kv0hqfKP7hQYfaOfeVL5HXp/1MOxtQ2kp48y9F8VmuTwfzEw0GxV+LVXxC17OFy2HJcf
-         +iTmJg3kDzmDq67TLDJTI0ywFdBX9IkO2/7ThgPl8ktRwyDVqu/AGPTmBkuHNPaD7DWd
-         wnsmkZO8hEBgW0CWi36ElNhHAXOn364NEtlJZ7rm+Yoj24oma5Cr5Ukkxbj/7xuCjQwo
-         GUK2CrB6WahmdzmdwLM4x92PgHwkJYNxq6W0pFEgK46GU1eskQiQFRk/k692JhvWMumJ
-         rwQQ==
-X-Gm-Message-State: AOJu0YxELN+TMTBSGYbky8pztYamnmqXwMXiUViC50s8KV8uhYQEj01I
-	WuhZCW6YzmT0zIJrEJCdSP1y68bmCywgY6xLNgwCEtKXSIgAcHfUQfHm1BGq9xqzApdH06CkScd
-	voFoFudggrkCaiiIvJfRYuBVI2DGmMvw=
-X-Gm-Gg: ASbGncsRm1ZpN35zXR7tWyYuOZKzXqePDB7zSE6DS0JvOTCTHWfngJJcRLbH6d2Z+zl
-	gfg11ccHK5Bj7UV54O0ZkejDTJ3g54eXY0sVojhKAc0twRxkhFSwEtaEyT020vBf1jgd5xBeZEw
-	gGjnImBq1Qm3iQq9b102eurDSIxJ6PtLyf9VL4o3LI5rE2gM+S8TbnrJ6v9os1qXgCSzei9wqki
-	WjZyw==
-X-Google-Smtp-Source: AGHT+IGKlEJs1ZpTw6ax73G5HNbjqtJkRCrolnbICOsWMc4OXYmx0VFvMq+SdSR3pS5yoEKUra7M+q7+mP7x8j7BbmU=
-X-Received: by 2002:a05:690c:64c3:b0:70f:88e2:c4ae with SMTP id
- 00721157ae682-7183517be47mr117778527b3.37.1752771142868; Thu, 17 Jul 2025
- 09:52:22 -0700 (PDT)
+        bh=6BB2/ZYBH2j95f+IFvqlGPjuPCYQx+kOJLM4gtT2p1o=;
+        b=LlGvQwOgxHzpA4/IkHCCqGPbEWuamf9s2HhqlCO2xJ4n9R0nOAFmGjG72Q8T1eeFzy
+         672sMsBZlksaMqHZa85/oFvSFPlW/vBfQcAMsShlkpEE8qRiFGVbxCvCON1urRqhIln8
+         rZBZbGjrDmnYVHxYqSS7dapBvb5YvDYQxtw6EqoJeHDyNxGNHgr591nWAqIoTGO312Pz
+         DQWRh8bJ9Q5g77YxvWjtwcqKiCvLmQVT3kwENzKGxA8rbawDf1IcA8/VhbJ6VBkiBgbn
+         nDjOJlvAPfNQTm0ELiYzJYxmdYvJYOozyscXScLkpCjLEtTWV1IlsJDfiqpHtWbZEd1L
+         xcUQ==
+X-Gm-Message-State: AOJu0Yy944v5nzXbMFmZQrfeS9uueDEsxVh3kNRBfjQpk6+I5Xj0QRjT
+	PDpLz/e5FF3Pa3ZRs8hWKQ77C3YKZ7E7spxBhLsTUxjJEb5BQzSgVS5C1DG0hYiS42wX8Wfiy4j
+	Ltoxjj8AGJ6W7gbIGtCa48u2ZT7mVj0YKNl8z2gE9Vrlgl+IClyzc
+X-Gm-Gg: ASbGncvOX1oy4FGCOfgwrcndIMr7feWAmWsP9gb93vhcSuveLBB7+1przpd4E0U0BVA
+	B87hY0XwSXYDB8xknqwU9mP/QkjWZsCNWe/8sNa8R9gdkB2p7xltu9/jrR8jm/pfA4JMa6dASE5
+	eP2+bReOcfKNC/kxXWkFgnuzRuc5weGPErXxrNLmjPXA1qYDnG1xPjEBWa4tDAAM44u9HzQPuC3
+	2+o1c6q8bQjJduB5RkrU9FXDGN2PUf1u013AeU=
+X-Google-Smtp-Source: AGHT+IFecU9HZlYciTch6VNUJCtJ6/jfS8H01UAVSKK+VYV4uKsjx5871sh5tI/eedh2YXfPwmXrzIlHVX1V0guM1FE=
+X-Received: by 2002:a05:6902:2003:b0:e82:1a1d:8479 with SMTP id
+ 3f1490d57ef6-e8bc2479462mr9144056276.21.1752771490955; Thu, 17 Jul 2025
+ 09:58:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250717134806.2790027-1-ross.burton@arm.com>
-In-Reply-To: <20250717134806.2790027-1-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 17 Jul 2025 09:51:56 -0700
-X-Gm-Features: Ac12FXyj4uoObRkjM48_DcPF68wBrAe0ALQLtVdqYctHnMwKX91h_p6-03pnM4M
-Message-ID: <CAMKF1sraynzNOe77+q4L1JNgcscVfaCdOzmpck6Tkn5GVVM+6w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/2] cmake: remove CMAKE_SYSTEM_* from the
- native toolchain
-To: ross.burton@arm.com
+References: <20250717080929.3619031-1-libo.chen.cn@windriver.com>
+In-Reply-To: <20250717080929.3619031-1-libo.chen.cn@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 17 Jul 2025 09:57:59 -0700
+X-Gm-Features: Ac12FXz0zRY0lAD8Y4axRL6ow12ctVJ6YApQInzJYtAwn_zGccgAUv3R7d6rMYQ
+Message-ID: <CAOSpxdZSTfm3Y3wuHNmarJyAz3SezOCj9_R9a_kfcSbzqrzX9Q@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] runqemu: fix special characters bug
+To: libo.chen.cn@windriver.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 16:52:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220554
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 16:58:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220555
 
-On Thu, Jul 17, 2025 at 6:48=E2=80=AFAM Ross Burton via lists.openembedded.=
-org
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
->
-> If these variables are set explictly then CMake assumes that it is
-> cross-compiling[1]. We don't need to set them as the default values as
-> detected by CMake are correct for native.
+This should be submitted (and accepted) for the master branch before I
+can take it for the stable branches.
 
-makes sense, I think this is what I was fighting against when
-compiling libmusicbrainz
+Steve
 
+On Thu, Jul 17, 2025 at 1:10=E2=80=AFAM Chen, Libo (CN) via
+lists.openembedded.org
+<libo.chen.cn=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> [1] https://cmake.org/cmake/help/latest/variable/CMAKE_CROSSCOMPILING.htm=
-l
+> From: Libo Chen <libo.chen.cn@windriver.com>
 >
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Fix the following bug for runqemu with a file path which contains
+> vmlinux characters.
+>
+> runqemu - ERROR - wic doesn't need kernel
+>
+> Signed-off-by: Libo Chen <libo.chen.cn@windriver.com>
 > ---
->  meta/classes-recipe/cmake.bbclass | 2 --
->  1 file changed, 2 deletions(-)
+>  scripts/runqemu | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmak=
-e.bbclass
-> index 449fe2bb443..0bb0f33a9ec 100644
-> --- a/meta/classes-recipe/cmake.bbclass
-> +++ b/meta/classes-recipe/cmake.bbclass
-> @@ -180,8 +180,6 @@ list(APPEND CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES ${=
-includedir})
->
->  EOF
->          cat > ${WORKDIR}/toolchain-native.cmake <<EOF
-> -set( CMAKE_SYSTEM_NAME ${@map_host_os_to_system_name(d.getVar('BUILD_OS'=
-))} )
-> -set( CMAKE_SYSTEM_PROCESSOR ${@map_host_arch_to_uname_arch(d.getVar('BUI=
-LD_ARCH'))} )
->  set( CMAKE_C_COMPILER ${OECMAKE_NATIVE_C_COMPILER} )
->  set( CMAKE_CXX_COMPILER ${OECMAKE_NATIVE_CXX_COMPILER} )
->  set( CMAKE_ASM_COMPILER ${OECMAKE_NATIVE_C_COMPILER} )
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 2ab36fd03d..f189dbfb60 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -368,12 +368,13 @@ class BaseConfig(object):
+>          - Check whether it is an NFS dir
+>          - Check whether it is an OVMF flash file
+>          """
+> +        n =3D os.path.basename(p)
+>          if p.endswith('.qemuboot.conf'):
+>              self.qemuboot =3D p
+>              self.qbconfload =3D True
+> -        elif re.search('\\.bin$', p) or re.search('bzImage', p) or \
+> -             re.search('zImage', p) or re.search('vmlinux', p) or \
+> -             re.search('fitImage', p) or re.search('uImage', p):
+> +        elif re.search('\\.bin$', n) or re.search('bzImage', n) or \
+> +             re.search('zImage', n) or re.search('vmlinux', n) or \
+> +             re.search('fitImage', n) or re.search('uImage', n):
+>              self.kernel =3D  p
+>          elif os.path.isfile(p) and ('-image-' in os.path.basename(p) or =
+'.rootfs.' in os.path.basename(p)):
+>              self.rootfs =3D p
 > --
-> 2.43.0
+> 2.34.1
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#220544): https://lists.openembedded.org/g/openembedde=
-d-core/message/220544
-> Mute This Topic: https://lists.openembedded.org/mt/114203429/1997914
+> View/Reply Online (#220518): https://lists.openembedded.org/g/openembedde=
+d-core/message/220518
+> Mute This Topic: https://lists.openembedded.org/mt/114199800/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
