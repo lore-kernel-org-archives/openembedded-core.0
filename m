@@ -2,61 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7933C83F1B
-	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 01:23:50 +0000 (UTC)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
- by mx.groups.io with SMTP id smtpd.web11.38696.1752715428786824509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4A3CC83F1B
+	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 01:33:00 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.web11.38891.1752715970125544588
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 18:23:48 -0700
+ Wed, 16 Jul 2025 18:32:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=e7Qb7BIM;
- spf=pass (domain: gmail.com, ip: 209.85.128.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7086dcab64bso3950727b3.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 18:23:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KgjF2Wa1;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-70e4043c5b7so3827097b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 18:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752715428; x=1753320228; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1752715969; x=1753320769; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xsqQbQ63Fq0qBreF1yzQLQ6Z9+awQltQgoFstZr9lAI=;
-        b=e7Qb7BIMZ2ywGMtLsoppm4B0VPvJRYSgbIRP41daAV8d0oZRTwgG4163icluWX7t9/
-         jmkdy93vkY8q23ednEbF0SwOs/Lw6hhddh6uUfJFvquoyRa5Sh1EX4oIGuWi+b0iFrXE
-         F9by2B1yb4Vx0Kbpr9+emm79uN+jhPu2+nwym2O2o4i0Vz7Qcqld297H5GF291c/PSvW
-         6L9SuKFH8YAns64xnFj1BGuCtbTwGgYwmdZ4kh+3alYBUH7YUjuIa7VM/2banrcw12fJ
-         SozP9MRdSGWUFThiRornpAJccjdVraGXTF2cSk2dG79vAkn1Fo+HpLNlUDc5QZi1EYz3
-         nqSQ==
+        bh=esP0BdsoU3S/3mRjluHn9HjQwTnSUk7CKdi8ElL2Gd4=;
+        b=KgjF2Wa1IJ2jnZzJO+HKAtvEHu3TomN/1/SWMrtcQDPcU/94O7CwmThrQhUyPP1rVr
+         Qtoxi7nsevJPdrpijblcyJWL9pFkW/oyiFvwr2FeAKrNJR2CGjownFWC9x/PDOtaFNKW
+         qi4g5jFwmmEnT/8n6A+5AqojNAWuHieCsS0gDA731s1FBPoNQwmzhRDk/6rFh9KJWt/Q
+         PatOKv5CnfvfwXlWJLUg6/gjnLD4avhsil87Vr8vPQ+MH60jszq9GEyJZHh/2x0m3k2y
+         T1wA2K8Yn6p6XSKiEyss2ziA7mTr7Mfszm1fh5Es0xFEKpyan4MokDmZhaWogBTiCfG+
+         +clw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752715428; x=1753320228;
+        d=1e100.net; s=20230601; t=1752715969; x=1753320769;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xsqQbQ63Fq0qBreF1yzQLQ6Z9+awQltQgoFstZr9lAI=;
-        b=I9o2oxbzxbRMT5Zn8npLDhRPkRMVlnUyS0Q38y6Mj39H5uaK7T0L4WvqawVcEbnlu7
-         2qH61lmDeQt+IbxBcMSO/Xfryf+p6NFOtUJroPHY0c+sJWsaO2ymIOfI497R2GL6hDbZ
-         Kp0TJgJvMM6jZnfmjrdu/w4UegMLFeqr0iZ0GOIFwTgZ98QvINadrOabFHma+Sk3NJTQ
-         W7kqXVCv9B1ptT4M4qYzD2Y15PEXJfRZaLxY25OvaEbroSmO9f3yZW45dh5n7uTEIaNo
-         r/yKgCnJ/W8YHJpQ4+sM2CSuboALDRtf1l+u540oEq4LNRjJMVMNFcg2ObN39KDSpJh+
-         jWew==
-X-Gm-Message-State: AOJu0Yx2tpZ09hfFSL3gA52JzBAQY4zlRFQnZaIRv1Gqynh/y21yLAJ2
-	jBlN61jguWFgMBnRV6w4ILUGGSoOQn/y//SA+f36YVARI9/APsCywst59fyIqt3IOzJ4aFXW7tT
-	Le3eX72230Ug/g0Zb4EeXZHlg3ApBJv8=
-X-Gm-Gg: ASbGncsc9AD/a50YvdAIP5OabWmv30C7XBNZzpS5yAJPCEdRl9pRAi8hx89n3VMRPuB
-	eK2KzW5ubZ9HqxeHrwJjQKhrwWLSql823BqDeM5phW0UrAOuEYpTyf4uhmXT9tTree5qVyk08tz
-	2JUi/5DJTdnLlkgUAolfU5lgWyBLCb5AAeiGv1M6nd/t9uQpkNOdDYIQ0P6cNZe9Z0OQrivYpsx
-	k8dgRZcLr3QnNqb
-X-Google-Smtp-Source: AGHT+IGoNHC7pv+1+MgsblqWEmZyqaYN189mYgLLGMt3MY5wBFglB4vm4sj1m5GzYQ7e/nNeTvysOb85BCIwGuGZW18=
-X-Received: by 2002:a05:690c:9:b0:70d:f3f9:1898 with SMTP id
- 00721157ae682-718374a1941mr75409307b3.35.1752715427688; Wed, 16 Jul 2025
- 18:23:47 -0700 (PDT)
+        bh=esP0BdsoU3S/3mRjluHn9HjQwTnSUk7CKdi8ElL2Gd4=;
+        b=ew4KRQQSSFmsRX3/CDsa/0Viwo93yULls6U+2ykC9Ybfl+IXCtYWJtDU3nQPaEKH4l
+         pRnODT0tfgfLCcW/BA+ExfTWf1KiyuGY0Oj1cHojo6KA5nrqzCJCO7VnPym9Ey7+fNUP
+         1gsKDl3BEb133v1Wn0zMivDjDZU7HWd/m79RmAD/x3xJZYhIF9eldD/pzFAEy721nzpd
+         mH7pJs+bl7DtG8RE0sQEZWBjjfbhl6K7aDwuMzCFO11Ju+AZ5aSL8ctLYMCTK2dXH0oc
+         ZfSUJxfFAk8AUcal4nhi0JzntCbrgZvs49eb33rhtry6Nr//zyAoEfymCd42DSvIS1h5
+         5OGw==
+X-Gm-Message-State: AOJu0Yz6iV6L0DrEpCHmjjvB36C8Xez7HDZj/Mrfamf7qaLsO1sHDOO3
+	kxzlFW3NMuowAHpzehh2yMs67xaJbRSMmG5FLLPsjeok/46bPih+aXc9G4iYKe2HG34D7coitDw
+	FB1IKcdIgzDCwrrqQKLKT3NLcyPfiAwQ/llxk
+X-Gm-Gg: ASbGncv9ObeJV0VkB4pnbfgif+DyAx6GzRdQnPVfXMFsYAN9/f4EQY/pA1huWxjqyfh
+	OrWEuR8JZS5IsREmxL/bSvMi1kMrtIhefep/w0ps9TiEVgu6iLmurvVDHTsPVS97jn2SusaJpJM
+	3ubdsRItuRTxysm+BMQnhsNMTUfQkNL9it8juvWQKLc4KdByDSMcl+EhTeqK0PWCGqD3Tt2YP8K
+	b2ir2s92rNlzvvV
+X-Google-Smtp-Source: AGHT+IFkqcjjvCR61GDGPKIqmzpBE2mwcgB/m9OOTACqzRV2Qy0xT2ok9FeZdzNdkFnj76LuPTWN9k37Aoh3/Lcah6A=
+X-Received: by 2002:a05:690c:9a84:b0:718:a975:d4f6 with SMTP id
+ 00721157ae682-718a975e3b4mr14743957b3.31.1752715969079; Wed, 16 Jul 2025
+ 18:32:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250716094954.866783-1-ross.burton@arm.com>
-In-Reply-To: <20250716094954.866783-1-ross.burton@arm.com>
+References: <20250716123047.1322878-1-ross.burton@arm.com>
+In-Reply-To: <20250716123047.1322878-1-ross.burton@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 16 Jul 2025 18:23:21 -0700
-X-Gm-Features: Ac12FXw6niByi0SAYY9wGvqA7hkuQcCiLFx-LrUFIR_8Nr5ehyB8SRxgjpBOzs8
-Message-ID: <CAMKF1srh8VDLOo_029px5CMMsWdoxo73t5-4PuVbNRVk6dFm0Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ccache: move environment variables to the
- configuration file
+Date: Wed, 16 Jul 2025 18:32:23 -0700
+X-Gm-Features: Ac12FXxh5GdAOaDfLl-5ZsmBW4OLtzvmQ29uzM0sniETooCrwyLxdnv4wMyK9m4
+Message-ID: <CAMKF1srjH=+jMcY4BqMToXWF_Q0DfPcnWynuqVBPK5h5H8azJg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] clang: remove obsolete 'terminfo' PACKAGECONFIG
 To: ross.burton@arm.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
@@ -64,103 +63,71 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 01:23:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220479
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 01:33:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220480
 
-On Wed, Jul 16, 2025 at 2:50=E2=80=AFAM Ross Burton via lists.openembedded.=
+On Wed, Jul 16, 2025 at 5:30=E2=80=AFAM Ross Burton via lists.openembedded.=
 org
 <ross.burton=3Darm.com@lists.openembedded.org> wrote:
 >
-> Move some environment variables to the configuration file, so there's
-> less happening in the class.
->
-> Some changes were made as part of the move:
-> - max_size was removed so that the per-recipe caches don't grown without
->   limit. The default cache is 5GB.
-> - compiler_check was extended to check both the specs and the version,
->   so that a version change that doesn't affect the specs will still mean
->   a recompile.
+> Neither LLVM_ENABLE_TERMINFO or COMPILER_RT_TERMINFO_LIB are used in the
+> current CMakeLists.
+
+It has transformed overtime, so removal is perhaps fine. although this
+has transformed into lldb cmake detecting it for the build
+so it might be doing the job due to ncurses being in deps which now it
+gone. TUI with lldb might be disabled
+
 >
 > Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  meta/classes/ccache.bbclass | 13 -------------
->  meta/conf/ccache.conf       | 15 +++++++++++++--
->  2 files changed, 13 insertions(+), 15 deletions(-)
+>  meta/recipes-devtools/clang/clang_git.bb | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
-> diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
-> index 2d6a3ea7229..5ce23e50f34 100644
-> --- a/meta/classes/ccache.bbclass
-> +++ b/meta/classes/ccache.bbclass
-> @@ -42,23 +42,10 @@ CCACHE_NATIVE_RECIPES_ALLOWED ?=3D ""
->  # in different builds.
->  export CCACHE_BASEDIR ?=3D "${TMPDIR}"
+> diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devt=
+ools/clang/clang_git.bb
+> index 194e690a8c4..d70f2c0133b 100644
+> --- a/meta/recipes-devtools/clang/clang_git.bb
+> +++ b/meta/recipes-devtools/clang/clang_git.bb
+> @@ -57,8 +57,7 @@ PACKAGECONFIG_CLANG_COMMON =3D "build-id eh libedit rtt=
+i shared-libs libclang-pyth
+>                                ${@bb.utils.contains('TC_CXX_RUNTIME', 'll=
+vm', 'compiler-rt libcplusplus libomp unwindlib', '', d)} \
+>                                "
 >
-> -# Used for sharing cache files after compiler is rebuilt
-> -export CCACHE_COMPILERCHECK ?=3D "%compiler% -dumpspecs"
-> -
->  export CCACHE_CONFIGPATH ?=3D "${COREBASE}/meta/conf/ccache.conf"
->
->  export CCACHE_DIR ?=3D "${CCACHE_TOP_DIR}/${MULTIMACH_TARGET_SYS}/${PN}"
->
-> -# Fixed errors:
-> -# ccache: error: Failed to create directory /run/user/0/ccache-tmp: Perm=
-ission denied
-> -export CCACHE_TEMPDIR ?=3D "${CCACHE_DIR}/tmp"
-> -
-> -# We need to stop ccache considering the current directory or the
-> -# debug-prefix-map target directory to be significant when calculating
-> -# its hash. Without this the cache would be invalidated every time
-> -# ${PV} or ${PR} change.
-> -export CCACHE_NOHASHDIR ?=3D "1"
-> -
->  python() {
->      """
->      Enable ccache for the recipe
-> diff --git a/meta/conf/ccache.conf b/meta/conf/ccache.conf
-> index 499e5327b8c..ea658708a1f 100644
-> --- a/meta/conf/ccache.conf
-> +++ b/meta/conf/ccache.conf
-> @@ -1,7 +1,18 @@
-> -max_size =3D 0
-> -
->  # Avoid spurious cache misses caused by recipe sysroot creation: Creatin=
-g a
->  # recipe sysroot hardlinks all dependent files into place. Hardlinking u=
-pdates
->  # the file's ctime which in turn interferes with ccache's include_file_c=
-time
->  # check.
->  sloppiness =3D include_file_ctime
-> +
-> +# Only rebuild if the compiler version or specs have changed, as we rebu=
-ild
-> +# compilers more than is usual.
-> +compiler_check =3D %compiler% -dumpversion; %compiler% -dumpspecs
-
--dumpspecs is very gcc centric option and clang does not support it,
-previously we overwrote CCACHE_COMPILERCHECK
-in clang bbclass to something like %compiler% -v, how do we get
-that parity with this approach ?
-
-> +
-> +# We need to stop ccache considering the current directory or the
-> +# debug-prefix-map target directory to be significant when calculating
-> +# its hash. Without this the cache would be invalidated every time
-> +# ${PV} or ${PR} change.
-> +hash_dir =3D false
-> +
-> +# If ccache runs under pseudo it will try to create files in /run/user/0=
-/ccahe-tmp
-> +temporary_dir =3D $CCACHE_DIR/tmp
+> -PACKAGECONFIG ??=3D "terminfo \
+> -                   ${PACKAGECONFIG_CLANG_COMMON} \
+> +PACKAGECONFIG ??=3D "${PACKAGECONFIG_CLANG_COMMON} \
+>                     ${@bb.utils.filter('DISTRO_FEATURES', 'lto thin-lto',=
+ d)} \
+>                     "
+>  PACKAGECONFIG:class-native =3D "clangd \
+> @@ -89,7 +88,6 @@ PACKAGECONFIG[pfm] =3D "-DLLVM_ENABLE_LIBPFM=3DON,-DLLV=
+M_ENABLE_LIBPFM=3DOFF,libpfm,"
+>  PACKAGECONFIG[rtti] =3D "-DLLVM_ENABLE_RTTI=3DON,-DLLVM_ENABLE_RTTI=3DOF=
+F,,"
+>  PACKAGECONFIG[shared-libs] =3D "-DLLVM_BUILD_LLVM_DYLIB=3DON -DLLVM_LINK=
+_LLVM_DYLIB=3DON,,,"
+>  PACKAGECONFIG[split-dwarf] =3D "-DLLVM_USE_SPLIT_DWARF=3DON,-DLLVM_USE_S=
+PLIT_DWARF=3DOFF,,"
+> -PACKAGECONFIG[terminfo] =3D "-DLLVM_ENABLE_TERMINFO=3DON -DCOMPILER_RT_T=
+ERMINFO_LIB=3DON,-DLLVM_ENABLE_TERMINFO=3DOFF -DCOMPILER_RT_TERMINFO_LIB=3D=
+OFF,ncurses,"
+>  PACKAGECONFIG[thin-lto] =3D "-DLLVM_ENABLE_LTO=3DThin -DLLVM_BINUTILS_IN=
+CDIR=3D${STAGING_INCDIR},,binutils,"
+>  PACKAGECONFIG[unwindlib] =3D "-DCLANG_DEFAULT_UNWINDLIB=3Dlibunwind,-DCL=
+ANG_DEFAULT_UNWINDLIB=3Dlibgcc,,"
+>  PACKAGECONFIG[libclang-python] =3D "-DCLANG_PYTHON_BINDINGS_VERSIONS=3D$=
+{PYTHON_BASEVERSION},,"
 > --
 > 2.43.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#220443): https://lists.openembedded.org/g/openembedde=
-d-core/message/220443
-> Mute This Topic: https://lists.openembedded.org/mt/114182159/1997914
+> View/Reply Online (#220449): https://lists.openembedded.org/g/openembedde=
+d-core/message/220449
+> Mute This Topic: https://lists.openembedded.org/mt/114183620/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
 j.khem@gmail.com]
