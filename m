@@ -1,158 +1,159 @@
-Return-Path: <hiagofranco@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E5EC83F1A
-	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 12:57:35 +0000 (UTC)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.web11.48484.1752757054532911404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD20C83F1B
+	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 13:00:45 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.48023.1752757243016835226
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jul 2025 05:57:34 -0700
+ Thu, 17 Jul 2025 06:00:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PpX8HtBu;
- spf=pass (domain: gmail.com, ip: 209.85.210.54, mailfrom: hiagofranco@gmail.com)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-73e560636d6so507355a34.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 05:57:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752757053; x=1753361853; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=NEvnnXwRUnkQwykTNWiCD63iry4zhSC0CxuriOSeNb4=;
-        b=PpX8HtBuM3yh5P2J/KbZwl7xo9cwtSXZ/pfLk+EYFmUrQvSjo+gUWJoSpysVPiTOn0
-         sbZ6GS0oMl+9qtTeWVUiDw1gZ42+f3TL4DbeVfLLK/HoW8j4c9anjaKuSD31713/BSJ2
-         TKu2VIs52Hm6sMF0Xw6pSmTMrZDKsqOIMdmNqNeHtRYYO3bqfiDcDd9XRUt2UmZtqz+l
-         iZQAbmL2fxVV43Y8NBz0cULra/v+FYod57gHRlPGgMy51echemtKvu+fbL1gQRmrqDT6
-         1c8NHXvNO5+pqLQmg159kp65MB87ypK8Zc9nCRTyAt8b8FPUTnBvf6ecdSLCGq13PX7n
-         z3qw==
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=mJXKzQV7;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56HAw3JC030411
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 13:00:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	P54wk+n08ni3MInQ7kiZovsH0HS1JXJIGr6ufa4raeE=; b=mJXKzQV7dfYPqJ11
+	kuRLE6eK7lmuCDw7M5vyCTUtr+rORJqeyHMunuQBwlb4/yvXDQZOb+CLMEmcWliv
+	6gH80FX84uTBUe5xyVZ37bFf7s+8ns/JVGUO/oQKl25QrXdNYadSOKd4QdV5Zt9H
+	32f1cSmj0JLHr8MIAbS+VUi9WFMOjkYN6e5GP5J0UCFx7SuF3xlD1XmHtl0fVsdC
+	My2zd4l02ZrA3pXicK6LOwneZb9Fv/fghW6XV0oIzTIgHdx4Dl5ijm3Xy1fceoc+
+	qfWDLOYigvbDTFhnurNodaNzjbe0Ud8BYAuQc+cfXjdzty8WKxTcfMnx2Jr4J1r9
+	J4GP1w==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47x8x7mj5e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 13:00:41 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7e33f7a58f6so145083785a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 06:00:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752757053; x=1753361853;
+        d=1e100.net; s=20230601; t=1752757241; x=1753362041;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NEvnnXwRUnkQwykTNWiCD63iry4zhSC0CxuriOSeNb4=;
-        b=rTK1Nsc5I27+k5slVDG35s7QMl/KKY/L3GsCEBe1nqLgfYQOFptrwd9y2ZQROw+sRR
-         gqDRKE8SQJT+wv+K+n4kdLoNgxsJ0ycjSMFhLlRkm1iAeFMkNogg0bIWVFQNRV4CGZzq
-         WO0CU/Rr/dDNbjDezdsUKjDIyjgaDw4u3V/GKjVj2B3fiPed14qVhBPokWds9xK7/alY
-         Fest11R5cyv4oIMrh7SDkXC+jsxl3vvwAEpR1NkO+XQTTH+mwQRfecvYpz7ieyJOalLs
-         h7Ckaxolj2Jq7BWHHYH0fg8FTBkAsLD5JcIpzRfaRtBbnfcSub0gFzOy+HR2smD+knhw
-         jyHA==
-X-Gm-Message-State: AOJu0YwvmNTj2CjR/QEZXqc9H6xvuyX8IZQ7YC7mAGBZCTZaksXBddgr
-	W1wGpLEYK+zl17qokkFnjwcIuw8GGRZj/DpUk2+OuKdnxLgpH4tZ91OlEWNn050H
-X-Gm-Gg: ASbGncudVebmd0iHmIxIjNeRQ3DOXCQW3gQZF4BgFxZo6wr1qm9xV8xGj6mqZ1izD/p
-	/sZqpoq+x0YEgWhnRwaBR4cloi2EyXxdEJoBDKoJAYP4Y9ZFPg9Vz7HxMVuqPaQYSQvaj9tPEtJ
-	aIuxbdRL8NdWK5fpBwmidTM9E3Iiv6H+xV/GF2ZZY3IYqMuyR390qZtrHokqVELR5S5ZeP/j0PB
-	b47/6zg6XyTLFIvNwfrwKD6cWg+TQA5/dpcuh3dqeAAlsTv9GNeMy672u34AmuKCRlaEg555Cz7
-	kFhbx9qbzNU9asf32H4rA1F6hER1q3ZAF+RIDfj8sLqCEqCFhMzQ4kKep+TaDKYn8o3WcuOi0XA
-	RgAxyGR/OPfbwJHaQAuM=
-X-Google-Smtp-Source: AGHT+IEvyF4E0EL4E8grKR1JZp5bQUWkURJj7U973dpB+ZPDVlGMJwCvFYKpWq/CQjdSPZTKHRBXWA==
-X-Received: by 2002:a05:6830:4d95:b0:73e:6fac:b3d6 with SMTP id 46e09a7af769-73e753b689fmr2015123a34.24.1752757052523;
-        Thu, 17 Jul 2025 05:57:32 -0700 (PDT)
-Received: from hiagonb ([67.159.246.222])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73e63b94769sm1643339a34.21.2025.07.17.05.57.30
+        bh=P54wk+n08ni3MInQ7kiZovsH0HS1JXJIGr6ufa4raeE=;
+        b=hSnQOVPyVzSv+RVHgBn1quJAozP7od/Zjb5Yqh2/Bbuf9cGsnoanv/V98I5tFbznv4
+         8BnqPLSKkQm3g6K8cbl3AhHn2ueNUAZmMoIYcvJaUiVc9cCzhSkIG9SAlJZCX+pe/woz
+         yJK9DibjfQfQ1OFY6dbgW7vOyrCjTzF/3K99wyjeX7wfigrooxo+2uSeMc7Sb78LY8UM
+         q43/NB1L0PKLuunwERb8RXmt8LKzVK+fhYv5Np4w3+euEorAb5Z2runSSF5gvha5vK4A
+         gYCaQCuaf50fKIjlzw6JYdNdSrJJcE0TM3mKPhhF2yIhXd9iTOScwgljWkhmWa9nD1FN
+         Gr+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWY8oTEI59FJTDqOGdo+K8yIsHhu3mYkh+Z4hDc06O4EYZ6bsvBitnjj9iYNcZUP/FmzhKWPNdzSywBzqPpippiBg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwKdgFPJkJqeAfcsql7XvzwZfByYLELBKaoiMjqdvtwU4Z6J0OF
+	OoaxfoBYbhlmwexwG9ecdOS1Dwtcpj+LIPphFDDsCdr+vIPdum9EoI3hMlvs47Rnag3Y3Sog0AA
+	/hNJ47TYh4L7dIWFm63aBENrtbPNT16k/AavHjuXjXw3cQd5IbAtBmvUeJmRVjB+EmFQChT+qmZ
+	FycK9ydeQ=
+X-Gm-Gg: ASbGncvA5WTVSoq/aZPxDHi/+cWsrUh+aVTn7GDVhzFDMizX1oAyCdVsJ2EDb5YRcZn
+	7nedXLMns5YT9/nXi8FMDK84FSVELxRgfrAUKGazeVHvLlH2on+r4YBYAZ4JOEAn39ExkFi8mg2
+	RTaPNds5Aaqqsv2IjNdrLNkd4Lcll5o9ZdeZdAP+REx3HRv7ZwG+bkd0jQx7XQ7uDb9gnGYrgq0
+	w/WareTdkS2MU/Lekmb+CxB8IZnekdHzVblqJhjFLqWXpzGxGdRnWG4z/UT8qJyYWGhieMlbNUK
+	HpzaZHY/6aLtPnu432lv6bmDaGOb1vRKNV4kLMj1PPLk4bAorN0HDCaUtsy+hTQ9+YDaz5ENwxh
+	+ADbYnlcPWYv7GnR+DDx9JwU+yhrpiKiOLM5YWU43jwjMH25FsJdh
+X-Received: by 2002:a05:620a:2945:b0:7e3:2ee5:71b0 with SMTP id af79cd13be357-7e343374b3amr841930085a.16.1752757237077;
+        Thu, 17 Jul 2025 06:00:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE4zhf8AymGwPDx71qAfUi3hmJg0NpnTXqMipCX16JPALSmZoRZzp6t4qlxoorQyhEu0p6nlg==
+X-Received: by 2002:a05:620a:2945:b0:7e3:2ee5:71b0 with SMTP id af79cd13be357-7e343374b3amr841916785a.16.1752757236142;
+        Thu, 17 Jul 2025 06:00:36 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5593c7f3522sm2995563e87.87.2025.07.17.06.00.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 05:57:32 -0700 (PDT)
-Date: Thu, 17 Jul 2025 09:57:28 -0300
-From: Hiago De Franco <hiagofranco@gmail.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Chen Qi <Qi.Chen@windriver.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Hiago De Franco <hiago.franco@toradex.com>
-Subject: Re: [OE-core] [PATCH 0/2] systemd: drop libmount dependency and add
- blkid and fdisk PACKAGECONFIGs
-Message-ID: <20250717125728.tmxoze5r2obktl3x@hiagonb>
-References: <20250716232931.127811-1-hiagofranco@gmail.com>
- <DBE8J299IF7K.22KVHVSAEHE8@bootlin.com>
+        Thu, 17 Jul 2025 06:00:35 -0700 (PDT)
+Date: Thu, 17 Jul 2025 16:00:33 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] spirv-llvm-translator: drop tag from the
+ SRC_URI
+Message-ID: <27vjhf4ojfpwvsbdxkboo5hgoaaj7ongeax5icelqv7trobh5c@vfj4cn4mm5h2>
+References: <20250716144749.1880959-1-dmitry.baryshkov@oss.qualcomm.com>
+ <CAMKF1sqkK1o3e=ehvMhkBGTFVuvPMQF0LusEYYDURfdgxLitmw@mail.gmail.com>
+ <CA+chaQeEQ2EKt8RdZrDiae54NE0Tidq1_md2zHQJATpX7=5X6Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DBE8J299IF7K.22KVHVSAEHE8@bootlin.com>
+In-Reply-To: <CA+chaQeEQ2EKt8RdZrDiae54NE0Tidq1_md2zHQJATpX7=5X6Q@mail.gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDExNCBTYWx0ZWRfX+yZfslGSXmFC
+ MUgvrLEmv9LVRvG3id4qGy5NwW2vL9H6HHnoexUquPv5gIZTspNxn61zIC4ojMHpHe81SMkVWP5
+ bH9k7GvoT8eQIQFslU8TNE9F7NgHDofB1y0WlS7e1n5mct9EaBbaR63a/khxdqgoCfBLwA8C1K5
+ eMftSsrMqjpZT1zbxgTwBLbAF4CMFwOBRZxhkIoiXtShhU5Icd+b+IaXYcv/T7WqwcRAfzChDaa
+ 2v/FUe41UO1f/MGf46CepAq6YXl+RhnNxCFTxWcpXq/B/7rqqmMawkbnASzCsOudvs21mUmLqoH
+ zoFiZZt5cDWBuLKwJswzg8iQrb8JZIrCkJtoAT68Qhlk4pWQQMoczGwIXu5z1wxdugy2GOj1zNz
+ /LeEGnV9v5b2hnco6jSseA8LQqL/pMqzkDMN+ZHLSiWiNvB6BekZ9dyxbrv5/sUZiIGgQ/Mw
+X-Proofpoint-GUID: kESZGnjO_vzxvMVbgEQcT7XykyoMt2GU
+X-Proofpoint-ORIG-GUID: kESZGnjO_vzxvMVbgEQcT7XykyoMt2GU
+X-Authority-Analysis: v=2.4 cv=N9YpF39B c=1 sm=1 tr=0 ts=6878f3f9 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=Q4-j1AaZAAAA:8 a=vzD-wQqqRqMbUCVz5mIA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-17_01,2025-07-17_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 mlxlogscore=999 bulkscore=0 adultscore=0
+ priorityscore=1501 clxscore=1015 mlxscore=0 suspectscore=0 impostorscore=0
+ phishscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507170114
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 56HAw3JC030411
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 12:57:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220540
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 13:00:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220541
 
-Hi Mathieu,
+On Wed, Jul 16, 2025 at 05:14:34PM +0200, Martin Jansa wrote:
+> On Wed, Jul 16, 2025 at 4:56=E2=80=AFPM Khem Raj via lists.openembedded=
+.org
+> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> >
+> >
+> > On Wed, Jul 16, 2025 at 7:47=E2=80=AFAM Dmitry Baryshkov via lists.op=
+enembedded.org <dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.or=
+g> wrote:
+> >>
+> >> It seems under some circumstances the tag in SRC_URI can prevent the
+> >> recipe from being unpacked correctly. Drop it in order to let bitbak=
+e
+> >> handle the recipe correctly.
+> >
+> >
+> > I think we should look more into underlying problem. I have seen proj=
+ects create release tags that do not belong to any branches and can creat=
+e fetching issues using nobranch=3D1 helped in such cases
+>=20
+> I think this happens when the git repo tarball already has the
+> revision from SRCREV but not the tag yet.
 
-On Thu, Jul 17, 2025 at 11:49:54AM +0200, Mathieu Dubois-Briand wrote:
-> On Thu Jul 17, 2025 at 1:29 AM CEST, Hiago De Franco via lists.openembedded.org wrote:
-> > From: Hiago De Franco <hiago.franco@toradex.com>
-> >
-> > The libmount dependency in systemd was made optional upstream [2]. This
-> > series backports that change, allowing us to drop util-linux as a build
-> > dependency for systemd. This resolves a circular dependency between
-> > util-linux and systemd when systemd PACKAGECONFIG is enabled in
-> > util-linux. Without this fix, each recipe depends on the other,
-> > triggering the circular dependency error.
-> >
-> > Note that this alone does not fully resolve the circular dependency
-> > on util-linux-fstrim/uuid. There is another one:
-> >
-> > glib-2.0 -> util-linux -> systemd -> shared-mime-info -> glib-2.0
-> >
-> > But the libmount PACKAGECONFIG can be removed from glib-2.0 to break its
-> > dependency on util-linux.
-> >
-> > In addition, according to systemd's README [2], the dependencies on
-> > libblkid and libfdisk from util-linux are optional, so add them as new
-> > PACKAGECONFIGs.
-> >
-> > [1] https://github.com/systemd/systemd/commit/d1ee3889cf8e8a9edc82e41d306155fb4c531c8f
-> > [2] https://github.com/systemd/systemd/blob/main/README#L216
-> >
-> > Hiago De Franco (2):
-> >   systemd: drop build dependency on util-linux
-> >   systemd: add libblkid and libfdisk PACKAGECONFIG options
-> >
-> >  .../0001-meson-Add-libmount-feature.patch     | 58 +++++++++++++++++++
-> >  meta/recipes-core/systemd/systemd_257.6.bb    |  9 ++-
-> >  2 files changed, 65 insertions(+), 2 deletions(-)
-> >  create mode 100644 meta/recipes-core/systemd/systemd/0001-meson-Add-libmount-feature.patch
-> 
-> Hi Hiago,
-> 
-> Thanks for your patches.
-> 
-> I suspect this series is responsible from a test failure:
-> 
-> Traceback (most recent call last):
->   File "/srv/pokybuild/yocto-worker/qemuarm-alt/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
->     return func(*args, **kwargs)
->   File "/srv/pokybuild/yocto-worker/qemuarm-alt/build/meta/lib/oeqa/runtime/cases/systemd.py", line 100, in test_systemd_failed
->     output += self.systemctl('status --full --failed')
->   File "/srv/pokybuild/yocto-worker/qemuarm-alt/build/meta/lib/oeqa/runtime/cases/systemd.py", line 26, in systemctl
->     self.assertEqual(status, expected, message)
-> AssertionError: 3 != 0 : SYSTEMD_BUS_TIMEOUT=240s systemctl status --full --failed
-> � systemd-boot-update.service - Automatic Boot Loader Update
->      Loaded: loaded (/usr/lib/systemd/system/systemd-boot-update.service; enabled; preset: enabled)
->      Active: failed (Result: exit-code) since Thu 2025-07-17 09:02:59 UTC; 25min ago
->  Invocation: a44df1a151da4bbfa387c056d59eb001
->        Docs: man:bootctl(1)
->    Main PID: 189 (code=exited, status=203/EXEC)
->    Mem peak: 828K
->         CPU: 58ms
-> ...
-> RESULTS - systemd.SystemdBasicTests.test_systemd_failed: FAILED (9.36s)
-> 
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/74/builds/2034
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/2030
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/95/builds/2018
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/2017
-> 
-> Can you have a look at this failure please?
+Most likely. I don't follow exact timeline of the repo, so it well might
+be possible that the tag was pushed way later than the commit.
 
-Sure, I will take a look.
+> Adding tag param to SRC_URI only when upgrading the version helps in
+> some cases, but not when the tarball was already created with the
+> right SRCREV.
+>=20
+> The only work around which worked for us in webOS builds is enforcing
+> to use annotated tags and using SRCREV of that annotated tag (not the
+> SHA of the code it points to), then either both (SHA and tag) exist in
+> the tarball or neither and the repo is updated before the tag check.
 
-Best Regards,
-Hiago.
+This might work, but not all repos apear to be using annotated tags.
+Maybe we should extend bitbake to check for the tags in Fetch code too?
 
-> 
-> -- 
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-> 
+Khem, Richard, can we please pick this patch?
+
+>=20
+> v20.1.4 isn't annotated:
+> SPIRV-LLVM-Translator $ git show-ref -d v20.1.4
+> 74843f2186bb63b6802758222084da17fcbe603c refs/tags/v20.1.4
+>=20
+
+--=20
+With best wishes
+Dmitry
 
