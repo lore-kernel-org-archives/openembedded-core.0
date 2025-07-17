@@ -1,213 +1,321 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89CB7C83F22
-	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 03:00:11 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.40289.1752721205873276530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2949C83F1A
+	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 03:46:31 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.41069.1752723986855360087
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 20:00:05 -0700
+ Wed, 16 Jul 2025 20:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9293993554=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56H2aHuC4053603
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 20:00:05 -0700
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02on2063.outbound.protection.outlook.com [40.107.212.63])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 47wds0tm3u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 20:00:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=v9RZU/t5z+eHkZcGb3h/9RU+kYjo6HSpG1wIxUisNei1WtajzoouHAqllqJZ+Jpke3JNLIfO2BkXcU9iUA4h1vgNmWfCgMpsJhOBXlQOyl/zUhSKEN9v4pHbpbpiCQKUdtCa0lyEtY8gSBypiK1NCg+SMbHHS9B21mPHWSUXrgIoOiUPGVd3GjepvUuIQcIPYwiGS+5p2O11a4X/nJBS3Eoyw6UA1LlEtLz1/j4ZdNuDh6xk4a/EVkjbg1u62DxPqcVxbfjowEd7fvLAvRl0JS4/gBg7Lg2xb8CwpGLP6mRMzlrf4rW61VTkjnz1m4NKLA3LfdJSrUqcm0k3LoeSBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WYaPs48uIr3GfFJhz9WIiLFAcMwrkwhztqtwhfRk6jc=;
- b=IWqMtk8ZcWSulp3tNpWADCpyz6Hx2BZmtxQSndbL6/gQSdMPT4zYsSsqGCGEmrJHVrR+eHYaP7IfSizRO8eoPGTUzPPGNdApFippZZr/Bbcqq7Uk0xvsyjB+7C9OcOXYdWNXkIsB5tx4skqzJAC0OIrX52lg7iX3wsNtEzbth6NdLAC5rVQGOutq7HUG0CzKOT4/tG6gmL8ZBgUiymqskHD/2+0QmeKjgtWVqzGQBZZl56PAQ5r4hSu/yUSAH6KBXm9PFnCJZxZvmtKdB0VS+F+Lwc8OZmsjKB/IUO3LjC4SA8XchRm97wKsZHfstYvRKfWLIyAjjt3qRWJ1T2FtJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by IA3PR11MB9062.namprd11.prod.outlook.com (2603:10b6:208:577::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.35; Thu, 17 Jul
- 2025 03:00:00 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%6]) with mapi id 15.20.8922.037; Thu, 17 Jul 2025
- 03:00:00 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH V2] kernel-devsrc: copy arch/powerpc/tools contents
-Date: Wed, 16 Jul 2025 19:59:48 -0700
-Message-ID: <20250717025948.1442716-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0062.namprd03.prod.outlook.com
- (2603:10b6:a03:331::7) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CWj3UAQ1;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b2c4e46a89fso348644a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 20:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752723986; x=1753328786; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NHvv2YZ1UY7xxN2waY4/fO6b6ME0aDD6euWC8+T3NKU=;
+        b=CWj3UAQ1NwrKUPj9BMZyjlzJv9h2R8boKrN1r2naVEGd4Y1gNl2wzj7FMuY3KV0xOs
+         7uVrLTiuJxd7YkSFfjJlAeLiK5UcN3lknwYyxMkiWq1Vr0ytelWYh1uh6oBs3YzkY0GJ
+         L9pCQZj29/8eHlJ9aJkk2WBINJs0pnPIdcHwkRielajP3BJhdqDr6Ea5Rcdm6kFZHqaf
+         tFk8gepWBfJgrg7gHTi58Q+abp8+GFINMvz9RgQh5YY4aZ0ljLCQyYc6a4Oq1m0VebSI
+         fRTLaml9hvRRoOCLtWBZKXRort6yksCrKFf3YoyGmJM/ru64+ZpBXhvaOBOwpnGyQeJx
+         VyQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752723986; x=1753328786;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NHvv2YZ1UY7xxN2waY4/fO6b6ME0aDD6euWC8+T3NKU=;
+        b=XTvqogEieCASjtMjs8B9YHuBS2vFGvabr0f9iCsyR/o9yeDmb5GphN+CPqm9NnM6D1
+         GL5wjkUYC1MFUCl5oSIiJXcbAzXhJsorv196okvRqnIfzksogLQTMZPXsHJ4K5BSiwEf
+         Fu8ys8H3+msX/PnONJO6Z0SLRV6xyLRFjQ6sUaJsel5uH3KC5iGTlyEu+a18NPZJ+Io7
+         ZrepOKtZLzkU6KeE+DQ6KVoVT4tueC0hUcp80E920xYpv78rUZx6TwRJdQ4nxQi7acwt
+         u28MD3S6x+gcGsFf2+k8dirwBh4bqXOSk8v4XLKCyC1tcc/1TNij11Fok6sTTh9YfRK2
+         oKqQ==
+X-Gm-Message-State: AOJu0YwwXqg5GiFaTMa9q36LczMH+1WypLFrMMGp4gmBptqGRYNUnrgr
+	pBIV0kH0X0UZjsx7+P9cgC4xfpTsYnsWgq7VwKeDiR9I9rC+HY721pcr6RzpjeLZQySykl4RVnA
+	emfWNiPy2lXC7cPHqna/N1PJaFN/lwJk=
+X-Gm-Gg: ASbGncvi3Y3fnrZQ/1ZNrXP37HGMvetEC5fcuteEtyEVNaz1azc0gl6r+XGPgVz0oDw
+	BW/GpGckLrYjW+HZUu9E3hRkvcbLEcN4JWHzK0phNQ51s5Cq3FTBkmSXwNGXDWgEjpQTfG8PMHh
+	v0i2uZMSu/FXR5i6ZeCXeqsrHqysU1M2R2RrCtiYmPWkV264GZ8IDmJExE9mIp+qp9fnehNX21z
+	/sNOcQMgAEPziF25g==
+X-Google-Smtp-Source: AGHT+IEPKAPxPtV46FprPrjmZm1JySst5EAnNa0ahuGq1h8UhYWfWa/APQR5n6ARPqseMA4/y/mWolCPidQo5I5N76U=
+X-Received: by 2002:a17:90b:1e07:b0:311:9c9a:58d7 with SMTP id
+ 98e67ed59e1d1-31c9f42e8a1mr7029211a91.19.1752723985839; Wed, 16 Jul 2025
+ 20:46:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|IA3PR11MB9062:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34d0d7d1-8f8f-4233-e8b3-08ddc4de04c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|13003099007|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?nozrpYTADhMIbap53+e1W4+fXh+WUg7d4DyqIELFL4XxOJmj/rJ9o4zuQIDE?=
- =?us-ascii?Q?RP8Pe3QzKVn75avrqcf5uQvRnIlAMkfUNIxaB5y6xM2YAmOu0/f+vBlo75Y6?=
- =?us-ascii?Q?HFdZbCO2ydlipGY2O5vZgr3nXeg4b3glF6WD+yp+RKf6k6ziZHpObIm3jU7r?=
- =?us-ascii?Q?94UCSJStkTR0clUFY9lkGeU7Zmy5l/gpDxvd2XQszBTeMjYSTs5XNxKxHVKY?=
- =?us-ascii?Q?yk/FYd7e11cLdGrLq5gc7nr6e0BNJzun2lShOCDkiiT3j1fTr063+aVHNcJ0?=
- =?us-ascii?Q?R0WmLiAMmwsp+sEDxhOOe57a/vSrWqAnmQ0c+Yz0PZaPxDC6u0JXTyYmd4Ve?=
- =?us-ascii?Q?7UeH/uCCvTn9h52LHj6cE+yjgzDTMYg0S520ZeRFhf1aYP4HIBGjypnBvE4V?=
- =?us-ascii?Q?wpshSYRr7T8ds1MhCEsVZYMIllfSJ2tprOcv+BKeYj5b8TK4QxM7712+JbaQ?=
- =?us-ascii?Q?xchVlO7/49CcSekqJR+HJz0MBcuQElkrc0u8gi27x6QYoXZN+FYHiWE3dUB3?=
- =?us-ascii?Q?cLGg1kZYMN6YZE6l70jEknCGLyx7wEDbZqYWaQEWw4ejmpYwkbnwWgojalv1?=
- =?us-ascii?Q?LeAe+BMAZ6/bMyrEoAnm/xcnl3Q1MfN1JV+B3Ef1WbWWxHrfpb+KGHEAviCq?=
- =?us-ascii?Q?pz0GZWLVl6oxIAwS5EOzB0WltVHQyqks61tPVCc8bUOulxQOyozynW4kXJ+1?=
- =?us-ascii?Q?7b0cs9/ttJHjW6dy1nD5tc1hMhKJJ1yO7R1N1oQvbzOXqKgfnUZRMq7zQwvH?=
- =?us-ascii?Q?UpGAKOTBTxOHc+YnHYXw6QfGlAgAsItYoqUPGpgtvWepwjdnOFhyu2fgGisA?=
- =?us-ascii?Q?b9yTdsCbvp64P1m01nlZkaBCPc5RLTwqcbdWOg7Dv++IxeKkJsnKhKY1QsKY?=
- =?us-ascii?Q?o+dOHEHCwJejlS1rTTnIvkykUr/PH3ZhWMl2vLCYXmi6c2SauTvb9D6HvxGn?=
- =?us-ascii?Q?Cx1WMA1Ypx1INLJoaRRuF7/ocB+4nyFzlQaz5YqmpnLW6QXuXapb0tULIXQz?=
- =?us-ascii?Q?351PJfSw1wIJOKuo3v/D/1+JWcxoOHEl9JIrP+OGPnlJKbbnZ5QT9SHU7LKs?=
- =?us-ascii?Q?Lezb6D2q2jd2bJ6rl9xpNKGFCWK1DvJW2rhphrWa2o3EXFCTgZzb08ejcSrI?=
- =?us-ascii?Q?33xrLVREeSkvUf72HFT3Xh1cGqg4QnjtUO8pONom0IONoQpeMTS47MhlLuBV?=
- =?us-ascii?Q?25ZOGNtpw3EgeEvgZGQzVofC17HXGrv19tfKLuJA4J2vMB/VtOJMyyqwb3YZ?=
- =?us-ascii?Q?Oeq0dRyxcEIvjHjapPivb8K1Zi+hTrUsXVYO4Hh+Vbb32wFzRg91kVXubYsM?=
- =?us-ascii?Q?6fJD8+lvRTRnPDK9GMB9kkT4qF25ACX4wBgGZtiXriziflQgRXhRhPlcdpfY?=
- =?us-ascii?Q?VpoXbJiEhIcUhSSIsN5ibSCPsvx+JD2b448hoEjy9zEe3AnaLcqbvwdbC6c1?=
- =?us-ascii?Q?5GHfFWZ9DvLFbB2mD+VoE49Vdxxu+bGT/ffBOKreNXXpmBlopp6fC+6UFIMj?=
- =?us-ascii?Q?qSw+H+u37lyUEqE=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(13003099007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?/bRnQV6worZzbMw+Wla+Iepxc/teB24OJfqVkZ36UxOnCDOrEuaElXNMIKv4?=
- =?us-ascii?Q?tL6MURjmp/bM0bIZFu18aUshiWYA/pHzYjTrth3WkFjwP5m2elqBgfUat7tL?=
- =?us-ascii?Q?p6yeTYJWi7a3nyS5WQz5Ws5v/O6fdA+CWn2iQV/XGi2ebggS+hIhGMQho7Ru?=
- =?us-ascii?Q?kOIW2ZyKzPKjshB3q/SMx+6D5tjFK+rdehca6PJc7NAs2IoZiKQZ/BIl7Nuz?=
- =?us-ascii?Q?CJ9HCP3P0uxSyugUlz7ieDuvQV4qyhd3oLWhAZdZF7qR1umozyMusjjIOCj9?=
- =?us-ascii?Q?pcsIfTu0ebwxcfAg+bczRTE+sQxnQbo85vTvx43QTMeLmg3bytu4p+vL1KGG?=
- =?us-ascii?Q?dgEL6+U0IEf03PS3n2Tx4K/rz3H+I3SFhXkWsMcFHyaBFfs1kYOTC/3ZLp9I?=
- =?us-ascii?Q?oAf1OEduzwBLvzB1KIH7m1D7qDyMun5Cj6mx5GJLbf2b9LG2KvyPPFa6Bk4x?=
- =?us-ascii?Q?EYHhFFfnWygpKyyh3qbg4wXV18VC/1ZCT6hN6h9tzGK5wGvV9f6Z2oXh6SsL?=
- =?us-ascii?Q?YZbYEQa8o6fFuao73FBgDhp9tLGsZNEThWhSF+Y1BhKxiZqf/n01nRuhsOcG?=
- =?us-ascii?Q?bomU15xniZxOK0iz/to47qR6NPR145SNZRO1l2F/rStQebiOlKqd1r0FxOnY?=
- =?us-ascii?Q?OdQ+wbkMk/4U4czD+nHwDKKqk4lQmga5vOiwjFtS+5tDZcaJlDWhsGLw6Dwl?=
- =?us-ascii?Q?r4onnRaGoxK67+yHTWlDLd+vUMbQGoTd7uvcB2uug+HJS2Hlw2+9SGgMUnqZ?=
- =?us-ascii?Q?FdaMIZ1r/7HZcd98HD7piv7tdo0wgxRpibRB4egcs7QTQVOgRNu0acTa9PvU?=
- =?us-ascii?Q?mcKnSuYPNK+UlxAiDBCmj5T1nimaCeV6WST1qlYvULKavEoAuCGLLTimf6Vp?=
- =?us-ascii?Q?OTbg36yaU6hVByBl0V4JgghqMosP4Vff9votJnRblBnFzLfflCJ7Dp8colaC?=
- =?us-ascii?Q?+pGxuEQQwEYvSnbWj87vqWPXGaBW1G1AbWwGUzN4mTIod62h9ZbendQGLrnH?=
- =?us-ascii?Q?RHAxYbXNbSiDOl/hy0GwPC9BV9kQrEQDhEp1kvtXBWcFkZUP4FSpeKBIYoma?=
- =?us-ascii?Q?cCSXLJ7o87fGg0y+ybInltmK3Xn77r3KC3wdyTiiGFFfOyXyRUcCsSXCmCM8?=
- =?us-ascii?Q?/5cyALBZBt2mZCztMLhktDsBOCUdx2Fo1BHKRooptpCa4XIlh+H2GnKjo+t2?=
- =?us-ascii?Q?HXbeO5wyfoONVQxqpoCxHrS2JBuezRyXJHW1qJVtA/Rp3568bMDIL5/9ycgu?=
- =?us-ascii?Q?agCHngNNbP9pyZWtyAOaLC8lqoNYWvEGCeZCw7tViLFOA+sPJyoJnv7Mp/8g?=
- =?us-ascii?Q?wXmwx+ifbGf2Iza0zmCJdPEePEAE1VC/SfKi2JoAw/E/d28U3uPpYqRss0OZ?=
- =?us-ascii?Q?oGsJkV+noNEqxI+zPmTtOWjn3RM0jR9unbWDa8CRmHY7OFCNRmlYN+S1VpWT?=
- =?us-ascii?Q?EHVDle61ZjoZdGKA7t3FIcP6jBNOBgNmrRD33brIFQ8FMIkZQhMrph2MssLL?=
- =?us-ascii?Q?AaKvu99tOsIuB3F+LXflXNGCzRNtASI6HerHt0Gr1uSA+r68TVQBRLto4ksD?=
- =?us-ascii?Q?ei+FV1KiktwTaWXBTvZwrrPXJAlj2x0KJCtLV8XPRoKQ0i1nRAwGAsM/3AN2?=
- =?us-ascii?Q?Qw=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34d0d7d1-8f8f-4233-e8b3-08ddc4de04c3
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2025 03:00:00.0584
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0pVlQfYsy4P73+xmvab2fQnDT5LOsWAW6RfkrJzqkKPA/7RBRLv/JfRRXh/2ka4Pr2iiKDID/hDnk3H7Eclf4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9062
-X-Proofpoint-ORIG-GUID: q7Uu8yuoYrIwx-IIobh22OpYU0qqf7xg
-X-Authority-Analysis: v=2.4 cv=bLkWIO+Z c=1 sm=1 tr=0 ts=68786735 cx=c_pps
- a=B1juiKOSPdvfexZtvkw8XQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
- a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=JWDwriL19-fPr1t7ZWIA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDAxNSBTYWx0ZWRfX4NvtevEjn83m
- LmzFftj5fcMIRbKNrPe03g9iNiyfplxTfduKD2G2H55Y9vAZtOoxyipmiy8gsCvlUpeC5vIdoMY
- UxORxK6NmBgcLjljtOLDImWqbhV0ovR7vMMfdjfiX/aA89ncLGp3e4OXXli2NmK9tx4qzOfjeYQ
- bIFsQIjtnCWNbGIP9EO+e0+gQdBw6cZfrBJCCBWIT2IJD2k6ZRLI4GBioDn8LsCgSr01gtimwXf
- 1z5e0dJbthfpJhN+ZVsy371fYbks7CC1L6M6ZQiLmrDQwM3GTgVzzuCuxdJdf4p32XqsX2ie9GB
- XzyN0L6jnHWCQFhO/Sshd7vaiublXoM9Gjt5kKaglUX5/K69Ga9kPxdO0zoWDlwkfAOgrsQzdc0
- yFho6gZu
-X-Proofpoint-GUID: q7Uu8yuoYrIwx-IIobh22OpYU0qqf7xg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-17_01,2025-07-16_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 phishscore=0 bulkscore=0 impostorscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2506270000 definitions=main-2507150015
+References: <20250717025948.1442716-1-Qi.Chen@windriver.com>
+In-Reply-To: <20250717025948.1442716-1-Qi.Chen@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 16 Jul 2025 23:46:14 -0400
+X-Gm-Features: Ac12FXzQyjURtP1rtFJBXyxeSJiacth-W1JyMPxuXJIr47478YnXm_b4xF6ePlw
+Message-ID: <CADkTA4NAPTg9FHa627Xj+_fqreOWbB8wCWa6R3NodjCPLQrFyQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH V2] kernel-devsrc: copy arch/powerpc/tools contents
+To: Qi.Chen@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000090bbc5063a17dac8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 03:00:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220513
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 03:46:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220514
 
-From: Chen Qi <Qi.Chen@windriver.com>
+--00000000000090bbc5063a17dac8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-For now, using qemuppc64 as MACHINE and building things inside SDK,
-we'll get the following error:
+On Wed, Jul 16, 2025 at 11:00=E2=80=AFPM Chen Qi via lists.openembedded.org
+<Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
 
-  ERROR: modpost: "_mcount" undefined
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> For now, using qemuppc64 as MACHINE and building things inside SDK,
+> we'll get the following error:
+>
+>   ERROR: modpost: "_mcount" undefined
+>
+> This is because after [1], MPROFILE_KERNEL is using arch/powerpc/tools/
+> contents to do the check. This in turn affects HAVE_OBJTOOL.
+> """
+> arch/powerpc/Kconfig:   select HAVE_OBJTOOL                     if
+> ARCH_USING_PATCHABLE_FUNCTION_ENTRY || MPROFILE_KERNEL || PPC32
+> """
+>
+> The current MPROFILE_KERNEL for powerpc:
+> """
+> config MPROFILE_KERNEL
+>             depends on PPC64_ELF_ABI_V2 && FUNCTION_TRACER
+>             def_bool
+> $(success,$(srctree)/arch/powerpc/tools/gcc-check-mprofile-kernel.sh $(CC=
+)
+> -mlittle-endian) if CPU_LITTLE_ENDIAN
+>             def_bool
+> $(success,$(srctree)/arch/powerpc/tools/gcc-check-mprofile-kernel.sh $(CC=
+)
+> -mbig-endian) if CPU_BIG_ENDIAN
+> """
+>
+> If MPROFILE_KERNEL is disabled, thus HAVE_OBJTOOL being disabled, then
+> FTRACE_MCOUNT_USE_RECORDMCOUNT will be enabled, causing this error.
+>
+> Note that there are 6 scripts under arch/powerpc/tools directory and we
+> need to copy them all. They are needed in the same way as MPROFILE_KERNEL
+> needing gcc-check-mprofile-kernel.sh.
+>
 
-This is because after [1], MPROFILE_KERNEL is using arch/powerpc/tools/
-contents to do the check. This in turn affects HAVE_OBJTOOL.
-"""
-arch/powerpc/Kconfig:   select HAVE_OBJTOOL                     if ARCH_USING_PATCHABLE_FUNCTION_ENTRY || MPROFILE_KERNEL || PPC32
-"""
+Then list them all.
 
-The current MPROFILE_KERNEL for powerpc:
-"""
-config MPROFILE_KERNEL
-            depends on PPC64_ELF_ABI_V2 && FUNCTION_TRACER
-            def_bool $(success,$(srctree)/arch/powerpc/tools/gcc-check-mprofile-kernel.sh $(CC) -mlittle-endian) if CPU_LITTLE_ENDIAN
-            def_bool $(success,$(srctree)/arch/powerpc/tools/gcc-check-mprofile-kernel.sh $(CC) -mbig-endian) if CPU_BIG_ENDIAN
-"""
+No other architecture does a complete copy of tools/ and copying entire
+directories
+has been avoided unless absolutely necessary.
 
-If MPROFILE_KERNEL is disabled, thus HAVE_OBJTOOL being disabled, then
-FTRACE_MCOUNT_USE_RECORDMCOUNT will be enabled, causing this error.
+If there are future items added there that we don't need, we don't want
+them copied.
+If there are new items added in the future that we do need, we WANT the
+failure to
+notify us to inspect and add them into the list.
 
-Note that there are 6 scripts under arch/powerpc/tools directory and we
-need to copy them all. They are needed in the same way as MPROFILE_KERNEL
-needing gcc-check-mprofile-kernel.sh.
+Bruce
 
-For example, gcc-check-fpatchable-function-entry.sh is needed by
-ARCH_USING_PATCHABLE_FUNCTION_ENTRY.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=abba759796f9b73eb24df9b734dd063839fc62e0
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+>
+> For example, gcc-check-fpatchable-function-entry.sh is needed by
+> ARCH_USING_PATCHABLE_FUNCTION_ENTRY.
+>
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?=
+id=3Dabba759796f9b73eb24df9b734dd063839fc62e0
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> index 3d2eb3929e..c4b5d0e5a6 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -208,6 +208,10 @@ do_install() {
+>          fi
+>
+>          if [ "${ARCH}" =3D "powerpc" ]; then
+> +            # 4.18+ needs these files for MPROFILE_KERNEL, but don't
+> error if they aren't present in the source
+> +            # See
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?=
+id=3Dabba759796f9b73eb24df9b734dd063839fc62e0
+> +            cp -a --parents arch/powerpc/tools $kerneldir/build/
+> 2>/dev/null || :
+> +
+>              # 5.0 needs these files, but don't error if they aren't
+> present in the source
+>              cp -a --parents arch/${ARCH}/kernel/syscalls/syscall.tbl
+> $kerneldir/build/ 2>/dev/null || :
+>              cp -a --parents arch/${ARCH}/kernel/syscalls/syscalltbl.sh
+> $kerneldir/build/ 2>/dev/null || :
+> --
+> 2.49.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#220513):
+> https://lists.openembedded.org/g/openembedded-core/message/220513
+> Mute This Topic: https://lists.openembedded.org/mt/114197717/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 3d2eb3929e..c4b5d0e5a6 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -208,6 +208,10 @@ do_install() {
-         fi
- 
-         if [ "${ARCH}" = "powerpc" ]; then
-+            # 4.18+ needs these files for MPROFILE_KERNEL, but don't error if they aren't present in the source
-+            # See https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=abba759796f9b73eb24df9b734dd063839fc62e0
-+            cp -a --parents arch/powerpc/tools $kerneldir/build/ 2>/dev/null || :
-+
-             # 5.0 needs these files, but don't error if they aren't present in the source
-             cp -a --parents arch/${ARCH}/kernel/syscalls/syscall.tbl $kerneldir/build/ 2>/dev/null || :
-             cp -a --parents arch/${ARCH}/kernel/syscalls/syscalltbl.sh $kerneldir/build/ 2>/dev/null || :
--- 
-2.49.0
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
+--00000000000090bbc5063a17dac8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 16, 2025 at 11:00=
+=E2=80=AFPM Chen Qi via <a href=3D"http://lists.openembedded.org">lists.ope=
+nembedded.org</a> &lt;Qi.Chen=3D<a href=3D"mailto:windriver.com@lists.opene=
+mbedded.org">windriver.com@lists.openembedded.org</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">From: Chen Qi &lt;<a href=
+=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</=
+a>&gt;<br>
+<br>
+For now, using qemuppc64 as MACHINE and building things inside SDK,<br>
+we&#39;ll get the following error:<br>
+<br>
+=C2=A0 ERROR: modpost: &quot;_mcount&quot; undefined<br>
+<br>
+This is because after [1], MPROFILE_KERNEL is using arch/powerpc/tools/<br>
+contents to do the check. This in turn affects HAVE_OBJTOOL.<br>
+&quot;&quot;&quot;<br>
+arch/powerpc/Kconfig:=C2=A0 =C2=A0select HAVE_OBJTOOL=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ARCH_USING_PATCHA=
+BLE_FUNCTION_ENTRY || MPROFILE_KERNEL || PPC32<br>
+&quot;&quot;&quot;<br>
+<br>
+The current MPROFILE_KERNEL for powerpc:<br>
+&quot;&quot;&quot;<br>
+config MPROFILE_KERNEL<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 depends on PPC64_ELF_ABI_V2 &amp;=
+&amp; FUNCTION_TRACER<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 def_bool $(success,$(srctree)/arc=
+h/powerpc/tools/gcc-check-mprofile-kernel.sh $(CC) -mlittle-endian) if CPU_=
+LITTLE_ENDIAN<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 def_bool $(success,$(srctree)/arc=
+h/powerpc/tools/gcc-check-mprofile-kernel.sh $(CC) -mbig-endian) if CPU_BIG=
+_ENDIAN<br>
+&quot;&quot;&quot;<br>
+<br>
+If MPROFILE_KERNEL is disabled, thus HAVE_OBJTOOL being disabled, then<br>
+FTRACE_MCOUNT_USE_RECORDMCOUNT will be enabled, causing this error.<br>
+<br>
+Note that there are 6 scripts under arch/powerpc/tools directory and we<br>
+need to copy them all. They are needed in the same way as MPROFILE_KERNEL<b=
+r>
+needing gcc-check-mprofile-kernel.sh.<br></blockquote><div><br></div><div><=
+div class=3D"gmail_default" style=3D"font-size:small">Then list them all.</=
+div><div class=3D"gmail_default" style=3D"font-size:small"><br>No other arc=
+hitecture does a complete copy of tools/ and copying entire directories</di=
+v><div class=3D"gmail_default" style=3D"font-size:small">has been avoided u=
+nless absolutely necessary.</div><div class=3D"gmail_default" style=3D"font=
+-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:smal=
+l">If there are future items added there that we don&#39;t need, we don&#39=
+;t want them copied.</div><div class=3D"gmail_default" style=3D"font-size:s=
+mall">If there are new items added in the future that we do need, we WANT t=
+he failure to</div><div class=3D"gmail_default" style=3D"font-size:small">n=
+otify us to inspect and add them into the list.</div><div class=3D"gmail_de=
+fault" style=3D"font-size:small"><br></div><div class=3D"gmail_default" sty=
+le=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+<br>
+For example, gcc-check-fpatchable-function-entry.sh is needed by<br>
+ARCH_USING_PATCHABLE_FUNCTION_ENTRY.<br>
+<br>
+[1] <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux=
+.git/commit/?id=3Dabba759796f9b73eb24df9b734dd063839fc62e0" rel=3D"noreferr=
+er" target=3D"_blank">https://git.kernel.org/pub/scm/linux/kernel/git/stabl=
+e/linux.git/commit/?id=3Dabba759796f9b73eb24df9b734dd063839fc62e0</a><br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
+=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
+noreferrer" target=3D"_blank">kernel-devsrc.bb</a> | 4 ++++<br>
+=C2=A01 file changed, 4 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" =
+rel=3D"noreferrer" target=3D"_blank">kernel-devsrc.bb</a> b/meta/recipes-ke=
+rnel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"noreferrer" target=3D=
+"_blank">kernel-devsrc.bb</a><br>
+index 3d2eb3929e..c4b5d0e5a6 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
+noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
+noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
+@@ -208,6 +208,10 @@ do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${ARCH}&quot; =3D &quot;powerp=
+c&quot; ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # 4.18+ needs these files for MP=
+ROFILE_KERNEL, but don&#39;t error if they aren&#39;t present in the source=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # See <a href=3D"https://git.ker=
+nel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=3Dabba759796f9=
+b73eb24df9b734dd063839fc62e0" rel=3D"noreferrer" target=3D"_blank">https://=
+git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=3Dabba7=
+59796f9b73eb24df9b734dd063839fc62e0</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a --parents arch/powerpc/too=
+ls $kerneldir/build/ 2&gt;/dev/null || :<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# 5.0 needs these files, bu=
+t don&#39;t error if they aren&#39;t present in the source<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -a --parents arch/${ARCH=
+}/kernel/syscalls/syscall.tbl $kerneldir/build/ 2&gt;/dev/null || :<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -a --parents arch/${ARCH=
+}/kernel/syscalls/syscalltbl.sh $kerneldir/build/ 2&gt;/dev/null || :<br>
+-- <br>
+2.49.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#220513): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/220513" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/220513</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/114197717/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/114197717/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--00000000000090bbc5063a17dac8--
 
