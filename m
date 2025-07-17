@@ -2,129 +2,128 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E86B0C83F1B
-	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 09:42:53 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.44904.1752745364852861930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18D84C83F1B
+	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 09:50:04 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.44638.1752745797523358024
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jul 2025 02:42:45 -0700
+ Thu, 17 Jul 2025 02:49:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=XUbaJNV5;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C6ACA432FA;
-	Thu, 17 Jul 2025 09:42:39 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YnqBbrVl;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2F64943918;
+	Thu, 17 Jul 2025 09:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1752745362;
+	t=1752745795;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gybS4+9rJbMTnkcO78hx2LFa/+Pf2ajLPtfV/ilBX0Y=;
-	b=XUbaJNV5aalDqp8/mZ69SF9P4CDo4IEobK4scIG+00fLJyh0LE7VhjacgGxt9ellB1PDbP
-	U104qLgIFIAXDak9R7xdEPVYZCPwLETcqMk04BrKfuSfSSC/ki5moYtQEIlR77AnkmI7RV
-	UsffHthnEBSzI5eFhTuKg/7MRM3i67APon5kATFBk5PZTbK+oAeCytpc5GY+oAH9F7VDBT
-	dkQX7JA/lMr9xBqACaDlQpH3CZ1tTubOZGbo0bm8fheh0g/wXWMoSdHb63jUKmH4t+3ruo
-	9SXrFa0C4qj5Z/NikIQSXV/9FJSCQonuNSS7FgUPFfjkIgmf2Mk1qmewXC+6/w==
+	bh=np1KzbxleoEsF/gEl0sMB39X76QymfiVXpMvLu5MR74=;
+	b=YnqBbrVlmrVfDg5reeTPPQISFoUHtVjQ1JPcPmk8vUOwoa2zH8/VeWTdskjYUMj8SJaeBd
+	jrZ/kRHmbO8tYiS6ggj8naXPiapkNQA7BNKKkleWc0ROthA4MlvT5nqv+FAQCSYY84H3SN
+	nwOYQMQ0a7BaeN97PKuvdCjpegNZXar9PN8nWwbl/dr/vMNNyw7x0aZMIAQkCbc+3GnLaV
+	SM9dB1wBWzXp+mFGndx9hIIxzJo/8fO/eD70dxrGCwu2A+UdTCQ+6F2//h75P6qqa1HBD6
+	CUVsi9kzJBuB2pXoSewPsmsCsYJUcz0g69c5bDsRQsjAaU5cI1QRjIBMjCTUAw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 17 Jul 2025 11:42:38 +0200
-Message-Id: <DBE8DHTVEB13.27BZ3GL6DGZ1Z@bootlin.com>
-Subject: Re: [OE-core] [PATCH 2/2] lttng-tools: Upgrade 2.13.15 -> 2.14.0
+Date: Thu, 17 Jul 2025 11:49:54 +0200
+Message-Id: <DBE8J299IF7K.22KVHVSAEHE8@bootlin.com>
+Subject: Re: [OE-core] [PATCH 0/2] systemd: drop libmount dependency and add
+ blkid and fdisk PACKAGECONFIGs
+Cc: "Chen Qi" <Qi.Chen@windriver.com>, "Alexander Kanavin"
+ <alex.kanavin@gmail.com>, "Hiago De Franco" <hiago.franco@toradex.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <mingli.yu@eng.windriver.com>,
- <openembedded-core@lists.openembedded.org>
+To: <hiagofranco@gmail.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250717082216.459161-1-mingli.yu@eng.windriver.com>
- <20250717082216.459161-2-mingli.yu@eng.windriver.com>
-In-Reply-To: <20250717082216.459161-2-mingli.yu@eng.windriver.com>
+References: <20250716232931.127811-1-hiagofranco@gmail.com>
+In-Reply-To: <20250716232931.127811-1-hiagofranco@gmail.com>
 X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeitddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpegggfgtfffkuffhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepueffkeffhedtfeejfeduffeftdeuleetudffkeevuedtjeeukeffieetffetfeetnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdpghhithhhuhgsrdgtohhmpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepmhhinhhglhhirdihuhesvghnghdrfihinhgurhhivhgvr
- hdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeitddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffuvefhvffofhgjsehtqhertdertdejnecuhfhrohhmpedfofgrthhhihgvuhcuffhusghoihhsqdeurhhirghnugdfuceomhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepffekkeegjeehveekledutddvjeeijeegtdfftdffkeeiueevvddtgeekueduuedvnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdpghhithhhuhgsrdgtohhmpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohephhhir
+ ghgohhfrhgrnhgtohesghhmrghilhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopefsihdrvehhvghnseifihhnughrihhvvghrrdgtohhmpdhrtghpthhtoheprghlvgigrdhkrghnrghvihhnsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhhirghgohdrfhhrrghntghosehtohhrrgguvgigrdgtohhm
 X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 09:42:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220525
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 09:50:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220526
 
-On Thu Jul 17, 2025 at 10:22 AM CEST, Mingli via lists.openembedded.org Yu =
-wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
+On Thu Jul 17, 2025 at 1:29 AM CEST, Hiago De Franco via lists.openembedded=
+.org wrote:
+> From: Hiago De Franco <hiago.franco@toradex.com>
 >
-> Remove 3 backported patch.
-> 0001-Fix-rotation-destroy-flush-fix-session-daemon-abort-.patch
-> 0001-compat-Define-off64_t-as-off_t-on-linux.patch
-> 0001-tests-add-check_skip_kernel_test-to-check-root-user-.patch
+> The libmount dependency in systemd was made optional upstream [2]. This
+> series backports that change, allowing us to drop util-linux as a build
+> dependency for systemd. This resolves a circular dependency between
+> util-linux and systemd when systemd PACKAGECONFIG is enabled in
+> util-linux. Without this fix, each recipe depends on the other,
+> triggering the circular dependency error.
 >
-> Remove 0001-fix-lttng-tools-fails-to-compile-with-libxml2-2.14.0.patch
-> as the the issue has been fixed in another way as [1]
+> Note that this alone does not fully resolve the circular dependency
+> on util-linux-fstrim/uuid. There is another one:
 >
-> Rebase 0001-tests-do-not-strip-a-helper-library.patch and disable-tests.p=
-atch
-> to fuzz issue.
+> glib-2.0 -> util-linux -> systemd -> shared-mime-info -> glib-2.0
 >
-> Add babeltrace2 to DEPENDS to fix below configure error.
->  | configure: error: libbabeltrace2 is required to build tests
+> But the libmount PACKAGECONFIG can be removed from glib-2.0 to break its
+> dependency on util-linux.
 >
-> src/common/config/session.xsd is restructured to src/common/session.xsd [=
-2]
+> In addition, according to systemd's README [2], the dependencies on
+> libblkid and libfdisk from util-linux are optional, so add them as new
+> PACKAGECONFIGs.
 >
-> Add 0001-gen-ust-events-constructor-change-rpath-to-libdir-li.patch to fi=
-x
-> the below buildpath QA issue.
-> ERROR: lttng-tools-2.14.0-r0 do_package_qa: QA Issue: File /usr/lib/lttng=
--tools/ptest/tests/utils/testapp/gen-ust-events-constructor/gen-ust-events-=
-c-constructor-so in package lttng-tools-ptest contains reference to TMPDIR =
-[buildpaths]
-> ERROR: lttng-tools-2.14.0-r0 do_package_qa: QA Issue: lttng-tools-ptest: =
-/usr/lib/lttng-tools/ptest/tests/utils/testapp/gen-ust-events-constructor/g=
-en-ust-events-c-constructor-so contains bad RPATH /buildarea3/myu2/yocto/bu=
-ilds/ptest-2025-07-09/tmp/work/core2-64-poky-linux/lttng-tools/2.14.0/build=
-/tests/utils/testapp/gen-ust-events-constructor [rpaths]
-> ERROR: lttng-tools-2.14.0-r0 do_package_qa: QA Issue: File /usr/lib/lttng=
--tools/ptest/tests/utils/testapp/gen-ust-events-constructor/gen-ust-events-=
-constructor-so in package lttng-tools-ptest contains reference to TMPDIR [b=
-uildpaths]
-> ERROR: lttng-tools-2.14.0-r0 do_package_qa: QA Issue: lttng-tools-ptest: =
-/usr/lib/lttng-tools/ptest/tests/utils/testapp/gen-ust-events-constructor/g=
-en-ust-events-constructor-so contains bad RPATH /buildarea3/myu2/yocto/buil=
-ds/ptest-2025-07-09/tmp/work/core2-64-poky-linux/lttng-tools/2.14.0/build/t=
-ests/utils/testapp/gen-ust-events-constructor [rpaths]
+> [1] https://github.com/systemd/systemd/commit/d1ee3889cf8e8a9edc82e41d306=
+155fb4c531c8f
+> [2] https://github.com/systemd/systemd/blob/main/README#L216
 >
-> [1] https://github.com/lttng/lttng-tools/commit/2d2e77ddc9e3e63c3c658e824=
-fb754f5a534a6ab
-> [2] https://github.com/lttng/lttng-tools/commit/4ae042345b4094e98611744d9=
-ba6c92265058fdb
+> Hiago De Franco (2):
+>   systemd: drop build dependency on util-linux
+>   systemd: add libblkid and libfdisk PACKAGECONFIG options
 >
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
+>  .../0001-meson-Add-libmount-feature.patch     | 58 +++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_257.6.bb    |  9 ++-
+>  2 files changed, 65 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0001-meson-Add-libm=
+ount-feature.patch
 
-Hi Mingli,
+Hi Hiago,
 
-Thanks for your patch.
+Thanks for your patches.
 
-It looks like this is breaking when using musl:
+I suspect this series is responsible from a test failure:
 
-ERROR: lttng-tools-2.14.0-r0 do_compile: oe_runmake failed
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemuarm-alt/build/meta/lib/oeqa/core/de=
+corator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+  File "/srv/pokybuild/yocto-worker/qemuarm-alt/build/meta/lib/oeqa/runtime=
+/cases/systemd.py", line 100, in test_systemd_failed
+    output +=3D self.systemctl('status --full --failed')
+  File "/srv/pokybuild/yocto-worker/qemuarm-alt/build/meta/lib/oeqa/runtime=
+/cases/systemd.py", line 26, in systemctl
+    self.assertEqual(status, expected, message)
+AssertionError: 3 !=3D 0 : SYSTEMD_BUS_TIMEOUT=3D240s systemctl status --fu=
+ll --failed
+=C3=97 systemd-boot-update.service - Automatic Boot Loader Update
+     Loaded: loaded (/usr/lib/systemd/system/systemd-boot-update.service; e=
+nabled; preset: enabled)
+     Active: failed (Result: exit-code) since Thu 2025-07-17 09:02:59 UTC; =
+25min ago
+ Invocation: a44df1a151da4bbfa387c056d59eb001
+       Docs: man:bootctl(1)
+   Main PID: 189 (code=3Dexited, status=3D203/EXEC)
+   Mem peak: 828K
+        CPU: 58ms
 ...
-| ../../../sources/lttng-tools-2.14.0/src/common/eventfd.cpp: In lambda fun=
-ction:
-| ../../../sources/lttng-tools-2.14.0/src/common/eventfd.cpp:18:31: error: =
-expected id-expression before numeric constant
-|    18 |                 int flags =3D ::EFD_CLOEXEC;
-|       |                               ^~~~~~~~~~~
-| ../../../sources/lttng-tools-2.14.0/src/common/eventfd.cpp:21:36: error: =
-expected id-expression before numeric constant
-|    21 |                         flags |=3D ::EFD_SEMAPHORE;
-|       |                                    ^~~~~~~~~~~~~
+RESULTS - systemd.SystemdBasicTests.test_systemd_failed: FAILED (9.36s)
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/790
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/2072
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/2102
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/74/builds/2034
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/2030
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/95/builds/2018
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/2017
 
-Can you have a look at these fails please?
+Can you have a look at this failure please?
 
 --=20
 Mathieu Dubois-Briand, Bootlin
