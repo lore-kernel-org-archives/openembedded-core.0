@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30798C83F37
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D552C83F34
 	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 02:55:51 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.40200.1752720946884003087
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+ by mx.groups.io with SMTP id smtpd.web10.40199.1752720943845463958
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 19:55:46 -0700
+ Wed, 16 Jul 2025 19:55:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OeRR6ke7;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3135f3511bcso488693a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:55:46 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Vcy769Z6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.65, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-31ca042d3b8so498077a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752720946; x=1753325746; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752720943; x=1753325743; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bmHsHa6It2V1Lp3EkkI0zkiQkbyCtpAdbrM6Hobb/R4=;
-        b=OeRR6ke7krhLUyw3OsIwRIpqkU080Ba7EgKrH1W4inSdimUDVyC3zUJz2mMaHV9ueF
-         88M8HagYKGqxUI1UAryFZDxhIGKkembn01uRz7tB+3R99OpxPuHt6QfjdtdbsKrJNYSV
-         gMHvvk+5X57EBBrQVX3a/OrVYI1s4MfUjo3ifnWH1wd6vGnurk6Taxcfen8ZwCi+/dQF
-         HO+3D/kia3DRd40/gyB61JDktCnFVzt3Cm8MVp5rgd6Ct8jvDpgM10O6VZTq1U7Y0TNm
-         v+U1TFWT46qEhrickaYQ1Bi237LPTbUzW0vVCGmG6je15rzXMknl3jp/JrD5lq0a1i+A
-         z9Fg==
+        bh=A+L9TsDYXZ2cJ+bGXkMV0j7n17ilKgdTbk2WvUCsrh8=;
+        b=Vcy769Z6OdkbaiZgUxuQxBwHHDYn/fNYtPKyaFNKtDOsRulGW83D/NTU9StcuRJIKz
+         l2W7f4jlOBNlHGxIU2lp4QZa6QXQWD4pNVn80bdCJhSVXolwSwI32ePnl/44UMYGaQBb
+         n6gEzwvb2tDwKm2w9EctkWoce3bBq7hy0KDiDux610WjPSvpHSoyj5N36aglLM1+sFEg
+         hE3EC/Jenu4EY62wIAGlrQysq0MuFqe3aib6WhSaqqb1HEdBQvwAHCfDgo1H8zK5hEgB
+         pnl8k9PEm0t0iIz5AQLCTtpeA46DFJ7U3vxRnNwCq5/CkR5GuuRnLPRQqrLC43ZKh5uQ
+         GAMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752720946; x=1753325746;
+        d=1e100.net; s=20230601; t=1752720943; x=1753325743;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bmHsHa6It2V1Lp3EkkI0zkiQkbyCtpAdbrM6Hobb/R4=;
-        b=Cnmscs++zGv6NbuktCAxRVfkvuadr+x0KKtww+bCzJZtgKN4LKUeVPwjixZkBTcyq5
-         4Sv2uiCwCET1nP0TEcaXZxc3HyDEU+Th36ZJYid3BFXHuaZn2KZ7EhmyVZt3c+TNXG/D
-         B3FQ3GYjtF/8fawQxs2P8IFOtCxiwQWgTGDZUIFEEtWr/mPtViZK3OcUSEB3yz4H0/7z
-         q7KWoKgYoE4qykq+Gq3vVbvjG6GvgsISBQnvBeJg8bJGSSVD+1I5/R3AubBkRkiI7q3N
-         mKtCdwrrLGz/GJcdUvwLSu3PFMqMT7JrRW9uifrSTJTVQaBR0PbIsTQK5AV5UzXYPmGW
-         c4CQ==
-X-Gm-Message-State: AOJu0YwwUqJf9WB//Y/OBNdNjg8kvClsvsBmYQM8Wg6GKzVVsOMK0rtN
-	7KU/9/OwJ+XzA2Szl4Y/oBqOxEdLQQtMH+vuWwMGzICDthPcxHyxBdFwvKQcGcYBgGdscoNemBz
-	Cop4o
-X-Gm-Gg: ASbGncuND39crpAqlXt73W8o4vIWZG1gsVzzqjM7voWhFZN2XTyIhImwJIFaO6QohrC
-	JnLThdVrbX1MtbFhxlDpff8aVg0gz89twdcvQerj8Q88+6cujjMjZ4GhkQWnvNpaU4FJKj/guXe
-	tHeAUebO5CqQRRwa4N8T2Wm6k6hlaRCZdMVvCE1g9G2OLtz8GQQWGRlohHmyHJGgp4grBjnK7Ge
-	R1KWlE+ccFuG+LLDKOvqcSLEURvCcL0XxQSmCn/ATauwvBYV+Y0ta9kRSiSPkNxn1qxkV4vif0x
-	AgSEpapoq8p64s6mYa29fcHfQ3/VS4ZjT2AVUS7lfryG4iiwkND0U4bzambEZnDYDqZELdFvGxh
-	NBPFiHefHNSRZHg==
-X-Google-Smtp-Source: AGHT+IGWldpfjKKH+mxAfThFmjiKzIwFTqNGCC1cBigo1KT1e7dHF9kVKWXAwaGm8QdiCy1wiIe0bg==
-X-Received: by 2002:a17:90b:2650:b0:311:baa0:89ce with SMTP id 98e67ed59e1d1-31c9f3fc33bmr7391038a91.12.1752720946020;
-        Wed, 16 Jul 2025 19:55:46 -0700 (PDT)
+        bh=A+L9TsDYXZ2cJ+bGXkMV0j7n17ilKgdTbk2WvUCsrh8=;
+        b=slLQjr7Swyg/YmOcUO9oez6JGM0352bVIj9EZSrHhhhknN3IBhtQeVdu0OlOD8ur50
+         29kAqAmNQdW3oKdj574u1dH0EOyheYb2vLB+bWSQAJ6saHTOfyfunHukSX6gNG7Db7Lx
+         +4MGC7x6FXopIEm747k90aJOa2CqQwpUymvx+fjkkJczNRctg+J8IrDM7gExanMJvU3+
+         0yx6dZmzrmt4qXxowJW1aQ9F0GKzJOIr3evt1R6Sl+jT+dg3qJs4NJsEjQTmoESEvDCS
+         KInKM0ROPFBSi4a+NmggMmzbSkzpK4Op1R4RZpVmFbmlDW//hcG5Y3rluo5hq/kpQaVn
+         Jp1A==
+X-Gm-Message-State: AOJu0YxwqPBrKq38XLEdKJaiQF87o0aRSQ0ha9VPfkR4vb0d/3dF5hHM
+	RgtTCtdb6Rk0qDoB+UurSOorgHw/abo6lLYq1e62Xvp09Ymetd5JCpWeXn1yl3SjM0K2Uvzh1SY
+	ac4s+mFE=
+X-Gm-Gg: ASbGncsWQZ2ZCbrdwjXVCsM9ol8ZpQar+4xY5Xp0LNfMyjAgKZ64LlazkMqwNGn9LBe
+	hDKkih4yGDxVHctinWBgxLLv6xcRDVmWGParSE2eIbKx3+P6qEZCqtIZ1RgYSaLJCILr9hkO5wT
+	vmJO3PI0bPo9D0xQUP0OncOwXWpsRgZ0LqRhzDWIlHyH5I721h6xf1miSZDfzKydZVpSUFPMEQX
+	D9JN8lYckLDC/b/87gszLYYju/BmZxl4sidCIDumpEssk+f36lnwefKvbNq6xS8CxHf4EVftYhI
+	jg0U0RBHIlXc2JWHMeM4zPRw4clmKtfIPU+bhQE6MI1tfg1epgVpr+5lfq0vD8CzuqCFJEE7Ns0
+	92iQJXDWiJ4OyLA==
+X-Google-Smtp-Source: AGHT+IFr7skfm4gKeXZrP7sWlTp7Mrtqz4cqum9b1kqjCrr6VbMR6a+GSEnc2l+SoIhhI+BCcpbxuQ==
+X-Received: by 2002:a17:90b:2889:b0:312:39c1:c9cf with SMTP id 98e67ed59e1d1-31c9e6e530dmr7363802a91.7.1752720942754;
+        Wed, 16 Jul 2025 19:55:42 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3bfc:8fec:7e35:e96a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f288173sm2333256a91.25.2025.07.16.19.55.45
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f288173sm2333256a91.25.2025.07.16.19.55.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 19:55:45 -0700 (PDT)
+        Wed, 16 Jul 2025 19:55:42 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 03/13] iputils: patch CVE-2025-48964
-Date: Wed, 16 Jul 2025 19:55:26 -0700
-Message-ID: <aec02926ecaeb792ca987e540820c9da5fbdc49a.1752720827.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 01/13] busybox: apply patch for CVE-2023-39810
+Date: Wed, 16 Jul 2025 19:55:24 -0700
+Message-ID: <c9d071556aa2e066abffc35031d86ee8ee9437d8.1752720827.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752720827.git.steve@sakoman.com>
 References: <cover.1752720827.git.steve@sakoman.com>
@@ -68,137 +68,183 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 02:55:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220489
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220487
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commit referencing this CVE.
+Backport patch referencing this CVE.
+
+Note that the hardening is not activated by default, it adds defconfig
+option to enable it.
+Since it introduces a breaking change, it shouldn't be enabled in LTS
+release by default.
+This patch makes busybox cpio equivalent in this release to what is
+currently in master and in kirkstone.
+Also note that gnu cpio also does not have this hardening, but the CVE
+is created only against busybox.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../iputils/iputils/CVE-2025-48964.patch      | 99 +++++++++++++++++++
- .../iputils/iputils_20240905.bb               |  1 +
- 2 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch
+ .../busybox/busybox/CVE-2023-39810.patch      | 136 ++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.37.0.bb   |   1 +
+ 2 files changed, 137 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
 
-diff --git a/meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch b/meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2023-39810.patch b/meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
 new file mode 100644
-index 0000000000..1144ce4e4a
+index 0000000000..821ab3508f
 --- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/CVE-2025-48964.patch
-@@ -0,0 +1,99 @@
-+From afa36390394a6e0cceba03b52b59b6d41710608c Mon Sep 17 00:00:00 2001
-+From: Cyril Hrubis <metan@ucw.cz>
-+Date: Fri, 16 May 2025 17:57:10 +0200
-+Subject: [PATCH] ping: Fix moving average rtt calculation
++++ b/meta/recipes-core/busybox/busybox/CVE-2023-39810.patch
+@@ -0,0 +1,136 @@
++From 9a8796436b9b0641e13480811902ea2ac57881d3 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Wed, 2 Oct 2024 10:12:05 +0200
++Subject: [PATCH] archival: disallow path traversals (CVE-2023-39810)
 +
-+The rts->rtt counts an exponential weight moving average in a fixed
-+point, that means that even if we limit the triptime to fit into a 32bit
-+number the average will overflow because because fixed point needs eight
-+more bits.
++Create new configure option for archival/libarchive based extractions to
++disallow path traversals.
++As this is a paranoid option and might introduce backward
++incompatibility, default it to no.
 +
-+We also have to limit the triptime to 32bit number because otherwise the
-+moving average may stil overflow if we manage to produce a large enough
-+triptime.
++Fixes: CVE-2023-39810
 +
-+Fixes: CVE-2025-48964
-+Fixes: https://bugzilla.suse.com/show_bug.cgi?id=1243772
-+Closes: https://github.com/iputils/iputils-ghsa-25fr-jw29-74f9/pull/1
-+Reported-by: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
-+Reviewed-by: Petr Vorel <pvorel@suse.cz>
-+Tested-by: Petr Vorel <pvorel@suse.cz>
-+Reviewed-by: Michal Kubecek <mkubecek@suse.cz>
-+Reviewed-by: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
-+Signed-off-by: Cyril Hrubis <metan@ucw.cz>
++Based on the patch by Peter Kaestle <peter.kaestle@nokia.com>
 +
-+CVE: CVE-2025-48964
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/afa36390394a6e0cceba03b52b59b6d41710608c]
++function                                             old     new   delta
++data_extract_all                                     921     945     +24
++strip_unsafe_prefix                                  101     102      +1
++------------------------------------------------------------------------------
++(add/remove: 0/0 grow/shrink: 2/0 up/down: 25/0)               Total: 25 bytes
++
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++CVE: CVE-2023-39810
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=9a8796436b9b0641e13480811902ea2ac57881d3]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ iputils_common.h   | 2 +-
-+ ping/ping.h        | 2 +-
-+ ping/ping_common.c | 8 ++++----
-+ 3 files changed, 6 insertions(+), 6 deletions(-)
++ archival/Config.src                        | 11 +++++++++++
++ archival/libarchive/data_extract_all.c     |  8 ++++++++
++ archival/libarchive/unsafe_prefix.c        |  6 +++++-
++ scripts/kconfig/lxdialog/check-lxdialog.sh |  2 +-
++ testsuite/cpio.tests                       | 23 ++++++++++++++++++++++
++ 5 files changed, 48 insertions(+), 2 deletions(-)
 +
-+diff --git a/iputils_common.h b/iputils_common.h
-+index 829a749..1296905 100644
-+--- a/iputils_common.h
-++++ b/iputils_common.h
-+@@ -11,7 +11,7 @@
-+ 					 __typeof__(&arr[0]))])) * 0)
++diff --git a/archival/Config.src b/archival/Config.src
++index 6f4f30c43..cbcd7217c 100644
++--- a/archival/Config.src
+++++ b/archival/Config.src
++@@ -35,4 +35,15 @@ config FEATURE_LZMA_FAST
++ 	This option reduces decompression time by about 25% at the cost of
++ 	a 1K bigger binary.
 + 
-+ /* 1000001 = 1000000 tv_sec + 1 tv_usec */
-+-#define TV_SEC_MAX_VAL (LONG_MAX/1000001)
-++#define TV_SEC_MAX_VAL (INT32_MAX/1000001)
-+ 
-+ #ifdef __GNUC__
-+ # define iputils_attribute_format(t, n, m) __attribute__((__format__ (t, n, m)))
-+diff --git a/ping/ping.h b/ping/ping.h
-+index 4dce538..bc1fab2 100644
-+--- a/ping/ping.h
-++++ b/ping/ping.h
-+@@ -194,7 +194,7 @@ struct ping_rts {
-+ 	long tmax;			/* maximum round trip time */
-+ 	double tsum;			/* sum of all times, for doing average */
-+ 	double tsum2;
-+-	int rtt;
-++	uint64_t rtt;                   /* Exponential weight moving average calculated in fixed point */
-+ 	int rtt_addend;
-+ 	uint16_t acked;
-+ 	int pipesize;
-+diff --git a/ping/ping_common.c b/ping/ping_common.c
-+index 2a3e556..fad5228 100644
-+--- a/ping/ping_common.c
-++++ b/ping/ping_common.c
-+@@ -281,7 +281,7 @@ int __schedule_exit(int next)
-+ 
-+ static inline void update_interval(struct ping_rts *rts)
-+ {
-+-	int est = rts->rtt ? rts->rtt / 8 : rts->interval * 1000;
-++	int est = rts->rtt ? (int)(rts->rtt / 8) : rts->interval * 1000;
-+ 
-+ 	rts->interval = (est + rts->rtt_addend + 500) / 1000;
-+ 	if (rts->uid && rts->interval < MIN_USER_INTERVAL_MS)
-+@@ -788,7 +788,7 @@ restamp:
-+ 			if (triptime > rts->tmax)
-+ 				rts->tmax = triptime;
-+ 			if (!rts->rtt)
-+-				rts->rtt = triptime * 8;
-++				rts->rtt = ((uint64_t)triptime) * 8;
-+ 			else
-+ 				rts->rtt += triptime - rts->rtt / 8;
-+ 			if (rts->opt_adaptive)
-+@@ -960,7 +960,7 @@ int finish(struct ping_rts *rts)
-+ 		int ipg = (1000000 * (long long)tv.tv_sec + tv.tv_nsec / 1000) / (rts->ntransmitted - 1);
-+ 
-+ 		printf(_("%sipg/ewma %d.%03d/%d.%03d ms"),
-+-		       comma, ipg / 1000, ipg % 1000, rts->rtt / 8000, (rts->rtt / 8) % 1000);
-++		       comma, ipg / 1000, ipg % 1000, (int)(rts->rtt / 8000), (int)((rts->rtt / 8) % 1000));
+++config FEATURE_PATH_TRAVERSAL_PROTECTION
+++	bool "Prevent extraction of filenames with /../ path component"
+++	default n
+++	help
+++	busybox tar and unzip remove "PREFIX/../" (if it exists)
+++	from extracted names.
+++	This option enables this behavior for all other unpacking applets,
+++	such as cpio, ar, rpm.
+++	GNU cpio 2.15 has NO such sanity check.
+++# try other archivers and document their behavior?
+++
++ endmenu
++diff --git a/archival/libarchive/data_extract_all.c b/archival/libarchive/data_extract_all.c
++index 049c2c156..8a69711c1 100644
++--- a/archival/libarchive/data_extract_all.c
+++++ b/archival/libarchive/data_extract_all.c
++@@ -65,6 +65,14 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
++ 		} while (--n != 0);
 + 	}
-+ 	putchar('\n');
-+ 	return (!rts->nreceived || (rts->deadline && rts->nreceived < rts->npackets));
-+@@ -985,7 +985,7 @@ void status(struct ping_rts *rts)
-+ 		fprintf(stderr, _(", min/avg/ewma/max = %ld.%03ld/%lu.%03ld/%d.%03d/%ld.%03ld ms"),
-+ 			(long)rts->tmin / 1000, (long)rts->tmin % 1000,
-+ 			tavg / 1000, tavg % 1000,
-+-			rts->rtt / 8000, (rts->rtt / 8) % 1000, (long)rts->tmax / 1000, (long)rts->tmax % 1000);
-++			(int)(rts->rtt / 8000), (int)((rts->rtt / 8) % 1000), (long)rts->tmax / 1000, (long)rts->tmax % 1000);
-+ 	}
-+ 	fprintf(stderr, "\n");
-+ }
-diff --git a/meta/recipes-extended/iputils/iputils_20240905.bb b/meta/recipes-extended/iputils/iputils_20240905.bb
-index 64d58a91c2..96b9671dbd 100644
---- a/meta/recipes-extended/iputils/iputils_20240905.bb
-+++ b/meta/recipes-extended/iputils/iputils_20240905.bb
-@@ -12,6 +12,7 @@ DEPENDS = "gnutls"
- 
- SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https \
-            file://CVE-2025-47268.patch \
-+           file://CVE-2025-48964.patch \
-           "
- SRCREV = "10b50784aae3fb75c96cdf9b1668916b49557dd5"
- 
++ #endif
+++#if ENABLE_FEATURE_PATH_TRAVERSAL_PROTECTION
+++	/* Strip leading "/" and up to last "/../" path component */
+++	dst_name = (char *)strip_unsafe_prefix(dst_name);
+++#endif
+++// ^^^ This may be a problem if some applets do need to extract absolute names.
+++// (Probably will need to invent ARCHIVE_ALLOW_UNSAFE_NAME flag).
+++// You might think that rpm needs it, but in my tests rpm's internal cpio
+++// archive has names like "./usr/bin/FOO", not "/usr/bin/FOO".
++ 
++ 	if (archive_handle->ah_flags & ARCHIVE_CREATE_LEADING_DIRS) {
++ 		char *slash = strrchr(dst_name, '/');
++diff --git a/archival/libarchive/unsafe_prefix.c b/archival/libarchive/unsafe_prefix.c
++index 33e487bf9..667081195 100644
++--- a/archival/libarchive/unsafe_prefix.c
+++++ b/archival/libarchive/unsafe_prefix.c
++@@ -14,7 +14,11 @@ const char* FAST_FUNC strip_unsafe_prefix(const char *str)
++ 			cp++;
++ 			continue;
++ 		}
++-		if (is_prefixed_with(cp, "/../"+1)) {
+++		/* We are called lots of times.
+++		 * is_prefixed_with(cp, "../") is slower than open-coding it,
+++		 * with minimal code growth (~few bytes).
+++		 */
+++		if (cp[0] == '.' && cp[1] == '.' && cp[2] == '/') {
++ 			cp += 3;
++ 			continue;
++ 		}
++diff --git a/scripts/kconfig/lxdialog/check-lxdialog.sh b/scripts/kconfig/lxdialog/check-lxdialog.sh
++index 5075ebf2d..910ca1f7c 100755
++--- a/scripts/kconfig/lxdialog/check-lxdialog.sh
+++++ b/scripts/kconfig/lxdialog/check-lxdialog.sh
++@@ -55,7 +55,7 @@ trap "rm -f $tmp" 0 1 2 3 15
++ check() {
++         $cc -x c - -o $tmp 2>/dev/null <<'EOF'
++ #include CURSES_LOC
++-main() {}
+++int main() { return 0; }
++ EOF
++ 	if [ $? != 0 ]; then
++ 	    echo " *** Unable to find the ncurses libraries or the"       1>&2
++diff --git a/testsuite/cpio.tests b/testsuite/cpio.tests
++index 85e746589..a4462c53e 100755
++--- a/testsuite/cpio.tests
+++++ b/testsuite/cpio.tests
++@@ -154,6 +154,29 @@ testing "cpio -R with extract" \
++ " "" ""
++ SKIP=
++ 
+++# Create an archive containing a file with "../dont_write" filename.
+++# See that it will not be allowed to unpack.
+++# NB: GNU cpio 2.15 DOES NOT do such checks.
+++optional FEATURE_PATH_TRAVERSAL_PROTECTION
+++rm -rf cpio.testdir
+++mkdir -p cpio.testdir/prepare/inner
+++echo "file outside of destination was written" > cpio.testdir/prepare/dont_write
+++echo "data" > cpio.testdir/prepare/inner/to_extract
+++mkdir -p cpio.testdir/extract
+++testing "cpio extract file outside of destination" "\
+++(cd cpio.testdir/prepare/inner && echo -e '../dont_write\nto_extract' | cpio -o -H newc) | (cd cpio.testdir/extract && cpio -vi 2>&1)
+++echo \$?
+++ls cpio.testdir/dont_write 2>&1" \
+++"\
+++cpio: removing leading '../' from member names
+++../dont_write
+++to_extract
+++1 blocks
+++0
+++ls: cpio.testdir/dont_write: No such file or directory
+++" "" ""
+++SKIP=
+++
++ # Clean up
++ rm -rf cpio.testdir cpio.testdir2 2>/dev/null
++ 
+diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
+index c3131eb453..92c7c65a3e 100644
+--- a/meta/recipes-core/busybox/busybox_1.37.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -53,6 +53,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-syslogd-fix-wrong-OPT_locallog-flag-detection.patch \
+            file://0002-start-stop-daemon-fix-tests.patch \
+            file://0003-start-stop-false.patch \
++           file://CVE-2023-39810.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg"
+ SRC_URI:append:x86-64 = " file://sha_accel.cfg"
 -- 
 2.43.0
 
