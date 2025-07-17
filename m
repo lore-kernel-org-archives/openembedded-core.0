@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45416C83F27
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 453DAC83F22
 	for <webhook@archiver.kernel.org>; Thu, 17 Jul 2025 02:56:11 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.40208.1752720963446372091
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web10.40207.1752720961940491739
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Jul 2025 19:56:03 -0700
+ Wed, 16 Jul 2025 19:56:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Xk81fj8N;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-313154270bbso541892a91.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:56:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XXee7oaX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b3aa2a0022cso431034a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Jul 2025 19:56:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752720963; x=1753325763; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752720961; x=1753325761; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=beAT1wtkQi5YYXqYehixsdsjH4VwJ8T+F14kNlFsA9Q=;
-        b=Xk81fj8NI/WysGrN+CNa9MVNIbbAXEgRlKvDHhWjuowiSLHmyJTifa30N1RbH4Pw/j
-         Hugd1s5CLLgsTcbrNNUWGMys/k3uyyNpFr1/zWe2sRu05WunruMujWkFERduiMSBcvTj
-         7f1p/ukHs8Q9DIaz1QoBH31R9uHGHQu5rU5nxgn2DxMnYnXsyfbtmd6zcxTM/vXXGIlg
-         YHxv0EaJSrhKlpcDhKuTLee4QZxxYXziqON3zApA7yh+mtdFDUKGIwP4JG444NTIya4m
-         ASUKrXiQrK8eNvjQr3c5SQ+pX+q9Kp47IfkSEeDel57cwS+udYeJNlSBW6zhIjihtlRx
-         LHlw==
+        bh=xphVIyYd5aVu0bT9kSeqBWcN52bQ7uCr3eZBgnxWqL8=;
+        b=XXee7oaXY+axbdK1uLajhV9MM+7pCOv/F4x2Qv+JRi7qK5E2jc4Y2SoiwpH3DFr+vu
+         wsZ1MbJBocTLCZeWHOkbLrk/3cZBud2oaz2NXOhr1PAjaDJQUKJwB2rOaijMQdVaafl/
+         KiKATbAuZUqa33s0hN/J6LxSSGrirH8IHOvEaHP04XSz7A1gDRCv2TdOqyWnIqjT2dxd
+         bVVFhMbr5edNPeUcarEu6L7D0q3YeRJ3XWuFSVWgapxtlw4n95Q1mTuLXd/3IzhWoRKi
+         vnw/f0K0N49VdUln9SyzVtrHEwyDcWNN1IDggoC1fh4vcoDlX9DJs9Qgm/YzNteYuV62
+         obdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752720963; x=1753325763;
+        d=1e100.net; s=20230601; t=1752720961; x=1753325761;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=beAT1wtkQi5YYXqYehixsdsjH4VwJ8T+F14kNlFsA9Q=;
-        b=mJytWva/Ky1HCJkeigqdGVXyzLPHlBdY/LcqvEgHq61nQeA3VliOwZ5s1OtNsbbgeo
-         6Arfu3rHcmgq3KDyxeOmN2IIi6Qsg8ilBkov0V1L+AoGSjz48fxvPHW2zK43Pha0DocF
-         COeXNKsw0aLuJ6cgNOthCh1HW0zDn9OdvvqeHQfEMArT8Ewpud60Qn8akicHPx9VJEIZ
-         t9OEZNVLPug19M1Ct31rs8hXJDOMs6up0BsRo3kvY+HtEs7agxG1tcit3zdbqI1GAU6W
-         qdvrB5BKghPIlGIDUd+wZk69oV1Wyt5T4QohKAOm5x9aHjAKwkqAMvDxnNwD3F1vA44C
-         DtVw==
-X-Gm-Message-State: AOJu0YzKPc9AaZR9j4PA9BlB6rlYh7iZTLb2HUDyo2uRHVD49LQtWbyA
-	j8gH7de2FFO2hFsr/d1JkquAJkiAV0G6UA4TH9ySq/2PPa/6WBRJko8bPC0B1e6WeBGBpvZ9uih
-	DnT9b
-X-Gm-Gg: ASbGncuQGJyqnGkZsp4n+pL/tLDD0gADWW7NociLaSgOo2Q0VL4pJPRNDcovHLcZd55
-	sw5ScTJNKxlOAHV47BYcpaogPNeB+NqTMfg8iMErqkfERcfBb072CQWuLJq96p2urgXXPeA9BG8
-	C7Wi6rIgwZaKWRVNdCt74WfY6veRVvFwmHfhKoXjFAm57+22VqCZdVRVM+Ek0HYQiaO1r+EnkQg
-	qtb9A9ChLgR1YmGWo/NW64K8ev7l9drYbMgg5Qvg0YcFpXAUIVKRs0H1Icp4Uzzq46ZUywUdUye
-	2S2CbGddMpv9gCGuCbhSuzwCTz5V/LM6kqSUJ9do9/x43nMGkHR+3ctn1eqKoMaHUB8BQw7zJ1Y
-	sXhKnFnPa4BzcYA==
-X-Google-Smtp-Source: AGHT+IGTSwSWUhwL60sKv7Hj1I6s2esrryBvKSDtPr5t2tuAtZkJ88uAG6I5EbIlY5bDNiFqIN0oQQ==
-X-Received: by 2002:a17:90b:4f49:b0:311:c970:c9c0 with SMTP id 98e67ed59e1d1-31c9f45e26cmr6352172a91.22.1752720962599;
-        Wed, 16 Jul 2025 19:56:02 -0700 (PDT)
+        bh=xphVIyYd5aVu0bT9kSeqBWcN52bQ7uCr3eZBgnxWqL8=;
+        b=tPgrSO9bZMyFVTxYaV9ftg4OvwJu4vJhbDHWUDDr5I2aFdZB0kZjR82BD7i20YzyYj
+         3M5ZKP0pSuBnoPT9MNMEZlmHXjnhQQkMwQiFvF+VyWVvb9V9gmcb0OLvhxu+f5ZCVcN8
+         MxcEbAoH6DQDxGCg/ibmR1F7oC0cTXxSc8K9cmQ7uPrKL7L7VnfFy5IJ9oq0XRJWEdDj
+         b7eHbdARHVlgBE+Fb+7Ybpmz90g1MLV/vrYrN5b8sCYTu91DSYPkqklLxx4a0ZMlXPh+
+         9VpKQOaVskyM+72GmVlTqdISE5YeGreuVp3DT3zXGab7druUneqiIw5Ph/7iL/ZzrJh4
+         jYdA==
+X-Gm-Message-State: AOJu0YzbLU50TFVL1juS/dwnATj8SJNAqAnnR6RgKwfjOZniMD9x5Tzz
+	fqFFtXbslZNZAWH469XtR5SZuzsDnSH3cfMRcZlPrcAXgNHHfM6POiqcA16dxmTAeShSZm/AnKj
+	99CO3
+X-Gm-Gg: ASbGncvtZEluami4YUsiQtzz3FgpPNPb9Wr7u9zpS8mzqoFrs0InObxQa72Zv2ITYb7
+	KhDfuze4NwbzQxZEHW41lQ1lU+dUc8CBbo+eF1tMuBMHPDfJa1oXXSsE5FupTu5TG48xQCCeRNP
+	9elWL0EqLN1lB82VsZlNBntZQNZD7ITosK5x7jrr1jqE2MdgIhWSHOeuLAZgeW3LnCPjDOzFJwZ
+	zv8Oqkw7iKGUfVcPTA8EhKFRmPq+jJQz9i/EwS+V6YcMesLpCO8FTJiHgWN6C8ZHupxywcmriow
+	lPMtZH7Yop/hGD1ZbKPuRq0nIoexD8iAf1jRcf/ByKY7OC5Zz43MljOsqT3R11GtnVCTVugWcmY
+	+OxtzS37MGsLNRHokiygoi2WM
+X-Google-Smtp-Source: AGHT+IGg0vE9elHsf+1L+u9S5v+bDqOD3vRROLAAIrlOrw3p1vfXPfwSsS64IOrGORpHFsbQI//1gw==
+X-Received: by 2002:a17:90b:5385:b0:312:e51c:af67 with SMTP id 98e67ed59e1d1-31c9f3ef43cmr6218784a91.1.1752720961106;
+        Wed, 16 Jul 2025 19:56:01 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3bfc:8fec:7e35:e96a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f288173sm2333256a91.25.2025.07.16.19.56.02
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f288173sm2333256a91.25.2025.07.16.19.56.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 19:56:02 -0700 (PDT)
+        Wed, 16 Jul 2025 19:56:00 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 13/13] kea: set correct permissions for /var/run/kea
-Date: Wed, 16 Jul 2025 19:55:36 -0700
-Message-ID: <acbed746f321e1a42df9035d2b6f1029f5a6a6a2.1752720827.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 12/13] ruby-ptest : some ptest fixes
+Date: Wed, 16 Jul 2025 19:55:35 -0700
+Message-ID: <e2686031a0ee8c6e24898b70059d1a50e956625d.1752720827.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1752720827.git.steve@sakoman.com>
 References: <cover.1752720827.git.steve@sakoman.com>
@@ -68,68 +68,103 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 02:56:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220499
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220498
 
-From: Yi Zhao <yi.zhao@eng.windriver.com>
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Set the permissions of /var/run/kea to 750 to fix kea server startup
-error:
+- Skip the test_rm_r_no_permissions test under the root user, as
+  deletion always succeeds.
+- Filter out tests under the -ext- directory in run-ptest. Due to the
+  commit [1],the packaging of .so test files under the .ext directory
+  was removed. As a result, adjust the test filtering rules to avoid
+  test failures caused by missing files.
+- Add installation of rdoc.rb and did_you_mean.rb files in
+  do_install_ptest to ensure complete test dependencies.
 
-ERROR [kea-dhcp4.dhcp4/445.140718820303936] DHCP4_INIT_FAIL failed to
-initialize Kea server: configuration error using file
-'/etc/kea/kea-dhcp4.conf': 'socket-name' is invalid: socket
-path:/var/run/kea does not exist or does not have permssions = 750
+[1] https://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/ruby?id=4d4485442830bb52b152f0419f4ff9f1d581d46a
 
-This permission check was introduced by commit[1] in kea 2.6.3.
-
-[1] https://gitlab.isc.org/isc-projects/kea/-/commit/43bba7799f6892f739b4745b35bbeacef3645ad3
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service | 1 +
- meta/recipes-connectivity/kea/files/kea-dhcp4.service     | 1 +
- meta/recipes-connectivity/kea/files/kea-dhcp6.service     | 1 +
- 3 files changed, 3 insertions(+)
+ ..._rm_r_no_permissions-test-under-root.patch | 32 +++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby/run-ptest     |  2 +-
+ meta/recipes-devtools/ruby/ruby_3.4.4.bb      |  5 ++-
+ 3 files changed, 37 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
 
-diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
-index f6059d73cb..aec6446f0e 100644
---- a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
-+++ b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
-@@ -6,6 +6,7 @@ After=time-sync.target
+diff --git a/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch b/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
+new file mode 100644
+index 0000000000..e3574f1a81
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
+@@ -0,0 +1,32 @@
++From 9c4748aae4f69390a36875aa27d70c3c632ae944 Mon Sep 17 00:00:00 2001
++From: Jiaying Song <jiaying.song.cn@windriver.com>
++Date: Mon, 7 Jul 2025 15:05:57 +0800
++Subject: [PATCH] Skip test_rm_r_no_permissions test under root
++
++Skip test_rm_r_no_permissions test under root user and Windows environments since deletion always succeeds.
++
++Upstream-Status: Submitted [https://github.com/ruby/ruby/pull/13828/commits/c510b5ac475e6d3eef935725d21910861816b7a9]
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ test/fileutils/test_fileutils.rb | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/test/fileutils/test_fileutils.rb b/test/fileutils/test_fileutils.rb
++index d2096a0..80e3368 100644
++--- a/test/fileutils/test_fileutils.rb
+++++ b/test/fileutils/test_fileutils.rb
++@@ -768,8 +768,8 @@ class TestFileUtils < Test::Unit::TestCase
++ 
++   def test_rm_r_no_permissions
++     check_singleton :rm_rf
++-
++-    return if /mswin|mingw/ =~ RUBY_PLATFORM
+++    
+++    return if Process.uid == 0 || /mswin|mingw/ =~ RUBY_PLATFORM
++ 
++     mkdir 'tmpdatadir'
++     touch 'tmpdatadir/tmpdata'
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/ruby/ruby/run-ptest b/meta/recipes-devtools/ruby/ruby/run-ptest
+index de7c415aba..17404e3509 100644
+--- a/meta/recipes-devtools/ruby/ruby/run-ptest
++++ b/meta/recipes-devtools/ruby/ruby/run-ptest
+@@ -1,6 +1,6 @@
+ #!/bin/sh
  
- [Service]
- ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
-+ExecStartPre=@BASE_BINDIR@/chmod 750 @LOCALSTATEDIR@/run/kea/
- ExecStart=@SBINDIR@/kea-dhcp-ddns -c @SYSCONFDIR@/kea/kea-dhcp-ddns.conf
+-test_fullname=`find test -name test_*.rb` 
++test_fullname=$(find test -name test_*.rb | grep -v '/-ext-/')
+  
+ for i in ${test_fullname}; do 
+ 	ruby ./test/runner.rb ${i}  2>&1 > /dev/null
+diff --git a/meta/recipes-devtools/ruby/ruby_3.4.4.bb b/meta/recipes-devtools/ruby/ruby_3.4.4.bb
+index 39e86fdd28..5d088f32c0 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.4.4.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.4.4.bb
+@@ -27,7 +27,8 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
+            file://0006-Make-gemspecs-reproducible.patch \
+            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
+-           "
++           file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch \ 
++          "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
- [Install]
-diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp4.service b/meta/recipes-connectivity/kea/files/kea-dhcp4.service
-index b851ea71c5..a2ed4edb59 100644
---- a/meta/recipes-connectivity/kea/files/kea-dhcp4.service
-+++ b/meta/recipes-connectivity/kea/files/kea-dhcp4.service
-@@ -6,6 +6,7 @@ After=time-sync.target
+ inherit autotools ptest pkgconfig
+@@ -104,6 +105,8 @@ do_install_ptest () {
+     cp -r ${S}/tool/lib ${D}${PTEST_PATH}/tool/
+     mkdir -p ${D}${PTEST_PATH}/lib
+     cp -r ${S}/lib/did_you_mean ${S}/lib/rdoc ${D}${PTEST_PATH}/lib
++    cp ${D}${libdir}/ruby/${SHRT_VER}.0/rdoc.rb ${D}${PTEST_PATH}/lib
++    cp ${D}${libdir}/ruby/${SHRT_VER}.0/did_you_mean.rb ${D}${PTEST_PATH}/lib
  
- [Service]
- ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
-+ExecStartPre=@BASE_BINDIR@/chmod 750 @LOCALSTATEDIR@/run/kea/
- ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/lib/kea
- ExecStart=@SBINDIR@/kea-dhcp4 -c @SYSCONFDIR@/kea/kea-dhcp4.conf
- 
-diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp6.service b/meta/recipes-connectivity/kea/files/kea-dhcp6.service
-index 0f9f0ef8d9..ed6e017d0c 100644
---- a/meta/recipes-connectivity/kea/files/kea-dhcp6.service
-+++ b/meta/recipes-connectivity/kea/files/kea-dhcp6.service
-@@ -6,6 +6,7 @@ After=time-sync.target
- 
- [Service]
- ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
-+ExecStartPre=@BASE_BINDIR@/chmod 750 @LOCALSTATEDIR@/run/kea/
- ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/lib/kea
- ExecStart=@SBINDIR@/kea-dhcp6 -c @SYSCONFDIR@/kea/kea-dhcp6.conf
- 
+     # install test-binaries
+     # These .so files have sporadic reproducibility fails as seen here:
 -- 
 2.43.0
 
