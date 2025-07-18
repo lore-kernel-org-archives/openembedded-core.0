@@ -1,222 +1,213 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F4C5C83F17
-	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 16:47:04 +0000 (UTC)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
- by mx.groups.io with SMTP id smtpd.web11.3374.1752857215641575483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A78DCC83F1A
+	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 17:44:25 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.4776.1752860662478725915
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 09:46:55 -0700
+ Fri, 18 Jul 2025 10:44:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hwwWZ+Zp;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.176, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-70f147b5a52so16403557b3.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 09:46:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ci8O8dFD;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-748fe69a7baso2256196b3a.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 10:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752857215; x=1753462015; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SQVoF2u18EEz1g0h2mYnalf/5oIh4MzUHCFSnekeAS0=;
-        b=hwwWZ+ZpKTbxlSu889qpZHY0cdX/1fh+VzqdD9m5CgwOo0CrzQYda6CS5+NfqfT0Pj
-         Me3f2KOLacSQbHet3IHQK2FeKgycGAOkMHLAgrkgor+/sVGOev0ewwcq4tNpqUxoqgjj
-         LIF8dRf5kXfOjmSkOIqLWsPsc6++EA/ROuGRb8CtziLDpkuz3AhgPZNp9F3TNWjnvOQ6
-         CWKt7dohi3vCXZApKx4ccFmNNXESfRoTK6d3zHH7q/GUM9D8uH8YZXYU5Vy3w8GrCoDj
-         lNpZm5rq4tWvOD6pt1PaIf1vaB0S3Wzd4S4rAPVJglmBqI2gWEyigJ+/Adk2xLm73tGg
-         ZpkA==
+        d=gmail.com; s=20230601; t=1752860662; x=1753465462; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TMuW4h5R9wmb9JcpyziWmUag0uOp2FmCAnlzztU5KDw=;
+        b=Ci8O8dFDY3//RxAv+Nf9bNMrMnguErHrkZ/CDF+SY8tFQrpSdQA4MAYHczFJTF/lqM
+         Ba2ITSPf/DtnhEwa07f8TIUpi3pw/k6HX6J3QvBBrsDxDIZkw5jMuXjEW9YTIBYdJgG5
+         mpIalURZT3V4BYo/m8wPIr6tmruGfTiDhaBRzyl03pMsRoWEU0ZL8RMKcWh8yo7qRfGW
+         x4t+DlfGptrovQTzPI69etftb0yPdZDP5y3x4lSqHS/FnKGYmTv6FU6c/GsO8k6M+qwf
+         H4Q8PCmFrOwcHYcG0oSKk/KsjdgBJc153IbZi2IY9AY9dvc6f0IIDzi0ajAJ4ZSkVBBz
+         l43g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752857215; x=1753462015;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SQVoF2u18EEz1g0h2mYnalf/5oIh4MzUHCFSnekeAS0=;
-        b=NuCs2S1AGjhkrcHN2KZ/RET095My4n3KTqhgSH9n8LK5ITlqoAiXaeXzi6dnTNF06b
-         qhZWNSuq0nxz3MClPUyEisvVbhRI6zSv/hd6CGaxblIXIyBsIF2B9dUxSIvKLKX2dGWr
-         DXTAKwGbQH6UOqmdYSH2PXlKUvzNHaandPYTJEyzYNgv6milb24rRSKGUObrSggSWZcl
-         KnAYwbnpDmVlwgtK4bPCN1sWbUS7BrWeNPqNbKWMbFrIxUhd0Mgsw7FMg4t61RTr8Okw
-         ShnCOh2Ap9iIHujPI5zJURaKK+ntDUd4xGG3nKYC9zVMPKFNC5JeaR06QoxdPHj2FP8d
-         i9OQ==
-X-Gm-Message-State: AOJu0YxhqPdL3YBYHWm99YlrYGMZCdgpecVsvibT013bJhPkqsIM0qsi
-	9FuuuAkVTYqd1/MJiy0Ezyk4syb/KkzkNBa163Ko0enAhwlTDrE/OhUuv7NbdT7Fyug/GWxgdpg
-	9W7Dv7JP9/nDyf5Yhi+cBCRAZZ3VMZnwRWkU1Y/530IQpKVPzoh7+LPI=
-X-Gm-Gg: ASbGnctNFU/XOVdzTafO2TcmXES2v9JjQ+65/vh1Su0jyvUMeMqofGHsS+akcFXx7uy
-	AMXODu/zKsB0rf4IyRPKLnuuAmurjauLaIL+ifOX5rxiQKUON5hNYOfKDs6MfOkv7lA058fHl9V
-	vx5Gjt9GsaqzZQst8EKoRnuPpsggoiYZfi7OGcb7N86t8n5gR3jh/vTinRjg1/Dt8XmGv8aOT8A
-	VlcX07dp10Pkt+lM7XlkBTfybT1/HtZbtgBWJo=
-X-Google-Smtp-Source: AGHT+IFKl+mNI6wR9pk8mTe6XhQpHcxu91zgbkvhGRNL8mnQQxitO6ywlvRETKNFYz5XtbDGg6FxVxS3jVIrUYkUk1M=
-X-Received: by 2002:a05:690c:4b05:b0:719:3e4f:60f7 with SMTP id
- 00721157ae682-7193e4f80e6mr87894327b3.26.1752857214370; Fri, 18 Jul 2025
- 09:46:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752860662; x=1753465462;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TMuW4h5R9wmb9JcpyziWmUag0uOp2FmCAnlzztU5KDw=;
+        b=YQgCINiGWH3LIyjVzWdICB5V3fg4TrTimErxMfQVktOE4j0FQymYrHbSvOokTRSRJQ
+         K7mF+H+VBxFJaD+u5Up7IIymcxMKXz+ehi0CuhMTtQG0sUke7BGPHVjvxeYJJd6CSY8N
+         SV01RMZY5U5pJmPi6F+/GvgVVe//6DL7Cc61/9QS2fomyjMZ8P+3DDr5l+YGsj0mS0iY
+         fHXxSFtipoJitsvSzP0aSE1p6J33gSxKkrq/XVsIHcjyp01SvRwEDKBuYY9z0/GMBrjs
+         M9qdrNy9WEVfWkGUuKjMXkU0pMGvjKe6x2tWNQqnXfqNXz9jq15JHhoD76VIZ0bnU1VM
+         Qx0g==
+X-Gm-Message-State: AOJu0Yzxy2qkL2T0YcWatDWkuA8Z0TW8RYMsTeqcPgvStjORdrgDcFMO
+	+TlT8G52zPNQy0vOEQ56SA1WfzoCkgBiRmvIOsuTUe5fTaa2M/s85TGeUrSXDrbpxBY=
+X-Gm-Gg: ASbGncu6aZIh/MbTLFSe8eA6qedkmBHSdzdxt0LrXj0ro8gTObdBQ7wdw51AutsSEv5
+	G0n0athhfYEaqKnT3z2ndEV1TBtpgjZip8H63xFK6sPFjuHl+FiZpkU47KTMSd7pt8VPIut6/N2
+	13tvOUtBbU5ItssTq+Tfi0O82tm+l7KwwPl06w3WP243kZVwniCNuT6K75ZqT6bzWQN4/629WAD
+	DnW0bdzbTgX3IIlEUFSv4k66qXtfp5p8tnR/oOCpExMw/SYdWp02/WE+8ErjdU3uwlG0n5FJe7l
+	5wPRLMTjmRcC9pVZb02AjAeBiqa9M/B44RyhfzgAsILNvz0KJ/Zi+qhlXSqHzD6IGeH+qhyL5ds
+	2HzdxhG7cUn5S389Gpg97moAu
+X-Google-Smtp-Source: AGHT+IHgFRl91mCQYvg20vRmfMgfGyPJ/vucdn0gXk/rhp/mdxVNlf6fQTPq1tie5mbjURi2I/9aog==
+X-Received: by 2002:a05:6a20:9188:b0:233:f0c6:a8a4 with SMTP id adf61e73a8af0-2390dc51bc4mr15547240637.31.1752860661352;
+        Fri, 18 Jul 2025 10:44:21 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::8d90])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f2fe8b88bsm1483492a12.16.2025.07.18.10.44.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jul 2025 10:44:20 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] pbzip2: Do not depend on char_trait template from stdlib
+Date: Fri, 18 Jul 2025 10:44:18 -0700
+Message-ID: <20250718174418.12850-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <20250717044910.3240530-1-hongxu.jia@windriver.com>
-In-Reply-To: <20250717044910.3240530-1-hongxu.jia@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 18 Jul 2025 09:46:43 -0700
-X-Gm-Features: Ac12FXx1h9F0vEUl63_ozCLZWx1vffM6MS5Tq3M5wD_1o7wjbBC4vyZsAhrqPxs
-Message-ID: <CAOSpxdYAh6sA7vAcnrEWbmgFyFGb8G1r9Lj0GGL5+8sk0m-dFQ@mail.gmail.com>
-Subject: Re: [OE-core] [walnascar][PATCH] webkitgtk: fix compile failure on qemuriscv64
-To: hongxu.jia@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 16:47:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220603
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 17:44:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220604
 
-This patch is breaking musl builds:
+This implementation is not part of standard and some implementations
+e.g. libc++ have removed it starting with 19.x release
 
-ERROR: webkitgtk-2.48.2-r0 do_patch: Applying patch
-'0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x86-.patch' on
-target directory
-'/srv/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-pok=
-y-linux-musl/webkitgtk/2.48.2/webkitgtk-2.48.2'
-CmdError('quilt --quiltrc
-/srv/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky=
--linux-musl/webkitgtk/2.48.2/recipe-sysroot-native/etc/quiltrc
-push', 0, "stdout: Applying patch
-0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x86-.patch
-can't find file to patch at input line 24
-Perhaps you used the wrong -p or --strip option?
-The text leading up to this was:
---------------------------
-|From 8bee9eb95ae24c6a410f9cd614976f4653d020d9 Mon Sep 17 00:00:00 2001
-|From: Michael Catanzaro <mcatanzaro@redhat.com>
-|Date: Wed, 2 Apr 2025 15:01:55 -0500
-|Subject: [PATCH] REGRESSION(290945.129@webkitglib/2.48): Broke non-x86,
-| non-ARM builds https://bugs.webkit.org/show_bug.cgi?id=3D287662
-|
-|Unreviewed stable branch build fix.
-|
-|* Source/WebCore/platform/audio/DenormalDisabler.cpp:
-|
-|Canonical link: https://commits.webkit.org/290945.155@webkitglib/2.48
-|Signed-off-by: Michael Catanzaro <mcatanzaro@redhat.com>
-|
-|Upstream-Status: Backport
-[https://github.com/WebKit/WebKit/commit/8bee9eb95ae24c6a410f9cd614976f4653=
-d020d9]
-|Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-|---
-| Source/WebCore/platform/audio/DenormalDisabler.cpp | 2 +-
-| 1 file changed, 1 insertion(+), 1 deletion(-)
-|
-|diff --git a/Source/WebCore/platform/audio/DenormalDisabler.cpp
-b/Source/WebCore/platform/audio/DenormalDisabler.cpp
-|index 35715e663ce7..44ba08a33d5d 100644
-|--- a/Source/WebCore/platform/audio/DenormalDisabler.cpp
-|+++ b/Source/WebCore/platform/audio/DenormalDisabler.cpp
---------------------------
-No file to patch. Skipping patch.
-1 out of 1 hunk ignored
-Patch 0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x86-.patch
-does not apply (enforce with -f)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...std-char_traits-template-from-stdlib.patch | 116 ++++++++++++++++++
+ meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb |   1 +
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-extended/pbzip2/pbzip2/0001-Do-not-rely-on-std-char_traits-template-from-stdlib.patch
 
-Sample full log:
-
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/6/builds/2084/ste=
-ps/11/logs/stdio
-
-Steve
-
-On Wed, Jul 16, 2025 at 9:49=E2=80=AFPM hongxu via lists.openembedded.org
-<hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
->
-> $ echo 'MACHINE =3D "qemuriscv64"' >> conf/local.conf
-> $ bitbake webkitgtk
-> ...
-> |TOPDIR/tmp/work/riscv64-wrs-linux/webkitgtk/2.48.1/webkitgtk-2.48.1/
-> Source/WebCore/platform/audio/DenormalDisabler.cpp:95:1: error: expected
-> ',' or ';' before 'DenormalDisabler'
-> ...
->
-> Backport a patch from upstream to fix the issue
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  ...5.129-webkitglib-2.48-Broke-non-x86-.patch | 35 +++++++++++++++++++
->  meta/recipes-sato/webkit/webkitgtk_2.48.1.bb  |  1 +
->  2 files changed, 36 insertions(+)
->  create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-REGRESSION-29=
-0945.129-webkitglib-2.48-Broke-non-x86-.patch
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-REGRESSION-290945.12=
-9-webkitglib-2.48-Broke-non-x86-.patch b/meta/recipes-sato/webkit/webkitgtk=
-/0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x86-.patch
-> new file mode 100644
-> index 0000000000..191f1aabf0
-> --- /dev/null
-> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-REGRESSION-290945.129-webki=
-tglib-2.48-Broke-non-x86-.patch
-> @@ -0,0 +1,35 @@
-> +From 8bee9eb95ae24c6a410f9cd614976f4653d020d9 Mon Sep 17 00:00:00 2001
-> +From: Michael Catanzaro <mcatanzaro@redhat.com>
-> +Date: Wed, 2 Apr 2025 15:01:55 -0500
-> +Subject: [PATCH] REGRESSION(290945.129@webkitglib/2.48): Broke non-x86,
-> + non-ARM builds https://bugs.webkit.org/show_bug.cgi?id=3D287662
-> +
-> +Unreviewed stable branch build fix.
-> +
-> +* Source/WebCore/platform/audio/DenormalDisabler.cpp:
-> +
-> +Canonical link: https://commits.webkit.org/290945.155@webkitglib/2.48
-> +Signed-off-by: Michael Catanzaro <mcatanzaro@redhat.com>
-> +
-> +Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/8bee9=
-eb95ae24c6a410f9cd614976f4653d020d9]
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + Source/WebCore/platform/audio/DenormalDisabler.cpp | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/Source/WebCore/platform/audio/DenormalDisabler.cpp b/Source=
-/WebCore/platform/audio/DenormalDisabler.cpp
-> +index 35715e663ce7..44ba08a33d5d 100644
-> +--- a/Source/WebCore/platform/audio/DenormalDisabler.cpp
-> ++++ b/Source/WebCore/platform/audio/DenormalDisabler.cpp
-> +@@ -91,7 +91,7 @@ DenormalDisabler::~DenormalDisabler()
-> +     }
-> + }
-> + #else
-> +-DenormalDisabler::DenormalDisabler() =3D default
-> ++DenormalDisabler::DenormalDisabler() =3D default;
-> + DenormalDisabler::~DenormalDisabler() =3D default;
-> + #endif
-> +
-> +--
-> +2.49.0
-> +
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb b/meta/recipes-=
-sato/webkit/webkitgtk_2.48.1.bb
-> index 58d0a11202..d210b3d671 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
-> @@ -18,6 +18,7 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}-=
-${PV}.tar.xz \
->             file://sys_futex.patch \
->             file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-s=
-how.patch \
->             file://fix-ftbfs-riscv64.patch \
-> +           file://0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x=
-86-.patch \
->             "
->  SRC_URI[sha256sum] =3D "98efdf21c4cdca0fe0b73ab5a8cb52093b5aa52d9b1b016a=
-93f71dbfa1eb258f"
->
-> --
-> 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220515): https://lists.openembedded.org/g/openembedde=
-d-core/message/220515
-> Mute This Topic: https://lists.openembedded.org/mt/114198641/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-extended/pbzip2/pbzip2/0001-Do-not-rely-on-std-char_traits-template-from-stdlib.patch b/meta/recipes-extended/pbzip2/pbzip2/0001-Do-not-rely-on-std-char_traits-template-from-stdlib.patch
+new file mode 100644
+index 00000000000..21c9145a1ad
+--- /dev/null
++++ b/meta/recipes-extended/pbzip2/pbzip2/0001-Do-not-rely-on-std-char_traits-template-from-stdlib.patch
+@@ -0,0 +1,116 @@
++From c9f1af117557ad5d75df9e37bf3fbb1185f67de2 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 18 Jul 2025 10:26:06 -0700
++Subject: [PATCH] Do not rely on std::char_traits template from stdlib
++
++standard never required the base template for
++char_traits to any type but it was given for
++convenience purposes. Nowadays, at least in LLVM's
++libcxx version 19+ it got removed [1].
++
++GCC might follow the same path at some point so
++porting it away from char_traits might be a good
++idea.
++
++The fix is applied to FreeBSD [2] [3]
++
++Reported issue [4]
++
++[1] https://reviews.llvm.org/D138307
++[2] https://cgit.freebsd.org/ports/commit/archivers/pbzip2/files/patch-BZ2StreamScanner.cpp?id=29c80f114ea6cc60be39502339572af8c35ac440
++[3] https://cgit.freebsd.org/ports/commit/archivers/pbzip2/files/patch-BZ2StreamScanner.cpp?id=89f872ec2ccf488f24cd9daca2e0d1f80e7ee429
++[4] https://github.com/ruanhuabin/pbzip2/issues/1
++
++Upstream-Status: Inactive-Upstream [lastcommit: 2015-12-17]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ BZ2StreamScanner.cpp | 21 +++++++++++----------
++ BZ2StreamScanner.h   |  6 +++---
++ 2 files changed, 14 insertions(+), 13 deletions(-)
++
++diff --git a/BZ2StreamScanner.cpp b/BZ2StreamScanner.cpp
++index a134712..f32a321 100644
++--- a/BZ2StreamScanner.cpp
+++++ b/BZ2StreamScanner.cpp
++@@ -42,15 +42,15 @@ int BZ2StreamScanner::init( int hInFile, size_t inBuffCapacity )
++ {
++ 	dispose();
++ 
++-	CharType bz2header[] = "BZh91AY&SY";
++-	// zero-terminated string
+++	CharType bz2header[] =
+++		{ 'B', 'Z', 'h', '9', '1', 'A', 'Y', '&', 'S', 'Y' };
++ 	CharType bz2ZeroHeader[] =
++-		{ 'B', 'Z', 'h', '9', 0x17, 0x72, 0x45, 0x38, 0x50, 0x90, 0 };
+++		{ 'B', 'Z', 'h', '9', 0x17, 0x72, 0x45, 0x38, 0x50, 0x90 };
++ 
++ 	_hInFile = hInFile;
++ 	_eof = false;
++-	_bz2Header = bz2header;
++-	_bz2HeaderZero = bz2ZeroHeader;
+++	_bz2Header.assign(begin(bz2header), end(bz2header));
+++	_bz2HeaderZero.assign(begin(bz2ZeroHeader), end(bz2ZeroHeader));
++ 	_bz2HeaderFound = false;
++ 	_inBuffCapacity = 0;
++ 	_errState = 0;
++@@ -361,7 +361,7 @@ BZ2StreamScanner::CharType * BZ2StreamScanner::locateHeaderPrefixInBuff()
++ 			_errState |= ERR_INVALID_FILE_FORMAT;
++ 			_inBuffSearchPtr = getInBuffEnd();
++ 		}
++-		else if ( _bz2Header.compare( 0, prefixLen, getInBuffSearchPtr(), prefixLen ) == 0 )
+++		else if ( equal( _bz2Header.begin(), _bz2Header.begin() + prefixLen, getInBuffSearchPtr() ) )
++ 		{
++ 			// header prefix found
++ 		}
++@@ -416,7 +416,7 @@ BZ2StreamScanner::CharType * BZ2StreamScanner::searchNextHeaderInBuff()
++ 	while ( !failed() && ( getUnsearchedCount() >= getHeaderSize() ) )
++ 	{
++ 		// _inBuffSearchPtr += prefixLen;
++-		basic_string<CharType> * pHdr = NULL;
+++		vector<CharType> * pHdr = NULL;
++ 
++ 		if ( getInBuffSearchPtr()[hsp] == _bz2Header[hsp] )
++ 		{
++@@ -441,13 +441,14 @@ BZ2StreamScanner::CharType * BZ2StreamScanner::searchNextHeaderInBuff()
++ 				(*pHdr)[prefixLen] = bwtSizeChar;
++ 
++ 				// compare the remaining part of magic header
++-				int cmpres = pHdr->compare( hsp, pHdr->size() - hsp,
++-						getInBuffSearchPtr() + hsp, pHdr->size() - hsp );
+++				bool cmpres = equal( pHdr->begin() + hsp, pHdr->end(),
+++						getInBuffSearchPtr() + hsp );
+++
++ 
++ 				#ifdef PBZIP_DEBUG
++ 				fprintf( stderr, "   searchNextHeaderInBuff:cmpres=%d\n", cmpres );
++ 				#endif
++-				if ( cmpres == 0 )
+++				if ( cmpres )
++ 				{
++ 					_searchStatus = true;
++ 					#ifdef PBZIP_DEBUG
++diff --git a/BZ2StreamScanner.h b/BZ2StreamScanner.h
++index d3729fe..32697cb 100644
++--- a/BZ2StreamScanner.h
+++++ b/BZ2StreamScanner.h
++@@ -44,7 +44,7 @@ public:
++ 
++ 	size_t getInBuffSize() const { return ( _inBuffEnd - _inBuff ); }
++ 	size_t getInBuffCapacity() const { return _inBuffCapacity; }
++-	const basic_string<CharType> & getHeader() const { return _bz2Header; }
+++	const vector<CharType> & getHeader() const { return _bz2Header; }
++ 	size_t getHeaderSize() const { return _bz2Header.size(); }
++ 	int getErrState() const { return _errState; }
++ 	bool failed() { return ( _errState != 0 ); }
++@@ -125,8 +125,8 @@ private:
++ 	int _hInFile; // input file descriptor
++ 	bool _eof;
++ 
++-	basic_string<CharType> _bz2Header;
++-	basic_string<CharType> _bz2HeaderZero;
+++	vector<CharType> _bz2Header;
+++	vector<CharType> _bz2HeaderZero;
++ 	bool _bz2HeaderFound;
++ 	bool _searchStatus;
++ 
+diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+index f95400998cd..063f600ba9f 100644
+--- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
++++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+@@ -13,6 +13,7 @@ DEPENDS:append:class-native = " bzip2-replacement-native"
+ 
+ SRC_URI = "https://launchpad.net/${BPN}/1.1/${PV}/+download/${BP}.tar.gz \
+            file://0001-pbzip2-Fix-invalid-suffix-on-literal-C-11-warning.patch \
++           file://0001-Do-not-rely-on-std-char_traits-template-from-stdlib.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "8fd13eaaa266f7ee91f85c1ea97c86d9c9cc985969db9059cdebcb1e1b7bdbe6"
 
