@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F8F0C83F1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A935AC83F3C
 	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 04:09:19 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web10.13146.1752811752278699527
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.13147.1752811753450671719
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Jul 2025 21:09:12 -0700
+ Thu, 17 Jul 2025 21:09:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TjOANeZL;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-315f6b20cf9so1755766a91.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 21:09:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hxVa9FHW;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2349f096605so18868435ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 21:09:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752811751; x=1753416551; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1752811752; x=1753416552; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eGR/XgjEKvgyGFlnRKTl2QJYC7BaaPVbUo1r7O5u4sU=;
-        b=TjOANeZLpmwQ0roFeuvF0xjsgm2qseJn5oVuICHv5SXWIoI5Ppj4S1f+ZJbX8ygIRi
-         8PKcJ61iJYNZm3s4LbDwAsacHv/JOii1xkPq5edAxXIXdiF2fXNdXhZYbhaFL2/FcNQm
-         72kTwz/rMAUuTPnPKEXt2PtNDRzFlLCQ9MtRfLWYtxJkFVFQO4tZeVBP2UydAd0Cr8Vv
-         5g81EjAAlKT/qY3OBlxQQwo5nFNWpOzllwWb5kXR9VC8dztP4Y2XNCpt+W4Od3L2degW
-         0/6iAQ165xyruSP+gLEBP5mEst2fwsbnFXAwEWLAJ2omjeFrs9GkDoKBnMeNKIYXXo/5
-         WfHw==
+        bh=1jOEFZVcxQwAa6Ugz9JhDQvKFu5EVMjyntOpFxXATVg=;
+        b=hxVa9FHWH08CdcByJ+Q6twetwANurMmXAB46DU5Lf5GuNaAUgZYdEACyXl4q3FN8cl
+         0J5va/cL9gGIyZLal8SsgZJOaUf3b8RNpEdHegO1fsEMEBYdveSEQxeMBF+2QqITZJBU
+         WeKv13CC7YFqIXKza5R125tEFZana3mhDFiyOr4cRUo581nqF6shitKK0ctvTNFyNJ9z
+         ZYNFLrAaCOo/GqMRYGzLQfTi4zO5Ue+Fk1k2yqZzZXrXGhFpMEwXSs/LlZ0BD9NgWq+5
+         hjc8sbhBvz79IOWTsDI8uhx/5ARC5td4un6rT3tBJE5ObepBPzDjjs6hU2/POqYWCV+e
+         X4jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752811751; x=1753416551;
+        d=1e100.net; s=20230601; t=1752811752; x=1753416552;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eGR/XgjEKvgyGFlnRKTl2QJYC7BaaPVbUo1r7O5u4sU=;
-        b=C1KpbnBWbTwo0DEQrkQtexxAcaO42lyB74FcTjngF531M5Tdm6BxOAidjoqkbpYOyi
-         NxYRCfq/Eq/nv18YOXhCSRVsTxbhFWxtxRGLwWfg+7PlMITrE2s1Oc717TJRE2ZNdwTH
-         hYCAO/GAQqLJWtevomm7+TPrqTRcKI5ZvaTM54C3vO30QiYUnl1bgko3n5pHCrFDjf68
-         A1lBJVAQqNocfgy2yoQkAaaHAO8ShgMtfeNEzFImm9G5574rDq71BRPq5kmZE7LpUazh
-         PvYRJTU3zL+cnsZ0EZ2L//aYLJB28zMtSi7nrERnHiIVFv+8CYkmoyOtWx4Pi8V3vhmg
-         CbYg==
-X-Gm-Message-State: AOJu0YyfaN+B319QGFD8vik6/F0gvZrJialIlN/5GmIZz305kmf+6fc/
-	VDdn3y8ybCI817LWDjld4LWGCDi4CTjz+OfXrkBUZUkS4qResV0GnuAHJmS4AmzYOEU=
-X-Gm-Gg: ASbGnctZ+HKrWl28/nLFWoxif58utmHH4LXph4DY7+ai0Y890fhAi0Y6Ey7f+zAXRL6
-	d3g9sLJMsyMwu4NRjeWmJQ3AFy1XUx0JIP9yXE9LXI1E0Y04F60jJ4t/mpu7zvF7RS437JBGoug
-	pWmCU11bcUwdhZkr3cim3ExJRxHZk8BECGuE+YfEkT0km432Ik1hI6e4+jU085csZY7HsS4LoOK
-	x4EOEgKziEWSeBiKYc4ZSGcaXyTIEa0PqXblNg2wme48BYmbJrUlAsh8pclz53LOKCcwYzsVup6
-	ta/fvdBVJ/wn+eEFzGamqu+NOBvslLf09+7HSQo2e5q59Vx0Bhfhi0nLwuS6XcG6eBaDsHS57ae
-	raWffpXL3BXM1eSnXrjb8/jsB
-X-Google-Smtp-Source: AGHT+IHPfAwe5M6yTgE0qNxQ9g+B2wIlFC5LSjOkZ5gduMh2sabmunVbF9xyihReUE9n5E+452UZjg==
-X-Received: by 2002:a17:90b:582e:b0:313:23ed:6ff with SMTP id 98e67ed59e1d1-31c9f398d46mr11278304a91.1.1752811751222;
-        Thu, 17 Jul 2025 21:09:11 -0700 (PDT)
+        bh=1jOEFZVcxQwAa6Ugz9JhDQvKFu5EVMjyntOpFxXATVg=;
+        b=e4/EKhuucEHCPe/PNuUA4IfL93Fjgpc+BSa4eFlVrZZOD8A2HXaMdoknFh0fOo8WdE
+         qBVfjSEii/Fe8olsW+ndKIwKPTPAe7OoNS2qJdzxHezK8fGP9IZDU0eMx9Cn6GjqmTBQ
+         1yscnvySpSmcEmSlJ+EkqaC8+1mmkHV6lGMEtT8QuzZYpGldQ5Nv12B1vt7Y7E0DD/FE
+         aYhkItxnoI931ZlVoqDTISn+3mHZzbDqVhmkMj7EThOyrrJVm3HGP2lNqzG1RlyFvMcg
+         Jlb1zAR68mG4X+iJrTkztWBfkvuJl/Z4Yby2Z2gDvehMcNz0W96Ynb+k38gZQXjDdKdv
+         yyCg==
+X-Gm-Message-State: AOJu0YxfBqpD95WJm2b2WpCcQFXGuPf+yCcD7DScSNNr6klaS13gg9uh
+	rgL2AOUXv9EtR28rDZXaGROlw0ZZtf2R6W6LDwHUDcoJm2CcefiiyHOSplsbAstmYmE=
+X-Gm-Gg: ASbGncv8RsGJDhCRUA/+V3t8DnmO0rjqfVlWpAe9ETcISoNm1k4nP7b7mxI3+j34v7F
+	KuHNbxbJk6ucvxZQNIxyVM6MvnsW2hnrvgC2xWoKoqZUBeBoLc6W01P/bV6khdFu7JyEQVjj37y
+	23Bd1qSCsXjCF5W0r3PFuBksDTiFRME06yjg5qy1XolL0wIDz393iIdBlqN3ZnZQyVJUX7NXfaf
+	9rht+SwXCpThhThtD30mh2wk6vsr62hVusQNtCiBbF7X2PmVLNJpn9sOxHkYWgSA2Zi8/vpcY7o
+	wgL1vv+CBFFmn7+V/s08JSp1Syhthd1dUirwk76rZVkqm+r7XIXrr+q9hcX/gxehY8AxMIQMYlT
+	Draimh+rwJ/W5+jG6/neMOBJd
+X-Google-Smtp-Source: AGHT+IE0g02tcTxMiOMWJjhrbCbcIpI2G4pEgDM9ztCvwlqdvJOHWDI7QravaICUSwgC0ET6XBhV7g==
+X-Received: by 2002:a17:903:2441:b0:234:a44c:ff8c with SMTP id d9443c01a7336-23e256cd198mr105635595ad.18.1752811752416;
+        Thu, 17 Jul 2025 21:09:12 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::519c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f2fe8d14fsm417157a12.26.2025.07.17.21.09.10
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f2fe8d14fsm417157a12.26.2025.07.17.21.09.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 21:09:10 -0700 (PDT)
+        Thu, 17 Jul 2025 21:09:11 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/4] clang: Default to use lld if ld-is-lld is in DISTRO_FEATURES
-Date: Thu, 17 Jul 2025 21:09:05 -0700
-Message-ID: <20250718040906.3591603-3-raj.khem@gmail.com>
+Subject: [PATCH 4/4] clang.bbclass: Add clang specific ldflags and dependencies
+Date: Thu, 17 Jul 2025 21:09:06 -0700
+Message-ID: <20250718040906.3591603-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250718040906.3591603-1-raj.khem@gmail.com>
 References: <20250718040906.3591603-1-raj.khem@gmail.com>
@@ -67,26 +67,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 04:09:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220568
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220569
 
-This ensures that default system linker is used correctly based upon
-distro features, current default remain same i.e. uses BFD linker
+* Qunused-arguments option is needed for making clang not error out on
+  options it does not understand. This is required for some packages which
+  might be using the gcc-only flags. We still want to know the problem but
+  let clang ignore it and move on instead of dropping out
+
+* Add rpath defaults for nativesdk recipes to let nativesdk packages use
+  SDK sysroot correctly
+
+* Add clang-cross to sysroot via POPULATESYSROOTDEPS to get llvm tools
+  e.g. llvm-strip, llvm-nm etc when they are used at default STRIP/NM etc.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/clang/clang_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/toolchain/clang.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
-index ed6e2d7da7f..1210ca92de1 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -54,6 +54,7 @@ def get_clang_target_arch(bb, d):
-     return get_clang_arch(bb, d, 'TARGET_ARCH')
+diff --git a/meta/classes/toolchain/clang.bbclass b/meta/classes/toolchain/clang.bbclass
+index d7b8a3657c6..f7e3e7435f4 100644
+--- a/meta/classes/toolchain/clang.bbclass
++++ b/meta/classes/toolchain/clang.bbclass
+@@ -29,9 +29,13 @@ PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian = "clang-cro
  
- PACKAGECONFIG_CLANG_COMMON = "build-id eh libedit rtti shared-libs libclang-python \
-+                              ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', 'lld', '', d)} \
-                               ${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compiler-rt libcplusplus libomp unwindlib', '', d)} \
-                               "
+ BASE_DEFAULT_DEPS:append:class-target = " compiler-rt"
  
+-TUNE_CCARGS += "${@bb.utils.contains("DISTRO_FEATURES", "usrmerge", " --dyld-prefix=/usr", "", d)}"
++TUNE_CCARGS += "${@bb.utils.contains("DISTRO_FEATURES", "usrmerge", " --dyld-prefix=/usr", "", d)} -Qunused-arguments"
+ 
+ LDFLAGS:append:class-nativesdk:x86-64 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
+ LDFLAGS:append:class-nativesdk:aarch64 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
++LDFLAGS:append:class-nativesdk = " -Wl,-rpath-link,${STAGING_LIBDIR}/.. -Wl,-rpath,${libdir}/.."
++
++# do_populate_sysroot needs STRIP
++POPULATESYSROOTDEPS:append:class-target = " ${MLPREFIX}clang-cross-${TARGET_ARCH}:do_populate_sysroot"
+ 
+ TCOVERRIDE = "toolchain-clang"
 
