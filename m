@@ -1,237 +1,426 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D36C83F34
-	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 19:54:56 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.55])
- by mx.groups.io with SMTP id smtpd.web11.7379.1752868490009786084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06458C83F17
+	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 22:10:52 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.34.1752876646457733464
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 12:54:50 -0700
+ Fri, 18 Jul 2025 15:10:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=TVRW4Sn6;
- spf=pass (domain: siemens.com, ip: 40.107.130.55, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BhRsmc7tn6Nvd2ur2WD573HQxXC8W+1mBUZwXMFTLKEPhAwNnnMyn1Ks6Pj6H8q31y9EgpH2qA94ZrhqvWVtsiog6KZlSd5PIHOjV9BJjEvBk8hZw7Dq67tkfHSEwe4bb7kut8gBvzr9EcsgQ5FH92wMNKWe1Aa4xKwKq2cclFHPeimdpHLWXmiCwAkjIzPyWedLsQZ8xiEYhlY2wotnWilhp4MDXt5VmeLa6P4c6x6EgGXZ9829fgz5pjwRX1ZEmPisWcpiDzUmTVB5Z4aQimFFx1rsLbnONv4OiptDagUs7h98cGgc9vTzSsf5Y0VsI7yCsChcnTTNhh/10dfjzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aLCSMp+lQRS9PxhjF0vrX/VSobfVck4pdB/8ZcvVqN4=;
- b=agVabR0omrHHjsYLO7bk477Pp0lm0/CQlljT6+2q7dE4z6OYsBYfA3Idsj+BbDeGIZsxSqQifIrPsazfAyFPltRpX4MGHEDpQvd58H7PikfIVi2Vee56F4QwoDBKpB5mz92LRtHoK2LGwvV/r07XXG9i5TuljPeV82goB7vrt6uC5Sz5Ma9nZNpTfBtuIE9NkIsro1aiakpsjy3wmGtlxEuDjiKh3Ar9L9rsemo4x+nAyyr1ATdSRnzIjvxM2u9B3XDiWm8t8CGKJ0SVTJ8bl/O+Wf1XgYL/vKd55dotEzXzOp4ywTD3jLz8jyuQlmw+1E6rX4JqD4Q0ooZ5OU9sPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aLCSMp+lQRS9PxhjF0vrX/VSobfVck4pdB/8ZcvVqN4=;
- b=TVRW4Sn6+KW5WZtSCc9urYjWTulwfIOe7cj6EILsCKHITKv8Xcj4HQcsWAjZPmfkwFEpxmRV2+OTMUa4mHLRnH0hqYsjT1d+b72eS8XXmiqsR6BrnI/9CCIfs8BVD85MBHlxSLlH1N8aezVtJpZ5y/63IkB2gOwUVm8qMiBZJvjho96RqMZZFBx7ZtfTlwfz/p9AF6DjzCdwpDfqqQbVweB3PMsB9FQ5Bwt2NAjidUxkQyLkJf01E00K6nLyw75fS2R/E26ELG4FgI5cPTz7djgnCKXUhSCA2GiI7D+yZwxURODH/5f68qkijOFe4PQYh6Q0Nh6YzV/26PsVq0qrCg==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by GV2PR10MB6067.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:af::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.25; Fri, 18 Jul
- 2025 19:54:45 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.8943.028; Fri, 18 Jul 2025
- 19:54:45 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Steve Sakoman <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][scarthgap][PATCH] openssl: upgrade 3.2.4 -> 3.2.5
-Thread-Topic: [OE-core][scarthgap][PATCH] openssl: upgrade 3.2.4 -> 3.2.5
-Thread-Index: AQHb8eedtMlfA8oq0UG8LuSoJVGjU7Q1S4mAgAMLD/A=
-Date: Fri, 18 Jul 2025 19:54:44 +0000
-Message-ID: 
- <AS1PR10MB5697C8676E4108C35A09AC3AFD50A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250710221053.2418550-1-peter.marko@siemens.com>
- <CAOSpxdYxCkPfndRGWQpjAjMYhO3PEnNg8hhSGpxhysLmc-oMcQ@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdYxCkPfndRGWQpjAjMYhO3PEnNg8hhSGpxhysLmc-oMcQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=e6383fb1-0903-45ba-8527-883bc15b61f2;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-07-18T19:50:24Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV2PR10MB6067:EE_
-x-ms-office365-filtering-correlation-id: 625ccdd0-bcb0-469a-d968-08ddc634f19e
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|1800799024|4022899009|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?THN2U1NiaXc5RzMrSlN3WG9Qa3d5bWR5aEI2TlJrb05YNmF3cEs1WExjZ28v?=
- =?utf-8?B?b1lEeWtja25HWHI5U0dZZFF1M2xhbWo4TGhoSGYzdW1xOGZHcTlta2hDYlNT?=
- =?utf-8?B?SFpVenlDU0RTZkxlUkEzTTJjaEE0S3ZuQU5UdGZpNjVHdExFK3V5MHZIOHZE?=
- =?utf-8?B?eDh5SWJ5Q1piNDZHV3B4QzhQZUg3R1RHaEF3cXBDT21NZmxydzlMSm43Vkdj?=
- =?utf-8?B?S1RRYklhWTk5MzJ5eHFXbkszdk1Xa3dVZHNaemdseXBEVEF4eC9oOXoySU1D?=
- =?utf-8?B?bmsrY3UySGJsQU0rMzhaSzVrRGdPWGJmck5JTVVDbitSZDhoVXpTL3pPaWV4?=
- =?utf-8?B?VGx4bGZGWEhUWjFLNk9yeklDWUpFS0o5Y1MwbnJ0VFRkcWZqeTdOM2x3ZjR1?=
- =?utf-8?B?MEVlOUZXYlFjV2FsdVlFN3BHQkN1cmEraWJoaTJ2NXh6eXpRZ09INndNNzho?=
- =?utf-8?B?OHIrVisvR1VPc0ZaaVRySDZZb3QvQ2lyTkYySmk2aHRHUGozTnBZTFRITUhq?=
- =?utf-8?B?U0w4V3VEeWxjeGU2Z3JKTWFPNE9CNGZWMUxuTUwyZGgrdjdGUkJUL0VLQnpF?=
- =?utf-8?B?SzA0b21PSmUxM2phK0g0MThZZndiV2VkVlVhdW9qQTlCeG51aER4Y3p6Q1Nk?=
- =?utf-8?B?T1JWaVJSdVdWMmx0M0VKejJJellISTkra3grUFJaTXZrdmRVeUlZRTZUcU83?=
- =?utf-8?B?dlArN1UydDRVWXpKaUxDdk1udlJySGVOUlpobFEvb3JrRjlSeUxxVTN2Tnlw?=
- =?utf-8?B?T3lYTWY3cmR3ekxwQjdTVVppR1hFaU5QZTNOM3dMcEpUclMvMmVkV2JpWmxO?=
- =?utf-8?B?QlZQT1FxUFNhVDRJOCtpbWVxc3U4cnZTRUwweUlEOG0zbWVOWkpSTkxvR1p3?=
- =?utf-8?B?UTAxMGs2VkNiS1pIa1c3M2E1c2dlL2JSd3Z0V1hKcVhJZ0lwRHlxbTgzVmVO?=
- =?utf-8?B?MWg0T3FtZnNIbUwwdWExQ0tGcVM4SXBHL21TODhwd0tuZitzMEN3dXhiUGkv?=
- =?utf-8?B?M2MwTERkWHJyb0Vpc0tnTnR3RG9NcVRiN1BpcjBNUUxlbGtCcm92bFBNV0dm?=
- =?utf-8?B?N0RLVmtUU3Rham9xdTkxaTcySDNQWW5ya2VPTkY5ZnAvb3BzWWhPaStrVjVk?=
- =?utf-8?B?cWl0Q0ozbFh5QjVGMUtGZEQwZURzWEh1R0NtWjM5dDJDUDExUGRKVTBFQU42?=
- =?utf-8?B?bDZnOCtVazY5OTBoeHhPTW85SDN1VjJ0UnVBcmZHVGJOeTJrRG91VU5tVVBQ?=
- =?utf-8?B?R3NzV1ZCbWxocUVYUHhjSEpLWWp5Q25GWU1Vb2U2Syt0RFYwUDZlbWcxblpS?=
- =?utf-8?B?MCtJYzVxN1U4RHlMTmYya3UvbHlnY3ZQV0srWmd6QjdkTWhuRXpYSjEzM09Y?=
- =?utf-8?B?RGhpdlE3cEJ0NmlnRHBSbWtOYTJxcXMzTTRYaEJVV1l1UndFbVg5eXZya0ds?=
- =?utf-8?B?TXo3Wit2bm9wdXNVZkNxbVc0Z1lnR25pSVh2cjFUMW9PUVNHZGpSdDk3dCts?=
- =?utf-8?B?N0ZHalQ0VjkzZCt3cXFzZXRQeU9nQlFGaXBtcGw0cVdlRmUzcmJUZzJMdVdC?=
- =?utf-8?B?cGVSVXRDVG0rVldtWDlndUxsa3E3dXdMU3RwMUd4WElEa1M2TWVrMzk5WDdE?=
- =?utf-8?B?c0x6cnUzK0FyY3FabnZLMnJCbDBGSEk0YzJKMGRqSGh5alEvT204SXViS2ZM?=
- =?utf-8?B?ZTU5cTRVWko1a2hmbVhjaUgva0NVR0VNZkpTaG5XQmJwZHFqaWFBRWM5b1c0?=
- =?utf-8?B?TUhUK2hIbGlHZlVIVnk0YWxnODVvMkFWRWFmUlpPbzBXUlc4UEdGaGZUZy9p?=
- =?utf-8?B?WFJ2SytZVHQ4SXZDbFFSR2ZLd29oQVFyRGxSSEM1bFhMMVQ5OWdHY3M4bThD?=
- =?utf-8?B?RUxDMGZ4bUYyWm1SYlYyKzNKZmgrZGlCQXVCVXg5a1hqYS8rSWdQeHRsNkds?=
- =?utf-8?Q?W/pJmxFk/MM=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(4022899009)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ejJSSndQRjZHREkyMVBUWC90T2M1MStvVk5tdHM5N25tNVcvWFA4TTRMLzBF?=
- =?utf-8?B?dHEveHZ5RlR1NUMvS0RWU1dYYkJTMFRmUG1rMzRaRFdxZnVoTllMRU9Da2Ru?=
- =?utf-8?B?cm1ueWlTNGxLWkpxdXB2Z2RXUDgydnpTSXo2WDI4eVQyWHNrTHV3OWFMUTNT?=
- =?utf-8?B?L1V5ZWl6SzhTUmJOdkQ3R1FMWWwxWHlSN05nMjBONFRYVC9VQ2V2ZEpOREc5?=
- =?utf-8?B?WGg0Q1BQTUZQWlhZU2RaTk03RC93ZnJSMmlHWWg0T2ZON2F3d0oxclNWYUVW?=
- =?utf-8?B?VnMrNUxmN2NDakNBczJvVzVXNW1IMGhtNGFoNVpQdjlRMVpIU1BJWTN2SHRC?=
- =?utf-8?B?cnhINlJXd0l4RTdFa3N1MG5Kc0l3WW5mVHdBVzBzaytXejl4bUErU3hsNXln?=
- =?utf-8?B?YStac1V4b3psMDFmemdmY0hOazJwbTkzNEhzTGt0WHB1bWJDM1pTK1Zoci9z?=
- =?utf-8?B?TG5sc2VQbmVZQnR6OEFWVE9RNDhrNkJGS3g4cEtCdU15REhMaFg1MjgwSWtV?=
- =?utf-8?B?Sk1IVDM1QlltWGQzU0JsSllEMWhkblBGeFhmbFVINlZXeFhDa0tpSHZlOHNW?=
- =?utf-8?B?WTJuK0wxU2dPZG9PbzNscTF5UGFwMzZ3ZUljZU1mcnZ3d3JFNTlieFRsQVlQ?=
- =?utf-8?B?VlRNZHVEdXZiZklDd1NmRVlITmtWQUp2ZWdEMlYrclUyenRiOGFSTHcybFZn?=
- =?utf-8?B?bnhIdDk0Ykd4Ri94UVRwS2lnU0dKM001eGtDUU5DZlhES1BnVzM1MjF6L2dQ?=
- =?utf-8?B?eFpNY3dpeUpTSE5MWDlTaFB1cC90STNZeHdDeVloZDFGMG5BUG51Zno1Mkdx?=
- =?utf-8?B?Uy8rbnJobEZET0xCSTc5VW5lTXRBQVFrbUpFRlEwcUFva3NmK1Bac05BaHg5?=
- =?utf-8?B?UXQxWlAzQ3laaGVVYWVGOU9hVGZxMVhGS1ZwVWJYamRsQ0VNRFFwVU5MZFN3?=
- =?utf-8?B?cmEwK0h3RU1XS2tUaW1zMVBYbGhobFFaTGpCSnMrNndDaGlNcDRuU1VySFdk?=
- =?utf-8?B?TStDdFNDb2IyeDQ0aU92QUlNSHpOUzh4ZWlBbzEvS2lDMzExT252MkFma0Nk?=
- =?utf-8?B?aE9JTm5ReWl4VmRSNkU3eGFsS3JyRkdVcHBkK2QrZWI5YnZkamh5aEFSM2tH?=
- =?utf-8?B?Z2FJR3hiUW5xSFgzc004RGNwbFlzNHJGb3Z6ZTYzN2RHaE8yai9BY0pGTVNt?=
- =?utf-8?B?VTFiaVZ6SldLTVdUY0hFc2VVMFRhRkRaTDFWQ01xWi92RWpvb2xmdENEbmND?=
- =?utf-8?B?a2NEMXJRcVVtTHdsV3RMMHR1UmE2QjZ2RGo2bVpNTXkxRUNqQ0U1SVJQWER2?=
- =?utf-8?B?VzFCUWRFdjY0SDlDOEtBWTRwdzM0WEM1SFdGVklxeFZUTE8zak0rY1pQNGZn?=
- =?utf-8?B?QzNrUEhnd2VXR25mTWJxMW5YVklWaEVuR0g1a2xGek5qQ2dYbjMvT3N4WFRV?=
- =?utf-8?B?a1R0dmV2Zm1SUllGSW9nOGJOcUcyZEV1WkVRTUlLNVJLQUN6SGlWeTIwKzBm?=
- =?utf-8?B?d2tZLzBRTFl0R0RJMmcyYW1HSTZGS2Yzdk1MK2VwOG96Z1FZM0FSU0VMTFJL?=
- =?utf-8?B?NzRKVUlXb3BQd1g5Tmo5WkMrVjNnVkZOVXdTQkxhMkIyN3JvSEI5VWxzNFRX?=
- =?utf-8?B?N2t1azl2am1CY2J4RHVWckNsUFJONlJHaDdiZjZvU1dZSzcvZzZ0OHpnd0tQ?=
- =?utf-8?B?S2J2cG5GbEV5dDBza3hpd1FFRGFVZkNZd05BVWNYakszVGdxK0UxUnVJUmpq?=
- =?utf-8?B?SzNrQThsbzBtVVJyTDhuMEtReXp2RmhIaTdERGVyNDRjMUpPTHVWMmFHNjND?=
- =?utf-8?B?TEFWaHpaNDZyS3pYRjRDdks0SU8va3dqZXloYzJ0U000RG1UN3VYVW42cEpT?=
- =?utf-8?B?aEl6dXIrVlZCNVh5ZlZVbytOdGVyc3hDTkRLcGFsWkVLOFpMcTZwRnZZdGFB?=
- =?utf-8?B?aTdXYzBsb29meHFINjVkOThzUVRzVWM1NEdzWjdEM3J1bEN4K094T2FTeWVZ?=
- =?utf-8?B?VW41WTlSUXVEOXJGenYvTWE4VnZwN0dOUTdXYkhOUHh4TzF2dE5BTnpRNjBV?=
- =?utf-8?B?czdLT3ZwNUN4VVhWSlV4NEh0c1NzU2c4L21FVXkwNnhvS0FhR2JyS1FkYjEy?=
- =?utf-8?Q?4MzBXGvmSFSzkT0ceGg5eV9e0?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TWt3OOeY;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-553d2eb03a0so4477146e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 15:10:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752876644; x=1753481444; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zS4NKVkYL4AOxFGOAECg9lfvXM4R8KvienkVep7hx0c=;
+        b=TWt3OOeYnJVF4ir5cCmIe/uiA0URobevhAqCksqENoQNdXhUhZf6Mp4D+Do7azmOhH
+         t4IO1FVYR9iSlB7FjSjrh9PyFgtZ/IzgIHHNYoU3Fk7yMLfeuhNXntBSR2RVPQGjK9yW
+         41cC06edYUEqG5qxu9u3exDJDsgPjXItvcBdnDEaHeKd6PrTJx6w4D1yl+zWp0KKf+1m
+         wUaUZC8zQAhgl9kMF8vPp5ZSIB2A4PDKxcVVI/16yxADBoXqwT+PDzx5CZpENEQwSiCj
+         zPgawnKxHrGzoe7F+mEqlXt6CoviR42Fy6qsE9otyuiLAJPk/kUhQR3HsZYeZqT7cdtQ
+         7AEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752876644; x=1753481444;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zS4NKVkYL4AOxFGOAECg9lfvXM4R8KvienkVep7hx0c=;
+        b=sTz4NeFLFzDrZHqO23mQmHG/4CKN4snAjbzJkZ2WTSm/4LARS+2LrHhX+bA+AGQbo9
+         vDP5p9AT8jsOuHWY+FvAT5VWebf6cQatQjxeChBn8jOKyvCM9lZSkHdM9stiwmVMPGJk
+         8fA9WRJvoCw8HQ+NTCC4peD2PIFOuJ1Fo2xbdyXT5yeDIfNoW//imLuWbAwUDqA+i9nE
+         QEN0TZxh8/QLHYkYsJD0ohX9i5ZJd+YgN2EUdCJUF6WUETaS5u3/FI/Tce+u52Z8x7O3
+         hCufoNMGeKEXwwFjLhlt4AOI/KUygHDt+ajd+h1LZZE0HC/nvXSzwlI6EjL4ZlmrV1g5
+         shMg==
+X-Gm-Message-State: AOJu0YwURU91dxZi2wgqEGuy0gcKvRGhcqTqBMMIlEullkIXo107jAh0
+	QN9erFuyMBpSphVeE6B9Hr6EzxIhRlOmtUYELey9PwtfbVU2aAOxRz13oyzk1Ney9LeGiDTo4Mn
+	PffaM95pA5F22QboG+W7B5ySMPrqmHuU=
+X-Gm-Gg: ASbGncuNIMsTIeWtAYe0PoesJXgeYR/ngy25oBaytA640y/5AZ/KeXDLykOBihfeDR3
+	N1FuEegqlBK2O50e6oZBIz6WmTHmjUFJ+zc7sIy+Ct+ZIbtef6CWokEc5BuCPrFJD6E1TWQwbhC
+	TWF89SU6J4x1Mqw7gAczkTXnbuXvsTQLnTCCwmDRre4CQ2C4sfMklu4Inmcb3LlsK6fXnT7ULjl
+	V6uBXLUrt+Rs34vcqLEll1Q3wuJccrT
+X-Google-Smtp-Source: AGHT+IGPqwaqMwq0QLvmGKDtdngsYJC9NGXcdPgxZzNlgy56LWxoAAYm2546CgsX8DxtiYBcaIPTv6kYCyouuJtMguU=
+X-Received: by 2002:a05:6512:10cb:b0:556:fb24:6f85 with SMTP id
+ 2adb3069b0e04-55a2fe50a35mr1322901e87.22.1752876644019; Fri, 18 Jul 2025
+ 15:10:44 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 625ccdd0-bcb0-469a-d968-08ddc634f19e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2025 19:54:45.0296
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ikgqZH7srV2h6YTvHDWq65TESiIebpVS6TFAC/xxBvnJCQv/RMV58AwYhXzKeX/Zj6kO3kY92Cqtg4NKyh2/zQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR10MB6067
+References: <20250716090517.481832-1-kamel.bouhara@bootlin.com> <20250716090517.481832-2-kamel.bouhara@bootlin.com>
+In-Reply-To: <20250716090517.481832-2-kamel.bouhara@bootlin.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 18 Jul 2025 16:10:31 -0600
+X-Gm-Features: Ac12FXzRBAqF8x4uctMnDOeTVv3iwPk9z2stYOyREgY7xldCccS4O2oCRqNjbpI
+Message-ID: <CAJdd5GYRkptevcv0+4U6fQmVa-MxzB4EbdX=GtfE-21x3rkzEQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] spdx3: Add optional kernel configuration export to
+ build_parameter for virtual/kernel
+To: Kamel Bouhara <kamel.bouhara@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, thomas.petazzoni@bootlin.com, 
+	mathieu.dubois-briand@bootlin.com, antonin.godard@bootlin.com
+Content-Type: multipart/alternative; boundary="000000000000b3b363063a3b65bc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 19:54:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220605
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 22:10:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220606
 
-SSB3YXMgYSBiaXQgc3VycHJpc2VkIGFib3V0IHRoaXMgYXMgSSBoYXZlIHJ1biBweXRob24zLXB0
-ZXN0IG9uIHRoaXMgdXBkYXRlLg0KKGZyb20gZXhwZXJpZW5jZSB0aGF0IG9wZW5zc2wgdXBkYXRl
-cyBtYXkgYnJlYWsgaXQpDQpIb3dldmVyIHRoaXMgbG9va3MgbGlrZSBiZWluZyBmbGFreSBub3cg
-KGFwcHJveC4gMzMlIGZhaWx1cmUgcmF0ZSkuDQoNClNvIEkgZ3Vlc3MgSSdsbCBoYXZlIHRvIGJp
-c2VjdCBvcGVuc3NsIGNvbW1pdHMgYWdhaW4sIG5vdCBtdWNoIGZ1bi4uLg0KDQpQZXRlcg0KDQo+
-IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFN0ZXZlIFNha29tYW4gPHN0ZXZl
-QHNha29tYW4uY29tPg0KPiBTZW50OiBXZWRuZXNkYXksIEp1bHkgMTYsIDIwMjUgMjM6MjINCj4g
-VG86IE1hcmtvLCBQZXRlciAoRlQgRCBFVSBTSyBCRlMxKSA8UGV0ZXIuTWFya29Ac2llbWVucy5j
-b20+DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1
-YmplY3Q6IFJlOiBbT0UtY29yZV1bc2NhcnRoZ2FwXVtQQVRDSF0gb3BlbnNzbDogdXBncmFkZSAz
-LjIuNCAtPiAzLjIuNQ0KPiANCj4gVW5mb3J0dW5hdGVseSBJJ20gZ2V0dGluZyBweXRob24zIHB0
-ZXN0IGZhaWx1cmVzIHdpdGggdGhpcyBwYXRjaC4NCj4gDQo+IEhlcmUgYXJlIHRocmVlIGV4YW1w
-bGVzOg0KPiANCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmll
-Lz8jL2J1aWxkZXJzLzczL2J1aWxkcy8xOTEwL3N0ZXBzLzEzL2xvDQo+IGdzL3N0ZGlvDQo+IGh0
-dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy92YWxreXJpZS8/Iy9idWlsZGVycy82
-MS9idWlsZHMvMTkwMi9zdGVwcy8xMi9sbw0KPiBncy9zdGRpbw0KPiBodHRwczovL2F1dG9idWls
-ZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvPyMvYnVpbGRlcnMvNzMvYnVpbGRzLzE5MDcv
-c3RlcHMvMTIvbG8NCj4gZ3Mvc3RkaW8NCj4gDQo+IFNlYXJjaCBmb3IgImZhaWxpbmcgcHRlc3Rz
-IiB0byBxdWlja2x5IGxvY2F0ZSB0aGUgZXJyb3IgaW4gdGhlIGxvZy4NCj4gDQo+IFN0ZXZlDQo+
-IA0KPiBPbiBUaHUsIEp1bCAxMCwgMjAyNSBhdCAzOjEx4oCvUE0gUGV0ZXIgTWFya28gdmlhIGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPHBldGVyLm1hcmtvPXNpZW1lbnMuY29tQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0KPiA+DQo+ID4gRnJvbTogUGV0ZXIgTWFya28gPHBldGVy
-Lm1hcmtvQHNpZW1lbnMuY29tPg0KPiA+DQo+ID4gUmVsZWFzZSBpbmZvcm1hdGlvbjoNCj4gPiBo
-dHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL2Jsb2Ivb3BlbnNzbC0zLjIvTkVXUy5t
-ZCNtYWpvci1jaGFuZ2VzLQ0KPiBiZXR3ZWVuLW9wZW5zc2wtMzI0LWFuZC1vcGVuc3NsLTMyNS0x
-LWp1bC0yMDI1DQo+ID4NCj4gPiBIYW5kbGVzIENWRS0yMDI1LTI3NTg3Lg0KPiA+DQo+ID4gUmVm
-cmVzaCBwYXRjaGVzLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVy
-Lm1hcmtvQHNpZW1lbnMuY29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vb3BlbnNzbC8wMDAxLUNvbmZp
-Z3VyZS1kby1ub3QtdHdlYWstbWlwcy1jZmxhZ3MucGF0Y2ggICAgICAgfCAyICstDQo+ID4gIC4u
-Li9vcGVuc3NsL3tvcGVuc3NsXzMuMi40LmJiID0+IG9wZW5zc2xfMy4yLjUuYmJ9ICAgICAgICAg
-ICAgICB8IDIgKy0NCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVs
-ZXRpb25zKC0pDQo+ID4gIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wv
-e29wZW5zc2xfMy4yLjQuYmIgPT4NCj4gb3BlbnNzbF8zLjIuNS5iYn0gKDk5JSkNCj4gPg0KPiA+
-IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8w
-MDAxLUNvbmZpZ3VyZS1kby1ub3QtDQo+IHR3ZWFrLW1pcHMtY2ZsYWdzLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS0NCj4gQ29uZmlndXJlLWRv
-LW5vdC10d2Vhay1taXBzLWNmbGFncy5wYXRjaA0KPiA+IGluZGV4IDNmNmFiOTc3OTUuLjE1M2Ji
-MWU4NDMgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3Ns
-L29wZW5zc2wvMDAwMS1Db25maWd1cmUtZG8tbm90LXR3ZWFrLQ0KPiBtaXBzLWNmbGFncy5wYXRj
-aA0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAw
-MDEtQ29uZmlndXJlLWRvLW5vdC10d2Vhay0NCj4gbWlwcy1jZmxhZ3MucGF0Y2gNCj4gPiBAQCAt
-MjAsNyArMjAsNyBAQCBkaWZmIC0tZ2l0IGEvQ29uZmlndXJlIGIvQ29uZmlndXJlDQo+ID4gIGlu
-ZGV4IDQ1Njk5NTIuLmFkZjAxOWIgMTAwNzU1DQo+ID4gIC0tLSBhL0NvbmZpZ3VyZQ0KPiA+ICAr
-KysgYi9Db25maWd1cmUNCj4gPiAtQEAgLTE0ODUsMTYgKzE0ODUsNiBAQCBpZiAoJHRhcmdldCA9
-fiAvXm1pbmd3LyAmJiBgJGNvbmZpZ3tDQ30gLS10YXJnZXQtDQo+IGhlbHAgMj4mMWAgPX4gbS8t
-bW5vLWN5Z3dpbi9tKQ0KPiA+ICtAQCAtMTQ4NiwxNiArMTQ4Niw2IEBAIGlmICgkdGFyZ2V0ID1+
-IC9ebWluZ3cvICYmIGAkY29uZmlne0NDfSAtLXRhcmdldC0NCj4gaGVscCAyPiYxYCA9fiBtLy1t
-bm8tY3lnd2luL20pDQo+ID4gICAgICAgICAgIHB1c2ggQHskY29uZmlne3NoYXJlZF9sZGZsYWd9
-fSwgIi1tbm8tY3lnd2luIjsNCj4gPiAgICAgICAgICAgfQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzMuMi40LmJiIGIvbWV0
-YS9yZWNpcGVzLQ0KPiBjb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzMuMi41LmJiDQo+ID4g
-c2ltaWxhcml0eSBpbmRleCA5OSUNCj4gPiByZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVj
-dGl2aXR5L29wZW5zc2wvb3BlbnNzbF8zLjIuNC5iYg0KPiA+IHJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbF8zLjIuNS5iYg0KPiA+IGluZGV4IGM0YWQ4
-MGU3MzQuLmNhMmMwZDE4YmMgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9vcGVuc3NsL29wZW5zc2xfMy4yLjQuYmINCj4gPiArKysgYi9tZXRhL3JlY2lwZXMtY29u
-bmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbF8zLjIuNS5iYg0KPiA+IEBAIC0xOCw3ICsxOCw3IEBA
-IFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIgXA0KPiA+ICAgICAgICAgICAgIGZp
-bGU6Ly9lbnZpcm9ubWVudC5kLW9wZW5zc2wuc2ggXA0KPiA+ICAgICAgICAgICAgICINCj4gPg0K
-PiA+IC1TUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiYjIzYWQ3ZmQ5ZjczZTQzYWQxNzY3ZTYzNjA0
-MGU4OGJhN2M5ZTU3NzViZmE1NjE4NDM2YTBkZDJjMTdjMzcxNiINCj4gPiArU1JDX1VSSVtzaGEy
-NTZzdW1dID0NCj4gImIzNjM0N2QwMjRhMGY1YmQwOWZlZmNkNmFmN2E1OGJiMzA5NDYwODBlYjhj
-ZThmN2JlNzg1NjIxOTBkMDk4NzkiDQo+ID4NCj4gPiAgaW5oZXJpdCBsaWJfcGFja2FnZSBtdWx0
-aWxpYl9oZWFkZXIgbXVsdGlsaWJfc2NyaXB0IHB0ZXN0IHBlcmxuYXRpdmUgbWFucGFnZXMNCj4g
-PiAgTVVMVElMSUJfU0NSSVBUUyA9ICIke1BOfS1iaW46JHtiaW5kaXJ9L2NfcmVoYXNoIg0KPiA+
-DQo+ID4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gPiBMaW5rczogWW91IHJlY2VpdmUgYWxs
-IG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4gPiBWaWV3L1JlcGx5IE9ubGluZSAoIzIy
-MDEzMSk6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC0NCj4g
-Y29yZS9tZXNzYWdlLzIyMDEzMQ0KPiA+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5v
-cGVuZW1iZWRkZWQub3JnL210LzExNDA5MTQ1Mi8zNjIwNjAxDQo+ID4gR3JvdXAgT3duZXI6IG9w
-ZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBVbnN1YnNj
-cmliZTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUv
-dW5zdWINCj4gW3N0ZXZlQHNha29tYW4uY29tXQ0KPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0t
-DQo+ID4NCg==
+--000000000000b3b363063a3b65bc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Nak, see inline comment below about erasing the recipe variables
+
+In general, I'm not too opposed to being able to express this sort of thing
+in the SPDX (provided it's optional), there already is precedence for it
+(see SPDX_INCLUDE_BUILD_VARIABLES), and it is more or less intended that
+SPDX _can_ express these sorts of things (although, just because we can
+doesn't mean we have to). However, your approach here is incorrect.
+
+The primary problem is that you are including the config settings in the
+recipe Build object; you can't really do that because that recipe Build
+object (more or less) represents the build of entire "recipe" (up to the
+point of the do_create_spdx task anyway), and already has a defined meaning
+for what its build parameters mean (they are the bitbake variables at the
+time the do_create_spdx is invoked). Adding in the kernel config options to
+this build changes that meaning and means that you can't infer the meaning
+of the parameters anymore from the buildType, which is wrong.
+
+Instead, what you need to do is create a new build that represents the
+compile (or configuration) of the kernel, and assign it a unique buildType
+(or if one already exists for the kernel build with the same meaning, you
+could use that.... but I doubt that is the case). Since you have a unique
+buildType, you can then define the kernel config parameters as you have
+done here for that build and it will be possible to correctly interpret
+them. The final step is to link the existing build to your new build using
+the ancestorOf relationship to indicate that your new build is a "sub
+build" of the parent recipe build.
+
+Ideally, this would not live in spdx30_tasks.py, since it's highly specific
+to the kernel build and I really want to avoid putting everyone's specific
+reporting requirements in the common code; they need to be more distributed
+than that (IMHO).
+
+
+
+On Wed, Jul 16, 2025 at 3:05=E2=80=AFAM Kamel Bouhara <kamel.bouhara@bootli=
+n.com>
+wrote:
+
+> Enhances SPDX Document by extracting kernel build-time configuration
+> settings from '${B}/.config'.
+>
+> Each CONFIG_* line is parsed and exported as a DictionaryEntry in the
+> build_Build.build_parameter
+> section of the SPDX document. This provides better visibility into kernel
+> build behavior and
+> configuration, in alignment with the SPDX3 metadata model.
+>
+> The feature is gated by a new tunable variable:
+>
+>     SPDX_INCLUDE_KERNEL_CONFIG (default: "1")
+>
+> Setting this to "0" disables exporting the kernel configuration, which ma=
+y
+> be useful to improve
+> performance or reduce the size of generated SPDX documents.
+>
+> Example:
+>
+>     CONFIG_FOO=3Dy  =E2=86=92  { key: "CONFIG_FOO", value: "y" }
+>
+> This complements existing metadata export features and enables a more
+> complete audit trail of how
+> the kernel is built within a given build.
+>
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+> ---
+>  meta/classes/create-spdx-3.0.bbclass |  6 ++++++
+>  meta/lib/oe/spdx30_tasks.py          | 32 ++++++++++++++++++++++++++++
+>  2 files changed, 38 insertions(+)
+>
+> diff --git a/meta/classes/create-spdx-3.0.bbclass
+> b/meta/classes/create-spdx-3.0.bbclass
+> index c0a5436ad6..cdb9422f37 100644
+> --- a/meta/classes/create-spdx-3.0.bbclass
+> +++ b/meta/classes/create-spdx-3.0.bbclass
+> @@ -50,6 +50,12 @@ SPDX_INCLUDE_TIMESTAMPS[doc] =3D "Include time stamps =
+in
+> SPDX output. This is \
+>      useful if you want to know when artifacts were produced and when
+> builds \
+>      occurred, but will result in non-reproducible SPDX output"
+>
+> +SPDX_INCLUDE_KERNEL_CONFIG ??=3D "1"
+> +SPDX_INCLUDE_KERNEL_CONFIG[doc] =3D "If set to '1', the .config file for
+> the kernel will be parsed \
+> +and each CONFIG_* value will be included in the Build.build_parameter
+> list as DictionaryEntry \
+> +items. Set to '0' to disable exporting kernel configuration to improve
+> performance or reduce \
+> +SPDX document size."
+> +
+>  SPDX_IMPORTS ??=3D ""
+>  SPDX_IMPORTS[doc] =3D "SPDX_IMPORTS is the base variable that describes =
+how
+> to \
+>      reference external SPDX ids. Each import is defined as a key in this=
+ \
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index c352dab152..f87d079cb0 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -18,6 +18,28 @@ from contextlib import contextmanager
+>  from datetime import datetime, timezone
+>  from pathlib import Path
+>
+> +def parse_kernel_config(config_path):
+> +    entries =3D []
+> +    if not os.path.exists(config_path):
+> +        bb.warn(f"Kernel config file not found at: {config_path}")
+> +        return entries
+> +
+> +    try:
+> +        with open(config_path, 'r') as f:
+> +            for line in f:
+> +                line =3D line.strip()
+> +                if not line or line.startswith("#"):
+> +                    continue
+> +                if "=3D" in line:
+> +                    key, value =3D line.split("=3D", 1)
+> +                    entries.append(oe.spdx30.DictionaryEntry(
+> +                        key=3Dkey,
+> +                        value=3Dvalue.strip('"')
+> +                    ))
+> +        bb.note(f"Parsed {len(entries)} kernel config entries from
+> {config_path}")
+> +    except Exception as e:
+> +        bb.error(f"Failed to parse kernel config file: {e}")
+> +    return entries
+>
+>  def walk_error(err):
+>      bb.error(f"ERROR walking {err.filename}: {err}")
+> @@ -495,6 +517,8 @@ def create_spdx(d):
+>
+>      build_objset.doc.rootElement.append(build)
+>
+> +    build.build_parameter =3D []
+>
+
+This will actually erase the recipe variables when
+SPDX_INCLUDE_BUILD_VARIABLES is present, so you can't do this.
+
++
+>      build_objset.set_is_native(is_native)
+>
+>      for var in (d.getVar("SPDX_CUSTOM_ANNOTATION_VARS") or "").split():
+> @@ -815,6 +839,14 @@ def create_spdx(d):
+>              sorted(list(build_inputs)) + sorted(list(debug_source_ids)),
+>          )
+>
+> +    if d.getVar("SPDX_INCLUDE_KERNEL_CONFIG", True) !=3D "0":
+> +        if "virtual/kernel" in (d.getVar("PROVIDES") or "").split():
+> +            bb.note("Detected virtual/kernel provider, extracting kernel
+> configuration")
+> +            config_path =3D d.expand("${B}/.config")
+> +            kernel_params =3D parse_kernel_config(config_path)
+> +            if kernel_params:
+> +                build.build_parameter.extend(kernel_params)
+> +
+>      oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "recipes",
+> deploydir)
+>
+>
+> --
+> 2.43.0
+>
+>
+
+--000000000000b3b363063a3b65bc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"></div><div>Nak, see inline comment below =
+about erasing the recipe variables</div><div dir=3D"ltr"><br></div><div>In =
+general, I&#39;m not too opposed to being able to express this sort of thin=
+g in the SPDX (provided it&#39;s optional), there already is precedence for=
+ it (see SPDX_INCLUDE_BUILD_VARIABLES), and it is more or less intended tha=
+t SPDX _can_ express these sorts of things (although, just because we can d=
+oesn&#39;t mean we have to). However, your approach here is incorrect.</div=
+><div><br></div><div>The primary problem is that you are including the conf=
+ig settings in the recipe Build object; you can&#39;t really do that becaus=
+e that recipe Build object (more or less) represents the build of entire &q=
+uot;recipe&quot; (up to the point of the do_create_spdx task anyway), and a=
+lready has a defined meaning for what its build parameters mean (they are t=
+he bitbake variables at the time the do_create_spdx is invoked). Adding in =
+the kernel config options to this build changes that meaning and means that=
+ you can&#39;t infer the meaning of the parameters anymore from the buildTy=
+pe, which is wrong.</div><div><br></div><div>Instead, what you need to do i=
+s create a new build that represents the compile (or configuration) of the =
+kernel, and assign it a unique buildType (or if one already exists for the =
+kernel build with the same meaning, you could use that.... but I doubt that=
+ is the case). Since you have a unique buildType, you can then define the k=
+ernel config parameters as you have done here for that build and it will be=
+ possible to correctly interpret them. The final step is to link the existi=
+ng build to your new build using the ancestorOf relationship to indicate th=
+at your new build is a &quot;sub build&quot; of the parent recipe build.</d=
+iv><div><br></div><div>Ideally, this would not live in spdx30_tasks.py, sin=
+ce it&#39;s highly specific to the kernel build and I really want to avoid =
+putting everyone&#39;s specific reporting requirements in the common code; =
+they need to be more distributed than that (IMHO).</div><div><br></div><div=
+><br></div><div dir=3D"ltr"></div><br><div class=3D"gmail_quote gmail_quote=
+_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 16, 2025 at 3=
+:05=E2=80=AFAM Kamel Bouhara &lt;<a href=3D"mailto:kamel.bouhara@bootlin.co=
+m">kamel.bouhara@bootlin.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">Enhances SPDX Document by extracting kernel bui=
+ld-time configuration settings from &#39;${B}/.config&#39;.<br>
+<br>
+Each CONFIG_* line is parsed and exported as a DictionaryEntry in the build=
+_Build.build_parameter<br>
+section of the SPDX document. This provides better visibility into kernel b=
+uild behavior and<br>
+configuration, in alignment with the SPDX3 metadata model.<br>
+<br>
+The feature is gated by a new tunable variable:<br>
+<br>
+=C2=A0 =C2=A0 SPDX_INCLUDE_KERNEL_CONFIG (default: &quot;1&quot;)<br>
+<br>
+Setting this to &quot;0&quot; disables exporting the kernel configuration, =
+which may be useful to improve<br>
+performance or reduce the size of generated SPDX documents.<br>
+<br>
+Example:<br>
+<br>
+=C2=A0 =C2=A0 CONFIG_FOO=3Dy=C2=A0 =E2=86=92=C2=A0 { key: &quot;CONFIG_FOO&=
+quot;, value: &quot;y&quot; }<br>
+<br>
+This complements existing metadata export features and enables a more compl=
+ete audit trail of how<br>
+the kernel is built within a given build.<br>
+<br>
+Signed-off-by: Kamel Bouhara &lt;<a href=3D"mailto:kamel.bouhara@bootlin.co=
+m" target=3D"_blank">kamel.bouhara@bootlin.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/create-spdx-3.0.bbclass |=C2=A0 6 ++++++<br>
+=C2=A0meta/lib/oe/spdx30_tasks.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 32 ++=
+++++++++++++++++++++++++++<br>
+=C2=A02 files changed, 38 insertions(+)<br>
+<br>
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spd=
+x-3.0.bbclass<br>
+index c0a5436ad6..cdb9422f37 100644<br>
+--- a/meta/classes/create-spdx-3.0.bbclass<br>
++++ b/meta/classes/create-spdx-3.0.bbclass<br>
+@@ -50,6 +50,12 @@ SPDX_INCLUDE_TIMESTAMPS[doc] =3D &quot;Include time stam=
+ps in SPDX output. This is \<br>
+=C2=A0 =C2=A0 =C2=A0useful if you want to know when artifacts were produced=
+ and when builds \<br>
+=C2=A0 =C2=A0 =C2=A0occurred, but will result in non-reproducible SPDX outp=
+ut&quot;<br>
+<br>
++SPDX_INCLUDE_KERNEL_CONFIG ??=3D &quot;1&quot;<br>
++SPDX_INCLUDE_KERNEL_CONFIG[doc] =3D &quot;If set to &#39;1&#39;, the .conf=
+ig file for the kernel will be parsed \<br>
++and each CONFIG_* value will be included in the Build.build_parameter list=
+ as DictionaryEntry \<br>
++items. Set to &#39;0&#39; to disable exporting kernel configuration to imp=
+rove performance or reduce \<br>
++SPDX document size.&quot;<br>
++<br>
+=C2=A0SPDX_IMPORTS ??=3D &quot;&quot;<br>
+=C2=A0SPDX_IMPORTS[doc] =3D &quot;SPDX_IMPORTS is the base variable that de=
+scribes how to \<br>
+=C2=A0 =C2=A0 =C2=A0reference external SPDX ids. Each import is defined as =
+a key in this \<br>
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py<br>
+index c352dab152..f87d079cb0 100644<br>
+--- a/meta/lib/oe/spdx30_tasks.py<br>
++++ b/meta/lib/oe/spdx30_tasks.py<br>
+@@ -18,6 +18,28 @@ from contextlib import contextmanager<br>
+=C2=A0from datetime import datetime, timezone<br>
+=C2=A0from pathlib import Path<br>
+<br>
++def parse_kernel_config(config_path):<br>
++=C2=A0 =C2=A0 entries =3D []<br>
++=C2=A0 =C2=A0 if not os.path.exists(config_path):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(f&quot;Kernel config file not found at=
+: {config_path}&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return entries<br>
++<br>
++=C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(config_path, &#39;r&#39;) as f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in f:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 line =3D line.stri=
+p()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not line or lin=
+e.startswith(&quot;#&quot;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cont=
+inue<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;=3D&quot;=
+ in line:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 key,=
+ value =3D line.split(&quot;=3D&quot;, 1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 entr=
+ies.append(oe.spdx30.DictionaryEntry(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 key=3Dkey,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 value=3Dvalue.strip(&#39;&quot;&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ))<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(f&quot;Parsed {len(entries)} kernel co=
+nfig entries from {config_path}&quot;)<br>
++=C2=A0 =C2=A0 except Exception as e:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(f&quot;Failed to parse kernel config =
+file: {e}&quot;)<br>
++=C2=A0 =C2=A0 return entries<br>
+<br>
+=C2=A0def walk_error(err):<br>
+=C2=A0 =C2=A0 =C2=A0bb.error(f&quot;ERROR walking {err.filename}: {err}&quo=
+t;)<br>
+@@ -495,6 +517,8 @@ def create_spdx(d):<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0build_objset.doc.rootElement.append(build)<br>
+<br>
++=C2=A0 =C2=A0 build.build_parameter =3D []<br></blockquote><div><br></div>=
+<div>This will actually erase the recipe variables when SPDX_INCLUDE_BUILD_=
+VARIABLES is present, so you can&#39;t do this.</div><div><br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
++<br>
+=C2=A0 =C2=A0 =C2=A0build_objset.set_is_native(is_native)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0for var in (d.getVar(&quot;SPDX_CUSTOM_ANNOTATION_VARS&=
+quot;) or &quot;&quot;).split():<br>
+@@ -815,6 +839,14 @@ def create_spdx(d):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sorted(list(build_inputs)) =
++ sorted(list(debug_source_ids)),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
+<br>
++=C2=A0 =C2=A0 if d.getVar(&quot;SPDX_INCLUDE_KERNEL_CONFIG&quot;, True) !=
+=3D &quot;0&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;virtual/kernel&quot; in (d.getVar(&qu=
+ot;PROVIDES&quot;) or &quot;&quot;).split():<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Detected virtual/k=
+ernel provider, extracting kernel configuration&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 config_path =3D d.expand(&quot;$=
+{B}/.config&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_params =3D parse_kernel_c=
+onfig(config_path)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if kernel_params:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build.build_parame=
+ter.extend(kernel_params)<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0oe.sbom30.write_recipe_jsonld_doc(d, build_objset, &quo=
+t;recipes&quot;, deploydir)<br>
+<br>
+<br>
+-- <br>
+2.43.0<br>
+<br>
+</blockquote></div></div>
+
+--000000000000b3b363063a3b65bc--
 
