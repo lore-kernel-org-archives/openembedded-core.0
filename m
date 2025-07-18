@@ -1,90 +1,172 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <macpaul.lin@mediatek.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAAADC83F1A
-	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 07:18:10 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.15348.1752823075625091823
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 339CFC83F34
+	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 08:28:21 +0000 (UTC)
+Received: from mailgw01.mediatek.com (mailgw01.mediatek.com [60.244.123.138])
+ by mx.groups.io with SMTP id smtpd.web11.16180.1752827299287079677
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 00:17:55 -0700
+ Fri, 18 Jul 2025 01:28:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YfpgSRH3;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-73972a54919so1864388b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 00:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752823075; x=1753427875; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QIBuzJbLB1HhQBcmAcgKUmOmawI77GANObAGlBJg9+U=;
-        b=YfpgSRH33ZTi0wH3vUZHfXvhdA9JHXxHbqccfERB/ERFOzJwsCe0oZCeRKxjLlop4D
-         QU5Y64CQu3/mo4VubNUAseZ5s0cOUdiIyqiaAxlA8eCB4AuAuEZybYMlB+ozb/6kCEXj
-         sYjIPNHS+xJHDKTcEhGIEYpTBDYqZL7zf/Btdyv/Xr75NgSZzBfeggvAOs8r/25ritKw
-         kjJGGgYXcL+UkY5akNKwXVnsy6FYlmQXDBCnZCkrQqd5q2bq1URylEkv4EWVXlVYfuFT
-         vFEhw66F9v0QGYtdZLmRsHN4ZfhXD/SPtzTptUcKVWajm/4NcW97koiWX3wMj6HpxdL5
-         NzXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752823075; x=1753427875;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QIBuzJbLB1HhQBcmAcgKUmOmawI77GANObAGlBJg9+U=;
-        b=FfvjCxd9rDv0EqHz9HTg22pQ6FXeq97OiVGKoukm/hVj9tWTsOwyHScPjndbBAMWMO
-         L/l8t+lWBSSHvWa8fpvSBR+KTRcXDv/XAzVBPX8Zk2N3oxutM9gOBYCA7jd15SLHayfb
-         idGH+fhk4X40XPrBO7DqJMlcEP1xn6OxePJRlfT2difs/PBigOYcpIegzFLB8ej5ZbS8
-         3nzHkQgvDEB7ltnGLjesX5xfbwB8UgRhIyGAC4+mya/Ce3gOAKWlPTBs088P36Zhluc0
-         gmPaj5rwTjX+EuL/gPVkRaW0NiCZx8ft8TORT6U+OHBfO5JHi3z7OvOvnSs0CU+zSY0r
-         CSJA==
-X-Gm-Message-State: AOJu0Yz6VImYQG63EOzaJk5E/sfXXAp4aaE49SQP01vL1zc2EqvF/yxh
-	Y7dmPE+DYZ5+CXOXj74oDXmOTOCNuczu572DdQvEcCYLHCU3peb9C99wVHL9la95IpQ=
-X-Gm-Gg: ASbGncupQJdOOptdOnVbfvXdZOUwuDmZ+ba3gZKly67ld62H+sTN+3AFWJ6tTpNlvlE
-	YMaDI693s14tKBYRi3Pye1qFP3ZRfmXC/6S3rvnX9J/brbR41gI/pTZl42cEBVHBcEPyryuYFs4
-	M8PmjKLGRM5Kn9RtzCCJR/8QLssJZJzktJpm/1h6+MwfCut5pf4wBWSG9Ho9QwdpPfijnFFu088
-	Nnq56wZnMD+aKo1jhq3CzimW8D3e5H5bCxoa94khujv4uo62fG/PVTuUrlp87AhbZ6CkTp2lETD
-	hX45Dk0yqTQLOudf0fytMcV96M7gKG9EOchTm9anPnhsAd9Cd13Q9oV8Dob/aoB1UAO01yRMX/q
-	cTDs7HhiJApXkWQ==
-X-Google-Smtp-Source: AGHT+IHLg9PoI40M2uwz/GZZHiOJxwOFWs++NtCbihRU2S92SWRA6eoAPdIM9Z10Iu5v18Waz30Wbg==
-X-Received: by 2002:a05:6a00:4b0a:b0:748:f854:b765 with SMTP id d2e1a72fcca58-7572267a620mr14925187b3a.4.1752823074467;
-        Fri, 18 Jul 2025 00:17:54 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::519c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759c84e2706sm651893b3a.31.2025.07.18.00.17.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 00:17:53 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] clang.bbclass: Add libcxx to default base dependencies
-Date: Fri, 18 Jul 2025 00:17:51 -0700
-Message-ID: <20250718071751.2410023-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@mediatek.com header.s=dk header.b=TH8ppZSe;
+ spf=pass (domain: mediatek.com, ip: 60.244.123.138, mailfrom: macpaul.lin@mediatek.com)
+X-UUID: 2523f47063b111f08b7dc59d57013e23-20250718
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=au7Gm+cwAdzmzWZ7KtyI+fto0iWyCahRua7raPnIuJI=;
+	b=TH8ppZSeItjLgmkKxjaMFYKrJg6EDQekSo8KByIdlWgMCa8OOoLYi6E9Fn9qaeEyeAPW6pjlINVEuYc1jgJkOvSAZDKD7+y10BVWrAH5Q7+6Dq9xVyER3wRuoLWk6pE5YO95bpKekYnDBk/GPzjAvJDxn2kKk56Y56G4LqrwScI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.2,REQID:46f32222-27e1-4f45-aa4a-bb1e73ae9bef,IP:0,UR
+	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-25
+X-CID-META: VersionHash:9eb4ff7,CLOUDID:4f832673-f565-4a89-86be-304708e7ad47,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
+	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 2523f47063b111f08b7dc59d57013e23-20250718
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1122582082; Fri, 18 Jul 2025 16:28:13 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Fri, 18 Jul 2025 16:28:10 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Fri, 18 Jul 2025 16:28:11 +0800
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+To: Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Peter Wang
+	<peter.wang@mediatek.com>, Stanley Jhu <chu.stanley@gmail.com>, "James E . J
+ . Bottomley" <James.Bottomley@HansenPartnership.com>, "Martin K . Petersen"
+	<martin.petersen@oracle.com>, <linux-scsi@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<openembedded-core@lists.openembedded.org>, <patches@lists.linux.dev>,
+	<stable@vger.kernel.org>
+CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+	Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
+	Macpaul Lin <macpaul@gmail.com>, MediaTek Chromebook Upstream
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH 2/3] dt-bindings: ufs: mediatek,ufs: add MT8195 compatible and update clock nodes
+Date: Fri, 18 Jul 2025 16:27:17 +0800
+Message-ID: <20250718082719.653228-2-macpaul.lin@mediatek.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250718082719.653228-1-macpaul.lin@mediatek.com>
+References: <20250718082719.653228-1-macpaul.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 07:18:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220578
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 08:28:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220579
 
-When TC_CXX_RUNTIME is set to be 'llvm' then clang looks for
-libcxx to provide C++ runtime and unwinding library
+Add 'mediatek,mt8195-ufshci' to compatible list.
+Update clocks and clock-names constraints to allow one to eight entries.
+Introduce 'mediatek,ufs-disable-mcq' property to disable
+MCQ (Multi-Circular Queue). Update conditional schema for mt8195
+requiring eight 'clocks' and eight 'clock-names'.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
 ---
- meta/classes/toolchain/clang.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../devicetree/bindings/ufs/mediatek,ufs.yaml | 49 ++++++++++++++++---
+ 1 file changed, 43 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/toolchain/clang.bbclass b/meta/classes/toolchain/clang.bbclass
-index 221653e145d..d729182d2a8 100644
---- a/meta/classes/toolchain/clang.bbclass
-+++ b/meta/classes/toolchain/clang.bbclass
-@@ -27,7 +27,7 @@ PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cross-canadian = "clang-cros
- PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian = "clang-crosssdk-${SDK_SYS}"
+diff --git a/Documentation/devicetree/bindings/ufs/mediatek,ufs.yaml b/Documentation/devicetree/bindings/ufs/mediatek,ufs.yaml
+index 32fd535a514a..9d6bcf735920 100644
+--- a/Documentation/devicetree/bindings/ufs/mediatek,ufs.yaml
++++ b/Documentation/devicetree/bindings/ufs/mediatek,ufs.yaml
+@@ -9,21 +9,20 @@ title: Mediatek Universal Flash Storage (UFS) Controller
+ maintainers:
+   - Stanley Chu <stanley.chu@mediatek.com>
  
+-allOf:
+-  - $ref: ufs-common.yaml
+-
+ properties:
+   compatible:
+     enum:
+       - mediatek,mt8183-ufshci
+       - mediatek,mt8192-ufshci
++      - mediatek,mt8195-ufshci
  
--BASE_DEFAULT_DEPS:append:class-target = " compiler-rt"
-+BASE_DEFAULT_DEPS:append:class-target = " compiler-rt libcxx"
+   clocks:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 8
  
- TUNE_CCARGS += "${@bb.utils.contains("DISTRO_FEATURES", "usrmerge", " --dyld-prefix=/usr", "", d)}"
+   clock-names:
+-    items:
+-      - const: ufs
++    minItems: 1
++    maxItems: 8
  
+   phys:
+     maxItems: 1
+@@ -33,6 +32,11 @@ properties:
+ 
+   vcc-supply: true
+ 
++  mediatek,ufs-disable-mcq:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description: The mask to disable MCQ (Multi-Circular Queue) for UFS host.
++    type: boolean
++
+ required:
+   - compatible
+   - clocks
+@@ -43,6 +47,39 @@ required:
+ 
+ unevaluatedProperties: false
+ 
++allOf:
++  - $ref: ufs-common.yaml
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - mediatek,mt8195-ufshci
++    then:
++      properties:
++        clocks:
++          minItems: 8
++          maxItems: 8
++        clock-names:
++          items:
++            - const: ufs
++            - const: ufs_aes
++            - const: ufs_tick
++            - const: unipro_sysclk
++            - const: unipro_tick
++            - const: unipro_mp_bclk
++            - const: ufs_tx_symbol
++            - const: ufs_mem_sub
++    else:
++      properties:
++        clocks:
++          minItems: 1
++          maxItems: 1
++        clock-names:
++          items:
++            - const: ufs
++
+ examples:
+   - |
+     #include <dt-bindings/clock/mt8183-clk.h>
+-- 
+2.45.2
+
 
