@@ -1,264 +1,240 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84CD7C83F1A
-	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 10:34:22 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.66])
- by mx.groups.io with SMTP id smtpd.web11.18083.1752834853929526154
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B87B2C83F1A
+	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 11:16:42 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.18420.1752837396997062403
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 03:34:14 -0700
+ Fri, 18 Jul 2025 04:16:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=aJLwfDpU;
- spf=pass (domain: cherry.de, ip: 52.101.84.66, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aU9pYpW7ERKVlIrLHWTKn0pPbHrFIp6EHr0K4Z3QE6SKOPoZwH8nNzhYxqjGXmZa9Du0n5QS63DYksOjtuyeoZI5nV21HCRJFlnnmJsX0JNx9vk9lPvtTxeX6a/QeI7yz8G6jwEueFzFFWebGaedaMh4Jq0VP7IScUnqxnw784KQjlPukDRSDJMY89EI69g6gT0HHKPfa5zOBrWdapA/nB07kRyplp5LR59xqcnjHRx7SQEoCM9moBXxxpHAmtiMsuOTgmb9uCO/QSS4nuzaeSz/CtsxEKf9QCYfWcc2lke11ndlqMkZlpXgFXnje5jL+wS2tAPPsbQ9XfTGh10OvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7jTpEjq1BWLmEnFZzQ4zocsnLcIVGskC+SVC4feUFjU=;
- b=UtoZg/RwRvNCk7KeFeeYdkfljJ6E9A/F9uUVE7xFn+GTCCKSUXkSRq4jj/H03J2rUeJhZkCz4p5DqXDw4O5VvdRQaljmDWugJWLT0FAA1IdX7JdMJv9rqBYz9/mDcOsdfnqWxXM9MoXenB9E0cNPLxcdZRtNwjbCb3jbei1cum0upxB6o+7AgTQb5U2bqoJHp/eolVjWgBIojoGzjRkDgp9qMG1KERjzEnUEmOEyYPajQ4NlliulBghCs3flOu6J6B8uxNoq6LnukmGho0oJzTBt2/mP+FkBklDdCucEWtHM7xnZPmHJLOA/zM7/LOy0UilrArosfUgfmpjFX4kEyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7jTpEjq1BWLmEnFZzQ4zocsnLcIVGskC+SVC4feUFjU=;
- b=aJLwfDpU41mHeNgzD52nCTnOrYjmyXUAhqVNxTJh+8sofRICLHmFulmSThrJ6XLKz28zSXzfIop0ArMdyBTF5HfRQQ+ciToX8fK07BbM/AEitoWfxKYRXvUBAJNC8TQHdKx2mcyCXYc3kvFw3WiZtm0bI0ExNH/U3S/o2vzAbYk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
- by AS4PR04MB9551.eurprd04.prod.outlook.com (2603:10a6:20b:4fa::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.18; Fri, 18 Jul
- 2025 10:34:10 +0000
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1%4]) with mapi id 15.20.8922.037; Fri, 18 Jul 2025
- 10:34:10 +0000
-Message-ID: <7b5f99cb-55d3-4765-a0a6-be3393559082@cherry.de>
-Date: Fri, 18 Jul 2025 12:34:09 +0200
-User-Agent: Mozilla Thunderbird
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VbsHqXBl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a54700a463so1122024f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 04:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1752837395; x=1753442195; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4u3le4LPlJDwIzKg2JMQ/ok01cCXJVaAKbLXd/qQo7Q=;
+        b=VbsHqXBl0o/ZVoOZeMKfxkPQX5A18Cvu97/NNHX7HR6IbJE5o47pe+1tuwpO9MOv6p
+         kJVsp9Fq5NBTGb9MoxxYTc/Tc4iqSMbSDe5p01TaekOkk8NVopjm61eZD3DNEOv/81pI
+         TeDz4dlZzG4Afh1ENpBBShiQi4+dRnxV5w00o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752837395; x=1753442195;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4u3le4LPlJDwIzKg2JMQ/ok01cCXJVaAKbLXd/qQo7Q=;
+        b=se20MnTwYHuEOKBtX7l0HjEdyXKJXFILPwVF9PquRjaGvP9dFjwVwux+3LukG58vc5
+         BpqycZrXE5EmQa9ckTgzqyr99vnZ6roN6UFX+oPvZjY53sRfGTk5Dri4HnKOcUcaVn76
+         e+1G+Pnh8b1NjxejeQdPRk/XwOXFWGLXu3m4rCHIbgXhcFe894wbw7pJHbhMT6vQ1AtV
+         EP8JZOK7nsrYS/zB2YXyEWT0O64wjgJsBdgzm8NInF5D/ZutGa69IS/xVspRJc7rf50q
+         +549LtP7O7/z31j20UWFMLxGvoPurA5ynoLFSAfWfFW3MVffN0Hx9398PNI31Zq+TEdt
+         fU6w==
+X-Forwarded-Encrypted: i=1; AJvYcCX7uV1xV6QzC21SkEV5g3cUWZN+7SWQVEnEvIqqmcuAhyebm+CG5j6tpuTDXFCjFdsYGSh4QsQWjbdKihUb8A83tw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxakSIyg4k7J1n9DkOV90bqP5or6QVJljMbdGDna3Qi6yVb8Lk1
+	xBPvpLcPWwItuwdbqhvzL2b453BroANrDNTGfZjjRVMVDeHdcvklCC4CjeEb8LKQF70=
+X-Gm-Gg: ASbGncu4HLeAjUjjzNjdCRbDayUw5JxRWubBdIVhg3upPl5fFpzo+rLa0S0AVfbj7cK
+	8LpQIWftseqOGdwl4+4zdWyy4X6yoDp5aLCEd1gE1AF2MvjDGXPDZ8sw8xylw+NK8R1Mg8j7lXq
+	767rkWfrmW2r3rFYetYj9kxVOkD9Tjx1E9hzAIyUTTbzFYFTToP8FFi7/tm/o4sii5q3Yg18HbH
+	lzPOk8QyHHG7LCFd61YtNi57GrfW3R/n7tC/Xgi/Y/Vv9SQL3Bd0loE5TNLDCBiDIqin9SLhgsk
+	VKETj24rSzhGsd1KeMLjh4hdjU9SDxA1nZ6uqCRAZhm32HP6hj6fL4KVY311UIvFCw9FY2EQbGa
+	brSzYvI+UrPnIf5+Jnnf71BaGwCZUuFCev7I/dFtXJQvr04xRfXBZiWYTqTbUJ5EkISJ5o7zr1I
+	0hatqAzg==
+X-Google-Smtp-Source: AGHT+IFnoHvmiShI3+qh4iw8CDWUgLKEvz0KgSnsZNT2gIrt5edBMpBof+DwIBobJKkyxytyHZRz5w==
+X-Received: by 2002:a05:6000:250c:b0:3b5:e275:75a2 with SMTP id ffacd0b85a97d-3b613aa22bfmr5767617f8f.4.1752837395098;
+        Fri, 18 Jul 2025 04:16:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b19:5c6:27ed:a530? ([2001:8b0:aba:5f3c:b19:5c6:27ed:a530])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca5c952sm1545024f8f.86.2025.07.18.04.16.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jul 2025 04:16:34 -0700 (PDT)
+Message-ID: <77118a0af988bd108a3aa3e9d663926b8b2987ec.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v3] u-boot: upgrade 2025.04 -> 2025.07
-To: richard.purdie@linuxfoundation.org, mikko.rapeli@linaro.org,
- openembedded-core@lists.openembedded.org
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Quentin Schulz <quentin.schulz@cherry.de>, mikko.rapeli@linaro.org, 
+	openembedded-core@lists.openembedded.org
 Cc: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 18 Jul 2025 12:16:33 +0100
+In-Reply-To: <7b5f99cb-55d3-4765-a0a6-be3393559082@cherry.de>
 References: <20250718090123.420399-1-mikko.rapeli@linaro.org>
- <ab6ce5a5fc2d8a4f10926d10438156b687e98747.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <ab6ce5a5fc2d8a4f10926d10438156b687e98747.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-ClientProxiedBy: VI1PR04CA0076.eurprd04.prod.outlook.com
- (2603:10a6:802:2::47) To AS8PR04MB8897.eurprd04.prod.outlook.com
- (2603:10a6:20b:42c::20)
+	 <ab6ce5a5fc2d8a4f10926d10438156b687e98747.camel@linuxfoundation.org>
+	 <7b5f99cb-55d3-4765-a0a6-be3393559082@cherry.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|AS4PR04MB9551:EE_
-X-MS-Office365-Filtering-Correlation-Id: af09c2fc-c171-41d3-b178-08ddc5e6a188
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?VFFNWkxHbGR6QWZyWUF6dDM5QmgyZC9KTEE4WDh3OEsvZlFDR1RFbVNFODcr?=
- =?utf-8?B?K2tOMnZOM01HWEZOV0t4TkxXWENtYnNvU3lwRSs3WkU5cUtLeDNBdWZqY0Fa?=
- =?utf-8?B?dEpMcEdkbU9paS9wOHpHMnR2M1p1WEhDQXp0OElMQ1RmZFlxNllHb3hXQWk1?=
- =?utf-8?B?d3VBcDVhUmZxK1ZXbzFjSys1TDg5RUdCTnFXbi80Mm80bHRYQlRtdHU4K3Zm?=
- =?utf-8?B?NytjaTYvTjBPYi9lY2dVR2RyRTdpVjRTdDdkYkI4SjN2M1Z0eUtOT1g4bmdT?=
- =?utf-8?B?K1lST3lheHJKOTdPbXprQkhlOEk5TWZQSjR4dzd3V0E4NldVVGIrL1IvUXBL?=
- =?utf-8?B?OWx6aEZrZkY5eEZ0YWdSWnVPTzJnV0dHajlQUEp4cVdjdjUrUHphMFovL1N4?=
- =?utf-8?B?Rk5Ua2YxSGs4Mi9hcVNoQ1dacEFnWTFjTzc2LzVramtKb0dHRk5nVGVPcXFk?=
- =?utf-8?B?c1lvYjhRRGdxUTI4akh5TGpRdjdkM0p4R3NaSGtkckx0V3dnMEZteTMzNCtR?=
- =?utf-8?B?bVFsTkZkMWdyblhIL1M1TCt3eVYvZkxGVE1uMlhCbHoxMUhhcElzc1FsYVd6?=
- =?utf-8?B?OUxoQ09MWmduMStoejUzVXBndXdkZjJSSWI3QjBsak5iSEx3ZURramxFTTdn?=
- =?utf-8?B?Nko1cmZuaUQ1ZHoybG93UjBpeW1MaWNzRjl5d0JpU3RsdjFsRGlyRS9qMmQ4?=
- =?utf-8?B?T0Q1NldrOHY1aWVraHhxd3c0bGljVFZvSS9yWlIyckdFZmpyS2oxOGlNWDRR?=
- =?utf-8?B?OGFLMWNLa1JUVUJBMytDa0ltQnRRcDlTeklid3RQbU1LWmI3ZjhYNENVdTRQ?=
- =?utf-8?B?TUtUWE9yZjRzT3E3a00wVkthYnZXNk41T2NGdnJZdUNwd1d5S0NMeHFxV0pj?=
- =?utf-8?B?UjB2QWpQVVZxTDRXVFlHUUpkSTgxTFF5QnV1b0ptRWUraUVMcTJYTWpwdmN2?=
- =?utf-8?B?RVZNeDZjS0h1V2J5T3lSNEtJU0xtN3J5b3IyM1BaYlJrU3p6UVY2RHovbmNG?=
- =?utf-8?B?Mk92dHJDMStXRlV4b042L2FHdVh0RXJJeW1YN25ZZzR6c3dUMEsyVkZiWDhM?=
- =?utf-8?B?VWFGOUlIWDVqZlpaR0R2MHJxdFRyR1Zob0sveDY5MEZWR1VxOW1wYmZaakhV?=
- =?utf-8?B?Z1RBM3h5bkRqNjBkZzBSMWdwZ1IvVVNIdk92WktTRGNhY1VHYUlKbDZSQWFF?=
- =?utf-8?B?WVBlQlkramV4UC84ZWtvbzlzanpFanJqbGhXMFl5NmNkMmZaRHVnVUZnMStx?=
- =?utf-8?B?Z3lFY3BXenlVbzZmTUxncStnMU53Y25CQlJtZkJsbExnQnhkWWZmdC9QSjNk?=
- =?utf-8?B?OGRoa3kwVHpwd3gzY2ZCakhUVG5UU3NlOVVrbnp1VGZzZ0RxVklxSjdQZkF3?=
- =?utf-8?B?MVdyRWdGc0Q4c3NEazZJWHZsSDFzTVc0aks5MEVDQVlmbkpvUlVndEt0SnV3?=
- =?utf-8?B?TW9wMUFoMUNid0RTREw3UzdhVnY1R3FQNkVyQlBYTlFrMzZSdU81cXJsa3Y1?=
- =?utf-8?B?TUhxRmhpc3J1c00ySWlwaG8rMHIxZ1pqem1EYnZla0RHNkVCWGloSVFaMlRB?=
- =?utf-8?B?Qmx4YVZTei80MTNReFpWR1dvUzlhVk5PeldJaGtDY2YyMmxoUkFPU3RkbEZx?=
- =?utf-8?B?dDZyUU1pRzZJZEp6eFpFcmpJY2dMWWhHVjNxdVdRV3hoRERGbG9KNm5PZnFy?=
- =?utf-8?B?NEVCVXdScHU2ZEpjQzV2ZHNxR0NteDVsQldEaFV4VGZEbjNlcU43aGpLTzVz?=
- =?utf-8?B?cnFQTE9QWFNOa2ljc2h1RTlnZ2dYWlhOTUJRNVE0eDlBa1ZJaEhtMGw2dlBk?=
- =?utf-8?Q?JtbQhXbUl/nVpLdctFIyBfYXfd6np8QD3cdYg=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?d0p0TFJiaTloOGU3U1dYandEU3N6UUxiOTI3clFyOVc4azFNZUx3K0xlV09B?=
- =?utf-8?B?YUxQbzc5SHJWSnQvS3N1Y1k3QWZWWkU2cU5DcXFQL0FITTV6RWxBQ1JZbzVO?=
- =?utf-8?B?dHlOY3FwUWZEbWZRR2pXR3FvdUV4dDVzWW1DYnFBTVQyZjVNVElORXNwZ2Fa?=
- =?utf-8?B?b2M3eWFjajYyaGFmOEJHZERRS29USVplYWNNSlRkbXdFelA3b1JaRDc4eTg4?=
- =?utf-8?B?dUZRb1hCRGNlakp5ZmFUYkJuT05XMmhIeG1zZzl1ZGF6djhFamo0c2tNc3NI?=
- =?utf-8?B?UFV6aHNxOTB2QitmYS9ENGZucjdRVTVEc21XWVcyeDh6L1VUN1pZNm1tZWNN?=
- =?utf-8?B?aWJIanBpcE9NVkJZTjdvRUJERXJrQ2NidEM3OCtnTHN3MWtId0RSU1BMbjUw?=
- =?utf-8?B?T29aRmMxNE1YSzV5NTVaVEN2R1dGUXJkZ003cUhsMERCakJmdDl1NFoyUXpK?=
- =?utf-8?B?clpDeUQrcDRQcW45Q0JkZ0U2ekFDNElYVDlEZjNLNlZuWlNjQVVTQm1Rajha?=
- =?utf-8?B?SE5xa1RNWktHOFdTemJvdEdXVlI0S1Jma0lPa2dnSlVRTjRaV05oL0ZmV0Jy?=
- =?utf-8?B?SGkrN1VCL2c3bUhHQlJqTHZSY3ppR3I1QUttU3o2MWM0TmJlcmFMaUE3czVu?=
- =?utf-8?B?eHd4RXZWNDR6ZnFJR1JQeDlGYTNBT01SdiswRGJiNk1LMUN3SEFDVUJ1dUZn?=
- =?utf-8?B?WUM0aWF1YVNsODk3SUlRRjJ4QTdRUlJmQlJCVkFYOXdEd25TMUxaVzJ1amZH?=
- =?utf-8?B?ZmhMcVR5K29pZnI4MHlaNjNWMHg4Q0FJeHRjWHBROFk0TEdHd1JOeEFRbHFj?=
- =?utf-8?B?T0kzNVEvbjhzTkQ5M0ZndDYzWHlteEllMlNsRUxJS3Z6ZEMrNXdyVDd3YTdD?=
- =?utf-8?B?L3dMMVB2ZWZOV1BhUytweXpzTGZmaTIydmVLWEpUaXFCbWQ3MVVqOE5SY2tk?=
- =?utf-8?B?TWxwQUp3ZElKOWdBcVRvUXU5NnpPUW5mWjN5NEFuekJBeDduUC9GYWt5b3Fz?=
- =?utf-8?B?OURJeTZMRVdkdUJDdTdrRGsrcGVRQy9CeUtVSERIWXZTZHhpd0tMRVlzMjFC?=
- =?utf-8?B?V3R1N1pJc1Vta1ZBaWlOTk5ZbVNQRElTeXN4azBMZ2JIdTVzY1B0MjJZR3Rp?=
- =?utf-8?B?anRVSHZhU09IRVFTaEI1cU0vbHU2WU5oTjlrUk5pWm1rVEsrcXEreHhGa0pT?=
- =?utf-8?B?MDlDdElCbHg5alN3Qy91RDhRSHJmb3FxcmJreDV1Z0hEV1ZtL2x4c0JzdVoz?=
- =?utf-8?B?NmZqWWZqc0dpV2ExVmZWc2x4cEJlTDFPZm5WMlZuZkxFcEU3N0VNdEZoRWRO?=
- =?utf-8?B?ZEhGRCs2enp4REN4UDNsdlhONzVORUVZa0hiZENGWVVuZFRXeituc0FYT0FE?=
- =?utf-8?B?dkpML1RTdFFxR2ZGRDZXRU5hRFNDOVhucW5PUWl0SjZCczFmL216UXNxbm5p?=
- =?utf-8?B?SERGSFZjMTBNNGpWcDFwcHUzdmN4OFFSbEUzVGJZcEhVRllreFpWQlRUMFR5?=
- =?utf-8?B?Mm0wUTF3aVoxdFBuWFlTclVXSmFaRUYydEVUSGFJRDNOVUZHcVpTNzdPRHVY?=
- =?utf-8?B?d1l5elJMZzFBRE5qVG0rcGJDcnZvbFlhM2J1ZEd0UzV1MzZiRzBHak9sNTlC?=
- =?utf-8?B?ZUpsVGNBSE8xOHZETWVCTDA4SzFUQ1J2N0ZlTklnNHpETGhlMEc5RDJQNlov?=
- =?utf-8?B?Q09pbzFYUlNwaDNUbFRnNkJPbWFQbHZIcXFuRk1uQjFHUHJ0bDhhSHZxK2FM?=
- =?utf-8?B?SjFiYUNYdU5vSVAxaGJpaE1nYUZFWmZlNG0vVDk4dk5XdHVaNXFsU3JTZ1Yv?=
- =?utf-8?B?eWFXQlJzRG1BWnhGVDZzTjZZdFlnNWJRTGpJZjVhcUdjcEdYVkxlU2lmeHc3?=
- =?utf-8?B?TWZjTXdjcFp6TC8rbk9DQkxZQjhTQURKdFRxK21HK2JBRDRPVzNSR3M0d2Mv?=
- =?utf-8?B?NWJrdU1sRkRvazhITEw1RGNkY2lXT25FMTFIR2lqTUdkcVBzVVhxUHlHU2pm?=
- =?utf-8?B?V251MVdUeW9JNzRJL2pMWU90VUd6YlBLalp1cGF1WjBnNTdXU3VSRVpnNHRn?=
- =?utf-8?B?WTlrMEIzSndINWRvSXRwa1huVWM3aTk4Yno5aTBaeUcrMWwya0RPUGxLazNL?=
- =?utf-8?B?VU1lQVFpL25YOG5YTEJJUG54N2dSNkgvZXRpV0pQcEx2a1pqdHZUbS9NaGkw?=
- =?utf-8?B?ckE9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: af09c2fc-c171-41d3-b178-08ddc5e6a188
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 10:34:10.2253
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /oviq9XyQHimW/0wdFe8amke3yC6NWm3NS7zcQTzEOZq+UFsPdquT0w67FKadHwEMUkyIo+/VD2RXI/1whW+Vn6OUs6QBD8wTMWpcebcptY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR04MB9551
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 10:34:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220595
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 11:16:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220596
 
-SGkgUmljaGFyZCwNCg0KT24gNy8xOC8yNSAxMjoyOCBQTSwgUmljaGFyZCBQdXJkaWUgdmlhIGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6DQo+IE9uIEZyaSwgMjAyNS0wNy0xOCBhdCAxMjow
-MSArMDMwMCwgTWlra28gUmFwZWxpIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0K
-Pj4gRnJvbTogRmFiaW8gRXN0ZXZhbSA8ZmVzdGV2YW1AZ21haWwuY29tPg0KPj4NCj4+IFVwZ3Jh
-ZGUgdG8gVS1Cb290IDIwMjUuMDcuIEFkZGVkIHBhdGNoZXMgZm9yIGJ1aWxkIHJhY2UgY29uZGl0
-aW9ucy4NCj4+IFJlbW92ZWQgcWVtdSBLVk0gVVNCIHdvcmthcm91bmQgc2luY2UgaXNzdWUgaXMg
-Zml4ZWQgdXBzdHJlYW0uDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogRmFiaW8gRXN0ZXZhbSA8ZmVz
-dGV2YW1AZ21haWwuY29tPg0KPj4gU2lnbmVkLW9mZi1ieTogTWlra28gUmFwZWxpIDxtaWtrby5y
-YXBlbGlAbGluYXJvLm9yZz4NCj4+IC0tLQ0KPj4gIMKgLi4uL3UtYm9vdC9maWxlcy9kaXNhYmxl
-X0NPTkZJR19VU0IuY2ZnwqDCoMKgwqDCoMKgIHzCoMKgIDEgLQ0KPj4gIMKgLi4ucHRzLU1ha2Vm
-aWxlLmxpYi1maXgtX2VmaS5zby1kZXBlbmRlLnBhdGNoIHwgMTM2ICsrKysrKysrKysrKysrKysr
-Kw0KPj4gIMKgLi4ua2VmaWxlLWNoYW5nZS1hcHBzLWZyb20tYWx3YXlzLXRvLXRhLnBhdGNoIHzC
-oCA1NyArKysrKysrKw0KPj4gIMKgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWNvbW1v
-bi5pbmPCoMKgwqDCoCB8wqDCoCA4ICstDQo+PiAgwqAuLi5vbHNfMjAyNS4wNC5iYiA9PiB1LWJv
-b3QtdG9vbHNfMjAyNS4wNy5iYn0gfMKgwqAgMA0KPj4gIMKgLi4uL3t1LWJvb3RfMjAyNS4wNC5i
-YiA9PiB1LWJvb3RfMjAyNS4wNy5iYn3CoCB8wqDCoCA0ICstDQo+PiAgwqA2IGZpbGVzIGNoYW5n
-ZWQsIDIwMSBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPj4gIMKgZGVsZXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1ic3AvdS1ib290L2ZpbGVzL2Rpc2FibGVfQ09ORklHX1VTQi5j
-ZmcNCj4+ICDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC9maWxl
-cy92My0wMDAxLU1ha2VmaWxlLXNjcmlwdHMtTWFrZWZpbGUubGliLWZpeC1fZWZpLnNvLWRlcGVu
-ZGUucGF0Y2gNCj4+ICDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtYnNwL3UtYm9v
-dC9maWxlcy92My0wMDAyLWVmaV9sb2FkZXItTWFrZWZpbGUtY2hhbmdlLWFwcHMtZnJvbS1hbHdh
-eXMtdG8tdGEucGF0Y2gNCj4+ICDCoHJlbmFtZSBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC97dS1i
-b290LXRvb2xzXzIwMjUuMDQuYmIgPT4gdS1ib290LXRvb2xzXzIwMjUuMDcuYmJ9ICgxMDAlKQ0K
-Pj4gIMKgcmVuYW1lIG1ldGEvcmVjaXBlcy1ic3AvdS1ib290L3t1LWJvb3RfMjAyNS4wNC5iYiA9
-PiB1LWJvb3RfMjAyNS4wNy5iYn0gKDY0JSkNCj4+DQo+PiB2MzogRGlkIG5vdCBtYW5hZ2UgdG8g
-cmVwcm9kdWNlIEFCIGJ1aWxkIGZhaWx1cmVzIGJ1dCBhZGRlZCBkZWxheXMgdG8gbW9yZQ0KPj4g
-IMKgwqDCoCBsaW5rZXIgY2FsbHMgd2hpY2ggZXhwb3NlZCBzaW1pbGFyIGlzc3Vlcy4gRml4ZWQg
-ZmFpbHVyZXMgd2l0aCBwYXRjaGVzDQo+PiAgwqDCoMKgIHdoaWNoIGFyZSBhbHNvIHN1Ym1pdHRl
-ZCB1cHN0cmVhbS4NCj4+DQo+PiB2MjogYWRkZWQgdXBzdHJlYW1lZCBwYXRjaCB0byBmaXggYnVp
-bGQgcmFjZSBjb25kaXRvbiwgcmVtb3ZlZCBxZW11IGt2bSB3b3JrYXJvdW5kDQo+PiAgwqDCoMKg
-IGZpeGVkIHVwc3RyZWFtLiBXb3VsZCBiZSBuaWNlIHRvIGNoZWNrIGlmIGJ1aWxkcyBub3cgcGFz
-cy4NCj4+ICDCoMKgwqAgaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVk
-ZGVkLWNvcmUvbWVzc2FnZS8yMjA0MzYNCj4+DQo+PiB2MTogaHR0cHM6Ly9saXN0cy5vcGVuZW1i
-ZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMjAwMDQNCj4+DQo+PiBkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvZmlsZXMvZGlzYWJsZV9DT05GSUdfVVNC
-LmNmZyBiL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L2ZpbGVzL2Rpc2FibGVfQ09ORklHX1VTQi5j
-ZmcNCj4+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXggMWQyNTA5OTgyYmUxLi4w
-MDAwMDAwMDAwMDANCj4+IC0tLSBhL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L2ZpbGVzL2Rpc2Fi
-bGVfQ09ORklHX1VTQi5jZmcNCj4+ICsrKyAvZGV2L251bGwNCj4+IEBAIC0xICswLDAgQEANCj4+
-IC0jIENPTkZJR19VU0IgaXMgbm90IHNldA0KPj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1i
-c3AvdS1ib290L2ZpbGVzL3YzLTAwMDEtTWFrZWZpbGUtc2NyaXB0cy1NYWtlZmlsZS5saWItZml4
-LV9lZmkuc28tZGVwZW5kZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L2ZpbGVzL3Yz
-LTAwMDEtTWFrZWZpbGUtc2NyaXB0cy1NYWtlZmlsZS5saWItZml4LV9lZmkuc28tZGVwZW5kZS5w
-YXRjaA0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+IGluZGV4IDAwMDAwMDAwMDAwMC4uZTgy
-NTNhNjdiMjExDQo+PiAtLS0gL2Rldi9udWxsDQo+PiArKysgYi9tZXRhL3JlY2lwZXMtYnNwL3Ut
-Ym9vdC9maWxlcy92My0wMDAxLU1ha2VmaWxlLXNjcmlwdHMtTWFrZWZpbGUubGliLWZpeC1fZWZp
-LnNvLWRlcGVuZGUucGF0Y2gNCj4+IEBAIC0wLDAgKzEsMTM2IEBADQo+PiArRnJvbSAyZTdjMTMy
-MWJiNDRjYzZhZjRlZTRiMTAyNmE1MmUxYTBhYTdlMzM2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQ0KPj4gK0Zyb206IE1pa2tvIFJhcGVsaSA8bWlra28ucmFwZWxpQGxpbmFyby5vcmc+DQo+PiAr
-RGF0ZTogVGh1LCAxMCBKdWwgMjAyNSAxNDoyNDowNyArMDAwMA0KPj4gK1N1YmplY3Q6IFtQQVRD
-SCB2MyAxLzJdIE1ha2VmaWxlIHNjcmlwdHMvTWFrZWZpbGUubGliOiBmaXggKl9lZmkuc28gZGVw
-ZW5kZW5jeQ0KPj4gKyB0byBQTEFURk9STV9MSUJHQ0MNCj4+ICsNCj4+ICtXaGVuIFBMQVRGT1JN
-X0xJQkdDQyB3YXMgYWRkZWQgdG8gbGlua2VyIGNvbW1hbmQgaXQgd2FzIG5vdA0KPj4gK2FkZGVk
-IHRvIHRoZSBkZXBlbmRlbmN5IG9mIHRoZSAuc28gYW5kIG90aGVyIHJ1bGVzLiBUaHVzIGEgYnVp
-bGQgY2FuDQo+PiArdHJ5IHRvIGxpbmsgKl9lZmkuc28gZmlsZXMgYmVmb3JlIGxpYi5hIGZyb20g
-UExBVEZPUk1fTElCR0NDIGlzIGF2YWlsYWJsZS4NCj4+ICtUaGlzIHdhcyBzZWVuIGluIHlvY3Rv
-IGF1dG9idWlsZGVyIGJ1aWxkcyB3aXRoIHUtYm9vdCAyMDI1LjA3DQo+PiArdXBkYXRlLCBzZWUg
-aHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2Fn
-ZS8yMjAwMDQNCj4+ICsNCj4+ICtodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcv
-dmFsa3lyaWUvYXBpL3YyL2xvZ3MvMjkxNDYwMC9yYXdfaW5saW5lDQo+PiArDQo+PiArfMKgwqDC
-oCBybSAtZiBsaWIvZWZpX2xvYWRlci9idWlsdC1pbi5vOyBhcm0tcG9reS1saW51eC1nbnVlYWJp
-LWFyIGNEUHJzVCBsaWIvZWZpX2xvYWRlci9idWlsdC1pbi5vIGxpYi9lZmlfbG9hZGVyL2VmaV9i
-b290bWdyLm8gbGliL2VmaV9sb2FkZXIvZWZpX2Jvb3RiaW4ubyBsaWIvZWZpX2xvYWRlci9lZmlf
-Ym9vdHRpbWUubyBsaWIvZWZpX2xvYWRlci9lZmlfaGVscGVyLm8gbGliL2VmaV9sb2FkZXIvZWZp
-X2NvbnNvbGUubyBsaWIvZWZpX2xvYWRlci9lZmlfZGV2aWNlX3BhdGgubyBsaWIvZWZpX2xvYWRl
-ci9lZmlfZGV2aWNlX3BhdGhfdG9fdGV4dC5vIGxpYi9lZmlfbG9hZGVyL2VmaV9kZXZpY2VfcGF0
-aF91dGlsaXRpZXMubyBsaWIvZWZpX2xvYWRlci9lZmlfZHRfZml4dXAubyBsaWIvZWZpX2xvYWRl
-ci9lZmlfZmR0Lm8gbGliL2VmaV9sb2FkZXIvZWZpX2ZpbGUubyBsaWIvZWZpX2xvYWRlci9lZmlf
-aGlpLm8gbGliL2VmaV9sb2FkZXIvZWZpX2hpaV9jb25maWcubyBsaWIvZWZpX2xvYWRlci9lZmlf
-aW1hZ2VfbG9hZGVyLm8gbGliL2VmaV9sb2FkZXIvZWZpX2xvYWRfb3B0aW9ucy5vIGxpYi9lZmlf
-bG9hZGVyL2VmaV9tZW1vcnkubyBsaWIvZWZpX2xvYWRlci9lZmlfcm9vdF9ub2RlLm8gbGliL2Vm
-aV9sb2FkZXIvZWZpX3J1bnRpbWUubyBsaWIvZWZpX2xvYWRlci9lZmlfc2V0dXAubyBsaWIvZWZp
-X2xvYWRlci9lZmlfc3RyaW5nLm8gbGliL2VmaV9sb2FkZXIvZWZpX3VuaWNvZGVfY29sbGF0aW9u
-Lm8gbGliL2VmaV9sb2FkZXIvZWZpX3Zhcl9jb21tb24ubyBsaWIvZWZpX2xvYWRlci9lZmlfdmFy
-X21lbS5vIGxpYi9lZmlfbG9hZGVyL2VmaV92YXJpYWJsZS5vIGxpYi9lZmlfbG9hZGVyL2VmaV92
-YXJfZmlsZS5vIGxpYi9lZmlfbG9hZGVyL2VmaV93YXRjaGRvZy5vIGxpYi9lZmlfbG9hZGVyL2Vm
-aV9kaXNrLm8gbGliL2VmaV9sb2FkZXIvZWZpX25ldC5vIGxpYi9lZmlfbG9hZGVyL2VmaV9zbWJp
-b3MubyBsaWIvZWZpX2xvYWRlci9lZmlfbG9hZF9pbml0cmQubyBsaWIvZWZpX2xvYWRlci9lZmlf
-Y29uZm9ybWFuY2Uubw0KPj4gK3zCoMKgIGFybS1wb2t5LWxpbnV4LWdudWVhYmktbGQuYmZkIC1u
-b3N0ZGxpYiAtemV4ZWNzdGFjayAtem5vY29tYnJlbG9jIC16bm9yZWxybyAtLW5vLXdhcm4tcnd4
-LXNlZ21lbnRzIC1MIC9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1hcm1o
-b3N0L2J1aWxkL2J1aWxkLXN0LTMxMTkyMDAvdG1wL3dvcmsvYmVhZ2xlYm9uZV95b2N0by1wb2t5
-LWxpbnV4LWdudWVhYmkvdS1ib290LzIwMjUuMDcvc291cmNlcy91LWJvb3QtMjAyNS4wNyAtVCBh
-cmNoL2FybS9saWIvZWxmX2FybV9lZmkubGRzIC1zaGFyZWQgLUJzeW1ib2xpYyAtcyBsaWIvZWZp
-X2xvYWRlci9oZWxsb3dvcmxkLm8gbGliL2VmaV9sb2FkZXIvZWZpX2NydDAubyBsaWIvZWZpX2xv
-YWRlci9lZmlfcmVsb2MubyBsaWIvZWZpX2xvYWRlci9lZmlfZnJlZXN0YW5kaW5nLm8gYXJjaC9h
-cm0vbGliL2xpYi5hIC1vIGxpYi9lZmlfbG9hZGVyL2hlbGxvd29ybGRfZWZpLnNvDQo+PiArfCBh
-cm0tcG9reS1saW51eC1nbnVlYWJpLWxkLmJmZDogY2Fubm90IGZpbmQgYXJjaC9hcm0vbGliL2xp
-Yi5hOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5DQo+PiArfCBtYWtlWzNdOiAqKiogW3Njcmlw
-dHMvTWFrZWZpbGUubGliOjUxMjogbGliL2VmaV9sb2FkZXIvaGVsbG93b3JsZF9lZmkuc29dIEVy
-cm9yIDENCj4+ICsNCj4+ICtUaGUgaXNzdWUgaXMgaGFyZCB0byByZXByb2R1Y2UgYnV0IHRoaXMg
-Y2hhbmdlIGNhbiBhcnRpZmljaWFsbHkgdHJpZ2dlciBpdDoNCj4+ICsNCj4+ICvCoCBhL3Njcmlw
-dHMvTWFrZWZpbGUuYnVpbGQNCj4+ICvCoCBiL3NjcmlwdHMvTWFrZWZpbGUuYnVpbGQNCj4+ICtA
-QCAtMzUzLDcgKzM1Myw3IEBAICQobW9kb3JkZXItdGFyZ2V0KTogJChzdWJkaXIteW0pIEZPUkNF
-DQo+PiArICMNCj4+ICsgaWZkZWYgbGliLXRhcmdldA0KPj4gKyBxdWlldF9jbWRfbGlua19sX3Rh
-cmdldCA9IEFSwqDCoMKgwqDCoCAkQA0KPj4gKy1jbWRfbGlua19sX3RhcmdldCA9IHJtIC1mICRA
-OyAkKEFSKSBjRFByc1QkKEtCVUlMRF9BUkZMQUdTKSAkQCAkKGxpYi15KQ0KPj4gKytjbWRfbGlu
-a19sX3RhcmdldCA9IHJtIC1mICRAICYmIGVjaG8gIkhBQ0ssIGRlbGF5aW5nIGJ1aWxkISIgJiYg
-c2xlZXAgNjAgJiYgJChBUikgY0RQcnNUJChLQlVJTERfQVJGTEFHUykgJEAgJChsaWIteSkNCj4+
-ICsNCj4gDQo+IFRoaXMgaXMgbm90IGhvdyB5b3Ugc29sdmUgYnVpbGQgcmFjZXMgYW5kIEkndmUg
-dmVyeSByZWx1Y3RhbnQgdG8gdGFrZQ0KPiBwYXRjaGVzIHRoYXQgbG9vayBsaWtlIHRoYXQsIHdo
-ZXRoZXIgc3VibWl0dGVkIHRvIHVwc3RyZWFtIG9yDQo+IG90aGVyd2lzZS4NCj4gDQoNCklmIEkn
-bSBub3QgbWlzdGFrZW4sIHRoaXMgaXMgbm90IHRoZSBhY3R1YWwgcGF0Y2ggKGNvZGUpIGNvbnRl
-bnQgYnV0IA0KcmF0aGVyIGhvdyB0byByZXByb2R1Y2UgdGhlIHJhY2UgaXNzdWUgcmVsaWFibHkg
-aW4gYSBwYXRjaCBmb3JtYXQgDQpjb250YWluZWQgaW4gdGhlIGNvbW1pdCBsb2cgYnV0IHRoZSBh
-Y3R1YWwgY29kZSBkb2Vzbid0IGFkZCBzbGVlcCBhcyBmYXIgDQphcyBJIGNvdWxkIHRlbGw/IEJ1
-dCBpdCdzIGhhcmQgdG8gZGlzdGluZ3Vpc2ggYSBwYXRjaCBpbiBhIHBhdGNoIGluIGEgDQpwYXRj
-aCdzIGNvbW1pdCBsb2cgZnJvbSBhIHBhdGNoIGluIGEgcGF0Y2ggOikNCg0KQ2hlZXJzLA0KUXVl
-bnRpbg0K
+On Fri, 2025-07-18 at 12:34 +0200, Quentin Schulz wrote:
+> Hi Richard,
+>=20
+> On 7/18/25 12:28 PM, Richard Purdie via lists.openembedded.org wrote:
+> > On Fri, 2025-07-18 at 12:01 +0300, Mikko Rapeli via
+> > lists.openembedded.org wrote:
+> > > From: Fabio Estevam <festevam@gmail.com>
+> > >=20
+> > > Upgrade to U-Boot 2025.07. Added patches for build race
+> > > conditions.
+> > > Removed qemu KVM USB workaround since issue is fixed upstream.
+> > >=20
+> > > Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > > ---
+> > > =C2=A0=C2=A0.../u-boot/files/disable_CONFIG_USB.cfg=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 -
+> > > =C2=A0=C2=A0...pts-Makefile.lib-fix-_efi.so-depende.patch | 136
+> > > ++++++++++++++++++
+> > > =C2=A0=C2=A0...kefile-change-apps-from-always-to-ta.patch |=C2=A0 57 =
+++++++++
+> > > =C2=A0=C2=A0meta/recipes-bsp/u-boot/u-boot-common.inc=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 8 +-
+> > > =C2=A0=C2=A0...ols_2025.04.bb =3D> u-boot-tools_2025.07.bb} |=C2=A0=
+=C2=A0 0
+> > > =C2=A0=C2=A0.../{u-boot_2025.04.bb =3D> u-boot_2025.07.bb}=C2=A0 |=C2=
+=A0=C2=A0 4 +-
+> > > =C2=A0=C2=A06 files changed, 201 insertions(+), 5 deletions(-)
+> > > =C2=A0=C2=A0delete mode 100644 meta/recipes-bsp/u-
+> > > boot/files/disable_CONFIG_USB.cfg
+> > > =C2=A0=C2=A0create mode 100644 meta/recipes-bsp/u-boot/files/v3-0001-
+> > > Makefile-scripts-Makefile.lib-fix-_efi.so-depende.patch
+> > > =C2=A0=C2=A0create mode 100644 meta/recipes-bsp/u-boot/files/v3-0002-
+> > > efi_loader-Makefile-change-apps-from-always-to-ta.patch
+> > > =C2=A0=C2=A0rename meta/recipes-bsp/u-boot/{u-boot-tools_2025.04.bb =
+=3D> u-
+> > > boot-tools_2025.07.bb} (100%)
+> > > =C2=A0=C2=A0rename meta/recipes-bsp/u-boot/{u-boot_2025.04.bb =3D> u-
+> > > boot_2025.07.bb} (64%)
+> > >=20
+> > > v3: Did not manage to reproduce AB build failures but added
+> > > delays to more
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 linker calls which exposed similar issues. F=
+ixed failures
+> > > with patches
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 which are also submitted upstream.
+> > >=20
+> > > v2: added upstreamed patch to fix build race conditon, removed
+> > > qemu kvm workaround
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 fixed upstream. Would be nice to check if bu=
+ilds now pass.
+> > > =C2=A0=C2=A0=C2=A0=C2=A0
+> > > https://lists.openembedded.org/g/openembedded-core/message/220436
+> > >=20
+> > > v1:
+> > > https://lists.openembedded.org/g/openembedded-core/message/220004
+> > >=20
+> > > diff --git a/meta/recipes-bsp/u-boot/files/disable_CONFIG_USB.cfg
+> > > b/meta/recipes-bsp/u-boot/files/disable_CONFIG_USB.cfg
+> > > deleted file mode 100644
+> > > index 1d2509982be1..000000000000
+> > > --- a/meta/recipes-bsp/u-boot/files/disable_CONFIG_USB.cfg
+> > > +++ /dev/null
+> > > @@ -1 +0,0 @@
+> > > -# CONFIG_USB is not set
+> > > diff --git a/meta/recipes-bsp/u-boot/files/v3-0001-Makefile-
+> > > scripts-Makefile.lib-fix-_efi.so-depende.patch b/meta/recipes-
+> > > bsp/u-boot/files/v3-0001-Makefile-scripts-Makefile.lib-fix-
+> > > _efi.so-depende.patch
+> > > new file mode 100644
+> > > index 000000000000..e8253a67b211
+> > > --- /dev/null
+> > > +++ b/meta/recipes-bsp/u-boot/files/v3-0001-Makefile-scripts-
+> > > Makefile.lib-fix-_efi.so-depende.patch
+> > > @@ -0,0 +1,136 @@
+> > > +From 2e7c1321bb44cc6af4ee4b1026a52e1a0aa7e336 Mon Sep 17
+> > > 00:00:00 2001
+> > > +From: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > > +Date: Thu, 10 Jul 2025 14:24:07 +0000
+> > > +Subject: [PATCH v3 1/2] Makefile scripts/Makefile.lib: fix
+> > > *_efi.so dependency
+> > > + to PLATFORM_LIBGCC
+> > > +
+> > > +When PLATFORM_LIBGCC was added to linker command it was not
+> > > +added to the dependency of the .so and other rules. Thus a build
+> > > can
+> > > +try to link *_efi.so files before lib.a from PLATFORM_LIBGCC is
+> > > available.
+> > > +This was seen in yocto autobuilder builds with u-boot 2025.07
+> > > +update, see
+> > > https://lists.openembedded.org/g/openembedded-core/message/220004
+> > > +
+> > > +
+> > > https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/2914600/
+> > > raw_inline
+> > > +
+> > > +|=C2=A0=C2=A0=C2=A0 rm -f lib/efi_loader/built-in.o; arm-poky-linux-=
+gnueabi-ar
+> > > cDPrsT lib/efi_loader/built-in.o lib/efi_loader/efi_bootmgr.o
+> > > lib/efi_loader/efi_bootbin.o lib/efi_loader/efi_boottime.o
+> > > lib/efi_loader/efi_helper.o lib/efi_loader/efi_console.o
+> > > lib/efi_loader/efi_device_path.o
+> > > lib/efi_loader/efi_device_path_to_text.o
+> > > lib/efi_loader/efi_device_path_utilities.o
+> > > lib/efi_loader/efi_dt_fixup.o lib/efi_loader/efi_fdt.o
+> > > lib/efi_loader/efi_file.o lib/efi_loader/efi_hii.o
+> > > lib/efi_loader/efi_hii_config.o lib/efi_loader/efi_image_loader.o
+> > > lib/efi_loader/efi_load_options.o lib/efi_loader/efi_memory.o
+> > > lib/efi_loader/efi_root_node.o lib/efi_loader/efi_runtime.o
+> > > lib/efi_loader/efi_setup.o lib/efi_loader/efi_string.o
+> > > lib/efi_loader/efi_unicode_collation.o
+> > > lib/efi_loader/efi_var_common.o lib/efi_loader/efi_var_mem.o
+> > > lib/efi_loader/efi_variable.o lib/efi_loader/efi_var_file.o
+> > > lib/efi_loader/efi_watchdog.o lib/efi_loader/efi_disk.o
+> > > lib/efi_loader/efi_net.o lib/efi_loader/efi_smbios.o
+> > > lib/efi_loader/efi_load_initrd.o lib/efi_loader/efi_conformance.o
+> > > +|=C2=A0=C2=A0 arm-poky-linux-gnueabi-ld.bfd -nostdlib -zexecstack -
+> > > znocombreloc -znorelro --no-warn-rwx-segments -L
+> > > /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-
+> > > 3119200/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-
+> > > boot/2025.07/sources/u-boot-2025.07 -T
+> > > arch/arm/lib/elf_arm_efi.lds -shared -Bsymbolic -s
+> > > lib/efi_loader/helloworld.o lib/efi_loader/efi_crt0.o
+> > > lib/efi_loader/efi_reloc.o lib/efi_loader/efi_freestanding.o
+> > > arch/arm/lib/lib.a -o lib/efi_loader/helloworld_efi.so
+> > > +| arm-poky-linux-gnueabi-ld.bfd: cannot find arch/arm/lib/lib.a:
+> > > No such file or directory
+> > > +| make[3]: *** [scripts/Makefile.lib:512:
+> > > lib/efi_loader/helloworld_efi.so] Error 1
+> > > +
+> > > +The issue is hard to reproduce but this change can artificially
+> > > trigger it:
+> > > +
+> > > +=C2=A0 a/scripts/Makefile.build
+> > > +=C2=A0 b/scripts/Makefile.build
+> > > +@@ -353,7 +353,7 @@ $(modorder-target): $(subdir-ym) FORCE
+> > > + #
+> > > + ifdef lib-target
+> > > + quiet_cmd_link_l_target =3D AR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $@
+> > > +-cmd_link_l_target =3D rm -f $@; $(AR) cDPrsT$(KBUILD_ARFLAGS) $@
+> > > $(lib-y)
+> > > ++cmd_link_l_target =3D rm -f $@ && echo "HACK, delaying build!" &&
+> > > sleep 60 && $(AR) cDPrsT$(KBUILD_ARFLAGS) $@ $(lib-y)
+> > > +
+> >=20
+> > This is not how you solve build races and I've very reluctant to
+> > take
+> > patches that look like that, whether submitted to upstream or
+> > otherwise.
+> >=20
+>=20
+> If I'm not mistaken, this is not the actual patch (code) content but=20
+> rather how to reproduce the race issue reliably in a patch format=20
+> contained in the commit log but the actual code doesn't add sleep as far=
+=20
+> as I could tell? But it's hard to distinguish a patch in a patch in a
+> patch's commit log from a patch in a patch :)
+
+That makes much more sense, thanks. I was thinking it was a very
+unusual upstream submission!
+
+Cheers,
+
+Richard
+
 
