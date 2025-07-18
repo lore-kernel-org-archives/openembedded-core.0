@@ -1,191 +1,422 @@
-Return-Path: <macpaul.lin@mediatek.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE70C83F1A
-	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 08:56:41 +0000 (UTC)
-Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [210.61.82.184])
- by mx.groups.io with SMTP id smtpd.web11.16515.1752828996882488332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8093FC83F17
+	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 09:01:51 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.16358.1752829308637501984
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 01:56:37 -0700
+ Fri, 18 Jul 2025 02:01:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=hTrvAPSO;
- dkim=pass header.i=@mediateko365.onmicrosoft.com header.s=selector2-mediateko365-onmicrosoft-com header.b=En7RnemP;
- spf=pass (domain: mediatek.com, ip: 210.61.82.184, mailfrom: macpaul.lin@mediatek.com)
-X-UUID: 199e78f663b511f0b33aeb1e7f16c2b6-20250718
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=khHtO5MKh+2HjoBJPG6guitD6oXvmSzCLDBnJbibxNY=;
-	b=hTrvAPSO95KIHKUaSjy1VE5BVKyRcvYwvAkvlD56m0r0sXqXFsbzGQJi/Tg2I4xk+gg92qxvUAbJcz2li3DUgwTRkGPuRPaddOI8qCt19HeJoReA+JNao1gKPUrr0lZYlvUFnaOZ3X6LhdYBEjPBAKDDnfEkZMLwyyzNiRIBDm8=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.2,REQID:97a21369-f940-4d5c-b4ff-7c50ace6263d,IP:0,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-5
-X-CID-META: VersionHash:9eb4ff7,CLOUDID:c83cec0e-6968-429c-a74d-a1cce2b698bd,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|110|111,TC:nil,Content:
-	0|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI
-	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 199e78f663b511f0b33aeb1e7f16c2b6-20250718
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw02.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1478587514; Fri, 18 Jul 2025 16:56:31 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Fri, 18 Jul 2025 16:56:30 +0800
-Received: from TYPPR03CU001.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Fri, 18 Jul 2025 16:56:30 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bespjI3g9H7rUdVdMibd1y1w07z624r2clUn02V0hzByRnwb5wCxf7LFhEJmDr1kNV01TRmUzx93TCSoI2uebLKpvVvf7vOq6VhOAbe2nXDSFDPHrZhP3l7R2sHB7E+J0yawBgpNqvnHWPT1EI1u5prK+3hkCk8RSC+bMmjHAxmM3DNpU6rMGCSgYwRQZWthUnX7HZNi6cg+PnOyqtBU7uA++UhYQiqZz993cLciYhZh1ElngJJdbRMZUXIpeK3QozUrGIEpwvQBH7MQZOngSV3VvfTAQC/scqWDjcOq+tzGl1XRNyZ7q31vRnFBEUND9/f++KS9uT97RW/gxgpTrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=khHtO5MKh+2HjoBJPG6guitD6oXvmSzCLDBnJbibxNY=;
- b=LLJQbGu4q9lYuP1CPN2UZW/2XxYlOXaXceSCiU3TArRhDx9xxbRDFWwoaCgjPuFk5gkkU1Q396r4gLV9Q7GQWYFdAA5+yL9KPE1kOPk7M6Q7eZoIZHJYXveFQTF2OnRRN84kMDdgWlMeIFxlMMeWb80WMuyYdLiTM3OlAhYLOiMg7/pEU+JZUl7TD15J69aDzlq7Jz6pnLzuPFqAY2O/VXkloQQ2nx7EI2H8XgR+qGxyCcNIz0Ztg2X6hK0H9Zk20HZ8d0nnYwhX2UpzKOrmF7uCpsS9Zf+zhIdOLqWaVd49VzYR7KWuLLnTuvM+AjNjdTKvVVQO7uob502kJ0G2RA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+ dkim=pass header.i=@linaro.org header.s=google header.b=kzPLpouf;
+ spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5550dca1241so1673488e87.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 02:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=khHtO5MKh+2HjoBJPG6guitD6oXvmSzCLDBnJbibxNY=;
- b=En7RnemP7xx8v8VQk1sqUcD7z0yVnn1UVrrPusEuSwtV334oPEv6VN9mbn+aiAZh1ASzw30jQrzroU62/2pFW/f3IVBaGLglMVPCMFpLvHprw7k1qflfZlo7PzBziO6XwcXoyUT3WNAi+osrpwr6l43y5u3tWR9q20MAYE1c94E=
-Received: from SEZPR03MB7810.apcprd03.prod.outlook.com (2603:1096:101:184::13)
- by SEYPR03MB7416.apcprd03.prod.outlook.com (2603:1096:101:13a::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Fri, 18 Jul
- 2025 08:56:25 +0000
-Received: from SEZPR03MB7810.apcprd03.prod.outlook.com
- ([fe80::2557:de4d:a3c7:41e8]) by SEZPR03MB7810.apcprd03.prod.outlook.com
- ([fe80::2557:de4d:a3c7:41e8%4]) with mapi id 15.20.8922.037; Fri, 18 Jul 2025
- 08:56:25 +0000
-From: =?utf-8?B?TWFjcGF1bCBMaW4gKOael+aZuuaWjCk=?= <Macpaul.Lin@mediatek.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: =?utf-8?B?TWFjcGF1bCBMaW4gKOael+aZuuaWjCk=?= <Macpaul.Lin@mediatek.com>
-Subject: Re: [OE-core] [PATCH 4/4] arm64: defconfig: Enable UFS support for
- MediaTek Genio 1200 EVK UFS board
-Thread-Topic: [OE-core] [PATCH 4/4] arm64: defconfig: Enable UFS support for
- MediaTek Genio 1200 EVK UFS board
-Thread-Index: AQHb976KjOjFV+6tPUWGYeRVphNVi7Q3k/2A
-Date: Fri, 18 Jul 2025 08:56:24 +0000
-Message-ID: <145f9b37aed9e49989a5c7ada34c43702a082316.camel@mediatek.com>
-References: <20250718083202.654568-1-macpaul.lin@mediatek.com>
-	 <18534B5BDFD1E7F3.21936@lists.openembedded.org>
-In-Reply-To: <18534B5BDFD1E7F3.21936@lists.openembedded.org>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEZPR03MB7810:EE_|SEYPR03MB7416:EE_
-x-ms-office365-filtering-correlation-id: 8cef644f-c10e-44e0-b89d-08ddc5d8f9ca
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?Vnh6ZGp6dDFWNlA2R1h5V1F5SnRBNU5KbDJuazFyZnl5cDVYWWsxd29VQ05T?=
- =?utf-8?B?RnZqaUNYNjhSdTIzU1N3SDd1V0JCYnBTMEFmLzhNUFY1cW1sVTZOUEYzSFls?=
- =?utf-8?B?TWs4a2gxOWo5TVVYU0NWVEFQKzdJNGhqbVpnN3RUMzBDeHBPNVpUY0cwUFI1?=
- =?utf-8?B?ZHBDSis1dmlzRHZWWkZIU1htSHdNVGxZZStTSUExWnkyNU4xcmZmVXlrNURZ?=
- =?utf-8?B?d1RYYThuTzlSV1ZTeFQ4blltUnI5djdZSjNxaEFia3NnL0R0cTBLeUJZSGdy?=
- =?utf-8?B?d1d5K1BOL2VqZUMwUE1SaERDaE52OSs5MS9WWkh2dENmOVhRcS92YUVTN2tW?=
- =?utf-8?B?ZEJvZ2JUb3ljUnFwdDFReURNNmw5MytlVmRvc1ZZcnQ4bVNQOXFIenFmRXFS?=
- =?utf-8?B?VkQ5Qmw0M0tCSFY4Q0hjdGVIeStnOTRCaWt1MER2YWVWR0ZKUnIwQ05mZEQ0?=
- =?utf-8?B?NU1SWUgrcnVPWDloOFk2RHdSZWFyRDV5U1J3cmVMUGxhc01tNThRUnNOWkFY?=
- =?utf-8?B?YTJZK0x3Z2RRVHJXbCtxUUdFM0NkaCtwbHV0dktycUdWK256bmxuajhGOXMr?=
- =?utf-8?B?SkttQzFVRUduei9BUThwWEF2ZVR2dlJPY1JaWm9ydzcxcDRuYW9Ec2U3ZHB0?=
- =?utf-8?B?bCtKaDVhQlpaY0hiUWlQRzQwM09nTkZKcm03NjAwbUtrK3lzakxiWjdlUGo4?=
- =?utf-8?B?eXR4R0dleUNxbjlrU0ZUYktxM0h2dXlidmR1d1M5WDBML0NlVThVTWFJUEdD?=
- =?utf-8?B?NXJ0ZGFmM0FXK1FZSjVOamNaZUVGSGMxQVc1U3NmQXhVOFhtTC9xbnVNU1RE?=
- =?utf-8?B?dlZSdXkwaW1wVmxvLzZWRzFSWHVmQjNVU3VoNFpPandxQldrL1hFVjVFazM5?=
- =?utf-8?B?S1pEQ1Q3TnM1RXpiNHE4VFZUR3lMcjhIS3FTWG8rbDVNRDdCRWh1U09DMllE?=
- =?utf-8?B?emhmaFh5NVc5elpnNWNZU29mVFhpVEpmVUU5cENQZnUySEVRNFpNTzZQUFNo?=
- =?utf-8?B?aGtXeGFhY3dGU2VWdUVCNWJLM3pSR25KVVpZeExpcGNpZmdnM29aRCt3YkpQ?=
- =?utf-8?B?bHZza0JXS2pDZnNEZC9IVWMzeXVsK0Vub0tBNWNDZldYbU5jVW9pZEEwdS9k?=
- =?utf-8?B?NmY0dVB4YUdDMUJUcVNlK1Frck5sdENDS281ZG85SkV3ZVFlQUtyRGxRK2lt?=
- =?utf-8?B?dUJtZGR2UUVEQks5eUJtVWl5anVVZkMwVVVPYTlZZ2NRNFNnY3dGVklBeW5P?=
- =?utf-8?B?b2RlRE92YTJGL3UrTXp3bGZDREt2ZzlLSzlTT2toOHQxK3JCS3NaVU1ONWVs?=
- =?utf-8?B?OFBMYXMwYUtqK1l2SEVtL0lWYk5CUUkxTVp3UTJ0UnBEWjA3b25QVU0xTFRw?=
- =?utf-8?B?UnRpZnZmaVhYalpHRGVzbWt5eklna2l4ZW42aW85YUlzYUd1SG52S2ptNkQx?=
- =?utf-8?B?bENGYlVXWEk2TCtMNDc0Zkh1amgvK2h6WEIxbVJuVXdibkZxMEhMVEhsRElo?=
- =?utf-8?B?R3BGTDB0Y2lzcWRuL1lJTjBzU1ZNRFg0dU9uUjdSL3RQVyt4OWpiY0FXQ3NJ?=
- =?utf-8?B?WVRIZ2liRWU4RlFFY0lpMWYwTjFPMFFaeWFwVFF6V05TbERQckNBc3pTTTVi?=
- =?utf-8?B?QkE1aExsQ2xKUUU1UDFIbDhnOFBzNlVGNm9Ja2YraWtUeU9nZEFXdmRTMTcr?=
- =?utf-8?B?R0lOcXlUbVlWUk9uSDYxcWFhdmNsUlNyWWdUcVVreThBRFBzR3h3QnBSQW5I?=
- =?utf-8?B?QUwvcy9UZ2luK2VVT3pEZEtmbWVyM1FVZnZtbEFwT2NONjNEQXhHVUVhMVox?=
- =?utf-8?B?VHFtQmtFZW5GSmpUMnp2QVZHRFBCcGVPMUNmWjloYThXSUROU2JPYTRGemY3?=
- =?utf-8?B?L0pwMlNRUjFOb0ZaNWhHZm5heDB2cUlUQzQ5ZjhMMlZXMlNxTzR3blNvcEkr?=
- =?utf-8?B?STNNUHZRTTFsY1hyOWNBaDBrYlNvMkpmYnlEQ2FnN3ZHNmpuUG94Si82L2Fz?=
- =?utf-8?B?RGF2dGpqanpnPT0=?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR03MB7810.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bU9XRHUxU254SEdXbEQwd2wraExIQkk5Tzc3WFpRb2NmV2szWE9yazgzU1dP?=
- =?utf-8?B?aE8vYmt0YndzckYyVExMY0M1RVcyUVR1ZjBRZEltZVhwcEtmaXZ0TUFXQTVC?=
- =?utf-8?B?RXlqVXRTZko5WjFpNUNmczNMelE1YzVaSW4xMGxsemR0MnNkMU5EdlBCbTlv?=
- =?utf-8?B?V2RDZlpCZ1gyNnpVMXRHdSt2L0JLaTVLVWxVMjlHM0I0YllWdWRBYld1RlNI?=
- =?utf-8?B?aGxoWStWZVJUSm93VjdpdWpmUERNc3JaZ1NVRStRUW14MEtuUGd6R05ISHFa?=
- =?utf-8?B?dkZYaTFzbGg3RlRMcDJiakFWQ09OS2RvV0RpT1EvV0xIUDZhelRlczhSakZa?=
- =?utf-8?B?bUpRUFYzVmNjRXBQenNsRmZBWEV4NnRKS0pMRVExckJPcGRHR3EzWHB0SXFk?=
- =?utf-8?B?a2dRSDNZRURvRTRFZ1piUGszSTQ1S3F6Qmo1K2FSMEZVYUJkMDdLNGJoem41?=
- =?utf-8?B?LzlzTkFGNUVrMWM2NzQ4ajZ6bCtZNlFhQUJSNmZtMGNrQzlOWm41Z0FOUm5L?=
- =?utf-8?B?eCtFS1BpcmVpSHdhY251Y0VER3J4ZXJDYmFPRmxIcW9RbWEwRDlmNENNTnU4?=
- =?utf-8?B?OFlqOUZoMDZtSVRMZHVkVE4zdUNrZDhaV290SmxoUTV6WE83TU1JNU50U3Jz?=
- =?utf-8?B?TFczdE1LVGl3TlpoSVkxMHkybmNESmRtZU9heGtsT3pMMm1SUE9lZnJTVFhQ?=
- =?utf-8?B?NDFrY2hhSXcyL2xFdU5rSW1Nbm0xeGpucHdHRlNvMlMwbVZiS051MXhCWDho?=
- =?utf-8?B?VkhjZ0dHK1hWZE1YSk9oSmxQMkxydFo5S3FFNTBsMm9lU2lwYy81aTZBdGRh?=
- =?utf-8?B?K2RXc0RWWTI5SUZJRDVxTHkxVEpsaEk0bWRvYmJOc0VmL2hRSWE0NTZpdDUx?=
- =?utf-8?B?QU9KdTR3MUNnNVJlc2VXVFVqTHRZZCtGdDlYZVY2dlpWUi9NVDNtZk1BZ1Z1?=
- =?utf-8?B?OTh3amNrRWg5THdSYk9JN2o0aXFZNml6ZVlXU00rN0xaUmw0MjNGTCtVRXZR?=
- =?utf-8?B?ZXlDVThNaVNiUnRBbUxuSzFUTGx6Q3BkNS96YkhQTVBRblVaK1BWRFhYU0pL?=
- =?utf-8?B?aWQ3Qkt0Z3JzRitxU202bGxlc1ZhZ2R0Mm5LdmkyRXBhWkJuRkljaVNkdSsr?=
- =?utf-8?B?Qmh4ZnB6d21xbEJQV2o4R1lIREs3czVaVU5vbUovYVdaRG1SeUFYZjN6N0pD?=
- =?utf-8?B?S1YrZ0FZMUp3UWVVWGM0d0tDSzh3eWZzVkp4US9PVkt6djc1eUZGQlRFNC9n?=
- =?utf-8?B?L2JDU2NKN3BXQVZLeDZnSHVwODF4T2JLeVViUk9EN29BRDExVjNNZFlCVndD?=
- =?utf-8?B?a1VDNlBnVVZzcXlIR1dvVDd1NTdQU3V6TnYwYUdnTWgzcTBCY3hxL0hWZjdH?=
- =?utf-8?B?b0RNSDI5VmRKTXJPbm5uVXJHM0xLbHdqS2lCc2dxYXdLNTUyOWtGTzNRb2ZK?=
- =?utf-8?B?dkhja0J2N1BldGl2cjJ6bFlkT3BqRXNLK21MTHI3TXJ2cTJxWStLVHM0ZnJ2?=
- =?utf-8?B?cldVQlpBVUpzUTJleTNZaE5Ua3Z5b1grWHoxKzZta1VwNWh6MTNpSEZNNGlj?=
- =?utf-8?B?dzIrMGlXTTdIUnd0RjVreEE5elMyalhjNTNtK3p4a1ZPblE0RlZtZXE1RzdD?=
- =?utf-8?B?QytXSmFKc2M0ait1M1cyVzdUZjlBY2dzQWpZTmpWS3ptSzBrd1NhRlU1MU96?=
- =?utf-8?B?a3NzRFgyZ0hZWm1XVUlHRDJpK282Ty8wL3g4NEVNRVVDak1uaFRmdVRFdVBo?=
- =?utf-8?B?UHU0UnJEQVVWTUhmQ2dIT0xDWlJrLzJFM2w4Z21aanVVeGZ4NDZqUE52dUVX?=
- =?utf-8?B?Vmdkei9VZi9Bc2xtNGV5MEtqbGNMYkIwRzlxS0dCMHE3dVVwVXRxZG1telVs?=
- =?utf-8?B?S3FKQ3R2YVFxVWgrd0xmMllGMkZuTjZIUDhTd243bjVNeXF0MDI4NVFEd04r?=
- =?utf-8?B?aElxaHhyTGIyZWVHQkJoZUpmckhYN2tQUkJmdzVLTC9PTGhmaWpFb2p2bFdT?=
- =?utf-8?B?cWNvNjluT2tGM0RJMHJwNGo4Tzg2RnpOWDJTczJVWTFvTTdtN21Pa1hqUG13?=
- =?utf-8?B?UWJxajdySWd6YmEzZUc2Q3ZRaW9XcGNLOVcxT28zZzVCNjBzdmZ1MWxJdHNS?=
- =?utf-8?B?czJFem9ic1VkVjhHcDVkMldlTnVpU05aVUZCa0R2eEwybkhGN2xCMldzdk05?=
- =?utf-8?B?OXc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <02CA041F29E3BF42AB83A4E7EE9CB8AF@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=linaro.org; s=google; t=1752829306; x=1753434106; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XP4gcPz4VMA993p+xZ3ZzrBbYmyGYU7Jb2lklOhhX24=;
+        b=kzPLpoufrakZAkALGYNGqpjCpfYl+7ebxkb5PHPTKLeCIf+ID1VoRq2Qnpj7Jihjb8
+         7txX3nxCcUEPq5zOWiQxLc+ziq9QM+yPP6lw6KCebvzC6KspUG6L6pgqwVzjVnJzK1VW
+         KuSBwbz3YNiM3pJydD16H12JI0i2L9Yi4FnvSxOQ9GDooz4jaZe0C4UoFJedUpl0VktK
+         +PmcCH5eWl6i2ig1uuaqOj9VOUD/3015aBURexRHNpuX7qB9ZeizrDybcltHcv4W8fZm
+         pCPxYafqf/fhuPBOXs/y8CTwDLguIMlBHoPBxRHym2FQwxhoaLNFkA9CETmZQmmVDs2V
+         03jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752829306; x=1753434106;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XP4gcPz4VMA993p+xZ3ZzrBbYmyGYU7Jb2lklOhhX24=;
+        b=JI6aw7CLVi+mSEMNfym12bDEoZvMOXgEdU0A8GsBNRNiBBGywbE9A4eGVFyNUcfFC0
+         ui+nuv+PiSPFsTEYSRxkZRSUkOCkKfiqAAA7L4ZMY9wWRdBVHilj5A3ZZind40qF3VES
+         vwR3wit06kMRiygYJYqatsGGAUDcQWeyLyGSd1oYzdOqbr2FObtAQ9CBynUgUatDL6DW
+         6bCmN+w3f7MIKUfybcrzA/H+E66weEXqbIXTQ4XQpa2LrHqL2Ls0To0n5ZwYKEDItHjO
+         TT7dEgk5Rvnj3hkvwEEgOPv2HAmRI5B4/JoGCzLem/NKbOJQcF5jd6IE4aUsSZZsyRUn
+         Mdxw==
+X-Gm-Message-State: AOJu0YxrbUTus7f4xUBWCRP8czAhBxOup4JjLRkHYvkUZ3B+R6YluhKo
+	KI03FmPcYvu2cCbygcDarnqlmx2EZzAibR4Q9bBaT3MFB/yvaPJvGRlpwVnaDPTkDjGR1soQe45
+	Jl7zI
+X-Gm-Gg: ASbGncstqLlNOYXOO+yHi29FsEh+6DPrkGLVFFBaeccElFHn1pst64w2qd1bvYNjb4N
+	1qfo3lCZ/R5Z2n+6v9MYQpFmibgf1vE242VA7DENnAecYpPnqvi7NJZZ9novunG97HE7CTltRHg
+	XxshJuzRFyKd6IY0UBodlI2Uwt48ZLtQxMKCP01mF2BhVG29Tk1jd+F9U8QU88qBbEhqOB+sytY
+	ZIMGqZWVOEzE1RucPh8mSrunh5TfRrtzKbgiT0IyghBoqVxmIN/JZQr6LpDF7zq4XvwaZ0qzzEE
+	wu16SaaFXGGmPSVIaTvb5QQrFouZxqSgLyeFOvjXGZoPol4iY+pimSXD5FSVoZJ6mEXaWr78ymM
+	d9nRElMHcbXDKGl+YNf+QN66B7NJtHGM6NXdSXn1URo3YGLK0lw==
+X-Google-Smtp-Source: AGHT+IHjuCKjvZYCFmYVFx47VqEwRfdYLxK8fSsm6xnM43X68iZ998reZf5Cv6QIvmaPnVuM0yORuA==
+X-Received: by 2002:a05:6512:3b8a:b0:552:2257:93dd with SMTP id 2adb3069b0e04-55a23f0902bmr2717221e87.25.1752829306201;
+        Fri, 18 Jul 2025 02:01:46 -0700 (PDT)
+Received: from nuoska (85-76-141-8-nat.elisa-mobile.fi. [85.76.141.8])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55a31d7c755sm177136e87.108.2025.07.18.02.01.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jul 2025 02:01:45 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Fabio Estevam <festevam@gmail.com>,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v3] u-boot: upgrade 2025.04 -> 2025.07
+Date: Fri, 18 Jul 2025 12:01:23 +0300
+Message-ID: <20250718090123.420399-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR03MB7810.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cef644f-c10e-44e0-b89d-08ddc5d8f9ca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2025 08:56:25.0339
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ReCbV2azOcOXGa+l32cb1kj2o7VM3nIIK3ynywiBertXdcgsOPE/zWNw2L4mUM0ihp8wnvKT5OXPrA/w5eIMCgGckJCahi1EOqmc45v1Hbs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7416
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 08:56:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220587
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 09:01:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220588
 
-T24gRnJpLCAyMDI1LTA3LTE4IGF0IDE2OjMyICswODAwLCBNYWNwYXVsIExpbiB2aWENCmxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6DQo+IA0KDQpTb3JyeSBmb3IgdGhhdCBnaXQgc2VudC1l
-bWFpbCBjbGllbnQgd2FzIGluY2x1ZGVkIE9FJ3MgbGlzdCBmb3IgDQp1cHN0cmVhbSBMaW51eCBw
-YXRjaGVzIGluIGFjY2lkZW50Lg0KSXQgaGFzIGJlZW4gZml4ZWQgYW5kIHNob3VsZCBub3QgaGFw
-cGVuZWQgbmV4dCB0aW1lLg0KDQpTaW5jZXJlbHksDQpNYWNwYXVsIExpbg0KDQo=
+From: Fabio Estevam <festevam@gmail.com>
+
+Upgrade to U-Boot 2025.07. Added patches for build race conditions.
+Removed qemu KVM USB workaround since issue is fixed upstream.
+
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ .../u-boot/files/disable_CONFIG_USB.cfg       |   1 -
+ ...pts-Makefile.lib-fix-_efi.so-depende.patch | 136 ++++++++++++++++++
+ ...kefile-change-apps-from-always-to-ta.patch |  57 ++++++++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |   8 +-
+ ...ols_2025.04.bb =3D> u-boot-tools_2025.07.bb} |   0
+ .../{u-boot_2025.04.bb =3D> u-boot_2025.07.bb}  |   4 +-
+ 6 files changed, 201 insertions(+), 5 deletions(-)
+ delete mode 100644 meta/recipes-bsp/u-boot/files/disable_CONFIG_USB.cfg
+ create mode 100644 meta/recipes-bsp/u-boot/files/v3-0001-Makefile-scripts-=
+Makefile.lib-fix-_efi.so-depende.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/v3-0002-efi_loader-Makefi=
+le-change-apps-from-always-to-ta.patch
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2025.04.bb =3D> u-boot-tools_=
+2025.07.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2025.04.bb =3D> u-boot_2025.07.bb} =
+(64%)
+
+v3: Did not manage to reproduce AB build failures but added delays to more
+    linker calls which exposed similar issues. Fixed failures with patches
+    which are also submitted upstream.
+
+v2: added upstreamed patch to fix build race conditon, removed qemu kvm wor=
+karound
+    fixed upstream. Would be nice to check if builds now pass.
+    https://lists.openembedded.org/g/openembedded-core/message/220436
+
+v1: https://lists.openembedded.org/g/openembedded-core/message/220004
+
+diff --git a/meta/recipes-bsp/u-boot/files/disable_CONFIG_USB.cfg b/meta/re=
+cipes-bsp/u-boot/files/disable_CONFIG_USB.cfg
+deleted file mode 100644
+index 1d2509982be1..000000000000
+--- a/meta/recipes-bsp/u-boot/files/disable_CONFIG_USB.cfg
++++ /dev/null
+@@ -1 +0,0 @@
+-# CONFIG_USB is not set
+diff --git a/meta/recipes-bsp/u-boot/files/v3-0001-Makefile-scripts-Makefil=
+e.lib-fix-_efi.so-depende.patch b/meta/recipes-bsp/u-boot/files/v3-0001-Mak=
+efile-scripts-Makefile.lib-fix-_efi.so-depende.patch
+new file mode 100644
+index 000000000000..e8253a67b211
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/v3-0001-Makefile-scripts-Makefile.lib-f=
+ix-_efi.so-depende.patch
+@@ -0,0 +1,136 @@
++From 2e7c1321bb44cc6af4ee4b1026a52e1a0aa7e336 Mon Sep 17 00:00:00 2001
++From: Mikko Rapeli <mikko.rapeli@linaro.org>
++Date: Thu, 10 Jul 2025 14:24:07 +0000
++Subject: [PATCH v3 1/2] Makefile scripts/Makefile.lib: fix *_efi.so depend=
+ency
++ to PLATFORM_LIBGCC
++
++When PLATFORM_LIBGCC was added to linker command it was not
++added to the dependency of the .so and other rules. Thus a build can
++try to link *_efi.so files before lib.a from PLATFORM_LIBGCC is available.
++This was seen in yocto autobuilder builds with u-boot 2025.07
++update, see https://lists.openembedded.org/g/openembedded-core/message/220=
+004
++
++https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/2914600/raw_inli=
+ne
++
++|    rm -f lib/efi_loader/built-in.o; arm-poky-linux-gnueabi-ar cDPrsT lib=
+/efi_loader/built-in.o lib/efi_loader/efi_bootmgr.o lib/efi_loader/efi_boot=
+bin.o lib/efi_loader/efi_boottime.o lib/efi_loader/efi_helper.o lib/efi_loa=
+der/efi_console.o lib/efi_loader/efi_device_path.o lib/efi_loader/efi_devic=
+e_path_to_text.o lib/efi_loader/efi_device_path_utilities.o lib/efi_loader/=
+efi_dt_fixup.o lib/efi_loader/efi_fdt.o lib/efi_loader/efi_file.o lib/efi_l=
+oader/efi_hii.o lib/efi_loader/efi_hii_config.o lib/efi_loader/efi_image_lo=
+ader.o lib/efi_loader/efi_load_options.o lib/efi_loader/efi_memory.o lib/ef=
+i_loader/efi_root_node.o lib/efi_loader/efi_runtime.o lib/efi_loader/efi_se=
+tup.o lib/efi_loader/efi_string.o lib/efi_loader/efi_unicode_collation.o li=
+b/efi_loader/efi_var_common.o lib/efi_loader/efi_var_mem.o lib/efi_loader/e=
+fi_variable.o lib/efi_loader/efi_var_file.o lib/efi_loader/efi_watchdog.o l=
+ib/efi_loader/efi_disk.o lib/efi_loader/efi_net.o lib/efi_loader/efi_smbios=
+.o lib/efi_loader/efi_load_initrd.o lib/efi_loader/efi_conformance.o
++|   arm-poky-linux-gnueabi-ld.bfd -nostdlib -zexecstack -znocombreloc -zno=
+relro --no-warn-rwx-segments -L /srv/pokybuild/yocto-worker/oe-selftest-arm=
+host/build/build-st-3119200/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-=
+boot/2025.07/sources/u-boot-2025.07 -T arch/arm/lib/elf_arm_efi.lds -shared=
+ -Bsymbolic -s lib/efi_loader/helloworld.o lib/efi_loader/efi_crt0.o lib/ef=
+i_loader/efi_reloc.o lib/efi_loader/efi_freestanding.o arch/arm/lib/lib.a -=
+o lib/efi_loader/helloworld_efi.so
++| arm-poky-linux-gnueabi-ld.bfd: cannot find arch/arm/lib/lib.a: No such f=
+ile or directory
++| make[3]: *** [scripts/Makefile.lib:512: lib/efi_loader/helloworld_efi.so=
+] Error 1
++
++The issue is hard to reproduce but this change can artificially trigger it:
++
++  a/scripts/Makefile.build
++  b/scripts/Makefile.build
++@@ -353,7 +353,7 @@ $(modorder-target): $(subdir-ym) FORCE
++ #
++ ifdef lib-target
++ quiet_cmd_link_l_target =3D AR      $@
++-cmd_link_l_target =3D rm -f $@; $(AR) cDPrsT$(KBUILD_ARFLAGS) $@ $(lib-y)
+++cmd_link_l_target =3D rm -f $@ && echo "HACK, delaying build!" && sleep 6=
+0 && $(AR) cDPrsT$(KBUILD_ARFLAGS) $@ $(lib-y)
++
++ $(lib-target): $(lib-y) FORCE
++        $(call if_changed,link_l_target)
++
++Then run a rebuild with:
++
++$  rm -f $( find build/ -name lib.a -or -name helloworld_efi.so ) && \
++   make
++...
++  arm-poky-linux-gnueabi-ld.bfd -nostdlib -zexecstack -znocombreloc -znore=
+lro --no-warn-rwx-segments -L /home/mcfrisk/src/base/repo/poky/build_bea
++glebone/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-boot/2025.07/source=
+s/u-boot-2025.07 -T arch/arm/lib/elf_arm_efi.lds -shared -Bsymbolic -s lib/=
+efi_loader/helloworld.o lib/efi_loader/efi_crt0.o lib/efi_loader/efi_reloc.=
+o lib/efi_loader/efi_freestanding.o arch/arm/lib/lib.a -o lib/efi_loader/he=
+lloworld_efi.so
++arm-poky-linux-gnueabi-ld.bfd: cannot find arch/arm/lib/lib.a: No such fil=
+e or directory
++make[3]: *** [scripts/Makefile.lib:512: lib/efi_loader/helloworld_efi.so] =
+Error 1
++
++Fix by introducing PLATFORM_LIBGCC_LIBA variable with only lib.a
++filename which is then used to add the dependency in rules which use
++PLATFORM_LIBGCC. This should not impact builds which don't set
++PLATFORM_LIBGCC_LIBA and PLATFORM_LIBGCC usage stays as is.
++
++Fixes: 43d43241d1c9 ("scripts/Makefile.lib: add PLATFORM_LIBGCC to efi lin=
+king")
++
++Cc: Adriano Cordova <adrianox@gmail.com>
++Cc: Fabio Estevam <festevam@gmail.com>
++Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
++---
++ Makefile                     | 4 +++-
++ examples/standalone/Makefile | 2 +-
++ scripts/Makefile.lib         | 2 +-
++ scripts/Makefile.xpl         | 3 ++-
++ 4 files changed, 7 insertions(+), 4 deletions(-)
++
++Upstream-Status: Submitted [https://lists.denx.de/pipermail/u-boot/2025-Ju=
+ly/594581.html]
++
++v3: added "export PLATFORM_LIBGCC_LIBA" like PLATFORM_LIBGCC, not sure
++    how testing worked without this before
++
++v2: introduced PLATFORM_LIBGCC_LIBA variable with just lib.a filename,
++    PLATFORM_LIBGCC can have other flags too
++    https://lists.denx.de/pipermail/u-boot/2025-July/594034.html
++
++v1: https://lists.denx.de/pipermail/u-boot/2025-July/593982.html
++
++diff --git a/Makefile b/Makefile
++index 1a5c77d7caf0..a0797f36f7f6 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -911,7 +911,8 @@ u-boot-main :=3D $(libs-y)
++=20
++ # Add GCC lib
++ ifeq ($(CONFIG_USE_PRIVATE_LIBGCC),y)
++-PLATFORM_LIBGCC =3D arch/$(ARCH)/lib/lib.a
+++PLATFORM_LIBGCC_LIBA =3D arch/$(ARCH)/lib/lib.a
+++PLATFORM_LIBGCC =3D $(PLATFORM_LIBGCC_LIBA)
++ else
++ ifndef CONFIG_CC_IS_CLANG
++ PLATFORM_LIBGCC :=3D -L $(shell dirname `$(CC) $(c_flags) -print-libgcc-f=
+ile-name`) -lgcc
++@@ -926,6 +927,7 @@ endif
++=20
++ export PLATFORM_LIBS
++ export PLATFORM_LIBGCC
+++export PLATFORM_LIBGCC_LIBA
++=20
++ # Special flags for CPP when processing the linker script.
++ # Pass the version down so we can handle backwards compatibility
++diff --git a/examples/standalone/Makefile b/examples/standalone/Makefile
++index 9b57f1c0c66c..aa9e3121cf9a 100644
++--- a/examples/standalone/Makefile
+++++ b/examples/standalone/Makefile
++@@ -64,7 +64,7 @@ quiet_cmd_link_elf =3D LD      $@
++       cmd_link_elf =3D $(LD) $(KBUILD_LDFLAGS) $(LDFLAGS_STANDALONE) -g  \
++ 		     -o $@ -e $(SYM_PREFIX)$(@F) $< $(LIB) $(PLATFORM_LIBGCC)
++=20
++-$(ELF): $(obj)/%: $(obj)/%.o $(LIB) FORCE
+++$(ELF): $(obj)/%: $(obj)/%.o $(LIB) $(PLATFORM_LIBGCC_LIBA) FORCE
++ 	$(call if_changed,link_elf)
++=20
++ $(obj)/%.srec: OBJCOPYFLAGS +=3D -O srec
++diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
++index e89a4a51b74d..cef3863dfdc4 100644
++--- a/scripts/Makefile.lib
+++++ b/scripts/Makefile.lib
++@@ -508,7 +508,7 @@ $(obj)/efi_reloc.o: $(srctree)/arch/$(ARCH)/lib/$(EFI_=
+RELOC:.o=3D.c) $(recordmcoun
++ 	$(call cmd,force_checksrc)
++ 	$(call if_changed_rule,cc_o_c)
++=20
++-$(obj)/%_efi.so: $(obj)/%.o $(obj)/efi_crt0.o $(obj)/efi_reloc.o $(obj)/e=
+fi_freestanding.o
+++$(obj)/%_efi.so: $(PLATFORM_LIBGCC_LIBA) $(obj)/%.o $(obj)/efi_crt0.o $(o=
+bj)/efi_reloc.o $(obj)/efi_freestanding.o
++ 	$(call cmd,efi_ld)
++=20
++ targets +=3D $(obj)/efi_crt0.o $(obj)/efi_reloc.o $(obj)/efi_freestanding=
+.o
++diff --git a/scripts/Makefile.xpl b/scripts/Makefile.xpl
++index 43f27874f9fe..68c88293f0d9 100644
++--- a/scripts/Makefile.xpl
+++++ b/scripts/Makefile.xpl
++@@ -139,7 +139,8 @@ libs-y :=3D $(patsubst %/, %/built-in.o, $(libs-y))
++=20
++ # Add GCC lib
++ ifeq ($(CONFIG_USE_PRIVATE_LIBGCC),y)
++-PLATFORM_LIBGCC =3D arch/$(ARCH)/lib/lib.a
+++PLATFORM_LIBGCC_LIBA =3D arch/$(ARCH)/lib/lib.a
+++PLATFORM_LIBGCC =3D $(PLATFORM_LIBGCC_LIBA)
++ PLATFORM_LIBS :=3D $(filter-out %/lib.a, $(filter-out -lgcc, $(PLATFORM_L=
+IBS))) $(PLATFORM_LIBGCC)
++ endif
++=20
++--=20
++2.43.0
++
+diff --git a/meta/recipes-bsp/u-boot/files/v3-0002-efi_loader-Makefile-chan=
+ge-apps-from-always-to-ta.patch b/meta/recipes-bsp/u-boot/files/v3-0002-efi=
+_loader-Makefile-change-apps-from-always-to-ta.patch
+new file mode 100644
+index 000000000000..6b68f7472410
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/v3-0002-efi_loader-Makefile-change-apps=
+-from-always-to-ta.patch
+@@ -0,0 +1,57 @@
++From d207ec22429adc94f9e173971e30c675d2ab3de4 Mon Sep 17 00:00:00 2001
++From: Mikko Rapeli <mikko.rapeli@linaro.org>
++Date: Fri, 18 Jul 2025 08:15:25 +0000
++Subject: [PATCH v3 2/2] efi_loader Makefile: change apps from "always" to
++ "targets"
++
++Adding delay to link commands in scripts/Makefile.build
++
++@@ -353,7 +353,7 @@ $(modorder-target): $(subdir-ym) FORCE
++ #
++ ifdef lib-target
++ quiet_cmd_link_l_target =3D AR      $@
++-cmd_link_l_target =3D rm -f $@; $(AR) cDPrsT$(KBUILD_ARFLAGS) $@ $(lib-y)
+++cmd_link_l_target =3D rm -f $@; echo "HACK delaying lib-target"; sleep 10=
+; $(AR) cDPrsT$(KBUILD_ARFLAGS) $@ $(lib-y)
++
++ $(lib-target): $(lib-y) FORCE
++        $(call if_changed,link_l_target)
++(1/2) Stage this hunk [y,n,q,a,d,j,J,g,/,e,?]? n
++@@ -362,7 +362,7 @@ targets +=3D $(lib-target)
++ endif
++
++ quiet_cmd_link_multi-y =3D AR      $@
++-cmd_link_multi-y =3D rm -f $@; $(AR) cDPrsT$(KBUILD_ARFLAGS) $@ $(filter =
+%.o,$^)
+++cmd_link_multi-y =3D rm -f $@; echo "HACK delaying cmd_link_multi-y"; sle=
+ep 10; $(AR) cDPrsT$(KBUILD_ARFLAGS) $@ $(filter %.o,$^)
++
++ quiet_cmd_link_multi-m =3D AR [M]  $@
++ cmd_link_multi-m =3D $(cmd_link_multi-y)
++
++exposes a build failure:
++
++make[3]: *** No rule to make target 'lib/efi_loader/helloworld.efi', neede=
+d by '__build'.  Stop.
++make[3]: *** Waiting for unfinished jobs....
++
++This if fixed by using normal targets for .efi apps. The rules
++in scripts/Makefile.lib handle the dependencies correctly.
++
++Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
++---
++ lib/efi_loader/Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++Upstream-Status: Submitted [https://lists.denx.de/pipermail/u-boot/2025-Ju=
+ly/594583.html]
++
++diff --git a/lib/efi_loader/Makefile b/lib/efi_loader/Makefile
++index cf050e5385dd..e929c23b1cb1 100644
++--- a/lib/efi_loader/Makefile
+++++ b/lib/efi_loader/Makefile
++@@ -96,5 +96,5 @@ $(foreach f,$(apps-y),\
++ 	$(eval CFLAGS_$(f).o :=3D $(CFLAGS_EFI) -Os -ffreestanding)\
++ 	$(eval CFLAGS_REMOVE_$(f).o :=3D $(CFLAGS_NON_EFI)))
++=20
++-always +=3D $(foreach f,$(apps-y),$(f).efi)
+++targets +=3D $(foreach f,$(apps-y),$(f).efi)
++ targets +=3D $(foreach f,$(apps-y),$(f).o)
++--=20
++2.43.0
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u=
+-boot/u-boot-common.inc
+index 8600d4bab6ed..c1395e473c53 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -12,9 +12,13 @@ PE =3D "1"
+=20
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV =3D "34820924edbc4ec7803eb89d9852f4b870fa760a"
++SRCREV =3D "e37de002fac3895e8d0b60ae2015e17bb33e2b5b"
+=20
+-SRC_URI =3D "git://source.denx.de/u-boot/u-boot.git;protocol=3Dhttps;branc=
+h=3Dmaster;tag=3Dv${PV}"
++SRC_URI =3D "\
++    git://source.denx.de/u-boot/u-boot.git;protocol=3Dhttps;branch=3Dmaste=
+r;tag=3Dv${PV} \
++    file://v3-0001-Makefile-scripts-Makefile.lib-fix-_efi.so-depende.patch=
+ \
++    file://v3-0002-efi_loader-Makefile-change-apps-from-always-to-ta.patch=
+ \
++"
+=20
+ SRC_URI_RISCV =3D "\
+     file://u-boot-riscv-isa_clear.cfg \
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb b/meta/recipes=
+-bsp/u-boot/u-boot-tools_2025.07.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2025.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2025.07.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2025.04.bb b/meta/recipes-bsp/u=
+-boot/u-boot_2025.07.bb
+similarity index 64%
+rename from meta/recipes-bsp/u-boot/u-boot_2025.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2025.07.bb
+index 89e964f627e5..25f264c961eb 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2025.04.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2025.07.bb
+@@ -4,5 +4,5 @@ require u-boot.inc
+ DEPENDS +=3D "bc-native dtc-native gnutls-native python3-pyelftools-native"
+=20
+ # workarounds for aarch64 kvm qemu boot regressions
+-SRC_URI:append:qemuarm64 =3D " file://disable-CONFIG_BLOBLIST.cfg file://d=
+isable_CONFIG_USB.cfg"
+-SRC_URI:append:genericarm64 =3D " file://disable-CONFIG_BLOBLIST.cfg file:=
+//disable_CONFIG_USB.cfg"
++SRC_URI:append:qemuarm64 =3D " file://disable-CONFIG_BLOBLIST.cfg"
++SRC_URI:append:genericarm64 =3D " file://disable-CONFIG_BLOBLIST.cfg"
+--=20
+2.43.0
+
 
