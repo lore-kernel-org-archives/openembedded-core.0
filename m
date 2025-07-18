@@ -1,154 +1,122 @@
-Return-Path: <fbberton@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED4CC87FC9
-	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:17:01 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.5649.1753791416301832340
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA745C83F26
+	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:19:31 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by mx.groups.io with SMTP id smtpd.web11.16982.1752830940659025761
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Jul 2025 05:16:56 -0700
+ Fri, 18 Jul 2025 02:29:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ClBHJOqc;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: fbberton@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45619d70c72so7115655e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 05:16:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753791414; x=1754396214; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A6jl1+EU1kw59r5SDYqLt4k8rozt9ODRqj7mV4bkAOE=;
-        b=ClBHJOqc9PYA0a4iZja3Zss3PXgfitcqPK4QIZTU4BPlmeTES9QTXYj3B1lOtjVjyy
-         gqoJ+n2RekN8O4qX4Z7dBbKnOLlT2g0kgDrN0Te+9mFW8NVDqrJDlyslTLQEvS9JOqix
-         HE8cxbapFNMcPYjfAD0UT5sEBEYmbxQ9G1GUwaMtXT2dNJQEb4J1rhv9GJCOWDw9gILe
-         78fqSMr2g5f2D8KLy3JfCV8yQg2/U9Uafiw777Y6gm6xYyLWZG+/iWp8zNAJ+W9S0An7
-         bM/9120d/WgcNcAs3EcLb2kTj4c9i93PvFWpKOCwz2f9Uhh0RqZRQ5wHLmfSIFTyX0/f
-         DxiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753791414; x=1754396214;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A6jl1+EU1kw59r5SDYqLt4k8rozt9ODRqj7mV4bkAOE=;
-        b=unzIjGBkFKIiSUT8f445f0MQ61B7kC5C5myWXt1IPiNy4cyjmwwomwJcygROo9bGgz
-         uzN1qvxl1z7YfdsgxozWO9EIKkujxc+aSXXN5vSaidTVI/4X7gFgKJzYHNIBOVl5tH6C
-         Esw9mfuU9gUOl+lwnepsxqoyxNWrfWmQDHP3yZh1j0Ks1bTBRJqqhSHhDMZyJRA67sCq
-         dh3RuBmQQ7zaF88VVDYLoNZRQSeGXEVKwAXDSpELduhoeF/2o1jfvFtXgJM0kZgSXzVj
-         TaCCO6iI+MIdBkKhgMjhZyv69bOXUfRia426kCktb2MZyyAdI+i+VfCKL0Vsu079wSV2
-         Ws2g==
-X-Gm-Message-State: AOJu0YzTY3yIKVac8zSqt1ppxtcSCw2WVLTIdcDZhbZi5ItrjqJtRAMR
-	zHITwKJVwP0D44F6U6WyYLsTqDl/BCKyzpsNGJGONEitfNeXUQTs/iwZ3x8+rA==
-X-Gm-Gg: ASbGnctTNIANr97O1IY5G0HRopNhQ6VHI85svkGcktS75wL1j+4XP69seg3FZWWPgRL
-	zqi2i+P9j8YaQxgDkGwoTTrjV0vwVWze+pe4f2iiV/DCkFSjW6Y9L6doJTeLW+0HdIZOL5pALlA
-	BteyeFvnUZqr36zX640fOIwnX7XsW9l9ON4Sv33ezqw9QFrOOqZ2CZH/RZ82IMxWFDUwTeEaLjs
-	FDYfgNPBc89DYJSnH3usCgyiNcaN56XqtMZYYRlvcY5i0jvERc6kVPtyibEzqHhfJT6or6DJiTQ
-	iDYvzdl14dMhj9cD7dmcW+wBCNNf9Npa43lcHNPlahJHlv/gI3kVB7lgtBifJlKayDG5T1NVZW7
-	h9mVBsX98SqB3WTeMAwS/OS3DJqmd9BgbVXtmm/0fl9EhBA==
-X-Google-Smtp-Source: AGHT+IEYbPWOWtPhX9IGxVWP55LKk6tf+eJbL6uqbumw7/PAR676s8ac4o95QuffYcEY30VxKnsNcQ==
-X-Received: by 2002:a05:600c:420c:b0:456:22f8:3aa1 with SMTP id 5b1f17b1804b1-4588d1104e6mr15846065e9.2.1753791413914;
-        Tue, 29 Jul 2025 05:16:53 -0700 (PDT)
-Received: from CTW01359.criticaltechworks.com ([213.205.68.220])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4588e5e4aeasm26215085e9.29.2025.07.29.05.16.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jul 2025 05:16:53 -0700 (PDT)
-From: Fabio Berton <fbberton@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com
-Subject: [OE-core][scarthgap][PATCH] linux-libc-headers: Fix invalid conversion in cn_proc.h
-Date: Tue, 29 Jul 2025 13:16:52 +0100
-Message-ID: <20250729121652.265566-1-fbberton@gmail.com>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=YwBTvzZG;
+ spf=pass (domain: kernel.org, ip: 147.75.193.91, mailfrom: krzk@kernel.org)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 56EF4A54CBB;
+	Fri, 18 Jul 2025 09:20:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7699CC4CEF7;
+	Fri, 18 Jul 2025 09:20:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752830451;
+	bh=k9/CVv+4i9ptFeZXg2rA+oUA16dyOUucS52Y1ENUYkI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YwBTvzZGOh4QkjjUYmc5a5vBzA6ZV+TinoXzyAH+wFOzYzLrHR+wzKI/ULUrIexMC
+	 0bBcplRx1Bjux7wwmKvIdbw6MRwzTNOScubWSVLBphYzhZMLsnF2TvSp19hL72uGtz
+	 u5L5T+WRlvK+9nhsO015Qr3jnpmQdHhTBG0FgaA3Q09l6r12o+v43Mnt98O9I2Ljsr
+	 bD8XP5TMQytAPb7/ne1SJ3c38Lpc5QG/x/Lqo8c6kI5nVWppTKxKnydBfXKD2KaZKq
+	 6FH70t5pk/rAQFT3+xcVcFVPmhxhTo0CNkSVMAiUog0NU/UOHM+W78iRNluInGNuab
+	 urbhrYDQIGnSA==
+Message-ID: <f91a7542-e0a6-4237-9dd3-db14508199f2@kernel.org>
+Date: Fri, 18 Jul 2025 11:20:44 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] arm64: dts: mediatek: mt8395-genio-1200-evk: Move common parts to dtsi
+To: Macpaul Lin <macpaul.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Sean Wang <sean.wang@mediatek.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ openembedded-core@lists.openembedded.org, patches@lists.linux.dev,
+ stable@vger.kernel.org
+Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+References: <20250718083202.654568-1-macpaul.lin@mediatek.com>
+ <20250718083202.654568-2-macpaul.lin@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250718083202.654568-2-macpaul.lin@mediatek.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:17:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221061
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:19:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221065
 
-Backport 'connector: Fix invalid conversion in cn_proc.h' commit to fix
-error:
-/
-|/usr/include/linux/cn_proc.h: In function 'proc_cn_event
-| valid_event(proc_cn_event)':
-|/usr/include/linux/cn_proc.h:72:17: error: invalid conversion from
-| 'unsigned int' to 'proc_cn_event' [-fpermissive]
-|   72 |         ev_type &= PROC_EVENT_ALL;
-|      |                 ^
-|      |                 |
-|      |                 unsigned int
-\
+On 18/07/2025 10:32, Macpaul Lin wrote:
+> In preparation for introducing the Genio 1200 EVK UFS board support, split
+> mt8395-genio-1200-evk.dts file in two to create mt8395-genio-common.dtsi
+> file, containing common definitions for both boards.
+> 
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> ---
+>  .../dts/mediatek/mt8395-genio-1200-evk.dts    | 1133 +---------------
+>  .../dts/mediatek/mt8395-genio-common.dtsi     | 1198 +++++++++++++++++
+>  2 files changed, 1199 insertions(+), 1132 deletions(-)
+>  create mode 100644 arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi
+> 
 
-Change is already merged in kernel branch linux-6.6.y [1].
+This is impossible to review. Use proper -M/-C/-B arguments for
+format-patch.
 
-1 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.6.y&id=06e785aeb9ea8a43d0a3967c1ba6e69d758e82d4
-
-Signed-off-by: Fabio Berton <fbberton@gmail.com>
----
- ...-Fix-invalid-conversion-in-cn_proc.h.patch | 40 +++++++++++++++++++
- .../linux-libc-headers_6.6.bb                 |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch
-
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch
-new file mode 100644
-index 0000000000..e245d97de0
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch
-@@ -0,0 +1,40 @@
-+From 06e785aeb9ea8a43d0a3967c1ba6e69d758e82d4 Mon Sep 17 00:00:00 2001
-+From: Matt Jan <zoo868e@gmail.com>
-+Date: Tue, 14 May 2024 12:10:46 +0800
-+Subject: [PATCH] connector: Fix invalid conversion in cn_proc.h
-+
-+The implicit conversion from unsigned int to enum
-+proc_cn_event is invalid, so explicitly cast it
-+for compilation in a C++ compiler.
-+/usr/include/linux/cn_proc.h: In function 'proc_cn_event valid_event(proc_cn_event)':
-+/usr/include/linux/cn_proc.h:72:17: error: invalid conversion from 'unsigned int' to 'proc_cn_event' [-fpermissive]
-+   72 |         ev_type &= PROC_EVENT_ALL;
-+      |                 ^
-+      |                 |
-+      |                 unsigned int
-+
-+Signed-off-by: Matt Jan <zoo868e@gmail.com>
-+Signed-off-by: David S. Miller <davem@davemloft.net>
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=9258d795978f398ecf2d222a8388cff81d37d34d]
-+---
-+ include/uapi/linux/cn_proc.h | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/include/uapi/linux/cn_proc.h b/include/uapi/linux/cn_proc.h
-+index f2afb7cc4926..18e3745b86cd 100644
-+--- a/include/uapi/linux/cn_proc.h
-++++ b/include/uapi/linux/cn_proc.h
-+@@ -69,8 +69,7 @@ struct proc_input {
-+ 
-+ static inline enum proc_cn_event valid_event(enum proc_cn_event ev_type)
-+ {
-+-	ev_type &= PROC_EVENT_ALL;
-+-	return ev_type;
-++	return (enum proc_cn_event)(ev_type & PROC_EVENT_ALL);
-+ }
-+ 
-+ /*
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb
-index d68de6ec7e..11e7524fed 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb
-@@ -8,6 +8,7 @@ SRC_URI:append:libc-musl = "\
- 
- SRC_URI += "\
-     file://0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch \
-+    file://0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch \
- "
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--- 
-2.50.1
-
+Best regards,
+Krzysztof
 
