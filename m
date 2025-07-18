@@ -2,121 +2,136 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B42C87FD3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D54A8C87FCC
 	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:19:31 +0000 (UTC)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by mx.groups.io with SMTP id smtpd.web11.16983.1752830940666061831
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.12344.1752807915365024846
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 02:29:00 -0700
+ Thu, 17 Jul 2025 20:05:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=EHR3Ox39;
- spf=pass (domain: kernel.org, ip: 147.75.193.91, mailfrom: krzk@kernel.org)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 1A934A54DC4;
-	Fri, 18 Jul 2025 09:21:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B0FC4CEEB;
-	Fri, 18 Jul 2025 09:21:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752830491;
-	bh=Ya/gISIIGqu7VM02+8jqt0Jrm0RpnBc7A7ihxINk9yw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EHR3Ox39JZLnNT4WbbCTNefctGWVrbmBb60q0rFMPD0WbJFVZaVI8P/1OhezBjXOl
-	 EmuMCCrwkLQ5LL4Yovl3PTyILz/QOKT8//w2gbU39q55APEka6WkizIYmLVgc+1Mh9
-	 9SgTKOnBLh+yXSlptsoYywYT4bc4yD0GekQt5UK9LjY5b14jApvFmcgeFsxRhIfzev
-	 Tid+kSkVnXx9N/Get6MzF4Zmi63oSlCRNgv8/NOjOMhfYzlfqwenu4FXgTZ74Hfza6
-	 7zNb75QCUgu/tebV7a+08HK5KJEFB6CuLrUzabaZ3dqtJUd5cCCNbkjJJCdQDFtuYX
-	 yQo3Ly9rHkDkw==
-Message-ID: <282af712-8832-422b-9933-1f9857307c29@kernel.org>
-Date: Fri, 18 Jul 2025 11:21:25 +0200
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Jb+EltMK;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: miaoqing.pan@oss.qualcomm.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56HMdb8F026790
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 03:05:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=JnGmStD5Z+kui6nprvmPN/YHQa1vZWP3BOS
+	9LU+0qmo=; b=Jb+EltMKuUQIFrhuSc9e7wGRgAQ1Gb1nqKNa16S4e+CoAzTZTIr
+	uKgLCncUsOjtfqYl1doRkgBOKyifxYT/tzFfxnA0EZ5XV9odjy9KT5iLiKST9ce0
+	GQCHDRBsYbnFxysCncOcjdFbvAxzE919BTmhYRcHu7YNpkMl/XXXz4p+fkSahN1l
+	pR2hAlfybX8XVfXWmu3MRFbn2uLGKzC/i3/OV5qHywazcrwvJ+PHfUcRc7ItW6Rm
+	XvL1aVatTfkpfQNiFz5dn9bNxeZ62j47+L+jK8SWm6wpQdxkxfBtbGh/AL1AmXGd
+	kF0/10Vv30RJj/UHRnnvB64c4z46sRToPBg==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47xbsqe4aq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 03:05:14 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-754f57d3259so2298669b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Jul 2025 20:05:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752807913; x=1753412713;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JnGmStD5Z+kui6nprvmPN/YHQa1vZWP3BOS9LU+0qmo=;
+        b=gSiXwGdXi1KYIXhayvzW++gy27co+x1JiHpDTSITbWvItPEhXFmNsWLVXb9jvoa4Dp
+         pasQz+JDVxhX5TiqcDTSN0srySSLat3fY51hgZYQSCx2UcBtqO7hWWXEjajQ7wWLgFAj
+         i5ea5QOfqJVwuwxRv40I2j+h/PVMAteC8lfp39/PeDoYLFsNJA/sQQsda9a9ajV1ZPDq
+         8YNtzNOR6oquAWSpfK1T7GG0nWEwiI8Kkt+F5y2sYLImMIJqubQ2QD0v2vXPY+3OVzeg
+         lpi7HapbD+friEq3knE6srWQzhwcylfLhXHyaZUguSVokGtIH9Q1K03EWMg+ME8v6cbK
+         G49w==
+X-Gm-Message-State: AOJu0Ywk4EQ4+HXq4r0HdEq/gIFvgzaO6mqoMxSexjbZ0BPfKDagTXNN
+	GP19xrGOjL9hW+b/iYasFpWe+eZo/5On1HeDPDyzAAEQisC1yTkD/rwVhMsqUu0w8vn1U2PNTNz
+	XzG9AWgDudADnC7Kse0Q72mYXQHaIbyWohdSRrFAyced2uPCzeJgzkyHIYGWriHJ6iKEs2hscrO
+	PjZggt6l+Qezi7M6Ca2Q==
+X-Gm-Gg: ASbGnctbPUD6GZ4oynzgZXY+uqOIxv92QzB1EX3jdv9l100gqSQOCDFhphTxbEEmbs9
+	1Kkrh4KbR1vcLWHXRs2ERgaHGW1lSxzOjIAfftRJmz9gi7M8sXbziIffLFuOYdwiThfuiHMwgJl
+	vAHtdJH5HVapDtj2JPUypyH+wIHoz+oTXWOHf9Uw5cC4OntFFfdKN/FQaeWJXg/U2o+BZK3tgVX
+	pHhZazJWLCihyp0Gfy3TmcetkEO3GqADZ41o1j8y1DcYw1D+L5qB9QSCgw3MU7nCyXnUxkflhEh
+	6K7NzTuOlztS+HRgMQijZD17bwO6OOMIqWqvHbwEjbFPX3oBaxqnqkMcVZHxNLuAiJeNLbYxxOQ
+	CrY3kbrZ8iC4r52ffrLnUDdQ=
+X-Received: by 2002:a05:6a00:8c3:b0:74e:ac15:10ff with SMTP id d2e1a72fcca58-75848d0d2damr7722173b3a.4.1752807912465;
+        Thu, 17 Jul 2025 20:05:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHodC/QydeZp54GFwhT+yhEFRe7X+Tj1ALU2vpIpd7SqJYZBrXCYVcBfraG4uJaMtt8x66MIA==
+X-Received: by 2002:a05:6a00:8c3:b0:74e:ac15:10ff with SMTP id d2e1a72fcca58-75848d0d2damr7722133b3a.4.1752807911973;
+        Thu, 17 Jul 2025 20:05:11 -0700 (PDT)
+Received: from Z2-SFF-G9-MQ.ap.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cbc6bf14sm262195b3a.158.2025.07.17.20.05.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jul 2025 20:05:11 -0700 (PDT)
+From: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+Subject: [PATCH v2] wpa-supplicant: enable 802.11be, MBO, OWE, and SuiteB support
+Date: Fri, 18 Jul 2025 11:04:52 +0800
+Message-Id: <20250718030452.3459203-1-miaoqing.pan@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: mediatek: add device-tree for Genio 1200 EVK UFS board
-To: Macpaul Lin <macpaul.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Sean Wang <sean.wang@mediatek.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- openembedded-core@lists.openembedded.org, patches@lists.linux.dev,
- stable@vger.kernel.org
-Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
- MediaTek Chromebook Upstream
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-References: <20250718083202.654568-1-macpaul.lin@mediatek.com>
- <20250718083202.654568-3-macpaul.lin@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250718083202.654568-3-macpaul.lin@mediatek.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=ad1hnQot c=1 sm=1 tr=0 ts=6879b9ea cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=DOyQDXDkBrU8gSCrB9UA:9
+ a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-ORIG-GUID: m9MCu3IXcvVnAzQuUuuTIedMkJ_ElJ4W
+X-Proofpoint-GUID: m9MCu3IXcvVnAzQuUuuTIedMkJ_ElJ4W
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDAyMyBTYWx0ZWRfX3G5xTaP/lxP/
+ wErxzNzuyfWzfpkdLtZD3aCsOeHOTLh4EMS1OlVsG8hv+HIcDuAW1vgzPyFwN6hxL9cdtRxfI4M
+ U+ybOmF0KqTPjJdQnM4g4d3qoBtgAZg52erh//I6SGw6OrWRFS2Y6e9QgX436o7sC3DusKs00/V
+ +0xAgWktp1FJn2dAUzL2nWHKKJ0Y/dOb6B4gcJ4NyY3e4Rsuyn7CeqsZMJiPmF6BAoE7ELsh9cU
+ DQSmvU+fNYLghxeR4NqvRILoEkAADp2KU+IDzAG2AJv8VWhorFeQMp3wxRKlX7uCIjuq6Z2TtXM
+ oYyQr+V4Mv77lLlIsZX01QvV/3rO570K4VXRnzHGkf203499NgRgHN+bK1qTxRtqYmhxmnIQ63V
+ QGyV3JOPQEjdIDNJ4xyOuFf/DuvoNQJFnbh8si55kgDX7DXB6oavDkb98VnYKM3cw/FV+DBi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-18_01,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 spamscore=0
+ malwarescore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507180023
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:19:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221066
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221064
 
-On 18/07/2025 10:32, Macpaul Lin wrote:
-> +
-> +&mmc0 {
-> +	status = "disabled";
-> +};
-> +
-> +/ {
+wpa_supplicant has supported IEEE 802.11be (Wi-Fi 7) for over three
+years. With growing market demand for Wi-Fi 7, it is now an
+appropriate time to enable IEEE 802.11be Extremely High Throughput
+(EHT) support - mainly for AP mode.
 
-Root node is ALWAYS the first. Don't come with some other rules.
+This patch also enables the following features in defconfig:
+Opportunistic Wireless Encryption (OWE)
+Suite B and Suite B 192
+Multi Band Operation (MBO)
 
-> +	model = "MediaTek Genio 1200 EVK-P1V2-UFS";
-> +	compatible = "mediatek,mt8395-evk-ufs", "mediatek,mt8395",
-> +		     "mediatek,mt8195";
-> +};
+Signed-off-by: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+---
+v2: update prefix and commit message.
+---
+ .../wpa-supplicant/wpa-supplicant_2.11.bb                   | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+index 6dc76494f7..440d3a5c94 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+@@ -37,6 +37,12 @@ do_configure () {
+ 	${MAKE} -C wpa_supplicant clean
+ 	sed -e '/^CONFIG_TLS=/d' <wpa_supplicant/defconfig >wpa_supplicant/.config
+ 
++	sed -i -e 's/^#\(CONFIG_IEEE80211BE=y\)/\1/' \
++	       -e 's/^#\(CONFIG_MBO=y\)/\1/' \
++	       -e 's/^#\(CONFIG_OWE=y\)/\1/' \
++	       -e 's/^#\(CONFIG_SUITEB=y\)/\1/' \
++	       -e 's/^#\(CONFIG_SUITEB192=y\)/\1/' wpa_supplicant/.config
++
+ 	if ${@ bb.utils.contains('PACKAGECONFIG', 'openssl', 'true', 'false', d) }; then
+ 		echo 'CONFIG_TLS=openssl' >>wpa_supplicant/.config
+ 	elif ${@ bb.utils.contains('PACKAGECONFIG', 'gnutls', 'true', 'false', d) }; then
+-- 
+2.34.1
 
-Best regards,
-Krzysztof
 
