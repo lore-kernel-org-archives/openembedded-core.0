@@ -1,139 +1,203 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68552C83F17
-	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 10:11:52 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.17511.1752833503693084616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5F8C83F34
+	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 10:28:22 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.17993.1752834494970258672
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 03:11:44 -0700
+ Fri, 18 Jul 2025 03:28:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EvuC+c5e;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ae6fa02d8feso293358866b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 03:11:43 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XIAj20sv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a6e8b1fa37so1352640f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 03:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752833502; x=1753438302; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cx8lFIhoxXk8aLE4/huJ8kX6sQQxRz6zat6xoSiTbAI=;
-        b=EvuC+c5eimZEYOqCqM44m1ONuDr0VVgscB3DIyjTpCfTFVM+hqg0ZqYvOpmDM2uKm8
-         g7dgDKO6yXA5F/LrJAKnvrfJP6E56HF8eVDA46AlFjW6RD9yWOdnZ30LpUyJi1Z0Wro6
-         qWEPKnKJBb3n/DycPR7xvdC6NqD1qluIVltDoLkoamfDgQg3UHIQMREZR244a4v1WnDN
-         ZBKGDmDmS4guRzc4SddKlpaojQ4203ODfRk4I2wcwP/744ifBUT1KuZ1idt8EjI3sjZN
-         P0D+8CBNT0Q1eyvi+JVSSBZSTiIZw/lJOGytDx+RzKe7zOb78aMVHvE+DmCYUFqbulDH
-         /6vA==
+        d=linuxfoundation.org; s=google; t=1752834493; x=1753439293; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hdo1puxcFzLko993duJkiwPrmq1ulQjPG0voy597SZo=;
+        b=XIAj20svhaFgYEVXLvCzZCaJYKMDHuVEHOrJVAVaNKhzTiP/ddMUKH9ysYQJ6XVYGA
+         8oq/N/4K9i7JMCKUDkVAYRaudFYtFVdMSI+juuOXXy9asupTV7bTNo0kD8+EFFfIgqE0
+         C8/TllyQK0toeW3cVb+57sIUZyvXCIvhWtnA0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752833502; x=1753438302;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cx8lFIhoxXk8aLE4/huJ8kX6sQQxRz6zat6xoSiTbAI=;
-        b=hKiwTeckarcCdx4GSZsgTJon2+iR2i2M72/1snuNHZLaZbdYKl/ImXq/aYt2qHqb2w
-         XGm+8sDiO2VOr4IHtzafIRb0llVwWVkTkLQdR2C/mi8qd/kpCKhMv9HKjekh/dnpv+Yx
-         gOHmTIgULENHUe/9Xcqj1t2OpyU+fu6Za/M/pa0BpXyhBQvxr28pwsDsNQQ6ej7Xnvro
-         44iyat3nUroeJuG+Z+rDpCYgxyrfq5nTOp9ZlAIFHzUHP96o0OYefU7vqfnq9s03WuC3
-         5itfR8u9d6Gq2h18Qs3arqarf/qYh/PQC2d4yEwwScsEiogO9OZQNa8UJ8zxemjs05fd
-         unxw==
-X-Gm-Message-State: AOJu0YzoYKI7GfTLNt3YzXmF9XLeSFNPn4whT6ZIXBlbQ6RgDaw4sEHN
-	ktLqL6LLjAR+c241R6FQbBQ2J5PYevr/oWsy/ZJZJbAlAE28EgaZm2YGUGpx4g==
-X-Gm-Gg: ASbGncsvmowjv054kFZJUeY6inxHkCrjlmt4zC6oCgzRYJ9PsTyCgiOF8PSgsLY9cZT
-	X4o7eHcrWjiDCrdaco+O9bjaoUiYWRA6we0xHQiNPwHwCBqfrggN6ZB8PsoZK+jqksXnoGQqhOL
-	f4W05LAxNfeWi7Ua27zIVsP+oVmQ3R9kdtWlUoasOKHx0pd6wgVQxg59rFhrqO8P68TExB+12LV
-	f4UaoppNb40f86YJhu1b+ZxwW1RoMqYHEvbTPGxqaCIdukTgppQLES3GpBUu1Rc6aMb5hcSsZVC
-	bb7Ucd+PfuOSRX3fQcTGd5TMBU8xCF9RIF78dYUxxUeRsVDLHYu1D6Cv1ovNDdZTe9uiLgv6Ums
-	v0MVSgQKRURiK/y9CyNk=
-X-Google-Smtp-Source: AGHT+IFumf5aW/jwe0p4H+cymTyFAWT6fCqqT4AUnhpqbvBHBQ482bbf+MYHuuVRrFYsg5sVOOOzcA==
-X-Received: by 2002:a17:906:9fc9:b0:ae3:cd73:e95a with SMTP id a640c23a62f3a-ae9ce0d2aedmr1055591866b.36.1752833501672;
-        Fri, 18 Jul 2025 03:11:41 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca7d30csm93556066b.119.2025.07.18.03.11.41
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1752834493; x=1753439293;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hdo1puxcFzLko993duJkiwPrmq1ulQjPG0voy597SZo=;
+        b=eHYII1uvpqo9sbDTMQQhVfQIT1+njPBjM4jCAoVXtnk1ct3iMgg+pLEKbi3hbBVZGd
+         niSol/1qWQJ5XLA48j6M+N/qnXvkyEgRiANQ19VEK2lEl3+mmoW58korndg0eKOgLn2s
+         5VDK260262at3e5sMWkhyau95QI/fltSOF9qpm4TktWEzheS0CiI3nM33751Qg5xCemf
+         coX85OMWlvsH+K9Xm00kXlpLkz/Psz22uFs+Ba5aX5qzRTeAYUPSsmqsV63y1iC+SL/c
+         ptsuEz1epr45J9/8aIrnA/Lnx/I48dvr4/mrGONDOBHWHyNoSjPMMRtZwp1cj0NBN7Kp
+         sDrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUGfWLTY/F2zfBqXg6Jfm39//qzTkKDfXdA3+PjETpGtPiIfBNO+JQv9gBg3ihuZU+JkMCi3UPaNk2NWl/LmYvatA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxmIFs1V3NSftNtz9zeJaN/daeO4KRtr20Nau7sHxl9aGJhvtq+
+	3+DrpSxymOfvViY2AVtw+b0qvv0nNLHwla/Nf9s3EG7ksPzD4dFgpBzT3xyEdY7LrW4=
+X-Gm-Gg: ASbGncvGOtK04mI53rtousEvwVXOI1W5hPQOcs82q715XbVV/r6KasN+Vzpzd/B2B0J
+	VOFIJk45wVjor11MQgU3OTSROYrJ8bO2TGc/Pgw2EADHaS7Nk6mCzkuvFU17tlzKcv5DMZzAyzP
+	LfGmStS7uID02rS2g+zUxBho3W/E9XvtMNYbzeABpt2uXMpMoZFrxB5orTqxzsUkYHhVh5ajGQc
+	fEFPwfNZrw3uAFi+9P2ttkfWe+nxLDY+WXl0+0KLd/bCdnzRbsL3IDIFy84iz7aPtjW1+DeADEa
+	syjQ0uxEDdu4aXxWbfO0E/xcwwhkcK3yoWJBKcTWNbgEF+jinS+SiJLr4/vOCTqfRZ8CwQ68SI7
+	3KAkQBFbPz4AOg+CmyrZ6SKiEXqmRRwoyC6SJF3ftVu3EeTgwH+O88c/TC/y63a/+/OTyUzBXrf
+	9epnPFnA==
+X-Google-Smtp-Source: AGHT+IGkt5iS57mCvfXIeOmpDt9QmpCyB9zwMpx5yucoXvqsKxffO+Vnu9uP4FMg8JLOdlDQvShCjA==
+X-Received: by 2002:a05:6000:2084:b0:3a5:1c3c:8d8d with SMTP id ffacd0b85a97d-3b60e53b9ebmr8115258f8f.55.1752834493134;
+        Fri, 18 Jul 2025 03:28:13 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b19:5c6:27ed:a530? ([2001:8b0:aba:5f3c:b19:5c6:27ed:a530])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e8026e4sm73797955e9.11.2025.07.18.03.28.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 03:11:41 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libgit2: upgrade 1.9.0 -> 1.9.1
-Date: Fri, 18 Jul 2025 12:11:40 +0200
-Message-ID: <20250718101140.297012-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        Fri, 18 Jul 2025 03:28:12 -0700 (PDT)
+Message-ID: <ab6ce5a5fc2d8a4f10926d10438156b687e98747.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3] u-boot: upgrade 2025.04 -> 2025.07
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
+Cc: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 18 Jul 2025 11:28:10 +0100
+In-Reply-To: <20250718090123.420399-1-mikko.rapeli@linaro.org>
+References: <20250718090123.420399-1-mikko.rapeli@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 10:11:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220593
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 10:28:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220594
 
-Dropped 0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch
-because it's included in this release.
+On Fri, 2025-07-18 at 12:01 +0300, Mikko Rapeli via lists.openembedded.org =
+wrote:
+> From: Fabio Estevam <festevam@gmail.com>
+>=20
+> Upgrade to U-Boot 2025.07. Added patches for build race conditions.
+> Removed qemu KVM USB workaround since issue is fixed upstream.
+>=20
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+> =C2=A0.../u-boot/files/disable_CONFIG_USB.cfg=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 1 -
+> =C2=A0...pts-Makefile.lib-fix-_efi.so-depende.patch | 136 +++++++++++++++=
++++
+> =C2=A0...kefile-change-apps-from-always-to-ta.patch |=C2=A0 57 ++++++++
+> =C2=A0meta/recipes-bsp/u-boot/u-boot-common.inc=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 8 +-
+> =C2=A0...ols_2025.04.bb =3D> u-boot-tools_2025.07.bb} |=C2=A0=C2=A0 0
+> =C2=A0.../{u-boot_2025.04.bb =3D> u-boot_2025.07.bb}=C2=A0 |=C2=A0=C2=A0 =
+4 +-
+> =C2=A06 files changed, 201 insertions(+), 5 deletions(-)
+> =C2=A0delete mode 100644 meta/recipes-bsp/u-boot/files/disable_CONFIG_USB=
+.cfg
+> =C2=A0create mode 100644 meta/recipes-bsp/u-boot/files/v3-0001-Makefile-s=
+cripts-Makefile.lib-fix-_efi.so-depende.patch
+> =C2=A0create mode 100644 meta/recipes-bsp/u-boot/files/v3-0002-efi_loader=
+-Makefile-change-apps-from-always-to-ta.patch
+> =C2=A0rename meta/recipes-bsp/u-boot/{u-boot-tools_2025.04.bb =3D> u-boot=
+-tools_2025.07.bb} (100%)
+> =C2=A0rename meta/recipes-bsp/u-boot/{u-boot_2025.04.bb =3D> u-boot_2025.=
+07.bb} (64%)
+>=20
+> v3: Did not manage to reproduce AB build failures but added delays to mor=
+e
+> =C2=A0=C2=A0=C2=A0 linker calls which exposed similar issues. Fixed failu=
+res with patches
+> =C2=A0=C2=A0=C2=A0 which are also submitted upstream.
+>=20
+> v2: added upstreamed patch to fix build race conditon, removed qemu kvm w=
+orkaround
+> =C2=A0=C2=A0=C2=A0 fixed upstream. Would be nice to check if builds now p=
+ass.
+> =C2=A0=C2=A0=C2=A0 https://lists.openembedded.org/g/openembedded-core/mes=
+sage/220436
+>=20
+> v1: https://lists.openembedded.org/g/openembedded-core/message/220004
+>=20
+> diff --git a/meta/recipes-bsp/u-boot/files/disable_CONFIG_USB.cfg b/meta/=
+recipes-bsp/u-boot/files/disable_CONFIG_USB.cfg
+> deleted file mode 100644
+> index 1d2509982be1..000000000000
+> --- a/meta/recipes-bsp/u-boot/files/disable_CONFIG_USB.cfg
+> +++ /dev/null
+> @@ -1 +0,0 @@
+> -# CONFIG_USB is not set
+> diff --git a/meta/recipes-bsp/u-boot/files/v3-0001-Makefile-scripts-Makef=
+ile.lib-fix-_efi.so-depende.patch b/meta/recipes-bsp/u-boot/files/v3-0001-M=
+akefile-scripts-Makefile.lib-fix-_efi.so-depende.patch
+> new file mode 100644
+> index 000000000000..e8253a67b211
+> --- /dev/null
+> +++ b/meta/recipes-bsp/u-boot/files/v3-0001-Makefile-scripts-Makefile.lib=
+-fix-_efi.so-depende.patch
+> @@ -0,0 +1,136 @@
+> +From 2e7c1321bb44cc6af4ee4b1026a52e1a0aa7e336 Mon Sep 17 00:00:00 2001
+> +From: Mikko Rapeli <mikko.rapeli@linaro.org>
+> +Date: Thu, 10 Jul 2025 14:24:07 +0000
+> +Subject: [PATCH v3 1/2] Makefile scripts/Makefile.lib: fix *_efi.so depe=
+ndency
+> + to PLATFORM_LIBGCC
+> +
+> +When PLATFORM_LIBGCC was added to linker command it was not
+> +added to the dependency of the .so and other rules. Thus a build can
+> +try to link *_efi.so files before lib.a from PLATFORM_LIBGCC is availabl=
+e.
+> +This was seen in yocto autobuilder builds with u-boot 2025.07
+> +update, see https://lists.openembedded.org/g/openembedded-core/message/2=
+20004
+> +
+> +https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/2914600/raw_in=
+line
+> +
+> +|=C2=A0=C2=A0=C2=A0 rm -f lib/efi_loader/built-in.o; arm-poky-linux-gnue=
+abi-ar cDPrsT lib/efi_loader/built-in.o lib/efi_loader/efi_bootmgr.o lib/ef=
+i_loader/efi_bootbin.o lib/efi_loader/efi_boottime.o lib/efi_loader/efi_hel=
+per.o lib/efi_loader/efi_console.o lib/efi_loader/efi_device_path.o lib/efi=
+_loader/efi_device_path_to_text.o lib/efi_loader/efi_device_path_utilities.=
+o lib/efi_loader/efi_dt_fixup.o lib/efi_loader/efi_fdt.o lib/efi_loader/efi=
+_file.o lib/efi_loader/efi_hii.o lib/efi_loader/efi_hii_config.o lib/efi_lo=
+ader/efi_image_loader.o lib/efi_loader/efi_load_options.o lib/efi_loader/ef=
+i_memory.o lib/efi_loader/efi_root_node.o lib/efi_loader/efi_runtime.o lib/=
+efi_loader/efi_setup.o lib/efi_loader/efi_string.o lib/efi_loader/efi_unico=
+de_collation.o lib/efi_loader/efi_var_common.o lib/efi_loader/efi_var_mem.o=
+ lib/efi_loader/efi_variable.o lib/efi_loader/efi_var_file.o lib/efi_loader=
+/efi_watchdog.o lib/efi_loader/efi_disk.o lib/efi_loader/efi_net.o lib/efi_=
+loader/efi_smbios.o lib/efi_loader/efi_load_initrd.o lib/efi_loader/efi_con=
+formance.o
+> +|=C2=A0=C2=A0 arm-poky-linux-gnueabi-ld.bfd -nostdlib -zexecstack -znoco=
+mbreloc -znorelro --no-warn-rwx-segments -L /srv/pokybuild/yocto-worker/oe-=
+selftest-armhost/build/build-st-3119200/tmp/work/beaglebone_yocto-poky-linu=
+x-gnueabi/u-boot/2025.07/sources/u-boot-2025.07 -T arch/arm/lib/elf_arm_efi=
+.lds -shared -Bsymbolic -s lib/efi_loader/helloworld.o lib/efi_loader/efi_c=
+rt0.o lib/efi_loader/efi_reloc.o lib/efi_loader/efi_freestanding.o arch/arm=
+/lib/lib.a -o lib/efi_loader/helloworld_efi.so
+> +| arm-poky-linux-gnueabi-ld.bfd: cannot find arch/arm/lib/lib.a: No such=
+ file or directory
+> +| make[3]: *** [scripts/Makefile.lib:512: lib/efi_loader/helloworld_efi.=
+so] Error 1
+> +
+> +The issue is hard to reproduce but this change can artificially trigger =
+it:
+> +
+> +=C2=A0 a/scripts/Makefile.build
+> +=C2=A0 b/scripts/Makefile.build
+> +@@ -353,7 +353,7 @@ $(modorder-target): $(subdir-ym) FORCE
+> + #
+> + ifdef lib-target
+> + quiet_cmd_link_l_target =3D AR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $@
+> +-cmd_link_l_target =3D rm -f $@; $(AR) cDPrsT$(KBUILD_ARFLAGS) $@ $(lib-=
+y)
+> ++cmd_link_l_target =3D rm -f $@ && echo "HACK, delaying build!" && sleep=
+ 60 && $(AR) cDPrsT$(KBUILD_ARFLAGS) $@ $(lib-y)
+> +
 
-Changelog: see https://github.com/libgit2/libgit2/releases/tag/v1.9.1
+This is not how you solve build races and I've very reluctant to take
+patches that look like that, whether submitted to upstream or
+otherwise.
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
----
- ...eLists.txt-install-cmake-files-into-.patch | 32 -------------------
- .../{libgit2_1.9.0.bb => libgit2_1.9.1.bb}    |  6 ++--
- 2 files changed, 2 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-support/libgit2/libgit2/0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch
- rename meta/recipes-support/libgit2/{libgit2_1.9.0.bb => libgit2_1.9.1.bb} (72%)
+Cheers,
 
-diff --git a/meta/recipes-support/libgit2/libgit2/0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch b/meta/recipes-support/libgit2/libgit2/0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch
-deleted file mode 100644
-index ae48524e0d..0000000000
---- a/meta/recipes-support/libgit2/libgit2/0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 8ca35649c33d0d2fcdcd573ce6a9edd91c77e4da Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Tue, 7 Jan 2025 18:56:19 +0100
--Subject: [PATCH] src/libgit2/CMakeLists.txt: install cmake files into
-- configured libdir
--
--libdir can be something else than /usr/lib, e.g. /usr/lib64 or similar.
--
--Upstream-Status: Submitted [https://github.com/libgit2/libgit2/pull/7004]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- src/libgit2/CMakeLists.txt | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/src/libgit2/CMakeLists.txt b/src/libgit2/CMakeLists.txt
--index a7d3c7ca4..16b3a23d9 100644
----- a/src/libgit2/CMakeLists.txt
--+++ b/src/libgit2/CMakeLists.txt
--@@ -119,11 +119,11 @@ configure_file(config.cmake.in
-- install(FILES
-- 	"${PROJECT_BINARY_DIR}/cmake/${PROJECT_NAME}Config.cmake"
-- 	"${PROJECT_BINARY_DIR}/cmake/${PROJECT_NAME}ConfigVersion.cmake"
---	DESTINATION "lib/cmake/${PROJECT_NAME}")
--+	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
-- install(
-- 	EXPORT ${LIBGIT2_TARGETS_EXPORT_NAME}
-- 	NAMESPACE "${PROJECT_NAME}::"
---	DESTINATION "lib/cmake/${PROJECT_NAME}")
--+	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
-- 
-- # Install
-- 
-diff --git a/meta/recipes-support/libgit2/libgit2_1.9.0.bb b/meta/recipes-support/libgit2/libgit2_1.9.1.bb
-similarity index 72%
-rename from meta/recipes-support/libgit2/libgit2_1.9.0.bb
-rename to meta/recipes-support/libgit2/libgit2_1.9.1.bb
-index 66ec62f17a..43957a2087 100644
---- a/meta/recipes-support/libgit2/libgit2_1.9.0.bb
-+++ b/meta/recipes-support/libgit2/libgit2_1.9.1.bb
-@@ -5,10 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8eacfdc17c8f4d219e131a073973b97d"
- 
- DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
- 
--SRC_URI = "git://github.com/libgit2/libgit2.git;branch=main;protocol=https \
--           file://0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch \
--           "
--SRCREV = "338e6fb681369ff0537719095e22ce9dc602dbf0"
-+SRC_URI = "git://github.com/libgit2/libgit2.git;branch=maint/v1.9;protocol=https;tag=v${PV}"
-+SRCREV = "0060d9cf5666f015b1067129bd874c6cc4c9c7ac"
- 
- inherit cmake
- 
+Richard
 
