@@ -2,40 +2,40 @@ Return-Path: <macpaul.lin@mediatek.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 365A4C83F34
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FAEEC83F1A
 	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 08:32:21 +0000 (UTC)
-Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [210.61.82.184])
- by mx.groups.io with SMTP id smtpd.web10.15989.1752827536628472217
+Received: from mailgw01.mediatek.com (mailgw01.mediatek.com [60.244.123.138])
+ by mx.groups.io with SMTP id smtpd.web10.15991.1752827537931166834
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 01:32:16 -0700
+ Fri, 18 Jul 2025 01:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=nj33n3Y8;
- spf=pass (domain: mediatek.com, ip: 210.61.82.184, mailfrom: macpaul.lin@mediatek.com)
-X-UUID: b490340263b111f0b33aeb1e7f16c2b6-20250718
+ dkim=pass header.i=@mediatek.com header.s=dk header.b=Q1Rhlf6A;
+ spf=pass (domain: mediatek.com, ip: 60.244.123.138, mailfrom: macpaul.lin@mediatek.com)
+X-UUID: b481a4aa63b111f08b7dc59d57013e23-20250718
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=bbOhcVeC6+s+TuG0DtMpL3rCihlIFdMbY09xg4A7nlU=;
-	b=nj33n3Y8DD/1yCYuhpgkbniVyUVLgTNgXWNjSrVkEdcu1tiWJRGZ3WckSjr9hEPEtXcRuDmbxQRUnT7ci9QFgxHAWGP5RAKanEz6pgZyvGpmb7DFlfdAtoL4CZmquBmzlVmlm23rrZD91ElK0RyNYoFmpJM4AbD7XLXZX573Viw=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=l1HrqW8sxW87rJFN4+aUUvL46np9oasLR8Jb/9g/e4M=;
+	b=Q1Rhlf6AkYowCuG3Oi5lDUBHP2ggjLTkYkZyzw4RuZ9f8NbGGhRtC0lkb3bqDwosljghJVebfaGQkfKKgbG82S26opLzQIb4ycqpZsZONzM8dkaFfbdNSwTz0+7H4Qhc4CygOEds9jU1Vu6EyjorbP8H2xZs9eEnf90XHZQ5VjE=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.2,REQID:1f4ff9b7-f9f2-4eb3-a1c8-8e50c3a75925,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:9eb4ff7,CLOUDID:a686049a-32fc-44a3-90ac-aa371853f23f,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.3.2,REQID:9e239faa-ef37-4672-9a65-2e4acf135489,IP:0,UR
+	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:-5
+X-CID-META: VersionHash:9eb4ff7,CLOUDID:638f2673-f565-4a89-86be-304708e7ad47,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b490340263b111f0b33aeb1e7f16c2b6-20250718
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
+X-UUID: b481a4aa63b111f08b7dc59d57013e23-20250718
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
 	(envelope-from <macpaul.lin@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 2027246730; Fri, 18 Jul 2025 16:32:13 +0800
+	with ESMTP id 838325017; Fri, 18 Jul 2025 16:32:13 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Fri, 18 Jul 2025 16:32:12 +0800
+ 15.2.1258.39; Fri, 18 Jul 2025 16:32:11 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
  15.2.1258.39 via Frontend Transport; Fri, 18 Jul 2025 16:32:11 +0800
@@ -54,12 +54,10 @@ CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
 	Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
 	Macpaul Lin <macpaul@gmail.com>, MediaTek Chromebook Upstream
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH 3/4] arm64: dts: mediatek: add device-tree for Genio 1200 EVK UFS board
-Date: Fri, 18 Jul 2025 16:32:01 +0800
-Message-ID: <20250718083202.654568-3-macpaul.lin@mediatek.com>
+Subject: [PATCH 1/4] dt-bindings: arm64: mediatek: add mt8395-evk-ufs board
+Date: Fri, 18 Jul 2025 16:31:59 +0800
+Message-ID: <20250718083202.654568-1-macpaul.lin@mediatek.com>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250718083202.654568-1-macpaul.lin@mediatek.com>
-References: <20250718083202.654568-1-macpaul.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -68,72 +66,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 08:32:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220582
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220584
 
-Add a basic device-tree (mt8395-genio-1200-evk-ufs.dts) in order to be able
-to use UFS storage as the main storage on Genio 1200 EVK board.
-
+Add a compatible string for the MediaTek mt8395-evk-ufs board.
 This board is the origin Genio 1200 EVK already mounted two main storages,
 one is eMMC, and the other is UFS. The system automatically prioritizes
 between eMMC and UFS via BROM detection, so user could not use both storage
 types simultaneously. As a result, mt8395-evk-ufs must be treated as a
 separate board.
 
-It use mt8395-genio-common.dtsi file to use common definitions.
-
 Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
 ---
- arch/arm64/boot/dts/mediatek/Makefile         |  1 +
- .../mediatek/mt8395-genio-1200-evk-ufs.dts    | 28 +++++++++++++++++++
- 2 files changed, 29 insertions(+)
- create mode 100644 arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dts
+ Documentation/devicetree/bindings/arm/mediatek.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
-index f68865d06edd..c34ca7ae3155 100644
---- a/arch/arm64/boot/dts/mediatek/Makefile
-+++ b/arch/arm64/boot/dts/mediatek/Makefile
-@@ -100,6 +100,7 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8195-evb.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8365-evk.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8370-genio-510-evk.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8395-genio-1200-evk.dtb
-+dtb-$(CONFIG_ARCH_MEDIATEK) += mt8395-genio-1200-evk-ufs.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8390-genio-700-evk.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8395-kontron-3-5-sbc-i1200.dtb
- dtb-$(CONFIG_ARCH_MEDIATEK) += mt8395-radxa-nio-12l.dtb
-diff --git a/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dts b/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dts
-new file mode 100644
-index 000000000000..f362097489a2
---- /dev/null
-+++ b/arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dts
-@@ -0,0 +1,28 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+/*
-+ * Copyright (C) 2025 MediaTek Inc.
-+ * Author: Ramax Lo <ramax.lo@mediatek.com>
-+ *         Macpaul Lin <macpaul.lin@mediatek.com>
-+ */
-+/dts-v1/;
-+#include "mt8395-genio-common.dtsi"
-+
-+&ufshci {
-+	status = "okay";
-+	vcc-supply = <&mt6359_vemc_1_ldo_reg>;
-+	vccq2-supply = <&mt6359_vufs_ldo_reg>;
-+};
-+
-+&ufsphy {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	status = "disabled";
-+};
-+
-+/ {
-+	model = "MediaTek Genio 1200 EVK-P1V2-UFS";
-+	compatible = "mediatek,mt8395-evk-ufs", "mediatek,mt8395",
-+		     "mediatek,mt8195";
-+};
+diff --git a/Documentation/devicetree/bindings/arm/mediatek.yaml b/Documentation/devicetree/bindings/arm/mediatek.yaml
+index a7e0a72f6e4c..cf8af943ab08 100644
+--- a/Documentation/devicetree/bindings/arm/mediatek.yaml
++++ b/Documentation/devicetree/bindings/arm/mediatek.yaml
+@@ -437,6 +437,7 @@ properties:
+           - enum:
+               - kontron,3-5-sbc-i1200
+               - mediatek,mt8395-evk
++              - mediatek,mt8395-evk-ufs
+               - radxa,nio-12l
+           - const: mediatek,mt8395
+           - const: mediatek,mt8195
 -- 
 2.45.2
 
