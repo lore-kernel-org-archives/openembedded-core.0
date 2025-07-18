@@ -2,95 +2,138 @@ Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F46C83F1A
-	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 10:00:32 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.17319.1752832822985388010
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68552C83F17
+	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 10:11:52 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.17511.1752833503693084616
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 03:00:23 -0700
+ Fri, 18 Jul 2025 03:11:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JF24YMhH;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ae3a604b43bso320768566b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 03:00:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EvuC+c5e;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ae6fa02d8feso293358866b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 03:11:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752832821; x=1753437621; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1752833502; x=1753438302; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XjKVeqFCsmft5QmYT4bfvqC/YtxHkVTVIAnogcbmo/g=;
-        b=JF24YMhH4ncie3wgOO98sXtjF5VO2VjcIKl26kQGmJNTVCjhnnzCjzDsQ4yC3fkG0w
-         vC9hz0481h/YhrAQLG4Adhw2fZjcoTfS7usQr8K1XSaYub7JPs7utFuJIPVFGJHQksFw
-         FJD1sHDfQTrz1KpYp0twB71UQH0vKMB49UWNKXycUY5V9Ap5nZFUBinihDA66Q7iXUDZ
-         BS2MULh7cVgo4AjFHIdqOywzkdNa8obI5GJVFL5axsKwCZcsntQHapiyQdrGZ6PGB4Ih
-         5OAw7fOHNrYrA6V3+xUvLXMfmydppqd9mceWzxVNSnVRLt9/Mcq+5EJLDGIZdcwRvQGp
-         JTGQ==
+        bh=Cx8lFIhoxXk8aLE4/huJ8kX6sQQxRz6zat6xoSiTbAI=;
+        b=EvuC+c5eimZEYOqCqM44m1ONuDr0VVgscB3DIyjTpCfTFVM+hqg0ZqYvOpmDM2uKm8
+         g7dgDKO6yXA5F/LrJAKnvrfJP6E56HF8eVDA46AlFjW6RD9yWOdnZ30LpUyJi1Z0Wro6
+         qWEPKnKJBb3n/DycPR7xvdC6NqD1qluIVltDoLkoamfDgQg3UHIQMREZR244a4v1WnDN
+         ZBKGDmDmS4guRzc4SddKlpaojQ4203ODfRk4I2wcwP/744ifBUT1KuZ1idt8EjI3sjZN
+         P0D+8CBNT0Q1eyvi+JVSSBZSTiIZw/lJOGytDx+RzKe7zOb78aMVHvE+DmCYUFqbulDH
+         /6vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752832821; x=1753437621;
+        d=1e100.net; s=20230601; t=1752833502; x=1753438302;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XjKVeqFCsmft5QmYT4bfvqC/YtxHkVTVIAnogcbmo/g=;
-        b=tI4gB/wtP6Yd2EVkqfAeUVSBAMTmvJLRF18LzwGF49qD7IwjQvkrS4M09/Mizx8sJw
-         Y0TDIQWmwsA/gCzFhBOyrJgnnrE+ZKXajW0PG8r+H0teImqIqwAEywd6WOmS9u2uSSf/
-         K3/RIri2HFWQurXoPDBJAe5z/F81OHPemRbC2yY7oCA+GwKbPN/xNY/r7VYxV+B+yaIi
-         5KyRwec7tw3b3t85xIZj1lEjZYiaMNj3NuelOfBmaCsKZ0Q3z41WvDPhFqnClhgDnZ2L
-         LTEqW2PrfHSC5ALlaVIo4G6gOWDtTrUZcaa9eFNzzQ6e/esJstityQnwVIAnx8Wiu+Ek
-         Zq1w==
-X-Gm-Message-State: AOJu0YzV1bQLW7LxcHh1GFUVppFX36+GjdnkjMSybxvMEqFev91GO//a
-	jChdZqpYRHoGXVtUlp2IChxnbKrQUQc/copDdgx6Gpq4KgDRMFbFG3F/rhqPtA==
-X-Gm-Gg: ASbGncsJ6FrphnNw7bd6AJU3JIxkkHMKcGN2Rnhnja4zvuo8L1jTsqGtWiA+HaPHfM+
-	kn2rvhsjUUoc14UEmyu/sgvilYK/G9I7oHGYwRvg8a9apdGTjc50lhiFY0JykTYTuwfcatrYskN
-	U+l8l/uwOMKD7nyhXYVNc254MNBTO3F02qHmmyT7RqTJtmN9UJ99vYBEwoahJ1iumJiJ5GeJxYP
-	Evv+M0cuPF1YIKu2lIVvsaPzbhHGlbaQcOLigLGEMAe3rTbUF7b3+U1mu4sOVXJz1MTM+Nbbyhd
-	mNqoczk3seDSLhdp8lXYkwvcgt/z0UoRdmF6Hz9lhB3APJpo5JQa4+xGUwK+fcGkSS/04IF1dfy
-	w0zgWNKJcxLZwEr9oI+A=
-X-Google-Smtp-Source: AGHT+IH73p67xw7K6ztVwPRfaXE/M9oSDCwWMMKgRy4OgLW6Tl52l23T8XTKYg8nQbrkazGcg5n71w==
-X-Received: by 2002:a17:907:e2e8:b0:ae6:df9e:736c with SMTP id a640c23a62f3a-ae9cde02cbfmr851069466b.21.1752832820525;
-        Fri, 18 Jul 2025 03:00:20 -0700 (PDT)
+        bh=Cx8lFIhoxXk8aLE4/huJ8kX6sQQxRz6zat6xoSiTbAI=;
+        b=hKiwTeckarcCdx4GSZsgTJon2+iR2i2M72/1snuNHZLaZbdYKl/ImXq/aYt2qHqb2w
+         XGm+8sDiO2VOr4IHtzafIRb0llVwWVkTkLQdR2C/mi8qd/kpCKhMv9HKjekh/dnpv+Yx
+         gOHmTIgULENHUe/9Xcqj1t2OpyU+fu6Za/M/pa0BpXyhBQvxr28pwsDsNQQ6ej7Xnvro
+         44iyat3nUroeJuG+Z+rDpCYgxyrfq5nTOp9ZlAIFHzUHP96o0OYefU7vqfnq9s03WuC3
+         5itfR8u9d6Gq2h18Qs3arqarf/qYh/PQC2d4yEwwScsEiogO9OZQNa8UJ8zxemjs05fd
+         unxw==
+X-Gm-Message-State: AOJu0YzoYKI7GfTLNt3YzXmF9XLeSFNPn4whT6ZIXBlbQ6RgDaw4sEHN
+	ktLqL6LLjAR+c241R6FQbBQ2J5PYevr/oWsy/ZJZJbAlAE28EgaZm2YGUGpx4g==
+X-Gm-Gg: ASbGncsvmowjv054kFZJUeY6inxHkCrjlmt4zC6oCgzRYJ9PsTyCgiOF8PSgsLY9cZT
+	X4o7eHcrWjiDCrdaco+O9bjaoUiYWRA6we0xHQiNPwHwCBqfrggN6ZB8PsoZK+jqksXnoGQqhOL
+	f4W05LAxNfeWi7Ua27zIVsP+oVmQ3R9kdtWlUoasOKHx0pd6wgVQxg59rFhrqO8P68TExB+12LV
+	f4UaoppNb40f86YJhu1b+ZxwW1RoMqYHEvbTPGxqaCIdukTgppQLES3GpBUu1Rc6aMb5hcSsZVC
+	bb7Ucd+PfuOSRX3fQcTGd5TMBU8xCF9RIF78dYUxxUeRsVDLHYu1D6Cv1ovNDdZTe9uiLgv6Ums
+	v0MVSgQKRURiK/y9CyNk=
+X-Google-Smtp-Source: AGHT+IFumf5aW/jwe0p4H+cymTyFAWT6fCqqT4AUnhpqbvBHBQ482bbf+MYHuuVRrFYsg5sVOOOzcA==
+X-Received: by 2002:a17:906:9fc9:b0:ae3:cd73:e95a with SMTP id a640c23a62f3a-ae9ce0d2aedmr1055591866b.36.1752833501672;
+        Fri, 18 Jul 2025 03:11:41 -0700 (PDT)
 Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c7d8909sm92488266b.60.2025.07.18.03.00.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca7d30csm93556066b.119.2025.07.18.03.11.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 03:00:19 -0700 (PDT)
+        Fri, 18 Jul 2025 03:11:41 -0700 (PDT)
 From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] stress-ng: upgrade 0.18.12 -> 0.19.02
-Date: Fri, 18 Jul 2025 12:00:19 +0200
-Message-ID: <20250718100019.285465-1-skandigraun@gmail.com>
+Subject: [PATCH] libgit2: upgrade 1.9.0 -> 1.9.1
+Date: Fri, 18 Jul 2025 12:11:40 +0200
+Message-ID: <20250718101140.297012-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 10:00:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220592
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 10:11:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220593
 
-Changelog:
-https://github.com/ColinIanKing/stress-ng/blob/master/debian/changelog
+Dropped 0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch
+because it's included in this release.
+
+Changelog: see https://github.com/libgit2/libgit2/releases/tag/v1.9.1
 
 Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- .../stress-ng/{stress-ng_0.18.12.bb => stress-ng_0.19.02.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.18.12.bb => stress-ng_0.19.02.bb} (90%)
+ ...eLists.txt-install-cmake-files-into-.patch | 32 -------------------
+ .../{libgit2_1.9.0.bb => libgit2_1.9.1.bb}    |  6 ++--
+ 2 files changed, 2 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-support/libgit2/libgit2/0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch
+ rename meta/recipes-support/libgit2/{libgit2_1.9.0.bb => libgit2_1.9.1.bb} (72%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb b/meta/recipes-extended/stress-ng/stress-ng_0.19.02.bb
-similarity index 90%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.19.02.bb
-index 85a0d6a709..dd8d3a8406 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.18.12.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.19.02.bb
-@@ -5,9 +5,8 @@ HOMEPAGE = "https://github.com/ColinIanKing/stress-ng#readme"
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-support/libgit2/libgit2/0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch b/meta/recipes-support/libgit2/libgit2/0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch
+deleted file mode 100644
+index ae48524e0d..0000000000
+--- a/meta/recipes-support/libgit2/libgit2/0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 8ca35649c33d0d2fcdcd573ce6a9edd91c77e4da Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Tue, 7 Jan 2025 18:56:19 +0100
+-Subject: [PATCH] src/libgit2/CMakeLists.txt: install cmake files into
+- configured libdir
+-
+-libdir can be something else than /usr/lib, e.g. /usr/lib64 or similar.
+-
+-Upstream-Status: Submitted [https://github.com/libgit2/libgit2/pull/7004]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- src/libgit2/CMakeLists.txt | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/libgit2/CMakeLists.txt b/src/libgit2/CMakeLists.txt
+-index a7d3c7ca4..16b3a23d9 100644
+---- a/src/libgit2/CMakeLists.txt
+-+++ b/src/libgit2/CMakeLists.txt
+-@@ -119,11 +119,11 @@ configure_file(config.cmake.in
+- install(FILES
+- 	"${PROJECT_BINARY_DIR}/cmake/${PROJECT_NAME}Config.cmake"
+- 	"${PROJECT_BINARY_DIR}/cmake/${PROJECT_NAME}ConfigVersion.cmake"
+--	DESTINATION "lib/cmake/${PROJECT_NAME}")
+-+	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+- install(
+- 	EXPORT ${LIBGIT2_TARGETS_EXPORT_NAME}
+- 	NAMESPACE "${PROJECT_NAME}::"
+--	DESTINATION "lib/cmake/${PROJECT_NAME}")
+-+	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+- 
+- # Install
+- 
+diff --git a/meta/recipes-support/libgit2/libgit2_1.9.0.bb b/meta/recipes-support/libgit2/libgit2_1.9.1.bb
+similarity index 72%
+rename from meta/recipes-support/libgit2/libgit2_1.9.0.bb
+rename to meta/recipes-support/libgit2/libgit2_1.9.1.bb
+index 66ec62f17a..43957a2087 100644
+--- a/meta/recipes-support/libgit2/libgit2_1.9.0.bb
++++ b/meta/recipes-support/libgit2/libgit2_1.9.1.bb
+@@ -5,10 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8eacfdc17c8f4d219e131a073973b97d"
  
--SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V${PV} \
+ DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
+ 
+-SRC_URI = "git://github.com/libgit2/libgit2.git;branch=main;protocol=https \
+-           file://0001-src-libgit2-CMakeLists.txt-install-cmake-files-into-.patch \
 -           "
--SRCREV = "d4eef982dc98fe915aa82303c0a24070d0a51b00"
-+SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V${PV}"
-+SRCREV = "8d5399b282225f758606cd2b522382f65d947a8d"
+-SRCREV = "338e6fb681369ff0537719095e22ce9dc602dbf0"
++SRC_URI = "git://github.com/libgit2/libgit2.git;branch=maint/v1.9;protocol=https;tag=v${PV}"
++SRCREV = "0060d9cf5666f015b1067129bd874c6cc4c9c7ac"
  
- DEPENDS = "coreutils-native libbsd"
+ inherit cmake
  
 
