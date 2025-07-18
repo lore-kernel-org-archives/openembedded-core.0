@@ -1,149 +1,222 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D94C83F17
-	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 16:42:14 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web10.25428.1752856923521778542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F4C5C83F17
+	for <webhook@archiver.kernel.org>; Fri, 18 Jul 2025 16:47:04 +0000 (UTC)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+ by mx.groups.io with SMTP id smtpd.web11.3374.1752857215641575483
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Jul 2025 09:42:03 -0700
+ Fri, 18 Jul 2025 09:46:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IFvF2ARF;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-612a8e6f675so3265713a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 09:42:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hwwWZ+Zp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.176, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-70f147b5a52so16403557b3.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 09:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752856922; x=1753461722; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vw46HlXAh4SR52BpPRkFcBmJT5NbIgcDQiH1o0lfCpU=;
-        b=IFvF2ARF39nSa4Qup5yKveQylHMSFVoXm2pVHqdCGXOp9qKxGYhbtzp2bkfaM8cC8W
-         952Wzk+XhI1y5B+++IcSPGVsoJO9Nbr93eMuDnR8Nsz5teIerXk1hdzY1HntYs3WUm0F
-         2iJrsZDuXPyuIRqpH1D5mP9/MSPS73xPb4REWlRk1LHlvbbmakwv1UjfyH9gvC59QJge
-         YonYmVvOuqfczLbEGJYFRyehzMO4Z4N4fUgTmz2EgETF5kLUCfcHzAkgJUW5VAJ07S3R
-         Zmzps+Uhcx2hyBULdX2JTGOmKtqUAVbfYh6khqHJ8HwRQnl4biteSKviKyOPQQEvkRxP
-         Vi2A==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1752857215; x=1753462015; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SQVoF2u18EEz1g0h2mYnalf/5oIh4MzUHCFSnekeAS0=;
+        b=hwwWZ+ZpKTbxlSu889qpZHY0cdX/1fh+VzqdD9m5CgwOo0CrzQYda6CS5+NfqfT0Pj
+         Me3f2KOLacSQbHet3IHQK2FeKgycGAOkMHLAgrkgor+/sVGOev0ewwcq4tNpqUxoqgjj
+         LIF8dRf5kXfOjmSkOIqLWsPsc6++EA/ROuGRb8CtziLDpkuz3AhgPZNp9F3TNWjnvOQ6
+         CWKt7dohi3vCXZApKx4ccFmNNXESfRoTK6d3zHH7q/GUM9D8uH8YZXYU5Vy3w8GrCoDj
+         lNpZm5rq4tWvOD6pt1PaIf1vaB0S3Wzd4S4rAPVJglmBqI2gWEyigJ+/Adk2xLm73tGg
+         ZpkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752856922; x=1753461722;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vw46HlXAh4SR52BpPRkFcBmJT5NbIgcDQiH1o0lfCpU=;
-        b=nQhnQk/ERn2li9DvanDvTUE6Y1fFbzMzXJaahiUQNoalUna5EWhJep8vu01aO+FyzY
-         CxUmYMXpfJCWfTqxkVk6qQHRb80Wu0XRB7BqIzWnzIAHIYGlFDfpizEJTSzy4Hb+GBpb
-         blhJOJi6oWvEs+NsM+ei59JaPD2kfW1PaaFWroth4klmU9iT2ep/Oq4e74gM8ss5NgGs
-         +gnQLfj5C1sWS5wi88kQ2+2V8V79/QcA4aEckTgF6Qf/MOB02I208DQp4tnetfMLKr1A
-         7ZJsjfSGO2+M4w55at/wh046YNINhjjaknhAWsaHb1yf3gt1e/HaxZMPr7maFcRLikqa
-         2Pig==
-X-Gm-Message-State: AOJu0YwVPw0Z0rk5TokFWZPR+3gsSqbvRLeHLKKDczHtZwlRjAE7a5bE
-	Zw0FHzPU2jNnf6w+FakrX+MKM0ZyZQPI9XipGdGqAzk4wSJMPlxTwmGgvREd/mPE
-X-Gm-Gg: ASbGncseTwZ6rer07w54eMrryFvDdIztHpRDRJctt8iWN1l4RGDHMuU+NF/3pe0CrCq
-	aaP9YT1ReSQ0VuiRgjOo8zn4mbFXQHQdu9gcXO8w36kbivHelXDEtXaFSCSuacobKvDifiLFV1D
-	rXANqT5N8unZUMaLadMgyrVcaSJ4qPMyd5thBRYTlT+dpcNAXlw1dlN8NWbcNEhVTKUGh26aBXP
-	JcZfGlTr4/5TAnfEQTNt8QtyMd8Xu33ihk0VI8fl410VGr2pPynabXEC5qHLVKG5zAEkzElftwi
-	VII+mbw3blA7qlc9XWkg62JMyxq3q260YeG4J7BaepLqzOLWxiwQkwW5TrHbCP/MUM+zQg3hDsk
-	08npK3Mo2OLx359w2E6o=
-X-Google-Smtp-Source: AGHT+IGtdAu7pbuiaWwmtX1KqavJoLWiLn4RAOPGsrJKMfzGTeHDM/9bA/mFTShwAFF1ZU9ridtlzw==
-X-Received: by 2002:a05:6402:2808:b0:60c:3d54:4d2a with SMTP id 4fb4d7f45d1cf-61285bccc0emr10167954a12.22.1752856921555;
-        Fri, 18 Jul 2025 09:42:01 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-612c8f07fa9sm1232092a12.7.2025.07.18.09.42.00
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 09:42:01 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] virglrenderer: upgrade 1.1.0 -> 1.1.1
-Date: Fri, 18 Jul 2025 18:41:58 +0200
-Message-ID: <20250718164158.330142-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20230601; t=1752857215; x=1753462015;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SQVoF2u18EEz1g0h2mYnalf/5oIh4MzUHCFSnekeAS0=;
+        b=NuCs2S1AGjhkrcHN2KZ/RET095My4n3KTqhgSH9n8LK5ITlqoAiXaeXzi6dnTNF06b
+         qhZWNSuq0nxz3MClPUyEisvVbhRI6zSv/hd6CGaxblIXIyBsIF2B9dUxSIvKLKX2dGWr
+         DXTAKwGbQH6UOqmdYSH2PXlKUvzNHaandPYTJEyzYNgv6milb24rRSKGUObrSggSWZcl
+         KnAYwbnpDmVlwgtK4bPCN1sWbUS7BrWeNPqNbKWMbFrIxUhd0Mgsw7FMg4t61RTr8Okw
+         ShnCOh2Ap9iIHujPI5zJURaKK+ntDUd4xGG3nKYC9zVMPKFNC5JeaR06QoxdPHj2FP8d
+         i9OQ==
+X-Gm-Message-State: AOJu0YxhqPdL3YBYHWm99YlrYGMZCdgpecVsvibT013bJhPkqsIM0qsi
+	9FuuuAkVTYqd1/MJiy0Ezyk4syb/KkzkNBa163Ko0enAhwlTDrE/OhUuv7NbdT7Fyug/GWxgdpg
+	9W7Dv7JP9/nDyf5Yhi+cBCRAZZ3VMZnwRWkU1Y/530IQpKVPzoh7+LPI=
+X-Gm-Gg: ASbGnctNFU/XOVdzTafO2TcmXES2v9JjQ+65/vh1Su0jyvUMeMqofGHsS+akcFXx7uy
+	AMXODu/zKsB0rf4IyRPKLnuuAmurjauLaIL+ifOX5rxiQKUON5hNYOfKDs6MfOkv7lA058fHl9V
+	vx5Gjt9GsaqzZQst8EKoRnuPpsggoiYZfi7OGcb7N86t8n5gR3jh/vTinRjg1/Dt8XmGv8aOT8A
+	VlcX07dp10Pkt+lM7XlkBTfybT1/HtZbtgBWJo=
+X-Google-Smtp-Source: AGHT+IFKl+mNI6wR9pk8mTe6XhQpHcxu91zgbkvhGRNL8mnQQxitO6ywlvRETKNFYz5XtbDGg6FxVxS3jVIrUYkUk1M=
+X-Received: by 2002:a05:690c:4b05:b0:719:3e4f:60f7 with SMTP id
+ 00721157ae682-7193e4f80e6mr87894327b3.26.1752857214370; Fri, 18 Jul 2025
+ 09:46:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250717044910.3240530-1-hongxu.jia@windriver.com>
+In-Reply-To: <20250717044910.3240530-1-hongxu.jia@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 18 Jul 2025 09:46:43 -0700
+X-Gm-Features: Ac12FXx1h9F0vEUl63_ozCLZWx1vffM6MS5Tq3M5wD_1o7wjbBC4vyZsAhrqPxs
+Message-ID: <CAOSpxdYAh6sA7vAcnrEWbmgFyFGb8G1r9Lj0GGL5+8sk0m-dFQ@mail.gmail.com>
+Subject: Re: [OE-core] [walnascar][PATCH] webkitgtk: fix compile failure on qemuriscv64
+To: hongxu.jia@eng.windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 16:42:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220602
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Jul 2025 16:47:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220603
 
-Dropped 0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch
-because it is indluded in this release.
+This patch is breaking musl builds:
 
-Added python3-pyyaml as a build dependency - dependency was introduced in
-https://gitlab.freedesktop.org/virgl/virglrenderer/-/commit/194c75946a30e11b90ea46b6a6ddc5e62a9e9612
+ERROR: webkitgtk-2.48.2-r0 do_patch: Applying patch
+'0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x86-.patch' on
+target directory
+'/srv/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-pok=
+y-linux-musl/webkitgtk/2.48.2/webkitgtk-2.48.2'
+CmdError('quilt --quiltrc
+/srv/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky=
+-linux-musl/webkitgtk/2.48.2/recipe-sysroot-native/etc/quiltrc
+push', 0, "stdout: Applying patch
+0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x86-.patch
+can't find file to patch at input line 24
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|From 8bee9eb95ae24c6a410f9cd614976f4653d020d9 Mon Sep 17 00:00:00 2001
+|From: Michael Catanzaro <mcatanzaro@redhat.com>
+|Date: Wed, 2 Apr 2025 15:01:55 -0500
+|Subject: [PATCH] REGRESSION(290945.129@webkitglib/2.48): Broke non-x86,
+| non-ARM builds https://bugs.webkit.org/show_bug.cgi?id=3D287662
+|
+|Unreviewed stable branch build fix.
+|
+|* Source/WebCore/platform/audio/DenormalDisabler.cpp:
+|
+|Canonical link: https://commits.webkit.org/290945.155@webkitglib/2.48
+|Signed-off-by: Michael Catanzaro <mcatanzaro@redhat.com>
+|
+|Upstream-Status: Backport
+[https://github.com/WebKit/WebKit/commit/8bee9eb95ae24c6a410f9cd614976f4653=
+d020d9]
+|Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+|---
+| Source/WebCore/platform/audio/DenormalDisabler.cpp | 2 +-
+| 1 file changed, 1 insertion(+), 1 deletion(-)
+|
+|diff --git a/Source/WebCore/platform/audio/DenormalDisabler.cpp
+b/Source/WebCore/platform/audio/DenormalDisabler.cpp
+|index 35715e663ce7..44ba08a33d5d 100644
+|--- a/Source/WebCore/platform/audio/DenormalDisabler.cpp
+|+++ b/Source/WebCore/platform/audio/DenormalDisabler.cpp
+--------------------------
+No file to patch. Skipping patch.
+1 out of 1 hunk ignored
+Patch 0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x86-.patch
+does not apply (enforce with -f)
 
-Changelog: https://gitlab.freedesktop.org/virgl/virglrenderer/-/releases/1.1.1
+Sample full log:
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
----
- ...nversion-fatal-build-error-with-GCC-.patch | 37 -------------------
- ...nderer_1.1.0.bb => virglrenderer_1.1.1.bb} |  7 ++--
- 2 files changed, 3 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch
- rename meta/recipes-graphics/virglrenderer/{virglrenderer_1.1.0.bb => virglrenderer_1.1.1.bb} (84%)
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/6/builds/2084/ste=
+ps/11/logs/stdio
 
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch
-deleted file mode 100644
-index 67dc4989b5..0000000000
---- a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From bb129aac12c5aa6e2dd371244b042baa82aff014 Mon Sep 17 00:00:00 2001
--From: Purushottam Choudhary <purushottam27.kumar@lge.com>
--Date: Tue, 8 Oct 2024 11:47:21 +0530
--Subject: [PATCH] vrend: Fix int-conversion fatal build error with GCC-14
--
--Getting below error int conversion during compilation as one the
--platforms where EGLNativeDisplayType is an int instead of a pointer.
--
--| ../git/src/vrend_winsys_egl.c: In function 'virgl_egl_init':
--| ../git/src/vrend_winsys_egl.c:364:62: error: passing argument 2 of 'egl->funcs.epoxy_eglGetPlatformDisplay' makes pointer from
--|   364 |                                                              (EGLNativeDisplayType)egl->gbm->device, NULL);
--|       |                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--|       |                                                              |
--|       |                                                              int
--| ../git/src/vrend_winsys_egl.c:364:62: note: expected 'void *' but argument is of type 'int'
--
--Upstream-Status: Backport [https://gitlab.freedesktop.org/virgl/virglrenderer/-/commit/464deabe4d1bfce6b8f414ab0945d9a62b66ddd4]
--
--Signed-off-by: Purushottam Choudhary <purushottam27.kumar@lge.com>
--Part-of: <https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1440>
-----
-- src/vrend_winsys_egl.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/vrend_winsys_egl.c b/src/vrend_winsys_egl.c
--index 9d9f410c..8750f6b2 100644
----- a/src/vrend_winsys_egl.c
--+++ b/src/vrend_winsys_egl.c
--@@ -361,7 +361,7 @@ struct virgl_egl *virgl_egl_init(EGLNativeDisplayType display_id, bool surfacele
-- #ifdef ENABLE_GBM
--       else
--          egl->egl_display = egl->funcs.eglGetPlatformDisplay(EGL_PLATFORM_GBM_KHR,
---                                                             (EGLNativeDisplayType)egl->gbm->device, NULL);
--+                                                             (EGLNativeDisplayType*)egl->gbm->device, NULL);
-- #endif
--    } else {
-- #ifdef ENABLE_GBM
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
-similarity index 84%
-rename from meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb
-rename to meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
-index 11c3c8c963..89dd25de70 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
-@@ -8,11 +8,10 @@ HOMEPAGE = "https://virgil3d.github.io/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
- 
--DEPENDS = "libdrm libepoxy virtual/egl virtual/libgbm"
--SRCREV = "1aeaf5e10a9c89096e96d09599aa419d5c50712f"
--SRC_URI = "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https \
-+DEPENDS = "libdrm libepoxy python3-pyyaml-native virtual/egl virtual/libgbm"
-+SRCREV = "0f1f43929724a6a414c01a29bc51feccb445c2f0"
-+SRC_URI = "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https;tag=${PV} \
-            file://0001-meson.build-use-python3-directly-for-python.patch \
--           file://0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch \
-            "
- 
- inherit meson pkgconfig features_check
+Steve
+
+On Wed, Jul 16, 2025 at 9:49=E2=80=AFPM hongxu via lists.openembedded.org
+<hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
+>
+> $ echo 'MACHINE =3D "qemuriscv64"' >> conf/local.conf
+> $ bitbake webkitgtk
+> ...
+> |TOPDIR/tmp/work/riscv64-wrs-linux/webkitgtk/2.48.1/webkitgtk-2.48.1/
+> Source/WebCore/platform/audio/DenormalDisabler.cpp:95:1: error: expected
+> ',' or ';' before 'DenormalDisabler'
+> ...
+>
+> Backport a patch from upstream to fix the issue
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  ...5.129-webkitglib-2.48-Broke-non-x86-.patch | 35 +++++++++++++++++++
+>  meta/recipes-sato/webkit/webkitgtk_2.48.1.bb  |  1 +
+>  2 files changed, 36 insertions(+)
+>  create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-REGRESSION-29=
+0945.129-webkitglib-2.48-Broke-non-x86-.patch
+>
+> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-REGRESSION-290945.12=
+9-webkitglib-2.48-Broke-non-x86-.patch b/meta/recipes-sato/webkit/webkitgtk=
+/0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x86-.patch
+> new file mode 100644
+> index 0000000000..191f1aabf0
+> --- /dev/null
+> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-REGRESSION-290945.129-webki=
+tglib-2.48-Broke-non-x86-.patch
+> @@ -0,0 +1,35 @@
+> +From 8bee9eb95ae24c6a410f9cd614976f4653d020d9 Mon Sep 17 00:00:00 2001
+> +From: Michael Catanzaro <mcatanzaro@redhat.com>
+> +Date: Wed, 2 Apr 2025 15:01:55 -0500
+> +Subject: [PATCH] REGRESSION(290945.129@webkitglib/2.48): Broke non-x86,
+> + non-ARM builds https://bugs.webkit.org/show_bug.cgi?id=3D287662
+> +
+> +Unreviewed stable branch build fix.
+> +
+> +* Source/WebCore/platform/audio/DenormalDisabler.cpp:
+> +
+> +Canonical link: https://commits.webkit.org/290945.155@webkitglib/2.48
+> +Signed-off-by: Michael Catanzaro <mcatanzaro@redhat.com>
+> +
+> +Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/8bee9=
+eb95ae24c6a410f9cd614976f4653d020d9]
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + Source/WebCore/platform/audio/DenormalDisabler.cpp | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Source/WebCore/platform/audio/DenormalDisabler.cpp b/Source=
+/WebCore/platform/audio/DenormalDisabler.cpp
+> +index 35715e663ce7..44ba08a33d5d 100644
+> +--- a/Source/WebCore/platform/audio/DenormalDisabler.cpp
+> ++++ b/Source/WebCore/platform/audio/DenormalDisabler.cpp
+> +@@ -91,7 +91,7 @@ DenormalDisabler::~DenormalDisabler()
+> +     }
+> + }
+> + #else
+> +-DenormalDisabler::DenormalDisabler() =3D default
+> ++DenormalDisabler::DenormalDisabler() =3D default;
+> + DenormalDisabler::~DenormalDisabler() =3D default;
+> + #endif
+> +
+> +--
+> +2.49.0
+> +
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb b/meta/recipes-=
+sato/webkit/webkitgtk_2.48.1.bb
+> index 58d0a11202..d210b3d671 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.48.1.bb
+> @@ -18,6 +18,7 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}-=
+${PV}.tar.xz \
+>             file://sys_futex.patch \
+>             file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-s=
+how.patch \
+>             file://fix-ftbfs-riscv64.patch \
+> +           file://0001-REGRESSION-290945.129-webkitglib-2.48-Broke-non-x=
+86-.patch \
+>             "
+>  SRC_URI[sha256sum] =3D "98efdf21c4cdca0fe0b73ab5a8cb52093b5aa52d9b1b016a=
+93f71dbfa1eb258f"
+>
+> --
+> 2.49.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#220515): https://lists.openembedded.org/g/openembedde=
+d-core/message/220515
+> Mute This Topic: https://lists.openembedded.org/mt/114198641/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
