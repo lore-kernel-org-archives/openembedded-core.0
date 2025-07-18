@@ -2,173 +2,121 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7DB2C87FCA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B42C87FD3
 	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:19:31 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by mx.groups.io with SMTP id smtpd.web11.29580.1753057958724188929
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by mx.groups.io with SMTP id smtpd.web11.16983.1752830940666061831
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Jul 2025 17:32:38 -0700
+ Fri, 18 Jul 2025 02:29:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=XdcfoYAM;
- spf=pass (domain: kernel.org, ip: 139.178.84.217, mailfrom: robh@kernel.org)
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=EHR3Ox39;
+ spf=pass (domain: kernel.org, ip: 147.75.193.91, mailfrom: krzk@kernel.org)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 384865C4C43;
-	Mon, 21 Jul 2025 00:26:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56CF0C4CEE7;
-	Mon, 21 Jul 2025 00:26:34 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 1A934A54DC4;
+	Fri, 18 Jul 2025 09:21:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B0FC4CEEB;
+	Fri, 18 Jul 2025 09:21:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753057594;
-	bh=2jXD6fV2pi4XdodBU4IjziGtCooOyqc6QbykipInwFo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XdcfoYAMJGyOpwexECJfGYYaLJpKEJYaYhR7Ve456pp1Mu/xlx0GKy77EaNihR0qP
-	 bbNTuZ8BdR8SrB7V52lvnWlaWytC0BjVLaKfuxfcrSlflGZfDVJ6uQjJDyfd26XiJi
-	 fMa6nsR62qdGsIU+RMMsX1MTLVFKYZXHrT8eF36Hyv0351dK7+Nd14tTw0KWxznmaW
-	 Hy0UXyrAlM0GzSVNTcvup5NX/GBBqXfVt77RpIkmxeK52AdeepglwFzNzr+f3/QPAW
-	 XC89vjEWEpVDy8wdkBiDimVW/g9fiPtALjYmQYNvSslUw06gfM2CWvRgQtzjWaELm7
-	 OKLrf9nnyB8Qw==
-Date: Sun, 20 Jul 2025 19:26:33 -0500
-From: Rob Herring <robh@kernel.org>
-To: Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Peter Wang <peter.wang@mediatek.com>,
-	Stanley Jhu <chu.stanley@gmail.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	openembedded-core@lists.openembedded.org, patches@lists.linux.dev,
-	stable@vger.kernel.org, Bear Wang <bear.wang@mediatek.com>,
-	Pablo Sun <pablo.sun@mediatek.com>,
-	Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
-	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: Re: [PATCH 2/3] dt-bindings: ufs: mediatek,ufs: add MT8195 compatible and update clock nodes
-Message-ID: <20250721002633.GA3083612-robh@kernel.org>
-References: <20250718082719.653228-1-macpaul.lin@mediatek.com>
- <20250718082719.653228-2-macpaul.lin@mediatek.com>
+	s=k20201202; t=1752830491;
+	bh=Ya/gISIIGqu7VM02+8jqt0Jrm0RpnBc7A7ihxINk9yw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EHR3Ox39JZLnNT4WbbCTNefctGWVrbmBb60q0rFMPD0WbJFVZaVI8P/1OhezBjXOl
+	 EmuMCCrwkLQ5LL4Yovl3PTyILz/QOKT8//w2gbU39q55APEka6WkizIYmLVgc+1Mh9
+	 9SgTKOnBLh+yXSlptsoYywYT4bc4yD0GekQt5UK9LjY5b14jApvFmcgeFsxRhIfzev
+	 Tid+kSkVnXx9N/Get6MzF4Zmi63oSlCRNgv8/NOjOMhfYzlfqwenu4FXgTZ74Hfza6
+	 7zNb75QCUgu/tebV7a+08HK5KJEFB6CuLrUzabaZ3dqtJUd5cCCNbkjJJCdQDFtuYX
+	 yQo3Ly9rHkDkw==
+Message-ID: <282af712-8832-422b-9933-1f9857307c29@kernel.org>
+Date: Fri, 18 Jul 2025 11:21:25 +0200
 MIME-Version: 1.0
-In-Reply-To: <20250718082719.653228-2-macpaul.lin@mediatek.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] arm64: dts: mediatek: add device-tree for Genio 1200 EVK UFS board
+To: Macpaul Lin <macpaul.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Sean Wang <sean.wang@mediatek.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ openembedded-core@lists.openembedded.org, patches@lists.linux.dev,
+ stable@vger.kernel.org
+Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+References: <20250718083202.654568-1-macpaul.lin@mediatek.com>
+ <20250718083202.654568-3-macpaul.lin@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250718083202.654568-3-macpaul.lin@mediatek.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:19:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221068
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221066
 
-On Fri, Jul 18, 2025 at 04:27:17PM +0800, Macpaul Lin wrote:
-> Add 'mediatek,mt8195-ufshci' to compatible list.
-> Update clocks and clock-names constraints to allow one to eight entries.
-> Introduce 'mediatek,ufs-disable-mcq' property to disable
-> MCQ (Multi-Circular Queue). Update conditional schema for mt8195
-> requiring eight 'clocks' and eight 'clock-names'.
-
-Don't just describe the diff, we can read it. Describe why you are 
-making the changes. How is the new h/w different (or the same).
-
-> 
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> ---
->  .../devicetree/bindings/ufs/mediatek,ufs.yaml | 49 ++++++++++++++++---
->  1 file changed, 43 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/ufs/mediatek,ufs.yaml b/Documentation/devicetree/bindings/ufs/mediatek,ufs.yaml
-> index 32fd535a514a..9d6bcf735920 100644
-> --- a/Documentation/devicetree/bindings/ufs/mediatek,ufs.yaml
-> +++ b/Documentation/devicetree/bindings/ufs/mediatek,ufs.yaml
-> @@ -9,21 +9,20 @@ title: Mediatek Universal Flash Storage (UFS) Controller
->  maintainers:
->    - Stanley Chu <stanley.chu@mediatek.com>
->  
-> -allOf:
-> -  - $ref: ufs-common.yaml
-> -
->  properties:
->    compatible:
->      enum:
->        - mediatek,mt8183-ufshci
->        - mediatek,mt8192-ufshci
-> +      - mediatek,mt8195-ufshci
->  
->    clocks:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 8
->  
->    clock-names:
-> -    items:
-> -      - const: ufs
-> +    minItems: 1
-> +    maxItems: 8
->  
->    phys:
->      maxItems: 1
-> @@ -33,6 +32,11 @@ properties:
->  
->    vcc-supply: true
->  
-> +  mediatek,ufs-disable-mcq:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: The mask to disable MCQ (Multi-Circular Queue) for UFS host.
-> +    type: boolean
-
-Seems this was undocumented, but already in use. That should be a 
-separate patch.
-
+On 18/07/2025 10:32, Macpaul Lin wrote:
 > +
->  required:
->    - compatible
->    - clocks
-> @@ -43,6 +47,39 @@ required:
->  
->  unevaluatedProperties: false
->  
-> +allOf:
-> +  - $ref: ufs-common.yaml
+> +&mmc0 {
+> +	status = "disabled";
+> +};
 > +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - mediatek,mt8195-ufshci
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 8
-> +          maxItems: 8
-> +        clock-names:
-> +          items:
-> +            - const: ufs
-> +            - const: ufs_aes
-> +            - const: ufs_tick
-> +            - const: unipro_sysclk
-> +            - const: unipro_tick
-> +            - const: unipro_mp_bclk
-> +            - const: ufs_tx_symbol
-> +            - const: ufs_mem_sub
-> +    else:
-> +      properties:
-> +        clocks:
-> +          minItems: 1
+> +/ {
 
-1 is already the minimum. Drop.
+Root node is ALWAYS the first. Don't come with some other rules.
 
-> +          maxItems: 1
-> +        clock-names:
-> +          items:
-> +            - const: ufs
-> +
->  examples:
->    - |
->      #include <dt-bindings/clock/mt8183-clk.h>
-> -- 
-> 2.45.2
-> 
+> +	model = "MediaTek Genio 1200 EVK-P1V2-UFS";
+> +	compatible = "mediatek,mt8395-evk-ufs", "mediatek,mt8395",
+> +		     "mediatek,mt8195";
+> +};
+
+
+Best regards,
+Krzysztof
 
