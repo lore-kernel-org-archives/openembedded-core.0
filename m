@@ -1,97 +1,116 @@
-Return-Path: <jan.vermaete@gmail.com>
+Return-Path: <jeroen@myspectrum.nl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF23C83F34
-	for <webhook@archiver.kernel.org>; Sat, 19 Jul 2025 13:20:56 +0000 (UTC)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
- by mx.groups.io with SMTP id smtpd.web10.10785.1752931250607487643
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3268C83F27
+	for <webhook@archiver.kernel.org>; Sat, 19 Jul 2025 14:13:56 +0000 (UTC)
+Received: from outbound3.mail.transip.nl (outbound3.mail.transip.nl [136.144.136.12])
+ by mx.groups.io with SMTP id smtpd.web10.11642.1752934428819035719
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Jul 2025 06:20:50 -0700
+ Sat, 19 Jul 2025 07:13:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JrEAWYhy;
- spf=pass (domain: gmail.com, ip: 209.85.219.169, mailfrom: jan.vermaete@gmail.com)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e8d96ff2dfaso117716276.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Jul 2025 06:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752931249; x=1753536049; darn=lists.openembedded.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ru7uTbWHbpqBaNKlpgjMqjPC3o8lGozkxOkaGMx0LOE=;
-        b=JrEAWYhyBclAtPCxp5Z/Efswva+/hvv9VOlTrt+GPDP+He/NgQjbUSNReD2Q7cfFJA
-         kiy6ydhcnoW3wWl1ikuSVe+M/22zN2GJOq164g6E4Oame+JGoqJlojIBmX+aaPRx+kdv
-         6b3vqIlEXfZ2bzqoyJ1qBXe0MeJ3CU99z7mMeYPk6nh09bGWi5CTBCIMi3KSsptALAwo
-         7Z8EBLFc6hQFT8+kANnW/Pdl/8xJh1tOoLnnnYsHi78/PudaR0/hx5dykJ8TehzTZIPC
-         aiCek+ZMeRYzTh3U2RCRF4v7ImQio/DWszxIklFgoqoMK107U0d37OOQfoOYpABs9mrh
-         fqfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752931249; x=1753536049;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ru7uTbWHbpqBaNKlpgjMqjPC3o8lGozkxOkaGMx0LOE=;
-        b=XUu14CEpzsmpQiTs1qsDQWiwI1lgoXeAaUDwkKFeitgH2UX1THmZoSmI5DsrFe4CcD
-         SU/ZDKhSKrFKTjZIWT5Ao/ivlkuPD4GLCBIINxrLeRefRjXultA7GvnOFzfCwqPEXqNC
-         MDYomfUCbRxOaCZCVPC1OzyntVF18gz86tm0MKr7caCNH6F5JXU2cP6etC3ZJtweHJtx
-         biBUZ28p/9B/OE+ByvlU1EnxL9BY747fwD+EboZpXplvCDDpeIXr1z7xbLnT7qHniJ87
-         oAed5ozSoCQtwZsOyi15nzptuNQFbrgjzdTL1W/K8zf/Bhd9F8IZ+DHsfTltRrynrtRU
-         x+jQ==
-X-Gm-Message-State: AOJu0YzulZzmAONOmGTF7QXgK6eOrWOljidgCDYHHh6AoBn/h1UGwuEV
-	Oeg3oUzh2iDN895361bEjQrWCoeDAmR7ezlf1/Z0Skq4lENiMkI9CVQ6C0cokoIRBlxbpTgTA0x
-	XQUmr+wMV314c6nvu+RIVbZKkxAfm6W+32zcC
-X-Gm-Gg: ASbGncsfiPWRVG9tnvyuGCDiHOzcC3ORI2Op8dsqSfApfXETDGwIVrN53AW9BOLm5V4
-	YsYZuu5bjTDqa8+vTkA6/J0ks5UsqBeN2s7lQmqiAJ+UypoBhnxz0f6zs0ARZhhfhgPaTqc/gjJ
-	cTXxsej6qsKQhmqeUQqUUBJgYA6tVSiHxRRyc9UlUaQTyz+3+Mc978eKOFa10fM+HCcQLfCTVh+
-	0AfqEWVuNH22SuLjRHohsneskglJaQoDUABCMsM
-X-Google-Smtp-Source: AGHT+IELs8OWcv/2uy7WYJeznFv+hIT7XkMOFCgIQW1EE8HINGTdbQfe8rjuoVER3FQdlio1nmUvMLKhwmkXI/zzPDs=
-X-Received: by 2002:a05:690c:46ca:b0:70e:73ce:80de with SMTP id
- 00721157ae682-71835185a29mr183267237b3.25.1752931249406; Sat, 19 Jul 2025
- 06:20:49 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=Ewmd/1n5;
+ spf=pass (domain: myspectrum.nl, ip: 136.144.136.12, mailfrom: jeroen@myspectrum.nl)
+Received: from submission4.mail.transip.nl (unknown [10.103.8.155])
+	by outbound3.mail.transip.nl (Postfix) with ESMTP id 4bkpYP58dlz129mf;
+	Sat, 19 Jul 2025 16:13:45 +0200 (CEST)
+Received: from yellow.myspectrum.nl (unknown [IPv6:2a01:7c8:bb0c:45:5054:ff:fe01:854])
+	by submission4.mail.transip.nl (Postfix) with ESMTPSA id 4bkpYL3RwXz2pRDkL;
+	Sat, 19 Jul 2025 16:13:42 +0200 (CEST)
+Received: from yellow.myspectrum.nl (82-75-103-118.cable.dynamic.v4.ziggo.nl [82.75.103.118])
+	(Authenticated sender: sendmail@myspectrum.nl)
+	by yellow.myspectrum.nl (Postfix) with ESMTPSA id 3055320117;
+	Sat, 19 Jul 2025 14:13:39 +0000 (UTC)
+Authentication-Results: yellow.myspectrum.nl;
+	auth=pass smtp.auth=sendmail@myspectrum.nl smtp.mailfrom=jeroen@myspectrum.nl
+Received: by yellow.myspectrum.nl (sSMTP sendmail emulation); Sat, 19 Jul 2025 16:13:38 +0200
+From: jeroen@myspectrum.nl
+To: openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross.burton@arm.com>,
+	Jeroen Hofstee <jhofstee@victronenergy.com>
+Subject: [PATCH] gomod: extract license files for omitted modules
+Date: Sat, 19 Jul 2025 16:13:14 +0200
+Message-ID: <20250719141314.2677635-1-jeroen@myspectrum.nl>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-From: jan vermaete <jan.vermaete@gmail.com>
-Date: Sat, 19 Jul 2025 15:20:38 +0200
-X-Gm-Features: Ac12FXxNjFNDrenckDNI0eplW4Uyt5X0_U9Sqvh2k3xOqnuA9bXShZ9PJpJ1Pqk
-Message-ID: <CABF_=ygRGfAPf5KdA_FrH7-Hr+wBh0KjpzH4CfPwG3PzJTJwiA@mail.gmail.com>
-Subject: spirv-llvm-translator_20.1.4: do_unpack error
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: ClueGetter at submission4.mail.transip.nl
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=transip-a; d=myspectrum.nl; t=1752934422; h=from:subject:to:cc:date:
+ mime-version; bh=TSof57fzg2AD2wbonqaJI+EjHhFDeGJHuJklcT2Z6YM=;
+ b=Ewmd/1n5IQ1bZzHDvU/TWWu3c32511G5l+q0QPGfcAVfGQWEgc0VROKwK2Gb40AOag481u
+ QjK+W9Aqen2LXJmdalHkpt8HXVqacyGuLdf1vFgqm/E6/YbBhb/GQn2onMXxBRJvknTdlB
+ zqOYTBwGSGtdeyGH4PuaWRflK2nApPGQlCACn21bDROFZHWRKniAMDZkwz13lr2uDk4BV/
+ xBUjSYkKs9KGLaMHQZ44NpQI5kelp9QstdTK0VzxeBDz81+MPwJr/DvBWbmFgT9ElHjbQv
+ pBNafYCA/rft11gKll51dKaUzr0fHOyvPGZErykZytWK6UZMvNzu34PBX1GY4Q==
+X-Report-Abuse-To: abuse@transip.nl
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 19 Jul 2025 13:20:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220610
+ <openembedded-core@lists.openembedded.org>; Sat, 19 Jul 2025 14:13:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220611
 
-Is this a known issue at master?
+From: Jeroen Hofstee <jhofstee@victronenergy.com>
 
-ERROR: spirv-llvm-translator-native-20.1.4-r0 do_unpack: Bitbake
-Fetcher Error: FetchError('Fetch command export PSEUDO_DISABLED=3D1;
-export SSH_AUTH_SOCK=3D"/run/user/1000/keyring/ssh"; export
-PATH=3D"/home/jan/projects/meta-ros/layers/openembedded-core/scripts/native=
--intercept:/home/jan/projects/meta-ros/build/tmp/work/x86_64-linux/spirv-ll=
-vm-translator-native/20.1.4/recipe-sysroot-native/usr/bin/python3-native:/h=
-ome/jan/projects/meta-ros/layers/openembedded-core/scripts:/home/jan/projec=
-ts/meta-ros/build/tmp/work/x86_64-linux/spirv-llvm-translator-native/20.1.4=
-/recipe-sysroot-native/usr/bin/x86_64-linux:/home/jan/projects/meta-ros/bui=
-ld/tmp/work/x86_64-linux/spirv-llvm-translator-native/20.1.4/recipe-sysroot=
--native/usr/bin:/home/jan/projects/meta-ros/build/tmp/work/x86_64-linux/spi=
-rv-llvm-translator-native/20.1.4/recipe-sysroot-native/usr/sbin:/home/jan/p=
-rojects/meta-ros/build/tmp/work/x86_64-linux/spirv-llvm-translator-native/2=
-0.1.4/recipe-sysroot-native/usr/bin:/home/jan/projects/meta-ros/build/tmp/w=
-ork/x86_64-linux/spirv-llvm-translator-native/20.1.4/recipe-sysroot-native/=
-sbin:/home/jan/projects/meta-ros/build/tmp/work/x86_64-linux/spirv-llvm-tra=
-nslator-native/20.1.4/recipe-sysroot-native/bin:/home/jan/projects/meta-ros=
-/layers/bitbake/bin:/home/jan/projects/meta-ros/build/tmp/hosttools";
-export HOME=3D"/tmp/tmpqpar2wwv"; git -c gc.autoDetach=3Dfalse -c
-core.pager=3Dcat -c safe.bareRepository=3Dall -c
-clone.defaultRemoteName=3Dorigin rev-list -n 1 v20.1.4 failed with exit
-code 128, output:\nfatal: ambiguous argument \'v20.1.4\': unknown
-revision or path not in the working tree.\nUse \'--\' to separate
-paths from revisions, like this:\n\'git <command> [<revision>...] --
-[<file>...]\'\n', None)
+If a gomod is omitted with a PACKAGECONFIG option its license file
+doesn't get extracted to the gomod cache dir and hence do_populate_lic
+will complain that the license file isn't found. This adds a task
+do_extract_lic after do_compile and before do_puopulate_lic to make
+sure the license files are extracted in such a case.
 
+Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
+---
+ meta/classes-recipe/go-mod.bbclass | 34 ++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
+diff --git a/meta/classes-recipe/go-mod.bbclass b/meta/classes-recipe/go-=
+mod.bbclass
+index a15dda8f0e..fbb68ad113 100644
+--- a/meta/classes-recipe/go-mod.bbclass
++++ b/meta/classes-recipe/go-mod.bbclass
+@@ -29,6 +29,40 @@ do_unpack[cleandirs] +=3D "${GOMODCACHE}"
+ GO_WORKDIR ?=3D "${GO_IMPORT}"
+ do_compile[dirs] +=3D "${B}/src/${GO_WORKDIR}"
+=20
++python do_extract_lic() {
++    import zipfile
++
++    lics =3D d.getVar("LIC_FILES_CHKSUM")
++    cache =3D d.getVar("GOMODCACHE")
++    dldir =3D os.path.join(cache, "cache", "download")
++    prefix =3D "file://pkg/mod/"
++
++    for lic in lics.split():
++        if not lic.startswith(prefix):
++            continue
++
++        try:
++            src =3D lic[len(prefix):].split(";")[0]
++            url, suffix =3D src.split("@v")
++            version, _, file =3D suffix.partition(os.path.sep)
++        except:
++            continue
++
++        cachefile =3D os.path.join(cache, src)
++        zip =3D os.path.join(dldir, url, "@v", "v" + version) + ".zip"
++        if os.path.exists(cachefile) or not os.path.exists(zip):
++            continue
++
++        try:
++            bb.note(f"extract {src} from {zip}")
++            bb.utils.mkdirhier(os.path.dirname(cachefile))
++            zipfile.ZipFile(zip).extract(src, cache)
++        except:
++            bb.warn(f"could not extract {src} from {zip}")
++}
++
+ # Make go install unpack the module zip files in the module cache direct=
+ory
+ # before the license directory is polulated with license files.
++# Do make sure licenses get extracted for omitted modules.
++addtask do_extract_lic after do_compile before do_populate_lic
+ addtask do_compile before do_populate_lic
 --=20
-Jan Vermaete
-=E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
+2.43.0
+
 
