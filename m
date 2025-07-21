@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 569F6C83F1A
-	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 01:52:19 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web11.30856.1753062733896399701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 582F5C83F22
+	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 01:52:29 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web10.30694.1753062746726762087
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Jul 2025 18:52:14 -0700
+ Sun, 20 Jul 2025 18:52:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=HaqH9F3b;
- spf=pass (domain: underview.tech, ip: 209.85.160.181, mailfrom: vince@underview.tech)
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4ab71ac933eso31770681cf.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Jul 2025 18:52:13 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=LNdEgz/k;
+ spf=pass (domain: underview.tech, ip: 209.85.160.171, mailfrom: vince@underview.tech)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4ab3802455eso51594681cf.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Jul 2025 18:52:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1753062732; x=1753667532; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1753062745; x=1753667545; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RVyXIqnaRLTKZPu721o7FJUReWE4Ybj0ippXF9PwIqY=;
-        b=HaqH9F3bH03alJk34avMgd8KOdoH11ppntKcTebR1+Z6FZC46mhf4OHTo4qADRW217
-         ECD0ysn+xtA0z6U/6LFxGjR75yHnuZMAznkP9JI2EQaUqhP12LlHGJRXG9DsmE6x7FJ2
-         20xtRYNmbos5vnulbCEK8zjdiFCYv9srTuKoAmY/gQHgz1sXPjN21txL0JXWhCOszSKA
-         fAwntzvMlOKiUBRP9+4PFp7NTbV9qaM5uxFbdPkdBqGapn8QOs2gXuBDxsqiEUmSdESo
-         d8fktRwjAU5vPJdAlsOrWzkjFRHUuHd13kB0Pzq5QETfzo6Z6YJpMSg5awW443s+0CdP
-         +sfg==
+        bh=j2lkqBC85P3/aUk6JATkdQzwcDuCajsC3XHAuaHUIM4=;
+        b=LNdEgz/kptvlIe4pUiDybfjbk2KCbBQJZBX+GDHtFO2fsnwHYQPSwyQuYMRykDyVh/
+         5+IZ36hmvkk9Ve2rrxO7wc646tSsljQbdrp6gLgrBXB9pBI+DI5r+NQo13R7FX6aROAa
+         J8CAV+n9xu2GCGDh2CjVbkIvg6HfMsVWwcD6BRPfMSzRTI5NYjmvKniOc9iXr+RtW726
+         Dq8M9nOJfmJdYnF4m1U5A0+ym8RdRz4hgnjAaD47PB9ZCa2X82u1xszZx/DOxt7oXHVs
+         E/kCvnVhR92M1lDlyD5Vr1wRCFeMzmHcVu8znOiQUhbeLy/pBeu2wet5qJ5TRpewdFZM
+         k3Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753062732; x=1753667532;
+        d=1e100.net; s=20230601; t=1753062745; x=1753667545;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RVyXIqnaRLTKZPu721o7FJUReWE4Ybj0ippXF9PwIqY=;
-        b=uqK7L8fSq3umciYoSiLtgamz+dFR8XD3Dun5GXL/d/ioLXomIVpi6CnZJ50/LZHyEk
-         raf8eR1r6s5HuXSIxv1SXmGyV+GHJm8fgDO9wIMJ8SnDKfLkGkrbbxJpnfactRXXV8Zi
-         Vn/OFyMt+XiaF4hGv4yCDps1D5n+rh2EmzZxSec5++v/zlKr2/Vsd+6oVkz2hwpfogp1
-         mjoIaHe7tZpKj0NXLnMvfOp5p50fj7Wr3xI9zCXxlIT485wAgmY5aJ2+0oRCeETTaxmu
-         CA01ZLhpygT0QQJrVx6TGVS//1pe2cu9aVBwlCOXQd/kYEimJC9pil6FddxGRddAlbkG
-         sFmA==
-X-Gm-Message-State: AOJu0YywhkGtLJKtC1Uov3DsRcg5nd7zzsQuAbBIjDNUQ55gLfjEPbZW
-	tivs3IcpjjfK5z5UTjqTPh6BkiA8E6SlfwheaYdFVR9Siqrn0A0qzVmgyxHksHQpoCKSkctpFEI
-	yLbhN
-X-Gm-Gg: ASbGncv4l5f7w2KU6hUAmC3L2ZMkz6oTiwdzBPwg1zTf1muNwLlRRmuofw5Bn5HHkUr
-	DnUd0lg/N7Yeonpt75ptxNkvvIsUvq6GAbiNBh7fSH4bSqS/tbNiuLFu2T0+YjqipWC2GHruCNF
-	EjwATnSG8Ym7/L4jpvPvxLa2lCavV07AQ8lOBDMiBvUvW1uv11G1ri27xoMwM/l6U5KSR8LffXD
-	GdKu3NMwIk2rh0F0EicUcX8VqcGMf08gYvt33nN7V9pO9ViVHpWi1/4uXeDLn1vvVRJF0Cl2atI
-	DDDkL5fhCABFFIsKPQoPyBQi88q0Trn9Fuy+IJOzMA3nWRoQvBZvMg0/KAtBSao/EEUX4JT7TLR
-	ogQEv+Ax5VHw=
-X-Google-Smtp-Source: AGHT+IHfnlr1lF1hIANxicFe4NfeMDqLWeqAkdso+ijq3ADuRz6FfGR2IZ1/5cjMQbr5cz6W59b3hg==
-X-Received: by 2002:ac8:7c47:0:b0:4ab:7daa:d84a with SMTP id d75a77b69052e-4ab93dc1722mr282904531cf.43.1753062732440;
-        Sun, 20 Jul 2025 18:52:12 -0700 (PDT)
+        bh=j2lkqBC85P3/aUk6JATkdQzwcDuCajsC3XHAuaHUIM4=;
+        b=MGAOYpS779Nlzz/9UpEZ84/oI+tx0yBXY6b9/0OCi1cQW3DR3SpqJp45friLhPcv0P
+         Q8pT7/M3iJHcY2HUqEf692KZbb2j/S1ijZoKFHtbYvSRCetm1mzxPvhHBq+2Uc+xSAj/
+         Tf7x9b/HiLGP39WQ7owU1BxxMRYhB4Yo/fmt2Na8iOiay5X69ro+0CUg+iU/y1wM11uY
+         FVVB/2jO8FkUxp3pekcYByJCqwGmtxiaki3q+AdlZlWlaPSYRm+tLfJ3lXrdHWHLgXjQ
+         0WCDt+ZxgD5E8t3ZK4/J6m7iU5yK+5Jwau7qKDNPYimBpK2oZN4DHYYLopjUTXOnjCV0
+         cNSQ==
+X-Gm-Message-State: AOJu0YzyEOJnilTC1u+LPKDLW/akL4MtcwAkEuOkWBwr15jQd3Wze2go
+	m8zbfqOSjosw8aciM0c3uBWfZ64UlyyIMpFRtwf8VDK4ygkldLv5lKi86aUDCDu4lsMo1PlCelw
+	blo1J
+X-Gm-Gg: ASbGnctQODBlbBdLq98Myzt5MmsCnWoeN97xEdzLbF0k6fbzxm0NAdTx80WTk2/JGwt
+	OY4nfgvuN+s7OEH2gU0Ful3V75+fXLLVKe5GxXBRMjgcnipV1Sjmx8PBLZjOQ89SpDy9JTxdToO
+	BywhdXsNlaQLQI61qGlm3dc4H8dCx8DQpWk+BVKhkRhbDFm2j9OBK7VEDNx31uxJSCS2n7GhzXR
+	YZuIQiF1OBwljIHHC6uVAXF2NG6SA0O78nw1qcqhIl2Ka2lBx72bFB+5AQaCVEdPmvWuat5H1eQ
+	DZbJbtTrDiBtgL44w9pGiQaTjvTBVlbSYzTK4oqKSZB5ktOB3wQm3VYMcZSRmt42WOgELsbwxjt
+	RjjatdeDY+2Y=
+X-Google-Smtp-Source: AGHT+IFE5kDy8wzjgoNuIhxjK7NUoGPMG1wEwp/vEd8ydLFXnyJjjo8UhQUSH74EuvpeunuoTjBhWA==
+X-Received: by 2002:a05:622a:2588:b0:4ab:8ca8:5d72 with SMTP id d75a77b69052e-4aba39df4femr238278971cf.0.1753062745330;
+        Sun, 20 Jul 2025 18:52:25 -0700 (PDT)
 Received: from vince-server.. ([2601:406:4d01:1820::b05c])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4abb49d0513sm36039741cf.33.2025.07.20.18.52.11
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4abb49d0513sm36039741cf.33.2025.07.20.18.52.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 18:52:11 -0700 (PDT)
+        Sun, 20 Jul 2025 18:52:24 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v3 2/3] wks: add loader-bios to bootimg_pcbios source_params
-Date: Sun, 20 Jul 2025 21:51:42 -0400
-Message-ID: <20250721015141.3599063-4-vince@underview.tech>
+Subject: [PATCH v3 3/3] oe-selftest: add wic.Wic.test_grub_install_pcbios
+Date: Sun, 20 Jul 2025 21:51:44 -0400
+Message-ID: <20250721015141.3599063-6-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250721015141.3599063-2-vince@underview.tech>
 References: <20250721015141.3599063-2-vince@underview.tech>
@@ -67,143 +67,85 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 01:52:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220651
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 01:52:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220652
 
-source_params['loader-bios'] is required
-for newer updates to bootimg_pcbios wics
-plugin.
+wic.Wic.test_grub_install_pcbios test
+
+Test updates to the bootimg_pcbios plugin that
+enables support for installing grub directly
+to the resulting wic image.
+
+The test checks to see if the wics plugin
+generates a wic image. Then see's if normal.mod
+and grub.cfg are located in the boot partition.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- meta-selftest/recipes-test/images/wic-image-minimal.wks | 2 +-
- meta-selftest/wic/overlayfs_etc.wks.in                  | 2 +-
- meta-selftest/wic/test_biosplusefi_plugin.wks           | 2 +-
- meta-selftest/wic/test_rawcopy_plugin.wks.in            | 2 +-
- scripts/lib/wic/canned-wks/common.wks.inc               | 2 +-
- scripts/lib/wic/canned-wks/directdisk-gpt.wks           | 2 +-
- scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks  | 2 +-
- scripts/lib/wic/help.py                                 | 4 ++--
- scripts/lib/wic/plugins/source/bootimg_biosplusefi.py   | 2 +-
- 9 files changed, 10 insertions(+), 10 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 43 ++++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-index 4186b16517..b0471b59ed 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-@@ -2,7 +2,7 @@
- # long-description: This image contains boot partition and 3 rootfs partitions
- # created from core-image-minimal and wic-image-minimal image recipes.
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 680f99d381..9e502ff5c7 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -215,6 +215,47 @@ class Wic(WicTestCase):
+                     found, "The kernel image '{}' was not found in the boot partition".format(kimgtype)
+                 )
  
--part /boot --source bootimg_pcbios --ondisk sda --label boot --active --align 1024
-+part /boot --source bootimg_pcbios --sourceparams="loader-bios=syslinux" --ondisk sda --label boot --active --align 1024
- part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- part /media --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label uuid-test --align 1024 --use-uuid --fsuuid 2c71ef06-a81d-4735-9d3a-379b69c6bdba
- part /mnt --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label core --align 1024
-diff --git a/meta-selftest/wic/overlayfs_etc.wks.in b/meta-selftest/wic/overlayfs_etc.wks.in
-index 8375d73a9c..89f2771e49 100644
---- a/meta-selftest/wic/overlayfs_etc.wks.in
-+++ b/meta-selftest/wic/overlayfs_etc.wks.in
-@@ -1,4 +1,4 @@
--part /boot --active --source bootimg_biosplusefi --ondisk sda --sourceparams="loader=grub-efi" --align 1024
-+part /boot --active --source bootimg_biosplusefi --ondisk sda --sourceparams="loader=grub-efi,loader-bios=syslinux" --align 1024
- part / --source rootfs --ondisk sda --fstype=${OVERLAYFS_ROOTFS_TYPE} --use-uuid --align 1024
- part --ondisk sda --fstype=ext4 --size=5 --align 1024
- bootloader --ptable gpt --timeout=1 --append="rootfstype=${OVERLAYFS_ROOTFS_TYPE} console=ttyS0,115200 console=tty0 ${OVERLAYFS_INIT_OPTION}"
-diff --git a/meta-selftest/wic/test_biosplusefi_plugin.wks b/meta-selftest/wic/test_biosplusefi_plugin.wks
-index 4be6643a6f..ef31ad20c4 100644
---- a/meta-selftest/wic/test_biosplusefi_plugin.wks
-+++ b/meta-selftest/wic/test_biosplusefi_plugin.wks
-@@ -1,6 +1,6 @@
- # short-description: This file is used in oe-selftest wic module to test biosplusefi plugin
++    @skipIfNotArch(['x86_64'])
++    def test_grub_install_pcbios(self):
++        """
++        Test the installation of the grub modules + config
++        into the boot directory in the resulting wic image.
++        """
++
++        # create a temporary file for the WKS content
++        with NamedTemporaryFile("w", suffix=".wks") as wks:
++            wks.write(
++                'part --source bootimg_pcbios --sourceparams="loader-bios=grub" '
++                '--offset 1024 --fixed-size 78M --label boot --active\n'
++                'bootloader --ptable msdos --source bootimg_pcbios\n'
++            )
++            wks.flush()
++            # create a temporary directory to extract the disk image to
++            with TemporaryDirectory() as tmpdir:
++                img = "core-image-minimal"
++                config = 'DEPENDS:pn-%s += "grub-native grub"' % (img)
++
++                self.append_config(config)
++                bitbake(img)
++                self.remove_config(config)
++
++                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
++                runCmd(cmd)
++
++                wksname = os.path.splitext(os.path.basename(wks.name))[0]
++                out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
++                self.assertEqual(1, len(out))
++
++                sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
++
++                # Check if grub.cfg is installed
++                result = runCmd("wic ls %s:1/boot/grub -n %s" % (out[0], sysroot))
++                self.assertIn('grub', result.output)
++
++                # Check if normal.mod is installed
++                result = runCmd("wic ls %s:1/boot/grub/i386-pc -n %s" % (out[0], sysroot))
++                self.assertIn('normal', result.output)
++
+     def test_build_image_name(self):
+         """Test wic create wictestdisk --image-name=core-image-minimal"""
+         cmd = "wic create wictestdisk --image-name=core-image-minimal -o %s" % self.resultdir
+@@ -1405,7 +1446,7 @@ run_wic_cmd() {
  
--part /boot --source bootimg_biosplusefi --sourceparams="loader=grub-efi" --active --align 1024 --use-uuid
-+part /boot --source bootimg_biosplusefi --sourceparams="loader=grub-efi,loader-bios=syslinux" --active --align 1024 --use-uuid
- part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
- 
- bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-diff --git a/meta-selftest/wic/test_rawcopy_plugin.wks.in b/meta-selftest/wic/test_rawcopy_plugin.wks.in
-index ba324d9980..cb25acf0c6 100644
---- a/meta-selftest/wic/test_rawcopy_plugin.wks.in
-+++ b/meta-selftest/wic/test_rawcopy_plugin.wks.in
-@@ -1,6 +1,6 @@
- # short-description: This file is used in oe-selftest wic module to test rawcopy plugin
- 
--part /boot --active --source bootimg_pcbios
-+part /boot --active --source bootimg_pcbios --sourceparams="loader-bios=syslinux"
- part / --source rawcopy --sourceparams="file=${IMAGE_LINK_NAME_CORE_IMAGE_MINIMAL}.ext4" --use-uuid
- 
- bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-diff --git a/scripts/lib/wic/canned-wks/common.wks.inc b/scripts/lib/wic/canned-wks/common.wks.inc
-index 4a440ddafe..673bd15725 100644
---- a/scripts/lib/wic/canned-wks/common.wks.inc
-+++ b/scripts/lib/wic/canned-wks/common.wks.inc
-@@ -1,3 +1,3 @@
- # This file is included into 3 canned wks files from this directory
--part /boot --source bootimg_pcbios --ondisk sda --label boot --active --align 1024
-+part /boot --source bootimg_pcbios --sourceparams="loader-bios=syslinux" --ondisk sda --label boot --active --align 1024
- part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
-diff --git a/scripts/lib/wic/canned-wks/directdisk-gpt.wks b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-index cb640056f1..07040d316c 100644
---- a/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-+++ b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-@@ -3,7 +3,7 @@
- # can directly dd to boot media.
- 
- 
--part /boot --source bootimg_pcbios --ondisk sda --label boot --active --align 1024
-+part /boot --source bootimg_pcbios --sourceparams="loader-bios=syslinux" --ondisk sda --label boot --active --align 1024
- part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
- 
- bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
-diff --git a/scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks b/scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks
-index 4fd1999ffb..fb51a22283 100644
---- a/scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks
-+++ b/scripts/lib/wic/canned-wks/directdisk-multi-rootfs.wks
-@@ -15,7 +15,7 @@
- #
- #   - or any combinations of -r and --rootfs command line options
- 
--part /boot --source bootimg_pcbios --ondisk sda --label boot --active --align 1024
-+part /boot --source bootimg_pcbios --sourceparams="loader-bios=syslinux" --ondisk sda --label boot --active --align 1024
- part / --source rootfs --rootfs-dir=rootfs1 --ondisk sda --fstype=ext4 --label platform --align 1024
- part /rescue --source rootfs --rootfs-dir=rootfs2 --ondisk sda --fstype=ext4 --label secondary --align 1024
- 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 2e3061f343..5b170594bb 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -544,7 +544,7 @@ DESCRIPTION
-     the --source param given to that partition.  For example, if the
-     partition is set up like this:
- 
--      part /boot --source bootimg_pcbios   ...
-+      part /boot --source bootimg_pcbios --sourceparams="loader-bios=syslinux" ...
- 
-     then the methods defined as class members of the plugin having the
-     matching bootimg_pcbios .name class member would be used.
-@@ -794,7 +794,7 @@ DESCRIPTION
- 
-      Here is a content of test.wks:
- 
--     part /boot --source bootimg_pcbios --ondisk sda --label boot --active --align 1024
-+     part /boot --source bootimg_pcbios --sourceparams="loader-bios=grub" --ondisk sda --label boot --active --align 1024
-      part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
- 
-      bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
-diff --git a/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py b/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
-index 4279ddded8..2687217ad2 100644
---- a/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
-@@ -71,7 +71,7 @@ class BootimgBiosPlusEFIPlugin(SourcePlugin):
-     plugin, as long they does not cause issue in the other plugin.
- 
-     Example wic configuration:
--    part /boot --source bootimg_biosplusefi --sourceparams="loader=grub-efi"\\
-+    part /boot --source bootimg_biosplusefi --sourceparams="loader=grub-efi,loader-bios=syslinux" \\
-                --ondisk sda --label os_boot --active --align 1024 --use-uuid
-     """
- 
+         img = 'core-image-minimal'
+         with NamedTemporaryFile("w", suffix=".wks") as wks:
+-            wks.writelines(['part /boot --active --source bootimg_biosplusefi --sourceparams="loader=grub-efi"\n',
++            wks.writelines(['part /boot --active --source bootimg_biosplusefi --sourceparams="loader=grub-efi,loader-bios=syslinux"\n',
+                             'part / --source rootfs --fstype=ext4 --align 1024 --use-uuid\n'\
+                             'bootloader --timeout=0 --append="console=ttyS0,115200n8"\n'])
+             wks.flush()
 -- 
 2.43.0
 
