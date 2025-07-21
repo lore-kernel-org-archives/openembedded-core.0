@@ -2,163 +2,122 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E51C83F1A
-	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 05:41:50 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web10.33473.1753076509243870858
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDCE8C83F27
+	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 05:47:50 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.33713.1753076845347430593
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Jul 2025 22:41:49 -0700
+ Sun, 20 Jul 2025 22:47:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V0lYwa4x;
- spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-710bbd7a9e2so36166457b3.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Jul 2025 22:41:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mMkFGEAs;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-75ce8f8a3cdso296079b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Jul 2025 22:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753076508; x=1753681308; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9gabWLM+5Xxn2kpKycf5959zBxNMo5JQnkaKKAxGA0g=;
-        b=V0lYwa4xA2j5bL96JTT7ZwelaR4Wz/0axU30OHklsDnTnLCppriGLkbRLhrKXEt3MU
-         YSddi8DUb6dsmChdluEzfMNz2mmAnsJLlfLofZUMNLAwB2Q3d+70ZFOVZhjiFKWEgZu/
-         6Fzrhl0kb7I4a1xjy+tvNI8Utk7Qx+EXCrdCY1T49BBmEhZ9jim9b5a+DSGPAvCjAntS
-         jNTpy5PWCiZmA92jxp0B20F5hev0l7sXRQFFGQ5XEhdvt0XqsQv4lrxMrKRUBgD0iXnd
-         Q7/MZ4gf79MzNUSAvpki8Rw4myopO+9erlQF1bQHU73en+Q3GZjKuGZ3cGPh2oPprRaT
-         75JA==
+        d=gmail.com; s=20230601; t=1753076844; x=1753681644; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fjVmvZwBjnGUgc0+Z6h6CwzK1g7CZ54446Hh6WP2mxM=;
+        b=mMkFGEAspdcWO9Gv5c+6bbD739MddB1cNjWbb7gQspN2vBRmVEXgdsc+1DtkvI0TvG
+         tKl6BacZQYrncc1S/FuKi96sAcgjsuDgGQTOz0zaf9mO8sjIZwmgz7VVOArZP/QomhFr
+         FK8UhBi8lif+bUHYm9zpiVWRl+BxaFqr8ZV1JEPMZnVT5q7WXMzb8CPnIEIbEjU1ITyf
+         tJnF4wrIZsjNeZvN+q6mv6QFGOHlHW3cm50AL1mrFr2xkDES8G0RFXwXXkdnJdD6ZrQh
+         Mc5nCuC2nFv86tcA4UcqKiCUtSKfW3BpEaBkI/BRdOdH7ZgWE8wIy8H/GzgDEtyRGisS
+         Z8cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753076508; x=1753681308;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9gabWLM+5Xxn2kpKycf5959zBxNMo5JQnkaKKAxGA0g=;
-        b=IsQIWAwxyRV0wPx693oqFeqas04s6q/+CqwEvSalEGX7i0E3P+E+KOFeL0gao4zif3
-         sLS/QFy8Iqy8NxbeO9NXYv9JNynwfpJX/PbEaD/SqqwtE6nfyVg1CS9mMSzd3/jxleox
-         qUMCr7XaWHM1WivnfweI1OET59Pbz7qxY5Bfy0EoTntefhA9lLyXdsD3zK/Comd6mYdT
-         xgRsmqt9PKN0g6ZmnS12S7O3D8C3lCS2ePhvLuibLAoXulGJe/mLYZLPYYnEv2Vr3pAE
-         YXD8uRZ/pbsQbtsZUIvUSZUjVtu0vm7ICd02bRHkXKQ/poj0U0uGFfu3ds6UOKuZU+gr
-         tAKA==
-X-Gm-Message-State: AOJu0YzxSLvw0tlc5dkKmbsFJNMAKPFKd4XDqo/K21VTzx/ErWZvY3Eu
-	FJkn/xep4+nDsocgOkDXiNDv1UeIE3YGDaCIANCyeqiNtG/inNPglXFV0kIWEGcJnsud3/A22b9
-	vUCSQOiAloUe9SoDPVTtv0viEbAZhRgB/Ut0c
-X-Gm-Gg: ASbGncvlQfUzADWG4WaaK6VOJTYCnOPNa7QgUpKV8FbcjXUlzxK0SJrCPLD67jPLh6G
-	070JSXQzHIVsHOAz9UPN/S9rb1gpj5q7+OqETqHlGCLAKYbIDSpucZ6JfiwGuDT0y/Lg91DnEcq
-	OgLUpQwHFBrXr9MF67dqkg98BSSTtjxeu05894gNQDoLGsgEjLUSdOvQWzMmcA6UAe+ch/JaBXn
-	20E98fctI4oD/DP
-X-Google-Smtp-Source: AGHT+IGNrTfjTwN8BulnPh+lqSuDP05im0xhIJkyNlsYG1GchSUTFFmXJh+W/ZFJ+pwrCch439/NWiIc5yzbWUAiJpY=
-X-Received: by 2002:a05:690c:708b:b0:70e:142d:9c6f with SMTP id
- 00721157ae682-7183751a174mr299096307b3.28.1753076508188; Sun, 20 Jul 2025
- 22:41:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250721053012.4156913-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20250721053012.4156913-1-Deepesh.Varatharajan@windriver.com>
+        d=1e100.net; s=20230601; t=1753076844; x=1753681644;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fjVmvZwBjnGUgc0+Z6h6CwzK1g7CZ54446Hh6WP2mxM=;
+        b=meMrq54Uo/LLbEEgyVg9sW2cUb7gKJpealAJPMvlWqC9lNxKLY2O05pFuyoa1uVxd3
+         5n4+4Tc+F8q38ZXcP2dmQ52XK/6XlJ3/6Ghb1xsDmwNN5lTzT260F8RU6NlP5fyefGhY
+         Nh/gJBiINEnh1Si6+jmjky4VfrMcF6gVyQhR9l9CKGj4CZaqPW3tYq6REleoAYAqC2gY
+         HrNsCrLLVkajw4tKzoyw1vH8gTTreY41f98JlPN7WhDK/R982407OSHBmU0t90XQkaVz
+         St9KIx+4N8ofXmomuS4LzwaG4PjzFSpNM+bco6fNCTWy8Af35pnPneZ+p1DOB7+R5xbc
+         u9sg==
+X-Gm-Message-State: AOJu0YyrJftEmGj0aCsVwhiUJSO6wDtelWQu7fJV2apcETecqFBWyfvX
+	Jc5IsqJlFcSgt1eIfItPGbaRmX7ooPgAFogC9I9MGXibW73yoV7UIMx/BlivKwt+h08=
+X-Gm-Gg: ASbGncsWvVMA+DIxMRr+bVAEopGWYI1D8yluKTT4Ues5xUxED/IAI/LasvHWI2F+r52
+	CJi8X2FEbTus1jxKpoWy6Wrfz/QDMV4uXWj+/ONEXJZ4HqOWHleKmR5NmCxaeRCQ7CJB/RDyZ3m
+	iYF7RUklZeEu2peqXQrmXMGRDwuSOvFTeRQgX79dIt0i8+Pk5DjMRjliEoE9WhxyFGfT7TXyWsV
+	7tHHF1YyVxj/Occo8OyKqiTgYRKDzh7n8tV1wxAltyWR4EEW8KQoTQG+8SS2R0kfc8Y22m06CxK
+	hlavOTW6S/1AVZBVTPhRQyAQkpok5XASc2suceQOc8WAZhPP1WcAZ77EtYvOgHA6AoWTWvTLazT
+	fSH8tvkjx+sbJXA==
+X-Google-Smtp-Source: AGHT+IEMVLzSDQTWOk+B+Cgx+iQrrH+LsMOVPm+Ic35ww8rAvYxvR1cNbodUEg8YAmMWUFKYRphIrQ==
+X-Received: by 2002:a05:6a21:112:b0:234:4f73:e664 with SMTP id adf61e73a8af0-237d661c7femr33690350637.15.1753076844348;
+        Sun, 20 Jul 2025 22:47:24 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::b985])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb974ca5sm4871172b3a.131.2025.07.20.22.47.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Jul 2025 22:47:23 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 20 Jul 2025 22:41:22 -0700
-X-Gm-Features: Ac12FXyX-TqkBr0ufa-s8jJuOwm4KWLkCuv95t3Uofs6paHNX3FVllIRZ_ea0Hw
-Message-ID: <CAMKF1so8TB1Lfaf=k-6+Z-hV7kNJYnsHoTrWqvLknHWtNezVUw@mail.gmail.com>
-Subject: Re: [OE-core] [walnascar][PATCH V2] glibc: stable 2.41 branch updates
-To: deepesh.varatharajan@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] tune-cortexa53,tune-cortexa72: Add +nocrypto to -mcpu
+Date: Sun, 20 Jul 2025 22:47:21 -0700
+Message-ID: <20250721054721.261911-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 05:41:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220657
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 05:47:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220658
 
-On Sun, Jul 20, 2025 at 10:30=E2=80=AFPM Varatharajan, Deepesh via
-lists.openembedded.org
-<deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->
-> $ git log --oneline 0c76c951620f9e12df2a89b2c684878b55bb6795..6e489c17f82=
-7317bcf8544efefa65f13b5a079dc
-> 6e489c17f8 Fix error reporting (false negatives) in SGID tests
-> 11e634ccf3 support: Pick group in support_capture_subprogram_self_sgid if=
- UID =3D=3D 0
-> 61e461ed0c sparc: Fix sparc32 Fix argument passing to __libc_start_main (=
-BZ 32981)
->
-> Testing Results:
->             Before     After   Diff
-> PASS         5803      5813    +10
-> XPASS        4         4        0
-> FAIL         266       257     -9
-> XFAIL        16        16       0
-> UNSUPPORTED  164       161     -3
->
-> 6e489c17f8 Fix error reporting (false negatives) in SGID tests
-> Improved SGID test handling by unifying error reporting and using secure =
-temporary directories.
-> Replaced non-standard exit codes and fixed premature exits to avoid maski=
-ng failures.
-> These changes reduced false negatives, increasing overall test pass rates=
-.
->
+When crypto is not in tune features then add +nocryto to
+-mcpu explicitly. This makes the behavior between clang
+and gcc match. Currently -mcpu=cortex-a72 has different
+behavior in clang and gcc in terms of what features are
+considered default. Clang's philosophy to enable common
+features but maximally, gcc on other hand takes minimal.
+Clang therefore enables crypto with default set but gcc
+does not. crypto is optional on cortext-a53 and cortex-a72
+while, this is not as common but Broadcom SOCs in
+raspberrypi3/4 have dropped crypto for cost reasons [1]
+This results in illegal instruction traps [2] [3] when building
+components e.g. chromium, qtwebengine, weston etc
+with clang using -mcpu=cortex-a72 for rpi4 target.
 
-Thanks for the details.
+Adding +nocrypto makes it behave like gcc does today. We
+do have separate tune if crypto enabled cortex-a72 cores
+are to be targeted (cortexa72-cryto) as DEFAULTTUNE
 
-> UNSUPPORTED tests changes
-> -UNSUPPORTED: stdlib/tst-secure-getenv
-> -UNSUPPORTED: elf/tst-env-setuid-static
-> -UNSUPPORTED: elf/tst-env-setuid-tunables
->
-> FAILed tests changes
-> +FAIL: elf/tst-env-setuid-tunables
-> -FAIL: stdio-common/tst-printf-format-d-int
-> -FAIL: stdio-common/tst-printf-format-d-long
-> -FAIL: stdio-common/tst-printf-format-sn-ushort
-> -FAIL: stdio-common/tst-printf-format-v-short
-> -FAIL: stdio-common/tst-printf-format-v-ushort
-> -FAIL: stdio-common/tst-printf-format-vas-double-f
-> -FAIL: stdio-common/tst-printf-format-vas-double-g
-> -FAIL: stdio-common/tst-printf-format-vas-double-g-mem
-> -FAIL: stdio-common/tst-printf-format-vas-int
->
-> PASSed tests changes
-> +PASS: stdlib/tst-secure-getenv
-> +PASS: elf/tst-env-setuid-static
-> +PASS: stdio-common/tst-printf-format-d-int
-> +PASS: stdio-common/tst-printf-format-d-long
-> +PASS: stdio-common/tst-printf-format-sn-ushort
-> +PASS: stdio-common/tst-printf-format-v-short
-> +PASS: stdio-common/tst-printf-format-v-ushort
-> +PASS: stdio-common/tst-printf-format-vas-double-f
-> +PASS: stdio-common/tst-printf-format-vas-double-g
-> +PASS: stdio-common/tst-printf-format-vas-double-g-mem
-> +PASS: stdio-common/tst-printf-format-vas-int
->
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> ---
->  meta/recipes-core/glibc/glibc-version.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
-e/glibc/glibc-version.inc
-> index 2d31131e03..a2cfd0f308 100644
-> --- a/meta/recipes-core/glibc/glibc-version.inc
-> +++ b/meta/recipes-core/glibc/glibc-version.inc
-> @@ -1,6 +1,6 @@
->  SRCBRANCH ?=3D "release/2.41/master"
->  PV =3D "2.41+git"
-> -SRCREV_glibc ?=3D "0c76c951620f9e12df2a89b2c684878b55bb6795"
-> +SRCREV_glibc ?=3D "6e489c17f827317bcf8544efefa65f13b5a079dc"
->  SRCREV_localedef ?=3D "fab74f31b3811df543e24b6de47efdf45b538abc"
->
->  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
-> --
-> 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220656): https://lists.openembedded.org/g/openembedde=
-d-core/message/220656
-> Mute This Topic: https://lists.openembedded.org/mt/114263786/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+[1] https://forums.raspberrypi.com/viewtopic.php?f=63&t=207888#p1332960
+[2] https://github.com/llvm/llvm-project/issues/85699
+[3] https://github.com/llvm/llvm-project/issues/90365
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc | 2 ++
+ meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
+index a88575eb156..65fd6333198 100644
+--- a/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
++++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
+@@ -2,6 +2,8 @@ DEFAULTTUNE ?= "cortexa53"
+ 
+ TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53', '', d)}"
++# See  https://github.com/llvm/llvm-project/issues/85699
++TUNE_CCARGS_MARCH_OPTS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '', '+nocrypto', d)}"
+ 
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
+diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
+index cbb6418c069..cf09db00664 100644
+--- a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
++++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
+@@ -2,6 +2,8 @@ DEFAULTTUNE ?= "cortexa72"
+ 
+ TUNEVALID[cortexa72] = "Enable Cortex-A72 specific processor optimizations"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=cortex-a72', '', d)}"
++# See  https://github.com/llvm/llvm-project/issues/85699
++TUNE_CCARGS_MARCH_OPTS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '', '+nocrypto', d)}"
+ 
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
 
