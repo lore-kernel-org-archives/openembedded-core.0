@@ -2,53 +2,53 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A522C83F1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 874CDC87FC5
 	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 08:21:31 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.35564.1753086084555578898
+ by mx.groups.io with SMTP id smtpd.web10.35565.1753086085533511156
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jul 2025 01:21:24 -0700
+ Mon, 21 Jul 2025 01:21:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9297613b94=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56L6W9sM1294783
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 01:21:24 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56L59Fo41158582
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 01:21:25 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 480avgscqr-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 480avgscqs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 01:21:24 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 01:21:25 -0700 (PDT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Mon, 21 Jul 2025 01:21:11 -0700
+ 15.1.2507.57; Mon, 21 Jul 2025 01:21:12 -0700
 Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.57 via Frontend Transport; Mon, 21 Jul 2025 01:21:10 -0700
+ 15.1.2507.57 via Frontend Transport; Mon, 21 Jul 2025 01:21:11 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 3/4] readline: 8.2.13 -> 8.3
-Date: Mon, 21 Jul 2025 16:21:02 +0800
-Message-ID: <20250721082103.2262095-3-hongxu.jia@windriver.com>
+Subject: [PATCH 4/4] libxml2: upgrade 2.14.3 -> 2.14.5
+Date: Mon, 21 Jul 2025 16:21:03 +0800
+Message-ID: <20250721082103.2262095-4-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250721082103.2262095-1-hongxu.jia@windriver.com>
 References: <20250721082103.2262095-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: TCiixrovF3lgvVNAuOtfD-cQZ8KOd9dI
-X-Authority-Analysis: v=2.4 cv=JPQ7s9Kb c=1 sm=1 tr=0 ts=687df884 cx=c_pps
+X-Proofpoint-ORIG-GUID: 2B-vvmO5n5viph9lO2K-R1In2Rwmcexy
+X-Authority-Analysis: v=2.4 cv=JPQ7s9Kb c=1 sm=1 tr=0 ts=687df885 cx=c_pps
  a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17
- a=Wb1JkmetP80A:10 a=vTr9H3xdAAAA:8 a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8
- a=pGLkceISAAAA:8 a=j-oCmr_1fYtGWD_PjOYA:9 a=D9EQx5YpYEoA:10
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: TCiixrovF3lgvVNAuOtfD-cQZ8KOd9dI
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDExOCBTYWx0ZWRfX82SA2Iq1JV5i
- BEbGAFhJXGpoUFann8lyZSabRsQTsHNA2y4EDOxwbMPn7UY7Y1V3eM9cV55NN8DKeXdDqOGJnC0
- +AxsbZTV07UVpkcuYyw7bTX9BrnkIq4wxRQfEKdk6kFgCwC+cP1AXTMEcoQOzWgqrv4Q6PWX3TH
- gu6sFlhx8Va8TUqUb/3WgPtGWi1/bgeuYELge4GRgIIiz3V/fDUv3UcPMLOjgUembLaBN4aV+H+
- s7w9ZZnxvaj2e4sXkNzLCnLcLprrDga/Kl2HSDXWn087OApWYeMhMrntc0VIb0/NEytfDqvg7Mh
- RsOqAi+Dky3O8ko4fPQHflnKV1ZoTcIr2u8R79VEgFxV3brhEln1uClL6h4K1XCtQhzKwNtrPOt
- kSzoTfPc
+ a=Wb1JkmetP80A:10 a=GHR8O2WEAAAA:20 a=SSmOFEACAAAA:8 a=t7CeM3EgAAAA:8
+ a=a_U1oVfrAAAA:8 a=7CQSdrXTAAAA:8 a=SEUDYsWWKZk9PtqiWv4A:9 a=m9p5bXcFLgAA:10
+ a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-GUID: 2B-vvmO5n5viph9lO2K-R1In2Rwmcexy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDExOCBTYWx0ZWRfX8uj0r3lONSpF
+ GoGPfTU8pwq7Yb/+XVz/E+c7NO6x4sR5ZHN2VoZn6RBW0IShhbZPOqaB70Noy1wqz/QkL8Mb2+J
+ 68hF3N8EaALuWjzzccnbs58SLDAckKE18d2rzaFQ1pdmHgGnh/gY5+aGaqApgSROHY160emJWja
+ JaMkc0gdhd5WfqxH99W0adIJCKycf+K2h5XGuv3rxDZ7+nlQ7/jSOlSIWPY4N1ZzrBopaVGSaE/
+ 0+N0kEnUC4q7JWpOFu7ZWnQFtjKu3svsA31YHDHFt3ukhJBxrCoMxMnfs/pO9w+yLVSfrovKS5L
+ YTJu8y17Y9aT8mGU5NyHFSFFA4YSbxvSq8E7ZVvYQTbxh0JlHfkAwFPVw2n84JHb8IekdfeRKRG
+ bxaHRsGb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-21_02,2025-07-21_01,2025-03-28_01
@@ -61,81 +61,162 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 08:21:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220666
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220667
 
-Remove obsolete patch:
-- 0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
+Release notes:
+
+    https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.14.5
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...ages-that-are-not-compatible-with-C2.patch | 29 -------------------
- meta/recipes-core/readline/readline_8.2.13.bb |  7 -----
- meta/recipes-core/readline/readline_8.3.bb    |  6 ++++
- 3 files changed, 6 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
- delete mode 100644 meta/recipes-core/readline/readline_8.2.13.bb
- create mode 100644 meta/recipes-core/readline/readline_8.3.bb
+ ...-installation-directories-in-libxml2.patch | 14 ++++----
+ .../libxml/libxml2/CVE-2025-6021.patch        | 36 +++----------------
+ .../libxml/libxml2/install-tests.patch        |  4 +--
+ .../{libxml2_2.14.3.bb => libxml2_2.14.5.bb}  |  2 +-
+ 4 files changed, 14 insertions(+), 42 deletions(-)
+ rename meta/recipes-core/libxml/{libxml2_2.14.3.bb => libxml2_2.14.5.bb} (97%)
 
-diff --git a/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch b/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
-deleted file mode 100644
-index 3bb4d539601..00000000000
---- a/meta/recipes-core/readline/readline/0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 9459ee899a291c55f08341df63e9a1b9b7af200a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 16 Mar 2025 12:48:46 -0700
--Subject: [PATCH] Add fix for packages that are not compatible with C23
--
--Fixes builds with GCC-15
--Sourced from Fedora: https://src.fedoraproject.org/rpms/readline/c/c47eb813afb942128253213ad5b8221770557e48?branch=rawhide
--
--Help getting packages like bluez5 building
--
--Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bug-readline/2025-03/msg00001.html]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- rlstdc.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/rlstdc.h b/rlstdc.h
--index 2aaa30b..a7a0ef3 100644
----- a/rlstdc.h
--+++ b/rlstdc.h
--@@ -44,7 +44,7 @@
+diff --git a/meta/recipes-core/libxml/libxml2/0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch b/meta/recipes-core/libxml/libxml2/0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch
+index 6ea5adafa22..627f8472c38 100644
+--- a/meta/recipes-core/libxml/libxml2/0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch
++++ b/meta/recipes-core/libxml/libxml2/0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch
+@@ -1,4 +1,4 @@
+-From 55ed199fdb55a1a600616ba14ad0feedcf828d86 Mon Sep 17 00:00:00 2001
++From 1a7e177a7315c856a2f0e3c2a17ee0fd9e297bc9 Mon Sep 17 00:00:00 2001
+ From: Peter Marko <peter.marko@siemens.com>
+ Date: Mon, 26 May 2025 21:11:14 +0200
+ Subject: [PATCH] Revert "cmake: Fix installation directories in
+@@ -15,10 +15,10 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
+  3 files changed, 7 insertions(+), 18 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 40e75151..d21ebfe5 100644
++index aaa02e3..fb241bb 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1061,17 +1061,6 @@ AC_SUBST(XML_PRIVATE_LIBS)
++@@ -1065,17 +1065,6 @@ AC_SUBST(XML_PRIVATE_LIBS)
+  AC_SUBST(XML_PRIVATE_CFLAGS)
+  AC_SUBST(XML_INCLUDEDIR)
+  
+@@ -37,7 +37,7 @@ index 40e75151..d21ebfe5 100644
+  AC_DEFINE_UNQUOTED([XML_SYSCONFDIR], ["$XML_SYSCONFDIR"],
+                     [System configuration directory (/etc)])
+ diff --git a/libxml2-config.cmake.in b/libxml2-config.cmake.in
+-index 4945dda4..31036805 100644
++index e040a75..dc0d6b8 100644
+ --- a/libxml2-config.cmake.in
+ +++ b/libxml2-config.cmake.in
+ @@ -24,17 +24,20 @@
+@@ -66,7 +66,7 @@ index 4945dda4..31036805 100644
+  set(LIBXML2_LIBRARIES ${LIBXML2_LIBRARY})
+  set(LIBXML2_INCLUDE_DIRS ${LIBXML2_INCLUDE_DIR})
+ diff --git a/meson.build b/meson.build
+-index 4c59211d..3e5f25d3 100644
++index 98bc6e3..3ef0bd0 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -599,9 +599,6 @@ config_cmake = configuration_data()
+@@ -77,5 +77,5 @@ index 4c59211d..3e5f25d3 100644
+ -config_cmake.set('INSTALL_INCLUDEDIR', dir_include)
+ -config_cmake.set('INSTALL_LIBDIR', dir_lib)
+  config_cmake.set('VERSION', meson.project_version())
+- config_cmake.set('WITH_HTTP', want_http.to_int().to_string())
+- config_cmake.set('WITH_ICONV', want_iconv.to_int().to_string())
++ config_cmake.set10('BUILD_SHARED_LIBS',
++                    get_option('default_library') != 'static')
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
+index 157486848b9..0b73bceb245 100644
+--- a/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
++++ b/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
+@@ -1,4 +1,4 @@
+-From 33d7969baf541326a35e2fbe31943c46af8c71db Mon Sep 17 00:00:00 2001
++From e546e423d69ec9b3c71167d3c3140fa1b9af93c7 Mon Sep 17 00:00:00 2001
+ From: Nick Wellnhofer <wellnhofer@aevum.de>
+ Date: Tue, 27 May 2025 12:53:17 +0200
+ Subject: [PATCH] tree: Fix integer overflow in xmlBuildQName
+@@ -14,11 +14,11 @@ CVE: CVE-2025-6021
+ Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/acbbeef9f5dcdcc901c5f3fa14d583ef8cfd22f0]
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+- tree.c | 9 ++++++---
+- 1 file changed, 6 insertions(+), 3 deletions(-)
++ tree.c | 1 +
++ 1 file changed, 1 insertion(+)
+ 
+ diff --git a/tree.c b/tree.c
+-index 7454b07..22ec11c 100644
++index e14bc62..22ec11c 100644
+ --- a/tree.c
+ +++ b/tree.c
+ @@ -23,6 +23,7 @@
+@@ -29,31 +29,3 @@ index 7454b07..22ec11c 100644
+  
+  #ifdef LIBXML_ZLIB_ENABLED
+  #include <zlib.h>
+-@@ -168,10 +169,10 @@ xmlGetParameterEntityFromDtd(const xmlDtd *dtd, const xmlChar *name) {
+- xmlChar *
+- xmlBuildQName(const xmlChar *ncname, const xmlChar *prefix,
+- 	      xmlChar *memory, int len) {
+--    int lenn, lenp;
+-+    size_t lenn, lenp;
+-     xmlChar *ret;
 - 
-- /* Moved from config.h.in because readline.h:rl_message depends on these
--    defines. */
---#if defined (__STDC__) && defined (HAVE_STDARG_H)
--+#if defined (__STDC__)
-- #  define PREFER_STDARG
-- #  define USE_VARARGS
-- #else
-diff --git a/meta/recipes-core/readline/readline_8.2.13.bb b/meta/recipes-core/readline/readline_8.2.13.bb
-deleted file mode 100644
-index 19b5cb6f583..00000000000
---- a/meta/recipes-core/readline/readline_8.2.13.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require readline.inc
+--    if (ncname == NULL) return(NULL);
+-+    if ((ncname == NULL) || (len < 0)) return(NULL);
+-     if (prefix == NULL) return((xmlChar *) ncname);
+- 
+- #ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
+-@@ -182,8 +183,10 @@ xmlBuildQName(const xmlChar *ncname, const xmlChar *prefix,
+- 
+-     lenn = strlen((char *) ncname);
+-     lenp = strlen((char *) prefix);
+-+    if (lenn >= SIZE_MAX - lenp - 1)
+-+        return(NULL);
+- 
+--    if ((memory == NULL) || (len < lenn + lenp + 2)) {
+-+    if ((memory == NULL) || ((size_t) len < lenn + lenp + 2)) {
+- 	ret = xmlMalloc(lenn + lenp + 2);
+- 	if (ret == NULL)
+- 	    return(NULL);
+--- 
+-2.34.1
 -
--SRC_URI += "file://norpath.patch \
--            file://0001-Add-fix-for-packages-that-are-not-compatible-with-C2.patch \
--            "
--
--SRC_URI[archive.sha256sum] = "0e5be4d2937e8bd9b7cd60d46721ce79f88a33415dd68c2d738fb5924638f656"
-diff --git a/meta/recipes-core/readline/readline_8.3.bb b/meta/recipes-core/readline/readline_8.3.bb
-new file mode 100644
-index 00000000000..ff5dec6c0a6
---- /dev/null
-+++ b/meta/recipes-core/readline/readline_8.3.bb
-@@ -0,0 +1,6 @@
-+require readline.inc
-+
-+SRC_URI += "file://norpath.patch \
-+            "
-+
-+SRC_URI[archive.sha256sum] = "fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc"
+diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
+index 789aeca119f..4c1faa83cbb 100644
+--- a/meta/recipes-core/libxml/libxml2/install-tests.patch
++++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
+@@ -1,4 +1,4 @@
+-From 8c1054eacb430472068f21e4840749c384e8e866 Mon Sep 17 00:00:00 2001
++From 7e99fef6eae0642a3f1e511e4d24abf7d6d28f50 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Mon, 5 Dec 2022 17:02:32 +0000
+ Subject: [PATCH] add yocto-specific install-ptest target
+@@ -12,7 +12,7 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+  1 file changed, 10 insertions(+)
+ 
+ diff --git a/Makefile.am b/Makefile.am
+-index 4cb9a5c..8adcd7e 100644
++index 6f98144..ecb3b54 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+ @@ -26,6 +26,16 @@ check_PROGRAMS = \
+diff --git a/meta/recipes-core/libxml/libxml2_2.14.3.bb b/meta/recipes-core/libxml/libxml2_2.14.5.bb
+similarity index 97%
+rename from meta/recipes-core/libxml/libxml2_2.14.3.bb
+rename to meta/recipes-core/libxml/libxml2_2.14.5.bb
+index 4baab59186e..52b2040122b 100644
+--- a/meta/recipes-core/libxml/libxml2_2.14.3.bb
++++ b/meta/recipes-core/libxml/libxml2_2.14.5.bb
+@@ -21,7 +21,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://CVE-2025-6021.patch \
+            "
+ 
+-SRC_URI[archive.sha256sum] = "6de55cacc8c2bc758f2ef6f93c313cb30e4dd5d84ac5d3c7ccbd9344d8cc6833"
++SRC_URI[archive.sha256sum] = "24175ec30a97cfa86bdf9befb7ccf4613f8f4b2713c5103e0dd0bc9c711a2773"
+ SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
+ 
+ # Disputed as a security issue, but fixed in d39f780
 -- 
 2.34.1
 
