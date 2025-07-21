@@ -1,98 +1,93 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A1A6C87FCA
-	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 10:34:02 +0000 (UTC)
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
- by mx.groups.io with SMTP id smtpd.web11.37330.1753094033835386608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0954DC83F1A
+	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 11:32:53 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.38144.1753097570473263780
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jul 2025 03:33:54 -0700
+ Mon, 21 Jul 2025 04:32:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.15, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-4-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6b])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4blxZm46vYzRlN;
-	Mon, 21 Jul 2025 12:33:52 +0200 (CEST)
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4blxZm0kNRzWf2;
-	Mon, 21 Jul 2025 12:33:52 +0200 (CEST)
-From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Mon, 21 Jul 2025 12:33:39 +0200
-Subject: [PATCH RFC v2 2/6] mesa: move PROVIDES out of include file
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=92976fe5b5=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56L5KGNG1134328
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 11:32:49 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4800k09x4u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 11:32:49 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Mon, 21 Jul 2025 04:32:36 -0700
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Mon, 21 Jul 2025 04:32:35 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe][meta-webserver][Walnascar][PATCH  1/1] apache2: upgrade 2.4.63 -> 2.4.64
+Date: Mon, 21 Jul 2025 17:02:42 +0530
+Message-ID: <20250721113242.86368-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250721-mesa-libclc-panfrost-v2-2-f713d0858949@cherry.de>
-References: <20250721-mesa-libclc-panfrost-v2-0-f713d0858949@cherry.de>
-In-Reply-To: <20250721-mesa-libclc-panfrost-v2-0-f713d0858949@cherry.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>, 
- Ross Burton <ross.burton@arm.com>, 
- Otavio Salvador <otavio.salvador@ossystems.com.br>, 
- Quentin Schulz <quentin.schulz@cherry.de>
-X-Mailer: b4 0.14.2
-X-Infomaniak-Routing: alpha
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: YdDXb9yh3a2wmMWnyw-aavyse1nbCubg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDIwMSBTYWx0ZWRfX1fpkFPuWTilg
+ l8hSpzoXj+gwpDycFnfbCjfNpD419k+0/xO1Madi8hAAaIRoH94estC0Ydi240PanzkYEjF6y1S
+ JZ4Z6mBqYye0hXATBAZI/+fTe5allUYUklIo4zRIsq0+31U392XAXtH+nU++uRR6GDKbPhK8L1R
+ /PjT/oiAYzM5wSkdYjI2vTd15pDEfkC//AYTKky3ZEC4CjlwVDrcDhLdKRg6LmRhNZgW5dR2fET
+ 26vVNmuPTgB61DTRW4WTqEDMf3PChVI5zGH0JFNUix1sMFjKjoZuIEanASmVvEWv9d3Ig7s+xx3
+ twE8uDpIteexol18HBV0ERglsgxTOfQrLcNy/lORyWRogPtqfJWJ0Y7HQzFiK5LCIerH+etNo6s
+ LbmDPszN
+X-Authority-Analysis: v=2.4 cv=EtLSrTcA c=1 sm=1 tr=0 ts=687e2561 cx=c_pps
+ a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17
+ a=AC0tdzqdyWkA:10 a=Wb1JkmetP80A:10 a=omOdbC7AAAAA:8 a=pGLkceISAAAA:8
+ a=t7CeM3EgAAAA:8 a=OvazYexQGyryQK4VWcwA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: YdDXb9yh3a2wmMWnyw-aavyse1nbCubg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-21_03,2025-07-21_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 spamscore=0 priorityscore=1501 suspectscore=0
+ impostorscore=0 adultscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2506270000 definitions=main-2507180201
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 10:34:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220675
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 11:32:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220680
 
-From: Quentin Schulz <quentin.schulz@cherry.de>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-There currently are two recipes including mesa.inc, mesa-gl and mesa.
-The former overrides PROVIDES and the latter just inherits it from
-mesa.inc.
-Let's just move PROVIDES to where it makes sense the mesa recipe.
-
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+(cherry picked from commit 207b98bcd720fc4253b13284962ea1b0f84bf7e9)
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- meta/recipes-graphics/mesa/mesa.bb  | 11 +++++++++++
- meta/recipes-graphics/mesa/mesa.inc | 10 ----------
- 2 files changed, 11 insertions(+), 10 deletions(-)
+ .../apache2/{apache2_2.4.63.bb => apache2_2.4.64.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta-webserver/recipes-httpd/apache2/{apache2_2.4.63.bb => apache2_2.4.64.bb} (99%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.bb b/meta/recipes-graphics/mesa/mesa.bb
-index 305b18070d6a47a53f204906a16bc8d4833fd9d6..51d0384ef5930f36ff2f5c20ebad2d7ad8b817a9 100644
---- a/meta/recipes-graphics/mesa/mesa.bb
-+++ b/meta/recipes-graphics/mesa/mesa.bb
-@@ -12,3 +12,14 @@ PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
- PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
- PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
- PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
-+
-+GLPROVIDES = " \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 virtual/libgles2 virtual/libgles3', '', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
-+"
-+PROVIDES = " \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'glvnd', '', d.getVar('GLPROVIDES'), d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)} \
-+    virtual/mesa \
-+"
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 0f896887a4d956514f1fcc807de2ad31afa29f18..cef62308f2cb8a5480c3dc5b42836b95b2a04284 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -41,16 +41,6 @@ do_install:append() {
+diff --git a/meta-webserver/recipes-httpd/apache2/apache2_2.4.63.bb b/meta-webserver/recipes-httpd/apache2/apache2_2.4.64.bb
+similarity index 99%
+rename from meta-webserver/recipes-httpd/apache2/apache2_2.4.63.bb
+rename to meta-webserver/recipes-httpd/apache2/apache2_2.4.64.bb
+index 9ef8c13b79..5830568746 100644
+--- a/meta-webserver/recipes-httpd/apache2/apache2_2.4.63.bb
++++ b/meta-webserver/recipes-httpd/apache2/apache2_2.4.64.bb
+@@ -27,7 +27,7 @@ SRC_URI:append:class-target = " \
+            "
  
- DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib chrpath-replacement-native python3-mako-native gettext-native python3-pyyaml-native"
- EXTRANATIVEPATH += "chrpath-native"
--GLPROVIDES = " \
--    ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
--    ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 virtual/libgles2 virtual/libgles3', '', d)} \
--    ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
--"
--PROVIDES = " \
--    ${@bb.utils.contains('PACKAGECONFIG', 'glvnd', '', d.getVar('GLPROVIDES'), d)} \
--    ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)} \
--    virtual/mesa \
--    "
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=bddeddfac80b2c9a882241d008bb41c3"
+-SRC_URI[sha256sum] = "88fc236ab99b2864b248de7d49a008ec2afd7551e64dce8b95f58f32f94c46ab"
++SRC_URI[sha256sum] = "120b35a2ebf264f277e20f9a94f870f2063342fbff0861404660d7dd0ab1ac29"
  
- inherit meson pkgconfig python3native gettext features_check rust
+ S = "${WORKDIR}/httpd-${PV}"
  
-
 -- 
-2.50.1
+2.40.0
 
 
