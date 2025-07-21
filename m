@@ -1,297 +1,218 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03310C83F25
-	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 11:50:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C73BC83F25
+	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 12:23:43 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.38432.1753098593600481547
+ by mx.groups.io with SMTP id smtpd.web10.38931.1753100621057058811
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jul 2025 04:49:53 -0700
+ Mon, 21 Jul 2025 05:23:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=92976fe5b5=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56LAsgHL1601647
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 11:49:52 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2076.outbound.protection.outlook.com [40.107.237.76])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4802b5svfg-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=92970f4c5c=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56L7DwgE1320108
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 12:23:40 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2060.outbound.protection.outlook.com [40.107.237.60])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4800k09ye9-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 11:49:52 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 12:23:40 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yoaXWQMpM4Zt89fV7Q94vuLausIGBAaIykeq7oXxyTh8sPrkWaV1RQx9ut0y3CB7qYE31DJCqwKgudyly8wErDOWaRFrbvGRPQFKymKFH6yIq1AuQc+fNRRYru7mGgDeyftd9sKmfsE3umV6zihMYRtnxEVW8j9mXF4KSLCnyyQUVT4DvWkWdfHcKdKE2dmrsR5q0Yly3+kyF7fY5Avy7MSCsONg5cpkeBaw0tEHXf9U1s1u53e0qC32nArUILLkrDM6yWJ6IhXk6sJ/kbzqk6Mhf9q9pAtSxtntMgwZnwxFgeo+ZqjCk8vvCj89eABxZP4Ihl4mOWBd7+CjaYvsUw==
+ b=e4kW1A0OlsL7asHqhxo1dOVQ9GAkW/XRKRSUDaCQd5ERXj8WjAOWGNo7MByTYHLeLq1bnG+GaENyn9ykWTGUri/jMbDKktdffUl420ne03WP+EawP6L+j2IjJa5s56JgpeT3d+Qe4WOC0M/LrYvAlu67/HkFVwwAK03pAMvQc1Shtig3mWHy6NVM5hDdoh7/JkTT8OIc4ymMZskSAT1Yf2x5C9TbONFx5embNS2vCoO6oa/72GT7VoCw/46f6fR2a6VHIJpw4rpYzGbX2jvMtd18kSNT2ioZl+hQzT5fI4wIYw/+RS6pRf/nw1gUHz2OOk9RAkSx3++yYvGEiNhOsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pxTvuHF3a4G9BtwU15V5Dgsp+P4e46qT0vjuyd7w1jg=;
- b=QyN+Kn2uI+tk1YDHLxrYCnAfTFsNwXqA3UlybwXy8bP1Rf7JYhTaDf8ozyqegO0MBK6lhcVLHZ+J5UQGbsR1H6XzHzXWiIVfORBcDRAf9i6bK61cKuDWSQWFCztxly879Q/Ux2jjcZrW75Nk8WiOyEH6kbRqk3fLGDYt/flk1p9oucfQ4DUJp3fo6fqEDQ0ZkFSiv4dK0mKrIn7Qi/vW91YAh+gYWWbokt7wR3kMHgQwChBEl8LF442lLhcjU4qIWYZgNyFQj1M5KJzFGOvwGE0tclCxQzLBZCD+3z7epY9l4QpkeuHqYzk34Ch9/PhrGn7LIUCYl/F3DTkSOpFEng==
+ bh=ZXV3PwFnbE+GXM1NPSuo588dSPIglUgkXKtkJTyqVvc=;
+ b=etFlyFZzJrabpryHkD/4OsINq/6G56nxKKWa3bwPsrXwxx1dIFAFUIZqcTMJx+Oco0kk0ZrbAPVly3BBz3hGcZ5pT4HD6emZTq4L2DkVfMkgLKMyVS3LmxYsLDQHdMV1cyBTdJWdhiFXwBpsA1jVrCnXODLhrV8NfKfdhR67uaavb4usgnzWYGGbm0CHW35o3Kon1bt0I8NynbR12hEaefljJt0rvLwIwB1d55knX0qB9YOtqS+wutyBs3KEhn1jquIVUQETFOtn0D4nY5F2yFfZgeJUDn/zQDqexJOrzFxyD4vH6uJKpSfSJkdI6qO88xBR8Eo6hh9I8gDkvSVwKg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM8PR11MB5703.namprd11.prod.outlook.com (2603:10b6:8:22::5) by
- LV8PR11MB8485.namprd11.prod.outlook.com (2603:10b6:408:1e6::13) with
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
+ by CO1PR11MB4993.namprd11.prod.outlook.com (2603:10b6:303:6c::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Mon, 21 Jul
- 2025 11:49:49 +0000
-Received: from DM8PR11MB5703.namprd11.prod.outlook.com
- ([fe80::f734:e507:3083:e454]) by DM8PR11MB5703.namprd11.prod.outlook.com
- ([fe80::f734:e507:3083:e454%5]) with mapi id 15.20.8922.028; Mon, 21 Jul 2025
- 11:49:49 +0000
-From: "Polampalli, Archana" <Archana.Polampalli@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-        "Polampalli, Archana"
-	<Archana.Polampalli@windriver.com>
-Subject: Re: [OE-core] [oe][meta-webserver][Walnascar][PATCH 1/1] apache2:
- upgrade 2.4.63 -> 2.4.64
-Thread-Topic: [OE-core] [oe][meta-webserver][Walnascar][PATCH 1/1] apache2:
- upgrade 2.4.63 -> 2.4.64
-Thread-Index: AQHb+jNE7gLvv7MqWkelYdcY4XxVELQ8dq6s
-Date: Mon, 21 Jul 2025 11:49:48 +0000
-Message-ID: 
- <DM8PR11MB5703A5A17CAC7E4E1D11FF65845DA@DM8PR11MB5703.namprd11.prod.outlook.com>
-References: <185440F3CD854F42.534@lists.openembedded.org>
-In-Reply-To: <185440F3CD854F42.534@lists.openembedded.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=True;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2025-07-21T11:48:47.876Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=0;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5703:EE_|LV8PR11MB8485:EE_
-x-ms-office365-filtering-correlation-id: 756f1a71-da2b-4434-a4ed-08ddc84cb240
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|366016|7053199007|8096899003|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?MjFs35uG7khrpRsCF6swPx+NF6w6dw0Hh6eTP5tSjnw/i0XXvXnXrejjVOXH?=
- =?us-ascii?Q?8HGL+krqkBHhU9V/29lLZCkKK0C3UnOrw+juQyrEx5U6x1mGcqVDGHh5q0hF?=
- =?us-ascii?Q?hbWbKcOKoEcByps8VCe0OSoK/R4fnY9rlxgIBqXKVpX1uXvYpWfkiU7HO2ab?=
- =?us-ascii?Q?042W3/RzDt8uqdRzer/cRS/3Jwh0KsfFhONiwjNyqyhtNlCLzMniHmCkwIib?=
- =?us-ascii?Q?JXtHPqufz0AGqWUdkIdPHXE0EUdhwcadpyGxBZ1IKWaHluh6CFSfbXl3XCig?=
- =?us-ascii?Q?1zCeY9eoRWuWSi6Hz3wNYtiMZ99X2HGwFVWGwYMQhY1RFwNN7k9WifWg6v+F?=
- =?us-ascii?Q?2a9SWEI5xdIOx90LH77jkP8K3spNE/7t4OMqnApXFk3BQBNbAqArzQp9oDp/?=
- =?us-ascii?Q?02l8V3zIu/R4ibRNUJCMXD81XCmqWtgYskvAAbmH5QUpTm9szAtLkQC+vGjK?=
- =?us-ascii?Q?XtihMRzK44wCnh2vyUGWAumo6J4Qx+686tVR1eMlKG7WONg4XL/LNAMgKpj3?=
- =?us-ascii?Q?1wqORIoMVlt/8f+l91FrZP90BGBP+3aFK8Mg8g7/yfa+6RVYKyY6uD09+OR/?=
- =?us-ascii?Q?zFyq0/2WszQA+hm2BZL7pFKaIOp5z+8d/37XSQb/ecogVv8DxVa5wMUx2DjH?=
- =?us-ascii?Q?jg6T+P+xrd9j1XKHsFNg5swaxklVyY2wvoH4wWxSrC1yWDRVIStTCjaVSyvK?=
- =?us-ascii?Q?6AqeKIpW3fIlpmejmq26slxZJa8whqxmBazzMRA3eWKZBbCAuGLbkZnJXq9N?=
- =?us-ascii?Q?5gcnuJxQGawOIl6iwMmzQB4dVKQ9wIb1v0Ny16Ye1rscLm7SX9VNmwFmC4dX?=
- =?us-ascii?Q?rCIViyFaFcMNLgTmKJomSimCZVWG5ZMT2VQl9jiU861Vc6ttAs0esPb02414?=
- =?us-ascii?Q?nCp9ApqiqSFL3XHdwyzX7aCOoIWSuObcS/ZvMtnmFNCXOPtaWPPROYbDSgBq?=
- =?us-ascii?Q?DQ8S9cRtrPY9F8uAy6nF218glZxi+jpHiMzejQ8/fGPvpCxk9wrd7cm6f8nH?=
- =?us-ascii?Q?qme8d4ikxn+l2DgyS7H/0dUZ/epPnrFLQa0ox0Ne3QXIWVD5gYOMgN0jbZYo?=
- =?us-ascii?Q?01nguHU0Yq3yqBrQXkcn6OkgmpHwKPOtke7cQ07lPU3odOXLZhdz9HPMjf0P?=
- =?us-ascii?Q?OXZataL3ohm7r7+VpcTVTBE75/6BZg0213v1wsRXyZxVO2P0asMsOWYuUmxB?=
- =?us-ascii?Q?SVG0g4z+1BgyJiO9HTzLQyE2aIySJ9BXqs6wJwoGPXo8KD5VwaLqdH+wOWd6?=
- =?us-ascii?Q?veef+QkMk/INOmDjVQqz8RteFAK6PgbqdEnHzrY41n6XldZqEFId/E3TVcSS?=
- =?us-ascii?Q?VyAKwTeE4hzh5sSuPdxd44wKSXin6LvuN+I/k3JjKXL3hbJdTj0nWONMvxgv?=
- =?us-ascii?Q?E9dbW+Lpl6Jmj6Xjq/AfS4nFZLVL4fYAJIW1dVkv7S/MtEfvMNog4a3Ekh1P?=
- =?us-ascii?Q?k+0qfnzkYmkzrSGnGvyLK1bEQVT02nImSgK0Uz3b+CedpGj2WS/RSw=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5703.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007)(8096899003)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?/0xO4d/HyXdv8bkSVenUHsVndbrxM7hJ81J0vVZ6rtzzap/R4K5z+MKqeB0E?=
- =?us-ascii?Q?dnA7eIRg+65yx0ZPjLoNKgKSLMwB+73M3kbBbEqbA3p0ZhRPrpZAkI2wYJhc?=
- =?us-ascii?Q?6rvbK9bK4csTFypDL+C81IVLRxYonVGumMiK0iOtMRcEcX8qftfs63VDwq9D?=
- =?us-ascii?Q?2kcWCqmqMgZOQCSwSOVn/f14KqyG51fOCQ5oSEsjHQyG3EFFqWitxUXHORjk?=
- =?us-ascii?Q?ujixHMSqzQp7XG65KKOi1ovYblEkJczu7nGeW03nuO9PhU+PlQAuLQHaJLWC?=
- =?us-ascii?Q?g8zXO+e1lCUhTV0hTV4F+1TFMwBMBwpr9uvpRi45Xtr+oyFWHqvnPqB0+s43?=
- =?us-ascii?Q?6lcSXxL96tY3LRsM0Vk7bZ23KYH1Nh43j9VADpLWVguZRv/1zlZvWPISfcUY?=
- =?us-ascii?Q?2MC2v+9BQP9ZwfeGXn6DIsDxeyZ4GJPEQSw4e3f4XViin7wJsr1mQKuMXiMC?=
- =?us-ascii?Q?L9HilWcgDN4meHFZbzicfrd7TF4c07O9UIf9oYW+UrmqyU4WQaQ3mvyv+O7Y?=
- =?us-ascii?Q?yuhSGSv8maaivHiSRWSYBNy26LcNLi4xoZowyGHV1I62p4VC3PRgEdufXMvL?=
- =?us-ascii?Q?a3E6jC8TurPEz8/y1qRrhz4Pnhu2INKDiam6x1bZXekzmCNFlRpK+5o/Wt1W?=
- =?us-ascii?Q?TdK2mcCogoDV1F8RDrwVQuSdWRmF1z+4icfM6i+db3vWsB8t6CZDuOkZYSb5?=
- =?us-ascii?Q?CYrSEK+LuUJcQBJ54Un30IxtrcFfNYHJP7+KWJHY1YJDr6m0fqumvicCdedq?=
- =?us-ascii?Q?EhDEj7bhhFfz9IIhLQ+48/Rs10IjxoqzsUmQz5pIqs68JXajS7cscB8S7IT8?=
- =?us-ascii?Q?4KdLSqzE5LgZDomxQeEnF2rQRM2iZeIWKuZqCbXOehD82ZuAFttesz6PmMMv?=
- =?us-ascii?Q?lEbxDUnsAiMjmgqPZgS9lKxY7boF0IKWBAMFheiV+bCKLmbFwr77nvGcVMGk?=
- =?us-ascii?Q?+Hdbj2K57RBOO8+VuZgPkNPbUcl1hLQGpjXcQR2iiOhBfumSTDWZlJUXSErK?=
- =?us-ascii?Q?DWsElRSXDumSQ3JoGhbX5E4HFTOnih8Ilfk6eIHl3gmNL6vQRBvIodtvBA8T?=
- =?us-ascii?Q?Fj8Ll8c0uwviNsTXsQpJEXXXOzc4OvQjiw0dXFiUwIAl9KbuL1GOlrcW4z3i?=
- =?us-ascii?Q?SiizRBnh3V04XcHKe0gfsssFZezHtinrB6k2rIHGKBotEsFXBcwF7DxvWNFc?=
- =?us-ascii?Q?JFcKdFIkmlFeEMr1iO24swoFzJChgvydxtRaicLTepCsqnOlrnJOCYhd0ZFu?=
- =?us-ascii?Q?KXekMjKWg+RhJ1+CD3aSC8vb0ArjSCt/kcXM7AmcpyMTGSaDIXfETDEL+MiF?=
- =?us-ascii?Q?vFzsjvPHHKhdYxDkjeJgFB09eew6uNTySvvloJ/GRZiOXIbYFR28nRwPVBTd?=
- =?us-ascii?Q?gbxNbfKkD2w9lkxbja3VmGQQ9vBCz4IpPNuEHmNp7PhbiZETAcxUt/HcRdRY?=
- =?us-ascii?Q?E10ZtZsqafjxwXoF/8ZE2H6UXC1WXYStI5YAmi3c3Yv3ue19RcWbIS1coudd?=
- =?us-ascii?Q?XNuAnpkHhFB1chnQ2+YpInlz2BhqXOTYNoXW2q372W5lK+YdS1O/SQ8qqZoN?=
- =?us-ascii?Q?p3URQ1e+4dp4wPseBnB5/e0nlZ3gFQig7YX5d71DvGbJzTy6GtL5Qq/8AwYD?=
- =?us-ascii?Q?rw=3D=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_DM8PR11MB5703A5A17CAC7E4E1D11FF65845DADM8PR11MB5703namp_"
+ 2025 12:23:37 +0000
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f%7]) with mapi id 15.20.8943.029; Mon, 21 Jul 2025
+ 12:23:37 +0000
+From: Deepesh.Varatharajan@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
+Subject: [scarthgap][PATCH] glibc: stable 2.39 branch updates
+Date: Mon, 21 Jul 2025 05:23:19 -0700
+Message-ID: <20250721122319.1549209-1-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYWP286CA0017.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:178::10) To SJ0PR11MB5648.namprd11.prod.outlook.com
+ (2603:10b6:a03:302::11)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|CO1PR11MB4993:EE_
+X-MS-Office365-Filtering-Correlation-Id: f5facc12-511a-49fd-0331-08ddc8516af7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ASugVmmnpvXjCZQDmBey95DC6sVd010IqfI8Gd4Wo6tJYTgU3lP20eHcKfWc?=
+ =?us-ascii?Q?QyuSy2aOD5xNThQFDznsJSluuvxpibpaAhM4CcCdk53dE+jjqlMHFEkodbEa?=
+ =?us-ascii?Q?ei05mAQYxkq8SDE7v0ozd7QckQy3FdcoIQ3LkjgxW6hplPOMOI8O0qTI1+uX?=
+ =?us-ascii?Q?oEcZGksNWQfnDbIxb2x2bTiOCzwVUXFt+cB8glfTcqgluNgS9R0TAyQ2zLe6?=
+ =?us-ascii?Q?z3ecedkV0y/vHxTBRZZZCpJFByRQEqR2OCZkosq5UhWU/A2f8iSavYfLOHwB?=
+ =?us-ascii?Q?3fWlo+Cw3xI5KWmv+K9iFI9Lr/3YpMg7BJp4r4mq+ADTBb9IXFBG0+Uk5wOZ?=
+ =?us-ascii?Q?OdClkFp6kMrGwSA8LGxym5J6oFaft1EkmnF+LyDL0M2/SQ7uVLI8G7b8YIYW?=
+ =?us-ascii?Q?Dd8khjsZrohn5ujp+9oGKnQyH3nTAIoCdhb/JNAYDS+3WAllJAkPTidiPC5b?=
+ =?us-ascii?Q?0IQGJfudWmGPGmbfnrXZW7C7wvQdjCEoDh2SDHl1w1qYtZTKbPeNJhcIxI9Q?=
+ =?us-ascii?Q?VlX14aZJ7qyLRoz5cXk09c76/owdLzylGDZVR29nLRp0cyFDTWtjfaxEcDE9?=
+ =?us-ascii?Q?gPvC89VvlCv5i03N/F1CJCZsTuV8ikag9I03gWV4fA+01fztgTrigwfRmf/N?=
+ =?us-ascii?Q?2CD+VFFJXjwDXCviKmMjWdt0CCVpVf5dSYXxK0W1BoaJjvu6mnzglt1upaP2?=
+ =?us-ascii?Q?Vujf/IwvpXnG4bjI94bD1rHAX9Nw1afxBsMmWwomlTKLHsDJFPbMe3xZ3Br/?=
+ =?us-ascii?Q?ZMicvfIZPEAetGapA1npPBgA8+wd6v7dE4omOrpeemXpOol9k69Pq3XifmAf?=
+ =?us-ascii?Q?IhWmF2dov3rym/i1lttivcXsbpHI4nU5hBZceMBVXxEfIgBieo89aErK3J9z?=
+ =?us-ascii?Q?H3QkiEhE8VwOtR9EG6as2kCiaknNDsF0BfCX/Z+HTmoYR/ZDoHIxhQk26F2t?=
+ =?us-ascii?Q?gcffuu7DLTTNxc2rDjaFwS0ijD+iTbDQ3Zrvs/kS6+wPHUQAATYab+TtzA9x?=
+ =?us-ascii?Q?bvSxH1C2sxmHzDZYV7XGQQ+WhbeTm9ZxXFNI/urf5MDF+3o1QwrPVFgcMUtb?=
+ =?us-ascii?Q?n6SIbHiTkcDRrDRSKJcTnE4xLJa70hTy68kGqDhWmKCXLbneUjzRT/E2xbiE?=
+ =?us-ascii?Q?RxogDpnUccIp3aMa4Q+Qez4bZ2yGtrUzPwylmcKRzuVWEpY7BnAyudkE2U7w?=
+ =?us-ascii?Q?GHLI8cJ3Y/wzrSrLxa23361wGBVAceGM+0dyTBtzhe8Fpxx4H/YcD7dht0kf?=
+ =?us-ascii?Q?hdMm26IktFAIlTtuiduwlapjWsnWSBsyfqcoyKz8Q8vVwB5CprzhdZ76gkmc?=
+ =?us-ascii?Q?LQKQ+3SUTeQZmCzJR5tDlGynI+CygZT58cuzl8q1Mr3sannE7V3YV7AMPsWg?=
+ =?us-ascii?Q?kuQVeQ0JrsVEJpH8nSeJSA3t3wr6BvxZFkEZA26gs2Sz1peLRf4Nq/Dwg27Q?=
+ =?us-ascii?Q?IWFsENIktyie3bEMk0uk4myUGEqqm8gI5hCqHgi0TjPFSBqN3TWi8Q=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?YWFR98PEoStpQmo/+CCmxFuB0XLdiMxSWtsiwlvSVYvYUwiyktoCx1g85vNp?=
+ =?us-ascii?Q?vyPxTnbFI2oXrEXzLviOIEQaSG90YJgdaKmL3eOub2YeAyHRJiVkKB1sPUPQ?=
+ =?us-ascii?Q?UWOsmSDUc9p+mkb6kSqHf4xdBlJLZIP6dmgkjsljTPJR51CU/rgWWZULWUEq?=
+ =?us-ascii?Q?ETuXZjPUXlD89+O2wqFvPTB/KBKRFQp0CDLWIiuMhrdJmjUc+D9ccd5rIjEf?=
+ =?us-ascii?Q?sOZ7w3ZYtDTW/8ZL6G6zlDQc07hXAIaBIGY5/TtjKQ37SIqeFtihYw8hVg6H?=
+ =?us-ascii?Q?vwyItbT5deBR7IvQLd9zQzvnFhMm4YD+Q5PHiOzWAJQs5ijGqa42aYX79ASS?=
+ =?us-ascii?Q?guZepYdj2Yd86R8txnouxSP7IqgQ/mHHzkwluWOlZknuhv238KqVRvK/ydO9?=
+ =?us-ascii?Q?D4fT83rH+zjCAcWhms7CxIW4QGL18CANYpMvznTga+J8KCZgJmiY63xRlXYx?=
+ =?us-ascii?Q?kR04urdsUXOKGuMYEOqeIhVAWPSUf24ixta12Bni9LRqRlmFUKWS0kZCQ4VE?=
+ =?us-ascii?Q?ptVKWXJV3iSYaInRqvge6UnkJim8zD3GFtPNRrUTtXF9nTvSj3cSrwUvD3OQ?=
+ =?us-ascii?Q?NF5B9/GPcr0kM16RPDQnUuO1qS2IBuUhwYMGGD7Fc0iDO04CNdszrdqbGiKe?=
+ =?us-ascii?Q?U2MGVgTmAOCFAlGCfGaqzHubq+aEOobObbnlwc1wSHKbRhVelAMBcpjn3iEG?=
+ =?us-ascii?Q?f4kRIFcIjJdv1ARgPin18Bovn/hTp7fhsOVFfzI7olVMbwWMAOsYBkzc3zv9?=
+ =?us-ascii?Q?IJWml1e73stkPfbbE/igNSSmntNUJ/anj7naAgeX39Xv//gFJYd5Lns6C+od?=
+ =?us-ascii?Q?D4mkFp7e0qFyjBUWV25trmEbQKyL+yVGRsHYxOpYyxABVlOmedTX3uzQOHDG?=
+ =?us-ascii?Q?WLnhmxeEiv9lO9nnREpXgZGfpQnZsFljSlK/0hiJfpn3u5eeO1Zzy7T+kx2G?=
+ =?us-ascii?Q?FoMoZckwhfrqtQV5UZ4wZFoilPkcxRvsYVxohgEaW/bsh8AmBHNID/szIfpx?=
+ =?us-ascii?Q?h/QQiMWimwWwDmkHtKPzNZDY2NJ9pll1WofLPjtpuLLFNnhnAD7+68qDhtpD?=
+ =?us-ascii?Q?B4AsD9OmuixCT51CQzECeL2820lELVyPX1l64qkKBoJzgD7C3xZRBfd/6tz1?=
+ =?us-ascii?Q?HF1NUwLCpzOkEmjOO47qqPalfj+XKoCZ0VOJdlUxrp7X8AenhJrKUxLCOcYf?=
+ =?us-ascii?Q?vXHYcwMjLF5lf8Cam69HGwFn7VtS6kmJJdP2ldA5OpatnQx/Bf2RcUvWDRNB?=
+ =?us-ascii?Q?6TEUWf92Hom5qmb9Nao9nB2mp3K02hxWkUE4UtBhCCUhAUdFvq5TExGvYcyj?=
+ =?us-ascii?Q?bevOZ0MgDIf7gv1Rw6jXhVOzcHdr4BZiG3FQDJN4SpEC8VKAUFVTfEVmSm9E?=
+ =?us-ascii?Q?LktTbA8ScFtCMhmMDIEBsiUuqg9URK1zaR3GFEdRcrf2VgRvLzq6QRNmNvvM?=
+ =?us-ascii?Q?FCS8fjx3/2Dv9mTbNLMYRSn0iW3K/H2RRatHAX9h4QisdILyjN6WKL14CeCK?=
+ =?us-ascii?Q?TyTab0LYGlbf524nCt7jqpRH//NGKfIH3Z2hy1xoqOz+7GjrTLuDeV12QVIc?=
+ =?us-ascii?Q?StVUjjMvyYUTFMSjqrOrzZLN0UNcI9e/2x46LI727vEWJj/Wcfm40+0MTDoC?=
+ =?us-ascii?Q?3DFhOJIA3I6bC03TVXMBmMU=3D?=
 X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5facc12-511a-49fd-0331-08ddc8516af7
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5703.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 756f1a71-da2b-4434-a4ed-08ddc84cb240
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jul 2025 11:49:48.9727
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 12:23:37.0747
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CKCAY8b42WEL1mqYiHEvSD/bq2wISKecPwL/lt+xWRh8JcBgnzSYQni5z6JqBCCGWEigeJUv6bwISfcBqLEfsseMQVA0ZmvyQYocUP7+PCSIovqA8V4fw0Eth6m2Qb3c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8485
-X-Authority-Analysis: v=2.4 cv=b6Oy4sGx c=1 sm=1 tr=0 ts=687e2960 cx=c_pps
- a=xSHfZEJOfy926U5hXMN+0g==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10 a=Q4-j1AaZAAAA:8 a=omOdbC7AAAAA:8
- a=pGLkceISAAAA:8 a=t7CeM3EgAAAA:8 a=OvazYexQGyryQK4VWcwA:9 a=CjuIK1q_8ugA:10
- a=UVR9z6wmnckcmQ73JvkA:9 a=ZB2EpAKVOyjrVo5m:21 a=frz4AuCg-hUA:10
- a=_W_S_7VecoQA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: ENgTvasfUcLI2vzP0dXOEIxa2YhUxLlQ
-X-Proofpoint-ORIG-GUID: ENgTvasfUcLI2vzP0dXOEIxa2YhUxLlQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDAxOCBTYWx0ZWRfX3xZpK/tcxJcQ
- 6mQRhn3g6R8ONgJBZRBILBFb+0mYeVuQmj4N/OBLAyAQER/TkKEh7BH8v3X161CHfSaD2qwSEJf
- bLfQU2Oi/MCkIDfHn5+4l5N60Z4W9tkbe4+n+h5Az+t8c+53aaHLkJtUoJyqZaFwefH4w7eN1pM
- dFaM6fKqm+lHVcX9AyAg9UIJyrd/4MzLp/o7If4UjBm2hC9OgbwaNoyLT+uDe1NUS9kbq0XVMaH
- vIjRXo8sxqTbN8pPjASwvMOJTCmLUtsVYRG/rVnlRNwVYKk+NC/dk7ruFJH2PdWT7IQti0zfKG9
- 2plOlCRPXG+46shGyO1xvjTF6iVafM0ZYwuKKaE8fly1yiEoRtyp50bVMB2rkBhthE1VmCgHmNT
- 4gfpPdxX
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ga9rcVyhqNl2ShkYcZGCgXjU+U3xObEgE9pa2fnIEepRh5JPMJtOCHwLg26lKgiE4VCeUVrDRoYnsCWEqa3Oz4SMtf+I0sJJxT/oPEnnKQxBE3qNahUOGdOPZ7yHa3mx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4993
+X-Proofpoint-GUID: tVdyddXxkzssn74go8sziQKK5VdLq0f8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDIwMSBTYWx0ZWRfXzveoyPgwOpOR
+ 22cwHD2QjScinpWOathXMonAjdVWsbgeBP04w5jW+eHIwVLInsXEKZny9JZ1oR7GnaSTTwZUDv9
+ 4slNgloL9cR9KeH6Z/OooH++GIibueoNhunJLkNF2LwhZwyFaTrKbJ1/mga0lv8EtmZFkhcpeIX
+ 7151a+Arglas6VZ/4oC/kLlhw8UOcePLDEJpObWF26rIPnH7wJfLBUeRKVLXAciSGQZt/HhsnWC
+ uK2tyW6CCt9YNb653DallncyB1Lwyg8hC5M5e2IHnC09Tt2j5ZhEdZswGWuUQhrQhSPwm/Q9VaO
+ c0jZvy2W67+w0jhjRUB6Yt6tdF4dD6PqC2IB+WVmCnP0H32fnruPtKT+bEn7BEX2sQ49T6e1Xmk
+ jPZkHPrF
+X-Authority-Analysis: v=2.4 cv=EtLSrTcA c=1 sm=1 tr=0 ts=687e314c cx=c_pps
+ a=f1tBHqq0Bau8jCQW9r2qvg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=t7CeM3EgAAAA:8 a=CCpqsmhAAAAA:8 a=xSs9iO1qsYZR3K1SDMMA:9
+ a=FdTzh2GWekK77mhwV6Dw:22 a=ul9cdbp4aOFLsgKbc677:22
+X-Proofpoint-ORIG-GUID: tVdyddXxkzssn74go8sziQKK5VdLq0f8
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-21_03,2025-07-21_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 priorityscore=1501 spamscore=0 clxscore=1015
- bulkscore=0 adultscore=0 suspectscore=0 phishscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2506270000 definitions=main-2507190018
+ bulkscore=0 clxscore=1015 spamscore=0 priorityscore=1501 suspectscore=0
+ impostorscore=0 adultscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2506270000 definitions=main-2507180201
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 11:50:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220682
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 12:23:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220683
 
---_000_DM8PR11MB5703A5A17CAC7E4E1D11FF65845DADM8PR11MB5703namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-Kindly ignore this patch
-________________________________
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> on behalf of Polampalli, Archana via lists.openembedded.org =
-<archana.polampalli=3Dwindriver.com@lists.openembedded.org>
-Sent: Monday, July 21, 2025 17:02
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Subject: [OE-core] [oe][meta-webserver][Walnascar][PATCH 1/1] apache2: upgr=
-ade 2.4.63 -> 2.4.64
+$ git log --oneline 06a70769fd0b2e1f2a3085ad50ab620282bd77b3..cff1042cceec3502269947e96cf7023451af22f3
+cff1042cce Fix error reporting (false negatives) in SGID tests
+1924d341c0 support: Pick group in support_capture_subprogram_self_sgid if UID == 0
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+Testing Results:
+             Before   After    Diff
+PASS          5074     5082     +8
+XPASS         4        4         0
+FAIL          121      116      -5
+XFAIL         16       16        0
+UNSUPPORTED   157      154      -3
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-(cherry picked from commit 207b98bcd720fc4253b13284962ea1b0f84bf7e9)
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+cff1042cce Fix error reporting (false negatives) in SGID tests
+Improved SGID test handling by unifying error reporting and using secure temporary directories.
+Replaced non-standard exit codes and fixed premature exits to avoid masking failures.
+These changes reduced false negatives, increasing overall test pass rates
+
+UNSUPPORTED tests changes
+-UNSUPPORTED: stdlib/tst-secure-getenv
+-UNSUPPORTED: elf/tst-env-setuid-static
+-UNSUPPORTED: elf/tst-env-setuid-tunables
+
+FAILed tests changes
+-FAIL: malloc/tst-aligned-alloc-random-thread-cross-malloc-check
+-FAIL: malloc/tst-aligned-alloc-random-thread-malloc-check
+-FAIL: malloc/tst-dynarray
+-FAIL: malloc/tst-dynarray-mem
+-FAIL: resolv/tst-resolv-aliases
+
+PASSed tests changes
++PASS: stdlib/tst-secure-getenv
++PASS: elf/tst-env-setuid-static
++PASS: elf/tst-env-setuid-tunables
++PASS: malloc/tst-aligned-alloc-random-thread-cross-malloc-check
++PASS: malloc/tst-aligned-alloc-random-thread-malloc-check
++PASS: malloc/tst-dynarray
++PASS: malloc/tst-dynarray-mem
++PASS: resolv/tst-resolv-aliases
+
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 ---
- .../apache2/{apache2_2.4.63.bb =3D> apache2_2.4.64.bb}            | 2 +-
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta-webserver/recipes-httpd/apache2/{apache2_2.4.63.bb =3D> apache=
-2_2.4.64.bb} (99%)
 
-diff --git a/meta-webserver/recipes-httpd/apache2/apache2_2.4.63.bb b/meta-=
-webserver/recipes-httpd/apache2/apache2_2.4.64.bb
-similarity index 99%
-rename from meta-webserver/recipes-httpd/apache2/apache2_2.4.63.bb
-rename to meta-webserver/recipes-httpd/apache2/apache2_2.4.64.bb
-index 9ef8c13b79..5830568746 100644
---- a/meta-webserver/recipes-httpd/apache2/apache2_2.4.63.bb
-+++ b/meta-webserver/recipes-httpd/apache2/apache2_2.4.64.bb
-@@ -27,7 +27,7 @@ SRC_URI:append:class-target =3D " \
-            "
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 0130613936..6ee9fc7a0b 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.39/master"
+ PV = "2.39+git"
+-SRCREV_glibc ?= "06a70769fd0b2e1f2a3085ad50ab620282bd77b3"
++SRCREV_glibc ?= "cff1042cceec3502269947e96cf7023451af22f3"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+-- 
+2.49.0
 
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dbddeddfac80b2c9a882241d008bb41c=
-3"
--SRC_URI[sha256sum] =3D "88fc236ab99b2864b248de7d49a008ec2afd7551e64dce8b95=
-f58f32f94c46ab"
-+SRC_URI[sha256sum] =3D "120b35a2ebf264f277e20f9a94f870f2063342fbff08614046=
-60d7dd0ab1ac29"
-
- S =3D "${WORKDIR}/httpd-${PV}"
-
---
-2.40.0
-
-
---_000_DM8PR11MB5703A5A17CAC7E4E1D11FF65845DADM8PR11MB5703namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Kindly ignore this patch</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
-ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
-alf of Polampalli, Archana via lists.openembedded.org
- &lt;archana.polampalli=3Dwindriver.com@lists.openembedded.org&gt;<br>
-<b>Sent:</b> Monday, July 21, 2025 17:02<br>
-<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Subject:</b> [OE-core] [oe][meta-webserver][Walnascar][PATCH 1/1] apache=
-2: upgrade 2.4.63 -&gt; 2.4.64</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">From: Wang Mingyu &lt;wangmy@fujitsu.com&gt;<br>
-<br>
-Signed-off-by: Wang Mingyu &lt;wangmy@fujitsu.com&gt;<br>
-Signed-off-by: Khem Raj &lt;raj.khem@gmail.com&gt;<br>
-(cherry picked from commit 207b98bcd720fc4253b13284962ea1b0f84bf7e9)<br>
-Signed-off-by: Archana Polampalli &lt;archana.polampalli@windriver.com&gt;<=
-br>
----<br>
-&nbsp;.../apache2/{apache2_2.4.63.bb =3D&gt; apache2_2.4.64.bb}&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2 +-<br>
-&nbsp;1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&nbsp;rename meta-webserver/recipes-httpd/apache2/{apache2_2.4.63.bb =3D&gt=
-; apache2_2.4.64.bb} (99%)<br>
-<br>
-diff --git a/meta-webserver/recipes-httpd/apache2/apache2_2.4.63.bb b/meta-=
-webserver/recipes-httpd/apache2/apache2_2.4.64.bb<br>
-similarity index 99%<br>
-rename from meta-webserver/recipes-httpd/apache2/apache2_2.4.63.bb<br>
-rename to meta-webserver/recipes-httpd/apache2/apache2_2.4.64.bb<br>
-index 9ef8c13b79..5830568746 100644<br>
---- a/meta-webserver/recipes-httpd/apache2/apache2_2.4.63.bb<br>
-+++ b/meta-webserver/recipes-httpd/apache2/apache2_2.4.64.bb<br>
-@@ -27,7 +27,7 @@ SRC_URI:append:class-target =3D &quot; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
-r>
-&nbsp;<br>
-&nbsp;LIC_FILES_CHKSUM =3D &quot;<a href=3D"file://LICENSE;md5=3Dbddeddfac8=
-0b2c9a882241d008bb41c3">file://LICENSE;md5=3Dbddeddfac80b2c9a882241d008bb41=
-c3</a>&quot;<br>
--SRC_URI[sha256sum] =3D &quot;88fc236ab99b2864b248de7d49a008ec2afd7551e64dc=
-e8b95f58f32f94c46ab&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;120b35a2ebf264f277e20f9a94f870f2063342fbff086=
-1404660d7dd0ab1ac29&quot;<br>
-&nbsp;<br>
-&nbsp;S =3D &quot;${WORKDIR}/httpd-${PV}&quot;<br>
-&nbsp;<br>
--- <br>
-2.40.0<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_DM8PR11MB5703A5A17CAC7E4E1D11FF65845DADM8PR11MB5703namp_--
 
