@@ -1,105 +1,132 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64578C87FC5
-	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 07:54:31 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.35275.1753084461097346242
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A893C87FC5
+	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 08:09:31 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.35391.1753085360886037749
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jul 2025 00:54:21 -0700
+ Mon, 21 Jul 2025 01:09:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=pG1nBZ47;
- spf=pass (domain: konsulko.com, ip: 209.85.218.47, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ae360b6249fso616861366b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 00:54:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1753084459; x=1753689259; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eGC4RUl48NH3CmgltGhcqABKQEPXC6a922zavAiyrf0=;
-        b=pG1nBZ47MMLGiKHysNRPFGVG0BD0LorPs76ImpgolJTNLKtTSSPvI9V/ErMr66ZBp8
-         w8qiQ7mPppSrRHt6OEiRfTlBMyVHxojxBpQoHO94UaK5zW/uaIDPyyQ365GiDAcjsyys
-         z5l3UFKr5mkwjCNsvfhdL/B+pzZExVpJuDqsA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753084459; x=1753689259;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eGC4RUl48NH3CmgltGhcqABKQEPXC6a922zavAiyrf0=;
-        b=PH3/z2gQ/1fH/8BQE/1+egFiqAf15WbYaF4gGGtHtVJFdCCJc7VDLuC/D2AGrHgWVh
-         hfnGohNCDrdZHgO0svR1tFKZFuh6IsHVUmgd5zJASoh09Zg4IesPZfET80QtiHbEt5PH
-         W7fN1gubvbewOwDaGBIdbJFj/HjaVyyLjuqQVefn6VOGTV9zTUHAe937GqDc7IL5J9F0
-         VN4qIq7YS4dVwbm6pN1BFBa9nR+PxkMdMGh7F+MZiYTBS8ScGAl7h6dzMas4uaiipUVD
-         VZ+Im0ca9iJzU6DiJXydCMD9YzkGvFf/vRD3kATPfpiUh0kxLcDsFfmwohSFEva8QfK6
-         D0ZA==
-X-Gm-Message-State: AOJu0YwtQ/UeSm0D2dTa+N6/5yVSKyDdGtD0nJbGioBA0ngiK2gRTCJT
-	U262Cu03zV7h2q7jKnGOPiPfE6julg6y519VyqFUDJ75kSpiLJUWokZQjfHb+CT7DTZeowYZfGE
-	C5iQ0
-X-Gm-Gg: ASbGncsraI74fpyxGueXuqPVjQu+KX0d37/AGEb3xl055PLGNc7p0ljO1F0XQEgtacU
-	2d+Jr/tpjLkDYO0MApDcEsGC4evLfn5Ai59m0RNAEQD6MQXYv+AM1K492CnGKtF0kk4gktTpNsM
-	ASgqA1wanLZwi6ZmtUbLnEUfSFEInh3ZU+b37rYKcGatNt5AkSAq/pu2651iCojy99G+lV7IBbW
-	YRsnG6Rv3RpiP7DIqQ137efHH3xXqBvk8zRQJLc6DYl1lkJ8anBlw96N0CSVTgCYXTMNQa1X5Ks
-	XiJqhXnDEE0Yx69p1oCFU9axczYTnShixVV0XejydT59sLrWn45vYRNNnsGYLNUFUnvWfl3Mu30
-	UYCnNOJTiMokasuBMDPIpfgCQmRRm2KTCpuio
-X-Google-Smtp-Source: AGHT+IHRtyzbz5Iz3nbTji5DGqADDFH0990E5/Eg0tHcTnHoh4Pc7mCYVWdW9YlNDhfaTobZF6hsYQ==
-X-Received: by 2002:a17:907:6e8f:b0:ae3:a604:b1fe with SMTP id a640c23a62f3a-ae9c9aca97fmr1896215966b.38.1753084458981;
-        Mon, 21 Jul 2025 00:54:18 -0700 (PDT)
-Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6cad5cedsm625122766b.146.2025.07.21.00.54.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jul 2025 00:54:18 -0700 (PDT)
-From: Leon Anavi <leon.anavi@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [PATCH] mesa: Upgrade 25.1.5 -> 25.1.6
-Date: Mon, 21 Jul 2025 10:54:16 +0300
-Message-Id: <20250721075416.764360-1-leon.anavi@konsulko.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=TxjdxG6D;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: joaomarcos.costa@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DE12E1FD35;
+	Mon, 21 Jul 2025 08:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1753085359;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UlVirpzkOHurPfPRhF27oS9PgopaZEaQ+1R2ROwsGMg=;
+	b=TxjdxG6D5Laq7UVh5dJe+7QCPb4olgJNavOzZ1bQCxYY5iNsTc5dT9iOgCHfEm1dmDstKq
+	Vx0086ecDmTJF2bc36vZJah8k68PbEGltoqfftH47SS1Aa97R11JIu3mkplSW5K9aoH1sP
+	OchaP/5g3zauHuPjPrBZzzzyW5id3Ka3tgsPOWwifNP5ufiJTCi0lzE/x+OQGuDDcO33ei
+	72JN+FEA2cuz0Rgctd4MC7XxsnRmNniJY4G0B09/yYzkydxM2PumPpgesFm9n1TVzPXpuU
+	K9QqlMPKu/80EoPW2wrnOnBnewmKO3nFMGIm8bygykh8dbNX2mv7c7UM6s297Q==
+Message-ID: <1728b300-fcaf-4969-8ea8-b41735242764@bootlin.com>
+Date: Mon, 21 Jul 2025 10:09:18 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2 2/4] babeltrace2: Enable python plugins
+To: mingli.yu@eng.windriver.com, openembedded-core@lists.openembedded.org
+References: <20250720090010.3122861-1-mingli.yu@eng.windriver.com>
+ <20250720090010.3122861-2-mingli.yu@eng.windriver.com>
+Content-Language: en-US, fr
+Cc: mathieu.dubois-briand@bootlin.com
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20250720090010.3122861-2-mingli.yu@eng.windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdejudehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucenucfjughrpefkffggfgfuvfhfvefhohgjtgfgsehtkeertddtvdejnecuhfhrohhmpeflohgrohcuofgrrhgtohhsucevohhsthgruceojhhorghomhgrrhgtohhsrdgtohhsthgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeelfeeuffekvedtffetueehgfevjefhhfeiueffjeelgeeguedtvdeigedujefgieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhlthhtnhhgrdhorhhgpdgvfhhfihgtihhoshdrtghomhdphihotghtohhprhhojhgvtghtrdhorhhgnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemvdeifeefmegtieegvdemfhgrlegrmedvfegutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemvdeifeefmegtieegvdemfhgrlegrmedvfegutddphhgvlhhopeglkffrggeimedvrgdtudemtggsudegmeehheeimeejrgdttdemvdeifeefmegtieegvdemfhgrlegrmedvfegutdgnpdhmrghilhhfrhhomhepjhhorghomhgrrhgtohhsrdgtohhsthgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefpdhrtghpthhtohepm
+ hhinhhglhhirdihuhesvghnghdrfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhm
+X-GND-Sasl: joaomarcos.costa@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 07:54:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220662
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 08:09:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220663
 
-- v3dv: regression in vkAllocateMemory importing gbm bo
-- Vulkan WSI (and zink) use threads on X11 even when the X
-  connection isn't thread-safe
-- sddm-greeter-qt segfault when using nvk+zink
-- [regression][bisected] [FirePro W4100]: crashing/rebooting
-- Descriptor set layout with binding flags fails due to indices
-  not matching bindings
-- piglit bindless texture tests crash
-- [radeonsi] Artifacts in Team Fortress 2 (bisected)
-- eglgears_wayland segfault on zink+nvk with PRIME
-- vn_renderer_virtgpu.c:13:10: fatal error: 'xf86drm.h' file not
-  found
-- brw: mad instruction printing broken on Gfx11
-- radv: RGB9E5 rendering does not ignore alpha write mask
+Hello Mingli,
 
-Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 7/20/25 11:00, Yu, Mingli via lists.openembedded.org wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> * The lttng-tools test fails as below as it needs bt2 module.
+> ERROR: ust/high-throughput/test_high_throughput_snapshot.py
+> ===========================================================
+> 
+> Traceback (most recent call last):
+>    File "/usr/lib/lttng-tools/ptest/tests/regression/./ust/high-throughput/test_high_throughput_snapshot.py", line 26, in <module>
+>      import bt2
+> ModuleNotFoundError: No module named 'bt2'
+> 
+> Enable python plugins for babeltrace2 to provide the above support.
+> 
+> * Add swig-native to DEPENDS to fix the below configure error.
+>   | configure: error: SWIG 2.0.0 or newer is required to build the python bindings
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>   meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
+> index 8bab7f677a6..88f589eafbc 100644
+> --- a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
+> +++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
+> @@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
+>   LICENSE = "MIT & GPL-2.0-only & LGPL-2.1-only & BSD-2-Clause & BSD-4-Clause & GPL-3.0-or-later & CC-BY-SA-4.0 & PSF-2.0"
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=f6b015e4f388d6e78adb1b1f9a887d06"
+>   
+> -DEPENDS = "glib-2.0 util-linux popt bison-native flex-native virtual/libiconv"
+> +DEPENDS = "glib-2.0 util-linux popt bison-native flex-native virtual/libiconv swig-native"
+>   
+>   SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=https;tag=v${PV} \
+>              file://run-ptest \
+> @@ -19,13 +19,13 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+>   
+>   inherit autotools pkgconfig ptest python3targetconfig
+>   
+> -EXTRA_OECONF = "--disable-debug-info --disable-Werror"
+> +EXTRA_OECONF = "--disable-debug-info --disable-Werror --enable-python-plugins --enable-python-bindings"
+>   
+>   PACKAGECONFIG ??= "manpages"
+>   PACKAGECONFIG[manpages] = ", --disable-man-pages, asciidoc-native xmlto-native"
+>   
+>   FILES:${PN}-staticdev += "${libdir}/babeltrace2/plugins/*.a"
+> -FILES:${PN} += "${libdir}/babeltrace2/plugins/*.so"
+> +FILES:${PN} += "${libdir}/babeltrace2/plugins/*.so ${PYTHON_SITEPACKAGES_DIR}/*"
+>   
+>   ASNEEDED = ""
+>   LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld ptest', '-fuse-ld=bfd ', '', d)}"
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#220615): https://lists.openembedded.org/g/openembedded-core/message/220615
+> Mute This Topic: https://lists.openembedded.org/mt/114249009/8026893
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [joaomarcos.costa@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 47b95728e0..58e3d9f745 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,8 +20,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-dont-build-clover-frontend.patch \
- "
- 
--SRC_URI[sha256sum] = "3c4f6b10ff6ee950d0ec6ea733cc6e6d34c569454e3d39a9b276de9115a3b363"
--PV = "25.1.5"
-+SRC_URI[sha256sum] = "9f2b69eb39d2d8717d30a9868fdda3e0c0d3708ba32778bbac8ddb044538ce84"
-+PV = "25.1.6"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
+There are some ptest errors in the autobuilder:
+- 
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/1923/steps/12/logs/stdio
+- 
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/1931/steps/12/logs/stdio
+
+Could you please take a look?
+
+Thanks!
+
 -- 
-2.39.5
-
+Best regards,
+João Marcos Costa
 
