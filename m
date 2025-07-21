@@ -1,234 +1,219 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4175EC83F1A
-	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 07:16:11 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.34726.1753082165648016881
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AA0C87FC5
+	for <webhook@archiver.kernel.org>; Mon, 21 Jul 2025 07:42:41 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.35136.1753083756641619245
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jul 2025 00:16:06 -0700
+ Mon, 21 Jul 2025 00:42:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=jDjZV+wi;
- spf=pass (domain: mvista.com, ip: 209.85.218.53, mailfrom: vanusuri@mvista.com)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ae708b0e83eso707924166b.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 00:16:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1753082164; x=1753686964; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bAhEfVy0j34Axwt3iztzZNBERxfrgPVzjtF3vf61G1Q=;
-        b=jDjZV+wiy9Wq8IP7KEyKK12tlSlOGJIN7yVPpgjuKBHsUeJ+gUTiaM3Z4Egzai1SQi
-         zfeISNoHeZKbk3sHn00KAG15O1lGFS+S24QHXadyH2ygtm8++d3b2mn7KWPxK315FWLW
-         5rAPoC/Cd6idoapkQ30Rx55fbWWHUgTUF3hrI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753082164; x=1753686964;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bAhEfVy0j34Axwt3iztzZNBERxfrgPVzjtF3vf61G1Q=;
-        b=cpUP2DW8U1FYfkOrrS7rYUwjuidQdTezgHRRSK/LxfmvUUzPJxVYrAR3J3y/Hudb88
-         I87KSeMJHypo4EJW39uBfkE1d73cJp/hrB4mcAyMyC5xymqEd6g/H6Hmvh9FsygeR7ky
-         1SWjMxE2VPxK8MOqllcL8pATwYiWahKP4l07fwHdjysVwR91YreZ6jjktdXp9HwSI6qm
-         VzNHs1FseIqslqCnBWC9dib2o4G6emQDSXDjhhAEGhcYEzjV+gTzb3oZ4UaHjTiA3qf4
-         fiGOIBwDIqHZomzcpgYC5ranw8ynqr6G+tE+SgWLxRcKEEPRTZaa9SNkTP2JB76dBVZk
-         uxSg==
-X-Gm-Message-State: AOJu0YxE1ZkA79GHMQ6fwrnG/0sv6n7aywdW8hT2KGikjh+A3MdNjg8q
-	Oc0IJWiF4aTPi9M60wlFK1DiVob/qF3yorX4y0cOEHV+CGjNep10aD/otKHlyOTi3/1MnMMESn8
-	pPYpbXlbuJ1fpP3gjAgETHinZnY6uQTWmJQHZoZLUJvua7WFEb21kn6o=
-X-Gm-Gg: ASbGncsGOD04nxkvBx+FtgHXEGqXlp7iWM9fWXW4E0C5ZZrbHcXuOmVuWISDytFEE7d
-	XcYFGyjoWuN/bMheKfoSyEz/OReBV4AIYv3enoqasKNCEFC9chDV1pb2C6gUITwWqCzmLM/tvS/
-	3VBj4GlNXgWmCqupI7YqFEEAVWgKjPVeVGlURSyBAbKIxuZ05RMLT3HzwblnTiV6LGXaeMsCLbG
-	R4cIu8=
-X-Google-Smtp-Source: AGHT+IGdZWVHatKfoJg3lONif8ofjM9iKYsWsXqjuxWT8hJIjVfl+Jmdnj1YGILsQiXjpLTGBd5yQw7DPlHUVBz7PtQ=
-X-Received: by 2002:a17:906:4715:b0:ae0:be38:64bf with SMTP id
- a640c23a62f3a-ae9ce189d4dmr1571040866b.58.1753082163257; Mon, 21 Jul 2025
- 00:16:03 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=92970f4c5c=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56L59Fmx1158582
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 00:42:36 -0700
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 480avgsbfk-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 00:42:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qayicvdbH4NXlvjmHRB+TxiSiKOW+jiGoAzdNuEhY507JPhjsAnRtXEIDpjgXRSSch9FsutpX5E8vPD8rguePRtVFPtDIHEgT9IVWkyFO8jzNb8HoZBalP3ClTi1M8gMbTYHu2c4unUw4R2Avkr0HdDXI6VrBZisFwF9i6Ew8XSdWWhGQ+h6No7fqdnjpHweOwvM9ypV/4/erSltwskELGCRT1MBW2ntvhrnz1V/CBh9r4F4efkHbwGE4zm57vOy+Z7WgylopzrVk7d3Af73LAcu3L2lcT7zQpkOY87cDgJXHZYZ/mDV791pmTPZJof+ueKC2IRCgSNgOguV+Ci6kA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hXZrEXCZ5l4jJvNefVwfbRPKQbItRXEuus2ymthMl+E=;
+ b=rhNXIaQbTqb2fjKA/yX4cOZ0q6lR097yUtCqBbDfXZx1oGyPUgfuQ0SyBGLaDS44tuISH7bMhmClMuxxZYpD0zoqEfOiJu3BJRDzwXX00X7uh2tX5SY1sJIXAaiAfyChVAF2NaHpWodiEi8G/a9zpMbdgWn9xg/NWk8fJ7pJoAD1KhQoggaHOmhDcrifLNgn9OEZJktDCzJLk+x/9r04DXVeflW9YKL+MSiY9nZoEz11jxy2/IoIyxbQbcZzkElyKkVX+hq2Jqk1Q7O1FeVh3kKInuaTDesHwkwz7gRK8V2O6aLnr4aZELXjYxI1gV62gK+qpAX2NUJMLtvWKpmkeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
+ by PH8PR11MB7990.namprd11.prod.outlook.com (2603:10b6:510:259::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Mon, 21 Jul
+ 2025 07:42:34 +0000
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f%7]) with mapi id 15.20.8943.029; Mon, 21 Jul 2025
+ 07:42:34 +0000
+From: Deepesh.Varatharajan@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
+Subject: [PATCH V2] glibc: stable 2.41 branch updates
+Date: Mon, 21 Jul 2025 00:42:16 -0700
+Message-ID: <20250721074216.37537-1-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TY2PR06CA0035.apcprd06.prod.outlook.com
+ (2603:1096:404:2e::23) To SJ0PR11MB5648.namprd11.prod.outlook.com
+ (2603:10b6:a03:302::11)
 MIME-Version: 1.0
-References: <20250701103252.6703-1-vanusuri@mvista.com>
-In-Reply-To: <20250701103252.6703-1-vanusuri@mvista.com>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Mon, 21 Jul 2025 12:45:51 +0530
-X-Gm-Features: Ac12FXxCFWIzn0wO61cbVbB0hdCXiPyPjWlPVAwE2k82BNwAr92nIch6K97BZq8
-Message-ID: <CANQUz18dZfkQWXPC9ZgVc-VP86Q3-pPcpHL31K8PbTF7k-17Ng@mail.gmail.com>
-Subject: Re: [OE-core][master][walnascar][scarthgap][PATCH] xserver-xorg:
- upgrade 21.1.6 -> 21.1.18
-To: openembedded-core@lists.openembedded.org, 
-	Steve Sakoman <steve@sakoman.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="0000000000009a7c8e063a6b3fbf"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|PH8PR11MB7990:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d5faa8c-f977-48fd-09f4-08ddc82a27c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ZrBYRdX9u5LPTc5D+FD0Vj3sylDWTydH9Yozis1x0fXYF+kf5i664dkTrDIE?=
+ =?us-ascii?Q?8dKbV1puCvcbTKCZbbywt/e4NQUJGZRfRxv2dIbPudU2RAYVyewrKY5fYvsd?=
+ =?us-ascii?Q?c+Y1CjPSExd6OntjbE/Uih+nBA5+d/4M9AmL8ASROR618MO68M0qA5lpXU/O?=
+ =?us-ascii?Q?1dOSlRSTBPA/YaUVHRrjzI77hpWAUWo2Z7gS//t+ylrDMfGD/r9IHuPph8RL?=
+ =?us-ascii?Q?oMCAPmAVGwiUs2qzBqAQ/e2vqd7WpJLecgQlVGjA+3pLEtQ6vfhHROQYPd/j?=
+ =?us-ascii?Q?FgWUKHMBU4W/PpIepGAPaTZ640jIMC0ovwrxrFTAtt1XrgKwyLaaEkuX2tMK?=
+ =?us-ascii?Q?tFxzBEVdq+Iz2Zy/7CYKN4lemFHzV9Qad8DpFcPU79EUC/d1Vxq5BuKlXvlR?=
+ =?us-ascii?Q?R4CIQ/Beos3kev9aRuBSSv9LnAC/O+1ZsBvsYMh0e6nRimNJiKLO435X/cH3?=
+ =?us-ascii?Q?QzPPHY0QN6b8+G0Dn35Jn/R0dn/heD2dosVnBlYKtxfhhoZv4AZ0V+mZhFWR?=
+ =?us-ascii?Q?f0M+OUNMct/4dppu6JMynehFEnynoUeZmjVjdGacbxakXZkCFdWQwC/ubRiM?=
+ =?us-ascii?Q?1rANzsMR0kaLNccZb6VwggS56rTCDTmlhmnovU0FVuO0t/f3WOn94gAJ6nai?=
+ =?us-ascii?Q?0nOBmqCoUoljOGVfCXj0LoAjrue00/sOyIqc5Sw2EWKGycHU53xifJeoiYHu?=
+ =?us-ascii?Q?qBMPcprq9yVOlGIzIX35fPlYHqBDHJnSz6je/Ee7j5Va+xMhvXFvo9ewgB15?=
+ =?us-ascii?Q?27KNBYLhAXWlmhaBx6IvDCVnU73wH9bRa3Y1rG/oEmtuyg0CSfYozacbrgdi?=
+ =?us-ascii?Q?DlE/l0gpK6zn0i3ZAk2t2HNRYJ0Gtl1cKzGkiMlXWEpEhBUZzxuRbPR3zo82?=
+ =?us-ascii?Q?3sI0Bukxd1djKNuwx/FkGt9v2pfgnxldqdVzKOtjVcRWAdPHG/TaTkG13hs5?=
+ =?us-ascii?Q?+lYiK3c+dhqIfV8lmxm22V0BaHV0vm1RFWz2yOlX1svNvGJJ6sLYU3ys8058?=
+ =?us-ascii?Q?196SaVpq7hdiTdr9CnGGsPtaPJHarRsHRZFoLQmQQtjeSoOn2GPRxnW7TlbL?=
+ =?us-ascii?Q?mfIAV6YLL2n9JMx2UjR/0Rm8m7UATd9DCfgHBydvGB7/ZAAXPpF22iznHbZj?=
+ =?us-ascii?Q?01bOfePm/wev7s2FINNS2hj9IADM/jYzlIB4kwDE/1KiY4vef6MM8zh9t+uT?=
+ =?us-ascii?Q?YwD2zolR8brCS95ykq0/XEoDT4v24pr1UhZjZMJvK7ZOYJz3DXsUXTt2xWBi?=
+ =?us-ascii?Q?YHWjjn7I4SSmaQ95863IAcqyM8AHDrIOt4sUe8QbYRU51NZTXxEvA+U8NJgY?=
+ =?us-ascii?Q?aNA88sJ732LAHuYSC0pGNlZ0ItZupSr5DZvsutnxL0s0KODQJxDEStMzvxxS?=
+ =?us-ascii?Q?drHPgvNZE8cYML+Isom6Y+zMb+/RhgOu1xUzSx1xnE0t0EqB7hHzXHLUaGLM?=
+ =?us-ascii?Q?ayrh0mEseeWT1zH/f4rO1xKDn5EpbpGTg6gYwvRNfsKaqeYcXYXzhA=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?hr8Ll+9o9Q1aKYQv6bHu69DHBRI34PBDS7kZI4ArO6KpbLyqBrnhELNEnptl?=
+ =?us-ascii?Q?7vFk49Iq+Fn/8SHR++eTteXp6+7Z8EIgXzo09kfbfGkgjWKTbQpfQflK1HwD?=
+ =?us-ascii?Q?Z2ATKwm53QkemxTgxi7huR6ys4lr5e6woSmStk3INkuhVv/Jl9G+Wrcdrhy0?=
+ =?us-ascii?Q?TjGL1O+QBEnegOsScxhJrxXYHwIbU6aobnxkxat4xPnACf2Yq0AhZrF+NLFk?=
+ =?us-ascii?Q?GZKK7VM9M/c8y8x2QrM3vGtdjJan6z0ZOUyTqyny3n+r2/v0EYHvOTHa4eqi?=
+ =?us-ascii?Q?MwrwMOlD+BnG1DBHFg9v+KcHnMN4Ejya0kPWVznHvXWCEzSnQTnBz/bCKJEP?=
+ =?us-ascii?Q?kdv0+nvMTSzGnaDaq9m3X8KrERbAzgVqAL67zy8kR0l8VCEVS6tMHgpqZk+C?=
+ =?us-ascii?Q?za5PPVc3hcvUN4m64JItYFDTt8yxy2KgBGSxjy79bZ2nlARLUu5bFhOVzmea?=
+ =?us-ascii?Q?79USiwZRqsf4XYb8wrO67Wthf/Vjk3gI80MO5nJtaeuxvtc2OFsv6lpWqOuT?=
+ =?us-ascii?Q?KZw1PUAeZ8eWp6hGIjn6i4u2OV07c6DgP0tTh/jQBmrvdMV8uDUbBeFAJWUt?=
+ =?us-ascii?Q?Qm5hJTkmisebInSwfsBZtBARmVRFaylyAB06Oz/vQtG+PscmbsWdlkR18XYx?=
+ =?us-ascii?Q?wX6BNeo4DJ9qLRHh9JCqKPkvkwu5JgEd7SIV/aE9OXjIBlAguf/854fMl8kN?=
+ =?us-ascii?Q?puy19ERvE4fN0qz2WcCDx3BNaOW6Jd74q9mOQsDhJYxGZRgERmEs4PDnqw7m?=
+ =?us-ascii?Q?GfROFzY2eychGGaNH4jJN8jo7cECEsh9hqhJfcQiuJzQzr11kV1Y9FoyLt6M?=
+ =?us-ascii?Q?TdnKXMOBki9YXojJyCn2HcY83H4GaCw6/v0HxMPhyqM6eN8OyQDcNtoH7AVy?=
+ =?us-ascii?Q?WiLRFabGWiorHqOwMcQfrVXFMfASVh9JVH/jRg4omsfpd0n2pEOZ85dqIj5/?=
+ =?us-ascii?Q?9L/zvTOHhA4iS9E/4LLHdBlEy9/nxqSiJgBshnRJMQ+kSScbvnwnuJMOJx6O?=
+ =?us-ascii?Q?NXgW69mKZxr5t98vS1eNXi3HW2BrTb2ygDgoiLMFosBIOAnhiDKNg9BOT48n?=
+ =?us-ascii?Q?w5AbPP1XG2EugzIro4n44fVc+MovOercCHf9Ur0QHykcewzp+GsqVB1wZqQm?=
+ =?us-ascii?Q?f2J2X16FItu5kfwFVR1zgQpB0T/7Tg4CkpOciwnajK7bjztiMdMkoTxjd4sm?=
+ =?us-ascii?Q?FB/r/XtAHe0u0I/dcO6MYfQ0/iiKdSG72EgDBH0FpmmNJS3GLLwExpEJTMHz?=
+ =?us-ascii?Q?LVF11JSgoIwUSh5F8UWUhm2/RCPXvAj4Ni/+tzlO5RFhJYS0/GmEAu3h6YQ7?=
+ =?us-ascii?Q?ULCVQ1oVe0eDrNIgVZt2hZXKqXUdTAVredwWBpk8Jl9SUHcmhu5tTFMp38HW?=
+ =?us-ascii?Q?j1CNqfowuFYHmUUZCTc0eds30loxTmgOiBRD9yELipZon6krBuGT3Ah6nFMb?=
+ =?us-ascii?Q?CnIpl9JxSNbFh6Dq95kUKvdSqJXHd/i6WpgTiX8H18mwLI9zhoNUsKXTqVRP?=
+ =?us-ascii?Q?s+qGkBrlG/GCvYKsuXsHf2MdPKdW77ePr4C0GllNpf6CHIzZGOUC8Wwh/Ycn?=
+ =?us-ascii?Q?4rnY7Tch1dMba62P5IE4gs/G/sH85UwwXLer8Om5LawKa110GyKEpZIpaPYW?=
+ =?us-ascii?Q?FHRm6EFGIXu2yDxKgkrwDx0=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d5faa8c-f977-48fd-09f4-08ddc82a27c0
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 07:42:33.9925
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rn4O8TYy8z85Wx31kCgLX9JaFu3yDOElzbrJPz7fecFNcWD4uSrnsM/BWbYUTDPDPRaD6vOPa9Lu1Mpu/mPxAqiVcJpI26RUMv7+xydrXlbM1/lpAtuTbR80Nok63rSV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7990
+X-Proofpoint-ORIG-GUID: 9lM6RV3sZ4Wd4xbR_q41jwU8u3s4L7MM
+X-Authority-Analysis: v=2.4 cv=JPQ7s9Kb c=1 sm=1 tr=0 ts=687def6c cx=c_pps
+ a=vbHG32UI4TNpVNWtFHfklA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=t7CeM3EgAAAA:8 a=CCpqsmhAAAAA:8 a=yh1250gtqQAN5CR8qEwA:9
+ a=FdTzh2GWekK77mhwV6Dw:22 a=ul9cdbp4aOFLsgKbc677:22
+X-Proofpoint-GUID: 9lM6RV3sZ4Wd4xbR_q41jwU8u3s4L7MM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDExOCBTYWx0ZWRfX75GeAdbJBHRE
+ qmNEA1xy7eLeDcm191dJYovbQYIbiGS1Ot+UiuGPBqcJgvFTRwHXCAk2oDD0do+sFywuqhn69Iz
+ C5IgFo2ce6zD4HqphOcFz37sA75+ubqO2OwdC7pX4Vb7qk4VUrSDyQfTRwNd+JU2+B5ONkxY96k
+ JzoSbKvU6HJLTRj7/bhfFbcLaa/bT2M0C8DAxmcWSMqRJimD6+T6YviVU6DzFeOIEvjUp/+Vmj3
+ QlAWjtf9RaekJvpwQWOZC9ewFIGMkli7yb0QsA7Uw1a5l+mkuO9y5Pykj/rftM1ba92OBWcFKXl
+ yNlg92rgXMXDuBBm2NtkMqMBoyR3L4hIdhNFG3Y1HmZfjF1yxEr9nQmHs//gu7b6ml/uFsNeUmE
+ ZH4LH+Xj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-21_02,2025-07-21_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 malwarescore=0 phishscore=0
+ spamscore=0 suspectscore=0 clxscore=1015 adultscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2506270000 definitions=main-2507190118
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 07:16:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220660
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 07:42:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220661
 
---0000000000009a7c8e063a6b3fbf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-Hi Team,
+$ git log --oneline 0c76c951620f9e12df2a89b2c684878b55bb6795..6e489c17f827317bcf8544efefa65f13b5a079dc
+6e489c17f8 Fix error reporting (false negatives) in SGID tests
+11e634ccf3 support: Pick group in support_capture_subprogram_self_sgid if UID == 0
+61e461ed0c sparc: Fix sparc32 Fix argument passing to __libc_start_main (BZ 32981)
 
-Any update on this ?
+Testing Results:
+           Before     After   Diff
+PASS         5801      5809     +8
+XPASS        4         4         0
+FAIL         266       261      -5
+XFAIL        16        16        0
+UNSUPPORTED  164       161      -3
 
-Thanks & Regards,
-Vijay
+6e489c17f8 Fix error reporting (false negatives) in SGID tests
+Improved SGID test handling by unifying error reporting and using secure temporary directories.
+Replaced non-standard exit codes and fixed premature exits to avoid masking failures.
+These changes reduced false negatives, increasing overall test pass rates.
 
-On Tue, Jul 1, 2025 at 4:03=E2=80=AFPM <vanusuri@mvista.com> wrote:
+UNSUPPORTED tests changes
+-UNSUPPORTED: stdlib/tst-secure-getenv
+-UNSUPPORTED: elf/tst-env-setuid-static
+-UNSUPPORTED: elf/tst-env-setuid-tunables
 
-> From: Vijay Anusuri <vanusuri@mvista.com>
->
-> xorg-server 21.1.17
-> This release contains the fixes for the issues reported in today's securi=
-ty
-> advisory: https://lists.x.org/archives/xorg/2025-June/062055.html
->
->    * CVE-2025-49175
->    * CVE-2025-49176
->    * CVE-2025-49177
->    * CVE-2025-49178
->    * CVE-2025-49179
->    * CVE-2025-49180
->
-> Additionally, this release includes a fix for CVE-2022-49737 which was
-> issued after the fix was merged back in 2022 and several other various
-> fixes.
->
-> Ref: https://lists.x.org/archives/xorg-announce/2025-June/003609.html
->
-> xorg-server 21.1.18
-> This release contains an additional fix for CVE-2025-49176 from June 17
-> security advisory: https://lists.x.org/archives/xorg/2025-June/062055.htm=
-l
->
-> Ref: https://lists.x.org/archives/xorg-announce/2025-June/003612.html
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> ---
->  .../{xserver-xorg_21.1.16.bb =3D> xserver-xorg_21.1.18.bb}        | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.16.bb =3D>
-> xserver-xorg_21.1.18.bb} (92%)
->
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-> b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-> similarity index 92%
-> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-> index 38c81f2372..14c45be432 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-> @@ -3,7 +3,7 @@ require xserver-xorg.inc
->  SRC_URI +=3D
-> "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
->             file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
->             "
-> -SRC_URI[sha256sum] =3D
-> "b14a116d2d805debc5b5b2aac505a279e69b217dae2fae2dfcb62400471a9970"
-> +SRC_URI[sha256sum] =3D
-> "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f2994deff90116352"
->
->  # These extensions are now integrated into the server, so declare the
-> migration
->  # path for in-place upgrades.
-> --
-> 2.25.1
->
->
+FAILed tests changes
+-FAIL: stdio-common/bug22
+-FAIL: stdio-common/tst-printf-format-f-char
+-FAIL: stdio-common/tst-printf-format-v-uchar
+-FAIL: stdio-common/tst-printf-format-v-ullong
+-FAIL: stdio-common/tst-printf-format-vas-double-F
 
---0000000000009a7c8e063a6b3fbf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+PASSed tests changes
++PASS: stdlib/tst-secure-getenv
++PASS: elf/tst-env-setuid-static
++PASS: elf/tst-env-setuid-tunables
++PASS: stdio-common/bug22
++PASS: stdio-common/tst-printf-format-f-char
++PASS: stdio-common/tst-printf-format-v-uchar
++PASS: stdio-common/tst-printf-format-v-ullong
++PASS: stdio-common/tst-printf-format-vas-double-F
 
-<div dir=3D"ltr"><div><div>Hi Team,<br><br></div>Any update on this ?<br><b=
-r></div><div>Thanks &amp; Regards,</div><div>Vijay</div></div><br><div clas=
-s=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Tue, Jul 1, 2025 at 4:03=E2=80=AFPM &lt;<a href=3D"mailto:vanusuri@mv=
-ista.com">vanusuri@mvista.com</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">From: Vijay Anusuri &lt;<a href=3D"mailto:vanu=
-suri@mvista.com" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-<br>
-xorg-server 21.1.17<br>
-This release contains the fixes for the issues reported in today&#39;s secu=
-rity<br>
-advisory: <a href=3D"https://lists.x.org/archives/xorg/2025-June/062055.htm=
-l" rel=3D"noreferrer" target=3D"_blank">https://lists.x.org/archives/xorg/2=
-025-June/062055.html</a><br>
-<br>
-=C2=A0 =C2=A0* CVE-2025-49175<br>
-=C2=A0 =C2=A0* CVE-2025-49176<br>
-=C2=A0 =C2=A0* CVE-2025-49177<br>
-=C2=A0 =C2=A0* CVE-2025-49178<br>
-=C2=A0 =C2=A0* CVE-2025-49179<br>
-=C2=A0 =C2=A0* CVE-2025-49180<br>
-<br>
-Additionally, this release includes a fix for CVE-2022-49737 which was<br>
-issued after the fix was merged back in 2022 and several other various fixe=
-s.<br>
-<br>
-Ref: <a href=3D"https://lists.x.org/archives/xorg-announce/2025-June/003609=
-.html" rel=3D"noreferrer" target=3D"_blank">https://lists.x.org/archives/xo=
-rg-announce/2025-June/003609.html</a><br>
-<br>
-xorg-server 21.1.18<br>
-This release contains an additional fix for CVE-2025-49176 from June 17<br>
-security advisory: <a href=3D"https://lists.x.org/archives/xorg/2025-June/0=
-62055.html" rel=3D"noreferrer" target=3D"_blank">https://lists.x.org/archiv=
-es/xorg/2025-June/062055.html</a><br>
-<br>
-Ref: <a href=3D"https://lists.x.org/archives/xorg-announce/2025-June/003612=
-.html" rel=3D"noreferrer" target=3D"_blank">https://lists.x.org/archives/xo=
-rg-announce/2025-June/003612.html</a><br>
-<br>
-Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" tar=
-get=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
----<br>
-=C2=A0.../{<a href=3D"http://xserver-xorg_21.1.16.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">xserver-xorg_21.1.16.bb</a> =3D&gt; <a href=3D"http://xserv=
-er-xorg_21.1.18.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.=
-18.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-graphics/xorg-xserver/{<a href=3D"http://xserver-=
-xorg_21.1.16.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.16.=
-bb</a> =3D&gt; <a href=3D"http://xserver-xorg_21.1.18.bb" rel=3D"noreferrer=
-" target=3D"_blank">xserver-xorg_21.1.18.bb</a>} (92%)<br>
-<br>
-diff --git a/meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-x=
-org_21.1.16.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.16.b=
-b</a> b/meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xorg_2=
-1.1.18.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.18.bb</a>=
-<br>
-similarity index 92%<br>
-rename from meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xo=
-rg_21.1.16.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.16.bb=
-</a><br>
-rename to meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xorg=
-_21.1.18.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.18.bb</=
-a><br>
-index 38c81f2372..14c45be432 100644<br>
---- a/meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xorg_21.=
-1.16.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.16.bb</a><b=
-r>
-+++ b/meta/recipes-graphics/xorg-xserver/<a href=3D"http://xserver-xorg_21.=
-1.18.bb" rel=3D"noreferrer" target=3D"_blank">xserver-xorg_21.1.18.bb</a><b=
-r>
-@@ -3,7 +3,7 @@ require xserver-xorg.inc<br>
-=C2=A0SRC_URI +=3D &quot;file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pr=
-e-gen4-hardwar.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Avoid-duplicate-defin=
-itions-of-IOPortBase.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
--SRC_URI[sha256sum] =3D &quot;b14a116d2d805debc5b5b2aac505a279e69b217dae2fa=
-e2dfcb62400471a9970&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;c878d1930d87725d4a5bf498c24f4be8130d5b2646a9f=
-d0f2994deff90116352&quot;<br>
-<br>
-=C2=A0# These extensions are now integrated into the server, so declare the=
- migration<br>
-=C2=A0# path for in-place upgrades.<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div>
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---0000000000009a7c8e063a6b3fbf--
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 2d31131e03..a2cfd0f308 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.41/master"
+ PV = "2.41+git"
+-SRCREV_glibc ?= "0c76c951620f9e12df2a89b2c684878b55bb6795"
++SRCREV_glibc ?= "6e489c17f827317bcf8544efefa65f13b5a079dc"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+-- 
+2.49.0
+
 
