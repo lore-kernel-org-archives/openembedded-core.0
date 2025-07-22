@@ -1,160 +1,133 @@
-Return-Path: <hiagofranco@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA80DC83F1A
-	for <webhook@archiver.kernel.org>; Tue, 22 Jul 2025 13:55:03 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.13283.1753192501440078032
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEA16C83F27
+	for <webhook@archiver.kernel.org>; Tue, 22 Jul 2025 14:18:03 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.14021.1753193881556295257
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jul 2025 06:55:01 -0700
+ Tue, 22 Jul 2025 07:18:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gpW80xyO;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: hiagofranco@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23602481460so53325655ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 06:55:01 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iSIwAQtp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a54690d369so4590908f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 07:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753192501; x=1753797301; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ap7jD00GsDcio9kT2LrYEkROSMzUHkFgvpB0r5NZ/ec=;
-        b=gpW80xyOLojbpnw+tDHkR08mlMyl7g17mKROnIANIexqIj64ITNgjMHC1/HOS2Nh+u
-         fncyCk9j/7T8E+LgOuwhhcwIAjoXoAlGwnzZFRBcpQOAAAnogZ4R4nuitcPQlCoAK5t4
-         imTWyT33/YtvZ3frQ7qfHpEEeQngBRg4Mci8t7JYzsETPZ4zw/zUGUeYIv5Jkjp21yaF
-         IDYpup2l0YZYhD5yyWLrPFAQ1tNWDVoVxn+bEdW+YLmnkPH1ko/hytUbXJ1Fb1Wdq80q
-         wcxGhCyyPwVns/zoGmLPtCcgxsiX8bWfQESUhKTOQplqpKhhLtcKCqSju6NDuZLacrdR
-         wPgg==
+        d=linuxfoundation.org; s=google; t=1753193880; x=1753798680; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qd8Rj0ulw384K7IVeiN3Px3Kbh+luOkswdSiqwLiYlc=;
+        b=iSIwAQtpxVdNZXn9BEPIB3cwruXVcCKg0AQ6uwOD4E58D9WUFbmYBHy8yniKzi3xOI
+         JhQ/KwehChWxusULis1QBxe6oJz8gosBrezNDnFmvN/tspexUaC//LFki+eFKkB68dX2
+         u1uVfOc3wZnwcNsfmZnzr+2mZBNXQjtsHgpRo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753192501; x=1753797301;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ap7jD00GsDcio9kT2LrYEkROSMzUHkFgvpB0r5NZ/ec=;
-        b=peaZSZAoFkoGY8CIimP6geI5NXj0Y374VyFk7jDv4qwgs2CeYDHigV4W7rsAYfsK6w
-         oHoZpEuYk/4lfgPA/uB+tBTEYHi2dkJRK/EhLx34P0HQ+T+/NtvWrCVecnP56jS5HYcR
-         rkk9RfOgcF5RIorZ6BugxvqBOTHIxGZR5paTeHiU8LPJTd6T8xsYpm3NrAiJpDerdaqg
-         QaB2D7Vz8igfRor8dSp8EHzRJ0mhOywhWw8Ef9gDcqHgjl80z6GJG25FQIJhuYLnueCY
-         R4FLMBUGUv/xMhs/Quu/QMGlKsMwTKltvA91i0sfWQp8aaktdniFiokHrdw3eVguM4+x
-         qxfg==
-X-Gm-Message-State: AOJu0YzncGw8yNXZj4C5A9BfAClEZV++lA/qZ+JAL64GCTcB0f7KJuQ6
-	aPLpAjRvYjNBucC1xkyDBAy9EWlWxiWH8+WK8WrGXXQ/v0zSR0r9+zrw
-X-Gm-Gg: ASbGncuD5vjzbaYKuxp1PnXi30eNdGS2m8xed3P2dRbz6tEB8N8RXcRBZtiKdjqmR3m
-	GYWyVU4y8Yd6uNcYujyuK9j0aEWhQfGBwI6XncKLALN2R7pffu+rVHnT3ec703B0+PDDg9ACZl+
-	qUFdltTe0frziie8AO4OE/WxyE9EB4tnorJ+5LQ1h05EP+6xenZh8k5VaPvsCwsHDjGNKTGdf9x
-	ayqWtCEyyr9NKDfMmtfyXZA3ijFD9U6a0QxEly9BxVAc4vSC4PJQEetfrPAZyYUWXrqWKkXrxlL
-	UL341x3UL4s4GvKzjdryL8tVtlVnp7f+u3tfeGMGUrhKEZKuIz3bgPHaE02p/9AmJ2eHCoH3WBi
-	RDDt/GPHKxhmCtJjw8R8=
-X-Google-Smtp-Source: AGHT+IG5nx6cU04ViJOEUmf52ioS+1400s0lB6CImkHN/ldGQgfwoxgzOjw9O84GbSWLfuc8gKTiwQ==
-X-Received: by 2002:a17:902:c943:b0:223:4537:65b1 with SMTP id d9443c01a7336-23e24fe8b00mr309856775ad.36.1753192500508;
-        Tue, 22 Jul 2025 06:55:00 -0700 (PDT)
-Received: from hiagonb ([67.159.246.222])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b708b22sm77414105ad.235.2025.07.22.06.54.58
+        d=1e100.net; s=20230601; t=1753193880; x=1753798680;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qd8Rj0ulw384K7IVeiN3Px3Kbh+luOkswdSiqwLiYlc=;
+        b=otTb1ONnB3XLkC0mUPlvzdUv1k12M/BoxDiOcKmeAcN2YpwZ1n8Kq8nFX1hi+OtXAq
+         F4qdt19yNvtGV3bnXM4Tz7bOYJ+zZCKpOWXm6ZKUN3D5XHqMDg1rxy39iVRU+o+H6GDK
+         LEmhyhi6NXC17C1YU0U35sOpqBk9zxcgTXAZpfKzHsi+IsWkLYbR4Iu+wIF2/J6kxALR
+         6ud84edxKJX4p0yG5rbxIeiA8tkndNX75tIYpjrMGS7xDYVY9itrbu+5yMDet6NzbALW
+         wYyAfCTpkW7prQEyelSWCpw19IEtJdACViRrfQwaP5dqcEMUmi3qNhMD0546NE0VLAoZ
+         6VZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWfYvSJJpzPb0v5jvxb12GG56TgORQR8FGPiLWlnJoGWOCMHgZ23tNYengDAs7iJPbsSHZXI1ctGlfcCKIkcMvMYw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwN+o9nT3RmZL2A/j9x1MwcX0Njf5ri/OPi+4NH/ZrH7BQQvjhj
+	9NhK5ysPkdNv6/1MsPq+NF3f3kCHPBBPy54kQTIMH2yRtLM/i2zjyvWFdd6vUYcM+nE=
+X-Gm-Gg: ASbGncvm2v+UlzMcbpdqvUQop+tZy1bfGIUz8uYIJbnIUwRPmHJC4ci5/PUixz/pAOh
+	OSxznO01opSUf8up3WwDXmdYaM4N+C9y5X3SJ4SjZu6KX8Kfu5yFuGFm3ahfyMH3PisvB4kCZDi
+	mskO485Z3XpBTwRHmXsyZg6uANFt1LdX75kdr5lDSiGaweDRXBZjtjOTJZbsalg4FqPAjE5oTts
+	azzTUBxZX84U7UVRLzfhWyQlbUl4m55eYSERnEH/pwhHcqXSmrc6FX0yniAL+LFp3GFkTDMdNw8
+	sAwD+um0wCYjpSxFfHJzYcD27VI+K5f3MjT2peee6cRxywbqXLcuD0b1dvMwBE2Ob1atslM3/SX
+	jf6N4LkTbFH/OnGdPGK5MG/70bMXm3oeqoYu5wE+V1Kbws81GSAWQb4NUyVfuo6XRM8lcQ17rki
+	pb3uGnfNEPWkq94Aqjps8=
+X-Google-Smtp-Source: AGHT+IGbHF4DjJOgM2XBhzyn8wDNIi/9CvXSRS+ZM1HKgxvA44fhEaLt8/ZoEwFSjsT+tTlxJMl93A==
+X-Received: by 2002:a05:6000:26c7:b0:3b3:a6c2:1d1b with SMTP id ffacd0b85a97d-3b60e4f2e53mr19017289f8f.28.1753193879815;
+        Tue, 22 Jul 2025 07:17:59 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7d90:ed57:78f:a937? ([2001:8b0:aba:5f3c:7d90:ed57:78f:a937])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca2b81asm13622237f8f.20.2025.07.22.07.17.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jul 2025 06:54:59 -0700 (PDT)
-Date: Tue, 22 Jul 2025 10:54:56 -0300
-From: Hiago De Franco <hiagofranco@gmail.com>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
-	Chen Qi <Qi.Chen@windriver.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Hiago De Franco <hiago.franco@toradex.com>
-Subject: Re: [OE-core] [PATCH v2 1/2] systemd: drop build dependency on
- util-linux
-Message-ID: <20250722135456.5aalhsjnjlrxveqe@hiagonb>
+        Tue, 22 Jul 2025 07:17:59 -0700 (PDT)
+Message-ID: <9c8d7ee715e01a7f7aa977bc30f1d8d7bc4d5fd0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 4/4] libxml2: upgrade 2.14.3 -> 2.14.5
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	hongxu.jia@eng.windriver.com, openembedded-core@lists.openembedded.org
+Date: Tue, 22 Jul 2025 15:17:58 +0100
+In-Reply-To: <DBIMOAQO71QQ.13YNCOGP9XB30@bootlin.com>
+References: <20250721082103.2262095-1-hongxu.jia@windriver.com>
+	 <20250721082103.2262095-4-hongxu.jia@windriver.com>
+	 <65edbfaaa12089b5483042867d663fb46e488b82.camel@linuxfoundation.org>
+	 <DBIMOAQO71QQ.13YNCOGP9XB30@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <EC140605-9289-4B3C-933A-BBDB36A6860E@arm.com>
- <0EF31473-A2CE-4FE1-B920-777048FFE49F@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 13:55:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220748
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 14:18:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220749
 
-Hi Ross,
+On Tue, 2025-07-22 at 15:45 +0200, Mathieu Dubois-Briand wrote:
+> On Tue Jul 22, 2025 at 3:18 PM CEST, Richard Purdie via lists.openembedde=
+d.org wrote:
+> > On Mon, 2025-07-21 at 16:21 +0800, hongxu via lists.openembedded.org wr=
+ote:
+> > > diff --git a/meta/recipes-core/libxml/libxml2_2.14.3.bb b/meta/recipe=
+s-core/libxml/libxml2_2.14.5.bb
+> > > similarity index 97%
+> > > rename from meta/recipes-core/libxml/libxml2_2.14.3.bb
+> > > rename to meta/recipes-core/libxml/libxml2_2.14.5.bb
+> > > index 4baab59186e..52b2040122b 100644
+> > > --- a/meta/recipes-core/libxml/libxml2_2.14.3.bb
+> > > +++ b/meta/recipes-core/libxml/libxml2_2.14.5.bb
+> > > @@ -21,7 +21,7 @@ SRC_URI +=3D "http://www.w3.org/XML/Test/xmlts20130=
+923.tar;subdir=3D${BP};name=3Dtestt
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi=
+le://CVE-2025-6021.patch=C2=A0\
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
+> > > =C2=A0
+> > > -SRC_URI[archive.sha256sum] =3D "6de55cacc8c2bc758f2ef6f93c313cb30e4d=
+d5d84ac5d3c7ccbd9344d8cc6833"
+> > > +SRC_URI[archive.sha256sum] =3D "24175ec30a97cfa86bdf9befb7ccf4613f8f=
+4b2713c5103e0dd0bc9c711a2773"
+> > > =C2=A0SRC_URI[testtar.sha256sum] =3D "c6b2d42ee50b8b236e711a97d68e6c4=
+b5c8d83e69a2be4722379f08702ea7273"
+> > > =C2=A0
+> > > =C2=A0# Disputed as a security issue, but fixed in d39f780
+> > >=20
+> >=20
+> > $ wget https://download.gnome.org/sources//libxml2/2.14/libxml2-2.14.5.=
+tar.xz
+> > $ sha256sum libxml2-2.14.5.tar.xz=20
+> > 03d006f3537616833c16c53addcdc32a0eb20e55443cba4038307e3fa7d8d44b=C2=A0 =
+libxml2-2.14.5.tar.xz
+> >=20
+> > which would match the failure on:
+> >=20
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2060
+> >=20
+> > Any idea what happened here?
+> >=20
+> > Cheers,
+> >=20
+> > Richard
+>=20
+> It looks like the file changed on the remote, my build this morning did
+> succeed but not the next ones.
 
-On Mon, Jul 21, 2025 at 05:50:25PM +0000, Ross Burton wrote:
-> On 17 Jul 2025, at 22:16, Hiago De Franco via lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org> wrote:
-> > 
-> > From: Hiago De Franco <hiago.franco@toradex.com>
-> > 
-> > The libmount dependency was made optional on systemd upstream [1]. By
-> > backporting this upstream change, we can drop util-linux as a build
-> > dependency for systemd, making it only as a runtime dependency.
-> > 
-> > This is important to fix a circular dependency between util-linux and
-> > systemd when util-linux is built with the systemd PACKAGECONFIG enabled.
-> > Without this change, each recipe depends on the other, triggering the
-> > circular dependency error.
-> 
-> How did you test this?  If I disable the libmount PACKAGECONFIG the build fails in do_install.
+https://download.gnome.org/sources/libxml2/2.14/libxml2-2.14.4.sha256sum
 
-I did a mistake on my test when I first send this patch, I am sorry.
+suggests that checksum is for 2.14.4. Whether the wrong file was in
+place on the server or quite what happened, I'm not sure...
 
-I was able to reproduce the do_install failure and this is fixed by
-backporting patch a292b55980d6 ("meson: Don't fail install script if
-file doesn't exis"). I will update this in the next revision.
+Cheers,
 
-Also, there is one more issue with util-linux which I will also have to
-fix:
+Richard
 
-ERROR: util-linux-2.41-r0 do_package: QA Issue: util-linux:
-Files/directories were installed but not shipped in any package:
-/usr/lib/sysusers.d
-/usr/lib/systemd/system/uuidd.socket
-/usr/lib/systemd/system/uuidd.service
-/usr/lib/systemd/system/lastlog2-import.service
-/usr/lib/tmpfiles.d/lastlog2-tmpfiles.conf
-/usr/lib/tmpfiles.d/uuidd-tmpfiles.conf
-/usr/lib/sysusers.d/uuidd-sysusers.conf
 
-> 
-> Also your patch moves the util-linux-mount and util-linux-umount RDEPENDS from PN to be dependent on this packageconfig. Is that correct - does disabling the use of _libmount_ also mean that systemd will _never_ call mount/umount?  That sounds unlikely.
-> 
-> My understanding of the intention behind the upstream change, and how it’s implemented here, do not match in the slightest.
-
-Got it, I will also check systemd for the umount/mount and move it back
-to RDEPENDS then.
-
-> 
-> Ross
-
-On Tue, Jul 22, 2025 at 01:05:25PM +0000, Ross Burton wrote:
-> On 17 Jul 2025, at 22:16, Hiago De Franco via lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org> wrote:
-> > Introduce new PACKAGECONFIG options in systemd for both libblkid and
-> > libfdisk [1][2].
-> > 
-> > Set blkid as enabled by default because the bootctl command depends
-> > on it to be built. For example, images like core-image-sato-sdk rely on
-> > bootctl and have specific tests for it.
-> > 
-> > Previously this worked implicitly because the upstream Meson option
-> > defaulted to auto, which enabled the dependency if libblkid was present.
-> > Now, without explicitly enabling it via PACKAGECONFIG, the feature would
-> > be disabled, which triggers testimage errors.
-> 
-> Before this commit:
-> 
-> Run-time dependency fdisk found: YES 2.41.0
-> Run-time dependency blkid found: YES 2.41.0
-> 
-> So fdisk should be enabled too.
-> 
-> Further digging reveals that systemd itself will no longer call the blkid and fdisk binaries and simply uses the libraries, so the util-linux-blkid and util-linux-fdisk RDEPENDS are redundant.
-> 
-> Also, systemd links against libblkid and libfdisk directly so there’s no need to add RDEPENDS for those, especially not to just the systemd package when the actual linkage is in other places such as libsystemd.
-> 
-> I’ve sent a revert pending an iteration on these patches.
-
-Got it, thanks for the patch and for the review. I will make sure I fix
-the other issues as well to propose a new version.
-
-> 
-> Ross
-
-Best regards,
-Hiago.
 
