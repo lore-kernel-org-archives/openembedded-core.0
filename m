@@ -2,197 +2,148 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8AEC83F25
-	for <webhook@archiver.kernel.org>; Tue, 22 Jul 2025 01:36:39 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.2851.1753148196421477446
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73000C83F25
+	for <webhook@archiver.kernel.org>; Tue, 22 Jul 2025 01:38:19 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.2867.1753148293523598139
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jul 2025 18:36:36 -0700
+ Mon, 21 Jul 2025 18:38:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YRZycyIL;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-75001b1bd76so3085535b3a.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 18:36:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LiSfP3S/;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-237e6963f63so29417525ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 18:38:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753148196; x=1753752996; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1753148293; x=1753753093; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NTk1bXdFu/oszyAM+uY16Ch4m6FKRfrpJ1rKsLpYRRQ=;
-        b=YRZycyILGMEi7Uj0IJ05hjZ5Ko54km5JFI5L05qRPA5zgYAhvDCmOYGul72yctEy7J
-         G7Dj4K24w/LGcnMWXQkIHssX8BOcG4qgPFhAxS2+iqbPHWvoRRJRdlAKuLF3RNDWXCSA
-         5N4g9CLw2+H/ONfX25wLMI0729kLgl1TE4KbQFIWXqMqi3Hbys9l6NTUAbm9ZsIETotT
-         u9OTG61Ol6f3FgMCJGIdtOdqt9VR6f5vCnfovvuTboeoU2Mcyel+lUtDfnaNHkVcOzJ2
-         sI3lQ2xFmU+8AlVfmTRjy25zYfPvUYWYY3QaZJxQQXIrjFj7iIKEnmMRjaY6d4vh0a5m
-         irSg==
+        bh=0NPNWpFSK0nKR5k9M5zpFELneyCLGrKXGH16FlChwaE=;
+        b=LiSfP3S/mA32zKUBXH9EOvsk1ZAoSAP5sYhr2MVYdhJocr3GebtXln9li1TjsNOMTX
+         xvyINBlGEXnSc56G3iAzsRUuO+zN0OyXl5Y+Iht3H1I5+PYidcDaWCX/Kp/+ZnHW+z7u
+         IkoIoMqGpui41aNFztwQJvFWN3FUEpdr4AioOmQPi5B7Q9H6PFox/V+W8KX7sHmOmpfV
+         WJiRKtRGBINEG+C9W7wlPMA556zj+A/YIraxggdikBCP8Xi8k5W0C8bWiH2ZCrmwTGGH
+         E780N6RudYjpCrSMR/cJPkNeKA8klgmufu5hKjL9GD4f/JJlk20JwU16SAawNUl28dVz
+         0Mtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753148196; x=1753752996;
+        d=1e100.net; s=20230601; t=1753148293; x=1753753093;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NTk1bXdFu/oszyAM+uY16Ch4m6FKRfrpJ1rKsLpYRRQ=;
-        b=SOy3CRurSEDGCS2nQGZjo1bp9Q36Fztkba/46olm3kFsyYF/xUGGl+v6PX8WxL4lfO
-         YxLvBRiZBwLScI4A2zv/qiFXD5RJsqBvbwpzzwTk+S+FgO5qzpOvURdPsCV8e1jV5Zkq
-         y2SVKbzZIMKn+4oCtDRj14XPKj4sR0snCE1gg+YuvS9oePUQYBJCXqVaVHuwn3SWH9EC
-         1PjgwzBGfcrGR1Vi4bk5QsRrDyp+/yBRPNwdmwnYDl/48h+Mwv6C86k75QPpBVE1wFN6
-         R/28jWiLoUGdLL52YHVL+d3xCgJ9mr/CSXGXOSRAX7AJY8JEruIMHtxFwp4L1HCFHQ+s
-         UwZA==
-X-Forwarded-Encrypted: i=1; AJvYcCX0ulgZ3JFuzcz/+2e6tGjfmlRc4ZSA0Wx1GrCuLHU+k8D4led+ejdl9h6hqlknheMj8NH162OuTHiGPBS2xu1lLg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxNBR+u7BtMamlWryPViUgckX/L2MBQnCwOEGp22q85w1tAAf5q
-	ORMvFigwkhdjc3kaSdCgoYH4ej2VOTwejp0bV8C5pJ3/72Ym0zxKuXUZ
-X-Gm-Gg: ASbGnctNagH2Xf1du1XMvjWjAME52dfTf0DKigcQN+5BA4BT7kzGWwB0HD/6oMETDdM
-	MB1tnhTASyL3CsVzS0xZs3fMOdSzuLCezjB2p5vGQHdxlkBytu5XfvFGTDodI4cDSXzNZ6v2MDm
-	nqyK+PPMzoMR5ZvZa0Uu3nreAos4v5MNbHZbliuuYznctF2T+n3I+hVf3gZ1vHTWoduXX2nOoGm
-	rWzGcb+rwDXXwoTxVtXx4ctXR3+EILeAnRuDDWcdRh1u4g1ZADJwgsZFKT0cj18eUlnq8abvzqW
-	650pr51c2YmsJL+s7SmTvsMJV7Txz+yml7tTJRGOc+fyrjs2xhIrpYmMkeCq1eJa4g2CRnslxO5
-	b5GiBIJWQNCjXVJckE9qScrvNy6AhEK5rt5jo3VrYizrgB3s=
-X-Google-Smtp-Source: AGHT+IGhByBB888WiM8aav4P0t1riZMMb0Q2n/n8cF1DfRw2trajYDgySkH6yFjtW+ZLv6KT9Xk63A==
-X-Received: by 2002:a05:6a21:e584:b0:1f5:95a7:8159 with SMTP id adf61e73a8af0-2381143f76cmr37274659637.10.1753148195627;
-        Mon, 21 Jul 2025 18:36:35 -0700 (PDT)
+        bh=0NPNWpFSK0nKR5k9M5zpFELneyCLGrKXGH16FlChwaE=;
+        b=ArcVqY3BEQT0cdkXAs2Vpa2qIDOrWCJwRSj6zF+QGoqmXpiLgY+p83iO818q78rPLE
+         IwtxDqooNbLUDllRjWnY7liJyBVRgSvl30cQNgImkUPZmG5F9imr7p6zVTxk1lapuDu2
+         bsEkgO5gcto1HtEmDKBvA+MdQF04vferQsZrDtQjlUNhre8U6yAX1fG4H5rxUfjzwDlj
+         WhaMoYOx/ycgEJH2hdwVGGsHsnvCBh2xzWyDerpTXHAfQ9apZ9MLYw8e1iFBST74/843
+         3FngkJ9MWLcTnv2LzBVkwMr4xGMi+K2uQ6oPjiM497bsSXAFF/Nm0Gzz1O4WPhfe2/JX
+         8LDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWNClWzzfbBqClLtsASwQpr2n8vvpuwswkVZvDy9ZLHCYixCf71on7apcSKA05OdOnLA3c4YQ+a9jO8NJD7g12ePQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyASlxo+zBhkATBpnSTsMZEHEPwmn+qQjPvmF3+vzCsUf2GnISD
+	NRd6y+YgiGBeVWMMInSn9O+ixShFYGxe8CiEaWiveJ43BVktbjrgAor4djoRDL6p
+X-Gm-Gg: ASbGncvwdi+8gpZvYY1EJzxr7HBjoOuxNpzNMfS9JE4ScKj3OeQq7yyc97nz8QBcX7U
+	7mvpV4l1sev1m+5zza272sPSklHGpfik0r+JSfVixLnu25z2KDBVQOiWOwgqVYivA0KBOkLjgPM
+	fmc8vSTdJLrL4Q8bjrkXOxJ/A0Fj36YzZ7r5sGQ4zTzHrr6nBMh9FDe4GVq3seHcEypjDki04ct
+	fQL6z6BLappHAHyHH8wOEn8LagPTQWF268rm3BJZplGifJ2OSzcHMF4cr36PFr7PJOdb54qejN7
+	cdY5rJuixsRbXgbeu71l+3iBkz46etg+q50OoRVa/kdhgZmyRyQ2QFtgb5U5NzEGDfiJ+irwD6h
+	aqn2Mr/HR2XO/TrGV5w3RM4QbhqRxoF1gaWC3RM8jCCs6VSU=
+X-Google-Smtp-Source: AGHT+IEHhfkz2JQlFgsRcJHNne3qZPeha8GZtT5QqwoLyD+/NnOF10r/7wFL4iMi9+N1j7icj8DaNw==
+X-Received: by 2002:a17:902:dac7:b0:235:f70:fd37 with SMTP id d9443c01a7336-23e256c9608mr282085125ad.19.1753148292847;
+        Mon, 21 Jul 2025 18:38:12 -0700 (PDT)
 Received: from [10.15.13.154] ([209.129.148.213])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cbc6aab8sm6321183b3a.157.2025.07.21.18.36.34
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b6b4b0asm64483385ad.100.2025.07.21.18.38.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 18:36:34 -0700 (PDT)
-Message-ID: <719acd36-4a42-4d73-ab01-1728fb93045d@gmail.com>
-Date: Mon, 21 Jul 2025 18:36:32 -0700
+        Mon, 21 Jul 2025 18:38:12 -0700 (PDT)
+Message-ID: <fe3e805e-1355-407b-892c-3cf98c118f3e@gmail.com>
+Date: Mon, 21 Jul 2025 18:38:07 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH RFC v2 5/6] mesa: use simpler mesa-tools-native
- recipe as dependency for libclc
-To: foss@0leil.net, openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>,
- Ross Burton <ross.burton@arm.com>,
- Otavio Salvador <otavio.salvador@ossystems.com.br>,
- Quentin Schulz <quentin.schulz@cherry.de>
-References: <20250721-mesa-libclc-panfrost-v2-0-f713d0858949@cherry.de>
- <20250721-mesa-libclc-panfrost-v2-5-f713d0858949@cherry.de>
+Subject: Re: [OE-core] [scarthgap][PATCH] glibc: stable 2.39 branch updates
+To: deepesh.varatharajan@windriver.com,
+ openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+References: <20250721122319.1549209-1-Deepesh.Varatharajan@windriver.com>
 Content-Language: en-US
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20250721-mesa-libclc-panfrost-v2-5-f713d0858949@cherry.de>
+In-Reply-To: <20250721122319.1549209-1-Deepesh.Varatharajan@windriver.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 01:36:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220714
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 01:38:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220715
 
 
 
-On 7/21/25 3:33 AM, Quentin Schulz via lists.openembedded.org wrote:
-> From: Quentin Schulz <quentin.schulz@cherry.de>
+On 7/21/25 5:23 AM, Varatharajan, Deepesh via lists.openembedded.org wrote:
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 > 
-> libclc is required for some drivers (asahi, panfrost and intel at the
-> very least).
-> libclc brings very expensive dependencies such as llvm and clang.
-> Building clang and llvm for each target architecture is very expensive,
-> but mesa allows to depend on prebuilt host binaries (mesa-clc and
-> precomp-compiler). Those are built by mesa as well, but can be compiled
-> in mesa-native instead of mesa, making the dependency expensive but only
-> once regardless of the number of target architectures to build for.
-> Ideally the mesa-clc and precomp-compiler would only be compiled in
-> mesa-native if target mesa requires libclc support, however this is not
-> possible as a target recipe cannot impact or depend on a native recipe's
-> configuration. We thus have two choices, always build libclc in
-> mesa-native with its heavy dependencies and impact every build or force
-> the user to modify the mesa-native recipe in a custom layer (as a native
-> recipe cannot use target's OVERRIDES). The latter is unacceptable so the
-> former seems to be the only option. Another big downside is that
-> mesa-native currently builds drivers (amd, nouveau, svga) which we may
-> have absolutely no interest in building, increasing the build time and
-> possibly dependencies list).
+> $ git log --oneline 06a70769fd0b2e1f2a3085ad50ab620282bd77b3..cff1042cceec3502269947e96cf7023451af22f3
+> cff1042cce Fix error reporting (false negatives) in SGID tests
+> 1924d341c0 support: Pick group in support_capture_subprogram_self_sgid if UID == 0
 > 
-> A third choice is to spin-off the native mesa recipe with libclc support
-> into a new recipe without drivers and only what's necessary to build
-> mesa-clc and precomp-compiler binaries.
-> This allows to keep a "clean" mesa-native recipe for whoever needs those
-> drivers built-in (e.g. for testing, for qemu-native, or whatever else)
-> and only bring the libclc dependency when required by the target recipe.
+> Testing Results:
+>               Before   After    Diff
+> PASS          5074     5082     +8
+> XPASS         4        4         0
+> FAIL          121      116      -5
+> XFAIL         16       16        0
+> UNSUPPORTED   157      154      -3
 > 
-> Because libclc is now only built for the host, opencl support now needs
-> to explicitly bring libclc and others to build as libclc won't bring it
-> in the build environment anymore.
+> cff1042cce Fix error reporting (false negatives) in SGID tests
+> Improved SGID test handling by unifying error reporting and using secure temporary directories.
+> Replaced non-standard exit codes and fixed premature exits to avoid masking failures.
+> These changes reduced false negatives, increasing overall test pass rates
 > 
 
-libclc from clang ( native ) should be enough to use, we then do
-not need target clang versions, since we are cross compiling 
-clang-native would be happy to use libclc-native backend for OpenCL and that
-would be all, we need to configure clang-native with AMDGPU and NVPTX
-targets of course.
+LGTM
 
-> Suggested-by: Ross Burton <ross.burton@arm.com>
-> Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+> UNSUPPORTED tests changes
+> -UNSUPPORTED: stdlib/tst-secure-getenv
+> -UNSUPPORTED: elf/tst-env-setuid-static
+> -UNSUPPORTED: elf/tst-env-setuid-tunables
+> 
+> FAILed tests changes
+> -FAIL: malloc/tst-aligned-alloc-random-thread-cross-malloc-check
+> -FAIL: malloc/tst-aligned-alloc-random-thread-malloc-check
+> -FAIL: malloc/tst-dynarray
+> -FAIL: malloc/tst-dynarray-mem
+> -FAIL: resolv/tst-resolv-aliases
+> 
+> PASSed tests changes
+> +PASS: stdlib/tst-secure-getenv
+> +PASS: elf/tst-env-setuid-static
+> +PASS: elf/tst-env-setuid-tunables
+> +PASS: malloc/tst-aligned-alloc-random-thread-cross-malloc-check
+> +PASS: malloc/tst-aligned-alloc-random-thread-malloc-check
+> +PASS: malloc/tst-dynarray
+> +PASS: malloc/tst-dynarray-mem
+> +PASS: resolv/tst-resolv-aliases
+> 
+> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 > ---
->   meta/recipes-graphics/mesa/mesa-tools-native.bb | 21 +++++++++++++++++++++
->   meta/recipes-graphics/mesa/mesa.inc             | 11 ++---------
->   2 files changed, 23 insertions(+), 9 deletions(-)
+>   meta/recipes-core/glibc/glibc-version.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..5f7c3a2dc2338e328e0e30b93c263f6c87b61eaa
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-> @@ -0,0 +1,21 @@
-> +require mesa.inc
-> +inherit native
-> +
-> +SUMMARY += " (tools only)"
-> +
-> +S = "${UNPACKDIR}/mesa-${PV}"
-> +
-> +PACKAGECONFIG = "tools asahi intel panfrost"
-> +# llvm required for libclc
-> +PACKAGECONFIG += "gallium-llvm"
-> +# Doesn't compile without wayland-scanner if PLATFORMS has wayland in, and,
-> +# doesn't compile at all if PLATFORMS is empty so add x11 and wayland
-> +# to PACKAGECONFIG like in mesa.inc
-> +PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
-> +
-> +DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
-> +
-> +EXTRA_OEMESON += " \
-> +    -Dmesa-clc=enabled -Dinstall-mesa-clc=true -Dmesa-clc-bundle-headers=enabled \
-> +    -Dprecomp-compiler=enabled -Dinstall-precomp-compiler=true \
-> +"
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> index 5295b70fc9b4bb9570d86333f9229aef9114d93d..0fdb6d19655a06b645c6ac8815dfc62fa7e0c9eb 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -126,7 +126,7 @@ PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
+> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+> index 0130613936..6ee9fc7a0b 100644
+> --- a/meta/recipes-core/glibc/glibc-version.inc
+> +++ b/meta/recipes-core/glibc/glibc-version.inc
+> @@ -1,6 +1,6 @@
+>   SRCBRANCH ?= "release/2.39/master"
+>   PV = "2.39+git"
+> -SRCREV_glibc ?= "06a70769fd0b2e1f2a3085ad50ab620282bd77b3"
+> +SRCREV_glibc ?= "cff1042cceec3502269947e96cf7023451af22f3"
+>   SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
 >   
->   # "opencl" also requires libclc and gallium-llvm to be present in PKGCONFIG!
->   # Be sure to enable them both for the target and for the native build.
-> -PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true, -Dgallium-rusticl=false, bindgen-cli-native"
-> +PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true, -Dgallium-rusticl=false, bindgen-cli-native libclc spirv-tools spirv-llvm-translator"
->   
->   PACKAGECONFIG[broadcom] = ""
->   PACKAGECONFIG[etnaviv] = ",,python3-pycparser-native"
-> @@ -165,16 +165,9 @@ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', '
->   GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'amd', ',r600', '', d)}"
->   GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
->   
-> -MESA_CLC = "system"
-> -MESA_CLC:class-native = "enabled"
-> -INSTALL_MESA_CLC = "false"
-> -INSTALL_MESA_CLC:class-native = "true"
-> -MESA_NATIVE = "mesa-native"
-> -MESA_NATIVE:class-native = ""
-> -
->   PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}, -Dgallium-drivers='', libdrm"
->   PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm llvm-native elfutils"
-> -PACKAGECONFIG[libclc] = "-Dmesa-clc=${MESA_CLC} -Dinstall-mesa-clc=${INSTALL_MESA_CLC} -Dmesa-clc-bundle-headers=enabled,,libclc spirv-tools spirv-llvm-translator ${MESA_NATIVE}"
-> +PACKAGECONFIG[libclc] = "-Dmesa-clc=system -Dprecomp-compiler=system,,mesa-tools-native"
->   PACKAGECONFIG[va] = "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
->   PACKAGECONFIG[vdpau] = "-Dgallium-vdpau=enabled,-Dgallium-vdpau=disabled,libvdpau"
->   
+>   GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
 > 
 > 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#220678): https://lists.openembedded.org/g/openembedded-core/message/220678
-> Mute This Topic: https://lists.openembedded.org/mt/114265791/1997914
+> View/Reply Online (#220683): https://lists.openembedded.org/g/openembedded-core/message/220683
+> Mute This Topic: https://lists.openembedded.org/mt/114266899/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
