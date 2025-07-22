@@ -2,181 +2,197 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61171C83F25
-	for <webhook@archiver.kernel.org>; Tue, 22 Jul 2025 01:23:39 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.2641.1753147414089642753
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8AEC83F25
+	for <webhook@archiver.kernel.org>; Tue, 22 Jul 2025 01:36:39 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.2851.1753148196421477446
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Jul 2025 18:23:34 -0700
+ Mon, 21 Jul 2025 18:36:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U1MLoGat;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-23dea2e01e4so57429335ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 18:23:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YRZycyIL;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-75001b1bd76so3085535b3a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Jul 2025 18:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753147413; x=1753752213; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1753148196; x=1753752996; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vSGAwW1o4TnzXReHLgU2Rp2lVpy14xWPvjpOQcHSvBw=;
-        b=U1MLoGatChFZJBaTNiAr9j14Xb1GKDsI0CvkmPxXKNpnlcYA+jcyuuA6RrqnIq7tcC
-         KL7ADzWUOV8sndUEp0dhOzrDKjIC8NYi6i7c6i69/zjxg+TrRsS2KDdag8zQZspG0scC
-         rMIfR4CRkQbPHaSHyOL35zFVBDPD5H88H5B9z5znkl0uQCF7b4YWv5LYhBmysYLu6jKu
-         Dgxgfrspi/wlk+kpxlj7K6cBrmIM57dGUqmkGS/Kht3e8vU6TFR1/PD8Y01eh/t9Hc9V
-         rbTXYGJ3rXX4ngTiX7HX/w7X/+wBOOsxE7RTgTZFruBgDwnKlmgNYu3iVCY6V2MfQkvH
-         gCLg==
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NTk1bXdFu/oszyAM+uY16Ch4m6FKRfrpJ1rKsLpYRRQ=;
+        b=YRZycyILGMEi7Uj0IJ05hjZ5Ko54km5JFI5L05qRPA5zgYAhvDCmOYGul72yctEy7J
+         G7Dj4K24w/LGcnMWXQkIHssX8BOcG4qgPFhAxS2+iqbPHWvoRRJRdlAKuLF3RNDWXCSA
+         5N4g9CLw2+H/ONfX25wLMI0729kLgl1TE4KbQFIWXqMqi3Hbys9l6NTUAbm9ZsIETotT
+         u9OTG61Ol6f3FgMCJGIdtOdqt9VR6f5vCnfovvuTboeoU2Mcyel+lUtDfnaNHkVcOzJ2
+         sI3lQ2xFmU+8AlVfmTRjy25zYfPvUYWYY3QaZJxQQXIrjFj7iIKEnmMRjaY6d4vh0a5m
+         irSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753147413; x=1753752213;
+        d=1e100.net; s=20230601; t=1753148196; x=1753752996;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vSGAwW1o4TnzXReHLgU2Rp2lVpy14xWPvjpOQcHSvBw=;
-        b=r8KVucplKdcjPMZYEzPK0Hkp/BdMo5q+uCwUyiy2YhNbHfZRHvkP4n2w0ZCJIGrlYh
-         OHbtPkYB836EyDiPmPGPfNoisrgYcfFb96h6MD4Ifc0ZLENRZdsS5WaAkF7/THsgjJh/
-         oYEfin8hr59xTkuCL8tIlsuOS6XclhTMs+o03WkiAz72svn/UaDHM6AdECP84FJD/+rk
-         Cz75yq6a0cLeaO8JWRpxeUWiUeU8StzoVMAQa5OhxWwufU2F1RLI/SsNqSt5COCCCDcP
-         ken9Lpx30xpS1oXZ+46y73SmDcNHLCBUPvAHTZkLi/wKq+8f1sXAKCD/MWlNkAr3zhba
-         +LeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWzVHIoTmOtdqDnUb6cfZVBJ6akQxs45GsJ/asxUbOzaHg4f8biSPG8OXUQjvT8F77Lk2tPeLBSoQq2yXAJth9mSQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyovudNxnInxtt5TZ2Yzy2BFli4yX0oShaz68CpfG46869ITX+e
-	Ciz/OFZFuA3QpxqUw+hM9FMCsLMKi8EAn/74GRGV9Od+girVLH/D9rQL
-X-Gm-Gg: ASbGnct7CArbDyIS5RKRmu6E1bSPqzpBMew54/vQ6YRTcrnHUN6DrYEO5Md4Ww+wL7H
-	oHiwGw6jWSwODD4gnoFTwhaUwwSVyJpTNEXsvBK35Zu2NP4IYexRu8j5aldfj7p9uzqlwCF4Egu
-	MDKsw4x2ttwW72dbzVSZiSVOqifp9JggZK6eWY1pUVDqiESyhobdDuaChogx0O3/R6ZCiTTiLS6
-	xs/Ki7lEdOUaF87ULelJgG13GOiEwn1NfaQzuFkZOXI2Evg7U1RMe1ql1LzKtTot2wYQwgO5IeU
-	/vta8MQ9Xa3bkZQqS0gGn6ivKU78u3lgb0l5TKsUP9eojoZBgFW0gbpTqZq9v5QMaiZX4tuw1sb
-	357PedcFws2viKFu+EWIozPF4DX34wSn4cANT
-X-Google-Smtp-Source: AGHT+IHWNSQQsgsti74ZCA1jaJkMfklsHxLuidqtM4mOGVYa4Raj+NAZ59kkrce3bh2QMkS+QrH3Cw==
-X-Received: by 2002:a17:902:f70b:b0:23d:fda6:1ac6 with SMTP id d9443c01a7336-23e25764c7dmr286541755ad.39.1753147413336;
-        Mon, 21 Jul 2025 18:23:33 -0700 (PDT)
+        bh=NTk1bXdFu/oszyAM+uY16Ch4m6FKRfrpJ1rKsLpYRRQ=;
+        b=SOy3CRurSEDGCS2nQGZjo1bp9Q36Fztkba/46olm3kFsyYF/xUGGl+v6PX8WxL4lfO
+         YxLvBRiZBwLScI4A2zv/qiFXD5RJsqBvbwpzzwTk+S+FgO5qzpOvURdPsCV8e1jV5Zkq
+         y2SVKbzZIMKn+4oCtDRj14XPKj4sR0snCE1gg+YuvS9oePUQYBJCXqVaVHuwn3SWH9EC
+         1PjgwzBGfcrGR1Vi4bk5QsRrDyp+/yBRPNwdmwnYDl/48h+Mwv6C86k75QPpBVE1wFN6
+         R/28jWiLoUGdLL52YHVL+d3xCgJ9mr/CSXGXOSRAX7AJY8JEruIMHtxFwp4L1HCFHQ+s
+         UwZA==
+X-Forwarded-Encrypted: i=1; AJvYcCX0ulgZ3JFuzcz/+2e6tGjfmlRc4ZSA0Wx1GrCuLHU+k8D4led+ejdl9h6hqlknheMj8NH162OuTHiGPBS2xu1lLg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxNBR+u7BtMamlWryPViUgckX/L2MBQnCwOEGp22q85w1tAAf5q
+	ORMvFigwkhdjc3kaSdCgoYH4ej2VOTwejp0bV8C5pJ3/72Ym0zxKuXUZ
+X-Gm-Gg: ASbGnctNagH2Xf1du1XMvjWjAME52dfTf0DKigcQN+5BA4BT7kzGWwB0HD/6oMETDdM
+	MB1tnhTASyL3CsVzS0xZs3fMOdSzuLCezjB2p5vGQHdxlkBytu5XfvFGTDodI4cDSXzNZ6v2MDm
+	nqyK+PPMzoMR5ZvZa0Uu3nreAos4v5MNbHZbliuuYznctF2T+n3I+hVf3gZ1vHTWoduXX2nOoGm
+	rWzGcb+rwDXXwoTxVtXx4ctXR3+EILeAnRuDDWcdRh1u4g1ZADJwgsZFKT0cj18eUlnq8abvzqW
+	650pr51c2YmsJL+s7SmTvsMJV7Txz+yml7tTJRGOc+fyrjs2xhIrpYmMkeCq1eJa4g2CRnslxO5
+	b5GiBIJWQNCjXVJckE9qScrvNy6AhEK5rt5jo3VrYizrgB3s=
+X-Google-Smtp-Source: AGHT+IGhByBB888WiM8aav4P0t1riZMMb0Q2n/n8cF1DfRw2trajYDgySkH6yFjtW+ZLv6KT9Xk63A==
+X-Received: by 2002:a05:6a21:e584:b0:1f5:95a7:8159 with SMTP id adf61e73a8af0-2381143f76cmr37274659637.10.1753148195627;
+        Mon, 21 Jul 2025 18:36:35 -0700 (PDT)
 Received: from [10.15.13.154] ([209.129.148.213])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23e3b5e22e5sm64556745ad.38.2025.07.21.18.23.32
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cbc6aab8sm6321183b3a.157.2025.07.21.18.36.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jul 2025 18:23:32 -0700 (PDT)
-Message-ID: <193893a9-5edb-4562-993b-80d69c9bb70f@gmail.com>
-Date: Mon, 21 Jul 2025 18:23:29 -0700
+        Mon, 21 Jul 2025 18:36:34 -0700 (PDT)
+Message-ID: <719acd36-4a42-4d73-ab01-1728fb93045d@gmail.com>
+Date: Mon, 21 Jul 2025 18:36:32 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 4/4] lttng-tools: Remove the scope resolution
- operator with musl
-To: mingli.yu@eng.windriver.com, openembedded-core@lists.openembedded.org
-References: <20250720090010.3122861-1-mingli.yu@eng.windriver.com>
- <20250720090010.3122861-4-mingli.yu@eng.windriver.com>
+Subject: Re: [OE-core] [PATCH RFC v2 5/6] mesa: use simpler mesa-tools-native
+ recipe as dependency for libclc
+To: foss@0leil.net, openembedded-core@lists.openembedded.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>,
+ Ross Burton <ross.burton@arm.com>,
+ Otavio Salvador <otavio.salvador@ossystems.com.br>,
+ Quentin Schulz <quentin.schulz@cherry.de>
+References: <20250721-mesa-libclc-panfrost-v2-0-f713d0858949@cherry.de>
+ <20250721-mesa-libclc-panfrost-v2-5-f713d0858949@cherry.de>
 Content-Language: en-US
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20250720090010.3122861-4-mingli.yu@eng.windriver.com>
+In-Reply-To: <20250721-mesa-libclc-panfrost-v2-5-f713d0858949@cherry.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 01:23:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220713
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 01:36:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220714
 
 
 
-On 7/20/25 2:00 AM, Yu, Mingli via lists.openembedded.org wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
+On 7/21/25 3:33 AM, Quentin Schulz via lists.openembedded.org wrote:
+> From: Quentin Schulz <quentin.schulz@cherry.de>
 > 
-> Remove the scope resolution operator :: in musl build to fix the below
-> build failure.
->   | ../../../sources/lttng-tools-2.14.0/src/common/eventfd.cpp:18:31: error: expected id-expression before numeric constant
->   |    18 |                 int flags = ::EFD_CLOEXEC;
->   |       |                               ^~~~~~~~~~~
->   | ../../../sources/lttng-tools-2.14.0/src/common/eventfd.cpp:21:36: error: expected id-expression before numeric constant
->   |    21 |                         flags |= ::EFD_SEMAPHORE;
->   |       |
+> libclc is required for some drivers (asahi, panfrost and intel at the
+> very least).
+> libclc brings very expensive dependencies such as llvm and clang.
+> Building clang and llvm for each target architecture is very expensive,
+> but mesa allows to depend on prebuilt host binaries (mesa-clc and
+> precomp-compiler). Those are built by mesa as well, but can be compiled
+> in mesa-native instead of mesa, making the dependency expensive but only
+> once regardless of the number of target architectures to build for.
+> Ideally the mesa-clc and precomp-compiler would only be compiled in
+> mesa-native if target mesa requires libclc support, however this is not
+> possible as a target recipe cannot impact or depend on a native recipe's
+> configuration. We thus have two choices, always build libclc in
+> mesa-native with its heavy dependencies and impact every build or force
+> the user to modify the mesa-native recipe in a custom layer (as a native
+> recipe cannot use target's OVERRIDES). The latter is unacceptable so the
+> former seems to be the only option. Another big downside is that
+> mesa-native currently builds drivers (amd, nouveau, svga) which we may
+> have absolutely no interest in building, increasing the build time and
+> possibly dependencies list).
 > 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> A third choice is to spin-off the native mesa recipe with libclc support
+> into a new recipe without drivers and only what's necessary to build
+> mesa-clc and precomp-compiler binaries.
+> This allows to keep a "clean" mesa-native recipe for whoever needs those
+> drivers built-in (e.g. for testing, for qemu-native, or whatever else)
+> and only bring the libclc dependency when required by the target recipe.
+> 
+> Because libclc is now only built for the host, opencl support now needs
+> to explicitly bring libclc and others to build as libclc won't bring it
+> in the build environment anymore.
+> 
+
+libclc from clang ( native ) should be enough to use, we then do
+not need target clang versions, since we are cross compiling 
+clang-native would be happy to use libclc-native backend for OpenCL and that
+would be all, we need to configure clang-native with AMDGPU and NVPTX
+targets of course.
+
+> Suggested-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 > ---
->   ...Remove-the-scope-resolution-operator.patch | 41 +++++++++++++++++++
->   .../lttng/lttng-tools_2.14.0.bb               |  2 +
->   2 files changed, 43 insertions(+)
->   create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-eventfd.cpp-Remove-the-scope-resolution-operator.patch
+>   meta/recipes-graphics/mesa/mesa-tools-native.bb | 21 +++++++++++++++++++++
+>   meta/recipes-graphics/mesa/mesa.inc             | 11 ++---------
+>   2 files changed, 23 insertions(+), 9 deletions(-)
 > 
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-eventfd.cpp-Remove-the-scope-resolution-operator.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-eventfd.cpp-Remove-the-scope-resolution-operator.patch
+> diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
 > new file mode 100644
-> index 00000000000..dac5002f097
+> index 0000000000000000000000000000000000000000..5f7c3a2dc2338e328e0e30b93c263f6c87b61eaa
 > --- /dev/null
-> +++ b/meta/recipes-kernel/lttng/lttng-tools/0001-eventfd.cpp-Remove-the-scope-resolution-operator.patch
-> @@ -0,0 +1,41 @@
-> +From da83d31a8dd555c28eb27bd7a7d3c53b51d5f276 Mon Sep 17 00:00:00 2001
-> +From: Mingli Yu <mingli.yu@windriver.com>
-> +Date: Sun, 20 Jul 2025 16:37:57 +0800
-> +Subject: [PATCH] eventfd.cpp: Remove the scope resolution operator
+> +++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
+> @@ -0,0 +1,21 @@
+> +require mesa.inc
+> +inherit native
 > +
-> +Remove the scope resolution operator :: to fix the below build failure
-> +with musl.
-> + | ../../../sources/lttng-tools-2.14.0/src/common/eventfd.cpp:18:31: error: expected id-expression before numeric constant
-> + |    18 |                 int flags = ::EFD_CLOEXEC;
-> + |       |                               ^~~~~~~~~~~
-> + | ../../../sources/lttng-tools-2.14.0/src/common/eventfd.cpp:21:36: error: expected id-expression before numeric constant
-> + |    21 |                         flags |= ::EFD_SEMAPHORE;
-> + |       |                                    ^~~~~~~~~~~~~
+> +SUMMARY += " (tools only)"
 > +
-> +Upstream-Status: Pending
-
-The difference is that musl defines these labels as preprocessor macros
-
-https://git.musl-libc.org/cgit/musl/tree/include/sys/eventfd.h#n14
-
-where as glibc defines then as enums as well.
-
-https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/bits/eventfd.h;h=97a000a4948d02aa9f3d15f488b63545adcf02b4;hb=HEAD#l27
-
-so they can be referenced as flags from the global namespace as well.
-
-Removing the global scope resolution operator (::) and just using the 
-flags directly is a portable fix that will work across glibc and musl
-so need to make it musl specific, moreover, please send it upstream as
-well since its a portable fix.
-
+> +S = "${UNPACKDIR}/mesa-${PV}"
 > +
-> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> +---
-> + src/common/eventfd.cpp | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +PACKAGECONFIG = "tools asahi intel panfrost"
+> +# llvm required for libclc
+> +PACKAGECONFIG += "gallium-llvm"
+> +# Doesn't compile without wayland-scanner if PLATFORMS has wayland in, and,
+> +# doesn't compile at all if PLATFORMS is empty so add x11 and wayland
+> +# to PACKAGECONFIG like in mesa.inc
+> +PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
 > +
-> +diff --git a/src/common/eventfd.cpp b/src/common/eventfd.cpp
-> +index fe5b549..3379b0b 100644
-> +--- a/src/common/eventfd.cpp
-> ++++ b/src/common/eventfd.cpp
-> +@@ -15,10 +15,10 @@
+> +DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
 > +
-> + lttng::eventfd::eventfd(bool use_semaphore_semantics, std::uint64_t initial_value) :
-> + 	file_descriptor([use_semaphore_semantics, initial_value]() {
-> +-		int flags = ::EFD_CLOEXEC;
-> ++		int flags = EFD_CLOEXEC;
-> +
-> + 		if (use_semaphore_semantics) {
-> +-			flags |= ::EFD_SEMAPHORE;
-> ++			flags |= EFD_SEMAPHORE;
-> + 		}
-> +
-> + 		const auto raw_fd = ::eventfd(initial_value, flags);
-> +--
-> +2.34.1
-> +
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
-> index da3bdd4052f..989c963c1f8 100644
-> --- a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
-> @@ -48,6 +48,8 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
->              file://0001-gen-ust-events-constructor-change-rpath-to-libdir-li.patch \
->              "
+> +EXTRA_OEMESON += " \
+> +    -Dmesa-clc=enabled -Dinstall-mesa-clc=true -Dmesa-clc-bundle-headers=enabled \
+> +    -Dprecomp-compiler=enabled -Dinstall-precomp-compiler=true \
+> +"
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index 5295b70fc9b4bb9570d86333f9229aef9114d93d..0fdb6d19655a06b645c6ac8815dfc62fa7e0c9eb 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -126,7 +126,7 @@ PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
 >   
-> +SRC_URI:append:libc-musl = " file://0001-eventfd.cpp-Remove-the-scope-resolution-operator.patch"
-> +
->   SRC_URI[sha256sum] = "d8c39c26cec13b7bd82551cd52a22efc358b888e36ebcf9c1b60ef1c3a3c2fd3"
+>   # "opencl" also requires libclc and gallium-llvm to be present in PKGCONFIG!
+>   # Be sure to enable them both for the target and for the native build.
+> -PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true, -Dgallium-rusticl=false, bindgen-cli-native"
+> +PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true, -Dgallium-rusticl=false, bindgen-cli-native libclc spirv-tools spirv-llvm-translator"
 >   
->   inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
+>   PACKAGECONFIG[broadcom] = ""
+>   PACKAGECONFIG[etnaviv] = ",,python3-pycparser-native"
+> @@ -165,16 +165,9 @@ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', '
+>   GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'amd', ',r600', '', d)}"
+>   GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
+>   
+> -MESA_CLC = "system"
+> -MESA_CLC:class-native = "enabled"
+> -INSTALL_MESA_CLC = "false"
+> -INSTALL_MESA_CLC:class-native = "true"
+> -MESA_NATIVE = "mesa-native"
+> -MESA_NATIVE:class-native = ""
+> -
+>   PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}, -Dgallium-drivers='', libdrm"
+>   PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm llvm-native elfutils"
+> -PACKAGECONFIG[libclc] = "-Dmesa-clc=${MESA_CLC} -Dinstall-mesa-clc=${INSTALL_MESA_CLC} -Dmesa-clc-bundle-headers=enabled,,libclc spirv-tools spirv-llvm-translator ${MESA_NATIVE}"
+> +PACKAGECONFIG[libclc] = "-Dmesa-clc=system -Dprecomp-compiler=system,,mesa-tools-native"
+>   PACKAGECONFIG[va] = "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
+>   PACKAGECONFIG[vdpau] = "-Dgallium-vdpau=enabled,-Dgallium-vdpau=disabled,libvdpau"
+>   
 > 
 > 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#220617): https://lists.openembedded.org/g/openembedded-core/message/220617
-> Mute This Topic: https://lists.openembedded.org/mt/114249011/1997914
+> View/Reply Online (#220678): https://lists.openembedded.org/g/openembedded-core/message/220678
+> Mute This Topic: https://lists.openembedded.org/mt/114265791/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
