@@ -1,2110 +1,365 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A741C83F17
-	for <webhook@archiver.kernel.org>; Wed, 23 Jul 2025 06:02:04 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.7361.1753250517549646196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0AC9C83F17
+	for <webhook@archiver.kernel.org>; Wed, 23 Jul 2025 06:14:34 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.7])
+ by mx.groups.io with SMTP id smtpd.web10.7485.1753251272492576578
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jul 2025 23:01:57 -0700
+ Tue, 22 Jul 2025 23:14:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=KOfPUxEW;
- spf=pass (domain: mvista.com, ip: 209.85.210.169, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-75b5be236deso2870191b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 23:01:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1753250517; x=1753855317; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=buL/61DiFzYhfMc+9rEqsn+Ce4zA+Mn8VujWWfo08do=;
-        b=KOfPUxEWOVRoF6wo5iYvzQfMOrHBGVdKVl+a7ryEpaBVROnbLpwI9AlOt+j89jwl3V
-         ywW38BnWCLkSLtUqtrq7c0L6MHXDnF4aCFUc9LH2WISWxevC0C+dc21agWLG3XhtEdQi
-         8p5excAo0i2nLDBwwDF+cd9pw/7Mi3sQIG2gc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753250517; x=1753855317;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=buL/61DiFzYhfMc+9rEqsn+Ce4zA+Mn8VujWWfo08do=;
-        b=uDnken0UkrXRIdvzlslxPdYgHiNoAJgncCAJhg2omEnOfSmsQ7YGMs0BIRFadqeMcW
-         CFBP91rWkC/MXYFRLtBLoyG3zy3DsKLsjglMWKrRtEVW9qfcjIUrREB5xesdv+EkfMno
-         5KOU+YYPPCV+497FjJz/xFCwKURSm9E2iQ9Zfo//8uDaNLLqC4HPAoF1g0TVxBLenPwu
-         E0QugS4KjG/1hFc+LvGCPjqDcBKfhyBHXVBsmX8an6mlp1XXBodZzn19SlIXIFsH2oLF
-         BVsYfiqtYdA6iYrB8Fum28mwmVEVr2yklfnX2md/2BlvYFrlpHoPV7YDX7KD76dxPSEY
-         P14Q==
-X-Gm-Message-State: AOJu0YwIZ2ud6NfALLY5B3mq9uQjL1hy9VDPa2ts3dJeDJA/YbVHNOTd
-	oZq/lhl35M+CsGcHS9u9I3fZvuEfMfSY+WD3U0l6d2Ne72MdIvRa/G+uBAxQF7x6joawbBdzCdn
-	HvuNh
-X-Gm-Gg: ASbGncszyobkM6NxCVRXcSXiGsBhdV+so86PNld2vjWUMwfUCSBGoFtPw8oRxGa4qgG
-	qaLTH6yOQR7Ia39BSFBGwqM5ufqIc7z6k++Unp0grTozWBgHOqAJ7HHKpwDA/wVd+6pXBXCWXwb
-	wCUNoHlxShTF1fm9B4Ka7ItVsCOD+uH6ozIDh/01e567H2W9TsPyYx02S9gDq54WYTIP0KAcACD
-	IbOiA6TuMzHKfKK2mxuiikXiQ5FJ+tCZwhvcn/psDB5+6QW4aQIj4sAkCQk2CyQ0sB0dpK411gn
-	N1JMQO8vPuH0rkShMm5aLnhin4aq3RoC2v+f0fWmwEUuWHQWWdpzxJkp/hmGoI539F3P7Jzf+GS
-	2h8ZTqopXClFVT+kAt/y+UxfdDdqd3z9c5zBciSLxCaTbNg==
-X-Google-Smtp-Source: AGHT+IHcEQ+uuMSj4GM7YcH/jC5dsajKS7pKcCDavoqik14w4TUmEbbYMCe0rHcNFQTY5ocqPQMc0g==
-X-Received: by 2002:a05:6a21:4cc7:b0:231:ee81:759f with SMTP id adf61e73a8af0-23d49041a0dmr2931706637.15.1753250515344;
-        Tue, 22 Jul 2025 23:01:55 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([43.249.234.224])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b3f2ff61f6csm6939887a12.45.2025.07.22.23.01.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jul 2025 23:01:54 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] libpam: fix CVE-2025-6020
-Date: Wed, 23 Jul 2025 11:31:23 +0530
-Message-ID: <20250723060124.86663-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=Cke8u3Cn;
+ spf=pass (domain: siemens.com, ip: 52.101.70.7, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eIuEh9s+iODWZpeUrn80apn+i4hYWYRGRkIW4mm2eEynSqqZ5ibIr3IusUoTu7Z2WR71ckTzj+iT/Pe7WssWPQ+zQe7LNRTAdhI2UzHWXtzQRbTMBTesNLcwqIyZbLa8doUrcRABcU11tBdmxNTu7YZa5wRj7VSmCpK4wnk6vwbTEzTjkzNEPb1TbOHUsQq8kjB8e29l3AvBwamxKeMzaZRwIKCn8HDgLbV9i6m5dM5C8Ne/+i727XV1hyB7k41MJpH819drkMkMXpSEY2fGYIGaAnAvIHuCs8NGxTonTYkEAiuj2/nq+lU7ABj/PAnhmpawFg5chllK33El+TEt4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H7MlYdCF9dqi0l8xUUE3xtkKAVM6LGu5TLmxpjjE1ig=;
+ b=UP6hKEKPUL30BaRY3a2Pbn+hgHIQyn7j/2CFT6L3OlSkhbA2yKSuaPBUOoWVCDJvVXRIneanM5NwGRfYxphkpC14l2Vr+scmgptqCPw4JkoVPY5hVIxbA2e77hEGUtDYPiXTIhi+oQCRsib2bSLEEwWJ7Bke1lUyQm2pHipwOW8VKsqUt4HiwOBDbhWSxzw7ZkHYzpdQfbsi5K9T+3769THUWa24AVkTT80CUBnbqfl30oedXjAQrDGyoKwHaIrdbDPfo0N+z09+JW6N7xglvEMXcG8UPDC4aHorCT/oxSk08EupZjGGZSQe1gEJgk57t91UReyAc1cvulLWLPQgkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H7MlYdCF9dqi0l8xUUE3xtkKAVM6LGu5TLmxpjjE1ig=;
+ b=Cke8u3Cnzqle6X2BqRDsg+eEUGYqhj/YGwb/9mhxva6mETJscwkLaXr4MYvikXpL4k402/QHijwzNTA2gmCty6hVBGzQ8MRtvoFSnVYuA3z6JIy+2w/xeoUgpW+HoPYZLovI9moJCWhpShwhqZn8M8VhnpE5M24GY0QCBD3i6nvtvypsTLsUbrpVPH4RS7C4aXwKZxd0OjzlR8nq5MVSkgRHbodcjjftmR64fq2StJ79zvElKkRPww0YZ5YJhlilLUHRMKzqDVudSOUezPfFW2Sc68sAmTMV1gfZKn6ZHX7y9tZqnchT0bFptjRmCQXm6gXDmqQ0oDjwv4Ob86Jg/A==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by GVXPR10MB8682.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:1e8::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.26; Wed, 23 Jul
+ 2025 06:14:28 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.8943.028; Wed, 23 Jul 2025
+ 06:14:28 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "ross.burton@arm.com"
+	<ross.burton@arm.com>
+Subject: RE: [OE-core] [PATCH 08/23] oeqa/sdk: add helpers to check for and
+ install packages
+Thread-Topic: [OE-core] [PATCH 08/23] oeqa/sdk: add helpers to check for and
+ install packages
+Thread-Index: AQHbwYfcTu4nt2aojkCYFO9m3WWvf7Q1KqxAgAqCMuA=
+Date: Wed, 23 Jul 2025 06:14:28 +0000
+Message-ID: 
+ <AS1PR10MB5697200926409DD54A0C65DCFD5FA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20250510084400.269726-1-ross.burton@arm.com>
+ <20250510084400.269726-8-ross.burton@arm.com>
+ <AS1PR10MB5697CDCCFB1F944F706B775BFD56A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: 
+ <AS1PR10MB5697CDCCFB1F944F706B775BFD56A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=4f735346-8fcd-41b9-8380-f092e9b65944;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-07-16T13:38:09Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GVXPR10MB8682:EE_
+x-ms-office365-filtering-correlation-id: f0b84b03-3d66-47be-ab11-08ddc9b02e2c
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?sl/waC/PGzQqe+yPrizPVV1JS/v21tgHcpthuPBKvjrir7iKNH1OaawFTCdu?=
+ =?us-ascii?Q?Py1pT1PPha1KBKJkSqllQT7z8J86qNCR+qCDW520a5NxyL5hJ2uQkXpsPQU4?=
+ =?us-ascii?Q?K+3V90aMeayPAkAqdl133SX1qIpQLUDbkQKN6AmXvymtZkX+raZFA25yNcGJ?=
+ =?us-ascii?Q?mEF6NVve3uTJJqlNLXW7rmmXfwz5ycQ9r54VCgE123ZjSg/UAySi+0X2dSXF?=
+ =?us-ascii?Q?rQu5I5nsFMqCEpDs6rEaAIjbROLsPWssJwyopjkhnGtZYW+KyvfOkODypJk/?=
+ =?us-ascii?Q?V3clPq2yhTelVlya/4sq3sVqQeoqnmTjLEUM1j+MT49snF4AgMmk9cp8m4xi?=
+ =?us-ascii?Q?l1QG1bMoGdIxLGOlyvhCCEuVhNIIosHaqTZJCwY7djztMpIeahOBeSMgK/5s?=
+ =?us-ascii?Q?v8/hxKcQJjEqnXTIfh+0aAzMGtllOJbyTeFO3epVYiEKdhHP4crPYX6ecArN?=
+ =?us-ascii?Q?LmudE0a2ah1FerAQbAJMjwjXXVv+gKi6jTzNoGKvRc66URLxMcGgy1VZU20O?=
+ =?us-ascii?Q?A34HGQ9FNArEcldnI6sWNg+0E3txk6+BFx35TEsjeUYwut6B90Mx75T7cnu1?=
+ =?us-ascii?Q?WS5/Enz1rbzg5s7zgmTRHBJikYme7Nw+Y8i7uC0xuSJkA7NytlnmLHByFz1S?=
+ =?us-ascii?Q?dMnkiQjizP3GRuGFND47wy5w3m7CspruO4RjEFpiaadgooSJOAN7P7M9iGpU?=
+ =?us-ascii?Q?2CLGbyLl/5BMWkJWjIGoG0KhRCTcrZFyGACWgbfsgsBQMiny2y8BF+R+X6Qm?=
+ =?us-ascii?Q?JUqYGwenXNSv3J0FAc+8KkOG9jRv5qwdrqfkYcl/CYggDDu+/IgJneaiatVn?=
+ =?us-ascii?Q?PYhXnD75SkFYGKbX8UGtvR7OD1dcDmNxT1pIUPb1uLaXhAlIr6g3VK8yy6nn?=
+ =?us-ascii?Q?nKtFiicCvcbh2a9rIOK8Tnbp1inWypftHXJTdQrrKijv6cCAGxk01ASk9dOv?=
+ =?us-ascii?Q?dB0lg5uCvLTdoemlt3iu3/W58Y1LVrE5z+H53QzNvlpsxk6a9xHieo8ZqSvt?=
+ =?us-ascii?Q?7sX/tG6eEHdKfGLislytaGu5qZW++ukdYXmy2KN2AKPVAlb40uPKjvb8O8fr?=
+ =?us-ascii?Q?ajPXgINzprkOGJucbmqj5+AgVVck0Y/WYA5advsIim76BLenqCrlzxoc3fHf?=
+ =?us-ascii?Q?ar+wbYL2jIAnmReS1zOhgSq5Sfx0UPK1kFuwn/RRK3HTQtd+MidcdWvXFhSf?=
+ =?us-ascii?Q?WpiK1h69ovJG95k9PmzW0se6ceYGMOevqtk5SQGYY9Jz4A1Vjedt4MQ2LEXL?=
+ =?us-ascii?Q?mH6NSgOwE3ZrjD389AmKbMTdekXreBSmsW55f8dicpK7bNtPzamPAJiySnVI?=
+ =?us-ascii?Q?4on6k+B7HmDF0d7g0Rve1hmfNQt4N2kTP6mVoIcEWolon5s+wZQioNvLYPXO?=
+ =?us-ascii?Q?x+KgElJgb0FOrr81TzhZJhJJ2MBFboKb5dSPCnKjYJrs349SGDHbTF5aNcdu?=
+ =?us-ascii?Q?B3U8iwLd3x8=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?otP536nTaL+Tpj++ck3MukNrgpIIQfpzV9O/dFopK9RfWThg51ZIYkcewLJm?=
+ =?us-ascii?Q?yws0Bd0LpfoXdiyiwhwiUBp2dgCQejOZTU/chLUR+cAA+iSmapjNiATea0Bq?=
+ =?us-ascii?Q?jV+Eiao07uwOZu69PpxXoeplKKXXW/BYOvXx8TPpdzgWxMsuzRI+d+svZr2U?=
+ =?us-ascii?Q?s1eyh32Tq+9K5VQ2Jr9qc6RQL/AbefbQx4POxXaDGL0l9IY3GXBAOfZNSpKN?=
+ =?us-ascii?Q?hTvFyFf3fUt8+kqp4nxUubkZJz0BI8VaZ3Dh2wzpnpEQO3kau7Zf5oY3QtVk?=
+ =?us-ascii?Q?INwwc7Y0UsyzNxDLmrhgRr8lf+H7yw5cw3oYCamQbZW3KPikDGAxSfPQC7U0?=
+ =?us-ascii?Q?vg9SXI3NFhRuw1x2bBOXR9Owdz+li1cp55TQ7838SqMAlacJfa9cKa1NmHT0?=
+ =?us-ascii?Q?+Wb4gZV1wEfvoZB3nnIIH8Jdjq9GPsJCq3LWGel1NDUskJAOHgHPagFP+MbF?=
+ =?us-ascii?Q?KA4CaS9ODCOtGDpeIWSq8n82Y2Ugj2CpbBfK11ZCFYMa1DatZ4xaKRMxnvUg?=
+ =?us-ascii?Q?yPeOkXuFjiDoJ3/27QAjmnTtALHHlfJLRNY4YSvQ8boIlTDkI/r4n3nh+ask?=
+ =?us-ascii?Q?RRQrZgEMOKvKSIOY/yjx0SeC0gkG5jkBZ63/uK+TFNA0AC6g6Hr2k7CNe6Gq?=
+ =?us-ascii?Q?BQNGO3pNh01EQd8CBJxBr1m9rD088vqCjGdM/RRlKHsQT0u4jgc6mQoH8drd?=
+ =?us-ascii?Q?HGM7LGk8bqtMvQnAk6/YK+OKWpc4uZYv4mqarYkfyKJswmpeSbTfKO8f+9n3?=
+ =?us-ascii?Q?UNvxwYlUgiaJ63QTLeZHhcZ8yqJjXR36OJuo1CfVz/ny7Ea23a8Jmro2I2b3?=
+ =?us-ascii?Q?EebhouV6SLMmc8ZpvjkKqAdwbAqeRpQG4NPJ5xFzG3BxS+A0WvuHObg+b8SJ?=
+ =?us-ascii?Q?mywN3wN+8DvuayxbWFQf2NNajbH+hHmTyXgVofhKvU7PofxNqPI58YguEofM?=
+ =?us-ascii?Q?EfchrkSu/n07wFSu4N+fG1JpnvYM5oaXB06LpX4TfrLtxiqj69zrey6KS38r?=
+ =?us-ascii?Q?HsZ8aLuWbxCZIDB8yrHZnGnGa1Xwi/nvn+rjQX+pa7/0++9rSfM1fO+/7Ywl?=
+ =?us-ascii?Q?HTdGceCx/S840z/addngZi6ct+Bh6rdFQ5BHbl/PKa66kjMtEn4jI3bAQCQh?=
+ =?us-ascii?Q?ZmIqqz4eiZPjv3ptLxN5rbm7Q1qf1izpsh45NVDjqGbU8Oiz1qZeWbSEzVZ+?=
+ =?us-ascii?Q?tCcbwxbSb2rpYS8CwVfvlqV9Z4OLl9yBdAo4QJ6gT2m/3A2gugkfxXCc4six?=
+ =?us-ascii?Q?CPV6AVw0rwGTOGUr0lWsc0fnRxKUy5PA9bHR3d052xNiO41j7Rf9TgdbZbhn?=
+ =?us-ascii?Q?XB6KbYdH1TDuT0YFhOTY1kxYQSDE+n7LjVd15Fs9ac8YObaWmfWEiOsY5pys?=
+ =?us-ascii?Q?mRDVGhK73Lc+ysITU4VKUz9DOJIu8gRFNqi2OIRwfnrzT+n4IMPZGlIoW40t?=
+ =?us-ascii?Q?QkdiOCS7zkcAfGlOGcvcpR3WJhkCvUUwEH8Vqe2utnTYUzyXTVQDj92HfbB4?=
+ =?us-ascii?Q?6swaW2nuTFVEv7Kd8PPzT0d+d1pvA3r5TCOgjdseScq8LXsFo8DcOwHyU1Hj?=
+ =?us-ascii?Q?nsYD8eCBftNj/iQDgrZRjnXXKHeXFKvROmEcdIeR?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0b84b03-3d66-47be-ab11-08ddc9b02e2c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2025 06:14:28.2507
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xJydwB+fO7LRNz8K2fgSjDwqELq01qcQHaLahn+B6OlItnbV8lUGBbixMXILvS3Vb2Ow/yKnsfG9QKWQHNvK0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8682
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Jul 2025 06:02:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220789
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Jul 2025 06:14:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220790
 
-Upstream-Status: Backport from https://github.com/linux-pam/linux-pam/commit/475bd60c552b98c7eddb3270b0b4196847c0072e && https://github.com/linux-pam/linux-pam/commit/592d84e1265d04c3104acee815a503856db503a1 && https://github.com/linux-pam/linux-pam/commit/976c20079358d133514568fc7fd95c02df8b5773
+Khem,
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- ...001-pam_inline-introduce-pam_asprint.patch |  102 +
- .../pam/libpam/CVE-2025-6020-01.patch         | 1662 +++++++++++++++++
- .../pam/libpam/CVE-2025-6020-02.patch         |  187 ++
- .../pam/libpam/CVE-2025-6020-03.patch         |   35 +
- meta/recipes-extended/pam/libpam_1.5.2.bb     |    4 +
- 5 files changed, 1990 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/0001-pam_inline-introduce-pam_asprint.patch
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch
+you mentioned the maturin test failure problem on IRC yesterday.
+This is the commit which broke it.
+I'll propose a patch shortly.
 
-diff --git a/meta/recipes-extended/pam/libpam/0001-pam_inline-introduce-pam_asprint.patch b/meta/recipes-extended/pam/libpam/0001-pam_inline-introduce-pam_asprint.patch
-new file mode 100644
-index 0000000000..48e8b255f2
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/0001-pam_inline-introduce-pam_asprint.patch
-@@ -0,0 +1,102 @@
-+From 10b80543807e3fc5af5f8bcfd8bb6e219bb3cecc Mon Sep 17 00:00:00 2001
-+From: "Dmitry V. Levin" <ldv@strace.io>
-+Date: Tue, 18 Feb 2025 08:00:00 +0000
-+Subject: [PATCH] pam_inline: introduce pam_asprintf(), pam_snprintf(), and
-+ pam_sprintf()
-+
-+pam_asprintf() is essentially asprintf() with the following semantic
-+difference: it returns the string itself instead of its length.
-+
-+pam_snprintf() is essentially snprintf() with the following semantic
-+difference: it returns -1 in case of truncation.
-+
-+pam_sprintf() is essentially snprintf() but with a check that the buffer
-+is an array, and with an automatically calculated buffer size.
-+
-+Use of these helpers would make error checking simpler.
-+
-+(cherry picked from commit 10b80543807e3fc5af5f8bcfd8bb6e219bb3cecc)
-+Signed-off-by: Dmitry V. Levin <ldv@strace.io>
-+
-+Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/10b80543807e3fc5af5f8bcfd8bb6e219bb3cecc]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libpam/include/pam_cc_compat.h |  6 ++++++
-+ libpam/include/pam_inline.h    | 37 ++++++++++++++++++++++++++++++++++
-+ 2 files changed, 43 insertions(+)
-+
-+diff --git a/libpam/include/pam_cc_compat.h b/libpam/include/pam_cc_compat.h
-+index 6919036..45c74b5 100644
-+--- a/libpam/include/pam_cc_compat.h
-++++ b/libpam/include/pam_cc_compat.h
-+@@ -21,6 +21,12 @@
-+ # define PAM_ATTRIBUTE_ALIGNED(arg)	/* empty */
-+ #endif
-+ 
-++#if PAM_GNUC_PREREQ(3, 0)
-++# define PAM_ATTRIBUTE_MALLOC		__attribute__((__malloc__))
-++#else
-++# define PAM_ATTRIBUTE_MALLOC		/* empty */
-++#endif
-++
-+ #if PAM_GNUC_PREREQ(4, 6)
-+ # define DIAG_PUSH_IGNORE_CAST_QUAL					\
-+ 	_Pragma("GCC diagnostic push");					\
-+diff --git a/libpam/include/pam_inline.h b/libpam/include/pam_inline.h
-+index ec2f3bf..666a028 100644
-+--- a/libpam/include/pam_inline.h
-++++ b/libpam/include/pam_inline.h
-+@@ -9,6 +9,9 @@
-+ #define PAM_INLINE_H
-+ 
-+ #include "pam_cc_compat.h"
-++#include <stdarg.h>
-++#include <stdio.h>
-++#include <stdlib.h>
-+ #include <string.h>
-+ #include <unistd.h>
-+ #include <errno.h>
-+@@ -66,6 +69,40 @@ pam_str_skip_icase_prefix_len(const char *str, const char *prefix, size_t prefix
-+ #define pam_str_skip_icase_prefix(str_, prefix_)	\
-+ 	pam_str_skip_icase_prefix_len((str_), (prefix_), sizeof(prefix_) - 1 + PAM_MUST_BE_ARRAY(prefix_))
-+ 
-++static inline char * PAM_FORMAT((printf, 1, 2)) PAM_NONNULL((1)) PAM_ATTRIBUTE_MALLOC
-++pam_asprintf(const char *fmt, ...)
-++{
-++	int rc;
-++	char *res;
-++	va_list ap;
-++
-++	va_start(ap, fmt);
-++	rc = vasprintf(&res, fmt, ap);
-++	va_end(ap);
-++
-++	return rc < 0 ? NULL : res;
-++}
-++
-++static inline int PAM_FORMAT((printf, 3, 4)) PAM_NONNULL((3))
-++pam_snprintf(char *str, size_t size, const char *fmt, ...)
-++{
-++	int rc;
-++	va_list ap;
-++
-++	va_start(ap, fmt);
-++	rc = vsnprintf(str, size, fmt, ap);
-++	va_end(ap);
-++
-++	if (rc < 0 || (unsigned int) rc >= size)
-++		return -1;
-++	return rc;
-++}
-++
-++#define pam_sprintf(str_, fmt_, ...)						\
-++	pam_snprintf((str_), sizeof(str_) + PAM_MUST_BE_ARRAY(str_), (fmt_),	\
-++		     ##__VA_ARGS__)
-++
-++
-+ static inline int
-+ pam_read_passwords(int fd, int npass, char **passwords)
-+ {
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch b/meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch
-new file mode 100644
-index 0000000000..2beebf85f2
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch
-@@ -0,0 +1,1662 @@
-+From 475bd60c552b98c7eddb3270b0b4196847c0072e Mon Sep 17 00:00:00 2001
-+From: Olivier Bal-Petre <olivier.bal-petre@ssi.gouv.fr>
-+Date: Tue, 4 Mar 2025 14:37:02 +0100
-+Subject: [PATCH] pam_namespace: fix potential privilege escalation
-+
-+Existing protection provided by protect_dir() and protect_mount() were
-+bind mounting on themselves all directories part of the to-be-secured
-+paths. However, this works *only* against attacks executed by processes
-+in the same mount namespace as the one the mountpoint was created in.
-+Therefore, a user with an out-of-mount-namespace access, or multiple
-+users colluding, could exploit multiple race conditions, and, for
-+instance, elevate their privileges to root.
-+
-+This commit keeps the existing protection as a defense in depth
-+measure, and to keep the existing behavior of the module. However,
-+it converts all the needed function calls to operate on file
-+descriptors instead of absolute paths to protect against race
-+conditions globally.
-+
-+Signed-off-by: Olivier Bal-Petre <olivier.bal-petre@ssi.gouv.fr>
-+Signed-off-by: Dmitry V. Levin <ldv@strace.io>
-+
-+Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/475bd60c552b98c7eddb3270b0b4196847c0072e]
-+CVE: CVE-2025-6020
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ modules/pam_namespace/pam_namespace.c | 1073 ++++++++++++++++---------
-+ modules/pam_namespace/pam_namespace.h |   17 +-
-+ 2 files changed, 721 insertions(+), 369 deletions(-)
-+
-+diff --git a/modules/pam_namespace/pam_namespace.c b/modules/pam_namespace/pam_namespace.c
-+index d6b1d3c..fcd78fd 100644
-+--- a/modules/pam_namespace/pam_namespace.c
-++++ b/modules/pam_namespace/pam_namespace.c
-+@@ -39,6 +39,374 @@
-+ #include "pam_namespace.h"
-+ #include "argv_parse.h"
-+ 
-++#define MAGIC_LNK_FD_SIZE 64
-++
-++/* --- evaluating all files in VENDORDIR/security/namespace.d and /etc/security/namespace.d --- */
-++static const char *base_name(const char *path)
-++{
-++    const char *base = strrchr(path, '/');
-++    return base ? base+1 : path;
-++}
-++
-++static int
-++compare_filename(const void *a, const void *b)
-++{
-++	return strcmp(base_name(* (char * const *) a),
-++		      base_name(* (char * const *) b));
-++}
-++
-++static void close_fds_pre_exec(struct instance_data *idata)
-++{
-++	if (pam_modutil_sanitize_helper_fds(idata->pamh, PAM_MODUTIL_IGNORE_FD,
-++			PAM_MODUTIL_IGNORE_FD, PAM_MODUTIL_IGNORE_FD) < 0) {
-++		_exit(1);
-++	}
-++}
-++
-++static void
-++strip_trailing_slashes(char *str)
-++{
-++	char *p = str + strlen(str);
-++
-++	while (--p > str && *p == '/')
-++		*p = '\0';
-++}
-++
-++static int protect_mount(int dfd, const char *path, struct instance_data *idata)
-++{
-++	struct protect_dir_s *dir = idata->protect_dirs;
-++	char tmpbuf[MAGIC_LNK_FD_SIZE];
-++
-++	while (dir != NULL) {
-++		if (strcmp(path, dir->dir) == 0) {
-++			return 0;
-++		}
-++		dir = dir->next;
-++	}
-++
-++	if (pam_sprintf(tmpbuf, "/proc/self/fd/%d", dfd) < 0)
-++		return -1;
-++
-++	dir = calloc(1, sizeof(*dir));
-++
-++	if (dir == NULL) {
-++		return -1;
-++	}
-++
-++	dir->dir = strdup(path);
-++
-++	if (dir->dir == NULL) {
-++		free(dir);
-++		return -1;
-++	}
-++
-++	if (idata->flags & PAMNS_DEBUG) {
-++		pam_syslog(idata->pamh, LOG_INFO,
-++			"Protect mount of %s over itself", path);
-++	}
-++
-++	if (mount(tmpbuf, tmpbuf, NULL, MS_BIND, NULL) != 0) {
-++		int save_errno = errno;
-++		pam_syslog(idata->pamh, LOG_ERR,
-++			"Protect mount of %s failed: %m", tmpbuf);
-++		free(dir->dir);
-++		free(dir);
-++		errno = save_errno;
-++		return -1;
-++	}
-++
-++	dir->next = idata->protect_dirs;
-++	idata->protect_dirs = dir;
-++
-++	return 0;
-++}
-++
-++/*
-++ * Returns a fd to the given absolute path, acquired securely. This means:
-++ * - iterating on each segment of the path,
-++ * - not following user symlinks,
-++ * - using race-free operations.
-++ *
-++ * Takes a bit mask to specify the operation mode:
-++ * - SECURE_OPENDIR_PROTECT: call protect_mount() on each unsafe segment of path
-++ * - SECURE_OPENDIR_MKDIR: create last segment of path if does not exist
-++ * - SECURE_OPENDIR_FULL_FD: open the directory with O_RDONLY instead of O_PATH,
-++ *     allowing more operations to be done with the returned fd
-++ *
-++ * Be aware that using SECURE_OPENDIR_PROTECT:
-++ * - will modify some external state (global structure...) and should not be
-++ *   called in cleanup code paths. See wrapper secure_opendir_stateless()
-++ * - need a non-NULL idata to call protect_mount()
-++ */
-++static int secure_opendir(const char *path, int opm, mode_t mode,
-++	struct instance_data *idata)
-++{
-++	char *p;
-++	char *d;
-++	char *dir;
-++	int dfd = -1;
-++	int dfd_next;
-++	int save_errno;
-++	int flags = O_DIRECTORY | O_CLOEXEC;
-++	int rv = -1;
-++	struct stat st;
-++
-++	if (opm & SECURE_OPENDIR_FULL_FD)
-++		flags |= O_RDONLY;
-++	else
-++		flags |= O_PATH;
-++
-++	/* Check for args consistency */
-++	if ((opm & SECURE_OPENDIR_PROTECT) && idata == NULL)
-++		return -1;
-++
-++	/* Accept only absolute paths */
-++	if (*path != '/')
-++		return -1;
-++
-++	dir = p = strdup(path);
-++	if (p == NULL)
-++		return -1;
-++
-++	/* Assume '/' is safe */
-++	dfd = open("/", flags);
-++	if (dfd == -1)
-++		goto error;
-++
-++	/* Needed to not loop too far and call openat() on NULL */
-++	strip_trailing_slashes(p);
-++
-++	dir++;
-++
-++	/* In case path is '/' */
-++	if (*dir == '\0') {
-++		free(p);
-++		return dfd;
-++	}
-++
-++	while ((d=strchr(dir, '/')) != NULL) {
-++		*d = '\0';
-++
-++		dfd_next = openat(dfd, dir, flags);
-++		if (dfd_next == -1)
-++			goto error;
-++
-++		if (fstat(dfd_next, &st) != 0) {
-++			close(dfd_next);
-++			goto error;
-++		}
-++
-++		if ((flags & O_NOFOLLOW) && (opm & SECURE_OPENDIR_PROTECT)) {
-++			/* we are inside user-owned dir - protect */
-++			if (protect_mount(dfd_next, p, idata) == -1) {
-++				close(dfd_next);
-++				goto error;
-++			}
-++			/*
-++			 * Reopen the directory to obtain a new descriptor
-++			 * after protect_mount(), this is necessary in cases
-++			 * when another directory is going to be mounted over
-++			 * the given path.
-++			 */
-++			close(dfd_next);
-++			dfd_next = openat(dfd, dir, flags);
-++			if (dfd_next == -1)
-++				goto error;
-++		} else if (st.st_uid != 0
-++		           || (st.st_gid != 0 && (st.st_mode & S_IWGRP))
-++		           || (st.st_mode & S_IWOTH)) {
-++			/* do not follow symlinks on subdirectories */
-++			flags |= O_NOFOLLOW;
-++		}
-++
-++		close(dfd);
-++		dfd = dfd_next;
-++
-++		*d = '/';
-++		dir = d + 1;
-++	}
-++
-++	rv = openat(dfd, dir, flags);
-++
-++	if (rv == -1) {
-++		if ((opm & SECURE_OPENDIR_MKDIR) && mkdirat(dfd, dir, mode) == 0)
-++			rv = openat(dfd, dir, flags);
-++
-++		if (rv == -1)
-++			goto error;
-++	}
-++
-++	if ((flags & O_NOFOLLOW) && (opm & SECURE_OPENDIR_PROTECT)) {
-++		/* we are inside user-owned dir - protect */
-++		if (protect_mount(rv, p, idata) == -1) {
-++			save_errno = errno;
-++			close(rv);
-++			rv = -1;
-++			errno = save_errno;
-++		}
-++		/*
-++		 * Reopen the directory to obtain a new descriptor after
-++		 * protect_mount(), this is necessary in cases when another
-++		 * directory is going to be mounted over the given path.
-++		 */
-++		close(rv);
-++		rv = openat(dfd, dir, flags);
-++	}
-++
-++error:
-++	save_errno = errno;
-++	free(p);
-++	if (dfd >= 0)
-++		close(dfd);
-++	errno = save_errno;
-++
-++	return rv;
-++}
-++
-++/*
-++ * Returns a fd to the given path, acquired securely.
-++ * It can be called in all situations, including in cleanup code paths, as
-++ * it does not modify external state (no access to global structures...).
-++ */
-++static int secure_opendir_stateless(const char *path)
-++{
-++	return secure_opendir(path, 0, 0, NULL);
-++}
-++
-++/*
-++ * Umount securely the given path, even if the directories along
-++ * the path are under user control. It should protect against
-++ * symlinks attacks and race conditions.
-++ */
-++static int secure_umount(const char *path)
-++{
-++	int save_errno;
-++	int rv = -1;
-++	int dfd = -1;
-++	char s_path[MAGIC_LNK_FD_SIZE];
-++
-++	dfd = secure_opendir_stateless(path);
-++	if (dfd == -1)
-++		return rv;
-++
-++	if (pam_sprintf(s_path, "/proc/self/fd/%d", dfd) < 0)
-++		goto error;
-++
-++	/*
-++	* We still have a fd open to path itself,
-++	* so we need to do a lazy umount.
-++	*/
-++	rv = umount2(s_path, MNT_DETACH);
-++
-++error:
-++	save_errno = errno;
-++	close(dfd);
-++	errno = save_errno;
-++	return rv;
-++}
-++
-++/*
-++ * Rmdir the given path securely, protecting against symlinks attacks
-++ * and race conditions.
-++ * This function is currently called only in cleanup code paths where
-++ * any errors returned are not handled, so do not handle them either.
-++ * Basically, try to rmdir the path on a best-effort basis.
-++ */
-++static void secure_try_rmdir(const char *path)
-++{
-++	int dfd;
-++	char *buf;
-++	char *parent;
-++
-++	buf = strdup(path);
-++	if (buf == NULL)
-++		return;
-++
-++	parent = dirname(buf);
-++
-++	dfd = secure_opendir_stateless(parent);
-++	if (dfd >= 0) {
-++		unlinkat(dfd, base_name(path), AT_REMOVEDIR);
-++		close(dfd);
-++	}
-++
-++	free(buf);
-++}
-++
-++/* Evaluating a list of files which have to be parsed in the right order:
-++ *
-++ * - If etc/security/namespace.d/@filename@.conf exists, then
-++ *   %vendordir%/security/namespace.d/@filename@.conf should not be used.
-++ * - All files in both namespace.d directories are sorted by their @filename@.conf in
-++ *   lexicographic order regardless of which of the directories they reside in. */
-++static char **read_namespace_dir(struct instance_data *idata)
-++{
-++	glob_t globbuf;
-++	size_t i=0;
-++	int glob_rv = glob(NAMESPACE_D_GLOB, GLOB_ERR | GLOB_NOSORT, NULL, &globbuf);
-++	char **file_list;
-++	size_t file_list_size = glob_rv == 0 ? globbuf.gl_pathc : 0;
-++
-++#ifdef VENDOR_NAMESPACE_D_GLOB
-++	glob_t globbuf_vendor;
-++	int glob_rv_vendor = glob(VENDOR_NAMESPACE_D_GLOB, GLOB_ERR | GLOB_NOSORT, NULL, &globbuf_vendor);
-++	if (glob_rv_vendor == 0)
-++	    file_list_size += globbuf_vendor.gl_pathc;
-++#endif
-++	file_list = malloc((file_list_size + 1) * sizeof(char*));
-++	if (file_list == NULL) {
-++	    pam_syslog(idata->pamh, LOG_ERR, "Cannot allocate memory for file list: %m");
-++#ifdef VENDOR_NAMESPACE_D_GLOB
-++	    if (glob_rv_vendor == 0)
-++		globfree(&globbuf_vendor);
-++#endif
-++	    if (glob_rv == 0)
-++		globfree(&globbuf);
-++	    return NULL;
-++	}
-++
-++	if (glob_rv == 0) {
-++	    for (i = 0; i < globbuf.gl_pathc; i++) {
-++		file_list[i] = strdup(globbuf.gl_pathv[i]);
-++		if (file_list[i] == NULL) {
-++		    pam_syslog(idata->pamh, LOG_ERR, "strdup failed: %m");
-++		    break;
-++		}
-++	    }
-++	}
-++#ifdef VENDOR_NAMESPACE_D_GLOB
-++	if (glob_rv_vendor == 0) {
-++	    for (size_t j = 0; j < globbuf_vendor.gl_pathc; j++) {
-++		if (glob_rv == 0 && globbuf.gl_pathc > 0) {
-++		    int double_found = 0;
-++		    for (size_t k = 0; k < globbuf.gl_pathc; k++) {
-++			if (strcmp(base_name(globbuf.gl_pathv[k]),
-++				   base_name(globbuf_vendor.gl_pathv[j])) == 0) {
-++				double_found = 1;
-++				break;
-++			}
-++		    }
-++		    if (double_found)
-++			continue;
-++		}
-++		file_list[i] = strdup(globbuf_vendor.gl_pathv[j]);
-++		if (file_list[i] == NULL) {
-++		    pam_syslog(idata->pamh, LOG_ERR, "strdup failed: %m");
-++		    break;
-++		}
-++		i++;
-++	    }
-++	    globfree(&globbuf_vendor);
-++	}
-++#endif
-++	file_list[i] = NULL;
-++	qsort(file_list, i, sizeof(char *), compare_filename);
-++	if (glob_rv == 0)
-++	    globfree(&globbuf);
-++
-++	return file_list;
-++}
-++
-+ /*
-+  * Adds an entry for a polyinstantiated directory to the linked list of
-+  * polyinstantiated directories. It is called from process_line() while
-+@@ -71,6 +439,7 @@ static void del_polydir(struct polydir_s *poly)
-+ 	}
-+ }
-+ 
-++
-+ /*
-+  * Deletes all the entries in the linked list.
-+  */
-+@@ -90,7 +459,7 @@ static void unprotect_dirs(struct protect_dir_s *dir)
-+ 	struct protect_dir_s *next;
-+ 
-+ 	while (dir != NULL) {
-+-		umount(dir->dir);
-++		secure_umount(dir->dir);
-+ 		free(dir->dir);
-+ 		next = dir->next;
-+ 		free(dir);
-+@@ -108,7 +477,7 @@ static void cleanup_protect_data(pam_handle_t *pamh UNUSED , void *data, int err
-+ 	unprotect_dirs(data);
-+ }
-+ 
-+-static char *expand_variables(const char *orig, const char *var_names[], const char *var_values[])
-++static char *expand_variables(const char *orig, const char *const var_names[], const char *var_values[])
-+ {
-+ 	const char *src = orig;
-+ 	char *dst;
-+@@ -119,7 +488,7 @@ static char *expand_variables(const char *orig, const char *var_names[], const c
-+ 		if (*src == '$') {
-+ 			int i;
-+ 			for (i = 0; var_names[i]; i++) {
-+-				int namelen = strlen(var_names[i]);
-++				size_t namelen = strlen(var_names[i]);
-+ 				if (strncmp(var_names[i], src+1, namelen) == 0) {
-+ 					dstlen += strlen(var_values[i]) - 1; /* $ */
-+ 					src += namelen;
-+@@ -137,7 +506,7 @@ static char *expand_variables(const char *orig, const char *var_names[], const c
-+ 		if (c == '$') {
-+ 			int i;
-+ 			for (i = 0; var_names[i]; i++) {
-+-				int namelen = strlen(var_names[i]);
-++				size_t namelen = strlen(var_names[i]);
-+ 				if (strncmp(var_names[i], src+1, namelen) == 0) {
-+ 					dst = stpcpy(dst, var_values[i]);
-+ 					--dst;
-+@@ -221,8 +590,7 @@ static int parse_iscript_params(char *params, struct polydir_s *poly)
-+ 
-+     if (*params != '\0') {
-+ 	if (*params != '/') { /* path is relative to NAMESPACE_D_DIR */
-+-		if (asprintf(&poly->init_script, "%s%s", NAMESPACE_D_DIR, params) == -1)
-+-			return -1;
-++		poly->init_script = pam_asprintf("%s%s", NAMESPACE_D_DIR, params);
-+ 	} else {
-+ 		poly->init_script = strdup(params);
-+ 	}
-+@@ -304,9 +672,9 @@ static int parse_method(char *method, struct polydir_s *poly,
-+ {
-+     enum polymethod pm;
-+     char *sptr = NULL;
-+-    static const char *method_names[] = { "user", "context", "level", "tmpdir",
-++    static const char *const method_names[] = { "user", "context", "level", "tmpdir",
-+ 	"tmpfs", NULL };
-+-    static const char *flag_names[] = { "create", "noinit", "iscript",
-++    static const char *const flag_names[] = { "create", "noinit", "iscript",
-+ 	"shared", "mntopts", NULL };
-+     static const unsigned int flag_values[] = { POLYDIR_CREATE, POLYDIR_NOINIT,
-+ 	POLYDIR_ISCRIPT, POLYDIR_SHARED, POLYDIR_MNTOPTS };
-+@@ -331,7 +699,7 @@ static int parse_method(char *method, struct polydir_s *poly,
-+ 
-+     while ((flag=strtok_r(NULL, ":", &sptr)) != NULL) {
-+ 	for (i = 0; flag_names[i]; i++) {
-+-		int namelen = strlen(flag_names[i]);
-++		size_t namelen = strlen(flag_names[i]);
-+ 
-+ 		if (strncmp(flag, flag_names[i], namelen) == 0) {
-+ 			poly->flags |= flag_values[i];
-+@@ -377,27 +745,27 @@ static int parse_method(char *method, struct polydir_s *poly,
-+  * of the namespace configuration file. It skips over comments and incomplete
-+  * or malformed lines. It processes a valid line with information on
-+  * polyinstantiating a directory by populating appropriate fields of a
-+- * polyinstatiated directory structure and then calling add_polydir_entry to
-++ * polyinstantiated directory structure and then calling add_polydir_entry to
-+  * add that entry to the linked list of polyinstantiated directories.
-+  */
-+ static int process_line(char *line, const char *home, const char *rhome,
-+ 			struct instance_data *idata)
-+ {
-+     char *dir = NULL, *instance_prefix = NULL, *rdir = NULL;
-++    const char *config_dir, *config_instance_prefix;
-+     char *method, *uids;
-+     char *tptr;
-+     struct polydir_s *poly;
-+     int retval = 0;
-+     char **config_options = NULL;
-+-    static const char *var_names[] = {"HOME", "USER", NULL};
-++    static const char *const var_names[] = {"HOME", "USER", NULL};
-+     const char *var_values[] = {home, idata->user};
-+     const char *rvar_values[] = {rhome, idata->ruser};
-+-    int len;
-+ 
-+     /*
-+      * skip the leading white space
-+      */
-+-    while (*line && isspace(*line))
-++    while (*line && isspace((unsigned char)*line))
-+         line++;
-+ 
-+     /*
-+@@ -433,22 +801,19 @@ static int process_line(char *line, const char *home, const char *rhome,
-+         goto erralloc;
-+     }
-+ 
-+-    dir = config_options[0];
-+-    if (dir == NULL) {
-++    config_dir = config_options[0];
-++    if (config_dir == NULL) {
-+         pam_syslog(idata->pamh, LOG_NOTICE, "Invalid line missing polydir");
-+         goto skipping;
-+     }
-+-    instance_prefix = config_options[1];
-+-    if (instance_prefix == NULL) {
-++    config_instance_prefix = config_options[1];
-++    if (config_instance_prefix == NULL) {
-+         pam_syslog(idata->pamh, LOG_NOTICE, "Invalid line missing instance_prefix");
-+-        instance_prefix = NULL;
-+         goto skipping;
-+     }
-+     method = config_options[2];
-+     if (method == NULL) {
-+         pam_syslog(idata->pamh, LOG_NOTICE, "Invalid line missing method");
-+-        instance_prefix = NULL;
-+-        dir = NULL;
-+         goto skipping;
-+     }
-+ 
-+@@ -463,19 +828,16 @@ static int process_line(char *line, const char *home, const char *rhome,
-+     /*
-+      * Expand $HOME and $USER in poly dir and instance dir prefix
-+      */
-+-    if ((rdir=expand_variables(dir, var_names, rvar_values)) == NULL) {
-+-	    instance_prefix = NULL;
-+-	    dir = NULL;
-++    if ((rdir = expand_variables(config_dir, var_names, rvar_values)) == NULL) {
-+ 	    goto erralloc;
-+     }
-+ 
-+-    if ((dir=expand_variables(dir, var_names, var_values)) == NULL) {
-+-	    instance_prefix = NULL;
-++    if ((dir = expand_variables(config_dir, var_names, var_values)) == NULL) {
-+ 	    goto erralloc;
-+     }
-+ 
-+-    if ((instance_prefix=expand_variables(instance_prefix, var_names, var_values))
-+-	    == NULL) {
-++    if ((instance_prefix = expand_variables(config_instance_prefix,
-++					    var_names, var_values)) == NULL) {
-+ 	    goto erralloc;
-+     }
-+ 
-+@@ -485,15 +847,8 @@ static int process_line(char *line, const char *home, const char *rhome,
-+ 	    pam_syslog(idata->pamh, LOG_DEBUG, "Expanded instance prefix: '%s'", instance_prefix);
-+     }
-+ 
-+-    len = strlen(dir);
-+-    if (len > 0 && dir[len-1] == '/') {
-+-	    dir[len-1] = '\0';
-+-    }
-+-
-+-    len = strlen(rdir);
-+-    if (len > 0 && rdir[len-1] == '/') {
-+-	    rdir[len-1] = '\0';
-+-    }
-++    strip_trailing_slashes(dir);
-++    strip_trailing_slashes(rdir);
-+ 
-+     if (dir[0] == '\0' || rdir[0] == '\0') {
-+ 	    pam_syslog(idata->pamh, LOG_NOTICE, "Invalid polydir");
-+@@ -504,26 +859,15 @@ static int process_line(char *line, const char *home, const char *rhome,
-+      * Populate polyinstantiated directory structure with appropriate
-+      * pathnames and the method with which to polyinstantiate.
-+      */
-+-    if (strlen(dir) >= sizeof(poly->dir)
-+-        || strlen(rdir) >= sizeof(poly->rdir)
-+-	|| strlen(instance_prefix) >= sizeof(poly->instance_prefix)) {
-+-	pam_syslog(idata->pamh, LOG_NOTICE, "Pathnames too long");
-+-	goto skipping;
-+-    }
-+-    strcpy(poly->dir, dir);
-+-    strcpy(poly->rdir, rdir);
-+-    strcpy(poly->instance_prefix, instance_prefix);
-+-
-+     if (parse_method(method, poly, idata) != 0) {
-+ 	    goto skipping;
-+     }
-+ 
-+-    if (poly->method == TMPDIR) {
-+-	if (sizeof(poly->instance_prefix) - strlen(poly->instance_prefix) < 7) {
-+-		pam_syslog(idata->pamh, LOG_NOTICE, "Pathnames too long");
-+-		goto skipping;
-+-	}
-+-	strcat(poly->instance_prefix, "XXXXXX");
-++    if (pam_sprintf(poly->dir, "%s", dir) < 0
-++	|| pam_sprintf(poly->rdir, "%s", rdir) < 0
-++	|| pam_sprintf(poly->instance_prefix, "%s", instance_prefix) < 0) {
-++	pam_syslog(idata->pamh, LOG_NOTICE, "Pathnames too long");
-++	goto skipping;
-+     }
-+ 
-+     /*
-+@@ -547,7 +891,7 @@ static int process_line(char *line, const char *home, const char *rhome,
-+     if (uids) {
-+         uid_t *uidptr;
-+         const char *ustr, *sstr;
-+-        int count, i;
-++        size_t count, i;
-+ 
-+ 	if (*uids == '~') {
-+ 		poly->flags |= POLYDIR_EXCLUSIVE;
-+@@ -556,8 +900,13 @@ static int process_line(char *line, const char *home, const char *rhome,
-+         for (count = 0, ustr = sstr = uids; sstr; ustr = sstr + 1, count++)
-+            sstr = strchr(ustr, ',');
-+ 
-++        if (count > UINT_MAX || count > SIZE_MAX / sizeof(uid_t)) {
-++            pam_syslog(idata->pamh, LOG_ERR, "Too many uids encountered in configuration");
-++            goto skipping;
-++        }
-++
-+         poly->num_uids = count;
-+-        poly->uid = (uid_t *) malloc(count * sizeof (uid_t));
-++        poly->uid = malloc(count * sizeof (uid_t));
-+         uidptr = poly->uid;
-+         if (uidptr == NULL) {
-+             goto erralloc;
-+@@ -796,6 +1145,23 @@ static char *md5hash(const char *instname, struct instance_data *idata)
-+ }
-+ 
-+ #ifdef WITH_SELINUX
-++static char *secure_getfilecon(pam_handle_t *pamh, const char *dir)
-++{
-++	char *ctx = NULL;
-++	int dfd = secure_opendir(dir, SECURE_OPENDIR_FULL_FD, 0, NULL);
-++	if (dfd < 0) {
-++		pam_syslog(pamh, LOG_ERR, "Error getting fd to %s: %m", dir);
-++		return NULL;
-++	}
-++	if (fgetfilecon(dfd, &ctx) < 0)
-++		ctx = NULL;
-++	if (ctx == NULL)
-++		pam_syslog(pamh, LOG_ERR,
-++			   "Error getting poly dir context for %s: %m", dir);
-++	close(dfd);
-++	return ctx;
-++}
-++
-+ static int form_context(const struct polydir_s *polyptr,
-+ 		char **i_context, char **origcon,
-+ 		struct instance_data *idata)
-+@@ -807,12 +1173,9 @@ static int form_context(const struct polydir_s *polyptr,
-+ 	/*
-+ 	 * Get the security context of the directory to polyinstantiate.
-+ 	 */
-+-	rc = getfilecon(polyptr->dir, origcon);
-+-	if (rc < 0 || *origcon == NULL) {
-+-		pam_syslog(idata->pamh, LOG_ERR,
-+-				"Error getting poly dir context, %m");
-++	*origcon = secure_getfilecon(idata->pamh, polyptr->dir);
-++	if (*origcon == NULL)
-+ 		return PAM_SESSION_ERR;
-+-	}
-+ 
-+ 	if (polyptr->method == USER) return PAM_SUCCESS;
-+ 
-+@@ -903,34 +1266,58 @@ static int form_context(const struct polydir_s *polyptr,
-+ 		return rc;
-+ 	}
-+ 	/* Should never get here */
-++	freecon(scon);
-+ 	return PAM_SUCCESS;
-+ }
-+ #endif
-+ 
-+ /*
-+- * poly_name returns the name of the polyinstantiated instance directory
-++ * From the instance differentiation string, set in the polyptr structure:
-++ * - the absolute path to the instance dir,
-++ * - the absolute path to the previous dir (parent),
-++ * - the instance name (may be different than the instance differentiation string)
-++ */
-++static int set_polydir_paths(struct polydir_s *polyptr, const char *inst_differentiation)
-++{
-++	char *tmp;
-++
-++	if (pam_sprintf(polyptr->instance_absolute, "%s%s",
-++	                polyptr->instance_prefix, inst_differentiation) < 0)
-++		return -1;
-++
-++	polyptr->instname = strrchr(polyptr->instance_absolute, '/') + 1;
-++
-++	if (pam_sprintf(polyptr->instance_parent, "%s", polyptr->instance_absolute) < 0)
-++		return -1;
-++
-++	tmp = strrchr(polyptr->instance_parent, '/') + 1;
-++	*tmp = '\0';
-++
-++	return 0;
-++}
-++
-++/*
-++ * Set the name of the polyinstantiated instance directory
-+  * based on the method used for polyinstantiation (user, context or level)
-+  * In addition, the function also returns the security contexts of the
-+  * original directory to polyinstantiate and the polyinstantiated instance
-+  * directory.
-+  */
-+ #ifdef WITH_SELINUX
-+-static int poly_name(const struct polydir_s *polyptr, char **i_name,
-+-	char **i_context, char **origcon,
-+-        struct instance_data *idata)
-++static int poly_name(struct polydir_s *polyptr, char **i_context,
-++        char **origcon, struct instance_data *idata)
-+ #else
-+-static int poly_name(const struct polydir_s *polyptr, char **i_name,
-+-	struct instance_data *idata)
-++static int poly_name(struct polydir_s *polyptr, struct instance_data *idata)
-+ #endif
-+ {
-+     int rc;
-++    char *inst_differentiation = NULL;
-+     char *hash = NULL;
-+     enum polymethod pm;
-+ #ifdef WITH_SELINUX
-+     char *rawcon = NULL;
-+ #endif
-+ 
-+-    *i_name = NULL;
-+ #ifdef WITH_SELINUX
-+     *i_context = NULL;
-+     *origcon = NULL;
-+@@ -964,10 +1351,8 @@ static int poly_name(const struct polydir_s *polyptr, char **i_name,
-+ 
-+     switch (pm) {
-+         case USER:
-+-	    if (asprintf(i_name, "%s", idata->user) < 0) {
-+-		*i_name = NULL;
-++	    if ((inst_differentiation = strdup(idata->user)) == NULL)
-+ 		goto fail;
-+-	    }
-+ 	    break;
-+ 
-+ #ifdef WITH_SELINUX
-+@@ -977,26 +1362,25 @@ static int poly_name(const struct polydir_s *polyptr, char **i_name,
-+ 		pam_syslog(idata->pamh, LOG_ERR, "Error translating directory context");
-+ 		goto fail;
-+ 	    }
-+-	    if (polyptr->flags & POLYDIR_SHARED) {
-+-		if (asprintf(i_name, "%s", rawcon) < 0) {
-+-			*i_name = NULL;
-+-			goto fail;
-+-		}
-+-	    } else {
-+-		if (asprintf(i_name, "%s_%s", rawcon, idata->user) < 0) {
-+-			*i_name = NULL;
-+-			goto fail;
-+-		}
-+-	    }
-++	    if (polyptr->flags & POLYDIR_SHARED)
-++		inst_differentiation = strdup(rawcon);
-++	    else
-++		inst_differentiation = pam_asprintf("%s_%s", rawcon, idata->user);
-++	    if (inst_differentiation == NULL)
-++		goto fail;
-+ 	    break;
-+ 
-+ #endif /* WITH_SELINUX */
-+ 
-+ 	case TMPDIR:
-++	    if ((inst_differentiation = strdup("XXXXXX")) == NULL)
-++		goto fail;
-++	    goto success;
-++
-+ 	case TMPFS:
-+-	    if ((*i_name=strdup("")) == NULL)
-++	    if ((inst_differentiation=strdup("")) == NULL)
-+ 		goto fail;
-+-	    return PAM_SUCCESS;
-++	    goto success;
-+ 
-+ 	default:
-+ 	    if (idata->flags & PAMNS_DEBUG)
-+@@ -1005,31 +1389,37 @@ static int poly_name(const struct polydir_s *polyptr, char **i_name,
-+     }
-+ 
-+     if (idata->flags & PAMNS_DEBUG)
-+-        pam_syslog(idata->pamh, LOG_DEBUG, "poly_name %s", *i_name);
-++        pam_syslog(idata->pamh, LOG_DEBUG, "poly_name %s", inst_differentiation);
-+ 
-+-    if ((idata->flags & PAMNS_GEN_HASH) || strlen(*i_name) > NAMESPACE_MAX_DIR_LEN) {
-+-        hash = md5hash(*i_name, idata);
-++    if ((idata->flags & PAMNS_GEN_HASH) || strlen(inst_differentiation) > NAMESPACE_MAX_DIR_LEN) {
-++        hash = md5hash(inst_differentiation, idata);
-+         if (hash == NULL) {
-+ 	    goto fail;
-+         }
-+         if (idata->flags & PAMNS_GEN_HASH) {
-+-	    free(*i_name);
-+-	    *i_name = hash;
-++	    free(inst_differentiation);
-++	    inst_differentiation = hash;
-+ 	    hash = NULL;
-+         } else {
-+-	    char *newname;
-+-	    if (asprintf(&newname, "%.*s_%s", NAMESPACE_MAX_DIR_LEN-1-(int)strlen(hash),
-+-		*i_name, hash) < 0) {
-++	    char *newname =
-++		pam_asprintf("%.*s_%s",
-++			     NAMESPACE_MAX_DIR_LEN - 1 - (int)strlen(hash),
-++			     inst_differentiation, hash);
-++	    if (newname == NULL)
-+ 		goto fail;
-+-	    }
-+-	    free(*i_name);
-+-	    *i_name = newname;
-++	    free(inst_differentiation);
-++	    inst_differentiation = newname;
-+         }
-+     }
-+-    rc = PAM_SUCCESS;
-+ 
-++success:
-++    if (set_polydir_paths(polyptr, inst_differentiation) == -1)
-++        goto fail;
-++
-++    rc = PAM_SUCCESS;
-+ fail:
-+     free(hash);
-++    free(inst_differentiation);
-+ #ifdef WITH_SELINUX
-+     freecon(rawcon);
-+ #endif
-+@@ -1040,187 +1430,35 @@ fail:
-+ 	freecon(*origcon);
-+ 	*origcon = NULL;
-+ #endif
-+-	free(*i_name);
-+-	*i_name = NULL;
-+     }
-+     return rc;
-+ }
-+ 
-+-static int protect_mount(int dfd, const char *path, struct instance_data *idata)
-++static int check_inst_parent(int dfd, struct instance_data *idata)
-+ {
-+-	struct protect_dir_s *dir = idata->protect_dirs;
-+-	char tmpbuf[64];
-+-
-+-	while (dir != NULL) {
-+-		if (strcmp(path, dir->dir) == 0) {
-+-			return 0;
-+-		}
-+-		dir = dir->next;
-+-	}
-+-
-+-	dir = calloc(1, sizeof(*dir));
-+-
-+-	if (dir == NULL) {
-+-		return -1;
-+-	}
-+-
-+-	dir->dir = strdup(path);
-+-
-+-	if (dir->dir == NULL) {
-+-		free(dir);
-+-		return -1;
-+-	}
-++	struct stat instpbuf;
-+ 
-+-	snprintf(tmpbuf, sizeof(tmpbuf), "/proc/self/fd/%d", dfd);
-++	/*
-++	 * Stat the instance parent directory to make sure it's writable by
-++	 * root only (unless the admin explicitly instructs to ignore the
-++	 * instance parent mode by the "ignore_instance_parent_mode" argument).
-++	 */
-+ 
-+-	if (idata->flags & PAMNS_DEBUG) {
-+-		pam_syslog(idata->pamh, LOG_INFO,
-+-			"Protect mount of %s over itself", path);
-+-	}
-++	if (idata->flags & PAMNS_IGN_INST_PARENT_MODE)
-++		return PAM_SUCCESS;
-+ 
-+-	if (mount(tmpbuf, tmpbuf, NULL, MS_BIND, NULL) != 0) {
-+-		int save_errno = errno;
-++	if (fstat(dfd, &instpbuf) < 0) {
-+ 		pam_syslog(idata->pamh, LOG_ERR,
-+-			"Protect mount of %s failed: %m", tmpbuf);
-+-		free(dir->dir);
-+-		free(dir);
-+-		errno = save_errno;
-+-		return -1;
-+-	}
-+-
-+-	dir->next = idata->protect_dirs;
-+-	idata->protect_dirs = dir;
-+-
-+-	return 0;
-+-}
-+-
-+-static int protect_dir(const char *path, mode_t mode, int do_mkdir,
-+-	struct instance_data *idata)
-+-{
-+-	char *p = strdup(path);
-+-	char *d;
-+-	char *dir = p;
-+-	int dfd = AT_FDCWD;
-+-	int dfd_next;
-+-	int save_errno;
-+-	int flags = O_RDONLY | O_DIRECTORY;
-+-	int rv = -1;
-+-	struct stat st;
-+-
-+-	if (p == NULL) {
-+-		goto error;
-+-	}
-+-
-+-	if (*dir == '/') {
-+-		dfd = open("/", flags);
-+-		if (dfd == -1) {
-+-			goto error;
-+-		}
-+-		dir++;	/* assume / is safe */
-+-	}
-+-
-+-	while ((d=strchr(dir, '/')) != NULL) {
-+-		*d = '\0';
-+-		dfd_next = openat(dfd, dir, flags);
-+-		if (dfd_next == -1) {
-+-			goto error;
-+-		}
-+-
-+-		if (dfd != AT_FDCWD)
-+-			close(dfd);
-+-		dfd = dfd_next;
-+-
-+-		if (fstat(dfd, &st) != 0) {
-+-			goto error;
-+-		}
-+-
-+-		if (flags & O_NOFOLLOW) {
-+-			/* we are inside user-owned dir - protect */
-+-			if (protect_mount(dfd, p, idata) == -1)
-+-				goto error;
-+-		} else if (st.st_uid != 0 || st.st_gid != 0 ||
-+-			(st.st_mode & S_IWOTH)) {
-+-			/* do not follow symlinks on subdirectories */
-+-			flags |= O_NOFOLLOW;
-+-		}
-+-
-+-		*d = '/';
-+-		dir = d + 1;
-+-	}
-+-
-+-	rv = openat(dfd, dir, flags);
-+-
-+-	if (rv == -1) {
-+-		if (!do_mkdir || mkdirat(dfd, dir, mode) != 0) {
-+-			goto error;
-+-		}
-+-		rv = openat(dfd, dir, flags);
-+-	}
-+-
-+-	if (flags & O_NOFOLLOW) {
-+-		/* we are inside user-owned dir - protect */
-+-		if (protect_mount(rv, p, idata) == -1) {
-+-			save_errno = errno;
-+-			close(rv);
-+-			rv = -1;
-+-			errno = save_errno;
-+-		}
-+-	}
-+-
-+-error:
-+-	save_errno = errno;
-+-	free(p);
-+-	if (dfd != AT_FDCWD && dfd >= 0)
-+-		close(dfd);
-+-	errno = save_errno;
-+-
-+-	return rv;
-+-}
-+-
-+-static int check_inst_parent(char *ipath, struct instance_data *idata)
-+-{
-+-	struct stat instpbuf;
-+-	char *inst_parent, *trailing_slash;
-+-	int dfd;
-+-	/*
-+-	 * stat the instance parent path to make sure it exists
-+-	 * and is a directory. Check that its mode is 000 (unless the
-+-	 * admin explicitly instructs to ignore the instance parent
-+-	 * mode by the "ignore_instance_parent_mode" argument).
-+-	 */
-+-	inst_parent = (char *) malloc(strlen(ipath)+1);
-+-	if (!inst_parent) {
-+-		pam_syslog(idata->pamh, LOG_CRIT, "Error allocating pathname string");
-++			"Error accessing instance parent, %m");
-+ 		return PAM_SESSION_ERR;
-+ 	}
-+ 
-+-	strcpy(inst_parent, ipath);
-+-	trailing_slash = strrchr(inst_parent, '/');
-+-	if (trailing_slash)
-+-		*trailing_slash = '\0';
-+-
-+-	dfd = protect_dir(inst_parent, 0, 1, idata);
-+-
-+-	if (dfd == -1 || fstat(dfd, &instpbuf) < 0) {
-++	if ((instpbuf.st_mode & (S_IRWXU|S_IRWXG|S_IRWXO)) || instpbuf.st_uid != 0) {
-+ 		pam_syslog(idata->pamh, LOG_ERR,
-+-			"Error creating or accessing instance parent %s, %m", inst_parent);
-+-		if (dfd != -1)
-+-			close(dfd);
-+-		free(inst_parent);
-++			"Mode of inst parent not 000 or owner not root");
-+ 		return PAM_SESSION_ERR;
-+ 	}
-+ 
-+-	if ((idata->flags & PAMNS_IGN_INST_PARENT_MODE) == 0) {
-+-		if ((instpbuf.st_mode & (S_IRWXU|S_IRWXG|S_IRWXO)) || instpbuf.st_uid != 0) {
-+-			pam_syslog(idata->pamh, LOG_ERR, "Mode of inst parent %s not 000 or owner not root",
-+-					inst_parent);
-+-			close(dfd);
-+-			free(inst_parent);
-+-			return PAM_SESSION_ERR;
-+-		}
-+-	}
-+-	close(dfd);
-+-	free(inst_parent);
-+ 	return PAM_SUCCESS;
-+ }
-+ 
-+@@ -1269,9 +1507,10 @@ static int inst_init(const struct polydir_s *polyptr, const char *ipath,
-+ 				if (setuid(geteuid()) < 0) {
-+ 					/* ignore failures, they don't matter */
-+ 				}
-++				close_fds_pre_exec(idata);
-+ 
-+-				if (execle(init_script, init_script,
-+-					polyptr->dir, ipath, newdir?"1":"0", idata->user, NULL, envp) < 0)
-++				execle(init_script, init_script,
-++					polyptr->dir, ipath, newdir?"1":"0", idata->user, NULL, envp);
-+ 					_exit(1);
-+ 			} else if (pid > 0) {
-+ 				while (((rc = waitpid(pid, &status, 0)) == (pid_t)-1) &&
-+@@ -1322,7 +1561,9 @@ static int create_polydir(struct polydir_s *polyptr,
-+ 
-+ #ifdef WITH_SELINUX
-+     if (idata->flags & PAMNS_SELINUX_ENABLED) {
-+-	getfscreatecon_raw(&oldcon_raw);
-++	if (getfscreatecon_raw(&oldcon_raw) != 0)
-++	    pam_syslog(idata->pamh, LOG_NOTICE,
-++	               "Error retrieving fs create context: %m");
-+ 
-+ 	label_handle = selabel_open(SELABEL_CTX_FILE, NULL, 0);
-+ 	if (!label_handle) {
-+@@ -1347,11 +1588,16 @@ static int create_polydir(struct polydir_s *polyptr,
-+     }
-+ #endif
-+ 
-+-    rc = protect_dir(dir, mode, 1, idata);
-++    rc = secure_opendir(dir,
-++            SECURE_OPENDIR_PROTECT | SECURE_OPENDIR_MKDIR | SECURE_OPENDIR_FULL_FD,
-++            mode, idata);
-+     if (rc == -1) {
-+             pam_syslog(idata->pamh, LOG_ERR,
-+                        "Error creating directory %s: %m", dir);
-+-            return PAM_SESSION_ERR;
-++#ifdef WITH_SELINUX
-++            freecon(oldcon_raw);
-++#endif
-++            return -1;
-+     }
-+ 
-+ #ifdef WITH_SELINUX
-+@@ -1372,9 +1618,9 @@ static int create_polydir(struct polydir_s *polyptr,
-+ 		pam_syslog(idata->pamh, LOG_ERR,
-+ 			   "Error changing mode of directory %s: %m", dir);
-+                 close(rc);
-+-                umount(dir); /* undo the eventual protection bind mount */
-+-		rmdir(dir);
-+-		return PAM_SESSION_ERR;
-++		secure_umount(dir); /* undo the eventual protection bind mount */
-++		secure_try_rmdir(dir);
-++		return -1;
-+ 	}
-+     }
-+ 
-+@@ -1392,41 +1638,37 @@ static int create_polydir(struct polydir_s *polyptr,
-+         pam_syslog(idata->pamh, LOG_ERR,
-+                    "Unable to change owner on directory %s: %m", dir);
-+         close(rc);
-+-        umount(dir); /* undo the eventual protection bind mount */
-+-	rmdir(dir);
-+-	return PAM_SESSION_ERR;
-++	secure_umount(dir); /* undo the eventual protection bind mount */
-++	secure_try_rmdir(dir);
-++	return -1;
-+     }
-+ 
-+-    close(rc);
-+-
-+     if (idata->flags & PAMNS_DEBUG)
-+ 	pam_syslog(idata->pamh, LOG_DEBUG,
-+ 	           "Polydir owner %u group %u", uid, gid);
-+ 
-+-    return PAM_SUCCESS;
-++    return rc;
-+ }
-+ 
-+ /*
-+- * Create polyinstantiated instance directory (ipath).
-++ * Create polyinstantiated instance directory.
-++ * To protect against races, changes are done on a fd to the parent of the
-++ * instance directory (dfd_iparent) and a relative path (polyptr->instname).
-++ * The absolute path (polyptr->instance_absolute) is only updated when creating
-++ * a tmpdir and used for logging purposes.
-+  */
-+ #ifdef WITH_SELINUX
-+-static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *statbuf,
-+-        const char *icontext, const char *ocontext,
-+-	struct instance_data *idata)
-++static int create_instance(struct polydir_s *polyptr, int dfd_iparent,
-++        struct stat *statbuf, const char *icontext, const char *ocontext,
-++        struct instance_data *idata)
-+ #else
-+-static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *statbuf,
-+-	struct instance_data *idata)
-++static int create_instance(struct polydir_s *polyptr, int dfd_iparent,
-++        struct stat *statbuf, struct instance_data *idata)
-+ #endif
-+ {
-+     struct stat newstatbuf;
-+     int fd;
-+ 
-+-    /*
-+-     * Check to make sure instance parent is valid.
-+-     */
-+-    if (check_inst_parent(ipath, idata))
-+-	return PAM_SESSION_ERR;
-+-
-+     /*
-+      * Create instance directory and set its security context to the context
-+      * returned by the security policy. Set its mode and ownership
-+@@ -1435,29 +1677,39 @@ static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *
-+      */
-+ 
-+     if (polyptr->method == TMPDIR) {
-+-	if (mkdtemp(polyptr->instance_prefix) == NULL) {
-+-            pam_syslog(idata->pamh, LOG_ERR, "Error creating temporary instance %s, %m",
-+-			polyptr->instance_prefix);
-+-	    polyptr->method = NONE; /* do not clean up! */
-+-	    return PAM_SESSION_ERR;
-+-	}
-+-	/* copy the actual directory name to ipath */
-+-	strcpy(ipath, polyptr->instance_prefix);
-+-    } else if (mkdir(ipath, S_IRUSR) < 0) {
-++        char s_path[PATH_MAX];
-++        /*
-++         * Create the template for mkdtemp() as a magic link based on
-++         * our existing fd to avoid symlink attacks and races.
-++         */
-++        if (pam_sprintf(s_path, "/proc/self/fd/%d/%s", dfd_iparent, polyptr->instname) < 0
-++            || mkdtemp(s_path) == NULL) {
-++            pam_syslog(idata->pamh, LOG_ERR,
-++                       "Error creating temporary instance dir %s, %m",
-++                       polyptr->instance_absolute);
-++            polyptr->method = NONE; /* do not clean up! */
-++            return PAM_SESSION_ERR;
-++        }
-++
-++        /* Copy the actual directory name to polyptr->instname */
-++        strcpy(polyptr->instname, base_name(s_path));
-++    } else if (mkdirat(dfd_iparent, polyptr->instname, S_IRUSR) < 0) {
-+         if (errno == EEXIST)
-+             return PAM_IGNORE;
-+         else {
-+             pam_syslog(idata->pamh, LOG_ERR, "Error creating %s, %m",
-+-			ipath);
-++                       polyptr->instance_absolute);
-+             return PAM_SESSION_ERR;
-+         }
-+     }
-+ 
-+-    /* Open a descriptor to it to prevent races */
-+-    fd = open(ipath, O_DIRECTORY | O_RDONLY);
-++    /* Open a descriptor to prevent races, based on our existing fd. */
-++    fd = openat(dfd_iparent, polyptr->instname,
-++            O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
-+     if (fd < 0) {
-+-	pam_syslog(idata->pamh, LOG_ERR, "Error opening %s, %m", ipath);
-+-	rmdir(ipath);
-++	pam_syslog(idata->pamh, LOG_ERR, "Error opening %s, %m",
-++                polyptr->instance_absolute);
-++	unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
-+ 	return PAM_SESSION_ERR;
-+     }
-+ #ifdef WITH_SELINUX
-+@@ -1467,17 +1719,19 @@ static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *
-+         if (icontext) {
-+             if (fsetfilecon(fd, icontext) < 0) {
-+                 pam_syslog(idata->pamh, LOG_ERR,
-+-			"Error setting context of %s to %s", ipath, icontext);
-++			"Error setting context of %s to %s",
-++                        polyptr->instance_absolute, icontext);
-+                 close(fd);
-+-		rmdir(ipath);
-++                unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
-+                 return PAM_SESSION_ERR;
-+             }
-+         } else {
-+             if (fsetfilecon(fd, ocontext) < 0) {
-+                 pam_syslog(idata->pamh, LOG_ERR,
-+-			"Error setting context of %s to %s", ipath, ocontext);
-++			"Error setting context of %s to %s",
-++                        polyptr->instance_absolute, ocontext);
-+ 		close(fd);
-+-		rmdir(ipath);
-++                unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
-+                 return PAM_SESSION_ERR;
-+             }
-+         }
-+@@ -1485,9 +1739,9 @@ static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *
-+ #endif
-+     if (fstat(fd, &newstatbuf) < 0) {
-+         pam_syslog(idata->pamh, LOG_ERR, "Error stating %s, %m",
-+-		ipath);
-++		polyptr->instance_absolute);
-+ 	close(fd);
-+-	rmdir(ipath);
-++        unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
-+         return PAM_SESSION_ERR;
-+     }
-+     if (newstatbuf.st_uid != statbuf->st_uid ||
-+@@ -1495,17 +1749,17 @@ static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *
-+         if (fchown(fd, statbuf->st_uid, statbuf->st_gid) < 0) {
-+             pam_syslog(idata->pamh, LOG_ERR,
-+ 			"Error changing owner for %s, %m",
-+-			ipath);
-++			polyptr->instance_absolute);
-+ 	    close(fd);
-+-	    rmdir(ipath);
-++            unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
-+             return PAM_SESSION_ERR;
-+         }
-+     }
-+     if (fchmod(fd, statbuf->st_mode & 07777) < 0) {
-+         pam_syslog(idata->pamh, LOG_ERR, "Error changing mode for %s, %m",
-+-			ipath);
-++			polyptr->instance_absolute);
-+ 	close(fd);
-+-	rmdir(ipath);
-++        unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
-+         return PAM_SESSION_ERR;
-+     }
-+     close(fd);
-+@@ -1524,9 +1778,12 @@ static int ns_setup(struct polydir_s *polyptr,
-+ 	struct instance_data *idata)
-+ {
-+     int retval;
-++    int dfd_iparent = -1;
-++    int dfd_ipath = -1;
-++    int dfd_pptrdir = -1;
-+     int newdir = 1;
-+-    char *inst_dir = NULL;
-+-    char *instname = NULL;
-++    char s_ipath[MAGIC_LNK_FD_SIZE];
-++    char s_pptrdir[MAGIC_LNK_FD_SIZE];
-+     struct stat statbuf;
-+ #ifdef WITH_SELINUX
-+     char *instcontext = NULL, *origcontext = NULL;
-+@@ -1536,39 +1793,48 @@ static int ns_setup(struct polydir_s *polyptr,
-+         pam_syslog(idata->pamh, LOG_DEBUG,
-+                "Set namespace for directory %s", polyptr->dir);
-+ 
-+-    retval = protect_dir(polyptr->dir, 0, 0, idata);
-++    dfd_pptrdir = secure_opendir(polyptr->dir, SECURE_OPENDIR_PROTECT, 0, idata);
-+ 
-+-    if (retval < 0 && errno != ENOENT) {
-+-	pam_syslog(idata->pamh, LOG_ERR, "Polydir %s access error: %m",
-+-		polyptr->dir);
-+-	return PAM_SESSION_ERR;
-+-    }
-+-
-+-    if (retval < 0) {
-+-	if ((polyptr->flags & POLYDIR_CREATE) &&
-+-		create_polydir(polyptr, idata) != PAM_SUCCESS)
-+-		return PAM_SESSION_ERR;
-+-    } else {
-+-	close(retval);
-++    if (dfd_pptrdir < 0) {
-++        if (errno != ENOENT || !(polyptr->flags & POLYDIR_CREATE)) {
-++            pam_syslog(idata->pamh, LOG_ERR, "Polydir %s access error: %m",
-++                    polyptr->dir);
-++            return PAM_SESSION_ERR;
-++        }
-++        dfd_pptrdir = create_polydir(polyptr, idata);
-++        if (dfd_pptrdir < 0)
-++            return PAM_SESSION_ERR;
-+     }
-+ 
-+     if (polyptr->method == TMPFS) {
-+-	if (mount("tmpfs", polyptr->dir, "tmpfs", polyptr->mount_flags, polyptr->mount_opts) < 0) {
-+-	    pam_syslog(idata->pamh, LOG_ERR, "Error mounting tmpfs on %s, %m",
-+-		polyptr->dir);
-+-            return PAM_SESSION_ERR;
-+-	}
-++        /*
-++         * There is no function mount() that operate on a fd, so instead, we
-++         * get the magic link corresponding to the fd and give it to mount().
-++         * This protects against potential races exploitable by an unpriv user.
-++         */
-++        if (pam_sprintf(s_pptrdir, "/proc/self/fd/%d", dfd_pptrdir) < 0) {
-++            pam_syslog(idata->pamh, LOG_ERR, "Error pam_sprintf s_pptrdir");
-++            goto error_out;
-++        }
-+ 
-+-	if (polyptr->flags & POLYDIR_NOINIT)
-+-	    return PAM_SUCCESS;
-++        if (mount("tmpfs", s_pptrdir, "tmpfs", polyptr->mount_flags, polyptr->mount_opts) < 0) {
-++            pam_syslog(idata->pamh, LOG_ERR, "Error mounting tmpfs on %s, %m",
-++                       polyptr->dir);
-++            goto error_out;
-++        }
-++
-++        if (polyptr->flags & POLYDIR_NOINIT) {
-++            retval = PAM_SUCCESS;
-++            goto cleanup;
-++        }
-+ 
-+-	return inst_init(polyptr, "tmpfs", idata, 1);
-++        retval = inst_init(polyptr, "tmpfs", idata, 1);
-++        goto cleanup;
-+     }
-+ 
-+-    if (stat(polyptr->dir, &statbuf) < 0) {
-+-	pam_syslog(idata->pamh, LOG_ERR, "Error stating %s: %m",
-+-		polyptr->dir);
-+-        return PAM_SESSION_ERR;
-++    if (fstat(dfd_pptrdir, &statbuf) < 0) {
-++        pam_syslog(idata->pamh, LOG_ERR, "Error stating %s: %m", polyptr->dir);
-++        goto error_out;
-+     }
-+ 
-+     /*
-+@@ -1577,15 +1843,16 @@ static int ns_setup(struct polydir_s *polyptr,
-+      * security policy.
-+      */
-+ #ifdef WITH_SELINUX
-+-    retval = poly_name(polyptr, &instname, &instcontext,
-+-			&origcontext, idata);
-++    retval = poly_name(polyptr, &instcontext, &origcontext, idata);
-+ #else
-+-    retval = poly_name(polyptr, &instname, idata);
-++    retval = poly_name(polyptr, idata);
-+ #endif
-+ 
-+     if (retval != PAM_SUCCESS) {
-+-	if (retval != PAM_IGNORE)
-++	if (retval != PAM_IGNORE) {
-+ 		pam_syslog(idata->pamh, LOG_ERR, "Error getting instance name");
-++                goto error_out;
-++        }
-+         goto cleanup;
-+     } else {
-+ #ifdef WITH_SELINUX
-+@@ -1596,22 +1863,33 @@ static int ns_setup(struct polydir_s *polyptr,
-+ #endif
-+     }
-+ 
-+-    if (asprintf(&inst_dir, "%s%s", polyptr->instance_prefix, instname) < 0)
-+-	goto error_out;
-+-
-+-    if (idata->flags & PAMNS_DEBUG)
-+-        pam_syslog(idata->pamh, LOG_DEBUG, "instance_dir %s",
-+-		inst_dir);
-++    /*
-++     * Gets a fd in a secure manner (we may be operating on a path under
-++     * user control), and check it's compliant.
-++     * Then, we should *always* operate on *this* fd and a relative path
-++     * to be protected against race conditions.
-++     */
-++    dfd_iparent = secure_opendir(polyptr->instance_parent,
-++            SECURE_OPENDIR_PROTECT | SECURE_OPENDIR_MKDIR, 0, idata);
-++    if (dfd_iparent == -1) {
-++	pam_syslog(idata->pamh, LOG_ERR,
-++                "polyptr->instance_parent %s access error",
-++                polyptr->instance_parent);
-++        goto error_out;
-++    }
-++    if (check_inst_parent(dfd_iparent, idata)) {
-++        goto error_out;
-++    }
-+ 
-+     /*
-+      * Create instance directory with appropriate security
-+      * contexts, owner, group and mode bits.
-+      */
-+ #ifdef WITH_SELINUX
-+-    retval = create_instance(polyptr, inst_dir, &statbuf, instcontext,
-+-			 origcontext, idata);
-++    retval = create_instance(polyptr, dfd_iparent, &statbuf, instcontext,
-++                             origcontext, idata);
-+ #else
-+-    retval = create_instance(polyptr, inst_dir, &statbuf, idata);
-++    retval = create_instance(polyptr, dfd_iparent, &statbuf, idata);
-+ #endif
-+ 
-+     if (retval == PAM_IGNORE) {
-+@@ -1623,19 +1901,48 @@ static int ns_setup(struct polydir_s *polyptr,
-+         goto error_out;
-+     }
-+ 
-++    /*
-++     * Instead of getting a new secure fd, we reuse the fd opened on directory
-++     * polyptr->instance_parent to ensure we are working on the same dir as
-++     * previously, and thus ensure that previous checks (e.g. check_inst_parent())
-++     * are still relevant.
-++     */
-++    dfd_ipath = openat(dfd_iparent, polyptr->instname,
-++            O_PATH | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
-++    if (dfd_ipath == -1) {
-++        pam_syslog(idata->pamh, LOG_ERR, "Error openat on %s, %m",
-++                polyptr->instname);
-++        goto error_out;
-++    }
-++
-++    if (pam_sprintf(s_ipath, "/proc/self/fd/%d", dfd_ipath) < 0) {
-++        pam_syslog(idata->pamh, LOG_ERR, "Error pam_sprintf s_ipath");
-++        goto error_out;
-++    }
-++
-++    if (pam_sprintf(s_pptrdir, "/proc/self/fd/%d", dfd_pptrdir) < 0) {
-++        pam_syslog(idata->pamh, LOG_ERR, "Error pam_sprintf s_pptrdir");
-++        goto error_out;
-++    }
-++
-+     /*
-+      * Bind mount instance directory on top of the polyinstantiated
-+      * directory to provide an instance of polyinstantiated directory
-+      * based on polyinstantiated method.
-++     *
-++     * Operates on magic links created from two fd obtained securely
-++     * to protect against race conditions and symlink attacks. Indeed,
-++     * the source and destination can be in a user controled path.
-+      */
-+-    if (mount(inst_dir, polyptr->dir, NULL, MS_BIND, NULL) < 0) {
-+-        pam_syslog(idata->pamh, LOG_ERR, "Error mounting %s on %s, %m",
-+-                   inst_dir, polyptr->dir);
-++    if(mount(s_ipath, s_pptrdir, NULL, MS_BIND, NULL) < 0) {
-++        pam_syslog(idata->pamh, LOG_ERR,
-++                "Error mounting %s on %s (%s on %s), %m",
-++                   s_ipath, s_pptrdir, polyptr->instance_absolute, polyptr->dir);
-+         goto error_out;
-+     }
-+ 
-+     if (!(polyptr->flags & POLYDIR_NOINIT))
-+-	retval = inst_init(polyptr, inst_dir, idata, newdir);
-++	retval = inst_init(polyptr, polyptr->instance_absolute, idata, newdir);
-+ 
-+     goto cleanup;
-+ 
-+@@ -1647,8 +1954,12 @@ error_out:
-+     retval = PAM_SESSION_ERR;
-+ 
-+ cleanup:
-+-    free(inst_dir);
-+-    free(instname);
-++    if (dfd_iparent != -1)
-++        close(dfd_iparent);
-++    if (dfd_ipath != -1)
-++        close(dfd_ipath);
-++    if (dfd_pptrdir != -1)
-++        close(dfd_pptrdir);
-+ #ifdef WITH_SELINUX
-+     freecon(instcontext);
-+     freecon(origcontext);
-+@@ -1687,6 +1998,7 @@ static int cleanup_tmpdirs(struct instance_data *idata)
-+ {
-+     struct polydir_s *pptr;
-+     pid_t rc, pid;
-++    int dfd = -1;
-+     struct sigaction newsa, oldsa;
-+     int status;
-+ 
-+@@ -1698,7 +2010,17 @@ static int cleanup_tmpdirs(struct instance_data *idata)
-+     }
-+ 
-+     for (pptr = idata->polydirs_ptr; pptr; pptr = pptr->next) {
-+-	if (pptr->method == TMPDIR && access(pptr->instance_prefix, F_OK) == 0) {
-++	if (pptr->method == TMPDIR) {
-++
-++            dfd = secure_opendir_stateless(pptr->instance_parent);
-++            if (dfd == -1)
-++                continue;
-++
-++            if (faccessat(dfd, pptr->instname, F_OK, AT_SYMLINK_NOFOLLOW) != 0) {
-++                close(dfd);
-++                continue;
-++            }
-++
-+ 	    pid = fork();
-+ 	    if (pid == 0) {
-+ 		static char *envp[] = { NULL };
-+@@ -1708,9 +2030,21 @@ static int cleanup_tmpdirs(struct instance_data *idata)
-+ 			_exit(1);
-+ 		}
-+ #endif
-+-		if (execle("/bin/rm", "/bin/rm", "-rf", pptr->instance_prefix, NULL, envp) < 0)
-+-			_exit(1);
-++                if (fchdir(dfd) == -1) {
-++                    pam_syslog(idata->pamh, LOG_ERR, "Failed fchdir to %s: %m",
-++                            pptr->instance_absolute);
-++                    _exit(1);
-++                }
-++
-++		close_fds_pre_exec(idata);
-++
-++		execle("/bin/rm", "/bin/rm", "-rf", pptr->instname, NULL, envp);
-++		_exit(1);
-+ 	    } else if (pid > 0) {
-++
-++                if (dfd != -1)
-++                    close(dfd);
-++
-+ 		while (((rc = waitpid(pid, &status, 0)) == (pid_t)-1) &&
-+ 		    (errno == EINTR));
-+ 		if (rc == (pid_t)-1) {
-+@@ -1723,8 +2057,12 @@ static int cleanup_tmpdirs(struct instance_data *idata)
-+ 			"Error removing %s", pptr->instance_prefix);
-+ 		}
-+ 	    } else if (pid < 0) {
-++
-++                if (dfd != -1)
-++                    close(dfd);
-++
-+ 		pam_syslog(idata->pamh, LOG_ERR,
-+-			"Cannot fork to run namespace init script, %m");
-++			"Cannot fork to cleanup temporary directory, %m");
-+ 		rc = PAM_SESSION_ERR;
-+ 		goto out;
-+ 	    }
-+@@ -1746,6 +2084,7 @@ out:
-+ static int setup_namespace(struct instance_data *idata, enum unmnt_op unmnt)
-+ {
-+     int retval = 0, need_poly = 0, changing_dir = 0;
-++    int dfd = -1;
-+     char *cptr, *fptr, poly_parent[PATH_MAX];
-+     struct polydir_s *pptr;
-+ 
-+@@ -1861,13 +2200,21 @@ static int setup_namespace(struct instance_data *idata, enum unmnt_op unmnt)
-+ 			strcpy(poly_parent, "/");
-+ 		    else if (cptr)
-+ 			*cptr = '\0';
-+-                    if (chdir(poly_parent) < 0) {
-++
-++                    dfd = secure_opendir_stateless(poly_parent);
-++                    if (dfd == -1) {
-++                        pam_syslog(idata->pamh, LOG_ERR,
-++                            "Failed opening %s to fchdir: %m", poly_parent);
-++                    }
-++                    else if (fchdir(dfd) == -1) {
-+                         pam_syslog(idata->pamh, LOG_ERR,
-+-				"Can't chdir to %s, %m", poly_parent);
-++                            "Failed fchdir to %s: %m", poly_parent);
-+                     }
-++                    if (dfd != -1)
-++                        close(dfd);
-+                 }
-+ 
-+-                if (umount(pptr->rdir) < 0) {
-++            if (secure_umount(pptr->rdir) < 0) {
-+ 		    int saved_errno = errno;
-+ 		    pam_syslog(idata->pamh, LOG_ERR, "Unmount of %s failed, %m",
-+ 			pptr->rdir);
-+@@ -1937,7 +2284,7 @@ static int orig_namespace(struct instance_data *idata)
-+ 			"Unmounting instance dir for user %d & dir %s",
-+                        idata->uid, pptr->dir);
-+ 
-+-            if (umount(pptr->dir) < 0) {
-++            if (secure_umount(pptr->dir) < 0) {
-+                 pam_syslog(idata->pamh, LOG_ERR, "Unmount of %s failed, %m",
-+                        pptr->dir);
-+                 return PAM_SESSION_ERR;
-+diff --git a/modules/pam_namespace/pam_namespace.h b/modules/pam_namespace/pam_namespace.h
-+index b51f284..abd570d 100644
-+--- a/modules/pam_namespace/pam_namespace.h
-++++ b/modules/pam_namespace/pam_namespace.h
-+@@ -44,21 +44,16 @@
-+ #include <stdlib.h>
-+ #include <errno.h>
-+ #include <syslog.h>
-+-#include <dlfcn.h>
-+-#include <stdarg.h>
-+ #include <pwd.h>
-+ #include <grp.h>
-+ #include <limits.h>
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-+-#include <sys/resource.h>
-+ #include <sys/mount.h>
-+ #include <sys/wait.h>
-+-#include <libgen.h>
-+ #include <fcntl.h>
-+ #include <sched.h>
-+ #include <glob.h>
-+-#include <locale.h>
-+ #include "security/pam_modules.h"
-+ #include "security/pam_modutil.h"
-+ #include "security/pam_ext.h"
-+@@ -112,7 +107,7 @@
-+ #define PAMNS_MOUNT_PRIVATE   0x00080000 /* Make the polydir mounts private */
-+ 
-+ /* polydir flags */
-+-#define POLYDIR_EXCLUSIVE     0x00000001 /* polyinstatiate exclusively for override uids */
-++#define POLYDIR_EXCLUSIVE     0x00000001 /* polyinstantiate exclusively for override uids */
-+ #define POLYDIR_CREATE        0x00000002 /* create the polydir */
-+ #define POLYDIR_NOINIT        0x00000004 /* no init script */
-+ #define POLYDIR_SHARED        0x00000008 /* share context/level instances among users */
-+@@ -124,6 +119,13 @@
-+ #define NAMESPACE_POLYDIR_DATA "pam_namespace:polydir_data"
-+ #define NAMESPACE_PROTECT_DATA "pam_namespace:protect_data"
-+ 
-++/*
-++ * Operation mode for function secure_opendir()
-++ */
-++#define SECURE_OPENDIR_PROTECT     0x00000001
-++#define SECURE_OPENDIR_MKDIR       0x00000002
-++#define SECURE_OPENDIR_FULL_FD     0x00000004
-++
-+ /*
-+  * Polyinstantiation method options, based on user, security context
-+  * or both
-+@@ -161,6 +163,9 @@ struct polydir_s {
-+     char dir[PATH_MAX];    	       	/* directory to polyinstantiate */
-+     char rdir[PATH_MAX];    	       	/* directory to unmount (based on RUSER) */
-+     char instance_prefix[PATH_MAX];	/* prefix for instance dir path name */
-++    char instance_absolute[PATH_MAX];	/* absolute path to the instance dir (instance_parent + instname) */
-++    char instance_parent[PATH_MAX];	/* parent dir of the instance dir */
-++    char *instname;			/* last segment of the path to the instance dir */
-+     enum polymethod method;		/* method used to polyinstantiate */
-+     unsigned int num_uids;		/* number of override uids */
-+     uid_t *uid;				/* list of override uids */
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch b/meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch
-new file mode 100644
-index 0000000000..b89d61b312
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch
-@@ -0,0 +1,187 @@
-+From 592d84e1265d04c3104acee815a503856db503a1 Mon Sep 17 00:00:00 2001
-+From: Olivier Bal-Petre <olivier.bal-petre@ssi.gouv.fr>
-+Date: Tue, 4 Mar 2025 14:37:02 +0100
-+Subject: [PATCH] pam_namespace: add flags to indicate path safety
-+
-+Add two flags in the script to indicate if the paths to the polydir
-+and the instance directories are safe (root owned and writable by
-+root only).
-+
-+Signed-off-by: Olivier Bal-Petre <olivier.bal-petre@ssi.gouv.fr>
-+Signed-off-by: Dmitry V. Levin <ldv@strace.io>
-+
-+Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/592d84e1265d04c3104acee815a503856db503a1]
-+CVE: CVE-2025-6020
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ modules/pam_namespace/namespace.init  | 56 ++++++++++++-------
-+ modules/pam_namespace/pam_namespace.c | 79 ++++++++++++++++++++++++++-
-+ 2 files changed, 115 insertions(+), 20 deletions(-)
-+
-+diff --git a/modules/pam_namespace/namespace.init b/modules/pam_namespace/namespace.init
-+index 67d4aa2..8782178 100755
-+--- a/modules/pam_namespace/namespace.init
-++++ b/modules/pam_namespace/namespace.init
-+@@ -1,25 +1,43 @@
-+ #!/bin/sh
-+-# It receives polydir path as $1, the instance path as $2,
-+-# a flag whether the instance dir was newly created (0 - no, 1 - yes) in $3,
-+-# and user name in $4.
-++# It receives as arguments:
-++# - $1 polydir path (see WARNING below)
-++# - $2 instance path (see WARNING below)
-++# - $3 flag whether the instance dir was newly created (0 - no, 1 - yes)
-++# - $4 user name
-++# - $5 flag whether the polydir path ($1) is safe (0 - unsafe, 1 -safe)
-++# - $6 flag whether the instance path ($2) is safe (0 - unsafe, 1 - safe)
-++#
-++# WARNING: This script is invoked with full root privileges. Accessing
-++# the polydir ($1) and the instance ($2) directories in this context may be
-++# extremely dangerous as those can be under user control. The flags $5 and $6
-++# are provided to let you know if all the segments part of the path (except the
-++# last one) are owned by root and are writable by root only. If the path does
-++# not meet these criteria, you expose yourself to possible symlink attacks when
-++# accessing these path.
-++# However, even if the path components are safe, the content of the
-++# directories may still be owned/writable by a user, so care must be taken!
-+ #
-+ # The following section will copy the contents of /etc/skel if this is a
-+ # newly created home directory.
-+-if [ "$3" = 1 ]; then
-+-        # This line will fix the labeling on all newly created directories
-+-        [ -x /sbin/restorecon ] && /sbin/restorecon "$1"
-+-        user="$4"
-+-        passwd=$(getent passwd "$user")
-+-        homedir=$(echo "$passwd" | cut -f6 -d":")
-+-        if [ "$1" = "$homedir" ]; then
-+-                gid=$(echo "$passwd" | cut -f4 -d":")
-+-                cp -rT /etc/skel "$homedir"
-+-                chown -R "$user":"$gid" "$homedir"
-+-                mask=$(awk '/^UMASK/{gsub("#.*$", "", $2); print $2; exit}' /etc/login.defs)
-+-                mode=$(printf "%o" $((0777 & ~$mask)))
-+-                chmod ${mode:-700} "$homedir"
-+-                [ -x /sbin/restorecon ] && /sbin/restorecon -R "$homedir"
-+-        fi
-+-fi
-+ 
-++# Executes only if the polydir path is safe
-++if [ "$5" = 1 ]; then
-++
-++    if [ "$3" = 1 ]; then
-++            # This line will fix the labeling on all newly created directories
-++            [ -x /sbin/restorecon ] && /sbin/restorecon "$1"
-++            user="$4"
-++            passwd=$(getent passwd "$user")
-++            homedir=$(echo "$passwd" | cut -f6 -d":")
-++            if [ "$1" = "$homedir" ]; then
-++                    gid=$(echo "$passwd" | cut -f4 -d":")
-++                    cp -rT /etc/skel "$homedir"
-++                    chown -R "$user":"$gid" "$homedir"
-++                    mask=$(sed -E -n 's/^UMASK[[:space:]]+([^#[:space:]]+).*/\1/p' /etc/login.defs)
-++                    mode=$(printf "%o" $((0777 & ~mask)))
-++                    chmod ${mode:-700} "$homedir"
-++                    [ -x /sbin/restorecon ] && /sbin/restorecon -R "$homedir"
-++            fi
-++    fi
-++fi
-+ exit 0
-+diff --git a/modules/pam_namespace/pam_namespace.c b/modules/pam_namespace/pam_namespace.c
-+index fcd78fd..48d19bf 100644
-+--- a/modules/pam_namespace/pam_namespace.c
-++++ b/modules/pam_namespace/pam_namespace.c
-+@@ -1462,6 +1462,79 @@ static int check_inst_parent(int dfd, struct instance_data *idata)
-+ 	return PAM_SUCCESS;
-+ }
-+ 
-++/*
-++ * Check for a given absolute path that all segments except the last one are:
-++ * 1. a directory owned by root and not writable by group or others
-++ * 2. a symlink owned by root and referencing a directory respecting 1.
-++ * Returns 0 if safe, -1 is unsafe.
-++ * If the path is not accessible (does not exist, hidden under a mount...),
-++ * returns -1 (unsafe).
-++ */
-++static int check_safe_path(const char *path, struct instance_data *idata)
-++{
-++    char *p = strdup(path);
-++    char *d;
-++    char *dir = p;
-++    struct stat st;
-++
-++    if (p == NULL)
-++        return -1;
-++
-++    /* Check path is absolute */
-++    if (p[0] != '/')
-++        goto error;
-++
-++    strip_trailing_slashes(p);
-++
-++    /* Last segment of the path may be owned by the user */
-++    if ((d = strrchr(dir, '/')) != NULL)
-++        *d = '\0';
-++
-++    while ((d=strrchr(dir, '/')) != NULL) {
-++
-++        /* Do not follow symlinks */
-++        if (lstat(dir, &st) != 0)
-++            goto error;
-++
-++        if (S_ISLNK(st.st_mode)) {
-++            if (st.st_uid != 0) {
-++                if (idata->flags & PAMNS_DEBUG)
-++                    pam_syslog(idata->pamh, LOG_DEBUG,
-++                            "Path deemed unsafe: Symlink %s should be owned by root", dir);
-++                goto error;
-++            }
-++
-++            /* Follow symlinks */
-++            if (stat(dir, &st) != 0)
-++                goto error;
-++        }
-++
-++        if (!S_ISDIR(st.st_mode)) {
-++                if (idata->flags & PAMNS_DEBUG)
-++                    pam_syslog(idata->pamh, LOG_DEBUG,
-++                        "Path deemed unsafe: %s is expected to be a directory", dir);
-++            goto error;
-++        }
-++
-++        if (st.st_uid != 0 ||
-++            ((st.st_mode & (S_IWGRP|S_IWOTH)) && !(st.st_mode & S_ISVTX))) {
-++                if (idata->flags & PAMNS_DEBUG)
-++                    pam_syslog(idata->pamh, LOG_DEBUG,
-++                        "Path deemed unsafe: %s should be owned by root, and not be writable by group or others", dir);
-++            goto error;
-++        }
-++
-++        *d = '\0';
-++    }
-++
-++    free(p);
-++    return 0;
-++
-++error:
-++    free(p);
-++    return -1;
-++}
-++
-+ /*
-+ * Check to see if there is a namespace initialization script in
-+ * the /etc/security directory. If such a script exists
-+@@ -1510,7 +1583,11 @@ static int inst_init(const struct polydir_s *polyptr, const char *ipath,
-+ 				close_fds_pre_exec(idata);
-+ 
-+ 				execle(init_script, init_script,
-+-					polyptr->dir, ipath, newdir?"1":"0", idata->user, NULL, envp);
-++					polyptr->dir, ipath,
-++					newdir ? "1":"0", idata->user,
-++					(check_safe_path(polyptr->dir, idata) == -1) ? "0":"1",
-++					(check_safe_path(ipath, idata) == -1) ? "0":"1",
-++					NULL, envp);
-+ 					_exit(1);
-+ 			} else if (pid > 0) {
-+ 				while (((rc = waitpid(pid, &status, 0)) == (pid_t)-1) &&
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch b/meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch
-new file mode 100644
-index 0000000000..bbc18b5032
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch
-@@ -0,0 +1,35 @@
-+From 976c20079358d133514568fc7fd95c02df8b5773 Mon Sep 17 00:00:00 2001
-+From: "Dmitry V. Levin" <ldv@strace.io>
-+Date: Tue, 27 May 2025 08:00:00 +0000
-+Subject: [PATCH] pam_namespace: secure_opendir: do not look at the group
-+ ownership
-+
-+When the directory is not group-writable, the group ownership does
-+not matter, and when it is group-writable, there should not be any
-+exceptions for the root group as there is no guarantee that the root
-+group does not include non-root users.
-+
-+Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/976c20079358d133514568fc7fd95c02df8b5773]
-+CVE: CVE-2025-6020
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ modules/pam_namespace/pam_namespace.c | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/modules/pam_namespace/pam_namespace.c b/modules/pam_namespace/pam_namespace.c
-+index 48d19bf..49029c1 100644
-+--- a/modules/pam_namespace/pam_namespace.c
-++++ b/modules/pam_namespace/pam_namespace.c
-+@@ -213,8 +213,7 @@ static int secure_opendir(const char *path, int opm, mode_t mode,
-+ 			if (dfd_next == -1)
-+ 				goto error;
-+ 		} else if (st.st_uid != 0
-+-		           || (st.st_gid != 0 && (st.st_mode & S_IWGRP))
-+-		           || (st.st_mode & S_IWOTH)) {
-++		           || (st.st_mode & (S_IWGRP|S_IWOTH))) {
-+ 			/* do not follow symlinks on subdirectories */
-+ 			flags |= O_NOFOLLOW;
-+ 		}
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.5.2.bb b/meta/recipes-extended/pam/libpam_1.5.2.bb
-index 567f9741cb..430bf2aa4e 100644
---- a/meta/recipes-extended/pam/libpam_1.5.2.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.2.bb
-@@ -29,6 +29,10 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
-            file://CVE-2024-22365.patch \
-            file://CVE-2024-10041-1.patch \
-            file://CVE-2024-10041-2.patch \
-+           file://0001-pam_inline-introduce-pam_asprint.patch \
-+           file://CVE-2025-6020-01.patch \
-+           file://CVE-2025-6020-02.patch \
-+           file://CVE-2025-6020-03.patch \
-            "
- 
- SRC_URI[sha256sum] = "e4ec7131a91da44512574268f493c6d8ca105c87091691b8e9b56ca685d4f94d"
--- 
-2.50.1
+Peter
+
+> -----Original Message-----
+> From: Marko, Peter (FT D EU SK BFS1)
+> Sent: Wednesday, July 16, 2025 15:54
+> To: ross.burton@arm.com; openembedded-core@lists.openembedded.org
+> Subject: RE: [OE-core] [PATCH 08/23] oeqa/sdk: add helpers to check for a=
+nd
+> install packages
+>=20
+> Hi Ross,
+>=20
+> I have a problem when running oe-selftest after this commit.
+> When I updated past this commit and commit which uses it:
+> https://git.openembedded.org/openembedded-
+> core/commit/?id=3D11277efd057685558a744e98082b5709e849dd2a
+>=20
+> I get following failure (on Debian12 VM):
+> =3D=3D=3D
+> Traceback (most recent call last):
+>   File "/home/projects/builds/poky-build/poky/meta/lib/oeqa/core/case.py"=
+, line 54,
+> in _oeSetUp
+>     self.setUpMethod()
+>   File "/home/projects/builds/poky-build/poky/meta/lib/oeqa/sdk/cases/mat=
+urin.py",
+> line 35, in setUp
+>     self.ensure_host_package("python3-maturin")
+>   File "/home/projects/builds/poky-build/poky/meta/lib/oeqa/sdk/case.py",=
+ line 47,
+> in ensure_host_package
+>     self._run('devtool sdk-install %s' % recipe)
+>   File "/home/projects/builds/poky-build/poky/meta/lib/oeqa/sdk/case.py",=
+ line 17,
+> in _run
+>     return subprocess.check_output(". %s > /dev/null; %s;" % \
+>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   File "/usr/lib/python3.11/subprocess.py", line 466, in check_output
+>     return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, check=3DTrue=
+,
+>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   File "/usr/lib/python3.11/subprocess.py", line 571, in run
+>     raise CalledProcessError(retcode, process.args,
+> oeqa.utils.subprocesstweak.OETestCalledProcessError: <exception str() fai=
+led>
+>=20
+> Stdout:
+> Trying to install python3-maturin-native...
+> =3D=3D=3D
+>=20
+> See below for comment in code which I see as problematic.
+>=20
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Ross Burton via
+> > lists.openembedded.org
+> > Sent: Saturday, May 10, 2025 10:44
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH 08/23] oeqa/sdk: add helpers to check for and=
+ install
+> > packages
+> >
+> > The existing tests simply look at the manifest to determine if a test
+> > should be ran or not based on dependencies. Whilst this works for
+> > Traditional SDKs, it fails for Extensible SDKs if they've been built in
+> > minimal mode, where the manifest will be empty.  However, minimal eSDKs
+> > might well have available sstate to install the missing dependencies.
+> >
+> > Add a pair of helper functions to ensure that a package is available, o=
+r
+> > skip the test.  This handles nativesdk- vs -native (SDK vs eSDK) and
+> > will try to sdk-install missing dependencies into an eSDK if they're no=
+t
+> > already installed.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/lib/oeqa/sdk/case.py | 58
+> > +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 58 insertions(+)
+> >
+> > diff --git a/meta/lib/oeqa/sdk/case.py b/meta/lib/oeqa/sdk/case.py
+> > index 46a3789f572..1fd3b3b5695 100644
+> > --- a/meta/lib/oeqa/sdk/case.py
+> > +++ b/meta/lib/oeqa/sdk/case.py
+> > @@ -7,8 +7,10 @@
+> >  import os
+> >  import subprocess
+> >  import shutil
+> > +import unittest
+> >
+> >  from oeqa.core.case import OETestCase
+> > +from oeqa.sdkext.context import OESDKExtTestContext
+> >
+> >  class OESDKTestCase(OETestCase):
+> >      def _run(self, cmd):
+> > @@ -16,6 +18,62 @@ class OESDKTestCase(OETestCase):
+> >                  (self.tc.sdk_env, cmd), shell=3DTrue, executable=3D"/b=
+in/bash",
+> >                  stderr=3Dsubprocess.STDOUT, universal_newlines=3DTrue)
+> >
+> > +    def ensure_host_package(self, *packages, recipe=3DNone):
+> > +        """
+> > +        Check that the host variation of one of the packages listed is=
+ available
+> > +        in the SDK (nativesdk-foo for SDK, foo-native for eSDK). The p=
+ackage is
+> > +        a list for the case where debian-renaming may have occured, an=
+d the
+> > +        manifest could contain 'foo' or 'libfoo'.
+> > +
+> > +        If testing an eSDK and the package is not found, then try to i=
+nstall the
+> > +        specified recipe to install it from sstate.
+> > +        """
+> > +
+> > +        # In a SDK the manifest is correct. In an eSDK the manifest ma=
+y be
+> > +        # correct (type=3Dfull) or not include packages that exist in =
+sstate but
+> > +        # not installed yet (minimal) so we should try to install the =
+recipe.
+> > +        for package in packages:
+> > +            if isinstance(self.tc, OESDKExtTestContext):
+> > +                package =3D package + "-native"
+> > +            else:
+> > +                package =3D "nativesdk-" + package
+> > +
+> > +            if self.tc.hasHostPackage(package):
+> > +                break
+> > +        else:
+> > +            if isinstance(self.tc, OESDKExtTestContext):
+> > +                recipe =3D (recipe or packages[0]) + "-native"
+> > +                print("Trying to install %s..." % recipe)
+> > +                self._run('devtool sdk-install %s' % recipe)
+>=20
+>=20
+> The comment above says "try to install", however there is no check for fa=
+ilure and
+> skipping the test in such case.
+> Before using this code the testscases were skipped unconditionally and di=
+dn't try
+> to install anything.
+> Here it looks like it should always fail if the package is not part of sd=
+k (and
+> python3-maturin is not part of minimal/sato sdk images on autobuilder).
+>=20
+> I'm struggling to understand how this passes autobuilder tests green and =
+my
+> pribate builds are red.
+> Autobuilder logs show that the maturin tests were skipped and python3-mat=
+urin is
+> never built.
+> Do you have a hint for me how this code can skip the recipe?
+>=20
+> I was thinking about installing it on my host, but python3-maturin is onl=
+y available
+> from Debian 13 (which is not released yet).
+>=20
+> Would it be fine if I submit a patch doing try/except around this line?
+> Or am I just missing something vital to understand the code and failure?
+>=20
+> > +            else:
+> > +                raise unittest.SkipTest("Test %s needs one of %s" % (s=
+elf.id(), ",
+> > ".join(packages)))
+> > +
+> > +    def ensure_target_package(self, *packages, multilib=3DFalse, recip=
+e=3DNone):
+> > +        """
+> > +        Check that at least one of the packages listed is available in=
+ the SDK,
+> > +        adding the multilib prefix if required. The target package is =
+a list for
+> > +        the case where debian-renaming may have occured, and the manif=
+est
+> could
+> > +        contain 'foo' or 'libfoo'.
+> > +
+> > +        If testing an eSDK and the package is not found, then try to i=
+nstall the
+> > +        specified recipe to install it from sstate.
+> > +        """
+> > +
+> > +        # In a SDK the manifest is correct. In an eSDK the manifest ma=
+y be
+> > +        # correct (type=3Dfull) or not include packages that exist in =
+sstate but
+> > +        # not installed yet (minimal) so we should try to install the =
+recipe.
+> > +        for package in packages:
+> > +            if self.tc.hasTargetPackage(package, multilib=3Dmultilib):
+> > +                break
+> > +        else:
+> > +            if isinstance(self.tc, OESDKExtTestContext):
+> > +                recipe =3D recipe or packages[0]
+> > +                print("Trying to install %s..." % recipe)
+> > +                self._run('devtool sdk-install %s' % recipe)
+> > +            else:
+> > +                raise unittest.SkipTest("Test %s needs one of %s" % (s=
+elf.id(), ",
+> > ".join(packages)))
+> > +
+> > +
+> >      def fetch(self, workdir, dl_dir, url, archive=3DNone):
+> >          if not archive:
+> >              from urllib.parse import urlparse
+> > --
+> > 2.43.0
 
 
