@@ -1,106 +1,101 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0975DC83F27
-	for <webhook@archiver.kernel.org>; Wed, 23 Jul 2025 01:16:03 +0000 (UTC)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
- by mx.groups.io with SMTP id smtpd.web10.4007.1753233353946763219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 092DCC83F27
+	for <webhook@archiver.kernel.org>; Wed, 23 Jul 2025 01:20:43 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.4075.1753233634054776231
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Jul 2025 18:15:54 -0700
+ Tue, 22 Jul 2025 18:20:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mIXBy1uM;
- spf=pass (domain: gmail.com, ip: 209.85.219.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e7311e66a8eso5058827276.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Jul 2025 18:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753233353; x=1753838153; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/E4JEgS9xu+kJNc0XCN6pefl63ASUff2qRsB66rJdVY=;
-        b=mIXBy1uMOJfVcK5UAP1ZcVDDSPNo0khONc8EDfEyQaN7KOO5TI1csjVOlFCTldCW+I
-         TpHeJVW8cLFkkcWEsM3kCH3BlXi2azOa5OpCw883Q50l6ifGRKc7G1OQKISvN+0sCnk9
-         xLziXTihrpD2bW8h0GBlXbLjY6i0vfrNbn7lICtQwLApF9GEe5dRPP59NxWXUl7XU9Mw
-         afAfJ46eZVryGBTrjHJ8MjfDOHNoVtdiT2AEHNWknf9GYHHGS56lb6sGLV+/BI3r6Z57
-         /MfLj4bOEPrmwKVdUlcMBM0aeCSucq3TD7cJDPm9xkPyW98+sQpojqFcVfoobecLd92K
-         UmlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753233353; x=1753838153;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/E4JEgS9xu+kJNc0XCN6pefl63ASUff2qRsB66rJdVY=;
-        b=WGaL2yTO2T5YJ2YPGsmJxeJA2zGSgbrtXXZFLjM2Iyal3fIysHyLgaEUZZYd8DRA0O
-         ftiiCdJRzzNujBF6tllPQ4Min21nI01nd8Qc03xLZp2DlRz+ZszcdAGGfaGZ7wIOp96q
-         Im7cGTmUBizM88+xYPo4/GIjdoqztWTzOagj1IcOaqzabG6GtjLIhBCINANv8UmU8WuY
-         6h5cl+kaaG+epQOa1AuPtxWUy+3sZb7JAbQ7AuFs4hnSrXkzBBiDrNcyv0viiRj4ROqw
-         i6YfgSb938ZB2YMtwe+2pRVJ19Zu8ngR0w0smA7lpO+s717i0TKLeirRQiYMjxmI5f4s
-         wxyg==
-X-Gm-Message-State: AOJu0YwLIBpC/nhQpbk8z3r0I8zs/ifd96RV+588y9rWL3trcVTXzwqH
-	S8VXmn3TkQo7iwRzqP7iejfmA1VdASyewwiRDWNaM3lTVvqClVLBLocvI1mL2m8B0aCNr8r0Fip
-	42BStQ4QJUtxurhUEp3r9iyptBG6+4hBq6EGC
-X-Gm-Gg: ASbGncuUq1JYVKMDVsYpkw415Cz78/Ngqhew1yaWXc90MfxagaRZqBY3CM4u+I+Oz5t
-	iNefs9cLtm90x7qlLW72rY9LNz/9PLfROZew3RtYUhPocF2EXy/pWD/E1gXyRqno6nnGpHEhbNl
-	iqiWWRJd41ZwimHm8h7+sWuvEdWrxJl1OHHfEK4vVEzbvS6wu0BijNrwYcGdWMJqGlE0plLZvhF
-	NXmttQ=
-X-Google-Smtp-Source: AGHT+IGALyb/6Luw+gswLAYuN/MPCrT7Kg76gQXywlzKlslSTMD8UQaiq2laiGhO1DWTH2znwKO6TUZ0L83kiNdnnZs=
-X-Received: by 2002:a05:690c:4808:b0:719:4d3a:ffdc with SMTP id
- 00721157ae682-719b416801bmr17498177b3.14.1753233352902; Tue, 22 Jul 2025
- 18:15:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250722125041.3301907-1-ross.burton@arm.com> <20250722125041.3301907-2-ross.burton@arm.com>
-In-Reply-To: <20250722125041.3301907-2-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 22 Jul 2025 18:15:26 -0700
-X-Gm-Features: Ac12FXyqtvF25-qDibzPIFJECgaaR0qEBVKbfqK6xfMBc8nlWia99HE0nVvKFVQ
-Message-ID: <CAMKF1sr=_=UfrvPBKyEnHV2kTx0mnQ9jeQSL0NwZ_O1V7OuccA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] classes/toolchain/clang: depend on lld-native if
- ld-is-lld is set
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MGqxQSPj;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YXAfXbeP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019834de2e8c-74f25cf2-2c78-4406-a946-5eefafd68e44-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1753233633; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=am2AVcEvaFzOHW0kQ0AgEScJMedg7jootJ9B4750C54=;
+	b=MGqxQSPjOibX0cB831aNnMXpoLv1UKcWEWM3Mi8KtS5GcKmBL5y0aD1voZmV52Uv
+	miAU8ogNQbB0uYO12XqItAQ1T3goD868VUHHwOtcy1Vc2tgMidrZAkc3F+dQHO/P80n
+	3esPz59xnfMcV2bJie6CdDFrMUI/ABpD0FT/h+j4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753233633;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=am2AVcEvaFzOHW0kQ0AgEScJMedg7jootJ9B4750C54=;
+	b=YXAfXbePd+5qfrvI2zB87eBNI4srHp7IGSELCFSGm0MAVnaAwzSPxz0QA5Q4D3t/
+	jNDiK7UGkeJCRgTkf8TSiXrGkmvd1rY7/1rnXRQ9OiBxgSNuSoCooBGhYN6ov0QWh4e
+	9saPAzNeKC0B69oJe8hqo+xP3qbpn4dlbEwnqjKk=
+From: patchtest@automation.yoctoproject.org
+To: Liu Yiding <liuyd.fnst@fujitsu.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core] [PATCH 11/12] wireless-regdb: upgrade 2025.02.20 ->
+ 2025.07.10
+In-Reply-To: <20250723010614.926-11-liuyd.fnst@fujitsu.com>
+References: <20250723010614.926-11-liuyd.fnst@fujitsu.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019834de2e8c-74f25cf2-2c78-4406-a946-5eefafd68e44-000000@us-west-2.amazonses.com>
+Date: Wed, 23 Jul 2025 01:20:32 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.23-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Jul 2025 01:16:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220772
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Jul 2025 01:20:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220773
 
-On Tue, Jul 22, 2025 at 5:50=E2=80=AFAM Ross Burton <ross.burton@arm.com> w=
-rote:
->
-> As lld is no longer part of the clang recipe, also depend on lld-native
-> if ld-is-lld has been set.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/classes/toolchain/clang.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/toolchain/clang.bbclass b/meta/classes/toolchai=
-n/clang.bbclass
-> index 7c6ed57fb31..76419e510b4 100644
-> --- a/meta/classes/toolchain/clang.bbclass
-> +++ b/meta/classes/toolchain/clang.bbclass
-> @@ -27,7 +27,7 @@ PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cro=
-ss-canadian =3D "clang-cros
->  PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian =3D =
-"clang-crosssdk-${SDK_SYS}"
->
->
-> -BASE_DEFAULT_DEPS:append:class-target =3D " compiler-rt libcxx"
-> +BASE_DEFAULT_DEPS:append:class-target =3D " compiler-rt libcxx ${@bb.uti=
-ls.contains('DISTRO_FEATURES', 'ld-is-lld', ' lld-native', '', d)}"
+--NextPart
+Content-Type: text/plain
 
-This would be needed for all clang variants, since -fuse-ld=3Dlld should
-work for native and nativesdk as well.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
->
->  TUNE_CCARGS +=3D "${@bb.utils.contains("DISTRO_FEATURES", "usrmerge", " =
---dyld-prefix=3D/usr", "", d)}"
->
-> --
-> 2.43.0
->
+---
+Testing patch /home/patchtest/share/mboxes/11-12-wireless-regdb-upgrade-2025.02.20---2025.07.10.patch
+
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
