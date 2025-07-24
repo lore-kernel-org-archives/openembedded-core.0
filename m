@@ -2,60 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5AE9C83F26
-	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 18:14:08 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.web11.760.1753380847937192676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB00C87FC5
+	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 18:33:29 +0000 (UTC)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+ by mx.groups.io with SMTP id smtpd.web11.1251.1753382005900503383
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jul 2025 11:14:08 -0700
+ Thu, 24 Jul 2025 11:33:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z9nlMDRJ;
- spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-719a4206caeso15378217b3.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 11:14:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=N6WglARo;
+ spf=pass (domain: gmail.com, ip: 209.85.128.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-70e75f30452so10052947b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 11:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753380847; x=1753985647; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1753382005; x=1753986805; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PA+FDGnm8KFRDI1WG5qjPM7Ak8dSwQI6T1oFO9TvYfs=;
-        b=Z9nlMDRJFkgTzqyv4gaoKpHyAl/UFaiR/qNLePV9ONtj3RUF2k2l8lQphpfh1GwvPm
-         9tGGiUxaYDRoVTV4dcVHkJmn/9Uk0H4YiZmmArNzdMJgYDOsHtZ9nAtWjF+CCLlsbZvX
-         6oZhtM7qiMNStAHvKbpk8Gw41+NKgae4PmwY7DNYDfH2KOIun9Qz4J7ORGH/fgtR3HW8
-         AVCGKzjCWjt21hvlD7h61VP15AwcUbtoa5j91VE/uBAoFyLoqQj5hFa2alZGbDJZM5DS
-         fjTznik6bT+xckszBw4mvyz34XxodGNJjzzJKTiN+MppHZTTrNIoLmem4qUVOZPc26tz
-         w6Rg==
+        bh=C/+13pWz3S/ADmU8zPzF6OxKwlX4sR+EcSqa3YDCepw=;
+        b=N6WglARourTgkF8z1w4EEi9rYHkuMLp/kXXs1PoTyzOg23WKp5Uxfl+vgXImK1mdqb
+         5nIr+RZgPIWjOkACMSiJjcLLVpM6eMrjADR3k95TzvDeayD2tiaOUCAU9acVjQQpG2vc
+         QWYgU1GGCEtdGhmWQqnUAGpfjDGA/N6RLZGVfTJ3yuO3LX7h31MUzAw3BgpUB7jcmAqx
+         bqJhI1X6QKiU3/Imi3JV86n/md5wYh/CXRVjdFblg1gZ6AtzpBKIrYVi7QetynCUr7Eq
+         NG66Bli7GdCieNC2M+icBTrXSVb0QpG0IeA/tJFODIdIUQ7J4MinE3qCbu3+JVT31IUH
+         Y9ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753380847; x=1753985647;
+        d=1e100.net; s=20230601; t=1753382005; x=1753986805;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PA+FDGnm8KFRDI1WG5qjPM7Ak8dSwQI6T1oFO9TvYfs=;
-        b=QgICT9I93C8dy/S6z9mt8aJoN28QjZqs0nDKnSPlePxE9CUVM8scqS4XJWGmvQ3H4N
-         oz51z8uiPh7znGosMFN8tfSkPAlfqCITSk0vfNlKw4ut5s5cshQ34QXvtd/qdfwE4gnI
-         VmWwNiyRIhJjbw452raiMo/04tWuGuZxNPdoyp0iAcSo/9bWM5jE9nbHwyGus+gEjHor
-         CqsoVAw8v9M3XPEMWh1wIj9isUZacATHojkv+0N+DogqhMLrfL9KcgtxJk8lliqev2T+
-         /T0GjMKILS1wC5DNwtLd2ubNHdAL3Z6YjIQ3rRDRqPQCdAr3km+jzhUZCHGMFdfWy/wu
-         Nnyg==
-X-Gm-Message-State: AOJu0YwLwa9u4ar6kIzBSWiJ7XpmoZsrWm9bgcMsv608UnNjwN78zKzf
-	fODWt+y/K4SZ51ucnnpiKe1TEjwN5RTkKjDMFYno2dWMVxLRWrb80fjRPZV/flRrX2X8luySPud
-	5z/1a5KGDiNkSbHatjwRlWlUZs9KiXrs=
-X-Gm-Gg: ASbGncu49fyeJspIB+2qjCXxIWl5kP75HPK0XHwTwfAEopItepLqOaQ7mImfStp7yka
-	OO7MMyi/0ENYufKgl2chUxdzKEGl+CFt5TXvY23DbdnYwNE95fx066+BOGCBeR+E2kdlPfWct4s
-	IpddZ6rICqt+XCZYQYYqZ1yKX4eId+h+APHo53LvDmYtT9eNAlNNAv1GJccAfDXDHZ8L7zLYJL6
-	1m1bvZfI4YrjVMK7zAt8EfnP/mCQXB00P4A
-X-Google-Smtp-Source: AGHT+IGVbdugpIy64GFm10Vys91wi+VFltmrb2E/3C6mcetIWRMWGGkrEAAFtCMkEn2pFk9v1RI52K136J0W9DEJfBE=
-X-Received: by 2002:a05:690c:685:b0:711:7128:114f with SMTP id
- 00721157ae682-719b41550f7mr101657737b3.12.1753380846430; Thu, 24 Jul 2025
- 11:14:06 -0700 (PDT)
+        bh=C/+13pWz3S/ADmU8zPzF6OxKwlX4sR+EcSqa3YDCepw=;
+        b=SI8m/iDcXurL+Ea19Aee6UAiHhUGdZN6D9e0kCIIGKfnOFegpW3x/Nq6hYl+79gprY
+         Q04l+1xAWENs3jMnA9F2CAq0WNVvQH66P2EEQWfdXL78rPSyTkBtuKfQsVvYHSxYvN1N
+         zH46USeW5KVoAJA2TfZl4rY538xUOAEmlqk+MQGH845ivdEehijdFWMbFL2TNYlbgBXq
+         wEX4JW4G1MVg2wrNAh4tiTrqlaKnMEwLDiW5vued0+yKg72kvrBOaX9ZGQ1rTIunxTmu
+         aIb8+tavVevbf1Zf4JowKXCsdd5wiQHpNsqu4tMARUNw4oftLUlq07MUX5GSSmbXnjY8
+         2GvA==
+X-Gm-Message-State: AOJu0YzamOPMqCjxW+ANxM0Ohxe/61nTywp9Gm6KmhLDadwn2w3jEiQB
+	Yya3qUTPDbtO88D3MU/sqw7LIOzVlpvEeR5moXEnQRwHzph1DrB5FaDN83XfV4aQEjRFHkCHEBJ
+	Rlk/qb/XP5cEZepgFQTQ9tUGnIEaq690=
+X-Gm-Gg: ASbGncvU0q7OkhTuzQ2quhByPzxk3tHQGkf+XRTLJb/KubJzcHWVhIGaEt2Wjjh9j4y
+	b9Ba8uXC+CvuOPyyW+gjAoWhB2NS2XasDNB27WOqvpYTzGLDpUSJfkSZK5N6OYgQfvNicseAXOZ
+	/08ScSKp7IZXgQRBe0bo9BgRhXWnqOQcqbbBN1YAW4pK9rUC//mfleDtQF43PwD+KJfMtl0LOxJ
+	9F8QRg0gwUY4K1YdNpH21K4yqoG14w0oW+1yJaxsdZD4ZA=
+X-Google-Smtp-Source: AGHT+IHslftgfV1pl88pJmS/FWkOkhgCUsl3WwLo267YDc7FPwozU0KKJker4bI70UCL+4muX78EYR6/ZueqMfD7flw=
+X-Received: by 2002:a05:690c:6a11:b0:718:38bd:bb45 with SMTP id
+ 00721157ae682-719b43727ddmr103952637b3.40.1753382004759; Thu, 24 Jul 2025
+ 11:33:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250723012936.3799471-1-raj.khem@gmail.com> <ed194d92-ea63-4282-bf93-a93e01a97816@cherry.de>
-In-Reply-To: <ed194d92-ea63-4282-bf93-a93e01a97816@cherry.de>
+References: <20250724170600.1113476-1-raj.khem@gmail.com> <d4128d48-9dda-461c-a932-d31edfe1f43c@cherry.de>
+In-Reply-To: <d4128d48-9dda-461c-a932-d31edfe1f43c@cherry.de>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 24 Jul 2025 11:13:40 -0700
-X-Gm-Features: Ac12FXxqSPT3_A95uTGUujmtV0wKYumnmBh6TflP4MZcUzwxGEskx98uNb8_JBY
-Message-ID: <CAMKF1srDvVomf-3kDmrW0Ox_WGCxJd7-gvQY7JM-H4U=x=QMdA@mail.gmail.com>
-Subject: Re: [PATCH v3] feature-arm-crypto: Add +nocrypto to -mcpu when crypto
+Date: Thu, 24 Jul 2025 11:32:58 -0700
+X-Gm-Features: Ac12FXw0msXm_E9WUK9TFbqFk836djktKPJWa1hxdT5zsEL4xg0r2x3VRboWH9o
+Message-ID: <CAMKF1sqWyUx78Nqc=LsMPq4nLGMzSstV1XePH1hNs8b=vr+JjA@mail.gmail.com>
+Subject: Re: [PATCH v4] feature-arm-crypto: Add +nocrypto to -mcpu when crypto
  not in features
 To: Quentin Schulz <quentin.schulz@cherry.de>
 Cc: openembedded-core@lists.openembedded.org
@@ -64,15 +64,15 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 18:14:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220855
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 18:33:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220856
 
-On Wed, Jul 23, 2025 at 2:06=E2=80=AFAM Quentin Schulz <quentin.schulz@cher=
-ry.de> wrote:
+On Thu, Jul 24, 2025 at 10:10=E2=80=AFAM Quentin Schulz
+<quentin.schulz@cherry.de> wrote:
 >
-> Hi Khem,
+> Hi Khem
 >
-> On 7/23/25 3:29 AM, Khem Raj wrote:
+> On 7/24/25 7:06 PM, Khem Raj wrote:
 > > When crypto is not in tune features then add +nocryto to
 > > -mcpu explicitly. This makes the behavior between clang
 > > and gcc match. Currently -mcpu=3Dcortex-a72 has different
@@ -80,135 +80,73 @@ ry.de> wrote:
 > > considered default. Clang enables different set of common
 > > features than gcc on other hand. For example clang
 > > enables crypto with default set but gcc
-> > does not, gcc recommends to disable unavailable extentions
->
-> s/extentions/extensions/
->
-> > in -mcpu [1] explicitly. crypto is optional on cortext-a53
->
-> s/cortext/cortex/
->
-> I am not disputing this patch is needed but there's just conflicting
-> information (to me).
->
-> This says
->
-> """
-> For example clang enables crypto with default set but gcc
-> does not, gcc recommends to disable unavailable extentions
-> in -mcpu explicitly
-> """
->
-> which can be summed up to "gcc does not enable crypto by default, but
-> recommends disabling it when unsupported", doesn't that mean it's
-> enabled by default?
-
-yes
-
->
-> And I finally managed to understand what bothered me.
->
-> -mcpu is the one which enables extensions by default it seems? But the
-> variable (TUNE_CCARGS_MARCH_OPTS) here is for -march, not -mcpu! And
-> -march doesn't specify what it enables by default in the docs it seems
-> like, see
-
-Well, extensions can be enabled/disabled either with -mcpu or with -march a=
-nd
-they should have the same effect, but they are not documented as the
-same set between mcpu and march in gcc manual atleast, maybe it could
-be made better.
-Perhaps renaming the variable to something like  TUNE_CCARGS_CPU_EXTENTIONS
-might be appropriate since it is currently used for ARM architecture
-only, I don't see
-a reason why it can not be used for other architectures. For RISCV e.g. the
-infra to compute the march/mcpu options is different. Perhaps some
-logic could be
-made common
-
-see below, the list is identical between mcpu/march.
-
-aarch64-linux-gnu-gcc -mcpu=3Dcortex-a72+predres1 ~/tests/a.c
-cc1: error: invalid feature modifier 'predres1' in '-mcpu=3Dcortex-a72+pred=
-res1'
-cc1: note: valid arguments are: rng flagm flagm2 lse fp simd dotprod
-sm4 rdma crc sha2 aes crypto sha3 fp16 fp16fml jscvt fcma rcpc rcpc2
-rcpc3 frintts i8mm bf16 sve sve-b16b16 f32mm f64mm sve2 sve2-aes
-sve2-bitperm sve2-sha3 sve2-sm4 sve2p1 sme memtag sb predres ssbs
-profile tme pauth ls64 wfxt xs sme-f64f64 sme-i16i64 sme2 sme2p1
-sme-b16b16 sme-f16f16 mops cssc lse128 d128 the gcs fp8 fp8fma
-ssve-fp8fma faminmax fp8dot4 ssve-fp8dot4 fp8dot2 ssve-fp8dot2 lut
-cpa; did you mean 'predres'?
-
-
-aarch64-linux-gnu-gcc -march=3Darmv8.1-a+predres1 ~/tests/a.c
-cc1: error: invalid feature modifier 'predres1' in '-march=3Darmv8.1-a+pred=
-res1'
-cc1: note: valid arguments are: rng flagm flagm2 lse fp simd dotprod
-sm4 rdma crc sha2 aes crypto sha3 fp16 fp16fml jscvt fcma rcpc rcpc2
-rcpc3 frintts i8mm bf16 sve sve-b16b16 f32mm f64mm sve2 sve2-aes
-sve2-bitperm sve2-sha3 sve2-sm4 sve2p1 sme memtag sb predres ssbs
-profile tme pauth ls64 wfxt xs sme-f64f64 sme-i16i64 sme2 sme2p1
-sme-b16b16 sme-f16f16 mops cssc lse128 d128 the gcs fp8 fp8fma
-ssve-fp8fma faminmax fp8dot4 ssve-fp8dot4 fp8dot2 ssve-fp8dot2 lut
-cpa; did you mean 'predres'?
-
->
-> https://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html#index-march-2
->
-> vs
->
-> https://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html#index-mcpu-2
->
-> So we need to modify the commit log to reflect that and not be misleading=
-.
->
-> While at it, I'm wondering if we shouldn't simply do that for all
-> TUNE_CCARGS_MARCH_OPTS that we have today?
->
-
-Perhaps yes
-
-> I see:
->
-> +crc, +fp, +simd, +dsp, +idiv as well that have a +no variant.
->
-> +sve and +sve2 though, couldn't find them in the official docs of GCC
-> (though
-> https://community.arm.com/arm-community-blogs/b/tools-software-ides-blog/=
-posts/getting-ready-for-sve-with-gcc-11
-> and
-> https://github.com/gcc-mirror/gcc/blob/master/gcc/config/aarch64/aarch64-=
-option-extensions.def
-> define both, so I guess it's fine too). We probably should report or fix
-> this in the GCC docs?
->
-> > and cortex-a72 while, this is not as common but Broadcom
->
-> "while, " is a bit odd here :)
->
+> > does not, gcc recommends to disable unavailable extensions
+> > in -mcpu [1] explicitly. crypto is optional on cortex-a53
+> > and cortex-a72. This is not as common but Broadcom
 > > SOCs in raspberrypi3/4 have dropped crypto for cost
 > > reasons [2]. This results in illegal instruction
 > > traps [3] [4] when building components e.g. chromium,
 > > qtwebengine, weston etc. with clang using -mcpu=3Dcortex-a72
 > > for rpi4 target.
 > >
-> > Adding +nocrypto makes it behave like gcc does today. We
->
-> s/it/clang/
->
+> > Adding +nocrypto makes clang behave like gcc does today. We
 > > do have separate tune if crypto enabled cortex-a72 cores
 > > are to be targeted (cortexa72-cryto) as DEFAULTTUNE
 > >
 > > They are added to default feature file since crypto extension
 > > is available in multiple arm architecture versions e.g. armv8,
-> > armv9. It is optional extention as per spec [5]
+> > armv9. It is optional extension as per spec [5]
+> >
+> > Extensions can be enabled and disabled with -mcpu using the same
+> > syntax as with -march, and have same effect thats why it is
+> > intrumented via TUNE_CCARGS_MARCH_OPTS
+> >
 >
-> s/extention/extension/
+> I believe this is incorrect. TUNE_CCARGS_MARCH_OPTS applies to -march,
+> not -mcpu.
+
+Well, it applied to both in cpu specific tune files ( e.g.
+tune-cortexa55.inc ) we override
+arch specific TUNE_FEATURES and replace with then CPU specific TUNE_FEATURE=
+S
+ This results in  TUNE_CCARGS_MARCH being empty and TUNE_CCARGS_MARCH_OPTS
+are still valid and they can appended to TUNE_CCARGS
+
+in conf/machine/include/arm/arch-arm.inc we have
+TUNE_CCARGS .=3D "${TUNE_CCARGS_MARCH}${TUNE_CCARGS_MARCH_OPTS
+}"
+
+Due to include order this append appears after the TUNE_CCARGS is
+appended with -mcpu option in a mcpu tune file e.g. tune-cortexa55.inc
+
+TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa55', '
+-mcpu=3Dcortex-a55', '', d)}"
+
+so in the end we get -mcpu=3Dcortex-a55+nocrypto or
+-mcpu=3Dcortex-a55+crypto in this case
+if you were optimizing widely for an arch then the effect will be via
+TUNE_CCARGS_MARCH and
+TUNE_CCARGS_MARCH_OPTS
+
+I do wonder whether renaming both TUNE_CCARGS_MARCH and
+TUNE_CCARGS_MARCH_OPTS to something more generic could help lessen the
+confusion. It's there because we have -march and
+introduced -mcpu options later on.
+
+>
+> If that is correct, then The whole explanation should be targeting march
+> and not mcpu as we're changing march and not mcpu (though I assume they
+> trickle from march to mcpu inside the toolchain).
 >
 
-I have tried to address typos and thinkos in v4
+your assumption is right. Although, now thinking of this a bit more. I
+think we can rename the
+TUNE_CCARGS_MARCH_OPTS as I suggested in prior email to something like
+TUNE_CCARGS_CPU_EXTENSIONS but in the end they are march options from
+gcc/clang's
+perspective, its just they are instrumented via either march or mcpu
 
+hope that helps.
 > Cheers,
 > Quentin
 
