@@ -2,155 +2,133 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 626CDC87FCA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EF54C87FCC
 	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 21:36:00 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.5119.1753392950668713142
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.5122.1753392957401175888
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jul 2025 14:35:50 -0700
+ Thu, 24 Jul 2025 14:35:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nn9G5KCf;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7600271f3e9so1347044b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 14:35:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VbOoSqHN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-748fe69a7baso1350563b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 14:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753392950; x=1753997750; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753392956; x=1753997756; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0SExyELtirSLHPZawYAEgVSr0buqvalPQSqNJfMTY24=;
-        b=nn9G5KCfMIJVs4wZ7uiswyqpIkMmlHUC3qQDsGHuxqI22eVYSYxaA/kMIAO2e3Apco
-         ODfdfAvAYlKH9tmNLx6I7gCRwd3gIwjVk+97Wl0FqVNswiHcsuJTf4DfOhvqf5vnKib3
-         BY11Y9ZlEI0Oirxjui/qn2AXIIa59FxumpwuEetYD8HDLp4ppDrEK6EFXDqI/bDt8001
-         ExySqnC7mLJzeC2Q1R8XO4SBNmehfrWs/CRAGSxC9j9oCGjLigSmeNFWDHefCmaxxryG
-         p28ujNbkUood51YhYFv367TJ0Aj7b3FYKViurlUP1VbEPrQ4uwIPOmDTwxC8UzX87evf
-         o9kQ==
+        bh=Dydt2fcc7HxFJdrBqrikSIq9mVuFmwi2cOm79sNhPuY=;
+        b=VbOoSqHN7ug8FydCleGcnMXXgf83S2+/ljQcOPMDJ6LEkU+x1eJ72coJHGQ5zsm0wm
+         1rygRaX7EmjyvFVyEgFn/ru/hKdmiof/4w/eRH7PkwQqQBEWCrh3InGAXnimSu99ido/
+         jqZHK81UeORej8vITr7P6kmVlGUtKpePQdxThIq9Kx1ddc6g12+AcTtijvkK6MIR36pO
+         E1yI62aiVJEPTWL/KH9EQZBqYVYhhIOWS+84eMFlX1I+9aoVYaQvVwTsnaqSpQRbZgTf
+         jLhf1ajXWQ0+dELSpkh1NkLb5lSjhmjeQIn5cJ4c2Nd04MLH8k7tnFSiXEOsFdrpPyt4
+         hgZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753392950; x=1753997750;
+        d=1e100.net; s=20230601; t=1753392956; x=1753997756;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0SExyELtirSLHPZawYAEgVSr0buqvalPQSqNJfMTY24=;
-        b=uHc1RjJX3Zk/Nh2sEmsp5oWlmGN0XrxfAna86TYGy2sHqJ+cw/Jc5aLgtYEZAzCfJZ
-         4qN2W0ZPdOT3mlO93AOFikkm3goNIttuIEltw2p4BFN/aT6KDvTmrXYyotO31/7etFub
-         y7FARgGGkfiHQ3mx/WL/cRRj14UAosdZY5z0VL5yZmp2aAIfN8GDszbVhL3ZMIlJgzha
-         u4iEuoyMaw+n0GQHC8vh+jMQtZHq4jeL7zSObNsYDRuR1r6GoiaxOI1CfjHECRA4Rusc
-         6Rc4lkqcyUaY18JhD5EfSHCnonHik6KN7Q3L+AvKyJasvkRoJbljcsiv6Mxvg2/WvJtd
-         BzvQ==
-X-Gm-Message-State: AOJu0YzOzNLn66hXQRP5IbnFmxPHygUSXe/lBISb8AynqBvzl/xXCy1J
-	6a12GEw2BxGToCaW7iopA1EaVGBG1rvwCg0+ierTDWkhwVhdKJW1d0DuMBMS+21rXc0pkyoJJem
-	QlWWp
-X-Gm-Gg: ASbGncvD19W/TQtARoNwwUqWqzvZqRnjM8pWJGLnhPIBhzYiY0iQIZ79tStP3omW8/d
-	yQ+/uLLuc8V4WzPvI1b/xaf+4Lvoa1/43y379GgTYyw+SI/ye5h0AJbdEY1lVgWQGGJ2oSW7QyQ
-	PLFyuNezvBogSQsUzFjU8YL0mvAjzbENdfmSf3MYuXI6+//iHPqMglaE6n8qkr58ZC/HdjsS7f/
-	jZcd9xUCOwsRaqpcMA2OZsN1cZzMqbiru9tQEjq1v+CsslfcNgYtKhN9eWbhLzsc5RMsUeXRoKG
-	LtJ3ULg1VVD+Bfkl2+kKYClijkSPdU6JO3jNQpaaFmrt+yBMyQXf1utBHHaSXwKbJ1f3d+Iv7vs
-	pGXWfXfdBKvi29+TexO5TGJY=
-X-Google-Smtp-Source: AGHT+IFggd4yIpSo+wnb30sGkhtEIcP8Mht4IXENET4xpbaYfvfp+YhK4+3puNFlSFm3TP3b+DLTfQ==
-X-Received: by 2002:a05:6a00:2489:b0:746:1d29:5892 with SMTP id d2e1a72fcca58-761eee32e43mr4897573b3a.4.1753392949709;
-        Thu, 24 Jul 2025 14:35:49 -0700 (PDT)
+        bh=Dydt2fcc7HxFJdrBqrikSIq9mVuFmwi2cOm79sNhPuY=;
+        b=TrA7wWl5LjWdWkQiiRWD5lcktx6AI10/ig+so5n/7yDhcSA79zys7VoWSph91VjAQE
+         f2pQRD0fM7XoxJMO1OUj6jin7qCrtcPOLchgv3/7wWldxyoMbK3XKrih/8ljtUndLTON
+         OEVyc7nJyWbRy9BRTWR0wZV+AIS2dRgigN0nC5JEAzLTyG9ak2aKurXzmUOQ9Do53sm5
+         mHxc+MUpqHA2nKXPh6inm0G5xcYBhufFpsRMSys4sL3duT2o8mScz2wpLUAG7K4MuLrd
+         mPL1g9zit3Z/BY/sCqV466BFQskPQMJAUq0SIQ/2oIhWjJmhtBsiKOEItEuyNqBxl2GG
+         ji8g==
+X-Gm-Message-State: AOJu0YyRfBdrHA0YHIWOsfK1i2XFCHL5QK7uIjAP1sTzQQ5Z0EA4xQ6f
+	q8r9844j93wlbvDMB7t0qMxghzIf9O8MIZYm4k7MGLg6v/hYGRQCxCqNiDnNoCFtY+2XJfi1W48
+	BD20a
+X-Gm-Gg: ASbGncusuf8zNzRLjS7TclZ4wQRcZAagJKji/PsfOGOjtlJvh+PaPhE7YOmrUwF/0W1
+	q0+QTusM1r2MGjTNF7Js2VGcaveE5ktw803ZT15n0m0yZhpo/98wqz0kNWiKMI5RzOjdJTCbOfs
+	Zsl9Mpxlj3GCuggULIFWsIuNGc0KUl9cHQr45cuprznQ7kzG5b4bWsstl+saIACVQdx4Vpw2n76
+	d7jRvaNhe3exm7tCP6pRt5VKxkReaguvaJTqIUw5y436PzU/cgNvU2L8+G2zLNTWXHVUHdfLh/W
+	ujds5JsWSKZ0PV20K/zVvdNWQOm7H9ML5nRQqBCRVqW1e+NUSA85Zc7A50q2P2YPHwJR2YXoz3U
+	mQgGlto6gFKDb
+X-Google-Smtp-Source: AGHT+IER+R2Ok0uNR6LNd2puvmU9CO3oiAy3XoaH5L5svNXGJlDyZiNWxmfJE31MuFGRol8B4/xI8Q==
+X-Received: by 2002:a05:6a20:cd91:b0:21f:5598:4c2c with SMTP id adf61e73a8af0-23d49032907mr14669488637.13.1753392956531;
+        Thu, 24 Jul 2025 14:35:56 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:e2fc:f94:bcdc:cb9e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-761ae158129sm2253735b3a.32.2025.07.24.14.35.48
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-761ae158129sm2253735b3a.32.2025.07.24.14.35.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 14:35:49 -0700 (PDT)
+        Thu, 24 Jul 2025 14:35:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/16] openssl: CVE-2024-41996
-Date: Thu, 24 Jul 2025 14:35:22 -0700
-Message-ID: <fbe03fd40d02ddd662e34f2ec75427cea4ea0902.1753392770.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 09/16] glibc: stable 2.39 branch updates
+Date: Thu, 24 Jul 2025 14:35:25 -0700
+Message-ID: <779e3dccae95a6427317cbd7bc754f4d545efda6.1753392770.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753392770.git.steve@sakoman.com>
 References: <cover.1753392770.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 21:36:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220879
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220882
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-From: Peter Marko <peter.marko@siemens.com>
+$ git log --oneline 06a70769fd0b2e1f2a3085ad50ab620282bd77b3..cff1042cceec3502269947e96cf7023451af22f3
+cff1042cce Fix error reporting (false negatives) in SGID tests
+1924d341c0 support: Pick group in support_capture_subprogram_self_sgid if UID == 0
 
-As discussed in [1], this commit fixes CVE-2024-41996.
-Although openssl project does not consider this a vulnerability, it got
-CVE number assigned so it deserves attention.
+Testing Results:
+             Before   After    Diff
+PASS          5074     5082     +8
+XPASS         4        4         0
+FAIL          121      116      -5
+XFAIL         16       16        0
+UNSUPPORTED   157      154      -3
 
-[1] https://github.com/openssl/openssl/pull/25088
+cff1042cce Fix error reporting (false negatives) in SGID tests
+Improved SGID test handling by unifying error reporting and using secure temporary directories.
+Replaced non-standard exit codes and fixed premature exits to avoid masking failures.
+These changes reduced false negatives, increasing overall test pass rates
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+UNSUPPORTED tests changes
+-UNSUPPORTED: stdlib/tst-secure-getenv
+-UNSUPPORTED: elf/tst-env-setuid-static
+-UNSUPPORTED: elf/tst-env-setuid-tunables
+
+FAILed tests changes
+-FAIL: malloc/tst-aligned-alloc-random-thread-cross-malloc-check
+-FAIL: malloc/tst-aligned-alloc-random-thread-malloc-check
+-FAIL: malloc/tst-dynarray
+-FAIL: malloc/tst-dynarray-mem
+-FAIL: resolv/tst-resolv-aliases
+
+PASSed tests changes
++PASS: stdlib/tst-secure-getenv
++PASS: elf/tst-env-setuid-static
++PASS: elf/tst-env-setuid-tunables
++PASS: malloc/tst-aligned-alloc-random-thread-cross-malloc-check
++PASS: malloc/tst-aligned-alloc-random-thread-malloc-check
++PASS: malloc/tst-dynarray
++PASS: malloc/tst-dynarray-mem
++PASS: resolv/tst-resolv-aliases
+
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/openssl/CVE-2024-41996.patch      | 44 +++++++++++++++++++
- .../openssl/openssl_3.2.4.bb                  |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch
-new file mode 100644
-index 0000000000..dc18e0bef1
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch
-@@ -0,0 +1,44 @@
-+From e70e34d857d4003199bcb5d3b52ca8102ccc1b98 Mon Sep 17 00:00:00 2001
-+From: Tomas Mraz <tomas@openssl.org>
-+Date: Mon, 5 Aug 2024 17:54:14 +0200
-+Subject: [PATCH] dh_kmgmt.c: Avoid expensive public key validation for known
-+ safe-prime groups
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The partial validation is fully sufficient to check the key validity.
-+
-+Thanks to Szilárd Pfeiffer for reporting the issue.
-+
-+Reviewed-by: Neil Horman <nhorman@openssl.org>
-+Reviewed-by: Matt Caswell <matt@openssl.org>
-+Reviewed-by: Paul Dale <ppzgs1@gmail.com>
-+(Merged from https://github.com/openssl/openssl/pull/25088)
-+
-+CVE: CVE-2024-41996
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/e70e34d857d4003199bcb5d3b52ca8102ccc1b98]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ providers/implementations/keymgmt/dh_kmgmt.c | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/providers/implementations/keymgmt/dh_kmgmt.c b/providers/implementations/keymgmt/dh_kmgmt.c
-+index 82c3093b12..ebdce76710 100644
-+--- a/providers/implementations/keymgmt/dh_kmgmt.c
-++++ b/providers/implementations/keymgmt/dh_kmgmt.c
-+@@ -387,9 +387,11 @@ static int dh_validate_public(const DH *dh, int checktype)
-+     if (pub_key == NULL)
-+         return 0;
-+ 
-+-    /* The partial test is only valid for named group's with q = (p - 1) / 2 */
-+-    if (checktype == OSSL_KEYMGMT_VALIDATE_QUICK_CHECK
-+-        && ossl_dh_is_named_safe_prime_group(dh))
-++    /*
-++     * The partial test is only valid for named group's with q = (p - 1) / 2
-++     * but for that case it is also fully sufficient to check the key validity.
-++     */
-++    if (ossl_dh_is_named_safe_prime_group(dh))
-+         return ossl_dh_check_pub_key_partial(dh, pub_key, &res);
-+ 
-+     return DH_check_pub_key_ex(dh, pub_key);
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.4.bb b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
-index c4ad80e734..d6bf32d989 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
-@@ -12,6 +12,7 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
-            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
-+           file://CVE-2024-41996.patch \
-            "
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 0130613936..6ee9fc7a0b 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.39/master"
+ PV = "2.39+git"
+-SRCREV_glibc ?= "06a70769fd0b2e1f2a3085ad50ab620282bd77b3"
++SRCREV_glibc ?= "cff1042cceec3502269947e96cf7023451af22f3"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
  
- SRC_URI:append:class-nativesdk = " \
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
 -- 
 2.43.0
 
