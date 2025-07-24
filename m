@@ -1,102 +1,98 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB7BC83F26
-	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 22:15:20 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web11.6126.1753395310661459976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31AF7C83F26
+	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 23:03:21 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.7033.1753398192931501473
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jul 2025 15:15:10 -0700
+ Thu, 24 Jul 2025 16:03:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Z2HldCIt;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2025072422150841bc1c03c3972b59aa-rkzwoj@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2025072422150841bc1c03c3972b59aa
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 25 Jul 2025 00:15:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=ucubxI0fjf38Gs+IrIUwF33np1/WPcNKQOZmizgeKus=;
- b=Z2HldCItIC9AgZ7hcaCoAcU7dCl7QIEp+OfGe8Xv1N707aNVga2Ll7R/OKdr5BAbscYY33
- Jds/C6EjrzubHlZhR9PZ7j9xEUOuEslD4zEthxJFsdgkF2GraKefL3gPGsUdmfqps/ojjUyG
- ogLGsixH5x9ZGtEgLH8waOlzLmp/mO+OcBtpLr2LTXwS7P/WGtdDMFZWoqf+haamaHE+IS5Z
- Vb3lsoEVg8KXHgEtv2zvXW/r/kb9RA/Wh6MCQKNU/SmVZofRDW8evK51R18TuKuSSCpDk/N1
- qh2yynmByGp2VlGUE/Hq1W4+R0yBa9IfYuslASKKBGSqzjgZC0QG0mLg==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=G9NqFEyQ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-23f8bcce78dso17616065ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 16:03:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753398192; x=1754002992; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uupC9BpJU+wlCucEXx32psJXbCB3WBUC+4B49G9UiZE=;
+        b=G9NqFEyQ3Tzyl9SXBi6YQdNg1tdBuhLzPkh84UK+1z0ipbz1o9cZJqBGqh6aU1/cRh
+         zjwlWnf00U9a0nOqFPy9D37iWq/okv41f+BdUZaWjnALugtSmJ2OvI/P/URbOG0MstPv
+         OGpogVZpzi1yfgQZR+ZvTnjmQogY0WjWAmEdxSiv/hVueENNf729kCWGzrD30NecDX2s
+         1aKy+4i9RahsPxya8OvEqUkXI7U90VrAHWHKbbP7i31LPQY7pcN416zlhwGCuhXaU+cb
+         i1GVQaYkFBJmUUkYj322Tn0t3x10PJvzpnP3iDP8ZXRYIfXhZ80YdKt0GHl/64KW7IDu
+         PMBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753398192; x=1754002992;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uupC9BpJU+wlCucEXx32psJXbCB3WBUC+4B49G9UiZE=;
+        b=QwE8X26yujMrwmNsQlwtcgmH9Q8HL4QpiJxNGufvzOTfv6louStVPdJ9iptNNavHI9
+         BuOJ7l65feCp2sGGKCglVgrbXPYqyii4n7x8rmtpuhso00Ektugvm5ywMCQTaO01+324
+         MYGJzSHVugRHQNPFcukVcwdhDCokdY9ws0eJMPX2N0ZbZT1ZolyqSA2dyuHHQeGxLPQi
+         kzRygFYBmtXx+oNKP7akraVBn+X6CuiyZwgWlbJthIkqBENzLWSG5rHVTY9MAUaJFsSB
+         kL5PrHIrivJ1DeueHUSvckkQA1lKnJsxgmbvJEgN8nfUSAq99MmMzdYT4JSqwk8WWQC5
+         ImLA==
+X-Gm-Message-State: AOJu0YxmshZf5M60SX9ye2b3nJZXVFFbaxmzgSiMMc+LtNmSDgN1Mr+k
+	Otf82q69zZ9fPeK7xdF41tr/4X99XUzyJX8v6ggvgc5Ut4DZywBelnfC0f8iii+W2cM=
+X-Gm-Gg: ASbGncvGw6oDWb9MsBMezQNfiTWjWlhKl1fQUiPWLQ89VcURTmyDp44eHQC/4T6c/k1
+	54PEFu+Rl4w6wOEEqXkUg7JDBNL+3OwZmauPejdUaQi+A406m3W8YXH24GAkwfY8j6yBCjEfCzn
+	sZIperQzqOnNUkuIbp+1T6c41kj3GYV8W/HTKZ6V/v/1qq3oEkF3Y2kQsY/t3w6BqCTIHuO9Wz2
+	hLft/4eerh62f7su/rxIM+got4ky+iN0uShwM6xCBbNROB9FCqgBPyaFURF+t1JBqAF5cLpm+wf
+	6fZPc/lMiPifHHYujQwwN4fuUU0AjdFHTdPiH0CiWIyP1L2W1f3qTNKhS08K+xa+NGQPONVVb+z
+	s2nBTHDyNuTm/RQ==
+X-Google-Smtp-Source: AGHT+IH1wGoPK+g/DBeBkXBY6FFsQ/+yCXvwSNc53uMtGYQFp9+h7Cqs9XWWLwhrMxoTOy1u58Ygvw==
+X-Received: by 2002:a17:903:2cd:b0:235:5a9:976f with SMTP id d9443c01a7336-23f981943c2mr149257505ad.24.1753398191915;
+        Thu, 24 Jul 2025 16:03:11 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::a237])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa49007bdsm23289325ad.185.2025.07.24.16.03.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jul 2025 16:03:11 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] ncurses: patch CVE-2025-6141
-Date: Fri, 25 Jul 2025 00:14:21 +0200
-Message-Id: <20250724221421.394544-1-peter.marko@siemens.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] tune-octeonx2: Do not use -mcpu=octeontx2 with clang
+Date: Thu, 24 Jul 2025 16:03:08 -0700
+Message-ID: <20250724230308.2465859-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 22:15:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220893
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 23:03:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220894
 
-From: Peter Marko <peter.marko@siemens.com>
+-mcpu=octeontx2 is not implemented in clang, therefore
+replace it with -march option denoting underlying
+armv8 architecture revision.
 
-Pick relevant part of snapshot commit 20250329, see [1].
+ Fixes:
 
-That has:
-add a buffer-limit check in postprocess_termcap (report/testcase by
-Yifan Zhang).
+    |   error: unsupported argument 'octeontx2+crypto' to option '-mcpu='
+    |   error: unknown target CPU 'octeontx2'
 
-[1] https://invisible-island.net/ncurses/NEWS.html#index-t20250329
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ncurses/files/CVE-2025-6141.patch         | 25 +++++++++++++++++++
- meta/recipes-core/ncurses/ncurses_6.4.bb      |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2025-6141.patch
+ meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/ncurses/files/CVE-2025-6141.patch b/meta/recipes-core/ncurses/files/CVE-2025-6141.patch
-new file mode 100644
-index 0000000000..ec7e8a94e4
---- /dev/null
-+++ b/meta/recipes-core/ncurses/files/CVE-2025-6141.patch
-@@ -0,0 +1,25 @@
-+From 27d1493340d714e7be6e08c0a8f43e48276149c4 Mon Sep 17 00:00:00 2001
-+From: "Thomas E. Dickey" <dickey@invisible-island.net>
-+Date: Sat, 29 Mar 2025 22:52:37 +0000
-+Subject: [PATCH] snapshot of project "ncurses", label v6_5_20250329
-+
-+CVE: CVE-2025-6141
-+Upstream-Status: Backport [https://github.com/ThomasDickey/ncurses-snapshots/commit/27d1493340d714e7be6e08c0a8f43e48276149c4]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ ncurses/tinfo/parse_entry.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
-+index a2278c07..c551c780 100644
-+--- a/ncurses/tinfo/parse_entry.c
-++++ b/ncurses/tinfo/parse_entry.c
-+@@ -985,6 +985,8 @@ postprocess_termcap(TERMTYPE2 *tp, bool has_base)
-+ 	    bp = tp->Strings[from_ptr->nte_index];
-+ 	    if (VALID_STRING(bp)) {
-+ 		for (dp = buf2; *bp; bp++) {
-++		    if ((size_t) (dp - buf2) >= (sizeof(buf2) - sizeof(TERMTYPE2)))
-++			  break;
-+ 		    if (bp[0] == '$' && bp[1] == '<') {
-+ 			while (*bp && *bp != '>') {
-+ 			    ++bp;
-diff --git a/meta/recipes-core/ncurses/ncurses_6.4.bb b/meta/recipes-core/ncurses/ncurses_6.4.bb
-index 61558ecfa8..d3b4106118 100644
---- a/meta/recipes-core/ncurses/ncurses_6.4.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.4.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://0001-tic-hang.patch \
-            file://0001-Updating-reset-code-ncurses-6.4-patch-20231104.patch \
-            file://CVE-2023-50495.patch \
-            file://CVE-2023-45918.patch \
-+           file://CVE-2025-6141.patch \
-            "
- # commit id corresponds to the revision in package version
- SRCREV = "1003914e200fd622a27237abca155ce6bf2e6030"
+diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
+index e9d7a59c511..83ba6745343 100644
+--- a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
++++ b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
+@@ -1,7 +1,9 @@
+ DEFAULTTUNE ?= "octeontx2"
+ 
+ TUNEVALID[octeontx2] = "Enable Marvell octeontx2 specific processor optimizations"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'octeontx2', ' -mcpu=octeontx2', '', d)}"
++CPU_TUNE_ARG ?= "-mcpu=octeontx2"
++CPU_TUNE_ARG:toolchain-clang = "-march=armv8.2-a"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'octeontx2', ' ${CPU_TUNE_ARG}', '', d)}"
+ 
+ require conf/machine/include/arm/arch-armv8-2a.inc
+ 
 
