@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 585FFC87FCC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD23C87FCA
 	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 19:35:29 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.2559.1753385725570429385
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web10.2558.1753385722305918771
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jul 2025 12:35:25 -0700
+ Thu, 24 Jul 2025 12:35:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QyLnuy0Q;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3190fbe8536so1213673a91.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 12:35:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zKAhR74s;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b3182c6d03bso1641994a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 12:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753385725; x=1753990525; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753385721; x=1753990521; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DWcnh0zes+qPOHeanVqpE1mGyXEAyrxPYvCErjU9pMc=;
-        b=QyLnuy0QtYhgZQxU7GfQ2crZkCY3cwRnLpEZhf7/NEtiWRc+KDpPu783Y0Tuyc1Rbv
-         c1lo3QjhIsuXrwbMcJe/AvletoqGPaDgL3rsWyuVnk5pimb74fz+e/TxsY6VvvZg49wB
-         eNjj4vx+LB/fJJuGA4f/MuA7zwXvu7+UNmUsyLiZ9j8QiF81F+AHUirQNrIh+IwD1Wjx
-         9o1TI181f02fqQLNNqclzasJr4GyEsqa6tj40WUowa5Q4yEfoEY3E/rg7dDdGc7sMQMv
-         IYOrP7JdDuyMBKuRhyPVPd4usLgU8XED/lvDGtz8hKXrabmorI5YxsKK3hhHrf6Wnz76
-         hgAQ==
+        bh=X9S3QOEmKZI2rtXOAfsdBB+cbOD+yrlcF63hGrC0+ag=;
+        b=zKAhR74sdZ6BXDwLT8Cb5pfXVbGvkLxQDbt0l3zoU07DKxlsgmuBwLHg+dchKdc0xZ
+         jp8xoH/PzCkStE2qWdNZdPotHYi2eRLZ0Vad0/48R9lJzioudnbF1qtiumE5PUdDZ63S
+         V7x3nNdVlTwT7REaCSJPO7XfCPenb2A/Bag+JVfhW7a/2v18pqFslN30ixwfxVmkGiMO
+         yYPTwLylKQsgsAem28Ud9avKuWmDRvq27uZRo6VqCudPtB+jF85P3Irj3uup5fJOtxQl
+         J64OovlhE8svY1+25FESeViLpoKo+t3cc4AtB+uGpFCs5A9KOcy2XQx3pU+osyJu94nH
+         FGnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753385725; x=1753990525;
+        d=1e100.net; s=20230601; t=1753385721; x=1753990521;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DWcnh0zes+qPOHeanVqpE1mGyXEAyrxPYvCErjU9pMc=;
-        b=aLhpogJ3spZN+ErHPo6sGmQuFkvrFDeyuy87Wj81h54zwbXmM78N3DRsKbDZLwykpE
-         4Ou9TPzO/SrYdJPi+qw107sTp9Fw9VvKmD3VS/JDOjMkIebp4Q6uaf1gi9Opa6m2Beyr
-         MwuDEZDx/TfErOO26LahQx/NOTnfgGBXIlM3dlxdT6FB3O5goDPhu6JVfX1UnaUaSwPe
-         SyMwBU3G5PQCRpNfzgkRabxNj2j1Tcd4CV7HCnCBxglljD+AJqmRfAKQz21pIbLvF/pt
-         s5iAbSz9BNa2XOV5IR+O/BLTCooX2QNp0frZaWZd7/BpKKc7eQKW4VqjQgFNi5O+xV7/
-         JXPg==
-X-Gm-Message-State: AOJu0Yx7+ufpHlXW1aKhIMpEsit5aECze0qFNm6YwN+fJrLnLzBMTy+G
-	LlBN044BpiSzZxAnhJ3xaHwwX3Jjtj/vpxRA25D4Db2xqwkC7XEWjNPy92G8Q/DV9+YOu49hl5B
-	0dLH9
-X-Gm-Gg: ASbGncvMPyJd9MBIYu/kTETP4l2Gb39QSM+pJwfMXI6IueFyi0vU+sr1usaToUbQVMz
-	U3u26bkmNnqA+wBX+44VBZEsGVCllwCr4dxqHmrlHAFc31o9dvrg+MIAtufISnAKMrMExhxuc3l
-	eR46BzxsQ8pG5rxOK9EYUG1kooDjoLKUicBOLOF08MJFf1vowyUp0sUoje+ldemrWSBObVqqOE/
-	XMq9iNTpTr7uQafZgjYfZvwMSd/+JHiYkf83Q+OReGsqnu1hVQwAJYM77jUrIy7fwcN+mPqQF6U
-	rMLxBa6KIHw6DrIA14rbDtSwXYm5R6eNMEtyNyEw3F8ElGZqRGQQqlgfx5S/rZx0eS1ML+0mnEp
-	RDlvTudx4V9bN
-X-Google-Smtp-Source: AGHT+IHUt2T5U8LEG746WOAOL55As6F5WsWGizHSUSg9haqGkhNgol0Ut4HK0QuMYsTivj9b5rYv/Q==
-X-Received: by 2002:a17:90b:582e:b0:313:14b5:2538 with SMTP id 98e67ed59e1d1-31e50859d80mr10587599a91.35.1753385724790;
-        Thu, 24 Jul 2025 12:35:24 -0700 (PDT)
+        bh=X9S3QOEmKZI2rtXOAfsdBB+cbOD+yrlcF63hGrC0+ag=;
+        b=uf0Folo/KuF6z/AnkbPSJIr/t+zIvUXvgVVcTpO0DuPuFgfzUAQTG9z/ofpDGHHUGH
+         fVLLjeG35iTCqOLYZB+aKZ0/k/iD1oYdSXHGK8t/GuKOtxjxBdKzQpJ5Jw6XCNovKm0G
+         4oEIKE+D+8c3dnEEuaufVbosXL8hDrUgSh1YAzF0LgXt8UQmBmZT08Dmso2xR+RsmLad
+         CGjnTuQ+ejn3B2L68rwccBk2wEiiYuRLXsxUj1TPBYKk9Fwg0x2jY90zTLnuvAToKoJx
+         2MoXjD5OA46pzNgrgR+kX8xjSjzWNQy4xW8Mj39dSFEACB/ewVXd0F74Zd8LyCvgYvN4
+         FgKQ==
+X-Gm-Message-State: AOJu0Yw0z3x3aa9SVQ41ntMWUw1CMYf9I8SPSvvGJvb5nxRBfFo+dbR2
+	G8OqN13asrid+8LByIIoU/dhkrGbxtMoJ1j0nAqSaADyn6A4XYfAhfJ5oHVz+WColHxN9z7RVNq
+	WsulN
+X-Gm-Gg: ASbGncv9ZLE0a4pEJVELgnrkqKKa9s+24U4JF4aD2IZlOWv8hjvBVAmgF8HoyzuhLEw
+	BaW53pgnan1AekGvOD7orQQZFfHJSHGn1YE6C8tI9d+/LDjvGPs4Ivq4L1rVqwLSwdylvhZbakI
+	LrlaADKRTT1clQcpFbC35Xc9Xu7Ty6nZA44ek9eFqRGfMEVITYo6WCocwnoZGMUWv7af8l/FJrk
+	VrViwcKuHGyUIEAaETAvu6VDGEkJ/ZuO6aXA2jPoMYAniLc2l2QbfNoouvQx/CC6+6Ut2FVkAOV
+	pYM8eegVowv7g/C9HiPTYeI3oz8zrWP/mUGBWM+8yo4CRjgT7SxNBeK1lUnuK8eLGIxBaisdW9/
+	NKAbIm77aBUFG
+X-Google-Smtp-Source: AGHT+IFFXg93/ZoaRNx2kx1wPrLDz7hN3QmDQC7vQll96femvCae5T/iFA0ro+lWRISzBQLWve0fPQ==
+X-Received: by 2002:a17:90b:574f:b0:313:279d:665c with SMTP id 98e67ed59e1d1-31e5078f2ccmr11790760a91.7.1753385721378;
+        Thu, 24 Jul 2025 12:35:21 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:e2fc:f94:bcdc:cb9e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31e66267fa4sm1978524a91.5.2025.07.24.12.35.24
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31e66267fa4sm1978524a91.5.2025.07.24.12.35.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 12:35:24 -0700 (PDT)
+        Thu, 24 Jul 2025 12:35:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 3/6] glibc: stable 2.41 branch updates
-Date: Thu, 24 Jul 2025 12:35:07 -0700
-Message-ID: <771be16db8c5cb90da0cc5544861ee70859a1ad5.1753385563.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 1/6] orc: set CVE_PRODUCT
+Date: Thu, 24 Jul 2025 12:35:05 -0700
+Message-ID: <4367e4cc527278b7e9edc08752014e71566e0068.1753385563.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753385563.git.steve@sakoman.com>
 References: <cover.1753385563.git.steve@sakoman.com>
@@ -68,76 +68,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 19:35:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220862
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220860
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-$ git log --oneline 0c76c951620f9e12df2a89b2c684878b55bb6795..6e489c17f827317bcf8544efefa65f13b5a079dc
-6e489c17f8 Fix error reporting (false negatives) in SGID tests
-11e634ccf3 support: Pick group in support_capture_subprogram_self_sgid if UID == 0
-61e461ed0c sparc: Fix sparc32 Fix argument passing to __libc_start_main (BZ 32981)
+There are new CVEs reported for this recipe which are not for this
+componene, but for a component with same name from apache.
 
-Testing Results:
-            Before     After   Diff
-PASS         5803      5813    +10
-XPASS        4         4        0
-FAIL         266       257     -9
-XFAIL        16        16       0
-UNSUPPORTED  164       161     -3
+sqlite> select vendor, product, id, count(*) from products where product like 'orc' group by vendor, product, id;
+apache|orc|CVE-2018-8015|1
+apache|orc|CVE-2025-47436|4
+gstreamer|orc|CVE-2024-40897|1
 
-6e489c17f8 Fix error reporting (false negatives) in SGID tests
-Improved SGID test handling by unifying error reporting and using secure temporary directories.
-Replaced non-standard exit codes and fixed premature exits to avoid masking failures.
-These changes reduced false negatives, increasing overall test pass rates.
-
-UNSUPPORTED tests changes
--UNSUPPORTED: stdlib/tst-secure-getenv
--UNSUPPORTED: elf/tst-env-setuid-static
--UNSUPPORTED: elf/tst-env-setuid-tunables
-
-FAILed tests changes
-+FAIL: elf/tst-env-setuid-tunables
--FAIL: stdio-common/tst-printf-format-d-int
--FAIL: stdio-common/tst-printf-format-d-long
--FAIL: stdio-common/tst-printf-format-sn-ushort
--FAIL: stdio-common/tst-printf-format-v-short
--FAIL: stdio-common/tst-printf-format-v-ushort
--FAIL: stdio-common/tst-printf-format-vas-double-f
--FAIL: stdio-common/tst-printf-format-vas-double-g
--FAIL: stdio-common/tst-printf-format-vas-double-g-mem
--FAIL: stdio-common/tst-printf-format-vas-int
-
-PASSed tests changes
-+PASS: stdlib/tst-secure-getenv
-+PASS: elf/tst-env-setuid-static
-+PASS: stdio-common/tst-printf-format-d-int
-+PASS: stdio-common/tst-printf-format-d-long
-+PASS: stdio-common/tst-printf-format-sn-ushort
-+PASS: stdio-common/tst-printf-format-v-short
-+PASS: stdio-common/tst-printf-format-v-ushort
-+PASS: stdio-common/tst-printf-format-vas-double-f
-+PASS: stdio-common/tst-printf-format-vas-double-g
-+PASS: stdio-common/tst-printf-format-vas-double-g-mem
-+PASS: stdio-common/tst-printf-format-vas-int
-
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/orc/orc_0.4.41.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 2d31131e03..a2cfd0f308 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.41/master"
- PV = "2.41+git"
--SRCREV_glibc ?= "0c76c951620f9e12df2a89b2c684878b55bb6795"
-+SRCREV_glibc ?= "6e489c17f827317bcf8544efefa65f13b5a079dc"
- SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+diff --git a/meta/recipes-devtools/orc/orc_0.4.41.bb b/meta/recipes-devtools/orc/orc_0.4.41.bb
+index 491ff71067..60677577b0 100644
+--- a/meta/recipes-devtools/orc/orc_0.4.41.bb
++++ b/meta/recipes-devtools/orc/orc_0.4.41.bb
+@@ -9,6 +9,9 @@ SRC_URI[sha256sum] = "cb1bfd4f655289cd39bc04642d597be9de5427623f0861c1fc19c08d98
  
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+ inherit meson pkgconfig gtk-doc
+ 
++# distinguish from apache:orc
++CVE_PRODUCT = "gstreamer:orc"
++
+ GTKDOC_MESON_OPTION = "gtk_doc"
+ GTKDOC_MESON_ENABLE_FLAG = "enabled"
+ GTKDOC_MESON_DISABLE_FLAG = "disabled"
 -- 
 2.43.0
 
