@@ -1,89 +1,101 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C19E8C83F26
-	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 09:33:42 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web11.8562.1753349614913188062
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB0EDC83F1A
+	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 09:47:42 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.8749.1753350459142589625
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jul 2025 02:33:35 -0700
+ Thu, 24 Jul 2025 02:47:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=AMGvsrOT;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: liuyd.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1753349615; x=1784885615;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=sK5geDHhz8/9pe+lEhCKXn1M/BPmT/RG0eN1WyHX4nA=;
-  b=AMGvsrOTJ6pd1D98pXjd3yd+7OboCUganNwoDx8RuJDcr/yPvFWW4zuf
-   JnVHzvbFm7gxwGPdjH8n1j+Z5izDdezpARj2ZZDOYiN/SL3HuyTjz88IE
-   Hqx55N/Dtf6Ff8N+TiqMGu3A/3vvMLUfO4+g5Yxic5UkGPDDQbruBAnJx
-   hYGoGVpdmr7MWTPTEH8X6htf6Bpu0XToX6DK7PCbR1Wm/2VDjbHqyT5IR
-   GuaghnP0IQI3OQApsFrKewBNHjjN5YNfoyDF4t5/HYebJRb5I3mKyL60i
-   wSUlR2IY0Bp3wXQi8vma4YAZRZ8ptr9vrvMAZxFhnbfC1QUt1F/efyFGq
-   g==;
-X-CSE-ConnectionGUID: XVQDqasuQTCzl6cd2sKJOw==
-X-CSE-MsgGUID: jVu5761uSvS3STSyqvqZAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="207223284"
-X-IronPort-AV: E=Sophos;i="6.16,336,1744038000"; 
-   d="scan'208";a="207223284"
-Received: from unknown (HELO az2uksmgr1.o.css.fujitsu.com) ([52.151.125.19])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 18:33:34 +0900
-Received: from az2uksmgm2.o.css.fujitsu.com (unknown [10.151.22.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id 07C8A1C01683
-	for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 09:33:33 +0000 (UTC)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 7656D18001C3
-	for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 09:33:32 +0000 (UTC)
-Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 56D081A0071;
-	Thu, 24 Jul 2025 17:33:29 +0800 (CST)
-From: Liu Yiding <liuyd.fnst@fujitsu.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Liu Yiding <liuyd.fnst@fujitsu.com>
-Subject: [OE-core] [PATCH] oeqa/runtime/ltp: Drop ipc that is moved into syscalls in new version
-Date: Thu, 24 Jul 2025 17:33:22 +0800
-Message-ID: <20250724093322.988-1-liuyd.fnst@fujitsu.com>
-X-Mailer: git-send-email 2.49.0.windows.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vtTKb0X/;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AeM//9mo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101983bd4cb1f-5f6718e6-ae7f-47f5-a5ea-f795443a5447-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1753350458; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Ws+gu58PlrshzOalAN48KzcHgtwLmHwVfNK0BrM95ls=;
+	b=vtTKb0X/4rgpbjcaQ4414I8q09RKPcKGziDvzS3aZyMIVsovg0SkABnTQ3gLTzUJ
+	+aKjLsorG2elS+KHGerKiA/VjscmsLo3hkF0TkhmJ22dTFVjCjUqc065glmFCTFMbCQ
+	Gcs+65rMscKvnyYHDsyZPQ6dCS41hg+TdCJqk8YA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753350458;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Ws+gu58PlrshzOalAN48KzcHgtwLmHwVfNK0BrM95ls=;
+	b=AeM//9modVHk4sklW2mqLTJaBvuh7az6NTvbBRyqoo1We2pFoj2cwXtZ/jE2moya
+	fCnXuZGb8qYsL0oaP8G7Hn9dSoV0ixUYhmqb13H4eyJcjdUZSYkezZZfTtU8BJUU7BI
+	CjXMcTJ7ijCIW+OQDzBUflzmS5XFe1slsqlhS1zI=
+From: patchtest@automation.yoctoproject.org
+To: Liu Yiding <liuyd.fnst@fujitsu.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core] [PATCH] oeqa/runtime/ltp: Drop ipc that is moved into
+ syscalls in new version
+In-Reply-To: <20250724093322.988-1-liuyd.fnst@fujitsu.com>
+References: <20250724093322.988-1-liuyd.fnst@fujitsu.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101983bd4cb1f-5f6718e6-ae7f-47f5-a5ea-f795443a5447-000000@us-west-2.amazonses.com>
+Date: Thu, 24 Jul 2025 09:47:38 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.24-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 09:33:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220830
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 09:47:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220831
 
-ipc has been moved into syscalls
-upstream commit: https://github.com/linux-test-project/ltp/commit/80fd2d673bc0fd8514190a061219c24933b6f03f
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/lib/oeqa/runtime/cases/ltp.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/oeqa-runtime-ltp-Drop-ipc-that-is-moved-into-syscalls-in-new-version.patch
 
-diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
-index e81360670c..0ffdbe23e4 100644
---- a/meta/lib/oeqa/runtime/cases/ltp.py
-+++ b/meta/lib/oeqa/runtime/cases/ltp.py
-@@ -57,7 +57,7 @@ class LtpTestBase(OERuntimeTestCase):
- 
- class LtpTest(LtpTestBase):
- 
--    ltp_groups = ["math", "syscalls", "dio", "mm", "ipc", "sched", "nptl", "pty", "containers", "controllers", "fcntl-locktests", "commands", "net.ipv6_lib", "input","fs_perms_simple", "cve", "crypto", "ima", "net.nfs", "net_stress.ipsec_icmp", "net.ipv6", "numa", "uevent", "ltp-aiodio.part1", "ltp-aiodio.part2", "ltp-aiodio.part3", "ltp-aiodio.part4"]
-+    ltp_groups = ["math", "syscalls", "dio", "mm", "sched", "nptl", "pty", "containers", "controllers", "fcntl-locktests", "commands", "net.ipv6_lib", "input","fs_perms_simple", "cve", "crypto", "ima", "net.nfs", "net_stress.ipsec_icmp", "net.ipv6", "numa", "uevent", "ltp-aiodio.part1", "ltp-aiodio.part2", "ltp-aiodio.part3", "ltp-aiodio.part4"]
- 
-     ltp_fs = ["fs", "fs_bind"]
-     # skip kernel cpuhotplug
--- 
-2.43.0
+FAIL: test max line length: Patch line too long (current length 347, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
