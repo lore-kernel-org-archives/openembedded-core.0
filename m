@@ -2,123 +2,155 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62693C87FC5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 626CDC87FCA
 	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 21:36:00 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.5251.1753392959766488864
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.5119.1753392950668713142
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jul 2025 14:35:59 -0700
+ Thu, 24 Jul 2025 14:35:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mg78Fd3C;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-75ab31c426dso1285975b3a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 14:35:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nn9G5KCf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7600271f3e9so1347044b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 14:35:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753392959; x=1753997759; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753392950; x=1753997750; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0Hvo5vsVjKoOjscMm2OibQrM1vdRdkv7ItWY8D/ctRU=;
-        b=mg78Fd3CScGJXT32lcZJnKwsH6EKZoLjH00HIqS7sqgorx2eEzFXvLXqFNloeXsri+
-         Ers0G4Ih14ufE8ma7N//G2znc8JSv6VvAPrK+tWpD20qH3i/wMxmgXrpo5Stk73FplTl
-         uZvTKHb3ElR+wfpW7EHlwcM2ZyOQKdn2I8Vwsl+G+H5lTVijHJFoiTkVUKGhT+C0xIjR
-         rTAAWAHltkN4VZHX7cK22yx1MwMxnGZs/8IRnpmncfqx6JwwtS81YpT6mfCxWrR8s9a+
-         lCP6XFGA4x3zH05MSJc2IbQWxABpW3UryBnG3clsQMxvCn7cmsjVE9Qj1YUMwn/R5JH1
-         6LKg==
+        bh=0SExyELtirSLHPZawYAEgVSr0buqvalPQSqNJfMTY24=;
+        b=nn9G5KCfMIJVs4wZ7uiswyqpIkMmlHUC3qQDsGHuxqI22eVYSYxaA/kMIAO2e3Apco
+         ODfdfAvAYlKH9tmNLx6I7gCRwd3gIwjVk+97Wl0FqVNswiHcsuJTf4DfOhvqf5vnKib3
+         BY11Y9ZlEI0Oirxjui/qn2AXIIa59FxumpwuEetYD8HDLp4ppDrEK6EFXDqI/bDt8001
+         ExySqnC7mLJzeC2Q1R8XO4SBNmehfrWs/CRAGSxC9j9oCGjLigSmeNFWDHefCmaxxryG
+         p28ujNbkUood51YhYFv367TJ0Aj7b3FYKViurlUP1VbEPrQ4uwIPOmDTwxC8UzX87evf
+         o9kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753392959; x=1753997759;
+        d=1e100.net; s=20230601; t=1753392950; x=1753997750;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0Hvo5vsVjKoOjscMm2OibQrM1vdRdkv7ItWY8D/ctRU=;
-        b=qY1JnvZt19QHTESIs8ImH0iYB7BxEGLX71dc1NeTxY9LkNr6iaETcOYxCF0rqzCsCX
-         YTdX87p345290Pxt7xGkb/Et4PhN4/vnvtXrKdrvWeeLz/S1WLUHE7L+XQko6VTWF0CQ
-         ar+unxzQwkrWpZxa1CBxpjcI79W+iv0UDd5Mys9GiCpekgi56fsMUdqDslTIgW0kjFbY
-         9+afZpL12vOgt3UIUplzBX+fZk2exiE3FTbSOT+dTyBDa3PNN/g3UPICafT+Kg1Cll7v
-         C+QKEU/QT/aN/SHsPTpvswhMnXLWFnn15z3IcI+UeCqc7WqxETeiRyf7Pslzjc9ezh77
-         Yxmw==
-X-Gm-Message-State: AOJu0YwsaX1W1/pdOTPnfs1nSrlyAAQu3mxIT8xcQ4RaZM8Mw7/tSjlk
-	+gL1ei6wQU+TpFF9ocYjep5LA4JjwxibWgqekGd7dMkWgzM9BDmJexX27HjnQTSlN+yeJuZ+UNu
-	83hd3
-X-Gm-Gg: ASbGncsLxWjykjym/foHZPXucNWFnDaXO/kVO0gdEk2liHGh6AtYMjeKvqF4XosnacD
-	Gh/TZX8yu7CeGuYAflONlsfUJarxrPHLOMqOo6JvxYY+2rO69YxQNNBnrjpfafhVvcMYeGTUWXY
-	oX1TUFHNWu3uafp++Xw37Gg/M8kjGZyuM1cU20wvTYacLzby2ouo8BFmaABW+u8JYcJ7qKxnvlp
-	H28zHZVLyVmDjLunFuLF6Wgu1QIkbIrgcgFK8WRJ5rSCGrE10A1coZ8amWnuwiOGBDE5c9rEM/Q
-	pNExbCKBCwxbe5gJuz8uqpMtTICMVF9ajOu1Zb07WCeLljVyeCe78VRhWfsq1+C8y6qOD69PIfb
-	HHszx9CqpMsDQ
-X-Google-Smtp-Source: AGHT+IFczEaC0IcEAzLfyOGBE0wu/8MsQQU8nmnmExuEr/jNKmzsQC59woHzFhtOM0dL7TaFKrzZsg==
-X-Received: by 2002:a05:6a00:a1c:b0:748:eedb:902a with SMTP id d2e1a72fcca58-760353f328fmr11142252b3a.17.1753392958865;
-        Thu, 24 Jul 2025 14:35:58 -0700 (PDT)
+        bh=0SExyELtirSLHPZawYAEgVSr0buqvalPQSqNJfMTY24=;
+        b=uHc1RjJX3Zk/Nh2sEmsp5oWlmGN0XrxfAna86TYGy2sHqJ+cw/Jc5aLgtYEZAzCfJZ
+         4qN2W0ZPdOT3mlO93AOFikkm3goNIttuIEltw2p4BFN/aT6KDvTmrXYyotO31/7etFub
+         y7FARgGGkfiHQ3mx/WL/cRRj14UAosdZY5z0VL5yZmp2aAIfN8GDszbVhL3ZMIlJgzha
+         u4iEuoyMaw+n0GQHC8vh+jMQtZHq4jeL7zSObNsYDRuR1r6GoiaxOI1CfjHECRA4Rusc
+         6Rc4lkqcyUaY18JhD5EfSHCnonHik6KN7Q3L+AvKyJasvkRoJbljcsiv6Mxvg2/WvJtd
+         BzvQ==
+X-Gm-Message-State: AOJu0YzOzNLn66hXQRP5IbnFmxPHygUSXe/lBISb8AynqBvzl/xXCy1J
+	6a12GEw2BxGToCaW7iopA1EaVGBG1rvwCg0+ierTDWkhwVhdKJW1d0DuMBMS+21rXc0pkyoJJem
+	QlWWp
+X-Gm-Gg: ASbGncvD19W/TQtARoNwwUqWqzvZqRnjM8pWJGLnhPIBhzYiY0iQIZ79tStP3omW8/d
+	yQ+/uLLuc8V4WzPvI1b/xaf+4Lvoa1/43y379GgTYyw+SI/ye5h0AJbdEY1lVgWQGGJ2oSW7QyQ
+	PLFyuNezvBogSQsUzFjU8YL0mvAjzbENdfmSf3MYuXI6+//iHPqMglaE6n8qkr58ZC/HdjsS7f/
+	jZcd9xUCOwsRaqpcMA2OZsN1cZzMqbiru9tQEjq1v+CsslfcNgYtKhN9eWbhLzsc5RMsUeXRoKG
+	LtJ3ULg1VVD+Bfkl2+kKYClijkSPdU6JO3jNQpaaFmrt+yBMyQXf1utBHHaSXwKbJ1f3d+Iv7vs
+	pGXWfXfdBKvi29+TexO5TGJY=
+X-Google-Smtp-Source: AGHT+IFggd4yIpSo+wnb30sGkhtEIcP8Mht4IXENET4xpbaYfvfp+YhK4+3puNFlSFm3TP3b+DLTfQ==
+X-Received: by 2002:a05:6a00:2489:b0:746:1d29:5892 with SMTP id d2e1a72fcca58-761eee32e43mr4897573b3a.4.1753392949709;
+        Thu, 24 Jul 2025 14:35:49 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:e2fc:f94:bcdc:cb9e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-761ae158129sm2253735b3a.32.2025.07.24.14.35.57
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-761ae158129sm2253735b3a.32.2025.07.24.14.35.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 14:35:58 -0700 (PDT)
+        Thu, 24 Jul 2025 14:35:49 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/16] xserver-xorg: upgrade 21.1.6 -> 21.1.18
-Date: Thu, 24 Jul 2025 14:35:26 -0700
-Message-ID: <c42dcbb7f7745769ee5f0adcc62d1e9a6ea20d6f.1753392770.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 06/16] openssl: CVE-2024-41996
+Date: Thu, 24 Jul 2025 14:35:22 -0700
+Message-ID: <fbe03fd40d02ddd662e34f2ec75427cea4ea0902.1753392770.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753392770.git.steve@sakoman.com>
 References: <cover.1753392770.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 21:36:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220883
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220879
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-xorg-server 21.1.17
-This release contains the fixes for the issues reported in today's security
-advisory: https://lists.x.org/archives/xorg/2025-June/062055.html
+From: Peter Marko <peter.marko@siemens.com>
 
-   * CVE-2025-49175
-   * CVE-2025-49176
-   * CVE-2025-49177
-   * CVE-2025-49178
-   * CVE-2025-49179
-   * CVE-2025-49180
+As discussed in [1], this commit fixes CVE-2024-41996.
+Although openssl project does not consider this a vulnerability, it got
+CVE number assigned so it deserves attention.
 
-Additionally, this release includes a fix for CVE-2022-49737 which was
-issued after the fix was merged back in 2022 and several other various fixes.
+[1] https://github.com/openssl/openssl/pull/25088
 
-Ref: https://lists.x.org/archives/xorg-announce/2025-June/003609.html
-
-xorg-server 21.1.18
-This release contains an additional fix for CVE-2025-49176 from June 17
-security advisory: https://lists.x.org/archives/xorg/2025-June/062055.html
-
-Ref: https://lists.x.org/archives/xorg-announce/2025-June/003612.html
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a59b385184fb3a548dc27310fd04d64351d8dfba)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{xserver-xorg_21.1.16.bb => xserver-xorg_21.1.18.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.16.bb => xserver-xorg_21.1.18.bb} (92%)
+ .../openssl/openssl/CVE-2024-41996.patch      | 44 +++++++++++++++++++
+ .../openssl/openssl_3.2.4.bb                  |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-index 38c81f2372..14c45be432 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-@@ -3,7 +3,7 @@ require xserver-xorg.inc
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch
+new file mode 100644
+index 0000000000..dc18e0bef1
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch
+@@ -0,0 +1,44 @@
++From e70e34d857d4003199bcb5d3b52ca8102ccc1b98 Mon Sep 17 00:00:00 2001
++From: Tomas Mraz <tomas@openssl.org>
++Date: Mon, 5 Aug 2024 17:54:14 +0200
++Subject: [PATCH] dh_kmgmt.c: Avoid expensive public key validation for known
++ safe-prime groups
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The partial validation is fully sufficient to check the key validity.
++
++Thanks to Szilárd Pfeiffer for reporting the issue.
++
++Reviewed-by: Neil Horman <nhorman@openssl.org>
++Reviewed-by: Matt Caswell <matt@openssl.org>
++Reviewed-by: Paul Dale <ppzgs1@gmail.com>
++(Merged from https://github.com/openssl/openssl/pull/25088)
++
++CVE: CVE-2024-41996
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/e70e34d857d4003199bcb5d3b52ca8102ccc1b98]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ providers/implementations/keymgmt/dh_kmgmt.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
++
++diff --git a/providers/implementations/keymgmt/dh_kmgmt.c b/providers/implementations/keymgmt/dh_kmgmt.c
++index 82c3093b12..ebdce76710 100644
++--- a/providers/implementations/keymgmt/dh_kmgmt.c
+++++ b/providers/implementations/keymgmt/dh_kmgmt.c
++@@ -387,9 +387,11 @@ static int dh_validate_public(const DH *dh, int checktype)
++     if (pub_key == NULL)
++         return 0;
++ 
++-    /* The partial test is only valid for named group's with q = (p - 1) / 2 */
++-    if (checktype == OSSL_KEYMGMT_VALIDATE_QUICK_CHECK
++-        && ossl_dh_is_named_safe_prime_group(dh))
+++    /*
+++     * The partial test is only valid for named group's with q = (p - 1) / 2
+++     * but for that case it is also fully sufficient to check the key validity.
+++     */
+++    if (ossl_dh_is_named_safe_prime_group(dh))
++         return ossl_dh_check_pub_key_partial(dh, pub_key, &res);
++ 
++     return DH_check_pub_key_ex(dh, pub_key);
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.4.bb b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
+index c4ad80e734..d6bf32d989 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
+@@ -12,6 +12,7 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
++           file://CVE-2024-41996.patch \
             "
--SRC_URI[sha256sum] = "b14a116d2d805debc5b5b2aac505a279e69b217dae2fae2dfcb62400471a9970"
-+SRC_URI[sha256sum] = "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f2994deff90116352"
  
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+ SRC_URI:append:class-nativesdk = " \
 -- 
 2.43.0
 
