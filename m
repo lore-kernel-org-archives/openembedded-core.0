@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB5EDC83F26
-	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 22:13:20 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.5946.1753395198207326564
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDCC8C87FC5
+	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 22:14:20 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.6109.1753395252597554919
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jul 2025 15:13:18 -0700
+ Thu, 24 Jul 2025 15:14:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=SvEU//ws;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20250724221315fb98f5eb3cf6f99111-gcvbaf@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250724221315fb98f5eb3cf6f99111
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=SUpQocig;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-2025072422141007b0b376ecb8c5e8b7-fmkzuf@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2025072422141007b0b376ecb8c5e8b7
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 25 Jul 2025 00:13:16 +0200
+        Fri, 25 Jul 2025 00:14:10 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=/SNOH9cDD7TG+QZyTjFDAwYlC0h2mS772mN090p6/gY=;
- b=SvEU//wsMbCVqIpQ8c/+0SLIjt+XIg2lUo4Wyt6MccZdYMHOcpSVh3OpPOi665wmkyW+EY
- DeCt+O8vS/cAvGE8MleBGQ9sl9gXeqaFDYRcmNwisWjV3gR6NyO8aiC3fXLc8ezQ4+eaIKmW
- LoKNtdnfpFwN1P4yZJAWOpAdTx+KmIbcXrcaZ9OCx7lWfgmaFXZjIbyV/ICauGOwX8DQnCBI
- 51pMJnom/RuzJQCkRG4ZY1xPJYYFSU9Er/J+x17nnKzUOGESUnn9CX6+La7F/urTP9KfFlTK
- rjZCSQQfUs8s4P2QPHi1DU4s32d3qvbsPx7qI+roC4ecceUA8lHnuvHg==;
+ bh=iG3pppDo7K9u25zfqH98mlfyQcmEfgXgdQk9V3JjiW4=;
+ b=SUpQocighbjKxBlOg7RW85XuQ62fhoMXT+n+eyF4MBeUfAvqTgJ2lQjlOC85PjFeQDGAFD
+ Yo3I2YQJ0Ke0QByl5QPnDGU28dVjqDB7n4PGLeFd8Dp+zJ0zUwjEEyGtRXgyWzpi6a1ylmz/
+ X+00vbQp8g6bQ0i6wcsLPAs+gW62TSA4YVvtbK658B8fdMBYvCkksVZ+NCxpBLPNuM/fv138
+ /ftE2rV9GsynAyLHY4rm0+Xw2SZP7mJdDhYQKdbuKiF4CsGYSUBI/TaEDqhUSJZhf93BibUt
+ lBNUR/aUvkMhYxZUbLXgOinslu1tfCoBF+ieh1ak5BXBXGCdoCPED4kw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] ncurses: patch CVE-2025-6141
-Date: Fri, 25 Jul 2025 00:12:29 +0200
-Message-Id: <20250724221229.394433-1-peter.marko@siemens.com>
+Subject: [OE-core][walnascar][PATCH] ncurses: patch CVE-2025-6141
+Date: Fri, 25 Jul 2025 00:13:24 +0200
+Message-Id: <20250724221324.394492-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 22:13:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220891
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 22:14:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220892
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -88,7 +88,7 @@ index 0000000000..ec7e8a94e4
 + 			while (*bp && *bp != '>') {
 + 			    ++bp;
 diff --git a/meta/recipes-core/ncurses/ncurses_6.5.bb b/meta/recipes-core/ncurses/ncurses_6.5.bb
-index bba3495266..eccc1c1809 100644
+index 2e3ee337ea..83de792d89 100644
 --- a/meta/recipes-core/ncurses/ncurses_6.5.bb
 +++ b/meta/recipes-core/ncurses/ncurses_6.5.bb
 @@ -4,6 +4,7 @@ SRC_URI += "file://0001-tic-hang.patch \
