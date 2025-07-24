@@ -1,110 +1,122 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 606F8C83F1A
-	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 08:49:12 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.7960.1753346944181184805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED57C83F26
+	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 09:28:22 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.8466.1753349299040132154
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jul 2025 01:49:04 -0700
+ Thu, 24 Jul 2025 02:28:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=egG2aM1o;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45619d70c72so15522505e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 01:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1753346942; x=1753951742; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5sYG8VsHkclnJZZxJPM6QFhYHgIPjI7tE21PvD0ROBg=;
-        b=egG2aM1o5ipe4Pus0eJgtZkjyZSwewAr4YTWk9ZbLEPRxIYll50iHtI8SGBb9auhbP
-         etb8nXH/KXpRmrug4Hpnt+1f9p8mr+PzzNqLs81r3LERW9nNHmJJIx3BgadswtEhfdcH
-         jB2PHVsLi+I3bgBl5UpIxNZ2hVOLLonjQ3zOM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753346942; x=1753951742;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5sYG8VsHkclnJZZxJPM6QFhYHgIPjI7tE21PvD0ROBg=;
-        b=Q+nngLD5fr9/5C2Dpy3R7yTDvzASsDAKiAxHvpB2eYDbyBF/qG/3aknjNAMRxDW0qm
-         PgcaS/tWA3c0PpTapHgeA5QuwsbxHBgrwGtsrmt+vfobzGQGoMSAy6TZcLwnuYoujkf/
-         VaJxzlYQge/MyGcXkRU44bZrcj04TePpsn4xfov19b8cmKKIX7L20shDNNl7JOgduimK
-         QOJUGyCA/5EqK2n7rEgy8v5reQ81YX189pGaIexUzpF6IO521wkYBodCBWeKNCudyOGJ
-         n9j4gOA84X4/wbHQlNH0sUzX7Lf2wGETUfsxsI9kMGloBsHfaIxNR56T/x1H1kqmaqLa
-         bpOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUo2ChmY9UVwQNW25uDfzryCS8wRmW5SdbkAQWvrcbl0u1reCzhHn6+BzU5yALCbDksQYigduGEPXH2VpHpWqayhA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzez2Kf6hkPjQlBZ4NkqGGcLeYeoDjyQqlqKyANnmD/S+JcIDNW
-	ThVH9Pb7D/lt4tSq22E0cq+FdsKLgKV5deb4aHBtpPuGdnw9v4PNe6Az7ubBE8Tq1Go=
-X-Gm-Gg: ASbGnct8FHMQ6VPXTp5HFVPj9i0gtG50gijxfmiqelEICH3VkaChRtnZD44WlW90FYx
-	o8FakzP+xGT/HMzllawYEYIEtEJipjW00f59LII8v8LyLUfsLbrUBSENbbEiz0bzNeQxzlW2uyu
-	gWVhZAc52Iq/ycrQQuZhDCgiiNMUJIIOFEWi0r0eIfTVQ53r4yfDFvNK3LjrxrK26woOFPIiGh9
-	lBKIgp2UcEInX3JWIvR6/1zKI2C52R9ZhpNmvcrrD6RfIRz/uiFk1j2iVQVXEeq5znx1DJ2lLv2
-	deExgF+zoNJo3SuDowtUdjAXDC7rkZ68AB/I5oFr6aIUftWGxZnxTPztIlhiY4ezkeyaIcYDzso
-	u3K7z0gzen54PMNbTCNPOh4+ne3TNxWZX8g2uxfLl/xiXajRlGPQlu7vSN2xZ1/k89eI4s1uKtQ
-	25igcrxNzxFxX7ht+CIio=
-X-Google-Smtp-Source: AGHT+IGGzLfWVQBBNqv0d/0RM8yeo/okkbUarFqx65+mRKhn19PsH91dAvjBfCsl2Emr2GkVH/VNng==
-X-Received: by 2002:a05:6000:2002:b0:3b7:6e64:bed8 with SMTP id ffacd0b85a97d-3b77137d611mr1014667f8f.28.1753346942413;
-        Thu, 24 Jul 2025 01:49:02 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:baad:fac0:4458:968? ([2001:8b0:aba:5f3c:baad:fac0:4458:968])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b76fc605afsm1459271f8f.9.2025.07.24.01.49.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 01:49:01 -0700 (PDT)
-Message-ID: <87ebfac2c9a92437785cf7abf24fda9405a984d3.camel@linuxfoundation.org>
-Subject: Re: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-5.3_M2.rc1)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: qa-build-notification@lists.yoctoproject.org, 
- "yocto@lists.yoctoproject.org"	 <yocto@lists.yoctoproject.org>, Pokybuild
- User <pokybuild@yoctoproject.org>, 
- "openembedded-core@lists.openembedded.org"	
- <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jul 2025 09:49:00 +0100
-In-Reply-To: <DM4PR11MB7760B9AA59C54498E0D234B1A15EA@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: 
-	<010101983a5e30f8-4ea5cf3b-f053-45ed-add0-f139865ee87d-000000@us-west-2.amazonses.com>
-	 <DM4PR11MB7760B9AA59C54498E0D234B1A15EA@DM4PR11MB7760.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9300d03ff4=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56O8TstK560959
+	for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 09:28:18 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 483hbq01pw-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 09:28:17 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Thu, 24 Jul 2025 02:28:17 -0700
+Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Thu, 24 Jul 2025 02:28:16 -0700
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v3 2/4] babeltrace2: Enable python plugins
+Date: Thu, 24 Jul 2025 17:28:12 +0800
+Message-ID: <20250724092814.4183226-2-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250724092814.4183226-1-mingli.yu@eng.windriver.com>
+References: <20250724092814.4183226-1-mingli.yu@eng.windriver.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=Y9f4sgeN c=1 sm=1 tr=0 ts=6881fcb2 cx=c_pps
+ a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17
+ a=Wb1JkmetP80A:10 a=a5LkSv8FAAAA:8 a=t7CeM3EgAAAA:8 a=7d_E57ReAAAA:8
+ a=G2XSRNlJUAbAyn01LSwA:9 a=E2cWBXyb0kjxxB1PlMdk:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=jhqOcbufqs7Y1TYCrUUU:22
+X-Proofpoint-GUID: K8giSLQW86Yde7fQ3_Z2PcD-WIvbJ03B
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI0MDA3MCBTYWx0ZWRfX4gOQpZM8Nzj1
+ AFwZUdMAkFc1g8dUsSiPrMCjUgWJZHCuJamUaODz2+nq4hDd8zRKj0SCV+/8SY5Tt3eAnKBJA62
+ w4ZkBqz80kHSRBrlxRLmqyPdF/kDoFTPGyZv3RuZ+9ongHpiwXrMqW7+lqmmF1bSAmGG9dLVYrW
+ kqTBl6/C59ANzcggHrF07JNxlGwSLRah1z7wuU4wqbHO+1376qrz/cUO0oKz1siFk3zFEtMGH+e
+ a63o79vhX3LD+FJlenp0t8wBl68zDSTKs44UF46zV3YHDEBV3Cb37/3d+AT63f7aH7AdH5oLn7l
+ cLwHanT0IMcwFL7kmMxYpEm1tl8rtiJQS6eIXO1X2MM94R6iEOXRgb6zg3S288D50dbL4paXGMp
+ CKAk/48i
+X-Proofpoint-ORIG-GUID: K8giSLQW86Yde7fQ3_Z2PcD-WIvbJ03B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-24_01,2025-07-23_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ spamscore=0 malwarescore=0 clxscore=1015 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2507210000 definitions=main-2507240061
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 08:49:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220825
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 09:28:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220827
 
-On Thu, 2025-07-24 at 08:40 +0000, Jing Hui Tham via
-lists.yoctoproject.org wrote:
-> Hi all,
-> =C2=A0
-> Intel and WR YP QA is planning for QA execution for YP build yocto-
-> 5.3_M2.rc1. We are planning to execute following tests for this
-> cycle:
-> =C2=A0
-> OEQA-manual tests for following module:
-> 1. OE-Core
-> 2. BSP-hw
-> =C2=A0
-> Runtime auto test for following platforms:
-> 	1. MinnowBoard Turbot - 32bit
-> 	2. Alder Lake-S=20
-> 	3. Arrow Lake=20
-> 	4. Meteor Lake-P=20
-> 	5. Amston Lake
-> 	6. Bartlett lake-S
-> 	7. Twin Lake
-> 	8. Beaglebone
-> 	9. BeaglePlay
-> =C2=A0
-> =C2=A0
-> ETA for completion: Tuesday, 29 July 2025.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Unfortunately this has a failure in build-appliance so I think we
-should hold off on QA and aim for an rc2 with that issue fixed.
+* The lttng-tools test fails as below as it needs bt2 module.
+ERROR: ust/high-throughput/test_high_throughput_snapshot.py
+===========================================================
 
-Cheers,
+Traceback (most recent call last):
+  File "/usr/lib/lttng-tools/ptest/tests/regression/./ust/high-throughput/test_high_throughput_snapshot.py", line 26, in <module>
+    import bt2
+ModuleNotFoundError: No module named 'bt2'
 
-Richard
+Enable python plugins for babeltrace2 to provide the above support.
+
+* Add swig-native to DEPENDS to fix the below configure error.
+ | configure: error: SWIG 2.0.0 or newer is required to build the python bindings
+
+* There are some ptest failed cases after enable python plugins and
+track the failed ptest as https://bugs.lttng.org/issues/1430.
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
+index 8bab7f677a..88f589eafb 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
+ LICENSE = "MIT & GPL-2.0-only & LGPL-2.1-only & BSD-2-Clause & BSD-4-Clause & GPL-3.0-or-later & CC-BY-SA-4.0 & PSF-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f6b015e4f388d6e78adb1b1f9a887d06"
+ 
+-DEPENDS = "glib-2.0 util-linux popt bison-native flex-native virtual/libiconv"
++DEPENDS = "glib-2.0 util-linux popt bison-native flex-native virtual/libiconv swig-native"
+ 
+ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=https;tag=v${PV} \
+            file://run-ptest \
+@@ -19,13 +19,13 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+ 
+ inherit autotools pkgconfig ptest python3targetconfig
+ 
+-EXTRA_OECONF = "--disable-debug-info --disable-Werror"
++EXTRA_OECONF = "--disable-debug-info --disable-Werror --enable-python-plugins --enable-python-bindings"
+ 
+ PACKAGECONFIG ??= "manpages"
+ PACKAGECONFIG[manpages] = ", --disable-man-pages, asciidoc-native xmlto-native"
+ 
+ FILES:${PN}-staticdev += "${libdir}/babeltrace2/plugins/*.a"
+-FILES:${PN} += "${libdir}/babeltrace2/plugins/*.so"
++FILES:${PN} += "${libdir}/babeltrace2/plugins/*.so ${PYTHON_SITEPACKAGES_DIR}/*"
+ 
+ ASNEEDED = ""
+ LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld ptest', '-fuse-ld=bfd ', '', d)}"
+-- 
+2.34.1
+
 
