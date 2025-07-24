@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD23C87FCA
-	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 19:35:29 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web10.2558.1753385722305918771
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 616DCC83F26
+	for <webhook@archiver.kernel.org>; Thu, 24 Jul 2025 19:35:39 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.2560.1753385729417381628
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Jul 2025 12:35:22 -0700
+ Thu, 24 Jul 2025 12:35:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zKAhR74s;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b3182c6d03bso1641994a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 12:35:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gI+bn/o3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-311da0bef4aso1388906a91.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 12:35:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753385721; x=1753990521; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753385729; x=1753990529; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=X9S3QOEmKZI2rtXOAfsdBB+cbOD+yrlcF63hGrC0+ag=;
-        b=zKAhR74sdZ6BXDwLT8Cb5pfXVbGvkLxQDbt0l3zoU07DKxlsgmuBwLHg+dchKdc0xZ
-         jp8xoH/PzCkStE2qWdNZdPotHYi2eRLZ0Vad0/48R9lJzioudnbF1qtiumE5PUdDZ63S
-         V7x3nNdVlTwT7REaCSJPO7XfCPenb2A/Bag+JVfhW7a/2v18pqFslN30ixwfxVmkGiMO
-         yYPTwLylKQsgsAem28Ud9avKuWmDRvq27uZRo6VqCudPtB+jF85P3Irj3uup5fJOtxQl
-         J64OovlhE8svY1+25FESeViLpoKo+t3cc4AtB+uGpFCs5A9KOcy2XQx3pU+osyJu94nH
-         FGnQ==
+        bh=+EUzBbuX5jJiyLwh16AZ5V0k/dCAbCosKGG4CIDqINk=;
+        b=gI+bn/o32OsJ6f9S9kyW1Y3G/0kBD0/YHHW3bdWhaj5TjtnvxN2pUnaVQ1/HN2zUsR
+         SmVtVq56RjEPRuoMXn4nUzt3mX/a0n3MDfzBpz/Y+EVJbmouTzJLaizanoDICV5fMkc5
+         I9h5/bmNf3ew4aHKfbYWw5SMHQV0wt5apciB1ZMhZiTAParjJ8y2i7udovLEUH1ErCwF
+         DHxk+nOmFU0ZuUo7ecM6IBsPX9gU2r4qGuKZaAQ9cIljeLannfSIWtjt8LcTmLMQ37R8
+         XR7xwQyotz8RYFn1UuX91z0AtZVYmS+1vH6k5v6qKWIsmIM1IeZI2CIhSCdBl/8WVk77
+         iB4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753385721; x=1753990521;
+        d=1e100.net; s=20230601; t=1753385729; x=1753990529;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X9S3QOEmKZI2rtXOAfsdBB+cbOD+yrlcF63hGrC0+ag=;
-        b=uf0Folo/KuF6z/AnkbPSJIr/t+zIvUXvgVVcTpO0DuPuFgfzUAQTG9z/ofpDGHHUGH
-         fVLLjeG35iTCqOLYZB+aKZ0/k/iD1oYdSXHGK8t/GuKOtxjxBdKzQpJ5Jw6XCNovKm0G
-         4oEIKE+D+8c3dnEEuaufVbosXL8hDrUgSh1YAzF0LgXt8UQmBmZT08Dmso2xR+RsmLad
-         CGjnTuQ+ejn3B2L68rwccBk2wEiiYuRLXsxUj1TPBYKk9Fwg0x2jY90zTLnuvAToKoJx
-         2MoXjD5OA46pzNgrgR+kX8xjSjzWNQy4xW8Mj39dSFEACB/ewVXd0F74Zd8LyCvgYvN4
-         FgKQ==
-X-Gm-Message-State: AOJu0Yw0z3x3aa9SVQ41ntMWUw1CMYf9I8SPSvvGJvb5nxRBfFo+dbR2
-	G8OqN13asrid+8LByIIoU/dhkrGbxtMoJ1j0nAqSaADyn6A4XYfAhfJ5oHVz+WColHxN9z7RVNq
-	WsulN
-X-Gm-Gg: ASbGncv9ZLE0a4pEJVELgnrkqKKa9s+24U4JF4aD2IZlOWv8hjvBVAmgF8HoyzuhLEw
-	BaW53pgnan1AekGvOD7orQQZFfHJSHGn1YE6C8tI9d+/LDjvGPs4Ivq4L1rVqwLSwdylvhZbakI
-	LrlaADKRTT1clQcpFbC35Xc9Xu7Ty6nZA44ek9eFqRGfMEVITYo6WCocwnoZGMUWv7af8l/FJrk
-	VrViwcKuHGyUIEAaETAvu6VDGEkJ/ZuO6aXA2jPoMYAniLc2l2QbfNoouvQx/CC6+6Ut2FVkAOV
-	pYM8eegVowv7g/C9HiPTYeI3oz8zrWP/mUGBWM+8yo4CRjgT7SxNBeK1lUnuK8eLGIxBaisdW9/
-	NKAbIm77aBUFG
-X-Google-Smtp-Source: AGHT+IFFXg93/ZoaRNx2kx1wPrLDz7hN3QmDQC7vQll96femvCae5T/iFA0ro+lWRISzBQLWve0fPQ==
-X-Received: by 2002:a17:90b:574f:b0:313:279d:665c with SMTP id 98e67ed59e1d1-31e5078f2ccmr11790760a91.7.1753385721378;
-        Thu, 24 Jul 2025 12:35:21 -0700 (PDT)
+        bh=+EUzBbuX5jJiyLwh16AZ5V0k/dCAbCosKGG4CIDqINk=;
+        b=MM3vNVoTTp5HculASPFf/AGjqTS1rcJOCLDsXr3UXS9HT0qF22gLL70iuMANwhHAkI
+         +09jb0iYptNTjL7iGON2MAT4Pj3MYuqNmBqkXqTuQx07kVRYlFVLmhaMewhkC1bRdBFS
+         7DHPLxHVdjenSkbmzxGpY4p/H6W59i0uoM9RgaDBPAsZFW9O24wAmByeNZBgGQmGX3SQ
+         o9j83uHS/0nVt0QYWVf6r9sZaAJ4pwRCIsvTLQcGmssvKtz4CTBt5iz6FyEMNzNcxkHI
+         PBy/YJuWGXsu2rzLvaTxIgqJbYDOBabQsJwOno1cIwWP5KqL2Yh4BMuJ9pNLZdfbBOyk
+         Smcg==
+X-Gm-Message-State: AOJu0Yz1sfM418oiHOTh7hwjU3yvw5IxhWZJQZFb+RasLgSQx8osHJKm
+	OfL71GrS2ySdHxKyMZDUxFyNRq0hQrzwJuzEg+z6Q5pF9Mq/ex72A3nFNKgvsn2OkbR1CVVX6oM
+	u/eFq
+X-Gm-Gg: ASbGnctKOGn+gd8ygUCxqLZCCS7I6ApwE/keQnLCCBnTadeKxlbPp8XkPSn/bQUvca2
+	MoHqBLAAiBVm4Ns276UndyAGL+2GPkfzXh6IFbfinkTYLRersbRS3NrTbcmXi6o33ZPdDuInENX
+	klZi/NKsEwIigcMYCFEGy92jB0PucsWZoq3NL5gBw+KlvHP0I3WRB1AOxyQwlxE/24Etg6OU4ju
+	5Be+ROORhxmjxvR26AL14zWzqgxhi0SumxzQTwbqeFZZX2IfGSql+TCKC31th/z36x0gxepaY+k
+	BL2w/JHKCaqPXEL75Y4I23nIjy9Ac8x7RCg+EXIkTDO2/UDFkSBsx7uL7F4kD6zkA0ifK0DJoA4
+	0l91omcUk/wqf
+X-Google-Smtp-Source: AGHT+IH9RA2BdHiSkKbVLu9jFjYjNh29uTZLYqYLTaPI/t/26M5a823WVUlFC/rkLVoGNV+Pp+5Ozw==
+X-Received: by 2002:a17:90b:47:b0:314:2840:8b21 with SMTP id 98e67ed59e1d1-31e507fe4femr10175565a91.32.1753385728581;
+        Thu, 24 Jul 2025 12:35:28 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:e2fc:f94:bcdc:cb9e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31e66267fa4sm1978524a91.5.2025.07.24.12.35.20
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31e66267fa4sm1978524a91.5.2025.07.24.12.35.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 12:35:20 -0700 (PDT)
+        Thu, 24 Jul 2025 12:35:28 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 1/6] orc: set CVE_PRODUCT
-Date: Thu, 24 Jul 2025 12:35:05 -0700
-Message-ID: <4367e4cc527278b7e9edc08752014e71566e0068.1753385563.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 5/6] mtools: upgrade 4.0.48 -> 4.0.49
+Date: Thu, 24 Jul 2025 12:35:09 -0700
+Message-ID: <e4e5738597567b574b18f2ffdf60e2b41951c42a.1753385563.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753385563.git.steve@sakoman.com>
 References: <cover.1753385563.git.steve@sakoman.com>
@@ -67,39 +67,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 19:35:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220860
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Jul 2025 19:35:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220864
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
 
-There are new CVEs reported for this recipe which are not for this
-componene, but for a component with same name from apache.
+New version includes check for overlong file names, see [1].
 
-sqlite> select vendor, product, id, count(*) from products where product like 'orc' group by vendor, product, id;
-apache|orc|CVE-2018-8015|1
-apache|orc|CVE-2025-47436|4
-gstreamer|orc|CVE-2024-40897|1
+[1] https://lists.gnu.org/archive/html/info-mtools/2025-06/msg00005.html
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+
+(From OE-Core rev: 044c2bceefcc12262cb2421e8f1da5f6c2ed9f72)
+
+Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/orc/orc_0.4.41.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ .../mtools/{mtools_4.0.48.bb => mtools_4.0.49.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/mtools/{mtools_4.0.48.bb => mtools_4.0.49.bb} (93%)
 
-diff --git a/meta/recipes-devtools/orc/orc_0.4.41.bb b/meta/recipes-devtools/orc/orc_0.4.41.bb
-index 491ff71067..60677577b0 100644
---- a/meta/recipes-devtools/orc/orc_0.4.41.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.41.bb
-@@ -9,6 +9,9 @@ SRC_URI[sha256sum] = "cb1bfd4f655289cd39bc04642d597be9de5427623f0861c1fc19c08d98
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.48.bb b/meta/recipes-devtools/mtools/mtools_4.0.49.bb
+similarity index 93%
+rename from meta/recipes-devtools/mtools/mtools_4.0.48.bb
+rename to meta/recipes-devtools/mtools/mtools_4.0.49.bb
+index 646735f3b3..294b2f37b2 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.48.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.49.bb
+@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-SRC_URI[sha256sum] = "03c29aac8735dd7154a989fbc29eaf2b506121ae1c3a35cd0bf2a02e94d271a9"
++SRC_URI[sha256sum] = "6fe5193583d6e7c59da75e63d7234f76c0b07caf33b103894f46f66a871ffc9f"
  
- inherit meson pkgconfig gtk-doc
- 
-+# distinguish from apache:orc
-+CVE_PRODUCT = "gstreamer:orc"
-+
- GTKDOC_MESON_OPTION = "gtk_doc"
- GTKDOC_MESON_ENABLE_FLAG = "enabled"
- GTKDOC_MESON_DISABLE_FLAG = "disabled"
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
 -- 
 2.43.0
 
