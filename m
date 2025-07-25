@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41DB7C87FD1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56829C87FD5
 	for <webhook@archiver.kernel.org>; Fri, 25 Jul 2025 18:44:57 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.26745.1753469095844840168
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.26646.1753469093744063946
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Jul 2025 11:44:55 -0700
+ Fri, 25 Jul 2025 11:44:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1j6groIu;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b271f3ae786so2049392a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 11:44:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OiIg+hF/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23f8d27eeeaso23915275ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 11:44:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753469095; x=1754073895; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753469093; x=1754073893; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NzAxt/O2Fay1mqf/qQx9AHOhDhpUFstU1dd9oPxAxLQ=;
-        b=1j6groIuab3b9BlAIQ5sKNewwHMpozRNUaucMYu7+PlOOo9g28OChI4y7Km3xX9J1v
-         GPymVziqroT+jCG+TiTjYZrCDuRSPw7cLQXhcVkfOQyFZZXLGqXZhRSMheylWajUrW8s
-         /xR3yBHKK5XLbbS1gAdIiChPHoxOGJpOWSd/bdEy+wOTCb2Ag6lhKNLBRdMgP2fMrV1U
-         CIni2pszSMAAkVSj+9fFtHeBSQ3E1ytoiygfoLgJGiY+SO1A7RxDIAXT12wyCAdzaeXa
-         28F85YynjzpcRPITVGN1TWB051r2vlEhQjV2Lpsut7cdAmqnV43Ca1NM4LlIGf6rtCYq
-         fcVA==
+        bh=0Hvo5vsVjKoOjscMm2OibQrM1vdRdkv7ItWY8D/ctRU=;
+        b=OiIg+hF/nRwxS7HDGNbYEATIBezZJB45e7gZsOsTFzmoPL+ubzm4iUhASmw+UAzeRt
+         P3OS/jiFw+29GVPGxYtmISztKm64JVub4h78LXE6Sq7dVBDpbc04EmMvY9u4OJg7J4MN
+         0oKYrCLlAnCCY7V2pKI4OeEPH7jIEDarJJ4xG4j26Dvf9Qpmy5Wml7oSdzNIZhODH5yq
+         mhWtXBzYONNZU9zaLzRjddLjok2aLGjuvmDyHwx1hAalOBUdpxnzT3GEg2DLshPL6cH2
+         S0YkDdko/EJXJ0EMMF/09pOMq32T/gr1dFiS35MaSlvP1DWjJbFIPJv52fe2USUmvPh1
+         kw2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753469095; x=1754073895;
+        d=1e100.net; s=20230601; t=1753469093; x=1754073893;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NzAxt/O2Fay1mqf/qQx9AHOhDhpUFstU1dd9oPxAxLQ=;
-        b=i4OasLbo1upxMONegX+RQjjDBZPhkGZgVkL9AekhecCy05wGUg9r60kAms28D6xeJI
-         K/CebzJPLELsBDeuMg4MiZQKbljrX4cj9a6D9MvkOt2eYK7XQkMmSfnEhMUAtxDltkUL
-         ArKkAU+6O2fA/lft7lfUfCPgTjosGFtaQfNNtdAZn5CST9Inu2Pxf898AZPvlfHW7szW
-         AgzaFPmUit8YF+pD2AUufcFtmuKjBPjVB/nxK4Yxant4eOcEH7HAvnuK0SmB5E1KD81s
-         JNkRRfY/gqlQrdNCv7557rj0ftaedKPy7pGJ1/1xW72ECk8QOM7VEcqcPhfFi69m2U+b
-         m/Eg==
-X-Gm-Message-State: AOJu0YwjoM1h0BJUo2yv9b4bzmRzntLx/ufe8yJWsdZpjMu3bIqQDZ/y
-	VoUpLnrzw8BJJZaS4lKoycj+ZZRM6vcWFItRn1/y0c06sF8JOcqIF568FIAURxUxhN5cyRPUlzS
-	PiW73
-X-Gm-Gg: ASbGncttLWCRAEm1In7+rrneDiOTu4g/HcsjSsnIDJB4eWhrUyvpWiLygF21rdU9e+w
-	Fk2M8kbZPrJ9+DnXcFB/y5FtQDGPx33nVmCS6yFR6BY8JQ8I+DcdSy/jgfJ14rxtP2/g3CsoELB
-	HimJoBv6D9BXKTNxTT/N/H1tCn4XJvEfVZhNL9WF0R4eY7oN3OLGy6YGE/BuxJBRW1BD8k/M8tB
-	g5IB+wclshIKo6Ht5zlX0/TmUfKZTvZS06kNnIJjbGxk778ac0kbKpwQhFO57epv+Eyii2puK0k
-	4ThEPXA+qdwfWnxQAYKWbNsuYz0Lzi/PZfIVL9K0R2lZVfzmEvmp2zL+BCTAThImnUgT+mmjkE8
-	4YVoJdzxCSrIGsw==
-X-Google-Smtp-Source: AGHT+IEJ2/VNwUCKMKjaLx8GV7evY52AuM3Hw4q7on1JVqq0YEazIOL2VUphtKhleoeZ7glyd2ngqQ==
-X-Received: by 2002:a17:903:183:b0:234:914b:3841 with SMTP id d9443c01a7336-23fb3164644mr40805535ad.39.1753469095079;
-        Fri, 25 Jul 2025 11:44:55 -0700 (PDT)
+        bh=0Hvo5vsVjKoOjscMm2OibQrM1vdRdkv7ItWY8D/ctRU=;
+        b=hGsGEHgWMiESJd21gfh5Ke1A711LzZTFsEvTYr1mztZUC7W9Wy/g+OnwgFfnEoR5fx
+         wQ8RAEtw6IZGGwz47CxIMDU572b/N8MYIiZTlhtFYuXAXqTChl0NGSDpA8tMp2deMa3o
+         OA3+cu3c9P5LPqZ/kBJ59J48gRV6Cb0sBo2Y6Xim3T8a7Lxox8Hnj+Hw2D/faF4epvCJ
+         CquW2pla/rTbQSwNQ1nlpBONJPwpqksNMkYowsJpB/KJCL8I4R5ZXjpJULWx0IHLunUK
+         rJDZM81KKsBSvPM4v/N2qiuFgYeqP/6+FZov7k3NRADuARFWKWLVdz0bRfOnyCiWE/zS
+         5a6Q==
+X-Gm-Message-State: AOJu0Yx0fJm6M2dENSbNMTUBdS8ZbNSW+CbJ98t9f4jNfHq8TqPtyOCK
+	lfRSnN0jmCIgBGFbXE2SosLd/y4NT1957sWOemC836+16L0cz5ND33KUKfBGPWBH5HKKverKfy+
+	zYgnI
+X-Gm-Gg: ASbGnct+Xbx0QBVsTZa3mMx3aIi/yzkQfAt4pnkD3MFNsdABs9aebe2tQHSNGlB0QHV
+	sk9mhoWWRg07Nv0UsjqKUcnFG2HpsRl6xOus48AndVjLbcob5GiymcOUlCQq/qtJ9i9Y5f8QqrU
+	kcMNDBn8gHiBKFAQ4rDHXkpVGCebQDMaIgpZfeIe9dQo49ecE0RbDfcHexHmH0jrD3690ll4mLL
+	9Law7KEPu9xkcG9EO8H7EX4KNl8VmFnrExanA5Q2WjJRReRgLztsw30i2BzAN/lgq2XCafEBWoy
+	f4zahm1TOAGPBtdQHRUW/m2QYsQczUKmIV9xE2nLsy9FX4YnKOpCUp+j0BtU4ENdvtO3DnsXRIJ
+	GzJ8SQhYqOrxF1w==
+X-Google-Smtp-Source: AGHT+IE+28v5Xwe1eYpaJcCG6vYekUbnOrKLgW/sy4GzEEf3jQG0PsOjD7Ct/cmgAeN63CrZB6Ws7Q==
+X-Received: by 2002:a17:902:f68e:b0:235:ea0d:ae10 with SMTP id d9443c01a7336-23fb30b8503mr54233655ad.12.1753469092895;
+        Fri, 25 Jul 2025 11:44:52 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:b695:a542:567c:1988])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe537f8asm2451225ad.167.2025.07.25.11.44.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe537f8asm2451225ad.167.2025.07.25.11.44.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jul 2025 11:44:54 -0700 (PDT)
+        Fri, 25 Jul 2025 11:44:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap V2 12/16] mtools: upgrade 4.0.44 -> 4.0.45
-Date: Fri, 25 Jul 2025 11:44:26 -0700
-Message-ID: <77340d2bb1f31e305394df5d589fc0d3a0c5cd9a.1753468892.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap V2 10/16] xserver-xorg: upgrade 21.1.6 -> 21.1.18
+Date: Fri, 25 Jul 2025 11:44:24 -0700
+Message-ID: <2ab7c45631f78ac8f6d19889fa8526d062329992.1753468892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753468892.git.steve@sakoman.com>
 References: <cover.1753468892.git.steve@sakoman.com>
@@ -68,43 +68,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 18:44:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220928
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220926
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Changelog:
-============
-- Fixed iconv descriptor leak
-- Fixed size of error message buffer
+xorg-server 21.1.17
+This release contains the fixes for the issues reported in today's security
+advisory: https://lists.x.org/archives/xorg/2025-June/062055.html
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+   * CVE-2025-49175
+   * CVE-2025-49176
+   * CVE-2025-49177
+   * CVE-2025-49178
+   * CVE-2025-49179
+   * CVE-2025-49180
+
+Additionally, this release includes a fix for CVE-2022-49737 which was
+issued after the fix was merged back in 2022 and several other various fixes.
+
+Ref: https://lists.x.org/archives/xorg-announce/2025-June/003609.html
+
+xorg-server 21.1.18
+This release contains an additional fix for CVE-2025-49176 from June 17
+security advisory: https://lists.x.org/archives/xorg/2025-June/062055.html
+
+Ref: https://lists.x.org/archives/xorg-announce/2025-June/003612.html
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-(From OE-Core rev: cc1975888ffdc58655e80d3d14450cf68ee0f719)
-
-Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+(cherry picked from commit a59b385184fb3a548dc27310fd04d64351d8dfba)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../mtools/{mtools_4.0.44.bb => mtools_4.0.45.bb}               | 2 +-
+ .../{xserver-xorg_21.1.16.bb => xserver-xorg_21.1.18.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/mtools/{mtools_4.0.44.bb => mtools_4.0.45.bb} (93%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.16.bb => xserver-xorg_21.1.18.bb} (92%)
 
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.44.bb b/meta/recipes-devtools/mtools/mtools_4.0.45.bb
-similarity index 93%
-rename from meta/recipes-devtools/mtools/mtools_4.0.44.bb
-rename to meta/recipes-devtools/mtools/mtools_4.0.45.bb
-index d8dd671be2..34040d7a0d 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.44.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.45.bb
-@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--SRC_URI[sha256sum] = "37dc4df022533c3d4b2ec1c78973c27c7e8b585374c2d46ab64c6a3db31eddb8"
-+SRC_URI[sha256sum] = "0b008a96bd0efe0e542fa4383d469af66bc4a93394990b103730a8160a67d618"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
+index 38c81f2372..14c45be432 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
+@@ -3,7 +3,7 @@ require xserver-xorg.inc
+ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+            "
+-SRC_URI[sha256sum] = "b14a116d2d805debc5b5b2aac505a279e69b217dae2fae2dfcb62400471a9970"
++SRC_URI[sha256sum] = "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f2994deff90116352"
  
- SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://mtools-makeinfo.patch \
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
 2.43.0
 
