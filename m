@@ -2,97 +2,141 @@ Return-Path: <lamine.rehahlia@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EF8C87FCA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4708AC87FCE
 	for <webhook@archiver.kernel.org>; Fri, 25 Jul 2025 12:38:35 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.18197.1753447108351144594
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.18200.1753447111526800283
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Jul 2025 05:38:28 -0700
+ Fri, 25 Jul 2025 05:38:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Atuqedn2;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: lamine.rehahlia@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b77683cc5bso385638f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 05:38:28 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=fLG/ZDls;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: lamine.rehahlia@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45600581226so21572625e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 05:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1753447106; x=1754051906; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yf1c8klOhuz+MqEMGU0mxt5G3LppF6lkgWI1WZVPoG4=;
-        b=Atuqedn2Ef2Wc/NZWoopoKOe9axLwZQndbEBlxHjCn0BZ9FY0JLNasR+wTFePHyyA1
-         CctoQit8mMb8pPESQHvLeJsTgIm7L3gh3koETmgcBeHrnS1ZDmanVtQ/MDFwDWegLUWJ
-         WUuf0cId8ieofapU5sJTs3Me98DVzqZsqS3Mo=
+        d=smile.fr; s=google; t=1753447110; x=1754051910; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iXe9DPa2glyuDTg7v+UhHd1ZvzxOppZV9Hu/BcfHeKc=;
+        b=fLG/ZDls4tBL4fNH2L8AL8QYE/qm5DMM2Da0UAbURzDZ6ufq1Shb0/BGO31d3DX4gQ
+         vkLOI6HGA+MTXKsejV0lGq/zPF8Z4sTfWuwGBFvfRJV206TjfbnzCZQC414riPb2rbI8
+         tsYBRPGNvpRmaHbyaN6+lgmmpUtqTEa12yZN0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753447106; x=1754051906;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Yf1c8klOhuz+MqEMGU0mxt5G3LppF6lkgWI1WZVPoG4=;
-        b=YHGuScd9aUWaHsKnB7o7CDWiqpDGPE1ySNXsmK2dALDegl8INYHutPLF/cfmN4h1vh
-         rVFO2CCpu2wlcjKWphXIp5DH9i5LwNyVsX0PxxkxTyAB/MbIxFvcz/HU094FlqNGmdIa
-         5V5z7VleH7F8o6meNhiMPJlnclpMcDgBWBqSRbW0A3OPi9G8zwMwckEQ230Iffzxqg3y
-         DZfOYroLsQDcSVB6w2MXQ2tt/PgQ97vq/FqUYW2QFNz9oZnJYjuGCNfi65B2R8An//gO
-         yGi9BBRZTq94tgYpkFKi7rmFcgdaJMjxaKwIp/59MM8MNlhPHGfbHqBHSiffebJWaABp
-         /76g==
-X-Gm-Message-State: AOJu0YzenfGMcWpXOOeWcWlR5KQGQ2gE9W9MpjBWVuuTHs37f9s9sXAp
-	e5k8vFoNCalCTyQIWIUxdOQnb5b+zHrwT2vMCsHRV6X/b/zHs3/hIXG6wmPJ+1A0cKzAqde+nwk
-	gs2bIVQ==
-X-Gm-Gg: ASbGnctDlMG77psRRhMRkx83cXFH8hdMxPdhpccksesvGU0Ertq7YzBhkoxKg0HVEht
-	zPaczO2AI8dJ5Ig8n7G2tTzhdLt1p2/2Gv+vQv39xqaGMAkkm+gXf56GzRr12MSqu7SQxJNOFXR
-	MClXLDJBZUTMetM1mUCWXVi9JHziKczGN/KfMI+mW+EX8Vh2GR8qHXuAbAco+8AAqVJRNby3xDG
-	dazuPy2bm0eerB962q3Iq7RL3bqwgCfTIgDXadD6cj05CVRTWX63HFHB9/iwt7hs3TvCgP1qSZm
-	LrvJfaYINluUazVFuP6M4WBuePVF1gJOocJAApoKQhzYnElWTuNlR1gTS0zliZFlDtXPW04G8A1
-	UE1xQaAjbs7jG17NEB45wxPtDEHbVeeAw
-X-Google-Smtp-Source: AGHT+IE1RlCL+xMH3PV6d9seluolXvnIZjz3jBiJJxJo11ISv4nu2/09kiamOXaiIWFKO76kgUZK2g==
-X-Received: by 2002:a05:6000:1889:b0:3a4:dc93:1e87 with SMTP id ffacd0b85a97d-3b7765e614amr1936947f8f.1.1753447106395;
-        Fri, 25 Jul 2025 05:38:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753447110; x=1754051910;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iXe9DPa2glyuDTg7v+UhHd1ZvzxOppZV9Hu/BcfHeKc=;
+        b=l4YauRyuwzN021jdldZ1lthh7i/5IViSkCoH8ztfuYjv42ga6U8nzQjrPBQXy0vr/4
+         7uKWL/woRepgzNbB1KDHikeqrIeddIlvJ2oRsKxVwCmj0k/jV4jn20HG013K9I+qegVa
+         NF3uwiHI/KctlXKbrD+ed2MBPMM0HRWSR37OcymfwdBn5AKAV4xTT3lpeTU5Ny6lCDCA
+         rdHvFk+qdh0jpQY1kERInBDMvjWoibUON6cirWuNw8B/yW5vHXT+BKaHzgj8zh8DFwCn
+         VuF+6GCyR7tcR7D1L0YeRL1KM4cT24pexJKYl/8zNfnehLe6kDMs0ESDy6BsWbxzizQm
+         +HVQ==
+X-Gm-Message-State: AOJu0YxelCUnHRUgwGZCtVmuOJWmylNtJ/MzChCglubPk3eP5G7FE5fS
+	s5v+6ZU16E70oZ7bCFGSuwvY1nty7TIXssViLdF2bFy0gdqFZGNeO01q+3cVYHxpi7F4hS0P1Ez
+	JtNAa7g==
+X-Gm-Gg: ASbGnctk1rN+W0RMBFbYyRcM+iG2TyNmxcKb+0jhu5xlibxjaEAOhG39eu08JkAcVHb
+	HAvaj6dNqgKtqKqHPdHn/Jr0x3izNAU1ps4Xg7BRY4cbJVlAhb0lrA7/gd7JVrOVH1tUrAL+H8e
+	ET3nlwDZtxBJcOI4g1EbN1rOcjF7d1hk8krVRr0lGDaio4y4Hw0EH1nWoR/63hQcla9Z69ZSUuP
+	LGCY3AeJ/ergszYrAPHrlGPc3HBow0yLjSA4ByaQVQd67SanPGiTCjHtKmNUtjhSGAkB/oPF/+i
+	0AxbQBeoMoH+B2FkTjZvRNYqLKwR2B4ZJjq96DZQpm9TDc2ZcFcysg2Y4Vr+ZTvCBvZX2y6Ir6s
+	FQXlKbddCxx3Vcc71OOFz+9mBnGl6NuDi
+X-Google-Smtp-Source: AGHT+IEkAVVacHV6KUfACzMWyiU15dmvjqqPQ/9OMlgmAtKP1erqRuMfNThCLIrxb7KRF89KH1iRzw==
+X-Received: by 2002:a05:600c:a00b:b0:456:1ac8:cace with SMTP id 5b1f17b1804b1-458763184demr16656375e9.12.1753447109438;
+        Fri, 25 Jul 2025 05:38:29 -0700 (PDT)
 Received: from FRSMI24-GAIN.. ([2a01:e0a:98e:c1d0:8bd1:eafc:f0ae:9e4f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b76fcad7fdsm5080669f8f.43.2025.07.25.05.38.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b76fcad7fdsm5080669f8f.43.2025.07.25.05.38.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jul 2025 05:38:26 -0700 (PDT)
+        Fri, 25 Jul 2025 05:38:29 -0700 (PDT)
 From: lamine.rehahlia@smile.fr
 To: openembedded-core@lists.openembedded.org
 Cc: Lamine REHAHLIA <lamine.rehahlia@smile.fr>
-Subject: [PATCH 1/2] runqemu: Enable snapshot mode by default
-Date: Fri, 25 Jul 2025 14:38:10 +0200
-Message-ID: <20250725123811.1718097-1-lamine.rehahlia@smile.fr>
+Subject: [PATCH 2/2] runqemu: Add support for running compressed .zst rootfs images
+Date: Fri, 25 Jul 2025 14:38:11 +0200
+Message-ID: <20250725123811.1718097-2-lamine.rehahlia@smile.fr>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250725123811.1718097-1-lamine.rehahlia@smile.fr>
+References: <20250725123811.1718097-1-lamine.rehahlia@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 12:38:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220908
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220909
 
 From: Lamine REHAHLIA <lamine.rehahlia@smile.fr>
 
-When snapshot mode is enabled, all disk images are treated as read-only.
-Any sectors that are written during the QEMU session are redirected to a
-temporary file (usually in /tmp), and these changes are discarded when
-QEMU exits.
+Enhance runqemu to detect and decompress .zst-compressed rootfs images
+(e.g. ext4.zst, wic.zst) automatically. If a decompressed image already
+exists in the original directory, it will be reused to avoid overwriting
+build artifacts. Otherwise, the image is decompressed and removed after
+the QEMU session ends.
 
-This mode is particularly useful to:
-- Avoid corruption of the original image
-- Ensure repeatable and clean test runs
+This allows runqemu to be used seamlessly with compressed image formats
+generated by the build system or during releases.
+
+IMPORTANT:
+This patch assumes that the original directory of the .zst-compressed
+image is writable. If, for some reason, the path passed from CI or
+another system to the script is read-only, the decompression step will
+fail when trying to write the uncompressed image to the same directory.
 
 Signed-off-by: Lamine REHAHLIA <lamine.rehahlia@smile.fr>
 ---
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/runqemu | 37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 3d77046972..6c263d6b2a 100755
+index 6c263d6b2a..b6af619f20 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -196,7 +196,7 @@ class BaseConfig(object):
-         self.taplock_descriptor = None
-         self.portlocks = {}
-         self.bitbake_e = ''
--        self.snapshot = False
-+        self.snapshot = True
-         self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi', "wic.vhd", "wic.vhdx")
-         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs',
-                         'cpio.gz', 'cpio', 'ramfs', 'tar.bz2', 'tar.gz',
+@@ -376,7 +376,42 @@ class BaseConfig(object):
+              re.search('fitImage', p) or re.search('uImage', p):
+             self.kernel =  p
+         elif os.path.isfile(p) and ('-image-' in os.path.basename(p) or '.rootfs.' in os.path.basename(p)):
+-            self.rootfs = p
++
++            # Decompress ZST image if needed
++            if p.endswith('.zst'):
++                # Get the real path to the image to avoid issues when a symbolic link is passed.
++                # This ensures we always operate on the actual file.
++                image_path = os.path.realpath(p)
++                # Extract target filename by removing .zst
++                image_dir = os.path.dirname(image_path)
++                uncompressed_name = os.path.basename(image_path).replace(".zst", "")
++                uncompressed_path = os.path.join(image_dir, uncompressed_name)
++
++                # If the decompressed image already exists (e.g., in the deploy directory),
++                # we use it directly to avoid overwriting artifacts generated by the build system.
++                # This prevents redundant decompression and preserves build outputs.
++                if os.path.exists(uncompressed_path):
++                    logger.warning(f"Found existing decompressed image: {uncompressed_path}, Using it directly.")
++                else:
++                    logger.info(f"Decompressing {p} to {uncompressed_path}")
++                    # Ensure the 'zstd' tool is installed before attempting to decompress.
++                    if not shutil.which('zstd'):
++                        raise RunQemuError(f"'zstd' is required to decompress {p} but was not found in PATH")
++                    try:
++                        with open(uncompressed_path, 'wb') as out_file:
++                            subprocess.check_call(['zstd', '-d', '-c', image_path], stdout=out_file)
++                    except subprocess.CalledProcessError as e:
++                        self.cleanup_files.append(uncompressed_path)
++                        raise RunQemuError(f"Failed to decompress {p}: {e}")
++
++                    # Mark for deletion at the end
++                    self.cleanup_files.append(uncompressed_path)
++
++                # Use the decompressed image as the rootfs
++                self.rootfs = uncompressed_path
++
++            else:
++                self.rootfs = p
+             # Check filename against self.fstypes can handle <file>.cpio.gz,
+             # otherwise, its type would be "gz", which is incorrect.
+             fst = ""
 -- 
 2.43.0
 
