@@ -2,164 +2,147 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F57C87FCE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF17C87FD2
 	for <webhook@archiver.kernel.org>; Fri, 25 Jul 2025 18:44:47 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.26731.1753469078006353655
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web10.26637.1753469082969256436
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Jul 2025 11:44:38 -0700
+ Fri, 25 Jul 2025 11:44:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QXNy1RET;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-23636167b30so23433075ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 11:44:37 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=f4zArm4A;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b3bcb168fd5so2392572a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 11:44:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753469077; x=1754073877; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=T2Q1sCZcSlce+uGftjsED5FoBH5avvKrAL52Qesqqzc=;
-        b=QXNy1RETHyUUmyXdNPNXI1+zN6Y9ZSkfswQsCqB38DpF2n+Y7XevFYBRcijvc3e+PS
-         QDmYBILCkX8tYxqRFkHUFoM8dMPK0YUNpDiQvBePtiRICCbu+XZtwf29iS3S+06wFwiB
-         Z7ZnS1byct6bwG95drW9M5qP9AsBZCP+L3I5wNkRGn8VLqt6lMhGK+7M3GH348IijmBy
-         t6y1GKad2SmSLS/0h8RInkDD6rVTEzRPp6v5cpqZvUMVDyncIgxlNw3JXx8Nu1uvxLv5
-         /uHECNUIXGr6GGzGEF4KEVn5GqrC5Fszo7PxIS9qOg93oRXF1kM9mODpMwTaSOBJAobE
-         ZhXw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753469082; x=1754073882; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7m5wsfoBhApr3F1QDW3hUj+XHNdMwWHBucmZMerAAXM=;
+        b=f4zArm4Az+/keDGgTpxNQ6xjs9TXQl9G5/yZBdzpG8bJaW/2wslmR1sLFWSlOAcimx
+         F2NthiExXTQNNfqWzrw8EyweI3/X0kypbwZZhBN3IIs67Pkf6lK5GQ7qlAlN8WXuXMw6
+         T+qK9MiZ0HzxJ6Mtk278ttO47bXY/kOl21OFwmp+qDV7nAaLURUnNHkAFcrNeSHwYyvJ
+         wx1PK+nIuc6q0wFJcZm76dN7T83FyDjnhCF8Qy5d0SD4UDRF5mLsUp6EBPKaVQut9CyR
+         Rhp9JpmPa045FnvMdqGFWH+i12Epwto7ZTv8VkUPi6Hq2TjWPd4lUKyoWdbn/GK2X24N
+         nG1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753469077; x=1754073877;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=T2Q1sCZcSlce+uGftjsED5FoBH5avvKrAL52Qesqqzc=;
-        b=CEJKTanzP5R6XRxxm5utAdqVFte7ro0muh3z3DtDEMW0jpfWBSGO8eGRkgbhulHYza
-         USiZKx3GoQypkkT8DsrN+cCTMaI6zAzfCFaH4URdYwnkg4tAhDSsNlUuAptjA/FDi4vl
-         uFhcej8kK3RIp7T1lDHl8ERsl9tLXXX0QKn5meOjLdDWcasepraW9RWOM1pLDRh1O6sn
-         17M6StVxwG2CFmQSz5X2VqqbhkpGSPYEdIgPIqWFfjzQxNvL3+1HhEB8VtWyUiEuCGbW
-         qN4Q1i/fU3YiWqj0zq6dBjWL9esd4lWiT6OD3/Nijp4iwnYoxv5MBKh6/mF1TKUCHcvm
-         vogQ==
-X-Gm-Message-State: AOJu0Yx3ELe4lhjrIuQOEKsJEw6h1KZoXO+YZWk1ILtzAcQWCZs9jltS
-	k5sp2JeWPEE5DwypsVC2tgVBoyWYWTDOVyR/YV5CdZj63CPo4v3l9JTMF443Py8nro0bPaVP8wQ
-	WUmAf
-X-Gm-Gg: ASbGncvi3q/BzU6xISIv6GHGftSg55oHbmgLia7xnckkifFYipOZai1jfUv06XyA3nn
-	RIR16AvqIT68KrTz8xXt8fjxvpoSK4f3kmI7yhp5KPD9DaS+cBlyN0185TxDYBFe1I5tlWaw3dM
-	wE6pfztSGKMc92YO+LvplwZyxUBbu26r6Gc6krDmnjkYAucT/sLPMcv3J6TJvMS570tXbiWk8sp
-	gsIBB4f6VHJrydYkUl7TzZAuU0Z2oIpGfPPf54F17Su59vnujq8oQQSDA0fXbgnDZoEj7/KjUY9
-	SDSVq/1AyzmC82zE5SKOt5FwAWxISaT00gv7M2Om7tch5Nu8pqlJzejvGD+2D4fY+AyUkKpAFtG
-	KJ/9T5uU7pL76mQ==
-X-Google-Smtp-Source: AGHT+IETyB4LhgaM2pRK1x+VrcUud6IPjQJ4eGxf5e3UH2jLebrmuLWdTv3q90cMqId8a4Yttkoxqg==
-X-Received: by 2002:a17:902:d501:b0:23d:e2fc:6fe5 with SMTP id d9443c01a7336-23fb312a3ebmr49156535ad.49.1753469076770;
-        Fri, 25 Jul 2025 11:44:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753469082; x=1754073882;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7m5wsfoBhApr3F1QDW3hUj+XHNdMwWHBucmZMerAAXM=;
+        b=qcKy3rFyZb9Pec/qw3LeoQnEuDaZoH1rbrOyAxWqSg2EvMLgE7O5DOOXHleyE5QBjG
+         t9V3yW/zJnBVM6QM+HlvJVxFTDKUYYsYR+XCxErHtJFoPcr1ihlXpz150P8Z4KuoRYG9
+         ndil2K4AgbQw+j3vyNa7u6GQp7tA+UhewNtPw+75RIJ1Cd4tXuaQ6YR4KcmCPdmfSYqQ
+         QIU7ufba4Go/WoSSxAaRx5MCO8+43gi3MLcGn+rYr7gBDaTcQkypcZcHrlSUILjdvvyQ
+         aETSKYdns8elteYgyUV58kniEmR/afVgl+XfCtMVQBTItz9tfi8r4s+lbe2ucIuU6Am8
+         6F4Q==
+X-Gm-Message-State: AOJu0YxZ/N6dXmbj+IHqePpnDpC7RgKhdTFi4ycucbSSKKYnRNFWaGFo
+	CVoeMrvAF2yYvZaTX1AIAEcCNzWXO1ilD9DJGsoYH4C3SiooonYrDXLs8RoTPaj3z1PaKLV9fFZ
+	C1Ftr
+X-Gm-Gg: ASbGncvoOYZY9kD5bS6IKwopNkzIpvzmfOT/lYf6Xtu5nT+TLZTiRDl/vr5nKB1Ei/4
+	oC4gJxMIKoTHIViQdGfZP3cK+glWVVjRDWIn8n71VdWaKmP5o9/y5NFc6RYh8jrvQjF1M1l1tEP
+	0vRnLXv63SmbBIxEzjUaj1zPR/E4GHJV1hDos0qEDzK0sHTGwHw7OArmbJtDObGrFzEXLv5VLSl
+	LVSq+Qi9bMEQmX8V5OnCaQKrZXrIrNYB+JHIVhilYp1gJG5UB3tivsH5nKk3oyG+8YhaRYzy2EE
+	2qLFccGmNjqkd/mlO5hkE2vG6Hrjq48hc6THnytjb/Vlfm6JO/EJYp/txYhmsxRCLtPZWjc0DNM
+	LJNFJeFWD6r89pQ==
+X-Google-Smtp-Source: AGHT+IFuWjaiJ1wliHD+uIGYp6Z5t2bP2ZyRPqlaRkme/9mFYCIXT9E4eg+8y8TY2KR98X5NR6Rb1w==
+X-Received: by 2002:a17:903:1446:b0:234:d7b2:2ab9 with SMTP id d9443c01a7336-23fb306bcbfmr52826675ad.12.1753469082089;
+        Fri, 25 Jul 2025 11:44:42 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:b695:a542:567c:1988])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe537f8asm2451225ad.167.2025.07.25.11.44.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe537f8asm2451225ad.167.2025.07.25.11.44.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jul 2025 11:44:36 -0700 (PDT)
+        Fri, 25 Jul 2025 11:44:41 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap V2 00/16] Patch review
-Date: Fri, 25 Jul 2025 11:44:14 -0700
-Message-ID: <cover.1753468892.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap V2 03/16] binutils: Fix CVE-2025-7545
+Date: Fri, 25 Jul 2025 11:44:17 -0700
+Message-ID: <128e40c39d8eafdd32fea71b902b38801afec202.1753468892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1753468892.git.steve@sakoman.com>
+References: <cover.1753468892.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 18:44:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220916
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220919
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Monday, July 28
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-Passed a-full on autobuilder:
+objcopy: Don't extend the output section size
+Since the output section contents are copied from the input, don't
+extend the output section size beyond the input section size.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2091
+Backport a patch from upstream to fix CVE-2025-7545
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=08c3cbe5926e4d355b5cb70bbec2b1eeb40c2944]
 
-The following changes since commit 24c0ab18045920bb5c1e965c0ea6d176fd6de234:
-
-  oe-debuginfod: add option for data storage (2025-07-16 14:09:39 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Alexander Kanavin (1):
-  mtools: upgrade 4.0.43 -> 4.0.44
-
-Archana Polampalli (1):
-  openssl: CVE-2024-41996
-
-Deepesh Varatharajan (2):
-  binutils: Fix CVE-2025-7545
-  glibc: stable 2.39 branch updates
-
-Hitendra Prajapati (1):
-  libpam: fix CVE-2025-6020
-
-Jinfeng Wang (1):
-  mtools: upgrade 4.0.48 -> 4.0.49
-
-Peter Marko (2):
-  orc: set CVE_PRODUCT
-  openssl: patch CVE-2025-27587
-
-Richard Purdie (1):
-  mtools: upgrade 4.0.46 -> 4.0.47
-
-Roland Kovacs (2):
-  libxml2: fix CVE-2025-49795
-  sqlite3: fix CVE-2025-6965
-
-Vijay Anusuri (1):
-  xserver-xorg: upgrade 21.1.6 -> 21.1.18
-
-Wang Mingyu (3):
-  mtools: upgrade 4.0.44 -> 4.0.45
-  mtools: upgrade 4.0.45 -> 4.0.46
-  mtools: upgrade 4.0.47 -> 4.0.48
-
-Yash Shinde (1):
-  binutils: Fix CVE-2025-7546
-
- .../openssl/openssl/CVE-2024-41996.patch      |   44 +
- .../openssl/openssl/CVE-2025-27587-1.patch    | 1918 +++++++++++++++++
- .../openssl/openssl/CVE-2025-27587-2.patch    |  129 ++
- .../openssl/openssl_3.2.4.bb                  |    3 +
- meta/recipes-core/glibc/glibc-version.inc     |    2 +-
- .../libxml/libxml2/CVE-2025-49795.patch       |   92 +
- meta/recipes-core/libxml/libxml2_2.12.10.bb   |    1 +
- .../binutils/binutils-2.42.inc                |    2 +
- .../binutils/0023-CVE-2025-7545.patch         |   39 +
- .../binutils/0023-CVE-2025-7546.patch         |   58 +
- .../mtools/mtools/clang_UNUSED.patch          |   19 +-
- .../mtools/disable-hardcoded-configs.patch    |    7 +-
- .../mtools/mtools/mtools-makeinfo.patch       |   19 +-
- .../{mtools_4.0.43.bb => mtools_4.0.49.bb}    |    2 +-
- meta/recipes-devtools/orc/orc_0.4.40.bb       |    3 +
- .../libpam/0001-pam-inline-pam-asprintf.patch |  101 +
- .../libpam/0002-pam-namespace-rebase.patch    |  750 +++++++
- .../pam/libpam/CVE-2025-6020-01.patch         | 1128 ++++++++++
- .../pam/libpam/CVE-2025-6020-02.patch         |  187 ++
- .../pam/libpam/CVE-2025-6020-03.patch         |   35 +
- meta/recipes-extended/pam/libpam_1.5.3.bb     |    5 +
- ...org_21.1.16.bb => xserver-xorg_21.1.18.bb} |    2 +-
- .../sqlite/sqlite3/CVE-2025-6965.patch        |  112 +
- meta/recipes-support/sqlite/sqlite3_3.45.3.bb |    1 +
- 24 files changed, 4636 insertions(+), 23 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2024-41996.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-1.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-2.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-49795.patch
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../binutils/binutils-2.42.inc                |  1 +
+ .../binutils/0023-CVE-2025-7545.patch         | 39 +++++++++++++++++++
+ 2 files changed, 40 insertions(+)
  create mode 100644 meta/recipes-devtools/binutils/binutils/0023-CVE-2025-7545.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0023-CVE-2025-7546.patch
- rename meta/recipes-devtools/mtools/{mtools_4.0.43.bb => mtools_4.0.49.bb} (93%)
- create mode 100644 meta/recipes-extended/pam/libpam/0001-pam-inline-pam-asprintf.patch
- create mode 100644 meta/recipes-extended/pam/libpam/0002-pam-namespace-rebase.patch
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.16.bb => xserver-xorg_21.1.18.bb} (92%)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index a3ad655dbe..fb34ea9763 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -54,5 +54,6 @@ SRC_URI = "\
+      file://0022-CVE-2025-5245.patch \
+      file://0022-CVE-2025-5244.patch \
+      file://0023-CVE-2025-7546.patch \
++     file://0023-CVE-2025-7545.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0023-CVE-2025-7545.patch b/meta/recipes-devtools/binutils/binutils/0023-CVE-2025-7545.patch
+new file mode 100644
+index 0000000000..de132f74fc
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0023-CVE-2025-7545.patch
+@@ -0,0 +1,39 @@
++From: "H.J. Lu" <hjl.tools@gmail.com>
++Date: Sat, 21 Jun 2025 06:36:56 +0800
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h08c3cbe5926e4d355b5cb70bbec2b1eeb40c2944]
++CVE: CVE-2025-7545
++
++Since the output section contents are copied from the input, don't
++extend the output section size beyond the input section size.
++
++	PR binutils/33049
++	* objcopy.c (copy_section): Don't extend the output section
++	size beyond the input section size.
++
++Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
++
++diff --git a/binutils/objcopy.c b/binutils/objcopy.c
++index a85d2620..18cd1bfd 100644
++--- a/binutils/objcopy.c
+++++ b/binutils/objcopy.c
++@@ -4547,6 +4547,7 @@ copy_section (bfd *ibfd, sec_ptr isection, void *obfdarg)
++ 	  char *to = (char *) memhunk;
++ 	  char *end = (char *) memhunk + size;
++ 	  int i;
+++	  bfd_size_type memhunk_size = size;
++ 
++ 	  /* If the section address is not exactly divisible by the interleave,
++ 	     then we must bias the from address.  If the copy_byte is less than
++@@ -4566,6 +4567,11 @@ copy_section (bfd *ibfd, sec_ptr isection, void *obfdarg)
++ 	      }
++ 
++ 	  size = (size + interleave - 1 - copy_byte) / interleave * copy_width;
+++
+++         /* Don't extend the output section size.  */
+++         if (size > memhunk_size)
+++           size = memhunk_size;
+++	  
++ 	  osection->lma /= interleave;
++ 	  if (copy_byte < extra)
++ 	    osection->lma++;
 -- 
 2.43.0
 
