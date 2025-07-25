@@ -1,67 +1,99 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <lamine.rehahlia@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDE11C87FCA
-	for <webhook@archiver.kernel.org>; Fri, 25 Jul 2025 11:34:54 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web10.17208.1753443292808009528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EF8C87FCA
+	for <webhook@archiver.kernel.org>; Fri, 25 Jul 2025 12:38:35 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.18197.1753447108351144594
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Jul 2025 04:34:53 -0700
+ Fri, 25 Jul 2025 05:38:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=eudwPOAq;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=FKg0LpzI0FE9GW2NYDtk4jiGHEzJfKbpG4bE6dKzqhw=; b=eudwPOAq5higMkbDPsN1w1TN/h
-	7ljQCXYr3tVFL2YY538G0ACG7AmWMwPZbxbZy3ae5KgqrjfQ1p4wz9P5DjnkuYK0lca2rAoJSvo1n
-	u15n1RXnOub7IoXxZRWYd79jRdIOxtT6BpXSuoM++5Q3IzFuDxsgd9f6IjyTKdFBJUCdleJw2tzkb
-	6ndiCY2kcUr1uwBm1iezC50MWDTj1JEZaKu01bM4uSD+4HQaWc63Cdo773Ag1cArPxumLRk0MiGwF
-	b8lLSbf63+F6EEV7rGDDnRYUtqV4piTlKIxUf8JeK4ge2fHrlzI8+EY+MqKFNaRH3/r94R1ldljSO
-	q/FuXD3A==;
-Received: from pool-174-114-102-5.cpe.net.cable.rogers.com ([174.114.102.5]:55166 helo=asus)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1ufGhM-00000000zPQ-0sUL
-	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Jul 2025 07:34:50 -0400
-Date: Fri, 25 Jul 2025 07:34:45 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: why is task "clean" defined in utility-tasks.bbclass?
-Message-ID: <3bebdd04-7011-ff9c-d5ec-7dbeb7d5e22b@crashcourse.ca>
+ dkim=pass header.i=@smile.fr header.s=google header.b=Atuqedn2;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: lamine.rehahlia@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b77683cc5bso385638f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 05:38:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1753447106; x=1754051906; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yf1c8klOhuz+MqEMGU0mxt5G3LppF6lkgWI1WZVPoG4=;
+        b=Atuqedn2Ef2Wc/NZWoopoKOe9axLwZQndbEBlxHjCn0BZ9FY0JLNasR+wTFePHyyA1
+         CctoQit8mMb8pPESQHvLeJsTgIm7L3gh3koETmgcBeHrnS1ZDmanVtQ/MDFwDWegLUWJ
+         WUuf0cId8ieofapU5sJTs3Me98DVzqZsqS3Mo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753447106; x=1754051906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Yf1c8klOhuz+MqEMGU0mxt5G3LppF6lkgWI1WZVPoG4=;
+        b=YHGuScd9aUWaHsKnB7o7CDWiqpDGPE1ySNXsmK2dALDegl8INYHutPLF/cfmN4h1vh
+         rVFO2CCpu2wlcjKWphXIp5DH9i5LwNyVsX0PxxkxTyAB/MbIxFvcz/HU094FlqNGmdIa
+         5V5z7VleH7F8o6meNhiMPJlnclpMcDgBWBqSRbW0A3OPi9G8zwMwckEQ230Iffzxqg3y
+         DZfOYroLsQDcSVB6w2MXQ2tt/PgQ97vq/FqUYW2QFNz9oZnJYjuGCNfi65B2R8An//gO
+         yGi9BBRZTq94tgYpkFKi7rmFcgdaJMjxaKwIp/59MM8MNlhPHGfbHqBHSiffebJWaABp
+         /76g==
+X-Gm-Message-State: AOJu0YzenfGMcWpXOOeWcWlR5KQGQ2gE9W9MpjBWVuuTHs37f9s9sXAp
+	e5k8vFoNCalCTyQIWIUxdOQnb5b+zHrwT2vMCsHRV6X/b/zHs3/hIXG6wmPJ+1A0cKzAqde+nwk
+	gs2bIVQ==
+X-Gm-Gg: ASbGnctDlMG77psRRhMRkx83cXFH8hdMxPdhpccksesvGU0Ertq7YzBhkoxKg0HVEht
+	zPaczO2AI8dJ5Ig8n7G2tTzhdLt1p2/2Gv+vQv39xqaGMAkkm+gXf56GzRr12MSqu7SQxJNOFXR
+	MClXLDJBZUTMetM1mUCWXVi9JHziKczGN/KfMI+mW+EX8Vh2GR8qHXuAbAco+8AAqVJRNby3xDG
+	dazuPy2bm0eerB962q3Iq7RL3bqwgCfTIgDXadD6cj05CVRTWX63HFHB9/iwt7hs3TvCgP1qSZm
+	LrvJfaYINluUazVFuP6M4WBuePVF1gJOocJAApoKQhzYnElWTuNlR1gTS0zliZFlDtXPW04G8A1
+	UE1xQaAjbs7jG17NEB45wxPtDEHbVeeAw
+X-Google-Smtp-Source: AGHT+IE1RlCL+xMH3PV6d9seluolXvnIZjz3jBiJJxJo11ISv4nu2/09kiamOXaiIWFKO76kgUZK2g==
+X-Received: by 2002:a05:6000:1889:b0:3a4:dc93:1e87 with SMTP id ffacd0b85a97d-3b7765e614amr1936947f8f.1.1753447106395;
+        Fri, 25 Jul 2025 05:38:26 -0700 (PDT)
+Received: from FRSMI24-GAIN.. ([2a01:e0a:98e:c1d0:8bd1:eafc:f0ae:9e4f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b76fcad7fdsm5080669f8f.43.2025.07.25.05.38.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Jul 2025 05:38:26 -0700 (PDT)
+From: lamine.rehahlia@smile.fr
+To: openembedded-core@lists.openembedded.org
+Cc: Lamine REHAHLIA <lamine.rehahlia@smile.fr>
+Subject: [PATCH 1/2] runqemu: Enable snapshot mode by default
+Date: Fri, 25 Jul 2025 14:38:10 +0200
+Message-ID: <20250725123811.1718097-1-lamine.rehahlia@smile.fr>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 11:34:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220907
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 12:38:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220908
 
+From: Lamine REHAHLIA <lamine.rehahlia@smile.fr>
 
-  just noticed the oddity(?) that, while base.bbclass defines the
-standard cleaning tasks "cleansstate" and "cleanall", "cleansstate" is
-defined as being added after "do_clean", which is defined in
-utility-tasks.bbclass and must be inherited by base.bbclass.
+When snapshot mode is enabled, all disk images are treated as read-only.
+Any sectors that are written during the QEMU session are redirected to a
+temporary file (usually in /tmp), and these changes are discarded when
+QEMU exits.
 
-  this seems slightly backwards -- that something in the fundamental
-base class file is defined in terms of something in a utility class
-that must first be inherited.
+This mode is particularly useful to:
+- Avoid corruption of the original image
+- Ensure repeatable and clean test runs
 
-rday
+Signed-off-by: Lamine REHAHLIA <lamine.rehahlia@smile.fr>
+---
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 3d77046972..6c263d6b2a 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -196,7 +196,7 @@ class BaseConfig(object):
+         self.taplock_descriptor = None
+         self.portlocks = {}
+         self.bitbake_e = ''
+-        self.snapshot = False
++        self.snapshot = True
+         self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi', "wic.vhd", "wic.vhdx")
+         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs',
+                         'cpio.gz', 'cpio', 'ramfs', 'tar.bz2', 'tar.gz',
+-- 
+2.43.0
+
 
