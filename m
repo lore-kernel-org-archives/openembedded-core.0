@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56829C87FD5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61937C87FD4
 	for <webhook@archiver.kernel.org>; Fri, 25 Jul 2025 18:44:57 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.26646.1753469093744063946
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web10.26648.1753469094908559977
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Jul 2025 11:44:53 -0700
+ Fri, 25 Jul 2025 11:44:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OiIg+hF/;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23f8d27eeeaso23915275ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 11:44:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mLh2d7c3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b34a78bb6e7so2190191a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 11:44:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753469093; x=1754073893; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753469094; x=1754073894; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0Hvo5vsVjKoOjscMm2OibQrM1vdRdkv7ItWY8D/ctRU=;
-        b=OiIg+hF/nRwxS7HDGNbYEATIBezZJB45e7gZsOsTFzmoPL+ubzm4iUhASmw+UAzeRt
-         P3OS/jiFw+29GVPGxYtmISztKm64JVub4h78LXE6Sq7dVBDpbc04EmMvY9u4OJg7J4MN
-         0oKYrCLlAnCCY7V2pKI4OeEPH7jIEDarJJ4xG4j26Dvf9Qpmy5Wml7oSdzNIZhODH5yq
-         mhWtXBzYONNZU9zaLzRjddLjok2aLGjuvmDyHwx1hAalOBUdpxnzT3GEg2DLshPL6cH2
-         S0YkDdko/EJXJ0EMMF/09pOMq32T/gr1dFiS35MaSlvP1DWjJbFIPJv52fe2USUmvPh1
-         kw2g==
+        bh=HSsdKBra9mZkHSzcTEDb25tIoW0vzyYhkK/O+6KW4fU=;
+        b=mLh2d7c3+0/gEExnMV8MvsTx0lHDbgnZFlC3Qr0TbmRSvZvbL+hoZZYqCqhjK+UAn4
+         NO2RO0yYc8S590yOnnlq1bj5dRk7uf6v52OpZxmmPP+de956qi+Hkubv8i1gRRoKSvT0
+         k4uD4nNEmJmcMcHIEKWWNKeDqqwqpOAJitDHJmbXoy1CgtiYdTUO3aEgv0w1f0UnNvvT
+         8NqueITRWdJDYQFXWKiA4hs/1vFFTmURktRcOnZNfaM2Y86wXXFvusnHVSVeWeBdb1xR
+         HD0LgiB+chPsZY3PAMP/JTJ/5V1RVjP64vDvA6yGe3NLBQ/a6L4le5OIfSZj26eGYJOU
+         3ELg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753469093; x=1754073893;
+        d=1e100.net; s=20230601; t=1753469094; x=1754073894;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0Hvo5vsVjKoOjscMm2OibQrM1vdRdkv7ItWY8D/ctRU=;
-        b=hGsGEHgWMiESJd21gfh5Ke1A711LzZTFsEvTYr1mztZUC7W9Wy/g+OnwgFfnEoR5fx
-         wQ8RAEtw6IZGGwz47CxIMDU572b/N8MYIiZTlhtFYuXAXqTChl0NGSDpA8tMp2deMa3o
-         OA3+cu3c9P5LPqZ/kBJ59J48gRV6Cb0sBo2Y6Xim3T8a7Lxox8Hnj+Hw2D/faF4epvCJ
-         CquW2pla/rTbQSwNQ1nlpBONJPwpqksNMkYowsJpB/KJCL8I4R5ZXjpJULWx0IHLunUK
-         rJDZM81KKsBSvPM4v/N2qiuFgYeqP/6+FZov7k3NRADuARFWKWLVdz0bRfOnyCiWE/zS
-         5a6Q==
-X-Gm-Message-State: AOJu0Yx0fJm6M2dENSbNMTUBdS8ZbNSW+CbJ98t9f4jNfHq8TqPtyOCK
-	lfRSnN0jmCIgBGFbXE2SosLd/y4NT1957sWOemC836+16L0cz5ND33KUKfBGPWBH5HKKverKfy+
-	zYgnI
-X-Gm-Gg: ASbGnct+Xbx0QBVsTZa3mMx3aIi/yzkQfAt4pnkD3MFNsdABs9aebe2tQHSNGlB0QHV
-	sk9mhoWWRg07Nv0UsjqKUcnFG2HpsRl6xOus48AndVjLbcob5GiymcOUlCQq/qtJ9i9Y5f8QqrU
-	kcMNDBn8gHiBKFAQ4rDHXkpVGCebQDMaIgpZfeIe9dQo49ecE0RbDfcHexHmH0jrD3690ll4mLL
-	9Law7KEPu9xkcG9EO8H7EX4KNl8VmFnrExanA5Q2WjJRReRgLztsw30i2BzAN/lgq2XCafEBWoy
-	f4zahm1TOAGPBtdQHRUW/m2QYsQczUKmIV9xE2nLsy9FX4YnKOpCUp+j0BtU4ENdvtO3DnsXRIJ
-	GzJ8SQhYqOrxF1w==
-X-Google-Smtp-Source: AGHT+IE+28v5Xwe1eYpaJcCG6vYekUbnOrKLgW/sy4GzEEf3jQG0PsOjD7Ct/cmgAeN63CrZB6Ws7Q==
-X-Received: by 2002:a17:902:f68e:b0:235:ea0d:ae10 with SMTP id d9443c01a7336-23fb30b8503mr54233655ad.12.1753469092895;
-        Fri, 25 Jul 2025 11:44:52 -0700 (PDT)
+        bh=HSsdKBra9mZkHSzcTEDb25tIoW0vzyYhkK/O+6KW4fU=;
+        b=mlfQDM31Grl7n3wyAqU/Un5iJUE5RFf/BNSVtupFbP3phjOjBEcoNcMyXW8l6uROL5
+         U1Gr1ssj5cRL9V1KyNCL+XYOkjsUGWGGXUqfFPECO1xkg1Vxct8CjoY+NxTapsHwcxr7
+         UY6W/ZUFonDMRCe9vKN0g9YnUnWTuia3W4tcVqiMUu51Lcq8MSHGwJ89vFN2l/Iz4FpQ
+         lGG6h2Upg69cX548DePC6lBXGt9qj8h0I2oUgD96kD93lFuKrSVK5oUAfeXJjKc8uxnX
+         OML3tnr341txr01IlWqYtsyWnhJUbTxnDIPeQ9YEbenEWLzoH4ZhEBJ5gJlJCkx+KGfX
+         Xl5Q==
+X-Gm-Message-State: AOJu0YyA568sUhB7KEkd6ejOH+pVhSI9oPm4DAgljzTL/rlz7PDz5Ust
+	5MmvNCnqXuCO0HXYNd/yf8uICXtQD8NVnCcqHpMJ4N7cydws4jNpcGhfW+0ynJNRoPIKd87km3S
+	RmmcC
+X-Gm-Gg: ASbGncuoBVfEB0zl9g/jjCxnJdX2rjbF6UWs3n0hb1fzxmL+tdmGKAMEChAdsAjcVNn
+	LwNtmrggsRjFQZmdejmlCbyanF5NpcxZHfCIh4zS43k0M8oKzldBH3RV8//zKiIabaPC5Z0JpAt
+	LQHc7fj5tuDE7D/n3kmzdJqr75fg18lJM4WFb+fvTGiYZR2iPmDyHSDV4CDB+L+IwI3NENjlvgd
+	VPm/K6aWYOdXN9izg6Ylw/93jdIQ6o2WZPfKi1dEahzR6L3vSDypinKjco9txK2LG3lA06x+8tE
+	uxbhPkNGlxvmtrzk/dwowLTE0/aJS0rQ5tj6PbpZEgcR+FA8hfRtj1b3o3daeYVvdE+9pJuo/ma
+	jQ1K1cSn7wDWFag==
+X-Google-Smtp-Source: AGHT+IHwm38k+zACuSF7kL2E21HCqNsWsCH3aGt9+fjMjj9UmWhYEyo1+hBFtpyrj/aNtVj97RQulA==
+X-Received: by 2002:a17:903:2f8a:b0:23f:8d03:c4ac with SMTP id d9443c01a7336-23fb2ff96ecmr46656795ad.2.1753469094077;
+        Fri, 25 Jul 2025 11:44:54 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:b695:a542:567c:1988])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe537f8asm2451225ad.167.2025.07.25.11.44.51
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe537f8asm2451225ad.167.2025.07.25.11.44.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jul 2025 11:44:52 -0700 (PDT)
+        Fri, 25 Jul 2025 11:44:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap V2 10/16] xserver-xorg: upgrade 21.1.6 -> 21.1.18
-Date: Fri, 25 Jul 2025 11:44:24 -0700
-Message-ID: <2ab7c45631f78ac8f6d19889fa8526d062329992.1753468892.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap V2 11/16] mtools: upgrade 4.0.43 -> 4.0.44
+Date: Fri, 25 Jul 2025 11:44:25 -0700
+Message-ID: <b09b06ed6351685e5351f8bf80a88d2f42093ca4.1753468892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753468892.git.steve@sakoman.com>
 References: <cover.1753468892.git.steve@sakoman.com>
@@ -68,57 +68,146 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 18:44:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220926
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220927
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-xorg-server 21.1.17
-This release contains the fixes for the issues reported in today's security
-advisory: https://lists.x.org/archives/xorg/2025-June/062055.html
-
-   * CVE-2025-49175
-   * CVE-2025-49176
-   * CVE-2025-49177
-   * CVE-2025-49178
-   * CVE-2025-49179
-   * CVE-2025-49180
-
-Additionally, this release includes a fix for CVE-2022-49737 which was
-issued after the fix was merged back in 2022 and several other various fixes.
-
-Ref: https://lists.x.org/archives/xorg-announce/2025-June/003609.html
-
-xorg-server 21.1.18
-This release contains an additional fix for CVE-2025-49176 from June 17
-security advisory: https://lists.x.org/archives/xorg/2025-June/062055.html
-
-Ref: https://lists.x.org/archives/xorg-announce/2025-June/003612.html
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a59b385184fb3a548dc27310fd04d64351d8dfba)
+
+(From OE-Core rev: dd8c333576d7ebb8abab3a62b3451439519a0caa)
+
+Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{xserver-xorg_21.1.16.bb => xserver-xorg_21.1.18.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.16.bb => xserver-xorg_21.1.18.bb} (92%)
+ .../mtools/mtools/clang_UNUSED.patch          | 19 +++++++++++++------
+ .../mtools/disable-hardcoded-configs.patch    |  7 +++----
+ .../mtools/mtools/mtools-makeinfo.patch       | 11 +++++------
+ .../{mtools_4.0.43.bb => mtools_4.0.44.bb}    |  2 +-
+ 4 files changed, 22 insertions(+), 17 deletions(-)
+ rename meta/recipes-devtools/mtools/{mtools_4.0.43.bb => mtools_4.0.44.bb} (93%)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-index 38c81f2372..14c45be432 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.16.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-@@ -3,7 +3,7 @@ require xserver-xorg.inc
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-            "
--SRC_URI[sha256sum] = "b14a116d2d805debc5b5b2aac505a279e69b217dae2fae2dfcb62400471a9970"
-+SRC_URI[sha256sum] = "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f2994deff90116352"
+diff --git a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
+index 6bb9d6a3da..20a6d1b8b3 100644
+--- a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
++++ b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
+@@ -1,12 +1,19 @@
+-Undefine UNUSED macros with clang
++From c72d075cb0c3a65ef17621c7ed1ffac35ca3b68e Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 19 Sep 2018 11:55:41 -0700
++Subject: [PATCH] Undefine UNUSED macros with clang
  
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Index: mtools-4.0.18/sysincludes.h
+-===================================================================
+---- mtools-4.0.18.orig/sysincludes.h
+-+++ mtools-4.0.18/sysincludes.h
+-@@ -101,7 +101,7 @@ typedef void *caddr_t;
++---
++ sysincludes.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sysincludes.h b/sysincludes.h
++index e16ab45..8d285d4 100644
++--- a/sysincludes.h
+++++ b/sysincludes.h
++@@ -98,7 +98,7 @@ typedef void *caddr_t;
+  #if defined __GNUC__ && defined __STDC__
+  /* gcc -traditional doesn't have PACKED, UNUSED and NORETURN */
+  # define PACKED __attribute__ ((packed))
+diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+index 57be935487..1bed4e7614 100644
+--- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
++++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+@@ -1,4 +1,4 @@
+-From 2ef9b371a5cc44e730143e694d71665831fac216 Mon Sep 17 00:00:00 2001
++From 0953b744b0257e26c170fb6d6b4c0f6210e4ae43 Mon Sep 17 00:00:00 2001
+ From: Ed Bartosh <ed.bartosh@linux.intel.com>
+ Date: Tue, 13 Jun 2017 14:55:52 +0300
+ Subject: [PATCH] Disabled reading host configs.
+@@ -6,16 +6,15 @@ Subject: [PATCH] Disabled reading host configs.
+ Upstream-Status: Inappropriate [native]
+ 
+ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+-
+ ---
+  config.c | 8 --------
+  1 file changed, 8 deletions(-)
+ 
+ diff --git a/config.c b/config.c
+-index 2f6a297..3181ed7 100644
++index 358282b..8ebafb4 100644
+ --- a/config.c
+ +++ b/config.c
+-@@ -844,14 +844,6 @@ void read_config(void)
++@@ -868,14 +868,6 @@ void read_config(void)
+  	memcpy(devices, const_devices,
+  	       nr_const_devices*sizeof(struct device));
+  
+diff --git a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
+index 6ae91d6cb9..3771f94c59 100644
+--- a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
++++ b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
+@@ -1,17 +1,16 @@
+-From 3cf56b36db78679273f61ba78fbbf7f3fab52f68 Mon Sep 17 00:00:00 2001
++From 184b76e9742ff89f90a066edb0f46b4a150351cf Mon Sep 17 00:00:00 2001
+ From: Marcin Juszkiewicz <hrw@openedhand.com>
+ Date: Fri, 8 Jun 2007 08:35:12 +0000
+ Subject: [PATCH] mtools: imported from OE
+ 
+ Upstream-Status: Inappropriate [licensing]
+-
+ ---
+  Makefile.in  | 11 ++++++-----
+  configure.in | 27 +++++++++++++++++++++++++++
+  2 files changed, 33 insertions(+), 5 deletions(-)
+ 
+ diff --git a/Makefile.in b/Makefile.in
+-index 616d59f..85b5b1d 100644
++index 5db50d7..92ad461 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+ @@ -26,10 +26,11 @@ USERCFLAGS =
+@@ -30,7 +29,7 @@ index 616d59f..85b5b1d 100644
+  
+  
+  # do not edit below this line
+-@@ -199,7 +200,7 @@ dvi: mtools.dvi
++@@ -185,7 +186,7 @@ dvi: mtools.dvi
+  
+  ps: mtools.ps
+  %.ps: %.dvi
+@@ -40,10 +39,10 @@ index 616d59f..85b5b1d 100644
+  pdf: mtools.pdf
+  %.pdf: %.texi sysconfdir.texi
+ diff --git a/configure.in b/configure.in
+-index 5ff75c1..c0f7440 100644
++index 1de916e..fd6cb08 100644
+ --- a/configure.in
+ +++ b/configure.in
+-@@ -35,6 +35,33 @@ AC_CANONICAL_SYSTEM
++@@ -32,6 +32,33 @@ AC_CANONICAL_TARGET
+  AC_C_CONST
+  AC_C_INLINE
+  
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.43.bb b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
+similarity index 93%
+rename from meta/recipes-devtools/mtools/mtools_4.0.43.bb
+rename to meta/recipes-devtools/mtools/mtools_4.0.44.bb
+index 859103979e..d8dd671be2 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.43.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.44.bb
+@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-SRC_URI[sha256sum] = "541e179665dc4e272b9602f2074243591a157da89cc47064da8c5829dbd2b339"
++SRC_URI[sha256sum] = "37dc4df022533c3d4b2ec1c78973c27c7e8b585374c2d46ab64c6a3db31eddb8"
+ 
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
 -- 
 2.43.0
 
