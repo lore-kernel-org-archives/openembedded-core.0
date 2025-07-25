@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC5FC87FD6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BD11C87FCF
 	for <webhook@archiver.kernel.org>; Fri, 25 Jul 2025 18:44:57 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.26649.1753469097031686536
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.26644.1753469090114682031
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Jul 2025 11:44:57 -0700
+ Fri, 25 Jul 2025 11:44:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZJJZKWnv;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-74ad4533ac5so1916894b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 11:44:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=m2zWn7jk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-235e1d710d8so33029445ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 11:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753469096; x=1754073896; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753469089; x=1754073889; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3z9SldFNgT4ZI6OK1LZ29TPpvD4+RmFlODYbOy5Yt4w=;
-        b=ZJJZKWnvKjN4P5vEnQae9tu4eX/QBcz6yUqPBG/Xju8cVNBlfbPH5jBrK2i+HGQGPF
-         ghDqULwxqGqtA5Br0OROBzqvVF/9VXxFcKm7UYsqVM9ckQfjWvUy1pIpT/OpYCxSOFG9
-         gC8GpqwkIOEw/yqFAqqSprgm+WckskCoyb5o9/PooZQhafhVJ3xlsEENqDGk+9c4KFXC
-         PPnH5FEit28Tju26FMSMZeTEb9EPl+6sY8hqOnjff+IptqewaN38y+ocZGUqXTgGDHyA
-         IHuyiAhodxUoFu0pnLPriRCr+4vIfTzXEFT6TfZ3Hg4PGGCiofFvlOu1xSeCBybqSuZc
-         bgVQ==
+        bh=ZgBkUfMLvm31afbkioodXPjmmJcvaL1EnndIfpbKyOo=;
+        b=m2zWn7jk1wmHenyTGdHBl3WykrTuTnnrZIEnaYvPrpQFoXXs9Gw6Z1LsLQQ1sQGODW
+         f3ROMWdyPlRm9YlgraO+/1dTkRhEnWxEyhupF777ogu8+bja0FGzLNRjB3cJJfeWhEdq
+         bF1nbHGXxBVJa7C3eXkkd//7MI5hu/etdP4rrufIs0THOooSlazpFk288L0yzRWBhcC0
+         cde1NGszhQlVr8LZR2fmHI78jqBWmeCriE6zjehR5HUbOuXwIGlMv27uULWbWUeXlRGH
+         TcelIOO1DJS/ez8igPilD7+h5iiBW7nFBTepQt7cBlf2C7VidKy43MM58PGmxOled8qu
+         ltNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753469096; x=1754073896;
+        d=1e100.net; s=20230601; t=1753469089; x=1754073889;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3z9SldFNgT4ZI6OK1LZ29TPpvD4+RmFlODYbOy5Yt4w=;
-        b=w0T6Pt3zwYXQGBIZOph7zVnNFGVYAFYS0clZI1hAuThZpZgKfBqydD4ncz7AHDiCfX
-         VOP00eAWA5iAFgJGt4SapPg9P+z6Rdfw2ZorTAomk07nVX9HcuF31qBDrNZWCS7oKkBH
-         zRWUx2MbVC0hmycuUlgXQJXDzV59ulZHRT8Uf4HDDeTDU+TqHbGnGNpJHFx1JL6RSAe5
-         BFjaMt4KKtXU6XfKKJk+0+K1OJsBkBGgnj2Fgmb0wHOTBwjRwIZVDyoPrK9JRfr1vki2
-         RNSGWK5LhexFFGmMYVfc+sJqIVnreX8vtdU3hDuzrKG5jAiME2aFFeaMCf40+aYcqUNe
-         vVgw==
-X-Gm-Message-State: AOJu0YzqHKbHhFCiHVksCfiGmRt1Ng0aP2zb1ZfV7dP8wFqFyRHgSU6r
-	549eZITab8GPOjaSUN8OP/P4NKcYA7/Lo1/KtWG9go8zz50snRBNmnwSZKgHqVXxHkk976fIhHF
-	rCiYI
-X-Gm-Gg: ASbGncuScRTonX1mwhzwxehVl3If33p2PS/XWN+CZGu8T0Y4AD8jrN71aMZWJr6gzBw
-	adTM0wMS082SCbFuSp44ifPcuv1Eit7RxLsi4aS6NfEtqJwZGNTrvUdvTKeG+APhIheudKrBHLc
-	JuYtsr0QRv+jvo4CYmOjjtTQIQnIwlcFZK6xUmEUuj3djD36gr0wdbtrVqc798oNnYptNaTX18p
-	AJ+1eAVU6H3GPjIyBQh9wK3dO8uSpyDDKZrTZEzsF2i1D8omH2/xX2Xce1YCFl3wiRz6aGA6n9j
-	M5fOk3d2YUPL53Tgm/+sdBpO7FSFJUngXV0tjYl7OobSJA3yx11JnONStkjhY+K+ry/+CT9dt90
-	IojpExrauWs4vbNqnnQW89nn9
-X-Google-Smtp-Source: AGHT+IFaSj+bI0eTqNIVN37gx3fEdAmMfGZ+vnb+BQ30RB3cl5rKmrsbkcY/CLDrkMw7C3pDxMlclQ==
-X-Received: by 2002:a17:903:2ac4:b0:232:609:86c9 with SMTP id d9443c01a7336-23fa5ceb006mr78184165ad.9.1753469096175;
-        Fri, 25 Jul 2025 11:44:56 -0700 (PDT)
+        bh=ZgBkUfMLvm31afbkioodXPjmmJcvaL1EnndIfpbKyOo=;
+        b=xFdSYPdpYsgCoR4xjE+3neTEbtyv9eBJOcBdAeibptyyLuhAwmeDIs2AYM0SQZnWpO
+         c4ltLbUdlX8eIbdhnQXFVdkxfZoYayKesLIQ/sSPajTZ5b7gOkLrBq93mMv6tIDhaoXK
+         TN/iuA9dNdw7NpZhzKORx2Rufhoq/YK5mgKjewg1/IUqJwfAQyh8EUo1wMlC+1Ou+5J1
+         0wmWWMsVb/FgEoAOVt6EozYYqULtx//nqI1H2yAKeeUc+8y0jMTVl502A8vwT+RcI00z
+         qREwfmvV7MzpXq5W35fRpmycU1Aj9rAmW1/Mt44AdLAhOm9D+gv8vbI9J8jigTMKdeI5
+         XzdQ==
+X-Gm-Message-State: AOJu0YwrrAA/ortu0HHBtvR2OFGOyKf7tcrf8U55FrBf0hc5B/PYNdXW
+	o6sh33xQ/SeJBVTfSYXFyZ1fC5HRnUprf9ZHfbEGFuTSRqmsAz1sucjcCYUKHYEflQkSE1XoAE9
+	lUmwP
+X-Gm-Gg: ASbGncuKdGKs/kSTsJxKV2tNXSy5l5j1qz7nNdZC5RbCJU3kxwJGGasjqQ/uPct4MF1
+	2Su7dfoxpxrDeLBP1ftc+GjIqNDGF3kumclwr/3hZG6abFmpvd4zgZFAiX01hbiVAXaPZRycJiM
+	qgs/y9AK2+IJISU8p6iQOFA92t6h3Gy0kjbKSi4UeEofUKtH82NbUZlzRORL7cVDfZsezlQvL5/
+	P2aJa7OUdl20jUpu8Vri4P742wifhZaEHrTCGMgnzYvWdOzKL1duA/h8DNbyrIcKj/Kbnzo3fn9
+	zbquT7KvIyO5wvHzkyiFYckj11iW3ieWJc2PGwkrmvwPgoKFK9koHXhBEjdTM7BPf8eg02vzXP7
+	agCjGMqx2i1fjkQ==
+X-Google-Smtp-Source: AGHT+IFh+A0GHwKRXGA9wfzJY99t5uxg0MlWncIwSYhJZdspX5Ix75xfJYPwzQwy+4xGZs8RkIMtjQ==
+X-Received: by 2002:a17:902:f708:b0:234:c5c1:9b84 with SMTP id d9443c01a7336-23fb3165b4emr35243895ad.37.1753469088490;
+        Fri, 25 Jul 2025 11:44:48 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:b695:a542:567c:1988])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe537f8asm2451225ad.167.2025.07.25.11.44.55
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe537f8asm2451225ad.167.2025.07.25.11.44.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jul 2025 11:44:55 -0700 (PDT)
+        Fri, 25 Jul 2025 11:44:47 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap V2 13/16] mtools: upgrade 4.0.45 -> 4.0.46
-Date: Fri, 25 Jul 2025 11:44:27 -0700
-Message-ID: <daab05bc863611c83223a383dd83ff2134cae6f8.1753468892.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap V2 07/16] openssl: patch CVE-2025-27587
+Date: Fri, 25 Jul 2025 11:44:21 -0700
+Message-ID: <57c04a32997c1b045121aff045f3ffaa7bb0b5f5.1753468892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753468892.git.steve@sakoman.com>
 References: <cover.1753468892.git.steve@sakoman.com>
@@ -68,117 +68,2097 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 18:44:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220929
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220923
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-clang_UNUSED.patch
-mtools-makeinfo.patch
-refreshed for 4.0.46
+Pick commits for Minerva fix between 3.2.4 and 3.2.5 release.
 
-Changelog:
-=============
-- iconv buffer overflow fixes
-- removed references to mread and mwrite (obsolete subcommands
-from mcopy)
-- documented mdoctorfat, and addressed 2 bugs/oversights
-- removed references to obsolete mread and mwrite
-- portability fixes (dietlibc and MacOS X) & simplification
+Update to 3.2.5 is blocked due to problem with python ptest errors, so
+use patch instead of upgrade for now.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-(From OE-Core rev: f5a5b2372669d8be4ae3f19ed6892264ea3999d0)
-
-Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../mtools/mtools/clang_UNUSED.patch             |  6 +++---
- .../mtools/mtools/mtools-makeinfo.patch          | 16 ++++++++--------
- .../{mtools_4.0.45.bb => mtools_4.0.46.bb}       |  2 +-
- 3 files changed, 12 insertions(+), 12 deletions(-)
- rename meta/recipes-devtools/mtools/{mtools_4.0.45.bb => mtools_4.0.46.bb} (93%)
+ .../openssl/openssl/CVE-2025-27587-1.patch    | 1918 +++++++++++++++++
+ .../openssl/openssl/CVE-2025-27587-2.patch    |  129 ++
+ .../openssl/openssl_3.2.4.bb                  |    2 +
+ 3 files changed, 2049 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-1.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-2.patch
 
-diff --git a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-index 20a6d1b8b3..1420d84b86 100644
---- a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-+++ b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-@@ -1,4 +1,4 @@
--From c72d075cb0c3a65ef17621c7ed1ffac35ca3b68e Mon Sep 17 00:00:00 2001
-+From 6654edfb1eee416b58bcb6490658f80071a353c2 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 19 Sep 2018 11:55:41 -0700
- Subject: [PATCH] Undefine UNUSED macros with clang
-@@ -10,10 +10,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-1.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-1.patch
+new file mode 100644
+index 0000000000..eb3fc52dca
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-1.patch
+@@ -0,0 +1,1918 @@
++From 14ac0f0e4e1f36793d09b41ffd5e482575289ab2 Mon Sep 17 00:00:00 2001
++From: Danny Tsen <dtsen@us.ibm.com>
++Date: Tue, 11 Feb 2025 13:48:01 -0500
++Subject: [PATCH] Fix Minerva timing side-channel signal for P-384 curve on PPC
++
++1. bn_ppc.c: Used bn_mul_mont_int() instead of bn_mul_mont_300_fixed_n6()
++   for Montgomery multiplication.
++2. ecp_nistp384-ppc64.pl:
++   - Re-wrote p384_felem_mul and p384_felem_square for easier maintenance with
++     minumum perl wrapper.
++   - Implemented p384_felem_reduce, p384_felem_mul_reduce and p384_felem_square_reduce.
++   - Implemented p384_felem_diff64, felem_diff_128_64 and felem_diff128 in assembly.
++3. ecp_nistp384.c:
++   - Added wrapper function for p384_felem_mul_reduce and p384_felem_square_reduce.
++
++Signed-off-by: Danny Tsen <dtsen@us.ibm.com>
++
++Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/26709)
++
++(cherry picked from commit 85cabd94958303859b1551364a609d4ff40b67a5)
++
++CVE: CVE-2025-27587
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/14ac0f0e4e1f36793d09b41ffd5e482575289ab2]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ crypto/bn/bn_ppc.c                  |    3 +
++ crypto/ec/asm/ecp_nistp384-ppc64.pl | 1724 +++++++++++++++++++++++----
++ crypto/ec/ecp_nistp384.c            |   28 +-
++ 3 files changed, 1504 insertions(+), 251 deletions(-)
++
++diff --git a/crypto/bn/bn_ppc.c b/crypto/bn/bn_ppc.c
++index 1e9421bee2..29293bad55 100644
++--- a/crypto/bn/bn_ppc.c
+++++ b/crypto/bn/bn_ppc.c
++@@ -41,12 +41,15 @@ int bn_mul_mont(BN_ULONG *rp, const BN_ULONG *ap, const BN_ULONG *bp,
++      */
++ 
++ #if defined(_ARCH_PPC64) && !defined(__ILP32__)
+++    /* Minerva side-channel fix danny */
+++# if defined(USE_FIXED_N6)
++     if (num == 6) {
++         if (OPENSSL_ppccap_P & PPC_MADD300)
++             return bn_mul_mont_300_fixed_n6(rp, ap, bp, np, n0, num);
++         else
++             return bn_mul_mont_fixed_n6(rp, ap, bp, np, n0, num);
++     }
+++# endif
++ #endif
++ 
++     return bn_mul_mont_int(rp, ap, bp, np, n0, num);
++diff --git a/crypto/ec/asm/ecp_nistp384-ppc64.pl b/crypto/ec/asm/ecp_nistp384-ppc64.pl
++index 28f4168e52..b663bddfc6 100755
++--- a/crypto/ec/asm/ecp_nistp384-ppc64.pl
+++++ b/crypto/ec/asm/ecp_nistp384-ppc64.pl
++@@ -7,13 +7,15 @@
++ # https://www.openssl.org/source/license.html
++ #
++ # ====================================================================
++-# Written by Rohan McLure <rmclure@linux.ibm.com> for the OpenSSL
++-# project.
+++# Written by Danny Tsen <dtsen@us.ibm.com> # for the OpenSSL project.
+++#
+++# Copyright 2025- IBM Corp.
++ # ====================================================================
++ #
++-# p384 lower-level primitives for PPC64 using vector instructions.
+++# p384 lower-level primitives for PPC64.
++ #
++ 
+++
++ use strict;
++ use warnings;
++ 
++@@ -21,7 +23,7 @@ my $flavour = shift;
++ my $output = "";
++ while (($output=shift) && ($output!~/\w[\w\-]*\.\w+$/)) {}
++ if (!$output) {
++-    $output = "-";
+++        $output = "-";
++ }
++ 
++ my ($xlate, $dir);
++@@ -35,271 +37,1495 @@ open OUT,"| \"$^X\" $xlate $flavour $output";
++ 
++ my $code = "";
++ 
++-my ($sp, $outp, $savelr, $savesp) = ("r1", "r3", "r10", "r12");
++-
++-my $vzero = "v32";
++-
++-sub startproc($)
++-{
++-    my ($name) = @_;
++-
++-    $code.=<<___;
++-    .globl ${name}
++-    .align 5
++-${name}:
++-
++-___
++-}
++-
++-sub endproc($)
++-{
++-    my ($name) = @_;
++-
++-    $code.=<<___;
++-    blr
++-        .size ${name},.-${name}
++-
++-___
++-}
++-
++-sub load_vrs($$)
++-{
++-    my ($pointer, $reg_list) = @_;
++-
++-    for (my $i = 0; $i <= 6; $i++) {
++-        my $offset = $i * 8;
++-        $code.=<<___;
++-    lxsd        $reg_list->[$i],$offset($pointer)
++-___
++-    }
++-
++-    $code.=<<___;
++-
++-___
++-}
++-
++-sub store_vrs($$)
++-{
++-    my ($pointer, $reg_list) = @_;
++-
++-    for (my $i = 0; $i <= 12; $i++) {
++-        my $offset = $i * 16;
++-        $code.=<<___;
++-    stxv        $reg_list->[$i],$offset($pointer)
++-___
++-    }
++-
++-    $code.=<<___;
++-
++-___
++-}
++-
++ $code.=<<___;
++-.machine    "any"
+++.machine "any"
++ .text
++ 
++-___
+++.globl  p384_felem_mul
+++.type   p384_felem_mul,\@function
+++.align	4
+++p384_felem_mul:
++ 
++-{
++-    # mul/square common
++-    my ($t1, $t2, $t3, $t4) = ("v33", "v34", "v42", "v43");
++-    my ($zero, $one) = ("r8", "r9");
++-    my $out = "v51";
+++	stdu	1, -176(1)
+++	mflr	0
+++	std	14, 56(1)
+++	std	15, 64(1)
+++	std	16, 72(1)
+++	std	17, 80(1)
+++	std	18, 88(1)
+++	std	19, 96(1)
+++	std	20, 104(1)
+++	std	21, 112(1)
+++	std	22, 120(1)
++ 
++-    {
++-        #
++-        # p384_felem_mul
++-        #
+++	bl	_p384_felem_mul_core
++ 
++-        my ($in1p, $in2p) = ("r4", "r5");
++-        my @in1 = map("v$_",(44..50));
++-        my @in2 = map("v$_",(35..41));
+++	mtlr	0
+++	ld	14, 56(1)
+++	ld	15, 64(1)
+++	ld	16, 72(1)
+++	ld	17, 80(1)
+++	ld	18, 88(1)
+++	ld	19, 96(1)
+++	ld	20, 104(1)
+++	ld	21, 112(1)
+++	ld	22, 120(1)
+++	addi	1, 1, 176
+++	blr
+++.size   p384_felem_mul,.-p384_felem_mul
++ 
++-        startproc("p384_felem_mul");
+++.globl  p384_felem_square
+++.type   p384_felem_square,\@function
+++.align	4
+++p384_felem_square:
++ 
++-        $code.=<<___;
++-    vspltisw    $vzero,0
+++	stdu	1, -176(1)
+++	mflr	0
+++	std	14, 56(1)
+++	std	15, 64(1)
+++	std	16, 72(1)
+++	std	17, 80(1)
++ 
++-___
+++	bl	_p384_felem_square_core
++ 
++-        load_vrs($in1p, \@in1);
++-        load_vrs($in2p, \@in2);
++-
++-        $code.=<<___;
++-    vmsumudm    $out,$in1[0],$in2[0],$vzero
++-    stxv        $out,0($outp)
++-
++-    xxpermdi    $t1,$in1[0],$in1[1],0b00
++-    xxpermdi    $t2,$in2[1],$in2[0],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    stxv        $out,16($outp)
++-
++-    xxpermdi    $t2,$in2[2],$in2[1],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    vmsumudm    $out,$in1[2],$in2[0],$out
++-    stxv        $out,32($outp)
++-
++-    xxpermdi    $t2,$in2[1],$in2[0],0b00
++-    xxpermdi    $t3,$in1[2],$in1[3],0b00
++-    xxpermdi    $t4,$in2[3],$in2[2],0b00
++-    vmsumudm    $out,$t1,$t4,$vzero
++-    vmsumudm    $out,$t3,$t2,$out
++-    stxv        $out,48($outp)
++-
++-    xxpermdi    $t2,$in2[4],$in2[3],0b00
++-    xxpermdi    $t4,$in2[2],$in2[1],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    vmsumudm    $out,$t3,$t4,$out
++-    vmsumudm    $out,$in1[4],$in2[0],$out
++-    stxv        $out,64($outp)
++-
++-    xxpermdi    $t2,$in2[5],$in2[4],0b00
++-    xxpermdi    $t4,$in2[3],$in2[2],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    vmsumudm    $out,$t3,$t4,$out
++-    xxpermdi    $t4,$in2[1],$in2[0],0b00
++-    xxpermdi    $t1,$in1[4],$in1[5],0b00
++-    vmsumudm    $out,$t1,$t4,$out
++-    stxv        $out,80($outp)
++-
++-    xxpermdi    $t1,$in1[0],$in1[1],0b00
++-    xxpermdi    $t2,$in2[6],$in2[5],0b00
++-    xxpermdi    $t4,$in2[4],$in2[3],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    vmsumudm    $out,$t3,$t4,$out
++-    xxpermdi    $t2,$in2[2],$in2[1],0b00
++-    xxpermdi    $t1,$in1[4],$in1[5],0b00
++-    vmsumudm    $out,$t1,$t2,$out
++-    vmsumudm    $out,$in1[6],$in2[0],$out
++-    stxv        $out,96($outp)
++-
++-    xxpermdi    $t1,$in1[1],$in1[2],0b00
++-    xxpermdi    $t2,$in2[6],$in2[5],0b00
++-    xxpermdi    $t3,$in1[3],$in1[4],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    vmsumudm    $out,$t3,$t4,$out
++-    xxpermdi    $t3,$in2[2],$in2[1],0b00
++-    xxpermdi    $t1,$in1[5],$in1[6],0b00
++-    vmsumudm    $out,$t1,$t3,$out
++-    stxv        $out,112($outp)
++-
++-    xxpermdi    $t1,$in1[2],$in1[3],0b00
++-    xxpermdi    $t3,$in1[4],$in1[5],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    vmsumudm    $out,$t3,$t4,$out
++-    vmsumudm    $out,$in1[6],$in2[2],$out
++-    stxv        $out,128($outp)
++-
++-    xxpermdi    $t1,$in1[3],$in1[4],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    xxpermdi    $t1,$in1[5],$in1[6],0b00
++-    vmsumudm    $out,$t1,$t4,$out
++-    stxv        $out,144($outp)
++-
++-    vmsumudm    $out,$t3,$t2,$vzero
++-    vmsumudm    $out,$in1[6],$in2[4],$out
++-    stxv        $out,160($outp)
++-
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    stxv        $out,176($outp)
++-
++-    vmsumudm    $out,$in1[6],$in2[6],$vzero
++-    stxv        $out,192($outp)
++-___
+++	mtlr	0
+++	ld	14, 56(1)
+++	ld	15, 64(1)
+++	ld	16, 72(1)
+++	ld	17, 80(1)
+++	addi	1, 1, 176
+++	blr
+++.size   p384_felem_square,.-p384_felem_square
++ 
++-        endproc("p384_felem_mul");
++-    }
+++#
+++# Felem mul core function -
+++# r3, r4 and r5 need to pre-loaded.
+++#
+++.type   _p384_felem_mul_core,\@function
+++.align	4
+++_p384_felem_mul_core:
++ 
++-    {
++-        #
++-        # p384_felem_square
++-        #
+++	ld	6,0(4)
+++	ld	14,0(5)
+++	ld	7,8(4)
+++	ld	15,8(5)
+++	ld	8,16(4)
+++	ld	16,16(5)
+++	ld	9,24(4)
+++	ld	17,24(5)
+++	ld	10,32(4)
+++	ld	18,32(5)
+++	ld	11,40(4)
+++	ld	19,40(5)
+++	ld	12,48(4)
+++	ld	20,48(5)
++ 
++-        my ($inp) = ("r4");
++-        my @in = map("v$_",(44..50));
++-        my @inx2 = map("v$_",(35..41));
+++	# out0
+++	mulld	21, 14, 6
+++	mulhdu	22, 14, 6
+++	std	21, 0(3)
+++	std	22, 8(3)
++ 
++-        startproc("p384_felem_square");
+++	vxor	0, 0, 0
++ 
++-        $code.=<<___;
++-    vspltisw    $vzero,0
+++	# out1
+++	mtvsrdd	32+13, 14, 6
+++	mtvsrdd	32+14, 7, 15
+++	vmsumudm 1, 13, 14, 0
++ 
++-___
+++	# out2
+++	mtvsrdd	32+15, 15, 6
+++	mtvsrdd	32+16, 7, 16
+++	mtvsrdd	32+17, 0, 8
+++	mtvsrdd	32+18, 0, 14
+++	vmsumudm 19, 15, 16, 0
+++	vmsumudm 2, 17, 18, 19
++ 
++-        load_vrs($inp, \@in);
+++	# out3
+++	mtvsrdd	32+13, 16, 6
+++	mtvsrdd	32+14, 7, 17
+++	mtvsrdd	32+15, 14, 8
+++	mtvsrdd	32+16, 9, 15
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 3, 15, 16, 19
++ 
++-        $code.=<<___;
++-    li        $zero,0
++-    li        $one,1
++-    mtvsrdd        $t1,$one,$zero
++-___
+++	# out4
+++	mtvsrdd	32+13, 17, 6
+++	mtvsrdd	32+14, 7, 18
+++	mtvsrdd	32+15, 15, 8
+++	mtvsrdd	32+16, 9, 16
+++	mtvsrdd	32+17, 0, 10
+++	mtvsrdd	32+18, 0, 14
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 4, 15, 16, 19
+++	vmsumudm 4, 17, 18, 4
++ 
++-        for (my $i = 0; $i <= 6; $i++) {
++-            $code.=<<___;
++-    vsld        $inx2[$i],$in[$i],$t1
++-___
++-        }
++-
++-        $code.=<<___;
++-    vmsumudm    $out,$in[0],$in[0],$vzero
++-    stxv        $out,0($outp)
++-
++-    vmsumudm    $out,$in[0],$inx2[1],$vzero
++-    stxv        $out,16($outp)
++-
++-    vmsumudm    $out,$in[0],$inx2[2],$vzero
++-    vmsumudm    $out,$in[1],$in[1],$out
++-    stxv        $out,32($outp)
++-
++-    xxpermdi    $t1,$in[0],$in[1],0b00
++-    xxpermdi    $t2,$inx2[3],$inx2[2],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    stxv        $out,48($outp)
++-
++-    xxpermdi    $t4,$inx2[4],$inx2[3],0b00
++-    vmsumudm    $out,$t1,$t4,$vzero
++-    vmsumudm    $out,$in[2],$in[2],$out
++-    stxv        $out,64($outp)
++-
++-    xxpermdi    $t2,$inx2[5],$inx2[4],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    vmsumudm    $out,$in[2],$inx2[3],$out
++-    stxv        $out,80($outp)
++-
++-    xxpermdi    $t2,$inx2[6],$inx2[5],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    vmsumudm    $out,$in[2],$inx2[4],$out
++-    vmsumudm    $out,$in[3],$in[3],$out
++-    stxv        $out,96($outp)
++-
++-    xxpermdi    $t3,$in[1],$in[2],0b00
++-    vmsumudm    $out,$t3,$t2,$vzero
++-    vmsumudm    $out,$in[3],$inx2[4],$out
++-    stxv        $out,112($outp)
++-
++-    xxpermdi    $t1,$in[2],$in[3],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    vmsumudm    $out,$in[4],$in[4],$out
++-    stxv        $out,128($outp)
++-
++-    xxpermdi    $t1,$in[3],$in[4],0b00
++-    vmsumudm    $out,$t1,$t2,$vzero
++-    stxv        $out,144($outp)
++-
++-    vmsumudm    $out,$in[4],$inx2[6],$vzero
++-    vmsumudm    $out,$in[5],$in[5],$out
++-    stxv        $out,160($outp)
++-
++-    vmsumudm    $out,$in[5],$inx2[6],$vzero
++-    stxv        $out,176($outp)
++-
++-    vmsumudm    $out,$in[6],$in[6],$vzero
++-    stxv        $out,192($outp)
++-___
+++	# out5
+++	mtvsrdd	32+13, 18, 6
+++	mtvsrdd	32+14, 7, 19
+++	mtvsrdd	32+15, 16, 8
+++	mtvsrdd	32+16, 9, 17
+++	mtvsrdd	32+17, 14, 10
+++	mtvsrdd	32+18, 11, 15
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 5, 15, 16, 19
+++	vmsumudm 5, 17, 18, 5
+++
+++	stxv	32+1, 16(3)
+++	stxv	32+2, 32(3)
+++	stxv	32+3, 48(3)
+++	stxv	32+4, 64(3)
+++	stxv	32+5, 80(3)
+++
+++	# out6
+++	mtvsrdd	32+13, 19, 6
+++	mtvsrdd	32+14, 7, 20
+++	mtvsrdd	32+15, 17, 8
+++	mtvsrdd	32+16, 9, 18
+++	mtvsrdd	32+17, 15, 10
+++	mtvsrdd	32+18, 11, 16
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 6, 15, 16, 19
+++	mtvsrdd	32+13, 0, 12
+++	mtvsrdd	32+14, 0, 14
+++	vmsumudm 19, 17, 18, 6
+++	vmsumudm 6, 13, 14, 19
+++
+++	# out7
+++	mtvsrdd	32+13, 19, 7
+++	mtvsrdd	32+14, 8, 20
+++	mtvsrdd	32+15, 17, 9
+++	mtvsrdd	32+16, 10, 18
+++	mtvsrdd	32+17, 15, 11
+++	mtvsrdd	32+18, 12, 16
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 7, 15, 16, 19
+++	vmsumudm 7, 17, 18, 7
+++
+++	# out8
+++	mtvsrdd	32+13, 19, 8
+++	mtvsrdd	32+14, 9, 20
+++	mtvsrdd	32+15, 17, 10
+++	mtvsrdd	32+16, 11, 18
+++	mtvsrdd	32+17, 0, 12
+++	mtvsrdd	32+18, 0, 16
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 8, 15, 16, 19
+++	vmsumudm 8, 17, 18, 8
+++
+++	# out9
+++	mtvsrdd	32+13, 19, 9
+++	mtvsrdd	32+14, 10, 20
+++	mtvsrdd	32+15, 17, 11
+++	mtvsrdd	32+16, 12, 18
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 9, 15, 16, 19
+++
+++	# out10
+++	mtvsrdd	32+13, 19, 10
+++	mtvsrdd	32+14, 11, 20
+++	mtvsrdd	32+15, 0, 12
+++	mtvsrdd	32+16, 0, 18
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 10, 15, 16, 19
+++
+++	# out11
+++	mtvsrdd	32+17, 19, 11
+++	mtvsrdd	32+18, 12, 20
+++	vmsumudm 11, 17, 18, 0
+++
+++	stxv	32+6, 96(3)
+++	stxv	32+7, 112(3)
+++	stxv	32+8, 128(3)
+++	stxv	32+9, 144(3)
+++	stxv	32+10, 160(3)
+++	stxv	32+11, 176(3)
+++
+++	# out12
+++	mulld	21, 20, 12
+++	mulhdu	22, 20, 12	# out12
+++
+++	std	21, 192(3)
+++	std	22, 200(3)
+++
+++	blr
+++.size   _p384_felem_mul_core,.-_p384_felem_mul_core
+++
+++#
+++# Felem square core function -
+++# r3 and r4 need to pre-loaded.
+++#
+++.type   _p384_felem_square_core,\@function
+++.align	4
+++_p384_felem_square_core:
+++
+++	ld	6, 0(4)
+++	ld	7, 8(4)
+++	ld	8, 16(4)
+++	ld	9, 24(4)
+++	ld	10, 32(4)
+++	ld	11, 40(4)
+++	ld	12, 48(4)
+++
+++	vxor	0, 0, 0
+++
+++	# out0
+++	mulld	14, 6, 6
+++	mulhdu	15, 6, 6
+++	std	14, 0(3)
+++	std	15, 8(3)
+++
+++	# out1
+++	add	14, 6, 6
+++	mtvsrdd	32+13, 0, 14
+++	mtvsrdd	32+14, 0, 7
+++	vmsumudm 1, 13, 14, 0
+++
+++	# out2
+++	mtvsrdd	32+15, 7, 14
+++	mtvsrdd	32+16, 7, 8
+++	vmsumudm 2, 15, 16, 0
+++
+++	# out3
+++	add	15, 7, 7
+++	mtvsrdd	32+13, 8, 14
+++	mtvsrdd	32+14, 15, 9
+++	vmsumudm 3, 13, 14, 0
+++
+++	# out4
+++	mtvsrdd	32+13, 9, 14
+++	mtvsrdd	32+14, 15, 10
+++	mtvsrdd	32+15, 0, 8
+++	vmsumudm 4, 13, 14, 0
+++	vmsumudm 4, 15, 15, 4
+++
+++	# out5
+++	mtvsrdd	32+13, 10, 14
+++	mtvsrdd	32+14, 15, 11
+++	add	16, 8, 8
+++	mtvsrdd	32+15, 0, 16
+++	mtvsrdd	32+16, 0, 9
+++	vmsumudm 5, 13, 14, 0
+++	vmsumudm 5, 15, 16, 5
+++
+++	stxv	32+1, 16(3)
+++	stxv	32+2, 32(3)
+++	stxv	32+3, 48(3)
+++	stxv	32+4, 64(3)
+++
+++	# out6
+++	mtvsrdd	32+13, 11, 14
+++	mtvsrdd	32+14, 15, 12
+++	mtvsrdd	32+15, 9, 16
+++	mtvsrdd	32+16, 9, 10
+++	stxv	32+5, 80(3)
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 6, 15, 16, 19
+++
+++	# out7
+++	add	17, 9, 9
+++	mtvsrdd	32+13, 11, 15
+++	mtvsrdd	32+14, 16, 12
+++	mtvsrdd	32+15, 0, 17
+++	mtvsrdd	32+16, 0, 10
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 7, 15, 16, 19
+++
+++	# out8
+++	mtvsrdd	32+13, 11, 16
+++	mtvsrdd	32+14, 17, 12
+++	mtvsrdd	32+15, 0, 10
+++	vmsumudm 19, 13, 14, 0
+++	vmsumudm 8, 15, 15, 19
+++
+++	# out9
+++	add	14, 10, 10
+++	mtvsrdd	32+13, 11, 17
+++	mtvsrdd	32+14, 14, 12
+++	vmsumudm 9, 13, 14, 0
+++
+++	# out10
+++	mtvsrdd	32+13, 11, 14
+++	mtvsrdd	32+14, 11, 12
+++	vmsumudm 10, 13, 14, 0
+++
+++	stxv	32+6, 96(3)
+++	stxv	32+7, 112(3)
+++
+++	# out11
+++	#add	14, 11, 11
+++	#mtvsrdd	32+13, 0, 14
+++	#mtvsrdd	32+14, 0, 12
+++	#vmsumudm 11, 13, 14, 0
+++
+++	mulld	6, 12, 11
+++	mulhdu	7, 12, 11
+++	addc	8, 6, 6
+++	adde	9, 7, 7
+++
+++	stxv	32+8, 128(3)
+++	stxv	32+9, 144(3)
+++	stxv	32+10, 160(3)
+++	#stxv	32+11, 176(3)
+++
+++	# out12
+++	mulld	14, 12, 12
+++	mulhdu	15, 12, 12
+++
+++	std	8, 176(3)
+++	std	9, 184(3)
+++	std	14, 192(3)
+++	std	15, 200(3)
+++
+++	blr
+++.size   _p384_felem_square_core,.-_p384_felem_square_core
+++
+++#
+++# widefelem (128 bits) * 8
+++#
+++.macro F128_X_8 _off1 _off2
+++	ld	9,\\_off1(3)
+++	ld	8,\\_off2(3)
+++	srdi	10,9,61
+++	rldimi	10,8,3,0
+++	sldi	9,9,3
+++	std	9,\\_off1(3)
+++	std	10,\\_off2(3)
+++.endm
+++
+++.globl p384_felem128_mul_by_8
+++.type	p384_felem128_mul_by_8, \@function
+++.align 4
+++p384_felem128_mul_by_8:
+++
+++	F128_X_8 0, 8
+++
+++	F128_X_8 16, 24
+++
+++	F128_X_8 32, 40
+++
+++	F128_X_8 48, 56
+++
+++	F128_X_8 64, 72
+++
+++	F128_X_8 80, 88
+++
+++	F128_X_8 96, 104
+++
+++	F128_X_8 112, 120
+++
+++	F128_X_8 128, 136
+++
+++	F128_X_8 144, 152
+++
+++	F128_X_8 160, 168
+++
+++	F128_X_8 176, 184
+++
+++	F128_X_8 192, 200
+++
+++	blr
+++.size	p384_felem128_mul_by_8,.-p384_felem128_mul_by_8
+++
+++#
+++# widefelem (128 bits) * 2
+++#
+++.macro F128_X_2 _off1 _off2
+++	ld	9,\\_off1(3)
+++	ld	8,\\_off2(3)
+++	srdi	10,9,63
+++	rldimi	10,8,1,0
+++	sldi	9,9,1
+++	std	9,\\_off1(3)
+++	std	10,\\_off2(3)
+++.endm
+++
+++.globl p384_felem128_mul_by_2
+++.type	p384_felem128_mul_by_2, \@function
+++.align 4
+++p384_felem128_mul_by_2:
+++
+++	F128_X_2 0, 8
+++
+++	F128_X_2 16, 24
+++
+++	F128_X_2 32, 40
+++
+++	F128_X_2 48, 56
+++
+++	F128_X_2 64, 72
+++
+++	F128_X_2 80, 88
+++
+++	F128_X_2 96, 104
+++
+++	F128_X_2 112, 120
+++
+++	F128_X_2 128, 136
+++
+++	F128_X_2 144, 152
+++
+++	F128_X_2 160, 168
+++
+++	F128_X_2 176, 184
+++
+++	F128_X_2 192, 200
+++
+++	blr
+++.size	p384_felem128_mul_by_2,.-p384_felem128_mul_by_2
+++
+++.globl p384_felem_diff128
+++.type	p384_felem_diff128, \@function
+++.align 4
+++p384_felem_diff128:
+++
+++	addis   5, 2, .LConst_two127\@toc\@ha
+++	addi    5, 5, .LConst_two127\@toc\@l
+++
+++	ld	10, 0(3)
+++	ld	8, 8(3)
+++	li	9, 0
+++	addc	10, 10, 9
+++	li	7, -1
+++	rldicr	7, 7, 0, 0	# two127
+++	adde	8, 8, 7
+++	ld	11, 0(4)
+++	ld	12, 8(4)
+++	subfc	11, 11, 10
+++	subfe	12, 12, 8
+++	std	11, 0(3)	# out0
+++	std	12, 8(3)
+++
+++	# two127m71 = (r10, r9)
+++	ld	8, 16(3)
+++	ld	7, 24(3)
+++	ld	10, 24(5)	# two127m71
+++	addc	8, 8, 9
+++	adde	7, 7, 10
+++	ld	11, 16(4)
+++	ld	12, 24(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 16(3)	# out1
+++	std	12, 24(3)
+++
+++	ld	8, 32(3)
+++	ld	7, 40(3)
+++	addc	8, 8, 9
+++	adde	7, 7, 10
+++	ld	11, 32(4)
+++	ld	12, 40(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 32(3)	# out2
+++	std	12, 40(3)
+++
+++	ld	8, 48(3)
+++	ld	7, 56(3)
+++	addc	8, 8, 9
+++	adde	7, 7, 10
+++	ld	11, 48(4)
+++	ld	12, 56(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 48(3)	# out3
+++	std	12, 56(3)
+++
+++	ld	8, 64(3)
+++	ld	7, 72(3)
+++	addc	8, 8, 9
+++	adde	7, 7, 10
+++	ld	11, 64(4)
+++	ld	12, 72(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 64(3)	# out4
+++	std	12, 72(3)
+++
+++	ld	8, 80(3)
+++	ld	7, 88(3)
+++	addc	8, 8, 9
+++	adde	7, 7, 10
+++	ld	11, 80(4)
+++	ld	12, 88(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 80(3)	# out5
+++	std	12, 88(3)
+++
+++	ld	8, 96(3)
+++	ld	7, 104(3)
+++	ld	6, 40(5)	# two127p111m79m71
+++	addc	8, 8, 9
+++	adde	7, 7, 6
+++	ld	11, 96(4)
+++	ld	12, 104(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 96(3)	# out6
+++	std	12, 104(3)
+++
+++	ld	8, 112(3)
+++	ld	7, 120(3)
+++	ld	6, 56(5)	# two127m119m71
+++	addc	8, 8, 9
+++	adde	7, 7, 6
+++	ld	11, 112(4)
+++	ld	12, 120(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 112(3)	# out7
+++	std	12, 120(3)
+++
+++	ld	8, 128(3)
+++	ld	7, 136(3)
+++	ld	6, 72(5)	# two127m95m71
+++	addc	8, 8, 9
+++	adde	7, 7, 6
+++	ld	11, 128(4)
+++	ld	12, 136(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 128(3)	# out8
+++	std	12, 136(3)
+++
+++	ld	8, 144(3)
+++	ld	7, 152(3)
+++	addc	8, 8, 9
+++	adde	7, 7, 10
+++	ld	11, 144(4)
+++	ld	12, 152(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 144(3)	# out9
+++	std	12, 152(3)
+++
+++	ld	8, 160(3)
+++	ld	7, 168(3)
+++	addc	8, 8, 9
+++	adde	7, 7, 10
+++	ld	11, 160(4)
+++	ld	12, 168(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 160(3)	# out10
+++	std	12, 168(3)
+++
+++	ld	8, 176(3)
+++	ld	7, 184(3)
+++	addc	8, 8, 9
+++	adde	7, 7, 10
+++	ld	11, 176(4)
+++	ld	12, 184(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 176(3)	# out11
+++	std	12, 184(3)
+++
+++	ld	8, 192(3)
+++	ld	7, 200(3)
+++	addc	8, 8, 9
+++	adde	7, 7, 10
+++	ld	11, 192(4)
+++	ld	12, 200(4)
+++	subfc	11, 11, 8
+++	subfe	12, 12, 7
+++	std	11, 192(3)	# out12
+++	std	12, 200(3)
+++
+++	blr
+++.size	p384_felem_diff128,.-p384_felem_diff128
+++
+++.data
+++.align 4
+++.LConst_two127:
+++#two127
+++.long 0x00000000, 0x00000000, 0x00000000, 0x80000000
+++#two127m71
+++.long 0x00000000, 0x00000000, 0xffffff80, 0x7fffffff
+++#two127p111m79m71
+++.long 0x00000000, 0x00000000, 0xffff7f80, 0x80007fff
+++#two127m119m71
+++.long 0x00000000, 0x00000000, 0xffffff80, 0x7f7fffff
+++#two127m95m71
+++.long 0x00000000, 0x00000000, 0x7fffff80, 0x7fffffff
+++
+++.text
+++
+++.globl p384_felem_diff_128_64
+++.type	p384_felem_diff_128_64, \@function
+++.align 4
+++p384_felem_diff_128_64:
+++	addis   5, 2, .LConst_128_two64\@toc\@ha
+++	addi    5, 5, .LConst_128_two64\@toc\@l
+++
+++	ld	9, 0(3)
+++	ld	10, 8(3)
+++	ld	8, 48(5)	# two64p48m16
+++	li	7, 0
+++	addc	9, 9, 8
+++	li	6, 1
+++	adde	10, 10, 6
+++	ld	11, 0(4)
+++	subfc	8, 11, 9
+++	subfe	12, 7, 10
+++	std	8, 0(3)		# out0
+++	std	12, 8(3)
+++
+++	ld	9, 16(3)
+++	ld	10, 24(3)
+++	ld	8, 0(5)		# two64m56m8
+++	addc	9, 9, 8
+++	addze	10, 10
+++	ld	11, 8(4)
+++	subfc	11, 11, 9
+++	subfe	12, 7, 10
+++	std	11, 16(3)	# out1
+++	std	12, 24(3)
+++
+++	ld	9, 32(3)
+++	ld	10, 40(3)
+++	ld	8, 16(5)	# two64m32m8
+++	addc	9, 9, 8
+++	addze	10, 10
+++	ld	11, 16(4)
+++	subfc	11, 11, 9
+++	subfe	12, 7, 10
+++	std	11, 32(3)	# out2
+++	std	12, 40(3)
+++
+++	ld	10, 48(3)
+++	ld	8, 56(3)
+++	#ld	9, 32(5)	# two64m8
+++	li	9, -256		# two64m8
+++	addc	10, 10, 9
+++	addze	8, 8
+++	ld	11, 24(4)
+++	subfc	11, 11, 10
+++	subfe	12, 7, 8
+++	std	11, 48(3)	# out3
+++	std	12, 56(3)
+++
+++	ld	10, 64(3)
+++	ld	8, 72(3)
+++	addc	10, 10, 9
+++	addze	8, 8
+++	ld	11, 32(4)
+++	subfc	11, 11, 10
+++	subfe	12, 7, 8
+++	std	11, 64(3)	# out4
+++	std	12, 72(3)
+++
+++	ld	10, 80(3)
+++	ld	8, 88(3)
+++	addc	10, 10, 9
+++	addze	8, 8
+++	ld	11, 40(4)
+++	subfc	11, 11, 10
+++	subfe	12, 7, 8
+++	std	11, 80(3)	# out5
+++	std	12, 88(3)
+++
+++	ld	10, 96(3)
+++	ld	8, 104(3)
+++	addc	10, 10, 9
+++	addze	9, 8
+++	ld	11, 48(4)
+++	subfc	11, 11, 10
+++	subfe	12, 7, 9
+++	std	11, 96(3)	# out6
+++	std	12, 104(3)
+++
+++	blr
+++.size	p384_felem_diff_128_64,.-p384_felem_diff_128_64
+++
+++.data
+++.align 4
+++.LConst_128_two64:
+++#two64m56m8
+++.long 0xffffff00, 0xfeffffff, 0x00000000, 0x00000000
+++#two64m32m8
+++.long 0xffffff00, 0xfffffffe, 0x00000000, 0x00000000
+++#two64m8
+++.long 0xffffff00, 0xffffffff, 0x00000000, 0x00000000
+++#two64p48m16
+++.long 0xffff0000, 0x0000ffff, 0x00000001, 0x00000000
+++
+++.LConst_two60:
+++#two60m52m4
+++.long 0xfffffff0, 0x0fefffff, 0x0, 0x0
+++#two60p44m12
+++.long 0xfffff000, 0x10000fff, 0x0, 0x0
+++#two60m28m4
+++.long 0xeffffff0, 0x0fffffff, 0x0, 0x0
+++#two60m4
+++.long 0xfffffff0, 0x0fffffff, 0x0, 0x0
+++
+++.text
+++#
+++# static void felem_diff64(felem out, const felem in)
+++#
+++.globl p384_felem_diff64
+++.type	p384_felem_diff64, \@function
+++.align 4
+++p384_felem_diff64:
+++	addis   5, 2, .LConst_two60\@toc\@ha
+++	addi    5, 5, .LConst_two60\@toc\@l
+++
+++	ld	9, 0(3)
+++	ld	8, 16(5)	# two60p44m12
+++	li	7, 0
+++	add	9, 9, 8
+++	ld	11, 0(4)
+++	subf	8, 11, 9
+++	std	8, 0(3)		# out0
+++
+++	ld	9, 8(3)
+++	ld	8, 0(5)		# two60m52m4
+++	add	9, 9, 8
+++	ld	11, 8(4)
+++	subf	11, 11, 9
+++	std	11, 8(3)	# out1
+++
+++	ld	9, 16(3)
+++	ld	8, 32(5)	# two60m28m4
+++	add	9, 9, 8
+++	ld	11, 16(4)
+++	subf	11, 11, 9
+++	std	11, 16(3)	# out2
+++
+++	ld	10, 24(3)
+++	ld	9, 48(5)	# two60m4
+++	add	10, 10, 9
+++	ld	12, 24(4)
+++	subf	12, 12, 10
+++	std	12, 24(3)	# out3
+++
+++	ld	10, 32(3)
+++	add	10, 10, 9
+++	ld	11, 32(4)
+++	subf	11, 11, 10
+++	std	11, 32(3)	# out4
+++
+++	ld	10, 40(3)
+++	add	10, 10, 9
+++	ld	12, 40(4)
+++	subf	12, 12, 10
+++	std	12, 40(3)	# out5
++ 
++-        endproc("p384_felem_square");
++-    }
++-}
+++	ld	10, 48(3)
+++	add	10, 10, 9
+++	ld	11, 48(4)
+++	subf	11, 11, 10
+++	std	11, 48(3)	# out6
+++
+++	blr
+++.size	p384_felem_diff64,.-p384_felem_diff64
+++
+++.text
+++#
+++# Shift 128 bits right <nbits>
+++#
+++.macro SHR o_h o_l in_h in_l nbits
+++	srdi	\\o_l, \\in_l, \\nbits		# shift lower right <nbits>
+++	rldimi	\\o_l, \\in_h, 64-\\nbits, 0	# insert <64-nbits> from hi
+++	srdi	\\o_h, \\in_h, \\nbits		# shift higher right <nbits>
+++.endm
+++
+++#
+++# static void felem_reduce(felem out, const widefelem in)
+++#
+++.global p384_felem_reduce
+++.type   p384_felem_reduce,\@function
+++.align 4
+++p384_felem_reduce:
+++
+++	stdu    1, -208(1)
+++	mflr	0
+++	std     14, 56(1)
+++	std     15, 64(1)
+++	std     16, 72(1)
+++	std     17, 80(1)
+++	std     18, 88(1)
+++	std     19, 96(1)
+++	std     20, 104(1)
+++	std     21, 112(1)
+++	std     22, 120(1)
+++	std     23, 128(1)
+++	std     24, 136(1)
+++	std     25, 144(1)
+++	std     26, 152(1)
+++	std     27, 160(1)
+++	std     28, 168(1)
+++	std     29, 176(1)
+++	std     30, 184(1)
+++	std     31, 192(1)
+++
+++	bl	_p384_felem_reduce_core
+++
+++	mtlr	0
+++	ld     14, 56(1)
+++	ld     15, 64(1)
+++	ld     16, 72(1)
+++	ld     17, 80(1)
+++	ld     18, 88(1)
+++	ld     19, 96(1)
+++	ld     20, 104(1)
+++	ld     21, 112(1)
+++	ld     22, 120(1)
+++	ld     23, 128(1)
+++	ld     24, 136(1)
+++	ld     25, 144(1)
+++	ld     26, 152(1)
+++	ld     27, 160(1)
+++	ld     28, 168(1)
+++	ld     29, 176(1)
+++	ld     30, 184(1)
+++	ld     31, 192(1)
+++	addi	1, 1, 208
+++	blr
+++.size   p384_felem_reduce,.-p384_felem_reduce
+++
+++#
+++# Felem reduction core function -
+++# r3 and r4 need to pre-loaded.
+++#
+++.type   _p384_felem_reduce_core,\@function
+++.align 4
+++_p384_felem_reduce_core:
+++	addis   12, 2, .LConst\@toc\@ha
+++	addi    12, 12, .LConst\@toc\@l
+++
+++	# load constat p
+++	ld	11, 8(12)	# hi - two124m68
+++
+++	# acc[6] = in[6] + two124m68;
+++	ld	26, 96(4)	# in[6].l
+++	ld	27, 96+8(4)	# in[6].h
+++	add	27, 27, 11
+++
+++	# acc[5] = in[5] + two124m68;
+++	ld	24, 80(4)	# in[5].l
+++	ld	25, 80+8(4)	# in[5].h
+++	add	25, 25, 11
+++
+++	# acc[4] = in[4] + two124m68;
+++	ld	22, 64(4)	# in[4].l
+++	ld	23, 64+8(4)	# in[4].h
+++	add	23, 23, 11
+++
+++	# acc[3] = in[3] + two124m68;
+++	ld	20, 48(4)	# in[3].l
+++	ld	21, 48+8(4)	# in[3].h
+++	add	21, 21, 11
+++
+++	ld	11, 48+8(12)	# hi - two124m92m68
+++
+++	# acc[2] = in[2] + two124m92m68;
+++	ld	18, 32(4)	# in[2].l
+++	ld	19, 32+8(4)	# in[2].h
+++	add	19, 19, 11
+++
+++	ld	11, 16+8(12)	# high - two124m116m68
+++
+++	# acc[1] = in[1] + two124m116m68;
+++	ld	16, 16(4)	# in[1].l
+++	ld	17, 16+8(4)	# in[1].h
+++	add	17, 17, 11
+++
+++	ld	11, 32+8(12)	# high - two124p108m76
+++
+++	# acc[0] = in[0] + two124p108m76;
+++	ld	14, 0(4)	# in[0].l
+++	ld	15, 0+8(4)	# in[0].h
+++	add	15, 15, 11
+++
+++	# compute mask
+++	li	7, -1
+++
+++	# Eliminate in[12]
+++
+++	# acc[8] += in[12] >> 32;
+++	ld	5, 192(4)	# in[12].l
+++	ld	6, 192+8(4)	# in[12].h
+++	SHR 9, 10, 6, 5, 32
+++	ld	30, 128(4)	# in[8].l
+++	ld	31, 136(4)	# in[8].h
+++	addc	30, 30, 10
+++	adde	31, 31, 9
+++
+++	# acc[7] += (in[12] & 0xffffffff) << 24;
+++	srdi	11, 7, 32	# 0xffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 24	# << 24
+++	ld	28, 112(4)	# in[7].l
+++	ld	29, 120(4)	# in[7].h
+++	addc	28, 28, 11
+++	addze	29, 29
+++
+++	# acc[7] += in[12] >> 8;
+++	SHR 9, 10, 6, 5, 8
+++	addc	28, 28, 10
+++	adde	29, 29, 9
+++
+++	# acc[6] += (in[12] & 0xff) << 48;
+++	andi.	11, 5, 0xff
+++	sldi	11, 11, 48
+++	addc	26, 26, 11
+++	addze	27, 27
+++
+++	# acc[6] -= in[12] >> 16;
+++	SHR 9, 10, 6, 5, 16
+++	subfc	26, 10, 26
+++	subfe	27, 9, 27
+++
+++	# acc[5] -= (in[12] & 0xffff) << 40;
+++	srdi	11, 7, 48	# 0xffff
+++	and	11, 11, 5
+++	sldi	11, 11, 40	# << 40
+++	li	9, 0
+++	subfc	24, 11, 24
+++	subfe	25, 9, 25
+++
+++	# acc[6] += in[12] >> 48;
+++	SHR 9, 10, 6, 5, 48
+++	addc	26, 26, 10
+++	adde	27, 27, 9
+++
+++	# acc[5] += (in[12] & 0xffffffffffff) << 8;
+++	srdi	11, 7, 16	# 0xffffffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 8	# << 8
+++	addc	24, 24, 11
+++	addze	25, 25
+++
+++	# Eliminate in[11]
+++
+++	# acc[7] += in[11] >> 32;
+++	ld	5, 176(4)	# in[11].l
+++	ld	6, 176+8(4)	# in[11].h
+++	SHR 9, 10, 6, 5, 32
+++	addc	28, 28, 10
+++	adde	29, 29, 9
+++
+++	# acc[6] += (in[11] & 0xffffffff) << 24;
+++	srdi	11, 7, 32	# 0xffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 24	# << 24
+++	addc	26, 26, 11
+++	addze	27, 27
+++
+++	# acc[6] += in[11] >> 8;
+++	SHR 9, 10, 6, 5, 8
+++	addc	26, 26, 10
+++	adde	27, 27, 9
+++
+++	# acc[5] += (in[11] & 0xff) << 48;
+++	andi.	11, 5, 0xff
+++	sldi	11, 11, 48
+++	addc	24, 24, 11
+++	addze	25, 25
+++
+++	# acc[5] -= in[11] >> 16;
+++	SHR 9, 10, 6, 5, 16
+++	subfc	24, 10, 24
+++	subfe	25, 9, 25
+++
+++	# acc[4] -= (in[11] & 0xffff) << 40;
+++	srdi	11, 7, 48	# 0xffff
+++	and	11, 11, 5
+++	sldi	11, 11, 40	# << 40
+++	li	9, 0
+++	subfc	22, 11, 22
+++	subfe	23, 9, 23
+++
+++	# acc[5] += in[11] >> 48;
+++	SHR 9, 10, 6, 5, 48
+++	addc	24, 24, 10
+++	adde	25, 25, 9
+++
+++	# acc[4] += (in[11] & 0xffffffffffff) << 8;
+++	srdi	11, 7, 16	# 0xffffffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 8	# << 8
+++	addc	22, 22, 11
+++	addze	23, 23
+++
+++	# Eliminate in[10]
+++
+++	# acc[6] += in[10] >> 32;
+++	ld	5, 160(4)	# in[10].l
+++	ld	6, 160+8(4)	# in[10].h
+++	SHR 9, 10, 6, 5, 32
+++	addc	26, 26, 10
+++	adde	27, 27, 9
+++
+++	# acc[5] += (in[10] & 0xffffffff) << 24;
+++	srdi	11, 7, 32	# 0xffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 24	# << 24
+++	addc	24, 24, 11
+++	addze	25, 25
+++
+++	# acc[5] += in[10] >> 8;
+++	SHR 9, 10, 6, 5, 8
+++	addc	24, 24, 10
+++	adde	25, 25, 9
+++
+++	# acc[4] += (in[10] & 0xff) << 48;
+++	andi.	11, 5, 0xff
+++	sldi	11, 11, 48
+++	addc	22, 22, 11
+++	addze	23, 23
+++
+++	# acc[4] -= in[10] >> 16;
+++	SHR 9, 10, 6, 5, 16
+++	subfc	22, 10, 22
+++	subfe	23, 9, 23
+++
+++	# acc[3] -= (in[10] & 0xffff) << 40;
+++	srdi	11, 7, 48	# 0xffff
+++	and	11, 11, 5
+++	sldi	11, 11, 40	# << 40
+++	li	9, 0
+++	subfc	20, 11, 20
+++	subfe	21, 9, 21
+++
+++	# acc[4] += in[10] >> 48;
+++	SHR 9, 10, 6, 5, 48
+++	addc	22, 22, 10
+++	adde	23, 23, 9
+++
+++	# acc[3] += (in[10] & 0xffffffffffff) << 8;
+++	srdi	11, 7, 16	# 0xffffffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 8	# << 8
+++	addc	20, 20, 11
+++	addze	21, 21
+++
+++	# Eliminate in[9]
+++
+++	# acc[5] += in[9] >> 32;
+++	ld	5, 144(4)	# in[9].l
+++	ld	6, 144+8(4)	# in[9].h
+++	SHR 9, 10, 6, 5, 32
+++	addc	24, 24, 10
+++	adde	25, 25, 9
+++
+++	# acc[4] += (in[9] & 0xffffffff) << 24;
+++	srdi	11, 7, 32	# 0xffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 24	# << 24
+++	addc	22, 22, 11
+++	addze	23, 23
+++
+++	# acc[4] += in[9] >> 8;
+++	SHR 9, 10, 6, 5, 8
+++	addc	22, 22, 10
+++	adde	23, 23, 9
+++
+++	# acc[3] += (in[9] & 0xff) << 48;
+++	andi.	11, 5, 0xff
+++	sldi	11, 11, 48
+++	addc	20, 20, 11
+++	addze	21, 21
+++
+++	# acc[3] -= in[9] >> 16;
+++	SHR 9, 10, 6, 5, 16
+++	subfc	20, 10, 20
+++	subfe	21, 9, 21
+++
+++	# acc[2] -= (in[9] & 0xffff) << 40;
+++	srdi	11, 7, 48	# 0xffff
+++	and	11, 11, 5
+++	sldi	11, 11, 40	# << 40
+++	li	9, 0
+++	subfc	18, 11, 18
+++	subfe	19, 9, 19
+++
+++	# acc[3] += in[9] >> 48;
+++	SHR 9, 10, 6, 5, 48
+++	addc	20, 20, 10
+++	adde	21, 21, 9
+++
+++	# acc[2] += (in[9] & 0xffffffffffff) << 8;
+++	srdi	11, 7, 16	# 0xffffffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 8	# << 8
+++	addc	18, 18, 11
+++	addze	19, 19
+++
+++	# Eliminate acc[8]
+++
+++	# acc[4] += acc[8] >> 32;
+++	mr	5, 30		# acc[8].l
+++	mr	6, 31		# acc[8].h
+++	SHR 9, 10, 6, 5, 32
+++	addc	22, 22, 10
+++	adde	23, 23, 9
+++
+++	# acc[3] += (acc[8] & 0xffffffff) << 24;
+++	srdi	11, 7, 32	# 0xffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 24	# << 24
+++	addc	20, 20, 11
+++	addze	21, 21
+++
+++	# acc[3] += acc[8] >> 8;
+++	SHR 9, 10, 6, 5, 8
+++	addc	20, 20, 10
+++	adde	21, 21, 9
+++
+++	# acc[2] += (acc[8] & 0xff) << 48;
+++	andi.	11, 5, 0xff
+++	sldi	11, 11, 48
+++	addc	18, 18, 11
+++	addze	19, 19
+++
+++	# acc[2] -= acc[8] >> 16;
+++	SHR 9, 10, 6, 5, 16
+++	subfc	18, 10, 18
+++	subfe	19, 9, 19
+++
+++	# acc[1] -= (acc[8] & 0xffff) << 40;
+++	srdi	11, 7, 48	# 0xffff
+++	and	11, 11, 5
+++	sldi	11, 11, 40	# << 40
+++	li	9, 0
+++	subfc	16, 11, 16
+++	subfe	17, 9, 17
+++
+++	#acc[2] += acc[8] >> 48;
+++	SHR 9, 10, 6, 5, 48
+++	addc	18, 18, 10
+++	adde	19, 19, 9
+++
+++	# acc[1] += (acc[8] & 0xffffffffffff) << 8;
+++	srdi	11, 7, 16	# 0xffffffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 8	# << 8
+++	addc	16, 16, 11
+++	addze	17, 17
+++
+++	# Eliminate acc[7]
+++
+++	# acc[3] += acc[7] >> 32;
+++	mr	5, 28		# acc[7].l
+++	mr	6, 29		# acc[7].h
+++	SHR 9, 10, 6, 5, 32
+++	addc	20, 20, 10
+++	adde	21, 21, 9
+++
+++	# acc[2] += (acc[7] & 0xffffffff) << 24;
+++	srdi	11, 7, 32	# 0xffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 24	# << 24
+++	addc	18, 18, 11
+++	addze	19, 19
+++
+++	# acc[2] += acc[7] >> 8;
+++	SHR 9, 10, 6, 5, 8
+++	addc	18, 18, 10
+++	adde	19, 19, 9
+++
+++	# acc[1] += (acc[7] & 0xff) << 48;
+++	andi.	11, 5, 0xff
+++	sldi	11, 11, 48
+++	addc	16, 16, 11
+++	addze	17, 17
+++
+++	# acc[1] -= acc[7] >> 16;
+++	SHR 9, 10, 6, 5, 16
+++	subfc	16, 10, 16
+++	subfe	17, 9, 17
+++
+++	# acc[0] -= (acc[7] & 0xffff) << 40;
+++	srdi	11, 7, 48	# 0xffff
+++	and	11, 11, 5
+++	sldi	11, 11, 40	# << 40
+++	li	9, 0
+++	subfc	14, 11, 14
+++	subfe	15, 9, 15
+++
+++	# acc[1] += acc[7] >> 48;
+++	SHR 9, 10, 6, 5, 48
+++	addc	16, 16, 10
+++	adde	17, 17, 9
+++
+++	# acc[0] += (acc[7] & 0xffffffffffff) << 8;
+++	srdi	11, 7, 16	# 0xffffffffffff
+++	and	11, 11, 5
+++	sldi	11, 11, 8	# << 8
+++	addc	14, 14, 11
+++	addze	15, 15
+++
+++	#
+++	# Carry 4 -> 5 -> 6
+++	#
+++	# acc[5] += acc[4] >> 56;
+++	# acc[4] &= 0x00ffffffffffffff;
+++	SHR 9, 10, 23, 22, 56
+++	addc	24, 24, 10
+++	adde	25, 25, 9
+++	srdi	11, 7, 8	# 0x00ffffffffffffff
+++	and	22, 22, 11
+++	li	23, 0
+++
+++	# acc[6] += acc[5] >> 56;
+++	# acc[5] &= 0x00ffffffffffffff;
+++	SHR 9, 10, 25, 24, 56
+++	addc	26, 26, 10
+++	adde	27, 27, 9
+++	and	24, 24, 11
+++	li	25, 0
+++
+++	# [3]: Eliminate high bits of acc[6] */
+++	# temp = acc[6] >> 48;
+++	# acc[6] &= 0x0000ffffffffffff;
+++	SHR 31, 30, 27, 26, 48	# temp = acc[6] >> 48
+++	srdi	11, 7, 16	# 0x0000ffffffffffff
+++	and	26, 26, 11
+++	li	27, 0
+++
+++	# temp < 2^80
+++	# acc[3] += temp >> 40;
+++	SHR 9, 10, 31, 30, 40
+++	addc	20, 20, 10
+++	adde	21, 21, 9
+++
+++	# acc[2] += (temp & 0xffffffffff) << 16;
+++	srdi	11, 7, 24	# 0xffffffffff
+++	and	10, 30, 11
+++	sldi	10, 10, 16
+++	addc	18, 18, 10
+++	addze	19, 19
+++
+++	# acc[2] += temp >> 16;
+++	SHR 9, 10, 31, 30, 16
+++	addc	18, 18, 10
+++	adde	19, 19, 9
+++
+++	# acc[1] += (temp & 0xffff) << 40;
+++	srdi	11, 7, 48	# 0xffff
+++	and	10, 30, 11
+++	sldi	10, 10, 40
+++	addc	16, 16, 10
+++	addze	17, 17
+++
+++	# acc[1] -= temp >> 24;
+++	SHR 9, 10, 31, 30, 24
+++	subfc	16, 10, 16
+++	subfe	17, 9, 17
+++
+++	# acc[0] -= (temp & 0xffffff) << 32;
+++	srdi	11, 7, 40	# 0xffffff
+++	and	10, 30, 11
+++	sldi	10, 10, 32
+++	li	9, 0
+++	subfc	14, 10, 14
+++	subfe	15, 9, 15
+++
+++	# acc[0] += temp;
+++	addc	14, 14, 30
+++	adde	15, 15, 31
+++
+++	# Carry 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6
+++	#
+++	# acc[1] += acc[0] >> 56;   /* acc[1] < acc_old[1] + 2^72 */
+++	SHR 9, 10, 15, 14, 56
+++	addc	16, 16, 10
+++	adde	17, 17, 9
+++
+++	# acc[0] &= 0x00ffffffffffffff;
+++	srdi	11, 7, 8	# 0x00ffffffffffffff
+++	and	14, 14, 11
+++	li	15, 0
+++
+++	# acc[2] += acc[1] >> 56;   /* acc[2] < acc_old[2] + 2^72 + 2^16 */
+++	SHR 9, 10, 17, 16, 56
+++	addc	18, 18, 10
+++	adde	19, 19, 9
+++
+++	# acc[1] &= 0x00ffffffffffffff;
+++	and	16, 16, 11
+++	li	17, 0
+++
+++	# acc[3] += acc[2] >> 56;   /* acc[3] < acc_old[3] + 2^72 + 2^16 */
+++	SHR 9, 10, 19, 18, 56
+++	addc	20, 20, 10
+++	adde	21, 21, 9
+++
+++	# acc[2] &= 0x00ffffffffffffff;
+++	and	18, 18, 11
+++	li	19, 0
+++
+++	# acc[4] += acc[3] >> 56;
+++	SHR 9, 10, 21, 20, 56
+++	addc	22, 22, 10
+++	adde	23, 23, 9
+++
+++	# acc[3] &= 0x00ffffffffffffff;
+++	and	20, 20, 11
+++	li	21, 0
+++
+++	# acc[5] += acc[4] >> 56;
+++	SHR 9, 10, 23, 22, 56
+++	addc	24, 24, 10
+++	adde	25, 25, 9
+++
+++	# acc[4] &= 0x00ffffffffffffff;
+++	and	22, 22, 11
+++
+++	# acc[6] += acc[5] >> 56;
+++	SHR 9, 10, 25, 24, 56
+++	addc	26, 26, 10
+++	adde	27, 27, 9
+++
+++	# acc[5] &= 0x00ffffffffffffff;
+++	and	24, 24, 11
+++
+++	std	14, 0(3)
+++	std	16, 8(3)
+++	std	18, 16(3)
+++	std	20, 24(3)
+++	std	22, 32(3)
+++	std	24, 40(3)
+++	std	26, 48(3)
+++	blr
+++.size   _p384_felem_reduce_core,.-_p384_felem_reduce_core
+++
+++.data
+++.align 4
+++.LConst:
+++# two124m68:
+++.long 0x0, 0x0, 0xfffffff0, 0xfffffff
+++# two124m116m68:
+++.long 0x0, 0x0, 0xfffffff0, 0xfefffff
+++#two124p108m76:
+++.long 0x0, 0x0, 0xfffff000, 0x10000fff
+++#two124m92m68:
+++.long 0x0, 0x0, 0xeffffff0, 0xfffffff
+++
+++.text
+++
+++#
+++# void p384_felem_square_reduce(felem out, const felem in)
+++#
+++.global p384_felem_square_reduce
+++.type   p384_felem_square_reduce,\@function
+++.align 4
+++p384_felem_square_reduce:
+++	stdu    1, -512(1)
+++	mflr	0
+++	std     14, 56(1)
+++	std     15, 64(1)
+++	std     16, 72(1)
+++	std     17, 80(1)
+++	std     18, 88(1)
+++	std     19, 96(1)
+++	std     20, 104(1)
+++	std     21, 112(1)
+++	std     22, 120(1)
+++	std     23, 128(1)
+++	std     24, 136(1)
+++	std     25, 144(1)
+++	std     26, 152(1)
+++	std     27, 160(1)
+++	std     28, 168(1)
+++	std     29, 176(1)
+++	std     30, 184(1)
+++	std     31, 192(1)
+++
+++	std	3, 496(1)
+++	addi	3, 1, 208
+++	bl _p384_felem_square_core
+++
+++	mr	4, 3
+++	ld	3, 496(1)
+++	bl _p384_felem_reduce_core
+++
+++	ld     14, 56(1)
+++	ld     15, 64(1)
+++	ld     16, 72(1)
+++	ld     17, 80(1)
+++	ld     18, 88(1)
+++	ld     19, 96(1)
+++	ld     20, 104(1)
+++	ld     21, 112(1)
+++	ld     22, 120(1)
+++	ld     23, 128(1)
+++	ld     24, 136(1)
+++	ld     25, 144(1)
+++	ld     26, 152(1)
+++	ld     27, 160(1)
+++	ld     28, 168(1)
+++	ld     29, 176(1)
+++	ld     30, 184(1)
+++	ld     31, 192(1)
+++	addi	1, 1, 512
+++	mtlr	0
+++	blr
+++.size   p384_felem_square_reduce,.-p384_felem_square_reduce
+++
+++#
+++# void p384_felem_mul_reduce(felem out, const felem in1, const felem in2)
+++#
+++.global p384_felem_mul_reduce
+++.type   p384_felem_mul_reduce,\@function
+++.align 5
+++p384_felem_mul_reduce:
+++	stdu    1, -512(1)
+++	mflr	0
+++	std     14, 56(1)
+++	std     15, 64(1)
+++	std     16, 72(1)
+++	std     17, 80(1)
+++	std     18, 88(1)
+++	std     19, 96(1)
+++	std     20, 104(1)
+++	std     21, 112(1)
+++	std     22, 120(1)
+++	std     23, 128(1)
+++	std     24, 136(1)
+++	std     25, 144(1)
+++	std     26, 152(1)
+++	std     27, 160(1)
+++	std     28, 168(1)
+++	std     29, 176(1)
+++	std     30, 184(1)
+++	std     31, 192(1)
+++
+++	std	3, 496(1)
+++	addi	3, 1, 208
+++	bl _p384_felem_mul_core
+++
+++	mr	4, 3
+++	ld	3, 496(1)
+++	bl _p384_felem_reduce_core
+++
+++	ld     14, 56(1)
+++	ld     15, 64(1)
+++	ld     16, 72(1)
+++	ld     17, 80(1)
+++	ld     18, 88(1)
+++	ld     19, 96(1)
+++	ld     20, 104(1)
+++	ld     21, 112(1)
+++	ld     22, 120(1)
+++	ld     23, 128(1)
+++	ld     24, 136(1)
+++	ld     25, 144(1)
+++	ld     26, 152(1)
+++	ld     27, 160(1)
+++	ld     28, 168(1)
+++	ld     29, 176(1)
+++	ld     30, 184(1)
+++	ld     31, 192(1)
+++	addi	1, 1, 512
+++	mtlr	0
+++	blr
+++.size   p384_felem_mul_reduce,.-p384_felem_mul_reduce
+++___
++ 
++ $code =~ s/\`([^\`]*)\`/eval $1/gem;
++ print $code;
++diff --git a/crypto/ec/ecp_nistp384.c b/crypto/ec/ecp_nistp384.c
++index 3fd7a40020..e0b5786bc1 100644
++--- a/crypto/ec/ecp_nistp384.c
+++++ b/crypto/ec/ecp_nistp384.c
++@@ -252,6 +252,16 @@ static void felem_neg(felem out, const felem in)
++     out[6] = two60m4 - in[6];
++ }
++ 
+++#if defined(ECP_NISTP384_ASM)
+++void p384_felem_diff64(felem out, const felem in);
+++void p384_felem_diff128(widefelem out, const widefelem in);
+++void p384_felem_diff_128_64(widefelem out, const felem in);
+++
+++# define felem_diff64           p384_felem_diff64
+++# define felem_diff128          p384_felem_diff128
+++# define felem_diff_128_64      p384_felem_diff_128_64
+++
+++#else
++ /*-
++  * felem_diff64 subtracts |in| from |out|
++  * On entry:
++@@ -369,6 +379,7 @@ static void felem_diff128(widefelem out, const widefelem in)
++     for (i = 0; i < 2*NLIMBS-1; i++)
++         out[i] -= in[i];
++ }
+++#endif /* ECP_NISTP384_ASM */
++ 
++ static void felem_square_ref(widefelem out, const felem in)
++ {
++@@ -503,7 +514,7 @@ static void felem_mul_ref(widefelem out, const felem in1, const felem in2)
++  * [3]: Y = 2^48 (acc[6] >> 48)
++  * (Where a | b | c | d = (2^56)^3 a + (2^56)^2 b + (2^56) c + d)
++  */
++-static void felem_reduce(felem out, const widefelem in)
+++static void felem_reduce_ref(felem out, const widefelem in)
++ {
++     /*
++      * In order to prevent underflow, we add a multiple of p before subtracting.
++@@ -682,8 +693,11 @@ static void (*felem_square_p)(widefelem out, const felem in) =
++ static void (*felem_mul_p)(widefelem out, const felem in1, const felem in2) =
++     felem_mul_wrapper;
++ 
+++static void (*felem_reduce_p)(felem out, const widefelem in) = felem_reduce_ref;
+++
++ void p384_felem_square(widefelem out, const felem in);
++ void p384_felem_mul(widefelem out, const felem in1, const felem in2);
+++void p384_felem_reduce(felem out, const widefelem in);
++ 
++ # if defined(_ARCH_PPC64)
++ #  include "crypto/ppc_arch.h"
++@@ -695,6 +709,7 @@ static void felem_select(void)
++     if ((OPENSSL_ppccap_P & PPC_MADD300) && (OPENSSL_ppccap_P & PPC_ALTIVEC)) {
++         felem_square_p = p384_felem_square;
++         felem_mul_p = p384_felem_mul;
+++        felem_reduce_p = p384_felem_reduce;
++ 
++         return;
++     }
++@@ -703,6 +718,7 @@ static void felem_select(void)
++     /* Default */
++     felem_square_p = felem_square_ref;
++     felem_mul_p = felem_mul_ref;
+++    felem_reduce_p = p384_felem_reduce;
++ }
++ 
++ static void felem_square_wrapper(widefelem out, const felem in)
++@@ -719,10 +735,17 @@ static void felem_mul_wrapper(widefelem out, const felem in1, const felem in2)
++ 
++ # define felem_square felem_square_p
++ # define felem_mul felem_mul_p
+++# define felem_reduce felem_reduce_p
+++
+++void p384_felem_square_reduce(felem out, const felem in);
+++void p384_felem_mul_reduce(felem out, const felem in1, const felem in2);
+++
+++# define felem_square_reduce p384_felem_square_reduce
+++# define felem_mul_reduce p384_felem_mul_reduce
++ #else
++ # define felem_square felem_square_ref
++ # define felem_mul felem_mul_ref
++-#endif
+++# define felem_reduce felem_reduce_ref
++ 
++ static ossl_inline void felem_square_reduce(felem out, const felem in)
++ {
++@@ -739,6 +762,7 @@ static ossl_inline void felem_mul_reduce(felem out, const felem in1, const felem
++     felem_mul(tmp, in1, in2);
++     felem_reduce(out, tmp);
++ }
+++#endif
++ 
++ /*-
++  * felem_inv calculates |out| = |in|^{-1}
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-2.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-2.patch
+new file mode 100644
+index 0000000000..0659a9d6d9
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2025-27587-2.patch
+@@ -0,0 +1,129 @@
++From 6b1646e472c9e8c08bb14066ba2a7c3eed45f84a Mon Sep 17 00:00:00 2001
++From: "A. Wilcox" <AWilcox@Wilcox-Tech.com>
++Date: Thu, 17 Apr 2025 08:51:53 -0500
++Subject: [PATCH] Fix P-384 curve on lower-than-P9 PPC64 targets
++
++The change adding an asm implementation of p384_felem_reduce incorrectly
++uses the accelerated version on both targets that support the intrinsics
++*and* targets that don't, instead of falling back to the generics on older
++targets.  This results in crashes when trying to use P-384 on < Power9.
++
++Signed-off-by: Anna Wilcox <AWilcox@Wilcox-Tech.com>
++Closes: #27350
++Fixes: 85cabd94 ("Fix Minerva timing side-channel signal for P-384 curve on PPC")
++
++Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/27429)
++
++(cherry picked from commit 29864f2b0f1046177e8048a5b17440893d3f9425)
++
++CVE: CVE-2025-27587
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/6b1646e472c9e8c08bb14066ba2a7c3eed45f84a]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ crypto/ec/ecp_nistp384.c | 54 ++++++++++++++++++++++++----------------
++ 1 file changed, 33 insertions(+), 21 deletions(-)
++
++diff --git a/crypto/ec/ecp_nistp384.c b/crypto/ec/ecp_nistp384.c
++index e0b5786bc1..439b4d03a3 100644
++--- a/crypto/ec/ecp_nistp384.c
+++++ b/crypto/ec/ecp_nistp384.c
++@@ -684,6 +684,22 @@ static void felem_reduce_ref(felem out, const widefelem in)
++         out[i] = acc[i];
++ }
++ 
+++static ossl_inline void felem_square_reduce_ref(felem out, const felem in)
+++{
+++    widefelem tmp;
+++
+++    felem_square_ref(tmp, in);
+++    felem_reduce_ref(out, tmp);
+++}
+++
+++static ossl_inline void felem_mul_reduce_ref(felem out, const felem in1, const felem in2)
+++{
+++    widefelem tmp;
+++
+++    felem_mul_ref(tmp, in1, in2);
+++    felem_reduce_ref(out, tmp);
+++}
+++
++ #if defined(ECP_NISTP384_ASM)
++ static void felem_square_wrapper(widefelem out, const felem in);
++ static void felem_mul_wrapper(widefelem out, const felem in1, const felem in2);
++@@ -695,10 +711,18 @@ static void (*felem_mul_p)(widefelem out, const felem in1, const felem in2) =
++ 
++ static void (*felem_reduce_p)(felem out, const widefelem in) = felem_reduce_ref;
++ 
+++static void (*felem_square_reduce_p)(felem out, const felem in) =
+++    felem_square_reduce_ref;
+++static void (*felem_mul_reduce_p)(felem out, const felem in1, const felem in2) =
+++    felem_mul_reduce_ref;
+++
++ void p384_felem_square(widefelem out, const felem in);
++ void p384_felem_mul(widefelem out, const felem in1, const felem in2);
++ void p384_felem_reduce(felem out, const widefelem in);
++ 
+++void p384_felem_square_reduce(felem out, const felem in);
+++void p384_felem_mul_reduce(felem out, const felem in1, const felem in2);
+++
++ # if defined(_ARCH_PPC64)
++ #  include "crypto/ppc_arch.h"
++ # endif
++@@ -710,6 +734,8 @@ static void felem_select(void)
++         felem_square_p = p384_felem_square;
++         felem_mul_p = p384_felem_mul;
++         felem_reduce_p = p384_felem_reduce;
+++        felem_square_reduce_p = p384_felem_square_reduce;
+++        felem_mul_reduce_p = p384_felem_mul_reduce;
++ 
++         return;
++     }
++@@ -718,7 +744,9 @@ static void felem_select(void)
++     /* Default */
++     felem_square_p = felem_square_ref;
++     felem_mul_p = felem_mul_ref;
++-    felem_reduce_p = p384_felem_reduce;
+++    felem_reduce_p = felem_reduce_ref;
+++    felem_square_reduce_p = felem_square_reduce_ref;
+++    felem_mul_reduce_p = felem_mul_reduce_ref;
++ }
++ 
++ static void felem_square_wrapper(widefelem out, const felem in)
++@@ -737,31 +765,15 @@ static void felem_mul_wrapper(widefelem out, const felem in1, const felem in2)
++ # define felem_mul felem_mul_p
++ # define felem_reduce felem_reduce_p
++ 
++-void p384_felem_square_reduce(felem out, const felem in);
++-void p384_felem_mul_reduce(felem out, const felem in1, const felem in2);
++-
++-# define felem_square_reduce p384_felem_square_reduce
++-# define felem_mul_reduce p384_felem_mul_reduce
+++# define felem_square_reduce felem_square_reduce_p
+++# define felem_mul_reduce felem_mul_reduce_p
++ #else
++ # define felem_square felem_square_ref
++ # define felem_mul felem_mul_ref
++ # define felem_reduce felem_reduce_ref
++ 
++-static ossl_inline void felem_square_reduce(felem out, const felem in)
++-{
++-    widefelem tmp;
++-
++-    felem_square(tmp, in);
++-    felem_reduce(out, tmp);
++-}
++-
++-static ossl_inline void felem_mul_reduce(felem out, const felem in1, const felem in2)
++-{
++-    widefelem tmp;
++-
++-    felem_mul(tmp, in1, in2);
++-    felem_reduce(out, tmp);
++-}
+++# define felem_square_reduce felem_square_reduce_ref
+++# define felem_mul_reduce felem_mul_reduce_ref
++ #endif
++ 
++ /*-
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.4.bb b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
+index d6bf32d989..fd98b32007 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.4.bb
+@@ -13,6 +13,8 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
+            file://CVE-2024-41996.patch \
++           file://CVE-2025-27587-1.patch \
++           file://CVE-2025-27587-2.patch \
+            "
  
- diff --git a/sysincludes.h b/sysincludes.h
--index e16ab45..8d285d4 100644
-+index 6b322ff..48daecd 100644
- --- a/sysincludes.h
- +++ b/sysincludes.h
--@@ -98,7 +98,7 @@ typedef void *caddr_t;
-+@@ -85,7 +85,7 @@ ac_cv_func_setpgrp_void=yes ../mtools/configure --build=i386-linux-gnu --host=i3
-  #if defined __GNUC__ && defined __STDC__
-  /* gcc -traditional doesn't have PACKED, UNUSED and NORETURN */
-  # define PACKED __attribute__ ((packed))
-diff --git a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-index 3771f94c59..8c80040f91 100644
---- a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-+++ b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-@@ -1,4 +1,4 @@
--From 184b76e9742ff89f90a066edb0f46b4a150351cf Mon Sep 17 00:00:00 2001
-+From fd1e84c66852c2c906ee292aad942b4bfbd9e306 Mon Sep 17 00:00:00 2001
- From: Marcin Juszkiewicz <hrw@openedhand.com>
- Date: Fri, 8 Jun 2007 08:35:12 +0000
- Subject: [PATCH] mtools: imported from OE
-@@ -6,11 +6,11 @@ Subject: [PATCH] mtools: imported from OE
- Upstream-Status: Inappropriate [licensing]
- ---
-  Makefile.in  | 11 ++++++-----
-- configure.in | 27 +++++++++++++++++++++++++++
-+ configure.ac | 27 +++++++++++++++++++++++++++
-  2 files changed, 33 insertions(+), 5 deletions(-)
- 
- diff --git a/Makefile.in b/Makefile.in
--index 5db50d7..92ad461 100644
-+index 7b305b0..70c8c74 100644
- --- a/Makefile.in
- +++ b/Makefile.in
- @@ -26,10 +26,11 @@ USERCFLAGS =
-@@ -38,11 +38,11 @@ index 5db50d7..92ad461 100644
-  
-  pdf: mtools.pdf
-  %.pdf: %.texi sysconfdir.texi
--diff --git a/configure.in b/configure.in
--index 1de916e..fd6cb08 100644
----- a/configure.in
--+++ b/configure.in
--@@ -32,6 +32,33 @@ AC_CANONICAL_TARGET
-+diff --git a/configure.ac b/configure.ac
-+index de108a8..0fd9ef0 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -33,6 +33,33 @@ AC_CANONICAL_TARGET
-  AC_C_CONST
-  AC_C_INLINE
-  
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.45.bb b/meta/recipes-devtools/mtools/mtools_4.0.46.bb
-similarity index 93%
-rename from meta/recipes-devtools/mtools/mtools_4.0.45.bb
-rename to meta/recipes-devtools/mtools/mtools_4.0.46.bb
-index 34040d7a0d..1173718662 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.45.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.46.bb
-@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--SRC_URI[sha256sum] = "0b008a96bd0efe0e542fa4383d469af66bc4a93394990b103730a8160a67d618"
-+SRC_URI[sha256sum] = "9aad8dd859f88fb7787924ec47590192d3abf7bad6c840509c854290d6bc16c0"
- 
- SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://mtools-makeinfo.patch \
+ SRC_URI:append:class-nativesdk = " \
 -- 
 2.43.0
 
