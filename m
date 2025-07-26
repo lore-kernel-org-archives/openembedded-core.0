@@ -1,98 +1,186 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE7CC87FCA
-	for <webhook@archiver.kernel.org>; Sat, 26 Jul 2025 22:00:45 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web11.50060.1753567238490076388
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B388DC87FCA
+	for <webhook@archiver.kernel.org>; Sat, 26 Jul 2025 22:31:55 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.50483.1753569114409522471
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Jul 2025 15:00:38 -0700
+ Sat, 26 Jul 2025 15:31:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XWY4BkEu;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6fadd3ad18eso27649116d6.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Jul 2025 15:00:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GqFBlL6n;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-23fd3fe0d81so6113615ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Jul 2025 15:31:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753567237; x=1754172037; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kKgDBzpB482TvyFqvOq3d6wY6IS0m+ixRuGGE9LCXHM=;
-        b=XWY4BkEusa5xpNaWA40Wtx5cNCEEiq/98JxGbgslRCK6UKR39J8sLnsQYZHTDzstx6
-         m5mN9Zeq3UCBG3dQv6ZVFcVkekOesik/Ee3B9aKE9y6pyg0GYk/E4idhQM2rr0gYthtW
-         3CHxf9CuQVtaCy3pxx6S9+sCBI9VRjx1cr7BBQ4asxiuvCqXmmf0NwqkQsJV/xjW/k/G
-         tbdwxiDflipep3fWY0tCtXtdAVD73Qg2hYekzh9uffKafK+QyPQRTXVd+DtBqNYd0g6j
-         0KLhrnzdEapaTxjs06/Q/340NXo7BddOkahSJB7rwstqGlek1duhbgKmbLxcsv5UsRZ9
-         2+pw==
+        d=gmail.com; s=20230601; t=1753569113; x=1754173913; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n28hO/cd8uqE9tioi+iCfpFhlHrwOKZ9/NRXFeSAxOU=;
+        b=GqFBlL6nwN+cWVW9SJcMPI138IYWxm9MZMNAK2s1pjjWefOIannbAtL855EK00FneV
+         n+RWmxkqhlHAH+vvqxvXZ6ZeU+c83F0rKvUbdViGqrkKJOwfBTNyzMVOe6iLHAVHTqtU
+         unE/fIjUurDguyUnjIoy8V1oK64y605Avg7+a6AWzeB2KNzoDoJWrUx/R+iSa0Ys2ZUn
+         rza/hDgTCkAgz39EAaMeBC5OzKtFduIlKwg+Ri/SOdxrTMlzqZJ+tVS8KMNDV1b53vJu
+         ZqP/tkvBr7RmOte5HGOW5tCw5mJ8DEuo98sZ3IDnh/4KOLB+nMDb71r3GKbAhfDR+jsf
+         BX5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753567237; x=1754172037;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1753569113; x=1754173913;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kKgDBzpB482TvyFqvOq3d6wY6IS0m+ixRuGGE9LCXHM=;
-        b=IpJ5F5BDUDHCgZIl4qZJVTwVn1Dc+4nEZo5CBM+4HzxOa9XIMU4wwwjN8mvMHR0a4u
-         fGCvSmUUzELogeEfRkpySbWatEMoVSzBGqv1aE+E1tBU07kGgbAbutVDJkfPUVoGFJoF
-         AmzOhmq2FcRW69kBRycw0Z2O0sr1MT65CkmUIwPzcvSL+ppqUU+V800dZzYZ6MOBzh9M
-         JX5eg4KptEbbSgV2n4MUnqnlsqLNogodydB873PXQOor0SgZAIhuvRBQhmK2obMAh99c
-         wwjw+k6mVkeNaujS2Bg3hdmgZnPR+gIMv6wSrUvvw/w/wBFQVmRjuLs6T8/NHNuE9caS
-         g3gg==
-X-Gm-Message-State: AOJu0YwUPpvuGDoliF0yXPzGSO2Wr0q8cemXoec4M5+ZBTo2AzjBWj+a
-	ozp1yXmtG9B+lgQAyP8mcySB1Ph7sXjMoArxzqKNldSAPT/6ruhGe+BOxI6VnIKB9os4geh+Vcd
-	OgfVy4CXrVGIONAWde0pCs9ln4F/cKzk=
-X-Gm-Gg: ASbGncvepiHPp3Aveyl/05prHPDIib+bfrIqGsyhM4ACX1OYVRm/Ml4Bdn48UBpHqbd
-	09ZxQt43xOSZXEq4YAkdBDO6w1Sr5VoM1griBp4KOxyUr5l+XvU7DE4g6BkRzioWcFgMoEiFD7C
-	j8mqWy7IouVMmm1oFXWxUWq5bQXe19dl8HKs9sxoV9fFzRT3AZPEkgArrbaodh/QelOKQmrboBR
-	dkihKPZ
-X-Google-Smtp-Source: AGHT+IFKYAubs9VadEJ7mRywoDvu17G5zydmQudFG9vKiOWaYWA4+BLN+MyK7cFB6EcrfDdKnCgTkx/hl6qwAcKf0Ok=
-X-Received: by 2002:a05:6214:20cf:b0:6fb:619c:98ac with SMTP id
- 6a1803df08f44-707205e9d4bmr105126586d6.39.1753567237290; Sat, 26 Jul 2025
- 15:00:37 -0700 (PDT)
+        bh=n28hO/cd8uqE9tioi+iCfpFhlHrwOKZ9/NRXFeSAxOU=;
+        b=pUBhs3cFcShO5RdXBLVGriwskDN75SdfmmI1iWv5oyVhW0E8w9NRbpF7MYFyU6azwS
+         CKONJ9HLihSZHtKeqvPz8NknuyZpR78l+h7RSLVYVGn80jwuxZ6LQ8oto56N9v8NifDl
+         RlOR85bnZ4aGNSH9ZNcJumLp9E/ywsE3gx7tY9nKjr4YLlHx1trS4Gilin/cALlkoWrw
+         Ku1u/P0pEpH1OuaAWRqB9MV6ulr6wufbuZK6mcz6vxuyBtgKSpwKIv+WUVAO/deuAUQ2
+         sFV0PVdvUOui6iZMUHF+Y39MGJW1fbm9qDEySKsawm0t9uoGnkMRiYuuxhS/BlBc105y
+         Nm2g==
+X-Gm-Message-State: AOJu0Yz/KGyDXfuR4cSEhlG+R3oX8VzBO+hF4FKo33tgLT4jQxNPbvec
+	gnNM3FI4Evn25cbdFHDUQPBQu32Ri/40X+Nc7U650ZVK9FPDRKFmK6autBqSKO8d/Xk=
+X-Gm-Gg: ASbGncs/X6fV2ySnKHR0iUnFn5nc861qS6m0I9/1qJ0DkOF0uKKJ1JzNqg2FtC2T4nU
+	7/v8caT70IVmSBOXS78PLj6juuwAX/LCxcW9ULeC20KZeAgNxV5DequvkNkW07ygPYcTYD8xPrU
+	M9i0ncOlswspMGia4MvzN8qQsIRnk0bZ7OlKCSFJBd4Ceow4ojb27aCntOr8F4bbg54/ITgiQ71
+	o0J/qNX8E4kz5KV/G94xdVIoQa3YrnqFnK4JTKWkpVHoMwsMx5WA6Ckq72GjGgMOZKfgyduWaVH
+	E/9geZ7QQq7NyLReJc/8g9bOqPF7tJAj5pQY/BXcvTOGBZbWD8ewI/H1rpuc62bdcKM0V3J6/vb
+	JXVPH76MuTfuVJA==
+X-Google-Smtp-Source: AGHT+IEHUc3Wyo624Gi+ln8de0JWJULLVNA+owdKBCJ28EsRoIjy0Bbx65j0T8/kWoRS5ZuLc1a91A==
+X-Received: by 2002:a17:903:1b44:b0:21f:617a:f1b2 with SMTP id d9443c01a7336-23fb30f2f32mr96469755ad.46.1753569113416;
+        Sat, 26 Jul 2025 15:31:53 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::33e9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe30ff79sm23606405ad.9.2025.07.26.15.31.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Jul 2025 15:31:52 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] qemu: Remove deprecated asyncio calls in qmp python module
+Date: Sat, 26 Jul 2025 15:31:50 -0700
+Message-ID: <20250726223150.728753-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <CANNYZj9EJBJoFQ=MzCWYPM-etwcjkbh1eGEmpS003tt_YreMsw@mail.gmail.com>
- <22749.1753471482928656004@lists.openembedded.org>
-In-Reply-To: <22749.1753471482928656004@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 27 Jul 2025 00:00:26 +0200
-X-Gm-Features: Ac12FXwybHwzQ6EBD6XDSbeDyD4HHEz3iGzgvjJ712ox_X2f7pb5c8tBjAmWsjs
-Message-ID: <CANNYZj-HhugrjDMhxmpav2DB0hw04_+VC7v3=Wb5_2rouBVMRA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] package: disable renamed dependency error if
- allarch is overridden
-To: ohnatiuk@cisco.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Jul 2025 22:00:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220941
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Jul 2025 22:31:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220942
 
-On Fri, 25 Jul 2025 at 21:24, Oleksandr Hnatiuk via
-lists.openembedded.org <ohnatiuk=cisco.com@lists.openembedded.org>
-wrote:
-> Do you mean removing the conditional or removing allarch inherit?
-> I don't think I can find the time to work on either of those as it would involve additional research and testing to make sure nothing breaks in the process.
-> While I would like to help, doing major changes or large refactoring to address an issue already solved is likely outside the scope of my job responsibilities.
-> As downstream users of the code, we were hoping the patch could be merged, as we would then not have to maintain it on our side.
->
-> I suggest to merge it as-is and then have somebody else work on proposed changes.
-> Otherwise, I would like to open a bug report so that when the issue is eventually resolved, we could drop the patch.
+Fixes deprecation warning seen with python 3.13
 
-Filing a bug report is fine. But do not expect that the issue is
-somehow 'eventually resolved' just because a bug for it exists. This
-is not how open source works.
+DEBUG: QMP Initializing to /mnt/b/yoe/master/build/tmp/.sv4_k_q4
 
-'Merging as-is', on the other hand, is not fine. We have learned from
-hard experience that merging 'quick fixes' means all incentive to
-solve the broader problem properly is lost, and nobody would find time
-or interest to look at it again. Or can you name that 'somebody', and
-did they agree to do the work?
+recipe-sysroot-native/usr/lib/qemu-python/qmp/legacy.py:89: DeprecationWarning: There is no current event loop
+  self._aloop = asyncio.get_event_loop()
 
-I'd politely suggest you talk to your managers, and explain to them
-that using open source is not 'free' and sometimes you do need time
-for making major changes in it that don't directly benefit your
-company's products. Even better, convince them to let you maintain
-something in yocto. I'd be happy to supply a long list of
-possibilities.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ ...move-deprecated-get_event_loop-calls.patch | 85 +++++++++++++++++++
+ 2 files changed, 86 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch
 
-Alex
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 7893df0df24..2ee76e9a7ce 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -31,6 +31,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0008-Define-MAP_SYNC-and-MAP_SHARED_VALIDATE-on-needed-li.patch \
+            file://0010-configure-lookup-meson-exutable-from-PATH.patch \
+            file://0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch \
++           file://0012-Remove-deprecated-get_event_loop-calls.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+            "
+diff --git a/meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch b/meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch
+new file mode 100644
+index 00000000000..64816fe7d91
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch
+@@ -0,0 +1,85 @@
++From 5240406747fd43886618ae8194153e6fc957a82a Mon Sep 17 00:00:00 2001
++From: John Snow <jsnow@redhat.com>
++Date: Tue, 13 Aug 2024 09:35:30 -0400
++Subject: [PATCH] Remove deprecated get_event_loop calls
++
++This method was deprecated in 3.12 because it ordinarily should not be
++used from coroutines; if there is not a currently running event loop,
++this automatically creates a new event loop - which is usually not what
++you want from code that would ever run in the bottom half.
++
++In our case, we do want this behavior in two places:
++
++(1) The synchronous shim, for convenience: this allows fully sync
++programs to use QEMUMonitorProtocol() without needing to set up an event
++loop beforehand. This is intentional to fully box in the async
++complexities into the legacy sync shim.
++
++(2) The qmp_tui shell; instead of relying on asyncio.run to create and
++run an asyncio program, we need to be able to pass the current asyncio
++loop to urwid setup functions. For convenience, again, we create one if
++one is not present to simplify the creation of the TUI appliance.
++
++The remaining user of get_event_loop() was in fact one of the erroneous
++users that should not have been using this function: if there's no
++running event loop inside of a coroutine, you're in big trouble :)
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/33]
++Signed-off-by: John Snow <jsnow@redhat.com>
++---
++ python/qemu/qmp/legacy.py  | 9 ++++++++-
++ python/qemu/qmp/qmp_tui.py | 7 ++++++-
++ python/tests/protocol.py   | 2 +-
++ 3 files changed, 15 insertions(+), 3 deletions(-)
++
++diff --git a/python/qemu/qmp/legacy.py b/python/qemu/qmp/legacy.py
++index 22a2b56..ea9b803 100644
++--- a/python/qemu/qmp/legacy.py
+++++ b/python/qemu/qmp/legacy.py
++@@ -86,7 +86,14 @@ def __init__(self,
++                 "server argument should be False when passing a socket")
++ 
++         self._qmp = QMPClient(nickname)
++-        self._aloop = asyncio.get_event_loop()
+++
+++        try:
+++            self._aloop = asyncio.get_running_loop()
+++        except RuntimeError:
+++            # No running loop; since this is a sync shim likely to be
+++            # used in fully sync programs, create one if neccessary.
+++            self._aloop = asyncio.get_event_loop_policy().get_event_loop()
+++
++         self._address = address
++         self._timeout: Optional[float] = None
++ 
++diff --git a/python/qemu/qmp/qmp_tui.py b/python/qemu/qmp/qmp_tui.py
++index 2d9ebbd..d11b9fc 100644
++--- a/python/qemu/qmp/qmp_tui.py
+++++ b/python/qemu/qmp/qmp_tui.py
++@@ -377,7 +377,12 @@ def run(self, debug: bool = False) -> None:
++         screen = urwid.raw_display.Screen()
++         screen.set_terminal_properties(256)
++ 
++-        self.aloop = asyncio.get_event_loop()
+++        try:
+++            self.aloop = asyncio.get_running_loop()
+++        except RuntimeError:
+++            # No running asyncio event loop. Create one if necessary.
+++            self.aloop = asyncio.get_event_loop_policy().get_event_loop()
+++
++         self.aloop.set_debug(debug)
++ 
++         # Gracefully handle SIGTERM and SIGINT signals
++diff --git a/python/tests/protocol.py b/python/tests/protocol.py
++index 56c4d44..8dcef57 100644
++--- a/python/tests/protocol.py
+++++ b/python/tests/protocol.py
++@@ -228,7 +228,7 @@ def async_test(async_test_method):
++         Decorator; adds SetUp and TearDown to async tests.
++         """
++         async def _wrapper(self, *args, **kwargs):
++-            loop = asyncio.get_event_loop()
+++            loop = asyncio.get_running_loop()
++             loop.set_debug(True)
++ 
++             await self._asyncSetUp()
 
