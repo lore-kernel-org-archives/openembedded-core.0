@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CFF6C87FD1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34953C87FCC
 	for <webhook@archiver.kernel.org>; Sun, 27 Jul 2025 20:05:02 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.66584.1753646695221995358
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.66586.1753646699239104266
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jul 2025 13:04:55 -0700
+ Sun, 27 Jul 2025 13:04:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QWA7oA6V;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-234f17910d8so31947225ad.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 13:04:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bTt0c3PZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-235e1d710d8so49648045ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 13:04:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753646694; x=1754251494; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753646698; x=1754251498; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2h9a1B15JQ3u1xUrCyKDBEqPlzjm2o6Gs8xpNe3hzus=;
-        b=QWA7oA6V1F/4Ovoc5sVwIaBQQJi0TPZs/I6uSFCWRJIx9fTKmFmwSCxKacvIKcKj3c
-         MQa+LX2SeMazgePU9PDaJt67l971bEQrvex4/fS7fucyPq/z2M0/ILoqc3d4ayqelpw0
-         Lx+mKsaD/2NlARcL4yqq/UgiLHQ6k3hhbmyjXbIZynftk5nCmxDIzaFF4+5v+RaTvyyX
-         fr+NUjCPsN8czs0T39dSllN4/0CoZW7ubpBbL1lOi0a7/yiu6Lz/gllnrufZrEBlebsd
-         3VCOER28BKYkFAyUq0sD+nYIhSQ1sm9zAgQFGs7fJY4jIMG7m1KY3mDUpRASBqd6GiBa
-         cZtQ==
+        bh=mUx3+0nuqMPeRhMuNpSVAFri0CM7HwVkVCCPsjSlJ84=;
+        b=bTt0c3PZGzjGV91cFOB7lo0iSgqvzrWpGb8TX6E/a173s779C6fvUWRuu52VcKtHUX
+         29XB7HhU4VgMmLCuHGXLNN7VA9n5/pGAgIOelmPxvsmUc9xvgwYxO2dow2J+YL3s2E0g
+         yhGYmdIv0dC9UQU17I31PxA2y9mCQlpsBG0ZAtyFBp20xypr3IqCZHSgFLzW889jX4Hl
+         P1R8zWwelWkypwgC+r0HT0Tmw4wb2smRTceZzVmrVQgN7J3xn8TcT1VSqXs7T3w6xGCe
+         eKQ+rKF2Bp9RsYjP+Fy723Dr+6vTN+r4kMFn+erfDXhC/q1xqAcoxvfmaEBBBISvtytk
+         CoVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753646694; x=1754251494;
+        d=1e100.net; s=20230601; t=1753646698; x=1754251498;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2h9a1B15JQ3u1xUrCyKDBEqPlzjm2o6Gs8xpNe3hzus=;
-        b=ZkTUQGNblOZyUtnbetskYTu0z7clOqai2NOE1+IFy9ujSypz2Io3GAyN0ga2Hc2ArM
-         j22fJSu/3d7q5ofLa1ZXU2VDq+LD4VQhHnoaE9tGGvHhbzpHdk/PhqxvGgWbgxwN0CEB
-         WE+bOJ9ZepLMYl6tGgSPF1VZNcwkCwkNnZn2yyM2hrOOAkVf0BXi8ExNfTSG1AJugjiy
-         yH1wt88p7fYdbksFHr5grWxceLBU+ZP/Ek7/YenKtdXQqgFLDL5VKCaLGCGVLJx0sSc6
-         YV1+n7i6l8c4vU101vSnNiQJdrcaHuQRAOHfDF4o8vJvRWSX+KgM26tvQlV347BCKvZV
-         NK0g==
-X-Gm-Message-State: AOJu0Yx3S9pZMtuhJn2yNdZLp7xPJ6efQOvaMGxDbQ5bezaWYgjoKCIA
-	BFfc7edDrwcHjKbcRSJC88braJ+RNe/lLVHbiLJs7XdMEeNld2Yhpa69RAfsMtl+YqiLUFFKSL5
-	cOUeWkic=
-X-Gm-Gg: ASbGncvgFN9nWuicuO0cA0i5koVHnpV0fv1TFnBxK+btcwQ9HXHKb2uMY3zJeZBX+iP
-	lQY9dQj/0A5eDar8L/XK1JFSYUlcFdBNvxhfjdOYBehpiqRFMS2ISuV10jERrD7kYC4zQTxq0BT
-	XJwoBw6LbRthKvwC46kYVWlHzw0ZyDfES0L5ThDz93ZhtXG0vWS2A5+y2Pa+lXwLS2lyx7JJVzI
-	Ys0xlh1RCJ8ngHRw0EYtOaQN5ro6lu0PQ1OH0ga5cTaS1iXG4oSASd9Jvl4gFOmE5cYvb7m4QLL
-	rKTP2j9en+2YEy9p4yTQv/DTol9xETNJbgorEyCbryZK7JEeVqqslC6XC5IQzgaN70roK+/32kO
-	5OEM5BAalAao1oA==
-X-Google-Smtp-Source: AGHT+IGmoB9ymlwCj67esvSfVfd5AQK9ZqUzbznzbrbpjxg1SIlbCeMmE3I/LSFpXerQ5zlBTJk20w==
-X-Received: by 2002:a17:902:e750:b0:235:7c6:eba2 with SMTP id d9443c01a7336-23fb30cb5c3mr128816495ad.37.1753646693031;
-        Sun, 27 Jul 2025 13:04:53 -0700 (PDT)
+        bh=mUx3+0nuqMPeRhMuNpSVAFri0CM7HwVkVCCPsjSlJ84=;
+        b=Rl+PeGuh225nCXxZh6oiiJwmKS1TAS6YrGGHB97732AocX64mWIQUHR004ksV/peYv
+         ZQqslwTACgJwAcIBW9kN8SbAEkoII9ceCPcOADYFKCjsuQS/ik9o6NIn8bcqMA8WgxTE
+         CSFL9o5cmCo192l+gdKYwRmKrUuLhf3TYHiqPWPDujsDNKXJvN14XZKq6CrzTO5b8xuV
+         510kxDayCTwyoM9je5LO9xpbli0vcn92aPwQGCpOMfJeXxbOlnd4aunhdMQWOEdvpat5
+         +sF4yD/eQNn1wPjx0miMLmOR+hYxEXP26CwMnqxbF8bDW4nKP8tPTUpzB+cDyHlXPiXK
+         OPAg==
+X-Gm-Message-State: AOJu0Yz5neYJIA0anOQAwLvoggx1Fo+uAKm61xBsS2KIlzLzX/cYoQiB
+	9VWHynjxgE/ZLQQtA8cWPjUbKJ210rCPNRW+OiGPsZmPBEVfChJLuEALBgj/oNvn/jycBFDcO0M
+	bXV8XP10=
+X-Gm-Gg: ASbGncvdCnyjPb52AeLuM2dVrTw49qVC6lOGQhsJ4z91QIWRzB/SVCGPhy/mG+ZOybd
+	NTanfn59FVvL0z2J+FVG72M6HFjNIJudgHeCpJ9dHsJS5Mv8y+S2F7/HNDWMbBa/ZSG4kNl5UtE
+	RoqAnzjYOEZjdZ7m5WEVfOkrsbpCCR0Pd/v7eyZUwVhLdEhDGHCa31rOvpoc+zUHstrMKM3i0zF
+	hdpr68Q9aW6L4gUKXUwDqBA73awIVxBnjyDLcvzI9S1nugMYZrdsf17UBI5jgoWcQDjJDdsQwsl
+	dZXRpq7j8PvTjHnfxqZQ0RB1rBFDBUgqLmA0vg6SvMZtdOIqwYh1rwz1yTPt6SxAboBVKvhxlWi
+	JuAaz8ksv78dqAg==
+X-Google-Smtp-Source: AGHT+IFipKNIj8mcSocWP9bmjbGZQ6N47H/FJTqk+SpxpwfEewAxQouvsfKZb0VZBZJH6j/oeYeVSQ==
+X-Received: by 2002:a17:902:fc48:b0:240:38f8:ed05 with SMTP id d9443c01a7336-24038f8f25dmr5822265ad.36.1753646697421;
+        Sun, 27 Jul 2025 13:04:57 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:22e3:7abf:ace0:e5ff])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe512ef7sm38905665ad.131.2025.07.27.13.04.52
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe512ef7sm38905665ad.131.2025.07.27.13.04.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jul 2025 13:04:52 -0700 (PDT)
+        Sun, 27 Jul 2025 13:04:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/10] gnupg: fix CVE-2025-30258
-Date: Sun, 27 Jul 2025 13:04:35 -0700
-Message-ID: <467081219407cd30bcc9e575bedcb127b6bcea65.1753646578.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/10] libpam: fix CVE-2025-6020
+Date: Sun, 27 Jul 2025 13:04:37 -0700
+Message-ID: <4ff5111d2a758bacb803de981177799a8ac7fd0b.1753646578.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753646578.git.steve@sakoman.com>
 References: <cover.1753646578.git.steve@sakoman.com>
@@ -68,1216 +68,2028 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 20:05:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220974
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220976
 
-From: Yogita Urade <yogita.urade@windriver.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-In GnuPG before 2.5.5, if a user chooses to import a certificate
-with certain crafted subkey data that lacks a valid backsig or
-that has incorrect usage flags, the user loses the ability to
-verify signatures made from certain other signing keys, aka a
-"verification DoS."
+Upstream-Status: Backport from https://github.com/linux-pam/linux-pam/commit/475bd60c552b98c7eddb3270b0b4196847c0072e && https://github.com/linux-pam/linux-pam/commit/592d84e1265d04c3104acee815a503856db503a1 && https://github.com/linux-pam/linux-pam/commit/976c20079358d133514568fc7fd95c02df8b5773
 
-CVE-2025-30258-0002 is the dependent commit while rest
-are CVE fixes.
-
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-30258
-
-Upstream patches:
-https://dev.gnupg.org/rG25d748c3dfc0102f9e54afea59ff26b3969bd8c1
-https://dev.gnupg.org/rG9cd371b12d80cfc5bc85cb6e5f5eebb4decbe94f
-https://dev.gnupg.org/rGda0164efc7f32013bc24d97b9afa9f8d67c318bb
-https://dev.gnupg.org/rG1e581619bf5315957f2be06b3b1a7f513304c126
-https://dev.gnupg.org/rG4be25979a6b3e2a79d7c9667b07db8b09fb046e9
-
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gnupg/gnupg/CVE-2025-30258-0001.patch     | 141 ++++
- .../gnupg/gnupg/CVE-2025-30258-0002.patch     | 131 ++++
- .../gnupg/gnupg/CVE-2025-30258-0003.patch     | 624 ++++++++++++++++++
- .../gnupg/gnupg/CVE-2025-30258-0004.patch     | 193 ++++++
- .../gnupg/gnupg/CVE-2025-30258-0005.patch     |  36 +
- meta/recipes-support/gnupg/gnupg_2.3.7.bb     |   5 +
- 6 files changed, 1130 insertions(+)
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0001.patch
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0002.patch
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0003.patch
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0004.patch
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0005.patch
+ ...001-pam_inline-introduce-pam_asprint.patch |  102 ++
+ .../0001-pam_namespace-include-stdint-h.patch |   42 +
+ .../pam/libpam/CVE-2025-6020-01.patch         | 1588 +++++++++++++++++
+ .../pam/libpam/CVE-2025-6020-02.patch         |  187 ++
+ .../pam/libpam/CVE-2025-6020-03.patch         |   35 +
+ meta/recipes-extended/pam/libpam_1.5.2.bb     |    5 +
+ 6 files changed, 1959 insertions(+)
+ create mode 100644 meta/recipes-extended/pam/libpam/0001-pam_inline-introduce-pam_asprint.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/0001-pam_namespace-include-stdint-h.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch
 
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0001.patch b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0001.patch
+diff --git a/meta/recipes-extended/pam/libpam/0001-pam_inline-introduce-pam_asprint.patch b/meta/recipes-extended/pam/libpam/0001-pam_inline-introduce-pam_asprint.patch
 new file mode 100644
-index 0000000000..56aa2ce3e1
+index 0000000000..48e8b255f2
 --- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0001.patch
-@@ -0,0 +1,141 @@
-+From 25d748c3dfc0102f9e54afea59ff26b3969bd8c1 Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk@gnupg.org>
-+Date: Tue, 11 Feb 2025 14:44:23 +0100
-+Subject: [PATCH] gpg: Lookup key for merging/inserting only by primary key.
++++ b/meta/recipes-extended/pam/libpam/0001-pam_inline-introduce-pam_asprint.patch
+@@ -0,0 +1,102 @@
++From 10b80543807e3fc5af5f8bcfd8bb6e219bb3cecc Mon Sep 17 00:00:00 2001
++From: "Dmitry V. Levin" <ldv@strace.io>
++Date: Tue, 18 Feb 2025 08:00:00 +0000
++Subject: [PATCH] pam_inline: introduce pam_asprintf(), pam_snprintf(), and
++ pam_sprintf()
 +
-+* g10/getkey.c (get_keyblock_byfpr_fast): Add arg primary_only and
-+implement.
-+* g10/import.c (import_one_real): Simplify filling the fpr buffer with
-+zeroes.
-+(import_one_real): Find key only by primary fingerprint.
-+--
++pam_asprintf() is essentially asprintf() with the following semantic
++difference: it returns the string itself instead of its length.
 +
-+This should have been done early: When looking up the original
-+keyblock we want to update, we need to lookup it up only using the
-+primary key.  This avoids to find a key which has the primary key also
-+has a subkey.
++pam_snprintf() is essentially snprintf() with the following semantic
++difference: it returns -1 in case of truncation.
 +
-+GnuPG-bug-id: 7527
++pam_sprintf() is essentially snprintf() but with a check that the buffer
++is an array, and with an automatically calculated buffer size.
 +
-+CVE: CVE-2025-30258
-+Upstream-Status: Backport [https://dev.gnupg.org/rG25d748c3dfc0102f9e54afea59ff26b3969bd8c1]
++Use of these helpers would make error checking simpler.
 +
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++(cherry picked from commit 10b80543807e3fc5af5f8bcfd8bb6e219bb3cecc)
++Signed-off-by: Dmitry V. Levin <ldv@strace.io>
++
++Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/10b80543807e3fc5af5f8bcfd8bb6e219bb3cecc]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ g10/getkey.c | 23 ++++++++++++++++++++---
-+ g10/import.c |  6 +++---
-+ g10/keydb.h  |  3 ++-
-+ 3 files changed, 25 insertions(+), 7 deletions(-)
++ libpam/include/pam_cc_compat.h |  6 ++++++
++ libpam/include/pam_inline.h    | 37 ++++++++++++++++++++++++++++++++++
++ 2 files changed, 43 insertions(+)
 +
-+diff --git a/g10/getkey.c b/g10/getkey.c
-+index e49718e..7a25643 100644
-+--- a/g10/getkey.c
-++++ b/g10/getkey.c
-+@@ -1895,7 +1895,7 @@ get_pubkey_byfprint_fast (ctrl_t ctrl, PKT_public_key * pk,
-+   KBNODE keyblock;
-+
-+   err = get_keyblock_byfprint_fast (ctrl,
-+-                                    &keyblock, NULL, fprint, fprint_len, 0);
-++                                    &keyblock, NULL, 0, fprint, fprint_len, 0);
-+   if (!err)
-+     {
-+       if (pk)
-+@@ -1912,11 +1912,14 @@ get_pubkey_byfprint_fast (ctrl_t ctrl, PKT_public_key * pk,
-+  * R_HD may be NULL.  If LOCK is set the handle has been opend in
-+  * locked mode and keydb_disable_caching () has been called.  On error
-+  * R_KEYBLOCK is set to NULL but R_HD must be released by the caller;
-+- * it may have a value of NULL, though.  This allows to do an insert
-+- * operation on a locked keydb handle.  */
-++ * it may have a value of NULL, though.  This allows to do an
-++ * insert operation on a locked keydb handle. If PRIMARY_ONLY is set
-++ * the function returns a keyblock which has the requested fingerprint
-++ * has primary key.  */
-+ gpg_error_t
-+ get_keyblock_byfprint_fast (ctrl_t ctrl,
-+                             kbnode_t *r_keyblock, KEYDB_HANDLE *r_hd,
-++                            int primary_only,
-+                             const byte *fprint, size_t fprint_len, int lock)
-+ {
-+   gpg_error_t err;
-+@@ -1924,6 +1927,8 @@ get_keyblock_byfprint_fast (ctrl_t ctrl,
-+   kbnode_t keyblock;
-+   byte fprbuf[MAX_FINGERPRINT_LEN];
-+   int i;
-++  byte tmpfpr[MAX_FINGERPRINT_LEN];
-++  size_t tmpfprlen;
-+
-+   if (r_keyblock)
-+     *r_keyblock = NULL;
-+@@ -1955,6 +1960,7 @@ get_keyblock_byfprint_fast (ctrl_t ctrl,
-+   if (r_hd)
-+     *r_hd = hd;
-+
-++again:
-+   err = keydb_search_fpr (hd, fprbuf, fprint_len);
-+   if (gpg_err_code (err) == GPG_ERR_NOT_FOUND)
-+     {
-+@@ -1974,6 +1980,17 @@ get_keyblock_byfprint_fast (ctrl_t ctrl,
-+   log_assert (keyblock->pkt->pkttype == PKT_PUBLIC_KEY
-+               || keyblock->pkt->pkttype == PKT_PUBLIC_SUBKEY);
-+
-++  if (primary_only)
-++    {
-++      fingerprint_from_pk (keyblock->pkt->pkt.public_key, tmpfpr, &tmpfprlen);
-++      if (fprint_len != tmpfprlen || memcmp (fprint, tmpfpr, fprint_len))
-++        {
-++          release_kbnode (keyblock);
-++          keyblock = NULL;
-++          goto again;
-++        }
-++    }
-++
-+   /* Not caching key here since it won't have all of the fields
-+      properly set. */
-+
-+diff --git a/g10/import.c b/g10/import.c
-+index bb0bf67..fb0e2ee 100644
-+--- a/g10/import.c
-++++ b/g10/import.c
-+@@ -1893,7 +1893,6 @@ import_one_real (ctrl_t ctrl,
-+   int mod_key = 0;
-+   int same_key = 0;
-+   int non_self = 0;
-+-  size_t an;
-+   char pkstrbuf[PUBKEY_STRING_SIZE];
-+   int merge_keys_done = 0;
-+   int any_filter = 0;
-+@@ -1914,8 +1913,8 @@ import_one_real (ctrl_t ctrl,
-+   pk = node->pkt->pkt.public_key;
-+
-+   fingerprint_from_pk (pk, fpr2, &fpr2len);
-+-  for (an = fpr2len; an < MAX_FINGERPRINT_LEN; an++)
-+-    fpr2[an] = 0;
-++  if (MAX_FINGERPRINT_LEN > fpr2len)
-++    memset (fpr2+fpr2len, 0, MAX_FINGERPRINT_LEN - fpr2len);
-+   keyid_from_pk( pk, keyid );
-+   uidnode = find_next_kbnode( keyblock, PKT_USER_ID );
-+
-+@@ -2097,6 +2096,7 @@ import_one_real (ctrl_t ctrl,
-+
-+   /* Do we have this key already in one of our pubrings ? */
-+   err = get_keyblock_byfprint_fast (ctrl, &keyblock_orig, &hd,
-++                                    1 /*primary only */,
-+                                     fpr2, fpr2len, 1/*locked*/);
-+   if ((err
-+        && gpg_err_code (err) != GPG_ERR_NO_PUBKEY
-+diff --git a/g10/keydb.h b/g10/keydb.h
-+index a91309a..51dfece 100644
-+--- a/g10/keydb.h
-++++ b/g10/keydb.h
-+@@ -418,7 +418,8 @@ gpg_error_t get_pubkey_byfprint_fast (ctrl_t ctrl, PKT_public_key *pk,
-+ gpg_error_t get_keyblock_byfprint_fast (ctrl_t ctrl,
-+                                         kbnode_t *r_keyblock,
-+                                         KEYDB_HANDLE *r_hd,
-+-                                        const byte *fprint, size_t fprint_len,
-++                                        int primary_only,
-++                                        const byte *fpr, size_t fprlen,
-+                                         int lock);
-+
-+
-+--
-+2.40.0
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0002.patch b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0002.patch
-new file mode 100644
-index 0000000000..58e50fabac
---- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0002.patch
-@@ -0,0 +1,131 @@
-+From 9cd371b12d80cfc5bc85cb6e5f5eebb4decbe94f Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk@gnupg.org>
-+Date: Thu, 20 Feb 2025 14:50:20 +0100
-+Subject: [PATCH] gpg: Remove a signature check function wrapper.
-+
-+* g10/sig-check.c (check_signature2): Rename to
-+(check_signature): this and remove the old wrapper. Adjust all
-+callers.
-+
-+CVE: CVE-2025-30258
-+Upstream-Status: Backport [https://dev.gnupg.org/rG9cd371b12d80cfc5bc85cb6e5f5eebb4decbe94f]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ g10/mainproc.c  | 13 +++++--------
-+ g10/packet.h    |  6 +-----
-+ g10/sig-check.c | 26 ++++++++------------------
-+ 3 files changed, 14 insertions(+), 31 deletions(-)
-+
-+diff --git a/g10/mainproc.c b/g10/mainproc.c
-+index af11877..79d9ff2 100644
-+--- a/g10/mainproc.c
-++++ b/g10/mainproc.c
-+@@ -1198,19 +1198,17 @@ do_check_sig (CTX c, kbnode_t node, const void *extrahash, size_t extrahashlen,
-+
-+   /* We only get here if we are checking the signature of a binary
-+      (0x00) or text document (0x01).  */
-+-  rc = check_signature2 (c->ctrl, sig, md, extrahash, extrahashlen,
-+-                         forced_pk,
-+-                         NULL, is_expkey, is_revkey, r_pk);
-++  rc = check_signature (c->ctrl, sig, md, extrahash, extrahashlen,
-++                        forced_pk, NULL, is_expkey, is_revkey, r_pk);
-+   if (! rc)
-+     md_good = md;
-+   else if (gpg_err_code (rc) == GPG_ERR_BAD_SIGNATURE && md2)
-+     {
-+       PKT_public_key *pk2;
-+
-+-      rc = check_signature2 (c->ctrl, sig, md2, extrahash, extrahashlen,
-+-                             forced_pk,
-+-                             NULL, is_expkey, is_revkey,
-+-                             r_pk? &pk2 : NULL);
-++      rc = check_signature (c->ctrl, sig, md2, extrahash, extrahashlen,
-++                            forced_pk, NULL, is_expkey, is_revkey,
-++                            r_pk? &pk2 : NULL);
-+       if (!rc)
-+         {
-+           md_good = md2;
-+@@ -1792,7 +1790,6 @@ issuer_fpr_string (PKT_signature *sig)
-+   return p? bin2hex (p, n, NULL) : NULL;
-+ }
-+
-+-
-+ static void
-+ print_good_bad_signature (int statno, const char *keyid_str, kbnode_t un,
-+                           PKT_signature *sig, int rc)
-+diff --git a/g10/packet.h b/g10/packet.h
-+index 5a14015..8aaf32d 100644
-+--- a/g10/packet.h
-++++ b/g10/packet.h
-+@@ -889,16 +889,12 @@ int cmp_user_ids( PKT_user_id *a, PKT_user_id *b );
-+
-+
-+ /*-- sig-check.c --*/
-+-/* Check a signature.  This is shorthand for check_signature2 with
-+-   the unnamed arguments passed as NULL.  */
-+-int check_signature (ctrl_t ctrl, PKT_signature *sig, gcry_md_hd_t digest);
-+-
-+ /* Check a signature.  Looks up the public key from the key db.  (If
-+  * R_PK is not NULL, it is stored at RET_PK.)  DIGEST contains a
-+  * valid hash context that already includes the signed data.  This
-+  * function adds the relevant meta-data to the hash before finalizing
-+  * it and verifying the signature.  FOCRED_PK is usually NULL. */
-+-gpg_error_t check_signature2 (ctrl_t ctrl,
-++gpg_error_t check_signature (ctrl_t ctrl,
-+                               PKT_signature *sig, gcry_md_hd_t digest,
-+                               const void *extrahash, size_t extrahashlen,
-+                               PKT_public_key *forced_pk,
-+diff --git a/g10/sig-check.c b/g10/sig-check.c
-+index eb6c966..2272fa4 100644
-+--- a/g10/sig-check.c
-++++ b/g10/sig-check.c
-+@@ -95,17 +95,6 @@ check_key_verify_compliance (PKT_public_key *pk)
-+ }
-+
-+
-+-
-+-/* Check a signature.  This is shorthand for check_signature2 with
-+-   the unnamed arguments passed as NULL.  */
-+-int
-+-check_signature (ctrl_t ctrl, PKT_signature *sig, gcry_md_hd_t digest)
-+-{
-+-  return check_signature2 (ctrl, sig, digest, NULL, 0, NULL,
-+-                           NULL, NULL, NULL, NULL);
-+-}
-+-
-+-
-+ /* Check a signature.
-+  *
-+  * Looks up the public key that created the signature (SIG->KEYID)
-+@@ -151,12 +140,12 @@ check_signature (ctrl_t ctrl, PKT_signature *sig, gcry_md_hd_t digest)
-+  *
-+  * Returns 0 on success.  An error code otherwise.  */
-+ gpg_error_t
-+-check_signature2 (ctrl_t ctrl,
-+-                  PKT_signature *sig, gcry_md_hd_t digest,
-+-                  const void *extrahash, size_t extrahashlen,
-+-                  PKT_public_key *forced_pk,
-+-                  u32 *r_expiredate,
-+-		  int *r_expired, int *r_revoked, PKT_public_key **r_pk)
-++check_signature (ctrl_t ctrl,
-++                 PKT_signature *sig, gcry_md_hd_t digest,
-++                 const void *extrahash, size_t extrahashlen,
-++                 PKT_public_key *forced_pk,
-++                 u32 *r_expiredate, int *r_expired, int *r_revoked,
-++                 PKT_public_key **r_pk)
-+ {
-+   int rc=0;
-+   PKT_public_key *pk;
-+@@ -808,7 +797,8 @@ check_revocation_keys (ctrl_t ctrl, PKT_public_key *pk, PKT_signature *sig)
-+               hash_public_key(md,pk);
-+	      /* Note: check_signature only checks that the signature
-+		 is good.  It does not fail if the key is revoked.  */
-+-              rc = check_signature (ctrl, sig, md);
-++              rc = check_signature (ctrl, sig, md, NULL, 0, NULL,
-++                                    NULL, NULL, NULL, NULL);
-+	      cache_sig_result(sig,rc);
-+               gcry_md_close (md);
-+	      break;
-+--
-+2.40.0
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0003.patch b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0003.patch
-new file mode 100644
-index 0000000000..223972788f
---- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0003.patch
-@@ -0,0 +1,624 @@
-+From da0164efc7f32013bc24d97b9afa9f8d67c318bb Mon Sep 17 00:00:00 2001
-+rom: Werner Koch <wk@gnupg.org>
-+Date: Fri, 21 Feb 2025 12:16:17 +0100
-+Subject: [PATCH] gpg: Fix a verification DoS due to a malicious subkey in the
-+ keyring.
-+
-+* g10/getkey.c (get_pubkey): Factor code out to ...
-+(get_pubkey_bykid): new.  Add feature to return the keyblock.
-+(get_pubkey_for_sig): Add arg r_keyblock to return the used keyblock.
-+Request a signing usage.
-+(get_pubkeyblock_for_sig): Remove.
-+(finish_lookup): Improve debug output.
-+* g10/sig-check.c (check_signature): Add arg r_keyblock and pass it
-+down.
-+* g10/mainproc.c (do_check_sig): Ditto.
-+(check_sig_and_print): Use the keyblock returned by do_check_sig to
-+show further information instead of looking it up again with
-+get_pubkeyblock_for_sig.  Also re-check the signature after the import
-+of an included keyblock.
-+--
-+
-+The problem here is that it is possible to import a key from someone
-+who added a signature subkey from another public key and thus inhibits
-+that a good signature good be verified.
-+
-+Such a malicious key signature subkey must have been created w/o the
-+mandatory backsig which bind a signature subkey to its primary key.
-+For encryption subkeys this is not an issue because the existence of a
-+decryption private key is all you need to decrypt something and then
-+it does not matter if the public subkey or its binding signature has
-+been put below another primary key; in fact we do the latter for
-+ADSKs.
-+
-+GnuPG-bug-id: 7527
-+Backported-from-master: 48978ccb4e20866472ef18436a32744350a65158
-+
-+CVE: CVE-2025-30258
-+Upstream-Status: Backport [https://dev.gnupg.org/rGda0164efc7f32013bc24d97b9afa9f8d67c318bb]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ g10/getkey.c    | 106 ++++++++++++++++++++++++++++++------------------
-+ g10/gpg.h       |   3 +-
-+ g10/keydb.h     |  10 ++++-
-+ g10/mainproc.c  |  92 ++++++++++++++++++++++++++---------------
-+ g10/packet.h    |   2 +-
-+ g10/sig-check.c |  23 +++++++----
-+ 6 files changed, 152 insertions(+), 84 deletions(-)
-+
-+diff --git a/g10/getkey.c b/g10/getkey.c
-+index 7a25643..0fa763a 100644
-+--- a/g10/getkey.c
-++++ b/g10/getkey.c
-+@@ -310,27 +310,50 @@ pk_from_block (PKT_public_key *pk, kbnode_t keyblock, kbnode_t found_key)
-+
-+ /* Specialized version of get_pubkey which retrieves the key based on
-+  * information in SIG.  In contrast to get_pubkey PK is required.  IF
-+- * FORCED_PK is not NULL, this public key is used and copied to PK. */
-++ * FORCED_PK is not NULL, this public key is used and copied to PK.
-++ * If R_KEYBLOCK is not NULL the entire keyblock is stored there if
-++ * found and FORCED_PK is not used; if not used or on error NULL is
-++ * stored there. */
-+ gpg_error_t
-+ get_pubkey_for_sig (ctrl_t ctrl, PKT_public_key *pk, PKT_signature *sig,
-+-                    PKT_public_key *forced_pk)
-++                    PKT_public_key *forced_pk, kbnode_t *r_keyblock)
-+ {
-++  gpg_error_t err;
-+   const byte *fpr;
-+   size_t fprlen;
-+
-++  if (r_keyblock)
-++    *r_keyblock = NULL;
-++
-+   if (forced_pk)
-+     {
-+       copy_public_key (pk, forced_pk);
-+       return 0;
-+     }
-+
-++  /* Make sure to request only keys cabable of signing.  This makes
-++   * sure that a subkey w/o a valid backsig or with bad usage flags
-++   * will be skipped.  */
-++  pk->req_usage = PUBKEY_USAGE_SIG;
-++
-+   /* First try the ISSUER_FPR info.  */
-+   fpr = issuer_fpr_raw (sig, &fprlen);
-+-  if (fpr && !get_pubkey_byfprint (ctrl, pk, NULL, fpr, fprlen))
-++  if (fpr && !get_pubkey_byfprint (ctrl, pk, r_keyblock, fpr, fprlen))
-+     return 0;
-++  if (r_keyblock)
-++    {
-++      release_kbnode (*r_keyblock);
-++      *r_keyblock = NULL;
-++    }
-+
-+   /* Fallback to use the ISSUER_KEYID.  */
-+-  return get_pubkey (ctrl, pk, sig->keyid);
-++  err = get_pubkey_bykid (ctrl, pk, r_keyblock, sig->keyid);
-++  if (err && r_keyblock)
-++    {
-++      release_kbnode (*r_keyblock);
-++      *r_keyblock = NULL;
-++    }
-++  return err;
-+ }
-+
-+
-+@@ -348,6 +371,10 @@ get_pubkey_for_sig (ctrl_t ctrl, PKT_public_key *pk, PKT_signature *sig,
-+  * usage will be returned.  As such, it is essential that
-+  * PK->REQ_USAGE be correctly initialized!
-+  *
-++ * If R_KEYBLOCK is not NULL, then the first result's keyblock is
-++ * returned in *R_KEYBLOCK.  This should be freed using
-++ * release_kbnode().
-++ *
-+  * Returns 0 on success, GPG_ERR_NO_PUBKEY if there is no public key
-+  * with the specified key id, or another error code if an error
-+  * occurs.
-+@@ -355,24 +382,30 @@ get_pubkey_for_sig (ctrl_t ctrl, PKT_public_key *pk, PKT_signature *sig,
-+  * If the data was not read from the cache, then the self-signed data
-+  * has definitely been merged into the public key using
-+  * merge_selfsigs.  */
-+-int
-+-get_pubkey (ctrl_t ctrl, PKT_public_key * pk, u32 * keyid)
-++gpg_error_t
-++get_pubkey_bykid (ctrl_t ctrl, PKT_public_key *pk, kbnode_t *r_keyblock,
-++                  u32 *keyid)
-+ {
-+   int internal = 0;
-+-  int rc = 0;
-++  gpg_error_t rc = 0;
-++
-++  if (r_keyblock)
-++    *r_keyblock = NULL;
-+
-+ #if MAX_PK_CACHE_ENTRIES
-+-  if (pk)
-++  if (pk && !r_keyblock)
-+     {
-+       /* Try to get it from the cache.  We don't do this when pk is
-+-         NULL as it does not guarantee that the user IDs are
-+-         cached. */
-++       * NULL as it does not guarantee that the user IDs are cached.
-++       * The old get_pubkey_function did not check PK->REQ_USAGE when
-++       * reading form the caceh.  This is probably a bug.  Note that
-++       * the cache is not used when the caller asked to return the
-++       * entire keyblock.  This is because the cache does not
-++       * associate the public key wit its primary key.  */
-+       pk_cache_entry_t ce;
-+       for (ce = pk_cache; ce; ce = ce->next)
-+	{
-+	  if (ce->keyid[0] == keyid[0] && ce->keyid[1] == keyid[1])
-+-	    /* XXX: We don't check PK->REQ_USAGE here, but if we don't
-+-	       read from the cache, we do check it!  */
-+	    {
-+	      copy_public_key (pk, ce->pk);
-+	      return 0;
-+@@ -380,6 +413,7 @@ get_pubkey (ctrl_t ctrl, PKT_public_key * pk, u32 * keyid)
-+	}
-+     }
++diff --git a/libpam/include/pam_cc_compat.h b/libpam/include/pam_cc_compat.h
++index 6919036..45c74b5 100644
++--- a/libpam/include/pam_cc_compat.h
+++++ b/libpam/include/pam_cc_compat.h
++@@ -21,6 +21,12 @@
++ # define PAM_ATTRIBUTE_ALIGNED(arg)	/* empty */
 + #endif
++ 
+++#if PAM_GNUC_PREREQ(3, 0)
+++# define PAM_ATTRIBUTE_MALLOC		__attribute__((__malloc__))
+++#else
+++# define PAM_ATTRIBUTE_MALLOC		/* empty */
+++#endif
 ++
-+   /* More init stuff.  */
-+   if (!pk)
-+     {
-+@@ -425,16 +459,18 @@ get_pubkey (ctrl_t ctrl, PKT_public_key * pk, u32 * keyid)
-+     ctx.req_usage = pk->req_usage;
-+     rc = lookup (ctrl, &ctx, 0, &kb, &found_key);
-+     if (!rc)
-++      pk_from_block (pk, kb, found_key);
-++    getkey_end (ctrl, &ctx);
-++    if (!rc && r_keyblock)
-+       {
-+-	pk_from_block (pk, kb, found_key);
-++        *r_keyblock = kb;
-++        kb = NULL;
-+       }
-+-    getkey_end (ctrl, &ctx);
-+     release_kbnode (kb);
-+   }
-+-  if (!rc)
-+-    goto leave;
-+
-+-  rc = GPG_ERR_NO_PUBKEY;
-++  if (rc)  /* Return a more useful error code.  */
-++    rc = gpg_error (GPG_ERR_NO_PUBKEY);
-+
-+ leave:
-+   if (!rc)
-+@@ -445,6 +481,14 @@ leave:
-+ }
-+
-+
-++/* Wrapper for get_pubkey_bykid w/o keyblock return feature.  */
-++int
-++get_pubkey (ctrl_t ctrl, PKT_public_key *pk, u32 *keyid)
++ #if PAM_GNUC_PREREQ(4, 6)
++ # define DIAG_PUSH_IGNORE_CAST_QUAL					\
++ 	_Pragma("GCC diagnostic push");					\
++diff --git a/libpam/include/pam_inline.h b/libpam/include/pam_inline.h
++index ec2f3bf..666a028 100644
++--- a/libpam/include/pam_inline.h
+++++ b/libpam/include/pam_inline.h
++@@ -9,6 +9,9 @@
++ #define PAM_INLINE_H
++ 
++ #include "pam_cc_compat.h"
+++#include <stdarg.h>
+++#include <stdio.h>
+++#include <stdlib.h>
++ #include <string.h>
++ #include <unistd.h>
++ #include <errno.h>
++@@ -66,6 +69,40 @@ pam_str_skip_icase_prefix_len(const char *str, const char *prefix, size_t prefix
++ #define pam_str_skip_icase_prefix(str_, prefix_)	\
++ 	pam_str_skip_icase_prefix_len((str_), (prefix_), sizeof(prefix_) - 1 + PAM_MUST_BE_ARRAY(prefix_))
++ 
+++static inline char * PAM_FORMAT((printf, 1, 2)) PAM_NONNULL((1)) PAM_ATTRIBUTE_MALLOC
+++pam_asprintf(const char *fmt, ...)
 ++{
-++  return get_pubkey_bykid (ctrl, pk, NULL, keyid);
+++	int rc;
+++	char *res;
+++	va_list ap;
+++
+++	va_start(ap, fmt);
+++	rc = vasprintf(&res, fmt, ap);
+++	va_end(ap);
+++
+++	return rc < 0 ? NULL : res;
 ++}
 ++
+++static inline int PAM_FORMAT((printf, 3, 4)) PAM_NONNULL((3))
+++pam_snprintf(char *str, size_t size, const char *fmt, ...)
+++{
+++	int rc;
+++	va_list ap;
 ++
-+ /* Same as get_pubkey but if the key was not found the function tries
-+  * to import it from LDAP.  FIXME: We should not need this but swicth
-+  * to a fingerprint lookup.  */
-+@@ -557,28 +601,6 @@ get_pubkey_fast (ctrl_t ctrl, PKT_public_key * pk, u32 * keyid)
+++	va_start(ap, fmt);
+++	rc = vsnprintf(str, size, fmt, ap);
+++	va_end(ap);
+++
+++	if (rc < 0 || (unsigned int) rc >= size)
+++		return -1;
+++	return rc;
+++}
+++
+++#define pam_sprintf(str_, fmt_, ...)						\
+++	pam_snprintf((str_), sizeof(str_) + PAM_MUST_BE_ARRAY(str_), (fmt_),	\
+++		     ##__VA_ARGS__)
+++
+++
++ static inline int
++ pam_read_passwords(int fd, int npass, char **passwords)
++ {
++-- 
++2.50.1
++
+diff --git a/meta/recipes-extended/pam/libpam/0001-pam_namespace-include-stdint-h.patch b/meta/recipes-extended/pam/libpam/0001-pam_namespace-include-stdint-h.patch
+new file mode 100644
+index 0000000000..124e5f1c3c
+--- /dev/null
++++ b/meta/recipes-extended/pam/libpam/0001-pam_namespace-include-stdint-h.patch
+@@ -0,0 +1,42 @@
++From cc9d40b7cdbd3e15ccaa324a0dda1680ef9dea13 Mon Sep 17 00:00:00 2001
++From: Jacob Heider <jacob@pkgx.dev>
++Date: Wed, 17 Jan 2024 11:49:26 -0500
++Subject: [PATCH] pam_namespace: include stdint.h
++
++pam_namespace.c makes use of SIZE_MAX but doesn't include stdint.h,
++resulting in the following build failures on 1.6.0:
++
++  pam_namespace.c: In function 'process_line':
++  pam_namespace.c:649:41: error: 'SIZE_MAX' undeclared (first use in this function)
++    649 |         if (count > UINT_MAX || count > SIZE_MAX / sizeof(uid_t)) {
++        |                                         ^~~~~~~~
++  pam_namespace.c:41:1: note: 'SIZE_MAX' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
++     40 | #include "argv_parse.h"
++    +++ |+#include <stdint.h>
++     41 |
++  pam_namespace.c:649:41: note: each undeclared identifier is reported only once for each function it appears in
++    649 |         if (count > UINT_MAX || count > SIZE_MAX / sizeof(uid_t)) {
++        |                                         ^~~~~~~~
++
++Fixes: v1.6.0~100 ("pam_namespace: validate amount of uids in config")
++Resolves: https://github.com/linux-pam/linux-pam/issues/733
++
++Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/cc9d40b7cdbd3e15ccaa324a0dda1680ef9dea13]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ modules/pam_namespace/pam_namespace.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/modules/pam_namespace/pam_namespace.c b/modules/pam_namespace/pam_namespace.c
++index f72d67189..b16731c22 100644
++--- a/modules/pam_namespace/pam_namespace.c
+++++ b/modules/pam_namespace/pam_namespace.c
++@@ -34,6 +34,8 @@
++ 
++ #define _ATFILE_SOURCE
++ 
+++#include "config.h"
+++#include <stdint.h>
++ #include "pam_cc_compat.h"
++ #include "pam_inline.h"
++ #include "pam_namespace.h"
+diff --git a/meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch b/meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch
+new file mode 100644
+index 0000000000..4f5f780f9c
+--- /dev/null
++++ b/meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch
+@@ -0,0 +1,1588 @@
++From 475bd60c552b98c7eddb3270b0b4196847c0072e Mon Sep 17 00:00:00 2001
++From: Olivier Bal-Petre <olivier.bal-petre@ssi.gouv.fr>
++Date: Tue, 4 Mar 2025 14:37:02 +0100
++Subject: [PATCH] pam_namespace: fix potential privilege escalation
++
++Existing protection provided by protect_dir() and protect_mount() were
++bind mounting on themselves all directories part of the to-be-secured
++paths. However, this works *only* against attacks executed by processes
++in the same mount namespace as the one the mountpoint was created in.
++Therefore, a user with an out-of-mount-namespace access, or multiple
++users colluding, could exploit multiple race conditions, and, for
++instance, elevate their privileges to root.
++
++This commit keeps the existing protection as a defense in depth
++measure, and to keep the existing behavior of the module. However,
++it converts all the needed function calls to operate on file
++descriptors instead of absolute paths to protect against race
++conditions globally.
++
++Signed-off-by: Olivier Bal-Petre <olivier.bal-petre@ssi.gouv.fr>
++Signed-off-by: Dmitry V. Levin <ldv@strace.io>
++
++Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/475bd60c552b98c7eddb3270b0b4196847c0072e]
++CVE: CVE-2025-6020
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ modules/pam_namespace/pam_namespace.c | 999 ++++++++++++++++----------
++ modules/pam_namespace/pam_namespace.h |  17 +-
++ 2 files changed, 647 insertions(+), 369 deletions(-)
++
++diff --git a/modules/pam_namespace/pam_namespace.c b/modules/pam_namespace/pam_namespace.c
++index 2a5082b..22d8445 100644
++--- a/modules/pam_namespace/pam_namespace.c
+++++ b/modules/pam_namespace/pam_namespace.c
++@@ -41,6 +41,300 @@
++ #include "pam_namespace.h"
++ #include "argv_parse.h"
++ 
+++#define MAGIC_LNK_FD_SIZE 64
+++
+++/* --- evaluating all files in VENDORDIR/security/namespace.d and /etc/security/namespace.d --- */
+++static const char *base_name(const char *path)
+++{
+++    const char *base = strrchr(path, '/');
+++    return base ? base+1 : path;
+++}
+++
+++static int
+++compare_filename(const void *a, const void *b)
+++{
+++	return strcmp(base_name(* (char * const *) a),
+++		      base_name(* (char * const *) b));
+++}
+++
+++static void close_fds_pre_exec(struct instance_data *idata)
+++{
+++	if (pam_modutil_sanitize_helper_fds(idata->pamh, PAM_MODUTIL_IGNORE_FD,
+++			PAM_MODUTIL_IGNORE_FD, PAM_MODUTIL_IGNORE_FD) < 0) {
+++		_exit(1);
+++	}
+++}
+++
+++static void
+++strip_trailing_slashes(char *str)
+++{
+++	char *p = str + strlen(str);
+++
+++	while (--p > str && *p == '/')
+++		*p = '\0';
+++}
+++
+++static int protect_mount(int dfd, const char *path, struct instance_data *idata)
+++{
+++	struct protect_dir_s *dir = idata->protect_dirs;
+++	char tmpbuf[MAGIC_LNK_FD_SIZE];
+++
+++	while (dir != NULL) {
+++		if (strcmp(path, dir->dir) == 0) {
+++			return 0;
+++		}
+++		dir = dir->next;
+++	}
+++
+++	if (pam_sprintf(tmpbuf, "/proc/self/fd/%d", dfd) < 0)
+++		return -1;
+++
+++	dir = calloc(1, sizeof(*dir));
+++
+++	if (dir == NULL) {
+++		return -1;
+++	}
+++
+++	dir->dir = strdup(path);
+++
+++	if (dir->dir == NULL) {
+++		free(dir);
+++		return -1;
+++	}
+++
+++	if (idata->flags & PAMNS_DEBUG) {
+++		pam_syslog(idata->pamh, LOG_INFO,
+++			"Protect mount of %s over itself", path);
+++	}
+++
+++	if (mount(tmpbuf, tmpbuf, NULL, MS_BIND, NULL) != 0) {
+++		int save_errno = errno;
+++		pam_syslog(idata->pamh, LOG_ERR,
+++			"Protect mount of %s failed: %m", tmpbuf);
+++		free(dir->dir);
+++		free(dir);
+++		errno = save_errno;
+++		return -1;
+++	}
+++
+++	dir->next = idata->protect_dirs;
+++	idata->protect_dirs = dir;
+++
+++	return 0;
+++}
+++
+++/*
+++ * Returns a fd to the given absolute path, acquired securely. This means:
+++ * - iterating on each segment of the path,
+++ * - not following user symlinks,
+++ * - using race-free operations.
+++ *
+++ * Takes a bit mask to specify the operation mode:
+++ * - SECURE_OPENDIR_PROTECT: call protect_mount() on each unsafe segment of path
+++ * - SECURE_OPENDIR_MKDIR: create last segment of path if does not exist
+++ * - SECURE_OPENDIR_FULL_FD: open the directory with O_RDONLY instead of O_PATH,
+++ *     allowing more operations to be done with the returned fd
+++ *
+++ * Be aware that using SECURE_OPENDIR_PROTECT:
+++ * - will modify some external state (global structure...) and should not be
+++ *   called in cleanup code paths. See wrapper secure_opendir_stateless()
+++ * - need a non-NULL idata to call protect_mount()
+++ */
+++static int secure_opendir(const char *path, int opm, mode_t mode,
+++	struct instance_data *idata)
+++{
+++	char *p;
+++	char *d;
+++	char *dir;
+++	int dfd = -1;
+++	int dfd_next;
+++	int save_errno;
+++	int flags = O_DIRECTORY | O_CLOEXEC;
+++	int rv = -1;
+++	struct stat st;
+++
+++	if (opm & SECURE_OPENDIR_FULL_FD)
+++		flags |= O_RDONLY;
+++	else
+++		flags |= O_PATH;
+++
+++	/* Check for args consistency */
+++	if ((opm & SECURE_OPENDIR_PROTECT) && idata == NULL)
+++		return -1;
+++
+++	/* Accept only absolute paths */
+++	if (*path != '/')
+++		return -1;
+++
+++	dir = p = strdup(path);
+++	if (p == NULL)
+++		return -1;
+++
+++	/* Assume '/' is safe */
+++	dfd = open("/", flags);
+++	if (dfd == -1)
+++		goto error;
+++
+++	/* Needed to not loop too far and call openat() on NULL */
+++	strip_trailing_slashes(p);
+++
+++	dir++;
+++
+++	/* In case path is '/' */
+++	if (*dir == '\0') {
+++		free(p);
+++		return dfd;
+++	}
+++
+++	while ((d=strchr(dir, '/')) != NULL) {
+++		*d = '\0';
+++
+++		dfd_next = openat(dfd, dir, flags);
+++		if (dfd_next == -1)
+++			goto error;
+++
+++		if (fstat(dfd_next, &st) != 0) {
+++			close(dfd_next);
+++			goto error;
+++		}
+++
+++		if ((flags & O_NOFOLLOW) && (opm & SECURE_OPENDIR_PROTECT)) {
+++			/* we are inside user-owned dir - protect */
+++			if (protect_mount(dfd_next, p, idata) == -1) {
+++				close(dfd_next);
+++				goto error;
+++			}
+++			/*
+++			 * Reopen the directory to obtain a new descriptor
+++			 * after protect_mount(), this is necessary in cases
+++			 * when another directory is going to be mounted over
+++			 * the given path.
+++			 */
+++			close(dfd_next);
+++			dfd_next = openat(dfd, dir, flags);
+++			if (dfd_next == -1)
+++				goto error;
+++		} else if (st.st_uid != 0
+++		           || (st.st_gid != 0 && (st.st_mode & S_IWGRP))
+++		           || (st.st_mode & S_IWOTH)) {
+++			/* do not follow symlinks on subdirectories */
+++			flags |= O_NOFOLLOW;
+++		}
+++
+++		close(dfd);
+++		dfd = dfd_next;
+++
+++		*d = '/';
+++		dir = d + 1;
+++	}
+++
+++	rv = openat(dfd, dir, flags);
+++
+++	if (rv == -1) {
+++		if ((opm & SECURE_OPENDIR_MKDIR) && mkdirat(dfd, dir, mode) == 0)
+++			rv = openat(dfd, dir, flags);
+++
+++		if (rv == -1)
+++			goto error;
+++	}
+++
+++	if ((flags & O_NOFOLLOW) && (opm & SECURE_OPENDIR_PROTECT)) {
+++		/* we are inside user-owned dir - protect */
+++		if (protect_mount(rv, p, idata) == -1) {
+++			save_errno = errno;
+++			close(rv);
+++			rv = -1;
+++			errno = save_errno;
+++		}
+++		/*
+++		 * Reopen the directory to obtain a new descriptor after
+++		 * protect_mount(), this is necessary in cases when another
+++		 * directory is going to be mounted over the given path.
+++		 */
+++		close(rv);
+++		rv = openat(dfd, dir, flags);
+++	}
+++
+++error:
+++	save_errno = errno;
+++	free(p);
+++	if (dfd >= 0)
+++		close(dfd);
+++	errno = save_errno;
+++
+++	return rv;
+++}
+++
+++/*
+++ * Returns a fd to the given path, acquired securely.
+++ * It can be called in all situations, including in cleanup code paths, as
+++ * it does not modify external state (no access to global structures...).
+++ */
+++static int secure_opendir_stateless(const char *path)
+++{
+++	return secure_opendir(path, 0, 0, NULL);
+++}
+++
+++/*
+++ * Umount securely the given path, even if the directories along
+++ * the path are under user control. It should protect against
+++ * symlinks attacks and race conditions.
+++ */
+++static int secure_umount(const char *path)
+++{
+++	int save_errno;
+++	int rv = -1;
+++	int dfd = -1;
+++	char s_path[MAGIC_LNK_FD_SIZE];
+++
+++	dfd = secure_opendir_stateless(path);
+++	if (dfd == -1)
+++		return rv;
+++
+++	if (pam_sprintf(s_path, "/proc/self/fd/%d", dfd) < 0)
+++		goto error;
+++
+++	/*
+++	* We still have a fd open to path itself,
+++	* so we need to do a lazy umount.
+++	*/
+++	rv = umount2(s_path, MNT_DETACH);
+++
+++error:
+++	save_errno = errno;
+++	close(dfd);
+++	errno = save_errno;
+++	return rv;
+++}
+++
+++/*
+++ * Rmdir the given path securely, protecting against symlinks attacks
+++ * and race conditions.
+++ * This function is currently called only in cleanup code paths where
+++ * any errors returned are not handled, so do not handle them either.
+++ * Basically, try to rmdir the path on a best-effort basis.
+++ */
+++static void secure_try_rmdir(const char *path)
+++{
+++	int dfd;
+++	char *buf;
+++	char *parent;
+++
+++	buf = strdup(path);
+++	if (buf == NULL)
+++		return;
+++
+++	parent = dirname(buf);
+++
+++	dfd = secure_opendir_stateless(parent);
+++	if (dfd >= 0) {
+++		unlinkat(dfd, base_name(path), AT_REMOVEDIR);
+++		close(dfd);
+++	}
+++
+++	free(buf);
+++}
+++
++ /*
++  * Adds an entry for a polyinstantiated directory to the linked list of
++  * polyinstantiated directories. It is called from process_line() while
++@@ -73,6 +367,7 @@ static void del_polydir(struct polydir_s *poly)
++ 	}
 + }
-+
-+
-+-/* Return the entire keyblock used to create SIG.  This is a
-+- * specialized version of get_pubkeyblock.
-+- *
-+- * FIXME: This is a hack because get_pubkey_for_sig was already called
-+- * and it could have used a cache to hold the key.  */
-+-kbnode_t
-+-get_pubkeyblock_for_sig (ctrl_t ctrl, PKT_signature *sig)
-+-{
-+-  const byte *fpr;
-+-  size_t fprlen;
-+-  kbnode_t keyblock;
++ 
+++
++ /*
++  * Deletes all the entries in the linked list.
++  */
++@@ -92,7 +387,7 @@ static void unprotect_dirs(struct protect_dir_s *dir)
++ 	struct protect_dir_s *next;
++ 
++ 	while (dir != NULL) {
++-		umount(dir->dir);
+++		secure_umount(dir->dir);
++ 		free(dir->dir);
++ 		next = dir->next;
++ 		free(dir);
++@@ -110,7 +405,7 @@ static void cleanup_protect_data(pam_handle_t *pamh UNUSED , void *data, int err
++ 	unprotect_dirs(data);
++ }
++ 
++-static char *expand_variables(const char *orig, const char *var_names[], const char *var_values[])
+++static char *expand_variables(const char *orig, const char *const var_names[], const char *var_values[])
++ {
++ 	const char *src = orig;
++ 	char *dst;
++@@ -121,7 +416,7 @@ static char *expand_variables(const char *orig, const char *var_names[], const c
++ 		if (*src == '$') {
++ 			int i;
++ 			for (i = 0; var_names[i]; i++) {
++-				int namelen = strlen(var_names[i]);
+++				size_t namelen = strlen(var_names[i]);
++ 				if (strncmp(var_names[i], src+1, namelen) == 0) {
++ 					dstlen += strlen(var_values[i]) - 1; /* $ */
++ 					src += namelen;
++@@ -139,7 +434,7 @@ static char *expand_variables(const char *orig, const char *var_names[], const c
++ 		if (c == '$') {
++ 			int i;
++ 			for (i = 0; var_names[i]; i++) {
++-				int namelen = strlen(var_names[i]);
+++				size_t namelen = strlen(var_names[i]);
++ 				if (strncmp(var_names[i], src+1, namelen) == 0) {
++ 					dst = stpcpy(dst, var_values[i]);
++ 					--dst;
++@@ -223,8 +518,7 @@ static int parse_iscript_params(char *params, struct polydir_s *poly)
++ 
++     if (*params != '\0') {
++ 	if (*params != '/') { /* path is relative to NAMESPACE_D_DIR */
++-		if (asprintf(&poly->init_script, "%s%s", NAMESPACE_D_DIR, params) == -1)
++-			return -1;
+++		poly->init_script = pam_asprintf("%s%s", NAMESPACE_D_DIR, params);
++ 	} else {
++ 		poly->init_script = strdup(params);
++ 	}
++@@ -306,9 +600,9 @@ static int parse_method(char *method, struct polydir_s *poly,
++ {
++     enum polymethod pm;
++     char *sptr = NULL;
++-    static const char *method_names[] = { "user", "context", "level", "tmpdir",
+++    static const char *const method_names[] = { "user", "context", "level", "tmpdir",
++ 	"tmpfs", NULL };
++-    static const char *flag_names[] = { "create", "noinit", "iscript",
+++    static const char *const flag_names[] = { "create", "noinit", "iscript",
++ 	"shared", "mntopts", NULL };
++     static const unsigned int flag_values[] = { POLYDIR_CREATE, POLYDIR_NOINIT,
++ 	POLYDIR_ISCRIPT, POLYDIR_SHARED, POLYDIR_MNTOPTS };
++@@ -333,7 +627,7 @@ static int parse_method(char *method, struct polydir_s *poly,
++ 
++     while ((flag=strtok_r(NULL, ":", &sptr)) != NULL) {
++ 	for (i = 0; flag_names[i]; i++) {
++-		int namelen = strlen(flag_names[i]);
+++		size_t namelen = strlen(flag_names[i]);
++ 
++ 		if (strncmp(flag, flag_names[i], namelen) == 0) {
++ 			poly->flags |= flag_values[i];
++@@ -379,27 +673,27 @@ static int parse_method(char *method, struct polydir_s *poly,
++  * of the namespace configuration file. It skips over comments and incomplete
++  * or malformed lines. It processes a valid line with information on
++  * polyinstantiating a directory by populating appropriate fields of a
++- * polyinstatiated directory structure and then calling add_polydir_entry to
+++ * polyinstantiated directory structure and then calling add_polydir_entry to
++  * add that entry to the linked list of polyinstantiated directories.
++  */
++ static int process_line(char *line, const char *home, const char *rhome,
++ 			struct instance_data *idata)
++ {
++     char *dir = NULL, *instance_prefix = NULL, *rdir = NULL;
+++    const char *config_dir, *config_instance_prefix;
++     char *method, *uids;
++     char *tptr;
++     struct polydir_s *poly;
++     int retval = 0;
++     char **config_options = NULL;
++-    static const char *var_names[] = {"HOME", "USER", NULL};
+++    static const char *const var_names[] = {"HOME", "USER", NULL};
++     const char *var_values[] = {home, idata->user};
++     const char *rvar_values[] = {rhome, idata->ruser};
++-    int len;
++ 
++     /*
++      * skip the leading white space
++      */
++-    while (*line && isspace(*line))
+++    while (*line && isspace((unsigned char)*line))
++         line++;
++ 
++     /*
++@@ -435,22 +729,19 @@ static int process_line(char *line, const char *home, const char *rhome,
++         goto erralloc;
++     }
++ 
++-    dir = config_options[0];
++-    if (dir == NULL) {
+++    config_dir = config_options[0];
+++    if (config_dir == NULL) {
++         pam_syslog(idata->pamh, LOG_NOTICE, "Invalid line missing polydir");
++         goto skipping;
++     }
++-    instance_prefix = config_options[1];
++-    if (instance_prefix == NULL) {
+++    config_instance_prefix = config_options[1];
+++    if (config_instance_prefix == NULL) {
++         pam_syslog(idata->pamh, LOG_NOTICE, "Invalid line missing instance_prefix");
++-        instance_prefix = NULL;
++         goto skipping;
++     }
++     method = config_options[2];
++     if (method == NULL) {
++         pam_syslog(idata->pamh, LOG_NOTICE, "Invalid line missing method");
++-        instance_prefix = NULL;
++-        dir = NULL;
++         goto skipping;
++     }
++ 
++@@ -465,19 +756,16 @@ static int process_line(char *line, const char *home, const char *rhome,
++     /*
++      * Expand $HOME and $USER in poly dir and instance dir prefix
++      */
++-    if ((rdir=expand_variables(dir, var_names, rvar_values)) == NULL) {
++-	    instance_prefix = NULL;
++-	    dir = NULL;
+++    if ((rdir = expand_variables(config_dir, var_names, rvar_values)) == NULL) {
++ 	    goto erralloc;
++     }
++ 
++-    if ((dir=expand_variables(dir, var_names, var_values)) == NULL) {
++-	    instance_prefix = NULL;
+++    if ((dir = expand_variables(config_dir, var_names, var_values)) == NULL) {
++ 	    goto erralloc;
++     }
++ 
++-    if ((instance_prefix=expand_variables(instance_prefix, var_names, var_values))
++-	    == NULL) {
+++    if ((instance_prefix = expand_variables(config_instance_prefix,
+++					    var_names, var_values)) == NULL) {
++ 	    goto erralloc;
++     }
++ 
++@@ -487,15 +775,8 @@ static int process_line(char *line, const char *home, const char *rhome,
++ 	    pam_syslog(idata->pamh, LOG_DEBUG, "Expanded instance prefix: '%s'", instance_prefix);
++     }
++ 
++-    len = strlen(dir);
++-    if (len > 0 && dir[len-1] == '/') {
++-	    dir[len-1] = '\0';
++-    }
 +-
-+-  /* First try the ISSUER_FPR info.  */
-+-  fpr = issuer_fpr_raw (sig, &fprlen);
-+-  if (fpr && !get_pubkey_byfprint (ctrl, NULL, &keyblock, fpr, fprlen))
-+-    return keyblock;
++-    len = strlen(rdir);
++-    if (len > 0 && rdir[len-1] == '/') {
++-	    rdir[len-1] = '\0';
++-    }
+++    strip_trailing_slashes(dir);
+++    strip_trailing_slashes(rdir);
++ 
++     if (dir[0] == '\0' || rdir[0] == '\0') {
++ 	    pam_syslog(idata->pamh, LOG_NOTICE, "Invalid polydir");
++@@ -506,26 +787,15 @@ static int process_line(char *line, const char *home, const char *rhome,
++      * Populate polyinstantiated directory structure with appropriate
++      * pathnames and the method with which to polyinstantiate.
++      */
++-    if (strlen(dir) >= sizeof(poly->dir)
++-        || strlen(rdir) >= sizeof(poly->rdir)
++-	|| strlen(instance_prefix) >= sizeof(poly->instance_prefix)) {
++-	pam_syslog(idata->pamh, LOG_NOTICE, "Pathnames too long");
++-	goto skipping;
++-    }
++-    strcpy(poly->dir, dir);
++-    strcpy(poly->rdir, rdir);
++-    strcpy(poly->instance_prefix, instance_prefix);
 +-
-+-  /* Fallback to use the ISSUER_KEYID.  */
-+-  return get_pubkeyblock (ctrl, sig->keyid);
++     if (parse_method(method, poly, idata) != 0) {
++ 	    goto skipping;
++     }
++ 
++-    if (poly->method == TMPDIR) {
++-	if (sizeof(poly->instance_prefix) - strlen(poly->instance_prefix) < 7) {
++-		pam_syslog(idata->pamh, LOG_NOTICE, "Pathnames too long");
++-		goto skipping;
++-	}
++-	strcat(poly->instance_prefix, "XXXXXX");
+++    if (pam_sprintf(poly->dir, "%s", dir) < 0
+++	|| pam_sprintf(poly->rdir, "%s", rdir) < 0
+++	|| pam_sprintf(poly->instance_prefix, "%s", instance_prefix) < 0) {
+++	pam_syslog(idata->pamh, LOG_NOTICE, "Pathnames too long");
+++	goto skipping;
++     }
++ 
++     /*
++@@ -549,7 +819,7 @@ static int process_line(char *line, const char *home, const char *rhome,
++     if (uids) {
++         uid_t *uidptr;
++         const char *ustr, *sstr;
++-        int count, i;
+++        size_t count, i;
++ 
++ 	if (*uids == '~') {
++ 		poly->flags |= POLYDIR_EXCLUSIVE;
++@@ -558,8 +828,13 @@ static int process_line(char *line, const char *home, const char *rhome,
++         for (count = 0, ustr = sstr = uids; sstr; ustr = sstr + 1, count++)
++            sstr = strchr(ustr, ',');
++ 
+++        if (count > UINT_MAX || count > SIZE_MAX / sizeof(uid_t)) {
+++            pam_syslog(idata->pamh, LOG_ERR, "Too many uids encountered in configuration");
+++            goto skipping;
+++        }
+++
++         poly->num_uids = count;
++-        poly->uid = (uid_t *) malloc(count * sizeof (uid_t));
+++        poly->uid = malloc(count * sizeof (uid_t));
++         uidptr = poly->uid;
++         if (uidptr == NULL) {
++             goto erralloc;
++@@ -798,6 +1073,23 @@ static char *md5hash(const char *instname, struct instance_data *idata)
++ }
++ 
++ #ifdef WITH_SELINUX
+++static char *secure_getfilecon(pam_handle_t *pamh, const char *dir)
+++{
+++	char *ctx = NULL;
+++	int dfd = secure_opendir(dir, SECURE_OPENDIR_FULL_FD, 0, NULL);
+++	if (dfd < 0) {
+++		pam_syslog(pamh, LOG_ERR, "Error getting fd to %s: %m", dir);
+++		return NULL;
+++	}
+++	if (fgetfilecon(dfd, &ctx) < 0)
+++		ctx = NULL;
+++	if (ctx == NULL)
+++		pam_syslog(pamh, LOG_ERR,
+++			   "Error getting poly dir context for %s: %m", dir);
+++	close(dfd);
+++	return ctx;
+++}
+++
++ static int form_context(const struct polydir_s *polyptr,
++ 		char **i_context, char **origcon,
++ 		struct instance_data *idata)
++@@ -809,12 +1101,9 @@ static int form_context(const struct polydir_s *polyptr,
++ 	/*
++ 	 * Get the security context of the directory to polyinstantiate.
++ 	 */
++-	rc = getfilecon(polyptr->dir, origcon);
++-	if (rc < 0 || *origcon == NULL) {
++-		pam_syslog(idata->pamh, LOG_ERR,
++-				"Error getting poly dir context, %m");
+++	*origcon = secure_getfilecon(idata->pamh, polyptr->dir);
+++	if (*origcon == NULL)
++ 		return PAM_SESSION_ERR;
++-	}
++ 
++ 	if (polyptr->method == USER) return PAM_SUCCESS;
++ 
++@@ -905,34 +1194,58 @@ static int form_context(const struct polydir_s *polyptr,
++ 		return rc;
++ 	}
++ 	/* Should never get here */
+++	freecon(scon);
++ 	return PAM_SUCCESS;
++ }
++ #endif
++ 
++ /*
++- * poly_name returns the name of the polyinstantiated instance directory
+++ * From the instance differentiation string, set in the polyptr structure:
+++ * - the absolute path to the instance dir,
+++ * - the absolute path to the previous dir (parent),
+++ * - the instance name (may be different than the instance differentiation string)
+++ */
+++static int set_polydir_paths(struct polydir_s *polyptr, const char *inst_differentiation)
+++{
+++	char *tmp;
+++
+++	if (pam_sprintf(polyptr->instance_absolute, "%s%s",
+++	                polyptr->instance_prefix, inst_differentiation) < 0)
+++		return -1;
+++
+++	polyptr->instname = strrchr(polyptr->instance_absolute, '/') + 1;
+++
+++	if (pam_sprintf(polyptr->instance_parent, "%s", polyptr->instance_absolute) < 0)
+++		return -1;
+++
+++	tmp = strrchr(polyptr->instance_parent, '/') + 1;
+++	*tmp = '\0';
+++
+++	return 0;
+++}
+++
+++/*
+++ * Set the name of the polyinstantiated instance directory
++  * based on the method used for polyinstantiation (user, context or level)
++  * In addition, the function also returns the security contexts of the
++  * original directory to polyinstantiate and the polyinstantiated instance
++  * directory.
++  */
++ #ifdef WITH_SELINUX
++-static int poly_name(const struct polydir_s *polyptr, char **i_name,
++-	char **i_context, char **origcon,
++-        struct instance_data *idata)
+++static int poly_name(struct polydir_s *polyptr, char **i_context,
+++        char **origcon, struct instance_data *idata)
++ #else
++-static int poly_name(const struct polydir_s *polyptr, char **i_name,
++-	struct instance_data *idata)
+++static int poly_name(struct polydir_s *polyptr, struct instance_data *idata)
++ #endif
++ {
++     int rc;
+++    char *inst_differentiation = NULL;
++     char *hash = NULL;
++     enum polymethod pm;
++ #ifdef WITH_SELINUX
++     char *rawcon = NULL;
++ #endif
++ 
++-    *i_name = NULL;
++ #ifdef WITH_SELINUX
++     *i_context = NULL;
++     *origcon = NULL;
++@@ -966,10 +1279,8 @@ static int poly_name(const struct polydir_s *polyptr, char **i_name,
++ 
++     switch (pm) {
++         case USER:
++-	    if (asprintf(i_name, "%s", idata->user) < 0) {
++-		*i_name = NULL;
+++	    if ((inst_differentiation = strdup(idata->user)) == NULL)
++ 		goto fail;
++-	    }
++ 	    break;
++ 
++ #ifdef WITH_SELINUX
++@@ -979,26 +1290,25 @@ static int poly_name(const struct polydir_s *polyptr, char **i_name,
++ 		pam_syslog(idata->pamh, LOG_ERR, "Error translating directory context");
++ 		goto fail;
++ 	    }
++-	    if (polyptr->flags & POLYDIR_SHARED) {
++-		if (asprintf(i_name, "%s", rawcon) < 0) {
++-			*i_name = NULL;
++-			goto fail;
++-		}
++-	    } else {
++-		if (asprintf(i_name, "%s_%s", rawcon, idata->user) < 0) {
++-			*i_name = NULL;
++-			goto fail;
++-		}
++-	    }
+++	    if (polyptr->flags & POLYDIR_SHARED)
+++		inst_differentiation = strdup(rawcon);
+++	    else
+++		inst_differentiation = pam_asprintf("%s_%s", rawcon, idata->user);
+++	    if (inst_differentiation == NULL)
+++		goto fail;
++ 	    break;
++ 
++ #endif /* WITH_SELINUX */
++ 
++ 	case TMPDIR:
+++	    if ((inst_differentiation = strdup("XXXXXX")) == NULL)
+++		goto fail;
+++	    goto success;
+++
++ 	case TMPFS:
++-	    if ((*i_name=strdup("")) == NULL)
+++	    if ((inst_differentiation=strdup("")) == NULL)
++ 		goto fail;
++-	    return PAM_SUCCESS;
+++	    goto success;
++ 
++ 	default:
++ 	    if (idata->flags & PAMNS_DEBUG)
++@@ -1007,31 +1317,37 @@ static int poly_name(const struct polydir_s *polyptr, char **i_name,
++     }
++ 
++     if (idata->flags & PAMNS_DEBUG)
++-        pam_syslog(idata->pamh, LOG_DEBUG, "poly_name %s", *i_name);
+++        pam_syslog(idata->pamh, LOG_DEBUG, "poly_name %s", inst_differentiation);
++ 
++-    if ((idata->flags & PAMNS_GEN_HASH) || strlen(*i_name) > NAMESPACE_MAX_DIR_LEN) {
++-        hash = md5hash(*i_name, idata);
+++    if ((idata->flags & PAMNS_GEN_HASH) || strlen(inst_differentiation) > NAMESPACE_MAX_DIR_LEN) {
+++        hash = md5hash(inst_differentiation, idata);
++         if (hash == NULL) {
++ 	    goto fail;
++         }
++         if (idata->flags & PAMNS_GEN_HASH) {
++-	    free(*i_name);
++-	    *i_name = hash;
+++	    free(inst_differentiation);
+++	    inst_differentiation = hash;
++ 	    hash = NULL;
++         } else {
++-	    char *newname;
++-	    if (asprintf(&newname, "%.*s_%s", NAMESPACE_MAX_DIR_LEN-1-(int)strlen(hash),
++-		*i_name, hash) < 0) {
+++	    char *newname =
+++		pam_asprintf("%.*s_%s",
+++			     NAMESPACE_MAX_DIR_LEN - 1 - (int)strlen(hash),
+++			     inst_differentiation, hash);
+++	    if (newname == NULL)
++ 		goto fail;
++-	    }
++-	    free(*i_name);
++-	    *i_name = newname;
+++	    free(inst_differentiation);
+++	    inst_differentiation = newname;
++         }
++     }
++-    rc = PAM_SUCCESS;
++ 
+++success:
+++    if (set_polydir_paths(polyptr, inst_differentiation) == -1)
+++        goto fail;
+++
+++    rc = PAM_SUCCESS;
++ fail:
++     free(hash);
+++    free(inst_differentiation);
++ #ifdef WITH_SELINUX
++     freecon(rawcon);
++ #endif
++@@ -1042,187 +1358,35 @@ fail:
++ 	freecon(*origcon);
++ 	*origcon = NULL;
++ #endif
++-	free(*i_name);
++-	*i_name = NULL;
++     }
++     return rc;
++ }
++ 
++-static int protect_mount(int dfd, const char *path, struct instance_data *idata)
+++static int check_inst_parent(int dfd, struct instance_data *idata)
++ {
++-	struct protect_dir_s *dir = idata->protect_dirs;
++-	char tmpbuf[64];
++-
++-	while (dir != NULL) {
++-		if (strcmp(path, dir->dir) == 0) {
++-			return 0;
++-		}
++-		dir = dir->next;
++-	}
++-
++-	dir = calloc(1, sizeof(*dir));
++-
++-	if (dir == NULL) {
++-		return -1;
++-	}
++-
++-	dir->dir = strdup(path);
++-
++-	if (dir->dir == NULL) {
++-		free(dir);
++-		return -1;
++-	}
+++	struct stat instpbuf;
++ 
++-	snprintf(tmpbuf, sizeof(tmpbuf), "/proc/self/fd/%d", dfd);
+++	/*
+++	 * Stat the instance parent directory to make sure it's writable by
+++	 * root only (unless the admin explicitly instructs to ignore the
+++	 * instance parent mode by the "ignore_instance_parent_mode" argument).
+++	 */
++ 
++-	if (idata->flags & PAMNS_DEBUG) {
++-		pam_syslog(idata->pamh, LOG_INFO,
++-			"Protect mount of %s over itself", path);
++-	}
+++	if (idata->flags & PAMNS_IGN_INST_PARENT_MODE)
+++		return PAM_SUCCESS;
++ 
++-	if (mount(tmpbuf, tmpbuf, NULL, MS_BIND, NULL) != 0) {
++-		int save_errno = errno;
+++	if (fstat(dfd, &instpbuf) < 0) {
++ 		pam_syslog(idata->pamh, LOG_ERR,
++-			"Protect mount of %s failed: %m", tmpbuf);
++-		free(dir->dir);
++-		free(dir);
++-		errno = save_errno;
++-		return -1;
++-	}
++-
++-	dir->next = idata->protect_dirs;
++-	idata->protect_dirs = dir;
++-
++-	return 0;
 +-}
 +-
++-static int protect_dir(const char *path, mode_t mode, int do_mkdir,
++-	struct instance_data *idata)
++-{
++-	char *p = strdup(path);
++-	char *d;
++-	char *dir = p;
++-	int dfd = AT_FDCWD;
++-	int dfd_next;
++-	int save_errno;
++-	int flags = O_RDONLY | O_DIRECTORY;
++-	int rv = -1;
++-	struct stat st;
 +-
-+ /* Return the key block for the key with key id KEYID or NULL, if an
-+  * error occurs.  Use release_kbnode() to release the key block.
-+  *
-+@@ -3611,6 +3633,7 @@ finish_lookup (kbnode_t keyblock, unsigned int req_usage, int want_exact,
-+   kbnode_t latest_key;
-+   PKT_public_key *pk;
-+   int req_prim;
-++  int diag_exactfound = 0;
-+   u32 curtime = make_timestamp ();
-+
-+   if (r_flags)
-+@@ -3641,6 +3664,7 @@ finish_lookup (kbnode_t keyblock, unsigned int req_usage, int want_exact,
-+	      foundk = k;
-+               pk = k->pkt->pkt.public_key;
-+               pk->flags.exact = 1;
-++	      diag_exactfound = 1;
-+	      break;
-+	    }
-+	}
-+@@ -3661,10 +3685,14 @@ finish_lookup (kbnode_t keyblock, unsigned int req_usage, int want_exact,
-+     log_debug ("finish_lookup: checking key %08lX (%s)(req_usage=%x)\n",
-+	       (ulong) keyid_from_pk (keyblock->pkt->pkt.public_key, NULL),
-+	       foundk ? "one" : "all", req_usage);
-++  if (diag_exactfound && DBG_LOOKUP)
-++    log_debug ("\texact search requested and found\n");
-+
-+   if (!req_usage)
-+     {
-+       latest_key = foundk ? foundk : keyblock;
-++      if (DBG_LOOKUP)
-++        log_debug ("\tno usage requested - accepting key\n");
-+       goto found;
-+     }
-+
-+diff --git a/g10/gpg.h b/g10/gpg.h
-+index c51bbbb..0cdcb8b 100644
-+--- a/g10/gpg.h
-++++ b/g10/gpg.h
-+@@ -69,7 +69,8 @@ struct dirmngr_local_s;
-+ typedef struct dirmngr_local_s *dirmngr_local_t;
-+
-+ /* Object used to describe a keyblock node.  */
-+-typedef struct kbnode_struct *KBNODE;   /* Deprecated use kbnode_t. */typedef struct kbnode_struct *kbnode_t;
-++typedef struct kbnode_struct *KBNODE;   /* Deprecated use kbnode_t. */
-++typedef struct kbnode_struct *kbnode_t;
-+
-+ /* The handle for keydb operations.  */
-+ typedef struct keydb_handle_s *KEYDB_HANDLE;
-+diff --git a/g10/keydb.h b/g10/keydb.h
-+index 51dfece..8e494f6 100644
-+--- a/g10/keydb.h
-++++ b/g10/keydb.h
-+@@ -332,9 +332,15 @@ void getkey_disable_caches(void);
-+ /* Return the public key used for signature SIG and store it at PK.  */
-+ gpg_error_t get_pubkey_for_sig (ctrl_t ctrl,
-+                                 PKT_public_key *pk, PKT_signature *sig,
-+-                                PKT_public_key *forced_pk);
-++                                PKT_public_key *forced_pk,
-++                                kbnode_t *r_keyblock);
-+
-+-/* Return the public key with the key id KEYID and store it at PK.  */
-++/* Return the public key with the key id KEYID and store it at PK.
-++ * Optionally return the entire keyblock.  */
-++gpg_error_t get_pubkey_bykid (ctrl_t ctrl, PKT_public_key *pk,
-++                              kbnode_t *r_keyblock, u32 *keyid);
-++
-++/* Same as get_pubkey_bykid but w/o r_keyblock.  */
-+ int get_pubkey (ctrl_t ctrl, PKT_public_key *pk, u32 *keyid);
-+
-+ /* Same as get_pubkey but with auto LDAP fetch.  */
-+diff --git a/g10/mainproc.c b/g10/mainproc.c
-+index 79d9ff2..6e114d2 100644
-+--- a/g10/mainproc.c
-++++ b/g10/mainproc.c
-+@@ -1108,12 +1108,15 @@ proc_compressed (CTX c, PACKET *pkt)
-+  * used to verify the signature will be stored there, or NULL if not
-+  * found.  If FORCED_PK is not NULL, this public key is used to verify
-+  * _data signatures_ and no key lookup is done.  Returns: 0 = valid
-+- * signature or an error code
-++ * signature or an error code.  If R_KEYBLOCK is not NULL the keyblock
-++ * carries the used PK is stored there.  The caller should always free
-++ * the return value using release_kbnode.
-+  */
-+ static int
-+ do_check_sig (CTX c, kbnode_t node, const void *extrahash, size_t extrahashlen,
-+               PKT_public_key *forced_pk, int *is_selfsig,
-+-	      int *is_expkey, int *is_revkey, PKT_public_key **r_pk)
-++	      int *is_expkey, int *is_revkey,
-++              PKT_public_key **r_pk, kbnode_t *r_keyblock)
-+ {
-+   PKT_signature *sig;
-+   gcry_md_hd_t md = NULL;
-+@@ -1123,6 +1126,8 @@ do_check_sig (CTX c, kbnode_t node, const void *extrahash, size_t extrahashlen,
-+
-+   if (r_pk)
-+     *r_pk = NULL;
-++  if (r_keyblock)
-++    *r_keyblock = NULL;
-+
-+   log_assert (node->pkt->pkttype == PKT_SIGNATURE);
-+   if (is_selfsig)
-+@@ -1199,16 +1204,19 @@ do_check_sig (CTX c, kbnode_t node, const void *extrahash, size_t extrahashlen,
-+   /* We only get here if we are checking the signature of a binary
-+      (0x00) or text document (0x01).  */
-+   rc = check_signature (c->ctrl, sig, md, extrahash, extrahashlen,
-+-                        forced_pk, NULL, is_expkey, is_revkey, r_pk);
-++                        forced_pk, NULL, is_expkey, is_revkey,
-++                        r_pk, r_keyblock);
-+   if (! rc)
-+     md_good = md;
-+   else if (gpg_err_code (rc) == GPG_ERR_BAD_SIGNATURE && md2)
-+     {
-+       PKT_public_key *pk2;
-+
-++      if (r_keyblock)
-++        release_kbnode (*r_keyblock);
-+       rc = check_signature (c->ctrl, sig, md2, extrahash, extrahashlen,
-+                             forced_pk, NULL, is_expkey, is_revkey,
-+-                            r_pk? &pk2 : NULL);
-++                            r_pk? &pk2 : NULL, r_keyblock);
-+       if (!rc)
-+         {
-+           md_good = md2;
-+@@ -1371,7 +1379,7 @@ list_node (CTX c, kbnode_t node)
-+         {
-+           fflush (stdout);
-+           rc2 = do_check_sig (c, node, NULL, 0, NULL,
-+-                              &is_selfsig, NULL, NULL, NULL);
-++                              &is_selfsig, NULL, NULL, NULL, NULL);
-+           switch (gpg_err_code (rc2))
-+             {
-+             case 0:		          sigrc = '!'; break;
-+@@ -1830,7 +1838,7 @@ check_sig_and_print (CTX c, kbnode_t node)
-+   PKT_public_key *pk = NULL;  /* The public key for the signature or NULL. */
-+   const void *extrahash = NULL;
-+   size_t extrahashlen = 0;
-+-  kbnode_t included_keyblock = NULL;
-++  kbnode_t keyblock = NULL;
-+
-+   if (opt.skip_verify)
-+     {
-+@@ -1949,7 +1957,8 @@ check_sig_and_print (CTX c, kbnode_t node)
-+       {
-+       ambiguous:
-+         log_error(_("can't handle this ambiguous signature data\n"));
-+-        return 0;
-++        rc = 0;
-++        goto leave;
-+       }
-+   } /* End checking signature packet composition.  */
-+
-+@@ -1985,7 +1994,7 @@ check_sig_and_print (CTX c, kbnode_t node)
-+     log_info (_("               issuer \"%s\"\n"), sig->signers_uid);
-+
-+   rc = do_check_sig (c, node, extrahash, extrahashlen, NULL,
-+-                     NULL, &is_expkey, &is_revkey, &pk);
-++                     NULL, &is_expkey, &is_revkey, &pk, &keyblock);
-+
-+   /* If the key is not found but the signature includes a key block we
-+    * use that key block for verification and on success import it.  */
-+@@ -1993,6 +2002,7 @@ check_sig_and_print (CTX c, kbnode_t node)
-+       && sig->flags.key_block
-+       && opt.flags.auto_key_import)
-+     {
-++      kbnode_t included_keyblock = NULL;
-+       PKT_public_key *included_pk;
-+       const byte *kblock;
-+       size_t kblock_len;
-+@@ -2004,10 +2014,12 @@ check_sig_and_print (CTX c, kbnode_t node)
-+                                       kblock+1, kblock_len-1,
-+                                       sig->keyid, &included_keyblock))
-+         {
-++          /* Note: This is the only place where we use the forced_pk
-++           *       arg (ie. included_pk) with do_check_sig.  */
-+           rc = do_check_sig (c, node, extrahash, extrahashlen, included_pk,
-+-                             NULL, &is_expkey, &is_revkey, &pk);
-++                             NULL, &is_expkey, &is_revkey, &pk, NULL);
-+           if (opt.verbose)
-+-            log_debug ("checked signature using included key block: %s\n",
-++            log_info ("checked signature using included key block: %s\n",
-+                        gpg_strerror (rc));
-+           if (!rc)
-+             {
-+@@ -2017,6 +2029,18 @@ check_sig_and_print (CTX c, kbnode_t node)
-+
-+         }
-+       free_public_key (included_pk);
-++      release_kbnode (included_keyblock);
-++
-++      /* To make sure that nothing strange happened we check the
-++       * signature again now using our own key store. This also
-++       * returns the keyblock which we use later on.  */
-++      if (!rc)
-++        {
-++          release_kbnode (keyblock);
-++          keyblock = NULL;
-++          rc = do_check_sig (c, node, extrahash, extrahashlen, NULL,
-++                             NULL, &is_expkey, &is_revkey, &pk, &keyblock);
-++        }
-+     }
-+
-+   /* If the key isn't found, check for a preferred keyserver.  Note
-+@@ -2063,8 +2087,13 @@ check_sig_and_print (CTX c, kbnode_t node)
-+                                                 KEYSERVER_IMPORT_FLAG_QUICK);
-+                   glo_ctrl.in_auto_key_retrieve--;
-+                   if (!res)
-+-                    rc = do_check_sig (c, node, extrahash, extrahashlen, NULL,
-+-                                       NULL, &is_expkey, &is_revkey, &pk);
-++                    {
-++                      release_kbnode (keyblock);
-++                      keyblock = NULL;
-++                      rc = do_check_sig (c, node, extrahash, extrahashlen, NULL,
-++                                         NULL, &is_expkey, &is_revkey, &pk,
-++                                         &keyblock);
-++                    }
-+                   else if (DBG_LOOKUP)
-+                     log_debug ("lookup via %s failed: %s\n", "Pref-KS",
-+                                gpg_strerror (res));
-+@@ -2105,8 +2134,12 @@ check_sig_and_print (CTX c, kbnode_t node)
-+       /* Fixme: If the fingerprint is embedded in the signature,
-+        * compare it to the fingerprint of the returned key.  */
-+       if (!res)
-+-        rc = do_check_sig (c, node, extrahash, extrahashlen, NULL,
-+-                           NULL, &is_expkey, &is_revkey, &pk);
-++        {
-++          release_kbnode (keyblock);
-++          keyblock = NULL;
-++          rc = do_check_sig (c, node, extrahash, extrahashlen, NULL,
-++                             NULL, &is_expkey, &is_revkey, &pk, &keyblock);
-++        }
-+       else if (DBG_LOOKUP)
-+         log_debug ("lookup via %s failed: %s\n", "WKD", gpg_strerror (res));
-+     }
-+@@ -2136,8 +2169,13 @@ check_sig_and_print (CTX c, kbnode_t node)
-+                                          KEYSERVER_IMPORT_FLAG_QUICK);
-+           glo_ctrl.in_auto_key_retrieve--;
-+           if (!res)
-+-            rc = do_check_sig (c, node, extrahash, extrahashlen, NULL,
-+-                               NULL, &is_expkey, &is_revkey, &pk);
-++            {
-++              release_kbnode (keyblock);
-++              keyblock = NULL;
-++              rc = do_check_sig (c, node, extrahash, extrahashlen, NULL,
-++                                 NULL, &is_expkey, &is_revkey, &pk,
-++                                 &keyblock);
-++            }
-+           else if (DBG_LOOKUP)
-+             log_debug ("lookup via %s failed: %s\n", "KS", gpg_strerror (res));
-+         }
-+@@ -2148,7 +2186,7 @@ check_sig_and_print (CTX c, kbnode_t node)
-+     {
-+       /* We have checked the signature and the result is either a good
-+        * signature or a bad signature.  Further examination follows.  */
-+-      kbnode_t un, keyblock;
-++      kbnode_t un;
-+       int count = 0;
-+       int keyblock_has_pk = 0;  /* For failsafe check.  */
-+       int statno;
-+@@ -2166,18 +2204,6 @@ check_sig_and_print (CTX c, kbnode_t node)
-+       else
-+         statno = STATUS_GOODSIG;
-+
-+-      /* FIXME: We should have the public key in PK and thus the
-+-       * keyblock has already been fetched.  Thus we could use the
-+-       * fingerprint or PK itself to lookup the entire keyblock.  That
-+-       * would best be done with a cache.  */
-+-      if (included_keyblock)
-+-        {
-+-          keyblock = included_keyblock;
-+-          included_keyblock = NULL;
-+-        }
-+-      else
-+-        keyblock = get_pubkeyblock_for_sig (c->ctrl, sig);
++-	if (p == NULL) {
++-		goto error;
++-	}
 +-
-+       snprintf (keyid_str, sizeof keyid_str, "%08lX%08lX [uncertain] ",
-+                 (ulong)sig->keyid[0], (ulong)sig->keyid[1]);
-+
-+@@ -2243,10 +2269,10 @@ check_sig_and_print (CTX c, kbnode_t node)
-+            * contained in the keyring.*/
-+	}
-+
-+-      log_assert (mainpk);
-+-      if (!keyblock_has_pk)
-++      if (!mainpk || !keyblock_has_pk)
-+         {
-+-          log_error ("signature key lost from keyblock\n");
-++          log_error ("signature key lost from keyblock (%p,%p,%d)\n",
-++                     keyblock, mainpk, keyblock_has_pk);
-+           rc = gpg_error (GPG_ERR_INTERNAL);
-+         }
-+
-+@@ -2514,8 +2540,8 @@ check_sig_and_print (CTX c, kbnode_t node)
-+         log_error (_("Can't check signature: %s\n"), gpg_strerror (rc));
-+     }
-+
-++ leave:
-+   free_public_key (pk);
-+-  release_kbnode (included_keyblock);
-+   xfree (issuer_fpr);
-+   return rc;
++-	if (*dir == '/') {
++-		dfd = open("/", flags);
++-		if (dfd == -1) {
++-			goto error;
++-		}
++-		dir++;	/* assume / is safe */
++-	}
++-
++-	while ((d=strchr(dir, '/')) != NULL) {
++-		*d = '\0';
++-		dfd_next = openat(dfd, dir, flags);
++-		if (dfd_next == -1) {
++-			goto error;
++-		}
++-
++-		if (dfd != AT_FDCWD)
++-			close(dfd);
++-		dfd = dfd_next;
++-
++-		if (fstat(dfd, &st) != 0) {
++-			goto error;
++-		}
++-
++-		if (flags & O_NOFOLLOW) {
++-			/* we are inside user-owned dir - protect */
++-			if (protect_mount(dfd, p, idata) == -1)
++-				goto error;
++-		} else if (st.st_uid != 0 || st.st_gid != 0 ||
++-			(st.st_mode & S_IWOTH)) {
++-			/* do not follow symlinks on subdirectories */
++-			flags |= O_NOFOLLOW;
++-		}
++-
++-		*d = '/';
++-		dir = d + 1;
++-	}
++-
++-	rv = openat(dfd, dir, flags);
++-
++-	if (rv == -1) {
++-		if (!do_mkdir || mkdirat(dfd, dir, mode) != 0) {
++-			goto error;
++-		}
++-		rv = openat(dfd, dir, flags);
++-	}
++-
++-	if (flags & O_NOFOLLOW) {
++-		/* we are inside user-owned dir - protect */
++-		if (protect_mount(rv, p, idata) == -1) {
++-			save_errno = errno;
++-			close(rv);
++-			rv = -1;
++-			errno = save_errno;
++-		}
++-	}
++-
++-error:
++-	save_errno = errno;
++-	free(p);
++-	if (dfd != AT_FDCWD && dfd >= 0)
++-		close(dfd);
++-	errno = save_errno;
++-
++-	return rv;
++-}
++-
++-static int check_inst_parent(char *ipath, struct instance_data *idata)
++-{
++-	struct stat instpbuf;
++-	char *inst_parent, *trailing_slash;
++-	int dfd;
++-	/*
++-	 * stat the instance parent path to make sure it exists
++-	 * and is a directory. Check that its mode is 000 (unless the
++-	 * admin explicitly instructs to ignore the instance parent
++-	 * mode by the "ignore_instance_parent_mode" argument).
++-	 */
++-	inst_parent = (char *) malloc(strlen(ipath)+1);
++-	if (!inst_parent) {
++-		pam_syslog(idata->pamh, LOG_CRIT, "Error allocating pathname string");
+++			"Error accessing instance parent, %m");
++ 		return PAM_SESSION_ERR;
++ 	}
++ 
++-	strcpy(inst_parent, ipath);
++-	trailing_slash = strrchr(inst_parent, '/');
++-	if (trailing_slash)
++-		*trailing_slash = '\0';
++-
++-	dfd = protect_dir(inst_parent, 0, 1, idata);
++-
++-	if (dfd == -1 || fstat(dfd, &instpbuf) < 0) {
+++	if ((instpbuf.st_mode & (S_IRWXU|S_IRWXG|S_IRWXO)) || instpbuf.st_uid != 0) {
++ 		pam_syslog(idata->pamh, LOG_ERR,
++-			"Error creating or accessing instance parent %s, %m", inst_parent);
++-		if (dfd != -1)
++-			close(dfd);
++-		free(inst_parent);
+++			"Mode of inst parent not 000 or owner not root");
++ 		return PAM_SESSION_ERR;
++ 	}
++ 
++-	if ((idata->flags & PAMNS_IGN_INST_PARENT_MODE) == 0) {
++-		if ((instpbuf.st_mode & (S_IRWXU|S_IRWXG|S_IRWXO)) || instpbuf.st_uid != 0) {
++-			pam_syslog(idata->pamh, LOG_ERR, "Mode of inst parent %s not 000 or owner not root",
++-					inst_parent);
++-			close(dfd);
++-			free(inst_parent);
++-			return PAM_SESSION_ERR;
++-		}
++-	}
++-	close(dfd);
++-	free(inst_parent);
++ 	return PAM_SUCCESS;
 + }
-+diff --git a/g10/packet.h b/g10/packet.h
-+index 8aaf32d..669739a 100644
-+--- a/g10/packet.h
-++++ b/g10/packet.h
-+@@ -899,7 +899,7 @@ gpg_error_t check_signature (ctrl_t ctrl,
-+                               const void *extrahash, size_t extrahashlen,
-+                               PKT_public_key *forced_pk,
-+                               u32 *r_expiredate, int *r_expired, int *r_revoked,
-+-                              PKT_public_key **r_pk);
-++                             PKT_public_key **r_pk, kbnode_t *r_keyblock);
-+
-+
-+ /*-- pubkey-enc.c --*/
-+diff --git a/g10/sig-check.c b/g10/sig-check.c
-+index 2272fa4..11f3e0c 100644
-+--- a/g10/sig-check.c
-++++ b/g10/sig-check.c
-+@@ -138,6 +138,11 @@ check_key_verify_compliance (PKT_public_key *pk)
-+  * If R_PK is not NULL, the public key is stored at that address if it
-+  * was found; other wise NULL is stored.
-+  *
-++ * If R_KEYBLOCK is not NULL, the entire keyblock used to verify the
-++ * signature is stored at that address.  If no key was found or on
-++ * some other errors NULL is stored there.  The callers needs to
-++ * release the keyblock using release_kbnode (kb).
-++ *
-+  * Returns 0 on success.  An error code otherwise.  */
-+ gpg_error_t
-+ check_signature (ctrl_t ctrl,
-+@@ -145,7 +150,7 @@ check_signature (ctrl_t ctrl,
-+                  const void *extrahash, size_t extrahashlen,
-+                  PKT_public_key *forced_pk,
-+                  u32 *r_expiredate, int *r_expired, int *r_revoked,
-+-                 PKT_public_key **r_pk)
-++                 PKT_public_key **r_pk, kbnode_t *r_keyblock)
++ 
++@@ -1271,9 +1435,10 @@ static int inst_init(const struct polydir_s *polyptr, const char *ipath,
++ 				if (setuid(geteuid()) < 0) {
++ 					/* ignore failures, they don't matter */
++ 				}
+++				close_fds_pre_exec(idata);
++ 
++-				if (execle(init_script, init_script,
++-					polyptr->dir, ipath, newdir?"1":"0", idata->user, NULL, envp) < 0)
+++				execle(init_script, init_script,
+++					polyptr->dir, ipath, newdir?"1":"0", idata->user, NULL, envp);
++ 					_exit(1);
++ 			} else if (pid > 0) {
++ 				while (((rc = waitpid(pid, &status, 0)) == (pid_t)-1) &&
++@@ -1324,7 +1489,9 @@ static int create_polydir(struct polydir_s *polyptr,
++ 
++ #ifdef WITH_SELINUX
++     if (idata->flags & PAMNS_SELINUX_ENABLED) {
++-	getfscreatecon_raw(&oldcon_raw);
+++	if (getfscreatecon_raw(&oldcon_raw) != 0)
+++	    pam_syslog(idata->pamh, LOG_NOTICE,
+++	               "Error retrieving fs create context: %m");
++ 
++ 	label_handle = selabel_open(SELABEL_CTX_FILE, NULL, 0);
++ 	if (!label_handle) {
++@@ -1349,11 +1516,16 @@ static int create_polydir(struct polydir_s *polyptr,
++     }
++ #endif
++ 
++-    rc = protect_dir(dir, mode, 1, idata);
+++    rc = secure_opendir(dir,
+++            SECURE_OPENDIR_PROTECT | SECURE_OPENDIR_MKDIR | SECURE_OPENDIR_FULL_FD,
+++            mode, idata);
++     if (rc == -1) {
++             pam_syslog(idata->pamh, LOG_ERR,
++                        "Error creating directory %s: %m", dir);
++-            return PAM_SESSION_ERR;
+++#ifdef WITH_SELINUX
+++            freecon(oldcon_raw);
+++#endif
+++            return -1;
++     }
++ 
++ #ifdef WITH_SELINUX
++@@ -1374,9 +1546,9 @@ static int create_polydir(struct polydir_s *polyptr,
++ 		pam_syslog(idata->pamh, LOG_ERR,
++ 			   "Error changing mode of directory %s: %m", dir);
++                 close(rc);
++-                umount(dir); /* undo the eventual protection bind mount */
++-		rmdir(dir);
++-		return PAM_SESSION_ERR;
+++		secure_umount(dir); /* undo the eventual protection bind mount */
+++		secure_try_rmdir(dir);
+++		return -1;
++ 	}
++     }
++ 
++@@ -1394,41 +1566,37 @@ static int create_polydir(struct polydir_s *polyptr,
++         pam_syslog(idata->pamh, LOG_ERR,
++                    "Unable to change owner on directory %s: %m", dir);
++         close(rc);
++-        umount(dir); /* undo the eventual protection bind mount */
++-	rmdir(dir);
++-	return PAM_SESSION_ERR;
+++	secure_umount(dir); /* undo the eventual protection bind mount */
+++	secure_try_rmdir(dir);
+++	return -1;
++     }
++ 
++-    close(rc);
++-
++     if (idata->flags & PAMNS_DEBUG)
++ 	pam_syslog(idata->pamh, LOG_DEBUG,
++ 	           "Polydir owner %u group %u", uid, gid);
++ 
++-    return PAM_SUCCESS;
+++    return rc;
++ }
++ 
++ /*
++- * Create polyinstantiated instance directory (ipath).
+++ * Create polyinstantiated instance directory.
+++ * To protect against races, changes are done on a fd to the parent of the
+++ * instance directory (dfd_iparent) and a relative path (polyptr->instname).
+++ * The absolute path (polyptr->instance_absolute) is only updated when creating
+++ * a tmpdir and used for logging purposes.
++  */
++ #ifdef WITH_SELINUX
++-static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *statbuf,
++-        const char *icontext, const char *ocontext,
++-	struct instance_data *idata)
+++static int create_instance(struct polydir_s *polyptr, int dfd_iparent,
+++        struct stat *statbuf, const char *icontext, const char *ocontext,
+++        struct instance_data *idata)
++ #else
++-static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *statbuf,
++-	struct instance_data *idata)
+++static int create_instance(struct polydir_s *polyptr, int dfd_iparent,
+++        struct stat *statbuf, struct instance_data *idata)
++ #endif
 + {
-+   int rc=0;
-+   PKT_public_key *pk;
-+@@ -158,6 +163,8 @@ check_signature (ctrl_t ctrl,
-+     *r_revoked = 0;
-+   if (r_pk)
-+     *r_pk = NULL;
-++  if (r_keyblock)
-++    *r_keyblock = NULL;
-+
-+   pk = xtrycalloc (1, sizeof *pk);
-+   if (!pk)
-+@@ -188,7 +195,7 @@ check_signature (ctrl_t ctrl,
-+       log_info(_("WARNING: signature digest conflict in message\n"));
-+       rc = gpg_error (GPG_ERR_GENERAL);
-+     }
-+-  else if (get_pubkey_for_sig (ctrl, pk, sig, forced_pk))
-++  else if (get_pubkey_for_sig (ctrl, pk, sig, forced_pk, r_keyblock))
-+     rc = gpg_error (GPG_ERR_NO_PUBKEY);
-+   else if ((rc = check_key_verify_compliance (pk)))
-+     ;/* Compliance failure.  */
-+@@ -786,9 +793,9 @@ check_revocation_keys (ctrl_t ctrl, PKT_public_key *pk, PKT_signature *sig)
-+           keyid_from_fingerprint (ctrl, pk->revkey[i].fpr, pk->revkey[i].fprlen,
-+                                   keyid);
-+
-+-          if(keyid[0]==sig->keyid[0] && keyid[1]==sig->keyid[1])
-+-	    /* The signature was generated by a designated revoker.
-+-	       Verify the signature.  */
-++          /* If the signature was generated by a designated revoker
-++           * verify the signature.  */
-++          if (keyid[0] == sig->keyid[0] && keyid[1] == sig->keyid[1])
-+	    {
-+               gcry_md_hd_t md;
-+
-+@@ -796,9 +803,9 @@ check_revocation_keys (ctrl_t ctrl, PKT_public_key *pk, PKT_signature *sig)
-+                 BUG ();
-+               hash_public_key(md,pk);
-+	      /* Note: check_signature only checks that the signature
-+-		 is good.  It does not fail if the key is revoked.  */
-++	       * is good.  It does not fail if the key is revoked.  */
-+               rc = check_signature (ctrl, sig, md, NULL, 0, NULL,
-+-                                    NULL, NULL, NULL, NULL);
-++                                    NULL, NULL, NULL, NULL, NULL);
-+	      cache_sig_result(sig,rc);
-+               gcry_md_close (md);
-+	      break;
-+@@ -1003,7 +1010,7 @@ check_signature_over_key_or_uid (ctrl_t ctrl, PKT_public_key *signer,
-+               if (IS_CERT (sig))
-+                 signer->req_usage = PUBKEY_USAGE_CERT;
-+
-+-              rc = get_pubkey_for_sig (ctrl, signer, sig, NULL);
-++              rc = get_pubkey_for_sig (ctrl, signer, sig, NULL, NULL);
-+               if (rc)
-+                 {
-+                   xfree (signer);
-+--
-+2.40.0
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0004.patch b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0004.patch
-new file mode 100644
-index 0000000000..67cf6efb6e
---- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0004.patch
-@@ -0,0 +1,193 @@
-+From 1e581619bf5315957f2be06b3b1a7f513304c126 Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk@gnupg.org>
-+Date: Thu, 6 Mar 2025 17:17:17 +0100
-+Subject: [PATCH] gpg: Fix regression for the recent malicious subkey DoS fix.
-+
-+* g10/packet.h (PUBKEY_USAGE_VERIFY): New.
-+* g10/getkey.c (get_pubkey_for_sig): Pass new flag also to requested
-+usage.
-+(finish_lookup): Introduce a verify_mode.
-+--
-+
-+Fixes-commit: da0164efc7f32013bc24d97b9afa9f8d67c318bb
-+GnuPG-bug-id: 7547
-+
-+CVE: CVE-2025-30258
-+Upstream-Status: Backport [https://dev.gnupg.org/rG1e581619bf5315957f2be06b3b1a7f513304c126]
-+
-+Reference:
-+https://git.launchpad.net/ubuntu/+source/gnupg2/commit/?id=d086c55a85faafdf8448c12ed726d587e729d2d0
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ g10/getkey.c | 42 ++++++++++++++++++++++++++----------------
-+ g10/packet.h |  5 +++--
-+ 2 files changed, 29 insertions(+), 18 deletions(-)
-+
-+diff --git a/g10/getkey.c b/g10/getkey.c
-+index 0fa763a..2a1b330 100644
-+--- a/g10/getkey.c
-++++ b/g10/getkey.c
-+@@ -309,11 +309,12 @@ pk_from_block (PKT_public_key *pk, kbnode_t keyblock, kbnode_t found_key)
-+
-+
-+ /* Specialized version of get_pubkey which retrieves the key based on
-+- * information in SIG.  In contrast to get_pubkey PK is required.  IF
-++ * information in SIG.  In contrast to get_pubkey PK is required.  If
-+  * FORCED_PK is not NULL, this public key is used and copied to PK.
-+  * If R_KEYBLOCK is not NULL the entire keyblock is stored there if
-+  * found and FORCED_PK is not used; if not used or on error NULL is
-+- * stored there. */
-++ * stored there.  Use this function only to find the key for
-++ * verification; it can't be used to select a key for signing.  */
-+ gpg_error_t
-+ get_pubkey_for_sig (ctrl_t ctrl, PKT_public_key *pk, PKT_signature *sig,
-+                     PKT_public_key *forced_pk, kbnode_t *r_keyblock)
-+@@ -333,8 +334,9 @@ get_pubkey_for_sig (ctrl_t ctrl, PKT_public_key *pk, PKT_signature *sig,
-+
-+   /* Make sure to request only keys cabable of signing.  This makes
-+    * sure that a subkey w/o a valid backsig or with bad usage flags
-+-   * will be skipped.  */
-+-  pk->req_usage = PUBKEY_USAGE_SIG;
-++   * will be skipped.  We also request the verification mode so that
-++   * expired and reoked keys are returned.  */
-++  pk->req_usage = (PUBKEY_USAGE_SIG | PUBKEY_USAGE_VERIFY);
-+
-+   /* First try the ISSUER_FPR info.  */
-+   fpr = issuer_fpr_raw (sig, &fprlen);
-+@@ -398,10 +400,10 @@ get_pubkey_bykid (ctrl_t ctrl, PKT_public_key *pk, kbnode_t *r_keyblock,
-+       /* Try to get it from the cache.  We don't do this when pk is
-+        * NULL as it does not guarantee that the user IDs are cached.
-+        * The old get_pubkey_function did not check PK->REQ_USAGE when
-+-       * reading form the caceh.  This is probably a bug.  Note that
-++       * reading from the cache.  This is probably a bug.  Note that
-+        * the cache is not used when the caller asked to return the
-+        * entire keyblock.  This is because the cache does not
-+-       * associate the public key wit its primary key.  */
-++       * associate the public key with its primary key.  */
-+       pk_cache_entry_t ce;
-+       for (ce = pk_cache; ce; ce = ce->next)
-+	{
-+@@ -3634,11 +3636,17 @@ finish_lookup (kbnode_t keyblock, unsigned int req_usage, int want_exact,
-+   PKT_public_key *pk;
-+   int req_prim;
-+   int diag_exactfound = 0;
-++  int verify_mode = 0;
-+   u32 curtime = make_timestamp ();
-+
-+   if (r_flags)
-+     *r_flags = 0;
-+
-++  /* The verify mode is used to change the behaviour so that we can
-++   * return an expired or revoked key for signature verification.  */
-++  verify_mode = ((req_usage & PUBKEY_USAGE_VERIFY)
-++                 && (req_usage & PUBKEY_USAGE_SIG));
++     struct stat newstatbuf;
++     int fd;
++ 
++-    /*
++-     * Check to make sure instance parent is valid.
++-     */
++-    if (check_inst_parent(ipath, idata))
++-	return PAM_SESSION_ERR;
++-
++     /*
++      * Create instance directory and set its security context to the context
++      * returned by the security policy. Set its mode and ownership
++@@ -1437,29 +1605,39 @@ static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *
++      */
++ 
++     if (polyptr->method == TMPDIR) {
++-	if (mkdtemp(polyptr->instance_prefix) == NULL) {
++-            pam_syslog(idata->pamh, LOG_ERR, "Error creating temporary instance %s, %m",
++-			polyptr->instance_prefix);
++-	    polyptr->method = NONE; /* do not clean up! */
++-	    return PAM_SESSION_ERR;
++-	}
++-	/* copy the actual directory name to ipath */
++-	strcpy(ipath, polyptr->instance_prefix);
++-    } else if (mkdir(ipath, S_IRUSR) < 0) {
+++        char s_path[PATH_MAX];
+++        /*
+++         * Create the template for mkdtemp() as a magic link based on
+++         * our existing fd to avoid symlink attacks and races.
+++         */
+++        if (pam_sprintf(s_path, "/proc/self/fd/%d/%s", dfd_iparent, polyptr->instname) < 0
+++            || mkdtemp(s_path) == NULL) {
+++            pam_syslog(idata->pamh, LOG_ERR,
+++                       "Error creating temporary instance dir %s, %m",
+++                       polyptr->instance_absolute);
+++            polyptr->method = NONE; /* do not clean up! */
+++            return PAM_SESSION_ERR;
+++        }
 ++
-+ #define USAGE_MASK  (PUBKEY_USAGE_SIG|PUBKEY_USAGE_ENC|PUBKEY_USAGE_CERT)
-+   req_usage &= USAGE_MASK;
-+
-+@@ -3682,9 +3690,9 @@ finish_lookup (kbnode_t keyblock, unsigned int req_usage, int want_exact,
+++        /* Copy the actual directory name to polyptr->instname */
+++        strcpy(polyptr->instname, base_name(s_path));
+++    } else if (mkdirat(dfd_iparent, polyptr->instname, S_IRUSR) < 0) {
++         if (errno == EEXIST)
++             return PAM_IGNORE;
++         else {
++             pam_syslog(idata->pamh, LOG_ERR, "Error creating %s, %m",
++-			ipath);
+++                       polyptr->instance_absolute);
++             return PAM_SESSION_ERR;
++         }
 +     }
-+
-+   if (DBG_LOOKUP)
-+-    log_debug ("finish_lookup: checking key %08lX (%s)(req_usage=%x)\n",
-++    log_debug ("finish_lookup: checking key %08lX (%s)(req_usage=%x%s)\n",
-+	       (ulong) keyid_from_pk (keyblock->pkt->pkt.public_key, NULL),
-+-	       foundk ? "one" : "all", req_usage);
-++	       foundk ? "one" : "all", req_usage, verify_mode? ",verify":"");
-+   if (diag_exactfound && DBG_LOOKUP)
-+     log_debug ("\texact search requested and found\n");
-+
-+@@ -3747,28 +3755,28 @@ finish_lookup (kbnode_t keyblock, unsigned int req_usage, int want_exact,
-+	    }
-+
-+           n_subkeys++;
-+-	  if (pk->flags.revoked)
-++	  if (!verify_mode && pk->flags.revoked)
-+	    {
-+	      if (DBG_LOOKUP)
-+		log_debug ("\tsubkey has been revoked\n");
-+               n_revoked_or_expired++;
-+	      continue;
-+	    }
-+-	  if (pk->has_expired)
-++	  if (!verify_mode && pk->has_expired)
-+	    {
-+	      if (DBG_LOOKUP)
-+		log_debug ("\tsubkey has expired\n");
-+               n_revoked_or_expired++;
-+	      continue;
-+	    }
-+-	  if (pk->timestamp > curtime && !opt.ignore_valid_from)
-++	  if (!verify_mode && pk->timestamp > curtime && !opt.ignore_valid_from)
-+	    {
-+	      if (DBG_LOOKUP)
-+		log_debug ("\tsubkey not yet valid\n");
-+	      continue;
-+	    }
-+
-+-          if (want_secret)
-++          if (!verify_mode && want_secret)
-+             {
-+               int secret_key_avail = agent_probe_secret_key (NULL, pk);
-+
-+@@ -3788,7 +3796,8 @@ finish_lookup (kbnode_t keyblock, unsigned int req_usage, int want_exact,
++ 
++-    /* Open a descriptor to it to prevent races */
++-    fd = open(ipath, O_DIRECTORY | O_RDONLY);
+++    /* Open a descriptor to prevent races, based on our existing fd. */
+++    fd = openat(dfd_iparent, polyptr->instname,
+++            O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
++     if (fd < 0) {
++-	pam_syslog(idata->pamh, LOG_ERR, "Error opening %s, %m", ipath);
++-	rmdir(ipath);
+++	pam_syslog(idata->pamh, LOG_ERR, "Error opening %s, %m",
+++                polyptr->instance_absolute);
+++	unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
++ 	return PAM_SESSION_ERR;
++     }
++ #ifdef WITH_SELINUX
++@@ -1469,17 +1647,19 @@ static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *
++         if (icontext) {
++             if (fsetfilecon(fd, icontext) < 0) {
++                 pam_syslog(idata->pamh, LOG_ERR,
++-			"Error setting context of %s to %s", ipath, icontext);
+++			"Error setting context of %s to %s",
+++                        polyptr->instance_absolute, icontext);
++                 close(fd);
++-		rmdir(ipath);
+++                unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
++                 return PAM_SESSION_ERR;
 +             }
-+
-+	  if (DBG_LOOKUP)
-+-	    log_debug ("\tsubkey might be fine\n");
-++	    log_debug ("\tsubkey might be fine%s\n",
-++                       verify_mode? " for verification":"");
-+	  /* In case a key has a timestamp of 0 set, we make sure
-+	     that it is used.  A better change would be to compare
-+	     ">=" but that might also change the selected keys and
-+@@ -3829,12 +3838,12 @@ finish_lookup (kbnode_t keyblock, unsigned int req_usage, int want_exact,
-+	    log_debug ("\tprimary key usage does not match: "
-+		       "want=%x have=%x\n", req_usage, pk->pubkey_usage);
-+	}
-+-      else if (pk->flags.revoked)
-++      else if (!verify_mode && pk->flags.revoked)
-+	{
-+	  if (DBG_LOOKUP)
-+	    log_debug ("\tprimary key has been revoked\n");
-+	}
-+-      else if (pk->has_expired)
-++      else if (!verify_mode && pk->has_expired)
-+	{
-+	  if (DBG_LOOKUP)
-+	    log_debug ("\tprimary key has expired\n");
-+@@ -3842,7 +3851,8 @@ finish_lookup (kbnode_t keyblock, unsigned int req_usage, int want_exact,
-+       else /* Okay.  */
-+	{
-+	  if (DBG_LOOKUP)
-+-	    log_debug ("\tprimary key may be used\n");
-++	    log_debug ("\tprimary key may be used%s\n",
-++                       verify_mode? " for verification":"");
-+	  latest_key = keyblock;
-+	}
++         } else {
++             if (fsetfilecon(fd, ocontext) < 0) {
++                 pam_syslog(idata->pamh, LOG_ERR,
++-			"Error setting context of %s to %s", ipath, ocontext);
+++			"Error setting context of %s to %s",
+++                        polyptr->instance_absolute, ocontext);
++ 		close(fd);
++-		rmdir(ipath);
+++                unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
++                 return PAM_SESSION_ERR;
++             }
++         }
++@@ -1487,9 +1667,9 @@ static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *
++ #endif
++     if (fstat(fd, &newstatbuf) < 0) {
++         pam_syslog(idata->pamh, LOG_ERR, "Error stating %s, %m",
++-		ipath);
+++		polyptr->instance_absolute);
++ 	close(fd);
++-	rmdir(ipath);
+++        unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
++         return PAM_SESSION_ERR;
 +     }
-+diff --git a/g10/packet.h b/g10/packet.h
-+index 669739a..061a9b1 100644
-+--- a/g10/packet.h
-++++ b/g10/packet.h
-+@@ -135,6 +135,7 @@ typedef struct {
-+   gcry_mpi_t     data[PUBKEY_MAX_NENC];
-+ } PKT_pubkey_enc;
++     if (newstatbuf.st_uid != statbuf->st_uid ||
++@@ -1497,17 +1677,17 @@ static int create_instance(struct polydir_s *polyptr, char *ipath, struct stat *
++         if (fchown(fd, statbuf->st_uid, statbuf->st_gid) < 0) {
++             pam_syslog(idata->pamh, LOG_ERR,
++ 			"Error changing owner for %s, %m",
++-			ipath);
+++			polyptr->instance_absolute);
++ 	    close(fd);
++-	    rmdir(ipath);
+++            unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
++             return PAM_SESSION_ERR;
++         }
++     }
++     if (fchmod(fd, statbuf->st_mode & 07777) < 0) {
++         pam_syslog(idata->pamh, LOG_ERR, "Error changing mode for %s, %m",
++-			ipath);
+++			polyptr->instance_absolute);
++ 	close(fd);
++-	rmdir(ipath);
+++        unlinkat(dfd_iparent, polyptr->instname, AT_REMOVEDIR);
++         return PAM_SESSION_ERR;
++     }
++     close(fd);
++@@ -1526,9 +1706,12 @@ static int ns_setup(struct polydir_s *polyptr,
++ 	struct instance_data *idata)
++ {
++     int retval;
+++    int dfd_iparent = -1;
+++    int dfd_ipath = -1;
+++    int dfd_pptrdir = -1;
++     int newdir = 1;
++-    char *inst_dir = NULL;
++-    char *instname = NULL;
+++    char s_ipath[MAGIC_LNK_FD_SIZE];
+++    char s_pptrdir[MAGIC_LNK_FD_SIZE];
++     struct stat statbuf;
++ #ifdef WITH_SELINUX
++     char *instcontext = NULL, *origcontext = NULL;
++@@ -1538,39 +1721,48 @@ static int ns_setup(struct polydir_s *polyptr,
++         pam_syslog(idata->pamh, LOG_DEBUG,
++                "Set namespace for directory %s", polyptr->dir);
++ 
++-    retval = protect_dir(polyptr->dir, 0, 0, idata);
++-
++-    if (retval < 0 && errno != ENOENT) {
++-	pam_syslog(idata->pamh, LOG_ERR, "Polydir %s access error: %m",
++-		polyptr->dir);
++-	return PAM_SESSION_ERR;
++-    }
+++    dfd_pptrdir = secure_opendir(polyptr->dir, SECURE_OPENDIR_PROTECT, 0, idata);
++ 
++-    if (retval < 0) {
++-	if ((polyptr->flags & POLYDIR_CREATE) &&
++-		create_polydir(polyptr, idata) != PAM_SUCCESS)
++-		return PAM_SESSION_ERR;
++-    } else {
++-	close(retval);
+++    if (dfd_pptrdir < 0) {
+++        if (errno != ENOENT || !(polyptr->flags & POLYDIR_CREATE)) {
+++            pam_syslog(idata->pamh, LOG_ERR, "Polydir %s access error: %m",
+++                    polyptr->dir);
+++            return PAM_SESSION_ERR;
+++        }
+++        dfd_pptrdir = create_polydir(polyptr, idata);
+++        if (dfd_pptrdir < 0)
+++            return PAM_SESSION_ERR;
++     }
++ 
++     if (polyptr->method == TMPFS) {
++-	if (mount("tmpfs", polyptr->dir, "tmpfs", polyptr->mount_flags, polyptr->mount_opts) < 0) {
++-	    pam_syslog(idata->pamh, LOG_ERR, "Error mounting tmpfs on %s, %m",
++-		polyptr->dir);
++-            return PAM_SESSION_ERR;
++-	}
+++        /*
+++         * There is no function mount() that operate on a fd, so instead, we
+++         * get the magic link corresponding to the fd and give it to mount().
+++         * This protects against potential races exploitable by an unpriv user.
+++         */
+++        if (pam_sprintf(s_pptrdir, "/proc/self/fd/%d", dfd_pptrdir) < 0) {
+++            pam_syslog(idata->pamh, LOG_ERR, "Error pam_sprintf s_pptrdir");
+++            goto error_out;
+++        }
+++
+++        if (mount("tmpfs", s_pptrdir, "tmpfs", polyptr->mount_flags, polyptr->mount_opts) < 0) {
+++            pam_syslog(idata->pamh, LOG_ERR, "Error mounting tmpfs on %s, %m",
+++                       polyptr->dir);
+++            goto error_out;
+++        }
++ 
++-	if (polyptr->flags & POLYDIR_NOINIT)
++-	    return PAM_SUCCESS;
+++        if (polyptr->flags & POLYDIR_NOINIT) {
+++            retval = PAM_SUCCESS;
+++            goto cleanup;
+++        }
++ 
++-	return inst_init(polyptr, "tmpfs", idata, 1);
+++        retval = inst_init(polyptr, "tmpfs", idata, 1);
+++        goto cleanup;
++     }
++ 
++-    if (stat(polyptr->dir, &statbuf) < 0) {
++-	pam_syslog(idata->pamh, LOG_ERR, "Error stating %s: %m",
++-		polyptr->dir);
++-        return PAM_SESSION_ERR;
+++    if (fstat(dfd_pptrdir, &statbuf) < 0) {
+++        pam_syslog(idata->pamh, LOG_ERR, "Error stating %s: %m", polyptr->dir);
+++        goto error_out;
++     }
++ 
++     /*
++@@ -1579,15 +1771,16 @@ static int ns_setup(struct polydir_s *polyptr,
++      * security policy.
++      */
++ #ifdef WITH_SELINUX
++-    retval = poly_name(polyptr, &instname, &instcontext,
++-			&origcontext, idata);
+++    retval = poly_name(polyptr, &instcontext, &origcontext, idata);
++ #else
++-    retval = poly_name(polyptr, &instname, idata);
+++    retval = poly_name(polyptr, idata);
++ #endif
++ 
++     if (retval != PAM_SUCCESS) {
++-	if (retval != PAM_IGNORE)
+++	if (retval != PAM_IGNORE) {
++ 		pam_syslog(idata->pamh, LOG_ERR, "Error getting instance name");
+++                goto error_out;
+++        }
++         goto cleanup;
++     } else {
++ #ifdef WITH_SELINUX
++@@ -1598,22 +1791,33 @@ static int ns_setup(struct polydir_s *polyptr,
++ #endif
++     }
++ 
++-    if (asprintf(&inst_dir, "%s%s", polyptr->instance_prefix, instname) < 0)
++-	goto error_out;
++-
++-    if (idata->flags & PAMNS_DEBUG)
++-        pam_syslog(idata->pamh, LOG_DEBUG, "instance_dir %s",
++-		inst_dir);
+++    /*
+++     * Gets a fd in a secure manner (we may be operating on a path under
+++     * user control), and check it's compliant.
+++     * Then, we should *always* operate on *this* fd and a relative path
+++     * to be protected against race conditions.
+++     */
+++    dfd_iparent = secure_opendir(polyptr->instance_parent,
+++            SECURE_OPENDIR_PROTECT | SECURE_OPENDIR_MKDIR, 0, idata);
+++    if (dfd_iparent == -1) {
+++	pam_syslog(idata->pamh, LOG_ERR,
+++                "polyptr->instance_parent %s access error",
+++                polyptr->instance_parent);
+++        goto error_out;
+++    }
+++    if (check_inst_parent(dfd_iparent, idata)) {
+++        goto error_out;
+++    }
++ 
++     /*
++      * Create instance directory with appropriate security
++      * contexts, owner, group and mode bits.
++      */
++ #ifdef WITH_SELINUX
++-    retval = create_instance(polyptr, inst_dir, &statbuf, instcontext,
++-			 origcontext, idata);
+++    retval = create_instance(polyptr, dfd_iparent, &statbuf, instcontext,
+++                             origcontext, idata);
++ #else
++-    retval = create_instance(polyptr, inst_dir, &statbuf, idata);
+++    retval = create_instance(polyptr, dfd_iparent, &statbuf, idata);
++ #endif
++ 
++     if (retval == PAM_IGNORE) {
++@@ -1625,19 +1829,48 @@ static int ns_setup(struct polydir_s *polyptr,
++         goto error_out;
++     }
++ 
+++    /*
+++     * Instead of getting a new secure fd, we reuse the fd opened on directory
+++     * polyptr->instance_parent to ensure we are working on the same dir as
+++     * previously, and thus ensure that previous checks (e.g. check_inst_parent())
+++     * are still relevant.
+++     */
+++    dfd_ipath = openat(dfd_iparent, polyptr->instname,
+++            O_PATH | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+++    if (dfd_ipath == -1) {
+++        pam_syslog(idata->pamh, LOG_ERR, "Error openat on %s, %m",
+++                polyptr->instname);
+++        goto error_out;
+++    }
+++
+++    if (pam_sprintf(s_ipath, "/proc/self/fd/%d", dfd_ipath) < 0) {
+++        pam_syslog(idata->pamh, LOG_ERR, "Error pam_sprintf s_ipath");
+++        goto error_out;
+++    }
+++
+++    if (pam_sprintf(s_pptrdir, "/proc/self/fd/%d", dfd_pptrdir) < 0) {
+++        pam_syslog(idata->pamh, LOG_ERR, "Error pam_sprintf s_pptrdir");
+++        goto error_out;
+++    }
+++
++     /*
++      * Bind mount instance directory on top of the polyinstantiated
++      * directory to provide an instance of polyinstantiated directory
++      * based on polyinstantiated method.
+++     *
+++     * Operates on magic links created from two fd obtained securely
+++     * to protect against race conditions and symlink attacks. Indeed,
+++     * the source and destination can be in a user controled path.
++      */
++-    if (mount(inst_dir, polyptr->dir, NULL, MS_BIND, NULL) < 0) {
++-        pam_syslog(idata->pamh, LOG_ERR, "Error mounting %s on %s, %m",
++-                   inst_dir, polyptr->dir);
+++    if(mount(s_ipath, s_pptrdir, NULL, MS_BIND, NULL) < 0) {
+++        pam_syslog(idata->pamh, LOG_ERR,
+++                "Error mounting %s on %s (%s on %s), %m",
+++                   s_ipath, s_pptrdir, polyptr->instance_absolute, polyptr->dir);
++         goto error_out;
++     }
++ 
++     if (!(polyptr->flags & POLYDIR_NOINIT))
++-	retval = inst_init(polyptr, inst_dir, idata, newdir);
+++	retval = inst_init(polyptr, polyptr->instance_absolute, idata, newdir);
++ 
++     goto cleanup;
++ 
++@@ -1649,8 +1882,12 @@ error_out:
++     retval = PAM_SESSION_ERR;
++ 
++ cleanup:
++-    free(inst_dir);
++-    free(instname);
+++    if (dfd_iparent != -1)
+++        close(dfd_iparent);
+++    if (dfd_ipath != -1)
+++        close(dfd_ipath);
+++    if (dfd_pptrdir != -1)
+++        close(dfd_pptrdir);
++ #ifdef WITH_SELINUX
++     freecon(instcontext);
++     freecon(origcontext);
++@@ -1689,6 +1926,7 @@ static int cleanup_tmpdirs(struct instance_data *idata)
++ {
++     struct polydir_s *pptr;
++     pid_t rc, pid;
+++    int dfd = -1;
++     struct sigaction newsa, oldsa;
++     int status;
++ 
++@@ -1700,7 +1938,17 @@ static int cleanup_tmpdirs(struct instance_data *idata)
++     }
++ 
++     for (pptr = idata->polydirs_ptr; pptr; pptr = pptr->next) {
++-	if (pptr->method == TMPDIR && access(pptr->instance_prefix, F_OK) == 0) {
+++	if (pptr->method == TMPDIR) {
+++
+++            dfd = secure_opendir_stateless(pptr->instance_parent);
+++            if (dfd == -1)
+++                continue;
+++
+++            if (faccessat(dfd, pptr->instname, F_OK, AT_SYMLINK_NOFOLLOW) != 0) {
+++                close(dfd);
+++                continue;
+++            }
+++
++ 	    pid = fork();
++ 	    if (pid == 0) {
++ 		static char *envp[] = { NULL };
++@@ -1710,9 +1958,21 @@ static int cleanup_tmpdirs(struct instance_data *idata)
++ 			_exit(1);
++ 		}
++ #endif
++-		if (execle("/bin/rm", "/bin/rm", "-rf", pptr->instance_prefix, NULL, envp) < 0)
++-			_exit(1);
+++                if (fchdir(dfd) == -1) {
+++                    pam_syslog(idata->pamh, LOG_ERR, "Failed fchdir to %s: %m",
+++                            pptr->instance_absolute);
+++                    _exit(1);
+++                }
+++
+++		close_fds_pre_exec(idata);
+++
+++		execle("/bin/rm", "/bin/rm", "-rf", pptr->instname, NULL, envp);
+++		_exit(1);
++ 	    } else if (pid > 0) {
+++
+++                if (dfd != -1)
+++                    close(dfd);
+++
++ 		while (((rc = waitpid(pid, &status, 0)) == (pid_t)-1) &&
++ 		    (errno == EINTR));
++ 		if (rc == (pid_t)-1) {
++@@ -1725,8 +1985,12 @@ static int cleanup_tmpdirs(struct instance_data *idata)
++ 			"Error removing %s", pptr->instance_prefix);
++ 		}
++ 	    } else if (pid < 0) {
+++
+++                if (dfd != -1)
+++                    close(dfd);
+++
++ 		pam_syslog(idata->pamh, LOG_ERR,
++-			"Cannot fork to run namespace init script, %m");
+++			"Cannot fork to cleanup temporary directory, %m");
++ 		rc = PAM_SESSION_ERR;
++ 		goto out;
++ 	    }
++@@ -1748,6 +2012,7 @@ out:
++ static int setup_namespace(struct instance_data *idata, enum unmnt_op unmnt)
++ {
++     int retval = 0, need_poly = 0, changing_dir = 0;
+++    int dfd = -1;
++     char *cptr, *fptr, poly_parent[PATH_MAX];
++     struct polydir_s *pptr;
++ 
++@@ -1863,13 +2128,21 @@ static int setup_namespace(struct instance_data *idata, enum unmnt_op unmnt)
++ 			strcpy(poly_parent, "/");
++ 		    else if (cptr)
++ 			*cptr = '\0';
++-                    if (chdir(poly_parent) < 0) {
+++
+++                    dfd = secure_opendir_stateless(poly_parent);
+++                    if (dfd == -1) {
+++                        pam_syslog(idata->pamh, LOG_ERR,
+++                            "Failed opening %s to fchdir: %m", poly_parent);
+++                    }
+++                    else if (fchdir(dfd) == -1) {
++                         pam_syslog(idata->pamh, LOG_ERR,
++-				"Can't chdir to %s, %m", poly_parent);
+++                            "Failed fchdir to %s: %m", poly_parent);
++                     }
+++                    if (dfd != -1)
+++                        close(dfd);
++                 }
++ 
++-                if (umount(pptr->rdir) < 0) {
+++            if (secure_umount(pptr->rdir) < 0) {
++ 		    int saved_errno = errno;
++ 		    pam_syslog(idata->pamh, LOG_ERR, "Unmount of %s failed, %m",
++ 			pptr->rdir);
++@@ -1939,7 +2212,7 @@ static int orig_namespace(struct instance_data *idata)
++ 			"Unmounting instance dir for user %d & dir %s",
++                        idata->uid, pptr->dir);
++ 
++-            if (umount(pptr->dir) < 0) {
+++            if (secure_umount(pptr->dir) < 0) {
++                 pam_syslog(idata->pamh, LOG_ERR, "Unmount of %s failed, %m",
++                        pptr->dir);
++                 return PAM_SESSION_ERR;
++diff --git a/modules/pam_namespace/pam_namespace.h b/modules/pam_namespace/pam_namespace.h
++index b51f284..abd570d 100644
++--- a/modules/pam_namespace/pam_namespace.h
+++++ b/modules/pam_namespace/pam_namespace.h
++@@ -44,21 +44,16 @@
++ #include <stdlib.h>
++ #include <errno.h>
++ #include <syslog.h>
++-#include <dlfcn.h>
++-#include <stdarg.h>
++ #include <pwd.h>
++ #include <grp.h>
++ #include <limits.h>
++ #include <sys/types.h>
++ #include <sys/stat.h>
++-#include <sys/resource.h>
++ #include <sys/mount.h>
++ #include <sys/wait.h>
++-#include <libgen.h>
++ #include <fcntl.h>
++ #include <sched.h>
++ #include <glob.h>
++-#include <locale.h>
++ #include "security/pam_modules.h"
++ #include "security/pam_modutil.h"
++ #include "security/pam_ext.h"
++@@ -112,7 +107,7 @@
++ #define PAMNS_MOUNT_PRIVATE   0x00080000 /* Make the polydir mounts private */
++ 
++ /* polydir flags */
++-#define POLYDIR_EXCLUSIVE     0x00000001 /* polyinstatiate exclusively for override uids */
+++#define POLYDIR_EXCLUSIVE     0x00000001 /* polyinstantiate exclusively for override uids */
++ #define POLYDIR_CREATE        0x00000002 /* create the polydir */
++ #define POLYDIR_NOINIT        0x00000004 /* no init script */
++ #define POLYDIR_SHARED        0x00000008 /* share context/level instances among users */
++@@ -124,6 +119,13 @@
++ #define NAMESPACE_POLYDIR_DATA "pam_namespace:polydir_data"
++ #define NAMESPACE_PROTECT_DATA "pam_namespace:protect_data"
++ 
+++/*
+++ * Operation mode for function secure_opendir()
+++ */
+++#define SECURE_OPENDIR_PROTECT     0x00000001
+++#define SECURE_OPENDIR_MKDIR       0x00000002
+++#define SECURE_OPENDIR_FULL_FD     0x00000004
+++
++ /*
++  * Polyinstantiation method options, based on user, security context
++  * or both
++@@ -161,6 +163,9 @@ struct polydir_s {
++     char dir[PATH_MAX];    	       	/* directory to polyinstantiate */
++     char rdir[PATH_MAX];    	       	/* directory to unmount (based on RUSER) */
++     char instance_prefix[PATH_MAX];	/* prefix for instance dir path name */
+++    char instance_absolute[PATH_MAX];	/* absolute path to the instance dir (instance_parent + instname) */
+++    char instance_parent[PATH_MAX];	/* parent dir of the instance dir */
+++    char *instname;			/* last segment of the path to the instance dir */
++     enum polymethod method;		/* method used to polyinstantiate */
++     unsigned int num_uids;		/* number of override uids */
++     uid_t *uid;				/* list of override uids */
++-- 
++2.50.1
 +
-++#define PUBKEY_USAGE_VERIFY  16384               /* Verify only modifier.  */
-+
-+ /* An object to build a list of public-key encrypted session key.  */
-+ struct pubkey_enc_list
-+@@ -385,8 +386,8 @@ typedef struct
-+   byte    selfsigversion; /* highest version of all of the self-sigs */
-+   /* The public key algorithm.  (Serialized.)  */
-+   byte    pubkey_algo;
-+-  byte    pubkey_usage;   /* for now only used to pass it to getkey() */
-+-  byte    req_usage;      /* hack to pass a request to getkey() */
-++  u16     pubkey_usage;   /* for now only used to pass it to getkey() */
-++  u16     req_usage;      /* hack to pass a request to getkey() */
-+   byte    fprlen;         /* 0 or length of FPR.  */
-+   u32     has_expired;    /* set to the expiration date if expired */
-+   /* keyid of the primary key.  Never access this value directly.
-+--
-+2.40.0
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0005.patch b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0005.patch
+diff --git a/meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch b/meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch
 new file mode 100644
-index 0000000000..527ef47cf4
+index 0000000000..712d60581c
 --- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0005.patch
-@@ -0,0 +1,36 @@
-+From 4be25979a6b3e2a79d7c9667b07db8b09fb046e9 Mon Sep 17 00:00:00 2001
-+From: Werner Koch <wk@gnupg.org>
-+Date: Thu, 13 Mar 2025 11:35:34 +0100
-+Subject: [PATCH] gpg: Fix double free of internal data.
++++ b/meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch
+@@ -0,0 +1,187 @@
++From 592d84e1265d04c3104acee815a503856db503a1 Mon Sep 17 00:00:00 2001
++From: Olivier Bal-Petre <olivier.bal-petre@ssi.gouv.fr>
++Date: Tue, 4 Mar 2025 14:37:02 +0100
++Subject: [PATCH] pam_namespace: add flags to indicate path safety
 +
-+* g10/sig-check.c (check_signature_over_key_or_uid): Do not free in
-+no-sig-cache mode if allocated by caller.
-+--
++Add two flags in the script to indicate if the paths to the polydir
++and the instance directories are safe (root owned and writable by
++root only).
 +
-+GnuPG-bug-id: 7547
-+Fixes-commit: 44cdb9d73f1a0b7d2c8483a119b9c4d6caabc1ec
++Signed-off-by: Olivier Bal-Petre <olivier.bal-petre@ssi.gouv.fr>
++Signed-off-by: Dmitry V. Levin <ldv@strace.io>
 +
-+CVE: CVE-2025-30258
-+Upstream-Status: Backport [https://dev.gnupg.org/rG4be25979a6b3e2a79d7c9667b07db8b09fb046e9]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/592d84e1265d04c3104acee815a503856db503a1]
++CVE: CVE-2025-6020
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ g10/sig-check.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ modules/pam_namespace/namespace.init  | 56 ++++++++++++-------
++ modules/pam_namespace/pam_namespace.c | 79 ++++++++++++++++++++++++++-
++ 2 files changed, 115 insertions(+), 20 deletions(-)
 +
-+diff --git a/g10/sig-check.c b/g10/sig-check.c
-+index 11f3e0c..a8fbdc7 100644
-+--- a/g10/sig-check.c
-++++ b/g10/sig-check.c
-+@@ -1013,7 +1013,8 @@ check_signature_over_key_or_uid (ctrl_t ctrl, PKT_public_key *signer,
-+               rc = get_pubkey_for_sig (ctrl, signer, sig, NULL, NULL);
-+               if (rc)
-+                 {
-+-                  xfree (signer);
-++                  if (signer_alloced != 1)
-++                    xfree (signer);
-+                   signer = NULL;
-+                   signer_alloced = 0;
-+                   goto leave;
-+--
-+2.40.0
-diff --git a/meta/recipes-support/gnupg/gnupg_2.3.7.bb b/meta/recipes-support/gnupg/gnupg_2.3.7.bb
-index 7075a61898..461ec6687c 100644
---- a/meta/recipes-support/gnupg/gnupg_2.3.7.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.3.7.bb
-@@ -18,6 +18,11 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-use-pkgconfig-instead-of-npth-config.patch \
-            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
-            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
-+           file://CVE-2025-30258-0001.patch \
-+           file://CVE-2025-30258-0002.patch \
-+           file://CVE-2025-30258-0003.patch \
-+           file://CVE-2025-30258-0004.patch \
-+           file://CVE-2025-30258-0005.patch \
++diff --git a/modules/pam_namespace/namespace.init b/modules/pam_namespace/namespace.init
++index 67d4aa2..8782178 100755
++--- a/modules/pam_namespace/namespace.init
+++++ b/modules/pam_namespace/namespace.init
++@@ -1,25 +1,43 @@
++ #!/bin/sh
++-# It receives polydir path as $1, the instance path as $2,
++-# a flag whether the instance dir was newly created (0 - no, 1 - yes) in $3,
++-# and user name in $4.
+++# It receives as arguments:
+++# - $1 polydir path (see WARNING below)
+++# - $2 instance path (see WARNING below)
+++# - $3 flag whether the instance dir was newly created (0 - no, 1 - yes)
+++# - $4 user name
+++# - $5 flag whether the polydir path ($1) is safe (0 - unsafe, 1 -safe)
+++# - $6 flag whether the instance path ($2) is safe (0 - unsafe, 1 - safe)
+++#
+++# WARNING: This script is invoked with full root privileges. Accessing
+++# the polydir ($1) and the instance ($2) directories in this context may be
+++# extremely dangerous as those can be under user control. The flags $5 and $6
+++# are provided to let you know if all the segments part of the path (except the
+++# last one) are owned by root and are writable by root only. If the path does
+++# not meet these criteria, you expose yourself to possible symlink attacks when
+++# accessing these path.
+++# However, even if the path components are safe, the content of the
+++# directories may still be owned/writable by a user, so care must be taken!
++ #
++ # The following section will copy the contents of /etc/skel if this is a
++ # newly created home directory.
++-if [ "$3" = 1 ]; then
++-        # This line will fix the labeling on all newly created directories
++-        [ -x /sbin/restorecon ] && /sbin/restorecon "$1"
++-        user="$4"
++-        passwd=$(getent passwd "$user")
++-        homedir=$(echo "$passwd" | cut -f6 -d":")
++-        if [ "$1" = "$homedir" ]; then
++-                gid=$(echo "$passwd" | cut -f4 -d":")
++-                cp -rT /etc/skel "$homedir"
++-                chown -R "$user":"$gid" "$homedir"
++-                mask=$(awk '/^UMASK/{gsub("#.*$", "", $2); print $2; exit}' /etc/login.defs)
++-                mode=$(printf "%o" $((0777 & ~$mask)))
++-                chmod ${mode:-700} "$homedir"
++-                [ -x /sbin/restorecon ] && /sbin/restorecon -R "$homedir"
++-        fi
++-fi
++ 
+++# Executes only if the polydir path is safe
+++if [ "$5" = 1 ]; then
+++
+++    if [ "$3" = 1 ]; then
+++            # This line will fix the labeling on all newly created directories
+++            [ -x /sbin/restorecon ] && /sbin/restorecon "$1"
+++            user="$4"
+++            passwd=$(getent passwd "$user")
+++            homedir=$(echo "$passwd" | cut -f6 -d":")
+++            if [ "$1" = "$homedir" ]; then
+++                    gid=$(echo "$passwd" | cut -f4 -d":")
+++                    cp -rT /etc/skel "$homedir"
+++                    chown -R "$user":"$gid" "$homedir"
+++                    mask=$(sed -E -n 's/^UMASK[[:space:]]+([^#[:space:]]+).*/\1/p' /etc/login.defs)
+++                    mode=$(printf "%o" $((0777 & ~mask)))
+++                    chmod ${mode:-700} "$homedir"
+++                    [ -x /sbin/restorecon ] && /sbin/restorecon -R "$homedir"
+++            fi
+++    fi
+++fi
++ exit 0
++diff --git a/modules/pam_namespace/pam_namespace.c b/modules/pam_namespace/pam_namespace.c
++index 22d8445..8cba036 100644
++--- a/modules/pam_namespace/pam_namespace.c
+++++ b/modules/pam_namespace/pam_namespace.c
++@@ -1390,6 +1390,79 @@ static int check_inst_parent(int dfd, struct instance_data *idata)
++ 	return PAM_SUCCESS;
++ }
++ 
+++/*
+++ * Check for a given absolute path that all segments except the last one are:
+++ * 1. a directory owned by root and not writable by group or others
+++ * 2. a symlink owned by root and referencing a directory respecting 1.
+++ * Returns 0 if safe, -1 is unsafe.
+++ * If the path is not accessible (does not exist, hidden under a mount...),
+++ * returns -1 (unsafe).
+++ */
+++static int check_safe_path(const char *path, struct instance_data *idata)
+++{
+++    char *p = strdup(path);
+++    char *d;
+++    char *dir = p;
+++    struct stat st;
+++
+++    if (p == NULL)
+++        return -1;
+++
+++    /* Check path is absolute */
+++    if (p[0] != '/')
+++        goto error;
+++
+++    strip_trailing_slashes(p);
+++
+++    /* Last segment of the path may be owned by the user */
+++    if ((d = strrchr(dir, '/')) != NULL)
+++        *d = '\0';
+++
+++    while ((d=strrchr(dir, '/')) != NULL) {
+++
+++        /* Do not follow symlinks */
+++        if (lstat(dir, &st) != 0)
+++            goto error;
+++
+++        if (S_ISLNK(st.st_mode)) {
+++            if (st.st_uid != 0) {
+++                if (idata->flags & PAMNS_DEBUG)
+++                    pam_syslog(idata->pamh, LOG_DEBUG,
+++                            "Path deemed unsafe: Symlink %s should be owned by root", dir);
+++                goto error;
+++            }
+++
+++            /* Follow symlinks */
+++            if (stat(dir, &st) != 0)
+++                goto error;
+++        }
+++
+++        if (!S_ISDIR(st.st_mode)) {
+++                if (idata->flags & PAMNS_DEBUG)
+++                    pam_syslog(idata->pamh, LOG_DEBUG,
+++                        "Path deemed unsafe: %s is expected to be a directory", dir);
+++            goto error;
+++        }
+++
+++        if (st.st_uid != 0 ||
+++            ((st.st_mode & (S_IWGRP|S_IWOTH)) && !(st.st_mode & S_ISVTX))) {
+++                if (idata->flags & PAMNS_DEBUG)
+++                    pam_syslog(idata->pamh, LOG_DEBUG,
+++                        "Path deemed unsafe: %s should be owned by root, and not be writable by group or others", dir);
+++            goto error;
+++        }
+++
+++        *d = '\0';
+++    }
+++
+++    free(p);
+++    return 0;
+++
+++error:
+++    free(p);
+++    return -1;
+++}
+++
++ /*
++ * Check to see if there is a namespace initialization script in
++ * the /etc/security directory. If such a script exists
++@@ -1438,7 +1511,11 @@ static int inst_init(const struct polydir_s *polyptr, const char *ipath,
++ 				close_fds_pre_exec(idata);
++ 
++ 				execle(init_script, init_script,
++-					polyptr->dir, ipath, newdir?"1":"0", idata->user, NULL, envp);
+++					polyptr->dir, ipath,
+++					newdir ? "1":"0", idata->user,
+++					(check_safe_path(polyptr->dir, idata) == -1) ? "0":"1",
+++					(check_safe_path(ipath, idata) == -1) ? "0":"1",
+++					NULL, envp);
++ 					_exit(1);
++ 			} else if (pid > 0) {
++ 				while (((rc = waitpid(pid, &status, 0)) == (pid_t)-1) &&
++-- 
++2.50.1
++
+diff --git a/meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch b/meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch
+new file mode 100644
+index 0000000000..2a0450092e
+--- /dev/null
++++ b/meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch
+@@ -0,0 +1,35 @@
++From 976c20079358d133514568fc7fd95c02df8b5773 Mon Sep 17 00:00:00 2001
++From: "Dmitry V. Levin" <ldv@strace.io>
++Date: Tue, 27 May 2025 08:00:00 +0000
++Subject: [PATCH] pam_namespace: secure_opendir: do not look at the group
++ ownership
++
++When the directory is not group-writable, the group ownership does
++not matter, and when it is group-writable, there should not be any
++exceptions for the root group as there is no guarantee that the root
++group does not include non-root users.
++
++Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/976c20079358d133514568fc7fd95c02df8b5773]
++CVE: CVE-2025-6020
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ modules/pam_namespace/pam_namespace.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/modules/pam_namespace/pam_namespace.c b/modules/pam_namespace/pam_namespace.c
++index 8cba036..630cf0a 100644
++--- a/modules/pam_namespace/pam_namespace.c
+++++ b/modules/pam_namespace/pam_namespace.c
++@@ -215,8 +215,7 @@ static int secure_opendir(const char *path, int opm, mode_t mode,
++ 			if (dfd_next == -1)
++ 				goto error;
++ 		} else if (st.st_uid != 0
++-		           || (st.st_gid != 0 && (st.st_mode & S_IWGRP))
++-		           || (st.st_mode & S_IWOTH)) {
+++		           || (st.st_mode & (S_IWGRP|S_IWOTH))) {
++ 			/* do not follow symlinks on subdirectories */
++ 			flags |= O_NOFOLLOW;
++ 		}
++-- 
++2.50.1
++
+diff --git a/meta/recipes-extended/pam/libpam_1.5.2.bb b/meta/recipes-extended/pam/libpam_1.5.2.bb
+index 567f9741cb..658212dd82 100644
+--- a/meta/recipes-extended/pam/libpam_1.5.2.bb
++++ b/meta/recipes-extended/pam/libpam_1.5.2.bb
+@@ -29,6 +29,11 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
+            file://CVE-2024-22365.patch \
+            file://CVE-2024-10041-1.patch \
+            file://CVE-2024-10041-2.patch \
++           file://0001-pam_namespace-include-stdint-h.patch \
++           file://0001-pam_inline-introduce-pam_asprint.patch \
++           file://CVE-2025-6020-01.patch \
++           file://CVE-2025-6020-02.patch \
++           file://CVE-2025-6020-03.patch \
             "
- SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
-                                 file://relocate.patch"
+ 
+ SRC_URI[sha256sum] = "e4ec7131a91da44512574268f493c6d8ca105c87091691b8e9b56ca685d4f94d"
 -- 
 2.43.0
 
