@@ -2,374 +2,138 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B9F3C87FCE
-	for <webhook@archiver.kernel.org>; Sun, 27 Jul 2025 17:51:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A494DC87FCC
+	for <webhook@archiver.kernel.org>; Sun, 27 Jul 2025 18:01:11 +0000 (UTC)
 Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web11.64664.1753638683381198555
+ by mx.groups.io with SMTP id smtpd.web11.64825.1753639266743386490
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jul 2025 10:51:23 -0700
+ Sun, 27 Jul 2025 11:01:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=hxCnDtEW;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202507271751219184e1bacc21615d2c-enc9lb@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202507271751219184e1bacc21615d2c
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=HAE+l9sL;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20250727180104ecd5707b9282a6c446-kau92h@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20250727180104ecd5707b9282a6c446
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 27 Jul 2025 19:51:21 +0200
+        Sun, 27 Jul 2025 20:01:04 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=xernY2biwNQdD+bmuKGaeGX03bSF949QOVxSmMvUtV4=;
- b=hxCnDtEWIYVOHVhstzlwfLpPkIZtl09gBZki9fkreht2Kw34yZ9Wmka6Yais/s4Teuc1Kw
- BwAicMxYgGjjuo50e8FpdnE8H6otjxP5XYC48+gnAsaIg+HTdnreIqvirpuG15LyokZhBYgx
- /ggHMTZ3snu00Q0H2RSoAwOmk2TgQdsfNbl1ADudpqtgbbj8O36VzTHAZBYee3jSExWaLzS2
- /HOmWQGDduQ1b8J6CzHmHHHIltNxuXj/Jf1egZ/ZcDmFgI8Wv4t0LcIBjc7whdO2mUq6WY/e
- rqaRwkLSTymuXegES7qPi5LYaS815K/QjvCC94q/+OT8dwduVtjdlh5w==;
+ bh=SH38kI5I3MD8xL5XYMhb/yLQQfIha19gH1Pu09YkBvE=;
+ b=HAE+l9sLyg+o74AONRRqHCFPzOlnk+7ecQq29YBLjjhjDeWo6Vf1bSHdkpAgVDzWo9/kRh
+ j9zXoVBcfoTVEof3bpxdR7Ohc5i3Qh0JlUx7X4/2c+MYki2I5aJVGuK8b61EIidj/cju9hkN
+ /DZMmY6yDqOW2Z3BrQ/NAH8w/BH5i1/1c8H2AwhT0FdGLQ3E1JjBcM57yHD4Jag3ek0SVuKU
+ Q4R5lX98N/MiL28/UuPyKAQzTWyvz01rd4NOOsUd/vYXh+jsX9JSyucjE89DOr45b1ielgv+
+ Y/it8v7cbb2TRBL58iU36nHKazZwbjo1s7cDgnYMdpAEOjd5lCiXYUdg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH v2 6/6] gnutls: patch CVE-2025-6395
-Date: Sun, 27 Jul 2025 19:49:19 +0200
-Message-Id: <20250727174919.4188529-6-peter.marko@siemens.com>
-In-Reply-To: <20250727174919.4188529-1-peter.marko@siemens.com>
-References: <20250727174919.4188529-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH 2/6] gnutls: patch read buffer overrun in the "pre_shared_key" extension
+Date: Sun, 27 Jul 2025 19:59:53 +0200
+Message-Id: <20250727175957.67078-2-peter.marko@siemens.com>
+In-Reply-To: <20250727175957.67078-1-peter.marko@siemens.com>
+References: <20250727175957.67078-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 17:51:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220963
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 18:01:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220965
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick relevant commit from 3.8.10 release MR [1].
+The ME contains referece to undiscoled issue, so any security relevant
+patch should be picked.
+
+Binary test file was added as separate file as binary diffs are not
+supported.
 
 [1] https://gitlab.com/gnutls/gnutls/-/merge_requests/1979
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../gnutls/gnutls/CVE-2025-6395.patch         | 299 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.4.bb   |   1 +
- 2 files changed, 300 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-6395.patch
+ ...fer-overrun-in-the-pre_shared_key-ex.patch |  34 ++++++++++++++++++
+ .../5477db1bb507a35e8833c758ce344f4b5b246d8e  | Bin 0 -> 111 bytes
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   5 ++-
+ 3 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/5477db1bb507a35e8833c758ce344f4b5b246d8e
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-6395.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-6395.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch b/meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch
 new file mode 100644
-index 0000000000..fa98c1dcd5
+index 0000000000..ce78fe1c95
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-6395.patch
-@@ -0,0 +1,299 @@
-+From 23135619773e6ec087ff2abc65405bd4d5676bad Mon Sep 17 00:00:00 2001
-+From: Daiki Ueno <ueno@gnu.org>
-+Date: Mon, 7 Jul 2025 11:15:45 +0900
-+Subject: [PATCH] handshake: clear HSK_PSK_SELECTED is when resetting
-+ binders
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch
+@@ -0,0 +1,34 @@
++From 208c6478d5c20b9d8a9f0a293e3808aa16ee091f Mon Sep 17 00:00:00 2001
++From: Andrew Hamilton <adhamilt@gmail.com>
++Date: Mon, 7 Jul 2025 10:31:55 +0900
++Subject: [PATCH] psk: fix read buffer overrun in the "pre_shared_key"
++ extension
 +
-+When a TLS 1.3 handshake involves HRR and resumption or PSK, and the
-+second Client Hello omits PSK, the server would result in a NULL
-+pointer dereference as the PSK binder information is cleared while the
-+HSK_PSK_SELECTED flag is still set. This makes sure that
-+HSK_PSK_SELECTED flag is always cleared when the PSK binders are
-+reset. This also makes it clear the HSK_PSK_SELECTED flag is valid
-+only during a handshake; after that, whether PSK is used can be
-+checked with gnutls_auth_client_get_type.
++While processing the "pre_shared_key" extension in TLS 1.3, if there
++are certain malformed data in the extension headers, then the code may
++read uninitialized memory (2 bytes) beyond the received TLS extension
++buffer. Spotted by oss-fuzz at:
++https://issues.oss-fuzz.com/issues/42513990
 +
-+Reported by Stefan Bühler.
-+
++Signed-off-by: Andrew Hamilton <adhamilt@gmail.com>
 +Signed-off-by: Daiki Ueno <ueno@gnu.org>
 +
-+CVE: CVE-2025-6395
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/23135619773e6ec087ff2abc65405bd4d5676bad]
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/208c6478d5c20b9d8a9f0a293e3808aa16ee091f]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ NEWS                                  |   4 +
-+ lib/handshake.c                       |  25 +++-
-+ lib/state.c                           |   4 +-
-+ tests/Makefile.am                     |   2 +
-+ tests/tls13/hello_retry_request_psk.c | 173 ++++++++++++++++++++++++++
-+ 5 files changed, 204 insertions(+), 4 deletions(-)
-+ create mode 100644 tests/tls13/hello_retry_request_psk.c
++ lib/ext/pre_shared_key.c                          |   2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/NEWS b/NEWS
-+index 1334516c6..d800e83b0 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -5,6 +5,10 @@ Copyright (C) 2000-2016 Free Software Foundation, Inc.
-+ Copyright (C) 2013-2019 Nikos Mavrogiannopoulos
-+ See the end for copying conditions.
++diff --git a/lib/ext/pre_shared_key.c b/lib/ext/pre_shared_key.c
++index 51c4891d5..2cb83e670 100644
++--- a/lib/ext/pre_shared_key.c
+++++ b/lib/ext/pre_shared_key.c
++@@ -839,6 +839,8 @@ static int _gnutls_psk_recv_params(gnutls_session_t session,
 + 
-++** libgnutls: Fix NULL pointer dereference when 2nd Client Hello omits PSK
-++   Reported by Stefan Bühler. [GNUTLS-SA-2025-07-07-4, CVSS: medium]
-++   [CVE-2025-6395]
++ 	if (session->security_parameters.entity == GNUTLS_CLIENT) {
++ 		if (session->internals.hsk_flags & HSK_PSK_KE_MODES_SENT) {
+++			DECR_LEN(len, 2);
 ++
-+ ** libgnutls: Fix heap read buffer overrun in parsing X.509 SCTS timestamps
-+    Spotted by oss-fuzz and reported by OpenAI Security Research Team,
-+    and fix developed by Andrew Hamilton. [GNUTLS-SA-2025-07-07-1,
-+diff --git a/lib/handshake.c b/lib/handshake.c
-+index 722307be7..489d02194 100644
-+--- a/lib/handshake.c
-++++ b/lib/handshake.c
-+@@ -589,9 +589,28 @@ static int set_auth_types(gnutls_session_t session)
-+ 		/* Under TLS1.3 this returns a KX which matches the negotiated
-+ 		 * groups from the key shares; if we are resuming then the KX seen
-+ 		 * here doesn't match the original session. */
-+-		if (!session->internals.resumed)
-+-			kx = gnutls_kx_get(session);
-+-		else
-++		if (!session->internals.resumed) {
-++			const gnutls_group_entry_st *group = get_group(session);
-++
-++			if (session->internals.hsk_flags & HSK_PSK_SELECTED) {
-++				if (group) {
-++					kx = group->pk == GNUTLS_PK_DH ?
-++						     GNUTLS_KX_DHE_PSK :
-++						     GNUTLS_KX_ECDHE_PSK;
-++				} else {
-++					kx = GNUTLS_KX_PSK;
-++				}
-++			} else if (group) {
-++				/* Not necessarily be RSA, but just to
-++				 * make _gnutls_map_kx_get_cred below
-++				 * work.
-++				 */
-++				kx = group->pk == GNUTLS_PK_DH ?
-++					     GNUTLS_KX_DHE_RSA :
-++					     GNUTLS_KX_ECDHE_RSA;
-++			} else
-++				kx = GNUTLS_KX_UNKNOWN;
-++		} else
-+ 			kx = GNUTLS_KX_UNKNOWN;
-+ 	} else {
-+ 		/* TLS1.2 or earlier, kx is associated with ciphersuite */
-+diff --git a/lib/state.c b/lib/state.c
-+index ec514c0cd..10ec0eadb 100644
-+--- a/lib/state.c
-++++ b/lib/state.c
-+@@ -202,7 +202,8 @@ gnutls_kx_algorithm_t gnutls_kx_get(gnutls_session_t session)
-+ 		const gnutls_group_entry_st *group = get_group(session);
++ 			uint16_t selected_identity = _gnutls_read_uint16(data);
 + 
-+ 		if (ver->tls13_sem) {
-+-			if (session->internals.hsk_flags & HSK_PSK_SELECTED) {
-++			if (gnutls_auth_client_get_type(session) ==
-++			    GNUTLS_CRD_PSK) {
-+ 				if (group) {
-+ 					if (group->pk == GNUTLS_PK_DH)
-+ 						return GNUTLS_KX_DHE_PSK;
-+@@ -349,6 +350,7 @@ void reset_binders(gnutls_session_t session)
-+ 	_gnutls_free_temp_key_datum(&session->key.binders[0].psk);
-+ 	_gnutls_free_temp_key_datum(&session->key.binders[1].psk);
-+ 	memset(session->key.binders, 0, sizeof(session->key.binders));
-++	session->internals.hsk_flags &= ~HSK_PSK_SELECTED;
-+ }
-+ 
-+ /* Check whether certificate credentials of type @cert_type are set
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index c2d226a00..e43faf10f 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -128,6 +128,8 @@ ctests += tls13/hello_retry_request
-+ 
-+ ctests += tls13/hello_retry_request_resume
-+ 
-++ctests += tls13/hello_retry_request_psk
-++
-+ ctests += tls13/psk-ext
-+ 
-+ ctests += tls13/key_update
-+diff --git a/tests/tls13/hello_retry_request_psk.c b/tests/tls13/hello_retry_request_psk.c
-+new file mode 100644
-+index 000000000..a20cb0d96
-+--- /dev/null
-++++ b/tests/tls13/hello_retry_request_psk.c
-+@@ -0,0 +1,173 @@
-++/*
-++ * Copyright (C) 2017-2025 Red Hat, Inc.
-++ *
-++ * Author: Nikos Mavrogiannopoulos, Daiki Ueno
-++ *
-++ * This file is part of GnuTLS.
-++ *
-++ * GnuTLS is free software; you can redistribute it and/or modify it
-++ * under the terms of the GNU General Public License as published by
-++ * the Free Software Foundation; either version 3 of the License, or
-++ * (at your option) any later version.
-++ *
-++ * GnuTLS is distributed in the hope that it will be useful, but
-++ * WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++ * General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU Lesser General Public License
-++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
-++ */
-++
-++#ifdef HAVE_CONFIG_H
-++#include "config.h"
-++#endif
-++
-++#include <stdio.h>
-++#include <stdlib.h>
-++#include <stdint.h>
-++
-++#include <string.h>
-++#include <gnutls/gnutls.h>
-++#include <assert.h>
-++
-++#include "cert-common.h"
-++#include "utils.h"
-++#include "tls13/ext-parse.h"
-++#include "eagain-common.h"
-++
-++/* This program exercises the case where a TLS 1.3 handshake ends up
-++ * with HRR, and the first CH includes PSK while the 2nd CH omits
-++ * it */
-++
-++const char *testname = "hello entry request";
-++
-++const char *side = "";
-++
-++#define myfail(fmt, ...) fail("%s: " fmt, testname, ##__VA_ARGS__)
-++
-++static void tls_log_func(int level, const char *str)
-++{
-++	fprintf(stderr, "%s|<%d>| %s", side, level, str);
-++}
-++
-++struct ctx_st {
-++	unsigned hrr_seen;
-++	unsigned hello_counter;
-++};
-++
-++static int pskfunc(gnutls_session_t session, const char *username,
-++		   gnutls_datum_t *key)
-++{
-++	if (debug)
-++		printf("psk: username %s\n", username);
-++	key->data = gnutls_malloc(4);
-++	key->data[0] = 0xDE;
-++	key->data[1] = 0xAD;
-++	key->data[2] = 0xBE;
-++	key->data[3] = 0xEF;
-++	key->size = 4;
-++	return 0;
-++}
-++
-++static int hello_callback(gnutls_session_t session, unsigned int htype,
-++			  unsigned post, unsigned int incoming,
-++			  const gnutls_datum_t *msg)
-++{
-++	struct ctx_st *ctx = gnutls_session_get_ptr(session);
-++	assert(ctx != NULL);
-++
-++	if (htype == GNUTLS_HANDSHAKE_HELLO_RETRY_REQUEST)
-++		ctx->hrr_seen = 1;
-++
-++	if (htype == GNUTLS_HANDSHAKE_CLIENT_HELLO) {
-++		if (post == GNUTLS_HOOK_POST)
-++			ctx->hello_counter++;
-++		else {
-++			/* Unset the PSK credential to omit the extension */
-++			gnutls_credentials_set(session, GNUTLS_CRD_PSK, NULL);
-++		}
-++	}
-++
-++	return 0;
-++}
-++
-++void doit(void)
-++{
-++	int sret, cret;
-++	gnutls_psk_server_credentials_t scred;
-++	gnutls_psk_client_credentials_t ccred;
-++	gnutls_certificate_credentials_t ccred2;
-++	gnutls_session_t server, client;
-++	/* Need to enable anonymous KX specifically. */
-++	const gnutls_datum_t key = { (void *)"DEADBEEF", 8 };
-++
-++	struct ctx_st ctx;
-++	memset(&ctx, 0, sizeof(ctx));
-++
-++	global_init();
-++
-++	gnutls_global_set_log_function(tls_log_func);
-++	if (debug)
-++		gnutls_global_set_log_level(9);
-++
-++	/* Init server */
-++	assert(gnutls_psk_allocate_server_credentials(&scred) >= 0);
-++	gnutls_psk_set_server_credentials_function(scred, pskfunc);
-++
-++	gnutls_init(&server, GNUTLS_SERVER);
-++
-++	assert(gnutls_priority_set_direct(
-++		       server,
-++		       "NORMAL:-VERS-ALL:+VERS-TLS1.3:-GROUP-ALL:+GROUP-X25519:+DHE-PSK",
-++		       NULL) >= 0);
-++
-++	gnutls_credentials_set(server, GNUTLS_CRD_PSK, scred);
-++	gnutls_transport_set_push_function(server, server_push);
-++	gnutls_transport_set_pull_function(server, server_pull);
-++	gnutls_transport_set_ptr(server, server);
-++
-++	/* Init client */
-++	assert(gnutls_psk_allocate_client_credentials(&ccred) >= 0);
-++	gnutls_psk_set_client_credentials(ccred, "test", &key,
-++					  GNUTLS_PSK_KEY_HEX);
-++	assert(gnutls_certificate_allocate_credentials(&ccred2) >= 0);
-++
-++	assert(gnutls_init(&client, GNUTLS_CLIENT | GNUTLS_KEY_SHARE_TOP) >= 0);
-++
-++	gnutls_session_set_ptr(client, &ctx);
-++
-++	cret = gnutls_priority_set_direct(
-++		client,
-++		"NORMAL:-VERS-ALL:+VERS-TLS1.3:-GROUP-ALL:+GROUP-SECP256R1:+GROUP-X25519:+DHE-PSK",
-++		NULL);
-++	if (cret < 0)
-++		myfail("cannot set TLS 1.3 priorities\n");
-++
-++	gnutls_credentials_set(client, GNUTLS_CRD_PSK, ccred);
-++	gnutls_credentials_set(client, GNUTLS_CRD_CERTIFICATE, ccred2);
-++	gnutls_transport_set_push_function(client, client_push);
-++	gnutls_transport_set_pull_function(client, client_pull);
-++	gnutls_transport_set_ptr(client, client);
-++
-++	gnutls_handshake_set_hook_function(client, GNUTLS_HANDSHAKE_ANY,
-++					   GNUTLS_HOOK_BOTH, hello_callback);
-++
-++	HANDSHAKE_EXPECT(client, server, GNUTLS_E_AGAIN,
-++			 GNUTLS_E_INSUFFICIENT_CREDENTIALS);
-++
-++	assert(ctx.hrr_seen != 0);
-++
-++	gnutls_bye(client, GNUTLS_SHUT_WR);
-++	gnutls_bye(server, GNUTLS_SHUT_WR);
-++
-++	gnutls_deinit(client);
-++	gnutls_deinit(server);
-++
-++	gnutls_psk_free_server_credentials(scred);
-++	gnutls_psk_free_client_credentials(ccred);
-++	gnutls_certificate_free_credentials(ccred2);
-++
-++	gnutls_global_deinit();
-++	reset_buffers();
-++}
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-index 3186cb92e3..dde3bc3014 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-@@ -32,6 +32,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://3e94dcdff862ef5d6db8b5cc8e59310b5f0cdfe2 \
-            file://CVE-2025-32988.patch \
-            file://CVE-2025-32990.patch \
-+           file://CVE-2025-6395.patch \
++ 			for (i=0;i<sizeof(session->key.binders)/sizeof(session->key.binders[0]);i++) {
+diff --git a/meta/recipes-support/gnutls/gnutls/5477db1bb507a35e8833c758ce344f4b5b246d8e b/meta/recipes-support/gnutls/gnutls/5477db1bb507a35e8833c758ce344f4b5b246d8e
+new file mode 100644
+index 0000000000000000000000000000000000000000..009d44c394fd08c5400fb63f837e468f1738522d
+GIT binary patch
+literal 111
+zcmWe*R$$0tVqi#PW>$cL{|f(MOa+Di2(|!16v7f_VPMc>&}Lv_W>HXJK$nH+{f{t!
+IL6d<203r_)`v3p{
+
+literal 0
+HcmV?d00001
+
+diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+index 48ddb269de..4929e44db3 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+@@ -31,6 +31,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://CVE-2024-12243.patch \
+            file://CVE-2025-32989.patch \
+            file://04939b75417cc95b7372c6f208c4bda4579bdc34 \
++           file://0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch \
++           file://5477db1bb507a35e8833c758ce344f4b5b246d8e \
             "
  
- SRC_URI[sha256sum] = "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd44cdfa7f36ebc3a9b"
+ SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
+@@ -69,8 +71,9 @@ do_configure:prepend() {
+ 	done
+ 
+     # binary files cannot be delivered as diff
+-    mkdir -p ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/
++    mkdir -p ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/ ${S}/fuzz/gnutls_psk_client_fuzzer.repro/
+     cp ${WORKDIR}/04939b75417cc95b7372c6f208c4bda4579bdc34 ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/
++    cp ${WORKDIR}/5477db1bb507a35e8833c758ce344f4b5b246d8e ${S}/fuzz/gnutls_psk_client_fuzzer.repro/
+ }
+ 
+ PACKAGES =+ "${PN}-openssl ${PN}-xx"
 
