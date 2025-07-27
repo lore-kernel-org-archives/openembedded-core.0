@@ -2,33 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F78C87FCE
-	for <webhook@archiver.kernel.org>; Sun, 27 Jul 2025 17:50:31 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.64346.1753638622274829418
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B664C87FCC
+	for <webhook@archiver.kernel.org>; Sun, 27 Jul 2025 17:50:41 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web10.64349.1753638640373902362
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jul 2025 10:50:23 -0700
+ Sun, 27 Jul 2025 10:50:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=hM9Jo+QZ;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2025072717501680118b5d9bd61e2444-8w06mu@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2025072717501680118b5d9bd61e2444
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=k7O/81qf;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202507271750386fe544985e0f79aef9-tildma@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202507271750386fe544985e0f79aef9
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 27 Jul 2025 19:50:17 +0200
+        Sun, 27 Jul 2025 19:50:38 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=FddchqslR9DF3fY2jOPZ9NBc8abccddfCFbdDq8GECc=;
- b=hM9Jo+QZsDF2TXK3ksc+Rik9xZZpHrLii+e6BWthhbiAHE1my2kmeRqBER2yrdQ0zOfLAB
- ERXeBGudTNMUzbkbqhINi25mBK/yBeo2E7pP274Wo4ir67tJPScJZsgDqyKdKUzG6IuHCD58
- Hz6DA97elnQlJDh49g31r+t+GLxBvLrTWx2z1Hl6mN27ZlUzOrQkg3P6ExBXvATc6vTrXjaZ
- U1ycsyDKw5jWgMv2Q8BlaU7/nuY4KGyuQcNhc6SfVnUy/Hqcsyz+CJ58wMqz4Fqhgp7UoNAd
- rUz1TauCoP24RwbNAoqqGzdPBa2QftwwCANNyRcwwtsabTtUEHHWr7/w==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=Ei9QfE4txithV0tUv9hAW1ozk8oWtwuD59SS4aYhH6Q=;
+ b=k7O/81qf4a5gNOUj+yVxxFtN9LySOWXr5DgZnNgY7C0cSL/2NsImK5Blv7EZDvoqDqkr5K
+ iQPDHoXmtXPKa2hNo6DD8Wz916qAvVkCa3O3518ljnAgiSWu/F7AgopKdDUuLIs2+COdDHTh
+ yhgEqfMpHMGNJtunaPHw0LIG5Aus3+TbuaNXrJm2JNsQ03TgDNSvpG4JdiygKIWkXMlX070A
+ CCUOTIkh8PIPDmVjhL2fGMQUwjLufFUaYj21BnBEAzxTkNFS+GKBr4vLB1zVTlyIc1JQF2W6
+ w5o5NYiDZk4eCS2P0ubjnXRxNj+xlmqlUvYalDgGewNmqvh0SbhZgY3Q==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH v2 1/6] gnutls: patch CVE-2025-32989
-Date: Sun, 27 Jul 2025 19:49:14 +0200
-Message-Id: <20250727174919.4188529-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH v2 2/6] gnutls: patch read buffer overrun in the "pre_shared_key" extension
+Date: Sun, 27 Jul 2025 19:49:15 +0200
+Message-Id: <20250727174919.4188529-2-peter.marko@siemens.com>
+In-Reply-To: <20250727174919.4188529-1-peter.marko@siemens.com>
+References: <20250727174919.4188529-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,12 +38,14 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 17:50:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220958
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 17:50:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220959
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick relevant commit from 3.8.10 release MR [1].
+The ME contains referece to undiscoled issue, so any security relevant
+patch should be picked.
 
 Binary test file was added as separate file as binary diffs are not
 supported.
@@ -50,130 +54,85 @@ supported.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../04939b75417cc95b7372c6f208c4bda4579bdc34  | Bin 0 -> 1782 bytes
- .../gnutls/gnutls/CVE-2025-32989.patch        |  50 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.4.bb   |   6 +++
- 3 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/04939b75417cc95b7372c6f208c4bda4579bdc34
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-32989.patch
+ ...fer-overrun-in-the-pre_shared_key-ex.patch |  34 ++++++++++++++++++
+ .../5477db1bb507a35e8833c758ce344f4b5b246d8e  | Bin 0 -> 111 bytes
+ meta/recipes-support/gnutls/gnutls_3.8.4.bb   |   5 ++-
+ 3 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/5477db1bb507a35e8833c758ce344f4b5b246d8e
 
-diff --git a/meta/recipes-support/gnutls/gnutls/04939b75417cc95b7372c6f208c4bda4579bdc34 b/meta/recipes-support/gnutls/gnutls/04939b75417cc95b7372c6f208c4bda4579bdc34
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch b/meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch
 new file mode 100644
-index 0000000000000000000000000000000000000000..ffcfe23e99d4b353f07192729a86ffb5a249bbde
-GIT binary patch
-literal 1782
-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
-
-literal 0
-HcmV?d00001
-
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-32989.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-32989.patch
-new file mode 100644
-index 0000000000..e78c2d1da4
+index 0000000000..e3dc286328
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-32989.patch
-@@ -0,0 +1,50 @@
-+From 8e5ca951257202089246fa37e93a99d210ee5ca2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch
+@@ -0,0 +1,34 @@
++From 208c6478d5c20b9d8a9f0a293e3808aa16ee091f Mon Sep 17 00:00:00 2001
 +From: Andrew Hamilton <adhamilt@gmail.com>
-+Date: Mon, 7 Jul 2025 10:23:59 +0900
-+Subject: [PATCH] x509: fix read buffer overrun in SCT timestamps
++Date: Mon, 7 Jul 2025 10:31:55 +0900
++Subject: [PATCH] psk: fix read buffer overrun in the "pre_shared_key"
++ extension
 +
-+Prevent reading beyond heap buffer in call to _gnutls_parse_ct_sct
-+when processing x509 Signed Certificate Timestamps with certain
-+malformed data. Spotted by oss-fuzz at:
-+https://issues.oss-fuzz.com/issues/42530513
++While processing the "pre_shared_key" extension in TLS 1.3, if there
++are certain malformed data in the extension headers, then the code may
++read uninitialized memory (2 bytes) beyond the received TLS extension
++buffer. Spotted by oss-fuzz at:
++https://issues.oss-fuzz.com/issues/42513990
 +
 +Signed-off-by: Andrew Hamilton <adhamilt@gmail.com>
 +Signed-off-by: Daiki Ueno <ueno@gnu.org>
 +
-+CVE: CVE-2025-32989
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/8e5ca951257202089246fa37e93a99d210ee5ca2]
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/208c6478d5c20b9d8a9f0a293e3808aa16ee091f]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ NEWS                                             |   5 +++++
-+ lib/x509/x509_ext.c                              |   2 +-
-+ 2 files changed, 6 insertions(+), 1 deletion(-)
++ lib/ext/pre_shared_key.c                          |   2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/NEWS b/NEWS
-+index 85efb5680..025e05148 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -5,6 +5,11 @@ Copyright (C) 2000-2016 Free Software Foundation, Inc.
-+ Copyright (C) 2013-2019 Nikos Mavrogiannopoulos
-+ See the end for copying conditions.
++diff --git a/lib/ext/pre_shared_key.c b/lib/ext/pre_shared_key.c
++index 51c4891d5..2cb83e670 100644
++--- a/lib/ext/pre_shared_key.c
+++++ b/lib/ext/pre_shared_key.c
++@@ -1170,6 +1170,8 @@ static int _gnutls_psk_recv_params(gnutls_session_t session,
 + 
-++** libgnutls: Fix heap read buffer overrun in parsing X.509 SCTS timestamps
-++   Spotted by oss-fuzz and reported by OpenAI Security Research Team,
-++   and fix developed by Andrew Hamilton. [GNUTLS-SA-2025-07-07-1,
-++   CVSS: medium] [CVE-2025-32989]
++ 	if (session->security_parameters.entity == GNUTLS_CLIENT) {
++ 		if (session->internals.hsk_flags & HSK_PSK_KE_MODES_SENT) {
+++			DECR_LEN(len, 2);
 ++
-+ * Version 3.8.4 (released 2024-03-18)
++ 			uint16_t selected_identity = _gnutls_read_uint16(data);
 + 
-+ ** libgnutls: RSA-OAEP encryption scheme is now supported
-+diff --git a/lib/x509/x509_ext.c b/lib/x509/x509_ext.c
-+index 064ca8357..05336a0c2 100644
-+--- a/lib/x509/x509_ext.c
-++++ b/lib/x509/x509_ext.c
-+@@ -3757,7 +3757,7 @@ int gnutls_x509_ext_ct_import_scts(const gnutls_datum_t *ext,
-+ 	}
-+ 
-+ 	length = _gnutls_read_uint16(scts_content.data);
-+-	if (length < 4) {
-++	if (length < 4 || length > scts_content.size) {
-+ 		gnutls_free(scts_content.data);
-+ 		return GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE;
-+ 	}
++ 			for (i = 0; i < sizeof(session->key.binders) /
+diff --git a/meta/recipes-support/gnutls/gnutls/5477db1bb507a35e8833c758ce344f4b5b246d8e b/meta/recipes-support/gnutls/gnutls/5477db1bb507a35e8833c758ce344f4b5b246d8e
+new file mode 100644
+index 0000000000000000000000000000000000000000..009d44c394fd08c5400fb63f837e468f1738522d
+GIT binary patch
+literal 111
+zcmWe*R$$0tVqi#PW>$cL{|f(MOa+Di2(|!16v7f_VPMc>&}Lv_W>HXJK$nH+{f{t!
+IL6d<203r_)`v3p{
+
+literal 0
+HcmV?d00001
+
 diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-index e77960724b..367872d47e 100644
+index 367872d47e..973f81719a 100644
 --- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
 +++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-@@ -24,6 +24,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://run-ptest \
-            file://Add-ptest-support.patch \
+@@ -26,6 +26,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
             file://CVE-2024-12243.patch \
-+           file://CVE-2025-32989.patch \
-+           file://04939b75417cc95b7372c6f208c4bda4579bdc34 \
+            file://CVE-2025-32989.patch \
+            file://04939b75417cc95b7372c6f208c4bda4579bdc34 \
++           file://0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch \
++           file://5477db1bb507a35e8833c758ce344f4b5b246d8e \
             "
  
  SRC_URI[sha256sum] = "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd44cdfa7f36ebc3a9b"
-@@ -62,6 +64,10 @@ do_configure:prepend() {
- 	for dir in . lib; do
- 		rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4
+@@ -66,8 +68,9 @@ do_configure:prepend() {
  	done
-+
-+    # binary files cannot be delivered as diff
-+    mkdir -p ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/
-+    cp ${WORKDIR}/04939b75417cc95b7372c6f208c4bda4579bdc34 ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/
+ 
+     # binary files cannot be delivered as diff
+-    mkdir -p ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/
++    mkdir -p ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/ ${S}/fuzz/gnutls_psk_client_fuzzer.repro/
+     cp ${WORKDIR}/04939b75417cc95b7372c6f208c4bda4579bdc34 ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/
++    cp ${WORKDIR}/5477db1bb507a35e8833c758ce344f4b5b246d8e ${S}/fuzz/gnutls_psk_client_fuzzer.repro/
  }
  
  do_compile_ptest() {
