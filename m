@@ -2,136 +2,176 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31828C87FCC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F33C87FCF
 	for <webhook@archiver.kernel.org>; Sun, 27 Jul 2025 20:05:12 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.66856.1753646702071950859
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.66592.1753646706650269191
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jul 2025 13:05:02 -0700
+ Sun, 27 Jul 2025 13:05:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QmBooVZj;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-24022261323so2846375ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 13:05:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EXxEpeAr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-23fe9a5e5e8so6937455ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 13:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753646701; x=1754251501; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753646706; x=1754251506; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kX+ujdFumNyw0ATS1gXmOwk3Zy2ESfKNHEFEotIWw1k=;
-        b=QmBooVZjQ2FgDNSyClbG8dFLUlAln8/GyGRlGRKZri1jyrJd0rek3RBjmcR92/BP7N
-         DNOsYDXyWjCJ4saI8jFFt0PIMxHYPsLol+bpmXDCdYVlaEukCT9EAx46zfMIOD+deJi9
-         0H7zk/Q75MINnrPK/fSe9Nw8dhf2AJfGCf12Q5bvsbJ3yUaNusJ734GCSerUu2xOSaxX
-         ECj/euT9lFVUbq8SKioKi1hG8utFrFCh232zmZJtSVokg3SdH451jcDN4ngsVBOj5Tn2
-         zSvGDNXfdbsrJN3YXobbrypADXwZhF/qheIRMu/HJ5EPOBHM+OX6nk3Ih9to5N/8cbso
-         BvRg==
+        bh=VyU/w8MnKKxqTTLcv/2OadTyPt1q3vFi3Swo6fjwiEI=;
+        b=EXxEpeArTBVZk/yOCnUsQLxqAK2ly3dLzR2SwGmGKtbfzcUDeZfi+caATo4mry2uJU
+         KFJqOIVG+3//QKuT9wvkb88yYGyb1wIFG15duE341hwmPEpZ+HB0x/p5AObyYCc9pEEG
+         GhsTjy4qDG9cp7ddZaUAMpAD9CdqgBCYwsNadZBzNLVhZI7RLtQRlm3K4/89jqv/MC2r
+         IDlNcdXKBgVrt0KgITwInnIWo9wTunvZXk5Nlhx/h1LzOi2v17w7t6VST9vbsH9fIcEZ
+         /ZAgnoYRX4FjMrKDCEJSAOXfZD8hQhICzFALvnXguV1Uq4HT6m6Ke7pU4xX1N0sn4eyF
+         FxRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753646701; x=1754251501;
+        d=1e100.net; s=20230601; t=1753646706; x=1754251506;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kX+ujdFumNyw0ATS1gXmOwk3Zy2ESfKNHEFEotIWw1k=;
-        b=Fl8Yn/5BS6N/pw4+gRw4g2SGV07qA6fgCHE9LN6VN8irBvoXC7qPaRb9DFmZwf84cx
-         YWBfButyfAxG1UACggU8l0PcqXJYHl8a+FimboOUdEAMzq56wN7caYSTlOZFk5stpTEM
-         +CKhzJDsQ0HYo7l9ZfQQjDKZf/azUHQGnWDm3bfSQ/VksfjWqT3UEjCbNynnUzaZdAwu
-         0BxrpG2fnCy/g6WyNqkQdSx0K/Kt2+8eCTso3PoH/hnd8U4diLRCDVrY4/45Odkv/8ae
-         NmLNTt+udycHXd5B1aS2i/+qXVqDm498QstrvqcB9eua24AdnHJqqqUOHhw3GtHCrv0w
-         U1zQ==
-X-Gm-Message-State: AOJu0YxYKJEVQenGB366stLu827av6jpVPq44F58W+dsP/vyn0AnfUTk
-	veGmlFvs7+td2bwbLuH6KPO1uOkLrWieS3QQJq6/gZ/poxfn8ojsD4vFs1EuTvuQWB0SzGyaosu
-	zwtSX85w=
-X-Gm-Gg: ASbGncuzhvfLQK7YL52ehI8wicN91S8TR5qr3mRufmZOxrP5hqnXwJLlZa26GDasAZO
-	4QKH3bV/mNSAbeRDpWnK65FNBSK4nBUfvCqOFHJathIlo/YTn9YVG8RSwgESebVtkwtzNBab1TZ
-	LptbAPIH8hl3rEhB1IUAB61WlPM/+4Jj7WbC5c76R1yiFJtSnDkJTfV7g1D2+ZENibWM+dEOUVO
-	xVbBfI6jjpNygSPgLNM6kSaMwhPWwZAKGx27qjmKPaAQq/sq191jBDnyHgGwgK8AE0hrtCig9f8
-	gD11XnxwWB9UP4GrmyMH32lxVzsq65u3l2p+uIFnpREdDvPGis6SbRD2WIyhpQtMNo2vWY6iSYC
-	YnyqYWq5eCdC3vaxzZHZD48/x
-X-Google-Smtp-Source: AGHT+IF7QH7aaWGAQDedfAo6NnER7oEj3wlPnIAprxAJYutWyCpGxpfgsM9PTA7Cg1mkCBzGyU6p3Q==
-X-Received: by 2002:a17:902:ebc3:b0:234:325:500b with SMTP id d9443c01a7336-23fb2bc78f5mr140780705ad.22.1753646701152;
-        Sun, 27 Jul 2025 13:05:01 -0700 (PDT)
+        bh=VyU/w8MnKKxqTTLcv/2OadTyPt1q3vFi3Swo6fjwiEI=;
+        b=loiQj4LNIsAWnzYyNoR1FIfEJZQCjGRj0FG9PLZX1nBih0d99ai/X4fcHI8fN7E7wM
+         BhRyOPsKoU/nSbacPPF+2Xm+tBEHGZVayHz1gMnpq3Ui+ks4Cm7Esh96PyEbEHSLe04q
+         Vvw64/djJtQkpODizFcrma+DRuRsqAUP9Hm0gc+mhTRYcuV4NpH01+oYLrkhvZ5rNtis
+         zMCFxL1ruiO0xshmSusd6DMo79drQLieZxHY7DBFU4RMCSE9ysYSC1pSzur5Og44bPHj
+         vvNDv/RwQKcfpOTKpiyO+FHHRIl3nZMls/InzSmGTdpgfI6uPEJC02K0CqeE5asuLmV9
+         sJmA==
+X-Gm-Message-State: AOJu0Yyi4ahe548l/taATPijh9fVqY+hS+3pi0qKHJK/gWbdtvSIwIcl
+	SEMy/wayZei4ramN8JNnvFdc17sQAw5maFRa5xPcB0+gfA9R2WkTObMb/Lhjk+/1y8MuIiv2W3o
+	xLlo7FVs=
+X-Gm-Gg: ASbGncunjvXexhTcUzt/TFthUxAv5uC5B1puRMwC5/YkuPPgPra+8SCrefPPYUcDZk0
+	ZHv91e+rn4UfPVx/+1TUelswFWbmnwjOA1lzaHEA5zUkAX2KOIFbp2w3RcAJbKlA2F5LDv1ndTI
+	88LAqGu3lkPnD+/8ssXigeOWnJT8IfKmSVmFidblHltvIhxvHEB8/qGNiarYyMNxJdnfHs2MLnb
+	Sw112xotlyz7Fo2Kv/2V7V7DEDX9J0QzOgLI9aJqAVeFZwNWT6lUBuziMUxZE6BShfr7KIFtAYQ
+	N3LNt8WcX5ame+Vm83PLr0PeI5NuljJB+SqEXuKCkeg+S8koT3GPx4XFnn+rIanhEoaKf643PcP
+	mEFoJu5Sakm9H4A==
+X-Google-Smtp-Source: AGHT+IHtBLz9CKlFxU53RB83h6i7+In9R2429woQ34TlAUyF1phhazXhFgNK9ruPIDcW4wzWlD0nBg==
+X-Received: by 2002:a17:903:18c:b0:23c:8f2d:5e22 with SMTP id d9443c01a7336-23fb3125642mr127581785ad.27.1753646705698;
+        Sun, 27 Jul 2025 13:05:05 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:22e3:7abf:ace0:e5ff])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe512ef7sm38905665ad.131.2025.07.27.13.05.00
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe512ef7sm38905665ad.131.2025.07.27.13.05.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jul 2025 13:05:00 -0700 (PDT)
+        Sun, 27 Jul 2025 13:05:05 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/10] ncurses: patch CVE-2025-6141
-Date: Sun, 27 Jul 2025 13:04:39 -0700
-Message-ID: <8d09a78a79d7f4b4ae9654bdcdf5f33dab9a8b95.1753646578.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/10] db: ignore implicit-int and implicit-function-declaration issues fatal with gcc-14
+Date: Sun, 27 Jul 2025 13:04:42 -0700
+Message-ID: <277b5ec3c0212ca8600dd89d0a33f784a060131f.1753646578.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753646578.git.steve@sakoman.com>
 References: <cover.1753646578.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 20:05:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220978
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220981
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Pick relevant part of snapshot commit 20250329, see [1].
+* many configure tests (which might not fail before) are failing with gcc-1=
+4:
+  # grep implicit build/config.log
+  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
+  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
+  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
+  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
+  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
+  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
+  conftest.c:50:17: error: implicit declaration of function 'exit' [-Wimpli=
+cit-function-declaration]
+  conftest.c:50:17: warning: incompatible implicit declaration of built-in =
+function 'exit' [-Wbuiltin-declaration-mismatch]
+  conftest.c:53:9: error: implicit declaration of function 'msem_init' [-Wi=
+mplicit-function-declaration]
+  conftest.c:54:9: error: implicit declaration of function 'msem_lock' [-Wi=
+mplicit-function-declaration]
+  conftest.c:55:9: error: implicit declaration of function 'msem_unlock' [-=
+Wimplicit-function-declaration]
+  conftest.c:56:9: error: implicit declaration of function 'exit' [-Wimplic=
+it-function-declaration]
+  conftest.c:56:9: warning: incompatible implicit declaration of built-in f=
+unction 'exit' [-Wbuiltin-declaration-mismatch]
+  conftest.c:50:9: error: implicit declaration of function '_spin_lock_try'=
+ [-Wimplicit-function-declaration]
+  conftest.c:51:9: error: implicit declaration of function '_spin_unlock' [=
+-Wimplicit-function-declaration]
 
-That has:
-add a buffer-limit check in postprocess_termcap (report/testcase by
-Yifan Zhang).
+* I have noticed this on db-native build on host with gcc-14
+  where it caused fatal do_configure error:
+  http://errors.yoctoproject.org/Errors/Details/784164/
 
-[1] https://invisible-island.net/ncurses/NEWS.html#index-t20250329
+  checking for mutexes... UNIX/fcntl
+  configure: error: Support for FCNTL mutexes was removed in BDB 4.8.
 
+  the config.log confirms it's because implicit-int:
+
+  configure:22798: checking for mutexes
+  configure:22925: gcc  -o conftest -isystem/OE/build/oe-core/tmp-glibc/wor=
+k/x86_64-linux/db-native/5.3.28/recipe-sysroot-native/usr/include -O2 -pipe=
+  -isystem/OE/build/oe-core/tmp-glibc/work/x86_64-linux/db-native/5.3.28/re=
+cipe-sysroot-native/usr/include -D_GNU_SOURCE -D_REENTRANT -L/OE/build/oe-c=
+ore/tmp-glibc/work/x86_64-linux/db-native/5.3.28/recipe-sysroot-native/usr/=
+lib                         -L/OE/build/oe-core/tmp-glibc/work/x86_64-linux=
+/db-native/5.3.28/recipe-sysroot-native/lib                         -Wl,--e=
+nable-new-dtags                         -Wl,-rpath-link,/OE/build/oe-core/t=
+mp-glibc/work/x86_64-linux/db-native/5.3.28/recipe-sysroot-native/usr/lib  =
+                       -Wl,-rpath-link,/OE/build/oe-core/tmp-glibc/work/x86=
+_64-linux/db-native/5.3.28/recipe-sysroot-native/lib                       =
+  -Wl,-rpath,/OE/build/oe-core/tmp-glibc/work/x86_64-linux/db-native/5.3.28=
+/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/OE/build=
+/oe-core/tmp-glibc/work/x86_64-linux/db-native/5.3.28/recipe-sysroot-native=
+/lib                         -Wl,-O1 conftest.c  -lpthread >&5
+  conftest.c:47:1: error: return type defaults to 'int' [-Wimplicit-int]
+     47 | main() {
+        | ^~~~
+  configure:22925: $? =3D 1
+  configure: program exited with status 1
+
+* comparing target db with and without this change shows following diff
+  in log.do_configure:
+
+  db $ diff 5.3.28*/temp/log.do_configure
+  268c268
+  < checking for mutexes... POSIX/pthreads/library
+  ---
+  > checking for mutexes... POSIX/pthreads/library/x86_64/gcc-assembly
+  271c271
+  < checking for atomic operations... no
+  ---
+  > checking for atomic operations... x86/gcc-assembly
+
+(From OE-Core rev: 4d3ce333c10fadf746b6d8b55a88777c97e11ffa)
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 6108da955e7c553247ff5356cf1c990b3d334edf)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ncurses/files/CVE-2025-6141.patch         | 25 +++++++++++++++++++
- .../ncurses/ncurses_6.3+20220423.bb           |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2025-6141.patch
+ meta/recipes-support/db/db_5.3.28.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/ncurses/files/CVE-2025-6141.patch b/meta/recipes-core/ncurses/files/CVE-2025-6141.patch
-new file mode 100644
-index 0000000000..331535e4d2
---- /dev/null
-+++ b/meta/recipes-core/ncurses/files/CVE-2025-6141.patch
-@@ -0,0 +1,25 @@
-+From 27d1493340d714e7be6e08c0a8f43e48276149c4 Mon Sep 17 00:00:00 2001
-+From: "Thomas E. Dickey" <dickey@invisible-island.net>
-+Date: Sat, 29 Mar 2025 22:52:37 +0000
-+Subject: [PATCH] snapshot of project "ncurses", label v6_5_20250329
+diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db=
+/db_5.3.28.bb
+index c5427f54eb..62a91ba7e3 100644
+--- a/meta/recipes-support/db/db_5.3.28.bb
++++ b/meta/recipes-support/db/db_5.3.28.bb
+@@ -117,3 +117,7 @@ INSANE_SKIP:${PN} =3D "dev-so"
+ INSANE_SKIP:${PN}-cxx =3D "dev-so"
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
 +
-+CVE: CVE-2025-6141
-+Upstream-Status: Backport [https://github.com/ThomasDickey/ncurses-snapshots/commit/27d1493340d714e7be6e08c0a8f43e48276149c4]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ ncurses/tinfo/parse_entry.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
-+index a2278c07..c551c780 100644
-+--- a/ncurses/tinfo/parse_entry.c
-++++ b/ncurses/tinfo/parse_entry.c
-+@@ -954,6 +954,8 @@ postprocess_termcap(TERMTYPE2 *tp, bool has_base)
-+ 	    bp = tp->Strings[from_ptr->nte_index];
-+ 	    if (VALID_STRING(bp)) {
-+ 		for (dp = buf2; *bp; bp++) {
-++		    if ((size_t) (dp - buf2) >= (sizeof(buf2) - sizeof(TERMTYPE2)))
-++			  break;
-+ 		    if (bp[0] == '$' && bp[1] == '<') {
-+ 			while (*bp && *bp != '>') {
-+ 			    ++bp;
-diff --git a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-index 1fa5e036e9..68a845f27c 100644
---- a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://0001-tic-hang.patch \
-            file://CVE-2023-29491.patch \
-            file://CVE-2023-50495.patch \
-            file://CVE-2023-45918.patch \
-+           file://CVE-2025-6141.patch \
-            "
- # commit id corresponds to the revision in package version
- SRCREV = "a0bc708bc6954b5d3c0a38d92b683c3ec3135260"
--- 
++# many configure tests are failing with gcc-14
++CFLAGS +=3D "-Wno-error=3Dimplicit-int -Wno-error=3Dimplicit-function-decl=
+aration"
++BUILD_CFLAGS +=3D "-Wno-error=3Dimplicit-int -Wno-error=3Dimplicit-functio=
+n-declaration"
+--=20
 2.43.0
 
 
