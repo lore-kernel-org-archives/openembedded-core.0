@@ -2,151 +2,160 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40CD8C87FCF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EF53C87FCC
 	for <webhook@archiver.kernel.org>; Sun, 27 Jul 2025 20:04:52 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.66581.1753646690772737396
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.66851.1753646688924464097
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Jul 2025 13:04:50 -0700
+ Sun, 27 Jul 2025 13:04:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AieK7Pez;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-234b9dfb842so32796195ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 13:04:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Qa8LHyS7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2403c13cac3so350315ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 13:04:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753646690; x=1754251490; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NfTCVFmfKzMEkK8CF7HDZKVAXy/I6Eq9c+CC2uq2XZU=;
-        b=AieK7PezBo+LUsgzdqEWqWTH6QkYx14SHmjOJwCr9KRD6oWozAUj61Zshe5r9Qpq5T
-         ims/xuAFdbykA7uvuM2QNg6rpcxb66qF6e9qcrRR69p3OMUVbg49JDew+DFe43J0T3Ix
-         Yy93XTfv/WtN4c4jtX7J05gupKXEFQqZtjyPjM7NwzEuCwv0EK5f7UB9wmLFS70IvA1/
-         Mvon44n28kFM6vr9/HXR5fNjcPHmyBkYM46x93t/M40YiAeyTfju4ksK8eNvd8rVSXS2
-         t1SfoNp8e0HpSeLJTikf4u+ZwRW+qk6gfW5PXpZfSUmlYNB+/2ed5NT8P+km05lrR5uh
-         p7Ig==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753646688; x=1754251488; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/FF/pO8TxjRcSkIXrnFgdC0EB7d7VeZU7XYWka+4DhI=;
+        b=Qa8LHyS7IkyczEWGqTrZfcrqaHeZ/aJdI0HcXa5Joqbhn+lvM7s4mB5C95anRkItw1
+         ZfAm1vYk88WtcqbCJO/RFUFEvXqO80DerIi4AmDeuJR8CqrdyUb934zwltbuGmMSQCoO
+         r+rO3xnVTjmvySLf+toUcwyW8HHcJolgKzWWWQFLd7YWS+lJUjLGvP+bnB3PzpGrRHxc
+         xDCWEpwMpSG+VPUcA2CldkbKKoWvuJ2TT2TlxTr2UUq/3jjfxi0lV931rkUgXoTeDyUL
+         JHXfRORUVnShDUFwrvEQhgMmyHweEfYy7V2A7PPDqu2nowkhwbr+sXIYFtYcvfBXmiGB
+         ydUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753646690; x=1754251490;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NfTCVFmfKzMEkK8CF7HDZKVAXy/I6Eq9c+CC2uq2XZU=;
-        b=JYpK8VvRV7SMyB+pM8Pq42tNNDaSYHO4KHCZXBertj0wKMPRgrZG4y29wMR7ClvN2E
-         ZTtaYO0Y+cXzDFhXGt+9hZ6Y+m2bZ01j7Rxu1ii5WvlkBwHb80F3uTgKmxZ1B0Efj+LS
-         tMn23rJxvtmxNTI7cYFcmYF8jTyWjepWp59dKDkl0qJSYHFjbDaGalcd5exrkvcNSoQQ
-         uMZhmllWnMNomn4wY6Ry/geG9ve0EkEnHZsl0w+MuEM8xPUgAEcZmyAvJRPB/We+IcW/
-         EuKBG96EqXDKBRMeThPChwpKIw9qtBidMkwOtQE7PtepEOmH8lHQrlzVmDqkFBM1aEW+
-         UN/A==
-X-Gm-Message-State: AOJu0YxMsdoYe1Twq62agD1EZ52NkWuLsLP6In15/muDdhL8A9Yoe6/S
-	O4MPY0sZydfrLAU0BeZGPViScwreeRuEXIKe6l/X3aoH70nyfFI7sQehb6KPUXa6nLi2YONQOPX
-	ww/gq/b8=
-X-Gm-Gg: ASbGncsBmHtvMH9GjY7NiXmE234pTC7GwZSiXn5pe+x6XxpOv+psXtCYBCewddEIk2i
-	gYjxphJ4gWE0B1BECXum4L8ZPKYVjVZ+MT0jPLmcxtSksM2MKpwGIekpmPKwaAZWcWh5MVjt/+a
-	rSP+2KqmQ6iEogokkmFejXxc+8vyCA9qP6aZKw1BPAZSqJRlj87iFgsE/WC413X1KzWVQLpw2RG
-	YEx2jhUvijGCY13xlX8ob91Isi0fQbFJ4HE58Xif2sYpnGq/94lI8IzanewD72noc9tzGlNLhKH
-	lkjlTdZMMX+tLmgoj3tcX31aCIhTQq6Y/2dtPbA3GL7eH3kdZlA8lb7lwdpxhKgtnE9VetvYyH8
-	ugwaHdMwSRgd1fw==
-X-Google-Smtp-Source: AGHT+IGpPYQZMObz/N7+DSZ6W/Br0hdiXegDKVpcoWVWdn1u8Z6aCKGYqw9Uk+5n4X30T4S4lJPhBQ==
-X-Received: by 2002:a17:902:ce12:b0:236:94ac:cc11 with SMTP id d9443c01a7336-23fb307c167mr139558435ad.7.1753646689757;
-        Sun, 27 Jul 2025 13:04:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753646688; x=1754251488;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/FF/pO8TxjRcSkIXrnFgdC0EB7d7VeZU7XYWka+4DhI=;
+        b=RAHUG2SHkf6I6FJgxIIQV6ozI3YKGOmuq8kTf+YqcL7FpBXZjk3QyyWsXn7DCGWxwC
+         T4kMne0FphLrUVa0ES6zBOGQIbfpjAUlBEBQgDOnvvbe06eu3zYWSLjMoQMVH0y1L8C0
+         i7/xEAmpkmE8OMbEklKvI+6B6YgVYY2BCw1pJqxmJP87abrjtT1ZoRWiVpoUgHNjuJoo
+         h9OIIzHWUhYZxUmUOahGZh3VIDX2Gc+wKCvsX1RoW4zI9sXXuFMuVX5QbNkrzSR3jK1o
+         pCCrt/GpYN9xL1U2HhwIDbCHnPLNg3Zc6Wdh9THdvyA0WISKrdc5nCAghvSOsKHkVj6d
+         2q4w==
+X-Gm-Message-State: AOJu0YxxU9vgOtxBYJs/hl4JIAeUkq3k7BqWcGxA/LnrhD2e5ZltrrA4
+	555+Kh7n6zu9eoi7OozgjtdBeHBFRi3o7JXo1d5wyIg3sySk2ITroQdtae+Dxe2bVPAz553LIb5
+	skmeed34=
+X-Gm-Gg: ASbGncvpq+yW6OCBTwxhBmCGKCbsyObRvWIxlkhxgP6tPyFLlvk/0cVO9vG4UOFDtVk
+	Clge3mRTA7bhWAxKPJrZBvhLByYJN8Q/ZgoKvLfs8Aaz6D/3NeaknNDpoY2sN1k5wNXUw5kAIy1
+	IuxygC/8x0UDmCLhehf1aKdc3xMML3bzXLlRnV4AiTRQk9AQSqLufDe9lO+bf7x4Sl4QYFg+ogf
+	Pq3eo/04rwsDtNDkp/axRqbHOs1zzOohlt9lT2Fzeuq0Y4+c3f/Vd3tq4nZopfs6i0/P61K2P/d
+	JsXOnuouzbD50yOK+KFBsoiq9Cz7D3h1jobrFHWdptyiaY1GA8zsRsn6nDAjDXo1Z7OMP8LNiqJ
+	4OeCgeJQNXmwJFBFXQhmo+s99
+X-Google-Smtp-Source: AGHT+IG7XtN9JS/tAOvd6GymWRrzk+SOh58lxAOaQLbxndQ7Pn7PtV7hSCPBI72fn9TWmNVftbNFjQ==
+X-Received: by 2002:a17:902:ec8f:b0:234:11e2:f41 with SMTP id d9443c01a7336-23fa5ce7270mr174512495ad.6.1753646687848;
+        Sun, 27 Jul 2025 13:04:47 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:22e3:7abf:ace0:e5ff])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe512ef7sm38905665ad.131.2025.07.27.13.04.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe512ef7sm38905665ad.131.2025.07.27.13.04.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jul 2025 13:04:49 -0700 (PDT)
+        Sun, 27 Jul 2025 13:04:47 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/10] binutils: Fix CVE-2025-7546
-Date: Sun, 27 Jul 2025 13:04:33 -0700
-Message-ID: <5860b954681c37ac6685631cce439fd349093689.1753646578.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 00/10] Patch review
+Date: Sun, 27 Jul 2025 13:04:32 -0700
+Message-ID: <cover.1753646578.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1753646578.git.steve@sakoman.com>
-References: <cover.1753646578.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 20:04:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220972
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220971
 
-From: Yash Shinde <Yash.Shinde@windriver.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Tuesday, July 29
 
-Report corrupted group section instead of trying to recover.
+Passed a-full on autobuilder:
 
-CVE: CVE-2025-7546
-Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=41461010eb7c79fee7a9d5f6209accdaac66cc6b]
-PR  33050 [https://sourceware.org/bugzilla/show_bug.cgi?id=33050]
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2092
 
-Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/0043-CVE-2025-7546.patch         | 44 +++++++++++++++++++
- 2 files changed, 45 insertions(+)
+The following changes since commit d9f424921179a52ffe053411c44f20e44e7deba1:
+
+  tcf-agent: correct the SRC_URI (2025-07-15 06:42:30 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Aleksandar Nikolic (1):
+  scripts/install-buildtools: Update to 4.0.28
+
+Daniel Díaz (1):
+  ffmpeg: Ignore two CVEs fixed in 5.0.3
+
+Deepesh Varatharajan (1):
+  glibc: stable 2.35 branch updates
+
+Hitendra Prajapati (1):
+  libpam: fix CVE-2025-6020
+
+Martin Jansa (1):
+  db: ignore implicit-int and implicit-function-declaration issues fatal
+    with gcc-14
+
+Peter Marko (2):
+  orc: set CVE_PRODUCT
+  ncurses: patch CVE-2025-6141
+
+Rob Woolley (1):
+  ruby: correct fix for CVE-2024-43398
+
+Yash Shinde (1):
+  binutils: Fix CVE-2025-7546
+
+Yogita Urade (1):
+  gnupg: fix CVE-2025-30258
+
+ meta/recipes-core/glibc/glibc-version.inc     |    2 +-
+ .../glibc/glibc/0025-CVE-2025-4802.patch      |    3 +-
+ meta/recipes-core/glibc/glibc_2.35.bb         |    2 +-
+ .../ncurses/files/CVE-2025-6141.patch         |   25 +
+ .../ncurses/ncurses_6.3+20220423.bb           |    1 +
+ .../binutils/binutils-2.38.inc                |    1 +
+ .../binutils/0043-CVE-2025-7546.patch         |   44 +
+ meta/recipes-devtools/orc/orc_0.4.40.bb       |    3 +
+ .../ruby/ruby/CVE-2024-43398-0001.patch       |  212 +++
+ .../ruby/ruby/CVE-2024-43398-0002.patch       |  130 ++
+ ...-43398.patch => CVE-2024-43398-0003.patch} |   23 +-
+ meta/recipes-devtools/ruby/ruby_3.1.3.bb      |    4 +-
+ ...001-pam_inline-introduce-pam_asprint.patch |  102 ++
+ .../0001-pam_namespace-include-stdint-h.patch |   42 +
+ .../pam/libpam/CVE-2025-6020-01.patch         | 1588 +++++++++++++++++
+ .../pam/libpam/CVE-2025-6020-02.patch         |  187 ++
+ .../pam/libpam/CVE-2025-6020-03.patch         |   35 +
+ meta/recipes-extended/pam/libpam_1.5.2.bb     |    5 +
+ .../recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb |    6 +
+ meta/recipes-support/db/db_5.3.28.bb          |    4 +
+ .../gnupg/gnupg/CVE-2025-30258-0001.patch     |  141 ++
+ .../gnupg/gnupg/CVE-2025-30258-0002.patch     |  131 ++
+ .../gnupg/gnupg/CVE-2025-30258-0003.patch     |  624 +++++++
+ .../gnupg/gnupg/CVE-2025-30258-0004.patch     |  193 ++
+ .../gnupg/gnupg/CVE-2025-30258-0005.patch     |   36 +
+ meta/recipes-support/gnupg/gnupg_2.3.7.bb     |    5 +
+ scripts/install-buildtools                    |    4 +-
+ 27 files changed, 3534 insertions(+), 19 deletions(-)
+ create mode 100644 meta/recipes-core/ncurses/files/CVE-2025-6141.patch
  create mode 100644 meta/recipes-devtools/binutils/binutils/0043-CVE-2025-7546.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-43398-0001.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-43398-0002.patch
+ rename meta/recipes-devtools/ruby/ruby/{CVE-2024-43398.patch => CVE-2024-43398-0003.patch} (87%)
+ create mode 100644 meta/recipes-extended/pam/libpam/0001-pam_inline-introduce-pam_asprint.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/0001-pam_namespace-include-stdint-h.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-01.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-02.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/CVE-2025-6020-03.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0001.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0002.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0003.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0004.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-30258-0005.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index e25f52e171..4a460eb8d9 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -78,5 +78,6 @@ SRC_URI = "\
-      file://0040-CVE-2025-1182.patch \
-      file://0041-CVE-2025-5244.patch \
-      file://0042-CVE-2025-5245.patch \
-+     file://0043-CVE-2025-7546.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0043-CVE-2025-7546.patch b/meta/recipes-devtools/binutils/binutils/0043-CVE-2025-7546.patch
-new file mode 100644
-index 0000000000..da4dc3fb39
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0043-CVE-2025-7546.patch
-@@ -0,0 +1,44 @@
-+From 41461010eb7c79fee7a9d5f6209accdaac66cc6b Mon Sep 17 00:00:00 2001
-+From: "H.J. Lu" <hjl.tools@gmail.com>
-+Date: Sat, 21 Jun 2025 06:52:00 +0800
-+Subject: [PATCH] elf: Report corrupted group section
-+
-+Report corrupted group section instead of trying to recover.
-+
-+	PR binutils/33050
-+	* elf.c (bfd_elf_set_group_contents): Report corrupted group
-+	section.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=41461010eb7c79fee7a9d5f6209accdaac66cc6b]
-+CVE: CVE-2025-7546
-+
-+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-+---
-+ bfd/elf.c | 23 ++++++++++-------------
-+ 1 file changed, 10 insertions(+), 13 deletions(-)
-+
-+diff --git a/bfd/elf.c b/bfd/elf.c
-+index 14ce15c7254..ee894eb05f2 100644
-+--- a/bfd/elf.c
-++++ b/bfd/elf.c
-+@@ -3611,8 +3611,18 @@
-+ 	break;
-+     }
-+ 
-++  /* We should always get here with loc == sec->contents + 4.  Return
-++     an error for bogus SHT_GROUP sections.  */
-+   loc -= 4;
-+-  BFD_ASSERT (loc == sec->contents);
-++  if (loc != sec->contents)
-++    {
-++     /* xgettext:c-format */
-++      _bfd_error_handler (_("%pB: corrupted group section: `%pA'"),
-++                         abfd, sec);
-++      bfd_set_error (bfd_error_bad_value);
-++      *failedptr = true;
-++      return;
-++    }
-+ 
-+   H_PUT_32 (abfd, sec->flags & SEC_LINK_ONCE ? GRP_COMDAT : 0, loc);
-+ }
 -- 
 2.43.0
 
