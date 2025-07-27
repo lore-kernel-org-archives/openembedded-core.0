@@ -1,186 +1,111 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B388DC87FCA
-	for <webhook@archiver.kernel.org>; Sat, 26 Jul 2025 22:31:55 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.50483.1753569114409522471
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 988D2C87FCE
+	for <webhook@archiver.kernel.org>; Sun, 27 Jul 2025 11:02:39 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.58194.1753614151951486868
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Jul 2025 15:31:54 -0700
+ Sun, 27 Jul 2025 04:02:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GqFBlL6n;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-23fd3fe0d81so6113615ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Jul 2025 15:31:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RdiM+24N;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-234b9dfb842so31008925ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 04:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753569113; x=1754173913; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=n28hO/cd8uqE9tioi+iCfpFhlHrwOKZ9/NRXFeSAxOU=;
-        b=GqFBlL6nwN+cWVW9SJcMPI138IYWxm9MZMNAK2s1pjjWefOIannbAtL855EK00FneV
-         n+RWmxkqhlHAH+vvqxvXZ6ZeU+c83F0rKvUbdViGqrkKJOwfBTNyzMVOe6iLHAVHTqtU
-         unE/fIjUurDguyUnjIoy8V1oK64y605Avg7+a6AWzeB2KNzoDoJWrUx/R+iSa0Ys2ZUn
-         rza/hDgTCkAgz39EAaMeBC5OzKtFduIlKwg+Ri/SOdxrTMlzqZJ+tVS8KMNDV1b53vJu
-         ZqP/tkvBr7RmOte5HGOW5tCw5mJ8DEuo98sZ3IDnh/4KOLB+nMDb71r3GKbAhfDR+jsf
-         BX5A==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753614151; x=1754218951; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BMJcMuDdDjs3pNArv/YIAet/QQaYj6YubnPeY3icwOw=;
+        b=RdiM+24NGHmYM0ykbHZimhK00cpmlrh5cRGamLQhTId+x0hUpkH+lWeRAZhC3Im6DZ
+         t1BC7cS9mRkq7Xvx8JL8X6siVqeoqAf204pu9ddVKVVyB2Z9Ub0aGeI5R+3SDGdJfNe1
+         44S2dcoO/DN+44O7hQa1vs3rzmX5OFDAV7oThZqxyN1Tr60kd/yWVyyEsD3GRwgmL9m1
+         W9UlFJOw7R+3OawVfJma1Jo/eXvEDFwSw9RANcxmfoAf8/dj144M7DX7yfNJq9Fq8MYF
+         eGCWPKBMGYrH1He4GqkZrTfXxcR7XTcmM92TQEeZdlXkN6sxff9Ntls0w82meigWMkK9
+         GQoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753569113; x=1754173913;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n28hO/cd8uqE9tioi+iCfpFhlHrwOKZ9/NRXFeSAxOU=;
-        b=pUBhs3cFcShO5RdXBLVGriwskDN75SdfmmI1iWv5oyVhW0E8w9NRbpF7MYFyU6azwS
-         CKONJ9HLihSZHtKeqvPz8NknuyZpR78l+h7RSLVYVGn80jwuxZ6LQ8oto56N9v8NifDl
-         RlOR85bnZ4aGNSH9ZNcJumLp9E/ywsE3gx7tY9nKjr4YLlHx1trS4Gilin/cALlkoWrw
-         Ku1u/P0pEpH1OuaAWRqB9MV6ulr6wufbuZK6mcz6vxuyBtgKSpwKIv+WUVAO/deuAUQ2
-         sFV0PVdvUOui6iZMUHF+Y39MGJW1fbm9qDEySKsawm0t9uoGnkMRiYuuxhS/BlBc105y
-         Nm2g==
-X-Gm-Message-State: AOJu0Yz/KGyDXfuR4cSEhlG+R3oX8VzBO+hF4FKo33tgLT4jQxNPbvec
-	gnNM3FI4Evn25cbdFHDUQPBQu32Ri/40X+Nc7U650ZVK9FPDRKFmK6autBqSKO8d/Xk=
-X-Gm-Gg: ASbGncs/X6fV2ySnKHR0iUnFn5nc861qS6m0I9/1qJ0DkOF0uKKJ1JzNqg2FtC2T4nU
-	7/v8caT70IVmSBOXS78PLj6juuwAX/LCxcW9ULeC20KZeAgNxV5DequvkNkW07ygPYcTYD8xPrU
-	M9i0ncOlswspMGia4MvzN8qQsIRnk0bZ7OlKCSFJBd4Ceow4ojb27aCntOr8F4bbg54/ITgiQ71
-	o0J/qNX8E4kz5KV/G94xdVIoQa3YrnqFnK4JTKWkpVHoMwsMx5WA6Ckq72GjGgMOZKfgyduWaVH
-	E/9geZ7QQq7NyLReJc/8g9bOqPF7tJAj5pQY/BXcvTOGBZbWD8ewI/H1rpuc62bdcKM0V3J6/vb
-	JXVPH76MuTfuVJA==
-X-Google-Smtp-Source: AGHT+IEHUc3Wyo624Gi+ln8de0JWJULLVNA+owdKBCJ28EsRoIjy0Bbx65j0T8/kWoRS5ZuLc1a91A==
-X-Received: by 2002:a17:903:1b44:b0:21f:617a:f1b2 with SMTP id d9443c01a7336-23fb30f2f32mr96469755ad.46.1753569113416;
-        Sat, 26 Jul 2025 15:31:53 -0700 (PDT)
-Received: from apollo.localdomain ([2601:646:8201:fd20::33e9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fbe30ff79sm23606405ad.9.2025.07.26.15.31.52
+        d=1e100.net; s=20230601; t=1753614151; x=1754218951;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BMJcMuDdDjs3pNArv/YIAet/QQaYj6YubnPeY3icwOw=;
+        b=tw6N63S5YzFyI/ypaeuXg8qAPNmzzynd+d/zIR4Ga+xbbK3Vi+9xnflEypMi0MSxdP
+         NqVjdPSrZdP46VD3azEkWkR+Ha1t7MRhZDANqPxOmGpwCzP70dKruNTisqY5pyfatcRj
+         pScbaDBQrsJzyWUfDIa17H5eHu/UIHx7WtT77NoTs0fMr9qNJ2oj1MqcRUjU9z67r9Rw
+         jFUq+QD2RK3SMv3vzSiUPOojceFkgCjiSX6lZ24EqG/obu+5e44mlVcXBalGZaJRY/Zw
+         Fxq9E03LIj7RVl1oR4uADqMCxP3RR3pO4S4DCbdxihuNimS9yZRjdShTPpzIx2aJgOTp
+         nEVA==
+X-Gm-Message-State: AOJu0YxZFP40QPsV3t/yzmLDyQmv4ze07fDSLW+gjABVT6+QK4mgmo6k
+	AJ+XuT5Fjq0j5LBW9tkFCicaA0WSWcLd/9nV9+QXLEfqD9qoq3DHY5+7niaPh7vjvypSeKiAuDx
+	xmi9U
+X-Gm-Gg: ASbGnctfKJa/e6jSwqB2JGLoHEhqsWXQ8hLkS5cYmG6pQiTTyxNqiN0nWHpG23zky/j
+	QJe6YQZ1/bL9rbcX2FhAl6huuJkcGM511HlG10glJLy/6M+hwnjqkto97S5NuhMbn5BoKr4Q4Xq
+	5mM510Fbh1HzXlmTsOXh9zee8K0+pSeG4qc2iBoSPIm3+TBQcIH+suCsP67a/4RYbys0x4xw9K+
+	1qXFswnmDZwrCqq4KWZwP/mRQ+GpeMytkRN+pdo/45yNoSxrSWy+baA+WG1kfvSmg8+soZabACl
+	GzyBGwW400FwPU7iKWbGyistaIA8IN7byhD7E7ZFADMAYztXhb37fYqcpkeMYSOG8LzCOmBwMhG
+	z0FjcqGQRoYGJE0wbDF/KE8L4+bU=
+X-Google-Smtp-Source: AGHT+IFkmRTVE465g6tsn5A/xavZABK5obuxVnIOWFWRDMOucBoDJZtsd6PXI+IvqWOaamQuQF9+Hg==
+X-Received: by 2002:a17:902:ef11:b0:23d:fa76:5c3b with SMTP id d9443c01a7336-23fb30acc71mr131931995ad.22.1753614148949;
+        Sun, 27 Jul 2025 04:02:28 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24011bc0b00sm6665655ad.69.2025.07.27.04.02.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Jul 2025 15:31:52 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] qemu: Remove deprecated asyncio calls in qmp python module
-Date: Sat, 26 Jul 2025 15:31:50 -0700
-Message-ID: <20250726223150.728753-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 27 Jul 2025 04:02:28 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 1330A100464; Sun, 27 Jul 2025 01:02:28 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 27 Jul 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 27 Jul 2025 01:02:28 -1000
+Message-Id: <20250727110228.1330A100464@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Jul 2025 22:31:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220942
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Jul 2025 11:02:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/220943
 
-Fixes deprecation warning seen with python 3.13
+Branch: master
 
-DEBUG: QMP Initializing to /mnt/b/yoe/master/build/tmp/.sv4_k_q4
+New this week: 0 CVEs
 
-recipe-sysroot-native/usr/lib/qemu-python/qmp/legacy.py:89: DeprecationWarning: There is no current event loop
-  self._aloop = asyncio.get_event_loop()
+Removed this week: 0 CVEs
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...move-deprecated-get_event_loop-calls.patch | 85 +++++++++++++++++++
- 2 files changed, 86 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch
+Full list:  Found 27 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-56738 (CVSS3: N/A): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56738 *
+CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
+CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
+CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
+CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
+CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
+CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
+CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
+CVE-2025-37803 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37803 *
+CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
+CVE-2025-37925 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37925 *
+CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
+CVE-2025-6965 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-6965 *
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 7893df0df24..2ee76e9a7ce 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -31,6 +31,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0008-Define-MAP_SYNC-and-MAP_SHARED_VALIDATE-on-needed-li.patch \
-            file://0010-configure-lookup-meson-exutable-from-PATH.patch \
-            file://0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch \
-+           file://0012-Remove-deprecated-get_event_loop-calls.patch \
-            file://qemu-guest-agent.init \
-            file://qemu-guest-agent.udev \
-            "
-diff --git a/meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch b/meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch
-new file mode 100644
-index 00000000000..64816fe7d91
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch
-@@ -0,0 +1,85 @@
-+From 5240406747fd43886618ae8194153e6fc957a82a Mon Sep 17 00:00:00 2001
-+From: John Snow <jsnow@redhat.com>
-+Date: Tue, 13 Aug 2024 09:35:30 -0400
-+Subject: [PATCH] Remove deprecated get_event_loop calls
-+
-+This method was deprecated in 3.12 because it ordinarily should not be
-+used from coroutines; if there is not a currently running event loop,
-+this automatically creates a new event loop - which is usually not what
-+you want from code that would ever run in the bottom half.
-+
-+In our case, we do want this behavior in two places:
-+
-+(1) The synchronous shim, for convenience: this allows fully sync
-+programs to use QEMUMonitorProtocol() without needing to set up an event
-+loop beforehand. This is intentional to fully box in the async
-+complexities into the legacy sync shim.
-+
-+(2) The qmp_tui shell; instead of relying on asyncio.run to create and
-+run an asyncio program, we need to be able to pass the current asyncio
-+loop to urwid setup functions. For convenience, again, we create one if
-+one is not present to simplify the creation of the TUI appliance.
-+
-+The remaining user of get_event_loop() was in fact one of the erroneous
-+users that should not have been using this function: if there's no
-+running event loop inside of a coroutine, you're in big trouble :)
-+
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/33]
-+Signed-off-by: John Snow <jsnow@redhat.com>
-+---
-+ python/qemu/qmp/legacy.py  | 9 ++++++++-
-+ python/qemu/qmp/qmp_tui.py | 7 ++++++-
-+ python/tests/protocol.py   | 2 +-
-+ 3 files changed, 15 insertions(+), 3 deletions(-)
-+
-+diff --git a/python/qemu/qmp/legacy.py b/python/qemu/qmp/legacy.py
-+index 22a2b56..ea9b803 100644
-+--- a/python/qemu/qmp/legacy.py
-++++ b/python/qemu/qmp/legacy.py
-+@@ -86,7 +86,14 @@ def __init__(self,
-+                 "server argument should be False when passing a socket")
-+ 
-+         self._qmp = QMPClient(nickname)
-+-        self._aloop = asyncio.get_event_loop()
-++
-++        try:
-++            self._aloop = asyncio.get_running_loop()
-++        except RuntimeError:
-++            # No running loop; since this is a sync shim likely to be
-++            # used in fully sync programs, create one if neccessary.
-++            self._aloop = asyncio.get_event_loop_policy().get_event_loop()
-++
-+         self._address = address
-+         self._timeout: Optional[float] = None
-+ 
-+diff --git a/python/qemu/qmp/qmp_tui.py b/python/qemu/qmp/qmp_tui.py
-+index 2d9ebbd..d11b9fc 100644
-+--- a/python/qemu/qmp/qmp_tui.py
-++++ b/python/qemu/qmp/qmp_tui.py
-+@@ -377,7 +377,12 @@ def run(self, debug: bool = False) -> None:
-+         screen = urwid.raw_display.Screen()
-+         screen.set_terminal_properties(256)
-+ 
-+-        self.aloop = asyncio.get_event_loop()
-++        try:
-++            self.aloop = asyncio.get_running_loop()
-++        except RuntimeError:
-++            # No running asyncio event loop. Create one if necessary.
-++            self.aloop = asyncio.get_event_loop_policy().get_event_loop()
-++
-+         self.aloop.set_debug(debug)
-+ 
-+         # Gracefully handle SIGTERM and SIGINT signals
-+diff --git a/python/tests/protocol.py b/python/tests/protocol.py
-+index 56c4d44..8dcef57 100644
-+--- a/python/tests/protocol.py
-++++ b/python/tests/protocol.py
-+@@ -228,7 +228,7 @@ def async_test(async_test_method):
-+         Decorator; adds SetUp and TearDown to async tests.
-+         """
-+         async def _wrapper(self, *args, **kwargs):
-+-            loop = asyncio.get_event_loop()
-++            loop = asyncio.get_running_loop()
-+             loop.set_debug(True)
-+ 
-+             await self._asyncSetUp()
+Summary of CVE counts by recipe:
+  linux-yocto: 22
+  sqlite3:sqlite3-native: 2
+  grub:grub-efi:grub-native: 1
+  libsndfile1: 1
+  qemu:qemu-native:qemu-system-native: 1
+
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
