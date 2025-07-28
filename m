@@ -2,147 +2,108 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE17AC83F17
-	for <webhook@archiver.kernel.org>; Mon, 28 Jul 2025 17:18:58 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.web10.86914.1753723136003612562
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE5FCC83F17
+	for <webhook@archiver.kernel.org>; Mon, 28 Jul 2025 17:22:18 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web10.86991.1753723330721202158
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Jul 2025 10:18:56 -0700
+ Mon, 28 Jul 2025 10:22:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V+RU0cTL;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-71a34087749so1974737b3.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 10:18:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YOC8HRB3;
+ spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7183dae670dso41691007b3.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 10:22:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753723135; x=1754327935; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1753723330; x=1754328130; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/8kMdLqzs24kdqeM770CAwDY5em5EopBzkFKMVJgjwc=;
-        b=V+RU0cTLdmxq2p5+pkw4WaESENrlIYkMntY2fRK2w5/SHeabEIZbg7CrudZR6AwYZp
-         lh41ZWKL0CGzdSZQO8yUVMDpSzh6zGDHvf1M7z8BmjWGCWDLDwaEgraE1NCtfGoKY0Dw
-         eBKwqpvHHMW0QaWHogNcprJATLCtMYXSZR5cE7hE5r+IwnZMCvscaRWTMF+h5w9cGZVr
-         HRRCpqiu1AQZHNvUFDZqYnTU3ZNKoGPvUZKL0wIIeXiSpUdXukdr1dta10PsMCYeMS13
-         oCVFfUms0YnP6dspfcKZYr66trLNd3l0R7z9XzBjg5FwChwnUTlS8SSiq2cJ546Jpe43
-         DKPg==
+        bh=xFrqTJIwFtFoCLAJ4nbsZP58s2vHgyVQ9s8jtEg20VI=;
+        b=YOC8HRB3WsVy9mno8AZaCPlXZ+1cC/KCSj0MsqEwRfRfx9ey8S/5O2X2lVx5PO9cfa
+         Irh8xq5xblbrGMbya1NSCNO1oDvekjFBwlcoXNFvsxXsi6frvvQJKhv7YChNdrXbXVk3
+         O2vzqS28u7uYc1Lscn9wgdN8vqpdfDMz9A1H5vnZF3HO5VfBlgxZeOwhbkVcFlS0j8Q2
+         x+P79k1ER9gFeYqPGQTlDMX8yB/rZzkyb+RS0ZNFLhisnI+t0Cj3/fE5lq93nIJeUpJV
+         tGur4O7YfeLwdMu1ceuQ8xwX0AJs495fOxB86kGCyNYSCZbhDFzeCZEv9rYCwmXOPDwG
+         6PKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753723135; x=1754327935;
+        d=1e100.net; s=20230601; t=1753723330; x=1754328130;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/8kMdLqzs24kdqeM770CAwDY5em5EopBzkFKMVJgjwc=;
-        b=vcgQAW0sWZfAQZn512nNh+cPcnf78kTy3CFmfs7WBq/nVq/a4qrgnsqxm94PG/93uM
-         3jD4j7+Cm1JVW5WlZVOt9cvlTP+Yzj+JlDfU3d6BqXKrK/RXLPhDu+NeyzwNTZVkdtgX
-         To2NQCBosTstPHQ2cLEcDiibTGbsMsNoydEXM2qPRoVhHS2GCVNNmubAzqwsMzChNgOD
-         SzdQ94u+5Bxh0ht2J8QH7nk2D+xFwTB8IWrjMlftNQkohYA2os5HDQuVLhcH2o9DHBPc
-         9bCAgFOtkUkRvyhIJu8cm39ggsvDhbrVd4Ilpu37GlU5E+5jX/1v0W9cU9Wh+gNk6/tL
-         DSyA==
-X-Forwarded-Encrypted: i=1; AJvYcCXsklj9px5zFEwPiTYAmLZtDYAGJ1CmiHaiN5bWKNmmK0m4kMPemEit+j9j/WW3UxCEmuMhPHnYygVHfvxHf6QoKQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywf5XjYGzjGR8U5XOimevRqrDlf/9w4FEeFUUaRe/HT8IxHa2H7
-	SDtGKJY1ueqGFp3w1Q0oQe9hw+AZpfO77UvoI9dY2Bl5HYH8Z6JJ+6geEFpxxhpYngrVgzG5GRw
-	HPKMNSCMoR4DdYX7FDEk126pmkkz0tCA=
-X-Gm-Gg: ASbGncteeN+kb8tssnN3ghRETqlMCV0zR/r9vH6UxpTxFJr6kjtZLGXfnny685nSapp
-	Ye+antq1aSyXbUZxjq0eoj7tfEbOnsZqMKbMy0JuPibo8D57/7an9luCRqlFxYIsO9j59ZJtzWm
-	qcfOt4HeqPO70arcUIkf5qvsXH39wW+ZqWttDqeDVQKj3iUn9rgc6ZyvGuy8biAlkyV4izhJKrW
-	an3kqtnmtiQUwmLi74KSTODFlbNq7cl8kg=
-X-Google-Smtp-Source: AGHT+IFOr/RXQaDa9iZarOzL+Z7W8LXQp98j0nsZRF86EwcoSkv1L0E1267DZS71XyBnFDmBLM/ycL/zDe7ROu//oYQ=
-X-Received: by 2002:a05:690c:6102:b0:71a:1607:e487 with SMTP id
- 00721157ae682-71a1607e9d5mr64827427b3.25.1753723134888; Mon, 28 Jul 2025
- 10:18:54 -0700 (PDT)
+        bh=xFrqTJIwFtFoCLAJ4nbsZP58s2vHgyVQ9s8jtEg20VI=;
+        b=H9uUCIBuNm2Q1PRUPBrWxgKlCp1b39lozBJJ1nNiT6goZtGx+R9tXHrRxDEiGfW5II
+         hXIKecaMwUCSyg7pjn3RimuCJueooBF80Q27Im+9qzXMsm1SIyGrIyLWyYG6ofBxLPF0
+         piAVnKlLu34SSIsN67YBkrrUn5qfEaOkC+c49SktF73pKqqSu0yoLwm9iRO0CvOZryX3
+         wnDDFNWNct9eTOvBp5+NzxySo6V84X7JXCb38WcJ6UlVwCC+hXbeLCrGbpqNsXhxadut
+         ew8ujnowlMGcAb6iGGR6MyRs7trptwzLm0AhFJIuSL0sqv4Q4ogkbv4Aol8e4tt6cQ/f
+         9zHQ==
+X-Gm-Message-State: AOJu0YzmO6NDCL3bUE9bXJR4N8NIuoS1vtJ0XpklZmqA0U8K9qRo1A3R
+	dYx3pQru0KPS2XCWjwuxSbklEWOwMkpW9OGxD5NMjbjloETQbIh3LKF+w/CsEaMjohlWyFquA4/
+	IBw6m+fvtRc2YOXxppKJ4djP72FU1TEWB1rASjWw=
+X-Gm-Gg: ASbGncvbXu7iJVpFtQaJ/SnwuaoFNEgQ0zWpkCoONYSYhj4vFb0n9Wy3dHhEH/vC1NW
+	0KzD/UQT0a3f382XcpWytLKzFZlwQwCoPvDXhznqEH2RNR1bTnOvVBjomZoZIs4615mLQT+oFOx
+	B50MRH241JiZPMorupTKXXWnfDmTvLB/uAfgzBfTbaDXa6C3yGZBHCkgOor1lsycBxk8/CLOG+8
+	c0zrs/1wML0Pt9GUkHDZ6UHD8tnti8X4ZvCWSaq0ZLVqg==
+X-Google-Smtp-Source: AGHT+IGh+4EzhKyMfDNHh8C6F0ocFrxwhESmfO/Q4bVEeRTJ+zmKl/nga5r4tlsXroqkhCaulWue1ZV7moZ+YRl0kCQ=
+X-Received: by 2002:a05:690c:7306:b0:70e:7a67:b4c5 with SMTP id
+ 00721157ae682-719e3471502mr151736287b3.36.1753723329677; Mon, 28 Jul 2025
+ 10:22:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250728032045.2783514-1-raj.khem@gmail.com> <20250728032045.2783514-3-raj.khem@gmail.com>
- <efc50221-0504-48ab-abf9-0a76e5f076e1@gmail.com> <CANNYZj_aVTnQ6bK-0pf_=M-G6mn-JWQGSqnOjwzowcJA5JYP4g@mail.gmail.com>
-In-Reply-To: <CANNYZj_aVTnQ6bK-0pf_=M-G6mn-JWQGSqnOjwzowcJA5JYP4g@mail.gmail.com>
+References: <20250728032045.2783514-1-raj.khem@gmail.com> <20250728032045.2783514-2-raj.khem@gmail.com>
+ <ABC201DB-B815-4F6B-B22E-A54446FA2FEE@arm.com>
+In-Reply-To: <ABC201DB-B815-4F6B-B22E-A54446FA2FEE@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 28 Jul 2025 10:18:28 -0700
-X-Gm-Features: Ac12FXyJUBHweyPh9v8Egtahuu7e8HzOwu9_ZUzyZ2XkodFRcR20D6seANtrcNE
-Message-ID: <CAMKF1sqqSnvH_jR+qiPDqiHWSfbd7Cz_7ziDusN3h1_Ar7UK6Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/5] spirv-headers,spirv-tools: Update to tip of trunk
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: skandigraun@gmail.com, openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jul 2025 10:21:42 -0700
+X-Gm-Features: Ac12FXyHSbalYi0ObS3Ff6NRFdYJjnHHQgITlTXCESbPitWvBty5D6ZxdVwuzOw
+Message-ID: <CAMKF1srz1x8hN++hiGpUJqJvUsPbUPEe1QWukHEejwq162kMnw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/5] clang: Drop dependency on spirv-tools-native
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 17:18:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221019
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 17:22:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221020
 
-On Mon, Jul 28, 2025 at 2:04=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+On Mon, Jul 28, 2025 at 7:30=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+rote:
 >
-> Also, I'd prefer a backport of the needed fixes, as this would
-> mis-match with other vulkan items, potentially breaking them.
+> On 28 Jul 2025, at 04:20, Khem Raj via lists.openembedded.org <raj.khem=
+=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > spirv is now a separate recipe.
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > meta/recipes-devtools/clang/clang_git.bb | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-de=
+vtools/clang/clang_git.bb
+> > index 830c0282cd6..5f0ddd1a2db 100644
+> > --- a/meta/recipes-devtools/clang/clang_git.bb
+> > +++ b/meta/recipes-devtools/clang/clang_git.bb
+> > @@ -185,7 +185,7 @@ EXTRA_OECMAKE:append:class-target =3D "\
+> >                   -DLLVM_LIBDIR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \
+> > "
+> >
+> > -DEPENDS =3D "binutils zlib zstd libffi libxml2 libxml2-native ninja-na=
+tive swig-native spirv-tools-native llvm-tblgen-native"
+> > +DEPENDS =3D "binutils zlib zstd libffi libxml2 libxml2-native ninja-na=
+tive swig-native llvm-tblgen-native"
+> > DEPENDS:append:class-nativesdk =3D " clang-crosssdk-${SDK_SYS} virtual/=
+nativesdk-cross-binutils nativesdk-python3"
+> > DEPENDS:append:class-target =3D " clang-cross-${TARGET_ARCH} python3 ${=
+@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compiler-rt libcxx', '', d)}=
+=E2=80=9D
+>
+> Have you verified there=E2=80=99s no change to the output after this? I t=
+hought that spirv piece was used by the codegen for optional backends.
+>
 
-There are many that its not worth it, since I am expecting spirv-tools
-to do a release for llvm-21
-question is how long that happens after/before llvm-21 release
+it was used when libclc was being built as part of clang recipe
 
->
-> Alex
->
-> On Mon, 28 Jul 2025 at 08:58, Gyorgy Sarvari via
-> lists.openembedded.org <skandigraun=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> >
-> > On 7/28/25 05:20, Khem Raj via lists.openembedded.org wrote:
-> > > This is needed for compiling SPIRV llvm-translator from llvm 21.1.0 r=
-c1
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > >  meta/recipes-graphics/spir/spirv-headers_1.4.321.0.bb | 3 ++-
-> > >  meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb   | 3 ++-
-> > >  2 files changed, 4 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-graphics/spir/spirv-headers_1.4.321.0.bb b/=
-meta/recipes-graphics/spir/spirv-headers_1.4.321.0.bb
-> > > index 1da2e74f93b..b1cec77080a 100644
-> > > --- a/meta/recipes-graphics/spir/spirv-headers_1.4.321.0.bb
-> > > +++ b/meta/recipes-graphics/spir/spirv-headers_1.4.321.0.bb
-> > > @@ -4,7 +4,8 @@ HOMEPAGE =3D "https://www.khronos.org/registry/spir-v=
-"
-> > >  LICENSE =3D "MIT"
-> > >  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Da0dcaa512cc2dee95fe0fd791=
-ee83a18"
-> > >
-> > > -SRCREV =3D "2a611a970fdbc41ac2e3e328802aed9985352dca"
-> > > +PV .=3D "+git"
-> > > +SRCREV =3D "de1807b7cfa8e722979d5ab7b7445b258dbc1836"
-> > >  SRC_URI =3D "git://github.com/KhronosGroup/SPIRV-Headers;protocol=3D=
-https;branch=3Dmain"
-> > >  PE =3D "1"
-> > >  # These recipes need to be updated in lockstep with each other:
-> > > diff --git a/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb b/me=
-ta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb
-> > > index 319b25b7f43..f66b25c60db 100644
-> > > --- a/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb
-> > > +++ b/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb
-> > > @@ -7,7 +7,8 @@ SECTION =3D "graphics"
-> > >  LICENSE  =3D "Apache-2.0"
-> > >  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc=
-3c6bd57"
-> > >
-> > > -SRCREV =3D "33e02568181e3312f49a3cf33df470bf96ef293a"
-> > > +Pv .=3D "+git"
-> >
-> > There is a typo in PV
-> >
-> > > +SRCREV =3D "a983ab19d6f91a07a8272767427b6c5208576d08"
-> > >  SRC_URI =3D "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=3D=
-main;protocol=3Dhttps \
-> > >             "
-> > >  PE =3D "1"
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#220992): https://lists.openembedded.org/g/openembed=
-ded-core/message/220992
-> > Mute This Topic: https://lists.openembedded.org/mt/114408566/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alex.kanavin@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+> Ross
 
