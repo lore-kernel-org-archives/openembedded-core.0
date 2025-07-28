@@ -1,100 +1,94 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E94EC83F26
-	for <webhook@archiver.kernel.org>; Mon, 28 Jul 2025 16:16:58 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.85290.1753719409596577978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83865C83F17
+	for <webhook@archiver.kernel.org>; Mon, 28 Jul 2025 16:19:18 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.85774.1753719548574185281
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Jul 2025 09:16:49 -0700
+ Mon, 28 Jul 2025 09:19:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DTksOhDl;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WI+J8tOR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019851d287f3-ed0ed9de-d1a3-4b66-8bd2-595f97f11ab4-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1753719408; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=InhS/tbxzr3NdSrit3UG/DPHzMIFKG0xJfMQHlsxccI=;
-	b=DTksOhDlnZCu6Yn5DyaDH5LOcXjpK31/mDbBdSNOYpLbAs72ZzdP5VSx+fBmNyET
-	rxQWru9+tLE/b1NX1B98vWcs3oQrm+N3Ei7YcVUKaVfQA+aa7S86rVOtCfpFusDTyHC
-	KXbDZskbJlOwbr+ABB+4pxvb8cK0/71abDuzyw/I=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753719408;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=InhS/tbxzr3NdSrit3UG/DPHzMIFKG0xJfMQHlsxccI=;
-	b=WI+J8tORgpxX6vtvoohVVIIny2UBrq/vNAcWdlFFZAlXE66v5PEE5e9iIXS0UhTz
-	jE/PpODNJlosi/0WWCGTmZ8I2LkKzPCZLe1ZLo4iTn2nKZ+hT9fmJvSmVFJsVJYQ+zZ
-	CAOb5+A8tHYMduBZJuts1TTbUKpacdChSWTRqfWs=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/3] clang-cross: trim the recipe
-In-Reply-To: <20250728155554.2624191-2-ross.burton@arm.com>
-References: <20250728155554.2624191-2-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019851d287f3-ed0ed9de-d1a3-4b66-8bd2-595f97f11ab4-000000@us-west-2.amazonses.com>
-Date: Mon, 28 Jul 2025 16:16:48 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.28-54.240.27.31
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AHyGo/B8;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: festevam@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-75ab31c426dso3770861b3a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 09:19:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753719547; x=1754324347; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gX06MMikJZWJbDKafoAYDWsm/DVwppIbMAIQgAhU+ms=;
+        b=AHyGo/B8rHwNgYdEOjHUjVNFlKtBmD6B+q1DZ6pS3faLLZDjDhB/n0F8n3RrIM9IN8
+         52rABAFdGfcZwIxa4KcYBwkoi9UayWvPjV+Mf8bRDRE3RJBKoLgTubX9fmuiUgCQ7oqQ
+         BDeXvjLjDzZ33k5ecU743IYgsRY3cHgZUvLeu2WX1lHGCHTbwhSmZjAI/hKArZ4iYukb
+         fakabXNm7qC6ZIiaNuPuPad3/3OEl6P+LGWgLHrAPDAP9EFH1BIUD8BvtRmn/FWuR3qs
+         mtRtQ/03yjriyAkq23o+kjdce1Imz5N7MYQrupAXSBCHFrpmPA/aKzD5z0vkKYovY2SO
+         BnfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753719547; x=1754324347;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gX06MMikJZWJbDKafoAYDWsm/DVwppIbMAIQgAhU+ms=;
+        b=odyQaD6zdywfyh0LF72rBCMwR07gU4Wqv4xhPk0Zkf70wvV3n7KxWGVC3+0fOO2QE5
+         o/PfkaWvtwhCZEeIoEWV4LI3EnR/LYD2vbb+vU00A8F1yGdv9X6pP6URlvlSd3hOAQ/l
+         xk9YFstMH1A4LbzLWV5KUAzAPyk8jwVdZ1RQlAfWXAyUQ6wbq3ObKkVwF/V1lP0L0YBu
+         OQJyO5is8eNfo4WTB6MIJNyBxuYrg2W8ZNlssfgQgwjPfRPS18SHeQ/bPmt9cBw72sXJ
+         W/EgKZIXqg4PvCbLk5ufr1a+QAw8PWFOvZ/LzMdJzRlE7pUvTU2Mi3IREavt/PG8jk2R
+         vdRw==
+X-Gm-Message-State: AOJu0Yxg6tnyrz2J+FMlJNEcO7TmC1gDqc6JHwjaYy/bP2BgcR/8Vjew
+	RzATYuDWpoQnOXDlKzfuDiLnFyVhXiXxeK+DWmkNB2c0bYWsYe2G/4JHpj7E5g==
+X-Gm-Gg: ASbGnctoQkft/dpvNN2U6qdJWBFPr9SoJr/fobrHVnbG6o5Yt+QhIMWERSylezsZCV/
+	UJQoqR9XfRE7lyl71u2JXurXTmTS3/nu2P1S6aaLos+nYOh9lOP4IHGdAytZ9dQKqY3w+yDNc5n
+	Ipi2ygfTtIJTmNwXiLJnxXmezEWe5J2Hek1d9N7A82ILKvDo7ObvnNYdw6zbAphkdR4mSF1T+7Y
+	uGcbciTggRLdB+7kFVW1YmMRawQsRdw+vEhM0+IBx1ox9dRj891EsvFOEdxV2uT+gkLLortckU+
+	NWxPt3aWdo/e/4A5YXDSwKaxNuRsjDG25TPppjbUjwigZqVsJ4SxUcqamIre9vfy0FfnJNPha5e
+	VjzzQ8GiOiOWkPd7+/q1HOLf/1r91k/hPHj1E1HOKP6tHd6A=
+X-Google-Smtp-Source: AGHT+IEakeaqvJ3NRRtA+VMy+sLCnWs/7+41zjm0Cocg62/ym293HFiPnBKeDQKyXwIilZtKKslVBQ==
+X-Received: by 2002:a05:6a21:6b05:b0:23d:ac50:333e with SMTP id adf61e73a8af0-23dac5033c2mr1138216637.43.1753719547275;
+        Mon, 28 Jul 2025 09:19:07 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:e084:9754:adef:34f3])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7640baa00a9sm5431124b3a.140.2025.07.28.09.19.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jul 2025 09:19:06 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] maintainers: Use my personal e-mail address
+Date: Mon, 28 Jul 2025 13:18:41 -0300
+Message-Id: <20250728161841.3008383-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 16:16:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221012
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 16:19:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221014
 
---NextPart
-Content-Type: text/plain
+Switch to my personal e-mail address for OE related work.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/2-3-clang-cross-trim-the-recipe.patch
+ meta/conf/distro/include/maintainers.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 927aac16d6d1..ed1bc18ba39e 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -842,8 +842,8 @@ RECIPE_MAINTAINER:pn-ttf-bitstream-vera = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-ttyrun = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-tzcode-native = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-tzdata = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-u-boot = "Fabio Estevam <festevam@denx.de>"
+-RECIPE_MAINTAINER:pn-u-boot-tools = "Fabio Estevam <festevam@denx.de>"
++RECIPE_MAINTAINER:pn-u-boot = "Fabio Estevam <festevam@gmail.com>"
++RECIPE_MAINTAINER:pn-u-boot-tools = "Fabio Estevam <festevam@gmail.com>"
+ RECIPE_MAINTAINER:pn-udev-extraconf = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-unfs3 = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-unifdef = "Ross Burton <ross.burton@arm.com>"
+-- 
+2.34.1
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
