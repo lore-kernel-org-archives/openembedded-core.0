@@ -1,115 +1,100 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C33C87FCE
-	for <webhook@archiver.kernel.org>; Mon, 28 Jul 2025 15:56:08 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.84734.1753718160690424160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F8ACC87FCB
+	for <webhook@archiver.kernel.org>; Mon, 28 Jul 2025 16:16:58 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.85712.1753719410216948397
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Jul 2025 08:56:00 -0700
+ Mon, 28 Jul 2025 09:16:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B5D4153B
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 08:55:52 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D8A313F5A1
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 08:55:59 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] clang-cross: trim the recipe
-Date: Mon, 28 Jul 2025 16:55:53 +0100
-Message-ID: <20250728155554.2624191-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250728155554.2624191-1-ross.burton@arm.com>
-References: <20250728155554.2624191-1-ross.burton@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=iJ8+j9Ft;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=XpMmFG1f;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019851d28b1c-6cc4b9f8-3ca2-474c-bd84-283dcde01618-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1753719409; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=D+n7vgq7H0D7zybk/K7lYf8DfWwX7XQMslL7F3kYdYE=;
+	b=iJ8+j9FtKMAdie4ocBMj/0qPUOsP36IHoRa6bal+kMAfqVzFNki4me2MJ4NSuVvw
+	z3rx+CiJRifP6yIXLAvZx9/XmXfUgxwQM2ZVgLKJY0c1+4pI2UOTRccsKcWhTe0WoSE
+	otbY4lCItUCppadDuVuqW93rVr/j248dyde8IOs8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753719409;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=D+n7vgq7H0D7zybk/K7lYf8DfWwX7XQMslL7F3kYdYE=;
+	b=XpMmFG1fhm7aqjHuvEdDwKhzlCGZOXONrZ3mZDkZOSaigmUDK5fjxp9dq6k9Uo9a
+	gVp2yqLTvJWJ4/joUEgPcCZRw50vhHV73hkF4tE8PASnkkguYpqQKGd7TScZAA/Ymqr
+	XT6ZmPEg241zWIbR5XpHLaRJARhsbjHtBUrgOccU=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/3] clang: split lld into a separate lld recipe
+In-Reply-To: <20250728155554.2624191-3-ross.burton@arm.com>
+References: <20250728155554.2624191-3-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019851d28b1c-6cc4b9f8-3ca2-474c-bd84-283dcde01618-000000@us-west-2.amazonses.com>
+Date: Mon, 28 Jul 2025 16:16:49 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.28-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 15:56:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221010
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 16:16:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221013
 
-As a single clang-native build is a cross-compiler for all targets, this
-recipe should simply create target-prefixed symlinks.
+--NextPart
+Content-Type: text/plain
 
-As such, it doesn't need to pull in the common clang include files, or
-set TOOLCHAIN.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Unsetting PACKAGES isn't needed as cross inherits nopackages.
-
-The sysroot preprocessing is used to stage bindir, but cross recipes
-already stage this directory.
-
-There doesn't appear to be a need to copy clang, so these are now linked
-too.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../recipes-devtools/clang/clang-cross_git.bb | 27 ++++---------------
- 1 file changed, 5 insertions(+), 22 deletions(-)
+Testing patch /home/patchtest/share/mboxes/3-3-clang-split-lld-into-a-separate-lld-recipe.patch
 
-diff --git a/meta/recipes-devtools/clang/clang-cross_git.bb b/meta/recipe=
-s-devtools/clang/clang-cross_git.bb
-index 99e48522a0b..aef08c65e31 100644
---- a/meta/recipes-devtools/clang/clang-cross_git.bb
-+++ b/meta/recipes-devtools/clang/clang-cross_git.bb
-@@ -3,39 +3,22 @@
-=20
- SUMMARY =3D "Cross compiler wrappers for LLVM based C/C++ compiler"
- HOMEPAGE =3D "http://clang.llvm.org/"
--LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/Apache-2.0-with-LLVM-=
-exception;md5=3D0bcd48c3bdfef0c9d9fd17726e4b7dab"
-+LICENSE =3D "MIT"
-+LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e=
-0bcf8506ecda2f7b4f302"
- SECTION =3D "devel"
-=20
- PN =3D "clang-cross-${TARGET_ARCH}"
--BPN =3D "clang"
-=20
--require common-clang.inc
--require common-source.inc
- inherit cross
--TOOLCHAIN =3D "clang"
--DEPENDS +=3D "clang-native virtual/cross-binutils"
-=20
--#INHIBIT_PACKAGE_STRIP =3D "1"
--INHIBIT_SYSROOT_STRIP =3D "1"
-+DEPENDS +=3D "clang-native"
-+
- do_install() {
-         install -d ${D}${bindir}
--	for tool in clang-tidy lld ld.lld llvm-profdata \
-+	for tool in clang clang++ clang-tidy lld ld.lld llvm-profdata \
-             llvm-nm llvm-ar llvm-as llvm-ranlib llvm-strip llvm-objcopy =
-llvm-objdump llvm-readelf \
-             llvm-addr2line llvm-dwp llvm-size llvm-strings llvm-cov
- 	do
- 		ln -sf ../$tool ${D}${bindir}/${TARGET_PREFIX}$tool
- 	done
--	install -m 0755 ${STAGING_BINDIR_NATIVE}/clang ${D}${bindir}/${TARGET_P=
-REFIX}clang
--	install -m 0755 ${STAGING_BINDIR_NATIVE}/clang ${D}${bindir}/${TARGET_P=
-REFIX}clang++
- }
--SSTATE_SCAN_FILES +=3D "*-clang *-clang++ *-llvm-profdata *-lld *-ld.lld=
- \
--                      *-llvm-nm *-llvm-ar *-llvm-as *-llvm-ranlib *-llvm=
--strip \
--                      *-llvm-objcopy *-llvm-objdump *-llvm-readelf *-llv=
-m-addr2line \
--                      *-llvm-dwp *-llvm-size *-llvm-strings *-llvm-cov"
--
--SYSROOT_PREPROCESS_FUNCS +=3D "clangcross_sysroot_preprocess"
--
--clangcross_sysroot_preprocess () {
--        sysroot_stage_dir ${D}${bindir} ${SYSROOT_DESTDIR}${bindir}
--}
--PACKAGES =3D ""
---=20
-2.43.0
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
