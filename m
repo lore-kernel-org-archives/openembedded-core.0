@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B28C83F17
-	for <webhook@archiver.kernel.org>; Mon, 28 Jul 2025 20:20:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F35C83F26
+	for <webhook@archiver.kernel.org>; Mon, 28 Jul 2025 20:20:29 +0000 (UTC)
 Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web11.91662.1753734015948656923
+ by mx.groups.io with SMTP id smtpd.web10.91281.1753734022255217515
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Jul 2025 13:20:17 -0700
+ Mon, 28 Jul 2025 13:20:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=ONn1Zmsx;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20250728202010ada1711f6bb48ef76f-othcdu@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20250728202010ada1711f6bb48ef76f
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=fHzsqPfT;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20250728202020b589c9cc14a0aa9c8a-xnbn4e@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20250728202020b589c9cc14a0aa9c8a
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 28 Jul 2025 22:20:10 +0200
+        Mon, 28 Jul 2025 22:20:20 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=oJ7n320Lq/mU46E/OTQUe/JtCJ0fU++VQFSl9ItG33E=;
- b=ONn1Zmsx4Dg/ap11Ubq7N0NCF1FyYIduzrpytXUf+4g7E6tlUrqngi42RmLD14ct9KcsgY
- iBFS9vMr8sy9mRfseoneC0LQtMyQv2x4HRq1+S3ucqAncVRwfSNTxKrb/SW0fU2KmcAOfyN5
- 0qQvpQ+RIvxhpJU/Bhoyioaw5uREdcK4khTqxmqgdy1i3jVORxo6B4kcYx4OnEIJyZvmVaRX
- 7qRNL2oScUO5b+MHrqt3VaGI+pN21IWkcgxHgWPQlguATqRJghYI7xn7rL91h0F3GbShaZFb
- skjp6rR7vW7L0DJvNm8QW2IPA/Lai+eLgV2VujtFbsDKN/3l/dtxhKrQ==;
+ bh=pM0qrxcYNkde8Rj1/50FaXmAp9OyG6jtdpv91cFKBLA=;
+ b=fHzsqPfTbo6S+oX8KAEBnQ0JuJOwTyhvYXPTgAksoM71RL8wryjTHWe1iMJByviu/HDfbk
+ NvXYHmIT35ql60bjFPL7ZsgZUgXIRxxAKIl6CTvxo+HvErMDFXlB7GPkeh2t2T1VtIxlnin5
+ FJM20l/HTMne8yEkQ+85aUU3D9ASwGoNdOiC8G+eqs1DsLCg0YUi763Cytu2kBSuYXEuzC6b
+ iECD6PfnW6FuUOcNp44y8LpP4XrQ0SGXC3AdqoeXM+wEkE6i5WI14dQwxDAlRHhz8B4rtaev
+ SxkcFaDrtnELSk0P+rDWTZGlVeLNBQw6N8+uI9nacSGvZzjNezttoSBQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] libxml2: patch CVE-2025-6170
-Date: Mon, 28 Jul 2025 22:19:19 +0200
-Message-Id: <20250728201919.4112821-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] libxml2: patch CVE-2025-6170
+Date: Mon, 28 Jul 2025 22:19:33 +0200
+Message-Id: <20250728201933.4114008-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 20:20:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221021
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Jul 2025 20:20:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221022
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -46,13 +46,13 @@ Pick commit referencing this CVE from 2.13 branch.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../libxml/libxml2/CVE-2025-6170.patch        | 103 ++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
+ meta/recipes-core/libxml/libxml2_2.12.10.bb   |   1 +
  2 files changed, 104 insertions(+)
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-6170.patch
 
 diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-6170.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-6170.patch
 new file mode 100644
-index 0000000000..a63ae1cff7
+index 0000000000..e2b5392c76
 --- /dev/null
 +++ b/meta/recipes-core/libxml/libxml2/CVE-2025-6170.patch
 @@ -0,0 +1,103 @@
@@ -81,7 +81,7 @@ index 0000000000..a63ae1cff7
 +index ed56b0f8..452b9573 100644
 +--- a/debugXML.c
 ++++ b/debugXML.c
-+@@ -1050,6 +1050,10 @@ xmlCtxtDumpOneNode(xmlDebugCtxtPtr ctxt, xmlNodePtr node)
++@@ -1043,6 +1043,10 @@ xmlCtxtDumpOneNode(xmlDebugCtxtPtr ctxt, xmlNodePtr node)
 +     xmlCtxtGenericNodeCheck(ctxt, node);
 + }
 + 
@@ -92,7 +92,7 @@ index 0000000000..a63ae1cff7
 + /**
 +  * xmlCtxtDumpNode:
 +  * @output:  the FILE * for the output
-+@@ -2802,10 +2806,10 @@ void
++@@ -2794,10 +2798,10 @@ void
 + xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
 +          FILE * output)
 + {
@@ -106,7 +106,7 @@ index 0000000000..a63ae1cff7
 +     int i;
 +     xmlShellCtxtPtr ctxt;
 +     xmlXPathObjectPtr list;
-+@@ -2863,7 +2867,8 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
++@@ -2855,7 +2859,8 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
 +             cur++;
 +         i = 0;
 +         while ((*cur != ' ') && (*cur != '\t') &&
@@ -116,7 +116,7 @@ index 0000000000..a63ae1cff7
 +             if (*cur == 0)
 +                 break;
 +             command[i++] = *cur++;
-+@@ -2878,7 +2883,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
++@@ -2870,7 +2875,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
 +         while ((*cur == ' ') || (*cur == '\t'))
 +             cur++;
 +         i = 0;
@@ -159,16 +159,16 @@ index 0000000000..a63ae1cff7
 ++++ b/test/scripts/long_command.xml
 +@@ -0,0 +1 @@
 ++<a xmlns:a="bar"><b xmlns:a="foo"/></a>
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index baac155270..f34b0c25ca 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -41,6 +41,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+diff --git a/meta/recipes-core/libxml/libxml2_2.12.10.bb b/meta/recipes-core/libxml/libxml2_2.12.10.bb
+index 488ace62e5..331a542262 100644
+--- a/meta/recipes-core/libxml/libxml2_2.12.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.12.10.bb
+@@ -22,6 +22,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
             file://CVE-2025-32415.patch \
             file://CVE-2025-6021.patch \
             file://CVE-2025-49794-CVE-2025-49796.patch \
 +           file://CVE-2025-6170.patch \
             "
  
- SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
+ SRC_URI[archive.sha256sum] = "c3d8c0c34aa39098f66576fe51969db12a5100b956233dc56506f7a8679be995"
 
