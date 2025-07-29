@@ -1,100 +1,84 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D65FC87FC9
-	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 06:01:08 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.978.1753768858802915516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA976C83F26
+	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 07:37:28 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.1947.1753774640433376564
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Jul 2025 23:00:58 -0700
+ Tue, 29 Jul 2025 00:37:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Vnbsgbl1;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=eYNXye5k;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019854c51078-c6892de2-0393-4f52-b762-5f34629c93d2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1753768857; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=+1JQSBB8RpkjrSS/jYTw70xCqmda29cQ79zm0pkuvjE=;
-	b=Vnbsgbl1R/7wiKLeTPdeCy1Cx7z5PyPFT721/1Ef7Wln1NDXIJSbazDpbbKOEvLI
-	ilVq+kfM4Wuhkpa01FLxrCm6Lig7b2smTv64GbIlYSbmAISppCsMy1r1WgTJkSHBXzx
-	cDeQ70T2yfcxhH+20zmm5Tokoy6lI2G0Oh9UbmrA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753768857;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=+1JQSBB8RpkjrSS/jYTw70xCqmda29cQ79zm0pkuvjE=;
-	b=eYNXye5kh4WPgECiEpZTDzBraiwp71GBSMXSlXslmnJozdIBlKcEVIKN2W+Xl8nW
-	QtHiebf8H60On8ZqbXFRWTCUgcHUPypYvm4dy9pYLN28hpWduqKtbID7SBh9B1hiK0g
-	PT1YwXmHaO3357nJP/w62sQUqg1O1Tg6sZ3lM23U=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gcc: Fix libsanitizers build with glibc 2.42
-In-Reply-To: <20250729054715.2147249-1-raj.khem@gmail.com>
-References: <20250729054715.2147249-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019854c51078-c6892de2-0393-4f52-b762-5f34629c93d2-000000@us-west-2.amazonses.com>
-Date: Tue, 29 Jul 2025 06:00:57 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.29-54.240.27.23
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=03055d9187=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56T5fE7Y3828799
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 00:37:20 -0700
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 484ta1taqr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 00:37:19 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Tue, 29 Jul 2025 00:37:18 -0700
+Received: from ala-lpggp7.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Tue, 29 Jul 2025 00:37:18 -0700
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/1] e2fsprogs: Fix native build errors on old kernel such as 5.10
+Date: Tue, 29 Jul 2025 00:37:21 -0700
+Message-ID: <cover.1753773816.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 43bCMUkXxZs3H5LHKX1JrX9gmR6pffqr
+X-Proofpoint-GUID: 43bCMUkXxZs3H5LHKX1JrX9gmR6pffqr
+X-Authority-Analysis: v=2.4 cv=OYOYDgTY c=1 sm=1 tr=0 ts=68887a2f cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=Wb1JkmetP80A:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=x7IcXfdqPv2k3Uw70U8A:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDA1OCBTYWx0ZWRfX9RAVWcshG1ZO
+ kFnty4C0lG8tx0qg8dn8bRRRMxQH5E4Jwr7qYgzJycNtxeqnvZDrbrPJxNGGhVtxGqHp3gAEx54
+ oV1sSzvdYYUpxcuSwm63oip1QUXUpTxUtf14KyppMVgPr7npSR58tANN6ZJwqHaaVf38VxndOhj
+ D2X1Ax+Q/RkADsJA+oRLtcNgTTrQ/6PLcGd4N3qfn1bf7s/ySTHtB5ACEZr8/vi83TOi4oNDuY8
+ nm3c/LOvM6YfsGmOi3f3JWgwFh6cF8h9xbQsRJ4xlnXYOfK3guVnOryowQFYYTqEl5k5EaKN/hW
+ C6Z6TKGQVyr46Pjk+y7YCFMTglTEEeDogYWnFgJkmn9RLkm/KL5sWDjVgqOA2VEJffVNYoNW8Dd
+ mJa25dOC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-29_01,2025-07-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 malwarescore=0 priorityscore=1501 adultscore=0
+ suspectscore=0 phishscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507210000 definitions=main-2507260059
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 06:01:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221031
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 07:37:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221032
 
---NextPart
-Content-Type: text/plain
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+The following changes since commit 249e42a02c412454cfed9d58e27a054dfa5d2b06:
 
----
-Testing patch /home/patchtest/share/mboxes/gcc-Fix-libsanitizers-build-with-glibc-2.42.patch
+  qemu: Remove deprecated asyncio calls in qmp python module (2025-07-28 17:35:16 +0100)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+are available in the Git repository at:
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+  https://github.com/robertlinux/yocto rbt/e2fsprogs
+  https://github.com/robertlinux/yocto/tree/rbt/e2fsprogs
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Robert Yang (1):
+  e2fsprogs: Fix native build errors on old kernel such as 5.10
 
----
+ .../e2fsprogs/{e2fsprogs_1.47.2.bb => e2fsprogs_1.47.3.bb}     | 3 +++
+ 1 file changed, 3 insertions(+)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.47.2.bb => e2fsprogs_1.47.3.bb} (97%)
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+-- 
+2.49.0
 
---NextPart
-
-
---NextPart--
 
