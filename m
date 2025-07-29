@@ -1,100 +1,93 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3788EC83F26
-	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:32:22 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.5764.1753792335319503862
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39AAEC87FC9
+	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:35:22 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.5974.1753792516649001767
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Jul 2025 05:32:15 -0700
+ Tue, 29 Jul 2025 05:35:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=g+/RTgMx;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=MDXEZpvd;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010198562b4aac-be8032a7-48bb-4cb3-9933-d6d4ca96c58b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1753792334; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=EnzURvERzz8NPlIEXtA6YNrEr8gFOWEvHDUSmzUFWeA=;
-	b=g+/RTgMxPUES46nnZVRAKxLWulCtMDvzmahynciHWWW+5gAD/2NN7AsERr415eWt
-	fgvnsTAxxHCPuE+cys3qjr7KL2yJy1RjpckrQGfsywkpXxda1TOtiyXaTRMY0MwR6SJ
-	Jf9btaDB2Lc29nBaieOB4xD5NlVDnwq2psdJuQoA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753792334;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=EnzURvERzz8NPlIEXtA6YNrEr8gFOWEvHDUSmzUFWeA=;
-	b=MDXEZpvdcqEcH07NdNIKQkXy47KkVJG/eDaLO79rTjukOAXZUbOeDJ5LivQT4ekU
-	u2zyaaqixcZUHnE746iX22iziBo1CnNHfSgY7ge9vCfN5yGdBWhL77kS6KiRpolpEUa
-	1fuwKDJ9fUofrLVO3Couf/81zThbB7J4wDKRsWlM=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 3/3] clang: split lld into a separate lld recipe
-In-Reply-To: <20250729122448.1067745-3-ross.burton@arm.com>
-References: <20250729122448.1067745-3-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198562b4aac-be8032a7-48bb-4cb3-9933-d6d4ca96c58b-000000@us-west-2.amazonses.com>
-Date: Tue, 29 Jul 2025 12:32:14 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.29-54.240.27.30
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3CA321516
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 05:35:08 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CDAAB3F673
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 05:35:15 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC PATCH] ccache: enable ccache for all recipes if it is in HOSTTOOLS
+Date: Tue, 29 Jul 2025 13:35:10 +0100
+Message-ID: <20250729123510.1094823-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:32:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221076
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:35:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221077
 
---NextPart
-Content-Type: text/plain
+At the moment we don't allow ccache for native recipes to avoid the
+dependency loop of native recipes needing ccache-native which then
+depends on itself.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+One way to avoid this dependency loop is to just provide a host ccache,
+so enable ccache globally if ccache is in HOSTTOOLS.  This isn't set
+out of the box, but does work.
 
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-3-3-clang-split-lld-into-a-separate-lld-recipe.patch
+ meta/classes/ccache.bbclass | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
+index 7daaa7e3aa2..5ce23e50f34 100644
+--- a/meta/classes/ccache.bbclass
++++ b/meta/classes/ccache.bbclass
+@@ -12,17 +12,22 @@
+ #
+ # - Disable ccache for a recipe
+ #   Add the following line to the recipe if it can't be built with ccach=
+e:
+-#   CCACHE_DISABLE =3D '1'
++#   CCACHE_DISABLE =3D "1"
+ #
+ # - Share ccache files between different builds
+ #   Set CCACHE_TOP_DIR to a shared dir
+-#   CCACHE_TOP_DIR =3D /path/to/shared_ccache/
++#   CCACHE_TOP_DIR =3D "/path/to/shared_ccache/"
+ #
+-# - TO debug ccahe
++# - To debug ccache
+ #   export CCACHE_DEBUG =3D "1"
+ #   export CCACHE_LOGFILE =3D "${CCACHE_DIR}/logfile.log"
+ #   And also set PARALLEL_MAKE =3D "-j 1" to get make the log in order
+ #
++# By default this class will only use ccache for target builds, and buil=
+d
++# our own ccache-native.  It is possible to use a host-provided ccache t=
+hat
++# can then be used by native recipes too by setting:
++#   ASSUME_PROVIDED +=3D "ccache-native"
++#   HOSTTOOLS +=3D "ccache"
+=20
+ # Set it to a shared location for different builds, so that cache files =
+can
+ # be shared between different builds.
+@@ -46,7 +51,8 @@ python() {
+     Enable ccache for the recipe
+     """
+     pn =3D d.getVar('PN')
+-    if (pn in d.getVar('CCACHE_NATIVE_RECIPES_ALLOWED') or
++    if ("ccache" in d.getVar("HOSTTOOLS").split() or
++        pn in d.getVar('CCACHE_NATIVE_RECIPES_ALLOWED') or
+         not (bb.data.inherits_class("native", d) or
+         bb.utils.to_boolean(d.getVar('CCACHE_DISABLE')))):
+         d.appendVar('DEPENDS', ' ccache-native')
+--=20
+2.43.0
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
