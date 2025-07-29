@@ -1,94 +1,63 @@
-Return-Path: <philip@balister.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1A99C87FCC
-	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:19:51 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.14759.1753431165597431775
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 253DBC87FC9
+	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:25:02 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.5791.1753791894547241114
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Jul 2025 01:12:45 -0700
+ Tue, 29 Jul 2025 05:24:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=XO7cfyb+;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.218.48, mailfrom: dario.binacchi@amarulasolutions.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ae36e88a5daso351175066b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Jul 2025 01:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1753431163; x=1754035963; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=U+EK3RKasB15Sk+sq9F7OE/k69WCrB6GBWlF7lBk1rM=;
-        b=XO7cfyb+t0cQ0pzLgJwb+AJe6+aF7bRgXQ7g44EyaE/Jq2pI4ARHnymG9boXHUeOZe
-         SDf5wDIP2vniYzv5lvQxA6p08vfkydTpzsIR1jKaof+fjjW6ksSBx6Z8vwUku48VsK22
-         iKKNmLLplragcSObu4i7TA87nESsT+MWnGTG8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753431163; x=1754035963;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U+EK3RKasB15Sk+sq9F7OE/k69WCrB6GBWlF7lBk1rM=;
-        b=wJ5sBPX8ykC5WwVCFoH0aY85EQPspS7qR1Ww+6H4N3qRWiuijeK32NI/SPFi1/eiVB
-         MsypPzL82+NXh2THXOtIzeD1KLILsjgcgmOY6FRpxn2UeL/n5pSJ76r+oGwwuIz41SOI
-         GM2CO4cx/RYLiI4U4ndt+QUv5/to4+ICtlCplgtw92WfSL+RDf8TX5VMSwP+75lQuxQO
-         JfuTGezxL2ybftaZKCAnbzw6cRl9heSMtKhzhJKJBrDV4b8/I94vlUbWK8f8xI+5ZZV1
-         sD4kqmMqFbzhAE3WbFmeN5x9aYNZo2daDQqu6U2/VS/sESgB7Qi/jZs03YZWRAXTJ1JJ
-         OzJQ==
-X-Gm-Message-State: AOJu0YyWUH1r0kh9nGAjY4Yj434YeOUMx7cz3qjLCSunF1HMxIWVRVNW
-	EQRfb6pzUK+4UYjEwOHNyIV1TIhnWc8Sf0cIvd2HydQ3SJOa0wIDDe2YLnSceiRZ31p2S3C+q+U
-	XxAHZ
-X-Gm-Gg: ASbGncu9xgGQVQBoH1Fg4z6pL90mCasuRWhPtY9N1xpogbsTatPk8nxxZs21t8rbN3W
-	70WzujBl3LqWkTako/ZmHCnBojZ1X4QSgmVrsx7vjK/81uyGhFVC2IuZ8LZW5RwXGleE7e3qSQz
-	0tgWwpMSqjGwlMhxpM+5fSjd+YaONypEaWWY+k2C5xS3ssGVZdV8YHeOevKG5bV4WRhi0SZNp0B
-	kFzAeuf3wggJ7Qv2AKYcVyoRaB0vgR3ldv0fom6v0XrcRGx9Amd3hSFi8TlQ4TMs7r55kJadr/2
-	DiJ6wr4QoZeazlaUJIXyAJWGQP4hU6U0EjN1sOOaoE0SKOygVLOGEORZncBqhQADQBbhlgwWupe
-	l09btNtfwui03OPPZmWtJHFOMiB0hOpvPP5cyrcFwLT8imvQ2MGyJiiDJJ8039w==
-X-Google-Smtp-Source: AGHT+IEDNvVw/P/LR2qQ3wG1nKArq0/+xtfVkiYORgwB8h1J45waC51hOMRqUJ5mY/HQgImF+fiVhw==
-X-Received: by 2002:a17:907:1ca6:b0:ae0:c0b3:5648 with SMTP id a640c23a62f3a-af616d0569fmr99096866b.1.1753430831153;
-        Fri, 25 Jul 2025 01:07:11 -0700 (PDT)
-Received: from dario-ThinkPad-P14s-Gen-5.. ([62.19.251.20])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af47f44eaf5sm231414666b.80.2025.07.25.01.07.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jul 2025 01:07:10 -0700 (PDT)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F0F931516
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 05:24:45 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 841753F673
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 05:24:53 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Subject: [PATCH] mmc-utils: properly set sparse option
-Date: Fri, 25 Jul 2025 10:06:55 +0200
-Message-ID: <20250725080655.2704735-1-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v2 1/3] classes/toolchain/clang: compiler-rt and libcxx are not target-specific
+Date: Tue, 29 Jul 2025 13:24:46 +0100
+Message-ID: <20250729122448.1067745-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:19:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221070
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:25:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221072
 
-Commit [1] fixes the conditional invocation of sparse properly handling
-the corresponding 'C' option. Hence, the related change in the
-EXTRA_OEMAKE (i.e. C=0).
+This file can be used for nativesdk builds, which if they are using the
+clang toolchain will also need compiler-rt and libcxx.
 
-[1] https://web.git.kernel.org/pub/scm/utils/mmc/mmc-utils.git/commit/?id=a89cba2a0f8c6a19aa6b804877241170f5b6bdd2
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/toolchain/clang.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 5b6a5f377732..a0e0ec9c1144 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -12,7 +12,7 @@ PV = "1.0"
- SRC_URI = "git://git.kernel.org/pub/scm/utils/mmc/mmc-utils.git;branch=${SRCBRANCH};protocol=https;tag=v${PV}"
- 
- DEPENDS = "python3-sphinx-native"
--EXTRA_OEMAKE = "C="
-+EXTRA_OEMAKE = "C=0"
- 
- CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
- CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
--- 
+diff --git a/meta/classes/toolchain/clang.bbclass b/meta/classes/toolchai=
+n/clang.bbclass
+index b6ba1fde6fc..f422a01988f 100644
+--- a/meta/classes/toolchain/clang.bbclass
++++ b/meta/classes/toolchain/clang.bbclass
+@@ -26,8 +26,7 @@ PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cr=
+osssdk =3D "clang-crosssdk-
+ PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cross-canadian =3D "=
+clang-crosssdk-${SDK_SYS}"
+ PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian =3D =
+"clang-crosssdk-${SDK_SYS}"
+=20
+-
+-BASE_DEFAULT_DEPS:append:class-target =3D " compiler-rt libcxx"
++BASE_DEFAULT_DEPS:append =3D " compiler-rt libcxx"
+=20
+ TUNE_CCARGS +=3D "${@bb.utils.contains("DISTRO_FEATURES", "usrmerge", " =
+--dyld-prefix=3D/usr", "", d)}"
+=20
+--=20
 2.43.0
 
 
