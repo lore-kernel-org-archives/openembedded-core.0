@@ -1,168 +1,100 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC87C83F26
-	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:25:02 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.5792.1753791895489862772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36596C87FC9
+	for <webhook@archiver.kernel.org>; Tue, 29 Jul 2025 12:32:22 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.5918.1753792334608354134
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Jul 2025 05:24:55 -0700
+ Tue, 29 Jul 2025 05:32:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D89C1516
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 05:24:47 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D0EBB3F673
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 05:24:54 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 3/3] clang: split lld into a separate lld recipe
-Date: Tue, 29 Jul 2025 13:24:48 +0100
-Message-ID: <20250729122448.1067745-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250729122448.1067745-1-ross.burton@arm.com>
-References: <20250729122448.1067745-1-ross.burton@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QMkPRCMY;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=GkoYIsNy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010198562b47a3-44db93aa-e20c-4d83-b12b-93f8b2413a99-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1753792333; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=/1/nyJRJUjkLTAPt+6mhECs6lh1qSXrvJQZgflh6kdQ=;
+	b=QMkPRCMYmcZ3xlJ6pVm2xCnATey7nJqHf1SL44A+2eJHfknLAMxZ2ghMtmoJoUp8
+	F1mc5GxgPoGJA6D+Spxit7PlFEZ5dCTpM9OCDM7zjwub3TMf2SnIig7wEZi1twcfyhj
+	FaWurv8xleWaQ/p0dw1iIgkFlPI04MIAylGvf2Q4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753792333;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=/1/nyJRJUjkLTAPt+6mhECs6lh1qSXrvJQZgflh6kdQ=;
+	b=GkoYIsNyglvvmOu2oiERC+53u0WdxsJCYsPPrEcOqNNlMdt450LxNhS7BOZrFrvo
+	mJdGmQGJbBKStAuxkDEmymPeILgLBNyhyhuLVf3L++qz1yOUxXTogIBE289oaHDe7YW
+	tuopo84jXcMsuS7cr6g0ZjTjt9hn2ozsBE/fpVWc=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 2/3] clang-cross: trim the recipe
+In-Reply-To: <20250729122448.1067745-2-ross.burton@arm.com>
+References: <20250729122448.1067745-2-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010198562b47a3-44db93aa-e20c-4d83-b12b-93f8b2413a99-000000@us-west-2.amazonses.com>
+Date: Tue, 29 Jul 2025 12:32:13 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.07.29-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:25:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221074
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 12:32:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221075
 
-The lld linker is a standalone project under the LLVM umbrella that just
-depends on libLLVM and nothing else, such as clang.
+--NextPart
+Content-Type: text/plain
 
-To reduce the build time of clang if lld is not being used, split it out
-into a separate recipe.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-To ensure that lld is present if needed, the clang-cross recipe will
-depend on lld-native if ld-is-lld is enable.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../recipes-devtools/clang/clang-cross_git.bb |  2 +-
- meta/recipes-devtools/clang/clang_git.bb      |  8 +++-----
- meta/recipes-devtools/clang/lld_git.bb        | 20 +++++++++++++++++++
- 4 files changed, 25 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/clang/lld_git.bb
+Testing patch /home/patchtest/share/mboxes/v2-2-3-clang-cross-trim-the-recipe.patch
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 927aac16d6d..5260bde36bc 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -480,6 +480,7 @@ RECIPE_MAINTAINER:pn-linux-yocto =3D "Bruce Ashfield =
-<bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-dev =3D "Bruce Ashfield <bruce.ashfield=
-@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-rt =3D "Bruce Ashfield <bruce.ashfield@=
-gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-tiny =3D "Bruce Ashfield <bruce.ashfiel=
-d@gmail.com>"
-+RECIPE_MAINTAINER:pn-lld =3D "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-lldb =3D "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-llvm-project-source-20.1.8 =3D "Khem Raj <raj.khem@=
-gmail.com>"
- RECIPE_MAINTAINER:pn-llvm-tblgen-native =3D "Khem Raj <raj.khem@gmail.co=
-m>"
-diff --git a/meta/recipes-devtools/clang/clang-cross_git.bb b/meta/recipe=
-s-devtools/clang/clang-cross_git.bb
-index 7b12e450091..e240a1bb6de 100644
---- a/meta/recipes-devtools/clang/clang-cross_git.bb
-+++ b/meta/recipes-devtools/clang/clang-cross_git.bb
-@@ -11,7 +11,7 @@ PN =3D "clang-cross-${TARGET_ARCH}"
-=20
- inherit cross
-=20
--DEPENDS +=3D "clang-native virtual/cross-binutils"
-+DEPENDS +=3D "clang-native virtual/cross-binutils ${@bb.utils.contains('=
-DISTRO_FEATURES', 'ld-is-lld', 'lld-native', '', d)}"
-=20
- do_install() {
-         install -d ${D}${bindir}
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devt=
-ools/clang/clang_git.bb
-index 35b40d0ed18..ad070b5a3e0 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -60,7 +60,7 @@ PACKAGECONFIG[eh] =3D "-DLLVM_ENABLE_EH=3DON,-DLLVM_ENA=
-BLE_EH=3DOFF,,"
- PACKAGECONFIG[libcplusplus] =3D "-DCLANG_DEFAULT_CXX_STDLIB=3Dlibc++,,"
- PACKAGECONFIG[libedit] =3D "-DLLVM_ENABLE_LIBEDIT=3DON,-DLLVM_ENABLE_LIB=
-EDIT=3DOFF,libedit libedit-native"
- PACKAGECONFIG[libomp] =3D "-DCLANG_DEFAULT_OPENMP_RUNTIME=3Dlibomp,,"
--PACKAGECONFIG[lld] =3D "-DCLANG_DEFAULT_LINKER=3Dlld,,"
-+PACKAGECONFIG[lld] =3D "-DCLANG_DEFAULT_LINKER=3Dlld,,,lld"
- PACKAGECONFIG[lto] =3D "-DLLVM_ENABLE_LTO=3DFull -DLLVM_BINUTILS_INCDIR=3D=
-${STAGING_INCDIR},,binutils,"
- PACKAGECONFIG[pfm] =3D "-DLLVM_ENABLE_LIBPFM=3DON,-DLLVM_ENABLE_LIBPFM=3D=
-OFF,libpfm,"
- PACKAGECONFIG[rtti] =3D "-DLLVM_ENABLE_RTTI=3DON,-DLLVM_ENABLE_RTTI=3DOF=
-F,,"
-@@ -110,7 +110,7 @@ HF[vardepvalue] =3D "${HF}"
-=20
- # Ensure that LLVM_PROJECTS does not contain compiler runtime components=
- e.g. libcxx etc
- # they are enabled via LLVM_ENABLE_RUNTIMES
--LLVM_PROJECTS ?=3D "clang;clang-tools-extra;lld"
-+LLVM_PROJECTS ?=3D "clang;clang-tools-extra"
-=20
- # linux hosts (.so) on Windows .pyd
- SOLIBSDEV:mingw32 =3D ".pyd"
-@@ -396,10 +396,8 @@ clang_sysroot_preprocess() {
- 	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}/
- 	install -m 0755 ${S}/llvm/tools/llvm-config/llvm-config ${SYSROOT_DESTD=
-IR}${bindir_crossscripts}/
- 	ln -sf llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/llvm-config=
-${PV}
--	# LLDTargets.cmake references the lld executable(!) that some modules/p=
-lugins link to
--	install -d ${SYSROOT_DESTDIR}${bindir}
-=20
--	binaries=3D"lld diagtool clang-${MAJOR_VER} clang-format clang-offload-=
-packager
-+	binaries=3D"diagtool clang-${MAJOR_VER} clang-format clang-offload-pack=
-ager
- 	                clang-offload-bundler clang-scan-deps clang-repl
- 	                clang-refactor clang-check clang-extdef-mapping clang-a=
-pply-replacements
- 	                clang-reorder-fields clang-tidy clang-change-namespace =
-clang-doc clang-include-fixer
-diff --git a/meta/recipes-devtools/clang/lld_git.bb b/meta/recipes-devtoo=
-ls/clang/lld_git.bb
-new file mode 100644
-index 00000000000..6c8ba03c052
---- /dev/null
-+++ b/meta/recipes-devtools/clang/lld_git.bb
-@@ -0,0 +1,20 @@
-+SUMMARY =3D "LLD - the LLVM Linker"
-+DESCRIPTION =3D "LLD is a linker from the LLVM project that is a drop-in=
- replacement for system linkers and runs much faster than them."
-+HOMEPAGE =3D "https://lld.llvm.org"
-+SECTION =3D "devel"
-+
-+require common-clang.inc
-+require common-source.inc
-+
-+LIC_FILES_CHKSUM =3D "file://lld/LICENSE.TXT;md5=3Dae7dc7c027b1fa89b5b01=
-3d391d3ee2b"
-+
-+inherit cmake pkgconfig
-+
-+DEPENDS =3D "llvm-tblgen-native llvm"
-+
-+OECMAKE_SOURCEPATH =3D "${S}/lld"
-+
-+EXTRA_OECMAKE =3D "-DLLVM_INCLUDE_TESTS=3DOFF \
-+                 -DLLVM_TABLEGEN_EXE=3D${STAGING_BINDIR_NATIVE}/llvm-tbl=
-gen"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.43.0
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
