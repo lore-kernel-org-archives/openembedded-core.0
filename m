@@ -1,161 +1,345 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB1B7C87FC9
-	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 21:29:34 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.47221.1753910969328846312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF467C87FC9
+	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 22:09:44 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.48067.1753913378162860859
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Jul 2025 14:29:29 -0700
+ Wed, 30 Jul 2025 15:09:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u1AOTJOT;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2400f746440so3009075ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 14:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753910968; x=1754515768; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0PsW6GTZOTGPcMAwoK9zRqYkw0mWb7kLhx84ASX8E5s=;
-        b=u1AOTJOTXCT22kTEP2Pa+53WwV3lLHH0ulVcoX9H1zZz8Y/AKkjFrqydhLpg+lz1+5
-         Nl6UuuwaRd87q/1q2KELkB2EmNJVw6xXyzuOk2UQec4WtyqbkY05bxxTgx2ENlFoypVi
-         8fJAQWTMS49Ya4Q/0EjsZrk4a30UOm8RpqIq0ZPF7PBeYn2NkUf3OdTK31GjTIwX/oCP
-         AKJgesr9nQ8OItfQ9iVMHg5n1uR4crBHzNmCsZNrwMpDoN97PNeWeEY1KQtoY/zEKWE2
-         z0fBH2DrVHZvNURQRn/Z94vB+JXukrwwQy8cuttYSbTUND5svo/iVDKZdBN0RPOKwsLS
-         8i5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753910968; x=1754515768;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0PsW6GTZOTGPcMAwoK9zRqYkw0mWb7kLhx84ASX8E5s=;
-        b=k5MFl1QRB4lLdwmMgqC4eTs8K61ZP4BZBUTCPt2giGvZsxMkkXhdJhBZkRONZa1gH3
-         318hh3ty1TigMDhK4xwCIyWGXPnfWmXWHHV3uveL0FjxghA1EsYitiG9KADEni/zYlgB
-         uDDPOs6dlu9zLnKRFJA/dTrXAqU7B9NHeNY2isAgH0JrYEgtBSJaoM4uH8fJYKKnwuZH
-         P4IpYECH/+iYHBFLAG/tlTNlTT/9/wasypNcBdhtfRD4VCC8Db1X1ptBbezHqRZqObuM
-         rZpkopNwFTszzvWsktpZCCRmwmTVbWMIFWjs7o78rP38gr0CJx8TbPBaLxhtz3JDntb1
-         b34A==
-X-Gm-Message-State: AOJu0Yxrtm0bZQ+C+bWQRERp/YRjxiOiVhJLFaiSE9/ba76AP5pXLCTj
-	Y2PZrCmuFmpIBcomRouz3LepsBgtIRwhW/SpW4JgTgvl1njjdR2rN1lwp7eP4k5PiJyIKbCGkbi
-	weJay
-X-Gm-Gg: ASbGnctgKK73uZPLRiYiBhnYEt2yXV5zyVevUeQVwZCs2+Su9t8jXUDErDGxJHz9kWa
-	BK5c0g/5wMqziTiqRsGQ5JG99GrRtBOcLux1c+hD7dpQZVJxLTzVZIAa0z/ju5SnKEz2mP2CvgH
-	uCWFI8hlC0hWYpJyg4r+V5NlYi6gFDIWm2ur+u6Gtrjcn35dXSma0b6qQV7hyV60dIX6qp6Wp40
-	3PNaBXf3aPdbFiKm8gDk055yJlt5jUJsm2v5WyXvgu9cOMy5PA6j7tII1ZQbAnBKAxHedh/Baa8
-	ny11ENTR+fYxhaD1dIlKMHBesldBj7bkoYc9Nc8JjvG6tT2/G87ao0yPGYMKwV037StsbhWjT4j
-	LHmhhkdnbgWxhDc8cKfXxcHI=
-X-Google-Smtp-Source: AGHT+IHHVGRVpnUbetTF/y12W5bNVr3FNLkvZKqLuWF/zaCsdZRYurH70ViQhbLtMORt7yhtCQtF0g==
-X-Received: by 2002:a17:903:1ca:b0:240:fc:abd7 with SMTP id d9443c01a7336-24096b23bc8mr68273545ad.31.1753910968442;
-        Wed, 30 Jul 2025 14:29:28 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:58fd:da9:30d5:829a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899b4adsm576365ad.132.2025.07.30.14.29.27
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jul 2025 14:29:28 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=aX47aYSG;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202507302209353906a229f6a9413afa-hsl8wl@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202507302209353906a229f6a9413afa
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 31 Jul 2025 00:09:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=xbpnUkS+ij5mx4XpoySqVJ8vt3oFBcDJ2baT3GBiW8I=;
+ b=aX47aYSGyn6ZCeI7EabKAut5Jp05qeWIBiaAvcHPcdRm8i5hPVLXpwgHMDBz8R3RIhUzBH
+ eWsOIzkm8TtrfeiJP18z5wayNkKZDzq9BikO0U0gria25GdWTc0YgqVrXR4/CKWYlw3Zj4O9
+ 1xYurnle6/pZMrvBwMJakRKruqnUB0/TmVrISPOgAwx1aacpEzyaQClwTqt6anVzsnqMnO02
+ J3nYarq9AFjzEQFjlesV5b4/lQrzRwn9i+1njyyP5q4GFbiMKlactGAW8OdvUYobrk9lOw9b
+ wXy6GIOECU1nFlTf4qfd3E3ba/k0ncCD4D4Flcds5lYXwTHtFkk9jTqw==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 11/11] linux-libc-headers: Fix invalid conversion in cn_proc.h
-Date: Wed, 30 Jul 2025 14:29:02 -0700
-Message-ID: <f023779af6c0e5c838bdacbd6d9765d1c6740575.1753910853.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1753910853.git.steve@sakoman.com>
-References: <cover.1753910853.git.steve@sakoman.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH v2] glibc: stable 2.35 branch updates
+Date: Thu, 31 Jul 2025 00:08:47 +0200
+Message-Id: <20250730220847.14125-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 21:29:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221170
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 22:09:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221171
 
-From: Fabio Berton <fbberton@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backport 'connector: Fix invalid conversion in cn_proc.h' commit to fix
-error:
-/
-|/usr/include/linux/cn_proc.h: In function 'proc_cn_event
-| valid_event(proc_cn_event)':
-|/usr/include/linux/cn_proc.h:72:17: error: invalid conversion from
-| 'unsigned int' to 'proc_cn_event' [-fpermissive]
-|   72 |         ev_type &= PROC_EVENT_ALL;
-|      |                 ^
-|      |                 |
-|      |                 unsigned int
-\
+This is a single commit bump containing only CVE fix
+$ git log --oneline d80401002011f470d9c6eb604bf734715e9b3a8c..a66bc3941ff298e474d5f02d0c3303401951141f
+a66bc3941f posix: Fix double-free after allocation failure in regcomp (bug 33185)
 
-Change is already merged in kernel branch linux-6.6.y [1].
+Test results didn't change except newly added test succeeding.
+(tst-regcomp-bracket-free)
 
-1 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.6.y&id=06e785aeb9ea8a43d0a3967c1ba6e69d758e82d4
+Also add CVE-2025-0395 ignore which was already included in previous
+hash bumps.
 
-Signed-off-by: Fabio Berton <fbberton@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Also drop an unreferenced patch.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...-Fix-invalid-conversion-in-cn_proc.h.patch | 40 +++++++++++++++++++
- .../linux-libc-headers_6.6.bb                 |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ .../glibc/glibc/0025-CVE-2025-4802.patch      | 250 ------------------
+ meta/recipes-core/glibc/glibc_2.35.bb         |   2 +-
+ 3 files changed, 2 insertions(+), 252 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0025-CVE-2025-4802.patch
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch
-new file mode 100644
-index 0000000000..e245d97de0
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch
-@@ -0,0 +1,40 @@
-+From 06e785aeb9ea8a43d0a3967c1ba6e69d758e82d4 Mon Sep 17 00:00:00 2001
-+From: Matt Jan <zoo868e@gmail.com>
-+Date: Tue, 14 May 2024 12:10:46 +0800
-+Subject: [PATCH] connector: Fix invalid conversion in cn_proc.h
-+
-+The implicit conversion from unsigned int to enum
-+proc_cn_event is invalid, so explicitly cast it
-+for compilation in a C++ compiler.
-+/usr/include/linux/cn_proc.h: In function 'proc_cn_event valid_event(proc_cn_event)':
-+/usr/include/linux/cn_proc.h:72:17: error: invalid conversion from 'unsigned int' to 'proc_cn_event' [-fpermissive]
-+   72 |         ev_type &= PROC_EVENT_ALL;
-+      |                 ^
-+      |                 |
-+      |                 unsigned int
-+
-+Signed-off-by: Matt Jan <zoo868e@gmail.com>
-+Signed-off-by: David S. Miller <davem@davemloft.net>
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=9258d795978f398ecf2d222a8388cff81d37d34d]
-+---
-+ include/uapi/linux/cn_proc.h | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/include/uapi/linux/cn_proc.h b/include/uapi/linux/cn_proc.h
-+index f2afb7cc4926..18e3745b86cd 100644
-+--- a/include/uapi/linux/cn_proc.h
-++++ b/include/uapi/linux/cn_proc.h
-+@@ -69,8 +69,7 @@ struct proc_input {
-+ 
-+ static inline enum proc_cn_event valid_event(enum proc_cn_event ev_type)
-+ {
-+-	ev_type &= PROC_EVENT_ALL;
-+-	return ev_type;
-++	return (enum proc_cn_event)(ev_type & PROC_EVENT_ALL);
-+ }
-+ 
-+ /*
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb
-index d68de6ec7e..11e7524fed 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb
-@@ -8,6 +8,7 @@ SRC_URI:append:libc-musl = "\
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index b269518af4..0b06005b25 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.35/master"
+ PV = "2.35"
+-SRCREV_glibc ?= "80401002011f470d9c6eb604bf734715e9b3a8c2"
++SRCREV_glibc ?= "a66bc3941ff298e474d5f02d0c3303401951141f"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
  
- SRC_URI += "\
-     file://0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch \
-+    file://0001-connector-Fix-invalid-conversion-in-cn_proc.h.patch \
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+diff --git a/meta/recipes-core/glibc/glibc/0025-CVE-2025-4802.patch b/meta/recipes-core/glibc/glibc/0025-CVE-2025-4802.patch
+deleted file mode 100644
+index a1197c0318..0000000000
+--- a/meta/recipes-core/glibc/glibc/0025-CVE-2025-4802.patch
++++ /dev/null
+@@ -1,250 +0,0 @@
+-From 32917e7ee972e7a01127a04454f12ef31dc312ed Mon Sep 17 00:00:00 2001
+-From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+-Date: Wed, 11 Jun 2025 03:19:10 -0700
+-Subject: [PATCH] elf: Ignore LD_LIBRARY_PATH and debug env var for setuid for
+- static
+-
+-It mimics the ld.so behavior.
+-Checked on x86_64-linux-gnu.
+-
+-[New Test Case]
+-elf: Test case for bug 32976
+-[https://sourceware.org/bugzilla/show_bug.cgi?id=32976]
+-
+-Check that LD_LIBRARY_PATH is ignored for AT_SECURE statically
+-linked binaries, using support_capture_subprogram_self_sgid.
+-
+-Upstream-Status: Backport [https://sourceware.org/cgit/glibc/commit/?id=5451fa962cd0a90a0e2ec1d8910a559ace02bba0 &&
+-                            https://sourceware.org/cgit/glibc/commit/?id=d8f7a79335b0d861c12c42aec94c04cd5bb181e2]
+-
+-CVE: CVE-2025-4802
+-
+-Co-authored-by: Florian Weimer <fweimer@redhat.com>
+-Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+----
+- elf/Makefile              |   4 ++
+- elf/dl-support.c          |  46 ++++++++---------
+- elf/tst-dlopen-sgid-mod.c |   1 +
+- elf/tst-dlopen-sgid.c     | 104 ++++++++++++++++++++++++++++++++++++++
+- 4 files changed, 132 insertions(+), 23 deletions(-)
+- create mode 100644 elf/tst-dlopen-sgid-mod.c
+- create mode 100644 elf/tst-dlopen-sgid.c
+-
+-diff --git a/elf/Makefile b/elf/Makefile
+-index 61c41ea6..3ad66ab6 100644
+---- a/elf/Makefile
+-+++ b/elf/Makefile
+-@@ -274,6 +274,7 @@ tests-static-normal := \
+-   tst-array1-static \
+-   tst-array5-static \
+-   tst-dl-iter-static \
+-+  tst-dlopen-sgid \
+-   tst-dst-static \
+-   tst-env-setuid \
+-   tst-env-setuid-tunables \
+-@@ -807,6 +808,7 @@ modules-names = \
+-   tst-dlmopen-gethostbyname-mod \
+-   tst-dlmopen-twice-mod1 \
+-   tst-dlmopen-twice-mod2 \
+-+  tst-dlopen-sgid-mod \
+-   tst-dlopenfaillinkmod \
+-   tst-dlopenfailmod1 \
+-   tst-dlopenfailmod2 \
+-@@ -2913,3 +2915,5 @@ $(objpfx)tst-recursive-tls.out: \
+-     0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15)
+- $(objpfx)tst-recursive-tlsmod%.os: tst-recursive-tlsmodN.c
+- 	$(compile-command.c) -DVAR=thread_$* -DFUNC=get_threadvar_$*
+-+
+-+$(objpfx)tst-dlopen-sgid.out: $(objpfx)tst-dlopen-sgid-mod.so
+-diff --git a/elf/dl-support.c b/elf/dl-support.c
+-index 09079c12..c2baed69 100644
+---- a/elf/dl-support.c
+-+++ b/elf/dl-support.c
+-@@ -272,8 +272,6 @@ _dl_non_dynamic_init (void)
+-   _dl_main_map.l_phdr = GL(dl_phdr);
+-   _dl_main_map.l_phnum = GL(dl_phnum);
+- 
+--  _dl_verbose = *(getenv ("LD_WARN") ?: "") == '\0' ? 0 : 1;
+--
+-   /* Set up the data structures for the system-supplied DSO early,
+-      so they can influence _dl_init_paths.  */
+-   setup_vdso (NULL, NULL);
+-@@ -281,27 +279,6 @@ _dl_non_dynamic_init (void)
+-   /* With vDSO setup we can initialize the function pointers.  */
+-   setup_vdso_pointers ();
+- 
+--  /* Initialize the data structures for the search paths for shared
+--     objects.  */
+--  _dl_init_paths (getenv ("LD_LIBRARY_PATH"), "LD_LIBRARY_PATH",
+--		  /* No glibc-hwcaps selection support in statically
+--		     linked binaries.  */
+--		  NULL, NULL);
+--
+--  /* Remember the last search directory added at startup.  */
+-_dl_verbose = *(getenv ("LD_WARN") ?: "") == '\0' ? 0 : 1;-  _dl_init_all_dirs = GL(dl_all_dirs);
+--
+--  _dl_lazy = *(getenv ("LD_BIND_NOW") ?: "") == '\0';
+--
+--  _dl_bind_not = *(getenv ("LD_BIND_NOT") ?: "") != '\0';
+--
+--  _dl_dynamic_weak = *(getenv ("LD_DYNAMIC_WEAK") ?: "") == '\0';
+--
+--  _dl_profile_output = getenv ("LD_PROFILE_OUTPUT");
+--  if (_dl_profile_output == NULL || _dl_profile_output[0] == '\0')
+--    _dl_profile_output
+--      = &"/var/tmp\0/var/profile"[__libc_enable_secure ? 9 : 0];
+--
+-   if (__libc_enable_secure)
+-     {
+-       static const char unsecure_envvars[] =
+- setup_vdso_pointers ();
+-@@ -324,6 +301,29 @@ _dl_non_dynamic_init (void)
+- #endif
+-     }
+- 
+-+  _dl_verbose = *(getenv ("LD_WARN") ?: "") == '\0' ? 0 : 1;
+-+
+-+  /* Initialize the data structures for the search paths for shared
+-+     objects.  */
+-+  _dl_init_paths (getenv ("LD_LIBRARY_PATH"), "LD_LIBRARY_PATH",
+-+		  /* No glibc-hwcaps selection support in statically
+-+		     linked binaries.  */
+-+		  NULL, NULL);
+-+
+-+  /* Remember the last search directory added at startup.  */
+-+  _dl_init_all_dirs = GL(dl_all_dirs);
+-+
+-+  _dl_lazy = *(getenv ("LD_BIND_NOW") ?: "") == '\0';
+-+
+-+  _dl_bind_not = *(getenv ("LD_BIND_NOT") ?: "") != '\0';
+-+
+-+  _dl_dynamic_weak = *(getenv ("LD_DYNAMIC_WEAK") ?: "") == '\0';
+-+
+-+  _dl_profile_output = getenv ("LD_PROFILE_OUTPUT");
+-+  if (_dl_profile_output == NULL || _dl_profile_output[0] == '\0')
+-+    _dl_profile_output
+-+      = &"/var/tmp\0/var/profile"[__libc_enable_secure ? 9 : 0];
+-+
+- #ifdef DL_PLATFORM_INIT
+-   DL_PLATFORM_INIT;
+- #endif
+-diff --git a/elf/tst-dlopen-sgid-mod.c b/elf/tst-dlopen-sgid-mod.c
+-new file mode 100644
+-index 00000000..5eb79eef
+---- /dev/null
+-+++ b/elf/tst-dlopen-sgid-mod.c
+-@@ -0,0 +1 @@
+-+/* Opening this object should not succeed.  */
+-diff --git a/elf/tst-dlopen-sgid.c b/elf/tst-dlopen-sgid.c
+-new file mode 100644
+-index 00000000..47829a40
+---- /dev/null
+-+++ b/elf/tst-dlopen-sgid.c
+-@@ -0,0 +1,104 @@
+-+/* Test case for ignored LD_LIBRARY_PATH in static startug (bug 32976).
+-+   Copyright (C) 2025 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, see
+-+   <https://www.gnu.org/licenses/>.  */
+-+
+-+#include <dlfcn.h>
+-+#include <gnu/lib-names.h>
+-+#include <stddef.h>
+-+#include <stdint.h>
+-+#include <stdlib.h>
+-+#include <string.h>
+-+#include <support/capture_subprocess.h>
+-+#include <support/check.h>
+-+#include <support/support.h>
+-+#include <support/temp_file.h>
+-+#include <unistd.h>
+-+
+-+/* This is the name of our test object.  Use a custom module for
+-+   testing, so that this object does not get picked up from the system
+-+   path.  */
+-+static const char dso_name[] = "tst-dlopen-sgid-mod.so";
+-+
+-+/* Used to mark the recursive invocation.  */
+-+static const char magic_argument[] = "run-actual-test";
+-+
+-+static int
+-+do_test (void)
+-+{
+-+/* Pathname of the directory that receives the shared objects this
+-+   test attempts to load.  */
+-+  char *libdir = support_create_temp_directory ("tst-dlopen-sgid-");
+-+
+-+  /* This is supposed to be ignored and stripped.  */
+-+  TEST_COMPARE (setenv ("LD_LIBRARY_PATH", libdir, 1), 0);
+-+
+-+  /* Copy of libc.so.6.  */
+-+  {
+-+    char *from = xasprintf ("%s/%s", support_objdir_root, LIBC_SO);
+-+    char *to = xasprintf ("%s/%s", libdir, LIBC_SO);
+-+    add_temp_file (to);
+-+    support_copy_file (from, to);
+-+    free (to);
+-+    free (from);
+-+  }
+-+
+-+  /* Copy of the test object.   */
+-+  {
+-+    char *from = xasprintf ("%s/elf/%s", support_objdir_root, dso_name);
+-+    char *to = xasprintf ("%s/%s", libdir, dso_name);
+-+    add_temp_file (to);
+-+    support_copy_file (from, to);
+-+    free (to);
+-+    free (from);
+-+  }
+-+
+-+  TEST_COMPARE (support_capture_subprogram_self_sgid (magic_argument), 0);
+-+
+-+  free (libdir);
+-+
+-+  return 0;
+-+}
+-+
+-+static void
+-+alternative_main (int argc, char **argv)
+-+{
+-+  if (argc == 2 && strcmp (argv[1], magic_argument) == 0)
+-+    {
+-+      if (getgid () == getegid ())
+-+        /* This can happen if the file system is mounted nosuid.  */
+-+        FAIL_UNSUPPORTED ("SGID failed: GID and EGID match (%jd)\n",
+-+                          (intmax_t) getgid ());
+-+
+-+      /* Should be removed due to SGID.  */
+-+      TEST_COMPARE_STRING (getenv ("LD_LIBRARY_PATH"), NULL);
+-+
+-+      TEST_VERIFY (dlopen (dso_name, RTLD_NOW) == NULL);
+-+      {
+-+        const char *message = dlerror ();
+-+        TEST_COMPARE_STRING (message,
+-+                             "tst-dlopen-sgid-mod.so:"
+-+                             " cannot open shared object file:"
+-+                             " No such file or directory");
+-+      }
+-+
+-+      support_record_failure_barrier ();
+-+      exit (EXIT_SUCCESS);
+-+    }
+-+}
+-+
+-+#define PREPARE alternative_main
+-+#include <support/test-driver.c>
+--- 
+-2.49.0
+-
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index df5f14984a..265dcb9129 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -27,7 +27,7 @@ CVE_CHECK_IGNORE += "CVE-2023-4527"
+ CVE_CHECK_IGNORE += " \
+     CVE-2023-0687 CVE-2023-4813 CVE-2023-4806 CVE-2023-4911 CVE-2023-5156 \
+     CVE-2024-2961 CVE-2024-33599 CVE-2024-33600 CVE-2024-33601 CVE-2024-33602 \
+-    CVE-2025-4802 \
++    CVE-2025-0395 CVE-2025-4802 CVE-2025-8058 \
  "
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--- 
-2.43.0
-
+ DEPENDS += "gperf-native bison-native"
 
