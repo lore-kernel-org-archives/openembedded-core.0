@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 808E5C87FCC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90554C87FD3
 	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 19:05:53 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.43743.1753902349671487222
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.43858.1753902346430830492
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Jul 2025 12:05:49 -0700
+ Wed, 30 Jul 2025 12:05:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KxSjSObw;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7494999de5cso95239b3a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 12:05:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BmHVm/0F;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-24009eeb2a7so1726265ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 12:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753902349; x=1754507149; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753902346; x=1754507146; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=er24vtki4ItXF4CSr93WSfIudYdIMdJE2HKmJiEwv8E=;
-        b=KxSjSObwfsrefTG236RCuOy2/lA8H8ykE5B2xTU9VHgVcOaZVF5jWj3e2+w2FgiNQc
-         A420MLyQofGjW6Lf7CYfLS43hPNbQlwto7Dpm6gyPsD7wwuT+qhAH0ns7byv8QRfGhcB
-         +alwB69Gc934IXa9SutGWvaJiK9dJB1ukkVDPp+6QIHE1UiNSXNDWBcoppWO6Ao5HBe/
-         s4WKytGOFCfrT7wgpfl2WaAAf0O3O3Brhvb+i7zQ8IveEzqrhkrkdPiFd4QFTxRSCWTP
-         Ms40MBtIbav0HPhVhSFrP691oKk8+4aWuRMweZwswFHd5CMuOhhVR6WASKD/fW/AylV1
-         jOpQ==
+        bh=d+lWBsUBEVpYlPKNlZ1J8s0+hWXlSPLm/XPy3blvBTo=;
+        b=BmHVm/0FzyH14669dqULGCEFim7/GYIFyrkmLwQhOjpDT91hxFz7MJJoJ24tqAptte
+         seSLg45THdtdwB503XinyZRz22dtha5JgcPKdpoMqPYojYbxhSdLroep4S6k7QZYi6gk
+         gmq92JXrN47FNTDEq+jwe+4YT07hYrt0kCbE31GaWlzGPhCBT3D981I5PRrTFNrS9QvW
+         WDYh7JgJo/2XqE87tnW9a6jsoGwzcpvHVHXYaqImH55FEiz08N+pDNaedp9pCZu42wq+
+         ImnjXL2RMfdbFnohpbPmSBfLQeeYd3Q9dd/Othd2FTUbJcA08Kkkm+u1RGxgTnUg7/oG
+         l+CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753902349; x=1754507149;
+        d=1e100.net; s=20230601; t=1753902346; x=1754507146;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=er24vtki4ItXF4CSr93WSfIudYdIMdJE2HKmJiEwv8E=;
-        b=g1C4oEM78CiuaJDB3I0vfvS8kt64b85+LwkmJta2wswyh2wNO7asSmpBYE6ZV13mkC
-         LFSCFZ1V9HaHCyV36PrnIAeTZAGjfV+fcvJfG0CvYrnvCY+SMKw3VB/CYJnxeW5HmpDo
-         mZAEXeC/I0Ywx6NNXqTF5sHPPY+fAgmCUqKYY/pDnCvw35W+L/uqrbzrLHgmQANGINxM
-         35xAQeWL7LiC62uoBO4e4xZnPGgcEsau61PsJJjYR7+ZUO+e63KaH57pGBIl4c0vfy+z
-         HByrtumekOjJknGyQm2JtbQMM6DeloJZrKFL9qMNTDOXDGJArVdmVWuovv0JrgPTSMQJ
-         hNww==
-X-Gm-Message-State: AOJu0YzeHmN4SwCEgQ64XCeD/k8/rBtY2cTkVPMq3UU2wXaOhx4HQgii
-	Kz9UsAMkCk8kAUIVWCARdnWVm3nBbCzbIGwgXl+Kx2lGpw1OuEkWWYeut5QWk/CXF26RHw4Rlyb
-	nD0Cs
-X-Gm-Gg: ASbGncuxryPQ7rdKvMiUCxhdXknG9xPSYT6xIxwg32K1avzoW7O+ibJWwOfqY5xW8ZR
-	Cqkp2TdIL1ef+k7NvrkgpNAMpwntkMS0X43DvhLRAa3bPSeb0+VKuXfe79b3XVmXp72OZFGtj/s
-	1AgvcMXV/xwZo4WwB+9Q7OS4NU9gp3+sd2N5Q6NPrmyM9W25RyjxsNqg4NAcd9J8L4od+P9WSWD
-	gt8HWmGJNUspU6USv1OiliP8DG+9PmLwvzHz4jELlSxqN2RYung7vvo7pPS/w6BRfluM1SAS1wU
-	m3mTfxHsSlE7R2w0jnfAdVlXTUi7+IiPfArR3HfzUgIDbIF2NquYwp5OqAXMfwxZv2gA2pTDiB7
-	TsNmdrWOyrFyV
-X-Google-Smtp-Source: AGHT+IGQsMCzcot5Nnx7wnCbMT6NDMFN4TfFRtqN7smMYloEl0Hxn1P58fCehaZxESAYzTEo6Qfozg==
-X-Received: by 2002:a17:903:e91:b0:240:63a9:30c9 with SMTP id d9443c01a7336-24096a6f7e3mr43377955ad.17.1753902348543;
-        Wed, 30 Jul 2025 12:05:48 -0700 (PDT)
+        bh=d+lWBsUBEVpYlPKNlZ1J8s0+hWXlSPLm/XPy3blvBTo=;
+        b=jukmMFBDl5fs7+C9bykCOx2zyfeR+bu+yLMWKZmVzaxZkaUDt9ziS3LOPRqDQqQ2WX
+         B3LZvg1FAQTX/2yOUmk6xdiSRd9LiiaJ32o7iB87rcHH33dGOVb5R1sgrnc6OtL+l4Hu
+         zqdWdPGTQ0NbQfE2KlEQUx63vsnrvBeYWfO0Wwft7ijLtdS98uhFwPs5W999jBtCQKad
+         G/38eDYJ/Hq3vW3y/uLe7OOBIaom7Cj9Wn1XEWJlD5nwXTSzv/v/n70/OTL7lydSnzmi
+         o8s67BZ5/UfY4UvlBwexQbfh3GxV85yOobTz1AHMfp75R3IIejLCW5JXRXvkeTyT4mrs
+         rMMA==
+X-Gm-Message-State: AOJu0Yw1B2CDNZkQ9DE7wTE8BFybaeClMR/FlxMrlybhVtXjjB+9oyoa
+	ki0EoNMSo0J5drTSaw4t1fyppfWoefMv3bltyR/qAPl64/Ygm69XJBKHP0x+WtAcRbWNN5E0PAt
+	Kan6J
+X-Gm-Gg: ASbGnctHwhvxVnZopZ932/9SSri6UdUidBS3GD8yPXbnOuLwOz/8NHMZJSyNpYNF5Nq
+	Hp/gfYEeODwh/NY+seFP9ZPVYbjGw1dKi9dmDd8ZN/2iQp+wgeaDIX3+/OQfOiJutlhDWH9HbSg
+	K9GsgluHoTGFXYpvR2zixsSjuJFGjWEfV64cEySuHPlTCW4XOzJMblAOmIXoIsw9gYhzlgcrQfY
+	uRiL1vSEDjxuZjAppL3XUqaiyu7qh8MO0G/x8BLbOaDAiig3sbFr8/6x465uMswjQUdA57iDI0o
+	K/daBTzFXzWA3KQhDsCihpLLaAQxPRiJvv7NQXOT4yZAtscW5NSldwVBOLCeg2NUys8j4MQPJ0o
+	xei3grRxFE6Qc
+X-Google-Smtp-Source: AGHT+IGncNfP4nJ50EucrlB7+Jbl0jp27Y4kRBRELwjWvrlXPeVD/WfxTIVdMVepxEgf6a+YS+ekiA==
+X-Received: by 2002:a17:903:1986:b0:23f:f39b:eaf6 with SMTP id d9443c01a7336-24096b4442dmr58250785ad.46.1753902345570;
+        Wed, 30 Jul 2025 12:05:45 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:58fd:da9:30d5:829a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-240a48b77d3sm22129025ad.117.2025.07.30.12.05.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-240a48b77d3sm22129025ad.117.2025.07.30.12.05.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jul 2025 12:05:48 -0700 (PDT)
+        Wed, 30 Jul 2025 12:05:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/10] gnutls: patch CVE-2025-32988
-Date: Wed, 30 Jul 2025 12:05:29 -0700
-Message-ID: <3600752d06c14fcfa0bc1b96222cc6a164955bb5.1753902181.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/10] gnutls: patch read buffer overrun in the "pre_shared_key" extension
+Date: Wed, 30 Jul 2025 12:05:27 -0700
+Message-ID: <33181e3e8c7427fc823f750e936732b69e247987.1753902181.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753902181.git.steve@sakoman.com>
 References: <cover.1753902181.git.steve@sakoman.com>
@@ -68,98 +68,104 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 19:05:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221143
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221141
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick relevant commit from 3.8.10 release MR [1].
+The ME contains referece to undiscoled issue, so any security relevant
+patch should be picked.
+
+Binary test file was added as separate file as binary diffs are not
+supported.
 
 [1] https://gitlab.com/gnutls/gnutls/-/merge_requests/1979
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gnutls/gnutls/CVE-2025-32988.patch        | 58 +++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.7.4.bb   |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-32988.patch
+ ...fer-overrun-in-the-pre_shared_key-ex.patch |  34 ++++++++++++++++++
+ .../5477db1bb507a35e8833c758ce344f4b5b246d8e  | Bin 0 -> 111 bytes
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   5 ++-
+ 3 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/5477db1bb507a35e8833c758ce344f4b5b246d8e
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-32988.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-32988.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch b/meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch
 new file mode 100644
-index 0000000000..4779787bc3
+index 0000000000..ce78fe1c95
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-32988.patch
-@@ -0,0 +1,58 @@
-+From 608829769cbc247679ffe98841109fc73875e573 Mon Sep 17 00:00:00 2001
-+From: Daiki Ueno <ueno@gnu.org>
-+Date: Mon, 7 Jul 2025 10:44:12 +0900
-+Subject: [PATCH] x509: avoid double free when exporting othernames in SAN
++++ b/meta/recipes-support/gnutls/gnutls/0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch
+@@ -0,0 +1,34 @@
++From 208c6478d5c20b9d8a9f0a293e3808aa16ee091f Mon Sep 17 00:00:00 2001
++From: Andrew Hamilton <adhamilt@gmail.com>
++Date: Mon, 7 Jul 2025 10:31:55 +0900
++Subject: [PATCH] psk: fix read buffer overrun in the "pre_shared_key"
++ extension
 +
-+Previously, the _gnutls_write_new_othername function, called by
-+gnutls_x509_ext_export_subject_alt_names to export "otherName" in a
-+certificate's SAN extension, freed the caller allocated ASN.1
-+structure upon error, resulting in a potential double-free.
++While processing the "pre_shared_key" extension in TLS 1.3, if there
++are certain malformed data in the extension headers, then the code may
++read uninitialized memory (2 bytes) beyond the received TLS extension
++buffer. Spotted by oss-fuzz at:
++https://issues.oss-fuzz.com/issues/42513990
 +
-+Reported by OpenAI Security Research Team.
-+
++Signed-off-by: Andrew Hamilton <adhamilt@gmail.com>
 +Signed-off-by: Daiki Ueno <ueno@gnu.org>
 +
-+CVE: CVE-2025-32988
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/608829769cbc247679ffe98841109fc73875e573]
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/208c6478d5c20b9d8a9f0a293e3808aa16ee091f]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ NEWS                  | 5 +++++
-+ lib/x509/extensions.c | 2 --
-+ 2 files changed, 5 insertions(+), 2 deletions(-)
++ lib/ext/pre_shared_key.c                          |   2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/NEWS b/NEWS
-+index 025e05148..ff289fa75 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -10,6 +10,11 @@ See the end for copying conditions.
-+    and fix developed by Andrew Hamilton. [GNUTLS-SA-2025-07-07-1,
-+    CVSS: medium] [CVE-2025-32989]
++diff --git a/lib/ext/pre_shared_key.c b/lib/ext/pre_shared_key.c
++index 51c4891d5..2cb83e670 100644
++--- a/lib/ext/pre_shared_key.c
+++++ b/lib/ext/pre_shared_key.c
++@@ -839,6 +839,8 @@ static int _gnutls_psk_recv_params(gnutls_session_t session,
 + 
-++** libgnutls: Fix double-free upon error when exporting otherName in SAN
-++   Reported by OpenAI Security Research Team. [GNUTLS-SA-2025-07-07-2,
-++   CVSS: low] [CVE-2025-32988]
++ 	if (session->security_parameters.entity == GNUTLS_CLIENT) {
++ 		if (session->internals.hsk_flags & HSK_PSK_KE_MODES_SENT) {
+++			DECR_LEN(len, 2);
 ++
-++
-+ * Version 3.7.4 (released 2022-03-17)
++ 			uint16_t selected_identity = _gnutls_read_uint16(data);
 + 
-+ ** libgnutls: Fixed double free during verification of pkcs7 signatures.
-+diff --git a/lib/x509/extensions.c b/lib/x509/extensions.c
-+index 6c2da8fd1..e8be12eaf 100644
-+--- a/lib/x509/extensions.c
-++++ b/lib/x509/extensions.c
-+@@ -805,7 +805,6 @@ _gnutls_write_new_othername(asn1_node ext, const char *ext_name,
-+ 	result = asn1_write_value(ext, name2, oid, 1);
-+ 	if (result != ASN1_SUCCESS) {
-+ 		gnutls_assert();
-+-		asn1_delete_structure(&ext);
-+ 		return _gnutls_asn2err(result);
-+ 	}
-+ 
-+@@ -814,7 +813,6 @@ _gnutls_write_new_othername(asn1_node ext, const char *ext_name,
-+ 	result = asn1_write_value(ext, name2, data, data_size);
-+ 	if (result != ASN1_SUCCESS) {
-+ 		gnutls_assert();
-+-		asn1_delete_structure(&ext);
-+ 		return _gnutls_asn2err(result);
-+ 	}
-+ 
++ 			for (i=0;i<sizeof(session->key.binders)/sizeof(session->key.binders[0]);i++) {
+diff --git a/meta/recipes-support/gnutls/gnutls/5477db1bb507a35e8833c758ce344f4b5b246d8e b/meta/recipes-support/gnutls/gnutls/5477db1bb507a35e8833c758ce344f4b5b246d8e
+new file mode 100644
+index 0000000000000000000000000000000000000000..009d44c394fd08c5400fb63f837e468f1738522d
+GIT binary patch
+literal 111
+zcmWe*R$$0tVqi#PW>$cL{|f(MOa+Di2(|!16v7f_VPMc>&}Lv_W>HXJK$nH+{f{t!
+IL6d<203r_)`v3p{
+
+literal 0
+HcmV?d00001
+
 diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-index 65e42c00c2..33553e617e 100644
+index 48ddb269de..4929e44db3 100644
 --- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
 +++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-@@ -35,6 +35,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://5477db1bb507a35e8833c758ce344f4b5b246d8e \
-            file://0001-x509-reject-zero-length-version-in-certificate-reque.patch \
-            file://3e94dcdff862ef5d6db8b5cc8e59310b5f0cdfe2 \
-+           file://CVE-2025-32988.patch \
+@@ -31,6 +31,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://CVE-2024-12243.patch \
+            file://CVE-2025-32989.patch \
+            file://04939b75417cc95b7372c6f208c4bda4579bdc34 \
++           file://0001-psk-fix-read-buffer-overrun-in-the-pre_shared_key-ex.patch \
++           file://5477db1bb507a35e8833c758ce344f4b5b246d8e \
             "
  
  SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
+@@ -69,8 +71,9 @@ do_configure:prepend() {
+ 	done
+ 
+     # binary files cannot be delivered as diff
+-    mkdir -p ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/
++    mkdir -p ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/ ${S}/fuzz/gnutls_psk_client_fuzzer.repro/
+     cp ${WORKDIR}/04939b75417cc95b7372c6f208c4bda4579bdc34 ${S}/fuzz/gnutls_x509_parser_fuzzer.repro/
++    cp ${WORKDIR}/5477db1bb507a35e8833c758ce344f4b5b246d8e ${S}/fuzz/gnutls_psk_client_fuzzer.repro/
+ }
+ 
+ PACKAGES =+ "${PN}-openssl ${PN}-xx"
 -- 
 2.43.0
 
