@@ -2,104 +2,96 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D789C87FCC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF35C87FCB
 	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 04:38:17 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web11.27699.1753850293252851444
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.27719.1753850294356566067
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Jul 2025 21:38:13 -0700
+ Tue, 29 Jul 2025 21:38:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VtNOORRm;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-31e41cfa631so6624680a91.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 21:38:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gyX/cysN;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-313a001d781so5429802a91.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 21:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753850292; x=1754455092; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q/vAsGSi7BTINM8nG/WkrSItg22OtIA2qhP5tnZD92Q=;
-        b=VtNOORRmMVaD/YnRiLR4jFqr+GSgxUch9Iuw6Q0+IrnWpt9otDYl7CO7tWIWf7+1zb
-         utiuJhdr7CWrpVf9J7Rz/FUq0I3L/VDjwXT165kjbMFx5NcKfNDxztwttH3a+ZzdvCew
-         YR4qjWFkJisLwu6kPF1LEITPWjjzgemS5kCcLxIEltR+Pj/I8rSz+ddIV6WXPvtGE2LY
-         hCk0x6wloQdwkyhpNzhN8QDXHc7cW0KmiapdRpAs91OugRgFUQD1CpOsfkLwh3QKKhjQ
-         NYzn/9D4lEgcgVbYLhqnivG917I3Vg+0fTJ8p92z8a7b93MN+aia8McL0o/5ivKyIEi8
-         0tjQ==
+        d=gmail.com; s=20230601; t=1753850293; x=1754455093; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tCH3YuZ0H6gqGmtD3NG0kd7tvGlmIeWtTokP5nJf71M=;
+        b=gyX/cysN7y3j1LSFemiWf8m+KQViwYbMIMmbF9ml2rQqGWx5yLM+NTjQdkEmfYLJ8N
+         07h0ImTxaHUnwAZucgSJKZM//3e91E4a8TKCrlQyelwB5JbcMpnfXoS5CATYIqalYPxm
+         huF6BbMmKwyYgC0wGCvdvzGe9MQa2qrZ5JM0RGeYRRZqN/s3ciO4mVYx14uiGL32KzCs
+         hURIYMqkypFWLp9J/SgPseZAxWssZDGeMgKGKf2UqGicTsiMBZm9vq0aJWA3hppznTy9
+         EdYLC0kJbM25LG3izUIvONq7QNPBr9fMVuUqjTqkOtAApjCLsvTHdSedoAIzIZgEeQIw
+         Exfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753850292; x=1754455092;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q/vAsGSi7BTINM8nG/WkrSItg22OtIA2qhP5tnZD92Q=;
-        b=iqPeblvFG4MZRIVePYQV7jCT1mNkbmD+3PS6zOvFMbzKpWkO6i1Fr35sEK2/954tka
-         eQnMV2G4MWQC/2nEQqAm2zdkaGAzLUw0LjTHKm+I9+HRMdbkZ0F7IXLS5fS2O5ef2i7C
-         k1KYEhjr8YXDpY/7yFeZCtzCYw7NElLq3wV04XHtR+u9hp0I3AbGZ8dnvf3mm7NJcY/A
-         1vneiITQlxJ2z4QlFabV1rH9LjC8r5xkYv45Q5KPQjxeauLqVz4aJ1PqVId/YENnu40x
-         +Wj5EeDM4axQ9aHqihu4CYRTAThtVaUtxvognJzEdtbZ69pVO1kzLp/CrfYs0DMqyoTl
-         4VQw==
-X-Gm-Message-State: AOJu0Yy9dCa75n8BZzPQgcCdFU1SLsuBKN8NkW3DwMF/4QZwSzJjzYl5
-	myRypfhS882IopwfXLCEMg/aBYG439Cn1BS6hNOmhqZoOXrfrJGqh7Ahrf0j5B2zWso=
-X-Gm-Gg: ASbGncstWCzpvPuNZ7zd7wE33IFL0PZgtxu/Vrt+MYBP7xvX7k+fCP8MtUulYuQ2cR1
-	Krih1Jriso9YTZBelwm8HZBNMRl6WovWArniTzf+g/hwEi3Ih9mIhIpFjm3sdijSzdUWpCKxMeK
-	pLCA5xx46zzJ6ao3C74R6I+u2b3SRXBATHkG/o+6JPyLn46Cvg26IA9ly292bqqATpJFhy8ZGp2
-	ooClBjbZWVp+HmUJlZLloefNjOXI+k0ZIKxOSfF80SgWkpHqWN6nWdyE8/r7m2HGK0nb7n3gwX+
-	hPwUigUIA8jPPDaRHdi2MhKmxrdQk/j0ZVWoBd16O1UAz9RFH5+pwyzflkbw7m4WkORC1uH38uN
-	bQskAYRZhv9oRzVfiqpMngFCV
-X-Google-Smtp-Source: AGHT+IHuDjHbL07cG4/rSlxdzQg4u1T2bitV4wBzrfW12FqL2G69F+cdu2Q+JoDw2FZmQihyDcgmkw==
-X-Received: by 2002:a17:90b:1dc1:b0:31e:998f:7b75 with SMTP id 98e67ed59e1d1-31f5ddb53a1mr2972166a91.9.1753850292170;
-        Tue, 29 Jul 2025 21:38:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753850293; x=1754455093;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tCH3YuZ0H6gqGmtD3NG0kd7tvGlmIeWtTokP5nJf71M=;
+        b=xBWefcJYNVcetu3Wjgo+DkR8Wwq3J7bCS/fiJv4qiE9whELVRZne0TFTRq32BrwxRK
+         MxADp+9edMe/n8mW4rMDPnx73PUYSSjREFO1Of56A1ufyBZler/qBDFhxSvECClHvVVx
+         UymSeVqT5PTiWAUNbcgCsYE40Jm4ruKxVWEb915sVTdznV7Opiuxvm+txIj+qLq5ruya
+         KPusrP3v5ih/qJiZSRL/CLGJSfOTLAqjtlO9kjF2ZE3wQ31aiFv8s0AdKv4tnl19rKIb
+         ufuUlZHdMOiueaMCJVT6Gh3CAKNE02HaYlFd66peOukQ4BLMHziN177dZfl6REK6JSC0
+         8E8A==
+X-Gm-Message-State: AOJu0YycxL0ibW9hSllVOXIXTn5P0zfTWAKk5/rUebOe6enDQABvkwDH
+	4Sp6dSZ7970SeIKh+sD6VD9wNwV3OQpcxrz66+c6qygqf/aSv7ON7nIS6RJ+SSD3WX8=
+X-Gm-Gg: ASbGncsCiO/Jy8v9DVjnLTj1Qck8waDv5vBqeDwd+lA3XoziYNjEzRZFhDo2nr41Rb3
+	+eEkSR36BXfMzHxyqxZ1XkvxlghjkM7sawcNmekYPSIjkC/1BY0O78GPr5eIm0MSDx9Wy05/WdG
+	DL1DDEfn4LAtgjvhJt3p5mhn3L0cNSHprhT+OLbxv2N/BxUChMVuky9BEbmK/ci8+rQJNXRZnEF
+	SWx03hD4DaJJ/KoOxU1NjDXVcGWUCHSG6DheZOYWGz6wZVKF59XW4PZe6XAMkP1ow00FbubGxKq
+	BcZsjx/ShVtjAbMIM1dYlfzn800bR86LamvEgsnTR0qf2cXW7PlfpsYRLUHT068T8+oL0nD3cYn
+	g8ESFnLfeTnwrHg==
+X-Google-Smtp-Source: AGHT+IFGHc2/42/H7TjdTh2I7DO0gvjJSs038eHX+M5dWagvoukeoFrI9L8OpIkJD/8J68lpJ+UN8g==
+X-Received: by 2002:a17:90b:578c:b0:314:2892:b1e0 with SMTP id 98e67ed59e1d1-31f5ea6a0f9mr2581261a91.34.1753850293306;
+        Tue, 29 Jul 2025 21:38:13 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::33e9])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31f63ee49ebsm689957a91.19.2025.07.29.21.38.11
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31f63ee49ebsm689957a91.19.2025.07.29.21.38.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jul 2025 21:38:11 -0700 (PDT)
+        Tue, 29 Jul 2025 21:38:12 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] libclc: Fix absolute symlinks in sysroot
-Date: Tue, 29 Jul 2025 21:38:08 -0700
-Message-ID: <20250730043809.1486481-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] libclc: Point to native prepare_builtins binary for target and nativesdk
+Date: Tue, 29 Jul 2025 21:38:09 -0700
+Message-ID: <20250730043809.1486481-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250730043809.1486481-1-raj.khem@gmail.com>
+References: <20250730043809.1486481-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 04:38:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221098
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221099
 
-This helps in creating relative symlinks
+This is not needed for native version
 
-Fixes sstate errors e.g.
-ERROR: sstate found an absolute path symlink /home/khem/yoe/build/tmp/work/aarch64-linux/libclc-native/21.1.0/sysroot-destdir/home/khem/yoe/build/tmp/work/aarch64-linux/libclc-native/21.1.0/recipe-sysroot-native/usr/share/clc/gfx90c-amdgcn-mesa-mesa3d.bc pointing at /home/khem/yoe/build/tmp/work/aarch64-linux/libclc-native/21.1.0/build/tahiti-amdgcn-mesa-mesa3d.bc. Please replace this with a relative link.
+This will be in utils/ directory starting with clang-22
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/clang/libclc_git.bb | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/recipes-devtools/clang/libclc_git.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-devtools/clang/libclc_git.bb b/meta/recipes-devtools/clang/libclc_git.bb
-index ed31de503ae..e508959791e 100644
+index e508959791e..7e63ce9c759 100644
 --- a/meta/recipes-devtools/clang/libclc_git.bb
 +++ b/meta/recipes-devtools/clang/libclc_git.bb
-@@ -24,6 +24,21 @@ LIBCLC_TARGETS ?= "all"
- EXTRA_OECMAKE = "-DLIBCLC_TARGETS_TO_BUILD=${LIBCLC_TARGETS} \
-                  -DPREPARE_BUILTINS=${B_NATIVE}/prepare_builtins"
+@@ -21,8 +21,9 @@ B_NATIVE = "${B}-native"
+ # Semicolon-separated list of targets to build
+ LIBCLC_TARGETS ?= "all"
  
-+do_install:append() {
-+    # Convert absolute symlinks to relative ones (same directory)
-+    cd ${D}
-+    find . -type l | while read link; do
-+        target=$(readlink "$link")
-+        case "$target" in
-+            /*)
-+                # Extract filename and point to current directory
-+                target_basename=$(basename "$target")
-+                ln -sf "$target_basename" "$link"
-+                ;;
-+        esac
-+    done
-+}
-+
- # Need to build a native prepare_builtins binary in target builds. The easiest
- # way to do this is with a second native cmake build tree.
- do_build_prepare_builtins() {
+-EXTRA_OECMAKE = "-DLIBCLC_TARGETS_TO_BUILD=${LIBCLC_TARGETS} \
+-                 -DPREPARE_BUILTINS=${B_NATIVE}/prepare_builtins"
++EXTRA_OECMAKE = "-DLIBCLC_TARGETS_TO_BUILD=${LIBCLC_TARGETS}"
++EXTRA_OECMAKE:append:class-target = " -DPREPARE_BUILTINS=${B_NATIVE}/prepare_builtins"
++EXTRA_OECMAKE:append:class-nativesdk = " -DPREPARE_BUILTINS=${B_NATIVE}/prepare_builtins"
+ 
+ do_install:append() {
+     # Convert absolute symlinks to relative ones (same directory)
 
