@@ -1,119 +1,181 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB269C83F26
-	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 14:12:31 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.36431.1753884742721870607
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1827AC87FCB
+	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 15:03:32 +0000 (UTC)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+ by mx.groups.io with SMTP id smtpd.web11.37762.1753887808787146557
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Jul 2025 07:12:23 -0700
+ Wed, 30 Jul 2025 08:03:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FLH9SKlW;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55b733911b3so2700403e87.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 07:12:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yQjheJ16;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.169, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e8986a25cbfso4753452276.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 08:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753884741; x=1754489541; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VAAGIwOAI4bKdaeB4j3/mtCOKmZWqwdrTwL6Uypbj7I=;
-        b=FLH9SKlWYBqhheNW1XTzSRCpqReiFLi/K99VftvC8bJZXYmhCA8Lh+4//URnulUKox
-         nWBklNAu2OAKqdIDHLeNz+OJOVYxg3p21yvhDy1t4tpkZU1RQAYjAHLxRWPbCOC5E4Z1
-         ZPFdhtO82f4m2CJsbPFZsu3u+X0bF0bH4GC0Zeu+TLHJF7iQNz9ppBQCwuUoxJr1fjMc
-         TDdD0xKWeVSGWQNa6c5f5s0GBs1h5Fv/2n50/k2I5wAOMbTLv+8bMmNELz7VPee0kj73
-         Pb4k1JAdUWlCWwO4FXiaY7lOguR8SVuy3fYiqXb70OnlD0FK9yapYObfY/CATSAmQsos
-         F3jA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753887808; x=1754492608; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aPD2HVy0HiWIOV6EMrjomp2XD7ICI0HfbzLopRkAAfQ=;
+        b=yQjheJ16ly1Cl/m9ZfvcoykY6mI7mWi8CnmxZgiizo2X5b1WgoDIdtMCAmFBBOkVwk
+         aYBHoanLBpv0ibL0AP0h1ZHckUYEpVO38WWamMz2LvKi2+ENhmfv/zhejEp0vbwr9Dfr
+         jeOKgees2f2WjoZmLWlD4DQ+WYa/h9vNFV1ARloqoBUYO3znmy9Zhwz26Zwb6jfZoDhC
+         JDVsdovsEryVVRUy92npMdnll/iU6XAmNtAvOEMt5fBthUZurPfVfRL2Ddi1TflNYzoe
+         Xq/8ZY7rVXeL9BGwhXwiT2Rb6Iqf0MQZJJAt7lpLRikApH60GVwXXxUrxKyOq0BI+pdH
+         xk5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753884741; x=1754489541;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VAAGIwOAI4bKdaeB4j3/mtCOKmZWqwdrTwL6Uypbj7I=;
-        b=MI98NlezSjxWhWr+llIVMBwOK9pWr5THh70hiHfepjUB4mddRxtc9v2q+SfJOCX1VV
-         jb/5NxqhgVXxy5fi/xcdHKkchzFcHyl/Zciga452BXb8dfQpuiEOd3HE2q2qg7RAjAva
-         9LD4OBLtNYdTcoLsNFJcxJ80LlErAFSmVgQf+RFwe5n/Z2VEaB6xBy8lnsOc1UZgbAnh
-         RHbrHEhlaXUEjia6MdfgvlhZU7+EfHCXJr6ituaAT34HHklQTSkunBAoB2oFfPg8fzeS
-         6goJwsZpfRR2d/JAp1osedudHEsjT13BM3gpEPi9MG0leyvO4JjZ71PFNNS9y76HLsM1
-         UoKg==
-X-Gm-Message-State: AOJu0YyHVupA+HzlDrJG1HtdVOwwkznnvRMy5nmf/l2MLSrWOvtTC6SH
-	xXs11zWne5AHKqyVTBHIleco69enMsvW47PKt3CrjRh1NiaR3n9grCkKPUYoTj6JV3H50OBi5gh
-	xrsRXBg6p3fpF07OV4uryel2TKLREc1g=
-X-Gm-Gg: ASbGncs34fO4oSSID+B7uz8o/vq8Vg0lfjlpMgMlRyvKghIJYdZHuTfXh5Diu+tXEmu
-	Kf+oUQJcw73E3gZ2Uh25kBmnhEyEBjL4AfLQfcc0DzUydoiWRA/w7UV8YvYH1TLMbelIzRR3sv6
-	1HUXi612mv+LyVOfchSzZWtzA+OFbZc82PCwLOGs1N4OgzqeWnWU7w+7wILT/wNL5N4PyByWd5a
-	fAy3lwXhmaU68MLytx9q3WRnkqhtr4n
-X-Google-Smtp-Source: AGHT+IEAUxb7TEiFdSZFbGa7R2VCBoAO9//H1f7axc+Z56H0AWSSBD04Vabkkh7DQHK02IUdHJuXT4TgW9nzu5wmWIE=
-X-Received: by 2002:a19:5e0b:0:b0:553:a9af:9e43 with SMTP id
- 2adb3069b0e04-55b7c0a7b8cmr772698e87.53.1753884740353; Wed, 30 Jul 2025
- 07:12:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753887808; x=1754492608;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aPD2HVy0HiWIOV6EMrjomp2XD7ICI0HfbzLopRkAAfQ=;
+        b=BBfEBJr/0oAgayeE2BJDm58hYAQDITZzyWAClcGei5p5ZP5rqMsfo71tJEWFEQJJ1X
+         NKEB7JMdj7KxTNz28dJHrllIdqqm3VXNiRuexHST8ZJ7yi8p7eyPMgAo+d9GomyW/zfC
+         hYv6EUbytgDkdrxIePjv7QLFeW/q5FPGq0mog/Klq/xCbnBAfOK+bmEA0t8TCjZutMCM
+         QzxMzcB+1Y1Gj+DMr//QhYejrABxDK+Jw+iYRBG5sqY0JxTPW0AAUh30c272Jdb/rcW1
+         LYt64Z5l+jDtnFSRKVCQsB9ZovB6QvDPgOQuuh26j8EpS8ZxrhBT5fdEMNHNY3fzWFAe
+         XFCg==
+X-Gm-Message-State: AOJu0YzUyH7kSPwvUnxso7hRXW07m8rCmGKtydmCedj6bL5m305z1C8t
+	aenb3Oyr1IHqR4rFPO4uKhND6mWjPeoNoXYm1DATH0KOTWInjsxHV3Leuvrx35SegU0qy1xhpZr
+	FqUx4J2nMXX9XiEoOqZ7C6sECVzOh8UBbyG1FueuvWQ==
+X-Gm-Gg: ASbGncuXkqiTSQKpf5F8vmDBiYJ1OMMo50+MN1hwyy6uTwUyqouVxaVgZ1T5SaVEee2
+	jXawxg4bBUzqU4xD6eeURknZosDluv1LYNrw6tAu275Z190nmF+TJZcvlh97hxHwMQ8EC747Q1z
+	esxfGNWNzpg8v2qDUD+4iD2l0/Cqhp3zGYx2aLm4ppDK+yX0+kSpicUouYuo9ht0t3/HMyBee5j
+	fqZagOvoBIdom/owMnDcbcpMot1ppAGa1sBeA==
+X-Google-Smtp-Source: AGHT+IG9RmCr8RM2syMsAxPpDUUfoTggz+ZsmcEN1qgfNsH4KTNwrlCZIyfoEYLqQNdrsTFutXhNRGLycbFPrpt73ZY=
+X-Received: by 2002:a05:6902:461c:b0:e8e:de9:5726 with SMTP id
+ 3f1490d57ef6-e8e31592061mr3633263276.30.1753887807607; Wed, 30 Jul 2025
+ 08:03:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250625222916.11663-1-JPEWhacker@gmail.com> <CAJdd5GaM-WUiRkssxh-WXWmUhSZnTnay1qp50qH4s-1Rd8iB7g@mail.gmail.com>
- <DBPAU0F861HS.1KAH0JN9LXQIM@bootlin.com>
-In-Reply-To: <DBPAU0F861HS.1KAH0JN9LXQIM@bootlin.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 30 Jul 2025 08:12:05 -0600
-X-Gm-Features: Ac12FXyn0zGEV_wpluBRYSEVWLCCi1B_xbbZdXT0L99Agls_hM3w99k3FHkcMac
-Message-ID: <CAJdd5GZLvsuq7rvPfHmaRZ12ymdam4qgfNXEGJfyoohVhOUsBQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] spdx30_tasks: Change recipe license to declared
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ed02d7063b261c0d"
+References: <20250725092632.672324-1-namanj1@kpit.com>
+In-Reply-To: <20250725092632.672324-1-namanj1@kpit.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 30 Jul 2025 08:03:16 -0700
+X-Gm-Features: Ac12FXxL9Vt-NvD378IsGjJY5gkR-pDf_k1GsT1ejvFAyLexa4-GOP2dFp7YUxo
+Message-ID: <CAOSpxdYJsE0kZLJizSPJ6muWXHdewxoxpZW8caybdfjR5K=gYg@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] tcpreplay: fix CVE-2023-43279
+To: nmjain23@gmail.com
+Cc: openembedded-core@lists.openembedded.org, akash.hadke@kpit.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 14:12:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221117
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 15:03:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221118
 
---000000000000ed02d7063b261c0d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Wrong mailing list!  This patch is for meta-openembedded, not oe-core.
 
-Ah, OK. I was just being silly and missed the _other_ place it needed to be
-changed
+Steve
 
-On Wed, Jul 30, 2025, 3:57=E2=80=AFAM Mathieu Dubois-Briand <
-mathieu.dubois-briand@bootlin.com> wrote:
-
-> On Tue Jul 29, 2025 at 9:34 PM CEST, Joshua Watt via
-> lists.openembedded.org wrote:
-> > Looks like this might have gotten missed?
-> >
-> > On Wed, Jun 25, 2025 at 4:29=E2=80=AFPM Joshua Watt <jpewhacker@gmail.c=
-om>
-> wrote:
-> >
+On Tue, Jul 29, 2025 at 5:19=E2=80=AFAM Naman Jain via lists.openembedded.o=
+rg
+<nmjain23=3Dgmail.com@lists.openembedded.org> wrote:
 >
-> I see it merged:
-> https://git.openembedded.org/openembedded-core/commit/?id=3D561447c7cc14
+> From: Jiaying Song <jiaying.song.cn@windriver.com>
 >
-
---000000000000ed02d7063b261c0d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Ah, OK. I was just being silly and missed the _other_=
- place it needed to be changed</div></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 30, 2025, 3:57=E2=80=AFAM M=
-athieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-briand@bootlin.co=
-m" target=3D"_blank">mathieu.dubois-briand@bootlin.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue Jul 29, 2025 a=
-t 9:34 PM CEST, Joshua Watt via <a href=3D"http://lists.openembedded.org" r=
-el=3D"noreferrer noreferrer" target=3D"_blank">lists.openembedded.org</a> w=
-rote:<br>
-&gt; Looks like this might have gotten missed?<br>
-&gt;<br>
-&gt; On Wed, Jun 25, 2025 at 4:29=E2=80=AFPM Joshua Watt &lt;<a href=3D"mai=
-lto:jpewhacker@gmail.com" rel=3D"noreferrer" target=3D"_blank">jpewhacker@g=
-mail.com</a>&gt; wrote:<br>
-&gt;<br>
-<br>
-I see it merged: <a href=3D"https://git.openembedded.org/openembedded-core/=
-commit/?id=3D561447c7cc14" rel=3D"noreferrer noreferrer" target=3D"_blank">=
-https://git.openembedded.org/openembedded-core/commit/?id=3D561447c7cc14</a=
-><br>
-</blockquote></div>
-
---000000000000ed02d7063b261c0d--
+> Null Pointer Dereference in mask_cidr6 component at cidr.c in Tcpreplay
+> 4.4.4 allows attackers to crash the application via crafted tcprewrite
+> command.
+>
+> References:
+> https://nvd.nist.gov/vuln/detail/CVE-2023-43279
+>
+> Upstream patches:
+> https://github.com/appneta/tcpreplay/pull/860/commits/963842ceca79e97ac32=
+42448a0de94fb901d3560
+>
+> Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> (cherry picked from commit ea99328a0685b577adf4175e4d674c560ce9a490)
+> Signed-off-by: Divyanshu Rathore <divyanshu.rathore@kpit.com>
+> ---
+>  .../tcpreplay/tcpreplay/CVE-2023-43279.patch  | 39 +++++++++++++++++++
+>  .../tcpreplay/tcpreplay_4.4.4.bb              |  1 +
+>  2 files changed, 40 insertions(+)
+>  create mode 100644 meta-networking/recipes-support/tcpreplay/tcpreplay/C=
+VE-2023-43279.patch
+>
+> diff --git a/meta-networking/recipes-support/tcpreplay/tcpreplay/CVE-2023=
+-43279.patch b/meta-networking/recipes-support/tcpreplay/tcpreplay/CVE-2023=
+-43279.patch
+> new file mode 100644
+> index 0000000000..45581268c0
+> --- /dev/null
+> +++ b/meta-networking/recipes-support/tcpreplay/tcpreplay/CVE-2023-43279.=
+patch
+> @@ -0,0 +1,39 @@
+> +From 3164a75f2660a5c3537feff9fd8751346cf5ca57 Mon Sep 17 00:00:00 2001
+> +From: Gabriel Ganne <gabriel.ganne@gmail.com>
+> +Date: Sun, 21 Jan 2024 09:16:38 +0100
+> +Subject: [PATCH] add check for empty cidr
+> +
+> +This causes tcprewrite to exit with an error instead of crashing.
+> +
+> +Fixes: #824
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2023-43279
+> +
+> +Reference to upstream patch:
+> +https://github.com/appneta/tcpreplay/pull/860/commits/963842ceca79e97ac3=
+242448a0de94fb901d3560
+> +
+> +Signed-off-by: Gabriel Ganne <gabriel.ganne@gmail.com>
+> +Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+> +---
+> + src/common/cidr.c | 4 ++++
+> + 1 file changed, 4 insertions(+)
+> +
+> +diff --git a/src/common/cidr.c b/src/common/cidr.c
+> +index 687fd04..9afbfec 100644
+> +--- a/src/common/cidr.c
+> ++++ b/src/common/cidr.c
+> +@@ -249,6 +249,10 @@ parse_cidr(tcpr_cidr_t **cidrdata, char *cidrin, ch=
+ar *delim)
+> +     char *network;
+> +     char *token =3D NULL;
+> +
+> ++    if (cidrin =3D=3D NULL) {
+> ++        errx(-1, "%s", "Unable to parse empty CIDR");
+> ++    }
+> ++
+> +     mask_cidr6(&cidrin, delim);
+> +
+> +     /* first iteration of input using strtok */
+> +--
+> +2.25.1
+> +
+> diff --git a/meta-networking/recipes-support/tcpreplay/tcpreplay_4.4.4.bb=
+ b/meta-networking/recipes-support/tcpreplay/tcpreplay_4.4.4.bb
+> index 32c978c1e0..8b41ba25a4 100644
+> --- a/meta-networking/recipes-support/tcpreplay/tcpreplay_4.4.4.bb
+> +++ b/meta-networking/recipes-support/tcpreplay/tcpreplay_4.4.4.bb
+> @@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =3D "file://docs/LICENSE;md5=3D10f0474a2=
+f0e5dccfca20f69d6598ad8"
+>
+>  SRC_URI =3D "https://github.com/appneta/tcpreplay/releases/download/v${P=
+V}/tcpreplay-${PV}.tar.gz \
+>             file://CVE-2023-4256.patch \
+> +           file://CVE-2023-43279.patch \
+>  "
+>
+>  SRC_URI[sha256sum] =3D "44f18fb6d3470ecaf77a51b901a119dae16da5be4d4140ff=
+bb2785e37ad6d4bf"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#221071): https://lists.openembedded.org/g/openembedde=
+d-core/message/221071
+> Mute This Topic: https://lists.openembedded.org/mt/114429834/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
