@@ -1,101 +1,115 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3535AC87FC9
-	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 05:16:27 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.28175.1753852585992824407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5D86C87FCB
+	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 06:18:17 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web10.28753.1753856291853043638
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Jul 2025 22:16:26 -0700
+ Tue, 29 Jul 2025 23:18:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=2K/6fOQ1;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AwZW2bOk;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019859c2a468-f1857104-911c-4a3b-b1de-282fdde3ccff-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1753852585; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=jYk0vErC0VMYlVTb7ogGFD4EBROxSNd5+jZZWMUwzQw=;
-	b=2K/6fOQ1J8iCnWjAoojCgn7eP6FgwN4xoB00dm40sDjzw1rwNgTa/GInY+j/7b+o
-	KxLt5472607j4c8Hrm4Kp/2n1GAbOO6vSpr5NlDivqubH5N3ji+3Ml1wN9RPNAQqvTm
-	YRZoE/cb4yra/rlRrHc4TKsorCzn6DNpTxoBc/6Q=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1753852585;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=jYk0vErC0VMYlVTb7ogGFD4EBROxSNd5+jZZWMUwzQw=;
-	b=AwZW2bOkL2kmaogrRuBU8vnAcEwmA36eRVJjHQX4HVb7QQYHfiL1/DJV6Mlr7wHS
-	8dFlb8s+5PR9qCgeR2bLXJmn/ZN61MM9YUgEIYZEtHH9bpyNc4C9DVNOn5ue8Xb3oiV
-	wcTTyU9XZiSr/E1OQBRvaRkuKOLGfRN+CE/VAQ0I=
-From: patchtest@automation.yoctoproject.org
-To: Liu Yiding <liuyd.fnst@fujitsu.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core] [PATCH v3 2/2] oeqa/runtime/ltp: Drop ipc that is moved
- into syscalls in new version
-In-Reply-To: <20250730050918.393-2-liuyd.fnst@fujitsu.com>
-References: <20250730050918.393-2-liuyd.fnst@fujitsu.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019859c2a468-f1857104-911c-4a3b-b1de-282fdde3ccff-000000@us-west-2.amazonses.com>
-Date: Wed, 30 Jul 2025 05:16:25 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.07.30-54.240.27.45
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HFxmATTw;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b31e0ead80eso5230930a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Jul 2025 23:18:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753856291; x=1754461091; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iUh7jZ6xvKBQFR7vF4pi54Dzws5PLWw9FcjrrLyX0Xg=;
+        b=HFxmATTwXXMW7P936/M/vNe7WlYR4Rmg7M4czRCyyrMkP9k6tdYZkY93lHEtCsV7LH
+         9gvCsXzJ5m+a3S4DDENGO/dQz15TolPBUQ5jnfv2ECC0/qOf5FwVRVzyZuS7dYwK5zfk
+         XipNJ8hjhw983srtztoo1K+o9HsvUchqiHL5op7UAAydb8LI20GIkdRvv6OFgZhdbVKx
+         Bzw0C+Kqs0qTuJgJK0fEvmeU5WTiUrIiT3ppvy47lcQoIv7PaAh+mR7iJVsoyQeST1Lc
+         GH8xXaJ03z1y0xXrB70fyp08EZRln1t5m1WpdXA4RcKA3ucgxaUmp6nJo4Ihc0eCz7N3
+         IhUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753856291; x=1754461091;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iUh7jZ6xvKBQFR7vF4pi54Dzws5PLWw9FcjrrLyX0Xg=;
+        b=X2kvOtUk+sKG2ZuO1b7QiaW0LN5/N8gZ//XrRZhmqQEPxCZde2cgRItH347ltx+w5a
+         KVL8Ck6aMdd5f5G3fK7Ny1V57voZqLY8ZUi2PaNa6LrfQAGP8PxqsjP1BNPr5ZsJIkOt
+         G6E48HNYWIkuW9N/newgTGSGDZ/SgQBGP24nZJXl4g4dqAcrTWwUGVyDZ/Jv3inxo0QG
+         upFAJEQAYvJ+6thZp5mCR0wODZSE+I3j6ddok8Me4B87QDZ1N3AiRsYjfDPSXNhF3Qyz
+         Swy69cjj1EXAvOhBmGVKgqBICjI/ozROPM2XtpCLvngGm6du/wb60ObvLkMVr8jgKrgf
+         KqBA==
+X-Gm-Message-State: AOJu0YxKbdPmwh4WU1HgZ0YvUtA623qVneTdMn4xuqfcywBbsYViSDXg
+	RZcvsz5HLcmqUvRlyNZ86pAxEqGHSaYQPZQaCKmZ7VEkC+nOhmhKo5LFxqpAtwAef3Y=
+X-Gm-Gg: ASbGncvgSb7TY4sInNjRZkmgouC1DFruXsmenbziq37Kb8y2GWRGeEEEO9BptZ82GJO
+	JwguNNgEMZ5bQR996/i/NDVGYH+uhwzbvCYBrD1fq+GwJorDt9NqvAEBx68YRCjLAuheUpsoU4g
+	2hY5oBB9MwyQe7LpJnSQ/NKoecsAgUBjwEXbdlbTZBzrCdigFm+zHPs8QdEV7jRH8OMekAs4Le1
+	MNRmzrRaoxLdqpRIUqkPX0g3/m+pkY5T6rAzytreHanPanY3lpuLZScjlhpmHQibwBmSDYdwkIw
+	hGSiY2QB4wd15xdfTYPaqzr3CiQsDuqmS0M5Mbf20XQmNm0DtFGakJmytUnzoxP7xBBDlRymBw+
+	zOoAtMnh2C60/QQ==
+X-Google-Smtp-Source: AGHT+IH3htQya/NIuQa1W1M3gii/TbfX3dgFfcRziLSzlIGTcgHNTQ7PBXAqaAskGX9d3WCoel9/Aw==
+X-Received: by 2002:a17:903:1aa3:b0:23f:6fa4:1567 with SMTP id d9443c01a7336-24096a4fab3mr28513575ad.8.1753856290724;
+        Tue, 29 Jul 2025 23:18:10 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::33e9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24065971c0esm35808015ad.21.2025.07.29.23.18.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Jul 2025 23:18:10 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [PATCH] libclc: Set LDFLAGS to BUILD_LDFLAGS in do_build_prepare_builtins
+Date: Tue, 29 Jul 2025 23:18:07 -0700
+Message-ID: <20250730061807.1642753-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 05:16:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221103
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 06:18:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221104
 
---NextPart
-Content-Type: text/plain
+This function is compiling a native binary, however its operating
+largely inside a target or nativesdk shell environment. It does
+tricks by passing toolchain-native.cmake to provide native
+overrides for cmake, which works for most of variables of interest
+besides LDFLAGS. In the toolchain.cmake files on OE we do not
+override LDFLAGS but append to it via CMAKE_CXX_LINK_FLAGS  or
+CMAKE_C_LINK_FLAGS, which causes problems because LDFLAGS for
+nativesdk will contain --dynamic-linker option pointing into
+nativesdk string and when doing target build it will use the
+LDFLAGS from target environment which might work if it does
+not contain conflicting flags.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Currently prepare_builtins binary durin nativesdk build ends up with
 
+ [Requesting program interpreter: /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-yoesdk-linux/lib/ld-linux-x86-64.so.2]
+
+ This is because LDFLAGS for nativesdk contain the --dynamic-linker
+flags pointing into this path.
+
+Target builds for musl targets also end up with similar problems
+
+So lets pass LDFLAGS=BUILD_LDFLAGS to fix this problem
+
+Should toolchain.cmake class define CMAKE_EXE_LINKER_FLAGS,
+CMAKE_SHARED_LINKER_FLAGS, CMAKE_MODULE_LINKER_FLAGS etc. as well
+is a question that deserve a separate discussion
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v3-2-2-oeqa-runtime-ltp-Drop-ipc-that-is-moved-into-syscalls-in-new-version.patch
+ meta/recipes-devtools/clang/libclc_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-FAIL: test max line length: Patch line too long (current length 347, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
-
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-devtools/clang/libclc_git.bb b/meta/recipes-devtools/clang/libclc_git.bb
+index 7e63ce9c759..d09ea8cdb38 100644
+--- a/meta/recipes-devtools/clang/libclc_git.bb
++++ b/meta/recipes-devtools/clang/libclc_git.bb
+@@ -43,6 +43,7 @@ do_install:append() {
+ # Need to build a native prepare_builtins binary in target builds. The easiest
+ # way to do this is with a second native cmake build tree.
+ do_build_prepare_builtins() {
++    export LDFLAGS="${BUILD_LDFLAGS}"
+     cmake --fresh -G Ninja \
+         -S ${OECMAKE_SOURCEPATH} -B ${B_NATIVE} \
+         -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${WORKDIR}/toolchain-native.cmake \
 
