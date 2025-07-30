@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A79ECC87FCB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD326C87FD2
 	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 19:06:03 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.43870.1753902358985192617
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.43746.1753902355909264809
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Jul 2025 12:05:59 -0700
+ Wed, 30 Jul 2025 12:05:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=P9+7z5KA;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2403ca0313aso1850485ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 12:05:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Za1RXj6G;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-23ffdea3575so1540665ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 12:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753902358; x=1754507158; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1753902355; x=1754507155; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cKshnvBcMwwplFI6A5saBd1rEgq9MjDLLv3jZZuF/ws=;
-        b=P9+7z5KA3e7ImeHu/71JY6K1Wc4giIULW+1NArMMEDmwqR4NruVTNqoWrEO2auAZKA
-         TRqhPI15d3QAOeM31d7t8yy0kLf4W300EbWMzA2kuNz1bqbhVWdNaNmPchCXslzLMppj
-         b8vq8BtXjFAuVVbpiqT6pt9fACVsGCGHuCCfToeIjRSlS1V6gMKMuOFdXpBH8TmKQ/xc
-         5ZF4PT1AbCJy2S0Q7tbwdU5bNNA10MROH4VPGZQkxBG+7I1qIYVs3fu0lTHTNMOoJIcc
-         N9E7Rq/yP44GGBRRBMTreN2CQ+bsNYfnzaoOEfrwdFgehiBUGebxj5w5QCnnjm0AWDn7
-         5qoQ==
+        bh=TA1DHbjYrWPBW4Z4LIb5UUWsenLccOCm1MBTLIo41Lc=;
+        b=Za1RXj6GvXXLAS6a3efyPvDdnjHThFXvxII/h+OuanM0lUPZnoaNzD013H4c0ogHOp
+         f4N6731XA+Mb6fpeWZ3kreXnz0hbLcvhZZs4m6WbiAF96twnsSt4bgedehVq0v5Kd6Ks
+         C6XBRz5h3opS+OzYllE6NDVW91cbpN4x38aFiv+cE7zwnX8Dx+iGTL/N8UPKp7WW2A8i
+         caJLypXy2xrgpwvTKKaCZ3seO/ohes7DtVBpRNbuh16LmUiNcFMkfBmc9AoNVHdOtCTu
+         4TS7HULfu6xXzb+Aux4+jrjVdfQXERWD6bCqB2sJUB6xW1VQ/nngrUV27DfBv/gQ8qns
+         02ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753902358; x=1754507158;
+        d=1e100.net; s=20230601; t=1753902355; x=1754507155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cKshnvBcMwwplFI6A5saBd1rEgq9MjDLLv3jZZuF/ws=;
-        b=jMgGiJx2uT9R0BC+zsVsj/gSpj/BxYstSSun+nI60TpoFK/W7mnc/B8s8Swqa0EmlU
-         EvEz1icZn+jlo9R/ozDPleR6iJLZJv/dJIHWjH5EF/hwMuW8OW7iAitGMj9LQ4t/lPlL
-         V79WSL94oUztUC+98tdrDGwxmdASM0i4T8Md01eU1i4HwLhU83Xaw95hQUZod58I9Wfb
-         G52ojbW65XfKlOX3PqK6uzwGJSExyjijyzGtWjORoCeNHXZHJGDxBMExXnqwGljkCb+C
-         4ZOT5d5/Dwpx68tz7SFgWD0xdrZ2BW6CaOds2AXLrCo5EAGw6elJUu6M7U/oHlVPHoM1
-         23tA==
-X-Gm-Message-State: AOJu0YxmxGXSCw7Rwu7VN+zwfL3BpwURppvCCwv734xhWyH7gbScpS2C
-	4azusUZuSUEqOg1Er6SBGp4U0EDSgfGg7UHETssysbTi/hC5uk3Nuvg7+pgQtAMoQhsYjHH/GCl
-	7CpiG
-X-Gm-Gg: ASbGncsaMZXfGpoFGIGb1F8xLYqKJJ46MIdVPbedEBd4XNiW5It+esjkULZIocUh10J
-	vB9gbFWuxTEPteBN1CDNj9Uk/SVPAjGXEMbfeWFuvVmIoCgd0K8xPRRkjz6JZ30Cxmi00ViYwJh
-	AF7G1DqbJsHYpfzKmQ0/6ldHHUvzC0RBprayboLvf0T8VDJyNtAO0jNudciSDzwvbW4D8Pqg8kN
-	vVFWp/alVIswNLlRYhIl/1VhW6Tu1sLiDyA9EMZHucI2WQUNANOmkOSlUDjNOfkv3+Zg8TtIckO
-	aJHxNaJ/ZfPeRYSQSEjJXdvEtvE/d1mQuzeK21TqQztc90Psyi33dUsWOAGJobDJCNWxLlPPWsC
-	yvKJTkJYMcliu
-X-Google-Smtp-Source: AGHT+IH1Suo/sC7k+FM029UVpYUjVdLggJfSC2z9fhciswD6dX1icj46KgOm9jyYfDD+qX6DuZqVOg==
-X-Received: by 2002:a17:903:298d:b0:23f:adfa:3a63 with SMTP id d9443c01a7336-24096aa431bmr64943315ad.16.1753902358039;
-        Wed, 30 Jul 2025 12:05:58 -0700 (PDT)
+        bh=TA1DHbjYrWPBW4Z4LIb5UUWsenLccOCm1MBTLIo41Lc=;
+        b=mQGrMm1tMM6mnKCk2N1SV0CP0FDvp3//XchHNWu3JgyE0oE2uLQrPw/rhBZTeCcCNQ
+         HU+atdlyt06YZWWatpT5KrRqxRdCvxOrc9UxqOT0omrv+DZyYGwD/NQ1CZYz2TpebpTr
+         z5ZMsf6TDeQr0+yN9vS33/PfAVpmYxgen/VCJ+yn3bfhNtj8xjYVkLb2InEA5PAT9b+v
+         jPSg3ABN13UAe6ZK7cQOBIOIMRA9KN1YeUPRSdmhz5q+PHiMlPvH83Un/Fw3ajiBgTnS
+         lvFpK4HbMVq4/BUxS+kvQamG0GTHYSjp1wF5T5MJkWWBabTfTvDBu4M1BwECzT/ID/PL
+         qVvA==
+X-Gm-Message-State: AOJu0Yz/pmgBiUcbQIY+gsbWad4qtqaLRkRqiqvTEcTPw6VIobNC5fUh
+	nXhGlZkqI04Iyudwy5b3BHIwhda7UjGhn3Al2E8LK1KDzsGlB6GF/L88swWWRjU5/zTLWXH7rT6
+	B+SYa
+X-Gm-Gg: ASbGncsaZsaXj9ZiIQQZwdgFOt5g+ltDzAQ5FeqBPLE7Ajho3NPZCe3Zo0gqV4Zl3fJ
+	vrcgxZb1e7UDHKsyiSNJAf+no0LXAp2s8d8KxdHXPvFopj+CvdP20NHO7B9JbjNBNgkcI0W5GZC
+	fgR7ExLfYUxQTtvc+CQeltPGhDuEli7mSRb32j2/eqatne2ponnljOPAFajM786ag8C+OyXSVe9
+	sNIj/wRO+epqMLIsIUWqnI/RSmo9TQxBrG4tcBj0EjC5pAr+OqbctNyBQVBRpVGXzlwH18OUe8W
+	NdTpcf0SzH073fHDqvRD93hMnFUx4plKJZeliMc9zh5G7p3L+DQLlvc1uXSk4I1yfwr28oO7rr/
+	XEjVUxqzZtN9p
+X-Google-Smtp-Source: AGHT+IEg9oM2Dr+lbA/ouVdQayeAc1WGXD6PqOOk+n8w/dr0yEeiEGX5ZGvvjd6hHC3JmKnK5acS+A==
+X-Received: by 2002:a17:903:2f05:b0:235:779:edfd with SMTP id d9443c01a7336-24096b24650mr61928245ad.39.1753902355073;
+        Wed, 30 Jul 2025 12:05:55 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:58fd:da9:30d5:829a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-240a48b77d3sm22129025ad.117.2025.07.30.12.05.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-240a48b77d3sm22129025ad.117.2025.07.30.12.05.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jul 2025 12:05:57 -0700 (PDT)
+        Wed, 30 Jul 2025 12:05:54 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/10] sqlite3: Fix CVE-2025-6965
-Date: Wed, 30 Jul 2025 12:05:34 -0700
-Message-ID: <b4a2f74ba0b40abcdf56c4b58cae5f7ce145d511.1753902181.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/10] libxml2: patch CVE-2025-6170
+Date: Wed, 30 Jul 2025 12:05:32 -0700
+Message-ID: <9418c88c964dffc21abe6a056db72c3c81e25137.1753902181.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1753902181.git.steve@sakoman.com>
 References: <cover.1753902181.git.steve@sakoman.com>
@@ -68,153 +68,141 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 19:06:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221148
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221146
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Upstream-Status: Backport from https://github.com/sqlite/sqlite/commit/c52e9d97d485a3eb168e3f8f3674a7bc4b419703
+Pick commit referencing this CVE from 2.13 branch.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../sqlite/files/CVE-2025-6965.patch          | 115 ++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.38.5.bb |   1 +
- 2 files changed, 116 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-6965.patch
+ .../libxml/libxml2/CVE-2025-6170.patch        | 103 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-6170.patch
 
-diff --git a/meta/recipes-support/sqlite/files/CVE-2025-6965.patch b/meta/recipes-support/sqlite/files/CVE-2025-6965.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-6170.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-6170.patch
 new file mode 100644
-index 0000000000..e3e087ed32
+index 0000000000..a63ae1cff7
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2025-6965.patch
-@@ -0,0 +1,115 @@
-+From c52e9d97d485a3eb168e3f8f3674a7bc4b419703 Mon Sep 17 00:00:00 2001
-+From: drh <>
-+Date: Fri, 27 Jun 2025 19:02:21 +0000
-+Subject: [PATCH] Raise an error right away if the number of aggregate terms in
-+ a query exceeds the maximum number of columns.
++++ b/meta/recipes-core/libxml/libxml2/CVE-2025-6170.patch
+@@ -0,0 +1,103 @@
++From 5e9ec5c107d3f5b5179c3dbc19df43df041cd55b Mon Sep 17 00:00:00 2001
++From: Michael Mann <mmann78@netscape.net>
++Date: Fri, 20 Jun 2025 23:05:00 -0400
++Subject: [PATCH] [CVE-2025-6170] Fix potential buffer overflows of interactive
++ shell
 +
-+FossilOrigin-Name: 5508b56fd24016c13981ec280ecdd833007c9d8dd595edb295b984c2b487b5c8
++Fixes #941
 +
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/c52e9d97d485a3eb168e3f8f3674a7bc4b419703]
-+CVE: CVE-2025-6965
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++CVE: CVE-2025-6170
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/5e9ec5c107d3f5b5179c3dbc19df43df041cd55b]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ sqlite3.c | 31 +++++++++++++++++++++++++++----
-+ 1 file changed, 27 insertions(+), 4 deletions(-)
++ debugXML.c                       | 15 ++++++++++-----
++ result/scripts/long_command      |  8 ++++++++
++ test/scripts/long_command.script |  6 ++++++
++ test/scripts/long_command.xml    |  1 +
++ 4 files changed, 25 insertions(+), 5 deletions(-)
++ create mode 100644 result/scripts/long_command
++ create mode 100644 test/scripts/long_command.script
++ create mode 100644 test/scripts/long_command.xml
 +
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 27bea6f..19d0438 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -14354,6 +14354,14 @@ typedef INT16_TYPE LogEst;
-+ #define LARGEST_UINT64 (0xffffffff|(((u64)0xffffffff)<<32))
-+ #define SMALLEST_INT64 (((i64)-1) - LARGEST_INT64)
++diff --git a/debugXML.c b/debugXML.c
++index ed56b0f8..452b9573 100644
++--- a/debugXML.c
+++++ b/debugXML.c
++@@ -1050,6 +1050,10 @@ xmlCtxtDumpOneNode(xmlDebugCtxtPtr ctxt, xmlNodePtr node)
++     xmlCtxtGenericNodeCheck(ctxt, node);
++ }
 + 
-++/*
-++** Macro SMXV(n) return the maximum value that can be held in variable n,
-++** assuming n is a signed integer type.  UMXV(n) is similar for unsigned
-++** integer types.
-++*/
-++#define SMXV(n) ((((i64)1)<<(sizeof(n)*8-1))-1)
-++#define UMXV(n) ((((i64)1)<<(sizeof(n)*8))-1)
+++#define MAX_PROMPT_SIZE     500
+++#define MAX_ARG_SIZE        400
+++#define MAX_COMMAND_SIZE    100
 ++
-+ /*
-+ ** Round up a number to the next larger multiple of 8.  This is used
-+ ** to force 8-byte alignment on 64-bit architectures.
-+@@ -17939,7 +17947,7 @@ struct AggInfo {
-+                           ** than the source table */
-+   int sortingIdx;         /* Cursor number of the sorting index */
-+   int sortingIdxPTab;     /* Cursor number of pseudo-table */
-+-  int nSortingColumn;     /* Number of columns in the sorting index */
-++  u32 nSortingColumn;     /* Number of columns in the sorting index */
-+   int mnReg, mxReg;       /* Range of registers allocated for aCol and aFunc */
-+   ExprList *pGroupBy;     /* The group by clause */
-+   struct AggInfo_col {    /* For each column used in source tables */
-+@@ -17947,8 +17955,8 @@ struct AggInfo {
-+     Expr *pCExpr;            /* The original expression */
-+     int iTable;              /* Cursor number of the source table */
-+     int iMem;                /* Memory location that acts as accumulator */
-+-    i16 iColumn;             /* Column number within the source table */
-+-    i16 iSorterColumn;       /* Column number in the sorting index */
-++    int iColumn;             /* Column number within the source table */
-++    int iSorterColumn;       /* Column number in the sorting index */
-+   } *aCol;
-+   int nColumn;            /* Number of used entries in aCol[] */
-+   int nAccumulator;       /* Number of columns that show through to the output.
-+@@ -108641,6 +108649,9 @@ static int analyzeAggregate(Walker *pWalker, Expr *pExpr){
-+             ** is not an entry there already.
-+             */
-+             int k;
-++            int mxTerm = pParse->db->aLimit[SQLITE_LIMIT_COLUMN];
-++
-++	    assert( mxTerm <= SMXV(i16) );
-+             pCol = pAggInfo->aCol;
-+             for(k=0; k<pAggInfo->nColumn; k++, pCol++){
-+               if( pCol->iTable==pExpr->iTable &&
-+@@ -108648,6 +108659,10 @@ static int analyzeAggregate(Walker *pWalker, Expr *pExpr){
++ /**
++  * xmlCtxtDumpNode:
++  * @output:  the FILE * for the output
++@@ -2802,10 +2806,10 @@ void
++ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
++          FILE * output)
++ {
++-    char prompt[500] = "/ > ";
+++    char prompt[MAX_PROMPT_SIZE] = "/ > ";
++     char *cmdline = NULL, *cur;
++-    char command[100];
++-    char arg[400];
+++    char command[MAX_COMMAND_SIZE];
+++    char arg[MAX_ARG_SIZE];
++     int i;
++     xmlShellCtxtPtr ctxt;
++     xmlXPathObjectPtr list;
++@@ -2863,7 +2867,8 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
++             cur++;
++         i = 0;
++         while ((*cur != ' ') && (*cur != '\t') &&
++-               (*cur != '\n') && (*cur != '\r')) {
+++               (*cur != '\n') && (*cur != '\r') &&
+++               (i < (MAX_COMMAND_SIZE - 1))) {
++             if (*cur == 0)
 +                 break;
-+               }
-+             }
-++	    if( k>mxTerm ){
-++	      sqlite3ErrorMsg(pParse, "more than %d aggregate terms", mxTerm);
-++	      k = mxTerm;
-++	    }
-+             if( (k>=pAggInfo->nColumn)
-+              && (k = addAggInfoColumn(pParse->db, pAggInfo))>=0
-+             ){
-+@@ -108685,6 +108700,7 @@ static int analyzeAggregate(Walker *pWalker, Expr *pExpr){
-+             ExprSetVVAProperty(pExpr, EP_NoReduce);
-+             pExpr->pAggInfo = pAggInfo;
-+             pExpr->op = TK_AGG_COLUMN;
-++	    assert( k <= SMXV(pExpr->iAgg) );
-+             pExpr->iAgg = (i16)k;
-+             break;
-+           } /* endif pExpr->iTable==pItem->iCursor */
-+@@ -108700,13 +108716,19 @@ static int analyzeAggregate(Walker *pWalker, Expr *pExpr){
-+         ** function that is already in the pAggInfo structure
-+         */
-+         struct AggInfo_func *pItem = pAggInfo->aFunc;
-++	int mxTerm = pParse->db->aLimit[SQLITE_LIMIT_COLUMN];
-++	assert( mxTerm <= SMXV(i16) );
-+         for(i=0; i<pAggInfo->nFunc; i++, pItem++){
-+           if( pItem->pFExpr==pExpr ) break;
-+           if( sqlite3ExprCompare(0, pItem->pFExpr, pExpr, -1)==0 ){
-+             break;
-+           }
-+         }
-+-        if( i>=pAggInfo->nFunc ){
-++        if( i>mxTerm ){
-++	  sqlite3ErrorMsg(pParse, "more than %d aggregate terms", mxTerm);
-++	  i = mxTerm;
-++	  assert( i<pAggInfo->nFunc );
-++	}else if( i>=pAggInfo->nFunc ){
-+           /* pExpr is original.  Make a new entry in pAggInfo->aFunc[]
-+           */
-+           u8 enc = ENC(pParse->db);
-+@@ -108731,6 +108753,7 @@ static int analyzeAggregate(Walker *pWalker, Expr *pExpr){
-+         */
-+         assert( !ExprHasProperty(pExpr, EP_TokenOnly|EP_Reduced) );
-+         ExprSetVVAProperty(pExpr, EP_NoReduce);
-++	assert( i <= SMXV(pExpr->iAgg) );
-+         pExpr->iAgg = (i16)i;
-+         pExpr->pAggInfo = pAggInfo;
-+         return WRC_Prune;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-index f47a9871e2..656e2d8bd8 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2023-36191.patch \
-            file://CVE-2023-7104.patch \
-            file://CVE-2025-29088.patch \
-+           file://CVE-2025-6965.patch \
++             command[i++] = *cur++;
++@@ -2878,7 +2883,7 @@ xmlShell(xmlDocPtr doc, char *filename, xmlShellReadlineFunc input,
++         while ((*cur == ' ') || (*cur == '\t'))
++             cur++;
++         i = 0;
++-        while ((*cur != '\n') && (*cur != '\r') && (*cur != 0)) {
+++        while ((*cur != '\n') && (*cur != '\r') && (*cur != 0) && (i < (MAX_ARG_SIZE-1))) {
++             if (*cur == 0)
++                 break;
++             arg[i++] = *cur++;
++diff --git a/result/scripts/long_command b/result/scripts/long_command
++new file mode 100644
++index 00000000..e6f00708
++--- /dev/null
+++++ b/result/scripts/long_command
++@@ -0,0 +1,8 @@
+++/ > b > b > Object is a Node Set :
+++Set contains 1 nodes:
+++1  ELEMENT a:c
+++b > Unknown command This_is_a_really_long_command_string_designed_to_test_the_limits_of_the_memory_that_stores_the_comm
+++b > b > Unknown command ess_currents_of_time_and_existence
+++b > <?xml version="1.0"?>
+++<a xmlns:a="bar"><b xmlns:a="foo">Navigating_the_labyrinthine_corridors_of_human_cognition_one_often_encounters_the_perplexing_paradox_that_the_more_we_delve_into_the_intricate_dance_of_neural_pathways_and_synaptic_firings_the_further_we_seem_to_stray_from_a_truly_holistic_understanding_of_consciousness_a_phenomenon_that_remains_as_elusive_as_a_moonbeam_caught_in_a_spiderweb_yet_undeniably_shapes_every_fleeting_thought_every_prof</b></a>
+++b > 
++\ No newline at end of file
++diff --git a/test/scripts/long_command.script b/test/scripts/long_command.script
++new file mode 100644
++index 00000000..00f6df09
++--- /dev/null
+++++ b/test/scripts/long_command.script
++@@ -0,0 +1,6 @@
+++cd a/b
+++set <a:c/>
+++xpath //*[namespace-uri()="foo"]
+++This_is_a_really_long_command_string_designed_to_test_the_limits_of_the_memory_that_stores_the_command_please_dont_crash foo
+++set Navigating_the_labyrinthine_corridors_of_human_cognition_one_often_encounters_the_perplexing_paradox_that_the_more_we_delve_into_the_intricate_dance_of_neural_pathways_and_synaptic_firings_the_further_we_seem_to_stray_from_a_truly_holistic_understanding_of_consciousness_a_phenomenon_that_remains_as_elusive_as_a_moonbeam_caught_in_a_spiderweb_yet_undeniably_shapes_every_fleeting_thought_every_profound_emotion_and_every_grand_aspiration_that_propels_our_species_ever_onward_through_the_relentless_currents_of_time_and_existence
+++save -
++diff --git a/test/scripts/long_command.xml b/test/scripts/long_command.xml
++new file mode 100644
++index 00000000..1ba44016
++--- /dev/null
+++++ b/test/scripts/long_command.xml
++@@ -0,0 +1 @@
+++<a xmlns:a="bar"><b xmlns:a="foo"/></a>
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index baac155270..f34b0c25ca 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -41,6 +41,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+            file://CVE-2025-32415.patch \
+            file://CVE-2025-6021.patch \
+            file://CVE-2025-49794-CVE-2025-49796.patch \
++           file://CVE-2025-6170.patch \
             "
- SRC_URI[sha256sum] = "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
  
+ SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
 -- 
 2.43.0
 
