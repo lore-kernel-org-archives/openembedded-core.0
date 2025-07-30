@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2BDC87FCE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 814B7C87FD2
 	for <webhook@archiver.kernel.org>; Wed, 30 Jul 2025 16:04:02 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.39277.1753891435238976029
+ by mx.groups.io with SMTP id smtpd.web10.39279.1753891435985425279
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Jul 2025 09:03:55 -0700
+ Wed, 30 Jul 2025 09:03:56 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D939A1BF7
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 09:03:46 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A5901BF7
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 09:03:47 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7128B3F66E
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 09:03:54 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 220AE3F66E
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 09:03:55 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 11/13] python3-webcolors: use new python_pdm class
-Date: Wed, 30 Jul 2025 17:03:41 +0100
-Message-ID: <20250730160343.4053614-11-ross.burton@arm.com>
+Subject: [PATCH 12/13] python3-docutils: use correct build backend
+Date: Wed, 30 Jul 2025 17:03:42 +0100
+Message-ID: <20250730160343.4053614-12-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250730160343.4053614-1-ross.burton@arm.com>
 References: <20250730160343.4053614-1-ross.burton@arm.com>
@@ -30,37 +30,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 30 Jul 2025 16:04:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221132
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221133
 
-Instead of using the setuptoools class but not using setuptools, use the
-new python_pdm class.
+This package uses flit, not setuptools.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/python/python3-webcolors_24.11.1.bb | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ meta/recipes-devtools/python/python3-docutils_0.21.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb b/=
-meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-index cda63d2a35c..d5376145454 100644
---- a/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-+++ b/meta/recipes-devtools/python/python3-webcolors_24.11.1.bb
-@@ -5,12 +5,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dcbaebec43b7d1=
-99c7fd8f5411b3b0448"
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.21.2.bb b/me=
+ta/recipes-devtools/python/python3-docutils_0.21.2.bb
+index d9f81609134..237cabb1958 100644
+--- a/meta/recipes-devtools/python/python3-docutils_0.21.2.bb
++++ b/meta/recipes-devtools/python/python3-docutils_0.21.2.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING.txt;md5=3D382430a09a=
+4453818aa6618f2090491b"
 =20
- SRC_URI[sha256sum] =3D "ecb3d768f32202af770477b8b65f318fa4f566c22948673a=
-977b00d589dd80f6"
+ SRC_URI[sha256sum] =3D "3a6b18732edf182daa3cd12775bbb338cf5691468f91eeeb=
+109deff6ebfa986f"
 =20
--inherit pypi python_setuptools_build_meta ptest-python-pytest
--
--DEPENDS +=3D " \
--    python3-pdm-native \
--    python3-pdm-backend-native \
--"
-+inherit pypi python_pdm ptest-python-pytest
+-inherit pypi python_setuptools_build_meta
++inherit pypi python_flit_core
 =20
- RDEPENDS:${PN}:class-target =3D "\
-     python3-stringold \
+ RDEPENDS:${PN} +=3D " \
+                    python3-pprint \
 --=20
 2.43.0
 
