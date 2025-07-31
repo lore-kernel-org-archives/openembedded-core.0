@@ -1,98 +1,212 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD16AC87FD3
-	for <webhook@archiver.kernel.org>; Thu, 31 Jul 2025 08:27:28 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.56904.1753950445717378997
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21CD1C87FCC
+	for <webhook@archiver.kernel.org>; Thu, 31 Jul 2025 08:39:29 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.57036.1753951160607579602
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Jul 2025 01:27:26 -0700
+ Thu, 31 Jul 2025 01:39:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Vcg6FoWG;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4563cfac19cso6276145e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 01:27:25 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hFI11B3O;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3b7910123a0so686504f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 01:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1753950444; x=1754555244; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1753951159; x=1754555959; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DG2uXXx5USlu6YzcXo1ffNHGefrpyHRNDMmy/8oDvTY=;
-        b=Vcg6FoWGDf8OE6eSoj9u/o+4UqmT7gti23pOPHRYTeYIUGBKGiMCdSvw+OqEs7RwaG
-         vYFdoox5whAQ2Xhu6633gEuGIOyL0Purimm/vWJUhLaCD/+0oYeHhgJF+IRcsVWuxV7z
-         sHQHbDYgFjkR1j80+8K7D4CtnoRuPDu7SWTqI=
+        bh=xVcgagJ9oEYSz9aPM+PZg7tDOi02OK2vdRIWh4N+6fg=;
+        b=hFI11B3OdtdstLcpoMG2Cry/JD3pKq0GJJT1du7KXEIs8c0aXHkOMeFxcEYDQgd6g3
+         k8VA9DB2wdZt4meJcM0wwU1SpCPvhIOeVKS5MSLTPYBosJcXwIJM7lMDsU6fmGeN4D6P
+         l9OzBso5Ju3IWk31Bdkl+mL6GD0s43Bqp0QSc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753950444; x=1754555244;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DG2uXXx5USlu6YzcXo1ffNHGefrpyHRNDMmy/8oDvTY=;
-        b=AkbvvCSYLNNP66SFSpMJKgCFt6Q9w4kzklgbXRKlN+Ns8dxzU4QkNnqtnqMiHmUi5p
-         lOQyl+b2OCh5NHJefelOEdgNdGTIvogJi6KBMMVJ6KjjSgOgp7KwKYBUmR2iXpQ4KBem
-         J0UQqoYFzsbtpCuvB/NMmBHQWnzY5gFdfo0SNiAQSE96P3x7TtOGSem6PkbzxLcuQlW2
-         pSCpYU1M6/HNp4xrOnPSkzXRxAQ50LfRffqpoglN1EKgNOYxQz0BMUK9N+oMhcqUudtX
-         h9aP//nXZdKS7zGV2T7b3cfGJRcRWXsG4/seIFBm7Hi1NQfInNc1VgwteAjt3cXdQX67
-         tt/g==
-X-Gm-Message-State: AOJu0YwmRlw/AqNVBUVywjM3F0qLfca+Q+ShLis+RcVru8KKsxtD3ELO
-	ccd1Y3dxouv61Ju+I2Np0MVaNJ9aTykWvssaIuTWlYzjQ/IP+nHJptb1DRs1TPOED97dcB0jY2A
-	BWMDyhUP8TA==
-X-Gm-Gg: ASbGncuRnCR4KtTJT9V7mf/P3di4wb+aFx+cEMeOvI+tqZzZGdPMe09zgGy/rIIbXs2
-	CVxfP2HFSQRrv4ILx9ODH0ylPvP2cHbREPxWj9eFSrhwZ46v7n4kBbpiGa+MjJt2G4p0o9bu8w4
-	/Tf/KwG99P/ZF5EAyG3rTZfX1+YIjW3SMjnnsiTzsEhOW7Wrl1cSI+7Ojqc4rDjSxl3HK0wEKHa
-	HcVWKx/9QjvttLEBiQHGSW3z7hR14ClYxEtwXmFSM2e+M55r/d2dOPb2/xUXFMeH/MvPJFsaZsS
-	zDqMbO7kxwx+WG6sPzK7jmw9ngZecdT2CnYAMQEe+D4snhqC+ScnljInKeS/k1T9pMjpUoiBiix
-	rxzBLRkpDAV2mBMVcRDsNKpVG6bse15qTaUFUHWgRpCJBC4fGZNE3Gh5qrXxNlLDszpvkt+nW+9
-	Zr+9I7l1h+61MCkne21NAnGngvrzqa8wFKytw=
-X-Google-Smtp-Source: AGHT+IGcVpxp3D2r5YqMVwNgtm88MX/AJhhO/KzKabuJ0Q3MccUqPqKWdDBpAplsEipShr1XQmfohw==
-X-Received: by 2002:a05:600c:8889:10b0:454:ccd6:327 with SMTP id 5b1f17b1804b1-45893943ce2mr31859315e9.1.1753950443922;
-        Thu, 31 Jul 2025 01:27:23 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c47908esm1562672f8f.59.2025.07.31.01.27.23
+        d=1e100.net; s=20230601; t=1753951159; x=1754555959;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xVcgagJ9oEYSz9aPM+PZg7tDOi02OK2vdRIWh4N+6fg=;
+        b=EUemQHzYWpr1s9SLE4rPS4kwXq9Ng7q8m/tap8UusmxnS1cyKWziLLayEclj94nZrN
+         SRpQPj30H1Ymf/WEbuXDMKY5Qsgoe8VMiIftTpptKLzDrrvTtPDIe67ukc1e4kz5Vkxn
+         UXgisPsiVKaaHq4sxO3VETSKbS53raHfdDJu4sv1L9c1hjxG/jNSoLLopwCXWq/o47I3
+         udQ+W5PGYEjoJWpcb+KlsqMRw8hQ/frs6l0P4U0cBGapEHxmut6JoAPOa708aWVVX17F
+         4DJwfpvj3DiloUeTPcwdwLjnfZbIELv/PY5kflWAEJcNqhTOSMJnhNeUoRQllFKzGejz
+         A2fg==
+X-Forwarded-Encrypted: i=1; AJvYcCX5VP1JAM7/VYOtLnYw5PlORs8VUnblxCB6gQEbpq8mNpULIVDooMBAqLVy5JJfLQAJ4g22E+P3q1AP3Xsxh0E/FQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyqk7xACXCso49El7YUpht7OLLxWsxR+7olYazvhExEdYh6Ndw0
+	OUw2kR+4MJG82/jUbSwFP3R6QtN4QOmzGZxZ+scx5QWhaDuIzqs651WR0yQVi8BRJ8c=
+X-Gm-Gg: ASbGncsoE2FLhVF3O7E7g/mjc70xrWuI9+71g+3QApMrYRE4KQsIpR3iQHiHiy7S9GP
+	PegcGYtcmpKLX+2L3d6W1Yf9JYcvvj9abVzrgAyUJrEJ4yWBOnMViOwr1tSLImu1zkDH8h10qp3
+	0cyAyHAE8/5ElT6Fia3jxGoovLJKho6ZDqNrAoAjlg4mTFZwiFNHGgklkPjwOLkl/HyPLO98wLl
+	oUmyMTnmy6KR+GJ+6s+DBY1Spl+eGyuxxpiXmM+LzXco7YedIMZ0WzRk9JCOGiviKyNalwxNYEK
+	i/s79ZAA+Bp9L/oKGx4h+F65k/dErVXQcNtwBWR+fkFuXmNlwxB3OfDPc2FrLh2EIG4xtdmaIgN
+	DKoFc+Y33lY2AjiGjtzKKVHtu/iaSXMuJJOR3S3RLdpkaUPqAsO8CuIV9aWozhplozkau1DmRYO
+	SYQ3kcBZCoPaA++v4lg9zkzWD3RFzhzAQd
+X-Google-Smtp-Source: AGHT+IGIQwKRRQ4p+QvGClLe+Gdk501qa1KqLu/aDMDzuNAxzJ0jHC9pA5ofqKXBF2YeU74VwW03aw==
+X-Received: by 2002:a05:6000:4029:b0:3a5:5270:c38f with SMTP id ffacd0b85a97d-3b794f88792mr5062459f8f.0.1753951158928;
+        Thu, 31 Jul 2025 01:39:18 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4bf9:5bfd:d948:4db6? ([2001:8b0:aba:5f3c:4bf9:5bfd:d948:4db6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3ac158sm1684279f8f.4.2025.07.31.01.39.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 01:27:23 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH v3 4/4] runqemu: print snapshot mode state in console
-Date: Thu, 31 Jul 2025 10:27:07 +0200
-Message-Id: <20250731082707.3481718-4-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250731082707.3481718-1-yoann.congal@smile.fr>
-References: <20250731082707.3481718-1-yoann.congal@smile.fr>
+        Thu, 31 Jul 2025 01:39:18 -0700 (PDT)
+Message-ID: <27c891466fb7e2bebdd6764db81fcd3fad9a8da6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4 1/3] bootimg_pcbios: support grub legacy
+ bios boot
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: vince@underview.tech, openembedded-core@lists.openembedded.org
+Date: Thu, 31 Jul 2025 09:39:17 +0100
+In-Reply-To: <20250726014655.3377745-2-vince@underview.tech>
+References: <20250726014655.3377745-2-vince@underview.tech>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 08:27:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221179
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 08:39:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221180
 
-From: Yoann Congal <yoann.congal@smile.fr>
+On Fri, 2025-07-25 at 21:46 -0400, Vincent Davis Jr via lists.openembedded.=
+org wrote:
+> Due to the bootimg_biosplusefi source_params['loader']
+> had to be named source_params['loader-bios'] so not
+> to create conflict in the wics plugin.
+>=20
+> Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+> ---
+> =C2=A0.../lib/wic/plugins/source/bootimg_pcbios.py=C2=A0 | 352 ++++++++++=
++++++---
+> =C2=A01 file changed, 302 insertions(+), 50 deletions(-)
+>=20
+> diff --git a/scripts/lib/wic/plugins/source/bootimg_pcbios.py b/scripts/l=
+ib/wic/plugins/source/bootimg_pcbios.py
+> index 21f41e00bb..69eaa1ae32 100644
+> --- a/scripts/lib/wic/plugins/source/bootimg_pcbios.py
+> +++ b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
+> @@ -1,5 +1,5 @@
+> =C2=A0#
+> -# Copyright (c) 2014, Intel Corporation.
+> +# Copyright (c) 2014-2025, Intel Corporation.
 
-With snapshot enabled, no change on rootfs will be saved after qemu
-shutdown. Since this is not what a user might expect, print the snapshot
-mode state and its consequence in console at runqemu start.
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- scripts/runqemu | 5 +++++
- 1 file changed, 5 insertions(+)
+Do you work for Intel? If not, it seems odd to be extending their
+copyright on this?
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index da53265219..99ea0a98ea 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -1053,6 +1053,11 @@ to your build configuration.
-             logoutput.append('NFS_DIR: [%s]' % self.rootfs)
-         else:
-             logoutput.append('ROOTFS: [%s]' % self.rootfs)
-+        if self.snapshot:
-+            msg = "Enabled. Changes on rootfs won't be kept after QEMU shutdown."
-+        else:
-+            msg = "Disabled. Changes on rootfs will be kept after QEMU shutdown."
-+        logoutput.append('SNAPSHOT: [%s]' % msg)
-         if self.ovmf_bios:
-             logoutput.append('OVMF: %s' % self.ovmf_bios)
-         if (self.ovmf_secboot_pkkek1):
+> =C2=A0#
+> =C2=A0# SPDX-License-Identifier: GPL-2.0-only
+> =C2=A0#
+> @@ -8,12 +8,15 @@
+> =C2=A0#
+> =C2=A0# AUTHORS
+> =C2=A0# Tom Zanussi <tom.zanussi (at] linux.intel.com>
+> +# Vincent Davis <vince (at] underview.tech>
+> =C2=A0#
+> =C2=A0
+> =C2=A0import logging
+> =C2=A0import os
+> =C2=A0import re
+> +import shutil
+> =C2=A0
+> +from glob import glob
+> =C2=A0from wic import WicError
+> =C2=A0from wic.engine import get_custom_config
+> =C2=A0from wic.pluginbase import SourcePlugin
+> @@ -24,11 +27,52 @@ logger =3D logging.getLogger('wic')
+> =C2=A0
+> =C2=A0class BootimgPcbiosPlugin(SourcePlugin):
+> =C2=A0=C2=A0=C2=A0=C2=A0 """
+> -=C2=A0=C2=A0=C2=A0 Create MBR boot partition and install syslinux on it.
+> +=C2=A0=C2=A0=C2=A0 Creates boot partition bootable off of legacy BIOS fi=
+rmare with
+> +=C2=A0=C2=A0=C2=A0 MBR/MSDOS as partition table format. Plugin will inst=
+all caller
+> +=C2=A0=C2=A0=C2=A0 selected bootloader directly to resulting wic image.
+> +
+> +=C2=A0=C2=A0=C2=A0 Supported Bootloaders:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * syslinux
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * grub
+> +
+> +=C2=A0=C2=A0=C2=A0 ****************** Wic Plugin Depends/Vars **********=
+********
+> +=C2=A0=C2=A0=C2=A0 WKS_FILE_DEPENDS =3D "grub-native grub"
+> +=C2=A0=C2=A0=C2=A0 WKS_FILE_DEPENDS =3D "syslinux-native syslinux"
+> +
+> +=C2=A0=C2=A0=C2=A0 # Optional variables
+> +=C2=A0=C2=A0=C2=A0 GRUB_PREFIX_PATH =3D '/boot/grub2'=C2=A0=C2=A0=C2=A0 =
+# Default: /boot/grub
+> +=C2=A0=C2=A0=C2=A0 GRUB_MKIMAGE_FORMAT_PC =3D 'i386-pc'=C2=A0 # Default:=
+ i386-pc
+> +
+> +=C2=A0=C2=A0=C2=A0 WICVARS:append =3D "\
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GRUB_PREFIX_PATH \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GRUB_MKIMAGE_FORMAT_PC \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
+> +=C2=A0=C2=A0=C2=A0 ****************** Wic Plugin Depends/Vars **********=
+********
+> +
+> +
+> +=C2=A0=C2=A0=C2=A0 **************** Example kickstart Legacy Bios Grub B=
+oot ****************
+> +=C2=A0=C2=A0=C2=A0 part boot --label bios_boot --fstype ext4 --offset 10=
+24 --fixed-size 78M
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 --source bootimg_pcbios --sourceparams=3D"loader-bios=3Dgrub" --acti=
+ve
+> +
+> +=C2=A0=C2=A0=C2=A0 part roots --label rootfs --fstype ext4 --source root=
+fs --use-uuid
+> +=C2=A0=C2=A0=C2=A0 bootloader --ptable msdos --source bootimg_pcbios
+> +=C2=A0=C2=A0=C2=A0 **************** Example kickstart Legacy Bios Grub B=
+oot ****************
+> +
+> +
+> +=C2=A0=C2=A0=C2=A0 *************** Example kickstart Legacy Bios Syslinu=
+x Boot ****************
+> +=C2=A0=C2=A0=C2=A0 part /boot --source bootimg_pcbios --sourceparams=3D"=
+loader-bios=3Dsyslinux"
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 --ondisk sda --label boot --active --align 1024
+> +
+> +=C2=A0=C2=A0=C2=A0 part roots --label rootfs --fstype ext4 --source root=
+fs --use-uuid
+> +=C2=A0=C2=A0=C2=A0 bootloader --ptable msdos --source bootimg_pcbios
+> +=C2=A0=C2=A0=C2=A0 *************** Example kickstart Legacy Bios Syslinu=
+x Boot ****************
+> =C2=A0=C2=A0=C2=A0=C2=A0 """
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 name =3D 'bootimg_pcbios'
+> =C2=A0
+> +=C2=A0=C2=A0=C2=A0 # Variable required for do_install_disk
+> +=C2=A0=C2=A0=C2=A0 loader =3D ''
+> +
+> =C2=A0=C2=A0=C2=A0=C2=A0 @classmethod
+> =C2=A0=C2=A0=C2=A0=C2=A0 def _get_bootimg_dir(cls, bootimg_dir, dirname):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+> @@ -48,63 +92,91 @@ class BootimgPcbiosPlugin(SourcePlugin):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise WicError("Couldn't=
+ find correct bootimg_dir, exiting")
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 @classmethod
+> -=C2=A0=C2=A0=C2=A0 def do_install_disk(cls, disk, disk_name, creator, wo=
+rkdir, oe_builddir,
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bootimg_=
+dir, kernel_dir, native_sysroot):
+> +=C2=A0=C2=A0=C2=A0 def _get_staging_libdir(cls):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Called after all partitions h=
+ave been prepared and assembled into a
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 disk image.=C2=A0 In this cas=
+e, we install the MBR.
+
+This patch changes the order of the functions which makes the diff
+really hard to read. I'd suggest putting code re-arrangement into a
+separate patch so we can then see what the real changes are.
+
+Cheers,
+
+Richard
 
