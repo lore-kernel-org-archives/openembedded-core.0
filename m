@@ -2,122 +2,169 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A35B7C87FD3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 907E3C87FD2
 	for <webhook@archiver.kernel.org>; Thu, 31 Jul 2025 15:33:31 +0000 (UTC)
 Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web10.65325.1753976005261840880
+ by mx.groups.io with SMTP id smtpd.web11.65198.1753976004201088921
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Jul 2025 08:33:25 -0700
+ Thu, 31 Jul 2025 08:33:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=PJgg4GJB;
+ dkim=pass header.i=@smile.fr header.s=google header.b=TmSb1xKF;
  spf=pass (domain: smile.fr, ip: 209.85.221.66, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-3a54700a46eso685523f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 08:33:25 -0700 (PDT)
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-3b783ea502eso739395f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 08:33:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1753976003; x=1754580803; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=23/M0QmVpK1MxrRaY0iayZd0cU5Pjz9gebUBm6QFtA8=;
-        b=PJgg4GJBVlqOD1vZZeytGU9C2qZ8pZtCSn0fyWBWkgprf8s4KFkSeMNrPdYkp7/9YC
-         K8BmssO/gDpttfHNKvOZ70khBz6Ee3hOhCmC3IYOcNs5EG4K4u8LBQUVBBH/erovhzUn
-         Y9wwOOo058uGswvnIZSG50o/FbQx2JJPo9Rzs=
+        d=smile.fr; s=google; t=1753976002; x=1754580802; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ocBHOlOu/xMMMJiOpYeIMVLPGLzAfwmp0e76wraa93w=;
+        b=TmSb1xKFweUrNihIj3edn74HE62PM3KJbvhDANK+WEoQzD8OUMXCu7wSaV2jSInlim
+         W27fYar9sl0exOnF5deqwcubvbFSJdveYQ45raDFj3xIeVdNtXQq4MsjTn+m2U5xDtKD
+         mpvksLibtELFVpUW6sdMn2B6ygxCoX3J6tBy8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753976003; x=1754580803;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=23/M0QmVpK1MxrRaY0iayZd0cU5Pjz9gebUBm6QFtA8=;
-        b=a6VX7DZtTV4gA2hHitvPwCmEc0dlGn+XB1bYWK/lxPsPvdkqtyRH1mRXsk2F4OJCTr
-         ITGCtWy+LK7/llm30kpNatMo8fENabKPbp8OTJZHCx71bVhIk1A3jWByyMHA4XbtYauA
-         gKV5u04TwEETrsdVL2PXw7NpsgwEY/YUhYcVGJZH6qj1YGNy+42QQbOrr0+iYFpvxrJm
-         t06QVeggrxIT0FczrIXO6CXxuc87EHxp93GSCOFP8/7qirmOKAHu3Q25FVS6PFXo8ZCB
-         m2uwo24pS5zVT1u1On2QCuFvCm7T6CPKHIPiFHSomsJqnfSkKAin4PuDNkDG/7EMVGcA
-         z8Dw==
-X-Gm-Message-State: AOJu0Yx1U+rIpCP/npaGziD0ac52BFep4GXVkawbuLwjuHI7L/osqdTN
-	tvhM8cdJ/Jqefom7hfg+PzIVIdwGlsiwrGA4DwBHQIs73f6d5enNadm2TtvxnFXsaXs/s7KG3Zu
-	4ItaOLTncd1QM
-X-Gm-Gg: ASbGncvfkvo+dC5zYee4qtOSgp5ZrY1pVbV8n6F+NvYvESrGFtyAeyfbiwiHQsN4ELZ
-	2F/P9A3fam/wEManrsKwIFx2ffzmErk6mgbOHmw2UaZ0uUTXJcjrTZ85eQBPJeJLhPxoCd5E2eo
-	l92d6WJn54UjPAP81lS5loEhn96wFCEzHRp2KNpdBb821DIqgVlAs3VXpOacz5bDaIIA/UpAGe5
-	nYRGNIs5C+8old/UXajrlFTNc10muhUAmNYAOvbfT5Gdaf1/rj3QWDMl3GesgMxEZBQWrDqskkr
-	jB9HcoKXwwR63dOlpdyQF7zC3eAdGdd8mkFvhDHK2zDZZOstm4LabU2PQCeoriPdtlQ6qU23pij
-	FsG+UEURtF5OJfm3KW3glyAbCZtYpHIJhYKRgyjk7Y1HRvIwzjbBTzT9+1EIelC9zCEIXwNd7uE
-	4z7e/Kh97uG+HwnCF/Nc+fGvJCYQP3iksR1I4=
-X-Google-Smtp-Source: AGHT+IEzOZOQVizfo9q2rwe1/ZRuTYp+iakcWDo7JfV7RCxumnIWB9Ys+iCLhBj15zni+IVMB2CzwA==
-X-Received: by 2002:adf:a316:0:b0:3b7:96c0:4172 with SMTP id ffacd0b85a97d-3b796c04259mr3852958f8f.11.1753976003253;
-        Thu, 31 Jul 2025 08:33:23 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c475067sm2703727f8f.58.2025.07.31.08.33.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20230601; t=1753976002; x=1754580802;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ocBHOlOu/xMMMJiOpYeIMVLPGLzAfwmp0e76wraa93w=;
+        b=JKmf16Nj3kPMpg68tVNm86AKbydrgLciDGp0CGh44Z9RHp+NjIoNfyZ6m5RHPMXtHX
+         imJeXRxP+fydYYY4BXRqDpmQ1R2xHANeAzrreqX1PPOLeS47f5K8wdOeJUulsB87dn/L
+         8VFg8+wnZ0ezueRSh0GWXwLWc9ootTd6P6eZ6NpNAJ0z4OZxStPd8IlHt6VnomjrBoR5
+         UFRAEKQ6Wnhq6eO3djhCnTj07vCpbWIfAmzHCRljKYc2FdWFJUpqbwkUM+oDqid/Hlxf
+         voonRUCaP/jE64qmQZEWV9H+ey7hJNH2Ef7W9166nJzA+AaNV/65IIpZfk3D4jr/aly+
+         WV4A==
+X-Gm-Message-State: AOJu0Yy5sedVgqhBH7GLmkwRunSb/jcXFxAIaSbVuGF9oIb/7d/boT8d
+	kellVosBZ8DnSRPyI8FyYAY2fJgq7aBkb3vGW6qvnAvbggkVHWG1TQlsBTnVBdnQ3CKUSs+z2Y0
+	woHC8enrPzoyo
+X-Gm-Gg: ASbGncsWVYBgB2OSTTlrUvL8c3C9gW118WhlPw67pvK4ngMXqRj7iNcNYpgbsSlGSP7
+	nrPqUgqTBD5iPa7qY3tlUgY7cwYGXWN9chZVx5hM5cSfD/Qk73PT9WqYN2SIYmXYf0gxSqOyt68
+	saZLul0dt+nAkLwuMrc8yylEVZ09ZYZYdq1307/CWbXzDgoK8uXhYkrfNVh3X79nLv3RfvTRJB4
+	k88v+JAwoXXY9+2O3N1EUQkpYBKp2v9BwhMym6WpkyuZWfZC+3MOvgYWGbmq1ILUDQvIz+Wbozm
+	EMLyx2Voeulo4FhE6m9D+WR5FQVkj9FOht65q2sXFpMA3t+mOEuoZKR0VrqnpX8kFLn+JrCpGSI
+	lSQN3BQTefb2IOs3Ahg7EFIHFxU6VdLzvTFKXsCfyZt6SayJ6cVcztRIB19Hy3rDbEQz0X+Eghg
+	td54lunxiRBz2ot+cJVBXTiAW6YujNxipcoAAq2RXmAjLQiQ==
+X-Google-Smtp-Source: AGHT+IEr94BveIOXaDdOVCXS2dC3u025TsvidqBpv+G/9pSaEMgMGRIS1t/Iv6JJ8yQ8eTGuGKcsgQ==
+X-Received: by 2002:a05:6000:26c4:b0:3b7:775d:e923 with SMTP id ffacd0b85a97d-3b79d420384mr2227279f8f.4.1753976002312;
         Thu, 31 Jul 2025 08:33:22 -0700 (PDT)
+Received: from P-ASN-ECS-830T8C3.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c475067sm2703727f8f.58.2025.07.31.08.33.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Jul 2025 08:33:21 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH v5 2/4] selftest: runqemu: add tests for booting zst compressed image
-Date: Thu, 31 Jul 2025 17:33:11 +0200
-Message-Id: <20250731153313.3693397-2-yoann.congal@smile.fr>
+Cc: Yoann Congal <yoann.congal@smile.fr>,
+	Lamine REHAHLIA <lamine.rehahlia@smile.fr>
+Subject: [PATCH v5 1/4] runqemu: Add support for running compressed .zst rootfs images
+Date: Thu, 31 Jul 2025 17:33:10 +0200
+Message-Id: <20250731153313.3693397-1-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250731153313.3693397-1-yoann.congal@smile.fr>
-References: <20250731153313.3693397-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 15:33:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221199
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221198
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Lamine REHAHLIA <lamine.rehahlia@smile.fr>
 
-Add a simple tests booting a compressed image given to runqemu as path
-and as image recipe name.
+Enhance runqemu to detect and decompress .zst-compressed rootfs images
+(e.g. ext4.zst, wic.zst) automatically. If a decompressed image already
+exists in the original directory, it will be reused to avoid overwriting
+build artifacts. Otherwise, the image is decompressed and removed after
+the QEMU session ends.
 
+This allows runqemu to be used seamlessly with compressed image formats
+generated by the build system or during releases.
+
+Note: support for .zst images is only available when snapshot mode is
+enabled
+
+IMPORTANT:
+This patch assumes that the original directory of the .zst-compressed
+image is writable. If, for some reason, the path passed from CI or
+another system to the script is read-only, the decompression step will
+fail when trying to write the uncompressed image to the same directory.
+
+Signed-off-by: Lamine REHAHLIA <lamine.rehahlia@smile.fr>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
-v5: make wic.zst tests qemux86-64 only (current setup is to build wic*
-images on this machine only)
+v4: moved the feature to support calling "runqemu <image recipe name>"
+and support usign snapshot after the image.
+Also improved the error message when a compressed image is used without
+snapshot mode.
 ---
- meta/lib/oeqa/selftest/cases/runqemu.py | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ scripts/runqemu | 45 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
-index f01e1eec66..bedcf97548 100644
---- a/meta/lib/oeqa/selftest/cases/runqemu.py
-+++ b/meta/lib/oeqa/selftest/cases/runqemu.py
-@@ -31,7 +31,7 @@ class RunqemuTests(OESelftestTestCase):
-         if self.td["HOST_ARCH"] in ('i586', 'i686', 'x86_64'):
-             self.fstypes += " iso hddimg"
-         if self.machine == "qemux86-64":
--            self.fstypes += " wic.vmdk wic.qcow2 wic.vdi"
-+            self.fstypes += " wic.vmdk wic.qcow2 wic.vdi wic.zst"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 3d77046972..c668906bdd 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -197,7 +197,7 @@ class BaseConfig(object):
+         self.portlocks = {}
+         self.bitbake_e = ''
+         self.snapshot = False
+-        self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi', "wic.vhd", "wic.vhdx")
++        self.wictypes = ('wic.zst', 'wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi', "wic.vhd", "wic.vhdx")
+         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs',
+                         'cpio.gz', 'cpio', 'ramfs', 'tar.bz2', 'tar.gz',
+                         'squashfs', 'squashfs-xz', 'squashfs-lzo',
+@@ -418,6 +418,48 @@ class BaseConfig(object):
+         else:
+             raise RunQemuError("Unknown path arg %s" % p)
  
-         self.cmd_common = "runqemu nographic"
-         kvm = oe.types.qemu_use_kvm(get_bb_var('QEMU_USE_KVM'), self.td["TARGET_ARCH"])
-@@ -152,6 +152,25 @@ SYSLINUX_TIMEOUT = "10"
-             with open(qemu.qemurunnerlog) as f:
-                 self.assertTrue(qemu.runner.logged, "Failed: %s, %s" % (cmd, f.read()))
- 
-+    @skipIfNotMachine("qemux86-64", "wic tests are qemux86-64 specific currently")
-+    def test_boot_compressed_wic_by_path(self):
-+        """Test runqemu /path/to/rootfs.wic.zst"""
-+        rootfs = "%s.wic.zst" % (self.image_link_name)
-+        rootfs = os.path.join(self.deploy_dir_image, rootfs)
-+        if not os.path.exists(rootfs):
-+            self.skipTest("%s not found" % rootfs)
-+        cmd = "%s %s snapshot" % (self.cmd_common, rootfs)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue(qemu.runner.logged, "Failed: %s, %s" % (cmd, f.read()))
++    def uncompress_rootfs(self):
++        """Decompress ZST rootfs image if needed"""
++        if not self.rootfs or not self.fstype.endswith('.zst'):
++            return
++        
++        # Ensure snapshot mode is active before allowing decompression.
++        if not self.snapshot:
++            raise RunQemuError(".zst images are only supported with snapshot mode. " \
++                                "You can either use the \"snapshot\" option or use an uncompressed image.")
++        
++        # Get the real path to the image to avoid issues when a symbolic link is passed.
++        # This ensures we always operate on the actual file.
++        image_path = os.path.realpath(self.rootfs)
++        # Extract target filename by removing .zst
++        image_dir = os.path.dirname(image_path)
++        uncompressed_name = os.path.basename(image_path).replace(".zst", "")
++        uncompressed_path = os.path.join(image_dir, uncompressed_name)
++    
++        # If the decompressed image already exists (e.g., in the deploy directory),
++        # we use it directly to avoid overwriting artifacts generated by the build system.
++        # This prevents redundant decompression and preserves build outputs.
++        if os.path.exists(uncompressed_path):
++            logger.warning(f"Found existing decompressed image: {uncompressed_path}, Using it directly.")
++        else:
++            logger.info(f"Decompressing {self.rootfs} to {uncompressed_path}")
++            # Ensure the 'zstd' tool is installed before attempting to decompress.
++            if not shutil.which('zstd'):
++                raise RunQemuError(f"'zstd' is required to decompress {self.rootfs} but was not found in PATH")
++            try:
++                with open(uncompressed_path, 'wb') as out_file:
++                    subprocess.check_call(['zstd', '-d', '-c', image_path], stdout=out_file)
++            except subprocess.CalledProcessError as e:
++                self.cleanup_files.append(uncompressed_path)
++                raise RunQemuError(f"Failed to decompress {self.rootfs}: {e}")
++    
++            # Mark for deletion at the end
++            self.cleanup_files.append(uncompressed_path)
++    
++        # Use the decompressed image as the rootfs
++        self.rootfs = uncompressed_path
++        self.fstype = self.fstype.removesuffix(".zst")
 +
-+    @skipIfNotMachine("qemux86-64", "wic tests are qemux86-64 specific currently")
-+    def test_boot_compressed_wic_by_recipe(self):
-+        """Test runqemu recipe-image wic.zst"""
-+        cmd = "%s %s snapshot wic.zst" % (self.cmd_common, self.recipe)
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            with open(qemu.qemurunnerlog) as f:
-+                self.assertTrue(qemu.runner.logged, "Failed: %s, %s" % (cmd, f.read()))
- 
- # This test was designed as a separate class to test that shutdown
- # command will shutdown qemu as expected on each qemu architecture
+     def check_arg_machine(self, arg):
+         """Check whether it is a machine"""
+         if self.get('MACHINE') == arg:
+@@ -1762,6 +1804,7 @@ def main():
+         config.check_args()
+         config.read_qemuboot()
+         config.check_and_set()
++        config.uncompress_rootfs()
+         # Check whether the combos is valid or not
+         config.validate_combos()
+         config.print_config()
 
